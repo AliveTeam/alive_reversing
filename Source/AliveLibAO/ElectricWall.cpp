@@ -152,13 +152,13 @@ void ElectricWall::VUpdate()
                     if (!pObjIter->mBaseAliveGameObjectFlags.Get(Flags_10A::e10A_Bit5_Electrocuted))
                     {
                         pObjIter->mBaseAliveGameObjectFlags.Set(Flags_10A::e10A_Bit5_Electrocuted);
-                        ao_new<Electrocute>(pObjIter, 1);
+                        relive_new Electrocute(pObjIter, 1);
 
                         pObjIter->VTakeDamage(this);
 
                         SFX_Play_Camera(SoundEffect::ElectricZap_46, 127, soundDirection);
 
-                        ao_new<Flash>(Layer::eLayer_Above_FG1_39, 255u, 255u, 255u);
+                        relive_new Flash(Layer::eLayer_Above_FG1_39, 255u, 255u, 255u);
                     }
                 }
             }

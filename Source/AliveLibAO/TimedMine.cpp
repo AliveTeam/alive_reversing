@@ -139,7 +139,7 @@ s16 TimedMine::VTakeDamage(BaseGameObject* pFrom)
         case ReliveTypes::eShrykull:
         {
             mBaseGameObjectFlags.Set(BaseGameObject::eDead);
-            ao_new<BaseBomb>(
+            relive_new BaseBomb(
                 mBaseAnimatedWithPhysicsGameObject_XPos,
                 mBaseAnimatedWithPhysicsGameObject_YPos,
                 0,
@@ -274,7 +274,7 @@ void TimedMine::VUpdate()
         }
         if (static_cast<s32>(sGnFrame) >= field_114_timer)
         {
-            ao_new<BaseBomb>(
+            relive_new BaseBomb(
                 mBaseAnimatedWithPhysicsGameObject_XPos,
                 mBaseAnimatedWithPhysicsGameObject_YPos,
                 0,
@@ -287,7 +287,7 @@ void TimedMine::VUpdate()
 
 void TimedMine::VOnThrowableHit(BaseGameObject* /*pFrom*/)
 {
-    ao_new<BaseBomb>(
+    relive_new BaseBomb(
         mBaseAnimatedWithPhysicsGameObject_XPos,
         mBaseAnimatedWithPhysicsGameObject_YPos,
         0,

@@ -212,7 +212,7 @@ Scrab::Scrab(Path_Scrab* pTlv, s32 tlvInfo)
 
     field_134_tlvInfo = tlvInfo;
 
-    field_D0_pShadow = ao_new<Shadow>();
+    field_D0_pShadow = relive_new Shadow();
 }
 
 Scrab::~Scrab()
@@ -414,7 +414,7 @@ s16 Scrab::VTakeDamage(BaseGameObject* pFrom)
             case ReliveTypes::eBaseBomb:
             case ReliveTypes::eExplosion:
             {
-                ao_new<Gibs>(
+                relive_new Gibs(
                     GibType::Slog_2,
                     mBaseAnimatedWithPhysicsGameObject_XPos,
                     mBaseAnimatedWithPhysicsGameObject_YPos,

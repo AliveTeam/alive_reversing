@@ -319,13 +319,13 @@ void Init_Sound_DynamicArrays_And_Others_41CD20()
     gFilesPending_507714 = 0;
     bLoadingAFile_50768C = 0;
 
-    ObjListPlatforms_50766C = ao_new<DynamicArrayT<BaseGameObject>>(20);
+    ObjListPlatforms_50766C = relive_new DynamicArrayT<BaseGameObject>(20);
 
-    ObjList_5009E0 = ao_new<DynamicArrayT<ResourceManager::ResourceManager_FileRecord>>(10); // not used in AE
+    ObjList_5009E0 = relive_new DynamicArrayT<ResourceManager::ResourceManager_FileRecord>(10); // not used in AE
 
-    sShadowZone_dArray_507B08 = ao_new<DynamicArrayT<ShadowZone>>(4);
+    sShadowZone_dArray_507B08 = relive_new DynamicArrayT<ShadowZone>(4);
 
-    gBaseAliveGameObjects_4FC8A0 = ao_new<DynamicArrayT<BaseAliveGameObject>>(20);
+    gBaseAliveGameObjects_4FC8A0 = relive_new DynamicArrayT<BaseAliveGameObject>(20);
 
     ResourceManager::Init_454DA0();
     SND_Init_476E40();
@@ -513,7 +513,7 @@ void Game_Loop_437630()
 
 void DDCheat_Allocate_409560()
 {
-    ao_new<DDCheat>();
+    relive_new DDCheat();
 }
 
 void Game_Run_4373D0()
@@ -534,11 +534,11 @@ void Game_Run_4373D0()
     gPsxDisplay_504C78.ctor_40DAB0(&gPsxDisplayParams_4BB830);
     Input().InitPad(1);
 
-    gBaseGameObjects = ao_new<DynamicArrayT<BaseGameObject>>(90);
+    gBaseGameObjects = relive_new DynamicArrayT<BaseGameObject>(90);
 
-    gObjListDrawables = ao_new<DynamicArrayT<BaseGameObject>>(80);
+    gObjListDrawables = relive_new DynamicArrayT<BaseGameObject>(80);
 
-    gObjList_animations_505564 = ao_new<DynamicArrayT<AnimationBase>>(80);
+    gObjList_animations_505564 = relive_new DynamicArrayT<AnimationBase>(80);
 
     Init_Sound_DynamicArrays_And_Others_41CD20();
     Input_Init();
@@ -555,9 +555,9 @@ void Game_Run_4373D0()
 
     DDCheat_Allocate_409560();
 
-    pEventSystem_4FF954 = ao_new<GameSpeak>();
+    pEventSystem_4FF954 = relive_new GameSpeak();
 
-    pCheatController_4FF958 = ao_new<CheatController>();
+    pCheatController_4FF958 = relive_new CheatController();
 
     Game_Init_LoadingIcon_445E30();
     Game_Loop_437630();

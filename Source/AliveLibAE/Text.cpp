@@ -142,7 +142,7 @@ s8 Display_Full_Screen_Message_Blocking(s32 /*not_used*/, MessageType messageTyp
         return 0;
     }
 
-    auto pTextObj = ae_new<Text>(messageType == MessageType::eShortTitle_3 ? "    Abe's Exoddus    " : "       Oddworld Abe's Exoddus        ", 1, 0);
+    auto pTextObj = relive_new Text(messageType == MessageType::eShortTitle_3 ? "    Abe's Exoddus    " : "       Oddworld Abe's Exoddus        ", 1, 0);
 
     Text* pTextObj2 = nullptr;
     switch (messageType)
@@ -158,7 +158,7 @@ s8 Display_Full_Screen_Message_Blocking(s32 /*not_used*/, MessageType messageTyp
 
         // Dead due to early return ??
         case MessageType::eSkipMovie_1:
-            pTextObj2 = ae_new<Text>("or esc to skip the movie", 1, 0);
+            pTextObj2 = relive_new Text("or esc to skip the movie", 1, 0);
             if (pTextObj2)
             {
                 pTextObj2->SetYPos(0, 30);
@@ -166,7 +166,7 @@ s8 Display_Full_Screen_Message_Blocking(s32 /*not_used*/, MessageType messageTyp
             break;
 
         case MessageType::eSkipDemo_2:
-            pTextObj2 = ae_new<Text>("or esc to skip the demo", 1, 0);
+            pTextObj2 = relive_new Text("or esc to skip the demo", 1, 0);
             if (pTextObj2)
             {
                 pTextObj2->SetYPos(0, 30);

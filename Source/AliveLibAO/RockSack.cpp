@@ -73,12 +73,12 @@ void RockSack::VUpdate()
             {
                 if (!gpThrowableArray_50E26C)
                 {
-                    gpThrowableArray_50E26C = ao_new<ThrowableArray>();
+                    gpThrowableArray_50E26C = relive_new ThrowableArray();
                 }
 
                 gpThrowableArray_50E26C->Add(field_112_rock_amount);
 
-                auto pRock = ao_new<Rock>(
+                auto pRock = relive_new Rock(
                     mBaseAnimatedWithPhysicsGameObject_XPos,
                     mBaseAnimatedWithPhysicsGameObject_YPos - FP_FromInteger(30),
                     field_112_rock_amount);
@@ -162,7 +162,7 @@ RockSack::RockSack(Path_RockSack* pTlv, s32 tlvInfo)
         field_10_anim.LoadPal(ppPal, 0);
     }
 
-    field_D0_pShadow = ao_new<Shadow>();
+    field_D0_pShadow = relive_new Shadow();
 }
 
 void RockSack::VScreenChanged()

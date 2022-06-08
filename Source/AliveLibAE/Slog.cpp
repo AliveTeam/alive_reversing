@@ -364,7 +364,7 @@ s32 Slog::CreateFromSaveState(const u8* pBuffer)
     Slog* pSlog = nullptr;
     if (pState->field_40_tlvInfo == 0xFFFF)
     {
-        pSlog = ae_new<Slog>(pState->field_8_xpos,
+        pSlog = relive_new Slog(pState->field_8_xpos,
                                   pState->field_C_ypos,
                                   pState->field_1C_sprite_scale, pState->field_74_flags.Get(Slog_State::eBit10_ListenToSligs), pState->field_70_jump_delay);
 
@@ -372,7 +372,7 @@ s32 Slog::CreateFromSaveState(const u8* pBuffer)
     }
     else
     {
-        pSlog = ae_new<Slog>(pTlv, pState->field_40_tlvInfo);
+        pSlog = relive_new Slog(pTlv, pState->field_40_tlvInfo);
     }
 
     pSlog->BaseAliveGameObjectPathTLV = nullptr;
@@ -1010,7 +1010,7 @@ void Slog::M_Sleeping_15_4C6D60()
             {
                 xOff = (field_CC_sprite_scale * FP_FromInteger(18));
             }
-            ae_new<SnoozeParticle>(xOff + mBaseAnimatedWithPhysicsGameObject_XPos,
+            relive_new SnoozeParticle(xOff + mBaseAnimatedWithPhysicsGameObject_XPos,
                                                           (field_CC_sprite_scale * FP_FromInteger(-13)) + mBaseAnimatedWithPhysicsGameObject_YPos,
                                                           field_20_animation.mRenderLayer, field_20_animation.field_14_scale);
         }
@@ -1190,7 +1190,7 @@ void Slog::M_Eating_20_4C75F0()
     if (field_20_animation.field_92_current_frame == 3 && !field_20_animation.mAnimFlags.Get(AnimFlags::eBit19_LoopBackwards))
     {
         SFX_Play_Mono(static_cast<SoundEffect>(Math_RandomRange(SoundEffect::Eating1_65, SoundEffect::Eating2_66)), 100);
-        ae_new<Blood>(((field_20_animation.mAnimFlags.Get(AnimFlags::eBit5_FlipX)) != 0 ? FP_FromInteger(-25) : FP_FromInteger(25)) * field_CC_sprite_scale + mBaseAnimatedWithPhysicsGameObject_XPos,
+        relive_new Blood(((field_20_animation.mAnimFlags.Get(AnimFlags::eBit5_FlipX)) != 0 ? FP_FromInteger(-25) : FP_FromInteger(25)) * field_CC_sprite_scale + mBaseAnimatedWithPhysicsGameObject_XPos,
                       mBaseAnimatedWithPhysicsGameObject_YPos - (FP_FromInteger(4) * field_CC_sprite_scale),
                       FP_FromInteger(0), FP_FromInteger(0),
                       field_CC_sprite_scale, 12);
@@ -2839,7 +2839,7 @@ void Slog::Init_4C46A0()
     }
 
     MapFollowMe(FALSE);
-    mShadow = ae_new<Shadow>();
+    mShadow = relive_new Shadow();
 
     sSlogCount_BAF7F2++;
 
@@ -3325,7 +3325,7 @@ s16 Slog::VTakeDamage(BaseGameObject* pFrom)
                 case BulletType::eNormalBullet_2:
                     if (pBullet->field_30_x_distance <= FP_FromInteger(0))
                     {
-                        ae_new<Blood>(mBaseAnimatedWithPhysicsGameObject_XPos,
+                        relive_new Blood(mBaseAnimatedWithPhysicsGameObject_XPos,
                                                     pBullet->field_2C_ypos,
                                                     FP_FromInteger(-24),
                                                     FP_FromInteger(0),
@@ -3333,7 +3333,7 @@ s16 Slog::VTakeDamage(BaseGameObject* pFrom)
                     }
                     else
                     {
-                        ae_new<Blood>(mBaseAnimatedWithPhysicsGameObject_XPos,
+                        relive_new Blood(mBaseAnimatedWithPhysicsGameObject_XPos,
                                                     pBullet->field_2C_ypos,
                                                     FP_FromInteger(24),
                                                     FP_FromInteger(0),
@@ -3344,7 +3344,7 @@ s16 Slog::VTakeDamage(BaseGameObject* pFrom)
                 case BulletType::ePossessedSligZBullet_1:
                 case BulletType::eZBullet_3:
                 {
-                    ae_new<Blood>(mBaseAnimatedWithPhysicsGameObject_XPos,
+                    relive_new Blood(mBaseAnimatedWithPhysicsGameObject_XPos,
                                                 mBaseAnimatedWithPhysicsGameObject_YPos - (FP_FromInteger(20) * field_CC_sprite_scale),
                                                 FP_FromInteger(0),
                                                 FP_FromInteger(0),
@@ -3374,11 +3374,11 @@ s16 Slog::VTakeDamage(BaseGameObject* pFrom)
         {
             Sfx_4C7D30(SlogSound::DeathWhine_9);
             mHealth = FP_FromInteger(0);
-            ae_new<Gibs>(GibType::Slog_2, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, field_C4_velx, field_C8_vely, field_CC_sprite_scale, 0);
+            relive_new Gibs(GibType::Slog_2, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, field_C4_velx, field_C8_vely, field_CC_sprite_scale, 0);
 
             PSX_RECT bRect = {};
             VGetBoundingRect(&bRect, 1);
-            ae_new<Blood>(FP_FromInteger((bRect.x + bRect.w) / 2),
+            relive_new Blood(FP_FromInteger((bRect.x + bRect.w) / 2),
                                         FP_FromInteger((bRect.y + bRect.h) / 2),
                                         FP_FromInteger(0),
                                         FP_FromInteger(0),

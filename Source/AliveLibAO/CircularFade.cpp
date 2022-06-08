@@ -221,7 +221,7 @@ s32 CircularFade::VDone()
 
 CircularFade* Make_Circular_Fade(FP xpos, FP ypos, FP scale, s16 direction, s8 destroyOnDone)
 {
-    return ao_new<CircularFade>(xpos, ypos, scale, direction, destroyOnDone);
+    return relive_new CircularFade(xpos, ypos, scale, direction, destroyOnDone);
 }
 
 } // namespace AO

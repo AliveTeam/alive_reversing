@@ -60,7 +60,7 @@ Shrykull::Shrykull()
 
     field_10_anim.mAnimFlags.Set(AnimFlags::eBit5_FlipX, sActiveHero_507678->field_10_anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX));
 
-    field_D0_pShadow = ao_new<Shadow>();
+    field_D0_pShadow = relive_new Shadow();
 
     field_122_bResetRingTimer = 0;
 }
@@ -169,7 +169,7 @@ void Shrykull::VUpdate()
                     }
                     else
                     {
-                        auto pZapLine = ao_new<ZapLine>(
+                        auto pZapLine = relive_new ZapLine(
                             FP_FromInteger((ourRect.x + ourRect.w) / 2),
                             FP_FromInteger((ourRect.y + ourRect.h) / 2),
                             FP_FromInteger((objRect.x + objRect.w) / 2),
@@ -186,7 +186,7 @@ void Shrykull::VUpdate()
                     field_120_bElectrocute = CanElectrocute(pObj);
                     if (field_120_bElectrocute)
                     {
-                        ao_new<Electrocute>(pObj, 0);
+                        relive_new Electrocute(pObj, 0);
                         field_114_timer = sGnFrame + 3;
 
                         if (pObj->mBaseGameObjectTypeId == ReliveTypes::eBackgroundGlukkon)
@@ -195,16 +195,16 @@ void Shrykull::VUpdate()
                         }
                     }
 
-                    ao_new<PossessionFlicker>(field_11C_obj_being_zapped, 8, 255, 255, 255);
+                    relive_new PossessionFlicker(field_11C_obj_being_zapped, 8, 255, 255, 255);
 
-                    ao_new<AbilityRing>(
+                    relive_new AbilityRing(
                         FP_FromInteger((objRect.x + objRect.w) / 2),
                         FP_FromInteger((objRect.y + objRect.h) / 2),
                         RingTypes::eShrykull_Pulse_Large_5);
 
-                    ao_new<PossessionFlicker>(this, 8, 255, 255, 255);
+                    relive_new PossessionFlicker(this, 8, 255, 255, 255);
 
-                    ao_new<AbilityRing>(
+                    relive_new AbilityRing(
                         FP_FromInteger((ourRect.x + ourRect.w) / 2),
                         FP_FromInteger((ourRect.y + ourRect.h) / 2),
                         RingTypes::eShrykull_Pulse_Large_5);
@@ -281,14 +281,14 @@ void Shrykull::VUpdate()
                     VGetBoundingRect(&ourRect, 1);
                     if (static_cast<s32>(sGnFrame) == field_114_timer)
                     {
-                        ao_new<ParticleBurst>(
+                        relive_new ParticleBurst(
                             FP_FromInteger((zapRect.x + zapRect.w) / 2),
                             FP_FromInteger((zapRect.y + zapRect.h) / 2),
                             20,
                             field_BC_sprite_scale,
                             BurstType::eBigPurpleSparks_2);
 
-                       ao_new<Flash>(Layer::eLayer_Above_FG1_39, 255u, 255u, 255u);
+                       relive_new Flash(Layer::eLayer_Above_FG1_39, 255u, 255u, 255u);
                     }
                     field_118_zap_line->CalculateSourceAndDestinationPositions(
                         FP_FromInteger((ourRect.x + ourRect.w) / 2),

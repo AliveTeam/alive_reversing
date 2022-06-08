@@ -877,10 +877,10 @@ Abe::Abe(s32 /*frameTableOffset*/, s32 /*r*/, s32 /*g*/, s32 /*b*/)
     sControlledCharacter_5C1B8C = this;
 
     // Create shadow
-    mShadow = ae_new<Shadow>();
+    mShadow = relive_new Shadow();
 
     // Animation test code
-    //auto testAnim = ae_new<TestAnimation>(); testAnim->ctor();
+    //auto testAnim = relive_new TestAnimation(); testAnim->ctor();
 
 }
 
@@ -1032,7 +1032,7 @@ s32 Abe::CreateFromSaveState(const u8* pData)
     Abe* pAbe = sActiveHero;
     if (!sActiveHero)
     {
-        pAbe = ae_new<Abe>(58808, 85, 57, 55);
+        pAbe = relive_new Abe(58808, 85, 57, 55);
         sActiveHero = pAbe;
     }
 
@@ -1301,7 +1301,7 @@ void Abe::VUpdate()
                 field_170_invisible_timer = sGnFrame + 2;
             }
 
-            auto pInvisibleEffect = ae_new<InvisibleEffect>(this);
+            auto pInvisibleEffect = relive_new InvisibleEffect(this);
             field_178_invisible_effect_id = pInvisibleEffect->field_8_object_id;
             pInvisibleEffect->InstantInvisibility();
         }
@@ -1634,7 +1634,7 @@ void Abe::VUpdate()
             field_128.field_18_say = MudSounds::eOops_14;
             field_144_auto_say_timer = sGnFrame + Math_RandomRange(22, 30);
 
-            ae_new<MusicTrigger>(MusicTriggerMusicType::eDeathDrumShort_1, TriggeredBy::eTimer_0, 90, 0);
+            relive_new MusicTrigger(MusicTriggerMusicType::eDeathDrumShort_1, TriggeredBy::eTimer_0, 90, 0);
         }
 
         if (Event_Get(kEventMudokonComfort))
@@ -2180,7 +2180,7 @@ s16 Abe::VTakeDamage(BaseGameObject* pFrom)
             field_D2_g = 30;
             field_D0_r = 30;
 
-            ae_new<Gibs>(GibType::Abe_0,
+            relive_new Gibs(GibType::Abe_0,
                 mBaseAnimatedWithPhysicsGameObject_XPos,
                 mBaseAnimatedWithPhysicsGameObject_YPos,
                 FP_FromInteger(0),
@@ -2189,7 +2189,7 @@ s16 Abe::VTakeDamage(BaseGameObject* pFrom)
                 false);
 
             // Note Check on word_5CC88C <= 3846 appeared always true, removed.
-            ae_new<Gibs>(GibType::Abe_0,
+            relive_new Gibs(GibType::Abe_0,
                 mBaseAnimatedWithPhysicsGameObject_XPos,
                 mBaseAnimatedWithPhysicsGameObject_YPos,
                 FP_FromInteger(0),
@@ -2223,7 +2223,7 @@ s16 Abe::VTakeDamage(BaseGameObject* pFrom)
                 field_D2_g = 30;
                 field_D0_r = 30;
 
-                ae_new<Gibs>(GibType::Abe_0,
+                relive_new Gibs(GibType::Abe_0,
                     mBaseAnimatedWithPhysicsGameObject_XPos,
                     mBaseAnimatedWithPhysicsGameObject_YPos,
                     FP_FromInteger(0),
@@ -2308,7 +2308,7 @@ s16 Abe::VTakeDamage(BaseGameObject* pFrom)
                 PSX_RECT bRect = {};
                 VGetBoundingRect(&bRect, 1);
 
-                ae_new<Blood>(mBaseAnimatedWithPhysicsGameObject_XPos,
+                relive_new Blood(mBaseAnimatedWithPhysicsGameObject_XPos,
                     // Put YPos in the middle of who is getting damaged
                     FP_FromInteger(bRect.y + bRect.h) / FP_FromInteger(2),
                     // Put the blood on the left or the right depending on where the damage is coming from
@@ -2380,7 +2380,7 @@ s16 Abe::VTakeDamage(BaseGameObject* pFrom)
                 PSX_RECT bRect = {};
                 VGetBoundingRect(&bRect, 1);
 
-                ae_new<Blood>(
+                relive_new Blood(
                     mBaseAnimatedWithPhysicsGameObject_XPos,
                     FP_FromInteger(bRect.y + bRect.h) / FP_FromInteger(2),
                     // Put the blood on the left or the right depending on where the damage is coming from
@@ -3248,7 +3248,7 @@ void Abe::Motion_0_Idle_44EEB0()
                 if (!bThrowableIndicatorExists_5C112C)
                 {
                     const FP xOffSet = ((field_20_animation.mAnimFlags.Get(AnimFlags::eBit5_FlipX)) ? FP_FromInteger(15) : FP_FromInteger(-15)) * field_CC_sprite_scale;
-                    ae_new<ThrowableTotalIndicator>(
+                    relive_new ThrowableTotalIndicator(
                         mBaseAnimatedWithPhysicsGameObject_XPos + xOffSet,
                         mBaseAnimatedWithPhysicsGameObject_YPos + (field_CC_sprite_scale * FP_FromInteger(-50)),
                         field_20_animation.mRenderLayer,
@@ -4081,7 +4081,7 @@ void Abe::Motion_17_CrouchIdle_456BC0()
         {
             const FP yOff = mBaseAnimatedWithPhysicsGameObject_YPos + (field_CC_sprite_scale * FP_FromInteger(-30));
             const FP xOff = field_CC_sprite_scale * (field_20_animation.mAnimFlags.Get(AnimFlags::eBit5_FlipX) ? FP_FromInteger(-10) : FP_FromInteger(10));
-            ae_new<ThrowableTotalIndicator>(
+            relive_new ThrowableTotalIndicator(
                 mBaseAnimatedWithPhysicsGameObject_XPos + xOff,
                 yOff,
                 field_20_animation.mRenderLayer,
@@ -5532,7 +5532,7 @@ void Abe::Motion_56_DeathDropFall_4591F0()
         else if (static_cast<s32>(sGnFrame) == field_128.field_0_abe_timer - 24)
         {
             SFX_Play_Mono(SoundEffect::KillEffect_64, 85);
-            ae_new<ScreenShake>(true, false);
+            relive_new ScreenShake(true, false);
         }
         else if (static_cast<s32>(sGnFrame) >= field_128.field_0_abe_timer)
         {
@@ -5578,7 +5578,7 @@ void Abe::Motion_57_Dead_4589A0()
             {
                 const FP ypos = FP_FromInteger(Math_NextRandom() % 10) + mBaseAnimatedWithPhysicsGameObject_YPos + FP_FromInteger(15);
                 const FP xpos = FP_FromInteger((Math_NextRandom() % 64) - 32) + mBaseAnimatedWithPhysicsGameObject_XPos;
-                ae_new<DeathBirdParticle>(
+                relive_new DeathBirdParticle(
                     xpos,
                     ypos,
                     (Math_NextRandom() % 8) + field_128.field_0_abe_timer + 60,
@@ -5589,7 +5589,7 @@ void Abe::Motion_57_Dead_4589A0()
             {
                 const FP ypos = FP_FromInteger(Math_NextRandom() % 10) + mBaseAnimatedWithPhysicsGameObject_YPos + FP_FromInteger(15);
                 const FP xpos = FP_FromInteger(((Math_NextRandom() % 64) - 32)) + mBaseAnimatedWithPhysicsGameObject_XPos;
-                ae_new<DeathBirdParticle>(
+                relive_new DeathBirdParticle(
                     xpos,
                     ypos,
                     (Math_NextRandom() % 8) + field_128.field_0_abe_timer + 15,
@@ -5606,7 +5606,7 @@ void Abe::Motion_57_Dead_4589A0()
                 {
                     const FP ypos = FP_FromInteger(Math_NextRandom() % 10) + mBaseAnimatedWithPhysicsGameObject_YPos + FP_FromInteger(15);
                     const FP xpos = FP_FromInteger(((Math_NextRandom() % 64) - 32)) + mBaseAnimatedWithPhysicsGameObject_XPos;
-                    ae_new<DeathBirdParticle>(
+                    relive_new DeathBirdParticle(
                         xpos,
                         ypos,
                         (Math_NextRandom() % 8) + field_128.field_0_abe_timer + 60,
@@ -5617,7 +5617,7 @@ void Abe::Motion_57_Dead_4589A0()
                 {
                     const FP ypos = FP_FromInteger(Math_NextRandom() % 10) + mBaseAnimatedWithPhysicsGameObject_YPos + FP_FromInteger(15);
                     const FP xpos = FP_FromInteger(((Math_NextRandom() % 64) - 32)) + mBaseAnimatedWithPhysicsGameObject_XPos;
-                    ae_new<DeathBirdParticle>(
+                    relive_new DeathBirdParticle(
                         xpos,
                         ypos,
                         (Math_NextRandom() % 8) + field_128.field_0_abe_timer + 15,
@@ -5662,7 +5662,7 @@ void Abe::Motion_57_Dead_4589A0()
                 pDeathFade_1->mBaseGameObjectFlags.Set(BaseGameObject::eDead);
                 field_148_fade_obj_id = -1;
             }
-            auto pDeathFade = ae_new<DeathFadeOut>(Layer::eLayer_FadeFlash_40, 1, 0, 8, TPageAbr::eBlend_2);
+            auto pDeathFade = relive_new DeathFadeOut(Layer::eLayer_FadeFlash_40, 1, 0, 8, TPageAbr::eBlend_2);
             if (pDeathFade)
             {
                 field_148_fade_obj_id = pDeathFade->field_8_object_id;
@@ -6601,7 +6601,7 @@ void Abe::Motion_84_FallLandDie_45A420()
     {
         SFX_Play_Mono(SoundEffect::KillEffect_64, 85);
         SND_SEQ_Play(SeqId::HitBottomOfDeathPit_9, 1, 95, 95);
-        ae_new<ScreenShake>(true, false);
+        relive_new ScreenShake(true, false);
     }
 
     if (field_20_animation.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
@@ -6728,7 +6728,7 @@ void Abe::Motion_86_HandstoneBegin_45BD00()
                     Get_fmvs_sectors(pFmvRec->field_0_pName, 0, 0, &pos, 0, 0);
                     sLevelId_dword_5CA408 = static_cast<u32>(MapWrapper::ToAE(gMap.mCurrentLevel));
 
-                    ae_new<Movie>(pFmvRec->field_4_id, pos, static_cast<s16>(pFmvRec->field_6_flags & 1), static_cast<s16>(pFmvRec->field_8_flags), pFmvRec->field_A_volume);
+                    relive_new Movie(pFmvRec->field_4_id, pos, static_cast<s16>(pFmvRec->field_6_flags & 1), static_cast<s16>(pFmvRec->field_8_flags), pFmvRec->field_A_volume);
                     field_120_state.stone = StoneStates::eHandstoneMovieDone_2;
                 }
                 else if (field_180_hand_stone_type == TlvTypes::HandStone_61)
@@ -6738,7 +6738,7 @@ void Abe::Motion_86_HandstoneBegin_45BD00()
                     field_120_state.stone = StoneStates::eWaitForInput_4;
                     pCircularFade->mBaseGameObjectFlags.Set(BaseGameObject::eDead);
                     field_14C_circular_fade_id = -1;
-                    DeathFadeOut* pFade33 = ae_new<DeathFadeOut>(Layer::eLayer_FadeFlash_40, 0, 0, 8, TPageAbr::eBlend_2);
+                    DeathFadeOut* pFade33 = relive_new DeathFadeOut(Layer::eLayer_FadeFlash_40, 0, 0, 8, TPageAbr::eBlend_2);
                     if (pFade33)
                     {
                         field_148_fade_obj_id = pFade33->field_8_object_id;
@@ -6800,7 +6800,7 @@ void Abe::Motion_86_HandstoneBegin_45BD00()
                     field_120_state.stone = StoneStates::eWaitForInput_4;
 
                     pFade->mBaseGameObjectFlags.Set(BaseGameObject::eDead);
-                    pFade = ae_new<DeathFadeOut>(Layer::eLayer_FadeFlash_40, 0, 0, 8, TPageAbr::eBlend_2);
+                    pFade = relive_new DeathFadeOut(Layer::eLayer_FadeFlash_40, 0, 0, 8, TPageAbr::eBlend_2);
                     if (pFade)
                     {
                         field_148_fade_obj_id = pFade->field_8_object_id;
@@ -7386,7 +7386,7 @@ void Abe::Motion_112_Chant_45B1C0()
                     InvisibleEffect* pInvisible = static_cast<InvisibleEffect*>(sObjectIds.Find_Impl(field_178_invisible_effect_id));
                     if (!pInvisible || pInvisible->mBaseGameObjectFlags.Get(BaseGameObject::eDead))
                     {
-                        pInvisible = ae_new<InvisibleEffect>(this);
+                        pInvisible = relive_new InvisibleEffect(this);
                         field_178_invisible_effect_id = pInvisible->field_8_object_id;
                     }
                     pInvisible->BecomeInvisible();
@@ -7461,7 +7461,7 @@ void Abe::Motion_112_Chant_45B1C0()
                     {
                         const FP yPos = mBaseAnimatedWithPhysicsGameObject_YPos - (field_CC_sprite_scale * FP_FromInteger(38));
                         const FP xOff = field_CC_sprite_scale * ((field_20_animation.mAnimFlags.Get(AnimFlags::eBit5_FlipX)) != 0 ? FP_FromInteger(-4) : FP_FromInteger(4));
-                        pOrbWhirlWind = ae_new<OrbWhirlWind>(
+                        pOrbWhirlWind = relive_new OrbWhirlWind(
                             xOff + mBaseAnimatedWithPhysicsGameObject_XPos,
                             yPos,
                             field_CC_sprite_scale,
@@ -7507,7 +7507,7 @@ void Abe::Motion_112_Chant_45B1C0()
                 pObj->field_CC_sprite_scale,
                 pObj);
 
-            ae_new<PossessionFlicker>(sActiveHero, 30, 128, 255, 255);
+            relive_new PossessionFlicker(sActiveHero, 30, 128, 255, 255);
         }
             return;
 
@@ -7576,7 +7576,7 @@ void Abe::Motion_112_Chant_45B1C0()
                 field_1AC_flags.Set(Flags_1AC::e1AC_Bit9_laugh_at_chant_end);
             }
 
-            ae_new<PossessionFlicker>(sControlledCharacter_5C1B8C, 60, 128, 255, 255);
+            relive_new PossessionFlicker(sControlledCharacter_5C1B8C, 60, 128, 255, 255);
 
             SND_SEQ_Stop(SeqId::MudokonChant1_10);
             SFX_Play_Pitch(SoundEffect::PossessEffect_17, 70, 400);
@@ -7591,7 +7591,7 @@ void Abe::Motion_112_Chant_45B1C0()
                 return;
             }
 
-            ae_new<PossessionFlicker>(sControlledCharacter_5C1B8C, 15, 128, 255, 255);
+            relive_new PossessionFlicker(sControlledCharacter_5C1B8C, 15, 128, 255, 255);
 
             field_120_state.chant = ChantStates::eUnpossessing_4;
             field_124_timer = sGnFrame + 15;
@@ -7994,7 +7994,7 @@ void Abe::Motion_119_ToShrykull_45A990()
 
             field_120_state.raw = 1;
 
-            ae_new<Shrykull>();
+            relive_new Shrykull();
         }
     }
 }
@@ -8111,7 +8111,7 @@ void Abe::Motion_127_TurnWheelLoop_456750()
         {
             field_120_state.wheel = WorkWheelStates::eMapChanging_2;
             SND_SEQ_Play(SeqId::SaveTriggerMusic_31, 1, 127, 127);
-            ae_new<MusicTrigger>(MusicTriggerMusicType::eChime_5, TriggeredBy::eTimer_0, 0, 0);
+            relive_new MusicTrigger(MusicTriggerMusicType::eChime_5, TriggeredBy::eTimer_0, 0, 0);
             return;
         }
         else
@@ -8309,7 +8309,7 @@ void Abe::PickUpThrowabe_Or_PressBomb_454090(FP fpX, s32 fpY, s32 bStandToCrouch
                 {
                     const FP yoff = (field_CC_sprite_scale * FP_FromInteger(-30)) + mBaseAnimatedWithPhysicsGameObject_YPos;
                     const FP xoff = field_CC_sprite_scale * FP_FromInteger(0);
-                    ae_new<ThrowableTotalIndicator>(
+                    relive_new ThrowableTotalIndicator(
                         xoff + mBaseAnimatedWithPhysicsGameObject_XPos,
                         yoff,
                         field_20_animation.mRenderLayer,
@@ -8443,7 +8443,7 @@ void Abe::TryHoist_44ED30()
 
 void Abe::Create_Fart_421D20()
 {
-    ae_new<EvilFart>();
+    relive_new EvilFart();
 }
 
 s16 Abe::TryEnterMineCar_4569E0()
@@ -9215,7 +9215,7 @@ void Abe::BulletDamage_44C980(Bullet* pBullet)
         {
             if (pBullet->field_20_type != BulletType::ePossessedSligZBullet_1 && pBullet->field_20_type != BulletType::eZBullet_3)
             {
-                ae_new<Spark>(hitX, hitY, field_CC_sprite_scale, 9, -31, 159, SparkType::eSmallChantParticle_0);
+                relive_new Spark(hitX, hitY, field_CC_sprite_scale, 9, -31, 159, SparkType::eSmallChantParticle_0);
                 New_Smoke_Particles(hitX, hitY, field_CC_sprite_scale, 3, 128u, 128u, 128u);
             }
         }
@@ -9239,7 +9239,7 @@ void Abe::BulletDamage_44C980(Bullet* pBullet)
                 bloodXOffset = FP_FromInteger(24);
             }
             
-            ae_new<Blood>(
+            relive_new Blood(
                 mBaseAnimatedWithPhysicsGameObject_XPos,
                 pBullet->field_2C_ypos,
                 bloodXOffset,
@@ -9329,7 +9329,7 @@ void Abe::BulletDamage_44C980(Bullet* pBullet)
                 mNextMotion = eAbeMotions::Motion_109_ZShotRolling_455550;
             }
 
-            ae_new<Blood>(mBaseAnimatedWithPhysicsGameObject_XPos, yOffset + mBaseAnimatedWithPhysicsGameObject_YPos, FP_FromInteger(0), FP_FromInteger(0), FP_FromInteger(1), 50);
+            relive_new Blood(mBaseAnimatedWithPhysicsGameObject_XPos, yOffset + mBaseAnimatedWithPhysicsGameObject_YPos, FP_FromInteger(0), FP_FromInteger(0), FP_FromInteger(1), 50);
             break;
         }
 

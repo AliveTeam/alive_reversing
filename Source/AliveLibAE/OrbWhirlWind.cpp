@@ -74,7 +74,7 @@ void OrbWhirlWind::VUpdate()
     {
         if (!(field_20_particle_spawn_counter % 4))
         {
-            auto pParticle = ae_new<OrbWhirlWindParticle>(field_6C_xpos,
+            auto pParticle = relive_new OrbWhirlWindParticle(field_6C_xpos,
                 field_70_ypos,
                 field_74_scale,
                 field_26_is_mudokon_spirit);

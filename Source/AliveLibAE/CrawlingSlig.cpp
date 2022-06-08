@@ -156,7 +156,7 @@ CrawlingSlig::CrawlingSlig(Path_CrawlingSlig* pTlv, s32 tlvInfo)
     field_1D8_obj_id = -1;
     field_1E4_pPantsOrWingsTlv = 0;
 
-    mShadow = ae_new<Shadow>();
+    mShadow = relive_new Shadow();
 
     field_118_tlvInfo = tlvInfo;
     field_1E8_tlv = *pTlv;
@@ -247,7 +247,7 @@ s32 CrawlingSlig::CreateFromSaveState(const u8* pBuffer)
         ResourceManager::LoadResourceFile_49C170("SLGBLOW.BAN", nullptr);
     }
 
-    auto pCrawlingSlig = ae_new<CrawlingSlig>(pTlv, pState->field_44_tlvInfo);
+    auto pCrawlingSlig = relive_new CrawlingSlig(pTlv, pState->field_44_tlvInfo);
     if (pCrawlingSlig)
     {
         pCrawlingSlig->mBaseGameObjectTlvInfo = pState->field_4_obj_id;
@@ -1199,7 +1199,7 @@ s16 CrawlingSlig::Brain_4_GetKilled_41A880()
 
         case Brain_4_GetKilled::eBrain4_GibsDeath_2:
         {
-            ae_new<Gibs>(
+            relive_new Gibs(
                 GibType::Slig_1,
                 mBaseAnimatedWithPhysicsGameObject_XPos,
                 mBaseAnimatedWithPhysicsGameObject_YPos,
@@ -1208,7 +1208,7 @@ s16 CrawlingSlig::Brain_4_GetKilled_41A880()
                 field_CC_sprite_scale,
                 0);
 
-            ae_new<Blood>(
+            relive_new Blood(
                 mBaseAnimatedWithPhysicsGameObject_XPos,
                 mBaseAnimatedWithPhysicsGameObject_YPos - (FP_FromInteger(30) * field_CC_sprite_scale),
                 FP_FromInteger(0),
@@ -1276,7 +1276,7 @@ s16 CrawlingSlig::Brain_4_GetKilled_41A880()
             else
             {
                 Environment_SFX_457A40(EnvironmentSfx::eFallingDeathScreamHitGround_15, 0, 0x7FFF, this);
-                ae_new<ScreenShake>(0, 0);
+                relive_new ScreenShake(0, 0);
                 field_1AC_timer = sGnFrame + 30;
                 return Brain_4_GetKilled::eBrain4_SetDead_3;
             }
@@ -1345,7 +1345,7 @@ void CrawlingSlig::M_UsingButton_1_41B890()
 
                 SFX_Play_Mono(SoundEffect::SligSpawn_114, 0);
 
-                auto pWalkingSlig = ae_new<Slig>(static_cast<Path_Slig*>(field_1E4_pPantsOrWingsTlv), sPath_dword_BB47C0->TLVInfo_From_TLVPtr(field_1E4_pPantsOrWingsTlv));
+                auto pWalkingSlig = relive_new Slig(static_cast<Path_Slig*>(field_1E4_pPantsOrWingsTlv), sPath_dword_BB47C0->TLVInfo_From_TLVPtr(field_1E4_pPantsOrWingsTlv));
                 if (pWalkingSlig)
                 {
                     field_1D8_obj_id = pWalkingSlig->field_8_object_id;
@@ -1374,7 +1374,7 @@ void CrawlingSlig::M_UsingButton_1_41B890()
 
                 SFX_Play_Mono(SoundEffect::FlyingSligSpawn_113, 0);
 
-                auto pFlyingSlig = ae_new<FlyingSlig>(static_cast<Path_FlyingSlig*>(field_1E4_pPantsOrWingsTlv), sPath_dword_BB47C0->TLVInfo_From_TLVPtr(field_1E4_pPantsOrWingsTlv));
+                auto pFlyingSlig = relive_new FlyingSlig(static_cast<Path_FlyingSlig*>(field_1E4_pPantsOrWingsTlv), sPath_dword_BB47C0->TLVInfo_From_TLVPtr(field_1E4_pPantsOrWingsTlv));
                 if (pFlyingSlig)
                 {
                     field_1D8_obj_id = pFlyingSlig->field_8_object_id;
@@ -1626,7 +1626,7 @@ void CrawlingSlig::M_Snoozing_9_41BD80()
             }
 
             const FP yOff = (field_CC_sprite_scale * FP_FromInteger(-10));
-            ae_new<SnoozeParticle>(
+            relive_new SnoozeParticle(
                 mBaseAnimatedWithPhysicsGameObject_XPos + xOff,
                 mBaseAnimatedWithPhysicsGameObject_YPos + yOff,
                 field_20_animation.mRenderLayer,

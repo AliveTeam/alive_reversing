@@ -57,7 +57,7 @@ void Well::VUpdate()
             // Random chance of leaves emitting
             if (Well_NextRandom() < 10)
             {
-                auto pLeaf = ao_new<Leaf>(
+                auto pLeaf = relive_new Leaf(
                     field_F8_leaf_xpos,
                     field_FC_leaf_ypos,
                     field_F0_exit_x,

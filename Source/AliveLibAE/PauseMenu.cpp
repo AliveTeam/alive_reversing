@@ -961,7 +961,7 @@ void PauseMenu::RestartPath()
 
         if (!gpThrowableArray_5D1E2C)
         {
-            gpThrowableArray_5D1E2C = ae_new<ThrowableArray>();
+            gpThrowableArray_5D1E2C = relive_new ThrowableArray();
         }
 
         gpThrowableArray_5D1E2C->Add(sActiveHero->field_1A2_throwable_count);

@@ -50,7 +50,7 @@ void SlogSpawner::VUpdate()
                                  + sGnFrame
                                  + field_2C_slog_spawn_interval;
 
-            auto pSlog = ao_new<Slog>(
+            auto pSlog = relive_new Slog(
                     field_18_xPos,
                     field_1C_yPos,
                     field_24_scale != Scale_short::eFull_0 ? FP_FromDouble(0.5) : FP_FromInteger(1));;

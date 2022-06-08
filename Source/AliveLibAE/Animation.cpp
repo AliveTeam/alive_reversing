@@ -84,7 +84,7 @@ s32 Animation_OnFrame_Common_4561B0(BaseGameObject* pObjPtr, s16* pData)
         ypos -= FP_FromInteger(5);
     }
 
-    auto pPartical = ae_new<Particle>(xpos, ypos, dustRec.mFrameTableOffset, dustRec.mMaxW, dustRec.mMaxH, ppAnimData);
+    auto pPartical = relive_new Particle(xpos, ypos, dustRec.mFrameTableOffset, dustRec.mMaxW, dustRec.mMaxH, ppAnimData);
     if (pPartical)
     {
         pPartical->field_20_animation.mRenderMode = TPageAbr::eBlend_1;
@@ -160,7 +160,7 @@ s32 Animation_OnFrame_Common_434130(BaseGameObject* pObjPtr, s16* pData)
     }
 
     const AnimRecord& vaporizeRec = AnimRec(AnimId::Vaporize_Particle);
-    auto pParticle = ae_new<Particle>(xpos, ypos, vaporizeRec.mFrameTableOffset, vaporizeRec.mMaxW, vaporizeRec.mMaxH, ppAnimRes);
+    auto pParticle = relive_new Particle(xpos, ypos, vaporizeRec.mFrameTableOffset, vaporizeRec.mMaxW, vaporizeRec.mMaxH, ppAnimRes);
     if (pParticle)
     {
         pParticle->field_20_animation.mRenderMode = TPageAbr::eBlend_1;
@@ -215,7 +215,7 @@ s32 Animation_OnFrame_Slog_4C3030(BaseGameObject* pObjPtr, s16* pPoints)
 
     const FP bloodY = (pSlog->field_CC_sprite_scale * FP_FromInteger(pPoints[1])) + pSlog->mBaseAnimatedWithPhysicsGameObject_YPos;
 
-    ae_new<Blood>(
+    relive_new Blood(
         bloodX,
         bloodY - FP_FromInteger(8),
         pSlog->field_C4_velx * FP_FromInteger(2),

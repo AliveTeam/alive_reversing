@@ -46,7 +46,7 @@ Bone::Bone(FP xpos, FP ypos, s16 countId)
     field_11C_state = BoneStates::eSpawned_0;
     field_11E_volume_modifier = 0;
 
-    mShadow = ae_new<Shadow>();
+    mShadow = relive_new Shadow();
 }
 
 void Bone::VTimeToExplodeRandom()
@@ -58,7 +58,7 @@ s32 Bone::CreateFromSaveState(const u8* pData)
 {
     auto pState = reinterpret_cast<const Bone_SaveState*>(pData);
 
-    auto pBone = ae_new<Bone>(pState->field_8_xpos, pState->field_C_ypos, pState->field_2A_count);
+    auto pBone = relive_new Bone(pState->field_8_xpos, pState->field_C_ypos, pState->field_2A_count);
 
     pBone->mBaseGameObjectTlvInfo = pState->field_4_obj_id;
 
@@ -611,7 +611,7 @@ BoneBag::BoneBag(Path_BoneBag* pTlv, s32 tlvInfo)
     field_120_allow_sound = 1;
     field_122_force_play_sound = 1;
 
-    mShadow = ae_new<Shadow>();
+    mShadow = relive_new Shadow();
 }
 
 void BoneBag::VScreenChanged()
@@ -699,12 +699,12 @@ void BoneBag::VUpdate()
         }
         else
         {
-            gpThrowableArray_5D1E2C = ae_new<ThrowableArray>();
+            gpThrowableArray_5D1E2C = relive_new ThrowableArray();
         }
 
         gpThrowableArray_5D1E2C->Add(field_11E_count);
 
-        auto pBone = ae_new<Bone>(mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos - FP_FromInteger(30), field_11E_count);
+        auto pBone = relive_new Bone(mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos - FP_FromInteger(30), field_11E_count);
 
         pBone->field_CC_sprite_scale = field_CC_sprite_scale;
         pBone->field_D6_scale = field_D6_scale;

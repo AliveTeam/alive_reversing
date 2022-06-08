@@ -71,7 +71,7 @@ Spark::Spark(FP xpos, FP ypos, FP scale, s32 count, s32 minAngle, s32 maxAngle, 
             // Normal drill type sparks
             const AnimRecord& rec = AnimRec(AnimId::Zap_Sparks);
             u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
-            auto pParticle = ae_new<Particle>(
+            auto pParticle = relive_new Particle(
                 field_40_xpos,
                 field_44_ypos,
                 rec.mFrameTableOffset,

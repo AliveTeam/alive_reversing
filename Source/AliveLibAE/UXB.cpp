@@ -279,7 +279,7 @@ void UXB::VOnPickUpOrSlapped()
 
 void UXB::VOnThrowableHit(BaseGameObject* /*pFrom*/)
 {
-    ae_new<BaseBomb>(mBaseAnimatedWithPhysicsGameObject_XPos,
+    relive_new BaseBomb(mBaseAnimatedWithPhysicsGameObject_XPos,
                                   mBaseAnimatedWithPhysicsGameObject_YPos,
                                   0,
                                   field_CC_sprite_scale);
@@ -317,7 +317,7 @@ s16 UXB::VTakeDamage(BaseGameObject* pFrom)
 
     mBaseGameObjectFlags.Set(BaseGameObject::eDead);
 
-    ae_new<BaseBomb>(mBaseAnimatedWithPhysicsGameObject_XPos,
+    relive_new BaseBomb(mBaseAnimatedWithPhysicsGameObject_XPos,
                                  mBaseAnimatedWithPhysicsGameObject_YPos,
                                  0,
                                  field_CC_sprite_scale);
@@ -422,7 +422,7 @@ void UXB::VUpdate()
         case UXBState::eExploding_2:
             if (sGnFrame >= field_124_next_state_frame)
             {
-                ae_new<BaseBomb>(mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, 0, field_CC_sprite_scale);
+                relive_new BaseBomb(mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, 0, field_CC_sprite_scale);
                 mBaseGameObjectFlags.Set(Options::eDead);
             }
             break;
@@ -555,7 +555,7 @@ s32 UXB::CreateFromSaveState(const u8* __pSaveState)
         ResourceManager::LoadResourceFile_49C170("EXPLODE.BND", 0);
     }
 
-    UXB* pUXB = ae_new<UXB>(uxbPath, pSaveState->field_4_tlv);
+    UXB* pUXB = relive_new UXB(uxbPath, pSaveState->field_4_tlv);
 
     if (pSaveState->field_C_state == UXBState::eDeactivated_3)
     {

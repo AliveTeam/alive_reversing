@@ -240,7 +240,7 @@ s16 Elum::VTakeDamage(BaseGameObject* pFrom)
                     mCurrentMotion = eElumMotions::Motion_19_Dead_415F90;
                 }
 
-                ao_new<Gibs>(
+                relive_new Gibs(
                     GibType::Elum_3,
                     mBaseAnimatedWithPhysicsGameObject_XPos,
                     mBaseAnimatedWithPhysicsGameObject_YPos,
@@ -3791,7 +3791,7 @@ void Elum::Spawn(TlvItemInfoUnion tlvInfo)
     struct2.field_0 = word_4C52F0;
     struct2.field_2 = word_4C52FA;
 
-    ao_new<Elum>(dword_4C52F4, struct2, struct1, dword_4C52F8, tlvInfo);
+    relive_new Elum(dword_4C52F4, struct2, struct1, dword_4C52F8, tlvInfo);
 }
 
 Elum::Elum(s32, anythingForTheTimeBeing, anythingForTheTimeBeing, s32, TlvItemInfoUnion tlvInfo)
@@ -3914,9 +3914,9 @@ Elum::Elum(s32, anythingForTheTimeBeing, anythingForTheTimeBeing, s32, TlvItemIn
 
     field_170_flags.Clear(Elum::Flags_170::eCanSpeak_Bit6);
 
-    ao_new<MusicTrigger>(MusicTriggerMusicType::eSecretAreaShort_6, TriggeredBy::eTouching_1, 0, 30);
+    relive_new MusicTrigger(MusicTriggerMusicType::eSecretAreaShort_6, TriggeredBy::eTouching_1, 0, 30);
 
-    field_D0_pShadow = ao_new<Shadow>();
+    field_D0_pShadow = relive_new Shadow();
 }
 
 } // namespace AO

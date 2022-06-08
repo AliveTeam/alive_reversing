@@ -90,11 +90,11 @@ void Bullet::VUpdate()
                 {
                     if (field_20_x_distance <= FP_FromInteger(0))
                     {
-                        ao_new<Spark>(hitX, hitY, field_2C_scale, 6u, -76, 76);
+                        relive_new Spark(hitX, hitY, field_2C_scale, 6u, -76, 76);
                     }
                     else
                     {
-                        ao_new<Spark>(hitX, hitY, field_2C_scale, 6u, 50, 205);
+                        relive_new Spark(hitX, hitY, field_2C_scale, 6u, 50, 205);
                     }
                     New_Smoke_Particles_419A80(hitX, hitY, field_2C_scale, 3, 0);
                     if (Math_RandomRange_450F20(0, 100) < 90 || Math_RandomRange_450F20(0, 128) >= 64)
@@ -179,7 +179,7 @@ void Bullet::VUpdate()
                     &hitY,
                     0x400))
             {
-                ao_new<Spark>(hitX, hitY, FP_FromInteger(1), 9u, -31, 159);
+                relive_new Spark(hitX, hitY, FP_FromInteger(1), 9u, -31, 159);
                 New_Smoke_Particles_419A80(hitX, hitY, FP_FromInteger(1), 3, 0);
             }
 

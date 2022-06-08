@@ -30,7 +30,7 @@ void DeathBirdParticle::VUpdate()
                 const AnimRecord& doveRec = AO::AnimRec(AnimId::Dove_Flying);
 
                 // Yes so magic it into a dove
-                auto pDove = ao_new<Dove>(
+                auto pDove = relive_new Dove(
                     doveRec.mFrameTableOffset,
                     doveRec.mMaxW,
                     doveRec.mMaxH,

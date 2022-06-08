@@ -105,13 +105,13 @@ s16 SecurityOrb::VTakeDamage(BaseGameObject* pFrom)
 
     if (pFrom->Type() == ReliveTypes::eMineCar || pFrom->Type() == ReliveTypes::eAbilityRing || pFrom->Type() == ReliveTypes::eShrykull)
     {
-        ae_new<Explosion>(
+        relive_new Explosion(
             mBaseAnimatedWithPhysicsGameObject_XPos,
             mBaseAnimatedWithPhysicsGameObject_YPos - (field_CC_sprite_scale * FP_FromInteger(5)),
             field_CC_sprite_scale,
             0);
 
-        ae_new<Gibs>(
+        relive_new Gibs(
             GibType::Metal_5,
             mBaseAnimatedWithPhysicsGameObject_XPos,
             mBaseAnimatedWithPhysicsGameObject_YPos,
@@ -141,11 +141,11 @@ void SecurityOrb::VUpdate()
             {
                 if (static_cast<s32>(sGnFrame) == field_120_timer - 5 || static_cast<s32>(sGnFrame) == field_120_timer - 1)
                 {
-                    ae_new<Flash>(Layer::eLayer_Above_FG1_39, 255, 0, 0, 1, TPageAbr::eBlend_3, 1);
+                    relive_new Flash(Layer::eLayer_Above_FG1_39, 255, 0, 0, 1, TPageAbr::eBlend_3, 1);
                 }
                 if (static_cast<s32>(sGnFrame) == field_120_timer - 4)
                 {
-                    ae_new<Flash>(Layer::eLayer_Above_FG1_39, 255, 0, 0, 1, TPageAbr::eBlend_1, 1);
+                    relive_new Flash(Layer::eLayer_Above_FG1_39, 255, 0, 0, 1, TPageAbr::eBlend_1, 1);
                 }
 
                 const s32 timerFrame = field_120_timer - sGnFrame;
@@ -172,7 +172,7 @@ void SecurityOrb::VUpdate()
             const FP xpos = FP_FromInteger((bRect.x + bRect.w) / 2);
             const FP ypos = FP_FromInteger((bRect.y + bRect.h) / 2);
 
-            ae_new<ZapLine>(
+            relive_new ZapLine(
                 mBaseAnimatedWithPhysicsGameObject_XPos,
                 mBaseAnimatedWithPhysicsGameObject_YPos - (FP_FromInteger(8) * field_CC_sprite_scale),
                 xpos,
@@ -181,7 +181,7 @@ void SecurityOrb::VUpdate()
                 ZapLineType::eThick_0,
                 Layer::eLayer_ZapLinesMuds_28);
 
-            ae_new<PossessionFlicker>(sActiveHero, 8, 255, 100, 100);
+            relive_new PossessionFlicker(sActiveHero, 8, 255, 100, 100);
 
             if (sActiveHero->mHealth > FP_FromInteger(0))
             {
@@ -191,9 +191,9 @@ void SecurityOrb::VUpdate()
             field_120_timer = sGnFrame + 8;
             field_11C_state = 2;
 
-            ae_new<ScreenShake>(1, 0);
+            relive_new ScreenShake(1, 0);
 
-            auto pSpark = ae_new<Sparks>(mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos - (FP_FromInteger(8) * field_CC_sprite_scale), field_CC_sprite_scale);
+            auto pSpark = relive_new Sparks(mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos - (FP_FromInteger(8) * field_CC_sprite_scale), field_CC_sprite_scale);
             if (pSpark)
             {
                 pSpark->field_D2_g = 65;
@@ -201,7 +201,7 @@ void SecurityOrb::VUpdate()
                 pSpark->field_D0_r = 255;
             }
 
-            auto pSpark2 = ae_new<Sparks>(mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos - (FP_FromInteger(8) * field_CC_sprite_scale), field_CC_sprite_scale);
+            auto pSpark2 = relive_new Sparks(mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos - (FP_FromInteger(8) * field_CC_sprite_scale), field_CC_sprite_scale);
             if (pSpark2)
             {
                 pSpark2->field_D2_g = 65;
@@ -211,7 +211,7 @@ void SecurityOrb::VUpdate()
 
             for (s32 i = 0; i < 9; i++)
             {
-                auto pSpark3 = ae_new<Sparks>(xpos, ypos, field_CC_sprite_scale);
+                auto pSpark3 = relive_new Sparks(xpos, ypos, field_CC_sprite_scale);
                 if (pSpark3)
                 {
                     pSpark3->field_D2_g = 65;

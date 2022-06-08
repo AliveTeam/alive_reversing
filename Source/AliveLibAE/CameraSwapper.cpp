@@ -21,7 +21,7 @@ CameraSwapper::CameraSwapper(u8** ppCamRes, s32 movieSector, s32 movieId, s32 mo
 
     PSX_ResetCallBack_4FAA20();
 
-    ae_new<Movie>(movieId, movieSector, movieFlag, movieFlags, movieVol);
+    relive_new Movie(movieId, movieSector, movieFlag, movieFlags, movieVol);
 
     field_4C_movie_bPutDispEnv = static_cast<s16>(movieFlags);
 }
@@ -33,7 +33,7 @@ CameraSwapper::CameraSwapper(u8** ppCamRes, s32 moviePos1, s32 movieId1, s32 mov
 
     PSX_ResetCallBack_4FAA20();
 
-    ae_new<Movie>(movieId1, moviePos1, movieFlag1, movieFlags1, movieVol1);
+    relive_new Movie(movieId1, moviePos1, movieFlag1, movieFlags1, movieVol1);
 
     field_24_movie_id_3 = movieId2;
     field_20_movie_pos_3 = moviePos2;
@@ -50,7 +50,7 @@ CameraSwapper::CameraSwapper(u8** ppCamRes, s32 moviePos1, s32 movieId1, s32 mov
     Init(ppCamRes, CameraSwapEffects::ePlay3FMVs_10);
 
     PSX_ResetCallBack_4FAA20();
-    ae_new<Movie>(movieId1, moviePos1, movieFlag1, movieFlags1, movieVol1);
+    relive_new Movie(movieId1, moviePos1, movieFlag1, movieFlags1, movieVol1);
 
     field_2C_movie_id_2 = movieId2;
     field_28_movie_pos_2 = moviePos2;
@@ -152,7 +152,7 @@ void CameraSwapper::Init(u8** ppCamRes, CameraSwapEffects changeEffect)
 
             pScreenManager->field_44_unused = 1;
 
-            field_34_pSubObject = ae_new<ScreenClipper>(xy, wh, Layer::eLayer_0);
+            field_34_pSubObject = relive_new ScreenClipper(xy, wh, Layer::eLayer_0);
             break;
 
         case CameraSwapEffects::eRightToLeft_2:
@@ -169,7 +169,7 @@ void CameraSwapper::Init(u8** ppCamRes, CameraSwapEffects changeEffect)
 
             pScreenManager->field_44_unused = 1;
 
-            field_34_pSubObject = ae_new<ScreenClipper>(xy, wh, Layer::eLayer_0);
+            field_34_pSubObject = relive_new ScreenClipper(xy, wh, Layer::eLayer_0);
             break;
 
         case CameraSwapEffects::eTopToBottom_3:
@@ -186,7 +186,7 @@ void CameraSwapper::Init(u8** ppCamRes, CameraSwapEffects changeEffect)
 
             pScreenManager->field_44_unused = 1;
 
-            field_34_pSubObject = ae_new<ScreenClipper>(xy, wh, Layer::eLayer_0);
+            field_34_pSubObject = relive_new ScreenClipper(xy, wh, Layer::eLayer_0);
             break;
 
         case CameraSwapEffects::eBottomToTop_4:
@@ -203,7 +203,7 @@ void CameraSwapper::Init(u8** ppCamRes, CameraSwapEffects changeEffect)
 
             pScreenManager->field_44_unused = 1;
 
-            field_34_pSubObject = ae_new<ScreenClipper>(xy, wh, Layer::eLayer_0);
+            field_34_pSubObject = relive_new ScreenClipper(xy, wh, Layer::eLayer_0);
             break;
 
         case CameraSwapEffects::eVerticalSplit_6:
@@ -220,7 +220,7 @@ void CameraSwapper::Init(u8** ppCamRes, CameraSwapEffects changeEffect)
             wh.field_0_x = gPsxDisplay_5C1130.field_0_width / 2;
             wh.field_2_y = gPsxDisplay_5C1130.field_2_height;
 
-            field_34_pSubObject = ae_new<ScreenClipper>(xy, wh, Layer::eLayer_0);
+            field_34_pSubObject = relive_new ScreenClipper(xy, wh, Layer::eLayer_0);
             break;
 
         case CameraSwapEffects::eHorizontalSplit_7:
@@ -237,7 +237,7 @@ void CameraSwapper::Init(u8** ppCamRes, CameraSwapEffects changeEffect)
             wh.field_0_x = gPsxDisplay_5C1130.field_0_width;
             wh.field_2_y = gPsxDisplay_5C1130.field_2_height / 2;
 
-            field_34_pSubObject = ae_new<ScreenClipper>(xy, wh, Layer::eLayer_0);
+            field_34_pSubObject = relive_new ScreenClipper(xy, wh, Layer::eLayer_0);
             break;
 
         case CameraSwapEffects::eBoxOut_8:
@@ -276,7 +276,7 @@ void CameraSwapper::Init(u8** ppCamRes, CameraSwapEffects changeEffect)
             xy.field_0_x = gPsxDisplay_5C1130.field_0_width - 1;
             xy.field_2_y = gPsxDisplay_5C1130.field_2_height - 1;
 
-            field_34_pSubObject = ae_new<ScreenClipper>(xy, PSX_Point{1, 1}, Layer::eLayer_0);
+            field_34_pSubObject = relive_new ScreenClipper(xy, PSX_Point{1, 1}, Layer::eLayer_0);
 
             // "Whoosh" door sound effect
             SFX_Play_Mono(SoundEffect::IngameTransition_84, 127);
@@ -288,7 +288,7 @@ void CameraSwapper::Init(u8** ppCamRes, CameraSwapEffects changeEffect)
         case CameraSwapEffects::ePlay3FMVs_10:
             pScreenManager->field_44_unused = 1;
 
-            field_34_pSubObject = ae_new<ScreenClipper>(PSX_Point{0, 0}, PSX_Point{1, 1}, Layer::eLayer_0);
+            field_34_pSubObject = relive_new ScreenClipper(PSX_Point{0, 0}, PSX_Point{1, 1}, Layer::eLayer_0);
             break;
 
         default:
@@ -459,7 +459,7 @@ void CameraSwapper::VUpdate()
             // When no movie is playing start the next one
             if (sMovie_ref_count_BB4AE4 == 0)
             {
-                ae_new<Movie>(field_24_movie_id_3,
+                relive_new Movie(field_24_movie_id_3,
                                             field_20_movie_pos_3,
                                             field_40_movie_flag_3,
                                             field_42_movie_flags_3,
@@ -482,7 +482,7 @@ void CameraSwapper::VUpdate()
             // When no movie is playing start the next one
             if (sMovie_ref_count_BB4AE4 == 0)
             {
-                ae_new<Movie>(field_2C_movie_id_2,
+                relive_new Movie(field_2C_movie_id_2,
                                             field_28_movie_pos_2,
                                             field_46_movie_flag_2,
                                             field_48_movie_flags_2,

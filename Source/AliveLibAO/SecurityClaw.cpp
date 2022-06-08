@@ -89,7 +89,7 @@ SecurityClaw::SecurityClaw(Path_SecurityClaw* pTlv, s32 tlvInfo)
 
     field_110_state = SecurityClawStates::eCamSwap_0;
 
-    field_130_pClaw = ao_new<Claw>();
+    field_130_pClaw = relive_new Claw();
     if (field_130_pClaw)
     {
         field_130_pClaw->field_BC_sprite_scale = field_BC_sprite_scale;
@@ -156,12 +156,12 @@ s16 SecurityClaw::VTakeDamage(BaseGameObject* pFrom)
             field_12C_pDetector = 0;
             mBaseGameObjectFlags.Set(BaseGameObject::eDead);
 
-            ao_new<Explosion>(
+            relive_new Explosion(
                 mBaseAnimatedWithPhysicsGameObject_XPos,
                 mBaseAnimatedWithPhysicsGameObject_YPos - field_BC_sprite_scale * FP_FromInteger(5),
                 field_BC_sprite_scale);
 
-            ao_new<Gibs>(
+            relive_new Gibs(
                 GibType::Metal_5,
                 mBaseAnimatedWithPhysicsGameObject_XPos,
                 mBaseAnimatedWithPhysicsGameObject_YPos + FP_FromInteger(50),
@@ -173,7 +173,7 @@ s16 SecurityClaw::VTakeDamage(BaseGameObject* pFrom)
         {
             field_12C_pDetector = 0;
 
-            ao_new<Gibs>(
+            relive_new Gibs(
                 GibType::Metal_5,
                 mBaseAnimatedWithPhysicsGameObject_XPos,
                 mBaseAnimatedWithPhysicsGameObject_YPos + FP_FromInteger(50),
@@ -181,7 +181,7 @@ s16 SecurityClaw::VTakeDamage(BaseGameObject* pFrom)
                 FP_FromInteger(0),
                 field_BC_sprite_scale);
 
-            ao_new<Gibs>(
+            relive_new Gibs(
                 GibType::Metal_5,
                 mBaseAnimatedWithPhysicsGameObject_XPos,
                 mBaseAnimatedWithPhysicsGameObject_YPos + FP_FromInteger(50),
@@ -272,7 +272,7 @@ void SecurityClaw::VUpdate()
                     {
                         const AnimRecord& rec = AO::AnimRec(AnimId::Security_Claw_Upper_NoRotation);
                         field_10_anim.Set_Animation_Data(rec.mFrameTableOffset, nullptr);
-                        field_13C_pArray = ao_new<DynamicArrayT<MotionDetector>>(10);
+                        field_13C_pArray = relive_new DynamicArrayT<MotionDetector>(10);
                     }
 
                     pDetector->mBaseAnimatedWithPhysicsGameObject_XPos = mBaseAnimatedWithPhysicsGameObject_XPos - FP_FromInteger(1);
@@ -300,7 +300,7 @@ void SecurityClaw::VUpdate()
             {
                 if (!alarmInstanceCount_5076A8)
                 {
-                    ao_new<Alarm>(field_11A_alarm_duration, field_118_alarm_switch_id, 30, Layer::eLayer_Above_FG1_39);
+                    relive_new Alarm(field_11A_alarm_duration, field_118_alarm_switch_id, 30, Layer::eLayer_Above_FG1_39);
                 }
             }
             break;
@@ -313,9 +313,9 @@ void SecurityClaw::VUpdate()
                 const FP hero_mid_x = FP_FromInteger((rect.w + rect.x) / 2);
                 const FP hero_mid_y = FP_FromInteger((rect.h + rect.y) / 2);
 
-                ao_new<ScreenShake>(1);
+                relive_new ScreenShake(1);
 
-                ao_new<ZapLine>(
+                relive_new ZapLine(
                     mBaseAnimatedWithPhysicsGameObject_XPos - (FP_FromInteger(3) * field_BC_sprite_scale),
                     mBaseAnimatedWithPhysicsGameObject_YPos + (FP_FromInteger(5) * field_BC_sprite_scale),
                     hero_mid_x,
@@ -323,11 +323,11 @@ void SecurityClaw::VUpdate()
                     8, ZapLineType::eThick_0,
                     Layer::eLayer_ZapLinesElum_28);
 
-                ao_new<PossessionFlicker>(sActiveHero_507678, 8, 255, 100, 100);
+                relive_new PossessionFlicker(sActiveHero_507678, 8, 255, 100, 100);
 
                 sActiveHero_507678->VTakeDamage(this);
 
-                auto pSpark = ao_new<Sparks>(
+                auto pSpark = relive_new Sparks(
                     mBaseAnimatedWithPhysicsGameObject_XPos,
                     mBaseAnimatedWithPhysicsGameObject_YPos - (FP_FromInteger(8) * field_BC_sprite_scale),
                     field_BC_sprite_scale);
@@ -338,7 +338,7 @@ void SecurityClaw::VUpdate()
                     pSpark->field_C0_r = 255;
                 }
 
-                auto pSpark2 = ao_new<Sparks>(
+                auto pSpark2 = relive_new Sparks(
                     mBaseAnimatedWithPhysicsGameObject_XPos,
                     mBaseAnimatedWithPhysicsGameObject_YPos - (FP_FromInteger(8) * field_BC_sprite_scale),
                     field_BC_sprite_scale);
@@ -351,7 +351,7 @@ void SecurityClaw::VUpdate()
 
                 for (s32 i = 0; i < 9; i++)
                 {
-                    auto pSpark3 = ao_new<Sparks>(
+                    auto pSpark3 = relive_new Sparks(
                         hero_mid_x,
                         hero_mid_y,
                         field_BC_sprite_scale);
@@ -371,12 +371,12 @@ void SecurityClaw::VUpdate()
         case SecurityClawStates::eAnimateClaw_DoFlashAndSound_3:
             if (static_cast<s32>(sGnFrame) == field_114_timer - 5 || static_cast<s32>(sGnFrame) == field_114_timer - 1)
             {
-                ao_new<Flash>(Layer::eLayer_Above_FG1_39, 255u, 0, 0);
+                relive_new Flash(Layer::eLayer_Above_FG1_39, 255u, 0, 0);
             }
 
             if (static_cast<s32>(sGnFrame) == field_114_timer - 4)
             {
-                ao_new<Flash>(Layer::eLayer_Above_FG1_39, 255u, 0, 0, 1, TPageAbr::eBlend_1, 1);
+                relive_new Flash(Layer::eLayer_Above_FG1_39, 255u, 0, 0, 1, TPageAbr::eBlend_1, 1);
             }
 
             if (field_114_timer - sGnFrame == 4)

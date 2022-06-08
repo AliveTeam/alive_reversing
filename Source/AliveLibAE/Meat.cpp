@@ -49,7 +49,7 @@ Meat::Meat(FP xpos, FP ypos, s16 count)
     field_118_count = count;
     field_11C_state = MeatStates::eCreated_0;
 
-    mShadow = ae_new<Shadow>();
+    mShadow = relive_new Shadow();
 }
 
 void Meat::VTimeToExplodeRandom()
@@ -438,14 +438,14 @@ MeatSack::MeatSack(Path_MeatSack* pTlv, s32 tlvInfo)
 
     field_11E_amount_of_meat = pTlv->field_18_amount_of_meat;
 
-    mShadow = ae_new<Shadow>();
+    mShadow = relive_new Shadow();
 }
 
 s32 Meat::CreateFromSaveState(const u8* pBuffer)
 {
     const auto pState = reinterpret_cast<const Meat_SaveState*>(pBuffer);
 
-    auto pMeat = ae_new<Meat>(pState->field_8_xpos, pState->field_C_ypos, pState->field_2A_count);
+    auto pMeat = relive_new Meat(pState->field_8_xpos, pState->field_C_ypos, pState->field_2A_count);
 
     pMeat->mBaseGameObjectTlvInfo = pState->field_4_obj_id;
 
@@ -551,12 +551,12 @@ void MeatSack::VUpdate()
             }
             else
             {
-                gpThrowableArray_5D1E2C = ae_new<ThrowableArray>();
+                gpThrowableArray_5D1E2C = relive_new ThrowableArray();
             }
 
             gpThrowableArray_5D1E2C->Add(field_11E_amount_of_meat);
 
-            auto pMeat = ae_new<Meat>(mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos - FP_FromInteger(30), field_11E_amount_of_meat);
+            auto pMeat = relive_new Meat(mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos - FP_FromInteger(30), field_11E_amount_of_meat);
              pMeat->VThrow(field_124_velX, field_128_velY);
             pMeat->field_CC_sprite_scale = field_CC_sprite_scale;
 

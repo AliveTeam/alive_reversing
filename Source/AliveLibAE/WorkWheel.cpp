@@ -94,7 +94,7 @@ s32 WorkWheel::CreateFromSaveState(const u8* pState)
         ResourceManager::LoadResourceFile_49C170("WORKWHEL.BAN", nullptr);
     }
 
-    auto pWheel = ae_new<WorkWheel>(pTlv, pData->field_4_tlvInfo);
+    auto pWheel = relive_new WorkWheel(pTlv, pData->field_4_tlvInfo);
     if (pWheel)
     {
         if (pData->field_C_state == WheelStates::eTurning_1)

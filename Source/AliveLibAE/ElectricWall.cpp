@@ -174,13 +174,13 @@ void ElectricWall::VUpdate()
                             {
                                 pObj->mBaseAliveGameObjectFlags.Set(Flags_114::e114_Bit7_Electrocuted);
 
-                                ae_new<Electrocute>(pObj, 1, 1);
+                                relive_new Electrocute(pObj, 1, 1);
 
                                 pObj->VTakeDamage(this);
 
                                 SFX_Play_Camera(SoundEffect::ElectricZap_39, 127, soundDirection, field_CC_sprite_scale);
 
-                                ae_new<Flash>(Layer::eLayer_Above_FG1_39, 255, 255, 255, 1, TPageAbr::eBlend_3, 1);
+                                relive_new Flash(Layer::eLayer_Above_FG1_39, 255, 255, 255, 1, TPageAbr::eBlend_3, 1);
                             }
                         }
                     }

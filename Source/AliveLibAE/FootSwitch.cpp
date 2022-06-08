@@ -121,7 +121,7 @@ void FootSwitch::VUpdate()
                 const AnimRecord& animRec = AnimRec(sFootSwitchData_547D60[static_cast<s32>(MapWrapper::ToAE(gMap.mCurrentLevel))][1]);
                 field_20_animation.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
 
-                ae_new<ParticleBurst>(mBaseAnimatedWithPhysicsGameObject_XPos,
+                relive_new ParticleBurst(mBaseAnimatedWithPhysicsGameObject_XPos,
                                                             mBaseAnimatedWithPhysicsGameObject_YPos + FP_FromInteger(10),
                                                             3,
                                                             field_CC_sprite_scale,
@@ -147,7 +147,7 @@ void FootSwitch::VUpdate()
 
             if (field_104_bCreateSparks)
             {
-                ae_new<Spark>(mBaseAnimatedWithPhysicsGameObject_XPos,
+                relive_new Spark(mBaseAnimatedWithPhysicsGameObject_XPos,
                                             mBaseAnimatedWithPhysicsGameObject_YPos + (field_CC_sprite_scale * FP_FromInteger(6)),
                                             field_CC_sprite_scale,
                                             10,
@@ -155,7 +155,7 @@ void FootSwitch::VUpdate()
                                             255,
                                             SparkType::eSmallChantParticle_0);
 
-                ae_new<ParticleBurst>(mBaseAnimatedWithPhysicsGameObject_XPos,
+                relive_new ParticleBurst(mBaseAnimatedWithPhysicsGameObject_XPos,
                                                             mBaseAnimatedWithPhysicsGameObject_YPos + (field_CC_sprite_scale * FP_FromInteger(10)),
                                                             1,
                                                             field_CC_sprite_scale,

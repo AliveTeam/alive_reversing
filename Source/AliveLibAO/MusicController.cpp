@@ -306,7 +306,7 @@ s16 MusicController::Create()
         return 0;
     }
 
-    pMusicController_507B98 = ao_new<MusicController>();
+    pMusicController_507B98 = relive_new MusicController();
     if (pMusicController_507B98)
     {
         MusicController::SetBaseTimeStamp();

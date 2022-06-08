@@ -205,7 +205,7 @@ Paramite::Paramite(Path_Paramite* pTlv, s32 tlvInfo)
 
     mBaseAliveGameObjectFlags.Set(Flags_10A::e10A_Bit6);
 
-    field_D0_pShadow = ao_new<Shadow>();
+    field_D0_pShadow = relive_new Shadow();
 }
 
 Paramite::~Paramite()
@@ -317,7 +317,7 @@ s16 Paramite::VTakeDamage(BaseGameObject* pFrom)
         case ReliveTypes::eBaseBomb:
         case ReliveTypes::eExplosion:
         {
-            ao_new<Gibs>(
+            relive_new Gibs(
                 GibType::Slog_2,
                 mBaseAnimatedWithPhysicsGameObject_XPos,
                 mBaseAnimatedWithPhysicsGameObject_YPos,
@@ -365,7 +365,7 @@ s16 Paramite::VTakeDamage(BaseGameObject* pFrom)
             SetCurrentMotion(eParamiteMotions::Motion_24_Struggle);
             VUpdateAnimData();
 
-            ao_new<Blood>(
+            relive_new Blood(
                 mBaseAnimatedWithPhysicsGameObject_XPos,
                 mBaseAnimatedWithPhysicsGameObject_YPos,
                 FP_FromInteger(0),
@@ -1487,7 +1487,7 @@ s16 Paramite::Brain_1_SurpriseWeb()
             SetCurrentMotion(eParamiteMotions::Motion_0_Idle);
 
             MapFollowMe_401D30(TRUE);
-            auto pWeb = ao_new<ParamiteWeb>(
+            auto pWeb = relive_new ParamiteWeb(
                 mBaseAnimatedWithPhysicsGameObject_XPos,
                 FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos) - 20,
                 FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos) - 10,

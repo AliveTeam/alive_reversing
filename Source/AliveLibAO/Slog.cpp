@@ -107,8 +107,6 @@ static u8 Slog_NextRandom()
 Slog::Slog(Path_Slog* pTlv, s32 tlvInfo)
     : BaseAliveGameObject()
 {
-    field_148 = -1;
-
     mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pTlv->field_10_top_left.field_0_x);
     mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->field_10_top_left.field_2_y);
 
@@ -133,7 +131,6 @@ Slog::Slog(Path_Slog* pTlv, s32 tlvInfo)
 
     field_15A_total_anger = pTlv->field_1E_wake_up_anger + pTlv->field_20_bark_anger;
     field_15C_chase_anger = field_15A_total_anger + pTlv->field_22_chase_anger;
-    field_10C_pTarget = 0;
     field_17E_asleep = pTlv->field_1C_asleep;
     field_170 = pTlv->field_24_chase_delay;
     field_168_anger_switch_id = pTlv->field_28_anger_switch_id;
@@ -154,8 +151,6 @@ Slog::Slog(Path_Slog* pTlv, s32 tlvInfo)
 Slog::Slog(FP xpos, FP ypos, FP scale)
     : BaseAliveGameObject()
 {
-    field_148 = -1;
-
     mBaseAnimatedWithPhysicsGameObject_XPos = xpos;
     mBaseAnimatedWithPhysicsGameObject_YPos = ypos;
     field_BC_sprite_scale = scale;
@@ -165,12 +160,10 @@ Slog::Slog(FP xpos, FP ypos, FP scale)
     field_116_brain_sub_state = 0;
 
     field_10C_pTarget = sControlledCharacter_50767C;
-    field_176 = 0;
     sControlledCharacter_50767C->mBaseGameObjectRefCount++;
     field_17E_asleep = Choice_short::eNo_0;
     field_158_wake_up_anger = 0;
 
-    field_170 = 0;
     field_168_anger_switch_id = 0;
     mCurrentMotion = 0;
     field_138_tlvInfo = 0xFFFF;
@@ -248,7 +241,7 @@ s16 Slog::VTakeDamage(BaseGameObject* pFrom)
 
             if (pBullet->field_20_x_distance <= FP_FromInteger(0))
             {
-                ao_new<Blood>(
+                relive_new Blood(
                     mBaseAnimatedWithPhysicsGameObject_XPos,
                     pBullet->field_1C_ypos,
                     -FP_FromInteger(24),
@@ -258,7 +251,7 @@ s16 Slog::VTakeDamage(BaseGameObject* pFrom)
             }
             else
             {
-                ao_new<Blood>(
+                relive_new Blood(
                     mBaseAnimatedWithPhysicsGameObject_XPos,
                     pBullet->field_1C_ypos,
                     FP_FromInteger(24),
@@ -289,7 +282,7 @@ s16 Slog::VTakeDamage(BaseGameObject* pFrom)
         {
             Sfx(9);
             mHealth = FP_FromInteger(0);
-            ao_new<Gibs>(
+            relive_new Gibs(
                 GibType::Slog_2,
                 mBaseAnimatedWithPhysicsGameObject_XPos,
                 mBaseAnimatedWithPhysicsGameObject_YPos,
@@ -299,7 +292,7 @@ s16 Slog::VTakeDamage(BaseGameObject* pFrom)
 
             PSX_RECT bRect = {};
             VGetBoundingRect(&bRect, 1);
-            ao_new<Blood>(
+            relive_new Blood(
                 FP_FromInteger((bRect.w + bRect.x) / 2),
                 FP_FromInteger((bRect.h + bRect.y) / 2),
                 FP_FromInteger(0),
@@ -596,7 +589,7 @@ void Slog::Init()
 
     MapFollowMe_401D30(FALSE);
 
-    field_D0_pShadow = ao_new<Shadow>();
+    field_D0_pShadow = relive_new Shadow();
 
     gNumSlogs_9F11C8++;
 }
@@ -1531,7 +1524,7 @@ void Slog::Motion_16_Sleeping_4752E0()
 
     if (bSpawnParticle)
     {
-        ao_new<SnoozeParticle>(
+        relive_new SnoozeParticle(
             mBaseAnimatedWithPhysicsGameObject_XPos
                 + ((field_10_anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX)) != 0 ? FP_FromInteger(-18) : FP_FromInteger(18)),
             mBaseAnimatedWithPhysicsGameObject_YPos - FP_FromInteger(13),
@@ -1718,7 +1711,7 @@ void Slog::Motion_21_Eating_475900()
             SFX_Play_Mono(static_cast<SoundEffect>(Math_RandomRange_450F20(SoundEffect::Eating1_79, SoundEffect::Eating2_80)), 100, 0);
             const FP bloodYPos = mBaseAnimatedWithPhysicsGameObject_YPos - (FP_FromInteger(4) * field_BC_sprite_scale);
             const FP bloodXPos = ((field_10_anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX)) != 0 ? -FP_FromInteger(25) : FP_FromInteger(25) * field_BC_sprite_scale);
-            ao_new<Blood>(
+            relive_new Blood(
                 bloodXPos + mBaseAnimatedWithPhysicsGameObject_XPos,
                 bloodYPos,
                 FP_FromInteger(0),

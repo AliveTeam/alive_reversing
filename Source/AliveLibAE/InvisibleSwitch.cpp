@@ -39,7 +39,7 @@ void InvisibleSwitch::VUpdate()
             // Fire alarm if set
             if (field_3A_set_off_alarm == Choice_short::eYes_1)
             {
-                ae_new<Alarm>(150, 0, 30, Layer::eLayer_Above_FG1_39);
+                relive_new Alarm(150, 0, 30, Layer::eLayer_Above_FG1_39);
             }
 
             // Go back to waiting for trigger

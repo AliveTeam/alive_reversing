@@ -51,14 +51,14 @@ void BaseBomb::VUpdate()
 
         case 3:
         {
-            ao_new<ParticleBurst>(
+            relive_new ParticleBurst(
                 mBaseAnimatedWithPhysicsGameObject_XPos,
                 mBaseAnimatedWithPhysicsGameObject_YPos,
                 20,
                 field_BC_sprite_scale,
                 BurstType::eBigRedSparks_3);
 
-            ao_new<Flash>(Layer::eLayer_Above_FG1_39, 255u, 255u, 255u);
+            relive_new Flash(Layer::eLayer_Above_FG1_39, 255u, 255u, 255u);
 
             rect.x = FP_GetExponent(FP_FromInteger(-113) * field_E4_scale);
             rect.w = FP_GetExponent(FP_FromInteger(113) * field_E4_scale);
@@ -70,20 +70,20 @@ void BaseBomb::VUpdate()
 
         case 4:
         {
-            ao_new<Flash>(Layer::eLayer_Above_FG1_39, 255u, 255u, 255u, 1, TPageAbr::eBlend_1, 1);
+            relive_new Flash(Layer::eLayer_Above_FG1_39, 255u, 255u, 255u, 1, TPageAbr::eBlend_1, 1);
             break;
         }
 
         case 7:
         {
-            ao_new<ParticleBurst>(
+            relive_new ParticleBurst(
                 mBaseAnimatedWithPhysicsGameObject_XPos,
                 mBaseAnimatedWithPhysicsGameObject_YPos,
                 20,
                 field_BC_sprite_scale,
                 BurstType::eBigRedSparks_3);
 
-            ao_new<Flash>(Layer::eLayer_Above_FG1_39, 255u, 255u, 255u);
+            relive_new Flash(Layer::eLayer_Above_FG1_39, 255u, 255u, 255u);
             break;
         }
 
@@ -97,7 +97,7 @@ void BaseBomb::VUpdate()
         u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
         if (ppRes)
         {
-            Particle* pParticle = ao_new<Particle>(
+            Particle* pParticle = relive_new Particle(
                 mBaseAnimatedWithPhysicsGameObject_XPos,
                 mBaseAnimatedWithPhysicsGameObject_YPos,
                 rec.mFrameTableOffset,
@@ -227,9 +227,9 @@ BaseBomb::BaseBomb(FP xpos, FP ypos, s32 /*unused*/, FP scale)
     mBaseAnimatedWithPhysicsGameObject_XPos = xpos;
     mBaseAnimatedWithPhysicsGameObject_YPos = ypos;
 
-    ao_new<ScreenShake>(1);
+    relive_new ScreenShake(1);
 
-    ao_new<ParticleBurst>(
+    relive_new ParticleBurst(
         mBaseAnimatedWithPhysicsGameObject_XPos,
         mBaseAnimatedWithPhysicsGameObject_YPos,
         35,

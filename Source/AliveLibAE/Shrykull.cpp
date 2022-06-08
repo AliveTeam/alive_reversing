@@ -37,7 +37,7 @@ Shrykull::Shrykull()
 
     field_20_animation.mAnimFlags.Set(AnimFlags::eBit5_FlipX, sActiveHero->field_20_animation.mAnimFlags.Get(AnimFlags::eBit5_FlipX));
 
-    mShadow = ae_new<Shadow>();
+    mShadow = relive_new Shadow();
 
     field_12E_bResetRingTimer = 0;
 }
@@ -153,7 +153,7 @@ void Shrykull::VUpdate()
                     }
                     else
                     {
-                        auto pZapLine = ae_new<ZapLine>(
+                        auto pZapLine = relive_new ZapLine(
                             FP_FromInteger((ourRect.x + ourRect.w) / 2),
                             FP_FromInteger((ourRect.y + ourRect.h) / 2),
                             FP_FromInteger((objRect.x + objRect.w) / 2),
@@ -169,7 +169,7 @@ void Shrykull::VUpdate()
                     field_12C_bElectrocute = CanElectrocute(pObj);
                     if (field_12C_bElectrocute)
                     {
-                        ae_new<Electrocute>(pObj, 0, 1);
+                        relive_new Electrocute(pObj, 0, 1);
                         field_120_timer = sGnFrame + 3;
 
                         if (pObj->Type() == ReliveTypes::eGlukkon)
@@ -178,13 +178,13 @@ void Shrykull::VUpdate()
                         }
                     }
 
-                    ae_new<PossessionFlicker>(pObj, 8, 255, 255, 255);
+                    relive_new PossessionFlicker(pObj, 8, 255, 255, 255);
                     AbilityRing::Factory(
                         FP_FromInteger((objRect.x + objRect.w) / 2),
                         FP_FromInteger((objRect.y + objRect.h) / 2),
                         RingTypes::eShrykull_Pulse_Large_5, pObj->field_CC_sprite_scale);
 
-                    ae_new<PossessionFlicker>(this, 8, 255, 255, 255);
+                    relive_new PossessionFlicker(this, 8, 255, 255, 255);
                     AbilityRing::Factory(
                         FP_FromInteger((ourRect.x + ourRect.w) / 2),
                         FP_FromInteger((ourRect.y + ourRect.h) / 2),
@@ -273,12 +273,12 @@ void Shrykull::VUpdate()
 
                     if (static_cast<s32>(sGnFrame) == field_120_timer)
                     {
-                        ae_new<ParticleBurst>(
+                        relive_new ParticleBurst(
                             FP_FromInteger((zapRect.x + zapRect.w) / 2),
                             FP_FromInteger((zapRect.y + zapRect.h) / 2),
                             20, field_CC_sprite_scale, BurstType::eBigPurpleSparks_2, 13);
 
-                        ae_new<Flash>(Layer::eLayer_Above_FG1_39, static_cast<u8>(255), static_cast<u8>(255), static_cast<u8>(255), 1u, TPageAbr::eBlend_3, 1);
+                        relive_new Flash(Layer::eLayer_Above_FG1_39, 255, 255, 255, 1u, TPageAbr::eBlend_3, 1);
                     }
                     pExistingZapLine->CalculateSourceAndDestinationPositions(
                         FP_FromInteger((ourRect.x + ourRect.w) / 2),

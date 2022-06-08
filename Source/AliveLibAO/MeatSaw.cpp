@@ -158,7 +158,7 @@ MeatSaw::MeatSaw(Path_MeatSaw* pTlv, s32 tlvInfo)
         field_110_anim.mAnimFlags.Clear(AnimFlags::eBit16_bBlending);
         field_110_anim.mAnimFlags.Set(AnimFlags::eBit15_bSemiTrans);
 
-        field_D0_pShadow = ao_new<Shadow>();
+        field_D0_pShadow = relive_new Shadow();
         ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kAbeblowAOResID, 1, 0);
     }
     else
@@ -325,7 +325,7 @@ void MeatSaw::GrindUpObjects_439CD0()
                                 return;
                             }
 
-                            ao_new<Blood>(
+                            relive_new Blood(
                                 pObjIter->mBaseAnimatedWithPhysicsGameObject_XPos,
                                 FP_FromInteger(ourRect.h - 10),
                                 FP_FromInteger(-5),
@@ -333,7 +333,7 @@ void MeatSaw::GrindUpObjects_439CD0()
                                 field_BC_sprite_scale,
                                 50);
 
-                            ao_new<Blood>(
+                            relive_new Blood(
                                 pObjIter->mBaseAnimatedWithPhysicsGameObject_XPos,
                                 FP_FromInteger(ourRect.h - 10),
                                 FP_FromInteger(0),
@@ -341,7 +341,7 @@ void MeatSaw::GrindUpObjects_439CD0()
                                 field_BC_sprite_scale,
                                 50);
 
-                            ao_new<Blood>(
+                            relive_new Blood(
                                 pObjIter->mBaseAnimatedWithPhysicsGameObject_XPos,
                                 FP_FromInteger(ourRect.h - 10),
                                 FP_FromInteger(5),

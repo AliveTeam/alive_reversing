@@ -62,7 +62,7 @@ void DeathBirdParticle::VUpdate()
             if (field_20_animation.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
             {
                 // Yes so magic it into a dove
-                auto pDove = ae_new<Dove>(
+                auto pDove = relive_new Dove(
                     5516, // TODO: Hard coded frame table
                     41,
                     20,

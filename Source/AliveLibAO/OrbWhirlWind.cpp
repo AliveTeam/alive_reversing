@@ -44,7 +44,7 @@ void OrbWhirlWind::VUpdate()
     {
         if (!(field_10_particle_spawn_counter % 4))
         {
-            auto pParticle = ao_new<OrbWhirlWindParticle>(
+            auto pParticle = relive_new OrbWhirlWindParticle(
                 field_58_xpos,
                 field_5C_ypos,
                 field_60_scale);

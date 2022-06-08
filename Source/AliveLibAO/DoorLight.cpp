@@ -170,7 +170,7 @@ void DoorLight::VUpdate()
 
                     if (sControlledCharacter_50767C == sActiveHero_507678)
                     {
-                        ao_new<MusicTrigger>(MusicTriggerMusicType::eSecretAreaShort_6, TriggeredBy::eTouching_1, 0, 15);
+                        relive_new MusicTrigger(MusicTriggerMusicType::eSecretAreaShort_6, TriggeredBy::eTouching_1, 0, 15);
                     }
                     else
                     {

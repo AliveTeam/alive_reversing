@@ -65,7 +65,7 @@ HoneySack::HoneySack(Path_HoneySack* pTlv, s32 tlvInfo)
             ResourceManager::LoadResourceFile_455270("WASP.BAN", nullptr);
         }
 
-        field_F0_pBee = ao_new<BeeSwarm>(mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, FP_FromInteger(0), 5, 0);
+        field_F0_pBee = relive_new BeeSwarm(mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, FP_FromInteger(0), 5, 0);
         if (field_F0_pBee)
         {
             field_F0_pBee->mBaseGameObjectRefCount++;
@@ -139,7 +139,7 @@ void HoneySack::VUpdate()
         case State::eDripHoney_0:
             if (static_cast<s32>(sGnFrame) > field_EC_timer)
             {
-                ao_new<HoneyDrip>(field_F4_drip_target_x, field_F8_drip_target_y);
+                relive_new HoneyDrip(field_F4_drip_target_x, field_F8_drip_target_y);
 
                 field_EC_timer = sGnFrame + 90;
             }
@@ -202,7 +202,7 @@ void HoneySack::VUpdate()
                 const AnimRecord& rec = AO::AnimRec(AnimId::HoneySack_FallingToSmashed);
                 field_10_anim.Set_Animation_Data(rec.mFrameTableOffset, 0);
 
-                auto pNewBee = ao_new<BeeSwarm>(
+                auto pNewBee = relive_new BeeSwarm(
                     mBaseAnimatedWithPhysicsGameObject_XPos,
                     mBaseAnimatedWithPhysicsGameObject_YPos,
                     FP_FromInteger(0),

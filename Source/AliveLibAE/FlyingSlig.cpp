@@ -232,7 +232,7 @@ FlyingSlig::FlyingSlig(Path_FlyingSlig* pTlv, s32 tlvInfo)
     field_1E0_unused = 0;
     field_1E4_unused = 0;
 
-    mShadow = ae_new<Shadow>();
+    mShadow = relive_new Shadow();
 }
 
 const AnimId sFlyingSligFrameTables_552408[28] = {
@@ -314,7 +314,7 @@ s32 FlyingSlig::CreateFromSaveState(const u8* pBuffer)
         ResourceManager::LoadResourceFile_49C170("DOGBLOW.BAN", nullptr);
     }
 
-    auto pFlyingSlig = ae_new<FlyingSlig>(pTlv, pSaveState->field_3C_tlvInfo);
+    auto pFlyingSlig = relive_new FlyingSlig(pTlv, pSaveState->field_3C_tlvInfo);
     if (pFlyingSlig)
     {
         pFlyingSlig->BaseAliveGameObjectPathTLV = nullptr;
@@ -978,7 +978,7 @@ s16 FlyingSlig::VTakeDamage(BaseGameObject* pFrom)
                 return 1;
             }
             BlowUp_436510();
-            auto pExplosion = ae_new<Explosion>(mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos - (field_CC_sprite_scale * FP_FromInteger(5)), field_CC_sprite_scale, 1);
+            auto pExplosion = relive_new Explosion(mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos - (field_CC_sprite_scale * FP_FromInteger(5)), field_CC_sprite_scale, 1);
             if (!pExplosion)
             {
                 return 1;
@@ -2229,7 +2229,7 @@ void FlyingSlig::ThrowGrenade_43A1E0()
         grenadeXVel = -grenadeXVel;
     }
 
-    auto pGrenade = ae_new<Grenade>(grenadeXPos + mBaseAnimatedWithPhysicsGameObject_XPos, grenadeYPos + mBaseAnimatedWithPhysicsGameObject_YPos, 0, 1, 0, this);
+    auto pGrenade = relive_new Grenade(grenadeXPos + mBaseAnimatedWithPhysicsGameObject_XPos, grenadeYPos + mBaseAnimatedWithPhysicsGameObject_YPos, 0, 1, 0, this);
     if (pGrenade)
     {
         pGrenade->field_CC_sprite_scale = field_CC_sprite_scale;
@@ -2261,9 +2261,9 @@ void FlyingSlig::BlowUp_436510()
 {
     MusicController::static_PlayMusic(MusicController::MusicTypes::eNone_0, this, 0, 0);
 
-    ae_new<Gibs>(GibType::Slig_1, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, field_C4_velx, field_C8_vely, field_CC_sprite_scale, 0);
+    relive_new Gibs(GibType::Slig_1, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, field_C4_velx, field_C8_vely, field_CC_sprite_scale, 0);
 
-    ae_new<Blood>(mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos - (FP_FromInteger(30) * field_CC_sprite_scale), FP_FromInteger(0), FP_FromInteger(0), field_CC_sprite_scale, 20);
+    relive_new Blood(mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos - (FP_FromInteger(30) * field_CC_sprite_scale), FP_FromInteger(0), FP_FromInteger(0), field_CC_sprite_scale, 20);
 
     New_Smoke_Particles(mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos - (FP_FromInteger(30) * field_CC_sprite_scale), field_CC_sprite_scale, 3, 128u, 128u, 128u);
     SFX_Play_Mono(SoundEffect::KillEffect_64, 128, field_CC_sprite_scale);
@@ -2998,7 +2998,7 @@ s16 FlyingSlig::CollisionUp_43A640(FP velY)
         {
             Slig_GameSpeak_SFX_4C04F0(sGnFrame & 1 ? SligSpeak::eOuch2_14 : SligSpeak::eOuch1_13, 127, Math_RandomRange(256, 512), this);
             field_154_collision_reaction_timer = (Math_NextRandom() & 3) + sGnFrame + 10;
-            ae_new<ParticleBurst>(
+            relive_new ParticleBurst(
                 mBaseAnimatedWithPhysicsGameObject_XPos,
                 hitY + (FP_FromInteger(7) * field_CC_sprite_scale),
                 5u,
@@ -3154,7 +3154,7 @@ s16 FlyingSlig::CollisionLeftRight_43AC80(FP velX)
         {
             Slig_GameSpeak_SFX_4C04F0(sGnFrame & 1 ? SligSpeak::eOuch2_14 : SligSpeak::eOuch1_13, 127, Math_RandomRange(256, 512), this);
             field_154_collision_reaction_timer = (Math_NextRandom() & 3) + sGnFrame + 10;
-            ae_new<ParticleBurst>(sparkX, hitY + (FP_FromInteger(16) * field_CC_sprite_scale), 5u, field_CC_sprite_scale, BurstType::eSmallPurpleSparks_6, 9);
+            relive_new ParticleBurst(sparkX, hitY + (FP_FromInteger(16) * field_CC_sprite_scale), 5u, field_CC_sprite_scale, BurstType::eSmallPurpleSparks_6, 9);
         }
         mBaseAnimatedWithPhysicsGameObject_XPos += velX + hitX - xOff;
         return 1;

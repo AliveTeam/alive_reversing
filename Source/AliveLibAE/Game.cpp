@@ -398,13 +398,13 @@ void Init_Sound_DynamicArrays_And_Others_43BDB0()
     sGnFrame = 0;
     sbLoadingInProgress_5C1B96 = 0;
 
-    ObjList_5C1B78 = ae_new<DynamicArrayT<BaseGameObject>>(20); // For trap doors/dynamic platforms?
+    ObjList_5C1B78 = relive_new DynamicArrayT<BaseGameObject>(20); // For trap doors/dynamic platforms?
 
-    ObjList_5BD4D8 = ae_new<DynamicArray>(10); // Never seems to be used?
+    ObjList_5BD4D8 = relive_new DynamicArray(10); // Never seems to be used?
 
-    sShadowZone_dArray_5C1B80 = ae_new<DynamicArrayT<ShadowZone>>(4);
+    sShadowZone_dArray_5C1B80 = relive_new DynamicArrayT<ShadowZone>(4);
 
-    gBaseAliveGameObjects_5C1B7C = ae_new<DynamicArrayT<BaseAliveGameObject>>(20);
+    gBaseAliveGameObjects_5C1B7C = relive_new DynamicArrayT<BaseAliveGameObject>(20);
 
     ResourceManager::Init_49BCE0();
     SND_Init();
@@ -425,7 +425,7 @@ void SYS_EventsPump_494580()
 
 void DDCheat_Allocate_415320()
 {
-    ae_new<DDCheat>();
+    relive_new DDCheat();
 }
 
 void Game_Loop_467230();
@@ -470,15 +470,15 @@ void Game_Run_466D40()
     PSX_CdSetDebug_4FB330(0);
     Input_Pads_Reset_4FA960(); // starts card/pads on psx ver
 
-    gBaseGameObjects = ae_new<DynamicArrayT<BaseGameObject>>(50);
+    gBaseGameObjects = relive_new DynamicArrayT<BaseGameObject>(50);
 
-    gObjListDrawables = ae_new<DynamicArrayT<BaseGameObject>>(30);
+    gObjListDrawables = relive_new DynamicArrayT<BaseGameObject>(30);
 
-    gFG1List_5D1E28 = ae_new<DynamicArrayT<FG1>>(4);
+    gFG1List_5D1E28 = relive_new DynamicArrayT<FG1>(4);
 
-    gObjList_animations_5C1A24 = ae_new<DynamicArrayT<AnimationBase>>(30);
+    gObjList_animations_5C1A24 = relive_new DynamicArrayT<AnimationBase>(30);
 
-    pResourceManager_5C1BB0 = ae_new<ResourceManager>();
+    pResourceManager_5C1BB0 = relive_new ResourceManager();
 
     Init_Sound_DynamicArrays_And_Others_43BDB0();
 
@@ -494,7 +494,7 @@ void Game_Run_466D40()
     gMap.field_24_camera_offset.field_4_y = FP_FromInteger(0);
     gMap.field_24_camera_offset.field_0_x = FP_FromInteger(0);
 
-    pScreenManager = ae_new<ScreenManager>(camera.field_C_pCamRes, &gMap.field_24_camera_offset);
+    pScreenManager = relive_new ScreenManager(camera.field_C_pCamRes, &gMap.field_24_camera_offset);
 
     pScreenManager->DecompressCameraToVRam_40EF60((u16**) camera.field_C_pCamRes);
     pScreenManager->MoveImage_40EB70();
@@ -518,9 +518,9 @@ void Game_Run_466D40()
     gMap.Init(EReliveLevelIds::eMenu, 1, cameraId, CameraSwapEffects::eInstantChange_0, 0, 0);
 
     DDCheat_Allocate_415320();
-    pEventSystem_5BC11C = ae_new<GameSpeak>();
+    pEventSystem_5BC11C = relive_new GameSpeak();
 
-    pCheatController_5BC120 = ae_new<CheatController>();
+    pCheatController_5BC120 = relive_new CheatController();
 
     if (gDebugHelpersEnabled)
     {

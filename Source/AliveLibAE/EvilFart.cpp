@@ -101,7 +101,7 @@ s32 EvilFart::CreateFromSaveState(const u8* pBuffer)
     ResourceManager::LoadResourceFile_49C170("EXPLO2.BAN", nullptr);
     ResourceManager::LoadResourceFile_49C170("ABEBLOW.BAN", nullptr);
 
-    auto pFart = ae_new<EvilFart>();
+    auto pFart = relive_new EvilFart();
 
     if (pState->field_2C.Get(EvilFart_State::eBit1_bControlled))
     {
@@ -332,7 +332,7 @@ void EvilFart::VUpdate()
         {
             if (!field_118_bBlowUp)
             {
-                ae_new<ThrowableTotalIndicator>(
+                relive_new ThrowableTotalIndicator(
                     mBaseAnimatedWithPhysicsGameObject_XPos,
                     mBaseAnimatedWithPhysicsGameObject_YPos - (field_CC_sprite_scale * FP_FromInteger(50)),
                     field_20_animation.mRenderLayer,
@@ -548,7 +548,7 @@ void EvilFart::VUpdate()
 
 void EvilFart::BlowUp()
 {
-    ae_new<Explosion>(mBaseAnimatedWithPhysicsGameObject_XPos,
+    relive_new Explosion(mBaseAnimatedWithPhysicsGameObject_XPos,
         mBaseAnimatedWithPhysicsGameObject_YPos - (field_CC_sprite_scale * FP_FromInteger(50)),
         field_CC_sprite_scale,
         0);

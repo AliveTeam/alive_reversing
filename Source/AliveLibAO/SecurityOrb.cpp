@@ -83,12 +83,12 @@ s16 SecurityOrb::VTakeDamage(BaseGameObject* pFrom)
         case ReliveTypes::eAbilityRing:
         case ReliveTypes::eShrykull:
         {
-            ao_new<Explosion>(
+            relive_new Explosion(
                 mBaseAnimatedWithPhysicsGameObject_XPos,
                 mBaseAnimatedWithPhysicsGameObject_YPos - (field_BC_sprite_scale * FP_FromInteger(5)),
                 field_BC_sprite_scale);
 
-            ao_new<Gibs>(
+            relive_new Gibs(
                 GibType::Metal_5,
                 mBaseAnimatedWithPhysicsGameObject_XPos,
                 mBaseAnimatedWithPhysicsGameObject_YPos,
@@ -152,7 +152,7 @@ void SecurityOrb::VUpdate()
                 const s32 width = abeRect.w + abeRect.x;
                 const s32 height = abeRect.h + abeRect.y;
 
-                ao_new<ZapLine>(
+                relive_new ZapLine(
                     mBaseAnimatedWithPhysicsGameObject_XPos,
                     mBaseAnimatedWithPhysicsGameObject_YPos - (FP_FromInteger(8) * field_BC_sprite_scale),
                     FP_FromInteger(width / 2),
@@ -161,15 +161,15 @@ void SecurityOrb::VUpdate()
                     ZapLineType::eThick_0,
                     Layer::eLayer_ZapLinesElum_28);
 
-                ao_new<PossessionFlicker>(sActiveHero_507678, 8, 255, 100, 100);
+                relive_new PossessionFlicker(sActiveHero_507678, 8, 255, 100, 100);
 
                 sActiveHero_507678->VTakeDamage(this);
                 field_114_timer = sGnFrame + 8;
                 field_110_state = SecurityOrbStates::eDoFlashAndSound_2;
 
-                ao_new<ScreenShake>(1);
+                relive_new ScreenShake(1);
 
-                auto pSpark1 = ao_new<Sparks>(
+                auto pSpark1 = relive_new Sparks(
                     mBaseAnimatedWithPhysicsGameObject_XPos,
                     mBaseAnimatedWithPhysicsGameObject_YPos - (FP_FromInteger(8) * field_BC_sprite_scale),
                     field_BC_sprite_scale);
@@ -180,7 +180,7 @@ void SecurityOrb::VUpdate()
                     pSpark1->field_C0_r = 255;
                 }
 
-                auto pSpark2 = ao_new<Sparks>(
+                auto pSpark2 = relive_new Sparks(
                     mBaseAnimatedWithPhysicsGameObject_XPos,
                     mBaseAnimatedWithPhysicsGameObject_YPos - (FP_FromInteger(8) * field_BC_sprite_scale),
                     field_BC_sprite_scale);
@@ -194,7 +194,7 @@ void SecurityOrb::VUpdate()
 
                 for (s32 i = 0; i < 9; i++)
                 {
-                    auto pSparks = ao_new<Sparks>(
+                    auto pSparks = relive_new Sparks(
                         FP_FromInteger(width / 2),
                         FP_FromInteger(height / 2),
                         field_BC_sprite_scale);
@@ -211,12 +211,12 @@ void SecurityOrb::VUpdate()
         case SecurityOrbStates::eDoFlashAndSound_2:
             if (static_cast<s32>(sGnFrame) == field_114_timer - 5 || static_cast<s32>(sGnFrame) == field_114_timer - 1)
             {
-                ao_new<Flash>(Layer::eLayer_Above_FG1_39, 255u, 0, 0);
+                relive_new Flash(Layer::eLayer_Above_FG1_39, 255u, 0, 0);
             }
 
             if (static_cast<s32>(sGnFrame) == field_114_timer - 4)
             {
-                ao_new<Flash>(Layer::eLayer_Above_FG1_39, 255u, 0, 0, 1, TPageAbr::eBlend_1, 1);
+                relive_new Flash(Layer::eLayer_Above_FG1_39, 255u, 0, 0, 1, TPageAbr::eBlend_1, 1);
             }
 
             if (field_114_timer - sGnFrame == 4)

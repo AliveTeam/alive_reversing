@@ -82,7 +82,7 @@ GasCountDown::GasCountDown(Path_GasCountDown* pTlv, s32 tlvInfo)
             field_74_time_left = 0;
         }
 
-        ae_new<Alarm>(field_76_gas_countdown_timer, 0, 0, Layer::eLayer_Above_FG1_39);
+        relive_new Alarm(field_76_gas_countdown_timer, 0, 0, Layer::eLayer_Above_FG1_39);
     }
     else
     {
@@ -166,7 +166,7 @@ void GasCountDown::DealDamage()
         gGasOn_5C1C00 = TRUE;
         if (!gDeathGasCount_5BD24C)
         {
-            ae_new<DeathGas>(Layer::eLayer_Above_FG1_39, 2);
+            relive_new DeathGas(Layer::eLayer_Above_FG1_39, 2);
         }
     }
 }
@@ -188,7 +188,7 @@ void GasCountDown::VUpdate()
     if (!sGasTimer_5C1BE8 && SwitchStates_Get(field_70_start_timer_switch_id) && !SwitchStates_Get(field_72_stop_timer_switch_id))
     {
         sGasTimer_5C1BE8 = sGnFrame;
-        ae_new<Alarm>(field_76_gas_countdown_timer, 0, 0, Layer::eLayer_Above_FG1_39);
+        relive_new Alarm(field_76_gas_countdown_timer, 0, 0, Layer::eLayer_Above_FG1_39);
     }
 
 

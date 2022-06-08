@@ -589,7 +589,7 @@ Mudokon::Mudokon(Path_Mudokon* pTlv, s32 tlvInfo)
     field_160_delayed_speak = MudSounds::eNone;
     field_162_maxXOffset = field_DA_xOffset;
 
-    mShadow = ae_new<Shadow>();
+    mShadow = relive_new Shadow();
 
     VUpdate();
 }
@@ -737,7 +737,7 @@ s32 Mudokon::CreateFromSaveState(const u8* pBuffer)
         ResourceManager::LoadResourceFile_49C170("ABEWORK.BAN", nullptr);
     }
 
-    auto pMud = ae_new<Mudokon>(pTlv, pState->field_40_tlvInfo);
+    auto pMud = relive_new Mudokon(pTlv, pState->field_40_tlvInfo);
     if (pMud)
     {
         if (pState->field_3D_bIsPlayer)
@@ -1377,7 +1377,7 @@ s16 Mudokon::VTakeDamage(BaseGameObject* pFrom)
                 case BulletType::eSligPossessedOrUnderGlukkonCommand_0:
                 case BulletType::eNormalBullet_2:
                 {
-                    ae_new<Blood>(
+                    relive_new Blood(
                         mBaseAnimatedWithPhysicsGameObject_XPos,
                         mBaseAnimatedWithPhysicsGameObject_YPos - (FP_FromInteger(30) * field_CC_sprite_scale),
                         pBullet->field_30_x_distance <= FP_FromInteger(0) ? FP_FromInteger(-24) : FP_FromInteger(24),
@@ -1407,7 +1407,7 @@ s16 Mudokon::VTakeDamage(BaseGameObject* pFrom)
                 }
 
                 // Nothing saved us, get shot
-                ae_new<Blood>(
+                relive_new Blood(
                     mBaseAnimatedWithPhysicsGameObject_XPos,
                     mBaseAnimatedWithPhysicsGameObject_YPos - (FP_FromInteger(30) * field_CC_sprite_scale),
                     FP_FromInteger(0),
@@ -1463,7 +1463,7 @@ s16 Mudokon::VTakeDamage(BaseGameObject* pFrom)
 
             if (field_16A_flags.Get(Flags_16A::eBit4_blind))
             {
-                ae_new<Gibs>(
+                relive_new Gibs(
                     GibType::BlindMud_4,
                     mBaseAnimatedWithPhysicsGameObject_XPos,
                     mBaseAnimatedWithPhysicsGameObject_YPos,
@@ -1472,7 +1472,7 @@ s16 Mudokon::VTakeDamage(BaseGameObject* pFrom)
                     field_CC_sprite_scale,
                     0);
 
-                ae_new<Gibs>(
+                relive_new Gibs(
                     GibType::BlindMud_4,
                     mBaseAnimatedWithPhysicsGameObject_XPos,
                     mBaseAnimatedWithPhysicsGameObject_YPos,
@@ -1483,7 +1483,7 @@ s16 Mudokon::VTakeDamage(BaseGameObject* pFrom)
             }
             else
             {
-                ae_new<Gibs>(
+                relive_new Gibs(
                     GibType::Mud_3,
                     mBaseAnimatedWithPhysicsGameObject_XPos,
                     mBaseAnimatedWithPhysicsGameObject_YPos,
@@ -1492,7 +1492,7 @@ s16 Mudokon::VTakeDamage(BaseGameObject* pFrom)
                     field_CC_sprite_scale,
                     0);
 
-                ae_new<Gibs>(
+                relive_new Gibs(
                     GibType::Mud_3,
                     mBaseAnimatedWithPhysicsGameObject_XPos,
                     mBaseAnimatedWithPhysicsGameObject_YPos,
@@ -1535,7 +1535,7 @@ s16 Mudokon::VTakeDamage(BaseGameObject* pFrom)
                 VGetBoundingRect(&bRect, 1);
 
                 auto pFleech = static_cast<BaseAliveGameObject*>(pFrom);
-                ae_new<Blood>(
+                relive_new Blood(
                     mBaseAnimatedWithPhysicsGameObject_XPos,
                     (FP_FromInteger(bRect.y + bRect.h) / FP_FromInteger(2)),
                     mBaseAnimatedWithPhysicsGameObject_XPos - pFleech->mBaseAnimatedWithPhysicsGameObject_XPos < FP_FromInteger(0) ? FP_FromInteger(-24) : FP_FromInteger(24),
@@ -1963,12 +1963,12 @@ s16 Mudokon::Brain_0_GiveRings_470C10()
                 if (field_168_ring_type == RingTypes::eExplosive_Emit_Effect_2)
                 {
                     // Red flicker
-                    ae_new<PossessionFlicker>(this, 10, 255, 128, 128);
+                    relive_new PossessionFlicker(this, 10, 255, 128, 128);
                 }
                 else
                 {
                     // Greenish flicker
-                    ae_new<PossessionFlicker>(this, 10, 255, 255, 32);
+                    relive_new PossessionFlicker(this, 10, 255, 255, 32);
                 }
                 field_194_timer = sGnFrame + 15;
                 return Brain_0_GiveRings::eBrain0_GivingRing_8;
@@ -5082,7 +5082,7 @@ s16 Mudokon::Brain_7_FallAndSmackDeath_471600()
         if (static_cast<s32>(sGnFrame) > field_194_timer)
         {
             Environment_SFX_457A40(EnvironmentSfx::eFallingDeathScreamHitGround_15, 0, 32767, this);
-            ae_new<ScreenShake>(0, 0);
+            relive_new ScreenShake(0, 0);
             mBaseGameObjectFlags.Set(BaseGameObject::eDead);
         }
     }
@@ -5409,7 +5409,7 @@ s16 Mudokon::Brain_9_Sick_47A910()
             {
                 mBaseAliveGameObjectFlags.Clear(Flags_114::e114_Bit3_Can_Be_Possessed);
                 mNextMotion = eMudMotions::M_Idle_0_4724E0;
-                ae_new<PossessionFlicker>(this, 8, 155, 255, 32);
+                relive_new PossessionFlicker(this, 8, 155, 255, 32);
                 return Brain_9_Sick::eBrain9_StandingUp_3;
             }
 
@@ -5806,7 +5806,7 @@ void Mudokon::M_Chisel_11_4732D0()
                     sparkX = (field_CC_sprite_scale * FP_FromInteger(18)) + mBaseAnimatedWithPhysicsGameObject_XPos;
                 }
 
-                ae_new<Spark>(
+                relive_new Spark(
                     sparkX + FP_FromInteger(field_DA_xOffset),
                     sparkY,
                     field_CC_sprite_scale,
@@ -6361,7 +6361,7 @@ void Mudokon::M_RunJumpMid_36_474570()
 
         SND_SEQ_Play(SeqId::SaveTriggerMusic_31, 1, 127, 127);
 
-        ae_new<MusicTrigger>(MusicTriggerMusicType::eChime_5, TriggeredBy::eTimer_0, 0, 0);
+        relive_new MusicTrigger(MusicTriggerMusicType::eChime_5, TriggeredBy::eTimer_0, 0, 0);
 
         sRescuedMudokons_5C1BC2++;
 

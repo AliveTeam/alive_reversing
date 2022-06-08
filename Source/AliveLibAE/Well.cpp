@@ -156,7 +156,7 @@ void Well::VUpdate()
             // Random chance of leaves emitting.
             if (Well_NextRandom() < 10)
             {
-                ae_new<Leaf>(field_34_leaf_xpos,
+                relive_new Leaf(field_34_leaf_xpos,
                                           field_38_leaf_ypos,
                                           FP_FromInteger(2),
                                           FP_FromInteger(-20),

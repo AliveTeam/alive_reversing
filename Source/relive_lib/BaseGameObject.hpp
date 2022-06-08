@@ -450,15 +450,15 @@ public:
     }
 
 public:
-    ReliveTypes mBaseGameObjectTypeId;
-    BitField16<Options> mBaseGameObjectFlags;
-    s32 mBaseGameObjectUpdateDelay;
+    ReliveTypes mBaseGameObjectTypeId = ReliveTypes::eNone;
+    BitField16<Options> mBaseGameObjectFlags = {};
+    s32 mBaseGameObjectUpdateDelay = 0;
 
-    s32 field_8_object_id; // AE
-    s32 mBaseGameObjectTlvInfo; // AE
+    s32 field_8_object_id = 0; // AE
+    s32 mBaseGameObjectTlvInfo = 0; // AE
     DynamicArrayT<u8*> field_10_resources_array; // AE
 
-    s8 mBaseGameObjectRefCount; // AO
+    s8 mBaseGameObjectRefCount = 0; // AO
 };
 
 extern DynamicArrayT<BaseGameObject>* gBaseGameObjects;

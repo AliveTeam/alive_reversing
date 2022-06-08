@@ -46,9 +46,9 @@ BaseBomb::BaseBomb(FP x, FP y, s32 /*unused*/, FP scale)
     mBaseAnimatedWithPhysicsGameObject_XPos = x;
     mBaseAnimatedWithPhysicsGameObject_YPos = y;
 
-    ae_new<ScreenShake>(true, false);
+    relive_new ScreenShake(true, false);
 
-    ae_new<ParticleBurst>(
+    relive_new ParticleBurst(
         mBaseAnimatedWithPhysicsGameObject_XPos,
         mBaseAnimatedWithPhysicsGameObject_YPos,
         35,
@@ -106,7 +106,7 @@ void BaseBomb::VUpdate()
 
         case 3:
         {
-            ae_new<ParticleBurst>(
+            relive_new ParticleBurst(
                 mBaseAnimatedWithPhysicsGameObject_XPos,
                 mBaseAnimatedWithPhysicsGameObject_YPos,
                 20,
@@ -114,7 +114,7 @@ void BaseBomb::VUpdate()
                 BurstType::eBigRedSparks_3,
                 13);
 
-            ae_new<Flash>(Layer::eLayer_Above_FG1_39, static_cast<u8>(255), static_cast<u8>(255), static_cast<u8>(255), 1, TPageAbr::eBlend_3, 1);
+            relive_new Flash(Layer::eLayer_Above_FG1_39, 255, 255, 255, 1, TPageAbr::eBlend_3, 1);
 
             rect.x = FP_GetExponent(FP_FromInteger(-113) * field_f4_scale);
             rect.w = FP_GetExponent(FP_FromInteger(113) * field_f4_scale);
@@ -126,13 +126,13 @@ void BaseBomb::VUpdate()
 
         case 4:
         {
-            ae_new<Flash>(Layer::eLayer_Above_FG1_39, static_cast<u8>(255), static_cast<u8>(255), static_cast<u8>(255), 1, TPageAbr::eBlend_1, 1);
+            relive_new Flash(Layer::eLayer_Above_FG1_39, 255, 255, 255, 1, TPageAbr::eBlend_1, 1);
             break;
         }
 
         case 7:
         {
-            ae_new<ParticleBurst>(
+            relive_new ParticleBurst(
                 mBaseAnimatedWithPhysicsGameObject_XPos,
                 mBaseAnimatedWithPhysicsGameObject_YPos,
                 20u,
@@ -140,7 +140,7 @@ void BaseBomb::VUpdate()
                 BurstType::eBigRedSparks_3,
                 13);
 
-            ae_new<Flash>(Layer::eLayer_Above_FG1_39, static_cast<u8>(255), static_cast<u8>(255), static_cast<u8>(255), 1, TPageAbr::eBlend_3, 1);
+            relive_new Flash(Layer::eLayer_Above_FG1_39, 255, 255, 255, 1, TPageAbr::eBlend_3, 1);
             break;
         }
 
@@ -154,7 +154,7 @@ void BaseBomb::VUpdate()
         u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
         if (ppRes)
         {
-            Particle* pParticle = ae_new<Particle>(
+            Particle* pParticle = relive_new Particle(
                 mBaseAnimatedWithPhysicsGameObject_XPos,
                 mBaseAnimatedWithPhysicsGameObject_YPos,
                 rec.mFrameTableOffset,

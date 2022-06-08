@@ -14,14 +14,14 @@ void MinesAlarm::Create(s32 timer)
 {
     if (!bCreated_5BC030)
     {
-        ae_new<MinesAlarm>(timer);
+        relive_new MinesAlarm(timer);
     }
 }
 
 s32 MinesAlarm::CreateFromSaveState(const u8* pBuffer)
 {
     auto pState = reinterpret_cast<const MinesAlarm_State*>(pBuffer);
-    ae_new<MinesAlarm>(pState->field_4_timer);
+    relive_new MinesAlarm(pState->field_4_timer);
     return sizeof(MinesAlarm_State);
 }
 
@@ -73,7 +73,7 @@ void MinesAlarm::VUpdate()
     {
         if (!pExplosionSet_5BBF68)
         {
-            ae_new<ExplosionSet>();
+            relive_new ExplosionSet();
         }
         pExplosionSet_5BBF68->Start();
         mBaseGameObjectFlags.Clear(BaseGameObject::eUpdatable_Bit2);

@@ -54,7 +54,7 @@ s16* Animation_OnFrame_Slig(BaseGameObject* pObj, s16* pData)
     const FP yOff = pSlig->field_BC_sprite_scale * FP_FromInteger(pData[1]);
     if (pSlig->field_10_anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
     {
-        ao_new<Bullet>(
+        relive_new Bullet(
             pSlig,
             bulletType,
             pSlig->mBaseAnimatedWithPhysicsGameObject_XPos,
@@ -70,7 +70,7 @@ s16* Animation_OnFrame_Slig(BaseGameObject* pObj, s16* pData)
             1,
             pSlig->field_BC_sprite_scale);
 
-        ao_new<BulletShell>(
+        relive_new BulletShell(
             pSlig->mBaseAnimatedWithPhysicsGameObject_XPos,
             pSlig->mBaseAnimatedWithPhysicsGameObject_YPos + yOff,
             0,
@@ -78,7 +78,7 @@ s16* Animation_OnFrame_Slig(BaseGameObject* pObj, s16* pData)
     }
     else
     {
-        ao_new<Bullet>(
+        relive_new Bullet(
             pSlig,
             bulletType,
             pSlig->mBaseAnimatedWithPhysicsGameObject_XPos,
@@ -94,7 +94,7 @@ s16* Animation_OnFrame_Slig(BaseGameObject* pObj, s16* pData)
             0,
             pSlig->field_BC_sprite_scale);
 
-        ao_new<BulletShell>(
+        relive_new BulletShell(
             pSlig->mBaseAnimatedWithPhysicsGameObject_XPos,
             pSlig->mBaseAnimatedWithPhysicsGameObject_YPos + yOff,
             1,
@@ -149,7 +149,7 @@ s16* Slog_OnFrame(BaseGameObject* pObj, s16* pData)
 
                     const FP blood_ypos = (pSlog->field_BC_sprite_scale * FP_FromInteger(pData[1])) + pSlog->mBaseAnimatedWithPhysicsGameObject_YPos;
 
-                    ao_new<Blood>(
+                    relive_new Blood(
                         blood_xpos,
                         blood_ypos - FP_FromInteger(8),
                         (pSlog->field_B4_velx * FP_FromInteger(2)),

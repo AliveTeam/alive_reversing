@@ -19,7 +19,7 @@ namespace AO {
 
 AbilityRing* AbilityRing::Factory(FP xpos, FP ypos, RingTypes ring_type)
 {
-    return ao_new<AbilityRing>(xpos, ypos, ring_type);
+    return relive_new AbilityRing(xpos, ypos, ring_type);
 }
 
 static s32 MinDistance(s32 screenX, s32 screenY, s32 width1, s32 height1, s32 width2, s32 height2)
@@ -341,7 +341,7 @@ void AbilityRing::VUpdate()
                 mBaseGameObjectFlags.Set(BaseGameObject::eDead);
                 mRingLeft = FP_FromInteger(0);
                 SFX_Play_Mono(SoundEffect::IngameTransition_107, 0, 0);
-                ao_new<PossessionFlicker>(sActiveHero_507678, 8, 255, 128, 128);
+                relive_new PossessionFlicker(sActiveHero_507678, 8, 255, 128, 128);
             }
             break;
 

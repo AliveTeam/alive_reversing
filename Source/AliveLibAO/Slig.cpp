@@ -386,7 +386,7 @@ Slig::Slig(Path_Slig* pTlv, s32 tlvInfo)
     field_148_unused = 0;
     field_122_unused = 0;
 
-    field_D0_pShadow = ao_new<Shadow>();
+    field_D0_pShadow = relive_new Shadow();
 }
 
 Slig::~Slig()
@@ -838,7 +838,7 @@ s16 Slig::VTakeDamage(BaseGameObject* pFrom)
                     const FP xOff = (pBullet->field_20_x_distance <= FP_FromInteger(0) ? FP_FromInteger(-1) : FP_FromInteger(1) * FP_FromInteger(Math_NextRandom() & 15) + FP_FromInteger(16));
                     const FP xPos = (field_BC_sprite_scale * pBullet->field_20_x_distance <= FP_FromInteger(0) ? FP_FromInteger(-6) : FP_FromInteger(6));
 
-                    ao_new<Blood>(
+                    relive_new Blood(
                         xPos + mBaseAnimatedWithPhysicsGameObject_XPos,
                         pBullet->field_1C_ypos,
                         xOff,
@@ -851,7 +851,7 @@ s16 Slig::VTakeDamage(BaseGameObject* pFrom)
                     const FP xPos = (field_BC_sprite_scale * pBullet->field_20_x_distance <= FP_FromInteger(0) ? FP_FromInteger(-12) : FP_FromInteger(12));
                     const FP xOff = pBullet->field_20_x_distance <= FP_FromInteger(0) ? FP_FromInteger(-6) : FP_FromInteger(6);
 
-                    ao_new<Blood>(
+                    relive_new Blood(
                         xOff + mBaseAnimatedWithPhysicsGameObject_XPos,
                         pBullet->field_1C_ypos,
                         xPos,
@@ -906,7 +906,7 @@ s16 Slig::VTakeDamage(BaseGameObject* pFrom)
         case ReliveTypes::eExplosion:
             if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit3_Render))
             {
-                ao_new<Gibs>(
+                relive_new Gibs(
                     GibType::Slig_1,
                     mBaseAnimatedWithPhysicsGameObject_XPos,
                     mBaseAnimatedWithPhysicsGameObject_YPos,
@@ -3392,7 +3392,7 @@ void Slig::Motion_33_Sleeping_46A410()
                     mBaseAnimatedWithPhysicsGameObject_YPos,
                     0))
             {
-                ao_new<SnoozeParticle>(
+                relive_new SnoozeParticle(
                     mBaseAnimatedWithPhysicsGameObject_XPos
                         + ((field_10_anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX)) != 0 ? FP_FromInteger(20) : FP_FromInteger(-20)),
                     mBaseAnimatedWithPhysicsGameObject_YPos - FP_FromInteger(10),
@@ -3413,7 +3413,7 @@ void Slig::Motion_33_Sleeping_46A410()
                 mBaseAnimatedWithPhysicsGameObject_YPos,
                 0))
         {
-            ao_new<SnoozeParticle>(
+            relive_new SnoozeParticle(
                 mBaseAnimatedWithPhysicsGameObject_XPos
                     + ((field_10_anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX)) != 0 ? FP_FromInteger(20) : FP_FromInteger(-20)),
                 mBaseAnimatedWithPhysicsGameObject_YPos - FP_FromInteger(10),
@@ -3659,7 +3659,7 @@ void Slig::Motion_38_Possess_46B050()
                 xOff = -xOff;
             }
 
-            ao_new<Gibs>(
+            relive_new Gibs(
                 GibType::Slig_1,
                 mBaseAnimatedWithPhysicsGameObject_XPos,
                 mBaseAnimatedWithPhysicsGameObject_YPos,
@@ -3800,7 +3800,7 @@ void Slig::Motion_43_ShootZ_468E30()
     }
     else if (field_10_anim.field_92_current_frame == 7)
     {
-        ao_new<Bullet>(
+        relive_new Bullet(
             this,
             BulletType::eZBullet_2,
             mBaseAnimatedWithPhysicsGameObject_XPos,
@@ -4318,7 +4318,7 @@ void Start_Slig_Sounds_Helper(Sound_Ambiance_Array array, CameraPos camPos, u8 a
 {
     if (!array.mArray[ambianceId].field_8_pScopedSeq)
     {
-        array.mArray[ambianceId].field_8_pScopedSeq = ao_new<ScopedSeq>(ambianceId, camPos);
+        array.mArray[ambianceId].field_8_pScopedSeq = relive_new ScopedSeq(ambianceId, camPos);
     }
 }
 
@@ -4588,7 +4588,7 @@ s16 Slig::Brain_DeathDropDeath_46C5A0()
 
             Environment_SFX_42A220(EnvironmentSfx::eFallingDeathScreamHitGround_15, 0, 32767, this);
 
-            ao_new<ScreenShake>(0);
+            relive_new ScreenShake(0);
             field_114_timer = sGnFrame + 30;
             return Brain_DeathDropDeath::eSwitchCamToAbe_2;
         }
@@ -5650,7 +5650,7 @@ s16 Slig::Brain_ZShooting_46F290()
 
 void Slig::BlowToGibs_4685A0()
 {
-    ao_new<Gibs>(
+    relive_new Gibs(
         GibType::Slig_1,
         mBaseAnimatedWithPhysicsGameObject_XPos,
         mBaseAnimatedWithPhysicsGameObject_YPos,
@@ -5658,7 +5658,7 @@ void Slig::BlowToGibs_4685A0()
         field_B8_vely,
         field_BC_sprite_scale);
 
-    ao_new<Blood>(
+    relive_new Blood(
         mBaseAnimatedWithPhysicsGameObject_XPos,
         mBaseAnimatedWithPhysicsGameObject_YPos - (FP_FromInteger(30) * field_BC_sprite_scale),
         FP_FromInteger(0),

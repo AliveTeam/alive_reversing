@@ -427,7 +427,7 @@ void Door::VUpdate()
                 if (!SwitchStates_Get(field_F0_switch_id))
                 {
                     SND_SEQ_Play_477760(SeqId::eSecretMusic_46, 1, 127, 127);
-                    ao_new<MusicTrigger>(MusicTriggerMusicType::eChime_5, TriggeredBy::eTimer_0, 0, 300);
+                    relive_new MusicTrigger(MusicTriggerMusicType::eChime_5, TriggeredBy::eTimer_0, 0, 300);
                 }
                 SwitchStates_Do_Operation(field_F0_switch_id, SwitchOp::eSetTrue_0);
             }

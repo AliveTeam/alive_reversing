@@ -217,7 +217,7 @@ void TorturedMudokon::VUpdate()
 
     if (field_20_animation.field_92_current_frame == 6 && field_20_animation.mFrameChangeCounter == field_20_animation.field_10_frame_delay)
     {
-        ae_new<Flash>(Layer::eLayer_Above_FG1_39, rgbBase + 50, rgbBase + 50, rgbBase + 110, 1, TPageAbr::eBlend_1, 1);
+        relive_new Flash(Layer::eLayer_Above_FG1_39, rgbBase + 50, rgbBase + 50, rgbBase + 110, 1, TPageAbr::eBlend_1, 1);
         field_18C_zap_animation.mAnimFlags.Set(AnimFlags::eBit3_Render);
         SFX_Play_Mono(SoundEffect::ElectricZap_39, 70);
         const s16 sndRnd = Math_RandomRange(0, 3) - 1;
@@ -236,7 +236,7 @@ void TorturedMudokon::VUpdate()
 
     if (field_20_animation.field_92_current_frame >= 7 && !Math_RandomRange(0, 10))
     {
-        ae_new<Flash>(Layer::eLayer_Above_FG1_39, rgbBase + 10, rgbBase + 10, rgbBase + 50, 1, TPageAbr::eBlend_1, 1);
+        relive_new Flash(Layer::eLayer_Above_FG1_39, rgbBase + 10, rgbBase + 10, rgbBase + 50, 1, TPageAbr::eBlend_1, 1);
     }
 
     if (SwitchStates_Get(field_23C_release_switch_id))

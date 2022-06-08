@@ -47,7 +47,7 @@ Grenade::Grenade(FP xpos, FP ypos, s32 numGrenades, bool bBlowUpOnCollision, s32
 s32 Grenade::CreateFromSaveState(const u8* pBuffer)
 {
     auto pState = reinterpret_cast<const Grenade_SaveState*>(pBuffer);
-    auto pGrenade = ae_new<Grenade>(pState->field_8_xpos, pState->field_C_ypos, pState->field_2A_savedcount, 0, 0, nullptr);
+    auto pGrenade = relive_new Grenade(pState->field_8_xpos, pState->field_C_ypos, pState->field_2A_savedcount, 0, 0, nullptr);
 
     pGrenade->mBaseGameObjectTlvInfo = pState->field_4_obj_id;
 
@@ -230,7 +230,7 @@ void Grenade::VTimeToExplodeRandom()
 
 void Grenade::BlowUp(s16 bSmallExplosion)
 {
-    auto pExplosion = ae_new<Explosion>(
+    auto pExplosion = relive_new Explosion(
         mBaseAnimatedWithPhysicsGameObject_XPos,
         mBaseAnimatedWithPhysicsGameObject_YPos - (field_CC_sprite_scale * FP_FromInteger(5)),
         field_CC_sprite_scale,
@@ -244,7 +244,7 @@ void Grenade::BlowUp(s16 bSmallExplosion)
 
     field_120_state = GrenadeStates::eWaitForExplodeEnd_6;
 
-    ae_new<Gibs>(GibType::Metal_5, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, FP_FromInteger(0), FP_FromInteger(5), field_CC_sprite_scale, bSmallExplosion);
+    relive_new Gibs(GibType::Metal_5, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, FP_FromInteger(0), FP_FromInteger(5), field_CC_sprite_scale, bSmallExplosion);
 }
 
 Grenade::~Grenade()

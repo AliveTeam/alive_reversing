@@ -116,7 +116,7 @@ void Command_Test(const std::vector<std::string>& args)
 
 void Command_Die(const std::vector<std::string>& /*args*/)
 {
-    ae_new<BaseBomb>(sControlledCharacter_5C1B8C->mBaseAnimatedWithPhysicsGameObject_XPos, sControlledCharacter_5C1B8C->mBaseAnimatedWithPhysicsGameObject_YPos, 0, sControlledCharacter_5C1B8C->field_CC_sprite_scale);
+    relive_new BaseBomb(sControlledCharacter_5C1B8C->mBaseAnimatedWithPhysicsGameObject_XPos, sControlledCharacter_5C1B8C->mBaseAnimatedWithPhysicsGameObject_YPos, 0, sControlledCharacter_5C1B8C->field_CC_sprite_scale);
 }
 
 void Command_Murder(const std::vector<std::string>& /*args*/)
@@ -139,7 +139,7 @@ void Command_Murder(const std::vector<std::string>& /*args*/)
         {
             auto aliveObj =  static_cast<BaseAliveGameObject*>(pBaseGameObject);
 
-            ae_new<BaseBomb>(aliveObj->mBaseAnimatedWithPhysicsGameObject_XPos, aliveObj->mBaseAnimatedWithPhysicsGameObject_YPos, 0, aliveObj->field_CC_sprite_scale);
+            relive_new BaseBomb(aliveObj->mBaseAnimatedWithPhysicsGameObject_XPos, aliveObj->mBaseAnimatedWithPhysicsGameObject_YPos, 0, aliveObj->field_CC_sprite_scale);
         }
     }
 }
@@ -274,7 +274,7 @@ void Command_LoadSave(const std::vector<std::string>& args)
 {
     if (pPauseMenu_5C9300 == nullptr)
     {
-        pPauseMenu_5C9300 = ae_new<PauseMenu>();
+        pPauseMenu_5C9300 = relive_new PauseMenu();
         pPauseMenu_5C9300->SetUpdateDelay(0);
     }
 
@@ -1393,9 +1393,9 @@ void DebugHelpers_Init()
 
     //if (IsAlive())
     {
-        ae_new<ObjectDebugger>();
-        ae_new<DebugConsole>();
-        ae_new<DebugPathRenderer>();
+        relive_new ObjectDebugger();
+        relive_new DebugConsole();
+        relive_new DebugPathRenderer();
 
         DEV_CONSOLE_MESSAGE_C("Debug Console Active. Open with ~ (Tilde)", 7, 0, 150, 255);
     }
@@ -1403,8 +1403,8 @@ void DebugHelpers_Init()
 
     //#if RENDER_TEST
     // Test rendering diff prim types
-    // ae_new<RenderTest>(); // Will get nuked at LVL/Path change
-    //ae_new<AnimRenderTest>();
+    // relive_new RenderTest(); // Will get nuked at LVL/Path change
+    //relive_new AnimRenderTest();
     //#endif
 }
 

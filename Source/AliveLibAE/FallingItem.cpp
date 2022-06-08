@@ -91,7 +91,7 @@ FallingItem::FallingItem(Path_FallingItem* pTlv, s32 tlvInfo)
         field_144_created_gnFrame = sGnFrame;
     }
 
-    mShadow = ae_new<Shadow>();
+    mShadow = relive_new Shadow();
 }
 
  FallingItem::FallingItem(s32 xpos, s32 ypos, s32 scale, s32 id, s32 fallInterval, s32 numItems, s32 bResetIdAfterUse)
@@ -155,7 +155,7 @@ FallingItem::FallingItem(Path_FallingItem* pTlv, s32 tlvInfo)
         field_144_created_gnFrame = sGnFrame;
     }
 
-    mShadow = ae_new<Shadow>();
+    mShadow = relive_new Shadow();
 }
 
 FallingItem::~FallingItem()
@@ -311,11 +311,11 @@ void FallingItem::VUpdate()
             field_134_bHitDrillOrMineCar = FALSE;
             field_11C_state = State::eSmashed_4;
 
-            ae_new<ScreenShake>(0, field_CC_sprite_scale == FP_FromDouble(0.5));
+            relive_new ScreenShake(0, field_CC_sprite_scale == FP_FromDouble(0.5));
 
             if (gMap.mCurrentLevel == EReliveLevelIds::eBonewerkz)
             {
-                ae_new<ParticleBurst>(mBaseAnimatedWithPhysicsGameObject_XPos,
+                relive_new ParticleBurst(mBaseAnimatedWithPhysicsGameObject_XPos,
                                                    mBaseAnimatedWithPhysicsGameObject_YPos,
                                                    20,
                                                    field_CC_sprite_scale,
@@ -324,7 +324,7 @@ void FallingItem::VUpdate()
 
                 const AnimRecord& rec = AnimRec(AnimId::Explosion);
                 u8** ppRes = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, rec.mResourceId, 0, 0);
-                auto pParticle = ae_new<Particle>(mBaseAnimatedWithPhysicsGameObject_XPos,
+                auto pParticle = relive_new Particle(mBaseAnimatedWithPhysicsGameObject_XPos,
                                                   mBaseAnimatedWithPhysicsGameObject_YPos - (FP_FromInteger(15) * field_CC_sprite_scale),
                                                   rec.mFrameTableOffset,
                                                   rec.mMaxW,
@@ -338,7 +338,7 @@ void FallingItem::VUpdate()
             }
             else
             {
-                ae_new<ParticleBurst>(mBaseAnimatedWithPhysicsGameObject_XPos,
+                relive_new ParticleBurst(mBaseAnimatedWithPhysicsGameObject_XPos,
                                                         mBaseAnimatedWithPhysicsGameObject_YPos,
                                                         25,
                                                         field_CC_sprite_scale,

@@ -24,7 +24,7 @@ namespace AO {
 
 void GameEnderController::CreateGameEnderController()
 {
-    ao_new<GameEnderController>();
+    relive_new GameEnderController();
 }
 
 GameEnderController::GameEnderController()
@@ -151,7 +151,7 @@ void GameEnderController::VUpdate()
 
                             if (!gpThrowableArray_50E26C)
                             {
-                                gpThrowableArray_50E26C = ao_new<ThrowableArray>();
+                                gpThrowableArray_50E26C = relive_new ThrowableArray();
                                 if (gpThrowableArray_50E26C)
                                 {
                                     gpThrowableArray_50E26C->Add(1);

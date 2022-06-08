@@ -98,7 +98,7 @@ MovingBomb::MovingBomb(Path_MovingBomb* pTlv, s32 tlvInfo)
         mBaseAnimatedWithPhysicsGameObject_XPos = hitX;
     }
 
-    mShadow = ae_new<Shadow>();
+    mShadow = relive_new Shadow();
 }
 
 MovingBomb::~MovingBomb()
@@ -194,9 +194,9 @@ s16 MovingBomb::VTakeDamage(BaseGameObject* pFrom)
         case ReliveTypes::eShrykull:
         {
             mHealth = FP_FromInteger(0);
-            ae_new<Explosion>(mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, field_CC_sprite_scale, 0);
+            relive_new Explosion(mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, field_CC_sprite_scale, 0);
 
-            ae_new<Gibs>(GibType::Metal_5, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, FP_FromInteger(0), FP_FromInteger(5), field_CC_sprite_scale, 0);
+            relive_new Gibs(GibType::Metal_5, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, FP_FromInteger(0), FP_FromInteger(5), field_CC_sprite_scale, 0);
 
             field_118_state = States::eKillMovingBomb_7;
 
@@ -403,13 +403,13 @@ void MovingBomb::VUpdate()
 
                 mHealth = FP_FromInteger(0);
 
-                ae_new<Explosion>(
+                relive_new Explosion(
                     mBaseAnimatedWithPhysicsGameObject_XPos,
                     mBaseAnimatedWithPhysicsGameObject_YPos,
                     field_CC_sprite_scale,
                     0);
 
-                ae_new<Gibs>(
+                relive_new Gibs(
                     GibType::Metal_5,
                     mBaseAnimatedWithPhysicsGameObject_XPos,
                     mBaseAnimatedWithPhysicsGameObject_YPos,

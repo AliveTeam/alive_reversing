@@ -61,7 +61,7 @@ MeatSack::MeatSack(Path_MeatSack* pTlv, s32 tlvInfo)
 
     field_112_num_items = pTlv->field_20_amount_of_meat;
 
-    field_D0_pShadow = ao_new<Shadow>();
+    field_D0_pShadow = relive_new Shadow();
 }
 
 MeatSack::~MeatSack()
@@ -117,7 +117,7 @@ void MeatSack::VUpdate()
             const AnimRecord& MeatSackHitRec = AO::AnimRec(AnimId::MeatSack_Hit);
             if (!gpThrowableArray_50E26C)
             {
-                gpThrowableArray_50E26C = ao_new<ThrowableArray>();
+                gpThrowableArray_50E26C = relive_new ThrowableArray();
             }
 
             if (gpThrowableArray_50E26C)
@@ -132,7 +132,7 @@ void MeatSack::VUpdate()
                 gpThrowableArray_50E26C->Add(field_112_num_items);
             }
 
-            auto pMeat = ao_new<Meat>(
+            auto pMeat = relive_new Meat(
                 mBaseAnimatedWithPhysicsGameObject_XPos,
                 mBaseAnimatedWithPhysicsGameObject_YPos - FP_FromInteger(30),
                 field_112_num_items);
@@ -186,7 +186,7 @@ Meat::Meat(FP xpos, FP ypos, s16 count)
     field_10C_count = count;
     field_110_state = 0;
 
-    field_D0_pShadow = ao_new<Shadow>();
+    field_D0_pShadow = relive_new Shadow();
 }
 
 Meat::~Meat()

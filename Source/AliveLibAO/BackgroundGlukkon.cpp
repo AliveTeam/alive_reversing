@@ -85,7 +85,7 @@ s16 BackgroundGlukkon::VTakeDamage(BaseGameObject* pFrom)
     {
         mHealth = FP_FromInteger(0);
 
-        ao_new<Explosion>(
+        relive_new Explosion(
             mBaseAnimatedWithPhysicsGameObject_XPos,
             mBaseAnimatedWithPhysicsGameObject_YPos - (field_BC_sprite_scale * FP_FromInteger(40)),
             field_BC_sprite_scale);

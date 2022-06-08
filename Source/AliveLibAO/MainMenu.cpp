@@ -974,7 +974,7 @@ void Menu::FMV_Select_Update_47E8D0()
             }
             else
             {
-                field_1E8_pMenuTrans = ao_new<MainMenuTransition>(Layer::eLayer_FadeFlash_40, 1, 0, 16, TPageAbr::eBlend_1);
+                field_1E8_pMenuTrans = relive_new MainMenuTransition(Layer::eLayer_FadeFlash_40, 1, 0, 16, TPageAbr::eBlend_1);
             }
             field_1CC_fn_update = &Menu::FMV_Or_Level_Select_To_Back_Update_47EC70;
         }
@@ -991,7 +991,7 @@ void Menu::FMV_Select_Update_47E8D0()
                     u32 movie1Sector = 0;
                     Get_fmvs_sectors_44FEB0(pFmvRec->field_0_pName, 0, 0, &movie1Sector, 0, 0);
 
-                    ao_new<Movie>(pFmvRec->field_4_id, movie1Sector, static_cast<s8>(pFmvRec->field_6), pFmvRec->field_A, pFmvRec->field_C_volume);
+                    relive_new Movie(pFmvRec->field_4_id, movie1Sector, static_cast<s8>(pFmvRec->field_6), pFmvRec->field_A, pFmvRec->field_C_volume);
 
                     while (sMovie_ref_count_9F309C)
                     {
@@ -1395,7 +1395,7 @@ void Menu::MainScreen_Update_47AF60()
                 }
                 else
                 {
-                    field_1E8_pMenuTrans = ao_new<MainMenuTransition>(Layer::eLayer_FadeFlash_40, 1, 0, 16, TPageAbr::eBlend_1);
+                    field_1E8_pMenuTrans = relive_new MainMenuTransition(Layer::eLayer_FadeFlash_40, 1, 0, 16, TPageAbr::eBlend_1);
                     if (field_1E8_pMenuTrans)
                     {
                         field_1E8_pMenuTrans->mBaseGameObjectRefCount++;
@@ -1424,7 +1424,7 @@ void Menu::MainScreen_Update_47AF60()
                 field_1E8_pMenuTrans->mBaseGameObjectFlags.Set(Options::eDead);
             }
 
-            field_1E8_pMenuTrans = ao_new<MainMenuTransition>(Layer::eLayer_FadeFlash_40, 1, 0, 16, TPageAbr::eBlend_1);
+            field_1E8_pMenuTrans = relive_new MainMenuTransition(Layer::eLayer_FadeFlash_40, 1, 0, 16, TPageAbr::eBlend_1);
             if (field_1E8_pMenuTrans)
             {
                 field_1E8_pMenuTrans->mBaseGameObjectRefCount++;
@@ -1454,7 +1454,7 @@ void Menu::MainScreen_Update_47AF60()
             }
             else
             {
-                field_1E8_pMenuTrans = ao_new<MainMenuTransition>(Layer::eLayer_FadeFlash_40, 1, 0, 16, TPageAbr::eBlend_1);
+                field_1E8_pMenuTrans = relive_new MainMenuTransition(Layer::eLayer_FadeFlash_40, 1, 0, 16, TPageAbr::eBlend_1);
                 if (field_1E8_pMenuTrans)
                 {
                     field_1E8_pMenuTrans->mBaseGameObjectRefCount++;
@@ -1488,7 +1488,7 @@ void Menu::MainScreen_Update_47AF60()
             }
             else
             {
-                field_1E8_pMenuTrans = ao_new<MainMenuTransition>(Layer::eLayer_FadeFlash_40, 1, 0, 16, TPageAbr::eBlend_1);
+                field_1E8_pMenuTrans = relive_new MainMenuTransition(Layer::eLayer_FadeFlash_40, 1, 0, 16, TPageAbr::eBlend_1);
                 if (field_1E8_pMenuTrans)
                 {
                     field_1E8_pMenuTrans->mBaseGameObjectRefCount++;
@@ -1606,7 +1606,7 @@ void Menu::WaitForSpeakFinishAndStartChangeEffect_47BB90()
         }
         else
         {
-            field_1E8_pMenuTrans = ao_new<MainMenuTransition>(Layer::eLayer_FadeFlash_40, 1, 0, 16, TPageAbr::eBlend_1);
+            field_1E8_pMenuTrans = relive_new MainMenuTransition(Layer::eLayer_FadeFlash_40, 1, 0, 16, TPageAbr::eBlend_1);
             if (field_1E8_pMenuTrans)
             {
                 field_1E8_pMenuTrans->mBaseGameObjectRefCount++;
@@ -2055,7 +2055,7 @@ void Menu::NewGameStart_47B9C0()
     if (!sActiveHero_507678)
     {
         const AnimRecord& rec = AO::AnimRec(AnimId::Mudokon_Walk);
-        sActiveHero_507678 = ao_new<Abe>(rec.mFrameTableOffset, 85, 57, 55);
+        sActiveHero_507678 = relive_new Abe(rec.mFrameTableOffset, 85, 57, 55);
     }
 
     if (gAttract_507698)
@@ -2064,14 +2064,14 @@ void Menu::NewGameStart_47B9C0()
         // resulting in a crash when we try access any member vars at the end. Bump the ref count so we can kill ourselves instead.
         mBaseGameObjectRefCount++;
         u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Plbk, sJoyResId_50769C, 1, 0);
-        ao_new<DemoPlayback>(ppRes, 0);
+        relive_new DemoPlayback(ppRes, 0);
         mBaseGameObjectRefCount--;
     }
     else
     {
         if (!pPauseMenu_5080E0)
         {
-            pPauseMenu_5080E0 = ao_new<PauseMenu>();
+            pPauseMenu_5080E0 = relive_new PauseMenu();
         }
 
         if (field_20C_bStartInSpecificMap)
@@ -2615,7 +2615,7 @@ void Menu::GameSpeak_Update_47CBD0()
             const FP screen_y = pScreenManager_4FF7C8->field_10_pCamPos->field_4_y - FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos);
             const FP screen_x = pScreenManager_4FF7C8->field_10_pCamPos->field_0_x - FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos);
 
-            auto pParticle = ao_new<Particle>(
+            auto pParticle = relive_new Particle(
                 screen_x + (FP_FromInteger(Math_RandomRange_450F20(-40, 40) + 184)),
                 screen_y + (FP_FromInteger(162 - Math_RandomRange_450F20(30, 90))),
                 rec.mFrameTableOffset,
@@ -2684,11 +2684,11 @@ void Menu::GameSpeak_Update_47CBD0()
         {
             if (Input_JoyStickEnabled())
             {
-                field_1EC_pObj1 = ao_new<MainMenuFade>(stru_4D00E0[8].field_0_xpos, stru_4D00E0[8].field_2_ypos + 36, buttonType::eCircle_0, 0);
+                field_1EC_pObj1 = relive_new MainMenuFade(stru_4D00E0[8].field_0_xpos, stru_4D00E0[8].field_2_ypos + 36, buttonType::eCircle_0, 0);
             }
             else
             {
-                field_1EC_pObj1 = ao_new<MainMenuFade>(181, stru_4D00E0[8].field_2_ypos + 36, buttonType::eCircle_0, 0);
+                field_1EC_pObj1 = relive_new MainMenuFade(181, stru_4D00E0[8].field_2_ypos + 36, buttonType::eCircle_0, 0);
             }
         }
 
@@ -2699,7 +2699,7 @@ void Menu::GameSpeak_Update_47CBD0()
 
         if (Input_JoyStickEnabled())
         {
-            field_1F0_pObj2 = ao_new<MainMenuFade>(stru_4D00E0[11].field_0_xpos, stru_4D00E0[11].field_2_ypos + 36, buttonType::eCircle_0, 0);
+            field_1F0_pObj2 = relive_new MainMenuFade(stru_4D00E0[11].field_0_xpos, stru_4D00E0[11].field_2_ypos + 36, buttonType::eCircle_0, 0);
         }
         else
         {
@@ -2722,7 +2722,7 @@ void Menu::GameSpeak_Update_47CBD0()
         }
         else if (Input_JoyStickEnabled())
         {
-            field_1F0_pObj2 = ao_new<MainMenuFade>(stru_4D00E0[10].field_0_xpos, stru_4D00E0[10].field_2_ypos + 36, buttonType::eCircle_0, 0);
+            field_1F0_pObj2 = relive_new MainMenuFade(stru_4D00E0[10].field_0_xpos, stru_4D00E0[10].field_2_ypos + 36, buttonType::eCircle_0, 0);
         }
 
         if (Input().IsAnyHeld(InputObject::PadIndex::First, sInputKey_GameSpeak2_4C65BC))
@@ -2732,7 +2732,7 @@ void Menu::GameSpeak_Update_47CBD0()
             const AnimRecord& rec = AO::AnimRec(AnimId::MenuAbeSpeak_FollowMe);
             field_10_anim.Set_Animation_Data(rec.mFrameTableOffset, field_E4_res_array[0]);
             field_1E0_selected_index.gamespeak_menu = GameSpeakOptions::eFollowMe_2;
-            ao_new<MainMenuFade>(stru_4D00E0[2].field_0_xpos, stru_4D00E0[2].field_2_ypos + 36, buttonType::eCircle_0, 1);
+            relive_new MainMenuFade(stru_4D00E0[2].field_0_xpos, stru_4D00E0[2].field_2_ypos + 36, buttonType::eCircle_0, 1);
         }
         else if (Input().IsAnyHeld(InputObject::PadIndex::First, sInputKey_GameSpeak4_4C65C4))
         {
@@ -2741,7 +2741,7 @@ void Menu::GameSpeak_Update_47CBD0()
             const AnimRecord& rec = AO::AnimRec(AnimId::MenuAbeSpeak_Wait);
             field_10_anim.Set_Animation_Data(rec.mFrameTableOffset, field_E4_res_array[0]);
             field_1E0_selected_index.gamespeak_menu = GameSpeakOptions::eWait_0;
-            ao_new<MainMenuFade>(stru_4D00E0[0].field_0_xpos, stru_4D00E0[0].field_2_ypos + 36, buttonType::eCircle_0, 1);
+            relive_new MainMenuFade(stru_4D00E0[0].field_0_xpos, stru_4D00E0[0].field_2_ypos + 36, buttonType::eCircle_0, 1);
         }
         else if (Input().IsAnyHeld(InputObject::PadIndex::First, sInputKey_GameSpeak1_4C65C8))
         {
@@ -2750,7 +2750,7 @@ void Menu::GameSpeak_Update_47CBD0()
             const AnimRecord& rec = AO::AnimRec(AnimId::MenuAbeSpeak_Hello);
             field_10_anim.Set_Animation_Data(rec.mFrameTableOffset, field_E4_res_array[1]);
             field_1E0_selected_index.gamespeak_menu = GameSpeakOptions::eHello_1;
-            ao_new<MainMenuFade>(stru_4D00E0[1].field_0_xpos, stru_4D00E0[1].field_2_ypos + 36, buttonType::eCircle_0, 1);
+            relive_new MainMenuFade(stru_4D00E0[1].field_0_xpos, stru_4D00E0[1].field_2_ypos + 36, buttonType::eCircle_0, 1);
         }
         else if (Input().IsAnyPressed(InputObject::PadIndex::First, sInputKey_GameSpeak3_4C65C0))
         {
@@ -2759,7 +2759,7 @@ void Menu::GameSpeak_Update_47CBD0()
             const AnimRecord& rec = AO::AnimRec(AnimId::MenuAbeSpeak_Anger);
             field_10_anim.Set_Animation_Data(rec.mFrameTableOffset, field_E4_res_array[0]);
             field_1E0_selected_index.gamespeak_menu = GameSpeakOptions::eAngry_3;
-            ao_new<MainMenuFade>(stru_4D00E0[3].field_0_xpos, stru_4D00E0[3].field_2_ypos + 36, buttonType::eCircle_0, 1);
+            relive_new MainMenuFade(stru_4D00E0[3].field_0_xpos, stru_4D00E0[3].field_2_ypos + 36, buttonType::eCircle_0, 1);
         }
         CycleGameSpeakIdleAnims();
         return;
@@ -2778,7 +2778,7 @@ void Menu::GameSpeak_Update_47CBD0()
         }
         else if (Input_JoyStickEnabled())
         {
-            field_1F0_pObj2 = ao_new<MainMenuFade>(stru_4D00E0[12].field_0_xpos, stru_4D00E0[12].field_2_ypos + 36, buttonType::eCircle_0, 0);
+            field_1F0_pObj2 = relive_new MainMenuFade(stru_4D00E0[12].field_0_xpos, stru_4D00E0[12].field_2_ypos + 36, buttonType::eCircle_0, 0);
         }
 
         if (Input().IsAnyHeld(InputObject::PadIndex::First, sInputKey_GameSpeak6_4C65E8))
@@ -2788,7 +2788,7 @@ void Menu::GameSpeak_Update_47CBD0()
             const AnimRecord& rec = AO::AnimRec(AnimId::MenuAbeSpeak_WhistleHigh);
             field_10_anim.Set_Animation_Data(rec.mFrameTableOffset, field_E4_res_array[0]);
             field_1E0_selected_index.gamespeak_menu = GameSpeakOptions::eWhistleHigh_4;
-            ao_new<MainMenuFade>(stru_4D00E0[4].field_0_xpos, stru_4D00E0[4].field_2_ypos + 36, buttonType::eCircle_0, 1);
+            relive_new MainMenuFade(stru_4D00E0[4].field_0_xpos, stru_4D00E0[4].field_2_ypos + 36, buttonType::eCircle_0, 1);
         }
         else if (Input().IsAnyHeld(InputObject::PadIndex::First, sInputKey_GameSpeak5_4C65EC))
         {
@@ -2797,7 +2797,7 @@ void Menu::GameSpeak_Update_47CBD0()
             const AnimRecord& rec = AO::AnimRec(AnimId::MenuAbeSpeak_WhistleLow);
             field_10_anim.Set_Animation_Data(rec.mFrameTableOffset, field_E4_res_array[0]);
             field_1E0_selected_index.gamespeak_menu = GameSpeakOptions::eWhistleLow_5;
-            ao_new<MainMenuFade>(stru_4D00E0[5].field_0_xpos, stru_4D00E0[5].field_2_ypos + 36, buttonType::eCircle_0, 1);
+            relive_new MainMenuFade(stru_4D00E0[5].field_0_xpos, stru_4D00E0[5].field_2_ypos + 36, buttonType::eCircle_0, 1);
         }
         else if (Input().IsAnyHeld(InputObject::PadIndex::First, sInputKey_GameSpeak8_4C65E0))
         {
@@ -2806,7 +2806,7 @@ void Menu::GameSpeak_Update_47CBD0()
             const AnimRecord& rec = AO::AnimRec(AnimId::MenuAbeSpeak_Laugh);
             field_10_anim.Set_Animation_Data(rec.mFrameTableOffset, field_E4_res_array[0]);
             field_1E0_selected_index.gamespeak_menu = GameSpeakOptions::eLaugh_6;
-            ao_new<MainMenuFade>(stru_4D00E0[6].field_0_xpos, stru_4D00E0[6].field_2_ypos + 36, buttonType::eCircle_0, 1);
+            relive_new MainMenuFade(stru_4D00E0[6].field_0_xpos, stru_4D00E0[6].field_2_ypos + 36, buttonType::eCircle_0, 1);
         }
         else if (Input().IsAnyHeld(InputObject::PadIndex::First, sInputKey_GameSpeak7_4C65E4))
         {
@@ -2815,7 +2815,7 @@ void Menu::GameSpeak_Update_47CBD0()
             const AnimRecord& rec = AO::AnimRec(AnimId::MenuAbeSpeak_Fart);
             field_10_anim.Set_Animation_Data(rec.mFrameTableOffset, field_E4_res_array[0]);
             field_1E0_selected_index.gamespeak_menu = GameSpeakOptions::eFart_7;
-            ao_new<MainMenuFade>(stru_4D00E0[7].field_0_xpos, stru_4D00E0[7].field_2_ypos + 36, buttonType::eCircle_0, 1);
+            relive_new MainMenuFade(stru_4D00E0[7].field_0_xpos, stru_4D00E0[7].field_2_ypos + 36, buttonType::eCircle_0, 1);
         }
         CycleGameSpeakIdleAnims();
         return;
@@ -2839,7 +2839,7 @@ void Menu::GameSpeak_Update_47CBD0()
     field_10_anim.Set_Animation_Data(rec.mFrameTableOffset, field_E4_res_array[0]);
     field_1E0_selected_index.gamespeak_menu = GameSpeakOptions::eMainMenu_9;
 
-    ao_new<MainMenuFade>(stru_4D00E0[9].field_0_xpos, stru_4D00E0[9].field_2_ypos + 36, buttonType::eCircle_0, 1);
+    relive_new MainMenuFade(stru_4D00E0[9].field_0_xpos, stru_4D00E0[9].field_2_ypos + 36, buttonType::eCircle_0, 1);
 
     field_1CC_fn_update = &Menu::GameSpeakBack_WaitForAbeGoodbye_Update_47D5E0;
 
@@ -3335,7 +3335,7 @@ void Menu::LoadSave_Update_47DB40()
 
     if (!pPauseMenu_5080E0)
     {
-        pPauseMenu_5080E0 = ao_new<PauseMenu>();
+        pPauseMenu_5080E0 = relive_new PauseMenu();
     }
 
     ResourceManager::Reclaim_Memory_455660(0);
@@ -3343,7 +3343,7 @@ void Menu::LoadSave_Update_47DB40()
     if (!sActiveHero_507678)
     {
         const AnimRecord& rec = AO::AnimRec(AnimId::Mudokon_Walk);
-        sActiveHero_507678 = ao_new<Abe>(rec.mFrameTableOffset, 85, 57, 55);
+        sActiveHero_507678 = relive_new Abe(rec.mFrameTableOffset, 85, 57, 55);
     }
 
     if (!SaveGame::LoadFromFile(sSaveNames_9F1DD8[field_1E0_selected_index.raw].field_0_mName))

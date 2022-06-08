@@ -479,7 +479,7 @@ void Water::VUpdate()
                         if (!(old_splash_time % 4) && !field_13C_not_in_camera_count)
                         {
                             const AnimRecord& splashRec = AnimRec(AnimId::WaterSplash);
-                            ae_new<Particle>(FP_NoFractional(pWaterRes->field_0_xpos) + pScreenManager->field_20_pCamPos->field_0_x,
+                            relive_new Particle(FP_NoFractional(pWaterRes->field_0_xpos) + pScreenManager->field_20_pCamPos->field_0_x,
                                                               FP_NoFractional(pWaterRes->field_4_ypos) + pScreenManager->field_20_pCamPos->field_4_y + FP_FromInteger(Math_NextRandom() % 4) - FP_FromInteger(2),
                                                               splashRec.mFrameTableOffset,
                                                               splashRec.mMaxW,

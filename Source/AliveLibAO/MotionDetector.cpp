@@ -63,7 +63,7 @@ MotionDetector::MotionDetector(Path_MotionDetector* pTlv, s32 tlvInfo)
     {
         
         field_E8_state = States::eMoveRight_0;
-        auto pMotionDetectors = ao_new<MotionDetectorLaser>();
+        auto pMotionDetectors = relive_new MotionDetectorLaser();
         if (pMotionDetectors)
         {
             pMotionDetectors->mBaseGameObjectTypeId = ReliveTypes::eRedLaser;
@@ -84,7 +84,7 @@ MotionDetector::MotionDetector(Path_MotionDetector* pTlv, s32 tlvInfo)
     else if (pTlv->field_20_initial_move_direction == Path_MotionDetector::InitialMoveDirection::eLeft_1)
     {
         field_E8_state = States::eMoveLeft_2;
-        auto pMotionDetectors = ao_new<MotionDetectorLaser>();
+        auto pMotionDetectors = relive_new MotionDetectorLaser();
         if (pMotionDetectors)
         {
             pMotionDetectors->mBaseGameObjectTypeId = ReliveTypes::eRedLaser;
@@ -210,7 +210,7 @@ void MotionDetector::VUpdate()
 
                             if (alarmInstanceCount_5076A8 == 0)
                             {
-                                ao_new<Alarm>(
+                                relive_new Alarm(
                                     field_F4_alarm_duration,
                                     field_F2_alarm_switch_id,
                                     0,

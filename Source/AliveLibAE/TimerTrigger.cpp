@@ -27,7 +27,7 @@ s32 TimerTrigger::CreateFromSaveState(const u8* pData)
     auto pState = reinterpret_cast<const TimerTrigger_State*>(pData);
 
     Path_TimerTrigger* pTlv = static_cast<Path_TimerTrigger*>(sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam(pState->field_4_tlvInfo));
-    auto pTimerTrigger = ae_new<TimerTrigger>(pTlv, pState->field_4_tlvInfo);
+    auto pTimerTrigger = relive_new TimerTrigger(pTlv, pState->field_4_tlvInfo);
     if (pTimerTrigger)
     {
         pTimerTrigger->field_22_state = pState->field_C_state;

@@ -71,7 +71,7 @@ MineCar::MineCar(Path_MineCar* pTlv, s32 tlvInfo, s32 /*a4*/, s32 /*a5*/, s32 /*
 
     mBaseGameObjectFlags.Set(BaseGameObject::eCanExplode_Bit7);
 
-    mShadow = ae_new<Shadow>();
+    mShadow = relive_new Shadow();
 
     Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kAbeCarResId);
     Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kMetalGibResID);
@@ -133,7 +133,7 @@ s32 MineCar::CreateFromSaveState(const u8* pBuffer)
         ResourceManager::LoadResourceFile_49C170("ABEBLOW.BAN", nullptr);
     }
 
-    auto pMineCar = ae_new<MineCar>(pTlv, pState->field_4C_tlvInfo, 0, 0, 0);
+    auto pMineCar = relive_new MineCar(pTlv, pState->field_4C_tlvInfo, 0, 0, 0);
     if (pMineCar)
     {
         if (pState->field_5A_bAbeInCar)
@@ -1599,7 +1599,7 @@ void MineCar::State_3_Falling()
         {
             field_C4_velx = FP_FromInteger(0);
 
-            ae_new<ParticleBurst>(
+            relive_new ParticleBurst(
                 sControlledCharacter_5C1B8C->mBaseAnimatedWithPhysicsGameObject_XPos + mineCarHeight + kGridSize,
                 sControlledCharacter_5C1B8C->mBaseAnimatedWithPhysicsGameObject_YPos - ((mineCarHeight + kGridSize) * FP_FromDouble(0.5)),
                 4u,
@@ -1621,7 +1621,7 @@ void MineCar::State_3_Falling()
         {
             field_C4_velx = FP_FromInteger(0);
 
-            ae_new<ParticleBurst>(
+            relive_new ParticleBurst(
                 sControlledCharacter_5C1B8C->mBaseAnimatedWithPhysicsGameObject_XPos - (mineCarHeight + kGridSize),
                 sControlledCharacter_5C1B8C->mBaseAnimatedWithPhysicsGameObject_YPos - ((mineCarHeight + kGridSize) * FP_FromDouble(0.5)),
                 4u,
@@ -1644,7 +1644,7 @@ void MineCar::State_3_Falling()
         BaseAliveGameObjectLastLineYPos = hitY;
         field_C8_vely = (-field_C8_vely * FP_FromDouble(0.2));
 
-        ae_new<ParticleBurst>(
+        relive_new ParticleBurst(
             sControlledCharacter_5C1B8C->mBaseAnimatedWithPhysicsGameObject_XPos,
             sControlledCharacter_5C1B8C->mBaseAnimatedWithPhysicsGameObject_YPos,
             5u,
@@ -1658,7 +1658,7 @@ void MineCar::State_3_Falling()
             SFX_Play_Pitch(SoundEffect::MinecarStop_101, 127, 0, field_CC_sprite_scale);
             SFX_Play_Pitch(SoundEffect::FallingItemHit_47, 127, 0, field_CC_sprite_scale);
 
-            ae_new<ScreenShake>(FALSE, FALSE);
+            relive_new ScreenShake(FALSE, FALSE);
         }
 
         field_1C2_falling_counter = 0;

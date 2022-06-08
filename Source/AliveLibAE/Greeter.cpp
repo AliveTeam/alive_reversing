@@ -76,7 +76,7 @@ Greeter::Greeter(Path_Greeter* pTlv, s32 tlvInfo)
         mBaseAnimatedWithPhysicsGameObject_YPos = hitY;
     }
 
-    auto pMotionDetctor = ae_new<MotionDetector>(nullptr, 0, this);
+    auto pMotionDetctor = relive_new MotionDetector(nullptr, 0, this);
     if (pMotionDetctor)
     {
         field_11C_motionDetectorId = pMotionDetctor->field_8_object_id;
@@ -93,7 +93,7 @@ Greeter::Greeter(Path_Greeter* pTlv, s32 tlvInfo)
 
     field_12C_timesShot = 0;
 
-    mShadow = ae_new<Shadow>();
+    mShadow = relive_new Shadow();
 
     mBaseAliveGameObjectFlags.Set(Flags_114::e114_Bit6_SetOffExplosives);
     field_130_bChasing = 0;
@@ -137,7 +137,7 @@ s32 Greeter::CreateFromSaveState(const u8* pBuffer)
         ResourceManager::LoadResourceFile_49C170("ABEBLOW.BAN", nullptr);
     }
 
-    auto pGreeter = ae_new<Greeter>(pTlv, pState->field_28_tlvInfo);
+    auto pGreeter = relive_new Greeter(pTlv, pState->field_28_tlvInfo);
     if (pGreeter)
     {
         pGreeter->mBaseAnimatedWithPhysicsGameObject_XPos = pState->field_C_xpos;
@@ -279,13 +279,13 @@ void Greeter::BlowUp()
 {
     mHealth = FP_FromInteger(0);
 
-    ae_new<Explosion>(
+    relive_new Explosion(
         mBaseAnimatedWithPhysicsGameObject_XPos,
         mBaseAnimatedWithPhysicsGameObject_YPos - (field_CC_sprite_scale * FP_FromInteger(5)),
         field_CC_sprite_scale,
         0);
 
-    ae_new<Gibs>(
+    relive_new Gibs(
         GibType::Metal_5,
         mBaseAnimatedWithPhysicsGameObject_XPos,
         mBaseAnimatedWithPhysicsGameObject_YPos + FP_FromInteger(50),
@@ -469,9 +469,9 @@ void Greeter::VOnThrowableHit(BaseGameObject* /*pFrom*/)
 
 void Greeter::ZapTarget(FP xpos, FP ypos, BaseAliveGameObject* pTarget)
 {
-    ae_new<ScreenShake>(0, 0);
+    relive_new ScreenShake(0, 0);
 
-    ae_new<ZapLine>(
+    relive_new ZapLine(
         mBaseAnimatedWithPhysicsGameObject_XPos,
         mBaseAnimatedWithPhysicsGameObject_YPos - (FP_FromInteger(20) * field_CC_sprite_scale),
         xpos,
@@ -480,7 +480,7 @@ void Greeter::ZapTarget(FP xpos, FP ypos, BaseAliveGameObject* pTarget)
         ZapLineType::eThick_0,
         Layer::eLayer_ZapLinesMuds_28);
 
-    ae_new<ZapLine>(
+    relive_new ZapLine(
         mBaseAnimatedWithPhysicsGameObject_XPos,
         mBaseAnimatedWithPhysicsGameObject_YPos,
         xpos,
@@ -489,7 +489,7 @@ void Greeter::ZapTarget(FP xpos, FP ypos, BaseAliveGameObject* pTarget)
         ZapLineType::eThick_0,
         Layer::eLayer_ZapLinesMuds_28);
 
-    ae_new<ZapLine>(
+    relive_new ZapLine(
         mBaseAnimatedWithPhysicsGameObject_XPos,
         mBaseAnimatedWithPhysicsGameObject_YPos - (FP_FromInteger(50) * field_CC_sprite_scale),
         xpos,
@@ -498,7 +498,7 @@ void Greeter::ZapTarget(FP xpos, FP ypos, BaseAliveGameObject* pTarget)
         ZapLineType::eThick_0,
         Layer::eLayer_ZapLinesMuds_28);
 
-    ae_new<ParticleBurst>(
+    relive_new ParticleBurst(
         xpos,
         ypos,
         10,
@@ -506,7 +506,7 @@ void Greeter::ZapTarget(FP xpos, FP ypos, BaseAliveGameObject* pTarget)
         BurstType::eBigRedSparks_3,
         11);
 
-    ae_new<ParticleBurst>(
+    relive_new ParticleBurst(
         mBaseAnimatedWithPhysicsGameObject_XPos,
         mBaseAnimatedWithPhysicsGameObject_YPos - (FP_FromInteger(10) * field_CC_sprite_scale),
         10,
@@ -516,7 +516,7 @@ void Greeter::ZapTarget(FP xpos, FP ypos, BaseAliveGameObject* pTarget)
 
     pTarget->mBaseAliveGameObjectFlags.Set(Flags_114::e114_Bit7_Electrocuted);
 
-    ae_new<Electrocute>(pTarget, TRUE, TRUE);
+    relive_new Electrocute(pTarget, TRUE, TRUE);
 
     pTarget->VTakeDamage(this);
 

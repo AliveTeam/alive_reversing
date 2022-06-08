@@ -33,7 +33,7 @@ void LevelLoader::VUpdate()
         {
             if (SwitchStates_Get(field_20_switch_id))
             {
-                auto pFade = ae_new<DeathFadeOut>(Layer::eLayer_FadeFlash_40, 1, 1, 32, TPageAbr::eBlend_2);
+                auto pFade = relive_new DeathFadeOut(Layer::eLayer_FadeFlash_40, 1, 1, 32, TPageAbr::eBlend_2);
                 if (pFade)
                 {
                     field_22_state = States::eFadingOut_1;

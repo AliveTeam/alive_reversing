@@ -305,7 +305,7 @@ void SlingMudokon::Motion_3_ShootStart()
                 xDistance = FP_FromInteger(640);
             }
 
-            ao_new<Bullet>(
+            relive_new Bullet(
                 this,
                 BulletType::eNormalBullet_1,
                 bulletXPos,
@@ -545,7 +545,7 @@ s16 SlingMudokon::Brain_1_Spawn()
                 field_10_anim.mAnimFlags.Set(AnimFlags::eBit3_Render);
                 SetCurrentMotion(eSlingMudMotions::Motion_0_Idle);
 
-                ao_new<Flash>(Layer::eLayer_Above_FG1_39, 255u, 0, 255u);
+                relive_new Flash(Layer::eLayer_Above_FG1_39, 255u, 0, 255u);
 
                 if (mBaseAnimatedWithPhysicsGameObject_XPos > sActiveHero_507678->mBaseAnimatedWithPhysicsGameObject_XPos)
                 {
@@ -641,7 +641,7 @@ s16 SlingMudokon::Brain_1_Spawn()
                 for (s32 i = 0; i < 8; i++)
                 {
                     const AnimRecord& doveRec = AO::AnimRec(AnimId::Dove_Flying);
-                    auto pDove = ao_new<Dove>(
+                    auto pDove = relive_new Dove(
                         doveRec.mFrameTableOffset,
                         doveRec.mMaxW,
                         doveRec.mMaxH,
@@ -678,7 +678,7 @@ s16 SlingMudokon::Brain_1_Spawn()
                 mBaseGameObjectFlags.Set(BaseGameObject::eDead);
                 New_DestroyOrCreateObject_Particle_419D00(mBaseAnimatedWithPhysicsGameObject_XPos, (field_BC_sprite_scale * FP_FromInteger(20)) + mBaseAnimatedWithPhysicsGameObject_YPos, field_BC_sprite_scale);
 
-                ao_new<Flash>(Layer::eLayer_Above_FG1_39, 255u, 0, 255u);
+                relive_new Flash(Layer::eLayer_Above_FG1_39, 255u, 0, 255u);
             }
             return field_13A_brain_sub_state;
 
@@ -719,7 +719,7 @@ s16 SlingMudokon::Brain_2_AskForPassword()
                 field_10_anim.mAnimFlags.Set(AnimFlags::eBit2_Animate);
                 field_10_anim.mAnimFlags.Set(AnimFlags::eBit3_Render);
 
-                ao_new<Flash>(Layer::eLayer_Above_FG1_39, 255u, 0, 255u);
+                relive_new Flash(Layer::eLayer_Above_FG1_39, 255u, 0, 255u);
 
                 field_140_timer = sGnFrame + 30;
 
@@ -926,7 +926,7 @@ s16 SlingMudokon::Brain_2_AskForPassword()
                 for (s32 i = 0; i < 8; i++)
                 {
                     const AnimRecord& doveRec = AO::AnimRec(AnimId::Dove_Flying);
-                    auto pDove = ao_new<Dove>(
+                    auto pDove = relive_new Dove(
                         doveRec.mFrameTableOffset,
                         doveRec.mMaxW,
                         doveRec.mMaxH,
@@ -963,7 +963,7 @@ s16 SlingMudokon::Brain_2_AskForPassword()
                 mBaseGameObjectFlags.Set(BaseGameObject::eDead);
                 New_DestroyOrCreateObject_Particle_419D00(mBaseAnimatedWithPhysicsGameObject_XPos, (field_BC_sprite_scale * FP_FromInteger(20)) + mBaseAnimatedWithPhysicsGameObject_YPos, field_BC_sprite_scale);
 
-                ao_new<Flash>(Layer::eLayer_Above_FG1_39, 255u, 0, 255u);
+                relive_new Flash(Layer::eLayer_Above_FG1_39, 255u, 0, 255u);
             }
             return field_13A_brain_sub_state;
 

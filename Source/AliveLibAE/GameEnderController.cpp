@@ -35,14 +35,14 @@ void CreateGameEnderController_43B7A0()
     }
 
     // Otherwise create one
-    ae_new<GameEnderController>();
+    relive_new GameEnderController();
 }
 
 
 s32 GameEnderController::CreateFromSaveState(const u8* pBuffer)
 {
     auto pState = reinterpret_cast<const GameEnderController_State*>(pBuffer);
-    auto pGameEnderController = ae_new<GameEnderController>();
+    auto pGameEnderController = relive_new GameEnderController();
     if (pGameEnderController)
     {
         pGameEnderController->mBaseGameObjectTlvInfo = pState->field_4_obj_id;

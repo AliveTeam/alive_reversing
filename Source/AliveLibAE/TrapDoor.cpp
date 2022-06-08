@@ -171,7 +171,7 @@ s32 TrapDoor::CreateFromSaveState(const u8* pData)
             break;
     }
 
-    auto pTrapDoor = ae_new<TrapDoor>(pTlv, nullptr, pState->field_8_tlvInfo);
+    auto pTrapDoor = relive_new TrapDoor(pTlv, nullptr, pState->field_8_tlvInfo);
     if (pTrapDoor)
     {
         pTrapDoor->field_130_stay_open_time2 = pState->field_4_open_time;

@@ -375,7 +375,7 @@ Mudokon::Mudokon(Path_TLV* pTlv, s32 tlvInfo)
     field_1AC_pBirdPortal = nullptr;
     field_194_pLiftPoint = nullptr;
 
-    field_D0_pShadow = ao_new<Shadow>();
+    field_D0_pShadow = relive_new Shadow();
 
     VUpdate();
 }
@@ -636,7 +636,7 @@ s16 Mudokon::VTakeDamage(BaseGameObject* pFrom)
             {
                 mHealth = FP_FromInteger(0);
 
-                ao_new<Gibs>(
+                relive_new Gibs(
                     GibType::Mud_4,
                     mBaseAnimatedWithPhysicsGameObject_XPos,
                     mBaseAnimatedWithPhysicsGameObject_YPos,
@@ -644,7 +644,7 @@ s16 Mudokon::VTakeDamage(BaseGameObject* pFrom)
                     FP_FromInteger(0),
                     field_BC_sprite_scale);
 
-                ao_new<Gibs>(
+                relive_new Gibs(
                     GibType::Mud_4,
                     mBaseAnimatedWithPhysicsGameObject_XPos,
                     mBaseAnimatedWithPhysicsGameObject_YPos,
@@ -675,7 +675,7 @@ s16 Mudokon::VTakeDamage(BaseGameObject* pFrom)
                     bloodXOff = FP_FromInteger(24);
                 }
 
-                ao_new<Blood>(
+                relive_new Blood(
                     mBaseAnimatedWithPhysicsGameObject_XPos,
                     pBullet->field_1C_ypos,
                     bloodXOff,
@@ -2256,7 +2256,7 @@ void Mudokon::Motion_44_RunJumpMid_43E960()
         SND_SEQ_Play_477760(SeqId::eSaveTriggerMusic_45, 1, 127, 127);
 
 
-        ao_new<MusicTrigger>(MusicTriggerMusicType::eChime_5, TriggeredBy::eTimer_0, 0, 300);
+        relive_new MusicTrigger(MusicTriggerMusicType::eChime_5, TriggeredBy::eTimer_0, 0, 300);
 
         sRescuedMudokons_5076C0++;
 
@@ -3238,7 +3238,7 @@ s16 Mudokon::Brain_GiveRings_7_43C2F0()
         case 1:
             if (static_cast<s32>(sGnFrame) > field_1C0_timer)
             {
-                ao_new<PossessionFlicker>(this, 10, 255, 128, 128);
+                relive_new PossessionFlicker(this, 10, 255, 128, 128);
                 field_1C0_timer = sGnFrame + 15;
                 return 2;
             }
@@ -3250,7 +3250,7 @@ s16 Mudokon::Brain_GiveRings_7_43C2F0()
                 PSX_RECT ourRect = {};
                 VGetBoundingRect(&ourRect, 1);
 
-                    ao_new<AbilityRing>(
+                    relive_new AbilityRing(
                         FP_FromInteger((ourRect.w + ourRect.x) / 2),
                         FP_FromInteger((ourRect.h + ourRect.y) / 2),
                         RingTypes::eExplosive_Emit_Effect_2);
@@ -3258,7 +3258,7 @@ s16 Mudokon::Brain_GiveRings_7_43C2F0()
                 PSX_RECT heroRect = {};
                 sActiveHero_507678->VGetBoundingRect(&heroRect, 1);
 
-                auto pAbeRing = ao_new<AbilityRing>(
+                auto pAbeRing = relive_new AbilityRing(
                     FP_FromInteger((heroRect.w + heroRect.x) / 2),
                     FP_FromInteger((heroRect.h + heroRect.y) / 2),
                     RingTypes::eExplosive_Give_3);
@@ -4354,7 +4354,7 @@ s16 Mudokon::Brain_FallAndSmackDeath_13_43C700()
             if (static_cast<s32>(sGnFrame) > field_1C0_timer)
             {
                 Environment_SFX_42A220(EnvironmentSfx::eFallingDeathScreamHitGround_15, 0, 0x7FFF, this);
-                ao_new<ScreenShake>(0);
+                relive_new ScreenShake(0);
                 mBaseGameObjectFlags.Set(BaseGameObject::eDead);
             }
         }

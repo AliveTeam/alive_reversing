@@ -266,7 +266,7 @@ void ThrowableArray::Add(s16 count)
 s32 ThrowableArray::CreateFromSaveState(const u8* pState)
 {
     LoadRockTypes_49AB30(gMap.mCurrentLevel, gMap.mCurrentPath);
-    auto pArray = ae_new<ThrowableArray>();
+    auto pArray = relive_new ThrowableArray();
     pArray->Add(reinterpret_cast<const ThrowableArray_SaveState*>(pState)->field_2_item_count);
     return sizeof(ThrowableArray_SaveState);
 }

@@ -105,7 +105,7 @@ Slurg::Slurg(Path_Slurg* pTlv, u32 tlvInfo)
 
     VStackOnObjectsOfType(ReliveTypes::eSlurg);
     mApplyShadows |= 2u;
-    mShadow = ae_new<Shadow>();
+    mShadow = relive_new Shadow();
 }
 
 s32 Slurg::CreateFromSaveState(const u8* pData)
@@ -118,7 +118,7 @@ s32 Slurg::CreateFromSaveState(const u8* pData)
         ResourceManager::LoadResourceFile_49C170("SLURG.BAN", nullptr);
     }
 
-    auto pSlurg = ae_new<Slurg>(pTlv, pState->field_24_tlvInfo);
+    auto pSlurg = relive_new Slurg(pTlv, pState->field_24_tlvInfo);
 
     pSlurg->mBaseAnimatedWithPhysicsGameObject_XPos = pState->field_4_xpos;
     pSlurg->mBaseAnimatedWithPhysicsGameObject_YPos = pState->field_8_ypos;
@@ -158,7 +158,7 @@ void Slurg::Burst()
     const AnimRecord& animRec = AnimRec(AnimId::Slurg_Burst);
     field_20_animation.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
 
-    ae_new<Blood>(mBaseAnimatedWithPhysicsGameObject_XPos,
+    relive_new Blood(mBaseAnimatedWithPhysicsGameObject_XPos,
                                 mBaseAnimatedWithPhysicsGameObject_YPos,
                                 FP_FromInteger(0),
                                 FP_FromInteger(5),

@@ -52,7 +52,7 @@ void Teleporter::VScreenChanged()
 
 Electrocute* Teleporter::Create_ElectrocuteEffect()
 {
-    return ae_new<Electrocute>(sControlledCharacter_5C1B8C, TRUE, FALSE);
+    return relive_new Electrocute(sControlledCharacter_5C1B8C, TRUE, FALSE);
 }
 
 const PSX_Point kSparkOffs_563988[8] = {
@@ -88,7 +88,7 @@ void Teleporter::SpawnRingSparks(Path_Teleporter_Data* pTlvData)
             sparkY = yOrg + (sparkOffs.field_2_y);
         }
 
-        ae_new<Spark>(FP_FromInteger(sparkX), FP_FromInteger(sparkY), FP_FromInteger(1), 9, -31, 159, SparkType::eBigChantParticle_1);
+        relive_new Spark(FP_FromInteger(sparkX), FP_FromInteger(sparkY), FP_FromInteger(1), 9, -31, 159, SparkType::eBigChantParticle_1);
     }
 }
 
@@ -165,7 +165,7 @@ void Teleporter::VUpdate()
                             128u,
                             128u);
 
-                        ae_new<ParticleBurst>(sControlledCharacter_5C1B8C->mBaseAnimatedWithPhysicsGameObject_XPos,
+                        relive_new ParticleBurst(sControlledCharacter_5C1B8C->mBaseAnimatedWithPhysicsGameObject_XPos,
                                               sControlledCharacter_5C1B8C->mBaseAnimatedWithPhysicsGameObject_YPos - FP_FromInteger(9), // 18/2
                                               9u,
                                               FP_FromDouble(0.5),
@@ -184,7 +184,7 @@ void Teleporter::VUpdate()
                             128u,
                             128u);
 
-                       ae_new<ParticleBurst>(sControlledCharacter_5C1B8C->mBaseAnimatedWithPhysicsGameObject_XPos,
+                       relive_new ParticleBurst(sControlledCharacter_5C1B8C->mBaseAnimatedWithPhysicsGameObject_XPos,
                                                                     sControlledCharacter_5C1B8C->mBaseAnimatedWithPhysicsGameObject_YPos - FP_FromInteger(18),
                                                                     9u,
                                                                     FP_FromInteger(1),
@@ -319,7 +319,7 @@ void Teleporter::VUpdate()
             // Spawn the falling "red" sparks from Abe's feet that appear after you've arrived at the destination.
             if (sControlledCharacter_5C1B8C->field_CC_sprite_scale == FP_FromDouble(0.5))
             {
-                ae_new<ParticleBurst>(sControlledCharacter_5C1B8C->mBaseAnimatedWithPhysicsGameObject_XPos,
+                relive_new ParticleBurst(sControlledCharacter_5C1B8C->mBaseAnimatedWithPhysicsGameObject_XPos,
                                                             sControlledCharacter_5C1B8C->mBaseAnimatedWithPhysicsGameObject_YPos - FP_FromInteger(9),
                                                             6u,
                                                             FP_FromDouble(0.5),
@@ -328,7 +328,7 @@ void Teleporter::VUpdate()
             }
             else
             {
-                ae_new<ParticleBurst>(sControlledCharacter_5C1B8C->mBaseAnimatedWithPhysicsGameObject_XPos,
+                relive_new ParticleBurst(sControlledCharacter_5C1B8C->mBaseAnimatedWithPhysicsGameObject_XPos,
                                                             sControlledCharacter_5C1B8C->mBaseAnimatedWithPhysicsGameObject_YPos - FP_FromInteger(18),
                                                             6u,
                                                             FP_FromInteger(1),

@@ -205,9 +205,9 @@ void Map::ClearPathResourceBlocks()
 
 void Map::RemoveObjectsWithPurpleLight(s16 bMakeInvisible)
 {
-    auto pObjectsWithLightsArray = ae_new<DynamicArrayT<BaseAnimatedWithPhysicsGameObject>>(16);
+    auto pObjectsWithLightsArray = relive_new DynamicArrayT<BaseAnimatedWithPhysicsGameObject>(16);
 
-    auto pPurpleLightArray = ae_new<DynamicArrayT<Particle>>(16);
+    auto pPurpleLightArray = relive_new DynamicArrayT<Particle>(16);
 
     bool bAddedALight = false;
     for (s32 i = 0; i < gBaseGameObjects->Size(); i++)
@@ -518,7 +518,7 @@ CameraPos Map::GetDirection_4811A0(EReliveLevelIds level, s32 path, FP xpos, FP 
 
 void Map::Init(EReliveLevelIds level, s16 path, s16 camera, CameraSwapEffects screenChangeEffect, s16 fmvBaseId, s16 forceChange)
 {
-    sPath_dword_BB47C0 = ae_new<Path>();
+    sPath_dword_BB47C0 = relive_new Path();
     sPath_dword_BB47C0->ctor_4DB170();
 
     field_2C_camera_array[0] = nullptr;
@@ -730,7 +730,7 @@ void Map::GoTo_Camera()
             SND_Load_VABS(Path_Get_MusicInfo(mLevel), Path_Get_Reverb(mLevel));
             SND_Load_Seqs(sSeqData_558D50.mSeqs, Path_Get_BsqFileName(mLevel));
 
-            ae_new<BackgroundMusic>(Path_Get_BackGroundMusicId(mLevel));
+            relive_new BackgroundMusic(Path_Get_BackGroundMusicId(mLevel));
         }
 
         if (!field_8_force_load)
@@ -861,7 +861,7 @@ void Map::GoTo_Camera()
     // Create the screen manager if it hasn't already been done (probably should have always been done by this point though?)
     if (!pScreenManager)
     {
-        pScreenManager = ae_new<ScreenManager>(field_2C_camera_array[0]->field_C_pCamRes, &field_24_camera_offset);
+        pScreenManager = relive_new ScreenManager(field_2C_camera_array[0]->field_C_pCamRes, &field_24_camera_offset);
     }
 
     sPath_dword_BB47C0->Loader_4DB800(field_D0_cam_x_idx, field_D2_cam_y_idx, LoadMode::ConstructObject_0, TlvTypes::None_m1); // none = load all
@@ -915,7 +915,7 @@ void Map::GoTo_Camera()
         {
             if (!field_20)
             {
-                ae_new<CameraSwapper>(field_2C_camera_array[0]->field_C_pCamRes, field_10_screen_change_effect, 368 / 2, 240 / 2);
+                relive_new CameraSwapper(field_2C_camera_array[0]->field_C_pCamRes, field_10_screen_change_effect, 368 / 2, 240 / 2);
             }
             else
             {
@@ -962,7 +962,7 @@ void Map::CreateScreenTransistionForTLV(Path_TLV* pTlv)
 
     const s16 rightPos = static_cast<s16>(midX - FP_GetExponent(camX));
     const s16 xpos2 = rightPos;
-    ae_new<CameraSwapper>(field_2C_camera_array[0]->field_C_pCamRes, field_10_screen_change_effect, xpos2, doorYDiff);
+    relive_new CameraSwapper(field_2C_camera_array[0]->field_C_pCamRes, field_10_screen_change_effect, xpos2, doorYDiff);
 }
 
 void Map::Get_map_size(PSX_Point* pPoint)
@@ -1007,7 +1007,7 @@ void Map::Create_FG1s()
             ResourceManager::Header* pHeader = ResourceManager::Get_Header_49C410(ppRes);
             if (pHeader->field_8_type == ResourceManager::Resource_FG1)
             {
-                ae_new<FG1>(ppRes);
+                relive_new FG1(ppRes);
             }
         }
     }
@@ -1140,7 +1140,7 @@ BaseGameObject* Map::FMV_Camera_Change(u8** ppBits, Map* pMap, EReliveLevelIds l
             &pos2,
             &pos3);
 
-        return ae_new<CameraSwapper>(ppBits,
+        return relive_new CameraSwapper(ppBits,
                                               pos1,
                                               pFmvRec1->field_4_id,
                                               pos2,
@@ -1169,7 +1169,7 @@ BaseGameObject* Map::FMV_Camera_Change(u8** ppBits, Map* pMap, EReliveLevelIds l
         u32 cdPos2 = 0;
         Get_fmvs_sectors(pFmvRec1->field_0_pName, pFmvRec2->field_0_pName, 0, &cdPos1, &cdPos2, 0);
         sLevelId_dword_5CA408 = static_cast<s32>(MapWrapper::ToAE(lvlId)); // HACK
-        return ae_new<CameraSwapper>(ppBits,
+        return relive_new CameraSwapper(ppBits,
                                               cdPos1,
                                               pFmvRec1->field_4_id,
                                               cdPos2,
@@ -1190,7 +1190,7 @@ BaseGameObject* Map::FMV_Camera_Change(u8** ppBits, Map* pMap, EReliveLevelIds l
         u32 cdPos = 0;
         Get_fmvs_sectors(pFmvRec1->field_0_pName, 0, 0, &cdPos, 0, 0);
         sLevelId_dword_5CA408 = static_cast<s32>(MapWrapper::ToAE(lvlId)); // HACK
-        return ae_new<CameraSwapper>(ppBits,
+        return relive_new CameraSwapper(ppBits,
                                               cdPos,
                                               pFmvRec1->field_4_id,
                                               pFmvRec1->field_6_flags & 1,
@@ -1238,7 +1238,7 @@ Camera* Map::Create_Camera(s16 xpos, s16 ypos, s32 /*a4*/)
         return nullptr;
     }
 
-    Camera* newCamera = ae_new<Camera>();
+    Camera* newCamera = relive_new Camera();
 
     // Copy in the camera name from the Path resource and append .CAM
     memset(newCamera->field_1E_cam_name, 0, sizeof(newCamera->field_1E_cam_name));

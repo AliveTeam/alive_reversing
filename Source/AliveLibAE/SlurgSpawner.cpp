@@ -36,7 +36,7 @@ void SlurgSpawner::VUpdate()
         {
             field_3E_delay_counter = 0;
             field_40_spawned_count++;
-            ae_new<Slurg>(field_24_slurg_tlv, 0xFFFFFFFF);
+            relive_new Slurg(field_24_slurg_tlv, 0xFFFFFFFF);
         }
     }
 }

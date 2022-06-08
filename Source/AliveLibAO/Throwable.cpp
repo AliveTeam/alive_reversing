@@ -27,7 +27,7 @@ BaseThrowable* Make_Throwable(FP xpos, FP ypos, s16 count)
     {
         case AOTypes::eGrenade_40:
         {
-            auto pGrenade = ao_new<Grenade>(xpos, ypos, count);
+            auto pGrenade = relive_new Grenade(xpos, ypos, count);
             if (pGrenade)
             {
                 return pGrenade;
@@ -37,7 +37,7 @@ BaseThrowable* Make_Throwable(FP xpos, FP ypos, s16 count)
 
         case AOTypes::eMeat_54:
         {
-            auto pMeat = ao_new<Meat>(xpos, ypos, count);
+            auto pMeat = relive_new Meat(xpos, ypos, count);
             if (pMeat)
             {
                 return pMeat;
@@ -47,7 +47,7 @@ BaseThrowable* Make_Throwable(FP xpos, FP ypos, s16 count)
 
         case AOTypes::eRock_70:
         {
-            auto pRock = ao_new<Rock>(xpos, ypos, count);
+            auto pRock = relive_new Rock(xpos, ypos, count);
             if (pRock)
             {
                 return pRock;

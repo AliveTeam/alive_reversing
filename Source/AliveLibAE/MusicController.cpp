@@ -336,7 +336,7 @@ s32 MusicController::Create()
         return 0;
     }
 
-    pMusicController_5C3020 = ae_new<MusicController>();
+    pMusicController_5C3020 = relive_new MusicController();
     if (pMusicController_5C3020)
     {
         MusicController::SetBaseTimeStamp();

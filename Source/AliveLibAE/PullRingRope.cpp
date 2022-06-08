@@ -72,7 +72,7 @@ PullRingRope::PullRingRope(Path_PullRingRope* pTlv, s32 tlvInfo)
     field_10A_sound_direction = pTlv->field_1C_sound_direction;
     field_FC_ring_puller_id = -1;
 
-    auto pRope = ae_new<Rope>(FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos + FP_FromInteger(2)),
+    auto pRope = relive_new Rope(FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos + FP_FromInteger(2)),
                               FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos) - pTlv->field_14_rope_length,
                               FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos),
                               field_CC_sprite_scale);

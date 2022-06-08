@@ -177,7 +177,7 @@ s16 Mine::VTakeDamage(BaseGameObject* pFrom)
         case ReliveTypes::eShrykull:
         {
             mBaseGameObjectFlags.Set(BaseGameObject::eDead);
-            ao_new<BaseBomb>(
+            relive_new BaseBomb(
                 mBaseAnimatedWithPhysicsGameObject_XPos,
                 mBaseAnimatedWithPhysicsGameObject_YPos,
                 0,
@@ -194,7 +194,7 @@ s16 Mine::VTakeDamage(BaseGameObject* pFrom)
 
 void Mine::VOnThrowableHit(BaseGameObject* /*pFrom*/)
 {
-    ao_new<BaseBomb>(
+    relive_new BaseBomb(
         mBaseAnimatedWithPhysicsGameObject_XPos,
         mBaseAnimatedWithPhysicsGameObject_YPos,
         0,
@@ -243,7 +243,7 @@ void Mine::VUpdate()
     {
         if (field_10C_detonating == 1 && static_cast<s32>(sGnFrame) >= field_114_gnframe)
         {
-            ao_new<BaseBomb>(
+            relive_new BaseBomb(
                 mBaseAnimatedWithPhysicsGameObject_XPos,
                 mBaseAnimatedWithPhysicsGameObject_YPos,
                 0,

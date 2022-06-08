@@ -90,12 +90,12 @@ MotionDetector::MotionDetector(Path_MotionDetector* pTlv, s32 tlvInfo, BaseAnima
         if (pTlv->field_18_initial_move_direction == Path_MotionDetector::InitialMoveDirection::eLeft_1)
         {
             field_100_state = States::eMoveLeft_2;
-            pLaser = ae_new<MotionDetectorLaser>(field_11C_y1_fp, field_120_y2_fp, field_CC_sprite_scale, Layer::eLayer_Foreground_36);
+            pLaser = relive_new MotionDetectorLaser(field_11C_y1_fp, field_120_y2_fp, field_CC_sprite_scale, Layer::eLayer_Foreground_36);
         }
         else if (pTlv->field_18_initial_move_direction == Path_MotionDetector::InitialMoveDirection::eRight_0)
         {
             field_100_state = States::eMoveRight_0;
-            pLaser = ae_new<MotionDetectorLaser>(field_114_x1_fp, field_120_y2_fp, field_CC_sprite_scale, Layer::eLayer_Foreground_36);
+            pLaser = relive_new MotionDetectorLaser(field_114_x1_fp, field_120_y2_fp, field_CC_sprite_scale, Layer::eLayer_Foreground_36);
         }
         else
         {
@@ -145,7 +145,7 @@ MotionDetector::MotionDetector(Path_MotionDetector* pTlv, s32 tlvInfo, BaseAnima
     field_174_speed = FP_FromInteger(2);
     field_100_state = States::eMoveRight_0;
 
-    auto pLaserMem = ae_new<MotionDetectorLaser>(pOwner->mBaseAnimatedWithPhysicsGameObject_XPos, pOwner->mBaseAnimatedWithPhysicsGameObject_YPos, field_CC_sprite_scale, Layer::eLayer_Foreground_36);
+    auto pLaserMem = relive_new MotionDetectorLaser(pOwner->mBaseAnimatedWithPhysicsGameObject_XPos, pOwner->mBaseAnimatedWithPhysicsGameObject_YPos, field_CC_sprite_scale, Layer::eLayer_Foreground_36);
     if (pLaserMem)
     {
         field_F8_laser_id = pLaserMem->field_8_object_id;
@@ -348,7 +348,7 @@ void MotionDetector::VUpdate()
                             // Trigger alarms if its not already blasting
                             if (alarmInstanceCount_5C1BB4 == 0)
                             {
-                                ae_new<Alarm>(field_10C_alarm_duration, field_10A_alarm_switch_id, 0, Layer::eLayer_Above_FG1_39);
+                                relive_new Alarm(field_10C_alarm_duration, field_10A_alarm_switch_id, 0, Layer::eLayer_Above_FG1_39);
 
                                 if (pObj == sActiveHero && pObj->mHealth > FP_FromInteger(0))
                                 {

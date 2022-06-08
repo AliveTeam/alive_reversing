@@ -38,7 +38,7 @@ s32 FlyingSligSpawner::CreateFromSaveState(const u8* pBuffer)
 
     auto pTlv = static_cast<Path_FlyingSligSpawner*>(sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam(pState->field_4_tlvInfo));
 
-    auto pFlyingSligSpawner = ae_new<FlyingSligSpawner>(pTlv, pState->field_4_tlvInfo);
+    auto pFlyingSligSpawner = relive_new FlyingSligSpawner(pTlv, pState->field_4_tlvInfo);
     if (pFlyingSligSpawner)
     {
         pFlyingSligSpawner->field_3C_bSpawned = pState->field_8_bSpawned;
@@ -106,7 +106,7 @@ void FlyingSligSpawner::VUpdate()
                 return;
             }
 
-            auto pNewSlig = ae_new<FlyingSlig>(pFlyingSligTlv, field_20_tlvInfo);
+            auto pNewSlig = relive_new FlyingSlig(pFlyingSligTlv, field_20_tlvInfo);
             if (!pNewSlig)
             {
                 mBaseGameObjectFlags.Set(BaseGameObject::eDead);

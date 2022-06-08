@@ -121,7 +121,7 @@ void Factory_MainMenuController(Path_TLV* pTlv, Path* /*pPath*/, TlvItemInfoUnio
         }
         else
         {
-            ae_new<MainMenuController>(pTlv, tlvOffsetLevelIdPathId);
+            relive_new MainMenuController(pTlv, tlvOffsetLevelIdPathId);
         }
     }
 }
@@ -146,7 +146,7 @@ void Factory_Hoist(Path_TLV* pTlv, Path* /*pPath*/, TlvItemInfoUnion tlvOffsetLe
     else if (pHoistTlv->field_10_type == Path_Hoist::Type::eOffScreen)
     {
         // Its an off screen hoist so create the falling rocks effect
-        ae_new<HoistRocksEffect>(pHoistTlv, tlvOffsetLevelIdPathId.all);
+        relive_new HoistRocksEffect(pHoistTlv, tlvOffsetLevelIdPathId.all);
     }
     else
     {
@@ -220,7 +220,7 @@ void Factory_Door(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvOffsetLevelIdPathId
     }
     else
     {
-        ae_new<Door>(static_cast<Path_Door*>(pTlv), tlvOffsetLevelIdPathId.all);
+        relive_new Door(static_cast<Path_Door*>(pTlv), tlvOffsetLevelIdPathId.all);
     }
 }
 
@@ -228,7 +228,7 @@ void Factory_Shadow(Path_TLV* pTlv, Path* pPath, TlvItemInfoUnion tlvInfo, LoadM
 {
     if (loadmode != LoadMode::LoadResourceFromList_1 && loadmode != LoadMode::LoadResource_2)
     {
-        ae_new<ShadowZone>(static_cast<Path_ShadowZone*>(pTlv), pPath, tlvInfo.all);
+        relive_new ShadowZone(static_cast<Path_ShadowZone*>(pTlv), pPath, tlvInfo.all);
     }
 }
 
@@ -318,7 +318,7 @@ void Factory_LiftPoint(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvOffsetLevelIdP
         // TODO: Meaning of the data in field_1_unknown for lift point
         if (pLiftTlv->field_1_tlv_state & 2 || (pLiftTlv->field_1_tlv_state == 0 && pLiftTlv->field_12_bStart_point == Choice_short::eYes_1))
         {
-            ae_new<LiftPoint>(pLiftTlv, tlvOffsetLevelIdPathId.all);
+            relive_new LiftPoint(pLiftTlv, tlvOffsetLevelIdPathId.all);
             return;
         }
         else
@@ -342,7 +342,7 @@ void Factory_LiftPoint(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvOffsetLevelIdP
 
                         if (absX < 5 && pLiftPointIter->field_10_lift_point_id == pLiftTlv->field_10_lift_point_id && (pLiftPointIter->field_1_tlv_state & 2 || pLiftPointIter->field_1_tlv_state == 0) && pLiftPointIter->field_12_bStart_point == Choice_short::eYes_1)
                         {
-                            ae_new<LiftPoint>(pLiftPointIter, tlvOffsetLevelIdPathId.all);
+                            relive_new LiftPoint(pLiftPointIter, tlvOffsetLevelIdPathId.all);
                             return;
                         }
                     }
@@ -353,7 +353,7 @@ void Factory_LiftPoint(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvOffsetLevelIdP
             }
 
             // Default to original
-            ae_new<LiftPoint>(pLiftTlv, tlvOffsetLevelIdPathId.all);
+            relive_new LiftPoint(pLiftTlv, tlvOffsetLevelIdPathId.all);
         }
     }
 }
@@ -370,7 +370,7 @@ void Factory_ExpressWell(Path_TLV* pTlv, Path* /*pPath*/, TlvItemInfoUnion tlvOf
         Path_WellBase* pWellTlv = static_cast<Path_WellBase*>(pTlv);
         const FP xpos = FP_FromInteger(pWellTlv->field_8_top_left.field_0_x);
         const FP ypos = FP_FromInteger(pWellTlv->field_8_top_left.field_2_y + 5);
-        ae_new<Well>(pWellTlv, xpos, ypos, tlvOffsetLevelIdPathId.all);
+        relive_new Well(pWellTlv, xpos, ypos, tlvOffsetLevelIdPathId.all);
     }
 }
 
@@ -386,7 +386,7 @@ void Factory_Dove(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode load
         for (s32 i = 0; i < pDoveTlv->field_10_dove_count; i++)
         {
             const AnimRecord& doveRec = AnimRec(AnimId::Dove_Idle);
-            auto pDove = ae_new<Dove>(doveRec.mFrameTableOffset,
+            auto pDove = relive_new Dove(doveRec.mFrameTableOffset,
                                       doveRec.mMaxW,
                                       doveRec.mMaxH,
                                       doveRec.mResourceId,
@@ -421,7 +421,7 @@ void Factory_RockSack(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode 
     }
     else
     {
-        ae_new<RockSack>(static_cast<Path_RockSack*>(pTlv), tlvInfo.all);
+        relive_new RockSack(static_cast<Path_RockSack*>(pTlv), tlvInfo.all);
     }
 }
 
@@ -447,7 +447,7 @@ void Factory_FallingItem(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMo
     }
     else
     {
-        ae_new<FallingItem>(static_cast<Path_FallingItem*>(pTlv), tlvInfo.all);
+        relive_new FallingItem(static_cast<Path_FallingItem*>(pTlv), tlvInfo.all);
     }
 }
 
@@ -473,7 +473,7 @@ void Factory_PullRingRope(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvOffsetLevel
     }
     else
     {
-        ae_new<PullRingRope>(static_cast<Path_PullRingRope*>(pTlv), tlvOffsetLevelIdPathId.all);
+        relive_new PullRingRope(static_cast<Path_PullRingRope*>(pTlv), tlvOffsetLevelIdPathId.all);
     }
 }
 
@@ -502,7 +502,7 @@ void Factory_TimedMine(Path_TLV* pTlv, Path* /*pPath*/, TlvItemInfoUnion tlvOffs
     }
     else
     {
-        ae_new<TimedMine>(mine_tlv, tlvOffsetLevelIdPathId);
+        relive_new TimedMine(mine_tlv, tlvOffsetLevelIdPathId);
     }
 }
 
@@ -542,7 +542,7 @@ void Factory_Slig(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode load
     }
     else
     {
-        ae_new<Slig>(pSligTlv, tlvInfo.all);
+        relive_new Slig(pSligTlv, tlvInfo.all);
     }
 }
 
@@ -566,7 +566,7 @@ void Factory_Slog(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode load
     }
     else
     {
-        ae_new<Slog>(static_cast<Path_Slog*>(pTlv), tlvInfo.all);
+        relive_new Slog(static_cast<Path_Slog*>(pTlv), tlvInfo.all);
     }
 }
 
@@ -579,7 +579,7 @@ void Factory_Switch(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode lo
     }
     else
     {
-        ae_new<Lever>(static_cast<Path_Lever*>(pTlv), tlvInfo.all);
+        relive_new Lever(static_cast<Path_Lever*>(pTlv), tlvInfo.all);
     }
 }
 
@@ -604,7 +604,7 @@ void Factory_SecurityOrb(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMo
     }
     else
     {
-        ae_new<SecurityOrb>(pSecurityOrbTlv, tlvInfo.all);
+        relive_new SecurityOrb(pSecurityOrbTlv, tlvInfo.all);
     }
 }
 
@@ -624,13 +624,13 @@ void Factory_AbeStart(Path_TLV* pTlv, Path*, TlvItemInfoUnion, LoadMode loadmode
     {
         if (!pPauseMenu_5C9300)
         {
-            pPauseMenu_5C9300 = ae_new<PauseMenu>();
+            pPauseMenu_5C9300 = relive_new PauseMenu();
         }
 
         if (!sActiveHero)
         {
             const AnimRecord& rec = AnimRec(AnimId::Mudokon_Walk);
-            sActiveHero = ae_new<Abe>(rec.mFrameTableOffset, 85, 57, 55);
+            sActiveHero = relive_new Abe(rec.mFrameTableOffset, 85, 57, 55);
             if (sActiveHero)
             {
                 sActiveHero->mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pTlv->field_8_top_left.field_0_x + 12);
@@ -670,7 +670,7 @@ void Factory_Mine(Path_TLV* pTlv, Path* /*pPath*/, TlvItemInfoUnion tlvOffsetLev
     }
     else
     {
-        ae_new<Mine>(mine_tlv, tlvOffsetLevelIdPathId);
+        relive_new Mine(mine_tlv, tlvOffsetLevelIdPathId);
     }
 }
 
@@ -699,7 +699,7 @@ void Factory_UXB(Path_TLV* pTlv, Path* /*pPath*/, TlvItemInfoUnion tlvOffsetLeve
     }
     else
     {
-        ae_new<UXB>(uxb_tlv, tlvOffsetLevelIdPathId);
+        relive_new UXB(uxb_tlv, tlvOffsetLevelIdPathId);
     }
 }
 
@@ -721,7 +721,7 @@ void Factory_Paramite(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode 
     }
     else
     {
-         ae_new<Paramite>(static_cast<Path_Paramite*>(pTlv), tlvInfo.all);
+         relive_new Paramite(static_cast<Path_Paramite*>(pTlv), tlvInfo.all);
     }
 }
 
@@ -762,7 +762,7 @@ void Factory_BirdPortal(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMod
     }
     else if (SwitchStates_Get(pBirdPortalTlv->field_20_create_portal_switch_id))
     {
-        ae_new<BirdPortal>(pBirdPortalTlv, tlvInfo.all);
+        relive_new BirdPortal(pBirdPortalTlv, tlvInfo.all);
     }
     else
     {
@@ -796,7 +796,7 @@ void Factory_TrapDoor(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode 
     else
     {
         // TODO: OG bug - actually passes Path* instead of Map* .. probably works because this parameter never gets used!
-        ae_new<TrapDoor>(static_cast<Path_TrapDoor*>(pTlv), &gMap, tlvInfo.all);
+        relive_new TrapDoor(static_cast<Path_TrapDoor*>(pTlv), &gMap, tlvInfo.all);
     }
 }
 
@@ -841,7 +841,7 @@ void Factory_SligBoundLeft(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, Load
 
                 tlvInfo.parts.tlvOffset += static_cast<u16>(
                     reinterpret_cast<const u8*>(pTlvIter) - reinterpret_cast<const u8*>(pBound));
-                ae_new<Slig>(static_cast<Path_Slig*>(pTlvIter), tlvInfo.all);
+                relive_new Slig(static_cast<Path_Slig*>(pTlvIter), tlvInfo.all);
 
                 return;
             }
@@ -876,7 +876,7 @@ void Factory_FootSwitch(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMod
     }
     else
     {
-        ae_new<FootSwitch>(static_cast<Path_FootSwitch*>(pTlv), tlvInfo.all);
+        relive_new FootSwitch(static_cast<Path_FootSwitch*>(pTlv), tlvInfo.all);
     }
 }
 
@@ -891,7 +891,7 @@ void Factory_MotionDetector(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, Loa
 {
     if (loadMode != LoadMode::LoadResourceFromList_1 && loadMode != LoadMode::LoadResource_2)
     {
-        ae_new<MotionDetector>(static_cast<Path_MotionDetector*>(pTlv), tlvInfo.all, nullptr);
+        relive_new MotionDetector(static_cast<Path_MotionDetector*>(pTlv), tlvInfo.all, nullptr);
     }
 }
 
@@ -905,7 +905,7 @@ void Factory_SligSpawner(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMo
     }
     else
     {
-        ae_new<SligSpawner>(pSligTlv, tlvInfo.all);
+        relive_new SligSpawner(pSligTlv, tlvInfo.all);
     }
 }
 
@@ -917,7 +917,7 @@ void Factory_ElectricWall(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadM
     }
     else
     {
-        ae_new<ElectricWall>(static_cast<Path_ElectricWall*>(pTlv), tlvInfo.all);
+        relive_new ElectricWall(static_cast<Path_ElectricWall*>(pTlv), tlvInfo.all);
     }
 }
 
@@ -925,7 +925,7 @@ void Factory_LiftMover(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode
 {
     if (loadmode != LoadMode::LoadResourceFromList_1 && loadmode != LoadMode::LoadResource_2)
     {
-        ae_new<LiftMover>(static_cast<Path_LiftMover*>(pTlv), tlvInfo.all);
+        relive_new LiftMover(static_cast<Path_LiftMover*>(pTlv), tlvInfo.all);
     }
 }
 
@@ -941,7 +941,7 @@ void Factory_MeatSack(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode 
     }
     else
     {
-        ae_new<MeatSack>(static_cast<Path_MeatSack*>(pTlv), tlvInfo.all);
+        relive_new MeatSack(static_cast<Path_MeatSack*>(pTlv), tlvInfo.all);
     }
 }
 
@@ -967,7 +967,7 @@ void Factory_Scrab(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode loa
     }
     else
     {
-        ae_new<Scrab>(static_cast<Path_Scrab*>(pTlv), tlvInfo.all, ScrabSpawnDirection::eNone_0);
+        relive_new Scrab(static_cast<Path_Scrab*>(pTlv), tlvInfo.all, ScrabSpawnDirection::eNone_0);
     }
 }
 
@@ -1002,7 +1002,7 @@ void Factory_InvisibleSwitch(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, Lo
 {
     if (loadMode != LoadMode::LoadResourceFromList_1 && loadMode != LoadMode::LoadResource_2)
     {
-        ae_new<InvisibleSwitch>(static_cast<Path_InvisibleSwitch*>(pTlv), tlvInfo.all);
+        relive_new InvisibleSwitch(static_cast<Path_InvisibleSwitch*>(pTlv), tlvInfo.all);
     }
 }
 
@@ -1045,7 +1045,7 @@ void Factory_Mudokon(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode l
     }
     else
     {
-        ae_new<Mudokon>(pMudTlv, tlvInfo.all);
+        relive_new Mudokon(pMudTlv, tlvInfo.all);
     }
 }
 
@@ -1063,7 +1063,7 @@ void Factory_DoorFlame(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode
     }
     else
     {
-        ae_new<DoorFlame>(static_cast<Path_DoorFlame*>(pTlv), tlvInfo.all);
+        relive_new DoorFlame(static_cast<Path_DoorFlame*>(pTlv), tlvInfo.all);
     }
 }
 
@@ -1079,7 +1079,7 @@ void Factory_MovingBomb(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMod
     }
     else
     {
-        ae_new<MovingBomb>(pMovingBombTlv, tlvInfo.all);
+        relive_new MovingBomb(pMovingBombTlv, tlvInfo.all);
     }
 }
 
@@ -1100,7 +1100,7 @@ void Factory_TimerTrigger(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadM
 {
     if (loadmode == LoadMode::ConstructObject_0)
     {
-        ae_new<TimerTrigger>(static_cast<Path_TimerTrigger*>(pTlv), tlvInfo.all);
+        relive_new TimerTrigger(static_cast<Path_TimerTrigger*>(pTlv), tlvInfo.all);
     }
 }
 
@@ -1112,7 +1112,7 @@ void Factory_SecurityDoor(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadM
     }
     else
     {
-        ae_new<SecurityDoor>(static_cast<Path_SecurityDoor*>(pTlv), tlvInfo.all);
+        relive_new SecurityDoor(static_cast<Path_SecurityDoor*>(pTlv), tlvInfo.all);
     }
 }
 
@@ -1134,7 +1134,7 @@ void Factory_BoomMachine(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMo
     }
     else
     {
-        ae_new<BoomMachine>(pTlvBooMachine, tlvInfo.all);
+        relive_new BoomMachine(pTlvBooMachine, tlvInfo.all);
     }
 }
 
@@ -1142,7 +1142,7 @@ void Factory_BackgroundAnimation(Path_TLV* pTlv, Path* /*pPath*/, TlvItemInfoUni
 {
     if (loadmode != LoadMode::LoadResourceFromList_1 && loadmode != LoadMode::LoadResource_2)
     {
-        ae_new<BackgroundAnimation>(static_cast<Path_BackgroundAnimation*>(pTlv), tlvOffsetLevelIdPathId);
+        relive_new BackgroundAnimation(static_cast<Path_BackgroundAnimation*>(pTlv), tlvOffsetLevelIdPathId);
     }
 }
 
@@ -1154,7 +1154,7 @@ void Factory_LCDScreen(Path_TLV* pTlv, Path* /*pPath*/, TlvItemInfoUnion tlvOffs
         return;
     }
 
-    ae_new<LCDScreen>(static_cast<Path_LCDScreen*>(pTlv), tlvOffsetLevelIdPathId);
+    relive_new LCDScreen(static_cast<Path_LCDScreen*>(pTlv), tlvOffsetLevelIdPathId);
 }
 
 void Factory_HandStone(Path_TLV*, Path*, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadmode)
@@ -1174,7 +1174,7 @@ void Factory_CreditsController(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, 
 {
     if (loadmode != LoadMode::LoadResourceFromList_1 && loadmode != LoadMode::LoadResource_2 && !sDoesCreditsControllerExist_5C1B90)
     {
-        ae_new<CreditsController>(pTlv, tlvInfo.all);
+        relive_new CreditsController(pTlv, tlvInfo.all);
     }
 }
 
@@ -1191,14 +1191,14 @@ void Factory_LCDStatusBoard(Path_TLV* pTlv, Path* /*pPath*/, TlvItemInfoUnion tl
         return;
     }
     
-    ae_new<LCDStatusBoard>(static_cast<Path_LCDStatusBoard*>(pTlv), tlvOffsetLevelIdPathId);
+    relive_new LCDStatusBoard(static_cast<Path_LCDStatusBoard*>(pTlv), tlvOffsetLevelIdPathId);
 }
 
 void Factory_WheelSyncer(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadmode)
 {
     if (loadmode != LoadMode::LoadResourceFromList_1 && loadmode != LoadMode::LoadResource_2)
     {
-        ae_new<WheelSyncer>(static_cast<Path_WheelSyncer*>(pTlv), tlvOffsetLevelIdPathId.all);
+        relive_new WheelSyncer(static_cast<Path_WheelSyncer*>(pTlv), tlvOffsetLevelIdPathId.all);
     }
 }
 
@@ -1206,7 +1206,7 @@ void Factory_MusicTrigger(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvOffsetLevel
 {
     if (loadmode != LoadMode::LoadResourceFromList_1 && loadmode != LoadMode::LoadResource_2)
     {
-        ae_new<MusicTrigger>(static_cast<Path_MusicTrigger*>(pTlv), tlvOffsetLevelIdPathId.all);
+        relive_new MusicTrigger(static_cast<Path_MusicTrigger*>(pTlv), tlvOffsetLevelIdPathId.all);
     }
 }
 
@@ -1223,7 +1223,7 @@ void Factory_SlogSpawner(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMo
     }
     else
     {
-        ae_new<SlogSpawner>(static_cast<Path_SlogSpawner*>(pTlv), tlvInfo.all);
+        relive_new SlogSpawner(static_cast<Path_SlogSpawner*>(pTlv), tlvInfo.all);
     }
 }
 
@@ -1236,7 +1236,7 @@ void Factory_GasCountdown(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadM
     }
     else
     {
-        ae_new<GasCountDown>(static_cast<Path_GasCountDown*>(pTlv), tlvInfo.all);
+        relive_new GasCountDown(static_cast<Path_GasCountDown*>(pTlv), tlvInfo.all);
     }
 }
 
@@ -1249,7 +1249,7 @@ void Factory_GasEmitter(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMod
 {
     if (loadMode != LoadMode::LoadResourceFromList_1 && loadMode != LoadMode::LoadResource_2)
     {
-        ae_new<GasEmitter>(static_cast<Path_GasEmitter*>(pTlv), tlvInfo.all);
+        relive_new GasEmitter(static_cast<Path_GasEmitter*>(pTlv), tlvInfo.all);
     }
 }
 
@@ -1257,7 +1257,7 @@ void Factory_ZzzSpawner(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMod
 {
     if (loadMode != LoadMode::LoadResourceFromList_1 && loadMode != LoadMode::LoadResource_2)
     {
-        ae_new<ZzzSpawner>(static_cast<Path_ZzzSpawner*>(pTlv), tlvInfo.all);
+        relive_new ZzzSpawner(static_cast<Path_ZzzSpawner*>(pTlv), tlvInfo.all);
     }
 }
 
@@ -1301,7 +1301,7 @@ void Factory_Glukkon(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode l
     }
     else
     {
-        ae_new<Glukkon>(static_cast<Path_Glukkon*>(pTlv), tlvInfo.all);
+        relive_new Glukkon(static_cast<Path_Glukkon*>(pTlv), tlvInfo.all);
     }
 }
 
@@ -1327,7 +1327,7 @@ void Factory_Water(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode loa
     }
     else
     {
-        ae_new<Water>(static_cast<Path_Water*>(pTlv), tlvInfo.all);
+        relive_new Water(static_cast<Path_Water*>(pTlv), tlvInfo.all);
     }
 }
 
@@ -1345,7 +1345,7 @@ void Factory_WorkWheel(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode
     }
     else
     {
-        ae_new<WorkWheel>(static_cast<Path_WorkWheel*>(pTlv), tlvInfo.all);
+        relive_new WorkWheel(static_cast<Path_WorkWheel*>(pTlv), tlvInfo.all);
     }
 }
 
@@ -1358,7 +1358,7 @@ void Create_Gas_4DA8B0(Layer layer, s32 neverUsed, Path_TLV* pTlv, s32 tlvInfo)
 {
     if (!gGasInstanceCount_5BC214)
     {
-        ae_new<LaughingGas>(layer, neverUsed, static_cast<Path_LaughingGas*>(pTlv), tlvInfo);
+        relive_new LaughingGas(layer, neverUsed, static_cast<Path_LaughingGas*>(pTlv), tlvInfo);
     }
 }
 
@@ -1395,7 +1395,7 @@ void Factory_FlyingSlig(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMod
     }
     else
     {
-        ae_new<FlyingSlig>(static_cast<Path_FlyingSlig*>(pTlv), tlvInfo.all);
+        relive_new FlyingSlig(static_cast<Path_FlyingSlig*>(pTlv), tlvInfo.all);
     }
 }
 
@@ -1409,7 +1409,7 @@ void Factory_Fleech(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode lo
     else if (
         gMap.mCurrentLevel != EReliveLevelIds::eMudancheeVault_Ender || gMap.mCurrentPath != 9 || gMap.mCurrentCamera != 4)
     {
-        ae_new<Fleech>(static_cast<Path_Fleech*>(pTlv), tlvInfo.all);
+        relive_new Fleech(static_cast<Path_Fleech*>(pTlv), tlvInfo.all);
     }
 }
 
@@ -1421,7 +1421,7 @@ void Factory_Slurgs(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode lo
     }
     else
     {
-        ae_new<Slurg>(static_cast<Path_Slurg*>(pTlv), tlvInfo.all);
+        relive_new Slurg(static_cast<Path_Slurg*>(pTlv), tlvInfo.all);
     }
 }
 
@@ -1445,7 +1445,7 @@ void Factory_SlamDoor(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode 
     }
     else
     {
-        ae_new<SlamDoor>(static_cast<Path_SlamDoor*>(pTlv), tlvInfo);
+        relive_new SlamDoor(static_cast<Path_SlamDoor*>(pTlv), tlvInfo);
     }
 }
 
@@ -1453,7 +1453,7 @@ void Factory_LevelLoader(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMo
 {
     if (loadmode != LoadMode::LoadResourceFromList_1 && loadmode != LoadMode::LoadResource_2)
     {
-        ae_new<LevelLoader>(static_cast<Path_LevelLoader*>(pTlv), tlvInfo.all);
+        relive_new LevelLoader(static_cast<Path_LevelLoader*>(pTlv), tlvInfo.all);
     }
 }
 
@@ -1465,7 +1465,7 @@ void Factory_DemoSpawnPoint(Path_TLV*, Path*, TlvItemInfoUnion, LoadMode loadMod
         {
             if (!sDemoObj_dword_5D1E20)
             {
-                ae_new<DemoPlayback>();
+                relive_new DemoPlayback();
             }
         }
     }
@@ -1475,7 +1475,7 @@ void Factory_Teleporter(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMod
 {
     if (loadmode != LoadMode::LoadResourceFromList_1 && loadmode != LoadMode::LoadResource_2)
     {
-        ae_new<Teleporter>(static_cast<Path_Teleporter*>(pTlv), tlvInfo.all);
+        relive_new Teleporter(static_cast<Path_Teleporter*>(pTlv), tlvInfo.all);
     }
 }
 
@@ -1487,7 +1487,7 @@ void Factory_SlurgSpawner(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadM
     }
     else
     {
-        ae_new<SlurgSpawner>(static_cast<Path_SlurgSpawner*>(pTlv), tlvInfo.all);
+        relive_new SlurgSpawner(static_cast<Path_SlurgSpawner*>(pTlv), tlvInfo.all);
     }
 }
 
@@ -1501,7 +1501,7 @@ void Factory_Drill(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode loa
     }
     else
     {
-        ae_new<Drill>(static_cast<Path_Drill*>(pTlv), tlvInfo.all);
+        relive_new Drill(static_cast<Path_Drill*>(pTlv), tlvInfo.all);
     }
 }
 
@@ -1513,7 +1513,7 @@ void Factory_ColorfulMeter(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, Load
     }
     else
     {
-        ae_new<ColourfulMeter>(static_cast<Path_ColourfulMeter*>(pTlv), tlvInfo.all);
+        relive_new ColourfulMeter(static_cast<Path_ColourfulMeter*>(pTlv), tlvInfo.all);
     }
 }
 
@@ -1536,7 +1536,7 @@ void Factory_FlyingSligSpawner(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, 
     }
     else
     {
-        ae_new<FlyingSligSpawner>(static_cast<Path_FlyingSligSpawner*>(pTlv), tlvInfo.all);
+        relive_new FlyingSligSpawner(static_cast<Path_FlyingSligSpawner*>(pTlv), tlvInfo.all);
     }
 }
 
@@ -1552,7 +1552,7 @@ void Factory_MineCar(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode l
     }
     else
     {
-        ae_new<MineCar>(static_cast<Path_MineCar*>(pTlv), tlvInfo.all, 0, 0, 0);
+        relive_new MineCar(static_cast<Path_MineCar*>(pTlv), tlvInfo.all, 0, 0, 0);
     }
 }
 
@@ -1570,7 +1570,7 @@ void Factory_BoneBag(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode l
     }
     else
     {
-        ae_new<BoneBag>(static_cast<Path_BoneBag*>(pTlv), tlvInfo.all);
+        relive_new BoneBag(static_cast<Path_BoneBag*>(pTlv), tlvInfo.all);
     }
 }
 
@@ -1598,7 +1598,7 @@ void Factory_ExplosionSet(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadM
         if (!pExplosionSet_5BBF68)
         {
             // pExplosionSet_5BBF68 is assigned in the ctor (OWI programming)
-            ae_new<ExplosionSet>();
+            relive_new ExplosionSet();
         }
         pExplosionSet_5BBF68->Init(static_cast<Path_ExplosionSet*>(pTlv));
         Path::TLV_Reset(tlvInfo.all, -1, 0, 0);
@@ -1609,7 +1609,7 @@ void Factory_MultiSwitchController(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvIn
 {
     if (loadmode != LoadMode::LoadResourceFromList_1 && loadmode != LoadMode::LoadResource_2)
     {
-        ae_new<MultiSwitchController>(static_cast<Path_MultiSwitchController*>(pTlv), tlvInfo.all);
+        relive_new MultiSwitchController(static_cast<Path_MultiSwitchController*>(pTlv), tlvInfo.all);
     }
 }
 
@@ -1621,7 +1621,7 @@ void Factory_StatusLight(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMo
     }
     else
     {
-        ae_new<StatusLight>(static_cast<Path_StatusLight*>(pTlv), tlvInfo.all);
+        relive_new StatusLight(static_cast<Path_StatusLight*>(pTlv), tlvInfo.all);
     }
 }
 
@@ -1633,7 +1633,7 @@ void Factory_SlapLock(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode 
     }
     else
     {
-        ae_new<SlapLock>(static_cast<Path_SlapLock*>(pTlv), tlvInfo.all);
+        relive_new SlapLock(static_cast<Path_SlapLock*>(pTlv), tlvInfo.all);
     }
 }
 
@@ -1645,7 +1645,7 @@ void Factory_ParamiteWebLine(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, Lo
     }
     else
     {
-        ae_new<ParamiteWebLine>(static_cast<Path_ParamiteWebLine*>(pTlv), tlvInfo.all);
+        relive_new ParamiteWebLine(static_cast<Path_ParamiteWebLine*>(pTlv), tlvInfo.all);
     }
 }
 
@@ -1653,7 +1653,7 @@ void Factory_Alarm(Path_TLV* pTlv, Path* /*pPath*/, TlvItemInfoUnion tlvOffsetLe
 {
     if (loadmode == LoadMode::ConstructObject_0)
     {
-        ae_new<Alarm>(static_cast<Path_Alarm*>(pTlv), tlvOffsetLevelIdPathId.all);
+        relive_new Alarm(static_cast<Path_Alarm*>(pTlv), tlvOffsetLevelIdPathId.all);
     }
 }
 
@@ -1670,7 +1670,7 @@ void Factory_BrewMachine(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMo
     }
     else
     {
-        ae_new<BrewMachine>(static_cast<Path_BrewMachine*>(pTlv), tlvInfo.all);
+        relive_new BrewMachine(static_cast<Path_BrewMachine*>(pTlv), tlvInfo.all);
     }
 }
 
@@ -1682,7 +1682,7 @@ void Factory_ScrabSpawner(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadM
     }
     else
     {
-        ae_new<ScrabSpawner>(static_cast<Path_ScrabSpawner*>(pTlv), tlvInfo.all);
+        relive_new ScrabSpawner(static_cast<Path_ScrabSpawner*>(pTlv), tlvInfo.all);
     }
 }
 
@@ -1705,7 +1705,7 @@ void Factory_CrawlingSlig(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadM
     }
     else
     {
-        ae_new<CrawlingSlig>(static_cast<Path_CrawlingSlig*>(pTlv), tlvInfo.all);
+        relive_new CrawlingSlig(static_cast<Path_CrawlingSlig*>(pTlv), tlvInfo.all);
     }
 }
 
@@ -1720,7 +1720,7 @@ void Factory_SligGetPants(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadM
     }
     else
     {
-        ae_new<SligGetPantsAndWings>(pTlv, tlvInfo.all);
+        relive_new SligGetPantsAndWings(pTlv, tlvInfo.all);
     }
 }
 
@@ -1733,7 +1733,7 @@ void Factory_SligGetWings(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadM
     }
     else
     {
-        ae_new<SligGetPantsAndWings>(pTlv, tlvInfo.all);
+        relive_new SligGetPantsAndWings(pTlv, tlvInfo.all);
     }
 }
 
@@ -1751,7 +1751,7 @@ void Factory_Greeter(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode l
     }
     else
     {
-        ae_new<Greeter>(static_cast<Path_Greeter*>(pTlv), tlvInfo.all);
+        relive_new Greeter(static_cast<Path_Greeter*>(pTlv), tlvInfo.all);
     }
 }
 
@@ -1763,7 +1763,7 @@ void Factory_CrawlingSligButton(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo,
     }
     else
     {
-        ae_new<CrawlingSligButton>(static_cast<Path_CrawlingSligButton*>(pTlv), tlvInfo.all);
+        relive_new CrawlingSligButton(static_cast<Path_CrawlingSligButton*>(pTlv), tlvInfo.all);
     }
 }
 
@@ -1775,7 +1775,7 @@ void Factory_GlukkonSwitch(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, Load
     }
     else
     {
-        ae_new<GlukkonSwitch>(static_cast<Path_GlukkonSwitch*>(pTlv), tlvInfo.all);
+        relive_new GlukkonSwitch(static_cast<Path_GlukkonSwitch*>(pTlv), tlvInfo.all);
     }
 }
 
@@ -1787,7 +1787,7 @@ void Factory_DoorBlocker(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMo
     }
     else
     {
-        ae_new<DoorBlocker>(static_cast<Path_DoorBlocker*>(pTlv), tlvInfo.all);
+        relive_new DoorBlocker(static_cast<Path_DoorBlocker*>(pTlv), tlvInfo.all);
     }
 }
 
@@ -1803,7 +1803,7 @@ void Factory_TorturedMudokon(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, Lo
         }
         else
         {
-            ae_new<TorturedMudokon>(static_cast<Path_TorturedMudokon*>(pTlv), tlvInfo.all);
+            relive_new TorturedMudokon(static_cast<Path_TorturedMudokon*>(pTlv), tlvInfo.all);
         }
     }
 }
@@ -1816,7 +1816,7 @@ void Factory_TrainDoor(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode
     }
     else
     {
-        ae_new<TrainDoor>(static_cast<Path_TrainDoor*>(pTlv), tlvInfo.all);
+        relive_new TrainDoor(static_cast<Path_TrainDoor*>(pTlv), tlvInfo.all);
     }
 }
 

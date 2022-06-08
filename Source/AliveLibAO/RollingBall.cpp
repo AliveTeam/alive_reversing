@@ -106,7 +106,7 @@ RollingBall::RollingBall(Path_RollingBall* pTlv, s32 tlvInfo)
     field_114_pRollingBallShaker = nullptr;
     field_120_pCollisionLine = nullptr;
 
-    field_D0_pShadow = ao_new<Shadow>();
+    field_D0_pShadow = relive_new Shadow();
 
     // Looks strange, it just bumps the res ref count
     ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kDebrisID00AOResID, 1, 0);
@@ -136,7 +136,7 @@ void RollingBall::VUpdate()
                 field_B8_vely = FP_FromDouble(2.5);
                 field_112_state = States::eStartRolling_1;
                 field_10_anim.Set_Animation_Data(15608, 0);
-                field_114_pRollingBallShaker = ao_new<RollingBallShaker>();
+                field_114_pRollingBallShaker = relive_new RollingBallShaker();
                 if (field_114_pRollingBallShaker)
                 {
                     field_114_pRollingBallShaker->mBaseGameObjectRefCount++;
@@ -230,16 +230,16 @@ void RollingBall::VUpdate()
         {
             if (WallHit_401930(FP_FromInteger(30), field_B4_velx))
             {
-                ao_new<ParticleBurst>(
+                relive_new ParticleBurst(
                     mBaseAnimatedWithPhysicsGameObject_XPos,
                     mBaseAnimatedWithPhysicsGameObject_YPos - FP_FromInteger(30),
                     150,
                     field_BC_sprite_scale,
                     BurstType::eFallingRocks_0);
 
-                ao_new<Flash>(Layer::eLayer_Above_FG1_39, 255, 255, 255, 1, TPageAbr::eBlend_1, 1);
+                relive_new Flash(Layer::eLayer_Above_FG1_39, 255, 255, 255, 1, TPageAbr::eBlend_1, 1);
 
-                ao_new<ScreenShake>(0);
+                relive_new ScreenShake(0);
 
                 mBaseGameObjectFlags.Set(Options::eDead);
 
@@ -307,7 +307,7 @@ void RollingBall::VUpdate()
             BaseAliveGameObjectLastLineYPos = mBaseAnimatedWithPhysicsGameObject_YPos;
             field_B8_vely = (-field_B8_vely * FP_FromDouble(0.8));
 
-            ao_new<ScreenShake>(0);
+            relive_new ScreenShake(0);
 
             const CameraPos direction = gMap.GetDirection(field_B2_lvl_number, field_B0_path_number, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos);
             SFX_Play_Camera(SoundEffect::IngameTransition_107, 50, direction);

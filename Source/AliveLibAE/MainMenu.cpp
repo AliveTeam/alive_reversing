@@ -789,7 +789,7 @@ MainMenuNextCam MainMenuController::AbeSpeak_Update_4D2D20(u32 input_held)
             const FP xpos = pScreenManager->field_20_pCamPos->field_0_x + FP_FromDouble(randX);
             FP ypos = pScreenManager->field_20_pCamPos->field_4_y + FP_FromDouble(randY);
             ypos.fpValue += 0x44D60C; // TODO: 68.83 ??
-            Particle* pParticle = ae_new<Particle>(xpos,
+            Particle* pParticle = relive_new Particle(xpos,
                     ypos,
                     flareRec.mFrameTableOffset,
                     flareRec.mMaxW,
@@ -1518,7 +1518,7 @@ MainMenuNextCam MainMenuController::Page_FMV_Level_Update_4D4AB0(u32 input_held)
 
             dword_55C128 = -1;
 
-            auto pMovie = ae_new<Movie>(pFmvRecord->field_4_id, input_held, pFmvRecord->field_6_flags & 1, pFmvRecord->field_8_flags, pFmvRecord->field_A_volume);
+            auto pMovie = relive_new Movie(pFmvRecord->field_4_id, input_held, pFmvRecord->field_6_flags & 1, pFmvRecord->field_8_flags, pFmvRecord->field_A_volume);
 
             while (sMovie_ref_count_BB4AE4)
             {
@@ -1779,13 +1779,13 @@ MainMenuNextCam MainMenuController::LoadNewGame_Update_4D0920(u32 /*input*/)
 
             if (!pPauseMenu_5C9300)
             {
-                pPauseMenu_5C9300 = ae_new<PauseMenu>();
+                pPauseMenu_5C9300 = relive_new PauseMenu();
             }
 
             if (!sActiveHero)
             {
                 const AnimRecord& mudWalkRec = AnimRec(AnimId::Mudokon_Walk);
-                sActiveHero = ae_new<Abe>(mudWalkRec.mFrameTableOffset, 85, 57, 55);
+                sActiveHero = relive_new Abe(mudWalkRec.mFrameTableOffset, 85, 57, 55);
             }
 
             if (field_208_transition_obj)
@@ -1837,13 +1837,13 @@ MainMenuNextCam MainMenuController::LoadNewGame_Update_4D0920(u32 /*input*/)
 
     if (!pPauseMenu_5C9300)
     {
-        pPauseMenu_5C9300 = ae_new<PauseMenu>();
+        pPauseMenu_5C9300 = relive_new PauseMenu();
     }
 
     if (!sActiveHero)
     {
         const AnimRecord& rec = AnimRec(AnimId::Mudokon_Walk);
-        sActiveHero = ae_new<Abe>(rec.mFrameTableOffset, 85, 57, 55);
+        sActiveHero = relive_new Abe(rec.mFrameTableOffset, 85, 57, 55);
     }
 
     if (field_23C_T80.Get(Flags::eBit25_CheatLevelSelectLoading))
@@ -1914,7 +1914,7 @@ MainMenuNextCam MainMenuController::BackStory_Or_NewGame_Update_4D1C60(u32 input
             Get_fmvs_sectors(pFmvRecord->field_0_pName, nullptr, nullptr, &fmvSector, 0, 0);
             sLevelId_dword_5CA408 = 0;
 
-            auto pMovie = ae_new<Movie>(pFmvRecord->field_4_id,
+            auto pMovie = relive_new Movie(pFmvRecord->field_4_id,
                                         input_held,
                                         pFmvRecord->field_6_flags & 1,
                                         pFmvRecord->field_8_flags,
@@ -2115,7 +2115,7 @@ MainMenuNextCam MainMenuController::LoadDemo_Update_4D1040(u32)
         if (!sActiveHero)
         {
             const AnimRecord& rec = AnimRec(AnimId::Mudokon_Walk);
-            auto abe = ae_new<Abe>(rec.mFrameTableOffset, 85, 57, 55);
+            auto abe = relive_new Abe(rec.mFrameTableOffset, 85, 57, 55);
             if (abe)
             {
                 sActiveHero = abe;
@@ -3167,7 +3167,7 @@ s32 MainMenuController::ChangeScreenAndIntroLogic_4CF640()
                     return 1;
                 }
 
-                field_208_transition_obj = ae_new<MainMenuTransition>(Layer::eLayer_FadeFlash_40, 1, 0, 16, TPageAbr::eBlend_2);
+                field_208_transition_obj = relive_new MainMenuTransition(Layer::eLayer_FadeFlash_40, 1, 0, 16, TPageAbr::eBlend_2);
                 if (field_208_transition_obj)
                 {
                     field_21E_changeScreenState = 2;
@@ -3183,7 +3183,7 @@ s32 MainMenuController::ChangeScreenAndIntroLogic_4CF640()
                     return 1;
                 }
 
-                field_208_transition_obj = ae_new<MainMenuTransition>(Layer::eLayer_FadeFlash_40, 1, 0, 16, TPageAbr::eBlend_1);
+                field_208_transition_obj = relive_new MainMenuTransition(Layer::eLayer_FadeFlash_40, 1, 0, 16, TPageAbr::eBlend_1);
                 if (field_208_transition_obj)
                 {
                     field_21E_changeScreenState = 2;
@@ -3249,7 +3249,7 @@ s32 MainMenuController::ChangeScreenAndIntroLogic_4CF640()
                 sLevelId_dword_5CA408 = 0;
 
                 // Create a movie object for the GTI logo
-                auto pMovie = ae_new<Movie>(pFmvRecord->field_4_id,
+                auto pMovie = relive_new Movie(pFmvRecord->field_4_id,
                                             pos,
                                             pFmvRecord->field_6_flags & 1,
                                             pFmvRecord->field_8_flags,
@@ -3275,7 +3275,7 @@ s32 MainMenuController::ChangeScreenAndIntroLogic_4CF640()
                 // Create movie object for the DD logo
                 Get_fmvs_sectors("DDLOGO.STR", 0, 0, &pos, 0, 0);
                 sLevelId_dword_5CA408 = 0;
-                pMovie = ae_new<Movie>(pFmvRecord->field_4_id,
+                pMovie = relive_new Movie(pFmvRecord->field_4_id,
                                        pos,
                                        pFmvRecord->field_6_flags & 1,
                                        pFmvRecord->field_8_flags,

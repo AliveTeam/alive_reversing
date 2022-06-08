@@ -58,7 +58,7 @@ void ZzzSpawner::VUpdate()
         {
             snoozeLayer = Layer::eLayer_Above_FG1_39;
         }
-        ao_new<SnoozeParticle>(
+        relive_new SnoozeParticle(
             field_10_xpos,
             field_14_ypos,
             snoozeLayer,

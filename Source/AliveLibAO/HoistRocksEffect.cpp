@@ -115,7 +115,7 @@ void HoistRocksEffect::VUpdate()
                 const AnimRecord& ruptureHoist = AO::AnimRec(AnimId::RuptureFarms_HoistRock2);
                 frameTableOffset = ruptureHoist.mFrameTableOffset;
             }
-            ao_new<HoistParticle>(
+            relive_new HoistParticle(
                 field_10_xpos + FP_FromInteger(Math_RandomRange_450F20(-8, 8)),
                 field_14_ypos + FP_FromInteger(Math_RandomRange_450F20(-4, 4)),
                 FP_FromInteger(1),
@@ -132,7 +132,7 @@ void HoistRocksEffect::VUpdate()
                 const AnimRecord& ruptureHoist = AO::AnimRec(AnimId::RuptureFarms_HoistRock3);
                 frameTableOffset = ruptureHoist.mFrameTableOffset;
             }
-            ao_new<HoistParticle>(
+            relive_new HoistParticle(
                 field_10_xpos + FP_FromInteger(Math_RandomRange_450F20(-8, 8)),
                 field_14_ypos + FP_FromInteger(Math_RandomRange_450F20(-4, 4)),
                 FP_FromInteger(1),
@@ -150,7 +150,7 @@ void HoistRocksEffect::VUpdate()
             const AnimRecord& ruptureHoist = AO::AnimRec(AnimId::RuptureFarms_HoistRock1);
             frameTableOffset = ruptureHoist.mFrameTableOffset;
         }
-        ao_new<HoistParticle>(
+        relive_new HoistParticle(
             field_10_xpos + FP_FromInteger(Math_RandomRange_450F20(-8, 8)),
             field_14_ypos + FP_FromInteger(Math_RandomRange_450F20(-4, 4)),
             FP_FromInteger(1),

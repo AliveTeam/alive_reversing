@@ -164,7 +164,7 @@ LiftPoint::LiftPoint(Path_LiftPoint* pTlv, Map* pPath, s32 tlvInfo)
         field_B8_vely = FP_FromInteger(0);
         field_130_lift_point_stop_type = LiftPointStopType::eStartPointOnly_4;
 
-        auto pRopeMem = ao_new<Rope>(
+        auto pRopeMem = relive_new Rope(
             FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos + (FP_FromInteger(13) * field_BC_sprite_scale) + FP_FromInteger(stru_4BB640[lvl_idx].field_4)),
             0,
             FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos + (FP_FromInteger(25) * field_BC_sprite_scale)),
@@ -175,7 +175,7 @@ LiftPoint::LiftPoint(Path_LiftPoint* pTlv, Map* pPath, s32 tlvInfo)
             field_138_pRope1 = pRopeMem;
         }
 
-        auto pRopeMem2 = ao_new<Rope>(
+        auto pRopeMem2 = relive_new Rope(
             FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos + (FP_FromInteger(-10) * field_BC_sprite_scale) + FP_FromInteger(stru_4BB640[lvl_idx].field_0)),
             0,
             FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos + (FP_FromInteger(25) * field_BC_sprite_scale)),

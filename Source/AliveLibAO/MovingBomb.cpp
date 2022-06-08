@@ -111,7 +111,7 @@ MovingBomb::MovingBomb(Path_MovingBomb* pTlv, s32 tlvInfo)
         mBaseAnimatedWithPhysicsGameObject_XPos = hitX;
     }
 
-    field_D0_pShadow = ao_new<Shadow>();
+    field_D0_pShadow = relive_new Shadow();
 }
 
 MovingBomb::~MovingBomb()
@@ -185,12 +185,12 @@ s16 MovingBomb::VTakeDamage(BaseGameObject* pFrom)
 
     mHealth = FP_FromInteger(0);
 
-    ao_new<Explosion>(
+    relive_new Explosion(
         mBaseAnimatedWithPhysicsGameObject_XPos,
         mBaseAnimatedWithPhysicsGameObject_YPos,
         field_BC_sprite_scale);
 
-    ao_new<Gibs>(
+    relive_new Gibs(
         GibType::Metal_5,
         mBaseAnimatedWithPhysicsGameObject_XPos,
         mBaseAnimatedWithPhysicsGameObject_YPos,
@@ -456,12 +456,12 @@ void MovingBomb::VUpdate()
 
                 mHealth = FP_FromInteger(0);
 
-                ao_new<Explosion>(
+                relive_new Explosion(
                     mBaseAnimatedWithPhysicsGameObject_XPos,
                     mBaseAnimatedWithPhysicsGameObject_YPos,
                     field_BC_sprite_scale);
 
-                ao_new<Gibs>(
+                relive_new Gibs(
                     GibType::Metal_5,
                     mBaseAnimatedWithPhysicsGameObject_XPos,
                     mBaseAnimatedWithPhysicsGameObject_YPos,

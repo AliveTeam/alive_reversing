@@ -104,7 +104,7 @@ void GasCountDown::VUpdate()
     if (!sGasTimer_507700 && SwitchStates_Get(field_60_start_switch_id) && !SwitchStates_Get(70))
     {
         sGasTimer_507700 = sGnFrame;
-        ao_new<Alarm>(3600, 0, 0, Layer::eLayer_Above_FG1_39);
+        relive_new Alarm(3600, 0, 0, Layer::eLayer_Above_FG1_39);
     }
 
     if (!sGasTimer_507700)
@@ -165,7 +165,7 @@ void GasCountDown::DealDamage()
     if (!gGasOn_4FF888 && field_62_time_left <= 0)
     {
         gGasOn_4FF888 = TRUE;
-        ao_new<DeathGas>(Layer::eLayer_Above_FG1_39, 2);
+        relive_new DeathGas(Layer::eLayer_Above_FG1_39, 2);
     }
 }
 

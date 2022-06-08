@@ -216,7 +216,7 @@ void BirdPortal::CreateDovesAndShrykullNumber()
     for (u8 i = 0; i < 6; i++)
     {
         const AnimRecord& doveRec = AO::AnimRec(AnimId::Dove_Flying);
-        auto pDove = ao_new<Dove>(
+        auto pDove = relive_new Dove(
             doveRec.mFrameTableOffset,
             doveRec.mMaxW,
             doveRec.mMaxH,
@@ -252,7 +252,7 @@ void BirdPortal::CreateDovesAndShrykullNumber()
         {
             indicatorLayer = Layer::eLayer_8;
         }
-        field_5C_pThrowableTotalIndicator = ao_new<ThrowableTotalIndicator>(
+        field_5C_pThrowableTotalIndicator = relive_new ThrowableTotalIndicator(
             field_18_xpos,
             field_1C_ypos + FP_FromInteger(10),
             indicatorLayer,
@@ -268,13 +268,13 @@ void BirdPortal::CreateDovesAndShrykullNumber()
 
 void BirdPortal::CreateTerminators()
 {
-    field_3C_pTerminator1 = ao_new<BirdPortalTerminator>(
+    field_3C_pTerminator1 = relive_new BirdPortalTerminator(
         field_18_xpos,
         field_1C_ypos,
         field_34_scale,
         field_10_portal_type);
 
-    field_40_pTerminator2 = ao_new<BirdPortalTerminator>(
+    field_40_pTerminator2 = relive_new BirdPortalTerminator(
         field_18_xpos,
         field_1C_ypos,
         field_34_scale,
@@ -300,7 +300,7 @@ void BirdPortal::VUpdate()
     switch (field_14_state)
     {
         case PortalStates::CreatePortal_0:
-            field_4C_pDovesArray = ao_new<DynamicArrayT<Dove>>(6);
+            field_4C_pDovesArray = relive_new DynamicArrayT<Dove>(6);
 
             CreateDovesAndShrykullNumber();
             field_14_state = PortalStates::IdlePortal_1;
@@ -439,7 +439,7 @@ void BirdPortal::VUpdate()
                     u8** ppLightRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
                     if (ppLightRes)
                     {
-                        auto pParticle = ao_new<Particle>(
+                        auto pParticle = relive_new Particle(
                             field_40_pTerminator2->mBaseAnimatedWithPhysicsGameObject_XPos,
                             (FP_FromInteger(10) * field_34_scale) + field_40_pTerminator2->mBaseAnimatedWithPhysicsGameObject_YPos,
                             rec.mFrameTableOffset,
@@ -513,7 +513,7 @@ void BirdPortal::VUpdate()
                     field_30_timer = sGnFrame + Math_RandomRange_450F20(4, 12);
                     const AnimRecord& doveRec = AO::AnimRec(AnimId::Dove_Flying);
 
-                    auto pDoveMem = ao_new<Dove>(
+                    auto pDoveMem = relive_new Dove(
                         doveRec.mFrameTableOffset,
                         doveRec.mMaxW,
                         doveRec.mMaxH,
@@ -566,7 +566,7 @@ void BirdPortal::VUpdate()
                 u8** ppLightRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
                 if (ppLightRes)
                 {
-                    auto pParticle_1 = ao_new<Particle>(
+                    auto pParticle_1 = relive_new Particle(
                         field_40_pTerminator2->mBaseAnimatedWithPhysicsGameObject_XPos,
                         field_40_pTerminator2->mBaseAnimatedWithPhysicsGameObject_YPos,
                         rec.mFrameTableOffset,
@@ -606,21 +606,21 @@ void BirdPortal::VUpdate()
 
         case PortalStates::CreateFlash1_12:
         {
-            ao_new<Flash>(Layer::eLayer_FadeFlash_40, 255u, 255u, 255u);
+            relive_new Flash(Layer::eLayer_FadeFlash_40, 255u, 255u, 255u);
             field_14_state = PortalStates::CreateFlash2_13;
         }
         break;
 
         case PortalStates::CreateFlash2_13:
         {
-            ao_new<Flash>(Layer::eLayer_FadeFlash_40, 255u, 255u, 255u, 1, TPageAbr::eBlend_0, 1);
+            relive_new Flash(Layer::eLayer_FadeFlash_40, 255u, 255u, 255u, 1, TPageAbr::eBlend_0, 1);
             field_14_state = PortalStates::CreateFlash3_14;
         }
         break;
 
         case PortalStates::CreateFlash3_14:
         {
-            ao_new<Flash>(Layer::eLayer_FadeFlash_40, 255u, 255u, 255u, 0, TPageAbr::eBlend_0, 1);
+            relive_new Flash(Layer::eLayer_FadeFlash_40, 255u, 255u, 255u, 0, TPageAbr::eBlend_0, 1);
             field_14_state = PortalStates::KillPortal_15;
             field_30_timer = sGnFrame + 5;
         }
@@ -766,7 +766,7 @@ void BirdPortal::VGiveShrykull(s16 bPlaySound)
         field_30_timer = sGnFrame + 12;
         field_58_received_doves = 0;
 
-        field_60_pOrbWhirlWind = ao_new<OrbWhirlWind>(
+        field_60_pOrbWhirlWind = relive_new OrbWhirlWind(
             sActiveHero_507678->mBaseAnimatedWithPhysicsGameObject_XPos,
             sActiveHero_507678->mBaseAnimatedWithPhysicsGameObject_YPos - (sActiveHero_507678->field_BC_sprite_scale * FP_FromInteger(38)),
             sActiveHero_507678->field_BC_sprite_scale);
@@ -1006,7 +1006,7 @@ s16 BirdPortal::VPortalClipper(s16 bUnknown)
     xy.field_2_y = 0;
     wh.field_2_y = 240;
 
-    field_44_pScreenClipper1 = ao_new<ScreenClipper>(xy, wh, Layer::eLayer_0);
+    field_44_pScreenClipper1 = relive_new ScreenClipper(xy, wh, Layer::eLayer_0);
     if (field_44_pScreenClipper1)
     {
         if (field_34_scale == FP_FromInteger(1))
@@ -1019,7 +1019,7 @@ s16 BirdPortal::VPortalClipper(s16 bUnknown)
         }
     }
 
-    field_48_pScreenClipper2 = ao_new<ScreenClipper>(PSX_Point{ 0, 0 }, PSX_Point{ 640, 240 }, Layer::eLayer_0);
+    field_48_pScreenClipper2 = relive_new ScreenClipper(PSX_Point{ 0, 0 }, PSX_Point{ 640, 240 }, Layer::eLayer_0);
     if (field_48_pScreenClipper2)
     {
         if (field_34_scale == FP_FromInteger(1))

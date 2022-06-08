@@ -240,7 +240,7 @@ void FlintLockFire::VUpdate()
                     field_EC_fire_sound = SFX_Play_Mono(SoundEffect::Fire_69, 0, 0);
                 }
 
-                ao_new<MusicTrigger>(MusicTriggerMusicType::eSecretAreaShort_6, TriggeredBy::eTouching_1, 0, 15);
+                relive_new MusicTrigger(MusicTriggerMusicType::eSecretAreaShort_6, TriggeredBy::eTouching_1, 0, 15);
             }
             break;
 

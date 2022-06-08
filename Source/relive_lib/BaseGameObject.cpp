@@ -22,9 +22,6 @@ BaseGameObject::BaseGameObject(s16 bAddToObjectList, s16 resourceArraySize)
         field_10_resources_array.Push_Back(nullptr);
     }
 
-    mBaseGameObjectUpdateDelay = 0;
-    mBaseGameObjectRefCount = 0;
-
     SetType(ReliveTypes::eNone);
 
     mBaseGameObjectFlags.Clear(BaseGameObject::Options::eListAddFailed_Bit1);

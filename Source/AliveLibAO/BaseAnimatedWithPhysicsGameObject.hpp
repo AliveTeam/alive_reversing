@@ -8,6 +8,7 @@
 #include "../AliveLibCommon/Function.hpp"
 #include "PathData.hpp"
 #include "../relive_lib/BaseAnimatedWithPhysicsGameObject.hpp"
+#include "../relive_lib/MapWrapper.hpp"
 
 enum class EReliveLevelIds : s16;
 
@@ -130,22 +131,22 @@ private:
 
 public:
     Animation field_10_anim;
-    FP mBaseAnimatedWithPhysicsGameObject_XPos;
-    FP mBaseAnimatedWithPhysicsGameObject_YPos;
-    s16 field_B0_path_number;
-    EReliveLevelIds field_B2_lvl_number;
-    FP field_B4_velx;
-    FP field_B8_vely;
-    FP field_BC_sprite_scale;
-    s16 field_C0_r;
-    s16 field_C2_g;
-    s16 field_C4_b;
-    s16 field_C6_scale;
-    s16 field_C8_yOffset;
-    s16 field_CA_xOffset;
-    u16 field_CC_bApplyShadows;
-    s16 field_CE_pad;
-    Shadow* field_D0_pShadow;
+    FP mBaseAnimatedWithPhysicsGameObject_XPos = {};
+    FP mBaseAnimatedWithPhysicsGameObject_YPos = {};
+    s16 field_B0_path_number = 0;
+    EReliveLevelIds field_B2_lvl_number = EReliveLevelIds::eNone;
+    FP field_B4_velx = {};
+    FP field_B8_vely = {};
+    FP field_BC_sprite_scale = {};
+    s16 field_C0_r = 0;
+    s16 field_C2_g = 0;
+    s16 field_C4_b = 0;
+    s16 field_C6_scale = 0;
+    s16 field_C8_yOffset = 0;
+    s16 field_CA_xOffset = 0;
+    u16 field_CC_bApplyShadows = 0;
+    s16 field_CE_pad = 0;
+    Shadow* field_D0_pShadow = nullptr;
 };
 ALIVE_ASSERT_SIZEOF(BaseAnimatedWithPhysicsGameObject, 0xD4);
 

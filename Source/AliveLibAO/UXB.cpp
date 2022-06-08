@@ -281,7 +281,7 @@ s16 UXB::VTakeDamage(BaseGameObject* pFrom)
 
     mBaseGameObjectFlags.Set(BaseGameObject::eDead);
 
-    ao_new<BaseBomb>(
+    relive_new BaseBomb(
         mBaseAnimatedWithPhysicsGameObject_XPos,
         mBaseAnimatedWithPhysicsGameObject_YPos,
         0,
@@ -295,7 +295,7 @@ s16 UXB::VTakeDamage(BaseGameObject* pFrom)
 
 void UXB::VOnThrowableHit(BaseGameObject* /*pFrom*/)
 {
-    ao_new<BaseBomb>(
+    relive_new BaseBomb(
         mBaseAnimatedWithPhysicsGameObject_XPos,
         mBaseAnimatedWithPhysicsGameObject_YPos,
         0,
@@ -446,7 +446,7 @@ void UXB::VUpdate()
         case UXBState::eExploding_2:
             if (static_cast<s32>(sGnFrame) >= field_118_next_state_frame)
             {
-                ao_new<BaseBomb>(
+                relive_new BaseBomb(
                     mBaseAnimatedWithPhysicsGameObject_XPos,
                     mBaseAnimatedWithPhysicsGameObject_YPos,
                     0,

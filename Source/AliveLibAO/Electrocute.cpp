@@ -217,12 +217,12 @@ void Electrocute::VUpdate()
             return;
 
         case States::eAlphaFadeout_1:
-            field_18_pPalOverwriters[0] = ao_new<PalleteOverwriter>(
+            field_18_pPalOverwriters[0] = relive_new PalleteOverwriter(
                 field_10_obj_target->field_10_anim.field_8C_pal_vram_xy,
                 field_10_obj_target->field_10_anim.field_90_pal_depth,
                 static_cast<s16>(Pal_Make_Colour_447950(255u, 255, 255, 1)));
 
-            field_18_pPalOverwriters[1] = ao_new<PalleteOverwriter>(
+            field_18_pPalOverwriters[1] = relive_new PalleteOverwriter(
                 field_10_obj_target->field_10_anim.field_8C_pal_vram_xy,
                 field_10_obj_target->field_10_anim.field_90_pal_depth,
                 static_cast<s16>(Pal_Make_Colour_447950(64u, 64, 255, 1)));
@@ -233,7 +233,7 @@ void Electrocute::VUpdate()
 
             if (field_24_extraOverwriter)
             {
-                field_18_pPalOverwriters[2] = ao_new<PalleteOverwriter>(
+                field_18_pPalOverwriters[2] = relive_new PalleteOverwriter(
                     field_10_obj_target->field_10_anim.field_8C_pal_vram_xy,
                     field_10_obj_target->field_10_anim.field_90_pal_depth,
                     static_cast<s16>(Pal_Make_Colour_447950(0, 0, 0, 0)));

@@ -14,7 +14,7 @@
 
 AbilityRing* AbilityRing::Factory(FP xpos, FP ypos, RingTypes type, FP scale)
 {
-    return ae_new<AbilityRing>(xpos, ypos, type, scale);
+    return relive_new AbilityRing(xpos, ypos, type, scale);
 }
 
 struct AbilityRing_PolyBuffer final
@@ -445,7 +445,7 @@ void AbilityRing::VUpdate()
                 SFX_Play_Mono(SoundEffect::IngameTransition_84, 0);
                 if (mRingType == RingTypes::eExplosive_Give_3)
                 {
-                    ae_new<PossessionFlicker>(sActiveHero, 8, 255, 128, 128);
+                    relive_new PossessionFlicker(sActiveHero, 8, 255, 128, 128);
                 }
             }
             break;
@@ -497,7 +497,7 @@ s32 AbilityRing::VGetSaveState(u8* pSaveBuffer)
 s32 AbilityRing::CreateFromSaveState(const u8* pBuffer)
 {
     auto pState = reinterpret_cast<const AbilityRing_State*>(pBuffer);
-    auto pRing = ae_new<AbilityRing>(pState->mRingXPos, pState->mRingYPos, pState->mRingType, pState->mRingScale);
+    auto pRing = relive_new AbilityRing(pState->mRingXPos, pState->mRingYPos, pState->mRingType, pState->mRingScale);
     if (pRing)
     {
         pRing->mRingRed = pState->mRingRed;

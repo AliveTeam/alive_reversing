@@ -78,7 +78,7 @@ PullRingRope::PullRingRope(Path_PullRingRope* pTlv, s32 tlvInfo)
 
     field_F4_pPuller = nullptr;
 
-    field_F8_pRope = ao_new<Rope>(
+    field_F8_pRope = relive_new Rope(
         FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos + FP_FromInteger((lvl_x_off + 1))),
         FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos) - pTlv->field_1C_rope_length,
         FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos + (FP_FromInteger(field_C8_yOffset))),

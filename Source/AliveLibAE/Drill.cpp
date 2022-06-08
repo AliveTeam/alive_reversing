@@ -236,7 +236,7 @@ Drill::Drill(Path_Drill* pTlv, u32 tlvInfo)
     field_104_tlv = tlvInfo;
     field_10C_audio_channels_mask = 0;
 
-    mShadow = ae_new<Shadow>();
+    mShadow = relive_new Shadow();
 
     Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kAbeblowResID);
 }
@@ -262,7 +262,7 @@ s32 Drill::CreateFromSaveState(const u8* pData)
         ResourceManager::LoadResourceFile_49C170("DRILL.BAN", 0);
     }
 
-    auto pDrill = ae_new<Drill>(pTlv, pState->field_8_tlvInfo);
+    auto pDrill = relive_new Drill(pTlv, pState->field_8_tlvInfo);
 
 
     if (pState->field_10_state != DrillStates::State_0_Restart_Cycle)
@@ -576,7 +576,7 @@ void Drill::EmitSparks()
         {
             if (field_FA_direction == DrillDirection::eRight_1)
             {
-                ae_new<Spark>(mBaseAnimatedWithPhysicsGameObject_XPos - (field_CC_sprite_scale * FP_FromInteger(17)) + FP_FromInteger(speed),
+                relive_new Spark(mBaseAnimatedWithPhysicsGameObject_XPos - (field_CC_sprite_scale * FP_FromInteger(17)) + FP_FromInteger(speed),
                                              mBaseAnimatedWithPhysicsGameObject_YPos - (field_CC_sprite_scale * FP_FromInteger(12)),
                                              field_CC_sprite_scale,
                                              6u,
@@ -584,7 +584,7 @@ void Drill::EmitSparks()
                                              205,
                                              SparkType::eSmallChantParticle_0);
 
-                ae_new<Spark>(mBaseAnimatedWithPhysicsGameObject_XPos + (field_CC_sprite_scale * FP_FromInteger(17)) + FP_FromInteger(speed),
+                relive_new Spark(mBaseAnimatedWithPhysicsGameObject_XPos + (field_CC_sprite_scale * FP_FromInteger(17)) + FP_FromInteger(speed),
                                              mBaseAnimatedWithPhysicsGameObject_YPos - (field_CC_sprite_scale * FP_FromInteger(12)),
                                              field_CC_sprite_scale,
                                              6u,
@@ -594,7 +594,7 @@ void Drill::EmitSparks()
             }
             else if (field_FA_direction == DrillDirection::eLeft_2)
             {
-                ae_new<Spark>(mBaseAnimatedWithPhysicsGameObject_XPos + (field_CC_sprite_scale * FP_FromInteger(17)) - FP_FromInteger(speed),
+                relive_new Spark(mBaseAnimatedWithPhysicsGameObject_XPos + (field_CC_sprite_scale * FP_FromInteger(17)) - FP_FromInteger(speed),
                                              mBaseAnimatedWithPhysicsGameObject_YPos - (field_CC_sprite_scale * FP_FromInteger(12)),
                                              field_CC_sprite_scale,
                                              6u,
@@ -602,7 +602,7 @@ void Drill::EmitSparks()
                                              205,
                                              SparkType::eSmallChantParticle_0);
 
-                ae_new<Spark>(mBaseAnimatedWithPhysicsGameObject_XPos - (field_CC_sprite_scale * FP_FromInteger(17)) - FP_FromInteger(speed),
+                relive_new Spark(mBaseAnimatedWithPhysicsGameObject_XPos - (field_CC_sprite_scale * FP_FromInteger(17)) - FP_FromInteger(speed),
                                              mBaseAnimatedWithPhysicsGameObject_YPos - (field_CC_sprite_scale * FP_FromInteger(12)),
                                              field_CC_sprite_scale,
                                              6u,
@@ -612,7 +612,7 @@ void Drill::EmitSparks()
             }
             else if (field_FA_direction == DrillDirection::eDown_0)
             {
-                ae_new<Spark>(mBaseAnimatedWithPhysicsGameObject_XPos,
+                relive_new Spark(mBaseAnimatedWithPhysicsGameObject_XPos,
                                              mBaseAnimatedWithPhysicsGameObject_YPos - (field_CC_sprite_scale * FP_FromInteger(22)) - FP_FromInteger(speed),
                                              field_CC_sprite_scale,
                                              6u,
@@ -620,7 +620,7 @@ void Drill::EmitSparks()
                                              205,
                                              SparkType::eSmallChantParticle_0);
 
-                ae_new<Spark>(mBaseAnimatedWithPhysicsGameObject_XPos,
+                relive_new Spark(mBaseAnimatedWithPhysicsGameObject_XPos,
                                              mBaseAnimatedWithPhysicsGameObject_YPos + (field_CC_sprite_scale * FP_FromInteger(4)) - FP_FromInteger(speed),
                                              field_CC_sprite_scale,
                                              6u,
@@ -685,7 +685,7 @@ s16 Drill::DamageTouchingObjects()
         return 1;
     }
 
-    ae_new<Blood>(pFound->mBaseAnimatedWithPhysicsGameObject_XPos,
+    relive_new Blood(pFound->mBaseAnimatedWithPhysicsGameObject_XPos,
                                 FP_FromInteger(drillRect.h - 10),
                                 FP_FromInteger(-5),
                                 FP_FromInteger(5),
@@ -693,14 +693,14 @@ s16 Drill::DamageTouchingObjects()
                                 50);
 
 
-    ae_new<Blood>(pFound->mBaseAnimatedWithPhysicsGameObject_XPos,
+    relive_new Blood(pFound->mBaseAnimatedWithPhysicsGameObject_XPos,
                                  FP_FromInteger(drillRect.h - 10),
                                  FP_FromInteger(0),
                                  FP_FromInteger(5),
                                  field_CC_sprite_scale,
                                  50);
 
-    ae_new<Blood>(pFound->mBaseAnimatedWithPhysicsGameObject_XPos,
+    relive_new Blood(pFound->mBaseAnimatedWithPhysicsGameObject_XPos,
                                  FP_FromInteger(drillRect.h - 10),
                                  FP_FromInteger(5),
                                  FP_FromInteger(5),

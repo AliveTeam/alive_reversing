@@ -224,7 +224,7 @@ void BirdPortal::VUpdate()
                     if (ppLightRes)
                     {
                         const AnimRecord& rec = AnimRec(AnimId::BirdPortal_Sparks);
-                        auto pParticle = ae_new<Particle>(pTerminator2->mBaseAnimatedWithPhysicsGameObject_XPos,
+                        auto pParticle = relive_new Particle(pTerminator2->mBaseAnimatedWithPhysicsGameObject_XPos,
                             (FP_FromInteger(10) * field_60_scale) + pTerminator2->mBaseAnimatedWithPhysicsGameObject_YPos,
                             rec.mFrameTableOffset,
                             rec.mMaxW,
@@ -298,7 +298,7 @@ void BirdPortal::VUpdate()
                 if (static_cast<s32>(sGnFrame) >= field_5C_timer)
                 {
                     field_5C_timer = sGnFrame + Math_RandomRange(4, 12);
-                    auto pDove_1 = ae_new<Dove>(
+                    auto pDove_1 = relive_new Dove(
                         5516, // TODO: Hard coded frame table
                         41,
                         20u,
@@ -349,7 +349,7 @@ void BirdPortal::VUpdate()
                 u8** ppLightRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
                 if (ppLightRes)
                 {
-                    auto pParticle = ae_new<Particle>(
+                    auto pParticle = relive_new Particle(
                         pTerminator2->mBaseAnimatedWithPhysicsGameObject_XPos,
                         pTerminator2->mBaseAnimatedWithPhysicsGameObject_YPos,
                         rec.mFrameTableOffset,
@@ -385,21 +385,21 @@ void BirdPortal::VUpdate()
 
         case PortalStates::CreateFlash1_12:
         {
-            ae_new<Flash>(Layer::eLayer_FadeFlash_40, static_cast<u8>(255), static_cast<u8>(255), static_cast<u8>(255), 1, TPageAbr::eBlend_3, 1);
+            relive_new Flash(Layer::eLayer_FadeFlash_40, 255, 255, 255, 1, TPageAbr::eBlend_3, 1);
             field_28_state = PortalStates::CreateFlash2_13;
         }
         break;
 
         case PortalStates::CreateFlash2_13:
         {
-            ae_new<Flash>(Layer::eLayer_FadeFlash_40, static_cast<u8>(255), static_cast<u8>(255), static_cast<u8>(255), 1, TPageAbr::eBlend_0, 1);
+            relive_new Flash(Layer::eLayer_FadeFlash_40, 255, 255, 255, 1, TPageAbr::eBlend_0, 1);
             field_28_state = PortalStates::CreateFlash3_14;
         }
         break;
 
         case PortalStates::CreateFlash3_14:
         {
-            ae_new<Flash>(Layer::eLayer_FadeFlash_40, static_cast<u8>(255), static_cast<u8>(255), static_cast<u8>(255), 0, TPageAbr::eBlend_0, 1);
+            relive_new Flash(Layer::eLayer_FadeFlash_40, 255, 255, 255, 0, TPageAbr::eBlend_0, 1);
             field_28_state = PortalStates::KillPortal_15;
             field_5C_timer = sGnFrame + 5;
         }
@@ -623,7 +623,7 @@ s32 BirdPortal::CreateFromSaveState(const u8* pBuffer)
         }
     }
 
-    auto pPortal = ae_new<BirdPortal>(pTlv, pSaveState->field_4_tlvInfo);
+    auto pPortal = relive_new BirdPortal(pTlv, pSaveState->field_4_tlvInfo);
     pPortal->SetUpdateDelay(1);
     pPortal->field_82_num_muds_for_shrykull -= pSaveState->field_3_mud_count;
 
@@ -701,7 +701,7 @@ s16 BirdPortal::VPortalClipper(s16 bIgnoreClipping)
     }
 
     // Clip objects entering portal?
-    auto pClipper1 = ae_new<ScreenClipper>(xy, wh, Layer::eLayer_0);
+    auto pClipper1 = relive_new ScreenClipper(xy, wh, Layer::eLayer_0);
     if (pClipper1)
     {
         field_74_screen_clipper_id = pClipper1->field_8_object_id;
@@ -716,7 +716,7 @@ s16 BirdPortal::VPortalClipper(s16 bIgnoreClipping)
     }
 
     // Clip whole screen when "in" the portal?
-    auto pClipper2 = ae_new<ScreenClipper>(PSX_Point{ 0, 0 }, PSX_Point{ 640, 240 }, Layer::eLayer_0);
+    auto pClipper2 = relive_new ScreenClipper(PSX_Point{ 0, 0 }, PSX_Point{ 640, 240 }, Layer::eLayer_0);
     if (pClipper2)
     {
         field_78_screen_clipper_id = pClipper2->field_8_object_id;
@@ -772,7 +772,7 @@ void BirdPortal::VGiveShrykull(s16 bPlaySound)
             field_5C_timer = sGnFrame + 12;
             field_84_received_doves = 0;
 
-            field_88_pWhirlWind = ae_new<OrbWhirlWind>(
+            field_88_pWhirlWind = relive_new OrbWhirlWind(
                 sActiveHero->mBaseAnimatedWithPhysicsGameObject_XPos,
                 sActiveHero->mBaseAnimatedWithPhysicsGameObject_YPos - (sActiveHero->field_CC_sprite_scale * FP_FromInteger(38)),
                 sActiveHero->field_CC_sprite_scale,
@@ -992,7 +992,7 @@ void BirdPortal::CreateDovesAndShrykullNumber()
     for (u8 i = 0; i < ALIVE_COUNTOF(field_44_dove_ids); i++)
     {
         const AnimRecord& doveRec = AnimRec(AnimId::Dove_Flying);
-        auto pDove = ae_new<Dove>(doveRec.mFrameTableOffset, doveRec.mMaxW, doveRec.mMaxH, doveRec.mResourceId, field_2C_xpos, field_30_ypos, field_60_scale);
+        auto pDove = relive_new Dove(doveRec.mFrameTableOffset, doveRec.mMaxW, doveRec.mMaxH, doveRec.mResourceId, field_2C_xpos, field_30_ypos, field_60_scale);
         field_44_dove_ids[i] = pDove->field_8_object_id;
 
         field_68_doves_exist = 1;
@@ -1011,7 +1011,7 @@ void BirdPortal::CreateDovesAndShrykullNumber()
     if (field_24_portal_type == PortalType::eShrykull_2)
     {
         const Layer indicatorLayer = field_60_scale != FP_FromDouble(0.5) ? Layer::eLayer_27 : Layer::eLayer_8;
-        auto pIndicator = ae_new<ThrowableTotalIndicator>(
+        auto pIndicator = relive_new ThrowableTotalIndicator(
             field_2C_xpos,
             field_30_ypos + FP_FromInteger(10),
             indicatorLayer,
@@ -1044,13 +1044,13 @@ void BirdPortal::KillTerminators()
 
 void BirdPortal::CreateTerminators()
 {
-    auto pTerminator1 = ae_new<BirdPortalTerminator>(field_2C_xpos, field_30_ypos, field_60_scale, field_24_portal_type);
+    auto pTerminator1 = relive_new BirdPortalTerminator(field_2C_xpos, field_30_ypos, field_60_scale, field_24_portal_type);
     if (pTerminator1)
     {
         field_6C_terminator_id = pTerminator1->field_8_object_id;
     }
 
-    auto pTerminator2 = ae_new<BirdPortalTerminator>(field_2C_xpos, field_30_ypos, field_60_scale, field_24_portal_type);
+    auto pTerminator2 = relive_new BirdPortalTerminator(field_2C_xpos, field_30_ypos, field_60_scale, field_24_portal_type);
     if (pTerminator2)
     {
         field_70_terminator_id = pTerminator2->field_8_object_id;

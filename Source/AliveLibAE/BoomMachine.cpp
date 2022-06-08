@@ -84,7 +84,7 @@ private:
 
                     if (!gpThrowableArray_5D1E2C)
                     {
-                        gpThrowableArray_5D1E2C = ae_new<ThrowableArray>();
+                        gpThrowableArray_5D1E2C = relive_new ThrowableArray();
                     }
 
                     gpThrowableArray_5D1E2C->Add(field_FC_numGrenades);
@@ -98,7 +98,7 @@ private:
                     {
                         directedScale = field_CC_sprite_scale;
                     }
-                    auto pGrenade = ae_new<Grenade>(
+                    auto pGrenade = relive_new Grenade(
                         (FP_FromInteger(6) * directedScale) + mBaseAnimatedWithPhysicsGameObject_XPos,
                         (-FP_FromInteger(6) * field_CC_sprite_scale) + mBaseAnimatedWithPhysicsGameObject_YPos,
                         field_FC_numGrenades,
@@ -150,7 +150,7 @@ BoomMachine::BoomMachine(Path_BoomMachine* pTlv, s32 tlvInfo)
     mBaseAnimatedWithPhysicsGameObject_XPos = (ScaleToGridSize(field_CC_sprite_scale) / FP_FromInteger(2)) + FP_FromInteger(pTlv->field_8_top_left.field_0_x);
     mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->field_8_top_left.field_2_y);
 
-    auto pNozzle = ae_new<GrenadeMachineNozzle>(
+    auto pNozzle = relive_new GrenadeMachineNozzle(
         ((pTlv->field_12_nozzle_side == Path_BoomMachine::NozzleSide::eLeft_1 ? -field_CC_sprite_scale : field_CC_sprite_scale) * FP_FromInteger(30)) + mBaseAnimatedWithPhysicsGameObject_XPos,
         (field_CC_sprite_scale * FP_FromInteger(-30)) + mBaseAnimatedWithPhysicsGameObject_YPos,
         field_CC_sprite_scale,

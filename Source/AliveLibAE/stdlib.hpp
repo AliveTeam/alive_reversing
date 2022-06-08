@@ -18,21 +18,6 @@ void ae_non_zero_free_495560(void* ptr);
 void* realloc_4F4E80(void* ptr, size_t size);
 s32 ae_remove_520B27(const char* lpFileName);
 
-template <typename T, typename... Args>
-inline T* ae_new(Args&&... args)
-{
-    void* buffer = ae_new_malloc_4954D0(sizeof(T));
-    memset(buffer, 0, sizeof(T));
-    if constexpr (sizeof...(args) == 0)
-    {
-        return new (buffer) T();
-    }
-    else
-    {
-        return new (buffer) T(std::forward<Args>(args)...);
-    }
-}
-
 s32 access_impl(char_type const* fileName, s32 accessMode);
 
 #define relive_remove(fileName) ::remove(fileName)

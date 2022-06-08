@@ -44,7 +44,7 @@ ChimeLock::ChimeLock(Path_ChimeLock* pTlv, s32 tlvInfo)
         scale = FP_FromInteger(1);
     }
 
-    field_114_left_bell = ao_new<Bells>(
+    field_114_left_bell = relive_new Bells(
         BellSize::eBig_0,
         FP_FromInteger(pTlv->field_10_top_left.field_0_x),
         FP_FromInteger(pTlv->field_10_top_left.field_2_y),
@@ -54,7 +54,7 @@ ChimeLock::ChimeLock(Path_ChimeLock* pTlv, s32 tlvInfo)
         field_114_left_bell->mBaseGameObjectRefCount++;
     }
 
-    field_118_center_bell = ao_new<Bells>(
+    field_118_center_bell = relive_new Bells(
         BellSize::eMedium_1,
         FP_FromInteger(pTlv->field_10_top_left.field_0_x),
         FP_FromInteger(pTlv->field_10_top_left.field_2_y),
@@ -64,7 +64,7 @@ ChimeLock::ChimeLock(Path_ChimeLock* pTlv, s32 tlvInfo)
         field_118_center_bell->mBaseGameObjectRefCount++;
     }
 
-    field_11C_right_bell = ao_new<Bells>(
+    field_11C_right_bell = relive_new Bells(
         BellSize::eSmall_2,
         FP_FromInteger(pTlv->field_10_top_left.field_0_x),
         FP_FromInteger(pTlv->field_10_top_left.field_2_y),
@@ -388,7 +388,7 @@ void ChimeLock::VUpdate()
                     field_110_state = ChimeLockStates::eNeverRead_6;
                     SwitchStates_Do_Operation(field_132_solve_switch_id, SwitchOp::eSetTrue_0);
                     VUnPosses();
-                    ao_new<MusicTrigger>(MusicTriggerMusicType::eSecretAreaShort_6, TriggeredBy::eTouching_1, 0, 15);
+                    relive_new MusicTrigger(MusicTriggerMusicType::eSecretAreaShort_6, TriggeredBy::eTouching_1, 0, 15);
                     return;
                 }
             }

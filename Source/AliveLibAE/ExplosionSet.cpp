@@ -180,7 +180,7 @@ void ExplosionSet::VUpdate()
                 }
             }
 
-            ae_new<FallingItem>(xpos, field_48_tlv_rect.y, field_50_scale < FP_FromInteger(1), 0, 0, 1, 0);
+            relive_new FallingItem(xpos, field_48_tlv_rect.y, field_50_scale < FP_FromInteger(1), 0, 0, 1, 0);
 
             field_46_spacing_multiplicator++;
             field_44_start_delay = field_56_asset_interval;
@@ -189,7 +189,7 @@ void ExplosionSet::VUpdate()
             {
                 const FP explodeX = FP_FromInteger(Math_RandomRange(field_48_tlv_rect.y + 20, field_48_tlv_rect.y + 230));
                 const FP explodeY = FP_FromInteger(Math_RandomRange(field_48_tlv_rect.x, xpos));
-                ae_new<Explosion>(explodeY, explodeX, field_50_scale, 0);
+                relive_new Explosion(explodeY, explodeX, field_50_scale, 0);
             }
         }
     }

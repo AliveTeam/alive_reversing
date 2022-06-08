@@ -165,7 +165,7 @@ void DDCheat::Menu_Movies()
         u32 pos = 0;
         Get_fmvs_sectors(movieToPlayInfo->field_0_pName, 0, 0, &pos, 0, 0);
         sLevelId_dword_5CA408 = static_cast<s32>(MapWrapper::ToAE(gMap.mCurrentLevel));
-        ae_new<Movie>(movieToPlayInfo->field_4_id,
+        relive_new Movie(movieToPlayInfo->field_4_id,
                                          pos,
                                          movieToPlayInfo->field_6_flags & 1,
                                          movieToPlayInfo->field_8_flags,

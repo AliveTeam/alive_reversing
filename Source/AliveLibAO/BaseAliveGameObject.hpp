@@ -114,22 +114,22 @@ public:
     s16 MapFollowMe_401D30(s16 snapToGrid);
 
 public:
-    FP_RECT mBaseAliveGameObjectCollectionRect; // part of BaseAnimatedWithPhysicsGameObject in AE
-    s16 mPreviousMotion;
-    s16 mBaseAliveGameObjectLastAnimFrame;
-    FP BaseAliveGameObjectLastLineYPos;
-    s16 field_EC; // can the bees attack - multiple values so prob more unknown meanings as well
-    s16 field_EE_type; // unused??
-    Path_TLV* BaseAliveGameObjectPathTLV;
-    PathLine* BaseAliveGameObjectCollisionLine;
-    PlatformBase* mLiftPoint;
-    s16 mCurrentMotion;
-    s16 mNextMotion;
-    FP mHealth;
-    s16 field_104_pending_resource_count;
-    s16 field_106_shot;
-    s16 field_108_bMotionChanged;
-    BitField16<Flags_10A> mBaseAliveGameObjectFlags;
+    FP_RECT mBaseAliveGameObjectCollectionRect = {}; // part of BaseAnimatedWithPhysicsGameObject in AE
+    s16 mPreviousMotion = 0;
+    s16 mBaseAliveGameObjectLastAnimFrame = 0;
+    FP BaseAliveGameObjectLastLineYPos = {};
+    s16 field_EC = 0; // can the bees attack - multiple values so prob more unknown meanings as well
+    s16 field_EE_type = 0; // unused??
+    Path_TLV* BaseAliveGameObjectPathTLV = nullptr;
+    PathLine* BaseAliveGameObjectCollisionLine = nullptr;
+    PlatformBase* mLiftPoint = nullptr;
+    s16 mCurrentMotion = 0;
+    s16 mNextMotion = 0;
+    FP mHealth = {};
+    s16 field_104_pending_resource_count = 0;
+    s16 field_106_shot = 0;
+    s16 field_108_bMotionChanged = 0;
+    BitField16<Flags_10A> mBaseAliveGameObjectFlags = {};
 };
 ALIVE_ASSERT_SIZEOF(BaseAliveGameObject, 0x10C);
 

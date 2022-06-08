@@ -235,7 +235,7 @@ s32 CircularFade::VDone()
 
 CircularFade* Make_Circular_Fade_4CE8C0(FP xpos, FP ypos, FP scale, s16 direction, s8 destroyOnDone, s8 surviveDeathReset)
 {
-    auto pCircularFade = ae_new<CircularFade>(xpos, ypos, scale, direction, destroyOnDone);
+    auto pCircularFade = relive_new CircularFade(xpos, ypos, scale, direction, destroyOnDone);
     if (!pCircularFade)
     {
         return nullptr;

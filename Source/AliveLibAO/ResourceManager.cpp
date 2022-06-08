@@ -200,7 +200,7 @@ void Game_ShowLoadingIcon_445EB0()
     u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
     if (ppRes)
     {
-        auto pParticle = ao_new<Particle>(FP_FromInteger(0), FP_FromInteger(0), rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes);
+        auto pParticle = relive_new Particle(FP_FromInteger(0), FP_FromInteger(0), rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes);
         if (pParticle)
         {
             pParticle->field_10_anim.mAnimFlags.Clear(AnimFlags::eBit15_bSemiTrans);
@@ -315,7 +315,7 @@ void ResourceManager::LoadResource_446C90(const char_type* pFileName, u32 type, 
 
             if (found)
             {
-                auto pFilePart = ao_new<ResourceManager_FilePartRecord>();
+                auto pFilePart = relive_new ResourceManager_FilePartRecord();
                 pFilePart->field_8_pCamera = sCameraBeingLoaded_507C98;
                 pFilePart->field_0_type = type;
                 pFilePart->field_4_res_id = resourceId;
@@ -324,7 +324,7 @@ void ResourceManager::LoadResource_446C90(const char_type* pFileName, u32 type, 
             }
         }
 
-        auto pFileRec = ao_new<ResourceManager_FileRecord>();
+        auto pFileRec = relive_new ResourceManager_FileRecord();
         if (pFileRec)
         {
             pFileRec->field_0_fileName = pFileName;
@@ -332,7 +332,7 @@ void ResourceManager::LoadResource_446C90(const char_type* pFileName, u32 type, 
             pFileRec->field_8_type = type;
             pFileRec->field_C_resourceId = resourceId;
 
-            auto pFilePart = ao_new<ResourceManager_FilePartRecord>();
+            auto pFilePart = relive_new ResourceManager_FilePartRecord();
             pFilePart->field_0_type = type;
             pFilePart->field_4_res_id = resourceId;
             pFilePart->field_8_pCamera = sCameraBeingLoaded_507C98;
@@ -415,7 +415,7 @@ void ResourceManager::LoadResourcesFromList_446E80(const char_type* pFileName, R
 
                 for (s32 j = 0; j < pTypeAndIdList->field_0_count; j++)
                 {
-                    auto pPart = ao_new<ResourceManager_FilePartRecord>();
+                    auto pPart = relive_new ResourceManager_FilePartRecord();
                     pPart->field_0_type = pTypeAndIdList->field_4_items[j].field_0_type;
                     pPart->field_4_res_id = pTypeAndIdList->field_4_items[j].field_4_res_id;
                     pPart->field_8_pCamera = sCameraBeingLoaded_507C98;
@@ -425,7 +425,7 @@ void ResourceManager::LoadResourcesFromList_446E80(const char_type* pFileName, R
             }
         }
 
-        auto pNewFileRec = ao_new<ResourceManager_FileRecord>();
+        auto pNewFileRec = relive_new ResourceManager_FileRecord();
         pNewFileRec->field_0_fileName = pFileName;
         pNewFileRec->field_4_pResourcesToLoadList = pTypeAndIdList;
         pNewFileRec->field_8_type = 0;
@@ -436,7 +436,7 @@ void ResourceManager::LoadResourcesFromList_446E80(const char_type* pFileName, R
         {
             for (s32 j = 0; j < pTypeAndIdList->field_0_count; j++)
             {
-                auto pNewFilePart = ao_new<ResourceManager_FilePartRecord>();
+                auto pNewFilePart = relive_new ResourceManager_FilePartRecord();
                 pNewFilePart->field_0_type = pTypeAndIdList->field_4_items[j].field_0_type;
                 pNewFilePart->field_4_res_id = pTypeAndIdList->field_4_items[j].field_4_res_id;
                 pNewFilePart->field_8_pCamera = sCameraBeingLoaded_507C98;
@@ -704,7 +704,7 @@ LoadingFile* ResourceManager::LoadResourceFile_4551E0(const char_type* pFileName
         return nullptr;
     }
 
-    return ao_new<LoadingFile>(
+    return relive_new LoadingFile(
         sLvlArchive_4FFD60.field_4_cd_pos + pFileRec->field_C_start_sector,
         pFileRec->field_10_num_sectors,
         fnOnLoad,

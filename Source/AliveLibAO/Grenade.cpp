@@ -463,7 +463,7 @@ s16 Grenade::BlowUpAfterCountdown()
         return 0;
     }
 
-    auto pExplosion = ao_new<Explosion>(
+    auto pExplosion = relive_new Explosion(
         mBaseAnimatedWithPhysicsGameObject_XPos,
         mBaseAnimatedWithPhysicsGameObject_YPos - (field_BC_sprite_scale * FP_FromInteger(5)),
         field_BC_sprite_scale);
@@ -475,7 +475,7 @@ s16 Grenade::BlowUpAfterCountdown()
         field_110_state = States::eWaitForExplodeEnd_6;
     }
 
-    ao_new<Gibs>(GibType::Metal_5, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, FP_FromInteger(0), FP_FromInteger(5), field_BC_sprite_scale);
+    relive_new Gibs(GibType::Metal_5, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, FP_FromInteger(0), FP_FromInteger(5), field_BC_sprite_scale);
     return 1;
 }
 

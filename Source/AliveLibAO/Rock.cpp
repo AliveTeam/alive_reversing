@@ -62,7 +62,7 @@ Rock::Rock(FP xpos, FP ypos, s16 count)
 
     field_118_vol = 0;
 
-    field_D0_pShadow = ao_new<Shadow>();
+    field_D0_pShadow = relive_new Shadow();
 }
 
 Rock::~Rock()

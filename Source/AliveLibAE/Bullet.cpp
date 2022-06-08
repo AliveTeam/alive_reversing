@@ -98,7 +98,7 @@ void Bullet::VUpdate()
 
                             if (field_30_x_distance <= FP_FromInteger(0))
                             {
-                                ae_new<Spark>(
+                                relive_new Spark(
                                     pShotObj->mBaseAnimatedWithPhysicsGameObject_XPos + (field_3C_scale * FP_FromInteger(30)) - FP_FromInteger(randomW),
                                     field_2C_ypos + FP_NoFractional(randomHeight),
                                     field_3C_scale, 6, -76, 76, SparkType::eSmallChantParticle_0);
@@ -109,7 +109,7 @@ void Bullet::VUpdate()
                             }
                             else
                             {
-                                ae_new<Spark>(
+                                relive_new Spark(
                                     pShotObj->mBaseAnimatedWithPhysicsGameObject_XPos + FP_FromInteger(randomW) - (field_3C_scale * FP_FromInteger(30)),
                                     field_2C_ypos + FP_NoFractional(randomHeight),
                                     field_3C_scale, 6, 50, 205, SparkType::eSmallChantParticle_0);
@@ -139,7 +139,7 @@ void Bullet::VUpdate()
 
                 if (field_30_x_distance <= FP_FromInteger(0))
                 {
-                    ae_new<Spark>(
+                    relive_new Spark(
                         hitX - (field_3C_scale * FP_FromInteger(6)),
                         (FP_FromInteger(10) * field_3C_scale) + hitY,
                         field_3C_scale, 6, -76, 76, SparkType::eSmallChantParticle_0);
@@ -147,7 +147,7 @@ void Bullet::VUpdate()
                 }
                 else
                 {
-                    ae_new<Spark>(
+                    relive_new Spark(
                         hitX + (field_3C_scale * FP_FromInteger(7)),
                         (FP_FromInteger(10) * field_3C_scale) + hitY,
                         field_3C_scale, 6, 50, 205, SparkType::eSmallChantParticle_0);
@@ -174,7 +174,7 @@ void Bullet::VUpdate()
                     if (field_30_x_distance <= FP_FromInteger(0))
                     {
 
-                        ae_new<Spark>(
+                        relive_new Spark(
                             (field_3C_scale * FP_FromInteger(30)) + pShotObj->mBaseAnimatedWithPhysicsGameObject_XPos - FP_FromInteger(randomW),
                             field_2C_ypos + FP_NoFractional(randomHeight),
                             field_3C_scale, 6, -76, 76, SparkType::eSmallChantParticle_0);
@@ -187,7 +187,7 @@ void Bullet::VUpdate()
                     else
                     {
 
-                        ae_new<Spark>(
+                        relive_new Spark(
                             FP_FromInteger(randomW) + pShotObj->mBaseAnimatedWithPhysicsGameObject_XPos - (field_3C_scale * FP_FromInteger(30)),
                             field_2C_ypos + FP_NoFractional(randomHeight),
                             field_3C_scale, 6, 50, 205, SparkType::eSmallChantParticle_0);
@@ -256,7 +256,7 @@ void Bullet::VUpdate()
                     &field_24_pLine, &hitX, &hitY, 0x400)
                 == 1)
             {
-                ae_new<Spark>(hitX, hitY, FP_FromInteger(1), 9, -31, 159, SparkType::eSmallChantParticle_0);
+                relive_new Spark(hitX, hitY, FP_FromInteger(1), 9, -31, 159, SparkType::eSmallChantParticle_0);
                 New_Smoke_Particles(hitX, hitY, FP_FromInteger(1), 3, 128u, 128u, 128u);
             }
             SFX_Play_Mono(static_cast<SoundEffect>(Math_RandomRange(SoundEffect::Bullet1_0, SoundEffect::Bullet2_1)), 75);
@@ -303,7 +303,7 @@ void Bullet::VUpdate()
                         &field_24_pLine, &hitX, &hitY, 1024)
                     == 1)
                 {
-                    ae_new<Spark>(hitX, hitY, FP_FromInteger(1), 9, -31, 159, SparkType::eSmallChantParticle_0);
+                    relive_new Spark(hitX, hitY, FP_FromInteger(1), 9, -31, 159, SparkType::eSmallChantParticle_0);
                     New_Smoke_Particles(hitX, hitY, FP_FromInteger(1), 3, 128u, 128u, 128u);
                 }
                 SFX_Play_Mono(static_cast<SoundEffect>(Math_RandomRange(SoundEffect::Bullet1_0, SoundEffect::Bullet2_1)), 75);

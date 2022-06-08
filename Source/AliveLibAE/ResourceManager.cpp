@@ -50,7 +50,7 @@ void Game_ShowLoadingIcon_482D80()
     }
     PSX_Display_Buffer dispBuffer = {};
 
-    Particle* pParticle = ae_new<Particle>(FP_FromInteger(0), FP_FromInteger(0), loadingRec.mFrameTableOffset, loadingRec.mMaxW, loadingRec.mMaxH, ppLoadingAnimRes);
+    Particle* pParticle = relive_new Particle(FP_FromInteger(0), FP_FromInteger(0), loadingRec.mFrameTableOffset, loadingRec.mMaxW, loadingRec.mMaxH, ppLoadingAnimRes);
 
     // TODO: May need to clear all other low word bits ?
     pParticle->field_20_animation.mAnimFlags.Clear(AnimFlags::eBit15_bSemiTrans);
@@ -342,7 +342,7 @@ void ResourceManager::LoadResource_464EE0(const char_type* pFileItem, u32 type, 
 
                 if (found)
                 {
-                    auto pNewFilePart = ae_new<ResourceManager_FilePartRecord_18>();
+                    auto pNewFilePart = relive_new ResourceManager_FilePartRecord_18();
                     pNewFilePart->field_0_type = type;
                     pNewFilePart->field_10_pFn = pFn;
                     pNewFilePart->field_8_pCamera = pCamera;
@@ -356,7 +356,7 @@ void ResourceManager::LoadResource_464EE0(const char_type* pFileItem, u32 type, 
         }
         else if (type == pFileRec->field_8_type && resourceID == pFileRec->field_C_id)
         {
-            auto pNewFilePart = ae_new<ResourceManager_FilePartRecord_18>();
+            auto pNewFilePart = relive_new ResourceManager_FilePartRecord_18();
             pNewFilePart->field_0_type = type;
             pNewFilePart->field_10_pFn = pFn;
             pNewFilePart->field_8_pCamera = pCamera;
@@ -368,14 +368,14 @@ void ResourceManager::LoadResource_464EE0(const char_type* pFileItem, u32 type, 
         }
     }
 
-    auto pNewFileRec = ae_new<ResourceManager_FileRecord>();
+    auto pNewFileRec = relive_new ResourceManager_FileRecord();
     pNewFileRec->field_0_fileName = reinterpret_cast<char_type*>(ae_malloc_non_zero_4954F0(strlen(pFileItem) + 1));
     strcpy(pNewFileRec->field_0_fileName, pFileItem);
     pNewFileRec->field_4_pResourcesToLoadList = 0;
     pNewFileRec->field_8_type = type;
     pNewFileRec->field_C_id = resourceID;
 
-    auto pNewFilePart1 = ae_new<ResourceManager_FilePartRecord_18>();
+    auto pNewFilePart1 = relive_new ResourceManager_FilePartRecord_18();
     pNewFilePart1->field_8_pCamera = pCamera;
     pNewFilePart1->field_C_fn_arg_pCamera = pFnArg;
     pNewFilePart1->field_10_pFn = pFn;
@@ -442,7 +442,7 @@ void ResourceManager::LoadResourcesFromList_465150(const char_type* pFileName, R
     }
 
     // Create a new record or use the one we found
-    auto pNewFileRec = pFoundFileRecord ? pFoundFileRecord : ae_new<ResourceManager_FileRecord>();
+    auto pNewFileRec = pFoundFileRecord ? pFoundFileRecord : relive_new ResourceManager_FileRecord();
     if (!pFoundFileRecord)
     {
         // Only do ctor stuff if we created a new record
@@ -458,7 +458,7 @@ void ResourceManager::LoadResourcesFromList_465150(const char_type* pFileName, R
     // Create a file part record for each item
     for (s32 i = 0; i < pTypeAndIdList->field_0_count; i++)
     {
-        auto pNewFilePart = ae_new<ResourceManager_FilePartRecord_18>();
+        auto pNewFilePart = relive_new ResourceManager_FilePartRecord_18();
         pNewFilePart->field_0_type = pTypeAndIdList->field_4_items[i].field_0_type;
         pNewFilePart->field_4_id = pTypeAndIdList->field_4_items[i].field_4_res_id;
         pNewFilePart->field_8_pCamera = pCamera;
@@ -477,7 +477,7 @@ void ResourceManager::LoadResourcesFromList_465150(const char_type* pFileName, R
 
 void ResourceManager::LoadResourceFile_465460(const char_type* filename, Camera* pCam, Camera* pCam2, ResourceManager::TLoaderFn pFn, s16 bAddUseCount)
 {
-    auto pFileRecord = ae_new<ResourceManager_FileRecord>();
+    auto pFileRecord = relive_new ResourceManager_FileRecord();
    
     pFileRecord->field_0_fileName = reinterpret_cast<char_type*>(ae_malloc_non_zero_4954F0(strlen(filename) + 1));
     strcpy(pFileRecord->field_0_fileName, filename);
@@ -485,7 +485,7 @@ void ResourceManager::LoadResourceFile_465460(const char_type* filename, Camera*
     pFileRecord->field_8_type = 0;
     pFileRecord->field_C_id = 0;
 
-    auto pFilePart = ae_new<ResourceManager_FilePartRecord_18>();
+    auto pFilePart = relive_new ResourceManager_FilePartRecord_18();
     // TODO: De-inline this ctor
     pFilePart->field_8_pCamera = pCam;
     pFilePart->field_C_fn_arg_pCamera = pCam2;

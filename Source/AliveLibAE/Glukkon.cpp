@@ -151,7 +151,7 @@ s32 Glukkon::CreateFromSaveState(const u8* pData)
             break;
     }
 
-    auto pGlukkon = ae_new<Glukkon>(pTlv, pSaveState->field_44_tlvInfo);
+    auto pGlukkon = relive_new Glukkon(pTlv, pSaveState->field_44_tlvInfo);
     if (pGlukkon)
     {
         pGlukkon->SetType(FromAE(pSaveState->field_8E_type_id));
@@ -1622,7 +1622,7 @@ s16 Glukkon::Brain_3_PlayerControlled_441A30()
                 sVisitedBonewerks_5C1C02 = 1;
             }
 
-            auto pDeathFadeOutMem = ae_new<DeathFadeOut>(Layer::eLayer_FadeFlash_40, 1, 0, 8, TPageAbr::eBlend_2);
+            auto pDeathFadeOutMem = relive_new DeathFadeOut(Layer::eLayer_FadeFlash_40, 1, 0, 8, TPageAbr::eBlend_2);
             if (pDeathFadeOutMem)
             {
                 field_208_obj_id = pDeathFadeOutMem->field_8_object_id;
@@ -1691,7 +1691,7 @@ s16 Glukkon::Brain_3_PlayerControlled_441A30()
             u32 pos = 0;
             Get_fmvs_sectors(pFmvRec->field_0_pName, 0, 0, &pos, 0, 0);
 
-            ae_new<Movie>(pFmvRec->field_4_id, pos, pFmvRec->field_6_flags & 1, pFmvRec->field_8_flags, pFmvRec->field_A_volume);
+            relive_new Movie(pFmvRec->field_4_id, pos, pFmvRec->field_6_flags & 1, pFmvRec->field_8_flags, pFmvRec->field_A_volume);
         }
             return 5;
 
@@ -1799,7 +1799,7 @@ s16 Glukkon::Brain_4_Death_442010()
 
         case 2:
         {
-            ae_new<Gibs>(
+            relive_new Gibs(
                 AsGibType(field_1A8_tlvData.field_22_glukkon_type),
                 mBaseAnimatedWithPhysicsGameObject_XPos,
                 mBaseAnimatedWithPhysicsGameObject_YPos,
@@ -1808,7 +1808,7 @@ s16 Glukkon::Brain_4_Death_442010()
                 field_CC_sprite_scale,
                 0);
 
-            ae_new<Blood>(
+            relive_new Blood(
                 mBaseAnimatedWithPhysicsGameObject_XPos,
                 mBaseAnimatedWithPhysicsGameObject_YPos - (FP_FromInteger(30) * field_CC_sprite_scale),
                 FP_FromInteger(0),
@@ -1927,7 +1927,7 @@ s16 Glukkon::Brain_5_WaitToSpawn_442490()
             {
                 const s16 sparkX = FP_GetExponent(FP_FromInteger(p.field_0_x) + mBaseAnimatedWithPhysicsGameObject_XPos + FP_FromInteger(13));
                 const s16 sparkY = FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos + FP_FromInteger(p.field_2_y) - FP_FromInteger(11));
-                ae_new<Spark>(FP_FromInteger(sparkX), FP_FromInteger(sparkY), FP_FromInteger(1), 9, -31, 159, SparkType::eBigChantParticle_1);
+                relive_new Spark(FP_FromInteger(sparkX), FP_FromInteger(sparkY), FP_FromInteger(1), 9, -31, 159, SparkType::eBigChantParticle_1);
             }
 
             PSX_RECT bRect = {};
@@ -1938,7 +1938,7 @@ s16 Glukkon::Brain_5_WaitToSpawn_442490()
                 FP_FromInteger((bRect.y + bRect.h) / 2) + (field_CC_sprite_scale * FP_FromInteger(60)),
                 field_CC_sprite_scale);
 
-            ae_new<ParticleBurst>(
+            relive_new ParticleBurst(
                 mBaseAnimatedWithPhysicsGameObject_XPos,
                 mBaseAnimatedWithPhysicsGameObject_YPos - FP_FromInteger(18),
                 6,
@@ -2048,7 +2048,7 @@ void Glukkon::Init()
 
     if (!mShadow)
     {
-        mShadow = ae_new<Shadow>();
+        mShadow = relive_new Shadow();
     }
 }
 
@@ -2997,7 +2997,7 @@ s16 Glukkon::VTakeDamage(BaseGameObject* pFrom)
                         const FP xRand = FP_FromInteger(Math_NextRandom() & 0xF); // TODO: Might be wrong as was trying to make this abs() but result is unsigned anyway ??
 
                         const FP xPos = (field_CC_sprite_scale * (pBullet->field_30_x_distance <= FP_FromInteger(0) ? -FP_FromInteger(6) : FP_FromInteger(6)));
-                        ae_new<Blood>(
+                        relive_new Blood(
                             xPos + mBaseAnimatedWithPhysicsGameObject_XPos,
                             mBaseAnimatedWithPhysicsGameObject_YPos - (FP_FromInteger(25) * field_CC_sprite_scale),
                             ((pBullet->field_30_x_distance <= FP_FromInteger(0) ? -FP_FromInteger(1) : FP_FromInteger(1)) * xRand + FP_FromInteger(16)),
@@ -3008,7 +3008,7 @@ s16 Glukkon::VTakeDamage(BaseGameObject* pFrom)
 
                     {
                         const FP xPos = (field_CC_sprite_scale * (pBullet->field_30_x_distance <= FP_FromInteger(0) ? -FP_FromInteger(12) : FP_FromInteger(12)));
-                        ae_new<Blood>(
+                        relive_new Blood(
                             xPos + mBaseAnimatedWithPhysicsGameObject_XPos,
                             mBaseAnimatedWithPhysicsGameObject_YPos - (FP_FromInteger(25) * field_CC_sprite_scale),
                             pBullet->field_30_x_distance <= FP_FromInteger(0) ? -FP_FromInteger(6) : FP_FromInteger(6),
@@ -3022,7 +3022,7 @@ s16 Glukkon::VTakeDamage(BaseGameObject* pFrom)
                 case BulletType::ePossessedSligZBullet_1:
                 case BulletType::eZBullet_3:
                 {
-                    ae_new<Blood>(
+                    relive_new Blood(
                         mBaseAnimatedWithPhysicsGameObject_XPos,
                         mBaseAnimatedWithPhysicsGameObject_YPos - (FP_FromInteger(25) * field_CC_sprite_scale),
                         FP_FromInteger(0),

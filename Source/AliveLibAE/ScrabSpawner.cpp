@@ -33,7 +33,7 @@ s32 ScrabSpawner::CreateFromSaveState(const u8* pBuffer)
 {
     const auto pState = reinterpret_cast<const ScrabSpawner_State*>(pBuffer);
     auto pTlv = static_cast<Path_ScrabSpawner*>(sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam(pState->field_4_tlvInfo));
-    auto pScrabSpawner = ae_new<ScrabSpawner>(pTlv, pState->field_4_tlvInfo);
+    auto pScrabSpawner = relive_new ScrabSpawner(pTlv, pState->field_4_tlvInfo);
     if (pScrabSpawner)
     {
         pScrabSpawner->field_38_state = pState->field_8_state;
@@ -119,7 +119,7 @@ void ScrabSpawner::VUpdate()
 
                 if (pTlv)
                 {
-                    auto pNewScrab = ae_new<Scrab>(pTlv, field_20_tlvInfo, field_26_spawn_direction);
+                    auto pNewScrab = relive_new Scrab(pTlv, field_20_tlvInfo, field_26_spawn_direction);
                     if (pNewScrab)
                     {
                         SFX_Play_Mono(SoundEffect::ScrabSpawn_111, 0);

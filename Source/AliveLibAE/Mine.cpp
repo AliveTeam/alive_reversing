@@ -148,7 +148,7 @@ void Mine::VUpdate()
     {
         if (field_118_detonating == 1 && sGnFrame >= field_120_gnframe)
         {
-            ae_new<BaseBomb>(mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, 0, field_CC_sprite_scale);
+            relive_new BaseBomb(mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, 0, field_CC_sprite_scale);
             mBaseGameObjectFlags.Set(Options::eDead);
         }
     }
@@ -226,7 +226,7 @@ void Mine::VOnPickUpOrSlapped()
 
 void Mine::VOnThrowableHit(BaseGameObject* /*pFrom*/)
 {
-    ae_new<BaseBomb>(mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, 0, field_CC_sprite_scale);
+    relive_new BaseBomb(mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, 0, field_CC_sprite_scale);
     mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     field_118_detonating = 1;
 }
@@ -250,7 +250,7 @@ s16 Mine::VTakeDamage(BaseGameObject* pFrom)
         case ReliveTypes::eExplosion:
         case ReliveTypes::eMudokon:
         case ReliveTypes::eShrykull:
-            ae_new<BaseBomb>(mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, 0, field_CC_sprite_scale);
+            relive_new BaseBomb(mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, 0, field_CC_sprite_scale);
             mBaseGameObjectFlags.Set(BaseGameObject::eDead);
             field_118_detonating = 1;
             field_120_gnframe = sGnFrame;

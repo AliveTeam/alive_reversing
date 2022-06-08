@@ -60,13 +60,13 @@ public:
     void AddToPlatform();
     s16 OnCollision(BaseAliveGameObject* pObj);
 
-    s16 field_110_state;
-    s16 field_112;
-    FP field_114_xpos;
-    FP field_118_ypos;
-    s32 field_11C_timer;
-    s32 field_120_deadtimer;
-    PathLine* field_124_pLine;
+    s16 field_110_state = 0;
+    s16 field_112 = 0;
+    FP field_114_xpos = {};
+    FP field_118_ypos = {};
+    s32 field_11C_timer = 0;
+    s32 field_120_deadtimer = 0;
+    PathLine* field_124_pLine = nullptr;
 };
 ALIVE_ASSERT_SIZEOF(Meat, 0x128);
 

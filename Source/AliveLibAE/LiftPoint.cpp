@@ -165,7 +165,7 @@ LiftPoint::LiftPoint(Path_LiftPoint* pTlv, s32 tlvInfo)
         const FP km10 = FP_FromInteger(-10);
 
 
-        auto pRope1 = ae_new<Rope>(FP_GetExponent((k13 * field_CC_sprite_scale + mBaseAnimatedWithPhysicsGameObject_XPos)),
+        auto pRope1 = relive_new Rope(FP_GetExponent((k13 * field_CC_sprite_scale + mBaseAnimatedWithPhysicsGameObject_XPos)),
                                    0, // Start at the very top of the screen
                                    FP_GetExponent((k25 * field_CC_sprite_scale) + mBaseAnimatedWithPhysicsGameObject_YPos),
                                    field_CC_sprite_scale);
@@ -174,7 +174,7 @@ LiftPoint::LiftPoint(Path_LiftPoint* pTlv, s32 tlvInfo)
             field_138_rope1_id = pRope1->field_8_object_id;
         }
 
-        auto pRope2 = ae_new<Rope>(FP_GetExponent((km10 * field_CC_sprite_scale) + mBaseAnimatedWithPhysicsGameObject_XPos),
+        auto pRope2 = relive_new Rope(FP_GetExponent((km10 * field_CC_sprite_scale) + mBaseAnimatedWithPhysicsGameObject_XPos),
                                    0, // Start at the very top of the screen
                                    FP_GetExponent((k25 * field_CC_sprite_scale) + mBaseAnimatedWithPhysicsGameObject_YPos),
                                    field_CC_sprite_scale);
@@ -291,7 +291,7 @@ s32 LiftPoint::CreateFromSaveState(const u8* pData)
             break;
     }
 
-    auto pLiftPoint = ae_new<LiftPoint>(pTlv, pState->field_C_tlvInfo);
+    auto pLiftPoint = relive_new LiftPoint(pTlv, pState->field_C_tlvInfo);
     pLiftPoint->mBaseAnimatedWithPhysicsGameObject_XPos = pState->field_4_xpos;
     pLiftPoint->mBaseAnimatedWithPhysicsGameObject_YPos = pState->field_8_ypos;
     pLiftPoint->SyncCollisionLinePosition();

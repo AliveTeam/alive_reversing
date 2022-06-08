@@ -247,7 +247,7 @@ void InvisibleEffect::VUpdate()
                 pTarget->mBaseAliveGameObjectFlags.Clear(Flags_114::e114_Bit8_bInvisible);
 
                 SetUpdateDelay(1);
-                ae_new<PossessionFlicker>(pTarget, 16, 255, 128, 128);
+                relive_new PossessionFlicker(pTarget, 16, 255, 128, 128);
                 field_20_state_or_op = InvisibleState::eSetDead_6;
                 break;
             }

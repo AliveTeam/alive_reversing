@@ -352,7 +352,7 @@ DoorFlame::DoorFlame(Path_DoorFlame* pTlv, s32 tlvInfo)
 
     field_FE_2_random = Math_NextRandom() % 2;
 
-    auto pFlameSparks = ae_new<FlameSparks>(mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos);
+    auto pFlameSparks = relive_new FlameSparks(mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos);
     if (pFlameSparks)
     {
         field_10C_flame_sparks_id = pFlameSparks->field_8_object_id;
@@ -469,7 +469,7 @@ void DoorFlame::VUpdate()
 
             if (!pFireBackgroundGlow)
             {
-                pFireBackgroundGlow = ae_new<FireBackgroundGlow>(mBaseAnimatedWithPhysicsGameObject_XPos,
+                pFireBackgroundGlow = relive_new FireBackgroundGlow(mBaseAnimatedWithPhysicsGameObject_XPos,
                                                                  mBaseAnimatedWithPhysicsGameObject_YPos,
                                                                  field_CC_sprite_scale);
                 if (pFireBackgroundGlow)

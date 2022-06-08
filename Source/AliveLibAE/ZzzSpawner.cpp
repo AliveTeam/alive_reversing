@@ -47,7 +47,7 @@ void ZzzSpawner::VUpdate()
 
     if (!SwitchStates_Get(field_30_switch_id) && static_cast<s32>(sGnFrame) > field_34_Zzz_timer)
     {
-        ae_new<SnoozeParticle>(field_20_xpos, field_24_ypos, Layer::eLayer_Above_FG1_39, field_28_scale);
+        relive_new SnoozeParticle(field_20_xpos, field_24_ypos, Layer::eLayer_Above_FG1_39, field_28_scale);
 
         field_34_Zzz_timer = sGnFrame + field_38_Zzz_interval;
     }

@@ -100,7 +100,7 @@ void SligSpawner::VUpdate()
             Path_TLV* pSpawnerTlv = sPath_dword_BB47C0->TLV_Get_At_4DB4B0(field_28_tlv.field_8_top_left.field_0_x, field_28_tlv.field_8_top_left.field_2_y, field_28_tlv.field_8_top_left.field_0_x, field_28_tlv.field_8_top_left.field_2_y, TlvTypes::SligSpawner_37);
             if (pSpawnerTlv)
             {
-                auto pSligMem = ae_new<Slig>(static_cast<Path_Slig*>(pSpawnerTlv), field_20_tlv_info);
+                auto pSligMem = relive_new Slig(static_cast<Path_Slig*>(pSpawnerTlv), field_20_tlv_info);
                 if (pSligMem)
                 {
                     field_3C_spawned_slig_obj_id = pSligMem->field_8_object_id;
@@ -144,7 +144,7 @@ s32 SligSpawner::CreateFromSaveState(const u8* pBuffer)
 {
     auto pState = reinterpret_cast<const Slig_Spawner_State*>(pBuffer);
     auto pTlv = static_cast<Path_Slig*>(sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam(pState->field_4_tlvInfo));
-    auto pSpawner = ae_new<SligSpawner>(pTlv, pState->field_4_tlvInfo);
+    auto pSpawner = relive_new SligSpawner(pTlv, pState->field_4_tlvInfo);
     if (pSpawner)
     {
         pSpawner->field_38_state = pState->field_8_state;

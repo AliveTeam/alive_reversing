@@ -193,7 +193,7 @@ Scrab::Scrab(Path_Scrab* pTlv, s32 tlvInfo, ScrabSpawnDirection spawnDirection)
 
     ToPatrol();
 
-    mShadow = ae_new<Shadow>();
+    mShadow = relive_new Shadow();
 }
 
 void Scrab::VOn_TLV_Collision(Path_TLV* pTlv)
@@ -283,7 +283,7 @@ s32 Scrab::CreateFromSaveState(const u8* pBuffer)
         ResourceManager::LoadResourceFile_49C170("SCRAB.BND", nullptr);
     }
 
-    auto pScrab = ae_new<Scrab>(pTlv, pState->field_44_tlvInfo, ScrabSpawnDirection::eNone_0);
+    auto pScrab = relive_new Scrab(pTlv, pState->field_44_tlvInfo, ScrabSpawnDirection::eNone_0);
     if (pScrab)
     {
         pScrab->mBaseGameObjectTlvInfo = pState->field_4_obj_id;

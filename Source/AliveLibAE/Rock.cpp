@@ -62,7 +62,7 @@ Rock::Rock(FP xpos, FP ypos, s16 count)
 
     field_11E_volume = 0;
 
-    mShadow = ae_new<Shadow>();
+    mShadow = relive_new Shadow();
 }
 
 void Rock::VTimeToExplodeRandom()
@@ -460,7 +460,7 @@ s32 Rock::CreateFromSaveState(const u8* pData)
 {
     auto pState = reinterpret_cast<const RockSaveState*>(pData);
 
-    auto pRock = ae_new<Rock>(pState->field_8_xpos, pState->field_C_ypos, pState->field_2A_count);
+    auto pRock = relive_new Rock(pState->field_8_xpos, pState->field_C_ypos, pState->field_2A_count);
 
     pRock->mBaseGameObjectTlvInfo = pState->field_4_obj_id;
 

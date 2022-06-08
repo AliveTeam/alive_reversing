@@ -76,7 +76,7 @@ void BeeSwarmHole::VUpdate()
     if (!bBallFillingHole)
     {
         const FP speed = FP_FromRaw(field_2A_speed << 8);
-        auto pSwarm = ao_new<BeeSwarm>(
+        auto pSwarm = relive_new BeeSwarm(
             FP_FromInteger(field_14_rect.x),
             FP_FromInteger(field_14_rect.y),
             speed,

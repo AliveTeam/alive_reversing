@@ -108,7 +108,7 @@ s32 SlapLock::CreateFromSaveState(const u8* pBuffer)
         ResourceManager::LoadResourceFile_49C170("GHOSTTRP.BAN", nullptr);
     }
 
-    auto pSlapLock = ae_new<SlapLock>(pTlv, pState->field_4_tlvInfo);
+    auto pSlapLock = relive_new SlapLock(pTlv, pState->field_4_tlvInfo);
     if (pSlapLock)
     {
         pSlapLock->field_20_animation.mAnimFlags.Set(AnimFlags::eBit3_Render, pState->field_2_render & 1);
@@ -365,7 +365,7 @@ void SlapLock::VUpdate()
                 }
                 else
                 {
-                    auto pFlicker = ae_new<PossessionFlicker>(sActiveHero, 8, 128, 255, 128);
+                    auto pFlicker = relive_new PossessionFlicker(sActiveHero, 8, 128, 255, 128);
                     if (pFlicker)
                     {
                         field_138_possesion_flicker_id = pFlicker->field_8_object_id;
@@ -454,7 +454,7 @@ s16 SlapLock::VTakeDamage(BaseGameObject* pFrom)
     if (field_130_has_ghost == Choice_short::eYes_1)
     {
         field_130_has_ghost = Choice_short::eNo_0;
-        ae_new<SlapLockWhirlWind>(
+        relive_new SlapLockWhirlWind(
             field_118_pTlv->field_12_target_tomb_id1,
             field_118_pTlv->field_14_target_tomb_id2,
             mBaseAnimatedWithPhysicsGameObject_XPos,
@@ -472,7 +472,7 @@ s16 SlapLock::VTakeDamage(BaseGameObject* pFrom)
     SFX_Play_Mono(SoundEffect::SpiritLockBreak_106, 0, field_CC_sprite_scale);
     Event_Broadcast(kEventLoudNoise, this);
 
-    ae_new<ParticleBurst>(
+    relive_new ParticleBurst(
         mBaseAnimatedWithPhysicsGameObject_XPos,
         mBaseAnimatedWithPhysicsGameObject_YPos - (FP_FromInteger(40) * field_CC_sprite_scale),
         15,

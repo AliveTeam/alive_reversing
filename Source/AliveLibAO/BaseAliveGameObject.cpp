@@ -22,9 +22,6 @@ ALIVE_VAR(1, 0x4FC8A0, DynamicArrayT<BaseAliveGameObject>*, gBaseAliveGameObject
 
 BaseAliveGameObject::BaseAliveGameObject()
 {
-    
-
-
     mBaseAliveGameObjectFlags.Clear(Flags_10A::e10A_Bit1_Can_Be_Possessed);
     mBaseAliveGameObjectFlags.Clear(Flags_10A::e10A_Bit2_bPossesed);
     mBaseAliveGameObjectFlags.Clear(Flags_10A::e10A_Bit3);

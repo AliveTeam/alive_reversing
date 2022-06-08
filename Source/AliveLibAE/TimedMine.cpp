@@ -130,7 +130,7 @@ void TimedMine::VUpdate()
 
         if (sGnFrame >= field_120_gnframe)
         {
-            ae_new<BaseBomb>(mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, 0, field_CC_sprite_scale);
+            relive_new BaseBomb(mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, 0, field_CC_sprite_scale);
             mBaseGameObjectFlags.Set(Options::eDead);
         }
     }
@@ -279,7 +279,7 @@ s16 TimedMine::VTakeDamage(BaseGameObject* pFrom)
         case ReliveTypes::eShrykull:
         {
             mBaseGameObjectFlags.Set(BaseGameObject::eDead);
-            ae_new<BaseBomb>(mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, 0, field_CC_sprite_scale);
+            relive_new BaseBomb(mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, 0, field_CC_sprite_scale);
             field_118_armed = 1;
             field_120_gnframe = sGnFrame;
             return 1;
@@ -292,7 +292,7 @@ s16 TimedMine::VTakeDamage(BaseGameObject* pFrom)
 
 void TimedMine::VOnThrowableHit(BaseGameObject* /*pHitBy*/)
 {
-    ae_new<BaseBomb>(mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, 0, field_CC_sprite_scale);
+    relive_new BaseBomb(mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, 0, field_CC_sprite_scale);
     
     field_118_armed = 1;
     mBaseGameObjectFlags.Set(BaseGameObject::eDead);

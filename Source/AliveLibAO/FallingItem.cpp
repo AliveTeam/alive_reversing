@@ -100,7 +100,7 @@ FallingItem::FallingItem(Path_FallingItem* pTlv, s32 tlvInfo)
         field_134_created_gnFrame = sGnFrame;
     }
 
-    field_D0_pShadow = ao_new<Shadow>();
+    field_D0_pShadow = relive_new Shadow();
 }
 
 FallingItem::~FallingItem()
@@ -232,11 +232,11 @@ void FallingItem::VUpdate()
                 mBaseAnimatedWithPhysicsGameObject_YPos = hitY;
                 field_110_state = State::eSmashed_4;
 
-                ao_new<ScreenShake>(0);
+                relive_new ScreenShake(0);
 
                 if (gMap.mCurrentLevel == EReliveLevelIds::eRuptureFarms || gMap.mCurrentLevel == EReliveLevelIds::eRuptureFarmsReturn)
                 {
-                    ao_new<ParticleBurst>(
+                    relive_new ParticleBurst(
                         mBaseAnimatedWithPhysicsGameObject_XPos,
                         mBaseAnimatedWithPhysicsGameObject_YPos,
                         25,
@@ -245,7 +245,7 @@ void FallingItem::VUpdate()
                 }
                 else
                 {
-                    ao_new<ParticleBurst>(
+                    relive_new ParticleBurst(
                         mBaseAnimatedWithPhysicsGameObject_XPos,
                         mBaseAnimatedWithPhysicsGameObject_YPos,
                         25,
@@ -253,7 +253,7 @@ void FallingItem::VUpdate()
                         BurstType::eFallingRocks_0);
                 }
 
-                ao_new<ParticleBurst>(
+                relive_new ParticleBurst(
                     mBaseAnimatedWithPhysicsGameObject_XPos,
                     mBaseAnimatedWithPhysicsGameObject_YPos,
                     25,

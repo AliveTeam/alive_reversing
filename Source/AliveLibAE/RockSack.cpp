@@ -54,7 +54,7 @@ RockSack::RockSack(Path_RockSack* pTlv, s32 tlvInfo)
     field_120_can_play_wobble_sound = 1;
     field_122_force_wobble_sound = 1;
 
-    mShadow = ae_new<Shadow>();
+    mShadow = relive_new Shadow();
 
     mApplyShadows |= 2u;
 }
@@ -137,12 +137,12 @@ void RockSack::VUpdate()
             }
             else
             {
-                gpThrowableArray_5D1E2C = ae_new<ThrowableArray>();
+                gpThrowableArray_5D1E2C = relive_new ThrowableArray();
             }
 
             gpThrowableArray_5D1E2C->Add(field_11E_rock_amount);
 
-            auto pRock = ae_new<Rock>(mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos - FP_FromInteger(30), field_11E_rock_amount);
+            auto pRock = relive_new Rock(mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos - FP_FromInteger(30), field_11E_rock_amount);
             if (pRock)
             {
                 pRock->VThrow(field_124_x_vel, field_128_y_vel);

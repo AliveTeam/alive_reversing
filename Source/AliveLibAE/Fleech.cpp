@@ -216,7 +216,7 @@ s32 Fleech::CreateFromSaveState(const u8* pBuffer)
         ResourceManager::LoadResourceFile_49C170("FLEEBLOW.BAN", nullptr);
     }
 
-    auto pFleech = ae_new<Fleech>(pTlv, pState->field_40_tlvInfo);
+    auto pFleech = relive_new Fleech(pTlv, pState->field_40_tlvInfo);
     if (pFleech)
     {
         pFleech->mBaseGameObjectTlvInfo = pState->field_4_obj_id;
@@ -499,7 +499,7 @@ void Fleech::M_Sleeping_0_42F0B0()
                     {
                         xOff = (field_CC_sprite_scale * FP_FromInteger(10));
                     }
-                    ae_new<SnoozeParticle>(xOff + mBaseAnimatedWithPhysicsGameObject_XPos, yPos, field_20_animation.mRenderLayer, field_20_animation.field_14_scale);
+                    relive_new SnoozeParticle(xOff + mBaseAnimatedWithPhysicsGameObject_XPos, yPos, field_20_animation.mRenderLayer, field_20_animation.field_14_scale);
                 }
             }
         }
@@ -1042,7 +1042,7 @@ void Fleech::M_DeathByFalling_16_42FCE0()
 {
     if (mHealth > FP_FromInteger(0))
     {
-        ae_new<Blood>(mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos - FP_FromInteger(8), FP_FromInteger(0), -FP_FromInteger(5), field_CC_sprite_scale, 50);
+        relive_new Blood(mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos - FP_FromInteger(8), FP_FromInteger(0), -FP_FromInteger(5), field_CC_sprite_scale, 50);
 
         Sound_430520(FleechSound::DeathByHeight_12);
         Sound_430520(FleechSound::Scared_7);
@@ -1083,7 +1083,7 @@ void Fleech::M_SleepingWithTongue_17_42F370()
                     {
                         xOff = (field_CC_sprite_scale * FP_FromInteger(10));
                     }
-                    ae_new<SnoozeParticle>(xOff + mBaseAnimatedWithPhysicsGameObject_XPos, yPos, field_20_animation.mRenderLayer, field_20_animation.field_14_scale);
+                    relive_new SnoozeParticle(xOff + mBaseAnimatedWithPhysicsGameObject_XPos, yPos, field_20_animation.mRenderLayer, field_20_animation.field_14_scale);
                 }
             }
         }
@@ -1112,7 +1112,7 @@ void Fleech::M_Consume_18_42FDF0()
         for (s32 i = 0; i < 3; i++)
         {
             const AnimRecord& doveRec = AnimRec(AnimId::Dove_Flying);
-            auto pDove = ae_new<Dove>(
+            auto pDove = relive_new Dove(
                 doveRec.mFrameTableOffset,
                 doveRec.mMaxW,
                 doveRec.mMaxH,
@@ -1664,7 +1664,7 @@ void Fleech::Init_42A170()
 
     VStackOnObjectsOfType(ReliveTypes::eFleech);
 
-    mShadow = ae_new<Shadow>();
+    mShadow = relive_new Shadow();
 
     sFleechCount_5BC20E++;
 }
@@ -1822,7 +1822,7 @@ void Fleech::TongueUpdate_42BD30()
                         case 0:
                         {
                             Sound_430520(FleechSound::LickTarget_10);
-                            ae_new<Blood>(
+                            relive_new Blood(
                                 FP_FromInteger(field_17C),
                                 FP_FromInteger(field_17E),
                                 field_20_animation.mAnimFlags.Get(AnimFlags::eBit5_FlipX) != 0 ? FP_FromInteger(2) : FP_FromInteger(-2),
@@ -2177,11 +2177,11 @@ s16 Fleech::VTakeDamage(BaseGameObject* pFrom)
             Sound_430520(FleechSound::Scared_7);
             mHealth = FP_FromInteger(0);
 
-            ae_new<Gibs>(GibType::Fleech_10, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, field_C4_velx, field_C8_vely, field_CC_sprite_scale, 0);
+            relive_new Gibs(GibType::Fleech_10, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, field_C4_velx, field_C8_vely, field_CC_sprite_scale, 0);
 
             PSX_RECT bRect = {};
             VGetBoundingRect(&bRect, 1);
-            ae_new<Blood>(
+            relive_new Blood(
                 FP_FromInteger((bRect.x + bRect.w) / 2),
                 FP_FromInteger((bRect.y + bRect.h) / 2),
                 FP_FromInteger(0),
@@ -2210,15 +2210,15 @@ s16 Fleech::VTakeDamage(BaseGameObject* pFrom)
 
         case ReliveTypes::eScrab:
         {
-            ae_new<Gibs>(GibType::Fleech_10, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, field_C4_velx, field_C8_vely, field_CC_sprite_scale, 0);
+            relive_new Gibs(GibType::Fleech_10, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, field_C4_velx, field_C8_vely, field_CC_sprite_scale, 0);
 
             if (static_cast<BaseAliveGameObject*>(pFrom)->field_20_animation.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
             {
-                ae_new<Blood>(mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos - FP_FromInteger(8), -FP_FromInteger(5), -FP_FromInteger(5), field_CC_sprite_scale, 50);
+                relive_new Blood(mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos - FP_FromInteger(8), -FP_FromInteger(5), -FP_FromInteger(5), field_CC_sprite_scale, 50);
             }
             else
             {
-                ae_new<Blood>(mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos - FP_FromInteger(8), FP_FromInteger(5), -FP_FromInteger(5), field_CC_sprite_scale, 50);
+                relive_new Blood(mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos - FP_FromInteger(8), FP_FromInteger(5), -FP_FromInteger(5), field_CC_sprite_scale, 50);
             }
 
             if (!field_174_flags.Get(Flags_174::eBit4))

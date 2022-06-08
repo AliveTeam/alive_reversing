@@ -970,10 +970,10 @@ Abe::Abe(s32 frameTableOffset, s32 /*r*/, s32 /*g*/, s32 /*b*/)
     sControlledCharacter_50767C = this;
 
     // Create shadow
-    field_D0_pShadow = ao_new<Shadow>();
+    field_D0_pShadow = relive_new Shadow();
 
     // Animation test code
-    //auto testAnim = ao_new<TestAnimation>(); testAnim->ctor();
+    //auto testAnim = relive_new TestAnimation(); testAnim->ctor();
 }
 
 Abe::~Abe()
@@ -1288,7 +1288,7 @@ void Abe::VUpdate()
                 {
                     field_130_say = 16;
                     field_134_auto_say_timer = sGnFrame + Math_RandomRange_450F20(22, 30);
-                    ao_new<MusicTrigger>(MusicTriggerMusicType::eDeathDrumShort_1, TriggeredBy::eTouching_1, 0, 90);
+                    relive_new MusicTrigger(MusicTriggerMusicType::eDeathDrumShort_1, TriggeredBy::eTouching_1, 0, 90);
                 }
 
                 if (field_130_say >= 0 && static_cast<s32>(sGnFrame) >= field_134_auto_say_timer)
@@ -2384,7 +2384,7 @@ void Abe::PickUpThrowabe_Or_PressBomb_428260(FP fpX, s32 fpY, s16 bStandToCrouch
                 if (!bThrowableIndicatorExists_504C70)
                 {
                     const FP v16 = (field_BC_sprite_scale * FP_FromInteger(-30)) + mBaseAnimatedWithPhysicsGameObject_YPos;
-                    ao_new<ThrowableTotalIndicator>(
+                    relive_new ThrowableTotalIndicator(
                                                                           (field_BC_sprite_scale * FP_FromInteger(0)) + mBaseAnimatedWithPhysicsGameObject_XPos,
                                                                                v16,
                                                                                field_10_anim.mRenderLayer,
@@ -2813,7 +2813,7 @@ void Abe::BulletDamage_4220B0(Bullet* pBullet)
                 bloodXOff = FP_FromInteger(24);
             }
 
-            ao_new<Blood>(
+            relive_new Blood(
                 mBaseAnimatedWithPhysicsGameObject_XPos,
                 pBullet->field_1C_ypos,
                 bloodXOff,
@@ -2920,7 +2920,7 @@ void Abe::BulletDamage_4220B0(Bullet* pBullet)
 
             if (mCurrentMotion != eAbeMotions::Motion_114_ElumRunLoop_42DFA0 || shootKind != ShootKind::eEverythingElse_0)
             {
-                ao_new<Blood>(
+                relive_new Blood(
                     mBaseAnimatedWithPhysicsGameObject_XPos,
                     mBaseAnimatedWithPhysicsGameObject_YPos - FP_FromInteger(45),
                     FP_FromInteger(0),
@@ -3173,7 +3173,7 @@ void Abe::VOn_TLV_Collision(Path_TLV* pTlv)
                 }
                 const FP indicator_ypos = mBaseAnimatedWithPhysicsGameObject_YPos + (field_BC_sprite_scale * FP_FromInteger(-50));
 
-                ao_new<ThrowableTotalIndicator>(indicator_xpos, indicator_ypos, field_10_anim.mRenderLayer,
+                relive_new ThrowableTotalIndicator(indicator_xpos, indicator_ypos, field_10_anim.mRenderLayer,
                                                                             field_10_anim.field_14_scale, 11, 1);
             }
         }
@@ -3441,7 +3441,7 @@ s16 Abe::VTakeDamage(BaseGameObject* pFrom)
                 field_C2_g = 30;
                 field_C0_r = 30;
 
-                ao_new<Gibs>(
+                relive_new Gibs(
                     GibType::Abe_0,
                     mBaseAnimatedWithPhysicsGameObject_XPos,
                     mBaseAnimatedWithPhysicsGameObject_YPos,
@@ -3506,7 +3506,7 @@ s16 Abe::VTakeDamage(BaseGameObject* pFrom)
                 field_C2_g = 30;
                 field_C0_r = 30;
 
-                ao_new<Gibs>(
+                relive_new Gibs(
                     GibType::Abe_0,
                     mBaseAnimatedWithPhysicsGameObject_XPos,
                     mBaseAnimatedWithPhysicsGameObject_YPos,
@@ -3514,7 +3514,7 @@ s16 Abe::VTakeDamage(BaseGameObject* pFrom)
                     FP_FromInteger(0),
                     field_BC_sprite_scale);
 
-                ao_new<Gibs>(
+                relive_new Gibs(
                     GibType::Abe_0,
                     mBaseAnimatedWithPhysicsGameObject_XPos,
                     mBaseAnimatedWithPhysicsGameObject_YPos,
@@ -3537,7 +3537,7 @@ s16 Abe::VTakeDamage(BaseGameObject* pFrom)
                 VGetBoundingRect(&abeRect, 1);
                 if (pAliveObj->field_B4_velx <= FP_FromInteger(0))
                 {
-                    ao_new<Blood>(
+                    relive_new Blood(
                         mBaseAnimatedWithPhysicsGameObject_XPos,
                         FP_FromInteger(abeRect.h + abeRect.y) / FP_FromInteger(2),
                         FP_FromInteger(-24),
@@ -3547,7 +3547,7 @@ s16 Abe::VTakeDamage(BaseGameObject* pFrom)
                 }
                 else
                 {
-                    ao_new<Blood>(
+                    relive_new Blood(
                         mBaseAnimatedWithPhysicsGameObject_XPos,
                         FP_FromInteger(abeRect.h + abeRect.y) / FP_FromInteger(2),
                         FP_FromInteger(24),
@@ -4085,7 +4085,7 @@ void Abe::Motion_0_Idle_423520()
                 {
                     const FP xOffSet = field_10_anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX) ? FP_FromInteger(15) : FP_FromInteger(-15) * field_BC_sprite_scale;
 
-                    ao_new<ThrowableTotalIndicator>(mBaseAnimatedWithPhysicsGameObject_XPos + xOffSet,
+                    relive_new ThrowableTotalIndicator(mBaseAnimatedWithPhysicsGameObject_XPos + xOffSet,
                                                                                     mBaseAnimatedWithPhysicsGameObject_YPos + field_BC_sprite_scale * FP_FromInteger(-50),
                                                                                     field_10_anim.mRenderLayer,
                                                                                     field_10_anim.field_14_scale,
@@ -5033,7 +5033,7 @@ void Abe::Motion_19_CrouchIdle_4284C0()
                 {
                     const FP yOff = mBaseAnimatedWithPhysicsGameObject_YPos + (field_BC_sprite_scale * FP_FromInteger(-30));
                     const FP xOff = field_BC_sprite_scale * (field_10_anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX) ? FP_FromInteger(-10) : FP_FromInteger(10));
-                    ao_new<ThrowableTotalIndicator>(mBaseAnimatedWithPhysicsGameObject_XPos + xOff,
+                    relive_new ThrowableTotalIndicator(mBaseAnimatedWithPhysicsGameObject_XPos + xOff,
                                                                              yOff,
                                                                              field_10_anim.mRenderLayer,
                                                                              field_10_anim.field_14_scale,
@@ -6788,7 +6788,7 @@ void Abe::Motion_59_DeathDropFall_42CBE0()
         {
             Environment_SFX_42A220(EnvironmentSfx::eFallingDeathScreamHitGround_15, 0, 0x7FFF, this);
 
-            ao_new<ScreenShake>(true);
+            relive_new ScreenShake(true);
         }
         else if (static_cast<s32>(sGnFrame) >= field_118_timer)
         {
@@ -6830,7 +6830,7 @@ void Abe::Motion_60_Dead_42C4C0()
             }
             const FP ypos = FP_FromInteger(Math_NextRandom() % 10) + mBaseAnimatedWithPhysicsGameObject_YPos + FP_FromInteger(15);
             const FP xpos = FP_FromInteger(((Math_NextRandom() % 64) - 32)) + mBaseAnimatedWithPhysicsGameObject_XPos;
-            ao_new<DeathBirdParticle>(
+            relive_new DeathBirdParticle(
                 xpos,
                 ypos,
                 (Math_NextRandom() % 8) + field_118_timer + aux,
@@ -6855,7 +6855,7 @@ void Abe::Motion_60_Dead_42C4C0()
                 }
                 const FP ypos = FP_FromInteger(Math_NextRandom() % 10) + mBaseAnimatedWithPhysicsGameObject_YPos + FP_FromInteger(15);
                 const FP xpos = FP_FromInteger(((Math_NextRandom() % 64) - 32)) + mBaseAnimatedWithPhysicsGameObject_XPos;
-                ao_new<DeathBirdParticle>(
+                relive_new DeathBirdParticle(
                     xpos,
                     ypos,
                     (Math_NextRandom() % 8) + field_118_timer + aux,
@@ -6899,7 +6899,7 @@ void Abe::Motion_60_Dead_42C4C0()
                 field_158_pDeathFadeout->mBaseGameObjectFlags.Set(Options::eDead);
                 field_158_pDeathFadeout->mBaseGameObjectRefCount--;
             }
-            field_158_pDeathFadeout = ao_new<DeathFadeOut>(Layer::eLayer_FadeFlash_40, 1, 0, 8, TPageAbr::eBlend_2);
+            field_158_pDeathFadeout = relive_new DeathFadeOut(Layer::eLayer_FadeFlash_40, 1, 0, 8, TPageAbr::eBlend_2);
             field_158_pDeathFadeout->mBaseGameObjectRefCount++;
 
             if (field_164_pCircularFade)
@@ -7043,7 +7043,7 @@ void Abe::Motion_61_Respawn_42CD20()
                     LoadRockTypes(MapWrapper::FromAO(gSaveBuffer_505668.field_234_current_level), gSaveBuffer_505668.field_236_current_path);
                     if (!gpThrowableArray_50E26C)
                     {
-                        gpThrowableArray_50E26C = ao_new<ThrowableArray>();
+                        gpThrowableArray_50E26C = relive_new ThrowableArray();
                     }
                     gpThrowableArray_50E26C->Add(field_19C_throwable_count);
                 }
@@ -7116,7 +7116,7 @@ void Abe::Motion_61_Respawn_42CD20()
                 for (s32 i = 0; i < 8; i++)
                 {
                     const AnimRecord& doveRec = AO::AnimRec(AnimId::Dove_Flying);
-                    auto pDove = ao_new<Dove>(
+                    auto pDove = relive_new Dove(
                         doveRec.mFrameTableOffset,
                         doveRec.mMaxW,
                         doveRec.mMaxH,
@@ -7167,7 +7167,7 @@ void Abe::Motion_61_Respawn_42CD20()
                 mBaseGameObjectFlags.Set(Options::eDrawable_Bit4);
                 mCurrentMotion = eAbeMotions::Motion_3_Fall_42E7F0;
 
-                ao_new<Flash>(Layer::eLayer_Above_FG1_39, 255u, 0, 255u);
+                relive_new Flash(Layer::eLayer_Above_FG1_39, 255u, 0, 255u);
                 field_106_shot = 0;
                 field_2A8_flags.Clear(Flags_2A8::e2A8_Bit6_bShrivel);
                 field_114_gnFrame = sGnFrame;
@@ -7241,7 +7241,7 @@ void Abe::Motion_62_LoadedSaveSpawn_45ADD0()
             {
                 LoadRockTypes(MapWrapper::FromAO(gSaveBuffer_505668.field_234_current_level), gSaveBuffer_505668.field_236_current_path);
 
-                gpThrowableArray_50E26C = ao_new<ThrowableArray>();
+                gpThrowableArray_50E26C = relive_new ThrowableArray();
             }
             gpThrowableArray_50E26C->Add(sActiveHero_507678->field_19C_throwable_count);
         }
@@ -7250,7 +7250,7 @@ void Abe::Motion_62_LoadedSaveSpawn_45ADD0()
             LoadRockTypes(EReliveLevelIds::eRuptureFarmsReturn, 19);
             if (!gpThrowableArray_50E26C)
             {
-                gpThrowableArray_50E26C = ao_new<ThrowableArray>();
+                gpThrowableArray_50E26C = relive_new ThrowableArray();
             }
             gpThrowableArray_50E26C->Add(1);
             gInfiniteGrenades_5076EC = 1;
@@ -8107,7 +8107,7 @@ void Abe::Motion_86_FallLandDie_42EDD0()
     {
         SFX_Play_Mono(SoundEffect::KillEffect_78, 85, 0);
         SND_SEQ_Play_477760(SeqId::eHitBottomOfDeathPit_10, 1, 95, 95);
-        ao_new<ScreenShake>(true);
+        relive_new ScreenShake(true);
     }
 
     if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
@@ -8234,7 +8234,7 @@ void Abe::Motion_88_HandstoneBegin_430590()
                         Get_fmvs_sectors_44FEB0(
                             pFmvInfo->field_0_pName, 0, 0, &aux, 0, 0);
 
-                        ao_new<Movie>(
+                        relive_new Movie(
                             pFmvInfo->field_4_id,
                             aux,
                             static_cast<s8>(pFmvInfo->field_6),
@@ -8246,7 +8246,7 @@ void Abe::Motion_88_HandstoneBegin_430590()
                     }
                     case TlvTypes::BellSongStone_54:
                     {
-                        sBellSong_507724 = ao_new<BellSong>(
+                        sBellSong_507724 = relive_new BellSong(
                             field_174_pathStone.dataBellsong.type,
                             Code_Convert(field_174_pathStone.dataBellsong.code1, field_174_pathStone.dataBellsong.code2));
 
@@ -8262,7 +8262,7 @@ void Abe::Motion_88_HandstoneBegin_430590()
                         gpDemoPlaybackRes_50772C = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Plbk, field_174_pathStone.demoId, 1, 0);
                         if (gpDemoPlaybackRes_50772C)
                         {
-                            ao_new<DemoPlayback>(gpDemoPlaybackRes_50772C, 1);
+                            relive_new DemoPlayback(gpDemoPlaybackRes_50772C, 1);
                         }
                         break;
                     case TlvTypes::HandStone_100:
@@ -8272,7 +8272,7 @@ void Abe::Motion_88_HandstoneBegin_430590()
                         field_16E_cameraIdx = 1;
                         field_164_pCircularFade->mBaseGameObjectFlags.Set(Options::eDead);
                         field_164_pCircularFade = 0;
-                        field_158_pDeathFadeout = ao_new<DeathFadeOut>(Layer::eLayer_FadeFlash_40, 0, 0, 8, TPageAbr::eBlend_2);
+                        field_158_pDeathFadeout = relive_new DeathFadeOut(Layer::eLayer_FadeFlash_40, 0, 0, 8, TPageAbr::eBlend_2);
                         field_190_level = gMap.mCurrentLevel;
                         field_192_path = gMap.mCurrentPath;
                         field_194_camera = gMap.mCurrentCamera;
@@ -8394,7 +8394,7 @@ void Abe::Motion_88_HandstoneBegin_430590()
                     field_158_pDeathFadeout->mBaseGameObjectFlags.Set(Options::eDead);
                     field_110_state.stone = StoneStates::eWaitForInput_6;
                     field_16E_cameraIdx++;
-                    field_158_pDeathFadeout = ao_new<DeathFadeOut>(Layer::eLayer_FadeFlash_40, 0, 0, 8, TPageAbr::eBlend_2);
+                    field_158_pDeathFadeout = relive_new DeathFadeOut(Layer::eLayer_FadeFlash_40, 0, 0, 8, TPageAbr::eBlend_2);
                     gMap.SetActiveCam(MapWrapper::FromAO(camera.level), camera.path, camera.camera, CameraSwapEffects::eInstantChange_0, 0, 0);
                 }
             }
@@ -9496,7 +9496,7 @@ void Abe::Motion_150_Chant_42FD50()
                         {
                             xPos = mBaseAnimatedWithPhysicsGameObject_XPos + FP_FromInteger(4);
                         }
-                        field_188_pOrbWhirlWind = ao_new<OrbWhirlWind>(
+                        field_188_pOrbWhirlWind = relive_new OrbWhirlWind(
                             xPos,
                             mBaseAnimatedWithPhysicsGameObject_YPos - field_BC_sprite_scale * FP_FromInteger(38),
                             field_BC_sprite_scale);;
@@ -9532,7 +9532,7 @@ void Abe::Motion_150_Chant_42FD50()
                         FP_FromInteger((rect.h + rect.y) / 2),
                         pObjToPossess);
 
-                    ao_new<PossessionFlicker>(sActiveHero_507678, 30, 128, 255, 255);
+                    relive_new PossessionFlicker(sActiveHero_507678, 30, 128, 255, 255);
                 }
             }
             break;
@@ -9597,7 +9597,7 @@ void Abe::Motion_150_Chant_42FD50()
                     field_2A8_flags.Set(Flags_2A8::e2A8_Bit11_bLaughAtChantEnd);
                 }
 
-                ao_new<PossessionFlicker>(sControlledCharacter_50767C, 60, 128, 255, 255);
+                relive_new PossessionFlicker(sControlledCharacter_50767C, 60, 128, 255, 255);
 
                 SND_Seq_Stop_477A60(SeqId::eMudokonChant1_11);
                 SFX_Play_Pitch(SoundEffect::PossessEffect_21, 70, 400, 0);
@@ -9613,7 +9613,7 @@ void Abe::Motion_150_Chant_42FD50()
         {
             if (sControlledCharacter_50767C == this)
             {
-                ao_new<PossessionFlicker>(sControlledCharacter_50767C, 15, 128, 255, 255);
+                relive_new PossessionFlicker(sControlledCharacter_50767C, 15, 128, 255, 255);
 
                 field_110_state.chant = ChantStates::eUnpossessing_4;
                 field_114_gnFrame = sGnFrame + 15;
@@ -9921,7 +9921,7 @@ void Abe::Motion_162_ToShrykull_42F410()
 
             field_110_state.raw = 1;
 
-            ao_new<Shrykull>();
+            relive_new Shrykull();
         }
     }
 }

@@ -43,7 +43,7 @@ public:
                     SFX_Play_Pitch(SoundEffect::PickupItem_33, 127, -900, 0);
                     if (!gpThrowableArray_50E26C)
                     {
-                        gpThrowableArray_50E26C = ao_new<ThrowableArray>();
+                        gpThrowableArray_50E26C = relive_new ThrowableArray();
                     }
 
                     gpThrowableArray_50E26C->Add(field_EC_num_grenades);
@@ -57,7 +57,7 @@ public:
                     {
                         directedScale = field_BC_sprite_scale;
                     }
-                    auto pNewNade = ao_new<Grenade>(
+                    auto pNewNade = relive_new Grenade(
                         mBaseAnimatedWithPhysicsGameObject_XPos + (FP_FromInteger(6) * directedScale),
                         mBaseAnimatedWithPhysicsGameObject_YPos + (-FP_FromInteger(6) * directedScale),
                         field_EC_num_grenades);
@@ -182,7 +182,7 @@ BoomMachine::BoomMachine(Path_BoomMachine* pTlv, s32 tlvInfo)
     mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pTlv->field_10_top_left.field_0_x) + (ScaleToGridSize(field_BC_sprite_scale) / FP_FromInteger(2));
     mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->field_10_top_left.field_2_y);
 
-    auto pNozzle = ao_new<GrenadeMachineNozzle>();
+    auto pNozzle = relive_new GrenadeMachineNozzle();
     if (pNozzle)
     {
         FP directedScale = field_BC_sprite_scale;

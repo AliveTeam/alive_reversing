@@ -124,7 +124,7 @@ s32 Animation_OnFrame_Slig_4C0600(BaseGameObject* pObj, s16* pData)
         shellDirection = 1;
     }
 
-    pBullet = ae_new<Bullet>(pSlig, bulletType, pSlig->mBaseAnimatedWithPhysicsGameObject_XPos, yOff + pSlig->mBaseAnimatedWithPhysicsGameObject_YPos, bullet_xDist, 0, pSlig->field_CC_sprite_scale, 0);
+    pBullet = relive_new Bullet(pSlig, bulletType, pSlig->mBaseAnimatedWithPhysicsGameObject_XPos, yOff + pSlig->mBaseAnimatedWithPhysicsGameObject_YPos, bullet_xDist, 0, pSlig->field_CC_sprite_scale, 0);
     if (pBullet)
     {
         pBullet->SetUpdateDelay(1);
@@ -138,7 +138,7 @@ s32 Animation_OnFrame_Slig_4C0600(BaseGameObject* pObj, s16* pData)
     }
     else
     {
-        ae_new<BulletShell>(pSlig->mBaseAnimatedWithPhysicsGameObject_XPos, yOff + pSlig->mBaseAnimatedWithPhysicsGameObject_YPos, shellDirection, pSlig->field_CC_sprite_scale);
+        relive_new BulletShell(pSlig->mBaseAnimatedWithPhysicsGameObject_XPos, yOff + pSlig->mBaseAnimatedWithPhysicsGameObject_YPos, shellDirection, pSlig->field_CC_sprite_scale);
         SFX_Play_Mono(SoundEffect::SligShoot_5, 0);
     }
 
@@ -441,7 +441,7 @@ Slig::Slig(Path_Slig* pTlv, s32 tlvInfo)
     field_142_unused = 0;
     field_140_unused = 0;
 
-    mShadow = ae_new<Shadow>();
+    mShadow = relive_new Shadow();
 }
 
 void renderWithGlowingEyes(PrimHeader** ot, BaseAliveGameObject* actor, s16* pPalAlloc, s16 palSize, PSX_RECT* palRect,
@@ -758,7 +758,7 @@ s32 Slig::CreateFromSaveState(const u8* pBuffer)
         ResourceManager::LoadResourceFile_49C170("SHADOW.BAN", nullptr);
     }
 
-    auto pSlig = ae_new<Slig>(pTlv, pState->field_5C_tlvInfo);
+    auto pSlig = relive_new Slig(pTlv, pState->field_5C_tlvInfo);
     if (pSlig)
     {
         if (pState->field_40_bActiveChar)
@@ -1772,7 +1772,7 @@ void Slig::M_Sleeping_32_4B89A0()
                 {
                     xOff = (field_CC_sprite_scale * FP_FromInteger(-20));
                 }
-                ae_new<SnoozeParticle>(
+                relive_new SnoozeParticle(
                     xOff + mBaseAnimatedWithPhysicsGameObject_XPos,
                     mBaseAnimatedWithPhysicsGameObject_YPos + (field_CC_sprite_scale * FP_FromInteger(-10)),
                     field_20_animation.mRenderLayer,
@@ -1801,7 +1801,7 @@ void Slig::M_Sleeping_32_4B89A0()
                 xOff = (field_CC_sprite_scale * FP_FromInteger(-20));
             }
 
-            ae_new<SnoozeParticle>(
+            relive_new SnoozeParticle(
                 xOff + mBaseAnimatedWithPhysicsGameObject_XPos,
                 mBaseAnimatedWithPhysicsGameObject_YPos + (field_CC_sprite_scale * FP_FromInteger(-10)),
                 field_20_animation.mRenderLayer,
@@ -2043,7 +2043,7 @@ void Slig::M_Possess_37_4B72C0()
                 xOff = -xOff;
             }
 
-            ae_new<Gibs>(
+            relive_new Gibs(
                 GibType::Slig_1,
                 mBaseAnimatedWithPhysicsGameObject_XPos,
                 mBaseAnimatedWithPhysicsGameObject_YPos,
@@ -2195,7 +2195,7 @@ void Slig::M_ShootZ_42_4B7560()
             bulletType = BulletType::eZBullet_3;
         }
 
-        ae_new<Bullet>(
+        relive_new Bullet(
             this,
             bulletType,
             mBaseAnimatedWithPhysicsGameObject_XPos,
@@ -2670,7 +2670,7 @@ s16 Slig::Brain_DeathDropDeath_3_4BC1E0()
 
             Environment_SFX_457A40(EnvironmentSfx::eFallingDeathScreamHitGround_15, 0, 0x7FFF, this);
 
-            ae_new<ScreenShake>(0, 0);
+            relive_new ScreenShake(0, 0);
 
             field_120_timer = sGnFrame + 30;
             return Brain_3_DeathDropDeath::eBrain3_SwitchCamToAbe_2;
@@ -5179,7 +5179,7 @@ void Slig::ToStand_4B4A20()
 
 void Slig::BlowToGibs_4B8020()
 {
-    ae_new<Gibs>(
+    relive_new Gibs(
         GibType::Slig_1,
         mBaseAnimatedWithPhysicsGameObject_XPos,
         mBaseAnimatedWithPhysicsGameObject_YPos,
@@ -5188,7 +5188,7 @@ void Slig::BlowToGibs_4B8020()
         field_CC_sprite_scale,
         0);
 
-    ae_new<Blood>(
+    relive_new Blood(
         mBaseAnimatedWithPhysicsGameObject_XPos,
         mBaseAnimatedWithPhysicsGameObject_YPos - (FP_FromInteger(30) * field_CC_sprite_scale),
         FP_FromInteger(0),
@@ -6696,14 +6696,14 @@ s16 Slig::VTakeDamage(BaseGameObject* pFrom)
                         const FP xOff = ((pBullet->field_30_x_distance <= FP_FromInteger(0) ? FP_FromInteger(-1) : FP_FromInteger(1)) * FP_FromInteger(Math_NextRandom() & 15)) + FP_FromInteger(16);
                         const FP yPos = mBaseAnimatedWithPhysicsGameObject_YPos - (FP_FromInteger(25) * field_CC_sprite_scale);
                         const FP xPos = field_CC_sprite_scale * (pBullet->field_30_x_distance <= FP_FromInteger(0) ? FP_FromInteger(-6) : FP_FromInteger(6));
-                        ae_new<Blood>(xPos + mBaseAnimatedWithPhysicsGameObject_XPos, yPos, xOff, yOff, field_CC_sprite_scale, 12);
+                        relive_new Blood(xPos + mBaseAnimatedWithPhysicsGameObject_XPos, yPos, xOff, yOff, field_CC_sprite_scale, 12);
                     }
 
                     {
                         const FP xOff = pBullet->field_30_x_distance <= FP_FromInteger(0) ? FP_FromInteger(-6) : FP_FromInteger(6);
                         const FP yPos = mBaseAnimatedWithPhysicsGameObject_YPos - (FP_FromInteger(25) * field_CC_sprite_scale);
                         const FP xPos = field_CC_sprite_scale * (pBullet->field_30_x_distance <= FP_FromInteger(0) ? FP_FromInteger(-12) : FP_FromInteger(12));
-                        ae_new<Blood>(xPos + mBaseAnimatedWithPhysicsGameObject_XPos, yPos, xOff, FP_FromInteger(0), field_CC_sprite_scale, 8);
+                        relive_new Blood(xPos + mBaseAnimatedWithPhysicsGameObject_XPos, yPos, xOff, FP_FromInteger(0), field_CC_sprite_scale, 8);
                     }
                     break;
                 }
@@ -6739,7 +6739,7 @@ s16 Slig::VTakeDamage(BaseGameObject* pFrom)
                         return 0;
                     }
 
-                    ae_new<Blood>(mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos - (FP_FromInteger(25) * field_CC_sprite_scale), FP_FromInteger(0), FP_FromInteger(0), field_CC_sprite_scale, 25);
+                    relive_new Blood(mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos - (FP_FromInteger(25) * field_CC_sprite_scale), FP_FromInteger(0), FP_FromInteger(0), field_CC_sprite_scale, 25);
                 }
 
                 default:
@@ -6789,7 +6789,7 @@ s16 Slig::VTakeDamage(BaseGameObject* pFrom)
                 return 1;
             }
 
-            ae_new<Gibs>(GibType::Slig_1, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, field_C4_velx, field_C8_vely, field_CC_sprite_scale, 0);
+            relive_new Gibs(GibType::Slig_1, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, field_C4_velx, field_C8_vely, field_CC_sprite_scale, 0);
             mHealth = FP_FromInteger(0);
             SFX_Play_Mono(SoundEffect::FallingItemHit_47, 90);
             field_20_animation.mAnimFlags.Clear(AnimFlags::eBit2_Animate);

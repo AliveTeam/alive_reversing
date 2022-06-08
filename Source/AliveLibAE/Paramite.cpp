@@ -204,7 +204,7 @@ Paramite::Paramite(Path_Paramite* pTlv, s32 tlvInfo)
     mApplyShadows |= 2u;
     field_15C_paramite_xOffset = field_DA_xOffset;
 
-    mShadow = ae_new<Shadow>();
+    mShadow = relive_new Shadow();
 }
 
 const AnimId sParamiteAnimIdTable_55D660[44] = {
@@ -263,7 +263,7 @@ s32 Paramite::CreateFromSaveState(const u8* pBuffer)
         ResourceManager::LoadResourceFile_49C170("PARAMITE.BND", nullptr);
     }
 
-    auto pParamite = ae_new<Paramite>(pTlv, pState->field_3C_tlvInfo);
+    auto pParamite = relive_new Paramite(pTlv, pState->field_3C_tlvInfo);
 
     if (pState->field_76_flags.Get(Paramite_State::eBit1_unused))
     {
@@ -1973,7 +1973,7 @@ s16 Paramite::Brain_3_SurpriseWeb_4851B0()
                 mBaseAliveGameObjectFlags.Set(Flags_114::e114_Bit3_Can_Be_Possessed);
                 field_20_animation.mAnimFlags.Clear(AnimFlags::eBit5_FlipX);
                 field_130_timer = sGnFrame + field_12E_surprise_web_delay_timer;
-                auto pNewWeb = ae_new<ParamiteWeb>(mBaseAnimatedWithPhysicsGameObject_XPos, FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos) - 20, FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos) - 10, field_CC_sprite_scale);
+                auto pNewWeb = relive_new ParamiteWeb(mBaseAnimatedWithPhysicsGameObject_XPos, FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos) - 20, FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos) - 10, field_CC_sprite_scale);
                 if (pNewWeb)
                 {
                     field_11C_web_id = pNewWeb->field_8_object_id;
@@ -2465,7 +2465,7 @@ s16 Paramite::Brain_7_DeathDrop_484FF0()
 
         Environment_SFX_457A40(EnvironmentSfx::eFallingDeathScreamHitGround_15, 0, 0x7FFF, this);
 
-        ae_new<ScreenShake>(0, 0);
+        relive_new ScreenShake(0, 0);
         field_130_timer = sGnFrame + 30;
         return 2;
     }
@@ -2932,7 +2932,7 @@ s16 Paramite::Brain_9_ParamiteSpawn_48ED80()
                 {
                     field_C8_vely = FP_FromInteger(0);
                     mCurrentMotion = eParamiteMotions::M_SurpriseWeb_33_48D760;
-                    auto pWeb = ae_new<ParamiteWeb>(mBaseAnimatedWithPhysicsGameObject_XPos, FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos) - 20,
+                    auto pWeb = relive_new ParamiteWeb(mBaseAnimatedWithPhysicsGameObject_XPos, FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos) - 20,
                                                     FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos) - 10,
                                                     field_CC_sprite_scale);
                     if (pWeb)
@@ -2976,7 +2976,7 @@ s16 Paramite::Brain_9_ParamiteSpawn_48ED80()
                     field_20_animation.mAnimFlags.Set(AnimFlags::eBit3_Render);
                     field_C8_vely = FP_FromInteger(0);
                     mCurrentMotion = eParamiteMotions::M_SurpriseWeb_33_48D760;
-                    auto pWeb = ae_new<ParamiteWeb>(mBaseAnimatedWithPhysicsGameObject_XPos, FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos) - 20,
+                    auto pWeb = relive_new ParamiteWeb(mBaseAnimatedWithPhysicsGameObject_XPos, FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos) - 20,
                                                     FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos) - 10,
                                                     field_CC_sprite_scale);
                     if (pWeb)
@@ -3781,7 +3781,7 @@ void Paramite::M_Falling_11_48B200()
                         mCurrentMotion = eParamiteMotions::M_Death_41_48D8E0;
                         field_130_timer = sGnFrame + 90;
 
-                        ae_new<Blood>(mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, FP_FromInteger(0), FP_FromInteger(5), field_CC_sprite_scale, 50);
+                        relive_new Blood(mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, FP_FromInteger(0), FP_FromInteger(5), field_CC_sprite_scale, 50);
                     }
                     break;
 
@@ -4878,7 +4878,7 @@ void Paramite::M_Eating_40_48A0F0()
                 auto pSlurg = static_cast<BaseAliveGameObject*>(FindObjectOfType(ReliveTypes::eSlurg, gridBlock + mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos));
                 if (pSlurg)
                 {
-                    ae_new<Blood>(pSlurg->mBaseAnimatedWithPhysicsGameObject_XPos, pSlurg->mBaseAnimatedWithPhysicsGameObject_YPos, FP_FromInteger(0), FP_FromInteger(5), field_CC_sprite_scale, 30);
+                    relive_new Blood(pSlurg->mBaseAnimatedWithPhysicsGameObject_XPos, pSlurg->mBaseAnimatedWithPhysicsGameObject_YPos, FP_FromInteger(0), FP_FromInteger(5), field_CC_sprite_scale, 30);
                     pSlurg->mBaseGameObjectFlags.Set(BaseGameObject::eDead);
                 }
                 else
@@ -5068,7 +5068,7 @@ void Paramite::VUpdate()
 
         if (field_11C_web_id != -1)
         {
-            auto pWeb = ae_new<ParamiteWeb>(mBaseAnimatedWithPhysicsGameObject_XPos,
+            auto pWeb = relive_new ParamiteWeb(mBaseAnimatedWithPhysicsGameObject_XPos,
                                             FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos) - 20,
                                             FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos) - 10,
                                             field_CC_sprite_scale);
@@ -5398,7 +5398,7 @@ s16 Paramite::VTakeDamage(BaseGameObject* pFrom)
         case ReliveTypes::eExplosion:
         {
             Event_Broadcast(kScrabOrParamiteDied, this);
-            ae_new<Gibs>(GibType::Slog_2, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, field_C4_velx, field_C8_vely, field_CC_sprite_scale, 0);
+            relive_new Gibs(GibType::Slog_2, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, field_C4_velx, field_C8_vely, field_CC_sprite_scale, 0);
             mHealth = FP_FromInteger(0);
             mBaseGameObjectFlags.Set(BaseGameObject::eDead);
             field_20_animation.mAnimFlags.Clear(AnimFlags::eBit3_Render);
@@ -5442,7 +5442,7 @@ s16 Paramite::VTakeDamage(BaseGameObject* pFrom)
             mCurrentMotion = eParamiteMotions::M_Death_41_48D8E0;
             vUpdateAnim();
 
-            ae_new<Blood>(mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, FP_FromInteger(0), FP_FromInteger(5), field_CC_sprite_scale, 50);
+            relive_new Blood(mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, FP_FromInteger(0), FP_FromInteger(5), field_CC_sprite_scale, 50);
 
             if (sControlledCharacter_5C1B8C == this)
             {
@@ -5465,7 +5465,7 @@ s16 Paramite::VTakeDamage(BaseGameObject* pFrom)
             mCurrentMotion = eParamiteMotions::M_Death_41_48D8E0;
             vUpdateAnim();
 
-            ae_new<Blood>(mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, FP_FromInteger(0), FP_FromInteger(5), field_CC_sprite_scale, 50);
+            relive_new Blood(mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, FP_FromInteger(0), FP_FromInteger(5), field_CC_sprite_scale, 50);
 
             if (sControlledCharacter_5C1B8C != this)
             {
