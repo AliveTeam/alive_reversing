@@ -1,8 +1,5 @@
 #include "stdafx_ao.h"
 #include "Collisions.hpp"
-#include "Function.hpp"
-#include "stdlib.hpp"
-#include "Psx_common.hpp"
 #include "PathData.hpp"
 #include "Math.hpp"
 
@@ -12,23 +9,14 @@
 
 namespace AO {
 
-ALIVE_VAR(1, 0x504C6C, Collisions*, sCollisions_DArray_504C6C, nullptr);
+ALIVE_VAR(1, 0x504C6C, Collisions*, sCollisions, nullptr);
 
-void Collisions::Factory(const CollisionInfo* pCollisionInfo, const u8* pPathData)
+Collisions::~Collisions()
 {
-    sCollisions_DArray_504C6C = ao_new<Collisions>();
-    if (sCollisions_DArray_504C6C)
-    {
-        sCollisions_DArray_504C6C->ctor_40CF30(pCollisionInfo, pPathData);
-    }
+    delete[] field_0_pArray;
 }
 
-void Collisions::dtor_40CFB0()
-{
-    ao_delete_free_447540(field_0_pArray);
-}
-
-Collisions* Collisions::ctor_40CF30(const CollisionInfo* pCollisionInfo, const u8* ppPathData)
+Collisions::Collisions(const CollisionInfo* pCollisionInfo, const u8* ppPathData)
 {
     field_8_item_count = pCollisionInfo->field_10_num_collision_items;
     field_4_current_item_count = static_cast<u16>(pCollisionInfo->field_10_num_collision_items);
@@ -37,7 +25,7 @@ Collisions* Collisions::ctor_40CF30(const CollisionInfo* pCollisionInfo, const u
     field_C_max_count = pCollisionInfo->field_10_num_collision_items + 20;
 
     // Allocate memory for collisions array
-    field_0_pArray = reinterpret_cast<PathLine*>(ao_new_malloc_447520(field_C_max_count * sizeof(PathLine)));
+    field_0_pArray = new (std::nothrow) PathLine[field_C_max_count];
     memset(field_0_pArray, 0, field_C_max_count * sizeof(PathLine));
 
     // Copy collision line data out of Path resource
@@ -48,7 +36,6 @@ Collisions* Collisions::ctor_40CF30(const CollisionInfo* pCollisionInfo, const u
     {
         field_0_pArray[i] = {};
     }
-    return this;
 }
 
 PathLine* Collisions::Add_Dynamic_Collision_Line(s16 x1, s16 y1, s16 x2, s16 y2, eLineTypes mode)
@@ -440,7 +427,7 @@ PathLine* PathLine::MoveOnLine(FP* pXPos, FP* pYPos, const FP distToMove)
 
             if (yPosRet > FP_FromInteger(field_0_rect.h))
             {
-                PathLine* pNextLine = sCollisions_DArray_504C6C->NextLine(this);
+                PathLine* pNextLine = sCollisions->NextLine(this);
                 if (!pNextLine)
                 {
                     return nullptr;
@@ -452,7 +439,7 @@ PathLine* PathLine::MoveOnLine(FP* pXPos, FP* pYPos, const FP distToMove)
 
             if (yPosRet < FP_FromInteger(field_0_rect.y))
             {
-                PathLine* pPreviousLine = sCollisions_DArray_504C6C->PreviousLine(this);
+                PathLine* pPreviousLine = sCollisions->PreviousLine(this);
                 if (!pPreviousLine)
                 {
                     return nullptr;
@@ -467,7 +454,7 @@ PathLine* PathLine::MoveOnLine(FP* pXPos, FP* pYPos, const FP distToMove)
             yPosRet = ypos - distToMove;
             if (yPosRet < FP_FromInteger(field_0_rect.h))
             {
-                PathLine* pNextLine = sCollisions_DArray_504C6C->NextLine(this);
+                PathLine* pNextLine = sCollisions->NextLine(this);
                 if (!pNextLine)
                 {
                     return nullptr;
@@ -479,7 +466,7 @@ PathLine* PathLine::MoveOnLine(FP* pXPos, FP* pYPos, const FP distToMove)
 
             if (yPosRet > FP_FromInteger(field_0_rect.y))
             {
-                PathLine* pPreviousLine = sCollisions_DArray_504C6C->PreviousLine(this);
+                PathLine* pPreviousLine = sCollisions->PreviousLine(this);
                 if (!pPreviousLine)
                 {
                     return nullptr;
@@ -526,7 +513,7 @@ PathLine* PathLine::MoveOnLine(FP* pXPos, FP* pYPos, const FP distToMove)
 
     if (xCalc1 == xCalc2)
     {
-        PathLine* pNextLine = sCollisions_DArray_504C6C->NextLine(this);
+        PathLine* pNextLine = sCollisions->NextLine(this);
         if (!pNextLine)
         {
             return nullptr;
@@ -549,7 +536,7 @@ PathLine* PathLine::MoveOnLine(FP* pXPos, FP* pYPos, const FP distToMove)
 
     if (yCalc1 == yCalc2)
     {
-        PathLine* pPreviousLine = sCollisions_DArray_504C6C->PreviousLine(this);
+        PathLine* pPreviousLine = sCollisions->PreviousLine(this);
         if (!pPreviousLine)
         {
             return nullptr;

@@ -35,7 +35,7 @@ Bat::Bat(Path_Bat* pTlv, s32 tlvInfo)
     FP hitY = {};
     // OG Bug fix, if bat isn't spawned on a line then we crash
     // so field_E4_pLine is checked here and in VUpdate
-    sCollisions_DArray_504C6C->RayCast(
+    sCollisions->RayCast(
         FP_FromInteger(pTlv->field_10_top_left.field_0_x),
         FP_FromInteger(pTlv->field_10_top_left.field_2_y),
         FP_FromInteger(pTlv->field_14_bottom_right.field_0_x),

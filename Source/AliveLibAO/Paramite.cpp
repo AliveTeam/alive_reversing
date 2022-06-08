@@ -174,7 +174,7 @@ Paramite::Paramite(Path_Paramite* pTlv, s32 tlvInfo)
 
     FP hitX = {};
     FP hitY = {};
-    if (sCollisions_DArray_504C6C->RayCast(
+    if (sCollisions->RayCast(
             mBaseAnimatedWithPhysicsGameObject_XPos,
             mBaseAnimatedWithPhysicsGameObject_YPos,
             mBaseAnimatedWithPhysicsGameObject_XPos,
@@ -3560,7 +3560,7 @@ void Paramite::Motion_18_RunningAttack()
         FP hitX = {};
         FP hitY = {};
         PathLine* pLine = nullptr;
-        if (sCollisions_DArray_504C6C->RayCast(
+        if (sCollisions->RayCast(
                 mBaseAnimatedWithPhysicsGameObject_XPos + gridSizeDirected,
                 mBaseAnimatedWithPhysicsGameObject_YPos - FP_FromInteger(10),
                 mBaseAnimatedWithPhysicsGameObject_XPos + gridSizeDirected,
@@ -3623,7 +3623,7 @@ void Paramite::Motion_20_SurpriseWeb()
     FP hitX = {};
     FP hitY = {};
 
-    if (sCollisions_DArray_504C6C->RayCast(
+    if (sCollisions->RayCast(
             mBaseAnimatedWithPhysicsGameObject_XPos,
             mBaseAnimatedWithPhysicsGameObject_YPos,
             mBaseAnimatedWithPhysicsGameObject_XPos,

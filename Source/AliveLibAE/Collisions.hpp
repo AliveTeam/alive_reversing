@@ -51,11 +51,9 @@ struct CollisionInfo;
 class Collisions final
 {
 public:
-    static void Factory(const CollisionInfo* pCollisionInfo, const u8* pPathRes);
+    ~Collisions();
+    Collisions(const CollisionInfo* pCollisionInfo, const u8* pPathRes);
 
-    void dtor_4189F0();
-
-    Collisions* ctor_418930(const CollisionInfo* pCollisionInfo, const u8* pPathRes);
     PathLine* Add_Dynamic_Collision_Line(s16 x1, s16 y1, s16 x2, s16 y2, s8 mode);
     PathLine* Get_Line_At_Idx(s16 idx);
     Bool32 Raycast(FP X1, FP Y1, FP X2, FP Y2, PathLine** ppLine, FP* hitX, FP* hitY, u32 modeMask);
@@ -74,6 +72,4 @@ struct PSX_RECT;
 
 PSX_RECT* Rect_Clear(PSX_RECT* pRect);
 
-using TCollisionsFactory = decltype(&Collisions::Factory);
-
-ALIVE_VAR_EXTERN(Collisions*, sCollisions_DArray_5C1128);
+ALIVE_VAR_EXTERN(Collisions*, sCollisions);

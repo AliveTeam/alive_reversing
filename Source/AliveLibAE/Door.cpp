@@ -257,7 +257,7 @@ Door::Door(Path_Door* pTlvData, s32 tlvInfo)
     FP tlvXMid = FP_FromInteger((pTlvData->field_8_top_left.field_0_x + pTlvData->field_C_bottom_right.field_0_x) / 2);
     PathLine* pathLine = nullptr;
 
-    if (sCollisions_DArray_5C1128->Raycast(
+    if (sCollisions->Raycast(
             tlvXMid,
             FP_FromInteger(pTlvData->field_8_top_left.field_2_y),
             tlvXMid,

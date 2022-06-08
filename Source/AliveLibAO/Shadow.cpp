@@ -62,7 +62,7 @@ void Shadow::Calculate_Position(FP xpos, FP ypos, PSX_RECT* frameRect, FP sprite
         PathLine* pLine = nullptr;
         FP hitX = {};
         FP hitY = {};
-        if (sCollisions_DArray_504C6C->RayCast(
+        if (sCollisions->RayCast(
                 xpos,
                 objY,
                 xpos,
@@ -93,7 +93,7 @@ void Shadow::Calculate_Position(FP xpos, FP ypos, PSX_RECT* frameRect, FP sprite
             // Object is before the line we hit
             if (objX < lineXScreen)
             {
-                if (sCollisions_DArray_504C6C->RayCast(
+                if (sCollisions->RayCast(
                         FP_NoFractional(pScreenManager_4FF7C8->field_10_pCamPos->field_0_x - FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos)) + FP_FromInteger(lineXScreen - 1) - FP_FromInteger(4),
                         hitY - FP_FromInteger(2),
                         FP_NoFractional(pScreenManager_4FF7C8->field_10_pCamPos->field_0_x - FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos)) + FP_FromInteger(lineXScreen - 1) - FP_FromInteger(4),
@@ -114,7 +114,7 @@ void Shadow::Calculate_Position(FP xpos, FP ypos, PSX_RECT* frameRect, FP sprite
                 const FP v23 = FP_NoFractional(((pScreenManager_4FF7C8->field_10_pCamPos->field_0_x - FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos)) + FP_FromInteger(lineWScreen + 1)))
                              + FP_FromInteger(4);
 
-                if (sCollisions_DArray_504C6C->RayCast(
+                if (sCollisions->RayCast(
                         v23,
                         hitY - FP_FromInteger(2),
                         v23,

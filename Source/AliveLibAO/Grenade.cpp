@@ -315,7 +315,7 @@ s16 Grenade::InTheAir()
 
     FP hitX = {};
     FP hitY = {};
-    const auto bHit = sCollisions_DArray_504C6C->RayCast(
+    const auto bHit = sCollisions->RayCast(
         field_120_xpos,
         field_124_ypos,
         mBaseAnimatedWithPhysicsGameObject_XPos,
@@ -360,7 +360,7 @@ s16 Grenade::InTheAir()
         }
     }
 
-    const auto v20 = sCollisions_DArray_504C6C->RayCast(
+    const auto v20 = sCollisions->RayCast(
         field_120_xpos,
         field_124_ypos,
         mBaseAnimatedWithPhysicsGameObject_XPos,

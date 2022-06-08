@@ -590,7 +590,7 @@ Slig::Slig(Path_Slig* pTlv, s32 tlvInfo)
 
     FP hitX = {};
     FP hitY = {};
-    if (sCollisions_DArray_5C1128->Raycast(
+    if (sCollisions->Raycast(
             mBaseAnimatedWithPhysicsGameObject_XPos,
             mBaseAnimatedWithPhysicsGameObject_YPos,
             mBaseAnimatedWithPhysicsGameObject_XPos,
@@ -1071,7 +1071,7 @@ void Slig::M_StandIdle_0_4B4EC0()
     PathLine* pLine = nullptr;
     FP hitX = {};
     FP hitY = {};
-    if (!sCollisions_DArray_5C1128->Raycast(
+    if (!sCollisions->Raycast(
             xOff + mBaseAnimatedWithPhysicsGameObject_XPos,
             mBaseAnimatedWithPhysicsGameObject_YPos - FP_FromInteger(10),
             xOff + mBaseAnimatedWithPhysicsGameObject_XPos,
@@ -1390,7 +1390,7 @@ void Slig::M_Shoot_6_4B55A0()
                     PathLine* pLine = nullptr;
                     FP hitX = {};
                     FP hitY = {};
-                    if (sCollisions_DArray_5C1128->Raycast(
+                    if (sCollisions->Raycast(
                             mBaseAnimatedWithPhysicsGameObject_XPos,
                             mBaseAnimatedWithPhysicsGameObject_YPos,
                             mBaseAnimatedWithPhysicsGameObject_XPos + (k8 * (kGridSize / k8)),
@@ -1399,7 +1399,7 @@ void Slig::M_Shoot_6_4B55A0()
                             &hitX,
                             &hitY,
                             field_D6_scale != 0 ? 6 : 96)
-                        || sCollisions_DArray_5C1128->Raycast(
+                        || sCollisions->Raycast(
                             mBaseAnimatedWithPhysicsGameObject_XPos,
                             mBaseAnimatedWithPhysicsGameObject_YPos - k45Scaled,
                             mBaseAnimatedWithPhysicsGameObject_XPos + (k8 * (kGridSize / k8)),
@@ -1422,7 +1422,7 @@ void Slig::M_Shoot_6_4B55A0()
                     PathLine* pLine = nullptr;
                     FP hitX = {};
                     FP hitY = {};
-                    if (sCollisions_DArray_5C1128->Raycast(
+                    if (sCollisions->Raycast(
                             mBaseAnimatedWithPhysicsGameObject_XPos,
                             mBaseAnimatedWithPhysicsGameObject_YPos,
                             mBaseAnimatedWithPhysicsGameObject_XPos - (k8 * (kGridSize / k8)),
@@ -1431,7 +1431,7 @@ void Slig::M_Shoot_6_4B55A0()
                             &hitX,
                             &hitY,
                             field_D6_scale != 0 ? 6 : 0x60)
-                        || sCollisions_DArray_5C1128->Raycast(
+                        || sCollisions->Raycast(
                             mBaseAnimatedWithPhysicsGameObject_XPos,
                             mBaseAnimatedWithPhysicsGameObject_YPos - k45Scaled,
                             mBaseAnimatedWithPhysicsGameObject_XPos - (k8 * (kGridSize / k8)),
@@ -1468,7 +1468,7 @@ void Slig::M_Shoot_6_4B55A0()
                     PathLine* pLine = nullptr;
                     FP hitX = {};
                     FP hitY = {};
-                    if (sCollisions_DArray_5C1128->Raycast(
+                    if (sCollisions->Raycast(
                             mBaseAnimatedWithPhysicsGameObject_XPos,
                             mBaseAnimatedWithPhysicsGameObject_YPos,
                             mBaseAnimatedWithPhysicsGameObject_XPos + (k8 * field_C4_velx),
@@ -1477,7 +1477,7 @@ void Slig::M_Shoot_6_4B55A0()
                             &hitX,
                             &hitY,
                             field_D6_scale != 0 ? 6 : 96)
-                        || sCollisions_DArray_5C1128->Raycast(
+                        || sCollisions->Raycast(
                             mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos - k45Scaled,
                             mBaseAnimatedWithPhysicsGameObject_XPos + (k8 * field_C4_velx),
                             mBaseAnimatedWithPhysicsGameObject_YPos - k45Scaled,
@@ -4947,7 +4947,7 @@ void Slig::VUpdate()
     {
         if (BaseAliveGameObjectCollisionLineType != -1)
         {
-            sCollisions_DArray_5C1128->Raycast(
+            sCollisions->Raycast(
                 mBaseAnimatedWithPhysicsGameObject_XPos,
                 mBaseAnimatedWithPhysicsGameObject_YPos - FP_FromInteger(20),
                 mBaseAnimatedWithPhysicsGameObject_XPos,
@@ -5911,7 +5911,7 @@ Bool32 Slig::IsWallBetween_4BB8B0(BaseAliveGameObject* pLeft, BaseAliveGameObjec
     PathLine* pLine = nullptr;
     FP hitX = {};
     FP hitY = {};
-    return sCollisions_DArray_5C1128->Raycast(
+    return sCollisions->Raycast(
                pLeft->mBaseAnimatedWithPhysicsGameObject_XPos,
                FP_FromInteger(thisBRect.h - 25),
                pRight->mBaseAnimatedWithPhysicsGameObject_XPos,

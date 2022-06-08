@@ -545,7 +545,7 @@ Mudokon::Mudokon(Path_Mudokon* pTlv, s32 tlvInfo)
 
     FP hitX = {};
     FP hitY = {};
-    const auto bCollision = sCollisions_DArray_5C1128->Raycast(
+    const auto bCollision = sCollisions->Raycast(
         FP_FromInteger(pTlv->field_8_top_left.field_0_x),
         FP_FromInteger(pTlv->field_8_top_left.field_2_y),
         FP_FromInteger(pTlv->field_C_bottom_right.field_0_x),
@@ -1003,7 +1003,7 @@ void Mudokon::VUpdate()
         mBaseAliveGameObjectFlags.Clear(Flags_114::e114_Bit9_RestoredFromQuickSave);
         if (BaseAliveGameObjectCollisionLineType != -1)
         {
-            sCollisions_DArray_5C1128->Raycast(
+            sCollisions->Raycast(
                 mBaseAnimatedWithPhysicsGameObject_XPos,
                 mBaseAnimatedWithPhysicsGameObject_YPos - FP_FromInteger(20),
                 mBaseAnimatedWithPhysicsGameObject_XPos,

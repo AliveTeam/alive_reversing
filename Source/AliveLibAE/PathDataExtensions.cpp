@@ -129,7 +129,6 @@ void Path_Set_NewData_FromLvls()
                             rBlyRec.field_8_pCollisionData = &GetCollisions(lvlIdx)[pExt->mPathId];
 
                             CollisionInfo& rColInfo = *rBlyRec.field_8_pCollisionData;
-                            rColInfo.field_0_fn_ptr = Collisions::Factory;
                             rColInfo.field_4_left = 0;
                             rColInfo.field_6_right = 0;
                             SetAndLog("top", rColInfo.field_8_top, static_cast<s16>(pExt->mXSize * pExt->mGridWidth));

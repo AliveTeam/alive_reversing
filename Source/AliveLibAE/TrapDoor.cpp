@@ -303,7 +303,7 @@ void TrapDoor::VRemove(BaseAliveGameObject* pObj)
 
 void TrapDoor::Add_To_Collisions_Array()
 {
-    field_124_pCollisionLine = sCollisions_DArray_5C1128->Add_Dynamic_Collision_Line(
+    field_124_pCollisionLine = sCollisions->Add_Dynamic_Collision_Line(
         field_148_bounding_rect.x,
         field_148_bounding_rect.y,
         field_148_bounding_rect.w,

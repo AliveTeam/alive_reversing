@@ -226,7 +226,7 @@ FlyingSlig::FlyingSlig(Path_FlyingSlig* pTlv, s32 tlvInfo)
 
     FP hitX = {};
     FP hitY = {};
-    sCollisions_DArray_5C1128->Raycast(
+    sCollisions->Raycast(
         FP_FromInteger(pTlv->field_8_top_left.field_0_x),
         FP_FromInteger(pTlv->field_8_top_left.field_2_y),
         FP_FromInteger(pTlv->field_C_bottom_right.field_0_x),
@@ -489,7 +489,7 @@ s32 FlyingSlig::VGetSaveState(u8* pSaveBuffer)
 
     if (BaseAliveGameObjectCollisionLine)
     {
-        pState->field_36_line_idx = static_cast<s16>(BaseAliveGameObjectCollisionLine - sCollisions_DArray_5C1128->field_0_pArray);
+        pState->field_36_line_idx = static_cast<s16>(BaseAliveGameObjectCollisionLine - sCollisions->field_0_pArray);
     }
 
     pState->field_38_launch_switch_id = field_17C_launch_switch_id;
@@ -620,7 +620,7 @@ void FlyingSlig::VUpdate()
             {
                 const FP savedNextXPos = field_294_nextXPos;
                 const FP savedNextYPos = field_298_nextYPos;
-                BaseAliveGameObjectCollisionLine = sCollisions_DArray_5C1128->Get_Line_At_Idx(BaseAliveGameObjectCollisionLineType);
+                BaseAliveGameObjectCollisionLine = sCollisions->Get_Line_At_Idx(BaseAliveGameObjectCollisionLineType);
                 sub_4348A0();
                 field_294_nextXPos = savedNextXPos;
                 field_298_nextYPos = savedNextYPos;
@@ -1334,7 +1334,7 @@ void FlyingSlig::Brain_17_FromCrawlingSlig()
 {
     FP hitX = {};
     FP hitY = {};
-    if (sCollisions_DArray_5C1128->Raycast(
+    if (sCollisions->Raycast(
             mBaseAnimatedWithPhysicsGameObject_XPos,
             mBaseAnimatedWithPhysicsGameObject_YPos,
             mBaseAnimatedWithPhysicsGameObject_XPos,
@@ -2225,7 +2225,7 @@ Bool32 FlyingSlig::IsWallBetween_43A550(BaseAliveGameObject* pThis, BaseAliveGam
     PathLine* pLine = nullptr;
     FP hitX = {};
     FP hitY = {};
-    return sCollisions_DArray_5C1128->Raycast(
+    return sCollisions->Raycast(
                pThis->mBaseAnimatedWithPhysicsGameObject_XPos,
                pThis->mBaseAnimatedWithPhysicsGameObject_YPos,
                pObj->mBaseAnimatedWithPhysicsGameObject_XPos,
@@ -2594,8 +2594,8 @@ s16 FlyingSlig::sub_437C70(PathLine* pLine)
     field_1A4_rect.h = FP_FromInteger(BaseAliveGameObjectCollisionLine->field_0_rect.h);
 
 
-    field_1EC_pNextLine = sCollisions_DArray_5C1128->Get_Line_At_Idx(BaseAliveGameObjectCollisionLine->field_C_next);
-    field_1F0_pPrevLine = sCollisions_DArray_5C1128->Get_Line_At_Idx(BaseAliveGameObjectCollisionLine->field_A_previous);
+    field_1EC_pNextLine = sCollisions->Get_Line_At_Idx(BaseAliveGameObjectCollisionLine->field_C_next);
+    field_1F0_pPrevLine = sCollisions->Get_Line_At_Idx(BaseAliveGameObjectCollisionLine->field_A_previous);
 
     field_198_line_length = FP_FromInteger(BaseAliveGameObjectCollisionLine->field_12_line_length);
 
@@ -2732,7 +2732,7 @@ s16 FlyingSlig::sub_436C60(PSX_RECT* pRect, s16 arg_4)
                 FP hitY = {};
                 PathLine* pLine = nullptr;
 
-                if (sCollisions_DArray_5C1128->Raycast(
+                if (sCollisions->Raycast(
                         sControlledCharacter_5C1B8C->mBaseAnimatedWithPhysicsGameObject_XPos,
                         yOff1,
                         sControlledCharacter_5C1B8C->mBaseAnimatedWithPhysicsGameObject_XPos,
@@ -2759,7 +2759,7 @@ s16 FlyingSlig::sub_436C60(PSX_RECT* pRect, s16 arg_4)
 
             if ((sControlledCharacter_5C1B8C->mBaseAnimatedWithPhysicsGameObject_YPos - (FP_FromInteger(60) * field_CC_sprite_scale) - yOff2) > (FP_FromInteger(35) * field_CC_sprite_scale))
             {
-                if (sCollisions_DArray_5C1128->Raycast(
+                if (sCollisions->Raycast(
                         sControlledCharacter_5C1B8C->mBaseAnimatedWithPhysicsGameObject_XPos,
                         yOff2,
                         sControlledCharacter_5C1B8C->mBaseAnimatedWithPhysicsGameObject_XPos,
@@ -2876,7 +2876,7 @@ Bool32 FlyingSlig::sub_436B20()
     FP lastNextSegmentLength = FP_FromInteger(9999);
     FP totalNextSegmentLength = {};
 
-    PathLine* pNextLine = sCollisions_DArray_5C1128->Get_Line_At_Idx(BaseAliveGameObjectCollisionLine->field_C_next);
+    PathLine* pNextLine = sCollisions->Get_Line_At_Idx(BaseAliveGameObjectCollisionLine->field_C_next);
     if (pNextLine)
     {
         while (pNextLine != BaseAliveGameObjectCollisionLine)
@@ -2894,7 +2894,7 @@ Bool32 FlyingSlig::sub_436B20()
             else
             {
                 totalNextSegmentLength += FP_FromInteger(pNextLine->field_12_line_length);
-                pNextLine = sCollisions_DArray_5C1128->Get_Line_At_Idx(pNextLine->field_C_next);
+                pNextLine = sCollisions->Get_Line_At_Idx(pNextLine->field_C_next);
                 if (!pNextLine)
                 {
                     break;
@@ -2904,7 +2904,7 @@ Bool32 FlyingSlig::sub_436B20()
     }
 
     FP totalPrevSegmentLength = {};
-    PathLine* pPrevLine = sCollisions_DArray_5C1128->Get_Line_At_Idx(BaseAliveGameObjectCollisionLine->field_A_previous);
+    PathLine* pPrevLine = sCollisions->Get_Line_At_Idx(BaseAliveGameObjectCollisionLine->field_A_previous);
     if (pPrevLine)
     {
         while (pPrevLine != BaseAliveGameObjectCollisionLine)
@@ -2921,7 +2921,7 @@ Bool32 FlyingSlig::sub_436B20()
             else
             {
                 totalPrevSegmentLength += FP_FromInteger(pPrevLine->field_12_line_length);
-                pPrevLine = sCollisions_DArray_5C1128->Get_Line_At_Idx(pPrevLine->field_A_previous);
+                pPrevLine = sCollisions->Get_Line_At_Idx(pPrevLine->field_A_previous);
                 if (!pPrevLine)
                 {
                     break;
@@ -2989,7 +2989,7 @@ s16 FlyingSlig::CollisionUp_43A640(FP velY)
     FP hitX = {};
     FP hitY = {};
     PathLine* pLine = nullptr;
-    auto bCollision = sCollisions_DArray_5C1128->Raycast(
+    auto bCollision = sCollisions->Raycast(
         mBaseAnimatedWithPhysicsGameObject_XPos - xOff1,
         mBaseAnimatedWithPhysicsGameObject_YPos,
         mBaseAnimatedWithPhysicsGameObject_XPos - xOff1,
@@ -3001,7 +3001,7 @@ s16 FlyingSlig::CollisionUp_43A640(FP velY)
 
     if (!bCollision)
     {
-        bCollision = sCollisions_DArray_5C1128->Raycast(
+        bCollision = sCollisions->Raycast(
             xOff2 + mBaseAnimatedWithPhysicsGameObject_XPos,
             mBaseAnimatedWithPhysicsGameObject_YPos,
             xOff2 + mBaseAnimatedWithPhysicsGameObject_XPos,
@@ -3060,7 +3060,7 @@ s16 FlyingSlig::CollisionDown_43A9E0(FP velY)
     FP hitX = {};
     FP hitY = {};
     PathLine* pLine = nullptr;
-    auto bCollision = sCollisions_DArray_5C1128->Raycast(
+    auto bCollision = sCollisions->Raycast(
         mBaseAnimatedWithPhysicsGameObject_XPos - xOff1,
         mBaseAnimatedWithPhysicsGameObject_YPos,
         mBaseAnimatedWithPhysicsGameObject_XPos - xOff1,
@@ -3072,7 +3072,7 @@ s16 FlyingSlig::CollisionDown_43A9E0(FP velY)
 
     if (!bCollision)
     {
-        bCollision = sCollisions_DArray_5C1128->Raycast(
+        bCollision = sCollisions->Raycast(
             xOff2 + mBaseAnimatedWithPhysicsGameObject_XPos,
             mBaseAnimatedWithPhysicsGameObject_YPos,
             xOff2 + mBaseAnimatedWithPhysicsGameObject_XPos,
@@ -3121,7 +3121,7 @@ s16 FlyingSlig::CollisionLeftRight_43AC80(FP velX)
     FP hitX = {};
     FP hitY = {};
     PathLine* pLine = nullptr;
-    auto bCollision = sCollisions_DArray_5C1128->Raycast(
+    auto bCollision = sCollisions->Raycast(
         mBaseAnimatedWithPhysicsGameObject_XPos,
         mBaseAnimatedWithPhysicsGameObject_YPos - yOff1,
         xOff,
@@ -3148,7 +3148,7 @@ s16 FlyingSlig::CollisionLeftRight_43AC80(FP velX)
     }
     else
     {
-        bCollision = sCollisions_DArray_5C1128->Raycast(
+        bCollision = sCollisions->Raycast(
             mBaseAnimatedWithPhysicsGameObject_XPos,
             (field_CC_sprite_scale * FP_FromInteger(10)) + mBaseAnimatedWithPhysicsGameObject_YPos,
             xOff,

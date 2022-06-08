@@ -642,7 +642,7 @@ s32 Animation_OnFrame_Abe_455F80(BaseGameObject* pPtr, s16* pData)
     PathLine* pLine = nullptr;
     FP hitX = {};
     FP hitY = {};
-    if (sCollisions_DArray_5C1128->Raycast(
+    if (sCollisions->Raycast(
             pAbe->mBaseAnimatedWithPhysicsGameObject_XPos,
             pAbe->mBaseAnimatedWithPhysicsGameObject_YPos + FP_FromInteger(pFramePos->field_2_y),
             xOff + pAbe->mBaseAnimatedWithPhysicsGameObject_XPos,
@@ -1270,7 +1270,7 @@ void Abe::VUpdate()
         mBaseAliveGameObjectFlags.Clear(Flags_114::e114_Bit9_RestoredFromQuickSave);
         if (BaseAliveGameObjectCollisionLineType != -1)
         {
-            sCollisions_DArray_5C1128->Raycast(
+            sCollisions->Raycast(
                 mBaseAnimatedWithPhysicsGameObject_XPos,
                 mBaseAnimatedWithPhysicsGameObject_YPos - FP_FromInteger(20),
                 mBaseAnimatedWithPhysicsGameObject_XPos,
@@ -3634,7 +3634,7 @@ void Abe::Motion_3_Fall_459B60()
 
         MapFollowMe(TRUE);
 
-        if (!sCollisions_DArray_5C1128->Raycast(
+        if (!sCollisions->Raycast(
                 mBaseAnimatedWithPhysicsGameObject_XPos,
                 FP_FromInteger(BaseAliveGameObjectPathTLV->field_8_top_left.field_2_y - 10), // TODO: Negative ??
                 mBaseAnimatedWithPhysicsGameObject_XPos,
@@ -3922,7 +3922,7 @@ void Abe::Motion_14_HoistIdle_452440()
                 }
             }
 
-            if (sCollisions_DArray_5C1128->Raycast(
+            if (sCollisions->Raycast(
                     mBaseAnimatedWithPhysicsGameObject_XPos,
                     FP_FromInteger(BaseAliveGameObjectPathTLV->field_8_top_left.field_2_y - 10),
                     mBaseAnimatedWithPhysicsGameObject_XPos,
@@ -4565,7 +4565,7 @@ void Abe::Motion_28_HopMid_451C50()
 
             MapFollowMe(TRUE);
 
-            if (sCollisions_DArray_5C1128->Raycast(
+            if (sCollisions->Raycast(
                     mBaseAnimatedWithPhysicsGameObject_XPos,
                     FP_FromInteger(BaseAliveGameObjectPathTLV->field_8_top_left.field_2_y - 10),
                     mBaseAnimatedWithPhysicsGameObject_XPos,
@@ -4759,7 +4759,7 @@ void Abe::Motion_31_RunJumpMid_452C10()
 
         if (checkCollision)
         {
-            if (sCollisions_DArray_5C1128->Raycast(
+            if (sCollisions->Raycast(
                     mBaseAnimatedWithPhysicsGameObject_XPos,
                     FP_FromInteger(BaseAliveGameObjectPathTLV->field_8_top_left.field_2_y - 10),
                     mBaseAnimatedWithPhysicsGameObject_XPos,
@@ -5914,7 +5914,7 @@ void Abe::Motion_66_LedgeDescend_454970()
                 FP hitX = {};
                 FP hitY = {};
 
-                if (sCollisions_DArray_5C1128->Raycast(
+                if (sCollisions->Raycast(
                         mBaseAnimatedWithPhysicsGameObject_XPos,
                         mBaseAnimatedWithPhysicsGameObject_YPos - FP_FromInteger(5),
                         mBaseAnimatedWithPhysicsGameObject_XPos,
@@ -5991,7 +5991,7 @@ void Abe::Motion_68_ToOffScreenHoist_454B80()
     PathLine* pLine = nullptr;
     FP hitX = {};
     FP hitY = {};
-    if (pHoist && sCollisions_DArray_5C1128->Raycast(mBaseAnimatedWithPhysicsGameObject_XPos, FP_FromInteger(pHoist->field_8_top_left.field_2_y - 10), mBaseAnimatedWithPhysicsGameObject_XPos, FP_FromInteger(pHoist->field_8_top_left.field_2_y + 10), &pLine, &hitX, &hitY, field_D6_scale != 0 ? 1 : 16))
+    if (pHoist && sCollisions->Raycast(mBaseAnimatedWithPhysicsGameObject_XPos, FP_FromInteger(pHoist->field_8_top_left.field_2_y - 10), mBaseAnimatedWithPhysicsGameObject_XPos, FP_FromInteger(pHoist->field_8_top_left.field_2_y + 10), &pLine, &hitX, &hitY, field_D6_scale != 0 ? 1 : 16))
     {
         BaseAliveGameObjectCollisionLine = pLine;
         mBaseAnimatedWithPhysicsGameObject_YPos = FP_NoFractional(hitY + FP_FromDouble(0.5));
@@ -6961,7 +6961,7 @@ void Abe::Motion_92_ForceDownFromHoist_455800()
         VOnTrapDoorOpen();
         FP hitX = {};
         FP hitY = {};
-        if (sCollisions_DArray_5C1128->Raycast(
+        if (sCollisions->Raycast(
                 mBaseAnimatedWithPhysicsGameObject_XPos,
                 mBaseAnimatedWithPhysicsGameObject_YPos + (field_CC_sprite_scale * FP_FromInteger(75)),
                 mBaseAnimatedWithPhysicsGameObject_XPos,
@@ -7812,7 +7812,7 @@ void Abe::Motion_114_DoorEnter_459470()
             PathLine* pathLine = nullptr;
             FP hitX = {};
             FP hitY = {};
-            if (sCollisions_DArray_5C1128->Raycast(
+            if (sCollisions->Raycast(
                     mBaseAnimatedWithPhysicsGameObject_XPos,
                     FP_FromInteger(BaseAliveGameObjectPathTLV->field_8_top_left.field_2_y),
                     mBaseAnimatedWithPhysicsGameObject_XPos,
@@ -7954,7 +7954,7 @@ void Abe::Motion_117_InMineCar_4587C0()
             PathLine* pLine = nullptr;
             FP hitX = {};
             FP hitY = {};
-            if (sCollisions_DArray_5C1128->Raycast(
+            if (sCollisions->Raycast(
                     mBaseAnimatedWithPhysicsGameObject_XPos,
                     mBaseAnimatedWithPhysicsGameObject_YPos - FP_FromInteger(2),
                     mBaseAnimatedWithPhysicsGameObject_XPos,
@@ -8773,7 +8773,7 @@ Bool32 Abe::Is_Celling_Above_44E8D0()
     FP hitY = {};
     FP hitX = {};
     PathLine* pLine = nullptr;
-    return sCollisions_DArray_5C1128->Raycast(
+    return sCollisions->Raycast(
                mBaseAnimatedWithPhysicsGameObject_XPos,
                mBaseAnimatedWithPhysicsGameObject_YPos - FP_FromInteger(5),
                mBaseAnimatedWithPhysicsGameObject_XPos,
@@ -9202,7 +9202,7 @@ void Abe::BulletDamage_44C980(Bullet* pBullet)
         PathLine* pathLine = nullptr;
         FP hitX = {};
         FP hitY = {};
-        if (sCollisions_DArray_5C1128->Raycast(
+        if (sCollisions->Raycast(
                 xOffset,
                 mBaseAnimatedWithPhysicsGameObject_YPos - FP_FromInteger(5),
                 xOffset,

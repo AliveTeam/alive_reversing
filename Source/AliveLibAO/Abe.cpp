@@ -4588,7 +4588,7 @@ void Abe::Motion_3_Fall_42E7F0()
 
         MapFollowMe_401D30(TRUE);
 
-        if (sCollisions_DArray_504C6C->RayCast(
+        if (sCollisions->RayCast(
                 mBaseAnimatedWithPhysicsGameObject_XPos,
                 mBaseAnimatedWithPhysicsGameObject_YPos - field_BC_sprite_scale * FP_FromInteger(20) - field_BC_sprite_scale * FP_FromInteger(80),
                 mBaseAnimatedWithPhysicsGameObject_XPos,
@@ -4862,7 +4862,7 @@ void Abe::Motion_17_HoistIdle_4269E0()
                 Environment_SFX_42A220(EnvironmentSfx::eWalkingFootstep_1, 0, 127, this);
 
 
-                if (sCollisions_DArray_504C6C->RayCast(
+                if (sCollisions->RayCast(
                         mBaseAnimatedWithPhysicsGameObject_XPos,
                         mBaseAnimatedWithPhysicsGameObject_YPos - field_BC_sprite_scale * FP_FromInteger(80),
                         mBaseAnimatedWithPhysicsGameObject_XPos,
@@ -5066,7 +5066,7 @@ void Abe::Motion_19_CrouchIdle_4284C0()
         PathLine* pLine = nullptr;
         FP hitX = {};
         FP hitY = {};
-        if (!sCollisions_DArray_504C6C->RayCast(
+        if (!sCollisions->RayCast(
                 mBaseAnimatedWithPhysicsGameObject_XPos,
                 mBaseAnimatedWithPhysicsGameObject_YPos,
                 mBaseAnimatedWithPhysicsGameObject_XPos,
@@ -5201,7 +5201,7 @@ Bool32 Abe::Is_Celling_Above()
     FP hitY = {};
     FP hitX = {};
     PathLine* pLine = nullptr;
-    return sCollisions_DArray_504C6C->RayCast(
+    return sCollisions->RayCast(
                mBaseAnimatedWithPhysicsGameObject_XPos,
                mBaseAnimatedWithPhysicsGameObject_YPos,
                mBaseAnimatedWithPhysicsGameObject_XPos,
@@ -5788,7 +5788,7 @@ void Abe::Motion_33_RunJumpMid_426FA0()
         }
         if (checkCollision)
         {
-            if (sCollisions_DArray_504C6C->RayCast(
+            if (sCollisions->RayCast(
                     mBaseAnimatedWithPhysicsGameObject_XPos,
                     mBaseAnimatedWithPhysicsGameObject_YPos - field_BC_sprite_scale * FP_FromInteger(100),
                     mBaseAnimatedWithPhysicsGameObject_XPos,
@@ -7209,7 +7209,7 @@ void Abe::Motion_62_LoadedSaveSpawn_45ADD0()
         PathLine* pLine2 = nullptr;
         FP hitX2 = {};
         FP hitY2 = {};
-        if (sCollisions_DArray_504C6C->RayCast(
+        if (sCollisions->RayCast(
                 sActiveHero_507678->mBaseAnimatedWithPhysicsGameObject_XPos,
                 sActiveHero_507678->mBaseAnimatedWithPhysicsGameObject_YPos - FP_FromInteger(60),
                 sActiveHero_507678->mBaseAnimatedWithPhysicsGameObject_XPos,
@@ -7303,7 +7303,7 @@ void Abe::Motion_62_LoadedSaveSpawn_45ADD0()
                     PathLine* pLine = nullptr;
                     FP hitX = {};
                     FP hitY = {};
-                    if (sCollisions_DArray_504C6C->RayCast(
+                    if (sCollisions->RayCast(
                             gElum_507680->mBaseAnimatedWithPhysicsGameObject_XPos,
                             gElum_507680->mBaseAnimatedWithPhysicsGameObject_YPos - FP_FromInteger(60),
                             gElum_507680->mBaseAnimatedWithPhysicsGameObject_XPos,
@@ -7438,7 +7438,7 @@ void Abe::Motion_67_ToOffScreenHoist_428C50()
     PathLine* pLine = nullptr;
     FP hitX = {};
     FP hitY = {};
-    if (sCollisions_DArray_504C6C->RayCast(
+    if (sCollisions->RayCast(
             mBaseAnimatedWithPhysicsGameObject_XPos,
             mBaseAnimatedWithPhysicsGameObject_YPos - (field_BC_sprite_scale * FP_FromInteger(80)),
             mBaseAnimatedWithPhysicsGameObject_XPos,
@@ -9838,7 +9838,7 @@ void Abe::Motion_156_DoorEnter_42D370()
 
             FP hitX = {};
             FP hitY = {};
-            if (sCollisions_DArray_504C6C->RayCast(
+            if (sCollisions->RayCast(
                     mBaseAnimatedWithPhysicsGameObject_XPos,
                     FP_FromInteger(BaseAliveGameObjectPathTLV->field_10_top_left.field_2_y),
                     mBaseAnimatedWithPhysicsGameObject_XPos,

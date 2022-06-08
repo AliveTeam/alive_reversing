@@ -199,7 +199,7 @@ s16* Abe_OnFrame(BaseGameObject* pObj, s16* pData)
     FP hitX = {};
     FP hitY = {};
     PathLine* pLine = nullptr;
-    if (sCollisions_DArray_504C6C->RayCast(
+    if (sCollisions->RayCast(
             pAbe->mBaseAnimatedWithPhysicsGameObject_XPos,
             pAbe->mBaseAnimatedWithPhysicsGameObject_YPos + data_y,
             pAbe->mBaseAnimatedWithPhysicsGameObject_XPos + directed_x,

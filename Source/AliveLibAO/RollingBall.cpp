@@ -85,7 +85,7 @@ RollingBall::RollingBall(Path_RollingBall* pTlv, s32 tlvInfo)
     FP castX = {};
     FP castY = {};
 
-    if (sCollisions_DArray_504C6C->RayCast(
+    if (sCollisions->RayCast(
             mBaseAnimatedWithPhysicsGameObject_XPos,
             mBaseAnimatedWithPhysicsGameObject_YPos,
             mBaseAnimatedWithPhysicsGameObject_XPos,

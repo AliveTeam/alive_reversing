@@ -74,7 +74,7 @@ void Bullet::VUpdate()
 
             FP hitX = {};
             FP hitY = {};
-            if (sCollisions_DArray_5C1128->Raycast(
+            if (sCollisions->Raycast(
                     field_28_xpos,
                     field_2C_ypos - (FP_FromInteger(10) * field_3C_scale),
                     field_30_x_distance + field_28_xpos,
@@ -248,7 +248,7 @@ void Bullet::VUpdate()
 
             FP hitX = {};
             FP hitY = {};
-            if (sCollisions_DArray_5C1128->Raycast(
+            if (sCollisions->Raycast(
                     sControlledCharacter_5C1B8C->mBaseAnimatedWithPhysicsGameObject_XPos,
                     FP_FromInteger(rect.y),
                     sControlledCharacter_5C1B8C->mBaseAnimatedWithPhysicsGameObject_XPos,
@@ -295,7 +295,7 @@ void Bullet::VUpdate()
             {
                 FP hitX = {};
                 FP hitY = {};
-                if (sCollisions_DArray_5C1128->Raycast(
+                if (sCollisions->Raycast(
                         field_28_xpos,
                         field_2C_ypos,
                         rectXPos,

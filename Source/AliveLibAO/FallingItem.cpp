@@ -218,7 +218,7 @@ void FallingItem::VUpdate()
             FP hitX = {};
             FP hitY = {};
 
-            if (sCollisions_DArray_504C6C->RayCast(
+            if (sCollisions->RayCast(
                     mBaseAnimatedWithPhysicsGameObject_XPos,
                     mBaseAnimatedWithPhysicsGameObject_YPos,
                     mBaseAnimatedWithPhysicsGameObject_XPos,

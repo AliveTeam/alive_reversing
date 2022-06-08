@@ -83,11 +83,11 @@ RollingBallStopper::RollingBallStopper(Path_RollingBallStopper* pTlv, s32 tlvInf
     const auto y1 = FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos);
     if (field_BC_sprite_scale == FP_FromInteger(1))
     {
-        field_118_pLine = sCollisions_DArray_504C6C->Add_Dynamic_Collision_Line(x1, y1 - 70, x1, y1, eLineTypes::eWallLeft_1);
+        field_118_pLine = sCollisions->Add_Dynamic_Collision_Line(x1, y1 - 70, x1, y1, eLineTypes::eWallLeft_1);
     }
     else
     {
-        field_118_pLine = sCollisions_DArray_504C6C->Add_Dynamic_Collision_Line(x1, y1 - 35, x1, y1, eLineTypes::eBackgroundWallLeft_5);
+        field_118_pLine = sCollisions->Add_Dynamic_Collision_Line(x1, y1 - 35, x1, y1, eLineTypes::eBackgroundWallLeft_5);
     }
 }
 

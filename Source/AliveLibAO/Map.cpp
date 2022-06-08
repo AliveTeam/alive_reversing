@@ -1817,7 +1817,7 @@ void Map::GoTo_Camera()
 
     if (old_current_path != mCurrentPath || old_current_level != mCurrentLevel)
     {
-        if (sCollisions_DArray_504C6C)
+        if (sCollisions)
         {
             // OG FIX: Remove any pointers to the line objects that we are about to delete
             for (s32 i = 0; i < gBaseGameObjects->Size(); i++)
@@ -1841,13 +1841,10 @@ void Map::GoTo_Camera()
                 ALIVE_FATAL("Platforms leaked!");
             }
 
-
-            sCollisions_DArray_504C6C->dtor_40CFB0();
-            ao_delete_free_447540(sCollisions_DArray_504C6C);
+            relive_delete sCollisions;
         }
 
-        sCollisions_DArray_504C6C = ao_new<Collisions>();
-        sCollisions_DArray_504C6C->ctor_40CF30(pPathRecord->field_8_pCollisionData, *GetPathResourceBlockPtr(mCurrentPath));
+        sCollisions = relive_new Collisions(pPathRecord->field_8_pCollisionData, *GetPathResourceBlockPtr(mCurrentPath));
     }
 
     if (field_E0_save_data)

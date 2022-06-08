@@ -807,17 +807,8 @@ void Map::GoTo_Camera()
     // If map has changed then load new collision info
     if (prevPathId != mCurrentPath || prevLevelId != mCurrentLevel)
     {
-        if (sCollisions_DArray_5C1128)
-        {
-            sCollisions_DArray_5C1128->dtor_4189F0();
-            ae_delete_free_495540(sCollisions_DArray_5C1128);
-        }
-
-        sCollisions_DArray_5C1128 = ae_new<Collisions>();
-        if (sCollisions_DArray_5C1128)
-        {
-            sCollisions_DArray_5C1128->ctor_418930(pPathRec_1->field_8_pCollisionData, *GetPathResourceBlockPtr(mCurrentPath));
-        }
+        relive_delete sCollisions;
+        sCollisions = relive_new Collisions(pPathRec_1->field_8_pCollisionData, *GetPathResourceBlockPtr(mCurrentPath));
     }
 
     if (field_D8_restore_quick_save)

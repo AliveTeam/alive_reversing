@@ -571,7 +571,7 @@ void Fleech::M_Idle_3_42E850()
             FP hitX = {};
             FP hitY = {};
             PathLine* pLine = nullptr;
-            if (mCurrentMotion == eFleechMotions::M_Idle_3_42E850 && field_20_animation.field_92_current_frame == 0 && !sCollisions_DArray_5C1128->Raycast(mBaseAnimatedWithPhysicsGameObject_XPos - FP_FromInteger(5), mBaseAnimatedWithPhysicsGameObject_YPos - FP_FromInteger(5), mBaseAnimatedWithPhysicsGameObject_XPos + FP_FromInteger(5), mBaseAnimatedWithPhysicsGameObject_YPos + FP_FromInteger(1), &pLine, &hitX, &hitY, field_D6_scale != 0 ? 1 : 16))
+            if (mCurrentMotion == eFleechMotions::M_Idle_3_42E850 && field_20_animation.field_92_current_frame == 0 && !sCollisions->Raycast(mBaseAnimatedWithPhysicsGameObject_XPos - FP_FromInteger(5), mBaseAnimatedWithPhysicsGameObject_YPos - FP_FromInteger(5), mBaseAnimatedWithPhysicsGameObject_XPos + FP_FromInteger(5), mBaseAnimatedWithPhysicsGameObject_YPos + FP_FromInteger(1), &pLine, &hitX, &hitY, field_D6_scale != 0 ? 1 : 16))
             {
                 field_138_velx_factor = FP_FromInteger(0);
                 BaseAliveGameObjectLastLineYPos = mBaseAnimatedWithPhysicsGameObject_YPos;
@@ -763,7 +763,7 @@ void Fleech::M_Fall_9_42ECD0()
     FP hitX = {};
     FP hitY = {};
     PathLine* pLine = nullptr;
-    if (sCollisions_DArray_5C1128->Raycast(
+    if (sCollisions->Raycast(
             xpos,
             ypos,
             mBaseAnimatedWithPhysicsGameObject_XPos,
@@ -929,7 +929,7 @@ void Fleech::M_Climb_12_42F7F0()
         PathLine* pLine = nullptr;
         FP hitX = {};
         FP hitY = {};
-        if (sCollisions_DArray_5C1128->Raycast(pX1, pY1, pX2, field_C8_vely + mBaseAnimatedWithPhysicsGameObject_YPos, &pLine, &hitX, &hitY, field_D6_scale != 0 ? 6 : 0x60))
+        if (sCollisions->Raycast(pX1, pY1, pX2, field_C8_vely + mBaseAnimatedWithPhysicsGameObject_YPos, &pLine, &hitX, &hitY, field_D6_scale != 0 ? 6 : 0x60))
         {
             switch (pLine->field_8_type)
             {
@@ -989,7 +989,7 @@ void Fleech::M_SettleOnGround_13_42FB00()
         PathLine* pLine = nullptr;
         FP hitX = {};
         FP hitY = {};
-        if (sCollisions_DArray_5C1128->Raycast(
+        if (sCollisions->Raycast(
                 mBaseAnimatedWithPhysicsGameObject_XPos - FP_FromInteger(5),
                 mBaseAnimatedWithPhysicsGameObject_YPos - FP_FromInteger(5),
                 mBaseAnimatedWithPhysicsGameObject_XPos + FP_FromInteger(5),
@@ -1187,7 +1187,7 @@ void Fleech::VUpdate()
         }
         else
         {
-            sCollisions_DArray_5C1128->Raycast(
+            sCollisions->Raycast(
                 mBaseAnimatedWithPhysicsGameObject_XPos,
                 mBaseAnimatedWithPhysicsGameObject_YPos - FP_FromInteger(20),
                 mBaseAnimatedWithPhysicsGameObject_XPos,
@@ -1653,7 +1653,7 @@ void Fleech::Init_42A170()
 
     FP hitX = {};
     FP hitY = {};
-    if (sCollisions_DArray_5C1128->Raycast(
+    if (sCollisions->Raycast(
             mBaseAnimatedWithPhysicsGameObject_XPos,
             mBaseAnimatedWithPhysicsGameObject_YPos,
             mBaseAnimatedWithPhysicsGameObject_XPos,
@@ -2531,7 +2531,7 @@ Bool32 Fleech::Collision_42B290(s16 alwaysOne)
     PathLine* pLine = nullptr;
     FP hitX = {};
     FP hitY = {};
-    return sCollisions_DArray_5C1128->Raycast(x1, y1, x2, y2, &pLine, &hitX, &hitY, field_D6_scale ? 0x01 : 0x10) == 0;
+    return sCollisions->Raycast(x1, y1, x2, y2, &pLine, &hitX, &hitY, field_D6_scale ? 0x01 : 0x10) == 0;
 }
 
 Path_Hoist* Fleech::TryGetHoist_42AFD0(s32 xDistance, s16 bIgnoreDirection)

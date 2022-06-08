@@ -136,7 +136,7 @@ SlamDoor::SlamDoor(Path_SlamDoor* pTlv, TlvItemInfoUnion tlvInfo)
     FP hitX;
     FP hitY;
 
-    if (sCollisions_DArray_5C1128->Raycast(
+    if (sCollisions->Raycast(
             mBaseAnimatedWithPhysicsGameObject_XPos,
             mBaseAnimatedWithPhysicsGameObject_YPos,
             mBaseAnimatedWithPhysicsGameObject_XPos,
@@ -169,7 +169,7 @@ SlamDoor::SlamDoor(Path_SlamDoor* pTlv, TlvItemInfoUnion tlvInfo)
         {
             const FP lineHeight = FP_FromDouble(80.0);
 
-            field_11C_pCollisionLine_6_2 = sCollisions_DArray_5C1128->Add_Dynamic_Collision_Line(
+            field_11C_pCollisionLine_6_2 = sCollisions->Add_Dynamic_Collision_Line(
                 field_124_x1,
                 FP_GetExponent(FP_FromInteger(field_126_y1) - lineHeight),
                 field_124_x1,
@@ -179,7 +179,7 @@ SlamDoor::SlamDoor(Path_SlamDoor* pTlv, TlvItemInfoUnion tlvInfo)
             const FP y1 = FP_FromInteger(field_126_y1)
                         - (field_CC_sprite_scale * FP_FromDouble(80.0));
             const FP x1 = ScaleToGridSize(field_CC_sprite_scale) + FP_FromInteger(field_124_x1);
-            pPathLine = sCollisions_DArray_5C1128->Add_Dynamic_Collision_Line(
+            pPathLine = sCollisions->Add_Dynamic_Collision_Line(
                 FP_GetExponent(x1),
                 FP_GetExponent(y1),
                 FP_GetExponent(x2),
@@ -190,7 +190,7 @@ SlamDoor::SlamDoor(Path_SlamDoor* pTlv, TlvItemInfoUnion tlvInfo)
         {
             const FP lineHeight = field_CC_sprite_scale * FP_FromDouble(80.0);
 
-            field_11C_pCollisionLine_6_2 = sCollisions_DArray_5C1128->Add_Dynamic_Collision_Line(
+            field_11C_pCollisionLine_6_2 = sCollisions->Add_Dynamic_Collision_Line(
                 field_124_x1,
                 FP_GetExponent(FP_FromInteger(field_126_y1) - lineHeight),
                 field_124_x1,
@@ -199,7 +199,7 @@ SlamDoor::SlamDoor(Path_SlamDoor* pTlv, TlvItemInfoUnion tlvInfo)
             const FP x2 = FP_FromInteger(field_124_x1) + ScaleToGridSize(field_CC_sprite_scale);
             const FP y1 = FP_FromInteger(field_126_y1) - (field_CC_sprite_scale * FP_FromDouble(80.0));
             const FP x1 = ScaleToGridSize(field_CC_sprite_scale) + FP_FromInteger(field_124_x1);
-            pPathLine = sCollisions_DArray_5C1128->Add_Dynamic_Collision_Line(
+            pPathLine = sCollisions->Add_Dynamic_Collision_Line(
                 FP_GetExponent(x1),
                 FP_GetExponent(y1),
                 FP_GetExponent(x2),
@@ -294,13 +294,13 @@ void SlamDoor::VUpdate()
 
             if (field_CC_sprite_scale == FP_FromInteger(1))
             {
-                field_11C_pCollisionLine_6_2 = sCollisions_DArray_5C1128->Add_Dynamic_Collision_Line(
+                field_11C_pCollisionLine_6_2 = sCollisions->Add_Dynamic_Collision_Line(
                     field_124_x1,
                     FP_GetExponent(FP_FromInteger(field_126_y1) - (FP_FromInteger(80) * FP_FromInteger(1))),
                     field_124_x1,
                     field_126_y1,
                     1);
-                field_120_pCollisionLine_5_1 = sCollisions_DArray_5C1128->Add_Dynamic_Collision_Line(
+                field_120_pCollisionLine_5_1 = sCollisions->Add_Dynamic_Collision_Line(
                     FP_GetExponent(ScaleToGridSize(field_CC_sprite_scale) + FP_FromInteger(field_124_x1)),
                     FP_GetExponent(FP_FromInteger(field_126_y1) - (FP_FromInteger(80) * field_CC_sprite_scale)),
                     FP_GetExponent(FP_FromInteger(field_124_x1) + ScaleToGridSize(field_CC_sprite_scale)),
@@ -309,13 +309,13 @@ void SlamDoor::VUpdate()
             }
             else
             {
-                field_11C_pCollisionLine_6_2 = sCollisions_DArray_5C1128->Add_Dynamic_Collision_Line(
+                field_11C_pCollisionLine_6_2 = sCollisions->Add_Dynamic_Collision_Line(
                     field_124_x1,
                     FP_GetExponent(FP_FromInteger(field_126_y1) - (FP_FromInteger(80) * field_CC_sprite_scale)),
                     field_124_x1,
                     field_126_y1,
                     5);
-                field_120_pCollisionLine_5_1 = sCollisions_DArray_5C1128->Add_Dynamic_Collision_Line(
+                field_120_pCollisionLine_5_1 = sCollisions->Add_Dynamic_Collision_Line(
                     FP_GetExponent(ScaleToGridSize(field_CC_sprite_scale) + FP_FromInteger(field_124_x1)),
                     FP_GetExponent(FP_FromInteger(field_126_y1) - (FP_FromInteger(80) * field_CC_sprite_scale)),
                     FP_GetExponent(FP_FromInteger(field_124_x1) + ScaleToGridSize(field_CC_sprite_scale)),

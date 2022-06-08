@@ -260,7 +260,7 @@ void TrapDoor::VUpdate()
         case TrapDoorState::eClosing_3:
             if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
             {
-                mPlatformBaseCollisionLine = sCollisions_DArray_504C6C->Add_Dynamic_Collision_Line(
+                mPlatformBaseCollisionLine = sCollisions->Add_Dynamic_Collision_Line(
                     field_148_bounding_rect.x,
                     field_148_bounding_rect.y,
                     field_148_bounding_rect.w,

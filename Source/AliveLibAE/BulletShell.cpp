@@ -75,7 +75,7 @@ void BulletShell::VUpdate()
 
     FP hitX = {};
     FP hitY = {};
-    if (sCollisions_DArray_5C1128->Raycast(
+    if (sCollisions->Raycast(
             mBaseAnimatedWithPhysicsGameObject_XPos,
             mBaseAnimatedWithPhysicsGameObject_YPos - field_C8_vely,
             mBaseAnimatedWithPhysicsGameObject_XPos,

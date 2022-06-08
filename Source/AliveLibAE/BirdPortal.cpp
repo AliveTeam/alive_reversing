@@ -69,7 +69,7 @@ BirdPortal::BirdPortal(Path_BirdPortal* pTlv, s32 tlvInfo)
 
     FP hitX = {};
     PathLine* pLine = nullptr;
-    sCollisions_DArray_5C1128->Raycast(
+    sCollisions->Raycast(
         FP_FromInteger(pTlv->field_8_top_left.field_0_x),
         FP_FromInteger(pTlv->field_8_top_left.field_2_y),
         FP_FromInteger(pTlv->field_C_bottom_right.field_0_x),
@@ -813,7 +813,7 @@ void BirdPortal::VExitPortal()
     if (pPortalExitTlv)
     {
         PathLine* pLine = nullptr;
-        sCollisions_DArray_5C1128->Raycast(
+        sCollisions->Raycast(
             FP_FromInteger(pPortalExitTlv->field_8_top_left.field_0_x),
             FP_FromInteger(pPortalExitTlv->field_8_top_left.field_2_y),
             FP_FromInteger(pPortalExitTlv->field_C_bottom_right.field_0_x),

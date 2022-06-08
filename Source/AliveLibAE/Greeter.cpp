@@ -63,7 +63,7 @@ Greeter::Greeter(Path_Greeter* pTlv, s32 tlvInfo)
 
     FP hitX = {};
     FP hitY = {};
-    if (sCollisions_DArray_5C1128->Raycast(
+    if (sCollisions->Raycast(
             mBaseAnimatedWithPhysicsGameObject_XPos,
             mBaseAnimatedWithPhysicsGameObject_YPos,
             mBaseAnimatedWithPhysicsGameObject_XPos,
@@ -567,7 +567,7 @@ Bool32 Greeter::ZapIsNotBlocked(BaseAliveGameObject* pUs, BaseAliveGameObject* p
     FP hitX = {};
     FP hitY = {};
     PathLine* pLine = nullptr;
-    return sCollisions_DArray_5C1128->Raycast(
+    return sCollisions->Raycast(
                pUs->mBaseAnimatedWithPhysicsGameObject_XPos,
                FP_FromInteger(usRect.h + 0xFFE7),
                pThem->mBaseAnimatedWithPhysicsGameObject_XPos,

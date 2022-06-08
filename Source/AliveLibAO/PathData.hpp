@@ -168,11 +168,8 @@ struct PathData final
 
 struct CollisionInfo;
 
-using TCollisionsFactory = AddPointer_t<void(const CollisionInfo* pCollisionInfo, const u8* pPathData)>;
-
 struct CollisionInfo final
 {
-    TCollisionsFactory field_0_fn_ptr;
     s16 field_4_left;
     s16 field_6_right;
     s16 field_8_top;

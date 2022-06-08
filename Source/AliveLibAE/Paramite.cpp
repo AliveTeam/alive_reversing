@@ -192,7 +192,7 @@ Paramite::Paramite(Path_Paramite* pTlv, s32 tlvInfo)
 
     FP hitX = {};
     FP hitY = {};
-    if (sCollisions_DArray_5C1128->Raycast(
+    if (sCollisions->Raycast(
             mBaseAnimatedWithPhysicsGameObject_XPos,
             mBaseAnimatedWithPhysicsGameObject_YPos,
             mBaseAnimatedWithPhysicsGameObject_XPos,
@@ -4524,7 +4524,7 @@ void Paramite::M_SurpriseWeb_33_48D760()
 {
     FP hitX = {};
     FP hitY = {};
-    if (sCollisions_DArray_5C1128->Raycast(
+    if (sCollisions->Raycast(
             mBaseAnimatedWithPhysicsGameObject_XPos,
             mBaseAnimatedWithPhysicsGameObject_YPos,
             mBaseAnimatedWithPhysicsGameObject_XPos,
@@ -4588,7 +4588,7 @@ void Paramite::M_WebIdle_35_48D400()
         FP hitX = {};
         FP hitY = {};
         PathLine* pLine = nullptr;
-        if (sCollisions_DArray_5C1128->Raycast(
+        if (sCollisions->Raycast(
                 mBaseAnimatedWithPhysicsGameObject_XPos - (field_CC_sprite_scale * FP_FromDouble(0.5)),
                 mBaseAnimatedWithPhysicsGameObject_YPos - FP_FromInteger(10),
                 mBaseAnimatedWithPhysicsGameObject_XPos - (field_CC_sprite_scale * FP_FromDouble(0.5)),
@@ -4617,7 +4617,7 @@ void Paramite::M_WebIdle_35_48D400()
         FP hitX = {};
         FP hitY = {};
         PathLine* pLine = nullptr;
-        if (sCollisions_DArray_5C1128->Raycast(
+        if (sCollisions->Raycast(
                 mBaseAnimatedWithPhysicsGameObject_XPos + (field_CC_sprite_scale * FP_FromDouble(0.5)),
                 mBaseAnimatedWithPhysicsGameObject_YPos - FP_FromInteger(10),
                 mBaseAnimatedWithPhysicsGameObject_XPos + (field_CC_sprite_scale * FP_FromDouble(0.5)),
@@ -4681,14 +4681,14 @@ void Paramite::M_WebGoingUp_36_48D000()
         FP hitY = {};
         PathLine* pLine = nullptr;
 
-        if (!sCollisions_DArray_5C1128->Raycast(
+        if (!sCollisions->Raycast(
                 mBaseAnimatedWithPhysicsGameObject_XPos - FP_FromInteger(10),
                 mBaseAnimatedWithPhysicsGameObject_YPos - FP_FromInteger(30),
                 mBaseAnimatedWithPhysicsGameObject_XPos,
                 mBaseAnimatedWithPhysicsGameObject_YPos - FP_FromInteger(30),
                 &pLine, &hitX, &hitY, field_D6_scale != 0 ? 6 : 0x60))
         {
-            if (sCollisions_DArray_5C1128->Raycast(
+            if (sCollisions->Raycast(
                     mBaseAnimatedWithPhysicsGameObject_XPos - kHalfGrid,
                     mBaseAnimatedWithPhysicsGameObject_YPos - FP_FromInteger(30),
                     mBaseAnimatedWithPhysicsGameObject_XPos - kHalfGrid,
@@ -4709,14 +4709,14 @@ void Paramite::M_WebGoingUp_36_48D000()
                 return;
             }
 
-            if (!sCollisions_DArray_5C1128->Raycast(
+            if (!sCollisions->Raycast(
                     mBaseAnimatedWithPhysicsGameObject_XPos + FP_FromInteger(10),
                     mBaseAnimatedWithPhysicsGameObject_YPos - FP_FromInteger(30),
                     mBaseAnimatedWithPhysicsGameObject_XPos,
                     mBaseAnimatedWithPhysicsGameObject_YPos - FP_FromInteger(30),
                     &pLine, &hitX, &hitY, field_D6_scale != 0 ? 6 : 0x60))
             {
-                if (sCollisions_DArray_5C1128->Raycast(
+                if (sCollisions->Raycast(
                         kHalfGrid + mBaseAnimatedWithPhysicsGameObject_XPos,
                         mBaseAnimatedWithPhysicsGameObject_YPos - FP_FromInteger(30),
                         kHalfGrid + mBaseAnimatedWithPhysicsGameObject_XPos,
@@ -4802,7 +4802,7 @@ void Paramite::M_WebGoingDown_37_48CC60()
         FP hitX = {};
         FP hitY = {};
 
-        if (sCollisions_DArray_5C1128->Raycast(
+        if (sCollisions->Raycast(
                 gridSize + mBaseAnimatedWithPhysicsGameObject_XPos,
                 mBaseAnimatedWithPhysicsGameObject_YPos,
                 gridSize + mBaseAnimatedWithPhysicsGameObject_XPos,
@@ -4821,7 +4821,7 @@ void Paramite::M_WebGoingDown_37_48CC60()
         else
         {
             const FP invertedGridSize = -gridSize;
-            if (sCollisions_DArray_5C1128->Raycast(
+            if (sCollisions->Raycast(
                     invertedGridSize + mBaseAnimatedWithPhysicsGameObject_XPos,
                     mBaseAnimatedWithPhysicsGameObject_YPos,
                     invertedGridSize + mBaseAnimatedWithPhysicsGameObject_XPos,
@@ -5064,7 +5064,7 @@ void Paramite::VUpdate()
         }
         else
         {
-            sCollisions_DArray_5C1128->Raycast(
+            sCollisions->Raycast(
                 mBaseAnimatedWithPhysicsGameObject_XPos,
                 mBaseAnimatedWithPhysicsGameObject_YPos - FP_FromInteger(20),
                 mBaseAnimatedWithPhysicsGameObject_XPos,
@@ -5576,7 +5576,7 @@ PathLine* Paramite::WebCollision(FP yOff, FP xOff)
     PathLine* pLine = nullptr;
     FP hitX = {};
     FP hitY = {};
-    if (!sCollisions_DArray_5C1128->Raycast(
+    if (!sCollisions->Raycast(
             mBaseAnimatedWithPhysicsGameObject_XPos,
             mBaseAnimatedWithPhysicsGameObject_YPos + yOff,
             mBaseAnimatedWithPhysicsGameObject_XPos + xOff,

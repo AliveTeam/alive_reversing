@@ -44,11 +44,8 @@ struct CollisionInfo;
 class Collisions final
 {
 public:
-    static void Factory(const CollisionInfo* pCollisionInfo, const u8* pPathData);
-
-    void dtor_40CFB0();
-
-    Collisions* ctor_40CF30(const CollisionInfo* pCollisionInfo, const u8* pPathData);
+    ~Collisions();
+    Collisions(const CollisionInfo* pCollisionInfo, const u8* pPathData);
 
     PathLine* Add_Dynamic_Collision_Line(s16 x1, s16 y1, s16 x2, s16 y2, eLineTypes mode);
 
@@ -67,7 +64,7 @@ ALIVE_ASSERT_SIZEOF(Collisions, 0x10);
 
 PSX_RECT* Rect_Clear(PSX_RECT* pRect);
 
-ALIVE_VAR_EXTERN(Collisions*, sCollisions_DArray_504C6C);
+ALIVE_VAR_EXTERN(Collisions*, sCollisions);
 
 
 } // namespace AO

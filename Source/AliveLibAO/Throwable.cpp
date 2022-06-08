@@ -85,7 +85,7 @@ void BaseThrowable::BaseAddToPlatform()
     PathLine* pLine = nullptr;
     FP hitX = {};
     FP hitY = {};
-    if (sCollisions_DArray_504C6C->RayCast(
+    if (sCollisions->RayCast(
             mBaseAnimatedWithPhysicsGameObject_XPos,
             mBaseAnimatedWithPhysicsGameObject_YPos - FP_FromInteger(20),
             mBaseAnimatedWithPhysicsGameObject_XPos,

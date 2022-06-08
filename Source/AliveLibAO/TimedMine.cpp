@@ -188,7 +188,7 @@ void TimedMine::StickToLiftPoint()
     FP hitX = {};
     PathLine* pLine = nullptr;
     field_1B8_flags.Set(TimedMine_Flags_1B8::eStickToLiftPoint_0);
-    if (sCollisions_DArray_504C6C->RayCast(
+    if (sCollisions->RayCast(
             mBaseAnimatedWithPhysicsGameObject_XPos,
             mBaseAnimatedWithPhysicsGameObject_YPos - FP_FromInteger(20),
             mBaseAnimatedWithPhysicsGameObject_XPos,

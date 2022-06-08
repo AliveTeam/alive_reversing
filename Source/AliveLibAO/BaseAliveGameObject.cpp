@@ -132,7 +132,7 @@ void BaseAliveGameObject::VCheckCollisionLineStillValid_401A90(s32 distance)
         FP hitY = {};
 
         const s32 mask = field_BC_sprite_scale != FP_FromDouble(0.5) ? 7 : 0x70;
-        if (sCollisions_DArray_504C6C->RayCast(
+        if (sCollisions->RayCast(
                 mBaseAnimatedWithPhysicsGameObject_XPos,
                 mBaseAnimatedWithPhysicsGameObject_YPos - FP_FromInteger(distance),
                 mBaseAnimatedWithPhysicsGameObject_XPos,
@@ -173,7 +173,7 @@ void BaseAliveGameObject::VCheckCollisionLineStillValid_401A90(s32 distance)
             BaseAliveGameObjectPathTLV = gMap.TLV_First_Of_Type_In_Camera(TlvTypes::StartController_28, 0);
             if (BaseAliveGameObjectPathTLV)
             {
-                if (sCollisions_DArray_504C6C->RayCast(
+                if (sCollisions->RayCast(
                         mBaseAnimatedWithPhysicsGameObject_XPos,
                         FP_FromInteger(BaseAliveGameObjectPathTLV->field_10_top_left.field_2_y),
                         mBaseAnimatedWithPhysicsGameObject_XPos,
@@ -275,7 +275,7 @@ s16 BaseAliveGameObject::Check_IsOnEndOfLine_4021A0(s16 direction, s16 dist)
     PathLine* pLine = nullptr;
     FP hitX = {};
     FP hitY = {};
-    return sCollisions_DArray_504C6C->RayCast(
+    return sCollisions->RayCast(
                xLoc + xPosSnapped,
                mBaseAnimatedWithPhysicsGameObject_YPos - FP_FromInteger(4),
                xLoc + xPosSnapped,
@@ -398,7 +398,7 @@ void BaseAliveGameObject::VOnPathTransition_401470(s16 camWorldX, s32 camWorldY,
             PathLine* pLine = nullptr;
             FP hitX = {};
             FP hitY = {};
-            if (sCollisions_DArray_504C6C->RayCast(
+            if (sCollisions->RayCast(
                     mBaseAnimatedWithPhysicsGameObject_XPos,
                     mBaseAnimatedWithPhysicsGameObject_YPos - FP_FromInteger(40),
                     mBaseAnimatedWithPhysicsGameObject_XPos,
@@ -428,7 +428,7 @@ void BaseAliveGameObject::VOnPathTransition_401470(s16 camWorldX, s32 camWorldY,
             PathLine* pLine = nullptr;
             FP hitX = {};
             FP hitY = {};
-            if (sCollisions_DArray_504C6C->RayCast(
+            if (sCollisions->RayCast(
                     mBaseAnimatedWithPhysicsGameObject_XPos,
                     BaseAliveGameObjectLastLineYPos - FP_FromInteger(40),
                     mBaseAnimatedWithPhysicsGameObject_XPos,
@@ -638,7 +638,7 @@ s16 BaseAliveGameObject::OnTrapDoorIntersection_401C10(PlatformBase* pPlatform)
 s16 BaseAliveGameObject::WallHit_401930(FP offY, FP offX)
 {
     PathLine* pLine = nullptr;
-    return sCollisions_DArray_504C6C->RayCast(
+    return sCollisions->RayCast(
                mBaseAnimatedWithPhysicsGameObject_XPos,
                mBaseAnimatedWithPhysicsGameObject_YPos - offY,
                mBaseAnimatedWithPhysicsGameObject_XPos + offX,
@@ -665,7 +665,7 @@ s16 BaseAliveGameObject::InAirCollision_4019C0(PathLine** ppLine, FP* hitX, FP* 
     mBaseAnimatedWithPhysicsGameObject_XPos += field_B4_velx;
     mBaseAnimatedWithPhysicsGameObject_YPos += field_B8_vely;
 
-    return sCollisions_DArray_504C6C->RayCast(
+    return sCollisions->RayCast(
         old_xpos,
         old_ypos,
         mBaseAnimatedWithPhysicsGameObject_XPos,
@@ -706,7 +706,7 @@ void BaseAliveGameObject::VSetXSpawn_401150(s16 camWorldX, s32 screenXPos)
         FP hitY = {};
         if (BaseAliveGameObjectCollisionLine)
         {
-            if (sCollisions_DArray_504C6C->RayCast(
+            if (sCollisions->RayCast(
                     mBaseAnimatedWithPhysicsGameObject_XPos,
                     old_y - FP_FromInteger(40),
                     mBaseAnimatedWithPhysicsGameObject_XPos,
@@ -723,7 +723,7 @@ void BaseAliveGameObject::VSetXSpawn_401150(s16 camWorldX, s32 screenXPos)
             {
                 BaseAliveGameObjectPathTLV = gMap.TLV_First_Of_Type_In_Camera(TlvTypes::StartController_28, 0);
                 if (BaseAliveGameObjectPathTLV
-                    && sCollisions_DArray_504C6C->RayCast(
+                    && sCollisions->RayCast(
                         mBaseAnimatedWithPhysicsGameObject_XPos,
                         FP_FromInteger(BaseAliveGameObjectPathTLV->field_10_top_left.field_2_y),
                         mBaseAnimatedWithPhysicsGameObject_XPos,
@@ -744,7 +744,7 @@ void BaseAliveGameObject::VSetXSpawn_401150(s16 camWorldX, s32 screenXPos)
         }
         else
         {
-            if (sCollisions_DArray_504C6C->RayCast(
+            if (sCollisions->RayCast(
                     mBaseAnimatedWithPhysicsGameObject_XPos,
                     BaseAliveGameObjectLastLineYPos - FP_FromInteger(40),
                     mBaseAnimatedWithPhysicsGameObject_XPos,

@@ -154,7 +154,7 @@ void HoistRocksEffect::VUpdate()
                 PathLine* pLine = nullptr;
                 FP hitX = {};
                 FP hitY = {};
-                if (sCollisions_DArray_5C1128->Raycast(
+                if (sCollisions->Raycast(
                         particle.field_4_xpos,
                         particle.field_8_ypos - particle.field_C_yVel,
                         particle.field_4_xpos,

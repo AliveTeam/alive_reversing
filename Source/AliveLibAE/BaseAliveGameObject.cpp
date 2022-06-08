@@ -209,7 +209,7 @@ void BaseAliveGameObject::VOnPathTransition(s16 cameraWorldXPos, s16 cameraWorld
         PathLine* pLine = nullptr;
         if (BaseAliveGameObjectCollisionLine)
         {
-            if (sCollisions_DArray_5C1128->Raycast(
+            if (sCollisions->Raycast(
                     mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos - FP_FromInteger(40),
                     mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos + FP_FromInteger(40),
                     &pLine, &hitX, &hitY, field_D6_scale != 0 ? 1 : 16))
@@ -225,7 +225,7 @@ void BaseAliveGameObject::VOnPathTransition(s16 cameraWorldXPos, s16 cameraWorld
         else
         {
             BaseAliveGameObjectLastLineYPos = mBaseAnimatedWithPhysicsGameObject_YPos - oldY + BaseAliveGameObjectLastLineYPos;
-            if (sCollisions_DArray_5C1128->Raycast(
+            if (sCollisions->Raycast(
                     mBaseAnimatedWithPhysicsGameObject_XPos, BaseAliveGameObjectLastLineYPos - FP_FromInteger(40),
                     mBaseAnimatedWithPhysicsGameObject_XPos, BaseAliveGameObjectLastLineYPos + FP_FromInteger(40),
                     &pLine, &hitX, &hitY, field_D6_scale != 0 ? 1 : 16))
@@ -284,7 +284,7 @@ void BaseAliveGameObject::VCheckCollisionLineStillValid(s16 distance)
     PathLine* pLine = nullptr;
     FP hitX = {};
     FP hitY = {};
-    if (sCollisions_DArray_5C1128->Raycast(
+    if (sCollisions->Raycast(
             mBaseAnimatedWithPhysicsGameObject_XPos,
             yBottom,
             mBaseAnimatedWithPhysicsGameObject_XPos,
@@ -406,7 +406,7 @@ Bool32 BaseAliveGameObject::Check_IsOnEndOfLine(s16 direction, s16 distance)
     PathLine* pLine = nullptr;
     FP hitX = {};
     FP hitY = {};
-    return sCollisions_DArray_5C1128->Raycast(
+    return sCollisions->Raycast(
                xLoc + xPosSnapped,
                mBaseAnimatedWithPhysicsGameObject_YPos - FP_FromInteger(4),
                xLoc + xPosSnapped,
@@ -536,7 +536,7 @@ s16 BaseAliveGameObject::MapFollowMe(s16 snapToGrid)
 Bool32 BaseAliveGameObject::WallHit(FP offY, FP offX)
 {
     PathLine* pLine = nullptr;
-    return sCollisions_DArray_5C1128->Raycast(
+    return sCollisions->Raycast(
                mBaseAnimatedWithPhysicsGameObject_XPos,
                mBaseAnimatedWithPhysicsGameObject_YPos - offY,
                mBaseAnimatedWithPhysicsGameObject_XPos + offX,
@@ -562,7 +562,7 @@ Bool32 BaseAliveGameObject::InAirCollision(PathLine** ppPathLine, FP* hitX, FP* 
     mBaseAnimatedWithPhysicsGameObject_XPos += field_C4_velx;
     mBaseAnimatedWithPhysicsGameObject_YPos += field_C8_vely;
 
-    auto bCollision = sCollisions_DArray_5C1128->Raycast(
+    auto bCollision = sCollisions->Raycast(
         oldXPos,
         oldYPos,
         mBaseAnimatedWithPhysicsGameObject_XPos,
@@ -583,7 +583,7 @@ Bool32 BaseAliveGameObject::InAirCollision(PathLine** ppPathLine, FP* hitX, FP* 
         velYClamped = FP_FromInteger(4);
     }
 
-    bCollision = sCollisions_DArray_5C1128->Raycast(
+    bCollision = sCollisions->Raycast(
         mBaseAnimatedWithPhysicsGameObject_XPos,
         mBaseAnimatedWithPhysicsGameObject_YPos,
         mBaseAnimatedWithPhysicsGameObject_XPos + field_C4_velx,
@@ -611,7 +611,7 @@ Bool32 BaseAliveGameObject::InAirCollision(PathLine** ppPathLine, FP* hitX, FP* 
     }
 
     const FP k10Scaled = field_CC_sprite_scale * FP_FromInteger(10);
-    return sCollisions_DArray_5C1128->Raycast(
+    return sCollisions->Raycast(
         oldXPos,
         oldYPos - k10Scaled,
         mBaseAnimatedWithPhysicsGameObject_XPos,

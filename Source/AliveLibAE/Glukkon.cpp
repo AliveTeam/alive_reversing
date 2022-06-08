@@ -2014,7 +2014,7 @@ void Glukkon::Init()
 
     FP hitX = {};
     FP hitY = {};
-    if (sCollisions_DArray_5C1128->Raycast(
+    if (sCollisions->Raycast(
             mBaseAnimatedWithPhysicsGameObject_XPos,
             mBaseAnimatedWithPhysicsGameObject_YPos,
             mBaseAnimatedWithPhysicsGameObject_XPos,
@@ -2080,7 +2080,7 @@ void Glukkon::VUpdate()
         }
         else
         {
-            sCollisions_DArray_5C1128->Raycast(
+            sCollisions->Raycast(
                 mBaseAnimatedWithPhysicsGameObject_XPos,
                 mBaseAnimatedWithPhysicsGameObject_YPos - FP_FromInteger(20),
                 mBaseAnimatedWithPhysicsGameObject_XPos,
@@ -2903,7 +2903,7 @@ Bool32 Glukkon::IsLineOfSightBetween(Glukkon* pGlukkon, BaseAliveGameObject* pOt
     const FP X2 = FP_FromInteger((bRect.x + bRect.w) / 2);
     const FP Y2 = FP_FromInteger((bRect.y + bRect.y) / 2);
 
-    return sCollisions_DArray_5C1128->Raycast(
+    return sCollisions->Raycast(
                pGlukkon->mBaseAnimatedWithPhysicsGameObject_XPos,
                pGlukkon->mBaseAnimatedWithPhysicsGameObject_YPos,
                X2,

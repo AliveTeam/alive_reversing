@@ -180,7 +180,7 @@ Scrab::Scrab(Path_Scrab* pTlv, s32 tlvInfo)
 
     FP hitX = {};
     FP hitY = {};
-    if (sCollisions_DArray_504C6C->RayCast(
+    if (sCollisions->RayCast(
             mBaseAnimatedWithPhysicsGameObject_XPos,
             mBaseAnimatedWithPhysicsGameObject_YPos,
             mBaseAnimatedWithPhysicsGameObject_XPos,
@@ -272,7 +272,7 @@ void Scrab::VUpdate()
     {
         FP hitX = {};
         FP hitY = {};
-        if (sCollisions_DArray_504C6C->RayCast(
+        if (sCollisions->RayCast(
                 mBaseAnimatedWithPhysicsGameObject_XPos,
                 mBaseAnimatedWithPhysicsGameObject_YPos,
                 mBaseAnimatedWithPhysicsGameObject_XPos,

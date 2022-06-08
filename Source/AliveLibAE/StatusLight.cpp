@@ -56,7 +56,7 @@ StatusLight::StatusLight(Path_StatusLight* pTlv, u32 tlvInfo)
     PathLine* pPathLine = nullptr;
     FP hitX = {};
     FP hitY = {};
-    const auto bCollision = sCollisions_DArray_5C1128->Raycast(
+    const auto bCollision = sCollisions->Raycast(
         mBaseAnimatedWithPhysicsGameObject_XPos,
         mBaseAnimatedWithPhysicsGameObject_YPos,
         mBaseAnimatedWithPhysicsGameObject_XPos,

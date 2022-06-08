@@ -56,7 +56,7 @@ Mine::Mine(Path_Mine* pPath, TlvItemInfoUnion tlv)
     FP hitY;
     FP hitX;
 
-    if (sCollisions_DArray_5C1128->Raycast(
+    if (sCollisions->Raycast(
             FP_FromInteger(v7 / 2),
             v8,
             FP_FromInteger(v7 / 2),

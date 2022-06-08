@@ -50,7 +50,7 @@ WorkWheel::WorkWheel(Path_WorkWheel* pTlv, s32 tlvInfo)
     PathLine* pathLine = nullptr;
     FP hitX = {};
     FP hitY = {};
-    if (sCollisions_DArray_5C1128->Raycast(
+    if (sCollisions->Raycast(
             mBaseAnimatedWithPhysicsGameObject_XPos,
             mBaseAnimatedWithPhysicsGameObject_YPos,
             mBaseAnimatedWithPhysicsGameObject_XPos,

@@ -36,11 +36,6 @@ bool RunningAsInjectedDll()
 // items defined to avoid having to link AliveLibAO
 namespace AO {
     const PathFunctionTable kObjectFactory = {};
-
-    void Collisions::Factory(const CollisionInfo* , const u8* )
-    {
-
-    }
 } // namespace AO
 
 // ditto for AliveLibAe
@@ -61,11 +56,6 @@ static ReliveAPI::TAliveFatalCb fnAliveFatalCb = nullptr;
     // mark a function pointer as noreturn. So abort in the impossible case that the function
     // pointer impl does return.
     abort();
-}
-
-void CC Collisions::Factory(const CollisionInfo*, const u8*)
-{
-
 }
 
 namespace ReliveAPI {
@@ -343,7 +333,7 @@ static void WriteCollisionLine(ByteStream& s, const ::PathLine& line)
     s.Write(line.field_0_rect.h);
 
     s.Write(static_cast<u8>(line.field_8_type));
-    s.Write(line.field_9_padding);
+    s.Write(line.field_9_pad);
 
     s.Write(line.field_A_previous);
     s.Write(line.field_C_next);

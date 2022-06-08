@@ -50,7 +50,7 @@ MineCar::MineCar(Path_MineCar* pTlv, s32 tlvInfo, s32 /*a4*/, s32 /*a5*/, s32 /*
 
     FP hitX = {};
     FP hitY = {};
-    if (sCollisions_DArray_5C1128->Raycast(
+    if (sCollisions->Raycast(
             mBaseAnimatedWithPhysicsGameObject_XPos,
             mBaseAnimatedWithPhysicsGameObject_YPos,
             mBaseAnimatedWithPhysicsGameObject_XPos,
@@ -335,7 +335,7 @@ MineCar::~MineCar()
 Bool32 MineCar::CheckRoofCollision(FP hitX, FP hitY)
 {
     PathLine* pPathLine = nullptr;
-    return sCollisions_DArray_5C1128->Raycast(
+    return sCollisions->Raycast(
         mBaseAnimatedWithPhysicsGameObject_XPos + hitX,
         mBaseAnimatedWithPhysicsGameObject_YPos,
         mBaseAnimatedWithPhysicsGameObject_XPos + hitX,
@@ -352,7 +352,7 @@ Bool32 MineCar::CheckFloorCollision(FP hitX, FP hitY)
     PathLine* pPathLine = nullptr;
 
     if (
-        !sCollisions_DArray_5C1128->Raycast(
+        !sCollisions->Raycast(
             mBaseAnimatedWithPhysicsGameObject_XPos + hitX,
             mBaseAnimatedWithPhysicsGameObject_YPos - FP_FromInteger(4),
             mBaseAnimatedWithPhysicsGameObject_XPos + hitX,
@@ -842,7 +842,7 @@ void MineCar::VUpdate()
 
         if (BaseAliveGameObjectCollisionLineType != -1)
         {
-            sCollisions_DArray_5C1128->Raycast(
+            sCollisions->Raycast(
                 mBaseAnimatedWithPhysicsGameObject_XPos,
                 mBaseAnimatedWithPhysicsGameObject_YPos - FP_FromInteger(20),
                 mBaseAnimatedWithPhysicsGameObject_XPos,
@@ -924,7 +924,7 @@ void MineCar::VUpdate()
     PathLine* pPathLine = nullptr;
 
     if (
-        !sCollisions_DArray_5C1128->Raycast(
+        !sCollisions->Raycast(
             mBaseAnimatedWithPhysicsGameObject_XPos - mineCarWidthAdjusted,
             mBaseAnimatedWithPhysicsGameObject_YPos + field_C8_vely - (mineCarWidthAdjusted * FP_FromDouble(0.5)),
             mBaseAnimatedWithPhysicsGameObject_XPos + mineCarWidthAdjusted,
@@ -1208,7 +1208,7 @@ bool MineCar::HandleState1Move(const mineCarFPFunc func, const FP mineCarFPFuncA
     FP hitY = {};
 
     if (
-        sCollisions_DArray_5C1128->Raycast(
+        sCollisions->Raycast(
             rayCastX1,
             rayCastY1,
             rayCastX2,
@@ -1453,7 +1453,7 @@ void MineCar::State_2_Moving()
     PathLine* pPathLine = nullptr;
 
     if (
-        !sCollisions_DArray_5C1128->Raycast(
+        !sCollisions->Raycast(
             mBaseAnimatedWithPhysicsGameObject_XPos - mineCarWidthAdjusted,
             mBaseAnimatedWithPhysicsGameObject_YPos + field_C8_vely - (mineCarWidthAdjusted * FP_FromDouble(0.5)),
             mBaseAnimatedWithPhysicsGameObject_XPos + mineCarWidthAdjusted,
@@ -1471,7 +1471,7 @@ void MineCar::State_2_Moving()
     }
 
     if (
-        !sCollisions_DArray_5C1128->Raycast(
+        !sCollisions->Raycast(
             mBaseAnimatedWithPhysicsGameObject_XPos + field_C4_velx,
             mBaseAnimatedWithPhysicsGameObject_YPos,
             mBaseAnimatedWithPhysicsGameObject_XPos + field_C4_velx,
@@ -1489,7 +1489,7 @@ void MineCar::State_2_Moving()
     }
 
     if (
-        !sCollisions_DArray_5C1128->Raycast(
+        !sCollisions->Raycast(
             mBaseAnimatedWithPhysicsGameObject_XPos + field_C4_velx,
             mBaseAnimatedWithPhysicsGameObject_YPos,
             mBaseAnimatedWithPhysicsGameObject_XPos + field_C4_velx,

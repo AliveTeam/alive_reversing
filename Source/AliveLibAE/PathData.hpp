@@ -39,7 +39,6 @@ ALIVE_ASSERT_SIZEOF(FmvInfo, 0xC);
 
 struct CollisionInfo final
 {
-    TCollisionsFactory field_0_fn_ptr;
     s16 field_4_left;
     s16 field_6_right;
     s16 field_8_top;

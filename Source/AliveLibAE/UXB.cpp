@@ -199,7 +199,7 @@ UXB::UXB(Path_UXB* tlv_params, TlvItemInfoUnion itemInfo)
     mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(tlv_params->field_8_top_left.field_2_y);
 
     // Raycasts on ctor to place perfectly on the floor.
-    if (sCollisions_DArray_5C1128->Raycast(
+    if (sCollisions->Raycast(
             mBaseAnimatedWithPhysicsGameObject_XPos,
             FP_FromInteger(tlv_params->field_8_top_left.field_2_y),
             mBaseAnimatedWithPhysicsGameObject_XPos,

@@ -54,7 +54,7 @@ void PlatformBase::AddDynamicCollision(s32 frameTableOffset, s32 maxW, s32 maxH,
     mBaseAnimatedWithPhysicsGameObject_YPos += FP_NoFractional(FP_FromInteger(-pFrameHeader->field_8_data.points[1].y) * field_BC_sprite_scale);
     mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger((pTlv->field_10_top_left.field_0_x + pTlv->field_14_bottom_right.field_0_x) / 2);
 
-    mPlatformBaseCollisionLine = sCollisions_DArray_504C6C->Add_Dynamic_Collision_Line(
+    mPlatformBaseCollisionLine = sCollisions->Add_Dynamic_Collision_Line(
         pTlv->field_10_top_left.field_0_x,
         pTlv->field_10_top_left.field_2_y,
         pTlv->field_14_bottom_right.field_0_x,

@@ -60,7 +60,7 @@ EvilFart::EvilFart()
     FP hitX = {};
     FP hitY = {};
     PathLine* pLine = nullptr;
-    if (sCollisions_DArray_5C1128->Raycast(
+    if (sCollisions->Raycast(
             mBaseAnimatedWithPhysicsGameObject_XPos - FP_FromInteger(3),
             mBaseAnimatedWithPhysicsGameObject_YPos,
             mBaseAnimatedWithPhysicsGameObject_XPos + FP_FromInteger(3),
@@ -451,7 +451,7 @@ void EvilFart::VUpdate()
         PathLine* pLine = nullptr;
         FP hitX = {};
         FP hitY = {};
-        if (sCollisions_DArray_5C1128->Raycast(
+        if (sCollisions->Raycast(
                 mBaseAnimatedWithPhysicsGameObject_XPos,
                 mBaseAnimatedWithPhysicsGameObject_YPos - (field_CC_sprite_scale * FP_FromInteger(54)),
                 x2Offset + mBaseAnimatedWithPhysicsGameObject_XPos + field_C4_velx,
@@ -468,7 +468,7 @@ void EvilFart::VUpdate()
             mBaseAnimatedWithPhysicsGameObject_XPos += field_C4_velx;
         }
 
-        if (sCollisions_DArray_5C1128->Raycast(
+        if (sCollisions->Raycast(
                 mBaseAnimatedWithPhysicsGameObject_XPos,
                 mBaseAnimatedWithPhysicsGameObject_YPos - (field_CC_sprite_scale * FP_FromInteger(54)),
                 mBaseAnimatedWithPhysicsGameObject_XPos + field_C4_velx + x2Offset,

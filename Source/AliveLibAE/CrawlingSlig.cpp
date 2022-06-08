@@ -210,7 +210,7 @@ CrawlingSlig::CrawlingSlig(Path_CrawlingSlig* pTlv, s32 tlvInfo)
 
     FP hitX = {};
     FP hitY = {};
-    if (sCollisions_DArray_5C1128->Raycast(
+    if (sCollisions->Raycast(
             mBaseAnimatedWithPhysicsGameObject_XPos,
             mBaseAnimatedWithPhysicsGameObject_YPos,
             mBaseAnimatedWithPhysicsGameObject_XPos,
@@ -472,7 +472,7 @@ void CrawlingSlig::VUpdate()
             }
             else
             {
-                sCollisions_DArray_5C1128->Raycast(
+                sCollisions->Raycast(
                     mBaseAnimatedWithPhysicsGameObject_XPos,
                     mBaseAnimatedWithPhysicsGameObject_YPos - FP_FromInteger(20),
                     mBaseAnimatedWithPhysicsGameObject_XPos,
