@@ -454,48 +454,7 @@ EXPORT s16 Greeter::vTakeDamage_447C20(BaseGameObject* pFrom)
 
     switch (pFrom->Type())
     {
-        case AETypes::eBullet_15:
-            if (static_cast<Bullet*>(pFrom)->field_30_x_distance <= FP_FromInteger(0))
-            {
-                field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX);
-            }
-            else
-            {
-                field_20_animation.field_4_flags.Clear(AnimFlags::eBit5_FlipX);
-            }
-
-            field_12C_timesShot++;
-            if (field_12C_timesShot <= 10)
-            {
-                BounceBackFromShot_447B10();
-            }
-            else
-            {
-                BlowUp_447E50();
-            }
-            return 1;
-
         case AETypes::eDrill_30:
-        case AETypes::eElectricWall_39:
-            if (static_cast<BaseAnimatedWithPhysicsGameObject*>(pFrom)->field_20_animation.field_10_frame_delay <= 0)
-            {
-                field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX);
-            }
-            else
-            {
-                field_20_animation.field_4_flags.Clear(AnimFlags::eBit5_FlipX);
-            }
-
-            if (++field_12C_timesShot <= 10)
-            {
-                BounceBackFromShot_447B10();
-            }
-            else
-            {
-                BlowUp_447E50();
-            }
-            return 1;
-
         case AETypes::eBaseBomb_46:
         case AETypes::eRockSpawner_48:
         case AETypes::eMeatSaw_86:
@@ -515,6 +474,23 @@ EXPORT s16 Greeter::vTakeDamage_447C20(BaseGameObject* pFrom)
             return 1;
 
         default:
+            if (static_cast<BaseAnimatedWithPhysicsGameObject*>(pFrom)->field_20_animation.field_10_frame_delay <= 0)
+            {
+                field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX);
+            }
+            else
+            {
+                field_20_animation.field_4_flags.Clear(AnimFlags::eBit5_FlipX);
+            }
+
+            if (++field_12C_timesShot <= 10)
+            {
+                BounceBackFromShot_447B10();
+            }
+            else
+            {
+                BlowUp_447E50();
+            }
             return 1;
     }
 }
