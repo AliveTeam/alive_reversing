@@ -3,6 +3,7 @@
 #include "../AliveLibCommon/Function.hpp"
 #include "BaseAliveGameObject.hpp"
 #include "Path.hpp"
+#include "GameSpeak.hpp"
 
 #define SCRAB_MOTIONS_ENUM(ENTRY)          \
     ENTRY(M_Stand_0_4A8220)                \
@@ -277,60 +278,49 @@ private:
     GameSpeakEvents LastSpeak();
 
 private:
-    TScrabBrainFn field_118_brain_state;
-    s16 field_11C_brain_sub_state;
-    s16 field_11E_return_to_previous_motion;
-    s32 field_120_obj_id;
-    s32 field_124_fight_target_obj_id;
-    s16 field_128_attack_delay;
-    s16 field_12A_patrol_type_run_or_walk_chance;
-    s32 field_12C_timer;
-    s32 field_130_depossession_timer;
-    FP field_134_falling_velx_scale_factor;
-    FP field_138_unused;
-    FP field_13C_last_ypos;
-    s16 field_140_motion_resource_block_index;
-    s16 field_142_padding;
-    s32 field_144_tlvInfo;
-    s32 field_148_pause_after_chase_delay;
-    s32 field_14C_pause_after_chase_timer;
-    s32 field_150_attack_delay_timer;
-    s32 field_154_movement_timer;
-    s16 field_158_left_min_delay;
-    s16 field_15A_left_max_delay;
-    s16 field_15C_right_min_delay;
-    s16 field_15E_right_max_delay;
-    s32 field_160_sfx_bitmask;
-    s16 field_164_prevent_depossession;
-    EReliveLevelIds field_166_return_level;
-    s16 field_168_return_path;
-    s16 field_16A_return_camera;
-    s32 field_16C_input;
-    s32 field_170_unused;
-    s16 field_174_possessed_max_whirl_attack_duration;
-    s16 field_176_unused;
-    s16 field_178_shred_power_active;
-    s16 field_17A_padding;
-    s32 field_17C_last_event;
-    s16 field_180_padding;
-    s16 field_182_padding;
-    s16 field_184_padding;
-    s16 field_186_padding;
-    s16 field_188_padding;
-    s16 field_18A_padding;
-    s16 field_18C_padding;
-    s16 field_18E_padding;
-    s16 field_190_unused;
-    s16 field_192_unused;
-    GameSpeakEvents field_194_speak;
-    s16 field_196_padding;
-    FP field_198_max_xpos;
-    FP field_19C_max_ypos;
-    s16 field_1A0_speak_max;
-    s16 field_1A2_speak_counter;
-    s16 field_1A4_unused;
-    s16 field_1A6_unused;
-    Choice_short field_1A8_bKill_enemy;
+    TScrabBrainFn field_118_brain_state = nullptr;
+    s16 field_11C_brain_sub_state = 0;
+    s16 field_11E_return_to_previous_motion = 0;
+    s32 field_120_obj_id = 0;
+    s32 field_124_fight_target_obj_id = 0;
+    s16 field_128_attack_delay = 0;
+    s16 field_12A_patrol_type_run_or_walk_chance = 0;
+    s32 field_12C_timer = 0;
+    s32 field_130_depossession_timer = 0;
+    FP field_134_falling_velx_scale_factor = {};
+    FP field_138_unused = {};
+    FP field_13C_last_ypos = {};
+    s16 field_140_motion_resource_block_index = 0;
+    s32 field_144_tlvInfo = 0;
+    s32 field_148_pause_after_chase_delay = 0;
+    s32 field_14C_pause_after_chase_timer = 0;
+    s32 field_150_attack_delay_timer = 0;
+    s32 field_154_movement_timer = 0;
+    s16 field_158_left_min_delay = 0;
+    s16 field_15A_left_max_delay = 0;
+    s16 field_15C_right_min_delay = 0;
+    s16 field_15E_right_max_delay = 0;
+    s32 field_160_sfx_bitmask = 0;
+    s16 field_164_prevent_depossession = 0;
+    EReliveLevelIds field_166_return_level = EReliveLevelIds::eNone;
+    s16 field_168_return_path = 0;
+    s16 field_16A_return_camera = 0;
+    s32 field_16C_input = 0;
+    s32 field_170_unused = 0;
+    s16 field_174_possessed_max_whirl_attack_duration = 0;
+    s16 field_176_unused = 0;
+    s16 field_178_shred_power_active = 0;
+    s32 field_17C_last_event = 0;
+    s16 field_190_unused = 0;
+    s16 field_192_unused = 0;
+    GameSpeakEvents field_194_speak = GameSpeakEvents::eUnknown_0;
+    FP field_198_max_xpos = {};
+    FP field_19C_max_ypos = {};
+    s16 field_1A0_speak_max = 0;
+    s16 field_1A2_speak_counter = 0;
+    s16 field_1A4_unused = 0;
+    s16 field_1A6_unused = 0;
+    Choice_short field_1A8_bKill_enemy = Choice_short::eNo_0;
 
     enum Flags_1AA : s16
     {

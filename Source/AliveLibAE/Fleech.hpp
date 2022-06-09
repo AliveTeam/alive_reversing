@@ -243,45 +243,45 @@ public:
     void vOnFrame_42BC50(s16* pData);
 
 private:
-    s32 field_118_tlvInfo;
-    s32 field_11C_obj_id;
-    s16 field_120_unused;
-    s16 field_122;
-    s16 field_124_brain_state;
-    u16 field_126_state;
-    s16 field_128;
-    s16 field_12A;
-    s32 field_12C;
-    s16 field_130;
-    s16 field_132;
-    s32 field_134_unused;
-    FP field_138_velx_factor;
-    s16 field_13C_unused;
-    s16 field_13E_current_anger;
-    u16 field_140_max_anger;
-    s16 field_142_attack_anger_increaser;
-    s16 field_144_wake_up_switch_id;
-    s16 field_146_wake_up_switch_anger_value;
-    s16 field_148_wake_up_switch_value;
-    s16 field_14A_can_wake_up_switch_id;
-    s16 field_14C;
-    s16 field_14E;
-    s16 field_150_patrol_range;
-    s16 field_152;
-    s16 field_154;
-    s16 field_156_rnd_crawl;
-    s16 field_158_chase_delay;
-    s16 field_15A_chase_timer;
-    s16 field_15C_lost_target_timeout;
-    s16 field_15E_lost_target_timer;
-    s16 field_160_hoistX;
-    s16 field_162_hoistY;
-    s16 field_164;
-    s8 field_166_angle;
-    s8 field_167;
-    FP field_168;
-    FP field_16C;
-    s32 field_170_danger_obj;
+    s32 field_118_tlvInfo = 0;
+    s32 field_11C_obj_id = 0;
+    s16 field_120_unused = 0;
+    s16 field_122 = 0;
+    s16 field_124_brain_state = 0;
+    u16 field_126_state = 0;
+    s16 field_128 = 0;
+    s16 field_12A = 0;
+    s32 field_12C = 0;
+    s16 field_130 = 0;
+    s16 field_132 = 0;
+    s32 field_134_unused = 0;
+    FP field_138_velx_factor = {};
+    s16 field_13C_unused = 0;
+    s16 field_13E_current_anger = 0;
+    u16 field_140_max_anger = 0;
+    s16 field_142_attack_anger_increaser = 0;
+    s16 field_144_wake_up_switch_id = 0;
+    s16 field_146_wake_up_switch_anger_value = 0;
+    s16 field_148_wake_up_switch_value = 0;
+    s16 field_14A_can_wake_up_switch_id = 0;
+    s16 field_14C = 0;
+    s16 field_14E = 0;
+    s16 field_150_patrol_range = 0;
+    s16 field_152 = 0;
+    s16 field_154 = 0;
+    s16 field_156_rnd_crawl = 0;
+    s16 field_158_chase_delay = 0;
+    s16 field_15A_chase_timer = 0;
+    s16 field_15C_lost_target_timeout = 0;
+    s16 field_15E_lost_target_timer = 0;
+    s16 field_160_hoistX = 0;
+    s16 field_162_hoistY = 0;
+    s16 field_164 = 0;
+    s8 field_166_angle = 0;
+    s8 field_167 = 0;
+    FP field_168 = {};
+    FP field_16C = {};
+    s32 field_170_danger_obj = 0;
     enum Flags_174 : s16
     {
         eBit1_bHoistDone = 0x1,
@@ -301,16 +301,16 @@ private:
         eBit15 = 0x4000,
     };
     BitField16<Flags_174> field_174_flags;
-    s16 field_176;
-    s16 field_178_tongue_state;
-    s16 field_17A_tongue_sub_state;
-    s16 field_17C;
-    s16 field_17E;
-    s16 field_180_tongue_x;
-    s16 field_182_tongue_y;
-    s16 field_184_target_x;
-    s16 field_186_target_y;
-    s16 field_188;
+    s16 field_176 = 0;
+    s16 field_178_tongue_state = 0;
+    s16 field_17A_tongue_sub_state = 0;
+    s16 field_17C= 0;
+    s16 field_17E= 0;
+    s16 field_180_tongue_x= 0;
+    s16 field_182_tongue_y= 0;
+    s16 field_184_target_x= 0;
+    s16 field_186_target_y= 0;
+    s16 field_188 = 0;
 
     enum Flags_18A
     {
@@ -323,9 +323,9 @@ private:
         e18A_Bit7 = 0x40,
     };
     BitField16<Flags_18A> field_18A;
-    Poly_G4 field_18C_tongue_polys1[4][2];
-    Poly_G4 field_2CC_tongue_polys2[4][2];
-    Prim_SetTPage field_40C[2];
+    Poly_G4 field_18C_tongue_polys1[4][2] = {};
+    Poly_G4 field_2CC_tongue_polys2[4][2] = {};
+    Prim_SetTPage field_40C[2] = {};
 };
 ALIVE_ASSERT_SIZEOF(Fleech, 0x42C);
 

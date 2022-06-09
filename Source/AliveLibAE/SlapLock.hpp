@@ -62,16 +62,14 @@ private:
 
 private:
     Path_SlapLock* field_118_pTlv;
-    s32 field_11C_tlvInfo;
-    SlapLockStates field_120_state;
-    s16 field_122_padding;
-    s32 field_124_timer1;
-    FP field_128_midX;
-    FP field_12C_midY;
-    Choice_short field_130_has_ghost;
-    s16 field_132_padding;
-    s32 field_134_id;
-    s32 field_138_possesion_flicker_id;
-    s32 field_13C_timer2;
+    s32 field_11C_tlvInfo = 0;
+    SlapLockStates field_120_state = SlapLockStates::eShaking_0;
+    s32 field_124_timer1 = 0;
+    FP field_128_midX = {};
+    FP field_12C_midY = {};
+    Choice_short field_130_has_ghost = Choice_short::eNo_0;
+    s32 field_134_id = 0;
+    s32 field_138_possesion_flicker_id = 0;
+    s32 field_13C_timer2 = 0;
 };
 ALIVE_ASSERT_SIZEOF(SlapLock, 0x140);

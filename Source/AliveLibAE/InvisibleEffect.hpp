@@ -40,17 +40,17 @@ public:
     void BecomeInvisible();
 
 private:
-    InvisibleState field_20_state_or_op;
-    s16 field_22;
-    u16* field_24_pPal1;
-    PSX_RECT field_28_pal_rect1;
-    u16* field_30_pPal2;
-    PSX_RECT field_34_pal_rect2;
-    s32 field_3C;
-    s32 field_40;
-    s32 field_44_objId;
-    TPageAbr field_48_old_render_mode;
-    s8 field_49;
+    InvisibleState field_20_state_or_op = InvisibleState::eSetRenderMode1_0;
+    s16 field_22 = 0;
+    u16* field_24_pPal1 = nullptr;
+    PSX_RECT field_28_pal_rect1 = {};
+    u16* field_30_pPal2 = nullptr;
+    PSX_RECT field_34_pal_rect2 = {};
+    s32 field_3C = 0;
+    s32 field_40 = 0;
+    s32 field_44_objId = 0;
+    TPageAbr field_48_old_render_mode = TPageAbr::eBlend_0;
+    s8 field_49 = 0;
     BitField16<Flags_4A> field_4A_flags;
 };
 ALIVE_ASSERT_SIZEOF(InvisibleEffect, 0x4C);

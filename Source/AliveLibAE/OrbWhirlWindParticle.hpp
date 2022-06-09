@@ -30,12 +30,12 @@ private:
     };
     BitField16<Flags_4> mAnimFlags;
     s16 field_6_padding;
-    Animation field_8_Anim;
-    FP field_A0_xpos_render_offset;
-    FP field_A4_ypos_render_offset;
-    FP field_A8_render_as_scale;
-    FP field_AC_radiusX_offset;
-    FP field_B0_ypos_increment;
+    Animation field_8_Anim = {};
+    FP field_A0_xpos_render_offset = {};
+    FP field_A4_ypos_render_offset = {};
+    FP field_A8_render_as_scale = {};
+    FP field_AC_radiusX_offset = {};
+    FP field_B0_ypos_increment = {};
 
     enum class State : s16
     {
@@ -46,29 +46,29 @@ private:
         State_4_Stop = 4,
     };
 
-    State field_B4_state;
+    State field_B4_state = State::State_0_Start;
 
-    s16 field_B6_unused;
-    s32 field_B8_render_angle;
-    s16 field_BC_counter;
-    s16 field_BE_max;
-    FP field_C0_current_scale;
-    FP field_C4_randomized_scale;
-    FP field_C8_scale_offset_fly_to_target;
-    FP field_CC_xpos_mid;
-    FP field_D0_ypos_mid;
-    FP field_D4_radiusX;
-    FP field_D8_radiusY;
-    s32 field_DC_position_timer;
-    FP field_E0_yMove;
-    BaseGameObject* field_E4_pObj;
-    FP field_E8_xpos;
-    FP field_EC_ypos;
-    FP field_F0_scale;
-    FP field_F4_xpos_offset;
-    FP field_F8_ypos_offset;
-    FP field_FC_xpos_offset2;
-    FP field_100_ypos_offset2;
-    FP field_104_scale_offset_spin_at_target;
-    u8** field_108_res;
+    s16 field_B6_unused = 0;
+    s32 field_B8_render_angle = 0;
+    s16 field_BC_counter = 0;
+    s16 field_BE_max = 0;
+    FP field_C0_current_scale = {};
+    FP field_C4_randomized_scale = {};
+    FP field_C8_scale_offset_fly_to_target = {};
+    FP field_CC_xpos_mid = {};
+    FP field_D0_ypos_mid = {};
+    FP field_D4_radiusX = {};
+    FP field_D8_radiusY = {};
+    s32 field_DC_position_timer = 0;
+    FP field_E0_yMove = {};
+    BaseGameObject* field_E4_pObj = nullptr;
+    FP field_E8_xpos = {};
+    FP field_EC_ypos = {};
+    FP field_F0_scale = {};
+    FP field_F4_xpos_offset = {};
+    FP field_F8_ypos_offset = {};
+    FP field_FC_xpos_offset2 = {};
+    FP field_100_ypos_offset2 = {};
+    FP field_104_scale_offset_spin_at_target = {};
+    u8** field_108_res = nullptr;
 };

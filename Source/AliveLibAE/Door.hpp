@@ -69,18 +69,18 @@ public:
     virtual void VUpdate() override;
 
 protected:
-    s32 field_F4_tlvInfo;
-    DoorTypes field_F8_door_type;
+    s32 field_F4_tlvInfo = 0;
+    DoorTypes field_F8_door_type = DoorTypes::eBasicDoor_0;
 
 public:
-    s16 field_FA_door_number;
+    s16 field_FA_door_number = 0;
 
 protected:
-    DoorStates field_FC_current_state;
-    DoorStates field_FE_start_state;
+    DoorStates field_FC_current_state = DoorStates::eOpen_0;
+    DoorStates field_FE_start_state = DoorStates::eOpen_0;
 
-    s16 field_100_switch_id;
-    s16 field_102_hub_ids[8];
+    s16 field_100_switch_id = 0;
+    s16 field_102_hub_ids[8] = {};
 };
 ALIVE_ASSERT_SIZEOF(Door, 0x114);
 

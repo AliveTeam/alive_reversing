@@ -228,35 +228,33 @@ private:
     s16 Facing_4C4020(FP xpos);
 
 public:
-    s32 field_118_target_id;
-    s16 field_11C_biting_target;
+    s32 field_118_target_id = 0;
+    s16 field_11C_biting_target = 0;
 
 private:
-    s16 field_11E_padding;
-    u16 field_120_brain_state_idx;
-    s16 field_122_brain_state_result;
-    s32 field_124_timer;
-    FP field_128_falling_velx_scale_factor;
-    s32 field_12C_tlvInfo;
-    s16 field_130_motion_resource_block_index;
-    s16 field_132_has_woofed;
-    s32 field_134_last_event_index;
-    s32 field_138_listening_to_slig_id;
-    s16 field_13C_waiting_counter;
-    s16 field_13E_response_index;
-    s16 field_140_response_part;
-    s16 field_142_anger_level;
-    s16 field_144_wake_up_anger;
-    s16 field_146_total_anger;
-    s16 field_148_chase_anger;
-    s16 field_14A_padding;
-    s32 field_14C_scratch_timer;
-    s32 field_150_growl_timer;
-    s16 field_154_anger_switch_id;
-    s16 field_156_bone_eating_time;
-    s16 field_158_chase_delay;
-    s16 field_15A_jump_counter;
-    s32 field_15C_bone_id;
+    u16 field_120_brain_state_idx = 0;
+    s16 field_122_brain_state_result = 0;
+    s32 field_124_timer = 0;
+    FP field_128_falling_velx_scale_factor = {};
+    s32 field_12C_tlvInfo = 0;
+    s16 field_130_motion_resource_block_index = 0;
+    s16 field_132_has_woofed = 0;
+    s32 field_134_last_event_index = 0;
+    s32 field_138_listening_to_slig_id = 0;
+    s16 field_13C_waiting_counter = 0;
+    s16 field_13E_response_index = 0;
+    s16 field_140_response_part = 0;
+    s16 field_142_anger_level = 0;
+    s16 field_144_wake_up_anger = 0;
+    s16 field_146_total_anger = 0;
+    s16 field_148_chase_anger = 0;
+    s32 field_14C_scratch_timer = 0;
+    s32 field_150_growl_timer = 0;
+    s16 field_154_anger_switch_id = 0;
+    s16 field_156_bone_eating_time = 0;
+    s16 field_158_chase_delay = 0;
+    s16 field_15A_jump_counter = 0;
+    s32 field_15C_bone_id = 0;
     enum Flags_160 : s16
     {
         eBit1_StopRunning = 0x1,
@@ -276,7 +274,6 @@ private:
         eBit15_Padding = 0x4000,
     };
     BitField16<Flags_160> field_160_flags;
-    s16 field_162_padding;
 };
 ALIVE_ASSERT_SIZEOF(Slog, 0x164);
 

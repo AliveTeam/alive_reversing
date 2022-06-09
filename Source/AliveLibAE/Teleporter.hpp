@@ -19,12 +19,12 @@ private:
     static Electrocute* Create_ElectrocuteEffect();
     void SpawnRingSparks(Path_Teleporter_Data* pTlvData);
 
-    s32 field_20_tlvInfo;
-    s16 field_24_global_y1;
-    s16 field_26_global_x1;
-    s16 field_28_global_y2;
-    s16 field_2A_global_x2;
-    s32 field_2C_switch_state;
+    s32 field_20_tlvInfo = 0;
+    s16 field_24_global_y1 = 0;
+    s16 field_26_global_x1 = 0;
+    s16 field_28_global_y2 = 0;
+    s16 field_2A_global_x2 = 0;
+    s32 field_2C_switch_state = 0;
 
     enum class TeleporterState : s8
     {
@@ -33,14 +33,11 @@ private:
         eTeleporting_2 = 2,
         eOutOfTeleporter_4 = 4,
     };
-    TeleporterState field_30_state;
-    s8 field_31_padding;
-    s16 field_32_bDestroySelf;
+    TeleporterState field_30_state = TeleporterState::eWaitForSwitchOn_0;
+    s16 field_32_bDestroySelf = 0;
     Path_Teleporter_Data field_34_mTlvData;
-    s16 field_4A_padding;
     Path_Teleporter* field_4C_pTlv;
-    s32 field_50_objId;
-    s16 field_54_effect_created;
-    s16 field_56_padding;
+    s32 field_50_objId = 0;
+    s16 field_54_effect_created = 0;
 };
 ALIVE_ASSERT_SIZEOF(Teleporter, 0x58);

@@ -20,10 +20,8 @@ public:
     virtual void VUpdate() override;
 
 private:
-    s16 field_118_bDone;
-    s16 field_11A_switch_id;
-    s32 field_11C_tlvInfo;
-    s16 field_120;
-    s16 field_122;
+    s16 field_118_bDone = 0;
+    s16 field_11A_switch_id = 0;
+    s32 field_11C_tlvInfo = 0;
 };
 ALIVE_ASSERT_SIZEOF(DoorBlocker, 0x124);
