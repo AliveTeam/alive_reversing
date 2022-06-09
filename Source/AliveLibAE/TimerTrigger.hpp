@@ -49,12 +49,12 @@ private:
     void ToggleAllIds();
 
 private:
-    s16 field_20_input_switch_id;
-    TimerTriggerStates field_22_state;
-    s16 field_24_output_switch_ids[4];
-    s32 field_2C_tlvInfo;
-    s32 field_30_trigger_interval_timer;
-    s32 field_34_trigger_interval;
-    s16 field_38_starting_switch_state;
+    s16 field_20_input_switch_id = 0;
+    TimerTriggerStates field_22_state = TimerTriggerStates::eWaitForEnabled_0;
+    s16 field_24_output_switch_ids[4] = {};
+    s32 field_2C_tlvInfo = 0;
+    s32 field_30_trigger_interval_timer = 0;
+    s32 field_34_trigger_interval = 0;
+    s16 field_38_starting_switch_state = 0;
 };
 ALIVE_ASSERT_SIZEOF(TimerTrigger, 0x3C);

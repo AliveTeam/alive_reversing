@@ -34,10 +34,9 @@ public:
     virtual s16 VTakeDamage(BaseGameObject* pFrom) override;
 
 private:
-    s32 field_118_tlvInfo;
-    s16 field_11C_state;
-    //s16 field_11E_pad;
-    s32 field_120_timer;
-    s32 field_124_sound_channels_mask;
+    s32 field_118_tlvInfo = 0;
+    s16 field_11C_state = 0;
+    s32 field_120_timer = 0;
+    s32 field_124_sound_channels_mask = 0;
 };
 ALIVE_ASSERT_SIZEOF(SecurityOrb, 0x128);

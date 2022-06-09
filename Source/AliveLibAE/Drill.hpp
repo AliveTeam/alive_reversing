@@ -81,23 +81,23 @@ private:
     s16 DamageTouchingObjects();
 
 private:
-    DrillStates field_F4_state;
-    s16 field_F6_width;
-    s16 field_F8_switch_id;
-    DrillDirection field_FA_direction;
-    s16 field_FC_min_off_time;
-    s16 field_FE_max_off_time;
-    s16 field_100_min_off_time_speed_change;
-    s16 field_102_max_off_time_speed_change;
-    u32 field_104_tlv;
-    s32 field_108_off_timer;
-    s32 field_10C_audio_channels_mask;
-    FP field_110_xPos;
-    FP field_114_yPos;
-    FP field_118_speed;
-    FP field_11C_speed2;
-    FP field_120_off_speed;
-    FP field_124_xyoff;
+    DrillStates field_F4_state = DrillStates::State_0_Restart_Cycle;
+    s16 field_F6_width = 0;
+    s16 field_F8_switch_id = 0;
+    DrillDirection field_FA_direction = DrillDirection::eDown_0;
+    s16 field_FC_min_off_time = 0;
+    s16 field_FE_max_off_time = 0;
+    s16 field_100_min_off_time_speed_change = 0;
+    s16 field_102_max_off_time_speed_change = 0;
+    u32 field_104_tlv = 0;
+    s32 field_108_off_timer = 0;
+    s32 field_10C_audio_channels_mask = 0;
+    FP field_110_xPos = {};
+    FP field_114_yPos = {};
+    FP field_118_speed = {};
+    FP field_11C_speed2 = {};
+    FP field_120_off_speed = {};
+    FP field_124_xyoff = {};
     enum Flags
     {
         eBit1_StartOff = 0x1,
@@ -108,6 +108,5 @@ private:
         eBit6_StartPosIsBottom = 0x20,
     };
     BitField16<Flags> field_128_flags;
-    s16 field_12A_pad;
 };
 ALIVE_ASSERT_SIZEOF(Drill, 0x12C);

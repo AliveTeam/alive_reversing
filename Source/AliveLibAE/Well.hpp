@@ -23,15 +23,13 @@ private:
     void WellLocal_Init(Path_WellLocal* pTlv, FP /*xpos*/, FP ypos);
 
 private:
-    s32 field_20_tlvInfo;
-    s16 field_24_switch_id;
-    s16 field_26_padding;
-    FP field_28_scale;
-    FP field_2C_exit_x;
-    FP field_30_exit_y;
-    FP field_34_leaf_xpos;
-    FP field_38_leaf_ypos;
-    Choice_short field_3C_bEmitLeaves;
-    s16 field_3E_padding;
+    s32 field_20_tlvInfo = 0;
+    s16 field_24_switch_id = 0;
+    FP field_28_scale = {};
+    FP field_2C_exit_x = {};
+    FP field_30_exit_y = {};
+    FP field_34_leaf_xpos = {};
+    FP field_38_leaf_ypos = {};
+    Choice_short field_3C_bEmitLeaves = Choice_short::eNo_0;
 };
 ALIVE_ASSERT_SIZEOF(Well, 0x40);

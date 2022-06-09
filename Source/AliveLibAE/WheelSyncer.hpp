@@ -34,14 +34,14 @@ public:
     virtual void VScreenChanged() override;
 
 private:
-    s16 field_20_input_switch_id1;
-    s16 field_22_input_switch_id2;
-    s16 field_24_trigger_id;
-    s16 field_26_input_switch_id3;
-    s16 field_28_input_switch_id4;
-    s16 field_2A_input_switch_id5;
-    s16 field_2C_input_switch_id6;
-    WheelSyncerOutputRequirement field_2E_output_requirement;
-    u32 field_30_tlvInfo;
+    s16 field_20_input_switch_id1 = 0;
+    s16 field_22_input_switch_id2 = 0;
+    s16 field_24_trigger_id = 0;
+    s16 field_26_input_switch_id3 = 0;
+    s16 field_28_input_switch_id4 = 0;
+    s16 field_2A_input_switch_id5 = 0;
+    s16 field_2C_input_switch_id6 = 0;
+    WheelSyncerOutputRequirement field_2E_output_requirement = WheelSyncerOutputRequirement::eAllOn_0;
+    u32 field_30_tlvInfo = 0;
 };
 ALIVE_ASSERT_SIZEOF(WheelSyncer, 0x34);

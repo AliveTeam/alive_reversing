@@ -60,17 +60,16 @@ private:
     void Open();
 
 private:
-    s16 field_12C_unused;
-    s16 field_12E_padding;
-    s32 field_130_stay_open_time2;
-    s16 field_134_switch_id;
-    TrapDoorState field_136_state;
-    s16 field_138_switch_state;
-    s16 field_13A_xOff;
-    s16 field_13C_stay_open_time;
-    Choice_short field_13E_self_closing;
-    FP field_140_x;
-    FP field_144_y;
-    PSX_RECT field_148_bounding_rect;
+    s16 field_12C_unused = 0;
+    s32 field_130_stay_open_time2 = 0;
+    s16 field_134_switch_id = 0;
+    TrapDoorState field_136_state = TrapDoorState::eClosed_0;
+    s16 field_138_switch_state = 0;
+    s16 field_13A_xOff = 0;
+    s16 field_13C_stay_open_time = 0;
+    Choice_short field_13E_self_closing = Choice_short::eNo_0;
+    FP field_140_x = {};
+    FP field_144_y = {};
+    PSX_RECT field_148_bounding_rect = {};
 };
 ALIVE_ASSERT_SIZEOF(TrapDoor, 0x150);

@@ -3,6 +3,7 @@
 #include "../AliveLibCommon/Function.hpp"
 #include "Path.hpp"
 #include "BaseAliveGameObject.hpp"
+#include "Sfx.hpp"
 
 struct Path_CrawlingSlig final : public Path_TLV
 {
@@ -180,42 +181,37 @@ public:
     void M_EndPushingWall_17_41B3A0();
 
 private:
-    s32 field_118_tlvInfo;
-    s16 field_11C_pPalAlloc[64];
-    PSX_RECT field_19C_pal_rect;
-    s16 field_1A4_r;
-    s16 field_1A6_g;
-    s16 field_1A8_b;
+    s32 field_118_tlvInfo = 0;
+    s16 field_11C_pPalAlloc[64] = {};
+    PSX_RECT field_19C_pal_rect = {};
+    s16 field_1A4_r = 0;
+    s16 field_1A6_g = 0;
+    s16 field_1A8_b = 0;
 
-    s16 field_1AA_padding;
-    s32 field_1AC_timer;
-    FP field_1B0_velx_scale_factor; // TODO: Not sure if this is an accurate name, but can't think of anything better.
-    s32 field_1B4_unused;
+    s32 field_1AC_timer = 0;
+    FP field_1B0_velx_scale_factor = {}; // TODO: Not sure if this is an accurate name, but can't think of anything better.
+    s32 field_1B4_unused = 0;
 
-    s16 field_1B8_bChanting;
+    s16 field_1B8_bChanting = 0;
 
-    EReliveLevelIds field_1BA_prev_level;
-    s16 field_1BC_prev_path;
-    s16 field_1BE_prev_camera;
+    EReliveLevelIds field_1BA_prev_level = EReliveLevelIds::eNone;
+    s16 field_1BC_prev_path = 0;
+    s16 field_1BE_prev_camera = 0;
 
-    SligSpeak field_1C0_speak;
-    s8 field_1C1_padding;
-    s16 field_1C2_pitch;
-    s16 field_1C4_unused_counter;
-    s16 field_1C6_unused;
-    s32 field_1C8_say_help_timer;
-    s16 field_1CC_unused;
-    s16 field_1CE_padding;
-    s32 field_1D0_slig_button_id;
-    s32 field_1D4_obj_id;
-    s32 field_1D8_obj_id;
-    s32 field_1DC_unused;
+    SligSpeak field_1C0_speak = SligSpeak::eHi_0;
+    s16 field_1C2_pitch = 0;
+    s16 field_1C4_unused_counter = 0;
+    s16 field_1C6_unused = 0;
+    s32 field_1C8_say_help_timer = 0;
+    s16 field_1CC_unused = 0;
+    s32 field_1D0_slig_button_id = 0;
+    s32 field_1D4_obj_id = 0;
+    s32 field_1D8_obj_id = 0;
+    s32 field_1DC_unused = 0;
     Path_CrawlingSlig::CrawlDirection field_1E0_crawl_direction;
-    s16 field_1E2_padding;
     Path_TLV* field_1E4_pPantsOrWingsTlv;
     Path_CrawlingSlig field_1E8_tlv;
-    TCrawlingSligBrainFn field_204_brain_state;
-    s16 field_208_brain_sub_state;
-    s16 field_20A_padding;
+    TCrawlingSligBrainFn field_204_brain_state = nullptr;
+    s16 field_208_brain_sub_state = 0;
 };
 ALIVE_ASSERT_SIZEOF(CrawlingSlig, 0x20C);

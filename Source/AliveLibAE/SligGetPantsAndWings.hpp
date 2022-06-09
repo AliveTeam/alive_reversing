@@ -24,9 +24,8 @@ public:
     virtual void VScreenChanged() override;
 
 private:
-    State field_F4_state;
-    //s16 field_F6_pad;
-    s32 field_F8_tlvInfo;
-    s32 field_FC_timer;
+    State field_F4_state = State::eWaiting_0;
+    s32 field_F8_tlvInfo = 0;
+    s32 field_FC_timer = 0;
 };
 ALIVE_ASSERT_SIZEOF(SligGetPantsAndWings, 0x100);

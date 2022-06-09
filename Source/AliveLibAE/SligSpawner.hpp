@@ -37,8 +37,8 @@ public:
     virtual s32 VGetSaveState(u8* pSaveBuffer) override;
 
 private:
-    s32 field_20_tlv_info;
-    s16 field_24_slig_spawner_switch_id;
+    s32 field_20_tlv_info = 0;
+    s16 field_24_slig_spawner_switch_id = 0;
     enum SpawnerFlags : s16
     {
         eBit1_DontDestroyTLV = 0x1,
@@ -46,10 +46,8 @@ private:
     };
     BitField16<SpawnerFlags> field_26_flags;
     Path_TLV field_28_tlv;
-    SpawnerStates field_38_state;
-    s16 field_3A_padding;
-    s32 field_3C_spawned_slig_obj_id;
-    s16 field_40_bFindSpawnedSlig;
-    s16 field_42_padding;
+    SpawnerStates field_38_state = SpawnerStates::eInactive_0;
+    s32 field_3C_spawned_slig_obj_id = 0;
+    s16 field_40_bFindSpawnedSlig = 0;
 };
 ALIVE_ASSERT_SIZEOF(SligSpawner, 0x44);

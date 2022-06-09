@@ -4,6 +4,7 @@
 #include "BaseAliveGameObject.hpp"
 #include "Path.hpp"
 #include "FlyingSligSpawner.hpp"
+#include "Sfx.hpp"
 
 enum class LevelIds : s16;
 
@@ -241,28 +242,19 @@ public:
 
 private:
     Path_FlyingSlig field_118_data;
-    s32 field_148_tlvInfo;
-    s32 field_14C_timer;
-    s32 field_150_grenade_delay;
-    s32 field_154_collision_reaction_timer;
-    s32 field_158_obj_id;
-    s16 field_15C_voice_pitch_min;
-    s16 field_15E_useless;
-    s16 field_160_voice_pitch_min;
-    s16 field_162_padding;
-    s32 field_164_unused;
-    s16 field_168_padding;
-    s16 field_16A_padding;
-    s16 field_16C_padding;
-    s16 field_16E_padding;
-    s16 field_170_padding;
-    s16 field_172_padding;
-    s16 field_174_padding;
-    s16 field_176_padding;
-    s16 field_178_unused;
-    s16 field_17A_unused;
-    u8 field_17C_launch_switch_id;
-    SligSpeak field_17D_next_speak;
+    s32 field_148_tlvInfo = 0;
+    s32 field_14C_timer = 0;
+    s32 field_150_grenade_delay = 0;
+    s32 field_154_collision_reaction_timer = 0;
+    s32 field_158_obj_id = 0;
+    s16 field_15C_voice_pitch_min = 0;
+    s16 field_15E_useless = 0;
+    s16 field_160_voice_pitch_min = 0;
+    s32 field_164_unused = 0;
+    s16 field_178_unused = 0;
+    s16 field_17A_unused = 0;
+    u8 field_17C_launch_switch_id = 0;
+    SligSpeak field_17D_next_speak = SligSpeak::eHi_0;
 
     enum Flags_17E
     {
@@ -281,64 +273,48 @@ private:
         eBit13_Persistant = 0x1000,
     };
     BitField16<Flags_17E> field_17E_flags;
-    TlvTypes field_180_bound2;
-    TlvTypes field_182_bound1;
-    FP field_184_xSpeed;
-    FP field_188_ySpeed;
-    FP field_18C;
-    FP field_190;
-    FP field_194;
-    FP field_198_line_length;
-    s16 field_19C_padding;
-    s16 field_19E_padding;
-    s16 field_1A0_padding;
-    s16 field_1A2_padding;
-    FP_Rect field_1A4_rect;
-    s16 field_1B4_padding;
-    s16 field_1B6_padding;
-    s16 field_1B8_padding;
-    s16 field_1BA_padding;
-    FP field_1BC;
-    FP field_1C0;
-    FP field_1C4;
-    FP field_1C8_lever_pull_range_xpos;
-    FP field_1CC_lever_pull_range_ypos;
-    s16 field_1D0_padding;
-    s16 field_1D2_padding;
-    s16 field_1D4_padding;
-    s16 field_1D6_padding;
-    s32 field_1D8_unused;
-    s32 field_1DC_unused;
-    s32 field_1E0_unused;
-    s32 field_1E4_unused;
-    s16 field_1E8_unused;
-    s16 field_1EA_padding;
-    PathLine* field_1EC_pNextLine;
-    PathLine* field_1F0_pPrevLine;
-    s16 field_1F4_pPalAlloc[64];
-    PSX_RECT field_274_pal_rect;
-    s16 field_27C_r;
-    s16 field_27E_g;
-    s16 field_280_b;
-    s16 field_282_padding;
-    FP field_284_bobbing_value;
-    const FP* field_288_unused;
-    s16 field_28C_bobbing_values_table_index;
-    s16 field_28E_padding;
-    s32 field_290_bobbing_values_index;
+    TlvTypes field_180_bound2 = TlvTypes::None_m1;
+    TlvTypes field_182_bound1 = TlvTypes::None_m1;
+    FP field_184_xSpeed = {};
+    FP field_188_ySpeed = {};
+    FP field_18C = {};
+    FP field_190 = {};
+    FP field_194 = {};
+    FP field_198_line_length = {};
+    FP_Rect field_1A4_rect = {};
+    FP field_1BC = {};
+    FP field_1C0 = {};
+    FP field_1C4 = {};
+    FP field_1C8_lever_pull_range_xpos = {};
+    FP field_1CC_lever_pull_range_ypos = {};
+    s32 field_1D8_unused = 0;
+    s32 field_1DC_unused = 0;
+    s32 field_1E0_unused = 0;
+    s32 field_1E4_unused = 0;
+    s16 field_1E8_unused = 0;
+    PathLine* field_1EC_pNextLine = nullptr;
+    PathLine* field_1F0_pPrevLine = nullptr;
+    s16 field_1F4_pPalAlloc[64] = {};
+    PSX_RECT field_274_pal_rect = {};
+    s16 field_27C_r = 0;
+    s16 field_27E_g = 0;
+    s16 field_280_b = 0;
+    FP field_284_bobbing_value = {};
+    const FP* field_288_unused = nullptr;
+    s16 field_28C_bobbing_values_table_index = 0;
+    s32 field_290_bobbing_values_index = 0;
 
 public:
-    FP field_294_nextXPos;
-    FP field_298_nextYPos;
-    TFlyingSligBrainFn field_29C_brain_state;
-    EReliveLevelIds field_2A0_abe_level;
-    s16 field_2A2_abe_path;
-    s16 field_2A4_abe_camera;
-    s16 field_2A6_padding;
-    FP field_2A8_max_x_speed;
-    FP field_2AC_up_vel;
-    FP field_2B0_down_vel;
-    FP field_2B4_max_slow_down;
-    FP field_2B8_max_speed_up;
+    FP field_294_nextXPos = {};
+    FP field_298_nextYPos = {};
+    TFlyingSligBrainFn field_29C_brain_state = nullptr;
+    EReliveLevelIds field_2A0_abe_level = EReliveLevelIds::eNone;
+    s16 field_2A2_abe_path = 0;
+    s16 field_2A4_abe_camera = 0;
+    FP field_2A8_max_x_speed = {};
+    FP field_2AC_up_vel = {};
+    FP field_2B0_down_vel = {};
+    FP field_2B4_max_slow_down = {};
+    FP field_2B8_max_speed_up = {};
 };
 ALIVE_ASSERT_SIZEOF(FlyingSlig, 0x2BC);

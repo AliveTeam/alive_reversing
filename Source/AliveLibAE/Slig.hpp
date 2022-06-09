@@ -3,6 +3,7 @@
 #include "../AliveLibCommon/Function.hpp"
 #include "BaseAliveGameObject.hpp"
 #include "Path.hpp"
+#include "../relive_lib/MapWrapper.hpp"
 
 #define SLIG_MOTIONS_ENUM(ENTRY)         \
     ENTRY(M_StandIdle_0_4B4EC0)          \
@@ -515,62 +516,53 @@ public:
     bool BrainIs(TSligBrainFn fn);
 
 private:
-    s32 field_118_tlvInfo;
+    s32 field_118_tlvInfo = 0;
 
 public:
-    s16 field_11C_brain_sub_state;
+    s16 field_11C_brain_sub_state = 0;
 
 private:
-    s16 field_11E_pitch_min;
-    s32 field_120_timer;
-    s16 field_124_return_to_previous_motion;
-    s16 field_126_checked_if_off_screen;
-    s32 field_128_input;
-    s32 field_12C_timer;
-    FP field_130_falling_velx_scale_factor;
-    s16 field_134_res_idx;
-    s16 field_136_shot_motion;
-    PSX_RECT field_138_zone_rect;
-    s16 field_140_unused;
-    s16 field_142_unused;
-    s16 field_144_unused;
+    s16 field_11E_pitch_min = 0;
+    s32 field_120_timer = 0;
+    s16 field_124_return_to_previous_motion = 0;
+    s16 field_126_checked_if_off_screen = 0;
+    s32 field_128_input = 0;
+    s32 field_12C_timer = 0;
+    FP field_130_falling_velx_scale_factor = {};
+    s16 field_134_res_idx = 0;
+    s16 field_136_shot_motion = 0;
+    PSX_RECT field_138_zone_rect = {};
+    s16 field_140_unused = 0;
+    s16 field_142_unused = 0;
+    s16 field_144_unused = 0;
 
 public:
-    EReliveLevelIds field_146_return_level;
-    s16 field_148_return_path;
-    s16 field_14A_return_camera;
-    s32 field_14C_death_by_being_shot_timer;
-    s32 field_150_explode_timer;
+    EReliveLevelIds field_146_return_level = EReliveLevelIds::eNone;
+    s16 field_148_return_path = 0;
+    s16 field_14A_return_camera = 0;
+    s32 field_14C_death_by_being_shot_timer = 0;
+    s32 field_150_explode_timer = 0;
 
 private:
-    TSligBrainFn field_154_brain_state;
-    s16 field_158_num_times_to_shoot;
-    s16 field_15A_unused;
-    s16 field_15C_force_alive_state;
-    s16 field_15E_spotted_possessed_slig;
-    s32 field_160_last_event_index;
-    s16 field_164_padding;
-    s16 field_166_padding;
-    s16 field_168_padding;
-    s16 field_16A_padding;
-    s16 field_16C_padding;
-    s16 field_16E_padding;
-    s16 field_170_padding;
-    s16 field_172_padding;
-    s16 field_174_unused;
-    s16 field_176_unused;
-    s16 field_178_pPalAlloc[64];
-    PSX_RECT field_1F8_pal_rect;
-    s16 field_200_red;
-    s16 field_202_green;
-    s16 field_204_blue;
-    s16 field_206_padding;
-    s32 field_208_glukkon_obj_id;
-    s16 field_20C_state_after_speak;
-    s16 field_20E_attention_timeout;
-    s16 field_210_unused;
-    s16 field_212_next_command_arg1;
-    s16 field_214_cmd_idx;
+    TSligBrainFn field_154_brain_state = nullptr;
+    s16 field_158_num_times_to_shoot = 0;
+    s16 field_15A_unused = 0;
+    s16 field_15C_force_alive_state = 0;
+    s16 field_15E_spotted_possessed_slig = 0;
+    s32 field_160_last_event_index = 0;
+    s16 field_174_unused = 0;
+    s16 field_176_unused = 0;
+    s16 field_178_pPalAlloc[64] = {};
+    PSX_RECT field_1F8_pal_rect = {};
+    s16 field_200_red = 0;
+    s16 field_202_green = 0;
+    s16 field_204_blue = 0;
+    s32 field_208_glukkon_obj_id = 0;
+    s16 field_20C_state_after_speak = 0;
+    s16 field_20E_attention_timeout = 0;
+    s16 field_210_unused = 0;
+    s16 field_212_next_command_arg1 = 0;
+    s16 field_214_cmd_idx = 0;
 
     enum Flags_216
     {
@@ -583,10 +575,10 @@ private:
     BitField16<Flags_216> field_216_flags;
 
     Path_Slig field_218_tlv_data;
-    PSX_Point field_268_points[10];
-    s16 field_290_points_count;
-    s16 field_292_prevent_depossession;
-    s32 field_294_next_gamespeak_motion;
+    PSX_Point field_268_points[10] = {};
+    s16 field_290_points_count = 0;
+    s16 field_292_prevent_depossession = 0;
+    s32 field_294_next_gamespeak_motion = 0;
 };
 ALIVE_ASSERT_SIZEOF(Slig, 0x298);
 

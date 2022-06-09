@@ -45,14 +45,11 @@ private:
 
 private:
     BitField16<SlamDoor_Flags_118> field_118_flags;
-    s16 field_11A_padding;
     PathLine* field_11C_pCollisionLine_6_2;
     PathLine* field_120_pCollisionLine_5_1;
     s16 field_124_x1;
     s16 field_126_y1;
     s16 field_128_switch_id;
-    s16 field_12A_padding;
     TlvItemInfoUnion field_12C_tlvInfo;
-    s32 field_130_padding;
 };
 ALIVE_ASSERT_SIZEOF(SlamDoor, 0x134);

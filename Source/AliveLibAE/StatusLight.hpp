@@ -27,15 +27,15 @@ public:
     virtual void VScreenChanged() override;
 
 private:
-    u32 field_F4_tlvInfo;
-    s16 field_F8_switch_id;
-    s16 field_FA_id1;
-    s16 field_FC_id2;
-    s16 field_FE_id3;
-    s16 field_100_id4;
-    s16 field_102_id5;
-    Choice_short field_104_bIgnore_grid_snapping;
-    FP field_108_xpos;
-    FP field_10C_ypos;
+    u32 field_F4_tlvInfo = 0;
+    s16 field_F8_switch_id = 0;
+    s16 field_FA_id1 = 0;
+    s16 field_FC_id2 = 0;
+    s16 field_FE_id3 = 0;
+    s16 field_100_id4 = 0;
+    s16 field_102_id5 = 0;
+    Choice_short field_104_bIgnore_grid_snapping = Choice_short::eNo_0;
+    FP field_108_xpos = {};
+    FP field_10C_ypos = {};
 };
 ALIVE_ASSERT_SIZEOF(StatusLight, 0x110);

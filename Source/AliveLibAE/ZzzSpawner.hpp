@@ -23,14 +23,12 @@ public:
     virtual void VScreenChanged() override;
 
 private:
-    FP field_20_xpos;
-    FP field_24_ypos;
-    FP field_28_scale;
-    s32 field_2C_tlvInfo;
-    s16 field_30_switch_id;
-    s16 field_32_padding;
-    s32 field_34_Zzz_timer;
-    s16 field_38_Zzz_interval;
-    s16 field_3A_padding;
+    FP field_20_xpos = {};
+    FP field_24_ypos = {};
+    FP field_28_scale = {};
+    s32 field_2C_tlvInfo = 0;
+    s16 field_30_switch_id = 0;
+    s32 field_34_Zzz_timer = 0;
+    s16 field_38_Zzz_interval = 0;
 };
 ALIVE_ASSERT_SIZEOF(ZzzSpawner, 0x3C);

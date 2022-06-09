@@ -45,20 +45,19 @@ private:
     s16 IsPlayerNear();
 
 private:
-    s32 field_F4_tlvInfo;
-    SecurityDoorStates field_F8_state;
-    s16 field_FA_switch_id;
-    s32 field_FC_code_converted;
-    s16 field_100_code_len;
-    s16 field_102_padding;
-    s32 field_104_event_idx;
-    u8 field_108_stru[16];
-    s16 field_118_max_idx;
-    s16 field_11A_event_idx;
-    PSX_Point field_11C_top_left;
-    PSX_Point field_120_bottom_right;
-    s32 field_124_timer;
-    s16 field_128_max_idx;
-    s16 field_12A_unused; // Gets set to 1 in vUpdate, but isn't used anywhere else. -- Nemin (6/7/2020)
+    s32 field_F4_tlvInfo = 0;
+    SecurityDoorStates field_F8_state = SecurityDoorStates::eInactive_0;
+    s16 field_FA_switch_id = 0;
+    s32 field_FC_code_converted = 0;
+    s16 field_100_code_len = 0;
+    s32 field_104_event_idx = 0;
+    u8 field_108_stru[16] = {};
+    s16 field_118_max_idx = 0;
+    s16 field_11A_event_idx = 0;
+    PSX_Point field_11C_top_left = {};
+    PSX_Point field_120_bottom_right = {};
+    s32 field_124_timer = 0;
+    s16 field_128_max_idx = 0;
+    s16 field_12A_unused = 0; // Gets set to 1 in vUpdate, but isn't used anywhere else. -- Nemin (6/7/2020)
 };
 ALIVE_ASSERT_SIZEOF(SecurityDoor, 0x12C);

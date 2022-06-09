@@ -51,13 +51,12 @@ public:
     static s32 CreateFromSaveState(const u8* pState);
 
 private:
-    s32 field_F4_tlv_info;
-    s16 field_F8_switch_id;
-    s16 field_FA_padding;
-    WheelStates field_FC_state;
-    s16 field_FE_activation_time;
-    u16 field_100_on_counter;
-    s16 field_102_off_time;
-    Choice_short field_104_turn_off_when_stopped;
+    s32 field_F4_tlv_info = 0;
+    s16 field_F8_switch_id = 0;
+    WheelStates field_FC_state = WheelStates::eIdle_0;
+    s16 field_FE_activation_time = 0;
+    u16 field_100_on_counter = 0;
+    s16 field_102_off_time = 0;
+    Choice_short field_104_turn_off_when_stopped = Choice_short::eNo_0;
 };
 ALIVE_ASSERT_SIZEOF(WorkWheel, 0x108);

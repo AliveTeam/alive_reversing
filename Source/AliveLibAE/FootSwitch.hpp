@@ -3,8 +3,7 @@
 #include "BaseAnimatedWithPhysicsGameObject.hpp"
 #include "Path.hpp"
 #include "../AliveLibCommon/Function.hpp"
-
-enum class SwitchOp : s16;
+#include "SwitchStates.hpp"
 
 enum class FootSwitchTriggerBy : s16
 {
@@ -50,12 +49,12 @@ private:
         eWaitForStepOnMe_0 = 0,
         eWaitForGetOffMe_1 = 1,
     };
-    States field_F8_state;
-    s16 field_FA_switch_id;
-    SwitchOp field_FC_action;
-    FootSwitchTriggerBy field_FE_trigger_by;
-    s32 field_100_obj_id;
-    s16 field_104_bCreateSparks;
-    s16 field_106_bFindStander;
+    States field_F8_state = States::eWaitForStepOnMe_0;
+    s16 field_FA_switch_id = 0;
+    SwitchOp field_FC_action = SwitchOp::eSetTrue_0;
+    FootSwitchTriggerBy field_FE_trigger_by = FootSwitchTriggerBy::eAbe_0;
+    s32 field_100_obj_id = 0;
+    s16 field_104_bCreateSparks = 0;
+    s16 field_106_bFindStander = 0;
 };
 ALIVE_ASSERT_SIZEOF(FootSwitch, 0x108);

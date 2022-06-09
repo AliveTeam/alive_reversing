@@ -4,8 +4,7 @@
 #include "../relive_lib/BaseGameObject.hpp"
 #include "Path.hpp"
 #include "Psx.hpp"
-
-enum class SwitchOp : s16;
+#include "SwitchStates.hpp"
 
 enum class InvisibleSwitchScale : s16
 {
@@ -35,21 +34,20 @@ public:
     virtual void VScreenChanged() override;
 
 private:
-    s16 field_20_switch_id;
-    SwitchOp field_22_action;
-    s32 field_24_tlvInfo;
-    s32 field_28_delay_timer;
-    s32 field_2C_delay;
-    PSX_Point field_30_top_left;
-    PSX_Point field_34_bottom_right;
+    s16 field_20_switch_id = 0;
+    SwitchOp field_22_action = SwitchOp::eSetTrue_0;
+    s32 field_24_tlvInfo = 0;
+    s32 field_28_delay_timer = 0;
+    s32 field_2C_delay = 0;
+    PSX_Point field_30_top_left = {};
+    PSX_Point field_34_bottom_right = {};
     enum class States : s16
     {
         eWaitForTrigger_0 = 0,
         eWaitForDelayTimer_1 = 1,
     };
-    States field_38_state;
-    Choice_short field_3A_set_off_alarm;
-    InvisibleSwitchScale field_3C_scale;
-    s16 field_3E_pad;
+    States field_38_state = States::eWaitForTrigger_0;
+    Choice_short field_3A_set_off_alarm = Choice_short::eNo_0;
+    InvisibleSwitchScale field_3C_scale = InvisibleSwitchScale::eHalf_0;
 };
 ALIVE_ASSERT_SIZEOF(InvisibleSwitch, 0x40);

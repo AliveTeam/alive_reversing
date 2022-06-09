@@ -98,24 +98,20 @@ private:
     BaseAliveGameObject* GetMudToZap();
 
 private:
-    s32 field_118_tlvInfo;
-    s32 field_11C_motionDetectorId;
-    s32 field_120_unused;
-    s32 field_124_last_turn_time;
-    s32 field_128_timer;
-    s16 field_12C_timesShot;
-    s16 field_12E_bDontSetDestroyed;
-    s16 field_130_bChasing;
-    s16 field_132_padding;
-    FP field_134_speed;
+    s32 field_118_tlvInfo = 0;
+    s32 field_11C_motionDetectorId = 0;
+    s32 field_120_unused = 0;
+    s32 field_124_last_turn_time = 0;
+    s32 field_128_timer = 0;
+    s16 field_12C_timesShot = 0;
+    s16 field_12E_bDontSetDestroyed = 0;
+    s16 field_130_bChasing = 0;
+    FP field_134_speed = {};
     Path_TLV* field_138_pTlv;
 
 public:
-    GreeterBrainStates field_13C_brain_state;
-    s16 field_13E_targetOnLeft;
-    s16 field_140_targetOnRight;
-
-private:
-    s16 field_142_padding;
+    GreeterBrainStates field_13C_brain_state = GreeterBrainStates::eBrain_0_Patrol;
+    s16 field_13E_targetOnLeft = 0;
+    s16 field_140_targetOnRight = 0;
 };
 ALIVE_ASSERT_SIZEOF(Greeter, 0x144);
