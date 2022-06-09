@@ -187,11 +187,8 @@ s32 Animation_OnFrame_Slog_4C3030(BaseGameObject* pObjPtr, s16* pPoints)
         return 1;
     }
 
-    PSX_RECT bTargetRect = {};
-    pTarget->VGetBoundingRect(&bTargetRect, 1);
-
-    PSX_RECT bSlogRect = {};
-    pSlog->VGetBoundingRect(&bSlogRect, 1);
+    const PSX_RECT bTargetRect = pTarget->VGetBoundingRect();
+    const PSX_RECT bSlogRect = pSlog->VGetBoundingRect();
 
     if (bSlogRect.x > bTargetRect.w || bSlogRect.w < bTargetRect.x || bSlogRect.h < bTargetRect.y || bSlogRect.y > bTargetRect.h || pTarget->mBaseAnimatedWithPhysicsGameObject_SpriteScale != FP_FromInteger(1) || pSlog->field_11C_biting_target)
     {

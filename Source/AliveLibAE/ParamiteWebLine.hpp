@@ -21,7 +21,7 @@ public:
 
     virtual void VUpdate() override;
     virtual void VScreenChanged() override;
-    virtual PSX_RECT* VGetBoundingRect(PSX_RECT* pRect, s32 pointIdx) override;
+    virtual PSX_RECT VGetBoundingRect(s32 pointIdx) override;
     virtual void VRender(PrimHeader** ppOt) override;
 
 private:

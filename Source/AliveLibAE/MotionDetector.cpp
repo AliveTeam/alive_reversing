@@ -196,8 +196,7 @@ void MotionDetector::VRender(PrimHeader** ppOt)
     if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit3_Render))
     {
         auto pLaser = static_cast<MotionDetectorLaser*>(sObjectIds.Find(field_F8_laser_id, ReliveTypes::eRedLaser));
-        PSX_RECT bLaserRect = {};
-        pLaser->VGetBoundingRect(&bLaserRect, 1);
+        const PSX_RECT bLaserRect = pLaser->VGetBoundingRect();
 
         const FP camXFp = pScreenManager->field_20_pCamPos->field_0_x;
         const FP camYFp = pScreenManager->field_20_pCamPos->field_4_y;
@@ -306,8 +305,7 @@ void MotionDetector::VUpdate()
             pLaser->mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit3_Render);
         }
 
-        PSX_RECT bLaserRect = {};
-        pLaser->VGetBoundingRect(&bLaserRect, 1);
+        const PSX_RECT bLaserRect = pLaser->VGetBoundingRect();
 
         field_178_bObjectInLaser = 0;
 
@@ -321,8 +319,7 @@ void MotionDetector::VUpdate()
 
             if (pObj->Type() != ReliveTypes::eTimedMine_or_MovingBomb && (pObj->Type() == ReliveTypes::eAbe || pObj->Type() == ReliveTypes::eMudokon || !pOwner))
             {
-                PSX_RECT objRect = {};
-                pObj->VGetBoundingRect(&objRect, 1);
+                const PSX_RECT objRect = pObj->VGetBoundingRect();
 
                 // Can't use PSX_Rects_overlap_no_adjustment because its checking <= and adjusting x/y
                 if (bLaserRect.x <= (objRect.w - 8)

@@ -237,8 +237,7 @@ s16 Meat::OnCollision(BaseGameObject* pHit)
         return 1;
     }
 
-    PSX_RECT bRect = {};
-    static_cast<BaseAliveGameObject*>(pHit)->VGetBoundingRect(&bRect, 1);
+    const PSX_RECT bRect = static_cast<BaseAliveGameObject*>(pHit)->VGetBoundingRect();
 
     if (field_120_xpos < FP_FromInteger(bRect.x) || field_120_xpos > FP_FromInteger(bRect.w))
     {
@@ -277,8 +276,7 @@ void Meat::VUpdate()
             case MeatStates::eBeingThrown_2:
             {
                 InTheAir();
-                PSX_RECT bRect = {};
-                VGetBoundingRect(&bRect, 1);
+                const PSX_RECT bRect = VGetBoundingRect();
                 const PSX_Point xy = {bRect.x, static_cast<s16>(bRect.y + 5)};
                 const PSX_Point wh = {bRect.w, static_cast<s16>(bRect.h + 5)};
                 VOnCollisionWith(
@@ -531,11 +529,8 @@ void MeatSack::VUpdate()
     }
     else
     {
-        PSX_RECT abeRect = {};
-        sActiveHero->VGetBoundingRect(&abeRect, 1);
-
-        PSX_RECT ourRect = {};
-        VGetBoundingRect(&ourRect, 1);
+        const PSX_RECT abeRect = sActiveHero->VGetBoundingRect();
+        const PSX_RECT ourRect = VGetBoundingRect();
 
         if (RectsOverlap(ourRect, abeRect) && mBaseAnimatedWithPhysicsGameObject_SpriteScale == sActiveHero->mBaseAnimatedWithPhysicsGameObject_SpriteScale)
         {

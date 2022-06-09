@@ -123,8 +123,7 @@ void OrbWhirlWindParticle::Update()
                 FP ypos = {};
                 if (field_E4_pObj)
                 {
-                    PSX_RECT bRect = {};
-                    static_cast<BaseAliveGameObject*>(field_E4_pObj)->VGetBoundingRect(&bRect, 1);
+                    const PSX_RECT bRect = static_cast<BaseAliveGameObject*>(field_E4_pObj)->VGetBoundingRect();
 
                     xpos = FP_FromInteger((bRect.x + bRect.w) / 2);
                     ypos = FP_FromInteger((bRect.y + bRect.h) / 2);

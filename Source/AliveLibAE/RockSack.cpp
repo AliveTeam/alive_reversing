@@ -109,11 +109,8 @@ void RockSack::VUpdate()
             mBaseAnimatedWithPhysicsGameObject_Anim.mFrameChangeCounter = Math_RandomRange(2, 10);
         }
 
-        PSX_RECT bPlayerRect = {};
-        sActiveHero->VGetBoundingRect(&bPlayerRect, 1);
-
-        PSX_RECT bRect = {};
-        VGetBoundingRect(&bRect, 1);
+        const PSX_RECT bPlayerRect = sActiveHero->VGetBoundingRect();
+        const PSX_RECT bRect = VGetBoundingRect();
 
         if (bRect.x <= bPlayerRect.w && bRect.w >= bPlayerRect.x && bRect.h >= bPlayerRect.y && bRect.y <= bPlayerRect.h && mBaseAnimatedWithPhysicsGameObject_SpriteScale == sActiveHero->mBaseAnimatedWithPhysicsGameObject_SpriteScale)
         {

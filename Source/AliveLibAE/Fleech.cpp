@@ -778,8 +778,7 @@ void Fleech::M_Fall_9_42ECD0()
                 MapFollowMe(TRUE);
                 if (BaseAliveGameObjectCollisionLine->field_8_type == eLineTypes::eUnknown_32 || BaseAliveGameObjectCollisionLine->field_8_type == eLineTypes::eUnknown_36)
                 {
-                    PSX_RECT bRect = {};
-                    VGetBoundingRect(&bRect, 1);
+                    const PSX_RECT bRect = VGetBoundingRect();
                     VOnCollisionWith(
                         {bRect.x, static_cast<s16>(bRect.y + 5)},
                         {bRect.w, static_cast<s16>(FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos) + 5)},
@@ -1801,8 +1800,7 @@ void Fleech::TongueUpdate_42BD30()
         case 6:
             if (pTarget)
             {
-                PSX_RECT bRect = {};
-                pTarget->VGetBoundingRect(&bRect, 1);
+                const PSX_RECT bRect = pTarget->VGetBoundingRect();
 
                 field_18A.Set(Flags_18A::e18A_Render_Bit2);
                 field_17C = FP_GetExponent(pTarget->mBaseAnimatedWithPhysicsGameObject_XPos);
@@ -1881,8 +1879,7 @@ void Fleech::TongueUpdate_42BD30()
         case 7:
             if (pTarget)
             {
-                PSX_RECT bRect = {};
-                pTarget->VGetBoundingRect(&bRect, 1);
+                const PSX_RECT bRect = pTarget->VGetBoundingRect();
 
                 switch (field_17A_tongue_sub_state++)
                 {
@@ -1937,8 +1934,7 @@ void Fleech::TongueUpdate_42BD30()
         case 9:
             if (pTarget)
             {
-                PSX_RECT bRect = {};
-                pTarget->VGetBoundingRect(&bRect, 1);
+                const PSX_RECT bRect = pTarget->VGetBoundingRect();
                 field_17C = FP_GetExponent((mBaseAnimatedWithPhysicsGameObject_XPos + pTarget->mBaseAnimatedWithPhysicsGameObject_XPos) * FP_FromDouble(0.5));
                 field_17E = (bRect.y + bRect.h) >> 1;
                 field_184_target_x = FP_GetExponent((mBaseAnimatedWithPhysicsGameObject_XPos + pTarget->mBaseAnimatedWithPhysicsGameObject_XPos) * FP_FromDouble(0.5));
@@ -2179,8 +2175,7 @@ s16 Fleech::VTakeDamage(BaseGameObject* pFrom)
 
             relive_new Gibs(GibType::Fleech_10, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, mBaseAnimatedWithPhysicsGameObject_VelX, mBaseAnimatedWithPhysicsGameObject_VelY, mBaseAnimatedWithPhysicsGameObject_SpriteScale, 0);
 
-            PSX_RECT bRect = {};
-            VGetBoundingRect(&bRect, 1);
+            const PSX_RECT bRect = VGetBoundingRect();
             relive_new Blood(
                 FP_FromInteger((bRect.x + bRect.w) / 2),
                 FP_FromInteger((bRect.y + bRect.h) / 2),
@@ -2349,8 +2344,7 @@ void Fleech::PullTargetIn_42BAF0()
         field_178_tongue_state = 6;
         field_17A_tongue_sub_state = 0;
 
-        PSX_RECT bRect = {};
-        pTarget->VGetBoundingRect(&bRect, 1);
+        const PSX_RECT bRect = pTarget->VGetBoundingRect();
 
         field_17C = FP_GetExponent(pTarget->mBaseAnimatedWithPhysicsGameObject_XPos);
         field_17E = (bRect.y + bRect.h) / 2;
@@ -2448,8 +2442,7 @@ void Fleech::MoveAlongFloor_42E600()
             }
             else if (BaseAliveGameObjectCollisionLine->field_8_type == eLineTypes::eUnknown_32 || BaseAliveGameObjectCollisionLine->field_8_type == eLineTypes::eUnknown_36)
             {
-                PSX_RECT bRect = {};
-                VGetBoundingRect(&bRect, 1);
+                const PSX_RECT bRect = VGetBoundingRect();
                 const PSX_Point xy = {bRect.x, static_cast<s16>(bRect.y + 5)};
                 const PSX_Point wh = {bRect.w, static_cast<s16>(bRect.h + 5)};
                 VOnCollisionWith(xy, wh, ObjList_5C1B78, 1, (TCollisionCallBack) &BaseAliveGameObject::OnTrapDoorIntersection);

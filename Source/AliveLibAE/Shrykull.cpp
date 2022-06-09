@@ -137,11 +137,8 @@ void Shrykull::VUpdate()
                 {
                     field_128_obj_being_zapped_id = pObj->field_8_object_id;
 
-                    PSX_RECT objRect = {};
-                    pObj->VGetBoundingRect(&objRect, 1);
-
-                    PSX_RECT ourRect = {};
-                    VGetBoundingRect(&ourRect, 1);
+                    const PSX_RECT objRect = pObj->VGetBoundingRect();
+                    const PSX_RECT ourRect = VGetBoundingRect();
 
                     if (pExistingZapLine)
                     {
@@ -265,11 +262,8 @@ void Shrykull::VUpdate()
                 }
                 else
                 {
-                    PSX_RECT zapRect = {};
-                    pExistingBeingZappedObj->VGetBoundingRect(&zapRect, 1);
-
-                    PSX_RECT ourRect = {};
-                    VGetBoundingRect(&ourRect, 1);
+                    const PSX_RECT zapRect = pExistingBeingZappedObj->VGetBoundingRect();
+                    const PSX_RECT ourRect = VGetBoundingRect();
 
                     if (static_cast<s32>(sGnFrame) == field_120_timer)
                     {

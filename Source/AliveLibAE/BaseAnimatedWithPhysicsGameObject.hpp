@@ -35,8 +35,7 @@ public:
     void Animation_Init(s32 frameTableOffset, s32 maxW, s32 maxH, u8** ppAnimData, s16 bAddToDrawableList, u8 bOwnsPalData);
 
     virtual void VOnCollisionWith(PSX_Point xy, PSX_Point wh, DynamicArrayT<BaseGameObject>* pObjList, s32 startingPointIdx, TCollisionCallBack pFn);
-    // TODO: Just return by value - this is odd optimization the compiler does
-    virtual PSX_RECT* VGetBoundingRect(PSX_RECT* pRect, s32 pointIdx);
+    virtual PSX_RECT VGetBoundingRect(s32 pointIdx = 1);
     virtual s16 VIsObjNearby(FP radius, BaseAnimatedWithPhysicsGameObject* pObj);
     virtual s16 VIsObj_GettingNear(BaseAnimatedWithPhysicsGameObject* pObj);
     virtual s16 VIsFacingMe(BaseAnimatedWithPhysicsGameObject* pOther);

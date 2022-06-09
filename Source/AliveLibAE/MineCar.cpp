@@ -383,8 +383,7 @@ void MineCar::VRender(PrimHeader** ppOt)
         s16 g = mBaseAnimatedWithPhysicsGameObject_Red;
         s16 b = mBaseAnimatedWithPhysicsGameObject_Blue;
 
-        PSX_RECT bRect = {};
-        VGetBoundingRect(&bRect, 1);
+        const PSX_RECT bRect = VGetBoundingRect();
 
         if (mApplyShadows & 1)
         {
@@ -666,8 +665,7 @@ s16 MineCar::FollowDirection()
 
 void MineCar::RunThingsOver()
 {
-    PSX_RECT ourRect = {};
-    VGetBoundingRect(&ourRect, 1);
+    PSX_RECT ourRect = VGetBoundingRect();
     ourRect.h += 6;
 
     for (s32 i = 0; i < gBaseGameObjects->Size(); i++)
@@ -689,9 +687,7 @@ void MineCar::RunThingsOver()
                 if (pAliveObj->mBaseAnimatedWithPhysicsGameObject_SpriteScale == mBaseAnimatedWithPhysicsGameObject_SpriteScale ||
                    (pAliveObj->Type() == ReliveTypes::eSlog && mBaseAnimatedWithPhysicsGameObject_SpriteScale != FP_FromDouble(0.5)))
                 {
-                    PSX_RECT targetRect = {};
-                    pAliveObj->VGetBoundingRect(&targetRect, 1);
-
+                    const PSX_RECT targetRect = pAliveObj->VGetBoundingRect();
                     if (PSX_Rects_overlap_no_adjustment(&ourRect, &targetRect))
                     {
                         // Get run over by the mine car
@@ -942,11 +938,8 @@ void MineCar::VUpdate()
 
 void MineCar::State_0_ParkedWithoutAbe()
 {
-    PSX_RECT carRect = {};
-    VGetBoundingRect(&carRect, 1);
-
-    PSX_RECT abeRect = {};
-    sActiveHero->VGetBoundingRect(&abeRect, 1);
+    const PSX_RECT carRect = VGetBoundingRect();
+    const PSX_RECT abeRect = sActiveHero->VGetBoundingRect();
 
     if (
         sActiveHero->mCurrentMotion == eAbeMotions::Motion_117_InMineCar_4587C0 &&

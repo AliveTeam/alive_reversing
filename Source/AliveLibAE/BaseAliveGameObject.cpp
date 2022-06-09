@@ -95,8 +95,7 @@ s16 BaseAliveGameObject::IsInInvisibleZone(BaseAliveGameObject* pObj)
         return FALSE;
     }
 
-    PSX_RECT bRect = {};
-    pObj->VGetBoundingRect(&bRect, 1);
+    const PSX_RECT bRect = pObj->VGetBoundingRect();
 
     Path_TLV* pTlv = sPath_dword_BB47C0->TLV_Get_At_4DB4B0(
         bRect.x,
@@ -300,8 +299,7 @@ void BaseAliveGameObject::VCheckCollisionLineStillValid(s16 distance)
         if (pLine->field_8_type == eLineTypes::eUnknown_32 ||
             pLine->field_8_type == eLineTypes::eUnknown_36)
         {
-            PSX_RECT bRect = {};
-            VGetBoundingRect(&bRect, 1);
+            const PSX_RECT bRect = VGetBoundingRect();
 
             PSX_Point xy = {bRect.x, bRect.y};
             PSX_Point wh = {bRect.w, bRect.h};
@@ -441,9 +439,8 @@ BaseAliveGameObject* BaseAliveGameObject::GetStackedSlapTarget(s32 idToFind, Rel
             }
             else if (bFound)
             {
-                PSX_RECT bRect = {};
                 BaseAliveGameObject* pAliveObj = static_cast<BaseAliveGameObject*>(pObj);
-                pAliveObj->VGetBoundingRect(&bRect, 1);
+                const PSX_RECT bRect = pAliveObj->VGetBoundingRect();
                 // TODO: Similar to PSX_Rects_overlap_no_adjustment
                 if (xposD >= bRect.x && xposD <= bRect.w && yposD >= bRect.y && yposD <= bRect.h)
                 {
@@ -640,9 +637,7 @@ BaseGameObject* BaseAliveGameObject::FindObjectOfType(ReliveTypes typeToFind, FP
             auto pCasted = static_cast<BaseAnimatedWithPhysicsGameObject*>(pObj);
             if (pCasted->mBaseAnimatedWithPhysicsGameObject_Scale == mBaseAnimatedWithPhysicsGameObject_Scale)
             {
-                PSX_RECT bRect = {};
-                pCasted->VGetBoundingRect(&bRect, 1);
-
+                const PSX_RECT bRect = pCasted->VGetBoundingRect();
                 if (xposI >= bRect.x && xposI <= bRect.w && yposI >= bRect.y && yposI <= bRect.h)
                 {
                     return pObj;
@@ -655,8 +650,7 @@ BaseGameObject* BaseAliveGameObject::FindObjectOfType(ReliveTypes typeToFind, FP
 
 s16 BaseAliveGameObject::OnTrapDoorIntersection(PlatformBase* pPlatform)
 {
-    PSX_RECT bRect = {};
-    pPlatform->VGetBoundingRect(&bRect, 1);
+    const PSX_RECT bRect = pPlatform->VGetBoundingRect();
 
     if (FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos) < bRect.x || FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos) > bRect.w || FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos) > bRect.h)
     {

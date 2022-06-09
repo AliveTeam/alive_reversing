@@ -3311,11 +3311,8 @@ void Scrab::M_DeathBegin_39_4AA190()
 
 s16 Scrab::VOnSameYLevel(BaseAnimatedWithPhysicsGameObject* pOther)
 {
-    PSX_RECT ourRect = {};
-    VGetBoundingRect(&ourRect, 1);
-
-    PSX_RECT otherRect = {};
-    pOther->VGetBoundingRect(&otherRect, 1);
+    const PSX_RECT ourRect = VGetBoundingRect();
+    const PSX_RECT otherRect = pOther->VGetBoundingRect();
 
     const FP k10Scaled = (FP_FromInteger(10) * mBaseAnimatedWithPhysicsGameObject_SpriteScale);
     if (FP_FromInteger(ourRect.y) <= (FP_FromInteger(otherRect.h) - k10Scaled) && ourRect.y >= otherRect.y)
@@ -3419,9 +3416,7 @@ void Scrab::MoveOnLine()
 
 void Scrab::PlatformCollide()
 {
-    PSX_RECT bRect = {};
-    VGetBoundingRect(&bRect, 1);
-
+    const PSX_RECT bRect = VGetBoundingRect();
     const PSX_Point xy = {bRect.x, static_cast<s16>(bRect.y + 5)};
     const PSX_Point wh = {bRect.w, static_cast<s16>(bRect.h + 5)};
     VOnCollisionWith(xy, wh, ObjList_5C1B78, 1, (TCollisionCallBack) &BaseAliveGameObject::OnTrapDoorIntersection);
@@ -3979,8 +3974,7 @@ void Scrab::KillTarget(BaseAliveGameObject* pTarget)
         {
             if (!BrainIs(&Scrab::Brain_5_Possessed_4A6180) || mCurrentMotion == eScrabMotions::M_LegKick_38_4AA120 || mCurrentMotion == eScrabMotions::M_Stamp_21_4A9CC0 || mCurrentMotion == eScrabMotions::M_AttackSpin_32_4A8DC0)
             {
-                PSX_RECT bOurRect = {};
-                VGetBoundingRect(&bOurRect, 1);
+                const PSX_RECT bOurRect = VGetBoundingRect();
                 BaseAliveGameObject* pObj = pTarget;
 
                 s32 list_idx = 0;
@@ -4023,8 +4017,7 @@ void Scrab::KillTarget(BaseAliveGameObject* pTarget)
                                             (pObj->Type() != ReliveTypes::eFleech || BrainIs(&Scrab::Brain_5_Possessed_4A6180) || field_1A8_bKill_enemy == Choice_short::eYes_1)))
 
                                         {
-                                            PSX_RECT objRect = {};
-                                            pObj->VGetBoundingRect(&objRect, 1);
+                                            const PSX_RECT objRect = pObj->VGetBoundingRect();
 
                                             if (PSX_Rects_overlap_no_adjustment(&objRect, &bOurRect))
                                             {
@@ -4147,11 +4140,8 @@ s16 Scrab::CanSeeAbe(BaseAliveGameObject* pObj)
 
 Bool32 Scrab::LineOfSightTo(Scrab* pThis, BaseAliveGameObject* pObj)
 {
-    PSX_RECT objRect = {};
-    pObj->VGetBoundingRect(&objRect, 1);
-
-    PSX_RECT bRect = {};
-    pThis->VGetBoundingRect(&bRect, 1);
+    const PSX_RECT objRect = pObj->VGetBoundingRect();
+    const PSX_RECT bRect = pThis->VGetBoundingRect();
 
     PathLine* pLine = nullptr;
     FP hitX = {};

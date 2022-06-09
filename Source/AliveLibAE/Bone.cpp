@@ -183,8 +183,7 @@ s16 Bone::OnCollision(BaseAnimatedWithPhysicsGameObject* pObj)
         return 1;
     }
 
-    PSX_RECT bRect = {};
-    pObj->VGetBoundingRect(&bRect, 1);
+    const PSX_RECT bRect = pObj->VGetBoundingRect();
 
     if (field_120_xpos < FP_FromInteger(bRect.x) || field_120_xpos > FP_FromInteger(bRect.w))
     {
@@ -432,8 +431,7 @@ void Bone::VUpdate()
 
         case BoneStates::eCollided_2:
         {
-            PSX_RECT bRect = {};
-            VGetBoundingRect(&bRect, 1);
+            const PSX_RECT bRect = VGetBoundingRect();
             const s16 offset = mBaseAnimatedWithPhysicsGameObject_Scale != 0 ? 5 : 0;
             const PSX_Point xy{bRect.x, static_cast<s16>(bRect.y + offset)};
             const PSX_Point wh{bRect.w, static_cast<s16>(bRect.h + offset)};
@@ -513,8 +511,7 @@ void Bone::VUpdate()
         case BoneStates::eEdible_4:
         {
             InTheAir();
-            PSX_RECT bRect = {};
-            VGetBoundingRect(&bRect, 1);
+            const PSX_RECT bRect = VGetBoundingRect();
             const s16 offset = mBaseAnimatedWithPhysicsGameObject_Scale != 0 ? 5 : 0;
             const PSX_Point xy{bRect.x, static_cast<s16>(bRect.y + offset)};
             const PSX_Point wh{bRect.w, static_cast<s16>(bRect.h + offset)};
@@ -671,11 +668,8 @@ void BoneBag::VUpdate()
         mBaseAnimatedWithPhysicsGameObject_Anim.mFrameChangeCounter = Math_RandomRange(2, 10);
     }
 
-    PSX_RECT bPlayerRect = {};
-    sActiveHero->VGetBoundingRect(&bPlayerRect, 1);
-
-    PSX_RECT bRect = {};
-    VGetBoundingRect(&bRect, 1);
+    const PSX_RECT bPlayerRect = sActiveHero->VGetBoundingRect();
+    const PSX_RECT bRect = VGetBoundingRect();
 
     if (bRect.x <= bPlayerRect.w && bRect.w >= bPlayerRect.x && bRect.h >= bPlayerRect.y && bRect.y <= bPlayerRect.h && mBaseAnimatedWithPhysicsGameObject_SpriteScale == sActiveHero->mBaseAnimatedWithPhysicsGameObject_SpriteScale)
     {
@@ -683,7 +677,7 @@ void BoneBag::VUpdate()
         {
             if (gpThrowableArray_5D1E2C->field_20_count)
             {
-                if (sActiveHero->mCurrentMotion == 31)
+                if (sActiveHero->mCurrentMotion == 31) // TODO constant
                 {
                     const AnimRecord& animRec = AnimRec(AnimId::BoneBag_HardHit);
                     mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);

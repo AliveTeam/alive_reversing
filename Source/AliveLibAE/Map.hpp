@@ -141,7 +141,7 @@ public:
     void Get_Abe_Spawn_Pos(PSX_Point* pPoint);
     s16 GetOverlayId() override;
     void Create_FG1s();
-    CameraPos Rect_Location_Relative_To_Active_Camera(PSX_RECT* pRect);
+    CameraPos Rect_Location_Relative_To_Active_Camera(const PSX_RECT* pRect);
     s16 SetActiveCam(EReliveLevelIds level, s16 path, s16 cam, CameraSwapEffects screenChangeEffect, s16 fmvBaseId, s16 forceChange);
     static BaseGameObject* FMV_Camera_Change(u8** ppBits, Map* pMap, EReliveLevelIds lvlId);
     Camera* Create_Camera(s16 xpos, s16 ypos, s32 a4);

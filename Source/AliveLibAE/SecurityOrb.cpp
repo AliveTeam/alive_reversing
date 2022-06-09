@@ -166,8 +166,7 @@ void SecurityOrb::VUpdate()
         }
         else if (static_cast<s32>(sGnFrame) > field_120_timer)
         {
-            PSX_RECT bRect = {};
-            sActiveHero->VGetBoundingRect(&bRect, 1);
+            const PSX_RECT bRect = sActiveHero->VGetBoundingRect();
 
             const FP xpos = FP_FromInteger((bRect.x + bRect.w) / 2);
             const FP ypos = FP_FromInteger((bRect.y + bRect.h) / 2);

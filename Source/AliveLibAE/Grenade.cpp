@@ -389,8 +389,7 @@ void Grenade::VUpdate()
             {
                 if (!TimeToBlowUp())
                 {
-                    PSX_RECT bRect = {};
-                    VGetBoundingRect(&bRect, 1);
+                    const PSX_RECT bRect = VGetBoundingRect();
 
                     const PSX_Point xy = {bRect.x, static_cast<s16>(bRect.y + 5)};
                     const PSX_Point wh = {bRect.w, static_cast<s16>(bRect.h + 5)};
@@ -435,8 +434,7 @@ void Grenade::VUpdate()
         {
             InTheAir(TRUE);
 
-            PSX_RECT bRect = {};
-            VGetBoundingRect(&bRect, 1);
+            const PSX_RECT bRect = VGetBoundingRect();
 
             const PSX_Point xy = {bRect.x, static_cast<s16>(bRect.y + 5)};
             const PSX_Point wh = {bRect.w, static_cast<s16>(bRect.h + 5)};
@@ -631,8 +629,7 @@ s16 Grenade::OnCollision_BounceOff(BaseGameObject* pHit)
         return 1;
     }
 
-    PSX_RECT bRect = {};
-    pHit2->VGetBoundingRect(&bRect, 1);
+    const PSX_RECT bRect = pHit2->VGetBoundingRect();
 
     if (field_128_xpos < FP_FromInteger(bRect.x + 12) || field_128_xpos > FP_FromInteger(bRect.w - 12))
     {

@@ -68,8 +68,7 @@ void UXB::PlaySFX(SoundEffect sfxIdx)
 
 s32 UXB::IsColliding()
 {
-    PSX_RECT uxbBound = {};
-    VGetBoundingRect(&uxbBound, 1);
+    const PSX_RECT uxbBound = VGetBoundingRect();
 
     for (s32 i = 0; i < gBaseAliveGameObjects_5C1B7C->Size(); i++)
     {
@@ -82,8 +81,7 @@ s32 UXB::IsColliding()
 
         if (pObj->mBaseAliveGameObjectFlags.Get(e114_Bit6_SetOffExplosives) && pObj->mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit3_Render))
         {
-            PSX_RECT objBound = {};
-            pObj->VGetBoundingRect(&objBound, 1);
+            const PSX_RECT objBound = pObj->VGetBoundingRect();
 
             const s32 objX = FP_GetExponent(pObj->mBaseAnimatedWithPhysicsGameObject_XPos);
             const s32 objY = FP_GetExponent(pObj->mBaseAnimatedWithPhysicsGameObject_YPos);

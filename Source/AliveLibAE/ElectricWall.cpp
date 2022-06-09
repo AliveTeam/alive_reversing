@@ -117,8 +117,7 @@ void ElectricWall::VUpdate()
             field_FC_sound_timer = sGnFrame + Math_RandomRange(24, 40);
         }
 
-        PSX_RECT bRect = {};
-        VGetBoundingRect(&bRect, 1);
+        const PSX_RECT bRect = VGetBoundingRect();
 
         PSX_RECT bRectBigger;
         bRectBigger.x = FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos - FP_FromInteger(4));
@@ -147,8 +146,7 @@ void ElectricWall::VUpdate()
                 default:
                     if (pObj->mBaseAnimatedWithPhysicsGameObject_Scale == mBaseAnimatedWithPhysicsGameObject_Scale)
                     {
-                        PSX_RECT objRect = {};
-                        pObj->VGetBoundingRect(&objRect, 1);
+                        PSX_RECT objRect = pObj->VGetBoundingRect();
 
                         // If touching rect then we are fried
                         if (!RectsOverlap(bRectBigger, objRect))

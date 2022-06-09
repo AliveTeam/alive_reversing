@@ -81,8 +81,7 @@ void BaseAnimatedWithPhysicsGameObject::VRender(PrimHeader** ppOt)
             s16 g = mBaseAnimatedWithPhysicsGameObject_Green;
             s16 b = mBaseAnimatedWithPhysicsGameObject_Blue;
 
-            PSX_RECT boundingRect = {};
-            VGetBoundingRect(&boundingRect, 1);
+            const PSX_RECT boundingRect = VGetBoundingRect();
 
             if (mApplyShadows & 1)
             {
@@ -181,7 +180,7 @@ void BaseAnimatedWithPhysicsGameObject::Animation_Init(s32 frameTableOffset, s32
     }
 }
 
-PSX_RECT* BaseAnimatedWithPhysicsGameObject::VGetBoundingRect(PSX_RECT* pRect, s32 pointIdx)
+PSX_RECT BaseAnimatedWithPhysicsGameObject::VGetBoundingRect(s32 pointIdx)
 {
     const FrameInfoHeader* pAnimFrameHeader = mBaseAnimatedWithPhysicsGameObject_Anim.Get_FrameHeader(-1);
 
@@ -222,8 +221,7 @@ PSX_RECT* BaseAnimatedWithPhysicsGameObject::VGetBoundingRect(PSX_RECT* pRect, s
     rect.w += xpos;
     rect.h += ypos;
 
-    *pRect = rect;
-    return pRect;
+    return rect;
 }
 
 s16 BaseAnimatedWithPhysicsGameObject::VIsObjNearby(FP radius, BaseAnimatedWithPhysicsGameObject* pObj)
@@ -284,11 +282,8 @@ s16 BaseAnimatedWithPhysicsGameObject::VIsFacingMe(BaseAnimatedWithPhysicsGameOb
 s16 BaseAnimatedWithPhysicsGameObject::VOnSameYLevel(BaseAnimatedWithPhysicsGameObject* pOther)
 {
     // Get bounding rects
-    PSX_RECT ourRect = {};
-    VGetBoundingRect(&ourRect, 1);
-
-    PSX_RECT theirRect = {};
-    pOther->VGetBoundingRect(&theirRect, 1);
+    const PSX_RECT ourRect = VGetBoundingRect();
+    const PSX_RECT theirRect = pOther->VGetBoundingRect();
 
     // Get mid Y of each
     const s32 theirMidY = (theirRect.h + theirRect.y) / 2;
@@ -405,8 +400,7 @@ void BaseAnimatedWithPhysicsGameObject::DealDamageRect(const PSX_RECT* pRect)
 
 CameraPos BaseAnimatedWithPhysicsGameObject::Is_In_Current_Camera()
 {
-    PSX_RECT rect = {};
-    VGetBoundingRect(&rect, 1);
+    const PSX_RECT rect = VGetBoundingRect();
     return gMap.Rect_Location_Relative_To_Active_Camera(&rect);
 }
 
@@ -432,8 +426,7 @@ void BaseAnimatedWithPhysicsGameObject::VOnCollisionWith(PSX_Point xy, PSX_Point
             BaseAnimatedWithPhysicsGameObject* pObj = static_cast<BaseAnimatedWithPhysicsGameObject*>(pElement);
             if (pObj->mBaseGameObjectFlags.Get(BaseGameObject::eDrawable_Bit4))
             {
-                PSX_RECT bRect = {};
-                pObj->VGetBoundingRect(&bRect, startingPointIdx);
+                const PSX_RECT bRect = pObj->VGetBoundingRect(startingPointIdx);
                 if (xy.field_0_x <= bRect.w && xy.field_2_y <= bRect.h && wh.field_0_x >= bRect.x && wh.field_2_y >= bRect.y && mBaseAnimatedWithPhysicsGameObject_Scale == pObj->mBaseAnimatedWithPhysicsGameObject_Scale)
                 {
                     if (!(this->*(pFn))(pObj))

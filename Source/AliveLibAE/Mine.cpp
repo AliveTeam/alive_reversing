@@ -260,8 +260,7 @@ s16 Mine::VTakeDamage(BaseGameObject* pFrom)
 
 bool Mine::IsColliding()
 {
-    PSX_RECT mineBound;
-    VGetBoundingRect(&mineBound, 1);
+    const PSX_RECT mineBound = VGetBoundingRect();
 
     for (s32 i = 0; i < gBaseAliveGameObjects_5C1B7C->Size(); i++)
     {
@@ -275,8 +274,7 @@ bool Mine::IsColliding()
         // e114_Bit6 May be "can set off explosives?"
         if (pObj->mBaseAliveGameObjectFlags.Get(e114_Bit6_SetOffExplosives) && pObj->mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit3_Render))
         {
-            PSX_RECT objBound;
-            pObj->VGetBoundingRect(&objBound, 1);
+            const PSX_RECT objBound = pObj->VGetBoundingRect();
 
             s32 objX = FP_GetExponent(pObj->mBaseAnimatedWithPhysicsGameObject_XPos);
             s32 objY = FP_GetExponent(pObj->mBaseAnimatedWithPhysicsGameObject_YPos);

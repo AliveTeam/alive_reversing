@@ -634,8 +634,7 @@ void Drill::EmitSparks()
 
 s16 Drill::DamageTouchingObjects()
 {
-    PSX_RECT drillRect = {};
-    VGetBoundingRect(&drillRect, 1);
+    PSX_RECT drillRect = VGetBoundingRect();
 
     if (field_FA_direction == DrillDirection::eDown_0)
     {
@@ -657,8 +656,7 @@ s16 Drill::DamageTouchingObjects()
             {
                 if (pObj->Type() != ReliveTypes::eMeat && pObj->Type() != ReliveTypes::eEvilFart && (pObj->Type() != ReliveTypes::eAbe || pObj->mCurrentMotion != eAbeMotions::Motion_68_ToOffScreenHoist_454B80))
                 {
-                    PSX_RECT objRect = {};
-                    pObj->VGetBoundingRect(&objRect, 1);
+                    const PSX_RECT objRect = pObj->VGetBoundingRect();
 
                     if (RectsOverlap(drillRect, objRect) && pObj->mBaseAnimatedWithPhysicsGameObject_Scale == mBaseAnimatedWithPhysicsGameObject_Scale && pObj->mHealth > FP_FromInteger(0))
                     {

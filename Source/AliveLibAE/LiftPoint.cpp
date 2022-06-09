@@ -410,8 +410,7 @@ void LiftPoint::VRender(PrimHeader** ppOt)
             s16 g = mBaseAnimatedWithPhysicsGameObject_Green;
             s16 b = mBaseAnimatedWithPhysicsGameObject_Blue;
 
-            PSX_RECT bRect = {};
-            VGetBoundingRect(&bRect, 1);
+            const PSX_RECT bRect = VGetBoundingRect();
             ShadowZone::ShadowZones_Calculate_Colour(
                 FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos),
                 (bRect.h + bRect.y) / 2,

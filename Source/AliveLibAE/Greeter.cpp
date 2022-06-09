@@ -558,11 +558,8 @@ void Greeter::RandomishSpeak(GreeterSpeak effect)
 
 Bool32 Greeter::ZapIsNotBlocked(BaseAliveGameObject* pUs, BaseAliveGameObject* pThem)
 {
-    PSX_RECT usRect = {};
-    VGetBoundingRect(&usRect, 1);
-
-    PSX_RECT bRectThem = {};
-    pThem->VGetBoundingRect(&bRectThem, 1);
+    const PSX_RECT usRect = VGetBoundingRect();
+    const PSX_RECT bRectThem = pThem->VGetBoundingRect();
 
     FP hitX = {};
     FP hitY = {};
@@ -591,8 +588,7 @@ BaseAliveGameObject* Greeter::GetMudToZap()
 
         if (pObj->Type() == ReliveTypes::eMudokon)
         {
-            PSX_RECT bRect = {};
-            pObj->VGetBoundingRect(&bRect, 1);
+            const PSX_RECT bRect = pObj->VGetBoundingRect();
 
             const FP xMid = FP_FromInteger((bRect.x + bRect.w) / 2);
             const FP yMid = FP_FromInteger((bRect.y + bRect.h) / 2);
@@ -723,8 +719,7 @@ void Greeter::VUpdate()
                 mBaseAnimatedWithPhysicsGameObject_VelX = mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(5);
             }
 
-            PSX_RECT bRect = {};
-            sActiveHero->VGetBoundingRect(&bRect, 1);
+            const PSX_RECT bRect = sActiveHero->VGetBoundingRect();
 
             const FP midX = FP_FromInteger((bRect.x + bRect.w) / 2);
             const FP midY = FP_FromInteger((bRect.y + bRect.h) / 2);
@@ -734,8 +729,7 @@ void Greeter::VUpdate()
                 BaseAliveGameObject* pGonnaZapYa = GetMudToZap();
                 if (pGonnaZapYa)
                 {
-                    PSX_RECT bZapRect = {};
-                    pGonnaZapYa->VGetBoundingRect(&bZapRect, 1);
+                    const PSX_RECT bZapRect = pGonnaZapYa->VGetBoundingRect();
 
                     ZapTarget(
                         FP_FromInteger((bZapRect.x + bZapRect.w) / 2),

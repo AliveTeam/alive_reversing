@@ -190,8 +190,7 @@ void Slurg::VUpdate()
         mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
     }
 
-    PSX_RECT bRect = {};
-    VGetBoundingRect(&bRect, 1);
+    const PSX_RECT bRect = VGetBoundingRect();
 
     if (field_11C_state != Slurg_States::eBurst_2)
     {

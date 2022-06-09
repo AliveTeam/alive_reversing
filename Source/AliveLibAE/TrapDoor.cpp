@@ -285,10 +285,9 @@ s32 TrapDoor::VGetSaveState(u8* pSaveBuffer)
     return sizeof(TrapDoor_State);
 }
 
-PSX_RECT* TrapDoor::VGetBoundingRect(PSX_RECT* pRect, s32 /*not_used*/)
+PSX_RECT TrapDoor::VGetBoundingRect(s32 /*not_used*/)
 {
-    *pRect = field_148_bounding_rect;
-    return pRect;
+    return field_148_bounding_rect;
 }
 
 void TrapDoor::VAdd(BaseAliveGameObject* pObj)

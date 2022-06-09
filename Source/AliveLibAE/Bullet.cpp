@@ -279,8 +279,7 @@ void Bullet::VUpdate()
                 rectXPos = sControlledCharacter_5C1B8C->mBaseAnimatedWithPhysicsGameObject_XPos - doubleVelX - (FP_FromInteger(field_44_number_of_bullets * 16));
             }
 
-            PSX_RECT rect = {};
-            sControlledCharacter_5C1B8C->VGetBoundingRect(&rect, 1);
+            PSX_RECT rect = sControlledCharacter_5C1B8C->VGetBoundingRect();
             rect.x = FP_GetExponent(rectXPos);
             rect.y = rect.h - 10;
             rect.w = rect.x + 2;
@@ -376,8 +375,7 @@ BaseAliveGameObject* Bullet::ShootObject(PSX_RECT* pRect)
 
                         pObj->Type() == ReliveTypes::eMudokon || pObj->Type() == ReliveTypes::eAbe || pObj->Type() == ReliveTypes::eMineCar || (pObj->Type() == ReliveTypes::eSlig && sControlledCharacter_5C1B8C == pObj) || (pObj->Type() == ReliveTypes::eFlyingSlig && sControlledCharacter_5C1B8C == pObj) || (pObj->Type() == ReliveTypes::eCrawlingSlig && sControlledCharacter_5C1B8C == pObj) || (pObj->Type() == ReliveTypes::eGlukkon && sControlledCharacter_5C1B8C == pObj))
                     {
-                        PSX_RECT bRect = {};
-                        pObj->VGetBoundingRect(&bRect, 1);
+                        const PSX_RECT bRect = pObj->VGetBoundingRect();
 
                         if (pRect->x <= bRect.w && pRect->w >= bRect.x && pRect->h >= bRect.y && pRect->y <= bRect.h)
                         {

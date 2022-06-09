@@ -1579,8 +1579,7 @@ void Abe::VUpdate()
                                 ringType = RingTypes::eHealing_Pulse_14;
                             }
 
-                            PSX_RECT rect = {};
-                            VGetBoundingRect(&rect, 1);
+                            const PSX_RECT rect = VGetBoundingRect();
                             AbilityRing::Factory(
                                 FP_FromInteger((rect.x + rect.w) / 2),
                                 FP_FromInteger((rect.y + rect.h) / 2),
@@ -2305,8 +2304,7 @@ s16 Abe::VTakeDamage(BaseGameObject* pFrom)
                     return 1;
                 }
 
-                PSX_RECT bRect = {};
-                VGetBoundingRect(&bRect, 1);
+                const PSX_RECT bRect = VGetBoundingRect();
 
                 relive_new Blood(mBaseAnimatedWithPhysicsGameObject_XPos,
                     // Put YPos in the middle of who is getting damaged
@@ -2377,8 +2375,7 @@ s16 Abe::VTakeDamage(BaseGameObject* pFrom)
 
                 mHealth = FP_FromInteger(0);
 
-                PSX_RECT bRect = {};
-                VGetBoundingRect(&bRect, 1);
+                const PSX_RECT bRect = VGetBoundingRect();
 
                 relive_new Blood(
                     mBaseAnimatedWithPhysicsGameObject_XPos,
@@ -7352,8 +7349,7 @@ void Abe::Motion_112_Chant_45B1C0()
             {
                 if (!field_16C_bHaveShrykull && !field_16E_bHaveInvisiblity && !(field_1AC_flags.Get(Flags_1AC::e1AC_eBit15_have_healing)))
                 {
-                    PSX_RECT bRect = {};
-                    VGetBoundingRect(&bRect, 1);
+                    const PSX_RECT bRect = VGetBoundingRect();
 
                     AbilityRing::Factory(
                         FP_FromInteger((bRect.x + bRect.w) / 2),
@@ -7419,8 +7415,7 @@ void Abe::Motion_112_Chant_45B1C0()
 
                         if (bAliveMudIsInSameScreen)
                         {
-                            PSX_RECT bRect = {};
-                            VGetBoundingRect(&bRect, 1);
+                            const PSX_RECT bRect = VGetBoundingRect();
 
                             AbilityRing::Factory(
                                 FP_FromInteger((bRect.x + bRect.w) / 2),
@@ -7498,9 +7493,7 @@ void Abe::Motion_112_Chant_45B1C0()
             field_120_state.chant = ChantStates::ePossessVictim_1;
             field_124_timer = sGnFrame + 30;
 
-            PSX_RECT bRect = {};
-            pObj->VGetBoundingRect(&bRect, 1);
-
+            const PSX_RECT bRect = pObj->VGetBoundingRect();
             pOrbWhirlWind->ToSpin(
                 FP_FromInteger((bRect.w - bRect.x) / 2),
                 FP_FromInteger((bRect.h - bRect.y) / 2),
@@ -8460,11 +8453,8 @@ s16 Abe::TryEnterMineCar_4569E0()
 
             if (pObj->mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit3_Render))
             {
-                PSX_RECT abeRect = {};
-                VGetBoundingRect(&abeRect, 1);
-
-                PSX_RECT mineCarRect = {};
-                pObj->VGetBoundingRect(&mineCarRect, 1);
+                const PSX_RECT abeRect = VGetBoundingRect();
+                const PSX_RECT mineCarRect = pObj->VGetBoundingRect();
 
                 if (PSX_Rects_overlap_no_adjustment(&abeRect, &mineCarRect) && pObj->mBaseAnimatedWithPhysicsGameObject_SpriteScale == mBaseAnimatedWithPhysicsGameObject_SpriteScale && pObj->Type() == ReliveTypes::eMineCar)
                 {
@@ -8621,9 +8611,7 @@ void Abe::MoveForward_44E9A0()
                 BaseAliveGameObjectId = -1;
             }
 
-            PSX_RECT bRect = {};
-            VGetBoundingRect(&bRect, 1);
-
+            const PSX_RECT bRect = VGetBoundingRect();
             VOnCollisionWith(
                 {bRect.x, static_cast<s16>(bRect.y + 5)},
                 {static_cast<s16>(bRect.w + 5), static_cast<s16>(bRect.h + 5)}, // TODO: Is it really on both ??
@@ -9105,8 +9093,7 @@ s16 Abe::CantBeDamaged_44BAB0()
 
 void Abe::FallOnBombs_44EC10()
 {
-    PSX_RECT bOurRect = {};
-    VGetBoundingRect(&bOurRect, 1);
+    const PSX_RECT bOurRect = VGetBoundingRect();
     for (s32 i = 0; i < gBaseAliveGameObjects_5C1B7C->Size(); i++)
     {
         BaseAliveGameObject* pObj = gBaseAliveGameObjects_5C1B7C->ItemAt(i);
@@ -9117,9 +9104,7 @@ void Abe::FallOnBombs_44EC10()
 
         if (pObj->Type() == ReliveTypes::eMine || pObj->Type() == ReliveTypes::eUXB)
         {
-            PSX_RECT objRect = {};
-            pObj->VGetBoundingRect(&objRect, 1);
-
+            const PSX_RECT objRect = VGetBoundingRect();
             if (bOurRect.x <= objRect.w && bOurRect.w >= objRect.x && bOurRect.h >= objRect.y && bOurRect.y <= objRect.h)
             {
                 pObj->VTakeDamage(this);
@@ -9147,8 +9132,7 @@ s16 Abe::ForceDownIfHoisting_44BA30()
 
 void Abe::BulletDamage_44C980(Bullet* pBullet)
 {
-    PSX_RECT rect = {};
-    VGetBoundingRect(&rect, 1);
+    const PSX_RECT rect = VGetBoundingRect();
 
     enum class ShootKind
     {
@@ -9372,8 +9356,7 @@ PullRingRope* Abe::GetPullRope_44D120()
             PullRingRope* pRope = static_cast<PullRingRope*>(pObj);
             if (pRope->mBaseAnimatedWithPhysicsGameObject_SpriteScale == mBaseAnimatedWithPhysicsGameObject_SpriteScale)
             {
-                PSX_RECT bRect = {};
-                pRope->VGetBoundingRect(&bRect, 1);
+                const PSX_RECT bRect = pRope->VGetBoundingRect();
 
                 // Check we are near its ypos.
                 if ((mBaseAnimatedWithPhysicsGameObject_YPos - (mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(75))) <= pRope->mBaseAnimatedWithPhysicsGameObject_YPos && mBaseAnimatedWithPhysicsGameObject_YPos > pRope->mBaseAnimatedWithPhysicsGameObject_YPos)
@@ -9400,7 +9383,7 @@ void Abe::IntoPortalStates_451990()
         switch (field_1A4_portal_sub_state)
         {
             case PortalSubStates::eJumpingInsidePortal_0:
-                VGetBoundingRect(&bRect, 1);
+                bRect = VGetBoundingRect();
                 if ((mBaseAnimatedWithPhysicsGameObject_VelX > FP_FromInteger(0) && FP_FromInteger(bRect.x) > pBirdPortal->field_2C_xpos) || (mBaseAnimatedWithPhysicsGameObject_VelX < FP_FromInteger(0) && FP_FromInteger(bRect.w) < pBirdPortal->field_2C_xpos))
                 {
                     mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit3_Render);
@@ -9620,8 +9603,7 @@ s16 Abe::MoveLiftUpOrDown_45A7E0(FP yVelocity)
 
 s16 Abe::GetEvilFart_4585F0(s16 bDontLoad)
 {
-    PSX_RECT abeRect = {};
-    VGetBoundingRect(&abeRect, 1);
+    const PSX_RECT abeRect = VGetBoundingRect();
 
     BrewMachine* pBrewMachine = nullptr;
     for (s32 i = 0; i < gBaseGameObjects->Size(); i++)
@@ -9636,8 +9618,7 @@ s16 Abe::GetEvilFart_4585F0(s16 bDontLoad)
         {
             pBrewMachine = static_cast<BrewMachine*>(pObj);
 
-            PSX_RECT bRect = {};
-            pBrewMachine->VGetBoundingRect(&bRect, 1);
+            const PSX_RECT bRect = pBrewMachine->VGetBoundingRect();
 
             if (RectsOverlap(abeRect, bRect) && pBrewMachine->mBaseAnimatedWithPhysicsGameObject_SpriteScale == mBaseAnimatedWithPhysicsGameObject_SpriteScale && pBrewMachine->field_144_total_brew_count > 0 && field_198_has_evil_fart == FALSE)
             {

@@ -408,8 +408,7 @@ void SlapLock::SetInvisibilityTarget()
         RingTypes::eInvisible_Pulse_Emit_9,
         mBaseAnimatedWithPhysicsGameObject_SpriteScale);
 
-    PSX_RECT bRect = {};
-    sActiveHero->VGetBoundingRect(&bRect, 1);
+    const PSX_RECT bRect = sActiveHero->VGetBoundingRect();
 
     AbilityRing* pRing = AbilityRing::Factory(
         FP_FromInteger((bRect.x + bRect.w) / 2),

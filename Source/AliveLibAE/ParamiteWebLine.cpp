@@ -180,17 +180,18 @@ void ParamiteWebLine::VUpdate()
     field_106_wobble_pos = field_F8_top;
 }
 
-PSX_RECT* ParamiteWebLine::VGetBoundingRect(PSX_RECT* pRect, s32 /*idx*/)
+PSX_RECT ParamiteWebLine::VGetBoundingRect(s32 /*idx*/)
 {
     const s16 xpos = FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos);
 
-    pRect->x = xpos - 2;
-    pRect->y = field_F8_top;
+    PSX_RECT r;
+    r.x = xpos - 2;
+    r.y = field_F8_top;
 
-    pRect->w = xpos + 2;
-    pRect->h = field_FA_bottom;
+    r.w = xpos + 2;
+    r.h = field_FA_bottom;
 
-    return pRect;
+    return r;
 }
 
 const s16 word_563A8C[10] = {0, 1, -3, 2, -4, 4, -6, 4, 0, 0};

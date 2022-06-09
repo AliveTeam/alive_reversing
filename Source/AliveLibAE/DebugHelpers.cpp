@@ -343,8 +343,7 @@ void Command_Ring(const std::vector<std::string>& args)
 {
     s32 ringType = std::stoi(args[0]);
 
-    PSX_RECT rect = {};
-    sActiveHero->VGetBoundingRect(&rect, 1);
+    const PSX_RECT rect = sActiveHero->VGetBoundingRect();
     AbilityRing::Factory(
         FP_FromInteger((rect.x + rect.w) / 2),
         FP_FromInteger((rect.y + rect.h) / 2),

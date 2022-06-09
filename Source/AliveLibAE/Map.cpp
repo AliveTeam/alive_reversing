@@ -224,8 +224,7 @@ void Map::RemoveObjectsWithPurpleLight(s16 bMakeInvisible)
             {
                 auto pBaseObj = static_cast<BaseAnimatedWithPhysicsGameObject*>(pObj);
 
-                PSX_RECT objRect = {};
-                pBaseObj->VGetBoundingRect(&objRect, 1);
+                const PSX_RECT objRect = pBaseObj->VGetBoundingRect();
 
                 if (pBaseObj->mApplyShadows & 2)
                 {
@@ -1053,7 +1052,7 @@ s16 Map::Is_Point_In_Current_Camera_4810D0(EReliveLevelIds level, s32 path, FP x
 }
 
 
-CameraPos Map::Rect_Location_Relative_To_Active_Camera(PSX_RECT* pRect)
+CameraPos Map::Rect_Location_Relative_To_Active_Camera(const PSX_RECT* pRect)
 {
     if (Event_Get(kEventDeathReset))
     {

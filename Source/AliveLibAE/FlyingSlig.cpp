@@ -934,8 +934,7 @@ s16 FlyingSlig::VTakeDamage(BaseGameObject* pFrom)
         {
             if (static_cast<Bullet*>(pFrom)->field_20_type == BulletType::eZBullet_3)
             {
-                PSX_RECT bRect = {};
-                VGetBoundingRect(&bRect, 1);
+                const PSX_RECT bRect = VGetBoundingRect();
                 Path_TLV* pTlv = nullptr;
                 do
                 {
@@ -2194,8 +2193,7 @@ s16 FlyingSlig::IsAbeEnteringDoor_43B030(BaseAliveGameObject* pThis)
 Bool32 FlyingSlig::IsWallBetween_43A550(BaseAliveGameObject* pThis, BaseAliveGameObject* pObj)
 {
     // TODO: Duplicated like IsAbeEnteringDoor_4BB990 ??
-    PSX_RECT bRect = {};
-    pObj->VGetBoundingRect(&bRect, 1);
+    const PSX_RECT bRect = pObj->VGetBoundingRect();
 
     PathLine* pLine = nullptr;
     FP hitX = {};
@@ -3260,8 +3258,7 @@ s16 FlyingSlig::TryPullLever_439DB0()
         {
             auto pAliveObj = static_cast<BaseAliveGameObject*>(pObj);
 
-            PSX_RECT bObjRect = {};
-            pAliveObj->VGetBoundingRect(&bObjRect, 1);
+            const PSX_RECT bObjRect = pAliveObj->VGetBoundingRect();
             if (rect_w <= bObjRect.w && rect_x >= bObjRect.x && rect_y >= bObjRect.y && rect_h <= bObjRect.h)
             {
                 if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))

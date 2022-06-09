@@ -1973,8 +1973,7 @@ void CrawlingSlig::MoveOnLine()
 
 void CrawlingSlig::PlatformCollide()
 {
-    PSX_RECT bRect = {};
-    VGetBoundingRect(&bRect, 1);
+    const PSX_RECT bRect = VGetBoundingRect();
 
     PSX_Point xy = {bRect.x, bRect.y};
     PSX_Point wh = {bRect.w, bRect.h};

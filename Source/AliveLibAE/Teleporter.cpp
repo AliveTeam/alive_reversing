@@ -307,8 +307,7 @@ void Teleporter::VUpdate()
         case TeleporterState::eOutOfTeleporter_4:
         {
             // Visual effects.
-            PSX_RECT bRect = {};
-            sControlledCharacter_5C1B8C->VGetBoundingRect(&bRect, 1);
+            const PSX_RECT bRect = sControlledCharacter_5C1B8C->VGetBoundingRect();
 
             // White flash in the middle of Abe's body.
             New_DestroyOrCreateObject_Particle(

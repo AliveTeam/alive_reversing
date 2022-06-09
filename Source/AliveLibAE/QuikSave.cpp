@@ -702,8 +702,7 @@ void Quicksave_ReadWorldInfo(const Quicksave_WorldInfo* pInfo)
 
 void Quicksave_SaveWorldInfo(Quicksave_WorldInfo* pInfo)
 {
-    PSX_RECT rect = {};
-    sControlledCharacter_5C1B8C->VGetBoundingRect(&rect, 1);
+    const PSX_RECT rect = sControlledCharacter_5C1B8C->VGetBoundingRect();
 
     pInfo->field_0_gnFrame = sGnFrame;
     pInfo->field_4_level = MapWrapper::ToAE(gMap.mCurrentLevel);

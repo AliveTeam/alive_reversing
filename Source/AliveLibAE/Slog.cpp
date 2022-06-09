@@ -739,8 +739,7 @@ void Slog::M_Fall_4_4C6930()
                 MapFollowMe(FALSE);
                 if (BaseAliveGameObjectCollisionLine->field_8_type == eLineTypes::eUnknown_32 || BaseAliveGameObjectCollisionLine->field_8_type == eLineTypes::eUnknown_36)
                 {
-                    PSX_RECT bRect = {};
-                    VGetBoundingRect(&bRect, 1);
+                    const PSX_RECT bRect = VGetBoundingRect();
 
                     const PSX_Point xy = {bRect.x, static_cast<s16>(bRect.y + 5)};
                     const PSX_Point wh = {bRect.w, static_cast<s16>(FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos) + 5)};
@@ -1131,8 +1130,7 @@ void Slog::M_JumpForwards_18_4C7210()
 
 void Slog::M_JumpUpwards_19_4C7470()
 {
-    PSX_RECT bRect = {};
-    VGetBoundingRect(&bRect, 1);
+    const PSX_RECT bRect = VGetBoundingRect();
 
     PathLine* pLine = nullptr;
     FP hitX = {};
@@ -2830,8 +2828,7 @@ void Slog::Init_4C46A0()
         mBaseAnimatedWithPhysicsGameObject_YPos = hitY;
         if (BaseAliveGameObjectCollisionLine->field_8_type == eLineTypes::eUnknown_32)
         {
-            PSX_RECT bRect = {};
-            VGetBoundingRect(&bRect, 1);
+            const PSX_RECT bRect = VGetBoundingRect();
             const PSX_Point xy = {bRect.x, static_cast<s16>(bRect.y + 5)};
             const PSX_Point wh = {bRect.w, static_cast<s16>(bRect.h + 5)};
             VOnCollisionWith(xy, wh, ObjList_5C1B78, 1, (TCollisionCallBack) &BaseAliveGameObject::OnTrapDoorIntersection);
@@ -3119,8 +3116,7 @@ void Slog::MoveOnLine_4C5DA0()
             }
             else if (BaseAliveGameObjectCollisionLine->field_8_type == eLineTypes::eUnknown_32 || BaseAliveGameObjectCollisionLine->field_8_type == eLineTypes::eUnknown_36)
             {
-                PSX_RECT bRect = {};
-                VGetBoundingRect(&bRect, 1);
+                const PSX_RECT bRect = VGetBoundingRect();
                 const PSX_Point xy = {bRect.x, static_cast<s16>(bRect.y + 5)};
                 const PSX_Point wh = {bRect.w, static_cast<s16>(bRect.h + 5)};
                 VOnCollisionWith(xy, wh, ObjList_5C1B78, 1, (TCollisionCallBack) &BaseAliveGameObject::OnTrapDoorIntersection);
@@ -3172,8 +3168,7 @@ Bone* Slog::FindBone_4C25B0()
 
 BaseAliveGameObject* Slog::FindTarget_4C33C0(s16 bKillSligs, s16 bLookingUp)
 {
-    PSX_RECT bRect = {};
-    VGetBoundingRect(&bRect, 1);
+    PSX_RECT bRect = VGetBoundingRect();
 
     if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
     {
@@ -3230,8 +3225,7 @@ BaseAliveGameObject* Slog::FindTarget_4C33C0(s16 bKillSligs, s16 bLookingUp)
                 case ReliveTypes::eSlig:
                     if (bKillSligs || (!bKillSligs && (pObj->Type() == ReliveTypes::eAbe || pObj->Type() == ReliveTypes::eCrawlingSlig || pObj->Type() == ReliveTypes::eFlyingSlig || pObj->Type() == ReliveTypes::eGlukkon || (pObj->Type() == ReliveTypes::eMudokon && static_cast<Mudokon*>(pObj)->field_18E_brain_state == Mud_Brain_State::Brain_4_ListeningToAbe_477B40))))
                     {
-                        PSX_RECT objRect = {};
-                        pObj->VGetBoundingRect(&objRect, 1);
+                        const PSX_RECT objRect = pObj->VGetBoundingRect();
 
                         if (objRect.x <= bRect.w && objRect.w >= bRect.x && objRect.h >= bRect.y && objRect.y <= bRect.h)
                         {
@@ -3376,8 +3370,7 @@ s16 Slog::VTakeDamage(BaseGameObject* pFrom)
             mHealth = FP_FromInteger(0);
             relive_new Gibs(GibType::Slog_2, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, mBaseAnimatedWithPhysicsGameObject_VelX, mBaseAnimatedWithPhysicsGameObject_VelY, mBaseAnimatedWithPhysicsGameObject_SpriteScale, 0);
 
-            PSX_RECT bRect = {};
-            VGetBoundingRect(&bRect, 1);
+            const PSX_RECT bRect = VGetBoundingRect();
             relive_new Blood(FP_FromInteger((bRect.x + bRect.w) / 2),
                                         FP_FromInteger((bRect.y + bRect.h) / 2),
                                         FP_FromInteger(0),

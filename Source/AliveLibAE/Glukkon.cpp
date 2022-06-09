@@ -1930,8 +1930,7 @@ s16 Glukkon::Brain_5_WaitToSpawn_442490()
                 relive_new Spark(FP_FromInteger(sparkX), FP_FromInteger(sparkY), FP_FromInteger(1), 9, -31, 159, SparkType::eBigChantParticle_1);
             }
 
-            PSX_RECT bRect = {};
-            VGetBoundingRect(&bRect, 1);
+            const PSX_RECT bRect = VGetBoundingRect();
 
             New_DestroyOrCreateObject_Particle(
                 FP_FromInteger((bRect.x + bRect.w) / 2),
@@ -2094,8 +2093,7 @@ void Glukkon::VUpdate()
 
             if (BaseAliveGameObjectCollisionLine->field_8_type == eLineTypes::eUnknown_32 || BaseAliveGameObjectCollisionLine->field_8_type == eLineTypes::eUnknown_36)
             {
-                PSX_RECT bRect = {};
-                VGetBoundingRect(&bRect, 1);
+                const PSX_RECT bRect = VGetBoundingRect();
 
                 PSX_Point xy = {bRect.x, bRect.y};
                 PSX_Point wh = {bRect.w, bRect.h};
@@ -2897,11 +2895,11 @@ void Glukkon::PlaySound_GameSpeak(GlukkonSpeak sndIdx, s16 volume, s16 pitch, Gl
 
 Bool32 Glukkon::IsLineOfSightBetween(Glukkon* pGlukkon, BaseAliveGameObject* pOther)
 {
-    FP hitX = {}, hitY = {};
+    FP hitX = {};
+    FP hitY = {};
     PathLine* pathLine = nullptr;
 
-    PSX_RECT bRect = {};
-    pOther->VGetBoundingRect(&bRect, 1);
+    const PSX_RECT bRect = pOther->VGetBoundingRect();
     const FP X2 = FP_FromInteger((bRect.x + bRect.w) / 2);
     const FP Y2 = FP_FromInteger((bRect.y + bRect.y) / 2);
 

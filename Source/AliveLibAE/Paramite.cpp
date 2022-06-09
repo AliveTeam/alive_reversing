@@ -3985,11 +3985,8 @@ void Paramite::M_CloseAttack_16_48DDA0()
 
         if (pObj)
         {
-            PSX_RECT otherRect = {};
-            pObj->VGetBoundingRect(&otherRect, 1);
-
-            PSX_RECT ourRect = {};
-            VGetBoundingRect(&ourRect, 1);
+            const PSX_RECT otherRect = pObj->VGetBoundingRect();
+            const PSX_RECT ourRect = VGetBoundingRect();
 
             s16 right = 0;
             s16 left = 0;
@@ -4074,11 +4071,8 @@ void Paramite::M_GameSpeakBegin_20_48C010()
     auto pObj = static_cast<BaseAliveGameObject*>(sObjectIds.Find_Impl(field_120_obj_id));
     if (pObj)
     {
-        PSX_RECT otherRect = {};
-        pObj->VGetBoundingRect(&otherRect, 1);
-
-        PSX_RECT ourRect = {};
-        VGetBoundingRect(&ourRect, 1);
+        const PSX_RECT otherRect = pObj->VGetBoundingRect();
+        const PSX_RECT ourRect = VGetBoundingRect();
 
         if (otherRect.x <= ourRect.w && otherRect.w >= ourRect.x && otherRect.h >= ourRect.y && otherRect.y <= ourRect.h)
         {
@@ -4111,11 +4105,8 @@ void Paramite::M_PreHiss_21_48C180()
     auto pObj = static_cast<BaseAliveGameObject*>(sObjectIds.Find_Impl(field_120_obj_id));
     if (pObj)
     {
-        PSX_RECT otherRect = {};
-        pObj->VGetBoundingRect(&otherRect, 1);
-
-        PSX_RECT ourRect = {};
-        VGetBoundingRect(&ourRect, 1);
+        const PSX_RECT otherRect = pObj->VGetBoundingRect();
+        const PSX_RECT ourRect = VGetBoundingRect();
 
         if (otherRect.x <= ourRect.w && otherRect.w >= ourRect.x && otherRect.h >= ourRect.y && otherRect.y <= ourRect.h)
         {
@@ -4181,11 +4172,8 @@ void Paramite::M_Hiss1_22_48C3E0()
     auto pObj = static_cast<BaseAliveGameObject*>(sObjectIds.Find_Impl(field_120_obj_id));
     if (pObj)
     {
-        PSX_RECT otherRect = {};
-        pObj->VGetBoundingRect(&otherRect, 1);
-
-        PSX_RECT ourRect = {};
-        VGetBoundingRect(&ourRect, 1);
+        const PSX_RECT otherRect = pObj->VGetBoundingRect();
+        const PSX_RECT ourRect = VGetBoundingRect();
 
         if (otherRect.x <= ourRect.w && otherRect.w >= ourRect.x && otherRect.h >= ourRect.y && otherRect.y <= ourRect.h)
         {
@@ -4309,11 +4297,8 @@ void Paramite::M_PostHiss_27_48C780()
     auto pObj = static_cast<BaseAliveGameObject*>(sObjectIds.Find_Impl(field_120_obj_id));
     if (pObj)
     {
-        PSX_RECT otherRect = {};
-        pObj->VGetBoundingRect(&otherRect, 1);
-
-        PSX_RECT ourRect = {};
-        VGetBoundingRect(&ourRect, 1);
+        const PSX_RECT otherRect = pObj->VGetBoundingRect();
+        const PSX_RECT ourRect = VGetBoundingRect();
 
         if (otherRect.x <= ourRect.w && otherRect.w >= ourRect.x && otherRect.h >= ourRect.y && otherRect.y <= ourRect.h)
         {
@@ -4341,11 +4326,8 @@ void Paramite::M_GameSpeakEnd_28_48C8B0()
     auto pObj = static_cast<BaseAliveGameObject*>(sObjectIds.Find_Impl(field_120_obj_id));
     if (pObj)
     {
-        PSX_RECT otherRect = {};
-        pObj->VGetBoundingRect(&otherRect, 1);
-
-        PSX_RECT ourRect = {};
-        VGetBoundingRect(&ourRect, 1);
+        const PSX_RECT otherRect = pObj->VGetBoundingRect();
+        const PSX_RECT ourRect = VGetBoundingRect();
 
         if (otherRect.x <= ourRect.w && otherRect.w >= ourRect.x && otherRect.h >= ourRect.y && otherRect.y <= ourRect.h)
         {
@@ -4458,11 +4440,8 @@ void Paramite::M_RunningAttack_31_48C9E0()
 
         if (pObj)
         {
-            PSX_RECT otherRect = {};
-            pObj->VGetBoundingRect(&otherRect, 1);
-
-            PSX_RECT ourRect = {};
-            VGetBoundingRect(&ourRect, 1);
+            const PSX_RECT otherRect = pObj->VGetBoundingRect();
+            const PSX_RECT ourRect = VGetBoundingRect();
 
             s16 right = 0;
             s16 left = 0;
@@ -4963,11 +4942,8 @@ void Paramite::M_Attack_43_48DB70()
 
     if (pObj)
     {
-        PSX_RECT otherRect = {};
-        pObj->VGetBoundingRect(&otherRect, 1);
-
-        PSX_RECT ourRect = {};
-        VGetBoundingRect(&ourRect, 1);
+        const PSX_RECT otherRect = pObj->VGetBoundingRect();
+        const PSX_RECT ourRect = VGetBoundingRect();
 
         s16 right = 0;
         s16 left = 0;
@@ -5349,8 +5325,7 @@ s16 Paramite::VOnSameYLevel(BaseAnimatedWithPhysicsGameObject* pOther)
 {
     if (pOther)
     {
-        PSX_RECT bRect = {};
-        pOther->VGetBoundingRect(&bRect, 1);
+        const PSX_RECT bRect = pOther->VGetBoundingRect();
 
         if ((FP_Abs(mBaseAnimatedWithPhysicsGameObject_YPos - FP_FromInteger(bRect.h)) < mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(40)) || (pOther->Type() == ReliveTypes::eParamite && static_cast<Paramite*>(pOther)->mCurrentMotion == eParamiteMotions::M_JumpUpMidair_13_48BAF0))
         {
@@ -5707,8 +5682,7 @@ PullRingRope* Paramite::FindPullRope()
 
             if (pRope->mBaseAnimatedWithPhysicsGameObject_SpriteScale == mBaseAnimatedWithPhysicsGameObject_SpriteScale)
             {
-                PSX_RECT bRect = {};
-                pRope->VGetBoundingRect(&bRect, 1);
+                const PSX_RECT bRect = pRope->VGetBoundingRect();
                 if ((mBaseAnimatedWithPhysicsGameObject_YPos - (mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(40))) <= pRope->mBaseAnimatedWithPhysicsGameObject_YPos && mBaseAnimatedWithPhysicsGameObject_YPos > pRope->mBaseAnimatedWithPhysicsGameObject_YPos)
                 {
                     if (mBaseAnimatedWithPhysicsGameObject_XPos > FP_FromInteger(bRect.x) && mBaseAnimatedWithPhysicsGameObject_XPos < FP_FromInteger(bRect.w))

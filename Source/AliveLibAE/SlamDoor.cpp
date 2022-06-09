@@ -323,8 +323,7 @@ void SlamDoor::VUpdate()
                     6);
             }
 
-            PSX_RECT bRect = {};
-            VGetBoundingRect(&bRect, 1);
+            PSX_RECT bRect = VGetBoundingRect();
 
             if (field_118_flags.Get(SlamDoor_Flags_118::e118_Bit4_Inverted))
             {
@@ -343,8 +342,7 @@ void SlamDoor::VUpdate()
                 {
                     if (pObj->Type() != ReliveTypes::eSlamDoor)
                     {
-                        PSX_RECT bObjRect = {};
-                        pObj->VGetBoundingRect(&bObjRect, 1);
+                        PSX_RECT bObjRect = pObj->VGetBoundingRect();
 
                         // Some hack that prevents Abe getting knocked back when rolling or falling near a closing slam door
                         bObjRect.x += 3;
@@ -371,8 +369,7 @@ void SlamDoor::VUpdate()
 
     if (field_118_flags.Get(SlamDoor_Flags_118::e118_Bit1_bClosed))
     {
-        PSX_RECT bRect = {};
-        VGetBoundingRect(&bRect, 1);
+        PSX_RECT bRect = VGetBoundingRect();
 
         if (field_118_flags.Get(SlamDoor_Flags_118::e118_Bit4_Inverted))
         {
@@ -392,8 +389,7 @@ void SlamDoor::VUpdate()
             {
                 if (pObj->Type() != ReliveTypes::eSlamDoor && pObj->Type() != ReliveTypes::eGrenade)
                 {
-                    PSX_RECT bObjRect = {};
-                    pObj->VGetBoundingRect(&bObjRect, 1);
+                    const PSX_RECT bObjRect = pObj->VGetBoundingRect();
 
                     if (FP_GetExponent(pObj->mBaseAnimatedWithPhysicsGameObject_XPos) > bRect.x && FP_GetExponent(pObj->mBaseAnimatedWithPhysicsGameObject_XPos) < bRect.w && PSX_Rects_overlap_no_adjustment(&bRect, &bObjRect))
                     {

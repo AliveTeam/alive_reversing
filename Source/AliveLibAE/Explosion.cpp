@@ -206,8 +206,7 @@ void Explosion::DealBlastDamage(PSX_RECT* pRect)
 
         if (pObj->mBaseGameObjectFlags.Get(BaseGameObject::eIsBaseAliveGameObject_Bit6))
         {
-            PSX_RECT boundRect = {};
-            pObj->VGetBoundingRect(&boundRect, 1);
+            const PSX_RECT boundRect = pObj->VGetBoundingRect();
 
             if (PSX_Rects_overlap_no_adjustment(&boundRect, &expandedRect) && mBaseAnimatedWithPhysicsGameObject_Scale == pObj->mBaseAnimatedWithPhysicsGameObject_Scale)
             {

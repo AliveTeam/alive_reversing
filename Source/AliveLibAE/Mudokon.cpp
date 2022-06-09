@@ -562,8 +562,7 @@ Mudokon::Mudokon(Path_Mudokon* pTlv, s32 tlvInfo)
         if (BaseAliveGameObjectCollisionLine->field_8_type == eLineTypes::eUnknown_32 ||
             BaseAliveGameObjectCollisionLine->field_8_type == eLineTypes::eUnknown_36)
         {
-            PSX_RECT bRect = {};
-            VGetBoundingRect(&bRect, 1);
+            const PSX_RECT bRect = VGetBoundingRect();
             VOnCollisionWith(
                 {bRect.x, static_cast<s16>(bRect.y + 5)},
                 {bRect.w, static_cast<s16>(bRect.h + 5)},
@@ -1016,9 +1015,7 @@ void Mudokon::VUpdate()
             if (BaseAliveGameObjectCollisionLine->field_8_type == eLineTypes::eUnknown_32 ||
                 BaseAliveGameObjectCollisionLine->field_8_type == eLineTypes::eUnknown_36)
             {
-                PSX_RECT bRect = {};
-                VGetBoundingRect(&bRect, 1);
-
+                const PSX_RECT bRect = VGetBoundingRect();
                 VOnCollisionWith(
                     {bRect.x, static_cast<s16>(bRect.y + 5)},
                     {bRect.w, static_cast<s16>(bRect.h + 5)},
@@ -1394,8 +1391,7 @@ s16 Mudokon::VTakeDamage(BaseGameObject* pFrom)
 
             if (pBullet->field_20_type == BulletType::ePossessedSligZBullet_1 || pBullet->field_20_type == BulletType::eZBullet_3)
             {
-                PSX_RECT v11 = {};
-                VGetBoundingRect(&v11, 1);
+                const PSX_RECT v11 = VGetBoundingRect();
                 const FP tlvYPos = FP_FromInteger(v11.h);
 
                 if (Bullet::InZBulletCover(mBaseAnimatedWithPhysicsGameObject_XPos, tlvYPos, v11) || !gMap.Is_Point_In_Current_Camera_4810D0(mBaseAnimatedWithPhysicsGameObject_LvlNumber, mBaseAnimatedWithPhysicsGameObject_PathNumber, mBaseAnimatedWithPhysicsGameObject_XPos, tlvYPos, 0))
@@ -1531,8 +1527,7 @@ s16 Mudokon::VTakeDamage(BaseGameObject* pFrom)
                 Event_Broadcast(kEventMudokonDied, this);
                 SetPal(Mud_Emotion::eNormal_0);
 
-                PSX_RECT bRect = {};
-                VGetBoundingRect(&bRect, 1);
+                const PSX_RECT bRect = VGetBoundingRect();
 
                 auto pFleech = static_cast<BaseAliveGameObject*>(pFrom);
                 relive_new Blood(
@@ -1979,8 +1974,7 @@ s16 Mudokon::Brain_0_GiveRings_470C10()
             if (static_cast<s32>(sGnFrame) > field_194_timer)
             {
                 // Create a ring emitting from us
-                PSX_RECT bRect = {};
-                VGetBoundingRect(&bRect, 1);
+                const PSX_RECT bRect = VGetBoundingRect();
 
                 AbilityRing::Factory(
                     FP_FromInteger((bRect.x + bRect.w) / 2),
@@ -1989,8 +1983,7 @@ s16 Mudokon::Brain_0_GiveRings_470C10()
                     mBaseAnimatedWithPhysicsGameObject_SpriteScale);
 
                 // Create a ring that locks onto abe
-                PSX_RECT bRectAbe = {};
-                sActiveHero->VGetBoundingRect(&bRectAbe, 1);
+                const PSX_RECT bRectAbe = sActiveHero->VGetBoundingRect();
 
                 RingTypes ringTypeToGive = RingTypes::eExplosive_Give_3;
                 if (field_168_ring_type == RingTypes::eHealing_Emit_Effect_11)
@@ -5537,9 +5530,7 @@ void Mudokon::M_Idle_0_4724E0()
     {
         if ((BaseAliveGameObjectCollisionLine->field_8_type == eLineTypes::eUnknown_32 || BaseAliveGameObjectCollisionLine->field_8_type == eLineTypes::eUnknown_36) && BaseAliveGameObjectId == -1)
         {
-            PSX_RECT bRect = {};
-            VGetBoundingRect(&bRect, 1);
-
+            const PSX_RECT bRect = VGetBoundingRect();
             VOnCollisionWith(
                 {bRect.x, static_cast<s16>(bRect.y + 5)},
                 {bRect.w, static_cast<s16>(bRect.h + 5)},
@@ -6346,8 +6337,7 @@ void Mudokon::M_RunJumpMid_36_474570()
         SFX_Play_Pitch(SoundEffect::PossessEffect_17, 40, 2400);
     }
 
-    PSX_RECT rect = {};
-    VGetBoundingRect(&rect, 1);
+    const PSX_RECT rect = VGetBoundingRect();
 
     if ((mBaseAnimatedWithPhysicsGameObject_VelX > FP_FromInteger(0) && FP_FromInteger(rect.x) > pBirdPortal->field_2C_xpos) || (mBaseAnimatedWithPhysicsGameObject_VelX < FP_FromInteger(0) && FP_FromInteger(rect.w) < pBirdPortal->field_2C_xpos))
     {
@@ -6481,7 +6471,7 @@ void Mudokon::M_HoistLand_40_474780()
                 MapFollowMe(TRUE);
                 BaseAliveGameObjectCollisionLine = pLine;
                 mCurrentMotion = eMudMotions::M_LandSoft1_41_474960;
-                VGetBoundingRect(&bRect, 1);
+                bRect = VGetBoundingRect();
                 VOnCollisionWith(
                     {bRect.x, static_cast<s16>(bRect.y + 5)},
                     {bRect.w, static_cast<s16>(bRect.h + 5)},
@@ -7243,8 +7233,7 @@ s16 Mudokon::StopAtWheel_477880()
         // Found another mud who isn't us
         if (pObj != this && pObj->Type() == ReliveTypes::eMudokon)
         {
-            PSX_RECT bRect = {};
-            pObj->VGetBoundingRect(&bRect, 1);
+            const PSX_RECT bRect = pObj->VGetBoundingRect();
 
             auto pOtherMud = static_cast<Mudokon*>(pObj);
 
@@ -7326,9 +7315,7 @@ void Mudokon::MoveOnLine_4720D0()
     {
         if (BaseAliveGameObjectCollisionLine->field_8_type == eLineTypes::eUnknown_32 || BaseAliveGameObjectCollisionLine->field_8_type == eLineTypes::eUnknown_36)
         {
-            PSX_RECT bRect = {};
-            VGetBoundingRect(&bRect, 1);
-
+            const PSX_RECT bRect = VGetBoundingRect();
             VOnCollisionWith(
                 {bRect.x, static_cast<s16>(bRect.y + 5)},
                 {bRect.w, static_cast<s16>(bRect.h + 5)},
@@ -7435,8 +7422,7 @@ void Mudokon::ReduceXVelocityBy_472260(FP velXScaleBy)
 
 void Mudokon::CheckKnockedOntoABomb_4723C0()
 {
-    PSX_RECT bMudRect = {};
-    VGetBoundingRect(&bMudRect, 1);
+    const PSX_RECT bMudRect = VGetBoundingRect();
 
     for (s32 i = 0; i < gBaseAliveGameObjects_5C1B7C->Size(); i++)
     {
@@ -7448,8 +7434,7 @@ void Mudokon::CheckKnockedOntoABomb_4723C0()
 
         if (pObj->Type() == ReliveTypes::eMine || pObj->Type() == ReliveTypes::eUXB)
         {
-            PSX_RECT bBombRect = {};
-            pObj->VGetBoundingRect(&bBombRect, 1);
+            const PSX_RECT bBombRect = pObj->VGetBoundingRect();
 
             // TODO: Almost same as PSX_Rects_overlap_no_adjustment but checks < rather than <=
             if (bMudRect.x <= bBombRect.w && bMudRect.w >= bBombRect.x && bMudRect.h >= bBombRect.y && bMudRect.y <= bBombRect.h)

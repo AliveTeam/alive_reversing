@@ -174,8 +174,7 @@ void FootSwitch::VUpdate()
 
         case States::eWaitForGetOffMe_1:
         {
-            PSX_RECT bRect = {};
-            VGetBoundingRect(&bRect, 1);
+            const PSX_RECT bRect = VGetBoundingRect();
 
             // Have they left the switch or died?
             if (!pLastStoodOnMe || // OG bug: If thing on the switch had died this would de-ref null and crash
@@ -201,8 +200,7 @@ void FootSwitch::VScreenChanged()
 
 BaseAliveGameObject* FootSwitch::WhoIsStoodOnMe()
 {
-    PSX_RECT bRectSwitch = {};
-    VGetBoundingRect(&bRectSwitch, 1);
+    PSX_RECT bRectSwitch = VGetBoundingRect();
     bRectSwitch.y -= 3;
 
     if (field_FE_trigger_by == FootSwitchTriggerBy::eAnyone_1)
@@ -219,8 +217,7 @@ BaseAliveGameObject* FootSwitch::WhoIsStoodOnMe()
             {
                 auto pAliveObj = static_cast<BaseAliveGameObject*>(pObj);
 
-                PSX_RECT theirRect = {};
-                pAliveObj->VGetBoundingRect(&theirRect, 1);
+                const PSX_RECT theirRect = pAliveObj->VGetBoundingRect();
 
                 const s32 xpos = FP_GetExponent(pAliveObj->mBaseAnimatedWithPhysicsGameObject_XPos);
 
@@ -233,8 +230,7 @@ BaseAliveGameObject* FootSwitch::WhoIsStoodOnMe()
     }
     else if (field_FE_trigger_by == FootSwitchTriggerBy::eAbe_0)
     {
-        PSX_RECT bRect = {};
-        sActiveHero->VGetBoundingRect(&bRect, 1);
+        const PSX_RECT bRect = sActiveHero->VGetBoundingRect();
 
         const s32 xpos = FP_GetExponent(sActiveHero->mBaseAnimatedWithPhysicsGameObject_XPos);
 
