@@ -1426,16 +1426,16 @@ void PauseMenu::Page_Load_Update()
         {
             strcpy(saveFileName, sSaveFileRecords_BB31D8[sSavedGameToLoadIdx_BB43FC].field_0_fileName);
             strcat(saveFileName, ".sav");
-            FILE* hFile = ae_fopen_520C64(saveFileName, "rb");
+            FILE* hFile = ::fopen(saveFileName, "rb");
             if (hFile)
             {
-                ae_fread_520B5C(&sActiveQuicksaveData_BAF7F8, sizeof(Quicksave), 1u, hFile);
+                ::fread(&sActiveQuicksaveData_BAF7F8, sizeof(Quicksave), 1u, hFile);
                 sActiveHero->mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(0);
                 sActiveHero->mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(0);
                 Quicksave_LoadActive();
                 word12C_flags &= ~1u;
                 // TODO: OG bug, file handle is leaked
-                ae_fclose_520CBE(hFile);
+                ::fclose(hFile);
             }
             SFX_Play_Mono(SoundEffect::IngameTransition_84, 90);
         }

@@ -33,7 +33,7 @@ IO_FileHandleType IO_Open(const char_type* fileName, const char_type* mode)
 #if USE_SDL2_IO
     return SDL_RWFromFile(fileName, mode);
 #else
-    return ae_fopen_520C64(fileName, mode);
+    return ::fopen(fileName, mode);
 #endif
 }
 
@@ -42,7 +42,7 @@ s32 IO_Seek(IO_FileHandleType pHandle, s32 offset, s32 origin)
 #if USE_SDL2_IO
     return static_cast<s32>(pHandle->seek(pHandle, offset, origin));
 #else
-    return ae_fseek_521955(pHandle, offset, origin);
+    return ::fseek(pHandle, offset, origin);
 #endif
 }
 
@@ -51,7 +51,7 @@ s32 IO_Close(IO_FileHandleType pHandle)
 #if USE_SDL2_IO
     return pHandle->close(pHandle);
 #else
-    return ae_fclose_520CBE(pHandle);
+    return ::fclose(pHandle);
 #endif
 }
 
