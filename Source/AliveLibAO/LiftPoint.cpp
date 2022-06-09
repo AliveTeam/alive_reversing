@@ -726,7 +726,7 @@ BaseGameObject* LiftPoint::dtor_4355E0()
 
     auto pLiftPointTlv = gMap_507BA8.TLV_Get_At_446260(
         FP_GetExponent(field_A8_xpos),
-        FP_GetExponent(FP_FromInteger(field_120_pCollisionLine->field_0_rect.y) + FP_FromInteger(field_120_pCollisionLine->field_0_rect.y)),
+        FP_GetExponent(FP_FromInteger(field_120_pCollisionLine->field_0_rect.y)),
         FP_GetExponent(field_A8_xpos),
         FP_GetExponent((field_BC_sprite_scale * FP_FromInteger(30)) + FP_FromInteger(field_120_pCollisionLine->field_0_rect.y)),
         TlvTypes::LiftPoint_8);
