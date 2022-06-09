@@ -2095,7 +2095,7 @@ s16 Mudokon::Brain_1_Chisel_47C5F0()
 
     const bool reactToDeadMud = (pDeadMudEvent && pDeadMudEvent != this && field_190_brain_sub_state != Brain_1_Chisle::eBrain1_StandUp_3 && gMap.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, 0));
 
-    const bool reactToLoudNoise = (pLoudNoiseEvent && pLoudNoiseEvent->GetBaseGameObject().Type() == ReliveTypes::eGlukkon && field_190_brain_sub_state != Brain_1_Chisle::eBrain1_StandUp_3 && gMap.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, 0));
+    const bool reactToLoudNoise = (pLoudNoiseEvent && pLoudNoiseEvent->Type() == ReliveTypes::eGlukkon && field_190_brain_sub_state != Brain_1_Chisle::eBrain1_StandUp_3 && gMap.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, 0));
 
     if (reactToAbused)
     {
@@ -2546,7 +2546,7 @@ s16 Mudokon::Brain_2_Scrub_47D270()
         field_D6_scale);
     if (pLoudNoise)
     {
-        if (pLoudNoise->GetBaseGameObject().Type() == ReliveTypes::eGlukkon)
+        if (pLoudNoise->Type() == ReliveTypes::eGlukkon)
         {
             if (field_190_brain_sub_state != Brain_2_Scrub::eBrain2_StandUp_3
                 && field_190_brain_sub_state != Brain_2_Scrub::eBrain2_DuckKnockback_7
@@ -2981,7 +2981,7 @@ s16 Mudokon::Brain_3_TurnWheel_47E0D0()
         field_D6_scale);
     if (pLoudNoiseEvent)
     {
-        if (pLoudNoiseEvent->GetBaseGameObject().Type() == ReliveTypes::eGlukkon
+        if (pLoudNoiseEvent->Type() == ReliveTypes::eGlukkon
             && field_190_brain_sub_state != Brain_3_TurnWheel::eBrain3_InterruptAction_2
             && gMap.Is_Point_In_Current_Camera_4810D0(
                 field_C2_lvl_number,
@@ -3241,7 +3241,7 @@ s16 Mudokon::Brain_4_ListeningToAbe_477B40()
 
     if (pNoiseEvent)
     {
-        if (pNoiseEvent->GetBaseGameObject().Type() == ReliveTypes::eGlukkon)
+        if (pNoiseEvent->Type() == ReliveTypes::eGlukkon)
         {
             if (field_16A_flags.Get(Flags_16A::eBit13))
             {

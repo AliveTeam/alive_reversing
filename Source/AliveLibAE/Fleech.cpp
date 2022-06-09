@@ -2293,7 +2293,7 @@ void Fleech::IncreaseAnger_430920()
                 field_13E_current_anger += field_142_attack_anger_increaser;
                 if (VOnSameYLevel(static_cast<BaseAnimatedWithPhysicsGameObject*>(pEvent)))
                 {
-                    if (pEvent->GetBaseGameObject().Type() == ReliveTypes::eScrab || pEvent->GetBaseGameObject().Type() == ReliveTypes::eParamite)
+                    if (pEvent->Type() == ReliveTypes::eScrab || pEvent->Type() == ReliveTypes::eParamite)
                     {
                         field_14E = FP_GetExponent(pEvent->XPos());
                     }
