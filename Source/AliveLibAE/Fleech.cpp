@@ -2288,18 +2288,18 @@ void Fleech::IncreaseAnger_430920()
 
         if (pEvent)
         {
-            if ((pEvent != sActiveHero || !sActiveHero->mBaseAliveGameObjectFlags.Get(Flags_114::e114_Bit8_bInvisible)) && gMap.Is_Point_In_Current_Camera_4810D0(mBaseAnimatedWithPhysicsGameObject_LvlNumber, mBaseAnimatedWithPhysicsGameObject_PathNumber, pEvent->XPos(), pEvent->YPos(), 0))
+            if ((pEvent != sActiveHero || !sActiveHero->mBaseAliveGameObjectFlags.Get(Flags_114::e114_Bit8_bInvisible)) && gMap.Is_Point_In_Current_Camera_4810D0(mBaseAnimatedWithPhysicsGameObject_LvlNumber, mBaseAnimatedWithPhysicsGameObject_PathNumber, pEvent->mBaseAnimatedWithPhysicsGameObject_XPos, pEvent->mBaseAnimatedWithPhysicsGameObject_YPos, 0))
             {
                 field_13E_current_anger += field_142_attack_anger_increaser;
                 if (VOnSameYLevel(static_cast<BaseAnimatedWithPhysicsGameObject*>(pEvent)))
                 {
                     if (pEvent->Type() == ReliveTypes::eScrab || pEvent->Type() == ReliveTypes::eParamite)
                     {
-                        field_14E = FP_GetExponent(pEvent->XPos());
+                        field_14E = FP_GetExponent(pEvent->mBaseAnimatedWithPhysicsGameObject_XPos);
                     }
                     else
                     {
-                        field_14C = FP_GetExponent(pEvent->YPos());
+                        field_14C = FP_GetExponent(pEvent->mBaseAnimatedWithPhysicsGameObject_YPos);
                     }
                 }
             }
@@ -2310,7 +2310,7 @@ void Fleech::IncreaseAnger_430920()
         {
             if (VIsObjNearby(ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale) * FP_FromInteger(6),static_cast<BaseAnimatedWithPhysicsGameObject*>(pEvent)))
             {
-                if ((pEvent != sActiveHero || !sActiveHero->mBaseAliveGameObjectFlags.Get(Flags_114::e114_Bit8_bInvisible)) && gMap.Is_Point_In_Current_Camera_4810D0(mBaseAnimatedWithPhysicsGameObject_LvlNumber, mBaseAnimatedWithPhysicsGameObject_PathNumber, pEvent->XPos(), pEvent->YPos(), 0))
+                if ((pEvent != sActiveHero || !sActiveHero->mBaseAliveGameObjectFlags.Get(Flags_114::e114_Bit8_bInvisible)) && gMap.Is_Point_In_Current_Camera_4810D0(mBaseAnimatedWithPhysicsGameObject_LvlNumber, mBaseAnimatedWithPhysicsGameObject_PathNumber, pEvent->mBaseAnimatedWithPhysicsGameObject_XPos, pEvent->mBaseAnimatedWithPhysicsGameObject_YPos, 0))
                 {
                     field_13E_current_anger += field_140_max_anger;
                 }

@@ -12,14 +12,6 @@
 
 class Shadow;
 
-struct TintEntry final
-{
-    EReliveLevelIds field_0_level;
-    u8 field_1_r;
-    u8 field_2_g;
-    u8 field_3_b;
-};
-ALIVE_ASSERT_SIZEOF(TintEntry, 0x4);
 
 #ifdef _MSC_VER
 // NOTE: __single_inheritance required to workaround MSVC code gen bug
@@ -33,27 +25,6 @@ using TCollisionCallBack = s16 (BaseGameObject::*)(BaseGameObject*); // Typicall
 
 class BaseAnimatedWithPhysicsGameObject : public IBaseAnimatedWithPhysicsGameObject
 {
-public: // Temp interface
-    virtual s16 Scale() override
-    {
-        return mBaseAnimatedWithPhysicsGameObject_Scale;
-    }
-
-    virtual FP SpriteScale() override
-    {
-        return mBaseAnimatedWithPhysicsGameObject_SpriteScale;
-    }
-
-    virtual FP XPos() override
-    {
-        return mBaseAnimatedWithPhysicsGameObject_XPos;
-    }
-
-    virtual FP YPos() override
-    {
-        return mBaseAnimatedWithPhysicsGameObject_YPos;
-    }
-
 public:
     explicit BaseAnimatedWithPhysicsGameObject(s16 resourceArraySize);
     ~BaseAnimatedWithPhysicsGameObject();
@@ -84,22 +55,7 @@ protected:
 
 public:
     Animation mBaseAnimatedWithPhysicsGameObject_Anim;
-    FP mBaseAnimatedWithPhysicsGameObject_XPos;
-    FP mBaseAnimatedWithPhysicsGameObject_YPos;
-    s16 mBaseAnimatedWithPhysicsGameObject_PathNumber;
-    EReliveLevelIds mBaseAnimatedWithPhysicsGameObject_LvlNumber;
-    FP mBaseAnimatedWithPhysicsGameObject_VelX;
-    FP mBaseAnimatedWithPhysicsGameObject_VelY;
-    FP mBaseAnimatedWithPhysicsGameObject_SpriteScale;
-    s16 mBaseAnimatedWithPhysicsGameObject_Red;
-    s16 mBaseAnimatedWithPhysicsGameObject_Green;
-    s16 mBaseAnimatedWithPhysicsGameObject_Blue;
-    s16 mBaseAnimatedWithPhysicsGameObject_Scale;
-    s16 mBaseAnimatedWithPhysicsGameObject_YOffset;
-    s16 mBaseAnimatedWithPhysicsGameObject_XOffset;
-    s16 mApplyShadows;
-    s16 field_DE_pad;
+
     Shadow* mShadow;
-    FP_RECT mCollectionRect; // part of BaseAliveGameObject in AO
 };
 ALIVE_ASSERT_SIZEOF(BaseAnimatedWithPhysicsGameObject, 0xF4);

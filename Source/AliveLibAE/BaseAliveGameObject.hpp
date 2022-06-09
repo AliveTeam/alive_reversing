@@ -61,6 +61,7 @@ protected:
     BaseGameObject* FindObjectOfType(ReliveTypes typeToFind, FP xpos, FP ypos);
 
 public:
+    FP_RECT mCollectionRect;
     s16 mPreviousMotion;
     s16 mBaseAliveGameObjectLastAnimFrame;
     FP BaseAliveGameObjectLastLineYPos;

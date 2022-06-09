@@ -67,21 +67,20 @@ IBaseAnimatedWithPhysicsGameObject* Event_Is_Event_In_Range(Event eventType, FP 
     }
 
     // At this point we known the type must be BaseAnimatedWithPhysicsGameObject
-    auto pDerived = dynamic_cast /*static_cast*/<IBaseAnimatedWithPhysicsGameObject*>(pObj); // HACK: use static_cast when glue/adapter interfaces are removed
+    auto pDerived = static_cast<IBaseAnimatedWithPhysicsGameObject*>(pObj);
     if (GetGameType() == GameType::eAe)
     {
-        if ((scale == -1 || pDerived->Scale() == scale)
-            && FP_GetExponent(xpos) / kGridMapWidth == FP_GetExponent(pDerived->XPos()) / kGridMapWidth
-            && FP_GetExponent(ypos) / kGridMapHeight == FP_GetExponent(pDerived->YPos()) / kGridMapHeight)
+        if ((scale == -1 || pDerived->mBaseAnimatedWithPhysicsGameObject_Scale == scale)
+            && FP_GetExponent(xpos) / kGridMapWidth == FP_GetExponent(pDerived->mBaseAnimatedWithPhysicsGameObject_XPos) / kGridMapWidth
+            && FP_GetExponent(ypos) / kGridMapHeight == FP_GetExponent(pDerived->mBaseAnimatedWithPhysicsGameObject_YPos) / kGridMapHeight)
         {
             return pDerived;
         }
     }
     else
     {
-        if (pDerived->Scale() == scale &&
-            FP_Abs(xpos - pDerived->XPos()) < FP_FromInteger(640) && // gPsxDisplay_504C78.field_0_width
-            FP_Abs(ypos - pDerived->YPos()) < FP_FromInteger(240)) // gPsxDisplay_504C78.field_2_height
+        if (pDerived->mBaseAnimatedWithPhysicsGameObject_Scale == scale && FP_Abs(xpos - pDerived->mBaseAnimatedWithPhysicsGameObject_XPos) < FP_FromInteger(640) && // gPsxDisplay_504C78.field_0_width
+            FP_Abs(ypos - pDerived->mBaseAnimatedWithPhysicsGameObject_YPos) < FP_FromInteger(240)) // gPsxDisplay_504C78.field_2_height
         {
             return pDerived;
         }
@@ -103,9 +102,9 @@ IBaseAnimatedWithPhysicsGameObject* Event_Is_Event_In_Range(Event eventType, FP 
     }
 
     // At this point we known the type must be BaseAnimatedWithPhysicsGameObject
-    auto pDerived = dynamic_cast /*static_cast*/<IBaseAnimatedWithPhysicsGameObject*>(pObj);           // HACK: use static_cast when glue/adapter interfaces are removed
-    if (pDerived->SpriteScale() == scale && FP_Abs(xpos - pDerived->XPos()) < FP_FromInteger(640) && // gPsxDisplay_504C78.field_0_width
-        FP_Abs(ypos - pDerived->YPos()) < FP_FromInteger(240))                                       // gPsxDisplay_504C78.field_2_height
+    auto pDerived = static_cast<IBaseAnimatedWithPhysicsGameObject*>(pObj);
+    if (pDerived->mBaseAnimatedWithPhysicsGameObject_SpriteScale == scale && FP_Abs(xpos - pDerived->mBaseAnimatedWithPhysicsGameObject_XPos) < FP_FromInteger(640) && // gPsxDisplay_504C78.field_0_width
+        FP_Abs(ypos - pDerived->mBaseAnimatedWithPhysicsGameObject_YPos) < FP_FromInteger(240))                                       // gPsxDisplay_504C78.field_2_height
     {
         return pDerived;
     }

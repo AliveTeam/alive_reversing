@@ -17,14 +17,6 @@ namespace AO {
 class Shadow;
 class BaseAliveGameObject;
 
-struct TintEntry
-{
-    EReliveLevelIds field_0_level;
-    u8 field_1_r;
-    u8 field_2_g;
-    u8 field_3_b;
-};
-ALIVE_ASSERT_SIZEOF(TintEntry, 0x4);
 
 enum class CameraPos : s16;
 
@@ -42,27 +34,6 @@ FP ScaleToGridSize(FP scale);
 
 class BaseAnimatedWithPhysicsGameObject : public IBaseAnimatedWithPhysicsGameObject
 {
-public: // Temp interface
-    virtual s16 Scale() override
-    {
-        return mBaseAnimatedWithPhysicsGameObject_Scale;
-    }
-
-    virtual FP SpriteScale() override
-    {
-        return mBaseAnimatedWithPhysicsGameObject_SpriteScale;
-    }
-
-    virtual FP XPos() override
-    {
-        return mBaseAnimatedWithPhysicsGameObject_XPos;
-    }
-
-    virtual FP YPos() override
-    {
-        return mBaseAnimatedWithPhysicsGameObject_YPos;
-    }
-
 public:
     
 
@@ -131,21 +102,7 @@ private:
 
 public:
     Animation mBaseAnimatedWithPhysicsGameObject_Anim;
-    FP mBaseAnimatedWithPhysicsGameObject_XPos = {};
-    FP mBaseAnimatedWithPhysicsGameObject_YPos = {};
-    s16 mBaseAnimatedWithPhysicsGameObject_PathNumber = 0;
-    EReliveLevelIds mBaseAnimatedWithPhysicsGameObject_LvlNumber = EReliveLevelIds::eNone;
-    FP mBaseAnimatedWithPhysicsGameObject_VelX = {};
-    FP mBaseAnimatedWithPhysicsGameObject_VelY = {};
-    FP mBaseAnimatedWithPhysicsGameObject_SpriteScale = {};
-    s16 mBaseAnimatedWithPhysicsGameObject_Red = 0;
-    s16 mBaseAnimatedWithPhysicsGameObject_Green = 0;
-    s16 mBaseAnimatedWithPhysicsGameObject_Blue = 0;
-    s16 mBaseAnimatedWithPhysicsGameObject_Scale = 0;
-    s16 mBaseAnimatedWithPhysicsGameObject_YOffset = 0;
-    s16 mBaseAnimatedWithPhysicsGameObject_XOffset = 0;
-    u16 mApplyShadows = 0;
-    s16 field_CE_pad = 0;
+
     Shadow* mShadow = nullptr;
 };
 ALIVE_ASSERT_SIZEOF(BaseAnimatedWithPhysicsGameObject, 0xD4);
