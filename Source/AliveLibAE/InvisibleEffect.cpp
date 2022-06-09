@@ -18,33 +18,33 @@ InvisibleEffect::InvisibleEffect(BaseAliveGameObject* pTarget)
 
     field_44_objId = pTarget->field_8_object_id;
 
-    field_24_pPal1 = relive_new u16[pTarget->field_20_animation.field_90_pal_depth];
+    field_24_pPal1 = relive_new u16[pTarget->mBaseAnimatedWithPhysicsGameObject_Anim.field_90_pal_depth];
     Pal_Copy_483560(
-        pTarget->field_20_animation.field_8C_pal_vram_xy,
-        pTarget->field_20_animation.field_90_pal_depth,
+        pTarget->mBaseAnimatedWithPhysicsGameObject_Anim.field_8C_pal_vram_xy,
+        pTarget->mBaseAnimatedWithPhysicsGameObject_Anim.field_90_pal_depth,
         field_24_pPal1,
         &field_28_pal_rect1);
 
-    field_30_pPal2 = relive_new u16[pTarget->field_20_animation.field_90_pal_depth];
+    field_30_pPal2 = relive_new u16[pTarget->mBaseAnimatedWithPhysicsGameObject_Anim.field_90_pal_depth];
     Pal_Copy_483560(
-        pTarget->field_20_animation.field_8C_pal_vram_xy,
-        pTarget->field_20_animation.field_90_pal_depth,
+        pTarget->mBaseAnimatedWithPhysicsGameObject_Anim.field_8C_pal_vram_xy,
+        pTarget->mBaseAnimatedWithPhysicsGameObject_Anim.field_90_pal_depth,
         field_30_pPal2,
         &field_34_pal_rect2);
 
     field_4A_flags.Clear();
 
-    if (pTarget->field_20_animation.mAnimFlags.Get(AnimFlags::eBit15_bSemiTrans))
+    if (pTarget->mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit15_bSemiTrans))
     {
         field_4A_flags.Set(Flags_4A::eSemiTrans_Bit1);
     }
-    if (pTarget->field_20_animation.mAnimFlags.Get(AnimFlags::eBit16_bBlending))
+    if (pTarget->mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit16_bBlending))
     {
         field_4A_flags.Set(Flags_4A::eBlending_Bit2);
     }
 
     field_4A_flags.Clear(Flags_4A::eIsInvisible_Bit3);
-    field_48_old_render_mode = pTarget->field_20_animation.mRenderMode;
+    field_48_old_render_mode = pTarget->mBaseAnimatedWithPhysicsGameObject_Anim.mRenderMode;
     field_20_state_or_op = InvisibleState::eSetRenderMode1_0;
 }
 
@@ -96,12 +96,12 @@ void InvisibleEffect::VUpdate()
         {
             case InvisibleState::eSetRenderMode1_0:
             {
-                pTarget->field_20_animation.mRenderMode = TPageAbr::eBlend_1;
+                pTarget->mBaseAnimatedWithPhysicsGameObject_Anim.mRenderMode = TPageAbr::eBlend_1;
                 return;
             }
             case InvisibleState::eSetInvisibile_1:
             {
-                for (s32 idx2 = 8; idx2 < pTarget->field_20_animation.field_90_pal_depth; idx2++)
+                for (s32 idx2 = 8; idx2 < pTarget->mBaseAnimatedWithPhysicsGameObject_Anim.field_90_pal_depth; idx2++)
                 {
                     // Set transparent bit
                     field_30_pPal2[idx2] |= 0x8000u;
@@ -109,9 +109,9 @@ void InvisibleEffect::VUpdate()
 
                 pTarget->mBaseAliveGameObjectFlags.Set(Flags_114::e114_Bit8_bInvisible);
 
-                pTarget->field_20_animation.mAnimFlags.Clear(AnimFlags::eBit16_bBlending);
-                pTarget->field_20_animation.mAnimFlags.Set(AnimFlags::eBit15_bSemiTrans);
-                pTarget->field_20_animation.mRenderMode = TPageAbr::eBlend_1;
+                pTarget->mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit16_bBlending);
+                pTarget->mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit15_bSemiTrans);
+                pTarget->mBaseAnimatedWithPhysicsGameObject_Anim.mRenderMode = TPageAbr::eBlend_1;
 
                 SetUpdateDelay(1);
                 field_20_state_or_op = InvisibleState::eBecomeInvisible_2;
@@ -123,14 +123,14 @@ void InvisibleEffect::VUpdate()
             }
             case InvisibleState::eBecomeInvisible_2:
             {
-                if (pTarget->field_20_animation.field_90_pal_depth <= 8)
+                if (pTarget->mBaseAnimatedWithPhysicsGameObject_Anim.field_90_pal_depth <= 8)
                 {
                     field_20_state_or_op = InvisibleState::eSetRenderMode1_0;
                     return;
                 }
 
                 bool v3 = false;
-                for (s32 idx = 8; idx < pTarget->field_20_animation.field_90_pal_depth; idx++)
+                for (s32 idx = 8; idx < pTarget->mBaseAnimatedWithPhysicsGameObject_Anim.field_90_pal_depth; idx++)
                 {
                     // Red
                     if (field_30_pPal2[idx] & 0x1F)
@@ -166,7 +166,7 @@ void InvisibleEffect::VUpdate()
                 }
                 else
                 {
-                    Pal_Set_483510(pTarget->field_20_animation.field_8C_pal_vram_xy, pTarget->field_20_animation.field_90_pal_depth, (u8*) field_30_pPal2, &field_34_pal_rect2);
+                    Pal_Set_483510(pTarget->mBaseAnimatedWithPhysicsGameObject_Anim.field_8C_pal_vram_xy, pTarget->mBaseAnimatedWithPhysicsGameObject_Anim.field_90_pal_depth, (u8*) field_30_pPal2, &field_34_pal_rect2);
                     SetUpdateDelay(1);
                 }
 
@@ -176,12 +176,12 @@ void InvisibleEffect::VUpdate()
             case InvisibleState::eUnknown_3:
             {
                 LOG_ERROR("Unreachable case InvisibleState::eUnknown_3 hit");
-                for (s32 i = 8; i < pTarget->field_20_animation.field_90_pal_depth; i++)
+                for (s32 i = 8; i < pTarget->mBaseAnimatedWithPhysicsGameObject_Anim.field_90_pal_depth; i++)
                 {
                     // Clear transparent bit
                     field_30_pPal2[i] &= 0x8000u;
                 }
-                Pal_Set_483510(pTarget->field_20_animation.field_8C_pal_vram_xy, pTarget->field_20_animation.field_90_pal_depth, (u8*) field_30_pPal2, &field_34_pal_rect2);
+                Pal_Set_483510(pTarget->mBaseAnimatedWithPhysicsGameObject_Anim.field_8C_pal_vram_xy, pTarget->mBaseAnimatedWithPhysicsGameObject_Anim.field_90_pal_depth, (u8*) field_30_pPal2, &field_34_pal_rect2);
                 field_4A_flags.Clear(Flags_4A::eIsInvisible_Bit3);
                 SetUpdateDelay(1);
                 field_20_state_or_op = InvisibleState::eSetRenderMode1_0;
@@ -189,14 +189,14 @@ void InvisibleEffect::VUpdate()
             }
             case InvisibleState::eBecomeVisible_4:
             {
-                if (pTarget->field_20_animation.field_90_pal_depth <= 1)
+                if (pTarget->mBaseAnimatedWithPhysicsGameObject_Anim.field_90_pal_depth <= 1)
                 {
                     field_20_state_or_op = InvisibleState::eClearInvisibility_5;
                     return;
                 }
 
                 bool v3 = false;
-                for (s32 idx4 = 1; idx4 < pTarget->field_20_animation.field_90_pal_depth; idx4++)
+                for (s32 idx4 = 1; idx4 < pTarget->mBaseAnimatedWithPhysicsGameObject_Anim.field_90_pal_depth; idx4++)
                 {
                     if ((field_30_pPal2[idx4] ^ (field_24_pPal1[idx4])) & 0x1F)
                     {
@@ -219,8 +219,8 @@ void InvisibleEffect::VUpdate()
 
                 if (v3)
                 {
-                    Pal_Set_483510(pTarget->field_20_animation.field_8C_pal_vram_xy, pTarget->field_20_animation.field_90_pal_depth, (u8*) field_30_pPal2, &field_34_pal_rect2);
-                    pTarget->field_20_animation.mRenderMode = TPageAbr::eBlend_1;
+                    Pal_Set_483510(pTarget->mBaseAnimatedWithPhysicsGameObject_Anim.field_8C_pal_vram_xy, pTarget->mBaseAnimatedWithPhysicsGameObject_Anim.field_90_pal_depth, (u8*) field_30_pPal2, &field_34_pal_rect2);
+                    pTarget->mBaseAnimatedWithPhysicsGameObject_Anim.mRenderMode = TPageAbr::eBlend_1;
                     SetUpdateDelay(5);
                 }
                 else
@@ -231,11 +231,11 @@ void InvisibleEffect::VUpdate()
             }
             case InvisibleState::eClearInvisibility_5:
             {
-                Pal_Set_483510(pTarget->field_20_animation.field_8C_pal_vram_xy, pTarget->field_20_animation.field_90_pal_depth, (u8*) field_24_pPal1, &field_28_pal_rect1);
+                Pal_Set_483510(pTarget->mBaseAnimatedWithPhysicsGameObject_Anim.field_8C_pal_vram_xy, pTarget->mBaseAnimatedWithPhysicsGameObject_Anim.field_90_pal_depth, (u8*) field_24_pPal1, &field_28_pal_rect1);
 
-                pTarget->field_20_animation.mAnimFlags.Set(AnimFlags::eBit15_bSemiTrans, field_4A_flags.Get(Flags_4A::eSemiTrans_Bit1));
-                pTarget->field_20_animation.mAnimFlags.Set(AnimFlags::eBit16_bBlending, field_4A_flags.Get(Flags_4A::eBlending_Bit2));
-                pTarget->field_20_animation.mRenderMode = field_48_old_render_mode;
+                pTarget->mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit15_bSemiTrans, field_4A_flags.Get(Flags_4A::eSemiTrans_Bit1));
+                pTarget->mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit16_bBlending, field_4A_flags.Get(Flags_4A::eBlending_Bit2));
+                pTarget->mBaseAnimatedWithPhysicsGameObject_Anim.mRenderMode = field_48_old_render_mode;
 
                 pTarget->mBaseAliveGameObjectFlags.Clear(Flags_114::e114_Bit8_bInvisible);
 

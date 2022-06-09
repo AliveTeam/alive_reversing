@@ -40,7 +40,7 @@ PullRingRope::PullRingRope(Path_PullRingRope* pTlv, s32 tlvInfo)
 
     SetTint(sPullRingRopeTints_55FD1C, gMap.mCurrentLevel);
 
-    field_20_animation.mAnimFlags.Set(AnimFlags::eBit15_bSemiTrans);
+    mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit15_bSemiTrans);
     mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger((pTlv->field_8_top_left.field_0_x + pTlv->field_C_bottom_right.field_0_x) / 2);
     mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->field_8_top_left.field_2_y + 24);
 
@@ -54,18 +54,18 @@ PullRingRope::PullRingRope(Path_PullRingRope* pTlv, s32 tlvInfo)
 
     if (pTlv->field_16_scale == Scale_short::eHalf_1)
     {
-        field_CC_sprite_scale = FP_FromDouble(0.5);
-        field_20_animation.mRenderLayer = Layer::eLayer_8;
-        field_D6_scale = 0;
+        mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromDouble(0.5);
+        mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_8;
+        mBaseAnimatedWithPhysicsGameObject_Scale = 0;
     }
     else
     {
-        field_CC_sprite_scale = FP_FromInteger(1);
-        field_20_animation.mRenderLayer = Layer::eLayer_27;
-        field_D6_scale = 1;
+        mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromInteger(1);
+        mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_27;
+        mBaseAnimatedWithPhysicsGameObject_Scale = 1;
     }
 
-    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(SnapToXGrid(field_CC_sprite_scale, FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos)));
+    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(SnapToXGrid(mBaseAnimatedWithPhysicsGameObject_SpriteScale, FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos)));
 
     field_106_on_sound = pTlv->field_18_on_sound;
     field_108_off_sound = pTlv->field_1A_off_sound;
@@ -75,11 +75,11 @@ PullRingRope::PullRingRope(Path_PullRingRope* pTlv, s32 tlvInfo)
     auto pRope = relive_new Rope(FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos + FP_FromInteger(2)),
                               FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos) - pTlv->field_14_rope_length,
                               FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos),
-                              field_CC_sprite_scale);
+                              mBaseAnimatedWithPhysicsGameObject_SpriteScale);
     if (pRope)
     {
         field_F8_rope_id = pRope->field_8_object_id;
-        pRope->mBaseAnimatedWithPhysicsGameObject_YPos = FP_NoFractional(mBaseAnimatedWithPhysicsGameObject_YPos - (field_CC_sprite_scale * FP_FromInteger(16)));
+        pRope->mBaseAnimatedWithPhysicsGameObject_YPos = FP_NoFractional(mBaseAnimatedWithPhysicsGameObject_YPos - (mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(16)));
     }
 
     mApplyShadows |= 2;
@@ -115,18 +115,18 @@ void PullRingRope::VUpdate()
     switch (field_100_state)
     {
         case States::eBeingPulled_1:
-            if (field_20_animation.field_92_current_frame == 2)
+            if (mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame == 2)
             {
                 SFX_Play_Mono(SoundEffect::RingRopePull_56, 0);
             }
 
-            mBaseAnimatedWithPhysicsGameObject_YPos += field_C8_vely;
-            pRingPuller->mBaseAnimatedWithPhysicsGameObject_YPos += field_C8_vely;
+            mBaseAnimatedWithPhysicsGameObject_YPos += mBaseAnimatedWithPhysicsGameObject_VelY;
+            pRingPuller->mBaseAnimatedWithPhysicsGameObject_YPos += mBaseAnimatedWithPhysicsGameObject_VelY;
             field_F4_stay_in_state_ticks--;
 
             if (field_F4_stay_in_state_ticks == 0)
             {
-                field_C8_vely = FP_FromInteger(0);
+                mBaseAnimatedWithPhysicsGameObject_VelY = FP_FromInteger(0);
                 field_10C_is_pulled &= ~1u;
                 field_100_state = States::eTriggerEvent_2;
 
@@ -140,12 +140,12 @@ void PullRingRope::VUpdate()
         case States::eTriggerEvent_2:
             if (field_10C_is_pulled & 1)
             {
-                field_C8_vely = FP_FromInteger(4) * field_CC_sprite_scale;
+                mBaseAnimatedWithPhysicsGameObject_VelY = FP_FromInteger(4) * mBaseAnimatedWithPhysicsGameObject_SpriteScale;
                 field_FC_ring_puller_id = -1;
                 field_100_state = States::eReturnToIdle_3;
                 field_F4_stay_in_state_ticks = 3;
                 const AnimRecord& rec = AnimRec(AnimId::PullRingRope_UseEnd);
-                field_20_animation.Set_Animation_Data(rec.mFrameTableOffset, 0);
+                mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(rec.mFrameTableOffset, 0);
 
                 const s32 oldSwitchValue = SwitchStates_Get(field_102_switch_id);
                 SwitchStates_Do_Operation(field_102_switch_id, field_104_action);
@@ -210,14 +210,14 @@ void PullRingRope::VUpdate()
             break;
 
         case States::eReturnToIdle_3:
-            mBaseAnimatedWithPhysicsGameObject_YPos -= field_C8_vely;
+            mBaseAnimatedWithPhysicsGameObject_YPos -= mBaseAnimatedWithPhysicsGameObject_VelY;
             field_F4_stay_in_state_ticks--;
             if (field_F4_stay_in_state_ticks == 0)
             {
-                field_C8_vely = FP_FromInteger(0);
+                mBaseAnimatedWithPhysicsGameObject_VelY = FP_FromInteger(0);
                 field_100_state = States::eIdle_0;
                 const AnimRecord& rec = AnimRec(AnimId::PullRingRope_Idle);
-                field_20_animation.Set_Animation_Data(rec.mFrameTableOffset, 0);
+                mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(rec.mFrameTableOffset, 0);
             }
             break;
 
@@ -227,7 +227,7 @@ void PullRingRope::VUpdate()
 
     if (pRope)
     {
-        pRope->mBaseAnimatedWithPhysicsGameObject_YPos = FP_NoFractional(mBaseAnimatedWithPhysicsGameObject_YPos - (field_CC_sprite_scale * FP_FromInteger(16)));
+        pRope->mBaseAnimatedWithPhysicsGameObject_YPos = FP_NoFractional(mBaseAnimatedWithPhysicsGameObject_YPos - (mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(16)));
     }
 }
 
@@ -249,10 +249,10 @@ s16 PullRingRope::VPull(BaseGameObject* pObj)
 
     field_FC_ring_puller_id = pObj->field_8_object_id;
     field_100_state = States::eBeingPulled_1;
-    field_C8_vely = FP_FromInteger(2) * field_CC_sprite_scale;
+    mBaseAnimatedWithPhysicsGameObject_VelY = FP_FromInteger(2) * mBaseAnimatedWithPhysicsGameObject_SpriteScale;
     field_F4_stay_in_state_ticks = 6;
     const AnimRecord& rec = AnimRec(AnimId::PullRingRope_UseBegin);
-    field_20_animation.Set_Animation_Data(rec.mFrameTableOffset, 0);
+    mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(rec.mFrameTableOffset, 0);
     SFX_Play_Mono(SoundEffect::RingRopePull_56, 0);
     return 1;
 }

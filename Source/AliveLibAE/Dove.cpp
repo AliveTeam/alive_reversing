@@ -22,36 +22,36 @@ Dove::Dove(s32 frameTableOffset, s32 maxW, s32 maxH, s32 resourceID, s32 tlvInfo
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, resourceID);
     Animation_Init(frameTableOffset, maxW, maxH, ppRes, 1, 1);
 
-    field_20_animation.mAnimFlags.Clear(AnimFlags::eBit15_bSemiTrans);
+    mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit15_bSemiTrans);
 
     gDovesArray_5BC100.Push_Back(this);
 
-    field_20_animation.field_14_scale = scale;
-    field_CC_sprite_scale = scale;
+    mBaseAnimatedWithPhysicsGameObject_Anim.field_14_scale = scale;
+    mBaseAnimatedWithPhysicsGameObject_SpriteScale = scale;
     if (scale == FP_FromInteger(1))
     {
-        field_D6_scale = 1;
-        field_20_animation.mRenderLayer = Layer::eLayer_27;
+        mBaseAnimatedWithPhysicsGameObject_Scale = 1;
+        mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_27;
     }
     else
     {
-        field_D6_scale = 0;
-        field_20_animation.mRenderLayer = Layer::eLayer_8;
+        mBaseAnimatedWithPhysicsGameObject_Scale = 0;
+        mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_8;
     }
 
-    field_C4_velx = FP_FromInteger(Math_NextRandom() / 12 - 11);
-    if (field_C4_velx >= FP_FromInteger(0))
+    mBaseAnimatedWithPhysicsGameObject_VelX = FP_FromInteger(Math_NextRandom() / 12 - 11);
+    if (mBaseAnimatedWithPhysicsGameObject_VelX >= FP_FromInteger(0))
     {
-        field_20_animation.mAnimFlags.Clear(AnimFlags::eBit5_FlipX);
+        mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit5_FlipX);
     }
     else
     {
-        field_20_animation.mAnimFlags.Set(AnimFlags::eBit5_FlipX);
+        mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit5_FlipX);
     }
 
-    field_C8_vely = FP_FromInteger(-4 - (Math_NextRandom() % 4));
+    mBaseAnimatedWithPhysicsGameObject_VelY = FP_FromInteger(-4 - (Math_NextRandom() % 4));
     field_FE_state = State::eOnGround_0;
-    field_20_animation.SetFrame(Math_NextRandom() % 8);
+    mBaseAnimatedWithPhysicsGameObject_Anim.SetFrame(Math_NextRandom() % 8);
     field_FC_keepInGlobalArray = FALSE;
     field_F8_tlvInfo = tlvInfo;
 
@@ -72,30 +72,30 @@ Dove::Dove(s32 frameTableOffset, s32 maxW, s32 maxH, s32 resourceID, FP xpos, FP
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, resourceID);
     Animation_Init(frameTableOffset, maxW, maxH, ppRes, 1, 1);
 
-    field_20_animation.mAnimFlags.Clear(AnimFlags::eBit15_bSemiTrans);
-    field_20_animation.field_14_scale = scale;
-    field_CC_sprite_scale = scale;
+    mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit15_bSemiTrans);
+    mBaseAnimatedWithPhysicsGameObject_Anim.field_14_scale = scale;
+    mBaseAnimatedWithPhysicsGameObject_SpriteScale = scale;
 
     if (scale == FP_FromInteger(1))
     {
-        field_20_animation.mRenderLayer = Layer::eLayer_27;
+        mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_27;
     }
     else
     {
-        field_20_animation.mRenderLayer = Layer::eLayer_8;
+        mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_8;
     }
 
-    field_C4_velx = FP_FromInteger(Math_NextRandom() / 12 - 11);
-    if (field_C4_velx >= FP_FromInteger(0))
+    mBaseAnimatedWithPhysicsGameObject_VelX = FP_FromInteger(Math_NextRandom() / 12 - 11);
+    if (mBaseAnimatedWithPhysicsGameObject_VelX >= FP_FromInteger(0))
     {
-        field_20_animation.mAnimFlags.Clear(AnimFlags::eBit5_FlipX);
+        mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit5_FlipX);
     }
     else
     {
-        field_20_animation.mAnimFlags.Set(AnimFlags::eBit5_FlipX);
+        mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit5_FlipX);
     }
 
-    field_C8_vely = FP_FromInteger(-4 - (Math_NextRandom() % 4));
+    mBaseAnimatedWithPhysicsGameObject_VelY = FP_FromInteger(-4 - (Math_NextRandom() % 4));
     field_FE_state = State::eFlyAway_1;
     field_FC_keepInGlobalArray = TRUE;
     field_F4_counter = 0;
@@ -107,7 +107,7 @@ Dove::Dove(s32 frameTableOffset, s32 maxW, s32 maxH, s32 resourceID, FP xpos, FP
 
     field_F8_tlvInfo = 0;
 
-    field_20_animation.SetFrame(Math_NextRandom() & 6);
+    mBaseAnimatedWithPhysicsGameObject_Anim.SetFrame(Math_NextRandom() & 6);
 
     if (bTheOneControllingTheMusic_5BC112)
     {
@@ -150,8 +150,8 @@ void Dove::AsACircle(FP xpos, FP ypos, u8 angle)
     field_FE_state = State::eCircle_3;
 
     // TODO: Result thrown away.. some old removed behavior ??
-    //(Math_Sine_496DD0(field_10C_angle) * FP_FromInteger(30)) * field_CC_sprite_scale;
-    //(Math_Cosine_496CD0(field_10C_angle) * FP_FromInteger(35)) * field_CC_sprite_scale;
+    //(Math_Sine_496DD0(field_10C_angle) * FP_FromInteger(30)) * mBaseAnimatedWithPhysicsGameObject_SpriteScale;
+    //(Math_Cosine_496CD0(field_10C_angle) * FP_FromInteger(35)) * mBaseAnimatedWithPhysicsGameObject_SpriteScale;
 }
 
 void Dove::AsJoin(FP xpos, FP ypos)
@@ -209,11 +209,11 @@ void Dove::VUpdate()
             if (Event_Get(kEventNoise))
             {
                 // player getting near
-                if (VIsObjNearby(ScaleToGridSize(field_CC_sprite_scale) * FP_FromInteger(2), sControlledCharacter_5C1B8C))
+                if (VIsObjNearby(ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale) * FP_FromInteger(2), sControlledCharacter_5C1B8C))
                 {
                     Dove::All_FlyAway(1);
                 }
-                if (VIsObjNearby(ScaleToGridSize(field_CC_sprite_scale) * FP_FromInteger(4), sControlledCharacter_5C1B8C))
+                if (VIsObjNearby(ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale) * FP_FromInteger(4), sControlledCharacter_5C1B8C))
                 {
                     // noise is too near, leg it
                     Dove::All_FlyAway(0);
@@ -226,7 +226,7 @@ void Dove::VUpdate()
             if (field_F4_counter == 0)
             {
                 const AnimRecord& rec = AnimRec(AnimId::Dove_Flying);
-                field_20_animation.Set_Animation_Data(rec.mFrameTableOffset, 0);
+                mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(rec.mFrameTableOffset, 0);
                 if (!bExtraSeqStarted_5BC10C)
                 {
                     bExtraSeqStarted_5BC10C = 13;
@@ -236,26 +236,26 @@ void Dove::VUpdate()
 
             if (field_F4_counter > 0)
             {
-                mBaseAnimatedWithPhysicsGameObject_XPos += field_C4_velx;
-                mBaseAnimatedWithPhysicsGameObject_YPos += field_C8_vely;
+                mBaseAnimatedWithPhysicsGameObject_XPos += mBaseAnimatedWithPhysicsGameObject_VelX;
+                mBaseAnimatedWithPhysicsGameObject_YPos += mBaseAnimatedWithPhysicsGameObject_VelY;
             }
 
-            field_C8_vely = (field_C8_vely * FP_FromDouble(1.03));
-            field_C4_velx = (field_C4_velx * FP_FromDouble(1.03));
+            mBaseAnimatedWithPhysicsGameObject_VelY = (mBaseAnimatedWithPhysicsGameObject_VelY * FP_FromDouble(1.03));
+            mBaseAnimatedWithPhysicsGameObject_VelX = (mBaseAnimatedWithPhysicsGameObject_VelX * FP_FromDouble(1.03));
 
             if (field_F4_counter >= (25 - (Math_NextRandom() % 8)))
             {
                 field_F4_counter += (Math_NextRandom() % 8) - 25;
-                field_C4_velx = -field_C4_velx;
+                mBaseAnimatedWithPhysicsGameObject_VelX = -mBaseAnimatedWithPhysicsGameObject_VelX;
             }
 
-            if (field_C4_velx >= FP_FromInteger(0))
+            if (mBaseAnimatedWithPhysicsGameObject_VelX >= FP_FromInteger(0))
             {
-                field_20_animation.mAnimFlags.Clear(AnimFlags::eBit5_FlipX);
+                mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit5_FlipX);
             }
             else
             {
-                field_20_animation.mAnimFlags.Set(AnimFlags::eBit5_FlipX);
+                mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit5_FlipX);
             }
             break;
 
@@ -267,7 +267,7 @@ void Dove::VUpdate()
             }
 
             FP xOff = {};
-            if (field_20_animation.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
+            if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
             {
                 xOff = FP_FromInteger(4);
             }
@@ -276,10 +276,10 @@ void Dove::VUpdate()
                 xOff = FP_FromInteger(-4);
             }
 
-            field_C4_velx = (xOff + field_100_xJoin - mBaseAnimatedWithPhysicsGameObject_XPos) / FP_FromInteger(8);
-            field_C8_vely = (field_104_yJoin - mBaseAnimatedWithPhysicsGameObject_YPos) / FP_FromInteger(8);
-            mBaseAnimatedWithPhysicsGameObject_XPos += field_C4_velx;
-            mBaseAnimatedWithPhysicsGameObject_YPos += field_C8_vely;
+            mBaseAnimatedWithPhysicsGameObject_VelX = (xOff + field_100_xJoin - mBaseAnimatedWithPhysicsGameObject_XPos) / FP_FromInteger(8);
+            mBaseAnimatedWithPhysicsGameObject_VelY = (field_104_yJoin - mBaseAnimatedWithPhysicsGameObject_YPos) / FP_FromInteger(8);
+            mBaseAnimatedWithPhysicsGameObject_XPos += mBaseAnimatedWithPhysicsGameObject_VelX;
+            mBaseAnimatedWithPhysicsGameObject_YPos += mBaseAnimatedWithPhysicsGameObject_VelY;
         }
             return;
 
@@ -290,8 +290,8 @@ void Dove::VUpdate()
             field_10C_angle += 4;
 
             // Spin around this point
-            mBaseAnimatedWithPhysicsGameObject_XPos = ((Math_Sine_496DD0(field_10C_angle) * FP_FromInteger(30)) * field_CC_sprite_scale) + field_100_xJoin;
-            mBaseAnimatedWithPhysicsGameObject_YPos = ((Math_Cosine_496CD0(field_10C_angle) * FP_FromInteger(35)) * field_CC_sprite_scale) + field_104_yJoin;
+            mBaseAnimatedWithPhysicsGameObject_XPos = ((Math_Sine_496DD0(field_10C_angle) * FP_FromInteger(30)) * mBaseAnimatedWithPhysicsGameObject_SpriteScale) + field_100_xJoin;
+            mBaseAnimatedWithPhysicsGameObject_YPos = ((Math_Cosine_496CD0(field_10C_angle) * FP_FromInteger(35)) * mBaseAnimatedWithPhysicsGameObject_SpriteScale) + field_104_yJoin;
             return;
 
         case State::eAlmostACircle_4:
@@ -316,8 +316,8 @@ void Dove::VUpdate()
             field_114_prevY = mBaseAnimatedWithPhysicsGameObject_YPos;
             field_10C_angle += 4;
             field_110_prevX = mBaseAnimatedWithPhysicsGameObject_XPos;
-            mBaseAnimatedWithPhysicsGameObject_XPos = ((Math_Sine_496DD0(field_10C_angle) * FP_FromInteger(sAbePortalWidth_551544)) * field_CC_sprite_scale) + field_100_xJoin;
-            mBaseAnimatedWithPhysicsGameObject_YPos = ((Math_Cosine_496CD0(field_10C_angle) * FP_FromInteger(35)) * field_CC_sprite_scale) + field_104_yJoin;
+            mBaseAnimatedWithPhysicsGameObject_XPos = ((Math_Sine_496DD0(field_10C_angle) * FP_FromInteger(sAbePortalWidth_551544)) * mBaseAnimatedWithPhysicsGameObject_SpriteScale) + field_100_xJoin;
+            mBaseAnimatedWithPhysicsGameObject_YPos = ((Math_Cosine_496CD0(field_10C_angle) * FP_FromInteger(35)) * mBaseAnimatedWithPhysicsGameObject_SpriteScale) + field_104_yJoin;
             return;
 
         default:
@@ -325,8 +325,8 @@ void Dove::VUpdate()
     }
 
     if (!gMap.Is_Point_In_Current_Camera_4810D0(
-            field_C2_lvl_number,
-            field_C0_path_number,
+            mBaseAnimatedWithPhysicsGameObject_LvlNumber,
+            mBaseAnimatedWithPhysicsGameObject_PathNumber,
             mBaseAnimatedWithPhysicsGameObject_XPos,
             mBaseAnimatedWithPhysicsGameObject_YPos,
             0))

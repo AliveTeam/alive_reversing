@@ -9,9 +9,9 @@ namespace AO {
 
 HoneyDrip::HoneyDrip(FP xpos, FP ypos)
 {
-    field_C4_b = 128;
-    field_C2_g = 128;
-    field_C0_r = 128;
+    mBaseAnimatedWithPhysicsGameObject_Blue = 128;
+    mBaseAnimatedWithPhysicsGameObject_Green = 128;
+    mBaseAnimatedWithPhysicsGameObject_Red = 128;
 
     const AnimRecord& rec = AO::AnimRec(AnimId::Honey_Drip);
     u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
@@ -19,23 +19,23 @@ HoneyDrip::HoneyDrip(FP xpos, FP ypos)
     mBaseAnimatedWithPhysicsGameObject_YPos = ypos;
     mBaseAnimatedWithPhysicsGameObject_XPos = xpos;
 
-    field_10_anim.mRenderLayer = Layer::eLayer_BeforeWell_22;
+    mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_BeforeWell_22;
 
     field_E4_bSoundPlaying = FALSE;
 }
 
 void HoneyDrip::VUpdate()
 {
-    mBaseAnimatedWithPhysicsGameObject_XPos += field_B4_velx;
-    mBaseAnimatedWithPhysicsGameObject_YPos += field_B8_vely;
+    mBaseAnimatedWithPhysicsGameObject_XPos += mBaseAnimatedWithPhysicsGameObject_VelX;
+    mBaseAnimatedWithPhysicsGameObject_YPos += mBaseAnimatedWithPhysicsGameObject_VelY;
 
-    if (field_10_anim.field_92_current_frame == 7 && !field_E4_bSoundPlaying)
+    if (mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame == 7 && !field_E4_bSoundPlaying)
     {
         SFX_Play_Mono(SoundEffect::HoneyDrip_26, 0, 0);
         field_E4_bSoundPlaying = TRUE;
     }
 
-    if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
+    if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }

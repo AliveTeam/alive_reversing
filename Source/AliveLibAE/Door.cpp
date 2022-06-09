@@ -239,16 +239,16 @@ Door::Door(Path_Door* pTlvData, s32 tlvInfo)
     {
         if (pTlvData->field_16_scale == Scale_short::eHalf_1)
         {
-            field_CC_sprite_scale = FP_FromDouble(0.5);
-            field_D6_scale = 0;
-            field_20_animation.mRenderLayer = Layer::eLayer_BeforeShadow_Half_6;
+            mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromDouble(0.5);
+            mBaseAnimatedWithPhysicsGameObject_Scale = 0;
+            mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_BeforeShadow_Half_6;
         }
     }
     else
     {
-        field_CC_sprite_scale = FP_FromInteger(1);
-        field_D6_scale = 1;
-        field_20_animation.mRenderLayer = Layer::eLayer_BeforeShadow_25;
+        mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromInteger(1);
+        mBaseAnimatedWithPhysicsGameObject_Scale = 1;
+        mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_BeforeShadow_25;
     }
 
     FP* xOff = &mBaseAnimatedWithPhysicsGameObject_XPos;
@@ -265,13 +265,13 @@ Door::Door(Path_Door* pTlvData, s32 tlvInfo)
             &pathLine,
             xOff,
             yOff,
-            (field_D6_scale == 1) ? 15 : 240))
+            (mBaseAnimatedWithPhysicsGameObject_Scale == 1) ? 15 : 240))
     {
         // Move up off the line we hit
-        *yOff -= FP_FromInteger(12) * field_CC_sprite_scale;
+        *yOff -= FP_FromInteger(12) * mBaseAnimatedWithPhysicsGameObject_SpriteScale;
 
         // Snap on X
-        *xOff = FP_FromInteger(SnapToXGrid(field_CC_sprite_scale, FP_GetExponent(*xOff)));
+        *xOff = FP_FromInteger(SnapToXGrid(mBaseAnimatedWithPhysicsGameObject_SpriteScale, FP_GetExponent(*xOff)));
     }
     else
     {
@@ -290,21 +290,21 @@ Door::Door(Path_Door* pTlvData, s32 tlvInfo)
     {
         if (gMap.mCurrentLevel == EReliveLevelIds::eBonewerkz || gMap.mCurrentLevel == EReliveLevelIds::eBonewerkz_Ender)
         {
-            yAdjustHack = FP_FromInteger(10) * field_CC_sprite_scale;
+            yAdjustHack = FP_FromInteger(10) * mBaseAnimatedWithPhysicsGameObject_SpriteScale;
         }
     }
     else
     {
-        yAdjustHack = FP_FromInteger(14) * field_CC_sprite_scale;
+        yAdjustHack = FP_FromInteger(14) * mBaseAnimatedWithPhysicsGameObject_SpriteScale;
     }
     *yOff += yAdjustHack;
 
     if (field_FC_current_state == eOpen_0)
     {
-        field_20_animation.mAnimFlags.Clear(AnimFlags::eBit3_Render);
+        mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit3_Render);
     }
 
-    field_20_animation.mAnimFlags.Clear(AnimFlags::eBit2_Animate);
+    mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit2_Animate);
     mApplyShadows |= 2u;
 }
 
@@ -345,7 +345,7 @@ void Door::vSetClosed()
 void Door::PlaySound()
 {
     s16 volume = 0;
-    if (field_F8_door_type != DoorTypes::eBasicDoor_0 || field_CC_sprite_scale != FP_FromInteger(1))
+    if (field_F8_door_type != DoorTypes::eBasicDoor_0 || mBaseAnimatedWithPhysicsGameObject_SpriteScale != FP_FromInteger(1))
     {
         volume = 60;
     }
@@ -374,7 +374,7 @@ void Door::VUpdate()
     {
         if (field_FC_current_state == DoorStates::eClosed_1 && field_FA_door_number == sActiveHero->field_1A0_door_id)
         {
-            field_20_animation.mAnimFlags.Clear(AnimFlags::eBit3_Render);
+            mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit3_Render);
             field_FC_current_state = DoorStates::eOpen_0;
         }
     }
@@ -407,7 +407,7 @@ void Door::VUpdate()
         switch (field_FC_current_state)
         {
             case DoorStates::eOpen_0:
-                field_20_animation.mAnimFlags.Clear(AnimFlags::eBit3_Render);
+                mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit3_Render);
 
                 if ((!field_FE_start_state && SwitchStates_Get(field_100_switch_id))
                     || (field_FE_start_state == DoorStates::eClosed_1 && !SwitchStates_Get(field_100_switch_id)))
@@ -416,22 +416,22 @@ void Door::VUpdate()
                     if (gMap.mOverlayId == 108)
                     {
                         const AnimRecord& rec = AnimRec(AnimId::Door_BarracksMetal_Open);
-                        field_20_animation.Set_Animation_Data(rec.mFrameTableOffset, nullptr);
+                        mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(rec.mFrameTableOffset, nullptr);
                     }
                     else
                     {
                         const AnimRecord& animRec = AnimRec(sDoorAnimIdTable_544888[static_cast<s32>(MapWrapper::ToAE(gMap.mCurrentLevel))][1]);
-                        field_20_animation.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
+                        mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
                     }
 
-                    field_20_animation.mAnimFlags.Clear(AnimFlags::eBit19_LoopBackwards);
-                    field_20_animation.mAnimFlags.Set(AnimFlags::eBit3_Render);
+                    mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit19_LoopBackwards);
+                    mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit3_Render);
                 }
                 break;
 
             case DoorStates::eClosed_1:
-                field_20_animation.mAnimFlags.Set(AnimFlags::eBit3_Render);
-                field_20_animation.mAnimFlags.Set(AnimFlags::eBit2_Animate);
+                mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit3_Render);
+                mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit2_Animate);
 
                 if ((field_FE_start_state == DoorStates::eClosed_1 && SwitchStates_Get(field_100_switch_id)) || (field_FE_start_state == DoorStates::eOpen_0 && !SwitchStates_Get(field_100_switch_id)))
                 {
@@ -439,36 +439,36 @@ void Door::VUpdate()
                     if (gMap.mOverlayId == 108)
                     {
                         const AnimRecord& rec = AnimRec(AnimId::Door_BarracksMetal_Open);
-                        field_20_animation.Set_Animation_Data(rec.mFrameTableOffset, nullptr);
+                        mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(rec.mFrameTableOffset, nullptr);
                     }
                     else
                     {
                         const AnimRecord& animRec = AnimRec(sDoorAnimIdTable_544888[static_cast<s32>(MapWrapper::ToAE(gMap.mCurrentLevel))][1]);
-                        field_20_animation.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
+                        mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
                     }
 
-                    field_20_animation.SetFrame(3);
-                    field_20_animation.mAnimFlags.Set(AnimFlags::eBit19_LoopBackwards);
-                    field_20_animation.mAnimFlags.Set(AnimFlags::eBit3_Render);
+                    mBaseAnimatedWithPhysicsGameObject_Anim.SetFrame(3);
+                    mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit19_LoopBackwards);
+                    mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit3_Render);
                     PlaySound();
                 }
                 break;
 
             case DoorStates::eOpening_2:
-                field_20_animation.mAnimFlags.Set(AnimFlags::eBit3_Render);
-                field_20_animation.mAnimFlags.Set(AnimFlags::eBit2_Animate);
+                mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit3_Render);
+                mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit2_Animate);
 
-                if (field_20_animation.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
+                if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
                 {
                     field_FC_current_state = DoorStates::eOpen_0;
                 }
                 break;
 
             case DoorStates::eClosing_3:
-                field_20_animation.mAnimFlags.Set(AnimFlags::eBit3_Render);
-                field_20_animation.mAnimFlags.Set(AnimFlags::eBit2_Animate);
+                mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit3_Render);
+                mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit2_Animate);
 
-                if (field_20_animation.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
+                if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
                 {
                     field_FC_current_state = DoorStates::eClosed_1;
                     PlaySound();
@@ -509,16 +509,16 @@ TrainDoor::TrainDoor(Path_TrainDoor* pTlv, s32 tlvInfo)
     if (pTlv->field_1_tlv_state)
     {
         const AnimRecord& animRec = AnimRec(AnimId::Door_Train_Closed);
-        field_20_animation.Set_Animation_Data(animRec.mFrameTableOffset, 0);
+        mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(animRec.mFrameTableOffset, 0);
         field_FC_current_state = eClosed_1;
     }
     else
     {
-        field_20_animation.mAnimFlags.Clear(AnimFlags::eBit2_Animate);
-        field_20_animation.mAnimFlags.Clear(AnimFlags::eBit3_Render);
+        mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit2_Animate);
+        mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit3_Render);
         field_FC_current_state = eOpen_0;
     }
-    field_20_animation.mAnimFlags.Set(AnimFlags::eBit5_FlipX, pTlv->field_10_direction == XDirection_int::eRight_1);
+    mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit5_FlipX, pTlv->field_10_direction == XDirection_int::eRight_1);
 }
 
 TrainDoor::~TrainDoor()
@@ -542,9 +542,9 @@ void TrainDoor::VUpdate()
         {
             // Then close
             const AnimRecord& animRec = AnimRec(AnimId::Door_Train_Closing);
-            field_20_animation.Set_Animation_Data(animRec.mFrameTableOffset, 0);
-            field_20_animation.mAnimFlags.Set(AnimFlags::eBit2_Animate);
-            field_20_animation.mAnimFlags.Set(AnimFlags::eBit3_Render);
+            mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(animRec.mFrameTableOffset, 0);
+            mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit2_Animate);
+            mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit3_Render);
             field_FC_current_state = eClosed_1;
         }
     }

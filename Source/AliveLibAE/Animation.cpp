@@ -39,17 +39,17 @@ s32 Animation_OnFrame_Common_4561B0(BaseGameObject* pObjPtr, s16* pData)
     u8** ppAnimData = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, dustRec.mResourceId, FALSE, FALSE);
 
     FP xOff = {};
-    if (pObj->field_20_animation.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
+    if (pObj->mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
     {
-        xOff = -(pObj->field_CC_sprite_scale * FP_FromInteger(pData[0]));
+        xOff = -(pObj->mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(pData[0]));
     }
     else
     {
-        xOff = (pObj->field_CC_sprite_scale * FP_FromInteger(pData[0]));
+        xOff = (pObj->mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(pData[0]));
     }
 
     FP xpos = xOff + pObj->mBaseAnimatedWithPhysicsGameObject_XPos;
-    FP ypos = (pObj->field_CC_sprite_scale * FP_FromInteger(pData[1])) + pObj->mBaseAnimatedWithPhysicsGameObject_YPos + FP_FromInteger(25);
+    FP ypos = (pObj->mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(pData[1])) + pObj->mBaseAnimatedWithPhysicsGameObject_YPos + FP_FromInteger(25);
     if (!pObj->BaseAliveGameObjectCollisionLine)
     {
         return 1;
@@ -69,12 +69,12 @@ s32 Animation_OnFrame_Common_4561B0(BaseGameObject* pObjPtr, s16* pData)
         return 1;
     }
 
-    if (pObj->field_CC_sprite_scale == FP_FromDouble(0.5))
+    if (pObj->mBaseAnimatedWithPhysicsGameObject_SpriteScale == FP_FromDouble(0.5))
     {
         ypos -= FP_FromInteger(14);
     }
 
-    if (pObj->mCurrentMotion == eAbeMotions::Motion_71_Knockback_455090 && pObj->field_CC_sprite_scale == FP_FromDouble(0.5))
+    if (pObj->mCurrentMotion == eAbeMotions::Motion_71_Knockback_455090 && pObj->mBaseAnimatedWithPhysicsGameObject_SpriteScale == FP_FromDouble(0.5))
     {
         ypos += FP_FromInteger(5);
     }
@@ -87,37 +87,37 @@ s32 Animation_OnFrame_Common_4561B0(BaseGameObject* pObjPtr, s16* pData)
     auto pPartical = relive_new Particle(xpos, ypos, dustRec.mFrameTableOffset, dustRec.mMaxW, dustRec.mMaxH, ppAnimData);
     if (pPartical)
     {
-        pPartical->field_20_animation.mRenderMode = TPageAbr::eBlend_1;
+        pPartical->mBaseAnimatedWithPhysicsGameObject_Anim.mRenderMode = TPageAbr::eBlend_1;
 
-        if (pObj->field_D6_scale == 1)
+        if (pObj->mBaseAnimatedWithPhysicsGameObject_Scale == 1)
         {
-            pPartical->field_20_animation.mRenderLayer = Layer::eLayer_Foreground_36;
+            pPartical->mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_Foreground_36;
         }
         else
         {
-            pPartical->field_20_animation.mRenderLayer = Layer::eLayer_Foreground_Half_17;
+            pPartical->mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_Foreground_Half_17;
         }
 
-        pPartical->field_D0_r = 45;
-        pPartical->field_D2_g = 35;
-        pPartical->field_D4_b = 5;
+        pPartical->mBaseAnimatedWithPhysicsGameObject_Red = 45;
+        pPartical->mBaseAnimatedWithPhysicsGameObject_Green = 35;
+        pPartical->mBaseAnimatedWithPhysicsGameObject_Blue = 5;
 
         switch (pObj->mCurrentMotion)
         {
             case eAbeMotions::Motion_1_WalkLoop_44FBA0:
-                pPartical->field_CC_sprite_scale = FP_FromDouble(0.3) * pObj->field_CC_sprite_scale;
+                pPartical->mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromDouble(0.3) * pObj->mBaseAnimatedWithPhysicsGameObject_SpriteScale;
                 break;
 
             case eAbeMotions::Motion_40_SneakLoop_450550:
-                pPartical->field_CC_sprite_scale = FP_FromInteger(0);
+                pPartical->mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromInteger(0);
                 break;
 
             case eAbeMotions::Motion_71_Knockback_455090:
-                pPartical->field_CC_sprite_scale = FP_FromInteger(1) * pObj->field_CC_sprite_scale;
+                pPartical->mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromInteger(1) * pObj->mBaseAnimatedWithPhysicsGameObject_SpriteScale;
                 break;
 
             default:
-                pPartical->field_CC_sprite_scale = FP_FromDouble(0.6) * pObj->field_CC_sprite_scale;
+                pPartical->mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromDouble(0.6) * pObj->mBaseAnimatedWithPhysicsGameObject_SpriteScale;
                 break;
         }
     }
@@ -142,17 +142,17 @@ s32 Animation_OnFrame_Common_434130(BaseGameObject* pObjPtr, s16* pData)
     // flying slig: kVaporResID
     u8** ppAnimRes = pObj->field_10_resources_array.ItemAt(7);
     FP xOff = {};
-    if (pObj->field_20_animation.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
+    if (pObj->mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
     {
-        xOff = -(pObj->field_CC_sprite_scale * FP_FromInteger(pData[0]));
+        xOff = -(pObj->mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(pData[0]));
     }
     else
     {
-        xOff = (pObj->field_CC_sprite_scale * FP_FromInteger(pData[0]));
+        xOff = (pObj->mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(pData[0]));
     }
 
     FP xpos = xOff + pObj->mBaseAnimatedWithPhysicsGameObject_XPos;
-    FP ypos = (pObj->field_CC_sprite_scale * (FP_FromInteger(pData[1]) + FP_FromInteger(25))) + pObj->mBaseAnimatedWithPhysicsGameObject_YPos;
+    FP ypos = (pObj->mBaseAnimatedWithPhysicsGameObject_SpriteScale * (FP_FromInteger(pData[1]) + FP_FromInteger(25))) + pObj->mBaseAnimatedWithPhysicsGameObject_YPos;
 
     if (Event_Get(kEventDeathReset))
     {
@@ -163,12 +163,12 @@ s32 Animation_OnFrame_Common_434130(BaseGameObject* pObjPtr, s16* pData)
     auto pParticle = relive_new Particle(xpos, ypos, vaporizeRec.mFrameTableOffset, vaporizeRec.mMaxW, vaporizeRec.mMaxH, ppAnimRes);
     if (pParticle)
     {
-        pParticle->field_20_animation.mRenderMode = TPageAbr::eBlend_1;
-        pParticle->field_20_animation.mRenderLayer = Layer::eLayer_Foreground_36;
-        pParticle->field_D0_r = 64;
-        pParticle->field_D2_g = 64;
-        pParticle->field_D4_b = 64;
-        pParticle->field_CC_sprite_scale = FP_FromDouble(0.6) * pObj->field_CC_sprite_scale;
+        pParticle->mBaseAnimatedWithPhysicsGameObject_Anim.mRenderMode = TPageAbr::eBlend_1;
+        pParticle->mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_Foreground_36;
+        pParticle->mBaseAnimatedWithPhysicsGameObject_Red = 64;
+        pParticle->mBaseAnimatedWithPhysicsGameObject_Green = 64;
+        pParticle->mBaseAnimatedWithPhysicsGameObject_Blue = 64;
+        pParticle->mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromDouble(0.6) * pObj->mBaseAnimatedWithPhysicsGameObject_SpriteScale;
     }
     return 1;
 }
@@ -193,7 +193,7 @@ s32 Animation_OnFrame_Slog_4C3030(BaseGameObject* pObjPtr, s16* pPoints)
     PSX_RECT bSlogRect = {};
     pSlog->VGetBoundingRect(&bSlogRect, 1);
 
-    if (bSlogRect.x > bTargetRect.w || bSlogRect.w < bTargetRect.x || bSlogRect.h < bTargetRect.y || bSlogRect.y > bTargetRect.h || pTarget->field_CC_sprite_scale != FP_FromInteger(1) || pSlog->field_11C_biting_target)
+    if (bSlogRect.x > bTargetRect.w || bSlogRect.w < bTargetRect.x || bSlogRect.h < bTargetRect.y || bSlogRect.y > bTargetRect.h || pTarget->mBaseAnimatedWithPhysicsGameObject_SpriteScale != FP_FromInteger(1) || pSlog->field_11C_biting_target)
     {
         return 1;
     }
@@ -204,23 +204,23 @@ s32 Animation_OnFrame_Slog_4C3030(BaseGameObject* pObjPtr, s16* pPoints)
     }
 
     FP bloodX = {};
-    if (pSlog->field_20_animation.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
+    if (pSlog->mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
     {
-        bloodX = pSlog->mBaseAnimatedWithPhysicsGameObject_XPos - (pSlog->field_CC_sprite_scale * FP_FromInteger(pPoints[0]));
+        bloodX = pSlog->mBaseAnimatedWithPhysicsGameObject_XPos - (pSlog->mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(pPoints[0]));
     }
     else
     {
-        bloodX = (pSlog->field_CC_sprite_scale * FP_FromInteger(pPoints[0])) + pSlog->mBaseAnimatedWithPhysicsGameObject_XPos;
+        bloodX = (pSlog->mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(pPoints[0])) + pSlog->mBaseAnimatedWithPhysicsGameObject_XPos;
     }
 
-    const FP bloodY = (pSlog->field_CC_sprite_scale * FP_FromInteger(pPoints[1])) + pSlog->mBaseAnimatedWithPhysicsGameObject_YPos;
+    const FP bloodY = (pSlog->mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(pPoints[1])) + pSlog->mBaseAnimatedWithPhysicsGameObject_YPos;
 
     relive_new Blood(
         bloodX,
         bloodY - FP_FromInteger(8),
-        pSlog->field_C4_velx * FP_FromInteger(2),
+        pSlog->mBaseAnimatedWithPhysicsGameObject_VelX * FP_FromInteger(2),
         FP_FromInteger(0),
-        pSlog->field_CC_sprite_scale,
+        pSlog->mBaseAnimatedWithPhysicsGameObject_SpriteScale,
         50);
 
     pSlog->field_11C_biting_target = 1;

@@ -35,15 +35,15 @@ MineCar::MineCar(Path_MineCar* pTlv, s32 tlvInfo, s32 /*a4*/, s32 /*a5*/, s32 /*
 
     mApplyShadows |= 2u;
     field_1BE_unused = 0;
-    field_20_animation.mRenderLayer = Layer::eLayer_Shadow_26;
-    field_CC_sprite_scale = FP_FromInteger(1);
-    field_D6_scale = 1;
+    mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_Shadow_26;
+    mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromInteger(1);
+    mBaseAnimatedWithPhysicsGameObject_Scale = 1;
 
     if (field_11E_scale != Scale_short::eFull_0)
     {
-        field_CC_sprite_scale = FP_FromDouble(0.5);
-        field_20_animation.mRenderLayer = Layer::eLayer_Shadow_Half_7;
-        field_D6_scale = 0;
+        mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromDouble(0.5);
+        mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_Shadow_Half_7;
+        mBaseAnimatedWithPhysicsGameObject_Scale = 0;
     }
 
     MapFollowMe(TRUE);
@@ -58,7 +58,7 @@ MineCar::MineCar(Path_MineCar* pTlv, s32 tlvInfo, s32 /*a4*/, s32 /*a5*/, s32 /*
             &BaseAliveGameObjectCollisionLine,
             &hitX,
             &hitY,
-            field_D6_scale != 0 ? 1 : 16)
+            mBaseAnimatedWithPhysicsGameObject_Scale != 0 ? 1 : 16)
         == 1)
     {
         mBaseAnimatedWithPhysicsGameObject_YPos = hitY;
@@ -147,17 +147,17 @@ s32 MineCar::CreateFromSaveState(const u8* pBuffer)
         pMineCar->mBaseAnimatedWithPhysicsGameObject_XPos = pState->field_4_xpos;
         pMineCar->mBaseAnimatedWithPhysicsGameObject_YPos = pState->field_8_ypos;
 
-        pMineCar->field_C4_velx = pState->field_C_velx;
-        pMineCar->field_C8_vely = pState->field_10_vely;
+        pMineCar->mBaseAnimatedWithPhysicsGameObject_VelX = pState->field_C_velx;
+        pMineCar->mBaseAnimatedWithPhysicsGameObject_VelY = pState->field_10_vely;
 
-        pMineCar->field_C0_path_number = pState->field_18_path_number;
-        pMineCar->field_C2_lvl_number = MapWrapper::FromAE(pState->field_1A_lvl_number);
+        pMineCar->mBaseAnimatedWithPhysicsGameObject_PathNumber = pState->field_18_path_number;
+        pMineCar->mBaseAnimatedWithPhysicsGameObject_LvlNumber = MapWrapper::FromAE(pState->field_1A_lvl_number);
 
-        pMineCar->field_CC_sprite_scale = pState->field_14_sprite_scale;
+        pMineCar->mBaseAnimatedWithPhysicsGameObject_SpriteScale = pState->field_14_sprite_scale;
 
-        pMineCar->field_D0_r = pState->field_1C_r;
-        pMineCar->field_D2_g = pState->field_1E_g;
-        pMineCar->field_D4_b = pState->field_20_b;
+        pMineCar->mBaseAnimatedWithPhysicsGameObject_Red = pState->field_1C_r;
+        pMineCar->mBaseAnimatedWithPhysicsGameObject_Green = pState->field_1E_g;
+        pMineCar->mBaseAnimatedWithPhysicsGameObject_Blue = pState->field_20_b;
 
         pMineCar->mCurrentMotion = pState->field_28_current_motion;
 
@@ -190,20 +190,20 @@ s32 MineCar::CreateFromSaveState(const u8* pBuffer)
         }
 
         const AnimRecord& animRec = AnimRec(sMineCarFrameTable[remapped1]);
-        pMineCar->field_20_animation.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
-        pMineCar->field_20_animation.field_92_current_frame = pState->field_2A_current_anim_frame;
+        pMineCar->mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
+        pMineCar->mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame = pState->field_2A_current_anim_frame;
 
 
-        pMineCar->field_20_animation.mFrameChangeCounter = pState->field_2C_frame_change_counter;
+        pMineCar->mBaseAnimatedWithPhysicsGameObject_Anim.mFrameChangeCounter = pState->field_2C_frame_change_counter;
 
-        pMineCar->field_20_animation.mAnimFlags.Set(AnimFlags::eBit5_FlipX, pState->field_22_xFlip & 1);
-        pMineCar->field_20_animation.mAnimFlags.Set(AnimFlags::eBit3_Render, pState->field_2E_render & 1);
+        pMineCar->mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit5_FlipX, pState->field_22_xFlip & 1);
+        pMineCar->mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit3_Render, pState->field_2E_render & 1);
 
         pMineCar->mBaseGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4, pState->field_2F_drawable & 1);
 
-        if (IsLastFrame(&pMineCar->field_20_animation))
+        if (IsLastFrame(&pMineCar->mBaseAnimatedWithPhysicsGameObject_Anim))
         {
-            pMineCar->field_20_animation.mAnimFlags.Set(AnimFlags::eBit18_IsLastFrame);
+            pMineCar->mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit18_IsLastFrame);
         }
 
         s32 remapped2 = 0;
@@ -273,7 +273,7 @@ s32 MineCar::CreateFromSaveState(const u8* pBuffer)
         pMineCar->field_1D4_previous_input = pState->field_64_throw_item_key1;
         pMineCar->field_1D6_continue_move_input = pState->field_66_continue_move_input;
 
-        if (pMineCar->field_C4_velx < (ScaleToGridSize(FP_FromInteger(1)) / FP_FromInteger(4)))
+        if (pMineCar->mBaseAnimatedWithPhysicsGameObject_VelX < (ScaleToGridSize(FP_FromInteger(1)) / FP_FromInteger(4)))
         {
             pMineCar->field_1C4_velx_index = 7;
         }
@@ -289,9 +289,9 @@ void MineCar::LoadAnimation(Animation* pAnim)
 
     if (pAnim->Init(rec.mFrameTableOffset, gObjList_animations_5C1A24, this, rec.mMaxW, rec.mMaxH, ppRes, 1, 0, 0))
     {
-        pAnim->mRenderLayer = field_20_animation.mRenderLayer;
+        pAnim->mRenderLayer = mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer;
         pAnim->mAnimFlags.Clear(AnimFlags::eBit16_bBlending);
-        pAnim->field_14_scale = field_CC_sprite_scale;
+        pAnim->field_14_scale = mBaseAnimatedWithPhysicsGameObject_SpriteScale;
         pAnim->mRed = 128;
         pAnim->mGreen = 128;
         pAnim->mBlue = 128;
@@ -343,7 +343,7 @@ Bool32 MineCar::CheckRoofCollision(FP hitX, FP hitY)
         &pPathLine,
         &hitX,
         &hitY,
-        field_D6_scale != 0 ? 8 : 128
+        mBaseAnimatedWithPhysicsGameObject_Scale != 0 ? 8 : 128
     );
 }
 
@@ -360,7 +360,7 @@ Bool32 MineCar::CheckFloorCollision(FP hitX, FP hitY)
             &pPathLine,
             &hitX,
             &hitY,
-            field_D6_scale != 0 ? 1 : 16
+            mBaseAnimatedWithPhysicsGameObject_Scale != 0 ? 1 : 16
         )
     )
     {
@@ -377,11 +377,11 @@ Bool32 MineCar::CheckFloorCollision(FP hitX, FP hitY)
 
 void MineCar::VRender(PrimHeader** ppOt)
 {
-    if (field_20_animation.mAnimFlags.Get(AnimFlags::eBit3_Render))
+    if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit3_Render))
     {
-        s16 r = field_D2_g;
-        s16 g = field_D0_r;
-        s16 b = field_D4_b;
+        s16 r = mBaseAnimatedWithPhysicsGameObject_Green;
+        s16 g = mBaseAnimatedWithPhysicsGameObject_Red;
+        s16 b = mBaseAnimatedWithPhysicsGameObject_Blue;
 
         PSX_RECT bRect = {};
         VGetBoundingRect(&bRect, 1);
@@ -391,7 +391,7 @@ void MineCar::VRender(PrimHeader** ppOt)
             ShadowZone::ShadowZones_Calculate_Colour(
                 FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos),
                 (bRect.h + bRect.y) / 2,
-                field_D6_scale,
+                mBaseAnimatedWithPhysicsGameObject_Scale,
                 &r,
                 &g,
                 &b);
@@ -401,7 +401,7 @@ void MineCar::VRender(PrimHeader** ppOt)
         field_124_anim.mGreen = static_cast<u8>(g);
         field_124_anim.mBlue = static_cast<u8>(b);
 
-        if (gMap.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, mBaseAnimatedWithPhysicsGameObject_XPos + FP_FromInteger(30), mBaseAnimatedWithPhysicsGameObject_YPos, 0) || gMap.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos - (field_CC_sprite_scale * FP_FromInteger(60)), 0) || gMap.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, mBaseAnimatedWithPhysicsGameObject_XPos - FP_FromInteger(30), mBaseAnimatedWithPhysicsGameObject_YPos, 0))
+        if (gMap.Is_Point_In_Current_Camera_4810D0(mBaseAnimatedWithPhysicsGameObject_LvlNumber, mBaseAnimatedWithPhysicsGameObject_PathNumber, mBaseAnimatedWithPhysicsGameObject_XPos + FP_FromInteger(30), mBaseAnimatedWithPhysicsGameObject_YPos, 0) || gMap.Is_Point_In_Current_Camera_4810D0(mBaseAnimatedWithPhysicsGameObject_LvlNumber, mBaseAnimatedWithPhysicsGameObject_PathNumber, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos - (mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(60)), 0) || gMap.Is_Point_In_Current_Camera_4810D0(mBaseAnimatedWithPhysicsGameObject_LvlNumber, mBaseAnimatedWithPhysicsGameObject_PathNumber, mBaseAnimatedWithPhysicsGameObject_XPos - FP_FromInteger(30), mBaseAnimatedWithPhysicsGameObject_YPos, 0))
         {
             field_124_anim.VRender(
                 FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos - pScreenManager->field_20_pCamPos->field_0_x),
@@ -436,34 +436,34 @@ void MineCar::Stop()
         field_1D0_sound_channels_mask = 0;
     }
 
-    SFX_Play_Mono(SoundEffect::MinecarStop_101, 127, field_CC_sprite_scale);
+    SFX_Play_Mono(SoundEffect::MinecarStop_101, 127, mBaseAnimatedWithPhysicsGameObject_SpriteScale);
     
-    field_20_animation.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
+    mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
     field_124_anim.Set_Animation_Data(animRec2.mFrameTableOffset, nullptr);
 
     field_1C4_velx_index = 0;
 
-    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(SnapToXGrid(field_CC_sprite_scale, FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos)));
+    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(SnapToXGrid(mBaseAnimatedWithPhysicsGameObject_SpriteScale, FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos)));
 }
 
 void MineCar::Move(u16 frameTabeOffset, FP velX, FP velY, InputCommands::Enum input, MineCarDirs turnDirection, s8 bChangeDirection)
 {
-    field_20_animation.Set_Animation_Data(frameTabeOffset, nullptr);
+    mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(frameTabeOffset, nullptr);
 
     field_11C_state = MineCarStates::eMoving_2;
     field_1C8_frame_mod_16 = static_cast<s32>(sGnFrame) % 16;
 
     if (!field_1D0_sound_channels_mask)
     {
-        field_1D0_sound_channels_mask = SFX_Play_Mono(SoundEffect::MinecarMovement_100, 127, field_CC_sprite_scale);
+        field_1D0_sound_channels_mask = SFX_Play_Mono(SoundEffect::MinecarMovement_100, 127, mBaseAnimatedWithPhysicsGameObject_SpriteScale);
     }
 
     const AnimRecord& animRec2 = AnimRec(AnimId::Mine_Car_Tread_Move_A);
 
     field_124_anim.Set_Animation_Data(animRec2.mFrameTableOffset, nullptr);
 
-    field_C4_velx = velX;
-    field_C8_vely = velY;
+    mBaseAnimatedWithPhysicsGameObject_VelX = velX;
+    mBaseAnimatedWithPhysicsGameObject_VelY = velY;
 
     if (sInputObject_5BD4E0.isPressed(input))
     {
@@ -477,9 +477,9 @@ void MineCar::Move(u16 frameTabeOffset, FP velX, FP velY, InputCommands::Enum in
 
 s16 MineCar::IsBlocked(MineCarDirs a2, s32 /*a3*/)
 {
-    const FP kGridSize = ScaleToGridSize(field_CC_sprite_scale);
-    const FP mineCarHeight = field_CC_sprite_scale * mineCarHeightUnscaled;
-    const FP mineCarWidth = field_CC_sprite_scale * mineCarWidthUnscaled;
+    const FP kGridSize = ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale);
+    const FP mineCarHeight = mBaseAnimatedWithPhysicsGameObject_SpriteScale * mineCarHeightUnscaled;
+    const FP mineCarWidth = mBaseAnimatedWithPhysicsGameObject_SpriteScale * mineCarWidthUnscaled;
     const FP mineCarWidthAdjusted = mineCarWidth + kGridSize;
 
     switch (a2)
@@ -518,9 +518,9 @@ s16 MineCar::IsBlocked(MineCarDirs a2, s32 /*a3*/)
 
 s16 MineCar::FollowDirection()
 {
-    const FP mineCarHeight = field_CC_sprite_scale * mineCarHeightUnscaled;
-    const FP mineCarWidth = field_CC_sprite_scale * mineCarWidthUnscaled;
-    const FP stepSize = ScaleToGridSize(field_CC_sprite_scale);
+    const FP mineCarHeight = mBaseAnimatedWithPhysicsGameObject_SpriteScale * mineCarHeightUnscaled;
+    const FP mineCarWidth = mBaseAnimatedWithPhysicsGameObject_SpriteScale * mineCarWidthUnscaled;
+    const FP stepSize = ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale);
 
     const FP halfHeight = mineCarHeight * FP_FromDouble(0.5);
     const FP step = mineCarWidth + stepSize;
@@ -528,8 +528,8 @@ s16 MineCar::FollowDirection()
     // If we're moving horizontally and hit a wall...
     //
     if (
-        (field_C4_velx > FP_FromInteger(0) && WallHit(halfHeight, step + FP_FromInteger(1))) ||
-        (field_C4_velx < FP_FromInteger(0) && WallHit(halfHeight, -step))
+        (mBaseAnimatedWithPhysicsGameObject_VelX > FP_FromInteger(0) && WallHit(halfHeight, step + FP_FromInteger(1))) ||
+        (mBaseAnimatedWithPhysicsGameObject_VelX < FP_FromInteger(0) && WallHit(halfHeight, -step))
     )
     {
         // ...continue vertically
@@ -551,11 +551,11 @@ s16 MineCar::FollowDirection()
     if (
         (
             CheckFloorCollision(FP_FromInteger(0), FP_FromInteger(1)) &&
-            field_C8_vely > FP_FromInteger(0)
+            mBaseAnimatedWithPhysicsGameObject_VelY > FP_FromInteger(0)
         ) ||
         (
             CheckRoofCollision(FP_FromInteger(0), -mineCarHeight) &&
-            field_C8_vely < FP_FromInteger(0)
+            mBaseAnimatedWithPhysicsGameObject_VelY < FP_FromInteger(0)
         )
     )
     {
@@ -585,8 +585,8 @@ s16 MineCar::FollowDirection()
                 CheckRoofCollision(step - FP_FromInteger(4),    -mineCarHeight);
 
             if (
-                (field_C4_velx > FP_FromInteger(0) && !bRoofRight) ||
-                (field_C4_velx < FP_FromInteger(0) && !bRoofLeft)
+                (mBaseAnimatedWithPhysicsGameObject_VelX > FP_FromInteger(0) && !bRoofRight) ||
+                (mBaseAnimatedWithPhysicsGameObject_VelX < FP_FromInteger(0) && !bRoofLeft)
             )
             {
                 field_1D6_continue_move_input = (u16) sInputKey_Up_5550D8;
@@ -606,8 +606,8 @@ s16 MineCar::FollowDirection()
                 WallHit(FP_FromInteger(1),                 -(step + FP_FromInteger(4)));
 
             if (
-                (field_C8_vely > FP_FromInteger(0) && !bLeftWall1) ||
-                (field_C8_vely < FP_FromInteger(0) && !bLeftWall2)
+                (mBaseAnimatedWithPhysicsGameObject_VelY > FP_FromInteger(0) && !bLeftWall1) ||
+                (mBaseAnimatedWithPhysicsGameObject_VelY < FP_FromInteger(0) && !bLeftWall2)
             )
             {
                 field_1D6_continue_move_input = (u16) sInputKey_Left_5550D4;
@@ -627,8 +627,8 @@ s16 MineCar::FollowDirection()
                 WallHit(FP_FromInteger(1),                 step + FP_FromInteger(4));
 
             if (
-                (field_C8_vely > FP_FromInteger(0) && !bRightWall1) ||
-                (field_C8_vely < FP_FromInteger(0) && !bRightWall2)
+                (mBaseAnimatedWithPhysicsGameObject_VelY > FP_FromInteger(0) && !bRightWall1) ||
+                (mBaseAnimatedWithPhysicsGameObject_VelY < FP_FromInteger(0) && !bRightWall2)
             )
             {
                 field_1D6_continue_move_input = (u16) sInputKey_Right_5550D0;
@@ -649,8 +649,8 @@ s16 MineCar::FollowDirection()
                 CheckFloorCollision(step - FP_FromInteger(4), FP_FromInteger(4));
 
             if (
-                (field_C4_velx > FP_FromInteger(0) && !bFloorRight) ||
-                (field_C4_velx < FP_FromInteger(0) && !bFloorLeft)
+                (mBaseAnimatedWithPhysicsGameObject_VelX > FP_FromInteger(0) && !bFloorRight) ||
+                (mBaseAnimatedWithPhysicsGameObject_VelX < FP_FromInteger(0) && !bFloorLeft)
             )
             {
                 field_1D6_continue_move_input = (u16) sInputKey_Down_5550DC;
@@ -686,8 +686,8 @@ void MineCar::RunThingsOver()
             {
                 auto pAliveObj = static_cast<BaseAliveGameObject*>(pObj);
 
-                if (pAliveObj->field_CC_sprite_scale == field_CC_sprite_scale ||
-                   (pAliveObj->Type() == ReliveTypes::eSlog && field_CC_sprite_scale != FP_FromDouble(0.5)))
+                if (pAliveObj->mBaseAnimatedWithPhysicsGameObject_SpriteScale == mBaseAnimatedWithPhysicsGameObject_SpriteScale ||
+                   (pAliveObj->Type() == ReliveTypes::eSlog && mBaseAnimatedWithPhysicsGameObject_SpriteScale != FP_FromDouble(0.5)))
                 {
                     PSX_RECT targetRect = {};
                     pAliveObj->VGetBoundingRect(&targetRect, 1);
@@ -717,28 +717,28 @@ s32 MineCar::VGetSaveState(u8* pSaveBuffer)
     pState->field_4_xpos = mBaseAnimatedWithPhysicsGameObject_XPos;
     pState->field_8_ypos = mBaseAnimatedWithPhysicsGameObject_YPos;
 
-    pState->field_C_velx = field_C4_velx;
-    pState->field_10_vely = field_C8_vely;
+    pState->field_C_velx = mBaseAnimatedWithPhysicsGameObject_VelX;
+    pState->field_10_vely = mBaseAnimatedWithPhysicsGameObject_VelY;
 
-    pState->field_18_path_number = field_C0_path_number;
-    pState->field_1A_lvl_number = MapWrapper::ToAE(field_C2_lvl_number);
+    pState->field_18_path_number = mBaseAnimatedWithPhysicsGameObject_PathNumber;
+    pState->field_1A_lvl_number = MapWrapper::ToAE(mBaseAnimatedWithPhysicsGameObject_LvlNumber);
 
-    pState->field_14_sprite_scale = field_CC_sprite_scale;
+    pState->field_14_sprite_scale = mBaseAnimatedWithPhysicsGameObject_SpriteScale;
 
-    pState->field_1C_r = field_D0_r;
-    pState->field_1E_g = field_D2_g;
-    pState->field_20_b = field_D4_b;
+    pState->field_1C_r = mBaseAnimatedWithPhysicsGameObject_Red;
+    pState->field_1E_g = mBaseAnimatedWithPhysicsGameObject_Green;
+    pState->field_20_b = mBaseAnimatedWithPhysicsGameObject_Blue;
 
     pState->field_28_current_motion = mCurrentMotion;
-    pState->field_2A_current_anim_frame = field_20_animation.field_92_current_frame;
-    pState->field_2C_frame_change_counter = field_20_animation.mFrameChangeCounter;
+    pState->field_2A_current_anim_frame = mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame;
+    pState->field_2C_frame_change_counter = mBaseAnimatedWithPhysicsGameObject_Anim.mFrameChangeCounter;
 
     pState->field_2F_drawable = mBaseGameObjectFlags.Get(BaseGameObject::eDrawable_Bit4);
-    pState->field_22_xFlip = field_20_animation.mAnimFlags.Get(AnimFlags::eBit5_FlipX);
-    pState->field_2E_render = field_20_animation.mAnimFlags.Get(AnimFlags::eBit3_Render);
+    pState->field_22_xFlip = mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX);
+    pState->field_2E_render = mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit3_Render);
 
 
-    switch (field_20_animation.field_18_frame_table_offset)
+    switch (mBaseAnimatedWithPhysicsGameObject_Anim.field_18_frame_table_offset)
     {
         case 20788: // Mine_Car_Tread_Move_B
             pState->field_24_frame_table = 10860;
@@ -867,7 +867,7 @@ void MineCar::VUpdate()
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 
-    const FP kGridSize = ScaleToGridSize(field_CC_sprite_scale);
+    const FP kGridSize = ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale);
 
     switch (field_11C_state)
     {
@@ -916,7 +916,7 @@ void MineCar::VUpdate()
         return;
     }
 
-    const FP mineCarWidth = field_CC_sprite_scale * mineCarWidthUnscaled;
+    const FP mineCarWidth = mBaseAnimatedWithPhysicsGameObject_SpriteScale * mineCarWidthUnscaled;
     const FP mineCarWidthAdjusted = mineCarWidth + kGridSize;
 
     FP hitX = {};
@@ -926,13 +926,13 @@ void MineCar::VUpdate()
     if (
         !sCollisions->Raycast(
             mBaseAnimatedWithPhysicsGameObject_XPos - mineCarWidthAdjusted,
-            mBaseAnimatedWithPhysicsGameObject_YPos + field_C8_vely - (mineCarWidthAdjusted * FP_FromDouble(0.5)),
+            mBaseAnimatedWithPhysicsGameObject_YPos + mBaseAnimatedWithPhysicsGameObject_VelY - (mineCarWidthAdjusted * FP_FromDouble(0.5)),
             mBaseAnimatedWithPhysicsGameObject_XPos + mineCarWidthAdjusted,
-            mBaseAnimatedWithPhysicsGameObject_YPos + field_C8_vely - (mineCarWidthAdjusted * FP_FromDouble(0.5)),
+            mBaseAnimatedWithPhysicsGameObject_YPos + mBaseAnimatedWithPhysicsGameObject_VelY - (mineCarWidthAdjusted * FP_FromDouble(0.5)),
             &pPathLine,
             &hitX,
             &hitY,
-            field_D6_scale != 0 ? 0x1000 : 0x8000
+            mBaseAnimatedWithPhysicsGameObject_Scale != 0 ? 0x1000 : 0x8000
         )
     )
     {
@@ -951,32 +951,32 @@ void MineCar::State_0_ParkedWithoutAbe()
     if (
         sActiveHero->mCurrentMotion == eAbeMotions::Motion_117_InMineCar_4587C0 &&
         PSX_Rects_overlap_4FA0B0(&carRect, &abeRect) &&
-        sActiveHero->field_CC_sprite_scale == field_CC_sprite_scale
+        sActiveHero->mBaseAnimatedWithPhysicsGameObject_SpriteScale == mBaseAnimatedWithPhysicsGameObject_SpriteScale
     )
     {
         const AnimRecord& animRec = AnimRec(AnimId::Mine_Car_Closed);
 
-        field_20_animation.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
+        mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
         field_11C_state = MineCarStates::eParkedWithAbe_1;
         sControlledCharacter_5C1B8C = this;
-        field_20_animation.mRenderLayer = Layer::eLayer_BombMineCar_35;
+        mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_BombMineCar_35;
         field_124_anim.mRenderLayer = Layer::eLayer_BombMineCar_35;
 
-        if (field_CC_sprite_scale == FP_FromDouble(0.5))
+        if (mBaseAnimatedWithPhysicsGameObject_SpriteScale == FP_FromDouble(0.5))
         {
-            field_20_animation.mRenderLayer = Layer::eLayer_BombMineCar_Half_16;
+            mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_BombMineCar_Half_16;
             field_124_anim.mRenderLayer = Layer::eLayer_BombMineCar_Half_16;
         }
 
-        SFX_Play_Pitch(SoundEffect::DoorEffect_57, 100, 500, field_CC_sprite_scale);
+        SFX_Play_Pitch(SoundEffect::DoorEffect_57, 100, 500, mBaseAnimatedWithPhysicsGameObject_SpriteScale);
     }
 }
 
 void MineCar::State_1_ParkedWithAbe()
 {
-    const FP kGridSize = ScaleToGridSize(field_CC_sprite_scale);
-    const FP mineCarHeight = field_CC_sprite_scale * mineCarHeightUnscaled;
-    const FP mineCarWidth = field_CC_sprite_scale * mineCarWidthUnscaled;
+    const FP kGridSize = ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale);
+    const FP mineCarHeight = mBaseAnimatedWithPhysicsGameObject_SpriteScale * mineCarHeightUnscaled;
+    const FP mineCarWidth = mBaseAnimatedWithPhysicsGameObject_SpriteScale * mineCarWidthUnscaled;
     const FP mineCarWidthAdjusted = mineCarWidth + kGridSize;
 
     VCheckCollisionLineStillValid(10);
@@ -993,7 +993,7 @@ void MineCar::State_1_ParkedWithAbe()
         field_11C_state = MineCarStates::eParkedWithoutAbe_0;
         
         field_124_anim.Set_Animation_Data(animRec2.mFrameTableOffset, nullptr);
-        field_20_animation.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
+        mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
 
         sControlledCharacter_5C1B8C = sActiveHero;
         field_1CC_spawned_path = gMap.mCurrentPath;
@@ -1001,16 +1001,16 @@ void MineCar::State_1_ParkedWithAbe()
 
         sActiveHero->VCheckCollisionLineStillValid(10);
 
-        SFX_Play_Pitch(SoundEffect::DoorEffect_57, 100, 500, field_CC_sprite_scale);
+        SFX_Play_Pitch(SoundEffect::DoorEffect_57, 100, 500, mBaseAnimatedWithPhysicsGameObject_SpriteScale);
 
-        if (field_CC_sprite_scale == FP_FromDouble(0.5))
+        if (mBaseAnimatedWithPhysicsGameObject_SpriteScale == FP_FromDouble(0.5))
         {
-            field_20_animation.mRenderLayer = Layer::eLayer_Shadow_Half_7;
+            mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_Shadow_Half_7;
             field_124_anim.mRenderLayer = Layer::eLayer_Shadow_Half_7;
         }
         else
         {
-            field_20_animation.mRenderLayer = Layer::eLayer_Shadow_26;
+            mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_Shadow_26;
             field_124_anim.mRenderLayer = Layer::eLayer_Shadow_26;
         }
 
@@ -1019,8 +1019,8 @@ void MineCar::State_1_ParkedWithAbe()
 
     // Peform any movements
     //
-    field_C4_velx = FP_FromInteger(0);
-    field_C8_vely = FP_FromInteger(0);
+    mBaseAnimatedWithPhysicsGameObject_VelX = FP_FromInteger(0);
+    mBaseAnimatedWithPhysicsGameObject_VelY = FP_FromInteger(0);
 
     // Horizontal movements
     //
@@ -1108,7 +1108,7 @@ void MineCar::State_1_ParkedWithAbe()
             {
                 if (field_1BC_turn_direction != MineCarDirs::eLeft_2 && !(static_cast<s32>(sGnFrame) % 6))
                 {
-                    SFX_Play_Mono(SoundEffect::MinecarStuck_102, 127, field_CC_sprite_scale);
+                    SFX_Play_Mono(SoundEffect::MinecarStuck_102, 127, mBaseAnimatedWithPhysicsGameObject_SpriteScale);
                 }
             }
         }
@@ -1191,7 +1191,7 @@ void MineCar::State_1_ParkedWithAbe()
         {
             if (field_1BC_turn_direction != MineCarDirs::eRight_1 && !(static_cast<s32>(sGnFrame) % 6))
             {
-                SFX_Play_Mono(SoundEffect::MinecarStuck_102, 127, field_CC_sprite_scale);
+                SFX_Play_Mono(SoundEffect::MinecarStuck_102, 127, mBaseAnimatedWithPhysicsGameObject_SpriteScale);
             }
         }
     }
@@ -1216,7 +1216,7 @@ bool MineCar::HandleState1Move(const mineCarFPFunc func, const FP mineCarFPFuncA
             &pPathLine,
             &hitX,
             &hitY,
-            field_D6_scale != 0 ? ModelMask1 : ModelMask2
+            mBaseAnimatedWithPhysicsGameObject_Scale != 0 ? ModelMask1 : ModelMask2
         )
     )
     {
@@ -1241,11 +1241,11 @@ bool MineCar::HandleState1Move(const mineCarFPFunc func, const FP mineCarFPFuncA
 
 void MineCar::HandleUpDown()
 {
-    const FP kGridSize = ScaleToGridSize(field_CC_sprite_scale);
-    const FP mineCarWidth = field_CC_sprite_scale * mineCarWidthUnscaled;
+    const FP kGridSize = ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale);
+    const FP mineCarWidth = mBaseAnimatedWithPhysicsGameObject_SpriteScale * mineCarWidthUnscaled;
     const FP mineCarWidthAdjusted = mineCarWidth + kGridSize;
-    const FP mineCarHeight = field_CC_sprite_scale * mineCarHeightUnscaled;
-    const FP k5Scaled = FP_FromInteger(5) * field_CC_sprite_scale;
+    const FP mineCarHeight = mBaseAnimatedWithPhysicsGameObject_SpriteScale * mineCarHeightUnscaled;
+    const FP k5Scaled = FP_FromInteger(5) * mBaseAnimatedWithPhysicsGameObject_SpriteScale;
 
     const FP rayCastX1 = mBaseAnimatedWithPhysicsGameObject_XPos - mineCarWidthAdjusted;
     const FP rayCastX2 = mBaseAnimatedWithPhysicsGameObject_XPos + mineCarWidthAdjusted;
@@ -1328,7 +1328,7 @@ void MineCar::HandleUpDown()
             {
                 if (!(static_cast<s32>(sGnFrame) % 6))
                 {
-                    SFX_Play_Mono(SoundEffect::MinecarStuck_102, 127, field_CC_sprite_scale);
+                    SFX_Play_Mono(SoundEffect::MinecarStuck_102, 127, mBaseAnimatedWithPhysicsGameObject_SpriteScale);
                 }
             }
         }
@@ -1406,7 +1406,7 @@ void MineCar::HandleUpDown()
         {
             if (field_1BC_turn_direction != MineCarDirs::eUp_3 && !(static_cast<s32>(sGnFrame) % 6))
             {
-                SFX_Play_Mono(SoundEffect::MinecarStuck_102, 127, field_CC_sprite_scale);
+                SFX_Play_Mono(SoundEffect::MinecarStuck_102, 127, mBaseAnimatedWithPhysicsGameObject_SpriteScale);
             }
         }
     }
@@ -1427,9 +1427,9 @@ const FP velXTable_5461D8[9] = {
 
 void MineCar::State_2_Moving()
 {
-    const FP kGridSize = ScaleToGridSize(field_CC_sprite_scale);
-    const FP mineCarHeight = field_CC_sprite_scale * mineCarHeightUnscaled;
-    const FP mineCarWidth = field_CC_sprite_scale * mineCarWidthUnscaled;
+    const FP kGridSize = ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale);
+    const FP mineCarHeight = mBaseAnimatedWithPhysicsGameObject_SpriteScale * mineCarHeightUnscaled;
+    const FP mineCarWidth = mBaseAnimatedWithPhysicsGameObject_SpriteScale * mineCarWidthUnscaled;
     const FP mineCarWidthAdjusted = mineCarWidth + kGridSize;
 
     sActiveHero->mBaseAnimatedWithPhysicsGameObject_XPos = mBaseAnimatedWithPhysicsGameObject_XPos;
@@ -1439,7 +1439,7 @@ void MineCar::State_2_Moving()
     {
         // Play the mine car moving sound
         //
-        field_1D0_sound_channels_mask = SFX_Play_Mono(SoundEffect::MinecarMovement_100, 127, field_CC_sprite_scale);
+        field_1D0_sound_channels_mask = SFX_Play_Mono(SoundEffect::MinecarMovement_100, 127, mBaseAnimatedWithPhysicsGameObject_SpriteScale);
     }
 
     if (FollowDirection() && !field_1C4_velx_index)
@@ -1455,15 +1455,15 @@ void MineCar::State_2_Moving()
     if (
         !sCollisions->Raycast(
             mBaseAnimatedWithPhysicsGameObject_XPos - mineCarWidthAdjusted,
-            mBaseAnimatedWithPhysicsGameObject_YPos + field_C8_vely - (mineCarWidthAdjusted * FP_FromDouble(0.5)),
+            mBaseAnimatedWithPhysicsGameObject_YPos + mBaseAnimatedWithPhysicsGameObject_VelY - (mineCarWidthAdjusted * FP_FromDouble(0.5)),
             mBaseAnimatedWithPhysicsGameObject_XPos + mineCarWidthAdjusted,
-            mBaseAnimatedWithPhysicsGameObject_YPos + field_C8_vely - (mineCarWidthAdjusted * FP_FromDouble(0.5)),
+            mBaseAnimatedWithPhysicsGameObject_YPos + mBaseAnimatedWithPhysicsGameObject_VelY - (mineCarWidthAdjusted * FP_FromDouble(0.5)),
             &pPathLine,
             &hitX,
             &hitY,
-            field_D6_scale != 0 ? 4096 : 0x8000
+            mBaseAnimatedWithPhysicsGameObject_Scale != 0 ? 4096 : 0x8000
         ) &&
-        field_C8_vely > FP_FromInteger(0)
+        mBaseAnimatedWithPhysicsGameObject_VelY > FP_FromInteger(0)
     )
     {
         field_11C_state = MineCarStates::eFalling_3;
@@ -1472,14 +1472,14 @@ void MineCar::State_2_Moving()
 
     if (
         !sCollisions->Raycast(
-            mBaseAnimatedWithPhysicsGameObject_XPos + field_C4_velx,
+            mBaseAnimatedWithPhysicsGameObject_XPos + mBaseAnimatedWithPhysicsGameObject_VelX,
             mBaseAnimatedWithPhysicsGameObject_YPos,
-            mBaseAnimatedWithPhysicsGameObject_XPos + field_C4_velx,
+            mBaseAnimatedWithPhysicsGameObject_XPos + mBaseAnimatedWithPhysicsGameObject_VelX,
             mBaseAnimatedWithPhysicsGameObject_YPos - mineCarHeight,
             &pPathLine,
             &hitX,
             &hitY,
-            field_D6_scale != 0 ? 0x2000 : 0x10000
+            mBaseAnimatedWithPhysicsGameObject_Scale != 0 ? 0x2000 : 0x10000
         ) &&
         field_1BC_turn_direction == MineCarDirs::eDown_0
     )
@@ -1490,14 +1490,14 @@ void MineCar::State_2_Moving()
 
     if (
         !sCollisions->Raycast(
-            mBaseAnimatedWithPhysicsGameObject_XPos + field_C4_velx,
+            mBaseAnimatedWithPhysicsGameObject_XPos + mBaseAnimatedWithPhysicsGameObject_VelX,
             mBaseAnimatedWithPhysicsGameObject_YPos,
-            mBaseAnimatedWithPhysicsGameObject_XPos + field_C4_velx,
+            mBaseAnimatedWithPhysicsGameObject_XPos + mBaseAnimatedWithPhysicsGameObject_VelX,
             mBaseAnimatedWithPhysicsGameObject_YPos - mineCarHeight,
             &pPathLine,
             &hitX,
             &hitY,
-            field_D6_scale != 0 ? 0x800 : 0x4000
+            mBaseAnimatedWithPhysicsGameObject_Scale != 0 ? 0x800 : 0x4000
         ) &&
         field_1BC_turn_direction == MineCarDirs::eUp_3
     )
@@ -1514,13 +1514,13 @@ void MineCar::State_2_Moving()
             return;
         }
 
-        if (field_C4_velx <= FP_FromInteger(0))
+        if (mBaseAnimatedWithPhysicsGameObject_VelX <= FP_FromInteger(0))
         {
-            field_C4_velx = -velXTable_5461D8[field_1C4_velx_index];
+            mBaseAnimatedWithPhysicsGameObject_VelX = -velXTable_5461D8[field_1C4_velx_index];
         }
         else
         {
-            field_C4_velx = velXTable_5461D8[field_1C4_velx_index];
+            mBaseAnimatedWithPhysicsGameObject_VelX = velXTable_5461D8[field_1C4_velx_index];
         }
 
         if (++field_1C4_velx_index == 2)
@@ -1531,8 +1531,8 @@ void MineCar::State_2_Moving()
 
     if (sInputObject_5BD4E0.isPressed(field_1D4_previous_input))
     {
-        mBaseAnimatedWithPhysicsGameObject_XPos += field_C4_velx;
-        mBaseAnimatedWithPhysicsGameObject_YPos += field_C8_vely;
+        mBaseAnimatedWithPhysicsGameObject_XPos += mBaseAnimatedWithPhysicsGameObject_VelX;
+        mBaseAnimatedWithPhysicsGameObject_YPos += mBaseAnimatedWithPhysicsGameObject_VelY;
 
         SetActiveCameraDelayedFromDir();
         RunThingsOver();
@@ -1546,24 +1546,24 @@ void MineCar::State_2_Moving()
     )
     {
         if (
-            mBaseAnimatedWithPhysicsGameObject_XPos == FP_FromInteger(SnapToXGrid(field_CC_sprite_scale, FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos))) &&
+            mBaseAnimatedWithPhysicsGameObject_XPos == FP_FromInteger(SnapToXGrid(mBaseAnimatedWithPhysicsGameObject_SpriteScale, FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos))) &&
             !field_1C4_velx_index
         )
         {
-            if (field_C4_velx <= FP_FromInteger(0))
+            if (mBaseAnimatedWithPhysicsGameObject_VelX <= FP_FromInteger(0))
             {
-                field_C4_velx = -velXTable_5461D8[0];
+                mBaseAnimatedWithPhysicsGameObject_VelX = -velXTable_5461D8[0];
             }
             else
             {
-                field_C4_velx = velXTable_5461D8[0];
+                mBaseAnimatedWithPhysicsGameObject_VelX = velXTable_5461D8[0];
             }
 
             ++field_1C4_velx_index;
         }
 
-        mBaseAnimatedWithPhysicsGameObject_XPos += field_C4_velx;
-        mBaseAnimatedWithPhysicsGameObject_YPos += field_C8_vely;
+        mBaseAnimatedWithPhysicsGameObject_XPos += mBaseAnimatedWithPhysicsGameObject_VelX;
+        mBaseAnimatedWithPhysicsGameObject_YPos += mBaseAnimatedWithPhysicsGameObject_VelY;
 
         SetActiveCameraDelayedFromDir();
         RunThingsOver();
@@ -1576,9 +1576,9 @@ void MineCar::State_2_Moving()
 
 void MineCar::State_3_Falling()
 {
-    const FP kGridSize = ScaleToGridSize(field_CC_sprite_scale);
-    const FP mineCarHeight = field_CC_sprite_scale * mineCarHeightUnscaled;
-    const FP mineCarWidth = field_CC_sprite_scale * mineCarWidthUnscaled;
+    const FP kGridSize = ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale);
+    const FP mineCarHeight = mBaseAnimatedWithPhysicsGameObject_SpriteScale * mineCarHeightUnscaled;
+    const FP mineCarWidth = mBaseAnimatedWithPhysicsGameObject_SpriteScale * mineCarWidthUnscaled;
     const FP mineCarWidthAdjusted = mineCarWidth + kGridSize;
 
     SetActiveCameraDelayedFromDir();
@@ -1590,47 +1590,47 @@ void MineCar::State_3_Falling()
         field_1D0_sound_channels_mask = 0;
     }
 
-    if (field_C4_velx > FP_FromInteger(0))
+    if (mBaseAnimatedWithPhysicsGameObject_VelX > FP_FromInteger(0))
     {
         if (
             WallHit(mineCarHeight, mineCarWidthAdjusted) ||
             WallHit(FP_FromInteger(0), mineCarWidthAdjusted)
         )
         {
-            field_C4_velx = FP_FromInteger(0);
+            mBaseAnimatedWithPhysicsGameObject_VelX = FP_FromInteger(0);
 
             relive_new ParticleBurst(
                 sControlledCharacter_5C1B8C->mBaseAnimatedWithPhysicsGameObject_XPos + mineCarHeight + kGridSize,
                 sControlledCharacter_5C1B8C->mBaseAnimatedWithPhysicsGameObject_YPos - ((mineCarHeight + kGridSize) * FP_FromDouble(0.5)),
                 4u,
-                field_CC_sprite_scale,
+                mBaseAnimatedWithPhysicsGameObject_SpriteScale,
                 BurstType::eBigRedSparks_3,
                 9
             );
 
-            SFX_Play_Mono(SoundEffect::FallingItemHit_47, 80, field_CC_sprite_scale);
+            SFX_Play_Mono(SoundEffect::FallingItemHit_47, 80, mBaseAnimatedWithPhysicsGameObject_SpriteScale);
         }
     }
 
-    if (field_C4_velx < FP_FromInteger(0))
+    if (mBaseAnimatedWithPhysicsGameObject_VelX < FP_FromInteger(0))
     {
         if (
             WallHit(mineCarHeight, -mineCarWidthAdjusted) ||
             WallHit(FP_FromInteger(0), -mineCarWidthAdjusted)
         )
         {
-            field_C4_velx = FP_FromInteger(0);
+            mBaseAnimatedWithPhysicsGameObject_VelX = FP_FromInteger(0);
 
             relive_new ParticleBurst(
                 sControlledCharacter_5C1B8C->mBaseAnimatedWithPhysicsGameObject_XPos - (mineCarHeight + kGridSize),
                 sControlledCharacter_5C1B8C->mBaseAnimatedWithPhysicsGameObject_YPos - ((mineCarHeight + kGridSize) * FP_FromDouble(0.5)),
                 4u,
-                field_CC_sprite_scale,
+                mBaseAnimatedWithPhysicsGameObject_SpriteScale,
                 BurstType::eBigRedSparks_3,
                 9
             );
 
-            SFX_Play_Mono(SoundEffect::FallingItemHit_47, 80, field_CC_sprite_scale);
+            SFX_Play_Mono(SoundEffect::FallingItemHit_47, 80, mBaseAnimatedWithPhysicsGameObject_SpriteScale);
         }
     }
 
@@ -1642,7 +1642,7 @@ void MineCar::State_3_Falling()
     {
         mBaseAnimatedWithPhysicsGameObject_YPos = hitY;
         BaseAliveGameObjectLastLineYPos = hitY;
-        field_C8_vely = (-field_C8_vely * FP_FromDouble(0.2));
+        mBaseAnimatedWithPhysicsGameObject_VelY = (-mBaseAnimatedWithPhysicsGameObject_VelY * FP_FromDouble(0.2));
 
         relive_new ParticleBurst(
             sControlledCharacter_5C1B8C->mBaseAnimatedWithPhysicsGameObject_XPos,
@@ -1655,26 +1655,26 @@ void MineCar::State_3_Falling()
 
         if (field_1C2_falling_counter > 4)
         {
-            SFX_Play_Pitch(SoundEffect::MinecarStop_101, 127, 0, field_CC_sprite_scale);
-            SFX_Play_Pitch(SoundEffect::FallingItemHit_47, 127, 0, field_CC_sprite_scale);
+            SFX_Play_Pitch(SoundEffect::MinecarStop_101, 127, 0, mBaseAnimatedWithPhysicsGameObject_SpriteScale);
+            SFX_Play_Pitch(SoundEffect::FallingItemHit_47, 127, 0, mBaseAnimatedWithPhysicsGameObject_SpriteScale);
 
             relive_new ScreenShake(FALSE, FALSE);
         }
 
         field_1C2_falling_counter = 0;
 
-        if (field_C8_vely > -FP_FromInteger(1))
+        if (mBaseAnimatedWithPhysicsGameObject_VelY > -FP_FromInteger(1))
         {
-            SFX_Play_Pitch(SoundEffect::MinecarStop_101, 120, 0, field_CC_sprite_scale);
-            SFX_Play_Pitch(SoundEffect::FallingItemHit_47, 70, -800, field_CC_sprite_scale);
+            SFX_Play_Pitch(SoundEffect::MinecarStop_101, 120, 0, mBaseAnimatedWithPhysicsGameObject_SpriteScale);
+            SFX_Play_Pitch(SoundEffect::FallingItemHit_47, 70, -800, mBaseAnimatedWithPhysicsGameObject_SpriteScale);
 
-            field_C8_vely = FP_FromInteger(0);
+            mBaseAnimatedWithPhysicsGameObject_VelY = FP_FromInteger(0);
             BaseAliveGameObjectCollisionLine = pPathLine;
             mBaseAnimatedWithPhysicsGameObject_YPos = hitY;
 
-            if (FP_GetExponent(field_C4_velx))
+            if (FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_VelX))
             {
-                mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(SnapToXGrid(field_CC_sprite_scale, FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos)));
+                mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(SnapToXGrid(mBaseAnimatedWithPhysicsGameObject_SpriteScale, FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos)));
             }
 
             BaseAliveGameObjectLastLineYPos = mBaseAnimatedWithPhysicsGameObject_YPos;

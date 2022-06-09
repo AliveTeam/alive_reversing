@@ -90,7 +90,7 @@ void SaveGame::LoadFromMemory(SaveData* pData, s32 bKillObjects)
 
     sActiveHero_507678->mHealth = FP_FromInteger(1);
     sActiveHero_507678->field_11C_regen_health_timer = sGnFrame;
-    sActiveHero_507678->field_BC_sprite_scale = pData->field_230_ah_sprite_scale;
+    sActiveHero_507678->mBaseAnimatedWithPhysicsGameObject_SpriteScale = pData->field_230_ah_sprite_scale;
     sActiveHero_507678->field_118_timer = pData->field_24C_field_118;
     sActiveHero_507678->field_19C_throwable_count = static_cast<s8>(pData->field_250_throwable_count); // TODO: Type check when other save func done
     sActiveHero_507678->field_106_shot = 0;
@@ -99,9 +99,9 @@ void SaveGame::LoadFromMemory(SaveData* pData, s32 bKillObjects)
     sActiveHero_507678->field_2A8_flags.Set(Flags_2A8::e2A8_Bit12_bParamoniaDone, pData->field_252_paramonia_done & 1);
     sActiveHero_507678->field_2A8_flags.Set(Flags_2A8::e2A8_eBit13_bScrabaniaDone, pData->field_253_scrabania_done & 1);
 
-    sActiveHero_507678->field_10_anim.mAnimFlags.Set(AnimFlags::eBit5_FlipX, pData->field_23C_ah_flipX & 1);
+    sActiveHero_507678->mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit5_FlipX, pData->field_23C_ah_flipX & 1);
 
-    sActiveHero_507678->field_10_anim.mAnimFlags.Clear(AnimFlags::eBit3_Render);
+    sActiveHero_507678->mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit3_Render);
 
     gMap.field_E0_save_data = pData->field_2B0_pSaveBuffer;
 
@@ -365,7 +365,7 @@ void SaveGame::SaveToMemory(SaveData* pSaveData)
     pSaveData->field_2A2_killed_mudokons = sKilledMudokons_5076BC;
     pSaveData->field_238_current_camera = gMap.mCurrentCamera;
     pSaveData->field_2A6_restartRuptureFarmsKilledMudokons = gRestartRuptureFarmsKilledMuds_5076C4;
-    pSaveData->field_240_last_anim_frame = sActiveHero_507678->field_10_anim.field_92_current_frame;
+    pSaveData->field_240_last_anim_frame = sActiveHero_507678->mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame;
     pSaveData->field_23E_current_motion = sActiveHero_507678->mCurrentMotion;
     pSaveData->field_224_xpos = FP_GetExponent(sActiveHero_507678->mBaseAnimatedWithPhysicsGameObject_XPos);
     pSaveData->field_228_ypos = FP_GetExponent(sActiveHero_507678->mBaseAnimatedWithPhysicsGameObject_YPos);
@@ -378,8 +378,8 @@ void SaveGame::SaveToMemory(SaveData* pSaveData)
         pSaveData->field_23A_mode_mask = 0;
     }
     pSaveData->field_22C_ah_health = sActiveHero_507678->mHealth;
-    pSaveData->field_23C_ah_flipX = sActiveHero_507678->field_10_anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX);
-    pSaveData->field_230_ah_sprite_scale = sActiveHero_507678->field_BC_sprite_scale;
+    pSaveData->field_23C_ah_flipX = sActiveHero_507678->mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX);
+    pSaveData->field_230_ah_sprite_scale = sActiveHero_507678->mBaseAnimatedWithPhysicsGameObject_SpriteScale;
     pSaveData->field_244_stone_state = static_cast<s32>(sActiveHero_507678->field_110_state.raw);
     pSaveData->field_248_gnFrame = sActiveHero_507678->field_114_gnFrame;
     pSaveData->field_24C_field_118 = sActiveHero_507678->field_118_timer;
@@ -398,8 +398,8 @@ void SaveGame::SaveToMemory(SaveData* pSaveData)
         pSaveData->field_298_elum_continue_path = gElum_507680->field_148_continue_path;
         pSaveData->field_29A_continue_level = MapWrapper::ToAO(gElum_507680->field_14A_continue_level);
         pSaveData->field_29C_elum_sprite_scale = gElum_507680->field_150_continue_sprite_scale;
-        pSaveData->field_260_elum_lvl_number = MapWrapper::ToAO(gElum_507680->field_B2_lvl_number);
-        pSaveData->field_262_elum_path_number = gElum_507680->field_B0_path_number;
+        pSaveData->field_260_elum_lvl_number = MapWrapper::ToAO(gElum_507680->mBaseAnimatedWithPhysicsGameObject_LvlNumber);
+        pSaveData->field_262_elum_path_number = gElum_507680->mBaseAnimatedWithPhysicsGameObject_PathNumber;
         pSaveData->field_268_elum_xpos = FP_GetExponent(gElum_507680->mBaseAnimatedWithPhysicsGameObject_XPos);
         pSaveData->field_26C_elum_ypos = FP_GetExponent(gElum_507680->mBaseAnimatedWithPhysicsGameObject_YPos);
         if (gElum_507680->BaseAliveGameObjectCollisionLine)
@@ -411,7 +411,7 @@ void SaveGame::SaveToMemory(SaveData* pSaveData)
             pSaveData->field_270_elum_line_type = -1;
         }
         pSaveData->field_274_elum_current_motion = gElum_507680->mCurrentMotion;
-        pSaveData->field_272_elum_flipX = gElum_507680->field_10_anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX);
+        pSaveData->field_272_elum_flipX = gElum_507680->mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX);
         pSaveData->field_278_brain_idx = gElum_507680->field_128_brain_idx;
         pSaveData->field_276_bDontFollowAbe = gElum_507680->field_122_bDontFollowAbe;
         pSaveData->field_27C_honey_xpos = gElum_507680->field_12C_honey_xpos;

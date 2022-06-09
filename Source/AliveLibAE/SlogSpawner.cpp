@@ -51,7 +51,7 @@ void SlogSpawner::VUpdate()
             auto pSlog = relive_new Slog(field_28_xpos, field_2C_ypos, field_34_scale != Scale_short::eFull_0 ? FP_FromDouble(0.5) : FP_FromInteger(1), static_cast<s16>(field_40_listen_to_sligs), field_42_chase_delay);
             if (pSlog)
             {
-                pSlog->field_20_animation.mAnimFlags.Set(AnimFlags::eBit5_FlipX, field_3A_start_direction == StartDirection::eLeft_1);
+                pSlog->mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit5_FlipX, field_3A_start_direction == StartDirection::eLeft_1);
             }
 
             ++field_24_tlv_saved_slog_count;

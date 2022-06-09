@@ -79,7 +79,7 @@ void BaseThrowable::BaseAddToPlatform(BaseThrowable::FnTypeMatcher cb)
             &pLine,
             &hitX,
             &hitY,
-            field_D6_scale == 0 ? 0xF0 : 0x10F))
+            mBaseAnimatedWithPhysicsGameObject_Scale == 0 ? 0xF0 : 0x10F))
     {
         if (pLine->field_8_type == eLineTypes ::eUnknown_32 ||
             pLine->field_8_type == eLineTypes::eUnknown_36)

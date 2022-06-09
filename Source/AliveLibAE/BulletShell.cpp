@@ -24,19 +24,19 @@ BulletShell::BulletShell(FP xpos, FP ypos, s16 direction, FP scale)
         u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
         Animation_Init(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
 
-        field_CC_sprite_scale = scale;
+        mBaseAnimatedWithPhysicsGameObject_SpriteScale = scale;
 
         if (scale == FP_FromInteger(1))
         {
-            field_20_animation.mRenderLayer = Layer::eLayer_Foreground_36;
+            mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_Foreground_36;
         }
         else
         {
-            field_20_animation.mRenderLayer = Layer::eLayer_Foreground_Half_17;
+            mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_Foreground_Half_17;
         }
 
         mApplyShadows &= ~1u;
-        field_20_animation.mAnimFlags.Set(AnimFlags::eBit5_FlipX, direction & 1);
+        mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit5_FlipX, direction & 1);
 
         field_FC_hitCount = 0;
 
@@ -45,13 +45,13 @@ BulletShell::BulletShell(FP xpos, FP ypos, s16 direction, FP scale)
 
         if (direction)
         {
-            field_C4_velx = FP_FromInteger(Math_RandomRange(-6, -3));
+            mBaseAnimatedWithPhysicsGameObject_VelX = FP_FromInteger(Math_RandomRange(-6, -3));
         }
         else
         {
-            field_C4_velx = FP_FromInteger(Math_RandomRange(3, 6));
+            mBaseAnimatedWithPhysicsGameObject_VelX = FP_FromInteger(Math_RandomRange(3, 6));
         }
-        field_C8_vely = FP_FromInteger(Math_RandomRange(-4, -1));
+        mBaseAnimatedWithPhysicsGameObject_VelY = FP_FromInteger(Math_RandomRange(-4, -1));
         field_100_speed = FP_FromInteger(1);
     }
 }
@@ -68,38 +68,38 @@ void BulletShell::VUpdate()
         return;
     }
 
-    mBaseAnimatedWithPhysicsGameObject_XPos += field_C4_velx;
-    mBaseAnimatedWithPhysicsGameObject_YPos += field_C8_vely;
+    mBaseAnimatedWithPhysicsGameObject_XPos += mBaseAnimatedWithPhysicsGameObject_VelX;
+    mBaseAnimatedWithPhysicsGameObject_YPos += mBaseAnimatedWithPhysicsGameObject_VelY;
 
-    field_C8_vely += field_100_speed;
+    mBaseAnimatedWithPhysicsGameObject_VelY += field_100_speed;
 
     FP hitX = {};
     FP hitY = {};
     if (sCollisions->Raycast(
             mBaseAnimatedWithPhysicsGameObject_XPos,
-            mBaseAnimatedWithPhysicsGameObject_YPos - field_C8_vely,
+            mBaseAnimatedWithPhysicsGameObject_YPos - mBaseAnimatedWithPhysicsGameObject_VelY,
             mBaseAnimatedWithPhysicsGameObject_XPos,
             mBaseAnimatedWithPhysicsGameObject_YPos,
             &BaseAliveGameObjectCollisionLine,
             &hitX,
             &hitY,
-            field_D6_scale != 0 ? 0x0F : 0xF0)
+            mBaseAnimatedWithPhysicsGameObject_Scale != 0 ? 0x0F : 0xF0)
         == 1)
     {
         if (BaseAliveGameObjectCollisionLine->field_8_type == eLineTypes::eFloor_0 ||
             BaseAliveGameObjectCollisionLine->field_8_type == eLineTypes::eBackgroundFloor_4)
         {
             mBaseAnimatedWithPhysicsGameObject_YPos = hitY - FP_FromInteger(1);
-            field_C8_vely = -(field_C8_vely * FP_FromDouble(0.3));
-            field_C4_velx = (field_C4_velx * FP_FromDouble(0.3));
+            mBaseAnimatedWithPhysicsGameObject_VelY = -(mBaseAnimatedWithPhysicsGameObject_VelY * FP_FromDouble(0.3));
+            mBaseAnimatedWithPhysicsGameObject_VelX = (mBaseAnimatedWithPhysicsGameObject_VelX * FP_FromDouble(0.3));
 
-            if (field_C4_velx < FP_FromInteger(0) && field_C4_velx > FP_FromInteger(-1))
+            if (mBaseAnimatedWithPhysicsGameObject_VelX < FP_FromInteger(0) && mBaseAnimatedWithPhysicsGameObject_VelX > FP_FromInteger(-1))
             {
-                field_C4_velx = FP_FromInteger(-1);
+                mBaseAnimatedWithPhysicsGameObject_VelX = FP_FromInteger(-1);
             }
-            else if (field_C4_velx > FP_FromInteger(0) && field_C4_velx < FP_FromInteger(1))
+            else if (mBaseAnimatedWithPhysicsGameObject_VelX > FP_FromInteger(0) && mBaseAnimatedWithPhysicsGameObject_VelX < FP_FromInteger(1))
             {
-                field_C4_velx = FP_FromInteger(1);
+                mBaseAnimatedWithPhysicsGameObject_VelX = FP_FromInteger(1);
             }
 
             s16 volume = 19 * (3 - field_FC_hitCount);
@@ -113,7 +113,7 @@ void BulletShell::VUpdate()
         }
     }
 
-    if (!gMap.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, 0))
+    if (!gMap.Is_Point_In_Current_Camera_4810D0(mBaseAnimatedWithPhysicsGameObject_LvlNumber, mBaseAnimatedWithPhysicsGameObject_PathNumber, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, 0))
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }

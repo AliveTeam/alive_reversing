@@ -63,14 +63,14 @@ Slurg::Slurg(Path_Slurg* pTlv, u32 tlvInfo)
     if (pTlv->field_10_slurg_data.field_4_scale == Scale_short::eHalf_1)
     {
         field_130_scale = FP_FromDouble(0.5);
-        field_20_animation.mRenderLayer = Layer::eLayer_SligGreeterFarts_Half_14;
-        field_D6_scale = 0;
+        mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_SligGreeterFarts_Half_14;
+        mBaseAnimatedWithPhysicsGameObject_Scale = 0;
     }
     else if (pTlv->field_10_slurg_data.field_4_scale == Scale_short::eFull_0)
     {
         field_130_scale = FP_FromInteger(1);
-        field_20_animation.mRenderLayer = Layer::eLayer_SligGreeterFarts_33;
-        field_D6_scale = 1;
+        mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_SligGreeterFarts_33;
+        mBaseAnimatedWithPhysicsGameObject_Scale = 1;
     }
 
     field_11E_moving_timer = pTlv->field_10_slurg_data.field_0_moving_timer;
@@ -88,7 +88,7 @@ Slurg::Slurg(Path_Slurg* pTlv, u32 tlvInfo)
             &field_124_pLine,
             &hitX,
             &hitY,
-            field_D6_scale != 0 ? 1 : 16)
+            mBaseAnimatedWithPhysicsGameObject_Scale != 0 ? 1 : 16)
         == 1)
     {
         mBaseAnimatedWithPhysicsGameObject_YPos = hitY;
@@ -122,19 +122,19 @@ s32 Slurg::CreateFromSaveState(const u8* pData)
 
     pSlurg->mBaseAnimatedWithPhysicsGameObject_XPos = pState->field_4_xpos;
     pSlurg->mBaseAnimatedWithPhysicsGameObject_YPos = pState->field_8_ypos;
-    pSlurg->field_C4_velx = pState->field_C_velx;
-    pSlurg->field_20_animation.mFrameChangeCounter = pState->field_1A_anim_frame_change_counter;
+    pSlurg->mBaseAnimatedWithPhysicsGameObject_VelX = pState->field_C_velx;
+    pSlurg->mBaseAnimatedWithPhysicsGameObject_Anim.mFrameChangeCounter = pState->field_1A_anim_frame_change_counter;
 
     // OG BUG: This wasn't restored
-    pSlurg->field_20_animation.field_92_current_frame = pState->field_18_anim_current_frame;
-    pSlurg->field_20_animation.mAnimFlags.Set(AnimFlags::eBit5_FlipX, pState->field_14_flipX & 1);
-    pSlurg->field_20_animation.mAnimFlags.Set(AnimFlags::eBit3_Render, pState->field_1C_bRender & 1);
+    pSlurg->mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame = pState->field_18_anim_current_frame;
+    pSlurg->mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit5_FlipX, pState->field_14_flipX & 1);
+    pSlurg->mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit3_Render, pState->field_1C_bRender & 1);
 
     pSlurg->mBaseGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4, pState->field_1D_bDrawable & 1);
 
-    if (IsLastFrame(&pSlurg->field_20_animation))
+    if (IsLastFrame(&pSlurg->mBaseAnimatedWithPhysicsGameObject_Anim))
     {
-        pSlurg->field_20_animation.mAnimFlags.Set(AnimFlags::eBit18_IsLastFrame);
+        pSlurg->mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit18_IsLastFrame);
     }
 
     pSlurg->field_11C_state = pState->field_28_state;
@@ -156,7 +156,7 @@ void Slurg::Burst()
 {
     field_11C_state = Slurg_States::eBurst_2;
     const AnimRecord& animRec = AnimRec(AnimId::Slurg_Burst);
-    field_20_animation.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
+    mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
 
     relive_new Blood(mBaseAnimatedWithPhysicsGameObject_XPos,
                                 mBaseAnimatedWithPhysicsGameObject_YPos,
@@ -187,7 +187,7 @@ void Slurg::VUpdate()
         field_11E_moving_timer = Math_RandomRange(field_120_delay_random, field_120_delay_random + 20);
         field_11C_state = Slurg_States::eStopped_1;
         const AnimRecord& animRec = AnimRec(AnimId::Slurg_Turn_Around);
-        field_20_animation.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
+        mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
     }
 
     PSX_RECT bRect = {};
@@ -211,39 +211,39 @@ void Slurg::VUpdate()
     switch (field_11C_state)
     {
         case Slurg_States::eMoving_0:
-            field_C4_velx = FP_FromInteger(1);
+            mBaseAnimatedWithPhysicsGameObject_VelX = FP_FromInteger(1);
             field_11E_moving_timer--;
             if (field_118_flags.Get(SlurgFlags::Bit1_Direction))
             {
-                field_C4_velx = -FP_FromInteger(1);
+                mBaseAnimatedWithPhysicsGameObject_VelX = -FP_FromInteger(1);
             }
 
             field_118_flags.Toggle(SlurgFlags::Bit2_StartToMove);
 
             if (field_118_flags.Get(SlurgFlags::Bit2_StartToMove))
             {
-                mBaseAnimatedWithPhysicsGameObject_XPos += field_C4_velx;
+                mBaseAnimatedWithPhysicsGameObject_XPos += mBaseAnimatedWithPhysicsGameObject_VelX;
             }
             break;
 
         case Slurg_States::eStopped_1:
-            field_C4_velx = FP_FromInteger(0);
-            if (field_20_animation.field_92_current_frame == 0
-                && gMap.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, 0))
+            mBaseAnimatedWithPhysicsGameObject_VelX = FP_FromInteger(0);
+            if (mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame == 0
+                && gMap.Is_Point_In_Current_Camera_4810D0(mBaseAnimatedWithPhysicsGameObject_LvlNumber, mBaseAnimatedWithPhysicsGameObject_PathNumber, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, 0))
             {
                 SFX_Play_Mono(SoundEffect::SlurgStop_90, 0);
             }
 
-            if (field_20_animation.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
+            if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
             {
                 field_11C_state = Slurg_States::eMoving_0;
                 const AnimRecord& animRec = AnimRec(AnimId::Slurg_Move);
-                field_20_animation.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
+                mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
             }
             break;
 
         case Slurg_States::eBurst_2:
-            if (field_20_animation.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
+            if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
             {
                 mBaseGameObjectFlags.Set(BaseGameObject::eDead);
             }
@@ -327,15 +327,15 @@ s32 Slurg::VGetSaveState(u8* pSaveBuffer)
     pState->field_0_type = AETypes::eSlurg_129;
     pState->field_4_xpos = mBaseAnimatedWithPhysicsGameObject_XPos;
     pState->field_8_ypos = mBaseAnimatedWithPhysicsGameObject_YPos;
-    pState->field_C_velx = field_C4_velx;
+    pState->field_C_velx = mBaseAnimatedWithPhysicsGameObject_VelX;
     pState->field_10_scale = field_130_scale;
-    pState->field_14_flipX = field_20_animation.mAnimFlags.Get(AnimFlags::eBit5_FlipX);
+    pState->field_14_flipX = mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX);
     pState->field_16_current_motion = mCurrentMotion;
-    pState->field_18_anim_current_frame = field_20_animation.field_92_current_frame;
-    pState->field_1A_anim_frame_change_counter = field_20_animation.mFrameChangeCounter;
+    pState->field_18_anim_current_frame = mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame;
+    pState->field_1A_anim_frame_change_counter = mBaseAnimatedWithPhysicsGameObject_Anim.mFrameChangeCounter;
     pState->field_1D_bDrawable = mBaseGameObjectFlags.Get(BaseGameObject::eDrawable_Bit4);
-    pState->field_1C_bRender = field_20_animation.mAnimFlags.Get(AnimFlags::eBit3_Render);
-    pState->field_20_frame_table_offset = field_20_animation.field_18_frame_table_offset;
+    pState->field_1C_bRender = mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit3_Render);
+    pState->field_20_frame_table_offset = mBaseAnimatedWithPhysicsGameObject_Anim.field_18_frame_table_offset;
     pState->field_24_tlvInfo = field_12C_tlvInfo;
     pState->field_28_state = field_11C_state;
     pState->field_2A_flags.Set(SlurgFlags::Bit1_Direction, field_118_flags.Get(SlurgFlags::Bit1_Direction));
@@ -345,20 +345,20 @@ s32 Slurg::VGetSaveState(u8* pSaveBuffer)
 
 void Slurg::GoLeft()
 {
-    field_20_animation.mAnimFlags.Clear(AnimFlags::eBit5_FlipX);
+    mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit5_FlipX);
     field_118_flags.Clear(SlurgFlags::Bit1_Direction);
 
     field_11C_state = Slurg_States::eStopped_1;
     const AnimRecord& animRec = AnimRec(AnimId::Slurg_Turn_Around);
-    field_20_animation.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
+    mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
 }
 
 void Slurg::GoRight()
 {
-    field_20_animation.mAnimFlags.Set(AnimFlags::eBit5_FlipX);
+    mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit5_FlipX);
     field_118_flags.Set(SlurgFlags::Bit1_Direction);
 
     field_11C_state = Slurg_States::eStopped_1;
     const AnimRecord& animRec = AnimRec(AnimId::Slurg_Turn_Around);
-    field_20_animation.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
+    mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
 }

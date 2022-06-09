@@ -53,10 +53,10 @@ void Game_ShowLoadingIcon_482D80()
     Particle* pParticle = relive_new Particle(FP_FromInteger(0), FP_FromInteger(0), loadingRec.mFrameTableOffset, loadingRec.mMaxW, loadingRec.mMaxH, ppLoadingAnimRes);
 
     // TODO: May need to clear all other low word bits ?
-    pParticle->field_20_animation.mAnimFlags.Clear(AnimFlags::eBit15_bSemiTrans);
-    pParticle->field_20_animation.mAnimFlags.Set(AnimFlags::eBit16_bBlending);
+    pParticle->mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit15_bSemiTrans);
+    pParticle->mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit16_bBlending);
 
-    pParticle->field_20_animation.mRenderLayer = Layer::eLayer_0;
+    pParticle->mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_0;
     PSX_SetDefDrawEnv_4F5AA0(&dispBuffer.field_0_draw_env, 0, 0, 640, 240);
     PSX_PutDrawEnv_4F5980(&dispBuffer.field_0_draw_env);
     PSX_DrawSync_4F6280(0);
@@ -65,12 +65,12 @@ void Game_ShowLoadingIcon_482D80()
     // using other parts of the OT while another part is drawn, but it was bugged because it cleared the other anyway
     // on PC it seems fine to just always start at zero.
     PSX_ClearOTag_4F6290(dispBuffer.field_70_ot_buffer, 43);
-    pParticle->field_20_animation.VRender(320, 220, dispBuffer.field_70_ot_buffer, 0, 0);
+    pParticle->mBaseAnimatedWithPhysicsGameObject_Anim.VRender(320, 220, dispBuffer.field_70_ot_buffer, 0, 0);
     PSX_DrawOTag_4F6540(dispBuffer.field_70_ot_buffer);
     PSX_DrawSync_4F6280(0);
 
     PSX_ClearOTag_4F6290(dispBuffer.field_70_ot_buffer, 43);
-    pParticle->field_20_animation.VRender(320, 640 - 164, dispBuffer.field_70_ot_buffer, 0, 0);
+    pParticle->mBaseAnimatedWithPhysicsGameObject_Anim.VRender(320, 640 - 164, dispBuffer.field_70_ot_buffer, 0, 0);
     PSX_DrawOTag_4F6540(dispBuffer.field_70_ot_buffer);
     PSX_DrawSync_4F6280(0);
 

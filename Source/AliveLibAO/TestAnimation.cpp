@@ -21,7 +21,7 @@ void TestAnimation::DelayLoad()
 {
     // Trying to load on these lvls will result in a phat failure because they hardly have
     // any resource files
-    if (field_B2_lvl_number == EReliveLevelIds::eMenu || field_B2_lvl_number == EReliveLevelIds::eCredits)
+    if (mBaseAnimatedWithPhysicsGameObject_LvlNumber == EReliveLevelIds::eMenu || mBaseAnimatedWithPhysicsGameObject_LvlNumber == EReliveLevelIds::eCredits)
     {
         return;
     }
@@ -45,7 +45,7 @@ void TestAnimation::DelayLoad()
 
     u8** ppRes = ::Add_Resource(resourceArray, AO::ResourceManager::Resource_Animation, animRec.mResourceId);
     Animation_Init_417FD0(animRec.mFrameTableOffset, animRec.mMaxW, animRec.mMaxH, ppRes, 1);
-    field_10_anim.mAnimFlags.Set(AO::AnimFlags::eBit8_Loop);
+    mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AO::AnimFlags::eBit8_Loop);
 
     if (animRec.mPalOverride != PalId::Default)
     {
@@ -63,7 +63,7 @@ void TestAnimation::DelayLoad()
         u8** ppPal = ::Add_Resource(resourceArray, AO::ResourceManager::Resource_Palt, palRec.mResourceId);
         if (ppPal)
         {
-            field_10_anim.LoadPal(ppPal, 0);
+            mBaseAnimatedWithPhysicsGameObject_Anim.LoadPal(ppPal, 0);
         }
     }
 }
@@ -74,7 +74,7 @@ TestAnimation::TestAnimation()
 
     mBaseGameObjectTypeId = ReliveTypes::eNone;
 
-    field_CC_bApplyShadows &= ~1u;
+    mApplyShadows &= ~1u;
 
     mBaseGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4);
     mBaseGameObjectFlags.Set(BaseGameObject::eSurviveDeathReset_Bit9);
@@ -85,13 +85,13 @@ void TestAnimation::SyncToAbePos()
 {
     mBaseAnimatedWithPhysicsGameObject_XPos = AO::sActiveHero_507678->mBaseAnimatedWithPhysicsGameObject_XPos + FP_FromInteger(30);
     mBaseAnimatedWithPhysicsGameObject_YPos = AO::sActiveHero_507678->mBaseAnimatedWithPhysicsGameObject_YPos - FP_FromInteger(30);
-    field_10_anim.mRenderLayer = AO::sActiveHero_507678->field_10_anim.mRenderLayer;
+    mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = AO::sActiveHero_507678->mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer;
 }
 
 void TestAnimation::VUpdate()
 {
-    field_B0_path_number = AO::gMap.mCurrentPath;
-    field_B2_lvl_number = AO::gMap.mCurrentLevel;
+    mBaseAnimatedWithPhysicsGameObject_PathNumber = AO::gMap.mCurrentPath;
+    mBaseAnimatedWithPhysicsGameObject_LvlNumber = AO::gMap.mCurrentLevel;
     if (mLoaded)
     {
         SyncToAbePos();

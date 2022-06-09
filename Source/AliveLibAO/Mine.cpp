@@ -31,15 +31,15 @@ Mine::Mine(Path_Mine* pTlv, s32 tlvInfo)
 
     if (pTlv->field_1C_scale == Scale_short::eHalf_1)
     {
-        field_BC_sprite_scale = FP_FromDouble(0.5);
-        field_10_anim.mRenderLayer = Layer::eLayer_BombRollingBall_Half_16;
-        field_C6_scale = 0;
+        mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromDouble(0.5);
+        mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_BombRollingBall_Half_16;
+        mBaseAnimatedWithPhysicsGameObject_Scale = 0;
     }
     else
     {
-        field_BC_sprite_scale = FP_FromInteger(1);
-        field_10_anim.mRenderLayer = Layer::eLayer_BombRollingBall_35;
-        field_C6_scale = 1;
+        mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromInteger(1);
+        mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_BombRollingBall_35;
+        mBaseAnimatedWithPhysicsGameObject_Scale = 1;
     }
 
     mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pTlv->field_10_top_left.field_0_x + 12);
@@ -60,10 +60,10 @@ Mine::Mine(Path_Mine* pTlv, s32 tlvInfo)
         0,
         0);
 
-    field_118_animation.mRenderLayer = field_10_anim.mRenderLayer;
+    field_118_animation.mRenderLayer = mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer;
     field_118_animation.mAnimFlags.Set(AnimFlags::eBit16_bBlending);
     field_118_animation.mAnimFlags.Set(AnimFlags::eBit15_bSemiTrans);
-    field_118_animation.field_14_scale = field_BC_sprite_scale;
+    field_118_animation.field_14_scale = mBaseAnimatedWithPhysicsGameObject_SpriteScale;
 
     field_118_animation.mRed = 128;
     field_118_animation.mGreen = 128;
@@ -96,17 +96,17 @@ Mine::Mine(Path_Mine* pTlv, s32 tlvInfo)
 
     if (gMap.mCurrentLevel == EReliveLevelIds::eStockYards || gMap.mCurrentLevel == EReliveLevelIds::eStockYardsReturn)
     {
-        field_C4_b = 50;
-        field_C2_g = 50;
-        field_C0_r = 50;
+        mBaseAnimatedWithPhysicsGameObject_Blue = 50;
+        mBaseAnimatedWithPhysicsGameObject_Green = 50;
+        mBaseAnimatedWithPhysicsGameObject_Red = 50;
         ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Palt, AOResourceID::kAbeblowAOResID, 1, 0);
         ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Palt, AOResourceID::kSlogBlowAOResID, 1, 0);
     }
 
-    mBaseAliveGameObjectCollectionRect.x = mBaseAnimatedWithPhysicsGameObject_XPos - (ScaleToGridSize(field_BC_sprite_scale) / FP_FromInteger(2));
-    mBaseAliveGameObjectCollectionRect.y = mBaseAnimatedWithPhysicsGameObject_YPos - ScaleToGridSize(field_BC_sprite_scale);
-    mBaseAliveGameObjectCollectionRect.w = mBaseAnimatedWithPhysicsGameObject_XPos + (ScaleToGridSize(field_BC_sprite_scale) / FP_FromInteger(2));
-    mBaseAliveGameObjectCollectionRect.h = mBaseAnimatedWithPhysicsGameObject_YPos;
+    mCollectionRect.x = mBaseAnimatedWithPhysicsGameObject_XPos - (ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale) / FP_FromInteger(2));
+    mCollectionRect.y = mBaseAnimatedWithPhysicsGameObject_YPos - ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale);
+    mCollectionRect.w = mBaseAnimatedWithPhysicsGameObject_XPos + (ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale) / FP_FromInteger(2));
+    mCollectionRect.h = mBaseAnimatedWithPhysicsGameObject_YPos;
 
     mBaseGameObjectFlags.Set(Options::eInteractive_Bit8);
 }
@@ -181,7 +181,7 @@ s16 Mine::VTakeDamage(BaseGameObject* pFrom)
                 mBaseAnimatedWithPhysicsGameObject_XPos,
                 mBaseAnimatedWithPhysicsGameObject_YPos,
                 0,
-                field_BC_sprite_scale);
+                mBaseAnimatedWithPhysicsGameObject_SpriteScale);
             field_10C_detonating = 1;
             field_114_gnframe = sGnFrame;
             return 1;
@@ -198,7 +198,7 @@ void Mine::VOnThrowableHit(BaseGameObject* /*pFrom*/)
         mBaseAnimatedWithPhysicsGameObject_XPos,
         mBaseAnimatedWithPhysicsGameObject_YPos,
         0,
-        field_BC_sprite_scale);
+        mBaseAnimatedWithPhysicsGameObject_SpriteScale);
     field_10C_detonating = 1;
 }
 
@@ -214,15 +214,15 @@ void Mine::VOnPickUpOrSlapped()
 void Mine::VRender(PrimHeader** ppOt)
 {
     if (gMap.Is_Point_In_Current_Camera_4449C0(
-            field_B2_lvl_number,
-            field_B0_path_number,
+            mBaseAnimatedWithPhysicsGameObject_LvlNumber,
+            mBaseAnimatedWithPhysicsGameObject_PathNumber,
             mBaseAnimatedWithPhysicsGameObject_XPos,
             mBaseAnimatedWithPhysicsGameObject_YPos,
             0))
     {
         field_118_animation.VRender(
             FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos + (FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos) - pScreenManager_4FF7C8->field_10_pCamPos->field_0_x)),
-            FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos + (FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos + field_C8_yOffset)) - pScreenManager_4FF7C8->field_10_pCamPos->field_4_y),
+            FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos + (FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos + mBaseAnimatedWithPhysicsGameObject_YOffset)) - pScreenManager_4FF7C8->field_10_pCamPos->field_4_y),
             ppOt,
             0,
             0);
@@ -233,8 +233,8 @@ void Mine::VRender(PrimHeader** ppOt)
 void Mine::VUpdate()
 {
     const s16 bInCamera = gMap.Is_Point_In_Current_Camera_4449C0(
-        field_B2_lvl_number,
-        field_B0_path_number,
+        mBaseAnimatedWithPhysicsGameObject_LvlNumber,
+        mBaseAnimatedWithPhysicsGameObject_PathNumber,
         mBaseAnimatedWithPhysicsGameObject_XPos,
         mBaseAnimatedWithPhysicsGameObject_YPos,
         0);
@@ -247,13 +247,13 @@ void Mine::VUpdate()
                 mBaseAnimatedWithPhysicsGameObject_XPos,
                 mBaseAnimatedWithPhysicsGameObject_YPos,
                 0,
-                field_BC_sprite_scale);
+                mBaseAnimatedWithPhysicsGameObject_SpriteScale);
             mBaseGameObjectFlags.Set(BaseGameObject::eDead);
         }
     }
     else
     {
-        if (field_10_anim.field_92_current_frame == 1)
+        if (mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame == 1)
         {
             if (sMinePlayingSound_507B88 == nullptr || sMinePlayingSound_507B88 == this)
             {
@@ -274,8 +274,8 @@ void Mine::VUpdate()
 
     if (field_10C_detonating != 1
         && (Event_Get(kEventDeathReset)
-            || field_B2_lvl_number != gMap.mCurrentLevel
-            || field_B0_path_number != gMap.mCurrentPath))
+            || mBaseAnimatedWithPhysicsGameObject_LvlNumber != gMap.mCurrentLevel
+            || mBaseAnimatedWithPhysicsGameObject_PathNumber != gMap.mCurrentPath))
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
@@ -296,12 +296,12 @@ s16 Mine::IsColliding()
 
         if (pObj->mBaseAliveGameObjectFlags.Get(Flags_10A::e10A_Bit4_SetOffExplosives))
         {
-            if (pObj->field_10_anim.mAnimFlags.Get(AnimFlags::eBit3_Render))
+            if (pObj->mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit3_Render))
             {
                 PSX_RECT bObjRect = {};
                 pObj->VGetBoundingRect(&bObjRect, 1);
 
-                if (FP_GetExponent(pObj->mBaseAnimatedWithPhysicsGameObject_XPos) > bRect.x && FP_GetExponent(pObj->mBaseAnimatedWithPhysicsGameObject_XPos) < bRect.w && FP_GetExponent(pObj->mBaseAnimatedWithPhysicsGameObject_YPos) < bRect.h + 5 && bRect.x <= bObjRect.w && bRect.w >= bObjRect.x && bRect.h >= bObjRect.y && bRect.y <= bObjRect.h && pObj->field_BC_sprite_scale == field_BC_sprite_scale)
+                if (FP_GetExponent(pObj->mBaseAnimatedWithPhysicsGameObject_XPos) > bRect.x && FP_GetExponent(pObj->mBaseAnimatedWithPhysicsGameObject_XPos) < bRect.w && FP_GetExponent(pObj->mBaseAnimatedWithPhysicsGameObject_YPos) < bRect.h + 5 && bRect.x <= bObjRect.w && bRect.w >= bObjRect.x && bRect.h >= bObjRect.y && bRect.y <= bObjRect.h && pObj->mBaseAnimatedWithPhysicsGameObject_SpriteScale == mBaseAnimatedWithPhysicsGameObject_SpriteScale)
                 {
                     return 1;
                 }

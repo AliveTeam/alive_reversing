@@ -199,8 +199,8 @@ void BeeSwarm::VUpdate()
     {
         case BeeSwarmStates::eIdle_0:
             if (!gMap.Is_Point_In_Current_Camera_4449C0(
-                    field_B2_lvl_number,
-                    field_B0_path_number,
+                    mBaseAnimatedWithPhysicsGameObject_LvlNumber,
+                    mBaseAnimatedWithPhysicsGameObject_PathNumber,
                     mBaseAnimatedWithPhysicsGameObject_XPos,
                     mBaseAnimatedWithPhysicsGameObject_YPos,
                     0))
@@ -464,7 +464,7 @@ void BeeSwarm::VUpdate()
         FP xMove = {};
         if (field_D98_pChaseTarget)
         {
-            if (FP_Abs(distToTargetX) > FP_FromInteger(20) || field_D98_pChaseTarget->field_B4_velx != FP_FromInteger(0))
+            if (FP_Abs(distToTargetX) > FP_FromInteger(20) || field_D98_pChaseTarget->mBaseAnimatedWithPhysicsGameObject_VelX != FP_FromInteger(0))
             {
                 if (distToTargetX <= FP_FromInteger(0))
                 {
@@ -522,8 +522,8 @@ void BeeSwarm::VUpdate()
         pBee->field_10_anim.mAnimFlags.Set(AnimFlags::eBit3_Render);
         pBee->field_10_anim.mAnimFlags.Set(AnimFlags::eBit16_bBlending); // TODO: or higher byte
 
-        pBee->field_10_anim.field_68_anim_ptr = &field_10_anim;
-        pBee->field_10_anim.field_6C_scale = field_BC_sprite_scale;
+        pBee->field_10_anim.field_68_anim_ptr = &mBaseAnimatedWithPhysicsGameObject_Anim;
+        pBee->field_10_anim.field_6C_scale = mBaseAnimatedWithPhysicsGameObject_SpriteScale;
 
         pBee->field_10_anim.mRenderLayer = Layer::eLayer_MainMenuButtonBees_38;
 
@@ -559,11 +559,11 @@ void BeeSwarm::ToFlyAwayAndDie()
 
 void BeeSwarm::VRender(PrimHeader** ppOt)
 {
-    field_10_anim.mRenderLayer = Layer::eLayer_MainMenuButtonBees_38;
-    field_10_anim.mRed = static_cast<u8>(field_C0_r);
-    field_10_anim.mGreen = static_cast<u8>(field_C2_g);
-    field_10_anim.mBlue = static_cast<u8>(field_C4_b);
-    field_10_anim.field_14_scale = field_BC_sprite_scale;
+    mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_MainMenuButtonBees_38;
+    mBaseAnimatedWithPhysicsGameObject_Anim.mRed = static_cast<u8>(mBaseAnimatedWithPhysicsGameObject_Red);
+    mBaseAnimatedWithPhysicsGameObject_Anim.mGreen = static_cast<u8>(mBaseAnimatedWithPhysicsGameObject_Green);
+    mBaseAnimatedWithPhysicsGameObject_Anim.mBlue = static_cast<u8>(mBaseAnimatedWithPhysicsGameObject_Blue);
+    mBaseAnimatedWithPhysicsGameObject_Anim.field_14_scale = mBaseAnimatedWithPhysicsGameObject_SpriteScale;
 
     const auto campos_x_delta = pScreenManager_4FF7C8->field_10_pCamPos->field_0_x - FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos);
     const auto campos_y_delta = pScreenManager_4FF7C8->field_10_pCamPos->field_4_y - FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos);
@@ -582,14 +582,14 @@ void BeeSwarm::VRender(PrimHeader** ppOt)
         {
             if (bDontClear)
             {
-                field_10_anim.VRender(
+                mBaseAnimatedWithPhysicsGameObject_Anim.VRender(
                     FP_GetExponent(bee->field_0_xpos - campos_x_delta),
                     FP_GetExponent(bee->field_4_ypos - campos_y_delta),
                     ppOt,
                     0,
                     0);
                 bDontClear = 0;
-                field_10_anim.Get_Frame_Rect(&out);
+                mBaseAnimatedWithPhysicsGameObject_Anim.Get_Frame_Rect(&out);
             }
             else
             {

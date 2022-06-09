@@ -144,7 +144,7 @@ Elum::~Elum()
 {
     for (u8**& ppRes : field_174_resources.res)
     {
-        if (ppRes && field_10_anim.field_20_ppBlock != ppRes)
+        if (ppRes && mBaseAnimatedWithPhysicsGameObject_Anim.field_20_ppBlock != ppRes)
         {
             ResourceManager::FreeResource_455550(ppRes);
         }
@@ -194,7 +194,7 @@ void Elum::VOn_TLV_Collision(Path_TLV* pTlv)
                 field_148_continue_path = gMap.mCurrentPath;
                 field_14C_continue_camera = gMap.mCurrentCamera;
                 field_14A_continue_level = gMap.mCurrentLevel;
-                field_150_continue_sprite_scale = field_BC_sprite_scale;
+                field_150_continue_sprite_scale = mBaseAnimatedWithPhysicsGameObject_SpriteScale;
                 field_144_bRespawnOnDead = 1;
             }
         }
@@ -205,7 +205,7 @@ void Elum::VOn_TLV_Collision(Path_TLV* pTlv)
                 field_122_bDontFollowAbe = 0;
             }
             Elum_SFX_416E10(ElumSounds::eHowl_2, this);
-            field_10_anim.mAnimFlags.Clear(AnimFlags::eBit3_Render);
+            mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit3_Render);
             mCurrentMotion = eElumMotions::Motion_20_Fall_415F70;
             mHealth = FP_FromInteger(0);
         }
@@ -244,9 +244,9 @@ s16 Elum::VTakeDamage(BaseGameObject* pFrom)
                     GibType::Elum_3,
                     mBaseAnimatedWithPhysicsGameObject_XPos,
                     mBaseAnimatedWithPhysicsGameObject_YPos,
-                    field_B4_velx,
-                    field_B8_vely,
-                    field_BC_sprite_scale);
+                    mBaseAnimatedWithPhysicsGameObject_VelX,
+                    mBaseAnimatedWithPhysicsGameObject_VelY,
+                    mBaseAnimatedWithPhysicsGameObject_SpriteScale);
 
                 mHealth = FP_FromInteger(0);
 
@@ -255,9 +255,9 @@ s16 Elum::VTakeDamage(BaseGameObject* pFrom)
                     field_122_bDontFollowAbe = 0;
                 }
 
-                field_10_anim.mAnimFlags.Clear(AnimFlags::eBit3_Render);
+                mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit3_Render);
                 const AnimRecord& rec = AO::AnimRec(gElumAnimIdTables_4C5218[mCurrentMotion]);
-                field_10_anim.Set_Animation_Data(
+                mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(
                     rec.mFrameTableOffset,
                     GetResBlock_410D00(mCurrentMotion));
             }
@@ -281,7 +281,7 @@ s16 Elum::VTakeDamage(BaseGameObject* pFrom)
 
 void Elum::ToKnockback()
 {
-    field_B4_velx = FP_FromInteger(0);
+    mBaseAnimatedWithPhysicsGameObject_VelX = FP_FromInteger(0);
     mCurrentMotion = eElumMotions::Motion_50_Knockback_415DC0;
 
     if (BaseAliveGameObjectCollisionLine)
@@ -333,7 +333,7 @@ void Elum::Vsub_416120()
     ToIdle();
 
     const AnimRecord& rec = AO::AnimRec(gElumAnimIdTables_4C5218[mCurrentMotion]);
-    field_10_anim.Set_Animation_Data(
+    mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(
         rec.mFrameTableOffset,
         GetResBlock_410D00(mCurrentMotion));
 }
@@ -443,9 +443,9 @@ u8** Elum::GetResBlock_410D00(s16 currentMotion)
 
 void Elum::MidWalkToNextMotion_412FA0()
 {
-    if (field_B4_velx <= FP_FromInteger(0))
+    if (mBaseAnimatedWithPhysicsGameObject_VelX <= FP_FromInteger(0))
     {
-        if (WallHit_401930(field_BC_sprite_scale * FP_FromInteger(40), -ScaleToGridSize(field_BC_sprite_scale)))
+        if (WallHit_401930(mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(40), -ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale)))
         {
             mCurrentMotion = eElumMotions::Motion_6_MidWalkToIdle_4133F0;
             return;
@@ -453,14 +453,14 @@ void Elum::MidWalkToNextMotion_412FA0()
     }
     else
     {
-        if (WallHit_401930(field_BC_sprite_scale * FP_FromInteger(40), ScaleToGridSize(field_BC_sprite_scale)))
+        if (WallHit_401930(mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(40), ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale)))
         {
             mCurrentMotion = eElumMotions::Motion_6_MidWalkToIdle_4133F0;
             return;
         }
     }
 
-    if ((field_B4_velx > FP_FromInteger(0) && Input().IsAnyPressed(sInputKey_Left_4C6594)) || (field_B4_velx < FP_FromInteger(0) && Input().IsAnyPressed(sInputKey_Right_4C6590)) || !Input().IsAnyPressed(sInputKey_Right_4C6590 | sInputKey_Left_4C6594))
+    if ((mBaseAnimatedWithPhysicsGameObject_VelX > FP_FromInteger(0) && Input().IsAnyPressed(sInputKey_Left_4C6594)) || (mBaseAnimatedWithPhysicsGameObject_VelX < FP_FromInteger(0) && Input().IsAnyPressed(sInputKey_Right_4C6590)) || !Input().IsAnyPressed(sInputKey_Right_4C6590 | sInputKey_Left_4C6594))
     {
         mCurrentMotion = eElumMotions::Motion_6_MidWalkToIdle_4133F0;
     }
@@ -476,9 +476,9 @@ void Elum::MidWalkToNextMotion_412FA0()
 
 void Elum::WalkToNextMotion_4130D0()
 {
-    if (field_B4_velx <= FP_FromInteger(0))
+    if (mBaseAnimatedWithPhysicsGameObject_VelX <= FP_FromInteger(0))
     {
-        if (WallHit_401930(field_BC_sprite_scale * FP_FromInteger(40), -ScaleToGridSize(field_BC_sprite_scale)))
+        if (WallHit_401930(mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(40), -ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale)))
         {
             mCurrentMotion = eElumMotions::Motion_5_WalkToIdle_4132D0;
             return;
@@ -486,14 +486,14 @@ void Elum::WalkToNextMotion_4130D0()
     }
     else
     {
-        if (WallHit_401930(field_BC_sprite_scale * FP_FromInteger(40), ScaleToGridSize(field_BC_sprite_scale)))
+        if (WallHit_401930(mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(40), ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale)))
         {
             mCurrentMotion = eElumMotions::Motion_5_WalkToIdle_4132D0;
             return;
         }
     }
 
-    if ((field_B4_velx > FP_FromInteger(0) && Input().IsAnyPressed(sInputKey_Left_4C6594)) || (field_B4_velx < FP_FromInteger(0) && Input().IsAnyPressed(sInputKey_Right_4C6590)) || !Input().IsAnyPressed(sInputKey_Right_4C6590 | sInputKey_Left_4C6594))
+    if ((mBaseAnimatedWithPhysicsGameObject_VelX > FP_FromInteger(0) && Input().IsAnyPressed(sInputKey_Left_4C6594)) || (mBaseAnimatedWithPhysicsGameObject_VelX < FP_FromInteger(0) && Input().IsAnyPressed(sInputKey_Right_4C6590)) || !Input().IsAnyPressed(sInputKey_Right_4C6590 | sInputKey_Left_4C6594))
     {
         mCurrentMotion = eElumMotions::Motion_5_WalkToIdle_4132D0;
         field_10E_pressed = 0;
@@ -510,27 +510,27 @@ void Elum::WalkToNextMotion_4130D0()
 
 void Elum::SlowOnX_414210(FP amount)
 {
-    if (FP_GetExponent(field_B4_velx))
+    if (FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_VelX))
     {
         MoveOnLine_412580(0);
 
-        if (field_B4_velx <= FP_FromInteger(0))
+        if (mBaseAnimatedWithPhysicsGameObject_VelX <= FP_FromInteger(0))
         {
-            if (field_B4_velx < FP_FromInteger(0))
+            if (mBaseAnimatedWithPhysicsGameObject_VelX < FP_FromInteger(0))
             {
-                field_B4_velx += (field_BC_sprite_scale * amount);
-                if (field_B4_velx > FP_FromInteger(0))
+                mBaseAnimatedWithPhysicsGameObject_VelX += (mBaseAnimatedWithPhysicsGameObject_SpriteScale * amount);
+                if (mBaseAnimatedWithPhysicsGameObject_VelX > FP_FromInteger(0))
                 {
-                    field_B4_velx = FP_FromInteger(0);
+                    mBaseAnimatedWithPhysicsGameObject_VelX = FP_FromInteger(0);
                 }
             }
         }
         else
         {
-            field_B4_velx -= (field_BC_sprite_scale * amount);
-            if (field_B4_velx < FP_FromInteger(0))
+            mBaseAnimatedWithPhysicsGameObject_VelX -= (mBaseAnimatedWithPhysicsGameObject_SpriteScale * amount);
+            if (mBaseAnimatedWithPhysicsGameObject_VelX < FP_FromInteger(0))
             {
-                field_B4_velx = FP_FromInteger(0);
+                mBaseAnimatedWithPhysicsGameObject_VelX = FP_FromInteger(0);
             }
         }
     }
@@ -566,11 +566,11 @@ void Elum::MoveOnLine_412580(s16 xLookAhead)
     BaseAliveGameObjectCollisionLine = BaseAliveGameObjectCollisionLine->MoveOnLine(
         &xpos_off_fp,
         &mBaseAnimatedWithPhysicsGameObject_YPos,
-        field_B4_velx);
+        mBaseAnimatedWithPhysicsGameObject_VelX);
 
     if (BaseAliveGameObjectCollisionLine)
     {
-        mBaseAnimatedWithPhysicsGameObject_XPos += field_B4_velx;
+        mBaseAnimatedWithPhysicsGameObject_XPos += mBaseAnimatedWithPhysicsGameObject_VelX;
         if (mLiftPoint)
         {
             if (BaseAliveGameObjectCollisionLine->field_8_type != eLineTypes::eUnknown_32)
@@ -595,7 +595,7 @@ void Elum::MoveOnLine_412580(s16 xLookAhead)
         VOnTrapDoorOpen();
         mCurrentMotion = eElumMotions::Motion_23_WalkOffEdge_415E90;
         BaseAliveGameObjectLastLineYPos = mBaseAnimatedWithPhysicsGameObject_YPos;
-        mBaseAnimatedWithPhysicsGameObject_XPos = field_B4_velx + oldX;
+        mBaseAnimatedWithPhysicsGameObject_XPos = mBaseAnimatedWithPhysicsGameObject_VelX + oldX;
     }
 }
 
@@ -632,21 +632,21 @@ s16 Elum::ToNextMotion_4120F0()
     switch (mNextMotion)
     {
         case eElumMotions::Motion_3_WalkLoop_412C90:
-            if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
+            if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
             {
-                if (WallHit_401930(field_BC_sprite_scale * FP_FromInteger(25), ScaleToGridSize(field_BC_sprite_scale)))
+                if (WallHit_401930(mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(25), ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale)))
                 {
                     return 0;
                 }
-                field_B4_velx = -(ScaleToGridSize(field_BC_sprite_scale) / FP_FromInteger(9));
+                mBaseAnimatedWithPhysicsGameObject_VelX = -(ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale) / FP_FromInteger(9));
             }
             else
             {
-                if (WallHit_401930(field_BC_sprite_scale * FP_FromInteger(25), ScaleToGridSize(field_BC_sprite_scale)))
+                if (WallHit_401930(mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(25), ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale)))
                 {
                     return 0;
                 }
-                field_B4_velx = (ScaleToGridSize(field_BC_sprite_scale) / FP_FromInteger(9));
+                mBaseAnimatedWithPhysicsGameObject_VelX = (ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale) / FP_FromInteger(9));
             }
 
             if (field_124_bShould_IdleToWalk1)
@@ -712,9 +712,9 @@ s16 Elum::ToNextMotionAbeControlled_411E40()
         FP gridSize = {};
         if (Input().IsAnyPressed(sInputKey_Right_4C6590))
         {
-            gridSize = ScaleToGridSize(field_BC_sprite_scale);
+            gridSize = ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale);
 
-            if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
+            if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
             {
                 mCurrentMotion = eElumMotions::Motion_4_Turn_4140F0;
                 return 1;
@@ -722,28 +722,28 @@ s16 Elum::ToNextMotionAbeControlled_411E40()
         }
         else if (Input().IsAnyPressed(sInputKey_Left_4C6594))
         {
-            gridSize = -ScaleToGridSize(field_BC_sprite_scale);
+            gridSize = -ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale);
 
-            if (!field_10_anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
+            if (!mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
             {
                 mCurrentMotion = eElumMotions::Motion_4_Turn_4140F0;
                 return 1;
             }
         }
 
-        if (WallHit_401930(field_BC_sprite_scale * FP_FromInteger(40), gridSize))
+        if (WallHit_401930(mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(40), gridSize))
         {
             return 0;
         }
 
         if (Input().IsAnyPressed(sInputKey_Run_4C65A8))
         {
-            field_B4_velx = gridSize / FP_FromInteger(4);
+            mBaseAnimatedWithPhysicsGameObject_VelX = gridSize / FP_FromInteger(4);
             mCurrentMotion = eElumMotions::Motion_39_IdleToRun_413B00;
         }
         else
         {
-            field_B4_velx = gridSize / FP_FromInteger(9);
+            mBaseAnimatedWithPhysicsGameObject_VelX = gridSize / FP_FromInteger(9);
             mCurrentMotion = eElumMotions::Motion_8_IdleToWalk2_413270;
         }
         return 1;
@@ -756,13 +756,13 @@ s16 Elum::ToNextMotionAbeControlled_411E40()
             return 0;
         }
 
-        if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
+        if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
         {
-            field_B4_velx = field_BC_sprite_scale * FP_FromInteger(-15);
+            mBaseAnimatedWithPhysicsGameObject_VelX = mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(-15);
         }
         else
         {
-            field_B4_velx = field_BC_sprite_scale * FP_FromInteger(15);
+            mBaseAnimatedWithPhysicsGameObject_VelX = mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(15);
         }
 
         mCurrentMotion = eElumMotions::Motion_30_HopBegin_414E30;
@@ -775,13 +775,13 @@ void Elum::HandleElumPathTrans_411460()
     PSX_Point camCoords = {};
     gMap.GetCurrentCamCoords(&camCoords);
 
-    if (sActiveHero_507678->field_10_anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
+    if (sActiveHero_507678->mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
     {
-        mBaseAnimatedWithPhysicsGameObject_XPos = ScaleToGridSize(field_BC_sprite_scale) + FP_FromInteger(camCoords.field_0_x + XGrid_Index_To_XPos(field_BC_sprite_scale, MaxGridBlocks_41FA10(field_BC_sprite_scale)));
+        mBaseAnimatedWithPhysicsGameObject_XPos = ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale) + FP_FromInteger(camCoords.field_0_x + XGrid_Index_To_XPos(mBaseAnimatedWithPhysicsGameObject_SpriteScale, MaxGridBlocks_41FA10(mBaseAnimatedWithPhysicsGameObject_SpriteScale)));
     }
     else
     {
-        mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(camCoords.field_0_x + XGrid_Index_To_XPos(field_BC_sprite_scale, 0)) - ScaleToGridSize(field_BC_sprite_scale);
+        mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(camCoords.field_0_x + XGrid_Index_To_XPos(mBaseAnimatedWithPhysicsGameObject_SpriteScale, 0)) - ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale);
     }
 
     if (sActiveHero_507678->BaseAliveGameObjectCollisionLine)
@@ -809,7 +809,7 @@ void Elum::HandleElumPathTrans_411460()
             &pLine,
             &hitX,
             &hitY,
-            field_BC_sprite_scale != FP_FromDouble(0.5) ? 7 : 0x70))
+            mBaseAnimatedWithPhysicsGameObject_SpriteScale != FP_FromDouble(0.5) ? 7 : 0x70))
     {
         mBaseAnimatedWithPhysicsGameObject_YPos = hitY;
         BaseAliveGameObjectCollisionLine = pLine;
@@ -819,8 +819,8 @@ void Elum::HandleElumPathTrans_411460()
         BaseAliveGameObjectCollisionLine = nullptr;
     }
 
-    field_B2_lvl_number = gMap.mCurrentLevel;
-    field_B0_path_number = gMap.mCurrentPath;
+    mBaseAnimatedWithPhysicsGameObject_LvlNumber = gMap.mCurrentLevel;
+    mBaseAnimatedWithPhysicsGameObject_PathNumber = gMap.mCurrentPath;
 
     mBaseGameObjectUpdateDelay = 20;
 }
@@ -857,8 +857,8 @@ void Elum::Elum_SFX_416E10(ElumSounds soundId, BaseAliveGameObject* pObj)
             if (pObj)
             {
                 dir = gMap.GetDirection(
-                    pObj->field_B2_lvl_number,
-                    pObj->field_B0_path_number,
+                    pObj->mBaseAnimatedWithPhysicsGameObject_LvlNumber,
+                    pObj->mBaseAnimatedWithPhysicsGameObject_PathNumber,
                     pObj->mBaseAnimatedWithPhysicsGameObject_XPos,
                     pObj->mBaseAnimatedWithPhysicsGameObject_YPos);
             }
@@ -939,14 +939,14 @@ void Elum::FindHoney_411600()
             {
                 auto pHoney = static_cast<Honey*>(pObjIter);
                 if (gMap.Is_Point_In_Current_Camera_4449C0(
-                        pHoney->field_B2_lvl_number,
-                        pHoney->field_B0_path_number,
+                        pHoney->mBaseAnimatedWithPhysicsGameObject_LvlNumber,
+                        pHoney->mBaseAnimatedWithPhysicsGameObject_PathNumber,
                         pHoney->mBaseAnimatedWithPhysicsGameObject_XPos,
                         pHoney->mBaseAnimatedWithPhysicsGameObject_YPos,
                         0)
                     && gMap.Is_Point_In_Current_Camera_4449C0(
-                        field_B2_lvl_number,
-                        field_B0_path_number,
+                        mBaseAnimatedWithPhysicsGameObject_LvlNumber,
+                        mBaseAnimatedWithPhysicsGameObject_PathNumber,
                         mBaseAnimatedWithPhysicsGameObject_XPos,
                         mBaseAnimatedWithPhysicsGameObject_YPos,
                         0))
@@ -1004,7 +1004,7 @@ s16 Elum::Brain_0_WithoutAbe_416190()
         return 0;
     }
 
-    const FP kGridSize = ScaleToGridSize(field_BC_sprite_scale);
+    const FP kGridSize = ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale);
 
     // TODO: A lot of duplicated logic below and a lot of simplifaction
     // can be done also
@@ -1025,7 +1025,7 @@ s16 Elum::Brain_0_WithoutAbe_416190()
 
             if (xd > FP_FromInteger(0))
             {
-                if (field_B4_velx < FP_FromInteger(0))
+                if (mBaseAnimatedWithPhysicsGameObject_VelX < FP_FromInteger(0))
                 {
                     mNextMotion = eElumMotions::Motion_1_Idle_412990;
                     return 2;
@@ -1033,14 +1033,14 @@ s16 Elum::Brain_0_WithoutAbe_416190()
             }
             else if (xd < FP_FromInteger(0))
             {
-                if (field_B4_velx > FP_FromInteger(0))
+                if (mBaseAnimatedWithPhysicsGameObject_VelX > FP_FromInteger(0))
                 {
                     mNextMotion = eElumMotions::Motion_1_Idle_412990;
                     return 2;
                 }
             }
 
-            if (field_B4_velx < FP_FromInteger(0))
+            if (mBaseAnimatedWithPhysicsGameObject_VelX < FP_FromInteger(0))
             {
                 if (Check_IsOnEndOfLine_4021A0(1, 1))
                 {
@@ -1048,7 +1048,7 @@ s16 Elum::Brain_0_WithoutAbe_416190()
                     return 2;
                 }
             }
-            else if (field_B4_velx > FP_FromInteger(0))
+            else if (mBaseAnimatedWithPhysicsGameObject_VelX > FP_FromInteger(0))
             {
                 if (Check_IsOnEndOfLine_4021A0(0, 1))
                 {
@@ -1069,12 +1069,12 @@ s16 Elum::Brain_0_WithoutAbe_416190()
             }
 
             const FP xd = sActiveHero_507678->mBaseAnimatedWithPhysicsGameObject_XPos - mBaseAnimatedWithPhysicsGameObject_XPos;
-            if (xd > (kGridSize / FP_FromInteger(2)) && field_10_anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
+            if (xd > (kGridSize / FP_FromInteger(2)) && mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
             {
                 mNextMotion = eElumMotions::Motion_4_Turn_4140F0;
                 return 4;
             }
-            else if (xd < -(kGridSize / FP_FromInteger(2)) && !field_10_anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
+            else if (xd < -(kGridSize / FP_FromInteger(2)) && !mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
             {
                 mNextMotion = eElumMotions::Motion_4_Turn_4140F0;
                 return 4;
@@ -1112,8 +1112,8 @@ s16 Elum::Brain_0_WithoutAbe_416190()
 
             if (last_event_v1 == GameSpeakEvents::eFollowMe_10)
             {
-                if (gMap.mCurrentLevel == field_B2_lvl_number
-                    && gMap.mCurrentPath == field_B0_path_number)
+                if (gMap.mCurrentLevel == mBaseAnimatedWithPhysicsGameObject_LvlNumber
+                    && gMap.mCurrentPath == mBaseAnimatedWithPhysicsGameObject_PathNumber)
                 {
                     if (Is_In_Current_Camera_417CC0() == CameraPos::eCamCurrent_0)
                     {
@@ -1127,8 +1127,8 @@ s16 Elum::Brain_0_WithoutAbe_416190()
             }
 
             if (last_event_v1 == GameSpeakEvents::eHello_9
-                && gMap.mCurrentLevel == field_B2_lvl_number
-                && gMap.mCurrentPath == field_B0_path_number)
+                && gMap.mCurrentLevel == mBaseAnimatedWithPhysicsGameObject_LvlNumber
+                && gMap.mCurrentPath == mBaseAnimatedWithPhysicsGameObject_PathNumber)
             {
                 if (Is_In_Current_Camera_417CC0() == CameraPos::eCamCurrent_0)
                 {
@@ -1138,8 +1138,8 @@ s16 Elum::Brain_0_WithoutAbe_416190()
             }
 
             if (last_event_v1 == GameSpeakEvents::eFart_3
-                && gMap.mCurrentLevel == field_B2_lvl_number
-                && gMap.mCurrentPath == field_B0_path_number)
+                && gMap.mCurrentLevel == mBaseAnimatedWithPhysicsGameObject_LvlNumber
+                && gMap.mCurrentPath == mBaseAnimatedWithPhysicsGameObject_PathNumber)
             {
                 if (Is_In_Current_Camera_417CC0() == CameraPos::eCamCurrent_0)
                 {
@@ -1149,8 +1149,8 @@ s16 Elum::Brain_0_WithoutAbe_416190()
             }
 
             if (last_event_v1 == GameSpeakEvents::eWait_12
-                && gMap.mCurrentLevel == field_B2_lvl_number
-                && gMap.mCurrentPath == field_B0_path_number
+                && gMap.mCurrentLevel == mBaseAnimatedWithPhysicsGameObject_LvlNumber
+                && gMap.mCurrentPath == mBaseAnimatedWithPhysicsGameObject_PathNumber
                 && Is_In_Current_Camera_417CC0() == CameraPos::eCamCurrent_0)
             {
                 field_122_bDontFollowAbe = 1;
@@ -1164,7 +1164,7 @@ s16 Elum::Brain_0_WithoutAbe_416190()
                 {
                     if (!Check_IsOnEndOfLine_4021A0(1, 1))
                     {
-                        if (!WallHit_401930(field_BC_sprite_scale * FP_FromInteger(25), -kGridSize))
+                        if (!WallHit_401930(mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(25), -kGridSize))
                         {
                             mNextMotion = eElumMotions::Motion_3_WalkLoop_412C90;
                             return 1;
@@ -1175,7 +1175,7 @@ s16 Elum::Brain_0_WithoutAbe_416190()
                 {
                     if (!Check_IsOnEndOfLine_4021A0(0, 1))
                     {
-                        if (!WallHit_401930(field_BC_sprite_scale * FP_FromInteger(25), kGridSize))
+                        if (!WallHit_401930(mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(25), kGridSize))
                         {
                             mNextMotion = eElumMotions::Motion_3_WalkLoop_412C90;
                             return 1;
@@ -1206,7 +1206,7 @@ s16 Elum::Brain_0_WithoutAbe_416190()
             return field_12A_brain_sub_state;
 
         case 4:
-            if (mCurrentMotion != eElumMotions::Motion_4_Turn_4140F0 || !field_10_anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
+            if (mCurrentMotion != eElumMotions::Motion_4_Turn_4140F0 || !mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
             {
                 return field_12A_brain_sub_state;
             }
@@ -1230,12 +1230,12 @@ s16 Elum::Brain_0_WithoutAbe_416190()
             }
 
             const FP xd_1 = sActiveHero_507678->mBaseAnimatedWithPhysicsGameObject_XPos - mBaseAnimatedWithPhysicsGameObject_XPos;
-            if (xd_1 > (kGridSize / FP_FromInteger(2)) && field_10_anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
+            if (xd_1 > (kGridSize / FP_FromInteger(2)) && mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
             {
                 mNextMotion = eElumMotions::Motion_4_Turn_4140F0;
                 return 7;
             }
-            else if (xd_1 < -(kGridSize / FP_FromInteger(2)) && !field_10_anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
+            else if (xd_1 < -(kGridSize / FP_FromInteger(2)) && !mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
             {
                 mNextMotion = eElumMotions::Motion_4_Turn_4140F0;
                 return 7;
@@ -1247,7 +1247,7 @@ s16 Elum::Brain_0_WithoutAbe_416190()
                 return 16;
             }
 
-            if (last_event_v2 == GameSpeakEvents::eFollowMe_10 && gMap.mCurrentLevel == field_B2_lvl_number && gMap.mCurrentPath == field_B0_path_number)
+            if (last_event_v2 == GameSpeakEvents::eFollowMe_10 && gMap.mCurrentLevel == mBaseAnimatedWithPhysicsGameObject_LvlNumber && gMap.mCurrentPath == mBaseAnimatedWithPhysicsGameObject_PathNumber)
             {
                 if (Is_In_Current_Camera_417CC0() == CameraPos::eCamCurrent_0)
                 {
@@ -1263,8 +1263,8 @@ s16 Elum::Brain_0_WithoutAbe_416190()
             }
 
             if (last_event_v2 == GameSpeakEvents::eWait_12
-                && gMap.mCurrentLevel == field_B2_lvl_number
-                && gMap.mCurrentPath == field_B0_path_number)
+                && gMap.mCurrentLevel == mBaseAnimatedWithPhysicsGameObject_LvlNumber
+                && gMap.mCurrentPath == mBaseAnimatedWithPhysicsGameObject_PathNumber)
             {
                 if (Is_In_Current_Camera_417CC0() == CameraPos::eCamCurrent_0)
                 {
@@ -1275,8 +1275,8 @@ s16 Elum::Brain_0_WithoutAbe_416190()
             }
 
             if (last_event_v2 == GameSpeakEvents::eHello_9
-                && gMap.mCurrentLevel == field_B2_lvl_number
-                && gMap.mCurrentPath == field_B0_path_number)
+                && gMap.mCurrentLevel == mBaseAnimatedWithPhysicsGameObject_LvlNumber
+                && gMap.mCurrentPath == mBaseAnimatedWithPhysicsGameObject_PathNumber)
             {
                 if (Is_In_Current_Camera_417CC0() == CameraPos::eCamCurrent_0)
                 {
@@ -1286,8 +1286,8 @@ s16 Elum::Brain_0_WithoutAbe_416190()
             }
 
             if (last_event_v2 == GameSpeakEvents::eFart_3
-                && gMap.mCurrentLevel == field_B2_lvl_number
-                && gMap.mCurrentPath == field_B0_path_number
+                && gMap.mCurrentLevel == mBaseAnimatedWithPhysicsGameObject_LvlNumber
+                && gMap.mCurrentPath == mBaseAnimatedWithPhysicsGameObject_PathNumber
                 && Is_In_Current_Camera_417CC0() == CameraPos::eCamCurrent_0)
             {
                 field_114_respond_timer = sGnFrame + 28;
@@ -1357,7 +1357,7 @@ s16 Elum::Brain_0_WithoutAbe_416190()
                 mNextMotion = eElumMotions::Motion_14_Speak_414860;
             }
 
-            if (mCurrentMotion != eElumMotions::Motion_14_Speak_414860 || !field_10_anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
+            if (mCurrentMotion != eElumMotions::Motion_14_Speak_414860 || !mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
             {
                 return field_12A_brain_sub_state;
             }
@@ -1402,7 +1402,7 @@ s16 Elum::Brain_0_WithoutAbe_416190()
 
             if (xd > FP_FromInteger(0))
             {
-                if (field_B4_velx < FP_FromInteger(0))
+                if (mBaseAnimatedWithPhysicsGameObject_VelX < FP_FromInteger(0))
                 {
                     mNextMotion = eElumMotions::Motion_4_Turn_4140F0;
                     return 15;
@@ -1410,14 +1410,14 @@ s16 Elum::Brain_0_WithoutAbe_416190()
             }
             else if (xd < FP_FromInteger(0))
             {
-                if (field_B4_velx > FP_FromInteger(0))
+                if (mBaseAnimatedWithPhysicsGameObject_VelX > FP_FromInteger(0))
                 {
                     mNextMotion = eElumMotions::Motion_4_Turn_4140F0;
                     return 15;
                 }
             }
 
-            if (field_B4_velx > FP_FromInteger(0))
+            if (mBaseAnimatedWithPhysicsGameObject_VelX > FP_FromInteger(0))
             {
                 if (Check_IsOnEndOfLine_4021A0(0, 1))
                 {
@@ -1426,7 +1426,7 @@ s16 Elum::Brain_0_WithoutAbe_416190()
                 }
             }
 
-            if (field_B4_velx < FP_FromInteger(0))
+            if (mBaseAnimatedWithPhysicsGameObject_VelX < FP_FromInteger(0))
             {
                 if (Check_IsOnEndOfLine_4021A0(1, 1))
                 {
@@ -1439,7 +1439,7 @@ s16 Elum::Brain_0_WithoutAbe_416190()
 
         case 15:
         {
-            if (mCurrentMotion != eElumMotions::Motion_4_Turn_4140F0 || !field_10_anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
+            if (mCurrentMotion != eElumMotions::Motion_4_Turn_4140F0 || !mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
             {
                 return field_12A_brain_sub_state;
             }
@@ -1478,7 +1478,7 @@ s16 Elum::Brain_0_WithoutAbe_416190()
 
 s16 Elum::Brain_1_HoneyAddiction_411730()
 {
-    const FP kGridSize = ScaleToGridSize(field_BC_sprite_scale);
+    const FP kGridSize = ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale);
 
     switch (field_12A_brain_sub_state)
     {
@@ -1494,7 +1494,7 @@ s16 Elum::Brain_1_HoneyAddiction_411730()
             const FP honey_xd = mBaseAnimatedWithPhysicsGameObject_XPos - FP_FromInteger(field_12C_honey_xpos);
             if (honey_xd >= FP_FromInteger(0))
             {
-                if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
+                if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
                 {
                     if (honey_xd >= (kGridSize * FP_FromInteger(2)))
                     {
@@ -1518,7 +1518,7 @@ s16 Elum::Brain_1_HoneyAddiction_411730()
             }
             else
             {
-                if (!field_10_anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
+                if (!mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
                 {
                     if (honey_xd <= -(kGridSize * FP_FromInteger(2)))
                     {
@@ -1545,7 +1545,7 @@ s16 Elum::Brain_1_HoneyAddiction_411730()
 
         case 1:
         {
-            if (mCurrentMotion != eElumMotions::Motion_4_Turn_4140F0 || !field_10_anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
+            if (mCurrentMotion != eElumMotions::Motion_4_Turn_4140F0 || !mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
             {
                 return field_12A_brain_sub_state;
             }
@@ -1591,7 +1591,7 @@ s16 Elum::Brain_1_HoneyAddiction_411730()
                 return 0;
             }
 
-            if ((field_B4_velx < FP_FromInteger(0) && mBaseAnimatedWithPhysicsGameObject_XPos - FP_FromInteger(field_12C_honey_xpos) >= (kGridSize * FP_FromInteger(2))) || (field_B4_velx > FP_FromInteger(0) && FP_FromInteger(field_12C_honey_xpos) - mBaseAnimatedWithPhysicsGameObject_XPos >= (kGridSize * FP_FromInteger(2))))
+            if ((mBaseAnimatedWithPhysicsGameObject_VelX < FP_FromInteger(0) && mBaseAnimatedWithPhysicsGameObject_XPos - FP_FromInteger(field_12C_honey_xpos) >= (kGridSize * FP_FromInteger(2))) || (mBaseAnimatedWithPhysicsGameObject_VelX > FP_FromInteger(0) && FP_FromInteger(field_12C_honey_xpos) - mBaseAnimatedWithPhysicsGameObject_XPos >= (kGridSize * FP_FromInteger(2))))
             {
                 return field_12A_brain_sub_state;
             }
@@ -1624,7 +1624,7 @@ s16 Elum::Brain_1_HoneyAddiction_411730()
 
             field_122_bDontFollowAbe = 0;
 
-            if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
+            if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
             {
                 mNextMotion = eElumMotions::Motion_4_Turn_4140F0;
                 return 4;
@@ -1639,7 +1639,7 @@ s16 Elum::Brain_1_HoneyAddiction_411730()
             break;
 
         case 4:
-            if (mCurrentMotion == eElumMotions::Motion_4_Turn_4140F0 && field_10_anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
+            if (mCurrentMotion == eElumMotions::Motion_4_Turn_4140F0 && mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
             {
                 field_170_flags.Clear(Elum::Flags_170::eStrugglingWithBees_Bit1);
                 mNextMotion = eElumMotions::Motion_29_BeesStruggling_412A90;
@@ -1657,7 +1657,7 @@ s16 Elum::Brain_1_HoneyAddiction_411730()
 
         case 6:
         {
-            if (mCurrentMotion != eElumMotions::Motion_46_ScratchEnd_412800 || !field_10_anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
+            if (mCurrentMotion != eElumMotions::Motion_46_ScratchEnd_412800 || !mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
             {
                 return field_12A_brain_sub_state;
             }
@@ -1669,7 +1669,7 @@ s16 Elum::Brain_1_HoneyAddiction_411730()
                 return 0;
             }
 
-            if (!field_10_anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
+            if (!mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
             {
                 if (Check_IsOnEndOfLine_4021A0(0, 2))
                 {
@@ -1689,7 +1689,7 @@ s16 Elum::Brain_1_HoneyAddiction_411730()
             }
 
             FP gridSizeDirected = {};
-            if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
+            if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
             {
                 gridSizeDirected = -kGridSize;
             }
@@ -1698,7 +1698,7 @@ s16 Elum::Brain_1_HoneyAddiction_411730()
                 gridSizeDirected = kGridSize;
             }
 
-            if (WallHit_401930(field_BC_sprite_scale * FP_FromInteger(25), gridSizeDirected))
+            if (WallHit_401930(mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(25), gridSizeDirected))
             {
                 field_170_flags.Clear(Elum::Flags_170::eStrugglingWithBees_Bit1);
                 mNextMotion = eElumMotions::Motion_29_BeesStruggling_412A90;
@@ -1714,7 +1714,7 @@ s16 Elum::Brain_1_HoneyAddiction_411730()
         }
 
         case 7:
-            if (field_B4_velx > FP_FromInteger(0))
+            if (mBaseAnimatedWithPhysicsGameObject_VelX > FP_FromInteger(0))
             {
                 if (Check_IsOnEndOfLine_4021A0(0, 1))
                 {
@@ -1724,7 +1724,7 @@ s16 Elum::Brain_1_HoneyAddiction_411730()
                 }
             }
 
-            if (field_B4_velx < FP_FromInteger(0))
+            if (mBaseAnimatedWithPhysicsGameObject_VelX < FP_FromInteger(0))
             {
                 if (Check_IsOnEndOfLine_4021A0(1, 1))
                 {
@@ -1734,7 +1734,7 @@ s16 Elum::Brain_1_HoneyAddiction_411730()
                 }
             }
 
-            if (mCurrentMotion == eElumMotions::Motion_3_WalkLoop_412C90 && field_10_anim.field_92_current_frame == 11)
+            if (mCurrentMotion == eElumMotions::Motion_3_WalkLoop_412C90 && mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame == 11)
             {
                 mNextMotion = eElumMotions::Motion_44_ScratchBegin_412730;
                 return 9;
@@ -1762,7 +1762,7 @@ s16 Elum::Brain_1_HoneyAddiction_411730()
                 return 0;
             }
 
-            if (!field_10_anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
+            if (!mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
             {
                 if (Check_IsOnEndOfLine_4021A0(0, 2))
                 {
@@ -1785,7 +1785,7 @@ s16 Elum::Brain_1_HoneyAddiction_411730()
             return 10;
 
         case 9:
-            if (mCurrentMotion != eElumMotions::Motion_46_ScratchEnd_412800 || !field_10_anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
+            if (mCurrentMotion != eElumMotions::Motion_46_ScratchEnd_412800 || !mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
             {
                 return field_12A_brain_sub_state;
             }
@@ -1793,7 +1793,7 @@ s16 Elum::Brain_1_HoneyAddiction_411730()
             return 8;
 
         case 10:
-            if (field_B4_velx > FP_FromInteger(0))
+            if (mBaseAnimatedWithPhysicsGameObject_VelX > FP_FromInteger(0))
             {
                 if (Check_IsOnEndOfLine_4021A0(0, 1))
                 {
@@ -1802,7 +1802,7 @@ s16 Elum::Brain_1_HoneyAddiction_411730()
                     return 8;
                 }
             }
-            else if (field_B4_velx < FP_FromInteger(0))
+            else if (mBaseAnimatedWithPhysicsGameObject_VelX < FP_FromInteger(0))
             {
                 if (Check_IsOnEndOfLine_4021A0(1, 1))
                 {
@@ -1812,7 +1812,7 @@ s16 Elum::Brain_1_HoneyAddiction_411730()
                 }
             }
 
-            if (mCurrentMotion != eElumMotions::Motion_3_WalkLoop_412C90 || field_10_anim.field_92_current_frame != 11)
+            if (mCurrentMotion != eElumMotions::Motion_3_WalkLoop_412C90 || mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame != 11)
             {
                 if (mCurrentMotion == eElumMotions::Motion_1_Idle_412990)
                 {
@@ -1891,7 +1891,7 @@ void Elum::Motion_3_WalkLoop_412C90()
 
     if (mCurrentMotion == eElumMotions::Motion_3_WalkLoop_412C90)
     {
-        if (field_10_anim.field_92_current_frame == 2)
+        if (mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame == 2)
         {
             if (mNextMotion == eElumMotions::Motion_25_LickingHoney_415B50)
             {
@@ -1900,16 +1900,16 @@ void Elum::Motion_3_WalkLoop_412C90()
             else
             {
                 FP offX_directed = {};
-                if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
+                if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
                 {
-                    offX_directed = -ScaleToGridSize(field_BC_sprite_scale);
+                    offX_directed = -ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale);
                 }
                 else
                 {
-                    offX_directed = ScaleToGridSize(field_BC_sprite_scale);
+                    offX_directed = ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale);
                 }
 
-                if (WallHit_401930(field_BC_sprite_scale * FP_FromInteger(25), offX_directed))
+                if (WallHit_401930(mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(25), offX_directed))
                 {
                     mCurrentMotion = eElumMotions::Motion_6_MidWalkToIdle_4133F0;
                 }
@@ -1935,7 +1935,7 @@ void Elum::Motion_3_WalkLoop_412C90()
                 }
             }
         }
-        else if (field_10_anim.field_92_current_frame == 5)
+        else if (mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame == 5)
         {
             if (!field_10C_bFootStep2)
             {
@@ -1957,7 +1957,7 @@ void Elum::Motion_3_WalkLoop_412C90()
             field_10E_pressed = 0;
             Elum_SFX_416E10(ElumSounds::eWalkingFootstep_0, 0);
         }
-        else if (field_10_anim.field_92_current_frame == 11)
+        else if (mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame == 11)
         {
             if (mNextMotion == eElumMotions::Motion_25_LickingHoney_415B50)
             {
@@ -1966,16 +1966,16 @@ void Elum::Motion_3_WalkLoop_412C90()
             else
             {
                 FP offX_directed = {};
-                if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
+                if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
                 {
-                    offX_directed = -ScaleToGridSize(field_BC_sprite_scale);
+                    offX_directed = -ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale);
                 }
                 else
                 {
-                    offX_directed = ScaleToGridSize(field_BC_sprite_scale);
+                    offX_directed = ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale);
                 }
 
-                if (WallHit_401930(field_BC_sprite_scale * FP_FromInteger(25), offX_directed))
+                if (WallHit_401930(mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(25), offX_directed))
                 {
                     mCurrentMotion = eElumMotions::Motion_5_WalkToIdle_4132D0;
                 }
@@ -2003,7 +2003,7 @@ void Elum::Motion_3_WalkLoop_412C90()
                 }
             }
         }
-        else if (field_10_anim.field_92_current_frame == 14)
+        else if (mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame == 14)
         {
             if (!field_10C_bFootStep2)
             {
@@ -2036,15 +2036,15 @@ void Elum::Motion_4_Turn_4140F0()
 {
     CheckLiftPointGoneAndSetCamera();
 
-    if (!field_10_anim.field_92_current_frame)
+    if (!mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame)
     {
         Environment_SFX_42A220(EnvironmentSfx::eRollingNoise_8, 0, 0x7FFF, this);
     }
 
-    if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
+    if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
     {
         MapFollowMe_401D30(TRUE);
-        field_10_anim.mAnimFlags.Toggle(AnimFlags::eBit5_FlipX);
+        mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Toggle(AnimFlags::eBit5_FlipX);
 
         if (mNextMotion == eElumMotions::Motion_29_BeesStruggling_412A90)
         {
@@ -2055,7 +2055,7 @@ void Elum::Motion_4_Turn_4140F0()
         }
         else if (ToNextMotion_4120F0())
         {
-            field_10_anim.Set_Animation_Data(field_10_anim.field_18_frame_table_offset, 0);
+            mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(mBaseAnimatedWithPhysicsGameObject_Anim.field_18_frame_table_offset, 0);
             if (sControlledCharacter_50767C == this)
             {
                 sActiveHero_507678->SyncToElum_42D850(mCurrentMotion);
@@ -2075,11 +2075,11 @@ void Elum::Motion_5_WalkToIdle_4132D0()
 
     MoveOnLine_412580(0);
 
-    if (field_10_anim.field_92_current_frame == 0)
+    if (mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame == 0)
     {
         Elum_SFX_416E10(ElumSounds::eWalkingFootstep_0, 0);
     }
-    else if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
+    else if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
     {
         MapFollowMe_401D30(1);
 
@@ -2122,12 +2122,12 @@ void Elum::Motion_6_MidWalkToIdle_4133F0()
 
     MoveOnLine_412580(0);
 
-    if (field_10_anim.field_92_current_frame == 0)
+    if (mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame == 0)
     {
         Elum_SFX_416E10(ElumSounds::eWalkingFootstep_0, 0);
     }
 
-    if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
+    if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
     {
         MapFollowMe_401D30(1);
 
@@ -2155,7 +2155,7 @@ void Elum::Motion_7_IdleToWalk2_413200()
     Event_Broadcast(kEventNoise, this);
     Event_Broadcast(kEventSuspiciousNoise, this);
 
-    if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
+    if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
     {
         mPreviousMotion = 3;
         mBaseAliveGameObjectLastAnimFrame = eElumMotions::Motion_9_ToYell_415890;
@@ -2172,7 +2172,7 @@ void Elum::Motion_8_IdleToWalk1_413270()
     Event_Broadcast(kEventNoise, this);
     Event_Broadcast(kEventSuspiciousNoise, this);
 
-    if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
+    if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
     {
         mCurrentMotion = eElumMotions::Motion_3_WalkLoop_412C90;
     }
@@ -2184,7 +2184,7 @@ void Elum::Motion_9_ToYell_415890()
 {
     CheckLiftPointGoneAndSetCamera();
 
-    if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
+    if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
     {
         mCurrentMotion = eElumMotions::Motion_10_Yell_4158E0;
     }
@@ -2196,7 +2196,7 @@ void Elum::Motion_10_Yell_4158E0()
 
     CheckLiftPointGoneAndSetCamera();
 
-    if (field_10_anim.field_92_current_frame || !field_170_flags.Get(Elum::Flags_170::eCanSpeak_Bit6))
+    if (mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame || !field_170_flags.Get(Elum::Flags_170::eCanSpeak_Bit6))
     {
         field_170_flags.Set(Elum::Flags_170::eCanSpeak_Bit6);
     }
@@ -2206,7 +2206,7 @@ void Elum::Motion_10_Yell_4158E0()
         field_170_flags.Clear(Elum::Flags_170::eCanSpeak_Bit6);
     }
 
-    if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
+    if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
     {
         if (!ToNextMotion_4120F0())
         {
@@ -2225,25 +2225,25 @@ void Elum::Motion_12_RunTurn_414520()
     Event_Broadcast(kEventNoise, this);
     Event_Broadcast(kEventSuspiciousNoise, this);
 
-    if (!field_10_anim.field_92_current_frame)
+    if (!mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame)
     {
         Elum_SFX_416E10(ElumSounds::eRunSlide_5, 0);
     }
 
-    const FP offY = (sControlledCharacter_50767C == this) ? field_BC_sprite_scale * FP_FromInteger(40) : field_BC_sprite_scale * FP_FromInteger(25);
-    if (WallHit_401930(offY, field_B4_velx))
+    const FP offY = (sControlledCharacter_50767C == this) ? mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(40) : mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(25);
+    if (WallHit_401930(offY, mBaseAnimatedWithPhysicsGameObject_VelX))
     {
         mCurrentMotion = eElumMotions::Motion_50_Knockback_415DC0;
         if (BaseAliveGameObjectCollisionLine)
         {
-            field_B4_velx = -field_B4_velx;
+            mBaseAnimatedWithPhysicsGameObject_VelX = -mBaseAnimatedWithPhysicsGameObject_VelX;
             MoveOnLine_412580(0);
         }
         else
         {
-            mBaseAnimatedWithPhysicsGameObject_XPos -= field_B4_velx;
+            mBaseAnimatedWithPhysicsGameObject_XPos -= mBaseAnimatedWithPhysicsGameObject_VelX;
         }
-        field_B4_velx = FP_FromInteger(0);
+        mBaseAnimatedWithPhysicsGameObject_VelX = FP_FromInteger(0);
         MapFollowMe_401D30(TRUE);
         Environment_SFX_42A220(EnvironmentSfx::eKnockback_13, 95, -200, this);
         return;
@@ -2252,18 +2252,18 @@ void Elum::Motion_12_RunTurn_414520()
     SlowOnX_414210(FP_FromDouble(2.125));
 
     if (mCurrentMotion == eElumMotions::Motion_12_RunTurn_414520
-        && field_10_anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
+        && mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
     {
         MapFollowMe_401D30(TRUE);
 
-        const FP gridSize = (field_10_anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX)) ? ScaleToGridSize(field_BC_sprite_scale) : -ScaleToGridSize(field_BC_sprite_scale);
+        const FP gridSize = (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX)) ? ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale) : -ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale);
         if (Input().IsAnyPressed(sInputKey_Run_4C65A8))
         {
-            field_B4_velx = gridSize / FP_FromInteger(4);
+            mBaseAnimatedWithPhysicsGameObject_VelX = gridSize / FP_FromInteger(4);
             mCurrentMotion = eElumMotions::Motion_38_RunTurnToRun_414810;
             return;
         }
-        field_B4_velx = gridSize / FP_FromInteger(9);
+        mBaseAnimatedWithPhysicsGameObject_VelX = gridSize / FP_FromInteger(9);
         mCurrentMotion = eElumMotions::Motion_13_RunTurnToWalk_4147C0;
     }
 }
@@ -2275,16 +2275,16 @@ void Elum::Motion_13_RunTurnToWalk_4147C0()
 
     MoveOnLine_412580(0);
 
-    if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
+    if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
     {
         mCurrentMotion = eElumMotions::Motion_3_WalkLoop_412C90;
-        field_10_anim.mAnimFlags.Toggle(AnimFlags::eBit5_FlipX);
+        mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Toggle(AnimFlags::eBit5_FlipX);
     }
 }
 
 void Elum::Motion_14_Speak_414860()
 {
-    if (field_10_anim.field_92_current_frame == 3 && field_170_flags.Get(Elum::Flags_170::eCanSpeak_Bit6))
+    if (mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame == 3 && field_170_flags.Get(Elum::Flags_170::eCanSpeak_Bit6))
     {
         Environment_SFX_42A220(EnvironmentSfx::eElumOkay_21, 75, 0, this);
         field_170_flags.Clear(Elum::Flags_170::eCanSpeak_Bit6);
@@ -2294,7 +2294,7 @@ void Elum::Motion_14_Speak_414860()
         field_170_flags.Set(Elum::Flags_170::eCanSpeak_Bit6);
     }
 
-    if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
+    if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
     {
         if (!ToNextMotion_4120F0())
         {
@@ -2305,7 +2305,7 @@ void Elum::Motion_14_Speak_414860()
 
 void Elum::Motion_15_Speak_4148F0()
 {
-    if (field_10_anim.field_92_current_frame == 3 && field_170_flags.Get(Elum::Flags_170::eCanSpeak_Bit6))
+    if (mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame == 3 && field_170_flags.Get(Elum::Flags_170::eCanSpeak_Bit6))
     {
         Environment_SFX_42A220(EnvironmentSfx::eElumHowl_20, 75, 0, this);
         field_170_flags.Clear(Elum::Flags_170::eCanSpeak_Bit6);
@@ -2314,7 +2314,7 @@ void Elum::Motion_15_Speak_4148F0()
     {
         field_170_flags.Set(Elum::Flags_170::eCanSpeak_Bit6);
     }
-    if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
+    if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
     {
         if (!ToNextMotion_4120F0())
         {
@@ -2325,7 +2325,7 @@ void Elum::Motion_15_Speak_4148F0()
 
 void Elum::Motion_16_Speak_414980()
 {
-    if (field_10_anim.field_92_current_frame == 3 && field_170_flags.Get(Elum::Flags_170::eCanSpeak_Bit6))
+    if (mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame == 3 && field_170_flags.Get(Elum::Flags_170::eCanSpeak_Bit6))
     {
         Environment_SFX_42A220(EnvironmentSfx::eElumHowl_20, 75, 0, this);
         field_170_flags.Clear(Elum::Flags_170::eCanSpeak_Bit6);
@@ -2335,7 +2335,7 @@ void Elum::Motion_16_Speak_414980()
         field_170_flags.Set(Elum::Flags_170::eCanSpeak_Bit6);
     }
 
-    if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
+    if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
     {
         mNextMotion = eElumMotions::Motion_10_Yell_4158E0;
         if (!ToNextMotion_4120F0())
@@ -2352,17 +2352,17 @@ void Elum::Motion_17_Unknown_413620()
     Event_Broadcast(kEventNoise, this);
     Event_Broadcast(kEventSuspiciousNoise, this);
 
-    if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
+    if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
     {
         MapFollowMe_401D30(1);
 
-        if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
+        if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
         {
-            field_B4_velx = (field_BC_sprite_scale * FP_FromInteger(-15));
+            mBaseAnimatedWithPhysicsGameObject_VelX = (mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(-15));
         }
         else
         {
-            field_B4_velx = (field_BC_sprite_scale * FP_FromInteger(15));
+            mBaseAnimatedWithPhysicsGameObject_VelX = (mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(15));
         }
 
         mCurrentMotion = eElumMotions::Motion_30_HopBegin_414E30;
@@ -2383,12 +2383,12 @@ void Elum::Motion_19_Dead_415F90()
             mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(field_138_continue_rect.x);
             mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(field_138_continue_rect.y);
 
-            field_B8_vely = FP_FromInteger(0);
-            field_B4_velx = FP_FromInteger(0);
+            mBaseAnimatedWithPhysicsGameObject_VelY = FP_FromInteger(0);
+            mBaseAnimatedWithPhysicsGameObject_VelX = FP_FromInteger(0);
 
-            field_B2_lvl_number = field_14A_continue_level;
-            field_B0_path_number = field_148_continue_path;
-            field_BC_sprite_scale = field_150_continue_sprite_scale;
+            mBaseAnimatedWithPhysicsGameObject_LvlNumber = field_14A_continue_level;
+            mBaseAnimatedWithPhysicsGameObject_PathNumber = field_148_continue_path;
+            mBaseAnimatedWithPhysicsGameObject_SpriteScale = field_150_continue_sprite_scale;
 
             field_128_brain_idx = 0;
             field_12A_brain_sub_state = 6;
@@ -2403,7 +2403,7 @@ void Elum::Motion_19_Dead_415F90()
             field_170_flags.Clear(Elum::Flags_170::eFoundHoney_Bit4);
             field_110_timer = sGnFrame;
 
-            field_10_anim.mAnimFlags.Set(AnimFlags::eBit5_FlipX, sActiveHero_507678->field_10_anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX));
+            mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit5_FlipX, sActiveHero_507678->mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX));
 
             if (field_170_flags.Get(Elum::Flags_170::eStungByBees_Bit2))
             {
@@ -2413,7 +2413,7 @@ void Elum::Motion_19_Dead_415F90()
                 }
             }
 
-            field_10_anim.mAnimFlags.Set(AnimFlags::eBit3_Render);
+            mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit3_Render);
 
             BaseAliveGameObjectLastLineYPos = mBaseAnimatedWithPhysicsGameObject_YPos;
             mCurrentMotion = 0;
@@ -2448,20 +2448,20 @@ void Elum::Motion_21_Land_414A20()
     Event_Broadcast(kEventNoise, this);
     Event_Broadcast(kEventSuspiciousNoise, this);
 
-    if (field_B4_velx > FP_FromInteger(0))
+    if (mBaseAnimatedWithPhysicsGameObject_VelX > FP_FromInteger(0))
     {
-        field_B4_velx -= (field_BC_sprite_scale * field_118_jump_velx);
-        if (field_B4_velx < FP_FromInteger(0))
+        mBaseAnimatedWithPhysicsGameObject_VelX -= (mBaseAnimatedWithPhysicsGameObject_SpriteScale * field_118_jump_velx);
+        if (mBaseAnimatedWithPhysicsGameObject_VelX < FP_FromInteger(0))
         {
-            field_B4_velx = FP_FromInteger(0);
+            mBaseAnimatedWithPhysicsGameObject_VelX = FP_FromInteger(0);
         }
     }
-    else if (field_B4_velx < FP_FromInteger(0))
+    else if (mBaseAnimatedWithPhysicsGameObject_VelX < FP_FromInteger(0))
     {
-        field_B4_velx += (field_BC_sprite_scale * field_118_jump_velx);
-        if (field_B4_velx > FP_FromInteger(0))
+        mBaseAnimatedWithPhysicsGameObject_VelX += (mBaseAnimatedWithPhysicsGameObject_SpriteScale * field_118_jump_velx);
+        if (mBaseAnimatedWithPhysicsGameObject_VelX > FP_FromInteger(0))
         {
-            field_B4_velx = FP_FromInteger(0);
+            mBaseAnimatedWithPhysicsGameObject_VelX = FP_FromInteger(0);
         }
     }
 
@@ -2522,7 +2522,7 @@ void Elum::Motion_21_Land_414A20()
             case eLineTypes::eBackgroundWallRight_6:
                 if (bHit)
                 {
-                    field_B4_velx = (-field_B4_velx / FP_FromInteger(2));
+                    mBaseAnimatedWithPhysicsGameObject_VelX = (-mBaseAnimatedWithPhysicsGameObject_VelX / FP_FromInteger(2));
                 }
                 break;
 
@@ -2537,7 +2537,7 @@ void Elum::Motion_22_RunOffEdge_415810()
     Event_Broadcast(kEventNoise, this);
     Event_Broadcast(kEventSuspiciousNoise, this);
 
-    if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
+    if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
     {
         MapFollowMe_401D30(1);
         if (!ToNextMotion_4120F0())
@@ -2557,7 +2557,7 @@ void Elum::Motion_24_JumpToFall_415ED0()
     Event_Broadcast(kEventNoise, this);
     Event_Broadcast(kEventSuspiciousNoise, this);
 
-    if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
+    if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
     {
         mCurrentMotion = eElumMotions::Motion_21_Land_414A20;
     }
@@ -2571,11 +2571,11 @@ void Elum::Motion_25_LickingHoney_415B50()
 
     CheckLiftPointGoneAndSetCamera();
 
-    if (field_10_anim.field_92_current_frame == 6)
+    if (mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame == 6)
     {
         if (gMap.GetDirection(
-                field_B2_lvl_number,
-                field_B0_path_number,
+                mBaseAnimatedWithPhysicsGameObject_LvlNumber,
+                mBaseAnimatedWithPhysicsGameObject_PathNumber,
                 mBaseAnimatedWithPhysicsGameObject_XPos,
                 mBaseAnimatedWithPhysicsGameObject_YPos)
             == CameraPos::eCamCurrent_0)
@@ -2592,7 +2592,7 @@ void Elum::Motion_25_LickingHoney_415B50()
         field_170_flags.Set(Elum::Flags_170::eCanSpeak_Bit6);
     }
 
-    if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit12_ForwardLoopCompleted))
+    if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit12_ForwardLoopCompleted))
     {
         if (mNextMotion == eElumMotions::Motion_4_Turn_4140F0 || mNextMotion == eElumMotions::Motion_29_BeesStruggling_412A90)
         {
@@ -2655,8 +2655,8 @@ void Elum::Motion_29_BeesStruggling_412A90()
     }
 
     if (WallHit_401930(
-            field_BC_sprite_scale * FP_FromInteger(25),
-            ScaleToGridSize(field_BC_sprite_scale) * FP_FromInteger(field_10_anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX) != 0 ? -1 : 1)))
+            mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(25),
+            ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale) * FP_FromInteger(mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX) != 0 ? -1 : 1)))
     {
         ToIdle();
         mNextMotion = -1;
@@ -2664,15 +2664,15 @@ void Elum::Motion_29_BeesStruggling_412A90()
     }
 
     mCurrentMotion = eElumMotions::Motion_8_IdleToWalk2_413270;
-    if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
+    if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
     {
         mNextMotion = -1;
-        field_B4_velx = -(ScaleToGridSize(field_BC_sprite_scale) / FP_FromInteger(9));
+        mBaseAnimatedWithPhysicsGameObject_VelX = -(ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale) / FP_FromInteger(9));
     }
     else
     {
         mNextMotion = -1;
-        field_B4_velx = (ScaleToGridSize(field_BC_sprite_scale) / FP_FromInteger(9));
+        mBaseAnimatedWithPhysicsGameObject_VelX = (ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale) / FP_FromInteger(9));
     }
 }
 
@@ -2683,35 +2683,35 @@ void Elum::Motion_30_HopBegin_414E30()
 
     CheckLiftPointGoneAndSetCamera();
 
-    const FP xpos = field_10_anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX) ? field_BC_sprite_scale * FP_FromInteger(-56) : field_BC_sprite_scale * FP_FromInteger(56);
-    const FP velX = field_10_anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX) ? field_BC_sprite_scale * FP_FromDouble(-9.85) : field_BC_sprite_scale * FP_FromDouble(9.85);
-    const FP offX = field_10_anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX) ? FP_FromInteger(-56) : FP_FromInteger(56);
+    const FP xpos = mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX) ? mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(-56) : mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(56);
+    const FP velX = mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX) ? mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromDouble(-9.85) : mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromDouble(9.85);
+    const FP offX = mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX) ? FP_FromInteger(-56) : FP_FromInteger(56);
 
-    if (WallHit_401930(field_BC_sprite_scale * FP_FromInteger(40), offX))
+    if (WallHit_401930(mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(40), offX))
     {
         ToKnockback();
         return;
     }
 
-    if (!(field_10_anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame)))
+    if (!(mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame)))
     {
         return;
     }
 
     mBaseAnimatedWithPhysicsGameObject_XPos += xpos;
-    field_B4_velx = velX;
+    mBaseAnimatedWithPhysicsGameObject_VelX = velX;
 
-    field_B8_vely = field_BC_sprite_scale * FP_FromDouble(-2.7);
+    mBaseAnimatedWithPhysicsGameObject_VelY = mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromDouble(-2.7);
     BaseAliveGameObjectLastLineYPos = mBaseAnimatedWithPhysicsGameObject_YPos;
 
-    if (WallHit_401930(field_BC_sprite_scale * FP_FromInteger(40), field_B4_velx))
+    if (WallHit_401930(mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(40), mBaseAnimatedWithPhysicsGameObject_VelX))
     {
         ToKnockback();
         return;
     }
 
-    mBaseAnimatedWithPhysicsGameObject_XPos += field_B4_velx;
-    mBaseAnimatedWithPhysicsGameObject_YPos += field_B8_vely;
+    mBaseAnimatedWithPhysicsGameObject_XPos += mBaseAnimatedWithPhysicsGameObject_VelX;
+    mBaseAnimatedWithPhysicsGameObject_YPos += mBaseAnimatedWithPhysicsGameObject_VelY;
 
     VOnTrapDoorOpen();
     mCurrentMotion = eElumMotions::Motion_31_HopMid_414C70;
@@ -2723,7 +2723,7 @@ void Elum::RunJumpMidAndHopMid(MidType midType)
     Event_Broadcast(kEventNoise, this);
     Event_Broadcast(kEventSuspiciousNoise, this);
 
-    if (WallHit_401930(field_BC_sprite_scale * FP_FromInteger(40), field_B4_velx))
+    if (WallHit_401930(mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(40), mBaseAnimatedWithPhysicsGameObject_VelX))
     {
         RunSlideStopKnockback();
     }
@@ -2762,8 +2762,8 @@ void Elum::RunJumpMidAndHopMid(MidType midType)
                             break;
 
                         case MidType::eHopMid:
-                            field_B8_vely = FP_FromInteger(0);
-                            field_B4_velx = FP_FromInteger(0);
+                            mBaseAnimatedWithPhysicsGameObject_VelY = FP_FromInteger(0);
+                            mBaseAnimatedWithPhysicsGameObject_VelX = FP_FromInteger(0);
                             mCurrentMotion = eElumMotions::Motion_32_HopLand_415140;
                             mBaseAnimatedWithPhysicsGameObject_XPos = hitX;
                             mBaseAnimatedWithPhysicsGameObject_YPos = hitY;
@@ -2799,7 +2799,7 @@ void Elum::Motion_32_HopLand_415140()
 
     CheckLiftPointGoneAndSetCamera();
 
-    if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
+    if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
     {
         PSX_RECT bRect = {};
         VGetBoundingRect(&bRect, 1);
@@ -2827,29 +2827,29 @@ void Elum::Motion_33_RunJumpBegin_415400()
 
     CheckLiftPointGoneAndSetCamera();
 
-    if (WallHit_401930(field_BC_sprite_scale * FP_FromInteger(40), field_B4_velx))
+    if (WallHit_401930(mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(40), mBaseAnimatedWithPhysicsGameObject_VelX))
     {
         ToKnockback();
     }
-    else if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
+    else if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
     {
         FP velX = {};
-        if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
+        if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
         {
-            velX = field_BC_sprite_scale * FP_FromDouble(-11.43);
+            velX = mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromDouble(-11.43);
         }
         else
         {
-            velX = field_BC_sprite_scale * FP_FromDouble(11.43);
+            velX = mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromDouble(11.43);
         }
 
-        field_B4_velx = velX;
+        mBaseAnimatedWithPhysicsGameObject_VelX = velX;
 
         BaseAliveGameObjectLastLineYPos = mBaseAnimatedWithPhysicsGameObject_YPos;
-        field_B8_vely = field_BC_sprite_scale * FP_FromInteger(-4);
+        mBaseAnimatedWithPhysicsGameObject_VelY = mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(-4);
 
-        mBaseAnimatedWithPhysicsGameObject_XPos += field_B4_velx;
-        mBaseAnimatedWithPhysicsGameObject_YPos += field_BC_sprite_scale * FP_FromInteger(-4);
+        mBaseAnimatedWithPhysicsGameObject_XPos += mBaseAnimatedWithPhysicsGameObject_VelX;
+        mBaseAnimatedWithPhysicsGameObject_YPos += mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(-4);
 
         VOnTrapDoorOpen();
         mCurrentMotion = eElumMotions::Motion_34_RunJumpMid_415240;
@@ -2869,7 +2869,7 @@ void Elum::Motion_35_RunJumpLand_415580()
 
     CheckLiftPointGoneAndSetCamera();
 
-    if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
+    if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
     {
         PSX_RECT bRect = {};
         VGetBoundingRect(&bRect, 1);
@@ -2884,16 +2884,16 @@ void Elum::Motion_35_RunJumpLand_415580()
         if (sControlledCharacter_50767C == this)
         {
             FP offX = {};
-            if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
+            if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
             {
-                offX = -(field_BC_sprite_scale * FP_FromDouble(18.75));
+                offX = -(mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromDouble(18.75));
             }
             else
             {
-                offX = field_BC_sprite_scale * FP_FromDouble(18.75);
+                offX = mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromDouble(18.75);
             }
 
-            if (WallHit_401930(field_BC_sprite_scale * FP_FromInteger(40), offX))
+            if (WallHit_401930(mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(40), offX))
             {
                 ToKnockback();
             }
@@ -2902,21 +2902,21 @@ void Elum::Motion_35_RunJumpLand_415580()
                 mPreviousMotion = eElumMotions::Motion_36_RunLoop_413720;
                 mBaseAliveGameObjectLastAnimFrame = 4;
                 field_120_bUnknown = 1;
-                if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
+                if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
                 {
-                    mBaseAnimatedWithPhysicsGameObject_XPos -= field_BC_sprite_scale * FP_FromDouble(18.75);
-                    field_B4_velx = -(ScaleToGridSize(field_BC_sprite_scale) / FP_FromInteger(4));
+                    mBaseAnimatedWithPhysicsGameObject_XPos -= mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromDouble(18.75);
+                    mBaseAnimatedWithPhysicsGameObject_VelX = -(ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale) / FP_FromInteger(4));
                 }
                 else
                 {
-                    mBaseAnimatedWithPhysicsGameObject_XPos += field_BC_sprite_scale * FP_FromDouble(18.75);
-                    field_B4_velx = ScaleToGridSize(field_BC_sprite_scale) / FP_FromInteger(4);
+                    mBaseAnimatedWithPhysicsGameObject_XPos += mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromDouble(18.75);
+                    mBaseAnimatedWithPhysicsGameObject_VelX = ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale) / FP_FromInteger(4);
                 }
             }
         }
         else
         {
-            field_B4_velx = (field_B4_velx >= FP_FromInteger(0)) ? FP_FromDouble(13.3) : FP_FromDouble(-13.3);
+            mBaseAnimatedWithPhysicsGameObject_VelX = (mBaseAnimatedWithPhysicsGameObject_VelX >= FP_FromInteger(0)) ? FP_FromDouble(13.3) : FP_FromDouble(-13.3);
             mCurrentMotion = eElumMotions::Motion_12_RunTurn_414520;
         }
     }
@@ -2929,27 +2929,27 @@ void Elum::Motion_36_RunLoop_413720()
     Event_Broadcast(kEventNoise, this);
     Event_Broadcast(kEventSuspiciousNoise, this);
 
-    if (WallHit_401930(field_BC_sprite_scale * FP_FromInteger(40), field_B4_velx))
+    if (WallHit_401930(mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(40), mBaseAnimatedWithPhysicsGameObject_VelX))
     {
         ToKnockback();
         return;
     }
 
     s16 gridSizeDirected = 0;
-    if (field_B4_velx <= FP_FromInteger(0))
+    if (mBaseAnimatedWithPhysicsGameObject_VelX <= FP_FromInteger(0))
     {
-        gridSizeDirected = FP_GetExponent(ScaleToGridSize(field_BC_sprite_scale));
+        gridSizeDirected = FP_GetExponent(ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale));
     }
     else
     {
-        gridSizeDirected = -FP_GetExponent(ScaleToGridSize(field_BC_sprite_scale));
+        gridSizeDirected = -FP_GetExponent(ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale));
     }
 
     MoveOnLine_412580(gridSizeDirected);
 
     if (mCurrentMotion == eElumMotions::Motion_36_RunLoop_413720)
     {
-        if (field_10_anim.field_92_current_frame != 0 && field_10_anim.field_92_current_frame != 4)
+        if (mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame != 0 && mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame != 4)
         {
             field_10C_bFootStep2 = 0;
             return;
@@ -2970,32 +2970,32 @@ void Elum::Motion_36_RunLoop_413720()
                 mCurrentMotion = eElumMotions::Motion_33_RunJumpBegin_415400;
                 field_10E_pressed = 0;
             }
-            else if (Input().IsAnyPressed(sInputKey_Right_4C6590) && field_B4_velx < FP_FromInteger(0))
+            else if (Input().IsAnyPressed(sInputKey_Right_4C6590) && mBaseAnimatedWithPhysicsGameObject_VelX < FP_FromInteger(0))
             {
                 mCurrentMotion = eElumMotions::Motion_12_RunTurn_414520;
-                field_B4_velx = field_BC_sprite_scale * FP_FromDouble(-13.3);
+                mBaseAnimatedWithPhysicsGameObject_VelX = mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromDouble(-13.3);
             }
-            else if (Input().IsAnyPressed(sInputKey_Left_4C6594) && field_B4_velx > FP_FromInteger(0))
+            else if (Input().IsAnyPressed(sInputKey_Left_4C6594) && mBaseAnimatedWithPhysicsGameObject_VelX > FP_FromInteger(0))
             {
                 mCurrentMotion = eElumMotions::Motion_12_RunTurn_414520;
-                field_B4_velx = field_BC_sprite_scale * FP_FromDouble(13.3);
+                mBaseAnimatedWithPhysicsGameObject_VelX = mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromDouble(13.3);
             }
             else if (!Input().IsAnyPressed(sInputKey_Right_4C6590 | sInputKey_Left_4C6594))
             {
                 mCurrentMotion = eElumMotions::Motion_37_RunSlideStop_4142E0;
 
-                if (field_B4_velx >= FP_FromInteger(0))
+                if (mBaseAnimatedWithPhysicsGameObject_VelX >= FP_FromInteger(0))
                 {
-                    field_B4_velx = (field_BC_sprite_scale * FP_FromDouble(13.3));
+                    mBaseAnimatedWithPhysicsGameObject_VelX = (mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromDouble(13.3));
                 }
                 else
                 {
-                    field_B4_velx = (field_BC_sprite_scale * FP_FromDouble(-13.3));
+                    mBaseAnimatedWithPhysicsGameObject_VelX = (mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromDouble(-13.3));
                 }
             }
             else if (!Input().IsAnyPressed(sInputKey_Run_4C65A8))
             {
-                if (field_10_anim.field_92_current_frame == 0)
+                if (mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame == 0)
                 {
                     mCurrentMotion = eElumMotions::Motion_42_RunToWalk_413B60;
                 }
@@ -3010,13 +3010,13 @@ void Elum::Motion_36_RunLoop_413720()
         {
             mCurrentMotion = eElumMotions::Motion_12_RunTurn_414520;
 
-            if (field_B4_velx >= FP_FromInteger(0))
+            if (mBaseAnimatedWithPhysicsGameObject_VelX >= FP_FromInteger(0))
             {
-                field_B4_velx = (field_BC_sprite_scale * FP_FromDouble(13.3));
+                mBaseAnimatedWithPhysicsGameObject_VelX = (mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromDouble(13.3));
             }
             else
             {
-                field_B4_velx = (field_BC_sprite_scale * FP_FromDouble(-13.3));
+                mBaseAnimatedWithPhysicsGameObject_VelX = (mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromDouble(-13.3));
             }
         }
 
@@ -3029,14 +3029,14 @@ void Elum::RunSlideStopKnockback()
     mCurrentMotion = eElumMotions::Motion_50_Knockback_415DC0;
     if (BaseAliveGameObjectCollisionLine)
     {
-        field_B4_velx = -field_B4_velx;
+        mBaseAnimatedWithPhysicsGameObject_VelX = -mBaseAnimatedWithPhysicsGameObject_VelX;
         MoveOnLine_412580(FALSE);
     }
     else
     {
-        mBaseAnimatedWithPhysicsGameObject_XPos -= field_B4_velx;
+        mBaseAnimatedWithPhysicsGameObject_XPos -= mBaseAnimatedWithPhysicsGameObject_VelX;
     }
-    field_B4_velx = FP_FromInteger(0);
+    mBaseAnimatedWithPhysicsGameObject_VelX = FP_FromInteger(0);
     MapFollowMe_401D30(TRUE);
     Environment_SFX_42A220(EnvironmentSfx::eKnockback_13, 95, -200, this);
 }
@@ -3046,14 +3046,14 @@ void Elum::Motion_37_RunSlideStop_4142E0()
     Event_Broadcast(kEventNoise, this);
     Event_Broadcast(kEventSuspiciousNoise, this);
 
-    if (field_10_anim.field_92_current_frame == 0)
+    if (mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame == 0)
     {
         Elum_SFX_416E10(ElumSounds::eRunSlide_5, 0);
     }
 
-    const FP offY = (sControlledCharacter_50767C == this) ? field_BC_sprite_scale * FP_FromInteger(40) : field_BC_sprite_scale * FP_FromInteger(25);
+    const FP offY = (sControlledCharacter_50767C == this) ? mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(40) : mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(25);
 
-    if (WallHit_401930(offY, field_B4_velx))
+    if (WallHit_401930(offY, mBaseAnimatedWithPhysicsGameObject_VelX))
     {
         RunSlideStopKnockback();
         return;
@@ -3061,24 +3061,24 @@ void Elum::Motion_37_RunSlideStop_4142E0()
 
     SlowOnX_414210(FP_FromDouble(2.125));
 
-    if (sControlledCharacter_50767C == this && field_10_anim.field_92_current_frame < 7)
+    if (sControlledCharacter_50767C == this && mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame < 7)
     {
-        if ((field_10_anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX) && Input().IsAnyPressed(sInputKey_Right_4C6590)) || (!field_10_anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX) && Input().IsAnyPressed(sInputKey_Left_4C6594)))
+        if ((mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX) && Input().IsAnyPressed(sInputKey_Right_4C6590)) || (!mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX) && Input().IsAnyPressed(sInputKey_Left_4C6594)))
         {
             mPreviousMotion = eElumMotions::Motion_12_RunTurn_414520;
-            mBaseAliveGameObjectLastAnimFrame = field_10_anim.field_92_current_frame;
+            mBaseAliveGameObjectLastAnimFrame = mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame;
             field_120_bUnknown = 1;
         }
     }
 
-    if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
+    if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
     {
         MapFollowMe_401D30(TRUE);
         if (!ToNextMotion_4120F0())
         {
             field_118_jump_velx = FP_FromInteger(0);
-            field_B4_velx = FP_FromInteger(0);
-            field_B8_vely = FP_FromInteger(0);
+            mBaseAnimatedWithPhysicsGameObject_VelX = FP_FromInteger(0);
+            mBaseAnimatedWithPhysicsGameObject_VelY = FP_FromInteger(0);
             mCurrentMotion = eAbeMotions::Motion_1_WalkLoop_423F90;
             field_110_timer = sGnFrame;
             field_10E_pressed = 0;
@@ -3094,10 +3094,10 @@ void Elum::Motion_38_RunTurnToRun_414810()
 
     MoveOnLine_412580(0);
 
-    if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
+    if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
     {
         mCurrentMotion = eElumMotions::Motion_36_RunLoop_413720;
-        field_10_anim.mAnimFlags.Toggle(AnimFlags::eBit5_FlipX);
+        mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Toggle(AnimFlags::eBit5_FlipX);
     }
 }
 
@@ -3108,7 +3108,7 @@ void Elum::Motion_39_IdleToRun_413B00()
 
     field_10E_pressed |= Input().Pressed();
 
-    if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
+    if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
     {
         mCurrentMotion = eElumMotions::Motion_36_RunLoop_413720;
     }
@@ -3123,16 +3123,16 @@ void Elum::Motion_40_WalkToRun_4134B0()
     Event_Broadcast(kEventNoise, this);
     Event_Broadcast(kEventSuspiciousNoise, this);
 
-    if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
+    if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
     {
-        field_B4_velx = -(ScaleToGridSize(field_BC_sprite_scale) / FP_FromInteger(4));
+        mBaseAnimatedWithPhysicsGameObject_VelX = -(ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale) / FP_FromInteger(4));
     }
     else
     {
-        field_B4_velx = (ScaleToGridSize(field_BC_sprite_scale) / FP_FromInteger(4));
+        mBaseAnimatedWithPhysicsGameObject_VelX = (ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale) / FP_FromInteger(4));
     }
 
-    if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
+    if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
     {
         mCurrentMotion = eElumMotions::Motion_36_RunLoop_413720;
     }
@@ -3147,16 +3147,16 @@ void Elum::Motion_41_MidWalkToRun_413560()
     Event_Broadcast(kEventNoise, this);
     Event_Broadcast(kEventSuspiciousNoise, this);
 
-    if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
+    if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
     {
-        field_B4_velx = -(ScaleToGridSize(field_BC_sprite_scale) / FP_FromInteger(4));
+        mBaseAnimatedWithPhysicsGameObject_VelX = -(ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale) / FP_FromInteger(4));
     }
     else
     {
-        field_B4_velx = (ScaleToGridSize(field_BC_sprite_scale) / FP_FromInteger(4));
+        mBaseAnimatedWithPhysicsGameObject_VelX = (ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale) / FP_FromInteger(4));
     }
 
-    if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
+    if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
     {
         mPreviousMotion = eElumMotions::Motion_36_RunLoop_413720;
         mBaseAliveGameObjectLastAnimFrame = eElumMotions::Motion_4_Turn_4140F0;
@@ -3174,18 +3174,18 @@ void Elum::Motion_42_RunToWalk_413B60()
     field_10E_pressed |= Input().Pressed();
 
     FP velX{};
-    if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
+    if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
     {
-        velX = -(ScaleToGridSize(field_BC_sprite_scale) / FP_FromInteger(9));
+        velX = -(ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale) / FP_FromInteger(9));
     }
     else
     {
-        velX = (ScaleToGridSize(field_BC_sprite_scale) / FP_FromInteger(9));
+        velX = (ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale) / FP_FromInteger(9));
     }
 
-    field_B4_velx = velX;
+    mBaseAnimatedWithPhysicsGameObject_VelX = velX;
 
-    if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
+    if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
     {
         mCurrentMotion = eElumMotions::Motion_3_WalkLoop_412C90;
         VCheckCollisionLineStillValid(10);
@@ -3200,23 +3200,23 @@ void Elum::Motion_42_RunToWalk_413B60()
             (TCollisionCallBack) &BaseAliveGameObject::OnTrapDoorIntersection_401C10);
 
         FP offX = {};
-        if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
+        if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
         {
-            offX = FP_FromInteger(-2) * ScaleToGridSize(field_BC_sprite_scale);
+            offX = FP_FromInteger(-2) * ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale);
         }
         else
         {
-            offX = FP_FromInteger(2) * ScaleToGridSize(field_BC_sprite_scale);
+            offX = FP_FromInteger(2) * ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale);
         }
 
-        if (WallHit_401930(field_BC_sprite_scale * FP_FromInteger(40), offX))
+        if (WallHit_401930(mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(40), offX))
         {
             ToKnockback();
             return;
         }
     }
 
-    if (WallHit_401930(field_BC_sprite_scale * FP_FromInteger(40), field_B4_velx))
+    if (WallHit_401930(mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(40), mBaseAnimatedWithPhysicsGameObject_VelX))
     {
         ToKnockback();
         return;
@@ -3233,18 +3233,18 @@ void Elum::Motion_43_MidRunToWalk_413E20()
     field_10E_pressed |= Input().Pressed();
 
     FP velX = {};
-    if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
+    if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
     {
-        velX = -(ScaleToGridSize(field_BC_sprite_scale) / FP_FromInteger(9));
+        velX = -(ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale) / FP_FromInteger(9));
     }
     else
     {
-        velX = (ScaleToGridSize(field_BC_sprite_scale) / FP_FromInteger(9));
+        velX = (ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale) / FP_FromInteger(9));
     }
 
-    field_B4_velx = velX;
+    mBaseAnimatedWithPhysicsGameObject_VelX = velX;
 
-    if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
+    if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
     {
         mPreviousMotion = 3;
         mBaseAliveGameObjectLastAnimFrame = 9;
@@ -3262,23 +3262,23 @@ void Elum::Motion_43_MidRunToWalk_413E20()
             (TCollisionCallBack) &BaseAliveGameObject::OnTrapDoorIntersection_401C10);
 
         FP offX = {};
-        if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
+        if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
         {
-            offX = FP_FromInteger(-2) * ScaleToGridSize(field_BC_sprite_scale);
+            offX = FP_FromInteger(-2) * ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale);
         }
         else
         {
-            offX = FP_FromInteger(2) * ScaleToGridSize(field_BC_sprite_scale);
+            offX = FP_FromInteger(2) * ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale);
         }
 
-        if (WallHit_401930(field_BC_sprite_scale * FP_FromInteger(40), offX))
+        if (WallHit_401930(mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(40), offX))
         {
             ToKnockback();
             return;
         }
     }
 
-    if (WallHit_401930(field_BC_sprite_scale * FP_FromInteger(40), field_B4_velx))
+    if (WallHit_401930(mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(40), mBaseAnimatedWithPhysicsGameObject_VelX))
     {
         ToKnockback();
         return;
@@ -3290,10 +3290,10 @@ void Elum::Motion_44_ScratchBegin_412730()
 {
     CheckLiftPointGoneAndSetCamera();
 
-    if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
+    if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
     {
         mCurrentMotion = eElumMotions::Motion_45_ScratchLoop_4127B0;
-        if (gMap.GetDirection(field_B2_lvl_number, field_B0_path_number, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos) == CameraPos::eCamCurrent_0)
+        if (gMap.GetDirection(mBaseAnimatedWithPhysicsGameObject_LvlNumber, mBaseAnimatedWithPhysicsGameObject_PathNumber, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos) == CameraPos::eCamCurrent_0)
         {
             SND_SEQ_PlaySeq_4775A0(SeqId::Unknown_15, 1, 1);
         }
@@ -3304,7 +3304,7 @@ void Elum::Motion_45_ScratchLoop_4127B0()
 {
     CheckLiftPointGoneAndSetCamera();
 
-    if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
+    if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
     {
         mCurrentMotion = eElumMotions::Motion_46_ScratchEnd_412800;
     }
@@ -3314,15 +3314,15 @@ void Elum::Motion_46_ScratchEnd_412800()
 {
     CheckLiftPointGoneAndSetCamera();
 
-    if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
+    if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
     {
         if (mNextMotion == eElumMotions::Motion_3_WalkLoop_412C90)
         {
-            if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
+            if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
             {
-                if (!WallHit_401930(field_BC_sprite_scale * FP_FromInteger(40), -ScaleToGridSize(field_BC_sprite_scale)))
+                if (!WallHit_401930(mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(40), -ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale)))
                 {
-                    field_B4_velx = -(ScaleToGridSize(field_BC_sprite_scale) / FP_FromInteger(9));
+                    mBaseAnimatedWithPhysicsGameObject_VelX = -(ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale) / FP_FromInteger(9));
                     mCurrentMotion = eElumMotions::Motion_8_IdleToWalk2_413270;
                     mNextMotion = -1;
                     return;
@@ -3330,9 +3330,9 @@ void Elum::Motion_46_ScratchEnd_412800()
             }
             else
             {
-                if (!WallHit_401930(field_BC_sprite_scale * FP_FromInteger(40), ScaleToGridSize(field_BC_sprite_scale)))
+                if (!WallHit_401930(mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(40), ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale)))
                 {
-                    field_B4_velx = (ScaleToGridSize(field_BC_sprite_scale) / FP_FromInteger(9));
+                    mBaseAnimatedWithPhysicsGameObject_VelX = (ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale) / FP_FromInteger(9));
                     mCurrentMotion = eElumMotions::Motion_8_IdleToWalk2_413270;
                     mNextMotion = -1;
                     return;
@@ -3359,8 +3359,8 @@ void Elum::ToIdle()
 {
     field_118_jump_velx = FP_FromInteger(0);
     field_110_timer = sGnFrame;
-    field_B4_velx = FP_FromInteger(0);
-    field_B8_vely = FP_FromInteger(0);
+    mBaseAnimatedWithPhysicsGameObject_VelX = FP_FromInteger(0);
+    mBaseAnimatedWithPhysicsGameObject_VelY = FP_FromInteger(0);
     mCurrentMotion = eElumMotions::Motion_1_Idle_412990;
     field_10E_pressed = 0;
     MapFollowMe_401D30(TRUE);
@@ -3372,7 +3372,7 @@ void Elum::Motion_47_Unknown_415A30()
 
     CheckLiftPointGoneAndSetCamera();
 
-    if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
+    if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
     {
         if (!ToNextMotion_4120F0())
         {
@@ -3440,7 +3440,7 @@ void Elum::Motion_50_Knockback_415DC0()
         }
     }
 
-    if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
+    if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
     {
         if (field_110_timer <= static_cast<s32>(sGnFrame))
         {
@@ -3491,17 +3491,17 @@ void Elum::VUpdate()
         if (Input().IsAnyPressed(0xF000u))
         {
             const s32 tableIdx = Input().Dir();
-            field_B4_velx = FP_FromRaw(sElum_velx_table_4FF968[tableIdx]);
-            field_B8_vely = FP_FromRaw(sElum_vely_table_4FF988[tableIdx]);
+            mBaseAnimatedWithPhysicsGameObject_VelX = FP_FromRaw(sElum_velx_table_4FF968[tableIdx]);
+            mBaseAnimatedWithPhysicsGameObject_VelY = FP_FromRaw(sElum_vely_table_4FF988[tableIdx]);
 
             if (Input().IsAnyPressed(sInputKey_Run_4C65A8))
             {
-                field_B4_velx += FP_FromRaw(sElum_velx_table_4FF968[tableIdx] * 2);
-                field_B8_vely += FP_FromRaw(sElum_vely_table_4FF988[tableIdx]);
+                mBaseAnimatedWithPhysicsGameObject_VelX += FP_FromRaw(sElum_velx_table_4FF968[tableIdx] * 2);
+                mBaseAnimatedWithPhysicsGameObject_VelY += FP_FromRaw(sElum_vely_table_4FF988[tableIdx]);
             }
 
-            mBaseAnimatedWithPhysicsGameObject_XPos += field_B4_velx;
-            mBaseAnimatedWithPhysicsGameObject_YPos += field_B8_vely;
+            mBaseAnimatedWithPhysicsGameObject_XPos += mBaseAnimatedWithPhysicsGameObject_VelX;
+            mBaseAnimatedWithPhysicsGameObject_YPos += mBaseAnimatedWithPhysicsGameObject_VelY;
 
             PSX_Point map_size = {};
             gMap.Get_map_size(&map_size);
@@ -3528,8 +3528,8 @@ void Elum::VUpdate()
         }
         else
         {
-            field_B4_velx = FP_FromInteger(0);
-            field_B8_vely = FP_FromInteger(0);
+            mBaseAnimatedWithPhysicsGameObject_VelX = FP_FromInteger(0);
+            mBaseAnimatedWithPhysicsGameObject_VelY = FP_FromInteger(0);
         }
 
         SetActiveCameraDelayedFromDir_401C90();
@@ -3539,7 +3539,7 @@ void Elum::VUpdate()
         return;
     }
 
-    if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit3_Render) || field_104_pending_resource_count == 0)
+    if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit3_Render) || field_104_pending_resource_count == 0)
     {
         if (field_174_resources.res[0])
         {
@@ -3565,7 +3565,7 @@ void Elum::VUpdate()
             field_170_flags.Clear(Elum::Flags_170::eChangedPathNotMounted_Bit5);
         }
 
-        if (mCurrentMotion == eElumMotions::Motion_19_Dead_415F90 || field_B0_path_number == gMap.mCurrentPath)
+        if (mCurrentMotion == eElumMotions::Motion_19_Dead_415F90 || mBaseAnimatedWithPhysicsGameObject_PathNumber == gMap.mCurrentPath)
         {
             PathLine* pLine = nullptr;
             if (field_170_flags.Get(Elum::Flags_170::eChangedPathMounted_Bit7))
@@ -3580,7 +3580,7 @@ void Elum::VUpdate()
                         &pLine,
                         &hitX,
                         &hitY,
-                        field_BC_sprite_scale != FP_FromDouble(0.5) ? 7 : 0x70))
+                        mBaseAnimatedWithPhysicsGameObject_SpriteScale != FP_FromDouble(0.5) ? 7 : 0x70))
                 {
                     mBaseAnimatedWithPhysicsGameObject_YPos = hitY;
                     BaseAliveGameObjectCollisionLine = pLine;
@@ -3652,8 +3652,8 @@ void Elum::VUpdate()
                     }
 
                     const AnimRecord& rec = AO::AnimRec(gElumAnimIdTables_4C5218[mCurrentMotion]);
-                    field_10_anim.Set_Animation_Data(rec.mFrameTableOffset, ppRes);
-                    field_10_anim.SetFrame(mBaseAliveGameObjectLastAnimFrame);
+                    mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(rec.mFrameTableOffset, ppRes);
+                    mBaseAnimatedWithPhysicsGameObject_Anim.SetFrame(mBaseAliveGameObjectLastAnimFrame);
                     field_120_bUnknown = 0;
                     if (sControlledCharacter_50767C == this)
                     {
@@ -3670,7 +3670,7 @@ void Elum::VUpdate()
                 }
 
                 const AnimRecord& rec = AO::AnimRec(gElumAnimIdTables_4C5218[mCurrentMotion]);
-                field_10_anim.Set_Animation_Data(rec.mFrameTableOffset, ppRes);
+                mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(rec.mFrameTableOffset, ppRes);
                 if (sControlledCharacter_50767C == this)
                 {
                     sActiveHero_507678->SyncToElum_42D850(mCurrentMotion);
@@ -3691,13 +3691,13 @@ void Elum::VUpdate()
                         {
                             sActiveHero_507678->mBaseAnimatedWithPhysicsGameObject_XPos = mBaseAnimatedWithPhysicsGameObject_XPos;
                             sActiveHero_507678->mBaseAnimatedWithPhysicsGameObject_YPos = mBaseAnimatedWithPhysicsGameObject_YPos;
-                            sActiveHero_507678->field_10_anim.mAnimFlags.Set(AnimFlags::eBit5_FlipX, field_10_anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX));
+                            sActiveHero_507678->mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit5_FlipX, mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX));
                         }
                         return;
                     }
                 }
 
-                field_10_anim.mAnimFlags.Clear(AnimFlags::eBit3_Render);
+                mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit3_Render);
                 mCurrentMotion = eElumMotions::Motion_19_Dead_415F90;
                 VOnTrapDoorOpen();
             }
@@ -3706,7 +3706,7 @@ void Elum::VUpdate()
             {
                 sActiveHero_507678->mBaseAnimatedWithPhysicsGameObject_XPos = mBaseAnimatedWithPhysicsGameObject_XPos;
                 sActiveHero_507678->mBaseAnimatedWithPhysicsGameObject_YPos = mBaseAnimatedWithPhysicsGameObject_YPos;
-                sActiveHero_507678->field_10_anim.mAnimFlags.Set(AnimFlags::eBit5_FlipX, field_10_anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX));
+                sActiveHero_507678->mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit5_FlipX, mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX));
             }
             return;
         }
@@ -3715,8 +3715,8 @@ void Elum::VUpdate()
 
 void Elum::VRender(PrimHeader** ppOt)
 {
-    if (field_B2_lvl_number == gMap.mCurrentLevel
-        && field_B0_path_number == gMap.mCurrentPath
+    if (mBaseAnimatedWithPhysicsGameObject_LvlNumber == gMap.mCurrentLevel
+        && mBaseAnimatedWithPhysicsGameObject_PathNumber == gMap.mCurrentPath
         && !mBaseGameObjectUpdateDelay)
     {
         BaseAnimatedWithPhysicsGameObject::VRender(ppOt);
@@ -3741,7 +3741,7 @@ void Elum::VScreenChanged()
             {
                 mBaseGameObjectFlags.Set(BaseGameObject::eDead);
             }
-            else if (field_B0_path_number == gMap.mCurrentPath)
+            else if (mBaseAnimatedWithPhysicsGameObject_PathNumber == gMap.mCurrentPath)
             {
                 auto pElumPathTrans = static_cast<Path_ElumPathTrans*>(gMap.TLV_Get_At_446260(
                     FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos),
@@ -3822,7 +3822,7 @@ Elum::Elum(s32, anythingForTheTimeBeing, anythingForTheTimeBeing, s32, TlvItemIn
             "ELMPRMNT.BAN",
             BaseAliveGameObject::OnResourceLoaded_4019A0,
             this);
-        field_10_anim.mAnimFlags.Clear(AnimFlags::eBit3_Render);
+        mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit3_Render);
     }
 
     field_174_resources.res[0] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kElmbasicAOResID_200, 1, 0);
@@ -3833,7 +3833,7 @@ Elum::Elum(s32, anythingForTheTimeBeing, anythingForTheTimeBeing, s32, TlvItemIn
             "ELMBASIC.BAN",
             BaseAliveGameObject::OnResourceLoaded_4019A0,
             this);
-        field_10_anim.mAnimFlags.Clear(AnimFlags::eBit3_Render);
+        mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit3_Render);
     }
 
     field_174_resources.res[30] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kElmaloneAOResID_230, 1, 0);
@@ -3844,7 +3844,7 @@ Elum::Elum(s32, anythingForTheTimeBeing, anythingForTheTimeBeing, s32, TlvItemIn
             "ELMALONE.BAN",
             BaseAliveGameObject::OnResourceLoaded_4019A0,
             this);
-        field_10_anim.mAnimFlags.Clear(AnimFlags::eBit3_Render);
+        mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit3_Render);
     }
 
     field_126_res_idx = 16;
@@ -3857,17 +3857,17 @@ Elum::Elum(s32, anythingForTheTimeBeing, anythingForTheTimeBeing, s32, TlvItemIn
         field_174_resources.res[16],
         1);
 
-    field_BC_sprite_scale = sActiveHero_507678->field_BC_sprite_scale;
+    mBaseAnimatedWithPhysicsGameObject_SpriteScale = sActiveHero_507678->mBaseAnimatedWithPhysicsGameObject_SpriteScale;
 
-    if (field_BC_sprite_scale == FP_FromInteger(1))
+    if (mBaseAnimatedWithPhysicsGameObject_SpriteScale == FP_FromInteger(1))
     {
-        field_C6_scale = 1;
-        field_10_anim.mRenderLayer = Layer::eLayer_ZapLinesElum_28;
+        mBaseAnimatedWithPhysicsGameObject_Scale = 1;
+        mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_ZapLinesElum_28;
     }
     else
     {
-        field_C6_scale = 0;
-        field_10_anim.mRenderLayer = Layer::eLayer_ZapLinesElum_Half_9;
+        mBaseAnimatedWithPhysicsGameObject_Scale = 0;
+        mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_ZapLinesElum_Half_9;
     }
 
     mBaseAliveGameObjectFlags.Set(Flags_10A::e10A_Bit4_SetOffExplosives);
@@ -3889,7 +3889,7 @@ Elum::Elum(s32, anythingForTheTimeBeing, anythingForTheTimeBeing, s32, TlvItemIn
     field_144_bRespawnOnDead = 0;
     field_110_timer = sGnFrame;
 
-    mBaseAnimatedWithPhysicsGameObject_XPos = sActiveHero_507678->mBaseAnimatedWithPhysicsGameObject_XPos - (ScaleToGridSize(field_BC_sprite_scale) * FP_FromInteger(2));
+    mBaseAnimatedWithPhysicsGameObject_XPos = sActiveHero_507678->mBaseAnimatedWithPhysicsGameObject_XPos - (ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale) * FP_FromInteger(2));
     mBaseAnimatedWithPhysicsGameObject_YPos = sActiveHero_507678->mBaseAnimatedWithPhysicsGameObject_YPos - FP_FromInteger(5);
 
     field_122_bDontFollowAbe = 0;
@@ -3916,7 +3916,7 @@ Elum::Elum(s32, anythingForTheTimeBeing, anythingForTheTimeBeing, s32, TlvItemIn
 
     relive_new MusicTrigger(MusicTriggerMusicType::eSecretAreaShort_6, TriggeredBy::eTouching_1, 0, 30);
 
-    field_D0_pShadow = relive_new Shadow();
+    mShadow = relive_new Shadow();
 }
 
 } // namespace AO

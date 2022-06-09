@@ -263,8 +263,8 @@ void DDCheat::VUpdate()
                 sActiveHero->mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pos.field_2_y + 60);
                 sActiveHero->mCurrentMotion = 3;
                 sActiveHero->field_1AC_flags.Set(Abe::e1AC_Bit7_land_softly);
-                sActiveHero->field_C2_lvl_number = MapWrapper::FromAE(static_cast<LevelIds>(sTeleport_Level_550F5C));
-                sActiveHero->field_C0_path_number = sTeleport_Path_550F5E;
+                sActiveHero->mBaseAnimatedWithPhysicsGameObject_LvlNumber = MapWrapper::FromAE(static_cast<LevelIds>(sTeleport_Level_550F5C));
+                sActiveHero->mBaseAnimatedWithPhysicsGameObject_PathNumber = sTeleport_Path_550F5E;
                 sDDCheat_FlyingEnabled_5C2C08 = false;
                 sControlledCharacter_5C1B8C->BaseAliveGameObjectCollisionLine = nullptr;
                 sControlledCharacter_5C1B8C->BaseAliveGameObjectLastLineYPos = sControlledCharacter_5C1B8C->mBaseAnimatedWithPhysicsGameObject_YPos;

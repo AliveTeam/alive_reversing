@@ -55,24 +55,24 @@ RollingBall::RollingBall(Path_RollingBall* pTlv, s32 tlvInfo)
     u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
     Animation_Init_417FD0(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
 
-    field_10_anim.mRenderLayer = Layer::eLayer_DoorFlameRollingBallPortalClip_Half_31;
+    mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_DoorFlameRollingBallPortalClip_Half_31;
 
     if (pTlv->field_18_scale == Scale_short::eHalf_1)
     {
-        field_BC_sprite_scale = FP_FromDouble(0.5);
-        field_10_anim.mRenderLayer = Layer::eLayer_DoorFlameRollingBallPortalClip_12;
-        field_C6_scale = 0;
+        mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromDouble(0.5);
+        mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_DoorFlameRollingBallPortalClip_12;
+        mBaseAnimatedWithPhysicsGameObject_Scale = 0;
     }
 
     if (pTlv->field_1A_roll_direction == XDirection_short::eLeft_0)
     {
-        field_10_anim.mAnimFlags.Set(AnimFlags::eBit5_FlipX);
+        mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit5_FlipX);
     }
 
     field_110_release_switch_id = pTlv->field_1C_release_switch_id;
     field_118_speed = FP_FromRaw(pTlv->field_1E_speed << 8);
 
-    if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
+    if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
     {
         field_118_speed = -FP_FromRaw(pTlv->field_1E_speed << 8);
     }
@@ -94,7 +94,7 @@ RollingBall::RollingBall(Path_RollingBall* pTlv, s32 tlvInfo)
             &castX,
             &castY,
             // yeah this should be simplified, WTF!
-            field_BC_sprite_scale - FP_FromDouble(0.5) != FP_FromInteger(0) ? 1 : 0x10)
+            mBaseAnimatedWithPhysicsGameObject_SpriteScale - FP_FromDouble(0.5) != FP_FromInteger(0) ? 1 : 0x10)
         == 1)
     {
         mBaseAnimatedWithPhysicsGameObject_YPos = castY;
@@ -106,7 +106,7 @@ RollingBall::RollingBall(Path_RollingBall* pTlv, s32 tlvInfo)
     field_114_pRollingBallShaker = nullptr;
     field_120_pCollisionLine = nullptr;
 
-    field_D0_pShadow = relive_new Shadow();
+    mShadow = relive_new Shadow();
 
     // Looks strange, it just bumps the res ref count
     ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kDebrisID00AOResID, 1, 0);
@@ -118,10 +118,10 @@ RollingBall::RollingBall(Path_RollingBall* pTlv, s32 tlvInfo)
 
     if (gMap.mCurrentLevel == EReliveLevelIds::eForestTemple && gMap.mCurrentPath == 2)
     {
-        field_10_anim.mAnimFlags.Clear(AnimFlags::eBit2_Animate);
+        mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit2_Animate);
         mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(2522);
         mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(1300);
-        field_10_anim.mRenderLayer = Layer::eLayer_BombRollingBall_35;
+        mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_BombRollingBall_35;
         field_112_state = States::eCrushedBees_4;
     }
 }
@@ -133,9 +133,9 @@ void RollingBall::VUpdate()
         case States::eInactive_0:
             if (SwitchStates_Get(field_110_release_switch_id))
             {
-                field_B8_vely = FP_FromDouble(2.5);
+                mBaseAnimatedWithPhysicsGameObject_VelY = FP_FromDouble(2.5);
                 field_112_state = States::eStartRolling_1;
-                field_10_anim.Set_Animation_Data(15608, 0);
+                mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(15608, 0);
                 field_114_pRollingBallShaker = relive_new RollingBallShaker();
                 if (field_114_pRollingBallShaker)
                 {
@@ -143,8 +143,8 @@ void RollingBall::VUpdate()
                 }
             }
             else if (!gMap.Is_Point_In_Current_Camera_4449C0(
-                         field_B2_lvl_number,
-                         field_B0_path_number,
+                         mBaseAnimatedWithPhysicsGameObject_LvlNumber,
+                         mBaseAnimatedWithPhysicsGameObject_PathNumber,
                          mBaseAnimatedWithPhysicsGameObject_XPos,
                          mBaseAnimatedWithPhysicsGameObject_YPos,
                          0))
@@ -155,7 +155,7 @@ void RollingBall::VUpdate()
 
         case States::eStartRolling_1:
         {
-            if (!(field_10_anim.field_92_current_frame % 3))
+            if (!(mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame % 3))
             {
                 SFX_Play_Mono(static_cast<SoundEffect>(Math_RandomRange_450F20(SoundEffect::RollingBallNoise1_71, SoundEffect::RollingBallNoise2_72)), 0, 0);
             }
@@ -173,7 +173,7 @@ void RollingBall::VUpdate()
                     return;
                 }
 
-                field_B8_vely = FP_FromInteger(0);
+                mBaseAnimatedWithPhysicsGameObject_VelY = FP_FromInteger(0);
                 mBaseAnimatedWithPhysicsGameObject_XPos = hitX;
                 mBaseAnimatedWithPhysicsGameObject_YPos = hitY;
                 BaseAliveGameObjectCollisionLine = pLine;
@@ -184,7 +184,7 @@ void RollingBall::VUpdate()
 
         case States::eRolling_2:
         {
-            if (!(field_10_anim.field_92_current_frame % 3))
+            if (!(mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame % 3))
             {
                 SFX_Play_Mono(static_cast<SoundEffect>(Math_RandomRange_450F20(SoundEffect::RollingBallNoise1_71, SoundEffect::RollingBallNoise2_72)), 0, 0);
             }
@@ -194,10 +194,10 @@ void RollingBall::VUpdate()
             BaseAliveGameObjectCollisionLine = BaseAliveGameObjectCollisionLine->MoveOnLine(
                 &mBaseAnimatedWithPhysicsGameObject_XPos,
                 &mBaseAnimatedWithPhysicsGameObject_YPos,
-                field_B4_velx);
+                mBaseAnimatedWithPhysicsGameObject_VelX);
 
             u16 result = 0;
-            CamX_VoidSkipper(mBaseAnimatedWithPhysicsGameObject_XPos, field_B4_velx, 50, &result);
+            CamX_VoidSkipper(mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_VelX, 50, &result);
             if (result == 1 || result == 2)
             {
                 MapFollowMe_401D30(0);
@@ -220,7 +220,7 @@ void RollingBall::VUpdate()
                 field_114_pRollingBallShaker->field_32_bKillMe = 1;
                 field_114_pRollingBallShaker = nullptr;
 
-                mBaseAnimatedWithPhysicsGameObject_XPos += field_B4_velx;
+                mBaseAnimatedWithPhysicsGameObject_XPos += mBaseAnimatedWithPhysicsGameObject_VelX;
                 BaseAliveGameObjectLastLineYPos = mBaseAnimatedWithPhysicsGameObject_YPos;
             }
             return;
@@ -228,13 +228,13 @@ void RollingBall::VUpdate()
 
         case States::eFallingAndHittingWall_3:
         {
-            if (WallHit_401930(FP_FromInteger(30), field_B4_velx))
+            if (WallHit_401930(FP_FromInteger(30), mBaseAnimatedWithPhysicsGameObject_VelX))
             {
                 relive_new ParticleBurst(
                     mBaseAnimatedWithPhysicsGameObject_XPos,
                     mBaseAnimatedWithPhysicsGameObject_YPos - FP_FromInteger(30),
                     150,
-                    field_BC_sprite_scale,
+                    mBaseAnimatedWithPhysicsGameObject_SpriteScale,
                     BurstType::eFallingRocks_0);
 
                 relive_new Flash(Layer::eLayer_Above_FG1_39, 255, 255, 255, 1, TPageAbr::eBlend_1, 1);
@@ -243,7 +243,7 @@ void RollingBall::VUpdate()
 
                 mBaseGameObjectFlags.Set(Options::eDead);
 
-                const CameraPos direction = gMap.GetDirection(field_B2_lvl_number, field_B0_path_number, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos);
+                const CameraPos direction = gMap.GetDirection(mBaseAnimatedWithPhysicsGameObject_LvlNumber, mBaseAnimatedWithPhysicsGameObject_PathNumber, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos);
                 SFX_Play_Camera(SoundEffect::IngameTransition_107, 50, direction);
 
                 switch (direction)
@@ -289,10 +289,10 @@ void RollingBall::VUpdate()
                         && gMap.mCurrentPath == 2
                         && !sActiveHero_507678->field_2A8_flags.Get(Flags_2A8::e2A8_Bit6_bShrivel))
                     {
-                        field_10_anim.mAnimFlags.Clear(AnimFlags::eBit2_Animate);
+                        mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit2_Animate);
                         mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(2522);
                         mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(1300);
-                        field_10_anim.mRenderLayer = Layer::eLayer_BombRollingBall_35;
+                        mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_BombRollingBall_35;
                         field_112_state = States::eCrushedBees_4;
                         CrushThingsInTheWay();
                         return;
@@ -305,11 +305,11 @@ void RollingBall::VUpdate()
 
             mBaseAnimatedWithPhysicsGameObject_YPos = hitY;
             BaseAliveGameObjectLastLineYPos = mBaseAnimatedWithPhysicsGameObject_YPos;
-            field_B8_vely = (-field_B8_vely * FP_FromDouble(0.8));
+            mBaseAnimatedWithPhysicsGameObject_VelY = (-mBaseAnimatedWithPhysicsGameObject_VelY * FP_FromDouble(0.8));
 
             relive_new ScreenShake(0);
 
-            const CameraPos direction = gMap.GetDirection(field_B2_lvl_number, field_B0_path_number, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos);
+            const CameraPos direction = gMap.GetDirection(mBaseAnimatedWithPhysicsGameObject_LvlNumber, mBaseAnimatedWithPhysicsGameObject_PathNumber, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos);
             SFX_Play_Camera(SoundEffect::IngameTransition_107, 50, direction);
 
             switch (direction)
@@ -343,7 +343,7 @@ void RollingBall::VUpdate()
         }
 
         case States::eCrushedBees_4:
-            if (field_B2_lvl_number != gMap.mCurrentLevel || field_B0_path_number != gMap.mCurrentPath || Event_Get(kEventDeathReset))
+            if (mBaseAnimatedWithPhysicsGameObject_LvlNumber != gMap.mCurrentLevel || mBaseAnimatedWithPhysicsGameObject_PathNumber != gMap.mCurrentPath || Event_Get(kEventDeathReset))
             {
                 mBaseGameObjectFlags.Set(Options::eDead);
             }
@@ -356,20 +356,20 @@ void RollingBall::VUpdate()
 
 void RollingBall::Accelerate()
 {
-    if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
+    if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
     {
-        if (field_B4_velx > field_118_speed)
+        if (mBaseAnimatedWithPhysicsGameObject_VelX > field_118_speed)
         {
-            field_B4_velx -= field_11C_acceleration;
-            field_B8_vely = (-field_B4_velx * FP_FromDouble(0.5));
+            mBaseAnimatedWithPhysicsGameObject_VelX -= field_11C_acceleration;
+            mBaseAnimatedWithPhysicsGameObject_VelY = (-mBaseAnimatedWithPhysicsGameObject_VelX * FP_FromDouble(0.5));
         }
     }
     else
     {
-        if (field_B4_velx < field_118_speed)
+        if (mBaseAnimatedWithPhysicsGameObject_VelX < field_118_speed)
         {
-            field_B4_velx += field_11C_acceleration;
-            field_B8_vely = (field_B4_velx * FP_FromDouble(0.5));
+            mBaseAnimatedWithPhysicsGameObject_VelX += field_11C_acceleration;
+            mBaseAnimatedWithPhysicsGameObject_VelY = (mBaseAnimatedWithPhysicsGameObject_VelX * FP_FromDouble(0.5));
         }
     }
 }

@@ -36,12 +36,12 @@ class BaseAnimatedWithPhysicsGameObject : public IBaseAnimatedWithPhysicsGameObj
 public: // Temp interface
     virtual s16 Scale() override
     {
-        return field_D6_scale;
+        return mBaseAnimatedWithPhysicsGameObject_Scale;
     }
 
     virtual FP SpriteScale() override
     {
-        return field_CC_sprite_scale;
+        return mBaseAnimatedWithPhysicsGameObject_SpriteScale;
     }
 
     virtual FP XPos() override
@@ -83,23 +83,23 @@ protected:
     void DeathSmokeEffect(bool bPlaySound);
 
 public:
-    Animation field_20_animation;
+    Animation mBaseAnimatedWithPhysicsGameObject_Anim;
     FP mBaseAnimatedWithPhysicsGameObject_XPos;
     FP mBaseAnimatedWithPhysicsGameObject_YPos;
-    s16 field_C0_path_number;
-    EReliveLevelIds field_C2_lvl_number;
-    FP field_C4_velx;
-    FP field_C8_vely;
-    FP field_CC_sprite_scale;
-    s16 field_D0_r;
-    s16 field_D2_g;
-    s16 field_D4_b;
-    s16 field_D6_scale;
-    s16 field_D8_yOffset;
-    s16 field_DA_xOffset;
+    s16 mBaseAnimatedWithPhysicsGameObject_PathNumber;
+    EReliveLevelIds mBaseAnimatedWithPhysicsGameObject_LvlNumber;
+    FP mBaseAnimatedWithPhysicsGameObject_VelX;
+    FP mBaseAnimatedWithPhysicsGameObject_VelY;
+    FP mBaseAnimatedWithPhysicsGameObject_SpriteScale;
+    s16 mBaseAnimatedWithPhysicsGameObject_Red;
+    s16 mBaseAnimatedWithPhysicsGameObject_Green;
+    s16 mBaseAnimatedWithPhysicsGameObject_Blue;
+    s16 mBaseAnimatedWithPhysicsGameObject_Scale;
+    s16 mBaseAnimatedWithPhysicsGameObject_YOffset;
+    s16 mBaseAnimatedWithPhysicsGameObject_XOffset;
     s16 mApplyShadows;
     s16 field_DE_pad;
     Shadow* mShadow;
-    FP_RECT field_E4_collection_rect;
+    FP_RECT mCollectionRect; // part of BaseAliveGameObject in AO
 };
 ALIVE_ASSERT_SIZEOF(BaseAnimatedWithPhysicsGameObject, 0xF4);

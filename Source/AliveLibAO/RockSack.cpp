@@ -22,7 +22,7 @@ void RockSack::VUpdate()
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 
-    if (field_10_anim.field_92_current_frame == 2)
+    if (mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame == 2)
     {
         if (field_114_can_play_wobble_sound)
         {
@@ -43,18 +43,18 @@ void RockSack::VUpdate()
     {
         if (field_110_has_been_hit == 1)
         {
-            if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
+            if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
             {
-                field_10_anim.Set_Animation_Data(13756, 0);
+                mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(13756, 0);
                 field_110_has_been_hit = 0;
             }
         }
     }
     else
     {
-        if (field_10_anim.mFrameChangeCounter == 0)
+        if (mBaseAnimatedWithPhysicsGameObject_Anim.mFrameChangeCounter == 0)
         {
-            field_10_anim.mFrameChangeCounter = Math_RandomRange_450F20(2, 10);
+            mBaseAnimatedWithPhysicsGameObject_Anim.mFrameChangeCounter = Math_RandomRange_450F20(2, 10);
         }
 
         PSX_RECT bPlayerRect = {};
@@ -67,7 +67,7 @@ void RockSack::VUpdate()
             && bRect.w >= bPlayerRect.x
             && bRect.h >= bPlayerRect.y
             && bRect.y <= bPlayerRect.h
-            && field_BC_sprite_scale == sActiveHero_507678->field_BC_sprite_scale)
+            && mBaseAnimatedWithPhysicsGameObject_SpriteScale == sActiveHero_507678->mBaseAnimatedWithPhysicsGameObject_SpriteScale)
         {
             if (!gpThrowableArray_50E26C || !gpThrowableArray_50E26C->field_10_count)
             {
@@ -94,12 +94,12 @@ void RockSack::VUpdate()
             if (sActiveHero_507678->mCurrentMotion == eAbeMotions::Motion_33_RunJumpMid_426FA0)
             {
                 const AnimRecord& hardHitRec = AO::AnimRec(AnimId::RockSack_HardHit);
-                field_10_anim.Set_Animation_Data(hardHitRec.mFrameTableOffset, 0);
+                mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(hardHitRec.mFrameTableOffset, 0);
             }
             else
             {
                 const AnimRecord& softHitRec = AO::AnimRec(AnimId::RockSack_SoftHit);
-                field_10_anim.Set_Animation_Data(softHitRec.mFrameTableOffset, 0);
+                mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(softHitRec.mFrameTableOffset, 0);
             }
 
             field_110_has_been_hit = 1;
@@ -126,11 +126,11 @@ RockSack::RockSack(Path_RockSack* pTlv, s32 tlvInfo)
 
     Animation_Init_417FD0(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
 
-    field_10_anim.mAnimFlags.Clear(AnimFlags::eBit15_bSemiTrans);
+    mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit15_bSemiTrans);
 
     field_10C_tlvInfo = tlvInfo;
     field_110_has_been_hit = 0;
-    field_CC_bApplyShadows &= ~1u;
+    mApplyShadows &= ~1u;
     mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pTlv->field_10_top_left.field_0_x);
     mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->field_10_top_left.field_2_y);
     field_118_x_vel = FP_FromRaw(pTlv->field_1A_x_vel << 8);
@@ -143,13 +143,13 @@ RockSack::RockSack(Path_RockSack* pTlv, s32 tlvInfo)
 
     if (pTlv->field_1E_scale == Scale_short::eHalf_1)
     {
-        field_BC_sprite_scale = FP_FromDouble(0.5);
-        field_C6_scale = 0;
+        mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromDouble(0.5);
+        mBaseAnimatedWithPhysicsGameObject_Scale = 0;
     }
     else
     {
-        field_BC_sprite_scale = FP_FromInteger(1);
-        field_C6_scale = 1;
+        mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromInteger(1);
+        mBaseAnimatedWithPhysicsGameObject_Scale = 1;
     }
 
     field_112_rock_amount = pTlv->field_20_rock_amount;
@@ -159,10 +159,10 @@ RockSack::RockSack(Path_RockSack* pTlv, s32 tlvInfo)
     if (gMap.mCurrentLevel == EReliveLevelIds::eStockYards || gMap.mCurrentLevel == EReliveLevelIds::eStockYardsReturn)
     {
         u8** ppPal = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Palt, AOResourceID::kP2c2bagAOResID, 0, 0);
-        field_10_anim.LoadPal(ppPal, 0);
+        mBaseAnimatedWithPhysicsGameObject_Anim.LoadPal(ppPal, 0);
     }
 
-    field_D0_pShadow = relive_new Shadow();
+    mShadow = relive_new Shadow();
 }
 
 void RockSack::VScreenChanged()

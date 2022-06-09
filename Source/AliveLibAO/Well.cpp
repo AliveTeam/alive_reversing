@@ -70,11 +70,11 @@ void Well::VUpdate()
                     {
                         if (field_EC_scale == FP_FromDouble(0.5))
                         {
-                            pLeaf->field_10_anim.mRenderLayer = Layer::eLayer_BeforeWell_Half_3;
+                            pLeaf->mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_BeforeWell_Half_3;
                         }
                         else
                         {
-                            pLeaf->field_10_anim.mRenderLayer = Layer::eLayer_BeforeWell_22;
+                            pLeaf->mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_BeforeWell_22;
                         }
                     }
                 }
@@ -99,23 +99,23 @@ void Well::WellExpress_Init(Path_WellExpress* pTlv, FP /*xpos*/, FP ypos)
             anim.mMaxH,
             ppRes,
             1);
-        field_10_anim.mAnimFlags.Clear(AnimFlags::eBit15_bSemiTrans);
-        field_CC_bApplyShadows &= ~1u;
+        mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit15_bSemiTrans);
+        mApplyShadows &= ~1u;
     }
     else
     {
-        field_10_anim.mAnimFlags.Clear(AnimFlags::eBit3_Render);
+        mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit3_Render);
         mBaseGameObjectFlags.Clear(Options::eDrawable_Bit4);
     }
 
     if (pTlv->field_18_scale == Scale_short::eHalf_1)
     {
-        field_10_anim.mRenderLayer = Layer::eLayer_Well_Half_4;
+        mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_Well_Half_4;
         field_EC_scale = FP_FromDouble(0.5);
     }
     else
     {
-        field_10_anim.mRenderLayer = Layer::eLayer_Well_23;
+        mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_Well_23;
         field_EC_scale = FP_FromInteger(1);
     }
 
@@ -159,26 +159,26 @@ void Well::WellLocal_Init(Path_WellLocal* pTlv, FP /*xpos*/, FP ypos)
             anim.mMaxH,
             ppRes,
             1);
-        field_10_anim.mAnimFlags.Clear(AnimFlags::eBit15_bSemiTrans);
-        field_CC_bApplyShadows &= ~1u;
+        mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit15_bSemiTrans);
+        mApplyShadows &= ~1u;
     }
     else
     {
-        field_10_anim.mAnimFlags.Clear(AnimFlags::eBit3_Render);
+        mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit3_Render);
         mBaseGameObjectFlags.Clear(Options::eDrawable_Bit4);
     }
 
     if (pTlv->field_18_scale == Scale_short::eHalf_1)
     {
-        field_10_anim.mRenderLayer = Layer::eLayer_Well_Half_4;
+        mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_Well_Half_4;
         field_EC_scale = FP_FromDouble(0.5);
-        field_C6_scale = 0;
+        mBaseAnimatedWithPhysicsGameObject_Scale = 0;
     }
     else
     {
-        field_10_anim.mRenderLayer = Layer::eLayer_Well_23;
+        mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_Well_23;
         field_EC_scale = FP_FromInteger(1);
-        field_C6_scale = 1;
+        mBaseAnimatedWithPhysicsGameObject_Scale = 1;
     }
 
     field_E8_switch_id = pTlv->field_1A_switch_id;
@@ -208,9 +208,9 @@ Well::Well(Path_WellBase* pTlv, FP xpos, FP ypos, s32 tlvInfo)
     field_E4_tlvInfo = tlvInfo;
     mBaseGameObjectTypeId = ReliveTypes::eWell;
 
-    field_C4_b = 128;
-    field_C2_g = 128;
-    field_C0_r = 128;
+    mBaseAnimatedWithPhysicsGameObject_Blue = 128;
+    mBaseAnimatedWithPhysicsGameObject_Green = 128;
+    mBaseAnimatedWithPhysicsGameObject_Red = 128;
 
     mBaseAnimatedWithPhysicsGameObject_YPos = ypos;
     mBaseAnimatedWithPhysicsGameObject_XPos = xpos;

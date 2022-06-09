@@ -34,26 +34,26 @@ BackgroundAnimation::BackgroundAnimation(Path_BackgroundAnimation* pTlv, TlvItem
         1,
         1u);
 
-    field_20_animation.mAnimFlags.Set(AnimFlags::eBit15_bSemiTrans, pTlv->field_12_is_semi_trans == Choice_short::eYes_1);
-    field_20_animation.mAnimFlags.Set(AnimFlags::eBit16_bBlending);
+    mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit15_bSemiTrans, pTlv->field_12_is_semi_trans == Choice_short::eYes_1);
+    mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit16_bBlending);
 
-    field_20_animation.mRenderMode = pTlv->field_14_semi_trans_mode;
+    mBaseAnimatedWithPhysicsGameObject_Anim.mRenderMode = pTlv->field_14_semi_trans_mode;
 
     if (pTlv->field_1A_layer > Layer::eLayer_0)
     {
         const s32 translatedLayer = static_cast<s32>(pTlv->field_1A_layer) - 1;
         if (!translatedLayer)
         {
-            field_20_animation.mRenderLayer = Layer::eLayer_Above_FG1_Half_20;
+            mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_Above_FG1_Half_20;
         }
         if (translatedLayer == 1)
         {
-            field_20_animation.mRenderLayer = Layer::eLayer_Above_FG1_39;
+            mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_Above_FG1_39;
         }
     }
     else
     {
-        field_20_animation.mRenderLayer = Layer::eLayer_1;
+        mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_1;
     }
 }
 

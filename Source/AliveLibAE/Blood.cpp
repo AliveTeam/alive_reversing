@@ -10,19 +10,19 @@
 Blood::Blood(FP xpos, FP ypos, FP xOff, FP yOff, FP scale, s32 count)
     : BaseAnimatedWithPhysicsGameObject(0)
 {
-    field_CC_sprite_scale = scale;
+    mBaseAnimatedWithPhysicsGameObject_SpriteScale = scale;
 
     const AnimRecord& rec = AnimRec(AnimId::BloodDrop);
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
     Animation_Init(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
 
-    field_20_animation.mAnimFlags.Set(AnimFlags::eBit25_bDecompressDone);
-    field_20_animation.mAnimFlags.Clear(AnimFlags::eBit15_bSemiTrans);
-    field_20_animation.mRed = 127;
-    field_20_animation.mGreen = 127;
-    field_20_animation.mBlue = 127;
+    mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit25_bDecompressDone);
+    mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit15_bSemiTrans);
+    mBaseAnimatedWithPhysicsGameObject_Anim.mRed = 127;
+    mBaseAnimatedWithPhysicsGameObject_Anim.mGreen = 127;
+    mBaseAnimatedWithPhysicsGameObject_Anim.mBlue = 127;
 
-    if (field_CC_sprite_scale == FP_FromInteger(1))
+    if (mBaseAnimatedWithPhysicsGameObject_SpriteScale == FP_FromInteger(1))
     {
         field_12C_render_layer = Layer::eLayer_Foreground_36;
     }
@@ -46,11 +46,11 @@ Blood::Blood(FP xpos, FP ypos, FP xOff, FP yOff, FP scale, s32 count)
         field_11E_xpos = FP_GetExponent(xpos - FP_FromInteger(12) - pScreenManager->field_20_pCamPos->field_0_x);
         field_120_ypos = FP_GetExponent(ypos - FP_FromInteger(12) - pScreenManager->field_20_pCamPos->field_4_y);
 
-        if (field_20_animation.mAnimFlags.Get(AnimFlags::eBit13_Is8Bit))
+        if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit13_Is8Bit))
         {
             field_11C_texture_mode = TPageMode::e8Bit_1;
         }
-        else if (field_20_animation.mAnimFlags.Get(AnimFlags::eBit14_Is16Bit))
+        else if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit14_Is16Bit))
         {
             field_11C_texture_mode = TPageMode::e16Bit_2;
         }
@@ -60,7 +60,7 @@ Blood::Blood(FP xpos, FP ypos, FP xOff, FP yOff, FP scale, s32 count)
             field_11C_texture_mode = TPageMode::e4Bit_0;
         }
 
-        u8 u0 = field_20_animation.field_84_vram_rect.x & 63;
+        u8 u0 = mBaseAnimatedWithPhysicsGameObject_Anim.field_84_vram_rect.x & 63;
         if (field_11C_texture_mode == TPageMode::e8Bit_1)
         {
             u0 = 2 * u0;
@@ -70,14 +70,14 @@ Blood::Blood(FP xpos, FP ypos, FP xOff, FP yOff, FP scale, s32 count)
             u0 = 4 * u0;
         }
 
-        u8 v0 = field_20_animation.field_84_vram_rect.y & 0xFF;
+        u8 v0 = mBaseAnimatedWithPhysicsGameObject_Anim.field_84_vram_rect.y & 0xFF;
 
-        FrameHeader* pFrameHeader = reinterpret_cast<FrameHeader*>(&(*field_20_animation.field_20_ppBlock)[field_20_animation.Get_FrameHeader(-1)->field_0_frame_header_offset]);
+        FrameHeader* pFrameHeader = reinterpret_cast<FrameHeader*>(&(*mBaseAnimatedWithPhysicsGameObject_Anim.field_20_ppBlock)[mBaseAnimatedWithPhysicsGameObject_Anim.Get_FrameHeader(-1)->field_0_frame_header_offset]);
 
         const s16 frameW = pFrameHeader->field_4_width;
         const s16 frameH = pFrameHeader->field_5_height;
 
-        field_20_animation.mAnimFlags.Set(AnimFlags::eBit16_bBlending);
+        mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit16_bBlending);
 
         for (s32 i = 0; i < field_126_total_count; i++)
         {
@@ -88,21 +88,21 @@ Blood::Blood(FP xpos, FP ypos, FP xOff, FP yOff, FP scale, s32 count)
                 Sprt_Init_4F8910(pSprt);
                 Poly_Set_SemiTrans_4F8A60(&pSprt->mBase.header, 1);
 
-                if (field_20_animation.mAnimFlags.Get(AnimFlags::eBit16_bBlending))
+                if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit16_bBlending))
                 {
                     Poly_Set_Blending_4F8A20(&pSprt->mBase.header, 1);
                 }
                 else
                 {
                     Poly_Set_Blending_4F8A20(&pSprt->mBase.header, 0);
-                    SetRGB0(pSprt, field_20_animation.mRed, field_20_animation.mGreen, field_20_animation.mBlue);
+                    SetRGB0(pSprt, mBaseAnimatedWithPhysicsGameObject_Anim.mRed, mBaseAnimatedWithPhysicsGameObject_Anim.mGreen, mBaseAnimatedWithPhysicsGameObject_Anim.mBlue);
                 }
 
                 SetClut(pSprt,
                         static_cast<s16>(
                             PSX_getClut_4F6350(
-                                field_20_animation.field_8C_pal_vram_xy.field_0_x,
-                                field_20_animation.field_8C_pal_vram_xy.field_2_y)));
+                                mBaseAnimatedWithPhysicsGameObject_Anim.field_8C_pal_vram_xy.field_0_x,
+                                mBaseAnimatedWithPhysicsGameObject_Anim.field_8C_pal_vram_xy.field_2_y)));
 
                 SetUV0(pSprt, u0, v0);
                 pSprt->field_14_w = frameW - 1;
@@ -119,11 +119,11 @@ Blood::Blood(FP xpos, FP ypos, FP xOff, FP yOff, FP scale, s32 count)
 
             const FP randX = FP_FromInteger(sRandomBytes_546744[field_124_rand_seed++]) / FP_FromInteger(16);
             const FP adjustedX = FP_FromDouble(1.3) * (randX - FP_FromInteger(8));
-            field_F8_pResBuf[i].field_8_offx = field_CC_sprite_scale * (xOff + adjustedX);
+            field_F8_pResBuf[i].field_8_offx = mBaseAnimatedWithPhysicsGameObject_SpriteScale * (xOff + adjustedX);
 
             const FP randY = FP_FromInteger(sRandomBytes_546744[field_124_rand_seed++]) / FP_FromInteger(16);
             const FP adjustedY = FP_FromDouble(1.3) * (randY - FP_FromInteger(8));
-            field_F8_pResBuf[i].field_C_offy = field_CC_sprite_scale * (yOff + adjustedY);
+            field_F8_pResBuf[i].field_C_offy = mBaseAnimatedWithPhysicsGameObject_SpriteScale * (yOff + adjustedY);
         }
     }
     else
@@ -174,8 +174,8 @@ void Blood::VUpdate()
 void Blood::VRender(PrimHeader** ppOt)
 {
     if (gMap.Is_Point_In_Current_Camera_4810D0(
-            field_C2_lvl_number,
-            field_C0_path_number,
+            mBaseAnimatedWithPhysicsGameObject_LvlNumber,
+            mBaseAnimatedWithPhysicsGameObject_PathNumber,
             mBaseAnimatedWithPhysicsGameObject_XPos,
             mBaseAnimatedWithPhysicsGameObject_YPos,
             0))
@@ -188,7 +188,7 @@ void Blood::VRender(PrimHeader** ppOt)
             BloodParticle* pParticle = &field_F8_pResBuf[i];
             Prim_Sprt* pSprt = &pParticle->field_10_prims[gPsxDisplay_5C1130.field_C_buffer_index];
 
-            u8 u0 = field_20_animation.field_84_vram_rect.x & 63;
+            u8 u0 = mBaseAnimatedWithPhysicsGameObject_Anim.field_84_vram_rect.x & 63;
             if (field_11C_texture_mode == TPageMode::e8Bit_1)
             {
                 u0 *= 2;
@@ -198,10 +198,10 @@ void Blood::VRender(PrimHeader** ppOt)
                 u0 *= 4;
             }
 
-            SetUV0(pSprt, u0, static_cast<u8>(field_20_animation.field_84_vram_rect.y));
+            SetUV0(pSprt, u0, static_cast<u8>(mBaseAnimatedWithPhysicsGameObject_Anim.field_84_vram_rect.y));
 
             FrameHeader* pFrameHeader = reinterpret_cast<FrameHeader*>(
-                &(*field_20_animation.field_20_ppBlock)[field_20_animation.Get_FrameHeader(-1)->field_0_frame_header_offset]);
+                &(*mBaseAnimatedWithPhysicsGameObject_Anim.field_20_ppBlock)[mBaseAnimatedWithPhysicsGameObject_Anim.Get_FrameHeader(-1)->field_0_frame_header_offset]);
 
             pSprt->field_14_w = pFrameHeader->field_4_width - 1;
             pSprt->field_16_h = pFrameHeader->field_5_height - 1;
@@ -211,9 +211,9 @@ void Blood::VRender(PrimHeader** ppOt)
 
             SetXY0(pSprt, x0, y0);
 
-            if (!field_20_animation.mAnimFlags.Get(AnimFlags::eBit16_bBlending))
+            if (!mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit16_bBlending))
             {
-                SetRGB0(pSprt, field_20_animation.mRed, field_20_animation.mGreen, field_20_animation.mBlue);
+                SetRGB0(pSprt, mBaseAnimatedWithPhysicsGameObject_Anim.mRed, mBaseAnimatedWithPhysicsGameObject_Anim.mGreen, mBaseAnimatedWithPhysicsGameObject_Anim.mBlue);
             }
 
             OrderingTable_Add_4F8AA0(OtLayer(ppOt, field_12C_render_layer), &pSprt->mBase.header);
@@ -228,8 +228,8 @@ void Blood::VRender(PrimHeader** ppOt)
         const s32 tpage = PSX_getTPage_4F60E0(
             field_11C_texture_mode,
             TPageAbr::eBlend_0,
-            field_20_animation.field_84_vram_rect.x,
-            field_20_animation.field_84_vram_rect.y);
+            mBaseAnimatedWithPhysicsGameObject_Anim.field_84_vram_rect.x,
+            mBaseAnimatedWithPhysicsGameObject_Anim.field_84_vram_rect.y);
 
         Prim_SetTPage* pTPage = &field_FC_tPages[gPsxDisplay_5C1130.field_C_buffer_index];
         Init_SetTPage_4F5B60(pTPage, 0, 0, static_cast<s16>(tpage));

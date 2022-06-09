@@ -33,13 +33,13 @@ PossessionFlicker::PossessionFlicker(BaseAliveGameObject* pToApplyFlicker, s32 d
     field_26_g = static_cast<s16>(g);
     field_28_b = static_cast<s16>(b);
 
-    field_2A_old_r = pToApplyFlicker->field_D0_r;
-    field_2C_old_g = pToApplyFlicker->field_D2_g;
-    field_2E_old_b = pToApplyFlicker->field_D4_b;
+    field_2A_old_r = pToApplyFlicker->mBaseAnimatedWithPhysicsGameObject_Red;
+    field_2C_old_g = pToApplyFlicker->mBaseAnimatedWithPhysicsGameObject_Green;
+    field_2E_old_b = pToApplyFlicker->mBaseAnimatedWithPhysicsGameObject_Blue;
 
     field_20_time_to_flicker = duration + sGnFrame;
 
-    pToApplyFlicker->field_20_animation.mRenderMode = TPageAbr::eBlend_1;
+    pToApplyFlicker->mBaseAnimatedWithPhysicsGameObject_Anim.mRenderMode = TPageAbr::eBlend_1;
 }
 
 PossessionFlicker::~PossessionFlicker()
@@ -48,10 +48,10 @@ PossessionFlicker::~PossessionFlicker()
     BaseAnimatedWithPhysicsGameObject* pToApplyFlicker = static_cast<BaseAnimatedWithPhysicsGameObject*>(sObjectIds.Find_Impl(field_30_obj_id));
     if (pToApplyFlicker)
     {
-        pToApplyFlicker->field_20_animation.mRenderMode = TPageAbr::eBlend_0;
-        pToApplyFlicker->field_D0_r = field_2A_old_r;
-        pToApplyFlicker->field_D2_g = field_2C_old_g;
-        pToApplyFlicker->field_D4_b = field_2E_old_b;
+        pToApplyFlicker->mBaseAnimatedWithPhysicsGameObject_Anim.mRenderMode = TPageAbr::eBlend_0;
+        pToApplyFlicker->mBaseAnimatedWithPhysicsGameObject_Red = field_2A_old_r;
+        pToApplyFlicker->mBaseAnimatedWithPhysicsGameObject_Green = field_2C_old_g;
+        pToApplyFlicker->mBaseAnimatedWithPhysicsGameObject_Blue = field_2E_old_b;
     }
 }
 
@@ -80,15 +80,15 @@ void PossessionFlicker::VUpdate()
     if (sGnFrame % 2)
     {
         // Flicker to original colour
-        pToApplyFlicker->field_D0_r = field_24_r;
-        pToApplyFlicker->field_D2_g = field_26_g;
-        pToApplyFlicker->field_D4_b = field_28_b;
+        pToApplyFlicker->mBaseAnimatedWithPhysicsGameObject_Red = field_24_r;
+        pToApplyFlicker->mBaseAnimatedWithPhysicsGameObject_Green = field_26_g;
+        pToApplyFlicker->mBaseAnimatedWithPhysicsGameObject_Blue = field_28_b;
     }
     else
     {
         // Flicker to new colour
-        pToApplyFlicker->field_D0_r = field_2A_old_r;
-        pToApplyFlicker->field_D2_g = field_2C_old_g;
-        pToApplyFlicker->field_D4_b = field_2E_old_b;
+        pToApplyFlicker->mBaseAnimatedWithPhysicsGameObject_Red = field_2A_old_r;
+        pToApplyFlicker->mBaseAnimatedWithPhysicsGameObject_Green = field_2C_old_g;
+        pToApplyFlicker->mBaseAnimatedWithPhysicsGameObject_Blue = field_2E_old_b;
     }
 }

@@ -112,11 +112,11 @@ Slog::Slog(Path_Slog* pTlv, s32 tlvInfo)
 
     if (pTlv->field_18_scale == Scale_short::eFull_0)
     {
-        field_BC_sprite_scale = FP_FromInteger(1);
+        mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromInteger(1);
     }
     else
     {
-        field_BC_sprite_scale = FP_FromDouble(0.5);
+        mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromDouble(0.5);
     }
 
     Init();
@@ -127,7 +127,7 @@ Slog::Slog(Path_Slog* pTlv, s32 tlvInfo)
 
     field_158_wake_up_anger = pTlv->field_1E_wake_up_anger;
 
-    field_10_anim.mAnimFlags.Set(AnimFlags::eBit5_FlipX, pTlv->field_1A_start_direction == XDirection_short::eLeft_0);
+    mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit5_FlipX, pTlv->field_1A_start_direction == XDirection_short::eLeft_0);
 
     field_15A_total_anger = pTlv->field_1E_wake_up_anger + pTlv->field_20_bark_anger;
     field_15C_chase_anger = field_15A_total_anger + pTlv->field_22_chase_anger;
@@ -140,7 +140,7 @@ Slog::Slog(Path_Slog* pTlv, s32 tlvInfo)
         mCurrentMotion = eSlogMotions::Motion_16_Sleeping_4752E0;
         field_13C_res_idx = 1;
         const AnimRecord& rec = AO::AnimRec(AnimId::Slog_Sleeping);
-        field_10_anim.Set_Animation_Data(rec.mFrameTableOffset, field_184_resources[1]);
+        mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(rec.mFrameTableOffset, field_184_resources[1]);
     }
     else
     {
@@ -153,7 +153,7 @@ Slog::Slog(FP xpos, FP ypos, FP scale)
 {
     mBaseAnimatedWithPhysicsGameObject_XPos = xpos;
     mBaseAnimatedWithPhysicsGameObject_YPos = ypos;
-    field_BC_sprite_scale = scale;
+    mBaseAnimatedWithPhysicsGameObject_SpriteScale = scale;
 
     Init();
 
@@ -206,7 +206,7 @@ Slog::~Slog()
 
     for (s32 i = 0; i < ALIVE_COUNTOF(field_184_resources); i++)
     {
-        if (field_10_anim.field_20_ppBlock != field_184_resources[i])
+        if (mBaseAnimatedWithPhysicsGameObject_Anim.field_20_ppBlock != field_184_resources[i])
         {
             if (field_184_resources[i])
             {
@@ -246,7 +246,7 @@ s16 Slog::VTakeDamage(BaseGameObject* pFrom)
                     pBullet->field_1C_ypos,
                     -FP_FromInteger(24),
                     FP_FromInteger(0),
-                    field_BC_sprite_scale,
+                    mBaseAnimatedWithPhysicsGameObject_SpriteScale,
                     50);
             }
             else
@@ -256,7 +256,7 @@ s16 Slog::VTakeDamage(BaseGameObject* pFrom)
                     pBullet->field_1C_ypos,
                     FP_FromInteger(24),
                     FP_FromInteger(0),
-                    field_BC_sprite_scale,
+                    mBaseAnimatedWithPhysicsGameObject_SpriteScale,
                     50);
             }
 
@@ -269,8 +269,8 @@ s16 Slog::VTakeDamage(BaseGameObject* pFrom)
             mCurrentMotion = eSlogMotions::Motion_22_Dying_475A90;
             field_13C_res_idx = 3;
             const AnimRecord& rec = AO::AnimRec(AnimId::Slog_Dying);
-            field_10_anim.Set_Animation_Data(rec.mFrameTableOffset, field_184_resources[3]);
-            field_10_anim.mAnimFlags.Set(AnimFlags::eBit2_Animate);
+            mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(rec.mFrameTableOffset, field_184_resources[3]);
+            mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit2_Animate);
             gNumSlogs_9F11C8--;
             field_178_bShot = 1;
             return 1;
@@ -286,9 +286,9 @@ s16 Slog::VTakeDamage(BaseGameObject* pFrom)
                 GibType::Slog_2,
                 mBaseAnimatedWithPhysicsGameObject_XPos,
                 mBaseAnimatedWithPhysicsGameObject_YPos,
-                field_B4_velx,
-                field_B8_vely,
-                field_BC_sprite_scale);
+                mBaseAnimatedWithPhysicsGameObject_VelX,
+                mBaseAnimatedWithPhysicsGameObject_VelY,
+                mBaseAnimatedWithPhysicsGameObject_SpriteScale);
 
             PSX_RECT bRect = {};
             VGetBoundingRect(&bRect, 1);
@@ -297,7 +297,7 @@ s16 Slog::VTakeDamage(BaseGameObject* pFrom)
                 FP_FromInteger((bRect.h + bRect.y) / 2),
                 FP_FromInteger(0),
                 FP_FromInteger(0),
-                field_BC_sprite_scale,
+                mBaseAnimatedWithPhysicsGameObject_SpriteScale,
                 50);
             mBaseGameObjectFlags.Set(BaseGameObject::eDead);
             return 1;
@@ -330,8 +330,8 @@ s16 Slog::VTakeDamage(BaseGameObject* pFrom)
             mCurrentMotion = eSlogMotions::Motion_22_Dying_475A90;
             field_13C_res_idx = 3;
             const AnimRecord& rec = AO::AnimRec(AnimId::Slog_Dying);
-            field_10_anim.Set_Animation_Data(rec.mFrameTableOffset, field_184_resources[3]);
-            field_10_anim.mAnimFlags.Set(AnimFlags::eBit2_Animate);
+            mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(rec.mFrameTableOffset, field_184_resources[3]);
+            mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit2_Animate);
             break;
         }
 
@@ -407,7 +407,7 @@ void Slog::VUpdate()
 
     if (mCurrentMotion == eSlogMotions::Motion_5_Unknown_474070)
     {
-        field_10_anim.SetFrame(mBaseAliveGameObjectLastAnimFrame);
+        mBaseAnimatedWithPhysicsGameObject_Anim.SetFrame(mBaseAliveGameObjectLastAnimFrame);
     }
 }
 
@@ -415,7 +415,7 @@ void Slog::SetAnimFrame()
 {
     u8** ppRes = ResBlockForMotion(mCurrentMotion);
     const AnimRecord& rec = AO::AnimRec(sSlogAnimIdTable_4CFD98[mCurrentMotion]);
-    field_10_anim.Set_Animation_Data(rec.mFrameTableOffset, ppRes);
+    mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(rec.mFrameTableOffset, ppRes);
 }
 
 u8** Slog::ResBlockForMotion(s16 motion)
@@ -464,7 +464,7 @@ void Slog::MoveOnLine()
         BaseAliveGameObjectCollisionLine = BaseAliveGameObjectCollisionLine->MoveOnLine(
             &mBaseAnimatedWithPhysicsGameObject_XPos,
             &mBaseAnimatedWithPhysicsGameObject_YPos,
-            field_B4_velx);
+            mBaseAnimatedWithPhysicsGameObject_VelX);
         if (BaseAliveGameObjectCollisionLine)
         {
             if (mLiftPoint)
@@ -501,7 +501,7 @@ void Slog::MoveOnLine()
             BaseAliveGameObjectLastLineYPos = mBaseAnimatedWithPhysicsGameObject_YPos;
             field_12C = FP_FromInteger(0);
             mCurrentMotion = eSlogMotions::Motion_4_Fall_4750C0;
-            mBaseAnimatedWithPhysicsGameObject_XPos = field_B4_velx + xpos;
+            mBaseAnimatedWithPhysicsGameObject_XPos = mBaseAnimatedWithPhysicsGameObject_VelX + xpos;
         }
     }
     else
@@ -535,7 +535,7 @@ void Slog::Init()
     Animation_Init_417FD0(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, field_184_resources[0], 1);
 
     mBaseGameObjectFlags.Set(Options::eCanExplode_Bit7);
-    field_10_anim.field_1C_fn_ptr_array = kSlog_Anim_Frame_Fns_4CEBF4;
+    mBaseAnimatedWithPhysicsGameObject_Anim.field_1C_fn_ptr_array = kSlog_Anim_Frame_Fns_4CEBF4;
     field_11C_timer = 0;
     field_120 = 0;
     field_124 = -1;
@@ -560,15 +560,15 @@ void Slog::Init()
 
     SetTint_418750(sSlogTints_4CFE10, gMap.mCurrentLevel);
 
-    if (field_BC_sprite_scale == FP_FromInteger(1))
+    if (mBaseAnimatedWithPhysicsGameObject_SpriteScale == FP_FromInteger(1))
     {
-        field_10_anim.mRenderLayer = Layer::eLayer_Slog_34;
-        field_C6_scale = 1;
+        mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_Slog_34;
+        mBaseAnimatedWithPhysicsGameObject_Scale = 1;
     }
     else
     {
-        field_10_anim.mRenderLayer = Layer::eLayer_Slog_Half_15;
-        field_C6_scale = 0;
+        mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_Slog_Half_15;
+        mBaseAnimatedWithPhysicsGameObject_Scale = 0;
     }
 
     FP hitX = {};
@@ -581,7 +581,7 @@ void Slog::Init()
             &BaseAliveGameObjectCollisionLine,
             &hitX,
             &hitY,
-            field_BC_sprite_scale == FP_FromInteger(1) ? 0x01 : 0x10)
+            mBaseAnimatedWithPhysicsGameObject_SpriteScale == FP_FromInteger(1) ? 0x01 : 0x10)
         == 1)
     {
         mBaseAnimatedWithPhysicsGameObject_YPos = hitY;
@@ -589,7 +589,7 @@ void Slog::Init()
 
     MapFollowMe_401D30(FALSE);
 
-    field_D0_pShadow = relive_new Shadow();
+    mShadow = relive_new Shadow();
 
     gNumSlogs_9F11C8++;
 }
@@ -604,16 +604,16 @@ s16 Slog::ToNextMotion()
             return 1;
 
         case eSlogMotions::Motion_1_Walk_4743F0:
-            if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
+            if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
             {
-                field_B4_velx = -(ScaleToGridSize(field_BC_sprite_scale) / FP_FromInteger(9));
+                mBaseAnimatedWithPhysicsGameObject_VelX = -(ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale) / FP_FromInteger(9));
             }
             else
             {
-                field_B4_velx = (ScaleToGridSize(field_BC_sprite_scale) / FP_FromInteger(9));
+                mBaseAnimatedWithPhysicsGameObject_VelX = (ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale) / FP_FromInteger(9));
             }
 
-            if (!WallHit_401930(field_BC_sprite_scale * FP_FromInteger(20), field_B4_velx * FP_FromInteger(9)))
+            if (!WallHit_401930(mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(20), mBaseAnimatedWithPhysicsGameObject_VelX * FP_FromInteger(9)))
             {
                 mCurrentMotion = eSlogMotions::Motion_9_StartWalking_474690;
                 mNextMotion = -1;
@@ -624,16 +624,16 @@ s16 Slog::ToNextMotion()
             return 0;
 
         case eSlogMotions::Motion_2_Run_4749A0:
-            if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
+            if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
             {
-                field_B4_velx = -(ScaleToGridSize(field_BC_sprite_scale) / FP_FromInteger(3));
+                mBaseAnimatedWithPhysicsGameObject_VelX = -(ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale) / FP_FromInteger(3));
             }
             else
             {
-                field_B4_velx = (ScaleToGridSize(field_BC_sprite_scale) / FP_FromInteger(3));
+                mBaseAnimatedWithPhysicsGameObject_VelX = (ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale) / FP_FromInteger(3));
             }
 
-            if (!WallHit_401930(field_BC_sprite_scale * FP_FromInteger(20), field_B4_velx * FP_FromInteger(4)))
+            if (!WallHit_401930(mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(20), mBaseAnimatedWithPhysicsGameObject_VelX * FP_FromInteger(4)))
             {
                 mCurrentMotion = eSlogMotions::Motion_2_Run_4749A0;
                 mNextMotion = -1;
@@ -648,15 +648,15 @@ s16 Slog::ToNextMotion()
 
 void Slog::ToIdle()
 {
-    field_10_anim.mAnimFlags.Clear(AnimFlags::eBit6_FlipY);
-    field_10_anim.mAnimFlags.Clear(AnimFlags::eBit7_SwapXY);
+    mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit6_FlipY);
+    mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit7_SwapXY);
 
     MapFollowMe_401D30(FALSE);
     field_12C = FP_FromInteger(0);
     ;
     field_130 = 0;
-    field_B4_velx = FP_FromInteger(0);
-    field_B8_vely = FP_FromInteger(0);
+    mBaseAnimatedWithPhysicsGameObject_VelX = FP_FromInteger(0);
+    mBaseAnimatedWithPhysicsGameObject_VelY = FP_FromInteger(0);
     mCurrentMotion = eSlogMotions::Motion_0_Idle_4742E0;
     mNextMotion = -1;
 
@@ -665,16 +665,16 @@ void Slog::ToIdle()
 
 void Slog::ToJump()
 {
-    if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
+    if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
     {
-        field_B4_velx = (FP_FromDouble(-10.18) * field_BC_sprite_scale);
+        mBaseAnimatedWithPhysicsGameObject_VelX = (FP_FromDouble(-10.18) * mBaseAnimatedWithPhysicsGameObject_SpriteScale);
     }
     else
     {
-        field_B4_velx = (FP_FromDouble(10.18) * field_BC_sprite_scale);
+        mBaseAnimatedWithPhysicsGameObject_VelX = (FP_FromDouble(10.18) * mBaseAnimatedWithPhysicsGameObject_SpriteScale);
     }
 
-    field_B8_vely = (FP_FromInteger(-8) * field_BC_sprite_scale);
+    mBaseAnimatedWithPhysicsGameObject_VelY = (FP_FromInteger(-8) * mBaseAnimatedWithPhysicsGameObject_SpriteScale);
     BaseAliveGameObjectLastLineYPos = mBaseAnimatedWithPhysicsGameObject_YPos;
 
     mCurrentMotion = eSlogMotions::Motion_19_JumpForwards_475610;
@@ -686,8 +686,8 @@ void Slog::ToJump()
     Sfx(8);
 
     if (gMap.GetDirection_444A40(
-            field_B2_lvl_number,
-            field_B0_path_number,
+            mBaseAnimatedWithPhysicsGameObject_LvlNumber,
+            mBaseAnimatedWithPhysicsGameObject_PathNumber,
             mBaseAnimatedWithPhysicsGameObject_XPos,
             mBaseAnimatedWithPhysicsGameObject_YPos)
         >= CameraPos::eCamCurrent_0)
@@ -725,7 +725,7 @@ void Slog::Sfx(s32 soundId)
 
     const SfxDefinition& sndDef = sSlogSfx_4CFE40[static_cast<s32>(soundId)];
     const auto defaultSndIdxVol = sndDef.field_C_default_volume;
-    if (field_BC_sprite_scale == FP_FromInteger(1))
+    if (mBaseAnimatedWithPhysicsGameObject_SpriteScale == FP_FromInteger(1))
     {
         volumeRight = defaultSndIdxVol;
     }
@@ -735,8 +735,8 @@ void Slog::Sfx(s32 soundId)
     }
 
     CameraPos direction = gMap.GetDirection_444A40(
-        field_B2_lvl_number,
-        field_B0_path_number,
+        mBaseAnimatedWithPhysicsGameObject_LvlNumber,
+        mBaseAnimatedWithPhysicsGameObject_PathNumber,
         mBaseAnimatedWithPhysicsGameObject_XPos,
         mBaseAnimatedWithPhysicsGameObject_YPos);
     PSX_RECT worldRect;
@@ -781,7 +781,7 @@ void Slog::Sfx(s32 soundId)
 
 s16 Slog::IsPlayerNear()
 {
-    if (FP_Abs(sActiveHero_507678->mBaseAnimatedWithPhysicsGameObject_XPos - mBaseAnimatedWithPhysicsGameObject_XPos) >= (FP_FromInteger(100) * field_BC_sprite_scale) || FP_Abs(sActiveHero_507678->mBaseAnimatedWithPhysicsGameObject_YPos - mBaseAnimatedWithPhysicsGameObject_YPos) >= (FP_FromInteger(25) * field_BC_sprite_scale) || sActiveHero_507678->field_BC_sprite_scale != field_BC_sprite_scale)
+    if (FP_Abs(sActiveHero_507678->mBaseAnimatedWithPhysicsGameObject_XPos - mBaseAnimatedWithPhysicsGameObject_XPos) >= (FP_FromInteger(100) * mBaseAnimatedWithPhysicsGameObject_SpriteScale) || FP_Abs(sActiveHero_507678->mBaseAnimatedWithPhysicsGameObject_YPos - mBaseAnimatedWithPhysicsGameObject_YPos) >= (FP_FromInteger(25) * mBaseAnimatedWithPhysicsGameObject_SpriteScale) || sActiveHero_507678->mBaseAnimatedWithPhysicsGameObject_SpriteScale != mBaseAnimatedWithPhysicsGameObject_SpriteScale)
     {
         return 0;
     }
@@ -796,7 +796,7 @@ BaseAliveGameObject* Slog::FindAbeMudOrSlig()
     PSX_RECT bRect = {};
     VGetBoundingRect(&bRect, 1);
 
-    if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
+    if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
     {
         bRect.x -= gPsxDisplay_504C78.field_0_width;
     }
@@ -882,13 +882,13 @@ void Slog::VOnThrowableHit(BaseGameObject* /*pFrom*/)
 s16 Slog::HandleEnemyStopper()
 {
     FP xpos = {};
-    if (field_B4_velx >= FP_FromInteger(0))
+    if (mBaseAnimatedWithPhysicsGameObject_VelX >= FP_FromInteger(0))
     {
-        xpos = mBaseAnimatedWithPhysicsGameObject_XPos + (ScaleToGridSize(field_BC_sprite_scale) * FP_FromInteger(2));
+        xpos = mBaseAnimatedWithPhysicsGameObject_XPos + (ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale) * FP_FromInteger(2));
     }
     else
     {
-        xpos = mBaseAnimatedWithPhysicsGameObject_XPos - (ScaleToGridSize(field_BC_sprite_scale) * FP_FromInteger(2));
+        xpos = mBaseAnimatedWithPhysicsGameObject_XPos - (ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale) * FP_FromInteger(2));
     }
 
     auto pStopper = static_cast<Path_EnemyStopper*>(gMap.TLV_Get_At_446260(
@@ -903,7 +903,7 @@ s16 Slog::HandleEnemyStopper()
         return 0;
     }
 
-    if (pStopper->field_18_direction != (field_B4_velx > FP_FromInteger(0) ? Path_EnemyStopper::StopDirection::Right_1 : Path_EnemyStopper::StopDirection::Left_0))
+    if (pStopper->field_18_direction != (mBaseAnimatedWithPhysicsGameObject_VelX > FP_FromInteger(0) ? Path_EnemyStopper::StopDirection::Right_1 : Path_EnemyStopper::StopDirection::Left_0))
     {
         return 0;
     }
@@ -939,8 +939,8 @@ void Slog::Motion_0_Idle_4742E0()
             if (mCurrentMotion != eSlogMotions::Motion_0_Idle_4742E0)
             {
                 if (gMap.Is_Point_In_Current_Camera_4449C0(
-                        field_B2_lvl_number,
-                        field_B0_path_number,
+                        mBaseAnimatedWithPhysicsGameObject_LvlNumber,
+                        mBaseAnimatedWithPhysicsGameObject_PathNumber,
                         mBaseAnimatedWithPhysicsGameObject_XPos,
                         mBaseAnimatedWithPhysicsGameObject_YPos,
                         0))
@@ -949,14 +949,14 @@ void Slog::Motion_0_Idle_4742E0()
                 }
 
                 if (gMap.GetDirection_444A40(
-                        field_B2_lvl_number,
-                        field_B0_path_number,
+                        mBaseAnimatedWithPhysicsGameObject_LvlNumber,
+                        mBaseAnimatedWithPhysicsGameObject_PathNumber,
                         mBaseAnimatedWithPhysicsGameObject_XPos,
                         mBaseAnimatedWithPhysicsGameObject_YPos)
                         >= CameraPos::eCamCurrent_0
                     && gMap.GetDirection_444A40(
-                           field_B2_lvl_number,
-                           field_B0_path_number,
+                           mBaseAnimatedWithPhysicsGameObject_LvlNumber,
+                           mBaseAnimatedWithPhysicsGameObject_PathNumber,
                            mBaseAnimatedWithPhysicsGameObject_XPos,
                            mBaseAnimatedWithPhysicsGameObject_YPos)
                            >= CameraPos::eCamCurrent_0)
@@ -1002,28 +1002,28 @@ const FP sSlogWalkVelXTable_4BCC28[18] = {
 
 void Slog::Motion_1_Walk_4743F0()
 {
-    if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
+    if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
     {
-        field_B4_velx = (field_BC_sprite_scale * -sSlogWalkVelXTable_4BCC28[field_10_anim.field_92_current_frame]);
+        mBaseAnimatedWithPhysicsGameObject_VelX = (mBaseAnimatedWithPhysicsGameObject_SpriteScale * -sSlogWalkVelXTable_4BCC28[mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame]);
     }
     else
     {
-        field_B4_velx = (field_BC_sprite_scale * sSlogWalkVelXTable_4BCC28[field_10_anim.field_92_current_frame]);
+        mBaseAnimatedWithPhysicsGameObject_VelX = (mBaseAnimatedWithPhysicsGameObject_SpriteScale * sSlogWalkVelXTable_4BCC28[mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame]);
     }
 
     if (WallHit_401930(
-            field_BC_sprite_scale * FP_FromInteger(20),
-            field_B4_velx))
+            mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(20),
+            mBaseAnimatedWithPhysicsGameObject_VelX))
     {
         ToIdle();
 
-        if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
+        if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
         {
-            mBaseAnimatedWithPhysicsGameObject_XPos += field_B4_velx + (ScaleToGridSize(field_BC_sprite_scale) / FP_FromInteger(2));
+            mBaseAnimatedWithPhysicsGameObject_XPos += mBaseAnimatedWithPhysicsGameObject_VelX + (ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale) / FP_FromInteger(2));
         }
         else
         {
-            mBaseAnimatedWithPhysicsGameObject_XPos += field_B4_velx - (ScaleToGridSize(field_BC_sprite_scale) / FP_FromInteger(2));
+            mBaseAnimatedWithPhysicsGameObject_XPos += mBaseAnimatedWithPhysicsGameObject_VelX - (ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale) / FP_FromInteger(2));
         }
     }
     else
@@ -1032,7 +1032,7 @@ void Slog::Motion_1_Walk_4743F0()
 
         if (mCurrentMotion == eSlogMotions::Motion_1_Walk_4743F0)
         {
-            if (field_10_anim.field_92_current_frame == 2 || field_10_anim.field_92_current_frame == 11)
+            if (mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame == 2 || mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame == 11)
             {
                 if (mNextMotion == eSlogMotions::Motion_0_Idle_4742E0)
                 {
@@ -1046,7 +1046,7 @@ void Slog::Motion_1_Walk_4743F0()
                     mCurrentMotion = eSlogMotions::Motion_3_TurnAround_474C70;
                 }
             }
-            else if (field_10_anim.field_92_current_frame == 5 || field_10_anim.field_92_current_frame == 14)
+            else if (mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame == 5 || mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame == 14)
             {
                 if (!field_126_movedOffScreen)
                 {
@@ -1082,8 +1082,8 @@ const FP sSlogRunVelXTable_4BCC70[9] = {
 void Slog::Motion_2_Run_4749A0()
 {
     if (gMap.GetDirection_444A40(
-            field_B2_lvl_number,
-            field_B0_path_number,
+            mBaseAnimatedWithPhysicsGameObject_LvlNumber,
+            mBaseAnimatedWithPhysicsGameObject_PathNumber,
             mBaseAnimatedWithPhysicsGameObject_XPos,
             mBaseAnimatedWithPhysicsGameObject_YPos)
         >= CameraPos::eCamCurrent_0)
@@ -1091,16 +1091,16 @@ void Slog::Motion_2_Run_4749A0()
         MusicController::static_PlayMusic(MusicController::MusicTypes::eIntenseChase_8, this, 0, 0);
     }
 
-    if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
+    if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
     {
-        field_B4_velx = (field_BC_sprite_scale * -sSlogRunVelXTable_4BCC70[field_10_anim.field_92_current_frame]);
+        mBaseAnimatedWithPhysicsGameObject_VelX = (mBaseAnimatedWithPhysicsGameObject_SpriteScale * -sSlogRunVelXTable_4BCC70[mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame]);
     }
     else
     {
-        field_B4_velx = (field_BC_sprite_scale * sSlogRunVelXTable_4BCC70[field_10_anim.field_92_current_frame]);
+        mBaseAnimatedWithPhysicsGameObject_VelX = (mBaseAnimatedWithPhysicsGameObject_SpriteScale * sSlogRunVelXTable_4BCC70[mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame]);
     }
 
-    if (WallHit_401930(field_BC_sprite_scale * FP_FromInteger(20), field_B4_velx))
+    if (WallHit_401930(mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(20), mBaseAnimatedWithPhysicsGameObject_VelX))
     {
         ToIdle();
     }
@@ -1115,12 +1115,12 @@ void Slog::Motion_2_Run_4749A0()
                 Sfx(5);
             }
 
-            if (field_10_anim.field_92_current_frame == 7)
+            if (mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame == 7)
             {
                 Sfx(16);
             }
 
-            if (field_10_anim.field_92_current_frame == 4 || field_10_anim.field_92_current_frame == 7)
+            if (mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame == 4 || mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame == 7)
             {
                 if (!field_126_movedOffScreen)
                 {
@@ -1154,31 +1154,31 @@ void Slog::Motion_2_Run_4749A0()
 
 void Slog::Motion_3_TurnAround_474C70()
 {
-    if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
+    if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
     {
-        field_10_anim.mAnimFlags.Toggle(AnimFlags::eBit5_FlipX);
+        mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Toggle(AnimFlags::eBit5_FlipX);
         ToIdle();
     }
 }
 
 void Slog::Motion_4_Fall_4750C0()
 {
-    if (field_B4_velx > FP_FromInteger(0))
+    if (mBaseAnimatedWithPhysicsGameObject_VelX > FP_FromInteger(0))
     {
-        field_B4_velx -= field_BC_sprite_scale * field_12C;
+        mBaseAnimatedWithPhysicsGameObject_VelX -= mBaseAnimatedWithPhysicsGameObject_SpriteScale * field_12C;
 
-        if (field_B4_velx < FP_FromInteger(0))
+        if (mBaseAnimatedWithPhysicsGameObject_VelX < FP_FromInteger(0))
         {
-            field_B4_velx = FP_FromInteger(0);
+            mBaseAnimatedWithPhysicsGameObject_VelX = FP_FromInteger(0);
         }
     }
 
-    if (field_B4_velx < FP_FromInteger(0))
+    if (mBaseAnimatedWithPhysicsGameObject_VelX < FP_FromInteger(0))
     {
-        field_B4_velx += field_BC_sprite_scale * field_12C;
-        if (field_B4_velx > FP_FromInteger(0))
+        mBaseAnimatedWithPhysicsGameObject_VelX += mBaseAnimatedWithPhysicsGameObject_SpriteScale * field_12C;
+        if (mBaseAnimatedWithPhysicsGameObject_VelX > FP_FromInteger(0))
         {
-            field_B4_velx = FP_FromInteger(0);
+            mBaseAnimatedWithPhysicsGameObject_VelX = FP_FromInteger(0);
         }
     }
 
@@ -1220,10 +1220,10 @@ void Slog::Motion_4_Fall_4750C0()
             case eLineTypes::eWallRight_2:
             case eLineTypes::eBackgroundWallLeft_5:
             case eLineTypes::eBackgroundWallRight_6:
-                mBaseAnimatedWithPhysicsGameObject_XPos = hitX - field_B4_velx;
+                mBaseAnimatedWithPhysicsGameObject_XPos = hitX - mBaseAnimatedWithPhysicsGameObject_VelX;
                 mBaseAnimatedWithPhysicsGameObject_YPos = hitY;
                 MapFollowMe_401D30(FALSE);
-                field_B4_velx = FP_FromInteger(0);
+                mBaseAnimatedWithPhysicsGameObject_VelX = FP_FromInteger(0);
                 break;
 
             default:
@@ -1247,13 +1247,13 @@ void Slog::Motion_5_Unknown_474070()
 
 void Slog::Motion_6_MoveHeadUpwards_474220()
 {
-    if (field_10_anim.field_92_current_frame == 0)
+    if (mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame == 0)
     {
         Sfx(2);
         field_144 = 1;
     }
 
-    if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
+    if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
     {
         if (Math_RandomRange_450F20(0, 100) < 30)
         {
@@ -1279,22 +1279,22 @@ const FP sSlogSlideTurnVelXTable_4BCC98[11] = {
 
 void Slog::Motion_7_SlideTurn_474DB0()
 {
-    if (field_10_anim.field_92_current_frame == 0)
+    if (mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame == 0)
     {
         Sfx(13);
     }
 
-    if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
+    if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
     {
-        field_B4_velx = (field_BC_sprite_scale * -sSlogSlideTurnVelXTable_4BCC98[field_10_anim.field_92_current_frame]);
+        mBaseAnimatedWithPhysicsGameObject_VelX = (mBaseAnimatedWithPhysicsGameObject_SpriteScale * -sSlogSlideTurnVelXTable_4BCC98[mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame]);
     }
     else
     {
-        field_B4_velx = (field_BC_sprite_scale * sSlogSlideTurnVelXTable_4BCC98[field_10_anim.field_92_current_frame]);
+        mBaseAnimatedWithPhysicsGameObject_VelX = (mBaseAnimatedWithPhysicsGameObject_SpriteScale * sSlogSlideTurnVelXTable_4BCC98[mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame]);
     }
 
 
-    if (WallHit_401930(field_BC_sprite_scale * FP_FromInteger(20), field_B4_velx) || field_10_anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
+    if (WallHit_401930(mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(20), mBaseAnimatedWithPhysicsGameObject_VelX) || mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
     {
         ToIdle();
     }
@@ -1322,16 +1322,16 @@ const FP sSlogStopRunningVelX_4BCCC8[] = {
 
 void Slog::Motion_8_StopRunning_474EC0()
 {
-    if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
+    if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
     {
-        field_B4_velx = (field_BC_sprite_scale * -sSlogStopRunningVelX_4BCCC8[field_10_anim.field_92_current_frame]);
+        mBaseAnimatedWithPhysicsGameObject_VelX = (mBaseAnimatedWithPhysicsGameObject_SpriteScale * -sSlogStopRunningVelX_4BCCC8[mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame]);
     }
     else
     {
-        field_B4_velx = (field_BC_sprite_scale * sSlogStopRunningVelX_4BCCC8[field_10_anim.field_92_current_frame]);
+        mBaseAnimatedWithPhysicsGameObject_VelX = (mBaseAnimatedWithPhysicsGameObject_SpriteScale * sSlogStopRunningVelX_4BCCC8[mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame]);
     }
 
-    if (WallHit_401930(field_BC_sprite_scale * FP_FromInteger(20), field_B4_velx))
+    if (WallHit_401930(mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(20), mBaseAnimatedWithPhysicsGameObject_VelX))
     {
         ToIdle();
     }
@@ -1341,21 +1341,21 @@ void Slog::Motion_8_StopRunning_474EC0()
 
         if (mCurrentMotion == eSlogMotions::Motion_8_StopRunning_474EC0)
         {
-            if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
+            if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
             {
                 MapFollowMe_401D30(FALSE);
 
-                if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
+                if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
                 {
-                    field_B4_velx = (ScaleToGridSize(field_BC_sprite_scale) / FP_FromInteger(3));
+                    mBaseAnimatedWithPhysicsGameObject_VelX = (ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale) / FP_FromInteger(3));
                     mCurrentMotion = eSlogMotions::Motion_2_Run_4749A0;
-                    field_10_anim.mAnimFlags.Clear(AnimFlags::eBit5_FlipX);
+                    mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit5_FlipX);
                 }
                 else
                 {
                     mCurrentMotion = eSlogMotions::Motion_2_Run_4749A0;
-                    field_B4_velx = -(ScaleToGridSize(field_BC_sprite_scale) / FP_FromInteger(3));
-                    field_10_anim.mAnimFlags.Set(AnimFlags::eBit5_FlipX);
+                    mBaseAnimatedWithPhysicsGameObject_VelX = -(ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale) / FP_FromInteger(3));
+                    mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit5_FlipX);
                 }
             }
         }
@@ -1364,22 +1364,22 @@ void Slog::Motion_8_StopRunning_474EC0()
 
 void Slog::Motion_9_StartWalking_474690()
 {
-    if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
+    if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
     {
         mCurrentMotion = eSlogMotions::Motion_1_Walk_4743F0;
     }
 
-    if (WallHit_401930(field_BC_sprite_scale * FP_FromInteger(20), field_B4_velx))
+    if (WallHit_401930(mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(20), mBaseAnimatedWithPhysicsGameObject_VelX))
     {
         ToIdle();
 
-        if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
+        if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
         {
-            mBaseAnimatedWithPhysicsGameObject_XPos += field_B4_velx + (ScaleToGridSize(field_BC_sprite_scale) / FP_FromInteger(2));
+            mBaseAnimatedWithPhysicsGameObject_XPos += mBaseAnimatedWithPhysicsGameObject_VelX + (ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale) / FP_FromInteger(2));
         }
         else
         {
-            mBaseAnimatedWithPhysicsGameObject_XPos += field_B4_velx - (ScaleToGridSize(field_BC_sprite_scale) / FP_FromInteger(2));
+            mBaseAnimatedWithPhysicsGameObject_XPos += mBaseAnimatedWithPhysicsGameObject_VelX - (ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale) / FP_FromInteger(2));
         }
     }
     else
@@ -1390,7 +1390,7 @@ void Slog::Motion_9_StartWalking_474690()
 
 void Slog::Motion_10_EndWalking_4747D0()
 {
-    if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
+    if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
     {
         MapFollowMe_401D30(0);
 
@@ -1400,17 +1400,17 @@ void Slog::Motion_10_EndWalking_4747D0()
         }
     }
 
-    if (WallHit_401930(field_BC_sprite_scale * FP_FromInteger(20), field_B4_velx))
+    if (WallHit_401930(mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(20), mBaseAnimatedWithPhysicsGameObject_VelX))
     {
         ToIdle();
 
-        if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
+        if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
         {
-            mBaseAnimatedWithPhysicsGameObject_XPos += field_B4_velx + (ScaleToGridSize(field_BC_sprite_scale) / FP_FromInteger(2));
+            mBaseAnimatedWithPhysicsGameObject_XPos += mBaseAnimatedWithPhysicsGameObject_VelX + (ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale) / FP_FromInteger(2));
         }
         else
         {
-            mBaseAnimatedWithPhysicsGameObject_XPos += field_B4_velx - (ScaleToGridSize(field_BC_sprite_scale) / FP_FromInteger(2));
+            mBaseAnimatedWithPhysicsGameObject_XPos += mBaseAnimatedWithPhysicsGameObject_VelX - (ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale) / FP_FromInteger(2));
         }
     }
     else
@@ -1421,12 +1421,12 @@ void Slog::Motion_10_EndWalking_4747D0()
 
 void Slog::Motion_11_Land_475AB0()
 {
-    if (field_10_anim.field_92_current_frame == 0)
+    if (mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame == 0)
     {
         Sfx(15);
     }
 
-    if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
+    if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
     {
         ToIdle();
     }
@@ -1434,7 +1434,7 @@ void Slog::Motion_11_Land_475AB0()
 
 void Slog::Motion_12_Unknown_475B50()
 {
-    if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit12_ForwardLoopCompleted))
+    if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit12_ForwardLoopCompleted))
     {
         mCurrentMotion = eSlogMotions::Motion_13_StartFastBarking_475B70;
     }
@@ -1442,7 +1442,7 @@ void Slog::Motion_12_Unknown_475B50()
 
 void Slog::Motion_13_StartFastBarking_475B70()
 {
-    if (field_10_anim.field_92_current_frame == 0)
+    if (mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame == 0)
     {
         Sfx(2);
         field_144 = 1;
@@ -1450,7 +1450,7 @@ void Slog::Motion_13_StartFastBarking_475B70()
 
     if (mNextMotion != -1)
     {
-        if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
+        if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
         {
             mCurrentMotion = eSlogMotions::Motion_14_EndFastBarking_475BB0;
         }
@@ -1459,7 +1459,7 @@ void Slog::Motion_13_StartFastBarking_475B70()
 
 void Slog::Motion_14_EndFastBarking_475BB0()
 {
-    if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit12_ForwardLoopCompleted))
+    if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit12_ForwardLoopCompleted))
     {
         mCurrentMotion = eSlogMotions::Motion_0_Idle_4742E0;
     }
@@ -1467,14 +1467,14 @@ void Slog::Motion_14_EndFastBarking_475BB0()
 
 void Slog::Motion_15_AngryBark_475290()
 {
-    if (field_10_anim.field_92_current_frame == 0 || field_10_anim.field_92_current_frame == 6)
+    if (mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame == 0 || mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame == 6)
     {
         Sfx(5);
     }
 
     if (mNextMotion != -1)
     {
-        if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
+        if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
         {
             mCurrentMotion = mNextMotion;
             mNextMotion = -1;
@@ -1484,7 +1484,7 @@ void Slog::Motion_15_AngryBark_475290()
 
 void Slog::Motion_16_Sleeping_4752E0()
 {
-    if (mNextMotion != -1 && field_10_anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
+    if (mNextMotion != -1 && mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
     {
         mCurrentMotion = mNextMotion;
         mNextMotion = -1;
@@ -1498,8 +1498,8 @@ void Slog::Motion_16_Sleeping_4752E0()
         {
             Sfx(11);
             if (gMap.Is_Point_In_Current_Camera_4449C0(
-                    field_B2_lvl_number,
-                    field_B0_path_number,
+                    mBaseAnimatedWithPhysicsGameObject_LvlNumber,
+                    mBaseAnimatedWithPhysicsGameObject_PathNumber,
                     mBaseAnimatedWithPhysicsGameObject_XPos,
                     mBaseAnimatedWithPhysicsGameObject_YPos,
                     0))
@@ -1512,8 +1512,8 @@ void Slog::Motion_16_Sleeping_4752E0()
     {
         Sfx(10);
         if (gMap.Is_Point_In_Current_Camera_4449C0(
-                field_B2_lvl_number,
-                field_B0_path_number,
+                mBaseAnimatedWithPhysicsGameObject_LvlNumber,
+                mBaseAnimatedWithPhysicsGameObject_PathNumber,
                 mBaseAnimatedWithPhysicsGameObject_XPos,
                 mBaseAnimatedWithPhysicsGameObject_YPos,
                 0))
@@ -1526,10 +1526,10 @@ void Slog::Motion_16_Sleeping_4752E0()
     {
         relive_new SnoozeParticle(
             mBaseAnimatedWithPhysicsGameObject_XPos
-                + ((field_10_anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX)) != 0 ? FP_FromInteger(-18) : FP_FromInteger(18)),
+                + ((mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX)) != 0 ? FP_FromInteger(-18) : FP_FromInteger(18)),
             mBaseAnimatedWithPhysicsGameObject_YPos - FP_FromInteger(13),
-            field_10_anim.mRenderLayer,
-            field_10_anim.field_14_scale);
+            mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer,
+            mBaseAnimatedWithPhysicsGameObject_Anim.field_14_scale);
     }
 }
 
@@ -1537,7 +1537,7 @@ void Slog::Motion_17_MoveHeadDownwards_475510()
 {
     if (mNextMotion != -1)
     {
-        if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
+        if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
         {
             mCurrentMotion = mNextMotion;
             mNextMotion = -1;
@@ -1565,7 +1565,7 @@ void Slog::Motion_18_WakeUp_475460()
 
     if (mNextMotion != -1)
     {
-        if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
+        if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
         {
             mCurrentMotion = mNextMotion;
             mNextMotion = -1;
@@ -1574,8 +1574,8 @@ void Slog::Motion_18_WakeUp_475460()
     }
 
     if (gMap.GetDirection_444A40(
-            field_B2_lvl_number,
-            field_B0_path_number,
+            mBaseAnimatedWithPhysicsGameObject_LvlNumber,
+            mBaseAnimatedWithPhysicsGameObject_PathNumber,
             mBaseAnimatedWithPhysicsGameObject_XPos,
             mBaseAnimatedWithPhysicsGameObject_YPos)
         >= CameraPos::eCamCurrent_0)
@@ -1586,18 +1586,18 @@ void Slog::Motion_18_WakeUp_475460()
 
 void Slog::Motion_19_JumpForwards_475610()
 {
-    field_B8_vely += (field_BC_sprite_scale * FP_FromDouble(1.8));
+    mBaseAnimatedWithPhysicsGameObject_VelY += (mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromDouble(1.8));
 
-    if (field_B8_vely > (field_BC_sprite_scale * FP_FromInteger(20)))
+    if (mBaseAnimatedWithPhysicsGameObject_VelY > (mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(20)))
     {
-        field_B8_vely = (field_BC_sprite_scale * FP_FromInteger(20));
+        mBaseAnimatedWithPhysicsGameObject_VelY = (mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(20));
     }
 
     const FP oldXPos = mBaseAnimatedWithPhysicsGameObject_XPos;
-    const FP ypos1 = mBaseAnimatedWithPhysicsGameObject_YPos - (field_BC_sprite_scale * FP_FromInteger(20));
+    const FP ypos1 = mBaseAnimatedWithPhysicsGameObject_YPos - (mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(20));
 
-    mBaseAnimatedWithPhysicsGameObject_XPos += field_B4_velx;
-    mBaseAnimatedWithPhysicsGameObject_YPos += field_B8_vely;
+    mBaseAnimatedWithPhysicsGameObject_XPos += mBaseAnimatedWithPhysicsGameObject_VelX;
+    mBaseAnimatedWithPhysicsGameObject_YPos += mBaseAnimatedWithPhysicsGameObject_VelY;
 
     PathLine* pLine = nullptr;
     FP hitX = {};
@@ -1610,25 +1610,25 @@ void Slog::Motion_19_JumpForwards_475610()
             &pLine,
             &hitX,
             &hitY,
-            field_BC_sprite_scale != FP_FromDouble(0.5) ? 6 : 0x60)
+            mBaseAnimatedWithPhysicsGameObject_SpriteScale != FP_FromDouble(0.5) ? 6 : 0x60)
         == 1)
     {
         switch (pLine->field_8_type)
         {
             case eLineTypes::eWallLeft_1:
             case eLineTypes::eBackgroundWallLeft_5:
-                if (field_B4_velx < FP_FromInteger(0))
+                if (mBaseAnimatedWithPhysicsGameObject_VelX < FP_FromInteger(0))
                 {
-                    field_B4_velx = (-field_B4_velx / FP_FromInteger(2));
+                    mBaseAnimatedWithPhysicsGameObject_VelX = (-mBaseAnimatedWithPhysicsGameObject_VelX / FP_FromInteger(2));
                     mBaseAnimatedWithPhysicsGameObject_XPos = oldXPos;
                 }
                 break;
 
             case eLineTypes::eWallRight_2:
             case eLineTypes::eBackgroundWallRight_6:
-                if (field_B4_velx > FP_FromInteger(0))
+                if (mBaseAnimatedWithPhysicsGameObject_VelX > FP_FromInteger(0))
                 {
-                    field_B4_velx = (-field_B4_velx / FP_FromInteger(2));
+                    mBaseAnimatedWithPhysicsGameObject_VelX = (-mBaseAnimatedWithPhysicsGameObject_VelX / FP_FromInteger(2));
                     mBaseAnimatedWithPhysicsGameObject_XPos = oldXPos;
                 }
                 break;
@@ -1645,7 +1645,7 @@ void Slog::Motion_19_JumpForwards_475610()
             &pLine,
             &hitX,
             &hitY,
-            field_BC_sprite_scale != FP_FromDouble(0.5) ? 1 : 0x10))
+            mBaseAnimatedWithPhysicsGameObject_SpriteScale != FP_FromDouble(0.5) ? 1 : 0x10))
     {
         switch (pLine->field_8_type)
         {
@@ -1653,13 +1653,13 @@ void Slog::Motion_19_JumpForwards_475610()
             case eLineTypes::eBackgroundFloor_4:
             case eLineTypes::eUnknown_32:
             case eLineTypes::eUnknown_36:
-                if (field_B8_vely > FP_FromInteger(0))
+                if (mBaseAnimatedWithPhysicsGameObject_VelY > FP_FromInteger(0))
                 {
                     BaseAliveGameObjectCollisionLine = pLine;
                     mNextMotion = -1;
                     mCurrentMotion = eSlogMotions::Motion_2_Run_4749A0;
                     mBaseAnimatedWithPhysicsGameObject_YPos = hitY;
-                    field_B8_vely = FP_FromInteger(0);
+                    mBaseAnimatedWithPhysicsGameObject_VelY = FP_FromInteger(0);
                 }
                 break;
             default:
@@ -1678,19 +1678,19 @@ void Slog::Motion_19_JumpForwards_475610()
 void Slog::Motion_20_JumpUpwards_475890()
 {
     if (gMap.GetDirection_444A40(
-            field_B2_lvl_number,
-            field_B0_path_number,
+            mBaseAnimatedWithPhysicsGameObject_LvlNumber,
+            mBaseAnimatedWithPhysicsGameObject_PathNumber,
             mBaseAnimatedWithPhysicsGameObject_XPos,
             mBaseAnimatedWithPhysicsGameObject_YPos)
         >= CameraPos::eCamCurrent_0)
         MusicController::static_PlayMusic(MusicController::MusicTypes::eSlogChaseTension, this, 0, 0);
 
-    if (field_10_anim.field_92_current_frame == 5)
+    if (mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame == 5)
     {
         Sfx(6);
     }
 
-    if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
+    if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
     {
         mCurrentMotion = eSlogMotions::Motion_0_Idle_4742E0;
         mNextMotion = -1;
@@ -1701,26 +1701,26 @@ void Slog::Motion_21_Eating_475900()
 {
     SND_Seq_Stop_477A60(SeqId::Unknown_17);
 
-    if (field_10_anim.field_92_current_frame != 0
-        || (field_10_anim.mAnimFlags.Clear(AnimFlags::eBit19_LoopBackwards),
+    if (mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame != 0
+        || (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit19_LoopBackwards),
             mNextMotion == -1)
         || mNextMotion == eSlogMotions::Motion_21_Eating_475900)
     {
-        if (field_10_anim.field_92_current_frame == 3 && !field_10_anim.mAnimFlags.Get(AnimFlags::eBit19_LoopBackwards))
+        if (mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame == 3 && !mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit19_LoopBackwards))
         {
             SFX_Play_Mono(static_cast<SoundEffect>(Math_RandomRange_450F20(SoundEffect::Eating1_79, SoundEffect::Eating2_80)), 100, 0);
-            const FP bloodYPos = mBaseAnimatedWithPhysicsGameObject_YPos - (FP_FromInteger(4) * field_BC_sprite_scale);
-            const FP bloodXPos = ((field_10_anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX)) != 0 ? -FP_FromInteger(25) : FP_FromInteger(25) * field_BC_sprite_scale);
+            const FP bloodYPos = mBaseAnimatedWithPhysicsGameObject_YPos - (FP_FromInteger(4) * mBaseAnimatedWithPhysicsGameObject_SpriteScale);
+            const FP bloodXPos = ((mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX)) != 0 ? -FP_FromInteger(25) : FP_FromInteger(25) * mBaseAnimatedWithPhysicsGameObject_SpriteScale);
             relive_new Blood(
                 bloodXPos + mBaseAnimatedWithPhysicsGameObject_XPos,
                 bloodYPos,
                 FP_FromInteger(0),
                 FP_FromInteger(0),
-                field_BC_sprite_scale,
+                mBaseAnimatedWithPhysicsGameObject_SpriteScale,
                 12);
         }
 
-        if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
+        if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
         {
             if (Math_RandomRange_450F20(0, 100) < 85)
             {
@@ -1729,13 +1729,13 @@ void Slog::Motion_21_Eating_475900()
                     field_164_timer = sGnFrame + 16;
                     Sfx(3);
                 }
-                field_10_anim.mAnimFlags.Set(AnimFlags::eBit19_LoopBackwards);
+                mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit19_LoopBackwards);
             }
         }
 
-        if (field_10_anim.field_92_current_frame == 0)
+        if (mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame == 0)
         {
-            field_10_anim.mAnimFlags.Clear(AnimFlags::eBit19_LoopBackwards);
+            mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit19_LoopBackwards);
         }
     }
     else
@@ -1755,14 +1755,14 @@ void Slog::Motion_22_Dying_475A90()
 
 void Slog::Motion_23_Scratch_475550()
 {
-    if (field_10_anim.field_92_current_frame == 4)
+    if (mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame == 4)
     {
         SND_SEQ_PlaySeq_4775A0(SeqId::Unknown_16, 1, 1);
     }
 
     if (mNextMotion != -1)
     {
-        if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
+        if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
         {
             mCurrentMotion = mNextMotion;
             mNextMotion = -1;
@@ -1772,12 +1772,12 @@ void Slog::Motion_23_Scratch_475550()
 
 void Slog::Motion_24_Growl_475590()
 {
-    if (field_10_anim.field_92_current_frame == 3)
+    if (mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame == 3)
     {
         if (field_144)
         {
             Sfx(3);
-            field_10_anim.mAnimFlags.Clear(AnimFlags::eBit2_Animate);
+            mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit2_Animate);
             field_144 = 0;
             field_164_timer = sGnFrame + 12;
         }
@@ -1785,12 +1785,12 @@ void Slog::Motion_24_Growl_475590()
 
     if (static_cast<s32>(sGnFrame) > field_164_timer)
     {
-        field_10_anim.mAnimFlags.Set(AnimFlags::eBit2_Animate);
+        mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit2_Animate);
     }
 
     if (mNextMotion != -1)
     {
-        if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
+        if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
         {
             mCurrentMotion = mNextMotion;
             mNextMotion = -1;
@@ -1853,9 +1853,9 @@ s16 Slog::Brain_0_ListeningToSlig_472450()
         return 0;
     }
 
-    FP gridScale = ScaleToGridSize(field_BC_sprite_scale);
+    FP gridScale = ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale);
     FP scaled1Directed = (gridScale * FP_FromInteger(1));
-    if (field_14C_pSlig->field_10_anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
+    if (field_14C_pSlig->mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
     {
         scaled1Directed = -scaled1Directed;
     }
@@ -1935,13 +1935,13 @@ s16 Slog::Brain_0_ListeningToSlig_472450()
                 return 2;
             }
 
-            if (FP_Abs(xSkip - mBaseAnimatedWithPhysicsGameObject_XPos) > (ScaleToGridSize(field_BC_sprite_scale) * FP_FromInteger(4)))
+            if (FP_Abs(xSkip - mBaseAnimatedWithPhysicsGameObject_XPos) > (ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale) * FP_FromInteger(4)))
             {
                 mNextMotion = eSlogMotions::Motion_2_Run_4749A0;
                 return 4;
             }
 
-            if (FP_Abs(xSkip - mBaseAnimatedWithPhysicsGameObject_XPos) > (ScaleToGridSize(field_BC_sprite_scale) * FP_FromInteger(1)))
+            if (FP_Abs(xSkip - mBaseAnimatedWithPhysicsGameObject_XPos) > (ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale) * FP_FromInteger(1)))
             {
                 return field_116_brain_sub_state;
             }
@@ -1966,7 +1966,7 @@ s16 Slog::Brain_0_ListeningToSlig_472450()
                 return field_116_brain_sub_state;
             }
 
-            if (FP_Abs(xSkip - mBaseAnimatedWithPhysicsGameObject_XPos) <= (ScaleToGridSize(field_BC_sprite_scale) * FP_FromInteger(3)))
+            if (FP_Abs(xSkip - mBaseAnimatedWithPhysicsGameObject_XPos) <= (ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale) * FP_FromInteger(3)))
             {
                 mNextMotion = eSlogMotions::Motion_0_Idle_4742E0;
                 return 2;
@@ -2041,16 +2041,16 @@ s16 Slog::Brain_0_ListeningToSlig_472450()
             }
 
             FP gridSize = {};
-            if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
+            if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
             {
-                gridSize = -ScaleToGridSize(field_BC_sprite_scale);
+                gridSize = -ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale);
             }
             else
             {
-                gridSize = ScaleToGridSize(field_BC_sprite_scale);
+                gridSize = ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale);
             }
 
-            if (!WallHit_401930(field_BC_sprite_scale * FP_FromInteger(20), gridSize))
+            if (!WallHit_401930(mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(20), gridSize))
             {
                 DelayedResponse(1);
                 return 6;
@@ -2078,7 +2078,7 @@ s16 Slog::Brain_0_ListeningToSlig_472450()
         return 5;
     }
 
-    if (FP_Abs(xSkip - mBaseAnimatedWithPhysicsGameObject_XPos) > (ScaleToGridSize(field_BC_sprite_scale) * FP_FromInteger(4)))
+    if (FP_Abs(xSkip - mBaseAnimatedWithPhysicsGameObject_XPos) > (ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale) * FP_FromInteger(4)))
     {
         if (!Facing(xSkip))
         {
@@ -2087,23 +2087,23 @@ s16 Slog::Brain_0_ListeningToSlig_472450()
         }
 
         FP gridSize2 = {};
-        if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
+        if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
         {
-            gridSize2 = -ScaleToGridSize(field_BC_sprite_scale);
+            gridSize2 = -ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale);
         }
         else
         {
-            gridSize2 = ScaleToGridSize(field_BC_sprite_scale);
+            gridSize2 = ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale);
         }
 
-        if (!WallHit_401930(field_BC_sprite_scale * FP_FromInteger(20), gridSize2))
+        if (!WallHit_401930(mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(20), gridSize2))
         {
             mNextMotion = eSlogMotions::Motion_2_Run_4749A0;
             return 4;
         }
     }
 
-    if (FP_Abs(xSkip - mBaseAnimatedWithPhysicsGameObject_XPos) > (ScaleToGridSize(field_BC_sprite_scale) * FP_FromInteger(1)))
+    if (FP_Abs(xSkip - mBaseAnimatedWithPhysicsGameObject_XPos) > (ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale) * FP_FromInteger(1)))
     {
         if (!Facing(xSkip))
         {
@@ -2112,23 +2112,23 @@ s16 Slog::Brain_0_ListeningToSlig_472450()
         }
 
         FP gridSize3 = {};
-        if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
+        if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
         {
-            gridSize3 = -ScaleToGridSize(field_BC_sprite_scale);
+            gridSize3 = -ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale);
         }
         else
         {
-            gridSize3 = ScaleToGridSize(field_BC_sprite_scale);
+            gridSize3 = ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale);
         }
 
-        if (!WallHit_401930(field_BC_sprite_scale * FP_FromInteger(20), gridSize3))
+        if (!WallHit_401930(mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(20), gridSize3))
         {
             mNextMotion = eSlogMotions::Motion_1_Walk_4743F0;
             return 3;
         }
     }
 
-    if (field_14C_pSlig->field_10_anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX) != field_10_anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
+    if (field_14C_pSlig->mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX) != mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
     {
         return eSlogMotions::Motion_3_TurnAround_474C70;
     }
@@ -2209,7 +2209,7 @@ s16 Slog::Brain_1_Idle_4719C0()
                     kEventSuspiciousNoise,
                     mBaseAnimatedWithPhysicsGameObject_XPos,
                     mBaseAnimatedWithPhysicsGameObject_YPos,
-                    field_BC_sprite_scale))
+                    mBaseAnimatedWithPhysicsGameObject_SpriteScale))
             {
                 field_156++;
             }
@@ -2218,7 +2218,7 @@ s16 Slog::Brain_1_Idle_4719C0()
                     kEventSpeaking,
                     mBaseAnimatedWithPhysicsGameObject_XPos,
                     mBaseAnimatedWithPhysicsGameObject_YPos,
-                    field_BC_sprite_scale))
+                    mBaseAnimatedWithPhysicsGameObject_SpriteScale))
             {
                 field_156 += (Slog_NextRandom() % 8) + 15;
             }
@@ -2261,7 +2261,7 @@ s16 Slog::Brain_1_Idle_4719C0()
                     kEventSuspiciousNoise,
                     mBaseAnimatedWithPhysicsGameObject_XPos,
                     mBaseAnimatedWithPhysicsGameObject_YPos,
-                    field_BC_sprite_scale))
+                    mBaseAnimatedWithPhysicsGameObject_SpriteScale))
             {
                 field_156++;
             }
@@ -2270,7 +2270,7 @@ s16 Slog::Brain_1_Idle_4719C0()
                     kEventSpeaking,
                     mBaseAnimatedWithPhysicsGameObject_XPos,
                     mBaseAnimatedWithPhysicsGameObject_YPos,
-                    field_BC_sprite_scale))
+                    mBaseAnimatedWithPhysicsGameObject_SpriteScale))
             {
                 field_156 += (Slog_NextRandom() % 8) + 15;
             }
@@ -2332,7 +2332,7 @@ s16 Slog::Brain_1_Idle_4719C0()
                     kEventSuspiciousNoise,
                     mBaseAnimatedWithPhysicsGameObject_XPos,
                     mBaseAnimatedWithPhysicsGameObject_YPos,
-                    field_BC_sprite_scale))
+                    mBaseAnimatedWithPhysicsGameObject_SpriteScale))
             {
                 field_156++;
             }
@@ -2341,7 +2341,7 @@ s16 Slog::Brain_1_Idle_4719C0()
                     kEventSpeaking,
                     mBaseAnimatedWithPhysicsGameObject_XPos,
                     mBaseAnimatedWithPhysicsGameObject_YPos,
-                    field_BC_sprite_scale))
+                    mBaseAnimatedWithPhysicsGameObject_SpriteScale))
             {
                 field_156 += (Slog_NextRandom() % 8) + 15;
             }
@@ -2446,10 +2446,10 @@ s16 Slog::Brain_2_ChasingAbe_470F50()
 
         case 1:
         {
-            if ((field_B4_velx != FP_FromInteger(0) && HandleEnemyStopper()) || WallHit_401930(field_BC_sprite_scale * FP_FromInteger(20), field_B4_velx))
+            if ((mBaseAnimatedWithPhysicsGameObject_VelX != FP_FromInteger(0) && HandleEnemyStopper()) || WallHit_401930(mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(20), mBaseAnimatedWithPhysicsGameObject_VelX))
             {
                 mNextMotion = eSlogMotions::Motion_7_SlideTurn_474DB0;
-                field_174 = field_B4_velx < FP_FromInteger(0);
+                field_174 = mBaseAnimatedWithPhysicsGameObject_VelX < FP_FromInteger(0);
                 field_160 = (Math_NextRandom() % 32) + sGnFrame + 120;
                 field_164_timer = (Math_NextRandom() % 32) + sGnFrame + 60;
                 return 13;
@@ -2460,11 +2460,11 @@ s16 Slog::Brain_2_ChasingAbe_470F50()
                 mNextMotion = eSlogMotions::Motion_8_StopRunning_474EC0;
             }
 
-            if (VIsObjNearby(ScaleToGridSize(field_BC_sprite_scale) * FP_FromInteger(3), field_10C_pTarget))
+            if (VIsObjNearby(ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale) * FP_FromInteger(3), field_10C_pTarget))
             {
                 if (VOnSameYLevel(field_10C_pTarget))
                 {
-                    if (field_10C_pTarget->field_BC_sprite_scale == field_BC_sprite_scale)
+                    if (field_10C_pTarget->mBaseAnimatedWithPhysicsGameObject_SpriteScale == mBaseAnimatedWithPhysicsGameObject_SpriteScale)
                     {
                         if (VIsFacingMe(field_10C_pTarget))
                         {
@@ -2484,18 +2484,18 @@ s16 Slog::Brain_2_ChasingAbe_470F50()
                 if (VIsFacingMe(field_10C_pTarget))
                 {
                     FP scaleDirected = {};
-                    if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
+                    if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
                     {
-                        scaleDirected = -ScaleToGridSize(field_BC_sprite_scale);
+                        scaleDirected = -ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale);
                     }
                     else
                     {
-                        scaleDirected = ScaleToGridSize(field_BC_sprite_scale);
+                        scaleDirected = ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale);
                     }
 
-                    if (WallHit_401930(field_BC_sprite_scale * FP_FromInteger(20), FP_FromInteger(2) * scaleDirected))
+                    if (WallHit_401930(mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(20), FP_FromInteger(2) * scaleDirected))
                     {
-                        field_174 = field_10_anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX);
+                        field_174 = mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX);
                         field_160 = (Math_NextRandom() % 32) + sGnFrame + 120;
                         field_164_timer = (Math_NextRandom() % 32) + sGnFrame + 60;
                         return 13;
@@ -2518,10 +2518,10 @@ s16 Slog::Brain_2_ChasingAbe_470F50()
                 return 3;
             }
 
-            const FP k10Scaled = field_BC_sprite_scale * FP_FromInteger(10);
+            const FP k10Scaled = mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(10);
             if (mBaseAnimatedWithPhysicsGameObject_YPos <= field_10C_pTarget->mBaseAnimatedWithPhysicsGameObject_YPos + k10Scaled)
             {
-                if (field_10C_pTarget->field_BC_sprite_scale == field_BC_sprite_scale)
+                if (field_10C_pTarget->mBaseAnimatedWithPhysicsGameObject_SpriteScale == mBaseAnimatedWithPhysicsGameObject_SpriteScale)
                 {
                     if (mBaseAnimatedWithPhysicsGameObject_YPos >= (field_10C_pTarget->mBaseAnimatedWithPhysicsGameObject_YPos - (k10Scaled * FP_FromInteger(3))))
                     {
@@ -2531,7 +2531,7 @@ s16 Slog::Brain_2_ChasingAbe_470F50()
             }
             else
             {
-                if (field_10C_pTarget->field_BC_sprite_scale == field_BC_sprite_scale)
+                if (field_10C_pTarget->mBaseAnimatedWithPhysicsGameObject_SpriteScale == mBaseAnimatedWithPhysicsGameObject_SpriteScale)
                 {
                     return 9;
                 }
@@ -2571,7 +2571,7 @@ s16 Slog::Brain_2_ChasingAbe_470F50()
                 mNextMotion = eSlogMotions::Motion_0_Idle_4742E0;
             }
 
-            if (field_10C_pTarget->field_BC_sprite_scale != field_BC_sprite_scale)
+            if (field_10C_pTarget->mBaseAnimatedWithPhysicsGameObject_SpriteScale != mBaseAnimatedWithPhysicsGameObject_SpriteScale)
             {
                 return field_116_brain_sub_state;
             }
@@ -2585,7 +2585,7 @@ s16 Slog::Brain_2_ChasingAbe_470F50()
                     return 1;
                 }
 
-                if (VIsObjNearby(field_BC_sprite_scale * FP_FromInteger(20), field_10C_pTarget) || VIsFacingMe(field_10C_pTarget))
+                if (VIsObjNearby(mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(20), field_10C_pTarget) || VIsFacingMe(field_10C_pTarget))
                 {
                     mCurrentMotion = eSlogMotions::Motion_21_Eating_475900;
                     mNextMotion = -1;
@@ -2638,10 +2638,10 @@ s16 Slog::Brain_2_ChasingAbe_470F50()
             return 1;
 
         case 9:
-            if (field_B4_velx > FP_FromInteger(0) && HandleEnemyStopper())
+            if (mBaseAnimatedWithPhysicsGameObject_VelX > FP_FromInteger(0) && HandleEnemyStopper())
             {
                 mNextMotion = eSlogMotions::Motion_7_SlideTurn_474DB0;
-                field_174 = field_B4_velx < FP_FromInteger(0);
+                field_174 = mBaseAnimatedWithPhysicsGameObject_VelX < FP_FromInteger(0);
                 field_160 = (Math_NextRandom() % 32) + sGnFrame + 120;
                 field_164_timer = (Math_NextRandom() % 32) + sGnFrame + 60;
                 return 13;
@@ -2652,9 +2652,9 @@ s16 Slog::Brain_2_ChasingAbe_470F50()
                 mNextMotion = eSlogMotions::Motion_8_StopRunning_474EC0;
             }
 
-            if (VIsObjNearby(ScaleToGridSize(field_BC_sprite_scale) * FP_FromInteger(3), field_10C_pTarget))
+            if (VIsObjNearby(ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale) * FP_FromInteger(3), field_10C_pTarget))
             {
-                if (field_10C_pTarget->field_BC_sprite_scale == field_BC_sprite_scale && mCurrentMotion == eSlogMotions::Motion_2_Run_4749A0)
+                if (field_10C_pTarget->mBaseAnimatedWithPhysicsGameObject_SpriteScale == mBaseAnimatedWithPhysicsGameObject_SpriteScale && mCurrentMotion == eSlogMotions::Motion_2_Run_4749A0)
                 {
                     if (VIsFacingMe(field_10C_pTarget))
                     {
@@ -2668,7 +2668,7 @@ s16 Slog::Brain_2_ChasingAbe_470F50()
                 mNextMotion = eSlogMotions::Motion_2_Run_4749A0;
             }
 
-            if (mBaseAnimatedWithPhysicsGameObject_YPos < ((field_BC_sprite_scale * FP_FromInteger(10)) + field_10C_pTarget->mBaseAnimatedWithPhysicsGameObject_YPos))
+            if (mBaseAnimatedWithPhysicsGameObject_YPos < ((mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(10)) + field_10C_pTarget->mBaseAnimatedWithPhysicsGameObject_YPos))
             {
                 field_11C_timer = sGnFrame + field_170;
                 return 11;
@@ -2803,10 +2803,10 @@ s16 Slog::Brain_3_Dead_4721B0()
 
     if (field_11C_timer < static_cast<s32>(sGnFrame) + 80)
     {
-        field_C0_r -= 2;
-        field_C2_g -= 2;
-        field_C4_b -= 2;
-        field_BC_sprite_scale -= FP_FromDouble(0.023);
+        mBaseAnimatedWithPhysicsGameObject_Red -= 2;
+        mBaseAnimatedWithPhysicsGameObject_Green -= 2;
+        mBaseAnimatedWithPhysicsGameObject_Blue -= 2;
+        mBaseAnimatedWithPhysicsGameObject_SpriteScale -= FP_FromDouble(0.023);
     }
 
     if (static_cast<s32>(sGnFrame) < field_11C_timer - 24)
@@ -2814,7 +2814,7 @@ s16 Slog::Brain_3_Dead_4721B0()
         DeathSmokeEffect(true);
     }
 
-    if (field_BC_sprite_scale < FP_FromInteger(0))
+    if (mBaseAnimatedWithPhysicsGameObject_SpriteScale < FP_FromInteger(0))
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
@@ -2823,12 +2823,12 @@ s16 Slog::Brain_3_Dead_4721B0()
 
 s16 Slog::Facing(FP xpos)
 {
-    if (mBaseAnimatedWithPhysicsGameObject_XPos < xpos && !field_10_anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
+    if (mBaseAnimatedWithPhysicsGameObject_XPos < xpos && !mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
     {
         return TRUE;
     }
 
-    if (xpos < mBaseAnimatedWithPhysicsGameObject_XPos && field_10_anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
+    if (xpos < mBaseAnimatedWithPhysicsGameObject_XPos && mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
     {
         return TRUE;
     }

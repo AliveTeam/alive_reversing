@@ -114,7 +114,7 @@ public:
     s16 MapFollowMe_401D30(s16 snapToGrid);
 
 public:
-    FP_RECT mBaseAliveGameObjectCollectionRect = {}; // part of BaseAnimatedWithPhysicsGameObject in AE
+    FP_RECT mCollectionRect = {}; // part of BaseAnimatedWithPhysicsGameObject in AE
     s16 mPreviousMotion = 0;
     s16 mBaseAliveGameObjectLastAnimFrame = 0;
     FP BaseAliveGameObjectLastLineYPos = {};

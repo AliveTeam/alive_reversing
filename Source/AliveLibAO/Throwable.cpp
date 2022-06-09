@@ -80,7 +80,7 @@ void BaseThrowable::VOnPickUpOrSlapped()
 
 void BaseThrowable::BaseAddToPlatform()
 {
-    const FP scale = field_BC_sprite_scale - FP_FromDouble(0.5);
+    const FP scale = mBaseAnimatedWithPhysicsGameObject_SpriteScale - FP_FromDouble(0.5);
 
     PathLine* pLine = nullptr;
     FP hitX = {};

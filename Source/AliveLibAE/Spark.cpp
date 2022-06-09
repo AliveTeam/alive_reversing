@@ -80,24 +80,24 @@ Spark::Spark(FP xpos, FP ypos, FP scale, s32 count, s32 minAngle, s32 maxAngle, 
                 ppRes);
             if (pParticle)
             {
-                pParticle->field_20_animation.mAnimFlags.Set(AnimFlags::eBit15_bSemiTrans);
-                pParticle->field_20_animation.mAnimFlags.Set(AnimFlags::eBit16_bBlending);
+                pParticle->mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit15_bSemiTrans);
+                pParticle->mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit16_bBlending);
 
-                pParticle->field_20_animation.mRenderMode = TPageAbr::eBlend_1;
-                pParticle->field_20_animation.mRed = 128;
-                pParticle->field_20_animation.mGreen = 128;
-                pParticle->field_20_animation.mBlue = 128;
+                pParticle->mBaseAnimatedWithPhysicsGameObject_Anim.mRenderMode = TPageAbr::eBlend_1;
+                pParticle->mBaseAnimatedWithPhysicsGameObject_Anim.mRed = 128;
+                pParticle->mBaseAnimatedWithPhysicsGameObject_Anim.mGreen = 128;
+                pParticle->mBaseAnimatedWithPhysicsGameObject_Anim.mBlue = 128;
 
                 if (scale == FP_FromInteger(1))
                 {
-                    pParticle->field_20_animation.mRenderLayer = Layer::eLayer_Foreground_36;
+                    pParticle->mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_Foreground_36;
                 }
                 else
                 {
-                    pParticle->field_20_animation.mRenderLayer = Layer::eLayer_Foreground_Half_17;
+                    pParticle->mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_Foreground_Half_17;
                 }
 
-                pParticle->field_CC_sprite_scale = scale;
+                pParticle->mBaseAnimatedWithPhysicsGameObject_SpriteScale = scale;
             }
         }
     }
@@ -145,8 +145,8 @@ void Spark::VUpdate()
 void Spark::VRender(PrimHeader** ppOt)
 {
     if (gMap.Is_Point_In_Current_Camera_4810D0(
-            sActiveHero->field_C2_lvl_number,
-            sActiveHero->field_C0_path_number,
+            sActiveHero->mBaseAnimatedWithPhysicsGameObject_LvlNumber,
+            sActiveHero->mBaseAnimatedWithPhysicsGameObject_PathNumber,
             field_40_xpos,
             field_44_ypos,
             0))

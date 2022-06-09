@@ -159,7 +159,7 @@ void Teleporter::VUpdate()
                         New_Smoke_Particles(
                             sControlledCharacter_5C1B8C->mBaseAnimatedWithPhysicsGameObject_XPos,
                             sControlledCharacter_5C1B8C->mBaseAnimatedWithPhysicsGameObject_YPos - FP_FromInteger(9), // 18/2
-                            sControlledCharacter_5C1B8C->field_CC_sprite_scale,
+                            sControlledCharacter_5C1B8C->mBaseAnimatedWithPhysicsGameObject_SpriteScale,
                             3,
                             128u,
                             128u,
@@ -178,7 +178,7 @@ void Teleporter::VUpdate()
                         New_Smoke_Particles(
                             sControlledCharacter_5C1B8C->mBaseAnimatedWithPhysicsGameObject_XPos,
                             sControlledCharacter_5C1B8C->mBaseAnimatedWithPhysicsGameObject_YPos - FP_FromInteger(18),
-                            sControlledCharacter_5C1B8C->field_CC_sprite_scale,
+                            sControlledCharacter_5C1B8C->mBaseAnimatedWithPhysicsGameObject_SpriteScale,
                             3,
                             128u,
                             128u,
@@ -200,7 +200,7 @@ void Teleporter::VUpdate()
                 }
             }
 
-            sControlledCharacter_5C1B8C->field_20_animation.mAnimFlags.Clear(AnimFlags::eBit3_Render);
+            sControlledCharacter_5C1B8C->mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit3_Render);
 
             gMap.field_20 = 1;
 
@@ -250,25 +250,25 @@ void Teleporter::VUpdate()
 
             if (tlvData.field_1C_scale != Scale_short::eFull_0)
             {
-                if (sControlledCharacter_5C1B8C->field_D6_scale == 1)
+                if (sControlledCharacter_5C1B8C->mBaseAnimatedWithPhysicsGameObject_Scale == 1)
                 {
-                    sControlledCharacter_5C1B8C->field_C4_velx *= FP_FromDouble(0.5);
-                    sControlledCharacter_5C1B8C->field_C8_vely *= FP_FromDouble(0.5);
+                    sControlledCharacter_5C1B8C->mBaseAnimatedWithPhysicsGameObject_VelX *= FP_FromDouble(0.5);
+                    sControlledCharacter_5C1B8C->mBaseAnimatedWithPhysicsGameObject_VelY *= FP_FromDouble(0.5);
                 }
-                sControlledCharacter_5C1B8C->field_CC_sprite_scale = FP_FromDouble(0.5);
-                sControlledCharacter_5C1B8C->field_20_animation.mRenderLayer = Layer::eLayer_AbeMenu_Half_13;
-                sControlledCharacter_5C1B8C->field_D6_scale = 0;
+                sControlledCharacter_5C1B8C->mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromDouble(0.5);
+                sControlledCharacter_5C1B8C->mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_AbeMenu_Half_13;
+                sControlledCharacter_5C1B8C->mBaseAnimatedWithPhysicsGameObject_Scale = 0;
             }
             else
             {
-                if (sControlledCharacter_5C1B8C->field_D6_scale == 0)
+                if (sControlledCharacter_5C1B8C->mBaseAnimatedWithPhysicsGameObject_Scale == 0)
                 {
-                    sControlledCharacter_5C1B8C->field_C4_velx *= FP_FromInteger(2);
-                    sControlledCharacter_5C1B8C->field_C8_vely *= FP_FromInteger(2);
+                    sControlledCharacter_5C1B8C->mBaseAnimatedWithPhysicsGameObject_VelX *= FP_FromInteger(2);
+                    sControlledCharacter_5C1B8C->mBaseAnimatedWithPhysicsGameObject_VelY *= FP_FromInteger(2);
                 }
-                sControlledCharacter_5C1B8C->field_CC_sprite_scale = FP_FromInteger(1);
-                sControlledCharacter_5C1B8C->field_20_animation.mRenderLayer = Layer::eLayer_AbeMenu_32;
-                sControlledCharacter_5C1B8C->field_D6_scale = 1;
+                sControlledCharacter_5C1B8C->mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromInteger(1);
+                sControlledCharacter_5C1B8C->mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_AbeMenu_32;
+                sControlledCharacter_5C1B8C->mBaseAnimatedWithPhysicsGameObject_Scale = 1;
             }
 
             // XPos = TLV xpos + TLV middle point
@@ -276,7 +276,7 @@ void Teleporter::VUpdate()
 
             sControlledCharacter_5C1B8C->MapFollowMe(TRUE);
 
-            const u8 lineType = sControlledCharacter_5C1B8C->field_D6_scale == 0 ? 0xF0 : 0x1F;
+            const u8 lineType = sControlledCharacter_5C1B8C->mBaseAnimatedWithPhysicsGameObject_Scale == 0 ? 0xF0 : 0x1F;
 
             PathLine* pPathLine = nullptr;
             FP hitX = {};
@@ -313,11 +313,11 @@ void Teleporter::VUpdate()
             // White flash in the middle of Abe's body.
             New_DestroyOrCreateObject_Particle(
                 FP_FromInteger((bRect.x + bRect.w) / 2),
-                FP_FromInteger((bRect.y + bRect.h) / 2) + (sControlledCharacter_5C1B8C->field_CC_sprite_scale * FP_FromInteger(60)),
-                sControlledCharacter_5C1B8C->field_CC_sprite_scale);
+                FP_FromInteger((bRect.y + bRect.h) / 2) + (sControlledCharacter_5C1B8C->mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(60)),
+                sControlledCharacter_5C1B8C->mBaseAnimatedWithPhysicsGameObject_SpriteScale);
 
             // Spawn the falling "red" sparks from Abe's feet that appear after you've arrived at the destination.
-            if (sControlledCharacter_5C1B8C->field_CC_sprite_scale == FP_FromDouble(0.5))
+            if (sControlledCharacter_5C1B8C->mBaseAnimatedWithPhysicsGameObject_SpriteScale == FP_FromDouble(0.5))
             {
                 relive_new ParticleBurst(sControlledCharacter_5C1B8C->mBaseAnimatedWithPhysicsGameObject_XPos,
                                                             sControlledCharacter_5C1B8C->mBaseAnimatedWithPhysicsGameObject_YPos - FP_FromInteger(9),
@@ -337,7 +337,7 @@ void Teleporter::VUpdate()
             }
 
             field_54_effect_created = 0;
-            sControlledCharacter_5C1B8C->field_20_animation.mAnimFlags.Set(AnimFlags::eBit3_Render);
+            sControlledCharacter_5C1B8C->mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit3_Render);
             sControlledCharacter_5C1B8C->mBaseAliveGameObjectFlags.Clear(Flags_114::e114_Bit10_Teleporting);
             field_2C_switch_state = SwitchStates_Get(field_34_mTlvData.field_1A_switch_id);
             field_30_state = TeleporterState::eWaitForSwitchOn_0;

@@ -29,8 +29,8 @@ Rock::Rock(FP xpos, FP ypos, s16 count)
     Animation_Init_417FD0(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
 
     mBaseGameObjectFlags.Clear(Options::eInteractive_Bit8);
-    field_10_anim.mAnimFlags.Clear(AnimFlags::eBit3_Render);
-    field_10_anim.mAnimFlags.Clear(AnimFlags::eBit15_bSemiTrans);
+    mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit3_Render);
+    mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit15_bSemiTrans);
 
     mBaseAnimatedWithPhysicsGameObject_XPos = xpos;
     field_11C_xpos = xpos;
@@ -38,8 +38,8 @@ Rock::Rock(FP xpos, FP ypos, s16 count)
     mBaseAnimatedWithPhysicsGameObject_YPos = ypos;
     field_120_ypos = ypos;
 
-    field_B4_velx = FP_FromInteger(0);
-    field_B8_vely = FP_FromInteger(0);
+    mBaseAnimatedWithPhysicsGameObject_VelX = FP_FromInteger(0);
+    mBaseAnimatedWithPhysicsGameObject_VelY = FP_FromInteger(0);
 
     field_10C_count = count;
     field_110_state = States::eNone_0;
@@ -47,22 +47,22 @@ Rock::Rock(FP xpos, FP ypos, s16 count)
     u8** ppPal = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Palt, AOResourceID::kAberockAOResID, 0, 0);
     if (ppPal)
     {
-        field_10_anim.LoadPal(ppPal, 0);
+        mBaseAnimatedWithPhysicsGameObject_Anim.LoadPal(ppPal, 0);
     }
     else
     {
-        const FrameInfoHeader* pFrameInfo = field_10_anim.Get_FrameHeader(-1);
+        const FrameInfoHeader* pFrameInfo = mBaseAnimatedWithPhysicsGameObject_Anim.Get_FrameHeader(-1);
 
-        const FrameHeader* pFrameHeader = reinterpret_cast<const FrameHeader*>(&(*field_10_anim.field_20_ppBlock)[pFrameInfo->field_0_frame_header_offset]);
+        const FrameHeader* pFrameHeader = reinterpret_cast<const FrameHeader*>(&(*mBaseAnimatedWithPhysicsGameObject_Anim.field_20_ppBlock)[pFrameInfo->field_0_frame_header_offset]);
 
-        field_10_anim.LoadPal(
-            field_10_anim.field_20_ppBlock,
+        mBaseAnimatedWithPhysicsGameObject_Anim.LoadPal(
+            mBaseAnimatedWithPhysicsGameObject_Anim.field_20_ppBlock,
             pFrameHeader->field_0_clut_offset);
     }
 
     field_118_vol = 0;
 
-    field_D0_pShadow = relive_new Shadow();
+    mShadow = relive_new Shadow();
 }
 
 Rock::~Rock()
@@ -90,55 +90,55 @@ void Rock::VUpdate()
             break;
 
         case States::eRolling_2:
-            if (FP_Abs(field_B4_velx) >= FP_FromInteger(1))
+            if (FP_Abs(mBaseAnimatedWithPhysicsGameObject_VelX) >= FP_FromInteger(1))
             {
-                if (field_B4_velx < FP_FromInteger(0))
+                if (mBaseAnimatedWithPhysicsGameObject_VelX < FP_FromInteger(0))
                 {
-                    field_B4_velx += FP_FromDouble(0.01);
+                    mBaseAnimatedWithPhysicsGameObject_VelX += FP_FromDouble(0.01);
                 }
                 else
                 {
-                    field_B4_velx -= FP_FromDouble(0.01);
+                    mBaseAnimatedWithPhysicsGameObject_VelX -= FP_FromDouble(0.01);
                 }
 
                 field_114_pLine->MoveOnLine(
                     &mBaseAnimatedWithPhysicsGameObject_XPos,
                     &mBaseAnimatedWithPhysicsGameObject_YPos,
-                    field_B4_velx);
+                    mBaseAnimatedWithPhysicsGameObject_VelX);
 
                 if (!field_114_pLine)
                 {
                     field_110_state = States::eBouncing_4;
-                    field_10_anim.mAnimFlags.Set(AnimFlags::eBit8_Loop);
+                    mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit8_Loop);
                 }
             }
             else
             {
                 const s16 x_exp = FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos);
-                const s32 xSnapped = (x_exp & 0xFC00) + SnapToXGrid(field_BC_sprite_scale, x_exp & 0x3FF);
+                const s32 xSnapped = (x_exp & 0xFC00) + SnapToXGrid(mBaseAnimatedWithPhysicsGameObject_SpriteScale, x_exp & 0x3FF);
                 if (abs(xSnapped - x_exp) > 1)
                 {
                     field_114_pLine = field_114_pLine->MoveOnLine(
                         &mBaseAnimatedWithPhysicsGameObject_XPos,
                         &mBaseAnimatedWithPhysicsGameObject_YPos,
-                        field_B4_velx);
+                        mBaseAnimatedWithPhysicsGameObject_VelX);
                     if (!field_114_pLine)
                     {
                         field_110_state = States::eBouncing_4;
-                        field_10_anim.mAnimFlags.Set(AnimFlags::eBit8_Loop);
+                        mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit8_Loop);
                     }
                 }
                 else
                 {
-                    field_B4_velx = FP_FromInteger(0);
-                    mBaseAliveGameObjectCollectionRect.x = mBaseAnimatedWithPhysicsGameObject_XPos - (ScaleToGridSize(field_BC_sprite_scale) / FP_FromInteger(2));
-                    mBaseAliveGameObjectCollectionRect.w = mBaseAnimatedWithPhysicsGameObject_XPos + (ScaleToGridSize(field_BC_sprite_scale) / FP_FromInteger(2));
+                    mBaseAnimatedWithPhysicsGameObject_VelX = FP_FromInteger(0);
+                    mCollectionRect.x = mBaseAnimatedWithPhysicsGameObject_XPos - (ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale) / FP_FromInteger(2));
+                    mCollectionRect.w = mBaseAnimatedWithPhysicsGameObject_XPos + (ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale) / FP_FromInteger(2));
 
                     mBaseGameObjectFlags.Set(Options::eInteractive_Bit8);
 
-                    field_10_anim.mAnimFlags.Clear(AnimFlags::eBit8_Loop);
-                    mBaseAliveGameObjectCollectionRect.y = mBaseAnimatedWithPhysicsGameObject_YPos - ScaleToGridSize(field_BC_sprite_scale);
-                    mBaseAliveGameObjectCollectionRect.h = mBaseAnimatedWithPhysicsGameObject_YPos;
+                    mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit8_Loop);
+                    mCollectionRect.y = mBaseAnimatedWithPhysicsGameObject_YPos - ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale);
+                    mCollectionRect.h = mBaseAnimatedWithPhysicsGameObject_YPos;
                     field_110_state = States::eOnGround_3;
                     field_124_shimmer_timer = sGnFrame;
                 }
@@ -149,8 +149,8 @@ void Rock::VUpdate()
             if (static_cast<s32>(sGnFrame) > field_124_shimmer_timer)
             {
                 New_Shiny_Particle_4199A0(
-                    (field_BC_sprite_scale * FP_FromInteger(1)) + mBaseAnimatedWithPhysicsGameObject_XPos,
-                    (field_BC_sprite_scale * FP_FromInteger(-7)) + mBaseAnimatedWithPhysicsGameObject_YPos,
+                    (mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(1)) + mBaseAnimatedWithPhysicsGameObject_XPos,
+                    (mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(-7)) + mBaseAnimatedWithPhysicsGameObject_YPos,
                     FP_FromDouble(0.3),
                     Layer::eLayer_Foreground_36);
                 field_124_shimmer_timer = (Math_NextRandom() % 16) + sGnFrame + 60;
@@ -171,7 +171,7 @@ void Rock::VUpdate()
                 1,
                 (TCollisionCallBack) &Rock::OnCollision);
 
-            if (field_B8_vely > FP_FromInteger(30))
+            if (mBaseAnimatedWithPhysicsGameObject_VelY > FP_FromInteger(30))
             {
                 field_110_state = States::eFallingOutOfWorld_5;
             }
@@ -179,12 +179,12 @@ void Rock::VUpdate()
         break;
 
         case States::eFallingOutOfWorld_5:
-            field_B8_vely += FP_FromInteger(1);
-            mBaseAnimatedWithPhysicsGameObject_XPos += field_B4_velx;
-            mBaseAnimatedWithPhysicsGameObject_YPos += field_B8_vely;
+            mBaseAnimatedWithPhysicsGameObject_VelY += FP_FromInteger(1);
+            mBaseAnimatedWithPhysicsGameObject_XPos += mBaseAnimatedWithPhysicsGameObject_VelX;
+            mBaseAnimatedWithPhysicsGameObject_YPos += mBaseAnimatedWithPhysicsGameObject_VelY;
             if (!gMap.Is_Point_In_Current_Camera_4449C0(
-                    field_B2_lvl_number,
-                    field_B0_path_number,
+                    mBaseAnimatedWithPhysicsGameObject_LvlNumber,
+                    mBaseAnimatedWithPhysicsGameObject_PathNumber,
                     mBaseAnimatedWithPhysicsGameObject_XPos,
                     mBaseAnimatedWithPhysicsGameObject_YPos,
                     0))
@@ -210,10 +210,10 @@ void Rock::VScreenChanged()
 //TODO Identical to AE - merge
 void Rock::VThrow(FP velX, FP velY)
 {
-    field_B4_velx = velX;
-    field_B8_vely = velY;
+    mBaseAnimatedWithPhysicsGameObject_VelX = velX;
+    mBaseAnimatedWithPhysicsGameObject_VelY = velY;
 
-    field_10_anim.mAnimFlags.Set(AnimFlags::eBit3_Render);
+    mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit3_Render);
 
     if (field_10C_count == 0)
     {
@@ -235,19 +235,19 @@ void Rock::InTheAir()
     field_11C_xpos = mBaseAnimatedWithPhysicsGameObject_XPos;
     field_120_ypos = mBaseAnimatedWithPhysicsGameObject_YPos;
 
-    if (field_B8_vely > FP_FromInteger(30))
+    if (mBaseAnimatedWithPhysicsGameObject_VelY > FP_FromInteger(30))
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 
-    field_B8_vely += FP_FromInteger(1);
+    mBaseAnimatedWithPhysicsGameObject_VelY += FP_FromInteger(1);
 
-    mBaseAnimatedWithPhysicsGameObject_XPos += field_B4_velx;
-    mBaseAnimatedWithPhysicsGameObject_YPos += field_B8_vely;
+    mBaseAnimatedWithPhysicsGameObject_XPos += mBaseAnimatedWithPhysicsGameObject_VelX;
+    mBaseAnimatedWithPhysicsGameObject_YPos += mBaseAnimatedWithPhysicsGameObject_VelY;
 
     u16 result = 0;
-    mBaseAnimatedWithPhysicsGameObject_XPos = CamX_VoidSkipper(mBaseAnimatedWithPhysicsGameObject_XPos, field_B4_velx, 8, &result);
-    mBaseAnimatedWithPhysicsGameObject_YPos = CamY_VoidSkipper(mBaseAnimatedWithPhysicsGameObject_YPos, field_B8_vely, 8, &result);
+    mBaseAnimatedWithPhysicsGameObject_XPos = CamX_VoidSkipper(mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_VelX, 8, &result);
+    mBaseAnimatedWithPhysicsGameObject_YPos = CamY_VoidSkipper(mBaseAnimatedWithPhysicsGameObject_YPos, mBaseAnimatedWithPhysicsGameObject_VelY, 8, &result);
 
     FP hitX = {};
     FP hitY = {};
@@ -259,7 +259,7 @@ void Rock::InTheAir()
             &field_114_pLine,
             &hitX,
             &hitY,
-            field_BC_sprite_scale != FP_FromInteger(1) ? 0x70 : 0x07))
+            mBaseAnimatedWithPhysicsGameObject_SpriteScale != FP_FromInteger(1) ? 0x70 : 0x07))
     {
         switch (field_114_pLine->field_8_type)
         {
@@ -267,15 +267,15 @@ void Rock::InTheAir()
             case eLineTypes::eBackgroundFloor_4:
             case eLineTypes::eUnknown_32:
             case eLineTypes::eUnknown_36:
-                if (field_B8_vely > FP_FromInteger(0))
+                if (mBaseAnimatedWithPhysicsGameObject_VelY > FP_FromInteger(0))
                 {
-                    if (field_110_state != States::eBouncing_4 || field_B8_vely >= FP_FromInteger(5))
+                    if (field_110_state != States::eBouncing_4 || mBaseAnimatedWithPhysicsGameObject_VelY >= FP_FromInteger(5))
                     {
-                        if (field_110_state != States::eFallingOutOfRockSack_1 || field_B8_vely >= FP_FromInteger(1))
+                        if (field_110_state != States::eFallingOutOfRockSack_1 || mBaseAnimatedWithPhysicsGameObject_VelY >= FP_FromInteger(1))
                         {
                             mBaseAnimatedWithPhysicsGameObject_YPos = hitY;
-                            field_B8_vely = (-field_B8_vely / FP_FromInteger(2));
-                            field_B4_velx = (field_B4_velx / FP_FromInteger(2));
+                            mBaseAnimatedWithPhysicsGameObject_VelY = (-mBaseAnimatedWithPhysicsGameObject_VelY / FP_FromInteger(2));
+                            mBaseAnimatedWithPhysicsGameObject_VelX = (mBaseAnimatedWithPhysicsGameObject_VelX / FP_FromInteger(2));
                             s32 vol = 20 * (4 - field_118_vol);
                             if (vol < 40)
                             {
@@ -289,14 +289,14 @@ void Rock::InTheAir()
                         else
                         {
                             field_110_state = States::eRolling_2;
-                            if (field_B4_velx >= FP_FromInteger(0) && field_B4_velx < FP_FromInteger(1))
+                            if (mBaseAnimatedWithPhysicsGameObject_VelX >= FP_FromInteger(0) && mBaseAnimatedWithPhysicsGameObject_VelX < FP_FromInteger(1))
                             {
-                                field_B4_velx = FP_FromInteger(1);
+                                mBaseAnimatedWithPhysicsGameObject_VelX = FP_FromInteger(1);
                             }
 
-                            if (field_B4_velx < FP_FromInteger(0) && field_B4_velx > FP_FromInteger(-1))
+                            if (mBaseAnimatedWithPhysicsGameObject_VelX < FP_FromInteger(0) && mBaseAnimatedWithPhysicsGameObject_VelX > FP_FromInteger(-1))
                             {
-                                field_B4_velx = FP_FromInteger(-1);
+                                mBaseAnimatedWithPhysicsGameObject_VelX = FP_FromInteger(-1);
                             }
                         }
                     }
@@ -309,14 +309,14 @@ void Rock::InTheAir()
 
             case eLineTypes::eWallLeft_1:
             case eLineTypes::eBackgroundWallLeft_5:
-                if (field_B4_velx < FP_FromInteger(0))
+                if (mBaseAnimatedWithPhysicsGameObject_VelX < FP_FromInteger(0))
                 {
                     BounceHorizontally( hitX, hitY );
                 }
                 break;
             case eLineTypes::eWallRight_2:
             case eLineTypes::eBackgroundWallRight_6:
-                if (field_B4_velx > FP_FromInteger(0))
+                if (mBaseAnimatedWithPhysicsGameObject_VelX > FP_FromInteger(0))
                 {
                     BounceHorizontally( hitX, hitY );
                 }
@@ -331,7 +331,7 @@ void Rock::InTheAir()
 //TODO Identical to AE - merge
 void Rock::BounceHorizontally( FP hitX, FP hitY )
 {
-    field_B4_velx = (-field_B4_velx / FP_FromInteger(2));
+    mBaseAnimatedWithPhysicsGameObject_VelX = (-mBaseAnimatedWithPhysicsGameObject_VelX / FP_FromInteger(2));
     mBaseAnimatedWithPhysicsGameObject_XPos = hitX;
     mBaseAnimatedWithPhysicsGameObject_YPos = hitY;
     s32 vol = 20 * (4 - field_118_vol);
@@ -358,13 +358,13 @@ s16 Rock::OnCollision(BaseAnimatedWithPhysicsGameObject* pObj)
 
     if (field_11C_xpos < FP_FromInteger(bRect.x) || field_11C_xpos > FP_FromInteger(bRect.w))
     {
-        mBaseAnimatedWithPhysicsGameObject_XPos -= field_B4_velx;
-        field_B4_velx = (-field_B4_velx / FP_FromInteger(2));
+        mBaseAnimatedWithPhysicsGameObject_XPos -= mBaseAnimatedWithPhysicsGameObject_VelX;
+        mBaseAnimatedWithPhysicsGameObject_VelX = (-mBaseAnimatedWithPhysicsGameObject_VelX / FP_FromInteger(2));
     }
     else
     {
-        mBaseAnimatedWithPhysicsGameObject_YPos -= field_B8_vely;
-        field_B8_vely = (-field_B8_vely / FP_FromInteger(2));
+        mBaseAnimatedWithPhysicsGameObject_YPos -= mBaseAnimatedWithPhysicsGameObject_VelY;
+        mBaseAnimatedWithPhysicsGameObject_VelY = (-mBaseAnimatedWithPhysicsGameObject_VelY / FP_FromInteger(2));
     }
 
     pObj->VOnThrowableHit(this);

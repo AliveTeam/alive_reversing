@@ -14,19 +14,19 @@ ALIVE_VAR(1, 0x4D148C, u8, sLeafRandIdx_4D148C, 8);
 
 void Leaf::VUpdate()
 {
-    field_B8_vely += FP_FromDouble(0.5);
+    mBaseAnimatedWithPhysicsGameObject_VelY += FP_FromDouble(0.5);
 
-    field_B4_velx = field_B4_velx * FP_FromDouble(0.8);
-    field_B8_vely = field_B8_vely * FP_FromDouble(0.8);
+    mBaseAnimatedWithPhysicsGameObject_VelX = mBaseAnimatedWithPhysicsGameObject_VelX * FP_FromDouble(0.8);
+    mBaseAnimatedWithPhysicsGameObject_VelY = mBaseAnimatedWithPhysicsGameObject_VelY * FP_FromDouble(0.8);
 
     const s32 randX = sRandomBytes_4BBE30[sLeafRandIdx_4D148C++] - 127;
-    field_B4_velx += field_BC_sprite_scale * (FP_FromInteger(randX) / FP_FromInteger(64));
+    mBaseAnimatedWithPhysicsGameObject_VelX += mBaseAnimatedWithPhysicsGameObject_SpriteScale * (FP_FromInteger(randX) / FP_FromInteger(64));
 
     const s32 randY = sRandomBytes_4BBE30[sLeafRandIdx_4D148C++] - 127;
-    field_B8_vely += (field_BC_sprite_scale * (FP_FromInteger(randY) / FP_FromInteger(64)));
+    mBaseAnimatedWithPhysicsGameObject_VelY += (mBaseAnimatedWithPhysicsGameObject_SpriteScale * (FP_FromInteger(randY) / FP_FromInteger(64)));
 
-    const FP x2 = field_B4_velx + mBaseAnimatedWithPhysicsGameObject_XPos;
-    const FP y2 = field_B8_vely + mBaseAnimatedWithPhysicsGameObject_YPos;
+    const FP x2 = mBaseAnimatedWithPhysicsGameObject_VelX + mBaseAnimatedWithPhysicsGameObject_XPos;
+    const FP y2 = mBaseAnimatedWithPhysicsGameObject_VelY + mBaseAnimatedWithPhysicsGameObject_YPos;
 
     PathLine* pLine = nullptr;
     FP hitX = {};
@@ -42,7 +42,7 @@ void Leaf::VUpdate()
         17);
 
     // Hit the floor, die but only if in background..
-    if (bCollision && field_BC_sprite_scale == FP_FromDouble(0.5) && pLine->field_8_type == eLineTypes::eFloor_0)
+    if (bCollision && mBaseAnimatedWithPhysicsGameObject_SpriteScale == FP_FromDouble(0.5) && pLine->field_8_type == eLineTypes::eFloor_0)
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
         return;
@@ -50,8 +50,8 @@ void Leaf::VUpdate()
 
     if (field_E4_bHitSomething & 1 || !bCollision || 
         (
-        (field_BC_sprite_scale != FP_FromDouble(0.5) || pLine->field_8_type != eLineTypes::eBackgroundFloor_4) &&
-        (field_BC_sprite_scale != FP_FromInteger(1) || pLine->field_8_type != eLineTypes::eFloor_0))
+        (mBaseAnimatedWithPhysicsGameObject_SpriteScale != FP_FromDouble(0.5) || pLine->field_8_type != eLineTypes::eBackgroundFloor_4) &&
+        (mBaseAnimatedWithPhysicsGameObject_SpriteScale != FP_FromInteger(1) || pLine->field_8_type != eLineTypes::eFloor_0))
         )
     {
         mBaseAnimatedWithPhysicsGameObject_XPos = x2;
@@ -59,8 +59,8 @@ void Leaf::VUpdate()
     }
     else
     {
-        field_B4_velx = FP_FromInteger(0);
-        field_B8_vely = FP_FromInteger(0);
+        mBaseAnimatedWithPhysicsGameObject_VelX = FP_FromInteger(0);
+        mBaseAnimatedWithPhysicsGameObject_VelY = FP_FromInteger(0);
 
         field_E4_bHitSomething |= 1;
 
@@ -70,8 +70,8 @@ void Leaf::VUpdate()
 
     // Out of the camera, die
     if (!gMap.Is_Point_In_Current_Camera_4449C0(
-            field_B2_lvl_number,
-            field_B0_path_number,
+            mBaseAnimatedWithPhysicsGameObject_LvlNumber,
+            mBaseAnimatedWithPhysicsGameObject_PathNumber,
             mBaseAnimatedWithPhysicsGameObject_XPos,
             mBaseAnimatedWithPhysicsGameObject_YPos,
             0))
@@ -87,9 +87,9 @@ void Leaf::VScreenChanged()
 
 Leaf::Leaf(FP xpos, FP ypos, FP xVel, FP yVel, FP scale)
 {
-    field_C0_r = 100;
-    field_C2_g = 100;
-    field_C4_b = 100;
+    mBaseAnimatedWithPhysicsGameObject_Red = 100;
+    mBaseAnimatedWithPhysicsGameObject_Green = 100;
+    mBaseAnimatedWithPhysicsGameObject_Blue = 100;
 
     const AnimRecord& leafRec = AO::AnimRec(AnimId::Well_Leaf);
     u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, leafRec.mResourceId, 1, 0);
@@ -105,30 +105,30 @@ Leaf::Leaf(FP xpos, FP ypos, FP xVel, FP yVel, FP scale)
         ppRes,
         1);
 
-    field_BC_sprite_scale = scale;
-    if (field_BC_sprite_scale == FP_FromInteger(1))
+    mBaseAnimatedWithPhysicsGameObject_SpriteScale = scale;
+    if (mBaseAnimatedWithPhysicsGameObject_SpriteScale == FP_FromInteger(1))
     {
-        field_10_anim.mRenderLayer = Layer::eLayer_27;
-        field_C6_scale = 1;
+        mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_27;
+        mBaseAnimatedWithPhysicsGameObject_Scale = 1;
     }
     else
     {
-        field_10_anim.mRenderLayer = Layer::eLayer_8;
-        field_C6_scale = 0;
+        mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_8;
+        mBaseAnimatedWithPhysicsGameObject_Scale = 0;
     }
 
     mBaseAnimatedWithPhysicsGameObject_XPos = xpos;
     mBaseAnimatedWithPhysicsGameObject_YPos = ypos;
 
-    field_B4_velx = xVel * field_BC_sprite_scale;
-    field_B8_vely = yVel * field_BC_sprite_scale;
+    mBaseAnimatedWithPhysicsGameObject_VelX = xVel * mBaseAnimatedWithPhysicsGameObject_SpriteScale;
+    mBaseAnimatedWithPhysicsGameObject_VelY = yVel * mBaseAnimatedWithPhysicsGameObject_SpriteScale;
 
     sLeafRandIdx_4D148C++;
 
     field_E4_bHitSomething &= ~1u;
 
     s16 randLeftVol = Math_RandomRange_450F20(19, 24);
-    if (field_BC_sprite_scale == FP_FromDouble(0.4)) // ??
+    if (mBaseAnimatedWithPhysicsGameObject_SpriteScale == FP_FromDouble(0.4)) // ??
     {
         randLeftVol -= 7;
     }

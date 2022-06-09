@@ -22,13 +22,13 @@ SligGetPantsAndWings::SligGetPantsAndWings(Path_TLV* pTlv, s32 tlvInfo)
     auto pHack = static_cast<Path_Slig*>(pTlv);
     if (pHack->field_10_scale == Scale_short::eHalf_1)
     {
-        field_CC_sprite_scale = FP_FromDouble(0.5);
-        field_D6_scale = 0;
-        field_20_animation.mRenderLayer = Layer::eLayer_BeforeShadow_Half_6;
+        mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromDouble(0.5);
+        mBaseAnimatedWithPhysicsGameObject_Scale = 0;
+        mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_BeforeShadow_Half_6;
     }
     else if (pHack->field_10_scale == Scale_short::eFull_0)
     {
-        field_20_animation.mRenderLayer = Layer::eLayer_BeforeShadow_25;
+        mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_BeforeShadow_25;
     }
 
     mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger((pTlv->field_8_top_left.field_0_x + pTlv->field_C_bottom_right.field_0_x) / 2);
@@ -59,16 +59,16 @@ void SligGetPantsAndWings::VUpdate()
                 field_F4_state = State::eFinished_2;
                 SFX_Play_Mono(SoundEffect::NakedSligTransformEnd_92, 0);
                 const AnimRecord& rec = AnimRec(AnimId::CrawlingSligLocker_Open);
-                field_20_animation.Set_Animation_Data(rec.mFrameTableOffset, nullptr);
+                mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(rec.mFrameTableOffset, nullptr);
             }
             break;
 
         case State::eFinished_2:
-            if (field_20_animation.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
+            if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
             {
                 field_F4_state = State::eWaiting_0;
                 const AnimRecord& rec = AnimRec(AnimId::CrawlingSligLocker_Closed);
-                field_20_animation.Set_Animation_Data(rec.mFrameTableOffset, nullptr);
+                mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(rec.mFrameTableOffset, nullptr);
                 pTlv->field_1_tlv_state = 0;
             }
             break;

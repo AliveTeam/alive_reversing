@@ -34,27 +34,27 @@ MovingBomb::MovingBomb(Path_MovingBomb* pTlv, s32 tlvInfo)
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
     Animation_Init(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
 
-    field_20_animation.mAnimFlags.Set(AnimFlags::eBit15_bSemiTrans);
-    field_20_animation.mRenderMode = TPageAbr::eBlend_0;
+    mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit15_bSemiTrans);
+    mBaseAnimatedWithPhysicsGameObject_Anim.mRenderMode = TPageAbr::eBlend_0;
     field_118_state = States::eTriggeredBySwitch_1;
 
     if (pTlv->field_16_scale == Scale_short::eHalf_1)
     {
-        field_CC_sprite_scale = FP_FromDouble(0.5);
-        field_D6_scale = 0;
-        field_20_animation.mRenderLayer = Layer::eLayer_BombMineCar_Half_16;
+        mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromDouble(0.5);
+        mBaseAnimatedWithPhysicsGameObject_Scale = 0;
+        mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_BombMineCar_Half_16;
     }
     else if (pTlv->field_16_scale == Scale_short::eFull_0)
     {
-        field_CC_sprite_scale = FP_FromInteger(1);
-        field_D6_scale = 1;
-        field_20_animation.mRenderLayer = Layer::eLayer_BombMineCar_35;
+        mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromInteger(1);
+        mBaseAnimatedWithPhysicsGameObject_Scale = 1;
+        mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_BombMineCar_35;
     }
 
     mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pTlv->field_8_top_left.field_0_x);
     mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->field_8_top_left.field_2_y);
     field_124_speed = FP_FromRaw(pTlv->field_10_speed << 8);
-    field_C4_velx = FP_FromRaw(pTlv->field_1C_start_speed << 8);
+    mBaseAnimatedWithPhysicsGameObject_VelX = FP_FromRaw(pTlv->field_1C_start_speed << 8);
     field_128_start_moving_switch_id = pTlv->field_12_start_moving_switch_id;
     field_120_timer = sGnFrame;
     field_11C_tlvInfo = tlvInfo;
@@ -66,7 +66,7 @@ MovingBomb::MovingBomb(Path_MovingBomb* pTlv, s32 tlvInfo)
     if (pTlv->field_14_bTriggered_by_alarm == Choice_short::eYes_1)
     {
         field_118_state = States::eTriggeredByAlarm_0;
-        field_20_animation.mAnimFlags.Clear(AnimFlags::eBit3_Render);
+        mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit3_Render);
     }
 
     SetTint(&kMovingBombTints_55C734[0], gMap.mCurrentLevel);
@@ -134,14 +134,14 @@ void MovingBomb::BlowUp()
 {
     mBaseGameObjectFlags.Clear(BaseGameObject::eCanExplode_Bit7);
     field_118_state = States::eBlowingUp_6;
-    field_C8_vely = FP_FromInteger(0);
+    mBaseAnimatedWithPhysicsGameObject_VelY = FP_FromInteger(0);
     field_120_timer = sGnFrame + 1;
-    SFX_Play_Mono(SoundEffect::GreenTick_2, 100, field_CC_sprite_scale);
+    SFX_Play_Mono(SoundEffect::GreenTick_2, 100, mBaseAnimatedWithPhysicsGameObject_SpriteScale);
 }
 
 void MovingBomb::VRender(PrimHeader** ot)
 {
-    if (field_20_animation.mAnimFlags.Get(AnimFlags::eBit3_Render))
+    if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit3_Render))
     {
         BaseAnimatedWithPhysicsGameObject::VRender(ot);
     }
@@ -176,7 +176,7 @@ void MovingBomb::FollowLine()
 {
     if (BaseAliveGameObjectCollisionLine)
     {
-        BaseAliveGameObjectCollisionLine = BaseAliveGameObjectCollisionLine->MoveOnLine(&mBaseAnimatedWithPhysicsGameObject_XPos, &mBaseAnimatedWithPhysicsGameObject_YPos, field_C4_velx);
+        BaseAliveGameObjectCollisionLine = BaseAliveGameObjectCollisionLine->MoveOnLine(&mBaseAnimatedWithPhysicsGameObject_XPos, &mBaseAnimatedWithPhysicsGameObject_YPos, mBaseAnimatedWithPhysicsGameObject_VelX);
     }
 }
 
@@ -194,13 +194,13 @@ s16 MovingBomb::VTakeDamage(BaseGameObject* pFrom)
         case ReliveTypes::eShrykull:
         {
             mHealth = FP_FromInteger(0);
-            relive_new Explosion(mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, field_CC_sprite_scale, 0);
+            relive_new Explosion(mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, mBaseAnimatedWithPhysicsGameObject_SpriteScale, 0);
 
-            relive_new Gibs(GibType::Metal_5, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, FP_FromInteger(0), FP_FromInteger(5), field_CC_sprite_scale, 0);
+            relive_new Gibs(GibType::Metal_5, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, FP_FromInteger(0), FP_FromInteger(5), mBaseAnimatedWithPhysicsGameObject_SpriteScale, 0);
 
             field_118_state = States::eKillMovingBomb_7;
 
-            field_20_animation.mAnimFlags.Clear(AnimFlags::eBit3_Render);
+            mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit3_Render);
             field_120_timer = sGnFrame + 4;
         }
             return 0;
@@ -242,7 +242,7 @@ s16 MovingBomb::HitObject()
                 {
                     PSX_RECT objRect = {};
                     pObj->VGetBoundingRect(&objRect, 1);
-                    if (bRect.x <= objRect.w && bRect.w >= objRect.x && bRect.h >= objRect.y && bRect.y <= objRect.h && pObj->field_CC_sprite_scale == field_CC_sprite_scale && pObj->field_C0_path_number == field_C0_path_number)
+                    if (bRect.x <= objRect.w && bRect.w >= objRect.x && bRect.h >= objRect.y && bRect.y <= objRect.h && pObj->mBaseAnimatedWithPhysicsGameObject_SpriteScale == mBaseAnimatedWithPhysicsGameObject_SpriteScale && pObj->mBaseAnimatedWithPhysicsGameObject_PathNumber == mBaseAnimatedWithPhysicsGameObject_PathNumber)
                     {
                         return 1;
                     }
@@ -273,7 +273,7 @@ void MovingBomb::VUpdate()
 
     if (gMovingBomb_5C300C == nullptr || gMovingBomb_5C300C == this)
     {
-        if (field_20_animation.field_92_current_frame != 0 && field_20_animation.field_92_current_frame != 7)
+        if (mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame != 0 && mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame != 7)
         {
             gMovingBomb_5C300C = this;
         }
@@ -291,11 +291,11 @@ void MovingBomb::VUpdate()
                 {
                     if (field_118_state == States::eWaitABit_4)
                     {
-                        field_130_sound_channels = SFX_Play_Mono(SoundEffect::SecurityOrb_48, 55, field_CC_sprite_scale);
+                        field_130_sound_channels = SFX_Play_Mono(SoundEffect::SecurityOrb_48, 55, mBaseAnimatedWithPhysicsGameObject_SpriteScale);
                     }
                     else
                     {
-                        field_130_sound_channels = SFX_Play_Mono(SoundEffect::SecurityOrb_48, 80, field_CC_sprite_scale);
+                        field_130_sound_channels = SFX_Play_Mono(SoundEffect::SecurityOrb_48, 80, mBaseAnimatedWithPhysicsGameObject_SpriteScale);
                     }
                     gMovingBomb_5C300C = this;
                 }
@@ -308,7 +308,7 @@ void MovingBomb::VUpdate()
                     }
                     else
                     {
-                        field_130_sound_channels = SFX_Play_Mono(SoundEffect::SecurityOrb_48, 12, field_CC_sprite_scale);
+                        field_130_sound_channels = SFX_Play_Mono(SoundEffect::SecurityOrb_48, 12, mBaseAnimatedWithPhysicsGameObject_SpriteScale);
                         gMovingBomb_5C300C = this;
                     }
                 }
@@ -321,7 +321,7 @@ void MovingBomb::VUpdate()
         case States::eTriggeredByAlarm_0:
             if (Event_Get(kEventAlarm))
             {
-                field_20_animation.mAnimFlags.Set(AnimFlags::eBit3_Render);
+                mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit3_Render);
                 field_118_state = States::eMoving_2;
             }
             break;
@@ -334,9 +334,9 @@ void MovingBomb::VUpdate()
             break;
 
         case States::eMoving_2:
-            if (field_C4_velx < field_124_speed)
+            if (mBaseAnimatedWithPhysicsGameObject_VelX < field_124_speed)
             {
-                field_C4_velx += (field_CC_sprite_scale * FP_FromDouble(0.5));
+                mBaseAnimatedWithPhysicsGameObject_VelX += (mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromDouble(0.5));
             }
 
             FollowLine();
@@ -358,8 +358,8 @@ void MovingBomb::VUpdate()
             break;
 
         case States::eStopMoving_3:
-            field_C4_velx -= (field_CC_sprite_scale * FP_FromDouble(0.5));
-            if (field_C4_velx < FP_FromInteger(0))
+            mBaseAnimatedWithPhysicsGameObject_VelX -= (mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromDouble(0.5));
+            if (mBaseAnimatedWithPhysicsGameObject_VelX < FP_FromInteger(0))
             {
                 field_118_state = States::eWaitABit_4;
                 field_120_timer = sGnFrame + Math_RandomRange(field_12A_min, field_12C_max);
@@ -376,9 +376,9 @@ void MovingBomb::VUpdate()
             break;
 
         case States::eToMoving_5:
-            if (field_C4_velx < field_124_speed)
+            if (mBaseAnimatedWithPhysicsGameObject_VelX < field_124_speed)
             {
-                field_C4_velx += (field_CC_sprite_scale * FP_FromDouble(0.5));
+                mBaseAnimatedWithPhysicsGameObject_VelX += (mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromDouble(0.5));
             }
 
             FollowLine();
@@ -399,14 +399,14 @@ void MovingBomb::VUpdate()
         case States::eBlowingUp_6:
             if (field_120_timer <= static_cast<s32>(sGnFrame))
             {
-                SFX_Play_Mono(SoundEffect::GreenTick_2, 100, field_CC_sprite_scale);
+                SFX_Play_Mono(SoundEffect::GreenTick_2, 100, mBaseAnimatedWithPhysicsGameObject_SpriteScale);
 
                 mHealth = FP_FromInteger(0);
 
                 relive_new Explosion(
                     mBaseAnimatedWithPhysicsGameObject_XPos,
                     mBaseAnimatedWithPhysicsGameObject_YPos,
-                    field_CC_sprite_scale,
+                    mBaseAnimatedWithPhysicsGameObject_SpriteScale,
                     0);
 
                 relive_new Gibs(
@@ -415,11 +415,11 @@ void MovingBomb::VUpdate()
                     mBaseAnimatedWithPhysicsGameObject_YPos,
                     FP_FromInteger(0),
                     FP_FromInteger(5),
-                    field_CC_sprite_scale,
+                    mBaseAnimatedWithPhysicsGameObject_SpriteScale,
                     0);
 
                 field_118_state = States::eKillMovingBomb_7;
-                field_20_animation.mAnimFlags.Clear(AnimFlags::eBit3_Render);
+                mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit3_Render);
                 field_120_timer = sGnFrame + 4;
             }
             break;

@@ -22,32 +22,32 @@ ElectricWall::ElectricWall(Path_ElectricWall* pTlv, s32 tlvInfo)
     const AnimRecord& rec = AnimRec(AnimId::Electric_Wall);
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
     Animation_Init(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
-    field_20_animation.mAnimFlags.Set(AnimFlags::eBit15_bSemiTrans);
-    field_20_animation.mRenderMode = TPageAbr::eBlend_1;
-    field_20_animation.mRenderLayer = Layer::eLayer_Foreground_36;
+    mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit15_bSemiTrans);
+    mBaseAnimatedWithPhysicsGameObject_Anim.mRenderMode = TPageAbr::eBlend_1;
+    mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_Foreground_36;
 
-    if (field_20_animation.Get_Frame_Count() > 0)
+    if (mBaseAnimatedWithPhysicsGameObject_Anim.Get_Frame_Count() > 0)
     {
-        field_20_animation.SetFrame(sElecticWallFrames_55165C[Math_RandomRange(0, 4)]);
+        mBaseAnimatedWithPhysicsGameObject_Anim.SetFrame(sElecticWallFrames_55165C[Math_RandomRange(0, 4)]);
     }
 
     mApplyShadows &= ~1;
-    field_D4_b = 80;
-    field_D2_g = 80;
-    field_D0_r = 80;
+    mBaseAnimatedWithPhysicsGameObject_Blue = 80;
+    mBaseAnimatedWithPhysicsGameObject_Green = 80;
+    mBaseAnimatedWithPhysicsGameObject_Red = 80;
     field_F4_tlvInfo = tlvInfo;
     mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pTlv->field_8_top_left.field_0_x);
     mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->field_8_top_left.field_2_y);
 
     if (pTlv->field_10_scale == Scale_short::eHalf_1)
     {
-        field_CC_sprite_scale = FP_FromDouble(0.5);
-        field_D6_scale = 0;
+        mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromDouble(0.5);
+        mBaseAnimatedWithPhysicsGameObject_Scale = 0;
     }
     else
     {
-        field_CC_sprite_scale = FP_FromInteger(1);
-        field_D6_scale = 1;
+        mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromInteger(1);
+        mBaseAnimatedWithPhysicsGameObject_Scale = 1;
     }
 
     field_F8_switch_id = pTlv->field_12_switch_id;
@@ -55,7 +55,7 @@ ElectricWall::ElectricWall(Path_ElectricWall* pTlv, s32 tlvInfo)
 
     if (SwitchStates_Get(field_F8_switch_id) == field_FA_start_state)
     {
-        field_20_animation.mAnimFlags.Clear(AnimFlags::eBit3_Render);
+        mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit3_Render);
     }
 
     field_FC_sound_timer = 0;
@@ -68,7 +68,7 @@ ElectricWall::~ElectricWall()
 
 void ElectricWall::VScreenChanged()
 {
-    if (gMap.mCurrentLevel != gMap.mLevel || gMap.mCurrentPath != gMap.mPath || gMap.GetDirection_4811A0(field_C2_lvl_number, field_C0_path_number, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos) == CameraPos::eCamInvalid_m1)
+    if (gMap.mCurrentLevel != gMap.mLevel || gMap.mCurrentPath != gMap.mPath || gMap.GetDirection_4811A0(mBaseAnimatedWithPhysicsGameObject_LvlNumber, mBaseAnimatedWithPhysicsGameObject_PathNumber, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos) == CameraPos::eCamInvalid_m1)
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
@@ -77,8 +77,8 @@ void ElectricWall::VScreenChanged()
 void ElectricWall::VUpdate()
 {
     const CameraPos soundDirection = gMap.GetDirection_4811A0(
-        field_C2_lvl_number,
-        field_C0_path_number,
+        mBaseAnimatedWithPhysicsGameObject_LvlNumber,
+        mBaseAnimatedWithPhysicsGameObject_PathNumber,
         mBaseAnimatedWithPhysicsGameObject_XPos,
         mBaseAnimatedWithPhysicsGameObject_YPos);
 
@@ -89,31 +89,31 @@ void ElectricWall::VUpdate()
 
     if (SwitchStates_Get(field_F8_switch_id) == field_FA_start_state)
     {
-        field_20_animation.mAnimFlags.Clear(AnimFlags::eBit3_Render);
+        mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit3_Render);
     }
     else
     {
         // If we are about to become visible set a random starting frame
-        if (!(field_20_animation.mAnimFlags.Get(AnimFlags::eBit3_Render)))
+        if (!(mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit3_Render)))
         {
-            if (field_20_animation.Get_Frame_Count() > 0)
+            if (mBaseAnimatedWithPhysicsGameObject_Anim.Get_Frame_Count() > 0)
             {
-                field_20_animation.SetFrame(sElecticWallFrames_55165C[Math_RandomRange(0, 4)]);
+                mBaseAnimatedWithPhysicsGameObject_Anim.SetFrame(sElecticWallFrames_55165C[Math_RandomRange(0, 4)]);
             }
         }
 
-        field_20_animation.mAnimFlags.Set(AnimFlags::eBit3_Render);
+        mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit3_Render);
 
         // Keep flipping direction
         if (!(sGnFrame % 8))
         {
-            field_20_animation.mAnimFlags.Toggle(AnimFlags::eBit5_FlipX);
+            mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Toggle(AnimFlags::eBit5_FlipX);
         }
 
         // Play sound every so often
         if (static_cast<s32>(sGnFrame) >= field_FC_sound_timer)
         {
-            SFX_Play_Camera(SoundEffect::BirdPortalSpark_41, 45, soundDirection, field_CC_sprite_scale);
+            SFX_Play_Camera(SoundEffect::BirdPortalSpark_41, 45, soundDirection, mBaseAnimatedWithPhysicsGameObject_SpriteScale);
             field_FC_sound_timer = sGnFrame + Math_RandomRange(24, 40);
         }
 
@@ -145,7 +145,7 @@ void ElectricWall::VUpdate()
                     break;
 
                 default:
-                    if (pObj->field_D6_scale == field_D6_scale)
+                    if (pObj->mBaseAnimatedWithPhysicsGameObject_Scale == mBaseAnimatedWithPhysicsGameObject_Scale)
                     {
                         PSX_RECT objRect = {};
                         pObj->VGetBoundingRect(&objRect, 1);
@@ -163,7 +163,7 @@ void ElectricWall::VUpdate()
                                 if (RectsOverlap(bRectBigger, objRect) && pObj->mHealth > FP_FromInteger(0))
                                 {
                                     // When near play the buzzing sound
-                                    SFX_Play_Camera(SoundEffect::ElectricGateLoud_40, 45, soundDirection, field_CC_sprite_scale);
+                                    SFX_Play_Camera(SoundEffect::ElectricGateLoud_40, 45, soundDirection, mBaseAnimatedWithPhysicsGameObject_SpriteScale);
                                 }
                             }
                         }
@@ -178,7 +178,7 @@ void ElectricWall::VUpdate()
 
                                 pObj->VTakeDamage(this);
 
-                                SFX_Play_Camera(SoundEffect::ElectricZap_39, 127, soundDirection, field_CC_sprite_scale);
+                                SFX_Play_Camera(SoundEffect::ElectricZap_39, 127, soundDirection, mBaseAnimatedWithPhysicsGameObject_SpriteScale);
 
                                 relive_new Flash(Layer::eLayer_Above_FG1_39, 255, 255, 255, 1, TPageAbr::eBlend_3, 1);
                             }

@@ -22,27 +22,27 @@ ParamiteWebLine::ParamiteWebLine(Path_ParamiteWebLine* pTlv, s32 tlvInfo)
 
     if (pTlv->field_10_scale != Scale_short::eFull_0)
     {
-        field_20_animation.mRenderLayer = Layer::eLayer_RopeWebDrill_Half_5;
-        field_20_animation.field_14_scale = FP_FromDouble(0.7);
-        field_CC_sprite_scale = FP_FromDouble(0.7);
-        field_D6_scale = 0;
+        mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_RopeWebDrill_Half_5;
+        mBaseAnimatedWithPhysicsGameObject_Anim.field_14_scale = FP_FromDouble(0.7);
+        mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromDouble(0.7);
+        mBaseAnimatedWithPhysicsGameObject_Scale = 0;
         field_F6_piece_length = 7;
         field_1A2_pulse_position_speed = 1;
-        field_D0_r = 50;
-        field_D2_g = 50;
-        field_D4_b = 200;
+        mBaseAnimatedWithPhysicsGameObject_Red = 50;
+        mBaseAnimatedWithPhysicsGameObject_Green = 50;
+        mBaseAnimatedWithPhysicsGameObject_Blue = 200;
     }
     else
     {
-        field_20_animation.mRenderLayer = Layer::eLayer_RopeWebDrill_24;
-        field_20_animation.field_14_scale = FP_FromInteger(1);
-        field_CC_sprite_scale = FP_FromInteger(1);
-        field_D6_scale = 1;
+        mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_RopeWebDrill_24;
+        mBaseAnimatedWithPhysicsGameObject_Anim.field_14_scale = FP_FromInteger(1);
+        mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromInteger(1);
+        mBaseAnimatedWithPhysicsGameObject_Scale = 1;
         field_F6_piece_length = 15;
         field_1A2_pulse_position_speed = 2;
-        field_D0_r = 10;
-        field_D2_g = 10;
-        field_D4_b = 10;
+        mBaseAnimatedWithPhysicsGameObject_Red = 10;
+        mBaseAnimatedWithPhysicsGameObject_Green = 10;
+        mBaseAnimatedWithPhysicsGameObject_Blue = 10;
     }
 
     mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pTlv->field_8_top_left.field_0_x);
@@ -91,9 +91,9 @@ ParamiteWebLine::ParamiteWebLine(Path_ParamiteWebLine* pTlv, s32 tlvInfo)
     for (s32 i = 0; i < field_F4_anim_segment_count; i++)
     {
         field_FC_pRes[i].mAnimFlags.Set(AnimFlags::eBit3_Render);
-        field_FC_pRes[i].field_68_anim_ptr = &field_20_animation;
-        field_FC_pRes[i].mRenderLayer = field_20_animation.mRenderLayer;
-        field_FC_pRes[i].field_6C_scale = field_CC_sprite_scale;
+        field_FC_pRes[i].field_68_anim_ptr = &mBaseAnimatedWithPhysicsGameObject_Anim;
+        field_FC_pRes[i].mRenderLayer = mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer;
+        field_FC_pRes[i].field_6C_scale = mBaseAnimatedWithPhysicsGameObject_SpriteScale;
         field_FC_pRes[i].mAnimFlags.Clear(AnimFlags::eBit15_bSemiTrans);
         field_FC_pRes[i].mAnimFlags.Clear(AnimFlags::eBit16_bBlending);
     }
@@ -109,7 +109,7 @@ ParamiteWebLine::ParamiteWebLine(Path_ParamiteWebLine* pTlv, s32 tlvInfo)
         field_108_anim_flare.mGreen = 100;
         field_108_anim_flare.mBlue = 100;
 
-        field_108_anim_flare.mRenderLayer = field_20_animation.mRenderLayer;
+        field_108_anim_flare.mRenderLayer = mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer;
         field_108_anim_flare.field_14_scale = FP_FromDouble(0.3);
         field_108_anim_flare.mRenderMode = TPageAbr::eBlend_1;
 
@@ -208,15 +208,15 @@ void ParamiteWebLine::VRender(PrimHeader** ppOt)
         pScreenManager->InvalidateRect_40EC90(rect.x, rect.y, rect.w, rect.h, pScreenManager->field_3A_idx);
     }
 
-    field_20_animation.VRender(640, 240, ppOt, 0, 0);
+    mBaseAnimatedWithPhysicsGameObject_Anim.VRender(640, 240, ppOt, 0, 0);
 
     s32 idx = 0;
     s16 render_ypos = field_FA_bottom;
     while (render_ypos > field_F8_top)
     {
-        s16 r = field_D0_r;
-        s16 g = field_D2_g;
-        s16 b = field_D4_b;
+        s16 r = mBaseAnimatedWithPhysicsGameObject_Red;
+        s16 g = mBaseAnimatedWithPhysicsGameObject_Green;
+        s16 b = mBaseAnimatedWithPhysicsGameObject_Blue;
 
         FP xVal = mBaseAnimatedWithPhysicsGameObject_XPos;
         if (field_104_wobble_idx != 0)
@@ -244,7 +244,7 @@ void ParamiteWebLine::VRender(PrimHeader** ppOt)
         }
 
         const s16 render_xpos = FP_GetExponent(xVal);
-        ShadowZone::ShadowZones_Calculate_Colour(render_xpos, render_ypos, field_D6_scale, &r, &g, &b);
+        ShadowZone::ShadowZones_Calculate_Colour(render_xpos, render_ypos, mBaseAnimatedWithPhysicsGameObject_Scale, &r, &g, &b);
         field_FC_pRes[idx].mRed = static_cast<u8>(r);
         field_FC_pRes[idx].mGreen = static_cast<u8>(g);
         field_FC_pRes[idx].mBlue = static_cast<u8>(b);

@@ -444,8 +444,8 @@ void Map::Handle_PathTransition()
 
         field_10_screenChangeEffect = kPathChangeEffectToInternalScreenChangeEffect_4CDC78[pTlv->field_20_wipe];
 
-        field_18_pAliveObj->field_B2_lvl_number = MapWrapper::FromAO(pTlv->field_18_level);
-        field_18_pAliveObj->field_B0_path_number = pTlv->field_1A_path;
+        field_18_pAliveObj->mBaseAnimatedWithPhysicsGameObject_LvlNumber = MapWrapper::FromAO(pTlv->field_18_level);
+        field_18_pAliveObj->mBaseAnimatedWithPhysicsGameObject_PathNumber = pTlv->field_1A_path;
 
         // TODO: Probably OG bug, when changing camera/path the TLV pointer can become invalid
         // resulting in a corrupted next_path_scale value ?
@@ -458,22 +458,22 @@ void Map::Handle_PathTransition()
         switch (next_path_scale)
         {
             case Scale_short::eFull_0:
-                sActiveHero_507678->field_BC_sprite_scale = FP_FromInteger(1);
-                sActiveHero_507678->field_10_anim.mRenderLayer = Layer::eLayer_AbeMenu_32;
+                sActiveHero_507678->mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromInteger(1);
+                sActiveHero_507678->mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_AbeMenu_32;
                 if (gElum_507680)
                 {
-                    gElum_507680->field_BC_sprite_scale = sActiveHero_507678->field_BC_sprite_scale;
-                    gElum_507680->field_10_anim.mRenderLayer = Layer::eLayer_ZapLinesElum_28;
+                    gElum_507680->mBaseAnimatedWithPhysicsGameObject_SpriteScale = sActiveHero_507678->mBaseAnimatedWithPhysicsGameObject_SpriteScale;
+                    gElum_507680->mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_ZapLinesElum_28;
                 }
                 break;
 
             case Scale_short::eHalf_1:
-                sActiveHero_507678->field_BC_sprite_scale = FP_FromDouble(0.5);
-                sActiveHero_507678->field_10_anim.mRenderLayer = Layer::eLayer_AbeMenu_Half_13;
+                sActiveHero_507678->mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromDouble(0.5);
+                sActiveHero_507678->mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_AbeMenu_Half_13;
                 if (gElum_507680)
                 {
-                    gElum_507680->field_BC_sprite_scale = sActiveHero_507678->field_BC_sprite_scale;
-                    gElum_507680->field_10_anim.mRenderLayer = Layer::eLayer_ZapLinesElum_Half_9;
+                    gElum_507680->mBaseAnimatedWithPhysicsGameObject_SpriteScale = sActiveHero_507678->mBaseAnimatedWithPhysicsGameObject_SpriteScale;
+                    gElum_507680->mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_ZapLinesElum_Half_9;
                 }
                 break;
 
@@ -514,7 +514,7 @@ void Map::Handle_PathTransition()
                 {
                     field_18_pAliveObj->VSetXSpawn(
                         field_20_camX_idx * field_D4_pPathData->field_C_grid_width,
-                        MaxGridBlocks_41FA10(field_18_pAliveObj->field_BC_sprite_scale) - 1);
+                        MaxGridBlocks_41FA10(field_18_pAliveObj->mBaseAnimatedWithPhysicsGameObject_SpriteScale) - 1);
                 }
                 field_10_screenChangeEffect = CameraSwapEffects::eRightToLeft_2;
                 break;
@@ -577,13 +577,13 @@ void Map::RemoveObjectsWithPurpleLight(s16 bMakeInvisible)
 
         if (pObjIter->mBaseGameObjectFlags.Get(BaseGameObject::eDrawable_Bit4)
             && pObjIter->mBaseAliveGameObjectFlags.Get(Flags_10A::e10A_Bit6)
-            && pObjIter->field_10_anim.mAnimFlags.Get(AnimFlags::eBit3_Render)
+            && pObjIter->mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit3_Render)
             && !pObjIter->mBaseGameObjectFlags.Get(BaseGameObject::eDead)
             && pObjIter != sControlledCharacter_50767C)
         {
             bool bAdd = false;
-            if (pObjIter->field_B2_lvl_number == mCurrentLevel
-                && pObjIter->field_B0_path_number == mCurrentPath)
+            if (pObjIter->mBaseAnimatedWithPhysicsGameObject_LvlNumber == mCurrentLevel
+                && pObjIter->mBaseAnimatedWithPhysicsGameObject_PathNumber == mCurrentPath)
             {
                 PSX_RECT rect = {};
                 rect.x = FP_GetExponent(pObjIter->mBaseAnimatedWithPhysicsGameObject_XPos);
@@ -600,11 +600,11 @@ void Map::RemoveObjectsWithPurpleLight(s16 bMakeInvisible)
                 PSX_RECT objRect = {};
                 pObjIter->VGetBoundingRect(&objRect, 1);
 
-                const FP k60Scaled = pObjIter->field_BC_sprite_scale * FP_FromInteger(60);
+                const FP k60Scaled = pObjIter->mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(60);
                 auto pPurpleLight = New_DestroyOrCreateObject_Particle_419D00(
                     FP_FromInteger((objRect.x + objRect.w) / 2),
                     FP_FromInteger((objRect.y + objRect.h) / 2) + k60Scaled,
-                    pObjIter->field_BC_sprite_scale);
+                    pObjIter->mBaseAnimatedWithPhysicsGameObject_SpriteScale);
 
                 if (pPurpleLight)
                 {
@@ -632,7 +632,7 @@ void Map::RemoveObjectsWithPurpleLight(s16 bMakeInvisible)
                     {
                         break;
                     }
-                    pObj->field_10_anim.mAnimFlags.Clear(AnimFlags::eBit3_Render);
+                    pObj->mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit3_Render);
                 }
             }
 
@@ -661,7 +661,7 @@ void Map::RemoveObjectsWithPurpleLight(s16 bMakeInvisible)
 
                 if (!pLight->mBaseGameObjectFlags.Get(BaseGameObject::eDead))
                 {
-                    pLight->field_10_anim.VDecode();
+                    pLight->mBaseAnimatedWithPhysicsGameObject_Anim.VDecode();
                 }
             }
 
@@ -699,7 +699,7 @@ void Map::RemoveObjectsWithPurpleLight(s16 bMakeInvisible)
                 {
                     break;
                 }
-                pObj->field_10_anim.mAnimFlags.Set(AnimFlags::eBit3_Render);
+                pObj->mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit3_Render);
             }
         }
     }
@@ -1903,12 +1903,12 @@ void Map::GoTo_Camera()
 
     if (old_current_path != mCurrentPath || old_current_level != mCurrentLevel)
     {
-        if (sActiveHero_507678 && mCurrentPath == sActiveHero_507678->field_B0_path_number)
+        if (sActiveHero_507678 && mCurrentPath == sActiveHero_507678->mBaseAnimatedWithPhysicsGameObject_PathNumber)
         {
             sActiveHero_507678->VCheckCollisionLineStillValid(10);
         }
 
-        if (gElum_507680 && sControlledCharacter_50767C != gElum_507680 && mCurrentPath == gElum_507680->field_B0_path_number)
+        if (gElum_507680 && sControlledCharacter_50767C != gElum_507680 && mCurrentPath == gElum_507680->mBaseAnimatedWithPhysicsGameObject_PathNumber)
         {
             gElum_507680->VCheckCollisionLineStillValid(10);
         }

@@ -138,7 +138,7 @@ void Bullet::VUpdate()
             if (sControlledCharacter_50767C == gElum_507680)
             {
                 distX_1 = sActiveHero_507678->mBaseAnimatedWithPhysicsGameObject_XPos;
-                distX_2 = gElum_507680->field_B4_velx * FP_FromInteger(4);
+                distX_2 = gElum_507680->mBaseAnimatedWithPhysicsGameObject_VelX * FP_FromInteger(4);
             }
             else
             {
@@ -150,13 +150,13 @@ void Bullet::VUpdate()
                 {
                     distX_1 = sActiveHero_507678->mBaseAnimatedWithPhysicsGameObject_XPos - FP_FromInteger(field_34_number_of_bullets * 16);
                 }
-                distX_2 = sActiveHero_507678->field_B4_velx * FP_FromInteger(2);
+                distX_2 = sActiveHero_507678->mBaseAnimatedWithPhysicsGameObject_VelX * FP_FromInteger(2);
             }
 
             shootRect.x = FP_GetExponent(distX_1 - distX_2);
             shootRect.w = shootRect.x + 2;
             shootRect.y = FP_GetExponent(sActiveHero_507678->mBaseAnimatedWithPhysicsGameObject_YPos)
-                        + sActiveHero_507678->field_10_anim.Get_FrameHeader(-1)->field_8_data.points[2].y //or points 3?!
+                        + sActiveHero_507678->mBaseAnimatedWithPhysicsGameObject_Anim.Get_FrameHeader(-1)->field_8_data.points[2].y //or points 3?!
                         - 10;
             shootRect.h = shootRect.y + 10;
 
@@ -243,7 +243,7 @@ BaseAliveGameObject* Bullet::ShootObject(PSX_RECT* pRect)
 
         if (pObjIter != field_30_pParent)
         {
-            if (pObjIter->field_10_anim.mAnimFlags.Get(AnimFlags::eBit3_Render))
+            if (pObjIter->mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit3_Render))
             {
                 if ((field_10_type == BulletType::ePossessedSlig_0
                      && (pObjIter->mBaseGameObjectTypeId == ReliveTypes::eSlig
@@ -259,7 +259,7 @@ BaseAliveGameObject* Bullet::ShootObject(PSX_RECT* pRect)
                     pObjIter->VGetBoundingRect(&bRect, 1);
                     if (pRect->x <= bRect.w && pRect->w >= bRect.x && pRect->h >= bRect.y && pRect->y <= bRect.h)
                     {
-                        if (field_10_type == BulletType::eZBullet_2 || field_30_pParent->field_BC_sprite_scale == pObjIter->field_BC_sprite_scale)
+                        if (field_10_type == BulletType::eZBullet_2 || field_30_pParent->mBaseAnimatedWithPhysicsGameObject_SpriteScale == pObjIter->mBaseAnimatedWithPhysicsGameObject_SpriteScale)
                         {
                             if (pObjectToShoot)
                             {

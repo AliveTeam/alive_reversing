@@ -19,7 +19,7 @@ BellHammer::BellHammer(Path_BellHammer* pTlv, s32 tlvInfo)
     u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
     Animation_Init_417FD0(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
 
-    field_10_anim.mAnimFlags.Clear(AnimFlags::eBit15_bSemiTrans);
+    mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit15_bSemiTrans);
     field_F0_bSpawnElum = FALSE;
     field_E4_state = BellHammerStates::eWaitForActivation_0;
 
@@ -31,20 +31,20 @@ BellHammer::BellHammer(Path_BellHammer* pTlv, s32 tlvInfo)
 
     if (pTlv->field_1C_scale == Scale_short::eHalf_1)
     {
-        field_BC_sprite_scale = FP_FromDouble(0.5);
-        field_C6_scale = 0;
-        field_10_anim.mRenderLayer = Layer::eLayer_BeforeShadow_Half_6;
+        mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromDouble(0.5);
+        mBaseAnimatedWithPhysicsGameObject_Scale = 0;
+        mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_BeforeShadow_Half_6;
     }
     else
     {
-        field_BC_sprite_scale = FP_FromInteger(1);
-        field_C6_scale = 1;
-        field_10_anim.mRenderLayer = Layer::eLayer_BeforeShadow_25;
+        mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromInteger(1);
+        mBaseAnimatedWithPhysicsGameObject_Scale = 1;
+        mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_BeforeShadow_25;
     }
 
     if (pTlv->field_1E_direction == XDirection_short::eRight_1)
     {
-        field_10_anim.mAnimFlags.Set(AnimFlags::eBit5_FlipX);
+        mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit5_FlipX);
     }
 
     field_EC_pending_resource_count = 0;
@@ -127,16 +127,16 @@ void BellHammer::VUpdate()
             {
                 field_E4_state = BellHammerStates::eSmashingBell_1;
                 const AnimRecord& rec = AO::AnimRec(AnimId::BellHammer_Smashing);
-                field_10_anim.Set_Animation_Data(rec.mFrameTableOffset, nullptr);
+                mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(rec.mFrameTableOffset, nullptr);
             }
             break;
 
         case BellHammerStates::eSmashingBell_1:
-            if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
+            if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
             {
                 field_E4_state = BellHammerStates::eWaitForActivation_0;
                 const AnimRecord& rec = AO::AnimRec(AnimId::BellHammer_Idle);
-                field_10_anim.Set_Animation_Data(rec.mFrameTableOffset, nullptr);
+                mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(rec.mFrameTableOffset, nullptr);
                 SwitchStates_Set(field_E6_switch_id, 0);
 
                 // Spawn the foo if he ain't already here
@@ -148,11 +148,11 @@ void BellHammer::VUpdate()
             else
             {
                 // Play those bell smashing sounds
-                if (field_10_anim.field_92_current_frame == 5)
+                if (mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame == 5)
                 {
                     SFX_Play_Mono(SoundEffect::RingBellHammer_9, 0, 0);
                 }
-                else if (field_10_anim.field_92_current_frame == 15)
+                else if (mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame == 15)
                 {
                     SND_SEQ_PlaySeq_4775A0(SeqId::eRingBellHammerAndExtraSound_13, 1, 1);
                 }
@@ -175,7 +175,7 @@ void BellHammer::VUpdate()
             PSX_Point mapCoords = {};
             gMap.GetCurrentCamCoords(&mapCoords);
 
-            gElum_507680->mBaseAnimatedWithPhysicsGameObject_XPos = (FP_FromInteger(mapCoords.field_0_x + XGrid_Index_To_XPos(field_BC_sprite_scale, 0))) - ScaleToGridSize(field_BC_sprite_scale);
+            gElum_507680->mBaseAnimatedWithPhysicsGameObject_XPos = (FP_FromInteger(mapCoords.field_0_x + XGrid_Index_To_XPos(mBaseAnimatedWithPhysicsGameObject_SpriteScale, 0))) - ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale);
             gElum_507680->mBaseAnimatedWithPhysicsGameObject_YPos = gElum_507680->mBaseAnimatedWithPhysicsGameObject_YPos + FP_FromInteger(450);
             ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kAneprmntAOResID, 1, 0);
         }

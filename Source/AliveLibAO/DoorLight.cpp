@@ -92,7 +92,7 @@ DoorLight::DoorLight(Path_LightEffect* pTlv, s32 tlvInfo)
             break;
     }
 
-    field_10_anim.mAnimFlags.Set(AnimFlags::eBit5_FlipX, pTlv->field_1E_direction == XDirection_short::eLeft_0);
+    mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit5_FlipX, pTlv->field_1E_direction == XDirection_short::eLeft_0);
 
     if (gNextDoorLightUpdate_4C30A8 < 0)
     {
@@ -100,16 +100,16 @@ DoorLight::DoorLight(Path_LightEffect* pTlv, s32 tlvInfo)
         gDoorLightUpdateTimer_4FC8A4 = gNextDoorLightUpdate_4C30A8 + Math_RandomRange_450F20(30, 45);
     }
 
-    field_10_anim.mAnimFlags.Set(AnimFlags::eBit20_use_xy_offset);
+    mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit20_use_xy_offset);
 
-    field_CC_bApplyShadows &= ~1u;
-    field_10_anim.mRenderLayer = Layer::eLayer_Foreground_Half_17;
-    field_10_anim.mRenderMode = TPageAbr::eBlend_3;
+    mApplyShadows &= ~1u;
+    mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_Foreground_Half_17;
+    mBaseAnimatedWithPhysicsGameObject_Anim.mRenderMode = TPageAbr::eBlend_3;
 
-    field_10_anim.mAnimFlags.Clear(AnimFlags::eBit16_bBlending);
-    field_10_anim.mAnimFlags.Set(AnimFlags::eBit15_bSemiTrans);
+    mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit16_bBlending);
+    mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit15_bSemiTrans);
 
-    if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
+    if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
     {
         mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pTlv->field_10_top_left.field_0_x - xOff);
     }
@@ -118,7 +118,7 @@ DoorLight::DoorLight(Path_LightEffect* pTlv, s32 tlvInfo)
         mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(xOff + pTlv->field_10_top_left.field_0_x);
     }
 
-    field_BC_sprite_scale = FP_FromInteger(1);
+    mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromInteger(1);
     mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->field_10_top_left.field_2_y);
 }
 
@@ -139,9 +139,9 @@ void DoorLight::VUpdate()
     {
         gNextDoorLightUpdate_4C30A8 = sGnFrame + Math_RandomRange_450F20(6, 20);
         gDoorLightUpdateTimer_4FC8A4 = gNextDoorLightUpdate_4C30A8 + Math_RandomRange_450F20(30, 45);
-        field_C0_r = 32;
-        field_C2_g = 32;
-        field_C4_b = 32;
+        mBaseAnimatedWithPhysicsGameObject_Red = 32;
+        mBaseAnimatedWithPhysicsGameObject_Green = 32;
+        mBaseAnimatedWithPhysicsGameObject_Blue = 32;
     }
     else if (static_cast<s32>(sGnFrame) >= gNextDoorLightUpdate_4C30A8)
     {
@@ -177,22 +177,22 @@ void DoorLight::VUpdate()
                         SND_SEQ_Play_477760(SeqId::eSaveTriggerMusic_45, 1, 127, 127);
                     }
                 }
-                field_C0_r = 32;
-                field_C2_g = rgb;
-                field_C4_b = 32;
+                mBaseAnimatedWithPhysicsGameObject_Red = 32;
+                mBaseAnimatedWithPhysicsGameObject_Green = rgb;
+                mBaseAnimatedWithPhysicsGameObject_Blue = 32;
             }
             else
             {
-                field_C0_r = rgb;
-                field_C2_g = 32;
-                field_C4_b = 32;
+                mBaseAnimatedWithPhysicsGameObject_Red = rgb;
+                mBaseAnimatedWithPhysicsGameObject_Green = 32;
+                mBaseAnimatedWithPhysicsGameObject_Blue = 32;
             }
         }
         else
         {
-            field_C0_r = rgb;
-            field_C2_g = rgb;
-            field_C4_b = rgb;
+            mBaseAnimatedWithPhysicsGameObject_Red = rgb;
+            mBaseAnimatedWithPhysicsGameObject_Green = rgb;
+            mBaseAnimatedWithPhysicsGameObject_Blue = rgb;
         }
     }
 }
@@ -204,11 +204,11 @@ void DoorLight::VRender(PrimHeader** ppOt)
         const FP xpos = FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos) + mBaseAnimatedWithPhysicsGameObject_XPos - pScreenManager_4FF7C8->field_10_pCamPos->field_0_x;
         const FP ypos = FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos) + mBaseAnimatedWithPhysicsGameObject_YPos - pScreenManager_4FF7C8->field_10_pCamPos->field_4_y;
 
-        field_10_anim.mRed = static_cast<u8>(field_C0_r);
-        field_10_anim.mGreen = static_cast<u8>(field_C2_g);
-        field_10_anim.mBlue = static_cast<u8>(field_C4_b);
+        mBaseAnimatedWithPhysicsGameObject_Anim.mRed = static_cast<u8>(mBaseAnimatedWithPhysicsGameObject_Red);
+        mBaseAnimatedWithPhysicsGameObject_Anim.mGreen = static_cast<u8>(mBaseAnimatedWithPhysicsGameObject_Green);
+        mBaseAnimatedWithPhysicsGameObject_Anim.mBlue = static_cast<u8>(mBaseAnimatedWithPhysicsGameObject_Blue);
 
-        field_10_anim.VRender(
+        mBaseAnimatedWithPhysicsGameObject_Anim.VRender(
             FP_GetExponent(FP_FromInteger((FP_GetExponent(xpos) - field_E8_width / 2))),
             FP_GetExponent(FP_FromInteger((FP_GetExponent(ypos) - field_EA_height / 2))),
             ppOt,
@@ -216,7 +216,7 @@ void DoorLight::VRender(PrimHeader** ppOt)
             field_EA_height);
 
         PSX_RECT rect = {};
-        field_10_anim.Get_Frame_Rect(&rect);
+        mBaseAnimatedWithPhysicsGameObject_Anim.Get_Frame_Rect(&rect);
         pScreenManager_4FF7C8->InvalidateRect(
             rect.x,
             rect.y,

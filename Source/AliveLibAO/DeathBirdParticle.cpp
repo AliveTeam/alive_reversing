@@ -18,14 +18,14 @@ void DeathBirdParticle::VUpdate()
             if (static_cast<s32>(sGnFrame) > field_E8_start)
             {
                 // Death "star"
-                field_10_anim.Set_Animation_Data(6284, 0);
+                mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(6284, 0);
                 field_E5_state = States::eTransformStarsToDoves_1;
             }
             break;
 
         case States::eTransformStarsToDoves_1:
             // Has the Death "star" finished animating?
-            if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
+            if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
             {
                 const AnimRecord& doveRec = AO::AnimRec(AnimId::Dove_Flying);
 
@@ -37,10 +37,10 @@ void DeathBirdParticle::VUpdate()
                     doveRec.mResourceId,
                     mBaseAnimatedWithPhysicsGameObject_XPos,
                     mBaseAnimatedWithPhysicsGameObject_YPos - FP_FromInteger(15),
-                    field_BC_sprite_scale);
+                    mBaseAnimatedWithPhysicsGameObject_SpriteScale);
                 if (pDove)
                 {
-                    if (pDove->field_10_anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
+                    if (pDove->mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
                     {
                         pDove->mBaseAnimatedWithPhysicsGameObject_XPos += FP_FromInteger(8);
                     }
@@ -51,7 +51,7 @@ void DeathBirdParticle::VUpdate()
 
                     mBaseGameObjectFlags.Set(BaseGameObject::eDead);
 
-                    pDove->field_BC_sprite_scale = field_BC_sprite_scale;
+                    pDove->mBaseAnimatedWithPhysicsGameObject_SpriteScale = mBaseAnimatedWithPhysicsGameObject_SpriteScale;
                     if (field_EC_bPlaySound)
                     {
                         SFX_Play_Mono(SoundEffect::AbeDove_18, 0, 0);
@@ -80,17 +80,17 @@ DeathBirdParticle::DeathBirdParticle(FP xpos, FP ypos, s32 start, s32 bPlaySound
     }
     else
     {
-        field_CC_bApplyShadows &= ~1u;
-        field_10_anim.mRenderMode = TPageAbr::eBlend_1;
-        field_BC_sprite_scale = scale;
-        field_10_anim.field_14_scale = scale;
+        mApplyShadows &= ~1u;
+        mBaseAnimatedWithPhysicsGameObject_Anim.mRenderMode = TPageAbr::eBlend_1;
+        mBaseAnimatedWithPhysicsGameObject_SpriteScale = scale;
+        mBaseAnimatedWithPhysicsGameObject_Anim.field_14_scale = scale;
         if (scale <= FP_FromDouble(0.5))
         {
-            field_10_anim.mRenderLayer = Layer::eLayer_Foreground_Half_17;
+            mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_Foreground_Half_17;
         }
         else
         {
-            field_10_anim.mRenderLayer = Layer::eLayer_Above_FG1_39;
+            mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_Above_FG1_39;
         }
 
         mBaseAnimatedWithPhysicsGameObject_XPos = xpos;

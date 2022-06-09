@@ -29,7 +29,7 @@ MeatSack::MeatSack(Path_MeatSack* pTlv, s32 tlvInfo)
     Animation_Init_417FD0(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
 
     field_10C_tlvInfo = tlvInfo;
-    field_CC_bApplyShadows &= ~1u;
+    mApplyShadows &= ~1u;
 
     field_110_bDoMeatSackIdleAnim = 0;
 
@@ -48,20 +48,20 @@ MeatSack::MeatSack(Path_MeatSack* pTlv, s32 tlvInfo)
 
     if (pTlv->field_1E_scale == Scale_short::eHalf_1)
     {
-        field_BC_sprite_scale = FP_FromDouble(0.5);
-        field_10_anim.mRenderLayer = Layer::eLayer_8;
-        field_C6_scale = 0;
+        mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromDouble(0.5);
+        mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_8;
+        mBaseAnimatedWithPhysicsGameObject_Scale = 0;
     }
     else
     {
-        field_BC_sprite_scale = FP_FromInteger(1);
-        field_10_anim.mRenderLayer = Layer::eLayer_27;
-        field_C6_scale = 1;
+        mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromInteger(1);
+        mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_27;
+        mBaseAnimatedWithPhysicsGameObject_Scale = 1;
     }
 
     field_112_num_items = pTlv->field_20_amount_of_meat;
 
-    field_D0_pShadow = relive_new Shadow();
+    mShadow = relive_new Shadow();
 }
 
 MeatSack::~MeatSack()
@@ -76,7 +76,7 @@ void MeatSack::VUpdate()
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 
-    if (field_10_anim.field_92_current_frame == 2)
+    if (mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame == 2)
     {
         if (field_114_bPlayWobbleSound)
         {
@@ -95,10 +95,10 @@ void MeatSack::VUpdate()
 
     if (field_110_bDoMeatSackIdleAnim == 1)
     {
-        if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
+        if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
         {
             const AnimRecord& rec = AO::AnimRec(AnimId::MeatSack_Idle);
-            field_10_anim.Set_Animation_Data(rec.mFrameTableOffset, nullptr);
+            mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(rec.mFrameTableOffset, nullptr);
             field_110_bDoMeatSackIdleAnim = 0;
         }
         return;
@@ -112,7 +112,7 @@ void MeatSack::VUpdate()
 
     if (RectsOverlap(ourRect, abeRect))
     {
-        if (field_BC_sprite_scale == sActiveHero_507678->field_BC_sprite_scale)
+        if (mBaseAnimatedWithPhysicsGameObject_SpriteScale == sActiveHero_507678->mBaseAnimatedWithPhysicsGameObject_SpriteScale)
         {
             const AnimRecord& MeatSackHitRec = AO::AnimRec(AnimId::MeatSack_Hit);
             if (!gpThrowableArray_50E26C)
@@ -124,7 +124,7 @@ void MeatSack::VUpdate()
             {
                 if (gpThrowableArray_50E26C->field_10_count > 0)
                 {
-                    field_10_anim.Set_Animation_Data(MeatSackHitRec.mFrameTableOffset, nullptr);
+                    mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(MeatSackHitRec.mFrameTableOffset, nullptr);
                     field_110_bDoMeatSackIdleAnim = 1;
                     return;
                 }
@@ -139,12 +139,12 @@ void MeatSack::VUpdate()
             if (pMeat)
             {
                 pMeat->VThrow(field_118_velX, field_11C_velY);
-                pMeat->field_BC_sprite_scale = field_BC_sprite_scale;
+                pMeat->mBaseAnimatedWithPhysicsGameObject_SpriteScale = mBaseAnimatedWithPhysicsGameObject_SpriteScale;
             }
 
             SFX_Play_Mono(SoundEffect::SackHit_30, 0, 0);
             Environment_SFX_42A220(EnvironmentSfx::eDeathNoise_7, 0, 0x7FFF, nullptr);
-            field_10_anim.Set_Animation_Data(MeatSackHitRec.mFrameTableOffset, nullptr);
+            mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(MeatSackHitRec.mFrameTableOffset, nullptr);
             field_110_bDoMeatSackIdleAnim = 1;
             return;
         }
@@ -173,20 +173,20 @@ Meat::Meat(FP xpos, FP ypos, s16 count)
     field_114_xpos = xpos;
     field_118_ypos = ypos;
 
-    field_B4_velx = FP_FromInteger(0);
-    field_B8_vely = FP_FromInteger(0);
+    mBaseAnimatedWithPhysicsGameObject_VelX = FP_FromInteger(0);
+    mBaseAnimatedWithPhysicsGameObject_VelY = FP_FromInteger(0);
     field_11C_timer = 0;
     mBaseGameObjectFlags.Clear(Options::eInteractive_Bit8);
 
-    field_10_anim.mAnimFlags.Clear(AnimFlags::eBit3_Render);
-    field_10_anim.mAnimFlags.Clear(AnimFlags::eBit15_bSemiTrans);
+    mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit3_Render);
+    mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit15_bSemiTrans);
 
     field_120_deadtimer = sGnFrame + 600;
     field_124_pLine = 0;
     field_10C_count = count;
     field_110_state = 0;
 
-    field_D0_pShadow = relive_new Shadow();
+    mShadow = relive_new Shadow();
 }
 
 Meat::~Meat()
@@ -210,10 +210,10 @@ void Meat::VScreenChanged()
 
 void Meat::VThrow(FP velX, FP velY)
 {
-    field_10_anim.mAnimFlags.Set(AnimFlags::eBit3_Render);
+    mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit3_Render);
 
-    field_B4_velx = velX;
-    field_B8_vely = velY;
+    mBaseAnimatedWithPhysicsGameObject_VelX = velX;
+    mBaseAnimatedWithPhysicsGameObject_VelY = velY;
 
     if (field_10C_count == 0)
     {
@@ -250,29 +250,29 @@ void Meat::InTheAir()
     field_114_xpos = mBaseAnimatedWithPhysicsGameObject_XPos;
     field_118_ypos = mBaseAnimatedWithPhysicsGameObject_YPos;
 
-    if (field_B8_vely < FP_FromInteger(18))
+    if (mBaseAnimatedWithPhysicsGameObject_VelY < FP_FromInteger(18))
     {
-        field_B8_vely += FP_FromInteger(1);
+        mBaseAnimatedWithPhysicsGameObject_VelY += FP_FromInteger(1);
     }
 
-    mBaseAnimatedWithPhysicsGameObject_XPos += field_B4_velx;
-    mBaseAnimatedWithPhysicsGameObject_YPos += field_B8_vely;
+    mBaseAnimatedWithPhysicsGameObject_XPos += mBaseAnimatedWithPhysicsGameObject_VelX;
+    mBaseAnimatedWithPhysicsGameObject_YPos += mBaseAnimatedWithPhysicsGameObject_VelY;
 
     u16 result = 0;
-    const FP xVoidSkip = CamX_VoidSkipper(mBaseAnimatedWithPhysicsGameObject_XPos, field_B4_velx, 8, &result);
+    const FP xVoidSkip = CamX_VoidSkipper(mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_VelX, 8, &result);
     mBaseAnimatedWithPhysicsGameObject_XPos = xVoidSkip;
 
     if (result)
     {
-        field_114_xpos = xVoidSkip - field_B4_velx;
+        field_114_xpos = xVoidSkip - mBaseAnimatedWithPhysicsGameObject_VelX;
     }
 
-    const FP yVoidSkip = CamY_VoidSkipper(mBaseAnimatedWithPhysicsGameObject_YPos, field_B8_vely, 8, &result);
+    const FP yVoidSkip = CamY_VoidSkipper(mBaseAnimatedWithPhysicsGameObject_YPos, mBaseAnimatedWithPhysicsGameObject_VelY, 8, &result);
     mBaseAnimatedWithPhysicsGameObject_YPos = yVoidSkip;
 
     if (result)
     {
-        field_118_ypos = yVoidSkip - field_B8_vely;
+        field_118_ypos = yVoidSkip - mBaseAnimatedWithPhysicsGameObject_VelY;
     }
 
     FP hitX = {};
@@ -286,7 +286,7 @@ void Meat::InTheAir()
         &field_124_pLine,
         &hitX,
         &hitY,
-        field_BC_sprite_scale != FP_FromInteger(1) ? 0x70 : 7);
+        mBaseAnimatedWithPhysicsGameObject_SpriteScale != FP_FromInteger(1) ? 0x70 : 7);
 
 
     if (CollisionRaycast == 1)
@@ -297,15 +297,15 @@ void Meat::InTheAir()
             case eLineTypes::eBackgroundFloor_4:
             case eLineTypes::eUnknown_32:
             case eLineTypes::eUnknown_36:
-                if (field_B8_vely > FP_FromInteger(0))
+                if (mBaseAnimatedWithPhysicsGameObject_VelY > FP_FromInteger(0))
                 {
                     field_110_state = 3;
 
-                    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(SnapToXGrid(field_BC_sprite_scale, FP_GetExponent(hitX)));
+                    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(SnapToXGrid(mBaseAnimatedWithPhysicsGameObject_SpriteScale, FP_GetExponent(hitX)));
                     mBaseAnimatedWithPhysicsGameObject_YPos = hitY;
 
-                    field_B8_vely = FP_FromInteger(0);
-                    field_B4_velx = FP_FromInteger(0);
+                    mBaseAnimatedWithPhysicsGameObject_VelY = FP_FromInteger(0);
+                    mBaseAnimatedWithPhysicsGameObject_VelX = FP_FromInteger(0);
 
                     SFX_Play_Pitch(SoundEffect::MeatBounce_43, 0, -650, 0);
                     Event_Broadcast(kEventNoise, this);
@@ -316,41 +316,41 @@ void Meat::InTheAir()
 
             case eLineTypes::eWallLeft_1:
             case eLineTypes::eBackgroundWallLeft_5:
-                if (field_B4_velx >= FP_FromInteger(0))
+                if (mBaseAnimatedWithPhysicsGameObject_VelX >= FP_FromInteger(0))
                 {
                     field_124_pLine = nullptr;
                     break;
                 }
 
-                field_B4_velx = (-field_B4_velx / FP_FromInteger(2));
+                mBaseAnimatedWithPhysicsGameObject_VelX = (-mBaseAnimatedWithPhysicsGameObject_VelX / FP_FromInteger(2));
 
                 SFX_Play_Pitch(SoundEffect::MeatBounce_43, 0, -650, 0);
                 Event_Broadcast(kEventNoise, this);
                 Event_Broadcast(kEventSuspiciousNoise, this);
 
-                if (field_B8_vely >= FP_FromInteger(0))
+                if (mBaseAnimatedWithPhysicsGameObject_VelY >= FP_FromInteger(0))
                 {
                     field_124_pLine = nullptr;
                     break;
                 }
 
-                field_B8_vely = FP_FromInteger(0);
+                mBaseAnimatedWithPhysicsGameObject_VelY = FP_FromInteger(0);
                 field_124_pLine = nullptr;
                 break;
 
             case eLineTypes::eWallRight_2:
             case eLineTypes::eBackgroundWallRight_6:
-                if (field_B4_velx > FP_FromInteger(0))
+                if (mBaseAnimatedWithPhysicsGameObject_VelX > FP_FromInteger(0))
                 {
-                    field_B4_velx = (-field_B4_velx / FP_FromInteger(4));
+                    mBaseAnimatedWithPhysicsGameObject_VelX = (-mBaseAnimatedWithPhysicsGameObject_VelX / FP_FromInteger(4));
 
                     SFX_Play_Pitch(SoundEffect::MeatBounce_43, 0, -650, 0);
                     Event_Broadcast(kEventNoise, this);
                     Event_Broadcast(kEventSuspiciousNoise, this);
 
-                    if (field_B8_vely < FP_FromInteger(0))
+                    if (mBaseAnimatedWithPhysicsGameObject_VelY < FP_FromInteger(0))
                     {
-                        field_B8_vely = FP_FromInteger(0);
+                        mBaseAnimatedWithPhysicsGameObject_VelY = FP_FromInteger(0);
                     }
                 }
 
@@ -398,36 +398,36 @@ void Meat::VUpdate()
             }
 
             case 3:
-                if (FP_Abs(field_B4_velx) < FP_FromInteger(1))
+                if (FP_Abs(mBaseAnimatedWithPhysicsGameObject_VelX) < FP_FromInteger(1))
                 {
-                    field_10_anim.mAnimFlags.Clear(AnimFlags::eBit8_Loop);
+                    mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit8_Loop);
                 }
 
-                if (FP_Abs(field_B4_velx) >= FP_FromDouble(0.5))
+                if (FP_Abs(mBaseAnimatedWithPhysicsGameObject_VelX) >= FP_FromDouble(0.5))
                 {
-                    if (field_B4_velx <= FP_FromInteger(0))
+                    if (mBaseAnimatedWithPhysicsGameObject_VelX <= FP_FromInteger(0))
                     {
-                        field_B4_velx += FP_FromDouble(0.01);
+                        mBaseAnimatedWithPhysicsGameObject_VelX += FP_FromDouble(0.01);
                     }
                     else
                     {
-                        field_B4_velx -= FP_FromDouble(0.01);
+                        mBaseAnimatedWithPhysicsGameObject_VelX -= FP_FromDouble(0.01);
                     }
 
-                    field_124_pLine = field_124_pLine->MoveOnLine(&mBaseAnimatedWithPhysicsGameObject_XPos, &mBaseAnimatedWithPhysicsGameObject_YPos, field_B4_velx);
+                    field_124_pLine = field_124_pLine->MoveOnLine(&mBaseAnimatedWithPhysicsGameObject_XPos, &mBaseAnimatedWithPhysicsGameObject_YPos, mBaseAnimatedWithPhysicsGameObject_VelX);
                     if (!field_124_pLine)
                     {
                         field_110_state = 2;
-                        field_10_anim.mAnimFlags.Set(AnimFlags::eBit8_Loop);
+                        mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit8_Loop);
                     }
                 }
                 else
                 {
-                    field_B4_velx = FP_FromInteger(0);
-                    mBaseAliveGameObjectCollectionRect.x = mBaseAnimatedWithPhysicsGameObject_XPos - ScaleToGridSize(field_BC_sprite_scale) / FP_FromInteger(2);
-                    mBaseAliveGameObjectCollectionRect.y = mBaseAnimatedWithPhysicsGameObject_YPos - ScaleToGridSize(field_BC_sprite_scale);
-                    mBaseAliveGameObjectCollectionRect.w = mBaseAnimatedWithPhysicsGameObject_XPos + ScaleToGridSize(field_BC_sprite_scale) / FP_FromInteger(2);
-                    mBaseAliveGameObjectCollectionRect.h = mBaseAnimatedWithPhysicsGameObject_YPos;
+                    mBaseAnimatedWithPhysicsGameObject_VelX = FP_FromInteger(0);
+                    mCollectionRect.x = mBaseAnimatedWithPhysicsGameObject_XPos - ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale) / FP_FromInteger(2);
+                    mCollectionRect.y = mBaseAnimatedWithPhysicsGameObject_YPos - ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale);
+                    mCollectionRect.w = mBaseAnimatedWithPhysicsGameObject_XPos + ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale) / FP_FromInteger(2);
+                    mCollectionRect.h = mBaseAnimatedWithPhysicsGameObject_YPos;
 
                     mBaseGameObjectFlags.Set(Options::eInteractive_Bit8);
                     field_110_state = 4;
@@ -435,7 +435,7 @@ void Meat::VUpdate()
                 break;
 
             case 4:
-                if (gMap.Is_Point_In_Current_Camera_4449C0(field_B2_lvl_number, field_B0_path_number, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, 0))
+                if (gMap.Is_Point_In_Current_Camera_4449C0(mBaseAnimatedWithPhysicsGameObject_LvlNumber, mBaseAnimatedWithPhysicsGameObject_PathNumber, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, 0))
                 {
                     field_120_deadtimer = sGnFrame + 600;
                 }
@@ -443,8 +443,8 @@ void Meat::VUpdate()
                 if (static_cast<s32>(sGnFrame) > field_11C_timer)
                 {
                     New_Shiny_Particle_4199A0(
-                        mBaseAnimatedWithPhysicsGameObject_XPos + field_BC_sprite_scale,
-                        mBaseAnimatedWithPhysicsGameObject_YPos + (field_BC_sprite_scale * FP_FromInteger(-7)),
+                        mBaseAnimatedWithPhysicsGameObject_XPos + mBaseAnimatedWithPhysicsGameObject_SpriteScale,
+                        mBaseAnimatedWithPhysicsGameObject_YPos + (mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(-7)),
                         FP_FromDouble(0.3),
                         Layer::eLayer_Foreground_36);
                     field_11C_timer = Math_NextRandom() % 16 + sGnFrame + 60;
@@ -456,15 +456,15 @@ void Meat::VUpdate()
                 break;
 
             case 5:
-                field_B8_vely += FP_FromInteger(1);
-                mBaseAnimatedWithPhysicsGameObject_XPos += field_B4_velx;
-                mBaseAnimatedWithPhysicsGameObject_YPos += field_B8_vely;
+                mBaseAnimatedWithPhysicsGameObject_VelY += FP_FromInteger(1);
+                mBaseAnimatedWithPhysicsGameObject_XPos += mBaseAnimatedWithPhysicsGameObject_VelX;
+                mBaseAnimatedWithPhysicsGameObject_YPos += mBaseAnimatedWithPhysicsGameObject_VelY;
 
                 if (!gMap.Is_Point_In_Current_Camera_4449C0(
-                        field_B2_lvl_number,
-                        field_B0_path_number,
+                        mBaseAnimatedWithPhysicsGameObject_LvlNumber,
+                        mBaseAnimatedWithPhysicsGameObject_PathNumber,
                         mBaseAnimatedWithPhysicsGameObject_XPos,
-                        field_B8_vely + mBaseAnimatedWithPhysicsGameObject_YPos,
+                        mBaseAnimatedWithPhysicsGameObject_VelY + mBaseAnimatedWithPhysicsGameObject_YPos,
                         0))
                 {
                     mBaseGameObjectFlags.Set(Options::eDead);
@@ -494,13 +494,13 @@ s16 Meat::OnCollision(BaseAliveGameObject* pHit)
 
     if (field_114_xpos < FP_FromInteger(bRect.x) || field_114_xpos > FP_FromInteger(bRect.w))
     {
-        mBaseAnimatedWithPhysicsGameObject_XPos -= field_B4_velx;
-        field_B4_velx = (-field_B4_velx / FP_FromInteger(2));
+        mBaseAnimatedWithPhysicsGameObject_XPos -= mBaseAnimatedWithPhysicsGameObject_VelX;
+        mBaseAnimatedWithPhysicsGameObject_VelX = (-mBaseAnimatedWithPhysicsGameObject_VelX / FP_FromInteger(2));
     }
     else
     {
-        mBaseAnimatedWithPhysicsGameObject_YPos -= field_B8_vely;
-        field_B8_vely = (-field_B8_vely / FP_FromInteger(2));
+        mBaseAnimatedWithPhysicsGameObject_YPos -= mBaseAnimatedWithPhysicsGameObject_VelY;
+        mBaseAnimatedWithPhysicsGameObject_VelY = (-mBaseAnimatedWithPhysicsGameObject_VelY / FP_FromInteger(2));
     }
 
     pHit->VOnThrowableHit(this);

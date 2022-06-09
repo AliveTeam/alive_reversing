@@ -14,21 +14,21 @@ Sparks::Sparks(FP xpos, FP ypos, FP scale)
 
     mApplyShadows &= ~1u;
 
-    field_20_animation.mRenderLayer = Layer::eLayer_FG1_37;
-    field_20_animation.mRenderMode = TPageAbr::eBlend_1;
+    mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_FG1_37;
+    mBaseAnimatedWithPhysicsGameObject_Anim.mRenderMode = TPageAbr::eBlend_1;
 
-    field_20_animation.mBlue = 80;
-    field_20_animation.mGreen = 80;
-    field_20_animation.mRed = 80;
+    mBaseAnimatedWithPhysicsGameObject_Anim.mBlue = 80;
+    mBaseAnimatedWithPhysicsGameObject_Anim.mGreen = 80;
+    mBaseAnimatedWithPhysicsGameObject_Anim.mRed = 80;
 
-    field_CC_sprite_scale = scale * (((FP_FromInteger(Math_NextRandom() % 6)) / FP_FromInteger(10)) + FP_FromDouble(0.7));
+    mBaseAnimatedWithPhysicsGameObject_SpriteScale = scale * (((FP_FromInteger(Math_NextRandom() % 6)) / FP_FromInteger(10)) + FP_FromDouble(0.7));
     field_FA_16_random = Math_RandomRange(0, 16);
 
     mBaseAnimatedWithPhysicsGameObject_XPos = xpos;
     mBaseAnimatedWithPhysicsGameObject_YPos = ypos;
 
-    field_C4_velx = FP_FromInteger(Math_RandomRange(-8, 8));
-    field_C8_vely = FP_FromInteger(Math_RandomRange(-6, -3));
+    mBaseAnimatedWithPhysicsGameObject_VelX = FP_FromInteger(Math_RandomRange(-8, 8));
+    mBaseAnimatedWithPhysicsGameObject_VelY = FP_FromInteger(Math_RandomRange(-6, -3));
 }
 
 void Sparks::VUpdate()
@@ -41,22 +41,22 @@ void Sparks::VUpdate()
     if (field_FA_16_random == 0)
     {
         const AnimRecord& animRec = AnimRec(AnimId::Sparks);
-        field_20_animation.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
+        mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
         field_FA_16_random = -1;
     }
 
-    field_C8_vely += FP_FromDouble(0.8);
+    mBaseAnimatedWithPhysicsGameObject_VelY += FP_FromDouble(0.8);
 
-    field_C4_velx *= FP_FromDouble(0.9);
-    field_C8_vely *= FP_FromDouble(0.9);
+    mBaseAnimatedWithPhysicsGameObject_VelX *= FP_FromDouble(0.9);
+    mBaseAnimatedWithPhysicsGameObject_VelY *= FP_FromDouble(0.9);
 
-    field_C4_velx += FP_FromInteger(Math_NextRandom() - 127) / FP_FromInteger(64);
-    field_C8_vely += FP_FromInteger(Math_NextRandom() - 127) / FP_FromInteger(64);
+    mBaseAnimatedWithPhysicsGameObject_VelX += FP_FromInteger(Math_NextRandom() - 127) / FP_FromInteger(64);
+    mBaseAnimatedWithPhysicsGameObject_VelY += FP_FromInteger(Math_NextRandom() - 127) / FP_FromInteger(64);
 
-    mBaseAnimatedWithPhysicsGameObject_YPos += field_C8_vely;
-    mBaseAnimatedWithPhysicsGameObject_XPos += field_C4_velx;
+    mBaseAnimatedWithPhysicsGameObject_YPos += mBaseAnimatedWithPhysicsGameObject_VelY;
+    mBaseAnimatedWithPhysicsGameObject_XPos += mBaseAnimatedWithPhysicsGameObject_VelX;
 
-    if (!gMap.Is_Point_In_Current_Camera_4810D0(field_C2_lvl_number, field_C0_path_number, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, 0))
+    if (!gMap.Is_Point_In_Current_Camera_4810D0(mBaseAnimatedWithPhysicsGameObject_LvlNumber, mBaseAnimatedWithPhysicsGameObject_PathNumber, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, 0))
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }

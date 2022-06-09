@@ -453,8 +453,8 @@ void PauseMenu::Init()
     const AnimRecord& rec = AnimRec(AnimId::NormalMudIcon);
     if (field_158_animation.Init(rec.mFrameTableOffset, gObjList_animations_5C1A24, this, rec.mMaxW, rec.mMaxH, ppAnimData, 1, 0, 0))
     {
-        this->field_158_animation.mRenderLayer = field_20_animation.mRenderLayer;
-        this->field_158_animation.field_14_scale = field_CC_sprite_scale;
+        this->field_158_animation.mRenderLayer = mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer;
+        this->field_158_animation.field_14_scale = mBaseAnimatedWithPhysicsGameObject_SpriteScale;
         this->field_158_animation.mRed = 127;
         this->field_158_animation.mGreen = 127;
         this->field_158_animation.mBlue = 127;
@@ -849,19 +849,19 @@ void PauseMenu_ForceLink()
                                             pm->ClosePauseMenu();
                                             sActiveHero->field_106_current_motion = eAbeMotions::Motion_3_Fall_459B60;
                                             sActiveHero->field_1AC_flags.Set(Abe::e1AC_Bit7_land_softly);
-                                            sActiveHero->field_C2_lvl_number = levelSelectEntry.field_4_level;
-                                            sActiveHero->field_C0_path_number = levelSelectEntry.field_6_path;
+                                            sActiveHero->mBaseAnimatedWithPhysicsGameObject_LvlNumber = levelSelectEntry.field_4_level;
+                                            sActiveHero->mBaseAnimatedWithPhysicsGameObject_PathNumber = levelSelectEntry.field_6_path;
                                             sActiveHero->field_100_pCollisionLine = nullptr;
 
                                             if (levelSelectEntry.field_A_id & 1)
                                             {
-                                                sActiveHero->field_D6_scale = 1;
-                                                sActiveHero->field_CC_sprite_scale = FP_FromDouble(1.0);
+                                                sActiveHero->mBaseAnimatedWithPhysicsGameObject_Scale = 1;
+                                                sActiveHero->mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromDouble(1.0);
                                             }
                                             else
                                             {
-                                                sActiveHero->field_D6_scale = 0;
-                                                sActiveHero->field_CC_sprite_scale = FP_FromDouble(0.5);
+                                                sActiveHero->mBaseAnimatedWithPhysicsGameObject_Scale = 0;
+                                                sActiveHero->mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromDouble(0.5);
                                             }
 
                                             sActiveHero->field_F8_LastLineYPos = sActiveHero->mBaseAnimatedWithPhysicsGameObject_YPos;

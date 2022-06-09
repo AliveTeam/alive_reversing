@@ -229,16 +229,16 @@ void Map::RemoveObjectsWithPurpleLight(s16 bMakeInvisible)
 
                 if (pBaseObj->mApplyShadows & 2)
                 {
-                    if (pBaseObj->field_20_animation.mAnimFlags.Get(AnimFlags::eBit3_Render))
+                    if (pBaseObj->mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit3_Render))
                     {
                         if (!pBaseObj->mBaseGameObjectFlags.Get(BaseGameObject::eDead) && pBaseObj != sControlledCharacter_5C1B8C && gMap.Rect_Location_Relative_To_Active_Camera(&objRect) == CameraPos::eCamCurrent_0)
                         {
                             pObjectsWithLightsArray->Push_Back(pBaseObj);
-                            const FP k60Scaled = (pBaseObj->field_CC_sprite_scale * FP_FromInteger(60));
+                            const FP k60Scaled = (pBaseObj->mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(60));
                             Particle* pPurpleLight = New_DestroyOrCreateObject_Particle(
                                 FP_FromInteger((objRect.x + objRect.w) / 2),
                                 FP_FromInteger(((objRect.y + objRect.h) / 2)) + k60Scaled,
-                                pBaseObj->field_CC_sprite_scale);
+                                pBaseObj->mBaseAnimatedWithPhysicsGameObject_SpriteScale);
 
                             if (pPurpleLight)
                             {
@@ -268,7 +268,7 @@ void Map::RemoveObjectsWithPurpleLight(s16 bMakeInvisible)
                     {
                         break;
                     }
-                    pObj->field_20_animation.mAnimFlags.Clear(AnimFlags::eBit3_Render);
+                    pObj->mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit3_Render);
                 }
             }
 
@@ -297,7 +297,7 @@ void Map::RemoveObjectsWithPurpleLight(s16 bMakeInvisible)
 
                 if (!pLight->mBaseGameObjectFlags.Get(BaseGameObject::eDead))
                 {
-                    pLight->field_20_animation.VDecode();
+                    pLight->mBaseAnimatedWithPhysicsGameObject_Anim.VDecode();
                 }
             }
 
@@ -335,7 +335,7 @@ void Map::RemoveObjectsWithPurpleLight(s16 bMakeInvisible)
                 {
                     break;
                 }
-                pObj->field_20_animation.mAnimFlags.Set(AnimFlags::eBit3_Render);
+                pObj->mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit3_Render);
             }
         }
     }
@@ -369,20 +369,20 @@ void Map::Handle_PathTransition()
 
         field_10_screen_change_effect = kPathChangeEffectToInternalScreenChangeEffect_55D55C[pPathChangeTLV->field_18_wipe];
 
-        field_18_pAliveObj->field_C2_lvl_number = mLevel;
-        field_18_pAliveObj->field_C0_path_number = mPath;
+        field_18_pAliveObj->mBaseAnimatedWithPhysicsGameObject_LvlNumber = mLevel;
+        field_18_pAliveObj->mBaseAnimatedWithPhysicsGameObject_PathNumber = mPath;
         GoTo_Camera();
 
         switch (pPathChangeTLV->field_1A_scale)
         {
             case Scale_short::eFull_0:
-                sActiveHero->field_CC_sprite_scale = FP_FromDouble(1.0);
-                sActiveHero->field_20_animation.mRenderLayer = Layer::eLayer_AbeMenu_32;
+                sActiveHero->mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromDouble(1.0);
+                sActiveHero->mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_AbeMenu_32;
                 break;
 
             case Scale_short::eHalf_1:
-                sActiveHero->field_CC_sprite_scale = FP_FromDouble(0.5);
-                sActiveHero->field_20_animation.mRenderLayer = Layer::eLayer_AbeMenu_Half_13;
+                sActiveHero->mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromDouble(0.5);
+                sActiveHero->mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_AbeMenu_Half_13;
                 break;
 
             default:
@@ -864,7 +864,7 @@ void Map::GoTo_Camera()
     {
         if (sActiveHero)
         {
-            if (mCurrentPath == sActiveHero->field_C0_path_number)
+            if (mCurrentPath == sActiveHero->mBaseAnimatedWithPhysicsGameObject_PathNumber)
             {
                 sActiveHero->VCheckCollisionLineStillValid(10);
             }

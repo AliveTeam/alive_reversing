@@ -230,10 +230,10 @@ s16 Calc_Slig_Sound_Direction_4C01B0(BaseAnimatedWithPhysicsGameObject* pObj, s1
         }
 
         const CameraPos dir = gMap.GetDirection_4811A0(
-            pObj->field_C2_lvl_number, pObj->field_C0_path_number,
+            pObj->mBaseAnimatedWithPhysicsGameObject_LvlNumber, pObj->mBaseAnimatedWithPhysicsGameObject_PathNumber,
             pObj->mBaseAnimatedWithPhysicsGameObject_XPos, pObj->mBaseAnimatedWithPhysicsGameObject_YPos - yOff);
 
-        if (pObj->field_CC_sprite_scale != FP_FromInteger(1))
+        if (pObj->mBaseAnimatedWithPhysicsGameObject_SpriteScale != FP_FromInteger(1))
         {
             // Background layer stuff isn't as loud
             defaultVol = (2 * defaultVol) / 3;

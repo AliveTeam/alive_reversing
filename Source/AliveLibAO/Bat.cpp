@@ -29,7 +29,7 @@ Bat::Bat(Path_Bat* pTlv, s32 tlvInfo)
     }
 
     Animation_Init_417FD0(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
-    field_10_anim.mRenderLayer = Layer::eLayer_SligBat_33;
+    mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_SligBat_33;
 
     FP hitX = {};
     FP hitY = {};
@@ -58,15 +58,15 @@ Bat::Bat(Path_Bat* pTlv, s32 tlvInfo)
 
     if (pTlv->field_1C_scale == Scale_short::eHalf_1)
     {
-        field_BC_sprite_scale = FP_FromDouble(0.5);
-        field_C6_scale = 0;
-        field_10_anim.mRenderLayer = Layer::eLayer_BeforeShadow_Half_6;
+        mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromDouble(0.5);
+        mBaseAnimatedWithPhysicsGameObject_Scale = 0;
+        mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_BeforeShadow_Half_6;
     }
     else
     {
-        field_BC_sprite_scale = FP_FromInteger(1);
-        field_C6_scale = 1;
-        field_10_anim.mRenderLayer = Layer::eLayer_BeforeShadow_25;
+        mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromInteger(1);
+        mBaseAnimatedWithPhysicsGameObject_Scale = 1;
+        mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_BeforeShadow_25;
     }
 
     field_F4_state = BatStates::eSetTimer_0;
@@ -120,11 +120,11 @@ void Bat::FlyTo(FP xpos, FP ypos, FP* xSpeed, FP* ySpeed)
         x_final += FP_FromInteger(1);
     }
 
-    field_B4_velx = (FP_FromInteger(8) * *xSpeed) / x_final;
-    field_B8_vely = (FP_FromInteger(8) * *ySpeed) / x_final;
+    mBaseAnimatedWithPhysicsGameObject_VelX = (FP_FromInteger(8) * *xSpeed) / x_final;
+    mBaseAnimatedWithPhysicsGameObject_VelY = (FP_FromInteger(8) * *ySpeed) / x_final;
 
-    mBaseAnimatedWithPhysicsGameObject_XPos += field_B4_velx;
-    mBaseAnimatedWithPhysicsGameObject_YPos += field_B8_vely;
+    mBaseAnimatedWithPhysicsGameObject_XPos += mBaseAnimatedWithPhysicsGameObject_VelX;
+    mBaseAnimatedWithPhysicsGameObject_YPos += mBaseAnimatedWithPhysicsGameObject_VelY;
 }
 
 void Bat::VUpdate()
@@ -154,7 +154,7 @@ void Bat::VUpdate()
             {
                 field_F4_state = BatStates::eStartMoving_2;
                 field_100_velx = FP_FromInteger(0);
-                field_10_anim.Set_Animation_Data(6608, nullptr);
+                mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(6608, nullptr);
             }
             break;
 
@@ -173,11 +173,11 @@ void Bat::VUpdate()
                 field_E4_pLine = field_E4_pLine->MoveOnLine(&mBaseAnimatedWithPhysicsGameObject_XPos, &mBaseAnimatedWithPhysicsGameObject_YPos, field_100_velx);
             }
 
-            if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
+            if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
             {
                 field_F4_state = BatStates::eFlying_3;
                 const AnimRecord& rec = AO::AnimRec(AnimId::Bat_Flying);
-                field_10_anim.Set_Animation_Data(rec.mFrameTableOffset, nullptr);
+                mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(rec.mFrameTableOffset, nullptr);
                 field_F8_timer = sGnFrame + Math_RandomRange_450F20(0, 90);
             }
             break;
@@ -192,7 +192,7 @@ void Bat::VUpdate()
                 }
             }
 
-            if (!(field_10_anim.field_92_current_frame % 3))
+            if (!(mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame % 3))
             {
                 SFX_Play_Mono(static_cast<SoundEffect>(Math_RandomRange_450F20(SoundEffect::Bat1_41, SoundEffect::Bat2_42) & 0xFF), Math_RandomRange_450F20(20, 26), 0);
             }
@@ -228,7 +228,7 @@ void Bat::VUpdate()
                         PSX_RECT bObjRect = {};
                         pObjIter->VGetBoundingRect(&bObjRect, 1);
 
-                        if (FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos) >= bObjRect.x && FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos) <= bObjRect.w && FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos) >= bObjRect.y && FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos) <= bObjRect.h && pObjIter->field_BC_sprite_scale == field_BC_sprite_scale)
+                        if (FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos) >= bObjRect.x && FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos) <= bObjRect.w && FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos) >= bObjRect.y && FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos) <= bObjRect.h && pObjIter->mBaseAnimatedWithPhysicsGameObject_SpriteScale == mBaseAnimatedWithPhysicsGameObject_SpriteScale)
                         {
                             for (s32 j = 0; j < gBaseGameObjects->Size(); j++)
                             {
@@ -247,7 +247,7 @@ void Bat::VUpdate()
 
                                     pBat->field_F4_state = BatStates::eAttackTarget_4;
                                     const AnimRecord& rec = AO::AnimRec(AnimId::Bat_Flying);
-                                    pBat->field_10_anim.Set_Animation_Data(rec.mFrameTableOffset, nullptr);
+                                    pBat->mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(rec.mFrameTableOffset, nullptr);
 
                                     pBat->field_F8_timer = 0;
                                     pBat->field_FC_attack_duration_timer = sGnFrame + pBat->field_F6_attack_duration;

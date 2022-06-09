@@ -58,27 +58,27 @@ Rope::Rope(s32 left, s32 top, s32 bottom, FP scale)
     Animation_Init(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
     SetTint(kRopeTints_55FD68, gMap.mCurrentLevel);
 
-    field_20_animation.field_14_scale = scale;
-    field_CC_sprite_scale = scale;
+    mBaseAnimatedWithPhysicsGameObject_Anim.field_14_scale = scale;
+    mBaseAnimatedWithPhysicsGameObject_SpriteScale = scale;
 
     if (scale == FP_FromInteger(1))
     {
         field_F6_rope_length = 15;
-        field_20_animation.mRenderLayer = Layer::eLayer_RopeWebDrill_24;
-        field_D6_scale = 1;
+        mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_RopeWebDrill_24;
+        mBaseAnimatedWithPhysicsGameObject_Scale = 1;
     }
     else
     {
         field_F6_rope_length = 7;
-        field_20_animation.mRenderLayer = Layer::eLayer_RopeWebDrill_Half_5;
-        field_20_animation.field_14_scale = FP_FromDouble(0.7);
-        field_CC_sprite_scale = FP_FromDouble(0.7);
-        field_D6_scale = 0;
+        mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_RopeWebDrill_Half_5;
+        mBaseAnimatedWithPhysicsGameObject_Anim.field_14_scale = FP_FromDouble(0.7);
+        mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromDouble(0.7);
+        mBaseAnimatedWithPhysicsGameObject_Scale = 0;
     };
 
-    field_20_animation.mRed = static_cast<u8>(field_D0_r);
-    field_20_animation.mGreen = static_cast<u8>(field_D2_g);
-    field_20_animation.mBlue = static_cast<u8>(field_D4_b);
+    mBaseAnimatedWithPhysicsGameObject_Anim.mRed = static_cast<u8>(mBaseAnimatedWithPhysicsGameObject_Red);
+    mBaseAnimatedWithPhysicsGameObject_Anim.mGreen = static_cast<u8>(mBaseAnimatedWithPhysicsGameObject_Green);
+    mBaseAnimatedWithPhysicsGameObject_Anim.mBlue = static_cast<u8>(mBaseAnimatedWithPhysicsGameObject_Blue);
 
     field_102_top = static_cast<s16>(top);
     field_106_bottom = static_cast<s16>(bottom);
@@ -98,8 +98,8 @@ Rope::Rope(s32 left, s32 top, s32 bottom, FP scale)
         AnimationUnknown* pSegment = &field_FC_pRopeRes[i];
         pSegment = new (pSegment) AnimationUnknown(); // We have memory but no constructor was called.. so use placement new to get a constructed instance
         pSegment->mAnimFlags.Set(AnimFlags::eBit3_Render);
-        pSegment->field_68_anim_ptr = &field_20_animation;
-        pSegment->mRenderLayer = field_20_animation.mRenderLayer;
+        pSegment->field_68_anim_ptr = &mBaseAnimatedWithPhysicsGameObject_Anim;
+        pSegment->mRenderLayer = mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer;
         pSegment->field_6C_scale = scale;
         pSegment->mAnimFlags.Clear(AnimFlags::eBit15_bSemiTrans);
         pSegment->mAnimFlags.Clear(AnimFlags::eBit16_bBlending);
@@ -121,7 +121,7 @@ void Rope::VRender(PrimHeader** ppOt)
     PSX_Point camPos = {};
     gMap.GetCurrentCamCoords(&camPos);
     // In the current level/map?
-    if (field_C2_lvl_number == gMap.mCurrentLevel && field_C0_path_number == gMap.mCurrentPath)
+    if (mBaseAnimatedWithPhysicsGameObject_LvlNumber == gMap.mCurrentLevel && mBaseAnimatedWithPhysicsGameObject_PathNumber == gMap.mCurrentPath)
     {
         // In the current camera x range?
         if (mBaseAnimatedWithPhysicsGameObject_XPos >= FP_FromInteger(camPos.field_0_x) && mBaseAnimatedWithPhysicsGameObject_XPos <= FP_FromInteger(camPos.field_0_x + 375))
@@ -157,21 +157,21 @@ void Rope::VRender(PrimHeader** ppOt)
                 maxY = 240;
             }
 
-            field_20_animation.VRender(640, 240, ppOt, 0, 0);
+            mBaseAnimatedWithPhysicsGameObject_Anim.VRender(640, 240, ppOt, 0, 0);
 
             if (screenY >= minY)
             {
                 for (s32 idx = 0; idx < field_F4_rope_segment_count; idx++)
                 {
                     // Apply shadow to the segments colour
-                    s16 r = field_D0_r;
-                    s16 g = field_D2_g;
-                    s16 b = field_D4_b;
+                    s16 r = mBaseAnimatedWithPhysicsGameObject_Red;
+                    s16 g = mBaseAnimatedWithPhysicsGameObject_Green;
+                    s16 b = mBaseAnimatedWithPhysicsGameObject_Blue;
 
                     ShadowZone::ShadowZones_Calculate_Colour(
                         FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos),
                         ypos - (idx * field_F6_rope_length),
-                        field_D6_scale,
+                        mBaseAnimatedWithPhysicsGameObject_Scale,
                         &r,
                         &g,
                         &b);

@@ -270,12 +270,12 @@ void Bullet::VUpdate()
             // TODO: Check field_44_number_of_bullets << 20 is FP_FromInt * 16.
             if (field_28_xpos >= sControlledCharacter_5C1B8C->mBaseAnimatedWithPhysicsGameObject_XPos)
             {
-                const FP doubleVelX = (sControlledCharacter_5C1B8C->field_C4_velx * FP_FromInteger(2));
+                const FP doubleVelX = (sControlledCharacter_5C1B8C->mBaseAnimatedWithPhysicsGameObject_VelX * FP_FromInteger(2));
                 rectXPos = (FP_FromInteger(field_44_number_of_bullets * 16)) + sControlledCharacter_5C1B8C->mBaseAnimatedWithPhysicsGameObject_XPos - doubleVelX;
             }
             else
             {
-                const FP doubleVelX = (sControlledCharacter_5C1B8C->field_C4_velx * FP_FromInteger(2));
+                const FP doubleVelX = (sControlledCharacter_5C1B8C->mBaseAnimatedWithPhysicsGameObject_VelX * FP_FromInteger(2));
                 rectXPos = sControlledCharacter_5C1B8C->mBaseAnimatedWithPhysicsGameObject_XPos - doubleVelX - (FP_FromInteger(field_44_number_of_bullets * 16));
             }
 
@@ -368,7 +368,7 @@ BaseAliveGameObject* Bullet::ShootObject(PSX_RECT* pRect)
 
         if (pObj != field_40_pParent)
         {
-            if (pObj->field_20_animation.mAnimFlags.Get(AnimFlags::eBit3_Render))
+            if (pObj->mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit3_Render))
             {
                 if (gMap.Is_Point_In_Current_Camera_4810D0(field_38_level, field_3A_path, pObj->mBaseAnimatedWithPhysicsGameObject_XPos, pObj->mBaseAnimatedWithPhysicsGameObject_YPos, 1))
                 {
@@ -381,7 +381,7 @@ BaseAliveGameObject* Bullet::ShootObject(PSX_RECT* pRect)
 
                         if (pRect->x <= bRect.w && pRect->w >= bRect.x && pRect->h >= bRect.y && pRect->y <= bRect.h)
                         {
-                            if (((field_20_type == BulletType::eZBullet_3 || field_20_type == BulletType::ePossessedSligZBullet_1) && field_40_pParent->field_D6_scale < pObj->field_D6_scale) || ((field_20_type == BulletType::eNormalBullet_2 || field_20_type == BulletType::eSligPossessedOrUnderGlukkonCommand_0) && field_40_pParent->field_D6_scale == pObj->field_D6_scale))
+                            if (((field_20_type == BulletType::eZBullet_3 || field_20_type == BulletType::ePossessedSligZBullet_1) && field_40_pParent->mBaseAnimatedWithPhysicsGameObject_Scale < pObj->mBaseAnimatedWithPhysicsGameObject_Scale) || ((field_20_type == BulletType::eNormalBullet_2 || field_20_type == BulletType::eSligPossessedOrUnderGlukkonCommand_0) && field_40_pParent->mBaseAnimatedWithPhysicsGameObject_Scale == pObj->mBaseAnimatedWithPhysicsGameObject_Scale))
                             {
                                 if (pObj->Type() != ReliveTypes::eGlukkon || FP_Abs(pObj->mBaseAnimatedWithPhysicsGameObject_XPos - field_28_xpos) >= ScaleToGridSize(field_3C_scale))
                                 {

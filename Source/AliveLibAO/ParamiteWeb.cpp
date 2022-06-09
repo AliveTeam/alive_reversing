@@ -28,7 +28,7 @@ ParamiteWeb::ParamiteWeb(FP xpos, s32 bottom, s32 top, FP scale)
 {
     mBaseGameObjectTypeId = ReliveTypes::eRope;
 
-    field_C8_yOffset = 0;
+    mBaseAnimatedWithPhysicsGameObject_YOffset = 0;
 
     if (scale == FP_FromInteger(1))
     {
@@ -43,24 +43,24 @@ ParamiteWeb::ParamiteWeb(FP xpos, s32 bottom, s32 top, FP scale)
     u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
     Animation_Init_417FD0(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
 
-    field_10_anim.field_14_scale = scale;
-    field_BC_sprite_scale = scale;
+    mBaseAnimatedWithPhysicsGameObject_Anim.field_14_scale = scale;
+    mBaseAnimatedWithPhysicsGameObject_SpriteScale = scale;
 
     if (scale == FP_FromInteger(1))
     {
-        field_10_anim.mRenderLayer = Layer::eLayer_RopeWebMeatSaw_24;
-        field_C6_scale = 1;
+        mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_RopeWebMeatSaw_24;
+        mBaseAnimatedWithPhysicsGameObject_Scale = 1;
     }
     else
     {
-        field_10_anim.mRenderLayer = Layer::eLayer_RopeWebMeatSaw_Half_5;
-        field_C6_scale = 0;
+        mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_RopeWebMeatSaw_Half_5;
+        mBaseAnimatedWithPhysicsGameObject_Scale = 0;
     }
 
 
-    field_10_anim.mRed = 128;
-    field_10_anim.mGreen = 128;
-    field_10_anim.mBlue = 128;
+    mBaseAnimatedWithPhysicsGameObject_Anim.mRed = 128;
+    mBaseAnimatedWithPhysicsGameObject_Anim.mGreen = 128;
+    mBaseAnimatedWithPhysicsGameObject_Anim.mBlue = 128;
 
     mBaseAnimatedWithPhysicsGameObject_XPos = xpos;
     field_EA_ttl_remainder = static_cast<s16>(top);
@@ -76,9 +76,9 @@ ParamiteWeb::ParamiteWeb(FP xpos, s32 bottom, s32 top, FP scale)
         {
             AnimationUnknown* pSegment = &field_EC_pRes[i];
             pSegment->mAnimFlags.Set(AnimFlags::eBit3_Render);
-            pSegment->field_68_anim_ptr = &field_10_anim;
-            pSegment->mRenderLayer = field_10_anim.mRenderLayer;
-            pSegment->field_6C_scale = field_BC_sprite_scale;
+            pSegment->field_68_anim_ptr = &mBaseAnimatedWithPhysicsGameObject_Anim;
+            pSegment->mRenderLayer = mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer;
+            pSegment->field_6C_scale = mBaseAnimatedWithPhysicsGameObject_SpriteScale;
             pSegment->mAnimFlags.Clear(AnimFlags::eBit15_bSemiTrans);
             pSegment->mAnimFlags.Clear(AnimFlags::eBit16_bBlending);
         }
@@ -104,7 +104,7 @@ void ParamiteWeb::VRender(PrimHeader** ppOt)
 {
     PSX_Point camCoords = {};
     gMap.GetCurrentCamCoords(&camCoords);
-    if (field_B2_lvl_number == gMap.mCurrentLevel && field_B0_path_number == gMap.mCurrentPath)
+    if (mBaseAnimatedWithPhysicsGameObject_LvlNumber == gMap.mCurrentLevel && mBaseAnimatedWithPhysicsGameObject_PathNumber == gMap.mCurrentPath)
     {
         if (mBaseAnimatedWithPhysicsGameObject_XPos >= FP_FromInteger(camCoords.field_0_x) && mBaseAnimatedWithPhysicsGameObject_XPos <= FP_FromInteger(camCoords.field_0_x + 1024))
         {
@@ -123,7 +123,7 @@ void ParamiteWeb::VRender(PrimHeader** ppOt)
             const s16 x_start = PsxToPCX<s16>(FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos + FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos) - cam_x));
 
             s16 y_start = FP_GetExponent(FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos + ypos_int) - cam_y);
-            if (field_C8_yOffset + y_start > 240)
+            if (mBaseAnimatedWithPhysicsGameObject_YOffset + y_start > 240)
             {
                 y_start = y_start % field_E6_segment_length + 240;
                 ypos_int = FP_GetExponent(cam_y + FP_FromInteger(y_start - pScreenManager_4FF7C8->field_16_ypos));
@@ -139,7 +139,7 @@ void ParamiteWeb::VRender(PrimHeader** ppOt)
                 maxY = 240;
             }
 
-            field_10_anim.VRender(640, 240, ppOt, 0, 0);
+            mBaseAnimatedWithPhysicsGameObject_Anim.VRender(640, 240, ppOt, 0, 0);
 
             if (y_start >= minY)
             {
@@ -148,15 +148,15 @@ void ParamiteWeb::VRender(PrimHeader** ppOt)
                     s16 r = 128;
                     s16 g = 128;
                     s16 b = 128;
-                    ShadowZone::ShadowZones_Calculate_Colour(FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos), ypos_int - (idx * field_E6_segment_length), field_C6_scale, &r, &g, &b);
+                    ShadowZone::ShadowZones_Calculate_Colour(FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos), ypos_int - (idx * field_E6_segment_length), mBaseAnimatedWithPhysicsGameObject_Scale, &r, &g, &b);
                     field_EC_pRes[idx].mRed = static_cast<u8>(r);
                     field_EC_pRes[idx].mGreen = static_cast<u8>(g);
                     field_EC_pRes[idx].mBlue = static_cast<u8>(b);
-                    field_EC_pRes[idx].VRender2(x_start, y_start + field_C8_yOffset, ppOt);
+                    field_EC_pRes[idx].VRender2(x_start, y_start + mBaseAnimatedWithPhysicsGameObject_YOffset, ppOt);
                     PSX_RECT rect = {};
                     field_EC_pRes[idx].GetRenderedSize(&rect);
                     pScreenManager_4FF7C8->InvalidateRect(rect.x, rect.y, rect.w, rect.h, pScreenManager_4FF7C8->field_2E_idx);
-                    ClipPoly_Vertically_4584B0(&field_EC_pRes[idx].field_10_polys[gPsxDisplay_504C78.field_A_buffer_index], field_C8_yOffset + minY, field_C8_yOffset + maxY);
+                    ClipPoly_Vertically_4584B0(&field_EC_pRes[idx].field_10_polys[gPsxDisplay_504C78.field_A_buffer_index], mBaseAnimatedWithPhysicsGameObject_YOffset + minY, mBaseAnimatedWithPhysicsGameObject_YOffset + maxY);
                     y_start -= field_E6_segment_length;
                     if (y_start < minY)
                     {

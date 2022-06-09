@@ -23,11 +23,11 @@ void PlatformBase::AddDynamicCollision(s32 frameTableOffset, s32 maxW, s32 maxH,
 
     mPlatformBaseMap = pMap;
 
-    field_B4_velx = FP_FromInteger(0);
-    field_B8_vely = FP_FromInteger(0);
+    mBaseAnimatedWithPhysicsGameObject_VelX = FP_FromInteger(0);
+    mBaseAnimatedWithPhysicsGameObject_VelY = FP_FromInteger(0);
 
     field_10C = 0;
-    field_C8_yOffset = 0;
+    mBaseAnimatedWithPhysicsGameObject_YOffset = 0;
 
     field_110 = 0;
     mPlatformBaseCount = 0;
@@ -39,19 +39,19 @@ void PlatformBase::AddDynamicCollision(s32 frameTableOffset, s32 maxW, s32 maxH,
         ppAnimData,
         1);
 
-    if (field_BC_sprite_scale == FP_FromInteger(1))
+    if (mBaseAnimatedWithPhysicsGameObject_SpriteScale == FP_FromInteger(1))
     {
-        field_10_anim.mRenderLayer = Layer::eLayer_BeforeShadow_25;
-        field_C6_scale = 1;
+        mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_BeforeShadow_25;
+        mBaseAnimatedWithPhysicsGameObject_Scale = 1;
     }
     else
     {
-        field_10_anim.mRenderLayer = Layer::eLayer_BeforeShadow_Half_6;
-        field_C6_scale = 0;
+        mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_BeforeShadow_Half_6;
+        mBaseAnimatedWithPhysicsGameObject_Scale = 0;
     }
 
-    FrameInfoHeader* pFrameHeader = field_10_anim.Get_FrameHeader(0);
-    mBaseAnimatedWithPhysicsGameObject_YPos += FP_NoFractional(FP_FromInteger(-pFrameHeader->field_8_data.points[1].y) * field_BC_sprite_scale);
+    FrameInfoHeader* pFrameHeader = mBaseAnimatedWithPhysicsGameObject_Anim.Get_FrameHeader(0);
+    mBaseAnimatedWithPhysicsGameObject_YPos += FP_NoFractional(FP_FromInteger(-pFrameHeader->field_8_data.points[1].y) * mBaseAnimatedWithPhysicsGameObject_SpriteScale);
     mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger((pTlv->field_10_top_left.field_0_x + pTlv->field_14_bottom_right.field_0_x) / 2);
 
     mPlatformBaseCollisionLine = sCollisions->Add_Dynamic_Collision_Line(
@@ -79,7 +79,7 @@ PlatformBase::~PlatformBase()
 
     if (mPlatformBaseCollisionLine)
     {
-        if (gMap.mCurrentLevel == field_B2_lvl_number && gMap.mCurrentPath == field_B0_path_number)
+        if (gMap.mCurrentLevel == mBaseAnimatedWithPhysicsGameObject_LvlNumber && gMap.mCurrentPath == mBaseAnimatedWithPhysicsGameObject_PathNumber)
         {
             Rect_Clear(&mPlatformBaseCollisionLine->field_0_rect);
         }

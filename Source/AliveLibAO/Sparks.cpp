@@ -16,23 +16,23 @@ Sparks::Sparks(FP xpos, FP ypos, FP scale)
     u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
     Animation_Init_417FD0(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
 
-    field_10_anim.mBlue = 80;
-    field_10_anim.mGreen = 80;
-    field_10_anim.mRed = 80;
+    mBaseAnimatedWithPhysicsGameObject_Anim.mBlue = 80;
+    mBaseAnimatedWithPhysicsGameObject_Anim.mGreen = 80;
+    mBaseAnimatedWithPhysicsGameObject_Anim.mRed = 80;
 
-    field_CC_bApplyShadows &= ~1u;
+    mApplyShadows &= ~1u;
 
-    field_10_anim.mRenderLayer = Layer::eLayer_FG1_37;
-    field_10_anim.mRenderMode = TPageAbr::eBlend_1;
+    mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_FG1_37;
+    mBaseAnimatedWithPhysicsGameObject_Anim.mRenderMode = TPageAbr::eBlend_1;
 
-    field_BC_sprite_scale = scale * ((FP_FromInteger(Math_NextRandom() % 6) / FP_FromInteger(10)) + FP_FromDouble(0.2));
+    mBaseAnimatedWithPhysicsGameObject_SpriteScale = scale * ((FP_FromInteger(Math_NextRandom() % 6) / FP_FromInteger(10)) + FP_FromDouble(0.2));
     field_EA_random = Math_RandomRange_450F20(0, 16);
 
     mBaseAnimatedWithPhysicsGameObject_XPos = xpos;
     mBaseAnimatedWithPhysicsGameObject_YPos = ypos;
 
-    field_B4_velx = FP_FromInteger(Math_RandomRange_450F20(-8, 8));
-    field_B8_vely = FP_FromInteger(Math_RandomRange_450F20(-6, -3));
+    mBaseAnimatedWithPhysicsGameObject_VelX = FP_FromInteger(Math_RandomRange_450F20(-8, 8));
+    mBaseAnimatedWithPhysicsGameObject_VelY = FP_FromInteger(Math_RandomRange_450F20(-6, -3));
 }
 
 void Sparks::VUpdate()
@@ -44,24 +44,24 @@ void Sparks::VUpdate()
 
     if (field_EA_random == 0)
     {
-        field_10_anim.Set_Animation_Data(1492, 0);
+        mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(1492, 0);
         field_EA_random = -1;
     }
 
-    field_B8_vely += FP_FromDouble(0.8);
+    mBaseAnimatedWithPhysicsGameObject_VelY += FP_FromDouble(0.8);
 
-    field_B4_velx = field_B4_velx * FP_FromDouble(0.9);
-    field_B8_vely = field_B8_vely * FP_FromDouble(0.9);
+    mBaseAnimatedWithPhysicsGameObject_VelX = mBaseAnimatedWithPhysicsGameObject_VelX * FP_FromDouble(0.9);
+    mBaseAnimatedWithPhysicsGameObject_VelY = mBaseAnimatedWithPhysicsGameObject_VelY * FP_FromDouble(0.9);
 
-    field_B4_velx += FP_FromInteger(Math_NextRandom() - 127) / FP_FromInteger(64);
-    field_B8_vely += FP_FromInteger(Math_NextRandom() - 127) / FP_FromInteger(64);
+    mBaseAnimatedWithPhysicsGameObject_VelX += FP_FromInteger(Math_NextRandom() - 127) / FP_FromInteger(64);
+    mBaseAnimatedWithPhysicsGameObject_VelY += FP_FromInteger(Math_NextRandom() - 127) / FP_FromInteger(64);
 
-    mBaseAnimatedWithPhysicsGameObject_XPos += field_B4_velx;
-    mBaseAnimatedWithPhysicsGameObject_YPos += field_B8_vely;
+    mBaseAnimatedWithPhysicsGameObject_XPos += mBaseAnimatedWithPhysicsGameObject_VelX;
+    mBaseAnimatedWithPhysicsGameObject_YPos += mBaseAnimatedWithPhysicsGameObject_VelY;
 
     if (!gMap.Is_Point_In_Current_Camera_4449C0(
-            field_B2_lvl_number,
-            field_B0_path_number,
+            mBaseAnimatedWithPhysicsGameObject_LvlNumber,
+            mBaseAnimatedWithPhysicsGameObject_PathNumber,
             mBaseAnimatedWithPhysicsGameObject_XPos,
             mBaseAnimatedWithPhysicsGameObject_YPos,
             0))

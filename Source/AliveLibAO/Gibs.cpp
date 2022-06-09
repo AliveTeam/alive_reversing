@@ -53,7 +53,7 @@ Gibs::Gibs(GibType gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scale)
         ppAnimData,
         1);
 
-    field_BC_sprite_scale = scale;
+    mBaseAnimatedWithPhysicsGameObject_SpriteScale = scale;
     mBaseAnimatedWithPhysicsGameObject_XPos = xpos;
     mBaseAnimatedWithPhysicsGameObject_YPos = ypos + FP_FromInteger(2);
 
@@ -62,14 +62,14 @@ Gibs::Gibs(GibType gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scale)
     if (scale == FP_FromInteger(1))
     {
         field_E8_z = FP_FromInteger(0);
-        field_10_anim.mRenderLayer = Layer::eLayer_FG1_37;
-        field_C6_scale = 1;
+        mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_FG1_37;
+        mBaseAnimatedWithPhysicsGameObject_Scale = 1;
     }
     else if (scale == FP_FromDouble(0.5))
     {
         field_E8_z = FP_FromInteger(100);
-        field_10_anim.mRenderLayer = Layer::eLayer_Foreground_Half_17;
-        field_C6_scale = 0;
+        mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_Foreground_Half_17;
+        mBaseAnimatedWithPhysicsGameObject_Scale = 0;
     }
     else
     {
@@ -77,8 +77,8 @@ Gibs::Gibs(GibType gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scale)
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 
-    field_B4_velx = xOff + GibRand(scale);
-    field_B8_vely = yOff + GibRand(scale);
+    mBaseAnimatedWithPhysicsGameObject_VelX = xOff + GibRand(scale);
+    mBaseAnimatedWithPhysicsGameObject_VelY = yOff + GibRand(scale);
 
     if ((GibRand(scale) / FP_FromInteger(2)) >= FP_FromInteger(0))
     {
@@ -155,16 +155,16 @@ Gibs::Gibs(GibType gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scale)
             }
         }
 
-        pPart->field_18_anim.mRenderLayer = field_10_anim.mRenderLayer;
+        pPart->field_18_anim.mRenderLayer = mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer;
         pPart->field_18_anim.field_14_scale = scale;
 
         pPart->field_18_anim.mAnimFlags.Clear(AnimFlags::eBit17_bFreeResource); // Else the gibs seem to kill drills and other objects ??
         pPart->field_18_anim.mAnimFlags.Clear(AnimFlags::eBit16_bBlending);
         pPart->field_18_anim.mAnimFlags.Clear(AnimFlags::eBit15_bSemiTrans);
 
-        pPart->field_18_anim.mRed = static_cast<u8>(field_C0_r);
-        pPart->field_18_anim.mGreen = static_cast<u8>(field_C2_g);
-        pPart->field_18_anim.mBlue = static_cast<u8>(field_C4_b);
+        pPart->field_18_anim.mRed = static_cast<u8>(mBaseAnimatedWithPhysicsGameObject_Red);
+        pPart->field_18_anim.mGreen = static_cast<u8>(mBaseAnimatedWithPhysicsGameObject_Green);
+        pPart->field_18_anim.mBlue = static_cast<u8>(mBaseAnimatedWithPhysicsGameObject_Blue);
 
         pPart->field_0_x = mBaseAnimatedWithPhysicsGameObject_XPos;
         pPart->field_4_y = mBaseAnimatedWithPhysicsGameObject_YPos;
@@ -193,11 +193,11 @@ Gibs::Gibs(GibType gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scale)
 
 void Gibs::VUpdate()
 {
-    mBaseAnimatedWithPhysicsGameObject_XPos += field_B4_velx;
-    mBaseAnimatedWithPhysicsGameObject_YPos += field_B8_vely;
+    mBaseAnimatedWithPhysicsGameObject_XPos += mBaseAnimatedWithPhysicsGameObject_VelX;
+    mBaseAnimatedWithPhysicsGameObject_YPos += mBaseAnimatedWithPhysicsGameObject_VelY;
     field_E8_z += field_EC_dz;
 
-    field_B8_vely += FP_FromDouble(0.25);
+    mBaseAnimatedWithPhysicsGameObject_VelY += FP_FromDouble(0.25);
 
     if (field_E8_z + FP_FromInteger(100) < FP_FromInteger(15))
     {
@@ -242,7 +242,7 @@ void Gibs::VRender(PrimHeader** ppOt)
         return;
     }
 
-    field_BC_sprite_scale = FP_FromInteger(100) / (field_E8_z + FP_FromInteger(100));
+    mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromInteger(100) / (field_E8_z + FP_FromInteger(100));
 
     // Head part rendering
     BaseAnimatedWithPhysicsGameObject::VRender(ppOt);

@@ -62,9 +62,9 @@ SlingMudokon::SlingMudokon(Path_SlingMudokon* pTlv, s32 tlvInfo)
 
     SetCurrentMotion(eSlingMudMotions::Motion_0_Idle);
 
-    field_10_anim.mAnimFlags.Clear(AnimFlags::eBit2_Animate);
-    field_10_anim.mAnimFlags.Clear(AnimFlags::eBit3_Render);
-    field_10_anim.mAnimFlags.Set(AnimFlags::eBit15_bSemiTrans);
+    mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit2_Animate);
+    mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit3_Render);
+    mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit15_bSemiTrans);
 
     FP hitX = {};
     FP hitY = {};
@@ -76,7 +76,7 @@ SlingMudokon::SlingMudokon(Path_SlingMudokon* pTlv, s32 tlvInfo)
             &BaseAliveGameObjectCollisionLine,
             &hitX,
             &hitY,
-            field_BC_sprite_scale != FP_FromDouble(0.5) ? 1 : 0x10)
+            mBaseAnimatedWithPhysicsGameObject_SpriteScale != FP_FromDouble(0.5) ? 1 : 0x10)
         == 1)
     {
         mBaseAnimatedWithPhysicsGameObject_XPos = hitX;
@@ -85,13 +85,13 @@ SlingMudokon::SlingMudokon(Path_SlingMudokon* pTlv, s32 tlvInfo)
 
     if (pTlv->field_18_scale == Scale_short::eHalf_1)
     {
-        field_BC_sprite_scale = FP_FromDouble(0.5);
-        field_C6_scale = 0;
+        mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromDouble(0.5);
+        mBaseAnimatedWithPhysicsGameObject_Scale = 0;
     }
     else
     {
-        field_BC_sprite_scale = FP_FromInteger(1);
-        field_C6_scale = 1;
+        mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromInteger(1);
+        mBaseAnimatedWithPhysicsGameObject_Scale = 1;
     }
 
     if (pTlv->field_1A_bDontWhistlePassword == Choice_short::eYes_1)
@@ -132,7 +132,7 @@ SlingMudokon::~SlingMudokon()
     }
 
     // TODO: Check it isn't 2 resources freed here
-    if (field_10_anim.field_20_ppBlock != field_150_res)
+    if (mBaseAnimatedWithPhysicsGameObject_Anim.field_20_ppBlock != field_150_res)
     {
         if (field_150_res)
         {
@@ -187,7 +187,7 @@ void SlingMudokon::VUpdate()
             // TODO: dead code
             mCurrentMotion = mPreviousMotion;
             VUpdateAnimData();
-            field_10_anim.SetFrame(mBaseAliveGameObjectLastAnimFrame);
+            mBaseAnimatedWithPhysicsGameObject_Anim.SetFrame(mBaseAliveGameObjectLastAnimFrame);
             field_13C_redundant = 0;
         }
     }
@@ -200,8 +200,8 @@ void SlingMudokon::VUpdate()
 void SlingMudokon::VCallBrain()
 {
     if (gMap.Is_Point_In_Current_Camera_4449C0(
-            field_B2_lvl_number,
-            field_B0_path_number,
+            mBaseAnimatedWithPhysicsGameObject_LvlNumber,
+            mBaseAnimatedWithPhysicsGameObject_PathNumber,
             mBaseAnimatedWithPhysicsGameObject_XPos,
             mBaseAnimatedWithPhysicsGameObject_YPos,
             0))
@@ -232,7 +232,7 @@ void SlingMudokon::VUpdateAnimData()
         ppResBlock = field_150_res;
     }
     const AnimRecord& rec = AO::AnimRec(sSlingMudAnimIdTables_4CFCC8[mCurrentMotion]);
-    field_10_anim.Set_Animation_Data(rec.mFrameTableOffset, ppResBlock);
+    mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(rec.mFrameTableOffset, ppResBlock);
 }
 
 void SlingMudokon::Motion_0_Idle()
@@ -242,7 +242,7 @@ void SlingMudokon::Motion_0_Idle()
         SetCurrentMotion(eSlingMudMotions::Motion_1_Angry);
         mNextMotion = -1;
     }
-    else if (!field_10_anim.field_92_current_frame && GetNextMotion() == eSlingMudMotions::Motion_2_Speak)
+    else if (!mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame && GetNextMotion() == eSlingMudMotions::Motion_2_Speak)
     {
         SetCurrentMotion(eSlingMudMotions::Motion_2_Speak);
         mNextMotion = -1;
@@ -251,7 +251,7 @@ void SlingMudokon::Motion_0_Idle()
 
 void SlingMudokon::Motion_1_Angry()
 {
-    if (!field_10_anim.field_92_current_frame)
+    if (!mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame)
     {
         SFX_Play_Mono(SoundEffect::SlingshotExtend_83, 0, 0);
     }
@@ -270,9 +270,9 @@ void SlingMudokon::Motion_1_Angry()
 
 void SlingMudokon::Motion_2_Speak()
 {
-    if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
+    if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
     {
-        if (field_10_anim.field_18_frame_table_offset == 22744)
+        if (mBaseAnimatedWithPhysicsGameObject_Anim.field_18_frame_table_offset == 22744)
         {
             SetCurrentMotion(eSlingMudMotions::Motion_0_Idle);
         }
@@ -281,20 +281,20 @@ void SlingMudokon::Motion_2_Speak()
 
 void SlingMudokon::Motion_3_ShootStart()
 {
-    if (!field_10_anim.field_92_current_frame)
+    if (!mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame)
     {
         SFX_Play_Mono(SoundEffect::SlingshotShoot_84, 0, 0);
     }
 
-    if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
+    if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
     {
-        if (field_10_anim.field_18_frame_table_offset == 22700)
+        if (mBaseAnimatedWithPhysicsGameObject_Anim.field_18_frame_table_offset == 22700)
         {
-            const FP frame_x = FP_FromInteger(field_10_anim.Get_FrameHeader(-1)->field_8_data.points[2].x);
+            const FP frame_x = FP_FromInteger(mBaseAnimatedWithPhysicsGameObject_Anim.Get_FrameHeader(-1)->field_8_data.points[2].x);
             FP bulletXPos = {};
             FP xDistance = {};
 
-            if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
+            if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
             {
                 bulletXPos = mBaseAnimatedWithPhysicsGameObject_XPos - frame_x;
                 xDistance = -FP_FromInteger(640);
@@ -312,7 +312,7 @@ void SlingMudokon::Motion_3_ShootStart()
                 mBaseAnimatedWithPhysicsGameObject_YPos - FP_FromInteger(24),
                 xDistance,
                 0,
-                field_BC_sprite_scale,
+                mBaseAnimatedWithPhysicsGameObject_SpriteScale,
                 0);
             SetCurrentMotion(eSlingMudMotions::Motion_4_ShootEnd);
         }
@@ -321,7 +321,7 @@ void SlingMudokon::Motion_3_ShootStart()
 
 void SlingMudokon::Motion_4_ShootEnd()
 {
-    if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
+    if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
     {
         SetCurrentMotion(eSlingMudMotions::Motion_0_Idle);
     }
@@ -329,7 +329,7 @@ void SlingMudokon::Motion_4_ShootEnd()
 
 void SlingMudokon::Motion_5_AngryToIdle()
 {
-    if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
+    if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
     {
         SetCurrentMotion(eSlingMudMotions::Motion_0_Idle);
     }
@@ -374,7 +374,7 @@ s16 SlingMudokon::Brain_0_GiveCode()
             return Brain_0_GiveCode::eBrain0_GiveCode_1;
 
         case Brain_0_GiveCode::eBrain0_GiveCode_1:
-            if (mCurrentMotion || field_10_anim.field_92_current_frame == 0)
+            if (mCurrentMotion || mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame == 0)
             {
                 mNextMotion = 2;
                 switch (Code_LookUp(field_118_code_converted, field_158_code_pos, field_11C_code_length))
@@ -477,7 +477,7 @@ s16 SlingMudokon::Brain_0_GiveCode()
             return field_13A_brain_sub_state;
 
         case Brain_0_GiveCode::eBrain0_RespondToProvidedCode_5:
-            if (field_10_anim.field_92_current_frame || static_cast<s32>(sGnFrame) <= field_140_timer)
+            if (mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame || static_cast<s32>(sGnFrame) <= field_140_timer)
             {
                 return field_13A_brain_sub_state;
             }
@@ -533,23 +533,23 @@ s16 SlingMudokon::Brain_1_Spawn()
             SFX_Play_Pitch(SoundEffect::MenuNavigation_61, 45, 400);
             New_DestroyOrCreateObject_Particle_419D00(
                 mBaseAnimatedWithPhysicsGameObject_XPos,
-                (field_BC_sprite_scale * FP_FromInteger(20)) + mBaseAnimatedWithPhysicsGameObject_YPos,
-                field_BC_sprite_scale);
+                (mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(20)) + mBaseAnimatedWithPhysicsGameObject_YPos,
+                mBaseAnimatedWithPhysicsGameObject_SpriteScale);
             field_140_timer = sGnFrame + 2;
             return Brain_1_Spawn::eBrain1_CreateFlash_2;
 
         case Brain_1_Spawn::eBrain1_CreateFlash_2:
             if (static_cast<s32>(sGnFrame) > field_140_timer)
             {
-                field_10_anim.mAnimFlags.Set(AnimFlags::eBit2_Animate);
-                field_10_anim.mAnimFlags.Set(AnimFlags::eBit3_Render);
+                mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit2_Animate);
+                mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit3_Render);
                 SetCurrentMotion(eSlingMudMotions::Motion_0_Idle);
 
                 relive_new Flash(Layer::eLayer_Above_FG1_39, 255u, 0, 255u);
 
                 if (mBaseAnimatedWithPhysicsGameObject_XPos > sActiveHero_507678->mBaseAnimatedWithPhysicsGameObject_XPos)
                 {
-                    field_10_anim.mAnimFlags.Set(AnimFlags::eBit5_FlipX);
+                    mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit5_FlipX);
                 }
                 field_140_timer = sGnFrame + 40;
                 return Brain_1_Spawn::eBrain1_GetAngry_3;
@@ -597,7 +597,7 @@ s16 SlingMudokon::Brain_1_Spawn()
             break;
 
         case Brain_1_Spawn::eBrain1_PrepareToShoot_5:
-            if (VIsObjNearby((ScaleToGridSize(field_BC_sprite_scale) * FP_FromInteger(4)), sActiveHero_507678))
+            if (VIsObjNearby((ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale) * FP_FromInteger(4)), sActiveHero_507678))
             {
                 field_11E_flags.Set(Flags_11E::eBit1_bDontSetDestroyed);
                 SetNextMotion(eSlingMudMotions::Motion_3_ShootStart);
@@ -648,10 +648,10 @@ s16 SlingMudokon::Brain_1_Spawn()
                         doveRec.mResourceId,
                         mBaseAnimatedWithPhysicsGameObject_XPos + FP_FromInteger(Math_NextRandom() % 16),
                         mBaseAnimatedWithPhysicsGameObject_YPos - FP_FromInteger(Math_NextRandom() % 16),
-                        field_BC_sprite_scale);
+                        mBaseAnimatedWithPhysicsGameObject_SpriteScale);
                     if (pDove)
                     {
-                        if (pDove->field_10_anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
+                        if (pDove->mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
                         {
                             pDove->mBaseAnimatedWithPhysicsGameObject_XPos += FP_FromInteger(8);
                         }
@@ -664,7 +664,7 @@ s16 SlingMudokon::Brain_1_Spawn()
 
                 SFX_Play_Mono(SoundEffect::FlyingDoves_19, 0);
 
-                field_10_anim.mAnimFlags.Clear(AnimFlags::eBit3_Render);
+                mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit3_Render);
 
                 if (field_15A_bCodeMatches)
                 {
@@ -676,7 +676,7 @@ s16 SlingMudokon::Brain_1_Spawn()
                 }
 
                 mBaseGameObjectFlags.Set(BaseGameObject::eDead);
-                New_DestroyOrCreateObject_Particle_419D00(mBaseAnimatedWithPhysicsGameObject_XPos, (field_BC_sprite_scale * FP_FromInteger(20)) + mBaseAnimatedWithPhysicsGameObject_YPos, field_BC_sprite_scale);
+                New_DestroyOrCreateObject_Particle_419D00(mBaseAnimatedWithPhysicsGameObject_XPos, (mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(20)) + mBaseAnimatedWithPhysicsGameObject_YPos, mBaseAnimatedWithPhysicsGameObject_SpriteScale);
 
                 relive_new Flash(Layer::eLayer_Above_FG1_39, 255u, 0, 255u);
             }
@@ -707,8 +707,8 @@ s16 SlingMudokon::Brain_2_AskForPassword()
 
             New_DestroyOrCreateObject_Particle_419D00(
                 mBaseAnimatedWithPhysicsGameObject_XPos,
-                (field_BC_sprite_scale * FP_FromInteger(20)) + mBaseAnimatedWithPhysicsGameObject_YPos,
-                field_BC_sprite_scale);
+                (mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(20)) + mBaseAnimatedWithPhysicsGameObject_YPos,
+                mBaseAnimatedWithPhysicsGameObject_SpriteScale);
 
             field_140_timer = sGnFrame + 2;
             return 2;
@@ -716,8 +716,8 @@ s16 SlingMudokon::Brain_2_AskForPassword()
         case 2:
             if (static_cast<s32>(sGnFrame) > field_140_timer)
             {
-                field_10_anim.mAnimFlags.Set(AnimFlags::eBit2_Animate);
-                field_10_anim.mAnimFlags.Set(AnimFlags::eBit3_Render);
+                mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit2_Animate);
+                mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit3_Render);
 
                 relive_new Flash(Layer::eLayer_Above_FG1_39, 255u, 0, 255u);
 
@@ -726,7 +726,7 @@ s16 SlingMudokon::Brain_2_AskForPassword()
                 SetCurrentMotion(eSlingMudMotions::Motion_0_Idle);
                 if (mBaseAnimatedWithPhysicsGameObject_XPos > sActiveHero_507678->mBaseAnimatedWithPhysicsGameObject_XPos)
                 {
-                    field_10_anim.mAnimFlags.Set(AnimFlags::eBit5_FlipX);
+                    mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit5_FlipX);
                 }
 
                 field_134_buffer_start = GameSpeak::sub_40FA60(field_118_code_converted, field_124_code_buffer);
@@ -743,7 +743,7 @@ s16 SlingMudokon::Brain_2_AskForPassword()
                 return 7;
             }
 
-            if (field_140_timer > static_cast<s32>(sGnFrame) || field_10_anim.field_92_current_frame)
+            if (field_140_timer > static_cast<s32>(sGnFrame) || mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame)
             {
                 return field_13A_brain_sub_state;
             }
@@ -861,7 +861,7 @@ s16 SlingMudokon::Brain_2_AskForPassword()
             return 7;
 
         case 6:
-            if (field_10_anim.field_92_current_frame)
+            if (mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame)
             {
                 return field_13A_brain_sub_state;
             }
@@ -889,7 +889,7 @@ s16 SlingMudokon::Brain_2_AskForPassword()
             break;
 
         case 7:
-            if (VIsObjNearby((ScaleToGridSize(field_BC_sprite_scale) * FP_FromInteger(4)), sActiveHero_507678))
+            if (VIsObjNearby((ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale) * FP_FromInteger(4)), sActiveHero_507678))
             {
                 field_11E_flags.Set(Flags_11E::eBit1_bDontSetDestroyed);
                 SetNextMotion(eSlingMudMotions::Motion_3_ShootStart);
@@ -933,10 +933,10 @@ s16 SlingMudokon::Brain_2_AskForPassword()
                         doveRec.mResourceId,
                         mBaseAnimatedWithPhysicsGameObject_XPos + FP_FromInteger(Math_NextRandom() % 16),
                         mBaseAnimatedWithPhysicsGameObject_YPos - FP_FromInteger(Math_NextRandom() % 16),
-                        field_BC_sprite_scale);;
+                        mBaseAnimatedWithPhysicsGameObject_SpriteScale);;
                     if (pDove)
                     {
-                        if (pDove->field_10_anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
+                        if (pDove->mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
                         {
                             pDove->mBaseAnimatedWithPhysicsGameObject_XPos += FP_FromInteger(8);
                         }
@@ -949,7 +949,7 @@ s16 SlingMudokon::Brain_2_AskForPassword()
 
                 SFX_Play_Mono(SoundEffect::Dove_16, 0);
 
-                field_10_anim.mAnimFlags.Clear(AnimFlags::eBit3_Render);
+                mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit3_Render);
 
                 if (field_15A_bCodeMatches)
                 {
@@ -961,7 +961,7 @@ s16 SlingMudokon::Brain_2_AskForPassword()
                 }
 
                 mBaseGameObjectFlags.Set(BaseGameObject::eDead);
-                New_DestroyOrCreateObject_Particle_419D00(mBaseAnimatedWithPhysicsGameObject_XPos, (field_BC_sprite_scale * FP_FromInteger(20)) + mBaseAnimatedWithPhysicsGameObject_YPos, field_BC_sprite_scale);
+                New_DestroyOrCreateObject_Particle_419D00(mBaseAnimatedWithPhysicsGameObject_XPos, (mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(20)) + mBaseAnimatedWithPhysicsGameObject_YPos, mBaseAnimatedWithPhysicsGameObject_SpriteScale);
 
                 relive_new Flash(Layer::eLayer_Above_FG1_39, 255u, 0, 255u);
             }

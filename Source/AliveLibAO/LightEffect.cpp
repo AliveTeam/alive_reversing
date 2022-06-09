@@ -24,21 +24,21 @@ LightEffect::LightEffect(Path_LightEffect* pTlv, s32 tlvInfo)
     field_F4_rnd3 = Math_RandomRange_450F20(96, 128);
     field_F8_rnd4 = Math_RandomRange_450F20(190, 255);
 
-    field_CC_bApplyShadows &= ~1u;
+    mApplyShadows &= ~1u;
 
-    field_10_anim.mAnimFlags.Set(AnimFlags::eBit20_use_xy_offset);
-    field_10_anim.mAnimFlags.Set(AnimFlags::eBit15_bSemiTrans);
-    field_10_anim.mAnimFlags.Set(AnimFlags::eBit16_bBlending);
+    mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit20_use_xy_offset);
+    mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit15_bSemiTrans);
+    mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit16_bBlending);
 
-    field_10_anim.mRenderLayer = Layer::eLayer_Foreground_Half_17;
-    field_10_anim.mRenderMode = TPageAbr::eBlend_0;
-    field_10_anim.SetFrame(1);
+    mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_Foreground_Half_17;
+    mBaseAnimatedWithPhysicsGameObject_Anim.mRenderMode = TPageAbr::eBlend_0;
+    mBaseAnimatedWithPhysicsGameObject_Anim.SetFrame(1);
 
     // maybe width height like in door effect
     field_E8 = 0;
     field_EA = 0;
 
-    field_BC_sprite_scale = FP_FromDouble(0.4);
+    mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromDouble(0.4);
     mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pTlv->field_10_top_left.field_0_x);
     mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->field_10_top_left.field_2_y);
 }
@@ -58,11 +58,11 @@ void LightEffect::VRender(PrimHeader** /*ppOt*/)
         const FP xpos = FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos) + mBaseAnimatedWithPhysicsGameObject_XPos - pScreenManager_4FF7C8->field_10_pCamPos->field_0_x;
         const FP ypos = FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos) + mBaseAnimatedWithPhysicsGameObject_YPos - pScreenManager_4FF7C8->field_10_pCamPos->field_4_y;
 
-        field_10_anim.mRed = static_cast<u8>(field_C0_r/4);
-        field_10_anim.mGreen = static_cast<u8>(field_C2_g/4);
-        field_10_anim.mBlue = static_cast<u8>(field_C4_b/4);
+        mBaseAnimatedWithPhysicsGameObject_Anim.mRed = static_cast<u8>(mBaseAnimatedWithPhysicsGameObject_Red/4);
+        mBaseAnimatedWithPhysicsGameObject_Anim.mGreen = static_cast<u8>(mBaseAnimatedWithPhysicsGameObject_Green/4);
+        mBaseAnimatedWithPhysicsGameObject_Anim.mBlue = static_cast<u8>(mBaseAnimatedWithPhysicsGameObject_Blue/4);
 
-        field_10_anim.vRender(
+        mBaseAnimatedWithPhysicsGameObject_Anim.vRender(
             FP_GetExponent(FP_FromInteger((FP_GetExponent(xpos)))),
             FP_GetExponent(FP_FromInteger((FP_GetExponent(ypos)))),
             ppOt,
@@ -70,7 +70,7 @@ void LightEffect::VRender(PrimHeader** /*ppOt*/)
             0);
 
         PSX_RECT rect = {};
-        field_10_anim.Get_Frame_Rect(&rect);
+        mBaseAnimatedWithPhysicsGameObject_Anim.Get_Frame_Rect(&rect);
         pScreenManager_4FF7C8->InvalidateRect_406E40(
             rect.x,
             rect.y,
@@ -112,9 +112,9 @@ void LightEffect::VUpdate()
             rgb = 255;
         }
 
-        field_C0_r = rgb;
-        field_C2_g = rgb;
-        field_C4_b = rgb;
+        mBaseAnimatedWithPhysicsGameObject_Red = rgb;
+        mBaseAnimatedWithPhysicsGameObject_Green = rgb;
+        mBaseAnimatedWithPhysicsGameObject_Blue = rgb;
     }
     else if (static_cast<s32>(sGnFrame) > field_F0_rnd2)
     {
@@ -123,9 +123,9 @@ void LightEffect::VUpdate()
         field_F8_rnd4 = Math_RandomRange_450F20(150, 180);
         u8 rgb = 96;
 
-        field_C0_r = rgb;
-        field_C2_g = rgb;
-        field_C4_b = rgb;
+        mBaseAnimatedWithPhysicsGameObject_Red = rgb;
+        mBaseAnimatedWithPhysicsGameObject_Green = rgb;
+        mBaseAnimatedWithPhysicsGameObject_Blue = rgb;
     }
 }
 

@@ -207,8 +207,8 @@ void DDCheat::VUpdate()
                 pAbe->mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(point.field_2_y + 180);
                 pAbe->mCurrentMotion = eAbeMotions::Motion_3_Fall_42E7F0;
                 pAbe->field_2A8_flags.Set(Flags_2A8::e2A8_Bit8_bLandSoft);
-                pAbe->field_B2_lvl_number = MapWrapper::FromAO(static_cast<LevelIds>(level_4C315C));
-                pAbe->field_B0_path_number = static_cast<s16>(path_4C3160);
+                pAbe->mBaseAnimatedWithPhysicsGameObject_LvlNumber = MapWrapper::FromAO(static_cast<LevelIds>(level_4C315C));
+                pAbe->mBaseAnimatedWithPhysicsGameObject_PathNumber = static_cast<s16>(path_4C3160);
                 sDDCheat_FlyingEnabled_50771C = 1;
                 field_18_backInputPressed = 0;
             }
@@ -482,27 +482,27 @@ void DDCheat::Misc()
     if (field_24_input & InputCommands::eLeft)
     {
         gScale_4C3158 = 100;
-        sControlledCharacter_50767C->field_BC_sprite_scale = FP_FromInteger(1);
-        sControlledCharacter_50767C->field_C6_scale = 1;
-        sControlledCharacter_50767C->field_10_anim.mRenderLayer = Layer::eLayer_AbeMenu_32;
+        sControlledCharacter_50767C->mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromInteger(1);
+        sControlledCharacter_50767C->mBaseAnimatedWithPhysicsGameObject_Scale = 1;
+        sControlledCharacter_50767C->mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_AbeMenu_32;
     }
     else if (field_24_input & InputCommands::eRight)
     {
         sControlledCharacter_50767C = sControlledCharacter_50767C;
         gScale_4C3158 = 50;
-        sControlledCharacter_50767C->field_BC_sprite_scale = FP_FromDouble(0.5);
-        sControlledCharacter_50767C->field_C6_scale = 0;
-        sControlledCharacter_50767C->field_10_anim.mRenderLayer = Layer::eLayer_AbeMenu_Half_13;
+        sControlledCharacter_50767C->mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromDouble(0.5);
+        sControlledCharacter_50767C->mBaseAnimatedWithPhysicsGameObject_Scale = 0;
+        sControlledCharacter_50767C->mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_AbeMenu_Half_13;
     }
     else if (field_24_input & InputCommands::eDown)
     {
         gScale_4C3158 -= 5;
-        sControlledCharacter_50767C->field_BC_sprite_scale = FP_FromInteger(gScale_4C3158) * FP_FromDouble(0.01);
+        sControlledCharacter_50767C->mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromInteger(gScale_4C3158) * FP_FromDouble(0.01);
     }
     else if (field_24_input & InputCommands::eUp)
     {
         gScale_4C3158 += 5;
-        sControlledCharacter_50767C->field_BC_sprite_scale = FP_FromInteger(gScale_4C3158) * FP_FromDouble(0.01);
+        sControlledCharacter_50767C->mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromInteger(gScale_4C3158) * FP_FromDouble(0.01);
     }
     else if (field_24_input & InputCommands::eHop)
     {
@@ -539,15 +539,15 @@ void DDCheat::Misc()
     }
     else if (sControlledCharacter_50767C != gElum_507680)
     {
-        gElum_507680->field_BC_sprite_scale = sControlledCharacter_50767C->field_BC_sprite_scale;
-        gElum_507680->field_C6_scale = sControlledCharacter_50767C->field_C6_scale;
+        gElum_507680->mBaseAnimatedWithPhysicsGameObject_SpriteScale = sControlledCharacter_50767C->mBaseAnimatedWithPhysicsGameObject_SpriteScale;
+        gElum_507680->mBaseAnimatedWithPhysicsGameObject_Scale = sControlledCharacter_50767C->mBaseAnimatedWithPhysicsGameObject_Scale;
         if (sControlledCharacter_50767C != gElum_507680)
         {
             return;
         }
     }
-    sActiveHero_507678->field_BC_sprite_scale = sControlledCharacter_50767C->field_BC_sprite_scale;
-    sActiveHero_507678->field_C6_scale = sControlledCharacter_50767C->field_C6_scale;
+    sActiveHero_507678->mBaseAnimatedWithPhysicsGameObject_SpriteScale = sControlledCharacter_50767C->mBaseAnimatedWithPhysicsGameObject_SpriteScale;
+    sActiveHero_507678->mBaseAnimatedWithPhysicsGameObject_Scale = sControlledCharacter_50767C->mBaseAnimatedWithPhysicsGameObject_Scale;
 }
 
 

@@ -125,10 +125,10 @@ Electrocute::Electrocute(BaseAliveGameObject* pTargetObj, bool bExtraOverwriter,
         case ReliveTypes::eGlukkon:
         case ReliveTypes::eAbe:
         case ReliveTypes::eSlig:
-            field_40_pPalData = relive_new u16[pTargetObj->field_20_animation.field_90_pal_depth];
+            field_40_pPalData = relive_new u16[pTargetObj->mBaseAnimatedWithPhysicsGameObject_Anim.field_90_pal_depth];
             Pal_Copy_483560(
-                pTargetObj->field_20_animation.field_8C_pal_vram_xy,
-                pTargetObj->field_20_animation.field_90_pal_depth,
+                pTargetObj->mBaseAnimatedWithPhysicsGameObject_Anim.field_8C_pal_vram_xy,
+                pTargetObj->mBaseAnimatedWithPhysicsGameObject_Anim.field_90_pal_depth,
                 field_40_pPalData,
                 &field_4C_pal_rect);
             break;
@@ -186,28 +186,28 @@ void Electrocute::VUpdate()
                 }
                 else
                 {
-                    field_24_r = pTargetObj->field_D0_r;
-                    field_26_g = pTargetObj->field_D2_g;
-                    field_28_b = pTargetObj->field_D4_b;
+                    field_24_r = pTargetObj->mBaseAnimatedWithPhysicsGameObject_Red;
+                    field_26_g = pTargetObj->mBaseAnimatedWithPhysicsGameObject_Green;
+                    field_28_b = pTargetObj->mBaseAnimatedWithPhysicsGameObject_Blue;
                 }
 
                 pTargetObj->mBaseAliveGameObjectFlags.Set(Flags_114::e114_Bit11_Electrocuting);
 
-                pTargetObj->field_D4_b = 255;
-                pTargetObj->field_D2_g = 255;
-                pTargetObj->field_D0_r = 255;
+                pTargetObj->mBaseAnimatedWithPhysicsGameObject_Blue = 255;
+                pTargetObj->mBaseAnimatedWithPhysicsGameObject_Green = 255;
+                pTargetObj->mBaseAnimatedWithPhysicsGameObject_Red = 255;
                 field_44_state = States::eAlphaFadeout_1;
                 break;
 
             case States::eAlphaFadeout_1:
                 field_30_pPalOverwriters[0] = relive_new PalleteOverwriter(
-                    pTargetObj->field_20_animation.field_8C_pal_vram_xy,
-                    pTargetObj->field_20_animation.field_90_pal_depth,
+                    pTargetObj->mBaseAnimatedWithPhysicsGameObject_Anim.field_8C_pal_vram_xy,
+                    pTargetObj->mBaseAnimatedWithPhysicsGameObject_Anim.field_90_pal_depth,
                     static_cast<s16>(Pal_Make_Colour_4834C0(255u, 255, 255, 1)));
 
                 field_30_pPalOverwriters[1] = relive_new PalleteOverwriter(
-                    pTargetObj->field_20_animation.field_8C_pal_vram_xy,
-                    pTargetObj->field_20_animation.field_90_pal_depth,
+                    pTargetObj->mBaseAnimatedWithPhysicsGameObject_Anim.field_8C_pal_vram_xy,
+                    pTargetObj->mBaseAnimatedWithPhysicsGameObject_Anim.field_90_pal_depth,
                     static_cast<s16>(Pal_Make_Colour_4834C0(64u, 64, 255, 1)));
                 if (field_30_pPalOverwriters[1])
                 {
@@ -216,8 +216,8 @@ void Electrocute::VUpdate()
 
                 if (field_3C_extraOverwriter)
                 {
-                    field_30_pPalOverwriters[2] = relive_new PalleteOverwriter(pTargetObj->field_20_animation.field_8C_pal_vram_xy,
-                        pTargetObj->field_20_animation.field_90_pal_depth,
+                    field_30_pPalOverwriters[2] = relive_new PalleteOverwriter(pTargetObj->mBaseAnimatedWithPhysicsGameObject_Anim.field_8C_pal_vram_xy,
+                        pTargetObj->mBaseAnimatedWithPhysicsGameObject_Anim.field_90_pal_depth,
                         static_cast<s16>(Pal_Make_Colour_4834C0(0, 0, 0, 0)));
                     if (field_30_pPalOverwriters[2])
                     {
@@ -236,8 +236,8 @@ void Electrocute::VUpdate()
                     if (field_40_pPalData)
                     {
                         Pal_Set_483510(
-                            pTargetObj->field_20_animation.field_8C_pal_vram_xy,
-                            pTargetObj->field_20_animation.field_90_pal_depth,
+                            pTargetObj->mBaseAnimatedWithPhysicsGameObject_Anim.field_8C_pal_vram_xy,
+                            pTargetObj->mBaseAnimatedWithPhysicsGameObject_Anim.field_90_pal_depth,
                             reinterpret_cast<const u8*>(field_40_pPalData),
                             &field_4C_pal_rect);
                     }
@@ -248,12 +248,12 @@ void Electrocute::VUpdate()
                     }
                     else
                     {
-                        pTargetObj->field_20_animation.mAnimFlags.Clear(AnimFlags::eBit3_Render);
+                        pTargetObj->mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit3_Render);
                     }
 
-                    pTargetObj->field_D0_r = field_24_r;
-                    pTargetObj->field_D2_g = field_26_g;
-                    pTargetObj->field_D4_b = field_28_b;
+                    pTargetObj->mBaseAnimatedWithPhysicsGameObject_Red = field_24_r;
+                    pTargetObj->mBaseAnimatedWithPhysicsGameObject_Green = field_26_g;
+                    pTargetObj->mBaseAnimatedWithPhysicsGameObject_Blue = field_28_b;
 
                     pTargetObj->mBaseAliveGameObjectFlags.Clear(Flags_114::e114_Bit11_Electrocuting);
 
@@ -297,14 +297,14 @@ void Electrocute::VStop()
         if (field_40_pPalData)
         {
             Pal_Set_483510(
-                pTarget->field_20_animation.field_8C_pal_vram_xy,
-                pTarget->field_20_animation.field_90_pal_depth,
+                pTarget->mBaseAnimatedWithPhysicsGameObject_Anim.field_8C_pal_vram_xy,
+                pTarget->mBaseAnimatedWithPhysicsGameObject_Anim.field_90_pal_depth,
                 reinterpret_cast<const u8*>(field_40_pPalData),
                 &field_4C_pal_rect);
 
-            pTarget->field_D0_r = field_24_r;
-            pTarget->field_D2_g = field_26_g;
-            pTarget->field_D4_b = field_28_b;
+            pTarget->mBaseAnimatedWithPhysicsGameObject_Red = field_24_r;
+            pTarget->mBaseAnimatedWithPhysicsGameObject_Green = field_26_g;
+            pTarget->mBaseAnimatedWithPhysicsGameObject_Blue = field_28_b;
 
             pTarget->mBaseAliveGameObjectFlags.Clear(Flags_114::e114_Bit11_Electrocuting);
         }

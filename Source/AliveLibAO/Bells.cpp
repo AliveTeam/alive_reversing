@@ -39,13 +39,13 @@ Bells::Bells(BellSize bellType, FP xpos, FP ypos, FP scale)
             break;
     }
 
-    field_CC_bApplyShadows &= ~1u;
-    field_BC_sprite_scale = scale;
+    mApplyShadows &= ~1u;
+    mBaseAnimatedWithPhysicsGameObject_SpriteScale = scale;
 
     mBaseAnimatedWithPhysicsGameObject_XPos = xpos;
     mBaseAnimatedWithPhysicsGameObject_YPos = ypos;
 
-    field_10_anim.mRenderLayer = Layer::eLayer_Foreground_36;
+    mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_Foreground_36;
 
     field_E8_bSmashing = 0;
 
@@ -112,7 +112,7 @@ void Bells::VUpdate()
             {
                 const FP sparkx = mBaseAnimatedWithPhysicsGameObject_XPos + FP_FromInteger(Math_RandomRange_450F20(-2, 2)) + xOff;
                 const FP sparky = mBaseAnimatedWithPhysicsGameObject_YPos + FP_FromInteger(Math_RandomRange_450F20(-2, 2)) + yOff;
-                relive_new Sparks(sparkx, sparky, field_BC_sprite_scale);
+                relive_new Sparks(sparkx, sparky, mBaseAnimatedWithPhysicsGameObject_SpriteScale);
             }
         }
 
@@ -122,19 +122,19 @@ void Bells::VUpdate()
 
 void Bells::PlaySounds()
 {
-    if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
+    if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
     {
         if (field_EA_sound == Sounds::eLowPitch_0)
         {
-            field_10_anim.Set_Animation_Data(19240, 0);
+            mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(19240, 0);
         }
         else if (field_EA_sound == Sounds::eMediumPitch_1)
         {
-            field_10_anim.Set_Animation_Data(19368, 0);
+            mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(19368, 0);
         }
         else if (field_EA_sound == Sounds::eHighPitch_2)
         {
-            field_10_anim.Set_Animation_Data(19252, 0);
+            mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(19252, 0);
         }
 
         field_E8_bSmashing = 0;
@@ -158,19 +158,19 @@ void Bells::Ring()
         {
             field_F0_sound_pitch_factor = 1;
             const AnimRecord& rec = AO::AnimRec(AnimId::BigChime_Moving);
-            field_10_anim.Set_Animation_Data(rec.mFrameTableOffset, 0);
+            mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(rec.mFrameTableOffset, 0);
         }
         else if (field_EA_sound == Sounds::eMediumPitch_1)
         {
             field_F0_sound_pitch_factor = 2;
             const AnimRecord& rec = AO::AnimRec(AnimId::MediumChime_Moving);
-            field_10_anim.Set_Animation_Data(rec.mFrameTableOffset, 0);
+            mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(rec.mFrameTableOffset, 0);
         }
         else if (field_EA_sound == Sounds::eHighPitch_2)
         {
             field_F0_sound_pitch_factor = 3;
             const AnimRecord& rec = AO::AnimRec(AnimId::SmallChime_Moving);
-            field_10_anim.Set_Animation_Data(rec.mFrameTableOffset, 0);
+            mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(rec.mFrameTableOffset, 0);
         }
     }
 }

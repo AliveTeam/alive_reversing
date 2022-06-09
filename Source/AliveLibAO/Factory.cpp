@@ -292,8 +292,8 @@ void Factory_LiftPoint_4820F0(Path_TLV* pTlv, Map* pMap, TlvItemInfoUnion tlvOff
                 const s16 xpos_i = FP_GetExponent(pLiftObj->mBaseAnimatedWithPhysicsGameObject_XPos);
                 if (pTlv->field_10_top_left.field_0_x <= xpos_i
                     && xpos_i <= pTlv->field_14_bottom_right.field_0_x
-                    && pLiftObj->field_B2_lvl_number == gMap.mCurrentLevel
-                    && pLiftObj->field_B0_path_number == gMap.mCurrentPath)
+                    && pLiftObj->mBaseAnimatedWithPhysicsGameObject_LvlNumber == gMap.mCurrentLevel
+                    && pLiftObj->mBaseAnimatedWithPhysicsGameObject_PathNumber == gMap.mCurrentPath)
                 {
                     gMap.TLV_Reset(tlvOffsetLevelIdPathId.all, -1, 0, 0);
                     return;

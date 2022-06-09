@@ -128,7 +128,7 @@ s32 SFX_Play_Pitch(SoundEffect sfxIdx, s32 volume, s32 pitch, BaseAnimatedWithPh
     {
         return SFX_SfxDefinition_Play_4770F0(&sSfxEntries_4CCA38[sfxIdx], volume, pitch, pitch);
     }
-    if (pObj && pObj->field_BC_sprite_scale == FP_FromDouble(0.5))
+    if (pObj && pObj->mBaseAnimatedWithPhysicsGameObject_SpriteScale == FP_FromDouble(0.5))
     {
         volume = 2 * sSfxEntries_4CCA38[sfxIdx].field_C_default_volume / 3;
     }
@@ -141,7 +141,7 @@ s32 SFX_Play_Mono(SoundEffect sfxIdx, s32 volume, BaseAnimatedWithPhysicsGameObj
     {
         return SFX_SfxDefinition_Play_4770F0(&sSfxEntries_4CCA38[sfxIdx], volume, 0x7FFF, 0x7FFF);
     }
-    if (pObj && pObj->field_BC_sprite_scale == FP_FromDouble(0.5))
+    if (pObj && pObj->mBaseAnimatedWithPhysicsGameObject_SpriteScale == FP_FromDouble(0.5))
     {
         volume = 2 * sSfxEntries_4CCA38[sfxIdx].field_C_default_volume / 3;
     }
@@ -153,7 +153,7 @@ s32 SFX_Play_Stereo(SoundEffect sfxId, s32 leftVol, s32 rightVol, BaseAnimatedWi
     s16 left = 0;
     s16 right = 0;
 
-    if (pObj && pObj->field_BC_sprite_scale == FP_FromDouble(0.5))
+    if (pObj && pObj->mBaseAnimatedWithPhysicsGameObject_SpriteScale == FP_FromDouble(0.5))
     {
         left = static_cast<s16>(2 * leftVol / 3);
         right = static_cast<s16>(2 * rightVol / 3);

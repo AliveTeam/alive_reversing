@@ -26,15 +26,15 @@ DoorBlocker::DoorBlocker(Path_DoorBlocker* pTlv, s32 tlvInfo)
 
     if (pTlv->field_10_scale == Scale_short::eHalf_1)
     {
-        field_CC_sprite_scale = FP_FromDouble(0.5);
-        field_20_animation.mRenderLayer = Layer::eLayer_Shadow_Half_7;
-        field_D6_scale = 0;
+        mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromDouble(0.5);
+        mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_Shadow_Half_7;
+        mBaseAnimatedWithPhysicsGameObject_Scale = 0;
     }
     else
     {
-        field_CC_sprite_scale = FP_FromInteger(1);
-        field_20_animation.mRenderLayer = Layer::eLayer_Shadow_26;
-        field_D6_scale = 1;
+        mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromInteger(1);
+        mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_Shadow_26;
+        mBaseAnimatedWithPhysicsGameObject_Scale = 1;
     }
 
     if (SwitchStates_Get(field_11A_switch_id))
@@ -61,7 +61,7 @@ void DoorBlocker::VUpdate()
     {
         if (field_118_bDone & 1)
         {
-            if (field_20_animation.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
+            if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
             {
                 mBaseGameObjectFlags.Set(BaseGameObject::eDead);
             }
@@ -71,7 +71,7 @@ void DoorBlocker::VUpdate()
             SFX_Play_Pitch(SoundEffect::DoorEffect_57, 100, 900);
             SFX_Play_Pitch(SoundEffect::DoorEffect_57, 100, -100);
             const AnimRecord& animRec = AnimRec(AnimId::Door_Lock_Open);
-            field_20_animation.Set_Animation_Data(animRec.mFrameTableOffset, 0);
+            mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(animRec.mFrameTableOffset, 0);
             field_118_bDone |= 1u;
         }
     }

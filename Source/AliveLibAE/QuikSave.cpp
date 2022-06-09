@@ -731,7 +731,7 @@ void Quicksave_SaveWorldInfo(Quicksave_WorldInfo* pInfo)
     pInfo->field_38_gas_timer = sGasTimer_5C1BE8;
     pInfo->field_C_controlled_x = FP_GetExponent(sControlledCharacter_5C1B8C->mBaseAnimatedWithPhysicsGameObject_XPos);
     pInfo->field_E_controlled_y = rect.h;
-    pInfo->field_10_controlled_scale = sControlledCharacter_5C1B8C->field_CC_sprite_scale == FP_FromDouble(1.0);
+    pInfo->field_10_controlled_scale = sControlledCharacter_5C1B8C->mBaseAnimatedWithPhysicsGameObject_SpriteScale == FP_FromDouble(1.0);
 }
 
 s32 Sort_comparitor_4D42C0(const void* pSaveRecLeft, const void* pSaveRecRight)

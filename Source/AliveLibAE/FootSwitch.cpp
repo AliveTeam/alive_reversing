@@ -60,7 +60,7 @@ FootSwitch::FootSwitch(Path_FootSwitch* pTlv, s32 tlvInfo)
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
     Animation_Init(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
 
-    field_20_animation.mRenderLayer = Layer::eLayer_BeforeShadow_25;
+    mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_BeforeShadow_25;
 
     SetTint(sFootSwitchTints_5639F4, gMap.mCurrentLevel);
 
@@ -68,9 +68,9 @@ FootSwitch::FootSwitch(Path_FootSwitch* pTlv, s32 tlvInfo)
 
     if (pTlv->field_12_scale == Scale_short::eHalf_1)
     {
-        field_CC_sprite_scale = FP_FromDouble(0.5);
-        field_D6_scale = 0;
-        field_20_animation.mRenderLayer = Layer::eLayer_BeforeShadow_Half_6;
+        mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromDouble(0.5);
+        mBaseAnimatedWithPhysicsGameObject_Scale = 0;
+        mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_BeforeShadow_Half_6;
     }
 
     field_FC_action = pTlv->field_14_action;
@@ -101,7 +101,7 @@ void FootSwitch::VUpdate()
         {
             field_100_obj_id = pLastStoodOnMe->field_8_object_id;
             const AnimRecord& animRec = AnimRec(sFootSwitchData_547D60[static_cast<s32>(MapWrapper::ToAE(gMap.mCurrentLevel))][1]);
-            field_20_animation.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
+            mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
             field_F8_state = States::eWaitForGetOffMe_1;
         }
     }
@@ -119,12 +119,12 @@ void FootSwitch::VUpdate()
                 field_F8_state = States::eWaitForGetOffMe_1;
 
                 const AnimRecord& animRec = AnimRec(sFootSwitchData_547D60[static_cast<s32>(MapWrapper::ToAE(gMap.mCurrentLevel))][1]);
-                field_20_animation.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
+                mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
 
                 relive_new ParticleBurst(mBaseAnimatedWithPhysicsGameObject_XPos,
                                                             mBaseAnimatedWithPhysicsGameObject_YPos + FP_FromInteger(10),
                                                             3,
-                                                            field_CC_sprite_scale,
+                                                            mBaseAnimatedWithPhysicsGameObject_SpriteScale,
                                                             BurstType::eBigRedSparks_3,
                                                             9);
 
@@ -139,7 +139,7 @@ void FootSwitch::VUpdate()
                 }
             }
 
-            if (field_20_animation.field_92_current_frame == 0)
+            if (mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame == 0)
             {
                 field_104_bCreateSparks = 1;
                 return;
@@ -148,24 +148,24 @@ void FootSwitch::VUpdate()
             if (field_104_bCreateSparks)
             {
                 relive_new Spark(mBaseAnimatedWithPhysicsGameObject_XPos,
-                                            mBaseAnimatedWithPhysicsGameObject_YPos + (field_CC_sprite_scale * FP_FromInteger(6)),
-                                            field_CC_sprite_scale,
+                                            mBaseAnimatedWithPhysicsGameObject_YPos + (mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(6)),
+                                            mBaseAnimatedWithPhysicsGameObject_SpriteScale,
                                             10,
                                             100,
                                             255,
                                             SparkType::eSmallChantParticle_0);
 
                 relive_new ParticleBurst(mBaseAnimatedWithPhysicsGameObject_XPos,
-                                                            mBaseAnimatedWithPhysicsGameObject_YPos + (field_CC_sprite_scale * FP_FromInteger(10)),
+                                                            mBaseAnimatedWithPhysicsGameObject_YPos + (mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(10)),
                                                             1,
-                                                            field_CC_sprite_scale,
+                                                            mBaseAnimatedWithPhysicsGameObject_SpriteScale,
                                                             BurstType::eBigRedSparks_3,
                                                             9);
 
                 field_104_bCreateSparks = 0;
             }
 
-            if (field_20_animation.field_92_current_frame == 0)
+            if (mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame == 0)
             {
                 field_104_bCreateSparks = 1;
             }
@@ -183,7 +183,7 @@ void FootSwitch::VUpdate()
             {
                 field_F8_state = States::eWaitForStepOnMe_0;
                 const AnimRecord& animRec = AnimRec(sFootSwitchData_547D60[static_cast<s32>(MapWrapper::ToAE(gMap.mCurrentLevel))][0]);
-                field_20_animation.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
+                mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
                 field_100_obj_id = -1;
             }
             break;
@@ -224,7 +224,7 @@ BaseAliveGameObject* FootSwitch::WhoIsStoodOnMe()
 
                 const s32 xpos = FP_GetExponent(pAliveObj->mBaseAnimatedWithPhysicsGameObject_XPos);
 
-                if (xpos > bRectSwitch.x && xpos < bRectSwitch.w && bRectSwitch.x <= theirRect.w && bRectSwitch.w >= theirRect.x && bRectSwitch.h >= theirRect.y && bRectSwitch.y <= theirRect.h && pAliveObj->field_D6_scale == field_D6_scale)
+                if (xpos > bRectSwitch.x && xpos < bRectSwitch.w && bRectSwitch.x <= theirRect.w && bRectSwitch.w >= theirRect.x && bRectSwitch.h >= theirRect.y && bRectSwitch.y <= theirRect.h && pAliveObj->mBaseAnimatedWithPhysicsGameObject_Scale == mBaseAnimatedWithPhysicsGameObject_Scale)
                 {
                     return pAliveObj;
                 }
@@ -238,7 +238,7 @@ BaseAliveGameObject* FootSwitch::WhoIsStoodOnMe()
 
         const s32 xpos = FP_GetExponent(sActiveHero->mBaseAnimatedWithPhysicsGameObject_XPos);
 
-        if (xpos > bRectSwitch.x && xpos < bRectSwitch.w && bRectSwitch.x <= bRect.w && bRectSwitch.w >= bRect.x && bRectSwitch.h >= bRect.y && bRectSwitch.y <= bRect.h && sActiveHero->field_D6_scale == field_D6_scale)
+        if (xpos > bRectSwitch.x && xpos < bRectSwitch.w && bRectSwitch.x <= bRect.w && bRectSwitch.w >= bRect.x && bRectSwitch.h >= bRect.y && bRectSwitch.y <= bRect.h && sActiveHero->mBaseAnimatedWithPhysicsGameObject_Scale == mBaseAnimatedWithPhysicsGameObject_Scale)
         {
             return sActiveHero;
         }

@@ -21,11 +21,11 @@ PossessionFlicker::~PossessionFlicker()
 {
     if (field_10_pObj)
     {
-        field_10_pObj->field_10_anim.mRenderMode = TPageAbr::eBlend_0;
+        field_10_pObj->mBaseAnimatedWithPhysicsGameObject_Anim.mRenderMode = TPageAbr::eBlend_0;
 
-        field_10_pObj->field_C0_r = field_1E_old_r;
-        field_10_pObj->field_C2_g = field_20_old_g;
-        field_10_pObj->field_C4_b = field_22_old_b;
+        field_10_pObj->mBaseAnimatedWithPhysicsGameObject_Red = field_1E_old_r;
+        field_10_pObj->mBaseAnimatedWithPhysicsGameObject_Green = field_20_old_g;
+        field_10_pObj->mBaseAnimatedWithPhysicsGameObject_Blue = field_22_old_b;
 
         field_10_pObj->mBaseGameObjectRefCount--;
     }
@@ -41,11 +41,11 @@ PossessionFlicker::PossessionFlicker(BaseAliveGameObject* pToApplyFlicker, s32 d
     field_1A_g = static_cast<s16>(g);
     field_1C_b = static_cast<s16>(b);
 
-    field_1E_old_r = pToApplyFlicker->field_C0_r;
-    field_20_old_g = pToApplyFlicker->field_C2_g;
-    field_22_old_b = pToApplyFlicker->field_C4_b;
+    field_1E_old_r = pToApplyFlicker->mBaseAnimatedWithPhysicsGameObject_Red;
+    field_20_old_g = pToApplyFlicker->mBaseAnimatedWithPhysicsGameObject_Green;
+    field_22_old_b = pToApplyFlicker->mBaseAnimatedWithPhysicsGameObject_Blue;
 
-    pToApplyFlicker->field_10_anim.mRenderMode = TPageAbr::eBlend_1;
+    pToApplyFlicker->mBaseAnimatedWithPhysicsGameObject_Anim.mRenderMode = TPageAbr::eBlend_1;
 
     field_14_time_to_flicker = sGnFrame + duration;
 }
@@ -70,15 +70,15 @@ void PossessionFlicker::VUpdate()
     {
         if (sGnFrame % 2)
         {
-            field_10_pObj->field_C0_r = field_1E_old_r;
-            field_10_pObj->field_C2_g = field_20_old_g;
-            field_10_pObj->field_C4_b = field_22_old_b;
+            field_10_pObj->mBaseAnimatedWithPhysicsGameObject_Red = field_1E_old_r;
+            field_10_pObj->mBaseAnimatedWithPhysicsGameObject_Green = field_20_old_g;
+            field_10_pObj->mBaseAnimatedWithPhysicsGameObject_Blue = field_22_old_b;
         }
         else
         {
-            field_10_pObj->field_C0_r = field_18_r;
-            field_10_pObj->field_C2_g = field_1A_g;
-            field_10_pObj->field_C4_b = field_1C_b;
+            field_10_pObj->mBaseAnimatedWithPhysicsGameObject_Red = field_18_r;
+            field_10_pObj->mBaseAnimatedWithPhysicsGameObject_Green = field_1A_g;
+            field_10_pObj->mBaseAnimatedWithPhysicsGameObject_Blue = field_1C_b;
         }
 
         if (static_cast<s32>(sGnFrame) > field_14_time_to_flicker)

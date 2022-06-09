@@ -55,15 +55,15 @@ SecurityOrb::SecurityOrb(Path_SecurityOrb* pTlv, s32 tlvInfo)
 
     if (pTlv->field_10_scale == Scale_short::eHalf_1)
     {
-        field_CC_sprite_scale = FP_FromDouble(0.5);
-        field_D6_scale = 0;
-        field_20_animation.mRenderLayer = Layer::eLayer_8;
+        mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromDouble(0.5);
+        mBaseAnimatedWithPhysicsGameObject_Scale = 0;
+        mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_8;
     }
     else
     {
-        field_CC_sprite_scale = FP_FromInteger(1);
-        field_D6_scale = 1;
-        field_20_animation.mRenderLayer = Layer::eLayer_27;
+        mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromInteger(1);
+        mBaseAnimatedWithPhysicsGameObject_Scale = 1;
+        mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_27;
     }
 
     mApplyShadows |= 2u;
@@ -107,8 +107,8 @@ s16 SecurityOrb::VTakeDamage(BaseGameObject* pFrom)
     {
         relive_new Explosion(
             mBaseAnimatedWithPhysicsGameObject_XPos,
-            mBaseAnimatedWithPhysicsGameObject_YPos - (field_CC_sprite_scale * FP_FromInteger(5)),
-            field_CC_sprite_scale,
+            mBaseAnimatedWithPhysicsGameObject_YPos - (mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(5)),
+            mBaseAnimatedWithPhysicsGameObject_SpriteScale,
             0);
 
         relive_new Gibs(
@@ -117,7 +117,7 @@ s16 SecurityOrb::VTakeDamage(BaseGameObject* pFrom)
             mBaseAnimatedWithPhysicsGameObject_YPos,
             FP_FromInteger(0),
             FP_FromInteger(0),
-            field_CC_sprite_scale,
+            mBaseAnimatedWithPhysicsGameObject_SpriteScale,
             0);
     }
 
@@ -151,11 +151,11 @@ void SecurityOrb::VUpdate()
                 const s32 timerFrame = field_120_timer - sGnFrame;
                 if (timerFrame == 4)
                 {
-                    SFX_Play_Mono(SoundEffect::Zap1_49, 0, field_CC_sprite_scale);
+                    SFX_Play_Mono(SoundEffect::Zap1_49, 0, mBaseAnimatedWithPhysicsGameObject_SpriteScale);
                 }
                 else if (timerFrame == 1)
                 {
-                    SFX_Play_Mono(SoundEffect::Zap2_50, 0, field_CC_sprite_scale);
+                    SFX_Play_Mono(SoundEffect::Zap2_50, 0, mBaseAnimatedWithPhysicsGameObject_SpriteScale);
                 }
 
                 if (static_cast<s32>(sGnFrame) > field_120_timer)
@@ -174,7 +174,7 @@ void SecurityOrb::VUpdate()
 
             relive_new ZapLine(
                 mBaseAnimatedWithPhysicsGameObject_XPos,
-                mBaseAnimatedWithPhysicsGameObject_YPos - (FP_FromInteger(8) * field_CC_sprite_scale),
+                mBaseAnimatedWithPhysicsGameObject_YPos - (FP_FromInteger(8) * mBaseAnimatedWithPhysicsGameObject_SpriteScale),
                 xpos,
                 ypos,
                 8,
@@ -193,56 +193,56 @@ void SecurityOrb::VUpdate()
 
             relive_new ScreenShake(1, 0);
 
-            auto pSpark = relive_new Sparks(mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos - (FP_FromInteger(8) * field_CC_sprite_scale), field_CC_sprite_scale);
+            auto pSpark = relive_new Sparks(mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos - (FP_FromInteger(8) * mBaseAnimatedWithPhysicsGameObject_SpriteScale), mBaseAnimatedWithPhysicsGameObject_SpriteScale);
             if (pSpark)
             {
-                pSpark->field_D2_g = 65;
-                pSpark->field_D4_b = 65;
-                pSpark->field_D0_r = 255;
+                pSpark->mBaseAnimatedWithPhysicsGameObject_Green = 65;
+                pSpark->mBaseAnimatedWithPhysicsGameObject_Blue = 65;
+                pSpark->mBaseAnimatedWithPhysicsGameObject_Red = 255;
             }
 
-            auto pSpark2 = relive_new Sparks(mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos - (FP_FromInteger(8) * field_CC_sprite_scale), field_CC_sprite_scale);
+            auto pSpark2 = relive_new Sparks(mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos - (FP_FromInteger(8) * mBaseAnimatedWithPhysicsGameObject_SpriteScale), mBaseAnimatedWithPhysicsGameObject_SpriteScale);
             if (pSpark2)
             {
-                pSpark2->field_D2_g = 65;
-                pSpark2->field_D4_b = 65;
-                pSpark2->field_D0_r = 255;
+                pSpark2->mBaseAnimatedWithPhysicsGameObject_Green = 65;
+                pSpark2->mBaseAnimatedWithPhysicsGameObject_Blue = 65;
+                pSpark2->mBaseAnimatedWithPhysicsGameObject_Red = 255;
             }
 
             for (s32 i = 0; i < 9; i++)
             {
-                auto pSpark3 = relive_new Sparks(xpos, ypos, field_CC_sprite_scale);
+                auto pSpark3 = relive_new Sparks(xpos, ypos, mBaseAnimatedWithPhysicsGameObject_SpriteScale);
                 if (pSpark3)
                 {
-                    pSpark3->field_D2_g = 65;
-                    pSpark3->field_D4_b = 65;
-                    pSpark3->field_D0_r = 255;
+                    pSpark3->mBaseAnimatedWithPhysicsGameObject_Green = 65;
+                    pSpark3->mBaseAnimatedWithPhysicsGameObject_Blue = 65;
+                    pSpark3->mBaseAnimatedWithPhysicsGameObject_Red = 255;
                 }
             }
         }
     }
     else
     {
-        if (field_20_animation.field_92_current_frame == 2 || field_20_animation.field_92_current_frame == 6 || field_20_animation.field_92_current_frame == 10)
+        if (mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame == 2 || mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame == 6 || mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame == 10)
         {
             if (field_124_sound_channels_mask)
             {
                 SND_Stop_Channels_Mask(field_124_sound_channels_mask);
             }
 
-            if (field_CC_sprite_scale == FP_FromDouble(0.5))
+            if (mBaseAnimatedWithPhysicsGameObject_SpriteScale == FP_FromDouble(0.5))
             {
-                field_124_sound_channels_mask = SFX_Play_Pitch(SoundEffect::SecurityOrb_48, 35, 720, field_CC_sprite_scale);
+                field_124_sound_channels_mask = SFX_Play_Pitch(SoundEffect::SecurityOrb_48, 35, 720, mBaseAnimatedWithPhysicsGameObject_SpriteScale);
             }
             else
             {
-                field_124_sound_channels_mask = SFX_Play_Pitch(SoundEffect::SecurityOrb_48, 55, 700, field_CC_sprite_scale);
+                field_124_sound_channels_mask = SFX_Play_Pitch(SoundEffect::SecurityOrb_48, 55, 700, mBaseAnimatedWithPhysicsGameObject_SpriteScale);
             }
         }
 
         if (Event_Get(kEventAbeOhm))
         {
-            if (!sActiveHero->field_168_ring_pulse_timer || !sActiveHero->field_16C_bHaveShrykull || sActiveHero->field_CC_sprite_scale != FP_FromInteger(1))
+            if (!sActiveHero->field_168_ring_pulse_timer || !sActiveHero->field_16C_bHaveShrykull || sActiveHero->mBaseAnimatedWithPhysicsGameObject_SpriteScale != FP_FromInteger(1))
             {
                 field_11C_state = 1;
                 field_120_timer = sGnFrame + 20;

@@ -18,13 +18,13 @@ FootSwitch::FootSwitch(Path_FootSwitch* pTlv, s32 tlvInfo)
     u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
     Animation_Init_417FD0(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
 
-    field_10_anim.mRenderLayer = Layer::eLayer_BeforeShadow_25;
+    mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_BeforeShadow_25;
 
     field_EA_switch_id = pTlv->field_18_switch_id;
     if (pTlv->field_1A_scale == Scale_short::eHalf_1)
     {
-        field_BC_sprite_scale = FP_FromDouble(0.5);
-        field_C6_scale = 0;
+        mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromDouble(0.5);
+        mBaseAnimatedWithPhysicsGameObject_Scale = 0;
     }
 
     field_E8_state = States::eWaitForStepOnMe_0;
@@ -60,7 +60,7 @@ void FootSwitch::VUpdate()
                 field_F0_pStoodOnMe->mBaseGameObjectRefCount++;
                 SwitchStates_Do_Operation(field_EA_switch_id, field_EC_action);
                 field_E8_state = States::eWaitForGetOffMe_1;
-                field_10_anim.Set_Animation_Data(756, 0);
+                mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(756, 0);
                 SFX_Play_Mono(SoundEffect::FootSwitchPress_64, 0, 0);
             }
             break;
@@ -73,7 +73,7 @@ void FootSwitch::VUpdate()
             if (field_F0_pStoodOnMe->mBaseAnimatedWithPhysicsGameObject_XPos < FP_FromInteger(bRect.x) || field_F0_pStoodOnMe->mBaseAnimatedWithPhysicsGameObject_XPos > FP_FromInteger(bRect.w) || field_F0_pStoodOnMe->mBaseGameObjectFlags.Get(BaseGameObject::eDead))
             {
                 field_E8_state = States::eWaitForStepOnMe_0;
-                field_10_anim.Set_Animation_Data(744, 0);
+                mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(744, 0);
                 field_F0_pStoodOnMe->mBaseGameObjectRefCount--;
             }
             break;
@@ -114,7 +114,7 @@ BaseAliveGameObject* FootSwitch::WhoIsStoodOnMe()
 
                 const s32 xpos = FP_GetExponent(pAliveObj->mBaseAnimatedWithPhysicsGameObject_XPos);
 
-                if (xpos > bRectSwitch.x && xpos < bRectSwitch.w && bRectSwitch.x <= theirRect.w && bRectSwitch.w >= theirRect.x && bRectSwitch.h >= theirRect.y && bRectSwitch.y <= theirRect.h && pAliveObj->field_BC_sprite_scale == field_BC_sprite_scale)
+                if (xpos > bRectSwitch.x && xpos < bRectSwitch.w && bRectSwitch.x <= theirRect.w && bRectSwitch.w >= theirRect.x && bRectSwitch.h >= theirRect.y && bRectSwitch.y <= theirRect.h && pAliveObj->mBaseAnimatedWithPhysicsGameObject_SpriteScale == mBaseAnimatedWithPhysicsGameObject_SpriteScale)
                 {
                     return pAliveObj;
                 }
@@ -128,7 +128,7 @@ BaseAliveGameObject* FootSwitch::WhoIsStoodOnMe()
 
         const s32 xpos = FP_GetExponent(sActiveHero_507678->mBaseAnimatedWithPhysicsGameObject_XPos);
 
-        if (xpos > bRectSwitch.x && xpos < bRectSwitch.w && bRectSwitch.x <= bRect.w && bRectSwitch.w >= bRect.x && bRectSwitch.h >= bRect.y && bRectSwitch.y <= bRect.h && sActiveHero_507678->field_BC_sprite_scale == field_BC_sprite_scale)
+        if (xpos > bRectSwitch.x && xpos < bRectSwitch.w && bRectSwitch.x <= bRect.w && bRectSwitch.w >= bRect.x && bRectSwitch.h >= bRect.y && bRectSwitch.y <= bRect.h && sActiveHero_507678->mBaseAnimatedWithPhysicsGameObject_SpriteScale == mBaseAnimatedWithPhysicsGameObject_SpriteScale)
         {
             return sActiveHero_507678;
         }

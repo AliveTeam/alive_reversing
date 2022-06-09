@@ -23,7 +23,7 @@ RockSack::RockSack(Path_RockSack* pTlv, s32 tlvInfo)
 
     Animation_Init(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
 
-    field_20_animation.mAnimFlags.Clear(AnimFlags::eBit15_bSemiTrans);
+    mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit15_bSemiTrans);
 
     mApplyShadows &= ~1u;
 
@@ -41,13 +41,13 @@ RockSack::RockSack(Path_RockSack* pTlv, s32 tlvInfo)
 
     if (pTlv->field_16_scale == Scale_short::eHalf_1)
     {
-        field_CC_sprite_scale = FP_FromDouble(0.5);
-        field_D6_scale = 0;
+        mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromDouble(0.5);
+        mBaseAnimatedWithPhysicsGameObject_Scale = 0;
     }
     else if (pTlv->field_16_scale == Scale_short::eFull_0)
     {
-        field_CC_sprite_scale = FP_FromInteger(1);
-        field_D6_scale = 1;
+        mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromInteger(1);
+        mBaseAnimatedWithPhysicsGameObject_Scale = 1;
     }
 
     field_11E_rock_amount = pTlv->field_18_rock_amount;
@@ -76,7 +76,7 @@ void RockSack::VUpdate()
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 
-    if (field_20_animation.field_92_current_frame == 2)
+    if (mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame == 2)
     {
         if (field_120_can_play_wobble_sound)
         {
@@ -95,18 +95,18 @@ void RockSack::VUpdate()
 
     if (field_11C_has_been_hit)
     {
-        if (field_11C_has_been_hit == 1 && field_20_animation.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
+        if (field_11C_has_been_hit == 1 && mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
         {
             const AnimRecord& animRec = AnimRec(AnimId::RockSack_Idle);
-            field_20_animation.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
+            mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
             field_11C_has_been_hit = 0;
         }
     }
     else
     {
-        if (field_20_animation.mFrameChangeCounter == 0)
+        if (mBaseAnimatedWithPhysicsGameObject_Anim.mFrameChangeCounter == 0)
         {
-            field_20_animation.mFrameChangeCounter = Math_RandomRange(2, 10);
+            mBaseAnimatedWithPhysicsGameObject_Anim.mFrameChangeCounter = Math_RandomRange(2, 10);
         }
 
         PSX_RECT bPlayerRect = {};
@@ -115,7 +115,7 @@ void RockSack::VUpdate()
         PSX_RECT bRect = {};
         VGetBoundingRect(&bRect, 1);
 
-        if (bRect.x <= bPlayerRect.w && bRect.w >= bPlayerRect.x && bRect.h >= bPlayerRect.y && bRect.y <= bPlayerRect.h && field_CC_sprite_scale == sActiveHero->field_CC_sprite_scale)
+        if (bRect.x <= bPlayerRect.w && bRect.w >= bPlayerRect.x && bRect.h >= bPlayerRect.y && bRect.y <= bPlayerRect.h && mBaseAnimatedWithPhysicsGameObject_SpriteScale == sActiveHero->mBaseAnimatedWithPhysicsGameObject_SpriteScale)
         {
             if (gpThrowableArray_5D1E2C)
             {
@@ -124,12 +124,12 @@ void RockSack::VUpdate()
                     if (sActiveHero->mCurrentMotion == eAbeMotions::Motion_31_RunJumpMid_452C10)
                     {
                         const AnimRecord& animRec = AnimRec(AnimId::RockSack_HardHit);
-                        field_20_animation.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
+                        mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
                     }
                     else
                     {
                         const AnimRecord& animRec = AnimRec(AnimId::RockSack_SoftHit);
-                        field_20_animation.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
+                        mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
                     }
                     field_11C_has_been_hit = 1;
                     return;
@@ -154,12 +154,12 @@ void RockSack::VUpdate()
             if (sActiveHero->mCurrentMotion == eAbeMotions::Motion_31_RunJumpMid_452C10)
             {
                 const AnimRecord& animRec = AnimRec(AnimId::RockSack_HardHit);
-                field_20_animation.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
+                mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
             }
             else
             {
                 const AnimRecord& animRec = AnimRec(AnimId::RockSack_SoftHit);
-                field_20_animation.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
+                mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
             }
             field_11C_has_been_hit = 1;
         }

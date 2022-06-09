@@ -20,7 +20,7 @@ WorkWheel::WorkWheel(Path_WorkWheel* pTlv, s32 tlvInfo)
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
     Animation_Init(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
 
-    field_20_animation.mAnimFlags.Set(eBit15_bSemiTrans);
+    mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(eBit15_bSemiTrans);
 
     mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger((pTlv->field_8_top_left.field_0_x + pTlv->field_C_bottom_right.field_0_x) / 2);
     mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->field_8_top_left.field_2_y);
@@ -29,16 +29,16 @@ WorkWheel::WorkWheel(Path_WorkWheel* pTlv, s32 tlvInfo)
     {
         if (pTlv->field_10_scale == Scale_short::eHalf_1)
         {
-            field_CC_sprite_scale = FP_FromDouble(0.5);
-            field_20_animation.mRenderLayer = Layer::eLayer_BeforeShadow_Half_6;
-            field_D6_scale = 0;
+            mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromDouble(0.5);
+            mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_BeforeShadow_Half_6;
+            mBaseAnimatedWithPhysicsGameObject_Scale = 0;
         }
     }
     else
     {
-        field_CC_sprite_scale = FP_FromInteger(1);
-        field_20_animation.mRenderLayer = Layer::eLayer_BeforeShadow_25;
-        field_D6_scale = 1;
+        mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromInteger(1);
+        mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_BeforeShadow_25;
+        mBaseAnimatedWithPhysicsGameObject_Scale = 1;
     }
 
     field_F8_switch_id = pTlv->field_12_switch_id;
@@ -58,13 +58,13 @@ WorkWheel::WorkWheel(Path_WorkWheel* pTlv, s32 tlvInfo)
             &pathLine,
             &hitX,
             &hitY,
-            (field_D6_scale == 1) ? 15 : 240))
+            (mBaseAnimatedWithPhysicsGameObject_Scale == 1) ? 15 : 240))
     {
         mBaseAnimatedWithPhysicsGameObject_YPos = hitY;
     }
     else
     {
-        mBaseAnimatedWithPhysicsGameObject_YPos += FP_FromInteger(20) * field_CC_sprite_scale;
+        mBaseAnimatedWithPhysicsGameObject_YPos += FP_FromInteger(20) * mBaseAnimatedWithPhysicsGameObject_SpriteScale;
     }
 
 
@@ -131,8 +131,8 @@ void WorkWheel::VUpdate()
 
         if (!(field_100_on_counter % 10)
             && gMap.Is_Point_In_Current_Camera_4810D0(
-                field_C2_lvl_number,
-                field_C0_path_number,
+                mBaseAnimatedWithPhysicsGameObject_LvlNumber,
+                mBaseAnimatedWithPhysicsGameObject_PathNumber,
                 mBaseAnimatedWithPhysicsGameObject_XPos,
                 mBaseAnimatedWithPhysicsGameObject_YPos,
                 0))
@@ -181,7 +181,7 @@ void WorkWheel::VStartTurning()
     {
         field_FC_state = WheelStates::eTurning_1;
         const AnimRecord& animRec = AnimRec(AnimId::Work_Wheel_Turning);
-        field_20_animation.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
+        mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
     }
 }
 
@@ -193,7 +193,7 @@ void WorkWheel::VStopTurning(s16 bResetSwitch)
 
         // Spin it.
         const AnimRecord& animRec = AnimRec(AnimId::Work_Wheel_Idle);
-        field_20_animation.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
+        mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
 
         if (field_104_turn_off_when_stopped == Choice_short::eYes_1)
         {

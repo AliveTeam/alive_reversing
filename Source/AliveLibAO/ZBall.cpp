@@ -45,9 +45,9 @@ ZBall::ZBall(Path_ZBall* pTlv, s32 tlvInfo)
 {
     mBaseGameObjectTypeId = ReliveTypes::eZBall;
 
-    field_C4_b = 128;
-    field_C2_g = 128;
-    field_C0_r = 128;
+    mBaseAnimatedWithPhysicsGameObject_Blue = 128;
+    mBaseAnimatedWithPhysicsGameObject_Green = 128;
+    mBaseAnimatedWithPhysicsGameObject_Red = 128;
 
     switch (pTlv->field_1C_speed)
     {
@@ -85,34 +85,34 @@ ZBall::ZBall(Path_ZBall* pTlv, s32 tlvInfo)
         switch (pTlv->field_18_start_pos)
         {
             case Path_ZBall::StartPos::eCenter_0:
-                field_10_anim.SetFrame(6u);
+                mBaseAnimatedWithPhysicsGameObject_Anim.SetFrame(6u);
                 gCenter_ZBall_9F1DCC = this;
                 field_EA_sound_pitch = -800;
                 break;
 
             case Path_ZBall::StartPos::eOut_1:
-                field_10_anim.SetFrame(0);
+                mBaseAnimatedWithPhysicsGameObject_Anim.SetFrame(0);
                 gOutZBall_9F1DD0 = this;
                 field_EA_sound_pitch = -400;
                 break;
 
             case Path_ZBall::StartPos::eIn_2:
-                field_10_anim.SetFrame(13u);
+                mBaseAnimatedWithPhysicsGameObject_Anim.SetFrame(13u);
                 field_EA_sound_pitch = 0;
                 break;
         }
 
-        field_10_anim.VDecode();
+        mBaseAnimatedWithPhysicsGameObject_Anim.VDecode();
     }
 
     if (pTlv->field_1A_scale != Scale_short::eFull_0)
     {
-        field_BC_sprite_scale = FP_FromDouble(0.5);
-        field_C6_scale = 0;
+        mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromDouble(0.5);
+        mBaseAnimatedWithPhysicsGameObject_Scale = 0;
     }
 
     field_E4_tlvInfo = tlvInfo;
-    field_10_anim.field_1C_fn_ptr_array = kZBall_Anim_Frame_Fns_4CEBF8;
+    mBaseAnimatedWithPhysicsGameObject_Anim.field_1C_fn_ptr_array = kZBall_Anim_Frame_Fns_4CEBF8;
 }
 
 void ZBall::VUpdate()
@@ -124,7 +124,7 @@ void ZBall::VUpdate()
 
     if (gCenter_ZBall_9F1DCC == this || gOutZBall_9F1DD0 == this)
     {
-        if (field_10_anim.field_92_current_frame == 0 || field_10_anim.field_92_current_frame == 13)
+        if (mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame == 0 || mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame == 13)
         {
             SFX_Play_Pitch(SoundEffect::ZBall_62, 50, field_EA_sound_pitch, nullptr);
         }
@@ -132,38 +132,38 @@ void ZBall::VUpdate()
 
     if (gCenter_ZBall_9F1DCC == this)
     {
-        if (field_10_anim.field_92_current_frame == 3 || field_10_anim.field_92_current_frame == 16)
+        if (mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame == 3 || mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame == 16)
         {
             SFX_Play_Pitch(SoundEffect::SackWobble_34, 40, field_EA_sound_pitch - 2400, nullptr);
         }
     }
 
-    if (field_10_anim.field_92_current_frame <= 6 || field_10_anim.field_92_current_frame >= 19)
+    if (mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame <= 6 || mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame >= 19)
     {
-        if (field_BC_sprite_scale == FP_FromInteger(1))
+        if (mBaseAnimatedWithPhysicsGameObject_SpriteScale == FP_FromInteger(1))
         {
-            field_10_anim.mRenderLayer = Layer::eLayer_Foreground_36;
+            mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_Foreground_36;
         }
         else
         {
-            field_10_anim.mRenderLayer = Layer::eLayer_Foreground_Half_17;
+            mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_Foreground_Half_17;
         }
     }
-    else if (field_BC_sprite_scale == FP_FromInteger(1))
+    else if (mBaseAnimatedWithPhysicsGameObject_SpriteScale == FP_FromInteger(1))
     {
-        field_10_anim.mRenderLayer = Layer::eLayer_BeforeWell_22;
+        mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_BeforeWell_22;
     }
     else
     {
-        field_10_anim.mRenderLayer = Layer::eLayer_BeforeWell_Half_3;
+        mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_BeforeWell_Half_3;
     }
 
     // Pointless because never seems to be read
-    field_E8_bFrameAbove12 = field_10_anim.field_92_current_frame >= 13;
+    field_E8_bFrameAbove12 = mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame >= 13;
 
     if (!gMap.Is_Point_In_Current_Camera_4449C0(
-            field_B2_lvl_number,
-            field_B0_path_number,
+            mBaseAnimatedWithPhysicsGameObject_LvlNumber,
+            mBaseAnimatedWithPhysicsGameObject_PathNumber,
             mBaseAnimatedWithPhysicsGameObject_XPos,
             mBaseAnimatedWithPhysicsGameObject_YPos,
             0))

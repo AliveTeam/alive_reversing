@@ -31,8 +31,8 @@ void PlatformBase::AddDynamicCollision(s32 frameTableOffset, s32 maxW, u16 maxH,
 
     mPlatformBaseTlvInfo = tlvInfo;
 
-    field_C4_velx = FP_FromInteger(0);
-    field_C8_vely = FP_FromInteger(0);
+    mBaseAnimatedWithPhysicsGameObject_VelX = FP_FromInteger(0);
+    mBaseAnimatedWithPhysicsGameObject_VelY = FP_FromInteger(0);
 
     mPlatformBaseCount = 0;
     Animation_Init(
@@ -43,19 +43,19 @@ void PlatformBase::AddDynamicCollision(s32 frameTableOffset, s32 maxW, u16 maxH,
         1,
         1);
 
-    if (field_CC_sprite_scale == FP_FromInteger(1))
+    if (mBaseAnimatedWithPhysicsGameObject_SpriteScale == FP_FromInteger(1))
     {
-        field_20_animation.mRenderLayer = Layer::eLayer_BeforeShadow_25;
-        field_D6_scale = 1;
+        mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_BeforeShadow_25;
+        mBaseAnimatedWithPhysicsGameObject_Scale = 1;
     }
     else
     {
-        field_20_animation.mRenderLayer = Layer::eLayer_BeforeShadow_Half_6;
-        field_D6_scale = 0;
+        mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_BeforeShadow_Half_6;
+        mBaseAnimatedWithPhysicsGameObject_Scale = 0;
     }
 
-    FrameInfoHeader* pFrameHeader = field_20_animation.Get_FrameHeader(0);
-    mBaseAnimatedWithPhysicsGameObject_YPos += FP_NoFractional(FP_FromInteger(-pFrameHeader->field_8_data.points[1].y) * field_CC_sprite_scale);
+    FrameInfoHeader* pFrameHeader = mBaseAnimatedWithPhysicsGameObject_Anim.Get_FrameHeader(0);
+    mBaseAnimatedWithPhysicsGameObject_YPos += FP_NoFractional(FP_FromInteger(-pFrameHeader->field_8_data.points[1].y) * mBaseAnimatedWithPhysicsGameObject_SpriteScale);
     mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger((pTlv->field_8_top_left.field_0_x + pTlv->field_C_bottom_right.field_0_x) / 2);
 
     field_124_pCollisionLine = sCollisions->Add_Dynamic_Collision_Line(
@@ -82,7 +82,7 @@ PlatformBase::~PlatformBase()
 
     if (field_124_pCollisionLine)
     {
-        if (gMap.mCurrentLevel == field_C2_lvl_number && gMap.mCurrentPath == field_C0_path_number)
+        if (gMap.mCurrentLevel == mBaseAnimatedWithPhysicsGameObject_LvlNumber && gMap.mCurrentPath == mBaseAnimatedWithPhysicsGameObject_PathNumber)
         {
             Rect_Clear(&field_124_pCollisionLine->field_0_rect);
         }

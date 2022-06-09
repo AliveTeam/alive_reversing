@@ -21,28 +21,28 @@ BaseBomb::BaseBomb(FP x, FP y, s32 /*unused*/, FP scale)
     const AnimRecord& rec = AnimRec(AnimId::Explosion_Mine);
     Animation_Init(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, BaseGameObject::Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId), 1, 1);
 
-    field_20_animation.mAnimFlags.Clear(AnimFlags::eBit18_IsLastFrame); // Double Check
-    field_20_animation.mAnimFlags.Set(AnimFlags::eBit24);
+    mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit18_IsLastFrame); // Double Check
+    mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit24);
 
-    field_20_animation.mRenderMode = TPageAbr::eBlend_1;
+    mBaseAnimatedWithPhysicsGameObject_Anim.mRenderMode = TPageAbr::eBlend_1;
 
-    field_20_animation.mBlue = 128;
-    field_20_animation.mGreen = 128;
-    field_20_animation.mRed = 128;
+    mBaseAnimatedWithPhysicsGameObject_Anim.mBlue = 128;
+    mBaseAnimatedWithPhysicsGameObject_Anim.mGreen = 128;
+    mBaseAnimatedWithPhysicsGameObject_Anim.mRed = 128;
 
     field_f4_scale = scale;
 
     if (scale == FP_FromDouble(1.0))
     {
-        field_20_animation.mRenderLayer = Layer::eLayer_Foreground_36;
+        mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_Foreground_36;
     }
     else
     {
-        field_20_animation.mRenderLayer = Layer::eLayer_Foreground_Half_17;
+        mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_Foreground_Half_17;
     }
 
     mApplyShadows &= ~1;
-    field_CC_sprite_scale = scale * FP_FromDouble(2.75);
+    mBaseAnimatedWithPhysicsGameObject_SpriteScale = scale * FP_FromDouble(2.75);
     mBaseAnimatedWithPhysicsGameObject_XPos = x;
     mBaseAnimatedWithPhysicsGameObject_YPos = y;
 
@@ -78,7 +78,7 @@ void BaseBomb::VUpdate()
     Event_Broadcast(kEventLoudNoise, this);
     Event_Broadcast(kEventSuspiciousNoise, this);
 
-    switch (this->field_20_animation.field_92_current_frame)
+    switch (this->mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame)
     {
         case 0:
             rect.x = FP_GetExponent(FP_FromInteger(-30) * field_f4_scale);
@@ -110,7 +110,7 @@ void BaseBomb::VUpdate()
                 mBaseAnimatedWithPhysicsGameObject_XPos,
                 mBaseAnimatedWithPhysicsGameObject_YPos,
                 20,
-                field_CC_sprite_scale,
+                mBaseAnimatedWithPhysicsGameObject_SpriteScale,
                 BurstType::eBigRedSparks_3,
                 13);
 
@@ -136,7 +136,7 @@ void BaseBomb::VUpdate()
                 mBaseAnimatedWithPhysicsGameObject_XPos,
                 mBaseAnimatedWithPhysicsGameObject_YPos,
                 20u,
-                field_CC_sprite_scale,
+                mBaseAnimatedWithPhysicsGameObject_SpriteScale,
                 BurstType::eBigRedSparks_3,
                 13);
 
@@ -148,7 +148,7 @@ void BaseBomb::VUpdate()
             break;
     }
 
-    if (field_20_animation.field_92_current_frame == 3)
+    if (mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame == 3)
     {
         const AnimRecord& rec = AnimRec(AnimId::Explosion_Mine);
         u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
@@ -163,15 +163,15 @@ void BaseBomb::VUpdate()
                 ppRes);
             if (pParticle)
             {
-                pParticle->field_20_animation.mAnimFlags.Set(AnimFlags::eBit5_FlipX);
+                pParticle->mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit5_FlipX);
                 pParticle->mApplyShadows &= ~1;
-                pParticle->field_20_animation.mRenderMode = TPageAbr::eBlend_1;
-                pParticle->field_CC_sprite_scale = field_CC_sprite_scale * FP_FromDouble(0.7);
+                pParticle->mBaseAnimatedWithPhysicsGameObject_Anim.mRenderMode = TPageAbr::eBlend_1;
+                pParticle->mBaseAnimatedWithPhysicsGameObject_SpriteScale = mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromDouble(0.7);
             }
         }
     }
 
-    if (field_20_animation.mAnimFlags.Get(AnimFlags::eBit12_ForwardLoopCompleted)) // Animation ended
+    if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit12_ForwardLoopCompleted)) // Animation ended
     {
         // Time to die
         mBaseGameObjectFlags.Set(Options::eDead);

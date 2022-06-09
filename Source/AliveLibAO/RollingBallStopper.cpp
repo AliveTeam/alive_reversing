@@ -18,44 +18,44 @@ RollingBallStopper::RollingBallStopper(Path_RollingBallStopper* pTlv, s32 tlvInf
     const AnimRecord& rec = AO::AnimRec(AnimId::Stone_Ball_Stopper);
     u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
     Animation_Init_417FD0(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
-    field_10_anim.mRenderLayer = Layer::eLayer_FG1_37;
+    mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_FG1_37;
 
     field_114_release_switch_id = pTlv->field_18_stopper_switch_id;
 
     if (pTlv->field_1A_scale == Scale_short::eHalf_1)
     {
-        field_BC_sprite_scale = FP_FromDouble(0.5);
-        field_C6_scale = 0;
+        mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromDouble(0.5);
+        mBaseAnimatedWithPhysicsGameObject_Scale = 0;
     }
 
     field_116_ball_switch_id = pTlv->field_1C_ball_switch_id;
 
     if (pTlv->field_1E_direction == XDirection_short::eLeft_0)
     {
-        field_10_anim.mAnimFlags.Set(AnimFlags::eBit5_FlipX);
+        mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit5_FlipX);
     }
 
     mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pTlv->field_10_top_left.field_0_x);
     mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->field_10_top_left.field_2_y);
 
-    field_B4_velx = field_10_anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX) ? FP_FromInteger(22) : FP_FromInteger(-22);
-    field_B8_vely = FP_FromInteger(0);
+    mBaseAnimatedWithPhysicsGameObject_VelX = mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX) ? FP_FromInteger(22) : FP_FromInteger(-22);
+    mBaseAnimatedWithPhysicsGameObject_VelY = FP_FromInteger(0);
 
     field_10C_tlvInfo = tlvInfo;
 
     // Check its enabled ?
     if (pTlv->field_1_unknown)
     {
-        mBaseAnimatedWithPhysicsGameObject_YPos += field_BC_sprite_scale * FP_FromInteger(70);
-        if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
+        mBaseAnimatedWithPhysicsGameObject_YPos += mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(70);
+        if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
         {
             field_112_state = States::eMovingDone_2;
-            mBaseAnimatedWithPhysicsGameObject_XPos += field_BC_sprite_scale * FP_FromInteger(35);
+            mBaseAnimatedWithPhysicsGameObject_XPos += mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(35);
         }
         else
         {
             field_112_state = States::eMovingDone_2;
-            mBaseAnimatedWithPhysicsGameObject_XPos -= field_BC_sprite_scale * FP_FromInteger(35);
+            mBaseAnimatedWithPhysicsGameObject_XPos -= mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(35);
         }
     }
     else
@@ -70,18 +70,18 @@ RollingBallStopper::RollingBallStopper(Path_RollingBallStopper* pTlv, s32 tlvInf
     mBaseAnimatedWithPhysicsGameObject_XPos = oldXPos;
 
     FP lineXPos = {};
-    if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
+    if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
     {
-        lineXPos = (ScaleToGridSize(field_BC_sprite_scale) / FP_FromInteger(2)) + FP_NoFractional(oldXPos);
+        lineXPos = (ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale) / FP_FromInteger(2)) + FP_NoFractional(oldXPos);
     }
     else
     {
-        lineXPos = FP_NoFractional(oldXPos) - (ScaleToGridSize(field_BC_sprite_scale) / FP_FromInteger(2));
+        lineXPos = FP_NoFractional(oldXPos) - (ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale) / FP_FromInteger(2));
     }
 
     const auto x1 = FP_GetExponent(lineXPos);
     const auto y1 = FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos);
-    if (field_BC_sprite_scale == FP_FromInteger(1))
+    if (mBaseAnimatedWithPhysicsGameObject_SpriteScale == FP_FromInteger(1))
     {
         field_118_pLine = sCollisions->Add_Dynamic_Collision_Line(x1, y1 - 70, x1, y1, eLineTypes::eWallLeft_1);
     }
@@ -133,11 +133,11 @@ void RollingBallStopper::VUpdate()
             break;
 
         case States::eMoveStopper_1:
-            field_B8_vely += (field_BC_sprite_scale * FP_FromInteger(25));
-            if (field_B8_vely <= (field_BC_sprite_scale * FP_FromInteger(70)))
+            mBaseAnimatedWithPhysicsGameObject_VelY += (mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(25));
+            if (mBaseAnimatedWithPhysicsGameObject_VelY <= (mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(70)))
             {
-                mBaseAnimatedWithPhysicsGameObject_XPos += field_B4_velx;
-                mBaseAnimatedWithPhysicsGameObject_YPos += (field_BC_sprite_scale * FP_FromInteger(25));
+                mBaseAnimatedWithPhysicsGameObject_XPos += mBaseAnimatedWithPhysicsGameObject_VelX;
+                mBaseAnimatedWithPhysicsGameObject_YPos += (mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(25));
             }
             else
             {

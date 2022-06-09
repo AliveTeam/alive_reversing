@@ -66,8 +66,8 @@ void InvisibleSwitch::VUpdate()
                     {
                         // Scale matches ?
                         if (field_3C_scale == InvisibleSwitchScale::eAny_2
-                            || (field_3C_scale == InvisibleSwitchScale::eHalf_0 && sControlledCharacter_5C1B8C->field_CC_sprite_scale == FP_FromDouble(0.5))
-                            || (field_3C_scale == InvisibleSwitchScale::eFull_1 && sControlledCharacter_5C1B8C->field_CC_sprite_scale == FP_FromDouble(1.0)))
+                            || (field_3C_scale == InvisibleSwitchScale::eHalf_0 && sControlledCharacter_5C1B8C->mBaseAnimatedWithPhysicsGameObject_SpriteScale == FP_FromDouble(0.5))
+                            || (field_3C_scale == InvisibleSwitchScale::eFull_1 && sControlledCharacter_5C1B8C->mBaseAnimatedWithPhysicsGameObject_SpriteScale == FP_FromDouble(1.0)))
                         {
                             field_38_state = States::eWaitForDelayTimer_1;
                             field_28_delay_timer = sGnFrame + field_2C_delay;

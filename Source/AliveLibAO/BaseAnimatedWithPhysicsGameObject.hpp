@@ -45,12 +45,12 @@ class BaseAnimatedWithPhysicsGameObject : public IBaseAnimatedWithPhysicsGameObj
 public: // Temp interface
     virtual s16 Scale() override
     {
-        return field_C6_scale;
+        return mBaseAnimatedWithPhysicsGameObject_Scale;
     }
 
     virtual FP SpriteScale() override
     {
-        return field_BC_sprite_scale;
+        return mBaseAnimatedWithPhysicsGameObject_SpriteScale;
     }
 
     virtual FP XPos() override
@@ -130,23 +130,23 @@ private:
     void VStackOnObjectsOfType_418930(ReliveTypes typeToFind);
 
 public:
-    Animation field_10_anim;
+    Animation mBaseAnimatedWithPhysicsGameObject_Anim;
     FP mBaseAnimatedWithPhysicsGameObject_XPos = {};
     FP mBaseAnimatedWithPhysicsGameObject_YPos = {};
-    s16 field_B0_path_number = 0;
-    EReliveLevelIds field_B2_lvl_number = EReliveLevelIds::eNone;
-    FP field_B4_velx = {};
-    FP field_B8_vely = {};
-    FP field_BC_sprite_scale = {};
-    s16 field_C0_r = 0;
-    s16 field_C2_g = 0;
-    s16 field_C4_b = 0;
-    s16 field_C6_scale = 0;
-    s16 field_C8_yOffset = 0;
-    s16 field_CA_xOffset = 0;
-    u16 field_CC_bApplyShadows = 0;
+    s16 mBaseAnimatedWithPhysicsGameObject_PathNumber = 0;
+    EReliveLevelIds mBaseAnimatedWithPhysicsGameObject_LvlNumber = EReliveLevelIds::eNone;
+    FP mBaseAnimatedWithPhysicsGameObject_VelX = {};
+    FP mBaseAnimatedWithPhysicsGameObject_VelY = {};
+    FP mBaseAnimatedWithPhysicsGameObject_SpriteScale = {};
+    s16 mBaseAnimatedWithPhysicsGameObject_Red = 0;
+    s16 mBaseAnimatedWithPhysicsGameObject_Green = 0;
+    s16 mBaseAnimatedWithPhysicsGameObject_Blue = 0;
+    s16 mBaseAnimatedWithPhysicsGameObject_Scale = 0;
+    s16 mBaseAnimatedWithPhysicsGameObject_YOffset = 0;
+    s16 mBaseAnimatedWithPhysicsGameObject_XOffset = 0;
+    u16 mApplyShadows = 0;
     s16 field_CE_pad = 0;
-    Shadow* field_D0_pShadow = nullptr;
+    Shadow* mShadow = nullptr;
 };
 ALIVE_ASSERT_SIZEOF(BaseAnimatedWithPhysicsGameObject, 0xD4);
 

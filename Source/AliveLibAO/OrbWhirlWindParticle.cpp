@@ -121,7 +121,7 @@ void OrbWhirlWindParticle::Update()
                     field_F0_scale = field_CC_xpos_mid;
                     field_FC_xpos_offset2 = field_D0_ypos_mid;
                     field_F4_xpos_offset = field_D0_ypos_mid;
-                    field_C8_scale_offset_fly_to_target = (field_E4_pObj->field_BC_sprite_scale - field_C0_current_scale) / FP_FromInteger(16);
+                    field_C8_scale_offset_fly_to_target = (field_E4_pObj->mBaseAnimatedWithPhysicsGameObject_SpriteScale - field_C0_current_scale) / FP_FromInteger(16);
                     field_DC_position_timer = sGnFrame + 16;
                     field_B4_state = State::State_2_FlyToTarget;
                     CalculateRenderProperties(1);

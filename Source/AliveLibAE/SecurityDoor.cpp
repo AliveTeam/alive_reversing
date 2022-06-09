@@ -21,21 +21,21 @@ SecurityDoor::SecurityDoor(Path_SecurityDoor* pTlv, s32 tlvInfo)
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
     Animation_Init(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
 
-    field_20_animation.mAnimFlags.Clear(AnimFlags::eBit3_Render);
+    mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit3_Render);
 
     field_F4_tlvInfo = tlvInfo;
 
-    field_20_animation.mRenderLayer = Layer::eLayer_BeforeWell_22;
+    mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_BeforeWell_22;
 
     if (pTlv->field_10_scale == Scale_short::eHalf_1)
     {
-        field_CC_sprite_scale = FP_FromDouble(0.5);
-        field_D6_scale = 0;
+        mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromDouble(0.5);
+        mBaseAnimatedWithPhysicsGameObject_Scale = 0;
     }
     else
     {
-        field_CC_sprite_scale = FP_FromInteger(1);
-        field_D6_scale = 1;
+        mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromInteger(1);
+        mBaseAnimatedWithPhysicsGameObject_Scale = 1;
     }
 
     field_FA_switch_id = pTlv->field_12_switch_id;
@@ -132,12 +132,12 @@ void SecurityDoor::VUpdate()
 
             if (IsPlayerNear())
             {
-                field_20_animation.mAnimFlags.Set(AnimFlags::eBit3_Render);
+                mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit3_Render);
                 field_F8_state = SecurityDoorStates::eSayingHi_2;
             }
             else
             {
-                field_20_animation.mAnimFlags.Clear(AnimFlags::eBit3_Render);
+                mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit3_Render);
             }
             return;
 
@@ -152,7 +152,7 @@ void SecurityDoor::VUpdate()
         {
             Slig_GameSpeak_SFX_4C04F0(SligSpeak::eHi_0, 127, -200, 0);
             const AnimRecord& animRec = AnimRec(AnimId::Security_Door_Speak);
-            field_20_animation.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
+            mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
             field_F8_state = SecurityDoorStates::eListeningForHi_3;
             field_124_timer = sGnFrame + 150;
             return;
@@ -215,7 +215,7 @@ void SecurityDoor::VUpdate()
             }
 
             const AnimRecord& animRec = AnimRec(AnimId::Security_Door_Speak);
-            field_20_animation.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
+            mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
             if (++field_128_max_idx >= field_100_code_len)
             {
                 field_F8_state = SecurityDoorStates::eListeningForPassword_9;
@@ -293,7 +293,7 @@ void SecurityDoor::VUpdate()
             }
             field_12A_unused = 1;
             SwitchStates_Set(field_FA_switch_id, 1);
-            field_20_animation.mAnimFlags.Clear(AnimFlags::eBit3_Render);
+            mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit3_Render);
             SFX_Play_Pitch(SoundEffect::GlukkonSwitchBleh_88, 127, -700);
             field_F8_state = SecurityDoorStates::eSuccessChime_1;
             field_124_timer = sGnFrame + 15;

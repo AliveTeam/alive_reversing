@@ -102,21 +102,21 @@ SlamDoor::SlamDoor(Path_SlamDoor* pTlv, TlvItemInfoUnion tlvInfo)
 
     if (pTlv->field_12_scale == Scale_short::eHalf_1)
     {
-        field_CC_sprite_scale = FP_FromDouble(0.5);
-        field_20_animation.mRenderLayer = Layer::eLayer_BeforeShadow_Half_6;
-        field_D6_scale = 0;
+        mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromDouble(0.5);
+        mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_BeforeShadow_Half_6;
+        mBaseAnimatedWithPhysicsGameObject_Scale = 0;
     }
     else
     {
-        field_CC_sprite_scale = FP_FromDouble(1.0);
-        field_20_animation.mRenderLayer = Layer::eLayer_BeforeShadow_25;
-        field_D6_scale = 1;
+        mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromDouble(1.0);
+        mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_BeforeShadow_25;
+        mBaseAnimatedWithPhysicsGameObject_Scale = 1;
     }
 
     if (field_118_flags.Get(SlamDoor_Flags_118::e118_Bit4_Inverted))
     {
-        field_20_animation.mAnimFlags.Set(AnimFlags::eBit6_FlipY);
-        field_D8_yOffset = FP_GetExponent(field_CC_sprite_scale * FP_FromDouble(-68.0));
+        mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit6_FlipY);
+        mBaseAnimatedWithPhysicsGameObject_YOffset = FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromDouble(-68.0));
     }
 
     s32 switchState = SwitchStates_Get(field_128_switch_id);
@@ -144,19 +144,19 @@ SlamDoor::SlamDoor(Path_SlamDoor* pTlv, TlvItemInfoUnion tlvInfo)
             &BaseAliveGameObjectCollisionLine,
             &hitX,
             &hitY,
-            field_D6_scale != 0 ? 1 : 16)
+            mBaseAnimatedWithPhysicsGameObject_Scale != 0 ? 1 : 16)
         == 1)
     {
         mBaseAnimatedWithPhysicsGameObject_YPos = hitY;
     }
 
-    if (field_20_animation.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
+    if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
     {
-        field_124_x1 = FP_GetExponent((ScaleToGridSize(field_CC_sprite_scale) / FP_FromDouble(2.0)) + FP_FromInteger(FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos)));
+        field_124_x1 = FP_GetExponent((ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale) / FP_FromDouble(2.0)) + FP_FromInteger(FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos)));
     }
     else
     {
-        field_124_x1 = FP_GetExponent(FP_FromInteger(FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos)) - (ScaleToGridSize(field_CC_sprite_scale) / FP_FromDouble(2.0)));
+        field_124_x1 = FP_GetExponent(FP_FromInteger(FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos)) - (ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale) / FP_FromDouble(2.0)));
     }
 
     field_126_y1 = FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos);
@@ -165,7 +165,7 @@ SlamDoor::SlamDoor(Path_SlamDoor* pTlv, TlvItemInfoUnion tlvInfo)
     {
         PathLine* pPathLine = nullptr;
 
-        if (field_CC_sprite_scale == FP_FromDouble(1.0))
+        if (mBaseAnimatedWithPhysicsGameObject_SpriteScale == FP_FromDouble(1.0))
         {
             const FP lineHeight = FP_FromDouble(80.0);
 
@@ -175,10 +175,10 @@ SlamDoor::SlamDoor(Path_SlamDoor* pTlv, TlvItemInfoUnion tlvInfo)
                 field_124_x1,
                 field_126_y1,
                 2);
-            const FP x2 = FP_FromInteger(field_124_x1) + ScaleToGridSize(field_CC_sprite_scale);
+            const FP x2 = FP_FromInteger(field_124_x1) + ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale);
             const FP y1 = FP_FromInteger(field_126_y1)
-                        - (field_CC_sprite_scale * FP_FromDouble(80.0));
-            const FP x1 = ScaleToGridSize(field_CC_sprite_scale) + FP_FromInteger(field_124_x1);
+                        - (mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromDouble(80.0));
+            const FP x1 = ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale) + FP_FromInteger(field_124_x1);
             pPathLine = sCollisions->Add_Dynamic_Collision_Line(
                 FP_GetExponent(x1),
                 FP_GetExponent(y1),
@@ -188,7 +188,7 @@ SlamDoor::SlamDoor(Path_SlamDoor* pTlv, TlvItemInfoUnion tlvInfo)
         }
         else
         {
-            const FP lineHeight = field_CC_sprite_scale * FP_FromDouble(80.0);
+            const FP lineHeight = mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromDouble(80.0);
 
             field_11C_pCollisionLine_6_2 = sCollisions->Add_Dynamic_Collision_Line(
                 field_124_x1,
@@ -196,9 +196,9 @@ SlamDoor::SlamDoor(Path_SlamDoor* pTlv, TlvItemInfoUnion tlvInfo)
                 field_124_x1,
                 field_126_y1,
                 6);
-            const FP x2 = FP_FromInteger(field_124_x1) + ScaleToGridSize(field_CC_sprite_scale);
-            const FP y1 = FP_FromInteger(field_126_y1) - (field_CC_sprite_scale * FP_FromDouble(80.0));
-            const FP x1 = ScaleToGridSize(field_CC_sprite_scale) + FP_FromInteger(field_124_x1);
+            const FP x2 = FP_FromInteger(field_124_x1) + ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale);
+            const FP y1 = FP_FromInteger(field_126_y1) - (mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromDouble(80.0));
+            const FP x1 = ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale) + FP_FromInteger(field_124_x1);
             pPathLine = sCollisions->Add_Dynamic_Collision_Line(
                 FP_GetExponent(x1),
                 FP_GetExponent(y1),
@@ -209,11 +209,11 @@ SlamDoor::SlamDoor(Path_SlamDoor* pTlv, TlvItemInfoUnion tlvInfo)
         field_120_pCollisionLine_5_1 = pPathLine;
 
         const AnimRecord& animRec = AnimRec(sSlamDoorData_547168[currentLevelId][1]);
-        field_20_animation.Set_Animation_Data(animRec.mFrameTableOffset, 0);
+        mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(animRec.mFrameTableOffset, 0);
     }
     else
     {
-        field_20_animation.mAnimFlags.Clear(AnimFlags::eBit3_Render);
+        mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit3_Render);
         field_11C_pCollisionLine_6_2 = 0;
         field_120_pCollisionLine_5_1 = 0;
     }
@@ -250,11 +250,11 @@ void SlamDoor::VUpdate()
     const bool stateUnchanged = SwitchStates_Get(field_128_switch_id) == static_cast<s32>(field_118_flags.Get(SlamDoor_Flags_118::e118_Bit2_Open));
     if (!field_118_flags.Get(SlamDoor_Flags_118::e118_Bit1_bClosed))
     {
-        if (field_20_animation.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
+        if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
         {
-            if (field_20_animation.mAnimFlags.Get(AnimFlags::eBit3_Render))
+            if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit3_Render))
             {
-                field_20_animation.mAnimFlags.Clear(AnimFlags::eBit3_Render);
+                mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit3_Render);
 
                 if (field_118_flags.Get(SlamDoor_Flags_118::e118_Bit5_Delete))
                 {
@@ -269,7 +269,7 @@ void SlamDoor::VUpdate()
 
     if (field_118_flags.Get(SlamDoor_Flags_118::e118_Bit1_bClosed))
     {
-        if (field_20_animation.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
+        if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
         {
             if (!field_118_flags.Get(SlamDoor_Flags_118::e118_Bit3_bLastFrame))
             {
@@ -287,12 +287,12 @@ void SlamDoor::VUpdate()
 
         if (stateUnchanged)
         {
-            field_20_animation.mAnimFlags.Set(AnimFlags::eBit3_Render);
+            mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit3_Render);
 
             const AnimRecord& animRec = AnimRec(sSlamDoorData_547168[static_cast<s32>(MapWrapper::ToAE(gMap.mCurrentLevel))][2]);
-            field_20_animation.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
+            mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
 
-            if (field_CC_sprite_scale == FP_FromInteger(1))
+            if (mBaseAnimatedWithPhysicsGameObject_SpriteScale == FP_FromInteger(1))
             {
                 field_11C_pCollisionLine_6_2 = sCollisions->Add_Dynamic_Collision_Line(
                     field_124_x1,
@@ -301,9 +301,9 @@ void SlamDoor::VUpdate()
                     field_126_y1,
                     1);
                 field_120_pCollisionLine_5_1 = sCollisions->Add_Dynamic_Collision_Line(
-                    FP_GetExponent(ScaleToGridSize(field_CC_sprite_scale) + FP_FromInteger(field_124_x1)),
-                    FP_GetExponent(FP_FromInteger(field_126_y1) - (FP_FromInteger(80) * field_CC_sprite_scale)),
-                    FP_GetExponent(FP_FromInteger(field_124_x1) + ScaleToGridSize(field_CC_sprite_scale)),
+                    FP_GetExponent(ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale) + FP_FromInteger(field_124_x1)),
+                    FP_GetExponent(FP_FromInteger(field_126_y1) - (FP_FromInteger(80) * mBaseAnimatedWithPhysicsGameObject_SpriteScale)),
+                    FP_GetExponent(FP_FromInteger(field_124_x1) + ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale)),
                     field_126_y1,
                     2);
             }
@@ -311,14 +311,14 @@ void SlamDoor::VUpdate()
             {
                 field_11C_pCollisionLine_6_2 = sCollisions->Add_Dynamic_Collision_Line(
                     field_124_x1,
-                    FP_GetExponent(FP_FromInteger(field_126_y1) - (FP_FromInteger(80) * field_CC_sprite_scale)),
+                    FP_GetExponent(FP_FromInteger(field_126_y1) - (FP_FromInteger(80) * mBaseAnimatedWithPhysicsGameObject_SpriteScale)),
                     field_124_x1,
                     field_126_y1,
                     5);
                 field_120_pCollisionLine_5_1 = sCollisions->Add_Dynamic_Collision_Line(
-                    FP_GetExponent(ScaleToGridSize(field_CC_sprite_scale) + FP_FromInteger(field_124_x1)),
-                    FP_GetExponent(FP_FromInteger(field_126_y1) - (FP_FromInteger(80) * field_CC_sprite_scale)),
-                    FP_GetExponent(FP_FromInteger(field_124_x1) + ScaleToGridSize(field_CC_sprite_scale)),
+                    FP_GetExponent(ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale) + FP_FromInteger(field_124_x1)),
+                    FP_GetExponent(FP_FromInteger(field_126_y1) - (FP_FromInteger(80) * mBaseAnimatedWithPhysicsGameObject_SpriteScale)),
+                    FP_GetExponent(FP_FromInteger(field_124_x1) + ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale)),
                     field_126_y1,
                     6);
             }
@@ -328,8 +328,8 @@ void SlamDoor::VUpdate()
 
             if (field_118_flags.Get(SlamDoor_Flags_118::e118_Bit4_Inverted))
             {
-                bRect.y += FP_GetExponent(FP_FromInteger(-110) * field_CC_sprite_scale);
-                bRect.h += FP_GetExponent(FP_FromInteger(-110) * field_CC_sprite_scale);
+                bRect.y += FP_GetExponent(FP_FromInteger(-110) * mBaseAnimatedWithPhysicsGameObject_SpriteScale);
+                bRect.h += FP_GetExponent(FP_FromInteger(-110) * mBaseAnimatedWithPhysicsGameObject_SpriteScale);
             }
 
             for (s32 i = 0; i < gBaseAliveGameObjects_5C1B7C->Size(); i++)
@@ -339,7 +339,7 @@ void SlamDoor::VUpdate()
                 {
                     break;
                 }
-                if (pObj->field_20_animation.mAnimFlags.Get(AnimFlags::eBit3_Render))
+                if (pObj->mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit3_Render))
                 {
                     if (pObj->Type() != ReliveTypes::eSlamDoor)
                     {
@@ -349,7 +349,7 @@ void SlamDoor::VUpdate()
                         // Some hack that prevents Abe getting knocked back when rolling or falling near a closing slam door
                         bObjRect.x += 3;
 
-                        if (PSX_Rects_overlap_no_adjustment(&bRect, &bObjRect) && pObj->field_CC_sprite_scale == field_CC_sprite_scale)
+                        if (PSX_Rects_overlap_no_adjustment(&bRect, &bObjRect) && pObj->mBaseAnimatedWithPhysicsGameObject_SpriteScale == mBaseAnimatedWithPhysicsGameObject_SpriteScale)
                         {
                             ClearInsideSlamDoor(pObj, bRect.x, bRect.w);
                         }
@@ -360,7 +360,7 @@ void SlamDoor::VUpdate()
         else
         {
             const AnimRecord& animRec = AnimRec(sSlamDoorData_547168[static_cast<s32>(MapWrapper::ToAE(gMap.mCurrentLevel))][0]);
-            field_20_animation.Set_Animation_Data(animRec.mFrameTableOffset, 0);
+            mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(animRec.mFrameTableOffset, 0);
             Rect_Clear(&field_11C_pCollisionLine_6_2->field_0_rect);
             field_11C_pCollisionLine_6_2 = nullptr;
 
@@ -376,8 +376,8 @@ void SlamDoor::VUpdate()
 
         if (field_118_flags.Get(SlamDoor_Flags_118::e118_Bit4_Inverted))
         {
-            bRect.y += FP_GetExponent(FP_FromInteger(-110) * field_CC_sprite_scale);
-            bRect.h += FP_GetExponent(FP_FromInteger(-110) * field_CC_sprite_scale) - FP_GetExponent(FP_FromInteger(20) * field_CC_sprite_scale);
+            bRect.y += FP_GetExponent(FP_FromInteger(-110) * mBaseAnimatedWithPhysicsGameObject_SpriteScale);
+            bRect.h += FP_GetExponent(FP_FromInteger(-110) * mBaseAnimatedWithPhysicsGameObject_SpriteScale) - FP_GetExponent(FP_FromInteger(20) * mBaseAnimatedWithPhysicsGameObject_SpriteScale);
         }
 
         for (s32 i = 0; i < gBaseAliveGameObjects_5C1B7C->Size(); i++)
@@ -388,7 +388,7 @@ void SlamDoor::VUpdate()
                 break;
             }
 
-            if (pObj->field_20_animation.mAnimFlags.Get(AnimFlags::eBit3_Render))
+            if (pObj->mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit3_Render))
             {
                 if (pObj->Type() != ReliveTypes::eSlamDoor && pObj->Type() != ReliveTypes::eGrenade)
                 {
@@ -397,7 +397,7 @@ void SlamDoor::VUpdate()
 
                     if (FP_GetExponent(pObj->mBaseAnimatedWithPhysicsGameObject_XPos) > bRect.x && FP_GetExponent(pObj->mBaseAnimatedWithPhysicsGameObject_XPos) < bRect.w && PSX_Rects_overlap_no_adjustment(&bRect, &bObjRect))
                     {
-                        if (pObj->field_CC_sprite_scale == field_CC_sprite_scale || (pObj->Type() == ReliveTypes::eSlog && field_CC_sprite_scale == FP_FromInteger(1)))
+                        if (pObj->mBaseAnimatedWithPhysicsGameObject_SpriteScale == mBaseAnimatedWithPhysicsGameObject_SpriteScale || (pObj->Type() == ReliveTypes::eSlog && mBaseAnimatedWithPhysicsGameObject_SpriteScale == FP_FromInteger(1)))
                         {
                             ClearInsideSlamDoor(pObj, bRect.x, bRect.w);
                         }
@@ -407,7 +407,7 @@ void SlamDoor::VUpdate()
         }
     }
 
-    mBaseGameObjectFlags.Set(BaseGameObject::eCanExplode_Bit7, field_20_animation.mAnimFlags.Get(AnimFlags::eBit3_Render));
+    mBaseGameObjectFlags.Set(BaseGameObject::eCanExplode_Bit7, mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit3_Render));
 }
 
 s32 SlamDoor::VGetSaveState(u8* pSaveBuffer)
@@ -424,11 +424,11 @@ void SlamDoor::ClearInsideSlamDoor(BaseAliveGameObject* pObj, s16 xPosition, s16
 {
     if (FP_GetExponent(pObj->mBaseAnimatedWithPhysicsGameObject_XPos) - xPosition >= width - FP_GetExponent(pObj->mBaseAnimatedWithPhysicsGameObject_XPos))
     {
-        pObj->mBaseAnimatedWithPhysicsGameObject_XPos = (ScaleToGridSize(field_CC_sprite_scale) * FP_FromDouble(0.5)) + FP_FromDouble(1.0) + pObj->mBaseAnimatedWithPhysicsGameObject_XPos;
+        pObj->mBaseAnimatedWithPhysicsGameObject_XPos = (ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale) * FP_FromDouble(0.5)) + FP_FromDouble(1.0) + pObj->mBaseAnimatedWithPhysicsGameObject_XPos;
     }
     else
     {
-        pObj->mBaseAnimatedWithPhysicsGameObject_XPos = pObj->mBaseAnimatedWithPhysicsGameObject_XPos - (ScaleToGridSize(field_CC_sprite_scale) * FP_FromDouble(0.5));
+        pObj->mBaseAnimatedWithPhysicsGameObject_XPos = pObj->mBaseAnimatedWithPhysicsGameObject_XPos - (ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale) * FP_FromDouble(0.5));
     }
 
     if (pObj->Type() == ReliveTypes::eRingOrLiftMud || pObj->Type() == ReliveTypes::eMudokon || pObj->Type() == ReliveTypes::eAbe)
@@ -438,8 +438,8 @@ void SlamDoor::ClearInsideSlamDoor(BaseAliveGameObject* pObj, s16 xPosition, s16
 
     if (pObj->Type() == ReliveTypes::eBone)
     {
-        pObj->field_C8_vely = FP_FromInteger(-7);
-        pObj->field_C4_velx = -pObj->field_C4_velx;
+        pObj->mBaseAnimatedWithPhysicsGameObject_VelY = FP_FromInteger(-7);
+        pObj->mBaseAnimatedWithPhysicsGameObject_VelX = -pObj->mBaseAnimatedWithPhysicsGameObject_VelX;
     }
 }
 

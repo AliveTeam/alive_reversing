@@ -25,15 +25,15 @@ HoistParticle::HoistParticle(FP xpos, FP ypos, FP scale, s32 frameTableOffset)
     }
     Animation_Init_417FD0(frameTableOffset, maxW, 4, ppRes, 1);
 
-    field_BC_sprite_scale = scale;
+    mBaseAnimatedWithPhysicsGameObject_SpriteScale = scale;
 
     if (scale == FP_FromInteger(1))
     {
-        field_10_anim.mRenderLayer = Layer::eLayer_BeforeShadow_25;
+        mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_BeforeShadow_25;
     }
     else
     {
-        field_10_anim.mRenderLayer = Layer::eLayer_BeforeShadow_Half_6;
+        mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_BeforeShadow_Half_6;
     }
 
     field_E4_bHitGround = 0;
@@ -41,11 +41,11 @@ HoistParticle::HoistParticle(FP xpos, FP ypos, FP scale, s32 frameTableOffset)
 
 void HoistParticle::VUpdate_431BD0()
 {
-    if (field_B8_vely >= (field_BC_sprite_scale * FP_FromInteger(10)))
+    if (mBaseAnimatedWithPhysicsGameObject_VelY >= (mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(10)))
     {
         if (!gMap.Is_Point_In_Current_Camera_4449C0(
-                field_B2_lvl_number,
-                field_B0_path_number,
+                mBaseAnimatedWithPhysicsGameObject_LvlNumber,
+                mBaseAnimatedWithPhysicsGameObject_PathNumber,
                 mBaseAnimatedWithPhysicsGameObject_XPos,
                 mBaseAnimatedWithPhysicsGameObject_YPos,
                 0))
@@ -55,11 +55,11 @@ void HoistParticle::VUpdate_431BD0()
     }
     else
     {
-        field_B8_vely += (field_BC_sprite_scale * FP_FromDouble(0.6));
+        mBaseAnimatedWithPhysicsGameObject_VelY += (mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromDouble(0.6));
     }
 
     const FP oldY = mBaseAnimatedWithPhysicsGameObject_YPos;
-    mBaseAnimatedWithPhysicsGameObject_YPos += field_B8_vely;
+    mBaseAnimatedWithPhysicsGameObject_YPos += mBaseAnimatedWithPhysicsGameObject_VelY;
 
     if (field_E4_bHitGround == 0)
     {
@@ -74,10 +74,10 @@ void HoistParticle::VUpdate_431BD0()
                 &pLine,
                 &hitX,
                 &hitY,
-                field_BC_sprite_scale != FP_FromDouble(0.5) ? 7 : 0x70))
+                mBaseAnimatedWithPhysicsGameObject_SpriteScale != FP_FromDouble(0.5) ? 7 : 0x70))
         {
             mBaseAnimatedWithPhysicsGameObject_YPos = hitY;
-            field_B8_vely = (field_B8_vely * FP_FromDouble(-0.3));
+            mBaseAnimatedWithPhysicsGameObject_VelY = (mBaseAnimatedWithPhysicsGameObject_VelY * FP_FromDouble(-0.3));
             field_E4_bHitGround = 1;
         }
     }

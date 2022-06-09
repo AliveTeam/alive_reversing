@@ -23,7 +23,7 @@ void BaseBomb::VUpdate()
     Event_Broadcast(kEventLoudNoise, this);
     Event_Broadcast(kEventSuspiciousNoise, this);
 
-    switch (field_10_anim.field_92_current_frame)
+    switch (mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame)
     {
         case 0:
             rect.x = FP_GetExponent(FP_FromInteger(-30) * field_E4_scale);
@@ -55,7 +55,7 @@ void BaseBomb::VUpdate()
                 mBaseAnimatedWithPhysicsGameObject_XPos,
                 mBaseAnimatedWithPhysicsGameObject_YPos,
                 20,
-                field_BC_sprite_scale,
+                mBaseAnimatedWithPhysicsGameObject_SpriteScale,
                 BurstType::eBigRedSparks_3);
 
             relive_new Flash(Layer::eLayer_Above_FG1_39, 255u, 255u, 255u);
@@ -80,7 +80,7 @@ void BaseBomb::VUpdate()
                 mBaseAnimatedWithPhysicsGameObject_XPos,
                 mBaseAnimatedWithPhysicsGameObject_YPos,
                 20,
-                field_BC_sprite_scale,
+                mBaseAnimatedWithPhysicsGameObject_SpriteScale,
                 BurstType::eBigRedSparks_3);
 
             relive_new Flash(Layer::eLayer_Above_FG1_39, 255u, 255u, 255u);
@@ -91,7 +91,7 @@ void BaseBomb::VUpdate()
             break;
     }
 
-    if (field_10_anim.field_92_current_frame == 3)
+    if (mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame == 3)
     {
         const AnimRecord& rec = AO::AnimRec(AnimId::Explosion_Mine);
         u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
@@ -106,15 +106,15 @@ void BaseBomb::VUpdate()
                 ppRes);
             if (pParticle)
             {
-                pParticle->field_10_anim.mAnimFlags.Set(AnimFlags::eBit5_FlipX);
-                pParticle->field_CC_bApplyShadows &= ~1u;
-                pParticle->field_10_anim.mRenderMode = TPageAbr::eBlend_1;
-                pParticle->field_BC_sprite_scale = field_BC_sprite_scale * FP_FromDouble(0.7);
+                pParticle->mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit5_FlipX);
+                pParticle->mApplyShadows &= ~1u;
+                pParticle->mBaseAnimatedWithPhysicsGameObject_Anim.mRenderMode = TPageAbr::eBlend_1;
+                pParticle->mBaseAnimatedWithPhysicsGameObject_SpriteScale = mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromDouble(0.7);
             }
         }
     }
 
-    if (field_10_anim.mAnimFlags.Get(AnimFlags::eBit12_ForwardLoopCompleted))
+    if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit12_ForwardLoopCompleted))
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
@@ -185,7 +185,7 @@ void BaseBomb::DealDamageRect(const PSX_RECT* pRect)
             if (obj_xpos >= left && obj_xpos <= right)
             {
                 const s16 obj_ypos = FP_GetExponent(pObj->mBaseAnimatedWithPhysicsGameObject_YPos);
-                if (obj_ypos >= top && obj_ypos <= bottom && field_BC_sprite_scale == (pObj->field_BC_sprite_scale * FP_FromDouble(2.75)))
+                if (obj_ypos >= top && obj_ypos <= bottom && mBaseAnimatedWithPhysicsGameObject_SpriteScale == (pObj->mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromDouble(2.75)))
                 {
                     pObj->VTakeDamage(this);
                 }
@@ -202,27 +202,27 @@ BaseBomb::BaseBomb(FP xpos, FP ypos, s32 /*unused*/, FP scale)
     u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
     Animation_Init_417FD0(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
 
-    field_10_anim.mAnimFlags.Clear(AnimFlags::eBit18_IsLastFrame);
+    mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit18_IsLastFrame);
 
-    field_10_anim.mRenderMode = TPageAbr::eBlend_1;
+    mBaseAnimatedWithPhysicsGameObject_Anim.mRenderMode = TPageAbr::eBlend_1;
 
-    field_10_anim.mBlue = 128;
-    field_10_anim.mGreen = 128;
-    field_10_anim.mRed = 128;
+    mBaseAnimatedWithPhysicsGameObject_Anim.mBlue = 128;
+    mBaseAnimatedWithPhysicsGameObject_Anim.mGreen = 128;
+    mBaseAnimatedWithPhysicsGameObject_Anim.mRed = 128;
 
     field_E4_scale = scale;
 
     if (scale == FP_FromInteger(1))
     {
-        field_10_anim.mRenderLayer = Layer::eLayer_Foreground_36;
+        mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_Foreground_36;
     }
     else
     {
-        field_10_anim.mRenderLayer = Layer::eLayer_Foreground_Half_17;
+        mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_Foreground_Half_17;
     }
 
-    field_CC_bApplyShadows &= ~1u;
-    field_BC_sprite_scale = scale * FP_FromDouble(2.75);
+    mApplyShadows &= ~1u;
+    mBaseAnimatedWithPhysicsGameObject_SpriteScale = scale * FP_FromDouble(2.75);
 
     mBaseAnimatedWithPhysicsGameObject_XPos = xpos;
     mBaseAnimatedWithPhysicsGameObject_YPos = ypos;

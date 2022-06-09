@@ -203,10 +203,10 @@ void Game_ShowLoadingIcon_445EB0()
         auto pParticle = relive_new Particle(FP_FromInteger(0), FP_FromInteger(0), rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes);
         if (pParticle)
         {
-            pParticle->field_10_anim.mAnimFlags.Clear(AnimFlags::eBit15_bSemiTrans);
-            pParticle->field_10_anim.mAnimFlags.Set(AnimFlags::eBit16_bBlending);
+            pParticle->mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit15_bSemiTrans);
+            pParticle->mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit16_bBlending);
 
-            pParticle->field_10_anim.mRenderLayer = Layer::eLayer_0;
+            pParticle->mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_0;
 
             PrimHeader* local_ot[42] = {};
             PSX_DRAWENV drawEnv = {};
@@ -216,14 +216,14 @@ void Game_ShowLoadingIcon_445EB0()
             PSX_DrawSync_496750(0);
             PSX_ClearOTag_496760(local_ot, 42);
 
-            pParticle->field_10_anim.VRender(320, 220, local_ot, 0, 0);
+            pParticle->mBaseAnimatedWithPhysicsGameObject_Anim.VRender(320, 220, local_ot, 0, 0);
 
             PSX_DrawOTag_4969F0(local_ot);
             PSX_DrawSync_496750(0);
 
             PSX_ClearOTag_496760(local_ot, 42);
 
-            pParticle->field_10_anim.VRender(320, gPsxDisplay_504C78.field_2_height + 220, local_ot, 0, 0);
+            pParticle->mBaseAnimatedWithPhysicsGameObject_Anim.VRender(320, gPsxDisplay_504C78.field_2_height + 220, local_ot, 0, 0);
 
             PSX_DrawOTag_4969F0(local_ot);
             PSX_DrawSync_496750(0);

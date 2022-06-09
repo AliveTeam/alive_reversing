@@ -33,11 +33,11 @@ Explosion::Explosion(FP xpos, FP ypos, FP scale, bool bSmall)
         Animation_Init(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
     }
 
-    field_20_animation.mAnimFlags.Clear(AnimFlags::eBit18_IsLastFrame);
-    field_20_animation.mRenderMode = TPageAbr::eBlend_1;
+    mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit18_IsLastFrame);
+    mBaseAnimatedWithPhysicsGameObject_Anim.mRenderMode = TPageAbr::eBlend_1;
     field_F8_scale = scale;
-    field_D6_scale = scale == FP_FromInteger(1);
-    field_CC_sprite_scale = scale * FP_FromInteger(2);
+    mBaseAnimatedWithPhysicsGameObject_Scale = scale == FP_FromInteger(1);
+    mBaseAnimatedWithPhysicsGameObject_SpriteScale = scale * FP_FromInteger(2);
 
     if (field_F4_bSmall)
     {
@@ -73,7 +73,7 @@ void Explosion::VUpdate()
 
     PSX_RECT rect = {};
 
-    switch (field_20_animation.field_92_current_frame)
+    switch (mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame)
     {
         case 2:
             rect.x = FP_GetExponent(FP_FromInteger(-20) * field_FC_explosion_size);
@@ -114,19 +114,19 @@ void Explosion::VUpdate()
             break;
     }
 
-    if (field_20_animation.field_92_current_frame > 9)
+    if (mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame > 9)
     {
         if (field_F4_bSmall)
         {
-            field_CC_sprite_scale -= FP_FromDouble(0.066);
+            mBaseAnimatedWithPhysicsGameObject_SpriteScale -= FP_FromDouble(0.066);
         }
         else
         {
-            field_CC_sprite_scale -= FP_FromDouble(0.2);
+            mBaseAnimatedWithPhysicsGameObject_SpriteScale -= FP_FromDouble(0.2);
         }
     }
 
-    if (field_20_animation.field_92_current_frame == 1)
+    if (mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame == 1)
     {
         u8** ppRes = field_F4_bSmall ? Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kSmallExplo2ResID) : Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kExplo2ResID);
         if (ppRes)
@@ -146,23 +146,23 @@ void Explosion::VUpdate()
                 }
 
                 pParticle->mApplyShadows &= ~1u;
-                pParticle->field_20_animation.mRenderMode = TPageAbr::eBlend_1;
+                pParticle->mBaseAnimatedWithPhysicsGameObject_Anim.mRenderMode = TPageAbr::eBlend_1;
 
-                if (field_20_animation.field_92_current_frame == 3)
+                if (mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame == 3)
                 {
-                    pParticle->field_20_animation.mAnimFlags.Set(AnimFlags::eBit5_FlipX);
-                    pParticle->field_CC_sprite_scale = field_CC_sprite_scale * FP_FromDouble(0.5);
+                    pParticle->mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit5_FlipX);
+                    pParticle->mBaseAnimatedWithPhysicsGameObject_SpriteScale = mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromDouble(0.5);
                 }
                 else
                 {
-                    pParticle->field_20_animation.mAnimFlags.Clear(AnimFlags::eBit5_FlipX);
-                    pParticle->field_CC_sprite_scale = field_CC_sprite_scale * FP_FromDouble(0.25);
+                    pParticle->mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit5_FlipX);
+                    pParticle->mBaseAnimatedWithPhysicsGameObject_SpriteScale = mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromDouble(0.25);
                 }
             }
         }
     }
 
-    if (field_20_animation.mAnimFlags.Get(AnimFlags::eBit12_ForwardLoopCompleted))
+    if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit12_ForwardLoopCompleted))
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
@@ -209,7 +209,7 @@ void Explosion::DealBlastDamage(PSX_RECT* pRect)
             PSX_RECT boundRect = {};
             pObj->VGetBoundingRect(&boundRect, 1);
 
-            if (PSX_Rects_overlap_no_adjustment(&boundRect, &expandedRect) && field_D6_scale == pObj->field_D6_scale)
+            if (PSX_Rects_overlap_no_adjustment(&boundRect, &expandedRect) && mBaseAnimatedWithPhysicsGameObject_Scale == pObj->mBaseAnimatedWithPhysicsGameObject_Scale)
             {
                 pObj->VTakeDamage(this);
             }

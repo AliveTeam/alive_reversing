@@ -132,7 +132,7 @@ Gibs::Gibs(GibType gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scale, bool b
         return;
     }
 
-    field_CC_sprite_scale = scale;
+    mBaseAnimatedWithPhysicsGameObject_SpriteScale = scale;
     mBaseAnimatedWithPhysicsGameObject_XPos = xpos;
     mBaseAnimatedWithPhysicsGameObject_YPos = ypos + FP_FromInteger(2);
 
@@ -141,14 +141,14 @@ Gibs::Gibs(GibType gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scale, bool b
     if (scale == FP_FromInteger(1))
     {
         field_F8_z = FP_FromInteger(0);
-        field_20_animation.mRenderLayer = Layer::eLayer_FG1_37;
-        field_D6_scale = 1;
+        mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_FG1_37;
+        mBaseAnimatedWithPhysicsGameObject_Scale = 1;
     }
     else if (scale == FP_FromDouble(0.5))
     {
         field_F8_z = FP_FromInteger(100);
-        field_20_animation.mRenderLayer = Layer::eLayer_Foreground_Half_17;
-        field_D6_scale = 0;
+        mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_Foreground_Half_17;
+        mBaseAnimatedWithPhysicsGameObject_Scale = 0;
     }
     else
     {
@@ -157,19 +157,19 @@ Gibs::Gibs(GibType gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scale, bool b
     }
 
     field_5D6_bMakeSmaller = bMakeSmaller;
-    field_C4_velx = xOff + Random_40FAF0(scale);
+    mBaseAnimatedWithPhysicsGameObject_VelX = xOff + Random_40FAF0(scale);
 
     // OG Bug? WTF?? Looks like somehow they didn't condition this param correctly
-    // because field_C8_vely and field_FC_dz are always overwritten
+    // because mBaseAnimatedWithPhysicsGameObject_VelY and field_FC_dz are always overwritten
     if (!field_5D6_bMakeSmaller)
     {
-        field_C8_vely = yOff + Random_40FAF0(scale);
+        mBaseAnimatedWithPhysicsGameObject_VelY = yOff + Random_40FAF0(scale);
         field_FC_dz = FP_Abs(Random_40FAF0(scale) / FP_FromInteger(2));
     }
 
     sGibRandom_550E80 = 12;
 
-    field_C8_vely = (yOff + Random_40FAF0(scale)) / FP_FromInteger(2);
+    mBaseAnimatedWithPhysicsGameObject_VelY = (yOff + Random_40FAF0(scale)) / FP_FromInteger(2);
     field_FC_dz = FP_Abs(Random_40FAF0(scale) / FP_FromInteger(4));
 
     if (gibType == GibType::Abe_0)
@@ -182,9 +182,9 @@ Gibs::Gibs(GibType gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scale, bool b
     }
     else if (gibType == GibType::BlindMud_4)
     {
-        field_D0_r = 63;
-        field_D2_g = 63;
-        field_D4_b = 63;
+        mBaseAnimatedWithPhysicsGameObject_Red = 63;
+        mBaseAnimatedWithPhysicsGameObject_Green = 63;
+        mBaseAnimatedWithPhysicsGameObject_Blue = 63;
     }
 
     field_5D4_parts_used_count = 4;
@@ -231,13 +231,13 @@ Gibs::Gibs(GibType gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scale, bool b
             }
         }
 
-        pPart->field_18_anim.mRenderLayer = field_20_animation.mRenderLayer;
+        pPart->field_18_anim.mRenderLayer = mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer;
         pPart->field_18_anim.field_14_scale = scale;
         pPart->field_18_anim.mAnimFlags.Clear(AnimFlags::eBit16_bBlending);
 
-        pPart->field_18_anim.mRed = static_cast<u8>(field_D0_r);
-        pPart->field_18_anim.mGreen = static_cast<u8>(field_D2_g);
-        pPart->field_18_anim.mBlue = static_cast<u8>(field_D4_b);
+        pPart->field_18_anim.mRed = static_cast<u8>(mBaseAnimatedWithPhysicsGameObject_Red);
+        pPart->field_18_anim.mGreen = static_cast<u8>(mBaseAnimatedWithPhysicsGameObject_Green);
+        pPart->field_18_anim.mBlue = static_cast<u8>(mBaseAnimatedWithPhysicsGameObject_Blue);
 
         pPart->field_0_x = mBaseAnimatedWithPhysicsGameObject_XPos;
         pPart->field_4_y = mBaseAnimatedWithPhysicsGameObject_YPos;
@@ -277,11 +277,11 @@ Gibs::~Gibs()
 
 void Gibs::VUpdate()
 {
-    mBaseAnimatedWithPhysicsGameObject_XPos += field_C4_velx;
-    mBaseAnimatedWithPhysicsGameObject_YPos += field_C8_vely;
+    mBaseAnimatedWithPhysicsGameObject_XPos += mBaseAnimatedWithPhysicsGameObject_VelX;
+    mBaseAnimatedWithPhysicsGameObject_YPos += mBaseAnimatedWithPhysicsGameObject_VelY;
     field_F8_z += field_FC_dz;
 
-    field_C8_vely += FP_FromDouble(0.25);
+    mBaseAnimatedWithPhysicsGameObject_VelY += FP_FromDouble(0.25);
 
     if (field_F8_z + FP_FromInteger(100) < FP_FromInteger(15))
     {
@@ -320,10 +320,10 @@ void Gibs::VRender(PrimHeader** ppOt)
         return;
     }
 
-    field_CC_sprite_scale = FP_FromInteger(100) / (field_F8_z + FP_FromInteger(100));
+    mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromInteger(100) / (field_F8_z + FP_FromInteger(100));
     if (field_5D6_bMakeSmaller)
     {
-        field_CC_sprite_scale /= FP_FromInteger(2);
+        mBaseAnimatedWithPhysicsGameObject_SpriteScale /= FP_FromInteger(2);
     }
 
     // Head part rendering

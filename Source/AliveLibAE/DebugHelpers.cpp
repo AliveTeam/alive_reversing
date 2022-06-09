@@ -116,7 +116,7 @@ void Command_Test(const std::vector<std::string>& args)
 
 void Command_Die(const std::vector<std::string>& /*args*/)
 {
-    relive_new BaseBomb(sControlledCharacter_5C1B8C->mBaseAnimatedWithPhysicsGameObject_XPos, sControlledCharacter_5C1B8C->mBaseAnimatedWithPhysicsGameObject_YPos, 0, sControlledCharacter_5C1B8C->field_CC_sprite_scale);
+    relive_new BaseBomb(sControlledCharacter_5C1B8C->mBaseAnimatedWithPhysicsGameObject_XPos, sControlledCharacter_5C1B8C->mBaseAnimatedWithPhysicsGameObject_YPos, 0, sControlledCharacter_5C1B8C->mBaseAnimatedWithPhysicsGameObject_SpriteScale);
 }
 
 void Command_Murder(const std::vector<std::string>& /*args*/)
@@ -139,7 +139,7 @@ void Command_Murder(const std::vector<std::string>& /*args*/)
         {
             auto aliveObj =  static_cast<BaseAliveGameObject*>(pBaseGameObject);
 
-            relive_new BaseBomb(aliveObj->mBaseAnimatedWithPhysicsGameObject_XPos, aliveObj->mBaseAnimatedWithPhysicsGameObject_YPos, 0, aliveObj->field_CC_sprite_scale);
+            relive_new BaseBomb(aliveObj->mBaseAnimatedWithPhysicsGameObject_XPos, aliveObj->mBaseAnimatedWithPhysicsGameObject_YPos, 0, aliveObj->mBaseAnimatedWithPhysicsGameObject_SpriteScale);
         }
     }
 }
@@ -157,12 +157,12 @@ void Command_HelperUpdate()
         sHasTeleported = false;
         sActiveHero->mCurrentMotion = eAbeMotions::Motion_3_Fall_459B60;
         sActiveHero->field_1AC_flags.Set(Abe::Flags_1AC::e1AC_Bit7_land_softly);
-        sActiveHero->field_C2_lvl_number = gMap.mCurrentLevel;
-        sActiveHero->field_C0_path_number = gMap.mCurrentPath;
+        sActiveHero->mBaseAnimatedWithPhysicsGameObject_LvlNumber = gMap.mCurrentLevel;
+        sActiveHero->mBaseAnimatedWithPhysicsGameObject_PathNumber = gMap.mCurrentPath;
         sActiveHero->BaseAliveGameObjectCollisionLine = nullptr;
         sActiveHero->BaseAliveGameObjectLastLineYPos = sActiveHero->mBaseAnimatedWithPhysicsGameObject_YPos;
-        sActiveHero->field_CC_sprite_scale = FP_FromDouble(1.0);
-        sActiveHero->field_D6_scale = 1;
+        sActiveHero->mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromDouble(1.0);
+        sActiveHero->mBaseAnimatedWithPhysicsGameObject_Scale = 1;
         FP rX = FP_FromInteger(0);
         FP rY = FP_FromInteger(0);
         PathLine* rUnk = nullptr;
@@ -176,8 +176,8 @@ void Command_HelperUpdate()
             if (sCollisions->Raycast(xOffset, yOffset,
                                                           xOffset, yOffset + FP_FromDouble(240), &rUnk, &rX, &rY, 1))
             {
-                sActiveHero->field_CC_sprite_scale = FP_FromDouble(1.0);
-                sActiveHero->field_D6_scale = 1;
+                sActiveHero->mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromDouble(1.0);
+                sActiveHero->mBaseAnimatedWithPhysicsGameObject_Scale = 1;
                 sActiveHero->mBaseAnimatedWithPhysicsGameObject_XPos = rX;
                 sActiveHero->mBaseAnimatedWithPhysicsGameObject_YPos = rY;
                 break;
@@ -185,8 +185,8 @@ void Command_HelperUpdate()
             else if (sCollisions->Raycast(xOffset, yOffset,
                                                                xOffset, yOffset + FP_FromDouble(240), &rUnk, &rX, &rY, 1 << 4))
             {
-                sActiveHero->field_CC_sprite_scale = FP_FromDouble(0.5);
-                sActiveHero->field_D6_scale = 0;
+                sActiveHero->mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromDouble(0.5);
+                sActiveHero->mBaseAnimatedWithPhysicsGameObject_Scale = 0;
                 sActiveHero->mBaseAnimatedWithPhysicsGameObject_XPos = rX;
                 sActiveHero->mBaseAnimatedWithPhysicsGameObject_YPos = rY;
                 break;
@@ -330,7 +330,7 @@ void Command_SetState(const std::vector<std::string>& args)
     if (resource != nullptr)
     {
         pAbe->mCurrentMotion = motion;
-        //pAbe->field_20_animation.Set_Animation_Data_409C80(sAbeFrameOffsetTable_554B18[motion], resource);
+        //pAbe->mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data_409C80(sAbeFrameOffsetTable_554B18[motion], resource);
         DEV_CONSOLE_PRINTF("Set motion to %i", motion);
     }
     else
@@ -348,7 +348,7 @@ void Command_Ring(const std::vector<std::string>& args)
     AbilityRing::Factory(
         FP_FromInteger((rect.x + rect.w) / 2),
         FP_FromInteger((rect.y + rect.h) / 2),
-        static_cast<RingTypes>(ringType), sActiveHero->field_CC_sprite_scale);
+        static_cast<RingTypes>(ringType), sActiveHero->mBaseAnimatedWithPhysicsGameObject_SpriteScale);
 
     SFX_Play_Pitch(SoundEffect::PossessEffect_17, 25, 2650);
 }

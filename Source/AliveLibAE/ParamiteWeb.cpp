@@ -27,23 +27,23 @@ ParamiteWeb::ParamiteWeb(FP xpos, s32 bottom, s32 top, FP scale)
 
     if (scale == FP_FromInteger(1))
     {
-        field_20_animation.mRenderLayer = Layer::eLayer_RopeWebDrill_24;
-        field_D6_scale = 1;
-        field_20_animation.field_14_scale = FP_FromInteger(1);
-        field_CC_sprite_scale = FP_FromInteger(1);
+        mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_RopeWebDrill_24;
+        mBaseAnimatedWithPhysicsGameObject_Scale = 1;
+        mBaseAnimatedWithPhysicsGameObject_Anim.field_14_scale = FP_FromInteger(1);
+        mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromInteger(1);
     }
     else
     {
-        field_20_animation.mRenderLayer = Layer::eLayer_RopeWebDrill_Half_5;
-        field_20_animation.field_14_scale = FP_FromDouble(0.7);
-        field_CC_sprite_scale = FP_FromDouble(0.7);
-        field_D6_scale = 0;
+        mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_RopeWebDrill_Half_5;
+        mBaseAnimatedWithPhysicsGameObject_Anim.field_14_scale = FP_FromDouble(0.7);
+        mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromDouble(0.7);
+        mBaseAnimatedWithPhysicsGameObject_Scale = 0;
         xpos += FP_FromInteger(2);
     }
 
-    field_20_animation.mRed = 128;
-    field_20_animation.mGreen = 128;
-    field_20_animation.mBlue = 128;
+    mBaseAnimatedWithPhysicsGameObject_Anim.mRed = 128;
+    mBaseAnimatedWithPhysicsGameObject_Anim.mGreen = 128;
+    mBaseAnimatedWithPhysicsGameObject_Anim.mBlue = 128;
 
     mBaseAnimatedWithPhysicsGameObject_XPos = xpos;
     field_FA_ttl_remainder = static_cast<s16>(top);
@@ -60,9 +60,9 @@ ParamiteWeb::ParamiteWeb(FP xpos, s32 bottom, s32 top, FP scale)
         AnimationUnknown* pSegment = &field_100_pRes[i];
         pSegment = new (pSegment) AnimationUnknown(); // We have memory but no constructor was called.. so use placement new to get a constructed instance
         pSegment->mAnimFlags.Set(AnimFlags::eBit3_Render);
-        pSegment->field_68_anim_ptr = &field_20_animation;
-        pSegment->mRenderLayer = field_20_animation.mRenderLayer;
-        pSegment->field_6C_scale = field_CC_sprite_scale;
+        pSegment->field_68_anim_ptr = &mBaseAnimatedWithPhysicsGameObject_Anim;
+        pSegment->mRenderLayer = mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer;
+        pSegment->field_6C_scale = mBaseAnimatedWithPhysicsGameObject_SpriteScale;
         pSegment->mAnimFlags.Clear(AnimFlags::eBit15_bSemiTrans);
         pSegment->mAnimFlags.Clear(AnimFlags::eBit16_bBlending);
     }
@@ -99,7 +99,7 @@ void ParamiteWeb::VRender(PrimHeader** ppOt)
 {
     PSX_Point camCoords = {};
     gMap.GetCurrentCamCoords(&camCoords);
-    if (field_C2_lvl_number == gMap.mCurrentLevel && field_C0_path_number == gMap.mCurrentPath)
+    if (mBaseAnimatedWithPhysicsGameObject_LvlNumber == gMap.mCurrentLevel && mBaseAnimatedWithPhysicsGameObject_PathNumber == gMap.mCurrentPath)
     {
         if (mBaseAnimatedWithPhysicsGameObject_XPos >= FP_FromInteger(camCoords.field_0_x) && mBaseAnimatedWithPhysicsGameObject_XPos <= FP_FromInteger(camCoords.field_0_x + 1024))
         {
@@ -134,7 +134,7 @@ void ParamiteWeb::VRender(PrimHeader** ppOt)
                 maxY = 240;
             }
 
-            field_20_animation.VRender(640, 240, ppOt, 0, 0);
+            mBaseAnimatedWithPhysicsGameObject_Anim.VRender(640, 240, ppOt, 0, 0);
 
             if (y_start >= minY)
             {
@@ -143,7 +143,7 @@ void ParamiteWeb::VRender(PrimHeader** ppOt)
                     s16 r = 128;
                     s16 g = 128;
                     s16 b = 128;
-                    ShadowZone::ShadowZones_Calculate_Colour(FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos), ypos_int - (idx * field_F6_segment_length), field_D6_scale, &r, &g, &b);
+                    ShadowZone::ShadowZones_Calculate_Colour(FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos), ypos_int - (idx * field_F6_segment_length), mBaseAnimatedWithPhysicsGameObject_Scale, &r, &g, &b);
                     field_100_pRes[idx].mRed = static_cast<u8>(r);
                     field_100_pRes[idx].mGreen = static_cast<u8>(g);
                     field_100_pRes[idx].mBlue = static_cast<u8>(b);

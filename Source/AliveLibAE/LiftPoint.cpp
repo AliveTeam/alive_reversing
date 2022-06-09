@@ -71,13 +71,13 @@ LiftPoint::LiftPoint(Path_LiftPoint* pTlv, s32 tlvInfo)
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kLiftResID);
     if (pTlv->field_18_scale != Scale_short::eFull_0)
     {
-        field_CC_sprite_scale = FP_FromDouble(0.5);
-        field_D6_scale = 0;
+        mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromDouble(0.5);
+        mBaseAnimatedWithPhysicsGameObject_Scale = 0;
     }
     else
     {
-        field_CC_sprite_scale = FP_FromInteger(1);
-        field_D6_scale = 1;
+        mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromInteger(1);
+        mBaseAnimatedWithPhysicsGameObject_Scale = 1;
     }
 
     const LiftPointData& rPlatformData = sLiftPointData_545AC8[static_cast<u32>(MapWrapper::ToAE(gMap.mCurrentLevel))];
@@ -91,13 +91,13 @@ LiftPoint::LiftPoint(Path_LiftPoint* pTlv, s32 tlvInfo)
         &gMap,
         tlvInfo);
 
-    if (field_CC_sprite_scale == FP_FromInteger(1))
+    if (mBaseAnimatedWithPhysicsGameObject_SpriteScale == FP_FromInteger(1))
     {
-        field_20_animation.mRenderLayer = Layer::eLayer_BeforeShadow_25;
+        mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_BeforeShadow_25;
     }
     else
     {
-        field_20_animation.mRenderLayer = Layer::eLayer_BeforeShadow_Half_6;
+        mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_BeforeShadow_Half_6;
         field_124_pCollisionLine->field_8_type = eLineTypes::eUnknown_36;
     }
 
@@ -109,7 +109,7 @@ LiftPoint::LiftPoint(Path_LiftPoint* pTlv, s32 tlvInfo)
     mPlatformBaseXOffset -= xSnapDelta;
     mPlatformBaseWidthOffset -= xSnapDelta;
 
-    field_20_animation.mAnimFlags.Set(AnimFlags::eBit15_bSemiTrans);
+    mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit15_bSemiTrans);
 
 
     u8** ppLiftWheels = Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kLiftWheelsResID);
@@ -129,12 +129,12 @@ LiftPoint::LiftPoint(Path_LiftPoint* pTlv, s32 tlvInfo)
         if (pTlv->field_18_scale != Scale_short::eFull_0)
         {
             field_13C_lift_wheel.mRenderLayer = Layer::eLayer_BeforeShadow_Half_6;
-            field_13C_lift_wheel.field_14_scale = field_CC_sprite_scale;
+            field_13C_lift_wheel.field_14_scale = mBaseAnimatedWithPhysicsGameObject_SpriteScale;
         }
         else
         {
             field_13C_lift_wheel.mRenderLayer = Layer::eLayer_BeforeShadow_25;
-            field_13C_lift_wheel.field_14_scale = field_CC_sprite_scale;
+            field_13C_lift_wheel.field_14_scale = mBaseAnimatedWithPhysicsGameObject_SpriteScale;
         }
 
         u8** ppAbeLiftRes = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kAbeliftResID, TRUE, FALSE);
@@ -152,45 +152,45 @@ LiftPoint::LiftPoint(Path_LiftPoint* pTlv, s32 tlvInfo)
 
         field_274_ppRes = ppAbeLiftRes;
 
-        field_13C_lift_wheel.mGreen = static_cast<u8>(field_D2_g);
-        field_13C_lift_wheel.mRed = static_cast<u8>(field_D4_b);
-        field_13C_lift_wheel.mBlue = static_cast<u8>(field_D0_r);
+        field_13C_lift_wheel.mGreen = static_cast<u8>(mBaseAnimatedWithPhysicsGameObject_Green);
+        field_13C_lift_wheel.mRed = static_cast<u8>(mBaseAnimatedWithPhysicsGameObject_Blue);
+        field_13C_lift_wheel.mBlue = static_cast<u8>(mBaseAnimatedWithPhysicsGameObject_Red);
         field_13C_lift_wheel.mRenderMode = TPageAbr::eBlend_0;
 
-        field_C4_velx = FP_FromInteger(0);
-        field_C8_vely = FP_FromInteger(0);
+        mBaseAnimatedWithPhysicsGameObject_VelX = FP_FromInteger(0);
+        mBaseAnimatedWithPhysicsGameObject_VelY = FP_FromInteger(0);
 
         const FP k25 = FP_FromInteger(25);
         const FP k13 = FP_FromInteger(13);
         const FP km10 = FP_FromInteger(-10);
 
 
-        auto pRope1 = relive_new Rope(FP_GetExponent((k13 * field_CC_sprite_scale + mBaseAnimatedWithPhysicsGameObject_XPos)),
+        auto pRope1 = relive_new Rope(FP_GetExponent((k13 * mBaseAnimatedWithPhysicsGameObject_SpriteScale + mBaseAnimatedWithPhysicsGameObject_XPos)),
                                    0, // Start at the very top of the screen
-                                   FP_GetExponent((k25 * field_CC_sprite_scale) + mBaseAnimatedWithPhysicsGameObject_YPos),
-                                   field_CC_sprite_scale);
+                                   FP_GetExponent((k25 * mBaseAnimatedWithPhysicsGameObject_SpriteScale) + mBaseAnimatedWithPhysicsGameObject_YPos),
+                                   mBaseAnimatedWithPhysicsGameObject_SpriteScale);
         if (pRope1)
         {
             field_138_rope1_id = pRope1->field_8_object_id;
         }
 
-        auto pRope2 = relive_new Rope(FP_GetExponent((km10 * field_CC_sprite_scale) + mBaseAnimatedWithPhysicsGameObject_XPos),
+        auto pRope2 = relive_new Rope(FP_GetExponent((km10 * mBaseAnimatedWithPhysicsGameObject_SpriteScale) + mBaseAnimatedWithPhysicsGameObject_XPos),
                                    0, // Start at the very top of the screen
-                                   FP_GetExponent((k25 * field_CC_sprite_scale) + mBaseAnimatedWithPhysicsGameObject_YPos),
-                                   field_CC_sprite_scale);
+                                   FP_GetExponent((k25 * mBaseAnimatedWithPhysicsGameObject_SpriteScale) + mBaseAnimatedWithPhysicsGameObject_YPos),
+                                   mBaseAnimatedWithPhysicsGameObject_SpriteScale);
         if (pRope2)
         {
             field_134_rope2_id = pRope2->field_8_object_id;
         }
 
-        pRope2->field_106_bottom = FP_GetExponent((k25 * field_CC_sprite_scale) + FP_FromInteger(field_124_pCollisionLine->field_0_rect.y));
-        pRope1->field_106_bottom = FP_GetExponent((k25 * field_CC_sprite_scale) + FP_FromInteger(field_124_pCollisionLine->field_0_rect.y));
+        pRope2->field_106_bottom = FP_GetExponent((k25 * mBaseAnimatedWithPhysicsGameObject_SpriteScale) + FP_FromInteger(field_124_pCollisionLine->field_0_rect.y));
+        pRope1->field_106_bottom = FP_GetExponent((k25 * mBaseAnimatedWithPhysicsGameObject_SpriteScale) + FP_FromInteger(field_124_pCollisionLine->field_0_rect.y));
 
         const FP v28 = mBaseAnimatedWithPhysicsGameObject_YPos * FP_FromDouble(1.5);
-        const FP v29 = FP_FromRaw(FP_GetExponent(v28 * field_CC_sprite_scale) % FP_FromInteger(pRope2->field_F6_rope_length).fpValue);
+        const FP v29 = FP_FromRaw(FP_GetExponent(v28 * mBaseAnimatedWithPhysicsGameObject_SpriteScale) % FP_FromInteger(pRope2->field_F6_rope_length).fpValue);
 
-        pRope2->mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(FP_GetExponent(v29 + (k25 * field_CC_sprite_scale) + mBaseAnimatedWithPhysicsGameObject_YPos + FP_FromInteger(pRope2->field_F6_rope_length)));
-        pRope1->mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(FP_GetExponent((k25 * field_CC_sprite_scale) + mBaseAnimatedWithPhysicsGameObject_YPos + FP_FromInteger(pRope1->field_F6_rope_length) - v29));
+        pRope2->mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(FP_GetExponent(v29 + (k25 * mBaseAnimatedWithPhysicsGameObject_SpriteScale) + mBaseAnimatedWithPhysicsGameObject_YPos + FP_FromInteger(pRope2->field_F6_rope_length)));
+        pRope1->mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(FP_GetExponent((k25 * mBaseAnimatedWithPhysicsGameObject_SpriteScale) + mBaseAnimatedWithPhysicsGameObject_YPos + FP_FromInteger(pRope1->field_F6_rope_length) - v29));
 
         field_280_flags.Clear(LiftFlags::eBit4_bHasPulley);
         CreatePulleyIfExists();
@@ -299,13 +299,13 @@ s32 LiftPoint::CreateFromSaveState(const u8* pData)
     Rope* pRope2 = static_cast<Rope*>(sObjectIds.Find(pLiftPoint->field_134_rope2_id, ReliveTypes::eLiftRope));
     Rope* pRope1 = static_cast<Rope*>(sObjectIds.Find(pLiftPoint->field_138_rope1_id, ReliveTypes::eLiftRope));
 
-    pRope2->field_106_bottom = FP_GetExponent(FP_FromInteger(pLiftPoint->field_124_pCollisionLine->field_0_rect.y) + (FP_FromInteger(25) * pLiftPoint->field_CC_sprite_scale));
-    pRope1->field_106_bottom = FP_GetExponent(FP_FromInteger(pLiftPoint->field_124_pCollisionLine->field_0_rect.y) + (FP_FromInteger(25) * pLiftPoint->field_CC_sprite_scale));
+    pRope2->field_106_bottom = FP_GetExponent(FP_FromInteger(pLiftPoint->field_124_pCollisionLine->field_0_rect.y) + (FP_FromInteger(25) * pLiftPoint->mBaseAnimatedWithPhysicsGameObject_SpriteScale));
+    pRope1->field_106_bottom = FP_GetExponent(FP_FromInteger(pLiftPoint->field_124_pCollisionLine->field_0_rect.y) + (FP_FromInteger(25) * pLiftPoint->mBaseAnimatedWithPhysicsGameObject_SpriteScale));
 
     if (pLiftPoint->field_280_flags.Get(LiftPoint::eBit4_bHasPulley))
     {
-        pRope2->field_102_top = FP_GetExponent(FP_FromInteger(pLiftPoint->field_26E_pulley_ypos) + FP_FromInteger(-19) * pLiftPoint->field_CC_sprite_scale);
-        pRope1->field_102_top = FP_GetExponent(FP_FromInteger(pLiftPoint->field_26E_pulley_ypos) + FP_FromInteger(-19) * pLiftPoint->field_CC_sprite_scale);
+        pRope2->field_102_top = FP_GetExponent(FP_FromInteger(pLiftPoint->field_26E_pulley_ypos) + FP_FromInteger(-19) * pLiftPoint->mBaseAnimatedWithPhysicsGameObject_SpriteScale);
+        pRope1->field_102_top = FP_GetExponent(FP_FromInteger(pLiftPoint->field_26E_pulley_ypos) + FP_FromInteger(-19) * pLiftPoint->mBaseAnimatedWithPhysicsGameObject_SpriteScale);
     }
 
     pLiftPoint->mPlatformBaseTlvInfo = pState->field_C_tlvInfo;
@@ -384,8 +384,8 @@ Bool32 LiftPoint::vMovingToFloorLevel()
 
 void LiftPoint::vMove_4626A0(FP xSpeed, FP ySpeed, s32 /*not_used*/)
 {
-    field_C4_velx = xSpeed * field_CC_sprite_scale;
-    field_C8_vely = ySpeed * field_CC_sprite_scale;
+    mBaseAnimatedWithPhysicsGameObject_VelX = xSpeed * mBaseAnimatedWithPhysicsGameObject_SpriteScale;
+    mBaseAnimatedWithPhysicsGameObject_VelY = ySpeed * mBaseAnimatedWithPhysicsGameObject_SpriteScale;
 
     if (FP_GetExponent(xSpeed) || FP_GetExponent(ySpeed))
     {
@@ -398,7 +398,7 @@ void LiftPoint::VRender(PrimHeader** ppOt)
     // Renders the pulley, lift platform and lift platform wheel
 
     // In the current level/map?
-    if (field_C2_lvl_number == gMap.mCurrentLevel && field_C0_path_number == gMap.mCurrentPath)
+    if (mBaseAnimatedWithPhysicsGameObject_LvlNumber == gMap.mCurrentLevel && mBaseAnimatedWithPhysicsGameObject_PathNumber == gMap.mCurrentPath)
     {
         // Within the current camera X bounds?
         PSX_Point camPos = {};
@@ -406,16 +406,16 @@ void LiftPoint::VRender(PrimHeader** ppOt)
 
         if (mBaseAnimatedWithPhysicsGameObject_XPos >= FP_FromInteger(camPos.field_0_x) && mBaseAnimatedWithPhysicsGameObject_XPos <= FP_FromInteger(camPos.field_0_x + 640))
         {
-            s16 r = field_D0_r;
-            s16 g = field_D2_g;
-            s16 b = field_D4_b;
+            s16 r = mBaseAnimatedWithPhysicsGameObject_Red;
+            s16 g = mBaseAnimatedWithPhysicsGameObject_Green;
+            s16 b = mBaseAnimatedWithPhysicsGameObject_Blue;
 
             PSX_RECT bRect = {};
             VGetBoundingRect(&bRect, 1);
             ShadowZone::ShadowZones_Calculate_Colour(
                 FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos),
                 (bRect.h + bRect.y) / 2,
-                field_D6_scale,
+                mBaseAnimatedWithPhysicsGameObject_Scale,
                 &r,
                 &g,
                 &b);
@@ -427,8 +427,8 @@ void LiftPoint::VRender(PrimHeader** ppOt)
             if (gMap.mCurrentLevel != EReliveLevelIds::eNecrum && Is_In_Current_Camera() == CameraPos::eCamCurrent_0)
             {
                 field_13C_lift_wheel.VRender(
-                    FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos - pScreenManager->field_20_pCamPos->field_0_x + (FP_FromInteger(3) * field_CC_sprite_scale)),
-                    FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos - pScreenManager->field_20_pCamPos->field_4_y + (FP_FromInteger(-5) * field_CC_sprite_scale)),
+                    FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos - pScreenManager->field_20_pCamPos->field_0_x + (FP_FromInteger(3) * mBaseAnimatedWithPhysicsGameObject_SpriteScale)),
+                    FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos - pScreenManager->field_20_pCamPos->field_4_y + (FP_FromInteger(-5) * mBaseAnimatedWithPhysicsGameObject_SpriteScale)),
                     ppOt,
                     0,
                     0);
@@ -446,20 +446,20 @@ void LiftPoint::VRender(PrimHeader** ppOt)
             if (field_280_flags.Get(LiftFlags::eBit4_bHasPulley))
             {
                 if (gMap.Is_Point_In_Current_Camera_4810D0(
-                        field_C2_lvl_number,
-                        field_C0_path_number,
+                        mBaseAnimatedWithPhysicsGameObject_LvlNumber,
+                        mBaseAnimatedWithPhysicsGameObject_PathNumber,
                         FP_FromInteger(field_26C_pulley_xpos),
                         FP_FromInteger(field_26E_pulley_ypos),
                         0))
                 {
-                    r = field_D0_r;
-                    g = field_D2_g;
-                    b = field_D4_b;
+                    r = mBaseAnimatedWithPhysicsGameObject_Red;
+                    g = mBaseAnimatedWithPhysicsGameObject_Green;
+                    b = mBaseAnimatedWithPhysicsGameObject_Blue;
 
                     ShadowZone::ShadowZones_Calculate_Colour(
                         field_26C_pulley_xpos,
                         field_26E_pulley_ypos,
-                        field_D6_scale,
+                        mBaseAnimatedWithPhysicsGameObject_Scale,
                         &r,
                         &g,
                         &b);
@@ -492,8 +492,8 @@ void LiftPoint::VRender(PrimHeader** ppOt)
             if (gMap.mCurrentLevel == EReliveLevelIds::eNecrum && Is_In_Current_Camera() == CameraPos::eCamCurrent_0)
             {
                 field_13C_lift_wheel.VRender(
-                    FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos - pScreenManager->field_20_pCamPos->field_0_x + (FP_FromInteger(3) * field_CC_sprite_scale)),
-                    FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos - pScreenManager->field_20_pCamPos->field_4_y + (FP_FromInteger(-5) * field_CC_sprite_scale)),
+                    FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos - pScreenManager->field_20_pCamPos->field_0_x + (FP_FromInteger(3) * mBaseAnimatedWithPhysicsGameObject_SpriteScale)),
+                    FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos - pScreenManager->field_20_pCamPos->field_4_y + (FP_FromInteger(-5) * mBaseAnimatedWithPhysicsGameObject_SpriteScale)),
                     ppOt,
                     0,
                     0);
@@ -530,22 +530,22 @@ void LiftPoint::VUpdate()
                 absDistToFloor = distToFloor;
             }
 
-            if (absDistToFloor >= FP_FromInteger(2) * field_CC_sprite_scale)
+            if (absDistToFloor >= FP_FromInteger(2) * mBaseAnimatedWithPhysicsGameObject_SpriteScale)
             {
                 if (distToFloor >= FP_FromInteger(0))
                 {
-                    field_C8_vely = FP_FromInteger(2) * field_CC_sprite_scale;
+                    mBaseAnimatedWithPhysicsGameObject_VelY = FP_FromInteger(2) * mBaseAnimatedWithPhysicsGameObject_SpriteScale;
                 }
                 else
                 {
-                    field_C8_vely = -(FP_FromInteger(2) * field_CC_sprite_scale);
+                    mBaseAnimatedWithPhysicsGameObject_VelY = -(FP_FromInteger(2) * mBaseAnimatedWithPhysicsGameObject_SpriteScale);
                 }
                 field_12C_bMoving |= 1u;
             }
             else
             {
                 mBaseAnimatedWithPhysicsGameObject_YPos = field_270_floorYLevel;
-                field_C8_vely = FP_FromInteger(0);
+                mBaseAnimatedWithPhysicsGameObject_VelY = FP_FromInteger(0);
                 field_12C_bMoving &= ~1u;
                 field_280_flags.Clear(LiftFlags::eBit5_bMoveToFloorLevel);
                 SFX_Play_Mono(SoundEffect::LiftStop_30, 0);
@@ -563,7 +563,7 @@ void LiftPoint::VUpdate()
                 mBaseAnimatedWithPhysicsGameObject_XPos,
                 lineY,
                 mBaseAnimatedWithPhysicsGameObject_XPos,
-                (field_CC_sprite_scale * FP_FromInteger(30)) + lineY);
+                (mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(30)) + lineY);
 
             if (pTlvIter)
             {
@@ -574,7 +574,7 @@ void LiftPoint::VUpdate()
                         mBaseAnimatedWithPhysicsGameObject_XPos,
                         lineY,
                         mBaseAnimatedWithPhysicsGameObject_XPos,
-                        lineY + (field_CC_sprite_scale * FP_FromInteger(30)));
+                        lineY + (mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(30)));
 
                     if (!pTlvIter)
                     {
@@ -619,15 +619,15 @@ void LiftPoint::VUpdate()
             }
 
             const FP distanceToFloor = field_270_floorYLevel - mBaseAnimatedWithPhysicsGameObject_YPos;
-            const FP kMinus25Scaled = field_CC_sprite_scale * FP_FromInteger(-25);
-            const FP k30Scaled = field_CC_sprite_scale * FP_FromInteger(30);
+            const FP kMinus25Scaled = mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(-25);
+            const FP k30Scaled = mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(30);
 
             switch (field_130_lift_point_stop_type)
             {
                 case LiftPointStopType::eTopFloor_0:
-                    if (field_C8_vely >= FP_FromInteger(0))
+                    if (mBaseAnimatedWithPhysicsGameObject_VelY >= FP_FromInteger(0))
                     {
-                        if (field_C8_vely != FP_FromInteger(0) || distanceToFloor <= kMinus25Scaled || distanceToFloor >= k30Scaled)
+                        if (mBaseAnimatedWithPhysicsGameObject_VelY != FP_FromInteger(0) || distanceToFloor <= kMinus25Scaled || distanceToFloor >= k30Scaled)
                         {
                             pLiftTlv->field_1_tlv_state = 1;
                             field_280_flags.Clear(LiftFlags::eBit1_bTopFloor);
@@ -646,7 +646,7 @@ void LiftPoint::VUpdate()
                             field_280_flags.Set(LiftFlags::eBit1_bTopFloor);
                         }
                     }
-                    else if (field_C8_vely + lineY <= FP_FromInteger(pLiftTlv->field_8_top_left.field_2_y))
+                    else if (mBaseAnimatedWithPhysicsGameObject_VelY + lineY <= FP_FromInteger(pLiftTlv->field_8_top_left.field_2_y))
                     {
                         vStayOnFloor(field_280_flags.Get(LiftFlags::eBit1_bTopFloor), pLiftTlv);
                         field_280_flags.Set(LiftFlags::eBit1_bTopFloor);
@@ -654,9 +654,9 @@ void LiftPoint::VUpdate()
                     break;
 
                 case LiftPointStopType::eBottomFloor_1:
-                    if (field_C8_vely <= FP_FromInteger(0))
+                    if (mBaseAnimatedWithPhysicsGameObject_VelY <= FP_FromInteger(0))
                     {
-                        if (field_C8_vely != FP_FromInteger(0) || distanceToFloor <= kMinus25Scaled || distanceToFloor >= k30Scaled)
+                        if (mBaseAnimatedWithPhysicsGameObject_VelY != FP_FromInteger(0) || distanceToFloor <= kMinus25Scaled || distanceToFloor >= k30Scaled)
                         {
                             pLiftTlv->field_1_tlv_state = 1;
 
@@ -676,7 +676,7 @@ void LiftPoint::VUpdate()
                             field_280_flags.Set(LiftFlags::eBit3_bBottomFloor);
                         }
                     }
-                    else if (lineY + field_C8_vely >= FP_FromInteger(pLiftTlv->field_8_top_left.field_2_y))
+                    else if (lineY + mBaseAnimatedWithPhysicsGameObject_VelY >= FP_FromInteger(pLiftTlv->field_8_top_left.field_2_y))
                     {
                         vStayOnFloor(field_280_flags.Get(LiftFlags::eBit3_bBottomFloor), pLiftTlv);
                         field_280_flags.Set(LiftFlags::eBit3_bBottomFloor);
@@ -697,7 +697,7 @@ void LiftPoint::VUpdate()
                             field_280_flags.Clear(LiftFlags::eBit7_KeepOnMiddleFloor);
                         }
 
-                        if (field_C8_vely == FP_FromInteger(0))
+                        if (mBaseAnimatedWithPhysicsGameObject_VelY == FP_FromInteger(0))
                         {
                             field_12C_bMoving |= 1u;
                             field_280_flags.Set(LiftFlags::eBit5_bMoveToFloorLevel);
@@ -726,44 +726,44 @@ void LiftPoint::VUpdate()
             }
         }
 
-        mBaseAnimatedWithPhysicsGameObject_XPos += field_C4_velx;
-        mBaseAnimatedWithPhysicsGameObject_YPos += field_C8_vely;
+        mBaseAnimatedWithPhysicsGameObject_XPos += mBaseAnimatedWithPhysicsGameObject_VelX;
+        mBaseAnimatedWithPhysicsGameObject_YPos += mBaseAnimatedWithPhysicsGameObject_VelY;
 
         if (field_124_pCollisionLine)
         {
             SyncCollisionLinePosition();
         }
 
-        MoveObjectsOnLift(field_C4_velx);
+        MoveObjectsOnLift(mBaseAnimatedWithPhysicsGameObject_VelX);
     }
 
     Rope* pRope2 = static_cast<Rope*>(sObjectIds.Find(field_134_rope2_id, ReliveTypes::eLiftRope));
-    pRope2->field_106_bottom = FP_GetExponent((FP_FromInteger(field_124_pCollisionLine->field_0_rect.y) + (FP_FromInteger(25) * field_CC_sprite_scale)));
+    pRope2->field_106_bottom = FP_GetExponent((FP_FromInteger(field_124_pCollisionLine->field_0_rect.y) + (FP_FromInteger(25) * mBaseAnimatedWithPhysicsGameObject_SpriteScale)));
 
     Rope* pRope1 = static_cast<Rope*>(sObjectIds.Find(field_138_rope1_id, ReliveTypes::eLiftRope));
-    pRope1->field_106_bottom = FP_GetExponent((FP_FromInteger(field_124_pCollisionLine->field_0_rect.y) + (FP_FromInteger(25) * field_CC_sprite_scale)));
+    pRope1->field_106_bottom = FP_GetExponent((FP_FromInteger(field_124_pCollisionLine->field_0_rect.y) + (FP_FromInteger(25) * mBaseAnimatedWithPhysicsGameObject_SpriteScale)));
 
     if (field_280_flags.Get(LiftPoint::eBit4_bHasPulley))
     {
-        pRope2->field_102_top = FP_GetExponent((FP_FromInteger(field_26E_pulley_ypos) + (FP_FromInteger(-19) * field_CC_sprite_scale)));
-        pRope1->field_102_top = FP_GetExponent((FP_FromInteger(field_26E_pulley_ypos) + (FP_FromInteger(-19) * field_CC_sprite_scale)));
+        pRope2->field_102_top = FP_GetExponent((FP_FromInteger(field_26E_pulley_ypos) + (FP_FromInteger(-19) * mBaseAnimatedWithPhysicsGameObject_SpriteScale)));
+        pRope1->field_102_top = FP_GetExponent((FP_FromInteger(field_26E_pulley_ypos) + (FP_FromInteger(-19) * mBaseAnimatedWithPhysicsGameObject_SpriteScale)));
     }
 
     const FP v39 = mBaseAnimatedWithPhysicsGameObject_YPos * FP_FromDouble(1.5);
-    const FP v40 = FP_FromRaw(FP_GetExponent(v39 * field_CC_sprite_scale) % FP_FromInteger(pRope2->field_F6_rope_length).fpValue);
-    pRope2->mBaseAnimatedWithPhysicsGameObject_YPos = FP_NoFractional(v40 + (FP_FromInteger(25) * field_CC_sprite_scale) + mBaseAnimatedWithPhysicsGameObject_YPos + FP_FromInteger(pRope2->field_F6_rope_length));
-    pRope1->mBaseAnimatedWithPhysicsGameObject_YPos = FP_NoFractional((FP_FromInteger(25) * field_CC_sprite_scale) + mBaseAnimatedWithPhysicsGameObject_YPos + FP_FromInteger(pRope1->field_F6_rope_length) - v40);
+    const FP v40 = FP_FromRaw(FP_GetExponent(v39 * mBaseAnimatedWithPhysicsGameObject_SpriteScale) % FP_FromInteger(pRope2->field_F6_rope_length).fpValue);
+    pRope2->mBaseAnimatedWithPhysicsGameObject_YPos = FP_NoFractional(v40 + (FP_FromInteger(25) * mBaseAnimatedWithPhysicsGameObject_SpriteScale) + mBaseAnimatedWithPhysicsGameObject_YPos + FP_FromInteger(pRope2->field_F6_rope_length));
+    pRope1->mBaseAnimatedWithPhysicsGameObject_YPos = FP_NoFractional((FP_FromInteger(25) * mBaseAnimatedWithPhysicsGameObject_SpriteScale) + mBaseAnimatedWithPhysicsGameObject_YPos + FP_FromInteger(pRope1->field_F6_rope_length) - v40);
 
     field_13C_lift_wheel.mAnimFlags.Set(AnimFlags::eBit2_Animate);
     field_1D4_pulley_anim.mAnimFlags.Set(AnimFlags::eBit2_Animate);
 
-    if (field_C8_vely == FP_FromInteger(0))
+    if (mBaseAnimatedWithPhysicsGameObject_VelY == FP_FromInteger(0))
     {
         // Wheels are stopped if not moving
         field_13C_lift_wheel.mAnimFlags.Clear(AnimFlags::eBit2_Animate);
         field_1D4_pulley_anim.mAnimFlags.Clear(AnimFlags::eBit2_Animate);
     }
-    else if (field_C8_vely > FP_FromInteger(0))
+    else if (mBaseAnimatedWithPhysicsGameObject_VelY > FP_FromInteger(0))
     {
         // Pulley/lift wheels spin opposite ways for up/down
         field_13C_lift_wheel.mAnimFlags.Clear(AnimFlags::eBit19_LoopBackwards);
@@ -787,7 +787,7 @@ void LiftPoint::VUpdate()
         SFX_Play_Mono(SoundEffect::WheelSqueak_31, 0);
     }
 
-    if ((field_C2_lvl_number != gMap.mCurrentLevel || field_C0_path_number != gMap.mCurrentPath || Event_Get(kEventDeathReset))
+    if ((mBaseAnimatedWithPhysicsGameObject_LvlNumber != gMap.mCurrentLevel || mBaseAnimatedWithPhysicsGameObject_PathNumber != gMap.mCurrentPath || Event_Get(kEventDeathReset))
         && mPlatformBaseCount <= 0)
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
@@ -810,12 +810,12 @@ void LiftPoint::MoveObjectsOnLift(FP xVelocity)
             if (pObj == sControlledCharacter_5C1B8C)
             {
                 // Keep the player in the screen
-                const FP oldVelY = pObj->field_C8_vely;
-                pObj->field_C8_vely = field_C8_vely;
+                const FP oldVelY = pObj->mBaseAnimatedWithPhysicsGameObject_VelY;
+                pObj->mBaseAnimatedWithPhysicsGameObject_VelY = mBaseAnimatedWithPhysicsGameObject_VelY;
                 pObj->SetActiveCameraDelayedFromDir();
 
                 // And keep the old velY
-                pObj->field_C8_vely = oldVelY;
+                pObj->mBaseAnimatedWithPhysicsGameObject_VelY = oldVelY;
             }
 
             // Do platforms ever move horizontally? This is always 0 it seems
@@ -826,10 +826,10 @@ void LiftPoint::MoveObjectsOnLift(FP xVelocity)
 
             if (pObj->mBaseGameObjectFlags.Get(BaseGameObject::eInteractive_Bit8))
             {
-                pObj->field_E4_collection_rect.x = pObj->mBaseAnimatedWithPhysicsGameObject_XPos - (ScaleToGridSize(field_CC_sprite_scale) / FP_FromInteger(2));
-                pObj->field_E4_collection_rect.y = pObj->mBaseAnimatedWithPhysicsGameObject_YPos - ScaleToGridSize(field_CC_sprite_scale);
-                pObj->field_E4_collection_rect.w = pObj->mBaseAnimatedWithPhysicsGameObject_XPos + (ScaleToGridSize(field_CC_sprite_scale) / FP_FromInteger(2));
-                pObj->field_E4_collection_rect.h = pObj->mBaseAnimatedWithPhysicsGameObject_YPos;
+                pObj->mCollectionRect.x = pObj->mBaseAnimatedWithPhysicsGameObject_XPos - (ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale) / FP_FromInteger(2));
+                pObj->mCollectionRect.y = pObj->mBaseAnimatedWithPhysicsGameObject_YPos - ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale);
+                pObj->mCollectionRect.w = pObj->mBaseAnimatedWithPhysicsGameObject_XPos + (ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale) / FP_FromInteger(2));
+                pObj->mCollectionRect.h = pObj->mBaseAnimatedWithPhysicsGameObject_YPos;
             }
         }
     }
@@ -855,7 +855,7 @@ void LiftPoint::vStayOnFloor(s16 floor, Path_LiftPoint* pTlv)
     pTlv->field_1_tlv_state = 3;
     field_27C_pTlv = sPath_dword_BB47C0->TLVInfo_From_TLVPtr(pTlv);
     pTlv->field_10_lift_point_id = field_278_lift_point_id;
-    field_C8_vely = FP_FromInteger(0);
+    mBaseAnimatedWithPhysicsGameObject_VelY = FP_FromInteger(0);
 
     Event_Broadcast(kEventNoise, this);
     Event_Broadcast(kEventSuspiciousNoise, this);
@@ -901,10 +901,10 @@ void LiftPoint::CreatePulleyIfExists()
         {
             if (pTlvIter->field_4_type == TlvTypes::Pulley_21)
             {
-                const FP left = FP_FromInteger(field_124_pCollisionLine->field_0_rect.x) + (ScaleToGridSize(field_CC_sprite_scale) / FP_FromInteger(2));
+                const FP left = FP_FromInteger(field_124_pCollisionLine->field_0_rect.x) + (ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale) / FP_FromInteger(2));
                 if (left <= FP_FromInteger(pTlvIter->field_8_top_left.field_0_x))
                 {
-                    const FP right = FP_FromInteger(field_124_pCollisionLine->field_0_rect.w) - (ScaleToGridSize(field_CC_sprite_scale) / FP_FromInteger(2));
+                    const FP right = FP_FromInteger(field_124_pCollisionLine->field_0_rect.w) - (ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale) / FP_FromInteger(2));
                     if (FP_FromInteger(pTlvIter->field_8_top_left.field_0_x) <= right)
                     {
                         pFound = pTlvIter;
@@ -931,8 +931,8 @@ void LiftPoint::CreatePulleyIfExists()
     }
 
     // Calculate pulley position
-    const FP k13_scaled = FP_FromInteger(13) * field_CC_sprite_scale;
-    const FP kM10_scaled = FP_FromInteger(-10) * field_CC_sprite_scale;
+    const FP k13_scaled = FP_FromInteger(13) * mBaseAnimatedWithPhysicsGameObject_SpriteScale;
+    const FP kM10_scaled = FP_FromInteger(-10) * mBaseAnimatedWithPhysicsGameObject_SpriteScale;
 
     field_26C_pulley_xpos = FP_GetExponent(((kM10_scaled + k13_scaled) / FP_FromInteger(2)) + FP_NoFractional(mBaseAnimatedWithPhysicsGameObject_XPos));
     field_26E_pulley_ypos = pFound->field_8_top_left.field_2_y;
@@ -957,12 +957,12 @@ void LiftPoint::CreatePulleyIfExists()
 
     field_280_flags.Set(LiftFlags::eBit4_bHasPulley);
 
-    field_1D4_pulley_anim.mRenderLayer = field_20_animation.mRenderLayer;
-    field_1D4_pulley_anim.field_14_scale = field_CC_sprite_scale;
+    field_1D4_pulley_anim.mRenderLayer = mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer;
+    field_1D4_pulley_anim.field_14_scale = mBaseAnimatedWithPhysicsGameObject_SpriteScale;
 
-    field_1D4_pulley_anim.mRed = static_cast<u8>(field_D0_r);
-    field_1D4_pulley_anim.mGreen = static_cast<u8>(field_D2_g);
-    field_1D4_pulley_anim.mBlue = static_cast<u8>(field_D4_b);
+    field_1D4_pulley_anim.mRed = static_cast<u8>(mBaseAnimatedWithPhysicsGameObject_Red);
+    field_1D4_pulley_anim.mGreen = static_cast<u8>(mBaseAnimatedWithPhysicsGameObject_Green);
+    field_1D4_pulley_anim.mBlue = static_cast<u8>(mBaseAnimatedWithPhysicsGameObject_Blue);
 
     field_1D4_pulley_anim.mRenderMode = TPageAbr::eBlend_0;
 
@@ -970,8 +970,8 @@ void LiftPoint::CreatePulleyIfExists()
     Rope* pRope1 = static_cast<Rope*>(sObjectIds.Find(field_134_rope2_id, ReliveTypes::eLiftRope));
     Rope* pRope2 = static_cast<Rope*>(sObjectIds.Find(field_138_rope1_id, ReliveTypes::eLiftRope));
 
-    pRope1->field_102_top = FP_GetExponent(FP_FromInteger(field_26E_pulley_ypos) + (FP_FromInteger(-19) * field_CC_sprite_scale));
-    pRope2->field_102_top = FP_GetExponent(FP_FromInteger(field_26E_pulley_ypos) + (FP_FromInteger(-19) * field_CC_sprite_scale));
+    pRope1->field_102_top = FP_GetExponent(FP_FromInteger(field_26E_pulley_ypos) + (FP_FromInteger(-19) * mBaseAnimatedWithPhysicsGameObject_SpriteScale));
+    pRope2->field_102_top = FP_GetExponent(FP_FromInteger(field_26E_pulley_ypos) + (FP_FromInteger(-19) * mBaseAnimatedWithPhysicsGameObject_SpriteScale));
 }
 
 void LiftPoint::VScreenChanged()
@@ -1019,9 +1019,9 @@ LiftPoint::~LiftPoint()
 
     Path_TLV* pTlv = sPath_dword_BB47C0->TLV_Get_At_4DB4B0(
         FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos),
-        FP_GetExponent(field_CC_sprite_scale * FP_FromInteger(30)),
+        FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(30)),
         FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos),
-        FP_GetExponent(FP_FromInteger(field_124_pCollisionLine->field_0_rect.y) + (field_CC_sprite_scale * FP_FromInteger(30))),
+        FP_GetExponent(FP_FromInteger(field_124_pCollisionLine->field_0_rect.y) + (mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(30))),
         TlvTypes::LiftPoint_7);
 
     if (pTlv)
