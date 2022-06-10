@@ -227,8 +227,8 @@ FG1::FG1(u8** ppRes)
 
     mBaseGameObjectTypeId = ReliveTypes::eFG1;
 
-    field_10_cam_pos_x = FP_GetExponent(pScreenManager_4FF7C8->field_10_pCamPos->field_0_x);
-    field_12_cam_pos_y = FP_GetExponent(pScreenManager_4FF7C8->field_10_pCamPos->field_4_y);
+    field_10_cam_pos_x = FP_GetExponent(pScreenManager_4FF7C8->mCamPos->field_0_x);
+    field_12_cam_pos_y = FP_GetExponent(pScreenManager_4FF7C8->mCamPos->field_4_y);
 
     field_16_current_path = gMap.mCurrentPath;
     field_14_current_level = gMap.mCurrentLevel;
@@ -291,7 +291,7 @@ void FG1::VRender(PrimHeader** ppOt)
                 Y0(pPoly),
                 X3(pPoly),
                 Y3(pPoly),
-                pScreenManager_4FF7C8->field_2E_idx);
+                pScreenManager_4FF7C8->mIdx);
         }
     }
 }

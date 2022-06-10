@@ -198,8 +198,8 @@ void MotionDetector::VRender(PrimHeader** ppOt)
         auto pLaser = static_cast<MotionDetectorLaser*>(sObjectIds.Find(field_F8_laser_id, ReliveTypes::eRedLaser));
         const PSX_RECT bLaserRect = pLaser->VGetBoundingRect();
 
-        const FP camXFp = pScreenManager->field_20_pCamPos->field_0_x;
-        const FP camYFp = pScreenManager->field_20_pCamPos->field_4_y;
+        const FP camXFp = pScreenManager->mCamPos->field_0_x;
+        const FP camYFp = pScreenManager->mCamPos->field_4_y;
 
         const s16 screenX = FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos) - FP_GetExponent(camXFp);
 
@@ -233,7 +233,7 @@ void MotionDetector::VRender(PrimHeader** ppOt)
             std::min(y0, std::min(y1, y2)),
             std::max(x0, std::max(x1, x1)),
             std::max(y0, std::max(y1, y2)),
-            pScreenManager->field_3A_idx);
+            pScreenManager->mIdx);
     }
 }
 

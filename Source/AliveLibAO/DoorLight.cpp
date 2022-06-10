@@ -201,8 +201,8 @@ void DoorLight::VRender(PrimHeader** ppOt)
 {
     if (sNumCamSwappers_507668 == 0)
     {
-        const FP xpos = FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos) + mBaseAnimatedWithPhysicsGameObject_XPos - pScreenManager_4FF7C8->field_10_pCamPos->field_0_x;
-        const FP ypos = FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos) + mBaseAnimatedWithPhysicsGameObject_YPos - pScreenManager_4FF7C8->field_10_pCamPos->field_4_y;
+        const FP xpos = FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos) + mBaseAnimatedWithPhysicsGameObject_XPos - pScreenManager_4FF7C8->mCamPos->field_0_x;
+        const FP ypos = FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos) + mBaseAnimatedWithPhysicsGameObject_YPos - pScreenManager_4FF7C8->mCamPos->field_4_y;
 
         mBaseAnimatedWithPhysicsGameObject_Anim.mRed = static_cast<u8>(mBaseAnimatedWithPhysicsGameObject_Red);
         mBaseAnimatedWithPhysicsGameObject_Anim.mGreen = static_cast<u8>(mBaseAnimatedWithPhysicsGameObject_Green);
@@ -222,7 +222,7 @@ void DoorLight::VRender(PrimHeader** ppOt)
             rect.y,
             rect.w,
             rect.h,
-            pScreenManager_4FF7C8->field_2E_idx);
+            pScreenManager_4FF7C8->mIdx);
     }
 }
 

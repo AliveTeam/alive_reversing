@@ -29,8 +29,8 @@ ColourfulMeter::ColourfulMeter(Path_ColourfulMeter* pTlv, s32 tlvInfo)
     mBaseGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4);
     gObjListDrawables->Push_Back(this);
 
-    field_6C_text_x = FP_GetExponent((FP_FromInteger(pTlv->field_8_top_left.field_0_x)) - pScreenManager->field_20_pCamPos->field_0_x);
-    field_6E_text_y = FP_GetExponent((FP_FromInteger(pTlv->field_8_top_left.field_2_y)) - pScreenManager->field_20_pCamPos->field_4_y);
+    field_6C_text_x = FP_GetExponent((FP_FromInteger(pTlv->field_8_top_left.field_0_x)) - pScreenManager->mCamPos->field_0_x);
+    field_6E_text_y = FP_GetExponent((FP_FromInteger(pTlv->field_8_top_left.field_2_y)) - pScreenManager->mCamPos->field_4_y);
 
     field_72_switch_id = pTlv->field_10_switch_id;
     field_80 = 0;
@@ -176,8 +176,8 @@ const PSX_Point stru_5543F0[kMeterBarsXCount] = {
 
 void ColourfulMeter::VRender(PrimHeader** ppOt)
 {
-    const s16 screenXOff = FP_GetExponent(pScreenManager->field_20_pCamPos->field_0_x + FP_FromInteger(4));
-    const s16 screenYOff = FP_GetExponent(pScreenManager->field_20_pCamPos->field_4_y + FP_FromInteger(4));
+    const s16 screenXOff = FP_GetExponent(pScreenManager->mCamPos->field_0_x + FP_FromInteger(4));
+    const s16 screenYOff = FP_GetExponent(pScreenManager->mCamPos->field_4_y + FP_FromInteger(4));
 
     for (s16 poly_idx = 0; poly_idx < field_70_polys_to_render_count && poly_idx < kMeterBarsXCount - 1; poly_idx++)
     {
@@ -252,5 +252,5 @@ void ColourfulMeter::VRender(PrimHeader** ppOt)
         field_6E_text_y - 30,
         PsxToPCX(field_6C_text_x + 500),
         field_6E_text_y,
-        pScreenManager->field_3A_idx);
+        pScreenManager->mIdx);
 }

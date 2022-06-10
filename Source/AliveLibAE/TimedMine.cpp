@@ -146,8 +146,8 @@ void TimedMine::VRender(PrimHeader** ppOt)
             0))
     {
         field_124_animation.VRender(
-            FP_GetExponent((mBaseAnimatedWithPhysicsGameObject_XPos - pScreenManager->field_20_pCamPos->field_0_x)),
-            FP_GetExponent((mBaseAnimatedWithPhysicsGameObject_YPos - pScreenManager->field_20_pCamPos->field_4_y - FP_NoFractional(mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromDouble(14)))),
+            FP_GetExponent((mBaseAnimatedWithPhysicsGameObject_XPos - pScreenManager->mCamPos->field_0_x)),
+            FP_GetExponent((mBaseAnimatedWithPhysicsGameObject_YPos - pScreenManager->mCamPos->field_4_y - FP_NoFractional(mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromDouble(14)))),
             ppOt,
             0,
             0);
@@ -160,7 +160,7 @@ void TimedMine::VRender(PrimHeader** ppOt)
             frameRect.y,
             frameRect.w,
             frameRect.h,
-            pScreenManager->field_3A_idx);
+            pScreenManager->mIdx);
 
         BaseAnimatedWithPhysicsGameObject::VRender(ppOt);
     }

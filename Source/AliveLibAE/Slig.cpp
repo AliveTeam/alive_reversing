@@ -523,8 +523,8 @@ void renderWithGlowingEyes(PrimHeader** ot, BaseAliveGameObject* actor, s16* pPa
             }
 
             actor->mBaseAnimatedWithPhysicsGameObject_Anim.VRender(
-                FP_GetExponent(FP_FromInteger(actor->mBaseAnimatedWithPhysicsGameObject_XOffset) + actor->mBaseAnimatedWithPhysicsGameObject_XPos - pScreenManager->field_20_pCamPos->field_0_x),
-                FP_GetExponent(FP_FromInteger(actor->mBaseAnimatedWithPhysicsGameObject_YOffset) + actor->mBaseAnimatedWithPhysicsGameObject_YPos - pScreenManager->field_20_pCamPos->field_4_y),
+                FP_GetExponent(FP_FromInteger(actor->mBaseAnimatedWithPhysicsGameObject_XOffset) + actor->mBaseAnimatedWithPhysicsGameObject_XPos - pScreenManager->mCamPos->field_0_x),
+                FP_GetExponent(FP_FromInteger(actor->mBaseAnimatedWithPhysicsGameObject_YOffset) + actor->mBaseAnimatedWithPhysicsGameObject_YPos - pScreenManager->mCamPos->field_4_y),
                 ot,
                 0,
                 0);
@@ -535,7 +535,7 @@ void renderWithGlowingEyes(PrimHeader** ot, BaseAliveGameObject* actor, s16* pPa
                 rectToInvalidate.x,
                 rectToInvalidate.y,
                 rectToInvalidate.w,
-                rectToInvalidate.h, pScreenManager->field_3A_idx);
+                rectToInvalidate.h, pScreenManager->mIdx);
 
             if (actor->mShadow)
             {

@@ -882,7 +882,7 @@ void Map::GoTo_Camera()
         pScreenManager->DecompressCameraToVRam_40EF60(reinterpret_cast<u16**>(field_2C_camera_array[0]->field_C_pCamRes));
         pScreenManager->InvalidateRect_40EC10(0, 0, 640, 240);
         pScreenManager->MoveImage_40EB70();
-        pScreenManager->field_40_flags |= 0x10000;
+        pScreenManager->mFlags |= 0x10000;
     }
 
     if (prevLevelId != mCurrentLevel)
@@ -949,7 +949,7 @@ Camera* Map::GetCamera(CameraPos pos)
 void Map::CreateScreenTransistionForTLV(Path_TLV* pTlv)
 {
     // TODO: Refactor
-    const FP_Point* pCamPos2 = pScreenManager->field_20_pCamPos;
+    const FP_Point* pCamPos2 = pScreenManager->mCamPos;
     const s16 doorYDiff = static_cast<s16>(pTlv->field_8_top_left.field_2_y - FP_GetExponent(pCamPos2->field_4_y));
     FP camX = pCamPos2->field_0_x;
     const s16 midX = (pTlv->field_8_top_left.field_0_x + pTlv->field_C_bottom_right.field_0_x) / 2;

@@ -267,7 +267,7 @@ void ParticleBurst::VRender(PrimHeader** ppOt)
 
     mBaseAnimatedWithPhysicsGameObject_Anim.field_14_scale = mBaseAnimatedWithPhysicsGameObject_SpriteScale;
 
-    const FP_Point* pCamPos = pScreenManager_4FF7C8->field_10_pCamPos;
+    const FP_Point* pCamPos = pScreenManager_4FF7C8->mCamPos;
     const FP screen_left = pCamPos->field_0_x - FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos);
     const FP screen_right = pCamPos->field_0_x + FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos);
 
@@ -310,7 +310,7 @@ void ParticleBurst::VRender(PrimHeader** ppOt)
                     rect.y,
                     rect.w,
                     rect.h,
-                    pScreenManager_4FF7C8->field_2E_idx);
+                    pScreenManager_4FF7C8->mIdx);
             }
         }
     }

@@ -135,7 +135,7 @@ void Rope::VRender(PrimHeader** ppOt)
         {
             if (mBaseAnimatedWithPhysicsGameObject_XPos >= FP_FromInteger(camPos.field_0_x) && mBaseAnimatedWithPhysicsGameObject_XPos <= FP_FromInteger(camPos.field_0_x + 1024))
             {
-                const FP camYPos = pScreenManager_4FF7C8->field_10_pCamPos->field_4_y;
+                const FP camYPos = pScreenManager_4FF7C8->mCamPos->field_4_y;
 
                 s32 minY = FP_GetExponent((FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos + field_EE_top))
                                           - camYPos);
@@ -149,7 +149,7 @@ void Rope::VRender(PrimHeader** ppOt)
                 }
 
                 s16 screenX = PsxToPCX(
-                    FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos + FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos) - pScreenManager_4FF7C8->field_10_pCamPos->field_0_x),
+                    FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos + FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos) - pScreenManager_4FF7C8->mCamPos->field_0_x),
                     11);
                 s16 screenY = FP_GetExponent(
                     (FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos + ypos))
@@ -158,7 +158,7 @@ void Rope::VRender(PrimHeader** ppOt)
                 if (mBaseAnimatedWithPhysicsGameObject_YOffset + screenY > 240)
                 {
                     screenY = screenY % field_E6_rope_length + 240;
-                    ypos = FP_GetExponent(pScreenManager_4FF7C8->field_10_pCamPos->field_4_y
+                    ypos = FP_GetExponent(pScreenManager_4FF7C8->mCamPos->field_4_y
                                           + FP_FromInteger(screenY - pScreenManager_4FF7C8->field_16_ypos));
                 }
                 if (minY < 0)
@@ -202,7 +202,7 @@ void Rope::VRender(PrimHeader** ppOt)
                             rect.y,
                             rect.w,
                             rect.h,
-                            pScreenManager_4FF7C8->field_2E_idx);
+                            pScreenManager_4FF7C8->mIdx);
 
                         ClipPoly_Vertically_4584B0(
                             &field_E8_pRopeRes[idx].field_10_polys[gPsxDisplay_504C78.field_A_buffer_index],

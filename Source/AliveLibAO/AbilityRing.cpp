@@ -54,8 +54,8 @@ AbilityRing::AbilityRing(FP xpos, FP ypos, RingTypes ring_type)
         mRingXPos = xpos;
         mRingYPos = ypos;
 
-        mRingScreenX = FP_GetExponent(pScreenManager_4FF7C8->field_10_pCamPos->field_0_x - FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos));
-        mRingScreenY = FP_GetExponent(pScreenManager_4FF7C8->field_10_pCamPos->field_4_y - FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos));
+        mRingScreenX = FP_GetExponent(pScreenManager_4FF7C8->mCamPos->field_0_x - FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos));
+        mRingScreenY = FP_GetExponent(pScreenManager_4FF7C8->mCamPos->field_4_y - FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos));
 
         mRingScreenXPos = FP_GetExponent(xpos) - mRingScreenX;
         mRingScreenYPos = FP_GetExponent(ypos) - mRingScreenY;
@@ -241,7 +241,7 @@ void AbilityRing::VRender(PrimHeader** ppOt)
                     rect.y,
                     rect.w,
                     rect.h,
-                    pScreenManager_4FF7C8->field_2E_idx);
+                    pScreenManager_4FF7C8->mIdx);
 
                 mRingCollideRects[i] = rect;
                 mRingCollideRects[i].x = PCToPsxX(mRingCollideRects[i].x, 20);
@@ -270,8 +270,8 @@ void AbilityRing::VUpdate()
         }
         else
         {
-            mRingScreenX = FP_GetExponent(pScreenManager_4FF7C8->field_10_pCamPos->field_0_x - FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos));
-            mRingScreenY = FP_GetExponent(pScreenManager_4FF7C8->field_10_pCamPos->field_4_y - FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos));
+            mRingScreenX = FP_GetExponent(pScreenManager_4FF7C8->mCamPos->field_0_x - FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos));
+            mRingScreenY = FP_GetExponent(pScreenManager_4FF7C8->mCamPos->field_4_y - FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos));
 
             PSX_RECT bRect = {};
             mTargetObj->VGetBoundingRect(&bRect, 1);

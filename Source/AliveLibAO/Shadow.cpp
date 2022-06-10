@@ -51,7 +51,7 @@ void Shadow::Calculate_Position(FP xpos, FP ypos, PSX_RECT* frameRect, FP sprite
         if (field_14_flags.Get(Flags::eBit1_ShadowAtBottom))
         {
             // Get the bottom of the object
-            objY = pScreenManager_4FF7C8->field_10_pCamPos->field_4_y + FP_FromInteger(frameRect->h - pScreenManager_4FF7C8->field_16_ypos);
+            objY = pScreenManager_4FF7C8->mCamPos->field_4_y + FP_FromInteger(frameRect->h - pScreenManager_4FF7C8->field_16_ypos);
         }
         else
         {
@@ -72,7 +72,7 @@ void Shadow::Calculate_Position(FP xpos, FP ypos, PSX_RECT* frameRect, FP sprite
                 &hitY,
                 lineType))
         {
-            const FP camXPos = pScreenManager_4FF7C8->field_10_pCamPos->field_0_x - FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos);
+            const FP camXPos = pScreenManager_4FF7C8->mCamPos->field_0_x - FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos);
 
             s16 lineXScreen = pLine->field_0_rect.x - FP_GetExponent(camXPos);
             s16 lineWScreen = pLine->field_0_rect.w - FP_GetExponent(camXPos);
@@ -94,9 +94,9 @@ void Shadow::Calculate_Position(FP xpos, FP ypos, PSX_RECT* frameRect, FP sprite
             if (objX < lineXScreen)
             {
                 if (sCollisions->RayCast(
-                        FP_NoFractional(pScreenManager_4FF7C8->field_10_pCamPos->field_0_x - FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos)) + FP_FromInteger(lineXScreen - 1) - FP_FromInteger(4),
+                        FP_NoFractional(pScreenManager_4FF7C8->mCamPos->field_0_x - FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos)) + FP_FromInteger(lineXScreen - 1) - FP_FromInteger(4),
                         hitY - FP_FromInteger(2),
-                        FP_NoFractional(pScreenManager_4FF7C8->field_10_pCamPos->field_0_x - FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos)) + FP_FromInteger(lineXScreen - 1) - FP_FromInteger(4),
+                        FP_NoFractional(pScreenManager_4FF7C8->mCamPos->field_0_x - FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos)) + FP_FromInteger(lineXScreen - 1) - FP_FromInteger(4),
                         hitY + FP_FromInteger(2),
                         &pLine,
                         &hitX,
@@ -104,14 +104,14 @@ void Shadow::Calculate_Position(FP xpos, FP ypos, PSX_RECT* frameRect, FP sprite
                         lineType))
                 {
                     lineXScreen = std::min(pLine->field_0_rect.x, pLine->field_0_rect.w)
-                                - FP_GetExponent(pScreenManager_4FF7C8->field_10_pCamPos->field_0_x - FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos));
+                                - FP_GetExponent(pScreenManager_4FF7C8->mCamPos->field_0_x - FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos));
                 }
             }
 
             // Object is after the line we hit
             if (objX > lineWScreen)
             {
-                const FP v23 = FP_NoFractional(((pScreenManager_4FF7C8->field_10_pCamPos->field_0_x - FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos)) + FP_FromInteger(lineWScreen + 1)))
+                const FP v23 = FP_NoFractional(((pScreenManager_4FF7C8->mCamPos->field_0_x - FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos)) + FP_FromInteger(lineWScreen + 1)))
                              + FP_FromInteger(4);
 
                 if (sCollisions->RayCast(
@@ -125,7 +125,7 @@ void Shadow::Calculate_Position(FP xpos, FP ypos, PSX_RECT* frameRect, FP sprite
                         lineType))
                 {
                     lineWScreen = std::max(pLine->field_0_rect.w, pLine->field_0_rect.x)
-                                - FP_GetExponent(pScreenManager_4FF7C8->field_10_pCamPos->field_0_x - FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos));
+                                - FP_GetExponent(pScreenManager_4FF7C8->mCamPos->field_0_x - FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos));
                 }
             }
 
@@ -142,7 +142,7 @@ void Shadow::Calculate_Position(FP xpos, FP ypos, PSX_RECT* frameRect, FP sprite
                 height = 6;
             }
 
-            const s16 finalYPos = FP_GetExponent(field_C_ypos + FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos) - pScreenManager_4FF7C8->field_10_pCamPos->field_4_y) - height / 2;
+            const s16 finalYPos = FP_GetExponent(field_C_ypos + FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos) - pScreenManager_4FF7C8->mCamPos->field_4_y) - height / 2;
             field_2_y1 = finalYPos;
             field_6_y2 = finalYPos + height;
         }
@@ -194,7 +194,7 @@ void Shadow::Render(PrimHeader** ppOt)
             frameRect.y,
             frameRect.w,
             frameRect.h,
-            pScreenManager_4FF7C8->field_2E_idx);
+            pScreenManager_4FF7C8->mIdx);
     }
 }
 

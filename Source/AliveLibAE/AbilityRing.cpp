@@ -55,8 +55,8 @@ AbilityRing::AbilityRing(FP xpos, FP ypos, RingTypes ringType, FP scale)
         mRingXPos = xpos;
         mRingYPos = ypos;
 
-        mRingScreenX = FP_GetExponent(pScreenManager->field_20_pCamPos->field_0_x);
-        mRingScreenY = FP_GetExponent(pScreenManager->field_20_pCamPos->field_4_y);
+        mRingScreenX = FP_GetExponent(pScreenManager->mCamPos->field_0_x);
+        mRingScreenY = FP_GetExponent(pScreenManager->mCamPos->field_4_y);
 
         mRingScreenXPos = FP_GetExponent(xpos) - mRingScreenX;
         mRingScreenYPos = FP_GetExponent(ypos) - mRingScreenY;
@@ -326,7 +326,7 @@ void AbilityRing::VRender(PrimHeader** ppOt)
                     rect.y,
                     rect.w,
                     rect.h,
-                    pScreenManager->field_3A_idx);
+                    pScreenManager->mIdx);
 
                 mRingCollideRects[i] = rect;
                 mRingCollideRects[i].x = PCToPsxX(mRingCollideRects[i].x, 20);
@@ -361,8 +361,8 @@ void AbilityRing::VUpdate()
         }
         else
         {
-            mRingScreenX = FP_GetExponent(pScreenManager->field_20_pCamPos->field_0_x);
-            mRingScreenY = FP_GetExponent(pScreenManager->field_20_pCamPos->field_4_y);
+            mRingScreenX = FP_GetExponent(pScreenManager->mCamPos->field_0_x);
+            mRingScreenY = FP_GetExponent(pScreenManager->mCamPos->field_4_y);
             const PSX_RECT bRect = pTarget->VGetBoundingRect();
             mRingScreenXPos = (bRect.x + bRect.w) / 2 - mRingScreenX;
             mRingScreenYPos = (bRect.y + bRect.h) / 2 - mRingScreenY;

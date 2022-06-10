@@ -1457,8 +1457,8 @@ HintFly::HintFly(Path_HintFly* pTlv, s32 tlvInfo)
             }
 
 
-            field_114_xScreen = FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos + FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos) - pScreenManager_4FF7C8->field_10_pCamPos->field_0_x);
-            field_116_yScreen = FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos + FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos) - pScreenManager_4FF7C8->field_10_pCamPos->field_4_y);
+            field_114_xScreen = FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos + FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos) - pScreenManager_4FF7C8->mCamPos->field_0_x);
+            field_116_yScreen = FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos + FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos) - pScreenManager_4FF7C8->mCamPos->field_4_y);
 
             // Some unknown pal hack that seems to do nothing
             /*
@@ -1893,7 +1893,7 @@ void HintFly::VRender(PrimHeader** ppOt)
         rect.y - 6,
         rect.w + 9,
         rect.h + 6,
-        pScreenManager_4FF7C8->field_2E_idx);
+        pScreenManager_4FF7C8->mIdx);
 }
 
 } // namespace AO

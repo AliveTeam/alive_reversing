@@ -255,6 +255,8 @@ SET(AliveLibSrcAO
    Animation.cpp
    ResourceManager.hpp
    ResourceManager.cpp
+   Camera.hpp
+   Camera.cpp
    ScreenManager.hpp
    ScreenManager.cpp
    Factory.hpp

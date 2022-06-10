@@ -74,9 +74,9 @@ FallingItem::FallingItem(Path_FallingItem* pTlv, s32 tlvInfo)
     mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pTlv->field_8_top_left.field_0_x);
     mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->field_8_top_left.field_2_y);
 
-    if (mBaseAnimatedWithPhysicsGameObject_YPos > pScreenManager->field_20_pCamPos->field_4_y)
+    if (mBaseAnimatedWithPhysicsGameObject_YPos > pScreenManager->mCamPos->field_4_y)
     {
-        mBaseAnimatedWithPhysicsGameObject_YPos = pScreenManager->field_20_pCamPos->field_4_y;
+        mBaseAnimatedWithPhysicsGameObject_YPos = pScreenManager->mCamPos->field_4_y;
     }
 
     field_138_xpos = FP_FromInteger((pTlv->field_8_top_left.field_0_x + pTlv->field_C_bottom_right.field_0_x) / 2);

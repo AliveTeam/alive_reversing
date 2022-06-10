@@ -221,8 +221,8 @@ void Mine::VRender(PrimHeader** ppOt)
             0))
     {
         field_118_animation.VRender(
-            FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos + (FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos) - pScreenManager_4FF7C8->field_10_pCamPos->field_0_x)),
-            FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos + (FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos + mBaseAnimatedWithPhysicsGameObject_YOffset)) - pScreenManager_4FF7C8->field_10_pCamPos->field_4_y),
+            FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos + (FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos) - pScreenManager_4FF7C8->mCamPos->field_0_x)),
+            FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos + (FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos + mBaseAnimatedWithPhysicsGameObject_YOffset)) - pScreenManager_4FF7C8->mCamPos->field_4_y),
             ppOt,
             0,
             0);

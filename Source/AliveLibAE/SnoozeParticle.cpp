@@ -177,7 +177,7 @@ void SnoozeParticle::VUpdate()
 void SnoozeParticle::VRender(PrimHeader** ppOt)
 {
     PSX_RECT rectToInvalidate = {};
-    FP_Point* pCamPos = pScreenManager->field_20_pCamPos;
+    FP_Point* pCamPos = pScreenManager->mCamPos;
     const s16 bufIdx = gPsxDisplay_5C1130.field_C_buffer_index;
 
     if (field_1E4_state == SnoozeParticleState::eBlowingUp_2)
@@ -279,7 +279,7 @@ void SnoozeParticle::VRender(PrimHeader** ppOt)
     pScreenManager->InvalidateRect_40EC90(
         rectToInvalidate.x, rectToInvalidate.y,
         rectToInvalidate.w, rectToInvalidate.h,
-        pScreenManager->field_3A_idx);
+        pScreenManager->mIdx);
 }
 
 void SnoozeParticle::VScreenChanged()

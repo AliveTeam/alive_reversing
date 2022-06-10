@@ -75,28 +75,16 @@ private:
     void AddCurrentSPRT_TPage(PrimHeader** ppOt);
 
 public:
-    FP_Point* field_20_pCamPos;
-    SprtTPage* field_24_screen_sprites;
-    s32 field_28_padding;
-    u16 field_2C_upos;
-    u16 field_2E_vpos;
-    s16 field_30_cam_width;
-    s16 field_32_cam_height;
-    s32 field_34_padding;
-    s16 field_38_padding;
-    u16 field_3A_idx;
-    u16 field_3C_y_idx;
-    u16 field_3E_x_idx;
-    s32 field_40_flags;
-    u16 field_44_unused;
-    u16 field_46_padding;
-    s32 field_48_padding;
-    s32 field_4C_padding;
-    s32 field_50_padding;
-    s32 field_54_padding;
-    s32 field_58_padding;
-    s32 field_5C_padding;
-    s32 field_60_padding;
+    FP_Point* mCamPos;
+    SprtTPage* mScreenSprites;
+    u16 mUPos;
+    u16 mVPos;
+    s16 mCamWidth;
+    s16 mCamHeight;
+    u16 mIdx;
+    u16 mYIdx;
+    u16 mXIdx;
+    s32 mFlags;
     DirtyBits field_64_20x16_dirty_bits[8];
 };
 ALIVE_ASSERT_SIZEOF(ScreenManager, 0x1A4u);

@@ -75,7 +75,7 @@ public:
                 rect.y,
                 rect.w,
                 rect.h,
-                pScreenManager_4FF7C8->field_2E_idx);
+                pScreenManager_4FF7C8->mIdx);
         }
     }
 
@@ -89,7 +89,7 @@ public:
         mBaseAnimatedWithPhysicsGameObject_Anim.Get_Frame_Width_Height(&frameW, &frameH);
         mBaseAnimatedWithPhysicsGameObject_Anim.Get_Frame_Offset(&xy.field_0_x, &xy.field_2_y);
 
-        const auto& pCamPos = pScreenManager_4FF7C8->field_10_pCamPos;
+        const auto& pCamPos = pScreenManager_4FF7C8->mCamPos;
         const FP screenX = FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos) + mBaseAnimatedWithPhysicsGameObject_XPos - pCamPos->field_0_x;
         const FP screenY = FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos) + mBaseAnimatedWithPhysicsGameObject_YPos - pCamPos->field_4_y;
 
@@ -232,7 +232,7 @@ public:
                 mBaseAnimatedWithPhysicsGameObject_Anim.mBlue = 32;
                 mBaseAnimatedWithPhysicsGameObject_Anim.mRed = 240;
 
-                const FP_Point* pCamPos = pScreenManager_4FF7C8->field_10_pCamPos;
+                const FP_Point* pCamPos = pScreenManager_4FF7C8->mCamPos;
 
                 const FP screen_left = pCamPos->field_0_x - FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos);
                 const FP screen_right = pCamPos->field_0_x + FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos);
@@ -253,7 +253,7 @@ public:
                     frameRect.y,
                     frameRect.w,
                     frameRect.h,
-                    pScreenManager_4FF7C8->field_2E_idx);
+                    pScreenManager_4FF7C8->mIdx);
 
                 for (auto& anim : field_E8_sparks)
                 {
@@ -274,7 +274,7 @@ public:
                                     frameRect.y,
                                     frameRect.w,
                                     frameRect.h,
-                                    pScreenManager_4FF7C8->field_2E_idx);
+                                    pScreenManager_4FF7C8->mIdx);
                             }
                         }
                     }

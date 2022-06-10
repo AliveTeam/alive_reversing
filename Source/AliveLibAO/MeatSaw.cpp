@@ -375,10 +375,10 @@ void MeatSaw::VRender(PrimHeader** ppOt)
         field_110_anim.VRender(
             FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos
                            + FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos)
-                           - pScreenManager_4FF7C8->field_10_pCamPos->field_0_x),
+                           - pScreenManager_4FF7C8->mCamPos->field_0_x),
             FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos
                            + (FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos + field_E6_max_rise_time))
-                           - pScreenManager_4FF7C8->field_10_pCamPos->field_4_y),
+                           - pScreenManager_4FF7C8->mCamPos->field_4_y),
             ppOt,
             0,
             0);
@@ -390,7 +390,7 @@ void MeatSaw::VRender(PrimHeader** ppOt)
             rect.y,
             rect.w,
             rect.h,
-            pScreenManager_4FF7C8->field_2E_idx);
+            pScreenManager_4FF7C8->mIdx);
     }
 }
 

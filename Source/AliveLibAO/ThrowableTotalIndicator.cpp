@@ -241,7 +241,7 @@ void ThrowableTotalIndicator::VRender(PrimHeader** ppOt)
         return;
     }
 
-    const FP_Point* camPos = pScreenManager_4FF7C8->field_10_pCamPos;
+    const FP_Point* camPos = pScreenManager_4FF7C8->mCamPos;
     const FP camX = FP_FromInteger(FP_GetExponent(camPos->field_0_x - FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos)));
     const FP camY = FP_FromInteger(FP_GetExponent(camPos->field_4_y - FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos)));
 
@@ -292,7 +292,7 @@ void ThrowableTotalIndicator::VRender(PrimHeader** ppOt)
         ypos - 21,
         PsxToPCX(xpos + 31),
         ypos + 31,
-        pScreenManager_4FF7C8->field_2E_idx);
+        pScreenManager_4FF7C8->mIdx);
 }
 
 ThrowableTotalIndicator::ThrowableTotalIndicator(FP xpos, FP ypos, Layer layer, FP /*scale*/, s32 count, bool bFade)

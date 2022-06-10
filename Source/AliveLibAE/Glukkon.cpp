@@ -1683,7 +1683,7 @@ s16 Glukkon::Brain_3_PlayerControlled_441A30()
 
         case 4:
         {
-            pScreenManager->field_40_flags &= ~0x10000;
+            pScreenManager->mFlags &= ~0x10000;
             sLevelId_dword_5CA408 = static_cast<u32>(MapWrapper::ToAE(gMap.mCurrentLevel));
 
             const FmvInfo* pFmvRec = Path_Get_FMV_Record(gMap.mCurrentLevel, field_1A8_tlvData.field_28_movie_to_play_fmvID);
@@ -1710,7 +1710,7 @@ s16 Glukkon::Brain_3_PlayerControlled_441A30()
 
         case 6:
             GetSoundAPI().SND_Restart();
-            pScreenManager->field_40_flags |= 0x10000;
+            pScreenManager->mFlags |= 0x10000;
             field_1D4_timer = sGnFrame + 30;
             SFX_Play_Mono(SoundEffect::PossessEffect_17, 0);
             SetAnim(10, TRUE);

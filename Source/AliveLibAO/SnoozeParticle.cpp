@@ -189,7 +189,7 @@ void SnoozeParticle::VRender(PrimHeader** ppOt)
 {
     //Identical to AE except xInScreen, yInScreen are offset by pScreenManager_4FF7C8 positions
     PSX_RECT rectToInvalidate = {};
-    FP_Point* pCamPos = pScreenManager_4FF7C8->field_10_pCamPos;
+    FP_Point* pCamPos = pScreenManager_4FF7C8->mCamPos;
     const s16 bufIdx = gPsxDisplay_504C78.field_A_buffer_index;
 
     if (field_1D4_state == SnoozeParticleState::eBlowingUp_2)
@@ -291,7 +291,7 @@ void SnoozeParticle::VRender(PrimHeader** ppOt)
     pScreenManager_4FF7C8->InvalidateRect(
         rectToInvalidate.x, rectToInvalidate.y,
         rectToInvalidate.w, rectToInvalidate.h,
-        pScreenManager_4FF7C8->field_2E_idx);
+        pScreenManager_4FF7C8->mIdx);
 }
 
 } // namespace AO

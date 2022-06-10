@@ -45,7 +45,7 @@ void Shadow::Calculate_Position(FP xpos, FP ypos, PSX_RECT* frameRect, FP sprite
         if (field_14_flags.Get(Flags::eBit1_ShadowAtBottom))
         {
             // Get the bottom of the object
-            objY = FP_FromInteger(frameRect->h) + pScreenManager->field_20_pCamPos->field_4_y;
+            objY = FP_FromInteger(frameRect->h) + pScreenManager->mCamPos->field_4_y;
         }
         else
         {
@@ -66,7 +66,7 @@ void Shadow::Calculate_Position(FP xpos, FP ypos, PSX_RECT* frameRect, FP sprite
                 &hitY,
                 lineType))
         {
-            const s16 camXPos = FP_GetExponent(pScreenManager->field_20_pCamPos->field_0_x);
+            const s16 camXPos = FP_GetExponent(pScreenManager->mCamPos->field_0_x);
             s16 lineXScreen = pLine->field_0_rect.x - camXPos;
             s16 lineWScreen = pLine->field_0_rect.w - camXPos;
 
@@ -87,16 +87,16 @@ void Shadow::Calculate_Position(FP xpos, FP ypos, PSX_RECT* frameRect, FP sprite
             if (objX < lineXScreen)
             {
                 if (sCollisions->Raycast(
-                        FP_NoFractional(pScreenManager->field_20_pCamPos->field_0_x) + (FP_FromInteger(lineXScreen - 1)) - FP_FromInteger(4),
+                        FP_NoFractional(pScreenManager->mCamPos->field_0_x) + (FP_FromInteger(lineXScreen - 1)) - FP_FromInteger(4),
                         hitY - FP_FromInteger(2),
-                        FP_NoFractional(pScreenManager->field_20_pCamPos->field_0_x) + (FP_FromInteger(lineXScreen - 1)) - FP_FromInteger(4),
+                        FP_NoFractional(pScreenManager->mCamPos->field_0_x) + (FP_FromInteger(lineXScreen - 1)) - FP_FromInteger(4),
                         hitY + FP_FromInteger(2),
                         &pLine,
                         &hitX,
                         &hitY,
                         lineType))
                 {
-                    lineXScreen = std::min(pLine->field_0_rect.x, pLine->field_0_rect.w) - FP_GetExponent(pScreenManager->field_20_pCamPos->field_0_x);
+                    lineXScreen = std::min(pLine->field_0_rect.x, pLine->field_0_rect.w) - FP_GetExponent(pScreenManager->mCamPos->field_0_x);
                 }
             }
 
@@ -104,16 +104,16 @@ void Shadow::Calculate_Position(FP xpos, FP ypos, PSX_RECT* frameRect, FP sprite
             if (objW > lineWScreen)
             {
                 if (sCollisions->Raycast(
-                        FP_NoFractional(pScreenManager->field_20_pCamPos->field_0_x) + (FP_FromInteger(lineWScreen + 1)) + FP_FromInteger(4),
+                        FP_NoFractional(pScreenManager->mCamPos->field_0_x) + (FP_FromInteger(lineWScreen + 1)) + FP_FromInteger(4),
                         hitY - FP_FromInteger(2),
-                        FP_NoFractional(pScreenManager->field_20_pCamPos->field_0_x) + (FP_FromInteger(lineWScreen + 1)) + FP_FromInteger(4),
+                        FP_NoFractional(pScreenManager->mCamPos->field_0_x) + (FP_FromInteger(lineWScreen + 1)) + FP_FromInteger(4),
                         hitY + FP_FromInteger(2),
                         &pLine,
                         &hitX,
                         &hitY,
                         lineType))
                 {
-                    lineWScreen = std::max(pLine->field_0_rect.x, pLine->field_0_rect.w) - FP_GetExponent(pScreenManager->field_20_pCamPos->field_0_x);
+                    lineWScreen = std::max(pLine->field_0_rect.x, pLine->field_0_rect.w) - FP_GetExponent(pScreenManager->mCamPos->field_0_x);
                 }
             }
 
@@ -132,7 +132,7 @@ void Shadow::Calculate_Position(FP xpos, FP ypos, PSX_RECT* frameRect, FP sprite
                 height = 6;
             }
 
-            const s16 finalYPos = FP_GetExponent(field_C_ypos - pScreenManager->field_20_pCamPos->field_4_y) - height / 2;
+            const s16 finalYPos = FP_GetExponent(field_C_ypos - pScreenManager->mCamPos->field_4_y) - height / 2;
             field_2_y1 = finalYPos;
             field_6_y2 = height + finalYPos;
         }
@@ -186,6 +186,6 @@ void Shadow::Render(PrimHeader** ppOt)
             frameRect.y,
             frameRect.w,
             frameRect.h,
-            pScreenManager->field_3A_idx);
+            pScreenManager->mIdx);
     }
 }

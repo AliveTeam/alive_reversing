@@ -69,8 +69,8 @@ void CircularFade::VRender(PrimHeader** ppOt)
     mBaseAnimatedWithPhysicsGameObject_Anim.mBlue = fade_rgb;
 
     mBaseAnimatedWithPhysicsGameObject_Anim.VRender(
-        FP_GetExponent(FP_FromInteger(mBaseAnimatedWithPhysicsGameObject_XOffset) + mBaseAnimatedWithPhysicsGameObject_XPos - pScreenManager->field_20_pCamPos->field_0_x),
-        FP_GetExponent(FP_FromInteger(mBaseAnimatedWithPhysicsGameObject_YOffset) + mBaseAnimatedWithPhysicsGameObject_YPos - pScreenManager->field_20_pCamPos->field_4_y),
+        FP_GetExponent(FP_FromInteger(mBaseAnimatedWithPhysicsGameObject_XOffset) + mBaseAnimatedWithPhysicsGameObject_XPos - pScreenManager->mCamPos->field_0_x),
+        FP_GetExponent(FP_FromInteger(mBaseAnimatedWithPhysicsGameObject_YOffset) + mBaseAnimatedWithPhysicsGameObject_YPos - pScreenManager->mCamPos->field_4_y),
         ppOt,
         0,
         0);
@@ -83,7 +83,7 @@ void CircularFade::VRender(PrimHeader** ppOt)
         frameRect.y,
         frameRect.w,
         frameRect.h,
-        pScreenManager->field_3A_idx);
+        pScreenManager->mIdx);
 
     frameRect.h--;
     frameRect.w--;

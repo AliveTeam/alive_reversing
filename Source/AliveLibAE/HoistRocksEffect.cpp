@@ -180,8 +180,8 @@ void HoistRocksEffect::VRender(PrimHeader** ppOt)
         if (particle.field_0_state)
         {
             particle.field_10_mAnim.VRender(
-                FP_GetExponent(particle.field_4_xpos - pScreenManager->field_20_pCamPos->field_0_x),
-                FP_GetExponent(particle.field_8_ypos - pScreenManager->field_20_pCamPos->field_4_y),
+                FP_GetExponent(particle.field_4_xpos - pScreenManager->mCamPos->field_0_x),
+                FP_GetExponent(particle.field_8_ypos - pScreenManager->mCamPos->field_4_y),
                 ppOt,
                 0,
                 0);
@@ -193,7 +193,7 @@ void HoistRocksEffect::VRender(PrimHeader** ppOt)
                 frameRect.y,
                 frameRect.w,
                 frameRect.h,
-                pScreenManager->field_3A_idx);
+                pScreenManager->mIdx);
         }
     }
 }

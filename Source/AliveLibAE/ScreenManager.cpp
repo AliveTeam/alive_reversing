@@ -17,15 +17,15 @@ void ScreenManager::sub_40EE10()
 {
     for (s32 i = 0; i < 20; i++)
     {
-        field_64_20x16_dirty_bits[field_3C_y_idx].mData[i] |= field_64_20x16_dirty_bits[field_3E_x_idx].mData[i];
+        field_64_20x16_dirty_bits[mYIdx].mData[i] |= field_64_20x16_dirty_bits[mXIdx].mData[i];
     }
 }
 
 void ScreenManager::MoveImage_40EB70()
 {
     PSX_RECT rect = {};
-    rect.x = field_2C_upos;
-    rect.y = field_2E_vpos;
+    rect.x = mUPos;
+    rect.y = mVPos;
     rect.h = 240;
     rect.w = 640;
     PSX_MoveImage_4F5D50(&rect, 0, 0);
@@ -78,7 +78,7 @@ void ScreenManager::UnsetDirtyBits_FG1_40ED70()
 
 void ScreenManager::InvalidateRect_40EC10(s32 x, s32 y, s32 width, s32 height)
 {
-    InvalidateRect_40EC90(x, y, width, height, field_3A_idx);
+    InvalidateRect_40EC90(x, y, width, height, mIdx);
 }
 
 const s32 kStripSize = 16;
@@ -145,8 +145,8 @@ void ScreenManager::DecompressCameraToVRam_40EF60(u16** ppBits)
                     decompressor.vlc_decode(pIter, reinterpret_cast<u16*>(*ppVlc));
                     decompressor.process_segment(reinterpret_cast<u16*>(*ppVlc), 0);
 
-                    rect.x = field_2C_upos + xpos;
-                    rect.y = field_2E_vpos;
+                    rect.x = mUPos + xpos;
+                    rect.y = mVPos;
 
                     IRenderer::GetRenderer()->Upload(IRenderer::BitDepth::e8Bit, rect, reinterpret_cast<const u8*>(decompressor.mDecompressedStrip));
                 }
@@ -167,7 +167,7 @@ void ScreenManager::DecompressCameraToVRam_40EF60(u16** ppBits)
 ScreenManager::ScreenManager(u8** ppBits, FP_Point* pCameraOffset)
     : BaseGameObject(TRUE, 0)
 {
-    field_20_pCamPos = pCameraOffset;
+    mCamPos = pCameraOffset;
 
     mBaseGameObjectFlags.Set(BaseGameObject::eSurviveDeathReset_Bit9);
     mBaseGameObjectFlags.Set(BaseGameObject::eUpdateDuringCamSwap_Bit10);
@@ -177,25 +177,25 @@ ScreenManager::ScreenManager(u8** ppBits, FP_Point* pCameraOffset)
 
 void ScreenManager::Init_40E4B0(u8** ppBits)
 {
-    field_40_flags |= 0x10000;
+    mFlags |= 0x10000;
 
     SetType(ReliveTypes::eScreenManager);
 
-    field_2C_upos = 0;
-    field_2E_vpos = 272;
-    field_30_cam_width = 640;
-    field_32_cam_height = 240;
+    mUPos = 0;
+    mVPos = 272;
+    mCamWidth = 640;
+    mCamHeight = 240;
 
     Vram_alloc_explicit_4955F0(0, 272, 640 - 1, 512 - 1);
     DecompressCameraToVRam_40EF60(reinterpret_cast<u16**>(ppBits));
 
-    field_24_screen_sprites = &sSpriteTPageBuffer_5B86C8[0];
+    mScreenSprites = &sSpriteTPageBuffer_5B86C8[0];
 
     s16 xpos = 0;
     s16 ypos = 0;
     for (s32 i = 0; i < 300; i++)
     {
-        SprtTPage* pItem = &field_24_screen_sprites[i];
+        SprtTPage* pItem = &mScreenSprites[i];
         Sprt_Init_4F8910(&pItem->mSprt);
         SetRGB0(&pItem->mSprt, 128, 128, 128);
         SetXY0(&pItem->mSprt, xpos, ypos);
@@ -203,8 +203,8 @@ void ScreenManager::Init_40E4B0(u8** ppBits)
         pItem->mSprt.field_14_w = 32;
         pItem->mSprt.field_16_h = 16;
 
-        s32 u0 = field_2C_upos + 32 * (i % 20);
-        s32 v0 = field_2E_vpos + 16 * (i / 20);
+        s32 u0 = mUPos + 32 * (i % 20);
+        s32 v0 = mVPos + 16 * (i / 20);
         s32 tpage = ScreenManager::GetTPage_40F040(TPageMode::e16Bit_2, TPageAbr::eBlend_0, &u0, &v0);
 
         tpage |= 0x8000;
@@ -226,9 +226,9 @@ void ScreenManager::Init_40E4B0(u8** ppBits)
         UnsetDirtyBits_40EDE0(i);
     }
 
-    field_3A_idx = 2;
-    field_3C_y_idx = 1;
-    field_3E_x_idx = 0;
+    mIdx = 2;
+    mYIdx = 1;
+    mXIdx = 0;
 }
 
 s32 ScreenManager::GetTPage_40F040(TPageMode tp, TPageAbr abr, s32* xpos, s32* ypos)
@@ -251,9 +251,9 @@ ALIVE_VAR(1, 0x5bb5d8, Layer, sIdx_5BB5D8, Layer::eLayer_0);
 
 void ScreenManager::Render_Helper_40E9F0(s32 xpos, s32 ypos, Layer idx, s32 sprite_idx, PrimHeader** ppOt)
 {
-    if (IsDirty_40EBC0(field_3A_idx, xpos, ypos) || IsDirty_40EBC0(field_3C_y_idx, xpos, ypos) || IsDirty_40EBC0(3, xpos, ypos))
+    if (IsDirty_40EBC0(mIdx, xpos, ypos) || IsDirty_40EBC0(mYIdx, xpos, ypos) || IsDirty_40EBC0(3, xpos, ypos))
     {
-        SprtTPage* pSprite = &field_24_screen_sprites[sprite_idx];
+        SprtTPage* pSprite = &mScreenSprites[sprite_idx];
         if (Y0(&pSprite->mSprt) != sCurrentYPos_5BB5F0 || sIdx_5BB5D8 != idx)
         {
             if (pCurrent_SprtTPage_5BB5DC)
@@ -285,15 +285,15 @@ void ScreenManager::sub_40EE50()
     // NOTE: The algorithm calling Add_Dirty_Area_4ED970 has not been implemented
     // as its not actually used.
 
-    field_3E_x_idx = field_3C_y_idx;
-    field_3C_y_idx = field_3A_idx;
-    field_3A_idx = (field_3A_idx + 1) % 3;
-    UnsetDirtyBits_40EDE0(field_3A_idx);
+    mXIdx = mYIdx;
+    mYIdx = mIdx;
+    mIdx = (mIdx + 1) % 3;
+    UnsetDirtyBits_40EDE0(mIdx);
 }
 
 void ScreenManager::VRender_40E6E0(PrimHeader** ppOt)
 {
-    if (!(field_40_flags & 0x10000)) // Render enabled flag ?
+    if (!(mFlags & 0x10000)) // Render enabled flag ?
     {
         return;
     }
@@ -313,7 +313,7 @@ void ScreenManager::VRender_40E6E0(PrimHeader** ppOt)
 
     for (s32 i = 0; i < 300; i++)
     {
-        SprtTPage* pSpriteTPage = &field_24_screen_sprites[i];
+        SprtTPage* pSpriteTPage = &mScreenSprites[i];
         const s32 spriteX = pSpriteTPage->mSprt.mBase.vert.x;
         const s32 spriteY = pSpriteTPage->mSprt.mBase.vert.y;
 
@@ -333,7 +333,7 @@ void ScreenManager::VRender_40E6E0(PrimHeader** ppOt)
         {
             Render_Helper_40E9F0(spriteX, spriteY, Layer::eLayer_Well_Half_4, i, ppOt);
         }
-        else if (IsDirty_40EBC0(field_3C_y_idx, spriteX, spriteY) || IsDirty_40EBC0(3, spriteX, spriteY))
+        else if (IsDirty_40EBC0(mYIdx, spriteX, spriteY) || IsDirty_40EBC0(3, spriteX, spriteY))
         {
             if (spriteY != sCurrentYPos_5BB5F0 || sIdx_5BB5D8 != Layer::eLayer_1)
             {
@@ -365,7 +365,7 @@ void ScreenManager::VRender_40E6E0(PrimHeader** ppOt)
 
     for (s32 i = 0; i < 20; i++)
     {
-        field_64_20x16_dirty_bits[field_3C_y_idx].mData[i] |= field_64_20x16_dirty_bits[3].mData[i];
+        field_64_20x16_dirty_bits[mYIdx].mData[i] |= field_64_20x16_dirty_bits[3].mData[i];
     }
 
     UnsetDirtyBits_40EDE0(3);

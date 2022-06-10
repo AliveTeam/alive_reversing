@@ -311,23 +311,23 @@ void FlintLockFire::VRender(PrimHeader** ppOt)
             field_220_anim.mBlue = static_cast<u8>(b);
 
             field_220_anim.VRender(
-                FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos + (FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos)) - pScreenManager_4FF7C8->field_10_pCamPos->field_0_x),
-                FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos + (FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos + mBaseAnimatedWithPhysicsGameObject_YOffset - 28)) - pScreenManager_4FF7C8->field_10_pCamPos->field_4_y),
+                FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos + (FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos)) - pScreenManager_4FF7C8->mCamPos->field_0_x),
+                FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos + (FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos + mBaseAnimatedWithPhysicsGameObject_YOffset - 28)) - pScreenManager_4FF7C8->mCamPos->field_4_y),
                 ppOt,
                 0,
                 0);
 
             field_188_anim.VRender(
-                FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos + (FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos - 3)) - pScreenManager_4FF7C8->field_10_pCamPos->field_0_x),
-                FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos + (FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos + mBaseAnimatedWithPhysicsGameObject_YOffset - 28)) - pScreenManager_4FF7C8->field_10_pCamPos->field_4_y),
+                FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos + (FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos - 3)) - pScreenManager_4FF7C8->mCamPos->field_0_x),
+                FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos + (FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos + mBaseAnimatedWithPhysicsGameObject_YOffset - 28)) - pScreenManager_4FF7C8->mCamPos->field_4_y),
                 ppOt,
                 0,
                 0);
         }
 
         mBaseAnimatedWithPhysicsGameObject_Anim.VRender(
-            FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos + FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos) - pScreenManager_4FF7C8->field_10_pCamPos->field_0_x),
-            FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos + (FP_FromInteger(mBaseAnimatedWithPhysicsGameObject_YOffset + pScreenManager_4FF7C8->field_16_ypos)) - pScreenManager_4FF7C8->field_10_pCamPos->field_4_y),
+            FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos + FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos) - pScreenManager_4FF7C8->mCamPos->field_0_x),
+            FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos + (FP_FromInteger(mBaseAnimatedWithPhysicsGameObject_YOffset + pScreenManager_4FF7C8->field_16_ypos)) - pScreenManager_4FF7C8->mCamPos->field_4_y),
             ppOt,
             0,
             0);
@@ -335,10 +335,10 @@ void FlintLockFire::VRender(PrimHeader** ppOt)
         field_F0_anim.VRender(
             FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos
                            + FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos)
-                           - pScreenManager_4FF7C8->field_10_pCamPos->field_0_x),
+                           - pScreenManager_4FF7C8->mCamPos->field_0_x),
             FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos
                            + (FP_FromInteger(mBaseAnimatedWithPhysicsGameObject_YOffset + pScreenManager_4FF7C8->field_16_ypos))
-                           - pScreenManager_4FF7C8->field_10_pCamPos->field_4_y),
+                           - pScreenManager_4FF7C8->mCamPos->field_4_y),
             ppOt,
             0,
             0);
@@ -350,7 +350,7 @@ void FlintLockFire::VRender(PrimHeader** ppOt)
             frameRect.y,
             frameRect.w,
             frameRect.h,
-            pScreenManager_4FF7C8->field_2E_idx);
+            pScreenManager_4FF7C8->mIdx);
 
         field_F0_anim.Get_Frame_Rect(&frameRect);
         pScreenManager_4FF7C8->InvalidateRect(
@@ -358,7 +358,7 @@ void FlintLockFire::VRender(PrimHeader** ppOt)
             frameRect.y,
             frameRect.w,
             frameRect.h,
-            pScreenManager_4FF7C8->field_2E_idx);
+            pScreenManager_4FF7C8->mIdx);
 
         if (sFlintLockFireData_4BAC70[cur_lvl].field_24_bFire)
         {
@@ -368,7 +368,7 @@ void FlintLockFire::VRender(PrimHeader** ppOt)
                 frameRect.y,
                 frameRect.w,
                 frameRect.h,
-                pScreenManager_4FF7C8->field_2E_idx);
+                pScreenManager_4FF7C8->mIdx);
 
             field_220_anim.Get_Frame_Rect(&frameRect);
             pScreenManager_4FF7C8->InvalidateRect(
@@ -376,7 +376,7 @@ void FlintLockFire::VRender(PrimHeader** ppOt)
                 frameRect.y,
                 frameRect.w,
                 frameRect.h,
-                pScreenManager_4FF7C8->field_2E_idx);
+                pScreenManager_4FF7C8->mIdx);
         }
     }
 }

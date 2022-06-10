@@ -55,11 +55,11 @@ void OrbWhirlWindParticle::Render(PrimHeader** ppOt)
 
     const s16 xpos = FP_GetExponent(FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos)
                                     + field_A0_xpos_render_offset
-                                    - pScreenManager_4FF7C8->field_10_pCamPos->field_0_x);
+                                    - pScreenManager_4FF7C8->mCamPos->field_0_x);
 
     const s16 ypos = FP_GetExponent(FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos + 5)
                                     + field_A4_ypos_render_offset
-                                    - pScreenManager_4FF7C8->field_10_pCamPos->field_4_y);
+                                    - pScreenManager_4FF7C8->mCamPos->field_4_y);
 
     field_8_anim.VRender(
         xpos,
@@ -75,7 +75,7 @@ void OrbWhirlWindParticle::Render(PrimHeader** ppOt)
         rect.y,
         rect.w,
         rect.h,
-        pScreenManager_4FF7C8->field_2E_idx);
+        pScreenManager_4FF7C8->mIdx);
 }
 
 void OrbWhirlWindParticle::SetActive(u8 active)

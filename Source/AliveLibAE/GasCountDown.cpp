@@ -65,8 +65,8 @@ GasCountDown::GasCountDown(Path_GasCountDown* pTlv, s32 tlvInfo)
     mBaseGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4);
     gObjListDrawables->Push_Back(this);
 
-    field_6C_xpos = FP_GetExponent(FP_FromInteger(pTlv->field_8_top_left.field_0_x) - pScreenManager->field_20_pCamPos->field_0_x);
-    field_6E_ypos = FP_GetExponent(FP_FromInteger(pTlv->field_8_top_left.field_2_y) - pScreenManager->field_20_pCamPos->field_4_y);
+    field_6C_xpos = FP_GetExponent(FP_FromInteger(pTlv->field_8_top_left.field_0_x) - pScreenManager->mCamPos->field_0_x);
+    field_6E_ypos = FP_GetExponent(FP_FromInteger(pTlv->field_8_top_left.field_2_y) - pScreenManager->mCamPos->field_4_y);
 
     gGasOn_5C1C00 = 0;
 
@@ -135,7 +135,7 @@ void GasCountDown::VRender(PrimHeader** ppOt)
         field_6E_ypos,
         PsxToPCX(field_6C_xpos + textWidth),
         field_6E_ypos + 16,
-        pScreenManager->field_3A_idx);
+        pScreenManager->mIdx);
 }
 
 void GasCountDown::DealDamage()

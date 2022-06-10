@@ -260,8 +260,8 @@ void ThrowableTotalIndicator::VRender(PrimHeader** ppOt)
         return;
     }
 
-    const FP camX = FP_NoFractional(pScreenManager->field_20_pCamPos->field_0_x);
-    const FP camY = FP_NoFractional(pScreenManager->field_20_pCamPos->field_4_y);
+    const FP camX = FP_NoFractional(pScreenManager->mCamPos->field_0_x);
+    const FP camY = FP_NoFractional(pScreenManager->mCamPos->field_4_y);
 
     s16 xpos = 0;
     s16 ypos = 0;
@@ -301,5 +301,5 @@ void ThrowableTotalIndicator::VRender(PrimHeader** ppOt)
         ypos - 8,
         xpos + 8,
         ypos + 8,
-        pScreenManager->field_3A_idx);
+        pScreenManager->mIdx);
 }

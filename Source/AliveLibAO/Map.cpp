@@ -28,6 +28,7 @@
 #include "Elum.hpp"
 #include "Sys.hpp"
 #include "PlatformBase.hpp"
+#include "Camera.hpp"
 
 class BaseGameObject;
 
@@ -1926,7 +1927,7 @@ void Map::GoTo_Camera()
         pScreenManager_4FF7C8->DecompressCameraToVRam(reinterpret_cast<u16**>(field_34_camera_array[0]->field_C_ppBits));
         pScreenManager_4FF7C8->InvalidateRectCurrentIdx(0, 0, 640, 240);
         pScreenManager_4FF7C8->MoveImage();
-        pScreenManager_4FF7C8->field_36_flags = (pScreenManager_4FF7C8->field_36_flags & ~1) ^ 1;
+        pScreenManager_4FF7C8->mFlags = (pScreenManager_4FF7C8->mFlags & ~1) ^ 1;
     }
 
     if (field_10_screenChangeEffect != CameraSwapEffects::ePlay1FMV_5 && field_10_screenChangeEffect != CameraSwapEffects::eUnknown_11)
@@ -1939,7 +1940,7 @@ void Map::GoTo_Camera()
                 pTlvIter = static_cast<Path_Door*>(Path_TLV::TLV_Next_Of_Type_446500(pTlvIter, TlvTypes::Door_6));
             }
 
-            const auto pCamPos = pScreenManager_4FF7C8->field_10_pCamPos;
+            const auto pCamPos = pScreenManager_4FF7C8->mCamPos;
             const auto xpos = pScreenManager_4FF7C8->field_14_xpos + ((pTlvIter->field_10_top_left.field_0_x + pTlvIter->field_14_bottom_right.field_0_x) / 2) - FP_GetExponent(pCamPos->field_0_x);
             const auto ypos = pScreenManager_4FF7C8->field_16_ypos + pTlvIter->field_10_top_left.field_2_y - FP_GetExponent(pCamPos->field_4_y);
             relive_new CameraSwapper(

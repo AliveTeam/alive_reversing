@@ -194,8 +194,8 @@ void Mine::VRender(PrimHeader** ppOt)
                 mBaseAnimatedWithPhysicsGameObject_YPos,
                 0))
         {
-            this->field_124_animation.VRender(FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos - pScreenManager->field_20_pCamPos->field_0_x),
-                                                     FP_GetExponent(FP_FromInteger(mBaseAnimatedWithPhysicsGameObject_YOffset) + mBaseAnimatedWithPhysicsGameObject_YPos - pScreenManager->field_20_pCamPos->field_4_y),
+            this->field_124_animation.VRender(FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos - pScreenManager->mCamPos->field_0_x),
+                                                     FP_GetExponent(FP_FromInteger(mBaseAnimatedWithPhysicsGameObject_YOffset) + mBaseAnimatedWithPhysicsGameObject_YPos - pScreenManager->mCamPos->field_4_y),
                                                      ppOt,
                                                      0,
                                                      0);

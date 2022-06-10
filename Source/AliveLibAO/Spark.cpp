@@ -159,7 +159,7 @@ void Spark::VRender(PrimHeader** ppOt)
     rect.w = -32767;
     rect.h = -32767;
 
-    const FP_Point* pCamPos = pScreenManager_4FF7C8->field_10_pCamPos;
+    const FP_Point* pCamPos = pScreenManager_4FF7C8->mCamPos;
 
     const s16 xOrg = FP_GetExponent(field_30_xpos) - FP_GetExponent(pCamPos->field_0_x - FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos));
     const s16 yOrg = FP_GetExponent(field_34_ypos) - FP_GetExponent(pCamPos->field_4_y - FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos));
@@ -208,7 +208,7 @@ void Spark::VRender(PrimHeader** ppOt)
         rect.y,
         rect.w,
         rect.h,
-        pScreenManager_4FF7C8->field_2E_idx);
+        pScreenManager_4FF7C8->mIdx);
 }
 
 } // namespace AO

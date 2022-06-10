@@ -60,7 +60,7 @@ public:
         mBaseAnimatedWithPhysicsGameObject_Anim.Get_Frame_Width_Height(&frameW, &frameH);
         mBaseAnimatedWithPhysicsGameObject_Anim.Get_Frame_Offset(&xy.field_0_x, &xy.field_2_y);
 
-        const auto& pCamPos = pScreenManager->field_20_pCamPos;
+        const auto& pCamPos = pScreenManager->mCamPos;
         const FP screenX = mBaseAnimatedWithPhysicsGameObject_XPos - pCamPos->field_0_x;
         const FP screenY = mBaseAnimatedWithPhysicsGameObject_YPos - pCamPos->field_4_y;
 
@@ -107,7 +107,7 @@ public:
                     frameRect.y,
                     frameRect.w,
                     frameRect.h,
-                    pScreenManager->field_3A_idx);
+                    pScreenManager->mIdx);
             }
         }
     }
@@ -256,8 +256,8 @@ private:
                 mBaseAnimatedWithPhysicsGameObject_Anim.mBlue = 32;
 
                 mBaseAnimatedWithPhysicsGameObject_Anim.VRender(
-                    FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos - pScreenManager->field_20_pCamPos->field_0_x),
-                    FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos - pScreenManager->field_20_pCamPos->field_4_y),
+                    FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos - pScreenManager->mCamPos->field_0_x),
+                    FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos - pScreenManager->mCamPos->field_4_y),
                     ppOt,
                     0,
                     0);
@@ -269,7 +269,7 @@ private:
                     frameRect.y,
                     frameRect.w,
                     frameRect.h,
-                    pScreenManager->field_3A_idx);
+                    pScreenManager->mIdx);
 
                 for (auto& anim : field_F8_sparks)
                 {
@@ -277,13 +277,13 @@ private:
                     if (anim.field_12_bVisible)
                     {
                         // And in screen bounds?
-                        if (anim.field_0_x >= pScreenManager->field_20_pCamPos->field_0_x && anim.field_0_x <= pScreenManager->field_20_pCamPos->field_0_x + FP_FromInteger(368))
+                        if (anim.field_0_x >= pScreenManager->mCamPos->field_0_x && anim.field_0_x <= pScreenManager->mCamPos->field_0_x + FP_FromInteger(368))
                         {
-                            if (anim.field_4_y >= pScreenManager->field_20_pCamPos->field_4_y && anim.field_4_y <= pScreenManager->field_20_pCamPos->field_4_y + FP_FromInteger(240))
+                            if (anim.field_4_y >= pScreenManager->mCamPos->field_4_y && anim.field_4_y <= pScreenManager->mCamPos->field_4_y + FP_FromInteger(240))
                             {
                                 anim.field_14.VRender(
-                                    FP_GetExponent(anim.field_0_x - pScreenManager->field_20_pCamPos->field_0_x),
-                                    FP_GetExponent(anim.field_4_y - pScreenManager->field_20_pCamPos->field_4_y),
+                                    FP_GetExponent(anim.field_0_x - pScreenManager->mCamPos->field_0_x),
+                                    FP_GetExponent(anim.field_4_y - pScreenManager->mCamPos->field_4_y),
                                     ppOt,
                                     0,
                                     0);
@@ -294,7 +294,7 @@ private:
                                     frameRect.y,
                                     frameRect.w,
                                     frameRect.h,
-                                    pScreenManager->field_3A_idx);
+                                    pScreenManager->mIdx);
                             }
                         }
                     }

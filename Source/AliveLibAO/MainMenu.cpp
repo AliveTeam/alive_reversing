@@ -24,6 +24,7 @@
 #include "Midi.hpp"
 #include "Sound.hpp"
 #include "Particle.hpp"
+#include "Camera.hpp"
 #include "../AliveLibAE/Io.hpp"
 
 namespace AO {
@@ -395,7 +396,7 @@ void MainMenuFade::VRender(PrimHeader** ppOt)
         rect.y,
         rect.w,
         rect.h,
-        pScreenManager_4FF7C8->field_2E_idx);
+        pScreenManager_4FF7C8->mIdx);
 }
 
 struct MainMenu_TransitionData final
@@ -842,7 +843,7 @@ void Menu::VRender_47AC00(PrimHeader** ppOt)
             rect.y,
             rect.w,
             rect.h,
-            pScreenManager_4FF7C8->field_2E_idx);
+            pScreenManager_4FF7C8->mIdx);
     }
     (this->*field_1D0_fn_render)(ppOt);
 }
@@ -1020,7 +1021,7 @@ void Menu::FMV_Select_Update_47E8D0()
                     gPsxDisplay_504C78.PutCurrentDispEnv_40DE40();
                     pScreenManager_4FF7C8->DecompressCameraToVRam(reinterpret_cast<u16**>(gMap.field_34_camera_array[0]->field_C_ppBits));
                     pScreenManager_4FF7C8->MoveImage();
-                    pScreenManager_4FF7C8->field_36_flags = (pScreenManager_4FF7C8->field_36_flags & ~1) ^ 1; // Toggle 1
+                    pScreenManager_4FF7C8->mFlags = (pScreenManager_4FF7C8->mFlags & ~1) ^ 1; // Toggle 1
                     SND_Restart();
                 }
                 else
@@ -1118,7 +1119,7 @@ void Menu::FMV_Or_Level_Select_Render_47EEA0(PrimHeader** ppOt)
         rect.y,
         rect.w,
         rect.h,
-        pScreenManager_4FF7C8->field_2E_idx);
+        pScreenManager_4FF7C8->mIdx);
 
     if (field_1E0_selected_index.raw != field_218_previous_fmv_or_level_selection)
     {
@@ -1298,7 +1299,7 @@ void Menu::MainScreen_Render_47BED0(PrimHeader** ppOt)
         rect.y,
         rect.w,
         rect.h,
-        pScreenManager_4FF7C8->field_2E_idx);
+        pScreenManager_4FF7C8->mIdx);
 
     s32 polyOffset = 0;
     for (const auto& element : sBtnArray_MainMenuStaticBtn_4D03F0)
@@ -1817,7 +1818,7 @@ void Menu::Load_Render_47DDA0(PrimHeader** ppOt)
             rect.y,
             rect.w,
             rect.h,
-            pScreenManager_4FF7C8->field_2E_idx);
+            pScreenManager_4FF7C8->mIdx);
     }
     else
     {
@@ -1829,7 +1830,7 @@ void Menu::Load_Render_47DDA0(PrimHeader** ppOt)
             rect.y,
             rect.w,
             rect.h,
-            pScreenManager_4FF7C8->field_2E_idx);
+            pScreenManager_4FF7C8->mIdx);
     }
 
     if (field_1E0_selected_index.raw != sSelectedSaveIdx_9F2DDC)
@@ -1986,7 +1987,7 @@ void Menu::Options_Render_47C190(PrimHeader** ppOt)
         rect.y,
         rect.w,
         rect.h,
-        pScreenManager_4FF7C8->field_2E_idx);
+        pScreenManager_4FF7C8->mIdx);
 
     s32 polyOff = 0;
     for (const auto& element : sBtnArray_Options_4D0400)
@@ -2318,7 +2319,7 @@ void Menu::Options_Controller_Render_47F430(PrimHeader** ppOt)
         rect.y,
         rect.w,
         rect.h,
-        pScreenManager_4FF7C8->field_2E_idx);
+        pScreenManager_4FF7C8->mIdx);
 
     if (field_1E0_selected_index.raw != (Input_JoyStickEnabled() ? 1 : 0))
     {
@@ -2454,7 +2455,7 @@ void Menu::Options_Sound_Render_47C630(PrimHeader** ppOt)
         rect.y,
         rect.w,
         rect.h,
-        pScreenManager_4FF7C8->field_2E_idx);
+        pScreenManager_4FF7C8->mIdx);
 
     s32 polyOffset = 0;
     for (s32 i = 0; i < 2; i++)
@@ -2612,8 +2613,8 @@ void Menu::GameSpeak_Update_47CBD0()
             const AnimRecord& rec = AO::AnimRec(AnimId::OptionChantOrb_Particle);
             ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
 
-            const FP screen_y = pScreenManager_4FF7C8->field_10_pCamPos->field_4_y - FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos);
-            const FP screen_x = pScreenManager_4FF7C8->field_10_pCamPos->field_0_x - FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos);
+            const FP screen_y = pScreenManager_4FF7C8->mCamPos->field_4_y - FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos);
+            const FP screen_x = pScreenManager_4FF7C8->mCamPos->field_0_x - FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos);
 
             auto pParticle = relive_new Particle(
                 screen_x + (FP_FromInteger(Math_RandomRange_450F20(-40, 40) + 184)),
@@ -3172,7 +3173,7 @@ void Menu::ButtonRemap_Render_47F940(PrimHeader** ppOt)
         pRect.y,
         pRect.w,
         pRect.h,
-        pScreenManager_4FF7C8->field_2E_idx);
+        pScreenManager_4FF7C8->mIdx);
 
     for (s32 i = 0; i < ALIVE_COUNTOF(chooseAndExitRemapButtons_4D0690); i++)
     {
@@ -3616,7 +3617,7 @@ void Menu::ToggleMotions_Render_47CAB0(PrimHeader** ppOt)
         rect.y,
         rect.w,
         rect.h,
-        pScreenManager_4FF7C8->field_2E_idx);
+        pScreenManager_4FF7C8->mIdx);
 }
 
 void Menu::ToggleMotions_Update_47C800()

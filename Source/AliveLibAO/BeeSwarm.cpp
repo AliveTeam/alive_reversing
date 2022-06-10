@@ -565,10 +565,10 @@ void BeeSwarm::VRender(PrimHeader** ppOt)
     mBaseAnimatedWithPhysicsGameObject_Anim.mBlue = static_cast<u8>(mBaseAnimatedWithPhysicsGameObject_Blue);
     mBaseAnimatedWithPhysicsGameObject_Anim.field_14_scale = mBaseAnimatedWithPhysicsGameObject_SpriteScale;
 
-    const auto campos_x_delta = pScreenManager_4FF7C8->field_10_pCamPos->field_0_x - FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos);
-    const auto campos_y_delta = pScreenManager_4FF7C8->field_10_pCamPos->field_4_y - FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos);
-    const auto cam_x_abs = pScreenManager_4FF7C8->field_10_pCamPos->field_0_x + FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos);
-    const auto cam_y_abs = pScreenManager_4FF7C8->field_10_pCamPos->field_4_y + FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos);
+    const auto campos_x_delta = pScreenManager_4FF7C8->mCamPos->field_0_x - FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos);
+    const auto campos_y_delta = pScreenManager_4FF7C8->mCamPos->field_4_y - FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos);
+    const auto cam_x_abs = pScreenManager_4FF7C8->mCamPos->field_0_x + FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos);
+    const auto cam_y_abs = pScreenManager_4FF7C8->mCamPos->field_4_y + FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos);
 
     PSX_Point xy = {32767, 32767};
     PSX_Point wh = {-32767, -32767};
@@ -613,7 +613,7 @@ void BeeSwarm::VRender(PrimHeader** ppOt)
                 out.y,
                 out.w,
                 out.h,
-                pScreenManager_4FF7C8->field_2E_idx);
+                pScreenManager_4FF7C8->mIdx);
         }
     }
 }

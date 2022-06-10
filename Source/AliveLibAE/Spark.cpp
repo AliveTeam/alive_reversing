@@ -154,8 +154,8 @@ void Spark::VRender(PrimHeader** ppOt)
         PSX_Point xy = {32767, 32767};
         PSX_Point wh = {-32767, -32767};
 
-        const s32 xOrg = FP_GetExponent(field_40_xpos) - FP_GetExponent(pScreenManager->field_20_pCamPos->field_0_x);
-        const s32 yOrg = FP_GetExponent(field_44_ypos) - FP_GetExponent(pScreenManager->field_20_pCamPos->field_4_y);
+        const s32 xOrg = FP_GetExponent(field_40_xpos) - FP_GetExponent(pScreenManager->mCamPos->field_0_x);
+        const s32 yOrg = FP_GetExponent(field_44_ypos) - FP_GetExponent(pScreenManager->mCamPos->field_4_y);
 
         for (s32 i = 0; i < field_5C_count; i++)
         {
@@ -262,7 +262,7 @@ void Spark::VRender(PrimHeader** ppOt)
             xy.field_2_y,
             wh.field_0_x,
             wh.field_2_y,
-            pScreenManager->field_3A_idx);
+            pScreenManager->mIdx);
     }
 }
 

@@ -65,9 +65,9 @@ GasCountDown::GasCountDown(Path_GasCountDown* pTlv, s32 tlvInfo)
 
     field_62_time_left = 120;
 
-    field_5C_xpos = FP_GetExponent((FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos + pTlv->field_10_top_left.field_0_x) - pScreenManager_4FF7C8->field_10_pCamPos->field_0_x));
+    field_5C_xpos = FP_GetExponent((FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos + pTlv->field_10_top_left.field_0_x) - pScreenManager_4FF7C8->mCamPos->field_0_x));
 
-    field_5E_ypos = FP_GetExponent((FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos + pTlv->field_10_top_left.field_2_y)) - pScreenManager_4FF7C8->field_10_pCamPos->field_4_y);
+    field_5E_ypos = FP_GetExponent((FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos + pTlv->field_10_top_left.field_2_y)) - pScreenManager_4FF7C8->mCamPos->field_4_y);
 
     field_60_start_switch_id = pTlv->field_18_start_switch_id;
 }
@@ -197,7 +197,7 @@ void GasCountDown::VRender(PrimHeader** ppOt)
         field_5E_ypos,
         field_5C_xpos + textWidth,
         field_5E_ypos + 16,
-        pScreenManager_4FF7C8->field_2E_idx);
+        pScreenManager_4FF7C8->mIdx);
 }
 
 } // namespace AO

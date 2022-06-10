@@ -284,8 +284,8 @@ void LCDScreen::VUpdate()
         sFontDrawScreenSpace_5CA4B4 = 0;
     }
 
-    auto screenLeft = field_2C0_tlv.field_8_top_left.field_0_x - FP_GetExponent(pScreenManager->field_20_pCamPos->field_0_x);
-    auto screenRight = field_2C0_tlv.field_C_bottom_right.field_0_x - FP_GetExponent(pScreenManager->field_20_pCamPos->field_0_x);
+    auto screenLeft = field_2C0_tlv.field_8_top_left.field_0_x - FP_GetExponent(pScreenManager->mCamPos->field_0_x);
+    auto screenRight = field_2C0_tlv.field_C_bottom_right.field_0_x - FP_GetExponent(pScreenManager->mCamPos->field_0_x);
 
     sFontDrawScreenSpace_5CA4B4 = 1;
     auto slicedText = field_60_font.SliceText(
@@ -312,7 +312,7 @@ void LCDScreen::VRender(PrimHeader** ppOt)
 {
     if (sNum_CamSwappers_5C1B66 == 0)
     {
-        const FP_Point* camPos = pScreenManager->field_20_pCamPos;
+        const FP_Point* camPos = pScreenManager->mCamPos;
         const s32 screenX = field_2C0_tlv.field_8_top_left.field_0_x - FP_GetExponent(camPos->field_0_x);
         const s32 screenY = ((field_2C0_tlv.field_8_top_left.field_2_y + field_2C0_tlv.field_C_bottom_right.field_2_y) / 2 - FP_GetExponent(camPos->field_4_y)) - 7;
         const s32 screenXWorld = PsxToPCX(screenX);
@@ -361,7 +361,7 @@ void LCDScreen::VRender(PrimHeader** ppOt)
             screenY,
             clipRect.w,
             24,
-            pScreenManager->field_3A_idx);
+            pScreenManager->mIdx);
     }
 }
 

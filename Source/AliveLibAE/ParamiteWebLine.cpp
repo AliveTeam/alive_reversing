@@ -60,7 +60,7 @@ ParamiteWebLine::ParamiteWebLine(Path_ParamiteWebLine* pTlv, s32 tlvInfo)
     {
         mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pLine->field_0_rect.x);
 
-        const FP screenTop = pScreenManager->field_20_pCamPos->field_4_y;
+        const FP screenTop = pScreenManager->mCamPos->field_4_y;
         if (FP_FromInteger(pLine->field_0_rect.y) >= screenTop)
         {
             field_F8_top = pLine->field_0_rect.y;
@@ -70,7 +70,7 @@ ParamiteWebLine::ParamiteWebLine(Path_ParamiteWebLine* pTlv, s32 tlvInfo)
             field_F8_top = FP_GetExponent(screenTop);
         }
 
-        const FP screenBottom = pScreenManager->field_20_pCamPos->field_4_y + FP_FromInteger(240);
+        const FP screenBottom = pScreenManager->mCamPos->field_4_y + FP_FromInteger(240);
         if (FP_FromInteger(pLine->field_0_rect.h) <= screenBottom)
         {
             field_FA_bottom = pLine->field_0_rect.h;
@@ -201,12 +201,12 @@ void ParamiteWebLine::VRender(PrimHeader** ppOt)
     if (!field_104_wobble_idx && !field_1A4_delay_counter)
     {
         field_108_anim_flare.VRender(
-            FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos - pScreenManager->field_20_pCamPos->field_0_x),
-            FP_GetExponent(FP_FromInteger(field_1A0_pulse_position) - pScreenManager->field_20_pCamPos->field_4_y),
+            FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos - pScreenManager->mCamPos->field_0_x),
+            FP_GetExponent(FP_FromInteger(field_1A0_pulse_position) - pScreenManager->mCamPos->field_4_y),
             ppOt, 0, 0);
         PSX_RECT rect = {};
         field_108_anim_flare.Get_Frame_Rect(&rect);
-        pScreenManager->InvalidateRect_40EC90(rect.x, rect.y, rect.w, rect.h, pScreenManager->field_3A_idx);
+        pScreenManager->InvalidateRect_40EC90(rect.x, rect.y, rect.w, rect.h, pScreenManager->mIdx);
     }
 
     mBaseAnimatedWithPhysicsGameObject_Anim.VRender(640, 240, ppOt, 0, 0);
@@ -251,18 +251,18 @@ void ParamiteWebLine::VRender(PrimHeader** ppOt)
         field_FC_pRes[idx].mBlue = static_cast<u8>(b);
 
         field_FC_pRes[idx].VRender(
-            FP_GetExponent(FP_FromInteger(render_xpos) - pScreenManager->field_20_pCamPos->field_0_x),
-            FP_GetExponent(FP_FromInteger(render_ypos) - pScreenManager->field_20_pCamPos->field_4_y),
+            FP_GetExponent(FP_FromInteger(render_xpos) - pScreenManager->mCamPos->field_0_x),
+            FP_GetExponent(FP_FromInteger(render_ypos) - pScreenManager->mCamPos->field_4_y),
             ppOt, 0, 0);
 
         PSX_RECT rect = {};
         field_FC_pRes[idx].GetRenderedSize(&rect);
-        pScreenManager->InvalidateRect_40EC90(rect.x, rect.y, rect.w, rect.h, pScreenManager->field_3A_idx);
+        pScreenManager->InvalidateRect_40EC90(rect.x, rect.y, rect.w, rect.h, pScreenManager->mIdx);
 
         ClipPoly_Vertically_4A09E0(
             &field_FC_pRes[idx].field_10_polys[gPsxDisplay_5C1130.field_C_buffer_index],
-            FP_GetExponent(FP_FromInteger(field_F8_top) - pScreenManager->field_20_pCamPos->field_4_y),
-            FP_GetExponent(FP_FromInteger(field_FA_bottom) - pScreenManager->field_20_pCamPos->field_4_y));
+            FP_GetExponent(FP_FromInteger(field_F8_top) - pScreenManager->mCamPos->field_4_y),
+            FP_GetExponent(FP_FromInteger(field_FA_bottom) - pScreenManager->mCamPos->field_4_y));
 
         render_ypos -= field_F6_piece_length;
         idx++;

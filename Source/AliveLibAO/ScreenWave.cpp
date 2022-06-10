@@ -56,8 +56,8 @@ ScreenWave::ScreenWave(FP xpos, FP ypos, Layer layer, FP width, FP speed, s32 ra
 
     field_2C = FP_FromInteger(0);
 
-    field_36_screen_xpos = FP_GetExponent(xpos) - FP_GetExponent(pScreenManager_4FF7C8->field_10_pCamPos->field_0_x - FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos));
-    field_38_screen_ypos = FP_GetExponent(ypos) - FP_GetExponent(pScreenManager_4FF7C8->field_10_pCamPos->field_4_y - FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos));
+    field_36_screen_xpos = FP_GetExponent(xpos) - FP_GetExponent(pScreenManager_4FF7C8->mCamPos->field_0_x - FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos));
+    field_38_screen_ypos = FP_GetExponent(ypos) - FP_GetExponent(pScreenManager_4FF7C8->mCamPos->field_4_y - FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos));
 
     // TODO: This needs to be checked, my brain melted halfway
     const s16 v1 = static_cast<s16>(std::abs(field_36_screen_xpos) + std::abs(field_38_screen_ypos));
@@ -291,7 +291,7 @@ void ScreenWave::VRender(PrimHeader** ppOt)
                 clearRectSize.y,
                 clearRectSize.w,
                 clearRectSize.h,
-                pScreenManager_4FF7C8->field_2E_idx);
+                pScreenManager_4FF7C8->mIdx);
         }
     }
 }

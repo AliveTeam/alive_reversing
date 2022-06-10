@@ -3531,7 +3531,7 @@ s16 Mudokon::Brain_ListeningToAbe_State_4()
         {
             mNextMotion = eMudMotions::M_Idle_0_4724E0;
         }
-        if (mBaseAnimatedWithPhysicsGameObject_YPos > pScreenManager->field_20_pCamPos->field_4_y + FP_FromInteger(260) && field_180_emo_tbl != Mud_Emotion::eWired_6)
+        if (mBaseAnimatedWithPhysicsGameObject_YPos > pScreenManager->mCamPos->field_4_y + FP_FromInteger(260) && field_180_emo_tbl != Mud_Emotion::eWired_6)
         {
             if (field_10_resources_array.ItemAt(2))
             {
@@ -4061,7 +4061,7 @@ s16 Mudokon::Brain_ListeningToAbe_State_6()
 
 s16 Mudokon::Brain_ListeningToAbe_State_7()
 {
-    if (mBaseAnimatedWithPhysicsGameObject_YPos > pScreenManager->field_20_pCamPos->field_4_y + FP_FromInteger(260) && field_180_emo_tbl != Mud_Emotion::eWired_6)
+    if (mBaseAnimatedWithPhysicsGameObject_YPos > pScreenManager->mCamPos->field_4_y + FP_FromInteger(260) && field_180_emo_tbl != Mud_Emotion::eWired_6)
     {
         if (field_10_resources_array.ItemAt(2))
         {

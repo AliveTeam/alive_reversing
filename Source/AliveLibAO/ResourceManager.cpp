@@ -11,6 +11,7 @@
 #include "LvlArchive.hpp"
 #include "Map.hpp"
 #include "Sys.hpp"
+#include "Camera.hpp"
 
 namespace AO {
 

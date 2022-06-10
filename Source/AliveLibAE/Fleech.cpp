@@ -1266,7 +1266,7 @@ void Fleech::RenderEx(PrimHeader** ot)
         FP tongueBlock_X[5] = {};
         FP tongueBlock_Y[5] = {};
 
-        const FP_Point* camPos = pScreenManager->field_20_pCamPos;
+        const FP_Point* camPos = pScreenManager->mCamPos;
         const s16 camX = FP_GetExponent(camPos->field_0_x);
         const s16 camY = FP_GetExponent(camPos->field_4_y);
 
@@ -1470,7 +1470,7 @@ void Fleech::RenderEx(PrimHeader** ot)
                 invRect_y,
                 invRect_w,
                 invRect_h,
-                pScreenManager->field_3A_idx);
+                pScreenManager->mIdx);
         }
         const s32 tPage = PSX_getTPage_4F60E0(TPageMode::e4Bit_0, TPageAbr::eBlend_0, 0, 0);
         Init_SetTPage_4F5B60(&field_40C[gPsxDisplay_5C1130.field_C_buffer_index], 1, 0, tPage);

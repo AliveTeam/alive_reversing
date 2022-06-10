@@ -158,8 +158,6 @@ void CameraSwapper::Init(u8** ppCamRes, CameraSwapEffects changeEffect)
             wh.field_0_x = gPsxDisplay_504C78.field_0_width;
             wh.field_2_y = gPsxDisplay_504C78.field_2_height;
 
-            pScreenManager_4FF7C8->field_38 = 1;
-
             field_24_pSubObject = relive_new ScreenClipper(xy, wh, Layer::eLayer_0);
             break;
 
@@ -174,8 +172,6 @@ void CameraSwapper::Init(u8** ppCamRes, CameraSwapEffects changeEffect)
 
             wh.field_0_x = 0;
             wh.field_2_y = gPsxDisplay_504C78.field_2_height;
-
-            pScreenManager_4FF7C8->field_38 = 1;
 
             field_24_pSubObject = relive_new ScreenClipper(xy, wh, Layer::eLayer_0);
             break;
@@ -192,8 +188,6 @@ void CameraSwapper::Init(u8** ppCamRes, CameraSwapEffects changeEffect)
             wh.field_0_x = gPsxDisplay_504C78.field_0_width;
             wh.field_2_y = gPsxDisplay_504C78.field_2_height;
 
-            pScreenManager_4FF7C8->field_38 = 1;
-
             field_24_pSubObject = relive_new ScreenClipper(xy, wh, Layer::eLayer_0);
             break;
 
@@ -209,8 +203,6 @@ void CameraSwapper::Init(u8** ppCamRes, CameraSwapEffects changeEffect)
             wh.field_0_x = gPsxDisplay_504C78.field_0_width;
             wh.field_2_y = 0;
 
-            pScreenManager_4FF7C8->field_38 = 1;
-
             field_24_pSubObject = relive_new ScreenClipper(xy, wh, Layer::eLayer_0);
             break;
 
@@ -219,8 +211,6 @@ void CameraSwapper::Init(u8** ppCamRes, CameraSwapEffects changeEffect)
             field_2E_total_slices = (gPsxDisplay_504C78.field_0_width / 2) / field_46_slice_width;
             field_2C_slices_per_tick = 1;
             field_2A_current_slice = 0;
-
-            pScreenManager_4FF7C8->field_38 = 1;
 
             xy.field_0_x = gPsxDisplay_504C78.field_0_width / 2;
             xy.field_2_y = 0;
@@ -237,8 +227,6 @@ void CameraSwapper::Init(u8** ppCamRes, CameraSwapEffects changeEffect)
             field_2C_slices_per_tick = 1;
             field_2E_total_slices = (gPsxDisplay_504C78.field_2_height / 2) / field_46_slice_width;
             field_2A_current_slice = 0;
-
-            pScreenManager_4FF7C8->field_38 = 1;
 
             xy.field_0_x = 0;
             xy.field_2_y = gPsxDisplay_504C78.field_2_height / 2;
@@ -280,8 +268,6 @@ void CameraSwapper::Init(u8** ppCamRes, CameraSwapEffects changeEffect)
             field_2E_total_slices = startingSlice + 1;
             field_2A_current_slice = 0;
 
-            pScreenManager_4FF7C8->field_38 = 1;
-
             xy.field_0_x = gPsxDisplay_504C78.field_0_width - 1;
             xy.field_2_y = gPsxDisplay_504C78.field_2_height - 1;
 
@@ -295,7 +281,6 @@ void CameraSwapper::Init(u8** ppCamRes, CameraSwapEffects changeEffect)
         case CameraSwapEffects::ePlay1FMV_5:
         case CameraSwapEffects::ePlay2FMVs_9:
         case CameraSwapEffects::ePlay3FMVs_10:
-            pScreenManager_4FF7C8->field_38 = 1;
             field_24_pSubObject = relive_new ScreenClipper(PSX_Point{ 0, 0 }, PSX_Point{ 1, 1 }, Layer::eLayer_0);
             field_2A_current_slice = 0;
             break;
@@ -377,8 +362,6 @@ void CameraSwapper::VUpdate()
                 gPsxDisplay_504C78.PutCurrentDispEnv_40DE40();
             }
 
-            pScreenManager_4FF7C8->field_38 = 1;
-
             // Now apply the camera we where storing now that the movie is finished
             if (field_20_ppCamRes)
             {
@@ -386,7 +369,7 @@ void CameraSwapper::VUpdate()
                 pScreenManager_4FF7C8->InvalidateRect(0, 0, 640, 240, 0);
                 pScreenManager_4FF7C8->InvalidateRect(0, 0, 640, 240, 1);
                 pScreenManager_4FF7C8->InvalidateRect(0, 0, 640, 240, 2);
-                pScreenManager_4FF7C8->field_36_flags |= 1;
+                pScreenManager_4FF7C8->mFlags |= 1;
             }
             mBaseGameObjectFlags.Set(BaseGameObject::eDead);
         }
@@ -470,7 +453,7 @@ void CameraSwapper::VUpdate()
             }
             else
             {
-                pScreenManager_4FF7C8->field_36_flags &= ~1u;
+                pScreenManager_4FF7C8->mFlags &= ~1u;
             }
 
             // When no movie is playing start the next one
@@ -495,7 +478,7 @@ void CameraSwapper::VUpdate()
             }
             else
             {
-                pScreenManager_4FF7C8->field_36_flags &= ~1u;
+                pScreenManager_4FF7C8->mFlags &= ~1u;
             }
 
             // When no movie is playing start the next one

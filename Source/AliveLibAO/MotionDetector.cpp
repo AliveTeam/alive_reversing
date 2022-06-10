@@ -284,9 +284,9 @@ void MotionDetector::VRender(PrimHeader** ppOt)
 
     if (!SwitchStates_Get(field_F0_disable_switch_id))
     {
-        const s16 screen_top = FP_GetExponent(pScreenManager_4FF7C8->field_10_pCamPos->field_4_y - FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos));
+        const s16 screen_top = FP_GetExponent(pScreenManager_4FF7C8->mCamPos->field_4_y - FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos));
 
-        const s16 screen_left = FP_GetExponent(pScreenManager_4FF7C8->field_10_pCamPos->field_0_x - FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos));
+        const s16 screen_left = FP_GetExponent(pScreenManager_4FF7C8->mCamPos->field_0_x - FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos));
 
         PSX_RECT bLaserRect = {};
         field_108_pLaser->VGetBoundingRect(&bLaserRect, 1);
@@ -319,7 +319,7 @@ void MotionDetector::VRender(PrimHeader** ppOt)
             std::min(y0, std::min(y1, y2)),
             std::max(x0, std::max(x1, x1)),
             std::max(y0, std::max(y1, y2)),
-            pScreenManager_4FF7C8->field_2E_idx);
+            pScreenManager_4FF7C8->mIdx);
     }
 }
 

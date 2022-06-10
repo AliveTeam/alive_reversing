@@ -426,8 +426,8 @@ void LiftPoint::VRender(PrimHeader** ppOt)
             if (gMap.mCurrentLevel != EReliveLevelIds::eNecrum && Is_In_Current_Camera() == CameraPos::eCamCurrent_0)
             {
                 field_13C_lift_wheel.VRender(
-                    FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos - pScreenManager->field_20_pCamPos->field_0_x + (FP_FromInteger(3) * mBaseAnimatedWithPhysicsGameObject_SpriteScale)),
-                    FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos - pScreenManager->field_20_pCamPos->field_4_y + (FP_FromInteger(-5) * mBaseAnimatedWithPhysicsGameObject_SpriteScale)),
+                    FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos - pScreenManager->mCamPos->field_0_x + (FP_FromInteger(3) * mBaseAnimatedWithPhysicsGameObject_SpriteScale)),
+                    FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos - pScreenManager->mCamPos->field_4_y + (FP_FromInteger(-5) * mBaseAnimatedWithPhysicsGameObject_SpriteScale)),
                     ppOt,
                     0,
                     0);
@@ -439,7 +439,7 @@ void LiftPoint::VRender(PrimHeader** ppOt)
                     frameRect.y,
                     frameRect.w,
                     frameRect.h,
-                    pScreenManager->field_3A_idx);
+                    pScreenManager->mIdx);
             }
 
             if (field_280_flags.Get(LiftFlags::eBit4_bHasPulley))
@@ -468,8 +468,8 @@ void LiftPoint::VRender(PrimHeader** ppOt)
                     field_1D4_pulley_anim.mBlue = static_cast<u8>(b);
 
                     field_1D4_pulley_anim.VRender(
-                        FP_GetExponent(FP_FromInteger(field_26C_pulley_xpos) - pScreenManager->field_20_pCamPos->field_0_x),
-                        FP_GetExponent(FP_FromInteger(field_26E_pulley_ypos) - pScreenManager->field_20_pCamPos->field_4_y),
+                        FP_GetExponent(FP_FromInteger(field_26C_pulley_xpos) - pScreenManager->mCamPos->field_0_x),
+                        FP_GetExponent(FP_FromInteger(field_26E_pulley_ypos) - pScreenManager->mCamPos->field_4_y),
                         ppOt,
                         0,
                         0);
@@ -481,7 +481,7 @@ void LiftPoint::VRender(PrimHeader** ppOt)
                         frameRect.y,
                         frameRect.w,
                         frameRect.h,
-                        pScreenManager->field_3A_idx);
+                        pScreenManager->mIdx);
                 }
             }
 
@@ -491,8 +491,8 @@ void LiftPoint::VRender(PrimHeader** ppOt)
             if (gMap.mCurrentLevel == EReliveLevelIds::eNecrum && Is_In_Current_Camera() == CameraPos::eCamCurrent_0)
             {
                 field_13C_lift_wheel.VRender(
-                    FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos - pScreenManager->field_20_pCamPos->field_0_x + (FP_FromInteger(3) * mBaseAnimatedWithPhysicsGameObject_SpriteScale)),
-                    FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos - pScreenManager->field_20_pCamPos->field_4_y + (FP_FromInteger(-5) * mBaseAnimatedWithPhysicsGameObject_SpriteScale)),
+                    FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos - pScreenManager->mCamPos->field_0_x + (FP_FromInteger(3) * mBaseAnimatedWithPhysicsGameObject_SpriteScale)),
+                    FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos - pScreenManager->mCamPos->field_4_y + (FP_FromInteger(-5) * mBaseAnimatedWithPhysicsGameObject_SpriteScale)),
                     ppOt,
                     0,
                     0);
@@ -504,7 +504,7 @@ void LiftPoint::VRender(PrimHeader** ppOt)
                     frameRect.y,
                     frameRect.w,
                     frameRect.h,
-                    pScreenManager->field_3A_idx);
+                    pScreenManager->mIdx);
             }
         }
     }

@@ -691,7 +691,7 @@ void PauseMenu::DrawEntries(PrimHeader** ppOt, PauseEntry* entry, s16 selectedEn
         0,
         640,
         240,
-        pScreenManager_4FF7C8->field_2E_idx);
+        pScreenManager_4FF7C8->mIdx);
 }
 
 void PauseMenu::VRender(PrimHeader** ppOt)

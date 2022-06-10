@@ -186,25 +186,25 @@ void OrbWhirlWindParticle::Update()
 
 void OrbWhirlWindParticle::Render(PrimHeader** ppOt)
 {
-    const FP x = std::min(pScreenManager->field_20_pCamPos->field_0_x,
-                          pScreenManager->field_20_pCamPos->field_0_x + FP_FromInteger(367));
+    const FP x = std::min(pScreenManager->mCamPos->field_0_x,
+                          pScreenManager->mCamPos->field_0_x + FP_FromInteger(367));
 
-    const FP w = std::max(pScreenManager->field_20_pCamPos->field_0_x,
-                          pScreenManager->field_20_pCamPos->field_0_x + FP_FromInteger(367));
+    const FP w = std::max(pScreenManager->mCamPos->field_0_x,
+                          pScreenManager->mCamPos->field_0_x + FP_FromInteger(367));
 
-    const FP y = std::min(pScreenManager->field_20_pCamPos->field_4_y,
-                          pScreenManager->field_20_pCamPos->field_4_y + FP_FromInteger(239));
+    const FP y = std::min(pScreenManager->mCamPos->field_4_y,
+                          pScreenManager->mCamPos->field_4_y + FP_FromInteger(239));
 
-    const FP h = std::max(pScreenManager->field_20_pCamPos->field_4_y,
-                          pScreenManager->field_20_pCamPos->field_4_y + FP_FromInteger(239));
+    const FP h = std::max(pScreenManager->mCamPos->field_4_y,
+                          pScreenManager->mCamPos->field_4_y + FP_FromInteger(239));
 
     if (field_A0_xpos_render_offset >= x && field_A0_xpos_render_offset <= w)
     {
         if (field_A4_ypos_render_offset + FP_FromInteger(5) >= y && field_A4_ypos_render_offset + FP_FromInteger(5) <= h)
         {
             field_8_Anim.field_14_scale = field_A8_render_as_scale;
-            const FP xpos = field_A0_xpos_render_offset - pScreenManager->field_20_pCamPos->field_0_x;
-            const FP ypos = field_A4_ypos_render_offset - pScreenManager->field_20_pCamPos->field_4_y + FP_FromInteger(5);
+            const FP xpos = field_A0_xpos_render_offset - pScreenManager->mCamPos->field_0_x;
+            const FP ypos = field_A4_ypos_render_offset - pScreenManager->mCamPos->field_4_y + FP_FromInteger(5);
 
             field_8_Anim.VRender(
                 FP_GetExponent(xpos),
@@ -215,7 +215,7 @@ void OrbWhirlWindParticle::Render(PrimHeader** ppOt)
 
             PSX_RECT r = {};
             field_8_Anim.Get_Frame_Rect(&r);
-            pScreenManager->InvalidateRect_40EC90(r.x, r.y, r.w, r.h, pScreenManager->field_3A_idx);
+            pScreenManager->InvalidateRect_40EC90(r.x, r.y, r.w, r.h, pScreenManager->mIdx);
         }
     }
 }
