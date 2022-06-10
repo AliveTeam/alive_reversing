@@ -674,9 +674,6 @@ public:
     s16 field_176_invisibility_duration;
     s32 field_178_invisible_effect_id;
     s8 field_17C_cam_idx;
-    s8 field_17D_padding;
-    s8 field_17E_padding;
-    s8 field_17F_padding;
     TlvTypes32 field_180_hand_stone_type;
     s16 field_184_fmv_id;
     s16 field_186_to_camera_id[3];
@@ -726,9 +723,6 @@ public:
     BitField16<Flags_1AE> field_1AE_flags;
 
     s16 field_1B0_save_num;
-
-    s32 field_1B4_padding;
-    s32 field_1B8_padding;
 };
 ALIVE_ASSERT_SIZEOF(Abe, 0x1BC);
 

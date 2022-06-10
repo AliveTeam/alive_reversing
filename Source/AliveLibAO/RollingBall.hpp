@@ -16,7 +16,7 @@ struct Path_RollingBall final : public Path_TLV
     u16 field_20_acceleration;
     s16 field_22_pad;
 };
-ALIVE_ASSERT_SIZEOF(Path_RollingBall, 0x24);
+ALIVE_ASSERT_SIZEOF_ALWAYS(Path_RollingBall, 0x24);
 
 class RollingBallShaker;
 class PathLine;

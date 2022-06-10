@@ -338,16 +338,7 @@ private:
     s16 field_158_next_brain_ret;
     s16 field_15A_paramite_next_motion;
     s16 field_15C_paramite_xOffset;
-    s16 field_15E_padding;
     s32 field_160_last_event_index;
-    s16 field_164_padding;
-    s16 field_166_padding;
-    s16 field_168_padding;
-    s16 field_16A_padding;
-    s16 field_16C_padding;
-    s16 field_16E_padding;
-    s16 field_170_padding;
-    s16 field_172_padding;
     s16 field_174_unused;
     s16 field_176_unused;
     enum Flags_178 : s16
@@ -369,6 +360,5 @@ private:
         eBit15_padding = 0x4000,
     };
     BitField16<Flags_178> field_178_flags;
-    s16 field_17A_padding;
 };
 ALIVE_ASSERT_SIZEOF(Paramite, 0x17C);

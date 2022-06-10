@@ -24,7 +24,6 @@ public:
     s16 field_EA_ttl_remainder;
     AnimationUnknown* field_EC_pRes;
     s16 field_F0_bEnabled;
-    s16 field_F2_padding;
 };
 ALIVE_ASSERT_SIZEOF(ParamiteWeb, 0xF4);
 

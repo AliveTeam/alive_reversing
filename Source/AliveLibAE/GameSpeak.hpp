@@ -95,7 +95,6 @@ private:
 
 public:
     GameSpeakEvents field_20_last_event;
-    s16 field_22_padding;
     u32 field_24_last_event_frame;
     s32 field_28_last_event_index;
     s8 field_2C_event_buffer[32];

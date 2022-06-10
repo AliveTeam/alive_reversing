@@ -12,7 +12,7 @@ struct Path_SecurityOrb final : public Path_TLV
     Scale_short field_18_scale;
     s16 field_1A_disable_resources;
 };
-ALIVE_ASSERT_SIZEOF(Path_SecurityOrb, 0x1C);
+ALIVE_ASSERT_SIZEOF_ALWAYS(Path_SecurityOrb, 0x1C);
 
 enum class SecurityOrbStates : s16
 {
@@ -34,7 +34,6 @@ public:
 public:
     s32 field_10C_tlvInfo;
     SecurityOrbStates field_110_state;
-    s16 field_112_pad;
     s32 field_114_timer;
     s32 field_118_sound_channels;
 };

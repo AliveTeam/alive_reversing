@@ -34,9 +34,7 @@ public:
     void AsJoin(FP xpos, FP ypos);
     void FlyAway(s16 a2);
 
-    s32 field_D4_padding[4];
     s16 field_E4_counter;
-    s16 field_E6_padding;
     s32 field_E8_tlvInfo;
     s16 field_EC_keepInGlobalArray;
     enum class State : s16
@@ -52,7 +50,6 @@ public:
     FP field_F4_yJoin;
     s32 field_F8_timer;
     s8 field_FC_angle;
-    // 3 byte pad
     FP field_100_prevX;
     FP field_104_prevY;
 };

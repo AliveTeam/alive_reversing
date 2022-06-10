@@ -98,7 +98,7 @@ struct Path_Mudokon final : public Path_TLV
     s16 field_24_disabled_resources;
     s16 field_26_persist;
 };
-ALIVE_ASSERT_SIZEOF(Path_Mudokon, 0x28);
+ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Mudokon, 0x28);
 
 struct Path_RingMudokon final : public Path_TLV
 {
@@ -118,7 +118,7 @@ struct Path_RingMudokon final : public Path_TLV
     Choice_short field_28_give_ring_without_password;
     s16 field_2A_pad;
 };
-ALIVE_ASSERT_SIZEOF(Path_RingMudokon, 0x2C);
+ALIVE_ASSERT_SIZEOF_ALWAYS(Path_RingMudokon, 0x2C);
 
 struct Path_LiftMudokon final : public Path_TLV
 {
@@ -136,7 +136,7 @@ struct Path_LiftMudokon final : public Path_TLV
     s16 field_24_code2;
     s16 field_26_pad;
 };
-ALIVE_ASSERT_SIZEOF(Path_LiftMudokon, 0x28);
+ALIVE_ASSERT_SIZEOF_ALWAYS(Path_LiftMudokon, 0x28);
 
 class LiftPoint;
 class BirdPortal;

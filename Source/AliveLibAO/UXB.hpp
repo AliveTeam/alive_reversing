@@ -29,7 +29,7 @@ struct Path_UXB final : public Path_TLV
     UXBStartState field_1E_state;
     s32 field_20_disabled_resources;
 };
-ALIVE_ASSERT_SIZEOF(Path_UXB, 0x24);
+ALIVE_ASSERT_SIZEOF_ALWAYS(Path_UXB, 0x24);
 
 class UXB final : public BaseAliveGameObject
 {
@@ -51,7 +51,6 @@ public:
     UXBState field_10C_state;
     UXBState field_10E_starting_state;
     s16 field_110_disabled_resources;
-    s16 field_112_padding;
     s32 field_114_tlvInfo;
     s32 field_118_next_state_frame;
     Animation field_11C_anim;
@@ -65,7 +64,6 @@ public:
         eIsRed_Bit1 = 0x2,
     };
     BitField16<flags_1BC> field_1BC_flags;
-    s16 field_1BE_padding;
 };
 ALIVE_ASSERT_SIZEOF(UXB, 0x1C0);
 

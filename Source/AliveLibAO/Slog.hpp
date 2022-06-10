@@ -21,7 +21,7 @@ struct Path_Slog final : public Path_TLV
     s16 field_28_anger_switch_id;
     s16 field_2A_pad;
 };
-ALIVE_ASSERT_SIZEOF(Path_Slog, 0x2C);
+ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Slog, 0x2C);
 
 #define SLOG_STATES_ENUM(ENTRY)             \
     ENTRY(Motion_0_Idle_4742E0)              \
@@ -168,7 +168,6 @@ public:
     s16 field_17C_res = 0;
     Choice_short field_17E_asleep = Choice_short::eNo_0;
     s16 field_180 = 0;
-    s16 field_182_pad = 0;
     u8** field_184_resources[5] = {};
 };
 ALIVE_ASSERT_SIZEOF(Slog, 0x198);

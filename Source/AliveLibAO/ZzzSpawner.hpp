@@ -15,7 +15,7 @@ struct Path_ZzzSpawner final : public Path_TLV
     s16 field_1C_Zzz_delay;
     s16 field_1E_pad;
 };
-ALIVE_ASSERT_SIZEOF(Path_ZzzSpawner, 0x20);
+ALIVE_ASSERT_SIZEOF_ALWAYS(Path_ZzzSpawner, 0x20);
 
 class ZzzSpawner final : public BaseGameObject
 {
@@ -31,10 +31,8 @@ public:
     FP field_18_scale;
     s32 field_1C_tlvInfo;
     s16 field_20_switch_id;
-    s16 field_22_padding;
     s32 field_24_timer;
     s16 field_28_Zzz_delay;
-    s16 field_2A_padding;
 };
 ALIVE_ASSERT_SIZEOF(ZzzSpawner, 0x2C);
 

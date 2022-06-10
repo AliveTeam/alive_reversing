@@ -47,6 +47,5 @@ private:
     ScrabSpawnerStates field_38_state;
     s32 field_3C_spawned_scrab_id;
     s16 field_40_bFindSpawnedScrab;
-    s16 field_42_padding;
 };
 ALIVE_ASSERT_SIZEOF(ScrabSpawner, 0x44);

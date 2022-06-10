@@ -52,6 +52,5 @@ private:
     FP field_3C_scale;
     BaseAliveGameObject* field_40_pParent;
     s16 field_44_number_of_bullets;
-    s16 field_46_padding;
 };
 ALIVE_ASSERT_SIZEOF(Bullet, 0x48);

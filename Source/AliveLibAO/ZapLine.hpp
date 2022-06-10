@@ -61,7 +61,6 @@ public:
 
     ZapLineState field_E4_state;
 
-    s16 field_E6_pad;
     u8** field_E8_ppRes;
     Prim_SetTPage field_EC_tPage_p8[2];
     s16 field_10C_x_position_source;
@@ -69,12 +68,10 @@ public:
     s16 field_110_x_position_destination;
     s16 field_112_y_position_destination;
     TPageMode field_114_tPageMode;
-    // pad
     s16 field_116_alive_timer;
     s16 field_118_max_alive_time;
     ZapLineType field_11A_type;
     TPageAbr field_11C_tPageAbr;
-    // pad
     s16 field_11E_number_of_segments;
     s16 field_120_number_of_pieces_per_segment;
     s16 field_122_number_of_sprites;

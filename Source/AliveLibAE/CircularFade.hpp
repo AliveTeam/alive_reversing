@@ -26,7 +26,6 @@ private:
         eBit4_NeverSet = 0x8
     };
     BitField16<Flags> field_F4_flags;
-    s16 field_F6_padding;
     Prim_Tile field_F8_tile1[2];
     Prim_Tile field_120_tile2[2];
     Prim_Tile field_148_tile3[2];

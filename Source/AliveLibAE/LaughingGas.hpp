@@ -48,23 +48,16 @@ private:
     void sub_4328A0();
 
 private:
-    s32 field_20_padding;
     s32 field_24_tlvInfo;
     s16 field_28_y;
     s16 field_2A_x;
     s16 field_2C_h;
     s16 field_2E_w;
-    s32 field_30_padding;
     s16 field_34_bEnabled;
     Choice_short field_36_bLaughing_gas;
-    s32 field_38_padding;
-    s32 field_3C_padding;
-    s32 field_40_padding;
-    s32 field_44_padding;
     Path_LaughingGas_Data field_48_tlv_data;
     FP field_54_amount_on;
     Layer field_58_layer;
-    s16 field_5A_padding;
 
     Prim_GasEffect field_5C_prim;
 

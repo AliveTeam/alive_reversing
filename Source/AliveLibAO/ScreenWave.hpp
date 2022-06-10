@@ -25,7 +25,6 @@ public:
     virtual void VRender(PrimHeader** ppOt) override;
 
     Layer field_10_layer;
-    s16 field_12_pad;
     ScreenWave_Data** field_14_ppRes;
     FP field_18_xpos;
     FP field_1C_ypos;
@@ -39,7 +38,6 @@ public:
     s16 field_38_screen_ypos;
     EReliveLevelIds field_3A_level;
     s16 field_3C_path;
-    s16 field_3E_pad;
 };
 ALIVE_ASSERT_SIZEOF(ScreenWave, 0x40);
 

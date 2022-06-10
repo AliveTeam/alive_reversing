@@ -80,10 +80,8 @@ private:
     u16 field_20_vol;
     u16 field_22_vol;
     EReliveLevelIds field_24_currentLevelID;
-    s16 field_26_padding;
     s32 field_28_object_id;
     s16 field_2C_flags_and_seq_idx;
-    s16 field_2E_padding;
     u32 field_30_music_time;
     u32 field_34_music_start_time;
     u32 field_38_unused;
@@ -98,7 +96,6 @@ private:
     u16 field_52_target_volume;
     u32 field_54_music_volume_change_time;
     BitField16<Flags_58> field_58_flags;
-    u16 field_60_padding;
 };
 ALIVE_ASSERT_SIZEOF(MusicController, 0x5C);
 

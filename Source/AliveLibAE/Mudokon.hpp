@@ -438,24 +438,14 @@ private:
     s32 field_118_tlvInfo;
     s32 field_11C_bird_portal_id;
     s16 field_120_angry_switch_id;
-    s16 field_122_padding;
     s32 field_124;
     s32 field_128_angry_timer;
     s32 field_12C_unused;
     s16 field_130_unused;
-    s16 field_132_padding;
     FP field_134_xVelSlowBy;
     s32 field_138_unused;
     s16 field_13C_voice_pitch;
-    s16 field_13E_padding;
     s32 field_140_last_event_index;
-    s32 field_144_padding;
-    s16 field_148_padding;
-    s16 field_14A_padding;
-    s16 field_14C_padding;
-    s16 field_14E_padding;
-    s16 field_150_padding;
-    s16 field_152_padding;
     s16 field_154_unused;
     s16 field_156_unused;
     s32 field_158_wheel_id;
@@ -502,11 +492,6 @@ private:
         eBit3_Unknown = 0x4,
     };
     BitField16<Flags_16C> field_16C_flags;
-    s16 field_16E_padding;
-    s16 field_170_padding;
-    s16 field_172_padding;
-    s16 field_174_padding;
-    s16 field_176_padding;
     s16 field_178_brain_sub_state2;
     s16 field_17A_rescue_switch_id;
     s16 field_17C_stand_idle_timer;
@@ -514,7 +499,6 @@ private:
     Mud_Emotion field_180_emo_tbl;
     GameSpeakEvents field_182;
     eMudMotions field_184_next_motion2;
-    s16 field_186_padding;
     const struct MudEmotionTableEntry* field_188_pTblEntry;
     s16 field_18C_unused;
 

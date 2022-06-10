@@ -44,8 +44,5 @@ private:
 
 public:
     SnoozeParticleState field_1E4_state;
-
-private:
-    s16 field_1E6_padding;
 };
 ALIVE_ASSERT_SIZEOF(SnoozeParticle, 0x1E8);

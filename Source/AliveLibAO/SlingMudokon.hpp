@@ -17,7 +17,7 @@ struct Path_SlingMudokon final : public Path_TLV
     s16 field_1C_code_1;
     s16 field_1E_code_2;
 };
-ALIVE_ASSERT_SIZEOF(Path_SlingMudokon, 0x20);
+ALIVE_ASSERT_SIZEOF_ALWAYS(Path_SlingMudokon, 0x20);
 
 enum class eSlingMudMotions : s32
 {
@@ -70,9 +70,7 @@ public:
     s16 Brain_1_Spawn();
     s16 Brain_2_AskForPassword();
 
-    s32 field_10C_padding;
     s32 field_110_tlvInfo;
-    s32 field_114_paddding;
     s32 field_118_code_converted;
     s16 field_11C_code_length;
 
@@ -92,11 +90,8 @@ public:
     u16 field_138_brain_state;
     s16 field_13A_brain_sub_state;
     s16 field_13C_redundant;
-    s16 field_13E_padding;
     s32 field_140_timer;
     s32 field_144_timer2;
-    s32 field_148_padding;
-    s32 field_14C_padding;
     u8** field_150_res;
     s16 field_154_previous_brain_state;
     s16 field_156_always_4;

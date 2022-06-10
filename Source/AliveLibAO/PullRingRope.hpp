@@ -34,7 +34,7 @@ struct Path_PullRingRope final : public Path_TLV
     PullRingSoundDirection field_24_sound_direction;
     s16 field_26_pad;
 };
-ALIVE_ASSERT_SIZEOF(Path_PullRingRope, 0x28);
+ALIVE_ASSERT_SIZEOF_ALWAYS(Path_PullRingRope, 0x28);
 
 class Rope;
 
@@ -50,7 +50,6 @@ public:
     Bool32 vIsNotBeingPulled();
     s16 Pull(BaseAliveGameObject* pFrom);
 
-    s32 field_D4_padding[4];
     s32 field_E4_stay_in_state_ticks;
     s32 field_E8_tlv_info;
     enum class States : s16
@@ -63,13 +62,11 @@ public:
     States field_EC_state;
     s16 field_EE_switch_id;
     SwitchOp field_F0_action;
-    s16 field_F2_pad;
     BaseAliveGameObject* field_F4_pPuller;
     Rope* field_F8_pRope;
     PullRingSwitchSound field_FC_on_sound;
     PullRingSwitchSound field_FE_off_sound;
     PullRingSoundDirection field_100_sound_direction;
-    s16 field_102_padding;
 };
 ALIVE_ASSERT_SIZEOF(PullRingRope, 0x104);
 

@@ -21,8 +21,6 @@ struct Fg1Block
 {
     Poly_FT4 field_0_polys[2];
     PSX_RECT field_58_rect;
-    s32 field_60_padding;
-    s16 field_64_padding;
     Layer field_66_mapped_layer;
     u32 field_68_array_of_height[16]; // Added for AE format interop
 };

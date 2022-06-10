@@ -27,8 +27,6 @@ private:
 public:
     Layer field_38_ot_layer;
 
-private:
-    s16 field_3A_pad;
 };
 ALIVE_ASSERT_SIZEOF(ScreenClipper, 0x3C);
 

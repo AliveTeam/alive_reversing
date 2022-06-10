@@ -19,7 +19,7 @@ struct Path_LiftMover final : public Path_TLV
     YDirection field_1C_direction;
     s16 field_1E_pad;
 };
-ALIVE_ASSERT_SIZEOF(Path_LiftMover, 0x20);
+ALIVE_ASSERT_SIZEOF_ALWAYS(Path_LiftMover, 0x20);
 
 class LiftPoint;
 
@@ -39,7 +39,6 @@ public:
     BaseGameObject* field_18_pLiftPoint; // TODO: LiftPoint* or actually no because it can be a platform as well?
     FP field_1C_speed;
     s16 field_20_state;
-    s16 field_22_pad;
 };
 ALIVE_ASSERT_SIZEOF(LiftMover, 0x24);
 

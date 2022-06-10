@@ -37,8 +37,5 @@ private:
     s16 field_1A0_pulse_position;
     s16 field_1A2_pulse_position_speed;
     s16 field_1A4_delay_counter;
-    s16 field_1A6_padding;
-    s16 field_1A8_padding;
-    s16 field_1AA_padding;
 };
 ALIVE_ASSERT_SIZEOF(ParamiteWebLine, 0x1AC);

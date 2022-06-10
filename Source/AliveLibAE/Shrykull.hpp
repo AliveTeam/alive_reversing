@@ -32,7 +32,6 @@ private:
         eKillTargets_4 = 4,
     };
     State field_118_state;
-    s16 field_11A_padding;
     s32 field_11C_timer;
     s32 field_120_timer;
     s32 field_124_zap_line_id;

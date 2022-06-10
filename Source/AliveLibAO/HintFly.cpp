@@ -99,7 +99,6 @@ struct HintFlyParticle final
     FP field_0_xpos;
     FP field_4_ypos;
     s8 field_8_state;
-    s8 field_9_pad;
     s16 field_A;
     FP field_C_velx;
     FP field_10_vely;
@@ -110,7 +109,6 @@ struct HintFlyParticle final
     s8 field_20_angle;
     s8 field_21_angle_speed;
     s8 field_22_timer;
-    s8 field_23_pad;
     Prim_Sprt field_24_sprt[2];
 };
 ALIVE_ASSERT_SIZEOF(HintFlyParticle, 0x54);

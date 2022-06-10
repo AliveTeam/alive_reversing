@@ -28,7 +28,7 @@ struct Path_Hoist final : public Path_TLV
 
     s16 field_1E_pad;
 };
-ALIVE_ASSERT_SIZEOF(Path_Hoist, 0x20);
+ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Hoist, 0x20);
 
 class HoistParticle final : public BaseAnimatedWithPhysicsGameObject
 {
@@ -39,9 +39,7 @@ public:
 
     void VUpdate_431BD0();
 
-    s32 field_D4[4];
     s16 field_E4_bHitGround;
-    s16 field_E6_pad;
 };
 ALIVE_ASSERT_SIZEOF(HoistParticle, 0xE8);
 

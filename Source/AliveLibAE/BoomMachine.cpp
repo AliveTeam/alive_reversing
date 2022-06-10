@@ -118,10 +118,8 @@ private:
 
 private:
     BoomMachineStates field_F4_state;
-    s16 field_F6_pad;
     s32 field_F8_timer;
     s16 field_FC_numGrenades;
-    s16 field_FE_pad;
 };
 ALIVE_ASSERT_SIZEOF(GrenadeMachineNozzle, 0x100);
 

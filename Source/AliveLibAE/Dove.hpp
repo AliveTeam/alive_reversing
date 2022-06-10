@@ -36,7 +36,6 @@ public:
 
 private:
     s16 field_F4_counter;
-    s16 field_F6_padding;
     s32 field_F8_tlvInfo;
     s16 field_FC_keepInGlobalArray;
     enum class State : s16
@@ -52,7 +51,6 @@ private:
     FP field_104_yJoin;
     s32 field_108_timer;
     s8 field_10C_angle;
-    // 3 byte pad
     FP field_110_prevX;
     FP field_114_prevY;
 };

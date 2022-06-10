@@ -31,7 +31,7 @@ struct Path_DoorFlame final : public Path_TLV
     Colour field_1C_colour;
     s16 field_1E_pad;
 };
-ALIVE_ASSERT_SIZEOF(Path_DoorFlame, 0x20);
+ALIVE_ASSERT_SIZEOF_ALWAYS(Path_DoorFlame, 0x20);
 
 class DoorFlame final : public BaseAnimatedWithPhysicsGameObject
 {
@@ -42,7 +42,6 @@ public:
     virtual void VStopAudio() override;
     virtual void VUpdate() override;
 
-    s32 field_D4_padding[4];
     s32 field_E4_tlvInfo;
     s16 field_E8_switch_id;
     s16 field_EA_frame_count;
@@ -54,7 +53,6 @@ public:
     States field_EC_state;
     s16 field_EE_2_random;
     s32 field_F0_sounds_mask;
-    s32 field_F4_padding;
     FireBackgroundGlow* field_F8_pFireBackgroundGlow;
     FlameSparks* field_FC_pFlameSparks;
 };

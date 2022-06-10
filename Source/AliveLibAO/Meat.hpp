@@ -17,7 +17,7 @@ struct Path_MeatSack final : public Path_TLV
     s16 field_20_amount_of_meat;
     s16 field_22_pad;
 };
-ALIVE_ASSERT_SIZEOF(Path_MeatSack, 0x24);
+ALIVE_ASSERT_SIZEOF_ALWAYS(Path_MeatSack, 0x24);
 
 
 class MeatSack final : public BaseAliveGameObject

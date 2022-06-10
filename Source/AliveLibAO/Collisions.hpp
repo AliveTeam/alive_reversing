@@ -37,7 +37,7 @@ public:
 
     PathLine* MoveOnLine(FP* pXPos, FP* pYPos, const FP distToMove);
 };
-ALIVE_ASSERT_SIZEOF(PathLine, 20);
+ALIVE_ASSERT_SIZEOF_ALWAYS(PathLine, 20);
 
 struct CollisionInfo;
 

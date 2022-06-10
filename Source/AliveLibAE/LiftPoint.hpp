@@ -82,9 +82,7 @@ public:
     s16 field_12C_bMoving;
 
 private:
-    s16 field_12E_pad;
     LiftPointStopType field_130_lift_point_stop_type;
-    s16 field_132_pad;
     s32 field_134_rope2_id;
     s32 field_138_rope1_id;
     Animation field_13C_lift_wheel;
@@ -98,8 +96,6 @@ public:
     u8 field_278_lift_point_id;
 
 private:
-    s8 field_279_pad;
-    s16 field_27A_pad;
     s32 field_27C_pTlv;
     enum LiftFlags
     {
@@ -113,6 +109,5 @@ private:
         eBit8_bIgnoreLiftMover = 0x80,
     };
     BitField16<LiftFlags> field_280_flags;
-    s16 field_282_pad;
 };
 ALIVE_ASSERT_SIZEOF(LiftPoint, 0x284);

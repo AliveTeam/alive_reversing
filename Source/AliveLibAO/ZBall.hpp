@@ -28,7 +28,7 @@ struct Path_ZBall final : public Path_TLV
     Speed field_1C_speed;
     s16 field_1E_pad;
 };
-ALIVE_ASSERT_SIZEOF(Path_ZBall, 0x20);
+ALIVE_ASSERT_SIZEOF_ALWAYS(Path_ZBall, 0x20);
 
 class ZBall final : public BaseAnimatedWithPhysicsGameObject
 {
@@ -36,8 +36,6 @@ public:
     ZBall(Path_ZBall* pTlv, s32 tlvInfo);
 
     virtual void VUpdate() override;
-
-    s32 field_D4_padding[4];
 
     s32 field_E4_tlvInfo;
     s16 field_E8_bFrameAbove12;

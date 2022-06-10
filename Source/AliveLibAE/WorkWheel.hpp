@@ -10,7 +10,7 @@ enum class WheelStates : s16
     eTurning_1 = 1,
 };
 
-
+// TODO: restore padding fields
 struct WorkWheel_SaveState final
 {
     AETypes field_0_id;

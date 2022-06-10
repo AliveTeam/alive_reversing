@@ -28,7 +28,6 @@ public:
         eBit4_NeverSet = 0x8
     };
     BitField16<Flags> field_E4_flags;
-    s16 field_E6_pad;
     Prim_Tile field_E8[2];
     Prim_Tile field_110[2];
     Prim_Tile field_138[2];

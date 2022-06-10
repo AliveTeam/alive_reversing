@@ -30,15 +30,12 @@ private:
     BloodParticle* field_F8_pResBuf;
     Prim_SetTPage field_FC_tPages[2];
     TPageMode field_11C_texture_mode;
-    // pad
     s16 field_11E_xpos;
     s16 field_120_ypos;
     s16 field_122_to_render_count;
     u8 field_124_rand_seed;
-    // pad
     s16 field_126_total_count;
     s32 field_128_timer;
     Layer field_12C_render_layer;
-    //s16 field_12E_pad;
 };
 ALIVE_ASSERT_SIZEOF(Blood, 0x130);

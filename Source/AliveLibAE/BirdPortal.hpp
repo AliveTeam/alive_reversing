@@ -134,9 +134,6 @@ public:
     };
     PortalStates field_28_state;
 
-private:
-    s16 field_2A_pad;
-
 public:
     FP field_2C_xpos;
     FP field_30_ypos;
@@ -154,7 +151,6 @@ private:
     s16 field_64_movie_id;
     s16 field_66_delete_portal_switch_id;
     s16 field_68_doves_exist;
-    s16 field_6A_pad;
     s32 field_6C_terminator_id;
     s32 field_70_terminator_id;
     s32 field_74_screen_clipper_id;
@@ -164,37 +160,9 @@ private:
     s16 field_80_dest_camera;
     s16 field_82_num_muds_for_shrykull;
     s16 field_84_received_doves;
-    s16 field_86_pad;
     OrbWhirlWind* field_88_pWhirlWind;
     EReliveLevelIds field_8C_level;
     s16 field_8E_path;
     s32 field_90_sfx_ret;
-    s32 field_94_padding;
-    s32 field_98_padding;
-    s32 field_9C_padding;
-    s32 field_A0_padding;
-    s32 field_A4_padding;
-    s32 field_A8_padding;
-    s32 field_AC_padding;
-    s32 field_B0_padding;
-    s32 field_B4_padding;
-    s32 field_B8_padding;
-    s32 field_BC_padding;
-    s32 field_C0_padding;
-    s32 field_C4_padding;
-    s32 field_C8_padding;
-    s32 field_CC_padding;
-    s32 field_D0_padding;
-    s32 field_D4_padding;
-    s32 field_D8_padding;
-    s32 field_DC_padding;
-    s32 field_E0_padding;
-    s32 field_E4_padding;
-    s32 field_E8_padding;
-    s32 field_EC_padding;
-    s32 field_F0_padding;
-    s32 field_F4_padding;
-    s32 field_F8_padding;
-    s32 field_FC_padding;
 };
 ALIVE_ASSERT_SIZEOF(BirdPortal, 0x100);

@@ -305,7 +305,6 @@ private:
 
 private:
     s16 field_F4_bRender;
-    //s16 field_F6_pad;
     FlameSpark field_F8_sparks[6];
     FP field_410_xpos;
     FP field_414_ypos;

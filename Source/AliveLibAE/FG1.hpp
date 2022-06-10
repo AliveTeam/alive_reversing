@@ -9,10 +9,6 @@
 struct Fg1Block final
 {
     Poly_FT4 field_0_polys[2];
-    s32 field_58_padding;
-    s32 field_5C_padding;
-    s32 field_60_padding;
-    s16 field_64_padding;
     Layer field_66_mapped_layer;
     u32 field_68_array_of_height[16];
 };
@@ -40,7 +36,6 @@ public:
     EReliveLevelIds field_24_level_id;
     s16 field_26_path_id;
     s16 field_28_render_block_count;
-    //s16 field_2A;
     u8** field_2C_ptr;
     Fg1Block* field_30_chnk_res;
 };

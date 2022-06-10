@@ -56,7 +56,6 @@ public:
 
 private:
     s16 field_F4_switch_id;
-    s16 field_F6_padding;
     LeverState field_F8_state;
     s32 field_FC_tlvInfo;
     enum Flags_100

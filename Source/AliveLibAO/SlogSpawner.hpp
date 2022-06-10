@@ -21,7 +21,7 @@ struct Path_SlogSpawner final : public Path_TLV
     s16 field_20_slog_spawn_interval;
     s16 field_22_spawner_switch_id;
 };
-ALIVE_ASSERT_SIZEOF(Path_SlogSpawner, 0x24);
+ALIVE_ASSERT_SIZEOF_ALWAYS(Path_SlogSpawner, 0x24);
 
 class SlogSpawner final : public BaseGameObject
 {
@@ -33,7 +33,6 @@ public:
 
     s32 field_10_tlvInfo;
     s16 field_14_spawned_count;
-    s16 field_16_padding;
     FP field_18_xPos;
     FP field_1C_yPos;
     s32 field_20_spawn_timer;

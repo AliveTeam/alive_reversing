@@ -85,13 +85,11 @@ private:
     void GoRight();
     void Burst();
 
-    s16 field_116_padding;
     BitField16<SlurgFlags> field_118_flags;
     s16 field_11A_switch_id;
     Slurg_States field_11C_state;
     s16 field_11E_moving_timer;
     s16 field_120_delay_random;
-    //s16 field_122_padding;
     PathLine* field_124_pLine;
     Path_TLV* field_128_pTlv;
     s32 field_12C_tlvInfo;

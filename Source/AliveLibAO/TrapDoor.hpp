@@ -31,7 +31,7 @@ struct Path_TrapDoor final : public Path_TLV
     s16 field_24_xOff;
     s16 field_26_pad;
 };
-ALIVE_ASSERT_SIZEOF(Path_TrapDoor, 0x28);
+ALIVE_ASSERT_SIZEOF_ALWAYS(Path_TrapDoor, 0x28);
 
 class PathLine;
 
@@ -51,14 +51,12 @@ public:
     virtual void VUpdate() override;
 
     s16 field_12C_flag;
-    s16 field_12E_pad;
     s32 field_130_stay_open_time;
     s16 field_134_switch_id;
     TrapDoorState field_136_state;
     s16 field_138_switch_state;
     s16 field_13A_xOff;
     Choice_short field_13C_self_closing;
-    s16 field_13E_pad;
     FP field_140_x;
     FP field_144_y;
     PSX_RECT field_148_bounding_rect;

@@ -69,7 +69,6 @@ public:
     s16 field_14;
     s16 field_16_bScreenChanged;
     EReliveLevelIds field_18_level;
-    s16 field_1A_pad;
     BaseGameObject* field_1C_pObj;
     s16 field_20;
     s16 field_22;

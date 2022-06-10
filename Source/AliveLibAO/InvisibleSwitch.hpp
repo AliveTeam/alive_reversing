@@ -25,7 +25,7 @@ struct Path_InvisibleSwitch final : public Path_TLV
     InvisibleSwitchScale field_20_scale;
     s16 field_22_pad;
 };
-ALIVE_ASSERT_SIZEOF(Path_InvisibleSwitch, 0x24);
+ALIVE_ASSERT_SIZEOF_ALWAYS(Path_InvisibleSwitch, 0x24);
 
 class InvisibleSwitch final : public BaseGameObject
 {

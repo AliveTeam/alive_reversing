@@ -42,7 +42,6 @@ public:
     PSX_RECT field_0_rect;
     const Font_AtlasEntry* field_8_atlas_array;
     s16 field_C_resource_id;
-    s16 field_E_pad;
 };
 
 

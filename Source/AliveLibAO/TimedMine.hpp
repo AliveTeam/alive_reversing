@@ -16,7 +16,7 @@ struct Path_TimedMine final : public Path_TLV
     s16 field_20_disable_resources;
     s16 field_22_pad;
 };
-ALIVE_ASSERT_SIZEOF(Path_TimedMine, 0x24);
+ALIVE_ASSERT_SIZEOF_ALWAYS(Path_TimedMine, 0x24);
 
 enum TimedMine_Flags_1B8
 {
@@ -46,8 +46,6 @@ public:
     s32 field_1B0_gnFrame_2;
     s32 field_1B4_detonation_timer;
     BitField16<TimedMine_Flags_1B8> field_1B8_flags;
-    s8 field_1BA_padding;
-    s8 field_1BB_padding;
 };
 ALIVE_ASSERT_SIZEOF(TimedMine, 0x1BC);
 

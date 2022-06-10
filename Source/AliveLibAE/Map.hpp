@@ -96,7 +96,6 @@ public:
     u16 field_12_fmv_base_id;
 
     MapDirections field_14_direction;
-    s16 field_16_padding;
 
     BaseAliveGameObject* field_18_pAliveObj;
 

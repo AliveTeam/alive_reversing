@@ -86,7 +86,7 @@ struct Path_ElumPathTrans final : public Path_TLV
     s16 field_1C_camera;
     s16 field_1E_pad;
 };
-ALIVE_ASSERT_SIZEOF(Path_ElumPathTrans, 0x20);
+ALIVE_ASSERT_SIZEOF_ALWAYS(Path_ElumPathTrans, 0x20);
 
 
 class Elum final : public BaseAliveGameObject
@@ -239,7 +239,6 @@ public:
     s32 field_110_timer;
     s32 field_114_respond_timer;
     FP field_118_jump_velx;
-    s32 field_11C_padding;
     s16 field_120_bUnknown;
     s16 field_122_bDontFollowAbe;
     s16 field_124_bShould_IdleToWalk1;
@@ -249,7 +248,6 @@ public:
     s16 field_12C_honey_xpos;
     s16 field_12E_honey_ypos;
     s32 field_130_unused;
-    s32 field_134_padding;
     PSX_RECT field_138_continue_rect;
     s16 field_140_continue_zone_number;
     s16 field_142_zone_number;
@@ -258,19 +256,12 @@ public:
     s16 field_148_continue_path;
     EReliveLevelIds field_14A_continue_level;
     s16 field_14C_continue_camera;
-    s16 field_14E_padding;
     FP field_150_continue_sprite_scale;
     s16 field_154_bAbeForcedDownFromElum;
-    s16 field_156_padding;
     s32 field_158_last_event_idx;
-    s32 field_15C_padding;
-    s32 field_160_padding;
-    s32 field_164_padding;
-    s32 field_168_padding;
     s16 field_16C_never_read;
     s16 field_16E_never_read;
     BitField16<Flags_170> field_170_flags;
-    s16 field_172_padding;
     ElumResources field_174_resources;
     s32 field_1F0_tlvInfo;
 };

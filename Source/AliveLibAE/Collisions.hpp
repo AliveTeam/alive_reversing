@@ -44,7 +44,7 @@ public:
 
     PathLine* MoveOnLine(FP* xpos, FP* ypos, FP velX);
 };
-ALIVE_ASSERT_SIZEOF(PathLine, 0x14);
+ALIVE_ASSERT_SIZEOF_ALWAYS(PathLine, 0x14);
 
 struct CollisionInfo;
 

@@ -30,9 +30,7 @@ private:
     FP field_34_door_scale;
     s32 field_38_orb_whirlwind_id;
     s16 field_3C_state;
-    s16 field_3E_padding;
     s32 field_40_timer;
     s16 field_44_switch_id;
-    s16 field_46_padding;
 };
 ALIVE_ASSERT_SIZEOF(SlapLockWhirlWind, 0x48);

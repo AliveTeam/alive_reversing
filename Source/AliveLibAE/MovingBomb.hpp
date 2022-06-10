@@ -54,14 +54,12 @@ private:
         eKillMovingBomb_7 = 7
     };
     States field_118_state;
-    s16 field_11A_padding;
     s32 field_11C_tlvInfo;
     s32 field_120_timer;
     FP field_124_speed;
     s16 field_128_start_moving_switch_id;
     s16 field_12A_min;
     s16 field_12C_max;
-    s16 field_12E_padding;
     s32 field_130_sound_channels;
     s16 field_134_disabled_resources;
     Choice_short field_136_persist_offscreen;

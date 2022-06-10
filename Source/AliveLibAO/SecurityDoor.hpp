@@ -44,13 +44,11 @@ public:
 
     Bool32 IsPlayerNear();
 
-    s32 field_D4[4];
     s32 field_E4_tlvInfo;
     s16 field_E8_state;
     s16 field_EA_switch_id;
     s32 field_EC_code_converted;
     s16 field_F0_code_len;
-    s16 field_F2_padding;
     s32 field_F4_event_idx;
     u8 field_F8_stru[16];
     s16 field_108_max_idx;

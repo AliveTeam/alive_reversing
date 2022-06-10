@@ -33,11 +33,7 @@ private:
     s32 field_20_tlvInfo;
     Path_SlurgSpawner* field_24_slurg_tlv;
     Slurg_Spawner_Path_Data field_28_path_data;
-    s32 field_38_padding;
-    s16 field_3C_padding;
     s16 field_3E_delay_counter;
     u8 field_40_spawned_count;
-    s8 field_41_padding;
-    s16 field_42_padding;
 };
 ALIVE_ASSERT_SIZEOF(SlurgSpawner, 0x3C);

@@ -283,9 +283,7 @@ public:
         }
     }
 
-    s32 field_D4_padding[4];
     s16 field_E4_bRender;
-    s16 field_E6_padding;
     FlameSpark field_E8_sparks[6];
     FP field_400_xpos;
     FP field_404_ypos;

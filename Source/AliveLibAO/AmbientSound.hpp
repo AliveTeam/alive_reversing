@@ -20,8 +20,6 @@ void Stop_slig_sounds(CameraPos direction, s8 kZero);
 class ScopedSeq;
 struct Sound_Ambiance final
 {
-    s32 field_0_padding;
-    s32 field_4_padding;
     ScopedSeq* field_8_pScopedSeq;
 };
 ALIVE_ASSERT_SIZEOF(Sound_Ambiance, 0xC);

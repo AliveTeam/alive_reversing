@@ -6004,7 +6004,7 @@ void Paramite::MoveOnLine()
     BaseAliveGameObjectCollisionLine = BaseAliveGameObjectCollisionLine->MoveOnLine(&mBaseAnimatedWithPhysicsGameObject_XPos, &mBaseAnimatedWithPhysicsGameObject_YPos, mBaseAnimatedWithPhysicsGameObject_VelX);
     if (BaseAliveGameObjectCollisionLine)
     {
-        if (BaseAliveGameObjectCollisionLine->field_8_type == 8)
+        if (BaseAliveGameObjectCollisionLine->field_8_type == eLineTypes::eTrackLine_8)
         {
             mBaseAnimatedWithPhysicsGameObject_VelX = FP_FromInteger(0);
             mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(BaseAliveGameObjectCollisionLine->field_0_rect.x);
@@ -6013,7 +6013,7 @@ void Paramite::MoveOnLine()
         }
         else if (pPlatform)
         {
-            if (BaseAliveGameObjectCollisionLine->field_8_type != 32 && BaseAliveGameObjectCollisionLine->field_8_type != 36)
+            if (BaseAliveGameObjectCollisionLine->field_8_type != eLineTypes::eDynamicCollision_32 && BaseAliveGameObjectCollisionLine->field_8_type != eLineTypes::eBackgroundDynamicCollision_36)
             {
                 const auto savedMotion = mCurrentMotion;
                 VOnTrapDoorOpen();

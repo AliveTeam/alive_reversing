@@ -54,7 +54,6 @@ public:
 
     void GrindUpObjects_439CD0();
 
-    s32 field_D4_padding[4];
     MeatSawStates field_E4_state;
     u16 field_E6_max_rise_time;
     s16 field_E8_speed2;
@@ -68,7 +67,6 @@ public:
     s16 field_F8_switch_max_time_off;
     s16 field_FA_automatic_min_time_off;
     s16 field_FC_automatic_max_time_off;
-    s16 field_FE_padding;
     s32 field_100_tlvInfo;
     s32 field_104_idle_timer;
     s32 field_108_SFX_timer;
@@ -82,7 +80,6 @@ public:
         eBit3_AutomaticMeatSawIsDown = 0x4
     };
     BitField16<flags_1A8> field_1A8_flags;
-    s16 field_1AA_padding;
 };
 ALIVE_ASSERT_SIZEOF(MeatSaw, 0x1AC);
 

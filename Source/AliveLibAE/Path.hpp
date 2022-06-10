@@ -282,7 +282,6 @@ public:
     s16 field_4_cameraId;
     u16 field_6_cams_on_x;
     u16 field_8_cams_on_y;
-    s16 field_A_padding;
     const PathData* field_C_pPathData;
     u8** field_10_ppRes;
 };

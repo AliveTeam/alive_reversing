@@ -77,7 +77,6 @@ private:
     UXBState field_118_state;
     UXBState field_11A_starting_state;
     u16 field_11C_disabled_resources;
-    u8 field_11E_padding[2];
     TlvItemInfoUnion field_120_tlv;
     u32 field_124_next_state_frame;
     Animation field_128_animation;
@@ -86,6 +85,5 @@ private:
     u16 field_1C4_pattern;
     u16 field_1C6_red_blink_count;
     BitField16<UXB_Flags_1C8> field_1C8_flags;
-    s16 field_1CA_padding;
 };
 ALIVE_ASSERT_SIZEOF(UXB, 0x1CC);

@@ -22,8 +22,5 @@ private:
     s16 field_24_amount;
     s16 field_26_flag;
     Layer field_28_layer;
-    s16 field_2A_padding;
-    s16 field_2C_padding;
-    s16 field_2E_padding;
 };
 ALIVE_ASSERT_SIZEOF(DeathGas, 0x30);

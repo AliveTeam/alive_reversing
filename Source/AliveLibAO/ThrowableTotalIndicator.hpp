@@ -38,7 +38,6 @@ public:
     s16 field_34_g;
     s16 field_36_b;
     s16 field_38_num_to_show;
-    s16 field_3A_pad;
 
     Line_F2 field_3C_lines[2][8];
     Prim_SetTPage field_17C_tPage[2];

@@ -46,7 +46,7 @@ enum class DrillStates : s16
 struct Drill_State final
 {
     s16 field_0;
-    //s16 field_2_padding;
+    s16 field_2_padding;
     s32 field_4;
     s32 field_8_tlvInfo;
     s32 field_C_off_timer;

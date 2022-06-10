@@ -35,7 +35,6 @@ public:
 
     BaseAliveGameObject* WhoIsStoodOnMe();
 
-    s32 field_D4_padding[4];
     s32 field_E4_tlvInfo;
     enum class States : s16
     {

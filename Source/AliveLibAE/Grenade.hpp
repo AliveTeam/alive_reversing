@@ -94,7 +94,6 @@ private:
     s16 field_130_unused;
     s16 field_132_bBlowUpOnCollision;
     s16 field_134_bExplodeNow;
-    s16 field_136_padding;
     BaseGameObject* field_138_pOwner;
 };
 ALIVE_ASSERT_SIZEOF(Grenade, 0x13C);

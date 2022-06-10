@@ -864,7 +864,6 @@ Abe::Abe(s32 /*frameTableOffset*/, s32 /*r*/, s32 /*g*/, s32 /*b*/)
     field_168_ring_pulse_timer = 0;
     field_16E_bHaveInvisiblity = 0;
     field_170_invisible_timer = 0;
-    field_174_unused = 0;
     field_176_invisibility_duration = 0;
     field_178_invisible_effect_id = -1;
     field_124_timer = sGnFrame;

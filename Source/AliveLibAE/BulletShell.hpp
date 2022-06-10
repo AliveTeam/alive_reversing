@@ -15,10 +15,7 @@ public:
 
 private:
     PathLine* BaseAliveGameObjectCollisionLine;
-    s16 field_F8_padding;
-    s16 field_FA_padding;
     s16 field_FC_hitCount;
-    s16 field_FE_padding;
     FP field_100_speed;
 };
 ALIVE_ASSERT_SIZEOF(BulletShell, 0x104);

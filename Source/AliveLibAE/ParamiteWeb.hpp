@@ -21,6 +21,5 @@ public:
     u8** field_FC_ppRes;
     AnimationUnknown* field_100_pRes;
     s16 field_104_bEnabled;
-    s16 field_106_padding;
 };
 ALIVE_ASSERT_SIZEOF(ParamiteWeb, 0x108);

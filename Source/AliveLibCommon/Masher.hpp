@@ -146,8 +146,6 @@ private:
     s32 field_6C_frame_num;
     s32* field_70_frame_sizes_array;
     s32* field_74_pCurrentFrameSize;
-    s32 field_78_padding;
-    s32 field_7C_padding;
     s32* field_80_raw_frame_data;
     s32 field_84_max_frame_size;
     s32 field_88_audio_data_offset;

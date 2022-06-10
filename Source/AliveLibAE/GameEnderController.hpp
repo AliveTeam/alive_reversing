@@ -43,7 +43,6 @@ public:
 private:
     s32 field_20_timer;
     GameEnderController_States field_24_state;
-    s16 field_26_padding;
 };
 ALIVE_ASSERT_SIZEOF(GameEnderController, 0x28);
 

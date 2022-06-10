@@ -44,7 +44,6 @@ public:
     u16 field_2B4_show_random_message;
     u16 field_2B6_message_rand_min_id;
     u16 field_2B8_message_rand_max_id;
-    s16 field_2BA_padding;
     TlvItemInfoUnion field_2BC_tlv_item_info;
     Path_TLV field_2C0_tlv;
 };

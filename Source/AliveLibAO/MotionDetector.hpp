@@ -26,7 +26,7 @@ struct Path_MotionDetector final : public Path_TLV
     s16 field_28_alarm_duration;
     s16 field_2A_padding;
 };
-ALIVE_ASSERT_SIZEOF(Path_MotionDetector, 0x2C);
+ALIVE_ASSERT_SIZEOF_ALWAYS(Path_MotionDetector, 0x2C);
 
 class MotionDetectorLaser final : public BaseAnimatedWithPhysicsGameObject
 {
@@ -55,7 +55,6 @@ public:
 
     void SetDontComeBack(s16 bDontComeBack);
 
-    s32 field_D4_padding[4];
     s32 field_E4_tlvInfo;
     enum class States : s16
     {
@@ -65,7 +64,6 @@ public:
         eWaitThenMoveRight_3 = 3
     };
     States field_E8_state;
-    s16 field_EA_pad;
     s32 field_EC_timer;
     u16 field_F0_disable_switch_id;
     s16 field_F2_alarm_switch_id;
@@ -80,7 +78,6 @@ public:
     Prim_SetTPage field_13C_tPage[2];
     FP field_15C_speed;
     s16 field_160_bObjectInLaser;
-    s16 field_162_pad;
 };
 ALIVE_ASSERT_SIZEOF(MotionDetector, 0x164);
 

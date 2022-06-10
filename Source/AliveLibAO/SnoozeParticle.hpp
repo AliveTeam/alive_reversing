@@ -43,7 +43,6 @@ public:
     Line_G2 field_94_lines[2][6];
     Prim_SetTPage field_1B4_tPage[2];
     SnoozeParticleState field_1D4_state;
-    s16 field_1D6_pad;
 };
 ALIVE_ASSERT_SIZEOF(SnoozeParticle, 0x1D8);
 

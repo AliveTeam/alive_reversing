@@ -191,7 +191,6 @@ public:
     void* field_24_readBuffer;
     s16 field_28_state;
     CdlLOC field_2A_cdLoc;
-    s16 field_2E_pad;
 };
 ALIVE_ASSERT_SIZEOF(LoadingFile, 0x30);
 

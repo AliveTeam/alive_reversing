@@ -16,7 +16,7 @@ struct Path_Mine final : public Path_TLV
     Choice_short field_20_persists_offscreen;
     s16 field_22_pad;
 };
-ALIVE_ASSERT_SIZEOF(Path_Mine, 0x24);
+ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Mine, 0x24);
 
 class Mine final : public BaseAliveGameObject
 {

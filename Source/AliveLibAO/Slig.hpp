@@ -71,7 +71,7 @@ struct Path_Slig final : public Path_TLV
     s16 field_54_slig_spawner_switch_id;
     s16 field_56_pad;
 };
-ALIVE_ASSERT_SIZEOF(Path_Slig, 0x58);
+ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Slig, 0x58);
 
 #define SLIG_MOTIONS_ENUM(ENTRY)              \
     ENTRY(Motion_0_StandIdle_467640)          \
@@ -354,19 +354,16 @@ public:
     s16 field_10C_unused;
     s16 field_10E_brain_sub_state;
     s16 field_110_pitch_min;
-    s16 field_112_padding;
     s32 field_114_timer;
     s32 field_118_unused;
     s16 field_11C_current_camera; // set but never read
     s16 field_11E_return_to_previous_motion;
     s16 field_120_checked_if_off_screen;
     s16 field_122_unused;
-    s16 field_124_padding;
     s16 field_126_input;
     s32 field_128_timer;
     FP field_12C_falling_velx_scale_factor;
     s16 field_130_game_ender_pause_time;
-    s16 field_132_padding;
     s32 field_134_tlvInfo;
     s16 field_138_res_idx;
     s16 field_13A_shot_motion;
@@ -382,27 +379,20 @@ public:
     s32 field_154_death_by_being_shot_timer;
     s32 field_158_explode_timer;
     s32 field_15C_last_event_index;
-    s32 field_160_padding;
-    s32 field_164_padding;
-    s32 field_168_padding;
-    s32 field_16C_padding;
     s16 field_170_unused;
     s16 field_172_unused;
     Path_Slig field_174_tlv;
     PSX_Point field_1CC_points[10];
     s16 field_1F4_points_count;
-    s16 field_1F6_padding;
     TBrainFn field_1F8_fn;
     TBrainFn field_1FC_fn2;
     s16 field_200_num_times_to_shoot;
-    s16 field_202; // pad ?
     s32 field_204_unused;
     s32 field_208_unused;
     s16 field_20C_force_alive_state;
     s16 field_20E_spotted_possessed_slig;
     SligResources field_210_resources;
     s16 field_254_prevent_depossession;
-    s16 field_256_padding;
     s32 field_258_next_gamespeak_motion;
 };
 ALIVE_ASSERT_SIZEOF(Slig, 0x25C);

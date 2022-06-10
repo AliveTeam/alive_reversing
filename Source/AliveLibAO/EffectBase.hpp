@@ -27,7 +27,6 @@ protected:
     s16 mEffectBaseGreen;
     s16 mEffectBaseBlue;
     s16 mSemiTrans;
-    s16 field_66_pad;
 };
 ALIVE_ASSERT_SIZEOF(EffectBase, 0x68);
 

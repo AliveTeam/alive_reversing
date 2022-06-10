@@ -35,8 +35,6 @@ private:
     States field_FC_state;
     s16 field_FE_2_random;
     s32 field_100_sounds_mask;
-    s16 field_104_padding;
-    s16 field_106_padding;
     s32 field_108_fire_background_glow_id;
     s32 field_10C_flame_sparks_id;
 };

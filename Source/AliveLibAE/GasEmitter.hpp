@@ -36,7 +36,6 @@ private:
     s16 field_28_draw_flipper;
     s16 field_2A_switch_id;
     GasColour field_2C_gas_colour;
-    s16 field_2E_pad;
     FP field_30_xpos;
     FP field_34_ypos;
     FP field_38_fp_not_used;

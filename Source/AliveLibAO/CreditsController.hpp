@@ -19,7 +19,6 @@ public:
 
     s32 field_10_next_cam_frame;
     s16 field_14_camera_number;
-    s16 field_16_pad;
 };
 ALIVE_ASSERT_SIZEOF(CreditsController, 0x18);
 

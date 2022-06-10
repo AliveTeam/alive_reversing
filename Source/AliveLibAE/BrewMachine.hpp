@@ -32,8 +32,6 @@ public:
     s16 field_144_total_brew_count;
 
 private:
-    s16 field_146_padding;
-    s32 field_148_padding;
     Animation field_14C_anim;
     s16 field_1E4_remaining_brew_count;
     s16 field_1E6_cam_id;

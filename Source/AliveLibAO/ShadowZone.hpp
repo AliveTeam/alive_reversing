@@ -26,7 +26,7 @@ struct Path_ShadowZone final : public Path_TLV
     ShadowZoneScale field_24_scale;
     s16 field_26_pad;
 };
-ALIVE_ASSERT_SIZEOF(Path_ShadowZone, 0x28);
+ALIVE_ASSERT_SIZEOF_ALWAYS(Path_ShadowZone, 0x28);
 
 class Map;
 

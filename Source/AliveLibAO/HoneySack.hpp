@@ -26,7 +26,6 @@ public:
     virtual void VOnThrowableHit(BaseGameObject* pFrom) override;
     virtual void VUpdate() override;
 
-    s32 field_D4_padding[4];
     s32 field_E4_tlvInfo;
     enum class State : s16
     {
@@ -43,7 +42,6 @@ public:
     FP field_F8_drip_target_y;
     FP field_FC_ypos2;
     u16 field_100_chase_ticks;
-    s16 field_102_padding;
 };
 ALIVE_ASSERT_SIZEOF(HoneySack, 0x104);
 

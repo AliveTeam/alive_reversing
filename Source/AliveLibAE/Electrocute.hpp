@@ -30,12 +30,10 @@ public:
     s16 field_28_b;
 
 private:
-    s16 field_2A_padding; // NOTE: Crashes if commented out - why?
     s16 field_2C_bKillTarget;
     s16 field_2E_overwriter_count;
     PalleteOverwriter* field_30_pPalOverwriters[3];
     s16 field_3C_extraOverwriter;
-    s16 field_3E_padding;
     u16* field_40_pPalData;
     enum class States : s16
     {
@@ -45,8 +43,6 @@ private:
         eKillElectrocute_3 = 3
     };
     States field_44_state;
-    s16 field_46_padding; // Ditto
-    s32 field_48_padding;
     PSX_RECT field_4C_pal_rect;
 };
 ALIVE_ASSERT_SIZEOF(Electrocute, 0x54);

@@ -24,7 +24,7 @@ struct Path_WellBase : public Path_TLV
     OffLevelOrDx field_24_off_level_or_dx;
     s16 field_26_off_path_or_dy;
 };
-ALIVE_ASSERT_SIZEOF(Path_WellBase, 0x28);
+ALIVE_ASSERT_SIZEOF_ALWAYS(Path_WellBase, 0x28);
 
 struct Path_WellExpress final : public Path_WellBase
 {
@@ -39,7 +39,7 @@ struct Path_WellExpress final : public Path_WellBase
     s16 field_38_leaf_y;
     s16 field_3A_movie_id;
 };
-ALIVE_ASSERT_SIZEOF(Path_WellExpress, 0x3C);
+ALIVE_ASSERT_SIZEOF_ALWAYS(Path_WellExpress, 0x3C);
 
 struct Path_WellLocal final : public Path_WellBase
 {
@@ -50,8 +50,7 @@ struct Path_WellLocal final : public Path_WellBase
     s16 field_30_leaf_y;
     s16 field_32_pad;
 };
-
-ALIVE_ASSERT_SIZEOF(Path_WellLocal, 0x34);
+ALIVE_ASSERT_SIZEOF_ALWAYS(Path_WellLocal, 0x34);
 
 class Well final : public BaseAnimatedWithPhysicsGameObject
 {
@@ -69,14 +68,12 @@ public:
     s32 field_D4[4];
     s32 field_E4_tlvInfo;
     s16 field_E8_switch_id;
-    // pad
     FP field_EC_scale;
     FP field_F0_exit_x;
     FP field_F4_exit_y;
     FP field_F8_leaf_xpos;
     FP field_FC_leaf_ypos;
     Choice_short field_100_emit_leaves;
-    s16 field_102_pad;
 };
 ALIVE_ASSERT_SIZEOF(Well, 0x104);
 

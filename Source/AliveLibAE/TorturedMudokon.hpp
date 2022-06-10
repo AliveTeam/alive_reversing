@@ -37,8 +37,6 @@ private:
     Animation field_F4_tears_animation;
     Animation field_18C_zap_animation;
     u8** field_224_ppRes;
-    s32 field_228_padding;
-    s32 field_22C_padding;
     s32 field_230_tlvInfo;
     s32 field_234_flash_colour_timer;
     s16 field_238_flash_colour_counter;
@@ -46,6 +44,5 @@ private:
     s16 field_23C_release_switch_id;
     TorturedMudokonState field_23E_state;
     s16 field_240_pain_sound_pitch;
-    s16 field_242_padding;
 };
 ALIVE_ASSERT_SIZEOF(TorturedMudokon, 0x244);

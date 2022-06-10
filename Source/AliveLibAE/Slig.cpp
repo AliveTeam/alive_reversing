@@ -6018,7 +6018,7 @@ void Slig::MoveOnLine_4B4C40()
         {
             if (pPlatform)
             {
-                if (BaseAliveGameObjectCollisionLine->field_8_type != 32 && BaseAliveGameObjectCollisionLine->field_8_type != 36)
+                if (BaseAliveGameObjectCollisionLine->field_8_type != eLineTypes::eDynamicCollision_32 && BaseAliveGameObjectCollisionLine->field_8_type != eLineTypes::eBackgroundDynamicCollision_36)
                 {
                     const auto oldMotion = mCurrentMotion;
                     VOnTrapDoorOpen();

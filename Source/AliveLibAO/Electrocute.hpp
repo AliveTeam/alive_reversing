@@ -22,10 +22,8 @@ public:
 
     BaseAliveGameObject* field_10_obj_target;
     s16 field_14_overwriter_count;
-    s16 field_16_pad;
     PalleteOverwriter* field_18_pPalOverwriters[3];
     s16 field_24_extraOverwriter;
-    s16 field_26_pad;
     u16* field_28_pPalData;
     s16 field_2C_r;
     s16 field_2E_g;
@@ -38,7 +36,6 @@ public:
         eKillElectrocute_3 = 3
     };
     States field_32_state;
-    s32 field_34_pad;
     PSX_RECT field_38_pal_rect;
 };
 ALIVE_ASSERT_SIZEOF(Electrocute, 0x40);

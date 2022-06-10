@@ -16,7 +16,6 @@ public:
     static void Play();
 
     s16 field_10_music_id;
-    //s16 field_12_padding;
 };
 ALIVE_ASSERT_SIZEOF(BackgroundMusic, 0x14);
 

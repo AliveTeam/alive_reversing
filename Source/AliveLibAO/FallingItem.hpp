@@ -26,7 +26,7 @@ struct Path_FallingItem final : public Path_TLV
     Choice_short field_20_reset_switch_id_after_use;
     s16 field_22_pad;
 };
-ALIVE_ASSERT_SIZEOF(Path_FallingItem, 0x24);
+ALIVE_ASSERT_SIZEOF_ALWAYS(Path_FallingItem, 0x24);
 
 class FallingItem final : public BaseAliveGameObject
 {
@@ -57,7 +57,6 @@ public:
     s16 field_114_max_falling_items;
     s16 field_116_remaining_falling_items;
     s16 field_118_fall_interval;
-    s16 field_11A_padding;
     s32 field_11C_delay_timer;
     Choice_short field_120_reset_switch_id_after_use;
     s16 field_122_do_sound_in_state_falling;

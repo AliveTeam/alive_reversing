@@ -15,7 +15,7 @@ struct Path_RockSack final : public Path_TLV
     s16 field_20_rock_amount;
     s16 field_22_pad;
 };
-ALIVE_ASSERT_SIZEOF(Path_RockSack, 0x24);
+ALIVE_ASSERT_SIZEOF_ALWAYS(Path_RockSack, 0x24);
 
 class RockSack final : public BaseAliveGameObject
 {

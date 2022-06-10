@@ -16,7 +16,6 @@ public:
     virtual void VUpdate() override;
     virtual void VRender(PrimHeader** ppOt) override;
 
-    s32 field_D4_padding[4];
     s16 field_E4_rope_segment_count;
     s16 field_E6_rope_length;
     AnimationUnknown* field_E8_pRopeRes;

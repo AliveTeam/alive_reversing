@@ -29,7 +29,6 @@ public:
         eKillTargets_4 = 4,
     };
     State field_10C_state;
-    s16 field_10E_pad;
     s32 field_110_timer;
     s32 field_114_timer;
     ZapLine* field_118_zap_line;

@@ -45,7 +45,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_FlyingSligSpawner, 0x30);
 struct FlyingSligSpawner_State final
 {
     AETypes field_0_type;
-    //s16 field_2_pad;
+    s16 field_2_pad;
     s32 field_4_tlvInfo;
     s32 field_8_bSpawned;
     s32 field_C_spawned_slig_obj_id;
@@ -67,10 +67,8 @@ private:
     s32 field_20_tlvInfo;
     s32 field_24_spawned_slig_id;
     s16 field_28_spawner_switch_id;
-    s16 field_2A_pad;
     Path_TLV field_2C_tlv_header;
     s32 field_3C_bSpawned;
     s16 field_40_bFirstUpdate;
-    s16 field_42_pad;
 };
 ALIVE_ASSERT_SIZEOF(FlyingSligSpawner, 0x44);

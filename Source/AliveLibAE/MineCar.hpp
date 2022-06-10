@@ -123,7 +123,6 @@ public:
 private:
     Scale_short field_11E_scale;
     s16 field_120_max_damage;
-    s16 field_122_padding;
     Animation field_124_anim;
 
 public:
@@ -134,7 +133,6 @@ private:
     s16 field_1C0_unused;
     s16 field_1C2_falling_counter;
     s16 field_1C4_velx_index;
-    s16 field_1C6_padding;
     s32 field_1C8_frame_mod_16;
     s16 field_1CC_spawned_path;
     s16 field_1CE_spawned_camera;

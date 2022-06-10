@@ -29,7 +29,6 @@ private:
         eBit1_is_active = 0x1
     };
     BitField16<Flags_4> mAnimFlags;
-    s16 field_6_padding;
     Animation field_8_Anim = {};
     FP field_A0_xpos_render_offset = {};
     FP field_A4_ypos_render_offset = {};

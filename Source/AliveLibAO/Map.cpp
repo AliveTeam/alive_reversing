@@ -107,7 +107,6 @@ struct OpenSeqHandleAO final
     s16 field_9_volume;
     u8* field_C_ppSeq_Data;
     s16 field_A_id_seqOpenId;
-    s16 field_12_pad;
 };
 ALIVE_ASSERT_SIZEOF(OpenSeqHandleAO, 0x14);
 

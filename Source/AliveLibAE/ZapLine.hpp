@@ -57,7 +57,6 @@ private:
     };
 
     ZapLineState field_F4_state;
-    s16 field_F6_padding;
     u8** field_F8_ppRes;
     Prim_SetTPage field_FC_tPage_p8[2];
     s16 field_11C_x_position_source;
@@ -65,12 +64,10 @@ private:
     s16 field_120_x_position_destination;
     s16 field_122_y_position_destination;
     TPageMode field_124_tPageMode;
-    // pad
     s16 field_126_alive_timer;
     s16 field_128_max_alive_time;
     ZapLineType field_12A_type;
     TPageAbr field_12C_tPageAbr;
-    // pad
     s16 field_12E_number_of_segments;
     s16 field_130_number_of_pieces_per_segment;
     s16 field_132_number_of_sprites;

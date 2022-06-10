@@ -74,7 +74,6 @@ private:
     EReliveLevelIds field_120_level;
     s16 field_122_camera;
     FartStates field_124_state;
-    s16 field_126_pad;
     s32 field_128_timer;
     s32 field_12C_back_to_abe_timer;
     s32 field_130_sound_channels;

@@ -28,7 +28,6 @@ public:
     EReliveLevelIds field_14_current_level;
     s16 field_16_current_path;
     s16 field_18_render_block_count;
-    s16 field_1A_pad;
     u8** field_1C_ptr;
     Fg1Block* field_20_chnk_res;
 };
