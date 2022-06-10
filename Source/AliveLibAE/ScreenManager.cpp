@@ -63,13 +63,12 @@ void ScreenManager::InvalidateRectCurrentIdx(s32 x, s32 y, s32 width, s32 height
     InvalidateRect(x, y, width, height, mIdx);
 }
 
-
 void ScreenManager::UnsetDirtyBits(s32 idx)
 {
     memset(&mDirtyBits[idx], 0, sizeof(mDirtyBits[idx]));
 }
 
-void ScreenManager::UnsetDirtyBits_FG1_40ED70()
+void ScreenManager::UnsetDirtyBits_FG1()
 {
     UnsetDirtyBits(7);
     UnsetDirtyBits(5);
@@ -77,7 +76,7 @@ void ScreenManager::UnsetDirtyBits_FG1_40ED70()
     UnsetDirtyBits(4);
 }
 
-s16 ScreenManager::IsDirty_40EBC0(s32 idx, s32 x, s32 y)
+s16 ScreenManager::IsDirty(s32 idx, s32 x, s32 y)
 {
     return mDirtyBits[idx].GetTile(x / 32, y / 16);
 }
@@ -252,7 +251,7 @@ ALIVE_VAR(1, 0x5bb5d8, Layer, sIdx_5BB5D8, Layer::eLayer_0);
 
 void ScreenManager::Render_Helper_40E9F0(s32 xpos, s32 ypos, Layer idx, s32 sprite_idx, PrimHeader** ppOt)
 {
-    if (IsDirty_40EBC0(mIdx, xpos, ypos) || IsDirty_40EBC0(mYIdx, xpos, ypos) || IsDirty_40EBC0(3, xpos, ypos))
+    if (IsDirty(mIdx, xpos, ypos) || IsDirty(mYIdx, xpos, ypos) || IsDirty(3, xpos, ypos))
     {
         SprtTPage* pSprite = &mScreenSprites[sprite_idx];
         if (Y0(&pSprite->mSprt) != sCurrentYPos_5BB5F0 || sIdx_5BB5D8 != idx)
@@ -318,23 +317,23 @@ void ScreenManager::VRender(PrimHeader** ppOt)
         const s32 spriteX = pSpriteTPage->mSprt.mBase.vert.x;
         const s32 spriteY = pSpriteTPage->mSprt.mBase.vert.y;
 
-        if (IsDirty_40EBC0(7, spriteX, spriteY))
+        if (IsDirty(7, spriteX, spriteY))
         {
             Render_Helper_40E9F0(spriteX, spriteY, Layer::eLayer_FG1_37, i, ppOt);
         }
-        else if (IsDirty_40EBC0(6, spriteX, spriteY))
+        else if (IsDirty(6, spriteX, spriteY))
         {
             Render_Helper_40E9F0(spriteX, spriteY, Layer::eLayer_Well_23, i, ppOt);
         }
-        else if (IsDirty_40EBC0(5, spriteX, spriteY))
+        else if (IsDirty(5, spriteX, spriteY))
         {
             Render_Helper_40E9F0(spriteX, spriteY, Layer::eLayer_FG1_Half_18, i, ppOt);
         }
-        else if (IsDirty_40EBC0(4, spriteX, spriteY))
+        else if (IsDirty(4, spriteX, spriteY))
         {
             Render_Helper_40E9F0(spriteX, spriteY, Layer::eLayer_Well_Half_4, i, ppOt);
         }
-        else if (IsDirty_40EBC0(mYIdx, spriteX, spriteY) || IsDirty_40EBC0(3, spriteX, spriteY))
+        else if (IsDirty(mYIdx, spriteX, spriteY) || IsDirty(3, spriteX, spriteY))
         {
             if (spriteY != sCurrentYPos_5BB5F0 || sIdx_5BB5D8 != Layer::eLayer_1)
             {

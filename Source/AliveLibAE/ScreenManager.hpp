@@ -48,9 +48,9 @@ public:
     void InvalidateRect_Layer3(s32 x, s32 y, s32 width, s32 height);
     void InvalidateRect_IdxPlus4(s32 x, s32 y, s32 width, s32 height, s32 idx);
 
-    s16 IsDirty_40EBC0(s32 idx, s32 x, s32 y);
+    s16 IsDirty(s32 idx, s32 x, s32 y);
     void UnsetDirtyBits(s32 idx);
-    void UnsetDirtyBits_FG1_40ED70();
+    void UnsetDirtyBits_FG1();
 
     virtual void VUpdate() override;
 

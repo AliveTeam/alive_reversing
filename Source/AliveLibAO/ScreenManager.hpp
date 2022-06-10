@@ -53,6 +53,7 @@ public:
     void MoveImage();
     void DecompressCameraToVRam(u16** ppBits);
     void UnsetDirtyBits_FG1();
+    void UnsetDirtyBits(s32 idx);
 
     void InvalidateRect(s32 x, s32 y, s32 width, s32 height, s32 idx);
     void InvalidateRectCurrentIdx(s32 x, s32 y, s32 width, s32 height);

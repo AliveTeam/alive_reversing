@@ -56,16 +56,16 @@ void ScreenManager::InvalidateRectCurrentIdx(s32 x, s32 y, s32 width, s32 height
     InvalidateRect(x, y, width, height, mIdx);
 }
 
-void ScreenManager::UnsetDirtyBits_FG1()
+void ScreenManager::UnsetDirtyBits(s32 idx)
 {
-    memset(&mDirtyBits[4], 0, sizeof(this->mDirtyBits[4]));
-    memset(&mDirtyBits[5], 0, sizeof(this->mDirtyBits[5]));
+    memset(&mDirtyBits[idx], 0, sizeof(mDirtyBits[idx]));
 }
 
-
-
-
-
+void ScreenManager::UnsetDirtyBits_FG1()
+{
+    UnsetDirtyBits(4);
+    UnsetDirtyBits(5);
+}
 
 void ScreenManager::DecompressCameraToVRam(u16** ppBits)
 {
@@ -97,10 +97,10 @@ void ScreenManager::DecompressCameraToVRam(u16** ppBits)
 
         ResourceManager::FreeResource_455550(pRes);
 
-        mDirtyBits[0] = {};
-        mDirtyBits[1] = {};
-        mDirtyBits[2] = {};
-        mDirtyBits[3] = {};
+        UnsetDirtyBits(0);
+        UnsetDirtyBits(1);
+        UnsetDirtyBits(2);
+        UnsetDirtyBits(3);
     }
 }
 
@@ -168,7 +168,7 @@ void ScreenManager::Init(u8** ppBits)
 
     for (s32 i = 0; i < 6; i++)
     {
-        memset(&mDirtyBits[i], 0, sizeof(mDirtyBits[0]));
+        UnsetDirtyBits(i);
     }
 
     mIdx = 2;
@@ -198,12 +198,8 @@ void ScreenManager::sub_406FF0()
     mXIdx = mYIdx;
     mYIdx = mIdx;
     mIdx = (mIdx + 1) % 3;
-    memset(
-        &mDirtyBits[mIdx],
-        0,
-        sizeof(mDirtyBits[mIdx]));
+    UnsetDirtyBits(mIdx);
 }
-
 
 void ScreenManager::VRender(PrimHeader** ppOt)
 {
@@ -266,8 +262,7 @@ void ScreenManager::VRender(PrimHeader** ppOt)
         mDirtyBits[mXIdx].mData[i] |= mDirtyBits[3].mData[i];
     }
 
-    memset(&mDirtyBits[3], 0, sizeof(mDirtyBits[3]));
-    return;
+    UnsetDirtyBits(3);
 }
 
 void ScreenManager::VScreenChanged()

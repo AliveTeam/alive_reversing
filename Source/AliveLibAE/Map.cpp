@@ -985,7 +985,7 @@ s16 Map::GetOverlayId()
 
 void Map::Create_FG1s()
 {
-    pScreenManager->UnsetDirtyBits_FG1_40ED70();
+    pScreenManager->UnsetDirtyBits_FG1();
 
     Camera* pCamera = field_2C_camera_array[0];
     for (s32 i = 0; i < pCamera->field_0.Size(); i++)
