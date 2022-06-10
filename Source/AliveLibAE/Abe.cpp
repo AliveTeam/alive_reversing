@@ -9104,7 +9104,7 @@ void Abe::FallOnBombs_44EC10()
 
         if (pObj->Type() == ReliveTypes::eMine || pObj->Type() == ReliveTypes::eUXB)
         {
-            const PSX_RECT objRect = VGetBoundingRect();
+            const PSX_RECT objRect = pObj->VGetBoundingRect();
             if (bOurRect.x <= objRect.w && bOurRect.w >= objRect.x && bOurRect.h >= objRect.y && bOurRect.y <= objRect.h)
             {
                 pObj->VTakeDamage(this);
