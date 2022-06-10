@@ -22,8 +22,8 @@ public:
     DynamicArrayT<u8*> field_0;
     u8** field_C_pCamRes;
     s32 field_10_camera_resource_id;
-    s16 field_14_xpos;
-    s16 field_16_ypos;
+    s16 mCamXOff;
+    s16 mCamYOff;
     s16 field_18_path;
     EReliveLevelIds field_1A_level;
     s16 field_1C_camera_number;

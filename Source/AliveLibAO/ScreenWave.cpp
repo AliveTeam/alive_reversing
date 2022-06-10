@@ -56,8 +56,8 @@ ScreenWave::ScreenWave(FP xpos, FP ypos, Layer layer, FP width, FP speed, s32 ra
 
     field_2C = FP_FromInteger(0);
 
-    field_36_screen_xpos = FP_GetExponent(xpos) - FP_GetExponent(pScreenManager_4FF7C8->mCamPos->field_0_x - FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos));
-    field_38_screen_ypos = FP_GetExponent(ypos) - FP_GetExponent(pScreenManager_4FF7C8->mCamPos->field_4_y - FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos));
+    field_36_screen_xpos = FP_GetExponent(xpos) - FP_GetExponent(pScreenManager->mCamPos->field_0_x - FP_FromInteger(pScreenManager->mCamXOff));
+    field_38_screen_ypos = FP_GetExponent(ypos) - FP_GetExponent(pScreenManager->mCamPos->field_4_y - FP_FromInteger(pScreenManager->mCamYOff));
 
     // TODO: This needs to be checked, my brain melted halfway
     const s16 v1 = static_cast<s16>(std::abs(field_36_screen_xpos) + std::abs(field_38_screen_ypos));
@@ -252,7 +252,7 @@ void ScreenWave::VRender(PrimHeader** ppOt)
                 u2 -= minU_capped;
                 u3 -= minU_capped;
 
-                SetTPage(pPoly, static_cast<s16>(PSX_getTPage_4965D0(
+                SetTPage(pPoly, static_cast<s16>(PSX_getTPage(
                                     TPageMode::e16Bit_2,
                                     TPageAbr::eBlend_0,
                                     static_cast<s16>(minU_capped),
@@ -286,12 +286,12 @@ void ScreenWave::VRender(PrimHeader** ppOt)
         }
         if (clearRectSize.y <= clearRectSize.h && clearRectSize.x <= clearRectSize.w)
         {
-            pScreenManager_4FF7C8->InvalidateRect(
+            pScreenManager->InvalidateRect(
                 clearRectSize.x,
                 clearRectSize.y,
                 clearRectSize.w,
                 clearRectSize.h,
-                pScreenManager_4FF7C8->mIdx);
+                pScreenManager->mIdx);
         }
     }
 }

@@ -168,7 +168,7 @@ void LaughingGas::VRender(PrimHeader** ppOt)
             }
             OrderingTable_Add_4F8AA0(OtLayer(ppOt, field_58_layer), &field_5C_prim.mPrimHeader);
         }
-        pScreenManager->InvalidateRect_40EC10(0, 0, gPsxDisplay_5C1130.field_0_width, gPsxDisplay_5C1130.field_2_height);
+        pScreenManager->InvalidateRectCurrentIdx(0, 0, gPsxDisplay_5C1130.field_0_width, gPsxDisplay_5C1130.field_2_height);
     }
 }
 

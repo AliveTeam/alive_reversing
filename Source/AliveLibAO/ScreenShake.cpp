@@ -136,7 +136,7 @@ void ScreenShake::VRender(PrimHeader** ppOt)
     }
 
 
-    pScreenManager_4FF7C8->InvalidateRectCurrentIdx(0, 0, 640, 240);
+    pScreenManager->InvalidateRectCurrentIdx(0, 0, 640, 240);
 }
 
 ScreenShake::~ScreenShake()

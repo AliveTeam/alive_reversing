@@ -21,7 +21,7 @@ void Vram_reset_450840();
 
 void Vram_free_450CE0(PSX_Point xy, PSX_Point wh);
 
-void Vram_alloc_explicit_4507F0(s16 x, s16 y, s16 w, s16 h);
+void Vram_alloc_explicit(s16 x, s16 y, s16 w, s16 h);
 
 s16 vram_alloc_450B20(u16 width, s16 height, u16 colourDepth, PSX_RECT* pRect);
 

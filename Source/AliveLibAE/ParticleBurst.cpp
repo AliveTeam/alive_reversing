@@ -281,7 +281,7 @@ void ParticleBurst::VRender(PrimHeader** ppOt)
                             mBaseAnimatedWithPhysicsGameObject_Anim.mBlue = 0;
                         }
                     }
-                    pScreenManager->InvalidateRect_40EC90(
+                    pScreenManager->InvalidateRect(
                         frameRect.x,
                         frameRect.y,
                         frameRect.w,
@@ -336,7 +336,7 @@ void ParticleBurst::VRender(PrimHeader** ppOt)
                             field_F8_pRes[i].field_18_anim.mBlue = 0;
                         }
                     }
-                    pScreenManager->InvalidateRect_40EC90(
+                    pScreenManager->InvalidateRect(
                         frameRect.x,
                         frameRect.y,
                         frameRect.w,

@@ -5,7 +5,7 @@
 
 namespace AO {
 
-void Init_SetTPage_495FB0(Prim_SetTPage* pPrim, s32 /*notUsed1*/, s32 /*notUsed2*/, s32 tpage)
+void Init_SetTPage(Prim_SetTPage* pPrim, s32 /*notUsed1*/, s32 /*notUsed2*/, s32 tpage)
 {
     SetUnknown(&pPrim->mBase);
     SetCode(&pPrim->mBase, PrimTypeCodes::eSetTPage);

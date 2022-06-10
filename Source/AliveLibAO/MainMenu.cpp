@@ -391,12 +391,12 @@ void MainMenuFade::VRender(PrimHeader** ppOt)
 
     PSX_RECT rect = {};
     mBaseAnimatedWithPhysicsGameObject_Anim.Get_Frame_Rect(&rect);
-    pScreenManager_4FF7C8->InvalidateRect(
+    pScreenManager->InvalidateRect(
         rect.x,
         rect.y,
         rect.w,
         rect.h,
-        pScreenManager_4FF7C8->mIdx);
+        pScreenManager->mIdx);
 }
 
 struct MainMenu_TransitionData final
@@ -489,7 +489,7 @@ MainMenuTransition::MainMenuTransition(Layer layer, s32 fadeDirection, s32 bKill
 
     for (s32 i = 0; i < 2; i++)
     {
-        Init_SetTPage_495FB0(&field_21C_tPage[i], 0, 1, PSX_getTPage_4965D0(TPageMode::e16Bit_2, abr, 0, 0));
+        Init_SetTPage(&field_21C_tPage[i], 0, 1, PSX_getTPage(TPageMode::e16Bit_2, abr, 0, 0));
     }
 
     for (s32 i = 0; i < 8; i++)
@@ -659,7 +659,7 @@ void MainMenuTransition::VRender_436610(PrimHeader** ppOt)
 
     OrderingTable_Add_498A80(OtLayer(ppOt, field_23C_layer), &field_21C_tPage[gPsxDisplay_504C78.field_A_buffer_index].mBase);
 
-    pScreenManager_4FF7C8->InvalidateRectCurrentIdx(0, 0, gPsxDisplay_504C78.field_0_width, gPsxDisplay_504C78.field_2_height);
+    pScreenManager->InvalidateRectCurrentIdx(0, 0, gPsxDisplay_504C78.field_0_width, gPsxDisplay_504C78.field_2_height);
 
     if ((field_10_current_Value == 255 && field_14_fade_direction) || (field_10_current_Value == 0 && !field_14_fade_direction))
     {
@@ -838,12 +838,12 @@ void Menu::VRender_47AC00(PrimHeader** ppOt)
 
         PSX_RECT rect = {};
         mBaseAnimatedWithPhysicsGameObject_Anim.Get_Frame_Rect(&rect);
-        pScreenManager_4FF7C8->InvalidateRect(
+        pScreenManager->InvalidateRect(
             rect.x,
             rect.y,
             rect.w,
             rect.h,
-            pScreenManager_4FF7C8->mIdx);
+            pScreenManager->mIdx);
     }
     (this->*field_1D0_fn_render)(ppOt);
 }
@@ -1019,9 +1019,9 @@ void Menu::FMV_Select_Update_47E8D0()
 
                     stru_507C90.Free_41BEB0();
                     gPsxDisplay_504C78.PutCurrentDispEnv_40DE40();
-                    pScreenManager_4FF7C8->DecompressCameraToVRam(reinterpret_cast<u16**>(gMap.field_34_camera_array[0]->field_C_ppBits));
-                    pScreenManager_4FF7C8->MoveImage();
-                    pScreenManager_4FF7C8->mFlags = (pScreenManager_4FF7C8->mFlags & ~1) ^ 1; // Toggle 1
+                    pScreenManager->DecompressCameraToVRam(reinterpret_cast<u16**>(gMap.field_34_camera_array[0]->field_C_ppBits));
+                    pScreenManager->MoveImage();
+                    pScreenManager->mFlags = (pScreenManager->mFlags & ~1) ^ 1; // Toggle 1
                     SND_Restart();
                 }
                 else
@@ -1031,7 +1031,7 @@ void Menu::FMV_Select_Update_47E8D0()
 
                     // The credits are re-done in this class rather than using CreditsController... go to the Sherry credit screen
                     field_208_camera = 1;
-                    pScreenManager_4FF7C8->UnsetDirtyBits_FG1();
+                    pScreenManager->UnsetDirtyBits_FG1();
                     gMap.SetActiveCam(EReliveLevelIds::eCredits, 1, static_cast<s16>(field_208_camera), CameraSwapEffects::eInstantChange_0, 0, 0);
                     field_1CC_fn_update = &Menu::To_Credits_Update_47F140;
                     field_1D0_fn_render = &Menu::Empty_Render_47AC80;
@@ -1114,12 +1114,12 @@ void Menu::FMV_Or_Level_Select_Render_47EEA0(PrimHeader** ppOt)
 
     PSX_RECT rect = {};
     field_134_anim.Get_Frame_Rect(&rect);
-    pScreenManager_4FF7C8->InvalidateRect(
+    pScreenManager->InvalidateRect(
         rect.x,
         rect.y,
         rect.w,
         rect.h,
-        pScreenManager_4FF7C8->mIdx);
+        pScreenManager->mIdx);
 
     if (field_1E0_selected_index.raw != field_218_previous_fmv_or_level_selection)
     {
@@ -1294,12 +1294,12 @@ void Menu::MainScreen_Render_47BED0(PrimHeader** ppOt)
 
     PSX_RECT rect = {};
     field_134_anim.Get_Frame_Rect(&rect);
-    pScreenManager_4FF7C8->InvalidateRect(
+    pScreenManager->InvalidateRect(
         rect.x,
         rect.y,
         rect.w,
         rect.h,
-        pScreenManager_4FF7C8->mIdx);
+        pScreenManager->mIdx);
 
     s32 polyOffset = 0;
     for (const auto& element : sBtnArray_MainMenuStaticBtn_4D03F0)
@@ -1813,24 +1813,24 @@ void Menu::Load_Render_47DDA0(PrimHeader** ppOt)
         field_134_anim.VRender(stru_4D01F0[1].field_0_xpos, stru_4D01F0[1].field_2_ypos + 36, ppOt, 0, 0);
         PSX_RECT rect = {};
         field_134_anim.Get_Frame_Rect(&rect);
-        pScreenManager_4FF7C8->InvalidateRect(
+        pScreenManager->InvalidateRect(
             rect.x,
             rect.y,
             rect.w,
             rect.h,
-            pScreenManager_4FF7C8->mIdx);
+            pScreenManager->mIdx);
     }
     else
     {
         field_134_anim.VRender(stru_4D01F0[0].field_0_xpos, stru_4D01F0[0].field_2_ypos + 36, ppOt, 0, 0);
         PSX_RECT rect = {};
         field_134_anim.Get_Frame_Rect(&rect);
-        pScreenManager_4FF7C8->InvalidateRect(
+        pScreenManager->InvalidateRect(
             rect.x,
             rect.y,
             rect.w,
             rect.h,
-            pScreenManager_4FF7C8->mIdx);
+            pScreenManager->mIdx);
     }
 
     if (field_1E0_selected_index.raw != sSelectedSaveIdx_9F2DDC)
@@ -1982,12 +1982,12 @@ void Menu::Options_Render_47C190(PrimHeader** ppOt)
 
     PSX_RECT rect = {};
     field_134_anim.Get_Frame_Rect(&rect);
-    pScreenManager_4FF7C8->InvalidateRect(
+    pScreenManager->InvalidateRect(
         rect.x,
         rect.y,
         rect.w,
         rect.h,
-        pScreenManager_4FF7C8->mIdx);
+        pScreenManager->mIdx);
 
     s32 polyOff = 0;
     for (const auto& element : sBtnArray_Options_4D0400)
@@ -2314,12 +2314,12 @@ void Menu::Options_Controller_Render_47F430(PrimHeader** ppOt)
 
     PSX_RECT rect = {};
     field_134_anim.Get_Frame_Rect(&rect);
-    pScreenManager_4FF7C8->InvalidateRect(
+    pScreenManager->InvalidateRect(
         rect.x,
         rect.y,
         rect.w,
         rect.h,
-        pScreenManager_4FF7C8->mIdx);
+        pScreenManager->mIdx);
 
     if (field_1E0_selected_index.raw != (Input_JoyStickEnabled() ? 1 : 0))
     {
@@ -2450,12 +2450,12 @@ void Menu::Options_Sound_Render_47C630(PrimHeader** ppOt)
 
     PSX_RECT rect = {};
     field_134_anim.Get_Frame_Rect(&rect);
-    pScreenManager_4FF7C8->InvalidateRect(
+    pScreenManager->InvalidateRect(
         rect.x,
         rect.y,
         rect.w,
         rect.h,
-        pScreenManager_4FF7C8->mIdx);
+        pScreenManager->mIdx);
 
     s32 polyOffset = 0;
     for (s32 i = 0; i < 2; i++)
@@ -2613,8 +2613,8 @@ void Menu::GameSpeak_Update_47CBD0()
             const AnimRecord& rec = AO::AnimRec(AnimId::OptionChantOrb_Particle);
             ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
 
-            const FP screen_y = pScreenManager_4FF7C8->mCamPos->field_4_y - FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos);
-            const FP screen_x = pScreenManager_4FF7C8->mCamPos->field_0_x - FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos);
+            const FP screen_y = pScreenManager->mCamPos->field_4_y - FP_FromInteger(pScreenManager->mCamYOff);
+            const FP screen_x = pScreenManager->mCamPos->field_0_x - FP_FromInteger(pScreenManager->mCamXOff);
 
             auto pParticle = relive_new Particle(
                 screen_x + (FP_FromInteger(Math_RandomRange_450F20(-40, 40) + 184)),
@@ -3168,12 +3168,12 @@ void Menu::ButtonRemap_Render_47F940(PrimHeader** ppOt)
 
     PSX_RECT pRect = {};
     field_134_anim.Get_Frame_Rect(&pRect);
-    pScreenManager_4FF7C8->InvalidateRect(
+    pScreenManager->InvalidateRect(
         pRect.x,
         pRect.y,
         pRect.w,
         pRect.h,
-        pScreenManager_4FF7C8->mIdx);
+        pScreenManager->mIdx);
 
     for (s32 i = 0; i < ALIVE_COUNTOF(chooseAndExitRemapButtons_4D0690); i++)
     {
@@ -3612,12 +3612,12 @@ void Menu::ToggleMotions_Render_47CAB0(PrimHeader** ppOt)
 
     PSX_RECT rect = {};
     field_134_anim.Get_Frame_Rect(&rect);
-    pScreenManager_4FF7C8->InvalidateRect(
+    pScreenManager->InvalidateRect(
         rect.x,
         rect.y,
         rect.w,
         rect.h,
-        pScreenManager_4FF7C8->mIdx);
+        pScreenManager->mIdx);
 }
 
 void Menu::ToggleMotions_Update_47C800()

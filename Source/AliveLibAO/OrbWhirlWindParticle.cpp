@@ -53,13 +53,13 @@ void OrbWhirlWindParticle::Render(PrimHeader** ppOt)
 {
     field_8_anim.field_14_scale = field_A8_render_as_scale;
 
-    const s16 xpos = FP_GetExponent(FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos)
+    const s16 xpos = FP_GetExponent(FP_FromInteger(pScreenManager->mCamXOff)
                                     + field_A0_xpos_render_offset
-                                    - pScreenManager_4FF7C8->mCamPos->field_0_x);
+                                    - pScreenManager->mCamPos->field_0_x);
 
-    const s16 ypos = FP_GetExponent(FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos + 5)
+    const s16 ypos = FP_GetExponent(FP_FromInteger(pScreenManager->mCamYOff + 5)
                                     + field_A4_ypos_render_offset
-                                    - pScreenManager_4FF7C8->mCamPos->field_4_y);
+                                    - pScreenManager->mCamPos->field_4_y);
 
     field_8_anim.VRender(
         xpos,
@@ -70,12 +70,12 @@ void OrbWhirlWindParticle::Render(PrimHeader** ppOt)
 
     PSX_RECT rect = {};
     field_8_anim.Get_Frame_Rect(&rect);
-    pScreenManager_4FF7C8->InvalidateRect(
+    pScreenManager->InvalidateRect(
         rect.x,
         rect.y,
         rect.w,
         rect.h,
-        pScreenManager_4FF7C8->mIdx);
+        pScreenManager->mIdx);
 }
 
 void OrbWhirlWindParticle::SetActive(u8 active)

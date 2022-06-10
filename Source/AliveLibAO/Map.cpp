@@ -376,7 +376,7 @@ void Map::Shutdown()
         }
     }
 
-    pScreenManager_4FF7C8 = nullptr;
+    pScreenManager = nullptr;
 
     ResourceManager::Reclaim_Memory_455660(0);
     Reset();
@@ -685,7 +685,7 @@ void Map::RemoveObjectsWithPurpleLight(s16 bMakeInvisible)
             }
 
             PSX_DrawSync_496750(0);
-            pScreenManager_4FF7C8->VRender(gPsxDisplay_504C78.field_C_drawEnv[gPsxDisplay_504C78.field_A_buffer_index].field_70_ot_buffer);
+            pScreenManager->VRender(gPsxDisplay_504C78.field_C_drawEnv[gPsxDisplay_504C78.field_A_buffer_index].field_70_ot_buffer);
             SYS_EventsPump_44FF90();
             gPsxDisplay_504C78.PSX_Display_Render_OT_40DD20();
         }
@@ -1566,7 +1566,7 @@ Camera* Map::Create_Camera(s16 xpos, s16 ypos, s32 /*a4*/)
 
 void Map::Create_FG1s()
 {
-    pScreenManager_4FF7C8->UnsetDirtyBits_FG1();
+    pScreenManager->UnsetDirtyBits_FG1();
 
     Camera* pCamera = field_34_camera_array[0];
     for (s32 i = 0; i < pCamera->field_0_array.Size(); i++)
@@ -1895,9 +1895,9 @@ void Map::GoTo_Camera()
     Load_Path_Items(field_34_camera_array[1], LoadMode::ConstructObject_0);
     Load_Path_Items(field_34_camera_array[2], LoadMode::ConstructObject_0);
 
-    if (!pScreenManager_4FF7C8)
+    if (!pScreenManager)
     {
-        pScreenManager_4FF7C8 = relive_new ScreenManager(field_34_camera_array[0]->field_C_ppBits, &field_2C_camera_offset);
+        pScreenManager = relive_new ScreenManager(field_34_camera_array[0]->field_C_ppBits, &field_2C_camera_offset);
     }
 
     Loader(field_20_camX_idx, field_22_camY_idx, LoadMode::ConstructObject_0, TlvTypes::None_m1); // none = load all
@@ -1924,10 +1924,10 @@ void Map::GoTo_Camera()
 
     if (field_10_screenChangeEffect == CameraSwapEffects::eUnknown_11)
     {
-        pScreenManager_4FF7C8->DecompressCameraToVRam(reinterpret_cast<u16**>(field_34_camera_array[0]->field_C_ppBits));
-        pScreenManager_4FF7C8->InvalidateRectCurrentIdx(0, 0, 640, 240);
-        pScreenManager_4FF7C8->MoveImage();
-        pScreenManager_4FF7C8->mFlags = (pScreenManager_4FF7C8->mFlags & ~1) ^ 1;
+        pScreenManager->DecompressCameraToVRam(reinterpret_cast<u16**>(field_34_camera_array[0]->field_C_ppBits));
+        pScreenManager->InvalidateRectCurrentIdx(0, 0, 640, 240);
+        pScreenManager->MoveImage();
+        pScreenManager->mFlags = (pScreenManager->mFlags & ~1) ^ 1;
     }
 
     if (field_10_screenChangeEffect != CameraSwapEffects::ePlay1FMV_5 && field_10_screenChangeEffect != CameraSwapEffects::eUnknown_11)
@@ -1940,9 +1940,9 @@ void Map::GoTo_Camera()
                 pTlvIter = static_cast<Path_Door*>(Path_TLV::TLV_Next_Of_Type_446500(pTlvIter, TlvTypes::Door_6));
             }
 
-            const auto pCamPos = pScreenManager_4FF7C8->mCamPos;
-            const auto xpos = pScreenManager_4FF7C8->field_14_xpos + ((pTlvIter->field_10_top_left.field_0_x + pTlvIter->field_14_bottom_right.field_0_x) / 2) - FP_GetExponent(pCamPos->field_0_x);
-            const auto ypos = pScreenManager_4FF7C8->field_16_ypos + pTlvIter->field_10_top_left.field_2_y - FP_GetExponent(pCamPos->field_4_y);
+            const auto pCamPos = pScreenManager->mCamPos;
+            const auto xpos = pScreenManager->mCamXOff + ((pTlvIter->field_10_top_left.field_0_x + pTlvIter->field_14_bottom_right.field_0_x) / 2) - FP_GetExponent(pCamPos->field_0_x);
+            const auto ypos = pScreenManager->mCamYOff + pTlvIter->field_10_top_left.field_2_y - FP_GetExponent(pCamPos->field_4_y);
             relive_new CameraSwapper(
                 field_34_camera_array[0]->field_C_ppBits,
                 field_10_screenChangeEffect,

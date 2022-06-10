@@ -48,10 +48,10 @@ u32 Pal_Make_Colour_447950(u8 r, u8 g, u8 b, s16 bOpaque)
     return Pal_Make_Colour_4834C0(r, g, b, bOpaque);
 }
 
-void Vram_alloc_explicit_4507F0(s16 x, s16 y, s16 w, s16 h)
+void Vram_alloc_explicit(s16 x, s16 y, s16 w, s16 h)
 {
     // AE_IMPLEMENTED();
-    Vram_alloc_explicit_4955F0(x, y, w, h);
+    ::Vram_alloc_explicit(x, y, w, h);
 }
 
 void Vram_reset_450840()

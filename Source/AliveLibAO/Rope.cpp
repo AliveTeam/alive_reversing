@@ -135,11 +135,11 @@ void Rope::VRender(PrimHeader** ppOt)
         {
             if (mBaseAnimatedWithPhysicsGameObject_XPos >= FP_FromInteger(camPos.field_0_x) && mBaseAnimatedWithPhysicsGameObject_XPos <= FP_FromInteger(camPos.field_0_x + 1024))
             {
-                const FP camYPos = pScreenManager_4FF7C8->mCamPos->field_4_y;
+                const FP camYPos = pScreenManager->mCamPos->field_4_y;
 
-                s32 minY = FP_GetExponent((FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos + field_EE_top))
+                s32 minY = FP_GetExponent((FP_FromInteger(pScreenManager->mCamYOff + field_EE_top))
                                           - camYPos);
-                s32 maxY = FP_GetExponent((FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos + field_F2_bottom))
+                s32 maxY = FP_GetExponent((FP_FromInteger(pScreenManager->mCamYOff + field_F2_bottom))
                                           - camYPos);
 
                 s16 ypos = FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos);
@@ -149,17 +149,17 @@ void Rope::VRender(PrimHeader** ppOt)
                 }
 
                 s16 screenX = PsxToPCX(
-                    FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos + FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos) - pScreenManager_4FF7C8->mCamPos->field_0_x),
+                    FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos + FP_FromInteger(pScreenManager->mCamXOff) - pScreenManager->mCamPos->field_0_x),
                     11);
                 s16 screenY = FP_GetExponent(
-                    (FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos + ypos))
+                    (FP_FromInteger(pScreenManager->mCamYOff + ypos))
                     - camYPos);
 
                 if (mBaseAnimatedWithPhysicsGameObject_YOffset + screenY > 240)
                 {
                     screenY = screenY % field_E6_rope_length + 240;
-                    ypos = FP_GetExponent(pScreenManager_4FF7C8->mCamPos->field_4_y
-                                          + FP_FromInteger(screenY - pScreenManager_4FF7C8->field_16_ypos));
+                    ypos = FP_GetExponent(pScreenManager->mCamPos->field_4_y
+                                          + FP_FromInteger(screenY - pScreenManager->mCamYOff));
                 }
                 if (minY < 0)
                 {
@@ -197,12 +197,12 @@ void Rope::VRender(PrimHeader** ppOt)
 
                         PSX_RECT rect = {};
                         field_E8_pRopeRes[idx].GetRenderedSize(&rect);
-                        pScreenManager_4FF7C8->InvalidateRect(
+                        pScreenManager->InvalidateRect(
                             rect.x,
                             rect.y,
                             rect.w,
                             rect.h,
-                            pScreenManager_4FF7C8->mIdx);
+                            pScreenManager->mIdx);
 
                         ClipPoly_Vertically_4584B0(
                             &field_E8_pRopeRes[idx].field_10_polys[gPsxDisplay_504C78.field_A_buffer_index],

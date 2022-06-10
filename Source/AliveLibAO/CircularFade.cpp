@@ -45,8 +45,8 @@ CircularFade::CircularFade(FP xpos, FP ypos, FP scale, s16 direction, s8 destroy
     mBaseAnimatedWithPhysicsGameObject_Green = field_1A8_fade_colour;
     mBaseAnimatedWithPhysicsGameObject_Blue = field_1A8_fade_colour;
 
-    Init_SetTPage_495FB0(&field_188_tPage[0], 0, 0, PSX_getTPage_4965D0(TPageMode::e16Bit_2, TPageAbr::eBlend_2, 0, 0));
-    Init_SetTPage_495FB0(&field_188_tPage[1], 0, 0, PSX_getTPage_4965D0(TPageMode::e16Bit_2, TPageAbr::eBlend_2, 0, 0));
+    Init_SetTPage(&field_188_tPage[0], 0, 0, PSX_getTPage(TPageMode::e16Bit_2, TPageAbr::eBlend_2, 0, 0));
+    Init_SetTPage(&field_188_tPage[1], 0, 0, PSX_getTPage(TPageMode::e16Bit_2, TPageAbr::eBlend_2, 0, 0));
 }
 
 void CircularFade::VRender(PrimHeader** ppOt)
@@ -62,19 +62,19 @@ void CircularFade::VRender(PrimHeader** ppOt)
     mBaseAnimatedWithPhysicsGameObject_Anim.mBlue = fade_rgb;
 
     mBaseAnimatedWithPhysicsGameObject_Anim.VRender(
-        FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos + (FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos + mBaseAnimatedWithPhysicsGameObject_XOffset)) - pScreenManager_4FF7C8->mCamPos->field_0_x),
-        FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos + (FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos + mBaseAnimatedWithPhysicsGameObject_YOffset)) - pScreenManager_4FF7C8->mCamPos->field_4_y),
+        FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos + (FP_FromInteger(pScreenManager->mCamXOff + mBaseAnimatedWithPhysicsGameObject_XOffset)) - pScreenManager->mCamPos->field_0_x),
+        FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos + (FP_FromInteger(pScreenManager->mCamYOff + mBaseAnimatedWithPhysicsGameObject_YOffset)) - pScreenManager->mCamPos->field_4_y),
         ppOt,
         0,
         0);
     PSX_RECT frameRect = {};
     mBaseAnimatedWithPhysicsGameObject_Anim.Get_Frame_Rect(&frameRect);
-    pScreenManager_4FF7C8->InvalidateRect(
+    pScreenManager->InvalidateRect(
         frameRect.x,
         frameRect.y,
         frameRect.w,
         frameRect.h,
-        pScreenManager_4FF7C8->mIdx);
+        pScreenManager->mIdx);
 
     frameRect.h--;
     frameRect.w--;
@@ -151,7 +151,7 @@ void CircularFade::VRender(PrimHeader** ppOt)
 
     if (field_1A8_fade_colour < 255)
     {
-        pScreenManager_4FF7C8->InvalidateRectCurrentIdx(
+        pScreenManager->InvalidateRectCurrentIdx(
             0,
             0,
             gPsxDisplay_504C78.field_0_width,

@@ -107,7 +107,7 @@ void BaseAnimatedWithPhysicsGameObject::VRender(PrimHeader** ppOt)
 
             PSX_RECT frameRect = {};
             mBaseAnimatedWithPhysicsGameObject_Anim.Get_Frame_Rect(&frameRect);
-            pScreenManager->InvalidateRect_40EC90(
+            pScreenManager->InvalidateRect(
                 frameRect.x,
                 frameRect.y,
                 frameRect.w,

@@ -187,15 +187,15 @@ const s16 zVerts[8] = {
 
 void SnoozeParticle::VRender(PrimHeader** ppOt)
 {
-    //Identical to AE except xInScreen, yInScreen are offset by pScreenManager_4FF7C8 positions
+    //Identical to AE except xInScreen, yInScreen are offset by pScreenManager positions
     PSX_RECT rectToInvalidate = {};
-    FP_Point* pCamPos = pScreenManager_4FF7C8->mCamPos;
+    FP_Point* pCamPos = pScreenManager->mCamPos;
     const s16 bufIdx = gPsxDisplay_504C78.field_A_buffer_index;
 
     if (field_1D4_state == SnoozeParticleState::eBlowingUp_2)
     {
-        const s16 xInScreen = FP_GetExponent(field_18_x - pCamPos->field_0_x) + pScreenManager_4FF7C8->field_14_xpos;
-        const s16 yInScreen = FP_GetExponent(field_1C_y - pCamPos->field_4_y) + pScreenManager_4FF7C8->field_16_ypos;
+        const s16 xInScreen = FP_GetExponent(field_18_x - pCamPos->field_0_x) + pScreenManager->mCamXOff;
+        const s16 yInScreen = FP_GetExponent(field_1C_y - pCamPos->field_4_y) + pScreenManager->mCamYOff;
 
         for (s32 i = 0; i < ALIVE_COUNTOF(explosionVerts); i++)
         {
@@ -235,8 +235,8 @@ void SnoozeParticle::VRender(PrimHeader** ppOt)
         Line_G4* pZLine = &field_3C_lines[bufIdx];
         LineG4_Init(pZLine);
 
-        const s16 xInScreen = FP_GetExponent(field_18_x - pCamPos->field_0_x) + pScreenManager_4FF7C8->field_14_xpos;
-        const s16 yInScreen = FP_GetExponent(field_1C_y - pCamPos->field_4_y) + pScreenManager_4FF7C8->field_16_ypos;
+        const s16 xInScreen = FP_GetExponent(field_18_x - pCamPos->field_0_x) + pScreenManager->mCamXOff;
+        const s16 yInScreen = FP_GetExponent(field_1C_y - pCamPos->field_4_y) + pScreenManager->mCamYOff;
 
         const s16 RectX_v_Psx = xInScreen + FP_GetExponent(FP_FromInteger(zVerts[0]) * field_28_scale);
         const s16 RectW_v_Psx = xInScreen + FP_GetExponent(FP_FromInteger(zVerts[5]) * field_28_scale);
@@ -284,14 +284,14 @@ void SnoozeParticle::VRender(PrimHeader** ppOt)
         rectToInvalidate.h = rectH_v;
     }
     Prim_SetTPage* thisTPage = &field_1B4_tPage[bufIdx];
-    const s32 tPage = PSX_getTPage_4965D0(TPageMode::e4Bit_0, TPageAbr::eBlend_1, 0, 0);
-    Init_SetTPage_495FB0(thisTPage, 1, 0, tPage);
+    const s32 tPage = PSX_getTPage(TPageMode::e4Bit_0, TPageAbr::eBlend_1, 0, 0);
+    Init_SetTPage(thisTPage, 1, 0, tPage);
     OrderingTable_Add_498A80(OtLayer(ppOt, field_30_layer), &thisTPage->mBase);
 
-    pScreenManager_4FF7C8->InvalidateRect(
+    pScreenManager->InvalidateRect(
         rectToInvalidate.x, rectToInvalidate.y,
         rectToInvalidate.w, rectToInvalidate.h,
-        pScreenManager_4FF7C8->mIdx);
+        pScreenManager->mIdx);
 }
 
 } // namespace AO

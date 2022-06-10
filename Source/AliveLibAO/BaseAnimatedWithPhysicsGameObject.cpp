@@ -150,20 +150,20 @@ void BaseAnimatedWithPhysicsGameObject::VRender_417DA0(PrimHeader** ppOt)
             mBaseAnimatedWithPhysicsGameObject_Anim.mBlue = static_cast<u8>(b);
 
             mBaseAnimatedWithPhysicsGameObject_Anim.VRender(
-                FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos + (FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos + mBaseAnimatedWithPhysicsGameObject_XOffset)) - pScreenManager_4FF7C8->mCamPos->field_0_x),
-                FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos + (FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos + mBaseAnimatedWithPhysicsGameObject_YOffset)) - pScreenManager_4FF7C8->mCamPos->field_4_y),
+                FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos + (FP_FromInteger(pScreenManager->mCamXOff + mBaseAnimatedWithPhysicsGameObject_XOffset)) - pScreenManager->mCamPos->field_0_x),
+                FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos + (FP_FromInteger(pScreenManager->mCamYOff + mBaseAnimatedWithPhysicsGameObject_YOffset)) - pScreenManager->mCamPos->field_4_y),
                 ppOt,
                 0,
                 0);
 
             PSX_RECT frameRect = {};
             mBaseAnimatedWithPhysicsGameObject_Anim.Get_Frame_Rect(&frameRect);
-            pScreenManager_4FF7C8->InvalidateRect(
+            pScreenManager->InvalidateRect(
                 frameRect.x,
                 frameRect.y,
                 frameRect.w,
                 frameRect.h,
-                pScreenManager_4FF7C8->mIdx);
+                pScreenManager->mIdx);
 
             if (mShadow)
             {

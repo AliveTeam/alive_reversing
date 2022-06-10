@@ -247,12 +247,12 @@ void Gibs::VRender(PrimHeader** ppOt)
     // Head part rendering
     BaseAnimatedWithPhysicsGameObject::VRender(ppOt);
 
-    const FP_Point* pCamPos = pScreenManager_4FF7C8->mCamPos;
-    const FP left = pCamPos->field_0_x - FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos);
-    const FP right = pCamPos->field_0_x + FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos);
+    const FP_Point* pCamPos = pScreenManager->mCamPos;
+    const FP left = pCamPos->field_0_x - FP_FromInteger(pScreenManager->mCamXOff);
+    const FP right = pCamPos->field_0_x + FP_FromInteger(pScreenManager->mCamXOff);
 
-    const FP up = pCamPos->field_4_y - FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos);
-    const FP down = pCamPos->field_4_y + FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos);
+    const FP up = pCamPos->field_4_y - FP_FromInteger(pScreenManager->mCamYOff);
+    const FP down = pCamPos->field_4_y + FP_FromInteger(pScreenManager->mCamYOff);
 
     for (s32 i = 0; i < field_5C4_parts_used_count; i++)
     {
@@ -280,12 +280,12 @@ void Gibs::VRender(PrimHeader** ppOt)
 
                 PSX_RECT frameRect = {};
                 pGib->field_18_anim.Get_Frame_Rect(&frameRect);
-                pScreenManager_4FF7C8->InvalidateRect(
+                pScreenManager->InvalidateRect(
                     frameRect.x,
                     frameRect.y,
                     frameRect.w,
                     frameRect.h,
-                    pScreenManager_4FF7C8->mIdx);
+                    pScreenManager->mIdx);
             }
         }
     }

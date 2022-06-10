@@ -101,7 +101,7 @@ ZapLine::ZapLine(FP x1, FP y1, FP x2, FP y2, s32 aliveTime, ZapLineType type, La
             for (s32 k = 0; k < field_120_number_of_pieces_per_segment; k++)
             {
                 Prim_Sprt* pSprt = &field_124_pSprts[(j * field_120_number_of_pieces_per_segment) + k].field_0_sprts[i];
-                Sprt_Init(pSprt);
+                AO::Sprt_Init(pSprt);
 
                 Poly_Set_SemiTrans_498A40(&pSprt->mBase.header, 1);
                 Poly_Set_Blending_498A00(&pSprt->mBase.header, 1);
@@ -121,10 +121,10 @@ ZapLine::ZapLine(FP x1, FP y1, FP x2, FP y2, s32 aliveTime, ZapLineType type, La
 
 void ZapLine::CalculateSourceAndDestinationPositions(FP xPosSource, FP yPosSource, FP xPosDest, FP yPosDest)
 {
-    field_10C_x_position_source = FP_GetExponent(xPosSource - (pScreenManager_4FF7C8->mCamPos->field_0_x - FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos)));
-    field_10E_y_position_source = FP_GetExponent(yPosSource - (pScreenManager_4FF7C8->mCamPos->field_4_y - FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos)));
-    field_110_x_position_destination = FP_GetExponent(xPosDest - (pScreenManager_4FF7C8->mCamPos->field_0_x - FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos)));
-    field_112_y_position_destination = FP_GetExponent(yPosDest - (pScreenManager_4FF7C8->mCamPos->field_4_y - FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos)));
+    field_10C_x_position_source = FP_GetExponent(xPosSource - (pScreenManager->mCamPos->field_0_x - FP_FromInteger(pScreenManager->mCamXOff)));
+    field_10E_y_position_source = FP_GetExponent(yPosSource - (pScreenManager->mCamPos->field_4_y - FP_FromInteger(pScreenManager->mCamYOff)));
+    field_110_x_position_destination = FP_GetExponent(xPosDest - (pScreenManager->mCamPos->field_0_x - FP_FromInteger(pScreenManager->mCamXOff)));
+    field_112_y_position_destination = FP_GetExponent(yPosDest - (pScreenManager->mCamPos->field_4_y - FP_FromInteger(pScreenManager->mCamYOff)));
 
     field_10C_x_position_source = PsxToPCX(field_10C_x_position_source, 11);
     field_110_x_position_destination = PsxToPCX(field_110_x_position_destination, 11);
@@ -168,14 +168,14 @@ void ZapLine::VRender(PrimHeader** ppOt)
             }
         }
 
-        const s32 calcTPage = PSX_getTPage_4965D0(
+        const s32 calcTPage = PSX_getTPage(
             field_114_tPageMode,
             field_11C_tPageAbr,
             mBaseAnimatedWithPhysicsGameObject_Anim.field_84_vram_rect.x,
             mBaseAnimatedWithPhysicsGameObject_Anim.field_84_vram_rect.y & ~63); // TODO: Required ?
 
         Prim_SetTPage* pTPage = &field_EC_tPage_p8[bufferIdx];
-        Init_SetTPage_495FB0(pTPage, 0, 0, calcTPage);
+        Init_SetTPage(pTPage, 0, 0, calcTPage);
         OrderingTable_Add_498A80(OtLayer(ppOt, mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer), &pTPage->mBase);
 
         PSX_RECT* pRect = &field_134_rects[bufferIdx];
@@ -216,12 +216,12 @@ void ZapLine::VRender(PrimHeader** ppOt)
         pRect->y -= 25;
         pRect->h += 25;
         const PSX_RECT* pRectToUse = &field_134_rects[gPsxDisplay_504C78.field_A_buffer_index];
-        pScreenManager_4FF7C8->InvalidateRect(
+        pScreenManager->InvalidateRect(
             pRectToUse->x,
             pRectToUse->y,
             pRectToUse->w,
             pRectToUse->h,
-            pScreenManager_4FF7C8->mIdx);
+            pScreenManager->mIdx);
     }
 }
 

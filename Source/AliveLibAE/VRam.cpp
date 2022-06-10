@@ -185,7 +185,7 @@ void Vram_init_495660()
     sVramNumberOfAllocations_5CC888 = 0;
 }
 
-void Vram_alloc_explicit_4955F0(s16 x, s16 y, s16 w, s16 h)
+void Vram_alloc_explicit(s16 x, s16 y, s16 w, s16 h)
 {
     if (sVramNumberOfAllocations_5CC888 < kMaxAllocs)
     {
@@ -362,7 +362,7 @@ void Pal_Area_Init_483080(s16 xpos, s16 ypos, u16 width, u16 height)
     pal_width_5C915C = width / 4;
     pal_free_count_5C915E = height;
 
-    Vram_alloc_explicit_4955F0(xpos, ypos, xpos + width - 1, ypos + height - 1);
+    Vram_alloc_explicit(xpos, ypos, xpos + width - 1, ypos + height - 1);
 
     for (s32 i = 0; i < height; i++)
     {

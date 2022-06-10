@@ -593,22 +593,22 @@ void LiftPoint::VRender(PrimHeader** ppOt)
                 field_13C_lift_wheel.VRender(
                     FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos
                                    + xOff
-                                   + FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos) - pScreenManager_4FF7C8->mCamPos->field_0_x),
+                                   + FP_FromInteger(pScreenManager->mCamXOff) - pScreenManager->mCamPos->field_0_x),
                     FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos
                                    + yOff
-                                   + FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos) - pScreenManager_4FF7C8->mCamPos->field_4_y),
+                                   + FP_FromInteger(pScreenManager->mCamYOff) - pScreenManager->mCamPos->field_4_y),
                     ppOt,
                     0,
                     0);
 
                 PSX_RECT liftWheelRect = {};
                 field_13C_lift_wheel.Get_Frame_Rect(&liftWheelRect);
-                pScreenManager_4FF7C8->InvalidateRect(
+                pScreenManager->InvalidateRect(
                     liftWheelRect.x,
                     liftWheelRect.y,
                     liftWheelRect.w,
                     liftWheelRect.h,
-                    pScreenManager_4FF7C8->mIdx);
+                    pScreenManager->mIdx);
 
                 if (field_27A_flags.Get(Flags::eBit5_bHasPulley))
                 {
@@ -638,19 +638,19 @@ void LiftPoint::VRender(PrimHeader** ppOt)
                         field_1D4_pulley_anim.mBlue = static_cast<u8>(b);
 
                         field_1D4_pulley_anim.VRender(
-                            FP_GetExponent(pulley_xpos + FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos) - pScreenManager_4FF7C8->mCamPos->field_0_x),
-                            FP_GetExponent(pulley_ypos + FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos) - pScreenManager_4FF7C8->mCamPos->field_4_y),
+                            FP_GetExponent(pulley_xpos + FP_FromInteger(pScreenManager->mCamXOff) - pScreenManager->mCamPos->field_0_x),
+                            FP_GetExponent(pulley_ypos + FP_FromInteger(pScreenManager->mCamYOff) - pScreenManager->mCamPos->field_4_y),
                             ppOt,
                             0,
                             0);
                         PSX_RECT pulleyRect = {};
                         field_1D4_pulley_anim.Get_Frame_Rect(&pulleyRect);
-                        pScreenManager_4FF7C8->InvalidateRect(
+                        pScreenManager->InvalidateRect(
                             pulleyRect.x,
                             pulleyRect.y,
                             pulleyRect.w,
                             pulleyRect.h,
-                            pScreenManager_4FF7C8->mIdx);
+                            pScreenManager->mIdx);
                     }
                 }
             }

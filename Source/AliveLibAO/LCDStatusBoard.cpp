@@ -67,8 +67,8 @@ LCDStatusBoard::LCDStatusBoard(Path_LCDStatusBoard* pTlv, s32 tlvInfo)
     mBaseGameObjectFlags.Set(Options::eDrawable_Bit4);
     gObjListDrawables->Push_Back(this);
 
-    field_CC_xpos = (pScreenManager_4FF7C8->field_14_xpos + pTlv->field_10_top_left.field_0_x) - FP_GetExponent(pScreenManager_4FF7C8->mCamPos->field_0_x);
-    field_CE_ypos = (pScreenManager_4FF7C8->field_16_ypos + pTlv->field_10_top_left.field_2_y) - FP_GetExponent(pScreenManager_4FF7C8->mCamPos->field_4_y);
+    field_CC_xpos = (pScreenManager->mCamXOff + pTlv->field_10_top_left.field_0_x) - FP_GetExponent(pScreenManager->mCamPos->field_0_x);
+    field_CE_ypos = (pScreenManager->mCamYOff + pTlv->field_10_top_left.field_2_y) - FP_GetExponent(pScreenManager->mCamPos->field_4_y);
 }
 
 void LCDStatusBoard::VUpdate()
@@ -152,12 +152,12 @@ void LCDStatusBoard::VRender(PrimHeader** ppOt)
         biggestW = w3;
     }
 
-    pScreenManager_4FF7C8->InvalidateRect(
+    pScreenManager->InvalidateRect(
         field_CC_xpos,
         field_CE_ypos,
         biggestW,
         48,
-        pScreenManager_4FF7C8->mIdx);
+        pScreenManager->mIdx);
 }
 
 } // namespace AO

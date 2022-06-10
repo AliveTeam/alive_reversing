@@ -137,7 +137,7 @@ void BrewMachine::VRender(PrimHeader** ppOt)
             flickerAmount);
 
         const s32 v5 = 5 * textWidth;
-        pScreenManager->InvalidateRect_40EC90(
+        pScreenManager->InvalidateRect(
             PsxToPCX(field_13C_textX),
             field_13E_textY,
             PsxToPCX(8 * v5),

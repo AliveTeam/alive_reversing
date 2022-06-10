@@ -805,7 +805,7 @@ void PSX_PutDrawEnv_4F5980(const PSX_DRAWENV* pDrawEnv)
     }
 }
 
-s32 PSX_MoveImage_4F5D50(const PSX_RECT* pRect, s32 xpos, s32 ypos)
+s32 PSX_MoveImage(const PSX_RECT* pRect, s32 xpos, s32 ypos)
 {
     if (PSX_Rect_IsInFrameBuffer_4FA050(pRect))
     {

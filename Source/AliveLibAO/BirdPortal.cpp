@@ -642,13 +642,13 @@ void BirdPortal::VUpdate()
 
         case PortalStates::PortalExit_SetPosition_17:
         {
-            pScreenManager_4FF7C8->mFlags = (pScreenManager_4FF7C8->mFlags & ~1) ^ 1;
-            pScreenManager_4FF7C8->InvalidateRect(
+            pScreenManager->mFlags = (pScreenManager->mFlags & ~1) ^ 1;
+            pScreenManager->InvalidateRect(
                 0,
                 0,
                 gPsxDisplay_504C78.field_0_width,
                 gPsxDisplay_504C78.field_2_height,
-                pScreenManager_4FF7C8->mIdx);
+                pScreenManager->mIdx);
 
             CreateTerminators();
 
@@ -988,7 +988,7 @@ s16 BirdPortal::VPortalClipper(s16 bUnknown)
         return 1;
     }
 
-    const s16 portalX = static_cast<s16>(PsxToPCX(pScreenManager_4FF7C8->field_14_xpos + FP_GetExponent(field_18_xpos) - FP_GetExponent(pScreenManager_4FF7C8->mCamPos->field_0_x), 11));
+    const s16 portalX = static_cast<s16>(PsxToPCX(pScreenManager->mCamXOff + FP_GetExponent(field_18_xpos) - FP_GetExponent(pScreenManager->mCamPos->field_0_x), 11));
 
     PSX_Point xy = {};
     PSX_Point wh = {};

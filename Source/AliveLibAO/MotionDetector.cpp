@@ -284,9 +284,9 @@ void MotionDetector::VRender(PrimHeader** ppOt)
 
     if (!SwitchStates_Get(field_F0_disable_switch_id))
     {
-        const s16 screen_top = FP_GetExponent(pScreenManager_4FF7C8->mCamPos->field_4_y - FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos));
+        const s16 screen_top = FP_GetExponent(pScreenManager->mCamPos->field_4_y - FP_FromInteger(pScreenManager->mCamYOff));
 
-        const s16 screen_left = FP_GetExponent(pScreenManager_4FF7C8->mCamPos->field_0_x - FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos));
+        const s16 screen_left = FP_GetExponent(pScreenManager->mCamPos->field_0_x - FP_FromInteger(pScreenManager->mCamXOff));
 
         PSX_RECT bLaserRect = {};
         field_108_pLaser->VGetBoundingRect(&bLaserRect, 1);
@@ -311,15 +311,15 @@ void MotionDetector::VRender(PrimHeader** ppOt)
         OrderingTable_Add_498A80(OtLayer(ppOt, mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer), &pPrim->mBase.header);
 
         // Add tpage
-        Init_SetTPage_495FB0(&field_13C_tPage[gPsxDisplay_504C78.field_A_buffer_index], 0, 0, PSX_getTPage_4965D0(TPageMode::e16Bit_2, field_160_bObjectInLaser != 0 ? TPageAbr::eBlend_1 : TPageAbr::eBlend_3, 0, 0)); // When detected transparency is off, gives the "solid red" triangle
+        Init_SetTPage(&field_13C_tPage[gPsxDisplay_504C78.field_A_buffer_index], 0, 0, PSX_getTPage(TPageMode::e16Bit_2, field_160_bObjectInLaser != 0 ? TPageAbr::eBlend_1 : TPageAbr::eBlend_3, 0, 0)); // When detected transparency is off, gives the "solid red" triangle
         OrderingTable_Add_498A80(OtLayer(ppOt, mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer), &field_13C_tPage[gPsxDisplay_504C78.field_A_buffer_index].mBase);
 
-        pScreenManager_4FF7C8->InvalidateRect(
+        pScreenManager->InvalidateRect(
             std::min(x0, std::min(x1, x1)),
             std::min(y0, std::min(y1, y2)),
             std::max(x0, std::max(x1, x1)),
             std::max(y0, std::max(y1, y2)),
-            pScreenManager_4FF7C8->mIdx);
+            pScreenManager->mIdx);
     }
 }
 

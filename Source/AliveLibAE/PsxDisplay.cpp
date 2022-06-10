@@ -126,8 +126,8 @@ s32 DebugFont_Init_4DCF40() // Font
 {
     if (!sbDebugFontLoaded_BB4A24)
     {
-        Vram_alloc_explicit_4955F0(960, 256, 991, 287);
-        Vram_alloc_explicit_4955F0(960, 384, 975, 385);
+        Vram_alloc_explicit(960, 256, 991, 287);
+        Vram_alloc_explicit(960, 384, 975, 385);
         sbDebugFontLoaded_BB4A24 = 1;
     }
     DebugFont_Reset_4F8B40();
@@ -198,7 +198,7 @@ void PsxDisplay::ctor_41DC30()
     PSX_ResetGraph_4F8800(0);
     PSX_SetGraphDebug_4F8A10(0);
     Vram_init_495660();
-    Vram_alloc_explicit_4955F0(0, 0, 639, 271);
+    Vram_alloc_explicit(0, 0, 639, 271);
     Pal_Area_Init_483080(0, 240, 640, 32);
     PSX_ClearOTag_4F6290(field_10_drawEnv[0].field_70_ot_buffer, field_A_buffer_size);
     PSX_ClearOTag_4F6290(field_10_drawEnv[1].field_70_ot_buffer, field_A_buffer_size);

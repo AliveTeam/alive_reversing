@@ -486,10 +486,10 @@ void PauseMenu::VRender(PrimHeader** ot)
     SetXY1(pPolys, 640, 0);
     SetXY2(pPolys, 0, 240);
     SetXY3(pPolys, 640, 240);
-    Init_SetTPage_4F5B60(pTPage, 0, 0, PSX_getTPage_4F60E0(TPageMode::e4Bit_0, TPageAbr::eBlend_2, 0, 0));
+    Init_SetTPage(pTPage, 0, 0, PSX_getTPage(TPageMode::e4Bit_0, TPageAbr::eBlend_2, 0, 0));
     OrderingTable_Add_4F8AA0(OtLayer(ot, Layer::eLayer_Menu_41), &pPolys->mBase.header);
     OrderingTable_Add_4F8AA0(OtLayer(ot, Layer::eLayer_Menu_41), &pTPage->mBase);
-    pScreenManager->InvalidateRect_40EC90(0, 0, 640, 240, pScreenManager->mIdx);
+    pScreenManager->InvalidateRect(0, 0, 640, 240, pScreenManager->mIdx);
 }
 
 void PauseMenu::VScreenChanged()

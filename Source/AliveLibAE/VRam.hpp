@@ -8,7 +8,7 @@ ALIVE_VAR_EXTERN(u16, unused_5CC88C);
 s16 Vram_alloc_4956C0(u16 width, s16 height, u16 colourDepth, PSX_RECT* pRect);
 
 void Vram_init_495660();
-void Vram_alloc_explicit_4955F0(s16 x, s16 y, s16 w, s16 h);
+void Vram_alloc_explicit(s16 x, s16 y, s16 w, s16 h);
 void Vram_free_495A60(PSX_Point xy, PSX_Point wh);
 
 s16 Pal_Allocate_483110(PSX_RECT* pRect, u32 paletteColorCount);

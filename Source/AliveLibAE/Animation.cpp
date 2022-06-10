@@ -488,7 +488,7 @@ void Animation::VRender(s32 xpos, s32 ypos, PrimHeader** ppOt, s16 width, s32 he
     Poly_Set_SemiTrans_4F8A60(&pPoly->mBase.header, mAnimFlags.Get(AnimFlags::eBit15_bSemiTrans));
     Poly_Set_Blending_4F8A20(&pPoly->mBase.header, mAnimFlags.Get(AnimFlags::eBit16_bBlending));
     SetRGB0(pPoly, mRed, mGreen, mBlue);
-    SetTPage(pPoly, static_cast<u16>(PSX_getTPage_4F60E0(textureMode, mRenderMode, field_84_vram_rect.x, field_84_vram_rect.y)));
+    SetTPage(pPoly, static_cast<u16>(PSX_getTPage(textureMode, mRenderMode, field_84_vram_rect.x, field_84_vram_rect.y)));
     SetClut(pPoly, static_cast<u16>(PSX_getClut_4F6350(field_8C_pal_vram_xy.field_0_x, field_8C_pal_vram_xy.field_2_y)));
 
     u8 u1 = field_84_vram_rect.x & 63;

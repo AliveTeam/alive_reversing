@@ -206,7 +206,7 @@ void ParamiteWebLine::VRender(PrimHeader** ppOt)
             ppOt, 0, 0);
         PSX_RECT rect = {};
         field_108_anim_flare.Get_Frame_Rect(&rect);
-        pScreenManager->InvalidateRect_40EC90(rect.x, rect.y, rect.w, rect.h, pScreenManager->mIdx);
+        pScreenManager->InvalidateRect(rect.x, rect.y, rect.w, rect.h, pScreenManager->mIdx);
     }
 
     mBaseAnimatedWithPhysicsGameObject_Anim.VRender(640, 240, ppOt, 0, 0);
@@ -257,7 +257,7 @@ void ParamiteWebLine::VRender(PrimHeader** ppOt)
 
         PSX_RECT rect = {};
         field_FC_pRes[idx].GetRenderedSize(&rect);
-        pScreenManager->InvalidateRect_40EC90(rect.x, rect.y, rect.w, rect.h, pScreenManager->mIdx);
+        pScreenManager->InvalidateRect(rect.x, rect.y, rect.w, rect.h, pScreenManager->mIdx);
 
         ClipPoly_Vertically_4A09E0(
             &field_FC_pRes[idx].field_10_polys[gPsxDisplay_5C1130.field_C_buffer_index],

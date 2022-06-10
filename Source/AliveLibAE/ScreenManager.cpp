@@ -11,27 +11,27 @@
 #include "../AliveLibCommon/CamDecompressor.hpp"
 
 ALIVE_VAR(1, 0x5BB5F4, ScreenManager*, pScreenManager, nullptr);
-ALIVE_ARY(1, 0x5b86c8, SprtTPage, 300, sSpriteTPageBuffer_5B86C8, {});
+ALIVE_ARY(1, 0x5b86c8, SprtTPage, 300, sSpriteTPageBuffer, {});
 
 void ScreenManager::sub_40EE10()
 {
     for (s32 i = 0; i < 20; i++)
     {
-        field_64_20x16_dirty_bits[mYIdx].mData[i] |= field_64_20x16_dirty_bits[mXIdx].mData[i];
+        mDirtyBits[mYIdx].mData[i] |= mDirtyBits[mXIdx].mData[i];
     }
 }
 
-void ScreenManager::MoveImage_40EB70()
+void ScreenManager::MoveImage()
 {
     PSX_RECT rect = {};
     rect.x = mUPos;
     rect.y = mVPos;
     rect.h = 240;
     rect.w = 640;
-    PSX_MoveImage_4F5D50(&rect, 0, 0);
+    PSX_MoveImage(&rect, 0, 0);
 }
 
-void ScreenManager::InvalidateRect_40EC90(s32 x, s32 y, s32 width, s32 height, s32 idx)
+void ScreenManager::InvalidateRect(s32 x, s32 y, s32 width, s32 height, s32 idx)
 {
     x = std::max(x, 0);
     y = std::max(y, 0);
@@ -43,42 +43,43 @@ void ScreenManager::InvalidateRect_40EC90(s32 x, s32 y, s32 width, s32 height, s
     {
         for (s32 tileY = y / 16; tileY <= height / 16; tileY++)
         {
-            field_64_20x16_dirty_bits[idx].SetTile(tileX, tileY, true);
+            mDirtyBits[idx].SetTile(tileX, tileY, true);
         }
     }
 }
 
-void ScreenManager::InvalidateRect_Layer3_40EDB0(s32 x, s32 y, s32 width, s32 height)
+void ScreenManager::InvalidateRect_Layer3(s32 x, s32 y, s32 width, s32 height)
 {
-    InvalidateRect_40EC90(x, y, width, height, 3);
+    InvalidateRect(x, y, width, height, 3);
 }
 
-void ScreenManager::InvalidateRect_40EC50(s32 x, s32 y, s32 width, s32 height, s32 idx)
+void ScreenManager::InvalidateRect_IdxPlus4(s32 x, s32 y, s32 width, s32 height, s32 idx)
 {
-    InvalidateRect_40EC90(x, y, width, height, idx + 4);
+    InvalidateRect(x, y, width, height, idx + 4);
 }
 
-s16 ScreenManager::IsDirty_40EBC0(s32 idx, s32 x, s32 y)
+void ScreenManager::InvalidateRectCurrentIdx(s32 x, s32 y, s32 width, s32 height)
 {
-    return field_64_20x16_dirty_bits[idx].GetTile(x / 32, y / 16);
+    InvalidateRect(x, y, width, height, mIdx);
 }
 
-void ScreenManager::UnsetDirtyBits_40EDE0(s32 idx)
+
+void ScreenManager::UnsetDirtyBits(s32 idx)
 {
-    memset(&field_64_20x16_dirty_bits[idx], 0, sizeof(field_64_20x16_dirty_bits[idx]));
+    memset(&mDirtyBits[idx], 0, sizeof(mDirtyBits[idx]));
 }
 
 void ScreenManager::UnsetDirtyBits_FG1_40ED70()
 {
-    UnsetDirtyBits_40EDE0(7);
-    UnsetDirtyBits_40EDE0(5);
-    UnsetDirtyBits_40EDE0(6);
-    UnsetDirtyBits_40EDE0(4);
+    UnsetDirtyBits(7);
+    UnsetDirtyBits(5);
+    UnsetDirtyBits(6);
+    UnsetDirtyBits(4);
 }
 
-void ScreenManager::InvalidateRect_40EC10(s32 x, s32 y, s32 width, s32 height)
+s16 ScreenManager::IsDirty_40EBC0(s32 idx, s32 x, s32 y)
 {
-    InvalidateRect_40EC90(x, y, width, height, mIdx);
+    return mDirtyBits[idx].GetTile(x / 32, y / 16);
 }
 
 const s32 kStripSize = 16;
@@ -107,7 +108,7 @@ static bool IsHackedAOCamera(u16** ppBits)
     return countOf7680SizedSegments == kNumStrips;
 }
 
-void ScreenManager::DecompressCameraToVRam_40EF60(u16** ppBits)
+void ScreenManager::DecompressCameraToVRam(u16** ppBits)
 {
     if (IsHackedAOCamera(ppBits))
     {
@@ -158,10 +159,10 @@ void ScreenManager::DecompressCameraToVRam_40EF60(u16** ppBits)
         }
     }
 
-    UnsetDirtyBits_40EDE0(0);
-    UnsetDirtyBits_40EDE0(1);
-    UnsetDirtyBits_40EDE0(2);
-    UnsetDirtyBits_40EDE0(3);
+    UnsetDirtyBits(0);
+    UnsetDirtyBits(1);
+    UnsetDirtyBits(2);
+    UnsetDirtyBits(3);
 }
 
 ScreenManager::ScreenManager(u8** ppBits, FP_Point* pCameraOffset)
@@ -172,10 +173,10 @@ ScreenManager::ScreenManager(u8** ppBits, FP_Point* pCameraOffset)
     mBaseGameObjectFlags.Set(BaseGameObject::eSurviveDeathReset_Bit9);
     mBaseGameObjectFlags.Set(BaseGameObject::eUpdateDuringCamSwap_Bit10);
 
-    Init_40E4B0(ppBits);
+    Init(ppBits);
 }
 
-void ScreenManager::Init_40E4B0(u8** ppBits)
+void ScreenManager::Init(u8** ppBits)
 {
     mFlags |= 0x10000;
 
@@ -186,17 +187,17 @@ void ScreenManager::Init_40E4B0(u8** ppBits)
     mCamWidth = 640;
     mCamHeight = 240;
 
-    Vram_alloc_explicit_4955F0(0, 272, 640 - 1, 512 - 1);
-    DecompressCameraToVRam_40EF60(reinterpret_cast<u16**>(ppBits));
+    Vram_alloc_explicit(0, 272, 640 - 1, 512 - 1);
+    DecompressCameraToVRam(reinterpret_cast<u16**>(ppBits));
 
-    mScreenSprites = &sSpriteTPageBuffer_5B86C8[0];
+    mScreenSprites = &sSpriteTPageBuffer[0];
 
     s16 xpos = 0;
     s16 ypos = 0;
     for (s32 i = 0; i < 300; i++)
     {
         SprtTPage* pItem = &mScreenSprites[i];
-        Sprt_Init_4F8910(&pItem->mSprt);
+        Sprt_Init(&pItem->mSprt);
         SetRGB0(&pItem->mSprt, 128, 128, 128);
         SetXY0(&pItem->mSprt, xpos, ypos);
 
@@ -205,11 +206,11 @@ void ScreenManager::Init_40E4B0(u8** ppBits)
 
         s32 u0 = mUPos + 32 * (i % 20);
         s32 v0 = mVPos + 16 * (i / 20);
-        s32 tpage = ScreenManager::GetTPage_40F040(TPageMode::e16Bit_2, TPageAbr::eBlend_0, &u0, &v0);
+        s32 tpage = ScreenManager::GetTPage(TPageMode::e16Bit_2, TPageAbr::eBlend_0, &u0, &v0);
 
         tpage |= 0x8000;
 
-        Init_SetTPage_4F5B60(&pItem->mTPage, 0, 0, tpage);
+        Init_SetTPage(&pItem->mTPage, 0, 0, tpage);
 
         SetUV0(&pItem->mSprt, static_cast<u8>(u0), static_cast<u8>(v0));
 
@@ -223,7 +224,7 @@ void ScreenManager::Init_40E4B0(u8** ppBits)
 
     for (s32 i = 0; i < 8; i++)
     {
-        UnsetDirtyBits_40EDE0(i);
+        UnsetDirtyBits(i);
     }
 
     mIdx = 2;
@@ -231,18 +232,18 @@ void ScreenManager::Init_40E4B0(u8** ppBits)
     mXIdx = 0;
 }
 
-s32 ScreenManager::GetTPage_40F040(TPageMode tp, TPageAbr abr, s32* xpos, s32* ypos)
+void ScreenManager::VUpdate()
+{
+    // Empty
+}
+
+s32 ScreenManager::GetTPage(TPageMode tp, TPageAbr abr, s32* xpos, s32* ypos)
 {
     const s16 clampedYPos = *ypos & 0xFF00;
     const s16 clampedXPos = *xpos & 0xFFC0;
     *xpos -= clampedXPos;
     *ypos -= clampedYPos;
-    return PSX_getTPage_4F60E0(tp, abr, clampedXPos, clampedYPos);
-}
-
-void ScreenManager::VRender(PrimHeader** ppOt)
-{
-    VRender_40E6E0(ppOt);
+    return PSX_getTPage(tp, abr, clampedXPos, clampedYPos);
 }
 
 ALIVE_VAR(1, 0x5BB5DC, SprtTPage*, pCurrent_SprtTPage_5BB5DC, nullptr);
@@ -288,10 +289,10 @@ void ScreenManager::sub_40EE50()
     mXIdx = mYIdx;
     mYIdx = mIdx;
     mIdx = (mIdx + 1) % 3;
-    UnsetDirtyBits_40EDE0(mIdx);
+    UnsetDirtyBits(mIdx);
 }
 
-void ScreenManager::VRender_40E6E0(PrimHeader** ppOt)
+void ScreenManager::VRender(PrimHeader** ppOt)
 {
     if (!(mFlags & 0x10000)) // Render enabled flag ?
     {
@@ -302,7 +303,7 @@ void ScreenManager::VRender_40E6E0(PrimHeader** ppOt)
     // TODO: A custom sprite prim with magic numbers
     // to trigger proper order rendering of our cam.
     static Prim_Sprt MagicBackgroundPrim;
-    Sprt_Init_4F8910(&MagicBackgroundPrim);
+    Sprt_Init(&MagicBackgroundPrim);
     SetRGB0(&MagicBackgroundPrim, 255, 254, 253);
     OrderingTable_Add_4F8AA0(OtLayer(ppOt, Layer::eLayer_1), &MagicBackgroundPrim.mBase.header);
 #endif
@@ -365,15 +366,15 @@ void ScreenManager::VRender_40E6E0(PrimHeader** ppOt)
 
     for (s32 i = 0; i < 20; i++)
     {
-        field_64_20x16_dirty_bits[mYIdx].mData[i] |= field_64_20x16_dirty_bits[3].mData[i];
+        mDirtyBits[mYIdx].mData[i] |= mDirtyBits[3].mData[i];
     }
 
-    UnsetDirtyBits_40EDE0(3);
+    UnsetDirtyBits(3);
 }
 
 void ScreenManager::VScreenChanged()
 {
-    // NullSub@0x40F090
+    // Empty
 }
 
 void ScreenManager::AddCurrentSPRT_TPage(PrimHeader** ppOt)

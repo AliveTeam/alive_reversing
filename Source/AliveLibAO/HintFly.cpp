@@ -1440,7 +1440,7 @@ HintFly::HintFly(Path_HintFly* pTlv, s32 tlvInfo)
                 {
                     Prim_Sprt* pSprt = &field_E8_pRes[i].field_24_sprt[j];
 
-                    Sprt_Init(pSprt);
+                    AO::Sprt_Init(pSprt);
 
                     Poly_Set_SemiTrans_498A40(&pSprt->mBase.header, 1);
                     Poly_Set_Blending_498A00(&pSprt->mBase.header, 1);
@@ -1457,8 +1457,8 @@ HintFly::HintFly(Path_HintFly* pTlv, s32 tlvInfo)
             }
 
 
-            field_114_xScreen = FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos + FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos) - pScreenManager_4FF7C8->mCamPos->field_0_x);
-            field_116_yScreen = FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos + FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos) - pScreenManager_4FF7C8->mCamPos->field_4_y);
+            field_114_xScreen = FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos + FP_FromInteger(pScreenManager->mCamXOff) - pScreenManager->mCamPos->field_0_x);
+            field_116_yScreen = FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos + FP_FromInteger(pScreenManager->mCamYOff) - pScreenManager->mCamPos->field_4_y);
 
             // Some unknown pal hack that seems to do nothing
             /*
@@ -1883,17 +1883,17 @@ void HintFly::VRender(PrimHeader** ppOt)
         tPageY = 0;
     }
 
-    const s32 tpage = PSX_getTPage_4965D0(field_110_bitMode, TPageAbr::eBlend_1, mBaseAnimatedWithPhysicsGameObject_Anim.field_84_vram_rect.x & 0xFFC0, tPageY);
+    const s32 tpage = PSX_getTPage(field_110_bitMode, TPageAbr::eBlend_1, mBaseAnimatedWithPhysicsGameObject_Anim.field_84_vram_rect.x & 0xFFC0, tPageY);
 
-    Init_SetTPage_495FB0(pTPage, 0, 0, tpage);
+    Init_SetTPage(pTPage, 0, 0, tpage);
     OrderingTable_Add_498A80(OtLayer(ppOt, Layer::eLayer_Above_FG1_39), &pTPage->mBase);
 
-    pScreenManager_4FF7C8->InvalidateRect(
+    pScreenManager->InvalidateRect(
         rect.x - 6,
         rect.y - 6,
         rect.w + 9,
         rect.h + 6,
-        pScreenManager_4FF7C8->mIdx);
+        pScreenManager->mIdx);
 }
 
 } // namespace AO

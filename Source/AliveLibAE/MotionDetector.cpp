@@ -223,12 +223,12 @@ void MotionDetector::VRender(PrimHeader** ppOt)
         OrderingTable_Add_4F8AA0(OtLayer(ppOt, mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer), &pPrim->mBase.header);
 
         // Add tpage
-        const s32 tpage = PSX_getTPage_4F60E0(TPageMode::e16Bit_2, field_178_bObjectInLaser != 0 ? TPageAbr::eBlend_1 : TPageAbr::eBlend_3, 0, 0); // When detected transparency is off, gives the "solid red" triangle
+        const s32 tpage = PSX_getTPage(TPageMode::e16Bit_2, field_178_bObjectInLaser != 0 ? TPageAbr::eBlend_1 : TPageAbr::eBlend_3, 0, 0); // When detected transparency is off, gives the "solid red" triangle
         Prim_SetTPage* pTPage = &field_154_tPage[gPsxDisplay_5C1130.field_C_buffer_index];
-        Init_SetTPage_4F5B60(pTPage, 0, 0, tpage);
+        Init_SetTPage(pTPage, 0, 0, tpage);
         OrderingTable_Add_4F8AA0(OtLayer(ppOt, mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer), &pTPage->mBase);
 
-        pScreenManager->InvalidateRect_40EC90(
+        pScreenManager->InvalidateRect(
             std::min(x0, std::min(x1, x1)),
             std::min(y0, std::min(y1, y2)),
             std::max(x0, std::max(x1, x1)),

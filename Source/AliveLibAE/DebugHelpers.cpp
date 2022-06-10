@@ -563,7 +563,7 @@ static void LoadTIM(TimInfo* pInfo, const u8* timBuffer, TPageAbr abr)
 
     pInfo->mRenderWidth = static_cast<s16>(pImgHeader->mImageRect.w * widthMultipler);
     pInfo->mHeight = pImgHeader->mImageRect.h;
-    pInfo->mTPage = static_cast<u16>(PSX_getTPage_4F60E0(mode, abr, pImgHeader->mImageRect.x, pImgHeader->mImageRect.y));
+    pInfo->mTPage = static_cast<u16>(PSX_getTPage(mode, abr, pImgHeader->mImageRect.x, pImgHeader->mImageRect.y));
 }
 
 class RenderTest_AllPrims final
@@ -938,7 +938,7 @@ private:
             SetClut(&mSprt8, timInfo.mClut);
             SetUV0(&mSprt8, 30, 30);
 
-            Init_SetTPage_4F5B60(&mSprt8_TPage, 0, 0, timInfo.mTPage);
+            Init_SetTPage(&mSprt8_TPage, 0, 0, timInfo.mTPage);
         }
 
         {
@@ -952,11 +952,11 @@ private:
             SetClut(&mSprt8, timInfo.mClut);
             SetUV0(&mSprt16, 30, 30);
 
-            Init_SetTPage_4F5B60(&mSprt16_TPage, 0, 0, timInfo.mTPage);
+            Init_SetTPage(&mSprt16_TPage, 0, 0, timInfo.mTPage);
         }
 
         {
-            Sprt_Init_4F8910(&mSprt);
+            Sprt_Init(&mSprt);
             SetRGB0(&mSprt, 255, 127, 127);
             SetXY0(&mSprt, 550, 120);
 
@@ -969,7 +969,7 @@ private:
             mSprt.field_14_w = 50;
             mSprt.field_16_h = 50;
 
-            Init_SetTPage_4F5B60(&mSprt_TPage, 0, 0, timInfo.mTPage);
+            Init_SetTPage(&mSprt_TPage, 0, 0, timInfo.mTPage);
         }
     }
 
@@ -1159,7 +1159,7 @@ public:
         PSX_RECT screen = {0, 0, 640, 240};
         PSX_ClearImage_4F5BD0(&screen, 0, 0, 0);
 
-        //pScreenManager->InvalidateRect_40EC10(0, 0, 640, 240);
+        //pScreenManager->InvalidateRectCurrentIdx(0, 0, 640, 240);
 
         mPoly_F_Test.Render(ppOt);
 
@@ -1278,7 +1278,7 @@ public:
 
         OrderingTable_Add_4F8AA0(OtLayer(ot, Layer::eLayer_InBirdPortal_30), &mPolyFT4[0].mBase.header);
 
-        pScreenManager->InvalidateRect_40EC10(0, 0, 640, 240);
+        pScreenManager->InvalidateRectCurrentIdx(0, 0, 640, 240);
     }
 
     virtual void VUpdate() override
@@ -1566,7 +1566,7 @@ void DEV::DebugFillRect(PrimHeader** ot, Layer layer, s32 x, s32 y, s32 width, s
     Poly_Set_SemiTrans_4F8A60(&mPolyF4->mBase.header, semiTransparent);
 
     OrderingTable_Add_4F8AA0(OtLayer(ot, layer), &mPolyF4->mBase.header);
-    pScreenManager->InvalidateRect_40EC10(0, 0, 640, 240);
+    pScreenManager->InvalidateRectCurrentIdx(0, 0, 640, 240);
 }
 
 void DEV::DebugDrawRect(PrimHeader** ot, Layer layer, s32 x, s32 y, s32 width, s32 height, u8 r, u8 g, u8 b, bool worldspace, bool semiTransparent)
@@ -1606,7 +1606,7 @@ void DEV::DebugDrawLine(PrimHeader** ot, Layer layer, s32 x1, s32 y1, s32 x2, s3
     Poly_Set_SemiTrans_4F8A60(&mLineG2->mBase.header, semiTransparent);
 
     OrderingTable_Add_4F8AA0(OtLayer(ot, layer), &mLineG2->mBase.header);
-    pScreenManager->InvalidateRect_40EC10(0, 0, 640, 240);
+    pScreenManager->InvalidateRectCurrentIdx(0, 0, 640, 240);
 }
 
 void DEV::DebugDrawText(PrimHeader** ot, Layer layer, std::string& text, s32 x, s32 y, u8 r, u8 g, u8 b, bool worldspace, bool semiTransparent)

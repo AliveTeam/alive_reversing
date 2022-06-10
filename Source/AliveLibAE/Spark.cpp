@@ -255,9 +255,9 @@ void Spark::VRender(PrimHeader** ppOt)
         }
 
         Prim_SetTPage* pTPage = &field_20_tPage[gPsxDisplay_5C1130.field_C_buffer_index];
-        Init_SetTPage_4F5B60(pTPage, 1, 0, PSX_getTPage_4F60E0(TPageMode::e4Bit_0, TPageAbr::eBlend_1, 0, 0));
+        Init_SetTPage(pTPage, 1, 0, PSX_getTPage(TPageMode::e4Bit_0, TPageAbr::eBlend_1, 0, 0));
         OrderingTable_Add_4F8AA0(OtLayer(ppOt, field_52_layer), &pTPage->mBase);
-        pScreenManager->InvalidateRect_40EC90(
+        pScreenManager->InvalidateRect(
             xy.field_0_x,
             xy.field_2_y,
             wh.field_0_x,

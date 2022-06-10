@@ -356,7 +356,7 @@ void LCDScreen::VRender(PrimHeader** ppOt)
         Init_PrimClipper_4F5B80(clipper, &clipRect);
         OrderingTable_Add_4F8AA0(OtLayer(ppOt, Layer::eLayer_RopeWebDrill_24), &clipper->mBase);
 
-        pScreenManager->InvalidateRect_40EC90(
+        pScreenManager->InvalidateRect(
             screenXWorld,
             screenY,
             clipRect.w,

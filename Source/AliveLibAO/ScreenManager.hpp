@@ -56,28 +56,28 @@ public:
 
     void InvalidateRect(s32 x, s32 y, s32 width, s32 height, s32 idx);
     void InvalidateRectCurrentIdx(s32 x, s32 y, s32 width, s32 height);
-    void InvalidateRect_Idx3(s32 x, s32 y, s32 width, s32 height);
+    void InvalidateRect_Layer3(s32 x, s32 y, s32 width, s32 height);
     void InvalidateRect_IdxPlus4(s32 x, s32 y, s32 width, s32 height, s32 idx);
 
     s32 GetTPage(TPageMode tp, TPageAbr abr, s32* xpos, s32* ypos);
     void sub_406FF0();
 
     FP_Point* mCamPos;
-    s16 field_14_xpos;
-    u16 field_16_ypos;
+    s16 mCamXOff;
+    u16 mCamYOff;
     SprtTPage* mScreenSprites;
     s16 mUPos;
-    s16 mVpos;
+    s16 mVPos;
     s16 mCamWidth;
     s16 mCamHeight;
     u16 mIdx;
     u16 mYIdx;
     u16 mXIdx;
     s16 mFlags;
-    DirtyBits field_58_20x16_dirty_bits[6];
+    DirtyBits mDirtyBits[6];
 };
 ALIVE_ASSERT_SIZEOF(ScreenManager, 0x148);
 
-ALIVE_VAR_EXTERN(ScreenManager*, pScreenManager_4FF7C8);
+ALIVE_VAR_EXTERN(ScreenManager*, pScreenManager);
 
 } // namespace AO

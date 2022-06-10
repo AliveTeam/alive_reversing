@@ -241,9 +241,9 @@ void ThrowableTotalIndicator::VRender(PrimHeader** ppOt)
         return;
     }
 
-    const FP_Point* camPos = pScreenManager_4FF7C8->mCamPos;
-    const FP camX = FP_FromInteger(FP_GetExponent(camPos->field_0_x - FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos)));
-    const FP camY = FP_FromInteger(FP_GetExponent(camPos->field_4_y - FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos)));
+    const FP_Point* camPos = pScreenManager->mCamPos;
+    const FP camX = FP_FromInteger(FP_GetExponent(camPos->field_0_x - FP_FromInteger(pScreenManager->mCamXOff)));
+    const FP camY = FP_FromInteger(FP_GetExponent(camPos->field_4_y - FP_FromInteger(pScreenManager->mCamYOff)));
 
     s16 xpos = 0;
     s16 ypos = 0;
@@ -284,15 +284,15 @@ void ThrowableTotalIndicator::VRender(PrimHeader** ppOt)
         OrderingTable_Add_498A80(OtLayer(ppOt, field_30_layer), &pLine->mBase.header);
     }
 
-    Init_SetTPage_495FB0(&field_17C_tPage[gPsxDisplay_504C78.field_A_buffer_index], 1, 0, PSX_getTPage_4965D0(TPageMode::e4Bit_0, TPageAbr::eBlend_1, 0, 0));
+    Init_SetTPage(&field_17C_tPage[gPsxDisplay_504C78.field_A_buffer_index], 1, 0, PSX_getTPage(TPageMode::e4Bit_0, TPageAbr::eBlend_1, 0, 0));
     OrderingTable_Add_498A80(OtLayer(ppOt, field_30_layer), &field_17C_tPage->mBase);
 
-    pScreenManager_4FF7C8->InvalidateRect(
+    pScreenManager->InvalidateRect(
         PsxToPCX(xpos - 31),
         ypos - 21,
         PsxToPCX(xpos + 31),
         ypos + 31,
-        pScreenManager_4FF7C8->mIdx);
+        pScreenManager->mIdx);
 }
 
 ThrowableTotalIndicator::ThrowableTotalIndicator(FP xpos, FP ypos, Layer layer, FP /*scale*/, s32 count, bool bFade)

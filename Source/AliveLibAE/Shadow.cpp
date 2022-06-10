@@ -181,7 +181,7 @@ void Shadow::Render(PrimHeader** ppOt)
 
         PSX_RECT frameRect = {};
         field_18_animation.Get_Frame_Rect(&frameRect);
-        pScreenManager->InvalidateRect_40EC90(
+        pScreenManager->InvalidateRect(
             frameRect.x,
             frameRect.y,
             frameRect.w,

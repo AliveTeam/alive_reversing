@@ -20,7 +20,7 @@ EffectBase::EffectBase(Layer layer, TPageAbr abr)
     mEffectBaseLevelId = gMap.mCurrentLevel;
     for (s32 i = 0; i < 2; i++)
     {
-        Init_SetTPage_495FB0(&mEffectBaseTPage[i], 0, 0, static_cast<s16>(PSX_getTPage_4965D0(TPageMode::e16Bit_2, abr, 0, 0)));
+        Init_SetTPage(&mEffectBaseTPage[i], 0, 0, static_cast<s16>(PSX_getTPage(TPageMode::e16Bit_2, abr, 0, 0)));
     }
     mEffectBaseLayer = layer;
     mSemiTrans = 1;
@@ -48,7 +48,7 @@ void EffectBase::VRender(PrimHeader** ppOt)
     Poly_Set_SemiTrans_498A40(&pTile->mBase.header, mSemiTrans);
     OrderingTable_Add_498A80(OtLayer(ppOt, mEffectBaseLayer), &pTile->mBase.header);
     OrderingTable_Add_498A80(OtLayer(ppOt, mEffectBaseLayer), &mEffectBaseTPage[gPsxDisplay_504C78.field_A_buffer_index].mBase);
-    pScreenManager_4FF7C8->InvalidateRectCurrentIdx(0, 0, 640, gPsxDisplay_504C78.field_2_height);
+    pScreenManager->InvalidateRectCurrentIdx(0, 0, 640, gPsxDisplay_504C78.field_2_height);
 }
 
 } // namespace AO

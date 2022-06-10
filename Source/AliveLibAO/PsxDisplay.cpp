@@ -42,20 +42,20 @@ PsxDisplay* PsxDisplay::ctor_40DAB0(const PSX_Display_Params* pParams)
     {
         w = field_0_width;
         v1 = 240 * field_6_max_buffers;
-        Vram_alloc_explicit_4507F0(0, 0, field_0_width, pParams->field_A_k32 + v1);
+        Vram_alloc_explicit(0, 0, field_0_width, pParams->field_A_k32 + v1);
     }
     else
     {
         w = field_6_max_buffers * pParams->field_2_height;
         v1 = pParams->field_2_height;
-        Vram_alloc_explicit_4507F0(0, 0, w, pParams->field_A_k32 + pParams->field_2_height);
+        Vram_alloc_explicit(0, 0, w, pParams->field_A_k32 + pParams->field_2_height);
     }
 
     Pal_Reset_4476C0(v1, pParams->field_A_k32);
 
     if (pParams->field_C_k1 == 2)
     {
-        Vram_alloc_explicit_4507F0(w, 256, 1024, 512);
+        Vram_alloc_explicit(w, 256, 1024, 512);
     }
 
     PSX_SetDefDrawEnv_495EF0(&field_C_drawEnv[0].field_0_draw_env, 0, 0, field_0_width, pParams->field_2_height);

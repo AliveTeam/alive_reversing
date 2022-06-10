@@ -102,7 +102,7 @@ public:
 
                 PSX_RECT frameRect = {};
                 mBaseAnimatedWithPhysicsGameObject_Anim.Get_Frame_Rect(&frameRect);
-                pScreenManager->InvalidateRect_40EC90(
+                pScreenManager->InvalidateRect(
                     frameRect.x,
                     frameRect.y,
                     frameRect.w,
@@ -264,7 +264,7 @@ private:
 
                 PSX_RECT frameRect = {};
                 mBaseAnimatedWithPhysicsGameObject_Anim.Get_Frame_Rect(&frameRect);
-                pScreenManager->InvalidateRect_40EC90(
+                pScreenManager->InvalidateRect(
                     frameRect.x,
                     frameRect.y,
                     frameRect.w,
@@ -289,7 +289,7 @@ private:
                                     0);
 
                                 anim.field_14.GetRenderedSize(&frameRect);
-                                pScreenManager->InvalidateRect_40EC90(
+                                pScreenManager->InvalidateRect(
                                     frameRect.x,
                                     frameRect.y,
                                     frameRect.w,

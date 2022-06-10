@@ -58,8 +58,8 @@ Blood::Blood(FP xpos, FP ypos, FP xOff, FP yOff, FP scale, s32 count)
         mBaseAnimatedWithPhysicsGameObject_XPos = xpos - FP_FromInteger(12);
         mBaseAnimatedWithPhysicsGameObject_YPos = ypos - FP_FromInteger(12);
 
-        field_10E_xpos = FP_GetExponent(xpos - FP_FromInteger(12) + FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos) - pScreenManager_4FF7C8->mCamPos->field_0_x);
-        field_110_ypos = FP_GetExponent(ypos - FP_FromInteger(12) + FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos) - pScreenManager_4FF7C8->mCamPos->field_4_y);
+        field_10E_xpos = FP_GetExponent(xpos - FP_FromInteger(12) + FP_FromInteger(pScreenManager->mCamXOff) - pScreenManager->mCamPos->field_0_x);
+        field_110_ypos = FP_GetExponent(ypos - FP_FromInteger(12) + FP_FromInteger(pScreenManager->mCamYOff) - pScreenManager->mCamPos->field_4_y);
 
         if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit13_Is8Bit))
         {
@@ -100,7 +100,7 @@ Blood::Blood(FP xpos, FP ypos, FP xOff, FP yOff, FP scale, s32 count)
                 BloodParticle* pParticle = &field_E8_pResBuf[i];
                 Prim_Sprt* pSprt = &pParticle->field_10_prims[j];
 
-                Sprt_Init(pSprt);
+                AO::Sprt_Init(pSprt);
                 Poly_Set_SemiTrans_498A40(&pSprt->mBase.header, 1);
 
                 if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit16_bBlending))
@@ -255,21 +255,21 @@ void Blood::VRender(PrimHeader** ppOt)
             tpageY = 0;
         }
 
-        const auto tpage = PSX_getTPage_4965D0(
+        const auto tpage = PSX_getTPage(
             field_10C_texture_mode,
             TPageAbr::eBlend_0,
             mBaseAnimatedWithPhysicsGameObject_Anim.field_84_vram_rect.x & 0xFFC0,
             tpageY);
         Prim_SetTPage* pTPage = &field_EC_tPages[bufferIdx];
-        Init_SetTPage_495FB0(pTPage, 0, 0, tpage);
+        Init_SetTPage(pTPage, 0, 0, tpage);
         OrderingTable_Add_498A80(OtLayer(ppOt, field_11C_render_layer), &pTPage->mBase);
 
-        pScreenManager_4FF7C8->InvalidateRect(
+        pScreenManager->InvalidateRect(
             (xy.field_0_x - 12),
             (xy.field_2_y - 12),
             (wh.field_0_x + 12),
             (wh.field_2_y + 12),
-            pScreenManager_4FF7C8->mIdx);
+            pScreenManager->mIdx);
     }
 }
 

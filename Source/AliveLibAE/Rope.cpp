@@ -190,7 +190,7 @@ void Rope::VRender(PrimHeader** ppOt)
 
                     PSX_RECT rect = {};
                     field_FC_pRopeRes[idx].GetRenderedSize(&rect);
-                    pScreenManager->InvalidateRect_40EC90(
+                    pScreenManager->InvalidateRect(
                         rect.x,
                         rect.y,
                         rect.w,

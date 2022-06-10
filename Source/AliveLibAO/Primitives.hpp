@@ -4,10 +4,9 @@
 #include "../AliveLibCommon/Function.hpp"
 #include "Layer.hpp"
 
+void Init_SetTPage(Prim_SetTPage* pPrim, s32 /*notUsed1*/, s32 /*notUsed2*/, s32 tpage);
+
 namespace AO {
-
-void Init_SetTPage_495FB0(Prim_SetTPage* pPrim, s32 /*notUsed1*/, s32 /*notUsed2*/, s32 tpage);
-
 
 enum class TPageMode : s8
 {
@@ -24,7 +23,7 @@ enum class TPageAbr : s8
     eBlend_3 = 3,
 };
 
-inline s32 PSX_getTPage_4965D0(TPageMode tp, TPageAbr abr, s32 x, s16 y)
+inline s32 PSX_getTPage(TPageMode tp, TPageAbr abr, s32 x, s16 y)
 {
     return ((((static_cast<s8>(tp)) & 0x3) << 7) | (((static_cast<s8>(abr)) & 0x3) << 5) | (((y) &0x100) >> 4) | (((x) &0x3ff) >> 6) | (((y) &0x200) << 2));
 }

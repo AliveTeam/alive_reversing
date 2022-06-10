@@ -100,7 +100,7 @@ Water::Water(Path_Water* pTlv, s32 tlvInfo)
             const u8 u1 = pFrameHeader->field_4_width + u0 - 1;
             const u8 v1 = pFrameHeader->field_5_height + v0 - 1;
 
-            const s32 tPage = PSX_getTPage_4F60E0(
+            const s32 tPage = PSX_getTPage(
                 field_FE_texture_mode,
                 TPageAbr::eBlend_3,
                 mBaseAnimatedWithPhysicsGameObject_Anim.field_84_vram_rect.x,
@@ -580,7 +580,7 @@ void Water::VRender(PrimHeader** ppOt)
             }
         }
 
-        pScreenManager->InvalidateRect_40EC90(
+        pScreenManager->InvalidateRect(
             xMin - 6,
             yMin - 6,
             wMax + 6,

@@ -1701,7 +1701,7 @@ s16 Glukkon::Brain_3_PlayerControlled_441A30()
                 return field_210_brain_sub_state;
             }
             gPsxDisplay_5C1130.PutCurrentDispEnv_41DFA0();
-            pScreenManager->DecompressCameraToVRam_40EF60((u16**) gMap.field_2C_camera_array[0]->field_C_pCamRes); // TODO: Cast hack
+            pScreenManager->DecompressCameraToVRam((u16**) gMap.field_2C_camera_array[0]->field_C_pCamRes); // TODO: Cast hack
             if (pDeathFadeOut)
             {
                 pDeathFadeOut->Init(Layer::eLayer_FadeFlash_40, 0, 1, 8);

@@ -456,7 +456,7 @@ void Game_Loop_437630()
 
         DebugFont_Flush_487F50();
         PSX_DrawSync_496750(0);
-        pScreenManager_4FF7C8->VRender(ppOt);
+        pScreenManager->VRender(ppOt);
         SYS_EventsPump_44FF90();
 
         gPsxDisplay_504C78.PSX_Display_Render_OT_40DD20();

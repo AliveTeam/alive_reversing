@@ -103,7 +103,7 @@ void TorturedMudokon::VRender(PrimHeader** ppOt)
 
     PSX_RECT rect = {};
     field_F4_tears_animation.Get_Frame_Rect(&rect);
-    pScreenManager->InvalidateRect_40EC90(
+    pScreenManager->InvalidateRect(
         rect.x,
         rect.y,
         rect.w,
@@ -111,7 +111,7 @@ void TorturedMudokon::VRender(PrimHeader** ppOt)
         pScreenManager->mIdx);
 
     field_18C_zap_animation.Get_Frame_Rect(&rect);
-    pScreenManager->InvalidateRect_40EC90(
+    pScreenManager->InvalidateRect(
         rect.x,
         rect.y,
         rect.w,

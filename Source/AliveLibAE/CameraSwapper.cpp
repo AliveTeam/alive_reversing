@@ -111,7 +111,7 @@ void CameraSwapper::Init(u8** ppCamRes, CameraSwapEffects changeEffect)
     }
     else
     {
-        pScreenManager->DecompressCameraToVRam_40EF60(reinterpret_cast<u16**>(ppCamRes));
+        pScreenManager->DecompressCameraToVRam(reinterpret_cast<u16**>(ppCamRes));
     }
 
     sNum_CamSwappers_5C1B66++;
@@ -133,7 +133,7 @@ void CameraSwapper::Init(u8** ppCamRes, CameraSwapEffects changeEffect)
     switch (changeEffect)
     {
         case CameraSwapEffects::eInstantChange_0:
-            pScreenManager->InvalidateRect_Layer3_40EDB0(0, 0, gPsxDisplay_5C1130.field_0_width, gPsxDisplay_5C1130.field_2_height);
+            pScreenManager->InvalidateRect_Layer3(0, 0, gPsxDisplay_5C1130.field_0_width, gPsxDisplay_5C1130.field_2_height);
             mBaseGameObjectFlags.Set(BaseGameObject::eDead);
             field_34_pSubObject = nullptr;
             return;
@@ -307,7 +307,7 @@ void CameraSwapper::VUpdate()
                 width = gPsxDisplay_5C1130.field_0_width - 1;
             }
 
-            pScreenManager->InvalidateRect_Layer3_40EDB0(xpos, 0, width, gPsxDisplay_5C1130.field_2_height);
+            pScreenManager->InvalidateRect_Layer3(xpos, 0, width, gPsxDisplay_5C1130.field_2_height);
             field_34_pSubObject->Update_Clip_Rect({xpos, 0}, {static_cast<s16>(width + 1), gPsxDisplay_5C1130.field_2_height});
         }
         break;
@@ -326,7 +326,7 @@ void CameraSwapper::VUpdate()
             const s16 ypos = field_56_slice_width * field_3A_current_slice;
             s16 height = (field_56_slice_width * (field_3A_current_slice + 1));
 
-            pScreenManager->InvalidateRect_Layer3_40EDB0(0, ypos, gPsxDisplay_5C1130.field_0_width, height);
+            pScreenManager->InvalidateRect_Layer3(0, ypos, gPsxDisplay_5C1130.field_0_width, height);
             field_34_pSubObject->Update_Clip_Rect({0, ypos}, {gPsxDisplay_5C1130.field_0_width, height});
         }
         break;
@@ -344,7 +344,7 @@ void CameraSwapper::VUpdate()
             const s16 xpos = field_56_slice_width * field_3A_current_slice;
             const s16 halfDisplayWidth = gPsxDisplay_5C1130.field_0_width / 2;
 
-            pScreenManager->InvalidateRect_Layer3_40EDB0(static_cast<s16>(halfDisplayWidth - xpos), 0, static_cast<s16>(xpos + halfDisplayWidth), gPsxDisplay_5C1130.field_2_height);
+            pScreenManager->InvalidateRect_Layer3(static_cast<s16>(halfDisplayWidth - xpos), 0, static_cast<s16>(xpos + halfDisplayWidth), gPsxDisplay_5C1130.field_2_height);
             field_34_pSubObject->Update_Clip_Rect({static_cast<s16>(halfDisplayWidth - xpos), 0}, {static_cast<s16>(xpos + halfDisplayWidth + 1), gPsxDisplay_5C1130.field_2_height});
         }
         break;
@@ -362,7 +362,7 @@ void CameraSwapper::VUpdate()
             const s16 ypos = field_56_slice_width * field_3A_current_slice;
             const s16 halfDisplayHeight = gPsxDisplay_5C1130.field_2_height / 2;
 
-            pScreenManager->InvalidateRect_Layer3_40EDB0(0, static_cast<s16>(halfDisplayHeight - ypos), 640, static_cast<s16>(halfDisplayHeight + ypos));
+            pScreenManager->InvalidateRect_Layer3(0, static_cast<s16>(halfDisplayHeight - ypos), 640, static_cast<s16>(halfDisplayHeight + ypos));
             field_34_pSubObject->Update_Clip_Rect({0, static_cast<s16>(halfDisplayHeight - ypos)}, {640, static_cast<s16>(halfDisplayHeight + ypos)});
         }
         break;
@@ -387,7 +387,7 @@ void CameraSwapper::VUpdate()
             rect_xy.field_0_x = (field_4E_xpos_converted - xSlicePos <= 0) ? 0 : field_4E_xpos_converted - xSlicePos;
             rect_xy.field_2_y = (field_50_ypos_converted - ySlicePos <= 0) ? 0 : field_50_ypos_converted - ySlicePos;
 
-            pScreenManager->InvalidateRect_Layer3_40EDB0(
+            pScreenManager->InvalidateRect_Layer3(
                 rect_xy.field_0_x,
                 rect_xy.field_2_y,
                 width,
@@ -417,10 +417,10 @@ void CameraSwapper::VUpdate()
             // Now apply the camera we where storing now that the movie is finished
             if (field_30_ppCamRes)
             {
-                pScreenManager->DecompressCameraToVRam_40EF60(reinterpret_cast<u16**>(field_30_ppCamRes));
-                pScreenManager->InvalidateRect_40EC90(0, 0, gPsxDisplay_5C1130.field_0_width, gPsxDisplay_5C1130.field_2_height, 0);
-                pScreenManager->InvalidateRect_40EC90(0, 0, gPsxDisplay_5C1130.field_0_width, gPsxDisplay_5C1130.field_2_height, 1);
-                pScreenManager->InvalidateRect_40EC90(0, 0, gPsxDisplay_5C1130.field_0_width, gPsxDisplay_5C1130.field_2_height, 2);
+                pScreenManager->DecompressCameraToVRam(reinterpret_cast<u16**>(field_30_ppCamRes));
+                pScreenManager->InvalidateRect(0, 0, gPsxDisplay_5C1130.field_0_width, gPsxDisplay_5C1130.field_2_height, 0);
+                pScreenManager->InvalidateRect(0, 0, gPsxDisplay_5C1130.field_0_width, gPsxDisplay_5C1130.field_2_height, 1);
+                pScreenManager->InvalidateRect(0, 0, gPsxDisplay_5C1130.field_0_width, gPsxDisplay_5C1130.field_2_height, 2);
             }
 
             mBaseGameObjectFlags.Set(BaseGameObject::eDead);

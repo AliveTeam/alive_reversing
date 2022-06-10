@@ -180,7 +180,7 @@ void PauseMenu::VUpdate()
                     }
                 }
             }
-            pScreenManager_4FF7C8->VRender(
+            pScreenManager->VRender(
                 gPsxDisplay_504C78.field_C_drawEnv[gPsxDisplay_504C78.field_A_buffer_index].field_70_ot_buffer);
             PSX_DrawSync_496750(0);
             ResourceManager::Reclaim_Memory_455660(500000);
@@ -683,15 +683,15 @@ void PauseMenu::DrawEntries(PrimHeader** ppOt, PauseEntry* entry, s16 selectedEn
     SetXY2(pPrim, 0, 240);
     SetXY3(pPrim, 640, 240);
     Prim_SetTPage* prim_tpage = &field_138_tPage[gPsxDisplay_504C78.field_A_buffer_index];
-    Init_SetTPage_495FB0(prim_tpage, 0, 0, PSX_getTPage_4965D0(TPageMode::e4Bit_0, TPageAbr::eBlend_2, 0, 0));
+    Init_SetTPage(prim_tpage, 0, 0, PSX_getTPage(TPageMode::e4Bit_0, TPageAbr::eBlend_2, 0, 0));
     OrderingTable_Add_498A80(OtLayer(ppOt, Layer::eLayer_Menu_41), &pPrim->mBase.header);
     OrderingTable_Add_498A80(OtLayer(ppOt, Layer::eLayer_Menu_41), &prim_tpage->mBase);
-    pScreenManager_4FF7C8->InvalidateRect(
+    pScreenManager->InvalidateRect(
         0,
         0,
         640,
         240,
-        pScreenManager_4FF7C8->mIdx);
+        pScreenManager->mIdx);
 }
 
 void PauseMenu::VRender(PrimHeader** ppOt)

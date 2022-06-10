@@ -54,8 +54,8 @@ AbilityRing::AbilityRing(FP xpos, FP ypos, RingTypes ring_type)
         mRingXPos = xpos;
         mRingYPos = ypos;
 
-        mRingScreenX = FP_GetExponent(pScreenManager_4FF7C8->mCamPos->field_0_x - FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos));
-        mRingScreenY = FP_GetExponent(pScreenManager_4FF7C8->mCamPos->field_4_y - FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos));
+        mRingScreenX = FP_GetExponent(pScreenManager->mCamPos->field_0_x - FP_FromInteger(pScreenManager->mCamXOff));
+        mRingScreenY = FP_GetExponent(pScreenManager->mCamPos->field_4_y - FP_FromInteger(pScreenManager->mCamYOff));
 
         mRingScreenXPos = FP_GetExponent(xpos) - mRingScreenX;
         mRingScreenYPos = FP_GetExponent(ypos) - mRingScreenY;
@@ -165,7 +165,7 @@ AbilityRing::AbilityRing(FP xpos, FP ypos, RingTypes ring_type)
                 SetRGB0(pPoly, mRingRed & 255, mRingGreen & 255, mRingBlue & 255);
                 Poly_Set_SemiTrans_498A40(&pPoly->mBase.header, mRingSemiTrans);
             }
-            Init_SetTPage_495FB0(&mRingPrimSetTPage[y], 0, 0, PSX_getTPage_4965D0(TPageMode::e16Bit_2, mRingTPageMode, 0, 0));
+            Init_SetTPage(&mRingPrimSetTPage[y], 0, 0, PSX_getTPage(TPageMode::e16Bit_2, mRingTPageMode, 0, 0));
         }
     }
     else
@@ -236,12 +236,12 @@ void AbilityRing::VRender(PrimHeader** ppOt)
 
                 OrderingTable_Add_498A80(OtLayer(ppOt, mRingLayer), &pPoly->mBase.header);
 
-                pScreenManager_4FF7C8->InvalidateRect(
+                pScreenManager->InvalidateRect(
                     rect.x,
                     rect.y,
                     rect.w,
                     rect.h,
-                    pScreenManager_4FF7C8->mIdx);
+                    pScreenManager->mIdx);
 
                 mRingCollideRects[i] = rect;
                 mRingCollideRects[i].x = PCToPsxX(mRingCollideRects[i].x, 20);
@@ -270,8 +270,8 @@ void AbilityRing::VUpdate()
         }
         else
         {
-            mRingScreenX = FP_GetExponent(pScreenManager_4FF7C8->mCamPos->field_0_x - FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos));
-            mRingScreenY = FP_GetExponent(pScreenManager_4FF7C8->mCamPos->field_4_y - FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos));
+            mRingScreenX = FP_GetExponent(pScreenManager->mCamPos->field_0_x - FP_FromInteger(pScreenManager->mCamXOff));
+            mRingScreenY = FP_GetExponent(pScreenManager->mCamPos->field_4_y - FP_FromInteger(pScreenManager->mCamYOff));
 
             PSX_RECT bRect = {};
             mTargetObj->VGetBoundingRect(&bRect, 1);

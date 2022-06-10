@@ -43,7 +43,7 @@ DeathGas::DeathGas(Layer layer, s32 amount)
 
     for (s32 i = 0; i < 2; i++)
     {
-        Init_SetTPage_495FB0(&gGasTPages_5008E8[i], 0, 1, PSX_getTPage_4965D0(TPageMode::e16Bit_2, TPageAbr::eBlend_1, 0, 0));
+        Init_SetTPage(&gGasTPages_5008E8[i], 0, 1, PSX_getTPage(TPageMode::e16Bit_2, TPageAbr::eBlend_1, 0, 0));
     }
 
     for (s32 i = 0; i < 2; i++)
@@ -290,7 +290,7 @@ void DeathGas::VRender(PrimHeader** ppOt)
 
     OrderingTable_Add_498A80(OtLayer(ppOt, field_18_layer), &gGasTPages_5008E8[gPsxDisplay_504C78.field_A_buffer_index].mBase);
 
-    pScreenManager_4FF7C8->InvalidateRectCurrentIdx(
+    pScreenManager->InvalidateRectCurrentIdx(
         0,
         0,
         gPsxDisplay_504C78.field_0_width,

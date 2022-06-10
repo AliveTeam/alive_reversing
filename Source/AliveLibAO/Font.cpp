@@ -394,7 +394,7 @@ s32 AliveFont::DrawString(PrimHeader** ppOt, const char_type* text, s16 x, s16 y
     s32 charInfoIndex = 0;
     auto poly = &field_24_fnt_poly_array[gPsxDisplay_504C78.field_A_buffer_index + (2 * polyOffset)];
 
-    const s32 tpage = PSX_getTPage_4965D0(TPageMode::e4Bit_0, abr, field_34_font_context->field_0_rect.x & ~63, field_34_font_context->field_0_rect.y);
+    const s32 tpage = PSX_getTPage(TPageMode::e4Bit_0, abr, field_34_font_context->field_0_rect.x & ~63, field_34_font_context->field_0_rect.y);
     const s32 clut = PSX_getClut_496840(field_28_palette_rect.x, field_28_palette_rect.y);
 
     for (u32 i = 0; i < strlen(text); i++)
@@ -476,7 +476,7 @@ s32 AliveFont::DrawString(PrimHeader** ppOt, const char_type* text, s16 x, s16 y
         poly += 2;
     }
 
-    pScreenManager_4FF7C8->InvalidateRect(x, y - 1, offsetX, y + 24, pScreenManager_4FF7C8->mIdx);
+    pScreenManager->InvalidateRect(x, y - 1, offsetX, y + 24, pScreenManager->mIdx);
 
     return polyOffset + characterRenderCount;
 }

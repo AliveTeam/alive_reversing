@@ -155,7 +155,7 @@ void TimedMine::VRender(PrimHeader** ppOt)
         PSX_RECT frameRect = {};
         field_124_animation.Get_Frame_Rect(&frameRect);
 
-        pScreenManager->InvalidateRect_40EC90(
+        pScreenManager->InvalidateRect(
             frameRect.x,
             frameRect.y,
             frameRect.w,

@@ -879,9 +879,9 @@ void Map::GoTo_Camera()
 
     if (field_10_screen_change_effect == CameraSwapEffects::eUnknown_11)
     {
-        pScreenManager->DecompressCameraToVRam_40EF60(reinterpret_cast<u16**>(field_2C_camera_array[0]->field_C_pCamRes));
-        pScreenManager->InvalidateRect_40EC10(0, 0, 640, 240);
-        pScreenManager->MoveImage_40EB70();
+        pScreenManager->DecompressCameraToVRam(reinterpret_cast<u16**>(field_2C_camera_array[0]->field_C_pCamRes));
+        pScreenManager->InvalidateRectCurrentIdx(0, 0, 640, 240);
+        pScreenManager->MoveImage();
         pScreenManager->mFlags |= 0x10000;
     }
 
@@ -1025,8 +1025,8 @@ s16 Map::Get_Camera_World_Rect(CameraPos camIdx, PSX_RECT* pRect)
         return 1;
     }
 
-    const s16 xpos = pCamera->field_14_xpos * field_D4_ptr->field_A_grid_width;
-    const s16 ypos = pCamera->field_16_ypos * field_D4_ptr->field_C_grid_height;
+    const s16 xpos = pCamera->mCamXOff * field_D4_ptr->field_A_grid_width;
+    const s16 ypos = pCamera->mCamYOff * field_D4_ptr->field_C_grid_height;
 
     pRect->x = xpos;
     pRect->y = ypos;
@@ -1213,8 +1213,8 @@ Camera* Map::Create_Camera(s16 xpos, s16 ypos, s32 /*a4*/)
         if (field_40_stru_5[i]
             && field_40_stru_5[i]->field_1A_level == mCurrentLevel
             && field_40_stru_5[i]->field_18_path == mCurrentPath
-            && field_40_stru_5[i]->field_14_xpos == xpos
-            && field_40_stru_5[i]->field_16_ypos == ypos)
+            && field_40_stru_5[i]->mCamXOff == xpos
+            && field_40_stru_5[i]->mCamYOff == ypos)
         {
             Camera* pTemp = field_40_stru_5[i];
             field_40_stru_5[i] = nullptr;
@@ -1239,8 +1239,8 @@ Camera* Map::Create_Camera(s16 xpos, s16 ypos, s32 /*a4*/)
     strncpy(newCamera->field_1E_cam_name, pCamName->name, ALIVE_COUNTOF(CameraName::name));
     strcat(newCamera->field_1E_cam_name, ".CAM");
 
-    newCamera->field_14_xpos = xpos;
-    newCamera->field_16_ypos = ypos;
+    newCamera->mCamXOff = xpos;
+    newCamera->mCamYOff = ypos;
 
     newCamera->field_30_flags &= -1;
 
@@ -1272,7 +1272,7 @@ void Map::Load_Path_Items(Camera* pCamera, LoadMode loadMode)
             ResourceManager::LoadResourceFile_49C130(pCamera->field_1E_cam_name, Camera::On_Loaded, pCamera, pCamera);
 
             sCameraBeingLoaded_5C3118 = pCamera;
-            sPath_dword_BB47C0->Loader_4DB800(pCamera->field_14_xpos, pCamera->field_16_ypos, LoadMode::LoadResourceFromList_1, TlvTypes::None_m1); // none = load all
+            sPath_dword_BB47C0->Loader_4DB800(pCamera->mCamXOff, pCamera->mCamYOff, LoadMode::LoadResourceFromList_1, TlvTypes::None_m1); // none = load all
         }
         else
         {
@@ -1282,7 +1282,7 @@ void Map::Load_Path_Items(Camera* pCamera, LoadMode loadMode)
             pCamera->field_C_pCamRes = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Bits, pCamera->field_10_camera_resource_id, 1, 0);
 
             sCameraBeingLoaded_5C3118 = pCamera;
-            sPath_dword_BB47C0->Loader_4DB800(pCamera->field_14_xpos, pCamera->field_16_ypos, LoadMode::LoadResource_2, TlvTypes::None_m1); // none = load all
+            sPath_dword_BB47C0->Loader_4DB800(pCamera->mCamXOff, pCamera->mCamYOff, LoadMode::LoadResource_2, TlvTypes::None_m1); // none = load all
         }
         sCameraBeingLoaded_5C3118 = nullptr;
     }

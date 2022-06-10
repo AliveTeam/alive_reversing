@@ -422,7 +422,7 @@ void BirdPortal::VUpdate()
         case PortalStates::PortalExit_SetPosition_17:
         {
             pScreenManager->mFlags |= 0x10000;
-            pScreenManager->InvalidateRect_40EC90(
+            pScreenManager->InvalidateRect(
                 0,
                 0,
                 gPsxDisplay_5C1130.field_0_width,

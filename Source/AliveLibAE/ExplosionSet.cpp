@@ -131,7 +131,7 @@ void ExplosionSet::VRender(PrimHeader** ppOt)
         /* constant 1, so always false, dead code.
         if (!dword_55EF94)
         {
-            pScreenManager->InvalidateRect_40EC10(0, 0, 640, 240);
+            pScreenManager->InvalidateRectCurrentIdx(0, 0, 640, 240);
         }*/
     }
 }

@@ -48,7 +48,7 @@ public:
         // For some reason the screen manage doesn't work the same as in AE and this won't
         // result in full blocks getting drawn. Therefore we should never see this get called
         // as all blocks are partial (full blocks are "fake" partial blocks).
-        pScreenManager_4FF7C8->InvalidateRect_IdxPlus4(
+        pScreenManager->InvalidateRect_IdxPlus4(
             rChunk.field_4_xpos_or_compressed_size,
             rChunk.field_6_ypos,
             rChunk.field_8_width + rChunk.field_4_xpos_or_compressed_size - 1,
@@ -92,7 +92,7 @@ public:
 
     void OnFullChunk(const Fg1Chunk& rChunk) override
     {
-        pScreenManager_4FF7C8->InvalidateRect_IdxPlus4(
+        pScreenManager->InvalidateRect_IdxPlus4(
             rChunk.field_4_xpos_or_compressed_size,
             rChunk.field_6_ypos,
             rChunk.field_8_width + rChunk.field_4_xpos_or_compressed_size - 1,
@@ -136,7 +136,7 @@ void FG1::Convert_Chunk_To_Render_Block(const Fg1Chunk* pChunk, Fg1Block* pBlock
         rect.h = pChunk->field_A_height;
         IRenderer::GetRenderer()->Upload(IRenderer::BitDepth::e16Bit, rect, (u8*) &pChunk[1]);
 
-        const s16 tPage = static_cast<s16>(PSX_getTPage_4965D0(TPageMode::e16Bit_2, TPageAbr::eBlend_0, rect.x /*& 0xFFC0*/, rect.y));
+        const s16 tPage = static_cast<s16>(PSX_getTPage(TPageMode::e16Bit_2, TPageAbr::eBlend_0, rect.x /*& 0xFFC0*/, rect.y));
 
         const u8 u0 = rect.x & 63;
         const u8 v0 = static_cast<u8>(rect.y);
@@ -193,7 +193,7 @@ void FG1::Convert_Chunk_To_Render_Block_AE(const Fg1Chunk* pChunk, Fg1Block* pBl
         Poly_Set_SemiTrans_498A40(&rPoly.mBase.header, FALSE);
         Poly_Set_Blending_498A00(&rPoly.mBase.header, TRUE);
 
-        SetTPage(&rPoly, static_cast<u16>(PSX_getTPage_4965D0(TPageMode::e16Bit_2, TPageAbr::eBlend_0, 0, 0)));
+        SetTPage(&rPoly, static_cast<u16>(PSX_getTPage(TPageMode::e16Bit_2, TPageAbr::eBlend_0, 0, 0)));
 
         SetXYWH(&rPoly, pChunk->field_4_xpos_or_compressed_size, pChunk->field_6_ypos, pChunk->field_8_width, pChunk->field_A_height);
 
@@ -227,8 +227,8 @@ FG1::FG1(u8** ppRes)
 
     mBaseGameObjectTypeId = ReliveTypes::eFG1;
 
-    field_10_cam_pos_x = FP_GetExponent(pScreenManager_4FF7C8->mCamPos->field_0_x);
-    field_12_cam_pos_y = FP_GetExponent(pScreenManager_4FF7C8->mCamPos->field_4_y);
+    field_10_cam_pos_x = FP_GetExponent(pScreenManager->mCamPos->field_0_x);
+    field_12_cam_pos_y = FP_GetExponent(pScreenManager->mCamPos->field_4_y);
 
     field_16_current_path = gMap.mCurrentPath;
     field_14_current_level = gMap.mCurrentLevel;
@@ -286,12 +286,12 @@ void FG1::VRender(PrimHeader** ppOt)
 
             OrderingTable_Add_498A80(OtLayer(ppOt, pBlock->field_66_mapped_layer), &pPoly->mBase.header);
 
-            pScreenManager_4FF7C8->InvalidateRect(
+            pScreenManager->InvalidateRect(
                 X0(pPoly),
                 Y0(pPoly),
                 X3(pPoly),
                 Y3(pPoly),
-                pScreenManager_4FF7C8->mIdx);
+                pScreenManager->mIdx);
         }
     }
 }

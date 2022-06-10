@@ -56,8 +56,8 @@ MainMenuTransition::MainMenuTransition(Layer layer, s32 fadeDirection, s32 bKill
 
     mBaseGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4);
 
-    Init_SetTPage_4F5B60(&field_22C_tPage[0], 0, 1, PSX_getTPage_4F60E0(TPageMode::e16Bit_2, abr, 0, 0));
-    Init_SetTPage_4F5B60(&field_22C_tPage[1], 0, 1, PSX_getTPage_4F60E0(TPageMode::e16Bit_2, abr, 0, 0));
+    Init_SetTPage(&field_22C_tPage[0], 0, 1, PSX_getTPage(TPageMode::e16Bit_2, abr, 0, 0));
+    Init_SetTPage(&field_22C_tPage[1], 0, 1, PSX_getTPage(TPageMode::e16Bit_2, abr, 0, 0));
 
     for (s32 i = 0; i < 8; i++)
     {
@@ -235,7 +235,7 @@ void MainMenuTransition::VRender(PrimHeader** ppOt)
 
     OrderingTable_Add_4F8AA0(OtLayer(ppOt, field_24C_layer), &field_22C_tPage[gPsxDisplay_5C1130.field_C_buffer_index].mBase);
 
-    pScreenManager->InvalidateRect_40EC10(0, 0, gPsxDisplay_5C1130.field_0_width, gPsxDisplay_5C1130.field_2_height);
+    pScreenManager->InvalidateRectCurrentIdx(0, 0, gPsxDisplay_5C1130.field_0_width, gPsxDisplay_5C1130.field_2_height);
 
     if ((field_20_current_value == 255 && field_24_fade_direction) || (field_20_current_value == 0 && !field_24_fade_direction))
     {

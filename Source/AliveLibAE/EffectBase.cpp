@@ -15,8 +15,8 @@ EffectBase::EffectBase(Layer layer, TPageAbr abr)
     mBaseGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4);
     mEffectBasePathId = gMap.mCurrentPath;
     mEffectBaseLevelId = gMap.mCurrentLevel;
-    Init_SetTPage_4F5B60(&mEffectBaseTPage[0], 0, 0, PSX_getTPage_4F60E0(TPageMode::e16Bit_2, abr, 0, 0));
-    Init_SetTPage_4F5B60(&mEffectBaseTPage[1], 0, 0, PSX_getTPage_4F60E0(TPageMode::e16Bit_2, abr, 0, 0));
+    Init_SetTPage(&mEffectBaseTPage[0], 0, 0, PSX_getTPage(TPageMode::e16Bit_2, abr, 0, 0));
+    Init_SetTPage(&mEffectBaseTPage[1], 0, 0, PSX_getTPage(TPageMode::e16Bit_2, abr, 0, 0));
     mEffectBaseLayer = layer;
     mSemiTrans = 1;
 }
@@ -43,9 +43,9 @@ void EffectBase::VRender(PrimHeader** ppOt)
         Poly_Set_SemiTrans_4F8A60(&pTile->mBase.header, mSemiTrans);
         OrderingTable_Add_4F8AA0(OtLayer(ppOt, mEffectBaseLayer), &pTile->mBase.header);
         OrderingTable_Add_4F8AA0(OtLayer(ppOt, mEffectBaseLayer), &mEffectBaseTPage[gPsxDisplay_5C1130.field_C_buffer_index].mBase);
-        if (!dword_5CA4D4 || !(PSX_getTPage_4F60E0(TPageMode::e4Bit_0, TPageAbr::eBlend_1, 0, 0) & mEffectBaseTPage[0].field_C_tpage))
+        if (!dword_5CA4D4 || !(PSX_getTPage(TPageMode::e4Bit_0, TPageAbr::eBlend_1, 0, 0) & mEffectBaseTPage[0].field_C_tpage))
         {
-            pScreenManager->InvalidateRect_40EC10(
+            pScreenManager->InvalidateRectCurrentIdx(
                 0,
                 0,
                 640,

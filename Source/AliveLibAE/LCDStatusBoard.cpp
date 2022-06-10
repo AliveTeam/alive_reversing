@@ -172,7 +172,7 @@ void LCDStatusBoard::VRender(PrimHeader** ppOt)
             flickerAmount);
         maxWidth = std::max(font1Width, maxWidth);
 
-        pScreenManager->InvalidateRect_40EC90(
+        pScreenManager->InvalidateRect(
             static_cast<s32>(field_104_position_x / 0.575f),
             field_106_position_y,
             static_cast<s32>(maxWidth / 0.575f),

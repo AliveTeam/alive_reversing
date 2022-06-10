@@ -6,7 +6,7 @@
 #include "Psx.hpp"
 #include "Layer.hpp"
 
-void Sprt_Init_4F8910(Prim_Sprt* pPrim);
+void Sprt_Init(Prim_Sprt* pPrim);
 
 void PolyG3_Init_4F8890(Poly_G3* pPoly);
 void PolyG4_Init_4F88B0(Poly_G4* pPoly);
@@ -14,7 +14,7 @@ void PolyF4_Init_4F8830(Poly_F4* pPoly);
 
 void PolyGT4_Init(Poly_GT4* pPoly);
 
-void Init_SetTPage_4F5B60(Prim_SetTPage* pPrim, s32 /*notUsed1*/, s32 /*notUsed2*/, s32 tpage);
+void Init_SetTPage(Prim_SetTPage* pPrim, s32 /*notUsed1*/, s32 /*notUsed2*/, s32 tpage);
 void Init_PrimClipper_4F5B80(Prim_PrimClipper* pPrim, const PSX_RECT* pClipRect);
 void InitType_ScreenOffset_4F5BB0(Prim_ScreenOffset* pPrim, const PSX_Pos16* pOffset);
 
@@ -40,6 +40,6 @@ enum class TPageAbr : s8
 };
 
 
-void Init_SetTPage_4F5B60(Prim_SetTPage* pPrim, s32 /*notUsed1*/, s32 /*notUsed2*/, s32 tpage);
-s32 PSX_getTPage_4F60E0(TPageMode tp, TPageAbr abr, s32 x, s16 y);
+void Init_SetTPage(Prim_SetTPage* pPrim, s32 /*notUsed1*/, s32 /*notUsed2*/, s32 tpage);
+s32 PSX_getTPage(TPageMode tp, TPageAbr abr, s32 x, s16 y);
 s32 PSX_getClut_4F6350(s32 x, s32 y);

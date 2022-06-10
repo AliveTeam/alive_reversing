@@ -267,12 +267,12 @@ void ParticleBurst::VRender(PrimHeader** ppOt)
 
     mBaseAnimatedWithPhysicsGameObject_Anim.field_14_scale = mBaseAnimatedWithPhysicsGameObject_SpriteScale;
 
-    const FP_Point* pCamPos = pScreenManager_4FF7C8->mCamPos;
-    const FP screen_left = pCamPos->field_0_x - FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos);
-    const FP screen_right = pCamPos->field_0_x + FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos);
+    const FP_Point* pCamPos = pScreenManager->mCamPos;
+    const FP screen_left = pCamPos->field_0_x - FP_FromInteger(pScreenManager->mCamXOff);
+    const FP screen_right = pCamPos->field_0_x + FP_FromInteger(pScreenManager->mCamXOff);
 
-    const FP screen_top = pCamPos->field_4_y + FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos);
-    const FP screen_bottom = pCamPos->field_4_y - FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos);
+    const FP screen_top = pCamPos->field_4_y + FP_FromInteger(pScreenManager->mCamYOff);
+    const FP screen_bottom = pCamPos->field_4_y - FP_FromInteger(pScreenManager->mCamYOff);
 
     bool bFirst = true;
     for (s32 i = 0; i < field_EC_count; i++)
@@ -305,12 +305,12 @@ void ParticleBurst::VRender(PrimHeader** ppOt)
                     pItem->field_18_anim.GetRenderedSize(&rect);
                 }
 
-                pScreenManager_4FF7C8->InvalidateRect(
+                pScreenManager->InvalidateRect(
                     rect.x,
                     rect.y,
                     rect.w,
                     rect.h,
-                    pScreenManager_4FF7C8->mIdx);
+                    pScreenManager->mIdx);
             }
         }
     }

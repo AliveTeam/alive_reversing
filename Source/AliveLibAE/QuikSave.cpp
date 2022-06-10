@@ -665,9 +665,9 @@ void Quicksave_SaveToMemory_4C91A0(Quicksave* pSave)
 void DoQuicksave()
 {
     Game_ShowLoadingIcon_482D80();
-    pScreenManager->InvalidateRect_40EC90(0, 0, 640, 240, 0);
-    pScreenManager->InvalidateRect_40EC90(0, 0, 640, 240, 1);
-    pScreenManager->InvalidateRect_40EC90(0, 0, 640, 240, 2);
+    pScreenManager->InvalidateRect(0, 0, 640, 240, 0);
+    pScreenManager->InvalidateRect(0, 0, 640, 240, 1);
+    pScreenManager->InvalidateRect(0, 0, 640, 240, 2);
     Path_Get_Bly_Record(gMap.mCurrentLevel, gMap.mCurrentPath);
     Quicksave_SaveToMemory_4C91A0(&sActiveQuicksaveData_BAF7F8);
 }

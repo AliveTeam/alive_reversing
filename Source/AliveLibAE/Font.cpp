@@ -109,7 +109,7 @@ s32 Font::DrawString_4337D0(PrimHeader** ppOt, const char_type* text, s32 x, s16
     s32 charInfoIndex = 0;
     auto poly = &field_24_fnt_poly_array[gPsxDisplay_5C1130.field_C_buffer_index + (2 * polyOffset)];
 
-    s32 tpage = PSX_getTPage_4F60E0(TPageMode::e4Bit_0, abr, field_34_font_context->field_0_rect.x & 0xFFC0, field_34_font_context->field_0_rect.y & 0xFF00);
+    s32 tpage = PSX_getTPage(TPageMode::e4Bit_0, abr, field_34_font_context->field_0_rect.x & 0xFFC0, field_34_font_context->field_0_rect.y & 0xFF00);
     s32 clut = PSX_getClut_4F6350(field_28_palette_rect.x, field_28_palette_rect.y);
 
     for (u32 i = 0; i < strlen(text); i++)
@@ -187,7 +187,7 @@ s32 Font::DrawString_4337D0(PrimHeader** ppOt, const char_type* text, s32 x, s16
         poly += 2;
     }
 
-    pScreenManager->InvalidateRect_40EC90(x, y - 1, offsetX, y + 24, pScreenManager->mIdx);
+    pScreenManager->InvalidateRect(x, y - 1, offsetX, y + 24, pScreenManager->mIdx);
 
     return polyOffset + characterRenderCount;
 }

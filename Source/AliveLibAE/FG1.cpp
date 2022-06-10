@@ -30,7 +30,7 @@ public:
 
     void OnFullChunk(const Fg1Chunk& rChunk) override
     {
-        pScreenManager->InvalidateRect_40EC50(
+        pScreenManager->InvalidateRect_IdxPlus4(
             rChunk.field_4_xpos_or_compressed_size,
             rChunk.field_6_ypos,
             rChunk.field_8_width + rChunk.field_4_xpos_or_compressed_size - 1,
@@ -116,7 +116,7 @@ s16 FG1::Convert_Chunk_To_Render_Block(const Fg1Chunk* pChunk, Fg1Block* pBlock)
         Poly_Set_SemiTrans_4F8A60(&rPoly.mBase.header, FALSE);
         Poly_Set_Blending_4F8A20(&rPoly.mBase.header, TRUE);
 
-        SetTPage(&rPoly, static_cast<u16>(PSX_getTPage_4F60E0(TPageMode::e16Bit_2, TPageAbr::eBlend_0, 0, 0)));
+        SetTPage(&rPoly, static_cast<u16>(PSX_getTPage(TPageMode::e16Bit_2, TPageAbr::eBlend_0, 0, 0)));
 
         SetXYWH(&rPoly, pChunk->field_4_xpos_or_compressed_size, pChunk->field_6_ypos, pChunk->field_8_width, pChunk->field_A_height);
 
@@ -136,7 +136,7 @@ void FG1::VRender(PrimHeader** ppOt)
         {
             OrderingTable_Add_4F8AA0(OtLayer(ppOt, field_30_chnk_res[i].field_66_mapped_layer), &pPoly->mBase.header);
             // NOTE: Polygon has a pointer to the bit fields for which pixels should be skipped
-            pScreenManager->InvalidateRect_40EC90(xpos, ypos, X3(pPoly), Y3(pPoly), pScreenManager->mIdx);
+            pScreenManager->InvalidateRect(xpos, ypos, X3(pPoly), Y3(pPoly), pScreenManager->mIdx);
         }
     }
 }

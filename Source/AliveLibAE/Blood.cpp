@@ -85,7 +85,7 @@ Blood::Blood(FP xpos, FP ypos, FP xOff, FP yOff, FP scale, s32 count)
             {
                 BloodParticle* pParticle = &field_F8_pResBuf[i];
                 Prim_Sprt* pSprt = &pParticle->field_10_prims[j];
-                Sprt_Init_4F8910(pSprt);
+                Sprt_Init(pSprt);
                 Poly_Set_SemiTrans_4F8A60(&pSprt->mBase.header, 1);
 
                 if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit16_bBlending))
@@ -225,17 +225,17 @@ void Blood::VRender(PrimHeader** ppOt)
             wh.field_2_y = std::max(y0, wh.field_2_y);
         }
 
-        const s32 tpage = PSX_getTPage_4F60E0(
+        const s32 tpage = PSX_getTPage(
             field_11C_texture_mode,
             TPageAbr::eBlend_0,
             mBaseAnimatedWithPhysicsGameObject_Anim.field_84_vram_rect.x,
             mBaseAnimatedWithPhysicsGameObject_Anim.field_84_vram_rect.y);
 
         Prim_SetTPage* pTPage = &field_FC_tPages[gPsxDisplay_5C1130.field_C_buffer_index];
-        Init_SetTPage_4F5B60(pTPage, 0, 0, static_cast<s16>(tpage));
+        Init_SetTPage(pTPage, 0, 0, static_cast<s16>(tpage));
         OrderingTable_Add_4F8AA0(OtLayer(ppOt, field_12C_render_layer), &pTPage->mBase);
 
-        pScreenManager->InvalidateRect_40EC90(
+        pScreenManager->InvalidateRect(
             (xy.field_0_x - 12),
             (xy.field_2_y - 12),
             (wh.field_0_x + 12),

@@ -41,33 +41,31 @@ public:
     // TODO
     void sub_40EE10();
 
-    void MoveImage_40EB70();
+    void MoveImage();
 
-    void InvalidateRect_40EC90(s32 x, s32 y, s32 width, s32 height, s32 idx);
-    void InvalidateRect_40EC10(s32 x, s32 y, s32 width, s32 height);
-    void InvalidateRect_Layer3_40EDB0(s32 x, s32 y, s32 width, s32 height);
-    void InvalidateRect_40EC50(s32 x, s32 y, s32 width, s32 height, s32 idx);
+    void InvalidateRect(s32 x, s32 y, s32 width, s32 height, s32 idx);
+    void InvalidateRectCurrentIdx(s32 x, s32 y, s32 width, s32 height);
+    void InvalidateRect_Layer3(s32 x, s32 y, s32 width, s32 height);
+    void InvalidateRect_IdxPlus4(s32 x, s32 y, s32 width, s32 height, s32 idx);
 
     s16 IsDirty_40EBC0(s32 idx, s32 x, s32 y);
-    void UnsetDirtyBits_40EDE0(s32 idx);
+    void UnsetDirtyBits(s32 idx);
     void UnsetDirtyBits_FG1_40ED70();
 
-    virtual void VUpdate() override
-    { }
+    virtual void VUpdate() override;
 
 
-    void DecompressCameraToVRam_40EF60(u16** ppBits);
+    void DecompressCameraToVRam(u16** ppBits);
 
     ScreenManager(u8** ppBits, FP_Point* pCameraOffset);
 
-    void Init_40E4B0(u8** ppBits);
+    void Init(u8** ppBits);
 
-    static s32 GetTPage_40F040(TPageMode tp, TPageAbr abr, s32* xpos, s32* ypos);
+    static s32 GetTPage(TPageMode tp, TPageAbr abr, s32* xpos, s32* ypos);
 
     virtual void VRender(PrimHeader** ppOt) override;
     void Render_Helper_40E9F0(s32 xpos, s32 ypos, Layer idx, s32 sprite_idx, PrimHeader** ppOt);
     void sub_40EE50();
-    void VRender_40E6E0(PrimHeader** ppOt);
 
     virtual void VScreenChanged() override;
 
@@ -85,7 +83,7 @@ public:
     u16 mYIdx;
     u16 mXIdx;
     s32 mFlags;
-    DirtyBits field_64_20x16_dirty_bits[8];
+    DirtyBits mDirtyBits[8];
 };
 ALIVE_ASSERT_SIZEOF(ScreenManager, 0x1A4u);
 

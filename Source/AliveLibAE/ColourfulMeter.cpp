@@ -247,7 +247,7 @@ void ColourfulMeter::VRender(PrimHeader** ppOt)
             colourRand);
     }
 
-    pScreenManager->InvalidateRect_40EC90(
+    pScreenManager->InvalidateRect(
         PsxToPCX(field_6C_text_x - 50),
         field_6E_text_y - 30,
         PsxToPCX(field_6C_text_x + 500),

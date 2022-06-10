@@ -236,7 +236,7 @@ AbilityRing::AbilityRing(FP xpos, FP ypos, RingTypes ringType, FP scale)
                 SetRGB0(pPoly, mRingRed & 255, mRingGreen & 255, mRingBlue & 255);
                 Poly_Set_SemiTrans_4F8A60(&pPoly->mBase.header, mRingSemiTrans);
             }
-            Init_SetTPage_4F5B60(&mRingPrimSetTPage[y], 0, 0, PSX_getTPage_4F60E0(TPageMode::e16Bit_2, mRingTPageMode, 0, 0));
+            Init_SetTPage(&mRingPrimSetTPage[y], 0, 0, PSX_getTPage(TPageMode::e16Bit_2, mRingTPageMode, 0, 0));
         }
         mRingCount = 64;
     }
@@ -321,7 +321,7 @@ void AbilityRing::VRender(PrimHeader** ppOt)
 
                 OrderingTable_Add_4F8AA0(OtLayer(ppOt, mRingLayer), &pPoly->mBase.header);
 
-                pScreenManager->InvalidateRect_40EC90(
+                pScreenManager->InvalidateRect(
                     rect.x,
                     rect.y,
                     rect.w,

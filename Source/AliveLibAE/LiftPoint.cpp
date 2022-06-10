@@ -434,7 +434,7 @@ void LiftPoint::VRender(PrimHeader** ppOt)
 
                 PSX_RECT frameRect = {};
                 field_13C_lift_wheel.Get_Frame_Rect(&frameRect);
-                pScreenManager->InvalidateRect_40EC90(
+                pScreenManager->InvalidateRect(
                     frameRect.x,
                     frameRect.y,
                     frameRect.w,
@@ -476,7 +476,7 @@ void LiftPoint::VRender(PrimHeader** ppOt)
 
                     PSX_RECT frameRect = {};
                     field_1D4_pulley_anim.Get_Frame_Rect(&frameRect);
-                    pScreenManager->InvalidateRect_40EC90(
+                    pScreenManager->InvalidateRect(
                         frameRect.x,
                         frameRect.y,
                         frameRect.w,
@@ -499,7 +499,7 @@ void LiftPoint::VRender(PrimHeader** ppOt)
 
                 PSX_RECT frameRect = {};
                 field_13C_lift_wheel.Get_Frame_Rect(&frameRect);
-                pScreenManager->InvalidateRect_40EC90(
+                pScreenManager->InvalidateRect(
                     frameRect.x,
                     frameRect.y,
                     frameRect.w,

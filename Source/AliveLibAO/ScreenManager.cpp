@@ -11,17 +11,17 @@
 
 namespace AO {
 
-ALIVE_VAR(1, 0x4FF7C8, ScreenManager*, pScreenManager_4FF7C8, nullptr);
-ALIVE_ARY(1, 0x4FC8A8, SprtTPage, 300, sSpriteTPageBuffer_4FC8A8, {});
+ALIVE_VAR(1, 0x4FF7C8, ScreenManager*, pScreenManager, nullptr);
+ALIVE_ARY(1, 0x4FC8A8, SprtTPage, 300, sSpriteTPageBuffer, {});
 
 void ScreenManager::MoveImage()
 {
     PSX_RECT rect = {};
     rect.x = mUPos;
-    rect.y = mVpos;
+    rect.y = mVPos;
     rect.h = 240;
     rect.w = 640;
-    PSX_MoveImage_4961A0(&rect, 0, 0);
+    PSX_MoveImage(&rect, 0, 0);
 }
 
 void ScreenManager::InvalidateRect(s32 x, s32 y, s32 width, s32 height, s32 idx)
@@ -36,14 +36,19 @@ void ScreenManager::InvalidateRect(s32 x, s32 y, s32 width, s32 height, s32 idx)
     {
         for (s32 tileY = y / 16; tileY <= height / 16; tileY++)
         {
-            field_58_20x16_dirty_bits[idx].SetTile(tileX, tileY, true);
+            mDirtyBits[idx].SetTile(tileX, tileY, true);
         }
     }
 }
 
-void ScreenManager::InvalidateRect_Idx3(s32 x, s32 y, s32 width, s32 height)
+void ScreenManager::InvalidateRect_Layer3(s32 x, s32 y, s32 width, s32 height)
 {
     InvalidateRect(x, y, width, height, 3);
+}
+
+void ScreenManager::InvalidateRect_IdxPlus4(s32 x, s32 y, s32 width, s32 height, s32 idx)
+{
+    InvalidateRect(x, y, width, height, idx + 4);
 }
 
 void ScreenManager::InvalidateRectCurrentIdx(s32 x, s32 y, s32 width, s32 height)
@@ -53,15 +58,12 @@ void ScreenManager::InvalidateRectCurrentIdx(s32 x, s32 y, s32 width, s32 height
 
 void ScreenManager::UnsetDirtyBits_FG1()
 {
-    memset(&field_58_20x16_dirty_bits[4], 0, sizeof(this->field_58_20x16_dirty_bits[4]));
-    memset(&field_58_20x16_dirty_bits[5], 0, sizeof(this->field_58_20x16_dirty_bits[5]));
+    memset(&mDirtyBits[4], 0, sizeof(this->mDirtyBits[4]));
+    memset(&mDirtyBits[5], 0, sizeof(this->mDirtyBits[5]));
 }
 
 
-void ScreenManager::InvalidateRect_IdxPlus4(s32 x, s32 y, s32 width, s32 height, s32 idx)
-{
-    InvalidateRect(x, y, width, height, idx + 4);
-}
+
 
 
 
@@ -84,7 +86,7 @@ void ScreenManager::DecompressCameraToVRam(u16** ppBits)
             //rgb_conv_44FFE0(pIter, tmpBuffer, sizeof(tmpBuffer));
 
             rect.x = mUPos + xpos;
-            rect.y = mVpos;
+            rect.y = mVPos;
 
             // TODO: Actually 16bit but must be uploaded as 8bit ??
             IRenderer::GetRenderer()->Upload(IRenderer::BitDepth::e8Bit, rect, reinterpret_cast<u8*>(pIter));
@@ -95,10 +97,10 @@ void ScreenManager::DecompressCameraToVRam(u16** ppBits)
 
         ResourceManager::FreeResource_455550(pRes);
 
-        field_58_20x16_dirty_bits[0] = {};
-        field_58_20x16_dirty_bits[1] = {};
-        field_58_20x16_dirty_bits[2] = {};
-        field_58_20x16_dirty_bits[3] = {};
+        mDirtyBits[0] = {};
+        mDirtyBits[1] = {};
+        mDirtyBits[2] = {};
+        mDirtyBits[3] = {};
     }
 }
 
@@ -109,8 +111,8 @@ ScreenManager::ScreenManager(u8** ppBits, FP_Point* pCameraOffset)
 {
     mCamPos = pCameraOffset;
 
-    mBaseGameObjectFlags.Set(Options::eSurviveDeathReset_Bit9);
-    mBaseGameObjectFlags.Set(Options::eUpdateDuringCamSwap_Bit10);
+    mBaseGameObjectFlags.Set(BaseGameObject::eSurviveDeathReset_Bit9);
+    mBaseGameObjectFlags.Set(BaseGameObject::eUpdateDuringCamSwap_Bit10);
 
     Init(ppBits);
 }
@@ -119,19 +121,20 @@ void ScreenManager::Init(u8** ppBits)
 {
     mFlags |= 1;
 
-    mBaseGameObjectTypeId = ReliveTypes::eScreenManager;
+    SetType(ReliveTypes::eScreenManager);
 
-    field_14_xpos = 184;
-    field_16_ypos = 120;
+    mCamXOff = 184;
+    mCamYOff = 120;
+
     mUPos = 0;
-    mVpos = 272;
+    mVPos = 272;
     mCamWidth = 640;
     mCamHeight = 240;
 
-    Vram_alloc_explicit_4507F0(0, 272, 640, 512);
+    Vram_alloc_explicit(0, 272, 640, 512);
     DecompressCameraToVRam(reinterpret_cast<u16**>(ppBits));
 
-    mScreenSprites = &sSpriteTPageBuffer_4FC8A8[0];
+    mScreenSprites = &sSpriteTPageBuffer[0];
 
     s16 xpos = 0;
     s16 ypos = 0;
@@ -146,12 +149,12 @@ void ScreenManager::Init(u8** ppBits)
         pItem->mSprt.field_16_h = 16;
 
         s32 u0 = mUPos + 32 * (i % 20);
-        s32 v0 = mVpos + 16 * (i / 20);
+        s32 v0 = mVPos + 16 * (i / 20);
         s32 tpage = ScreenManager::GetTPage(TPageMode::e16Bit_2, TPageAbr::eBlend_0, &u0, &v0);
 
         tpage |= 0x8000;
 
-        Init_SetTPage_495FB0(&pItem->mTPage, 0, 0, tpage);
+        Init_SetTPage(&pItem->mTPage, 0, 0, tpage);
 
         SetUV0(&pItem->mSprt, static_cast<u8>(u0), static_cast<u8>(v0));
 
@@ -165,7 +168,7 @@ void ScreenManager::Init(u8** ppBits)
 
     for (s32 i = 0; i < 6; i++)
     {
-        memset(&field_58_20x16_dirty_bits[i], 0, sizeof(field_58_20x16_dirty_bits[0]));
+        memset(&mDirtyBits[i], 0, sizeof(mDirtyBits[0]));
     }
 
     mIdx = 2;
@@ -178,14 +181,13 @@ void ScreenManager::VUpdate()
     // Empty
 }
 
-
 s32 ScreenManager::GetTPage(TPageMode tp, TPageAbr abr, s32* xpos, s32* ypos)
 {
     const s16 clampedYPos = *ypos & 0xFF00;
     const s16 clampedXPos = *xpos & 0xFFC0;
     *xpos -= clampedXPos;
     *ypos -= clampedYPos;
-    return PSX_getTPage_4965D0(tp, abr, clampedXPos, clampedYPos);
+    return PSX_getTPage(tp, abr, clampedXPos, clampedYPos);
 }
 
 void ScreenManager::sub_406FF0()
@@ -197,9 +199,9 @@ void ScreenManager::sub_406FF0()
     mYIdx = mIdx;
     mIdx = (mIdx + 1) % 3;
     memset(
-        &field_58_20x16_dirty_bits[mIdx],
+        &mDirtyBits[mIdx],
         0,
-        sizeof(field_58_20x16_dirty_bits[mIdx]));
+        sizeof(mDirtyBits[mIdx]));
 }
 
 
@@ -224,22 +226,21 @@ void ScreenManager::VRender(PrimHeader** ppOt)
     for (s32 i = 0; i < 300; i++)
     {
         SprtTPage* pSpriteTPage = &mScreenSprites[i];
-
         const s32 spriteX = pSpriteTPage->mSprt.mBase.vert.x;
         const s32 spriteY = pSpriteTPage->mSprt.mBase.vert.y;
 
         Layer layer = Layer::eLayer_0;
-        if (field_58_20x16_dirty_bits[4].GetTile(spriteX / 32, spriteY / 16))
+        if (mDirtyBits[4].GetTile(spriteX / 32, spriteY / 16))
         {
-            if (!(field_58_20x16_dirty_bits[mIdx].GetTile(spriteX / 32, spriteY / 16)) && !(field_58_20x16_dirty_bits[mYIdx].GetTile(spriteX / 32, spriteY / 16)) && !(field_58_20x16_dirty_bits[mXIdx].GetTile(spriteX / 32, spriteY / 16)) && !(field_58_20x16_dirty_bits[3].GetTile(spriteX / 32, spriteY / 16)))
+            if (!(mDirtyBits[mIdx].GetTile(spriteX / 32, spriteY / 16)) && !(mDirtyBits[mYIdx].GetTile(spriteX / 32, spriteY / 16)) && !(mDirtyBits[mXIdx].GetTile(spriteX / 32, spriteY / 16)) && !(mDirtyBits[3].GetTile(spriteX / 32, spriteY / 16)))
             {
                 continue;
             }
             layer = Layer::eLayer_FG1_37;
         }
-        else if (field_58_20x16_dirty_bits[5].GetTile(spriteX / 32, spriteY / 16))
+        else if (mDirtyBits[5].GetTile(spriteX / 32, spriteY / 16))
         {
-            if (!(field_58_20x16_dirty_bits[mIdx].GetTile(spriteX / 32, spriteY / 16)) && !(field_58_20x16_dirty_bits[mYIdx].GetTile(spriteX / 32, spriteY / 16)) && !(field_58_20x16_dirty_bits[mXIdx].GetTile(spriteX / 32, spriteY / 16)) && !(field_58_20x16_dirty_bits[3].GetTile(spriteX / 32, spriteY / 16)))
+            if (!(mDirtyBits[mIdx].GetTile(spriteX / 32, spriteY / 16)) && !(mDirtyBits[mYIdx].GetTile(spriteX / 32, spriteY / 16)) && !(mDirtyBits[mXIdx].GetTile(spriteX / 32, spriteY / 16)) && !(mDirtyBits[3].GetTile(spriteX / 32, spriteY / 16)))
             {
                 continue;
             }
@@ -247,7 +248,7 @@ void ScreenManager::VRender(PrimHeader** ppOt)
         }
         else
         {
-            if (!(field_58_20x16_dirty_bits[mXIdx].GetTile(spriteX / 32, spriteY / 16)) && !(field_58_20x16_dirty_bits[mYIdx].GetTile(spriteX / 32, spriteY / 16)) && !(field_58_20x16_dirty_bits[3].GetTile(spriteX / 32, spriteY / 16)))
+            if (!(mDirtyBits[mXIdx].GetTile(spriteX / 32, spriteY / 16)) && !(mDirtyBits[mYIdx].GetTile(spriteX / 32, spriteY / 16)) && !(mDirtyBits[3].GetTile(spriteX / 32, spriteY / 16)))
             {
                 continue;
             }
@@ -262,10 +263,10 @@ void ScreenManager::VRender(PrimHeader** ppOt)
 
     for (s32 i = 0; i < 20; i++)
     {
-        field_58_20x16_dirty_bits[mXIdx].mData[i] |= field_58_20x16_dirty_bits[3].mData[i];
+        mDirtyBits[mXIdx].mData[i] |= mDirtyBits[3].mData[i];
     }
 
-    memset(&field_58_20x16_dirty_bits[3], 0, sizeof(field_58_20x16_dirty_bits[3]));
+    memset(&mDirtyBits[3], 0, sizeof(mDirtyBits[3]));
     return;
 }
 

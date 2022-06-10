@@ -159,10 +159,10 @@ void Spark::VRender(PrimHeader** ppOt)
     rect.w = -32767;
     rect.h = -32767;
 
-    const FP_Point* pCamPos = pScreenManager_4FF7C8->mCamPos;
+    const FP_Point* pCamPos = pScreenManager->mCamPos;
 
-    const s16 xOrg = FP_GetExponent(field_30_xpos) - FP_GetExponent(pCamPos->field_0_x - FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos));
-    const s16 yOrg = FP_GetExponent(field_34_ypos) - FP_GetExponent(pCamPos->field_4_y - FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos));
+    const s16 xOrg = FP_GetExponent(field_30_xpos) - FP_GetExponent(pCamPos->field_0_x - FP_FromInteger(pScreenManager->mCamXOff));
+    const s16 yOrg = FP_GetExponent(field_34_ypos) - FP_GetExponent(pCamPos->field_4_y - FP_FromInteger(pScreenManager->mCamYOff));
 
     for (s32 i = 0; i < field_4C_count; i++)
     {
@@ -201,14 +201,14 @@ void Spark::VRender(PrimHeader** ppOt)
     }
 
     Prim_SetTPage* pTPage = &field_10_tPage[gPsxDisplay_504C78.field_A_buffer_index];
-    Init_SetTPage_495FB0(pTPage, 1, 0, PSX_getTPage_4965D0(TPageMode::e4Bit_0, TPageAbr::eBlend_1, 0, 0));
+    Init_SetTPage(pTPage, 1, 0, PSX_getTPage(TPageMode::e4Bit_0, TPageAbr::eBlend_1, 0, 0));
     OrderingTable_Add_498A80(OtLayer(ppOt, field_42_layer), &pTPage->mBase);
-    pScreenManager_4FF7C8->InvalidateRect(
+    pScreenManager->InvalidateRect(
         rect.x,
         rect.y,
         rect.w,
         rect.h,
-        pScreenManager_4FF7C8->mIdx);
+        pScreenManager->mIdx);
 }
 
 } // namespace AO

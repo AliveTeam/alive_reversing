@@ -120,9 +120,9 @@ s32 PSX_ResetCallBack_49AFB0()
     return PSX_ResetCallBack_4FAA20();
 }
 
-s32 PSX_MoveImage_4961A0(const PSX_RECT* pRect, s32 xpos, s32 ypos)
+s32 PSX_MoveImage(const PSX_RECT* pRect, s32 xpos, s32 ypos)
 {
-    return PSX_MoveImage_4F5D50(pRect, xpos, ypos);
+    return ::PSX_MoveImage(pRect, xpos, ypos);
 }
 
 s32 PSX_EMU_Set_Cd_Emulation_Paths_49B000(const char_type* pPath1, const char_type* pPath2, const char_type* pPath3)

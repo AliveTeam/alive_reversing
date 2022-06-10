@@ -89,7 +89,7 @@ ZapLine::ZapLine(FP xPosSource, FP yPosSource, FP xPosDest, FP yPosDest, s32 ali
             for (s32 k = 0; k < field_130_number_of_pieces_per_segment; k++)
             {
                 Prim_Sprt* pSprt = &field_134_pSprites[(j * field_130_number_of_pieces_per_segment) + k].field_0_sprts[i];
-                Sprt_Init_4F8910(pSprt);
+                Sprt_Init(pSprt);
 
                 Poly_Set_SemiTrans_4F8A60(&pSprt->mBase.header, 1);
                 Poly_Set_Blending_4F8A20(&pSprt->mBase.header, 1);
@@ -389,14 +389,14 @@ void ZapLine::VRender(PrimHeader** ppOt)
             }
         }
 
-        const s32 calcTPage = PSX_getTPage_4F60E0(
+        const s32 calcTPage = PSX_getTPage(
             field_124_tPageMode,
             field_12C_tPageAbr,
             mBaseAnimatedWithPhysicsGameObject_Anim.field_84_vram_rect.x,
             mBaseAnimatedWithPhysicsGameObject_Anim.field_84_vram_rect.y);
 
         Prim_SetTPage* pTPage = &field_FC_tPage_p8[bufferIdx];
-        Init_SetTPage_4F5B60(pTPage, 0, 0, calcTPage);
+        Init_SetTPage(pTPage, 0, 0, calcTPage);
         OrderingTable_Add_4F8AA0(OtLayer(ppOt, mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer), &pTPage->mBase);
 
         PSX_RECT* pRect = &field_144_rects[bufferIdx];
@@ -437,7 +437,7 @@ void ZapLine::VRender(PrimHeader** ppOt)
         pRect->y -= 25;
         pRect->h += 25;
         const PSX_RECT* pRectToUse = &field_144_rects[gPsxDisplay_5C1130.field_C_buffer_index];
-        pScreenManager->InvalidateRect_40EC90(
+        pScreenManager->InvalidateRect(
             pRectToUse->x,
             pRectToUse->y,
             pRectToUse->w,

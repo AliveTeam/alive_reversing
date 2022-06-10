@@ -45,8 +45,8 @@ CircularFade::CircularFade(FP xpos, FP ypos, FP scale, s16 direction, s8 destroy
     mBaseAnimatedWithPhysicsGameObject_Green = field_1B8_fade_colour;
     mBaseAnimatedWithPhysicsGameObject_Blue = field_1B8_fade_colour;
 
-    Init_SetTPage_4F5B60(&field_198_tPages[0], 0, 0, PSX_getTPage_4F60E0(TPageMode::e16Bit_2, TPageAbr::eBlend_2, 0, 0));
-    Init_SetTPage_4F5B60(&field_198_tPages[1], 0, 0, PSX_getTPage_4F60E0(TPageMode::e16Bit_2, TPageAbr::eBlend_2, 0, 0));
+    Init_SetTPage(&field_198_tPages[0], 0, 0, PSX_getTPage(TPageMode::e16Bit_2, TPageAbr::eBlend_2, 0, 0));
+    Init_SetTPage(&field_198_tPages[1], 0, 0, PSX_getTPage(TPageMode::e16Bit_2, TPageAbr::eBlend_2, 0, 0));
 }
 
 CircularFade::~CircularFade()
@@ -78,7 +78,7 @@ void CircularFade::VRender(PrimHeader** ppOt)
     PSX_RECT frameRect = {};
     mBaseAnimatedWithPhysicsGameObject_Anim.Get_Frame_Rect(&frameRect);
 
-    pScreenManager->InvalidateRect_40EC90(
+    pScreenManager->InvalidateRect(
         frameRect.x,
         frameRect.y,
         frameRect.w,
@@ -159,7 +159,7 @@ void CircularFade::VRender(PrimHeader** ppOt)
 
     if (field_1B8_fade_colour < 255)
     {
-        pScreenManager->InvalidateRect_40EC10(
+        pScreenManager->InvalidateRectCurrentIdx(
             0,
             0,
             gPsxDisplay_5C1130.field_0_width,

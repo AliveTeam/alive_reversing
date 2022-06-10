@@ -1465,15 +1465,15 @@ void Fleech::RenderEx(PrimHeader** ot)
                 invRect_h = smallerof0andBaseY;
             }
 
-            pScreenManager->InvalidateRect_40EC90(
+            pScreenManager->InvalidateRect(
                 invRect_x,
                 invRect_y,
                 invRect_w,
                 invRect_h,
                 pScreenManager->mIdx);
         }
-        const s32 tPage = PSX_getTPage_4F60E0(TPageMode::e4Bit_0, TPageAbr::eBlend_0, 0, 0);
-        Init_SetTPage_4F5B60(&field_40C[gPsxDisplay_5C1130.field_C_buffer_index], 1, 0, tPage);
+        const s32 tPage = PSX_getTPage(TPageMode::e4Bit_0, TPageAbr::eBlend_0, 0, 0);
+        Init_SetTPage(&field_40C[gPsxDisplay_5C1130.field_C_buffer_index], 1, 0, tPage);
         OrderingTable_Add_4F8AA0(OtLayer(ot, mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer), &field_40C[gPsxDisplay_5C1130.field_C_buffer_index].mBase);
         return;
     }

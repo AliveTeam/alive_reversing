@@ -215,7 +215,7 @@ void OrbWhirlWindParticle::Render(PrimHeader** ppOt)
 
             PSX_RECT r = {};
             field_8_Anim.Get_Frame_Rect(&r);
-            pScreenManager->InvalidateRect_40EC90(r.x, r.y, r.w, r.h, pScreenManager->mIdx);
+            pScreenManager->InvalidateRect(r.x, r.y, r.w, r.h, pScreenManager->mIdx);
         }
     }
 }

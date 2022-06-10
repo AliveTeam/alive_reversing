@@ -70,12 +70,12 @@ public:
 
             PSX_RECT rect = {};
             mBaseAnimatedWithPhysicsGameObject_Anim.Get_Frame_Rect(&rect);
-            pScreenManager_4FF7C8->InvalidateRect(
+            pScreenManager->InvalidateRect(
                 rect.x,
                 rect.y,
                 rect.w,
                 rect.h,
-                pScreenManager_4FF7C8->mIdx);
+                pScreenManager->mIdx);
         }
     }
 
@@ -89,9 +89,9 @@ public:
         mBaseAnimatedWithPhysicsGameObject_Anim.Get_Frame_Width_Height(&frameW, &frameH);
         mBaseAnimatedWithPhysicsGameObject_Anim.Get_Frame_Offset(&xy.field_0_x, &xy.field_2_y);
 
-        const auto& pCamPos = pScreenManager_4FF7C8->mCamPos;
-        const FP screenX = FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos) + mBaseAnimatedWithPhysicsGameObject_XPos - pCamPos->field_0_x;
-        const FP screenY = FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos) + mBaseAnimatedWithPhysicsGameObject_YPos - pCamPos->field_4_y;
+        const auto& pCamPos = pScreenManager->mCamPos;
+        const FP screenX = FP_FromInteger(pScreenManager->mCamXOff) + mBaseAnimatedWithPhysicsGameObject_XPos - pCamPos->field_0_x;
+        const FP screenY = FP_FromInteger(pScreenManager->mCamYOff) + mBaseAnimatedWithPhysicsGameObject_YPos - pCamPos->field_4_y;
 
         const FP frameWScaled = (FP_FromInteger(frameW) * mBaseAnimatedWithPhysicsGameObject_SpriteScale);
         const FP frameHScaled = (FP_FromInteger(frameH) * mBaseAnimatedWithPhysicsGameObject_SpriteScale);
@@ -232,12 +232,12 @@ public:
                 mBaseAnimatedWithPhysicsGameObject_Anim.mBlue = 32;
                 mBaseAnimatedWithPhysicsGameObject_Anim.mRed = 240;
 
-                const FP_Point* pCamPos = pScreenManager_4FF7C8->mCamPos;
+                const FP_Point* pCamPos = pScreenManager->mCamPos;
 
-                const FP screen_left = pCamPos->field_0_x - FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos);
-                const FP screen_right = pCamPos->field_0_x + FP_FromInteger(pScreenManager_4FF7C8->field_14_xpos);
-                const FP screen_top = pCamPos->field_4_y - FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos);
-                const FP screen_bottom = pCamPos->field_4_y + FP_FromInteger(pScreenManager_4FF7C8->field_16_ypos);
+                const FP screen_left = pCamPos->field_0_x - FP_FromInteger(pScreenManager->mCamXOff);
+                const FP screen_right = pCamPos->field_0_x + FP_FromInteger(pScreenManager->mCamXOff);
+                const FP screen_top = pCamPos->field_4_y - FP_FromInteger(pScreenManager->mCamYOff);
+                const FP screen_bottom = pCamPos->field_4_y + FP_FromInteger(pScreenManager->mCamYOff);
 
                 mBaseAnimatedWithPhysicsGameObject_Anim.VRender(
                     FP_GetExponent(PsxToPCX(mBaseAnimatedWithPhysicsGameObject_XPos - screen_left)),
@@ -248,12 +248,12 @@ public:
 
                 PSX_RECT frameRect = {};
                 mBaseAnimatedWithPhysicsGameObject_Anim.Get_Frame_Rect(&frameRect);
-                pScreenManager_4FF7C8->InvalidateRect(
+                pScreenManager->InvalidateRect(
                     frameRect.x,
                     frameRect.y,
                     frameRect.w,
                     frameRect.h,
-                    pScreenManager_4FF7C8->mIdx);
+                    pScreenManager->mIdx);
 
                 for (auto& anim : field_E8_sparks)
                 {
@@ -269,12 +269,12 @@ public:
                                     ppOt);
 
                                 anim.field_14.GetRenderedSize(&frameRect);
-                                pScreenManager_4FF7C8->InvalidateRect(
+                                pScreenManager->InvalidateRect(
                                     frameRect.x,
                                     frameRect.y,
                                     frameRect.w,
                                     frameRect.h,
-                                    pScreenManager_4FF7C8->mIdx);
+                                    pScreenManager->mIdx);
                             }
                         }
                     }

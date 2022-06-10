@@ -4,7 +4,7 @@
 #include "stdlib.hpp"
 #include "Game.hpp"
 
-void Init_SetTPage_4F5B60(Prim_SetTPage* pPrim, s32 /*notUsed1*/, s32 /*notUsed2*/, s32 tpage)
+void Init_SetTPage(Prim_SetTPage* pPrim, s32 /*notUsed1*/, s32 /*notUsed2*/, s32 tpage)
 {
     SetUnknown(&pPrim->mBase);
     SetCode(&pPrim->mBase, PrimTypeCodes::eSetTPage);
@@ -30,7 +30,7 @@ void InitType_ScreenOffset_4F5BB0(Prim_ScreenOffset* pPrim, const PSX_Pos16* pOf
 }
 
 
-void Sprt_Init_4F8910(Prim_Sprt* pPrim)
+void Sprt_Init(Prim_Sprt* pPrim)
 {
     SetNumLongs(&pPrim->mBase.header, 4);
     SetUnknown(&pPrim->mBase.header);
@@ -137,7 +137,7 @@ PrimHeader** OtLayer(PrimHeader** ppOt, Layer layer)
     return &ppOt[static_cast<u32>(layer)];
 }
 
-s32 PSX_getTPage_4F60E0(TPageMode tp, TPageAbr abr, s32 x, s16 y)
+s32 PSX_getTPage(TPageMode tp, TPageAbr abr, s32 x, s16 y)
 {
     return ((((static_cast<s8>(tp)) & 0x3) << 7) | (((static_cast<s8>(abr)) & 0x3) << 5) | (((y) &0x100) >> 4) | (((x) &0x3ff) >> 6) | (((y) &0x200) << 2));
 }
