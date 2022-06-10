@@ -49,7 +49,7 @@ public:
     FP field_100_velx = FP_FromInteger(0);
     FP field_104_target_xpos = FP_FromInteger(0);
     FP field_108_target_ypos = FP_FromInteger(0);
-    BaseAliveGameObject* field_10C = nullptr;
+    BaseAliveGameObject* field_10C_pBat = nullptr;
 };
 ALIVE_ASSERT_SIZEOF(Bat, 0x110);
 

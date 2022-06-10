@@ -239,8 +239,7 @@ void BeeSwarm::VUpdate()
                 }
 
                 // Update target x/y to the mid of the target rect
-                PSX_RECT targetRect = {};
-                field_D98_pChaseTarget->VGetBoundingRect(&targetRect, 1);
+                const PSX_RECT targetRect = field_D98_pChaseTarget->VGetBoundingRect();
                 field_D74_chase_target_y = FP_FromInteger((targetRect.h + targetRect.y) / 2);
                 field_D70_chase_target_x = FP_FromInteger((targetRect.w + targetRect.x) / 2);
 
@@ -273,9 +272,7 @@ void BeeSwarm::VUpdate()
                                 break;
                             }
 
-                            PSX_RECT obj_rect = {};
-                            pObjIter->VGetBoundingRect(&obj_rect, 1);
-
+                            const PSX_RECT obj_rect = pObjIter->VGetBoundingRect();
                             if (FP_FromInteger(obj_rect.x) <= field_D90_rect_w && FP_FromInteger(obj_rect.w) >= field_D88_rect_x && FP_FromInteger(obj_rect.h) >= field_D8C_rect_y && FP_FromInteger(obj_rect.y) <= field_D94_rect_h)
                             {
                                 if (pObjIter == sActiveHero_507678 && sActiveHero_507678->mHealth > FP_FromInteger(0))
@@ -304,9 +301,7 @@ void BeeSwarm::VUpdate()
                         }
 
                         // Get rect and check if they're in the damage rect
-                        PSX_RECT objRect = {};
-                        pObjIter->VGetBoundingRect(&objRect, 1);
-
+                        const PSX_RECT objRect = pObjIter->VGetBoundingRect();
                         if (FP_FromInteger(objRect.x) <= field_D90_rect_w && FP_FromInteger(objRect.w) >= field_D88_rect_x && FP_FromInteger(objRect.h) >= field_D8C_rect_y && FP_FromInteger(objRect.y) <= field_D94_rect_h)
                         {
                             // Damage them if so
@@ -360,9 +355,7 @@ void BeeSwarm::VUpdate()
                 {
                     if (pObjIter->field_EC) // can be chased
                     {
-                        PSX_RECT objRect = {};
-                        pObjIter->VGetBoundingRect(&objRect, 1);
-
+                        const PSX_RECT objRect = pObjIter->VGetBoundingRect();
                         if (FP_FromInteger(objRect.x) <= field_D90_rect_w && FP_FromInteger(objRect.w) >= field_D88_rect_x && FP_FromInteger(objRect.h) >= field_D8C_rect_y && FP_FromInteger(objRect.y) <= field_D94_rect_h)
                         {
                             LOG_INFO("Got new target");

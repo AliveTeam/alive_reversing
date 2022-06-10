@@ -277,8 +277,7 @@ void FlintLockFire::VRender(PrimHeader** ppOt)
         s16 g = mBaseAnimatedWithPhysicsGameObject_Green;
         s16 b = mBaseAnimatedWithPhysicsGameObject_Blue;
 
-        PSX_RECT bRect = {};
-        VGetBoundingRect(&bRect, 1);
+        const PSX_RECT bRect = VGetBoundingRect();
 
         if (mApplyShadows & 1)
         {

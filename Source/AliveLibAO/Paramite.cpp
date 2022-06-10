@@ -797,8 +797,7 @@ void Paramite::MoveOnLine()
             {
                 if (BaseAliveGameObjectCollisionLine->field_8_type == eLineTypes::eUnknown_32 || BaseAliveGameObjectCollisionLine->field_8_type == eLineTypes::eUnknown_36)
                 {
-                    PSX_RECT bRect = {};
-                    VGetBoundingRect(&bRect, 1);
+                    const PSX_RECT bRect = VGetBoundingRect();
 
                     VOnCollisionWith(
                         {bRect.x, static_cast<s16>(bRect.y + 5)},
@@ -3021,8 +3020,7 @@ void Paramite::Motion_6_Hop()
 
                     BaseAliveGameObjectCollisionLine = pLine;
 
-                    PSX_RECT bRect = {};
-                    VGetBoundingRect(&bRect, 1);
+                    PSX_RECT bRect = VGetBoundingRect();
                     bRect.y += 5;
                     bRect.h += 5;
                     VOnCollisionWith(
@@ -3257,17 +3255,16 @@ void Paramite::Motion_12_Falling()
     {
         switch (pLine->field_8_type)
         {
-            case 0:
-            case 4:
-            case 32:
-            case 36:
+            case eLineTypes::eFloor_0:
+            case eLineTypes::eBackgroundFloor_4:
+            case eLineTypes::eUnknown_32:
+            case eLineTypes::eUnknown_36:
             {
                 ToIdle();
 
                 BaseAliveGameObjectCollisionLine = pLine;
 
-                PSX_RECT bRect = {};
-                VGetBoundingRect(&bRect, 1);
+                PSX_RECT bRect = VGetBoundingRect();
                 bRect.y += 5;
                 bRect.h += 5;
 
@@ -3284,8 +3281,8 @@ void Paramite::Motion_12_Falling()
                 break;
             }
 
-            case 1:
-            case 2:
+            case eLineTypes::eWallLeft_1:
+            case eLineTypes::eWallRight_2:
                 mBaseAnimatedWithPhysicsGameObject_VelX = (-mBaseAnimatedWithPhysicsGameObject_VelX / FP_FromInteger(2));
                 break;
 
@@ -3297,11 +3294,8 @@ void Paramite::Motion_12_Falling()
 
 void Paramite::Motion_13_GameSpeakBegin()
 {
-    PSX_RECT abeRect = {};
-    sActiveHero_507678->VGetBoundingRect(&abeRect, 1);
-
-    PSX_RECT ourRect = {};
-    VGetBoundingRect(&ourRect, 1);
+    const PSX_RECT abeRect = sActiveHero_507678->VGetBoundingRect();
+    const PSX_RECT ourRect = VGetBoundingRect();
 
     if (abeRect.x <= ourRect.w
         && abeRect.w >= ourRect.x
@@ -3340,11 +3334,8 @@ void Paramite::Motion_13_GameSpeakBegin()
 
 void Paramite::Motion_14_PreHiss()
 {
-    PSX_RECT abeRect = {};
-    sActiveHero_507678->VGetBoundingRect(&abeRect, 1);
-
-    PSX_RECT rect = {};
-    VGetBoundingRect(&rect, 1);
+    const PSX_RECT abeRect = sActiveHero_507678->VGetBoundingRect();
+    const PSX_RECT rect = VGetBoundingRect();
 
     if (abeRect.x <= rect.w
         && abeRect.w >= rect.x
@@ -3404,11 +3395,8 @@ void Paramite::Motion_14_PreHiss()
 
 void Paramite::Motion_15_Hiss()
 {
-    PSX_RECT abeRect = {};
-    sActiveHero_507678->VGetBoundingRect(&abeRect, 1);
-
-    PSX_RECT rect = {};
-    VGetBoundingRect(&rect, 1);
+    const PSX_RECT abeRect = sActiveHero_507678->VGetBoundingRect();
+    const PSX_RECT rect = VGetBoundingRect();
 
     if (mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame == 2)
     {
@@ -3450,11 +3438,8 @@ void Paramite::Motion_15_Hiss()
 
 void Paramite::Motion_16_PostHiss()
 {
-    PSX_RECT abeRect = {};
-    sActiveHero_507678->VGetBoundingRect(&abeRect, 1);
-
-    PSX_RECT rect = {};
-    VGetBoundingRect(&rect, 1);
+    const PSX_RECT abeRect = sActiveHero_507678->VGetBoundingRect();
+    const PSX_RECT rect = VGetBoundingRect();
 
     if (abeRect.x <= rect.w
         && abeRect.w >= rect.x
@@ -3478,11 +3463,8 @@ void Paramite::Motion_16_PostHiss()
 
 void Paramite::Motion_17_GameSpeakEnd()
 {
-    PSX_RECT abeRect = {};
-    sActiveHero_507678->VGetBoundingRect(&abeRect, 1);
-
-    PSX_RECT rect = {};
-    VGetBoundingRect(&rect, 1);
+    const PSX_RECT abeRect = sActiveHero_507678->VGetBoundingRect();
+    const PSX_RECT rect = VGetBoundingRect();
 
     if (abeRect.x <= rect.w
         && abeRect.w >= rect.x
@@ -3525,11 +3507,8 @@ void Paramite::Motion_18_RunningAttack()
     mBaseAnimatedWithPhysicsGameObject_XPos += mBaseAnimatedWithPhysicsGameObject_VelX;
     MapFollowMe_401D30(FALSE);
 
-    PSX_RECT abeRect = {};
-    sActiveHero_507678->VGetBoundingRect(&abeRect, 1);
-
-    PSX_RECT rect = {};
-    VGetBoundingRect(&rect, 1);
+    const PSX_RECT abeRect = sActiveHero_507678->VGetBoundingRect();
+    const PSX_RECT rect = VGetBoundingRect();
 
     if (abeRect.x <= rect.w
         && abeRect.w >= rect.x
@@ -3573,8 +3552,7 @@ void Paramite::Motion_18_RunningAttack()
             if (pLine->field_8_type == eLineTypes ::eUnknown_32 ||
                 pLine->field_8_type == eLineTypes::eUnknown_36)
             {
-                PSX_RECT r = {};
-                VGetBoundingRect(&r, 1);
+                PSX_RECT r = VGetBoundingRect();
                 r.y += 5;
                 r.h += 5;
 
@@ -3639,8 +3617,7 @@ void Paramite::Motion_20_SurpriseWeb()
 
         if (BaseAliveGameObjectCollisionLine->field_8_type == eLineTypes::eUnknown_32 || BaseAliveGameObjectCollisionLine->field_8_type == eLineTypes::eUnknown_36)
         {
-            PSX_RECT bRect = {};
-            VGetBoundingRect(&bRect, 1);
+            PSX_RECT bRect = VGetBoundingRect();
             bRect.y += 5;
             bRect.h += 5;
 
@@ -3688,11 +3665,8 @@ void Paramite::Motion_21_WebLeaveDown()
 
 void Paramite::Motion_22_Unknown()
 {
-    PSX_RECT abeRect = {};
-    sActiveHero_507678->VGetBoundingRect(&abeRect, 1);
-
-    PSX_RECT rect = {};
-    VGetBoundingRect(&rect, 1);
+    const PSX_RECT abeRect = sActiveHero_507678->VGetBoundingRect();
+    const PSX_RECT rect = VGetBoundingRect();
 
     if (abeRect.x <= rect.w
         && abeRect.w >= rect.x

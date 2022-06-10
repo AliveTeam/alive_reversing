@@ -386,13 +386,11 @@ void RollingBall::CrushThingsInTheWay()
 
         if (pObj->mBaseGameObjectFlags.Get(BaseGameObject::eIsBaseAliveGameObject_Bit6))
         {
-            PSX_RECT bOurRect = {};
-            VGetBoundingRect(&bOurRect, 1);
+            const PSX_RECT bOurRect = VGetBoundingRect();
 
             auto pAliveObj = static_cast<BaseAliveGameObject*>(pObj);
 
-            PSX_RECT bObjRect = {};
-            pAliveObj->VGetBoundingRect(&bObjRect, 1);
+            const PSX_RECT bObjRect = pAliveObj->VGetBoundingRect();
 
             if (bOurRect.x <= bObjRect.w
                 && bOurRect.w >= bObjRect.x

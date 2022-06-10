@@ -213,9 +213,9 @@ void TimedMine::StickToLiftPoint()
 
                     if (pObj->mBaseGameObjectTypeId == ReliveTypes::eLiftPoint)
                     {
-                        PSX_RECT pObjRect = {};
                         auto pLiftPoint = static_cast<LiftPoint*>(pObj);
-                        pLiftPoint->VGetBoundingRect(&pObjRect, 1);
+                        const PSX_RECT pObjRect = pLiftPoint->VGetBoundingRect();
+
                         if (FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos) > pObjRect.x && FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos) < pObjRect.w && FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos) < pObjRect.h)
                         {
                             mLiftPoint = pLiftPoint;

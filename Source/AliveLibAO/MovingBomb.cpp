@@ -223,8 +223,7 @@ void MovingBomb::VOnThrowableHit(BaseGameObject* /*pFrom*/)
 
 s16 MovingBomb::HitObject()
 {
-    PSX_RECT ourRect = {};
-    VGetBoundingRect(&ourRect, 1);
+    const PSX_RECT ourRect = VGetBoundingRect();
     for (s32 i = 0; i < gBaseAliveGameObjects_4FC8A0->Size(); i++)
     {
         BaseAliveGameObject* pObjIter = gBaseAliveGameObjects_4FC8A0->ItemAt(i);
@@ -239,9 +238,7 @@ s16 MovingBomb::HitObject()
             {
                 if (pObjIter->mHealth > FP_FromInteger(0))
                 {
-                    PSX_RECT objRect = {};
-                    pObjIter->VGetBoundingRect(&objRect, 1);
-
+                    const PSX_RECT objRect = pObjIter->VGetBoundingRect();
                     if (RectsOverlap(ourRect, objRect) && pObjIter->mBaseAnimatedWithPhysicsGameObject_SpriteScale == mBaseAnimatedWithPhysicsGameObject_SpriteScale)
                     {
                         return 1;

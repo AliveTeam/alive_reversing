@@ -160,8 +160,7 @@ void Rock::VUpdate()
         case States::eBouncing_4:
         {
             InTheAir();
-            PSX_RECT bRect = {};
-            VGetBoundingRect(&bRect, 1);
+            const PSX_RECT bRect = VGetBoundingRect();
             const PSX_Point xy = {bRect.x, static_cast<s16>(bRect.y + 5)};
             const PSX_Point wh = {bRect.w, static_cast<s16>(bRect.h + 5)};
             VOnCollisionWith(
@@ -353,8 +352,7 @@ s16 Rock::OnCollision(BaseAnimatedWithPhysicsGameObject* pObj)
         return 1;
     }
 
-    PSX_RECT bRect = {};
-    pObj->VGetBoundingRect(&bRect, 1);
+    const PSX_RECT bRect = pObj->VGetBoundingRect();
 
     if (field_11C_xpos < FP_FromInteger(bRect.x) || field_11C_xpos > FP_FromInteger(bRect.w))
     {

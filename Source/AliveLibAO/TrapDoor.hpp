@@ -43,7 +43,7 @@ public:
 
     void Open();
 
-    virtual PSX_RECT* VGetBoundingRect(PSX_RECT* pRect, s32 pointIdx) override;
+    virtual PSX_RECT VGetBoundingRect(s32 pointIdx) override;
     virtual void VScreenChanged() override;
     virtual void VAdd(BaseAliveGameObject* pObj) override;
     virtual void VRemove(BaseAliveGameObject* pObj) override;

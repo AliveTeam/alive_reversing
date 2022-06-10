@@ -41,7 +41,7 @@ public:
 
     virtual void VOnCollisionWith(PSX_Point xy, PSX_Point wh, DynamicArrayT<BaseGameObject>* pObjList, s32 startingPointIdx, TCollisionCallBack pFn);
 
-    virtual PSX_RECT* VGetBoundingRect(PSX_RECT* pRect, s32 pointIdx);
+    virtual PSX_RECT VGetBoundingRect(s32 pointIdx = 1);
 
     virtual s16 VIsObjNearby(FP radius, BaseAnimatedWithPhysicsGameObject* pOtherObj);
 
@@ -95,8 +95,6 @@ private:
     s16 VIsObjNearby_418330(FP radius, BaseAnimatedWithPhysicsGameObject* pOtherObj);
 
     void VOnCollisionWith_418080(PSX_Point xy, PSX_Point wh, DynamicArrayT<BaseGameObject>* pObjList, s32 startingPointIdx, TCollisionCallBack pFn);
-
-    PSX_RECT* VGetBoundingRect_418120(PSX_RECT* pRect, s32 pointIdx);
 
     void VStackOnObjectsOfType_418930(ReliveTypes typeToFind);
 

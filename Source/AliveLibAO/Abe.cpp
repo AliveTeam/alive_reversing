@@ -1268,8 +1268,7 @@ void Abe::VUpdate()
                         {
                             if (!(sGnFrame % 32))
                             {
-                                PSX_RECT bRect = {};
-                                VGetBoundingRect(&bRect, 1);
+                                const PSX_RECT bRect = VGetBoundingRect();
                                 AbilityRing::Factory(
                                     FP_FromInteger((bRect.w + bRect.x) / 2),
                                     FP_FromInteger((bRect.h + bRect.y) / 2),
@@ -1945,8 +1944,7 @@ void Abe::MoveForward_422FC0()
         else if (BaseAliveGameObjectCollisionLine->field_8_type == eLineTypes::eUnknown_32 ||
                 BaseAliveGameObjectCollisionLine->field_8_type == eLineTypes::eUnknown_36)
         {
-            PSX_RECT bRect = {};
-            VGetBoundingRect(&bRect, 1);
+            PSX_RECT bRect = VGetBoundingRect();
             bRect.y += 5;
             bRect.h += 5;
             bRect.w += 5; // TODO: Seems wrong - same in AE
@@ -2504,9 +2502,7 @@ void Abe::CrouchingGameSpeak_427F90()
 
 void Abe::FallOnBombs_4231B0()
 {
-    PSX_RECT bOurRect = {};
-    VGetBoundingRect(&bOurRect, 1);
-
+    const PSX_RECT bOurRect = VGetBoundingRect();
     for (s32 i = 0; i < gBaseAliveGameObjects_4FC8A0->Size(); i++)
     {
         BaseAliveGameObject* pObjIter = gBaseAliveGameObjects_4FC8A0->ItemAt(i);
@@ -2517,9 +2513,7 @@ void Abe::FallOnBombs_4231B0()
 
         if (pObjIter->mBaseGameObjectTypeId == ReliveTypes::eMine || pObjIter->mBaseGameObjectTypeId == ReliveTypes::eUXB)
         {
-            PSX_RECT objRect = {};
-            pObjIter->VGetBoundingRect(&objRect, 1);
-
+            const PSX_RECT objRect = pObjIter->VGetBoundingRect();
             if (bOurRect.x <= objRect.w
                 && bOurRect.w >= objRect.x
                 && bOurRect.h >= objRect.y
@@ -2649,9 +2643,7 @@ PullRingRope* Abe::GetPullRope_422580()
         {
             PullRingRope* pRope = static_cast<PullRingRope*>(pObj);
 
-            PSX_RECT bRect = {};
-            pRope->VGetBoundingRect(&bRect, 1);
-
+            const PSX_RECT bRect = pRope->VGetBoundingRect();
             if ((mBaseAnimatedWithPhysicsGameObject_YPos - pRope->mBaseAnimatedWithPhysicsGameObject_YPos - (mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(80))) <= FP_FromInteger(0))
             {
                 if (mBaseAnimatedWithPhysicsGameObject_XPos > FP_FromInteger(bRect.x) && mBaseAnimatedWithPhysicsGameObject_XPos < FP_FromInteger(bRect.w))
@@ -2752,8 +2744,7 @@ s16 Abe::TryMountElum_42E600()
 
 void Abe::BulletDamage_4220B0(Bullet* pBullet)
 {
-    PSX_RECT rect = {};
-    VGetBoundingRect(&rect, 1);
+    const PSX_RECT rect = VGetBoundingRect();
 
     enum class ShootKind
     {
@@ -2960,10 +2951,8 @@ Bool32 Abe::NearDoorIsOpen()
         if (pObj->mBaseGameObjectTypeId == ReliveTypes::eDoor)
         {
             auto pDoor = static_cast<Door*>(pObj);
-            PSX_RECT Rect = {};
-            VGetBoundingRect(&Rect, 1);
-            PSX_RECT Rect2 = {};
-            pDoor->VGetBoundingRect(&Rect2, 1);
+            PSX_RECT Rect = VGetBoundingRect();
+            PSX_RECT Rect2 = pDoor->VGetBoundingRect();
 
             if (Rect.x <= Rect2.w && Rect.w >= Rect2.x && Rect.h >= Rect2.y && Rect.y <= Rect2.h)
             {
@@ -3533,8 +3522,7 @@ s16 Abe::VTakeDamage(BaseGameObject* pFrom)
             {
                 auto pAliveObj = static_cast<BaseAliveGameObject*>(pFrom);
                 mHealth = FP_FromInteger(0);
-                PSX_RECT abeRect = {};
-                VGetBoundingRect(&abeRect, 1);
+                const PSX_RECT abeRect = VGetBoundingRect();
                 if (pAliveObj->mBaseAnimatedWithPhysicsGameObject_VelX <= FP_FromInteger(0))
                 {
                     relive_new Blood(
@@ -4803,8 +4791,7 @@ void Abe::Motion_17_HoistIdle_4269E0()
                 mCurrentMotion = eAbeMotions::Motion_18_HoistLand_426EB0;
                 mPreviousMotion = eAbeMotions::Motion_17_HoistIdle_4269E0;
 
-                PSX_RECT rect = {};
-                VGetBoundingRect(&rect, 1);
+                PSX_RECT rect = VGetBoundingRect();
                 rect.y += 5;
                 rect.h += 5;
 
@@ -4880,8 +4867,7 @@ void Abe::Motion_17_HoistIdle_4269E0()
                         if (pPathLine->field_8_type == eLineTypes::eUnknown_32 ||
                             pPathLine->field_8_type == eLineTypes::eUnknown_36)
                         {
-                            PSX_RECT rect = {};
-                            VGetBoundingRect(&rect, 1);
+                            PSX_RECT rect = VGetBoundingRect();
                             rect.y += 5;
                             rect.h += 5;
 
@@ -5455,9 +5441,7 @@ void Abe::IntoPortalStates_4262A0()
     {
         case PortalSubStates::eJumpingInsidePortal_0:
         {
-            PSX_RECT bRect = {};
-            VGetBoundingRect(&bRect, 1);
-
+            PSX_RECT bRect = VGetBoundingRect();
             if ((mBaseAnimatedWithPhysicsGameObject_VelX > FP_FromInteger(0) && FP_FromInteger(bRect.x) > field_1A0_portal->field_18_xpos) || (mBaseAnimatedWithPhysicsGameObject_VelX < FP_FromInteger(0) && FP_FromInteger(bRect.w) < field_1A0_portal->field_18_xpos))
             {
                 mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit3_Render);
@@ -5576,8 +5560,7 @@ void Abe::Motion_30_HopMid_4264D0()
                         mBaseAnimatedWithPhysicsGameObject_VelY = FP_FromInteger(0);
                         mCurrentMotion = eAbeMotions::Motion_31_HopLand_426940;
 
-                        PSX_RECT rect = {};
-                        VGetBoundingRect(&rect, 1);
+                        PSX_RECT rect = VGetBoundingRect();
                         rect.y += 5;
                         rect.h += 5;
 
@@ -5731,8 +5714,7 @@ void Abe::Motion_33_RunJumpMid_426FA0()
                 mBaseAnimatedWithPhysicsGameObject_XPos = hitX;
                 mBaseAnimatedWithPhysicsGameObject_YPos = hitY;
 
-                PSX_RECT rect = {};
-                VGetBoundingRect(&rect, 1);
+                PSX_RECT rect = VGetBoundingRect();
                 rect.y += 5;
                 rect.h += 5;
 
@@ -5813,8 +5795,7 @@ void Abe::Motion_33_RunJumpMid_426FA0()
                     if (pLine->field_8_type == eLineTypes ::eUnknown_32 ||
                         pLine->field_8_type == eLineTypes::eUnknown_36)
                     {
-                        PSX_RECT rect = {};
-                        VGetBoundingRect(&rect, 1);
+                        PSX_RECT rect = VGetBoundingRect();
                         rect.y += 5;
                         rect.h += 5;
 
@@ -7456,9 +7437,7 @@ void Abe::Motion_67_ToOffScreenHoist_428C50()
             if (BaseAliveGameObjectCollisionLine->field_8_type == eLineTypes ::eUnknown_32 ||
                 BaseAliveGameObjectCollisionLine->field_8_type == eLineTypes::eUnknown_36)
             {
-                PSX_RECT bRect = {};
-                VGetBoundingRect(&bRect, 1);
-
+                PSX_RECT bRect = VGetBoundingRect();
                 bRect.y += 5;
                 bRect.h += 5;
 
@@ -9151,8 +9130,7 @@ void Abe::Motion_138_ElumUnmountEnd_42E390()
             if (BaseAliveGameObjectCollisionLine->field_8_type == eLineTypes::eUnknown_32 ||
                 BaseAliveGameObjectCollisionLine->field_8_type == eLineTypes::eUnknown_36)
             {
-                PSX_RECT bRect = {};
-                VGetBoundingRect(&bRect, 1);
+                PSX_RECT bRect = VGetBoundingRect();
                 bRect.y += 5;
                 bRect.h += 5;
                 VOnCollisionWith(
@@ -9453,10 +9431,7 @@ void Abe::Motion_150_Chant_42FD50()
             {
                 if (!field_16C_bHaveShrykull)
                 {
-                    PSX_RECT rect = {};
-                    VGetBoundingRect(
-                        &rect,
-                        1);
+                    const PSX_RECT rect = VGetBoundingRect();
                     AbilityRing::Factory(
                         FP_FromInteger((rect.w + rect.x) / 2),
                         FP_FromInteger((rect.h + rect.y) / 2),
@@ -9523,10 +9498,7 @@ void Abe::Motion_150_Chant_42FD50()
                     field_114_gnFrame = sGnFrame + 30;
                     field_110_state.chant = ChantStates::ePossessVictim_1;
 
-                    PSX_RECT rect = {};
-                    field_18C_pObjToPossess->VGetBoundingRect(
-                        &rect,
-                        1);
+                    const PSX_RECT rect = field_18C_pObjToPossess->VGetBoundingRect();
                     field_188_pOrbWhirlWind->ToSpin(
                         FP_FromInteger((rect.w + rect.x) / 2),
                         FP_FromInteger((rect.h + rect.y) / 2),

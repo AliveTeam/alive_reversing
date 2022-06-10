@@ -223,8 +223,7 @@ void Grenade::VUpdate()
             {
                 if (!BlowUpAfterCountdown())
                 {
-                    PSX_RECT bRect = {};
-                    VGetBoundingRect(&bRect, 1);
+                    const PSX_RECT bRect = VGetBoundingRect();
 
                     const PSX_Point xy = {bRect.x, static_cast<s16>(bRect.y + 5)};
                     const PSX_Point wh = {bRect.w, static_cast<s16>(bRect.h + 5)};
@@ -429,8 +428,7 @@ s16 Grenade::OnCollision_BounceOff(BaseGameObject* pHit)
 
     auto pHit2 = static_cast<BaseAliveGameObject*>(pHit);
 
-    PSX_RECT bRect = {};
-    pHit2->VGetBoundingRect(&bRect, 1);
+    const PSX_RECT bRect = pHit2->VGetBoundingRect();
 
     if (mBaseAnimatedWithPhysicsGameObject_XPos < FP_FromInteger(bRect.x + 12) || mBaseAnimatedWithPhysicsGameObject_XPos > FP_FromInteger(bRect.w - 12))
     {

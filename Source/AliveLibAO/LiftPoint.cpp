@@ -572,8 +572,7 @@ void LiftPoint::VRender(PrimHeader** ppOt)
                 s16 liftWheelG = mBaseAnimatedWithPhysicsGameObject_Green;
                 s16 liftWheelB = mBaseAnimatedWithPhysicsGameObject_Blue;
 
-                PSX_RECT boundingRect = {};
-                VGetBoundingRect(&boundingRect, 1);
+                const PSX_RECT boundingRect = VGetBoundingRect();
 
                 ShadowZone::ShadowZones_Calculate_Colour(
                     FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos),

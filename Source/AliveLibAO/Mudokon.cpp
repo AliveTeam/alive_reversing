@@ -335,8 +335,7 @@ Mudokon::Mudokon(Path_TLV* pTlv, s32 tlvInfo)
         mBaseAnimatedWithPhysicsGameObject_YPos = hitY;
         if (BaseAliveGameObjectCollisionLine->field_8_type == eLineTypes::eUnknown_32 || BaseAliveGameObjectCollisionLine->field_8_type == eLineTypes::eUnknown_36)
         {
-            PSX_RECT bRect = {};
-            VGetBoundingRect(&bRect, 1);
+            const PSX_RECT bRect = VGetBoundingRect();
             VOnCollisionWith(
                 PSX_Point{bRect.x, static_cast<s16>(bRect.y + 5)},
                 PSX_Point{bRect.w, static_cast<s16>(bRect.h + 5)},
@@ -1047,8 +1046,7 @@ void Mudokon::MoveOnLine_43C7E0()
             if (BaseAliveGameObjectCollisionLine->field_8_type == eLineTypes::eUnknown_32 ||
                 BaseAliveGameObjectCollisionLine->field_8_type == eLineTypes::eUnknown_36)
             {
-                PSX_RECT bRect = {};
-                VGetBoundingRect(&bRect, 1);
+                const PSX_RECT bRect = VGetBoundingRect();
                 VOnCollisionWith(
                     PSX_Point{bRect.x, static_cast<s16>(bRect.y + 5)},
                     PSX_Point{bRect.w, static_cast<s16>(bRect.h + 5)},
@@ -2241,8 +2239,7 @@ void Mudokon::Motion_44_RunJumpMid_43E960()
         SFX_Play_Pitch(SoundEffect::PossessEffect_21, 40, 2400, 0);
     }
 
-    PSX_RECT bRect = {};
-    VGetBoundingRect(&bRect, 1);
+    const PSX_RECT bRect = VGetBoundingRect();
 
     if ((mBaseAnimatedWithPhysicsGameObject_VelX > FP_FromInteger(0) && (FP_FromInteger(bRect.x) > field_1AC_pBirdPortal->field_18_xpos)) || ((mBaseAnimatedWithPhysicsGameObject_VelX < FP_FromInteger(0) && FP_FromInteger(bRect.w) < field_1AC_pBirdPortal->field_18_xpos)))
     {
@@ -3247,16 +3244,14 @@ s16 Mudokon::Brain_GiveRings_7_43C2F0()
         case 2:
             if (static_cast<s32>(sGnFrame) > field_1C0_timer)
             {
-                PSX_RECT ourRect = {};
-                VGetBoundingRect(&ourRect, 1);
+                const PSX_RECT ourRect = VGetBoundingRect();
 
                     relive_new AbilityRing(
                         FP_FromInteger((ourRect.w + ourRect.x) / 2),
                         FP_FromInteger((ourRect.h + ourRect.y) / 2),
                         RingTypes::eExplosive_Emit_Effect_2);
 
-                PSX_RECT heroRect = {};
-                sActiveHero_507678->VGetBoundingRect(&heroRect, 1);
+                const PSX_RECT heroRect = sActiveHero_507678->VGetBoundingRect();
 
                 auto pAbeRing = relive_new AbilityRing(
                     FP_FromInteger((heroRect.w + heroRect.x) / 2),

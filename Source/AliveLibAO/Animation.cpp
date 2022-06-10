@@ -125,11 +125,8 @@ s16* Slog_OnFrame(BaseGameObject* pObj, s16* pData)
     auto pSlog = static_cast<Slog*>(pObj);
     if (pSlog->field_10C_pTarget)
     {
-        PSX_RECT targetRect = {};
-        pSlog->field_10C_pTarget->VGetBoundingRect(&targetRect, 1);
-
-        PSX_RECT slogRect = {};
-        pSlog->VGetBoundingRect(&slogRect, 1);
+        const PSX_RECT targetRect = pSlog->field_10C_pTarget->VGetBoundingRect();
+        const PSX_RECT slogRect = pSlog->VGetBoundingRect();
 
         if (RectsOverlap(slogRect, targetRect))
         {

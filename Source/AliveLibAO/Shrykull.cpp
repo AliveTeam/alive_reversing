@@ -153,12 +153,9 @@ void Shrykull::VUpdate()
                     pObj->mBaseGameObjectRefCount++;
                     field_11C_obj_being_zapped = pObj;
 
-                    PSX_RECT objRect = {};
-                    pObj->VGetBoundingRect(&objRect, 1);
-
-                    PSX_RECT ourRect = {};
-                    VGetBoundingRect(&ourRect, 1);
-
+                    const PSX_RECT objRect = pObj->VGetBoundingRect();
+                    const PSX_RECT ourRect = VGetBoundingRect();
+                    
                     if (field_118_zap_line)
                     {
                         field_118_zap_line->CalculateSourceAndDestinationPositions(
@@ -274,11 +271,8 @@ void Shrykull::VUpdate()
                 }
                 else
                 {
-                    PSX_RECT zapRect = {};
-                    field_11C_obj_being_zapped->VGetBoundingRect(&zapRect, 1);
-
-                    PSX_RECT ourRect = {};
-                    VGetBoundingRect(&ourRect, 1);
+                    const PSX_RECT zapRect = field_11C_obj_being_zapped->VGetBoundingRect();
+                    const PSX_RECT ourRect = VGetBoundingRect();
                     if (static_cast<s32>(sGnFrame) == field_114_timer)
                     {
                         relive_new ParticleBurst(

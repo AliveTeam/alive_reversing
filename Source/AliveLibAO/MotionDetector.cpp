@@ -163,8 +163,7 @@ void MotionDetector::VUpdate()
         {
             field_108_pLaser->mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit3_Render);
 
-            PSX_RECT laserRect = {};
-            field_108_pLaser->VGetBoundingRect(&laserRect, 1);
+            const PSX_RECT laserRect = field_108_pLaser->VGetBoundingRect();
 
             field_160_bObjectInLaser = FALSE;
 
@@ -178,8 +177,7 @@ void MotionDetector::VUpdate()
 
                 if (pObj->mBaseGameObjectTypeId != ReliveTypes::eTimedMine)
                 {
-                    PSX_RECT objRect = {};
-                    pObj->VGetBoundingRect(&objRect, 1);
+                    const PSX_RECT objRect = pObj->VGetBoundingRect();
 
                     if (laserRect.x <= (objRect.w - 8) && laserRect.w >= (objRect.x + 8) && laserRect.h >= objRect.y && laserRect.y <= objRect.h && pObj->mBaseAnimatedWithPhysicsGameObject_SpriteScale == mBaseAnimatedWithPhysicsGameObject_SpriteScale)
                     {
@@ -288,8 +286,7 @@ void MotionDetector::VRender(PrimHeader** ppOt)
 
         const s16 screen_left = FP_GetExponent(pScreenManager->mCamPos->field_0_x - FP_FromInteger(pScreenManager->mCamXOff));
 
-        PSX_RECT bLaserRect = {};
-        field_108_pLaser->VGetBoundingRect(&bLaserRect, 1);
+        const PSX_RECT bLaserRect = field_108_pLaser->VGetBoundingRect();
 
         const s16 x0 = static_cast<s16>(PsxToPCX(FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos) - screen_left, 11));
         const s16 y0 = FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos) - screen_top;

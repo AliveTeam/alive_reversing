@@ -128,11 +128,8 @@ void FallingItem::DamageHitItems()
             {
                 BaseAnimatedWithPhysicsGameObject* pAliveObj = static_cast<BaseAnimatedWithPhysicsGameObject*>(pObj);
 
-                PSX_RECT fallingItemRect = {};
-                VGetBoundingRect(&fallingItemRect, 1);
-
-                PSX_RECT objRect = {};
-                pAliveObj->VGetBoundingRect(&objRect, 1);
+                const PSX_RECT fallingItemRect = VGetBoundingRect();
+                const PSX_RECT objRect = pAliveObj->VGetBoundingRect();
 
                 if (fallingItemRect.x <= objRect.w && fallingItemRect.w >= objRect.x && fallingItemRect.y <= objRect.h && fallingItemRect.h >= objRect.y)
                 {

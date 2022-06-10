@@ -308,8 +308,7 @@ void SecurityClaw::VUpdate()
         case SecurityClawStates::eDoZapEffects_2:
             if (static_cast<s32>(sGnFrame) > field_114_timer)
             {
-                PSX_RECT rect = {};
-                sActiveHero_507678->VGetBoundingRect(&rect, 1);
+                const PSX_RECT rect = sActiveHero_507678->VGetBoundingRect();
                 const FP hero_mid_x = FP_FromInteger((rect.w + rect.x) / 2);
                 const FP hero_mid_y = FP_FromInteger((rect.h + rect.y) / 2);
 

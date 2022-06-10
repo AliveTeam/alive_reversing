@@ -197,9 +197,7 @@ void Explosion::DealBlastDamage(PSX_RECT* pRect)
 
         if (pObj->mBaseGameObjectFlags.Get(Options::eIsBaseAliveGameObject_Bit6))
         {
-            PSX_RECT rect = {};
-            pObj->VGetBoundingRect(&rect, 1);
-
+            const PSX_RECT rect = pObj->VGetBoundingRect();
             if (PSX_Rects_overlap_no_adjustment(&rect, &expandedRect) && field_E4_explosion_size == pObj->mBaseAnimatedWithPhysicsGameObject_SpriteScale)
             {
                 pObj->VTakeDamage(this);

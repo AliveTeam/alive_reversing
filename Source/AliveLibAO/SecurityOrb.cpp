@@ -146,8 +146,7 @@ void SecurityOrb::VUpdate()
         case SecurityOrbStates::eDoZapEffects_1:
             if (static_cast<s32>(sGnFrame) > field_114_timer)
             {
-                PSX_RECT abeRect = {};
-                sActiveHero_507678->VGetBoundingRect(&abeRect, 1);
+                const PSX_RECT abeRect = sActiveHero_507678->VGetBoundingRect();
 
                 const s32 width = abeRect.w + abeRect.x;
                 const s32 height = abeRect.h + abeRect.y;

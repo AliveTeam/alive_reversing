@@ -57,11 +57,8 @@ void RockSack::VUpdate()
             mBaseAnimatedWithPhysicsGameObject_Anim.mFrameChangeCounter = Math_RandomRange_450F20(2, 10);
         }
 
-        PSX_RECT bPlayerRect = {};
-        sActiveHero_507678->VGetBoundingRect(&bPlayerRect, 1);
-
-        PSX_RECT bRect = {};
-        VGetBoundingRect(&bRect, 1);
+        const PSX_RECT bPlayerRect = sActiveHero_507678->VGetBoundingRect();
+        const PSX_RECT bRect = VGetBoundingRect();
 
         if (bRect.x <= bPlayerRect.w
             && bRect.w >= bPlayerRect.x

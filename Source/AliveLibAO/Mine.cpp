@@ -283,8 +283,7 @@ void Mine::VUpdate()
 
 s16 Mine::IsColliding()
 {
-    PSX_RECT bRect = {};
-    VGetBoundingRect(&bRect, 1);
+    const PSX_RECT bRect = VGetBoundingRect();
 
     for (s32 i = 0; i < gBaseAliveGameObjects_4FC8A0->Size(); i++)
     {
@@ -298,8 +297,7 @@ s16 Mine::IsColliding()
         {
             if (pObj->mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit3_Render))
             {
-                PSX_RECT bObjRect = {};
-                pObj->VGetBoundingRect(&bObjRect, 1);
+                const PSX_RECT bObjRect = pObj->VGetBoundingRect();
 
                 if (FP_GetExponent(pObj->mBaseAnimatedWithPhysicsGameObject_XPos) > bRect.x && FP_GetExponent(pObj->mBaseAnimatedWithPhysicsGameObject_XPos) < bRect.w && FP_GetExponent(pObj->mBaseAnimatedWithPhysicsGameObject_YPos) < bRect.h + 5 && bRect.x <= bObjRect.w && bRect.w >= bObjRect.x && bRect.h >= bObjRect.y && bRect.y <= bObjRect.h && pObj->mBaseAnimatedWithPhysicsGameObject_SpriteScale == mBaseAnimatedWithPhysicsGameObject_SpriteScale)
                 {

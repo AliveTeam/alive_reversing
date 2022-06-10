@@ -110,8 +110,7 @@ void BaseThrowable::BaseAddToPlatform()
                 {
                     auto pPlatformBase = static_cast<PlatformBase*>(pObjIter);
 
-                    PSX_RECT objRect = {};
-                    pPlatformBase->VGetBoundingRect(&objRect, 1);
+                    const PSX_RECT objRect = pPlatformBase->VGetBoundingRect();
 
                     if (FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos) > objRect.x && FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos) < objRect.w && FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos) < objRect.h)
                     {

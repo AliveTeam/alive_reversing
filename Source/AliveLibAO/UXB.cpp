@@ -482,8 +482,7 @@ void UXB::VUpdate()
 
 s16 UXB::IsColliding()
 {
-    PSX_RECT uxbBound = {};
-    VGetBoundingRect(&uxbBound, 1);
+    const PSX_RECT uxbBound = VGetBoundingRect();
 
     for (s32 i = 0; i < gBaseAliveGameObjects_4FC8A0->Size(); i++)
     {
@@ -497,8 +496,7 @@ s16 UXB::IsColliding()
         {
             if (pObj->mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit3_Render))
             {
-                PSX_RECT objBound = {};
-                pObj->VGetBoundingRect(&objBound, 1);
+                const PSX_RECT objBound = pObj->VGetBoundingRect();
 
                 const s32 objX = FP_GetExponent(pObj->mBaseAnimatedWithPhysicsGameObject_XPos);
                 const s32 objY = FP_GetExponent(pObj->mBaseAnimatedWithPhysicsGameObject_YPos);

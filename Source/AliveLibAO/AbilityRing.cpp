@@ -273,8 +273,7 @@ void AbilityRing::VUpdate()
             mRingScreenX = FP_GetExponent(pScreenManager->mCamPos->field_0_x - FP_FromInteger(pScreenManager->mCamXOff));
             mRingScreenY = FP_GetExponent(pScreenManager->mCamPos->field_4_y - FP_FromInteger(pScreenManager->mCamYOff));
 
-            PSX_RECT bRect = {};
-            mTargetObj->VGetBoundingRect(&bRect, 1);
+            const PSX_RECT bRect = mTargetObj->VGetBoundingRect();
 
             mRingScreenXPos = (bRect.w + bRect.x) / 2 - mRingScreenX;
             mRingScreenYPos = (bRect.h + bRect.y) / 2 - mRingScreenY;
@@ -392,8 +391,7 @@ void AbilityRing::CollideWithObjects()
             break;
         }
 
-        PSX_RECT bRect = {};
-        pObj->VGetBoundingRect(&bRect, 1);
+        const PSX_RECT bRect = pObj->VGetBoundingRect();
 
         if (!(pObj->mBaseGameObjectFlags.Get(BaseGameObject::eDead)))
         {

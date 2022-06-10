@@ -136,8 +136,7 @@ void OrbWhirlWindParticle::Update()
             }
             else
             {
-                PSX_RECT bRect = {};
-                field_E4_pObj->VGetBoundingRect(&bRect, 1);
+                const PSX_RECT bRect = field_E4_pObj->VGetBoundingRect();
 
                 const FP xpos = FP_FromInteger((bRect.x + bRect.w) / 2);
                 const FP ypos = FP_FromInteger((bRect.y + bRect.h) / 2);

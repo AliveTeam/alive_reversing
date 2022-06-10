@@ -67,8 +67,7 @@ void FootSwitch::VUpdate()
 
         case States::eWaitForGetOffMe_1:
         {
-            PSX_RECT bRect = {};
-            VGetBoundingRect(&bRect, 1);
+            const PSX_RECT bRect = VGetBoundingRect();
 
             if (field_F0_pStoodOnMe->mBaseAnimatedWithPhysicsGameObject_XPos < FP_FromInteger(bRect.x) || field_F0_pStoodOnMe->mBaseAnimatedWithPhysicsGameObject_XPos > FP_FromInteger(bRect.w) || field_F0_pStoodOnMe->mBaseGameObjectFlags.Get(BaseGameObject::eDead))
             {
@@ -91,8 +90,7 @@ void FootSwitch::VScreenChanged()
 
 BaseAliveGameObject* FootSwitch::WhoIsStoodOnMe()
 {
-    PSX_RECT bRectSwitch = {};
-    VGetBoundingRect(&bRectSwitch, 1);
+    const PSX_RECT bRectSwitch = VGetBoundingRect();
     // NOTE: AE  y -= 3 not done in AO
 
     if (field_EE_trigger_by == FootSwitchTriggerBy::eAnyone_1)
@@ -109,8 +107,7 @@ BaseAliveGameObject* FootSwitch::WhoIsStoodOnMe()
             {
                 auto pAliveObj = static_cast<BaseAliveGameObject*>(pObj);
 
-                PSX_RECT theirRect = {};
-                pAliveObj->VGetBoundingRect(&theirRect, 1);
+                const PSX_RECT theirRect = pAliveObj->VGetBoundingRect();
 
                 const s32 xpos = FP_GetExponent(pAliveObj->mBaseAnimatedWithPhysicsGameObject_XPos);
 
@@ -123,9 +120,7 @@ BaseAliveGameObject* FootSwitch::WhoIsStoodOnMe()
     }
     else if (field_EE_trigger_by == FootSwitchTriggerBy::eAbe_0)
     {
-        PSX_RECT bRect = {};
-        sActiveHero_507678->VGetBoundingRect(&bRect, 1);
-
+        const PSX_RECT bRect = sActiveHero_507678->VGetBoundingRect();
         const s32 xpos = FP_GetExponent(sActiveHero_507678->mBaseAnimatedWithPhysicsGameObject_XPos);
 
         if (xpos > bRectSwitch.x && xpos < bRectSwitch.w && bRectSwitch.x <= bRect.w && bRectSwitch.w >= bRect.x && bRectSwitch.h >= bRect.y && bRectSwitch.y <= bRect.h && sActiveHero_507678->mBaseAnimatedWithPhysicsGameObject_SpriteScale == mBaseAnimatedWithPhysicsGameObject_SpriteScale)

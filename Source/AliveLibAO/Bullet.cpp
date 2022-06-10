@@ -255,8 +255,7 @@ BaseAliveGameObject* Bullet::ShootObject(PSX_RECT* pRect)
                     || pObjIter->mBaseGameObjectTypeId == ReliveTypes::eAbe
                     || (pObjIter->mBaseGameObjectTypeId == ReliveTypes::eSlig && sControlledCharacter_50767C == pObjIter))
                 {
-                    PSX_RECT bRect = {};
-                    pObjIter->VGetBoundingRect(&bRect, 1);
+                    const PSX_RECT bRect = pObjIter->VGetBoundingRect();
                     if (pRect->x <= bRect.w && pRect->w >= bRect.x && pRect->h >= bRect.y && pRect->y <= bRect.h)
                     {
                         if (field_10_type == BulletType::eZBullet_2 || field_30_pParent->mBaseAnimatedWithPhysicsGameObject_SpriteScale == pObjIter->mBaseAnimatedWithPhysicsGameObject_SpriteScale)

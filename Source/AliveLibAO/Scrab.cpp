@@ -561,8 +561,7 @@ u8** Scrab::ResBlockForMotion(s16 motion)
 
 void Scrab::PlatformCollide()
 {
-    PSX_RECT bRect = {};
-    VGetBoundingRect(&bRect, 1);
+    PSX_RECT bRect = VGetBoundingRect();
 
     bRect.y += 5;
     bRect.h += 5;
@@ -839,11 +838,8 @@ void Scrab::MoveOnLine()
 
 s16 Scrab::VOnSameYLevel(BaseAnimatedWithPhysicsGameObject* pObj)
 {
-    PSX_RECT ourRect = {};
-    VGetBoundingRect(&ourRect, 1);
-
-    PSX_RECT otherRect = {};
-    pObj->VGetBoundingRect(&otherRect, 1);
+    const PSX_RECT ourRect = VGetBoundingRect();
+    const PSX_RECT otherRect = pObj->VGetBoundingRect();
 
     const FP k10Scaled = (FP_FromInteger(10) * mBaseAnimatedWithPhysicsGameObject_SpriteScale);
     if (FP_FromInteger(ourRect.y) <= (FP_FromInteger(otherRect.h) - k10Scaled) && ourRect.y >= otherRect.y)
@@ -1174,11 +1170,8 @@ void Scrab::Motion_3_Run_45EAB0()
         {
             if (field_120_pTarget == sActiveHero_507678)
             {
-                PSX_RECT objRect = {};
-                field_120_pTarget->VGetBoundingRect(&objRect, 1);
-
-                PSX_RECT bRect = {};
-                VGetBoundingRect(&bRect, 1);
+                const PSX_RECT objRect = field_120_pTarget->VGetBoundingRect();
+                const PSX_RECT bRect = VGetBoundingRect();
 
                 if (bRect.x <= objRect.w
                     && bRect.w >= objRect.x
@@ -1305,11 +1298,8 @@ void Scrab::Motion_5_RunToStand_45ED90()
     {
         if (field_120_pTarget)
         {
-            PSX_RECT bObjRect = {};
-            field_120_pTarget->VGetBoundingRect(&bObjRect, 1);
-
-            PSX_RECT bRect = {};
-            VGetBoundingRect(&bRect, 1);
+            const PSX_RECT bObjRect = field_120_pTarget->VGetBoundingRect();
+            const PSX_RECT bRect = VGetBoundingRect();
 
             if (bObjRect.x <= bRect.w
                 && bObjRect.w >= bRect.x
@@ -1424,17 +1414,16 @@ void Scrab::Motion_7_HopMidair_45F1A0()
         {
             switch (pLine->field_8_type)
             {
-                case 0:
-                case 4:
-                case 32:
-                case 36:
+                case eLineTypes::eFloor_0:
+                case eLineTypes::eBackgroundFloor_4:
+                case eLineTypes::eUnknown_32:
+                case eLineTypes::eUnknown_36:
                 {
                     ToStand();
                     BaseAliveGameObjectCollisionLine = pLine;
                     mCurrentMotion = eScrabMotions::Motion_8_HopLand_45F500;
 
-                    PSX_RECT bRect = {};
-                    VGetBoundingRect(&bRect, 1);
+                    PSX_RECT bRect = VGetBoundingRect();
                     bRect.y += 5;
                     bRect.h += 5;
 
@@ -1450,8 +1439,8 @@ void Scrab::Motion_7_HopMidair_45F1A0()
                     return;
                 }
 
-                case 1:
-                case 2:
+                case eLineTypes::eWallLeft_1:
+                case eLineTypes::eWallRight_2:
                     mBaseAnimatedWithPhysicsGameObject_VelX = (-mBaseAnimatedWithPhysicsGameObject_VelX / FP_FromInteger(2));
                     return;
 
@@ -1532,17 +1521,16 @@ void Scrab::Motion_9_JumpToFall_45EFD0()
     {
         switch (pLine->field_8_type)
         {
-            case 0:
-            case 4:
-            case 32:
-            case 36:
+            case eLineTypes::eFloor_0:
+            case eLineTypes::eBackgroundFloor_4:
+            case eLineTypes::eUnknown_32:
+            case eLineTypes::eUnknown_36:
             {
                 ToStand();
 
                 BaseAliveGameObjectCollisionLine = pLine;
 
-                PSX_RECT bRect = {};
-                VGetBoundingRect(&bRect, 1);
+                PSX_RECT bRect = VGetBoundingRect();
                 bRect.y += 5;
                 bRect.h += 5;
 
@@ -1559,8 +1547,8 @@ void Scrab::Motion_9_JumpToFall_45EFD0()
                 break;
             }
 
-            case 1:
-            case 2:
+            case eLineTypes::eWallLeft_1:
+            case eLineTypes::eWallRight_2:
                 mBaseAnimatedWithPhysicsGameObject_VelX = (-mBaseAnimatedWithPhysicsGameObject_VelX / FP_FromInteger(2));
                 break;
 
@@ -1726,8 +1714,7 @@ void Scrab::Motion_13_RunJumpBegin_45F5D0()
                     BaseAliveGameObjectCollisionLine = pLine;
                     mCurrentMotion = eScrabMotions::Motion_14_RunJumpEnd_45F850;
 
-                    PSX_RECT bRect = {};
-                    VGetBoundingRect(&bRect, 1);
+                    PSX_RECT bRect = VGetBoundingRect();
                     bRect.y += 5;
                     bRect.h += 5;
 
@@ -2060,11 +2047,8 @@ void Scrab::Motion_27_AttackLunge_45FDF0()
 {
     if (field_120_pTarget)
     {
-        PSX_RECT objRect = {};
-        field_120_pTarget->VGetBoundingRect(&objRect, 1);
-
-        PSX_RECT bRect = {};
-        VGetBoundingRect(&bRect, 1);
+        const PSX_RECT objRect = field_120_pTarget->VGetBoundingRect();
+        const PSX_RECT bRect = VGetBoundingRect();
 
         if (objRect.x <= bRect.w
             && objRect.w >= bRect.x

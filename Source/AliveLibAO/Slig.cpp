@@ -1044,10 +1044,8 @@ void Slig::VOn_TLV_Collision(Path_TLV* pTlv)
 
 s16 Slig::VOnSameYLevel(BaseAnimatedWithPhysicsGameObject* pOther)
 {
-    PSX_RECT ourRect = {};
-    PSX_RECT objRect = {};
-    VGetBoundingRect(&ourRect, 1);
-    pOther->VGetBoundingRect(&objRect, 1);
+    PSX_RECT ourRect = VGetBoundingRect();
+    PSX_RECT objRect = pOther->VGetBoundingRect();
     return ((objRect.y + objRect.h) / 2) <= ourRect.h && objRect.h >= ourRect.y;
 }
 
@@ -1381,10 +1379,7 @@ s16 Slig::FindBeatTarget_46D0E0(s32 /*typeToFind*/, s32 gridBlocks)
         }
         if (pTargetObj != this && pTargetObj->mBaseGameObjectTypeId == ReliveTypes::eMudokon)
         {
-            PSX_RECT bRect = {};
-            pTargetObj->VGetBoundingRect(
-                &bRect,
-                1);
+            const PSX_RECT bRect = pTargetObj->VGetBoundingRect();
             if (hitRect.w <= bRect.w && hitRect.x >= bRect.x && hitRect.y >= bRect.y && hitRect.h <= bRect.h && !Slig::IsInInvisibleZone_418870(pTargetObj))
             {
                 return 1;
@@ -1732,8 +1727,7 @@ s16 Slig::IsInInvisibleZone_418870(BaseAnimatedWithPhysicsGameObject* pObj)
         return FALSE;
     }
 
-    PSX_RECT rect = {};
-    pObj->VGetBoundingRect(&rect, 1);
+    const PSX_RECT rect = pObj->VGetBoundingRect();
 
     Path_TLV* pTlv = gMap.TLV_Get_At_446260(rect.x, rect.y, rect.w, rect.h, TlvTypes::InvisibleZone_58);
     if (pTlv)
@@ -1763,9 +1757,7 @@ void Slig::ToStand()
 
 s16 Slig::IsInZCover_46BDA0(BaseAnimatedWithPhysicsGameObject* pObj)
 {
-    PSX_RECT bRect = {};
-    pObj->VGetBoundingRect(&bRect, 1);
-
+    const PSX_RECT bRect = pObj->VGetBoundingRect();
     return Bullet::InZBulletCover(FP_FromInteger(bRect.x), FP_FromInteger(bRect.y), bRect);
 }
 
@@ -1979,8 +1971,7 @@ void Slig::MoveOnLine()
                 if (BaseAliveGameObjectCollisionLine->field_8_type == eLineTypes::eUnknown_32 || BaseAliveGameObjectCollisionLine->field_8_type == eLineTypes::eUnknown_36)
                 {
                     // TODO: Inlined
-                    PSX_RECT bRect = {};
-                    VGetBoundingRect(&bRect, 1);
+                    PSX_RECT bRect = VGetBoundingRect();
                     bRect.y += 5;
                     bRect.h += 5;
 
@@ -2986,8 +2977,7 @@ void Slig::Motion_7_Falling_46A1A0()
 
                 BaseAliveGameObjectCollisionLine = pLine;
 
-                PSX_RECT bRect = {};
-                VGetBoundingRect(&bRect, 1);
+                PSX_RECT bRect = VGetBoundingRect();
                 bRect.y += 5;
                 bRect.h += 5;
 
@@ -3984,8 +3974,7 @@ void Slig::Motion_52_Beat_46AA90()
             }
             if (pObjIter != this && pObjIter->mBaseGameObjectTypeId == ReliveTypes::eMudokon)
             {
-                PSX_RECT bRect = {};
-                pObjIter->VGetBoundingRect(&bRect, 1);
+                const PSX_RECT bRect = pObjIter->VGetBoundingRect();
 
                 if (pObjIter->mHealth > FP_FromInteger(0)
                     && PSX_Rects_overlap_no_adjustment(&hitRect, &bRect))
@@ -4672,11 +4661,8 @@ s16 Slig::Brain_PanicTurning_46C7C0()
             }
         }
 
-        PSX_RECT bRect = {};
-        VGetBoundingRect(&bRect, 1);
-
-        PSX_RECT charRect = {};
-        sControlledCharacter_50767C->VGetBoundingRect(&charRect, 1);
+        const PSX_RECT bRect = VGetBoundingRect();
+        const PSX_RECT charRect = sControlledCharacter_50767C->VGetBoundingRect();
 
         if (sControlledCharacter_50767C->mBaseGameObjectTypeId != ReliveTypes::eSlig && !IsInInvisibleZone_418870(sControlledCharacter_50767C))
         {
@@ -5069,14 +5055,12 @@ s16 Slig::Brain_Turning_46DC70()
             }
         }
 
-        PSX_RECT hitRect = {};
-        VGetBoundingRect(&hitRect, 1);
+        const PSX_RECT hitRect = VGetBoundingRect();
 
         if (!Slig::IsInInvisibleZone_418870(sControlledCharacter_50767C)
             && !Slig::IsWallBetween_46BE60(this, sControlledCharacter_50767C))
         {
-            PSX_RECT bRect = {};
-            sControlledCharacter_50767C->VGetBoundingRect(&bRect, 1);
+            const PSX_RECT bRect = sControlledCharacter_50767C->VGetBoundingRect();
 
             if (sControlledCharacter_50767C->mHealth > FP_FromInteger(0) && PSX_Rects_overlap_no_adjustment(&hitRect, &bRect) && sControlledCharacter_50767C->mBaseGameObjectTypeId != ReliveTypes::eSlig)
             {
@@ -5273,11 +5257,8 @@ s16 Slig::Brain_GetAlertedTurn_46E520()
         {
             if (!IsInInvisibleZone_418870(sControlledCharacter_50767C))
             {
-                PSX_RECT bRect = {};
-                VGetBoundingRect(&bRect, 1);
-
-                PSX_RECT bRectChar = {};
-                sControlledCharacter_50767C->VGetBoundingRect(&bRectChar, 1);
+                const PSX_RECT bRect = VGetBoundingRect();
+                const PSX_RECT bRectChar = sControlledCharacter_50767C->VGetBoundingRect();
 
                 if (PSX_Rects_overlap_no_adjustment(&bRectChar, &bRect))
                 {

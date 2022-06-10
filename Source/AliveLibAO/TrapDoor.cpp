@@ -72,10 +72,9 @@ void TrapDoor::VScreenChanged()
     }
 }
 
-PSX_RECT* TrapDoor::VGetBoundingRect(PSX_RECT* pRect, s32 /*pointIdx*/)
+PSX_RECT TrapDoor::VGetBoundingRect(s32 /*pointIdx*/)
 {
-    *pRect = field_148_bounding_rect;
-    return pRect;
+    return field_148_bounding_rect;
 }
 
 TrapDoor::~TrapDoor()

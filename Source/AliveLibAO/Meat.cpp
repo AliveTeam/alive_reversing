@@ -104,11 +104,8 @@ void MeatSack::VUpdate()
         return;
     }
 
-    PSX_RECT abeRect = {};
-    sActiveHero_507678->VGetBoundingRect(&abeRect, 1);
-
-    PSX_RECT ourRect = {};
-    VGetBoundingRect(&ourRect, 1);
+    const PSX_RECT abeRect = sActiveHero_507678->VGetBoundingRect();
+    const PSX_RECT ourRect = VGetBoundingRect();
 
     if (RectsOverlap(ourRect, abeRect))
     {
@@ -382,9 +379,8 @@ void Meat::VUpdate()
             case 2:
             {
                 InTheAir();
-                PSX_RECT bRect = {};
+                const PSX_RECT bRect = VGetBoundingRect();
 
-                VGetBoundingRect(&bRect, 1);
                 const PSX_Point xy = {bRect.x, static_cast<s16>(bRect.y + 5)};
                 const PSX_Point wh = {bRect.w, static_cast<s16>(bRect.h + 5)};
 
@@ -489,8 +485,7 @@ s16 Meat::OnCollision(BaseAliveGameObject* pHit)
         return 1;
     }
 
-    PSX_RECT bRect = {};
-    pHit->VGetBoundingRect(&bRect, 1);
+    const PSX_RECT bRect = pHit->VGetBoundingRect();
 
     if (field_114_xpos < FP_FromInteger(bRect.x) || field_114_xpos > FP_FromInteger(bRect.w))
     {

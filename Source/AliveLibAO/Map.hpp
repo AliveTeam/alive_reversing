@@ -251,7 +251,7 @@ public:
 
     CameraPos GetDirection_444A40(EReliveLevelIds level, s32 path, FP xpos, FP ypos);
 
-    CameraPos Rect_Location_Relative_To_Active_Camera(PSX_RECT* pRect, s16 width);
+    CameraPos Rect_Location_Relative_To_Active_Camera(const PSX_RECT* pRect, s16 width);
 
     s16 Get_Camera_World_Rect(CameraPos camIdx, PSX_RECT* pRect);
 

@@ -292,8 +292,7 @@ void MeatSaw::VUpdate()
 
 void MeatSaw::GrindUpObjects_439CD0()
 {
-    PSX_RECT ourRect = {};
-    VGetBoundingRect(&ourRect, 1);
+    PSX_RECT ourRect = VGetBoundingRect();
 
     ourRect.y += mBaseAnimatedWithPhysicsGameObject_YOffset;
     ourRect.h += mBaseAnimatedWithPhysicsGameObject_YOffset;
@@ -313,8 +312,7 @@ void MeatSaw::GrindUpObjects_439CD0()
                 // Can't grind meat with a meat saw, that would be grindception
                 if (pObjIter->mBaseGameObjectTypeId != ReliveTypes::eMeat)
                 {
-                    PSX_RECT objRect = {};
-                    pObjIter->VGetBoundingRect(&objRect, 1);
+                    const PSX_RECT objRect = pObjIter->VGetBoundingRect();
 
                     if (RectsOverlap(ourRect, objRect) && pObjIter->mBaseAnimatedWithPhysicsGameObject_SpriteScale == mBaseAnimatedWithPhysicsGameObject_SpriteScale && pObjIter->mHealth > FP_FromInteger(0))
                     {

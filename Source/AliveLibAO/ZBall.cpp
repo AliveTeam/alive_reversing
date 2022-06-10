@@ -28,8 +28,7 @@ s16* Animation_OnFrame_ZBallSmacker(BaseGameObject* pObj, s16* pData)
             // If the object is within the ZBall rect then smack it
             auto pAliveObj = static_cast<BaseAliveGameObject*>(pBase);
 
-            PSX_RECT bRect = {};
-            pAliveObj->VGetBoundingRect(&bRect, 1);
+            const PSX_RECT bRect = pAliveObj->VGetBoundingRect();
 
             if (bRect.x <= (FP_GetExponent(pZBall->mBaseAnimatedWithPhysicsGameObject_XPos) + pData[2]) && bRect.w >= (FP_GetExponent(pZBall->mBaseAnimatedWithPhysicsGameObject_XPos) + pData[0]) && bRect.h >= (FP_GetExponent(pZBall->mBaseAnimatedWithPhysicsGameObject_YPos) + pData[1]) && bRect.y <= (FP_GetExponent(pZBall->mBaseAnimatedWithPhysicsGameObject_YPos) + pData[3]))
             {

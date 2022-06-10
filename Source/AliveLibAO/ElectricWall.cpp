@@ -108,10 +108,9 @@ void ElectricWall::VUpdate()
         }
 
 
-        PSX_RECT bRect = {};
-        VGetBoundingRect(&bRect, 1);
+        const PSX_RECT bRect = VGetBoundingRect();
 
-        PSX_RECT bRectBigger;
+        PSX_RECT bRectBigger = {};
         bRectBigger.x = FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos - FP_FromInteger(4));
         bRectBigger.y = static_cast<s16>(bRect.y + 5);
         bRectBigger.w = FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos + FP_FromInteger(4));
@@ -128,8 +127,7 @@ void ElectricWall::VUpdate()
             // Don't kill nades
             if (pObjIter->mBaseGameObjectTypeId != ReliveTypes::eGrenade)
             {
-                PSX_RECT objRect = {};
-                pObjIter->VGetBoundingRect(&objRect, 1);
+                PSX_RECT objRect = pObjIter->VGetBoundingRect();
 
                 if (!RectsOverlap(bRectBigger, objRect))
                 {

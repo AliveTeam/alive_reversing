@@ -598,8 +598,7 @@ void Map::RemoveObjectsWithPurpleLight(s16 bMakeInvisible)
             {
                 pObjectsWithLightsArray->Push_Back(pObjIter);
 
-                PSX_RECT objRect = {};
-                pObjIter->VGetBoundingRect(&objRect, 1);
+                const PSX_RECT objRect = pObjIter->VGetBoundingRect();
 
                 const FP k60Scaled = pObjIter->mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(60);
                 auto pPurpleLight = New_DestroyOrCreateObject_Particle_419D00(
@@ -1140,7 +1139,7 @@ s16 Map::Get_Camera_World_Rect(CameraPos camIdx, PSX_RECT* pRect)
     return 1;
 }
 
-CameraPos Map::Rect_Location_Relative_To_Active_Camera(PSX_RECT* pRect, s16 width)
+CameraPos Map::Rect_Location_Relative_To_Active_Camera(const PSX_RECT* pRect, s16 width)
 {
     if (Event_Get(kEventDeathReset))
     {

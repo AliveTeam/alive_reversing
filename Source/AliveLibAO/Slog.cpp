@@ -290,8 +290,7 @@ s16 Slog::VTakeDamage(BaseGameObject* pFrom)
                 mBaseAnimatedWithPhysicsGameObject_VelY,
                 mBaseAnimatedWithPhysicsGameObject_SpriteScale);
 
-            PSX_RECT bRect = {};
-            VGetBoundingRect(&bRect, 1);
+            const PSX_RECT bRect = VGetBoundingRect();
             relive_new Blood(
                 FP_FromInteger((bRect.w + bRect.x) / 2),
                 FP_FromInteger((bRect.h + bRect.y) / 2),
@@ -482,8 +481,7 @@ void Slog::MoveOnLine()
                 if (BaseAliveGameObjectCollisionLine->field_8_type == eLineTypes ::eUnknown_32 ||
                     BaseAliveGameObjectCollisionLine->field_8_type == eLineTypes::eUnknown_36)
                 {
-                    PSX_RECT rect = {};
-                    VGetBoundingRect(&rect, 1);
+                    PSX_RECT rect = VGetBoundingRect();
                     rect.y += 5;
                     rect.h += 5;
                     VOnCollisionWith(
@@ -793,8 +791,7 @@ BaseAliveGameObject* Slog::FindAbeMudOrSlig()
     BaseAliveGameObject* pResult = nullptr;
     FP minDist = FP_FromInteger(gPsxDisplay_504C78.field_0_width);
 
-    PSX_RECT bRect = {};
-    VGetBoundingRect(&bRect, 1);
+    PSX_RECT bRect = VGetBoundingRect();
 
     if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
     {
@@ -817,8 +814,7 @@ BaseAliveGameObject* Slog::FindAbeMudOrSlig()
         {
             if (pObj->mBaseGameObjectTypeId == ReliveTypes::eAbe || pObj->mBaseGameObjectTypeId == ReliveTypes::eMudokon || pObj->mBaseGameObjectTypeId == ReliveTypes::eSlig)
             {
-                PSX_RECT objRect = {};
-                pObj->VGetBoundingRect(&objRect, 1);
+                const PSX_RECT objRect = pObj->VGetBoundingRect();
 
                 if (objRect.x <= bRect.w
                     && objRect.w >= bRect.x
@@ -1202,8 +1198,7 @@ void Slog::Motion_4_Fall_4750C0()
                 if (BaseAliveGameObjectCollisionLine->field_8_type == eLineTypes ::eUnknown_32 ||
                     BaseAliveGameObjectCollisionLine->field_8_type == eLineTypes::eUnknown_36)
                 {
-                    PSX_RECT bRect = {};
-                    VGetBoundingRect(&bRect, 1);
+                    PSX_RECT bRect = VGetBoundingRect();
                     bRect.y += 5;
                     bRect.h = FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos) + 5;
                     VOnCollisionWith(

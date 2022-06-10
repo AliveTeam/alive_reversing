@@ -151,8 +151,7 @@ void BaseAliveGameObject::VCheckCollisionLineStillValid_401A90(s32 distance)
                     mLiftPoint->mBaseGameObjectRefCount--;
                     mLiftPoint = nullptr;
 
-                    PSX_RECT bRect = {};
-                    VGetBoundingRect(&bRect, 1);
+                    PSX_RECT bRect = VGetBoundingRect();
                     bRect.y += 5;
                     bRect.h += 5;
 
@@ -607,9 +606,7 @@ void BaseAliveGameObject::SetActiveCameraDelayedFromDir_401C90()
 
 s16 BaseAliveGameObject::OnTrapDoorIntersection_401C10(PlatformBase* pPlatform)
 {
-    PSX_RECT rect = {};
-
-    pPlatform->VGetBoundingRect(&rect, 1);
+    const PSX_RECT rect = pPlatform->VGetBoundingRect();
     if (FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos) < rect.x || FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos) > rect.w || FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos) > rect.h)
     {
         return 1;
@@ -868,9 +865,7 @@ BaseGameObject* BaseAliveGameObject::FindObjectOfType_418280(ReliveTypes typeToF
         {
             auto pObj2 = static_cast<BaseAnimatedWithPhysicsGameObject*>(pObj);
 
-            PSX_RECT bRect = {};
-            pObj2->VGetBoundingRect(&bRect, 1);
-
+            const PSX_RECT bRect = pObj2->VGetBoundingRect();
             if (xpos_int >= bRect.x && xpos_int <= bRect.w && ypos_int >= bRect.y && ypos_int <= bRect.h)
             {
                 return pObj;

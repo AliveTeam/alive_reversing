@@ -580,8 +580,7 @@ void Elum::MoveOnLine_412580(s16 xLookAhead)
         }
         else if (BaseAliveGameObjectCollisionLine->field_8_type == eLineTypes::eUnknown_32)
         {
-            PSX_RECT bRect = {};
-            VGetBoundingRect(&bRect, 1);
+            const PSX_RECT bRect = VGetBoundingRect();
             VOnCollisionWith(
                 {bRect.x, static_cast<s16>(bRect.y + 5)},
                 {bRect.w, static_cast<s16>(bRect.h + 5)},
@@ -2801,8 +2800,7 @@ void Elum::Motion_32_HopLand_415140()
 
     if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
     {
-        PSX_RECT bRect = {};
-        VGetBoundingRect(&bRect, 1);
+        const PSX_RECT bRect = VGetBoundingRect();
 
         VOnCollisionWith(
             {bRect.x, static_cast<s16>(bRect.y + 5)},
@@ -2871,8 +2869,7 @@ void Elum::Motion_35_RunJumpLand_415580()
 
     if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
     {
-        PSX_RECT bRect = {};
-        VGetBoundingRect(&bRect, 1);
+        const PSX_RECT bRect = VGetBoundingRect();
 
         VOnCollisionWith(
             {bRect.x, static_cast<s16>(bRect.y + 5)},
@@ -3606,8 +3603,7 @@ void Elum::VUpdate()
             {
                 VCheckCollisionLineStillValid(10);
 
-                PSX_RECT bRect = {};
-                VGetBoundingRect(&bRect, 1);
+                const PSX_RECT bRect = VGetBoundingRect();
 
                 VOnCollisionWith(
                     {bRect.x, static_cast<s16>(bRect.y + 5)},
