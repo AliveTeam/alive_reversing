@@ -59,7 +59,7 @@ void PlatformBase::AddDynamicCollision(s32 frameTableOffset, s32 maxW, s32 maxH,
         pTlv->field_10_top_left.field_2_y,
         pTlv->field_14_bottom_right.field_0_x,
         pTlv->field_10_top_left.field_2_y,
-        eLineTypes::eUnknown_32
+        eLineTypes::eDynamicCollision_32
     );
 
     mPlatformBaseXOffset = FP_GetExponent(FP_FromInteger(pTlv->field_10_top_left.field_0_x) - mBaseAnimatedWithPhysicsGameObject_XPos);

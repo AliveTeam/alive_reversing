@@ -292,8 +292,8 @@ void Meat::InTheAir()
         {
             case eLineTypes::eFloor_0:
             case eLineTypes::eBackgroundFloor_4:
-            case eLineTypes::eUnknown_32:
-            case eLineTypes::eUnknown_36:
+            case eLineTypes::eDynamicCollision_32:
+            case eLineTypes::eBackgroundDynamicCollision_36:
                 if (mBaseAnimatedWithPhysicsGameObject_VelY > FP_FromInteger(0))
                 {
                     field_110_state = 3;

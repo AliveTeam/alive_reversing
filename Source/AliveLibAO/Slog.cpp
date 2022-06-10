@@ -468,8 +468,8 @@ void Slog::MoveOnLine()
         {
             if (mLiftPoint)
             {
-                if (BaseAliveGameObjectCollisionLine->field_8_type != eLineTypes::eUnknown_32 &&
-                    BaseAliveGameObjectCollisionLine->field_8_type != eLineTypes::eUnknown_36)
+                if (BaseAliveGameObjectCollisionLine->field_8_type != eLineTypes::eDynamicCollision_32 &&
+                    BaseAliveGameObjectCollisionLine->field_8_type != eLineTypes::eBackgroundDynamicCollision_36)
                 {
                     mLiftPoint->VRemove(this);
                     mLiftPoint->mBaseGameObjectRefCount--;
@@ -478,8 +478,8 @@ void Slog::MoveOnLine()
             }
             else
             {
-                if (BaseAliveGameObjectCollisionLine->field_8_type == eLineTypes ::eUnknown_32 ||
-                    BaseAliveGameObjectCollisionLine->field_8_type == eLineTypes::eUnknown_36)
+                if (BaseAliveGameObjectCollisionLine->field_8_type == eLineTypes ::eDynamicCollision_32 ||
+                    BaseAliveGameObjectCollisionLine->field_8_type == eLineTypes::eBackgroundDynamicCollision_36)
                 {
                     PSX_RECT rect = VGetBoundingRect();
                     rect.y += 5;
@@ -1188,15 +1188,15 @@ void Slog::Motion_4_Fall_4750C0()
         {
             case eLineTypes::eFloor_0:
             case eLineTypes::eBackgroundFloor_4:
-            case eLineTypes::eUnknown_32:
-            case eLineTypes::eUnknown_36:
+            case eLineTypes::eDynamicCollision_32:
+            case eLineTypes::eBackgroundDynamicCollision_36:
                 BaseAliveGameObjectCollisionLine = pLine;
                 mBaseAnimatedWithPhysicsGameObject_YPos = hitY;
                 mBaseAnimatedWithPhysicsGameObject_XPos = hitX;
                 MapFollowMe_401D30(FALSE);
 
-                if (BaseAliveGameObjectCollisionLine->field_8_type == eLineTypes ::eUnknown_32 ||
-                    BaseAliveGameObjectCollisionLine->field_8_type == eLineTypes::eUnknown_36)
+                if (BaseAliveGameObjectCollisionLine->field_8_type == eLineTypes ::eDynamicCollision_32 ||
+                    BaseAliveGameObjectCollisionLine->field_8_type == eLineTypes::eBackgroundDynamicCollision_36)
                 {
                     PSX_RECT bRect = VGetBoundingRect();
                     bRect.y += 5;
@@ -1646,8 +1646,8 @@ void Slog::Motion_19_JumpForwards_475610()
         {
             case eLineTypes::eFloor_0:
             case eLineTypes::eBackgroundFloor_4:
-            case eLineTypes::eUnknown_32:
-            case eLineTypes::eUnknown_36:
+            case eLineTypes::eDynamicCollision_32:
+            case eLineTypes::eBackgroundDynamicCollision_36:
                 if (mBaseAnimatedWithPhysicsGameObject_VelY > FP_FromInteger(0))
                 {
                     BaseAliveGameObjectCollisionLine = pLine;

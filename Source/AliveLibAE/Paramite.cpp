@@ -1279,8 +1279,8 @@ s16 Paramite::Brain_1_Death_484CD0()
         {
             case eLineTypes::eFloor_0:
             case eLineTypes::eBackgroundFloor_4:
-            case eLineTypes::eUnknown_32:
-            case eLineTypes::eUnknown_36:
+            case eLineTypes::eDynamicCollision_32:
+            case eLineTypes::eBackgroundDynamicCollision_36:
                 BaseAliveGameObjectCollisionLine = ppPathLine;
                 mBaseAnimatedWithPhysicsGameObject_XPos = hitX;
                 mBaseAnimatedWithPhysicsGameObject_YPos = hitY;
@@ -3491,8 +3491,8 @@ void Paramite::M_Hop_5_48B5B0()
                 {
                     case eLineTypes::eFloor_0:
                     case eLineTypes::eBackgroundFloor_4:
-                    case eLineTypes::eUnknown_32:
-                    case eLineTypes::eUnknown_36:
+                    case eLineTypes::eDynamicCollision_32:
+                    case eLineTypes::eBackgroundDynamicCollision_36:
                         BaseAliveGameObjectCollisionLine = pLine;
                         mBaseAnimatedWithPhysicsGameObject_XPos = hitX;
                         mBaseAnimatedWithPhysicsGameObject_YPos = hitY;
@@ -3763,8 +3763,8 @@ void Paramite::M_Falling_11_48B200()
             {
                 case eLineTypes::eFloor_0:
                 case eLineTypes::eBackgroundFloor_4:
-                case eLineTypes::eUnknown_32:
-                case eLineTypes::eUnknown_36:
+                case eLineTypes::eDynamicCollision_32:
+                case eLineTypes::eBackgroundDynamicCollision_36:
                     BaseAliveGameObjectCollisionLine = pLine;
                     mBaseAnimatedWithPhysicsGameObject_YPos = hitY;
                     mBaseAnimatedWithPhysicsGameObject_XPos = hitX;
@@ -4503,7 +4503,7 @@ void Paramite::M_SurpriseWeb_33_48D760()
         mBaseAnimatedWithPhysicsGameObject_YPos = hitY;
         BaseAliveGameObjectLastLineYPos = hitY;
         mCurrentMotion = eParamiteMotions::M_WebLeaveDown_34_48D870;
-        if (BaseAliveGameObjectCollisionLine->field_8_type == eLineTypes::eUnknown_32 || BaseAliveGameObjectCollisionLine->field_8_type == eLineTypes::eUnknown_36)
+        if (BaseAliveGameObjectCollisionLine->field_8_type == eLineTypes::eDynamicCollision_32 || BaseAliveGameObjectCollisionLine->field_8_type == eLineTypes::eBackgroundDynamicCollision_36)
         {
             CheckForPlatform();
         }
@@ -6020,7 +6020,7 @@ void Paramite::MoveOnLine()
                 mCurrentMotion = savedMotion;
             }
         }
-        else if (BaseAliveGameObjectCollisionLine->field_8_type == eLineTypes::eUnknown_32 || BaseAliveGameObjectCollisionLine->field_8_type == eLineTypes::eUnknown_36)
+        else if (BaseAliveGameObjectCollisionLine->field_8_type == eLineTypes::eDynamicCollision_32 || BaseAliveGameObjectCollisionLine->field_8_type == eLineTypes::eBackgroundDynamicCollision_36)
         {
             CheckForPlatform();
         }

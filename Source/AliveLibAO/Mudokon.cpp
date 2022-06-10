@@ -333,7 +333,7 @@ Mudokon::Mudokon(Path_TLV* pTlv, s32 tlvInfo)
     if (bHit)
     {
         mBaseAnimatedWithPhysicsGameObject_YPos = hitY;
-        if (BaseAliveGameObjectCollisionLine->field_8_type == eLineTypes::eUnknown_32 || BaseAliveGameObjectCollisionLine->field_8_type == eLineTypes::eUnknown_36)
+        if (BaseAliveGameObjectCollisionLine->field_8_type == eLineTypes::eDynamicCollision_32 || BaseAliveGameObjectCollisionLine->field_8_type == eLineTypes::eBackgroundDynamicCollision_36)
         {
             const PSX_RECT bRect = VGetBoundingRect();
             VOnCollisionWith(
@@ -890,7 +890,7 @@ void Mudokon::DoPathTrans_43FE00()
 
     if (BaseAliveGameObjectCollisionLine)
     {
-        if (BaseAliveGameObjectCollisionLine->field_8_type == eLineTypes::eUnknown_32)
+        if (BaseAliveGameObjectCollisionLine->field_8_type == eLineTypes::eDynamicCollision_32)
         {
             mLiftPoint->VRemove(this);
             mLiftPoint->mBaseGameObjectRefCount--;
@@ -1033,8 +1033,8 @@ void Mudokon::MoveOnLine_43C7E0()
     {
         if (mLiftPoint)
         {
-            if (BaseAliveGameObjectCollisionLine->field_8_type != eLineTypes::eUnknown_32 &&
-                BaseAliveGameObjectCollisionLine->field_8_type != eLineTypes::eUnknown_36)
+            if (BaseAliveGameObjectCollisionLine->field_8_type != eLineTypes::eDynamicCollision_32 &&
+                BaseAliveGameObjectCollisionLine->field_8_type != eLineTypes::eBackgroundDynamicCollision_36)
             {
                 mLiftPoint->VRemove(this);
                 mLiftPoint->mBaseGameObjectRefCount--;
@@ -1043,8 +1043,8 @@ void Mudokon::MoveOnLine_43C7E0()
         }
         else
         {
-            if (BaseAliveGameObjectCollisionLine->field_8_type == eLineTypes::eUnknown_32 ||
-                BaseAliveGameObjectCollisionLine->field_8_type == eLineTypes::eUnknown_36)
+            if (BaseAliveGameObjectCollisionLine->field_8_type == eLineTypes::eDynamicCollision_32 ||
+                BaseAliveGameObjectCollisionLine->field_8_type == eLineTypes::eBackgroundDynamicCollision_36)
             {
                 const PSX_RECT bRect = VGetBoundingRect();
                 VOnCollisionWith(
@@ -2421,8 +2421,8 @@ void Mudokon::Motion_51_Fall_43D0D0()
         {
             case eLineTypes::eFloor_0:
             case eLineTypes::eBackgroundFloor_4:
-            case eLineTypes::eUnknown_32:
-            case eLineTypes::eUnknown_36:
+            case eLineTypes::eDynamicCollision_32:
+            case eLineTypes::eBackgroundDynamicCollision_36:
                 BaseAliveGameObjectCollisionLine = pLine;
                 mBaseAnimatedWithPhysicsGameObject_XPos = hitX;
                 mBaseAnimatedWithPhysicsGameObject_YPos = hitY;

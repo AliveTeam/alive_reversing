@@ -112,7 +112,7 @@ TrapDoor::TrapDoor(Path_TrapDoor* pTlv, Map* pMap, s32 tlvInfo)
     else
     {
         mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_Shadow_Half_7;
-        field_124_pCollisionLine->field_8_type = eLineTypes::eUnknown_36;
+        field_124_pCollisionLine->field_8_type = eLineTypes::eBackgroundDynamicCollision_36;
     }
 
     SetTint(sTrapDoorTints_5639AC, gMap.mCurrentLevel);
@@ -311,7 +311,7 @@ void TrapDoor::Add_To_Collisions_Array()
 
     if (mBaseAnimatedWithPhysicsGameObject_SpriteScale != FP_FromInteger(1))
     {
-        field_124_pCollisionLine->field_8_type = eLineTypes::eUnknown_36;
+        field_124_pCollisionLine->field_8_type = eLineTypes::eBackgroundDynamicCollision_36;
     }
 
     ObjList_5C1B78->Push_Back(this);

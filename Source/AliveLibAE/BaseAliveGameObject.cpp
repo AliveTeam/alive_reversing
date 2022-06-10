@@ -296,8 +296,8 @@ void BaseAliveGameObject::VCheckCollisionLineStillValid(s16 distance)
         BaseAliveGameObjectCollisionLine = pLine;
         mBaseAnimatedWithPhysicsGameObject_YPos = hitY;
 
-        if (pLine->field_8_type == eLineTypes::eUnknown_32 ||
-            pLine->field_8_type == eLineTypes::eUnknown_36)
+        if (pLine->field_8_type == eLineTypes::eDynamicCollision_32 ||
+            pLine->field_8_type == eLineTypes::eBackgroundDynamicCollision_36)
         {
             const PSX_RECT bRect = VGetBoundingRect();
 
@@ -592,8 +592,8 @@ Bool32 BaseAliveGameObject::InAirCollision(PathLine** ppPathLine, FP* hitX, FP* 
 
     if (bCollision)
     {
-        if ((*ppPathLine)->field_8_type == eLineTypes::eUnknown_32 ||
-            (*ppPathLine)->field_8_type == eLineTypes::eUnknown_36)
+        if ((*ppPathLine)->field_8_type == eLineTypes::eDynamicCollision_32 ||
+            (*ppPathLine)->field_8_type == eLineTypes::eBackgroundDynamicCollision_36)
         {
             return bCollision;
         }

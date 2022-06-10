@@ -106,7 +106,7 @@ LiftPoint::LiftPoint(Path_LiftPoint* pTlv, Map* pPath, s32 tlvInfo)
     else
     {
         mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_BeforeShadow_Half_6;
-        mPlatformBaseCollisionLine->field_8_type = eLineTypes::eUnknown_36;
+        mPlatformBaseCollisionLine->field_8_type = eLineTypes::eBackgroundDynamicCollision_36;
     }
 
     const FP oldX = mBaseAnimatedWithPhysicsGameObject_XPos;

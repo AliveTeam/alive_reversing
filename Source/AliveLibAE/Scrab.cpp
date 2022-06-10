@@ -555,8 +555,8 @@ s16 Scrab::OnFloor()
     {
         mBaseAnimatedWithPhysicsGameObject_YPos = hitY;
         ToStand();
-        if (BaseAliveGameObjectCollisionLine->field_8_type == eLineTypes::eUnknown_32 ||
-            BaseAliveGameObjectCollisionLine->field_8_type == eLineTypes::eUnknown_36)
+        if (BaseAliveGameObjectCollisionLine->field_8_type == eLineTypes::eDynamicCollision_32 ||
+            BaseAliveGameObjectCollisionLine->field_8_type == eLineTypes::eBackgroundDynamicCollision_36)
         {
             PlatformCollide();
         }
@@ -2500,8 +2500,8 @@ void Scrab::M_HopMidair_6_4A9490()
             {
                 case eLineTypes::eFloor_0:
                 case eLineTypes::eBackgroundFloor_4:
-                case eLineTypes::eUnknown_32:
-                case eLineTypes::eUnknown_36:
+                case eLineTypes::eDynamicCollision_32:
+                case eLineTypes::eBackgroundDynamicCollision_36:
                     BaseAliveGameObjectCollisionLine = pLine;
                     ToStand();
                     mCurrentMotion = eScrabMotions::M_HopLand_7_4A9890;
@@ -2610,8 +2610,8 @@ void Scrab::M_JumpToFall_8_4A9220()
         {
             case eLineTypes::eFloor_0:
             case eLineTypes::eBackgroundFloor_4:
-            case eLineTypes::eUnknown_32:
-            case eLineTypes::eUnknown_36:
+            case eLineTypes::eDynamicCollision_32:
+            case eLineTypes::eBackgroundDynamicCollision_36:
                 BaseAliveGameObjectCollisionLine = pLine;
                 mCurrentMotion = eScrabMotions::M_Fall_20_4A93E0;
                 PlatformCollide();
@@ -2760,8 +2760,8 @@ void Scrab::M_RunJumpBegin_12_4A99C0()
             {
                 case eLineTypes::eFloor_0:
                 case eLineTypes::eBackgroundFloor_4:
-                case eLineTypes::eUnknown_32:
-                case eLineTypes::eUnknown_36:
+                case eLineTypes::eDynamicCollision_32:
+                case eLineTypes::eBackgroundDynamicCollision_36:
                     BaseAliveGameObjectCollisionLine = pLine;
                     ToStand();
                     mCurrentMotion = eScrabMotions::M_RunJumpEnd_13_4A9BE0;
@@ -3377,16 +3377,16 @@ void Scrab::MoveOnLine()
         {
             if (pObj)
             {
-                if (BaseAliveGameObjectCollisionLine->field_8_type != eLineTypes::eUnknown_32 &&
-                    BaseAliveGameObjectCollisionLine->field_8_type != eLineTypes::eUnknown_36)
+                if (BaseAliveGameObjectCollisionLine->field_8_type != eLineTypes::eDynamicCollision_32 &&
+                    BaseAliveGameObjectCollisionLine->field_8_type != eLineTypes::eBackgroundDynamicCollision_36)
                 {
                     const auto oldMotion = mCurrentMotion;
                     VOnTrapDoorOpen();
                     mCurrentMotion = oldMotion;
                 }
             }
-            else if (BaseAliveGameObjectCollisionLine->field_8_type == eLineTypes::eUnknown_32 ||
-                     BaseAliveGameObjectCollisionLine->field_8_type == eLineTypes::eUnknown_36)
+            else if (BaseAliveGameObjectCollisionLine->field_8_type == eLineTypes::eDynamicCollision_32 ||
+                     BaseAliveGameObjectCollisionLine->field_8_type == eLineTypes::eBackgroundDynamicCollision_36)
             {
                 PlatformCollide();
             }

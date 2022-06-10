@@ -1526,8 +1526,8 @@ void CrawlingSlig::M_Falling_5_41B650()
         {
             case eLineTypes::eFloor_0:
             case eLineTypes::eBackgroundFloor_4:
-            case eLineTypes::eUnknown_32:
-            case eLineTypes::eUnknown_36:
+            case eLineTypes::eDynamicCollision_32:
+            case eLineTypes::eBackgroundDynamicCollision_36:
                 BaseAliveGameObjectCollisionLine = pLine;
                 PlatformCollide();
                 mBaseAnimatedWithPhysicsGameObject_YPos = hitY;
@@ -1947,7 +1947,7 @@ void CrawlingSlig::MoveOnLine()
                     BaseAliveGameObjectId = -1;
                 }
             }
-            else if (BaseAliveGameObjectCollisionLine->field_8_type == eLineTypes::eUnknown_32 || BaseAliveGameObjectCollisionLine->field_8_type == eLineTypes::eUnknown_36)
+            else if (BaseAliveGameObjectCollisionLine->field_8_type == eLineTypes::eDynamicCollision_32 || BaseAliveGameObjectCollisionLine->field_8_type == eLineTypes::eBackgroundDynamicCollision_36)
             {
                 PlatformCollide();
             }

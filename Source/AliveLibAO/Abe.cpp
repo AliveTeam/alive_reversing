@@ -1933,16 +1933,16 @@ void Abe::MoveForward_422FC0()
     {
         if (mLiftPoint)
         {
-            if (BaseAliveGameObjectCollisionLine->field_8_type != eLineTypes ::eUnknown_32 &&
-                BaseAliveGameObjectCollisionLine->field_8_type != eLineTypes::eUnknown_36)
+            if (BaseAliveGameObjectCollisionLine->field_8_type != eLineTypes ::eDynamicCollision_32 &&
+                BaseAliveGameObjectCollisionLine->field_8_type != eLineTypes::eBackgroundDynamicCollision_36)
             {
                 mLiftPoint->VRemove(this);
                 mLiftPoint->mBaseGameObjectRefCount--;
                 mLiftPoint = nullptr;
             }
         }
-        else if (BaseAliveGameObjectCollisionLine->field_8_type == eLineTypes::eUnknown_32 ||
-                BaseAliveGameObjectCollisionLine->field_8_type == eLineTypes::eUnknown_36)
+        else if (BaseAliveGameObjectCollisionLine->field_8_type == eLineTypes::eDynamicCollision_32 ||
+                BaseAliveGameObjectCollisionLine->field_8_type == eLineTypes::eBackgroundDynamicCollision_36)
         {
             PSX_RECT bRect = VGetBoundingRect();
             bRect.y += 5;
@@ -4465,8 +4465,8 @@ void Abe::Motion_3_Fall_42E7F0()
         {
             case eLineTypes::eFloor_0:
             case eLineTypes::eBackgroundFloor_4:
-            case eLineTypes::eUnknown_32:
-            case eLineTypes::eUnknown_36:
+            case eLineTypes::eDynamicCollision_32:
+            case eLineTypes::eBackgroundDynamicCollision_36:
             {
                 mBaseAnimatedWithPhysicsGameObject_XPos = hitX;
                 mBaseAnimatedWithPhysicsGameObject_YPos = hitY;
@@ -4778,8 +4778,8 @@ void Abe::Motion_17_HoistIdle_4269E0()
         {
             case eLineTypes::eFloor_0:
             case eLineTypes::eBackgroundFloor_4:
-            case eLineTypes::eUnknown_32:
-            case eLineTypes::eUnknown_36:
+            case eLineTypes::eDynamicCollision_32:
+            case eLineTypes::eBackgroundDynamicCollision_36:
             {
                 mBaseAnimatedWithPhysicsGameObject_XPos = hitX;
                 mBaseAnimatedWithPhysicsGameObject_YPos = hitY;
@@ -4864,8 +4864,8 @@ void Abe::Motion_17_HoistIdle_4269E0()
                     mBaseAnimatedWithPhysicsGameObject_VelY = FP_FromInteger(0);
                     if (!mLiftPoint)
                     {
-                        if (pPathLine->field_8_type == eLineTypes::eUnknown_32 ||
-                            pPathLine->field_8_type == eLineTypes::eUnknown_36)
+                        if (pPathLine->field_8_type == eLineTypes::eDynamicCollision_32 ||
+                            pPathLine->field_8_type == eLineTypes::eBackgroundDynamicCollision_36)
                         {
                             PSX_RECT rect = VGetBoundingRect();
                             rect.y += 5;
@@ -5552,8 +5552,8 @@ void Abe::Motion_30_HopMid_4264D0()
                 {
                     case eLineTypes::eFloor_0:
                     case eLineTypes::eBackgroundFloor_4:
-                    case eLineTypes::eUnknown_32:
-                    case eLineTypes::eUnknown_36:
+                    case eLineTypes::eDynamicCollision_32:
+                    case eLineTypes::eBackgroundDynamicCollision_36:
                     {
                         Environment_SFX_42A220(EnvironmentSfx::eHitGroundSoft_6, 0, 0x7FFF, this);
                         BaseAliveGameObjectCollisionLine = pLine;
@@ -5706,8 +5706,8 @@ void Abe::Motion_33_RunJumpMid_426FA0()
         {
             case eLineTypes::eFloor_0:
             case eLineTypes::eBackgroundFloor_4:
-            case eLineTypes::eUnknown_32:
-            case eLineTypes::eUnknown_36:
+            case eLineTypes::eDynamicCollision_32:
+            case eLineTypes::eBackgroundDynamicCollision_36:
             {
                 BaseAliveGameObjectCollisionLine = pLine;
                 mCurrentMotion = eAbeMotions::Motion_34_RunJumpLand_427560;
@@ -5718,7 +5718,7 @@ void Abe::Motion_33_RunJumpMid_426FA0()
                 rect.y += 5;
                 rect.h += 5;
 
-                if (pLine->field_8_type == eLineTypes::eUnknown_32)
+                if (pLine->field_8_type == eLineTypes::eDynamicCollision_32)
                 {
                     VOnCollisionWith(
                         {rect.x, rect.y},
@@ -5792,8 +5792,8 @@ void Abe::Motion_33_RunJumpMid_426FA0()
                 mNextMotion = eAbeMotions::Motion_0_Idle_423520;
                 if (!mLiftPoint)
                 {
-                    if (pLine->field_8_type == eLineTypes ::eUnknown_32 ||
-                        pLine->field_8_type == eLineTypes::eUnknown_36)
+                    if (pLine->field_8_type == eLineTypes ::eDynamicCollision_32 ||
+                        pLine->field_8_type == eLineTypes::eBackgroundDynamicCollision_36)
                     {
                         PSX_RECT rect = VGetBoundingRect();
                         rect.y += 5;
@@ -7434,8 +7434,8 @@ void Abe::Motion_67_ToOffScreenHoist_428C50()
         mBaseAnimatedWithPhysicsGameObject_VelY = FP_FromInteger(0);
         if (!mLiftPoint)
         {
-            if (BaseAliveGameObjectCollisionLine->field_8_type == eLineTypes ::eUnknown_32 ||
-                BaseAliveGameObjectCollisionLine->field_8_type == eLineTypes::eUnknown_36)
+            if (BaseAliveGameObjectCollisionLine->field_8_type == eLineTypes ::eDynamicCollision_32 ||
+                BaseAliveGameObjectCollisionLine->field_8_type == eLineTypes::eBackgroundDynamicCollision_36)
             {
                 PSX_RECT bRect = VGetBoundingRect();
                 bRect.y += 5;
@@ -9117,8 +9117,8 @@ void Abe::Motion_138_ElumUnmountEnd_42E390()
 
         if (mLiftPoint)
         {
-            if (BaseAliveGameObjectCollisionLine->field_8_type != eLineTypes ::eUnknown_32 &&
-                BaseAliveGameObjectCollisionLine->field_8_type != eLineTypes::eUnknown_36)
+            if (BaseAliveGameObjectCollisionLine->field_8_type != eLineTypes ::eDynamicCollision_32 &&
+                BaseAliveGameObjectCollisionLine->field_8_type != eLineTypes::eBackgroundDynamicCollision_36)
             {
                 mPreviousMotion = mCurrentMotion;
                 VOnTrapDoorOpen();
@@ -9127,8 +9127,8 @@ void Abe::Motion_138_ElumUnmountEnd_42E390()
         }
         else
         {
-            if (BaseAliveGameObjectCollisionLine->field_8_type == eLineTypes::eUnknown_32 ||
-                BaseAliveGameObjectCollisionLine->field_8_type == eLineTypes::eUnknown_36)
+            if (BaseAliveGameObjectCollisionLine->field_8_type == eLineTypes::eDynamicCollision_32 ||
+                BaseAliveGameObjectCollisionLine->field_8_type == eLineTypes::eBackgroundDynamicCollision_36)
             {
                 PSX_RECT bRect = VGetBoundingRect();
                 bRect.y += 5;

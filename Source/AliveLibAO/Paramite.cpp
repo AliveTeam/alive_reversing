@@ -786,7 +786,7 @@ void Paramite::MoveOnLine()
         {
             if (mLiftPoint)
             {
-                if (BaseAliveGameObjectCollisionLine->field_8_type != eLineTypes::eUnknown_32 && BaseAliveGameObjectCollisionLine->field_8_type != eLineTypes::eUnknown_36)
+                if (BaseAliveGameObjectCollisionLine->field_8_type != eLineTypes::eDynamicCollision_32 && BaseAliveGameObjectCollisionLine->field_8_type != eLineTypes::eBackgroundDynamicCollision_36)
                 {
                     const auto oldMotion = mCurrentMotion;
                     VOnTrapDoorOpen();
@@ -795,7 +795,7 @@ void Paramite::MoveOnLine()
             }
             else
             {
-                if (BaseAliveGameObjectCollisionLine->field_8_type == eLineTypes::eUnknown_32 || BaseAliveGameObjectCollisionLine->field_8_type == eLineTypes::eUnknown_36)
+                if (BaseAliveGameObjectCollisionLine->field_8_type == eLineTypes::eDynamicCollision_32 || BaseAliveGameObjectCollisionLine->field_8_type == eLineTypes::eBackgroundDynamicCollision_36)
                 {
                     const PSX_RECT bRect = VGetBoundingRect();
 
@@ -3013,8 +3013,8 @@ void Paramite::Motion_6_Hop()
             {
                 case eLineTypes::eFloor_0:
                 case eLineTypes::eBackgroundFloor_4:
-                case eLineTypes::eUnknown_32:
-                case eLineTypes::eUnknown_36:
+                case eLineTypes::eDynamicCollision_32:
+                case eLineTypes::eBackgroundDynamicCollision_36:
                 {
                     ToIdle();
 
@@ -3257,8 +3257,8 @@ void Paramite::Motion_12_Falling()
         {
             case eLineTypes::eFloor_0:
             case eLineTypes::eBackgroundFloor_4:
-            case eLineTypes::eUnknown_32:
-            case eLineTypes::eUnknown_36:
+            case eLineTypes::eDynamicCollision_32:
+            case eLineTypes::eBackgroundDynamicCollision_36:
             {
                 ToIdle();
 
@@ -3549,8 +3549,8 @@ void Paramite::Motion_18_RunningAttack()
                 &hitY,
                 mBaseAnimatedWithPhysicsGameObject_SpriteScale != FP_FromDouble(0.5) ? 7 : 0x70))
         {
-            if (pLine->field_8_type == eLineTypes ::eUnknown_32 ||
-                pLine->field_8_type == eLineTypes::eUnknown_36)
+            if (pLine->field_8_type == eLineTypes ::eDynamicCollision_32 ||
+                pLine->field_8_type == eLineTypes::eBackgroundDynamicCollision_36)
             {
                 PSX_RECT r = VGetBoundingRect();
                 r.y += 5;
@@ -3615,7 +3615,7 @@ void Paramite::Motion_20_SurpriseWeb()
         mBaseAnimatedWithPhysicsGameObject_YPos = hitY;
         SetCurrentMotion(eParamiteMotions::Motion_21_WebLeaveDown);
 
-        if (BaseAliveGameObjectCollisionLine->field_8_type == eLineTypes::eUnknown_32 || BaseAliveGameObjectCollisionLine->field_8_type == eLineTypes::eUnknown_36)
+        if (BaseAliveGameObjectCollisionLine->field_8_type == eLineTypes::eDynamicCollision_32 || BaseAliveGameObjectCollisionLine->field_8_type == eLineTypes::eBackgroundDynamicCollision_36)
         {
             PSX_RECT bRect = VGetBoundingRect();
             bRect.y += 5;

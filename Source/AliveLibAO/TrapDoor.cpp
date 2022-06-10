@@ -264,7 +264,7 @@ void TrapDoor::VUpdate()
                     field_148_bounding_rect.y,
                     field_148_bounding_rect.w,
                     field_148_bounding_rect.y,
-                    eLineTypes::eUnknown_32
+                    eLineTypes::eDynamicCollision_32
                 );
                 ObjListPlatforms_50766C->Push_Back(this);
                 field_136_state = TrapDoorState::eClosed_0;

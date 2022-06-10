@@ -4769,7 +4769,7 @@ void Slig::VUpdate()
 
             if (BaseAliveGameObjectCollisionLine)
             {
-                if (BaseAliveGameObjectCollisionLine->field_8_type == eLineTypes::eUnknown_32 || BaseAliveGameObjectCollisionLine->field_8_type == eLineTypes::eUnknown_36)
+                if (BaseAliveGameObjectCollisionLine->field_8_type == eLineTypes::eDynamicCollision_32 || BaseAliveGameObjectCollisionLine->field_8_type == eLineTypes::eBackgroundDynamicCollision_36)
                 {
                     const PSX_RECT bRect = VGetBoundingRect();
                     VOnCollisionWith(
@@ -5960,7 +5960,7 @@ void Slig::GameSpeakResponse_4BF470()
         case GameSpeakEvents::eUnknown_26:
         case GameSpeakEvents::eUnknown_30:
         case GameSpeakEvents::Slig_Freeze_31:
-        case GameSpeakEvents::eUnknown_32:
+        case GameSpeakEvents::eDynamicCollision_32:
         case GameSpeakEvents::eUnknown_35:
             field_294_next_gamespeak_motion = eSligMotions::M_SpeakLaugh_24_4B5430;
             break;
@@ -6025,7 +6025,7 @@ void Slig::MoveOnLine_4B4C40()
                     mCurrentMotion = oldMotion;
                 }
             }
-            else if (BaseAliveGameObjectCollisionLine->field_8_type == eLineTypes::eUnknown_32 || BaseAliveGameObjectCollisionLine->field_8_type == eLineTypes::eUnknown_36)
+            else if (BaseAliveGameObjectCollisionLine->field_8_type == eLineTypes::eDynamicCollision_32 || BaseAliveGameObjectCollisionLine->field_8_type == eLineTypes::eBackgroundDynamicCollision_36)
             {
                 PlatformCollide_4B4E00();
             }

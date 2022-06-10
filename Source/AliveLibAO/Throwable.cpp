@@ -95,8 +95,8 @@ void BaseThrowable::BaseAddToPlatform()
             &hitY,
             scale != FP_FromInteger(0) ? 7 : 0x70))
     {
-        if (pLine->field_8_type == eLineTypes::eUnknown_32 ||
-            pLine->field_8_type == eLineTypes::eUnknown_36)
+        if (pLine->field_8_type == eLineTypes::eDynamicCollision_32 ||
+            pLine->field_8_type == eLineTypes::eBackgroundDynamicCollision_36)
         {
             for (s32 i = 0; i < ObjListPlatforms_50766C->Size(); i++)
             {

@@ -26,8 +26,8 @@ enum eLineTypes : u8
     eFlyingSligCeiling_17 = 17,
     eBackgroundFlyingSligCeiling_18 = 18,
 
-    eUnknown_32 = 32, // lift point and trap door but not sure which of them is which
-    eUnknown_36 = 36,
+    eDynamicCollision_32 = 32,
+    eBackgroundDynamicCollision_36 = 36,
 };
 
 class PathLine final

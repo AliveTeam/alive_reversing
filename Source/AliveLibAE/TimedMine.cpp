@@ -198,8 +198,8 @@ void TimedMine::StickToLiftPoint()
             &pLine, &hitX, &hitY,
             (mBaseAnimatedWithPhysicsGameObject_Scale == 1) ? 15 : 240))
     {
-        if (pLine->field_8_type == eLineTypes::eUnknown_32 ||
-            pLine->field_8_type == eLineTypes::eUnknown_36)
+        if (pLine->field_8_type == eLineTypes::eDynamicCollision_32 ||
+            pLine->field_8_type == eLineTypes::eBackgroundDynamicCollision_36)
         {
             if (ObjList_5C1B78)
             {

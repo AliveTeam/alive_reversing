@@ -3512,8 +3512,8 @@ void Abe::Motion_3_Fall_459B60()
         {
             case eLineTypes::eFloor_0:
             case eLineTypes::eBackgroundFloor_4:
-            case eLineTypes::eUnknown_32:
-            case eLineTypes::eUnknown_36:
+            case eLineTypes::eDynamicCollision_32:
+            case eLineTypes::eBackgroundDynamicCollision_36:
             {
                 mBaseAnimatedWithPhysicsGameObject_XPos = hitX;
                 mBaseAnimatedWithPhysicsGameObject_YPos = FP_NoFractional(hitY + FP_FromDouble(0.5));
@@ -3814,8 +3814,8 @@ void Abe::Motion_14_HoistIdle_452440()
         {
             case eLineTypes::eFloor_0:
             case eLineTypes::eBackgroundFloor_4:
-            case eLineTypes::eUnknown_32:
-            case eLineTypes::eUnknown_36:
+            case eLineTypes::eDynamicCollision_32:
+            case eLineTypes::eBackgroundDynamicCollision_36:
             {
                 mBaseAnimatedWithPhysicsGameObject_XPos = hitX;
                 mBaseAnimatedWithPhysicsGameObject_YPos = FP_NoFractional(hitY + FP_FromDouble(0.5));
@@ -3934,8 +3934,8 @@ void Abe::Motion_14_HoistIdle_452440()
                 mBaseAnimatedWithPhysicsGameObject_VelY = FP_FromInteger(0);
                 if (pfield_110_id)
                 {
-                    if (BaseAliveGameObjectCollisionLine->field_8_type == eLineTypes::eUnknown_32 || 
-                        BaseAliveGameObjectCollisionLine->field_8_type == eLineTypes::eUnknown_36)
+                    if (BaseAliveGameObjectCollisionLine->field_8_type == eLineTypes::eDynamicCollision_32 || 
+                        BaseAliveGameObjectCollisionLine->field_8_type == eLineTypes::eBackgroundDynamicCollision_36)
                     {
                         VOnCollisionWith(
                             {FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos), FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos)},
@@ -4516,8 +4516,8 @@ void Abe::Motion_28_HopMid_451C50()
         {
             case eLineTypes::eFloor_0:
             case eLineTypes::eBackgroundFloor_4:
-            case eLineTypes::eUnknown_32:
-            case eLineTypes::eUnknown_36:
+            case eLineTypes::eDynamicCollision_32:
+            case eLineTypes::eBackgroundDynamicCollision_36:
                 Environment_SFX_457A40(EnvironmentSfx::eHitGroundSoft_6, 0, 32767, this);
                 BaseAliveGameObjectCollisionLine = pLine;
                 mBaseAnimatedWithPhysicsGameObject_XPos = hitX;
@@ -4694,13 +4694,13 @@ void Abe::Motion_31_RunJumpMid_452C10()
         {
             case eLineTypes::eFloor_0:
             case eLineTypes::eBackgroundFloor_4:
-            case eLineTypes::eUnknown_32:
-            case eLineTypes::eUnknown_36:
+            case eLineTypes::eDynamicCollision_32:
+            case eLineTypes::eBackgroundDynamicCollision_36:
                 BaseAliveGameObjectCollisionLine = pLine;
                 mCurrentMotion = eAbeMotions::Motion_32_RunJumpLand_453460;
                 mBaseAnimatedWithPhysicsGameObject_XPos = hitX;
                 mBaseAnimatedWithPhysicsGameObject_YPos = FP_NoFractional(hitY + FP_FromDouble(0.5));
-                if (pLine->field_8_type == eLineTypes::eUnknown_32)
+                if (pLine->field_8_type == eLineTypes::eDynamicCollision_32)
                 {
                     VOnCollisionWith(
                         {FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos), FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos)},
@@ -4789,8 +4789,8 @@ void Abe::Motion_31_RunJumpMid_452C10()
 
                 if (!pfield_110_id)
                 {
-                    if (BaseAliveGameObjectCollisionLine->field_8_type == eLineTypes::eUnknown_32 ||
-                        BaseAliveGameObjectCollisionLine->field_8_type == eLineTypes::eUnknown_36)
+                    if (BaseAliveGameObjectCollisionLine->field_8_type == eLineTypes::eDynamicCollision_32 ||
+                        BaseAliveGameObjectCollisionLine->field_8_type == eLineTypes::eBackgroundDynamicCollision_36)
                     {
                         VOnCollisionWith(
                             {FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos), FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos)},
@@ -5995,8 +5995,8 @@ void Abe::Motion_68_ToOffScreenHoist_454B80()
         mBaseAnimatedWithPhysicsGameObject_VelY = FP_FromInteger(0);
         if (!pfield_110_id)
         {
-            if (BaseAliveGameObjectCollisionLine->field_8_type == eLineTypes::eUnknown_32 ||
-                BaseAliveGameObjectCollisionLine->field_8_type == eLineTypes::eUnknown_36)
+            if (BaseAliveGameObjectCollisionLine->field_8_type == eLineTypes::eDynamicCollision_32 ||
+                BaseAliveGameObjectCollisionLine->field_8_type == eLineTypes::eBackgroundDynamicCollision_36)
             {
                 VOnCollisionWith(
                     {FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos), FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos)},
@@ -8602,8 +8602,8 @@ void Abe::MoveForward_44E9A0()
     if (BaseAliveGameObjectCollisionLine && (mBaseAnimatedWithPhysicsGameObject_Scale != 0 ? 1 : 16) & (1 << BaseAliveGameObjectCollisionLine->field_8_type))
     {
         // Handle trap door collision.
-        if (BaseAliveGameObjectCollisionLine->field_8_type == eLineTypes::eUnknown_32 ||
-            BaseAliveGameObjectCollisionLine->field_8_type == eLineTypes::eUnknown_36)
+        if (BaseAliveGameObjectCollisionLine->field_8_type == eLineTypes::eDynamicCollision_32 ||
+            BaseAliveGameObjectCollisionLine->field_8_type == eLineTypes::eBackgroundDynamicCollision_36)
         {
             if (pTrapdoor)
             {

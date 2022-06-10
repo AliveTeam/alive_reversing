@@ -151,8 +151,8 @@ void TypesCollectionAO::AddAOTypes()
         {AO::eLineTypes::eTrackLine_8, "Track Line"},
         {AO::eLineTypes::eArt_9, "Art"},
         {AO::eLineTypes::eBulletWall_10, "Bullet Wall"},
-        {AO::eLineTypes::eUnknown_32, "eUnknown_32"},
-        {AO::eLineTypes::eUnknown_36, "eUnknown_36"},
+        {AO::eLineTypes::eDynamicCollision_32, "eUnknown_32"},
+        {AO::eLineTypes::eBackgroundDynamicCollision_36, "eUnknown_36"},
     });
 
     AddEnum<AO::Path_Slig::ShootPossessedSligs>("Enum_ShootPossessedSligs",

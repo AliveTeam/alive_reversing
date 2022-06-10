@@ -143,8 +143,8 @@ void BaseAliveGameObject::VCheckCollisionLineStillValid_401A90(s32 distance)
             mBaseAnimatedWithPhysicsGameObject_YPos = hitY;
             if (mLiftPoint)
             {
-                if (pLine->field_8_type == eLineTypes ::eUnknown_32 ||
-                    pLine->field_8_type == eLineTypes::eUnknown_36)
+                if (pLine->field_8_type == eLineTypes ::eDynamicCollision_32 ||
+                    pLine->field_8_type == eLineTypes::eBackgroundDynamicCollision_36)
                 {
                     // OG bug fix: didn't remove ourself from the lift!
                     mLiftPoint->VRemove(this);

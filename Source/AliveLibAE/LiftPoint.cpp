@@ -98,7 +98,7 @@ LiftPoint::LiftPoint(Path_LiftPoint* pTlv, s32 tlvInfo)
     else
     {
         mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_BeforeShadow_Half_6;
-        field_124_pCollisionLine->field_8_type = eLineTypes::eUnknown_36;
+        field_124_pCollisionLine->field_8_type = eLineTypes::eBackgroundDynamicCollision_36;
     }
 
     SetTint(sLiftTints_55BF50, gMap.mCurrentLevel);

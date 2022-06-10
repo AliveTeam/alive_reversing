@@ -188,8 +188,8 @@ void TypesCollectionAE::AddAETypes()
         {eLineTypes::eBackgroundMineCarCeiling_16, "Background Mine Car Ceiling"},
         {eLineTypes::eFlyingSligCeiling_17, "Flying Slig Ceiling"},
         {eLineTypes::eBackgroundFlyingSligCeiling_18, "Background Flying Slig Ceiling"},
-        {eLineTypes::eUnknown_32, "Unknown 32"},
-        {eLineTypes::eUnknown_36, "Unknown 36"},
+        {eLineTypes::eDynamicCollision_32, "Unknown 32"},
+        {eLineTypes::eBackgroundDynamicCollision_36, "Unknown 36"},
     });
 
     AddEnum<ScreenChangeEffects>("Enum_ScreenChangeEffects",

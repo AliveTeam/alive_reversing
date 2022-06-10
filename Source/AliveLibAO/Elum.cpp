@@ -573,12 +573,12 @@ void Elum::MoveOnLine_412580(s16 xLookAhead)
         mBaseAnimatedWithPhysicsGameObject_XPos += mBaseAnimatedWithPhysicsGameObject_VelX;
         if (mLiftPoint)
         {
-            if (BaseAliveGameObjectCollisionLine->field_8_type != eLineTypes::eUnknown_32)
+            if (BaseAliveGameObjectCollisionLine->field_8_type != eLineTypes::eDynamicCollision_32)
             {
                 VOnTrapDoorOpen();
             }
         }
-        else if (BaseAliveGameObjectCollisionLine->field_8_type == eLineTypes::eUnknown_32)
+        else if (BaseAliveGameObjectCollisionLine->field_8_type == eLineTypes::eDynamicCollision_32)
         {
             const PSX_RECT bRect = VGetBoundingRect();
             VOnCollisionWith(
@@ -792,7 +792,7 @@ void Elum::HandleElumPathTrans_411460()
         mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(camCoords.field_2_y + FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos) % 480);
     }
 
-    if (BaseAliveGameObjectCollisionLine && BaseAliveGameObjectCollisionLine->field_8_type == eLineTypes::eUnknown_32)
+    if (BaseAliveGameObjectCollisionLine && BaseAliveGameObjectCollisionLine->field_8_type == eLineTypes::eDynamicCollision_32)
     {
         mLiftPoint = nullptr;
     }
@@ -2480,8 +2480,8 @@ void Elum::Motion_21_Land_414A20()
         {
             case eLineTypes::eFloor_0:
             case eLineTypes::eBackgroundFloor_4:
-            case eLineTypes::eUnknown_32:
-            case eLineTypes::eUnknown_36:
+            case eLineTypes::eDynamicCollision_32:
+            case eLineTypes::eBackgroundDynamicCollision_36:
             {
                 Elum_SFX_416E10(ElumSounds::eHitGroundSoft_4, 0);
                 BaseAliveGameObjectCollisionLine = pLine;
@@ -2747,8 +2747,8 @@ void Elum::RunJumpMidAndHopMid(MidType midType)
             {
                 case eLineTypes::eFloor_0:
                 case eLineTypes::eBackgroundFloor_4:
-                case eLineTypes::eUnknown_32:
-                case eLineTypes::eUnknown_36:
+                case eLineTypes::eDynamicCollision_32:
+                case eLineTypes::eBackgroundDynamicCollision_36:
                     Elum_SFX_416E10(ElumSounds::eHitGroundSoft_4, 0);
 
                     switch (midType)
