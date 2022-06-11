@@ -426,20 +426,19 @@ void LiftPoint::VRender(PrimHeader** ppOt)
             if (gMap.mCurrentLevel != EReliveLevelIds::eNecrum && Is_In_Current_Camera() == CameraPos::eCamCurrent_0)
             {
                 field_13C_lift_wheel.VRender(
-                    FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos - pScreenManager->mCamPos->field_0_x + (FP_FromInteger(3) * mBaseAnimatedWithPhysicsGameObject_SpriteScale)),
-                    FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos - pScreenManager->mCamPos->field_4_y + (FP_FromInteger(-5) * mBaseAnimatedWithPhysicsGameObject_SpriteScale)),
+                    FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos - pScreenManager->CamXPos() + (FP_FromInteger(3) * mBaseAnimatedWithPhysicsGameObject_SpriteScale)),
+                    FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos - pScreenManager->CamYPos() + (FP_FromInteger(-5) * mBaseAnimatedWithPhysicsGameObject_SpriteScale)),
                     ppOt,
                     0,
                     0);
 
                 PSX_RECT frameRect = {};
                 field_13C_lift_wheel.Get_Frame_Rect(&frameRect);
-                pScreenManager->InvalidateRect(
+                pScreenManager->InvalidateRectCurrentIdx(
                     frameRect.x,
                     frameRect.y,
                     frameRect.w,
-                    frameRect.h,
-                    pScreenManager->mIdx);
+                    frameRect.h);
             }
 
             if (field_280_flags.Get(LiftFlags::eBit4_bHasPulley))
@@ -468,20 +467,19 @@ void LiftPoint::VRender(PrimHeader** ppOt)
                     field_1D4_pulley_anim.mBlue = static_cast<u8>(b);
 
                     field_1D4_pulley_anim.VRender(
-                        FP_GetExponent(FP_FromInteger(field_26C_pulley_xpos) - pScreenManager->mCamPos->field_0_x),
-                        FP_GetExponent(FP_FromInteger(field_26E_pulley_ypos) - pScreenManager->mCamPos->field_4_y),
+                        FP_GetExponent(FP_FromInteger(field_26C_pulley_xpos) - pScreenManager->CamXPos()),
+                        FP_GetExponent(FP_FromInteger(field_26E_pulley_ypos) - pScreenManager->CamYPos()),
                         ppOt,
                         0,
                         0);
 
                     PSX_RECT frameRect = {};
                     field_1D4_pulley_anim.Get_Frame_Rect(&frameRect);
-                    pScreenManager->InvalidateRect(
+                    pScreenManager->InvalidateRectCurrentIdx(
                         frameRect.x,
                         frameRect.y,
                         frameRect.w,
-                        frameRect.h,
-                        pScreenManager->mIdx);
+                        frameRect.h);
                 }
             }
 
@@ -491,20 +489,19 @@ void LiftPoint::VRender(PrimHeader** ppOt)
             if (gMap.mCurrentLevel == EReliveLevelIds::eNecrum && Is_In_Current_Camera() == CameraPos::eCamCurrent_0)
             {
                 field_13C_lift_wheel.VRender(
-                    FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos - pScreenManager->mCamPos->field_0_x + (FP_FromInteger(3) * mBaseAnimatedWithPhysicsGameObject_SpriteScale)),
-                    FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos - pScreenManager->mCamPos->field_4_y + (FP_FromInteger(-5) * mBaseAnimatedWithPhysicsGameObject_SpriteScale)),
+                    FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos - pScreenManager->CamXPos() + (FP_FromInteger(3) * mBaseAnimatedWithPhysicsGameObject_SpriteScale)),
+                    FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos - pScreenManager->CamYPos() + (FP_FromInteger(-5) * mBaseAnimatedWithPhysicsGameObject_SpriteScale)),
                     ppOt,
                     0,
                     0);
 
                 PSX_RECT frameRect = {};
                 field_13C_lift_wheel.Get_Frame_Rect(&frameRect);
-                pScreenManager->InvalidateRect(
+                pScreenManager->InvalidateRectCurrentIdx(
                     frameRect.x,
                     frameRect.y,
                     frameRect.w,
-                    frameRect.h,
-                    pScreenManager->mIdx);
+                    frameRect.h);
             }
         }
     }

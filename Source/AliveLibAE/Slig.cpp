@@ -523,19 +523,19 @@ void renderWithGlowingEyes(PrimHeader** ot, BaseAliveGameObject* actor, s16* pPa
             }
 
             actor->mBaseAnimatedWithPhysicsGameObject_Anim.VRender(
-                FP_GetExponent(FP_FromInteger(actor->mBaseAnimatedWithPhysicsGameObject_XOffset) + actor->mBaseAnimatedWithPhysicsGameObject_XPos - pScreenManager->mCamPos->field_0_x),
-                FP_GetExponent(FP_FromInteger(actor->mBaseAnimatedWithPhysicsGameObject_YOffset) + actor->mBaseAnimatedWithPhysicsGameObject_YPos - pScreenManager->mCamPos->field_4_y),
+                FP_GetExponent(FP_FromInteger(actor->mBaseAnimatedWithPhysicsGameObject_XOffset) + actor->mBaseAnimatedWithPhysicsGameObject_XPos - pScreenManager->CamXPos()),
+                FP_GetExponent(FP_FromInteger(actor->mBaseAnimatedWithPhysicsGameObject_YOffset) + actor->mBaseAnimatedWithPhysicsGameObject_YPos - pScreenManager->CamYPos()),
                 ot,
                 0,
                 0);
 
             PSX_RECT rectToInvalidate = {};
             actor->mBaseAnimatedWithPhysicsGameObject_Anim.Get_Frame_Rect(&rectToInvalidate);
-            pScreenManager->InvalidateRect(
+            pScreenManager->InvalidateRectCurrentIdx(
                 rectToInvalidate.x,
                 rectToInvalidate.y,
                 rectToInvalidate.w,
-                rectToInvalidate.h, pScreenManager->mIdx);
+                rectToInvalidate.h);
 
             if (actor->mShadow)
             {

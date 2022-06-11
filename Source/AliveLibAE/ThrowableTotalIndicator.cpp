@@ -260,8 +260,8 @@ void ThrowableTotalIndicator::VRender(PrimHeader** ppOt)
         return;
     }
 
-    const FP camX = FP_NoFractional(pScreenManager->mCamPos->field_0_x);
-    const FP camY = FP_NoFractional(pScreenManager->mCamPos->field_4_y);
+    const FP camX = FP_NoFractional(pScreenManager->CamXPos());
+    const FP camY = FP_NoFractional(pScreenManager->CamYPos());
 
     s16 xpos = 0;
     s16 ypos = 0;
@@ -296,10 +296,9 @@ void ThrowableTotalIndicator::VRender(PrimHeader** ppOt)
 
     OrderingTable_Add_4F8AA0(OtLayer(ppOt, field_40_layer), &pTPage->mBase);
 
-    pScreenManager->InvalidateRect(
+    pScreenManager->InvalidateRectCurrentIdx(
         xpos - 8,
         ypos - 8,
         xpos + 8,
-        ypos + 8,
-        pScreenManager->mIdx);
+        ypos + 8);
 }

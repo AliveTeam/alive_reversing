@@ -284,8 +284,8 @@ void LCDScreen::VUpdate()
         sFontDrawScreenSpace_5CA4B4 = 0;
     }
 
-    auto screenLeft = field_2C0_tlv.field_8_top_left.field_0_x - FP_GetExponent(pScreenManager->mCamPos->field_0_x);
-    auto screenRight = field_2C0_tlv.field_C_bottom_right.field_0_x - FP_GetExponent(pScreenManager->mCamPos->field_0_x);
+    auto screenLeft = field_2C0_tlv.field_8_top_left.field_0_x - FP_GetExponent(pScreenManager->CamXPos());
+    auto screenRight = field_2C0_tlv.field_C_bottom_right.field_0_x - FP_GetExponent(pScreenManager->CamXPos());
 
     sFontDrawScreenSpace_5CA4B4 = 1;
     auto slicedText = field_60_font.SliceText(
@@ -312,11 +312,10 @@ void LCDScreen::VRender(PrimHeader** ppOt)
 {
     if (sNum_CamSwappers_5C1B66 == 0)
     {
-        const FP_Point* camPos = pScreenManager->mCamPos;
-        const s32 screenX = field_2C0_tlv.field_8_top_left.field_0_x - FP_GetExponent(camPos->field_0_x);
-        const s32 screenY = ((field_2C0_tlv.field_8_top_left.field_2_y + field_2C0_tlv.field_C_bottom_right.field_2_y) / 2 - FP_GetExponent(camPos->field_4_y)) - 7;
+        const s32 screenX = field_2C0_tlv.field_8_top_left.field_0_x - FP_GetExponent(pScreenManager->CamXPos());
+        const s32 screenY = ((field_2C0_tlv.field_8_top_left.field_2_y + field_2C0_tlv.field_C_bottom_right.field_2_y) / 2 - FP_GetExponent(pScreenManager->CamYPos())) - 7;
         const s32 screenXWorld = PsxToPCX(screenX);
-        const s32 maxWidth = field_2C0_tlv.field_C_bottom_right.field_0_x - FP_GetExponent(camPos->field_0_x);
+        const s32 maxWidth = field_2C0_tlv.field_C_bottom_right.field_0_x - FP_GetExponent(pScreenManager->CamXPos());
 
         PSX_RECT clipRect = {
             0,
@@ -356,12 +355,11 @@ void LCDScreen::VRender(PrimHeader** ppOt)
         Init_PrimClipper_4F5B80(clipper, &clipRect);
         OrderingTable_Add_4F8AA0(OtLayer(ppOt, Layer::eLayer_RopeWebDrill_24), &clipper->mBase);
 
-        pScreenManager->InvalidateRect(
+        pScreenManager->InvalidateRectCurrentIdx(
             screenXWorld,
             screenY,
             clipRect.w,
-            24,
-            pScreenManager->mIdx);
+            24);
     }
 }
 

@@ -11,7 +11,7 @@ struct DirtyBits final
 {
     u16 mData[20]; // 20 Columns
 
-    bool GetTile(s32 x, s32 y)
+    bool GetTile(s32 x, s32 y) const
     {
         return mData[x] & (1 << y) ? true : false;
     }
@@ -69,21 +69,46 @@ public:
 
     virtual void VScreenChanged() override;
 
+    FP CamXPos() const
+    {
+        return mCamPos->field_0_x;
+    }
+
+    FP CamYPos() const
+    {
+        return mCamPos->field_4_y;
+    }
+
+    void DisableRendering()
+    {
+        mRenderingDisabled = true;
+    }
+
+    void EnableRendering()
+    {
+        mRenderingDisabled = false;
+    }
+
+    s32 Idx() const
+    {
+        return mIdx;
+    }
+
 private:
     void AddCurrentSPRT_TPage(PrimHeader** ppOt);
 
-public:
-    FP_Point* mCamPos;
-    SprtTPage* mScreenSprites;
-    u16 mUPos;
-    u16 mVPos;
-    s16 mCamWidth;
-    s16 mCamHeight;
-    u16 mIdx;
-    u16 mYIdx;
-    u16 mXIdx;
-    s32 mFlags;
-    DirtyBits mDirtyBits[8];
+private:
+    FP_Point* mCamPos = nullptr;
+    SprtTPage* mScreenSprites = nullptr;
+    u16 mUPos = 0;
+    u16 mVPos = 0;
+    s16 mCamWidth = 0;
+    s16 mCamHeight = 0;
+    u16 mIdx = 0;
+    u16 mYIdx = 0;
+    u16 mXIdx = 0;
+    bool mRenderingDisabled = false;
+    DirtyBits mDirtyBits[8] = {};
 };
 ALIVE_ASSERT_SIZEOF(ScreenManager, 0x1A4u);
 

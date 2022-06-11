@@ -99,20 +99,19 @@ void BaseAnimatedWithPhysicsGameObject::VRender(PrimHeader** ppOt)
             mBaseAnimatedWithPhysicsGameObject_Anim.mBlue = static_cast<u8>(b);
 
             mBaseAnimatedWithPhysicsGameObject_Anim.VRender(
-                FP_GetExponent((FP_FromInteger(mBaseAnimatedWithPhysicsGameObject_XOffset) + mBaseAnimatedWithPhysicsGameObject_XPos - pScreenManager->mCamPos->field_0_x)),
-                FP_GetExponent((FP_FromInteger(mBaseAnimatedWithPhysicsGameObject_YOffset) + mBaseAnimatedWithPhysicsGameObject_YPos - pScreenManager->mCamPos->field_4_y)),
+                FP_GetExponent((FP_FromInteger(mBaseAnimatedWithPhysicsGameObject_XOffset) + mBaseAnimatedWithPhysicsGameObject_XPos - pScreenManager->CamXPos())),
+                FP_GetExponent((FP_FromInteger(mBaseAnimatedWithPhysicsGameObject_YOffset) + mBaseAnimatedWithPhysicsGameObject_YPos - pScreenManager->CamYPos())),
                 ppOt,
                 0,
                 0);
 
             PSX_RECT frameRect = {};
             mBaseAnimatedWithPhysicsGameObject_Anim.Get_Frame_Rect(&frameRect);
-            pScreenManager->InvalidateRect(
+            pScreenManager->InvalidateRectCurrentIdx(
                 frameRect.x,
                 frameRect.y,
                 frameRect.w,
-                frameRect.h,
-                pScreenManager->mIdx);
+                frameRect.h);
 
             if (mShadow)
             {

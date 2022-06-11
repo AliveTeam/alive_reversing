@@ -108,10 +108,10 @@ ZapLine::ZapLine(FP xPosSource, FP yPosSource, FP xPosDest, FP yPosDest, s32 ali
 
 void ZapLine::CalculateSourceAndDestinationPositions(FP xPosSource, FP yPosSource, FP xPosDest, FP yPosDest)
 {
-    field_11C_x_position_source = FP_GetExponent(xPosSource - pScreenManager->mCamPos->field_0_x);
-    field_11E_y_position_source = FP_GetExponent(yPosSource - pScreenManager->mCamPos->field_4_y);
-    field_120_x_position_destination = FP_GetExponent(xPosDest - pScreenManager->mCamPos->field_0_x);
-    field_122_y_position_destination = FP_GetExponent(yPosDest - pScreenManager->mCamPos->field_4_y);
+    field_11C_x_position_source = FP_GetExponent(xPosSource - pScreenManager->CamXPos());
+    field_11E_y_position_source = FP_GetExponent(yPosSource - pScreenManager->CamYPos());
+    field_120_x_position_destination = FP_GetExponent(xPosDest - pScreenManager->CamXPos());
+    field_122_y_position_destination = FP_GetExponent(yPosDest - pScreenManager->CamYPos());
 
     field_11C_x_position_source = PsxToPCX(field_11C_x_position_source, 11);
     field_120_x_position_destination = PsxToPCX(field_120_x_position_destination, 11);
@@ -437,11 +437,10 @@ void ZapLine::VRender(PrimHeader** ppOt)
         pRect->y -= 25;
         pRect->h += 25;
         const PSX_RECT* pRectToUse = &field_144_rects[gPsxDisplay_5C1130.field_C_buffer_index];
-        pScreenManager->InvalidateRect(
+        pScreenManager->InvalidateRectCurrentIdx(
             pRectToUse->x,
             pRectToUse->y,
             pRectToUse->w,
-            pRectToUse->h,
-            pScreenManager->mIdx);
+            pRectToUse->h);
     }
 }

@@ -6717,7 +6717,7 @@ void Abe::Motion_86_HandstoneBegin_45BD00()
             {
                 if (field_180_hand_stone_type == TlvTypes::MovieHandStone_27)
                 {
-                    pScreenManager->mFlags |= 0x10000;
+                    pScreenManager->EnableRendering();
 
                     FmvInfo* pFmvRec = Path_Get_FMV_Record(gMap.mCurrentLevel, field_184_fmv_id);
                     u32 pos = 0;
@@ -6752,7 +6752,7 @@ void Abe::Motion_86_HandstoneBegin_45BD00()
             {
                 gPsxDisplay_5C1130.PutCurrentDispEnv_41DFA0();
                 pScreenManager->DecompressCameraToVRam((u16**) gMap.field_2C_camera_array[0]->field_C_pCamRes);
-                pScreenManager->mFlags |= 0x10000;
+                pScreenManager->DisableRendering();
                 pCircularFade->VFadeIn(0, 0);
                 field_120_state.stone = StoneStates::eHandstoneEnd_3;
             }

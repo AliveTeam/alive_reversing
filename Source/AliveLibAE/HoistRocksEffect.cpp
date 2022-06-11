@@ -180,20 +180,19 @@ void HoistRocksEffect::VRender(PrimHeader** ppOt)
         if (particle.field_0_state)
         {
             particle.field_10_mAnim.VRender(
-                FP_GetExponent(particle.field_4_xpos - pScreenManager->mCamPos->field_0_x),
-                FP_GetExponent(particle.field_8_ypos - pScreenManager->mCamPos->field_4_y),
+                FP_GetExponent(particle.field_4_xpos - pScreenManager->CamXPos()),
+                FP_GetExponent(particle.field_8_ypos - pScreenManager->CamYPos()),
                 ppOt,
                 0,
                 0);
 
             PSX_RECT frameRect = {};
             particle.field_10_mAnim.Get_Frame_Rect(&frameRect);
-            pScreenManager->InvalidateRect(
+            pScreenManager->InvalidateRectCurrentIdx(
                 frameRect.x,
                 frameRect.y,
                 frameRect.w,
-                frameRect.h,
-                pScreenManager->mIdx);
+                frameRect.h);
         }
     }
 }

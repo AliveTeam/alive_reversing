@@ -126,8 +126,8 @@ void Rope::VRender(PrimHeader** ppOt)
         // In the current camera x range?
         if (mBaseAnimatedWithPhysicsGameObject_XPos >= FP_FromInteger(camPos.field_0_x) && mBaseAnimatedWithPhysicsGameObject_XPos <= FP_FromInteger(camPos.field_0_x + 375))
         {
-            const FP camXPos = pScreenManager->mCamPos->field_0_x;
-            const FP camYPos = pScreenManager->mCamPos->field_4_y;
+            const FP camXPos = pScreenManager->CamXPos();
+            const FP camYPos = pScreenManager->CamYPos();
 
             s16 minY = FP_GetExponent(FP_FromInteger(field_102_top) - camYPos);
             s16 maxY = FP_GetExponent(FP_FromInteger(field_106_bottom) - camYPos);
@@ -190,12 +190,11 @@ void Rope::VRender(PrimHeader** ppOt)
 
                     PSX_RECT rect = {};
                     field_FC_pRopeRes[idx].GetRenderedSize(&rect);
-                    pScreenManager->InvalidateRect(
+                    pScreenManager->InvalidateRectCurrentIdx(
                         rect.x,
                         rect.y,
                         rect.w,
-                        rect.h,
-                        pScreenManager->mIdx);
+                        rect.h);
 
                     ClipPoly_Vertically_4A09E0(
                         &field_FC_pRopeRes[idx].field_10_polys[gPsxDisplay_5C1130.field_C_buffer_index],

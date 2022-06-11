@@ -177,7 +177,7 @@ ScreenManager::ScreenManager(u8** ppBits, FP_Point* pCameraOffset)
 
 void ScreenManager::Init(u8** ppBits)
 {
-    mFlags |= 0x10000;
+    DisableRendering();
 
     SetType(ReliveTypes::eScreenManager);
 
@@ -293,7 +293,7 @@ void ScreenManager::sub_40EE50()
 
 void ScreenManager::VRender(PrimHeader** ppOt)
 {
-    if (!(mFlags & 0x10000)) // Render enabled flag ?
+    if (mRenderingDisabled)
     {
         return;
     }

@@ -403,8 +403,8 @@ void MineCar::VRender(PrimHeader** ppOt)
         if (gMap.Is_Point_In_Current_Camera_4810D0(mBaseAnimatedWithPhysicsGameObject_LvlNumber, mBaseAnimatedWithPhysicsGameObject_PathNumber, mBaseAnimatedWithPhysicsGameObject_XPos + FP_FromInteger(30), mBaseAnimatedWithPhysicsGameObject_YPos, 0) || gMap.Is_Point_In_Current_Camera_4810D0(mBaseAnimatedWithPhysicsGameObject_LvlNumber, mBaseAnimatedWithPhysicsGameObject_PathNumber, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos - (mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(60)), 0) || gMap.Is_Point_In_Current_Camera_4810D0(mBaseAnimatedWithPhysicsGameObject_LvlNumber, mBaseAnimatedWithPhysicsGameObject_PathNumber, mBaseAnimatedWithPhysicsGameObject_XPos - FP_FromInteger(30), mBaseAnimatedWithPhysicsGameObject_YPos, 0))
         {
             field_124_anim.VRender(
-                FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos - pScreenManager->mCamPos->field_0_x),
-                FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos - pScreenManager->mCamPos->field_4_y),
+                FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos - pScreenManager->CamXPos()),
+                FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos - pScreenManager->CamYPos()),
                 ppOt,
                 0,
                 0);
@@ -412,12 +412,11 @@ void MineCar::VRender(PrimHeader** ppOt)
 
         PSX_RECT frameRect = {};
         field_124_anim.Get_Frame_Rect(&frameRect);
-        pScreenManager->InvalidateRect(
+        pScreenManager->InvalidateRectCurrentIdx(
             frameRect.x,
             frameRect.y,
             frameRect.w,
-            frameRect.h,
-            pScreenManager->mIdx);
+            frameRect.h);
         BaseAnimatedWithPhysicsGameObject::VRender(ppOt);
     }
 }

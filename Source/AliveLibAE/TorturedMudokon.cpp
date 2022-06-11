@@ -86,16 +86,16 @@ void TorturedMudokon::VScreenChanged()
 void TorturedMudokon::VRender(PrimHeader** ppOt)
 {
     field_F4_tears_animation.VRender(
-        FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos - pScreenManager->mCamPos->field_0_x),
-        FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos - pScreenManager->mCamPos->field_4_y),
+        FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos - pScreenManager->CamXPos()),
+        FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos - pScreenManager->CamYPos()),
         ppOt,
         0,
         0);
     if (field_F4_tears_animation.mAnimFlags.Get(AnimFlags::eBit3_Render))
     {
         field_18C_zap_animation.VRender(
-            FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos - pScreenManager->mCamPos->field_0_x),
-            FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos - pScreenManager->mCamPos->field_4_y),
+            FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos - pScreenManager->CamXPos()),
+            FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos - pScreenManager->CamYPos()),
             ppOt,
             0,
             0);
@@ -103,20 +103,18 @@ void TorturedMudokon::VRender(PrimHeader** ppOt)
 
     PSX_RECT rect = {};
     field_F4_tears_animation.Get_Frame_Rect(&rect);
-    pScreenManager->InvalidateRect(
+    pScreenManager->InvalidateRectCurrentIdx(
         rect.x,
         rect.y,
         rect.w,
-        rect.h,
-        pScreenManager->mIdx);
+        rect.h);
 
     field_18C_zap_animation.Get_Frame_Rect(&rect);
-    pScreenManager->InvalidateRect(
+    pScreenManager->InvalidateRectCurrentIdx(
         rect.x,
         rect.y,
         rect.w,
-        rect.h,
-        pScreenManager->mIdx);
+        rect.h);
 
     BaseAnimatedWithPhysicsGameObject::VRender(ppOt);
 }

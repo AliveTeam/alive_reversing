@@ -205,8 +205,8 @@ void ParticleBurst::VRender(PrimHeader** ppOt)
     if (sNum_CamSwappers_5C1B66 == 0)
     {
         mBaseAnimatedWithPhysicsGameObject_Anim.field_14_scale = mBaseAnimatedWithPhysicsGameObject_SpriteScale;
-        const FP camX = pScreenManager->mCamPos->field_0_x;
-        const FP camY = pScreenManager->mCamPos->field_4_y;
+        const FP camX = pScreenManager->CamXPos();
+        const FP camY = pScreenManager->CamYPos();
 
         for (s32 i = 0; i < field_FC_number_of_particles; i++)
         {
@@ -281,12 +281,11 @@ void ParticleBurst::VRender(PrimHeader** ppOt)
                             mBaseAnimatedWithPhysicsGameObject_Anim.mBlue = 0;
                         }
                     }
-                    pScreenManager->InvalidateRect(
+                    pScreenManager->InvalidateRectCurrentIdx(
                         frameRect.x,
                         frameRect.y,
                         frameRect.w,
-                        frameRect.h,
-                        pScreenManager->mIdx);
+                        frameRect.h);
                 }
             }
             else
@@ -336,12 +335,11 @@ void ParticleBurst::VRender(PrimHeader** ppOt)
                             field_F8_pRes[i].field_18_anim.mBlue = 0;
                         }
                     }
-                    pScreenManager->InvalidateRect(
+                    pScreenManager->InvalidateRectCurrentIdx(
                         frameRect.x,
                         frameRect.y,
                         frameRect.w,
-                        frameRect.h,
-                        pScreenManager->mIdx);
+                        frameRect.h);
                 }
             }
         }

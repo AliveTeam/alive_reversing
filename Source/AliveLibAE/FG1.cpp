@@ -132,11 +132,11 @@ void FG1::VRender(PrimHeader** ppOt)
         Poly_FT4* pPoly = &field_30_chnk_res[i].field_0_polys[gPsxDisplay_5C1130.field_C_buffer_index];
         const s32 xpos = X0(pPoly);
         const s32 ypos = Y0(pPoly);
-        if (pScreenManager->IsDirty(pScreenManager->mIdx, xpos, ypos) || pScreenManager->IsDirty(3, xpos, ypos))
+        if (pScreenManager->IsDirty(pScreenManager->Idx(), xpos, ypos) || pScreenManager->IsDirty(3, xpos, ypos))
         {
             OrderingTable_Add_4F8AA0(OtLayer(ppOt, field_30_chnk_res[i].field_66_mapped_layer), &pPoly->mBase.header);
             // NOTE: Polygon has a pointer to the bit fields for which pixels should be skipped
-            pScreenManager->InvalidateRect(xpos, ypos, X3(pPoly), Y3(pPoly), pScreenManager->mIdx);
+            pScreenManager->InvalidateRectCurrentIdx(xpos, ypos, X3(pPoly), Y3(pPoly));
         }
     }
 }

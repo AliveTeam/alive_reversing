@@ -421,13 +421,12 @@ void BirdPortal::VUpdate()
 
         case PortalStates::PortalExit_SetPosition_17:
         {
-            pScreenManager->mFlags |= 0x10000;
-            pScreenManager->InvalidateRect(
+            pScreenManager->DisableRendering();
+            pScreenManager->InvalidateRectCurrentIdx(
                 0,
                 0,
                 gPsxDisplay_5C1130.field_0_width,
-                gPsxDisplay_5C1130.field_2_height,
-                pScreenManager->mIdx);
+                gPsxDisplay_5C1130.field_2_height);
 
             CreateTerminators();
 
@@ -688,12 +687,12 @@ s16 BirdPortal::VPortalClipper(s16 bIgnoreClipping)
         xy.field_0_x = 0;
         xy.field_2_y = 0;
 
-        wh.field_0_x = PsxToPCX(FP_GetExponent(field_2C_xpos - pScreenManager->mCamPos->field_0_x), 11);
+        wh.field_0_x = PsxToPCX(FP_GetExponent(field_2C_xpos - pScreenManager->CamXPos()), 11);
         wh.field_2_y = 240;
     }
     else
     {
-        xy.field_0_x = PsxToPCX(FP_GetExponent(field_2C_xpos - pScreenManager->mCamPos->field_0_x), 11);
+        xy.field_0_x = PsxToPCX(FP_GetExponent(field_2C_xpos - pScreenManager->CamXPos()), 11);
         xy.field_2_y = 0;
 
         wh.field_0_x = 640;

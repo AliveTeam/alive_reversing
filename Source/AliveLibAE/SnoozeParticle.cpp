@@ -177,13 +177,12 @@ void SnoozeParticle::VUpdate()
 void SnoozeParticle::VRender(PrimHeader** ppOt)
 {
     PSX_RECT rectToInvalidate = {};
-    FP_Point* pCamPos = pScreenManager->mCamPos;
     const s16 bufIdx = gPsxDisplay_5C1130.field_C_buffer_index;
 
     if (field_1E4_state == SnoozeParticleState::eBlowingUp_2)
     {
-        const s16 xInScreen = FP_GetExponent(field_28_x - pCamPos->field_0_x);
-        const s16 yInScreen = FP_GetExponent(field_2C_y - pCamPos->field_4_y);
+        const s16 xInScreen = FP_GetExponent(field_28_x - pScreenManager->CamXPos());
+        const s16 yInScreen = FP_GetExponent(field_2C_y - pScreenManager->CamYPos());
 
         for (s32 i = 0; i < ALIVE_COUNTOF(explosionVerts); i++)
         {
@@ -223,8 +222,8 @@ void SnoozeParticle::VRender(PrimHeader** ppOt)
         Line_G4* pZLine = &field_4C_G4_lines[bufIdx];
         LineG4_Init(pZLine);
 
-        const s16 xInScreen = FP_GetExponent(field_28_x - FP_FromInteger(FP_GetExponent(pCamPos->field_0_x)));
-        const s16 yInScreen = FP_GetExponent(field_2C_y - FP_FromInteger(FP_GetExponent(pCamPos->field_4_y)));
+        const s16 xInScreen = FP_GetExponent(field_28_x - FP_FromInteger(FP_GetExponent(pScreenManager->CamXPos())));
+        const s16 yInScreen = FP_GetExponent(field_2C_y - FP_FromInteger(FP_GetExponent(pScreenManager->CamYPos())));
 
         const s16 RectX_v_Psx = xInScreen + FP_GetExponent(FP_FromInteger(zVerts[0]) * field_38_scale);
         const s16 RectW_v_Psx = xInScreen + FP_GetExponent(FP_FromInteger(zVerts[5]) * field_38_scale);
@@ -276,10 +275,9 @@ void SnoozeParticle::VRender(PrimHeader** ppOt)
     Init_SetTPage(thisTPage, 1, 0, tPage);
     OrderingTable_Add_4F8AA0(OtLayer(ppOt, field_40_layer), &thisTPage->mBase);
 
-    pScreenManager->InvalidateRect(
+    pScreenManager->InvalidateRectCurrentIdx(
         rectToInvalidate.x, rectToInvalidate.y,
-        rectToInvalidate.w, rectToInvalidate.h,
-        pScreenManager->mIdx);
+        rectToInvalidate.w, rectToInvalidate.h);
 }
 
 void SnoozeParticle::VScreenChanged()

@@ -38,8 +38,8 @@ LCDStatusBoard::LCDStatusBoard(Path_LCDStatusBoard* params, TlvItemInfoUnion a3)
 
     mBaseGameObjectFlags.Set(eDrawable_Bit4);
     gObjListDrawables->Push_Back(this);
-    field_104_position_x = FP_GetExponent(FP_FromInteger(static_cast<s32>(params->field_8_top_left.field_0_x)) - pScreenManager->mCamPos->field_0_x);
-    field_106_position_y = FP_GetExponent(FP_FromInteger(static_cast<s32>(params->field_8_top_left.field_2_y)) - pScreenManager->mCamPos->field_4_y);
+    field_104_position_x = FP_GetExponent(FP_FromInteger(static_cast<s32>(params->field_8_top_left.field_0_x)) - pScreenManager->CamXPos());
+    field_106_position_y = FP_GetExponent(FP_FromInteger(static_cast<s32>(params->field_8_top_left.field_2_y)) - pScreenManager->CamYPos());
     sMudokonsInArea_5C1BC4 = params->field_10_number_of_muds;
     field_108_is_hidden = static_cast<s16>(params->field_14_hidden);
     sZulagNumber_5C1A20 = static_cast<s8>(params->field_12_zulag_number);
@@ -172,12 +172,11 @@ void LCDStatusBoard::VRender(PrimHeader** ppOt)
             flickerAmount);
         maxWidth = std::max(font1Width, maxWidth);
 
-        pScreenManager->InvalidateRect(
-            static_cast<s32>(field_104_position_x / 0.575f),
+        pScreenManager->InvalidateRectCurrentIdx(
+            static_cast<s32>(field_104_position_x / 0.575f), // TODO: Should be using PC2PSx or whatever the other code uses
             field_106_position_y,
             static_cast<s32>(maxWidth / 0.575f),
-            64,
-            pScreenManager->mIdx);
+            64);
     }
 }
 

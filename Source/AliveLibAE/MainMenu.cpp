@@ -662,7 +662,7 @@ void MainMenuController::VRender(PrimHeader** ppOt)
         mBaseAnimatedWithPhysicsGameObject_Anim.VRender(184, 162, ppOt, 0, 0);
         PSX_RECT pRect = {};
         mBaseAnimatedWithPhysicsGameObject_Anim.Get_Frame_Rect(&pRect);
-        pScreenManager->InvalidateRect(pRect.x, pRect.y, pRect.w, pRect.h, pScreenManager->mIdx);
+        pScreenManager->InvalidateRectCurrentIdx(pRect.x, pRect.y, pRect.w, pRect.h);
     }
 
     const MainMenuButton* pButtons = sMainMenuPages_561960[field_214_page_index].field_18_buttons;
@@ -675,7 +675,7 @@ void MainMenuController::VRender(PrimHeader** ppOt)
                 field_158_animation.VRender(pButtons[field_1FC_button_index].field_2_x, pButtons[field_1FC_button_index].field_4_y, ppOt, 0, 0);
                 PSX_RECT rect = {};
                 field_158_animation.Get_Frame_Rect(&rect);
-                pScreenManager->InvalidateRect(rect.x, rect.y, rect.w, rect.h, pScreenManager->mIdx);
+                pScreenManager->InvalidateRectCurrentIdx(rect.x, rect.y, rect.w, rect.h);
             }
         }
     }
@@ -786,8 +786,8 @@ MainMenuNextCam MainMenuController::AbeSpeak_Update_4D2D20(u32 input_held)
             const s16 randX = Math_RandomRange(-40, 40) + 184;
             const s16 randY = Math_RandomRange(30, 90);
 
-            const FP xpos = pScreenManager->mCamPos->field_0_x + FP_FromDouble(randX);
-            FP ypos = pScreenManager->mCamPos->field_4_y + FP_FromDouble(randY);
+            const FP xpos = pScreenManager->CamXPos() + FP_FromDouble(randX);
+            FP ypos = pScreenManager->CamYPos() + FP_FromDouble(randY);
             ypos.fpValue += 0x44D60C; // TODO: 68.83 ??
             Particle* pParticle = relive_new Particle(xpos,
                     ypos,
@@ -1534,7 +1534,7 @@ MainMenuNextCam MainMenuController::Page_FMV_Level_Update_4D4AB0(u32 input_held)
             gPsxDisplay_5C1130.PutCurrentDispEnv_41DFA0();
             pScreenManager->DecompressCameraToVRam(reinterpret_cast<u16**>(gMap.field_2C_camera_array[0]->field_C_pCamRes));
             pScreenManager->MoveImage();
-            pScreenManager->mFlags |= 0x10000; // Render enable flag
+            pScreenManager->EnableRendering();
             GetSoundAPI().SND_Restart();
         }
         else
@@ -1934,7 +1934,7 @@ MainMenuNextCam MainMenuController::BackStory_Or_NewGame_Update_4D1C60(u32 input
             gPsxDisplay_5C1130.PutCurrentDispEnv_41DFA0();
             pScreenManager->DecompressCameraToVRam((u16**) gMap.field_2C_camera_array[0]->field_C_pCamRes);
             pScreenManager->MoveImage();
-            pScreenManager->mFlags |= 0x10000; // Render enable flag
+            pScreenManager->EnableRendering();
             GetSoundAPI().SND_Restart();
             field_1FC_button_index = 1; // Select start game
             return MainMenuNextCam(MainMenuCams::eNoChange);

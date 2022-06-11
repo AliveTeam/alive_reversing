@@ -882,7 +882,7 @@ void Map::GoTo_Camera()
         pScreenManager->DecompressCameraToVRam(reinterpret_cast<u16**>(field_2C_camera_array[0]->field_C_pCamRes));
         pScreenManager->InvalidateRectCurrentIdx(0, 0, 640, 240);
         pScreenManager->MoveImage();
-        pScreenManager->mFlags |= 0x10000;
+        pScreenManager->DisableRendering();
     }
 
     if (prevLevelId != mCurrentLevel)
@@ -949,14 +949,10 @@ Camera* Map::GetCamera(CameraPos pos)
 void Map::CreateScreenTransistionForTLV(Path_TLV* pTlv)
 {
     // TODO: Refactor
-    const FP_Point* pCamPos2 = pScreenManager->mCamPos;
-    const s16 doorYDiff = static_cast<s16>(pTlv->field_8_top_left.field_2_y - FP_GetExponent(pCamPos2->field_4_y));
-    FP camX = pCamPos2->field_0_x;
+    const s16 doorYDiff = static_cast<s16>(pTlv->field_8_top_left.field_2_y - FP_GetExponent(pScreenManager->CamYPos()));
     const s16 midX = (pTlv->field_8_top_left.field_0_x + pTlv->field_C_bottom_right.field_0_x) / 2;
-
-    const s16 rightPos = static_cast<s16>(midX - FP_GetExponent(camX));
-    const s16 xpos2 = rightPos;
-    relive_new CameraSwapper(field_2C_camera_array[0]->field_C_pCamRes, field_10_screen_change_effect, xpos2, doorYDiff);
+    const s16 rightPos = static_cast<s16>(midX - FP_GetExponent(pScreenManager->CamXPos()));
+    relive_new CameraSwapper(field_2C_camera_array[0]->field_C_pCamRes, field_10_screen_change_effect, rightPos, doorYDiff);
 }
 
 void Map::Get_map_size(PSX_Point* pPoint)

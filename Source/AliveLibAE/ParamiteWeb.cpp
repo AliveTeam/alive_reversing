@@ -103,8 +103,8 @@ void ParamiteWeb::VRender(PrimHeader** ppOt)
     {
         if (mBaseAnimatedWithPhysicsGameObject_XPos >= FP_FromInteger(camCoords.field_0_x) && mBaseAnimatedWithPhysicsGameObject_XPos <= FP_FromInteger(camCoords.field_0_x + 1024))
         {
-            const FP cam_y = pScreenManager->mCamPos->field_4_y;
-            const FP cam_x = pScreenManager->mCamPos->field_0_x;
+            const FP cam_y = pScreenManager->CamYPos();
+            const FP cam_x = pScreenManager->CamXPos();
 
             s16 minY = FP_GetExponent(FP_FromInteger(field_F8_ttl) - cam_y);
             s16 maxY = FP_GetExponent(FP_FromInteger(field_FA_ttl_remainder) - cam_y);
@@ -150,7 +150,7 @@ void ParamiteWeb::VRender(PrimHeader** ppOt)
                     field_100_pRes[idx].VRender(x_start, y_start, ppOt, 0, 0);
                     PSX_RECT rect = {};
                     field_100_pRes[idx].GetRenderedSize(&rect);
-                    pScreenManager->InvalidateRect(rect.x, rect.y, rect.w, rect.h, pScreenManager->mIdx);
+                    pScreenManager->InvalidateRectCurrentIdx(rect.x, rect.y, rect.w, rect.h);
                     ClipPoly_Vertically_4A09E0(&field_100_pRes[idx].field_10_polys[gPsxDisplay_5C1130.field_C_buffer_index], minY, maxY);
                     y_start -= field_F6_segment_length;
                     if (y_start < minY)

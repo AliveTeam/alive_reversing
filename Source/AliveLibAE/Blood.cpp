@@ -43,8 +43,8 @@ Blood::Blood(FP xpos, FP ypos, FP xOff, FP yOff, FP scale, s32 count)
         mBaseAnimatedWithPhysicsGameObject_XPos = xpos - FP_FromInteger(12);
         mBaseAnimatedWithPhysicsGameObject_YPos = ypos - FP_FromInteger(12);
 
-        field_11E_xpos = FP_GetExponent(xpos - FP_FromInteger(12) - pScreenManager->mCamPos->field_0_x);
-        field_120_ypos = FP_GetExponent(ypos - FP_FromInteger(12) - pScreenManager->mCamPos->field_4_y);
+        field_11E_xpos = FP_GetExponent(xpos - FP_FromInteger(12) - pScreenManager->CamXPos());
+        field_120_ypos = FP_GetExponent(ypos - FP_FromInteger(12) - pScreenManager->CamYPos());
 
         if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit13_Is8Bit))
         {
@@ -235,12 +235,11 @@ void Blood::VRender(PrimHeader** ppOt)
         Init_SetTPage(pTPage, 0, 0, static_cast<s16>(tpage));
         OrderingTable_Add_4F8AA0(OtLayer(ppOt, field_12C_render_layer), &pTPage->mBase);
 
-        pScreenManager->InvalidateRect(
+        pScreenManager->InvalidateRectCurrentIdx(
             (xy.field_0_x - 12),
             (xy.field_2_y - 12),
             (wh.field_0_x + 12),
-            (wh.field_2_y + 12),
-            pScreenManager->mIdx);
+            (wh.field_2_y + 12));
     }
 }
 

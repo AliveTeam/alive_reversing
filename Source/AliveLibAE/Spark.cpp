@@ -154,8 +154,8 @@ void Spark::VRender(PrimHeader** ppOt)
         PSX_Point xy = {32767, 32767};
         PSX_Point wh = {-32767, -32767};
 
-        const s32 xOrg = FP_GetExponent(field_40_xpos) - FP_GetExponent(pScreenManager->mCamPos->field_0_x);
-        const s32 yOrg = FP_GetExponent(field_44_ypos) - FP_GetExponent(pScreenManager->mCamPos->field_4_y);
+        const s32 xOrg = FP_GetExponent(field_40_xpos) - FP_GetExponent(pScreenManager->CamXPos());
+        const s32 yOrg = FP_GetExponent(field_44_ypos) - FP_GetExponent(pScreenManager->CamYPos());
 
         for (s32 i = 0; i < field_5C_count; i++)
         {
@@ -257,12 +257,11 @@ void Spark::VRender(PrimHeader** ppOt)
         Prim_SetTPage* pTPage = &field_20_tPage[gPsxDisplay_5C1130.field_C_buffer_index];
         Init_SetTPage(pTPage, 1, 0, PSX_getTPage(TPageMode::e4Bit_0, TPageAbr::eBlend_1, 0, 0));
         OrderingTable_Add_4F8AA0(OtLayer(ppOt, field_52_layer), &pTPage->mBase);
-        pScreenManager->InvalidateRect(
+        pScreenManager->InvalidateRectCurrentIdx(
             xy.field_0_x,
             xy.field_2_y,
             wh.field_0_x,
-            wh.field_2_y,
-            pScreenManager->mIdx);
+            wh.field_2_y);
     }
 }
 

@@ -198,8 +198,8 @@ void MotionDetector::VRender(PrimHeader** ppOt)
         auto pLaser = static_cast<MotionDetectorLaser*>(sObjectIds.Find(field_F8_laser_id, ReliveTypes::eRedLaser));
         const PSX_RECT bLaserRect = pLaser->VGetBoundingRect();
 
-        const FP camXFp = pScreenManager->mCamPos->field_0_x;
-        const FP camYFp = pScreenManager->mCamPos->field_4_y;
+        const FP camXFp = pScreenManager->CamXPos();
+        const FP camYFp = pScreenManager->CamYPos();
 
         const s16 screenX = FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos) - FP_GetExponent(camXFp);
 
@@ -228,12 +228,11 @@ void MotionDetector::VRender(PrimHeader** ppOt)
         Init_SetTPage(pTPage, 0, 0, tpage);
         OrderingTable_Add_4F8AA0(OtLayer(ppOt, mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer), &pTPage->mBase);
 
-        pScreenManager->InvalidateRect(
+        pScreenManager->InvalidateRectCurrentIdx(
             std::min(x0, std::min(x1, x1)),
             std::min(y0, std::min(y1, y2)),
             std::max(x0, std::max(x1, x1)),
-            std::max(y0, std::max(y1, y2)),
-            pScreenManager->mIdx);
+            std::max(y0, std::max(y1, y2)));
     }
 }
 
