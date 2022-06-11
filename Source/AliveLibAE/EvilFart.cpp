@@ -68,11 +68,11 @@ EvilFart::EvilFart()
             &pLine,
             &hitX,
             &hitY,
-            mBaseAnimatedWithPhysicsGameObject_Scale != 0 ? 0x20006 : 0x40060))
+            mBaseAnimatedWithPhysicsGameObject_Scale != 0 ? CollisionMask(eFlyingSligCeiling_17, eWallRight_2, eWallLeft_1) : CollisionMask(eBackgroundFlyingSligCeiling_18, eBackgroundWallRight_6, eBackgroundWallLeft_5)))
     {
         mBaseAnimatedWithPhysicsGameObject_XPos = sActiveHero->mBaseAnimatedWithPhysicsGameObject_XPos;
     }
-
+    
     mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit15_bSemiTrans);
 
     mBaseAliveGameObjectFlags.Clear(Flags_114::e114_Bit4_bPossesed);
@@ -459,7 +459,7 @@ void EvilFart::VUpdate()
                 &pLine,
                 &hitX,
                 &hitY,
-                mBaseAnimatedWithPhysicsGameObject_Scale != 0 ? 0x20006 : 0x40060))
+                mBaseAnimatedWithPhysicsGameObject_Scale != 0 ? CollisionMask(eFlyingSligCeiling_17, eWallRight_2, eWallLeft_1) : CollisionMask(eBackgroundFlyingSligCeiling_18, eBackgroundWallRight_6, eBackgroundWallLeft_5)))
         {
             mBaseAnimatedWithPhysicsGameObject_VelX = FP_FromInteger(0);
         }
@@ -476,7 +476,7 @@ void EvilFart::VUpdate()
                 &pLine,
                 &hitX,
                 &hitY,
-                mBaseAnimatedWithPhysicsGameObject_Scale != 0 ? 131081 : 262288))
+                mBaseAnimatedWithPhysicsGameObject_Scale != 0 ? CollisionMask(eFlyingSligCeiling_17, eCeiling_3, eFloor_0, eDynamicCollision_32) : CollisionMask(eBackgroundFlyingSligCeiling_18, eBackgroundCeiling_7, eBackgroundFloor_4, eBackgroundDynamicCollision_36)))
         {
             mBaseAnimatedWithPhysicsGameObject_VelY = FP_FromInteger(0);
         }

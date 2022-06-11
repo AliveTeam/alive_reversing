@@ -52,7 +52,6 @@ void Shadow::Calculate_Position(FP xpos, FP ypos, PSX_RECT* frameRect, FP sprite
             objY = ypos;
         }
 
-        const s32 lineType = scale != 0 ? 0xF : 0xF0;
         FP hitX = {};
         FP hitY = {};
         PathLine* pLine = nullptr;
@@ -64,7 +63,7 @@ void Shadow::Calculate_Position(FP xpos, FP ypos, PSX_RECT* frameRect, FP sprite
                 &pLine,
                 &hitX,
                 &hitY,
-                lineType))
+                scale == 1 ? kFgFloorCeilingOrWalls : kBgFloorCeilingOrWalls))
         {
             const s16 camXPos = FP_GetExponent(pScreenManager->mCamPos->field_0_x);
             s16 lineXScreen = pLine->field_0_rect.x - camXPos;
@@ -94,7 +93,7 @@ void Shadow::Calculate_Position(FP xpos, FP ypos, PSX_RECT* frameRect, FP sprite
                         &pLine,
                         &hitX,
                         &hitY,
-                        lineType))
+                        scale == 1 ? kFgFloorCeilingOrWalls : kBgFloorCeilingOrWalls))
                 {
                     lineXScreen = std::min(pLine->field_0_rect.x, pLine->field_0_rect.w) - FP_GetExponent(pScreenManager->mCamPos->field_0_x);
                 }
@@ -111,7 +110,7 @@ void Shadow::Calculate_Position(FP xpos, FP ypos, PSX_RECT* frameRect, FP sprite
                         &pLine,
                         &hitX,
                         &hitY,
-                        lineType))
+                        scale == 1 ? kFgFloorCeilingOrWalls : kBgFloorCeilingOrWalls))
                 {
                     lineWScreen = std::max(pLine->field_0_rect.x, pLine->field_0_rect.w) - FP_GetExponent(pScreenManager->mCamPos->field_0_x);
                 }

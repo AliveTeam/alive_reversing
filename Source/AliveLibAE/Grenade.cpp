@@ -303,7 +303,7 @@ void Grenade::VUpdate()
                 &BaseAliveGameObjectCollisionLine,
                 &mBaseAnimatedWithPhysicsGameObject_XPos,
                 &mBaseAnimatedWithPhysicsGameObject_YPos,
-                1 << BaseAliveGameObjectCollisionLineType);
+                CollisionMask(static_cast<eLineTypes>(BaseAliveGameObjectCollisionLineType)));
         }
         BaseAliveGameObjectCollisionLineType = 0;
     }
@@ -493,7 +493,7 @@ s16 Grenade::InTheAir(s16 blowUpOnFloorTouch)
             &BaseAliveGameObjectCollisionLine,
             &hitX,
             &hitY,
-            mBaseAnimatedWithPhysicsGameObject_Scale == 0 ? 0x10 : 0x01)
+            mBaseAnimatedWithPhysicsGameObject_Scale != 0 ? kFgFloor : kBgFloor)
         == 1)
     {
         if (mBaseAnimatedWithPhysicsGameObject_VelY <= FP_FromInteger(0))
@@ -559,7 +559,7 @@ s16 Grenade::InTheAir(s16 blowUpOnFloorTouch)
             &BaseAliveGameObjectCollisionLine,
             &hitX,
             &hitY,
-            mBaseAnimatedWithPhysicsGameObject_Scale == 0 ? 0x60 : 0x06)
+            mBaseAnimatedWithPhysicsGameObject_Scale != 0 ? kFgWalls : kBgWalls)
         == 1)
     {
         switch (BaseAliveGameObjectCollisionLine->field_8_type)

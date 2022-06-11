@@ -56,7 +56,7 @@ ParamiteWebLine::ParamiteWebLine(Path_ParamiteWebLine* pTlv, s32 tlvInfo)
             mBaseAnimatedWithPhysicsGameObject_YPos,
             mBaseAnimatedWithPhysicsGameObject_XPos + FP_FromInteger(20),
             mBaseAnimatedWithPhysicsGameObject_YPos + FP_FromInteger(20),
-            &pLine, &hitX, &hitY, 0x100))
+            &pLine, &hitX, &hitY, CollisionMask(eTrackLine_8)))
     {
         mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pLine->field_0_rect.x);
 

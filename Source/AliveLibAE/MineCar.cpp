@@ -58,7 +58,7 @@ MineCar::MineCar(Path_MineCar* pTlv, s32 tlvInfo, s32 /*a4*/, s32 /*a5*/, s32 /*
             &BaseAliveGameObjectCollisionLine,
             &hitX,
             &hitY,
-            mBaseAnimatedWithPhysicsGameObject_Scale != 0 ? 1 : 16)
+            mBaseAnimatedWithPhysicsGameObject_Scale != 0 ? kFgFloor : kBgFloor)
         == 1)
     {
         mBaseAnimatedWithPhysicsGameObject_YPos = hitY;
@@ -343,7 +343,7 @@ Bool32 MineCar::CheckRoofCollision(FP hitX, FP hitY)
         &pPathLine,
         &hitX,
         &hitY,
-        mBaseAnimatedWithPhysicsGameObject_Scale != 0 ? 8 : 128
+        mBaseAnimatedWithPhysicsGameObject_Scale != 0 ? CollisionMask(eCeiling_3) : CollisionMask(eBackgroundCeiling_7)
     );
 }
 
@@ -360,7 +360,7 @@ Bool32 MineCar::CheckFloorCollision(FP hitX, FP hitY)
             &pPathLine,
             &hitX,
             &hitY,
-            mBaseAnimatedWithPhysicsGameObject_Scale != 0 ? 1 : 16
+            mBaseAnimatedWithPhysicsGameObject_Scale != 0 ? kFgFloor : kBgFloor
         )
     )
     {
@@ -846,7 +846,7 @@ void MineCar::VUpdate()
                 &BaseAliveGameObjectCollisionLine,
                 &mBaseAnimatedWithPhysicsGameObject_XPos,
                 &mBaseAnimatedWithPhysicsGameObject_YPos,
-                1 << BaseAliveGameObjectCollisionLineType
+                CollisionMask(static_cast<eLineTypes>(BaseAliveGameObjectCollisionLineType))
             );
 
             BaseAliveGameObjectCollisionLineType = 0;
@@ -928,7 +928,7 @@ void MineCar::VUpdate()
             &pPathLine,
             &hitX,
             &hitY,
-            mBaseAnimatedWithPhysicsGameObject_Scale != 0 ? 0x1000 : 0x8000
+            mBaseAnimatedWithPhysicsGameObject_Scale != 0 ? CollisionMask(eMineCarWall_12) : CollisionMask(eBackgroundMineCarWall_15)
         )
     )
     {
@@ -1060,8 +1060,8 @@ void MineCar::State_1_ParkedWithAbe()
                 rayCastY1,
                 rayCastX,
                 rayCastY2,
-                0x800,
-                0x4000,
+                CollisionMask(eMineCarFloor_11),
+                CollisionMask(eBackgroundMineCarFloor_14),
                 velX,
                 velY,
                 inputKey,
@@ -1080,8 +1080,8 @@ void MineCar::State_1_ParkedWithAbe()
                 rayCastY1,
                 rayCastX,
                 rayCastY2,
-                0x2000,
-                0x10000,
+                CollisionMask(eMineCarCeiling_13),
+                CollisionMask(eBackgroundMineCarCeiling_16),
                 velX,
                 velY,
                 inputKey,
@@ -1145,8 +1145,8 @@ void MineCar::State_1_ParkedWithAbe()
                 rayCastY1,
                 rayCastX,
                 rayCastY2,
-                0x800,
-                0x4000,
+                CollisionMask(eMineCarFloor_11),
+                CollisionMask(eBackgroundMineCarFloor_14),
                 -velX,
                 velY,
                 inputKey,
@@ -1165,8 +1165,8 @@ void MineCar::State_1_ParkedWithAbe()
                 rayCastY1,
                 rayCastX,
                 rayCastY2,
-                0x2000,
-                0x10000,
+                CollisionMask(eMineCarCeiling_13),
+                CollisionMask(eBackgroundMineCarCeiling_16),
                 -velX,
                 velY,
                 inputKey,
@@ -1193,7 +1193,7 @@ void MineCar::State_1_ParkedWithAbe()
 }
 
 bool MineCar::HandleState1Move(const mineCarFPFunc func, const FP mineCarFPFuncArg1, const FP mineCarFPFuncArg2, const FP mineCarFPFuncArg3,
-                               u16 frameTableOffset, MineCarDirs mineCarDir, const s8 bChangeDir, FP rayCastX1, FP rayCastY1, FP rayCastX2, FP rayCastY2, const s32 ModelMask1, const s32 ModelMask2,
+                               u16 frameTableOffset, MineCarDirs mineCarDir, const s8 bChangeDir, FP rayCastX1, FP rayCastY1, FP rayCastX2, FP rayCastY2, const CollisionMask ModelMask1, const CollisionMask ModelMask2,
                                FP velX, FP velY, InputCommands::Enum key, bool isVertical, bool verticalFlipXCond)
 {
     PathLine* pPathLine = nullptr;
@@ -1280,8 +1280,8 @@ void MineCar::HandleUpDown()
                 rayCastY,
                 rayCastX2,
                 rayCastY,
-                0x1000,
-                0x8000,
+                CollisionMask(eMineCarWall_12),
+                CollisionMask(eBackgroundMineCarWall_15),
                 velX,
                 -velY,
                 inputKey,
@@ -1300,8 +1300,8 @@ void MineCar::HandleUpDown()
                 rayCastY,
                 rayCastX2,
                 rayCastY,
-                0x1000,
-                0x8000,
+                CollisionMask(eMineCarWall_12),
+                CollisionMask(eBackgroundMineCarWall_15),
                 velX,
                 -velY,
                 inputKey,
@@ -1360,8 +1360,8 @@ void MineCar::HandleUpDown()
                 rayCastY,
                 rayCastX2,
                 rayCastY,
-                0x1000,
-                0x8000,
+                CollisionMask(eMineCarWall_12),
+                CollisionMask(eBackgroundMineCarWall_15),
                 velX,
                 velY,
                 inputKey,
@@ -1380,8 +1380,8 @@ void MineCar::HandleUpDown()
                 rayCastY,
                 rayCastX2,
                 rayCastY,
-                0x1000,
-                0x8000,
+                CollisionMask(eMineCarWall_12),
+                CollisionMask(eBackgroundMineCarWall_15),
                 velX,
                 velY,
                 inputKey,
@@ -1454,7 +1454,7 @@ void MineCar::State_2_Moving()
             &pPathLine,
             &hitX,
             &hitY,
-            mBaseAnimatedWithPhysicsGameObject_Scale != 0 ? 4096 : 0x8000
+            mBaseAnimatedWithPhysicsGameObject_Scale != 0 ? CollisionMask(eMineCarWall_12) : CollisionMask(eBackgroundMineCarWall_15)
         ) &&
         mBaseAnimatedWithPhysicsGameObject_VelY > FP_FromInteger(0)
     )
@@ -1472,7 +1472,7 @@ void MineCar::State_2_Moving()
             &pPathLine,
             &hitX,
             &hitY,
-            mBaseAnimatedWithPhysicsGameObject_Scale != 0 ? 0x2000 : 0x10000
+            mBaseAnimatedWithPhysicsGameObject_Scale != 0 ? CollisionMask(eMineCarCeiling_13) : CollisionMask(eBackgroundMineCarCeiling_16)
         ) &&
         field_1BC_turn_direction == MineCarDirs::eDown_0
     )
@@ -1490,7 +1490,7 @@ void MineCar::State_2_Moving()
             &pPathLine,
             &hitX,
             &hitY,
-            mBaseAnimatedWithPhysicsGameObject_Scale != 0 ? 0x800 : 0x4000
+            mBaseAnimatedWithPhysicsGameObject_Scale != 0 ? CollisionMask(eMineCarFloor_11) : CollisionMask(eBackgroundMineCarFloor_14)
         ) &&
         field_1BC_turn_direction == MineCarDirs::eUp_3
     )

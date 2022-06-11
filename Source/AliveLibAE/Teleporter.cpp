@@ -276,8 +276,6 @@ void Teleporter::VUpdate()
 
             sControlledCharacter_5C1B8C->MapFollowMe(TRUE);
 
-            const u8 lineType = sControlledCharacter_5C1B8C->mBaseAnimatedWithPhysicsGameObject_Scale == 0 ? 0xF0 : 0x1F;
-
             PathLine* pPathLine = nullptr;
             FP hitX = {};
             FP hitY = {};
@@ -289,7 +287,7 @@ void Teleporter::VUpdate()
                     &pPathLine,
                     &hitX,
                     &hitY,
-                    lineType))
+                    sControlledCharacter_5C1B8C->mBaseAnimatedWithPhysicsGameObject_Scale == 0 ? kFgFloorCeilingOrWalls : kBgFloorCeilingOrWalls)) // todo: mouze check, 0xf0 : 0x1F changed to f0 : 0f
             {
                 sControlledCharacter_5C1B8C->BaseAliveGameObjectCollisionLine = pPathLine;
                 sControlledCharacter_5C1B8C->mBaseAnimatedWithPhysicsGameObject_YPos = hitY;

@@ -67,7 +67,7 @@ TimedMine::TimedMine(Path_TimedMine* pPath, TlvItemInfoUnion tlv)
             &BaseAliveGameObjectCollisionLine,
             &hitX,
             &hitY,
-            mBaseAnimatedWithPhysicsGameObject_Scale != 0 ? 1 : 0x10))
+            mBaseAnimatedWithPhysicsGameObject_Scale != 0 ? kFgFloor : kBgFloor))
     {
         mBaseAnimatedWithPhysicsGameObject_YPos = hitY;
     }
@@ -196,7 +196,7 @@ void TimedMine::StickToLiftPoint()
             mBaseAnimatedWithPhysicsGameObject_YPos - FP_FromInteger(20),
             mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos + FP_FromInteger(20),
             &pLine, &hitX, &hitY,
-            (mBaseAnimatedWithPhysicsGameObject_Scale == 1) ? 15 : 240))
+            (mBaseAnimatedWithPhysicsGameObject_Scale == 1) ? kFgFloorCeilingOrWalls : kBgFloorCeilingOrWalls))
     {
         if (pLine->field_8_type == eLineTypes::eDynamicCollision_32 ||
             pLine->field_8_type == eLineTypes::eBackgroundDynamicCollision_36)

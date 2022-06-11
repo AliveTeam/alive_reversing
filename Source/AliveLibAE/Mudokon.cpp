@@ -553,7 +553,7 @@ Mudokon::Mudokon(Path_Mudokon* pTlv, s32 tlvInfo)
         &BaseAliveGameObjectCollisionLine,
         &hitX,
         &hitY,
-        mBaseAnimatedWithPhysicsGameObject_Scale != 0 ? 1 : 16);
+        mBaseAnimatedWithPhysicsGameObject_Scale != 0 ? kFgFloor : kBgFloor);
 
     mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger((pTlv->field_8_top_left.field_0_x + pTlv->field_C_bottom_right.field_0_x) / 2);
     if (bCollision)
@@ -1010,7 +1010,7 @@ void Mudokon::VUpdate()
                 &BaseAliveGameObjectCollisionLine,
                 &mBaseAnimatedWithPhysicsGameObject_XPos,
                 &mBaseAnimatedWithPhysicsGameObject_YPos,
-                1 << BaseAliveGameObjectCollisionLineType);
+                CollisionMask(static_cast<eLineTypes>(BaseAliveGameObjectCollisionLineType)));
 
             if (BaseAliveGameObjectCollisionLine->field_8_type == eLineTypes::eDynamicCollision_32 ||
                 BaseAliveGameObjectCollisionLine->field_8_type == eLineTypes::eBackgroundDynamicCollision_36)

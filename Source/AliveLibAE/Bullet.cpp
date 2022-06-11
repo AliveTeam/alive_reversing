@@ -82,7 +82,7 @@ void Bullet::VUpdate()
                     &field_24_pLine,
                     &hitX,
                     &hitY,
-                    field_3C_scale > FP_FromDouble(0.5) ? 0x0F : 0xF0)
+                    field_3C_scale > FP_FromDouble(0.5) ? kFgFloorCeilingOrWalls : kBgFloorCeilingOrWalls)
                 == 1)
             {
                 if (pShotObj)
@@ -253,7 +253,7 @@ void Bullet::VUpdate()
                     FP_FromInteger(rect.y),
                     sControlledCharacter_5C1B8C->mBaseAnimatedWithPhysicsGameObject_XPos,
                     FP_FromInteger(rect.h),
-                    &field_24_pLine, &hitX, &hitY, 0x400)
+                    &field_24_pLine, &hitX, &hitY, CollisionMask(eBulletWall_10))
                 == 1)
             {
                 relive_new Spark(hitX, hitY, FP_FromInteger(1), 9, -31, 159, SparkType::eSmallChantParticle_0);
@@ -299,7 +299,7 @@ void Bullet::VUpdate()
                         field_2C_ypos,
                         rectXPos,
                         sActiveHero->mBaseAnimatedWithPhysicsGameObject_YPos + FP_FromInteger(10),
-                        &field_24_pLine, &hitX, &hitY, 1024)
+                        &field_24_pLine, &hitX, &hitY, CollisionMask(eBulletWall_10))
                     == 1)
                 {
                     relive_new Spark(hitX, hitY, FP_FromInteger(1), 9, -31, 159, SparkType::eSmallChantParticle_0);

@@ -77,7 +77,7 @@ BirdPortal::BirdPortal(Path_BirdPortal* pTlv, s32 tlvInfo)
         &pLine,
         &hitX,
         &field_3C_YPos,
-        field_60_scale > FP_FromDouble(0.5) ? 1 : 16);
+        field_60_scale > FP_FromDouble(0.5) ? kFgFloor : kBgFloor);
 
     field_2C_xpos = FP_FromInteger((pTlv->field_C_bottom_right.field_0_x + pTlv->field_8_top_left.field_0_x) / 2);
     field_90_sfx_ret = 0;
@@ -812,6 +812,10 @@ void BirdPortal::VExitPortal()
     auto pPortalExitTlv = static_cast<Path_BirdPortalExit*>(sPath_dword_BB47C0->TLV_First_Of_Type_In_Camera(TlvTypes::BirdPortalExit_29, 0));
     if (pPortalExitTlv)
     {
+        // TODO: Clean up this hack by having a better way to match "any" type of line
+        CollisionMask allLinesHack;
+        allLinesHack.mMask = 0xFFFFFFFF;
+
         PathLine* pLine = nullptr;
         sCollisions->Raycast(
             FP_FromInteger(pPortalExitTlv->field_8_top_left.field_0_x),
@@ -821,7 +825,7 @@ void BirdPortal::VExitPortal()
             &pLine,
             &field_34_exit_x,
             &field_38_exit_y,
-            0xFFFFFFFF); // -1 ??
+            allLinesHack);
 
         field_34_exit_x = FP_FromInteger((pPortalExitTlv->field_8_top_left.field_0_x + pPortalExitTlv->field_C_bottom_right.field_0_x) / 2);
         field_2C_xpos = field_34_exit_x;

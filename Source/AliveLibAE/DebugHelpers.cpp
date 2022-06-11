@@ -174,7 +174,7 @@ void Command_HelperUpdate()
             FP xOffset = FP_FromDouble(pos.field_0_x + (subDevide * centerIndex));
             FP yOffset = FP_FromDouble(pos.field_2_y);
             if (sCollisions->Raycast(xOffset, yOffset,
-                                                          xOffset, yOffset + FP_FromDouble(240), &rUnk, &rX, &rY, 1))
+                                     xOffset, yOffset + FP_FromDouble(240), &rUnk, &rX, &rY, kFgFloor))
             {
                 sActiveHero->mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromDouble(1.0);
                 sActiveHero->mBaseAnimatedWithPhysicsGameObject_Scale = 1;
@@ -183,7 +183,7 @@ void Command_HelperUpdate()
                 break;
             }
             else if (sCollisions->Raycast(xOffset, yOffset,
-                                                               xOffset, yOffset + FP_FromDouble(240), &rUnk, &rX, &rY, 1 << 4))
+                                          xOffset, yOffset + FP_FromDouble(240), &rUnk, &rX, &rY, kBgFloor))
             {
                 sActiveHero->mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromDouble(0.5);
                 sActiveHero->mBaseAnimatedWithPhysicsGameObject_Scale = 0;
@@ -389,7 +389,7 @@ void Command_Spawn(const std::vector<std::string>& args)
     FP hitX;
     FP hitY;
     PathLine* pLine;
-    if (sCollisions->Raycast(FP_FromInteger(spawnX), FP_FromInteger(spawnY), FP_FromInteger(spawnX), FP_FromInteger(spawnY + 1000), &pLine, &hitX, &hitY, 1))
+    if (sCollisions->Raycast(FP_FromInteger(spawnX), FP_FromInteger(spawnY), FP_FromInteger(spawnX), FP_FromInteger(spawnY + 1000), &pLine, &hitX, &hitY, kFgFloor))
     {
         spawnX = FP_GetExponent(hitX);
         spawnY = FP_GetExponent(hitY);

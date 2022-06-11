@@ -419,7 +419,7 @@ Slig::Slig(Path_Slig* pTlv, s32 tlvInfo)
             &BaseAliveGameObjectCollisionLine,
             &hitX,
             &hitY,
-            mBaseAnimatedWithPhysicsGameObject_Scale != 0 ? 1 : 16)
+            mBaseAnimatedWithPhysicsGameObject_Scale != 0 ? kFgFloor : kBgFloor)
         == 1)
     {
         mCurrentMotion = eSligMotions::M_StandIdle_0_4B4EC0;
@@ -899,7 +899,7 @@ void Slig::M_StandIdle_0_4B4EC0()
             &pLine,
             &hitX,
             &hitY,
-            mBaseAnimatedWithPhysicsGameObject_Scale != 0 ? 1 : 16))
+            mBaseAnimatedWithPhysicsGameObject_Scale != 0 ? kFgFloor : kBgFloor))
     {
         VOnTrapDoorOpen();
         mCurrentMotion = eSligMotions::M_FallingInitiate_39_4B4640;
@@ -1218,7 +1218,7 @@ void Slig::M_Shoot_6_4B55A0()
                             &pLine,
                             &hitX,
                             &hitY,
-                            mBaseAnimatedWithPhysicsGameObject_Scale != 0 ? 6 : 96)
+                            mBaseAnimatedWithPhysicsGameObject_Scale != 0 ? kFgWalls : kBgWalls)
                         || sCollisions->Raycast(
                             mBaseAnimatedWithPhysicsGameObject_XPos,
                             mBaseAnimatedWithPhysicsGameObject_YPos - k45Scaled,
@@ -1227,7 +1227,7 @@ void Slig::M_Shoot_6_4B55A0()
                             &pLine,
                             &hitX,
                             &hitY,
-                            mBaseAnimatedWithPhysicsGameObject_Scale != 0 ? 6 : 96))
+                            mBaseAnimatedWithPhysicsGameObject_Scale != 0 ? kFgWalls : kBgWalls))
                     {
                         return;
                     }
@@ -1250,7 +1250,7 @@ void Slig::M_Shoot_6_4B55A0()
                             &pLine,
                             &hitX,
                             &hitY,
-                            mBaseAnimatedWithPhysicsGameObject_Scale != 0 ? 6 : 0x60)
+                            mBaseAnimatedWithPhysicsGameObject_Scale != 0 ? kFgWalls : kBgWalls)
                         || sCollisions->Raycast(
                             mBaseAnimatedWithPhysicsGameObject_XPos,
                             mBaseAnimatedWithPhysicsGameObject_YPos - k45Scaled,
@@ -1259,7 +1259,7 @@ void Slig::M_Shoot_6_4B55A0()
                             &pLine,
                             &hitX,
                             &hitY,
-                            mBaseAnimatedWithPhysicsGameObject_Scale != 0 ? 6 : 96))
+                            mBaseAnimatedWithPhysicsGameObject_Scale != 0 ? kFgWalls : kBgWalls))
                     {
                         return;
                     }
@@ -1296,7 +1296,7 @@ void Slig::M_Shoot_6_4B55A0()
                             &pLine,
                             &hitX,
                             &hitY,
-                            mBaseAnimatedWithPhysicsGameObject_Scale != 0 ? 6 : 96)
+                            mBaseAnimatedWithPhysicsGameObject_Scale != 0 ? kFgWalls : kBgWalls)
                         || sCollisions->Raycast(
                             mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos - k45Scaled,
                             mBaseAnimatedWithPhysicsGameObject_XPos + (k8 * mBaseAnimatedWithPhysicsGameObject_VelX),
@@ -1304,7 +1304,7 @@ void Slig::M_Shoot_6_4B55A0()
                             &pLine,
                             &hitX,
                             &hitY,
-                            mBaseAnimatedWithPhysicsGameObject_Scale != 0 ? 6 : 96))
+                            mBaseAnimatedWithPhysicsGameObject_Scale != 0 ? kFgWalls : kBgWalls))
                     {
                         mBaseAnimatedWithPhysicsGameObject_VelX = FP_FromInteger(0);
                     }
@@ -4765,7 +4765,7 @@ void Slig::VUpdate()
                 &BaseAliveGameObjectCollisionLine,
                 &mBaseAnimatedWithPhysicsGameObject_XPos,
                 &mBaseAnimatedWithPhysicsGameObject_YPos,
-                1 << BaseAliveGameObjectCollisionLineType);
+                CollisionMask(static_cast<eLineTypes>(BaseAliveGameObjectCollisionLineType)));
 
             if (BaseAliveGameObjectCollisionLine)
             {
@@ -5722,7 +5722,7 @@ Bool32 Slig::IsWallBetween_4BB8B0(BaseAliveGameObject* pLeft, BaseAliveGameObjec
                FP_FromInteger(thisBRect.h - 25),
                pRight->mBaseAnimatedWithPhysicsGameObject_XPos,
                FP_FromInteger(rightBRect.h - 25),
-               &pLine, &hitX, &hitY, pLeft->mBaseAnimatedWithPhysicsGameObject_Scale != 0 ? 6 : 0x60)
+               &pLine, &hitX, &hitY, pLeft->mBaseAnimatedWithPhysicsGameObject_Scale != 0 ? kFgWalls : kBgWalls)
         == 1;
 }
 

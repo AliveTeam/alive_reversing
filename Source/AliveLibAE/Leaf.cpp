@@ -79,7 +79,7 @@ void Leaf::VUpdate()
         &pLine,
         &hitX,
         &hitY,
-        eLineTypes::eFlyingSligCeiling_17); // TODO: Must be another set of constants, this makes no sense ??
+        kFgOrBgFloor);
 
     // Hit the floor, die but only if in background..
     if (bCollision && mBaseAnimatedWithPhysicsGameObject_SpriteScale == FP_FromDouble(0.5) && pLine->field_8_type == eLineTypes::eFloor_0)

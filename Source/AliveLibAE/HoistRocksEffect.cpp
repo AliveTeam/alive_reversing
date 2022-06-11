@@ -162,7 +162,7 @@ void HoistRocksEffect::VUpdate()
                         &pLine,
                         &hitX,
                         &hitY,
-                        field_2C_scale > FP_FromDouble(0.5) ? 1 : 16))
+                        field_2C_scale > FP_FromDouble(0.5) ? kFgFloor : kBgFloor))
                 {
                     particle.field_8_ypos = hitY;
                     particle.field_C_yVel = particle.field_C_yVel * FP_FromDouble(-0.3);

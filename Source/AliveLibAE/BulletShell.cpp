@@ -83,7 +83,7 @@ void BulletShell::VUpdate()
             &BaseAliveGameObjectCollisionLine,
             &hitX,
             &hitY,
-            mBaseAnimatedWithPhysicsGameObject_Scale != 0 ? 0x0F : 0xF0)
+            mBaseAnimatedWithPhysicsGameObject_Scale != 0 ? kFgFloorCeilingOrWalls : kBgFloorCeilingOrWalls)
         == 1)
     {
         if (BaseAliveGameObjectCollisionLine->field_8_type == eLineTypes::eFloor_0 ||

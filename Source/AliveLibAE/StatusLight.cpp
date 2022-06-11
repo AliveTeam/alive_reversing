@@ -64,7 +64,7 @@ StatusLight::StatusLight(Path_StatusLight* pTlv, u32 tlvInfo)
         &pPathLine,
         &hitX,
         &hitY,
-        mBaseAnimatedWithPhysicsGameObject_Scale == 1 ? 241 : 16);
+        mBaseAnimatedWithPhysicsGameObject_Scale == 1 ? kFgFloor : kBgFloor); // TODO: mouze check, 0xF1 : 0x10 seemed like it should be 0x1 : 0x10
 
     if (field_104_bIgnore_grid_snapping == Choice_short::eNo_0)
     {

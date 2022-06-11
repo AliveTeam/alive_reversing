@@ -2023,7 +2023,7 @@ void Glukkon::Init()
             &BaseAliveGameObjectCollisionLine,
             &hitX,
             &hitY,
-            mBaseAnimatedWithPhysicsGameObject_Scale != 0 ? 1 : 16)
+            mBaseAnimatedWithPhysicsGameObject_Scale != 0 ? kFgFloor : kBgFloor)
         == 1)
     {
         mBaseAnimatedWithPhysicsGameObject_YPos = hitY;
@@ -2089,7 +2089,7 @@ void Glukkon::VUpdate()
                 &BaseAliveGameObjectCollisionLine,
                 &mBaseAnimatedWithPhysicsGameObject_XPos,
                 &mBaseAnimatedWithPhysicsGameObject_YPos,
-                1 << BaseAliveGameObjectCollisionLineType);
+                CollisionMask(static_cast<eLineTypes>(BaseAliveGameObjectCollisionLineType)));
 
             if (BaseAliveGameObjectCollisionLine->field_8_type == eLineTypes::eDynamicCollision_32 || BaseAliveGameObjectCollisionLine->field_8_type == eLineTypes::eBackgroundDynamicCollision_36)
             {
@@ -2911,7 +2911,8 @@ Bool32 Glukkon::IsLineOfSightBetween(Glukkon* pGlukkon, BaseAliveGameObject* pOt
                &pathLine,
                &hitX,
                &hitY,
-               (pGlukkon->mBaseAnimatedWithPhysicsGameObject_Scale != 0 ? 1 : 0x10) | (pGlukkon->mBaseAnimatedWithPhysicsGameObject_Scale != 0 ? 6 : 0x60) | (pGlukkon->mBaseAnimatedWithPhysicsGameObject_Scale != 0 ? 8 : 0x80))
+        pGlukkon->mBaseAnimatedWithPhysicsGameObject_Scale != 0 ? kFgFloorWallOrCeiling
+               : kBgFloorWallOrCeiling)
         != 1;
 }
 

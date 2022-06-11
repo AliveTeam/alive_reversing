@@ -71,7 +71,7 @@ Greeter::Greeter(Path_Greeter* pTlv, s32 tlvInfo)
             &BaseAliveGameObjectCollisionLine,
             &hitX,
             &hitY,
-            mBaseAnimatedWithPhysicsGameObject_Scale ? 1 : 16))
+            mBaseAnimatedWithPhysicsGameObject_Scale ? kFgFloor : kBgFloor))
     {
         mBaseAnimatedWithPhysicsGameObject_YPos = hitY;
     }
@@ -572,7 +572,7 @@ Bool32 Greeter::ZapIsNotBlocked(BaseAliveGameObject* pUs, BaseAliveGameObject* p
                &pLine,
                &hitX,
                &hitY,
-               pUs->mBaseAnimatedWithPhysicsGameObject_Scale != 0 ? 6 : 0x60)
+               pUs->mBaseAnimatedWithPhysicsGameObject_Scale != 0 ? kFgWalls : kBgWalls)
         == 1;
 }
 

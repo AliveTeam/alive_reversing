@@ -78,7 +78,7 @@ Lever::Lever(Path_Lever* pTlv, u32 tlvInfo)
             &pPathLine,
             &hitX,
             &hitY,
-            (mBaseAnimatedWithPhysicsGameObject_Scale != 0) ? 1 : 16))
+            (mBaseAnimatedWithPhysicsGameObject_Scale != 0) ? kFgFloor : kBgFloor))
     {
         mBaseAnimatedWithPhysicsGameObject_YPos = hitY;
     }

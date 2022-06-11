@@ -265,7 +265,7 @@ Door::Door(Path_Door* pTlvData, s32 tlvInfo)
             &pathLine,
             xOff,
             yOff,
-            (mBaseAnimatedWithPhysicsGameObject_Scale == 1) ? 15 : 240))
+            (mBaseAnimatedWithPhysicsGameObject_Scale == 1) ? kFgFloorCeilingOrWalls : kBgFloorCeilingOrWalls))
     {
         // Move up off the line we hit
         *yOff -= FP_FromInteger(12) * mBaseAnimatedWithPhysicsGameObject_SpriteScale;

@@ -58,7 +58,7 @@ WorkWheel::WorkWheel(Path_WorkWheel* pTlv, s32 tlvInfo)
             &pathLine,
             &hitX,
             &hitY,
-            (mBaseAnimatedWithPhysicsGameObject_Scale == 1) ? 15 : 240))
+            (mBaseAnimatedWithPhysicsGameObject_Scale == 1) ? kFgFloorCeilingOrWalls : kBgFloorCeilingOrWalls))
     {
         mBaseAnimatedWithPhysicsGameObject_YPos = hitY;
     }

@@ -218,7 +218,7 @@ CrawlingSlig::CrawlingSlig(Path_CrawlingSlig* pTlv, s32 tlvInfo)
             &BaseAliveGameObjectCollisionLine,
             &hitX,
             &hitY,
-            mBaseAnimatedWithPhysicsGameObject_Scale != 0 ? 1 : 0x10)
+            mBaseAnimatedWithPhysicsGameObject_Scale != 0 ? kFgFloor : kBgFloor)
         == 1)
     {
         mBaseAnimatedWithPhysicsGameObject_YPos = hitY;
@@ -480,7 +480,7 @@ void CrawlingSlig::VUpdate()
                     &BaseAliveGameObjectCollisionLine,
                     &mBaseAnimatedWithPhysicsGameObject_XPos,
                     &mBaseAnimatedWithPhysicsGameObject_YPos,
-                    1 << BaseAliveGameObjectCollisionLineType);
+                    CollisionMask(static_cast<eLineTypes>(BaseAliveGameObjectCollisionLineType)));
             }
             BaseAliveGameObjectCollisionLineType = 0;
             field_1D4_obj_id = RefreshId(field_1D4_obj_id);

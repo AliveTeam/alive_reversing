@@ -186,7 +186,7 @@ Paramite::Paramite(Path_Paramite* pTlv, s32 tlvInfo)
             &BaseAliveGameObjectCollisionLine,
             &hitX,
             &hitY,
-            mBaseAnimatedWithPhysicsGameObject_Scale != 0 ? 1 : 16)
+            mBaseAnimatedWithPhysicsGameObject_Scale != 0 ? kFgFloor : kBgFloor)
         == 1)
     {
         BaseAliveGameObjectLastLineYPos = hitY;
@@ -4497,7 +4497,7 @@ void Paramite::M_SurpriseWeb_33_48D760()
             &BaseAliveGameObjectCollisionLine,
             &hitX,
             &hitY,
-            mBaseAnimatedWithPhysicsGameObject_Scale != 0 ? 1 : 16)
+            mBaseAnimatedWithPhysicsGameObject_Scale != 0 ? kFgFloor : kBgFloor)
         == 1)
     {
         mBaseAnimatedWithPhysicsGameObject_YPos = hitY;
@@ -4561,7 +4561,7 @@ void Paramite::M_WebIdle_35_48D400()
                 &pLine,
                 &hitX,
                 &hitY,
-                mBaseAnimatedWithPhysicsGameObject_Scale != 0 ? 1 : 16))
+                mBaseAnimatedWithPhysicsGameObject_Scale != 0 ? kFgFloor : kBgFloor))
         {
             auto pWeb = static_cast<ParamiteWebLine*>(FindObjectOfType(ReliveTypes::eWebLine, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos));
             if (pWeb)
@@ -4590,7 +4590,7 @@ void Paramite::M_WebIdle_35_48D400()
                 &pLine,
                 &hitX,
                 &hitY,
-                mBaseAnimatedWithPhysicsGameObject_Scale != 0 ? 1 : 16))
+                mBaseAnimatedWithPhysicsGameObject_Scale != 0 ? kFgFloor : kBgFloor))
         {
             auto pWeb = static_cast<ParamiteWebLine*>(FindObjectOfType(ReliveTypes::eWebLine, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos));
             if (pWeb)
@@ -4651,14 +4651,14 @@ void Paramite::M_WebGoingUp_36_48D000()
                 mBaseAnimatedWithPhysicsGameObject_YPos - FP_FromInteger(30),
                 mBaseAnimatedWithPhysicsGameObject_XPos,
                 mBaseAnimatedWithPhysicsGameObject_YPos - FP_FromInteger(30),
-                &pLine, &hitX, &hitY, mBaseAnimatedWithPhysicsGameObject_Scale != 0 ? 6 : 0x60))
+                &pLine, &hitX, &hitY, mBaseAnimatedWithPhysicsGameObject_Scale != 0 ? kFgWalls : kBgWalls))
         {
             if (sCollisions->Raycast(
                     mBaseAnimatedWithPhysicsGameObject_XPos - kHalfGrid,
                     mBaseAnimatedWithPhysicsGameObject_YPos - FP_FromInteger(30),
                     mBaseAnimatedWithPhysicsGameObject_XPos - kHalfGrid,
                     mBaseAnimatedWithPhysicsGameObject_YPos + FP_FromInteger(10),
-                    &pLine, &hitX, &hitY, mBaseAnimatedWithPhysicsGameObject_Scale != 0 ? 1 : 0x10))
+                    &pLine, &hitX, &hitY, mBaseAnimatedWithPhysicsGameObject_Scale != 0 ? kFgFloor : kBgFloor))
             {
                 mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit5_FlipX);
                 mBaseAnimatedWithPhysicsGameObject_XPos = hitX;
@@ -4679,14 +4679,14 @@ void Paramite::M_WebGoingUp_36_48D000()
                     mBaseAnimatedWithPhysicsGameObject_YPos - FP_FromInteger(30),
                     mBaseAnimatedWithPhysicsGameObject_XPos,
                     mBaseAnimatedWithPhysicsGameObject_YPos - FP_FromInteger(30),
-                    &pLine, &hitX, &hitY, mBaseAnimatedWithPhysicsGameObject_Scale != 0 ? 6 : 0x60))
+                    &pLine, &hitX, &hitY, mBaseAnimatedWithPhysicsGameObject_Scale != 0 ? kFgWalls : kBgWalls))
             {
                 if (sCollisions->Raycast(
                         kHalfGrid + mBaseAnimatedWithPhysicsGameObject_XPos,
                         mBaseAnimatedWithPhysicsGameObject_YPos - FP_FromInteger(30),
                         kHalfGrid + mBaseAnimatedWithPhysicsGameObject_XPos,
                         mBaseAnimatedWithPhysicsGameObject_YPos + FP_FromInteger(10),
-                        &pLine, &hitX, &hitY, mBaseAnimatedWithPhysicsGameObject_Scale != 0 ? 1 : 0x10))
+                        &pLine, &hitX, &hitY, mBaseAnimatedWithPhysicsGameObject_Scale != 0 ? kFgFloor : kBgFloor))
                 {
                     mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit5_FlipX);
                     mBaseAnimatedWithPhysicsGameObject_XPos = hitX;
@@ -4775,7 +4775,7 @@ void Paramite::M_WebGoingDown_37_48CC60()
                 &pLine,
                 &hitX,
                 &hitY,
-                mBaseAnimatedWithPhysicsGameObject_Scale != 0 ? 1 : 16))
+                mBaseAnimatedWithPhysicsGameObject_Scale != 0 ? kFgFloor : kBgFloor))
         {
             mBaseAnimatedWithPhysicsGameObject_XPos = (gridSize * FP_FromDouble(0.5)) + mBaseAnimatedWithPhysicsGameObject_XPos;
             BaseAliveGameObjectCollisionLine = pLine;
@@ -4794,7 +4794,7 @@ void Paramite::M_WebGoingDown_37_48CC60()
                     &pLine,
                     &hitX,
                     &hitY,
-                    mBaseAnimatedWithPhysicsGameObject_Scale != 0 ? 1 : 16))
+                    mBaseAnimatedWithPhysicsGameObject_Scale != 0 ? kFgFloor : kBgFloor))
             {
                 mBaseAnimatedWithPhysicsGameObject_XPos = (invertedGridSize * FP_FromDouble(0.5)) + mBaseAnimatedWithPhysicsGameObject_XPos;
                 mBaseAnimatedWithPhysicsGameObject_YPos = hitY;
@@ -5034,7 +5034,7 @@ void Paramite::VUpdate()
                 &BaseAliveGameObjectCollisionLine,
                 &mBaseAnimatedWithPhysicsGameObject_XPos,
                 &mBaseAnimatedWithPhysicsGameObject_YPos,
-                1 << BaseAliveGameObjectCollisionLineType);
+                CollisionMask(static_cast<eLineTypes>(BaseAliveGameObjectCollisionLineType)));
         }
 
         BaseAliveGameObjectCollisionLineType = 0;
@@ -5541,7 +5541,7 @@ PathLine* Paramite::WebCollision(FP yOff, FP xOff)
             mBaseAnimatedWithPhysicsGameObject_XPos,
             mBaseAnimatedWithPhysicsGameObject_YPos + yOff,
             mBaseAnimatedWithPhysicsGameObject_XPos + xOff,
-            mBaseAnimatedWithPhysicsGameObject_YPos + yOff, &pLine, &hitX, &hitY, 0x100))
+            mBaseAnimatedWithPhysicsGameObject_YPos + yOff, &pLine, &hitX, &hitY, CollisionMask(eTrackLine_8)))
     {
         return 0;
     }

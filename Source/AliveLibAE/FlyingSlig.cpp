@@ -217,7 +217,7 @@ FlyingSlig::FlyingSlig(Path_FlyingSlig* pTlv, s32 tlvInfo)
         &BaseAliveGameObjectCollisionLine,
         &hitX,
         &hitY,
-        0x100);
+        CollisionMask(eTrackLine_8));
 
     if (BaseAliveGameObjectCollisionLine)
     {
@@ -603,6 +603,7 @@ void FlyingSlig::VUpdate()
             {
                 const FP savedNextXPos = field_294_nextXPos;
                 const FP savedNextYPos = field_298_nextYPos;
+                // Everything else uses this a a line type, but of course MrSlig uses it as an index
                 BaseAliveGameObjectCollisionLine = sCollisions->Get_Line_At_Idx(BaseAliveGameObjectCollisionLineType);
                 sub_4348A0();
                 field_294_nextXPos = savedNextXPos;
@@ -1316,7 +1317,7 @@ void FlyingSlig::Brain_17_FromCrawlingSlig()
             &BaseAliveGameObjectCollisionLine,
             &hitX,
             &hitY,
-            0x100)
+            CollisionMask(eTrackLine_8))
         == 1)
     {
         mBaseAnimatedWithPhysicsGameObject_XPos = hitX;
@@ -2206,7 +2207,7 @@ Bool32 FlyingSlig::IsWallBetween_43A550(BaseAliveGameObject* pThis, BaseAliveGam
                &pLine,
                &hitX,
                &hitY,
-               (pThis->mBaseAnimatedWithPhysicsGameObject_Scale != 0 ? 1 : 16) | (pThis->mBaseAnimatedWithPhysicsGameObject_Scale != 0 ? 6 : 96) | (pThis->mBaseAnimatedWithPhysicsGameObject_Scale != 0 ? 8 : 0x80))
+               pThis->mBaseAnimatedWithPhysicsGameObject_Scale != 0 ? kFgFloorWallOrCeiling : kBgFloorWallOrCeiling)
         != 1;
 }
 
@@ -2713,7 +2714,7 @@ s16 FlyingSlig::sub_436C60(PSX_RECT* pRect, s16 arg_4)
                         &pLine,
                         &hitX,
                         &hitY,
-                        mBaseAnimatedWithPhysicsGameObject_Scale != 0 ? 1 : 0x10)
+                        mBaseAnimatedWithPhysicsGameObject_Scale != 0 ? kFgFloor : kBgFloor)
                     == 1)
                 {
                     bRightInRect = 0;
@@ -2740,7 +2741,7 @@ s16 FlyingSlig::sub_436C60(PSX_RECT* pRect, s16 arg_4)
                         &pLine,
                         &hitX,
                         &hitY,
-                        mBaseAnimatedWithPhysicsGameObject_Scale != 0 ? 1 : 16)
+                        mBaseAnimatedWithPhysicsGameObject_Scale != 0 ? kFgFloor : kBgFloor)
                     == 1)
                 {
                     bLeftInRect = 0;
@@ -2970,8 +2971,9 @@ s16 FlyingSlig::CollisionUp_43A640(FP velY)
         &pLine,
         &hitX,
         &hitY,
-        (mBaseAnimatedWithPhysicsGameObject_Scale != 0 ? 0x20000 : 0x40000) | (mBaseAnimatedWithPhysicsGameObject_Scale != 0 ? 1 : 0x10) | (mBaseAnimatedWithPhysicsGameObject_Scale != 0 ? 8 : 0x80));
-
+        mBaseAnimatedWithPhysicsGameObject_Scale != 0 ? 
+CollisionMask(eFloor_0, eDynamicCollision_32, eWallLeft_1, eWallRight_2, eFlyingSligCeiling_17) : CollisionMask(eBackgroundFloor_4, eBackgroundDynamicCollision_36, eBackgroundWallLeft_5, eBackgroundWallRight_6, eBackgroundFlyingSligCeiling_18));
+    
     if (!bCollision)
     {
         bCollision = sCollisions->Raycast(
@@ -2982,7 +2984,9 @@ s16 FlyingSlig::CollisionUp_43A640(FP velY)
             &pLine,
             &hitX,
             &hitY,
-            (mBaseAnimatedWithPhysicsGameObject_Scale != 0 ? 0x20000 : 0x40000) | (mBaseAnimatedWithPhysicsGameObject_Scale != 0 ? 1 : 16) | (mBaseAnimatedWithPhysicsGameObject_Scale != 0 ? 8 : 128));
+            mBaseAnimatedWithPhysicsGameObject_Scale != 0 ?
+            CollisionMask(eFloor_0, eDynamicCollision_32, eWallLeft_1, eWallRight_2, eFlyingSligCeiling_17) :
+            CollisionMask(eBackgroundFloor_4, eBackgroundDynamicCollision_36, eBackgroundWallLeft_5, eBackgroundWallRight_6, eBackgroundFlyingSligCeiling_18));
     }
 
     if (bCollision)
@@ -3041,7 +3045,9 @@ s16 FlyingSlig::CollisionDown_43A9E0(FP velY)
         &pLine,
         &hitX,
         &hitY,
-        (mBaseAnimatedWithPhysicsGameObject_Scale != 0 ? 0x20000 : 0x40000) | (mBaseAnimatedWithPhysicsGameObject_Scale != 0 ? 1 : 0x10));
+        mBaseAnimatedWithPhysicsGameObject_Scale != 0 ? 
+        CollisionMask(eFloor_0, eDynamicCollision_32, eFlyingSligCeiling_17) : 
+        CollisionMask(eBackgroundFloor_4, eBackgroundDynamicCollision_36, eBackgroundFlyingSligCeiling_18));
 
     if (!bCollision)
     {
@@ -3053,7 +3059,10 @@ s16 FlyingSlig::CollisionDown_43A9E0(FP velY)
             &pLine,
             &hitX,
             &hitY,
-            (mBaseAnimatedWithPhysicsGameObject_Scale != 0 ? 0x20000 : 0x40000) | (mBaseAnimatedWithPhysicsGameObject_Scale != 0 ? 1 : 0x10));
+            mBaseAnimatedWithPhysicsGameObject_Scale != 0 ? 
+            CollisionMask(eFloor_0, eDynamicCollision_32, eFlyingSligCeiling_17) : 
+            CollisionMask(eBackgroundFloor_4, eBackgroundDynamicCollision_36, eBackgroundFlyingSligCeiling_18));
+
     }
 
     if (bCollision)
@@ -3102,7 +3111,7 @@ s16 FlyingSlig::CollisionLeftRight_43AC80(FP velX)
         &pLine,
         &hitX,
         &hitY,
-        (mBaseAnimatedWithPhysicsGameObject_Scale != 0 ? 0x20000 : 0x40000) | (mBaseAnimatedWithPhysicsGameObject_Scale != 0 ? 6 : 96));
+        mBaseAnimatedWithPhysicsGameObject_Scale != 0 ? CollisionMask(eWallLeft_1, eWallRight_2, eFlyingSligCeiling_17) : CollisionMask(eBackgroundWallLeft_5, eBackgroundWallRight_6, eBackgroundFlyingSligCeiling_18));
 
     FP sparkX = {};
     if (bCollision)
@@ -3129,7 +3138,7 @@ s16 FlyingSlig::CollisionLeftRight_43AC80(FP velX)
             &pLine,
             &hitX,
             &hitY,
-            (mBaseAnimatedWithPhysicsGameObject_Scale != 0 ? 0x20000 : 0x40000) | (mBaseAnimatedWithPhysicsGameObject_Scale != 0 ? 6 : 96));
+            mBaseAnimatedWithPhysicsGameObject_Scale != 0 ? CollisionMask(eWallLeft_1, eWallRight_2, eFlyingSligCeiling_17) : CollisionMask(eBackgroundWallLeft_5, eBackgroundWallRight_6, eBackgroundFlyingSligCeiling_18));
 
         if (bCollision)
         {

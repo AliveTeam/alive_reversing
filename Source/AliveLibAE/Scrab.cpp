@@ -551,7 +551,7 @@ s16 Scrab::OnFloor()
             &BaseAliveGameObjectCollisionLine,
             &hitX,
             &hitY,
-            mBaseAnimatedWithPhysicsGameObject_Scale != 0 ? 1 : 16))
+            mBaseAnimatedWithPhysicsGameObject_Scale != 0 ? kFgFloor : kBgFloor))
     {
         mBaseAnimatedWithPhysicsGameObject_YPos = hitY;
         ToStand();
@@ -608,7 +608,7 @@ void Scrab::VUpdate()
                 &BaseAliveGameObjectCollisionLine,
                 &mBaseAnimatedWithPhysicsGameObject_XPos,
                 &mBaseAnimatedWithPhysicsGameObject_YPos,
-                1 << BaseAliveGameObjectCollisionLineType);
+                CollisionMask(static_cast<eLineTypes>(BaseAliveGameObjectCollisionLineType)));
         }
         BaseAliveGameObjectCollisionLineType = 0;
         field_120_obj_id = BaseGameObject::RefreshId(field_120_obj_id);
@@ -4154,10 +4154,10 @@ Bool32 Scrab::LineOfSightTo(Scrab* pThis, BaseAliveGameObject* pObj)
                &pLine,
                &hitX,
                &hitY,
-               (pThis->mBaseAnimatedWithPhysicsGameObject_Scale != 0 ? 1 : 16) | (pThis->mBaseAnimatedWithPhysicsGameObject_Scale != 0 ? 6 : 0x60) | (pThis->mBaseAnimatedWithPhysicsGameObject_Scale != 0 ? 8 : 0x80))
+               pThis->mBaseAnimatedWithPhysicsGameObject_Scale != 0 ? kFgFloorWallOrCeiling
+               : kBgFloorWallOrCeiling)
         != 1;
-}
-
+} 
 
 Scrab* Scrab::FindScrabToFight()
 {

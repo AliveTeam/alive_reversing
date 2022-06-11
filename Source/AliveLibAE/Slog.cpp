@@ -725,7 +725,7 @@ void Slog::M_Fall_4_4C6930()
             yposBeforeChange - (mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(20)),
             mBaseAnimatedWithPhysicsGameObject_XPos,
             mBaseAnimatedWithPhysicsGameObject_YPos,
-            &pLine, &hitX, &hitY, 15))
+            &pLine, &hitX, &hitY, CollisionMask(eCeiling_3, eWallRight_2, eWallLeft_1, eFloor_0, eDynamicCollision_32)))
     {
         switch (pLine->field_8_type)
         {
@@ -1081,7 +1081,8 @@ void Slog::M_JumpForwards_18_4C7210()
     PathLine* pLine = nullptr;
     FP hitX = {};
     FP hitY = {};
-    if (sCollisions->Raycast(oldXPos, oldYPos - k20Scaled, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, &pLine, &hitX, &hitY, 15) == 1)
+    if (sCollisions->Raycast(oldXPos, oldYPos - k20Scaled, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, &pLine, &hitX, &hitY, CollisionMask(eCeiling_3, eWallRight_2, eWallLeft_1, eFloor_0, eDynamicCollision_32)
+) == 1)
     {
         switch (pLine->field_8_type)
         {
@@ -1140,7 +1141,7 @@ void Slog::M_JumpUpwards_19_4C7470()
             FP_FromInteger(bRect.y),
             FP_FromInteger(bRect.w),
             FP_FromInteger(bRect.h),
-            &pLine, &hitX, &hitY, 8))
+            &pLine, &hitX, &hitY, CollisionMask(eCeiling_3)))
     {
         if (mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame < 12)
         {
@@ -2822,7 +2823,7 @@ void Slog::Init_4C46A0()
     if (sCollisions->Raycast(
             mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos,
             mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos + FP_FromInteger(24),
-            &BaseAliveGameObjectCollisionLine, &hitX, &hitY, 1)
+            &BaseAliveGameObjectCollisionLine, &hitX, &hitY, CollisionMask(eFloor_0, eDynamicCollision_32))
         == 1)
     {
         mBaseAnimatedWithPhysicsGameObject_YPos = hitY;
@@ -2862,7 +2863,7 @@ void Slog::VUpdate()
                 &BaseAliveGameObjectCollisionLine,
                 &mBaseAnimatedWithPhysicsGameObject_XPos,
                 &mBaseAnimatedWithPhysicsGameObject_YPos,
-                1 << BaseAliveGameObjectCollisionLineType);
+                CollisionMask(static_cast<eLineTypes>(BaseAliveGameObjectCollisionLineType)));
         }
         BaseAliveGameObjectCollisionLineType = 0;
         field_118_target_id = BaseGameObject::RefreshId(field_118_target_id);
@@ -3093,7 +3094,7 @@ s16 Slog::ToNextMotion_4C5A30()
 Bool32 Slog::CollisionCheck_4C5480(FP hitY, FP hitX)
 {
     PathLine* pLine = nullptr;
-    return sCollisions->Raycast(mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos - hitY, mBaseAnimatedWithPhysicsGameObject_XPos + hitX, mBaseAnimatedWithPhysicsGameObject_YPos - hitY, &pLine, &hitX, &hitY, 6) != 0;
+    return sCollisions->Raycast(mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos - hitY, mBaseAnimatedWithPhysicsGameObject_XPos + hitX, mBaseAnimatedWithPhysicsGameObject_YPos - hitY, &pLine, &hitX, &hitY, CollisionMask(eWallRight_2, eWallLeft_1)) != 0;
 }
 
 void Slog::MoveOnLine_4C5DA0()
