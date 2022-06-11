@@ -37,7 +37,24 @@ void Event_Broadcast(Event event, BaseGameObject* pObject);
 BaseGameObject* Event_Get(Event eventType);
 void Events_Reset();
 void Events_Reset_Active();
-IBaseAnimatedWithPhysicsGameObject* Event_Is_Event_In_Range(Event eventType, FP xpos, FP ypos, Scale scale);
+
+enum class EventScale
+{
+    Full,
+    Half,
+    Both
+};
+
+inline constexpr EventScale AsEventScale(Scale scale)
+{
+    if (scale == Scale::Fg)
+    {
+        return EventScale::Full;
+    }
+    return EventScale::Half;
+}
+
+IBaseAnimatedWithPhysicsGameObject* Event_Is_Event_In_Range(Event eventType, FP xpos, FP ypos, EventScale scale);
 
 // TODO: Get AO to stop using the FP scale and merge both copies
 IBaseAnimatedWithPhysicsGameObject* Event_Is_Event_In_Range(Event eventType, FP xpos, FP ypos, FP scale);

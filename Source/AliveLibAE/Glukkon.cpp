@@ -1061,7 +1061,7 @@ s16 Glukkon::Brain_0_Calm_WalkAround_440B40()
                         kEventAbeOhm,
                         mBaseAnimatedWithPhysicsGameObject_XPos,
                         mBaseAnimatedWithPhysicsGameObject_YPos,
-                        mBaseAnimatedWithPhysicsGameObject_Scale))
+                        AsEventScale(mBaseAnimatedWithPhysicsGameObject_Scale)))
                 {
                     field_1D4_timer = sGnFrame + 10;
                 }
@@ -1078,7 +1078,7 @@ s16 Glukkon::Brain_0_Calm_WalkAround_440B40()
                 kEventGlukkonUnknown,
                 mBaseAnimatedWithPhysicsGameObject_XPos,
                 mBaseAnimatedWithPhysicsGameObject_YPos,
-                mBaseAnimatedWithPhysicsGameObject_Scale);
+                AsEventScale(mBaseAnimatedWithPhysicsGameObject_Scale));
             if (pEvent17 && pEvent17 != this)
             {
                 field_1D4_timer = sGnFrame + 20;
@@ -1109,7 +1109,7 @@ s16 Glukkon::Brain_0_Calm_WalkAround_440B40()
                         kEventAbeOhm,
                         mBaseAnimatedWithPhysicsGameObject_XPos,
                         mBaseAnimatedWithPhysicsGameObject_YPos,
-                        mBaseAnimatedWithPhysicsGameObject_Scale))
+                        AsEventScale(mBaseAnimatedWithPhysicsGameObject_Scale)))
                 {
                     field_1D4_timer = sGnFrame + 10;
                 }
@@ -1128,7 +1128,7 @@ s16 Glukkon::Brain_0_Calm_WalkAround_440B40()
                     kEventGlukkonUnknown,
                     mBaseAnimatedWithPhysicsGameObject_XPos,
                     mBaseAnimatedWithPhysicsGameObject_YPos,
-                    mBaseAnimatedWithPhysicsGameObject_Scale);
+                    AsEventScale(mBaseAnimatedWithPhysicsGameObject_Scale));
                 if (pEvent17_1 && pEvent17_1 != this)
                 {
                     field_1D4_timer = sGnFrame + 20;
@@ -1197,7 +1197,7 @@ s16 Glukkon::Brain_0_Calm_WalkAround_440B40()
                         kEventAbeOhm,
                         mBaseAnimatedWithPhysicsGameObject_XPos,
                         mBaseAnimatedWithPhysicsGameObject_YPos,
-                        mBaseAnimatedWithPhysicsGameObject_Scale))
+                        AsEventScale(mBaseAnimatedWithPhysicsGameObject_Scale)))
                 {
                     field_1D4_timer = sGnFrame + 10;
                 }
@@ -1214,7 +1214,7 @@ s16 Glukkon::Brain_0_Calm_WalkAround_440B40()
                 kEventGlukkonUnknown,
                 mBaseAnimatedWithPhysicsGameObject_XPos,
                 mBaseAnimatedWithPhysicsGameObject_YPos,
-                mBaseAnimatedWithPhysicsGameObject_Scale);
+                AsEventScale(mBaseAnimatedWithPhysicsGameObject_Scale));
             if (pEvent17 && pEvent17 != this)
             {
                 field_1D4_timer = sGnFrame + 20;
@@ -1238,7 +1238,7 @@ s16 Glukkon::Brain_0_Calm_WalkAround_440B40()
                         kEventAbeOhm,
                         mBaseAnimatedWithPhysicsGameObject_XPos,
                         mBaseAnimatedWithPhysicsGameObject_YPos,
-                        mBaseAnimatedWithPhysicsGameObject_Scale))
+                        AsEventScale(mBaseAnimatedWithPhysicsGameObject_Scale)))
                 {
                     field_1D4_timer = sGnFrame + 10;
                 }
@@ -1256,7 +1256,7 @@ s16 Glukkon::Brain_0_Calm_WalkAround_440B40()
                     kEventGlukkonUnknown,
                     mBaseAnimatedWithPhysicsGameObject_XPos,
                     mBaseAnimatedWithPhysicsGameObject_YPos,
-                    mBaseAnimatedWithPhysicsGameObject_Scale);
+                    AsEventScale(mBaseAnimatedWithPhysicsGameObject_Scale));
                 if (pEvent17_3 && pEvent17_3 != this)
                 {
                     field_1D4_timer = sGnFrame + 20;
@@ -2413,7 +2413,7 @@ s16 Glukkon::ShouldPanic(s16 panicEvenIfNotFacingMe)
             kEventAbeOhm,
             mBaseAnimatedWithPhysicsGameObject_XPos,
             mBaseAnimatedWithPhysicsGameObject_YPos,
-            mBaseAnimatedWithPhysicsGameObject_Scale))
+            AsEventScale(mBaseAnimatedWithPhysicsGameObject_Scale)))
     {
         return 1;
     }
@@ -2429,7 +2429,7 @@ s16 Glukkon::ShouldPanic(s16 panicEvenIfNotFacingMe)
         kEventSpeaking,
         mBaseAnimatedWithPhysicsGameObject_XPos,
         mBaseAnimatedWithPhysicsGameObject_YPos,
-        mBaseAnimatedWithPhysicsGameObject_Scale);
+        AsEventScale(mBaseAnimatedWithPhysicsGameObject_Scale));
     return pSpeakEvent && pSpeakEvent == sControlledCharacter_5C1B8C;
 }
 

@@ -8599,7 +8599,7 @@ void Abe::MoveForward_44E9A0()
     }
 
     TrapDoor* pTrapdoor = static_cast<TrapDoor*>(sObjectIds.Find_Impl(BaseAliveGameObjectId));
-    if (BaseAliveGameObjectCollisionLine && (mBaseAnimatedWithPhysicsGameObject_Scale != 0 ? 1 : 16) & (1 << BaseAliveGameObjectCollisionLine->field_8_type))
+    if (BaseAliveGameObjectCollisionLine && (mBaseAnimatedWithPhysicsGameObject_Scale == Scale::Fg ? kFgFloor : kBgFloor).Mask() == CollisionMask(BaseAliveGameObjectCollisionLine->field_8_type).Mask())
     {
         // Handle trap door collision.
         if (BaseAliveGameObjectCollisionLine->field_8_type == eLineTypes::eDynamicCollision_32 ||
@@ -8614,7 +8614,8 @@ void Abe::MoveForward_44E9A0()
             const PSX_RECT bRect = VGetBoundingRect();
             VOnCollisionWith(
                 {bRect.x, static_cast<s16>(bRect.y + 5)},
-                {static_cast<s16>(bRect.w + 5), static_cast<s16>(bRect.h + 5)}, // TODO: Is it really on both ??
+                {static_cast<s16>(bRect.w + 5), 
+                 static_cast<s16>(bRect.h + 5)}, // TODO: Is it really on both ??
                 ObjList_5C1B78,
                 1,
                 (TCollisionCallBack) &BaseAliveGameObject::OnTrapDoorIntersection);

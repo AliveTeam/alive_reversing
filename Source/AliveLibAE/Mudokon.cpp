@@ -2080,9 +2080,9 @@ s16 Mudokon::Brain_1_Chisel_47C5F0()
         }
     }
 
-    IBaseAnimatedWithPhysicsGameObject* pAbuseEvent = Event_Is_Event_In_Range(kEventMudokonAbuse, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, mBaseAnimatedWithPhysicsGameObject_Scale);
-    IBaseAnimatedWithPhysicsGameObject* pDeadMudEvent = Event_Is_Event_In_Range(kEventMudokonDied, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, mBaseAnimatedWithPhysicsGameObject_Scale);
-    IBaseAnimatedWithPhysicsGameObject* pLoudNoiseEvent = Event_Is_Event_In_Range(kEventLoudNoise, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, mBaseAnimatedWithPhysicsGameObject_Scale);
+    IBaseAnimatedWithPhysicsGameObject* pAbuseEvent = Event_Is_Event_In_Range(kEventMudokonAbuse, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, AsEventScale(mBaseAnimatedWithPhysicsGameObject_Scale));
+    IBaseAnimatedWithPhysicsGameObject* pDeadMudEvent = Event_Is_Event_In_Range(kEventMudokonDied, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, AsEventScale(mBaseAnimatedWithPhysicsGameObject_Scale));
+    IBaseAnimatedWithPhysicsGameObject* pLoudNoiseEvent = Event_Is_Event_In_Range(kEventLoudNoise, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, AsEventScale(mBaseAnimatedWithPhysicsGameObject_Scale));
 
     const bool reactToAbused = (pAbuseEvent && pAbuseEvent != this && field_190_brain_sub_state != Brain_1_Chisle::eBrain1_StandUp_3 && gMap.Is_Point_In_Current_Camera_4810D0(mBaseAnimatedWithPhysicsGameObject_LvlNumber, mBaseAnimatedWithPhysicsGameObject_PathNumber, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, 0));
 
@@ -2456,7 +2456,7 @@ s16 Mudokon::Brain_2_Scrub_47D270()
         kEventMudokonAbuse,
         mBaseAnimatedWithPhysicsGameObject_XPos,
         mBaseAnimatedWithPhysicsGameObject_YPos,
-        mBaseAnimatedWithPhysicsGameObject_Scale);
+        AsEventScale(mBaseAnimatedWithPhysicsGameObject_Scale));
     if (pAbuse)
     {
         if (pAbuse != this)
@@ -2496,7 +2496,7 @@ s16 Mudokon::Brain_2_Scrub_47D270()
         kEventMudokonDied,
         mBaseAnimatedWithPhysicsGameObject_XPos,
         mBaseAnimatedWithPhysicsGameObject_YPos,
-        mBaseAnimatedWithPhysicsGameObject_Scale);
+        AsEventScale(mBaseAnimatedWithPhysicsGameObject_Scale));
     if (pDied)
     {
         if (pDied != this)
@@ -2536,7 +2536,7 @@ s16 Mudokon::Brain_2_Scrub_47D270()
         kEventLoudNoise,
         mBaseAnimatedWithPhysicsGameObject_XPos,
         mBaseAnimatedWithPhysicsGameObject_YPos,
-        mBaseAnimatedWithPhysicsGameObject_Scale);
+        AsEventScale(mBaseAnimatedWithPhysicsGameObject_Scale));
     if (pLoudNoise)
     {
         if (pLoudNoise->Type() == ReliveTypes::eGlukkon)
@@ -2740,7 +2740,7 @@ s16 Mudokon::Brain_2_Scrub_47D270()
 
             if (bUnknown)
             {
-                if (!Event_Is_Event_In_Range(kEventSpeaking, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, mBaseAnimatedWithPhysicsGameObject_Scale))
+                if (!Event_Is_Event_In_Range(kEventSpeaking, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, AsEventScale(mBaseAnimatedWithPhysicsGameObject_Scale)))
                 {
                     return field_190_brain_sub_state;
                 }
@@ -2932,7 +2932,7 @@ s16 Mudokon::Brain_3_TurnWheel_47E0D0()
         kEventMudokonAbuse,
         mBaseAnimatedWithPhysicsGameObject_XPos,
         mBaseAnimatedWithPhysicsGameObject_YPos,
-        mBaseAnimatedWithPhysicsGameObject_Scale);
+        AsEventScale(mBaseAnimatedWithPhysicsGameObject_Scale));
 
     if (pMudAbuseEvent)
     {
@@ -2971,7 +2971,7 @@ s16 Mudokon::Brain_3_TurnWheel_47E0D0()
         kEventLoudNoise,
         mBaseAnimatedWithPhysicsGameObject_XPos,
         mBaseAnimatedWithPhysicsGameObject_YPos,
-        mBaseAnimatedWithPhysicsGameObject_Scale);
+        AsEventScale(mBaseAnimatedWithPhysicsGameObject_Scale));
     if (pLoudNoiseEvent)
     {
         if (pLoudNoiseEvent->Type() == ReliveTypes::eGlukkon
@@ -3186,7 +3186,7 @@ s16 Mudokon::Brain_4_ListeningToAbe_477B40()
             kEventMudokonAbuse,
             mBaseAnimatedWithPhysicsGameObject_XPos,
             mBaseAnimatedWithPhysicsGameObject_YPos,
-            mBaseAnimatedWithPhysicsGameObject_Scale))
+            AsEventScale(mBaseAnimatedWithPhysicsGameObject_Scale)))
     {
         field_17E_delayed_speak = MudAction::eMudAbuse_9;
     }
@@ -3195,7 +3195,7 @@ s16 Mudokon::Brain_4_ListeningToAbe_477B40()
             kEventMudokonDied,
             mBaseAnimatedWithPhysicsGameObject_XPos,
             mBaseAnimatedWithPhysicsGameObject_YPos,
-            mBaseAnimatedWithPhysicsGameObject_Scale))
+            AsEventScale(mBaseAnimatedWithPhysicsGameObject_Scale)))
     {
         field_17E_delayed_speak = MudAction::eMudDied_14;
     }
@@ -3204,7 +3204,7 @@ s16 Mudokon::Brain_4_ListeningToAbe_477B40()
             kEventMudokonComfort,
             mBaseAnimatedWithPhysicsGameObject_XPos,
             mBaseAnimatedWithPhysicsGameObject_YPos,
-            mBaseAnimatedWithPhysicsGameObject_Scale))
+            AsEventScale(mBaseAnimatedWithPhysicsGameObject_Scale)))
     {
         field_17E_delayed_speak = MudAction::eComfort_10;
     }
@@ -3213,7 +3213,7 @@ s16 Mudokon::Brain_4_ListeningToAbe_477B40()
             kEventMudokonLaugh,
             mBaseAnimatedWithPhysicsGameObject_XPos,
             mBaseAnimatedWithPhysicsGameObject_YPos,
-            mBaseAnimatedWithPhysicsGameObject_Scale))
+            AsEventScale(mBaseAnimatedWithPhysicsGameObject_Scale)))
     {
         field_17E_delayed_speak = MudAction::eLaugh_12;
     }
@@ -3221,7 +3221,7 @@ s16 Mudokon::Brain_4_ListeningToAbe_477B40()
     if (Event_Is_Event_In_Range(kEventAbeDead,
             mBaseAnimatedWithPhysicsGameObject_XPos,
             mBaseAnimatedWithPhysicsGameObject_YPos,
-            mBaseAnimatedWithPhysicsGameObject_Scale))
+                                AsEventScale(mBaseAnimatedWithPhysicsGameObject_Scale)))
     {
         field_17E_delayed_speak = MudAction::eDuck_13;
     }
@@ -3230,7 +3230,7 @@ s16 Mudokon::Brain_4_ListeningToAbe_477B40()
         kEventLoudNoise,
         mBaseAnimatedWithPhysicsGameObject_XPos,
         mBaseAnimatedWithPhysicsGameObject_YPos,
-        mBaseAnimatedWithPhysicsGameObject_Scale);
+        AsEventScale(mBaseAnimatedWithPhysicsGameObject_Scale));
 
     if (pNoiseEvent)
     {
@@ -5315,7 +5315,7 @@ s16 Mudokon::Brain_9_Sick_47A910()
             kEventMudokonAbuse,
             mBaseAnimatedWithPhysicsGameObject_XPos,
             mBaseAnimatedWithPhysicsGameObject_YPos,
-            mBaseAnimatedWithPhysicsGameObject_Scale))
+            AsEventScale(mBaseAnimatedWithPhysicsGameObject_Scale)))
     {
         field_17E_delayed_speak = MudAction::eMudAbuse_9;
     }
@@ -5324,7 +5324,7 @@ s16 Mudokon::Brain_9_Sick_47A910()
             kEventMudokonComfort,
             mBaseAnimatedWithPhysicsGameObject_XPos,
             mBaseAnimatedWithPhysicsGameObject_YPos,
-            mBaseAnimatedWithPhysicsGameObject_Scale))
+            AsEventScale(mBaseAnimatedWithPhysicsGameObject_Scale)))
     {
         field_17E_delayed_speak = MudAction::eComfort_10;
     }
@@ -5333,7 +5333,7 @@ s16 Mudokon::Brain_9_Sick_47A910()
             kEventMudokonLaugh,
             mBaseAnimatedWithPhysicsGameObject_XPos,
             mBaseAnimatedWithPhysicsGameObject_YPos,
-            mBaseAnimatedWithPhysicsGameObject_Scale))
+            AsEventScale(mBaseAnimatedWithPhysicsGameObject_Scale)))
     {
         field_17E_delayed_speak = MudAction::eLaugh_12;
     }
@@ -5341,7 +5341,7 @@ s16 Mudokon::Brain_9_Sick_47A910()
     if (Event_Is_Event_In_Range(kEventAbeDead,
             mBaseAnimatedWithPhysicsGameObject_XPos,
             mBaseAnimatedWithPhysicsGameObject_YPos,
-            mBaseAnimatedWithPhysicsGameObject_Scale))
+                                AsEventScale(mBaseAnimatedWithPhysicsGameObject_Scale)))
     {
         field_17E_delayed_speak = MudAction::eDuck_13;
     }
@@ -5350,7 +5350,7 @@ s16 Mudokon::Brain_9_Sick_47A910()
             kEventShooting,
             mBaseAnimatedWithPhysicsGameObject_XPos,
             mBaseAnimatedWithPhysicsGameObject_YPos,
-            mBaseAnimatedWithPhysicsGameObject_Scale))
+            AsEventScale(mBaseAnimatedWithPhysicsGameObject_Scale)))
     {
         field_17E_delayed_speak = MudAction::eWait_2;
     }
