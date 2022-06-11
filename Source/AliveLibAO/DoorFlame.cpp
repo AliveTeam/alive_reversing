@@ -55,7 +55,7 @@ public:
 
     virtual void VRender(PrimHeader** ppOt) override
     {
-        if (Is_In_Current_Camera_417CC0() == CameraPos::eCamCurrent_0)
+        if (Is_In_Current_Camera() == CameraPos::eCamCurrent_0)
         {
             mBaseAnimatedWithPhysicsGameObject_Anim.mRed = static_cast<u8>(mBaseAnimatedWithPhysicsGameObject_Red);
             mBaseAnimatedWithPhysicsGameObject_Anim.mGreen = static_cast<u8>(mBaseAnimatedWithPhysicsGameObject_Green);

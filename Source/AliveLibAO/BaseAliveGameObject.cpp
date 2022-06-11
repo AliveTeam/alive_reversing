@@ -245,6 +245,33 @@ BirdPortal* BaseAliveGameObject::IntoBirdPortal_402350(s16 distance)
     return nullptr;
 }
 
+
+s16 BaseAliveGameObject::SetBaseAnimPaletteTint(const TintEntry* pTintArray, EReliveLevelIds lvl, s32 palId)
+{
+    const TintEntry* pIter = pTintArray;
+    while (pIter->field_0_level != lvl)
+    {
+        if (pIter->field_0_level == EReliveLevelIds::eNone) // End of entries
+        {
+            return 0;
+        }
+        pIter++;
+    }
+
+    mBaseAnimatedWithPhysicsGameObject_Red = pIter->field_1_r;
+    mBaseAnimatedWithPhysicsGameObject_Green = pIter->field_2_g;
+    mBaseAnimatedWithPhysicsGameObject_Blue = pIter->field_3_b;
+
+    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Palt, palId, 1, 0);
+    if (!ppRes)
+    {
+        return 0;
+    }
+    mBaseAnimatedWithPhysicsGameObject_Anim.LoadPal(ppRes, 0);
+    ResourceManager::FreeResource_455550(ppRes);
+    return 1;
+}
+
 s16 BaseAliveGameObject::Check_IsOnEndOfLine_4021A0(s16 direction, s16 dist)
 {
     // Check if distance grid blocks from current snapped X is still on the line or not, if not then we are
@@ -568,7 +595,7 @@ void BaseAliveGameObject::SetActiveCameraDelayedFromDir_401C90()
 {
     if (sControlledCharacter_50767C == this)
     {
-        switch (Is_In_Current_Camera_417CC0())
+        switch (Is_In_Current_Camera())
         {
             case CameraPos::eCamTop_1:
                 if (mBaseAnimatedWithPhysicsGameObject_VelY < FP_FromInteger(0))

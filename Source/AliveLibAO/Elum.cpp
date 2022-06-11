@@ -1114,7 +1114,7 @@ s16 Elum::Brain_0_WithoutAbe_416190()
                 if (gMap.mCurrentLevel == mBaseAnimatedWithPhysicsGameObject_LvlNumber
                     && gMap.mCurrentPath == mBaseAnimatedWithPhysicsGameObject_PathNumber)
                 {
-                    if (Is_In_Current_Camera_417CC0() == CameraPos::eCamCurrent_0)
+                    if (Is_In_Current_Camera() == CameraPos::eCamCurrent_0)
                     {
                         if (FP_Abs(xd) > (kGridSize / FP_FromInteger(2)))
                         {
@@ -1129,7 +1129,7 @@ s16 Elum::Brain_0_WithoutAbe_416190()
                 && gMap.mCurrentLevel == mBaseAnimatedWithPhysicsGameObject_LvlNumber
                 && gMap.mCurrentPath == mBaseAnimatedWithPhysicsGameObject_PathNumber)
             {
-                if (Is_In_Current_Camera_417CC0() == CameraPos::eCamCurrent_0)
+                if (Is_In_Current_Camera() == CameraPos::eCamCurrent_0)
                 {
                     field_114_respond_timer = sGnFrame + 14;
                     return 9;
@@ -1140,7 +1140,7 @@ s16 Elum::Brain_0_WithoutAbe_416190()
                 && gMap.mCurrentLevel == mBaseAnimatedWithPhysicsGameObject_LvlNumber
                 && gMap.mCurrentPath == mBaseAnimatedWithPhysicsGameObject_PathNumber)
             {
-                if (Is_In_Current_Camera_417CC0() == CameraPos::eCamCurrent_0)
+                if (Is_In_Current_Camera() == CameraPos::eCamCurrent_0)
                 {
                     field_114_respond_timer = sGnFrame + 28;
                     return 11;
@@ -1150,7 +1150,7 @@ s16 Elum::Brain_0_WithoutAbe_416190()
             if (last_event_v1 == GameSpeakEvents::eWait_12
                 && gMap.mCurrentLevel == mBaseAnimatedWithPhysicsGameObject_LvlNumber
                 && gMap.mCurrentPath == mBaseAnimatedWithPhysicsGameObject_PathNumber
-                && Is_In_Current_Camera_417CC0() == CameraPos::eCamCurrent_0)
+                && Is_In_Current_Camera() == CameraPos::eCamCurrent_0)
             {
                 field_122_bDontFollowAbe = 1;
                 field_114_respond_timer = sGnFrame + 14;
@@ -1248,7 +1248,7 @@ s16 Elum::Brain_0_WithoutAbe_416190()
 
             if (last_event_v2 == GameSpeakEvents::eFollowMe_10 && gMap.mCurrentLevel == mBaseAnimatedWithPhysicsGameObject_LvlNumber && gMap.mCurrentPath == mBaseAnimatedWithPhysicsGameObject_PathNumber)
             {
-                if (Is_In_Current_Camera_417CC0() == CameraPos::eCamCurrent_0)
+                if (Is_In_Current_Camera() == CameraPos::eCamCurrent_0)
                 {
                     field_122_bDontFollowAbe = 0;
                     if (FP_Abs(xd_1) < (kGridSize / FP_FromInteger(2)))
@@ -1265,7 +1265,7 @@ s16 Elum::Brain_0_WithoutAbe_416190()
                 && gMap.mCurrentLevel == mBaseAnimatedWithPhysicsGameObject_LvlNumber
                 && gMap.mCurrentPath == mBaseAnimatedWithPhysicsGameObject_PathNumber)
             {
-                if (Is_In_Current_Camera_417CC0() == CameraPos::eCamCurrent_0)
+                if (Is_In_Current_Camera() == CameraPos::eCamCurrent_0)
                 {
                     field_122_bDontFollowAbe = 1;
                     field_114_respond_timer = sGnFrame + 14;
@@ -1277,7 +1277,7 @@ s16 Elum::Brain_0_WithoutAbe_416190()
                 && gMap.mCurrentLevel == mBaseAnimatedWithPhysicsGameObject_LvlNumber
                 && gMap.mCurrentPath == mBaseAnimatedWithPhysicsGameObject_PathNumber)
             {
-                if (Is_In_Current_Camera_417CC0() == CameraPos::eCamCurrent_0)
+                if (Is_In_Current_Camera() == CameraPos::eCamCurrent_0)
                 {
                     field_114_respond_timer = sGnFrame + 14;
                     return 8;
@@ -1287,7 +1287,7 @@ s16 Elum::Brain_0_WithoutAbe_416190()
             if (last_event_v2 == GameSpeakEvents::eFart_3
                 && gMap.mCurrentLevel == mBaseAnimatedWithPhysicsGameObject_LvlNumber
                 && gMap.mCurrentPath == mBaseAnimatedWithPhysicsGameObject_PathNumber
-                && Is_In_Current_Camera_417CC0() == CameraPos::eCamCurrent_0)
+                && Is_In_Current_Camera() == CameraPos::eCamCurrent_0)
             {
                 field_114_respond_timer = sGnFrame + 28;
                 return 10;

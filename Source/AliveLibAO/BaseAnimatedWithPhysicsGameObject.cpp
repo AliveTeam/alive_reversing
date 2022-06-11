@@ -172,7 +172,6 @@ void BaseAnimatedWithPhysicsGameObject::Animation_Init_417FD0(s32 frameTableOffs
     }
 }
 
-
 CameraPos BaseAnimatedWithPhysicsGameObject::Is_In_Current_Camera()
 {
     const PSX_RECT rect = VGetBoundingRect();
@@ -220,14 +219,14 @@ void BaseAnimatedWithPhysicsGameObject::VOnCollisionWith(PSX_Point xy, PSX_Point
                     const PSX_RECT bRect = pObj->VGetBoundingRect(startingPointIdx);
                     if (xy.field_0_x <= bRect.w && wh.field_0_x >= bRect.x && wh.field_2_y >= bRect.y && xy.field_2_y <= bRect.h)
                     {
-                        if (!(this->*pFn)(pObj))
+                        if (!(this->*(pFn))(pObj))
                         {
                             break;
                         }
                     }
                 }
             }
-        };
+        }
     }
 }
 
@@ -342,7 +341,6 @@ void BaseAnimatedWithPhysicsGameObject::VOnThrowableHit(BaseGameObject* /*pFrom*
     // Empty
 }
 
-
 PSX_RECT BaseAnimatedWithPhysicsGameObject::VGetBoundingRect(s32 pointIdx)
 {
     const FrameInfoHeader* pAnimFrameHeader = mBaseAnimatedWithPhysicsGameObject_Anim.Get_FrameHeader(-1);
@@ -391,7 +389,7 @@ void BaseAnimatedWithPhysicsGameObject::SetTint(const TintEntry* pTintArray, ERe
 {
     while (pTintArray->field_0_level != level_id)
     {
-        if (pTintArray->field_0_level == level_id || pTintArray->field_0_level == EReliveLevelIds::eNone)
+        if (pTintArray->field_0_level == level_id || pTintArray->field_0_level == EReliveLevelIds::eNone) // End of entries
         {
             break;
         }
@@ -402,41 +400,6 @@ void BaseAnimatedWithPhysicsGameObject::SetTint(const TintEntry* pTintArray, ERe
     mBaseAnimatedWithPhysicsGameObject_Green = pTintArray->field_2_g;
     mBaseAnimatedWithPhysicsGameObject_Blue = pTintArray->field_3_b;
 }
-
-
-s16 BaseAnimatedWithPhysicsGameObject::SetBaseAnimPaletteTint_4187C0(const TintEntry* pTintArray, EReliveLevelIds lvl, s32 palId)
-{
-    const TintEntry* pIter = pTintArray;
-    while (pIter->field_0_level != lvl)
-    {
-        if (pIter->field_0_level == EReliveLevelIds::eNone) // End of entries
-        {
-            return 0;
-        }
-        pIter++;
-    }
-
-    mBaseAnimatedWithPhysicsGameObject_Red = pIter->field_1_r;
-    mBaseAnimatedWithPhysicsGameObject_Green = pIter->field_2_g;
-    mBaseAnimatedWithPhysicsGameObject_Blue = pIter->field_3_b;
-
-    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Palt, palId, 1, 0);
-    if (!ppRes)
-    {
-        return 0;
-    }
-    mBaseAnimatedWithPhysicsGameObject_Anim.LoadPal(ppRes, 0);
-    ResourceManager::FreeResource_455550(ppRes);
-    return 1;
-}
-
-
-CameraPos BaseAnimatedWithPhysicsGameObject::Is_In_Current_Camera_417CC0()
-{
-    const PSX_RECT rect = VGetBoundingRect();
-    return gMap.Rect_Location_Relative_To_Active_Camera(&rect, 0);
-}
-
 
 BaseAnimatedWithPhysicsGameObject::BetweenCamPos BaseAnimatedWithPhysicsGameObject::BetweenCameras_418500()
 {

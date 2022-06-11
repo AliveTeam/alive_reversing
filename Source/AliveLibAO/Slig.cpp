@@ -351,7 +351,7 @@ Slig::Slig(Path_Slig* pTlv, s32 tlvInfo)
         mBaseAnimatedWithPhysicsGameObject_Scale = Scale::Bg;
     }
 
-    SetBaseAnimPaletteTint_4187C0(
+    SetBaseAnimPaletteTint(
         &kSligTints_4CFB10[0],
         gMap.mCurrentLevel,
         412);

@@ -78,7 +78,7 @@ TimedMine::TimedMine(Path_TimedMine* pTlv, s32 tlvInfo)
     field_114_timer = sGnFrame;
     field_110_tlvInfo = tlvInfo;
 
-    SetBaseAnimPaletteTint_4187C0(kTimedMineTints_4C3140, gMap.mCurrentLevel, 1005);
+    SetBaseAnimPaletteTint(kTimedMineTints_4C3140, gMap.mCurrentLevel, 1005);
     mCollectionRect.x = mBaseAnimatedWithPhysicsGameObject_XPos - (ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale) / FP_FromInteger(2));
     mCollectionRect.w = mBaseAnimatedWithPhysicsGameObject_XPos + (ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale) / FP_FromInteger(2));
     mCollectionRect.h = mBaseAnimatedWithPhysicsGameObject_YPos;

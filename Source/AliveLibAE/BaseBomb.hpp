@@ -11,6 +11,8 @@ public:
 
     BaseBomb(FP x, FP y, s32 unused, FP scale);
 
+    void DealDamageRect(const PSX_RECT* pRect);
+
 private:
     FP field_f4_scale;
 };

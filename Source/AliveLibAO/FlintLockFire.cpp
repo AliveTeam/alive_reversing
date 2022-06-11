@@ -261,7 +261,7 @@ void FlintLockFire::VUpdate()
 
 void FlintLockFire::VRender(PrimHeader** ppOt)
 {
-    if (Is_In_Current_Camera_417CC0() == CameraPos::eCamCurrent_0)
+    if (Is_In_Current_Camera() == CameraPos::eCamCurrent_0)
     {
         const s32 cur_lvl = static_cast<s32>(MapWrapper::ToAO(gMap.mCurrentLevel));
         mBaseAnimatedWithPhysicsGameObject_Anim.field_14_scale = mBaseAnimatedWithPhysicsGameObject_SpriteScale;

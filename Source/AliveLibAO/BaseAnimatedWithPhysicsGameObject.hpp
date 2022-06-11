@@ -61,13 +61,12 @@ public:
 
     BaseAnimatedWithPhysicsGameObject();
 
-    CameraPos Is_In_Current_Camera_417CC0();
+    // Note inlined in AO everywhere
+    CameraPos Is_In_Current_Camera();
 
     void Animation_Init_417FD0(s32 frameTableOffset, s32 maxW, s32 maxH, u8** ppAnimData, s16 bAddToDrawableList);
 
 protected:
-    // Note inlined in AO everywhere
-    CameraPos Is_In_Current_Camera();
     void DeathSmokeEffect(bool bPlaySound);
 
     ~BaseAnimatedWithPhysicsGameObject();
@@ -80,8 +79,6 @@ protected:
     };
 
     BetweenCamPos BetweenCameras_418500();
-
-    s16 SetBaseAnimPaletteTint_4187C0(const TintEntry* pTintArray, EReliveLevelIds lvl, s32 palId);
 
 
 public:

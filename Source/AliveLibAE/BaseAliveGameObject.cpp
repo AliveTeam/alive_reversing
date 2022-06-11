@@ -368,7 +368,7 @@ void BaseAliveGameObject::VOnTrapDoorOpen()
 
 s16 BaseAliveGameObject::SetBaseAnimPaletteTint(TintEntry* pTintArray, EReliveLevelIds level_id, s32 resourceID)
 {
-    SetTint(pTintArray, level_id);
+    SetTint(pTintArray, level_id); // Actually bugged for inputs that never happen as it should return 0
 
     u8** pPalResource = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Palt, resourceID, 1u, 0);
 

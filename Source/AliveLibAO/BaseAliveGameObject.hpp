@@ -107,6 +107,8 @@ protected:
 
     s16 InAirCollision_4019C0(PathLine** ppLine, FP* hitX, FP* hitY, FP vely);
 
+    s16 SetBaseAnimPaletteTint(const TintEntry* pTintArray, EReliveLevelIds lvl, s32 palId);
+
     s16 Check_IsOnEndOfLine_4021A0(s16 direction, s16 dist);
 
 public:

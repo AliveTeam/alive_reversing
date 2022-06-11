@@ -44,7 +44,6 @@ public:
     virtual void VOnThrowableHit(BaseGameObject* pFrom);
 
     CameraPos Is_In_Current_Camera();
-    void DealDamageRect(const PSX_RECT* pRect);
     void SetTint(const TintEntry* pTintArray, EReliveLevelIds level_id);
 
 protected:

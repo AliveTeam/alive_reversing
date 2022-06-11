@@ -177,3 +177,61 @@ void BaseBomb::VUpdate()
         mBaseGameObjectFlags.Set(Options::eDead);
     }
 }
+
+void BaseBomb::DealDamageRect(const PSX_RECT* pRect)
+{
+    if (gBaseAliveGameObjects_5C1B7C)
+    {
+        auto min_x_w = pRect->w;
+        if (pRect->x <= pRect->w)
+        {
+            min_x_w = pRect->x;
+        }
+
+        auto min_w_x = pRect->w;
+        if (pRect->w <= pRect->x)
+        {
+            min_w_x = pRect->x;
+        }
+
+        auto min_y_h = pRect->h;
+        if (pRect->y <= pRect->h)
+        {
+            min_y_h = pRect->y;
+        }
+
+        auto min_h_y = pRect->h;
+        if (pRect->h <= pRect->y)
+        {
+            min_h_y = pRect->y;
+        }
+
+        const auto right = FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos) + min_x_w;
+        const auto left = FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos) + min_w_x;
+        const auto top = FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos) + min_y_h;
+        const auto bottom = FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos) + min_h_y;
+
+        for (s32 i = 0; i < gBaseAliveGameObjects_5C1B7C->Size(); i++)
+        {
+            auto pObj = gBaseAliveGameObjects_5C1B7C->ItemAt(i);
+            if (!pObj)
+            {
+                break;
+            }
+
+            const auto objXPos = FP_GetExponent(pObj->mBaseAnimatedWithPhysicsGameObject_XPos);
+            const auto objYPos = FP_GetExponent(pObj->mBaseAnimatedWithPhysicsGameObject_YPos);
+
+            if (objXPos >= right && objXPos <= left)
+            {
+                if (objYPos >= top && objYPos <= bottom)
+                {
+                    if (mBaseAnimatedWithPhysicsGameObject_SpriteScale == (pObj->mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromDouble(2.75)))
+                    {
+                        pObj->VTakeDamage(this);
+                    }
+                }
+            }
+        }
+    }
+}

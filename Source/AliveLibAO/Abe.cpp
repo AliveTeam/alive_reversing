@@ -1641,7 +1641,7 @@ BaseAliveGameObject* Abe::FindObjectToPossess_421410()
         {
             if (pObj->mBaseAliveGameObjectFlags.Get(Flags_10A::e10A_Bit1_Can_Be_Possessed))
             {
-                if (pObj->mBaseGameObjectTypeId != ReliveTypes::eSlig || (pObj->Is_In_Current_Camera_417CC0() == CameraPos::eCamCurrent_0 && pObj->mHealth > FP_FromInteger(0)))
+                if (pObj->mBaseGameObjectTypeId != ReliveTypes::eSlig || (pObj->Is_In_Current_Camera() == CameraPos::eCamCurrent_0 && pObj->mHealth > FP_FromInteger(0)))
                 {
                     return pObj;
                 }
@@ -9526,7 +9526,7 @@ void Abe::Motion_150_Chant_42FD50()
             }
             if (field_18C_pObjToPossess)
             {
-                if (field_18C_pObjToPossess->Is_In_Current_Camera_417CC0() == CameraPos::eCamCurrent_0)
+                if (field_18C_pObjToPossess->Is_In_Current_Camera() == CameraPos::eCamCurrent_0)
                 {
                     return;
                 }
