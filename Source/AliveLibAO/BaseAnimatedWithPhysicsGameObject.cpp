@@ -161,14 +161,14 @@ void BaseAnimatedWithPhysicsGameObject::Animation_Init_417FD0(s32 frameTableOffs
         }
         else
         {
-            mBaseGameObjectFlags.Set(Options::eListAddFailed_Bit1);
+            mBaseGameObjectFlags.Set(BaseGameObject::eListAddFailed_Bit1);
             gBaseGameObjects->Remove_Item(this);
         }
     }
     else
     {
-        mBaseGameObjectFlags.Set(Options::eListAddFailed_Bit1);
-        mBaseGameObjectFlags.Set(Options::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eListAddFailed_Bit1);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 }
 
@@ -232,12 +232,12 @@ void BaseAnimatedWithPhysicsGameObject::VOnCollisionWith(PSX_Point xy, PSX_Point
 
 s16 BaseAnimatedWithPhysicsGameObject::VIsObjNearby(FP radius, BaseAnimatedWithPhysicsGameObject* pOtherObj)
 {
-    FP x_abs = FP_Abs(pOtherObj->mBaseAnimatedWithPhysicsGameObject_XPos - mBaseAnimatedWithPhysicsGameObject_XPos);
-    if (x_abs > FP_FromInteger(400))
+    FP distance = FP_Abs(pOtherObj->mBaseAnimatedWithPhysicsGameObject_XPos - mBaseAnimatedWithPhysicsGameObject_XPos);
+    if (distance > FP_FromInteger(400))
     {
-        x_abs = x_abs + ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale) - FP_FromInteger(656);
+        distance += ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale) - FP_FromInteger(656);
     }
-    return x_abs <= radius;
+    return distance <= radius;
 }
 
 s16 BaseAnimatedWithPhysicsGameObject::VIsObj_GettingNear_On_X(BaseAnimatedWithPhysicsGameObject* pOther)
@@ -258,6 +258,7 @@ s16 BaseAnimatedWithPhysicsGameObject::VIsObj_GettingNear_On_X(BaseAnimatedWithP
     return FALSE;
 }
 
+// Muds use this to face "away" from Abe when stood on the same grid block. Also used to follow Abe in the correct direction etc.
 s16 BaseAnimatedWithPhysicsGameObject::VIsFacingMe(BaseAnimatedWithPhysicsGameObject* pOther)
 {
     if (pOther->mBaseAnimatedWithPhysicsGameObject_XPos == mBaseAnimatedWithPhysicsGameObject_XPos
@@ -281,6 +282,7 @@ s16 BaseAnimatedWithPhysicsGameObject::VIsFacingMe(BaseAnimatedWithPhysicsGameOb
     return FALSE;
 }
 
+// This is how Scrabs, Fleeches (and probably other stuff) know you are on the same "floor"
 s16 BaseAnimatedWithPhysicsGameObject::VOnSameYLevel(BaseAnimatedWithPhysicsGameObject* pOther)
 {
     // Get bounding rects
@@ -312,13 +314,13 @@ void BaseAnimatedWithPhysicsGameObject::VStackOnObjectsOfType(ReliveTypes typeTo
     s32 array_idx = 0;
     for (s32 i = 0; i < gBaseGameObjects->Size(); i++)
     {
-        BaseGameObject* pObjIter = gBaseGameObjects->ItemAt(i);
-        if (!pObjIter)
+        BaseGameObject* pObj = gBaseGameObjects->ItemAt(i);
+        if (!pObj)
         {
             break;
         }
 
-        if (pObjIter->mBaseGameObjectTypeId == typeToFind && pObjIter != this)
+        if (pObj->Type() == typeToFind && pObj != this)
         {
             array_idx++;
             if (array_idx >= ALIVE_COUNTOF(offsets))
@@ -401,6 +403,7 @@ void BaseAnimatedWithPhysicsGameObject::SetTint(const TintEntry* pTintArray, ERe
     mBaseAnimatedWithPhysicsGameObject_Blue = pTintArray->field_3_b;
 }
 
+// AO only
 BaseAnimatedWithPhysicsGameObject::BetweenCamPos BaseAnimatedWithPhysicsGameObject::BetweenCameras_418500()
 {
     // TODO: Try to understand how the hell these calcs are supposed to work

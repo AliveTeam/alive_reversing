@@ -232,15 +232,9 @@ void BaseAnimatedWithPhysicsGameObject::VOnCollisionWith(PSX_Point xy, PSX_Point
     }
 }
 
-s16 BaseAnimatedWithPhysicsGameObject::VIsObjNearby(FP radius, BaseAnimatedWithPhysicsGameObject* pObj)
+s16 BaseAnimatedWithPhysicsGameObject::VIsObjNearby(FP radius, BaseAnimatedWithPhysicsGameObject* pOtherObj)
 {
-    FP distance = pObj->mBaseAnimatedWithPhysicsGameObject_XPos - mBaseAnimatedWithPhysicsGameObject_XPos;
-
-    if (distance < FP_FromInteger(0))
-    {
-        distance = mBaseAnimatedWithPhysicsGameObject_XPos - pObj->mBaseAnimatedWithPhysicsGameObject_XPos;
-    }
-
+    FP distance = FP_Abs(pOtherObj->mBaseAnimatedWithPhysicsGameObject_XPos - mBaseAnimatedWithPhysicsGameObject_XPos);
     return distance <= radius;
 }
 
@@ -286,7 +280,6 @@ s16 BaseAnimatedWithPhysicsGameObject::VIsFacingMe(BaseAnimatedWithPhysicsGameOb
     return FALSE;
 }
 
-
 // This is how Scrabs, Fleeches (and probably other stuff) know you are on the same "floor"
 s16 BaseAnimatedWithPhysicsGameObject::VOnSameYLevel(BaseAnimatedWithPhysicsGameObject* pOther)
 {
@@ -311,14 +304,12 @@ s16 BaseAnimatedWithPhysicsGameObject::VOnSameYLevel(BaseAnimatedWithPhysicsGame
     return FALSE;
 }
 
-
 void BaseAnimatedWithPhysicsGameObject::VStackOnObjectsOfType(ReliveTypes typeToFind)
 {
-    // For some reason this isn't const in the real game
-    const s16 kData[6] = {
+    const s16 offsets[6] = {
         0, 3, -3, 6, -6, 2};
 
-    s32 data_idx = 0;
+    s32 array_idx = 0;
     for (s32 i = 0; i < gBaseGameObjects->Size(); i++)
     {
         BaseGameObject* pObj = gBaseGameObjects->ItemAt(i);
@@ -329,18 +320,16 @@ void BaseAnimatedWithPhysicsGameObject::VStackOnObjectsOfType(ReliveTypes typeTo
 
         if (pObj->Type() == typeToFind && pObj != this)
         {
-            data_idx++;
-            if (data_idx >= ALIVE_COUNTOF(kData))
+            array_idx++;
+            if (array_idx >= ALIVE_COUNTOF(offsets))
             {
-                data_idx = 0;
+                array_idx = 0;
             }
         }
     }
 
-    mBaseAnimatedWithPhysicsGameObject_XOffset = FP_GetExponent(FP_FromInteger(kData[data_idx]) * mBaseAnimatedWithPhysicsGameObject_SpriteScale);
+    mBaseAnimatedWithPhysicsGameObject_XOffset = FP_GetExponent(FP_FromInteger(offsets[array_idx]) * mBaseAnimatedWithPhysicsGameObject_SpriteScale);
 }
-
-
 
 void BaseAnimatedWithPhysicsGameObject::VOnPickUpOrSlapped()
 {
@@ -395,7 +384,6 @@ PSX_RECT BaseAnimatedWithPhysicsGameObject::VGetBoundingRect(s32 pointIdx)
 
     return rect;
 }
-
 
 void BaseAnimatedWithPhysicsGameObject::SetTint(const TintEntry* pTintArray, EReliveLevelIds level_id)
 {
