@@ -3341,7 +3341,7 @@ s16 Fleech::Brain_1_ChasingAbe_428760()
                     return 13;
                 }
 
-                if (VIsObj_GettingNear(pObj))
+                if (VIsObj_GettingNear_On_X(pObj))
                 {
                     mCurrentMotion = eFleechMotions::M_Knockback_6_42EAF0;
                     return 12;

@@ -860,7 +860,7 @@ s16 Paramite::Brain_Patrol_State_5_StopApproachingAbe(BaseAliveGameObject* pObj)
         }
     }
 
-    if (!VIsObj_GettingNear(pObj))
+    if (!VIsObj_GettingNear_On_X(pObj))
     {
         return field_12C_brain_ret;
     }
@@ -936,9 +936,9 @@ s16 Paramite::Brain_Patrol_State_4_ApproachingAbe(BaseAliveGameObject* pObj)
         }
     }
 
-    if (VIsObj_GettingNear(pObj) || (VIsObjNearby(kGridSize * FP_FromInteger(10), pObj)))
+    if (VIsObj_GettingNear_On_X(pObj) || (VIsObjNearby(kGridSize * FP_FromInteger(10), pObj)))
     {
-        if (!VIsObj_GettingNear(pObj))
+        if (!VIsObj_GettingNear_On_X(pObj))
         {
             return field_12C_brain_ret;
         }
@@ -999,7 +999,7 @@ s16 Paramite::Brain_Patrol_State_3_RunningFromAbe(BaseAliveGameObject* pObj)
         return ParamiteEnums::Brain_2_ChasingAbe::eBrain2_Inactive_0;
     }
 
-    if (VIsObj_GettingNear(pObj))
+    if (VIsObj_GettingNear_On_X(pObj))
     {
         return field_12C_brain_ret;
     }
@@ -1045,7 +1045,7 @@ s16 Paramite::Brain_Patrol_State_8_StuckToWall(BaseAliveGameObject* pObj)
         return ParamiteEnums::Brain_0_Patrol::eBrain0_Attacking_9;
     }
 
-    if (VIsObj_GettingNear(pObj))
+    if (VIsObj_GettingNear_On_X(pObj))
     {
         mNextMotion = eParamiteMotions::M_Hiss1_22_48C3E0;
     }
@@ -1242,13 +1242,13 @@ s16 Paramite::Brain_Patrol_State_2_FearingAbe(BaseAliveGameObject* pObj)
         return ParamiteEnums::Brain_2_ChasingAbe::eBrain2_Inactive_0;
     }
 
-    if (VIsObj_GettingNear(pObj) && VIsObjNearby(kGridSize * FP_FromInteger(4), pObj))
+    if (VIsObj_GettingNear_On_X(pObj) && VIsObjNearby(kGridSize * FP_FromInteger(4), pObj))
     {
         mNextMotion = eParamiteMotions::M_Running_3_48AA00;
         return ParamiteEnums::Brain_0_Patrol::eBrain0_RunningFromAbe_3;
     }
 
-    if (VIsObj_GettingNear(pObj))
+    if (VIsObj_GettingNear_On_X(pObj))
     {
         return field_12C_brain_ret;
     }
@@ -2160,7 +2160,7 @@ s16 Paramite::Brain_SpottedMeat_State_5_AttentiveToMeat(Meat* pMeat)
         return ParamiteEnums::Brain_5_SpottedMeat::eBrain5_Turning_4;
     }
 
-    if (VIsObj_GettingNear(pMeat))
+    if (VIsObj_GettingNear_On_X(pMeat))
     {
         return field_12C_brain_ret;
     }
@@ -2356,7 +2356,7 @@ s16 Paramite::Brain_SpottedMeat_State_0_Idle(Meat* pMeat)
         }
     }
 
-    if (VIsObj_GettingNear(pMeat))
+    if (VIsObj_GettingNear_On_X(pMeat))
     {
         mNextMotion = eParamiteMotions::M_Idle_0_489FB0;
         return ParamiteEnums::Brain_5_SpottedMeat::eBrain5_AttentiveToMeat_5;
@@ -4076,7 +4076,7 @@ void Paramite::M_GameSpeakBegin_20_48C010()
 
         if (otherRect.x <= ourRect.w && otherRect.w >= ourRect.x && otherRect.h >= ourRect.y && otherRect.y <= ourRect.h)
         {
-            if (VIsObj_GettingNear(pObj))
+            if (VIsObj_GettingNear_On_X(pObj))
             {
                 if (mBaseAnimatedWithPhysicsGameObject_SpriteScale == pObj->mBaseAnimatedWithPhysicsGameObject_SpriteScale)
                 {
@@ -4110,7 +4110,7 @@ void Paramite::M_PreHiss_21_48C180()
 
         if (otherRect.x <= ourRect.w && otherRect.w >= ourRect.x && otherRect.h >= ourRect.y && otherRect.y <= ourRect.h)
         {
-            if (VIsObj_GettingNear(pObj))
+            if (VIsObj_GettingNear_On_X(pObj))
             {
                 if (mBaseAnimatedWithPhysicsGameObject_SpriteScale == pObj->mBaseAnimatedWithPhysicsGameObject_SpriteScale)
                 {
@@ -4177,7 +4177,7 @@ void Paramite::M_Hiss1_22_48C3E0()
 
         if (otherRect.x <= ourRect.w && otherRect.w >= ourRect.x && otherRect.h >= ourRect.y && otherRect.y <= ourRect.h)
         {
-            if (VIsObj_GettingNear(pObj))
+            if (VIsObj_GettingNear_On_X(pObj))
             {
                 if (mBaseAnimatedWithPhysicsGameObject_SpriteScale == pObj->mBaseAnimatedWithPhysicsGameObject_SpriteScale)
                 {
@@ -4302,7 +4302,7 @@ void Paramite::M_PostHiss_27_48C780()
 
         if (otherRect.x <= ourRect.w && otherRect.w >= ourRect.x && otherRect.h >= ourRect.y && otherRect.y <= ourRect.h)
         {
-            if (VIsObj_GettingNear(pObj))
+            if (VIsObj_GettingNear_On_X(pObj))
             {
                 if (mBaseAnimatedWithPhysicsGameObject_SpriteScale == pObj->mBaseAnimatedWithPhysicsGameObject_SpriteScale)
                 {
@@ -4331,7 +4331,7 @@ void Paramite::M_GameSpeakEnd_28_48C8B0()
 
         if (otherRect.x <= ourRect.w && otherRect.w >= ourRect.x && otherRect.h >= ourRect.y && otherRect.y <= ourRect.h)
         {
-            if (VIsObj_GettingNear(pObj))
+            if (VIsObj_GettingNear_On_X(pObj))
             {
                 if (mBaseAnimatedWithPhysicsGameObject_SpriteScale == pObj->mBaseAnimatedWithPhysicsGameObject_SpriteScale)
                 {

@@ -245,6 +245,23 @@ s16 BaseAnimatedWithPhysicsGameObject::VIsObjNearby(FP radius, BaseAnimatedWithP
     return distance <= radius;
 }
 
+s16 BaseAnimatedWithPhysicsGameObject::VIsObj_GettingNear_On_X(BaseAnimatedWithPhysicsGameObject* pOther)
+{
+    if (pOther->mBaseAnimatedWithPhysicsGameObject_XPos < mBaseAnimatedWithPhysicsGameObject_XPos && pOther->mBaseAnimatedWithPhysicsGameObject_VelX > mBaseAnimatedWithPhysicsGameObject_VelX)
+    {
+        // Its before our xpos but its velocity is moving towards our xpos!
+        return TRUE;
+    }
+
+    if (pOther->mBaseAnimatedWithPhysicsGameObject_XPos > mBaseAnimatedWithPhysicsGameObject_XPos && pOther->mBaseAnimatedWithPhysicsGameObject_VelX < mBaseAnimatedWithPhysicsGameObject_VelX)
+    {
+        // Its after our xpos but its velocity is moving towards our xpos!
+        return TRUE;
+    }
+
+    // Not heading our way
+    return FALSE;
+}
 
 // Muds use this to face "away" from Abe when stood on the same grid block. Also used to follow Abe in the correct direction etc.
 s16 BaseAnimatedWithPhysicsGameObject::VIsFacingMe(BaseAnimatedWithPhysicsGameObject* pOther)
@@ -379,26 +396,6 @@ PSX_RECT BaseAnimatedWithPhysicsGameObject::VGetBoundingRect(s32 pointIdx)
 
     return rect;
 }
-
-
-s16 BaseAnimatedWithPhysicsGameObject::VIsObj_GettingNear(BaseAnimatedWithPhysicsGameObject* pOther)
-{
-    if (pOther->mBaseAnimatedWithPhysicsGameObject_XPos < mBaseAnimatedWithPhysicsGameObject_XPos && pOther->mBaseAnimatedWithPhysicsGameObject_VelX > mBaseAnimatedWithPhysicsGameObject_VelX)
-    {
-        // Its before our xpos but its velocity is moving towards our xpos!
-        return TRUE;
-    }
-
-    if (pOther->mBaseAnimatedWithPhysicsGameObject_XPos > mBaseAnimatedWithPhysicsGameObject_XPos && pOther->mBaseAnimatedWithPhysicsGameObject_VelX < mBaseAnimatedWithPhysicsGameObject_VelX)
-    {
-        // Its after our xpos but its velocity is moving towards our xpos!
-        return TRUE;
-    }
-
-    // Not heading our way
-    return FALSE;
-}
-
 
 void BaseAnimatedWithPhysicsGameObject::DealDamageRect(const PSX_RECT* pRect)
 {

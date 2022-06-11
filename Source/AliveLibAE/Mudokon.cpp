@@ -4041,7 +4041,7 @@ s16 Mudokon::Brain_ListeningToAbe_State_6()
     }
     else
     {
-        if (!VIsObj_GettingNear(sActiveHero))
+        if (!VIsObj_GettingNear_On_X(sActiveHero))
         {
             if (VIsFacingMe(sActiveHero))
             {
