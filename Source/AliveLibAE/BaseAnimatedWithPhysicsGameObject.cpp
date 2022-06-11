@@ -16,6 +16,12 @@
 BaseAnimatedWithPhysicsGameObject::BaseAnimatedWithPhysicsGameObject(s16 resourceArraySize)
     : IBaseAnimatedWithPhysicsGameObject(resourceArraySize)
 {
+    mApplyShadows &= ~2;
+    mApplyShadows |= 1;
+
+    mBaseAnimatedWithPhysicsGameObject_PathNumber = gMap.mCurrentPath;
+    mBaseAnimatedWithPhysicsGameObject_LvlNumber = gMap.mCurrentLevel;
+	
     mBaseAnimatedWithPhysicsGameObject_VelX = FP_FromInteger(0);
     mBaseAnimatedWithPhysicsGameObject_VelY = FP_FromInteger(0);
 
@@ -32,17 +38,12 @@ BaseAnimatedWithPhysicsGameObject::BaseAnimatedWithPhysicsGameObject(s16 resourc
     mBaseGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4);
     mBaseGameObjectFlags.Set(BaseGameObject::eIsBaseAnimatedWithPhysicsObj_Bit5);
 
-    mApplyShadows &= ~2;
-    mApplyShadows |= 1;
-
-    mBaseAnimatedWithPhysicsGameObject_PathNumber = gMap.mCurrentPath;
-    mBaseAnimatedWithPhysicsGameObject_LvlNumber = gMap.mCurrentLevel;
-
     mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromInteger(1);
 
     mBaseAnimatedWithPhysicsGameObject_Scale = Scale::Fg;
-    mBaseAnimatedWithPhysicsGameObject_YOffset = 0;
+	
     mBaseAnimatedWithPhysicsGameObject_XOffset = 0;
+    mBaseAnimatedWithPhysicsGameObject_YOffset = 0;
 
     mShadow = nullptr;
 }
@@ -59,11 +60,6 @@ BaseAnimatedWithPhysicsGameObject::~BaseAnimatedWithPhysicsGameObject()
 
         delete mShadow;
     }
-}
-
-void BaseAnimatedWithPhysicsGameObject::VUpdate()
-{
-    // Empty
 }
 
 void BaseAnimatedWithPhysicsGameObject::VRender(PrimHeader** ppOt)
@@ -161,8 +157,6 @@ void BaseAnimatedWithPhysicsGameObject::Animation_Init(s32 frameTableOffset, s32
         if (added)
         {
             mBaseAnimatedWithPhysicsGameObject_Anim.mRenderMode = TPageAbr::eBlend_0;
-
-            // TODO: Double check this logic
             mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit16_bBlending);
             mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit15_bSemiTrans);
         }
@@ -174,9 +168,172 @@ void BaseAnimatedWithPhysicsGameObject::Animation_Init(s32 frameTableOffset, s32
     }
     else
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
         mBaseGameObjectFlags.Set(BaseGameObject::eListAddFailed_Bit1);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
+}
+
+CameraPos BaseAnimatedWithPhysicsGameObject::Is_In_Current_Camera()
+{
+    const PSX_RECT rect = VGetBoundingRect();
+    return gMap.Rect_Location_Relative_To_Active_Camera(&rect);
+}
+
+void BaseAnimatedWithPhysicsGameObject::DeathSmokeEffect(bool bPlaySound)
+{
+    // note: mudokons used % 4
+    if (!(sGnFrame % 5))
+    {
+        New_Smoke_Particles(
+            (FP_FromInteger(Math_RandomRange(-24, 24)) * mBaseAnimatedWithPhysicsGameObject_SpriteScale) + mBaseAnimatedWithPhysicsGameObject_XPos,
+            mBaseAnimatedWithPhysicsGameObject_YPos - FP_FromInteger(6),
+            mBaseAnimatedWithPhysicsGameObject_SpriteScale / FP_FromInteger(2),
+            2,
+            128u, 128u, 128u);
+
+        if (bPlaySound == true)
+        {
+            SFX_Play_Pitch(SoundEffect::Vaporize_79, 25, FP_GetExponent((FP_FromInteger(2200) * mBaseAnimatedWithPhysicsGameObject_SpriteScale)));
+        }
+    }
+}
+
+void BaseAnimatedWithPhysicsGameObject::VOnCollisionWith(PSX_Point xy, PSX_Point wh, DynamicArrayT<BaseGameObject>* pObjList, s32 startingPointIdx, TCollisionCallBack pFn)
+{
+    if (!pObjList)
+    {
+        return;
+    }
+
+    // LOG_INFO("X " << xy.field_0_x << " Y " << xy.field_2_y << " W " << wh.field_0_x << " H " << wh.field_2_y);
+
+    for (s32 i = 0; i < pObjList->Size(); i++)
+    {
+        BaseGameObject* pElement = pObjList->ItemAt(i);
+        if (!pElement)
+        {
+            break;
+        }
+
+        if (pElement->mBaseGameObjectFlags.Get(BaseGameObject::eIsBaseAnimatedWithPhysicsObj_Bit5))
+        {
+            BaseAnimatedWithPhysicsGameObject* pObj = static_cast<BaseAnimatedWithPhysicsGameObject*>(pElement);
+            if (pObj->mBaseGameObjectFlags.Get(BaseGameObject::eDrawable_Bit4))
+            {
+                const PSX_RECT bRect = pObj->VGetBoundingRect(startingPointIdx);
+                if (xy.field_0_x <= bRect.w && xy.field_2_y <= bRect.h && wh.field_0_x >= bRect.x && wh.field_2_y >= bRect.y && mBaseAnimatedWithPhysicsGameObject_Scale == pObj->mBaseAnimatedWithPhysicsGameObject_Scale)
+                {
+                    if (!(this->*(pFn))(pObj))
+                    {
+                        break;
+                    }
+                }
+            }
+        }
+    }
+}
+
+s16 BaseAnimatedWithPhysicsGameObject::VIsObjNearby(FP radius, BaseAnimatedWithPhysicsGameObject* pObj)
+{
+    FP distance = pObj->mBaseAnimatedWithPhysicsGameObject_XPos - mBaseAnimatedWithPhysicsGameObject_XPos;
+
+    if (distance < FP_FromInteger(0))
+    {
+        distance = mBaseAnimatedWithPhysicsGameObject_XPos - pObj->mBaseAnimatedWithPhysicsGameObject_XPos;
+    }
+
+    return distance <= radius;
+}
+
+
+// Muds use this to face "away" from Abe when stood on the same grid block. Also used to follow Abe in the correct direction etc.
+s16 BaseAnimatedWithPhysicsGameObject::VIsFacingMe(BaseAnimatedWithPhysicsGameObject* pOther)
+{
+    if (pOther->mBaseAnimatedWithPhysicsGameObject_XPos == mBaseAnimatedWithPhysicsGameObject_XPos
+        && pOther->mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX) != mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
+    {
+        // They are in the same spot as us, so they can only be facing us if they are NOT facing the same way.
+        // This seems strange but its what causes muds to keep changing direction if you turn while you are stood in the same grid as them.
+        return TRUE;
+    }
+    else if (pOther->mBaseAnimatedWithPhysicsGameObject_XPos > mBaseAnimatedWithPhysicsGameObject_XPos && !mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
+    {
+        // They are to the right of us and facing left
+        return TRUE;
+    }
+    else if (pOther->mBaseAnimatedWithPhysicsGameObject_XPos < mBaseAnimatedWithPhysicsGameObject_XPos && mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
+    {
+        // They are to the left of using and facing right
+        return TRUE;
+    }
+
+    return FALSE;
+}
+
+
+// This is how Scrabs, Fleeches (and probably other stuff) know you are on the same "floor"
+s16 BaseAnimatedWithPhysicsGameObject::VOnSameYLevel(BaseAnimatedWithPhysicsGameObject* pOther)
+{
+    // Get bounding rects
+    const PSX_RECT ourRect = VGetBoundingRect();
+    const PSX_RECT theirRect = pOther->VGetBoundingRect();
+
+    // Get mid Y of each
+    const s32 theirMidY = (theirRect.h + theirRect.y) / 2;
+    const s32 ourMidY = (ourRect.h + ourRect.y) / 2;
+
+    if (theirMidY <= ourRect.h && theirMidY >= ourRect.y)
+    {
+        return TRUE;
+    }
+
+    if (ourMidY <= theirRect.h && ourMidY >= theirRect.y)
+    {
+        return TRUE;
+    }
+
+    return FALSE;
+}
+
+
+void BaseAnimatedWithPhysicsGameObject::VStackOnObjectsOfType(ReliveTypes typeToFind)
+{
+    // For some reason this isn't const in the real game
+    const s16 kData[6] = {
+        0, 3, -3, 6, -6, 2};
+
+    s32 data_idx = 0;
+    for (s32 i = 0; i < gBaseGameObjects->Size(); i++)
+    {
+        BaseGameObject* pObj = gBaseGameObjects->ItemAt(i);
+        if (!pObj)
+        {
+            break;
+        }
+
+        if (pObj->Type() == typeToFind && pObj != this)
+        {
+            data_idx++;
+            if (data_idx >= ALIVE_COUNTOF(kData))
+            {
+                data_idx = 0;
+            }
+        }
+    }
+
+    mBaseAnimatedWithPhysicsGameObject_XOffset = FP_GetExponent(FP_FromInteger(kData[data_idx]) * mBaseAnimatedWithPhysicsGameObject_SpriteScale);
+}
+
+
+
+void BaseAnimatedWithPhysicsGameObject::VOnPickUpOrSlapped()
+{
+    // Empty
+}
+
+void BaseAnimatedWithPhysicsGameObject::VOnThrowableHit(BaseGameObject* /*pFrom*/)
+{
+    // Empty
 }
 
 PSX_RECT BaseAnimatedWithPhysicsGameObject::VGetBoundingRect(s32 pointIdx)
@@ -223,17 +380,6 @@ PSX_RECT BaseAnimatedWithPhysicsGameObject::VGetBoundingRect(s32 pointIdx)
     return rect;
 }
 
-s16 BaseAnimatedWithPhysicsGameObject::VIsObjNearby(FP radius, BaseAnimatedWithPhysicsGameObject* pObj)
-{
-    FP distance = pObj->mBaseAnimatedWithPhysicsGameObject_XPos - mBaseAnimatedWithPhysicsGameObject_XPos;
-
-    if (distance < FP_FromInteger(0))
-    {
-        distance = mBaseAnimatedWithPhysicsGameObject_XPos - pObj->mBaseAnimatedWithPhysicsGameObject_XPos;
-    }
-
-    return distance <= radius;
-}
 
 s16 BaseAnimatedWithPhysicsGameObject::VIsObj_GettingNear(BaseAnimatedWithPhysicsGameObject* pOther)
 {
@@ -253,91 +399,6 @@ s16 BaseAnimatedWithPhysicsGameObject::VIsObj_GettingNear(BaseAnimatedWithPhysic
     return FALSE;
 }
 
-// Muds use this to face "away" from Abe when stood on the same grid block. Also used to follow Abe in the correct direction etc.
-s16 BaseAnimatedWithPhysicsGameObject::VIsFacingMe(BaseAnimatedWithPhysicsGameObject* pOther)
-{
-    if (pOther->mBaseAnimatedWithPhysicsGameObject_XPos == mBaseAnimatedWithPhysicsGameObject_XPos
-        && pOther->mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX) != mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
-    {
-        // They are in the same spot as us, so they can only be facing us if they are NOT facing the same way.
-        // This seems strange but its what causes muds to keep changing direction if you turn while you are stood in the same grid as them.
-        return TRUE;
-    }
-    else if (pOther->mBaseAnimatedWithPhysicsGameObject_XPos > mBaseAnimatedWithPhysicsGameObject_XPos && !mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
-    {
-        // They are to the right of us and facing left
-        return TRUE;
-    }
-    else if (pOther->mBaseAnimatedWithPhysicsGameObject_XPos < mBaseAnimatedWithPhysicsGameObject_XPos && mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
-    {
-        // They are to the left of using and facing right
-        return TRUE;
-    }
-
-    return FALSE;
-}
-
-// This is how Scrabs, Fleeches (and probably other stuff) know you are on the same "floor"
-s16 BaseAnimatedWithPhysicsGameObject::VOnSameYLevel(BaseAnimatedWithPhysicsGameObject* pOther)
-{
-    // Get bounding rects
-    const PSX_RECT ourRect = VGetBoundingRect();
-    const PSX_RECT theirRect = pOther->VGetBoundingRect();
-
-    // Get mid Y of each
-    const s32 theirMidY = (theirRect.h + theirRect.y) / 2;
-    const s32 ourMidY = (ourRect.h + ourRect.y) / 2;
-
-    if (theirMidY <= ourRect.h && theirMidY >= ourRect.y)
-    {
-        return TRUE;
-    }
-
-    if (ourMidY <= theirRect.h && ourMidY >= theirRect.y)
-    {
-        return TRUE;
-    }
-
-    return FALSE;
-}
-
-void BaseAnimatedWithPhysicsGameObject::VStackOnObjectsOfType(ReliveTypes typeToFind)
-{
-    // For some reason this isn't const in the real game
-    const s16 kData[6] = {
-        0, 3, -3, 6, -6, 2};
-
-    s32 data_idx = 0;
-    for (s32 i = 0; i < gBaseGameObjects->Size(); i++)
-    {
-        BaseGameObject* pObj = gBaseGameObjects->ItemAt(i);
-        if (!pObj)
-        {
-            break;
-        }
-
-        if (pObj->Type() == typeToFind && pObj != this)
-        {
-            data_idx++;
-            if (data_idx >= ALIVE_COUNTOF(kData))
-            {
-                data_idx = 0;
-            }
-        }
-    }
-
-    mBaseAnimatedWithPhysicsGameObject_XOffset = FP_GetExponent(FP_FromInteger(kData[data_idx]) * mBaseAnimatedWithPhysicsGameObject_SpriteScale);
-}
-
-void BaseAnimatedWithPhysicsGameObject::VOnPickUpOrSlapped()
-{
-    // Empty
-}
-
-void BaseAnimatedWithPhysicsGameObject::VOnThrowableHit(BaseGameObject* /*pFrom*/)
-{
-    // Empty
-}
 
 void BaseAnimatedWithPhysicsGameObject::DealDamageRect(const PSX_RECT* pRect)
 {
@@ -397,47 +458,6 @@ void BaseAnimatedWithPhysicsGameObject::DealDamageRect(const PSX_RECT* pRect)
     }
 }
 
-CameraPos BaseAnimatedWithPhysicsGameObject::Is_In_Current_Camera()
-{
-    const PSX_RECT rect = VGetBoundingRect();
-    return gMap.Rect_Location_Relative_To_Active_Camera(&rect);
-}
-
-void BaseAnimatedWithPhysicsGameObject::VOnCollisionWith(PSX_Point xy, PSX_Point wh, DynamicArrayT<BaseGameObject>* pObjList, s32 startingPointIdx, TCollisionCallBack pFn)
-{
-    if (!pObjList)
-    {
-        return;
-    }
-
-    //LOG_INFO("X " << xy.field_0_x << " Y " << xy.field_2_y << " W " << wh.field_0_x << " H " << wh.field_2_y);
-
-    for (s32 i = 0; i < pObjList->Size(); i++)
-    {
-        BaseGameObject* pElement = pObjList->ItemAt(i);
-        if (!pElement)
-        {
-            break;
-        }
-
-        if (pElement->mBaseGameObjectFlags.Get(BaseGameObject::eIsBaseAnimatedWithPhysicsObj_Bit5))
-        {
-            BaseAnimatedWithPhysicsGameObject* pObj = static_cast<BaseAnimatedWithPhysicsGameObject*>(pElement);
-            if (pObj->mBaseGameObjectFlags.Get(BaseGameObject::eDrawable_Bit4))
-            {
-                const PSX_RECT bRect = pObj->VGetBoundingRect(startingPointIdx);
-                if (xy.field_0_x <= bRect.w && xy.field_2_y <= bRect.h && wh.field_0_x >= bRect.x && wh.field_2_y >= bRect.y && mBaseAnimatedWithPhysicsGameObject_Scale == pObj->mBaseAnimatedWithPhysicsGameObject_Scale)
-                {
-                    if (!(this->*(pFn))(pObj))
-                    {
-                        break;
-                    }
-                }
-            }
-        }
-    }
-}
-
 void BaseAnimatedWithPhysicsGameObject::SetTint(const TintEntry* pTintArray, EReliveLevelIds level_id)
 {
     while (pTintArray->field_0_level != level_id)
@@ -460,23 +480,4 @@ void BaseAnimatedWithPhysicsGameObject::SetRGB(s16 r, s16 g, s16 b)
     mBaseAnimatedWithPhysicsGameObject_Red = r;
     mBaseAnimatedWithPhysicsGameObject_Green = g;
     mBaseAnimatedWithPhysicsGameObject_Blue = b;
-}
-
-void BaseAnimatedWithPhysicsGameObject::DeathSmokeEffect(bool bPlaySound)
-{
-    // note: mudokons used % 4
-    if (!(sGnFrame % 5))
-    {
-        New_Smoke_Particles(
-            (FP_FromInteger(Math_RandomRange(-24, 24)) * mBaseAnimatedWithPhysicsGameObject_SpriteScale) + mBaseAnimatedWithPhysicsGameObject_XPos,
-            mBaseAnimatedWithPhysicsGameObject_YPos - FP_FromInteger(6),
-            mBaseAnimatedWithPhysicsGameObject_SpriteScale / FP_FromInteger(2),
-            2,
-            128u, 128u, 128u);
-
-        if (bPlaySound == true)
-        {
-            SFX_Play_Pitch(SoundEffect::Vaporize_79, 25, FP_GetExponent((FP_FromInteger(2200) * mBaseAnimatedWithPhysicsGameObject_SpriteScale)));
-        }
-    }
 }

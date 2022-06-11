@@ -104,11 +104,11 @@ Gibs::Gibs(GibType gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scale)
 
     if (gibType == GibType::Abe_0)
     {
-        SetTint_418750(sAbeGibTints_4C6438, gMap.mCurrentLevel);
+        SetTint(sAbeGibTints_4C6438, gMap.mCurrentLevel);
     }
     else if (gibType == GibType::Mud_4)
     {
-        SetTint_418750(sMudGibTints_4CD320, gMap.mCurrentLevel);
+        SetTint(sMudGibTints_4CD320, gMap.mCurrentLevel);
     }
 
     field_5C4_parts_used_count = 7;

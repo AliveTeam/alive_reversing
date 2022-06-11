@@ -74,7 +74,7 @@ MovingBomb::MovingBomb(Path_MovingBomb* pTlv, s32 tlvInfo)
         mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit3_Render);
     }
 
-    SetTint_418750(kMovingBombTints_4CD310, gMap.mCurrentLevel);
+    SetTint(kMovingBombTints_4CD310, gMap.mCurrentLevel);
 
     field_128_disabled_resources = pTlv->field_22_disabled_resources;
 

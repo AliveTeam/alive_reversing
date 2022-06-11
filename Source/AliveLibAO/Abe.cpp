@@ -948,7 +948,7 @@ Abe::Abe(s32 frameTableOffset, s32 /*r*/, s32 /*g*/, s32 /*b*/)
     field_2A8_flags.Set(Flags_2A8::e2A8_Bit8_bLandSoft);
 
     // Changes Abe's "default" colour depending on the level we are in
-    SetTint_418750(sAbeTints_4C6438, gMap.mCurrentLevel);
+    SetTint(sAbeTints_4C6438, gMap.mCurrentLevel);
 
     mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit15_bSemiTrans);
     mBaseAnimatedWithPhysicsGameObject_Anim.mRenderMode = TPageAbr::eBlend_0;
@@ -3076,7 +3076,7 @@ void Abe::VScreenChanged()
     if (gMap.mCurrentLevel != gMap.mLevel)
     {
         // Set the correct tint for this map
-        SetTint_418750(sAbeTints_4C6438, gMap.mLevel);
+        SetTint(sAbeTints_4C6438, gMap.mLevel);
 
         if (gMap.mCurrentLevel != EReliveLevelIds::eMenu)
         {
@@ -7044,7 +7044,7 @@ void Abe::Motion_61_Respawn_42CD20()
 
             mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit5_FlipX, field_2A8_flags.Get(Flags_2A8::e2A8_eBit16_AbeSpawnDir));
             MapFollowMe_401D30(TRUE);
-            SetTint_418750(sAbeTints_4C6438, gMap.mCurrentLevel);
+            SetTint(sAbeTints_4C6438, gMap.mCurrentLevel);
             if (gElum_507680)
             {
                 gElum_507680->mBaseAnimatedWithPhysicsGameObject_SpriteScale = mBaseAnimatedWithPhysicsGameObject_SpriteScale;

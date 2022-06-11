@@ -174,7 +174,7 @@ Mudokon::Mudokon(Path_TLV* pTlv, s32 tlvInfo)
     field_1B6 = 0;
     field_198_abe_must_face_mud = 0;
 
-    SetTint_418750(sMudTints_4CD320, mBaseAnimatedWithPhysicsGameObject_LvlNumber);
+    SetTint(sMudTints_4CD320, mBaseAnimatedWithPhysicsGameObject_LvlNumber);
 
     Scale_short scale = Scale_short::eFull_0;
     switch (pTlv->field_4_type.mType)

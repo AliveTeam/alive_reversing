@@ -29,7 +29,6 @@ public:
     explicit BaseAnimatedWithPhysicsGameObject(s16 resourceArraySize);
     ~BaseAnimatedWithPhysicsGameObject();
 
-    virtual void VUpdate() override;
     virtual void VRender(PrimHeader** ppOt) override;
 
     void Animation_Init(s32 frameTableOffset, s32 maxW, s32 maxH, u8** ppAnimData, s16 bAddToDrawableList, u8 bOwnsPalData);

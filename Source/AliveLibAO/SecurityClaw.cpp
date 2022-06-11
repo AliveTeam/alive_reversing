@@ -79,7 +79,7 @@ SecurityClaw::SecurityClaw(Path_SecurityClaw* pTlv, s32 tlvInfo)
 
     mBaseAnimatedWithPhysicsGameObject_XPos = field_11C_clawX + ((Math_Sine_451110(0) * mBaseAnimatedWithPhysicsGameObject_SpriteScale) * FP_FromInteger(8)) * FP_FromDouble(0.25);
     mBaseAnimatedWithPhysicsGameObject_YPos = field_120_clawY + ((Math_Cosine_4510A0(0) * mBaseAnimatedWithPhysicsGameObject_SpriteScale) * FP_FromInteger(8));
-    SetTint_418750(&kSecurityClawTints_4C5488[0], gMap.mCurrentLevel);
+    SetTint(&kSecurityClawTints_4C5488[0], gMap.mCurrentLevel);
 
     field_134 = pTlv->field_10_top_left;
     field_138 = pTlv->field_14_bottom_right;
@@ -97,7 +97,7 @@ SecurityClaw::SecurityClaw(Path_SecurityClaw* pTlv, s32 tlvInfo)
 
         field_130_pClaw->mBaseAnimatedWithPhysicsGameObject_XPos = field_11C_clawX;
         field_130_pClaw->mBaseAnimatedWithPhysicsGameObject_YPos = field_120_clawY;
-        field_130_pClaw->SetTint_418750(&kClawTints_4C5498[0], gMap.mCurrentLevel);
+        field_130_pClaw->SetTint(&kClawTints_4C5498[0], gMap.mCurrentLevel);
     }
 
     mBaseGameObjectFlags.Set(Options::eUpdateDuringCamSwap_Bit10);

@@ -556,7 +556,7 @@ void Slog::Init()
     field_178_bShot = 0;
     field_16C_pUnknown = nullptr;
 
-    SetTint_418750(sSlogTints_4CFE10, gMap.mCurrentLevel);
+    SetTint(sSlogTints_4CFE10, gMap.mCurrentLevel);
 
     if (mBaseAnimatedWithPhysicsGameObject_SpriteScale == FP_FromInteger(1))
     {

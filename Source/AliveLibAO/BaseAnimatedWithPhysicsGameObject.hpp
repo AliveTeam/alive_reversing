@@ -57,7 +57,7 @@ public:
 
     virtual void VOnThrowableHit(BaseGameObject* pFrom);
 
-    void SetTint_418750(const TintEntry* pTintArray, EReliveLevelIds levelId);
+    void SetTint(const TintEntry* pTintArray, EReliveLevelIds levelId);
 
     BaseAnimatedWithPhysicsGameObject();
 
@@ -83,20 +83,6 @@ protected:
 
     s16 SetBaseAnimPaletteTint_4187C0(const TintEntry* pTintArray, EReliveLevelIds lvl, s32 palId);
 
-private:
-    void VRender_417DA0(PrimHeader** ppOt);
-
-    s16 VOnSameYLevel_418450(BaseAnimatedWithPhysicsGameObject* pOther);
-
-    s16 VIsFacingMe_4183F0(BaseAnimatedWithPhysicsGameObject* pOther);
-
-    s16 VIsObj_GettingNear_On_X_418390(BaseAnimatedWithPhysicsGameObject* pOther);
-
-    s16 VIsObjNearby_418330(FP radius, BaseAnimatedWithPhysicsGameObject* pOtherObj);
-
-    void VOnCollisionWith_418080(PSX_Point xy, PSX_Point wh, DynamicArrayT<BaseGameObject>* pObjList, s32 startingPointIdx, TCollisionCallBack pFn);
-
-    void VStackOnObjectsOfType_418930(ReliveTypes typeToFind);
 
 public:
     Animation mBaseAnimatedWithPhysicsGameObject_Anim;
