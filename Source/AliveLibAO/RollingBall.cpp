@@ -61,7 +61,7 @@ RollingBall::RollingBall(Path_RollingBall* pTlv, s32 tlvInfo)
     {
         mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromDouble(0.5);
         mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_DoorFlameRollingBallPortalClip_12;
-        mBaseAnimatedWithPhysicsGameObject_Scale = 0;
+        mBaseAnimatedWithPhysicsGameObject_Scale = Scale::Bg;
     }
 
     if (pTlv->field_1A_roll_direction == XDirection_short::eLeft_0)

@@ -28,7 +28,7 @@ ParamiteWeb::ParamiteWeb(FP xpos, s32 bottom, s32 top, FP scale)
     if (scale == FP_FromInteger(1))
     {
         mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_RopeWebDrill_24;
-        mBaseAnimatedWithPhysicsGameObject_Scale = 1;
+        mBaseAnimatedWithPhysicsGameObject_Scale = Scale::Fg;
         mBaseAnimatedWithPhysicsGameObject_Anim.field_14_scale = FP_FromInteger(1);
         mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromInteger(1);
     }
@@ -37,7 +37,7 @@ ParamiteWeb::ParamiteWeb(FP xpos, s32 bottom, s32 top, FP scale)
         mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_RopeWebDrill_Half_5;
         mBaseAnimatedWithPhysicsGameObject_Anim.field_14_scale = FP_FromDouble(0.7);
         mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromDouble(0.7);
-        mBaseAnimatedWithPhysicsGameObject_Scale = 0;
+        mBaseAnimatedWithPhysicsGameObject_Scale = Scale::Bg;
         xpos += FP_FromInteger(2);
     }
 

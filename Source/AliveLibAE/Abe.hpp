@@ -336,7 +336,7 @@ struct Abe_SaveState final
     u16 field_14_path_number;
     LevelIds field_16_lvl_number;
     FP field_18_sprite_scale;
-    u16 field_1C_scale;
+    Scale field_1C_scale;
     u16 field_1e_r;
     u16 field_20_g;
     u16 field_22_b;

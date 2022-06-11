@@ -32,7 +32,7 @@ BaseAnimatedWithPhysicsGameObject::BaseAnimatedWithPhysicsGameObject()
     mBaseAnimatedWithPhysicsGameObject_Green = 105;
     mBaseAnimatedWithPhysicsGameObject_Red = 105;
     mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromInteger(1);
-    mBaseAnimatedWithPhysicsGameObject_Scale = 1;
+    mBaseAnimatedWithPhysicsGameObject_Scale = Scale::Fg;
     mBaseAnimatedWithPhysicsGameObject_YOffset = 5;
 
     mBaseGameObjectFlags.Clear(Options::eCanExplode_Bit7);
@@ -63,7 +63,7 @@ void BaseAnimatedWithPhysicsGameObject::Animation_Init_417FD0(s32 frameTableOffs
         else
         {
             mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_8;
-            mBaseAnimatedWithPhysicsGameObject_Scale = 0;
+            mBaseAnimatedWithPhysicsGameObject_Scale = Scale::Bg;
         }
 
         bool added = true;

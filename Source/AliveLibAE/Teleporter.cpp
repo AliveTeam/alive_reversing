@@ -250,25 +250,25 @@ void Teleporter::VUpdate()
 
             if (tlvData.field_1C_scale != Scale_short::eFull_0)
             {
-                if (sControlledCharacter_5C1B8C->mBaseAnimatedWithPhysicsGameObject_Scale == 1)
+                if (sControlledCharacter_5C1B8C->mBaseAnimatedWithPhysicsGameObject_Scale == Scale::Fg)
                 {
                     sControlledCharacter_5C1B8C->mBaseAnimatedWithPhysicsGameObject_VelX *= FP_FromDouble(0.5);
                     sControlledCharacter_5C1B8C->mBaseAnimatedWithPhysicsGameObject_VelY *= FP_FromDouble(0.5);
                 }
                 sControlledCharacter_5C1B8C->mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromDouble(0.5);
                 sControlledCharacter_5C1B8C->mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_AbeMenu_Half_13;
-                sControlledCharacter_5C1B8C->mBaseAnimatedWithPhysicsGameObject_Scale = 0;
+                sControlledCharacter_5C1B8C->mBaseAnimatedWithPhysicsGameObject_Scale = Scale::Bg;
             }
             else
             {
-                if (sControlledCharacter_5C1B8C->mBaseAnimatedWithPhysicsGameObject_Scale == 0)
+                if (sControlledCharacter_5C1B8C->mBaseAnimatedWithPhysicsGameObject_Scale == Scale::Bg)
                 {
                     sControlledCharacter_5C1B8C->mBaseAnimatedWithPhysicsGameObject_VelX *= FP_FromInteger(2);
                     sControlledCharacter_5C1B8C->mBaseAnimatedWithPhysicsGameObject_VelY *= FP_FromInteger(2);
                 }
                 sControlledCharacter_5C1B8C->mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromInteger(1);
                 sControlledCharacter_5C1B8C->mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_AbeMenu_32;
-                sControlledCharacter_5C1B8C->mBaseAnimatedWithPhysicsGameObject_Scale = 1;
+                sControlledCharacter_5C1B8C->mBaseAnimatedWithPhysicsGameObject_Scale = Scale::Fg;
             }
 
             // XPos = TLV xpos + TLV middle point
@@ -287,7 +287,7 @@ void Teleporter::VUpdate()
                     &pPathLine,
                     &hitX,
                     &hitY,
-                    sControlledCharacter_5C1B8C->mBaseAnimatedWithPhysicsGameObject_Scale == 1 ? kFgFloorCeilingOrWalls : kBgFloorCeilingOrWalls))
+                    sControlledCharacter_5C1B8C->mBaseAnimatedWithPhysicsGameObject_Scale == Scale::Fg ? kFgFloorCeilingOrWalls : kBgFloorCeilingOrWalls))
             {
                 sControlledCharacter_5C1B8C->BaseAliveGameObjectCollisionLine = pPathLine;
                 sControlledCharacter_5C1B8C->mBaseAnimatedWithPhysicsGameObject_YPos = hitY;

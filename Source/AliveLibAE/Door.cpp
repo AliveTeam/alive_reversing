@@ -240,14 +240,14 @@ Door::Door(Path_Door* pTlvData, s32 tlvInfo)
         if (pTlvData->field_16_scale == Scale_short::eHalf_1)
         {
             mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromDouble(0.5);
-            mBaseAnimatedWithPhysicsGameObject_Scale = 0;
+            mBaseAnimatedWithPhysicsGameObject_Scale = Scale::Bg;
             mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_BeforeShadow_Half_6;
         }
     }
     else
     {
         mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromInteger(1);
-        mBaseAnimatedWithPhysicsGameObject_Scale = 1;
+        mBaseAnimatedWithPhysicsGameObject_Scale = Scale::Fg;
         mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_BeforeShadow_25;
     }
 
@@ -265,7 +265,7 @@ Door::Door(Path_Door* pTlvData, s32 tlvInfo)
             &pathLine,
             xOff,
             yOff,
-            (mBaseAnimatedWithPhysicsGameObject_Scale == 1) ? kFgFloorCeilingOrWalls : kBgFloorCeilingOrWalls))
+            (mBaseAnimatedWithPhysicsGameObject_Scale == Scale::Fg) ? kFgFloorCeilingOrWalls : kBgFloorCeilingOrWalls))
     {
         // Move up off the line we hit
         *yOff -= FP_FromInteger(12) * mBaseAnimatedWithPhysicsGameObject_SpriteScale;

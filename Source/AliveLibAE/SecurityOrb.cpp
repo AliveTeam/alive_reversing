@@ -56,13 +56,13 @@ SecurityOrb::SecurityOrb(Path_SecurityOrb* pTlv, s32 tlvInfo)
     if (pTlv->field_10_scale == Scale_short::eHalf_1)
     {
         mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromDouble(0.5);
-        mBaseAnimatedWithPhysicsGameObject_Scale = 0;
+        mBaseAnimatedWithPhysicsGameObject_Scale = Scale::Bg;
         mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_8;
     }
     else
     {
         mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromInteger(1);
-        mBaseAnimatedWithPhysicsGameObject_Scale = 1;
+        mBaseAnimatedWithPhysicsGameObject_Scale = Scale::Fg;
         mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_27;
     }
 

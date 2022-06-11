@@ -77,7 +77,7 @@ s32 Bone::CreateFromSaveState(const u8* pData)
     pBone->mBaseAnimatedWithPhysicsGameObject_LvlNumber = MapWrapper::FromAE(pState->field_1E_lvl_number);
     pBone->mBaseAnimatedWithPhysicsGameObject_SpriteScale = pState->field_18_sprite_scale;
 
-    pBone->mBaseAnimatedWithPhysicsGameObject_Scale = pState->field_18_sprite_scale > FP_FromDouble(0.75);
+    pBone->mBaseAnimatedWithPhysicsGameObject_Scale = pState->field_18_sprite_scale > FP_FromDouble(0.75) ? Scale::Fg : Scale::Bg;
 
     pBone->mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit8_Loop, pState->field_20_flags.Get(Bone_SaveState::eBit3_bLoop));
     pBone->mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit3_Render, pState->field_20_flags.Get(Bone_SaveState::eBit1_bRender));
@@ -298,7 +298,7 @@ void Bone::InTheAir()
             &BaseAliveGameObjectCollisionLine,
             &hitX,
             &hitY,
-            mBaseAnimatedWithPhysicsGameObject_Scale == 1 ? kFgFloorOrCeiling : kBgFloorOrCeiling)
+            mBaseAnimatedWithPhysicsGameObject_Scale == Scale::Fg ? kFgFloorOrCeiling : kBgFloorOrCeiling)
         == 1)
     {
         switch (BaseAliveGameObjectCollisionLine->field_8_type)
@@ -367,7 +367,7 @@ void Bone::InTheAir()
         }
     }
 
-    if (sCollisions->Raycast(field_120_xpos, field_124_ypos, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, &BaseAliveGameObjectCollisionLine, &hitX, &hitY, mBaseAnimatedWithPhysicsGameObject_Scale != 0 ? kFgWalls : kBgWalls) == 1)
+    if (sCollisions->Raycast(field_120_xpos, field_124_ypos, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, &BaseAliveGameObjectCollisionLine, &hitX, &hitY, mBaseAnimatedWithPhysicsGameObject_Scale == Scale::Fg ? kFgWalls : kBgWalls) == 1)
     {
         switch (BaseAliveGameObjectCollisionLine->field_8_type)
         {
@@ -432,7 +432,7 @@ void Bone::VUpdate()
         case BoneStates::eCollided_2:
         {
             const PSX_RECT bRect = VGetBoundingRect();
-            const s16 offset = mBaseAnimatedWithPhysicsGameObject_Scale != 0 ? 5 : 0;
+            const s16 offset = mBaseAnimatedWithPhysicsGameObject_Scale == Scale::Fg ? 5 : 0;
             const PSX_Point xy{bRect.x, static_cast<s16>(bRect.y + offset)};
             const PSX_Point wh{bRect.w, static_cast<s16>(bRect.h + offset)};
             VOnCollisionWith(xy, wh, gBaseGameObjects, 1, (TCollisionCallBack) &Bone::OnCollision);
@@ -512,7 +512,7 @@ void Bone::VUpdate()
         {
             InTheAir();
             const PSX_RECT bRect = VGetBoundingRect();
-            const s16 offset = mBaseAnimatedWithPhysicsGameObject_Scale != 0 ? 5 : 0;
+            const s16 offset = mBaseAnimatedWithPhysicsGameObject_Scale == Scale::Fg ? 5 : 0;
             const PSX_Point xy{bRect.x, static_cast<s16>(bRect.y + offset)};
             const PSX_Point wh{bRect.w, static_cast<s16>(bRect.h + offset)};
             VOnCollisionWith(xy, wh, gBaseGameObjects, 1, (TCollisionCallBack) &Bone::OnCollision);
@@ -596,12 +596,12 @@ BoneBag::BoneBag(Path_BoneBag* pTlv, s32 tlvInfo)
     if (pTlv->field_16_scale == Scale_short::eHalf_1)
     {
         mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromDouble(0.5);
-        mBaseAnimatedWithPhysicsGameObject_Scale = 0;
+        mBaseAnimatedWithPhysicsGameObject_Scale = Scale::Bg;
     }
     else if (pTlv->field_16_scale == Scale_short::eFull_0)
     {
         mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromInteger(1);
-        mBaseAnimatedWithPhysicsGameObject_Scale = 1;
+        mBaseAnimatedWithPhysicsGameObject_Scale = Scale::Fg;
     }
 
     field_11E_count = pTlv->field_18_bone_amount;

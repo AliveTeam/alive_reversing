@@ -836,13 +836,13 @@ void BirdPortal::VExitPortal()
         {
             field_60_scale = FP_FromDouble(0.5);
             sActiveHero->mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_InBirdPortal_Half_11;
-            sActiveHero->mBaseAnimatedWithPhysicsGameObject_Scale = 0;
+            sActiveHero->mBaseAnimatedWithPhysicsGameObject_Scale = Scale::Bg;
         }
         else
         {
             field_60_scale = FP_FromInteger(1);
             sActiveHero->mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_InBirdPortal_30;
-            sActiveHero->mBaseAnimatedWithPhysicsGameObject_Scale = 1;
+            sActiveHero->mBaseAnimatedWithPhysicsGameObject_Scale = Scale::Fg;
         }
 
         sActiveHero->mBaseAnimatedWithPhysicsGameObject_SpriteScale = field_60_scale;

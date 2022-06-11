@@ -54,13 +54,13 @@ FallingItem::FallingItem(Path_FallingItem* pTlv, s32 tlvInfo)
     if (pTlv->field_12_scale == Scale_short::eHalf_1)
     {
         mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromDouble(0.5);
-        mBaseAnimatedWithPhysicsGameObject_Scale = 0;
+        mBaseAnimatedWithPhysicsGameObject_Scale = Scale::Bg;
         mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_FallingItemPortalClip_Half_12;
     }
     else
     {
         mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromInteger(1);
-        mBaseAnimatedWithPhysicsGameObject_Scale = 1;
+        mBaseAnimatedWithPhysicsGameObject_Scale = Scale::Fg;
         mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_FallingItemPortalClip_31;
     }
 
@@ -122,12 +122,12 @@ FallingItem::FallingItem(Path_FallingItem* pTlv, s32 tlvInfo)
     if (scale)
     {
         mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromDouble(0.5);
-        mBaseAnimatedWithPhysicsGameObject_Scale = 0;
+        mBaseAnimatedWithPhysicsGameObject_Scale = Scale::Bg;
     }
     else
     {
         mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromInteger(1);
-        mBaseAnimatedWithPhysicsGameObject_Scale = 1;
+        mBaseAnimatedWithPhysicsGameObject_Scale = Scale::Fg;
     }
 
     field_124_fall_interval = static_cast<s16>(fallInterval);
@@ -187,7 +187,7 @@ void FallingItem::VUpdate()
     {
         if (!((sGnFrame - field_144_created_gnFrame) % 87))
         {
-            if (mBaseAnimatedWithPhysicsGameObject_Scale == 1)
+            if (mBaseAnimatedWithPhysicsGameObject_Scale == Scale::Fg)
             {
                 SFX_Play_Mono(SoundEffect::FallingItemPresence1_74, 45);
             }
@@ -199,7 +199,7 @@ void FallingItem::VUpdate()
 
         if (!((sGnFrame - field_144_created_gnFrame) % 25))
         {
-            if (mBaseAnimatedWithPhysicsGameObject_Scale == 1)
+            if (mBaseAnimatedWithPhysicsGameObject_Scale == Scale::Fg)
             {
                 SFX_Play_Mono(SoundEffect::FallingItemPresence2_75, 45);
             }
@@ -247,7 +247,7 @@ void FallingItem::VUpdate()
             {
                 field_11C_state = State::eFalling_3;
                 field_12E_do_sound_in_state_falling = TRUE;
-                if (mBaseAnimatedWithPhysicsGameObject_Scale == 1)
+                if (mBaseAnimatedWithPhysicsGameObject_Scale == Scale::Fg)
                 {
                     field_140_sound_channels = SFX_Play_Pitch(SoundEffect::AirStream_23, 50, -2600);
                 }
@@ -265,7 +265,7 @@ void FallingItem::VUpdate()
                 if (mBaseAnimatedWithPhysicsGameObject_YPos >= sActiveHero->mBaseAnimatedWithPhysicsGameObject_YPos - FP_FromInteger(240 / 2))
                 {
                     field_12E_do_sound_in_state_falling = FALSE;
-                    if (mBaseAnimatedWithPhysicsGameObject_Scale == 1)
+                    if (mBaseAnimatedWithPhysicsGameObject_Scale == Scale::Fg)
                     {
                         SFX_Play_Pitch(SoundEffect::AirStream_23, 127, -1300);
                     }
@@ -294,7 +294,7 @@ void FallingItem::VUpdate()
                     &pathLine,
                     &hitX,
                     &hitY,
-                    mBaseAnimatedWithPhysicsGameObject_Scale != 0 ? kFgFloor : kBgFloor)
+                    mBaseAnimatedWithPhysicsGameObject_Scale == Scale::Fg ? kFgFloor : kBgFloor)
                 == 1)
             {
                 if (!field_134_bHitDrillOrMineCar)
@@ -358,7 +358,7 @@ void FallingItem::VUpdate()
             Event_Broadcast(kEventLoudNoise, this);
             SFX_Play_Mono(SoundEffect::FallingItemLand_62, 0, mBaseAnimatedWithPhysicsGameObject_SpriteScale);
 
-            if (mBaseAnimatedWithPhysicsGameObject_Scale == 1)
+            if (mBaseAnimatedWithPhysicsGameObject_Scale == Scale::Fg)
             {
                 SFX_Play_Pitch(SoundEffect::FallingItemHit_47, 110, -1536);
             }

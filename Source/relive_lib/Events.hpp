@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../AliveLibCommon/FixedPoint_common.hpp"
+#include "BaseAnimatedWithPhysicsGameObject.hpp"
 
 // Note, names taken from Abe's Exoddus PC Demo
 enum Event : s16
@@ -31,13 +32,12 @@ enum Event : s16
 };
 
 class BaseGameObject;
-class IBaseAnimatedWithPhysicsGameObject;
 
 void Event_Broadcast(Event event, BaseGameObject* pObject);
 BaseGameObject* Event_Get(Event eventType);
 void Events_Reset();
 void Events_Reset_Active();
-IBaseAnimatedWithPhysicsGameObject* Event_Is_Event_In_Range(Event eventType, FP xpos, FP ypos, s16 scale);
+IBaseAnimatedWithPhysicsGameObject* Event_Is_Event_In_Range(Event eventType, FP xpos, FP ypos, Scale scale);
 
 // TODO: Get AO to stop using the FP scale and merge both copies
 IBaseAnimatedWithPhysicsGameObject* Event_Is_Event_In_Range(Event eventType, FP xpos, FP ypos, FP scale);

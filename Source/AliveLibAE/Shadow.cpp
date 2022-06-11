@@ -33,7 +33,7 @@ Shadow::~Shadow()
     field_18_animation.VCleanUp();
 }
 
-void Shadow::Calculate_Position(FP xpos, FP ypos, PSX_RECT* frameRect, FP spriteScale, s16 scale)
+void Shadow::Calculate_Position(FP xpos, FP ypos, PSX_RECT* frameRect, FP spriteScale, Scale scale)
 {
     if (field_14_flags.Get(Flags::eBit2_Enabled))
     {
@@ -63,7 +63,7 @@ void Shadow::Calculate_Position(FP xpos, FP ypos, PSX_RECT* frameRect, FP sprite
                 &pLine,
                 &hitX,
                 &hitY,
-                scale == 1 ? kFgFloorCeilingOrWalls : kBgFloorCeilingOrWalls))
+                scale == Scale::Fg ? kFgFloorCeilingOrWalls : kBgFloorCeilingOrWalls))
         {
             const s16 camXPos = FP_GetExponent(pScreenManager->mCamPos->field_0_x);
             s16 lineXScreen = pLine->field_0_rect.x - camXPos;
@@ -93,7 +93,7 @@ void Shadow::Calculate_Position(FP xpos, FP ypos, PSX_RECT* frameRect, FP sprite
                         &pLine,
                         &hitX,
                         &hitY,
-                        scale == 1 ? kFgFloorCeilingOrWalls : kBgFloorCeilingOrWalls))
+                        scale == Scale::Fg ? kFgFloorCeilingOrWalls : kBgFloorCeilingOrWalls))
                 {
                     lineXScreen = std::min(pLine->field_0_rect.x, pLine->field_0_rect.w) - FP_GetExponent(pScreenManager->mCamPos->field_0_x);
                 }
@@ -110,7 +110,7 @@ void Shadow::Calculate_Position(FP xpos, FP ypos, PSX_RECT* frameRect, FP sprite
                         &pLine,
                         &hitX,
                         &hitY,
-                        scale == 1 ? kFgFloorCeilingOrWalls : kBgFloorCeilingOrWalls))
+                        scale == Scale::Fg ? kFgFloorCeilingOrWalls : kBgFloorCeilingOrWalls))
                 {
                     lineWScreen = std::max(pLine->field_0_rect.x, pLine->field_0_rect.w) - FP_GetExponent(pScreenManager->mCamPos->field_0_x);
                 }
@@ -141,7 +141,7 @@ void Shadow::Calculate_Position(FP xpos, FP ypos, PSX_RECT* frameRect, FP sprite
             field_18_animation.mAnimFlags.Clear(AnimFlags::eBit3_Render);
         }
 
-        if (scale)
+        if (scale == Scale::Fg)
         {
             field_18_animation.mRenderLayer = Layer::eLayer_Shadow_26;
         }

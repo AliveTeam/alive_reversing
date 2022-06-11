@@ -37,13 +37,13 @@ MineCar::MineCar(Path_MineCar* pTlv, s32 tlvInfo, s32 /*a4*/, s32 /*a5*/, s32 /*
     field_1BE_unused = 0;
     mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_Shadow_26;
     mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromInteger(1);
-    mBaseAnimatedWithPhysicsGameObject_Scale = 1;
+    mBaseAnimatedWithPhysicsGameObject_Scale = Scale::Fg;
 
     if (field_11E_scale != Scale_short::eFull_0)
     {
         mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromDouble(0.5);
         mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_Shadow_Half_7;
-        mBaseAnimatedWithPhysicsGameObject_Scale = 0;
+        mBaseAnimatedWithPhysicsGameObject_Scale = Scale::Bg;
     }
 
     MapFollowMe(TRUE);
@@ -58,7 +58,7 @@ MineCar::MineCar(Path_MineCar* pTlv, s32 tlvInfo, s32 /*a4*/, s32 /*a5*/, s32 /*
             &BaseAliveGameObjectCollisionLine,
             &hitX,
             &hitY,
-            mBaseAnimatedWithPhysicsGameObject_Scale != 0 ? kFgFloor : kBgFloor)
+            mBaseAnimatedWithPhysicsGameObject_Scale == Scale::Fg ? kFgFloor : kBgFloor)
         == 1)
     {
         mBaseAnimatedWithPhysicsGameObject_YPos = hitY;
@@ -343,7 +343,7 @@ Bool32 MineCar::CheckRoofCollision(FP hitX, FP hitY)
         &pPathLine,
         &hitX,
         &hitY,
-        mBaseAnimatedWithPhysicsGameObject_Scale != 0 ? CollisionMask(eCeiling_3) : CollisionMask(eBackgroundCeiling_7)
+        mBaseAnimatedWithPhysicsGameObject_Scale == Scale::Fg ? CollisionMask(eCeiling_3) : CollisionMask(eBackgroundCeiling_7)
     );
 }
 
@@ -360,7 +360,7 @@ Bool32 MineCar::CheckFloorCollision(FP hitX, FP hitY)
             &pPathLine,
             &hitX,
             &hitY,
-            mBaseAnimatedWithPhysicsGameObject_Scale != 0 ? kFgFloor : kBgFloor
+            mBaseAnimatedWithPhysicsGameObject_Scale == Scale::Fg ? kFgFloor : kBgFloor
         )
     )
     {
@@ -928,7 +928,7 @@ void MineCar::VUpdate()
             &pPathLine,
             &hitX,
             &hitY,
-            mBaseAnimatedWithPhysicsGameObject_Scale != 0 ? CollisionMask(eMineCarWall_12) : CollisionMask(eBackgroundMineCarWall_15)
+            mBaseAnimatedWithPhysicsGameObject_Scale == Scale::Fg ? CollisionMask(eMineCarWall_12) : CollisionMask(eBackgroundMineCarWall_15)
         )
     )
     {
@@ -1209,7 +1209,7 @@ bool MineCar::HandleState1Move(const mineCarFPFunc func, const FP mineCarFPFuncA
             &pPathLine,
             &hitX,
             &hitY,
-            mBaseAnimatedWithPhysicsGameObject_Scale != 0 ? ModelMask1 : ModelMask2
+            mBaseAnimatedWithPhysicsGameObject_Scale == Scale::Fg ? ModelMask1 : ModelMask2
         )
     )
     {
@@ -1454,7 +1454,7 @@ void MineCar::State_2_Moving()
             &pPathLine,
             &hitX,
             &hitY,
-            mBaseAnimatedWithPhysicsGameObject_Scale != 0 ? CollisionMask(eMineCarWall_12) : CollisionMask(eBackgroundMineCarWall_15)
+            mBaseAnimatedWithPhysicsGameObject_Scale == Scale::Fg ? CollisionMask(eMineCarWall_12) : CollisionMask(eBackgroundMineCarWall_15)
         ) &&
         mBaseAnimatedWithPhysicsGameObject_VelY > FP_FromInteger(0)
     )
@@ -1472,7 +1472,7 @@ void MineCar::State_2_Moving()
             &pPathLine,
             &hitX,
             &hitY,
-            mBaseAnimatedWithPhysicsGameObject_Scale != 0 ? CollisionMask(eMineCarCeiling_13) : CollisionMask(eBackgroundMineCarCeiling_16)
+            mBaseAnimatedWithPhysicsGameObject_Scale == Scale::Fg ? CollisionMask(eMineCarCeiling_13) : CollisionMask(eBackgroundMineCarCeiling_16)
         ) &&
         field_1BC_turn_direction == MineCarDirs::eDown_0
     )
@@ -1490,7 +1490,7 @@ void MineCar::State_2_Moving()
             &pPathLine,
             &hitX,
             &hitY,
-            mBaseAnimatedWithPhysicsGameObject_Scale != 0 ? CollisionMask(eMineCarFloor_11) : CollisionMask(eBackgroundMineCarFloor_14)
+            mBaseAnimatedWithPhysicsGameObject_Scale == Scale::Fg ? CollisionMask(eMineCarFloor_11) : CollisionMask(eBackgroundMineCarFloor_14)
         ) &&
         field_1BC_turn_direction == MineCarDirs::eUp_3
     )

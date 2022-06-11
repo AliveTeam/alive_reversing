@@ -651,7 +651,7 @@ s32 Animation_OnFrame_Abe_455F80(BaseGameObject* pPtr, s16* pData)
             &pLine,
             &hitX,
             &hitY,
-            pAbe->mBaseAnimatedWithPhysicsGameObject_Scale != 0 ? kFgWalls : kBgWalls))
+            pAbe->mBaseAnimatedWithPhysicsGameObject_Scale == Scale::Fg ? kFgWalls : kBgWalls))
     {
         xOff = hitX - pAbe->mBaseAnimatedWithPhysicsGameObject_XPos;
         tableX = -tableX;
@@ -2817,11 +2817,11 @@ u8** Abe::MotionToAnimResource_44AAB0(s16 motion)
 
 static bool IsSameScaleAsHoist(Path_Hoist* pHoist, BaseAliveGameObject* pObj)
 {
-    if (pHoist->field_16_scale == Scale_short::eFull_0 && pObj->mBaseAnimatedWithPhysicsGameObject_Scale == 0)
+    if (pHoist->field_16_scale == Scale_short::eFull_0 && pObj->mBaseAnimatedWithPhysicsGameObject_Scale == Scale::Bg)
     {
         return false;
     }
-    else if (pHoist->field_16_scale == Scale_short::eHalf_1 && pObj->mBaseAnimatedWithPhysicsGameObject_Scale == 1)
+    else if (pHoist->field_16_scale == Scale_short::eHalf_1 && pObj->mBaseAnimatedWithPhysicsGameObject_Scale == Scale::Fg)
     {
         return false;
     }
@@ -2830,11 +2830,11 @@ static bool IsSameScaleAsHoist(Path_Hoist* pHoist, BaseAliveGameObject* pObj)
 
 static bool IsSameScaleAsEdge(Path_Edge* pEdge, BaseAliveGameObject* pObj)
 {
-    if (pEdge->field_14_scale == Scale_int::eFull_0 && pObj->mBaseAnimatedWithPhysicsGameObject_Scale == 0)
+    if (pEdge->field_14_scale == Scale_int::eFull_0 && pObj->mBaseAnimatedWithPhysicsGameObject_Scale == Scale::Bg)
     {
         return false;
     }
-    else if (pEdge->field_14_scale == Scale_int::eHalf_1 && pObj->mBaseAnimatedWithPhysicsGameObject_Scale == 1)
+    else if (pEdge->field_14_scale == Scale_int::eHalf_1 && pObj->mBaseAnimatedWithPhysicsGameObject_Scale == Scale::Fg)
     {
         return false;
     }
@@ -3639,7 +3639,7 @@ void Abe::Motion_3_Fall_459B60()
                 &pPathLine,
                 &hitX,
                 &hitY,
-                mBaseAnimatedWithPhysicsGameObject_Scale != 0 ? kFgFloor : kBgFloor))
+                mBaseAnimatedWithPhysicsGameObject_Scale == Scale::Fg ? kFgFloor : kBgFloor))
         {
             return;
         }
@@ -3927,7 +3927,7 @@ void Abe::Motion_14_HoistIdle_452440()
                     &pLine,
                     &hitX,
                     &hitY,
-                    mBaseAnimatedWithPhysicsGameObject_Scale != 0 ? kFgFloor : kBgFloor))
+                    mBaseAnimatedWithPhysicsGameObject_Scale == Scale::Fg ? kFgFloor : kBgFloor))
             {
                 BaseAliveGameObjectCollisionLine = pLine;
                 mBaseAnimatedWithPhysicsGameObject_YPos = FP_NoFractional(hitY + FP_FromDouble(0.5));
@@ -4570,7 +4570,7 @@ void Abe::Motion_28_HopMid_451C50()
                     &pLine,
                     &hitX,
                     &hitY,
-                    mBaseAnimatedWithPhysicsGameObject_Scale != 0 ? kFgFloor : kBgFloor))
+                    mBaseAnimatedWithPhysicsGameObject_Scale == Scale::Fg ? kFgFloor : kBgFloor))
             {
                 mBaseAnimatedWithPhysicsGameObject_YPos = hitY;
                 BaseAliveGameObjectCollisionLine = pLine;
@@ -4764,7 +4764,7 @@ void Abe::Motion_31_RunJumpMid_452C10()
                     &pLine,
                     &hitX,
                     &hitY,
-                    mBaseAnimatedWithPhysicsGameObject_Scale != 0 ? kFgFloor : kBgFloor))
+                    mBaseAnimatedWithPhysicsGameObject_Scale == Scale::Fg ? kFgFloor : kBgFloor))
             {
                 mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger((BaseAliveGameObjectPathTLV->field_8_top_left.field_0_x + BaseAliveGameObjectPathTLV->field_C_bottom_right.field_0_x) / 2);
 
@@ -5919,7 +5919,7 @@ void Abe::Motion_66_LedgeDescend_454970()
                         &pLine,
                         &hitX,
                         &hitY,
-                        mBaseAnimatedWithPhysicsGameObject_Scale != 0 ? kFgFloor : kBgFloor))
+                        mBaseAnimatedWithPhysicsGameObject_Scale == Scale::Fg ? kFgFloor : kBgFloor))
                 {
                     BaseAliveGameObjectCollisionLine = pLine;
                     mBaseAnimatedWithPhysicsGameObject_YPos = hitY;
@@ -5988,7 +5988,7 @@ void Abe::Motion_68_ToOffScreenHoist_454B80()
     PathLine* pLine = nullptr;
     FP hitX = {};
     FP hitY = {};
-    if (pHoist && sCollisions->Raycast(mBaseAnimatedWithPhysicsGameObject_XPos, FP_FromInteger(pHoist->field_8_top_left.field_2_y - 10), mBaseAnimatedWithPhysicsGameObject_XPos, FP_FromInteger(pHoist->field_8_top_left.field_2_y + 10), &pLine, &hitX, &hitY, mBaseAnimatedWithPhysicsGameObject_Scale != 0 ? kFgFloor : kBgFloor))
+    if (pHoist && sCollisions->Raycast(mBaseAnimatedWithPhysicsGameObject_XPos, FP_FromInteger(pHoist->field_8_top_left.field_2_y - 10), mBaseAnimatedWithPhysicsGameObject_XPos, FP_FromInteger(pHoist->field_8_top_left.field_2_y + 10), &pLine, &hitX, &hitY, mBaseAnimatedWithPhysicsGameObject_Scale == Scale::Fg ? kFgFloor : kBgFloor))
     {
         BaseAliveGameObjectCollisionLine = pLine;
         mBaseAnimatedWithPhysicsGameObject_YPos = FP_NoFractional(hitY + FP_FromDouble(0.5));
@@ -6564,12 +6564,12 @@ void Abe::Motion_83_WellExpressShotOut_45CF70()
         if (pWell->field_0_scale == Scale_short::eHalf_1)
         {
             mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromDouble(0.5);
-            mBaseAnimatedWithPhysicsGameObject_Scale = 0;
+            mBaseAnimatedWithPhysicsGameObject_Scale = Scale::Bg;
         }
         else
         {
             mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromInteger(1);
-            mBaseAnimatedWithPhysicsGameObject_Scale = 1;
+            mBaseAnimatedWithPhysicsGameObject_Scale = Scale::Fg;
         }
 
         mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger((pWell->field_8_top_left.field_0_x + pWell->field_C_bottom_right.field_0_x) / 2);
@@ -6966,13 +6966,13 @@ void Abe::Motion_92_ForceDownFromHoist_455800()
                 &BaseAliveGameObjectCollisionLine,
                 &hitX,
                 &hitY,
-                mBaseAnimatedWithPhysicsGameObject_Scale != 0 ? kFgFloor : kBgFloor)
+                mBaseAnimatedWithPhysicsGameObject_Scale == Scale::Fg ? kFgFloor : kBgFloor)
             == 1)
         {
             mBaseAnimatedWithPhysicsGameObject_YPos = hitY;
             mCurrentMotion = eAbeMotions::Motion_84_FallLandDie_45A420;
             field_128.field_4_regen_health_timer = sGnFrame + 900;
-            mPreviousMotion = 3;
+            mPreviousMotion = eAbeMotions::Motion_3_Fall_459B60;
             return;
         }
         mBaseAnimatedWithPhysicsGameObject_YPos += (mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(75));
@@ -7723,7 +7723,7 @@ void Abe::Motion_114_DoorEnter_459470()
                 mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit3_Render);
                 mCurrentMotion = eAbeMotions::jMotion_85_Fall_455070;
                 mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromInteger(1);
-                mBaseAnimatedWithPhysicsGameObject_Scale = 1;
+                mBaseAnimatedWithPhysicsGameObject_Scale = Scale::Fg;
                 mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_AbeMenu_32;
                 return;
             }
@@ -7778,13 +7778,13 @@ void Abe::Motion_114_DoorEnter_459470()
             {
                 mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromDouble(0.5);
                 mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_AbeMenu_Half_13;
-                mBaseAnimatedWithPhysicsGameObject_Scale = 0;
+                mBaseAnimatedWithPhysicsGameObject_Scale = Scale::Bg;
             }
             else
             {
                 mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromDouble(1.0);
                 mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_AbeMenu_32;
-                mBaseAnimatedWithPhysicsGameObject_Scale = 1;
+                mBaseAnimatedWithPhysicsGameObject_Scale = Scale::Fg;
             }
 
             // The door controls which way Abe faces when he exits it.
@@ -7813,7 +7813,7 @@ void Abe::Motion_114_DoorEnter_459470()
                     &pathLine,
                     &hitX,
                     &hitY,
-                    (mBaseAnimatedWithPhysicsGameObject_Scale == 1) ? kFgFloorCeilingOrWalls : kBgFloorCeilingOrWalls))
+                    (mBaseAnimatedWithPhysicsGameObject_Scale == Scale::Fg) ? kFgFloorCeilingOrWalls : kBgFloorCeilingOrWalls))
             {
                 BaseAliveGameObjectCollisionLine = pathLine;
                 mBaseAnimatedWithPhysicsGameObject_YPos = hitY;
@@ -7955,7 +7955,7 @@ void Abe::Motion_117_InMineCar_4587C0()
                     &pLine,
                     &hitX,
                     &hitY,
-                    mBaseAnimatedWithPhysicsGameObject_Scale != 0 ? kFgFloor : kBgFloor))
+                    mBaseAnimatedWithPhysicsGameObject_Scale == Scale::Fg ? kFgFloor : kBgFloor))
             {
                 mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit2_Animate);
                 mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit3_Render);
@@ -8769,7 +8769,7 @@ Bool32 Abe::Is_Celling_Above_44E8D0()
                &pLine,
                &hitX,
                &hitY,
-               mBaseAnimatedWithPhysicsGameObject_Scale != 0 ? kFgCeiling : kBgCeiling)
+               mBaseAnimatedWithPhysicsGameObject_Scale == Scale::Fg ? kFgCeiling : kBgCeiling)
         != 0;
 }
 
@@ -9194,7 +9194,7 @@ void Abe::BulletDamage_44C980(Bullet* pBullet)
                 &pathLine,
                 &hitX,
                 &hitY,
-                mBaseAnimatedWithPhysicsGameObject_Scale != 0 ? kFgFloor : kBgFloor)
+                mBaseAnimatedWithPhysicsGameObject_Scale == Scale::Fg ? kFgFloor : kBgFloor)
             == 1)
         {
             if (pBullet->field_20_type != BulletType::ePossessedSligZBullet_1 && pBullet->field_20_type != BulletType::eZBullet_3)

@@ -483,7 +483,7 @@ void DDCheat::Misc()
     {
         gScale_4C3158 = 100;
         sControlledCharacter_50767C->mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromInteger(1);
-        sControlledCharacter_50767C->mBaseAnimatedWithPhysicsGameObject_Scale = 1;
+        sControlledCharacter_50767C->mBaseAnimatedWithPhysicsGameObject_Scale = Scale::Fg;
         sControlledCharacter_50767C->mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_AbeMenu_32;
     }
     else if (field_24_input & InputCommands::eRight)
@@ -491,7 +491,7 @@ void DDCheat::Misc()
         sControlledCharacter_50767C = sControlledCharacter_50767C;
         gScale_4C3158 = 50;
         sControlledCharacter_50767C->mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromDouble(0.5);
-        sControlledCharacter_50767C->mBaseAnimatedWithPhysicsGameObject_Scale = 0;
+        sControlledCharacter_50767C->mBaseAnimatedWithPhysicsGameObject_Scale = Scale::Bg;
         sControlledCharacter_50767C->mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_AbeMenu_Half_13;
     }
     else if (field_24_input & InputCommands::eDown)

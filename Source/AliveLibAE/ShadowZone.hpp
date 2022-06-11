@@ -4,6 +4,7 @@
 #include "Path.hpp"
 #include "../AliveLibCommon/Function.hpp"
 #include "../relive_lib/MapWrapper.hpp"
+#include "../relive_lib/BaseAnimatedWithPhysicsGameObject.hpp"
 
 enum class ShadowZoneScale : s16
 {
@@ -36,10 +37,10 @@ public:
     virtual void VUpdate() override;
     virtual void VScreenChanged() override;
 
-    static void ShadowZones_Calculate_Colour(s32 xpos, s32 ypos, s16 scale, s16* r, s16* g, s16* b);
+    static void ShadowZones_Calculate_Colour(s32 xpos, s32 ypos, Scale scale, s16* r, s16* g, s16* b);
 
 private:
-    s16 ApplysToScale(s16 scale);
+    s16 ApplysToScale(Scale scale);
     FP* GetColourAmount(FP* pOut, s16 xpos, s16 ypos);
 
 private:

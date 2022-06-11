@@ -3857,12 +3857,12 @@ Elum::Elum(s32, anythingForTheTimeBeing, anythingForTheTimeBeing, s32, TlvItemIn
 
     if (mBaseAnimatedWithPhysicsGameObject_SpriteScale == FP_FromInteger(1))
     {
-        mBaseAnimatedWithPhysicsGameObject_Scale = 1;
+        mBaseAnimatedWithPhysicsGameObject_Scale = Scale::Fg;
         mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_ZapLinesElum_28;
     }
     else
     {
-        mBaseAnimatedWithPhysicsGameObject_Scale = 0;
+        mBaseAnimatedWithPhysicsGameObject_Scale = Scale::Bg;
         mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_ZapLinesElum_Half_9;
     }
 

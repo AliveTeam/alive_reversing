@@ -121,12 +121,12 @@ ParticleBurst::ParticleBurst(FP xpos, FP ypos, s32 particleCount, FP scale, Burs
         {
             if (mBaseAnimatedWithPhysicsGameObject_SpriteScale == FP_FromInteger(1))
             {
-                mBaseAnimatedWithPhysicsGameObject_Scale = 1;
+                mBaseAnimatedWithPhysicsGameObject_Scale = Scale::Fg;
                 mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_Above_FG1_39;
             }
             else
             {
-                mBaseAnimatedWithPhysicsGameObject_Scale = 0;
+                mBaseAnimatedWithPhysicsGameObject_Scale = Scale::Bg;
                 mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_Above_FG1_Half_20;
             }
 

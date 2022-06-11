@@ -25,7 +25,7 @@ ParamiteWebLine::ParamiteWebLine(Path_ParamiteWebLine* pTlv, s32 tlvInfo)
         mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_RopeWebDrill_Half_5;
         mBaseAnimatedWithPhysicsGameObject_Anim.field_14_scale = FP_FromDouble(0.7);
         mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromDouble(0.7);
-        mBaseAnimatedWithPhysicsGameObject_Scale = 0;
+        mBaseAnimatedWithPhysicsGameObject_Scale = Scale::Bg;
         field_F6_piece_length = 7;
         field_1A2_pulse_position_speed = 1;
         mBaseAnimatedWithPhysicsGameObject_Red = 50;
@@ -37,7 +37,7 @@ ParamiteWebLine::ParamiteWebLine(Path_ParamiteWebLine* pTlv, s32 tlvInfo)
         mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_RopeWebDrill_24;
         mBaseAnimatedWithPhysicsGameObject_Anim.field_14_scale = FP_FromInteger(1);
         mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromInteger(1);
-        mBaseAnimatedWithPhysicsGameObject_Scale = 1;
+        mBaseAnimatedWithPhysicsGameObject_Scale = Scale::Fg;
         field_F6_piece_length = 15;
         field_1A2_pulse_position_speed = 2;
         mBaseAnimatedWithPhysicsGameObject_Red = 10;

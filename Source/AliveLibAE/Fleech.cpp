@@ -564,7 +564,7 @@ void Fleech::M_Idle_3_42E850()
             FP hitX = {};
             FP hitY = {};
             PathLine* pLine = nullptr;
-            if (mCurrentMotion == eFleechMotions::M_Idle_3_42E850 && mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame == 0 && !sCollisions->Raycast(mBaseAnimatedWithPhysicsGameObject_XPos - FP_FromInteger(5), mBaseAnimatedWithPhysicsGameObject_YPos - FP_FromInteger(5), mBaseAnimatedWithPhysicsGameObject_XPos + FP_FromInteger(5), mBaseAnimatedWithPhysicsGameObject_YPos + FP_FromInteger(1), &pLine, &hitX, &hitY, mBaseAnimatedWithPhysicsGameObject_Scale != 0 ? kFgFloor : kBgFloor))
+            if (mCurrentMotion == eFleechMotions::M_Idle_3_42E850 && mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame == 0 && !sCollisions->Raycast(mBaseAnimatedWithPhysicsGameObject_XPos - FP_FromInteger(5), mBaseAnimatedWithPhysicsGameObject_YPos - FP_FromInteger(5), mBaseAnimatedWithPhysicsGameObject_XPos + FP_FromInteger(5), mBaseAnimatedWithPhysicsGameObject_YPos + FP_FromInteger(1), &pLine, &hitX, &hitY, mBaseAnimatedWithPhysicsGameObject_Scale == Scale::Fg ? kFgFloor : kBgFloor))
             {
                 field_138_velx_factor = FP_FromInteger(0);
                 BaseAliveGameObjectLastLineYPos = mBaseAnimatedWithPhysicsGameObject_YPos;
@@ -764,7 +764,7 @@ void Fleech::M_Fall_9_42ECD0()
             &pLine,
             &hitX,
             &hitY,
-            mBaseAnimatedWithPhysicsGameObject_Scale == 1 ? kFgFloorCeilingOrWalls : kBgFloorCeilingOrWalls))
+            mBaseAnimatedWithPhysicsGameObject_Scale == Scale::Fg ? kFgFloorCeilingOrWalls : kBgFloorCeilingOrWalls))
     {
         switch (pLine->field_8_type)
         {
@@ -921,7 +921,7 @@ void Fleech::M_Climb_12_42F7F0()
         PathLine* pLine = nullptr;
         FP hitX = {};
         FP hitY = {};
-        if (sCollisions->Raycast(pX1, pY1, pX2, mBaseAnimatedWithPhysicsGameObject_VelY + mBaseAnimatedWithPhysicsGameObject_YPos, &pLine, &hitX, &hitY, mBaseAnimatedWithPhysicsGameObject_Scale != 0 ? kFgWalls : kBgWalls))
+        if (sCollisions->Raycast(pX1, pY1, pX2, mBaseAnimatedWithPhysicsGameObject_VelY + mBaseAnimatedWithPhysicsGameObject_YPos, &pLine, &hitX, &hitY, mBaseAnimatedWithPhysicsGameObject_Scale == Scale::Fg ? kFgWalls : kBgWalls))
         {
             switch (pLine->field_8_type)
             {
@@ -989,7 +989,7 @@ void Fleech::M_SettleOnGround_13_42FB00()
                 &pLine,
                 &hitX,
                 &hitY,
-                mBaseAnimatedWithPhysicsGameObject_Scale != 0 ? kFgFloor : kBgFloor))
+                mBaseAnimatedWithPhysicsGameObject_Scale == Scale::Fg ? kFgFloor : kBgFloor))
         {
             BaseAliveGameObjectCollisionLine = pLine;
             MapFollowMe(TRUE);
@@ -1635,12 +1635,12 @@ void Fleech::Init_42A170()
     if (mBaseAnimatedWithPhysicsGameObject_SpriteScale == FP_FromInteger(1))
     {
         mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_SlogFleech_34;
-        mBaseAnimatedWithPhysicsGameObject_Scale = 1;
+        mBaseAnimatedWithPhysicsGameObject_Scale = Scale::Fg;
     }
     else
     {
         mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_SlogFleech_Half_15;
-        mBaseAnimatedWithPhysicsGameObject_Scale = 0;
+        mBaseAnimatedWithPhysicsGameObject_Scale = Scale::Bg;
     }
 
     FP hitX = {};
@@ -1653,7 +1653,7 @@ void Fleech::Init_42A170()
             &BaseAliveGameObjectCollisionLine,
             &hitX,
             &hitY,
-            mBaseAnimatedWithPhysicsGameObject_Scale != 0 ? kFgFloor : kBgFloor)
+            mBaseAnimatedWithPhysicsGameObject_Scale == Scale::Fg ? kFgFloor : kBgFloor)
         == 1)
     {
         mBaseAnimatedWithPhysicsGameObject_YPos = hitY;
@@ -2517,7 +2517,7 @@ Bool32 Fleech::Collision_42B290(s16 alwaysOne)
     PathLine* pLine = nullptr;
     FP hitX = {};
     FP hitY = {};
-    return sCollisions->Raycast(x1, y1, x2, y2, &pLine, &hitX, &hitY, mBaseAnimatedWithPhysicsGameObject_Scale ? kFgFloor : kBgFloor) == 0;
+    return sCollisions->Raycast(x1, y1, x2, y2, &pLine, &hitX, &hitY, mBaseAnimatedWithPhysicsGameObject_Scale == Scale::Fg ? kFgFloor : kBgFloor) == 0;
 }
 
 Path_Hoist* Fleech::TryGetHoist_42AFD0(s32 xDistance, s16 bIgnoreDirection)

@@ -64,13 +64,13 @@ Slurg::Slurg(Path_Slurg* pTlv, u32 tlvInfo)
     {
         field_130_scale = FP_FromDouble(0.5);
         mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_SligGreeterFarts_Half_14;
-        mBaseAnimatedWithPhysicsGameObject_Scale = 0;
+        mBaseAnimatedWithPhysicsGameObject_Scale = Scale::Bg;
     }
     else if (pTlv->field_10_slurg_data.field_4_scale == Scale_short::eFull_0)
     {
         field_130_scale = FP_FromInteger(1);
         mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_SligGreeterFarts_33;
-        mBaseAnimatedWithPhysicsGameObject_Scale = 1;
+        mBaseAnimatedWithPhysicsGameObject_Scale = Scale::Fg;
     }
 
     field_11E_moving_timer = pTlv->field_10_slurg_data.field_0_moving_timer;
@@ -88,7 +88,7 @@ Slurg::Slurg(Path_Slurg* pTlv, u32 tlvInfo)
             &field_124_pLine,
             &hitX,
             &hitY,
-            mBaseAnimatedWithPhysicsGameObject_Scale != 0 ? kFgFloor : kBgFloor)
+            mBaseAnimatedWithPhysicsGameObject_Scale == Scale::Fg ? kFgFloor : kBgFloor)
         == 1)
     {
         mBaseAnimatedWithPhysicsGameObject_YPos = hitY;

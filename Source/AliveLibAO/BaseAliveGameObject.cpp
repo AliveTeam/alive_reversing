@@ -832,7 +832,7 @@ void BaseAliveGameObject::UsePathTransScale_4020D0()
             if (mBaseAnimatedWithPhysicsGameObject_SpriteScale != FP_FromDouble(0.5))
             {
                 mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromDouble(0.5);
-                mBaseAnimatedWithPhysicsGameObject_Scale = 0;
+                mBaseAnimatedWithPhysicsGameObject_Scale = Scale::Bg;
                 mBaseAnimatedWithPhysicsGameObject_VelX = (mBaseAnimatedWithPhysicsGameObject_VelX * FP_FromDouble(0.5));
             }
         }
@@ -841,7 +841,7 @@ void BaseAliveGameObject::UsePathTransScale_4020D0()
             if (mBaseAnimatedWithPhysicsGameObject_SpriteScale != FP_FromInteger(1))
             {
                 mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromInteger(1);
-                mBaseAnimatedWithPhysicsGameObject_Scale = 1;
+                mBaseAnimatedWithPhysicsGameObject_Scale = Scale::Fg;
                 mBaseAnimatedWithPhysicsGameObject_VelX = (mBaseAnimatedWithPhysicsGameObject_VelX * FP_FromInteger(2));
             }
         }

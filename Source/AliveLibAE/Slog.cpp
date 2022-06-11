@@ -1658,12 +1658,12 @@ s16 Slog::Brain_Idle_1_4C2830()
             break;
 
         case 1:
-            if (Event_Is_Event_In_Range(kEventSuspiciousNoise, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, 1))
+            if (Event_Is_Event_In_Range(kEventSuspiciousNoise, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, Scale::Fg))
             {
                 field_142_anger_level++;
             }
 
-            if (Event_Is_Event_In_Range(kEventSpeaking, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, 1))
+            if (Event_Is_Event_In_Range(kEventSpeaking, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, Scale::Fg))
             {
                 field_142_anger_level += Slog_NextRandom() % 8 + 15;
             }
@@ -1711,12 +1711,12 @@ s16 Slog::Brain_Idle_1_4C2830()
             return 1;
 
         case 4:
-            if (Event_Is_Event_In_Range(kEventSuspiciousNoise, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, 1))
+            if (Event_Is_Event_In_Range(kEventSuspiciousNoise, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, Scale::Fg))
             {
                 field_142_anger_level++;
             }
 
-            if (Event_Is_Event_In_Range(kEventSpeaking, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, 1))
+            if (Event_Is_Event_In_Range(kEventSpeaking, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, Scale::Fg))
             {
                 field_142_anger_level += Slog_NextRandom() % 8 + 15;
             }
@@ -1774,12 +1774,12 @@ s16 Slog::Brain_Idle_1_4C2830()
             return 3;
 
         case 5:
-            if (Event_Is_Event_In_Range(kEventSuspiciousNoise, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, 1))
+            if (Event_Is_Event_In_Range(kEventSuspiciousNoise, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, Scale::Fg))
             {
                 field_142_anger_level++;
             }
 
-            if (Event_Is_Event_In_Range(kEventSpeaking, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, 1))
+            if (Event_Is_Event_In_Range(kEventSpeaking, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, Scale::Fg))
             {
                 field_142_anger_level += Math_NextRandom() % 8 + 15;
             }
@@ -2816,7 +2816,7 @@ void Slog::Init_4C46A0()
         mBaseAnimatedWithPhysicsGameObject_YOffset = 2;
     }
 
-    mBaseAnimatedWithPhysicsGameObject_Scale = 1;
+    mBaseAnimatedWithPhysicsGameObject_Scale = Scale::Fg;
 
     FP hitX = {};
     FP hitY = {};

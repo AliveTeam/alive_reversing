@@ -65,7 +65,7 @@ Rope::Rope(s32 left, s32 top, s32 bottom, FP scale)
     {
         field_F6_rope_length = 15;
         mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_RopeWebDrill_24;
-        mBaseAnimatedWithPhysicsGameObject_Scale = 1;
+        mBaseAnimatedWithPhysicsGameObject_Scale = Scale::Fg;
     }
     else
     {
@@ -73,7 +73,7 @@ Rope::Rope(s32 left, s32 top, s32 bottom, FP scale)
         mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_RopeWebDrill_Half_5;
         mBaseAnimatedWithPhysicsGameObject_Anim.field_14_scale = FP_FromDouble(0.7);
         mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromDouble(0.7);
-        mBaseAnimatedWithPhysicsGameObject_Scale = 0;
+        mBaseAnimatedWithPhysicsGameObject_Scale = Scale::Bg;
     };
 
     mBaseAnimatedWithPhysicsGameObject_Anim.mRed = static_cast<u8>(mBaseAnimatedWithPhysicsGameObject_Red);

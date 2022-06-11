@@ -23,12 +23,12 @@ Leaf::Leaf(FP xpos, FP ypos, FP xVel, FP yVel, FP scale)
     if (scale == FP_FromInteger(1))
     {
         mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_27;
-        mBaseAnimatedWithPhysicsGameObject_Scale = 1;
+        mBaseAnimatedWithPhysicsGameObject_Scale = Scale::Fg;
     }
     else
     {
         mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_8;
-        mBaseAnimatedWithPhysicsGameObject_Scale = 0;
+        mBaseAnimatedWithPhysicsGameObject_Scale = Scale::Bg;
     }
 
     mBaseAnimatedWithPhysicsGameObject_XPos = xpos;

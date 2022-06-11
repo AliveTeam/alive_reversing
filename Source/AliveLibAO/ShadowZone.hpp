@@ -3,6 +3,7 @@
 #include "../AliveLibCommon/Function.hpp"
 #include "Map.hpp"
 #include "../relive_lib/BaseGameObject.hpp"
+#include "../relive_lib/BaseAnimatedWithPhysicsGameObject.hpp"
 
 enum class EReliveLevelIds : s16;
 
@@ -40,10 +41,10 @@ public:
     virtual void VUpdate() override;
 
     void GetColourAmount(FP* pOut, s16 xpos, s16 ypos);
-    static void ShadowZones_Calculate_Colour(s32 xpos, s32 ypos, s16 scale, s16* r, s16* g, s16* b);
+    static void ShadowZones_Calculate_Colour(s32 xpos, s32 ypos, Scale scale, s16* r, s16* g, s16* b);
 
     // Note: Completely inlined in AO
-    s16 ApplysToScale(s16 scale);
+    s16 ApplysToScale(Scale scale);
 
     s32 field_10_tlvInfo;
     EReliveLevelIds field_14_level;

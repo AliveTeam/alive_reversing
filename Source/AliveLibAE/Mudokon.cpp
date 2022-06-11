@@ -534,13 +534,13 @@ Mudokon::Mudokon(Path_Mudokon* pTlv, s32 tlvInfo)
     {
         mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromDouble(0.5);
         mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_ZapLinesMuds_Half_9;
-        mBaseAnimatedWithPhysicsGameObject_Scale = 0;
+        mBaseAnimatedWithPhysicsGameObject_Scale = Scale::Bg;
     }
     else if (pTlv->field_10_scale == Scale_short::eFull_0)
     {
         mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromInteger(1);
         mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_ZapLinesMuds_28;
-        mBaseAnimatedWithPhysicsGameObject_Scale = 1;
+        mBaseAnimatedWithPhysicsGameObject_Scale = Scale::Fg;
     }
 
     FP hitX = {};
@@ -553,7 +553,7 @@ Mudokon::Mudokon(Path_Mudokon* pTlv, s32 tlvInfo)
         &BaseAliveGameObjectCollisionLine,
         &hitX,
         &hitY,
-        mBaseAnimatedWithPhysicsGameObject_Scale != 0 ? kFgFloor : kBgFloor);
+        mBaseAnimatedWithPhysicsGameObject_Scale == Scale::Fg ? kFgFloor : kBgFloor);
 
     mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger((pTlv->field_8_top_left.field_0_x + pTlv->field_C_bottom_right.field_0_x) / 2);
     if (bCollision)

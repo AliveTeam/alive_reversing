@@ -11,6 +11,12 @@ struct TintEntry
     u8 field_3_b;
 };
 
+enum class Scale : s16
+{
+    Bg = 0,
+    Fg = 1,
+};
+
 // Another glue/adapter interface
 class IBaseAnimatedWithPhysicsGameObject : public BaseGameObject
 {
@@ -40,7 +46,7 @@ public:
     s16 mBaseAnimatedWithPhysicsGameObject_Red = 0;
     s16 mBaseAnimatedWithPhysicsGameObject_Green = 0;
     s16 mBaseAnimatedWithPhysicsGameObject_Blue = 0;
-    s16 mBaseAnimatedWithPhysicsGameObject_Scale = 0;
+    Scale mBaseAnimatedWithPhysicsGameObject_Scale = Scale::Fg;
     s16 mBaseAnimatedWithPhysicsGameObject_YOffset = 0;
     s16 mBaseAnimatedWithPhysicsGameObject_XOffset = 0;
     s16 mApplyShadows = 0;

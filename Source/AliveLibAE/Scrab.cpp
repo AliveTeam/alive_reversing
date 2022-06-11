@@ -140,13 +140,13 @@ Scrab::Scrab(Path_Scrab* pTlv, s32 tlvInfo, ScrabSpawnDirection spawnDirection)
     {
         mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromDouble(0.5);
         mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_8;
-        mBaseAnimatedWithPhysicsGameObject_Scale = 0;
+        mBaseAnimatedWithPhysicsGameObject_Scale = Scale::Bg;
     }
     else if (pTlv->field_10_scale == Scale_short::eFull_0)
     {
         mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromInteger(1);
         mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_27;
-        mBaseAnimatedWithPhysicsGameObject_Scale = 1;
+        mBaseAnimatedWithPhysicsGameObject_Scale = Scale::Fg;
     }
 
     if (spawnDirection == ScrabSpawnDirection::eLeft_1)
@@ -551,7 +551,7 @@ s16 Scrab::OnFloor()
             &BaseAliveGameObjectCollisionLine,
             &hitX,
             &hitY,
-            mBaseAnimatedWithPhysicsGameObject_Scale != 0 ? kFgFloor : kBgFloor))
+            mBaseAnimatedWithPhysicsGameObject_Scale == Scale::Fg ? kFgFloor : kBgFloor))
     {
         mBaseAnimatedWithPhysicsGameObject_YPos = hitY;
         ToStand();
@@ -1931,7 +1931,7 @@ s16 Scrab::Brain_3_Death_4A62B0()
 
 s16 Scrab::Brain_4_ShrinkDeath_4A6420()
 {
-    if (mBaseAnimatedWithPhysicsGameObject_Scale == 1)
+    if (mBaseAnimatedWithPhysicsGameObject_Scale == Scale::Fg)
     {
         mBaseAnimatedWithPhysicsGameObject_SpriteScale -= FP_FromDouble(0.06);
     }
@@ -4154,7 +4154,7 @@ Bool32 Scrab::LineOfSightTo(Scrab* pThis, BaseAliveGameObject* pObj)
                &pLine,
                &hitX,
                &hitY,
-               pThis->mBaseAnimatedWithPhysicsGameObject_Scale != 0 ? kFgFloorWallOrCeiling
+               pThis->mBaseAnimatedWithPhysicsGameObject_Scale == Scale::Fg ? kFgFloorWallOrCeiling
                : kBgFloorWallOrCeiling)
         != 1;
 } 

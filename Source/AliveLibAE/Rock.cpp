@@ -144,7 +144,7 @@ void Rock::InTheAir()
             &BaseAliveGameObjectCollisionLine,
             &hitX,
             &hitY,
-            mBaseAnimatedWithPhysicsGameObject_Scale == 1 ? kFgFloorOrCeiling : kBgFloorOrCeiling)
+            mBaseAnimatedWithPhysicsGameObject_Scale == Scale::Fg ? kFgFloorOrCeiling : kBgFloorOrCeiling)
         == 1)
     {
         switch (BaseAliveGameObjectCollisionLine->field_8_type)
@@ -224,7 +224,7 @@ void Rock::InTheAir()
         }
     }
 
-    if (sCollisions->Raycast(field_120_xpos, field_124_ypos, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, &BaseAliveGameObjectCollisionLine, &hitX, &hitY, mBaseAnimatedWithPhysicsGameObject_Scale == 1 ? kFgWalls : kBgWalls) == 1)
+    if (sCollisions->Raycast(field_120_xpos, field_124_ypos, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, &BaseAliveGameObjectCollisionLine, &hitX, &hitY, mBaseAnimatedWithPhysicsGameObject_Scale == Scale::Fg ? kFgWalls : kBgWalls) == 1)
     {
         switch (BaseAliveGameObjectCollisionLine->field_8_type)
         {
@@ -477,7 +477,7 @@ s32 Rock::CreateFromSaveState(const u8* pData)
     pRock->mBaseAnimatedWithPhysicsGameObject_LvlNumber = MapWrapper::FromAE(pState->field_1E_lvl_number);
 
     pRock->mBaseAnimatedWithPhysicsGameObject_SpriteScale = pState->field_18_sprite_scale;
-    pRock->mBaseAnimatedWithPhysicsGameObject_Scale = pState->field_18_sprite_scale > FP_FromDouble(0.75);
+    pRock->mBaseAnimatedWithPhysicsGameObject_Scale = pState->field_18_sprite_scale > FP_FromDouble(0.75) ? Scale::Fg : Scale::Bg;
 
     pRock->mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit3_Render, pState->field_20_flags.Get(RockSaveState::eBit1_bRender));
     pRock->mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit8_Loop, pState->field_20_flags.Get(RockSaveState::eBit3_bLoop));

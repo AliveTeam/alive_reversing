@@ -20,14 +20,14 @@ StatusLight::StatusLight(Path_StatusLight* pTlv, u32 tlvInfo)
         {
             mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromDouble(0.5);
             mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_8;
-            mBaseAnimatedWithPhysicsGameObject_Scale = 0;
+            mBaseAnimatedWithPhysicsGameObject_Scale = Scale::Bg;
         }
     }
     else
     {
         mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromInteger(1);
         mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_27;
-        mBaseAnimatedWithPhysicsGameObject_Scale = 1;
+        mBaseAnimatedWithPhysicsGameObject_Scale = Scale::Fg;
     }
 
     field_FA_id1 = pTlv->field_14_id1;
@@ -64,7 +64,7 @@ StatusLight::StatusLight(Path_StatusLight* pTlv, u32 tlvInfo)
         &pPathLine,
         &hitX,
         &hitY,
-        mBaseAnimatedWithPhysicsGameObject_Scale == 1 ? kFgFloor : kBgFloor); // TODO: mouze check, 0xF1 : 0x10 seemed like it should be 0x1 : 0x10
+        mBaseAnimatedWithPhysicsGameObject_Scale == Scale::Fg ? kFgFloor : kBgFloor); // TODO: mouze check, 0xF1 : 0x10 seemed like it should be 0x1 : 0x10
 
     if (field_104_bIgnore_grid_snapping == Choice_short::eNo_0)
     {

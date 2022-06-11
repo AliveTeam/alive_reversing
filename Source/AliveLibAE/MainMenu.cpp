@@ -1860,13 +1860,13 @@ MainMenuNextCam MainMenuController::LoadNewGame_Update_4D0920(u32 /*input*/)
         if (field_24E_start_scale == -1)
         {
             sActiveHero->mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromDouble(1.0);
-            sActiveHero->mBaseAnimatedWithPhysicsGameObject_Scale = 1;
+            sActiveHero->mBaseAnimatedWithPhysicsGameObject_Scale = Scale::Fg;
             sActiveHero->mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_AbeMenu_32;
         }
         else if (field_24E_start_scale == -2)
         {
             sActiveHero->mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromDouble(0.5);
-            sActiveHero->mBaseAnimatedWithPhysicsGameObject_Scale = 0;
+            sActiveHero->mBaseAnimatedWithPhysicsGameObject_Scale = Scale::Bg;
             sActiveHero->mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_AbeMenu_Half_13;
         }
     }

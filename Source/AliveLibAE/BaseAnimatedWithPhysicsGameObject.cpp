@@ -40,7 +40,7 @@ BaseAnimatedWithPhysicsGameObject::BaseAnimatedWithPhysicsGameObject(s16 resourc
 
     mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromInteger(1);
 
-    mBaseAnimatedWithPhysicsGameObject_Scale = 1;
+    mBaseAnimatedWithPhysicsGameObject_Scale = Scale::Fg;
     mBaseAnimatedWithPhysicsGameObject_YOffset = 0;
     mBaseAnimatedWithPhysicsGameObject_XOffset = 0;
 
@@ -150,7 +150,7 @@ void BaseAnimatedWithPhysicsGameObject::Animation_Init(s32 frameTableOffset, s32
         else
         {
             mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_8;
-            mBaseAnimatedWithPhysicsGameObject_Scale = 0;
+            mBaseAnimatedWithPhysicsGameObject_Scale = Scale::Bg;
         }
 
         bool added = true;

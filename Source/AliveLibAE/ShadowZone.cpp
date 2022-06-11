@@ -41,7 +41,7 @@ ShadowZone::ShadowZone(Path_ShadowZone* pTlv, Path* /*pPath*/, u32 tlvInfo)
     field_36_scale = pTlv->field_1C_scale;
 }
 
-void ShadowZone::ShadowZones_Calculate_Colour(s32 xpos, s32 ypos, s16 scale, s16* r, s16* g, s16* b)
+void ShadowZone::ShadowZones_Calculate_Colour(s32 xpos, s32 ypos, Scale scale, s16* r, s16* g, s16* b)
 {
     for (s32 idx = 0; idx < sShadowZone_dArray_5C1B80->Size(); idx++)
     {
@@ -112,17 +112,17 @@ void ShadowZone::VScreenChanged()
     mBaseGameObjectFlags.Set(BaseGameObject::eDead);
 }
 
-s16 ShadowZone::ApplysToScale(s16 scale)
+s16 ShadowZone::ApplysToScale(Scale scale)
 {
     if (field_36_scale == ShadowZoneScale::eBoth_0)
     {
         return 1;
     }
-    else if (field_36_scale == ShadowZoneScale::eFull_2 && scale == 1)
+    else if (field_36_scale == ShadowZoneScale::eFull_2 && scale == Scale::Fg)
     {
         return 1;
     }
-    else if (field_36_scale == ShadowZoneScale::eHalf_1 && scale == 0)
+    else if (field_36_scale == ShadowZoneScale::eHalf_1 && scale == Scale::Bg)
     {
         return 1;
     }

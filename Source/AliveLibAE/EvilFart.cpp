@@ -37,7 +37,7 @@ EvilFart::EvilFart()
     mBaseAnimatedWithPhysicsGameObject_SpriteScale = sActiveHero->mBaseAnimatedWithPhysicsGameObject_SpriteScale;
 
     mBaseAnimatedWithPhysicsGameObject_Scale = sActiveHero->mBaseAnimatedWithPhysicsGameObject_Scale;
-    if (mBaseAnimatedWithPhysicsGameObject_Scale == 1)
+    if (mBaseAnimatedWithPhysicsGameObject_Scale == Scale::Fg)
     {
         mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_SligGreeterFarts_33;
     }
@@ -68,7 +68,7 @@ EvilFart::EvilFart()
             &pLine,
             &hitX,
             &hitY,
-            mBaseAnimatedWithPhysicsGameObject_Scale != 0 ? CollisionMask(eFlyingSligCeiling_17, eWallRight_2, eWallLeft_1) : CollisionMask(eBackgroundFlyingSligCeiling_18, eBackgroundWallRight_6, eBackgroundWallLeft_5)))
+            mBaseAnimatedWithPhysicsGameObject_Scale == Scale::Fg ? CollisionMask(eFlyingSligCeiling_17, eWallRight_2, eWallLeft_1) : CollisionMask(eBackgroundFlyingSligCeiling_18, eBackgroundWallRight_6, eBackgroundWallLeft_5)))
     {
         mBaseAnimatedWithPhysicsGameObject_XPos = sActiveHero->mBaseAnimatedWithPhysicsGameObject_XPos;
     }
@@ -459,7 +459,7 @@ void EvilFart::VUpdate()
                 &pLine,
                 &hitX,
                 &hitY,
-                mBaseAnimatedWithPhysicsGameObject_Scale != 0 ? CollisionMask(eFlyingSligCeiling_17, eWallRight_2, eWallLeft_1) : CollisionMask(eBackgroundFlyingSligCeiling_18, eBackgroundWallRight_6, eBackgroundWallLeft_5)))
+                mBaseAnimatedWithPhysicsGameObject_Scale == Scale::Fg ? CollisionMask(eFlyingSligCeiling_17, eWallRight_2, eWallLeft_1) : CollisionMask(eBackgroundFlyingSligCeiling_18, eBackgroundWallRight_6, eBackgroundWallLeft_5)))
         {
             mBaseAnimatedWithPhysicsGameObject_VelX = FP_FromInteger(0);
         }
@@ -476,7 +476,7 @@ void EvilFart::VUpdate()
                 &pLine,
                 &hitX,
                 &hitY,
-                mBaseAnimatedWithPhysicsGameObject_Scale != 0 ? CollisionMask(eFlyingSligCeiling_17, eCeiling_3, eFloor_0, eDynamicCollision_32) : CollisionMask(eBackgroundFlyingSligCeiling_18, eBackgroundCeiling_7, eBackgroundFloor_4, eBackgroundDynamicCollision_36)))
+                mBaseAnimatedWithPhysicsGameObject_Scale == Scale::Fg ? CollisionMask(eFlyingSligCeiling_17, eCeiling_3, eFloor_0, eDynamicCollision_32) : CollisionMask(eBackgroundFlyingSligCeiling_18, eBackgroundCeiling_7, eBackgroundFloor_4, eBackgroundDynamicCollision_36)))
         {
             mBaseAnimatedWithPhysicsGameObject_VelY = FP_FromInteger(0);
         }

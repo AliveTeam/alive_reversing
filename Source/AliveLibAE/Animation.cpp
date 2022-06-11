@@ -89,7 +89,7 @@ s32 Animation_OnFrame_Common_4561B0(BaseGameObject* pObjPtr, s16* pData)
     {
         pPartical->mBaseAnimatedWithPhysicsGameObject_Anim.mRenderMode = TPageAbr::eBlend_1;
 
-        if (pObj->mBaseAnimatedWithPhysicsGameObject_Scale == 1)
+        if (pObj->mBaseAnimatedWithPhysicsGameObject_Scale == Scale::Fg)
         {
             pPartical->mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_Foreground_36;
         }

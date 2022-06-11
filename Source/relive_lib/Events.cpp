@@ -53,7 +53,7 @@ void Events_Reset_Active()
 const s32 kGridMapWidth = 375;
 const s32 kGridMapHeight = 260;
 
-IBaseAnimatedWithPhysicsGameObject* Event_Is_Event_In_Range(Event eventType, FP xpos, FP ypos, s16 scale)
+IBaseAnimatedWithPhysicsGameObject* Event_Is_Event_In_Range(Event eventType, FP xpos, FP ypos, Scale scale)
 {
     BaseGameObject* pObj = sEventPtrs.field_0_events[sEventsToUse].field_0_event_ptrs[eventType];
     if (!pObj)

@@ -36,7 +36,7 @@ Explosion::Explosion(FP xpos, FP ypos, FP scale, bool bSmall)
     mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit18_IsLastFrame);
     mBaseAnimatedWithPhysicsGameObject_Anim.mRenderMode = TPageAbr::eBlend_1;
     field_F8_scale = scale;
-    mBaseAnimatedWithPhysicsGameObject_Scale = scale == FP_FromInteger(1);
+    mBaseAnimatedWithPhysicsGameObject_Scale = scale == FP_FromInteger(1) ? Scale::Fg : Scale::Bg;
     mBaseAnimatedWithPhysicsGameObject_SpriteScale = scale * FP_FromInteger(2);
 
     if (field_F4_bSmall)

@@ -211,7 +211,7 @@ void BaseAliveGameObject::VOnPathTransition(s16 cameraWorldXPos, s16 cameraWorld
             if (sCollisions->Raycast(
                     mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos - FP_FromInteger(40),
                     mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos + FP_FromInteger(40),
-                    &pLine, &hitX, &hitY, mBaseAnimatedWithPhysicsGameObject_Scale != 0 ? kFgFloor : kBgFloor))
+                    &pLine, &hitX, &hitY, mBaseAnimatedWithPhysicsGameObject_Scale == Scale::Fg ? kFgFloor : kBgFloor))
             {
                 mBaseAnimatedWithPhysicsGameObject_YPos = hitY;
                 BaseAliveGameObjectCollisionLine = pLine;
@@ -227,7 +227,7 @@ void BaseAliveGameObject::VOnPathTransition(s16 cameraWorldXPos, s16 cameraWorld
             if (sCollisions->Raycast(
                     mBaseAnimatedWithPhysicsGameObject_XPos, BaseAliveGameObjectLastLineYPos - FP_FromInteger(40),
                     mBaseAnimatedWithPhysicsGameObject_XPos, BaseAliveGameObjectLastLineYPos + FP_FromInteger(40),
-                    &pLine, &hitX, &hitY, mBaseAnimatedWithPhysicsGameObject_Scale != 0 ? kFgFloor : kBgFloor))
+                    &pLine, &hitX, &hitY, mBaseAnimatedWithPhysicsGameObject_Scale == Scale::Fg ? kFgFloor : kBgFloor))
             {
                 mBaseAnimatedWithPhysicsGameObject_YPos = hitY - BaseAliveGameObjectLastLineYPos + mBaseAnimatedWithPhysicsGameObject_YPos;
             }
@@ -291,7 +291,7 @@ void BaseAliveGameObject::VCheckCollisionLineStillValid(s16 distance)
             &pLine,
             &hitX,
             &hitY,
-            mBaseAnimatedWithPhysicsGameObject_Scale == 1 ? kFgFloorCeilingOrWalls : kBgFloorCeilingOrWalls))
+            mBaseAnimatedWithPhysicsGameObject_Scale == Scale::Fg ? kFgFloorCeilingOrWalls : kBgFloorCeilingOrWalls))
     {
         BaseAliveGameObjectCollisionLine = pLine;
         mBaseAnimatedWithPhysicsGameObject_YPos = hitY;
@@ -412,7 +412,7 @@ Bool32 BaseAliveGameObject::Check_IsOnEndOfLine(s16 direction, s16 distance)
                &pLine,
                &hitX,
                &hitY,
-               mBaseAnimatedWithPhysicsGameObject_Scale == 1 ? kFgFloorCeilingOrWalls : kBgFloorCeilingOrWalls)
+               mBaseAnimatedWithPhysicsGameObject_Scale == Scale::Fg ? kFgFloorCeilingOrWalls : kBgFloorCeilingOrWalls)
         == 0;
 }
 
@@ -541,8 +541,8 @@ Bool32 BaseAliveGameObject::WallHit(FP offY, FP offX)
                &pLine,
                &offX,
                &offY,
-               mBaseAnimatedWithPhysicsGameObject_Scale != 0 ? kFgWalls : kBgWalls)
-        != 0; // TODO: Enum for line types
+               mBaseAnimatedWithPhysicsGameObject_Scale == Scale::Fg ? kFgWalls : kBgWalls)
+        != 0;
 }
 
 Bool32 BaseAliveGameObject::InAirCollision(PathLine** ppPathLine, FP* hitX, FP* hitY, FP velY)
@@ -567,7 +567,7 @@ Bool32 BaseAliveGameObject::InAirCollision(PathLine** ppPathLine, FP* hitX, FP* 
         ppPathLine,
         hitX,
         hitY,
-        mBaseAnimatedWithPhysicsGameObject_Scale == 1 ? kFgFloorCeilingOrWalls : kBgFloorCeilingOrWalls);
+        mBaseAnimatedWithPhysicsGameObject_Scale == Scale::Fg ? kFgFloorCeilingOrWalls : kBgFloorCeilingOrWalls);
 
     if (bCollision)
     {
@@ -588,7 +588,7 @@ Bool32 BaseAliveGameObject::InAirCollision(PathLine** ppPathLine, FP* hitX, FP* 
         ppPathLine,
         hitX,
         hitY,
-        mBaseAnimatedWithPhysicsGameObject_Scale != 0 ? kFgFloor : kBgFloor);
+        mBaseAnimatedWithPhysicsGameObject_Scale == Scale::Fg ? kFgFloor : kBgFloor);
 
     if (bCollision)
     {
@@ -616,7 +616,7 @@ Bool32 BaseAliveGameObject::InAirCollision(PathLine** ppPathLine, FP* hitX, FP* 
         ppPathLine,
         hitX,
         hitY,
-        mBaseAnimatedWithPhysicsGameObject_Scale != 0 ? kFgWalls : kBgWalls);
+        mBaseAnimatedWithPhysicsGameObject_Scale == Scale::Fg ? kFgWalls : kBgWalls);
 }
 
 BaseGameObject* BaseAliveGameObject::FindObjectOfType(ReliveTypes typeToFind, FP xpos, FP ypos)

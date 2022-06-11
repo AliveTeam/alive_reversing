@@ -7052,21 +7052,21 @@ void Abe::Motion_61_Respawn_42CD20()
             if (mBaseAnimatedWithPhysicsGameObject_SpriteScale == FP_FromDouble(0.5))
             {
                 mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_AbeMenu_Half_13;
-                mBaseAnimatedWithPhysicsGameObject_Scale = 0;
+                mBaseAnimatedWithPhysicsGameObject_Scale = Scale::Bg;
                 if (gElum_507680)
                 {
                     gElum_507680->mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_ZapLinesElum_Half_9;
-                    gElum_507680->mBaseAnimatedWithPhysicsGameObject_Scale = 0;
+                    gElum_507680->mBaseAnimatedWithPhysicsGameObject_Scale = Scale::Bg;
                 }
             }
             else
             {
                 mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_AbeMenu_32;
-                mBaseAnimatedWithPhysicsGameObject_Scale = 1;
+                mBaseAnimatedWithPhysicsGameObject_Scale = Scale::Fg;
                 if (gElum_507680)
                 {
                     gElum_507680->mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_ZapLinesElum_28;
-                    gElum_507680->mBaseAnimatedWithPhysicsGameObject_Scale = 1;
+                    gElum_507680->mBaseAnimatedWithPhysicsGameObject_Scale = Scale::Fg;
                 }
             }
             mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit3_Render);
@@ -8038,12 +8038,12 @@ void Abe::Motion_82_WellExpressShotOut_4315A0()
         if (pWell->field_18_scale == Scale_short::eHalf_1)
         {
             mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromDouble(0.5);
-            mBaseAnimatedWithPhysicsGameObject_Scale = 0;
+            mBaseAnimatedWithPhysicsGameObject_Scale = Scale::Bg;
         }
         else
         {
             mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromInteger(1);
-            mBaseAnimatedWithPhysicsGameObject_Scale = 1;
+            mBaseAnimatedWithPhysicsGameObject_Scale = Scale::Fg;
         }
 
         mCurrentMotion = eAbeMotions::Motion_78_InsideWellLocal_4310A0;
@@ -9781,13 +9781,13 @@ void Abe::Motion_156_DoorEnter_42D370()
                 {
                     mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromDouble(0.5);
                     mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_AbeMenu_Half_13;
-                    mBaseAnimatedWithPhysicsGameObject_Scale = 0;
+                    mBaseAnimatedWithPhysicsGameObject_Scale = Scale::Bg;
                 }
                 else
                 {
                     mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromInteger(1);
                     mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_AbeMenu_32;
-                    mBaseAnimatedWithPhysicsGameObject_Scale = 1;
+                    mBaseAnimatedWithPhysicsGameObject_Scale = Scale::Fg;
                 }
             }
             else if (pPathDoor->field_26_start_state == DoorStates::eClosed_1 || pPathDoor->field_26_start_state == DoorStates::eHubDoorClosed_2)
@@ -9795,12 +9795,12 @@ void Abe::Motion_156_DoorEnter_42D370()
                 if (gMap.mCurrentLevel != EReliveLevelIds::eRuptureFarmsReturn)
                 {
                     mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromDouble(0.5);
-                    mBaseAnimatedWithPhysicsGameObject_Scale = 0;
+                    mBaseAnimatedWithPhysicsGameObject_Scale = Scale::Bg;
                 }
                 else
                 {
                     mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromInteger(1);
-                    mBaseAnimatedWithPhysicsGameObject_Scale = 1;
+                    mBaseAnimatedWithPhysicsGameObject_Scale = Scale::Fg;
                 }
             }
             mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit5_FlipX, pPathDoor->field_46_abe_direction == XDirection_short::eRight_1);

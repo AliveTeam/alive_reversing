@@ -113,13 +113,13 @@ Paramite::Paramite(Path_Paramite* pTlv, s32 tlvInfo)
     {
         mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromDouble(0.5);
         mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_8;
-        mBaseAnimatedWithPhysicsGameObject_Scale = 0;
+        mBaseAnimatedWithPhysicsGameObject_Scale = Scale::Bg;
     }
     else if (pTlv->field_10_scale == Scale_short::eFull_0)
     {
         mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromInteger(1);
         mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_27;
-        mBaseAnimatedWithPhysicsGameObject_Scale = 1;
+        mBaseAnimatedWithPhysicsGameObject_Scale = Scale::Fg;
     }
 
     if (!VIsFacingMe(sActiveHero))
@@ -186,7 +186,7 @@ Paramite::Paramite(Path_Paramite* pTlv, s32 tlvInfo)
             &BaseAliveGameObjectCollisionLine,
             &hitX,
             &hitY,
-            mBaseAnimatedWithPhysicsGameObject_Scale != 0 ? kFgFloor : kBgFloor)
+            mBaseAnimatedWithPhysicsGameObject_Scale == Scale::Fg ? kFgFloor : kBgFloor)
         == 1)
     {
         BaseAliveGameObjectLastLineYPos = hitY;
@@ -4497,7 +4497,7 @@ void Paramite::M_SurpriseWeb_33_48D760()
             &BaseAliveGameObjectCollisionLine,
             &hitX,
             &hitY,
-            mBaseAnimatedWithPhysicsGameObject_Scale != 0 ? kFgFloor : kBgFloor)
+            mBaseAnimatedWithPhysicsGameObject_Scale == Scale::Fg ? kFgFloor : kBgFloor)
         == 1)
     {
         mBaseAnimatedWithPhysicsGameObject_YPos = hitY;
@@ -4561,7 +4561,7 @@ void Paramite::M_WebIdle_35_48D400()
                 &pLine,
                 &hitX,
                 &hitY,
-                mBaseAnimatedWithPhysicsGameObject_Scale != 0 ? kFgFloor : kBgFloor))
+                mBaseAnimatedWithPhysicsGameObject_Scale == Scale::Fg ? kFgFloor : kBgFloor))
         {
             auto pWeb = static_cast<ParamiteWebLine*>(FindObjectOfType(ReliveTypes::eWebLine, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos));
             if (pWeb)
@@ -4590,7 +4590,7 @@ void Paramite::M_WebIdle_35_48D400()
                 &pLine,
                 &hitX,
                 &hitY,
-                mBaseAnimatedWithPhysicsGameObject_Scale != 0 ? kFgFloor : kBgFloor))
+                mBaseAnimatedWithPhysicsGameObject_Scale == Scale::Fg ? kFgFloor : kBgFloor))
         {
             auto pWeb = static_cast<ParamiteWebLine*>(FindObjectOfType(ReliveTypes::eWebLine, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos));
             if (pWeb)
@@ -4651,14 +4651,14 @@ void Paramite::M_WebGoingUp_36_48D000()
                 mBaseAnimatedWithPhysicsGameObject_YPos - FP_FromInteger(30),
                 mBaseAnimatedWithPhysicsGameObject_XPos,
                 mBaseAnimatedWithPhysicsGameObject_YPos - FP_FromInteger(30),
-                &pLine, &hitX, &hitY, mBaseAnimatedWithPhysicsGameObject_Scale != 0 ? kFgWalls : kBgWalls))
+                &pLine, &hitX, &hitY, mBaseAnimatedWithPhysicsGameObject_Scale == Scale::Fg ? kFgWalls : kBgWalls))
         {
             if (sCollisions->Raycast(
                     mBaseAnimatedWithPhysicsGameObject_XPos - kHalfGrid,
                     mBaseAnimatedWithPhysicsGameObject_YPos - FP_FromInteger(30),
                     mBaseAnimatedWithPhysicsGameObject_XPos - kHalfGrid,
                     mBaseAnimatedWithPhysicsGameObject_YPos + FP_FromInteger(10),
-                    &pLine, &hitX, &hitY, mBaseAnimatedWithPhysicsGameObject_Scale != 0 ? kFgFloor : kBgFloor))
+                    &pLine, &hitX, &hitY, mBaseAnimatedWithPhysicsGameObject_Scale == Scale::Fg ? kFgFloor : kBgFloor))
             {
                 mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit5_FlipX);
                 mBaseAnimatedWithPhysicsGameObject_XPos = hitX;
@@ -4679,14 +4679,14 @@ void Paramite::M_WebGoingUp_36_48D000()
                     mBaseAnimatedWithPhysicsGameObject_YPos - FP_FromInteger(30),
                     mBaseAnimatedWithPhysicsGameObject_XPos,
                     mBaseAnimatedWithPhysicsGameObject_YPos - FP_FromInteger(30),
-                    &pLine, &hitX, &hitY, mBaseAnimatedWithPhysicsGameObject_Scale != 0 ? kFgWalls : kBgWalls))
+                    &pLine, &hitX, &hitY, mBaseAnimatedWithPhysicsGameObject_Scale == Scale::Fg ? kFgWalls : kBgWalls))
             {
                 if (sCollisions->Raycast(
                         kHalfGrid + mBaseAnimatedWithPhysicsGameObject_XPos,
                         mBaseAnimatedWithPhysicsGameObject_YPos - FP_FromInteger(30),
                         kHalfGrid + mBaseAnimatedWithPhysicsGameObject_XPos,
                         mBaseAnimatedWithPhysicsGameObject_YPos + FP_FromInteger(10),
-                        &pLine, &hitX, &hitY, mBaseAnimatedWithPhysicsGameObject_Scale != 0 ? kFgFloor : kBgFloor))
+                        &pLine, &hitX, &hitY, mBaseAnimatedWithPhysicsGameObject_Scale == Scale::Fg ? kFgFloor : kBgFloor))
                 {
                     mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit5_FlipX);
                     mBaseAnimatedWithPhysicsGameObject_XPos = hitX;
@@ -4775,7 +4775,7 @@ void Paramite::M_WebGoingDown_37_48CC60()
                 &pLine,
                 &hitX,
                 &hitY,
-                mBaseAnimatedWithPhysicsGameObject_Scale != 0 ? kFgFloor : kBgFloor))
+                mBaseAnimatedWithPhysicsGameObject_Scale == Scale::Fg ? kFgFloor : kBgFloor))
         {
             mBaseAnimatedWithPhysicsGameObject_XPos = (gridSize * FP_FromDouble(0.5)) + mBaseAnimatedWithPhysicsGameObject_XPos;
             BaseAliveGameObjectCollisionLine = pLine;
@@ -4794,7 +4794,7 @@ void Paramite::M_WebGoingDown_37_48CC60()
                     &pLine,
                     &hitX,
                     &hitY,
-                    mBaseAnimatedWithPhysicsGameObject_Scale != 0 ? kFgFloor : kBgFloor))
+                    mBaseAnimatedWithPhysicsGameObject_Scale == Scale::Fg ? kFgFloor : kBgFloor))
             {
                 mBaseAnimatedWithPhysicsGameObject_XPos = (invertedGridSize * FP_FromDouble(0.5)) + mBaseAnimatedWithPhysicsGameObject_XPos;
                 mBaseAnimatedWithPhysicsGameObject_YPos = hitY;

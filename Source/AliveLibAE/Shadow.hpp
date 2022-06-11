@@ -3,13 +3,14 @@
 #include <Function.hpp>
 #include "Animation.hpp"
 #include "BitField.hpp"
+#include "../relive_lib/BaseAnimatedWithPhysicsGameObject.hpp"
 
 class Shadow final
 {
 public:
     Shadow();
     ~Shadow();
-    void Calculate_Position(FP xpos, FP ypos, PSX_RECT* frameRect, FP spriteScale, s16 scale);
+    void Calculate_Position(FP xpos, FP ypos, PSX_RECT* frameRect, FP spriteScale, Scale scale);
     void Render(PrimHeader** ppOt);
 
 private:

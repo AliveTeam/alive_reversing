@@ -162,7 +162,7 @@ void Command_HelperUpdate()
         sActiveHero->BaseAliveGameObjectCollisionLine = nullptr;
         sActiveHero->BaseAliveGameObjectLastLineYPos = sActiveHero->mBaseAnimatedWithPhysicsGameObject_YPos;
         sActiveHero->mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromDouble(1.0);
-        sActiveHero->mBaseAnimatedWithPhysicsGameObject_Scale = 1;
+        sActiveHero->mBaseAnimatedWithPhysicsGameObject_Scale = Scale::Fg;
         FP rX = FP_FromInteger(0);
         FP rY = FP_FromInteger(0);
         PathLine* rUnk = nullptr;
@@ -177,7 +177,7 @@ void Command_HelperUpdate()
                                      xOffset, yOffset + FP_FromDouble(240), &rUnk, &rX, &rY, kFgFloor))
             {
                 sActiveHero->mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromDouble(1.0);
-                sActiveHero->mBaseAnimatedWithPhysicsGameObject_Scale = 1;
+                sActiveHero->mBaseAnimatedWithPhysicsGameObject_Scale = Scale::Fg;
                 sActiveHero->mBaseAnimatedWithPhysicsGameObject_XPos = rX;
                 sActiveHero->mBaseAnimatedWithPhysicsGameObject_YPos = rY;
                 break;
@@ -186,7 +186,7 @@ void Command_HelperUpdate()
                                           xOffset, yOffset + FP_FromDouble(240), &rUnk, &rX, &rY, kBgFloor))
             {
                 sActiveHero->mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromDouble(0.5);
-                sActiveHero->mBaseAnimatedWithPhysicsGameObject_Scale = 0;
+                sActiveHero->mBaseAnimatedWithPhysicsGameObject_Scale = Scale::Bg;
                 sActiveHero->mBaseAnimatedWithPhysicsGameObject_XPos = rX;
                 sActiveHero->mBaseAnimatedWithPhysicsGameObject_YPos = rY;
                 break;

@@ -53,13 +53,13 @@ Lever::Lever(Path_Lever* pTlv, u32 tlvInfo)
     {
         mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromDouble(0.5);
         mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_BeforeShadow_Half_6;
-        mBaseAnimatedWithPhysicsGameObject_Scale = 0;
+        mBaseAnimatedWithPhysicsGameObject_Scale = Scale::Bg;
     }
     else if (pTlv->field_12_scale == Scale_short::eFull_0)
     {
         mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromInteger(1);
         mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_BeforeShadow_25;
-        mBaseAnimatedWithPhysicsGameObject_Scale = 1;
+        mBaseAnimatedWithPhysicsGameObject_Scale = Scale::Fg;
     }
 
     SetTint(&kLeverTints_563228[0], gMap.mCurrentLevel);
@@ -78,7 +78,7 @@ Lever::Lever(Path_Lever* pTlv, u32 tlvInfo)
             &pPathLine,
             &hitX,
             &hitY,
-            (mBaseAnimatedWithPhysicsGameObject_Scale != 0) ? kFgFloor : kBgFloor))
+            mBaseAnimatedWithPhysicsGameObject_Scale == Scale::Fg ? kFgFloor : kBgFloor))
     {
         mBaseAnimatedWithPhysicsGameObject_YPos = hitY;
     }

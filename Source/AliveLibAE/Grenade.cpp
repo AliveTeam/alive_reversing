@@ -493,7 +493,7 @@ s16 Grenade::InTheAir(s16 blowUpOnFloorTouch)
             &BaseAliveGameObjectCollisionLine,
             &hitX,
             &hitY,
-            mBaseAnimatedWithPhysicsGameObject_Scale != 0 ? kFgFloor : kBgFloor)
+            mBaseAnimatedWithPhysicsGameObject_Scale == Scale::Fg ? kFgFloor : kBgFloor)
         == 1)
     {
         if (mBaseAnimatedWithPhysicsGameObject_VelY <= FP_FromInteger(0))
@@ -559,7 +559,7 @@ s16 Grenade::InTheAir(s16 blowUpOnFloorTouch)
             &BaseAliveGameObjectCollisionLine,
             &hitX,
             &hitY,
-            mBaseAnimatedWithPhysicsGameObject_Scale != 0 ? kFgWalls : kBgWalls)
+            mBaseAnimatedWithPhysicsGameObject_Scale == Scale::Fg ? kFgWalls : kBgWalls)
         == 1)
     {
         switch (BaseAliveGameObjectCollisionLine->field_8_type)
