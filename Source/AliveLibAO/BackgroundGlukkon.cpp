@@ -66,7 +66,7 @@ s16 BackgroundGlukkon::VTakeDamage(BaseGameObject* pFrom)
     if (pFrom->mBaseGameObjectTypeId == ReliveTypes::eShrykull)
     {
         mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(46232, 0);
-        const auto rndVol = Math_RandomRange_450F20(110, 127);
+        const auto rndVol = Math_RandomRange(110, 127);
         const auto rndPitch = (75 * (Math_NextRandom() % 4)) + 200;
 
         if (Math_NextRandom() >= 128u)
@@ -106,18 +106,18 @@ void BackgroundGlukkon::VUpdate()
     {
         case BackgroundGlukkon::State::eToSetSpeakPauseTimer_0:
             field_110_state = BackgroundGlukkon::State::eSetSpeakPauseTimer_1;
-            field_118_never_read = sGnFrame + Math_RandomRange_450F20(20, 40);
+            field_118_never_read = sGnFrame + Math_RandomRange(20, 40);
             break;
 
         case BackgroundGlukkon::State::eSetSpeakPauseTimer_1:
             field_110_state = BackgroundGlukkon::State::eRandomizedLaugh_2;
-            field_114_speak_pause_timer = sGnFrame + Math_RandomRange_450F20(12, 20);
+            field_114_speak_pause_timer = sGnFrame + Math_RandomRange(12, 20);
             break;
 
         case BackgroundGlukkon::State::eRandomizedLaugh_2:
             if (static_cast<s32>(sGnFrame) > field_114_speak_pause_timer)
             {
-                const auto rndVol = Math_RandomRange_450F20(110, 127);
+                const auto rndVol = Math_RandomRange(110, 127);
                 const auto rndPitch = ((Math_NextRandom() % 4) * 128) + 200;
 
                 switch (Math_NextRandom() % 5)

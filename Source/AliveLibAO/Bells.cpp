@@ -110,8 +110,8 @@ void Bells::VUpdate()
 
             for (s32 i = 0; i < 4; i++)
             {
-                const FP sparkx = mBaseAnimatedWithPhysicsGameObject_XPos + FP_FromInteger(Math_RandomRange_450F20(-2, 2)) + xOff;
-                const FP sparky = mBaseAnimatedWithPhysicsGameObject_YPos + FP_FromInteger(Math_RandomRange_450F20(-2, 2)) + yOff;
+                const FP sparkx = mBaseAnimatedWithPhysicsGameObject_XPos + FP_FromInteger(Math_RandomRange(-2, 2)) + xOff;
+                const FP sparky = mBaseAnimatedWithPhysicsGameObject_YPos + FP_FromInteger(Math_RandomRange(-2, 2)) + yOff;
                 relive_new Sparks(sparkx, sparky, mBaseAnimatedWithPhysicsGameObject_SpriteScale);
             }
         }

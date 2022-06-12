@@ -379,8 +379,8 @@ void ChimeLock::VUpdate()
                     field_13C_targetX,
                     field_140_targetY,
                     36,
-                    Math_RandomRange_450F20(6, 9),
-                    Math_RandomRange_450F20(6, 9),
+                    Math_RandomRange(6, 9),
+                    Math_RandomRange(6, 9),
                     0);
 
                 if (DoNote(static_cast<s16>(Bell)))
@@ -441,8 +441,8 @@ void ChimeLock::VUpdate()
                             field_13C_targetX,
                             field_140_targetY,
                             30,
-                            Math_RandomRange_450F20(6, 9),
-                            Math_RandomRange_450F20(6, 9),
+                            Math_RandomRange(6, 9),
+                            Math_RandomRange(6, 9),
                             1);
                         ALIVE_FATAL("never expected target bell num 4 in ChimeLockStates::ePossessed_2 to be called");
                         break;
@@ -544,7 +544,7 @@ void ChimeLock::VUpdate()
         case ChimeLockStates::eUnPossessing_3:
             if (UpdateBall())
             {
-                SetBallTarget(field_13C_targetX, field_140_targetY, 36, Math_RandomRange_450F20(6, 9), Math_RandomRange_450F20(6, 9), 0);
+                SetBallTarget(field_13C_targetX, field_140_targetY, 36, Math_RandomRange(6, 9), Math_RandomRange(6, 9), 0);
             }
 
             if (!Input_IsChanting())
@@ -567,8 +567,8 @@ void ChimeLock::VUpdate()
             }
 
             New_Chant_Particle_4198E0(
-                field_13C_targetX + (mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(Math_RandomRange_450F20(-30, 30))),
-                field_140_targetY - (mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(Math_RandomRange_450F20(-20, 20))),
+                field_13C_targetX + (mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(Math_RandomRange(-30, 30))),
+                field_140_targetY - (mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(Math_RandomRange(-20, 20))),
                 mBaseAnimatedWithPhysicsGameObject_SpriteScale,
                 Layer::eLayer_0);
             return;

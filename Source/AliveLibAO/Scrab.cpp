@@ -1040,7 +1040,7 @@ void Scrab::Motion_2_Walk_45E730()
         case 8:
         case 13:
         case 18:
-            Scrab_SFX(ScrabSounds::eWalk1_6, Math_RandomRange_450F20(40, 50), 0x7FFF, 1);
+            Scrab_SFX(ScrabSounds::eWalk1_6, Math_RandomRange(40, 50), 0x7FFF, 1);
             break;
 
         default:
@@ -1141,7 +1141,7 @@ void Scrab::Motion_3_Run_45EAB0()
         case 5:
         case 7:
         case 12:
-            Scrab_SFX(ScrabSounds::eWalk1_6, Math_RandomRange_450F20(40, 50), 0x7FFF, 1);
+            Scrab_SFX(ScrabSounds::eWalk1_6, Math_RandomRange(40, 50), 0x7FFF, 1);
             break;
         default:
             break;
@@ -1245,7 +1245,7 @@ void Scrab::Motion_4_Turn_45EF30()
         || mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame == 9
         || mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame == 11)
     {
-        Scrab_SFX(ScrabSounds::eWalk1_6, Math_RandomRange_450F20(40, 50), 0x7FFF, 1);
+        Scrab_SFX(ScrabSounds::eWalk1_6, Math_RandomRange(40, 50), 0x7FFF, 1);
     }
 
     if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
@@ -1810,7 +1810,7 @@ void Scrab::Motion_16_Stamp_45F920()
     if (mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame == 9)
     {
         Scrab_SFX(ScrabSounds::eHitCollision_4, 0, 0x7FFF, 1);
-        SFX_Play_Pitch(SoundEffect::KillEffect_78, 60, Math_RandomRange_450F20(-255, 255), 0);
+        SFX_Play_Pitch(SoundEffect::KillEffect_78, 60, Math_RandomRange(-255, 255), 0);
     }
 
     if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
@@ -1873,7 +1873,7 @@ void Scrab::Motion_20_HowlBegin_45FA60()
 {
     if (mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame == 2)
     {
-        Scrab_SFX(ScrabSounds::eYell_8, 0, Math_RandomRange_450F20(-1600, -900), 1);
+        Scrab_SFX(ScrabSounds::eYell_8, 0, Math_RandomRange(-1600, -900), 1);
     }
 
     if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
@@ -1933,7 +1933,7 @@ void Scrab::Motion_23_ScrabBattleAnim_45FBA0()
 {
     if (mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame == 0)
     {
-        field_14C = Scrab_SFX(ScrabSounds::eShredding_5, 100, Math_RandomRange_450F20(-600, 200), 1);
+        field_14C = Scrab_SFX(ScrabSounds::eShredding_5, 100, Math_RandomRange(-600, 200), 1);
     }
 
     if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
@@ -2027,7 +2027,7 @@ void Scrab::Motion_26_Feed_45FDA0()
 {
     if (mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame == 0)
     {
-        if (Math_RandomRange_450F20(0, 100) >= 50)
+        if (Math_RandomRange(0, 100) >= 50)
         {
             SFX_Play_Mono(SoundEffect::Eating2_80, 0, 0);
         }
@@ -3385,7 +3385,7 @@ s16 Scrab::Brain_Patrol_460020()
             if (mCurrentMotion == eScrabMotions::Motion_4_Turn_45EF30 && mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
             {
                 mNextMotion = eScrabMotions::Motion_1_Stand_45E620;
-                field_118_timer = sGnFrame + Math_RandomRange_450F20(field_144_left_min_delay, field_146_left_max_delay);
+                field_118_timer = sGnFrame + Math_RandomRange(field_144_left_min_delay, field_146_left_max_delay);
                 return 3;
             }
             return field_110_brain_sub_state;
@@ -3453,7 +3453,7 @@ s16 Scrab::Brain_Patrol_460020()
             if (mCurrentMotion == eScrabMotions::Motion_4_Turn_45EF30 && mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
             {
                 mNextMotion = eScrabMotions::Motion_1_Stand_45E620;
-                field_118_timer = sGnFrame + Math_RandomRange_450F20(field_148_right_min_delay, field_14A_right_max_delay);
+                field_118_timer = sGnFrame + Math_RandomRange(field_148_right_min_delay, field_14A_right_max_delay);
                 return 6;
             }
             return field_110_brain_sub_state;
@@ -3772,11 +3772,11 @@ s16 Scrab::Brain_WalkAround_460D80()
 
             if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
             {
-                field_118_timer = sGnFrame + Math_RandomRange_450F20(field_144_left_min_delay, field_146_left_max_delay);
+                field_118_timer = sGnFrame + Math_RandomRange(field_144_left_min_delay, field_146_left_max_delay);
             }
             else
             {
-                field_118_timer = sGnFrame + Math_RandomRange_450F20(field_148_right_min_delay, field_14A_right_max_delay);
+                field_118_timer = sGnFrame + Math_RandomRange(field_148_right_min_delay, field_14A_right_max_delay);
             }
 
             return 1;

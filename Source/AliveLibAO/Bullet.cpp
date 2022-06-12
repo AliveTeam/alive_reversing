@@ -96,7 +96,7 @@ void Bullet::VUpdate()
                         relive_new Spark(hitX, hitY, field_2C_scale, 6u, 50, 205);
                     }
                     New_Smoke_Particles_419A80(hitX, hitY, field_2C_scale, 3, 0);
-                    if (Math_RandomRange_450F20(0, 100) < 90 || Math_RandomRange_450F20(0, 128) >= 64)
+                    if (Math_RandomRange(0, 100) < 90 || Math_RandomRange(0, 128) >= 64)
                     {
                         SFX_Play_Mono(SoundEffect::Bullet2_2, volume, 0);
                     }
@@ -108,11 +108,11 @@ void Bullet::VUpdate()
             {
                 if (!pShotObj)
                 {
-                    if (Math_RandomRange_450F20(0, 100) < 70)
+                    if (Math_RandomRange(0, 100) < 70)
                     {
                         SFX_Play_Mono(SoundEffect::Bullet2_2, volume, 0);
                     }
-                    if (Math_RandomRange_450F20(0, 128) < 64)
+                    if (Math_RandomRange(0, 128) < 64)
                     {
                         SFX_Play_Mono(SoundEffect::Bullet1_1, volume, 0);
                     }
@@ -182,7 +182,7 @@ void Bullet::VUpdate()
                 New_Smoke_Particles_419A80(hitX, hitY, FP_FromInteger(1), 3, 0);
             }
 
-            if (Math_RandomRange_450F20(0, 128) < 64)
+            if (Math_RandomRange(0, 128) < 64)
             {
                 SFX_Play_Mono(SoundEffect::Bullet1_1, 75, 0);
             }
@@ -283,8 +283,8 @@ BaseAliveGameObject* Bullet::ShootObject(PSX_RECT* pRect)
 void Bullet::PlayBulletSounds(s16 volume)
 {
     SFX_Play_Pitch(SoundEffect::AirStream_28, volume, 2000, 0);
-    SFX_Play_Pitch(SoundEffect::MeatBounce_43, volume, Math_RandomRange_450F20(300, 700), 0);
-    SFX_Play_Pitch(SoundEffect::KillEffect_78, volume, Math_RandomRange_450F20(900, 1400), 0);
+    SFX_Play_Pitch(SoundEffect::MeatBounce_43, volume, Math_RandomRange(300, 700), 0);
+    SFX_Play_Pitch(SoundEffect::KillEffect_78, volume, Math_RandomRange(900, 1400), 0);
 }
 
 } // namespace AO

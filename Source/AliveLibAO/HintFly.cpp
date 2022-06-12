@@ -1570,7 +1570,7 @@ void HintFly::FormWordAndAdvanceToNextWord()
             pParticleIter->field_10_vely = FP_FromRaw((pParticleIter->field_18_targetY.fpValue - pParticleIter->field_4_ypos.fpValue) >> 4);
             pParticleIter->field_8_state = 1;
 
-            pParticleIter->field_1C_sound_pitch = Math_RandomRange_450F20(-127, 127);
+            pParticleIter->field_1C_sound_pitch = Math_RandomRange(-127, 127);
             pParticleIter->field_1E_sound_pitch_speed = pParticleIter->field_1C_sound_pitch >> 4;
         }
         xBaseFP += FP_FromInteger(16);
@@ -1604,9 +1604,9 @@ void HintFly::UpdateParticles()
                 pParticle->field_1C_sound_pitch = 0;
             }
 
-            if (i < 1 && Math_RandomRange_450F20(0, 100) < 40)
+            if (i < 1 && Math_RandomRange(0, 100) < 40)
             {
-                SFX_Play_Pitch(SoundEffect::HintFly_60, Math_RandomRange_450F20(24, 30), pParticle->field_1C_sound_pitch, 0);
+                SFX_Play_Pitch(SoundEffect::HintFly_60, Math_RandomRange(24, 30), pParticle->field_1C_sound_pitch, 0);
             }
         }
         else if (pParticle->field_8_state == 2)
@@ -1616,9 +1616,9 @@ void HintFly::UpdateParticles()
                 pParticle->field_0_xpos = pParticle->field_14_targetX + FP_FromInteger(abs(HintFly_NextRandom()) & 1);
             }
 
-            if (i < 1 && Math_RandomRange_450F20(0, 100) < 40)
+            if (i < 1 && Math_RandomRange(0, 100) < 40)
             {
-                SFX_Play_Pitch(SoundEffect::HintFly_60, Math_RandomRange_450F20(24, 30), 0, 0);
+                SFX_Play_Pitch(SoundEffect::HintFly_60, Math_RandomRange(24, 30), 0, 0);
             }
         }
         else if (pParticle->field_8_state == 3)
@@ -1626,9 +1626,9 @@ void HintFly::UpdateParticles()
             pParticle->field_20_angle = pParticle->field_20_angle + pParticle->field_21_angle_speed;
             pParticle->field_0_xpos += (Math_Sine_451110(pParticle->field_20_angle) * FP_FromInteger(5));
             pParticle->field_4_ypos += (Math_Cosine_4510A0(pParticle->field_20_angle) * FP_FromInteger(2));
-            if (i < 1 && Math_RandomRange_450F20(0, 100) < 20)
+            if (i < 1 && Math_RandomRange(0, 100) < 20)
             {
-                SFX_Play_Mono(SoundEffect::HintFly_60, Math_RandomRange_450F20(18, 24), 0);
+                SFX_Play_Mono(SoundEffect::HintFly_60, Math_RandomRange(18, 24), 0);
             }
         }
     }

@@ -640,17 +640,17 @@ s32 Environment_SFX_42A220(EnvironmentSfx sfxId, s32 volume, s32 pitchMin, BaseA
             volume = 40;
             break;
         case EnvironmentSfx::eWalkingFootstep_1:
-            sndIndex = Math_RandomRange_450F20(10, 12);
+            sndIndex = Math_RandomRange(10, 12);
             if (volume == 0)
             {
-                volume = Math_RandomRange_450F20(54, 58);
+                volume = Math_RandomRange(54, 58);
             }
             break;
         case EnvironmentSfx::eRunningFootstep_2:
-            sndIndex = Math_RandomRange_450F20(13, 15);
+            sndIndex = Math_RandomRange(13, 15);
             if (volume == 0)
             {
-                volume = Math_RandomRange_450F20(66, 70);
+                volume = Math_RandomRange(66, 70);
             }
             break;
         case EnvironmentSfx::eSneakFootstep_3:
@@ -1286,7 +1286,7 @@ void Abe::VUpdate()
                 if (Event_Get(kEventMudokonDead))
                 {
                     field_130_say = 16;
-                    field_134_auto_say_timer = sGnFrame + Math_RandomRange_450F20(22, 30);
+                    field_134_auto_say_timer = sGnFrame + Math_RandomRange(22, 30);
                     relive_new MusicTrigger(MusicTriggerMusicType::eDeathDrumShort_1, TriggeredBy::eTouching_1, 0, 90);
                 }
 
@@ -1699,7 +1699,7 @@ void Abe::ToKnockback_422D90(s16 bKnockbackSound, s16 bDelayedAnger)
 
         if (bKnockbackSound)
         {
-            Mudokon_SFX_42A4D0(MudSounds::eKnockbackOuch_10, 0, Math_RandomRange_450F20(-127, 127), this);
+            Mudokon_SFX_42A4D0(MudSounds::eKnockbackOuch_10, 0, Math_RandomRange(-127, 127), this);
             Environment_SFX_42A220(EnvironmentSfx::eKnockback_13, 0, 0x7FFF, this);
         }
 
@@ -3677,9 +3677,9 @@ s16 Abe::VTakeDamage(BaseGameObject* pFrom)
                 mHealth -= FP_FromDouble(0.15);
                 if (mHealth > FP_FromInteger(0))
                 {
-                    const auto rnd_sfx = Math_RandomRange_450F20(0, 127) >= 64 ? MudSounds::eBeesStruggle_18 : MudSounds::eKnockbackOuch_10;
+                    const auto rnd_sfx = Math_RandomRange(0, 127) >= 64 ? MudSounds::eBeesStruggle_18 : MudSounds::eKnockbackOuch_10;
                     const FP v16 = (FP_FromInteger(1) - sActiveHero_507678->mHealth) / FP_FromDouble(0.15);
-                    const s16 calc_pitch = Math_RandomRange_450F20(200 * FP_GetExponent(v16), 200 * FP_GetExponent(v16) + 1);
+                    const s16 calc_pitch = Math_RandomRange(200 * FP_GetExponent(v16), 200 * FP_GetExponent(v16) + 1);
                     Mudokon_SFX_42A4D0(rnd_sfx, 0, calc_pitch, this);
                 }
                 else
@@ -4132,7 +4132,7 @@ void Abe::Motion_0_Idle_423520()
                 {
                     loaded |= 4;
                 }
-                const s16 rnd = Math_RandomRange_450F20(0, 2);
+                const s16 rnd = Math_RandomRange(0, 2);
                 if ((1 << rnd) & loaded)
                 {
                     switch (rnd)

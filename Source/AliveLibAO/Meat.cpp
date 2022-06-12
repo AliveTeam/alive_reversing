@@ -84,7 +84,7 @@ void MeatSack::VUpdate()
             {
                 field_114_bPlayWobbleSound = 0;
                 field_116_always_0 = 0;
-                SFX_Play_Pitch(SoundEffect::SackWobble_34, 24, Math_RandomRange_450F20(-2400, -2200), 0);
+                SFX_Play_Pitch(SoundEffect::SackWobble_34, 24, Math_RandomRange(-2400, -2200), 0);
             }
         }
     }

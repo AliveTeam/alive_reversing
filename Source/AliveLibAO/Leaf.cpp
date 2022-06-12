@@ -127,13 +127,13 @@ Leaf::Leaf(FP xpos, FP ypos, FP xVel, FP yVel, FP scale)
 
     field_E4_bHitSomething &= ~1u;
 
-    s16 randLeftVol = Math_RandomRange_450F20(19, 24);
+    s16 randLeftVol = Math_RandomRange(19, 24);
     if (mBaseAnimatedWithPhysicsGameObject_SpriteScale == FP_FromDouble(0.4)) // ??
     {
         randLeftVol -= 7;
     }
 
-    const s16 randRightVol = Math_RandomRange_450F20(-900, -700);
+    const s16 randRightVol = Math_RandomRange(-900, -700);
     SFX_Play_Pitch(SoundEffect::Leaf_27, (3 * randLeftVol) / 4, randRightVol, nullptr);
 }
 

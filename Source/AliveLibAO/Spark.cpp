@@ -58,15 +58,15 @@ Spark::Spark(FP xpos, FP ypos, FP scale, s32 count, s32 min, s32 max)
             s32 randAng = 0;
             if (min >= 0)
             {
-                randAng = Math_RandomRange_450F20(static_cast<s16>(min), static_cast<s16>(max));
+                randAng = Math_RandomRange(static_cast<s16>(min), static_cast<s16>(max));
             }
             else
             {
-                randAng = min + Math_RandomRange_450F20(0, static_cast<s16>(max - min));
+                randAng = min + Math_RandomRange(0, static_cast<s16>(max - min));
             }
             pSparkIter->field_10_ang = static_cast<u8>(randAng);
             pSparkIter->field_14_radius = FP_FromInteger(0);
-            pSparkIter->field_18_len = FP_FromInteger(Math_RandomRange_450F20(2, 4));
+            pSparkIter->field_18_len = FP_FromInteger(Math_RandomRange(2, 4));
         }
 
         field_50_timer = sGnFrame + 3;
@@ -140,7 +140,7 @@ void Spark::VUpdate()
                 field_48_pRes[idx].field_4_y0 = field_48_pRes[idx].field_14_radius * Math_Cosine_4510A0(field_48_pRes[idx].field_10_ang);
                 field_48_pRes[idx].field_8_x1 = (field_48_pRes[idx].field_18_len + field_48_pRes[idx].field_14_radius) * Math_Sine_451110(field_48_pRes[idx].field_10_ang);
                 field_48_pRes[idx].field_C_y1 = (field_48_pRes[idx].field_18_len + field_48_pRes[idx].field_14_radius) * Math_Cosine_4510A0(field_48_pRes[idx].field_10_ang);
-                field_48_pRes[idx].field_14_radius = field_48_pRes[idx].field_18_len + FP_FromInteger(Math_RandomRange_450F20(2, 5));
+                field_48_pRes[idx].field_14_radius = field_48_pRes[idx].field_18_len + FP_FromInteger(Math_RandomRange(2, 5));
                 field_48_pRes[idx].field_18_len = field_48_pRes[idx].field_18_len + FP_FromInteger(2);
             }
         }

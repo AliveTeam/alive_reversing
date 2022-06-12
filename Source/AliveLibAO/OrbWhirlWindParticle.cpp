@@ -41,7 +41,7 @@ void OrbWhirlWindParticle::CalculateRenderProperties(s16 bStarted)
 void OrbWhirlWindParticle::ToStop()
 {
     field_B4_state = State::State_4_Stop;
-    field_DC_position_timer = sGnFrame + Math_RandomRange_450F20(0, 32);
+    field_DC_position_timer = sGnFrame + Math_RandomRange(0, 32);
 }
 
 s32 OrbWhirlWindParticle::IsActive()
@@ -159,7 +159,7 @@ void OrbWhirlWindParticle::Update()
                     field_B8_render_angle = 192;
                     field_D4_radiusX = FP_FromInteger(40);
                     field_AC_radiusX_offset = field_D4_radiusX / FP_FromInteger(32);
-                    field_104_scale_offset_spin_at_target = field_C0_current_scale * FP_FromInteger(Math_RandomRange_450F20(-16, 16));
+                    field_104_scale_offset_spin_at_target = field_C0_current_scale * FP_FromInteger(Math_RandomRange(-16, 16));
                     field_DC_position_timer = sGnFrame + 32;
                     field_B4_state = State::State_3_SpinAtTarget;
                 }
@@ -205,19 +205,19 @@ OrbWhirlWindParticle::OrbWhirlWindParticle(FP xpos, FP ypos, FP scale)
     field_8_anim.mGreen = 80;
     field_8_anim.mBlue = 80;
 
-    field_8_anim.SetFrame(Math_RandomRange_450F20(0, field_8_anim.Get_Frame_Count() - 1));
+    field_8_anim.SetFrame(Math_RandomRange(0, field_8_anim.Get_Frame_Count() - 1));
     mAnimFlags &= ~1u;
     field_B4_state = State::State_0_Start;
-    field_B8_render_angle = Math_RandomRange_450F20(0, 255);
+    field_B8_render_angle = Math_RandomRange(0, 255);
     field_BC_counter = 1;
-    field_BE_max = Math_RandomRange_450F20(9, 15);
+    field_BE_max = Math_RandomRange(9, 15);
     field_CC_xpos_mid = xpos;
-    field_D0_ypos_mid = ypos + FP_FromInteger(Math_RandomRange_450F20(-12, 12));
+    field_D0_ypos_mid = ypos + FP_FromInteger(Math_RandomRange(-12, 12));
     field_E0_yMove = ypos - FP_FromInteger(16);
-    field_D4_radiusX = FP_FromInteger(Math_RandomRange_450F20(37, 43));
+    field_D4_radiusX = FP_FromInteger(Math_RandomRange(37, 43));
     field_D8_radiosY = FP_FromDouble(0.25) * field_D4_radiusX;
     field_C0_current_scale = scale;
-    field_C4_randomized_scale = FP_FromInteger(Math_RandomRange_450F20(7, 10)) / FP_FromInteger(10);
+    field_C4_randomized_scale = FP_FromInteger(Math_RandomRange(7, 10)) / FP_FromInteger(10);
     field_A8_render_as_scale = field_C0_current_scale * field_C4_randomized_scale;
 }
 
@@ -229,7 +229,7 @@ OrbWhirlWindParticle::~OrbWhirlWindParticle()
 
 void OrbWhirlWindParticle::Spin(FP xpos, FP ypos, BaseAliveGameObject* pObj)
 {
-    field_DC_position_timer = sGnFrame + Math_RandomRange_450F20(0, 16);
+    field_DC_position_timer = sGnFrame + Math_RandomRange(0, 16);
     field_B4_state = State::State_1_Spin;
     field_E4_pObj = pObj;
 

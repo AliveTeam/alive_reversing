@@ -766,7 +766,7 @@ void MusicController::UpdateMusic()
                 break;
 
             case MusicTypes::eDrumAmbience_3:
-                idx = field_44_bTypeChanged ? Math_RandomRange_450F20(0, 1) : -1;
+                idx = field_44_bTypeChanged ? Math_RandomRange(0, 1) : -1;
                 field_34_sync_after_beats = 1;
                 field_24_bAmbientMusicEnabled = 0;
                 field_4E_vol = SetMusicVolumeDelayed(field_14, 0);
@@ -824,7 +824,7 @@ void MusicController::UpdateMusic()
                     }
                     else
                     {
-                        idx = Math_RandomRange_450F20(118, 120);
+                        idx = Math_RandomRange(118, 120);
                     }
                     field_34_sync_after_beats = 22;
                 }
@@ -1002,7 +1002,7 @@ void MusicController::UpdateAmbiance()
                     const auto diff = GetMusicTime() - field_2C_music_start_time;
                     if (rec.field_0_count < 0 || diff < rec.field_0_count)
                     {
-                        random = Math_RandomRange_450F20(rec.field_4_min, rec.field_6_max);
+                        random = Math_RandomRange(rec.field_4_min, rec.field_6_max);
                         break;
                     }
                 }
@@ -1010,7 +1010,7 @@ void MusicController::UpdateAmbiance()
             else
             {
                 const MusicController_Record3* pRec = &rec3s_4CD798[static_cast<s32>(MapWrapper::ToAO(field_18_level))];
-                random = Math_RandomRange_450F20(pRec->field_0[0].field_4_min, pRec->field_0[0].field_6_max);
+                random = Math_RandomRange(pRec->field_0[0].field_4_min, pRec->field_0[0].field_6_max);
             }
 
             if (random < 0)

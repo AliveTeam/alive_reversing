@@ -843,11 +843,11 @@ void Elum::Elum_SFX_416E10(ElumSounds soundId, BaseAliveGameObject* pObj)
     switch (soundId)
     {
         case ElumSounds::eWalkingFootstep_0:
-            SFX_SfxDefinition_Play_4770F0(&sElumSfx_4C5398[Math_RandomRange_450F20(0, 2)], Math_RandomRange_450F20(54, 58), -700, -573);
+            SFX_SfxDefinition_Play_4770F0(&sElumSfx_4C5398[Math_RandomRange(0, 2)], Math_RandomRange(54, 58), -700, -573);
             break;
 
         case ElumSounds::eRunningFootstep_1:
-            SFX_SfxDefinition_Play_4770F0(&sElumSfx_4C5398[Math_RandomRange_450F20(0, 2)], Math_RandomRange_450F20(66, 70), -573, -446);
+            SFX_SfxDefinition_Play_4770F0(&sElumSfx_4C5398[Math_RandomRange(0, 2)], Math_RandomRange(66, 70), -573, -446);
             break;
 
         case ElumSounds::eHowl_2:
@@ -911,7 +911,7 @@ void Elum::Elum_SFX_416E10(ElumSounds soundId, BaseAliveGameObject* pObj)
             break;
 
         case ElumSounds::eLickingHoney_8:
-            SFX_SfxDefinition_Play_4770F0(&sElumSfx_4C5398[Math_RandomRange_450F20(8, 10)], 0, 0x7FFF, 0x7FFF);
+            SFX_SfxDefinition_Play_4770F0(&sElumSfx_4C5398[Math_RandomRange(8, 10)], 0, 0x7FFF, 0x7FFF);
             break;
 
         default:

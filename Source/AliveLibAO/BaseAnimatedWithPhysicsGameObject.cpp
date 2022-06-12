@@ -182,7 +182,7 @@ void BaseAnimatedWithPhysicsGameObject::DeathSmokeEffect(bool bPlaySound)
     if (!(sGnFrame % 5))
     {
         New_Smoke_Particles_419A80(
-            mBaseAnimatedWithPhysicsGameObject_XPos + (FP_FromInteger(Math_RandomRange_450F20(-24, 24)) * mBaseAnimatedWithPhysicsGameObject_SpriteScale),
+            mBaseAnimatedWithPhysicsGameObject_XPos + (FP_FromInteger(Math_RandomRange(-24, 24)) * mBaseAnimatedWithPhysicsGameObject_SpriteScale),
             mBaseAnimatedWithPhysicsGameObject_YPos - FP_FromInteger(6),
             mBaseAnimatedWithPhysicsGameObject_SpriteScale / FP_FromInteger(2),
             2,

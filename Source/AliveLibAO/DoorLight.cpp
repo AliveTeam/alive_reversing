@@ -97,7 +97,7 @@ DoorLight::DoorLight(Path_LightEffect* pTlv, s32 tlvInfo)
     if (gNextDoorLightUpdate_4C30A8 < 0)
     {
         gNextDoorLightUpdate_4C30A8 = sGnFrame;
-        gDoorLightUpdateTimer_4FC8A4 = gNextDoorLightUpdate_4C30A8 + Math_RandomRange_450F20(30, 45);
+        gDoorLightUpdateTimer_4FC8A4 = gNextDoorLightUpdate_4C30A8 + Math_RandomRange(30, 45);
     }
 
     mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit20_use_xy_offset);
@@ -137,8 +137,8 @@ void DoorLight::VUpdate()
 {
     if (static_cast<s32>(sGnFrame) > gDoorLightUpdateTimer_4FC8A4)
     {
-        gNextDoorLightUpdate_4C30A8 = sGnFrame + Math_RandomRange_450F20(6, 20);
-        gDoorLightUpdateTimer_4FC8A4 = gNextDoorLightUpdate_4C30A8 + Math_RandomRange_450F20(30, 45);
+        gNextDoorLightUpdate_4C30A8 = sGnFrame + Math_RandomRange(6, 20);
+        gDoorLightUpdateTimer_4FC8A4 = gNextDoorLightUpdate_4C30A8 + Math_RandomRange(30, 45);
         mBaseAnimatedWithPhysicsGameObject_RGB.r = 32;
         mBaseAnimatedWithPhysicsGameObject_RGB.g = 32;
         mBaseAnimatedWithPhysicsGameObject_RGB.b = 32;

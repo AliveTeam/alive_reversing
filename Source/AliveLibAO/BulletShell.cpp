@@ -39,13 +39,13 @@ BulletShell::BulletShell(FP xpos, FP ypos, s32 direction, FP scale)
 
     if (direction)
     {
-        mBaseAnimatedWithPhysicsGameObject_VelX = FP_FromInteger(Math_RandomRange_450F20(-6, -3));
+        mBaseAnimatedWithPhysicsGameObject_VelX = FP_FromInteger(Math_RandomRange(-6, -3));
     }
     else
     {
-        mBaseAnimatedWithPhysicsGameObject_VelX = FP_FromInteger(Math_RandomRange_450F20(3, 6));
+        mBaseAnimatedWithPhysicsGameObject_VelX = FP_FromInteger(Math_RandomRange(3, 6));
     }
-    mBaseAnimatedWithPhysicsGameObject_VelY = FP_FromInteger(Math_RandomRange_450F20(-4, -1));
+    mBaseAnimatedWithPhysicsGameObject_VelY = FP_FromInteger(Math_RandomRange(-4, -1));
     field_F0_speed = FP_FromInteger(1);
 }
 

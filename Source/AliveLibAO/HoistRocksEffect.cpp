@@ -103,7 +103,7 @@ HoistRocksEffect::HoistRocksEffect(Path_Hoist* pTlv, s32 tlvInfo)
 
 void HoistRocksEffect::VUpdate()
 {
-    const auto rnd = Math_RandomRange_450F20(1, 4) - 2;
+    const auto rnd = Math_RandomRange(1, 4) - 2;
     if (rnd)
     {
         if (rnd == 1)
@@ -116,12 +116,12 @@ void HoistRocksEffect::VUpdate()
                 frameTableOffset = ruptureHoist.mFrameTableOffset;
             }
             relive_new HoistParticle(
-                field_10_xpos + FP_FromInteger(Math_RandomRange_450F20(-8, 8)),
-                field_14_ypos + FP_FromInteger(Math_RandomRange_450F20(-4, 4)),
+                field_10_xpos + FP_FromInteger(Math_RandomRange(-8, 8)),
+                field_14_ypos + FP_FromInteger(Math_RandomRange(-4, 4)),
                 FP_FromInteger(1),
                 frameTableOffset);
 
-            mBaseGameObjectUpdateDelay = Math_RandomRange_450F20(30, 50);
+            mBaseGameObjectUpdateDelay = Math_RandomRange(30, 50);
         }
         else
         {
@@ -133,12 +133,12 @@ void HoistRocksEffect::VUpdate()
                 frameTableOffset = ruptureHoist.mFrameTableOffset;
             }
             relive_new HoistParticle(
-                field_10_xpos + FP_FromInteger(Math_RandomRange_450F20(-8, 8)),
-                field_14_ypos + FP_FromInteger(Math_RandomRange_450F20(-4, 4)),
+                field_10_xpos + FP_FromInteger(Math_RandomRange(-8, 8)),
+                field_14_ypos + FP_FromInteger(Math_RandomRange(-4, 4)),
                 FP_FromInteger(1),
                 frameTableOffset);
 
-            mBaseGameObjectUpdateDelay = Math_RandomRange_450F20(5, 10);
+            mBaseGameObjectUpdateDelay = Math_RandomRange(5, 10);
         }
     }
     else
@@ -151,12 +151,12 @@ void HoistRocksEffect::VUpdate()
             frameTableOffset = ruptureHoist.mFrameTableOffset;
         }
         relive_new HoistParticle(
-            field_10_xpos + FP_FromInteger(Math_RandomRange_450F20(-8, 8)),
-            field_14_ypos + FP_FromInteger(Math_RandomRange_450F20(-4, 4)),
+            field_10_xpos + FP_FromInteger(Math_RandomRange(-8, 8)),
+            field_14_ypos + FP_FromInteger(Math_RandomRange(-4, 4)),
             FP_FromInteger(1),
             frameTableOffset);
 
-        mBaseGameObjectUpdateDelay = Math_RandomRange_450F20(10, 20);
+        mBaseGameObjectUpdateDelay = Math_RandomRange(10, 20);
     }
 }
 

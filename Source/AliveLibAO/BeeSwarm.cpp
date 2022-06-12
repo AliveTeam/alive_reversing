@@ -189,9 +189,9 @@ void BeeSwarm::VUpdate()
     const s16 volMin = field_D80_state == BeeSwarmStates::eAttackChase_1 ? 30 : 22;
     for (s32 i = 0; i < 2; i++)
     {
-        if (Math_RandomRange_450F20(0, 100) < 40)
+        if (Math_RandomRange(0, 100) < 40)
         {
-            SFX_Play_Mono(static_cast<SoundEffect>(Math_RandomRange_450F20(SoundEffect::Bees1_14, SoundEffect::Bees2_15)), Math_RandomRange_450F20(volMin, volMax));
+            SFX_Play_Mono(static_cast<SoundEffect>(Math_RandomRange(SoundEffect::Bees1_14, SoundEffect::Bees2_15)), Math_RandomRange(volMin, volMax));
         }
     }
 
@@ -260,7 +260,7 @@ void BeeSwarm::VUpdate()
 
                 if (static_cast<s32>(sGnFrame) <= field_DA0_do_damage_or_pain_sound_timer)
                 {
-                    if (!(sGnFrame % 10) && Math_RandomRange_450F20(0, 100) < 70)
+                    if (!(sGnFrame % 10) && Math_RandomRange(0, 100) < 70)
                     {
                         // Check every single object just to see if its sActiveHero_507678 (nice algorithm lads)
                         // and play pain sounds if so and in the damage rect.
@@ -277,9 +277,9 @@ void BeeSwarm::VUpdate()
                             {
                                 if (pObjIter == sActiveHero_507678 && sActiveHero_507678->mHealth > FP_FromInteger(0))
                                 {
-                                    const MudSounds snd = Math_RandomRange_450F20(0, 127) >= 64 ? MudSounds::eBeesStruggle_18 : MudSounds::eKnockbackOuch_10;
+                                    const MudSounds snd = Math_RandomRange(0, 127) >= 64 ? MudSounds::eBeesStruggle_18 : MudSounds::eKnockbackOuch_10;
                                     const FP pitch_val = (FP_FromInteger(1) - sActiveHero_507678->mHealth) / FP_FromDouble(0.15);
-                                    const s16 pitch = Math_RandomRange_450F20(
+                                    const s16 pitch = Math_RandomRange(
                                         200 * FP_GetExponent(pitch_val),
                                         200 * (FP_GetExponent(pitch_val) + 1));
                                     Mudokon_SFX_42A4D0(snd, 0, pitch, sActiveHero_507678);

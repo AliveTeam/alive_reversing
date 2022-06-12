@@ -30,7 +30,7 @@ void RockSack::VUpdate()
             {
                 field_114_can_play_wobble_sound = 0;
                 field_116_force_wobble_sound = 0;
-                SFX_Play_Pitch(SoundEffect::SackWobble_34, 24, Math_RandomRange_450F20(-2400, -2200), 0);
+                SFX_Play_Pitch(SoundEffect::SackWobble_34, 24, Math_RandomRange(-2400, -2200), 0);
             }
         }
     }
@@ -54,7 +54,7 @@ void RockSack::VUpdate()
     {
         if (mBaseAnimatedWithPhysicsGameObject_Anim.mFrameChangeCounter == 0)
         {
-            mBaseAnimatedWithPhysicsGameObject_Anim.mFrameChangeCounter = Math_RandomRange_450F20(2, 10);
+            mBaseAnimatedWithPhysicsGameObject_Anim.mFrameChangeCounter = Math_RandomRange(2, 10);
         }
 
         const PSX_RECT bPlayerRect = sActiveHero_507678->VGetBoundingRect();

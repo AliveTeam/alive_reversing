@@ -160,7 +160,7 @@ public:
             anim.field_14.mAnimFlags.Set(AnimFlags::eBit3_Render);
             anim.field_14.mAnimFlags.Set(AnimFlags::eBit16_bBlending);
 
-            const s16 rndLayer = static_cast<s16>(mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer) + Math_RandomRange_450F20(-1, 1);
+            const s16 rndLayer = static_cast<s16>(mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer) + Math_RandomRange(-1, 1);
             anim.field_14.mRenderLayer = static_cast<Layer>(rndLayer);
             anim.field_14.field_6C_scale = mBaseAnimatedWithPhysicsGameObject_SpriteScale;
 
@@ -170,7 +170,7 @@ public:
             anim.field_8_off_x = FP_FromInteger(0);
             anim.field_C_off_y = FP_FromInteger(0);
 
-            anim.field_10_random64 = Math_RandomRange_450F20(0, 64);
+            anim.field_10_random64 = Math_RandomRange(0, 64);
             anim.field_12_bVisible = 0;
         }
 
@@ -193,7 +193,7 @@ public:
                     if (anim.field_10_random64 <= 0)
                     {
                         anim.field_12_bVisible = 1;
-                        anim.field_10_random64 = Math_RandomRange_450F20(7, 9);
+                        anim.field_10_random64 = Math_RandomRange(7, 9);
 
                         anim.field_0_x = field_400_xpos;
                         anim.field_4_y = field_404_ypos;
@@ -216,7 +216,7 @@ public:
                 else
                 {
                     anim.field_12_bVisible = 0;
-                    anim.field_10_random64 = Math_RandomRange_450F20(90, 240);
+                    anim.field_10_random64 = Math_RandomRange(90, 240);
                 }
             }
         }

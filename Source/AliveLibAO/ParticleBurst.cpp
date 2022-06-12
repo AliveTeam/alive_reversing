@@ -220,15 +220,15 @@ void ParticleBurst::VUpdate()
                         pItem->field_4_y,
                         0))
                 {
-                    SFX_Play_Pitch(SoundEffect::KillEffect_78, 50, Math_RandomRange_450F20(-900, -300));
+                    SFX_Play_Pitch(SoundEffect::KillEffect_78, 50, Math_RandomRange(-900, -300));
                 }
             }
             else
             {
                 // TODO: Never used by OG ??
-                // Math_RandomRange_450F20(-64, 46);
+                // Math_RandomRange(-64, 46);
 
-                const s16 volume = static_cast<s16>(Math_RandomRange_450F20(-10, 10) + ((field_F0_timer - sGnFrame) / 91) + 25);
+                const s16 volume = static_cast<s16>(Math_RandomRange(-10, 10) + ((field_F0_timer - sGnFrame) / 91) + 25);
 
                 const u8 next_rand = Math_NextRandom();
                 if (next_rand < 43)

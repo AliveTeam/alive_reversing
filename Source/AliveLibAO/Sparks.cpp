@@ -26,13 +26,13 @@ Sparks::Sparks(FP xpos, FP ypos, FP scale)
     mBaseAnimatedWithPhysicsGameObject_Anim.mRenderMode = TPageAbr::eBlend_1;
 
     mBaseAnimatedWithPhysicsGameObject_SpriteScale = scale * ((FP_FromInteger(Math_NextRandom() % 6) / FP_FromInteger(10)) + FP_FromDouble(0.2));
-    field_EA_random = Math_RandomRange_450F20(0, 16);
+    field_EA_random = Math_RandomRange(0, 16);
 
     mBaseAnimatedWithPhysicsGameObject_XPos = xpos;
     mBaseAnimatedWithPhysicsGameObject_YPos = ypos;
 
-    mBaseAnimatedWithPhysicsGameObject_VelX = FP_FromInteger(Math_RandomRange_450F20(-8, 8));
-    mBaseAnimatedWithPhysicsGameObject_VelY = FP_FromInteger(Math_RandomRange_450F20(-6, -3));
+    mBaseAnimatedWithPhysicsGameObject_VelX = FP_FromInteger(Math_RandomRange(-8, 8));
+    mBaseAnimatedWithPhysicsGameObject_VelY = FP_FromInteger(Math_RandomRange(-6, -3));
 }
 
 void Sparks::VUpdate()

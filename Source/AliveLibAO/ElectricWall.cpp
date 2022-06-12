@@ -104,7 +104,7 @@ void ElectricWall::VUpdate()
         {
             // set a random starting frame
             SFX_Play_Camera(SoundEffect::BirdPortalSpark_48, 45, soundDirection);
-            field_EC_sound_timer = sGnFrame + Math_RandomRange_450F20(24, 40);
+            field_EC_sound_timer = sGnFrame + Math_RandomRange(24, 40);
         }
 
 

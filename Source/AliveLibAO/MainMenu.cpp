@@ -1247,7 +1247,7 @@ void Menu::WaitForAbeSayHello_47B770()
         mBaseAnimatedWithPhysicsGameObject_Anim.SetFrame(7u);
         field_1CC_fn_update = &Menu::MainScreen_Update_47AF60;
         field_1D0_fn_render = &Menu::MainScreen_Render_47BED0;
-        field_1D8_timer = sGnFrame + Math_RandomRange_450F20(300, 450);
+        field_1D8_timer = sGnFrame + Math_RandomRange(300, 450);
     }
 }
 
@@ -1510,7 +1510,7 @@ void Menu::MainScreen_Update_47AF60()
             const AnimRecord& rec = AO::AnimRec(AnimId::MenuAbeSpeak_Idle);
             mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(rec.mFrameTableOffset, field_E4_res_array[1]);
             field_204_flags &= ~4u;
-            field_1D8_timer = sGnFrame + Math_RandomRange_450F20(120, 450);
+            field_1D8_timer = sGnFrame + Math_RandomRange(120, 450);
         }
     }
     else if (field_1D8_timer <= static_cast<s32>(sGnFrame))
@@ -2170,7 +2170,7 @@ void Menu::Options_Update_47BF90()
             const AnimRecord& rec = AO::AnimRec(AnimId::MenuAbeSpeak_Idle);
             mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(rec.mFrameTableOffset, field_E4_res_array[1]);
             field_204_flags &= ~4u;
-            field_1D8_timer = sGnFrame + Math_RandomRange_450F20(120, 450);
+            field_1D8_timer = sGnFrame + Math_RandomRange(120, 450);
         }
     }
     else if (field_1D8_timer <= static_cast<s32>(sGnFrame))
@@ -2544,7 +2544,7 @@ void Menu::Options_Sound_Update_47C420()
             const AnimRecord& rec = AO::AnimRec(AnimId::MenuAbeSpeak_Idle);
             mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(rec.mFrameTableOffset, field_E4_res_array[1]);
             field_204_flags &= ~4u;
-            field_1D8_timer = sGnFrame + Math_RandomRange_450F20(120, 450);
+            field_1D8_timer = sGnFrame + Math_RandomRange(120, 450);
         }
     }
     else if (field_1D8_timer <= static_cast<s32>(sGnFrame))
@@ -2617,8 +2617,8 @@ void Menu::GameSpeak_Update_47CBD0()
             const FP screen_x = pScreenManager->mCamPos->field_0_x - FP_FromInteger(pScreenManager->mCamXOff);
 
             auto pParticle = relive_new Particle(
-                screen_x + (FP_FromInteger(Math_RandomRange_450F20(-40, 40) + 184)),
-                screen_y + (FP_FromInteger(162 - Math_RandomRange_450F20(30, 90))),
+                screen_x + (FP_FromInteger(Math_RandomRange(-40, 40) + 184)),
+                screen_y + (FP_FromInteger(162 - Math_RandomRange(30, 90))),
                 rec.mFrameTableOffset,
                 rec.mMaxW,
                 rec.mMaxH,
@@ -2870,7 +2870,7 @@ void Menu::CycleGameSpeakIdleAnims()
                 const AnimRecord& rec = AO::AnimRec(AnimId::MenuAbeSpeak_Idle);
                 mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(rec.mFrameTableOffset, field_E4_res_array[1]);
                 field_204_flags &= ~4u;
-                field_1D8_timer = sGnFrame + Math_RandomRange_450F20(120, 450);
+                field_1D8_timer = sGnFrame + Math_RandomRange(120, 450);
             }
         }
         else

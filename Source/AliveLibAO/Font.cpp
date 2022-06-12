@@ -440,9 +440,9 @@ s32 AliveFont::DrawString(PrimHeader** ppOt, const char_type* text, s16 x, s16 y
 
         SetRGB0(
             poly,
-            static_cast<u8>(r + Math_RandomRange_450F20(static_cast<s16>(-colorRandomRange), static_cast<s16>(colorRandomRange))),
-            static_cast<u8>(g + Math_RandomRange_450F20(static_cast<s16>(-colorRandomRange), static_cast<s16>(colorRandomRange))),
-            static_cast<u8>(b + Math_RandomRange_450F20(static_cast<s16>(-colorRandomRange), static_cast<s16>(colorRandomRange))));
+            static_cast<u8>(r + Math_RandomRange(static_cast<s16>(-colorRandomRange), static_cast<s16>(colorRandomRange))),
+            static_cast<u8>(g + Math_RandomRange(static_cast<s16>(-colorRandomRange), static_cast<s16>(colorRandomRange))),
+            static_cast<u8>(b + Math_RandomRange(static_cast<s16>(-colorRandomRange), static_cast<s16>(colorRandomRange))));
 
         SetTPage(poly, static_cast<s16>(tpage));
         SetClut(poly, static_cast<s16>(clut));

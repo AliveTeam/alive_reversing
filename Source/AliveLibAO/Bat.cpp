@@ -178,7 +178,7 @@ void Bat::VUpdate()
                 field_F4_state = BatStates::eFlying_3;
                 const AnimRecord& rec = AO::AnimRec(AnimId::Bat_Flying);
                 mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(rec.mFrameTableOffset, nullptr);
-                field_F8_timer = sGnFrame + Math_RandomRange_450F20(0, 90);
+                field_F8_timer = sGnFrame + Math_RandomRange(0, 90);
             }
             break;
 
@@ -194,13 +194,13 @@ void Bat::VUpdate()
 
             if (!(mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame % 3))
             {
-                SFX_Play_Mono(static_cast<SoundEffect>(Math_RandomRange_450F20(SoundEffect::Bat1_41, SoundEffect::Bat2_42) & 0xFF), Math_RandomRange_450F20(20, 26), 0);
+                SFX_Play_Mono(static_cast<SoundEffect>(Math_RandomRange(SoundEffect::Bat1_41, SoundEffect::Bat2_42) & 0xFF), Math_RandomRange(20, 26), 0);
             }
 
             if (static_cast<s32>(sGnFrame) > field_F8_timer)
             {
                 SND_SEQ_PlaySeq_4775A0(SeqId::eBatSqueaking_18, 1, 1);
-                field_F8_timer = sGnFrame + Math_RandomRange_450F20(120, 240);
+                field_F8_timer = sGnFrame + Math_RandomRange(120, 240);
             }
 
             if (field_E4_pLine)

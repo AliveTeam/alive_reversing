@@ -7,7 +7,7 @@ namespace AO {
 
 u8 Math_NextRandom();
 
-s16 Math_RandomRange_450F20(s16 min, s16 max);
+s16 Math_RandomRange(s16 min, s16 max);
 
 FP Math_Sine_451110(u8 v);
 

@@ -310,7 +310,7 @@ void LCDScreen::VUpdate()
             field_2D4++;
             if (field_2D4 == 1)
             {
-                const auto rangedRandom = Math_RandomRange_450F20(
+                const auto rangedRandom = Math_RandomRange(
                     field_2D8_message_rand_min,
                     field_2DC_message_rand_max);
 

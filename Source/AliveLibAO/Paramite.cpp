@@ -975,7 +975,7 @@ s16 Paramite::Brain_0_Patrol()
                 || mBaseAnimatedWithPhysicsGameObject_SpriteScale != sActiveHero_507678->mBaseAnimatedWithPhysicsGameObject_SpriteScale
                 || WallHit_401930(mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(5), sActiveHero_507678->mBaseAnimatedWithPhysicsGameObject_XPos - mBaseAnimatedWithPhysicsGameObject_XPos))
             {
-                field_120_wait_timer = sGnFrame + Math_RandomRange_450F20(45, 135);
+                field_120_wait_timer = sGnFrame + Math_RandomRange(45, 135);
                 return Brain_0_Patrol::eBrain0_Idle_12;
             }
 
@@ -1431,7 +1431,7 @@ s16 Paramite::Brain_0_Patrol()
                 return field_110_brain_sub_state;
             }
             SetNextMotion(eParamiteMotions::Motion_0_Idle);
-            field_120_wait_timer = sGnFrame + Math_RandomRange_450F20(45, 135);
+            field_120_wait_timer = sGnFrame + Math_RandomRange(45, 135);
             return Brain_0_Patrol::eBrain0_Idle_12;
 
         case Brain_0_Patrol::eBrain0_Turning_14:
@@ -1440,7 +1440,7 @@ s16 Paramite::Brain_0_Patrol()
             {
                 return field_110_brain_sub_state;
             }
-            field_120_wait_timer = sGnFrame + Math_RandomRange_450F20(45, 135);
+            field_120_wait_timer = sGnFrame + Math_RandomRange(45, 135);
             return Brain_0_Patrol::eBrain0_Idle_12;
 
         case Brain_0_Patrol::eBrain0_Panic_15:
@@ -1757,7 +1757,7 @@ s16 Paramite::Brain_4_ChasingAbe()
                 {
                     if (field_13E_hiss_before_attack == Choice_short::eYes_1)
                     {
-                        field_114_timer = sGnFrame + Math_RandomRange_450F20(0, 6);
+                        field_114_timer = sGnFrame + Math_RandomRange(0, 6);
                         return Brain_4_ChasingAbe::eBrain4_ToWarning_2;
                     }
                     else
@@ -1923,7 +1923,7 @@ s16 Paramite::Brain_4_ChasingAbe()
 
             if (field_13E_hiss_before_attack == Choice_short::eYes_1)
             {
-                field_114_timer = sGnFrame + Math_RandomRange_450F20(0, 6);
+                field_114_timer = sGnFrame + Math_RandomRange(0, 6);
                 return Brain_4_ChasingAbe::eBrain4_ToWarning_2;
             }
             else
@@ -3687,7 +3687,7 @@ void Paramite::Motion_23_Eating()
 {
     if (mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame == 5)
     {
-        SFX_Play_Mono(static_cast<SoundEffect>(Math_RandomRange_450F20(SoundEffect::Eating1_79, SoundEffect::Eating2_80)), 0, 0);
+        SFX_Play_Mono(static_cast<SoundEffect>(Math_RandomRange(SoundEffect::Eating1_79, SoundEffect::Eating2_80)), 0, 0);
     }
 
     if (mNextMotion != -1 && !ToNextMotion())

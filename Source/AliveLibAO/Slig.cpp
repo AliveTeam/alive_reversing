@@ -276,7 +276,7 @@ void Slig::Slig_SoundEffect_46F310(SligSfx sfxIdx)
         volLeft = volLeft * 2 / 3;
         volRight = volRight * 2 / 3;
     }
-    auto pitch = Math_RandomRange_450F20(
+    auto pitch = Math_RandomRange(
         sSligSounds_4CFB30[sfxIdxInt].field_E_pitch_min,
         sSligSounds_4CFB30[sfxIdxInt].field_E_pitch_min);
     SFX_SfxDefinition_Play_477330(&sSligSounds_4CFB30[sfxIdxInt], static_cast<s16>(volLeft), static_cast<s16>(volRight), pitch, pitch);
@@ -1171,7 +1171,7 @@ void Slig::ToZShoot_46F200()
     mNextMotion = eSligMotions::Motion_0_StandIdle_467640;
     field_114_timer = sGnFrame + field_174_tlv.field_4C_z_shoot_delay;
     SetBrain(&Slig::Brain_ZSpottedEnemy_46F260);
-    field_118_unused = Math_RandomRange_450F20(3, 5);
+    field_118_unused = Math_RandomRange(3, 5);
     MusicController::static_PlayMusic(MusicController::MusicTypes::eSlogChase_5, this, 0, 0);
 }
 
@@ -1751,7 +1751,7 @@ void Slig::ToStand()
     mBaseAnimatedWithPhysicsGameObject_VelY = FP_FromInteger(0);
     mCurrentMotion = eSligMotions::Motion_0_StandIdle_467640;
     field_126_input = 0;
-    field_128_timer = Math_RandomRange_450F20(0, 60) + sGnFrame + 120;
+    field_128_timer = Math_RandomRange(0, 60) + sGnFrame + 120;
     MapFollowMe_401D30(TRUE);
 }
 
@@ -3615,8 +3615,8 @@ void Slig::Motion_37_Depossessing_4684D0()
         if (!(sGnFrame % 4))
         {
             New_Chant_Particle_4198E0(
-                mBaseAnimatedWithPhysicsGameObject_XPos + (mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(Math_RandomRange_450F20(-20, 20))),
-                mBaseAnimatedWithPhysicsGameObject_YPos - (mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(Math_RandomRange_450F20(20, 50))),
+                mBaseAnimatedWithPhysicsGameObject_XPos + (mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(Math_RandomRange(-20, 20))),
+                mBaseAnimatedWithPhysicsGameObject_YPos - (mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(Math_RandomRange(20, 50))),
                 mBaseAnimatedWithPhysicsGameObject_SpriteScale,
                 Layer::eLayer_0);
         }
@@ -5282,7 +5282,7 @@ s16 Slig::Brain_GetAlertedTurn_46E520()
 
 s16 Slig::Brain_GetAlerted_46E800()
 {
-    if (field_114_timer == field_174_tlv.field_42_listen_time + static_cast<s32>(sGnFrame) - 2 && Math_RandomRange_450F20(0, 100) < field_174_tlv.field_44_percent_say_what)
+    if (field_114_timer == field_174_tlv.field_42_listen_time + static_cast<s32>(sGnFrame) - 2 && Math_RandomRange(0, 100) < field_174_tlv.field_44_percent_say_what)
     {
         mNextMotion = eSligMotions::Motion_30_SpeakWhat_468290;
     }

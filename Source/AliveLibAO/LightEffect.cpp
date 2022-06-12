@@ -19,10 +19,10 @@ LightEffect::LightEffect(Path_LightEffect* pTlv, s32 tlvInfo)
     u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
     Animation_Init_417FD0(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
 
-    field_EC_rnd1 = sGnFrame + Math_RandomRange_450F20(2, 8);
-    field_F0_rnd2 = field_EC_rnd1 + Math_RandomRange_450F20(4, 8);
-    field_F4_rnd3 = Math_RandomRange_450F20(96, 128);
-    field_F8_rnd4 = Math_RandomRange_450F20(190, 255);
+    field_EC_rnd1 = sGnFrame + Math_RandomRange(2, 8);
+    field_F0_rnd2 = field_EC_rnd1 + Math_RandomRange(4, 8);
+    field_F4_rnd3 = Math_RandomRange(96, 128);
+    field_F8_rnd4 = Math_RandomRange(190, 255);
 
     mApplyShadows &= ~1u;
 
@@ -94,7 +94,7 @@ void LightEffect::VUpdate()
         const s32 v6 = field_F0_rnd2 - field_EC_rnd1;
         if (static_cast<s32>(sGnFrame) == v6 / 2)
         {
-            field_F4_rnd3 = Math_RandomRange_450F20(96, 128);
+            field_F4_rnd3 = Math_RandomRange(96, 128);
         }
 
         const FP v9 = (FP_FromInteger(128) * FP_FromInteger(sGnFrame - field_EC_rnd1) / FP_FromInteger(v6));
@@ -118,9 +118,9 @@ void LightEffect::VUpdate()
     }
     else if (static_cast<s32>(sGnFrame) > field_F0_rnd2)
     {
-        field_EC_rnd1 = sGnFrame + Math_RandomRange_450F20(2, 8);
-        field_F0_rnd2 = field_EC_rnd1 + Math_RandomRange_450F20(4, 8);
-        field_F8_rnd4 = Math_RandomRange_450F20(150, 180);
+        field_EC_rnd1 = sGnFrame + Math_RandomRange(2, 8);
+        field_F0_rnd2 = field_EC_rnd1 + Math_RandomRange(4, 8);
+        field_F8_rnd4 = Math_RandomRange(150, 180);
         u8 rgb = 96;
 
         mBaseAnimatedWithPhysicsGameObject_RGB.r = rgb;

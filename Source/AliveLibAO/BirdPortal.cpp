@@ -309,7 +309,7 @@ void BirdPortal::VUpdate()
             if (static_cast<s32>(sGnFrame) >= field_30_timer)
             {
                 SFX_Play_Mono(SoundEffect::Dove_16, 35, 0);
-                field_30_timer = sGnFrame + Math_RandomRange_450F20(24, 40);
+                field_30_timer = sGnFrame + Math_RandomRange(24, 40);
             }
 
             auto pTarget = Abe::FindObjectToPossess_421410();
@@ -508,7 +508,7 @@ void BirdPortal::VUpdate()
                 const s16 scale32 = FP_GetExponent(field_34_scale * FP_FromInteger(32));
                 if (static_cast<s32>(sGnFrame) >= field_30_timer)
                 {
-                    field_30_timer = sGnFrame + Math_RandomRange_450F20(4, 12);
+                    field_30_timer = sGnFrame + Math_RandomRange(4, 12);
                     const AnimRecord& doveRec = AO::AnimRec(AnimId::Dove_Flying);
 
                     auto pDoveMem = relive_new Dove(
@@ -517,14 +517,14 @@ void BirdPortal::VUpdate()
                         doveRec.mMaxH,
                         doveRec.mResourceId,
                         field_18_xpos + FP_FromInteger(FP_GetExponent(xOff)),
-                        field_1C_ypos + FP_FromInteger(Math_RandomRange_450F20(-scale32, scale32)),
+                        field_1C_ypos + FP_FromInteger(Math_RandomRange(-scale32, scale32)),
                         field_34_scale);
                     if (pDoveMem)
                     {
                         SFX_Play_Mono(SoundEffect::Dove_16, 70, 0);
                         pDoveMem->mBaseAnimatedWithPhysicsGameObject_SpriteScale = field_34_scale;
                         pDoveMem->AsJoin(sActiveHero_507678->mBaseAnimatedWithPhysicsGameObject_XPos,
-                            FP_FromInteger(Math_RandomRange_450F20(-36, 4)) + sActiveHero_507678->mBaseAnimatedWithPhysicsGameObject_YPos);
+                            FP_FromInteger(Math_RandomRange(-36, 4)) + sActiveHero_507678->mBaseAnimatedWithPhysicsGameObject_YPos);
                     }
 
                     field_58_received_doves++;

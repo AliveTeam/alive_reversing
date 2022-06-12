@@ -279,7 +279,7 @@ void MeatSaw::VUpdate()
                     minRnd = field_F6_switch_min_time_off;
                 }
 
-                field_104_idle_timer = sGnFrame + Math_RandomRange_450F20(minRnd, maxRnd);
+                field_104_idle_timer = sGnFrame + Math_RandomRange(minRnd, maxRnd);
                 mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(15200, 0);
                 if (field_1A8_flags.Get(flags_1A8::eBit2_SwitchIdMeatSaw))
                 {

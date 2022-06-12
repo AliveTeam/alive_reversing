@@ -413,7 +413,7 @@ void MovingBomb::VUpdate()
             if (mBaseAnimatedWithPhysicsGameObject_VelX < FP_FromInteger(0))
             {
                 field_10C_state = States::eWaitABit_4;
-                field_114_timer = sGnFrame + Math_RandomRange_450F20(field_11E_max, field_120_min);
+                field_114_timer = sGnFrame + Math_RandomRange(field_11E_max, field_120_min);
             }
 
             FollowLine();

@@ -722,7 +722,7 @@ s16 Mudokon::VTakeDamage(BaseGameObject* pFrom)
                 mHealth -= FP_FromDouble(0.15);
                 if (mHealth > FP_FromInteger(0))
                 {
-                    Mudokon_SFX_42A4D0(Math_RandomRange_450F20(0, 127) >= 64 ? MudSounds::eBeesStruggle_18 : MudSounds::eKnockbackOuch_10, 0, 2 * Math_NextRandom() - 256, 0);
+                    Mudokon_SFX_42A4D0(Math_RandomRange(0, 127) >= 64 ? MudSounds::eBeesStruggle_18 : MudSounds::eKnockbackOuch_10, 0, 2 * Math_NextRandom() - 256, 0);
                     field_1B6 = 1;
                 }
                 else
@@ -743,7 +743,7 @@ s16 Mudokon::VTakeDamage(BaseGameObject* pFrom)
         default:
             if (mHealth > FP_FromInteger(0))
             {
-                Mudokon_SFX_42A4D0(Math_RandomRange_450F20(0, 127) >= 64 ? MudSounds::eBeesStruggle_18 : MudSounds::eKnockbackOuch_10, 127, 2 * Math_NextRandom() - 256, 0);
+                Mudokon_SFX_42A4D0(Math_RandomRange(0, 127) >= 64 ? MudSounds::eBeesStruggle_18 : MudSounds::eKnockbackOuch_10, 127, 2 * Math_NextRandom() - 256, 0);
                 mHealth -= FP_FromDouble(0.06);
                 mCurrentMotion = eMudMotions::Motion_46_FallLandDie_43E660;
                 mNextMotion = -1;
@@ -776,7 +776,7 @@ s16 Mudokon::DoSmashDamage()
         mCurrentMotion = eMudMotions::Motion_46_FallLandDie_43E660;
         mNextMotion = -1;
         VUpdateResBlock_43EDB0();
-        Mudokon_SFX_42A4D0(MudSounds::eKnockbackOuch_10, 0, Math_RandomRange_450F20(-127, 127), this);
+        Mudokon_SFX_42A4D0(MudSounds::eKnockbackOuch_10, 0, Math_RandomRange(-127, 127), this);
         return 1;
     }
     return 0;
@@ -3697,7 +3697,7 @@ s16 Mudokon::Brain_ListeningToAbe_10_440300()
                             1))
                     {
                         field_1B0 = field_1BA_brain_sub_state;
-                        field_1C0_timer = sGnFrame + Math_RandomRange_450F20(22, 30);
+                        field_1C0_timer = sGnFrame + Math_RandomRange(22, 30);
                         return 13;
                     }
 
@@ -3969,7 +3969,7 @@ s16 Mudokon::Brain_ListeningToAbe_10_440300()
                         1))
                 {
                     field_1B0 = field_1BA_brain_sub_state;
-                    field_1C0_timer = sGnFrame + Math_RandomRange_450F20(22, 30);
+                    field_1C0_timer = sGnFrame + Math_RandomRange(22, 30);
                     return 13;
                 }
                 const GameSpeakEvents speak = LastGameSpeak_4400B0();

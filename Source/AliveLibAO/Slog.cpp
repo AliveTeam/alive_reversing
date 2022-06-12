@@ -1250,7 +1250,7 @@ void Slog::Motion_6_MoveHeadUpwards_474220()
 
     if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
     {
-        if (Math_RandomRange_450F20(0, 100) < 30)
+        if (Math_RandomRange(0, 100) < 30)
         {
             Sfx(4);
         }
@@ -1703,7 +1703,7 @@ void Slog::Motion_21_Eating_475900()
     {
         if (mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame == 3 && !mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit19_LoopBackwards))
         {
-            SFX_Play_Mono(static_cast<SoundEffect>(Math_RandomRange_450F20(SoundEffect::Eating1_79, SoundEffect::Eating2_80)), 100, 0);
+            SFX_Play_Mono(static_cast<SoundEffect>(Math_RandomRange(SoundEffect::Eating1_79, SoundEffect::Eating2_80)), 100, 0);
             const FP bloodYPos = mBaseAnimatedWithPhysicsGameObject_YPos - (FP_FromInteger(4) * mBaseAnimatedWithPhysicsGameObject_SpriteScale);
             const FP bloodXPos = ((mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX)) != 0 ? -FP_FromInteger(25) : FP_FromInteger(25) * mBaseAnimatedWithPhysicsGameObject_SpriteScale);
             relive_new Blood(
@@ -1717,9 +1717,9 @@ void Slog::Motion_21_Eating_475900()
 
         if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
         {
-            if (Math_RandomRange_450F20(0, 100) < 85)
+            if (Math_RandomRange(0, 100) < 85)
             {
-                if (static_cast<s32>(sGnFrame) > field_164_timer && Math_RandomRange_450F20(0, 100) < 60)
+                if (static_cast<s32>(sGnFrame) > field_164_timer && Math_RandomRange(0, 100) < 60)
                 {
                     field_164_timer = sGnFrame + 16;
                     Sfx(3);
@@ -2680,7 +2680,7 @@ s16 Slog::Brain_2_ChasingAbe_470F50()
                 {
                     if (field_172 >= 100)
                     {
-                        if (Math_RandomRange_450F20(0, 100) < 20)
+                        if (Math_RandomRange(0, 100) < 20)
                         {
                             mCurrentMotion = eSlogMotions::Motion_24_Growl_475590;
                         }

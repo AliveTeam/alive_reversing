@@ -157,7 +157,7 @@ void RollingBall::VUpdate()
         {
             if (!(mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame % 3))
             {
-                SFX_Play_Mono(static_cast<SoundEffect>(Math_RandomRange_450F20(SoundEffect::RollingBallNoise1_71, SoundEffect::RollingBallNoise2_72)), 0, 0);
+                SFX_Play_Mono(static_cast<SoundEffect>(Math_RandomRange(SoundEffect::RollingBallNoise1_71, SoundEffect::RollingBallNoise2_72)), 0, 0);
             }
 
             Accelerate();
@@ -186,7 +186,7 @@ void RollingBall::VUpdate()
         {
             if (!(mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame % 3))
             {
-                SFX_Play_Mono(static_cast<SoundEffect>(Math_RandomRange_450F20(SoundEffect::RollingBallNoise1_71, SoundEffect::RollingBallNoise2_72)), 0, 0);
+                SFX_Play_Mono(static_cast<SoundEffect>(Math_RandomRange(SoundEffect::RollingBallNoise1_71, SoundEffect::RollingBallNoise2_72)), 0, 0);
             }
 
             Accelerate();
