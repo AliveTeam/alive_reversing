@@ -78,17 +78,122 @@ void BaseAliveGameObject::VPossessed()
 
 void BaseAliveGameObject::VSetMotion(s16 state)
 {
-    VSetMotion_402520(state);
+    field_108_bMotionChanged = TRUE;
+    mCurrentMotion = state;
 }
 
 void BaseAliveGameObject::VSetXSpawn(s16 camWorldX, s32 screenXPos)
 {
-    VSetXSpawn_401150(camWorldX, screenXPos);
+    const FP old_x = mBaseAnimatedWithPhysicsGameObject_XPos;
+    const FP old_y = mBaseAnimatedWithPhysicsGameObject_YPos;
+
+    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(camWorldX + XGrid_Index_To_XPos(mBaseAnimatedWithPhysicsGameObject_SpriteScale, screenXPos));
+
+    BaseAliveGameObjectPathTLV = gMap.TLV_Get_At_446060(0, mBaseAnimatedWithPhysicsGameObject_XPos, old_y, mBaseAnimatedWithPhysicsGameObject_XPos, old_y);
+
+    if (mLiftPoint)
+    {
+        mLiftPoint->mBaseAnimatedWithPhysicsGameObject_XPos += (mBaseAnimatedWithPhysicsGameObject_XPos - old_x);
+
+        BaseAliveGameObjectCollisionLine->field_0_rect.x += FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos - old_x);
+        BaseAliveGameObjectCollisionLine->field_0_rect.w += FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos - old_x);
+        BaseAliveGameObjectCollisionLine->field_0_rect.y = BaseAliveGameObjectCollisionLine->field_0_rect.y;
+        BaseAliveGameObjectCollisionLine->field_0_rect.h = BaseAliveGameObjectCollisionLine->field_0_rect.h;
+    }
+    else
+    {
+        PathLine* pLine = nullptr;
+        FP hitX = {};
+        FP hitY = {};
+        if (BaseAliveGameObjectCollisionLine)
+        {
+            if (sCollisions->RayCast(
+                    mBaseAnimatedWithPhysicsGameObject_XPos,
+                    old_y - FP_FromInteger(40),
+                    mBaseAnimatedWithPhysicsGameObject_XPos,
+                    old_y + FP_FromInteger(40),
+                    &pLine,
+                    &hitX,
+                    &hitY,
+                    1 << BaseAliveGameObjectCollisionLine->field_8_type))
+            {
+                BaseAliveGameObjectCollisionLine = pLine;
+                mBaseAnimatedWithPhysicsGameObject_YPos = hitY;
+            }
+            else
+            {
+                BaseAliveGameObjectPathTLV = gMap.TLV_First_Of_Type_In_Camera(TlvTypes::StartController_28, 0);
+                if (BaseAliveGameObjectPathTLV
+                    && sCollisions->RayCast(
+                        mBaseAnimatedWithPhysicsGameObject_XPos,
+                        FP_FromInteger(BaseAliveGameObjectPathTLV->field_10_top_left.field_2_y),
+                        mBaseAnimatedWithPhysicsGameObject_XPos,
+                        FP_FromInteger(BaseAliveGameObjectPathTLV->field_14_bottom_right.field_2_y),
+                        &pLine,
+                        &hitX,
+                        &hitY,
+                        1 << BaseAliveGameObjectCollisionLine->field_8_type))
+                {
+                    BaseAliveGameObjectCollisionLine = pLine;
+                    mBaseAnimatedWithPhysicsGameObject_YPos = hitY;
+                }
+                else
+                {
+                    BaseAliveGameObjectCollisionLine = nullptr;
+                }
+            }
+        }
+        else
+        {
+            if (sCollisions->RayCast(
+                    mBaseAnimatedWithPhysicsGameObject_XPos,
+                    BaseAliveGameObjectLastLineYPos - FP_FromInteger(40),
+                    mBaseAnimatedWithPhysicsGameObject_XPos,
+                    BaseAliveGameObjectLastLineYPos + FP_FromInteger(40),
+                    &pLine,
+                    &hitX,
+                    &hitY,
+                    mBaseAnimatedWithPhysicsGameObject_SpriteScale != FP_FromDouble(0.5) ? 7 : 0x70))
+            {
+                mBaseAnimatedWithPhysicsGameObject_YPos += hitY - BaseAliveGameObjectLastLineYPos;
+            }
+        }
+    }
 }
 
 void BaseAliveGameObject::VSetYSpawn(s32 camWorldY, s16 bLeft)
 {
-    VSetYSpawn_401380(camWorldY, bLeft);
+    const FP oldx = mBaseAnimatedWithPhysicsGameObject_XPos;
+    const FP oldy = mBaseAnimatedWithPhysicsGameObject_YPos;
+
+    auto pFrameHeader = reinterpret_cast<FrameHeader*>(&(*mBaseAnimatedWithPhysicsGameObject_Anim.field_20_ppBlock)[mBaseAnimatedWithPhysicsGameObject_Anim.Get_FrameHeader(-1)->field_0_frame_header_offset]);
+
+    if (bLeft == 1)
+    {
+        mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pFrameHeader->field_5_height + camWorldY + 356);
+    }
+    else
+    {
+        mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(camWorldY + 124);
+    }
+
+    BaseAliveGameObjectPathTLV = gMap.TLV_Get_At_446060(
+        nullptr,
+        mBaseAnimatedWithPhysicsGameObject_XPos,
+        mBaseAnimatedWithPhysicsGameObject_YPos,
+        mBaseAnimatedWithPhysicsGameObject_XPos,
+        mBaseAnimatedWithPhysicsGameObject_YPos);
+
+    if (mLiftPoint)
+    {
+        mLiftPoint->mBaseAnimatedWithPhysicsGameObject_XPos += mBaseAnimatedWithPhysicsGameObject_XPos - oldx;
+        mLiftPoint->mBaseAnimatedWithPhysicsGameObject_YPos += mBaseAnimatedWithPhysicsGameObject_YPos - oldy;
+
+        BaseAliveGameObjectCollisionLine->field_0_rect.x += FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos - oldx);
+        BaseAliveGameObjectCollisionLine->field_0_rect.w += FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos - oldx);
+        BaseAliveGameObjectCollisionLine->field_0_rect.y += FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos - oldy);
+        BaseAliveGameObjectCollisionLine->field_0_rect.h += FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos - oldy);
+    }
 }
 
 void BaseAliveGameObject::VOnPathTransition(s16 camWorldX, s32 camWorldY, CameraPos direction)
@@ -702,120 +807,6 @@ void BaseAliveGameObject::OnResourceLoaded_4019A0(BaseAliveGameObject* ppRes)
     ppRes->field_104_pending_resource_count--;
 }
 
-void BaseAliveGameObject::VSetXSpawn_401150(s16 camWorldX, s32 screenXPos)
-{
-    const FP old_x = mBaseAnimatedWithPhysicsGameObject_XPos;
-    const FP old_y = mBaseAnimatedWithPhysicsGameObject_YPos;
-
-    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(camWorldX + XGrid_Index_To_XPos(mBaseAnimatedWithPhysicsGameObject_SpriteScale, screenXPos));
-
-    BaseAliveGameObjectPathTLV = gMap.TLV_Get_At_446060(0, mBaseAnimatedWithPhysicsGameObject_XPos, old_y, mBaseAnimatedWithPhysicsGameObject_XPos, old_y);
-
-    if (mLiftPoint)
-    {
-        mLiftPoint->mBaseAnimatedWithPhysicsGameObject_XPos += (mBaseAnimatedWithPhysicsGameObject_XPos - old_x);
-
-        BaseAliveGameObjectCollisionLine->field_0_rect.x += FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos - old_x);
-        BaseAliveGameObjectCollisionLine->field_0_rect.w += FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos - old_x);
-        BaseAliveGameObjectCollisionLine->field_0_rect.y = BaseAliveGameObjectCollisionLine->field_0_rect.y;
-        BaseAliveGameObjectCollisionLine->field_0_rect.h = BaseAliveGameObjectCollisionLine->field_0_rect.h;
-    }
-    else
-    {
-        PathLine* pLine = nullptr;
-        FP hitX = {};
-        FP hitY = {};
-        if (BaseAliveGameObjectCollisionLine)
-        {
-            if (sCollisions->RayCast(
-                    mBaseAnimatedWithPhysicsGameObject_XPos,
-                    old_y - FP_FromInteger(40),
-                    mBaseAnimatedWithPhysicsGameObject_XPos,
-                    old_y + FP_FromInteger(40),
-                    &pLine,
-                    &hitX,
-                    &hitY,
-                    1 << BaseAliveGameObjectCollisionLine->field_8_type))
-            {
-                BaseAliveGameObjectCollisionLine = pLine;
-                mBaseAnimatedWithPhysicsGameObject_YPos = hitY;
-            }
-            else
-            {
-                BaseAliveGameObjectPathTLV = gMap.TLV_First_Of_Type_In_Camera(TlvTypes::StartController_28, 0);
-                if (BaseAliveGameObjectPathTLV
-                    && sCollisions->RayCast(
-                        mBaseAnimatedWithPhysicsGameObject_XPos,
-                        FP_FromInteger(BaseAliveGameObjectPathTLV->field_10_top_left.field_2_y),
-                        mBaseAnimatedWithPhysicsGameObject_XPos,
-                        FP_FromInteger(BaseAliveGameObjectPathTLV->field_14_bottom_right.field_2_y),
-                        &pLine,
-                        &hitX,
-                        &hitY,
-                        1 << BaseAliveGameObjectCollisionLine->field_8_type))
-                {
-                    BaseAliveGameObjectCollisionLine = pLine;
-                    mBaseAnimatedWithPhysicsGameObject_YPos = hitY;
-                }
-                else
-                {
-                    BaseAliveGameObjectCollisionLine = nullptr;
-                }
-            }
-        }
-        else
-        {
-            if (sCollisions->RayCast(
-                    mBaseAnimatedWithPhysicsGameObject_XPos,
-                    BaseAliveGameObjectLastLineYPos - FP_FromInteger(40),
-                    mBaseAnimatedWithPhysicsGameObject_XPos,
-                    BaseAliveGameObjectLastLineYPos + FP_FromInteger(40),
-                    &pLine,
-                    &hitX,
-                    &hitY,
-                    mBaseAnimatedWithPhysicsGameObject_SpriteScale != FP_FromDouble(0.5) ? 7 : 0x70))
-            {
-                mBaseAnimatedWithPhysicsGameObject_YPos += hitY - BaseAliveGameObjectLastLineYPos;
-            }
-        }
-    }
-}
-
-void BaseAliveGameObject::VSetYSpawn_401380(s32 camWorldY, s16 bLeft)
-{
-    const FP oldx = mBaseAnimatedWithPhysicsGameObject_XPos;
-    const FP oldy = mBaseAnimatedWithPhysicsGameObject_YPos;
-
-    auto pFrameHeader = reinterpret_cast<FrameHeader*>(&(*mBaseAnimatedWithPhysicsGameObject_Anim.field_20_ppBlock)[mBaseAnimatedWithPhysicsGameObject_Anim.Get_FrameHeader(-1)->field_0_frame_header_offset]);
-
-    if (bLeft == 1)
-    {
-        mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pFrameHeader->field_5_height + camWorldY + 356);
-    }
-    else
-    {
-        mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(camWorldY + 124);
-    }
-
-    BaseAliveGameObjectPathTLV = gMap.TLV_Get_At_446060(
-        nullptr,
-        mBaseAnimatedWithPhysicsGameObject_XPos,
-        mBaseAnimatedWithPhysicsGameObject_YPos,
-        mBaseAnimatedWithPhysicsGameObject_XPos,
-        mBaseAnimatedWithPhysicsGameObject_YPos);
-
-    if (mLiftPoint)
-    {
-        mLiftPoint->mBaseAnimatedWithPhysicsGameObject_XPos += mBaseAnimatedWithPhysicsGameObject_XPos - oldx;
-        mLiftPoint->mBaseAnimatedWithPhysicsGameObject_YPos += mBaseAnimatedWithPhysicsGameObject_YPos - oldy;
-
-        BaseAliveGameObjectCollisionLine->field_0_rect.x += FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos - oldx);
-        BaseAliveGameObjectCollisionLine->field_0_rect.w += FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos - oldx);
-        BaseAliveGameObjectCollisionLine->field_0_rect.y += FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos - oldy);
-        BaseAliveGameObjectCollisionLine->field_0_rect.h += FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos - oldy);
-    }
-}
-
 s16 BaseAliveGameObject::IsBeeSwarmChasingMe_4022B0()
 {
     for (s32 i = 0; i < gBaseGameObjects->Size(); i++)
@@ -835,12 +826,6 @@ s16 BaseAliveGameObject::IsBeeSwarmChasingMe_4022B0()
         }
     }
     return 0;
-}
-
-void BaseAliveGameObject::VSetMotion_402520(s16 state)
-{
-    field_108_bMotionChanged = TRUE;
-    mCurrentMotion = state;
 }
 
 void BaseAliveGameObject::UsePathTransScale_4020D0()

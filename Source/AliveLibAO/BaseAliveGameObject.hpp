@@ -59,16 +59,10 @@ public:
 
 private:
 
-
     s16 VTakeDamage_401920(BaseGameObject* pFrom);
 
     void VOnPathTransition_401470(s16 camWorldX, s32 camWorldY, CameraPos direction);
 
-    void VSetMotion_402520(s16 state);
-
-    void VSetXSpawn_401150(s16 camWorldX, s32 screenXPos);
-
-    void VSetYSpawn_401380(s32 camWorldY, s16 bLeft);
 
     void VCheckCollisionLineStillValid_401A90(s32 distance);
 
