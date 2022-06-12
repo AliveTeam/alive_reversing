@@ -736,30 +736,7 @@ void BaseAliveGameObject::SetActiveCameraDelayedFromDir_401C90()
     }
 }
 
-s16 BaseAliveGameObject::OnTrapDoorIntersection_401C10(PlatformBase* pPlatform)
-{
-    const PSX_RECT rect = pPlatform->VGetBoundingRect();
-    if (FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos) < rect.x || FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos) > rect.w || FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos) > rect.h)
-    {
-        return 1;
-    }
 
-    // OG bug fix, when we call VCheckCollisionLineStillValid it can place us on a new lift
-    // but then we call VOnCollisionWith which can sometimes add us to the same lift again
-    // result in the lift being leaked and then memory corruption/crash later.
-    if (mLiftPoint != pPlatform)
-    {
-        mLiftPoint = pPlatform;
-        mLiftPoint->VAdd(this);
-        mLiftPoint->mBaseGameObjectRefCount++;
-    }
-    else
-    {
-        LOG_WARNING("Trying to add to a platform we are already on");
-    }
-
-    return 1;
-}
 
 s16 BaseAliveGameObject::WallHit_401930(FP offY, FP offX)
 {
@@ -805,27 +782,6 @@ s16 BaseAliveGameObject::InAirCollision_4019C0(PathLine** ppLine, FP* hitX, FP* 
 void BaseAliveGameObject::OnResourceLoaded_4019A0(BaseAliveGameObject* ppRes)
 {
     ppRes->field_104_pending_resource_count--;
-}
-
-s16 BaseAliveGameObject::IsBeeSwarmChasingMe_4022B0()
-{
-    for (s32 i = 0; i < gBaseGameObjects->Size(); i++)
-    {
-        auto pObj = gBaseGameObjects->ItemAt(i);
-        if (!pObj)
-        {
-            break;
-        }
-
-        if (pObj->mBaseGameObjectTypeId == ReliveTypes::eBeeSwarm)
-        {
-            if (static_cast<BeeSwarm*>(pObj)->field_D98_pChaseTarget == this)
-            {
-                return 1;
-            }
-        }
-    }
-    return 0;
 }
 
 void BaseAliveGameObject::UsePathTransScale_4020D0()
@@ -885,6 +841,31 @@ BaseGameObject* BaseAliveGameObject::FindObjectOfType_418280(ReliveTypes typeToF
         }
     }
     return nullptr;
+}
+
+s16 BaseAliveGameObject::OnTrapDoorIntersection_401C10(PlatformBase* pPlatform)
+{
+    const PSX_RECT rect = pPlatform->VGetBoundingRect();
+    if (FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos) < rect.x || FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos) > rect.w || FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos) > rect.h)
+    {
+        return 1;
+    }
+
+    // OG bug fix, when we call VCheckCollisionLineStillValid it can place us on a new lift
+    // but then we call VOnCollisionWith which can sometimes add us to the same lift again
+    // result in the lift being leaked and then memory corruption/crash later.
+    if (mLiftPoint != pPlatform)
+    {
+        mLiftPoint = pPlatform;
+        mLiftPoint->VAdd(this);
+        mLiftPoint->mBaseGameObjectRefCount++;
+    }
+    else
+    {
+        LOG_WARNING("Trying to add to a platform we are already on");
+    }
+
+    return 1;
 }
 
 } // namespace AO

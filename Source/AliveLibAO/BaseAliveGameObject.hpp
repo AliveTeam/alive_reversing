@@ -87,8 +87,6 @@ protected:
 
     static void OnResourceLoaded_4019A0(BaseAliveGameObject* ppRes);
 
-    s16 IsBeeSwarmChasingMe_4022B0();
-
     void UsePathTransScale_4020D0();
 
     static BaseGameObject* FindObjectOfType_418280(ReliveTypes typeToFind, FP xpos, FP ypos);

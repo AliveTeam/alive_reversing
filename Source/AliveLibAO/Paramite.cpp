@@ -25,6 +25,7 @@
 #include "Particle.hpp"
 #include "SwitchStates.hpp"
 #include "Grid.hpp"
+#include "BeeSwarm.hpp"
 
 void Paramite_ForceLink()
 { }
@@ -1609,6 +1610,28 @@ enum Brain_2_Struggling
     eBrain2_Turn_2 = 2,
     eBrain2_Death_3 = 3
 };
+
+s16 Paramite::IsBeeSwarmChasingMe_4022B0()
+{
+    for (s32 i = 0; i < gBaseGameObjects->Size(); i++)
+    {
+        auto pObj = gBaseGameObjects->ItemAt(i);
+        if (!pObj)
+        {
+            break;
+        }
+
+        if (pObj->mBaseGameObjectTypeId == ReliveTypes::eBeeSwarm)
+        {
+            if (static_cast<BeeSwarm*>(pObj)->field_D98_pChaseTarget == this)
+            {
+                return 1;
+            }
+        }
+    }
+    return 0;
+}
+
 
 s16 Paramite::Brain_2_Struggling()
 {

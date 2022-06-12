@@ -118,6 +118,7 @@ public:
     s16 Brain_4_ChasingAbe();
     s16 Brain_5_SpottedMeat();
 
+    s16 IsBeeSwarmChasingMe_4022B0();
 
     using TParamiteBrain = decltype(&Paramite::Brain_0_Patrol);
 
