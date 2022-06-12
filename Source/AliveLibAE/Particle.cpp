@@ -14,9 +14,9 @@ Particle::Particle(FP xpos, FP ypos, s32 animFrameTableOffset, s32 maxW, s32 max
 
     field_10_resources_array.Push_Back(ppAnimData);
 
-    mBaseAnimatedWithPhysicsGameObject_Blue = 128;
-    mBaseAnimatedWithPhysicsGameObject_Green = 128;
-    mBaseAnimatedWithPhysicsGameObject_Red = 128;
+    mBaseAnimatedWithPhysicsGameObject_RGB.b = 128;
+    mBaseAnimatedWithPhysicsGameObject_RGB.g = 128;
+    mBaseAnimatedWithPhysicsGameObject_RGB.r = 128;
 
     Animation_Init(animFrameTableOffset, static_cast<s16>(maxW), static_cast<s16>(maxH), ppAnimData, 1, 1);
 
@@ -80,9 +80,9 @@ Particle* New_Orb_Particle(FP xpos, FP ypos, FP velX, FP velY, FP scale, Layer l
         return nullptr;
     }
 
-    pParticle->mBaseAnimatedWithPhysicsGameObject_Red = r;
-    pParticle->mBaseAnimatedWithPhysicsGameObject_Blue = g;
-    pParticle->mBaseAnimatedWithPhysicsGameObject_Green = b;
+    pParticle->mBaseAnimatedWithPhysicsGameObject_RGB.r = r;
+    pParticle->mBaseAnimatedWithPhysicsGameObject_RGB.b = g;
+    pParticle->mBaseAnimatedWithPhysicsGameObject_RGB.g = b;
 
     pParticle->mBaseAnimatedWithPhysicsGameObject_VelY = velY;
     pParticle->mBaseAnimatedWithPhysicsGameObject_VelX = velX;
@@ -135,9 +135,9 @@ void New_Smoke_Particles(FP xpos, FP ypos, FP scale, s16 count, u8 r, u8 g, u8 b
             pParticle->mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit15_bSemiTrans);
             pParticle->mBaseAnimatedWithPhysicsGameObject_Anim.mRenderMode = TPageAbr::eBlend_3;
 
-            pParticle->mBaseAnimatedWithPhysicsGameObject_Red = r;
-            pParticle->mBaseAnimatedWithPhysicsGameObject_Green = g;
-            pParticle->mBaseAnimatedWithPhysicsGameObject_Blue = b;
+            pParticle->mBaseAnimatedWithPhysicsGameObject_RGB.r = r;
+            pParticle->mBaseAnimatedWithPhysicsGameObject_RGB.g = g;
+            pParticle->mBaseAnimatedWithPhysicsGameObject_RGB.b = b;
 
             pParticle->mBaseAnimatedWithPhysicsGameObject_VelX = (scale * FP_FromInteger(Math_RandomRange(-10, 10))) / FP_FromInteger(10);
             pParticle->mBaseAnimatedWithPhysicsGameObject_VelY = ((scale * velYCounter) * FP_FromInteger(Math_RandomRange(50, 50))) / FP_FromInteger(100);
@@ -183,9 +183,9 @@ void New_ShootingZFire_Particle(FP xpos, FP ypos, FP scale)
     if (pParticle)
     {
         pParticle->mApplyShadows &= ~1u;
-        pParticle->mBaseAnimatedWithPhysicsGameObject_Blue = 55;
-        pParticle->mBaseAnimatedWithPhysicsGameObject_Green = 55;
-        pParticle->mBaseAnimatedWithPhysicsGameObject_Red = 55;
+        pParticle->mBaseAnimatedWithPhysicsGameObject_RGB.b = 55;
+        pParticle->mBaseAnimatedWithPhysicsGameObject_RGB.g = 55;
+        pParticle->mBaseAnimatedWithPhysicsGameObject_RGB.r = 55;
         pParticle->mBaseAnimatedWithPhysicsGameObject_Anim.mRenderMode = TPageAbr::eBlend_1;
         if (scale == FP_FromInteger(1))
         {
@@ -207,9 +207,9 @@ void New_ShootingFire_Particle(FP xpos, FP ypos, s8 direction, FP scale)
     if (pParticle)
     {
         pParticle->mApplyShadows &= ~1u;
-        pParticle->mBaseAnimatedWithPhysicsGameObject_Blue = 55;
-        pParticle->mBaseAnimatedWithPhysicsGameObject_Green = 55;
-        pParticle->mBaseAnimatedWithPhysicsGameObject_Red = 55;
+        pParticle->mBaseAnimatedWithPhysicsGameObject_RGB.b = 55;
+        pParticle->mBaseAnimatedWithPhysicsGameObject_RGB.g = 55;
+        pParticle->mBaseAnimatedWithPhysicsGameObject_RGB.r = 55;
         pParticle->mBaseAnimatedWithPhysicsGameObject_Anim.mRenderMode = TPageAbr::eBlend_1;
 
         if (scale == FP_FromInteger(1))

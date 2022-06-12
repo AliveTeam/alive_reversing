@@ -155,9 +155,9 @@ s32 MineCar::CreateFromSaveState(const u8* pBuffer)
 
         pMineCar->mBaseAnimatedWithPhysicsGameObject_SpriteScale = pState->field_14_sprite_scale;
 
-        pMineCar->mBaseAnimatedWithPhysicsGameObject_Red = pState->field_1C_r;
-        pMineCar->mBaseAnimatedWithPhysicsGameObject_Green = pState->field_1E_g;
-        pMineCar->mBaseAnimatedWithPhysicsGameObject_Blue = pState->field_20_b;
+        pMineCar->mBaseAnimatedWithPhysicsGameObject_RGB.r = pState->field_1C_r;
+        pMineCar->mBaseAnimatedWithPhysicsGameObject_RGB.g = pState->field_1E_g;
+        pMineCar->mBaseAnimatedWithPhysicsGameObject_RGB.b = pState->field_20_b;
 
         pMineCar->mCurrentMotion = pState->field_28_current_motion;
 
@@ -379,9 +379,9 @@ void MineCar::VRender(PrimHeader** ppOt)
 {
     if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit3_Render))
     {
-        s16 r = mBaseAnimatedWithPhysicsGameObject_Green;
-        s16 g = mBaseAnimatedWithPhysicsGameObject_Red;
-        s16 b = mBaseAnimatedWithPhysicsGameObject_Blue;
+        s16 r = mBaseAnimatedWithPhysicsGameObject_RGB.g;
+        s16 g = mBaseAnimatedWithPhysicsGameObject_RGB.r;
+        s16 b = mBaseAnimatedWithPhysicsGameObject_RGB.b;
 
         const PSX_RECT bRect = VGetBoundingRect();
 
@@ -720,9 +720,9 @@ s32 MineCar::VGetSaveState(u8* pSaveBuffer)
 
     pState->field_14_sprite_scale = mBaseAnimatedWithPhysicsGameObject_SpriteScale;
 
-    pState->field_1C_r = mBaseAnimatedWithPhysicsGameObject_Red;
-    pState->field_1E_g = mBaseAnimatedWithPhysicsGameObject_Green;
-    pState->field_20_b = mBaseAnimatedWithPhysicsGameObject_Blue;
+    pState->field_1C_r = mBaseAnimatedWithPhysicsGameObject_RGB.r;
+    pState->field_1E_g = mBaseAnimatedWithPhysicsGameObject_RGB.g;
+    pState->field_20_b = mBaseAnimatedWithPhysicsGameObject_RGB.b;
 
     pState->field_28_current_motion = mCurrentMotion;
     pState->field_2A_current_anim_frame = mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame;

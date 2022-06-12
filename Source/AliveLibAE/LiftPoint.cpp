@@ -152,9 +152,9 @@ LiftPoint::LiftPoint(Path_LiftPoint* pTlv, s32 tlvInfo)
 
         field_274_ppRes = ppAbeLiftRes;
 
-        field_13C_lift_wheel.mGreen = static_cast<u8>(mBaseAnimatedWithPhysicsGameObject_Green);
-        field_13C_lift_wheel.mRed = static_cast<u8>(mBaseAnimatedWithPhysicsGameObject_Blue);
-        field_13C_lift_wheel.mBlue = static_cast<u8>(mBaseAnimatedWithPhysicsGameObject_Red);
+        field_13C_lift_wheel.mGreen = static_cast<u8>(mBaseAnimatedWithPhysicsGameObject_RGB.g);
+        field_13C_lift_wheel.mRed = static_cast<u8>(mBaseAnimatedWithPhysicsGameObject_RGB.b);
+        field_13C_lift_wheel.mBlue = static_cast<u8>(mBaseAnimatedWithPhysicsGameObject_RGB.r);
         field_13C_lift_wheel.mRenderMode = TPageAbr::eBlend_0;
 
         mBaseAnimatedWithPhysicsGameObject_VelX = FP_FromInteger(0);
@@ -406,9 +406,9 @@ void LiftPoint::VRender(PrimHeader** ppOt)
 
         if (mBaseAnimatedWithPhysicsGameObject_XPos >= FP_FromInteger(camPos.field_0_x) && mBaseAnimatedWithPhysicsGameObject_XPos <= FP_FromInteger(camPos.field_0_x + 640))
         {
-            s16 r = mBaseAnimatedWithPhysicsGameObject_Red;
-            s16 g = mBaseAnimatedWithPhysicsGameObject_Green;
-            s16 b = mBaseAnimatedWithPhysicsGameObject_Blue;
+            s16 r = mBaseAnimatedWithPhysicsGameObject_RGB.r;
+            s16 g = mBaseAnimatedWithPhysicsGameObject_RGB.g;
+            s16 b = mBaseAnimatedWithPhysicsGameObject_RGB.b;
 
             const PSX_RECT bRect = VGetBoundingRect();
             ShadowZone::ShadowZones_Calculate_Colour(
@@ -450,9 +450,9 @@ void LiftPoint::VRender(PrimHeader** ppOt)
                         FP_FromInteger(field_26E_pulley_ypos),
                         0))
                 {
-                    r = mBaseAnimatedWithPhysicsGameObject_Red;
-                    g = mBaseAnimatedWithPhysicsGameObject_Green;
-                    b = mBaseAnimatedWithPhysicsGameObject_Blue;
+                    r = mBaseAnimatedWithPhysicsGameObject_RGB.r;
+                    g = mBaseAnimatedWithPhysicsGameObject_RGB.g;
+                    b = mBaseAnimatedWithPhysicsGameObject_RGB.b;
 
                     ShadowZone::ShadowZones_Calculate_Colour(
                         field_26C_pulley_xpos,
@@ -956,9 +956,9 @@ void LiftPoint::CreatePulleyIfExists()
     field_1D4_pulley_anim.mRenderLayer = mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer;
     field_1D4_pulley_anim.field_14_scale = mBaseAnimatedWithPhysicsGameObject_SpriteScale;
 
-    field_1D4_pulley_anim.mRed = static_cast<u8>(mBaseAnimatedWithPhysicsGameObject_Red);
-    field_1D4_pulley_anim.mGreen = static_cast<u8>(mBaseAnimatedWithPhysicsGameObject_Green);
-    field_1D4_pulley_anim.mBlue = static_cast<u8>(mBaseAnimatedWithPhysicsGameObject_Blue);
+    field_1D4_pulley_anim.mRed = static_cast<u8>(mBaseAnimatedWithPhysicsGameObject_RGB.r);
+    field_1D4_pulley_anim.mGreen = static_cast<u8>(mBaseAnimatedWithPhysicsGameObject_RGB.g);
+    field_1D4_pulley_anim.mBlue = static_cast<u8>(mBaseAnimatedWithPhysicsGameObject_RGB.b);
 
     field_1D4_pulley_anim.mRenderMode = TPageAbr::eBlend_0;
 

@@ -17,6 +17,13 @@ enum class Scale : s16
     Fg = 1,
 };
 
+struct RGB16 final
+{
+    s16 r = 0;
+    s16 g = 0;
+    s16 b = 0;
+};
+
 // Another glue/adapter interface
 class IBaseAnimatedWithPhysicsGameObject : public BaseGameObject
 {
@@ -43,9 +50,7 @@ public:
     FP mBaseAnimatedWithPhysicsGameObject_VelX = {};
     FP mBaseAnimatedWithPhysicsGameObject_VelY = {};
     FP mBaseAnimatedWithPhysicsGameObject_SpriteScale = {};
-    s16 mBaseAnimatedWithPhysicsGameObject_Red = 0;
-    s16 mBaseAnimatedWithPhysicsGameObject_Green = 0;
-    s16 mBaseAnimatedWithPhysicsGameObject_Blue = 0;
+    RGB16 mBaseAnimatedWithPhysicsGameObject_RGB;
     Scale mBaseAnimatedWithPhysicsGameObject_Scale = Scale::Fg;
     s16 mBaseAnimatedWithPhysicsGameObject_YOffset = 0;
     s16 mBaseAnimatedWithPhysicsGameObject_XOffset = 0;

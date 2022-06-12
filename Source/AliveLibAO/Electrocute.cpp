@@ -178,9 +178,9 @@ void Electrocute::Stop()
                 field_10_obj_target->mBaseAnimatedWithPhysicsGameObject_Anim.field_90_pal_depth,
                 reinterpret_cast<const u8*>(field_28_pPalData),
                 &field_38_pal_rect);
-            field_10_obj_target->mBaseAnimatedWithPhysicsGameObject_Red = field_2C_r;
-            field_10_obj_target->mBaseAnimatedWithPhysicsGameObject_Green = field_2E_g;
-            field_10_obj_target->mBaseAnimatedWithPhysicsGameObject_Blue = field_30_b;
+            field_10_obj_target->mBaseAnimatedWithPhysicsGameObject_RGB.r = field_2C_r;
+            field_10_obj_target->mBaseAnimatedWithPhysicsGameObject_RGB.g = field_2E_g;
+            field_10_obj_target->mBaseAnimatedWithPhysicsGameObject_RGB.b = field_30_b;
         }
 
         field_10_obj_target->VTakeDamage(this);
@@ -202,13 +202,13 @@ void Electrocute::VUpdate()
     switch (field_32_state)
     {
         case States::eSetNewColour_0:
-            field_2C_r = field_10_obj_target->mBaseAnimatedWithPhysicsGameObject_Red;
-            field_2E_g = field_10_obj_target->mBaseAnimatedWithPhysicsGameObject_Green;
-            field_30_b = field_10_obj_target->mBaseAnimatedWithPhysicsGameObject_Blue;
+            field_2C_r = field_10_obj_target->mBaseAnimatedWithPhysicsGameObject_RGB.r;
+            field_2E_g = field_10_obj_target->mBaseAnimatedWithPhysicsGameObject_RGB.g;
+            field_30_b = field_10_obj_target->mBaseAnimatedWithPhysicsGameObject_RGB.b;
 
-            field_10_obj_target->mBaseAnimatedWithPhysicsGameObject_Red = 255;
-            field_10_obj_target->mBaseAnimatedWithPhysicsGameObject_Blue = 255;
-            field_10_obj_target->mBaseAnimatedWithPhysicsGameObject_Green = 255;
+            field_10_obj_target->mBaseAnimatedWithPhysicsGameObject_RGB.r = 255;
+            field_10_obj_target->mBaseAnimatedWithPhysicsGameObject_RGB.b = 255;
+            field_10_obj_target->mBaseAnimatedWithPhysicsGameObject_RGB.g = 255;
 
             field_32_state = States::eAlphaFadeout_1;
             return;
@@ -257,9 +257,9 @@ void Electrocute::VUpdate()
                         reinterpret_cast<const u8*>(field_28_pPalData),
                         &field_38_pal_rect);
 
-                    field_10_obj_target->mBaseAnimatedWithPhysicsGameObject_Red = field_2C_r;
-                    field_10_obj_target->mBaseAnimatedWithPhysicsGameObject_Green = field_2E_g;
-                    field_10_obj_target->mBaseAnimatedWithPhysicsGameObject_Blue = field_30_b;
+                    field_10_obj_target->mBaseAnimatedWithPhysicsGameObject_RGB.r = field_2C_r;
+                    field_10_obj_target->mBaseAnimatedWithPhysicsGameObject_RGB.g = field_2E_g;
+                    field_10_obj_target->mBaseAnimatedWithPhysicsGameObject_RGB.b = field_30_b;
 
                     field_32_state = States::eKillElectrocute_3;
                 }

@@ -208,9 +208,9 @@ Well::Well(Path_WellBase* pTlv, FP xpos, FP ypos, s32 tlvInfo)
     field_E4_tlvInfo = tlvInfo;
     mBaseGameObjectTypeId = ReliveTypes::eWell;
 
-    mBaseAnimatedWithPhysicsGameObject_Blue = 128;
-    mBaseAnimatedWithPhysicsGameObject_Green = 128;
-    mBaseAnimatedWithPhysicsGameObject_Red = 128;
+    mBaseAnimatedWithPhysicsGameObject_RGB.b = 128;
+    mBaseAnimatedWithPhysicsGameObject_RGB.g = 128;
+    mBaseAnimatedWithPhysicsGameObject_RGB.r = 128;
 
     mBaseAnimatedWithPhysicsGameObject_YPos = ypos;
     mBaseAnimatedWithPhysicsGameObject_XPos = xpos;

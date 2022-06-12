@@ -331,13 +331,13 @@ s32 FlyingSlig::CreateFromSaveState(const u8* pBuffer)
         pFlyingSlig->mBaseAnimatedWithPhysicsGameObject_SpriteScale = pSaveState->field_18_sprite_scale;
 
         pFlyingSlig->field_27C_r = pSaveState->field_1C_oldr;
-        pFlyingSlig->mBaseAnimatedWithPhysicsGameObject_Red = pSaveState->field_1C_oldr;
+        pFlyingSlig->mBaseAnimatedWithPhysicsGameObject_RGB.r = pSaveState->field_1C_oldr;
 
         pFlyingSlig->field_27E_g = pSaveState->field_1E_oldg;
-        pFlyingSlig->mBaseAnimatedWithPhysicsGameObject_Green = pSaveState->field_1E_oldg;
+        pFlyingSlig->mBaseAnimatedWithPhysicsGameObject_RGB.g = pSaveState->field_1E_oldg;
 
         pFlyingSlig->field_280_b = pSaveState->field_20_oldb;
-        pFlyingSlig->mBaseAnimatedWithPhysicsGameObject_Blue = pSaveState->field_20_oldb;
+        pFlyingSlig->mBaseAnimatedWithPhysicsGameObject_RGB.b = pSaveState->field_20_oldb;
 
         pFlyingSlig->mCurrentMotion = pSaveState->field_24_current_state;
 
@@ -451,9 +451,9 @@ s32 FlyingSlig::VGetSaveState(u8* pSaveBuffer)
     pState->field_16_lvl_number = MapWrapper::ToAE(mBaseAnimatedWithPhysicsGameObject_LvlNumber);
     pState->field_18_sprite_scale = mBaseAnimatedWithPhysicsGameObject_SpriteScale;
 
-    pState->field_1C_oldr = mBaseAnimatedWithPhysicsGameObject_Red;
-    pState->field_1E_oldg = mBaseAnimatedWithPhysicsGameObject_Green;
-    pState->field_20_oldb = mBaseAnimatedWithPhysicsGameObject_Blue;
+    pState->field_1C_oldr = mBaseAnimatedWithPhysicsGameObject_RGB.r;
+    pState->field_1E_oldg = mBaseAnimatedWithPhysicsGameObject_RGB.g;
+    pState->field_20_oldb = mBaseAnimatedWithPhysicsGameObject_RGB.b;
 
     pState->field_22_bAnimFlipX = mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX);
     pState->field_24_current_state = mCurrentMotion;

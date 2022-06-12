@@ -568,9 +568,9 @@ void LiftPoint::VRender(PrimHeader** ppOt)
             {
                 BaseAnimatedWithPhysicsGameObject::VRender(ppOt);
 
-                s16 liftWheelR = mBaseAnimatedWithPhysicsGameObject_Red;
-                s16 liftWheelG = mBaseAnimatedWithPhysicsGameObject_Green;
-                s16 liftWheelB = mBaseAnimatedWithPhysicsGameObject_Blue;
+                s16 liftWheelR = mBaseAnimatedWithPhysicsGameObject_RGB.r;
+                s16 liftWheelG = mBaseAnimatedWithPhysicsGameObject_RGB.g;
+                s16 liftWheelB = mBaseAnimatedWithPhysicsGameObject_RGB.b;
 
                 const PSX_RECT boundingRect = VGetBoundingRect();
 
@@ -620,9 +620,9 @@ void LiftPoint::VRender(PrimHeader** ppOt)
                             pulley_ypos,
                             0))
                     {
-                        s16 r = mBaseAnimatedWithPhysicsGameObject_Red;
-                        s16 g = mBaseAnimatedWithPhysicsGameObject_Green;
-                        s16 b = mBaseAnimatedWithPhysicsGameObject_Blue;
+                        s16 r = mBaseAnimatedWithPhysicsGameObject_RGB.r;
+                        s16 g = mBaseAnimatedWithPhysicsGameObject_RGB.g;
+                        s16 b = mBaseAnimatedWithPhysicsGameObject_RGB.b;
 
                         ShadowZone::ShadowZones_Calculate_Colour(
                             field_26C_pulley_xpos,

@@ -149,9 +149,9 @@ s32 Greeter::CreateFromSaveState(const u8* pBuffer)
         pGreeter->mBaseAnimatedWithPhysicsGameObject_LvlNumber = MapWrapper::FromAE(pState->field_A_lvl_number);
         pGreeter->mBaseAnimatedWithPhysicsGameObject_SpriteScale = pState->field_1C_sprite_scale;
 
-        pGreeter->mBaseAnimatedWithPhysicsGameObject_Red = pState->field_2_r;
-        pGreeter->mBaseAnimatedWithPhysicsGameObject_Green = pState->field_4_g;
-        pGreeter->mBaseAnimatedWithPhysicsGameObject_Blue = pState->field_6_b;
+        pGreeter->mBaseAnimatedWithPhysicsGameObject_RGB.r = pState->field_2_r;
+        pGreeter->mBaseAnimatedWithPhysicsGameObject_RGB.g = pState->field_4_g;
+        pGreeter->mBaseAnimatedWithPhysicsGameObject_RGB.b = pState->field_6_b;
 
         pGreeter->mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame = pState->field_20_current_frame;
         pGreeter->mBaseAnimatedWithPhysicsGameObject_Anim.mFrameChangeCounter = pState->field_22_frame_change_counter;
@@ -206,9 +206,9 @@ s32 Greeter::VGetSaveState(u8* pSaveBuffer)
     pState->field_A_lvl_number = MapWrapper::ToAE(mBaseAnimatedWithPhysicsGameObject_LvlNumber);
     pState->field_1C_sprite_scale = mBaseAnimatedWithPhysicsGameObject_SpriteScale;
 
-    pState->field_2_r = mBaseAnimatedWithPhysicsGameObject_Red;
-    pState->field_4_g = mBaseAnimatedWithPhysicsGameObject_Green;
-    pState->field_6_b = mBaseAnimatedWithPhysicsGameObject_Blue;
+    pState->field_2_r = mBaseAnimatedWithPhysicsGameObject_RGB.r;
+    pState->field_4_g = mBaseAnimatedWithPhysicsGameObject_RGB.g;
+    pState->field_6_b = mBaseAnimatedWithPhysicsGameObject_RGB.b;
 
     pState->field_20_current_frame = mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame;
     pState->field_22_frame_change_counter = mBaseAnimatedWithPhysicsGameObject_Anim.mFrameChangeCounter;

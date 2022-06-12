@@ -53,21 +53,21 @@ BirdPortalTerminator::BirdPortalTerminator(FP xpos, FP ypos, FP scale, PortalTyp
     mBaseAnimatedWithPhysicsGameObject_YPos = ypos;
     mBaseAnimatedWithPhysicsGameObject_XPos = xpos;
 
-    mBaseAnimatedWithPhysicsGameObject_Red = 255;
-    mBaseAnimatedWithPhysicsGameObject_Green = 128;
-    mBaseAnimatedWithPhysicsGameObject_Blue = 64;
+    mBaseAnimatedWithPhysicsGameObject_RGB.r = 255;
+    mBaseAnimatedWithPhysicsGameObject_RGB.g = 128;
+    mBaseAnimatedWithPhysicsGameObject_RGB.b = 64;
 }
 
 void BirdPortalTerminator::Fadeout()
 {
-    const s16 r = mBaseAnimatedWithPhysicsGameObject_Red;
-    mBaseAnimatedWithPhysicsGameObject_Red = (r >> 1) + (r >> 2);
+    const s16 r = mBaseAnimatedWithPhysicsGameObject_RGB.r;
+    mBaseAnimatedWithPhysicsGameObject_RGB.r = (r >> 1) + (r >> 2);
 
-    const s16 g = mBaseAnimatedWithPhysicsGameObject_Green;
-    mBaseAnimatedWithPhysicsGameObject_Green = (g >> 1) + (g >> 2);
+    const s16 g = mBaseAnimatedWithPhysicsGameObject_RGB.g;
+    mBaseAnimatedWithPhysicsGameObject_RGB.g = (g >> 1) + (g >> 2);
 
-    const s16 b = mBaseAnimatedWithPhysicsGameObject_Blue;
-    mBaseAnimatedWithPhysicsGameObject_Blue = (b >> 1) + (b >> 2);
+    const s16 b = mBaseAnimatedWithPhysicsGameObject_RGB.b;
+    mBaseAnimatedWithPhysicsGameObject_RGB.b = (b >> 1) + (b >> 2);
 }
 
 // ==========================================================================

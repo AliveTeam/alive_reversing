@@ -139,9 +139,9 @@ void DoorLight::VUpdate()
     {
         gNextDoorLightUpdate_4C30A8 = sGnFrame + Math_RandomRange_450F20(6, 20);
         gDoorLightUpdateTimer_4FC8A4 = gNextDoorLightUpdate_4C30A8 + Math_RandomRange_450F20(30, 45);
-        mBaseAnimatedWithPhysicsGameObject_Red = 32;
-        mBaseAnimatedWithPhysicsGameObject_Green = 32;
-        mBaseAnimatedWithPhysicsGameObject_Blue = 32;
+        mBaseAnimatedWithPhysicsGameObject_RGB.r = 32;
+        mBaseAnimatedWithPhysicsGameObject_RGB.g = 32;
+        mBaseAnimatedWithPhysicsGameObject_RGB.b = 32;
     }
     else if (static_cast<s32>(sGnFrame) >= gNextDoorLightUpdate_4C30A8)
     {
@@ -177,22 +177,22 @@ void DoorLight::VUpdate()
                         SND_SEQ_Play_477760(SeqId::eSaveTriggerMusic_45, 1, 127, 127);
                     }
                 }
-                mBaseAnimatedWithPhysicsGameObject_Red = 32;
-                mBaseAnimatedWithPhysicsGameObject_Green = rgb;
-                mBaseAnimatedWithPhysicsGameObject_Blue = 32;
+                mBaseAnimatedWithPhysicsGameObject_RGB.r = 32;
+                mBaseAnimatedWithPhysicsGameObject_RGB.g = rgb;
+                mBaseAnimatedWithPhysicsGameObject_RGB.b = 32;
             }
             else
             {
-                mBaseAnimatedWithPhysicsGameObject_Red = rgb;
-                mBaseAnimatedWithPhysicsGameObject_Green = 32;
-                mBaseAnimatedWithPhysicsGameObject_Blue = 32;
+                mBaseAnimatedWithPhysicsGameObject_RGB.r = rgb;
+                mBaseAnimatedWithPhysicsGameObject_RGB.g = 32;
+                mBaseAnimatedWithPhysicsGameObject_RGB.b = 32;
             }
         }
         else
         {
-            mBaseAnimatedWithPhysicsGameObject_Red = rgb;
-            mBaseAnimatedWithPhysicsGameObject_Green = rgb;
-            mBaseAnimatedWithPhysicsGameObject_Blue = rgb;
+            mBaseAnimatedWithPhysicsGameObject_RGB.r = rgb;
+            mBaseAnimatedWithPhysicsGameObject_RGB.g = rgb;
+            mBaseAnimatedWithPhysicsGameObject_RGB.b = rgb;
         }
     }
 }
@@ -204,9 +204,9 @@ void DoorLight::VRender(PrimHeader** ppOt)
         const FP xpos = FP_FromInteger(pScreenManager->mCamXOff) + mBaseAnimatedWithPhysicsGameObject_XPos - pScreenManager->mCamPos->field_0_x;
         const FP ypos = FP_FromInteger(pScreenManager->mCamYOff) + mBaseAnimatedWithPhysicsGameObject_YPos - pScreenManager->mCamPos->field_4_y;
 
-        mBaseAnimatedWithPhysicsGameObject_Anim.mRed = static_cast<u8>(mBaseAnimatedWithPhysicsGameObject_Red);
-        mBaseAnimatedWithPhysicsGameObject_Anim.mGreen = static_cast<u8>(mBaseAnimatedWithPhysicsGameObject_Green);
-        mBaseAnimatedWithPhysicsGameObject_Anim.mBlue = static_cast<u8>(mBaseAnimatedWithPhysicsGameObject_Blue);
+        mBaseAnimatedWithPhysicsGameObject_Anim.mRed = static_cast<u8>(mBaseAnimatedWithPhysicsGameObject_RGB.r);
+        mBaseAnimatedWithPhysicsGameObject_Anim.mGreen = static_cast<u8>(mBaseAnimatedWithPhysicsGameObject_RGB.g);
+        mBaseAnimatedWithPhysicsGameObject_Anim.mBlue = static_cast<u8>(mBaseAnimatedWithPhysicsGameObject_RGB.b);
 
         mBaseAnimatedWithPhysicsGameObject_Anim.VRender(
             FP_GetExponent(FP_FromInteger((FP_GetExponent(xpos) - field_E8_width / 2))),

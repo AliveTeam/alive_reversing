@@ -162,9 +162,9 @@ Gibs::Gibs(GibType gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scale)
         pPart->field_18_anim.mAnimFlags.Clear(AnimFlags::eBit16_bBlending);
         pPart->field_18_anim.mAnimFlags.Clear(AnimFlags::eBit15_bSemiTrans);
 
-        pPart->field_18_anim.mRed = static_cast<u8>(mBaseAnimatedWithPhysicsGameObject_Red);
-        pPart->field_18_anim.mGreen = static_cast<u8>(mBaseAnimatedWithPhysicsGameObject_Green);
-        pPart->field_18_anim.mBlue = static_cast<u8>(mBaseAnimatedWithPhysicsGameObject_Blue);
+        pPart->field_18_anim.mRed = static_cast<u8>(mBaseAnimatedWithPhysicsGameObject_RGB.r);
+        pPart->field_18_anim.mGreen = static_cast<u8>(mBaseAnimatedWithPhysicsGameObject_RGB.g);
+        pPart->field_18_anim.mBlue = static_cast<u8>(mBaseAnimatedWithPhysicsGameObject_RGB.b);
 
         pPart->field_0_x = mBaseAnimatedWithPhysicsGameObject_XPos;
         pPart->field_4_y = mBaseAnimatedWithPhysicsGameObject_YPos;

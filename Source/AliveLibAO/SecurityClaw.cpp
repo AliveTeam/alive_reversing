@@ -332,9 +332,9 @@ void SecurityClaw::VUpdate()
                     mBaseAnimatedWithPhysicsGameObject_SpriteScale);
                 if (pSpark)
                 {
-                    pSpark->mBaseAnimatedWithPhysicsGameObject_Green = 65;
-                    pSpark->mBaseAnimatedWithPhysicsGameObject_Blue = 65;
-                    pSpark->mBaseAnimatedWithPhysicsGameObject_Red = 255;
+                    pSpark->mBaseAnimatedWithPhysicsGameObject_RGB.g = 65;
+                    pSpark->mBaseAnimatedWithPhysicsGameObject_RGB.b = 65;
+                    pSpark->mBaseAnimatedWithPhysicsGameObject_RGB.r = 255;
                 }
 
                 auto pSpark2 = relive_new Sparks(
@@ -343,9 +343,9 @@ void SecurityClaw::VUpdate()
                     mBaseAnimatedWithPhysicsGameObject_SpriteScale);
                 if (pSpark2)
                 {
-                    pSpark2->mBaseAnimatedWithPhysicsGameObject_Green = 65;
-                    pSpark2->mBaseAnimatedWithPhysicsGameObject_Blue = 65;
-                    pSpark2->mBaseAnimatedWithPhysicsGameObject_Red = 255;
+                    pSpark2->mBaseAnimatedWithPhysicsGameObject_RGB.g = 65;
+                    pSpark2->mBaseAnimatedWithPhysicsGameObject_RGB.b = 65;
+                    pSpark2->mBaseAnimatedWithPhysicsGameObject_RGB.r = 255;
                 }
 
                 for (s32 i = 0; i < 9; i++)
@@ -356,9 +356,9 @@ void SecurityClaw::VUpdate()
                         mBaseAnimatedWithPhysicsGameObject_SpriteScale);
                     if (pSpark3)
                     {
-                        pSpark3->mBaseAnimatedWithPhysicsGameObject_Green = 65;
-                        pSpark3->mBaseAnimatedWithPhysicsGameObject_Blue = 65;
-                        pSpark3->mBaseAnimatedWithPhysicsGameObject_Red = 255;
+                        pSpark3->mBaseAnimatedWithPhysicsGameObject_RGB.g = 65;
+                        pSpark3->mBaseAnimatedWithPhysicsGameObject_RGB.b = 65;
+                        pSpark3->mBaseAnimatedWithPhysicsGameObject_RGB.r = 255;
                     }
                 }
 

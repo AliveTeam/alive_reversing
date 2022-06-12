@@ -3426,9 +3426,9 @@ s16 Abe::VTakeDamage(BaseGameObject* pFrom)
                 }
 
                 mHealth = FP_FromInteger(0);
-                mBaseAnimatedWithPhysicsGameObject_Blue = 30;
-                mBaseAnimatedWithPhysicsGameObject_Green = 30;
-                mBaseAnimatedWithPhysicsGameObject_Red = 30;
+                mBaseAnimatedWithPhysicsGameObject_RGB.b = 30;
+                mBaseAnimatedWithPhysicsGameObject_RGB.g = 30;
+                mBaseAnimatedWithPhysicsGameObject_RGB.r = 30;
 
                 relive_new Gibs(
                     GibType::Abe_0,
@@ -3491,9 +3491,9 @@ s16 Abe::VTakeDamage(BaseGameObject* pFrom)
                 field_108_bMotionChanged = 1;
                 mHealth = FP_FromInteger(0);
                 ToKnockback_422D90(1, 1);
-                mBaseAnimatedWithPhysicsGameObject_Blue = 30;
-                mBaseAnimatedWithPhysicsGameObject_Green = 30;
-                mBaseAnimatedWithPhysicsGameObject_Red = 30;
+                mBaseAnimatedWithPhysicsGameObject_RGB.b = 30;
+                mBaseAnimatedWithPhysicsGameObject_RGB.g = 30;
+                mBaseAnimatedWithPhysicsGameObject_RGB.r = 30;
 
                 relive_new Gibs(
                     GibType::Abe_0,
@@ -6845,9 +6845,9 @@ void Abe::Motion_60_Dead_42C4C0()
             }
             mBaseAnimatedWithPhysicsGameObject_SpriteScale -= FP_FromDouble(0.008);
 
-            mBaseAnimatedWithPhysicsGameObject_Red -= 2;
-            mBaseAnimatedWithPhysicsGameObject_Green -= 2;
-            mBaseAnimatedWithPhysicsGameObject_Blue -= 2;
+            mBaseAnimatedWithPhysicsGameObject_RGB.r -= 2;
+            mBaseAnimatedWithPhysicsGameObject_RGB.g -= 2;
+            mBaseAnimatedWithPhysicsGameObject_RGB.b -= 2;
             if (static_cast<s32>(sGnFrame) > field_118_timer)
             {
                 field_118_timer = sGnFrame + 60;

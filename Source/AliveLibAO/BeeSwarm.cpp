@@ -553,9 +553,9 @@ void BeeSwarm::ToFlyAwayAndDie()
 void BeeSwarm::VRender(PrimHeader** ppOt)
 {
     mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_MainMenuButtonBees_38;
-    mBaseAnimatedWithPhysicsGameObject_Anim.mRed = static_cast<u8>(mBaseAnimatedWithPhysicsGameObject_Red);
-    mBaseAnimatedWithPhysicsGameObject_Anim.mGreen = static_cast<u8>(mBaseAnimatedWithPhysicsGameObject_Green);
-    mBaseAnimatedWithPhysicsGameObject_Anim.mBlue = static_cast<u8>(mBaseAnimatedWithPhysicsGameObject_Blue);
+    mBaseAnimatedWithPhysicsGameObject_Anim.mRed = static_cast<u8>(mBaseAnimatedWithPhysicsGameObject_RGB.r);
+    mBaseAnimatedWithPhysicsGameObject_Anim.mGreen = static_cast<u8>(mBaseAnimatedWithPhysicsGameObject_RGB.g);
+    mBaseAnimatedWithPhysicsGameObject_Anim.mBlue = static_cast<u8>(mBaseAnimatedWithPhysicsGameObject_RGB.b);
     mBaseAnimatedWithPhysicsGameObject_Anim.field_14_scale = mBaseAnimatedWithPhysicsGameObject_SpriteScale;
 
     const auto campos_x_delta = pScreenManager->mCamPos->field_0_x - FP_FromInteger(pScreenManager->mCamXOff);

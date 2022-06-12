@@ -4495,9 +4495,9 @@ s16 Slig::Brain_Death_46C3A0()
     if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit3_Render) && field_114_timer < static_cast<s32>(sGnFrame) + 30)
     {
         mBaseAnimatedWithPhysicsGameObject_SpriteScale -= FP_FromDouble(0.01);
-        mBaseAnimatedWithPhysicsGameObject_Red -= 2;
-        mBaseAnimatedWithPhysicsGameObject_Green -= 2;
-        mBaseAnimatedWithPhysicsGameObject_Blue -= 2;
+        mBaseAnimatedWithPhysicsGameObject_RGB.r -= 2;
+        mBaseAnimatedWithPhysicsGameObject_RGB.g -= 2;
+        mBaseAnimatedWithPhysicsGameObject_RGB.b -= 2;
 
         if (mBaseAnimatedWithPhysicsGameObject_SpriteScale >= FP_FromDouble(0.3))
         {

@@ -58,9 +58,9 @@ void LightEffect::VRender(PrimHeader** /*ppOt*/)
         const FP xpos = FP_FromInteger(pScreenManager->mCamXOff) + mBaseAnimatedWithPhysicsGameObject_XPos - pScreenManager->mCamPos->field_0_x;
         const FP ypos = FP_FromInteger(pScreenManager->mCamYOff) + mBaseAnimatedWithPhysicsGameObject_YPos - pScreenManager->mCamPos->field_4_y;
 
-        mBaseAnimatedWithPhysicsGameObject_Anim.mRed = static_cast<u8>(mBaseAnimatedWithPhysicsGameObject_Red/4);
-        mBaseAnimatedWithPhysicsGameObject_Anim.mGreen = static_cast<u8>(mBaseAnimatedWithPhysicsGameObject_Green/4);
-        mBaseAnimatedWithPhysicsGameObject_Anim.mBlue = static_cast<u8>(mBaseAnimatedWithPhysicsGameObject_Blue/4);
+        mBaseAnimatedWithPhysicsGameObject_Anim.mRed = static_cast<u8>(mBaseAnimatedWithPhysicsGameObject_RGB.r/4);
+        mBaseAnimatedWithPhysicsGameObject_Anim.mGreen = static_cast<u8>(mBaseAnimatedWithPhysicsGameObject_RGB.g/4);
+        mBaseAnimatedWithPhysicsGameObject_Anim.mBlue = static_cast<u8>(mBaseAnimatedWithPhysicsGameObject_RGB.b/4);
 
         mBaseAnimatedWithPhysicsGameObject_Anim.vRender(
             FP_GetExponent(FP_FromInteger((FP_GetExponent(xpos)))),
@@ -112,9 +112,9 @@ void LightEffect::VUpdate()
             rgb = 255;
         }
 
-        mBaseAnimatedWithPhysicsGameObject_Red = rgb;
-        mBaseAnimatedWithPhysicsGameObject_Green = rgb;
-        mBaseAnimatedWithPhysicsGameObject_Blue = rgb;
+        mBaseAnimatedWithPhysicsGameObject_RGB.r = rgb;
+        mBaseAnimatedWithPhysicsGameObject_RGB.g = rgb;
+        mBaseAnimatedWithPhysicsGameObject_RGB.b = rgb;
     }
     else if (static_cast<s32>(sGnFrame) > field_F0_rnd2)
     {
@@ -123,9 +123,9 @@ void LightEffect::VUpdate()
         field_F8_rnd4 = Math_RandomRange_450F20(150, 180);
         u8 rgb = 96;
 
-        mBaseAnimatedWithPhysicsGameObject_Red = rgb;
-        mBaseAnimatedWithPhysicsGameObject_Green = rgb;
-        mBaseAnimatedWithPhysicsGameObject_Blue = rgb;
+        mBaseAnimatedWithPhysicsGameObject_RGB.r = rgb;
+        mBaseAnimatedWithPhysicsGameObject_RGB.g = rgb;
+        mBaseAnimatedWithPhysicsGameObject_RGB.b = rgb;
     }
 }
 

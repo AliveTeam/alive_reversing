@@ -175,9 +175,9 @@ s32 Glukkon::CreateFromSaveState(const u8* pData)
         pGlukkon->mBaseAnimatedWithPhysicsGameObject_LvlNumber = MapWrapper::FromAE(pSaveState->field_1A_level);
         pGlukkon->mBaseAnimatedWithPhysicsGameObject_SpriteScale = pSaveState->field_1C_sprite_scale;
 
-        pGlukkon->mBaseAnimatedWithPhysicsGameObject_Red = pSaveState->mRingRed;
-        pGlukkon->mBaseAnimatedWithPhysicsGameObject_Green = pSaveState->mRingGreen;
-        pGlukkon->mBaseAnimatedWithPhysicsGameObject_Blue = pSaveState->mRingBlue;
+        pGlukkon->mBaseAnimatedWithPhysicsGameObject_RGB.r = pSaveState->mRingRed;
+        pGlukkon->mBaseAnimatedWithPhysicsGameObject_RGB.g = pSaveState->mRingGreen;
+        pGlukkon->mBaseAnimatedWithPhysicsGameObject_RGB.b = pSaveState->mRingBlue;
 
         pGlukkon->field_1A0_red = pSaveState->mRingRed;
         pGlukkon->field_1A2_green = pSaveState->mRingGreen;
@@ -346,9 +346,9 @@ s32 Glukkon::VGetSaveState(u8* pSaveBuffer)
     pSaveState->field_18_path = mBaseAnimatedWithPhysicsGameObject_PathNumber;
     pSaveState->field_1A_level = MapWrapper::ToAE(mBaseAnimatedWithPhysicsGameObject_LvlNumber);
     pSaveState->field_1C_sprite_scale = mBaseAnimatedWithPhysicsGameObject_SpriteScale;
-    pSaveState->mRingRed = mBaseAnimatedWithPhysicsGameObject_Red;
-    pSaveState->mRingGreen = mBaseAnimatedWithPhysicsGameObject_Green;
-    pSaveState->mRingBlue = mBaseAnimatedWithPhysicsGameObject_Blue;
+    pSaveState->mRingRed = mBaseAnimatedWithPhysicsGameObject_RGB.r;
+    pSaveState->mRingGreen = mBaseAnimatedWithPhysicsGameObject_RGB.g;
+    pSaveState->mRingBlue = mBaseAnimatedWithPhysicsGameObject_RGB.b;
     pSaveState->field_28_current_motion = mCurrentMotion;
     pSaveState->field_2A_current_frame = mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame;
     pSaveState->field_2C_frame_change_counter = mBaseAnimatedWithPhysicsGameObject_Anim.mFrameChangeCounter;
@@ -1787,9 +1787,9 @@ s16 Glukkon::Brain_4_Death_442010()
             {
                 mBaseAnimatedWithPhysicsGameObject_SpriteScale -= FP_FromDouble(0.008);
 
-                mBaseAnimatedWithPhysicsGameObject_Red -= 2;
-                mBaseAnimatedWithPhysicsGameObject_Green -= 2;
-                mBaseAnimatedWithPhysicsGameObject_Blue -= 2;
+                mBaseAnimatedWithPhysicsGameObject_RGB.r -= 2;
+                mBaseAnimatedWithPhysicsGameObject_RGB.g -= 2;
+                mBaseAnimatedWithPhysicsGameObject_RGB.b -= 2;
 
                 DeathSmokeEffect(true);
 

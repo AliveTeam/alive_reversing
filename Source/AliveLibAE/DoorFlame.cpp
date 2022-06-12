@@ -36,9 +36,9 @@ public:
         mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_FallingItemPortalClip_Half_12;
         mBaseAnimatedWithPhysicsGameObject_Anim.mRenderMode = TPageAbr::eBlend_3;
 
-        mBaseAnimatedWithPhysicsGameObject_Red = 140;
-        mBaseAnimatedWithPhysicsGameObject_Green = 90;
-        mBaseAnimatedWithPhysicsGameObject_Blue = 53;
+        mBaseAnimatedWithPhysicsGameObject_RGB.r = 140;
+        mBaseAnimatedWithPhysicsGameObject_RGB.g = 90;
+        mBaseAnimatedWithPhysicsGameObject_RGB.b = 53;
 
         mBaseAnimatedWithPhysicsGameObject_SpriteScale = scale;
 
@@ -85,9 +85,9 @@ public:
         {
             //if (k1_dword_55EF90)
             {
-                mBaseAnimatedWithPhysicsGameObject_Anim.mRed = mBaseAnimatedWithPhysicsGameObject_Red & 0xFF;
-                mBaseAnimatedWithPhysicsGameObject_Anim.mBlue = mBaseAnimatedWithPhysicsGameObject_Blue & 0xFF;
-                mBaseAnimatedWithPhysicsGameObject_Anim.mGreen = mBaseAnimatedWithPhysicsGameObject_Green & 0xFF;
+                mBaseAnimatedWithPhysicsGameObject_Anim.mRed = mBaseAnimatedWithPhysicsGameObject_RGB.r & 0xFF;
+                mBaseAnimatedWithPhysicsGameObject_Anim.mBlue = mBaseAnimatedWithPhysicsGameObject_RGB.b & 0xFF;
+                mBaseAnimatedWithPhysicsGameObject_Anim.mGreen = mBaseAnimatedWithPhysicsGameObject_RGB.g & 0xFF;
 
                 const FP xOff = field_FC_xOff - field_F4_xPos;
                 const FP yOff = field_100_yOff - field_F8_yPos;

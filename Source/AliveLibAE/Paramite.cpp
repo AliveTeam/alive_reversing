@@ -284,9 +284,9 @@ s32 Paramite::CreateFromSaveState(const u8* pBuffer)
     pParamite->mBaseAnimatedWithPhysicsGameObject_LvlNumber = MapWrapper::FromAE(pState->field_16_lvl_number);
     pParamite->mBaseAnimatedWithPhysicsGameObject_SpriteScale = pState->field_18_sprite_scale;
 
-    pParamite->mBaseAnimatedWithPhysicsGameObject_Red = pState->field_1C_r;
-    pParamite->mBaseAnimatedWithPhysicsGameObject_Green = pState->field_1E_g;
-    pParamite->mBaseAnimatedWithPhysicsGameObject_Blue = pState->field_20_b;
+    pParamite->mBaseAnimatedWithPhysicsGameObject_RGB.r = pState->field_1C_r;
+    pParamite->mBaseAnimatedWithPhysicsGameObject_RGB.g = pState->field_1E_g;
+    pParamite->mBaseAnimatedWithPhysicsGameObject_RGB.b = pState->field_20_b;
 
     pParamite->mCurrentMotion = pState->field_24_current_motion;
     const AnimRecord& animRec = AnimRec(sParamiteAnimIdTable_55D660[pParamite->mCurrentMotion]);
@@ -380,9 +380,9 @@ s32 Paramite::VGetSaveState(u8* pSaveBuffer)
     pState->field_16_lvl_number = MapWrapper::ToAE(mBaseAnimatedWithPhysicsGameObject_LvlNumber);
     pState->field_18_sprite_scale = mBaseAnimatedWithPhysicsGameObject_SpriteScale;
 
-    pState->field_1C_r = mBaseAnimatedWithPhysicsGameObject_Red;
-    pState->field_1E_g = mBaseAnimatedWithPhysicsGameObject_Green;
-    pState->field_20_b = mBaseAnimatedWithPhysicsGameObject_Blue;
+    pState->field_1C_r = mBaseAnimatedWithPhysicsGameObject_RGB.r;
+    pState->field_1E_g = mBaseAnimatedWithPhysicsGameObject_RGB.g;
+    pState->field_20_b = mBaseAnimatedWithPhysicsGameObject_RGB.b;
 
     pState->field_22_flip_x = mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX);
     pState->field_24_current_motion = mCurrentMotion;
@@ -1301,9 +1301,9 @@ s16 Paramite::Brain_1_Death_484CD0()
     else
     {
         mBaseAnimatedWithPhysicsGameObject_SpriteScale -= FP_FromDouble(0.01);
-        mBaseAnimatedWithPhysicsGameObject_Red -= 2;
-        mBaseAnimatedWithPhysicsGameObject_Green -= 2;
-        mBaseAnimatedWithPhysicsGameObject_Blue -= 2;
+        mBaseAnimatedWithPhysicsGameObject_RGB.r -= 2;
+        mBaseAnimatedWithPhysicsGameObject_RGB.g -= 2;
+        mBaseAnimatedWithPhysicsGameObject_RGB.b -= 2;
 
         if (mBaseAnimatedWithPhysicsGameObject_SpriteScale >= FP_FromDouble(0.3))
         {

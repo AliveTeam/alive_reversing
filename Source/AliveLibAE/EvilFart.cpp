@@ -118,9 +118,9 @@ s32 EvilFart::CreateFromSaveState(const u8* pBuffer)
     pFart->mBaseAnimatedWithPhysicsGameObject_LvlNumber = MapWrapper::FromAE(pState->field_A_lvl_number);
     pFart->mBaseAnimatedWithPhysicsGameObject_SpriteScale = pState->field_1C_sprite_scale;
 
-    pFart->mBaseAnimatedWithPhysicsGameObject_Red = pState->field_2_r;
-    pFart->mBaseAnimatedWithPhysicsGameObject_Green = pState->field_4_g;
-    pFart->mBaseAnimatedWithPhysicsGameObject_Blue = pState->field_6_b;
+    pFart->mBaseAnimatedWithPhysicsGameObject_RGB.r = pState->field_2_r;
+    pFart->mBaseAnimatedWithPhysicsGameObject_RGB.g = pState->field_4_g;
+    pFart->mBaseAnimatedWithPhysicsGameObject_RGB.b = pState->field_6_b;
 
     pFart->mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame = pState->field_20_anim_cur_frame;
     pFart->mBaseAnimatedWithPhysicsGameObject_Anim.mFrameChangeCounter = pState->field_22_frame_change_counter;
@@ -159,9 +159,9 @@ s32 EvilFart::VGetSaveState(u8* pSaveBuffer)
     pState->field_A_lvl_number = MapWrapper::ToAE(mBaseAnimatedWithPhysicsGameObject_LvlNumber);
     pState->field_1C_sprite_scale = mBaseAnimatedWithPhysicsGameObject_SpriteScale;
 
-    pState->field_2_r = mBaseAnimatedWithPhysicsGameObject_Red;
-    pState->field_4_g = mBaseAnimatedWithPhysicsGameObject_Green;
-    pState->field_6_b = mBaseAnimatedWithPhysicsGameObject_Blue;
+    pState->field_2_r = mBaseAnimatedWithPhysicsGameObject_RGB.r;
+    pState->field_4_g = mBaseAnimatedWithPhysicsGameObject_RGB.g;
+    pState->field_6_b = mBaseAnimatedWithPhysicsGameObject_RGB.b;
 
     pState->field_2C.Set(EvilFart_State::eBit1_bControlled, sControlledCharacter_5C1B8C == this);
     pState->field_20_anim_cur_frame = mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame;
@@ -268,9 +268,9 @@ void EvilFart::VPossessed()
 
 void EvilFart::ResetFartColour()
 {
-    mBaseAnimatedWithPhysicsGameObject_Red = greenFart.r;
-    mBaseAnimatedWithPhysicsGameObject_Green = greenFart.g;
-    mBaseAnimatedWithPhysicsGameObject_Blue = greenFart.b;
+    mBaseAnimatedWithPhysicsGameObject_RGB.r = greenFart.r;
+    mBaseAnimatedWithPhysicsGameObject_RGB.g = greenFart.g;
+    mBaseAnimatedWithPhysicsGameObject_RGB.b = greenFart.b;
 }
 
 s16 EvilFart::VTakeDamage(BaseGameObject* pFrom)
@@ -398,8 +398,8 @@ void EvilFart::VUpdate()
                     (mBaseAnimatedWithPhysicsGameObject_YPos - FP_FromInteger(55)) * mBaseAnimatedWithPhysicsGameObject_SpriteScale,
                     FP_FromDouble(0.5) * mBaseAnimatedWithPhysicsGameObject_SpriteScale,
                     3,
-                    static_cast<u8>(mBaseAnimatedWithPhysicsGameObject_Red),
-                    static_cast<u8>(mBaseAnimatedWithPhysicsGameObject_Green),
+                    static_cast<u8>(mBaseAnimatedWithPhysicsGameObject_RGB.r),
+                    static_cast<u8>(mBaseAnimatedWithPhysicsGameObject_RGB.g),
                     0x20u);
 
 
@@ -566,6 +566,6 @@ void EvilFart::CalculateFartColour()
         scaledValue = FP_FromInteger(field_11C_alive_timer) / FP_FromInteger(900);
     }
     // Linear change from greenFart to redFart
-    mBaseAnimatedWithPhysicsGameObject_Red = FP_GetExponent(FP_FromInteger(redFart.r) - (scaledValue * FP_FromInteger(redFart.r - greenFart.r)));
-    mBaseAnimatedWithPhysicsGameObject_Green = FP_GetExponent(FP_FromInteger(redFart.g) + (scaledValue * FP_FromInteger(greenFart.g - redFart.g)));
+    mBaseAnimatedWithPhysicsGameObject_RGB.r = FP_GetExponent(FP_FromInteger(redFart.r) - (scaledValue * FP_FromInteger(redFart.r - greenFart.r)));
+    mBaseAnimatedWithPhysicsGameObject_RGB.g = FP_GetExponent(FP_FromInteger(redFart.g) + (scaledValue * FP_FromInteger(greenFart.g - redFart.g)));
 }

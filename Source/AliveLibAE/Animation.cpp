@@ -98,9 +98,9 @@ s32 Animation_OnFrame_Common_4561B0(BaseGameObject* pObjPtr, s16* pData)
             pPartical->mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_Foreground_Half_17;
         }
 
-        pPartical->mBaseAnimatedWithPhysicsGameObject_Red = 45;
-        pPartical->mBaseAnimatedWithPhysicsGameObject_Green = 35;
-        pPartical->mBaseAnimatedWithPhysicsGameObject_Blue = 5;
+        pPartical->mBaseAnimatedWithPhysicsGameObject_RGB.r = 45;
+        pPartical->mBaseAnimatedWithPhysicsGameObject_RGB.g = 35;
+        pPartical->mBaseAnimatedWithPhysicsGameObject_RGB.b = 5;
 
         switch (pObj->mCurrentMotion)
         {
@@ -165,9 +165,9 @@ s32 Animation_OnFrame_Common_434130(BaseGameObject* pObjPtr, s16* pData)
     {
         pParticle->mBaseAnimatedWithPhysicsGameObject_Anim.mRenderMode = TPageAbr::eBlend_1;
         pParticle->mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_Foreground_36;
-        pParticle->mBaseAnimatedWithPhysicsGameObject_Red = 64;
-        pParticle->mBaseAnimatedWithPhysicsGameObject_Green = 64;
-        pParticle->mBaseAnimatedWithPhysicsGameObject_Blue = 64;
+        pParticle->mBaseAnimatedWithPhysicsGameObject_RGB.r = 64;
+        pParticle->mBaseAnimatedWithPhysicsGameObject_RGB.g = 64;
+        pParticle->mBaseAnimatedWithPhysicsGameObject_RGB.b = 64;
         pParticle->mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromDouble(0.6) * pObj->mBaseAnimatedWithPhysicsGameObject_SpriteScale;
     }
     return 1;

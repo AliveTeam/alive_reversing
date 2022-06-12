@@ -76,9 +76,9 @@ Rope::Rope(s32 left, s32 top, s32 bottom, FP scale)
         mBaseAnimatedWithPhysicsGameObject_Scale = Scale::Bg;
     };
 
-    mBaseAnimatedWithPhysicsGameObject_Anim.mRed = static_cast<u8>(mBaseAnimatedWithPhysicsGameObject_Red);
-    mBaseAnimatedWithPhysicsGameObject_Anim.mGreen = static_cast<u8>(mBaseAnimatedWithPhysicsGameObject_Green);
-    mBaseAnimatedWithPhysicsGameObject_Anim.mBlue = static_cast<u8>(mBaseAnimatedWithPhysicsGameObject_Blue);
+    mBaseAnimatedWithPhysicsGameObject_Anim.mRed = static_cast<u8>(mBaseAnimatedWithPhysicsGameObject_RGB.r);
+    mBaseAnimatedWithPhysicsGameObject_Anim.mGreen = static_cast<u8>(mBaseAnimatedWithPhysicsGameObject_RGB.g);
+    mBaseAnimatedWithPhysicsGameObject_Anim.mBlue = static_cast<u8>(mBaseAnimatedWithPhysicsGameObject_RGB.b);
 
     field_102_top = static_cast<s16>(top);
     field_106_bottom = static_cast<s16>(bottom);
@@ -164,9 +164,9 @@ void Rope::VRender(PrimHeader** ppOt)
                 for (s32 idx = 0; idx < field_F4_rope_segment_count; idx++)
                 {
                     // Apply shadow to the segments colour
-                    s16 r = mBaseAnimatedWithPhysicsGameObject_Red;
-                    s16 g = mBaseAnimatedWithPhysicsGameObject_Green;
-                    s16 b = mBaseAnimatedWithPhysicsGameObject_Blue;
+                    s16 r = mBaseAnimatedWithPhysicsGameObject_RGB.r;
+                    s16 g = mBaseAnimatedWithPhysicsGameObject_RGB.g;
+                    s16 b = mBaseAnimatedWithPhysicsGameObject_RGB.b;
 
                     ShadowZone::ShadowZones_Calculate_Colour(
                         FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos),

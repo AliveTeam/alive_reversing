@@ -305,9 +305,9 @@ s32 Scrab::CreateFromSaveState(const u8* pBuffer)
         pScrab->mBaseAnimatedWithPhysicsGameObject_PathNumber = pState->field_18_path_number;
         pScrab->mBaseAnimatedWithPhysicsGameObject_LvlNumber = MapWrapper::FromAE(pState->field_1A_lvl_number);
         pScrab->mBaseAnimatedWithPhysicsGameObject_SpriteScale = pState->field_1C_sprite_scale;
-        pScrab->mBaseAnimatedWithPhysicsGameObject_Red = pState->mRingRed;
-        pScrab->mBaseAnimatedWithPhysicsGameObject_Green = pState->mRingGreen;
-        pScrab->mBaseAnimatedWithPhysicsGameObject_Blue = pState->mRingBlue;
+        pScrab->mBaseAnimatedWithPhysicsGameObject_RGB.r = pState->mRingRed;
+        pScrab->mBaseAnimatedWithPhysicsGameObject_RGB.g = pState->mRingGreen;
+        pScrab->mBaseAnimatedWithPhysicsGameObject_RGB.b = pState->mRingBlue;
         pScrab->mCurrentMotion = pState->field_28_current_motion;
 
         const AnimRecord& animRec = AnimRec(sScrabFrameTableOffsets_5601C0[pState->field_28_current_motion]);
@@ -398,9 +398,9 @@ s32 Scrab::VGetSaveState(u8* pSaveBuffer)
     pState->field_1A_lvl_number = MapWrapper::ToAE(mBaseAnimatedWithPhysicsGameObject_LvlNumber);
     pState->field_1C_sprite_scale = mBaseAnimatedWithPhysicsGameObject_SpriteScale;
 
-    pState->mRingRed = mBaseAnimatedWithPhysicsGameObject_Red;
-    pState->mRingGreen = mBaseAnimatedWithPhysicsGameObject_Green;
-    pState->mRingBlue = mBaseAnimatedWithPhysicsGameObject_Blue;
+    pState->mRingRed = mBaseAnimatedWithPhysicsGameObject_RGB.r;
+    pState->mRingGreen = mBaseAnimatedWithPhysicsGameObject_RGB.g;
+    pState->mRingBlue = mBaseAnimatedWithPhysicsGameObject_RGB.b;
 
     pState->field_26_bAnimFlipX = mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX);
     pState->field_28_current_motion = mCurrentMotion;
@@ -1911,9 +1911,9 @@ s16 Scrab::Brain_3_Death_4A62B0()
     if (field_12C_timer < static_cast<s32>((sGnFrame + 80)))
     {
         mBaseAnimatedWithPhysicsGameObject_SpriteScale -= FP_FromDouble(0.008);
-        mBaseAnimatedWithPhysicsGameObject_Red -= 2;
-        mBaseAnimatedWithPhysicsGameObject_Green -= 2;
-        mBaseAnimatedWithPhysicsGameObject_Blue -= 2;
+        mBaseAnimatedWithPhysicsGameObject_RGB.r -= 2;
+        mBaseAnimatedWithPhysicsGameObject_RGB.g -= 2;
+        mBaseAnimatedWithPhysicsGameObject_RGB.b -= 2;
     }
 
     if (static_cast<s32>(sGnFrame) < field_12C_timer - 24)

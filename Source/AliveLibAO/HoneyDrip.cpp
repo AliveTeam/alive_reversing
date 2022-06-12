@@ -9,9 +9,9 @@ namespace AO {
 
 HoneyDrip::HoneyDrip(FP xpos, FP ypos)
 {
-    mBaseAnimatedWithPhysicsGameObject_Blue = 128;
-    mBaseAnimatedWithPhysicsGameObject_Green = 128;
-    mBaseAnimatedWithPhysicsGameObject_Red = 128;
+    mBaseAnimatedWithPhysicsGameObject_RGB.b = 128;
+    mBaseAnimatedWithPhysicsGameObject_RGB.g = 128;
+    mBaseAnimatedWithPhysicsGameObject_RGB.r = 128;
 
     const AnimRecord& rec = AO::AnimRec(AnimId::Honey_Drip);
     u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);

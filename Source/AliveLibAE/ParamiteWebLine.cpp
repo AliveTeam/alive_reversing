@@ -28,9 +28,9 @@ ParamiteWebLine::ParamiteWebLine(Path_ParamiteWebLine* pTlv, s32 tlvInfo)
         mBaseAnimatedWithPhysicsGameObject_Scale = Scale::Bg;
         field_F6_piece_length = 7;
         field_1A2_pulse_position_speed = 1;
-        mBaseAnimatedWithPhysicsGameObject_Red = 50;
-        mBaseAnimatedWithPhysicsGameObject_Green = 50;
-        mBaseAnimatedWithPhysicsGameObject_Blue = 200;
+        mBaseAnimatedWithPhysicsGameObject_RGB.r = 50;
+        mBaseAnimatedWithPhysicsGameObject_RGB.g = 50;
+        mBaseAnimatedWithPhysicsGameObject_RGB.b = 200;
     }
     else
     {
@@ -40,9 +40,9 @@ ParamiteWebLine::ParamiteWebLine(Path_ParamiteWebLine* pTlv, s32 tlvInfo)
         mBaseAnimatedWithPhysicsGameObject_Scale = Scale::Fg;
         field_F6_piece_length = 15;
         field_1A2_pulse_position_speed = 2;
-        mBaseAnimatedWithPhysicsGameObject_Red = 10;
-        mBaseAnimatedWithPhysicsGameObject_Green = 10;
-        mBaseAnimatedWithPhysicsGameObject_Blue = 10;
+        mBaseAnimatedWithPhysicsGameObject_RGB.r = 10;
+        mBaseAnimatedWithPhysicsGameObject_RGB.g = 10;
+        mBaseAnimatedWithPhysicsGameObject_RGB.b = 10;
     }
 
     mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pTlv->field_8_top_left.field_0_x);
@@ -215,9 +215,9 @@ void ParamiteWebLine::VRender(PrimHeader** ppOt)
     s16 render_ypos = field_FA_bottom;
     while (render_ypos > field_F8_top)
     {
-        s16 r = mBaseAnimatedWithPhysicsGameObject_Red;
-        s16 g = mBaseAnimatedWithPhysicsGameObject_Green;
-        s16 b = mBaseAnimatedWithPhysicsGameObject_Blue;
+        s16 r = mBaseAnimatedWithPhysicsGameObject_RGB.r;
+        s16 g = mBaseAnimatedWithPhysicsGameObject_RGB.g;
+        s16 b = mBaseAnimatedWithPhysicsGameObject_RGB.b;
 
         FP xVal = mBaseAnimatedWithPhysicsGameObject_XPos;
         if (field_104_wobble_idx != 0)

@@ -27,9 +27,9 @@ BaseAnimatedWithPhysicsGameObject::BaseAnimatedWithPhysicsGameObject(s16 resourc
     mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(0);
     mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(0);
 
-    mBaseAnimatedWithPhysicsGameObject_Blue = 127;
-    mBaseAnimatedWithPhysicsGameObject_Green = 127;
-    mBaseAnimatedWithPhysicsGameObject_Red = 127;
+    mBaseAnimatedWithPhysicsGameObject_RGB.b = 127;
+    mBaseAnimatedWithPhysicsGameObject_RGB.g = 127;
+    mBaseAnimatedWithPhysicsGameObject_RGB.r = 127;
 
     mBaseGameObjectFlags.Clear(BaseGameObject::eInteractive_Bit8);
     mBaseGameObjectFlags.Clear(BaseGameObject::eCanExplode_Bit7);
@@ -72,9 +72,9 @@ void BaseAnimatedWithPhysicsGameObject::VRender(PrimHeader** ppOt)
         {
             mBaseAnimatedWithPhysicsGameObject_Anim.field_14_scale = mBaseAnimatedWithPhysicsGameObject_SpriteScale;
 
-            s16 r = mBaseAnimatedWithPhysicsGameObject_Red;
-            s16 g = mBaseAnimatedWithPhysicsGameObject_Green;
-            s16 b = mBaseAnimatedWithPhysicsGameObject_Blue;
+            s16 r = mBaseAnimatedWithPhysicsGameObject_RGB.r;
+            s16 g = mBaseAnimatedWithPhysicsGameObject_RGB.g;
+            s16 b = mBaseAnimatedWithPhysicsGameObject_RGB.b;
 
             const PSX_RECT boundingRect = VGetBoundingRect();
 
@@ -396,15 +396,15 @@ void BaseAnimatedWithPhysicsGameObject::SetTint(const TintEntry* pTintArray, ERe
         pTintArray++;
     }
 
-    mBaseAnimatedWithPhysicsGameObject_Red = pTintArray->field_1_r;
-    mBaseAnimatedWithPhysicsGameObject_Green = pTintArray->field_2_g;
-    mBaseAnimatedWithPhysicsGameObject_Blue = pTintArray->field_3_b;
+    mBaseAnimatedWithPhysicsGameObject_RGB.r = pTintArray->field_1_r;
+    mBaseAnimatedWithPhysicsGameObject_RGB.g = pTintArray->field_2_g;
+    mBaseAnimatedWithPhysicsGameObject_RGB.b = pTintArray->field_3_b;
 }
 
 
 void BaseAnimatedWithPhysicsGameObject::SetRGB(s16 r, s16 g, s16 b)
 {
-    mBaseAnimatedWithPhysicsGameObject_Red = r;
-    mBaseAnimatedWithPhysicsGameObject_Green = g;
-    mBaseAnimatedWithPhysicsGameObject_Blue = b;
+    mBaseAnimatedWithPhysicsGameObject_RGB.r = r;
+    mBaseAnimatedWithPhysicsGameObject_RGB.g = g;
+    mBaseAnimatedWithPhysicsGameObject_RGB.b = b;
 }

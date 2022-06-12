@@ -189,9 +189,9 @@ Paramite::Paramite(Path_Paramite* pTlv, s32 tlvInfo)
         mBaseAnimatedWithPhysicsGameObject_YPos = hitY;
     }
 
-    mBaseAnimatedWithPhysicsGameObject_Red = 105;
-    mBaseAnimatedWithPhysicsGameObject_Green = 105;
-    mBaseAnimatedWithPhysicsGameObject_Blue = 105;
+    mBaseAnimatedWithPhysicsGameObject_RGB.r = 105;
+    mBaseAnimatedWithPhysicsGameObject_RGB.g = 105;
+    mBaseAnimatedWithPhysicsGameObject_RGB.b = 105;
 
     field_128_never_read = 0;
     field_12C_tlvInfo = tlvInfo;
@@ -1681,9 +1681,9 @@ s16 Paramite::Brain_3_Death()
     if (static_cast<s32>(sGnFrame) < field_114_timer && (field_114_timer < static_cast<s32>(sGnFrame) + 80))
     {
         mBaseAnimatedWithPhysicsGameObject_SpriteScale -= FP_FromDouble(0.008);
-        mBaseAnimatedWithPhysicsGameObject_Red -= 2;
-        mBaseAnimatedWithPhysicsGameObject_Green -= 2;
-        mBaseAnimatedWithPhysicsGameObject_Blue -= 2;
+        mBaseAnimatedWithPhysicsGameObject_RGB.r -= 2;
+        mBaseAnimatedWithPhysicsGameObject_RGB.g -= 2;
+        mBaseAnimatedWithPhysicsGameObject_RGB.b -= 2;
         if (static_cast<s32>(sGnFrame) < field_114_timer - 24)
         {
             DeathSmokeEffect(true);

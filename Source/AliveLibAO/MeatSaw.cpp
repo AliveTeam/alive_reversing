@@ -149,9 +149,9 @@ MeatSaw::MeatSaw(Path_MeatSaw* pTlv, s32 tlvInfo)
         field_110_anim.mRenderLayer = mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer;
         field_110_anim.field_14_scale = mBaseAnimatedWithPhysicsGameObject_SpriteScale;
 
-        field_110_anim.mRed = static_cast<u8>(mBaseAnimatedWithPhysicsGameObject_Red);
-        field_110_anim.mGreen = static_cast<u8>(mBaseAnimatedWithPhysicsGameObject_Green);
-        field_110_anim.mBlue = static_cast<u8>(mBaseAnimatedWithPhysicsGameObject_Blue);
+        field_110_anim.mRed = static_cast<u8>(mBaseAnimatedWithPhysicsGameObject_RGB.r);
+        field_110_anim.mGreen = static_cast<u8>(mBaseAnimatedWithPhysicsGameObject_RGB.g);
+        field_110_anim.mBlue = static_cast<u8>(mBaseAnimatedWithPhysicsGameObject_RGB.b);
 
         field_110_anim.mRenderMode = TPageAbr::eBlend_0;
 

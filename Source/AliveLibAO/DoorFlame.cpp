@@ -57,9 +57,9 @@ public:
     {
         if (Is_In_Current_Camera() == CameraPos::eCamCurrent_0)
         {
-            mBaseAnimatedWithPhysicsGameObject_Anim.mRed = static_cast<u8>(mBaseAnimatedWithPhysicsGameObject_Red);
-            mBaseAnimatedWithPhysicsGameObject_Anim.mGreen = static_cast<u8>(mBaseAnimatedWithPhysicsGameObject_Green);
-            mBaseAnimatedWithPhysicsGameObject_Anim.mBlue = static_cast<u8>(mBaseAnimatedWithPhysicsGameObject_Blue);
+            mBaseAnimatedWithPhysicsGameObject_Anim.mRed = static_cast<u8>(mBaseAnimatedWithPhysicsGameObject_RGB.r);
+            mBaseAnimatedWithPhysicsGameObject_Anim.mGreen = static_cast<u8>(mBaseAnimatedWithPhysicsGameObject_RGB.g);
+            mBaseAnimatedWithPhysicsGameObject_Anim.mBlue = static_cast<u8>(mBaseAnimatedWithPhysicsGameObject_RGB.b);
 
             mBaseAnimatedWithPhysicsGameObject_Anim.VRender(
                 FP_GetExponent(field_E4_xPos),
@@ -351,13 +351,13 @@ DoorFlame::DoorFlame(Path_DoorFlame* pTlv, s32 tlvInfo)
     switch (pTlv->field_1C_colour)
     {
         case Path_DoorFlame::Colour::red_1:
-            mBaseAnimatedWithPhysicsGameObject_Red = 127;
+            mBaseAnimatedWithPhysicsGameObject_RGB.r = 127;
             break;
         case Path_DoorFlame::Colour::green_2:
-            mBaseAnimatedWithPhysicsGameObject_Green = 127;
+            mBaseAnimatedWithPhysicsGameObject_RGB.g = 127;
             break;
         case Path_DoorFlame::Colour::blue_3:
-            mBaseAnimatedWithPhysicsGameObject_Blue = 127;
+            mBaseAnimatedWithPhysicsGameObject_RGB.b = 127;
             break;
         
         case Path_DoorFlame::Colour::unknown_0:
@@ -447,9 +447,9 @@ void DoorFlame::VUpdate()
                 if (field_F8_pFireBackgroundGlow)
                 {
                     field_F8_pFireBackgroundGlow->mBaseGameObjectRefCount++;
-                    field_F8_pFireBackgroundGlow->mBaseAnimatedWithPhysicsGameObject_Red = mBaseAnimatedWithPhysicsGameObject_Red;
-                    field_F8_pFireBackgroundGlow->mBaseAnimatedWithPhysicsGameObject_Green = mBaseAnimatedWithPhysicsGameObject_Green;
-                    field_F8_pFireBackgroundGlow->mBaseAnimatedWithPhysicsGameObject_Blue = mBaseAnimatedWithPhysicsGameObject_Blue;
+                    field_F8_pFireBackgroundGlow->mBaseAnimatedWithPhysicsGameObject_RGB.r = mBaseAnimatedWithPhysicsGameObject_RGB.r;
+                    field_F8_pFireBackgroundGlow->mBaseAnimatedWithPhysicsGameObject_RGB.g = mBaseAnimatedWithPhysicsGameObject_RGB.g;
+                    field_F8_pFireBackgroundGlow->mBaseAnimatedWithPhysicsGameObject_RGB.b = mBaseAnimatedWithPhysicsGameObject_RGB.b;
                 }
             }
             break;

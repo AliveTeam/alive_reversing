@@ -1865,9 +1865,9 @@ s32 Abe::VGetSaveState(u8* pSaveBuffer)
     pSaveState->field_16_lvl_number = MapWrapper::ToAE(mBaseAnimatedWithPhysicsGameObject_LvlNumber);
     pSaveState->field_18_sprite_scale = mBaseAnimatedWithPhysicsGameObject_SpriteScale;
     pSaveState->field_1C_scale = mBaseAnimatedWithPhysicsGameObject_Scale;
-    pSaveState->field_1e_r = mBaseAnimatedWithPhysicsGameObject_Red;
-    pSaveState->field_20_g = mBaseAnimatedWithPhysicsGameObject_Green;
-    pSaveState->field_22_b = mBaseAnimatedWithPhysicsGameObject_Blue;
+    pSaveState->field_1e_r = mBaseAnimatedWithPhysicsGameObject_RGB.r;
+    pSaveState->field_20_g = mBaseAnimatedWithPhysicsGameObject_RGB.g;
+    pSaveState->field_22_b = mBaseAnimatedWithPhysicsGameObject_RGB.b;
 
     if (mBaseAliveGameObjectFlags.Get(Flags_114::e114_Bit11_Electrocuting))
     {
@@ -2175,9 +2175,9 @@ s16 Abe::VTakeDamage(BaseGameObject* pFrom)
             mHealth = FP_FromInteger(0);
             ToKnockback_44E700(1, 1);
 
-            mBaseAnimatedWithPhysicsGameObject_Blue = 30;
-            mBaseAnimatedWithPhysicsGameObject_Green = 30;
-            mBaseAnimatedWithPhysicsGameObject_Red = 30;
+            mBaseAnimatedWithPhysicsGameObject_RGB.b = 30;
+            mBaseAnimatedWithPhysicsGameObject_RGB.g = 30;
+            mBaseAnimatedWithPhysicsGameObject_RGB.r = 30;
 
             relive_new Gibs(GibType::Abe_0,
                 mBaseAnimatedWithPhysicsGameObject_XPos,
@@ -2218,9 +2218,9 @@ s16 Abe::VTakeDamage(BaseGameObject* pFrom)
 
                 mHealth = FP_FromInteger(0);
 
-                mBaseAnimatedWithPhysicsGameObject_Blue = 30;
-                mBaseAnimatedWithPhysicsGameObject_Green = 30;
-                mBaseAnimatedWithPhysicsGameObject_Red = 30;
+                mBaseAnimatedWithPhysicsGameObject_RGB.b = 30;
+                mBaseAnimatedWithPhysicsGameObject_RGB.g = 30;
+                mBaseAnimatedWithPhysicsGameObject_RGB.r = 30;
 
                 relive_new Gibs(GibType::Abe_0,
                     mBaseAnimatedWithPhysicsGameObject_XPos,
@@ -5625,9 +5625,9 @@ void Abe::Motion_57_Dead_4589A0()
 
             mBaseAnimatedWithPhysicsGameObject_SpriteScale -= FP_FromDouble(0.008);
 
-            mBaseAnimatedWithPhysicsGameObject_Red -= 2;
-            mBaseAnimatedWithPhysicsGameObject_Green -= 2;
-            mBaseAnimatedWithPhysicsGameObject_Blue -= 2;
+            mBaseAnimatedWithPhysicsGameObject_RGB.r -= 2;
+            mBaseAnimatedWithPhysicsGameObject_RGB.g -= 2;
+            mBaseAnimatedWithPhysicsGameObject_RGB.b -= 2;
 
             if (static_cast<s32>(sGnFrame) > field_128.field_0_abe_timer)
             {

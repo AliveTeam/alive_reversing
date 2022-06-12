@@ -455,9 +455,9 @@ void renderWithGlowingEyes(PrimHeader** ot, BaseAliveGameObject* actor, s16* pPa
             actor->mBaseAnimatedWithPhysicsGameObject_Anim.field_14_scale = actor->mBaseAnimatedWithPhysicsGameObject_SpriteScale;
 
             const PSX_RECT boundingRect = actor->VGetBoundingRect();
-            s16 rMod = actor->mBaseAnimatedWithPhysicsGameObject_Red;
-            s16 gMod = actor->mBaseAnimatedWithPhysicsGameObject_Green;
-            s16 bMod = actor->mBaseAnimatedWithPhysicsGameObject_Blue;
+            s16 rMod = actor->mBaseAnimatedWithPhysicsGameObject_RGB.r;
+            s16 gMod = actor->mBaseAnimatedWithPhysicsGameObject_RGB.g;
+            s16 bMod = actor->mBaseAnimatedWithPhysicsGameObject_RGB.b;
             ShadowZone::ShadowZones_Calculate_Colour(
                 FP_GetExponent(actor->mBaseAnimatedWithPhysicsGameObject_XPos),
                 (boundingRect.h + boundingRect.y) / 2,
@@ -588,9 +588,9 @@ s32 Slig::VGetSaveState(u8* pSaveBuffer)
 
     pState->field_1C_scale = mBaseAnimatedWithPhysicsGameObject_Scale;
 
-    pState->field_1E_r = mBaseAnimatedWithPhysicsGameObject_Red;
-    pState->field_20_g = mBaseAnimatedWithPhysicsGameObject_Green;
-    pState->field_22_b = mBaseAnimatedWithPhysicsGameObject_Blue;
+    pState->field_1E_r = mBaseAnimatedWithPhysicsGameObject_RGB.r;
+    pState->field_20_g = mBaseAnimatedWithPhysicsGameObject_RGB.g;
+    pState->field_22_b = mBaseAnimatedWithPhysicsGameObject_RGB.b;
 
     if (mBaseAliveGameObjectFlags.Get(Flags_114::e114_Bit11_Electrocuting))
     {
@@ -788,11 +788,11 @@ s32 Slig::CreateFromSaveState(const u8* pBuffer)
         pSlig->mBaseAnimatedWithPhysicsGameObject_Scale = pState->field_1C_scale;
 
         pSlig->field_200_red = pState->field_1E_r;
-        pSlig->mBaseAnimatedWithPhysicsGameObject_Red = pState->field_1E_r;
+        pSlig->mBaseAnimatedWithPhysicsGameObject_RGB.r = pState->field_1E_r;
         pSlig->field_202_green = pState->field_20_g;
-        pSlig->mBaseAnimatedWithPhysicsGameObject_Green = pState->field_20_g;
+        pSlig->mBaseAnimatedWithPhysicsGameObject_RGB.g = pState->field_20_g;
         pSlig->field_204_blue = pState->field_22_b;
-        pSlig->mBaseAnimatedWithPhysicsGameObject_Blue = pState->field_22_b;
+        pSlig->mBaseAnimatedWithPhysicsGameObject_RGB.b = pState->field_22_b;
 
         pSlig->mCurrentMotion = pState->field_26_current_motion;
         const AnimRecord& animRec = AnimRec(sSligFrameTables_547318[pState->field_26_current_motion]);
@@ -2476,9 +2476,9 @@ s16 Slig::Brain_Death_0_4BBFB0()
     if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit3_Render) && field_120_timer < (static_cast<s32>(sGnFrame) + 30))
     {
         mBaseAnimatedWithPhysicsGameObject_SpriteScale -= FP_FromDouble(0.01);
-        mBaseAnimatedWithPhysicsGameObject_Red -= 2;
-        mBaseAnimatedWithPhysicsGameObject_Green -= 2;
-        mBaseAnimatedWithPhysicsGameObject_Blue -= 2;
+        mBaseAnimatedWithPhysicsGameObject_RGB.r -= 2;
+        mBaseAnimatedWithPhysicsGameObject_RGB.g -= 2;
+        mBaseAnimatedWithPhysicsGameObject_RGB.b -= 2;
 
         if (mBaseAnimatedWithPhysicsGameObject_SpriteScale >= FP_FromDouble(0.3))
         {

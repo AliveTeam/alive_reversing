@@ -182,9 +182,9 @@ Gibs::Gibs(GibType gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scale, bool b
     }
     else if (gibType == GibType::BlindMud_4)
     {
-        mBaseAnimatedWithPhysicsGameObject_Red = 63;
-        mBaseAnimatedWithPhysicsGameObject_Green = 63;
-        mBaseAnimatedWithPhysicsGameObject_Blue = 63;
+        mBaseAnimatedWithPhysicsGameObject_RGB.r = 63;
+        mBaseAnimatedWithPhysicsGameObject_RGB.g = 63;
+        mBaseAnimatedWithPhysicsGameObject_RGB.b = 63;
     }
 
     field_5D4_parts_used_count = 4;
@@ -235,9 +235,9 @@ Gibs::Gibs(GibType gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scale, bool b
         pPart->field_18_anim.field_14_scale = scale;
         pPart->field_18_anim.mAnimFlags.Clear(AnimFlags::eBit16_bBlending);
 
-        pPart->field_18_anim.mRed = static_cast<u8>(mBaseAnimatedWithPhysicsGameObject_Red);
-        pPart->field_18_anim.mGreen = static_cast<u8>(mBaseAnimatedWithPhysicsGameObject_Green);
-        pPart->field_18_anim.mBlue = static_cast<u8>(mBaseAnimatedWithPhysicsGameObject_Blue);
+        pPart->field_18_anim.mRed = static_cast<u8>(mBaseAnimatedWithPhysicsGameObject_RGB.r);
+        pPart->field_18_anim.mGreen = static_cast<u8>(mBaseAnimatedWithPhysicsGameObject_RGB.g);
+        pPart->field_18_anim.mBlue = static_cast<u8>(mBaseAnimatedWithPhysicsGameObject_RGB.b);
 
         pPart->field_0_x = mBaseAnimatedWithPhysicsGameObject_XPos;
         pPart->field_4_y = mBaseAnimatedWithPhysicsGameObject_YPos;

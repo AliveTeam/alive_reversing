@@ -204,9 +204,9 @@ Scrab::Scrab(Path_Scrab* pTlv, s32 tlvInfo)
 
     mBaseAliveGameObjectFlags.Set(Flags_10A::e10A_Bit6);
 
-    mBaseAnimatedWithPhysicsGameObject_Red = 127;
-    mBaseAnimatedWithPhysicsGameObject_Green = 127;
-    mBaseAnimatedWithPhysicsGameObject_Blue = 127;
+    mBaseAnimatedWithPhysicsGameObject_RGB.r = 127;
+    mBaseAnimatedWithPhysicsGameObject_RGB.g = 127;
+    mBaseAnimatedWithPhysicsGameObject_RGB.b = 127;
 
     field_130_unused = 0;
 
@@ -2521,9 +2521,9 @@ s16 Scrab::Brain_Death_45CB80()
     if (field_118_timer > static_cast<s32>(sGnFrame) && field_118_timer < static_cast<s32>(sGnFrame) + 80)
     {
         mBaseAnimatedWithPhysicsGameObject_SpriteScale -= FP_FromDouble(0.008);
-        mBaseAnimatedWithPhysicsGameObject_Red -= 2;
-        mBaseAnimatedWithPhysicsGameObject_Green -= 2;
-        mBaseAnimatedWithPhysicsGameObject_Blue -= 2;
+        mBaseAnimatedWithPhysicsGameObject_RGB.r -= 2;
+        mBaseAnimatedWithPhysicsGameObject_RGB.g -= 2;
+        mBaseAnimatedWithPhysicsGameObject_RGB.b -= 2;
     }
 
     if (static_cast<s32>(sGnFrame) < field_118_timer - 24)

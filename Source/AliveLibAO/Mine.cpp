@@ -96,9 +96,9 @@ Mine::Mine(Path_Mine* pTlv, s32 tlvInfo)
 
     if (gMap.mCurrentLevel == EReliveLevelIds::eStockYards || gMap.mCurrentLevel == EReliveLevelIds::eStockYardsReturn)
     {
-        mBaseAnimatedWithPhysicsGameObject_Blue = 50;
-        mBaseAnimatedWithPhysicsGameObject_Green = 50;
-        mBaseAnimatedWithPhysicsGameObject_Red = 50;
+        mBaseAnimatedWithPhysicsGameObject_RGB.b = 50;
+        mBaseAnimatedWithPhysicsGameObject_RGB.g = 50;
+        mBaseAnimatedWithPhysicsGameObject_RGB.r = 50;
         ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Palt, AOResourceID::kAbeblowAOResID, 1, 0);
         ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Palt, AOResourceID::kSlogBlowAOResID, 1, 0);
     }

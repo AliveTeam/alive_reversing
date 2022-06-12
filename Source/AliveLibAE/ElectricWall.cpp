@@ -32,9 +32,9 @@ ElectricWall::ElectricWall(Path_ElectricWall* pTlv, s32 tlvInfo)
     }
 
     mApplyShadows &= ~1;
-    mBaseAnimatedWithPhysicsGameObject_Blue = 80;
-    mBaseAnimatedWithPhysicsGameObject_Green = 80;
-    mBaseAnimatedWithPhysicsGameObject_Red = 80;
+    mBaseAnimatedWithPhysicsGameObject_RGB.b = 80;
+    mBaseAnimatedWithPhysicsGameObject_RGB.g = 80;
+    mBaseAnimatedWithPhysicsGameObject_RGB.r = 80;
     field_F4_tlvInfo = tlvInfo;
     mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pTlv->field_8_top_left.field_0_x);
     mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->field_8_top_left.field_2_y);

@@ -44,9 +44,9 @@ ZBall::ZBall(Path_ZBall* pTlv, s32 tlvInfo)
 {
     mBaseGameObjectTypeId = ReliveTypes::eZBall;
 
-    mBaseAnimatedWithPhysicsGameObject_Blue = 128;
-    mBaseAnimatedWithPhysicsGameObject_Green = 128;
-    mBaseAnimatedWithPhysicsGameObject_Red = 128;
+    mBaseAnimatedWithPhysicsGameObject_RGB.b = 128;
+    mBaseAnimatedWithPhysicsGameObject_RGB.g = 128;
+    mBaseAnimatedWithPhysicsGameObject_RGB.r = 128;
 
     switch (pTlv->field_1C_speed)
     {

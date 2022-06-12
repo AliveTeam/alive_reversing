@@ -4181,9 +4181,9 @@ s16 Mudokon::Brain_ShrivelDeath_11_43C5F0()
 {
     if (field_1C0_timer < static_cast<s32>(sGnFrame) + 80)
     {
-        mBaseAnimatedWithPhysicsGameObject_Red -= 2;
-        mBaseAnimatedWithPhysicsGameObject_Green -= 2;
-        mBaseAnimatedWithPhysicsGameObject_Blue -= 2;
+        mBaseAnimatedWithPhysicsGameObject_RGB.r -= 2;
+        mBaseAnimatedWithPhysicsGameObject_RGB.g -= 2;
+        mBaseAnimatedWithPhysicsGameObject_RGB.b -= 2;
         mBaseAnimatedWithPhysicsGameObject_SpriteScale = mBaseAnimatedWithPhysicsGameObject_SpriteScale - FP_FromDouble(0.008);
     }
 

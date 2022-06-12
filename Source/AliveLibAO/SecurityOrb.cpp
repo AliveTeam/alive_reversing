@@ -174,9 +174,9 @@ void SecurityOrb::VUpdate()
                     mBaseAnimatedWithPhysicsGameObject_SpriteScale);
                 if (pSpark1)
                 {
-                    pSpark1->mBaseAnimatedWithPhysicsGameObject_Green = 65;
-                    pSpark1->mBaseAnimatedWithPhysicsGameObject_Blue = 65;
-                    pSpark1->mBaseAnimatedWithPhysicsGameObject_Red = 255;
+                    pSpark1->mBaseAnimatedWithPhysicsGameObject_RGB.g = 65;
+                    pSpark1->mBaseAnimatedWithPhysicsGameObject_RGB.b = 65;
+                    pSpark1->mBaseAnimatedWithPhysicsGameObject_RGB.r = 255;
                 }
 
                 auto pSpark2 = relive_new Sparks(
@@ -185,9 +185,9 @@ void SecurityOrb::VUpdate()
                     mBaseAnimatedWithPhysicsGameObject_SpriteScale);
                 if (pSpark2)
                 {
-                    pSpark2->mBaseAnimatedWithPhysicsGameObject_Green = 65;
-                    pSpark2->mBaseAnimatedWithPhysicsGameObject_Blue = 65;
-                    pSpark2->mBaseAnimatedWithPhysicsGameObject_Red = 255;
+                    pSpark2->mBaseAnimatedWithPhysicsGameObject_RGB.g = 65;
+                    pSpark2->mBaseAnimatedWithPhysicsGameObject_RGB.b = 65;
+                    pSpark2->mBaseAnimatedWithPhysicsGameObject_RGB.r = 255;
                 }
 
 
@@ -199,9 +199,9 @@ void SecurityOrb::VUpdate()
                         mBaseAnimatedWithPhysicsGameObject_SpriteScale);
                     if (pSparks)
                     {
-                        pSparks->mBaseAnimatedWithPhysicsGameObject_Green = 65;
-                        pSparks->mBaseAnimatedWithPhysicsGameObject_Blue = 65;
-                        pSparks->mBaseAnimatedWithPhysicsGameObject_Red = 255;
+                        pSparks->mBaseAnimatedWithPhysicsGameObject_RGB.g = 65;
+                        pSparks->mBaseAnimatedWithPhysicsGameObject_RGB.b = 65;
+                        pSparks->mBaseAnimatedWithPhysicsGameObject_RGB.r = 255;
                     }
                 }
             }

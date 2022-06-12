@@ -235,9 +235,9 @@ s32 Fleech::CreateFromSaveState(const u8* pBuffer)
         pFleech->mBaseAnimatedWithPhysicsGameObject_LvlNumber = MapWrapper::FromAE(pState->field_1A_lvl_number);
         pFleech->mBaseAnimatedWithPhysicsGameObject_SpriteScale = pState->field_1C_sprite_scale;
 
-        pFleech->mBaseAnimatedWithPhysicsGameObject_Red = pState->mRingRed;
-        pFleech->mBaseAnimatedWithPhysicsGameObject_Green = pState->mRingGreen;
-        pFleech->mBaseAnimatedWithPhysicsGameObject_Blue = pState->mRingBlue;
+        pFleech->mBaseAnimatedWithPhysicsGameObject_RGB.r = pState->mRingRed;
+        pFleech->mBaseAnimatedWithPhysicsGameObject_RGB.g = pState->mRingGreen;
+        pFleech->mBaseAnimatedWithPhysicsGameObject_RGB.b = pState->mRingBlue;
 
         pFleech->mCurrentMotion = pState->field_28_current_motion;
         const AnimRecord& animRec = AnimRec(sFleechFrameTableOffsets_5517E4[pFleech->mCurrentMotion]);
@@ -349,9 +349,9 @@ s32 Fleech::VGetSaveState(u8* pSaveBuffer)
     pState->field_18_path_number = mBaseAnimatedWithPhysicsGameObject_PathNumber;
     pState->field_1A_lvl_number = MapWrapper::ToAE(mBaseAnimatedWithPhysicsGameObject_LvlNumber);
     pState->field_1C_sprite_scale = mBaseAnimatedWithPhysicsGameObject_SpriteScale;
-    pState->mRingRed = mBaseAnimatedWithPhysicsGameObject_Red;
-    pState->mRingGreen = mBaseAnimatedWithPhysicsGameObject_Green;
-    pState->mRingBlue = mBaseAnimatedWithPhysicsGameObject_Blue;
+    pState->mRingRed = mBaseAnimatedWithPhysicsGameObject_RGB.r;
+    pState->mRingGreen = mBaseAnimatedWithPhysicsGameObject_RGB.g;
+    pState->mRingBlue = mBaseAnimatedWithPhysicsGameObject_RGB.b;
     pState->field_26_bFlipX = mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX);
     pState->field_28_current_motion = mCurrentMotion;
     pState->field_2A_anim_current_frame = mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame;
@@ -4215,9 +4215,9 @@ s16 Fleech::Brain_3_Death_42D1E0()
     if (field_12C < static_cast<s32>(sGnFrame + 80))
     {
         mBaseAnimatedWithPhysicsGameObject_SpriteScale -= FP_FromDouble(0.022);
-        mBaseAnimatedWithPhysicsGameObject_Red -= 2;
-        mBaseAnimatedWithPhysicsGameObject_Green -= 2;
-        mBaseAnimatedWithPhysicsGameObject_Blue -= 2;
+        mBaseAnimatedWithPhysicsGameObject_RGB.r -= 2;
+        mBaseAnimatedWithPhysicsGameObject_RGB.g -= 2;
+        mBaseAnimatedWithPhysicsGameObject_RGB.b -= 2;
     }
 
     if (static_cast<s32>(sGnFrame) < field_12C - 24)

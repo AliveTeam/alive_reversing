@@ -58,9 +58,9 @@ FallingItem::FallingItem(Path_FallingItem* pTlv, s32 tlvInfo)
     mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_DoorFlameRollingBallPortalClip_Half_31;
     if (gMap.mCurrentLevel == EReliveLevelIds::eLines)
     {
-        mBaseAnimatedWithPhysicsGameObject_Red = 77;
-        mBaseAnimatedWithPhysicsGameObject_Green = 120;
-        mBaseAnimatedWithPhysicsGameObject_Blue = 190;
+        mBaseAnimatedWithPhysicsGameObject_RGB.r = 77;
+        mBaseAnimatedWithPhysicsGameObject_RGB.g = 120;
+        mBaseAnimatedWithPhysicsGameObject_RGB.b = 190;
     }
 
     field_112_switch_id = pTlv->field_18_switch_id;

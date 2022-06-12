@@ -273,9 +273,9 @@ void FlintLockFire::VRender(PrimHeader** ppOt)
             field_220_anim.field_14_scale = mBaseAnimatedWithPhysicsGameObject_SpriteScale;
         }
 
-        s16 r = mBaseAnimatedWithPhysicsGameObject_Red;
-        s16 g = mBaseAnimatedWithPhysicsGameObject_Green;
-        s16 b = mBaseAnimatedWithPhysicsGameObject_Blue;
+        s16 r = mBaseAnimatedWithPhysicsGameObject_RGB.r;
+        s16 g = mBaseAnimatedWithPhysicsGameObject_RGB.g;
+        s16 b = mBaseAnimatedWithPhysicsGameObject_RGB.b;
 
         const PSX_RECT bRect = VGetBoundingRect();
 

@@ -186,16 +186,16 @@ void Electrocute::VUpdate()
                 }
                 else
                 {
-                    field_24_r = pTargetObj->mBaseAnimatedWithPhysicsGameObject_Red;
-                    field_26_g = pTargetObj->mBaseAnimatedWithPhysicsGameObject_Green;
-                    field_28_b = pTargetObj->mBaseAnimatedWithPhysicsGameObject_Blue;
+                    field_24_r = pTargetObj->mBaseAnimatedWithPhysicsGameObject_RGB.r;
+                    field_26_g = pTargetObj->mBaseAnimatedWithPhysicsGameObject_RGB.g;
+                    field_28_b = pTargetObj->mBaseAnimatedWithPhysicsGameObject_RGB.b;
                 }
 
                 pTargetObj->mBaseAliveGameObjectFlags.Set(Flags_114::e114_Bit11_Electrocuting);
 
-                pTargetObj->mBaseAnimatedWithPhysicsGameObject_Blue = 255;
-                pTargetObj->mBaseAnimatedWithPhysicsGameObject_Green = 255;
-                pTargetObj->mBaseAnimatedWithPhysicsGameObject_Red = 255;
+                pTargetObj->mBaseAnimatedWithPhysicsGameObject_RGB.b = 255;
+                pTargetObj->mBaseAnimatedWithPhysicsGameObject_RGB.g = 255;
+                pTargetObj->mBaseAnimatedWithPhysicsGameObject_RGB.r = 255;
                 field_44_state = States::eAlphaFadeout_1;
                 break;
 
@@ -251,9 +251,9 @@ void Electrocute::VUpdate()
                         pTargetObj->mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit3_Render);
                     }
 
-                    pTargetObj->mBaseAnimatedWithPhysicsGameObject_Red = field_24_r;
-                    pTargetObj->mBaseAnimatedWithPhysicsGameObject_Green = field_26_g;
-                    pTargetObj->mBaseAnimatedWithPhysicsGameObject_Blue = field_28_b;
+                    pTargetObj->mBaseAnimatedWithPhysicsGameObject_RGB.r = field_24_r;
+                    pTargetObj->mBaseAnimatedWithPhysicsGameObject_RGB.g = field_26_g;
+                    pTargetObj->mBaseAnimatedWithPhysicsGameObject_RGB.b = field_28_b;
 
                     pTargetObj->mBaseAliveGameObjectFlags.Clear(Flags_114::e114_Bit11_Electrocuting);
 
@@ -302,9 +302,9 @@ void Electrocute::VStop()
                 reinterpret_cast<const u8*>(field_40_pPalData),
                 &field_4C_pal_rect);
 
-            pTarget->mBaseAnimatedWithPhysicsGameObject_Red = field_24_r;
-            pTarget->mBaseAnimatedWithPhysicsGameObject_Green = field_26_g;
-            pTarget->mBaseAnimatedWithPhysicsGameObject_Blue = field_28_b;
+            pTarget->mBaseAnimatedWithPhysicsGameObject_RGB.r = field_24_r;
+            pTarget->mBaseAnimatedWithPhysicsGameObject_RGB.g = field_26_g;
+            pTarget->mBaseAnimatedWithPhysicsGameObject_RGB.b = field_28_b;
 
             pTarget->mBaseAliveGameObjectFlags.Clear(Flags_114::e114_Bit11_Electrocuting);
         }
