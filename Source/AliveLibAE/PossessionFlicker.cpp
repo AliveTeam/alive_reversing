@@ -49,9 +49,7 @@ PossessionFlicker::~PossessionFlicker()
     if (pToApplyFlicker)
     {
         pToApplyFlicker->mBaseAnimatedWithPhysicsGameObject_Anim.mRenderMode = TPageAbr::eBlend_0;
-        pToApplyFlicker->mBaseAnimatedWithPhysicsGameObject_RGB.r = field_2A_old_r;
-        pToApplyFlicker->mBaseAnimatedWithPhysicsGameObject_RGB.g = field_2C_old_g;
-        pToApplyFlicker->mBaseAnimatedWithPhysicsGameObject_RGB.b = field_2E_old_b;
+        pToApplyFlicker->mBaseAnimatedWithPhysicsGameObject_RGB.SetRGB(field_2A_old_r, field_2C_old_g, field_2E_old_b);
     }
 }
 
@@ -80,15 +78,11 @@ void PossessionFlicker::VUpdate()
     if (sGnFrame % 2)
     {
         // Flicker to original colour
-        pToApplyFlicker->mBaseAnimatedWithPhysicsGameObject_RGB.r = field_24_r;
-        pToApplyFlicker->mBaseAnimatedWithPhysicsGameObject_RGB.g = field_26_g;
-        pToApplyFlicker->mBaseAnimatedWithPhysicsGameObject_RGB.b = field_28_b;
+        pToApplyFlicker->mBaseAnimatedWithPhysicsGameObject_RGB.SetRGB(field_24_r, field_26_g, field_28_b);
     }
     else
     {
         // Flicker to new colour
-        pToApplyFlicker->mBaseAnimatedWithPhysicsGameObject_RGB.r = field_2A_old_r;
-        pToApplyFlicker->mBaseAnimatedWithPhysicsGameObject_RGB.g = field_2C_old_g;
-        pToApplyFlicker->mBaseAnimatedWithPhysicsGameObject_RGB.b = field_2E_old_b;
+        pToApplyFlicker->mBaseAnimatedWithPhysicsGameObject_RGB.SetRGB(field_2A_old_r, field_2C_old_g, field_2E_old_b);
     }
 }

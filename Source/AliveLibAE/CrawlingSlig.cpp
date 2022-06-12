@@ -272,13 +272,10 @@ s32 CrawlingSlig::CreateFromSaveState(const u8* pBuffer)
         pCrawlingSlig->mBaseAnimatedWithPhysicsGameObject_SpriteScale = pState->field_1C_sprite_scale;
 
         pCrawlingSlig->field_1A4_r = pState->mRingRed;
-        pCrawlingSlig->mBaseAnimatedWithPhysicsGameObject_RGB.r = pState->mRingRed;
-
         pCrawlingSlig->field_1A6_g = pState->mRingGreen;
-        pCrawlingSlig->mBaseAnimatedWithPhysicsGameObject_RGB.g = pState->mRingGreen;
-
         pCrawlingSlig->field_1A8_b = pState->mRingBlue;
-        pCrawlingSlig->mBaseAnimatedWithPhysicsGameObject_RGB.b = pState->mRingBlue;
+
+        pCrawlingSlig->mBaseAnimatedWithPhysicsGameObject_RGB.SetRGB(pState->mRingRed, pState->mRingGreen, pState->mRingBlue);
 
         pCrawlingSlig->mCurrentMotion = pState->field_28_current_motion;
 

@@ -258,9 +258,7 @@ s16 BaseAliveGameObject::SetBaseAnimPaletteTint(const TintEntry* pTintArray, ERe
         pIter++;
     }
 
-    mBaseAnimatedWithPhysicsGameObject_RGB.r = pIter->field_1_r;
-    mBaseAnimatedWithPhysicsGameObject_RGB.g = pIter->field_2_g;
-    mBaseAnimatedWithPhysicsGameObject_RGB.b = pIter->field_3_b;
+    mBaseAnimatedWithPhysicsGameObject_RGB.SetRGB(pIter->field_1_r, pIter->field_2_g, pIter->field_3_b);
 
     u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Palt, palId, 1, 0);
     if (!ppRes)

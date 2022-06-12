@@ -788,11 +788,10 @@ s32 Slig::CreateFromSaveState(const u8* pBuffer)
         pSlig->mBaseAnimatedWithPhysicsGameObject_Scale = pState->field_1C_scale;
 
         pSlig->field_200_red = pState->field_1E_r;
-        pSlig->mBaseAnimatedWithPhysicsGameObject_RGB.r = pState->field_1E_r;
         pSlig->field_202_green = pState->field_20_g;
-        pSlig->mBaseAnimatedWithPhysicsGameObject_RGB.g = pState->field_20_g;
         pSlig->field_204_blue = pState->field_22_b;
-        pSlig->mBaseAnimatedWithPhysicsGameObject_RGB.b = pState->field_22_b;
+
+        pSlig->mBaseAnimatedWithPhysicsGameObject_RGB.SetRGB(pState->field_1E_r, pState->field_20_g, pState->field_22_b);
 
         pSlig->mCurrentMotion = pState->field_26_current_motion;
         const AnimRecord& animRec = AnimRec(sSligFrameTables_547318[pState->field_26_current_motion]);

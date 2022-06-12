@@ -27,9 +27,7 @@ BaseAnimatedWithPhysicsGameObject::BaseAnimatedWithPhysicsGameObject(s16 resourc
     mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(0);
     mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(0);
 
-    mBaseAnimatedWithPhysicsGameObject_RGB.b = 127;
-    mBaseAnimatedWithPhysicsGameObject_RGB.g = 127;
-    mBaseAnimatedWithPhysicsGameObject_RGB.r = 127;
+    mBaseAnimatedWithPhysicsGameObject_RGB.SetRGB(127, 127, 127);
 
     mBaseGameObjectFlags.Clear(BaseGameObject::eInteractive_Bit8);
     mBaseGameObjectFlags.Clear(BaseGameObject::eCanExplode_Bit7);
@@ -396,15 +394,5 @@ void BaseAnimatedWithPhysicsGameObject::SetTint(const TintEntry* pTintArray, ERe
         pTintArray++;
     }
 
-    mBaseAnimatedWithPhysicsGameObject_RGB.r = pTintArray->field_1_r;
-    mBaseAnimatedWithPhysicsGameObject_RGB.g = pTintArray->field_2_g;
-    mBaseAnimatedWithPhysicsGameObject_RGB.b = pTintArray->field_3_b;
-}
-
-
-void BaseAnimatedWithPhysicsGameObject::SetRGB(s16 r, s16 g, s16 b)
-{
-    mBaseAnimatedWithPhysicsGameObject_RGB.r = r;
-    mBaseAnimatedWithPhysicsGameObject_RGB.g = g;
-    mBaseAnimatedWithPhysicsGameObject_RGB.b = b;
+    mBaseAnimatedWithPhysicsGameObject_RGB.SetRGB(pTintArray->field_1_r, pTintArray->field_2_g, pTintArray->field_3_b);
 }

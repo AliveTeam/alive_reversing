@@ -759,9 +759,7 @@ s32 Mudokon::CreateFromSaveState(const u8* pBuffer)
         pMud->mBaseAnimatedWithPhysicsGameObject_LvlNumber = MapWrapper::FromAE(pState->field_16_lvl_number);
         pMud->mBaseAnimatedWithPhysicsGameObject_SpriteScale = pState->field_18_sprite_scale;
 
-        pMud->mBaseAnimatedWithPhysicsGameObject_RGB.r = pState->field_1C_r;
-        pMud->mBaseAnimatedWithPhysicsGameObject_RGB.g = pState->field_1E_g;
-        pMud->mBaseAnimatedWithPhysicsGameObject_RGB.b = pState->field_20_b;
+        pMud->mBaseAnimatedWithPhysicsGameObject_RGB.SetRGB(pState->field_1C_r, pState->field_1E_g, pState->field_20_b);
 
         pMud->mCurrentMotion = pState->field_24_current_motion;
 
@@ -1146,12 +1144,12 @@ void Mudokon::SetPal(Mud_Emotion emotion)
         case Mud_Emotion::eNormal_0:
             if (field_16A_flags.Get(Flags_16A::eBit4_blind))
             {
-                SetRGB(63, 63, 63);
+                mBaseAnimatedWithPhysicsGameObject_RGB.SetRGB(63, 63, 63);
                 mBaseAnimatedWithPhysicsGameObject_Anim.Load_Pal(field_10_resources_array.ItemAt(16), 0);
             }
             else
             {
-                SetRGB(87, 103, 67);
+                mBaseAnimatedWithPhysicsGameObject_RGB.SetRGB(87, 103, 67);
                 FrameInfoHeader* pFrameInfoHeader = mBaseAnimatedWithPhysicsGameObject_Anim.Get_FrameHeader(-1);
                 FrameHeader* pHeader = reinterpret_cast<FrameHeader*>(&(*mBaseAnimatedWithPhysicsGameObject_Anim.field_20_ppBlock)[pFrameInfoHeader->field_0_frame_header_offset]);
                 mBaseAnimatedWithPhysicsGameObject_Anim.Load_Pal(mBaseAnimatedWithPhysicsGameObject_Anim.field_20_ppBlock, pHeader->field_0_clut_offset);
@@ -1160,24 +1158,24 @@ void Mudokon::SetPal(Mud_Emotion emotion)
 
         case Mud_Emotion::eAngry_1:
         case Mud_Emotion::eAggressive_2:
-            SetRGB(63, 63, 63);
+            mBaseAnimatedWithPhysicsGameObject_RGB.SetRGB(63, 63, 63);
             mBaseAnimatedWithPhysicsGameObject_Anim.Load_Pal(field_10_resources_array.ItemAt(13), 0);
             break;
 
         case Mud_Emotion::eSad_3:
         case Mud_Emotion::eSuicidal_4:
-            SetRGB(63, 63, 63);
+            mBaseAnimatedWithPhysicsGameObject_RGB.SetRGB(63, 63, 63);
             mBaseAnimatedWithPhysicsGameObject_Anim.Load_Pal(field_10_resources_array.ItemAt(14), 0);
             break;
 
         case Mud_Emotion::eHappy_5:
         case Mud_Emotion::eWired_6:
-            SetRGB(74, 74, 74);
+            mBaseAnimatedWithPhysicsGameObject_RGB.SetRGB(74, 74, 74);
             mBaseAnimatedWithPhysicsGameObject_Anim.Load_Pal(field_10_resources_array.ItemAt(15), 0);
             break;
 
         case Mud_Emotion::eSick_7:
-            SetRGB(63, 63, 63);
+            mBaseAnimatedWithPhysicsGameObject_RGB.SetRGB(63, 63, 63);
             mBaseAnimatedWithPhysicsGameObject_Anim.Load_Pal(field_10_resources_array.ItemAt(17), 0);
             break;
     }

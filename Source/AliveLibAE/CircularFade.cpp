@@ -23,9 +23,7 @@ CircularFade::CircularFade(FP xpos, FP ypos, FP scale, s16 direction, s8 destroy
     VFadeIn(direction, destroyOnDone);
 
     const u8 fade_rgb = static_cast<u8>((field_1B8_fade_colour * 60) / 100);
-    mBaseAnimatedWithPhysicsGameObject_RGB.b = fade_rgb;
-    mBaseAnimatedWithPhysicsGameObject_RGB.g = fade_rgb;
-    mBaseAnimatedWithPhysicsGameObject_RGB.r = fade_rgb;
+    mBaseAnimatedWithPhysicsGameObject_RGB.SetRGB(fade_rgb, fade_rgb, fade_rgb);
 
     const AnimRecord& spotLightRec = AnimRec(AnimId::SpotLight);
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kSpotliteResID);
@@ -41,9 +39,7 @@ CircularFade::CircularFade(FP xpos, FP ypos, FP scale, s16 direction, s8 destroy
     mBaseAnimatedWithPhysicsGameObject_YPos = ypos;
     mBaseAnimatedWithPhysicsGameObject_Anim.mRenderMode = TPageAbr::eBlend_2;
     mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_FadeFlash_40;
-    mBaseAnimatedWithPhysicsGameObject_RGB.r = field_1B8_fade_colour;
-    mBaseAnimatedWithPhysicsGameObject_RGB.g = field_1B8_fade_colour;
-    mBaseAnimatedWithPhysicsGameObject_RGB.b = field_1B8_fade_colour;
+    mBaseAnimatedWithPhysicsGameObject_RGB.SetRGB(field_1B8_fade_colour, field_1B8_fade_colour, field_1B8_fade_colour);
 
     Init_SetTPage(&field_198_tPages[0], 0, 0, PSX_getTPage(TPageMode::e16Bit_2, TPageAbr::eBlend_2, 0, 0));
     Init_SetTPage(&field_198_tPages[1], 0, 0, PSX_getTPage(TPageMode::e16Bit_2, TPageAbr::eBlend_2, 0, 0));
@@ -61,9 +57,7 @@ void CircularFade::VRender(PrimHeader** ppOt)
 {
     const u8 fade_rgb = static_cast<u8>((field_1B8_fade_colour * 60) / 100);
 
-    mBaseAnimatedWithPhysicsGameObject_RGB.b = fade_rgb;
-    mBaseAnimatedWithPhysicsGameObject_RGB.g = fade_rgb;
-    mBaseAnimatedWithPhysicsGameObject_RGB.r = fade_rgb;
+    mBaseAnimatedWithPhysicsGameObject_RGB.SetRGB(fade_rgb, fade_rgb, fade_rgb);
     mBaseAnimatedWithPhysicsGameObject_Anim.mRed = fade_rgb;
     mBaseAnimatedWithPhysicsGameObject_Anim.mGreen = fade_rgb;
     mBaseAnimatedWithPhysicsGameObject_Anim.mBlue = fade_rgb;

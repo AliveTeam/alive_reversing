@@ -305,9 +305,7 @@ s32 Scrab::CreateFromSaveState(const u8* pBuffer)
         pScrab->mBaseAnimatedWithPhysicsGameObject_PathNumber = pState->field_18_path_number;
         pScrab->mBaseAnimatedWithPhysicsGameObject_LvlNumber = MapWrapper::FromAE(pState->field_1A_lvl_number);
         pScrab->mBaseAnimatedWithPhysicsGameObject_SpriteScale = pState->field_1C_sprite_scale;
-        pScrab->mBaseAnimatedWithPhysicsGameObject_RGB.r = pState->mRingRed;
-        pScrab->mBaseAnimatedWithPhysicsGameObject_RGB.g = pState->mRingGreen;
-        pScrab->mBaseAnimatedWithPhysicsGameObject_RGB.b = pState->mRingBlue;
+        pScrab->mBaseAnimatedWithPhysicsGameObject_RGB.SetRGB(pState->mRingRed, pState->mRingGreen, pState->mRingBlue);
         pScrab->mCurrentMotion = pState->field_28_current_motion;
 
         const AnimRecord& animRec = AnimRec(sScrabFrameTableOffsets_5601C0[pState->field_28_current_motion]);

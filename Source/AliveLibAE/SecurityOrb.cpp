@@ -195,17 +195,13 @@ void SecurityOrb::VUpdate()
             auto pSpark = relive_new Sparks(mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos - (FP_FromInteger(8) * mBaseAnimatedWithPhysicsGameObject_SpriteScale), mBaseAnimatedWithPhysicsGameObject_SpriteScale);
             if (pSpark)
             {
-                pSpark->mBaseAnimatedWithPhysicsGameObject_RGB.g = 65;
-                pSpark->mBaseAnimatedWithPhysicsGameObject_RGB.b = 65;
-                pSpark->mBaseAnimatedWithPhysicsGameObject_RGB.r = 255;
+                pSpark->mBaseAnimatedWithPhysicsGameObject_RGB.SetRGB(65, 65, 255);
             }
 
             auto pSpark2 = relive_new Sparks(mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos - (FP_FromInteger(8) * mBaseAnimatedWithPhysicsGameObject_SpriteScale), mBaseAnimatedWithPhysicsGameObject_SpriteScale);
             if (pSpark2)
             {
-                pSpark2->mBaseAnimatedWithPhysicsGameObject_RGB.g = 65;
-                pSpark2->mBaseAnimatedWithPhysicsGameObject_RGB.b = 65;
-                pSpark2->mBaseAnimatedWithPhysicsGameObject_RGB.r = 255;
+                pSpark2->mBaseAnimatedWithPhysicsGameObject_RGB.SetRGB(65, 65, 255);
             }
 
             for (s32 i = 0; i < 9; i++)
@@ -213,9 +209,7 @@ void SecurityOrb::VUpdate()
                 auto pSpark3 = relive_new Sparks(xpos, ypos, mBaseAnimatedWithPhysicsGameObject_SpriteScale);
                 if (pSpark3)
                 {
-                    pSpark3->mBaseAnimatedWithPhysicsGameObject_RGB.g = 65;
-                    pSpark3->mBaseAnimatedWithPhysicsGameObject_RGB.b = 65;
-                    pSpark3->mBaseAnimatedWithPhysicsGameObject_RGB.r = 255;
+                    pSpark3->mBaseAnimatedWithPhysicsGameObject_RGB.SetRGB(65, 65, 255);
                 }
             }
         }

@@ -149,9 +149,7 @@ s32 Greeter::CreateFromSaveState(const u8* pBuffer)
         pGreeter->mBaseAnimatedWithPhysicsGameObject_LvlNumber = MapWrapper::FromAE(pState->field_A_lvl_number);
         pGreeter->mBaseAnimatedWithPhysicsGameObject_SpriteScale = pState->field_1C_sprite_scale;
 
-        pGreeter->mBaseAnimatedWithPhysicsGameObject_RGB.r = pState->field_2_r;
-        pGreeter->mBaseAnimatedWithPhysicsGameObject_RGB.g = pState->field_4_g;
-        pGreeter->mBaseAnimatedWithPhysicsGameObject_RGB.b = pState->field_6_b;
+        pGreeter->mBaseAnimatedWithPhysicsGameObject_RGB.SetRGB(pState->field_2_r, pState->field_4_g, pState->field_6_b);
 
         pGreeter->mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame = pState->field_20_current_frame;
         pGreeter->mBaseAnimatedWithPhysicsGameObject_Anim.mFrameChangeCounter = pState->field_22_frame_change_counter;

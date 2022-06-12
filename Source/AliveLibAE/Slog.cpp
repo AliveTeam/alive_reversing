@@ -386,9 +386,7 @@ s32 Slog::CreateFromSaveState(const u8* pBuffer)
     pSlog->mBaseAnimatedWithPhysicsGameObject_PathNumber = pState->field_18_path_number;
     pSlog->mBaseAnimatedWithPhysicsGameObject_LvlNumber = MapWrapper::FromAE(pState->field_1A_lvl_number);
     pSlog->mBaseAnimatedWithPhysicsGameObject_SpriteScale = pState->field_1C_sprite_scale;
-    pSlog->mBaseAnimatedWithPhysicsGameObject_RGB.r = pState->mRingRed;
-    pSlog->mBaseAnimatedWithPhysicsGameObject_RGB.g = pState->mRingGreen;
-    pSlog->mBaseAnimatedWithPhysicsGameObject_RGB.b = pState->mRingBlue;
+    pSlog->mBaseAnimatedWithPhysicsGameObject_RGB.SetRGB(pState->mRingRed, pState->mRingGreen, pState->mRingBlue);
 
     pSlog->mCurrentMotion = pState->field_28_current_motion;
     u8** ppRes = pSlog->ResBlockForMotion_4C4A80(pState->field_28_current_motion);

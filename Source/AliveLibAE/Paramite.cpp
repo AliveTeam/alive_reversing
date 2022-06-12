@@ -284,9 +284,7 @@ s32 Paramite::CreateFromSaveState(const u8* pBuffer)
     pParamite->mBaseAnimatedWithPhysicsGameObject_LvlNumber = MapWrapper::FromAE(pState->field_16_lvl_number);
     pParamite->mBaseAnimatedWithPhysicsGameObject_SpriteScale = pState->field_18_sprite_scale;
 
-    pParamite->mBaseAnimatedWithPhysicsGameObject_RGB.r = pState->field_1C_r;
-    pParamite->mBaseAnimatedWithPhysicsGameObject_RGB.g = pState->field_1E_g;
-    pParamite->mBaseAnimatedWithPhysicsGameObject_RGB.b = pState->field_20_b;
+    pParamite->mBaseAnimatedWithPhysicsGameObject_RGB.SetRGB(pState->field_1C_r, pState->field_1E_g, pState->field_20_b);
 
     pParamite->mCurrentMotion = pState->field_24_current_motion;
     const AnimRecord& animRec = AnimRec(sParamiteAnimIdTable_55D660[pParamite->mCurrentMotion]);

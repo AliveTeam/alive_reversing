@@ -1110,9 +1110,7 @@ BirdPortalTerminator::BirdPortalTerminator(FP xpos, FP ypos, FP scale, PortalTyp
     mBaseAnimatedWithPhysicsGameObject_YPos = ypos;
     mBaseAnimatedWithPhysicsGameObject_XPos = xpos;
 
-    mBaseAnimatedWithPhysicsGameObject_RGB.r = 255;
-    mBaseAnimatedWithPhysicsGameObject_RGB.g = 128;
-    mBaseAnimatedWithPhysicsGameObject_RGB.b = 64;
+    mBaseAnimatedWithPhysicsGameObject_RGB.SetRGB(255, 128, 64);
 }
 
 void BirdPortalTerminator::VScreenChanged()

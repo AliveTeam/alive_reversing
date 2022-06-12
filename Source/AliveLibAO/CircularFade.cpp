@@ -23,9 +23,7 @@ CircularFade::CircularFade(FP xpos, FP ypos, FP scale, s16 direction, s8 destroy
     VFadeIn(static_cast<s8>(direction), destroyOnDone);
 
     const u8 fade_rgb = static_cast<u8>((field_1A8_fade_colour * 60) / 100);
-    mBaseAnimatedWithPhysicsGameObject_RGB.b = fade_rgb;
-    mBaseAnimatedWithPhysicsGameObject_RGB.g = fade_rgb;
-    mBaseAnimatedWithPhysicsGameObject_RGB.r = fade_rgb;
+    mBaseAnimatedWithPhysicsGameObject_RGB.SetRGB(fade_rgb, fade_rgb, fade_rgb);
 
     const AnimRecord& rec = AO::AnimRec(AnimId::Circular_Fade);
     u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
@@ -41,9 +39,7 @@ CircularFade::CircularFade(FP xpos, FP ypos, FP scale, s16 direction, s8 destroy
     mBaseAnimatedWithPhysicsGameObject_YPos = ypos;
     mBaseAnimatedWithPhysicsGameObject_Anim.mRenderMode = TPageAbr::eBlend_2;
     mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_FadeFlash_40;
-    mBaseAnimatedWithPhysicsGameObject_RGB.r = field_1A8_fade_colour;
-    mBaseAnimatedWithPhysicsGameObject_RGB.g = field_1A8_fade_colour;
-    mBaseAnimatedWithPhysicsGameObject_RGB.b = field_1A8_fade_colour;
+    mBaseAnimatedWithPhysicsGameObject_RGB.SetRGB(field_1A8_fade_colour, field_1A8_fade_colour, field_1A8_fade_colour);
 
     Init_SetTPage(&field_188_tPage[0], 0, 0, PSX_getTPage(TPageMode::e16Bit_2, TPageAbr::eBlend_2, 0, 0));
     Init_SetTPage(&field_188_tPage[1], 0, 0, PSX_getTPage(TPageMode::e16Bit_2, TPageAbr::eBlend_2, 0, 0));
@@ -53,9 +49,7 @@ void CircularFade::VRender(PrimHeader** ppOt)
 {
     const u8 fade_rgb = static_cast<u8>((field_1A8_fade_colour * 60) / 100);
 
-    mBaseAnimatedWithPhysicsGameObject_RGB.r = fade_rgb;
-    mBaseAnimatedWithPhysicsGameObject_RGB.b = fade_rgb;
-    mBaseAnimatedWithPhysicsGameObject_RGB.g = fade_rgb;
+    mBaseAnimatedWithPhysicsGameObject_RGB.SetRGB(fade_rgb, fade_rgb, fade_rgb);
 
     mBaseAnimatedWithPhysicsGameObject_Anim.mRed = fade_rgb;
     mBaseAnimatedWithPhysicsGameObject_Anim.mGreen = fade_rgb;

@@ -155,9 +155,7 @@ s32 MineCar::CreateFromSaveState(const u8* pBuffer)
 
         pMineCar->mBaseAnimatedWithPhysicsGameObject_SpriteScale = pState->field_14_sprite_scale;
 
-        pMineCar->mBaseAnimatedWithPhysicsGameObject_RGB.r = pState->field_1C_r;
-        pMineCar->mBaseAnimatedWithPhysicsGameObject_RGB.g = pState->field_1E_g;
-        pMineCar->mBaseAnimatedWithPhysicsGameObject_RGB.b = pState->field_20_b;
+        pMineCar->mBaseAnimatedWithPhysicsGameObject_RGB.SetRGB(pState->field_1C_r, pState->field_1E_g, pState->field_20_b);
 
         pMineCar->mCurrentMotion = pState->field_28_current_motion;
 

@@ -16,7 +16,6 @@ const s16 sElecticWallFrames_55165C[6] = {0, 6, 10, 18, 22, 0};
 ElectricWall::ElectricWall(Path_ElectricWall* pTlv, s32 tlvInfo)
     : BaseAnimatedWithPhysicsGameObject(0)
 {
-
     SetType(ReliveTypes::eElectricWall);
 
     const AnimRecord& rec = AnimRec(AnimId::Electric_Wall);
@@ -32,10 +31,10 @@ ElectricWall::ElectricWall(Path_ElectricWall* pTlv, s32 tlvInfo)
     }
 
     mApplyShadows &= ~1;
-    mBaseAnimatedWithPhysicsGameObject_RGB.b = 80;
-    mBaseAnimatedWithPhysicsGameObject_RGB.g = 80;
-    mBaseAnimatedWithPhysicsGameObject_RGB.r = 80;
+    mBaseAnimatedWithPhysicsGameObject_RGB.SetRGB(80, 80, 80);
+
     field_F4_tlvInfo = tlvInfo;
+
     mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pTlv->field_8_top_left.field_0_x);
     mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->field_8_top_left.field_2_y);
 

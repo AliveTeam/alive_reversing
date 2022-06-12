@@ -235,9 +235,7 @@ s32 Fleech::CreateFromSaveState(const u8* pBuffer)
         pFleech->mBaseAnimatedWithPhysicsGameObject_LvlNumber = MapWrapper::FromAE(pState->field_1A_lvl_number);
         pFleech->mBaseAnimatedWithPhysicsGameObject_SpriteScale = pState->field_1C_sprite_scale;
 
-        pFleech->mBaseAnimatedWithPhysicsGameObject_RGB.r = pState->mRingRed;
-        pFleech->mBaseAnimatedWithPhysicsGameObject_RGB.g = pState->mRingGreen;
-        pFleech->mBaseAnimatedWithPhysicsGameObject_RGB.b = pState->mRingBlue;
+        pFleech->mBaseAnimatedWithPhysicsGameObject_RGB.SetRGB(pState->mRingRed, pState->mRingGreen, pState->mRingBlue);
 
         pFleech->mCurrentMotion = pState->field_28_current_motion;
         const AnimRecord& animRec = AnimRec(sFleechFrameTableOffsets_5517E4[pFleech->mCurrentMotion]);

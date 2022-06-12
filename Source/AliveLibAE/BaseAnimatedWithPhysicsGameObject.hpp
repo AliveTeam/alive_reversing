@@ -47,7 +47,6 @@ public:
     void SetTint(const TintEntry* pTintArray, EReliveLevelIds level_id);
 
 protected:
-    void SetRGB(s16 r, s16 g, s16 b);
     void DeathSmokeEffect(bool bPlaySound);
 
 public:

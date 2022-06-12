@@ -28,9 +28,7 @@ ParamiteWebLine::ParamiteWebLine(Path_ParamiteWebLine* pTlv, s32 tlvInfo)
         mBaseAnimatedWithPhysicsGameObject_Scale = Scale::Bg;
         field_F6_piece_length = 7;
         field_1A2_pulse_position_speed = 1;
-        mBaseAnimatedWithPhysicsGameObject_RGB.r = 50;
-        mBaseAnimatedWithPhysicsGameObject_RGB.g = 50;
-        mBaseAnimatedWithPhysicsGameObject_RGB.b = 200;
+        mBaseAnimatedWithPhysicsGameObject_RGB.SetRGB(50, 50, 200);
     }
     else
     {
@@ -40,9 +38,7 @@ ParamiteWebLine::ParamiteWebLine(Path_ParamiteWebLine* pTlv, s32 tlvInfo)
         mBaseAnimatedWithPhysicsGameObject_Scale = Scale::Fg;
         field_F6_piece_length = 15;
         field_1A2_pulse_position_speed = 2;
-        mBaseAnimatedWithPhysicsGameObject_RGB.r = 10;
-        mBaseAnimatedWithPhysicsGameObject_RGB.g = 10;
-        mBaseAnimatedWithPhysicsGameObject_RGB.b = 10;
+        mBaseAnimatedWithPhysicsGameObject_RGB.SetRGB(10, 10, 10);
     }
 
     mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pTlv->field_8_top_left.field_0_x);

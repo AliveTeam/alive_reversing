@@ -46,9 +46,7 @@ MotionDetector::MotionDetector(Path_MotionDetector* pTlv, s32 tlvInfo, BaseAnima
 
     mBaseAnimatedWithPhysicsGameObject_YOffset = 0;
 
-    mBaseAnimatedWithPhysicsGameObject_RGB.r = 64;
-    mBaseAnimatedWithPhysicsGameObject_RGB.b = 0;
-    mBaseAnimatedWithPhysicsGameObject_RGB.g = 0;
+    mBaseAnimatedWithPhysicsGameObject_RGB.SetRGB(64, 0, 0);
 
     field_178_bObjectInLaser = 0;
 

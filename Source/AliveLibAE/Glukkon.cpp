@@ -175,9 +175,7 @@ s32 Glukkon::CreateFromSaveState(const u8* pData)
         pGlukkon->mBaseAnimatedWithPhysicsGameObject_LvlNumber = MapWrapper::FromAE(pSaveState->field_1A_level);
         pGlukkon->mBaseAnimatedWithPhysicsGameObject_SpriteScale = pSaveState->field_1C_sprite_scale;
 
-        pGlukkon->mBaseAnimatedWithPhysicsGameObject_RGB.r = pSaveState->mRingRed;
-        pGlukkon->mBaseAnimatedWithPhysicsGameObject_RGB.g = pSaveState->mRingGreen;
-        pGlukkon->mBaseAnimatedWithPhysicsGameObject_RGB.b = pSaveState->mRingBlue;
+        pGlukkon->mBaseAnimatedWithPhysicsGameObject_RGB.SetRGB(pSaveState->mRingRed, pSaveState->mRingGreen, pSaveState->mRingBlue);
 
         pGlukkon->field_1A0_red = pSaveState->mRingRed;
         pGlukkon->field_1A2_green = pSaveState->mRingGreen;

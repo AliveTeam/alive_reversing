@@ -3426,9 +3426,7 @@ s16 Abe::VTakeDamage(BaseGameObject* pFrom)
                 }
 
                 mHealth = FP_FromInteger(0);
-                mBaseAnimatedWithPhysicsGameObject_RGB.b = 30;
-                mBaseAnimatedWithPhysicsGameObject_RGB.g = 30;
-                mBaseAnimatedWithPhysicsGameObject_RGB.r = 30;
+                mBaseAnimatedWithPhysicsGameObject_RGB.SetRGB(30, 30, 30);
 
                 relive_new Gibs(
                     GibType::Abe_0,
@@ -3491,9 +3489,7 @@ s16 Abe::VTakeDamage(BaseGameObject* pFrom)
                 field_108_bMotionChanged = 1;
                 mHealth = FP_FromInteger(0);
                 ToKnockback_422D90(1, 1);
-                mBaseAnimatedWithPhysicsGameObject_RGB.b = 30;
-                mBaseAnimatedWithPhysicsGameObject_RGB.g = 30;
-                mBaseAnimatedWithPhysicsGameObject_RGB.r = 30;
+                mBaseAnimatedWithPhysicsGameObject_RGB.SetRGB(30, 30, 30);
 
                 relive_new Gibs(
                     GibType::Abe_0,

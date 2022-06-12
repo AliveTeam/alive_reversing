@@ -36,9 +36,7 @@ public:
         mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_FallingItemPortalClip_Half_12;
         mBaseAnimatedWithPhysicsGameObject_Anim.mRenderMode = TPageAbr::eBlend_3;
 
-        mBaseAnimatedWithPhysicsGameObject_RGB.r = 140;
-        mBaseAnimatedWithPhysicsGameObject_RGB.g = 90;
-        mBaseAnimatedWithPhysicsGameObject_RGB.b = 53;
+        mBaseAnimatedWithPhysicsGameObject_RGB.SetRGB(140, 90, 53);
 
         mBaseAnimatedWithPhysicsGameObject_SpriteScale = scale;
 

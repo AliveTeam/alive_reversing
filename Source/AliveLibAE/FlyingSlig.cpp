@@ -331,13 +331,10 @@ s32 FlyingSlig::CreateFromSaveState(const u8* pBuffer)
         pFlyingSlig->mBaseAnimatedWithPhysicsGameObject_SpriteScale = pSaveState->field_18_sprite_scale;
 
         pFlyingSlig->field_27C_r = pSaveState->field_1C_oldr;
-        pFlyingSlig->mBaseAnimatedWithPhysicsGameObject_RGB.r = pSaveState->field_1C_oldr;
-
         pFlyingSlig->field_27E_g = pSaveState->field_1E_oldg;
-        pFlyingSlig->mBaseAnimatedWithPhysicsGameObject_RGB.g = pSaveState->field_1E_oldg;
-
         pFlyingSlig->field_280_b = pSaveState->field_20_oldb;
-        pFlyingSlig->mBaseAnimatedWithPhysicsGameObject_RGB.b = pSaveState->field_20_oldb;
+
+        pFlyingSlig->mBaseAnimatedWithPhysicsGameObject_RGB.SetRGB(pSaveState->field_1C_oldr, pSaveState->field_1E_oldg, pSaveState->field_20_oldb);
 
         pFlyingSlig->mCurrentMotion = pSaveState->field_24_current_state;
 

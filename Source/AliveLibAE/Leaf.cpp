@@ -10,9 +10,7 @@ ALIVE_VAR(1, 0x563aa4, u8, sLeafRandIdx_563AA4, 8);
 Leaf::Leaf(FP xpos, FP ypos, FP xVel, FP yVel, FP scale)
     : BaseAnimatedWithPhysicsGameObject(0)
 {
-    mBaseAnimatedWithPhysicsGameObject_RGB.r = 100;
-    mBaseAnimatedWithPhysicsGameObject_RGB.g = 100;
-    mBaseAnimatedWithPhysicsGameObject_RGB.b = 100;
+    mBaseAnimatedWithPhysicsGameObject_RGB.SetRGB(100, 100, 100);
 
     const AnimRecord& rec = AnimRec(AnimId::Well_Leaf);
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);

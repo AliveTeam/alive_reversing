@@ -29,11 +29,9 @@ BaseAnimatedWithPhysicsGameObject::BaseAnimatedWithPhysicsGameObject()
     mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(0);
     mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(0);
 
-    mBaseAnimatedWithPhysicsGameObject_RGB.b = 105;
-    mBaseAnimatedWithPhysicsGameObject_RGB.g = 105;
-    mBaseAnimatedWithPhysicsGameObject_RGB.r = 105;
+    mBaseAnimatedWithPhysicsGameObject_RGB.SetRGB(105, 105, 105);
 
-    mBaseGameObjectFlags.Clear(BaseGameObject::eInteractive_Bit8);	
+    mBaseGameObjectFlags.Clear(BaseGameObject::eInteractive_Bit8);
     mBaseGameObjectFlags.Clear(BaseGameObject::eCanExplode_Bit7);
 
     mBaseGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4);
@@ -398,9 +396,7 @@ void BaseAnimatedWithPhysicsGameObject::SetTint(const TintEntry* pTintArray, ERe
         pTintArray++;
     }
 
-    mBaseAnimatedWithPhysicsGameObject_RGB.r = pTintArray->field_1_r;
-    mBaseAnimatedWithPhysicsGameObject_RGB.g = pTintArray->field_2_g;
-    mBaseAnimatedWithPhysicsGameObject_RGB.b = pTintArray->field_3_b;
+    mBaseAnimatedWithPhysicsGameObject_RGB.SetRGB(pTintArray->field_1_r, pTintArray->field_2_g, pTintArray->field_3_b);
 }
 
 // AO only

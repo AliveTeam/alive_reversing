@@ -118,9 +118,7 @@ s32 EvilFart::CreateFromSaveState(const u8* pBuffer)
     pFart->mBaseAnimatedWithPhysicsGameObject_LvlNumber = MapWrapper::FromAE(pState->field_A_lvl_number);
     pFart->mBaseAnimatedWithPhysicsGameObject_SpriteScale = pState->field_1C_sprite_scale;
 
-    pFart->mBaseAnimatedWithPhysicsGameObject_RGB.r = pState->field_2_r;
-    pFart->mBaseAnimatedWithPhysicsGameObject_RGB.g = pState->field_4_g;
-    pFart->mBaseAnimatedWithPhysicsGameObject_RGB.b = pState->field_6_b;
+    pFart->mBaseAnimatedWithPhysicsGameObject_RGB.SetRGB(pState->field_2_r, pState->field_4_g, pState->field_6_b);
 
     pFart->mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame = pState->field_20_anim_cur_frame;
     pFart->mBaseAnimatedWithPhysicsGameObject_Anim.mFrameChangeCounter = pState->field_22_frame_change_counter;
@@ -268,9 +266,7 @@ void EvilFart::VPossessed()
 
 void EvilFart::ResetFartColour()
 {
-    mBaseAnimatedWithPhysicsGameObject_RGB.r = greenFart.r;
-    mBaseAnimatedWithPhysicsGameObject_RGB.g = greenFart.g;
-    mBaseAnimatedWithPhysicsGameObject_RGB.b = greenFart.b;
+    mBaseAnimatedWithPhysicsGameObject_RGB.SetRGB(greenFart.r, greenFart.g, greenFart.b);
 }
 
 s16 EvilFart::VTakeDamage(BaseGameObject* pFrom)

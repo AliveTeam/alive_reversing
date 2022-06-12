@@ -182,9 +182,7 @@ Gibs::Gibs(GibType gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scale, bool b
     }
     else if (gibType == GibType::BlindMud_4)
     {
-        mBaseAnimatedWithPhysicsGameObject_RGB.r = 63;
-        mBaseAnimatedWithPhysicsGameObject_RGB.g = 63;
-        mBaseAnimatedWithPhysicsGameObject_RGB.b = 63;
+        mBaseAnimatedWithPhysicsGameObject_RGB.SetRGB(63, 63, 63);
     }
 
     field_5D4_parts_used_count = 4;
