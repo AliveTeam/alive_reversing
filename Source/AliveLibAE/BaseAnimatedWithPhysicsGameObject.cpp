@@ -197,32 +197,28 @@ void BaseAnimatedWithPhysicsGameObject::DeathSmokeEffect(bool bPlaySound)
 
 void BaseAnimatedWithPhysicsGameObject::VOnCollisionWith(PSX_Point xy, PSX_Point wh, DynamicArrayT<BaseGameObject>* pObjList, s32 startingPointIdx, TCollisionCallBack pFn)
 {
-    if (!pObjList)
+    if (pObjList)
     {
-        return;
-    }
-
-    // LOG_INFO("X " << xy.field_0_x << " Y " << xy.field_2_y << " W " << wh.field_0_x << " H " << wh.field_2_y);
-
-    for (s32 i = 0; i < pObjList->Size(); i++)
-    {
-        BaseGameObject* pElement = pObjList->ItemAt(i);
-        if (!pElement)
+        for (s32 i = 0; i < pObjList->Size(); i++)
         {
-            break;
-        }
-
-        if (pElement->mBaseGameObjectFlags.Get(BaseGameObject::eIsBaseAnimatedWithPhysicsObj_Bit5))
-        {
-            BaseAnimatedWithPhysicsGameObject* pObj = static_cast<BaseAnimatedWithPhysicsGameObject*>(pElement);
-            if (pObj->mBaseGameObjectFlags.Get(BaseGameObject::eDrawable_Bit4))
+            BaseGameObject* pObjIter = pObjList->ItemAt(i);
+            if (!pObjIter)
             {
-                const PSX_RECT bRect = pObj->VGetBoundingRect(startingPointIdx);
-                if (xy.field_0_x <= bRect.w && xy.field_2_y <= bRect.h && wh.field_0_x >= bRect.x && wh.field_2_y >= bRect.y && mBaseAnimatedWithPhysicsGameObject_Scale == pObj->mBaseAnimatedWithPhysicsGameObject_Scale)
+                break;
+            }
+
+            if (pObjIter->mBaseGameObjectFlags.Get(BaseGameObject::eIsBaseAnimatedWithPhysicsObj_Bit5))
+            {
+                if (pObjIter->mBaseGameObjectFlags.Get(BaseGameObject::eDrawable_Bit4))
                 {
-                    if (!(this->*(pFn))(pObj))
+                    BaseAnimatedWithPhysicsGameObject* pObj = static_cast<BaseAnimatedWithPhysicsGameObject*>(pObjIter);
+                    const PSX_RECT bRect = pObj->VGetBoundingRect(startingPointIdx);
+                    if (xy.field_0_x <= bRect.w && xy.field_2_y <= bRect.h && wh.field_0_x >= bRect.x && wh.field_2_y >= bRect.y && mBaseAnimatedWithPhysicsGameObject_Scale == pObj->mBaseAnimatedWithPhysicsGameObject_Scale)
                     {
-                        break;
+                        if (!(this->*(pFn))(pObj))
+                        {
+                            break;
+                        }
                     }
                 }
             }
