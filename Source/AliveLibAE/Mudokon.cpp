@@ -1183,7 +1183,7 @@ void Mudokon::SetPal(Mud_Emotion emotion)
 
 void Mudokon::VOnTrapDoorOpen()
 {
-    auto pPlatform = static_cast<PlatformBase*>(sObjectIds.Find_Impl(BaseAliveGameObjectId));
+    auto pPlatform = static_cast<PlatformBase*>(sObjectIds.Find_Impl(BaseAliveGameObject_PlatformId));
     if (pPlatform)
     {
         if (!mBaseAliveGameObjectFlags.Get(Flags_114::e114_Bit1_bShot))
@@ -1192,7 +1192,7 @@ void Mudokon::VOnTrapDoorOpen()
         }
 
         pPlatform->VRemove(this);
-        BaseAliveGameObjectId = -1;
+        BaseAliveGameObject_PlatformId = -1;
     }
 }
 
@@ -5526,7 +5526,7 @@ void Mudokon::M_Idle_0_4724E0()
 
     if (BaseAliveGameObjectCollisionLine)
     {
-        if ((BaseAliveGameObjectCollisionLine->field_8_type == eLineTypes::eDynamicCollision_32 || BaseAliveGameObjectCollisionLine->field_8_type == eLineTypes::eBackgroundDynamicCollision_36) && BaseAliveGameObjectId == -1)
+        if ((BaseAliveGameObjectCollisionLine->field_8_type == eLineTypes::eDynamicCollision_32 || BaseAliveGameObjectCollisionLine->field_8_type == eLineTypes::eBackgroundDynamicCollision_36) && BaseAliveGameObject_PlatformId == -1)
         {
             const PSX_RECT bRect = VGetBoundingRect();
             VOnCollisionWith(
@@ -5611,7 +5611,7 @@ void Mudokon::M_WalkLoop_1_4728B0()
     {
         ToKnockback_473190();
     }
-    else if (sObjectIds.Find_Impl(BaseAliveGameObjectId) && field_16A_flags.Get(Flags_16A::eBit4_blind) && (WallHit(mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(1), mBaseAnimatedWithPhysicsGameObject_VelX)))
+    else if (sObjectIds.Find_Impl(BaseAliveGameObject_PlatformId) && field_16A_flags.Get(Flags_16A::eBit4_blind) && (WallHit(mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(1), mBaseAnimatedWithPhysicsGameObject_VelX)))
     {
         ToKnockback_473190();
     }
@@ -7293,7 +7293,7 @@ s16 Mudokon::IsMotionUnknown_4730F0()
 
 void Mudokon::MoveOnLine_4720D0()
 {
-    PlatformBase* pPlatform = static_cast<PlatformBase*>(sObjectIds.Find_Impl(BaseAliveGameObjectId));
+    PlatformBase* pPlatform = static_cast<PlatformBase*>(sObjectIds.Find_Impl(BaseAliveGameObject_PlatformId));
 
     CheckFloorGone_472320();
 
@@ -7306,7 +7306,7 @@ void Mudokon::MoveOnLine_4720D0()
     if (pPlatform)
     {
         pPlatform->VRemove(this);
-        BaseAliveGameObjectId = -1;
+        BaseAliveGameObject_PlatformId = -1;
     }
 
     if (BaseAliveGameObjectCollisionLine)

@@ -103,7 +103,7 @@ void BaseThrowable::BaseAddToPlatform(BaseThrowable::FnTypeMatcher cb)
                         if (FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos) > bRect.x && FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos) < bRect.w && FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos) < bRect.h)
                         {
                             pPlatform->VAdd(this);
-                            BaseAliveGameObjectId = pPlatform->field_8_object_id;
+                            BaseAliveGameObject_PlatformId = pPlatform->field_8_object_id;
                             return;
                         }
                     }

@@ -252,7 +252,7 @@ s32 Slog::VGetSaveState(u8* pSaveBuffer)
         pState->field_3A_line_type = -1;
     }
 
-    pState->field_3C_id = BaseAliveGameObjectId;
+    pState->field_3C_id = BaseAliveGameObject_PlatformId;
     pState->field_74_flags.Set(Slog_State::eBit2_Possessed, sControlledCharacter_5C1B8C == this); // Lol can't be possessed anyway so ??
     pState->field_40_tlvInfo = field_12C_tlvInfo;
     pState->field_40_tlvInfo = field_12C_tlvInfo;
@@ -377,7 +377,7 @@ s32 Slog::CreateFromSaveState(const u8* pBuffer)
 
     pSlog->BaseAliveGameObjectPathTLV = nullptr;
     pSlog->BaseAliveGameObjectCollisionLine = nullptr;
-    pSlog->BaseAliveGameObjectId = pState->field_3C_id;
+    pSlog->BaseAliveGameObject_PlatformId = pState->field_3C_id;
     pSlog->mBaseAnimatedWithPhysicsGameObject_XPos = pState->field_8_xpos;
     pSlog->mBaseAnimatedWithPhysicsGameObject_YPos = pState->field_C_ypos;
     pSlog->mBaseAnimatedWithPhysicsGameObject_VelX = pState->field_10_velx;
@@ -2798,7 +2798,7 @@ void Slog::Init_4C46A0()
     field_122_brain_state_result = 0;
     mNextMotion = -1;
     field_130_motion_resource_block_index = 0;
-    BaseAliveGameObjectId = -1;
+    BaseAliveGameObject_PlatformId = -1;
     field_138_listening_to_slig_id = -1;
     field_118_target_id = -1;
     field_15C_bone_id = -1;
@@ -3097,7 +3097,7 @@ Bool32 Slog::CollisionCheck_4C5480(FP hitY, FP hitX)
 
 void Slog::MoveOnLine_4C5DA0()
 {
-    auto pPlatform = static_cast<PlatformBase*>(sObjectIds.Find_Impl(BaseAliveGameObjectId));
+    auto pPlatform = static_cast<PlatformBase*>(sObjectIds.Find_Impl(BaseAliveGameObject_PlatformId));
     const FP oldXPos = mBaseAnimatedWithPhysicsGameObject_XPos;
 
     if (BaseAliveGameObjectCollisionLine)
@@ -3110,7 +3110,7 @@ void Slog::MoveOnLine_4C5DA0()
                 if (BaseAliveGameObjectCollisionLine->field_8_type != eLineTypes::eDynamicCollision_32 && BaseAliveGameObjectCollisionLine->field_8_type != eLineTypes::eBackgroundDynamicCollision_36)
                 {
                     pPlatform->VRemove(this);
-                    BaseAliveGameObjectId = -1;
+                    BaseAliveGameObject_PlatformId = -1;
                 }
             }
             else if (BaseAliveGameObjectCollisionLine->field_8_type == eLineTypes::eDynamicCollision_32 || BaseAliveGameObjectCollisionLine->field_8_type == eLineTypes::eBackgroundDynamicCollision_36)
@@ -3278,11 +3278,11 @@ BaseAliveGameObject* Slog::FindTarget_4C33C0(s16 bKillSligs, s16 bLookingUp)
 
 void Slog::VOnTrapDoorOpen()
 {
-    auto pPlatform = static_cast<PlatformBase*>(sObjectIds.Find_Impl(BaseAliveGameObjectId));
+    auto pPlatform = static_cast<PlatformBase*>(sObjectIds.Find_Impl(BaseAliveGameObject_PlatformId));
     if (pPlatform)
     {
         pPlatform->VRemove(this);
-        BaseAliveGameObjectId = -1;
+        BaseAliveGameObject_PlatformId = -1;
         mCurrentMotion = eSlogMotions::M_Fall_4_4C6930;
     }
 }

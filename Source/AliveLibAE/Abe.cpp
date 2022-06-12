@@ -1095,7 +1095,7 @@ s32 Abe::CreateFromSaveState(const u8* pData)
     sActiveHero->mCurrentMotion = pSaveState->field_34_animation_num;
     sActiveHero->mNextMotion = pSaveState->next_motion;
     sActiveHero->BaseAliveGameObjectLastLineYPos = FP_FromInteger(pSaveState->last_line_ypos);
-    sActiveHero->BaseAliveGameObjectId = pSaveState->platform_obj_id;
+    sActiveHero->BaseAliveGameObject_PlatformId = pSaveState->platform_obj_id;
     sActiveHero->field_120_state.raw = static_cast<u16>(pSaveState->field_50_state);
     sActiveHero->field_124_timer = pSaveState->field_54_timer;
     sActiveHero->field_128.field_0_abe_timer = pSaveState->field_58_abe_timer;
@@ -1283,7 +1283,7 @@ void Abe::VUpdate()
             BaseAliveGameObjectCollisionLineType = -1;
         }
 
-        BaseAliveGameObjectId = BaseGameObject::RefreshId(BaseAliveGameObjectId);
+        BaseAliveGameObject_PlatformId = BaseGameObject::RefreshId(BaseAliveGameObject_PlatformId);
         field_148_fade_obj_id = BaseGameObject::RefreshId(field_148_fade_obj_id);
         field_14C_circular_fade_id = BaseGameObject::RefreshId(field_14C_circular_fade_id);
         field_1A8_portal_id = BaseGameObject::RefreshId(field_1A8_portal_id);
@@ -1673,7 +1673,7 @@ BirdPortal* Abe::VIntoBirdPortal(s16 gridBlocks)
 void Abe::VOnTrapDoorOpen()
 {
     // Handles falling when previously was on a platform, stop turning a wheel if we where turning one etc.
-    PlatformBase* pPlatform = static_cast<PlatformBase*>(sObjectIds.Find_Impl(BaseAliveGameObjectId));
+    PlatformBase* pPlatform = static_cast<PlatformBase*>(sObjectIds.Find_Impl(BaseAliveGameObject_PlatformId));
     WorkWheel* pWheel = static_cast<WorkWheel*>(sObjectIds.Find(field_164_wheel_id, ReliveTypes::eWheel));
     if (pPlatform)
     {
@@ -1684,7 +1684,7 @@ void Abe::VOnTrapDoorOpen()
 
         pPlatform->VRemove(this);
 
-        BaseAliveGameObjectId = -1;
+        BaseAliveGameObject_PlatformId = -1;
         BaseAliveGameObjectLastLineYPos = mBaseAnimatedWithPhysicsGameObject_YPos;
 
         if (pWheel)
@@ -1924,11 +1924,11 @@ s32 Abe::VGetSaveState(u8* pSaveBuffer)
         pSaveState->field_3a_collision_line_id = -1;
     }
 
-    pSaveState->platform_obj_id = BaseAliveGameObjectId;
+    pSaveState->platform_obj_id = BaseAliveGameObject_PlatformId;
 
-    if (BaseAliveGameObjectId != -1)
+    if (BaseAliveGameObject_PlatformId != -1)
     {
-        auto pObj = sObjectIds.Find_Impl(BaseAliveGameObjectId);
+        auto pObj = sObjectIds.Find_Impl(BaseAliveGameObject_PlatformId);
         if (pObj)
         {
             pSaveState->platform_obj_id = pObj->mBaseGameObjectTlvInfo;
@@ -2929,10 +2929,10 @@ void Abe::Motion_0_Idle_44EEB0()
     if (Input().isPressed(sInputKey_Down_5550DC))
     {
         // Check for a lift rope (going down)
-        BaseGameObject* pObj_field_110 = sObjectIds.Find_Impl(BaseAliveGameObjectId);
-        if (pObj_field_110)
+        BaseGameObject* pLiftPoint = sObjectIds.Find_Impl(BaseAliveGameObject_PlatformId);
+        if (pLiftPoint)
         {
-            if (pObj_field_110->Type() == ReliveTypes::eLiftPoint)
+            if (pLiftPoint->Type() == ReliveTypes::eLiftPoint)
             {
                 const FP halfGrid = ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale) / FP_FromInteger(2);
                 const FP liftPlatformXMidPoint = FP_FromInteger((BaseAliveGameObjectCollisionLine->field_0_rect.x + BaseAliveGameObjectCollisionLine->field_0_rect.w) / 2);
@@ -3039,10 +3039,10 @@ void Abe::Motion_0_Idle_44EEB0()
     if (Input().isPressed(sInputKey_Up_5550D8))
     {
         // Check for lift rope.. (going up)
-        BaseGameObject* pObj_field_110_2 = sObjectIds.Find_Impl(BaseAliveGameObjectId);
-        if (pObj_field_110_2)
+        BaseGameObject* pLiftPoint = sObjectIds.Find_Impl(BaseAliveGameObject_PlatformId);
+        if (pLiftPoint)
         {
-            if (pObj_field_110_2->Type() == ReliveTypes::eLiftPoint)
+            if (pLiftPoint->Type() == ReliveTypes::eLiftPoint)
             {
                 const FP halfGrid = ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale) / FP_FromInteger(2);
                 const FP liftPlatformXMidPoint = FP_FromInteger((BaseAliveGameObjectCollisionLine->field_0_rect.x + BaseAliveGameObjectCollisionLine->field_0_rect.w) / 2);
@@ -3793,7 +3793,7 @@ void Abe::Motion_13_HoistBegin_452B20()
 void Abe::Motion_14_HoistIdle_452440()
 {
     //sObjectIds_5C1B70.Find_449CF0(field_15C_pull_rope_id); // NOTE: Return never used
-    BaseGameObject* pfield_110_id = sObjectIds.Find_Impl(BaseAliveGameObjectId);
+    BaseGameObject* pfield_110_id = sObjectIds.Find_Impl(BaseAliveGameObject_PlatformId);
     if (Is_Celling_Above_44E8D0())
     {
         ToKnockback_44E700(1, 1);
@@ -4663,7 +4663,7 @@ void Abe::Motion_30_RunJumpBegin_4532E0()
 
 void Abe::Motion_31_RunJumpMid_452C10()
 {
-    BaseGameObject* pfield_110_id = sObjectIds.Find_Impl(BaseAliveGameObjectId);
+    BaseGameObject* pLiftPoint = sObjectIds.Find_Impl(BaseAliveGameObject_PlatformId);
     Event_Broadcast(kEventNoise, this);
     Event_Broadcast(kEventSuspiciousNoise, this);
     if (field_1A8_portal_id != -1)
@@ -4785,7 +4785,7 @@ void Abe::Motion_31_RunJumpMid_452C10()
                     mBaseAliveGameObjectLastAnimFrame = 12;
                 }
 
-                if (!pfield_110_id)
+                if (!pLiftPoint)
                 {
                     if (BaseAliveGameObjectCollisionLine->field_8_type == eLineTypes::eDynamicCollision_32 ||
                         BaseAliveGameObjectCollisionLine->field_8_type == eLineTypes::eBackgroundDynamicCollision_36)
@@ -5543,16 +5543,16 @@ void Abe::Motion_57_Dead_4589A0()
 
     mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit2_Animate);
 
-    if (BaseAliveGameObjectId != -1)
+    if (BaseAliveGameObject_PlatformId != -1)
     {
-        BaseGameObject* pObj = sObjectIds.Find_Impl(BaseAliveGameObjectId);
-        if (!pObj)
+        BaseGameObject* pLiftPoint = sObjectIds.Find_Impl(BaseAliveGameObject_PlatformId);
+        if (!pLiftPoint)
         {
-            BaseAliveGameObjectId = -1;
+            BaseAliveGameObject_PlatformId = -1;
         }
-        else if (pObj->Type() == ReliveTypes::eLiftPoint)
+        else if (pLiftPoint->Type() == ReliveTypes::eLiftPoint)
         {
-            static_cast<LiftPoint*>(pObj)->vMove_4626A0(FP_FromInteger(0), FP_FromInteger(0), 0);
+            static_cast<LiftPoint*>(pLiftPoint)->vMove_4626A0(FP_FromInteger(0), FP_FromInteger(0), 0);
         }
     }
 
@@ -5958,7 +5958,7 @@ void Abe::Motion_67_LedgeHang_454E20()
 
 void Abe::Motion_68_ToOffScreenHoist_454B80()
 {
-    BaseGameObject* pfield_110_id = sObjectIds.Find_Impl(BaseAliveGameObjectId);
+    BaseGameObject* pLiftPoint = sObjectIds.Find_Impl(BaseAliveGameObject_PlatformId);
 
     // Get the current hoist - even though there is no need to?
     Path_TLV* pHoist = sPath_dword_BB47C0->TLV_Get_At_4DB4B0(
@@ -5991,7 +5991,7 @@ void Abe::Motion_68_ToOffScreenHoist_454B80()
         BaseAliveGameObjectCollisionLine = pLine;
         mBaseAnimatedWithPhysicsGameObject_YPos = FP_NoFractional(hitY + FP_FromDouble(0.5));
         mBaseAnimatedWithPhysicsGameObject_VelY = FP_FromInteger(0);
-        if (!pfield_110_id)
+        if (!pLiftPoint)
         {
             if (BaseAliveGameObjectCollisionLine->field_8_type == eLineTypes::eDynamicCollision_32 ||
                 BaseAliveGameObjectCollisionLine->field_8_type == eLineTypes::eBackgroundDynamicCollision_36)
@@ -7242,7 +7242,7 @@ void Abe::Motion_109_ZShotRolling_455550()
 
     if (mCurrentMotion != eAbeMotions::Motion_109_ZShotRolling_455550 && !gAbeBulletProof_5C1BDA)
     {
-        if (BaseAliveGameObjectId != -1)
+        if (BaseAliveGameObject_PlatformId != -1)
         {
             VOnTrapDoorOpen();
         }
@@ -7273,9 +7273,9 @@ void Abe::Motion_110_ZShot_455670()
 
     if (mCurrentMotion != eAbeMotions::Motion_110_ZShot_455670 && !gAbeBulletProof_5C1BDA)
     {
-        if (BaseAliveGameObjectId != -1)
+        if (BaseAliveGameObject_PlatformId != -1)
         {
-            BaseGameObject* pLiftPoint = sObjectIds.Find_Impl(BaseAliveGameObjectId);
+            BaseGameObject* pLiftPoint = sObjectIds.Find_Impl(BaseAliveGameObject_PlatformId);
             if (pLiftPoint->Type() == ReliveTypes::eLiftPoint)
             {
                 static_cast<LiftPoint*>(pLiftPoint)->vMove_4626A0(FP_FromInteger(0), FP_FromInteger(0), 0);
@@ -8011,7 +8011,7 @@ void Abe::Motion_120_EndShrykull_45AB00()
 
 void Abe::Motion_121_LiftGrabBegin_45A600()
 {
-    auto pLiftPoint = static_cast<LiftPoint*>(sObjectIds.Find_Impl(BaseAliveGameObjectId));
+    auto pLiftPoint = static_cast<LiftPoint*>(sObjectIds.Find_Impl(BaseAliveGameObject_PlatformId));
     if (pLiftPoint)
     {
         pLiftPoint->vMove_4626A0(FP_FromInteger(0), FP_FromInteger(0), 0);
@@ -8036,7 +8036,7 @@ void Abe::Motion_122_LiftGrabEnd_45A670()
 
 void Abe::Motion_123_LiftGrabIdle_45A6A0()
 {
-    LiftPoint* pLiftPoint = static_cast<LiftPoint*>(sObjectIds.Find_Impl(BaseAliveGameObjectId));
+    LiftPoint* pLiftPoint = static_cast<LiftPoint*>(sObjectIds.Find_Impl(BaseAliveGameObject_PlatformId));
 
     FollowLift_45A500();
 
@@ -8596,7 +8596,7 @@ void Abe::MoveForward_44E9A0()
             mBaseAnimatedWithPhysicsGameObject_VelX);
     }
 
-    TrapDoor* pTrapdoor = static_cast<TrapDoor*>(sObjectIds.Find_Impl(BaseAliveGameObjectId));
+    TrapDoor* pTrapdoor = static_cast<TrapDoor*>(sObjectIds.Find_Impl(BaseAliveGameObject_PlatformId));
     if (BaseAliveGameObjectCollisionLine && (mBaseAnimatedWithPhysicsGameObject_Scale == Scale::Fg ? kFgFloor : kBgFloor).Mask() == CollisionMask(BaseAliveGameObjectCollisionLine->field_8_type).Mask())
     {
         // Handle trap door collision.
@@ -8606,7 +8606,7 @@ void Abe::MoveForward_44E9A0()
             if (pTrapdoor)
             {
                 pTrapdoor->VRemove(this);
-                BaseAliveGameObjectId = -1;
+                BaseAliveGameObject_PlatformId = -1;
             }
 
             const PSX_RECT bRect = VGetBoundingRect();
@@ -8621,7 +8621,7 @@ void Abe::MoveForward_44E9A0()
         else if (pTrapdoor)
         {
             pTrapdoor->VRemove(this);
-            BaseAliveGameObjectId = -1;
+            BaseAliveGameObject_PlatformId = -1;
         }
     }
     else
@@ -8630,7 +8630,7 @@ void Abe::MoveForward_44E9A0()
         if (pTrapdoor)
         {
             pTrapdoor->VRemove(this);
-            BaseAliveGameObjectId = -1;
+            BaseAliveGameObject_PlatformId = -1;
         }
 
         field_118_prev_held = 0;
@@ -9523,7 +9523,7 @@ void Abe::Calc_Well_Velocity_45C530(s16 xPosSource, s16 yPosSource, s16 xPosDest
 
 void Abe::FollowLift_45A500()
 {
-    LiftPoint* pLift = static_cast<LiftPoint*>(sObjectIds.Find_Impl(BaseAliveGameObjectId));
+    LiftPoint* pLift = static_cast<LiftPoint*>(sObjectIds.Find_Impl(BaseAliveGameObject_PlatformId));
     if (pLift)
     {
         mBaseAnimatedWithPhysicsGameObject_VelY = pLift->mBaseAnimatedWithPhysicsGameObject_VelY;
@@ -9538,7 +9538,7 @@ void Abe::FollowLift_45A500()
 
 s16 Abe::MoveLiftUpOrDown_45A7E0(FP yVelocity)
 {
-    LiftPoint* pLiftPoint = static_cast<LiftPoint*>(sObjectIds.Find_Impl(BaseAliveGameObjectId));
+    LiftPoint* pLiftPoint = static_cast<LiftPoint*>(sObjectIds.Find_Impl(BaseAliveGameObject_PlatformId));
     if (!pLiftPoint)
     {
         return eAbeMotions::Motion_123_LiftGrabIdle_45A6A0;

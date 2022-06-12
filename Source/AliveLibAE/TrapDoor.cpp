@@ -332,7 +332,7 @@ void TrapDoor::Open()
         {
             // That are on this trap door.
             auto pAliveObj = static_cast<BaseAliveGameObject*>(pObj);
-            if (sObjectIds.Find_Impl(pAliveObj->BaseAliveGameObjectId) == this)
+            if (sObjectIds.Find_Impl(pAliveObj->BaseAliveGameObject_PlatformId) == this)
             {
                 pAliveObj->VOnTrapDoorOpen();
 

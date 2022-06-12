@@ -103,11 +103,11 @@ MovingBomb::MovingBomb(Path_MovingBomb* pTlv, s32 tlvInfo)
 
 MovingBomb::~MovingBomb()
 {
-    auto pPlatform = static_cast<PlatformBase*>(sObjectIds.Find_Impl(BaseAliveGameObjectId));
+    auto pPlatform = static_cast<PlatformBase*>(sObjectIds.Find_Impl(BaseAliveGameObject_PlatformId));
     if (pPlatform)
     {
         pPlatform->VRemove(this);
-        BaseAliveGameObjectId = -1;
+        BaseAliveGameObject_PlatformId = -1;
     }
 
     if (field_118_state >= States::eBlowingUp_6)

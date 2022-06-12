@@ -369,7 +369,7 @@ Slig::Slig(Path_Slig* pTlv, s32 tlvInfo)
 
     field_218_tlv_data = *pTlv;
 
-    BaseAliveGameObjectId = -1;
+    BaseAliveGameObject_PlatformId = -1;
 
     mCurrentMotion = eSligMotions::M_Falling_7_4B42D0;
 
@@ -2268,7 +2268,7 @@ void Slig::M_PullLever_45_4B8950()
 
 void Slig::M_LiftGrip_46_4B3700()
 {
-    auto pLiftPoint = static_cast<LiftPoint*>(sObjectIds.Find_Impl(BaseAliveGameObjectId));
+    auto pLiftPoint = static_cast<LiftPoint*>(sObjectIds.Find_Impl(BaseAliveGameObject_PlatformId));
     if (pLiftPoint)
     {
         pLiftPoint->vMove_4626A0(FP_FromInteger(0), FP_FromInteger(0), 0);
@@ -2333,7 +2333,7 @@ void Slig::M_LiftUngrip_47_4B3820()
 
 void Slig::M_LiftGripping_48_4B3850()
 {
-    auto pLiftPoint = static_cast<LiftPoint*>(sObjectIds.Find_Impl(BaseAliveGameObjectId));
+    auto pLiftPoint = static_cast<LiftPoint*>(sObjectIds.Find_Impl(BaseAliveGameObject_PlatformId));
     if (pLiftPoint)
     {
         CheckPlatformVanished_4B3640();
@@ -2731,7 +2731,7 @@ enum Brain_ListeningToGlukkon_GlukkonCommands
 s16 Slig::Brain_ListeningToGlukkon_4_4B9D20()
 {
     auto pGlukkonObj = static_cast<BaseAliveGameObject*>(sObjectIds.Find_Impl(field_208_glukkon_obj_id));
-    auto pPlatformObj = static_cast<LiftPoint*>(sObjectIds.Find_Impl(BaseAliveGameObjectId));
+    auto pPlatformObj = static_cast<LiftPoint*>(sObjectIds.Find_Impl(BaseAliveGameObject_PlatformId));
 
     field_216_flags.Clear(Flags_216::eBit4_HeardGlukkon);
 
@@ -5428,7 +5428,7 @@ void Slig::ShootOrShootZ()
 
 s16 Slig::GrabNearbyLift()
 {
-    auto pLiftPoint = static_cast<LiftPoint*>(sObjectIds.Find_Impl(BaseAliveGameObjectId));
+    auto pLiftPoint = static_cast<LiftPoint*>(sObjectIds.Find_Impl(BaseAliveGameObject_PlatformId));
     if (pLiftPoint && pLiftPoint->Type() == ReliveTypes::eLiftPoint)
     {
         const FP halfGrid = ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale) / FP_FromInteger(2);
@@ -6004,7 +6004,7 @@ s32 Slig::IsFacingEffectiveLeft_4BB780(Slig* pSlig)
 
 void Slig::MoveOnLine_4B4C40()
 {
-    auto pPlatform = static_cast<PlatformBase*>(sObjectIds.Find_Impl(BaseAliveGameObjectId));
+    auto pPlatform = static_cast<PlatformBase*>(sObjectIds.Find_Impl(BaseAliveGameObject_PlatformId));
 
     const FP xpos = mBaseAnimatedWithPhysicsGameObject_XPos;
     if (BaseAliveGameObjectCollisionLine)
@@ -6069,7 +6069,7 @@ void Slig::PlayerControlStopWalkingIfRequired_4B8540()
 
 void Slig::CheckPlatformVanished_4B3640()
 {
-    BaseGameObject* pLiftPoint = sObjectIds.Find_Impl(BaseAliveGameObjectId);
+    BaseGameObject* pLiftPoint = sObjectIds.Find_Impl(BaseAliveGameObject_PlatformId);
     if (pLiftPoint)
     {
         if (pLiftPoint->mBaseGameObjectFlags.Get(BaseGameObject::eDead))
@@ -6085,11 +6085,11 @@ void Slig::CheckPlatformVanished_4B3640()
 
 void Slig::VOnTrapDoorOpen()
 {
-    auto pPlatform = static_cast<PlatformBase*>(sObjectIds.Find_Impl(BaseAliveGameObjectId));
+    auto pPlatform = static_cast<PlatformBase*>(sObjectIds.Find_Impl(BaseAliveGameObject_PlatformId));
     if (pPlatform)
     {
         pPlatform->VRemove(this);
-        BaseAliveGameObjectId = -1;
+        BaseAliveGameObject_PlatformId = -1;
         BaseAliveGameObjectLastLineYPos = mBaseAnimatedWithPhysicsGameObject_YPos;
         VSetMotion(eSligMotions::M_OutToFall_38_4B4570);
     }
@@ -6097,7 +6097,7 @@ void Slig::VOnTrapDoorOpen()
 
 s16 Slig::MoveLift_4B3990(FP ySpeed)
 {
-    auto pLiftPoint = static_cast<LiftPoint*>(sObjectIds.Find_Impl(BaseAliveGameObjectId));
+    auto pLiftPoint = static_cast<LiftPoint*>(sObjectIds.Find_Impl(BaseAliveGameObject_PlatformId));
     if (!pLiftPoint)
     {
         return eSligMotions::M_LiftGripping_48_4B3850;

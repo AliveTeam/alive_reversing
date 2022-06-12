@@ -224,7 +224,7 @@ s32 Fleech::CreateFromSaveState(const u8* pBuffer)
         pFleech->BaseAliveGameObjectPathTLV = nullptr;
         pFleech->BaseAliveGameObjectCollisionLine = nullptr;
 
-        pFleech->BaseAliveGameObjectId = pState->field_3C_id;
+        pFleech->BaseAliveGameObject_PlatformId = pState->field_3C_id;
 
         pFleech->mBaseAnimatedWithPhysicsGameObject_XPos = pState->field_8_xpos;
         pFleech->mBaseAnimatedWithPhysicsGameObject_YPos = pState->field_C_ypos;
@@ -370,9 +370,9 @@ s32 Fleech::VGetSaveState(u8* pSaveBuffer)
         pState->field_3A_line_type = -1;
     }
 
-    if (BaseAliveGameObjectId != -1)
+    if (BaseAliveGameObject_PlatformId != -1)
     {
-        BaseGameObject* pObj = sObjectIds.Find_Impl(BaseAliveGameObjectId);
+        BaseGameObject* pObj = sObjectIds.Find_Impl(BaseAliveGameObject_PlatformId);
         if (pObj)
         {
             pState->field_3C_id = pObj->mBaseGameObjectTlvInfo;
@@ -1190,7 +1190,7 @@ void Fleech::VUpdate()
         BaseAliveGameObjectCollisionLineType = 0;
         field_11C_obj_id = BaseGameObject::RefreshId(field_11C_obj_id);
         field_170_danger_obj = BaseGameObject::RefreshId(field_170_danger_obj);
-        BaseAliveGameObjectId = BaseGameObject::RefreshId(BaseAliveGameObjectId);
+        BaseAliveGameObject_PlatformId = BaseGameObject::RefreshId(BaseAliveGameObject_PlatformId);
     }
 
     if (Event_Get(kEventDeathReset))
@@ -1620,7 +1620,7 @@ void Fleech::Init_42A170()
     field_12C = 0;
     field_126_state = 0;
     mNextMotion = -1;
-    BaseAliveGameObjectId = -1;
+    BaseAliveGameObject_PlatformId = -1;
     field_128 = 0;
     field_11C_obj_id = -1;
     field_170_danger_obj = -1;
@@ -2248,11 +2248,11 @@ s16 Fleech::VTakeDamage(BaseGameObject* pFrom)
 
 void Fleech::VOnTrapDoorOpen()
 {
-    auto pPlatform = static_cast<PlatformBase*>(sObjectIds.Find_Impl(BaseAliveGameObjectId));
+    auto pPlatform = static_cast<PlatformBase*>(sObjectIds.Find_Impl(BaseAliveGameObject_PlatformId));
     if (pPlatform)
     {
         pPlatform->VRemove(this);
-        BaseAliveGameObjectId = -1;
+        BaseAliveGameObject_PlatformId = -1;
     }
 }
 
@@ -2417,7 +2417,7 @@ BaseAliveGameObject* Fleech::FindMudOrAbe_42CFD0()
 
 void Fleech::MoveAlongFloor_42E600()
 {
-    auto pPlatform = static_cast<PlatformBase*>(sObjectIds.Find_Impl(BaseAliveGameObjectId));
+    auto pPlatform = static_cast<PlatformBase*>(sObjectIds.Find_Impl(BaseAliveGameObject_PlatformId));
 
     const FP prev_xpos = mBaseAnimatedWithPhysicsGameObject_XPos;
     const FP prev_ypos = mBaseAnimatedWithPhysicsGameObject_YPos;
@@ -2433,7 +2433,7 @@ void Fleech::MoveAlongFloor_42E600()
                 if (BaseAliveGameObjectCollisionLine->field_8_type != eLineTypes::eDynamicCollision_32 && BaseAliveGameObjectCollisionLine->field_8_type != eLineTypes::eBackgroundDynamicCollision_36)
                 {
                     pPlatform->VRemove(this);
-                    BaseAliveGameObjectId = -1;
+                    BaseAliveGameObject_PlatformId = -1;
                 }
             }
             else if (BaseAliveGameObjectCollisionLine->field_8_type == eLineTypes::eDynamicCollision_32 || BaseAliveGameObjectCollisionLine->field_8_type == eLineTypes::eBackgroundDynamicCollision_36)

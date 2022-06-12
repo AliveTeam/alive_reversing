@@ -113,7 +113,7 @@ Scrab::Scrab(Path_Scrab* pTlv, s32 tlvInfo, ScrabSpawnDirection spawnDirection)
     field_140_motion_resource_block_index = 0;
     field_12C_timer = 0;
     mNextMotion = eScrabMotions::M_Stand_0_4A8220;
-    BaseAliveGameObjectId = -1;
+    BaseAliveGameObject_PlatformId = -1;
     mCurrentMotion = eScrabMotions::M_Stand_0_4A8220;
     field_11E_return_to_previous_motion = 0;
 
@@ -521,12 +521,12 @@ Scrab::~Scrab()
 
 void Scrab::VOnTrapDoorOpen()
 {
-    auto pPlatform = static_cast<PlatformBase*>(sObjectIds.Find_Impl(BaseAliveGameObjectId));
+    auto pPlatform = static_cast<PlatformBase*>(sObjectIds.Find_Impl(BaseAliveGameObject_PlatformId));
     if (pPlatform)
     {
         pPlatform->VRemove(this);
         field_1AA_flags.Set(Flags_1AA::eBit4_force_update_animation);
-        BaseAliveGameObjectId = -1;
+        BaseAliveGameObject_PlatformId = -1;
         mCurrentMotion = eScrabMotions::M_RunToFall_15_4A9430;
     }
 }
@@ -790,7 +790,7 @@ void Scrab::VUpdate()
                 }
             }
 
-            if (sControlledCharacter_5C1B8C == this && BaseAliveGameObjectId != -1)
+            if (sControlledCharacter_5C1B8C == this && BaseAliveGameObject_PlatformId != -1)
             {
                 mBaseAnimatedWithPhysicsGameObject_VelY = mBaseAnimatedWithPhysicsGameObject_YPos - field_13C_last_ypos;
                 SetActiveCameraDelayedFromDir();
@@ -920,7 +920,7 @@ s16 Scrab::Brain_0_Patrol_4AA630()
         return Brain_0_Patrol::eBrain0_Howling_4;
     }
 
-    auto pSwitch = static_cast<PlatformBase*>(sObjectIds.Find_Impl(BaseAliveGameObjectId));
+    auto pSwitch = static_cast<PlatformBase*>(sObjectIds.Find_Impl(BaseAliveGameObject_PlatformId));
     if (pSwitch && pSwitch->Type() == ReliveTypes::eLiftPoint && !(static_cast<LiftPoint*>(pSwitch)->vOnAnyFloor() || field_11C_brain_sub_state != Brain_0_Patrol::eBrain0_OnLift_6))
     {
         mNextMotion = eScrabMotions::M_Stand_0_4A8220;
@@ -1092,7 +1092,7 @@ s16 Scrab::Brain_0_Patrol_4AA630()
             }
             else
             {
-                BaseAliveGameObjectId = -1;
+                BaseAliveGameObject_PlatformId = -1;
                 return Brain_0_Patrol::eBrain0_ToMoving_0;
             }
             break;
@@ -1199,7 +1199,7 @@ s16 Scrab::Brain_1_ChasingEnemy_4A6470()
         return Brain_1_ChasingEnemy::eBrain1_Panic_4;
     }
 
-    LiftPoint* pLiftPoint = static_cast<LiftPoint*>(sObjectIds.Find_Impl(BaseAliveGameObjectId));
+    LiftPoint* pLiftPoint = static_cast<LiftPoint*>(sObjectIds.Find_Impl(BaseAliveGameObject_PlatformId));
     if (pLiftPoint && pLiftPoint->Type() != ReliveTypes::eLiftPoint)
     {
         pLiftPoint = nullptr; //OG bug fix: Before it could use the pointer as a LiftPoint even if it, in fact, wasn't one
@@ -1334,7 +1334,7 @@ s16 Scrab::Brain_1_ChasingEnemy_4A6470()
             }
             else
             {
-                BaseAliveGameObjectId = -1;
+                BaseAliveGameObject_PlatformId = -1;
             }
             return Brain_1_ChasingEnemy::eBrain1_Idle_1;
 
@@ -3366,7 +3366,7 @@ void Scrab::ToStand()
 
 void Scrab::MoveOnLine()
 {
-    BaseGameObject* pObj = sObjectIds.Find_Impl(BaseAliveGameObjectId);
+    BaseGameObject* pObj = sObjectIds.Find_Impl(BaseAliveGameObject_PlatformId);
     const FP oldXPos = mBaseAnimatedWithPhysicsGameObject_XPos;
     if (BaseAliveGameObjectCollisionLine)
     {

@@ -74,11 +74,11 @@ void Meat::AddToPlatform()
 
 void Meat::VOnTrapDoorOpen()
 {
-    auto pPlatform = static_cast<PlatformBase*>(sObjectIds.Find_Impl(BaseAliveGameObjectId));
+    auto pPlatform = static_cast<PlatformBase*>(sObjectIds.Find_Impl(BaseAliveGameObject_PlatformId));
     if (pPlatform)
     {
         pPlatform->VRemove(this);
-        BaseAliveGameObjectId = -1;
+        BaseAliveGameObject_PlatformId = -1;
         if (field_11C_state == MeatStates::eBecomeAPickUp_3 || field_11C_state == MeatStates::eWaitForPickUp_4)
         {
             field_11C_state = MeatStates::eIdle_1;
@@ -259,7 +259,7 @@ s16 Meat::OnCollision(BaseGameObject* pHit)
 
 void Meat::VUpdate()
 {
-    auto v2 = sObjectIds.Find_Impl(BaseAliveGameObjectId);
+    auto v2 = sObjectIds.Find_Impl(BaseAliveGameObject_PlatformId);
     if (sNum_CamSwappers_5C1B66 == 0)
     {
         if (Event_Get(kEventDeathReset))
@@ -597,7 +597,7 @@ s32 Meat::VGetSaveState(u8* pSaveBuffer)
         pState->field_28_line_type = -1;
     }
 
-    pState->field_24_base_id = BaseAliveGameObjectId;
+    pState->field_24_base_id = BaseAliveGameObject_PlatformId;
     pState->field_2A_count = field_118_count;
     pState->field_2C_state = field_11C_state;
 

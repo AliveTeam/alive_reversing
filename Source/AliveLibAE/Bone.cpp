@@ -144,11 +144,11 @@ void Bone::VThrow(FP velX, FP velY)
 
 void Bone::VOnTrapDoorOpen()
 {
-    auto pPlatform = static_cast<PlatformBase*>(sObjectIds.Find_Impl(BaseAliveGameObjectId));
+    auto pPlatform = static_cast<PlatformBase*>(sObjectIds.Find_Impl(BaseAliveGameObject_PlatformId));
     if (pPlatform)
     {
         pPlatform->VRemove(this);
-        BaseAliveGameObjectId = -1;
+        BaseAliveGameObject_PlatformId = -1;
         if (field_11C_state == BoneStates::eCollided_2 || field_11C_state == BoneStates::eOnGround_3)
         {
             field_11C_state = BoneStates::eAirborne_1;
@@ -261,7 +261,7 @@ s32 Bone::VGetSaveState(u8* pSaveBuffer)
         pState->field_28_line_type = -1;
     }
 
-    pState->field_24_base_id = BaseAliveGameObjectId;
+    pState->field_24_base_id = BaseAliveGameObject_PlatformId;
     pState->field_2A_count = field_118_count;
     pState->field_2C_state = field_11C_state;
 
@@ -414,7 +414,7 @@ void Bone::InTheAir()
 
 void Bone::VUpdate()
 {
-    auto pObj = sObjectIds.Find_Impl(BaseAliveGameObjectId);
+    auto pObj = sObjectIds.Find_Impl(BaseAliveGameObject_PlatformId);
     if (Event_Get(kEventDeathReset))
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);

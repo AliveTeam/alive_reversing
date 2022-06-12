@@ -22,8 +22,6 @@ ALIVE_VAR(1, 0x5C1B7C, DynamicArrayT<BaseAliveGameObject>*, gBaseAliveGameObject
 BaseAliveGameObject::BaseAliveGameObject(s16 resourceArraySize)
     : BaseAnimatedWithPhysicsGameObject(resourceArraySize)
 {
-    mBaseAliveGameObjectFlags.Clear(Flags_114::e114_Bit1_bShot);
-    mBaseAliveGameObjectFlags.Clear(Flags_114::e114_MotionChanged_Bit2);
     mBaseAliveGameObjectFlags.Clear(Flags_114::e114_Bit3_Can_Be_Possessed);
     mBaseAliveGameObjectFlags.Clear(Flags_114::e114_Bit4_bPossesed);
     mBaseAliveGameObjectFlags.Clear(Flags_114::e114_Bit5_ZappedByShrykull);
@@ -36,8 +34,10 @@ BaseAliveGameObject::BaseAliveGameObject(s16 resourceArraySize)
 
     BaseAliveGameObjectPathTLV = nullptr;
     BaseAliveGameObjectCollisionLine = nullptr;
-    mHealth = FP_FromDouble(1.0);
-    BaseAliveGameObjectId = -1;
+    mHealth = FP_FromInteger(1);
+    BaseAliveGameObject_PlatformId = -1;
+    mBaseAliveGameObjectFlags.Clear(Flags_114::e114_Bit1_bShot);
+    mBaseAliveGameObjectFlags.Clear(Flags_114::e114_MotionChanged_Bit2);
     mCurrentMotion = 0;
     mNextMotion = 0;
     mPreviousMotion = 0;
@@ -52,13 +52,13 @@ BaseAliveGameObject::BaseAliveGameObject(s16 resourceArraySize)
 
 BaseAliveGameObject::~BaseAliveGameObject()
 {
-    BaseAliveGameObject* pField_110 = static_cast<BaseAliveGameObject*>(sObjectIds.Find_Impl(BaseAliveGameObjectId));
+    BaseAliveGameObject* pLiftPoint = static_cast<BaseAliveGameObject*>(sObjectIds.Find_Impl(BaseAliveGameObject_PlatformId));
     gBaseAliveGameObjects_5C1B7C->Remove_Item(this);
 
-    if (pField_110)
+    if (pLiftPoint)
     {
-        pField_110->VOnTrapDoorOpen();
-        BaseAliveGameObjectId = -1;
+        pLiftPoint->VOnTrapDoorOpen();
+        BaseAliveGameObject_PlatformId = -1;
     }
 
     if (field_10A_unused)
@@ -264,7 +264,7 @@ void BaseAliveGameObject::VOn_TLV_Collision(Path_TLV* /*pTlv*/)
 
 void BaseAliveGameObject::VCheckCollisionLineStillValid(s16 distance)
 {
-    PlatformBase* pPlatform = static_cast<PlatformBase*>(sObjectIds.Find_Impl(BaseAliveGameObjectId));
+    PlatformBase* pPlatform = static_cast<PlatformBase*>(sObjectIds.Find_Impl(BaseAliveGameObject_PlatformId));
     if (!BaseAliveGameObjectCollisionLine)
     {
         return;
@@ -272,7 +272,7 @@ void BaseAliveGameObject::VCheckCollisionLineStillValid(s16 distance)
 
     if (pPlatform)
     {
-        BaseAliveGameObjectId = -1;
+        BaseAliveGameObject_PlatformId = -1;
         pPlatform->VRemove(this);
     }
 
@@ -659,6 +659,6 @@ s16 BaseAliveGameObject::OnTrapDoorIntersection(PlatformBase* pPlatform)
 
     pPlatform->VAdd(this);
 
-    BaseAliveGameObjectId = pPlatform->field_8_object_id;
+    BaseAliveGameObject_PlatformId = pPlatform->field_8_object_id;
     return 1;
 }

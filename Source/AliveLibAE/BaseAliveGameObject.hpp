@@ -72,7 +72,7 @@ public:
     s16 mNextMotion;
     s16 field_10A_unused;
     FP mHealth;
-    s32 BaseAliveGameObjectId;
+    s32 BaseAliveGameObject_PlatformId;
     BitField16<Flags_114> mBaseAliveGameObjectFlags;
     s16 field_116_padding;
 };

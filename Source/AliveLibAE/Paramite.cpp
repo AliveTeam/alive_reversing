@@ -94,7 +94,7 @@ Paramite::Paramite(Path_Paramite* pTlv, s32 tlvInfo)
     mBaseAliveGameObjectFlags.Set(Flags_114::e114_Bit3_Can_Be_Possessed);
     mBaseAliveGameObjectFlags.Set(Flags_114::e114_Bit6_SetOffExplosives);
 
-    BaseAliveGameObjectId = -1;
+    BaseAliveGameObject_PlatformId = -1;
     field_158_next_brain_ret = -1;
     field_15A_paramite_next_motion = -1;
     field_11C_web_id = -1;
@@ -5559,11 +5559,11 @@ void Paramite::VRender(PrimHeader** ppOt)
 
 void Paramite::VOnTrapDoorOpen()
 {
-    auto pPlatform = static_cast<PlatformBase*>(sObjectIds.Find_Impl(BaseAliveGameObjectId));
+    auto pPlatform = static_cast<PlatformBase*>(sObjectIds.Find_Impl(BaseAliveGameObject_PlatformId));
     if (pPlatform)
     {
         pPlatform->VRemove(this);
-        BaseAliveGameObjectId = -1;
+        BaseAliveGameObject_PlatformId = -1;
         mCurrentMotion = eParamiteMotions::M_Falling_11_48B200;
     }
 }
@@ -5995,7 +5995,7 @@ void Paramite::MoveOnLine()
         return;
     }
 
-    BaseGameObject* pPlatform = sObjectIds.Find_Impl(BaseAliveGameObjectId);
+    BaseGameObject* pPlatform = sObjectIds.Find_Impl(BaseAliveGameObject_PlatformId);
     const FP oldXPos = mBaseAnimatedWithPhysicsGameObject_XPos;
 
     // As we move on the line it might change to another one

@@ -85,12 +85,12 @@ TimedMine::TimedMine(Path_TimedMine* pPath, TlvItemInfoUnion tlv)
     mCollectionRect.w = (gridSnap / FP_FromDouble(2.0)) + mBaseAnimatedWithPhysicsGameObject_XPos;
     mCollectionRect.h = mBaseAnimatedWithPhysicsGameObject_YPos;
 
-    BaseAliveGameObjectId = -1;
+    BaseAliveGameObject_PlatformId = -1;
 }
 
 void TimedMine::VUpdate()
 {
-    auto pPlatform = static_cast<LiftPoint*>(sObjectIds.Find_Impl(BaseAliveGameObjectId));
+    auto pPlatform = static_cast<LiftPoint*>(sObjectIds.Find_Impl(BaseAliveGameObject_PlatformId));
     if (Event_Get(kEventDeathReset))
     {
         mBaseGameObjectFlags.Set(Options::eDead);
@@ -217,7 +217,7 @@ void TimedMine::StickToLiftPoint()
                         if (FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos) > bRect.x && FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos) < bRect.w && FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos) < bRect.h)
                         {
                             pLiftPoint->VAdd(this);
-                            BaseAliveGameObjectId = pObj->field_8_object_id;
+                            BaseAliveGameObject_PlatformId = pObj->field_8_object_id;
                             return;
                         }
                     }
@@ -229,7 +229,7 @@ void TimedMine::StickToLiftPoint()
 
 TimedMine::~TimedMine()
 {
-    auto pPlatform = static_cast<LiftPoint*>(sObjectIds.Find_Impl(BaseAliveGameObjectId));
+    auto pPlatform = static_cast<LiftPoint*>(sObjectIds.Find_Impl(BaseAliveGameObject_PlatformId));
     if (field_118_armed != 1 || sGnFrame < field_120_gnframe)
     {
         Path::TLV_Reset(field_11C_tlv, -1, 0, 0);
@@ -244,7 +244,7 @@ TimedMine::~TimedMine()
     if (pPlatform)
     {
         pPlatform->VRemove(this);
-        BaseAliveGameObjectId = -1;
+        BaseAliveGameObject_PlatformId = -1;
     }
 
     mBaseGameObjectFlags.Clear(BaseGameObject::eInteractive_Bit8);

@@ -119,7 +119,7 @@ s32 Grenade::VGetSaveState(u8* pSaveBuffer)
         pState->field_28_line_type = -1;
     }
 
-    pState->field_24_base_id = BaseAliveGameObjectId;
+    pState->field_24_base_id = BaseAliveGameObject_PlatformId;
     pState->field_2A_savedcount = field_118_count;
     pState->field_2C_state = field_120_state;
     pState->field_2E = field_124;
@@ -177,11 +177,11 @@ void Grenade::Init(FP xpos, FP ypos)
 
 void Grenade::VOnTrapDoorOpen()
 {
-    auto pPlatform = static_cast<PlatformBase*>(sObjectIds.Find_Impl(BaseAliveGameObjectId));
+    auto pPlatform = static_cast<PlatformBase*>(sObjectIds.Find_Impl(BaseAliveGameObject_PlatformId));
     if (pPlatform)
     {
         pPlatform->VRemove(this);
-        BaseAliveGameObjectId = -1;
+        BaseAliveGameObject_PlatformId = -1;
         if (field_120_state == GrenadeStates::eWaitToBeCollected_1 || field_120_state == GrenadeStates::eDoesNothing_2)
         {
             field_120_state = GrenadeStates::eFallingToBeCollected_0;
@@ -337,7 +337,7 @@ void Grenade::VUpdate()
 
                 auto oldLine = BaseAliveGameObjectCollisionLine;
                 BaseAliveGameObjectCollisionLine = BaseAliveGameObjectCollisionLine->MoveOnLine(&mBaseAnimatedWithPhysicsGameObject_XPos, &mBaseAnimatedWithPhysicsGameObject_YPos, mBaseAnimatedWithPhysicsGameObject_VelX);
-                if (BaseAliveGameObjectId != -1 && BaseAliveGameObjectCollisionLine != oldLine)
+                if (BaseAliveGameObject_PlatformId != -1 && BaseAliveGameObjectCollisionLine != oldLine)
                 {
                     VOnTrapDoorOpen();
                 }
@@ -352,7 +352,7 @@ void Grenade::VUpdate()
             {
                 auto oldLine = BaseAliveGameObjectCollisionLine;
                 BaseAliveGameObjectCollisionLine = BaseAliveGameObjectCollisionLine->MoveOnLine(&mBaseAnimatedWithPhysicsGameObject_XPos, &mBaseAnimatedWithPhysicsGameObject_YPos, mBaseAnimatedWithPhysicsGameObject_VelX);
-                if (BaseAliveGameObjectId != -1 && BaseAliveGameObjectCollisionLine != oldLine)
+                if (BaseAliveGameObject_PlatformId != -1 && BaseAliveGameObjectCollisionLine != oldLine)
                 {
                     VOnTrapDoorOpen();
                 }
@@ -451,7 +451,7 @@ void Grenade::VUpdate()
 
 s16 Grenade::InTheAir(s16 blowUpOnFloorTouch)
 {
-    sObjectIds.Find_Impl(BaseAliveGameObjectId);
+    sObjectIds.Find_Impl(BaseAliveGameObject_PlatformId);
 
     field_128_xpos = mBaseAnimatedWithPhysicsGameObject_XPos;
     field_12C_ypos = mBaseAnimatedWithPhysicsGameObject_YPos;
@@ -515,7 +515,7 @@ s16 Grenade::InTheAir(s16 blowUpOnFloorTouch)
         {
             if (mBaseAnimatedWithPhysicsGameObject_VelY < FP_FromInteger(1))
             {
-                if (BaseAliveGameObjectId == -1)
+                if (BaseAliveGameObject_PlatformId == -1)
                 {
                     AddToPlatform();
                 }

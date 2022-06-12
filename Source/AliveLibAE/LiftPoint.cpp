@@ -800,7 +800,7 @@ void LiftPoint::MoveObjectsOnLift(FP xVelocity)
             break;
         }
 
-        BaseGameObject* pObjectsLiftPoint = sObjectIds.Find_Impl(pObj->BaseAliveGameObjectId);
+        BaseGameObject* pObjectsLiftPoint = sObjectIds.Find_Impl(pObj->BaseAliveGameObject_PlatformId);
         if (pObjectsLiftPoint == this)
         {
             if (pObj == sControlledCharacter_5C1B8C)

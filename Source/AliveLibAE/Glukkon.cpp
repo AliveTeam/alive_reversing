@@ -537,7 +537,7 @@ const FP sGlukkonJumpVelX_54539C[10] = {
 
 void Glukkon::M_Jump_4_443030()
 {
-    auto pPlatform = static_cast<PlatformBase*>(sObjectIds.Find_Impl(BaseAliveGameObjectId));
+    auto pPlatform = static_cast<PlatformBase*>(sObjectIds.Find_Impl(BaseAliveGameObject_PlatformId));
 
     if (mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame >= 10)
     {
@@ -552,7 +552,7 @@ void Glukkon::M_Jump_4_443030()
         if (pPlatform)
         {
             pPlatform->VRemove(this);
-            BaseAliveGameObjectId = -1;
+            BaseAliveGameObject_PlatformId = -1;
         }
         BaseAliveGameObjectCollisionLine = nullptr;
     }
@@ -1019,7 +1019,7 @@ s16 Glukkon::Brain_0_Calm_WalkAround_440B40()
         MusicController::static_PlayMusic(MusicController::MusicTypes::eTension_4, this, 0, 0);
     }
 
-    auto pObj = sObjectIds.Find_Impl(BaseAliveGameObjectId);
+    auto pObj = sObjectIds.Find_Impl(BaseAliveGameObject_PlatformId);
     LiftPoint* pLiftPoint = nullptr;
     if (pObj && pObj->Type() == ReliveTypes::eLiftPoint)
     {
@@ -1290,7 +1290,7 @@ s16 Glukkon::Brain_0_Calm_WalkAround_440B40()
             }
             else
             {
-                BaseAliveGameObjectId = -1;
+                BaseAliveGameObject_PlatformId = -1;
                 return 0;
             }
             break;
@@ -1321,7 +1321,7 @@ s16 Glukkon::Brain_1_Panic_4412F0()
         MusicController::static_PlayMusic(MusicController::MusicTypes::eSoftChase_8, this, 0, 0);
     }
 
-    auto pLiftPoint = static_cast<LiftPoint*>(sObjectIds.Find_Impl(BaseAliveGameObjectId));
+    auto pLiftPoint = static_cast<LiftPoint*>(sObjectIds.Find_Impl(BaseAliveGameObject_PlatformId));
     if (pLiftPoint && pLiftPoint->Type() == ReliveTypes::eLiftPoint && !pLiftPoint->vOnAnyFloor() && field_210_brain_sub_state != 6)
     {
         mNextMotion = eGlukkonMotions::M_Idle_0_442D10;
@@ -1441,7 +1441,7 @@ s16 Glukkon::Brain_1_Panic_4412F0()
             }
             else
             {
-                BaseAliveGameObjectId = -1;
+                BaseAliveGameObject_PlatformId = -1;
             }
             return 1;
 
@@ -2030,7 +2030,7 @@ void Glukkon::Init()
     SetAnim(0, TRUE);
 
     field_208_obj_id = -1;
-    BaseAliveGameObjectId = -1;
+    BaseAliveGameObject_PlatformId = -1;
     field_1D4_timer = 0;
     mHealth = FP_FromInteger(1);
     field_1F0_randomish_speak_timer = 0;
@@ -2143,7 +2143,7 @@ void Glukkon::VUpdate()
 
         Update_Slurg_WatchPoints();
 
-        if (sControlledCharacter_5C1B8C == this && BaseAliveGameObjectId != -1)
+        if (sControlledCharacter_5C1B8C == this && BaseAliveGameObject_PlatformId != -1)
         {
             mBaseAnimatedWithPhysicsGameObject_VelY = mBaseAnimatedWithPhysicsGameObject_YPos - field_1DC_previous_ypos;
             SetActiveCameraDelayedFromDir();
@@ -2627,7 +2627,7 @@ s16 Glukkon::DoMovement()
 
 void Glukkon::FollowLine()
 {
-    auto pPlatform = static_cast<PlatformBase*>(sObjectIds.Find_Impl(BaseAliveGameObjectId));
+    auto pPlatform = static_cast<PlatformBase*>(sObjectIds.Find_Impl(BaseAliveGameObject_PlatformId));
     const FP prevXPos = mBaseAnimatedWithPhysicsGameObject_XPos;
 
     if (BaseAliveGameObjectCollisionLine)
@@ -2640,7 +2640,7 @@ void Glukkon::FollowLine()
                 if (BaseAliveGameObjectCollisionLine->field_8_type != eLineTypes::eDynamicCollision_32 && BaseAliveGameObjectCollisionLine->field_8_type != eLineTypes::eBackgroundDynamicCollision_36)
                 {
                     pPlatform->VRemove(this);
-                    BaseAliveGameObjectId = -1;
+                    BaseAliveGameObject_PlatformId = -1;
                     field_1D8_falling_velx_scale_factor = FP_FromDouble(0.35);
                 }
             }
@@ -2962,12 +2962,12 @@ void Glukkon::VScreenChanged()
 
 void Glukkon::VOnTrapDoorOpen()
 {
-    auto pPlatform = static_cast<PlatformBase*>(sObjectIds.Find_Impl(BaseAliveGameObjectId));
+    auto pPlatform = static_cast<PlatformBase*>(sObjectIds.Find_Impl(BaseAliveGameObject_PlatformId));
     if (pPlatform)
     {
         BaseAliveGameObjectLastLineYPos = mBaseAnimatedWithPhysicsGameObject_YPos;
         pPlatform->VRemove(this);
-        BaseAliveGameObjectId = -1;
+        BaseAliveGameObject_PlatformId = -1;
         SetAnim(eGlukkonMotions::M_WalkToFall_6_4434E0, TRUE);
     }
 }

@@ -30,9 +30,9 @@ BaseAliveGameObject::BaseAliveGameObject()
     mBaseAliveGameObjectFlags.Clear(Flags_10A::e10A_Bit6);
 
     BaseAliveGameObjectPathTLV = nullptr;
-    mLiftPoint = nullptr;
     BaseAliveGameObjectCollisionLine = nullptr;
     mHealth = FP_FromInteger(1);
+    mLiftPoint = nullptr;
     field_106_shot = 0;
     field_108_bMotionChanged = 0;
     field_EC = 0;
@@ -42,7 +42,9 @@ BaseAliveGameObject::BaseAliveGameObject()
     mBaseAliveGameObjectLastAnimFrame = 0;
     BaseAliveGameObjectLastLineYPos = FP_FromInteger(0);
     field_104_pending_resource_count = 0;
+    
     gBaseAliveGameObjects_4FC8A0->Push_Back(this);
+
     mBaseGameObjectFlags.Set(Options::eIsBaseAliveGameObject_Bit6);
 }
 

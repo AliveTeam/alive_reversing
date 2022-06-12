@@ -292,7 +292,7 @@ s16 Rock::OnCollision(BaseAliveGameObject* pObj)
 
 void Rock::VUpdate()
 {
-    auto pObj = sObjectIds.Find_Impl(BaseAliveGameObjectId);
+    auto pObj = sObjectIds.Find_Impl(BaseAliveGameObject_PlatformId);
     if (Event_Get(kEventDeathReset))
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
@@ -445,7 +445,7 @@ s32 Rock::VGetSaveState(u8* pSaveBuffer)
     {
         pState->field_28_line_type = -1;
     }
-    pState->field_24_id = BaseAliveGameObjectId;
+    pState->field_24_id = BaseAliveGameObject_PlatformId;
     pState->field_2A_count = field_118_count;
     pState->field_2C_state = field_11C_state;
     pState->field_2E_volume = field_11E_volume;
