@@ -63,6 +63,16 @@ public:
     s32 GetTPage(TPageMode tp, TPageAbr abr, s32* xpos, s32* ypos);
     void sub_406FF0();
 
+    FP CamXPos() const
+    {
+        return mCamPos->field_0_x - FP_FromInteger(mCamXOff);
+    }
+
+    FP CamYPos() const
+    {
+        return mCamPos->field_4_y - FP_FromInteger(mCamYOff);
+    }
+
     FP_Point* mCamPos;
     s16 mCamXOff;
     u16 mCamYOff;

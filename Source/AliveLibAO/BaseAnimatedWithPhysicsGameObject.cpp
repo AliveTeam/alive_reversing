@@ -114,7 +114,8 @@ void BaseAnimatedWithPhysicsGameObject::VRender(PrimHeader** ppOt)
                     mBaseAnimatedWithPhysicsGameObject_XPos,
                     mBaseAnimatedWithPhysicsGameObject_YPos,
                     &frameRect,
-                    mBaseAnimatedWithPhysicsGameObject_SpriteScale);
+                    mBaseAnimatedWithPhysicsGameObject_SpriteScale,
+                    mBaseAnimatedWithPhysicsGameObject_Scale);
                 mShadow->Render(ppOt);
             }
         }

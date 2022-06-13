@@ -4,6 +4,7 @@
 #include "Animation.hpp"
 #include "FixedPoint.hpp"
 #include "BitField.hpp"
+#include "../relive_lib/BaseAnimatedWithPhysicsGameObject.hpp"
 
 namespace AO {
 
@@ -13,7 +14,7 @@ public:
     Shadow();
     ~Shadow();
 
-    void Calculate_Position(FP xpos, FP ypos, PSX_RECT* pRect, FP scale);
+    void Calculate_Position(FP xpos, FP ypos, PSX_RECT* pRect, FP spriteScale, Scale scale);
     void Render(PrimHeader** ppOt);
 
     s16 field_0_x1;
