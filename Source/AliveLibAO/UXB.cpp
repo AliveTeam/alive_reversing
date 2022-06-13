@@ -167,7 +167,7 @@ void UXB::InitBlinkAnim()
     u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, tickRec.mResourceId, 1, 0);
     if (field_11C_anim.Init(
             tickRec.mFrameTableOffset,
-            gObjList_animations_505564,
+            gAnimations,
             this,
             tickRec.mMaxW,
             tickRec.mMaxH,

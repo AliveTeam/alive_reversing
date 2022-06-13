@@ -146,7 +146,7 @@ Door::Door(Path_Door* pTlv, s32 tlvInfo)
                     mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_BeforeShadow_25;
                 }
 
-                if (sCollisions->RayCast(
+                if (sCollisions->Raycast(
                     FP_FromInteger(pTlv->field_10_top_left.field_0_x + (pTlv->field_14_bottom_right.field_0_x - pTlv->field_10_top_left.field_0_x) / 2),
                     FP_FromInteger(pTlv->field_10_top_left.field_2_y),
                     FP_FromInteger(pTlv->field_10_top_left.field_0_x + (pTlv->field_14_bottom_right.field_0_x - pTlv->field_10_top_left.field_0_x) / 2),
@@ -215,7 +215,7 @@ Door::Door(Path_Door* pTlv, s32 tlvInfo)
                     1);
             }
 
-            if (sCollisions->RayCast(
+            if (sCollisions->Raycast(
                 FP_FromInteger(pTlv->field_10_top_left.field_0_x) + FP_FromInteger((pTlv->field_14_bottom_right.field_0_x - pTlv->field_10_top_left.field_0_x) / 2),
                 FP_FromInteger(pTlv->field_10_top_left.field_2_y),
                 FP_FromInteger(pTlv->field_10_top_left.field_0_x) + FP_FromInteger((pTlv->field_14_bottom_right.field_0_x - pTlv->field_10_top_left.field_0_x) / 2),
@@ -277,7 +277,7 @@ Door::Door(Path_Door* pTlv, s32 tlvInfo)
 
                     if (gMap.mCurrentLevel == EReliveLevelIds::eRuptureFarmsReturn || gMap.mCurrentLevel == EReliveLevelIds::eRuptureFarms)
                     {
-                        if (sCollisions->RayCast(
+                        if (sCollisions->Raycast(
                                 FP_FromInteger(pTlv->field_10_top_left.field_0_x + (pTlv->field_14_bottom_right.field_0_x - pTlv->field_10_top_left.field_0_x) / 2),
                                 FP_FromInteger(pTlv->field_10_top_left.field_2_y),
                                 FP_FromInteger(pTlv->field_10_top_left.field_0_x + (pTlv->field_14_bottom_right.field_0_x - pTlv->field_10_top_left.field_0_x) / 2),

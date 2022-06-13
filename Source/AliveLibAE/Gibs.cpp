@@ -193,9 +193,9 @@ Gibs::Gibs(GibType gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scale, bool b
         if (i < 2)
         {
             // 2 arm parts
-            if (!pPart->field_18_anim.Init(
+            if (!pPart->field_18_animation.Init(
                     armGib.mFrameTableOffset,
-                    gObjList_animations_5C1A24,
+                    gAnimations,
                     this,
                     armGib.mMaxW,
                     armGib.mMaxH,
@@ -212,9 +212,9 @@ Gibs::Gibs(GibType gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scale, bool b
         else
         {
             // 2 body parts
-            if (!pPart->field_18_anim.Init(
+            if (!pPart->field_18_animation.Init(
                     bodyGib.mFrameTableOffset,
-                    gObjList_animations_5C1A24,
+                    gAnimations,
                     this,
                     bodyGib.mMaxW,
                     bodyGib.mMaxH,
@@ -229,13 +229,13 @@ Gibs::Gibs(GibType gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scale, bool b
             }
         }
 
-        pPart->field_18_anim.mRenderLayer = mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer;
-        pPart->field_18_anim.field_14_scale = scale;
-        pPart->field_18_anim.mAnimFlags.Clear(AnimFlags::eBit16_bBlending);
+        pPart->field_18_animation.mRenderLayer = mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer;
+        pPart->field_18_animation.field_14_scale = scale;
+        pPart->field_18_animation.mAnimFlags.Clear(AnimFlags::eBit16_bBlending);
 
-        pPart->field_18_anim.mRed = static_cast<u8>(mBaseAnimatedWithPhysicsGameObject_RGB.r);
-        pPart->field_18_anim.mGreen = static_cast<u8>(mBaseAnimatedWithPhysicsGameObject_RGB.g);
-        pPart->field_18_anim.mBlue = static_cast<u8>(mBaseAnimatedWithPhysicsGameObject_RGB.b);
+        pPart->field_18_animation.mRed = static_cast<u8>(mBaseAnimatedWithPhysicsGameObject_RGB.r);
+        pPart->field_18_animation.mGreen = static_cast<u8>(mBaseAnimatedWithPhysicsGameObject_RGB.g);
+        pPart->field_18_animation.mBlue = static_cast<u8>(mBaseAnimatedWithPhysicsGameObject_RGB.b);
 
         pPart->field_0_x = mBaseAnimatedWithPhysicsGameObject_XPos;
         pPart->field_4_y = mBaseAnimatedWithPhysicsGameObject_YPos;
@@ -254,11 +254,11 @@ Gibs::Gibs(GibType gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scale, bool b
             pPart->field_14_dz = FP_Abs(Random_40FAF0(scale) / FP_FromInteger(2));
         }
 
-        pPart->field_18_anim.mAnimFlags.Clear(AnimFlags::eBit15_bSemiTrans);
+        pPart->field_18_animation.mAnimFlags.Clear(AnimFlags::eBit15_bSemiTrans);
 
         if (ppRes)
         {
-            pPart->field_18_anim.Load_Pal(ppRes, 0);
+            pPart->field_18_animation.Load_Pal(ppRes, 0);
         }
 
         pPart++;
@@ -269,7 +269,7 @@ Gibs::~Gibs()
 {
     for (s32 i = 0; i < field_5D4_parts_used_count; i++)
     {
-        field_104_parts[i].field_18_anim.VCleanUp();
+        field_104_parts[i].field_18_animation.VCleanUp();
     }
 }
 
@@ -338,31 +338,31 @@ void Gibs::VRender(PrimHeader** ppOt)
             // Part is within camera Y?
             if (field_104_parts[i].field_4_y >= camYPos && field_104_parts[i].field_4_y <= camYPos + FP_FromInteger(240))
             {
-                field_104_parts[i].field_18_anim.field_14_scale = FP_FromInteger(100) / (field_104_parts[i].field_8_z + FP_FromInteger(100));
+                field_104_parts[i].field_18_animation.field_14_scale = FP_FromInteger(100) / (field_104_parts[i].field_8_z + FP_FromInteger(100));
 
                 if (field_5D6_bMakeSmaller)
                 {
-                    field_104_parts[i].field_18_anim.field_14_scale /= FP_FromInteger(2);
+                    field_104_parts[i].field_18_animation.field_14_scale /= FP_FromInteger(2);
                 }
 
-                if (field_104_parts[i].field_18_anim.field_14_scale < FP_FromInteger(1))
+                if (field_104_parts[i].field_18_animation.field_14_scale < FP_FromInteger(1))
                 {
-                    field_104_parts[i].field_18_anim.mRenderLayer = Layer::eLayer_Foreground_Half_17;
+                    field_104_parts[i].field_18_animation.mRenderLayer = Layer::eLayer_Foreground_Half_17;
                 }
                 else
                 {
-                    field_104_parts[i].field_18_anim.mRenderLayer = Layer::eLayer_FG1_37;
+                    field_104_parts[i].field_18_animation.mRenderLayer = Layer::eLayer_FG1_37;
                 }
 
-                if (field_104_parts[i].field_18_anim.field_14_scale <= FP_FromInteger(1))
+                if (field_104_parts[i].field_18_animation.field_14_scale <= FP_FromInteger(1))
                 {
                     const s32 xpos = FP_GetExponent(field_104_parts[i].field_0_x - camXPos);
                     const s32 ypos = FP_GetExponent(field_104_parts[i].field_4_y - camYPos);
 
-                    field_104_parts[i].field_18_anim.VRender(xpos, ypos, ppOt, 0, 0);
+                    field_104_parts[i].field_18_animation.VRender(xpos, ypos, ppOt, 0, 0);
 
                     PSX_RECT frameRect = {};
-                    field_104_parts[i].field_18_anim.Get_Frame_Rect(&frameRect);
+                    field_104_parts[i].field_18_animation.Get_Frame_Rect(&frameRect);
                     pScreenManager->InvalidateRectCurrentIdx(
                         frameRect.x,
                         frameRect.y,

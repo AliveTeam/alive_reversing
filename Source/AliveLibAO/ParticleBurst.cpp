@@ -24,7 +24,7 @@ struct ParticleBurst_Item final
     FP field_C_x_speed;
     FP field_10_y_speed;
     FP field_14_z_speed;
-    AnimationUnknown field_18_anim;
+    AnimationUnknown field_18_animation;
 };
 ALIVE_ASSERT_SIZEOF(ParticleBurst_Item, 0x88);
 
@@ -137,27 +137,27 @@ ParticleBurst::ParticleBurst(FP xpos, FP ypos, s32 particleCount, FP scale, Burs
 
             for (s32 i = 0; i < particleCount; i++)
             {
-                field_E8_pRes[i].field_18_anim.field_68_anim_ptr = &mBaseAnimatedWithPhysicsGameObject_Anim;
-                field_E8_pRes[i].field_18_anim.mRenderLayer = mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer;
-                field_E8_pRes[i].field_18_anim.field_6C_scale = FP_FromDouble(0.95) * mBaseAnimatedWithPhysicsGameObject_SpriteScale;
+                field_E8_pRes[i].field_18_animation.field_68_anim_ptr = &mBaseAnimatedWithPhysicsGameObject_Anim;
+                field_E8_pRes[i].field_18_animation.mRenderLayer = mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer;
+                field_E8_pRes[i].field_18_animation.field_6C_scale = FP_FromDouble(0.95) * mBaseAnimatedWithPhysicsGameObject_SpriteScale;
 
-                field_E8_pRes[i].field_18_anim.mAnimFlags.Set(AnimFlags::eBit3_Render);
+                field_E8_pRes[i].field_18_animation.mAnimFlags.Set(AnimFlags::eBit3_Render);
 
-                field_E8_pRes[i].field_18_anim.mAnimFlags.Set(AnimFlags::eBit15_bSemiTrans, mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit15_bSemiTrans));
+                field_E8_pRes[i].field_18_animation.mAnimFlags.Set(AnimFlags::eBit15_bSemiTrans, mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit15_bSemiTrans));
 
-                field_E8_pRes[i].field_18_anim.mAnimFlags.Set(AnimFlags::eBit16_bBlending, mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit16_bBlending));
+                field_E8_pRes[i].field_18_animation.mAnimFlags.Set(AnimFlags::eBit16_bBlending, mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit16_bBlending));
 
                 if (type == BurstType::eBigPurpleSparks_2)
                 {
                     if (i % 2)
                     {
-                        field_E8_pRes[i].field_18_anim.mAnimFlags.Set(AnimFlags::eBit16_bBlending);
+                        field_E8_pRes[i].field_18_animation.mAnimFlags.Set(AnimFlags::eBit16_bBlending);
                     }
                 }
 
-                field_E8_pRes[i].field_18_anim.mRed = mBaseAnimatedWithPhysicsGameObject_Anim.mRed;
-                field_E8_pRes[i].field_18_anim.mGreen = mBaseAnimatedWithPhysicsGameObject_Anim.mGreen;
-                field_E8_pRes[i].field_18_anim.mBlue = mBaseAnimatedWithPhysicsGameObject_Anim.mBlue;
+                field_E8_pRes[i].field_18_animation.mRed = mBaseAnimatedWithPhysicsGameObject_Anim.mRed;
+                field_E8_pRes[i].field_18_animation.mGreen = mBaseAnimatedWithPhysicsGameObject_Anim.mGreen;
+                field_E8_pRes[i].field_18_animation.mBlue = mBaseAnimatedWithPhysicsGameObject_Anim.mBlue;
 
                 field_E8_pRes[i].field_0_x = xpos;
                 field_E8_pRes[i].field_4_y = ypos;
@@ -297,12 +297,12 @@ void ParticleBurst::VRender(PrimHeader** ppOt)
                 }
                 else
                 {
-                    pItem->field_18_anim.field_6C_scale = FP_FromInteger(100) / (pItem->field_8_z + FP_FromInteger(300));
-                    pItem->field_18_anim.VRender2(
+                    pItem->field_18_animation.field_6C_scale = FP_FromInteger(100) / (pItem->field_8_z + FP_FromInteger(300));
+                    pItem->field_18_animation.VRender2(
                         FP_GetExponent(PsxToPCX(pItem->field_0_x - screen_left, FP_FromInteger(11))),
                         FP_GetExponent(pItem->field_4_y - screen_bottom),
                         ppOt);
-                    pItem->field_18_anim.GetRenderedSize(&rect);
+                    pItem->field_18_animation.GetRenderedSize(&rect);
                 }
 
                 pScreenManager->InvalidateRect(

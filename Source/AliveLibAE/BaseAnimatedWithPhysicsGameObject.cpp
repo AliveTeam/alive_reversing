@@ -126,7 +126,7 @@ void BaseAnimatedWithPhysicsGameObject::Animation_Init(s32 frameTableOffset, s32
     FrameTableOffsetExists(frameTableOffset, true, maxW, maxH);
     if (mBaseAnimatedWithPhysicsGameObject_Anim.Init(
             frameTableOffset,
-            gObjList_animations_5C1A24,
+            gAnimations,
             this,
             static_cast<s16>(maxW),
             static_cast<s16>(maxH),

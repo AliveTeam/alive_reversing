@@ -44,7 +44,7 @@ void TorturedMudokon::SetupTearsAnimation(Animation* pAnim)
 {
     const AnimRecord& rec = AnimRec(AnimId::Tortured_Mudokon_Tears);
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
-    if (pAnim->Init(rec.mFrameTableOffset, gObjList_animations_5C1A24, this, rec.mMaxW, rec.mMaxH, ppRes, 1, 0, 0))
+    if (pAnim->Init(rec.mFrameTableOffset, gAnimations, this, rec.mMaxW, rec.mMaxH, ppRes, 1, 0, 0))
     {
         pAnim->mRenderLayer = mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer;
         pAnim->field_14_scale = mBaseAnimatedWithPhysicsGameObject_SpriteScale;
@@ -62,7 +62,7 @@ void TorturedMudokon::SetupZapAnimation(Animation* pAnim)
 {
     const AnimRecord& rec = AnimRec(AnimId::Electric_Wall);
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
-    if (pAnim->Init(rec.mFrameTableOffset, gObjList_animations_5C1A24, this, rec.mMaxW, rec.mMaxH, ppRes, 1, 0, 0))
+    if (pAnim->Init(rec.mFrameTableOffset, gAnimations, this, rec.mMaxW, rec.mMaxH, ppRes, 1, 0, 0))
     {
         // TODO: clean this up
         const s32 layerM1 = static_cast<s32>(mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer) - 1;

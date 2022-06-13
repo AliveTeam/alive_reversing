@@ -318,7 +318,7 @@ Mudokon::Mudokon(Path_TLV* pTlv, s32 tlvInfo)
 
     FP hitX = {};
     FP hitY = {};
-    const s16 bHit = sCollisions->RayCast(
+    const s16 bHit = sCollisions->Raycast(
         FP_FromInteger(pTlv->field_10_top_left.field_0_x),
         FP_FromInteger(pTlv->field_10_top_left.field_2_y),
         FP_FromInteger(pTlv->field_14_bottom_right.field_0_x),
@@ -900,7 +900,7 @@ void Mudokon::DoPathTrans_43FE00()
         PathLine* pLine = nullptr;
         FP hitY = {};
         FP hitX = {};
-        if (sCollisions->RayCast(
+        if (sCollisions->Raycast(
                 mBaseAnimatedWithPhysicsGameObject_XPos,
                 mBaseAnimatedWithPhysicsGameObject_YPos - FP_FromInteger(40),
                 mBaseAnimatedWithPhysicsGameObject_XPos,

@@ -137,7 +137,7 @@ MeatSaw::MeatSaw(Path_MeatSaw* pTlv, s32 tlvInfo)
     u8** ppRes2 = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, motorRec.mResourceId, 1, 0);
     if (field_110_anim.Init(
             motorRec.mFrameTableOffset,
-            gObjList_animations_505564,
+            gAnimations,
             this,
             motorRec.mMaxW,
             motorRec.mMaxH,

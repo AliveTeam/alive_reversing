@@ -45,7 +45,7 @@ HoistRocksEffect::HoistRocksEffect(Path_Hoist* pTlv, s32 tlvInfo)
         const AnimRecord& rec = AnimRec(AnimId::HoistRock1);
         particle.field_10_mAnim.Init(
             rec.mFrameTableOffset,
-            gObjList_animations_5C1A24,
+            gAnimations,
             this,
             rec.mMaxW,
             rec.mMaxH,

@@ -68,7 +68,7 @@ SlingMudokon::SlingMudokon(Path_SlingMudokon* pTlv, s32 tlvInfo)
 
     FP hitX = {};
     FP hitY = {};
-    if (sCollisions->RayCast(
+    if (sCollisions->Raycast(
             FP_FromInteger(pTlv->field_10_top_left.field_0_x),
             FP_FromInteger(pTlv->field_10_top_left.field_2_y),
             FP_FromInteger(pTlv->field_14_bottom_right.field_0_x),

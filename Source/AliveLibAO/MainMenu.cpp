@@ -713,7 +713,7 @@ Menu::Menu(Path_TLV* /*pTlv*/, s32 tlvInfo)
 
     const AnimRecord& circleRec = AO::AnimRec(AnimId::MenuHighlight_Circle);
     u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, circleRec.mResourceId, 1, 0);
-    field_134_anim.Init(circleRec.mFrameTableOffset, gObjList_animations_505564, this, circleRec.mMaxW, circleRec.mMaxH, ppRes, 1, 0, 0);
+    field_134_anim.Init(circleRec.mFrameTableOffset, gAnimations, this, circleRec.mMaxW, circleRec.mMaxH, ppRes, 1, 0, 0);
 
     field_134_anim.mAnimFlags.Clear(AnimFlags::eBit16_bBlending);
     field_134_anim.mAnimFlags.Set(AnimFlags::eBit15_bSemiTrans);

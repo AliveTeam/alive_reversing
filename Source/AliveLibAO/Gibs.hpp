@@ -13,7 +13,7 @@ struct GibPart final
     FP field_C_dx;
     FP field_10_dy;
     FP field_14_dz;
-    Animation field_18_anim;
+    Animation field_18_animation;
 };
 ALIVE_ASSERT_SIZEOF(GibPart, 0xB0);
 

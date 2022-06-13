@@ -17,7 +17,7 @@ struct ParticleBurst_Item final
     FP field_C_x_speed;
     FP field_10_y_speed;
     FP field_14_z_speed;
-    AnimationUnknown field_18_anim;
+    AnimationUnknown field_18_animation;
 };
 ALIVE_ASSERT_SIZEOF(ParticleBurst_Item, 0x88);
 
@@ -143,28 +143,28 @@ ParticleBurst::ParticleBurst(FP xpos, FP ypos, u32 numOfParticles, FP scale, Bur
 
             for (u32 i = 0; i < numOfParticles; i++)
             {
-                field_F8_pRes[i].field_18_anim.field_68_anim_ptr = &mBaseAnimatedWithPhysicsGameObject_Anim;
-                field_F8_pRes[i].field_18_anim.mRenderLayer = mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer;
-                field_F8_pRes[i].field_18_anim.field_6C_scale = FP_FromDouble(0.95) * mBaseAnimatedWithPhysicsGameObject_SpriteScale;
+                field_F8_pRes[i].field_18_animation.field_68_anim_ptr = &mBaseAnimatedWithPhysicsGameObject_Anim;
+                field_F8_pRes[i].field_18_animation.mRenderLayer = mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer;
+                field_F8_pRes[i].field_18_animation.field_6C_scale = FP_FromDouble(0.95) * mBaseAnimatedWithPhysicsGameObject_SpriteScale;
 
-                field_F8_pRes[i].field_18_anim.mAnimFlags.Set(AnimFlags::eBit3_Render);
-                field_F8_pRes[i].field_18_anim.mAnimFlags.Set(AnimFlags::eBit25_bDecompressDone); // TODO: HIWORD &= ~0x0100u ??
+                field_F8_pRes[i].field_18_animation.mAnimFlags.Set(AnimFlags::eBit3_Render);
+                field_F8_pRes[i].field_18_animation.mAnimFlags.Set(AnimFlags::eBit25_bDecompressDone); // TODO: HIWORD &= ~0x0100u ??
 
-                field_F8_pRes[i].field_18_anim.mAnimFlags.Set(AnimFlags::eBit15_bSemiTrans, mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit15_bSemiTrans));
+                field_F8_pRes[i].field_18_animation.mAnimFlags.Set(AnimFlags::eBit15_bSemiTrans, mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit15_bSemiTrans));
 
-                field_F8_pRes[i].field_18_anim.mAnimFlags.Set(AnimFlags::eBit16_bBlending, mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit16_bBlending));
+                field_F8_pRes[i].field_18_animation.mAnimFlags.Set(AnimFlags::eBit16_bBlending, mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit16_bBlending));
 
                 if (type == BurstType::eBigPurpleSparks_2)
                 {
                     if (i % 2)
                     {
-                        field_F8_pRes[i].field_18_anim.mAnimFlags.Set(AnimFlags::eBit16_bBlending);
+                        field_F8_pRes[i].field_18_animation.mAnimFlags.Set(AnimFlags::eBit16_bBlending);
                     }
                 }
 
-                field_F8_pRes[i].field_18_anim.mRed = mBaseAnimatedWithPhysicsGameObject_Anim.mRed;
-                field_F8_pRes[i].field_18_anim.mGreen = mBaseAnimatedWithPhysicsGameObject_Anim.mGreen;
-                field_F8_pRes[i].field_18_anim.mBlue = mBaseAnimatedWithPhysicsGameObject_Anim.mBlue;
+                field_F8_pRes[i].field_18_animation.mRed = mBaseAnimatedWithPhysicsGameObject_Anim.mRed;
+                field_F8_pRes[i].field_18_animation.mGreen = mBaseAnimatedWithPhysicsGameObject_Anim.mGreen;
+                field_F8_pRes[i].field_18_animation.mBlue = mBaseAnimatedWithPhysicsGameObject_Anim.mBlue;
 
                 field_F8_pRes[i].field_0_x = mBaseAnimatedWithPhysicsGameObject_XPos;
                 field_F8_pRes[i].field_4_y = mBaseAnimatedWithPhysicsGameObject_YPos;
@@ -290,13 +290,13 @@ void ParticleBurst::VRender(PrimHeader** ppOt)
             }
             else
             {
-                field_F8_pRes[i].field_18_anim.field_6C_scale = FP_FromInteger(100) / (zPos + FP_FromInteger(300));
-                field_F8_pRes[i].field_18_anim.field_6C_scale *= mBaseAnimatedWithPhysicsGameObject_SpriteScale;
-                field_F8_pRes[i].field_18_anim.field_6C_scale *= FP_FromInteger(field_106_count) / FP_FromInteger(13);
+                field_F8_pRes[i].field_18_animation.field_6C_scale = FP_FromInteger(100) / (zPos + FP_FromInteger(300));
+                field_F8_pRes[i].field_18_animation.field_6C_scale *= mBaseAnimatedWithPhysicsGameObject_SpriteScale;
+                field_F8_pRes[i].field_18_animation.field_6C_scale *= FP_FromInteger(field_106_count) / FP_FromInteger(13);
 
-                if (field_F8_pRes[i].field_18_anim.field_6C_scale <= FP_FromInteger(1))
+                if (field_F8_pRes[i].field_18_animation.field_6C_scale <= FP_FromInteger(1))
                 {
-                    field_F8_pRes[i].field_18_anim.VRender(
+                    field_F8_pRes[i].field_18_animation.VRender(
                         FP_GetExponent(field_F8_pRes[i].field_0_x - camX),
                         FP_GetExponent(field_F8_pRes[i].field_4_y - camY),
                         ppOt,
@@ -304,35 +304,35 @@ void ParticleBurst::VRender(PrimHeader** ppOt)
                         0);
 
                     PSX_RECT frameRect = {};
-                    field_F8_pRes[i].field_18_anim.GetRenderedSize(&frameRect);
+                    field_F8_pRes[i].field_18_animation.GetRenderedSize(&frameRect);
 
                     if (field_106_count == 9)
                     {
-                        if (field_F8_pRes[i].field_18_anim.mRed > 5)
+                        if (field_F8_pRes[i].field_18_animation.mRed > 5)
                         {
-                            field_F8_pRes[i].field_18_anim.mRed -= 6;
+                            field_F8_pRes[i].field_18_animation.mRed -= 6;
                         }
                         else
                         {
-                            field_F8_pRes[i].field_18_anim.mRed = 0;
+                            field_F8_pRes[i].field_18_animation.mRed = 0;
                         }
 
-                        if (field_F8_pRes[i].field_18_anim.mGreen > 5)
+                        if (field_F8_pRes[i].field_18_animation.mGreen > 5)
                         {
-                            field_F8_pRes[i].field_18_anim.mGreen -= 6;
+                            field_F8_pRes[i].field_18_animation.mGreen -= 6;
                         }
                         else
                         {
-                            field_F8_pRes[i].field_18_anim.mGreen = 0;
+                            field_F8_pRes[i].field_18_animation.mGreen = 0;
                         }
 
-                        if (field_F8_pRes[i].field_18_anim.mBlue > 5)
+                        if (field_F8_pRes[i].field_18_animation.mBlue > 5)
                         {
-                            field_F8_pRes[i].field_18_anim.mBlue -= 6;
+                            field_F8_pRes[i].field_18_animation.mBlue -= 6;
                         }
                         else
                         {
-                            field_F8_pRes[i].field_18_anim.mBlue = 0;
+                            field_F8_pRes[i].field_18_animation.mBlue = 0;
                         }
                     }
                     pScreenManager->InvalidateRectCurrentIdx(

@@ -8,8 +8,8 @@
 Shadow::Shadow()
 {
     const AnimRecord& shadowRec = AnimRec(AnimId::ObjectShadow);
-    u8** ppAnimRes = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, shadowRec.mResourceId, TRUE, FALSE);
-    field_18_animation.Init(shadowRec.mFrameTableOffset, gObjList_animations_5C1A24, 0, shadowRec.mMaxW, shadowRec.mMaxH, ppAnimRes, 1, 0, 0);
+    u8** ppRes = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, shadowRec.mResourceId, TRUE, FALSE);
+    field_18_animation.Init(shadowRec.mFrameTableOffset, gAnimations, 0, shadowRec.mMaxW, shadowRec.mMaxH, ppRes, 1, 0, 0);
 
     field_14_flags.Clear(Flags::eBit1_ShadowAtBottom);
     field_14_flags.Set(Flags::eBit2_Enabled);
@@ -120,11 +120,10 @@ void Shadow::Calculate_Position(FP xpos, FP ypos, PSX_RECT* frameRect, FP sprite
             field_0_x1 = std::max(objX, lineXScreen);
             field_4_x2 = std::min(objW, lineWScreen);
 
-            const s16 temp = FP_GetExponent(field_10_scale * FP_FromInteger(6));
             s16 height;
-            if (temp <= 6)
+            if (FP_GetExponent(field_10_scale * FP_FromInteger(6)) <= 6)
             {
-                height = temp;
+                height = FP_GetExponent(field_10_scale * FP_FromInteger(6));
             }
             else
             {
@@ -133,7 +132,7 @@ void Shadow::Calculate_Position(FP xpos, FP ypos, PSX_RECT* frameRect, FP sprite
 
             const s16 finalYPos = FP_GetExponent(field_C_ypos - pScreenManager->CamYPos()) - height / 2;
             field_2_y1 = finalYPos;
-            field_6_y2 = height + finalYPos;
+            field_6_y2 = finalYPos + height;
         }
         else
         {

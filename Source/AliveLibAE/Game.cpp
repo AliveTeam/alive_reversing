@@ -382,7 +382,7 @@ s32 CreateTimer_4EDEC0(UINT /*uDelay*/, void* /*callBack*/)
 }
 
 
-ALIVE_VAR(1, 0x5C1A24, DynamicArrayT<AnimationBase>*, gObjList_animations_5C1A24, nullptr);
+ALIVE_VAR(1, 0x5C1A24, DynamicArrayT<AnimationBase>*, gAnimations, nullptr);
 ALIVE_VAR(1, 0x5C1124, DynamicArrayT<BaseGameObject>*, gObjListDrawables, nullptr);
 
 
@@ -476,7 +476,7 @@ void Game_Run_466D40()
 
     gFG1List_5D1E28 = relive_new DynamicArrayT<FG1>(4);
 
-    gObjList_animations_5C1A24 = relive_new DynamicArrayT<AnimationBase>(30);
+    gAnimations = relive_new DynamicArrayT<AnimationBase>(30);
 
     pResourceManager_5C1BB0 = relive_new ResourceManager();
 
@@ -537,7 +537,7 @@ void Game_Run_466D40()
     DDCheat::ClearProperties();
     gMap.Shutdown();
 
-    relive_delete gObjList_animations_5C1A24;
+    relive_delete gAnimations;
     relive_delete gObjListDrawables;
     relive_delete gFG1List_5D1E28;
     relive_delete gBaseGameObjects;
@@ -710,7 +710,7 @@ void Game_Loop_467230()
         // Animate everything
         if (sNum_CamSwappers_5C1B66 <= 0)
         {
-            AnimationBase::AnimateAll(gObjList_animations_5C1A24);
+            AnimationBase::AnimateAll(gAnimations);
         }
 
         PrimHeader** ppOtBuffer = gPsxDisplay_5C1130.field_10_drawEnv[gPsxDisplay_5C1130.field_C_buffer_index].field_70_ot_buffer;

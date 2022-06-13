@@ -594,7 +594,7 @@ void Animation::VRender(s32 xpos, s32 ypos, PrimHeader** ppOt, s16 width, s32 he
 
 void Animation::VCleanUp()
 {
-    gObjList_animations_5C1A24->Remove_Item(this);
+    gAnimations->Remove_Item(this);
     Animation_Pal_Free();
     ResourceManager::FreeResource_49C330(field_24_dbuf);
 }
@@ -1036,7 +1036,7 @@ s16 Animation::Init(s32 frameTableOffset, DynamicArray* /*animList*/, BaseGameOb
     field_24_dbuf = nullptr;
 
     // NOTE: OG bug or odd compiler code gen? Why isn't it using the passed in list which appears to always be this anyway ??
-    if (!gObjList_animations_5C1A24->Push_Back(this))
+    if (!gAnimations->Push_Back(this))
     {
         return 0;
     }

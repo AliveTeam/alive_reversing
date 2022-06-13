@@ -451,7 +451,7 @@ void PauseMenu::Init()
     u8** ppAnimData = Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kNormaliconResID);
 
     const AnimRecord& rec = AnimRec(AnimId::NormalMudIcon);
-    if (field_158_animation.Init(rec.mFrameTableOffset, gObjList_animations_5C1A24, this, rec.mMaxW, rec.mMaxH, ppAnimData, 1, 0, 0))
+    if (field_158_animation.Init(rec.mFrameTableOffset, gAnimations, this, rec.mMaxW, rec.mMaxH, ppAnimData, 1, 0, 0))
     {
         this->field_158_animation.mRenderLayer = mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer;
         this->field_158_animation.field_14_scale = mBaseAnimatedWithPhysicsGameObject_SpriteScale;

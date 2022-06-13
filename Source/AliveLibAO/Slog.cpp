@@ -571,7 +571,7 @@ void Slog::Init()
 
     FP hitX = {};
     FP hitY = {};
-    if (sCollisions->RayCast(
+    if (sCollisions->Raycast(
             mBaseAnimatedWithPhysicsGameObject_XPos,
             mBaseAnimatedWithPhysicsGameObject_YPos,
             mBaseAnimatedWithPhysicsGameObject_XPos,
@@ -1597,7 +1597,7 @@ void Slog::Motion_19_JumpForwards_475610()
     PathLine* pLine = nullptr;
     FP hitX = {};
     FP hitY = {};
-    if (sCollisions->RayCast(
+    if (sCollisions->Raycast(
             oldXPos,
             ypos1,
             mBaseAnimatedWithPhysicsGameObject_XPos,
@@ -1632,7 +1632,7 @@ void Slog::Motion_19_JumpForwards_475610()
         }
     }
 
-    if (sCollisions->RayCast(
+    if (sCollisions->Raycast(
             oldXPos,
             ypos1,
             mBaseAnimatedWithPhysicsGameObject_XPos,

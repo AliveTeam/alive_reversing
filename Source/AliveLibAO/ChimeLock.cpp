@@ -290,7 +290,7 @@ s16 ChimeLock::UpdateBall()
 
             FP hitX = {};
             FP hitY = {};
-            if (sCollisions->RayCast(
+            if (sCollisions->Raycast(
                     mBaseAnimatedWithPhysicsGameObject_XPos,
                     mBaseAnimatedWithPhysicsGameObject_VelY - mBaseAnimatedWithPhysicsGameObject_VelY,
                     mBaseAnimatedWithPhysicsGameObject_XPos,

@@ -196,7 +196,7 @@ s16* Abe_OnFrame(BaseGameObject* pObj, s16* pData)
     FP hitX = {};
     FP hitY = {};
     PathLine* pLine = nullptr;
-    if (sCollisions->RayCast(
+    if (sCollisions->Raycast(
             pAbe->mBaseAnimatedWithPhysicsGameObject_XPos,
             pAbe->mBaseAnimatedWithPhysicsGameObject_YPos + data_y,
             pAbe->mBaseAnimatedWithPhysicsGameObject_XPos + directed_x,
@@ -597,12 +597,12 @@ void Animation::VRender(s32 xpos, s32 ypos, PrimHeader** ppOt, s16 width, s16 he
 
 void Animation::VCleanUp()
 {
-    if (mAnimFlags.Get(AnimFlags::eBit17_bFreeResource))
+    if (mAnimFlags.Get(AnimFlags::eBit17_bOwnPal))
     {
         ResourceManager::FreeResource_455550(field_20_ppBlock);
     }
 
-    gObjList_animations_505564->Remove_Item(this);
+    gAnimations->Remove_Item(this);
 
 
     // inlined Animation_Pal_Free ?
@@ -765,7 +765,7 @@ s16 Animation::Init(s32 frameTableOffset, DynamicArray* /*animList*/, BaseGameOb
     mAnimFlags.Clear(AnimFlags::eBit15_bSemiTrans);
 
     mAnimFlags.Set(AnimFlags::eBit16_bBlending);
-    mAnimFlags.Set(AnimFlags::eBit17_bFreeResource);
+    mAnimFlags.Set(AnimFlags::eBit17_bOwnPal);
 
     if (bAllocateVRam)
     {
@@ -848,10 +848,10 @@ s16 Animation::Init(s32 frameTableOffset, DynamicArray* /*animList*/, BaseGameOb
     }
 
     // NOTE: OG bug or odd compiler code gen? Why isn't it using the passed in list which appears to always be this anyway ??
-    const auto result = gObjList_animations_505564->Push_Back(this);
+    const auto result = gAnimations->Push_Back(this);
     if (!result)
     {
-        LOG_ERROR("gObjList_animations_505564->Push_Back(this) returned 0 but shouldn't");
+        LOG_ERROR("gAnimations->Push_Back(this) returned 0 but shouldn't");
         return 0;
     }
 

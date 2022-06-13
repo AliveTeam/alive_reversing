@@ -800,7 +800,7 @@ void Elum::HandleElumPathTrans_411460()
     PathLine* pLine = nullptr;
     FP hitX = {};
     FP hitY = {};
-    if (sCollisions->RayCast(
+    if (sCollisions->Raycast(
             mBaseAnimatedWithPhysicsGameObject_XPos,
             mBaseAnimatedWithPhysicsGameObject_YPos - FP_FromInteger(40),
             mBaseAnimatedWithPhysicsGameObject_XPos,
@@ -3569,7 +3569,7 @@ void Elum::VUpdate()
             {
                 FP hitX = {};
                 FP hitY = {};
-                if (sCollisions->RayCast(
+                if (sCollisions->Raycast(
                         mBaseAnimatedWithPhysicsGameObject_XPos,
                         mBaseAnimatedWithPhysicsGameObject_YPos - FP_FromInteger(40),
                         mBaseAnimatedWithPhysicsGameObject_XPos,

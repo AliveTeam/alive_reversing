@@ -117,7 +117,7 @@ LiftPoint::LiftPoint(Path_LiftPoint* pTlv, s32 tlvInfo)
     const AnimRecord& bottomWheelRec = AnimRec(rLiftWheelData.field_C_lift_bottom_wheel_anim_id);
     if (field_13C_lift_wheel.Init(
             bottomWheelRec.mFrameTableOffset,
-            gObjList_animations_5C1A24,
+            gAnimations,
             this,
             static_cast<u16>(bottomWheelRec.mMaxW),
             static_cast<u16>(bottomWheelRec.mMaxH),
@@ -938,7 +938,7 @@ void LiftPoint::CreatePulleyIfExists()
     const AnimRecord& topWheelRec = AnimRec(data.field_10_lift_top_wheel_anim_id);
     field_1D4_pulley_anim.Init(
         topWheelRec.mFrameTableOffset,
-        gObjList_animations_5C1A24,
+        gAnimations,
         this,
         static_cast<s16>(topWheelRec.mMaxW),
         static_cast<s16>(topWheelRec.mMaxH),

@@ -31,7 +31,7 @@ void Leaf::VUpdate()
     PathLine* pLine = nullptr;
     FP hitX = {};
     FP hitY = {};
-    const auto bCollision = sCollisions->RayCast(
+    const auto bCollision = sCollisions->Raycast(
         mBaseAnimatedWithPhysicsGameObject_XPos,
         mBaseAnimatedWithPhysicsGameObject_YPos,
         x2,

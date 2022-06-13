@@ -107,7 +107,7 @@ void BaseAliveGameObject::VSetXSpawn(s16 camWorldX, s32 screenXPos)
         FP hitY = {};
         if (BaseAliveGameObjectCollisionLine)
         {
-            if (sCollisions->RayCast(
+            if (sCollisions->Raycast(
                     mBaseAnimatedWithPhysicsGameObject_XPos,
                     old_y - FP_FromInteger(40),
                     mBaseAnimatedWithPhysicsGameObject_XPos,
@@ -124,7 +124,7 @@ void BaseAliveGameObject::VSetXSpawn(s16 camWorldX, s32 screenXPos)
             {
                 BaseAliveGameObjectPathTLV = gMap.TLV_First_Of_Type_In_Camera(TlvTypes::StartController_28, 0);
                 if (BaseAliveGameObjectPathTLV
-                    && sCollisions->RayCast(
+                    && sCollisions->Raycast(
                         mBaseAnimatedWithPhysicsGameObject_XPos,
                         FP_FromInteger(BaseAliveGameObjectPathTLV->field_10_top_left.field_2_y),
                         mBaseAnimatedWithPhysicsGameObject_XPos,
@@ -145,7 +145,7 @@ void BaseAliveGameObject::VSetXSpawn(s16 camWorldX, s32 screenXPos)
         }
         else
         {
-            if (sCollisions->RayCast(
+            if (sCollisions->Raycast(
                     mBaseAnimatedWithPhysicsGameObject_XPos,
                     BaseAliveGameObjectLastLineYPos - FP_FromInteger(40),
                     mBaseAnimatedWithPhysicsGameObject_XPos,
@@ -236,7 +236,7 @@ void BaseAliveGameObject::VCheckCollisionLineStillValid_401A90(s32 distance)
         FP hitY = {};
 
         const s32 mask = mBaseAnimatedWithPhysicsGameObject_SpriteScale != FP_FromDouble(0.5) ? 7 : 0x70;
-        if (sCollisions->RayCast(
+        if (sCollisions->Raycast(
                 mBaseAnimatedWithPhysicsGameObject_XPos,
                 mBaseAnimatedWithPhysicsGameObject_YPos - FP_FromInteger(distance),
                 mBaseAnimatedWithPhysicsGameObject_XPos,
@@ -276,7 +276,7 @@ void BaseAliveGameObject::VCheckCollisionLineStillValid_401A90(s32 distance)
             BaseAliveGameObjectPathTLV = gMap.TLV_First_Of_Type_In_Camera(TlvTypes::StartController_28, 0);
             if (BaseAliveGameObjectPathTLV)
             {
-                if (sCollisions->RayCast(
+                if (sCollisions->Raycast(
                         mBaseAnimatedWithPhysicsGameObject_XPos,
                         FP_FromInteger(BaseAliveGameObjectPathTLV->field_10_top_left.field_2_y),
                         mBaseAnimatedWithPhysicsGameObject_XPos,
@@ -403,7 +403,7 @@ s16 BaseAliveGameObject::Check_IsOnEndOfLine_4021A0(s16 direction, s16 dist)
     PathLine* pLine = nullptr;
     FP hitX = {};
     FP hitY = {};
-    return sCollisions->RayCast(
+    return sCollisions->Raycast(
                xLoc + xPosSnapped,
                mBaseAnimatedWithPhysicsGameObject_YPos - FP_FromInteger(4),
                xLoc + xPosSnapped,
@@ -526,7 +526,7 @@ void BaseAliveGameObject::VOnPathTransition_401470(s16 camWorldX, s32 camWorldY,
             PathLine* pLine = nullptr;
             FP hitX = {};
             FP hitY = {};
-            if (sCollisions->RayCast(
+            if (sCollisions->Raycast(
                     mBaseAnimatedWithPhysicsGameObject_XPos,
                     mBaseAnimatedWithPhysicsGameObject_YPos - FP_FromInteger(40),
                     mBaseAnimatedWithPhysicsGameObject_XPos,
@@ -556,7 +556,7 @@ void BaseAliveGameObject::VOnPathTransition_401470(s16 camWorldX, s32 camWorldY,
             PathLine* pLine = nullptr;
             FP hitX = {};
             FP hitY = {};
-            if (sCollisions->RayCast(
+            if (sCollisions->Raycast(
                     mBaseAnimatedWithPhysicsGameObject_XPos,
                     BaseAliveGameObjectLastLineYPos - FP_FromInteger(40),
                     mBaseAnimatedWithPhysicsGameObject_XPos,
@@ -741,7 +741,7 @@ void BaseAliveGameObject::SetActiveCameraDelayedFromDir_401C90()
 s16 BaseAliveGameObject::WallHit_401930(FP offY, FP offX)
 {
     PathLine* pLine = nullptr;
-    return sCollisions->RayCast(
+    return sCollisions->Raycast(
                mBaseAnimatedWithPhysicsGameObject_XPos,
                mBaseAnimatedWithPhysicsGameObject_YPos - offY,
                mBaseAnimatedWithPhysicsGameObject_XPos + offX,
@@ -768,7 +768,7 @@ s16 BaseAliveGameObject::InAirCollision_4019C0(PathLine** ppLine, FP* hitX, FP* 
     mBaseAnimatedWithPhysicsGameObject_XPos += mBaseAnimatedWithPhysicsGameObject_VelX;
     mBaseAnimatedWithPhysicsGameObject_YPos += mBaseAnimatedWithPhysicsGameObject_VelY;
 
-    return sCollisions->RayCast(
+    return sCollisions->Raycast(
         old_xpos,
         old_ypos,
         mBaseAnimatedWithPhysicsGameObject_XPos,

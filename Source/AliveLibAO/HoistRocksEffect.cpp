@@ -66,7 +66,7 @@ void HoistParticle::VUpdate_431BD0()
         PathLine* pLine = nullptr;
         FP hitX = {};
         FP hitY = {};
-        if (sCollisions->RayCast(
+        if (sCollisions->Raycast(
                 mBaseAnimatedWithPhysicsGameObject_XPos,
                 oldY,
                 mBaseAnimatedWithPhysicsGameObject_XPos,

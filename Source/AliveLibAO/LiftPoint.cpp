@@ -123,7 +123,7 @@ LiftPoint::LiftPoint(Path_LiftPoint* pTlv, Map* pPath, s32 tlvInfo)
     u8** ppLiftWheelRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, bottomWheelRec.mResourceId, 1, 0);
     if (field_13C_lift_wheel.Init(
             bottomWheelRec.mFrameTableOffset,
-            gObjList_animations_505564,
+            gAnimations,
             this,
             static_cast<s16>(bottomWheelRec.mMaxW),
             static_cast<s16>(bottomWheelRec.mMaxH),
@@ -758,7 +758,7 @@ void LiftPoint::CreatePulleyIfExists(s16 camX, s16 camY)
 
         field_1D4_pulley_anim.Init(
             topWheelRec.mFrameTableOffset,
-            gObjList_animations_505564,
+            gAnimations,
             this,
             static_cast<s16>(topWheelRec.mMaxW),
             static_cast<s16>(topWheelRec.mMaxH),

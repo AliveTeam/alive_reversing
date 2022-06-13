@@ -12,7 +12,7 @@ OrbWhirlWindParticle::OrbWhirlWindParticle(FP xpos, FP ypos, FP scale, s16 bIsMu
     u8** ppRes = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, orbRec.mResourceId, TRUE, FALSE);
     field_108_res = ppRes;
 
-    field_8_Anim.Init(orbRec.mFrameTableOffset, gObjList_animations_5C1A24, 0, orbRec.mMaxW, orbRec.mMaxH, ppRes, 1, 0, 0);
+    field_8_Anim.Init(orbRec.mFrameTableOffset, gAnimations, 0, orbRec.mMaxW, orbRec.mMaxH, ppRes, 1, 0, 0);
 
     field_B6_unused = bIsMudokonSpirit;
 

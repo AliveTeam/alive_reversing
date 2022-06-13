@@ -97,7 +97,7 @@ FlintLockFire::FlintLockFire(Path_FlintLockFire* pTlv, s32 tlvInfo)
 
     field_F0_anim.Init(
         gourdRec.mFrameTableOffset,
-        gObjList_animations_505564,
+        gAnimations,
         this,
         static_cast<s16>(gourdRec.mMaxW),
         static_cast<s16>(gourdRec.mMaxH),
@@ -117,7 +117,7 @@ FlintLockFire::FlintLockFire(Path_FlintLockFire* pTlv, s32 tlvInfo)
         u8** ppFireRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, fireRec.mResourceId, 1, 0);
         field_188_anim.Init(
             fireRec.mFrameTableOffset,
-            gObjList_animations_505564,
+            gAnimations,
             this,
             fireRec.mMaxW,
             fireRec.mMaxH,
@@ -130,7 +130,7 @@ FlintLockFire::FlintLockFire(Path_FlintLockFire* pTlv, s32 tlvInfo)
         field_188_anim.mAnimFlags.Clear(AnimFlags::eBit3_Render);
         field_188_anim.mAnimFlags.Set(AnimFlags::eBit15_bSemiTrans);
 
-        field_220_anim.Init(fireRec.mFrameTableOffset, gObjList_animations_505564, this, fireRec.mMaxW, fireRec.mMaxH, ppFireRes, 1, 0, 0);
+        field_220_anim.Init(fireRec.mFrameTableOffset, gAnimations, this, fireRec.mMaxW, fireRec.mMaxH, ppFireRes, 1, 0, 0);
         field_220_anim.mRenderMode = TPageAbr::eBlend_0;
         field_220_anim.mAnimFlags.Clear(AnimFlags::eBit2_Animate);
         field_220_anim.mAnimFlags.Clear(AnimFlags::eBit3_Render);

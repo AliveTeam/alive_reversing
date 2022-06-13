@@ -119,9 +119,9 @@ Gibs::Gibs(GibType gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scale)
         if (i < 2)
         {
             // 2 arm parts
-            if (!pPart->field_18_anim.Init(
+            if (!pPart->field_18_animation.Init(
                     armRec.mFrameTableOffset,
-                    gObjList_animations_505564,
+                    gAnimations,
                     this,
                     static_cast<s16>(armRec.mMaxW),
                     static_cast<s16>(armRec.mMaxH),
@@ -138,9 +138,9 @@ Gibs::Gibs(GibType gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scale)
         else
         {
             // 2 body parts
-            if (!pPart->field_18_anim.Init(
+            if (!pPart->field_18_animation.Init(
                     bodyRec.mFrameTableOffset,
-                    gObjList_animations_505564,
+                    gAnimations,
                     this,
                     static_cast<s16>(bodyRec.mMaxW),
                     static_cast<s16>(bodyRec.mMaxH),
@@ -155,16 +155,16 @@ Gibs::Gibs(GibType gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scale)
             }
         }
 
-        pPart->field_18_anim.mRenderLayer = mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer;
-        pPart->field_18_anim.field_14_scale = scale;
+        pPart->field_18_animation.mRenderLayer = mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer;
+        pPart->field_18_animation.field_14_scale = scale;
 
-        pPart->field_18_anim.mAnimFlags.Clear(AnimFlags::eBit17_bFreeResource); // Else the gibs seem to kill drills and other objects ??
-        pPart->field_18_anim.mAnimFlags.Clear(AnimFlags::eBit16_bBlending);
-        pPart->field_18_anim.mAnimFlags.Clear(AnimFlags::eBit15_bSemiTrans);
+        pPart->field_18_animation.mAnimFlags.Clear(AnimFlags::eBit17_bOwnPal); // Else the gibs seem to kill drills and other objects ??
+        pPart->field_18_animation.mAnimFlags.Clear(AnimFlags::eBit16_bBlending);
+        pPart->field_18_animation.mAnimFlags.Clear(AnimFlags::eBit15_bSemiTrans);
 
-        pPart->field_18_anim.mRed = static_cast<u8>(mBaseAnimatedWithPhysicsGameObject_RGB.r);
-        pPart->field_18_anim.mGreen = static_cast<u8>(mBaseAnimatedWithPhysicsGameObject_RGB.g);
-        pPart->field_18_anim.mBlue = static_cast<u8>(mBaseAnimatedWithPhysicsGameObject_RGB.b);
+        pPart->field_18_animation.mRed = static_cast<u8>(mBaseAnimatedWithPhysicsGameObject_RGB.r);
+        pPart->field_18_animation.mGreen = static_cast<u8>(mBaseAnimatedWithPhysicsGameObject_RGB.g);
+        pPart->field_18_animation.mBlue = static_cast<u8>(mBaseAnimatedWithPhysicsGameObject_RGB.b);
 
         pPart->field_0_x = mBaseAnimatedWithPhysicsGameObject_XPos;
         pPart->field_4_y = mBaseAnimatedWithPhysicsGameObject_YPos;
@@ -184,7 +184,7 @@ Gibs::Gibs(GibType gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scale)
 
         if (ppPal)
         {
-            pPart->field_18_anim.LoadPal(ppPal, 0);
+            pPart->field_18_animation.LoadPal(ppPal, 0);
         }
 
         pPart++;
@@ -230,7 +230,7 @@ Gibs::~Gibs()
 {
     for (s16 i = 0; i < field_5C4_parts_used_count; i++)
     {
-        field_F4_parts[i].field_18_anim.VCleanUp();
+        field_F4_parts[i].field_18_animation.VCleanUp();
     }
 }
 
@@ -261,17 +261,17 @@ void Gibs::VRender(PrimHeader** ppOt)
         {
             if (pGib->field_4_y >= up && pGib->field_4_y <= down)
             {
-                pGib->field_18_anim.field_14_scale = FP_FromInteger(100) / (pGib->field_8_z + FP_FromInteger(100));
-                if (pGib->field_18_anim.field_14_scale < FP_FromInteger(1))
+                pGib->field_18_animation.field_14_scale = FP_FromInteger(100) / (pGib->field_8_z + FP_FromInteger(100));
+                if (pGib->field_18_animation.field_14_scale < FP_FromInteger(1))
                 {
-                    pGib->field_18_anim.mRenderLayer = Layer::eLayer_Foreground_Half_17;
+                    pGib->field_18_animation.mRenderLayer = Layer::eLayer_Foreground_Half_17;
                 }
                 else
                 {
-                    pGib->field_18_anim.mRenderLayer = Layer::eLayer_FG1_37;
+                    pGib->field_18_animation.mRenderLayer = Layer::eLayer_FG1_37;
                 }
 
-                pGib->field_18_anim.VRender(
+                pGib->field_18_animation.VRender(
                     FP_GetExponent(pGib->field_0_x - left),
                     FP_GetExponent(pGib->field_4_y - up),
                     ppOt,
@@ -279,7 +279,7 @@ void Gibs::VRender(PrimHeader** ppOt)
                     0);
 
                 PSX_RECT frameRect = {};
-                pGib->field_18_anim.Get_Frame_Rect(&frameRect);
+                pGib->field_18_animation.Get_Frame_Rect(&frameRect);
                 pScreenManager->InvalidateRect(
                     frameRect.x,
                     frameRect.y,

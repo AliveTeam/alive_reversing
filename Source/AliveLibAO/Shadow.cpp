@@ -14,29 +14,29 @@ namespace AO {
 Shadow::Shadow()
 {
     const AnimRecord& shadowRec = AO::AnimRec(AnimId::ObjectShadow);
-    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, shadowRec.mResourceId, 1, 0);
-    field_18_anim.Init(shadowRec.mFrameTableOffset, gObjList_animations_505564, 0, shadowRec.mMaxW, shadowRec.mMaxH, ppRes, 1, 0, 0);
+    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, shadowRec.mResourceId, TRUE, FALSE);
+    field_18_animation.Init(shadowRec.mFrameTableOffset, gAnimations, 0, shadowRec.mMaxW, shadowRec.mMaxH, ppRes, 1, 0, 0);
 
     field_14_flags.Clear(Flags::eBit1_ShadowAtBottom);
     field_14_flags.Set(Flags::eBit2_Enabled);
 
-    field_18_anim.mRenderMode = TPageAbr::eBlend_2;
+    field_18_animation.mRenderMode = TPageAbr::eBlend_2;
 
-    field_18_anim.mAnimFlags.Clear(AnimFlags::eBit3_Render);
-    field_18_anim.mAnimFlags.Clear(AnimFlags::eBit16_bBlending);
+    field_18_animation.mAnimFlags.Clear(AnimFlags::eBit3_Render);
+    field_18_animation.mAnimFlags.Clear(AnimFlags::eBit16_bBlending);
 
-    field_18_anim.mAnimFlags.Set(AnimFlags::eBit2_Animate);
-    field_18_anim.mAnimFlags.Set(AnimFlags::eBit8_Loop);
-    field_18_anim.mAnimFlags.Set(AnimFlags::eBit15_bSemiTrans);
-    field_18_anim.mAnimFlags.Set(AnimFlags::eBit17_bFreeResource);
-    field_18_anim.mAnimFlags.Set(AnimFlags::eBit18_IsLastFrame);
-    field_18_anim.mAnimFlags.Set(AnimFlags::eBit20_use_xy_offset);
-    field_18_anim.mAnimFlags.Set(AnimFlags::eBit21);
+    field_18_animation.mAnimFlags.Set(AnimFlags::eBit2_Animate);
+    field_18_animation.mAnimFlags.Set(AnimFlags::eBit8_Loop);
+    field_18_animation.mAnimFlags.Set(AnimFlags::eBit15_bSemiTrans);
+    field_18_animation.mAnimFlags.Set(AnimFlags::eBit17_bOwnPal);
+    field_18_animation.mAnimFlags.Set(AnimFlags::eBit18_IsLastFrame);
+    field_18_animation.mAnimFlags.Set(AnimFlags::eBit20_use_xy_offset);
+    field_18_animation.mAnimFlags.Set(AnimFlags::eBit21);
 }
 
 Shadow::~Shadow()
 {
-    field_18_anim.VCleanUp();
+    field_18_animation.VCleanUp();
 }
 
 void Shadow::Calculate_Position(FP xpos, FP ypos, PSX_RECT* frameRect, FP spriteScale)
@@ -59,10 +59,11 @@ void Shadow::Calculate_Position(FP xpos, FP ypos, PSX_RECT* frameRect, FP sprite
         }
 
         const s32 lineType = spriteScale != FP_FromDouble(0.5) ? 7 : 0x70;
-        PathLine* pLine = nullptr;
+        
         FP hitX = {};
         FP hitY = {};
-        if (sCollisions->RayCast(
+        PathLine* pLine = nullptr;
+        if (sCollisions->Raycast(
                 xpos,
                 objY,
                 xpos,
@@ -83,7 +84,7 @@ void Shadow::Calculate_Position(FP xpos, FP ypos, PSX_RECT* frameRect, FP sprite
                 lineWScreen = pLine->field_0_rect.x - FP_GetExponent(camXPos);
             }
 
-            field_18_anim.mAnimFlags.Set(AnimFlags::eBit3_Render);
+            field_18_animation.mAnimFlags.Set(AnimFlags::eBit3_Render);
 
             field_8_xpos = xpos;
             field_C_ypos = hitY + FP_FromInteger(3);
@@ -93,7 +94,7 @@ void Shadow::Calculate_Position(FP xpos, FP ypos, PSX_RECT* frameRect, FP sprite
             // Object is before the line we hit
             if (objX < lineXScreen)
             {
-                if (sCollisions->RayCast(
+                if (sCollisions->Raycast(
                         FP_NoFractional(pScreenManager->mCamPos->field_0_x - FP_FromInteger(pScreenManager->mCamXOff)) + FP_FromInteger(lineXScreen - 1) - FP_FromInteger(4),
                         hitY - FP_FromInteger(2),
                         FP_NoFractional(pScreenManager->mCamPos->field_0_x - FP_FromInteger(pScreenManager->mCamXOff)) + FP_FromInteger(lineXScreen - 1) - FP_FromInteger(4),
@@ -114,7 +115,7 @@ void Shadow::Calculate_Position(FP xpos, FP ypos, PSX_RECT* frameRect, FP sprite
                 const FP v23 = FP_NoFractional(((pScreenManager->mCamPos->field_0_x - FP_FromInteger(pScreenManager->mCamXOff)) + FP_FromInteger(lineWScreen + 1)))
                              + FP_FromInteger(4);
 
-                if (sCollisions->RayCast(
+                if (sCollisions->Raycast(
                         v23,
                         hitY - FP_FromInteger(2),
                         v23,
@@ -124,10 +125,11 @@ void Shadow::Calculate_Position(FP xpos, FP ypos, PSX_RECT* frameRect, FP sprite
                         &hitY,
                         lineType))
                 {
-                    lineWScreen = std::max(pLine->field_0_rect.w, pLine->field_0_rect.x)
+                    lineWScreen = std::max(pLine->field_0_rect.x, pLine->field_0_rect.w)
                                 - FP_GetExponent(pScreenManager->mCamPos->field_0_x - FP_FromInteger(pScreenManager->mCamXOff));
                 }
             }
+
 
             field_0_x1 = std::max(objX, lineXScreen);
             field_4_x2 = std::min(objW, lineWScreen);
@@ -149,16 +151,16 @@ void Shadow::Calculate_Position(FP xpos, FP ypos, PSX_RECT* frameRect, FP sprite
         else
         {
             // Didn't hit anything so don't draw a shadow
-            field_18_anim.mAnimFlags.Clear(AnimFlags::eBit3_Render);
+            field_18_animation.mAnimFlags.Clear(AnimFlags::eBit3_Render);
         }
 
-        if (spriteScale == FP_FromDouble(0.5))
+        if (spriteScale != FP_FromDouble(0.5))
         {
-            field_18_anim.mRenderLayer = Layer::eLayer_Shadow_Half_7;
+            field_18_animation.mRenderLayer = Layer::eLayer_Shadow_26;
         }
         else
         {
-            field_18_anim.mRenderLayer = Layer::eLayer_Shadow_26;
+            field_18_animation.mRenderLayer = Layer::eLayer_Shadow_Half_7;
         }
     }
 }
@@ -167,19 +169,21 @@ void Shadow::Render(PrimHeader** ppOt)
 {
     if (field_14_flags.Get(Flags::eBit2_Enabled))
     {
-        field_18_anim.field_14_scale = FP_FromInteger(1);
-
-        u8 rgb = 63;
-        if (field_10_scale != FP_FromDouble(0.5))
+        field_18_animation.field_14_scale = FP_FromInteger(1);
+        if (field_10_scale == FP_FromDouble(0.5))
         {
-            rgb = 127;
+            field_18_animation.mRed = 63;
+            field_18_animation.mGreen = 63;
+            field_18_animation.mBlue = 63;
+        }
+        else
+        {
+            field_18_animation.mRed = 127;
+            field_18_animation.mGreen = 127;
+            field_18_animation.mBlue = 127;
         }
 
-        field_18_anim.mRed = rgb;
-        field_18_anim.mGreen = rgb;
-        field_18_anim.mBlue = rgb;
-
-        field_18_anim.VRender(
+        field_18_animation.VRender(
             // Note: OG converted to FP and back here but its pointless
             field_0_x1,
             field_2_y1,
@@ -188,7 +192,7 @@ void Shadow::Render(PrimHeader** ppOt)
             (field_6_y2 - field_2_y1) + 1);
 
         PSX_RECT frameRect = {};
-        field_18_anim.Get_Frame_Rect(&frameRect);
+        field_18_animation.Get_Frame_Rect(&frameRect);
         pScreenManager->InvalidateRect(
             frameRect.x,
             frameRect.y,

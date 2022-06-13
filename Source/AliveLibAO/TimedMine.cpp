@@ -48,7 +48,7 @@ TimedMine::TimedMine(Path_TimedMine* pTlv, s32 tlvInfo)
     const AnimRecord& tickRec = AO::AnimRec(AnimId::Bomb_RedGreenTick);
     if (field_118_anim.Init(
             tickRec.mFrameTableOffset,
-            gObjList_animations_505564,
+            gAnimations,
             this,
             tickRec.mMaxW,
             tickRec.mMaxH,
@@ -188,7 +188,7 @@ void TimedMine::StickToLiftPoint()
     FP hitX = {};
     PathLine* pLine = nullptr;
     field_1B8_flags.Set(TimedMine_Flags_1B8::eStickToLiftPoint_0);
-    if (sCollisions->RayCast(
+    if (sCollisions->Raycast(
             mBaseAnimatedWithPhysicsGameObject_XPos,
             mBaseAnimatedWithPhysicsGameObject_YPos - FP_FromInteger(20),
             mBaseAnimatedWithPhysicsGameObject_XPos,

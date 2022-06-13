@@ -530,7 +530,7 @@ MainMenuController::MainMenuController(Path_TLV* /*pTlv*/, TlvItemInfoUnion tlvO
 
     field_F4_resources.field_0_resources[MenuResIds::eResHighLite] = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, kHighliteResID, TRUE, FALSE);
     const AnimRecord& rec = AnimRec(AnimId::MenuHighlight_Circle);
-    field_158_animation.Init(rec.mFrameTableOffset, gObjList_animations_5C1A24, this, rec.mMaxW, rec.mMaxH, field_F4_resources.field_0_resources[MenuResIds::eResHighLite], 1, 0, 0);
+    field_158_animation.Init(rec.mFrameTableOffset, gAnimations, this, rec.mMaxW, rec.mMaxH, field_F4_resources.field_0_resources[MenuResIds::eResHighLite], 1, 0, 0);
 
     field_158_animation.field_14_scale = mBaseAnimatedWithPhysicsGameObject_SpriteScale;
 

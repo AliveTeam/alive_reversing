@@ -1299,13 +1299,13 @@ private:
             {
                 // 4 bit
                 mAnimRes[i] = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, loadingRec.mResourceId, TRUE, FALSE);
-                mAnim[i].Init(loadingRec.mFrameTableOffset, gObjList_animations_5C1A24, this, loadingRec.mMaxW, loadingRec.mMaxH, mAnimRes[i], 1, 0, 0);
+                mAnim[i].Init(loadingRec.mFrameTableOffset, gAnimations, this, loadingRec.mMaxW, loadingRec.mMaxH, mAnimRes[i], 1, 0, 0);
             }
             else
             {
                 // 8 bit
                 mAnimRes[i] = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, abeGibRec.mResourceId, TRUE, FALSE);
-                mAnim[i].Init(abeGibRec.mFrameTableOffset, gObjList_animations_5C1A24, this, abeGibRec.mMaxW, abeGibRec.mMaxH, mAnimRes[i], 1, 0, 0);
+                mAnim[i].Init(abeGibRec.mFrameTableOffset, gAnimations, this, abeGibRec.mMaxW, abeGibRec.mMaxH, mAnimRes[i], 1, 0, 0);
             }
             // No 16 bit test case because there are simply no 16bit sprites at all in the game data
 

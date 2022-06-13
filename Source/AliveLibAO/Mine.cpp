@@ -51,7 +51,7 @@ Mine::Mine(Path_Mine* pTlv, s32 tlvInfo)
     u8** ppFLashRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, flashRec.mResourceId, 1, 0);
     field_118_animation.Init(
         flashRec.mFrameTableOffset,
-        gObjList_animations_505564,
+        gAnimations,
         this,
         flashRec.mMaxW,
         flashRec.mMaxH,

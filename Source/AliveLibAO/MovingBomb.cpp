@@ -97,7 +97,7 @@ MovingBomb::MovingBomb(Path_MovingBomb* pTlv, s32 tlvInfo)
 
     FP hitX = {};
     FP hitY = {};
-    if (sCollisions->RayCast(
+    if (sCollisions->Raycast(
             mBaseAnimatedWithPhysicsGameObject_XPos,
             mBaseAnimatedWithPhysicsGameObject_YPos,
             mBaseAnimatedWithPhysicsGameObject_XPos + FP_FromInteger(24),
@@ -267,7 +267,7 @@ void MovingBomb::FollowLine()
                 FP hitX = {};
                 FP hitY = {};
                 mBaseAnimatedWithPhysicsGameObject_XPos = screen_x;
-                if (sCollisions->RayCast(
+                if (sCollisions->Raycast(
                         mBaseAnimatedWithPhysicsGameObject_XPos,
                         mBaseAnimatedWithPhysicsGameObject_YPos - FP_FromInteger(20),
                         mBaseAnimatedWithPhysicsGameObject_XPos,
@@ -288,7 +288,7 @@ void MovingBomb::FollowLine()
                 FP hitX = {};
                 FP hitY = {};
                 mBaseAnimatedWithPhysicsGameObject_YPos = screen_y;
-                if (sCollisions->RayCast(
+                if (sCollisions->Raycast(
                         mBaseAnimatedWithPhysicsGameObject_XPos - FP_FromInteger(20),
                         mBaseAnimatedWithPhysicsGameObject_YPos,
                         mBaseAnimatedWithPhysicsGameObject_XPos + FP_FromInteger(20),
