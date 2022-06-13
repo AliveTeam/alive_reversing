@@ -27,7 +27,7 @@ MeatSaw::~MeatSaw()
     }
 
     field_110_anim.VCleanUp();
-    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kAbeblowAOResID, 0, 0);
+    u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kAbeblowAOResID, 0, 0);
     ResourceManager::FreeResource_455550(ppRes);
 }
 
@@ -36,7 +36,7 @@ MeatSaw::MeatSaw(Path_MeatSaw* pTlv, s32 tlvInfo)
     mBaseGameObjectTypeId = ReliveTypes::eMeatSaw;
 
     const AnimRecord rec = AO::AnimRec(AnimId::MeatSaw_Idle);
-    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
+    u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
     Animation_Init_417FD0(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
     
     mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit15_bSemiTrans);
@@ -134,7 +134,7 @@ MeatSaw::MeatSaw(Path_MeatSaw* pTlv, s32 tlvInfo)
     }
 
     const AnimRecord& motorRec = AO::AnimRec(AnimId::MeatSawMotor);
-    u8** ppRes2 = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, motorRec.mResourceId, 1, 0);
+    u8** ppRes2 = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, motorRec.mResourceId, 1, 0);
     if (field_110_anim.Init(
             motorRec.mFrameTableOffset,
             gAnimations,
@@ -159,7 +159,7 @@ MeatSaw::MeatSaw(Path_MeatSaw* pTlv, s32 tlvInfo)
         field_110_anim.mAnimFlags.Set(AnimFlags::eBit15_bSemiTrans);
 
         mShadow = relive_new Shadow();
-        ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kAbeblowAOResID, 1, 0);
+        ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kAbeblowAOResID, 1, 0);
     }
     else
     {

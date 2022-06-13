@@ -72,7 +72,7 @@ Spark::Spark(FP xpos, FP ypos, FP scale, s32 count, s32 min, s32 max)
         field_50_timer = sGnFrame + 3;
 
         const AnimRecord& rec = AO::AnimRec(AnimId::Zap_Sparks);
-        u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
+        u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
         auto pParticle = relive_new Particle(xpos, ypos - FP_FromInteger(4), rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes);
         if (pParticle)
         {

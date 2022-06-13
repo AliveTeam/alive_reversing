@@ -285,7 +285,7 @@ void QuikSave_RestoreBlyData(const u8* pSaveData)
             const PathData* pPathData = pPathRec->field_4_pPathData;
             const s32 widthCount = (pPathData->field_4_bTop - pPathData->field_0_bLeft) / pPathData->field_A_grid_width;
             const s32 heightCount = (pPathData->field_6_bBottom - pPathData->field_2_bRight) / pPathData->field_C_grid_height;
-            u8** ppPathRes = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Path, i, TRUE, FALSE);
+            u8** ppPathRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Path, i, TRUE, FALSE);
             if (ppPathRes)
             {
                 const s32 totalCameraCount = widthCount * heightCount;
@@ -381,7 +381,7 @@ void Quicksave_SaveBlyData_4C9660(u8* pSaveBuffer)
             const PathData* pPathData = pPathRec->field_4_pPathData;
             const s32 widthCount = (pPathData->field_4_bTop - pPathData->field_0_bLeft) / pPathData->field_A_grid_width;
             const s32 heightCount = (pPathData->field_6_bBottom - pPathData->field_2_bRight) / pPathData->field_C_grid_height;
-            u8** ppPathRes = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Path, i, TRUE, FALSE);
+            u8** ppPathRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Path, i, TRUE, FALSE);
             if (ppPathRes)
             {
                 const s32 totalCameraCount = widthCount * heightCount;
@@ -443,7 +443,7 @@ void Quicksave_SaveSwitchResetterStates()
             const PathData* pPathData = pPathRec->field_4_pPathData;
             const s32 widthCount = (pPathData->field_4_bTop - pPathData->field_0_bLeft) / pPathData->field_A_grid_width;
             const s32 heightCount = (pPathData->field_6_bBottom - pPathData->field_2_bRight) / pPathData->field_C_grid_height;
-            u8** ppPathRes = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Path, i, TRUE, FALSE);
+            u8** ppPathRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Path, i, TRUE, FALSE);
             if (ppPathRes)
             {
                 const s32 totalCameraCount = widthCount * heightCount;
@@ -492,7 +492,7 @@ void Quicksave_RestoreSwitchResetterStates()
             const PathData* pPathData = pPathRec->field_4_pPathData;
             const s32 widthCount = (pPathData->field_4_bTop - pPathData->field_0_bLeft) / pPathData->field_A_grid_width;
             const s32 heightCount = (pPathData->field_6_bBottom - pPathData->field_2_bRight) / pPathData->field_C_grid_height;
-            u8** ppPathRes = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Path, i, TRUE, FALSE);
+            u8** ppPathRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Path, i, TRUE, FALSE);
             if (ppPathRes)
             {
                 const s32 totalCameraCount = widthCount * heightCount;

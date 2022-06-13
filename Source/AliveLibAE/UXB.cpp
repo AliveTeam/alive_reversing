@@ -154,7 +154,7 @@ UXB::UXB(Path_UXB* tlv_params, TlvItemInfoUnion itemInfo)
     {
         if (tlv_params->field_16_start_state == Path_UXB::StartState::eOn_0)
         {
-            field_128_animation.Load_Pal(ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Palt, AEResourceID::kGrenflshResID, 0, 0), 0);
+            field_128_animation.Load_Pal(ResourceManager::GetLoadedResource(ResourceManager::Resource_Palt, AEResourceID::kGrenflshResID, 0, 0), 0);
             field_1C8_flags.Clear(UXB_Flags_1C8::eIsRed_Bit1);
             const AnimRecord& flashRec = AnimRec(AnimId::Bomb_RedGreenTick);
             field_128_animation.Set_Animation_Data(flashRec.mFrameTableOffset, 0);
@@ -178,7 +178,7 @@ UXB::UXB(Path_UXB* tlv_params, TlvItemInfoUnion itemInfo)
         }
         else
         {
-            field_128_animation.Load_Pal(ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Palt, AEResourceID::kGrenflshResID, 0, 0), 0);
+            field_128_animation.Load_Pal(ResourceManager::GetLoadedResource(ResourceManager::Resource_Palt, AEResourceID::kGrenflshResID, 0, 0), 0);
             field_1C8_flags.Clear(UXB_Flags_1C8::eIsRed_Bit1);
             const AnimRecord& flashRec = AnimRec(AnimId::Bomb_RedGreenTick);
             field_128_animation.Set_Animation_Data(flashRec.mFrameTableOffset, 0);
@@ -377,7 +377,7 @@ void UXB::VUpdate()
                     field_1C6_red_blink_count--;
                     if (field_1C6_red_blink_count == 0)
                     {
-                        field_128_animation.Load_Pal(ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Palt, AEResourceID::kGrenflshResID, 0, 0), 0);
+                        field_128_animation.Load_Pal(ResourceManager::GetLoadedResource(ResourceManager::Resource_Palt, AEResourceID::kGrenflshResID, 0, 0), 0);
                         field_1C8_flags.Clear(UXB_Flags_1C8::eIsRed_Bit1);
                     }
                 }
@@ -535,19 +535,19 @@ s32 UXB::CreateFromSaveState(const u8* __pSaveState)
 
     Path_UXB* uxbPath = reinterpret_cast<Path_UXB*>(sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam(pSaveState->field_4_tlv.all));
 
-    if (!(uxbPath->field_18_disabled_resources & 1) && !ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kAbeblowResID, 0, 0))
+    if (!(uxbPath->field_18_disabled_resources & 1) && !ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kAbeblowResID, 0, 0))
     {
         ResourceManager::LoadResourceFile_49C170("ABEBLOW.BAN", 0);
     }
-    if (!(uxbPath->field_18_disabled_resources & 2) && !ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kSlogBlowResID, 0, 0))
+    if (!(uxbPath->field_18_disabled_resources & 2) && !ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kSlogBlowResID, 0, 0))
     {
         ResourceManager::LoadResourceFile_49C170("DOGBLOW.BAN", 0);
     }
-    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kUXBResID, 0, 0))
+    if (!ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kUXBResID, 0, 0))
     {
         ResourceManager::LoadResourceFile_49C170("UXB.BND", 0);
     }
-    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kBgexpldResID, 0, 0))
+    if (!ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kBgexpldResID, 0, 0))
     {
         ResourceManager::LoadResourceFile_49C170("EXPLODE.BND", 0);
     }
@@ -556,7 +556,7 @@ s32 UXB::CreateFromSaveState(const u8* __pSaveState)
 
     if (pSaveState->field_C_state == UXBState::eDeactivated_3)
     {
-        pUXB->field_128_animation.Load_Pal(ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Palt, AEResourceID::kGrenflshResID, 0, 0), 0);
+        pUXB->field_128_animation.Load_Pal(ResourceManager::GetLoadedResource(ResourceManager::Resource_Palt, AEResourceID::kGrenflshResID, 0, 0), 0);
         const AnimRecord& tickRec = AnimRec(AnimId::Bomb_RedGreenTick);
         pUXB->field_128_animation.Set_Animation_Data(tickRec.mFrameTableOffset, 0);
         const AnimRecord& animRec = AnimRec(AnimId::UXB_Disabled);

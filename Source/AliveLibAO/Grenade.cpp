@@ -25,8 +25,8 @@ Grenade::Grenade(FP xpos, FP ypos, s16 numGrenades)
     field_10E_bDead = 0;
     mBaseGameObjectTypeId = ReliveTypes::eGrenade;
 
-    const AnimRecord& rec = AO::AnimRec(AnimId::Grenade);
-    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
+    const AnimRecord rec = AO::AnimRec(AnimId::Grenade);
+    u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
     Animation_Init_417FD0(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
 
     mBaseGameObjectFlags.Clear(Options::eInteractive_Bit8);

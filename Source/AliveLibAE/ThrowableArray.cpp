@@ -23,13 +23,13 @@ void LoadRockTypes_49AB30(EReliveLevelIds levelNumber, u16 pathNumber)
     Bool32 bDoLoadingLoop = FALSE;
     const u8 throwableTypeIdx = LOBYTE(Path_Get_Bly_Record(levelNumber, pathNumber)->field_C_overlay_id);
 
-    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kAbepickResID, 0, 0))
+    if (!ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kAbepickResID, 0, 0))
     {
         bDoLoadingLoop = TRUE;
         ResourceManager::LoadResourceFile_49C130("ABEPICK.BAN", 0, 0, 0);
     }
 
-    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kAbethrowResID, 0, 0))
+    if (!ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kAbethrowResID, 0, 0))
     {
         bDoLoadingLoop = TRUE;
         ResourceManager::LoadResourceFile_49C130("ABETHROW.BAN", 0, 0, 0);
@@ -38,7 +38,7 @@ void LoadRockTypes_49AB30(EReliveLevelIds levelNumber, u16 pathNumber)
     switch (throwable_types_55FAFC[throwableTypeIdx])
     {
         case AETypes::eBone_11:
-            if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kBoneResID, 0, 0))
+            if (!ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kBoneResID, 0, 0))
             {
                 bDoLoadingLoop = TRUE;
                 ResourceManager::LoadResourceFile_49C130("BONE.BAN", 0, 0, 0);
@@ -46,13 +46,13 @@ void LoadRockTypes_49AB30(EReliveLevelIds levelNumber, u16 pathNumber)
             break;
 
         case AETypes::eMetal_24:
-            if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kMetalGibResID, 0, 0))
+            if (!ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kMetalGibResID, 0, 0))
             {
                 bDoLoadingLoop = TRUE;
                 ResourceManager::LoadResourceFile_49C130("METAL.BAN", 0, 0, 0);
             }
 
-            if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kGrenadeResID, 0, 0))
+            if (!ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kGrenadeResID, 0, 0))
             {
                 bDoLoadingLoop = TRUE;
                 ResourceManager::LoadResourceFile_49C130("GRENADE.BAN", 0, 0, 0);
@@ -60,31 +60,31 @@ void LoadRockTypes_49AB30(EReliveLevelIds levelNumber, u16 pathNumber)
             break;
 
         case AETypes::eGrenade_65:
-            if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kExplo2ResID, 0, 0))
+            if (!ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kExplo2ResID, 0, 0))
             {
                 bDoLoadingLoop = TRUE;
                 ResourceManager::LoadResourceFile_49C130("EXPLO2.BAN", 0, 0, 0);
             }
 
-            if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kAbeblowResID, 0, 0))
+            if (!ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kAbeblowResID, 0, 0))
             {
                 bDoLoadingLoop = TRUE;
                 ResourceManager::LoadResourceFile_49C130("ABEBLOW.BAN", 0, 0, 0);
             }
 
-            if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kSlogBlowResID, 0, 0))
+            if (!ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kSlogBlowResID, 0, 0))
             {
                 bDoLoadingLoop = TRUE;
                 ResourceManager::LoadResourceFile_49C130("DOGBLOW.BAN", 0, 0, 0);
             }
 
-            if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kMetalGibResID, 0, 0))
+            if (!ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kMetalGibResID, 0, 0))
             {
                 bDoLoadingLoop = TRUE;
                 ResourceManager::LoadResourceFile_49C130("METAL.BAN", 0, 0, 0);
             }
 
-            if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kGrenadeResID, 0, 0))
+            if (!ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kGrenadeResID, 0, 0))
             {
                 bDoLoadingLoop = TRUE;
                 ResourceManager::LoadResourceFile_49C130("GRENADE.BAN", 0, 0, 0);
@@ -92,7 +92,7 @@ void LoadRockTypes_49AB30(EReliveLevelIds levelNumber, u16 pathNumber)
             break;
 
         case AETypes::eMeat_84:
-            if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kMeatResID, 0, 0))
+            if (!ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kMeatResID, 0, 0))
             {
                 bDoLoadingLoop = TRUE;
                 ResourceManager::LoadResourceFile_49C130("MEAT.BAN", 0, 0, 0);
@@ -100,7 +100,7 @@ void LoadRockTypes_49AB30(EReliveLevelIds levelNumber, u16 pathNumber)
             break;
 
         case AETypes::eRock_105:
-            if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kAberockResID, 0, 0))
+            if (!ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kAberockResID, 0, 0))
             {
                 bDoLoadingLoop = TRUE;
                 ResourceManager::LoadResourceFile_49C130("PUIROCK.BAN", 0, 0, 0);
@@ -202,13 +202,13 @@ void ThrowableArray::Add(s16 count)
     {
         if (!field_22_flags.Get(Flags_22::eBit3_Unknown))
         {
-            u8** ppRes1 = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kAbepickResID, 1, 0);
+            u8** ppRes1 = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kAbepickResID, 1, 0);
             if (ppRes1)
             {
                 field_24_throwables.Push_Back(ppRes1);
             }
 
-            u8** ppRes2 = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kAbethrowResID, 1, 0);
+            u8** ppRes2 = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kAbethrowResID, 1, 0);
             if (ppRes2)
             {
                 field_24_throwables.Push_Back(ppRes2);

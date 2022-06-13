@@ -28,12 +28,12 @@ BeeSwarm::BeeSwarm(FP xpos, FP ypos, FP speed, s32 numBees, s32 chaseTicks)
 {
     mBaseGameObjectTypeId = ReliveTypes::eBeeSwarm;
 
-    const AnimRecord& rec = AO::AnimRec(AnimId::Bee_Swarm);
-    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
-    ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 16, 1, 0);
+    const AnimRecord rec = AO::AnimRec(AnimId::Bee_Swarm);
+    u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
+    ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, 16, 1, 0);
     if (gMap.mCurrentLevel != EReliveLevelIds::eForestTemple && gMap.mCurrentLevel != EReliveLevelIds::eDesertTemple)
     {
-        ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kElmWaspAOResID_204, 1, 0);
+        ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kElmWaspAOResID_204, 1, 0);
     }
 
     s32 numBeesToUse = 0;
@@ -87,11 +87,11 @@ BeeSwarm::~BeeSwarm()
 
     gBeesNearAbe_5076AC = 0;
 
-    ResourceManager::FreeResource_455550(ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kAbewaspAOResID, 0, 0));
+    ResourceManager::FreeResource_455550(ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kAbewaspAOResID, 0, 0));
 
     if (gMap.mCurrentLevel != EReliveLevelIds::eForestTemple && gMap.mCurrentLevel != EReliveLevelIds::eDesertTemple)
     {
-        ResourceManager::FreeResource_455550(ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kElmWaspAOResID_204, 0, 0));
+        ResourceManager::FreeResource_455550(ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kElmWaspAOResID_204, 0, 0));
     }
 
     if (field_D98_pChaseTarget)

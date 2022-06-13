@@ -114,8 +114,8 @@ RockSack::RockSack(Path_RockSack* pTlv, s32 tlvInfo)
 {
     mBaseGameObjectTypeId = ReliveTypes::eRockSack;
 
-    const AnimRecord& rec = AO::AnimRec(AnimId::RockSack_Idle);
-    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
+    const AnimRecord rec = AO::AnimRec(AnimId::RockSack_Idle);
+    u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
 
     //  Set RockSack idle anim speed
     auto pAnimationHeader = reinterpret_cast<AnimationHeader*>(*ppRes + 6878); // TODO: frametableoffset
@@ -155,7 +155,7 @@ RockSack::RockSack(Path_RockSack* pTlv, s32 tlvInfo)
 
     if (gMap.mCurrentLevel == EReliveLevelIds::eStockYards || gMap.mCurrentLevel == EReliveLevelIds::eStockYardsReturn)
     {
-        u8** ppPal = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Palt, AOResourceID::kP2c2bagAOResID, 0, 0);
+        u8** ppPal = ResourceManager::GetLoadedResource(ResourceManager::Resource_Palt, AOResourceID::kP2c2bagAOResID, 0, 0);
         mBaseAnimatedWithPhysicsGameObject_Anim.LoadPal(ppPal, 0);
     }
 

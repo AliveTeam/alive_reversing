@@ -341,18 +341,18 @@ void Init_Sound_DynamicArrays_And_Others_41CD20()
 
 void Game_Init_LoadingIcon_445E30()
 {
-    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kLoadingAOResID, 1, 0);
+    u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kLoadingAOResID, 1, 0);
     if (!ppRes)
     {
         ResourceManager::LoadResourceFile_455270("LOADING.BAN", nullptr);
-        ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kLoadingAOResID, 1, 0);
+        ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kLoadingAOResID, 1, 0);
     }
     ResourceManager::Set_Header_Flags_4557D0(ppRes, ResourceManager::ResourceHeaderFlags::eNeverFree);
 }
 
 void Game_Free_LoadingIcon_445E80()
 {
-    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kLoadingAOResID, 0, 0);
+    u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kLoadingAOResID, 0, 0);
     if (ppRes)
     {
         ResourceManager::FreeResource_455550(ppRes);

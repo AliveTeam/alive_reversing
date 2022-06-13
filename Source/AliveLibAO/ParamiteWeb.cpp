@@ -39,8 +39,8 @@ ParamiteWeb::ParamiteWeb(FP xpos, s32 bottom, s32 top, FP scale)
         field_E6_segment_length = 7;
     }
 
-    const AnimRecord& rec = AO::AnimRec(AnimId::ParamiteWeb);
-    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
+    const AnimRecord rec = AO::AnimRec(AnimId::ParamiteWeb);
+    u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
     Animation_Init_417FD0(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
 
     mBaseAnimatedWithPhysicsGameObject_Anim.field_14_scale = scale;

@@ -78,7 +78,7 @@ LiftPoint::LiftPoint(Path_LiftPoint* pTlv, Map* pPath, s32 tlvInfo)
 
     const s32 lvl_idx = static_cast<s32>(MapWrapper::ToAO(gMap.mCurrentLevel));
     const AnimRecord& platformRec = AO::AnimRec(sLiftPointData_4BB480[lvl_idx].field_0_platform_anim_id);
-    u8** ppLiftRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, platformRec.mResourceId, 1, 0);
+    u8** ppLiftRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, platformRec.mResourceId, 1, 0);
     if (pTlv->field_20_scale == Scale_short::eHalf_1)
     {
         mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromDouble(0.5);
@@ -120,7 +120,7 @@ LiftPoint::LiftPoint(Path_LiftPoint* pTlv, Map* pPath, s32 tlvInfo)
     mPlatformBaseWidthOffset -= xMovedBy;
 
     const AnimRecord& bottomWheelRec = AO::AnimRec(sLiftPointData_4BB480[lvl_idx].field_C_lift_bottom_wheel_anim_id);
-    u8** ppLiftWheelRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, bottomWheelRec.mResourceId, 1, 0);
+    u8** ppLiftWheelRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, bottomWheelRec.mResourceId, 1, 0);
     if (field_13C_lift_wheel.Init(
             bottomWheelRec.mFrameTableOffset,
             gAnimations,
@@ -153,7 +153,7 @@ LiftPoint::LiftPoint(Path_LiftPoint* pTlv, Map* pPath, s32 tlvInfo)
         field_13C_lift_wheel.mAnimFlags.Clear(AnimFlags::eBit2_Animate);
 
         field_12C_bMoving &= ~1u;
-        field_274_ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kAbeliftAOResID, 1, 0);
+        field_274_ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kAbeliftAOResID, 1, 0);
         mBaseAnimatedWithPhysicsGameObject_VelX = FP_FromInteger(0);
         field_13C_lift_wheel.mRed = 128;
         field_13C_lift_wheel.mGreen = 128;
@@ -754,7 +754,7 @@ void LiftPoint::CreatePulleyIfExists(s16 camX, s16 camY)
 
         const s32 lvl_idx = static_cast<s32>(MapWrapper::ToAO(gMap.mCurrentLevel));
         const AnimRecord& topWheelRec = AO::AnimRec(sLiftPointData_4BB480[lvl_idx].field_10_lift_top_wheel_anim_id);
-        u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, topWheelRec.mResourceId, 1, 0);
+        u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, topWheelRec.mResourceId, 1, 0);
 
         field_1D4_pulley_anim.Init(
             topWheelRec.mFrameTableOffset,

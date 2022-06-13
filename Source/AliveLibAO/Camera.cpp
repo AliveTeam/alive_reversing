@@ -31,7 +31,7 @@ Camera::~Camera()
 void Camera::On_Loaded_4447A0(Camera* pThis)
 {
     pThis->field_30_flags |= 1u;
-    pThis->field_C_ppBits = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Bits, pThis->field_10_resId, 1, 0);
+    pThis->field_C_ppBits = ResourceManager::GetLoadedResource(ResourceManager::Resource_Bits, pThis->field_10_resId, 1, 0);
 }
 
 }

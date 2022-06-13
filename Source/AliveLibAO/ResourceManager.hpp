@@ -157,7 +157,7 @@ public:
     static void LoadResource_446C90(const char_type* pFileName, u32 type, u32 resourceId, LoadMode loadMode, s16 bDontLoad = FALSE);
 
 
-    static u8** GetLoadedResource_4554F0(u32 type, u32 resourceId, s16 addUseCount, s16 bLock);
+    static u8** GetLoadedResource(u32 type, u32 resourceId, s16 addUseCount, s16 bLock);
 
     static void CheckResourceIsLoaded(u32 type, AOResourceID resourceId);
     static void CheckResourceIsLoaded(u32 type, std::initializer_list<AOResourceID>& resourceIds);

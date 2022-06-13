@@ -21,10 +21,10 @@ u8** ResourceManagerWrapper::GetLoadedResource(u32 type, u32 resourceID, u16 add
 {
     if (GetGameType() == GameType::eAe)
     {
-        return ResourceManager::GetLoadedResource_49C2A0(type, resourceID, addUseCount, bLock);
+        return ResourceManager::GetLoadedResource(type, resourceID, addUseCount, bLock);
     }
     else
     {
-        return AO::ResourceManager::GetLoadedResource_4554F0(type, resourceID, addUseCount, bLock);
+        return AO::ResourceManager::GetLoadedResource(type, resourceID, addUseCount, bLock);
     }
 }

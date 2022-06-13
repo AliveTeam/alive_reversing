@@ -36,7 +36,7 @@ s32 Animation_OnFrame_Common_4561B0(BaseGameObject* pObjPtr, s16* pData)
 {
     auto pObj = static_cast<BaseAliveGameObject*>(pObjPtr);
     const AnimRecord& dustRec = AnimRec(AnimId::Dust_Particle);
-    u8** ppAnimData = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, dustRec.mResourceId, FALSE, FALSE);
+    u8** ppAnimData = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, dustRec.mResourceId, FALSE, FALSE);
 
     FP xOff = {};
     if (pObj->mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))

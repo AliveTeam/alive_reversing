@@ -157,14 +157,14 @@ s32 TrapDoor::CreateFromSaveState(const u8* pData)
         case EReliveLevelIds::eMudancheeVault:
         case EReliveLevelIds::eMudancheeVault_Ender:
         case EReliveLevelIds::eMudomoVault_Ender:
-            if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kP6c1trapResID, FALSE, FALSE))
+            if (!ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kP6c1trapResID, FALSE, FALSE))
             {
                 ResourceManager::LoadResourceFile_49C170("VLTSTRAP.BAN", nullptr);
             }
             break;
 
         default:
-            if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kP6c1trapResID, FALSE, FALSE))
+            if (!ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kP6c1trapResID, FALSE, FALSE))
             {
                 ResourceManager::LoadResourceFile_49C170("TRAPDOOR.BAN", nullptr);
             }

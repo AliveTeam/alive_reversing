@@ -838,64 +838,64 @@ Abe::Abe(s32 frameTableOffset, s32 /*r*/, s32 /*g*/, s32 /*b*/)
     // Zero out the resource array
     field_1A4_resources = {};
 
-    if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kAbebasicAOResID, 1, 0))
+    if (!ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kAbebasicAOResID, 1, 0))
     {
         ResourceManager::LoadResourceFile_455270("ABEBSIC.BAN", nullptr);
-        ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kAbebasicAOResID, 1, 0);
+        ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kAbebasicAOResID, 1, 0);
     }
 
-    field_1A4_resources.res[0] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kAbebasicAOResID, 0, 0);
+    field_1A4_resources.res[0] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kAbebasicAOResID, 0, 0);
 
-    if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kAbebsic1AOResID, 1, 0))
+    if (!ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kAbebsic1AOResID, 1, 0))
     {
         ResourceManager::LoadResourceFile_455270("ABEBSIC1.BAN", nullptr);
-        ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kAbebsic1AOResID, 1, 0);
+        ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kAbebsic1AOResID, 1, 0);
     }
 
-    field_1A4_resources.res[45] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kAbebsic1AOResID, 0, 0);
+    field_1A4_resources.res[45] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kAbebsic1AOResID, 0, 0);
 
-    if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kAbeedgeAOResID, 1, 0))
+    if (!ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kAbeedgeAOResID, 1, 0))
     {
         ResourceManager::LoadResourceFile_455270("ABEEDGE.BAN", nullptr);
-        ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kAbeedgeAOResID, 1, 0);
+        ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kAbeedgeAOResID, 1, 0);
     }
 
-    if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kAbeknfdAOResID, 1, 0))
+    if (!ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kAbeknfdAOResID, 1, 0))
     {
         ResourceManager::LoadResourceFile_455270("ABEKNFD.BAN", nullptr);
-        ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kAbeknfdAOResID, 1, 0);
+        ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kAbeknfdAOResID, 1, 0);
     }
 
-    if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kAbeommAOResID, 1, 0))
+    if (!ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kAbeommAOResID, 1, 0))
     {
         ResourceManager::LoadResourceFile_455270("ABEOMM.BAN", nullptr);
-        ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kAbeommAOResID, 1, 0);
+        ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kAbeommAOResID, 1, 0);
     }
 
-    if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kAbeknbkAOResID, 1, 0))
+    if (!ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kAbeknbkAOResID, 1, 0))
     {
         ResourceManager::LoadResourceFile_455270("ABEKNBK.BAN", nullptr);
-        ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kAbeknbkAOResID, 1, 0);
+        ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kAbeknbkAOResID, 1, 0);
     }
 
     ResourceManager::LoadResourceFile_455270("ABENOELM.BND", nullptr);
-    ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kAbefallAOResID, 1, 0);
-    ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kAbesmashAOResID, 1, 0);
+    ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kAbefallAOResID, 1, 0);
+    ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kAbesmashAOResID, 1, 0);
     ResourceManager::LoadResourceFile_455270("OMMFLARE.BAN", nullptr);
-    ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kOmmflareAOResID, 1, 0);
+    ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kOmmflareAOResID, 1, 0);
     ResourceManager::LoadResourceFile_455270("SQBSMK.BAN", nullptr);
-    ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kSquibSmokeAOResID, 1, 0);
+    ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kSquibSmokeAOResID, 1, 0);
     ResourceManager::LoadResourceFile_455270("BLOODROP.BAN", nullptr);
-    ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kBloodropAOResID, 1, 0);
-    if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kObjectShadowAOResID, 0, 0))
+    ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kBloodropAOResID, 1, 0);
+    if (!ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kObjectShadowAOResID, 0, 0))
     {
         ResourceManager::LoadResourceFile_455270("SHADOW.BAN", nullptr);
     }
-    ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kObjectShadowAOResID, 1, 0);
+    ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kObjectShadowAOResID, 1, 0);
     ResourceManager::LoadResourceFile_455270("DEADFLR.BAN", nullptr);
-    ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kDeathFlareAOResID, 1, 0);
+    ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kDeathFlareAOResID, 1, 0);
     ResourceManager::LoadResourceFile_455270("DOVBASIC.BAN", nullptr);
-    ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kDovbasicAOResID, 1, 0);
+    ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kDovbasicAOResID, 1, 0);
 
     field_128_resource_idx = 45;
     Animation_Init_417FD0(frameTableOffset, 135, 80, field_1A4_resources.res[45], 1);
@@ -984,7 +984,7 @@ Abe::~Abe()
 
     u8** ppRes = nullptr;
 
-    ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kAbebasicAOResID, 0, 0);
+    ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kAbebasicAOResID, 0, 0);
     if (ppRes)
     {
         if (mBaseAnimatedWithPhysicsGameObject_Anim.field_20_ppBlock != ppRes)
@@ -993,7 +993,7 @@ Abe::~Abe()
         }
     }
 
-    ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kAbebsic1AOResID, 0, 0);
+    ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kAbebsic1AOResID, 0, 0);
     if (ppRes)
     {
         if (mBaseAnimatedWithPhysicsGameObject_Anim.field_20_ppBlock != ppRes)
@@ -1002,40 +1002,40 @@ Abe::~Abe()
         }
     }
 
-    ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kAbeedgeAOResID, 0, 0);
+    ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kAbeedgeAOResID, 0, 0);
     ResourceManager::FreeResource_455550(ppRes);
 
-    ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kAbefallAOResID, 0, 0);
+    ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kAbefallAOResID, 0, 0);
     ResourceManager::FreeResource_455550(ppRes);
 
-    ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kAbeknbkAOResID, 0, 0);
+    ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kAbeknbkAOResID, 0, 0);
     ResourceManager::FreeResource_455550(ppRes);
 
-    ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kAbeknfdAOResID, 0, 0);
+    ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kAbeknfdAOResID, 0, 0);
     ResourceManager::FreeResource_455550(ppRes);
 
-    ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kAbeommAOResID, 0, 0);
+    ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kAbeommAOResID, 0, 0);
     ResourceManager::FreeResource_455550(ppRes);
 
-    ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kAbesmashAOResID, 0, 0);
+    ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kAbesmashAOResID, 0, 0);
     ResourceManager::FreeResource_455550(ppRes);
 
-    ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kOmmflareAOResID, 0, 0);
+    ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kOmmflareAOResID, 0, 0);
     ResourceManager::FreeResource_455550(ppRes);
 
-    ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kBloodropAOResID, 0, 0);
+    ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kBloodropAOResID, 0, 0);
     ResourceManager::FreeResource_455550(ppRes);
 
-    ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kObjectShadowAOResID, 0, 0);
+    ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kObjectShadowAOResID, 0, 0);
     ResourceManager::FreeResource_455550(ppRes);
 
-    ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kDeathFlareAOResID, 0, 0);
+    ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kDeathFlareAOResID, 0, 0);
     ResourceManager::FreeResource_455550(ppRes);
 
-    ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kDovbasicAOResID, 0, 0);
+    ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kDovbasicAOResID, 0, 0);
     ResourceManager::FreeResource_455550(ppRes);
 
-    ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kSquibSmokeAOResID, 0, 0);
+    ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kSquibSmokeAOResID, 0, 0);
     ResourceManager::FreeResource_455550(ppRes);
 
     if (field_158_pDeathFadeout)
@@ -1352,20 +1352,20 @@ void Abe::VUpdate()
                     if (!field_2A8_flags.Get(Flags_2A8::e2A8_eBit14_bGotShrykullFromBigFace) && gMap.mCurrentLevel == EReliveLevelIds::eLines)
                     {
                         LOG_INFO("Set field_16C_bHaveShrykull TRUE");
-                        if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kAbemorphAOResID, 1, 0))
+                        if (!ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kAbemorphAOResID, 1, 0))
                         {
                             ResourceManager::LoadResourceFile_455270("ABEMORPH.BAN", nullptr);
-                            ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kAbemorphAOResID, 1, 0);
+                            ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kAbemorphAOResID, 1, 0);
                         }
-                        if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kShrmorphAOResID, 1, 0))
+                        if (!ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kShrmorphAOResID, 1, 0))
                         {
                             ResourceManager::LoadResourceFile_455270("SHRMORPH.BAN", nullptr);
-                            ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kShrmorphAOResID, 1, 0);
+                            ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kShrmorphAOResID, 1, 0);
                         }
-                        if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kSplineAOResID, 1, 0))
+                        if (!ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kSplineAOResID, 1, 0))
                         {
                             ResourceManager::LoadResourceFile_455270("SPLINE.BAN", nullptr);
-                            ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kSplineAOResID, 1, 0);
+                            ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kSplineAOResID, 1, 0);
                         }
                         field_16C_bHaveShrykull = TRUE;
                         field_168_ring_pulse_timer = sGnFrame + 32000;
@@ -1393,9 +1393,9 @@ void Abe::VRender(PrimHeader** ppOt)
 
 void Abe::Free_Shrykull_Resources_42F4C0()
 {
-    ResourceManager::FreeResource_455550(ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kAbemorphAOResID, 0, 0));
-    ResourceManager::FreeResource_455550(ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kShrmorphAOResID, 0, 0));
-    ResourceManager::FreeResource_455550(ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kSplineAOResID, 0, 0));
+    ResourceManager::FreeResource_455550(ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kAbemorphAOResID, 0, 0));
+    ResourceManager::FreeResource_455550(ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kShrmorphAOResID, 0, 0));
+    ResourceManager::FreeResource_455550(ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kSplineAOResID, 0, 0));
 }
 
 void Abe::FreeElumRes_420F80()
@@ -1448,7 +1448,7 @@ void Abe::FreeElumRes_420F80()
         field_104_pending_resource_count++;
         ResourceManager::LoadResourceFile("ABEBSIC.BAN", BaseAliveGameObject::OnResourceLoaded_4019A0, this);
 
-        if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kAneprmntAOResID, 0, 0))
+        if (!ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kAneprmntAOResID, 0, 0))
         {
             field_104_pending_resource_count++;
             ResourceManager::LoadResourceFile("ANEPRMNT.BAN", BaseAliveGameObject::OnResourceLoaded_4019A0, this);
@@ -1461,7 +1461,7 @@ void Abe::FreeElumRes_420F80()
                 field_104_pending_resource_count++;
                 ResourceManager::LoadResourceFile("ELMPRMNT.BAN", BaseAliveGameObject::OnResourceLoaded_4019A0, this);
 
-                if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kElmaloneAOResID_230, 0, 0))
+                if (!ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kElmaloneAOResID_230, 0, 0))
                 {
                     field_104_pending_resource_count++;
                     ResourceManager::LoadResourceFile("ELMALONE.BAN", BaseAliveGameObject::OnResourceLoaded_4019A0, this);
@@ -1472,7 +1472,7 @@ void Abe::FreeElumRes_420F80()
         field_104_pending_resource_count++;
         ResourceManager::LoadResourceFile("ABENOELM.BND", BaseAliveGameObject::OnResourceLoaded_4019A0, this);
 
-        if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kAbeommAOResID, 0, 0))
+        if (!ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kAbeommAOResID, 0, 0))
         {
             field_104_pending_resource_count++;
             ResourceManager::LoadResourceFile("ABEOMM.BAN", BaseAliveGameObject::OnResourceLoaded_4019A0, this);
@@ -1653,9 +1653,9 @@ BaseAliveGameObject* Abe::FindObjectToPossess_421410()
 
 void Abe::Get_Shrykull_Resources_42F480()
 {
-    ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kAbemorphAOResID, 1, 0);
-    ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kShrmorphAOResID, 1, 0);
-    ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kSplineAOResID, 1, 0);
+    ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kAbemorphAOResID, 1, 0);
+    ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kShrmorphAOResID, 1, 0);
+    ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kSplineAOResID, 1, 0);
 }
 
 void Abe::ToDieFinal_42C400()
@@ -1890,7 +1890,7 @@ u8** Abe::StateToAnimResource_4204F0(s16 motion)
                 resourceID = res_idx + 54;
             }
 
-            u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, resourceID, 1, 0);
+            u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, resourceID, 1, 0);
             if (!ppRes)
             {
                 LOG_ERROR("Abe resource failed to load " << resourceID);
@@ -2010,9 +2010,9 @@ void Abe::ElumFree_4228F0()
 {
     if (field_2AA_flags.Get(Flags_2AA::e2AA_Bit4_ElumMountEnd))
     {
-        ResourceManager::FreeResource_455550(ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kElumUnknownAOResID_110, 1, 0));
-        ResourceManager::FreeResource_455550(ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kElumAneMountAOResID_223, 1, 0));
-        ResourceManager::FreeResource_455550(ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kElmprmntAOResID__222, 0, 0));
+        ResourceManager::FreeResource_455550(ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kElumUnknownAOResID_110, 1, 0));
+        ResourceManager::FreeResource_455550(ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kElumAneMountAOResID_223, 1, 0));
+        ResourceManager::FreeResource_455550(ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kElmprmntAOResID__222, 0, 0));
 
         if (gElum_507680->mCurrentMotion != eElumMotions::Motion_1_Idle_412990)
         {
@@ -2022,17 +2022,17 @@ void Abe::ElumFree_4228F0()
 
     if (field_2AA_flags.Get(Flags_2AA::e2AA_Bit4_ElumMountEnd))
     {
-        ResourceManager::FreeResource_455550(ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kAbeWElmAOResID_100, 1, 0));
-        ResourceManager::FreeResource_455550(ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kElumUnknownAOResID_112, 1, 0));
-        ResourceManager::FreeResource_455550(ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kElumRideAOResID_220, 1, 0));
-        ResourceManager::FreeResource_455550(ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kElumPdmntAOResID_221, 1, 0));
+        ResourceManager::FreeResource_455550(ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kAbeWElmAOResID_100, 1, 0));
+        ResourceManager::FreeResource_455550(ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kElumUnknownAOResID_112, 1, 0));
+        ResourceManager::FreeResource_455550(ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kElumRideAOResID_220, 1, 0));
+        ResourceManager::FreeResource_455550(ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kElumPdmntAOResID_221, 1, 0));
     }
 
     if (field_2AA_flags.Get(Flags_2AA::e2AA_Bit5_ElumUnmountBegin))
     {
-        ResourceManager::FreeResource_455550(ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kAbeANEDSMNTAOResID_113, 1, 0));
-        ResourceManager::FreeResource_455550(ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kElumANEDSMNTAOResID_224, 1, 0));
-        ResourceManager::FreeResource_455550(ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kElumPdmntAOResID_221, 0, 0));
+        ResourceManager::FreeResource_455550(ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kAbeANEDSMNTAOResID_113, 1, 0));
+        ResourceManager::FreeResource_455550(ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kElumANEDSMNTAOResID_224, 1, 0));
+        ResourceManager::FreeResource_455550(ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kElumPdmntAOResID_221, 0, 0));
 
         if (gElum_507680->mCurrentMotion != eElumMotions::Motion_1_Idle_412990)
         {
@@ -2667,10 +2667,10 @@ void Abe::Free_Resources_422870()
 
 void Abe::Load_Basic_Resources_4228A0()
 {
-    if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kAbebasicAOResID, 0, 0) && !ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kAbebasicAOResID, 1, 0))
+    if (!ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kAbebasicAOResID, 0, 0) && !ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kAbebasicAOResID, 1, 0))
     {
         ResourceManager::LoadResourceFile_455270("ABEBSIC.BAN", nullptr);
-        ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kAbebasicAOResID, 1, 0);
+        ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kAbebasicAOResID, 1, 0);
     }
 }
 
@@ -2679,22 +2679,22 @@ void Abe::LoadMountElumResources_42E690()
     ResourceManager::FreeResource_455550(field_1A4_resources.res[0]);
     field_1A4_resources.res[0] = nullptr;
 
-    field_1A4_resources.res[10] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kAbefallAOResID, 0, 0);
+    field_1A4_resources.res[10] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kAbefallAOResID, 0, 0);
     ResourceManager::FreeResource_455550(field_1A4_resources.res[10]);
     field_1A4_resources.res[10] = nullptr;
 
-    field_1A4_resources.res[38] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kAbeommAOResID, 0, 0);
+    field_1A4_resources.res[38] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kAbeommAOResID, 0, 0);
     ResourceManager::FreeResource_455550(field_1A4_resources.res[38]);
     field_1A4_resources.res[38] = nullptr;
 
-    field_1A4_resources.res[9] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kAbesmashAOResID, 0, 0);
+    field_1A4_resources.res[9] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kAbesmashAOResID, 0, 0);
     ResourceManager::FreeResource_455550(field_1A4_resources.res[9]);
     field_1A4_resources.res[9] = nullptr;
 
-    if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kAneprmntAOResID, 0, 0))
+    if (!ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kAneprmntAOResID, 0, 0))
     {
         ResourceManager::LoadResourceFile_455270("ANEPRMNT.BAN", nullptr);
-        field_1A4_resources.res[61] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kAneprmntAOResID, 1, 0);
+        field_1A4_resources.res[61] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kAneprmntAOResID, 1, 0);
     }
 
     field_104_pending_resource_count++;
@@ -3090,7 +3090,7 @@ void Abe::VScreenChanged()
 
             field_19C_throwable_count = 0;
 
-            ResourceManager::FreeResource_455550(ResourceManager::GetLoadedResource_4554F0(ResourceManager::ResourceType::Resource_Palt, AOResourceID::kAberockAOResID, 0, 0));
+            ResourceManager::FreeResource_455550(ResourceManager::GetLoadedResource(ResourceManager::ResourceType::Resource_Palt, AOResourceID::kAberockAOResID, 0, 0));
 
             if (field_168_ring_pulse_timer > 0 && field_16C_bHaveShrykull)
             {
@@ -4106,29 +4106,29 @@ void Abe::Motion_0_Idle_423520()
 
 #if 0
                 // Force load idle anims to restore the feature, it kinda sucks though
-                if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kAbeyawnAOResID, 0, 0))
+                if (!ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kAbeyawnAOResID, 0, 0))
                 {
                     ResourceManager::LoadResourceFile_455270("ABEYAWN.BAN", nullptr, ResourceManager::BlockAllocMethod::eFirstMatching);
                 }
-                if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kAberubAOResID, 0, 0))
+                if (!ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kAberubAOResID, 0, 0))
                 {
                     ResourceManager::LoadResourceFile_455270("ABERUB.BAN", nullptr, ResourceManager::BlockAllocMethod::eFirstMatching);
                 }
-                if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kAbesizeAOResID, 0, 0))
+                if (!ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kAbesizeAOResID, 0, 0))
                 {
                     ResourceManager::LoadResourceFile_455270("ABESIZE.BAN", nullptr, ResourceManager::BlockAllocMethod::eFirstMatching);
                 }
 #endif
 
-                if (ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kAbeyawnAOResID, 0, 0)) //yawn ABEYAWN.BAN
+                if (ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kAbeyawnAOResID, 0, 0)) //yawn ABEYAWN.BAN
                 {
                     loaded |= 1;
                 }
-                if (ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kAberubAOResID, 0, 0)) // rub ABERUB.BAN
+                if (ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kAberubAOResID, 0, 0)) // rub ABERUB.BAN
                 {
                     loaded |= 2;
                 }
-                if (ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kAbesizeAOResID, 0, 0)) // size ABESIZE.BAN
+                if (ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kAbesizeAOResID, 0, 0)) // size ABESIZE.BAN
                 {
                     loaded |= 4;
                 }
@@ -6905,11 +6905,11 @@ void Abe::Motion_60_Dead_42C4C0()
                     }
                     if (!field_1A4_resources.res[0])
                     {
-                        field_1A4_resources.res[0] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kAbebasicAOResID, 1, 0);
-                        field_1A4_resources.res[10] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kAbefallAOResID, 1, 0);
-                        field_1A4_resources.res[38] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kAbeommAOResID, 1, 0);
-                        field_1A4_resources.res[9] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kAbesmashAOResID, 1, 0);
-                        field_1A4_resources.res[61] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kAneprmntAOResID, 1, 0);
+                        field_1A4_resources.res[0] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kAbebasicAOResID, 1, 0);
+                        field_1A4_resources.res[10] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kAbefallAOResID, 1, 0);
+                        field_1A4_resources.res[38] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kAbeommAOResID, 1, 0);
+                        field_1A4_resources.res[9] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kAbesmashAOResID, 1, 0);
+                        field_1A4_resources.res[61] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kAneprmntAOResID, 1, 0);
                         if (gElum_507680)
                         {
                             if (gElum_507680->field_144_bRespawnOnDead)
@@ -6919,7 +6919,7 @@ void Abe::Motion_60_Dead_42C4C0()
                             else
                             {
                                 ResourceManager::FreeResource_455550(
-                                    ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kAneprmntAOResID, 0, 0));
+                                    ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kAneprmntAOResID, 0, 0));
                             }
                         }
                     }
@@ -7246,7 +7246,7 @@ void Abe::Motion_62_LoadedSaveSpawn_45ADD0()
             }
 
             ResourceManager::LoadResourceFile_455270("ANEPRMNT.BAN", 0);
-            ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kAneprmntAOResID, 1, 0);
+            ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kAneprmntAOResID, 1, 0);
             gElum_507680->mBaseGameObjectFlags.Clear(Options::eUpdatable_Bit2);
             gElum_507680->mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit3_Render);
             gElum_507680->field_138_continue_rect = pSaveData->field_28C_elum_continue_rect;
@@ -7308,7 +7308,7 @@ void Abe::Motion_62_LoadedSaveSpawn_45ADD0()
             }
             if (gElum_507680->field_170_flags.Get(Elum::Flags_170::eFoundHoney_Bit4))
             {
-                if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kElmHoneyAOResID, 0, 0))
+                if (!ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kElmHoneyAOResID, 0, 0))
                 {
                     ResourceManager::LoadResourceFile_455270("ELMHONEY.BAN", 0);
                 }
@@ -7574,14 +7574,14 @@ void Abe::Motion_70_Knockback_428FB0()
         {
             if (!field_1A4_resources.res[0])
             {
-                field_1A4_resources.res[0] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kAbebasicAOResID, 1, 0);
-                field_1A4_resources.res[10] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kAbefallAOResID, 1, 0);
-                field_1A4_resources.res[38] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kAbeommAOResID, 1, 0);
-                field_1A4_resources.res[9] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kAbesmashAOResID, 1, 0);
+                field_1A4_resources.res[0] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kAbebasicAOResID, 1, 0);
+                field_1A4_resources.res[10] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kAbefallAOResID, 1, 0);
+                field_1A4_resources.res[38] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kAbeommAOResID, 1, 0);
+                field_1A4_resources.res[9] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kAbesmashAOResID, 1, 0);
 
                 if (!field_2AA_flags.Get(Flags_2AA::e2AA_Bit3_ElumMountBegin))
                 {
-                    ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kAneprmntAOResID, 1, 0);
+                    ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kAneprmntAOResID, 1, 0);
                 }
             }
 
@@ -8112,7 +8112,7 @@ void Abe::Motion_88_HandstoneBegin_430590()
         {
             if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit12_ForwardLoopCompleted))
             {
-                ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kSpotliteAOResID, 1, 0);
+                ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kSpotliteAOResID, 1, 0);
                 field_164_pCircularFade = Make_Circular_Fade(
                     mBaseAnimatedWithPhysicsGameObject_XPos,
                     mBaseAnimatedWithPhysicsGameObject_YPos,
@@ -8234,7 +8234,7 @@ void Abe::Motion_88_HandstoneBegin_430590()
                         field_164_pCircularFade = nullptr;
                         field_110_state.stone = StoneStates::eFreeDemoPlaybackResources_3;
                         gCounter_507728 = 2;
-                        gpDemoPlaybackRes_50772C = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Plbk, field_174_pathStone.demoId, 1, 0);
+                        gpDemoPlaybackRes_50772C = ResourceManager::GetLoadedResource(ResourceManager::Resource_Plbk, field_174_pathStone.demoId, 1, 0);
                         if (gpDemoPlaybackRes_50772C)
                         {
                             relive_new DemoPlayback(gpDemoPlaybackRes_50772C, 1);
@@ -8321,7 +8321,7 @@ void Abe::Motion_88_HandstoneBegin_430590()
                     sAbeSound_507730 = 0;
                 }
                 ResourceManager::FreeResource_455550(
-                    ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kSpotliteAOResID, 0, 0));
+                    ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kSpotliteAOResID, 0, 0));
             }
             break;
         }
@@ -8829,14 +8829,14 @@ void Abe::Motion_128_KnockForward_429330()
         {
             if (!field_1A4_resources.res[0])
             {
-                field_1A4_resources.res[0] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kAbebasicAOResID, 1, 0);
-                field_1A4_resources.res[10] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kAbefallAOResID, 1, 0);
-                field_1A4_resources.res[38] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kAbeommAOResID, 1, 0);
-                field_1A4_resources.res[9] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kAbesmashAOResID, 1, 0);
+                field_1A4_resources.res[0] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kAbebasicAOResID, 1, 0);
+                field_1A4_resources.res[10] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kAbefallAOResID, 1, 0);
+                field_1A4_resources.res[38] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kAbeommAOResID, 1, 0);
+                field_1A4_resources.res[9] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kAbesmashAOResID, 1, 0);
 
                 if (!field_2AA_flags.Get(Flags_2AA::e2AA_Bit3_ElumMountBegin))
                 {
-                    ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kAneprmntAOResID, 1, 0);
+                    ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kAneprmntAOResID, 1, 0);
                 }
             }
 
@@ -9024,8 +9024,8 @@ void Abe::Motion_136_ElumMountEnd_42E110()
     {
         if (!field_104_pending_resource_count)
         {
-            field_1A4_resources.res[46] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kAbeWElmAOResID_100, 1, 0);
-            field_1A4_resources.res[58] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kElumUnknownAOResID_112, 1, 0);
+            field_1A4_resources.res[46] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kAbeWElmAOResID_100, 1, 0);
+            field_1A4_resources.res[58] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kElumUnknownAOResID_112, 1, 0);
             mCurrentMotion = eAbeMotions::Motion_103_ElumIdle_42DCD0;
             sControlledCharacter_50767C = gElum_507680;
             MusicController::static_PlayMusic(MusicController::MusicTypes::eAbeOnElum_1, nullptr, 0, 0);
@@ -9051,7 +9051,7 @@ void Abe::Motion_137_ElumUnmountBegin_42E2B0()
         ResourceManager::LoadResourceFile("ANEPRMNT.BAN", BaseAliveGameObject::OnResourceLoaded_4019A0, this);
         ResourceManager::LoadResourceFile("ABENOELM.BND", BaseAliveGameObject::OnResourceLoaded_4019A0, this);
 
-        if (!ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kAbeommAOResID, FALSE, FALSE))
+        if (!ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kAbeommAOResID, FALSE, FALSE))
         {
             field_104_pending_resource_count++;
             ResourceManager::LoadResourceFile("ABEOMM.BAN", BaseAliveGameObject::OnResourceLoaded_4019A0, this);
@@ -9103,11 +9103,11 @@ void Abe::Motion_138_ElumUnmountEnd_42E390()
 
     if (mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame >= 28 && field_104_pending_resource_count == 0)
     {
-        field_1A4_resources.res[0] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kAbebasicAOResID, 1, 0);
-        field_1A4_resources.res[61] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kAneprmntAOResID, 1, 0);
-        field_1A4_resources.res[10] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kAbefallAOResID, 1, 0);
-        field_1A4_resources.res[38] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kAbeommAOResID, 1, 0);
-        field_1A4_resources.res[9] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kAbesmashAOResID, 1, 0);
+        field_1A4_resources.res[0] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kAbebasicAOResID, 1, 0);
+        field_1A4_resources.res[61] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kAneprmntAOResID, 1, 0);
+        field_1A4_resources.res[10] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kAbefallAOResID, 1, 0);
+        field_1A4_resources.res[38] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kAbeommAOResID, 1, 0);
+        field_1A4_resources.res[9] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kAbesmashAOResID, 1, 0);
 
         BaseAliveGameObjectCollisionLine = gElum_507680->BaseAliveGameObjectCollisionLine;
 
@@ -9904,9 +9904,9 @@ void Abe::Motion_163_ShrykullEnd_42F520()
     {
         if (!field_168_ring_pulse_timer)
         {
-            ResourceManager::FreeResource_455550(ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kAbemorphAOResID, 0, 0));
-            ResourceManager::FreeResource_455550(ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kShrmorphAOResID, 0, 0));
-            ResourceManager::FreeResource_455550(ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kSplineAOResID, 0, 0));
+            ResourceManager::FreeResource_455550(ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kAbemorphAOResID, 0, 0));
+            ResourceManager::FreeResource_455550(ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kShrmorphAOResID, 0, 0));
+            ResourceManager::FreeResource_455550(ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kSplineAOResID, 0, 0));
         }
 
         mCurrentMotion = eAbeMotions::Motion_9_Speak_42FA50;

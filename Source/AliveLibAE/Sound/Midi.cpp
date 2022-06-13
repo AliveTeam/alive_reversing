@@ -95,7 +95,7 @@ public:
 
     virtual u8** GetLoadedResource(u32 type, u32 resourceID, u16 addUseCount, u16 bLock) override
     {
-        return ResourceManager::GetLoadedResource_49C2A0(type, resourceID, addUseCount, bLock);
+        return ResourceManager::GetLoadedResource(type, resourceID, addUseCount, bLock);
     }
 
     virtual s16 FreeResource(u8** handle) override

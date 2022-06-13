@@ -43,7 +43,7 @@ Gibs::Gibs(GibType gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scale)
     const AnimRecord& headRec = AO::AnimRec(field_E4_pGibData->field_0_head);
     const AnimRecord& armRec = AO::AnimRec(field_E4_pGibData->field_4_arm);
     const AnimRecord& bodyRec = AO::AnimRec(field_E4_pGibData->field_8_body);
-    u8** ppAnimData = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, headRec.mResourceId, 1, 0);
+    u8** ppAnimData = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, headRec.mResourceId, 1, 0);
 
     // The base class renders the head gib
     Animation_Init_417FD0(
@@ -94,11 +94,11 @@ Gibs::Gibs(GibType gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scale)
     {
         if (gibType == GibType::Abe_0 || gibType == GibType::Mud_4)
         {
-            ppPal = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Palt, AOResourceID::kAbeblowAOResID, 0, 0);
+            ppPal = ResourceManager::GetLoadedResource(ResourceManager::Resource_Palt, AOResourceID::kAbeblowAOResID, 0, 0);
         }
         else if (gibType == GibType::Slog_2)
         {
-            ppPal = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Palt, AOResourceID::kSlogBlowAOResID, 0, 0);
+            ppPal = ResourceManager::GetLoadedResource(ResourceManager::Resource_Palt, AOResourceID::kSlogBlowAOResID, 0, 0);
         }
     }
 

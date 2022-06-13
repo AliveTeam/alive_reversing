@@ -94,7 +94,7 @@ void BaseBomb::VUpdate()
     if (mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame == 3)
     {
         const AnimRecord& rec = AO::AnimRec(AnimId::Explosion_Mine);
-        u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
+        u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
         if (ppRes)
         {
             Particle* pParticle = relive_new Particle(
@@ -198,8 +198,8 @@ BaseBomb::BaseBomb(FP xpos, FP ypos, s32 /*unused*/, FP scale)
 {
     mBaseGameObjectTypeId = ReliveTypes::eBaseBomb;
 
-    const AnimRecord& rec = AO::AnimRec(AnimId::Explosion_Mine);
-    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
+    const AnimRecord rec = AO::AnimRec(AnimId::Explosion_Mine);
+    u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
     Animation_Init_417FD0(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
 
     mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit18_IsLastFrame);

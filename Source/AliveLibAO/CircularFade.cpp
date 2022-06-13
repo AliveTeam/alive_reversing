@@ -25,8 +25,8 @@ CircularFade::CircularFade(FP xpos, FP ypos, FP scale, s16 direction, s8 destroy
     const u8 fade_rgb = static_cast<u8>((field_1A8_fade_colour * 60) / 100);
     mBaseAnimatedWithPhysicsGameObject_RGB.SetRGB(fade_rgb, fade_rgb, fade_rgb);
 
-    const AnimRecord& rec = AO::AnimRec(AnimId::Circular_Fade);
-    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
+    const AnimRecord rec = AO::AnimRec(AnimId::Circular_Fade);
+    u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
     Animation_Init_417FD0(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
 
     mApplyShadows &= ~1u;

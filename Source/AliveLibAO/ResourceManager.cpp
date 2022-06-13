@@ -197,7 +197,7 @@ ALIVE_ASSERT_SIZEOF(LoadingFile, 0x30);
 void Game_ShowLoadingIcon_445EB0()
 {
     const AnimRecord& rec = AO::AnimRec(AnimId::Loading_Icon2);
-    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
+    u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
     if (ppRes)
     {
         auto pParticle = relive_new Particle(FP_FromInteger(0), FP_FromInteger(0), rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes);
@@ -248,7 +248,7 @@ void ResourceManager::On_Loaded_446C10(ResourceManager_FileRecord* pLoaded)
             break;
         }
 
-        u8** ppRes = ResourceManager::GetLoadedResource_4554F0(
+        u8** ppRes = ResourceManager::GetLoadedResource(
             pFilePart->field_0_type,
             pFilePart->field_4_res_id,
             1,
@@ -275,7 +275,7 @@ void ResourceManager::LoadResource_446C90(const char_type* pFileName, u32 type, 
         return;
     }
 
-    u8** ppExistingRes = ResourceManager::GetLoadedResource_4554F0(type, resourceId, 1, 0);
+    u8** ppExistingRes = ResourceManager::GetLoadedResource(type, resourceId, 1, 0);
     if (ppExistingRes)
     {
         sCameraBeingLoaded_507C98->field_0_array.Push_Back(ppExistingRes);
@@ -349,7 +349,7 @@ void ResourceManager::LoadResource_446C90(const char_type* pFileName, u32 type, 
     else if (loadMode == LoadMode::LoadResource_2)
     {
         ResourceManager::LoadResourceFile_455270(pFileName, nullptr);
-        u8** ppRes = ResourceManager::GetLoadedResource_4554F0(type, resourceId, 1, 0);
+        u8** ppRes = ResourceManager::GetLoadedResource(type, resourceId, 1, 0);
         if (ppRes)
         {
             sCameraBeingLoaded_507C98->field_0_array.Push_Back(ppRes);
@@ -370,7 +370,7 @@ void ResourceManager::LoadResourcesFromList_446E80(const char_type* pFileName, R
     bool allResourcesLoaded = true;
     for (s32 i = 0; i < pTypeAndIdList->field_0_count; i++)
     {
-        while (!ResourceManager::GetLoadedResource_4554F0(
+        while (!ResourceManager::GetLoadedResource(
             pTypeAndIdList->field_4_items[i].field_0_type,
             pTypeAndIdList->field_4_items[i].field_4_res_id,
             0,
@@ -387,7 +387,7 @@ void ResourceManager::LoadResourcesFromList_446E80(const char_type* pFileName, R
     {
         for (s32 i = 0; i < pTypeAndIdList->field_0_count; i++)
         {
-            sCameraBeingLoaded_507C98->field_0_array.Push_Back(GetLoadedResource_4554F0(
+            sCameraBeingLoaded_507C98->field_0_array.Push_Back(GetLoadedResource(
                 pTypeAndIdList->field_4_items[i].field_0_type,
                 pTypeAndIdList->field_4_items[i].field_4_res_id,
                 1,
@@ -455,7 +455,7 @@ void ResourceManager::LoadResourcesFromList_446E80(const char_type* pFileName, R
         ResourceManager::LoadResourceFile_455270(pFileName, nullptr);
         for (s32 j = 0; j < pTypeAndIdList->field_0_count; j++)
         {
-            u8** ppLoadedRes = ResourceManager::GetLoadedResource_4554F0(
+            u8** ppLoadedRes = ResourceManager::GetLoadedResource(
                 pTypeAndIdList->field_4_items[j].field_0_type,
                 pTypeAndIdList->field_4_items[j].field_4_res_id,
                 1,
@@ -947,7 +947,7 @@ s16 ResourceManager::Move_Resources_To_DArray_455430(u8** ppRes, DynamicArrayT<u
     return 1;
 }
 
-u8** ResourceManager::GetLoadedResource_4554F0(u32 type, u32 resourceId, s16 addUseCount, s16 bLock)
+u8** ResourceManager::GetLoadedResource(u32 type, u32 resourceId, s16 addUseCount, s16 bLock)
 {
     // Iterate all list items
     ResourceHeapItem* pListIter = sFirstLinkedListItem_50EE2C;
@@ -978,7 +978,7 @@ u8** ResourceManager::GetLoadedResource_4554F0(u32 type, u32 resourceId, s16 add
 
 void ResourceManager::CheckResourceIsLoaded(u32 type, AOResourceID resourceId)
 {
-    u8** ppRes = GetLoadedResource_4554F0(type, resourceId, FALSE, FALSE);
+    u8** ppRes = GetLoadedResource(type, resourceId, FALSE, FALSE);
     if (!ppRes)
     {
         LOG_ERROR("Resource not loaded type " << type << " resource Id " << resourceId);

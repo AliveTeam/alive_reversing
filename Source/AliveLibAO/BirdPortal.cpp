@@ -33,8 +33,8 @@ BirdPortalTerminator::BirdPortalTerminator(FP xpos, FP ypos, FP scale, PortalTyp
 {
     mBaseGameObjectTypeId = ReliveTypes::eClawOrBirdPortalTerminator;
 
-    const AnimRecord& rec = AO::AnimRec(AnimId::BirdPortal_TerminatorGrow);
-    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
+    const AnimRecord rec = AO::AnimRec(AnimId::BirdPortal_TerminatorGrow);
+    u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
     Animation_Init_417FD0(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
     
     mBaseAnimatedWithPhysicsGameObject_Anim.mRenderMode = TPageAbr::eBlend_1;
@@ -118,13 +118,13 @@ BirdPortal::~BirdPortal()
     }
 
     u8** ppRes = nullptr;
-    ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kPortalTerminatorAOResID, 0, 0);
+    ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kPortalTerminatorAOResID, 0, 0);
     ResourceManager::FreeResource_455550(ppRes);
-    ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kPortliteAOResID, 0, 0);
+    ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kPortliteAOResID, 0, 0);
     ResourceManager::FreeResource_455550(ppRes);
-    ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kPortlitAOResID, 0, 0);
+    ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kPortlitAOResID, 0, 0);
     ResourceManager::FreeResource_455550(ppRes);
-    ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kDovbasicAOResID, 0, 0);
+    ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kDovbasicAOResID, 0, 0);
     ResourceManager::FreeResource_455550(ppRes);
 
     if (field_68_sfx_ret)
@@ -155,10 +155,10 @@ BirdPortal::BirdPortal(Path_BirdPortal* pTlv, s32 tlvInfo)
 {
     mBaseGameObjectTypeId = ReliveTypes::eBirdPortal;
 
-    ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kPortalTerminatorAOResID, 1, 0);
-    ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kDovbasicAOResID, 1, 0);
-    ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kPortliteAOResID, 1, 0);
-    ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kPortlitAOResID, 1, 0);
+    ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kPortalTerminatorAOResID, 1, 0);
+    ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kDovbasicAOResID, 1, 0);
+    ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kPortliteAOResID, 1, 0);
+    ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kPortlitAOResID, 1, 0);
 
     field_2C_tlvInfo = tlvInfo;
 
@@ -434,7 +434,7 @@ void BirdPortal::VUpdate()
                 if ((Math_NextRandom() % 8) == 0)
                 {
                     const AnimRecord& rec = AO::AnimRec(AnimId::BirdPortal_Sparks);
-                    u8** ppLightRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
+                    u8** ppLightRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
                     if (ppLightRes)
                     {
                         auto pParticle = relive_new Particle(
@@ -561,7 +561,7 @@ void BirdPortal::VUpdate()
             if (FP_GetExponent(field_3C_pTerminator1->mBaseAnimatedWithPhysicsGameObject_YPos) >= FP_GetExponent(field_40_pTerminator2->mBaseAnimatedWithPhysicsGameObject_YPos))
             {
                 const AnimRecord& rec = AO::AnimRec(AnimId::BirdPortal_Flash);
-                u8** ppLightRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
+                u8** ppLightRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
                 if (ppLightRes)
                 {
                     auto pParticle_1 = relive_new Particle(

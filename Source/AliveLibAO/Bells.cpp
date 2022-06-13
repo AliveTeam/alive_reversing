@@ -17,10 +17,10 @@ Bells::Bells(BellSize bellType, FP xpos, FP ypos, FP scale)
 
     mBaseGameObjectTypeId = ReliveTypes::eBells;
 
-    const AnimRecord& rec = AO::AnimRec(AnimId::BigChime);
-    const AnimRecord& rec2 = AO::AnimRec(AnimId::MediumChime);
-    const AnimRecord& rec3 = AO::AnimRec(AnimId::SmallChime);
-    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
+    const AnimRecord rec = AO::AnimRec(AnimId::BigChime);
+    const AnimRecord rec2 = AO::AnimRec(AnimId::MediumChime);
+    const AnimRecord rec3 = AO::AnimRec(AnimId::SmallChime);
+    u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
 
     switch (bellType)
     {

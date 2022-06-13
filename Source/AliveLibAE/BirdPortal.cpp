@@ -220,7 +220,7 @@ void BirdPortal::VUpdate()
             {
                 if ((Math_NextRandom() % 8) == 0)
                 {
-                    u8** ppLightRes = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kPortliteResID, TRUE, FALSE);
+                    u8** ppLightRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kPortliteResID, TRUE, FALSE);
                     if (ppLightRes)
                     {
                         const AnimRecord& rec = AnimRec(AnimId::BirdPortal_Sparks);
@@ -604,19 +604,19 @@ s32 BirdPortal::CreateFromSaveState(const u8* pBuffer)
         return sizeof(BirdPortal_State);
     }
 
-    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kPortliteResID, FALSE, FALSE))
+    if (!ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kPortliteResID, FALSE, FALSE))
     {
         ResourceManager::LoadResourceFile_49C170("PORTAL.BND", nullptr);
     }
 
     if (pTlv->field_1C_portal_type == PortalType::eShrykull_2)
     {
-        if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kSplineResID, FALSE, FALSE))
+        if (!ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kSplineResID, FALSE, FALSE))
         {
             ResourceManager::LoadResourceFile_49C170("SPLINE.BAN", nullptr);
         }
 
-        if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kAbemorphResID, FALSE, FALSE))
+        if (!ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kAbemorphResID, FALSE, FALSE))
         {
             ResourceManager::LoadResourceFile_49C170("SHRYPORT.BND", nullptr);
         }

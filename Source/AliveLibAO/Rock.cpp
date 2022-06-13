@@ -24,8 +24,8 @@ Rock::Rock(FP xpos, FP ypos, s16 count)
 
     field_10E_bDead = 0;
 
-    const AnimRecord& rec = AO::AnimRec(AnimId::Rock);
-    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
+    const AnimRecord rec = AO::AnimRec(AnimId::Rock);
+    u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
     Animation_Init_417FD0(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
 
     mBaseGameObjectFlags.Clear(Options::eInteractive_Bit8);
@@ -44,7 +44,7 @@ Rock::Rock(FP xpos, FP ypos, s16 count)
     field_10C_count = count;
     field_110_state = States::eNone_0;
 
-    u8** ppPal = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Palt, AOResourceID::kAberockAOResID, 0, 0);
+    u8** ppPal = ResourceManager::GetLoadedResource(ResourceManager::Resource_Palt, AOResourceID::kAberockAOResID, 0, 0);
     if (ppPal)
     {
         mBaseAnimatedWithPhysicsGameObject_Anim.LoadPal(ppPal, 0);

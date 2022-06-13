@@ -41,5 +41,5 @@ Camera::~Camera()
 void Camera::On_Loaded(Camera* pCamera)
 {
     pCamera->field_30_flags |= 1;
-    pCamera->field_C_pCamRes = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Bits, pCamera->field_10_camera_resource_id, 1, 0);
+    pCamera->field_C_pCamRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Bits, pCamera->field_10_camera_resource_id, 1, 0);
 }

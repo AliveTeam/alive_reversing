@@ -157,7 +157,7 @@ Mudokon::Mudokon(Path_TLV* pTlv, s32 tlvInfo)
     field_148_res_array = {};
 
     const AnimRecord& mudRec = AO::AnimRec(AnimId::Mudokon_Idle);
-    field_148_res_array.res[0] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, mudRec.mResourceId, 1, 0);
+    field_148_res_array.res[0] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, mudRec.mResourceId, 1, 0);
     Animation_Init_417FD0(mudRec.mFrameTableOffset, mudRec.mMaxW, mudRec.mMaxH, field_148_res_array.res[0], 1);
 
     mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit15_bSemiTrans);
@@ -188,7 +188,7 @@ Mudokon::Mudokon(Path_TLV* pTlv, s32 tlvInfo)
 
             auto liftMudTlv = static_cast<Path_LiftMudokon*>(pTlv);
 
-            field_148_res_array.res[1] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kAbeliftAOResID, 1, 0);
+            field_148_res_array.res[1] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kAbeliftAOResID, 1, 0);
 
 
             field_18C_how_far_to_walk = FP_FromInteger(liftMudTlv->field_18_how_far_to_walk);
@@ -227,13 +227,13 @@ Mudokon::Mudokon(Path_TLV* pTlv, s32 tlvInfo)
             if (ringMudTlv->field_24_action == SwitchOp::eSetTrue_0)
             {
                 // Pull switch
-                field_148_res_array.res[2] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kAbepullAOResID, 1, 0);
+                field_148_res_array.res[2] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kAbepullAOResID, 1, 0);
                 field_188 = 6;
             }
             else
             {
                 // Give ring
-                field_148_res_array.res[9] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kAbeommAOResID, 1, 0);
+                field_148_res_array.res[9] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kAbeommAOResID, 1, 0);
                 field_188 = 7;
             }
 
@@ -259,7 +259,7 @@ Mudokon::Mudokon(Path_TLV* pTlv, s32 tlvInfo)
             if (mudTlv->field_1A_job == Path_Mudokon::MudJobs::eStandScrub_0)
             {
                 field_1B8_brain_idx = 8;
-                field_148_res_array.res[3] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kMudchslAOResID, 1, 0);
+                field_148_res_array.res[3] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kMudchslAOResID, 1, 0);
             }
             else if (mudTlv->field_1A_job == Path_Mudokon::MudJobs::eSitScrub_1)
             {
@@ -268,17 +268,17 @@ Mudokon::Mudokon(Path_TLV* pTlv, s32 tlvInfo)
             else if (mudTlv->field_1A_job == Path_Mudokon::MudJobs::eSitChant_2)
             {
                 field_1B8_brain_idx = 14;
-                field_148_res_array.res[12] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kMudltusAOResID, 1, 0);
+                field_148_res_array.res[12] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kMudltusAOResID, 1, 0);
             }
 
-            field_148_res_array.res[10] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kMudoduckAOResID, 1, 0);
-            field_148_res_array.res[13] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kMudbtlnkAOResID, 1, 0);
-            field_148_res_array.res[4] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kMudscrubAOResID, 1, 0);
-            field_148_res_array.res[5] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kAbebasicAOResID, 1, 0);
-            field_148_res_array.res[6] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kAbeknfdAOResID, 1, 0);
-            field_148_res_array.res[7] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kAbeknbkAOResID, 1, 0);
-            field_148_res_array.res[8] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kAbeedgeAOResID, 1, 0);
-            field_148_res_array.res[14] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kAbegasAOResID, 1, 0);
+            field_148_res_array.res[10] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kMudoduckAOResID, 1, 0);
+            field_148_res_array.res[13] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kMudbtlnkAOResID, 1, 0);
+            field_148_res_array.res[4] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kMudscrubAOResID, 1, 0);
+            field_148_res_array.res[5] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kAbebasicAOResID, 1, 0);
+            field_148_res_array.res[6] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kAbeknfdAOResID, 1, 0);
+            field_148_res_array.res[7] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kAbeknbkAOResID, 1, 0);
+            field_148_res_array.res[8] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kAbeedgeAOResID, 1, 0);
+            field_148_res_array.res[14] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kAbegasAOResID, 1, 0);
 
 
             field_124_voice_pitch = mudTlv->field_1E_voice_pitch;
@@ -4414,7 +4414,7 @@ s16 Mudokon::Brain_Chant_14_442710()
         case 3:
             if (!field_148_res_array.res[11])
             {
-                field_148_res_array.res[11] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kAbewaspAOResID, 1, 0);
+                field_148_res_array.res[11] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kAbewaspAOResID, 1, 0);
             }
 
             if (mCurrentMotion == eMudMotions::Motion_57_Struggle_43EBE0)

@@ -17,7 +17,7 @@ BackgroundAnimation::BackgroundAnimation(Path_BackgroundAnimation* pTlv, s32 tlv
     field_F0_tlvInfo = tlvInfo;
 
     const BgAnimRecord& anim = AO::BgAnimRec(pTlv->field_18_animation_id);
-    field_E4_res = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, anim.mBgAnimId, 1, 0);
+    field_E4_res = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, anim.mBgAnimId, 1, 0);
     if (!field_E4_res)
     {
         mBaseGameObjectFlags.Clear(BaseGameObject::eDrawable_Bit4);

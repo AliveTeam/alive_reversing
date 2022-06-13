@@ -98,7 +98,7 @@ ParamiteWebLine::ParamiteWebLine(Path_ParamiteWebLine* pTlv, s32 tlvInfo)
     field_106_wobble_pos = field_F8_top;
 
     const AnimRecord& orbRec = AnimRec(AnimId::ChantOrb_Particle);
-    u8** ppFlareRes = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, orbRec.mResourceId, 0, 0);
+    u8** ppFlareRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, orbRec.mResourceId, 0, 0);
     if (field_108_anim_flare.Init(orbRec.mFrameTableOffset, gAnimations, this, orbRec.mMaxW, orbRec.mMaxH, ppFlareRes, 1u, 0, 0))
     {
         field_108_anim_flare.mRed = 100;

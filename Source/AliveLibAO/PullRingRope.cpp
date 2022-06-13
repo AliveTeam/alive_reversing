@@ -21,8 +21,8 @@ PullRingRope::PullRingRope(Path_PullRingRope* pTlv, s32 tlvInfo)
         case EReliveLevelIds::eBoardRoom:
         case EReliveLevelIds::eRuptureFarmsReturn:
         {
-            const AnimRecord& rec1 = AO::AnimRec(AnimId::Pullring_Farms_Idle);
-            u8** ppRes1 = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec1.mResourceId, 1, 0);
+            const AnimRecord rec1 = AO::AnimRec(AnimId::Pullring_Farms_Idle);
+            u8** ppRes1 = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec1.mResourceId, 1, 0);
             Animation_Init_417FD0(rec1.mFrameTableOffset, rec1.mMaxW, rec1.mMaxH, ppRes1, 1);
             lvl_x_off = -2;
             break;
@@ -30,7 +30,7 @@ PullRingRope::PullRingRope(Path_PullRingRope* pTlv, s32 tlvInfo)
 
         case EReliveLevelIds::eDesert:
         {
-            const AnimRecord& rec2 = AO::AnimRec(AnimId::Pullring_Desert_Idle);
+            const AnimRecord rec2 = AO::AnimRec(AnimId::Pullring_Desert_Idle);
             u8** ppRes2 = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec2.mResourceId, 1, 0);
             Animation_Init_417FD0(rec2.mFrameTableOffset, rec2.mMaxW, rec2.mMaxH, ppRes2, 1);
             lvl_x_off = 2;
@@ -39,7 +39,7 @@ PullRingRope::PullRingRope(Path_PullRingRope* pTlv, s32 tlvInfo)
 
         default:
         {
-            const AnimRecord& rec2 = AO::AnimRec(AnimId::Pullring_Desert_Idle);
+            const AnimRecord rec2 = AO::AnimRec(AnimId::Pullring_Desert_Idle);
             u8** ppRes2 = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec2.mResourceId, 1, 0);
             Animation_Init_417FD0(rec2.mFrameTableOffset, rec2.mMaxW, rec2.mMaxH, ppRes2, 1);
             lvl_x_off = 0;

@@ -110,16 +110,16 @@ Paramite::Paramite(Path_Paramite* pTlv, s32 tlvInfo)
         field_150_resources[i] = nullptr;
     }
 
-    field_150_resources[0] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kArjbasicAOResID, 1, 0);
-    field_150_resources[5] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kArjpumpAOResID, 1, 0);
-    field_150_resources[14] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kArjponceAOResID, 1, 0);
-    field_150_resources[4] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kArjclimbAOResID, 1, 0);
-    field_150_resources[9] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kArjscrchAOResID, 1, 0);
-    field_150_resources[1] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kArjeatAOResID, 1, 0);
-    field_150_resources[15] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kArjfalrkAOResID, 1, 0);
-    field_150_resources[10] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kArjwaspAOResID, 1, 0);
+    field_150_resources[0] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kArjbasicAOResID, 1, 0);
+    field_150_resources[5] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kArjpumpAOResID, 1, 0);
+    field_150_resources[14] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kArjponceAOResID, 1, 0);
+    field_150_resources[4] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kArjclimbAOResID, 1, 0);
+    field_150_resources[9] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kArjscrchAOResID, 1, 0);
+    field_150_resources[1] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kArjeatAOResID, 1, 0);
+    field_150_resources[15] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kArjfalrkAOResID, 1, 0);
+    field_150_resources[10] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kArjwaspAOResID, 1, 0);
 
-    ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kWebAOResID, 1, 0);
+    ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kWebAOResID, 1, 0);
 
     const AnimRecord& rec = AO::AnimRec(AnimId::Paramite_Idle);
     Animation_Init_417FD0(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, field_150_resources[0], 1);
@@ -236,7 +236,7 @@ Paramite::~Paramite()
         }
     }
 
-    ResourceManager::FreeResource_455550(ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kWebAOResID, 0, 0));
+    ResourceManager::FreeResource_455550(ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kWebAOResID, 0, 0));
     if (mHealth <= FP_FromInteger(0))
     {
         gMap.TLV_Reset(field_12C_tlvInfo, -1, 0, 1);

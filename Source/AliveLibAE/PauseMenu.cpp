@@ -796,13 +796,13 @@ std::vector<CustomPauseMenuItem> devCheatsMenuItems({
          DEV_CONSOLE_MESSAGE("(CHEAT) Oh man that stinks.", 4);
          pm->ClosePauseMenu();
          sActiveHero->field_198_has_evil_fart = true;
-         if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kEvilFartResID, FALSE, FALSE))
+         if (!ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kEvilFartResID, FALSE, FALSE))
          {
              ResourceManager::LoadResourceFile_49C170("EVILFART.BAN", nullptr);
          }
          if (!sActiveHero->field_10_resources_array.ItemAt(22))
          {
-             sActiveHero->field_10_resources_array.SetAt(22, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kEvilFartResID, TRUE, FALSE));
+             sActiveHero->field_10_resources_array.SetAt(22, ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kEvilFartResID, TRUE, FALSE));
          }
      }},
 });
@@ -1630,17 +1630,17 @@ void PauseMenu::VUpdate()
                 if (sActiveHero->field_128.field_12_mood == Mud_Emotion::eNormal_0)
                 {
                     const AnimRecord& normalRec = AnimRec(AnimId::NormalMudIcon);
-                    field_158_animation.Set_Animation_Data(normalRec.mFrameTableOffset, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, normalRec.mResourceId, 1u, 0));
+                    field_158_animation.Set_Animation_Data(normalRec.mFrameTableOffset, ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, normalRec.mResourceId, 1u, 0));
                 }
                 else if (sActiveHero->field_128.field_12_mood == Mud_Emotion::eSad_3)
                 {
                     const AnimRecord& angryRec = AnimRec(AnimId::AngryMudIcon);
-                    field_158_animation.Set_Animation_Data(angryRec.mFrameTableOffset, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, angryRec.mResourceId, 1u, 0));
+                    field_158_animation.Set_Animation_Data(angryRec.mFrameTableOffset, ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, angryRec.mResourceId, 1u, 0));
                 }
                 else if (sActiveHero->field_128.field_12_mood == Mud_Emotion::eHappy_5)
                 {
                     const AnimRecord& happyRec = AnimRec(AnimId::HappyMudIcon);
-                    field_158_animation.Set_Animation_Data(happyRec.mFrameTableOffset, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, happyRec.mResourceId, 1u, 0));
+                    field_158_animation.Set_Animation_Data(happyRec.mFrameTableOffset, ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, happyRec.mResourceId, 1u, 0));
                 }
 
                 FrameInfoHeader* pFrameInfoHeader = field_158_animation.Get_FrameHeader(0);

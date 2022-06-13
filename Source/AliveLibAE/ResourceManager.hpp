@@ -147,7 +147,7 @@ public:
     static s32 LoadResourceFile_49C130(const char_type* filename, TLoaderFn pFn, Camera* a4, Camera* pCamera);
     static s16 LoadResourceFile_49C170(const char_type* pFileName, Camera* pCamera);
     static s16 Move_Resources_To_DArray_49C1C0(u8** ppRes, DynamicArrayT<u8*>* pArray);
-    static u8** GetLoadedResource_49C2A0(u32 type, u32 resourceID, u16 addUseCount, u16 bLock);
+    static u8** GetLoadedResource(u32 type, u32 resourceID, u16 addUseCount, u16 bLock);
     static void Inc_Ref_Count_49C310(u8** ppRes);
     static s16 FreeResource_49C330(u8** handle);
     static s16 FreeResource_Impl_49C360(u8* handle);

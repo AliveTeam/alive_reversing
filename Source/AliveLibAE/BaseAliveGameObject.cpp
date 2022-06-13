@@ -370,7 +370,7 @@ s16 BaseAliveGameObject::SetBaseAnimPaletteTint(TintEntry* pTintArray, EReliveLe
 {
     SetTint(pTintArray, level_id); // Actually bugged for inputs that never happen as it should return 0
 
-    u8** pPalResource = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Palt, resourceID, 1u, 0);
+    u8** pPalResource = ResourceManager::GetLoadedResource(ResourceManager::Resource_Palt, resourceID, 1u, 0);
 
     if (!pPalResource)
     {

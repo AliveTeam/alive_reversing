@@ -43,7 +43,7 @@ void sub_465BC0(s32 /*a1*/)
 void Game_ShowLoadingIcon_482D80()
 {
     const AnimRecord& loadingRec = AnimRec(AnimId::Loading_Icon2);
-    u8** ppLoadingAnimRes = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, loadingRec.mResourceId, FALSE, FALSE);
+    u8** ppLoadingAnimRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, loadingRec.mResourceId, FALSE, FALSE);
     if (!ppLoadingAnimRes)
     {
         return;
@@ -302,7 +302,7 @@ void ResourceManager::OnResourceLoaded_464CE0()
 
 void ResourceManager::LoadResource_464EE0(const char_type* pFileItem, u32 type, u32 resourceID, Camera* pCamera, Camera* pFnArg, ResourceManager::TLoaderFn pFn, s16 bAddUseCount)
 {
-    u8** pLoadedRes = GetLoadedResource_49C2A0(type, resourceID, 1, 0);
+    u8** pLoadedRes = GetLoadedResource(type, resourceID, 1, 0);
     if (pLoadedRes)
     {
         if (pCamera)
@@ -398,7 +398,7 @@ void ResourceManager::LoadResourcesFromList_465150(const char_type* pFileName, R
     bool allResourcesLoaded = true;
     for (s32 i = 0; i < pTypeAndIdList->field_0_count; i++)
     {
-        if (!GetLoadedResource_49C2A0(
+        if (!GetLoadedResource(
                 pTypeAndIdList->field_4_items[i].field_0_type,
                 pTypeAndIdList->field_4_items[i].field_4_res_id,
                 0, 0))
@@ -415,7 +415,7 @@ void ResourceManager::LoadResourcesFromList_465150(const char_type* pFileName, R
         for (s32 i = 0; i < pTypeAndIdList->field_0_count; i++)
         {
             // Add to array optionally bumping the ref count
-            pCamera->field_0.Push_Back(GetLoadedResource_49C2A0(
+            pCamera->field_0.Push_Back(GetLoadedResource(
                 pTypeAndIdList->field_4_items[i].field_0_type,
                 pTypeAndIdList->field_4_items[i].field_4_res_id,
                 addUseCount,
@@ -925,7 +925,7 @@ s16 ResourceManager::Move_Resources_To_DArray_49C1C0(u8** ppRes, DynamicArrayT<u
     return 1;
 }
 
-u8** ResourceManager::GetLoadedResource_49C2A0(u32 type, u32 resourceID, u16 addUseCount, u16 bLock)
+u8** ResourceManager::GetLoadedResource(u32 type, u32 resourceID, u16 addUseCount, u16 bLock)
 {
     // Iterate all list items
     ResourceHeapItem* pListIter = sFirstLinkedListItem_5D29EC;

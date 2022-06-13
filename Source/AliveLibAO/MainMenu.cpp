@@ -325,7 +325,7 @@ MainMenuFade::MainMenuFade(s32 xpos, s32 ypos, buttonType buttonType, s32 bDestr
     mBaseAnimatedWithPhysicsGameObject_RGB.r = 128;
 
     const AnimRecord& rec = AO::AnimRec(buttonAnimIds_4BB1B8[buttonType]);
-    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
+    u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
     Animation_Init_417FD0(
         rec.mFrameTableOffset,
         rec.mMaxW,
@@ -683,9 +683,9 @@ Menu::Menu(Path_TLV* /*pTlv*/, s32 tlvInfo)
 
     field_FC_font.Load(240, sFontPal_4D0090, &sFontContext_4FFD68);
     field_E4_res_array[0] = nullptr;
-    field_E4_res_array[1] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kAbespek2AOResID, 1, 0);
-    field_E4_res_array[4] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kOptionFlareAOResID, 1, 0);
-    field_E4_res_array[5] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Palt, AOResourceID::kHighlitePalAOResID, 1, 0);
+    field_E4_res_array[1] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kAbespek2AOResID, 1, 0);
+    field_E4_res_array[4] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kOptionFlareAOResID, 1, 0);
+    field_E4_res_array[5] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Palt, AOResourceID::kHighlitePalAOResID, 1, 0);
 
     // 30 = fmv select
     if (gMap.mCurrentCamera == 30)
@@ -699,11 +699,11 @@ Menu::Menu(Path_TLV* /*pTlv*/, s32 tlvInfo)
     {
         const AnimRecord& introRec = AO::AnimRec(AnimId::AbeIntro);
         ResourceManager::LoadResourceFile_455270(introRec.mBanName, nullptr);
-        field_E4_res_array[2] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, introRec.mResourceId, 1, 0);
+        field_E4_res_array[2] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, introRec.mResourceId, 1, 0);
 
         const AnimRecord& doorRec = AO::AnimRec(AnimId::MenuDoor);
         ResourceManager::LoadResourceFile_455270(doorRec.mBanName, nullptr);
-        field_E4_res_array[3] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, doorRec.mResourceId, 1, 0);
+        field_E4_res_array[3] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, doorRec.mResourceId, 1, 0);
         Animation_Init_417FD0(doorRec.mFrameTableOffset, doorRec.mMaxW, doorRec.mMaxH, field_E4_res_array[3], 1);
     }
 
@@ -712,7 +712,7 @@ Menu::Menu(Path_TLV* /*pTlv*/, s32 tlvInfo)
     mBaseAnimatedWithPhysicsGameObject_Anim.mRed = 127;
 
     const AnimRecord& circleRec = AO::AnimRec(AnimId::MenuHighlight_Circle);
-    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, circleRec.mResourceId, 1, 0);
+    u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, circleRec.mResourceId, 1, 0);
     field_134_anim.Init(circleRec.mFrameTableOffset, gAnimations, this, circleRec.mMaxW, circleRec.mMaxH, ppRes, 1, 0, 0);
 
     field_134_anim.mAnimFlags.Clear(AnimFlags::eBit16_bBlending);
@@ -2001,7 +2001,7 @@ void Menu::FMV_Or_Level_Select_Back_Update_47ECB0()
     if (sNumCamSwappers_507668 <= 0)
     {
         ResourceManager::LoadResourceFile_455270("ABESPEAK.BAN", nullptr);
-        field_E4_res_array[0] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kAbespeakAOResID, 1, 0);
+        field_E4_res_array[0] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kAbespeakAOResID, 1, 0);
         field_1E8_pMenuTrans->StartTrans_436560(Layer::eLayer_FadeFlash_40, 0, 0, 16);
         field_1E0_selected_index.mainmenu = MainMenuOptions::eBegin_1;
 
@@ -2017,7 +2017,7 @@ void Menu::FMV_Or_Level_Select_Back_Update_47ECB0()
 
 void Menu::Loading_Update_47B870()
 {
-    if (!gAttract_507698 || ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Plbk, sJoyResId_50769C, 0, 0))
+    if (!gAttract_507698 || ResourceManager::GetLoadedResource(ResourceManager::Resource_Plbk, sJoyResId_50769C, 0, 0))
     {
         if (field_1E8_pMenuTrans)
         {
@@ -2064,7 +2064,7 @@ void Menu::NewGameStart_47B9C0()
         // OG bug fix: the demo will load a save which will call Kill_Objects_451720 which will delete this object
         // resulting in a crash when we try access any member vars at the end. Bump the ref count so we can kill ourselves instead.
         mBaseGameObjectRefCount++;
-        u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Plbk, sJoyResId_50769C, 1, 0);
+        u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Plbk, sJoyResId_50769C, 1, 0);
         relive_new DemoPlayback(ppRes, 0);
         mBaseGameObjectRefCount--;
     }
@@ -2611,7 +2611,7 @@ void Menu::GameSpeak_Update_47CBD0()
         if (field_1E0_selected_index.gamespeak_menu == GameSpeakOptions::eChant_8 && !(sGnFrame % 8))
         {
             const AnimRecord& rec = AO::AnimRec(AnimId::OptionChantOrb_Particle);
-            ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
+            ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
 
             const FP screen_y = pScreenManager->mCamPos->field_4_y - FP_FromInteger(pScreenManager->mCamYOff);
             const FP screen_x = pScreenManager->mCamPos->field_0_x - FP_FromInteger(pScreenManager->mCamXOff);
@@ -3812,7 +3812,7 @@ void Menu::GameSpeak_To_MainScreen_Update_47D690()
 
 void Menu::OnResourceLoaded_47ADA0(Menu* pMenu)
 {
-    pMenu->field_E4_res_array[0] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kAbespeakAOResID, 1, 0);
+    pMenu->field_E4_res_array[0] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kAbespeakAOResID, 1, 0);
 }
 
 void Menu::RenderElement_47A4E0(s32 xpos, s32 ypos, s32 input_command, PrimHeader** ot, AliveFont* pFont, s32* pPolyOffset)

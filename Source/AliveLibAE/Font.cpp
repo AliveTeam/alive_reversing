@@ -329,7 +329,7 @@ void Font_Context::LoadFontType_433400(s16 resourceID)
     }
 #endif
 
-    auto loadedResource = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Font, resourceID, 1u, 0);
+    auto loadedResource = ResourceManager::GetLoadedResource(ResourceManager::Resource_Font, resourceID, 1u, 0);
     auto fontFile = reinterpret_cast<File_Font*>(*loadedResource);
 
     field_C_resource_id = resourceID;

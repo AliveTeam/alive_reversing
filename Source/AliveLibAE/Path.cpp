@@ -344,7 +344,7 @@ void Path::TLV_Reset(u32 tlvOffset_levelId_PathId, s16 hiFlags, s8 bSetCreated, 
     if (data.parts.levelId == static_cast<s32>(MapWrapper::ToAE(gMap.mCurrentLevel)))
     {
         const PathBlyRec* pBlyRec = Path_Get_Bly_Record(MapWrapper::FromAE(static_cast<LevelIds>(data.parts.levelId)), data.parts.pathId);
-        u8** ppPathRes = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Path, data.parts.pathId, TRUE, FALSE);
+        u8** ppPathRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Path, data.parts.pathId, TRUE, FALSE);
         if (ppPathRes)
         {
             const s32 tlvOffset = data.parts.tlvOffset + pBlyRec->field_4_pPathData->field_12_object_offset;
@@ -396,7 +396,7 @@ void Path::Reset_TLVs(u16 pathId)
     const PathData* pPathData = Path_Get_Bly_Record(gMap.mCurrentLevel, pathId)->field_4_pPathData;
     const s32 camsX = (pPathData->field_4_bTop - pPathData->field_0_bLeft) / pPathData->field_A_grid_width;
     const s32 camsY = (pPathData->field_6_bBottom - pPathData->field_2_bRight) / pPathData->field_C_grid_height;
-    u8** ppPath = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Path, pathId, TRUE, FALSE);
+    u8** ppPath = ResourceManager::GetLoadedResource(ResourceManager::Resource_Path, pathId, TRUE, FALSE);
     if (ppPath)
     {
         const s32 totalCams = camsX * camsY;

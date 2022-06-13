@@ -9,7 +9,7 @@
 OrbWhirlWindParticle::OrbWhirlWindParticle(FP xpos, FP ypos, FP scale, s16 bIsMudokonSpirit)
 {
     const AnimRecord& orbRec = AnimRec(AnimId::ChantOrb_Particle);
-    u8** ppRes = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, orbRec.mResourceId, TRUE, FALSE);
+    u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, orbRec.mResourceId, TRUE, FALSE);
     field_108_res = ppRes;
 
     field_8_Anim.Init(orbRec.mFrameTableOffset, gAnimations, 0, orbRec.mMaxW, orbRec.mMaxH, ppRes, 1, 0, 0);

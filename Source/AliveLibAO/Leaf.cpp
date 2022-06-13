@@ -92,7 +92,7 @@ Leaf::Leaf(FP xpos, FP ypos, FP xVel, FP yVel, FP scale)
     mBaseAnimatedWithPhysicsGameObject_RGB.b = 100;
 
     const AnimRecord& leafRec = AO::AnimRec(AnimId::Well_Leaf);
-    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, leafRec.mResourceId, 1, 0);
+    u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, leafRec.mResourceId, 1, 0);
     if (!ppRes)
     {
         return;

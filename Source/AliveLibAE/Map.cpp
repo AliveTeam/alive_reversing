@@ -172,7 +172,7 @@ void Map::GetPathResourceBlockPtrs()
     // Get pointer to each PATH
     for (s32 i = 1; i < Path_Get_Num_Paths(mLevel); ++i)
     {
-        sPathsArrayExtended.field_0_pPathRecs[i] = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Path, i, TRUE, FALSE);
+        sPathsArrayExtended.field_0_pPathRecs[i] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Path, i, TRUE, FALSE);
 
         if (i < ALIVE_COUNTOF(field_54_path_res_array.field_0_pPathRecs))
         {
@@ -1275,7 +1275,7 @@ void Map::Load_Path_Items(Camera* pCamera, LoadMode loadMode)
             // Blocking camera load
             ResourceManager::LoadResourceFile_49C170(pCamera->field_1E_cam_name, pCamera);
             pCamera->field_30_flags |= 1;
-            pCamera->field_C_pCamRes = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Bits, pCamera->field_10_camera_resource_id, 1, 0);
+            pCamera->field_C_pCamRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Bits, pCamera->field_10_camera_resource_id, 1, 0);
 
             sCameraBeingLoaded_5C3118 = pCamera;
             sPath_dword_BB47C0->Loader_4DB800(pCamera->mCamXOff, pCamera->mCamYOff, LoadMode::LoadResource_2, TlvTypes::None_m1); // none = load all

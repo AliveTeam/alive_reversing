@@ -124,27 +124,27 @@ s32 Glukkon::CreateFromSaveState(const u8* pData)
     {
         case EReliveLevelIds::eFeeCoDepot:
         case EReliveLevelIds::eFeeCoDepot_Ender:
-            if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kGlukAslikResID, FALSE, FALSE))
+            if (!ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kGlukAslikResID, FALSE, FALSE))
             {
                 ResourceManager::LoadResourceFile_49C170("ASLIK.BND", 0);
             }
             break;
         case EReliveLevelIds::eBarracks:
         case EReliveLevelIds::eBarracks_Ender:
-            if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kGlukDripikResID, FALSE, FALSE))
+            if (!ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kGlukDripikResID, FALSE, FALSE))
             {
                 ResourceManager::LoadResourceFile_49C170("DRIPIK.BND", 0);
             }
             break;
         case EReliveLevelIds::eBonewerkz:
         case EReliveLevelIds::eBonewerkz_Ender:
-            if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kGlukPhlegResID, FALSE, FALSE))
+            if (!ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kGlukPhlegResID, FALSE, FALSE))
             {
                 ResourceManager::LoadResourceFile_49C170("PHLEG.BND", 0);
             }
             break;
         default:
-            if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kGlkbasicResID, FALSE, FALSE))
+            if (!ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kGlkbasicResID, FALSE, FALSE))
             {
                 ResourceManager::LoadResourceFile_49C170("GLUKKON.BND", 0);
             }

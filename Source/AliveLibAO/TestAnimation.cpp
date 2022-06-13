@@ -9,7 +9,7 @@
 
 static u8** Add_Resource(DynamicArrayT<u8 *>& resourceArray, u32 type, s32 resourceID)
 {
-    u8** ppRes = AO::ResourceManager::GetLoadedResource_4554F0(type, resourceID, 1, 0);
+    u8** ppRes = AO::ResourceManager::GetLoadedResource(type, resourceID, 1, 0);
     if (ppRes)
     {
         resourceArray.Push_Back(ppRes);
@@ -31,7 +31,7 @@ void TestAnimation::DelayLoad()
     mLoaded = true; // Only do code below once
 
     const AnimRecord& animRec = AO::AnimRec(AnimId::Anim_Tester);
-    if (!AO::ResourceManager::GetLoadedResource_4554F0(AO::ResourceManager::Resource_Animation, animRec.mResourceId, 0, 0))
+    if (!AO::ResourceManager::GetLoadedResource(AO::ResourceManager::Resource_Animation, animRec.mResourceId, 0, 0))
     {
         AO::ResourceManager::LoadResourceFileWrapper(animRec.mBanName, nullptr);
         LOG_INFO("Loading anim resource by BAN/BND name");
@@ -51,7 +51,7 @@ void TestAnimation::DelayLoad()
     {
         const PalRecord& palRec = PalRec(animRec.mPalOverride);
 
-        if (!AO::ResourceManager::GetLoadedResource_4554F0(AO::ResourceManager::Resource_Palt, palRec.mResourceId, 0, 0))
+        if (!AO::ResourceManager::GetLoadedResource(AO::ResourceManager::Resource_Palt, palRec.mResourceId, 0, 0))
         {
             AO::ResourceManager::LoadResourceFileWrapper(palRec.mBanName, nullptr);
         }

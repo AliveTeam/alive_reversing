@@ -46,8 +46,8 @@ Shrykull::Shrykull()
     mBaseGameObjectFlags.Set(Options::eCanExplode_Bit7);
     mBaseGameObjectTypeId = ReliveTypes::eShrykull;
     
-    const AnimRecord& rec = AO::AnimRec(AnimId::Mudokon_ToShrykull);
-    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
+    const AnimRecord rec = AO::AnimRec(AnimId::Mudokon_ToShrykull);
+    u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
     Animation_Init_417FD0(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
     field_118_zap_line = nullptr;
     field_11C_obj_being_zapped = nullptr;

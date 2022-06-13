@@ -42,7 +42,7 @@ RollingBall::~RollingBall()
         field_114_pRollingBallShaker = nullptr;
     }
 
-    u8** pRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kDebrisID00AOResID, 0, 0);
+    u8** pRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kDebrisID00AOResID, 0, 0);
     ResourceManager::FreeResource_455550(pRes);
 }
 
@@ -51,8 +51,8 @@ RollingBall::RollingBall(Path_RollingBall* pTlv, s32 tlvInfo)
 {
     mBaseGameObjectTypeId = ReliveTypes::eRollingBall;
     
-    const AnimRecord& rec = AO::AnimRec(AnimId::Stone_Ball);
-    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
+    const AnimRecord rec = AO::AnimRec(AnimId::Stone_Ball);
+    u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
     Animation_Init_417FD0(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
 
     mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_DoorFlameRollingBallPortalClip_Half_31;
@@ -109,7 +109,7 @@ RollingBall::RollingBall(Path_RollingBall* pTlv, s32 tlvInfo)
     mShadow = relive_new Shadow();
 
     // Looks strange, it just bumps the res ref count
-    ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kDebrisID00AOResID, 1, 0);
+    ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kDebrisID00AOResID, 1, 0);
 
     if (!SwitchStates_Get(field_110_release_switch_id))
     {

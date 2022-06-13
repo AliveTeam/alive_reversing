@@ -14,7 +14,7 @@ namespace AO {
 Shadow::Shadow()
 {
     const AnimRecord& shadowRec = AO::AnimRec(AnimId::ObjectShadow);
-    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, shadowRec.mResourceId, TRUE, FALSE);
+    u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, shadowRec.mResourceId, TRUE, FALSE);
     field_18_animation.Init(shadowRec.mFrameTableOffset, gAnimations, 0, shadowRec.mMaxW, shadowRec.mMaxH, ppRes, 1, 0, 0);
 
     field_14_flags.Clear(Flags::eBit1_ShadowAtBottom);

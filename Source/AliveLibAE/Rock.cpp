@@ -19,7 +19,7 @@ Rock::Rock(FP xpos, FP ypos, s16 count)
 
     field_11A_bDead = 0;
 
-    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kAberockResID, 0, 0))
+    if (!ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kAberockResID, 0, 0))
     {
         LoadRockTypes_49AB30(mBaseAnimatedWithPhysicsGameObject_LvlNumber, mBaseAnimatedWithPhysicsGameObject_PathNumber);
     }
@@ -44,7 +44,7 @@ Rock::Rock(FP xpos, FP ypos, s16 count)
     field_118_count = count;
     field_11C_state = RockStates::eNone_0;
 
-    u8** ppPal = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Palt, AEResourceID::kAberockResID, 0, 0);
+    u8** ppPal = ResourceManager::GetLoadedResource(ResourceManager::Resource_Palt, AEResourceID::kAberockResID, 0, 0);
     if (ppPal)
     {
         mBaseAnimatedWithPhysicsGameObject_Anim.Load_Pal(ppPal, 0);

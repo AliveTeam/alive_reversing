@@ -34,21 +34,21 @@ DoorLight::DoorLight(Path_LightEffect* pTlv, s32 tlvInfo)
         case Path_LightEffect::Type::GoldGlow_1:
         {
             const AnimRecord& goldRec = AO::AnimRec(AnimId::GoldGlow);
-            Animation_Init_417FD0(goldRec.mFrameTableOffset, goldRec.mMaxW, goldRec.mMaxH, ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, goldRec.mResourceId, 1, 0), 1);
+            Animation_Init_417FD0(goldRec.mFrameTableOffset, goldRec.mMaxW, goldRec.mMaxH, ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, goldRec.mResourceId, 1, 0), 1);
             break;
         }
 
         case Path_LightEffect::Type::GreenGlow_2:
         {
             const AnimRecord& greenRec = AO::AnimRec(AnimId::GreenGlow);
-            Animation_Init_417FD0(greenRec.mFrameTableOffset, greenRec.mMaxW, greenRec.mMaxH, ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, greenRec.mResourceId, 1, 0), 1);
+            Animation_Init_417FD0(greenRec.mFrameTableOffset, greenRec.mMaxW, greenRec.mMaxH, ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, greenRec.mResourceId, 1, 0), 1);
             break;
         }
 
         case Path_LightEffect::Type::FlintGlow_3:
         {
             const AnimRecord& flintRec = AO::AnimRec(AnimId::FlintGlow);
-            Animation_Init_417FD0(flintRec.mFrameTableOffset, flintRec.mMaxW, flintRec.mMaxH, ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, flintRec.mResourceId, 1, 0), 1);
+            Animation_Init_417FD0(flintRec.mFrameTableOffset, flintRec.mMaxW, flintRec.mMaxH, ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, flintRec.mResourceId, 1, 0), 1);
             field_EC_bHasID = 1;
             break;
         }
@@ -60,12 +60,12 @@ DoorLight::DoorLight(Path_LightEffect* pTlv, s32 tlvInfo)
             if (SwitchStates_Get(pTlv->field_1C_switch_id))
             {
                 const AnimRecord& greenRec = AO::AnimRec(AnimId::GreenDoorLight);
-                Animation_Init_417FD0(greenRec.mFrameTableOffset, greenRec.mMaxW, greenRec.mMaxH, ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, greenRec.mResourceId, 1, 0), 1);
+                Animation_Init_417FD0(greenRec.mFrameTableOffset, greenRec.mMaxW, greenRec.mMaxH, ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, greenRec.mResourceId, 1, 0), 1);
             }
             else
             {
                 const AnimRecord& redRec = AO::AnimRec(AnimId::RedDoorLight);
-                Animation_Init_417FD0(redRec.mFrameTableOffset, redRec.mMaxW, redRec.mMaxH, ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, redRec.mResourceId, 1, 0), 1);
+                Animation_Init_417FD0(redRec.mFrameTableOffset, redRec.mMaxW, redRec.mMaxH, ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, redRec.mResourceId, 1, 0), 1);
                 xOff = 6;
             }
             break;
@@ -78,12 +78,12 @@ DoorLight::DoorLight(Path_LightEffect* pTlv, s32 tlvInfo)
             if (SwitchStates_Get(pTlv->field_1C_switch_id))
             {
                 const AnimRecord& greenRec = AO::AnimRec(AnimId::GreenHubLight);
-                Animation_Init_417FD0(greenRec.mFrameTableOffset, greenRec.mMaxW, greenRec.mMaxH, ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, greenRec.mResourceId, 1, 0), 1);
+                Animation_Init_417FD0(greenRec.mFrameTableOffset, greenRec.mMaxW, greenRec.mMaxH, ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, greenRec.mResourceId, 1, 0), 1);
             }
             else
             {
                 const AnimRecord& redRec = AO::AnimRec(AnimId::RedHubLight);
-                Animation_Init_417FD0(redRec.mFrameTableOffset, redRec.mMaxW, redRec.mMaxH, ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, redRec.mResourceId, 1, 0), 1);
+                Animation_Init_417FD0(redRec.mFrameTableOffset, redRec.mMaxW, redRec.mMaxH, ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, redRec.mResourceId, 1, 0), 1);
             }
             break;
         }

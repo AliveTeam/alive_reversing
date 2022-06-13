@@ -137,8 +137,8 @@ CrawlingSlig::CrawlingSlig(Path_CrawlingSlig* pTlv, s32 tlvInfo)
     SetType(ReliveTypes::eCrawlingSlig);
 
     const AnimRecord& rec = AnimRec(AnimId::CrawlingSlig_Idle);
-    field_10_resources_array.SetAt(0, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0));
-    field_10_resources_array.SetAt(1, ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kSligBlowResID, 1, 0));
+    field_10_resources_array.SetAt(0, ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0));
+    field_10_resources_array.SetAt(1, ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kSligBlowResID, 1, 0));
     Animation_Init(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, field_10_resources_array.ItemAt(0), 1, 1);
 
     SetTint(&kCrawlingSligTints_5514B8[0], gMap.mCurrentLevel);
@@ -237,12 +237,12 @@ s32 CrawlingSlig::CreateFromSaveState(const u8* pBuffer)
     auto pState = reinterpret_cast<const CrawlingSlig_State*>(pBuffer);
 
     auto pTlv = static_cast<Path_CrawlingSlig*>(sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam(pState->field_44_tlvInfo));
-    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kCrawlingSligResID_449, FALSE, FALSE))
+    if (!ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kCrawlingSligResID_449, FALSE, FALSE))
     {
         ResourceManager::LoadResourceFile_49C170("CRAWLSLG.BND", nullptr);
     }
 
-    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kSligBlowResID, FALSE, FALSE))
+    if (!ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kSligBlowResID, FALSE, FALSE))
     {
         ResourceManager::LoadResourceFile_49C170("SLGBLOW.BAN", nullptr);
     }
@@ -1336,7 +1336,7 @@ void CrawlingSlig::M_UsingButton_1_41B890()
         }
         else if (static_cast<s32>(sGnFrame) > field_1AC_timer)
         {
-            if (field_1E4_pPantsOrWingsTlv->field_4_type == TlvTypes::SligGetPants_104 && ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kSlgbasicResID, 0, 0))
+            if (field_1E4_pPantsOrWingsTlv->field_4_type == TlvTypes::SligGetPants_104 && ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kSlgbasicResID, 0, 0))
             {
                 // Transform to a walking slig
 
@@ -1365,7 +1365,7 @@ void CrawlingSlig::M_UsingButton_1_41B890()
 
                 mHealth = FP_FromInteger(0);
             }
-            else if (field_1E4_pPantsOrWingsTlv->field_4_type == TlvTypes::SligGetWings_105 && ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kFlySligResID, 0, 0))
+            else if (field_1E4_pPantsOrWingsTlv->field_4_type == TlvTypes::SligGetWings_105 && ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kFlySligResID, 0, 0))
             {
                 // Transform to a flying slig
 

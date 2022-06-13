@@ -246,7 +246,7 @@ const Font_AtlasEntry sFont2Atlas_4C58B8[104] = {
 void FontContext::LoadFontType(s16 resourceID)
 {
     field_C_resource_id = resourceID;
-    auto loadedResource = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Font, resourceID, 1, 0);
+    auto loadedResource = ResourceManager::GetLoadedResource(ResourceManager::Resource_Font, resourceID, 1, 0);
     auto fontFile = reinterpret_cast<File_Font*>(*loadedResource);
 
     vram_alloc_450B20(fontFile->field_0_width, fontFile->field_2_height, fontFile->field_4_color_depth, &field_0_rect);

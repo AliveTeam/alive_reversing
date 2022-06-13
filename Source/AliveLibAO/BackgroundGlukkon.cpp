@@ -29,8 +29,8 @@ BackgroundGlukkon::BackgroundGlukkon(Path_BackgroundGlukkon* pTlv, s32 tlvInfo)
 {
     mBaseGameObjectTypeId = ReliveTypes::eBackgroundGlukkon;
 
-    const AnimRecord& rec = AO::AnimRec(AnimId::Background_Glukkon_Idle);
-    u8** ppRes2 = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
+    const AnimRecord rec = AO::AnimRec(AnimId::Background_Glukkon_Idle);
+    u8** ppRes2 = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
     Animation_Init_417FD0(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes2, 1);
 
     field_10C_tlvInfo = tlvInfo;
@@ -40,7 +40,7 @@ BackgroundGlukkon::BackgroundGlukkon(Path_BackgroundGlukkon* pTlv, s32 tlvInfo)
 
     mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromInteger(pTlv->field_18_scale_percent) / FP_FromInteger(100);
 
-    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Palt, pTlv->field_1A_pal_id, 0, 0);
+    u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Palt, pTlv->field_1A_pal_id, 0, 0);
     if (ppRes)
     {
         mBaseAnimatedWithPhysicsGameObject_Anim.LoadPal(ppRes, 0);

@@ -103,7 +103,7 @@ Door::Door(Path_Door* pTlv, s32 tlvInfo)
         case DoorStates::eOpen_0:
         {
             const AnimRecord& openDoor = AO::AnimRec(sDoorAnimdIdTable_4BA508[idx][1]);
-            ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, openDoor.mResourceId, 1, 0);
+            ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, openDoor.mResourceId, 1, 0);
             if (!ppRes)
             {
                 mBaseGameObjectFlags.Clear(BaseGameObject::eDrawable_Bit4);
@@ -187,7 +187,7 @@ Door::Door(Path_Door* pTlv, s32 tlvInfo)
                 scale = FP_FromDouble(0.5);
             }
             const AnimRecord& openDoor = AO::AnimRec(sDoorAnimdIdTable_4BA508[idx][3]);
-            ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, openDoor.mResourceId, 1, 0);
+            ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, openDoor.mResourceId, 1, 0);
             if (!ppRes || openDoor.mFrameTableOffset == 0)
             {
                 mBaseGameObjectFlags.Clear(BaseGameObject::eDrawable_Bit4);
@@ -241,11 +241,11 @@ Door::Door(Path_Door* pTlv, s32 tlvInfo)
         case DoorStates::eHubDoorClosed_2:
             if (gMap.mCurrentLevel == EReliveLevelIds::eRuptureFarmsReturn || gMap.mCurrentLevel == EReliveLevelIds::eRuptureFarms)
             {
-                ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kF2p3dorAOResID, 1, 0);
+                ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kF2p3dorAOResID, 1, 0);
             }
             else
             {
-                ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kRockdoorAOResID, 1, 0);
+                ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kRockdoorAOResID, 1, 0);
             }
 
             if (ppRes)

@@ -24,8 +24,8 @@ TimedMine::TimedMine(Path_TimedMine* pTlv, s32 tlvInfo)
 {
     mBaseGameObjectTypeId = ReliveTypes::eTimedMine;
 
-    const AnimRecord& rec = AO::AnimRec(AnimId::TimedMine_Idle);
-    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
+    const AnimRecord rec = AO::AnimRec(AnimId::TimedMine_Idle);
+    u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
     Animation_Init_417FD0(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
 
     mBaseGameObjectFlags.Set(Options::eInteractive_Bit8);
@@ -52,7 +52,7 @@ TimedMine::TimedMine(Path_TimedMine* pTlv, s32 tlvInfo)
             this,
             tickRec.mMaxW,
             tickRec.mMaxH,
-            ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kBombflshAOResID, 1, 0),
+            ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kBombflshAOResID, 1, 0),
             1,
             0,
             0))

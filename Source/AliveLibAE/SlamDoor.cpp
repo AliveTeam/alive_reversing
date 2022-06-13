@@ -443,7 +443,7 @@ s32 SlamDoor::CreateFromSaveState(const u8* pData)
 {
     const Quicksave_Obj_SlamDoor* pSaveState = reinterpret_cast<const Quicksave_Obj_SlamDoor*>(pData);
 
-    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kSlamResID, 0, 0))
+    if (!ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kSlamResID, 0, 0))
     {
         switch (gMap.mCurrentLevel)
         {

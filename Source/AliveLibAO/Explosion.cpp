@@ -22,7 +22,7 @@ Explosion::Explosion(FP xpos, FP ypos, FP exposion_size)
 {
     mBaseGameObjectTypeId = ReliveTypes::eExplosion;
     const AnimRecord rec = AO::AnimRec(AnimId::Explosion);
-    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
+    u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
     Animation_Init_417FD0(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
 
     mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit18_IsLastFrame);
@@ -113,7 +113,7 @@ void Explosion::VUpdate()
     if (mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame == 1)
     {
         const AnimRecord& rec = AO::AnimRec(AnimId::Explosion);
-        const auto ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
+        const auto ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
         if (ppRes)
         {
             auto pParticle = relive_new Particle(mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes);

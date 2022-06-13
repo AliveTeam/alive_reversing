@@ -323,7 +323,7 @@ void FallingItem::VUpdate()
                                                    13);
 
                 const AnimRecord& rec = AnimRec(AnimId::Explosion);
-                u8** ppRes = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, rec.mResourceId, 0, 0);
+                u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, 0, 0);
                 auto pParticle = relive_new Particle(mBaseAnimatedWithPhysicsGameObject_XPos,
                                                   mBaseAnimatedWithPhysicsGameObject_YPos - (FP_FromInteger(15) * mBaseAnimatedWithPhysicsGameObject_SpriteScale),
                                                   rec.mFrameTableOffset,

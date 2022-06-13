@@ -154,7 +154,7 @@ Elum::~Elum()
     VOnTrapDoorOpen();
 
     ResourceManager::FreeResource_455550(
-        ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kAneprmntAOResID, 0, 0));
+        ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kAneprmntAOResID, 0, 0));
 
     if (field_104_pending_resource_count)
     {
@@ -171,7 +171,7 @@ Elum::~Elum()
     for (s32 resID : resIDs)
     {
         ResourceManager::FreeResource_455550(
-            ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, resID, 1, 0));
+            ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, resID, 1, 0));
     }
 }
 
@@ -306,9 +306,9 @@ void Elum::VLoadUnmountedResources_411260()
 {
     if (!field_174_resources.res[30])
     {
-        field_174_resources.res[30] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kElmaloneAOResID_230, 1, 0);
+        field_174_resources.res[30] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kElmaloneAOResID_230, 1, 0);
     }
-    field_174_resources.res[22] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kElmprmntAOResID__222, 1, 0);
+    field_174_resources.res[22] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kElmprmntAOResID__222, 1, 0);
 }
 
 
@@ -340,8 +340,8 @@ void Elum::Vsub_416120()
 
 void Elum::VLoadMountedResources_411300()
 {
-    field_174_resources.res[20] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kElumRideAOResID_220, 1, 0);
-    field_174_resources.res[21] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kElumPdmntAOResID_221, 1, 0);
+    field_174_resources.res[20] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kElumRideAOResID_220, 1, 0);
+    field_174_resources.res[21] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kElumPdmntAOResID_221, 1, 0);
 }
 
 void Elum::VFreeUnmountedResources_4112B0()
@@ -428,7 +428,7 @@ u8** Elum::GetResBlock_410D00(s16 currentMotion)
     {
         if (new_idx != 30 && new_idx != 16 && new_idx != 20)
         {
-            field_174_resources.res[new_idx] = ResourceManager::GetLoadedResource_4554F0(
+            field_174_resources.res[new_idx] = ResourceManager::GetLoadedResource(
                 ResourceManager::Resource_Animation,
                 new_idx + 200,
                 1,
@@ -1862,7 +1862,7 @@ void Elum::Motion_1_Idle_412990()
             }
             else
             {
-                field_174_resources.res[30] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kElmaloneAOResID_230, 1, 0);
+                field_174_resources.res[30] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kElmaloneAOResID_230, 1, 0);
             }
         }
     }
@@ -3542,12 +3542,12 @@ void Elum::VUpdate()
         {
             if (!field_174_resources.res[30])
             {
-                field_174_resources.res[30] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kElmaloneAOResID_230, 1, 0);
+                field_174_resources.res[30] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kElmaloneAOResID_230, 1, 0);
             }
         }
         else
         {
-            field_174_resources.res[0] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kElmbasicAOResID_200, 1, 0);
+            field_174_resources.res[0] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kElmbasicAOResID_200, 1, 0);
         }
 
         if (!(field_170_flags.Get(Elum::Flags_170::eFoundHoney_Bit4) || field_170_flags.Get(Elum::Flags_170::eStungByBees_Bit2)) && field_128_brain_idx != 1)
@@ -3801,16 +3801,16 @@ Elum::Elum(s32, anythingForTheTimeBeing, anythingForTheTimeBeing, s32, TlvItemIn
     field_1F0_tlvInfo = tlvInfo.all;
     field_174_resources = {};
 
-    field_174_resources.res[16] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kElmfallAOResID_216, 1, 0);
+    field_174_resources.res[16] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kElmfallAOResID_216, 1, 0);
     if (!field_174_resources.res[16])
     {
         ResourceManager::LoadResourceFile_455270("ELMFALL.BAN", nullptr);
-        field_174_resources.res[16] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kElmfallAOResID_216, 1, 0);
+        field_174_resources.res[16] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kElmfallAOResID_216, 1, 0);
     }
 
     field_104_pending_resource_count = 0;
 
-    field_174_resources.res[22] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kElmprmntAOResID__222, 1, 0);
+    field_174_resources.res[22] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kElmprmntAOResID__222, 1, 0);
     if (!field_174_resources.res[22])
     {
         field_104_pending_resource_count++;
@@ -3821,7 +3821,7 @@ Elum::Elum(s32, anythingForTheTimeBeing, anythingForTheTimeBeing, s32, TlvItemIn
         mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit3_Render);
     }
 
-    field_174_resources.res[0] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kElmbasicAOResID_200, 1, 0);
+    field_174_resources.res[0] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kElmbasicAOResID_200, 1, 0);
     if (!field_174_resources.res[0])
     {
         field_104_pending_resource_count++;
@@ -3832,7 +3832,7 @@ Elum::Elum(s32, anythingForTheTimeBeing, anythingForTheTimeBeing, s32, TlvItemIn
         mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit3_Render);
     }
 
-    field_174_resources.res[30] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kElmaloneAOResID_230, 1, 0);
+    field_174_resources.res[30] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kElmaloneAOResID_230, 1, 0);
     if (!field_174_resources.res[30])
     {
         field_104_pending_resource_count++;

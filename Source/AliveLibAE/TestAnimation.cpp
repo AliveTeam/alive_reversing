@@ -23,7 +23,7 @@ void TestAnimation::DelayLoad()
 
     const AnimRecord& animRec = AnimRec(AnimId::Anim_Tester);
 
-    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, animRec.mResourceId, 0, 0))
+    if (!ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, animRec.mResourceId, 0, 0))
     {
         ResourceManager::LoadResourceFile_49C170(animRec.mBanName, nullptr);
     }
@@ -40,7 +40,7 @@ void TestAnimation::DelayLoad()
     {
         const PalRecord& palRec = PalRec(animRec.mPalOverride);
 
-        if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Palt, palRec.mResourceId, 0, 0))
+        if (!ResourceManager::GetLoadedResource(ResourceManager::Resource_Palt, palRec.mResourceId, 0, 0))
         {
             ResourceManager::LoadResourceFile_49C170(palRec.mBanName, nullptr);
         }

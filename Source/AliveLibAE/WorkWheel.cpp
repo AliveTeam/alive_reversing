@@ -84,12 +84,12 @@ s32 WorkWheel::CreateFromSaveState(const u8* pState)
 
     Path_WorkWheel* pTlv = static_cast<Path_WorkWheel*>(sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam(pData->field_4_tlvInfo));
 
-    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kAbeworkResID, FALSE, FALSE))
+    if (!ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kAbeworkResID, FALSE, FALSE))
     {
         ResourceManager::LoadResourceFile_49C170("ABEWORK.BAN", nullptr);
     }
 
-    if (!ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, AEResourceID::kWorkwhelResID, FALSE, FALSE))
+    if (!ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kWorkwhelResID, FALSE, FALSE))
     {
         ResourceManager::LoadResourceFile_49C170("WORKWHEL.BAN", nullptr);
     }

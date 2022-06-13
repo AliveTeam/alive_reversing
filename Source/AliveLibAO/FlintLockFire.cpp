@@ -84,8 +84,8 @@ FlintLockFire::FlintLockFire(Path_FlintLockFire* pTlv, s32 tlvInfo)
 
     const AnimRecord& disabledHammersRec = AO::AnimRec(sFlintLockFireData_4BAC70[cur_lvl].field_14_hammers_disabled_anim_id);
     const AnimRecord& gourdRec = AO::AnimRec(sFlintLockFireData_4BAC70[cur_lvl].field_4_gourd_anim_id);
-    u8** ppHammersRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, disabledHammersRec.mResourceId, 1, 0);
-    u8** ppGourdRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, gourdRec.mResourceId, 1, 0);
+    u8** ppHammersRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, disabledHammersRec.mResourceId, 1, 0);
+    u8** ppGourdRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, gourdRec.mResourceId, 1, 0);
 
     Animation_Init_417FD0(
         disabledHammersRec.mFrameTableOffset,
@@ -113,8 +113,8 @@ FlintLockFire::FlintLockFire(Path_FlintLockFire* pTlv, s32 tlvInfo)
     if (sFlintLockFireData_4BAC70[cur_lvl].field_24_bFire)
     {
         const AnimRecord& fireRec = AO::AnimRec(AnimId::Fire);
-        ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, fireRec.mResourceId, 1, 0);
-        u8** ppFireRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, fireRec.mResourceId, 1, 0);
+        ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, fireRec.mResourceId, 1, 0);
+        u8** ppFireRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, fireRec.mResourceId, 1, 0);
         field_188_anim.Init(
             fireRec.mFrameTableOffset,
             gAnimations,
