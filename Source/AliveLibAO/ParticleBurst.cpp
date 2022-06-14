@@ -35,7 +35,7 @@ static inline FP Random_Speed(FP scale)
 
 ParticleBurst::ParticleBurst(FP xpos, FP ypos, s32 particleCount, FP scale, BurstType type)
 {
-    mBaseGameObjectTypeId = ReliveTypes::eParticleBurst;
+    SetType(ReliveTypes::eParticleBurst);
     mBaseAnimatedWithPhysicsGameObject_SpriteScale = scale;
 
     field_E4_ppRes = ResourceManager::Allocate_New_Locked_Resource(ResourceManager::ResourceType::Resource_3DGibs, 0, sizeof(ParticleBurst_Item) * particleCount);

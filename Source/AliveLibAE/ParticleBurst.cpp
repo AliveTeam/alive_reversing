@@ -22,6 +22,14 @@ struct ParticleBurst_Item final
 ALIVE_ASSERT_SIZEOF(ParticleBurst_Item, 0x88);
 
 
+
+FP* ParticleBurst::Random_Speed(FP* random)
+{
+    const FP v2 = FP_FromRaw((Math_NextRandom() - 128) << LOBYTE(field_106_count));
+    *random = v2 * mBaseAnimatedWithPhysicsGameObject_SpriteScale;
+    return random;
+}
+
 ParticleBurst::ParticleBurst(FP xpos, FP ypos, u32 numOfParticles, FP scale, BurstType type, s32 count)
     : BaseAnimatedWithPhysicsGameObject(0)
 {
@@ -183,14 +191,6 @@ ParticleBurst::ParticleBurst(FP xpos, FP ypos, u32 numOfParticles, FP scale, Bur
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 }
-
-FP* ParticleBurst::Random_Speed(FP* random)
-{
-    const FP v2 = FP_FromRaw((Math_NextRandom() - 128) << LOBYTE(field_106_count));
-    *random = v2 * mBaseAnimatedWithPhysicsGameObject_SpriteScale;
-    return random;
-}
-
 ParticleBurst::~ParticleBurst()
 {
     if (field_F4_ppRes)
@@ -198,6 +198,68 @@ ParticleBurst::~ParticleBurst()
         ResourceManager::FreeResource_49C330(field_F4_ppRes);
     }
 }
+
+void ParticleBurst::VUpdate()
+{
+    const s32 v3 = mBaseAnimatedWithPhysicsGameObject_SpriteScale != FP_FromInteger(1) ? 2 : 4;
+    for (s32 i = 0; i < field_FC_number_of_particles; i++)
+    {
+        field_F8_pRes[i].field_0_x += field_F8_pRes[i].field_C_x_speed;
+        field_F8_pRes[i].field_4_y += field_F8_pRes[i].field_10_y_speed;
+        field_F8_pRes[i].field_8_z += field_F8_pRes[i].field_14_z_speed;
+
+        field_F8_pRes[i].field_10_y_speed += FP_FromDouble(0.25);
+
+        if (field_106_count == 9)
+        {
+            if ((sGnFrame + i) & v3)
+            {
+                field_F8_pRes[i].field_0_x -= FP_FromInteger(1);
+            }
+            else
+            {
+                field_F8_pRes[i].field_0_x += FP_FromInteger(1);
+            }
+        }
+
+        if (field_F8_pRes[i].field_8_z + FP_FromInteger(300) < FP_FromInteger(15))
+        {
+            field_F8_pRes[i].field_14_z_speed = -field_F8_pRes[i].field_14_z_speed;
+            field_F8_pRes[i].field_8_z += field_F8_pRes[i].field_14_z_speed;
+
+            // TODO: Never used by OG ??
+            //Math_RandomRange_496AB0(-64, 46);
+
+            // TODO: This might be wrong
+            const s16 volume = static_cast<s16>(Math_RandomRange(-10, 10) + ((field_100_timer - sGnFrame) / 91) + 25);
+
+            const u8 next_rand = Math_NextRandom();
+            if (next_rand < 43)
+            {
+                SFX_Play_Camera(SoundEffect::ParticleBurst_27, volume, CameraPos::eCamLeft_3);
+            }
+            else if (next_rand >= 85)
+            {
+                SFX_Play_Camera(SoundEffect::ParticleBurst_27, volume, CameraPos::eCamRight_4);
+            }
+            else
+            {
+                SFX_Play_Camera(SoundEffect::ParticleBurst_27, volume, CameraPos::eCamCurrent_0);
+            }
+        }
+    }
+
+    if (static_cast<s32>(sGnFrame) > field_100_timer)
+    {
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+    }
+
+    if (Event_Get(kEventDeathReset))
+    {
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+    }
+}
+
 
 void ParticleBurst::VRender(PrimHeader** ppOt)
 {
@@ -343,66 +405,5 @@ void ParticleBurst::VRender(PrimHeader** ppOt)
                 }
             }
         }
-    }
-}
-
-void ParticleBurst::VUpdate()
-{
-    const s32 v3 = mBaseAnimatedWithPhysicsGameObject_SpriteScale != FP_FromInteger(1) ? 2 : 4;
-    for (s32 i = 0; i < field_FC_number_of_particles; i++)
-    {
-        field_F8_pRes[i].field_0_x += field_F8_pRes[i].field_C_x_speed;
-        field_F8_pRes[i].field_4_y += field_F8_pRes[i].field_10_y_speed;
-        field_F8_pRes[i].field_8_z += field_F8_pRes[i].field_14_z_speed;
-
-        field_F8_pRes[i].field_10_y_speed += FP_FromDouble(0.25);
-
-        if (field_106_count == 9)
-        {
-            if ((sGnFrame + i) & v3)
-            {
-                field_F8_pRes[i].field_0_x -= FP_FromInteger(1);
-            }
-            else
-            {
-                field_F8_pRes[i].field_0_x += FP_FromInteger(1);
-            }
-        }
-
-        if (field_F8_pRes[i].field_8_z + FP_FromInteger(300) < FP_FromInteger(15))
-        {
-            field_F8_pRes[i].field_14_z_speed = -field_F8_pRes[i].field_14_z_speed;
-            field_F8_pRes[i].field_8_z += field_F8_pRes[i].field_14_z_speed;
-
-            // TODO: Never used by OG ??
-            //Math_RandomRange_496AB0(-64, 46);
-
-            // TODO: This might be wrong
-            const s16 volume = static_cast<s16>(Math_RandomRange(-10, 10) + ((field_100_timer - sGnFrame) / 91) + 25);
-
-            const u8 next_rand = Math_NextRandom();
-            if (next_rand < 43)
-            {
-                SFX_Play_Camera(SoundEffect::ParticleBurst_27, volume, CameraPos::eCamLeft_3);
-            }
-            else if (next_rand >= 85)
-            {
-                SFX_Play_Camera(SoundEffect::ParticleBurst_27, volume, CameraPos::eCamRight_4);
-            }
-            else
-            {
-                SFX_Play_Camera(SoundEffect::ParticleBurst_27, volume, CameraPos::eCamCurrent_0);
-            }
-        }
-    }
-
-    if (static_cast<s32>(sGnFrame) > field_100_timer)
-    {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
-    }
-
-    if (Event_Get(kEventDeathReset))
-    {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 }
