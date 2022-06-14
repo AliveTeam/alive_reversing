@@ -8,6 +8,7 @@
 #include "Rope.hpp"
 #include "ScreenManager.hpp"
 #include "ShadowZone.hpp"
+#include "AnimationUnknown.hpp"
 
 namespace AO {
 

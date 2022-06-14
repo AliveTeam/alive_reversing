@@ -253,6 +253,10 @@ SET(AliveLibSrcAO
    bmp.cpp
    Animation.hpp
    Animation.cpp
+   AnimationBase.hpp
+   AnimationBase.cpp
+   AnimationUnknown.hpp
+   AnimationUnknown.cpp
    ResourceManager.hpp
    ResourceManager.cpp
    Camera.hpp

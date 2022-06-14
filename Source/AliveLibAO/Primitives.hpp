@@ -23,6 +23,9 @@ enum class TPageAbr : s8
     eBlend_3 = 3,
 };
 
+
+void Poly_FT4_Get_Rect(PSX_RECT* pRect, const Poly_FT4* pPoly);
+
 inline s32 PSX_getTPage(TPageMode tp, TPageAbr abr, s32 x, s16 y)
 {
     return ((((static_cast<s8>(tp)) & 0x3) << 7) | (((static_cast<s8>(abr)) & 0x3) << 5) | (((y) &0x100) >> 4) | (((x) &0x3ff) >> 6) | (((y) &0x200) << 2));

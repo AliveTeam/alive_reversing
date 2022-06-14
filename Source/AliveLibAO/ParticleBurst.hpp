@@ -2,6 +2,7 @@
 
 #include "../AliveLibCommon/Function.hpp"
 #include "BaseAnimatedWithPhysicsGameObject.hpp"
+#include "AnimationUnknown.hpp"
 
 namespace AO {
 

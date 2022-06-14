@@ -5,6 +5,24 @@
 
 namespace AO {
 
+void Poly_FT4_Get_Rect(PSX_RECT* pRect, const Poly_FT4* pPoly)
+{
+    if (PSX_Prim_Code_Without_Blending_Or_SemiTransparency(pPoly->mBase.header.rgb_code.code_or_pad) == PrimTypeCodes::ePolyFT4)
+    {
+        pRect->x = pPoly->mBase.vert.x;
+        pRect->y = pPoly->mBase.vert.y;
+        pRect->w = pPoly->mVerts[2].mVert.x;
+        pRect->h = pPoly->mVerts[2].mVert.y;
+    }
+    else
+    {
+        pRect->h = 0;
+        pRect->w = 0;
+        pRect->y = 0;
+        pRect->x = 0;
+    }
+}
+
 void Init_SetTPage(Prim_SetTPage* pPrim, s32 /*notUsed1*/, s32 /*notUsed2*/, s32 tpage)
 {
     SetUnknown(&pPrim->mBase);
