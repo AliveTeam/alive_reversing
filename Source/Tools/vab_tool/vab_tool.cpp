@@ -12,9 +12,6 @@
 #include "GL/glew.h"
 #include "GameAutoPlayer.hpp"
 
-#define FLUIDSYNTH_NOT_A_DLL
-
-#include "fluidsynth.h"
 #include <string>
 
 BaseGameAutoPlayer& GetGameAutoPlayer()
@@ -130,35 +127,37 @@ class Sequencer final
 public:
     Sequencer()
     {
-        settings = new_fluid_settings();
+       // settings = new_fluid_settings();
 
-        synth = new_fluid_synth(settings);
+       // synth = new_fluid_synth(settings);
 
     }
 
     ~Sequencer()
     {
-        for (fluid_player_t* player : mSeqPlayers)
-        {
-            delete_fluid_player(player);
-        }
-        delete_fluid_synth(synth);
-        delete_fluid_settings(settings);
+      //  for (fluid_player_t* player : mSeqPlayers)
+      //  {
+       //     delete_fluid_player(player);
+       // }
+       // delete_fluid_synth(synth);
+       // delete_fluid_settings(settings);
     }
 
-    bool LoadSoundFont(const char* fileName)
+    bool LoadSoundFont(const char* )
     {
+        /*
         sfont_id = fluid_synth_sfload(synth, fileName, 1);
         if (sfont_id == FLUID_FAILED)
         {
             LOG_ERROR("Failed to load sound font");
             return false;
-        }
+        }*/
         return true;
     }
 
-    void PlaySeq(const char* fileName)
+    void PlaySeq(const char* )
     {
+        /*
         fluid_player_t* player = new_fluid_player(synth);
         if (fluid_player_add(player, fileName) != FLUID_OK)
         {
@@ -166,6 +165,7 @@ public:
         }
         fluid_player_play(player);
         mSeqPlayers.push_back(player);
+        */
     }
 
     static void AudioCallBackStatic(void* userdata, Uint8* stream, int len)
@@ -173,19 +173,19 @@ public:
         reinterpret_cast<Sequencer*>(userdata)->RenderAudio(stream, len);
     }
 
-    void RenderAudio(Uint8* stream, int lenBytes)
+    void RenderAudio(Uint8* , int )
     {
-        fluid_synth_write_s16(synth, lenBytes / (2 * sizeof(short)), stream, 0, 2, stream, 1, 2);
+       // fluid_synth_write_s16(synth, lenBytes / (2 * sizeof(short)), stream, 0, 2, stream, 1, 2);
         
         //done = fluid_player_get_status(player1) == FLUID_PLAYER_DONE;
         //done |= fluid_player_get_status(player2) == FLUID_PLAYER_DONE;
     }
 
 private:
-    fluid_settings_t* settings = nullptr;
-    fluid_synth_t* synth = nullptr;
-    int sfont_id = FLUID_FAILED;
-    std::vector<fluid_player_t*> mSeqPlayers;
+    //fluid_settings_t* settings = nullptr;
+    //fluid_synth_t* synth = nullptr;
+    //int sfont_id = FLUID_FAILED;
+    //std::vector<fluid_player_t*> mSeqPlayers;
 };
 
 
@@ -325,7 +325,7 @@ s32 main(s32 /*argc*/, char_type** /*argv*/)
     RedirectIoStream(true);
 #endif
 
-    LOG_INFO("fluid synth version: " << fluid_version_str());
+    //LOG_INFO("fluid synth version: " << fluid_version_str());
 
     main_loop();
 

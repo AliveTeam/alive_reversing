@@ -368,11 +368,6 @@ else()
             xinput
         )
     endif()
-
-    if (WIN32 AND CMAKE_SIZEOF_VOID_P EQUAL 4)
-        set(WIN32_LIBS ${WIN32_LIBS} Detours)
-    endif()
-
 endif()
 
 target_link_libraries(AliveLibAO

@@ -303,6 +303,15 @@ void Animation::UploadTexture(const FrameHeader* pFrameHeader, const PSX_RECT& v
     }
 }
 
+bool Animation::EnsureDecompressionBuffer()
+{
+    if (!field_24_dbuf)
+    {
+        field_24_dbuf = ResourceManager::Alloc_New_Resource_454F20(ResourceManager::Resource_DecompressionBuffer, 0, field_28_dbuf_size);
+    }
+    return field_24_dbuf != nullptr;
+}
+
 void Animation::VDecode()
 {
     if (!field_20_ppBlock || !*field_20_ppBlock)
@@ -617,15 +626,6 @@ void Animation::VCleanUp()
     }
 
     ResourceManager::FreeResource_455550(field_24_dbuf);
-}
-
-bool Animation::EnsureDecompressionBuffer()
-{
-    if (!field_24_dbuf)
-    {
-        field_24_dbuf = ResourceManager::Alloc_New_Resource_454F20(ResourceManager::Resource_DecompressionBuffer, 0, field_28_dbuf_size);
-    }
-    return field_24_dbuf != nullptr;
 }
 
 void AnimationBase::AnimateAll(DynamicArrayT<AnimationBase>* pAnimList)
