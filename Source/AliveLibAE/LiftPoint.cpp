@@ -1077,7 +1077,8 @@ void LiftPoint::dtor_4624E0()
 
     if (pTlv)
     {
-        pTlv->field_1_tlv_state &= ~3;
+        pTlv->field_0_flags.Clear(eBit1_Created);
+        pTlv->field_0_flags.Clear(eBit2_Destroyed);
     }
 
     field_13C_lift_wheel.vCleanUp_40C630();
