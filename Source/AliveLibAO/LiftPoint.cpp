@@ -733,7 +733,8 @@ BaseGameObject* LiftPoint::dtor_4355E0()
 
     if (pLiftPointTlv)
     {
-        pLiftPointTlv->field_1_unknown &= ~3u;
+        pLiftPointTlv->field_0_flags.Clear(eBit1_Created);
+        pLiftPointTlv->field_0_flags.Clear(eBit2_Destroyed);
     }
 
     field_13C_lift_wheel.VCleanUp_403F40();
