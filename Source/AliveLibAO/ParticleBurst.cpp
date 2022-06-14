@@ -35,7 +35,7 @@ static inline FP Random_Speed(FP scale)
 
 ParticleBurst::ParticleBurst(FP xpos, FP ypos, s32 particleCount, FP scale, BurstType type)
 {
-    SetType(ReliveTypes::eParticleBurst);
+    mBaseGameObjectTypeId = ReliveTypes::eParticleBurst;
     mBaseAnimatedWithPhysicsGameObject_SpriteScale = scale;
 
     field_E4_ppRes = ResourceManager::Allocate_New_Locked_Resource(ResourceManager::ResourceType::Resource_3DGibs, 0, sizeof(ParticleBurst_Item) * particleCount);
@@ -59,7 +59,6 @@ ParticleBurst::ParticleBurst(FP xpos, FP ypos, s32 particleCount, FP scale, Burs
                 mAnim.field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);
                 mAnim.field_4_flags.Set(AnimFlags::eBit16_bBlending);
                 break;
-            }
 
             case BurstType::eSticks_1:
             {
@@ -70,7 +69,6 @@ ParticleBurst::ParticleBurst(FP xpos, FP ypos, s32 particleCount, FP scale, Burs
                 mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit15_bSemiTrans);
                 mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit16_bBlending);
                 break;
-            }
 
             case BurstType::eBigPurpleSparks_2:
             {
@@ -81,7 +79,6 @@ ParticleBurst::ParticleBurst(FP xpos, FP ypos, s32 particleCount, FP scale, Burs
                 mAnim.field_4_flags.Set(AnimFlags::eBit16_bBlending);
                 mAnim.field_B_render_mode = TPageAbr::eBlend_1;
                 break;
-            }
 
             case BurstType::eBigRedSparks_3:
             {
@@ -97,7 +94,6 @@ ParticleBurst::ParticleBurst(FP xpos, FP ypos, s32 particleCount, FP scale, Burs
                 mBaseAnimatedWithPhysicsGameObject_Anim.mGreen = 148;
                 mBaseAnimatedWithPhysicsGameObject_Anim.mBlue = 18;
                 break;
-            }
 
             case BurstType::eMeat_4:
             {
@@ -107,7 +103,6 @@ ParticleBurst::ParticleBurst(FP xpos, FP ypos, s32 particleCount, FP scale, Burs
                 mAnim.field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);
                 mAnim.field_4_flags.Set(AnimFlags::eBit16_bBlending);
                 break;
-            }
 
             default:
                 break;
