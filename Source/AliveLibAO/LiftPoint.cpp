@@ -701,9 +701,9 @@ LiftPoint::~LiftPoint()
 
     auto pLiftPointTlv = gMap.TLV_Get_At_446260(
         FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos),
-        FP_GetExponent(FP_FromInteger(BaseAliveGameObjectCollisionLine->field_0_rect.y)),
+        FP_GetExponent(FP_FromInteger(mPlatformBaseCollisionLine->field_0_rect.y)),
         FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos),
-        FP_GetExponent((mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(30)) + FP_FromInteger(BaseAliveGameObjectCollisionLine->field_0_rect.y)),
+        FP_GetExponent((mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(30)) + FP_FromInteger(mPlatformBaseCollisionLine->field_0_rect.y)),
         TlvTypes::LiftPoint_8);
 
     if (pLiftPointTlv)
