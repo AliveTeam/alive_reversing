@@ -690,6 +690,85 @@ void Animation::SetFrame(s16 newFrame)
     }
 }
 
+ALIVE_VAR(1, 0x4BA090, FrameInfoHeader, sBlankFrameInfoHeader_4BA090, {});
+
+FrameInfoHeader* Animation::Get_FrameHeader(s32 frame)
+{
+    if (!field_20_ppBlock)
+    {
+        return nullptr;
+    }
+
+    if (frame < -1 || frame == -1)
+    {
+        frame = field_92_current_frame != -1 ? field_92_current_frame : 0;
+    }
+
+    AnimationHeader* pHead = reinterpret_cast<AnimationHeader*>(*field_20_ppBlock + field_18_frame_table_offset); // TODO: Make getting offset to animation header cleaner
+    u32 frameOffset = pHead->mFrameOffsets[frame];
+
+    FrameInfoHeader* pFrame = reinterpret_cast<FrameInfoHeader*>(*field_20_ppBlock + frameOffset);
+
+    // Never seen this get hit, perhaps some sort of PSX specific check as addresses have to be aligned there?
+    // TODO: Remove it in the future when proven to be not required?
+#if defined(_MSC_VER) && !defined(_WIN64)
+    if (reinterpret_cast<u32>(pFrame) & 3)
+    {
+        FrameInfoHeader* Unknown = &sBlankFrameInfoHeader_4BA090;
+        return Unknown;
+    }
+#endif
+
+    return pFrame;
+}
+
+void Animation::LoadPal(u8** pAnimData, s32 palOffset)
+{
+    if (pAnimData)
+    {
+        const u8* pPalDataOffset = &(*pAnimData)[palOffset];
+        if (field_90_pal_depth != 16 && field_90_pal_depth != 64 && field_90_pal_depth != 256)
+        {
+            LOG_ERROR("Bad pal depth " << field_90_pal_depth);
+            ALIVE_FATAL("Bad pal depth");
+        }
+        IRenderer::GetRenderer()->PalSetData(IRenderer::PalRecord{field_8C_pal_vram_xy.field_0_x, field_8C_pal_vram_xy.field_2_y, field_90_pal_depth}, pPalDataOffset + 4); // +4 skip len, load pal
+    }
+}
+
+
+void Animation::Get_Frame_Rect(PSX_RECT* pRect)
+{
+    Poly_FT4* pPoly = &field_2C_ot_data[gPsxDisplay_504C78.field_A_buffer_index];
+    if (!mAnimFlags.Get(AnimFlags::eBit20_use_xy_offset))
+    {
+        Poly_FT4_Get_Rect(pRect, pPoly);
+        return;
+    }
+
+    const auto min_x0_x1 = std::min(X0(pPoly), X1(pPoly));
+    const auto min_x2_x3 = std::min(X2(pPoly), X3(pPoly));
+    pRect->x = std::min(min_x0_x1, min_x2_x3);
+
+    const auto max_x0_x1 = std::max(X0(pPoly), X1(pPoly));
+    const auto max_x2_x3 = std::max(X2(pPoly), X3(pPoly));
+    pRect->w = std::max(max_x0_x1, max_x2_x3);
+
+    const auto min_y0_y1 = std::min(Y0(pPoly), Y1(pPoly));
+    const auto min_y2_y3 = std::min(Y2(pPoly), Y3(pPoly));
+    pRect->y = std::min(min_y0_y1, min_y2_y3);
+
+    const auto max_y0_y1 = std::max(Y0(pPoly), Y1(pPoly));
+    const auto max_y2_y3 = std::max(Y2(pPoly), Y3(pPoly));
+    pRect->h = std::max(max_y0_y1, max_y2_y3);
+}
+
+s16 Animation::Get_Frame_Count()
+{
+    AnimationHeader* pHead = reinterpret_cast<AnimationHeader*>(*field_20_ppBlock + field_18_frame_table_offset); // TODO: Make getting offset to animation header cleaner
+    return pHead->field_2_num_frames;
+}
+
 s16 Animation::Init(s32 frameTableOffset, DynamicArray* /*animList*/, BaseGameObject* pGameObj, u16 maxW, u16 maxH, u8** ppAnimData, u8 bAllocateVRam, s32 b_StartingAlternationState, s8 bEnable_flag10_alternating)
 {
     FrameTableOffsetExists(frameTableOffset, false, maxW, maxH);
@@ -841,84 +920,6 @@ s16 Animation::Init(s32 frameTableOffset, DynamicArray* /*animList*/, BaseGameOb
     return result;
 }
 
-s16 Animation::Get_Frame_Count()
-{
-    AnimationHeader* pHead = reinterpret_cast<AnimationHeader*>(*field_20_ppBlock + field_18_frame_table_offset); // TODO: Make getting offset to animation header cleaner
-    return pHead->field_2_num_frames;
-}
-
-ALIVE_VAR(1, 0x4BA090, FrameInfoHeader, sBlankFrameInfoHeader_4BA090, {});
-
-FrameInfoHeader* Animation::Get_FrameHeader(s32 frame)
-{
-    if (!field_20_ppBlock)
-    {
-        return nullptr;
-    }
-
-    if (frame < -1 || frame == -1)
-    {
-        frame = field_92_current_frame != -1 ? field_92_current_frame : 0;
-    }
-
-    AnimationHeader* pHead = reinterpret_cast<AnimationHeader*>(*field_20_ppBlock + field_18_frame_table_offset); // TODO: Make getting offset to animation header cleaner
-    u32 frameOffset = pHead->mFrameOffsets[frame];
-
-    FrameInfoHeader* pFrame = reinterpret_cast<FrameInfoHeader*>(*field_20_ppBlock + frameOffset);
-
-    // Never seen this get hit, perhaps some sort of PSX specific check as addresses have to be aligned there?
-    // TODO: Remove it in the future when proven to be not required?
-#if defined(_MSC_VER) && !defined(_WIN64)
-    if (reinterpret_cast<u32>(pFrame) & 3)
-    {
-        FrameInfoHeader* Unknown = &sBlankFrameInfoHeader_4BA090;
-        return Unknown;
-    }
-#endif
-
-    return pFrame;
-}
-
-void Animation::LoadPal(u8** pAnimData, s32 palOffset)
-{
-    if (pAnimData)
-    {
-        const u8* pPalDataOffset = &(*pAnimData)[palOffset];
-        if (field_90_pal_depth != 16 && field_90_pal_depth != 64 && field_90_pal_depth != 256)
-        {
-            LOG_ERROR("Bad pal depth " << field_90_pal_depth);
-            ALIVE_FATAL("Bad pal depth");
-        }
-        IRenderer::GetRenderer()->PalSetData(IRenderer::PalRecord{field_8C_pal_vram_xy.field_0_x, field_8C_pal_vram_xy.field_2_y, field_90_pal_depth}, pPalDataOffset + 4); // +4 skip len, load pal
-    }
-}
-
-
-void Animation::Get_Frame_Rect(PSX_RECT* pRect)
-{
-    Poly_FT4* pPoly = &field_2C_ot_data[gPsxDisplay_504C78.field_A_buffer_index];
-    if (!mAnimFlags.Get(AnimFlags::eBit20_use_xy_offset))
-    {
-        Poly_FT4_Get_Rect(pRect, pPoly);
-        return;
-    }
-
-    const auto min_x0_x1 = std::min(X0(pPoly), X1(pPoly));
-    const auto min_x2_x3 = std::min(X2(pPoly), X3(pPoly));
-    pRect->x = std::min(min_x0_x1, min_x2_x3);
-
-    const auto max_x0_x1 = std::max(X0(pPoly), X1(pPoly));
-    const auto max_x2_x3 = std::max(X2(pPoly), X3(pPoly));
-    pRect->w = std::max(max_x0_x1, max_x2_x3);
-
-    const auto min_y0_y1 = std::min(Y0(pPoly), Y1(pPoly));
-    const auto min_y2_y3 = std::min(Y2(pPoly), Y3(pPoly));
-    pRect->y = std::min(min_y0_y1, min_y2_y3);
-
-    const auto max_y0_y1 = std::max(Y0(pPoly), Y1(pPoly));
-    const auto max_y2_y3 = std::max(Y2(pPoly), Y3(pPoly));
-    pRect->h = std::max(max_y0_y1, max_y2_y3);
-}
 
 void Animation::Get_Frame_Offset(s16* pBoundingX, s16* pBoundingY)
 {

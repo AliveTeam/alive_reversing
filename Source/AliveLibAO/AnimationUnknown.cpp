@@ -21,7 +21,7 @@ void AnimationUnknown::VRender(s32 /*xpos*/, s32 /*ypos*/, PrimHeader** /*pOt*/,
 
 void AnimationUnknown::VDecode()
 {
-    // Empty @ 402A10
+    // Empty
 }
 
 void AnimationUnknown::VCleanUp2_404280()
@@ -41,17 +41,20 @@ void AnimationUnknown::VRender2_403FD0(s32 xpos, s32 ypos, PrimHeader** ppOt)
 
         FrameHeader* pFrameHeader = reinterpret_cast<FrameHeader*>(&(*field_68_anim_ptr->field_20_ppBlock)[pFrameInfoHeader->field_0_frame_header_offset]);
 
-        s32 frameOffX = pFrameInfoHeader->field_8_data.offsetAndRect.mOffset.x;
-        s32 frameOffY = pFrameInfoHeader->field_8_data.offsetAndRect.mOffset.y;
         s32 frameH = pFrameHeader->field_5_height;
         s32 frameW = pFrameHeader->field_4_width;
 
+        s32 frameOffX = pFrameInfoHeader->field_8_data.offsetAndRect.mOffset.x;
+        s32 frameOffY = pFrameInfoHeader->field_8_data.offsetAndRect.mOffset.y;
+
         if (field_6C_scale != FP_FromInteger(1))
         {
-            frameH = FP_GetExponent(FP_FromInteger(frameH) * field_6C_scale);
-            frameW = FP_GetExponent(FP_FromInteger(frameW) * field_6C_scale);
             frameOffX = FP_GetExponent(FP_FromInteger(frameOffX) * field_6C_scale);
             frameOffY = FP_GetExponent(FP_FromInteger(frameOffY) * field_6C_scale);
+
+            frameH = FP_GetExponent(FP_FromInteger(frameH) * field_6C_scale);
+            frameW = FP_GetExponent(FP_FromInteger(frameW) * field_6C_scale);
+
         }
 
         s32 polyX = 0;

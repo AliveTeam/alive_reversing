@@ -5,15 +5,15 @@
 #include "stdlib.hpp"
 #include "Sys_common.hpp"
 
+void AnimationUnknown::VCleanUp()
+{
+    field_68_anim_ptr = nullptr;
+}
 void AnimationUnknown::VDecode()
 {
-    // VNull_409C20
+    // Empty
 }
 
-void AnimationUnknown::GetRenderedSize(PSX_RECT* pRect)
-{
-    Poly_FT4_Get_Rect_409DA0(pRect, &field_10_polys[gPsxDisplay_5C1130.field_C_buffer_index]);
-}
 
 void AnimationUnknown::VRender(s32 xpos, s32 ypos, PrimHeader** ppOt, s16 /*width*/, s32 /*height*/)
 {
@@ -39,11 +39,12 @@ void AnimationUnknown::VRender(s32 xpos, s32 ypos, PrimHeader** ppOt, s16 /*widt
 
         if (field_6C_scale != FP_FromInteger(1))
         {
-            frameOffX = FP_GetExponent((FP_FromInteger(frameOffX) * field_6C_scale));
-            frameOffY = FP_GetExponent((FP_FromInteger(frameOffY) * field_6C_scale));
+            frameOffX = FP_GetExponent(FP_FromInteger(frameOffX) * field_6C_scale);
+            frameOffY = FP_GetExponent(FP_FromInteger(frameOffY) * field_6C_scale);
 
             frameH = FP_GetExponent(FP_FromInteger(frameH) * field_6C_scale);
-            frameW = FP_GetExponent((FP_FromInteger(frameW) * field_6C_scale));
+            frameW = FP_GetExponent(FP_FromInteger(frameW) * field_6C_scale);
+
         }
 
         s32 polyX = 0;
@@ -124,7 +125,8 @@ void AnimationUnknown::VRender(s32 xpos, s32 ypos, PrimHeader** ppOt, s16 /*widt
     }
 }
 
-void AnimationUnknown::VCleanUp()
+void AnimationUnknown::GetRenderedSize(PSX_RECT* pRect)
 {
-    field_68_anim_ptr = nullptr;
+    Poly_FT4_Get_Rect_409DA0(pRect, &field_10_polys[gPsxDisplay_5C1130.field_C_buffer_index]);
 }
+
