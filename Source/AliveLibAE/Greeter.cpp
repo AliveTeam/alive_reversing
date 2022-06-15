@@ -395,52 +395,32 @@ s16 Greeter::VTakeDamage(BaseGameObject* pFrom)
 
     switch (pFrom->Type())
     {
-        case AETypes::eBullet_15:
+        case ReliveTypes::eBullet:
         if (static_cast<Bullet*>(pFrom)->field_30_x_distance <= FP_FromInteger(0))
         {
-            field_20_animation.field_4_flags.Set(AnimFlags::eBit5_FlipX);
+            mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit5_FlipX);
         }
         else
         {
-            field_20_animation.field_4_flags.Clear(AnimFlags::eBit5_FlipX);
+            mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit5_FlipX);
         }
 
         if (++field_12C_timesShot <= 10)
         {
-            BounceBackFromShot_447B10();
+            BounceBackFromShot();
         }
         else
         {
-            BlowUp_447E50();
+            BlowUp();
         }
         return 1;
 
         case ReliveTypes::eDrill:
         case ReliveTypes::eElectricWall:
-            if (static_cast<BaseAnimatedWithPhysicsGameObject*>(pFrom)->mBaseAnimatedWithPhysicsGameObject_Anim.field_10_frame_delay <= 0)
-            {
-                mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit5_FlipX);
-            }
-            else
-            {
-                mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit5_FlipX);
-            }
-
-            if (++field_12C_timesShot <= 10)
-            {
-                BounceBackFromShot_447B10();
-            }
-            else
-            {
-                BlowUp_447E50();
-            }
-            return 1;
-
         case ReliveTypes::eBaseBomb:
         case ReliveTypes::eRockSpawner:
         case ReliveTypes::eMeatSaw:
         case ReliveTypes::eMineCar:
-        //case ReliveTypes::eNeverSet:
         case ReliveTypes::eExplosion:
             BlowUp();
             return 1;
@@ -455,7 +435,7 @@ s16 Greeter::VTakeDamage(BaseGameObject* pFrom)
             return 1;
 
         default:
-            BlowUp_447E50();
+            BlowUp();
             return 1;
     }
 }

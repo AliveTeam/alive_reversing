@@ -53,37 +53,40 @@ ParticleBurst::ParticleBurst(FP xpos, FP ypos, s32 particleCount, FP scale, Burs
         {
             case BurstType::eFallingRocks_0:
             {
-                const AnimRecord& rockRec = AO::AnimRec(AnimId::Rock_Gib);
-                u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rockRec.mResourceId, 1, 0);
+                const AnimRecord rockRec = AO::AnimRec(AnimId::Rock_Gib);
+                u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rockRec.mResourceId, 1, 0);
                 Animation_Init_417FD0(rockRec.mFrameTableOffset, rockRec.mMaxW, rockRec.mMaxH, ppRes, 1);
-                mAnim.field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);
-                mAnim.field_4_flags.Set(AnimFlags::eBit16_bBlending);
+                mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit15_bSemiTrans);
+                mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit16_bBlending);
                 break;
+            }
 
             case BurstType::eSticks_1:
             {
-                const AnimRecord& sticksRec = AO::AnimRec(AnimId::Stick_Gib);
-                u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, sticksRec.mResourceId, 1, 0);
+                const AnimRecord sticksRec = AO::AnimRec(AnimId::Stick_Gib);
+                u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, sticksRec.mResourceId, 1, 0);
                 Animation_Init_417FD0(sticksRec.mFrameTableOffset, sticksRec.mMaxW, sticksRec.mMaxH, ppRes, 1);
                 scale = FP_FromDouble(0.4) * scale;
                 mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit15_bSemiTrans);
                 mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit16_bBlending);
                 break;
+            }
 
             case BurstType::eBigPurpleSparks_2:
             {
-                const AnimRecord& flareRec = AO::AnimRec(AnimId::DeathFlare_2);
-                u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, flareRec.mResourceId, 1, 0);
+                const AnimRecord flareRec = AO::AnimRec(AnimId::DeathFlare_2);
+                u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, flareRec.mResourceId, 1, 0);
                 Animation_Init_417FD0(flareRec.mFrameTableOffset, flareRec.mMaxW, flareRec.mMaxH, ppRes, 1);
-                mAnim.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
-                mAnim.field_4_flags.Set(AnimFlags::eBit16_bBlending);
-                mAnim.field_B_render_mode = TPageAbr::eBlend_1;
+                mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit15_bSemiTrans);
+                mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit16_bBlending);
+                mBaseAnimatedWithPhysicsGameObject_Anim.mRenderMode = TPageAbr::eBlend_1;
                 break;
+            }
 
             case BurstType::eBigRedSparks_3:
             {
-                const AnimRecord& flareRec = AO::AnimRec(AnimId::DeathFlare_2);
-                u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, flareRec.mResourceId, 1, 0);
+                const AnimRecord flareRec = AO::AnimRec(AnimId::DeathFlare_2);
+                u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, flareRec.mResourceId, 1, 0);
                 Animation_Init_417FD0(flareRec.mFrameTableOffset, flareRec.mMaxW, flareRec.mMaxH, ppRes, 1);
 
                 mBaseAnimatedWithPhysicsGameObject_Anim.mRenderMode = TPageAbr::eBlend_1;
@@ -94,15 +97,17 @@ ParticleBurst::ParticleBurst(FP xpos, FP ypos, s32 particleCount, FP scale, Burs
                 mBaseAnimatedWithPhysicsGameObject_Anim.mGreen = 148;
                 mBaseAnimatedWithPhysicsGameObject_Anim.mBlue = 18;
                 break;
+            }
 
             case BurstType::eMeat_4:
             {
-                const AnimRecord& meatRec = AO::AnimRec(AnimId::Meat_Gib);
-                u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, meatRec.mResourceId, 1, 0);
+                const AnimRecord meatRec = AO::AnimRec(AnimId::Meat_Gib);
+                u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, meatRec.mResourceId, 1, 0);
                 Animation_Init_417FD0(meatRec.mFrameTableOffset, meatRec.mMaxW, meatRec.mMaxH, ppRes, 1);
-                mAnim.field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);
-                mAnim.field_4_flags.Set(AnimFlags::eBit16_bBlending);
+                mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit15_bSemiTrans);
+                mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit16_bBlending);
                 break;
+            }
 
             default:
                 break;
