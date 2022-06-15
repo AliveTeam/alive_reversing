@@ -421,6 +421,7 @@ void UXB::VUpdate_489380()
                 field_10C_state = UXBState::eActive_1;
                 const AnimRecord& rec = AO::AnimRec(AnimId::Bomb_Flash);
                 field_11C_anim.Set_Animation_Data_402A40(rec.mFrameTableOffset, 0);
+                field_118_next_state_frame = gnFrameCount_507670 + 2;
             }
             break;
 
