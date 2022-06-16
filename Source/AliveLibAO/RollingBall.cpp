@@ -440,10 +440,10 @@ void RollingBall::CrushThingsInTheWay_458310()
             PSX_RECT bObjRect = {};
             pAliveObj->VGetBoundingRect(&bObjRect, 1);
 
-            if (bOurRect.x <= bObjRect.x
+            if (bOurRect.x <= bObjRect.w
                 && bOurRect.w >= bObjRect.x
                 && bOurRect.h >= bObjRect.y
-                && bOurRect.y <= bObjRect.y)
+                && bOurRect.y <= bObjRect.h)
             {
                 pAliveObj->VTakeDamage(this);
             }
