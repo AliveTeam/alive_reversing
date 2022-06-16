@@ -502,7 +502,8 @@ s16 Grenade::OnCollision_BounceOff_41F650(BaseGameObject* pHit)
 
 s16 Grenade::BlowUpAfterCountdown_41EDD0()
 {
-    const s16 timer = field_112_explode_timer--;
+    field_112_explode_timer--;
+    const s16 timer = field_112_explode_timer;
     if (!(timer % 16))
     {
         SFX_Play_43AD70(SoundEffect::GreenTick_3, 0, 0);
