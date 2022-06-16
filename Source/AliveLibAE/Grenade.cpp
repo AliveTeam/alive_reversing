@@ -328,12 +328,14 @@ Grenade* Grenade::vdtor_4480E0(s32 flags)
 
 s16 Grenade::TimeToBlowUp_448350()
 {
-    if (!(--field_122_explode_timer % 16))
+    field_122_explode_timer--;
+    const s16 timer = field_122_explode_timer;
+    if (!(timer % 16))
     {
         SFX_Play_46FA90(SoundEffect::GreenTick_2, 0);
     }
 
-    if (field_122_explode_timer != 0)
+    if (timer)
     {
         return 0;
     }
