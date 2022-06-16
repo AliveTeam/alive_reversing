@@ -27,7 +27,7 @@ SecurityOrb* SecurityOrb::ctor_436C80(Path_SecurityOrb* pTlv, s32 tlvInfo)
 
     field_4_typeId = Types::SecurityOrb_53;
 
-    const AnimRecord rec = AO::AnimRec(AnimId::Security_Orb);
+    const AnimRecord& rec = AO::AnimRec(AnimId::Security_Orb);
     u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
     Animation_Init_417FD0(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
 

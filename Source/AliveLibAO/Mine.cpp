@@ -21,7 +21,7 @@ Mine* Mine::ctor_43A330(Path_Mine* pTlv, s32 tlvInfo)
     field_4_typeId = Types::eMine_57;
     
     ///////////////////////////////////////////////////////////////////////////
-    const AnimRecord rec = AO::AnimRec(AnimId::Mine);
+    const AnimRecord& rec = AO::AnimRec(AnimId::Mine);
     u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
     Animation_Init_417FD0(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
     ///////////////////////////////////////////////////////////////////////////

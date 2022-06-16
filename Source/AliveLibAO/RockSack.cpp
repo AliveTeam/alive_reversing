@@ -151,7 +151,7 @@ RockSack* RockSack::ctor_4573F0(Path_RockSack* pTlv, s32 tlvInfo)
 
     field_4_typeId = Types::eRockSack_71;
 
-    const AnimRecord rec = AO::AnimRec(AnimId::RockSack_Idle);
+    const AnimRecord& rec = AO::AnimRec(AnimId::RockSack_Idle);
     u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
 
     //  Set RockSack idle anim speed

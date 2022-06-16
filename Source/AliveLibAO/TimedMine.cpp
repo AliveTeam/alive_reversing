@@ -26,7 +26,7 @@ TimedMine* TimedMine::ctor_4083F0(Path_TimedMine* pTlv, s32 tlvInfo)
     SetVTable(this, 0x4BA2C8);
     field_4_typeId = Types::eTimedMine_8;
 
-    const AnimRecord rec = AO::AnimRec(AnimId::TimedMine_Idle);
+    const AnimRecord& rec = AO::AnimRec(AnimId::TimedMine_Idle);
     u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
     Animation_Init_417FD0(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
 

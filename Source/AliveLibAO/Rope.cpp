@@ -83,7 +83,7 @@ Rope* Rope::ctor_458520(u16 left, s16 top, u16 bottom, FP scale)
         case LevelIds::eRuptureFarmsReturn_13:
         case LevelIds::eDesertEscape_15:
         {
-            const AnimRecord ropeRec = AO::AnimRec(AnimId::Rope_R1);
+            const AnimRecord& ropeRec = AO::AnimRec(AnimId::Rope_R1);
             u8** ppRopeRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ropeRec.mResourceId, 1, 0);
             Animation_Init_417FD0(ropeRec.mFrameTableOffset, ropeRec.mMaxW, ropeRec.mMaxH, ppRopeRes, 1);
             break;
@@ -91,7 +91,7 @@ Rope* Rope::ctor_458520(u16 left, s16 top, u16 bottom, FP scale)
 
         default:
         {
-            const AnimRecord ropeRec = AO::AnimRec(AnimId::Rope_Lines);
+            const AnimRecord& ropeRec = AO::AnimRec(AnimId::Rope_Lines);
             u8** ppRopeRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ropeRec.mResourceId, 1, 0);
             Animation_Init_417FD0(ropeRec.mFrameTableOffset, ropeRec.mMaxW, ropeRec.mMaxH, ppRopeRes, 1);
             break;

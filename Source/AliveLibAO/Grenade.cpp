@@ -41,7 +41,7 @@ Grenade* Grenade::ctor_41EBD0(FP xpos, FP ypos, s16 numGrenades)
     SetVTable(this, 0x4BB0A0);
     field_4_typeId = Types::eGrenade_40;
 
-    const AnimRecord rec = AO::AnimRec(AnimId::Grenade);
+    const AnimRecord& rec = AO::AnimRec(AnimId::Grenade);
     u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
     Animation_Init_417FD0(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
 

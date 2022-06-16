@@ -25,7 +25,7 @@ public:
         SetVTable(this, 0x4BB330);
         field_4_typeId = Types::eNone_0;
 
-        const AnimRecord rec = AO::AnimRec(AnimId::Door_FireBackgroundGlow);
+        const AnimRecord& rec = AO::AnimRec(AnimId::Door_FireBackgroundGlow);
         u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
         Animation_Init_417FD0(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
 
@@ -174,7 +174,7 @@ public:
 
         SetVTable(this, 0x4BB368);
         field_4_typeId = Types::eNone_0;
-        const AnimRecord rec = AO::AnimRec(AnimId::Zap_Sparks);
+        const AnimRecord& rec = AO::AnimRec(AnimId::Zap_Sparks);
         u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
         Animation_Init_417FD0(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
         field_10_anim.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
@@ -424,7 +424,7 @@ DoorFlame* DoorFlame::ctor_432860(Path_DoorFlame* pTlv, s32 tlvInfo)
     SetVTable(this, 0x4BB3A0);
     field_4_typeId = Types::eNone_0;
     field_E4_tlvInfo = tlvInfo;
-    const AnimRecord rec = AO::AnimRec(AnimId::Fire);
+    const AnimRecord& rec = AO::AnimRec(AnimId::Fire);
     u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
     Animation_Init_417FD0(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
 

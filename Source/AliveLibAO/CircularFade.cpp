@@ -30,7 +30,7 @@ CircularFade* CircularFade::ctor_479E20(FP xpos, FP ypos, FP scale, s16 directio
     field_C2_g = fade_rgb;
     field_C0_r = fade_rgb;
 
-    const AnimRecord rec = AO::AnimRec(AnimId::Circular_Fade);
+    const AnimRecord& rec = AO::AnimRec(AnimId::Circular_Fade);
     u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
     Animation_Init_417FD0(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
 

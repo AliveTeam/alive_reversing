@@ -1356,7 +1356,7 @@ HintFly* HintFly::ctor_42A820(Path_HintFly* pTlv, s32 tlvInfo)
     SetVTable(this, 0x4BB200);
     field_E4_ppRes = nullptr;
 
-    const AnimRecord rec = AO::AnimRec(AnimId::HintFly);
+    const AnimRecord& rec = AO::AnimRec(AnimId::HintFly);
     u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
     if (ppRes)
     {
