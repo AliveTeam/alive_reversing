@@ -21,7 +21,7 @@ Bat* Bat::ctor_4046E0(Path_Bat* pTlv, s32 tlvInfo)
 
     field_4_typeId = Types::eBat_6;
 
-    const AnimRecord rec = AO::AnimRec(AnimId::Bat);
+    const AnimRecord& rec = AO::AnimRec(AnimId::Bat);
     u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
     
     if (!ppRes)

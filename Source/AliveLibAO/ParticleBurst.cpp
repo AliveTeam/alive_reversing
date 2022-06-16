@@ -56,7 +56,7 @@ ParticleBurst* ParticleBurst::ctor_40D0F0(FP xpos, FP ypos, s16 particleCount, F
         {
             case BurstType::eFallingRocks_0:
             {
-                const AnimRecord rockRec = AO::AnimRec(AnimId::Rock_Gib);
+                const AnimRecord& rockRec = AO::AnimRec(AnimId::Rock_Gib);
                 u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rockRec.mResourceId, 1, 0);
                 Animation_Init_417FD0(rockRec.mFrameTableOffset, rockRec.mMaxW, rockRec.mMaxH, ppRes, 1);
                 field_10_anim.field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);
@@ -66,7 +66,7 @@ ParticleBurst* ParticleBurst::ctor_40D0F0(FP xpos, FP ypos, s16 particleCount, F
 
             case BurstType::eSticks_1:
             {
-                const AnimRecord sticksRec = AO::AnimRec(AnimId::Stick_Gib);
+                const AnimRecord& sticksRec = AO::AnimRec(AnimId::Stick_Gib);
                 u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, sticksRec.mResourceId, 1, 0);
                 Animation_Init_417FD0(sticksRec.mFrameTableOffset, sticksRec.mMaxW, sticksRec.mMaxH, ppRes, 1);
                 scale = FP_FromDouble(0.4) * scale;
@@ -77,7 +77,7 @@ ParticleBurst* ParticleBurst::ctor_40D0F0(FP xpos, FP ypos, s16 particleCount, F
 
             case BurstType::eBigPurpleSparks_2:
             {
-                const AnimRecord flareRec = AO::AnimRec(AnimId::DeathFlare_2);
+                const AnimRecord& flareRec = AO::AnimRec(AnimId::DeathFlare_2);
                 u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, flareRec.mResourceId, 1, 0);
                 Animation_Init_417FD0(flareRec.mFrameTableOffset, flareRec.mMaxW, flareRec.mMaxH, ppRes, 1);
                 field_10_anim.field_4_flags.Set(AnimFlags::eBit15_bSemiTrans);
@@ -88,7 +88,7 @@ ParticleBurst* ParticleBurst::ctor_40D0F0(FP xpos, FP ypos, s16 particleCount, F
 
             case BurstType::eBigRedSparks_3:
             {
-                const AnimRecord flareRec = AO::AnimRec(AnimId::DeathFlare_2);
+                const AnimRecord& flareRec = AO::AnimRec(AnimId::DeathFlare_2);
                 u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, flareRec.mResourceId, 1, 0);
                 Animation_Init_417FD0(flareRec.mFrameTableOffset, flareRec.mMaxW, flareRec.mMaxH, ppRes, 1);
 
@@ -104,7 +104,7 @@ ParticleBurst* ParticleBurst::ctor_40D0F0(FP xpos, FP ypos, s16 particleCount, F
 
             case BurstType::eMeat_4:
             {
-                const AnimRecord meatRec = AO::AnimRec(AnimId::Meat_Gib);
+                const AnimRecord& meatRec = AO::AnimRec(AnimId::Meat_Gib);
                 u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, meatRec.mResourceId, 1, 0);
                 Animation_Init_417FD0(meatRec.mFrameTableOffset, meatRec.mMaxW, meatRec.mMaxH, ppRes, 1);
                 field_10_anim.field_4_flags.Clear(AnimFlags::eBit15_bSemiTrans);

@@ -58,7 +58,7 @@ SlingMudokon* SlingMudokon::ctor_46F940(Path_SlingMudokon* pTlv, s32 tlvInfo)
     field_136_buffer_idx = -1;
     field_150_res = 0;
 
-    const AnimRecord rec = AO::AnimRec(AnimId::Mudokon_Sling_Idle);
+    const AnimRecord& rec = AO::AnimRec(AnimId::Mudokon_Sling_Idle);
     u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
     Animation_Init_417FD0(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
 

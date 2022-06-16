@@ -55,7 +55,7 @@ BackgroundGlukkon* BackgroundGlukkon::ctor_41DBD0(Path_BackgroundGlukkon* pTlv, 
 
     field_4_typeId = Types::eBackgroundGlukkon_42;
 
-    const AnimRecord rec = AO::AnimRec(AnimId::Background_Glukkon_Idle);
+    const AnimRecord& rec = AO::AnimRec(AnimId::Background_Glukkon_Idle);
     u8** ppRes2 = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
     Animation_Init_417FD0(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes2, 1);
 

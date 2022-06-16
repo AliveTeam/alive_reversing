@@ -38,7 +38,7 @@ void Claw::ctor()
     SetVTable(this, 0x4BAA70);
     field_4_typeId = Types::eClawOrBirdPortalTerminator_48;
     
-    const AnimRecord rec = AO::AnimRec(AnimId::Security_Claw_Lower_Idle);
+    const AnimRecord& rec = AO::AnimRec(AnimId::Security_Claw_Lower_Idle);
     u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
     Animation_Init_417FD0(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
 }
@@ -73,7 +73,7 @@ SecurityClaw* SecurityClaw::ctor_418A70(Path_SecurityClaw* pTlv, s32 tlvInfo)
     field_6_flags.Set(Options::eCanExplode_Bit7);
     field_12C_pDetector = 1;
 
-    const AnimRecord rec = AO::AnimRec(AnimId::Security_Claw_Upper_Rotating);
+    const AnimRecord& rec = AO::AnimRec(AnimId::Security_Claw_Upper_Rotating);
     u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
     Animation_Init_417FD0(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
 

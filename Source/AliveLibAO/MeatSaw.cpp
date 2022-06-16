@@ -61,7 +61,7 @@ MeatSaw* MeatSaw::ctor_439570(Path_MeatSaw* pTlv, s32 tlvInfo)
 
     SetVTable(&field_110_anim, 0x4BA2B8);
     
-    const AnimRecord rec = AO::AnimRec(AnimId::MeatSaw_Idle);
+    const AnimRecord& rec = AO::AnimRec(AnimId::MeatSaw_Idle);
     u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
     Animation_Init_417FD0(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
     

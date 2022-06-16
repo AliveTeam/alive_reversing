@@ -20,7 +20,7 @@ UXB* UXB::ctor_488C80(Path_UXB* pTlv, s32 tlvInfo)
 
     field_4_typeId = Types::eUXB_99;
 
-    const AnimRecord rec = AO::AnimRec(AnimId::UXB_Active);
+    const AnimRecord& rec = AO::AnimRec(AnimId::UXB_Active);
     u8** ppRes2 = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
     Animation_Init_417FD0(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes2, 1);
 

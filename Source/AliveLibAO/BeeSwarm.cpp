@@ -36,7 +36,7 @@ BeeSwarm* BeeSwarm::ctor_47FC60(FP xpos, FP ypos, FP speed, s16 numBees, s32 cha
     SetVTable(this, 0x4BCEB0);
     field_4_typeId = Types::eBeeSwarm_95;
 
-    const AnimRecord rec = AO::AnimRec(AnimId::Bee_Swarm);
+    const AnimRecord& rec = AO::AnimRec(AnimId::Bee_Swarm);
     u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
     ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, 16, 1, 0);
     if (gMap_507BA8.field_0_current_level != LevelIds::eForestTemple_4 && gMap_507BA8.field_0_current_level != LevelIds::eDesertTemple_9)
