@@ -78,7 +78,6 @@ struct Point final
 };
 
 
-
 struct OffsetAndBoundingRect final
 {
     Point mOffset;
@@ -132,6 +131,8 @@ public:
     bool EnsureDecompressionBuffer();
 
     void UploadTexture(const FrameHeader* pFrameHeader, const PSX_RECT& vram_rect, s16 width_bpp_adjusted);
+
+    void Invoke_CallBacks();
 
     s32 field_10_frame_delay;
     FP field_14_scale;

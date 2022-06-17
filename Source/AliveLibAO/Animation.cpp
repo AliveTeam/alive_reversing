@@ -303,6 +303,7 @@ void Animation::UploadTexture(const FrameHeader* pFrameHeader, const PSX_RECT& v
     }
 }
 
+
 bool Animation::EnsureDecompressionBuffer()
 {
     if (!field_24_dbuf)
@@ -399,27 +400,7 @@ void Animation::VDecode()
     const FrameInfoHeader* pFrameInfoHeader = Get_FrameHeader(-1); // -1 = use current frame
     if (pFrameInfoHeader->field_6_count > 0)
     {
-        if (field_1C_fn_ptr_array)
-        {
-            FrameInfoHeader* pFrameHeaderCopy = this->Get_FrameHeader(-1);
-
-            // This data can be an array of u32's + other data up to field_6_count
-            // which appears AFTER the usual data.
-
-            // TODO: Should be typed to s16* ??
-            const u32* pCallBackData = reinterpret_cast<const u32*>(&pFrameHeaderCopy->field_8_data.points[3]);
-            for (s32 i = 0; i < pFrameHeaderCopy->field_6_count; i++)
-            {
-                const auto pFnCallBack = field_1C_fn_ptr_array[*pCallBackData];
-                if (!pFnCallBack)
-                {
-                    break;
-                }
-                pCallBackData++; // Skip the array index
-                // Pass the data pointer into the call back which will then read and skip any extra data
-                pCallBackData += *pFnCallBack(field_94_pGameObj, (s16*) pCallBackData);
-            }
-        }
+        Invoke_CallBacks();
     }
 
     const FrameHeader* pFrameHeader = reinterpret_cast<const FrameHeader*>(&(*field_20_ppBlock)[pFrameInfoHeader->field_0_frame_header_offset]);
@@ -629,6 +610,31 @@ void Animation::VCleanUp()
 }
 
 
+void Animation::Invoke_CallBacks()
+{
+    if (field_1C_fn_ptr_array)
+    {
+        FrameInfoHeader* pFrameHeaderCopy = this->Get_FrameHeader(-1);
+
+        // This data can be an array of u32's + other data up to field_6_count
+        // which appears AFTER the usual data.
+
+        // TODO: Should be typed to s16* ??
+        const u32* pCallBackData = reinterpret_cast<const u32*>(&pFrameHeaderCopy->field_8_data.points[3]);
+        for (s32 i = 0; i < pFrameHeaderCopy->field_6_count; i++)
+        {
+            const auto pFnCallBack = field_1C_fn_ptr_array[*pCallBackData];
+            if (!pFnCallBack)
+            {
+                break;
+            }
+            pCallBackData++; // Skip the array index
+            // Pass the data pointer into the call back which will then read and skip any extra data
+            pCallBackData += *pFnCallBack(field_94_pGameObj, (s16*) pCallBackData);
+        }
+    }
+}
+
 s16 Animation::Set_Animation_Data(s32 frameTableOffset, u8** pAnimRes)
 {
     FrameTableOffsetExists(frameTableOffset, false);
@@ -722,21 +728,6 @@ FrameInfoHeader* Animation::Get_FrameHeader(s32 frame)
     return pFrame;
 }
 
-void Animation::LoadPal(u8** pAnimData, s32 palOffset)
-{
-    if (pAnimData)
-    {
-        const u8* pPalDataOffset = &(*pAnimData)[palOffset];
-        if (field_90_pal_depth != 16 && field_90_pal_depth != 64 && field_90_pal_depth != 256)
-        {
-            LOG_ERROR("Bad pal depth " << field_90_pal_depth);
-            ALIVE_FATAL("Bad pal depth");
-        }
-        IRenderer::GetRenderer()->PalSetData(IRenderer::PalRecord{field_8C_pal_vram_xy.field_0_x, field_8C_pal_vram_xy.field_2_y, field_90_pal_depth}, pPalDataOffset + 4); // +4 skip len, load pal
-    }
-}
-
-
 void Animation::Get_Frame_Rect(PSX_RECT* pRect)
 {
     Poly_FT4* pPoly = &field_2C_ot_data[gPsxDisplay_504C78.field_A_buffer_index];
@@ -785,24 +776,7 @@ s16 Animation::Init(s32 frameTableOffset, DynamicArray* /*animList*/, BaseGameOb
     }
 
     field_94_pGameObj = pGameObj;
-
     AnimationHeader* pHeader = reinterpret_cast<AnimationHeader*>(&(*ppAnimData)[frameTableOffset]);
-
-    field_10_frame_delay = pHeader->field_0_fps;
-    mFrameChangeCounter = 1;
-    field_92_current_frame = -1;
-    mRenderMode = TPageAbr::eBlend_0;
-    mRed = 0;
-    mGreen = 0;
-    mBlue = 0;
-    field_14_scale = FP_FromInteger(1);
-
-    FrameInfoHeader* pFrameInfoHeader = Get_FrameHeader(0);
-    u8* pAnimData = *ppAnimData;
-
-    const FrameHeader* pFrameHeader = reinterpret_cast<const FrameHeader*>(&(*field_20_ppBlock)[pFrameInfoHeader->field_0_frame_header_offset]);
-
-    u8* pClut = &pAnimData[pFrameHeader->field_0_clut_offset];
 
     mAnimFlags.Clear(AnimFlags::eBit1);
     mAnimFlags.Clear(AnimFlags::eBit5_FlipX);
@@ -813,15 +787,33 @@ s16 Animation::Init(s32 frameTableOffset, DynamicArray* /*animList*/, BaseGameOb
 
     mAnimFlags.Set(AnimFlags::eBit8_Loop, pHeader->field_6_flags & AnimationHeader::eLoopFlag);
 
-    mAnimFlags.Set(AnimFlags::eBit10_alternating_flag, bEnable_flag10_alternating & 1);
-    mAnimFlags.Set(AnimFlags::eBit11_bToggle_Bit10, b_StartingAlternationState & 1);
+    mAnimFlags.Set(AnimFlags::eBit10_alternating_flag, bEnable_flag10_alternating);
+
+    mAnimFlags.Set(AnimFlags::eBit11_bToggle_Bit10, b_StartingAlternationState);
 
     mAnimFlags.Clear(AnimFlags::eBit14_Is16Bit);
     mAnimFlags.Clear(AnimFlags::eBit13_Is8Bit);
-    mAnimFlags.Clear(AnimFlags::eBit15_bSemiTrans);
-
-    mAnimFlags.Set(AnimFlags::eBit16_bBlending);
     mAnimFlags.Set(AnimFlags::eBit17_bOwnPal);
+
+    
+    mAnimFlags.Clear(AnimFlags::eBit15_bSemiTrans);
+    mAnimFlags.Set(AnimFlags::eBit16_bBlending);
+
+    field_10_frame_delay = pHeader->field_0_fps;
+    mFrameChangeCounter = 1;
+    field_92_current_frame = -1;
+    mRenderMode = TPageAbr::eBlend_0;
+    mBlue = 0;
+    mGreen = 0;
+    mRed = 0;
+    field_14_scale = FP_FromInteger(1);
+
+    FrameInfoHeader* pFrameInfoHeader = Get_FrameHeader(0);
+    u8* pAnimData = *ppAnimData;
+
+    const FrameHeader* pFrameHeader = reinterpret_cast<const FrameHeader*>(&(*field_20_ppBlock)[pFrameInfoHeader->field_0_frame_header_offset]);
+
+    u8* pClut = &pAnimData[pFrameHeader->field_0_clut_offset];
 
     if (bAllocateVRam)
     {
@@ -920,6 +912,20 @@ s16 Animation::Init(s32 frameTableOffset, DynamicArray* /*animList*/, BaseGameOb
     return result;
 }
 
+void Animation::LoadPal(u8** pAnimData, s32 palOffset)
+{
+    if (pAnimData)
+    {
+        // +4 = skip CLUT len
+        const u8* pPalDataOffset = &(*pAnimData)[palOffset];
+        if (field_90_pal_depth != 16 && field_90_pal_depth != 64 && field_90_pal_depth != 256)
+        {
+            LOG_ERROR("Bad pal depth " << field_90_pal_depth);
+            ALIVE_FATAL("Bad pal depth");
+        }
+        IRenderer::GetRenderer()->PalSetData(IRenderer::PalRecord{field_8C_pal_vram_xy.field_0_x, field_8C_pal_vram_xy.field_2_y, field_90_pal_depth}, pPalDataOffset + 4); // +4 skip len, load pal
+    }
+}
 
 void Animation::Get_Frame_Offset(s16* pBoundingX, s16* pBoundingY)
 {
