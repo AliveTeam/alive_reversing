@@ -161,7 +161,7 @@ Meat::Meat(FP xpos, FP ypos, s16 count)
     mBaseGameObjectTypeId = ReliveTypes::eMeat;
 
     const AnimRecord rec = AO::AnimRec(AnimId::Meat);
-    u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
+    u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
     Animation_Init_417FD0(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
 
     mBaseAnimatedWithPhysicsGameObject_XPos = xpos;

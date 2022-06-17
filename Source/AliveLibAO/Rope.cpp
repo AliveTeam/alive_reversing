@@ -74,7 +74,7 @@ Rope::Rope(s32 left, s32 top, s32 bottom, FP scale)
         default:
         {
             const AnimRecord ropeRec = AO::AnimRec(AnimId::Rope_Lines);
-            u8** ppRopeRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, ropeRec.mResourceId, 1, 0);
+            u8** ppRopeRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, ropeRec.mResourceId, 1, 0);
             Animation_Init_417FD0(ropeRec.mFrameTableOffset, ropeRec.mMaxW, ropeRec.mMaxH, ppRopeRes, 1);
             break;
         }

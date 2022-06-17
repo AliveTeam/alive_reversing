@@ -58,7 +58,7 @@ MotionDetector::MotionDetector(Path_MotionDetector* pTlv, s32 tlvInfo)
     field_15C_speed = FP_FromRaw(pTlv->field_1E_speed_x256 << 8);
 
     const AnimRecord& laserRec = AO::AnimRec(AnimId::MotionDetector_Laser);
-    u8** ppResLaser = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, laserRec.mResourceId, 1, 0);
+    u8** ppResLaser = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, laserRec.mResourceId, 1, 0);
     if (pTlv->field_20_initial_move_direction == Path_MotionDetector::InitialMoveDirection::eRight_0)
     {
         

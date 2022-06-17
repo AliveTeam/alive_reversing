@@ -53,7 +53,7 @@ ZBall::ZBall(Path_ZBall* pTlv, s32 tlvInfo)
         case Path_ZBall::Speed::eNormal_0:
         {
             const AnimRecord& rec1 = AO::AnimRec(AnimId::Swinging_Ball_Normal);
-            u8** ppRes1 = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec1.mResourceId, 1, 0);
+            u8** ppRes1 = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec1.mResourceId, 1, 0);
             Animation_Init_417FD0(rec1.mFrameTableOffset, rec1.mMaxW, rec1.mMaxH, ppRes1, 1);
             break;
         }
@@ -61,7 +61,7 @@ ZBall::ZBall(Path_ZBall* pTlv, s32 tlvInfo)
         case Path_ZBall::Speed::eFast_1:
         {
             const AnimRecord& rec2 = AO::AnimRec(AnimId::Swinging_Ball_Fast);
-            u8** ppRes2 = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec2.mResourceId, 1, 0);
+            u8** ppRes2 = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec2.mResourceId, 1, 0);
             Animation_Init_417FD0(rec2.mFrameTableOffset, rec2.mMaxW, rec2.mMaxH, ppRes2, 1);
             break;
         }
@@ -69,7 +69,7 @@ ZBall::ZBall(Path_ZBall* pTlv, s32 tlvInfo)
         case Path_ZBall::Speed::eSlow_2:
         {
             const AnimRecord& rec3 = AO::AnimRec(AnimId::Swinging_Ball_Slow);
-            u8** ppRes3 = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec3.mResourceId, 1, 0);
+            u8** ppRes3 = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec3.mResourceId, 1, 0);
             Animation_Init_417FD0(rec3.mFrameTableOffset, rec3.mMaxW, rec3.mMaxH, ppRes3, 1);
             break;
         }
