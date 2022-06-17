@@ -649,8 +649,8 @@ bool Animation::DecodeCommon()
             else
             {
                 // Stay on current frame
-                field_92_current_frame = prevFrameNum + 1;
                 mFrameChangeCounter = 0;
+                field_92_current_frame = prevFrameNum + 1;
             }
 
             // For some reason eBit12_ForwardLoopCompleted isn't set when going backwards

@@ -134,6 +134,10 @@ public:
 
     void Invoke_CallBacks();
 
+    bool DecodeCommon();
+
+    void DecompressFrame();
+
     s32 field_10_frame_delay;
     FP field_14_scale;
     s32 field_18_frame_table_offset;

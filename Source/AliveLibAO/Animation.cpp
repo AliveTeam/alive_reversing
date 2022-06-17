@@ -313,85 +313,8 @@ bool Animation::EnsureDecompressionBuffer()
     return field_24_dbuf != nullptr;
 }
 
-void Animation::VDecode()
+void Animation::DecompressFrame()
 {
-    if (!field_20_ppBlock || !*field_20_ppBlock)
-    {
-        return;
-    }
-
-    AnimationHeader* pAnimationHeader = reinterpret_cast<AnimationHeader*>(&(*field_20_ppBlock)[field_18_frame_table_offset]);
-    if (pAnimationHeader->field_2_num_frames == 1 && mAnimFlags.Get(AnimFlags::eBit12_ForwardLoopCompleted))
-    {
-        return;
-    }
-
-    if (mAnimFlags.Get(AnimFlags::eBit19_LoopBackwards))
-    {
-        // Loop backwards
-        const s16 prevFrameNum = --field_92_current_frame;
-        mFrameChangeCounter = static_cast<s16>(field_10_frame_delay);
-
-        if (prevFrameNum < pAnimationHeader->field_4_loop_start_frame)
-        {
-            if (mAnimFlags.Get(AnimFlags::eBit8_Loop))
-            {
-                // Loop to last frame
-                field_92_current_frame = pAnimationHeader->field_2_num_frames - 1;
-            }
-            else
-            {
-                // Stay on current frame
-                mFrameChangeCounter = 0;
-                field_92_current_frame = prevFrameNum + 1;
-            }
-        }
-
-        // Is first (last since running backwards) frame?
-        if (field_92_current_frame == 0)
-        {
-            mAnimFlags.Set(AnimFlags::eBit18_IsLastFrame);
-        }
-        else
-        {
-            mAnimFlags.Clear(AnimFlags::eBit18_IsLastFrame);
-        }
-    }
-    else
-    {
-        // Loop forwards
-        const s16 nextFrameNum = ++field_92_current_frame;
-        mFrameChangeCounter = static_cast<s16>(field_10_frame_delay);
-
-        // Animation reached end point
-        if (nextFrameNum >= pAnimationHeader->field_2_num_frames)
-        {
-            if (mAnimFlags.Get(AnimFlags::eBit8_Loop))
-            {
-                // Loop back to loop start frame
-                field_92_current_frame = pAnimationHeader->field_4_loop_start_frame;
-            }
-            else
-            {
-                // Stay on current frame
-                field_92_current_frame = nextFrameNum - 1;
-                mFrameChangeCounter = 0;
-            }
-
-            mAnimFlags.Set(AnimFlags::eBit12_ForwardLoopCompleted);
-        }
-
-        // Is last frame ?
-        if (field_92_current_frame == pAnimationHeader->field_2_num_frames - 1)
-        {
-            mAnimFlags.Set(AnimFlags::eBit18_IsLastFrame);
-        }
-        else
-        {
-            mAnimFlags.Clear(AnimFlags::eBit18_IsLastFrame);
-        }
-    }
-
     if (mAnimFlags.Get(AnimFlags::eBit11_bToggle_Bit10))
     {
         mAnimFlags.Toggle(AnimFlags::eBit10_alternating_flag);
@@ -449,6 +372,7 @@ void Animation::VDecode()
 
     UploadTexture(pFrameHeader, vram_rect, width_bpp_adjusted);
 }
+
 
 void Animation::VRender(s32 xpos, s32 ypos, PrimHeader** ppOt, s16 width, s16 height)
 {
@@ -609,6 +533,96 @@ void Animation::VCleanUp()
     ResourceManager::FreeResource_455550(field_24_dbuf);
 }
 
+void Animation::VDecode()
+{
+    if (DecodeCommon())
+    {
+        DecompressFrame();
+    }
+}
+
+bool Animation::DecodeCommon()
+{
+    if (!field_20_ppBlock || !*field_20_ppBlock)
+    {
+        return false;
+    }
+
+    AnimationHeader* pAnimationHeader = reinterpret_cast<AnimationHeader*>(&(*field_20_ppBlock)[field_18_frame_table_offset]);
+    if (pAnimationHeader->field_2_num_frames == 1 && mAnimFlags.Get(AnimFlags::eBit12_ForwardLoopCompleted))
+    {
+        return false;
+    }
+
+    if (mAnimFlags.Get(AnimFlags::eBit19_LoopBackwards))
+    {
+        // Loop backwards
+        const s16 prevFrameNum = --field_92_current_frame;
+        mFrameChangeCounter = static_cast<s16>(field_10_frame_delay);
+
+        if (prevFrameNum < pAnimationHeader->field_4_loop_start_frame)
+        {
+            if (mAnimFlags.Get(AnimFlags::eBit8_Loop))
+            {
+                // Loop to last frame
+                field_92_current_frame = pAnimationHeader->field_2_num_frames - 1;
+            }
+            else
+            {
+                // Stay on current frame
+                mFrameChangeCounter = 0;
+                field_92_current_frame = prevFrameNum + 1;
+            }
+
+            // For some reason eBit12_ForwardLoopCompleted isn't set when going backwards
+        }
+
+        // Is first (last since running backwards) frame?
+        if (field_92_current_frame == 0)
+        {
+            mAnimFlags.Set(AnimFlags::eBit18_IsLastFrame);
+        }
+        else
+        {
+            mAnimFlags.Clear(AnimFlags::eBit18_IsLastFrame);
+        }
+    }
+    else
+    {
+        // Loop forwards
+        const s16 nextFrameNum = ++field_92_current_frame;
+        mFrameChangeCounter = static_cast<s16>(field_10_frame_delay);
+
+        // Animation reached end point
+        if (nextFrameNum >= pAnimationHeader->field_2_num_frames)
+        {
+            if (mAnimFlags.Get(AnimFlags::eBit8_Loop))
+            {
+                // Loop back to loop start frame
+                field_92_current_frame = pAnimationHeader->field_4_loop_start_frame;
+            }
+            else
+            {
+                // Stay on current frame
+                field_92_current_frame = nextFrameNum - 1;
+                mFrameChangeCounter = 0;
+            }
+
+            mAnimFlags.Set(AnimFlags::eBit12_ForwardLoopCompleted);
+        }
+
+        // Is last frame ?
+        if (field_92_current_frame == pAnimationHeader->field_2_num_frames - 1)
+        {
+            mAnimFlags.Set(AnimFlags::eBit18_IsLastFrame);
+        }
+        else
+        {
+            mAnimFlags.Clear(AnimFlags::eBit18_IsLastFrame);
+        }
+    }
+    return true;
+}
 
 void Animation::Invoke_CallBacks()
 {
