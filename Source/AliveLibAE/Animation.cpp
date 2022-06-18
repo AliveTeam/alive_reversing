@@ -979,7 +979,7 @@ s16 Animation::Init(s32 frameTableOffset, DynamicArray* /*animList*/, BaseGameOb
     mAnimFlags.Set(AnimFlags::eBit25_bDecompressDone, b256Pal);
 	
 
-    if (mAnimFlags.Get(AnimFlags::eBit17_bOwnPal) && !mAnimFlags.Get(AnimFlags::eBit24))
+    if (pal_depth > 0)
     {
         IRenderer::PalRecord palRec{0, 0, pal_depth};
         if (!IRenderer::GetRenderer()->PalAlloc(palRec))

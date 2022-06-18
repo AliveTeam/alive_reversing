@@ -906,17 +906,9 @@ s16 Animation::Init(s32 frameTableOffset, DynamicArray* /*animList*/, BaseGameOb
     }
 
     field_28_dbuf_size = maxH * (vram_width + 3);
-
-    if (pFrameHeader->field_7_compression_type != CompressionType::eType_0_NoCompression)
-    {
-        const u32 id = ResourceManager::Get_Header_455620(field_20_ppBlock)->field_C_id;
-        field_24_dbuf = ResourceManager::Alloc_New_Resource_454F20(ResourceManager::Resource_DecompressionBuffer, id, field_28_dbuf_size);
-        if (!field_24_dbuf)
-        {
-            return 0;
-        }
-    }
-
+    field_28_dbuf_size += 8; // Add 8 for some reason
+    field_24_dbuf = nullptr;
+	
     // NOTE: OG bug or odd compiler code gen? Why isn't it using the passed in list which appears to always be this anyway ??
     if (!gAnimations->Push_Back(this))
     {
