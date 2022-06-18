@@ -538,6 +538,7 @@ bool Animation::DecodeCommon()
         return false;
     }
 
+    bool isLastFrame = false;
     if (mAnimFlags.Get(AnimFlags::eBit19_LoopBackwards))
     {
         // Loop backwards
@@ -564,11 +565,7 @@ bool Animation::DecodeCommon()
         // Is first (last since running backwards) frame?
         if (field_92_current_frame == 0)
         {
-            mAnimFlags.Set(AnimFlags::eBit18_IsLastFrame);
-        }
-        else
-        {
-            mAnimFlags.Clear(AnimFlags::eBit18_IsLastFrame);
+            isLastFrame = true;
         }
     }
     else
@@ -598,13 +595,19 @@ bool Animation::DecodeCommon()
         // Is last frame ?
         if (field_92_current_frame == pAnimationHeader->field_2_num_frames - 1)
         {
-            mAnimFlags.Set(AnimFlags::eBit18_IsLastFrame);
-        }
-        else
-        {
-            mAnimFlags.Clear(AnimFlags::eBit18_IsLastFrame);
+            isLastFrame = true;
         }
     }
+
+    if (isLastFrame)
+    {
+        mAnimFlags.Set(AnimFlags::eBit18_IsLastFrame);
+    }
+    else
+    {
+        mAnimFlags.Clear(AnimFlags::eBit18_IsLastFrame);
+    }
+
     return true;
 }
 
@@ -612,7 +615,7 @@ void Animation::Invoke_CallBacks()
 {
     if (field_1C_fn_ptr_array)
     {
-        FrameInfoHeader* pFrameHeaderCopy = this->Get_FrameHeader(-1);
+        FrameInfoHeader* pFrameHeaderCopy = Get_FrameHeader(-1);
 
         // This data can be an array of u32's + other data up to field_6_count
         // which appears AFTER the usual data.
@@ -826,7 +829,7 @@ s16 Animation::Init(s32 frameTableOffset, DynamicArray* /*animList*/, BaseGameOb
     field_14_scale = FP_FromInteger(1);
 
     FrameInfoHeader* pFrameInfoHeader = Get_FrameHeader(0);
-    u8* pAnimData = *ppAnimData;
+    u8* pAnimData = *field_20_ppBlock;
 
     const FrameHeader* pFrameHeader = reinterpret_cast<const FrameHeader*>(&(*field_20_ppBlock)[pFrameInfoHeader->field_0_frame_header_offset]);
 
@@ -839,36 +842,46 @@ s16 Animation::Init(s32 frameTableOffset, DynamicArray* /*animList*/, BaseGameOb
 
     field_90_pal_depth = 0;
 
+    //s8 b256Pal = 0;
     s32 vram_width = 0;
     s16 pal_depth = 0;
-    if (pFrameHeader->field_6_colour_depth == 4)
-    {
-        vram_width = (maxW % 2) + (maxW / 2);
-        pal_depth = 16;
-    }
-    else if (pFrameHeader->field_6_colour_depth == 8)
-    {
-        vram_width = maxW;
 
-        if (*(u16*) pClut == 64) // CLUT entry count/len
+    switch (pFrameHeader->field_6_colour_depth)
+    {
+        case 4:
         {
-            pal_depth = 64;
+            vram_width = (maxW % 2) + (maxW / 2);
+            pal_depth = 16;
+            //b256Pal = 0; // is 16 pal
         }
-        else
-        {
-            pal_depth = 256;
-        }
+        break;
 
-        mAnimFlags.Set(AnimFlags::eBit13_Is8Bit);
-    }
-    else if (pFrameHeader->field_6_colour_depth == 16)
-    {
-        vram_width = maxW * 2;
-        mAnimFlags.Set(AnimFlags::eBit14_Is16Bit);
-    }
-    else
-    {
-        return 0;
+        case 8:
+        {
+            vram_width = maxW;
+            if (*(u16*) pClut == 64) // CLUT entry count/len
+            {
+                pal_depth = 64;
+            }
+            else
+            {
+				pal_depth = 256;
+                //b256Pal = 1; // is 256 pal
+            }
+            mAnimFlags.Set(AnimFlags::eBit13_Is8Bit);
+
+        }
+        break;
+
+        case 16:
+        {
+            vram_width = maxW * 2;
+            mAnimFlags.Set(AnimFlags::eBit14_Is16Bit);
+        }
+        break;
+
+        default:
+            return 0;
     }
 
     s32 bVramAllocOK = 1;
@@ -880,17 +893,19 @@ s16 Animation::Init(s32 frameTableOffset, DynamicArray* /*animList*/, BaseGameOb
     bool bPalAllocOK = true;
     if (pal_depth > 0 && bVramAllocOK)
     {
-        IRenderer::PalRecord rec;
-        rec.depth = pal_depth;
-        bPalAllocOK = IRenderer::GetRenderer()->PalAlloc(rec);
+        IRenderer::PalRecord palRec{0, 0, pal_depth};
+        if (!IRenderer::GetRenderer()->PalAlloc(palRec))
+        {
+            bPalAllocOK = false;
+        }
 
-        field_8C_pal_vram_xy.field_0_x = rec.x;
-        field_8C_pal_vram_xy.field_2_y = rec.y;
-        field_90_pal_depth = rec.depth;
+        field_8C_pal_vram_xy.field_0_x = palRec.x;
+        field_8C_pal_vram_xy.field_2_y = palRec.y;
+        field_90_pal_depth = palRec.depth;
 
         if (bVramAllocOK && bPalAllocOK)
         {
-            IRenderer::GetRenderer()->PalSetData(rec, pClut + 4); // +4 Skip len, load pal
+            IRenderer::GetRenderer()->PalSetData(palRec, pClut + 4); // +4 Skip len, load pal
         }
     }
 
@@ -913,8 +928,7 @@ s16 Animation::Init(s32 frameTableOffset, DynamicArray* /*animList*/, BaseGameOb
     }
 
     // NOTE: OG bug or odd compiler code gen? Why isn't it using the passed in list which appears to always be this anyway ??
-    const auto result = gAnimations->Push_Back(this);
-    if (!result)
+    if (!gAnimations->Push_Back(this))
     {
         LOG_ERROR("gAnimations->Push_Back(this) returned 0 but shouldn't");
         return 0;
@@ -926,7 +940,7 @@ s16 Animation::Init(s32 frameTableOffset, DynamicArray* /*animList*/, BaseGameOb
     mFrameChangeCounter = 1;
     field_92_current_frame = -1;
 
-    return result;
+    return 1;
 }
 
 void Animation::LoadPal(u8** pAnimData, s32 palOffset)

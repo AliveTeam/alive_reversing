@@ -127,8 +127,6 @@ public:
 
     virtual void VCleanUp() override;
 
-    void vDecode2();
-    
     bool DecodeCommon();
 
     void Invoke_CallBacks();

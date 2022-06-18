@@ -85,19 +85,18 @@ enum AnimFlags
 class AnimationBase
 {
 public:
-    // TODO: Virtuals must be on the base type, yet there is only 1 vtable pointing to derived?
-    virtual void VDecode();
+    virtual ~AnimationBase() { }
 
-    virtual void VRender(s32 xpos, s32 ypos, PrimHeader** ppOt, s16 width, s32 height);
+    virtual void VDecode() = 0;
+
+    virtual void VRender(s32 xpos, s32 ypos, PrimHeader** ppOt, s16 width, s32 height) = 0;
+
     virtual void VCleanUp() = 0;
-
-    // TODO: Restore vTable entry.
-    //virtual s16 Animationv_40B200();
-    virtual s8 Animation_v_40BEE0(s16 a2, s16 a3, s32 a4, s16 a5, s16 op1);
 
     static void AnimateAll(DynamicArrayT<AnimationBase>* pAnimations);
 
     BitField32<AnimFlags> mAnimFlags;
+
     u8 mRed;
     u8 mGreen;
     u8 mBlue;
