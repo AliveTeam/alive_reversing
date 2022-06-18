@@ -678,7 +678,6 @@ s16 Animation::Set_Animation_Data(s32 frameTableOffset, u8** pAnimRes)
     return 1;
 }
 
-
 void Animation::Animation_Pal_Free()
 {
     if (mAnimFlags.Get(AnimFlags::eBit17_bOwnPal))
@@ -819,9 +818,9 @@ s16 Animation::Init(s32 frameTableOffset, DynamicArray* /*animList*/, BaseGameOb
     // Clear vram/pal inits to not allocated
     field_84_vram_rect.w = 0;
     field_90_pal_depth = 0;
+
     mAnimFlags.Set(AnimFlags::eBit17_bOwnPal);
 
-    
     mAnimFlags.Clear(AnimFlags::eBit15_bSemiTrans);
     mAnimFlags.Set(AnimFlags::eBit16_bBlending);
 
@@ -840,11 +839,6 @@ s16 Animation::Init(s32 frameTableOffset, DynamicArray* /*animList*/, BaseGameOb
     const FrameHeader* pFrameHeader = reinterpret_cast<const FrameHeader*>(&(*field_20_ppBlock)[pFrameInfoHeader->field_0_frame_header_offset]);
 
     u8* pClut = &pAnimData[pFrameHeader->field_0_clut_offset];
-
-    //if (bAllocateVRam)
-    {
-        field_84_vram_rect.w = 0;
-    }
 
     //s8 b256Pal = 0;
     s32 vram_width = 0;
@@ -888,35 +882,27 @@ s16 Animation::Init(s32 frameTableOffset, DynamicArray* /*animList*/, BaseGameOb
             return 0;
     }
 
-    s32 bVramAllocOK = 1;
-    //if (bAllocateVRam)
+    if (!vram_alloc_450B20(maxW, maxH, pFrameHeader->field_6_colour_depth, &field_84_vram_rect))
     {
-        bVramAllocOK = vram_alloc_450B20(maxW, maxH, pFrameHeader->field_6_colour_depth, &field_84_vram_rect);
+        // Seems like this can at least happen with many bomb particles
+        // this will be fixed in the future
+        LOG_ERROR("Vram alloc failed");
+        return 0;
     }
 
-    bool bPalAllocOK = true;
-    if (pal_depth > 0 && bVramAllocOK)
+    if (pal_depth > 0)
     {
         IRenderer::PalRecord palRec{0, 0, pal_depth};
         if (!IRenderer::GetRenderer()->PalAlloc(palRec))
         {
-            bPalAllocOK = false;
+            ALIVE_FATAL("PalAlloc failed");
         }
 
         field_8C_pal_vram_xy.field_0_x = palRec.x;
         field_8C_pal_vram_xy.field_2_y = palRec.y;
         field_90_pal_depth = palRec.depth;
 
-        if (bVramAllocOK && bPalAllocOK)
-        {
-            IRenderer::GetRenderer()->PalSetData(palRec, pClut + 4); // +4 Skip len, load pal
-        }
-    }
-
-    const bool bOk = bVramAllocOK && bPalAllocOK;
-    if (!bOk)
-    {
-        return 0;
+        IRenderer::GetRenderer()->PalSetData(palRec, pClut + 4); // +4 Skip len, load pal
     }
 
     field_28_dbuf_size = maxH * (vram_width + 3);

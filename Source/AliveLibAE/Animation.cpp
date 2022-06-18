@@ -900,30 +900,12 @@ s16 Animation::Init(s32 frameTableOffset, DynamicArray* /*animList*/, BaseGameOb
     field_84_vram_rect.w = 0;
     field_90_pal_depth = 0;
 
-    //if (bOwnsPalData)
-    {
-        mAnimFlags.Set(AnimFlags::eBit17_bOwnPal);
-    }
+    mAnimFlags.Set(AnimFlags::eBit17_bOwnPal);
 
     mAnimFlags.Clear(AnimFlags::eBit24);
     mAnimFlags.Clear(AnimFlags::eBit23);
     mAnimFlags.Clear(AnimFlags::eBit22_DeadMode);
 
-    // TODO: Refactor
-    if (*((u32*) *ppAnimData + 2) != 0)
-    {
-        // Never in any source data ?
-        mAnimFlags.Set(AnimFlags::eBit22_DeadMode);
-        ALIVE_FATAL("This can't happen");
-    }
-
-    // NOTE: All branches related to bit 22 removed
-    if (mAnimFlags.Get(AnimFlags::eBit22_DeadMode))
-    {
-        ALIVE_FATAL("Unknown data");
-    }
-
-    mAnimFlags.Clear(AnimFlags::eBit16_bBlending);
     mAnimFlags.Clear(AnimFlags::eBit15_bSemiTrans);
     mAnimFlags.Set(AnimFlags::eBit16_bBlending);
 
@@ -987,6 +969,9 @@ s16 Animation::Init(s32 frameTableOffset, DynamicArray* /*animList*/, BaseGameOb
 
     if (!Vram_alloc_4956C0(maxW, maxH, pFrameHeader->field_6_colour_depth, &field_84_vram_rect))
     {
+        // Seems like this can at least happen with many bomb particles
+        // this will be fixed in the future
+        LOG_ERROR("Vram alloc failed");
         return 0;
     }
 	
@@ -999,8 +984,7 @@ s16 Animation::Init(s32 frameTableOffset, DynamicArray* /*animList*/, BaseGameOb
         IRenderer::PalRecord palRec{0, 0, pal_depth};
         if (!IRenderer::GetRenderer()->PalAlloc(palRec))
         {
-            Animation_Pal_Free();
-            return 0;
+            ALIVE_FATAL("PalAlloc failed");
         }
 
         field_8C_pal_vram_xy.field_0_x = palRec.x;
@@ -1009,8 +993,8 @@ s16 Animation::Init(s32 frameTableOffset, DynamicArray* /*animList*/, BaseGameOb
 
         IRenderer::GetRenderer()->PalSetData(palRec, pClut + 4); // +4 Skip len, load pal
     }
-    
-	field_28_dbuf_size = maxH * (vram_width + 3);
+
+    field_28_dbuf_size = maxH * (vram_width + 3);
     field_28_dbuf_size += 8; // Add 8 for some reason
     field_24_dbuf = nullptr;
 	
