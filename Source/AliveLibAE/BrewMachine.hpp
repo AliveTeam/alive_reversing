@@ -22,18 +22,18 @@ public:
     virtual void VRender(PrimHeader** ppOt) override;
 
 private:
-    Font_Context field_F4_font_context;
-    Alive::Font field_104_font;
-    s16 field_13C_textX;
-    s16 field_13E_textY;
-    s32 field_140_tlvInfo;
+    Font_Context field_F4_font_context = {};
+    Alive::Font field_104_font = {};
+    s16 field_13C_textX = 0;
+    s16 field_13E_textY = 0;
+    s32 field_140_tlvInfo = 0;
 
 public:
-    s16 field_144_total_brew_count;
+    s16 field_144_total_brew_count = 0;
 
 private:
-    Animation field_14C_anim;
-    s16 field_1E4_remaining_brew_count;
-    s16 field_1E6_cam_id;
+    Animation field_14C_anim = {};
+    s16 field_1E4_remaining_brew_count = 0;
+    s16 field_1E6_cam_id = 0;
 };
 ALIVE_ASSERT_SIZEOF(BrewMachine, 0x1E8);

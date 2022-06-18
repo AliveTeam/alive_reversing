@@ -3,6 +3,7 @@
 #include "BaseAnimatedWithPhysicsGameObject.hpp"
 #include "Path.hpp"
 #include "../AliveLibCommon/Function.hpp"
+#include "SwitchStates.hpp"
 
 enum class LeverState : s16
 {
@@ -21,8 +22,6 @@ enum class LeverSoundType : s16
     eSecurityOrb_5 = 5,
     eLift_6 = 6
 };
-
-enum class SwitchOp : s16;
 
 enum class LeverSoundDirection : s16
 {
@@ -55,18 +54,18 @@ public:
     virtual s16 VPull(s16 bLeftDirection);
 
 private:
-    s16 field_F4_switch_id;
-    LeverState field_F8_state;
-    s32 field_FC_tlvInfo;
+    s16 field_F4_switch_id = 0;
+    LeverState field_F8_state = LeverState::eWaiting_0;
+    s32 field_FC_tlvInfo = 0;
     enum Flags_100
     {
         eBit1_lever_anim_left_direction = 0x1,
         eBit2_persist_offscreen = 0x2,
     };
-    BitField16<Flags_100> field_100_flags;
-    SwitchOp field_102_action;
-    LeverSoundType field_104_on_sound;
-    LeverSoundType field_106_off_sound;
-    LeverSoundDirection field_108_sound_direction;
+    BitField16<Flags_100> field_100_flags = {};
+    SwitchOp field_102_action = SwitchOp::eSetTrue_0;
+    LeverSoundType field_104_on_sound = LeverSoundType::eNone;
+    LeverSoundType field_106_off_sound = LeverSoundType::eNone;
+    LeverSoundDirection field_108_sound_direction = LeverSoundDirection::eLeftAndRight_0;
 };
 ALIVE_ASSERT_SIZEOF(Lever, 0x10C);

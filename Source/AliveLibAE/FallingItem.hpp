@@ -51,19 +51,19 @@ private:
         eFalling_3 = 3,
         eSmashed_4 = 4
     };
-    State field_11C_state;
-    s16 field_11E_switch_id;
-    s16 field_120_max_falling_items;
-    s16 field_122_remaining_falling_items;
-    s16 field_124_fall_interval;
-    s32 field_128_fall_interval_timer;
-    Choice_short field_12C_reset_switch_id_after_use;
-    s16 field_12E_do_sound_in_state_falling;
-    FP field_130_yPosStart;
-    s16 field_134_bHitDrillOrMineCar;
-    FP field_138_xpos;
-    FP field_13C_ypos;
-    s32 field_140_sound_channels;
-    s32 field_144_created_gnFrame;
+    State field_11C_state = State::eWaitForIdEnable_0;
+    s16 field_11E_switch_id = 0;
+    s16 field_120_max_falling_items = 0;
+    s16 field_122_remaining_falling_items = 0;
+    s16 field_124_fall_interval = 0;
+    s32 field_128_fall_interval_timer = 0;
+    Choice_short field_12C_reset_switch_id_after_use = Choice_short::eNo_0;
+    s16 field_12E_do_sound_in_state_falling = 0;
+    FP field_130_yPosStart = {};
+    s16 field_134_bHitDrillOrMineCar = 0;
+    FP field_138_xpos = {};
+    FP field_13C_ypos = {};
+    s32 field_140_sound_channels = 0;
+    s32 field_144_created_gnFrame = 0;
 };
 ALIVE_ASSERT_SIZEOF(FallingItem, 0x148);

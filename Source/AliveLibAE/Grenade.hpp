@@ -84,16 +84,16 @@ private:
 
 
 private:
-    s32 field_11C_explosion_id;
-    GrenadeStates field_120_state;
-    s16 field_122_explode_timer;
-    s16 field_124;
-    s16 field_126_input;
-    FP field_128_xpos;
-    FP field_12C_ypos;
-    s16 field_130_unused;
-    s16 field_132_bBlowUpOnCollision;
-    s16 field_134_bExplodeNow;
-    BaseGameObject* field_138_pOwner;
+    s32 field_11C_explosion_id = 0;
+    GrenadeStates field_120_state = GrenadeStates::eFallingToBeCollected_0;
+    s16 field_122_explode_timer = 0;
+    s16 field_124 = 0;
+    s16 field_126_input = 0;
+    FP field_128_xpos = {};
+    FP field_12C_ypos = {};
+    s16 field_130_unused = 0;
+    s16 field_132_bBlowUpOnCollision = 0;
+    s16 field_134_bExplodeNow = 0;
+    BaseGameObject* field_138_pOwner = nullptr;
 };
 ALIVE_ASSERT_SIZEOF(Grenade, 0x13C);

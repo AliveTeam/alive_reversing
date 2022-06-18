@@ -4,8 +4,8 @@
 #include "BaseAliveGameObject.hpp"
 #include "Path.hpp"
 #include "GameSpeak.hpp"
-
-enum class RingTypes : s16;
+#include "AbilityRing.hpp"
+#include "Abe.hpp" // MudSounds only
 
 enum class Mud_State : s16
 {
@@ -174,7 +174,6 @@ enum eMudMotions : u16
 };
 
 enum class MudAction : s16;
-enum class MudSounds : s16;
 
 class BirdPortal;
 
@@ -435,25 +434,25 @@ private:
     static const MudEmotionTableEntry* GetResponseEntry_471790(s32 idx);
 
 private:
-    s32 field_118_tlvInfo;
-    s32 field_11C_bird_portal_id;
-    s16 field_120_angry_switch_id;
-    s32 field_124;
-    s32 field_128_angry_timer;
-    s32 field_12C_unused;
-    s16 field_130_unused;
-    FP field_134_xVelSlowBy;
-    s32 field_138_unused;
-    s16 field_13C_voice_pitch;
-    s32 field_140_last_event_index;
-    s16 field_154_unused;
-    s16 field_156_unused;
-    s32 field_158_wheel_id;
-    s32 field_15C_unused;
-    MudSounds field_160_delayed_speak;
-    s16 field_162_maxXOffset;
-    s32 field_164_ring_pulse_interval;
-    RingTypes field_168_ring_type;
+    s32 field_118_tlvInfo = 0;
+    s32 field_11C_bird_portal_id = 0;
+    s16 field_120_angry_switch_id = 0;
+    s32 field_124 = 0;
+    s32 field_128_angry_timer = 0;
+    s32 field_12C_unused = 0;
+    s16 field_130_unused = 0;
+    FP field_134_xVelSlowBy = {};
+    s32 field_138_unused = 0;
+    s16 field_13C_voice_pitch = 0;
+    s32 field_140_last_event_index = 0;
+    s16 field_154_unused = 0;
+    s16 field_156_unused = 0;
+    s32 field_158_wheel_id = 0;
+    s32 field_15C_unused = 0;
+    MudSounds field_160_delayed_speak = MudSounds::eEmpty_0;
+    s16 field_162_maxXOffset = 0;
+    s32 field_164_ring_pulse_interval = 0;
+    RingTypes field_168_ring_type = RingTypes::eExplosive_Pulse_0;
 
     enum Flags_16A
     {
@@ -483,7 +482,7 @@ private:
         eBit24_padding = 0x800000,
         eBit25_padding = 0x1000000,
     };
-    BitField16<Flags_16A> field_16A_flags;
+    BitField16<Flags_16A> field_16A_flags = {};
 
     enum Flags_16C
     {
@@ -491,19 +490,19 @@ private:
         eBit2_Unknown = 0x2,
         eBit3_Unknown = 0x4,
     };
-    BitField16<Flags_16C> field_16C_flags;
-    s16 field_178_brain_sub_state2;
-    s16 field_17A_rescue_switch_id;
-    s16 field_17C_stand_idle_timer;
-    MudAction field_17E_delayed_speak;
-    Mud_Emotion field_180_emo_tbl;
-    GameSpeakEvents field_182;
-    eMudMotions field_184_next_motion2;
-    const struct MudEmotionTableEntry* field_188_pTblEntry;
-    s16 field_18C_unused;
+    BitField16<Flags_16C> field_16C_flags = {};
+    s16 field_178_brain_sub_state2 = 0;
+    s16 field_17A_rescue_switch_id = 0;
+    s16 field_17C_stand_idle_timer = 0;
+    MudAction field_17E_delayed_speak = MudAction::eHelloOrAllYa_0;
+    Mud_Emotion field_180_emo_tbl = Mud_Emotion::eNormal_0;
+    GameSpeakEvents field_182 = GameSpeakEvents::eUnknown_0;
+    eMudMotions field_184_next_motion2 = eMudMotions::M_Idle_0_4724E0;
+    const struct MudEmotionTableEntry* field_188_pTblEntry = nullptr;
+    s16 field_18C_unused = 0;
 
 public:
-    Mud_Brain_State field_18E_brain_state;
+    Mud_Brain_State field_18E_brain_state = Mud_Brain_State::Brain_0_GiveRings_470C10;
 
 private:
     s16 field_190_brain_sub_state;

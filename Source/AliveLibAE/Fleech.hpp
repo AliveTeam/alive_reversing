@@ -300,16 +300,16 @@ private:
         eBit14 = 0x2000,
         eBit15 = 0x4000,
     };
-    BitField16<Flags_174> field_174_flags;
+    BitField16<Flags_174> field_174_flags = {};
     s16 field_176 = 0;
     s16 field_178_tongue_state = 0;
     s16 field_17A_tongue_sub_state = 0;
-    s16 field_17C= 0;
-    s16 field_17E= 0;
-    s16 field_180_tongue_x= 0;
-    s16 field_182_tongue_y= 0;
-    s16 field_184_target_x= 0;
-    s16 field_186_target_y= 0;
+    s16 field_17C = 0;
+    s16 field_17E = 0;
+    s16 field_180_tongue_x = 0;
+    s16 field_182_tongue_y = 0;
+    s16 field_184_target_x = 0;
+    s16 field_186_target_y = 0;
     s16 field_188 = 0;
 
     enum Flags_18A
@@ -322,7 +322,7 @@ private:
         e18A_Bit6 = 0x20,
         e18A_Bit7 = 0x40,
     };
-    BitField16<Flags_18A> field_18A;
+    BitField16<Flags_18A> field_18A = {};
     Poly_G4 field_18C_tongue_polys1[4][2] = {};
     Poly_G4 field_2CC_tongue_polys2[4][2] = {};
     Prim_SetTPage field_40C[2] = {};

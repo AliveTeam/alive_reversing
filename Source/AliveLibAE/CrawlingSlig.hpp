@@ -208,9 +208,9 @@ private:
     s32 field_1D4_obj_id = 0;
     s32 field_1D8_obj_id = 0;
     s32 field_1DC_unused = 0;
-    Path_CrawlingSlig::CrawlDirection field_1E0_crawl_direction;
-    Path_TLV* field_1E4_pPantsOrWingsTlv;
-    Path_CrawlingSlig field_1E8_tlv;
+    Path_CrawlingSlig::CrawlDirection field_1E0_crawl_direction = Path_CrawlingSlig::CrawlDirection::eLeft_0;
+    Path_TLV* field_1E4_pPantsOrWingsTlv = nullptr;
+    Path_CrawlingSlig field_1E8_tlv = {};
     TCrawlingSligBrainFn field_204_brain_state = nullptr;
     s16 field_208_brain_sub_state = 0;
 };

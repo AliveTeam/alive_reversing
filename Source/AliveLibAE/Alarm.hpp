@@ -18,12 +18,12 @@ public:
     ~Alarm();
 
 private:
-    s16 mAlarmRed;
-    s32 mAlarmPauseTimer;
-    s32 mAlarmDurationTimer;
-    s32 mAlarmTlvInfo;
-    s16 mAlarmSwitchId;
-    u16 mAlarmDuration;
+    s16 mAlarmRed = 0;
+    s32 mAlarmPauseTimer = 0;
+    s32 mAlarmDurationTimer = 0;
+    s32 mAlarmTlvInfo = 0;
+    s16 mAlarmSwitchId = 0;
+    u16 mAlarmDuration = 0;
     enum class States : s16
     {
         eWaitForSwitchEnable_0 = 0,
@@ -33,7 +33,7 @@ private:
         eDisabling_4 = 4,
         eDisabled_5 = 5,
     };
-    States mAlarmState;
+    States mAlarmState = States::eWaitForSwitchEnable_0;
 };
 ALIVE_ASSERT_SIZEOF(Alarm, 0x94);
 

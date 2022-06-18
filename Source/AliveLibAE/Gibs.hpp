@@ -52,12 +52,12 @@ public:
     virtual void VRender(PrimHeader** ppOt) override;
 
 private:
-    void* field_F4_not_used; // Used to be gib data, only used in ctor and replaced with AnimRecords
-    FP field_F8_z;
-    FP field_FC_dz;
-    s32 field_100_timer;
-    GibPart field_104_parts[7];
-    s16 field_5D4_parts_used_count;
-    bool field_5D6_bMakeSmaller;
+    void* field_F4_not_used = nullptr; // Used to be gib data, only used in ctor and replaced with AnimRecords
+    FP field_F8_z = {};
+    FP field_FC_dz = {};
+    s32 field_100_timer = 0;
+    GibPart field_104_parts[7] = {};
+    s16 field_5D4_parts_used_count = 0;
+    bool field_5D6_bMakeSmaller = false;
 };
 ALIVE_ASSERT_SIZEOF(Gibs, 0x5D8);

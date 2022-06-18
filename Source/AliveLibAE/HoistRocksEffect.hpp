@@ -29,11 +29,11 @@ public:
     virtual void VScreenChanged() override;
 
 private:
-    s16 field_20_xpos;
-    s16 field_22_ypos;
-    s32 field_24_tlvInfo;
-    s32 field_28_timer;
-    FP field_2C_scale;
-    HoistRockParticle field_30_rocks[4];
+    s16 field_20_xpos = 0;
+    s16 field_22_ypos = 0;
+    s32 field_24_tlvInfo = 0;
+    s32 field_28_timer = 0;
+    FP field_2C_scale = {};
+    HoistRockParticle field_30_rocks[4] = {};
 };
 ALIVE_ASSERT_SIZEOF(HoistRocksEffect, 0x2D0);

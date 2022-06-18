@@ -17,16 +17,16 @@ public:
     s32 ObjectId() const;
 
 private:
-    s32 field_20_time_to_flicker;
+    s32 field_20_time_to_flicker = 0;
 
-    s16 field_24_r;
-    s16 field_26_g;
-    s16 field_28_b;
+    s16 field_24_r = 0;
+    s16 field_26_g = 0;
+    s16 field_28_b = 0;
 
-    s16 field_2A_old_r;
-    s16 field_2C_old_g;
-    s16 field_2E_old_b;
+    s16 field_2A_old_r = 0;
+    s16 field_2C_old_g = 0;
+    s16 field_2E_old_b = 0;
 
-    s32 field_30_obj_id;
+    s32 field_30_obj_id = 0;
 };
 ALIVE_ASSERT_SIZEOF(PossessionFlicker, 0x34);

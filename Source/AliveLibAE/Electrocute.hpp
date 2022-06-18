@@ -24,17 +24,17 @@ private:
     s32 vSub_4E6630();
 
 public:
-    s32 field_20_target_obj_id;
-    s16 field_24_r;
-    s16 field_26_g;
-    s16 field_28_b;
+    s32 field_20_target_obj_id = 0;
+    s16 field_24_r = 0;
+    s16 field_26_g = 0;
+    s16 field_28_b = 0;
 
 private:
-    s16 field_2C_bKillTarget;
-    s16 field_2E_overwriter_count;
-    PalleteOverwriter* field_30_pPalOverwriters[3];
-    s16 field_3C_extraOverwriter;
-    u16* field_40_pPalData;
+    s16 field_2C_bKillTarget = 0;
+    s16 field_2E_overwriter_count = 0;
+    PalleteOverwriter* field_30_pPalOverwriters[3] = {};
+    s16 field_3C_extraOverwriter = 0;
+    u16* field_40_pPalData = nullptr;
     enum class States : s16
     {
         eSetNewColour_0 = 0,
@@ -42,7 +42,7 @@ private:
         eHandleDamage_2 = 2,
         eKillElectrocute_3 = 3
     };
-    States field_44_state;
-    PSX_RECT field_4C_pal_rect;
+    States field_44_state = States::eSetNewColour_0;
+    PSX_RECT field_4C_pal_rect = {};
 };
 ALIVE_ASSERT_SIZEOF(Electrocute, 0x54);

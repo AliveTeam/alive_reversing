@@ -35,8 +35,8 @@ private:
     };
     TeleporterState field_30_state = TeleporterState::eWaitForSwitchOn_0;
     s16 field_32_bDestroySelf = 0;
-    Path_Teleporter_Data field_34_mTlvData;
-    Path_Teleporter* field_4C_pTlv;
+    Path_Teleporter_Data field_34_mTlvData = {};
+    Path_Teleporter* field_4C_pTlv = nullptr;
     s32 field_50_objId = 0;
     s16 field_54_effect_created = 0;
 };

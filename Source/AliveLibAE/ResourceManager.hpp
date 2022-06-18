@@ -97,10 +97,10 @@ public:
         {
 
         }
-        char_type* field_0_fileName;
-        ResourcesToLoadList* field_4_pResourcesToLoadList;
-        u32 field_8_type;
-        u32 field_C_id;
+        char_type* field_0_fileName = nullptr;
+        ResourcesToLoadList* field_4_pResourcesToLoadList = nullptr;
+        u32 field_8_type = 0;
+        u32 field_C_id = 0;
         DynamicArrayT<ResourceManager_FilePartRecord_18> field_10_file_sections_dArray;
     };
     ALIVE_ASSERT_SIZEOF(ResourceManager_FileRecord, 0x1C);
@@ -173,15 +173,15 @@ private:
     };
 
     DynamicArrayT<ResourceManager_FileRecord> field_20_files_pending_loading;
-    ResourceManager_FileRecord* field_2C_pFileItem;
-    s32 field_30_start_sector;
-    s32 field_34_num_sectors;
-    u8** field_38_ppRes;
-    Header* field_3C_pLoadingHeader;
-    s8 field_40_seek_attempts;
-    LoadingStates field_42_state;
-    CdlLOC field_44_cdLoc;
-    DynamicArrayT<u8*> field_48_dArray;
+    ResourceManager_FileRecord* field_2C_pFileItem = nullptr;
+    s32 field_30_start_sector = 0;
+    s32 field_34_num_sectors = 0;
+    u8** field_38_ppRes = nullptr;
+    Header* field_3C_pLoadingHeader = nullptr;
+    s8 field_40_seek_attempts = 0;
+    LoadingStates field_42_state = LoadingStates::State_Wait_For_Load_Request;
+    CdlLOC field_44_cdLoc = {};
+    DynamicArrayT<u8*> field_48_dArray ;
 };
 ALIVE_ASSERT_SIZEOF(ResourceManager, 0x54);
 

@@ -99,11 +99,11 @@ private:
     void RestartPath();
 
 public:
-    Alive::Font field_F4_font;
-    s16 word12C_flags;
-    s16 field_12E_selected_glow;
-    s16 field_130_selected_glow_counter;
-    s16 field_132_padding;
+    Alive::Font field_F4_font = {};
+    s16 word12C_flags = 0;
+    s16 field_12E_selected_glow = 0;
+    s16 field_130_selected_glow_counter = 0;
+    s16 field_132_padding = 0;
 
     enum MainPages : s16
     {
@@ -117,10 +117,10 @@ public:
         ePage_Quit_7 = 7,
     };
 
-    /*MainPages*/ s16 field_134_index_main;
-    s16 field_136_unused;
-    s16 field_138_control_action_page_index;
-    s16 field_13A_unused;
+    /*MainPages*/ s16 field_134_index_main = 0;
+    s16 field_136_unused = 0;
+    s16 field_138_control_action_page_index = 0;
+    s16 field_13A_unused = 0;
 
     enum class SaveState : s16
     {
@@ -128,16 +128,16 @@ public:
         DoSave_4 = 4,
         SaveConfirmOverwrite_8 = 8,
     };
-    SaveState field_13C_save_state;
+    SaveState field_13C_save_state = SaveState::ReadingInput_0;
 
-    s16 field_13E_unused;
-    s16 field_140_unused;
-    s16 field_142_poly_offset;
-    PauseMenu::PauseMenuPage field_144_active_menu;
-    Animation field_158_animation;
-    Prim_SetTPage field_1F0_primitives[2];
-    Poly_F4 field_210_polygons[2];
-    Prim_SetTPage field_248_padding[2];
+    s16 field_13E_unused = 0;
+    s16 field_140_unused = 0;
+    s16 field_142_poly_offset = 0;
+    PauseMenu::PauseMenuPage field_144_active_menu = {};
+    Animation field_158_animation = {};
+    Prim_SetTPage field_1F0_primitives[2] = {};
+    Poly_F4 field_210_polygons[2] = {};
+    Prim_SetTPage field_248_padding[2] = {};
 };
 ALIVE_ASSERT_SIZEOF(PauseMenu, 0x268);
 

@@ -179,13 +179,13 @@ public:
     void ShutDown_45F020();
 
 public:
-    InputPadObject field_0_pads[2];
-    u32** field_30_pDemoRes;
-    u32 field_34_demo_command_index;
-    u16 field_38_bDemoPlaying;
-    u16 field_3A_pad_idx;
-    u32 field_3C_command;
-    u32 field_40_command_duration;
+    InputPadObject field_0_pads[2] = {};
+    u32** field_30_pDemoRes = nullptr;
+    u32 field_34_demo_command_index = 0;
+    u16 field_38_bDemoPlaying = 0;
+    u16 field_3A_pad_idx = 0;
+    u32 field_3C_command = 0;
+    u32 field_40_command_duration = 0;
     bool isPressed(u32 command);
     bool isHeld(u32 command);
     bool IsReleased(u32 keys);

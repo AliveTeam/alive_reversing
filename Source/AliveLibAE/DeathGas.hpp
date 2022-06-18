@@ -17,10 +17,10 @@ public:
     virtual void VRender(PrimHeader** ppOt) override;
 
 private:
-    s16 field_20_total;
-    s16 field_22_unused; // Gets increased by two every vUpdate_43C300. Isn't used anywhere else -- Nemin (6/7/2020)
-    s16 field_24_amount;
-    s16 field_26_flag;
-    Layer field_28_layer;
+    s16 field_20_total = 0;
+    s16 field_22_unused = 0; // Gets increased by two every vUpdate_43C300. Isn't used anywhere else -- Nemin (6/7/2020)
+    s16 field_24_amount = 0;
+    s16 field_26_flag = 0;
+    Layer field_28_layer = Layer::eLayer_0;
 };
 ALIVE_ASSERT_SIZEOF(DeathGas, 0x30);

@@ -29,9 +29,9 @@ public:
     virtual void VScreenChanged() override;
 
 private:
-    s32 field_F4_tlvInfo;
-    s16 field_F8_switch_id;
-    ElectricWallStartState field_FA_start_state;
-    s32 field_FC_sound_timer;
+    s32 field_F4_tlvInfo = 0;
+    s16 field_F8_switch_id = 0;
+    ElectricWallStartState field_FA_start_state = ElectricWallStartState::eOff_0;
+    s32 field_FC_sound_timer = 0;
 };
 ALIVE_ASSERT_SIZEOF(ElectricWall, 0x100);

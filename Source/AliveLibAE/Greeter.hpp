@@ -107,7 +107,7 @@ private:
     s16 field_12E_bDontSetDestroyed = 0;
     s16 field_130_bChasing = 0;
     FP field_134_speed = {};
-    Path_TLV* field_138_pTlv;
+    Path_TLV* field_138_pTlv = nullptr;
 
 public:
     GreeterBrainStates field_13C_brain_state = GreeterBrainStates::eBrain_0_Patrol;

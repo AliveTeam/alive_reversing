@@ -133,23 +133,23 @@ public:
     bool EnsureDecompressionBuffer();
     void UploadTexture(const FrameHeader* pFrameHeader, const PSX_RECT& vram_rect, s16 width_bpp_adjusted);
 
-    u16 field_10_frame_delay;
-    u16 field_12_scale; // padding?
-    FP field_14_scale;
-    u32 field_18_frame_table_offset;
-    s32(CC** field_1C_fn_ptr_array)(BaseGameObject*, s16*);
-    u8** field_20_ppBlock; // pointer to a pointer which points to anim data
-    u8** field_24_dbuf;
+    u16 field_10_frame_delay = 0;
+    u16 field_12_scale = 0; // padding?
+    FP field_14_scale = {};
+    u32 field_18_frame_table_offset = 0;
+    s32(CC** field_1C_fn_ptr_array)(BaseGameObject*, s16*) = nullptr;
+    u8** field_20_ppBlock = nullptr; // pointer to a pointer which points to anim data
+    u8** field_24_dbuf = nullptr;
 
-    u32 field_28_dbuf_size;
-    Poly_FT4 field_2C_ot_data[2];
+    u32 field_28_dbuf_size = 0;
+    Poly_FT4 field_2C_ot_data[2] = {};
 
-    PSX_RECT field_84_vram_rect;
-    PSX_Point field_8C_pal_vram_xy;
+    PSX_RECT field_84_vram_rect = {};
+    PSX_Point field_8C_pal_vram_xy = {};
 
-    s16 field_90_pal_depth;
-    s16 field_92_current_frame;
-    BaseGameObject* field_94_pGameObj;
+    s16 field_90_pal_depth = 0;
+    s16 field_92_current_frame = 0;
+    BaseGameObject* field_94_pGameObj = nullptr;
 };
 ALIVE_ASSERT_SIZEOF(Animation, 0x98);
 

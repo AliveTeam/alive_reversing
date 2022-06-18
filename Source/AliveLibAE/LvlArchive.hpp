@@ -45,10 +45,10 @@ public:
     }
 
 private:
-    u8** field_0_0x2800_res;
+    u8** field_0_0x2800_res = nullptr;
 
 public:
-    u32 field_4_cd_pos;
+    u32 field_4_cd_pos = 0;
 };
 ALIVE_ASSERT_SIZEOF(LvlArchive, 0x8);
 

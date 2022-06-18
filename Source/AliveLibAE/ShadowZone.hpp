@@ -44,26 +44,26 @@ private:
     FP* GetColourAmount(FP* pOut, s16 xpos, s16 ypos);
 
 private:
-    s32 field_20_tlvInfo;
+    s32 field_20_tlvInfo = 0;
 
-    EReliveLevelIds field_24_level;
-    s16 field_26_path;
+    EReliveLevelIds field_24_level = EReliveLevelIds::eNone;
+    s16 field_26_path = 0;
 
-    s16 field_28_centre_x;
-    s16 field_2A_center_y;
+    s16 field_28_centre_x = 0;
+    s16 field_2A_center_y = 0;
 
-    s16 field_2C_centre_mid_x;
-    s16 field_2E_centre_mid_y;
+    s16 field_2C_centre_mid_x = 0;
+    s16 field_2E_centre_mid_y = 0;
 
-    s16 field_30_mid_x;
-    s16 field_32_mid_y;
+    s16 field_30_mid_x = 0;
+    s16 field_32_mid_y = 0;
 
-    s16 field_34_switch_id;
+    s16 field_34_switch_id = 0;
 
-    ShadowZoneScale field_36_scale;
+    ShadowZoneScale field_36_scale = ShadowZoneScale::eBoth_0;
 
-    FP field_38_r;
-    FP field_3C_g;
-    FP field_40_b;
+    FP field_38_r = {};
+    FP field_3C_g = {};
+    FP field_40_b = {};
 };
 ALIVE_ASSERT_SIZEOF(ShadowZone, 0x44);

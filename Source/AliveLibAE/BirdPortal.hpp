@@ -99,11 +99,11 @@ private:
     Event GetEvent();
 
 private:
-    s32 field_20_tlvInfo;
+    s32 field_20_tlvInfo = 0;
 
 public:
-    PortalType field_24_portal_type;
-    PortalSide field_26_side;
+    PortalType field_24_portal_type = PortalType::eAbe_0;
+    PortalSide field_26_side = PortalSide::eRight_0;
 
 public:
     enum class PortalStates : s16
@@ -132,37 +132,37 @@ public:
         KillPortalClipper_21 = 21,
         FadeoutTerminators_22 = 22,
     };
-    PortalStates field_28_state;
+    PortalStates field_28_state = PortalStates::CreatePortal_0;
 
 public:
-    FP field_2C_xpos;
-    FP field_30_ypos;
-    FP field_34_exit_x;
-    FP field_38_exit_y;
+    FP field_2C_xpos = {};
+    FP field_30_ypos = {};
+    FP field_34_exit_x = {};
+    FP field_38_exit_y = {};
 
 public:
-    FP field_3C_YPos;
+    FP field_3C_YPos = {};
 
 private:
-    s32 field_40_throwable_indicator_id;
-    s32 field_44_dove_ids[6];
-    s32 field_5C_timer;
-    FP field_60_scale;
-    s16 field_64_movie_id;
-    s16 field_66_delete_portal_switch_id;
-    s16 field_68_doves_exist;
-    s32 field_6C_terminator_id;
-    s32 field_70_terminator_id;
-    s32 field_74_screen_clipper_id;
-    s32 field_78_screen_clipper_id;
-    EReliveLevelIds field_7C_dest_level;
-    s16 field_7E_dest_path;
-    s16 field_80_dest_camera;
-    s16 field_82_num_muds_for_shrykull;
-    s16 field_84_received_doves;
-    OrbWhirlWind* field_88_pWhirlWind;
-    EReliveLevelIds field_8C_level;
-    s16 field_8E_path;
-    s32 field_90_sfx_ret;
+    s32 field_40_throwable_indicator_id = 0;
+    s32 field_44_dove_ids[6] = {};
+    s32 field_5C_timer = 0;
+    FP field_60_scale = {};
+    s16 field_64_movie_id = 0;
+    s16 field_66_delete_portal_switch_id = 0;
+    s16 field_68_doves_exist = 0;
+    s32 field_6C_terminator_id = 0;
+    s32 field_70_terminator_id = 0;
+    s32 field_74_screen_clipper_id = 0;
+    s32 field_78_screen_clipper_id = 0;
+    EReliveLevelIds field_7C_dest_level = EReliveLevelIds::eNone;
+    s16 field_7E_dest_path = 0;
+    s16 field_80_dest_camera = 0;
+    s16 field_82_num_muds_for_shrykull = 0;
+    s16 field_84_received_doves = 0;
+    OrbWhirlWind* field_88_pWhirlWind = nullptr;
+    EReliveLevelIds field_8C_level = EReliveLevelIds::eNone;
+    s16 field_8E_path = 0;
+    s32 field_90_sfx_ret = 0;
 };
 ALIVE_ASSERT_SIZEOF(BirdPortal, 0x100);

@@ -95,13 +95,13 @@ public:
 
     static void AnimateAll(DynamicArrayT<AnimationBase>* pAnimations);
 
-    BitField32<AnimFlags> mAnimFlags;
+    BitField32<AnimFlags> mAnimFlags = {};
 
-    u8 mRed;
-    u8 mGreen;
-    u8 mBlue;
-    TPageAbr mRenderMode;
-    Layer mRenderLayer;
-    u16 mFrameChangeCounter;
+    u8 mRed = 0;
+    u8 mGreen = 0;
+    u8 mBlue = 0;
+    TPageAbr mRenderMode = TPageAbr::eBlend_0;
+    Layer mRenderLayer = Layer::eLayer_0;
+    u16 mFrameChangeCounter = 0;
 };
 ALIVE_ASSERT_SIZEOF(AnimationBase, 0x10);

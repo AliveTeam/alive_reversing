@@ -31,12 +31,12 @@ private:
         eFinish_3 = 3,
         eKillTargets_4 = 4,
     };
-    State field_118_state;
-    s32 field_11C_timer;
-    s32 field_120_timer;
-    s32 field_124_zap_line_id;
-    s32 field_128_obj_being_zapped_id;
-    s16 field_12C_bElectrocute;
-    s16 field_12E_bResetRingTimer;
+    State field_118_state = State::eTransform_0;
+    s32 field_11C_timer = 0;
+    s32 field_120_timer = 0;
+    s32 field_124_zap_line_id = 0;
+    s32 field_128_obj_being_zapped_id = 0;
+    s16 field_12C_bElectrocute = 0;
+    s16 field_12E_bResetRingTimer = 0;
 };
 ALIVE_ASSERT_SIZEOF(Shrykull, 0x130);

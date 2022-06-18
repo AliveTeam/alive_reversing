@@ -42,13 +42,13 @@ private:
     void StickToLiftPoint();
 
 public:
-    u16 field_118_armed;
-    u16 field_11A_ticks_before_explosion;
-    u32 field_11C_tlv;
-    u32 field_120_gnframe;
-    Animation field_124_animation;
-    u32 field_1BC_gnFrame_2;
-    u32 field_1C0_detonation_timer;
-    BitField32<TimedMine_Flags_1C4> field_1C4_flags;
+    u16 field_118_armed = 0;
+    u16 field_11A_ticks_before_explosion = 0;
+    u32 field_11C_tlv = 0;
+    u32 field_120_gnframe = 0;
+    Animation field_124_animation = {};
+    u32 field_1BC_gnFrame_2 = 0;
+    u32 field_1C0_detonation_timer = 0;
+    BitField32<TimedMine_Flags_1C4> field_1C4_flags = {};
 };
 ALIVE_ASSERT_SIZEOF(TimedMine, 0x1C8);

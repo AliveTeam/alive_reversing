@@ -89,34 +89,34 @@ public:
         eSliceCam_1 = 1,
         eInstantChange_2 = 2
     };
-    CamChangeStates field_6_state;
-    s16 field_8_force_load;
+    CamChangeStates field_6_state = CamChangeStates::eInactive_0;
+    s16 field_8_force_load = 0;
 
-    CameraSwapEffects field_10_screen_change_effect;
-    u16 field_12_fmv_base_id;
+    CameraSwapEffects field_10_screen_change_effect = CameraSwapEffects::eInstantChange_0;
+    u16 field_12_fmv_base_id = 0;
 
-    MapDirections field_14_direction;
+    MapDirections field_14_direction = MapDirections::eMapLeft_0;
 
-    BaseAliveGameObject* field_18_pAliveObj;
+    BaseAliveGameObject* field_18_pAliveObj = nullptr;
 
-    CameraSwapEffects field_1C;
-    s16 field_1E_door;
-    s16 field_20;
+    CameraSwapEffects field_1C = CameraSwapEffects::eInstantChange_0;
+    s16 field_1E_door = 0;
+    s16 field_20 = 0;
 
-    FP_Point field_24_camera_offset;
+    FP_Point field_24_camera_offset = {};
 
-    Camera* field_2C_camera_array[5];
-    Camera* field_40_stru_5[5];
-    Map_PathsArray field_54_path_res_array;
+    Camera* field_2C_camera_array[5] = {};
+    Camera* field_40_stru_5[5] = {};
+    Map_PathsArray field_54_path_res_array = {};
 
-    s16 field_CC_unused;
-    s16 field_CE_free_all_anim_and_palts;
+    s16 field_CC_unused = 0;
+    s16 field_CE_free_all_anim_and_palts = 0;
 
-    s16 field_D0_cam_x_idx;
-    s16 field_D2_cam_y_idx;
+    s16 field_D0_cam_x_idx = 0;
+    s16 field_D2_cam_y_idx = 0;
 
-    const PathData* field_D4_ptr;
-    u8* field_D8_restore_quick_save;
+    const PathData* field_D4_ptr = nullptr;
+    u8* field_D8_restore_quick_save = nullptr;
 
 
     void ScreenChange();

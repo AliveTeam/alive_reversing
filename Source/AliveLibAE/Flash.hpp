@@ -11,6 +11,6 @@ public:
 
     virtual void VUpdate() override;
 private:
-    s32 field_78_flash_time;
+    s32 field_78_flash_time = 0;
 };
 ALIVE_ASSERT_SIZEOF(Flash, 0x7C);

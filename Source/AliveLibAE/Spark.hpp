@@ -37,18 +37,18 @@ public:
     virtual void VScreenChanged() override;
 
 private:
-    Prim_SetTPage field_20_tPage[2];
-    FP field_40_xpos;
-    FP field_44_ypos;
-    FP field_48_scale;
-    s16 field_4C_r;
-    s16 field_4E_g;
-    s16 field_50_b;
-    Layer field_52_layer;
-    u8** field_54_ppSprxRes;
-    SparkRes* field_58_pRes;
-    s16 field_5C_count;
-    s32 field_60_timer;
-    SparkType field_64_type;
+    Prim_SetTPage field_20_tPage[2] = {};
+    FP field_40_xpos = {};
+    FP field_44_ypos = {};
+    FP field_48_scale = {};
+    s16 field_4C_r = 0;
+    s16 field_4E_g = 0;
+    s16 field_50_b = 0;
+    Layer field_52_layer = Layer::eLayer_0;
+    u8** field_54_ppSprxRes = nullptr;
+    SparkRes* field_58_pRes = nullptr;
+    s16 field_5C_count = 0;
+    s32 field_60_timer = 0;
+    SparkType field_64_type = SparkType::eSmallChantParticle_0;
 };
 ALIVE_ASSERT_SIZEOF(Spark, 0x68);

@@ -30,10 +30,10 @@ public:
     virtual void VScreenChanged() override;
 
 private:
-    s32 field_20_tlvInfo;
-    Path_SlurgSpawner* field_24_slurg_tlv;
-    Slurg_Spawner_Path_Data field_28_path_data;
-    s16 field_3E_delay_counter;
-    u8 field_40_spawned_count;
+    s32 field_20_tlvInfo = 0;
+    Path_SlurgSpawner* field_24_slurg_tlv = nullptr;
+    Slurg_Spawner_Path_Data field_28_path_data = {};
+    s16 field_3E_delay_counter = 0;
+    u8 field_40_spawned_count = 0;
 };
 ALIVE_ASSERT_SIZEOF(SlurgSpawner, 0x3C);

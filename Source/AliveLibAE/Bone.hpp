@@ -71,14 +71,14 @@ private:
     void InTheAir();
 
 private:
-    BoneStates field_11C_state;
-    s16 field_11E_volume_modifier;
-    FP field_120_xpos;
-    FP field_124_ypos;
-    s32 field_128_shine_timer;
-    s32 field_12C_time_to_live;
-    s16 field_130_hit_object;
-    s16 field_132_padding;
+    BoneStates field_11C_state = BoneStates::eSpawned_0;
+    s16 field_11E_volume_modifier = 0;
+    FP field_120_xpos = {};
+    FP field_124_ypos = {};
+    s32 field_128_shine_timer = 0;
+    s32 field_12C_time_to_live = 0;
+    s16 field_130_hit_object = 0;
+    s16 field_132_padding = 0;
 };
 ALIVE_ASSERT_SIZEOF(Bone, 0x134);
 
@@ -103,12 +103,12 @@ public:
     virtual void VScreenChanged() override;
  
 private:
-    s32 field_118_tlvInfo;
-    s16 field_11C_bIs_hit;
-    s16 field_11E_count;
-    s16 field_120_allow_sound;
-    s16 field_122_force_play_sound;
-    FP field_124_velX;
-    FP field_128_velY;
+    s32 field_118_tlvInfo = 0;
+    s16 field_11C_bIs_hit = 0;
+    s16 field_11E_count = 0;
+    s16 field_120_allow_sound = 0;
+    s16 field_122_force_play_sound = 0;
+    FP field_124_velX = {};
+    FP field_128_velY = {};
 };
 ALIVE_ASSERT_SIZEOF(BoneBag, 0x12C);

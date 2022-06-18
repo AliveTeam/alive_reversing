@@ -14,8 +14,8 @@ public:
     virtual void VUpdate() override;
 
 private:
-    PathLine* BaseAliveGameObjectCollisionLine;
-    s16 field_FC_hitCount;
-    FP field_100_speed;
+    PathLine* BaseAliveGameObjectCollisionLine = nullptr;
+    s16 field_FC_hitCount = 0;
+    FP field_100_speed = {};
 };
 ALIVE_ASSERT_SIZEOF(BulletShell, 0x104);

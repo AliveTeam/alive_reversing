@@ -42,7 +42,7 @@ private:
         eBit2_Unknown = 0x2,
         eBit3_Unknown = 0x4,
     };
-    BitField16<Flags_22> field_22_flags;
+    BitField16<Flags_22> field_22_flags = {};
     DynamicArrayT<u8*> field_24_throwables;
 };
 ALIVE_ASSERT_SIZEOF(ThrowableArray, 0x30);

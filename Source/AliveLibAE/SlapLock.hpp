@@ -61,7 +61,7 @@ private:
     void SetInvisibilityTarget();
 
 private:
-    Path_SlapLock* field_118_pTlv;
+    Path_SlapLock* field_118_pTlv = nullptr;
     s32 field_11C_tlvInfo = 0;
     SlapLockStates field_120_state = SlapLockStates::eShaking_0;
     s32 field_124_timer1 = 0;

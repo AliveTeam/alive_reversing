@@ -340,6 +340,6 @@ private:
         eBit14_padding = 0x2000,
         eBit15_padding = 0x4000,
     };
-    BitField16<Flags_1AA> field_1AA_flags;
+    BitField16<Flags_1AA> field_1AA_flags = {};
 };
 //ALIVE_ASSERT_SIZEOF(Scrab, 0x1AC);

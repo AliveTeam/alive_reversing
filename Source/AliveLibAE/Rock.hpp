@@ -69,10 +69,10 @@ private:
     void BounceHorizontally( FP hitX, FP hitY );
 
 private:
-    RockStates field_11C_state;
-    s16 field_11E_volume;
-    FP field_120_xpos;
-    FP field_124_ypos;
-    s32 field_128_shimmer_timer;
+    RockStates field_11C_state = RockStates::eNone_0;
+    s16 field_11E_volume = 0;
+    FP field_120_xpos = {};
+    FP field_124_ypos = {};
+    s32 field_128_shimmer_timer = 0;
 };
 ALIVE_ASSERT_SIZEOF(Rock, 0x12C);

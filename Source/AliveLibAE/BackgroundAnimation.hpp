@@ -30,9 +30,9 @@ public:
     ~BackgroundAnimation();
 
 private:
-    AnimHeader** field_F4_res;
-    TlvItemInfoUnion field_F8_tlvInfo;
-    FP field_FC_animXPos;
-    FP field_100_animYPos;
+    AnimHeader** field_F4_res = nullptr;
+    TlvItemInfoUnion field_F8_tlvInfo = {};
+    FP field_FC_animXPos = {};
+    FP field_100_animYPos = {};
 };
 ALIVE_ASSERT_SIZEOF(BackgroundAnimation, 0x104);

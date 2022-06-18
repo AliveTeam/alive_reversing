@@ -32,12 +32,12 @@ public:
 
     s16 Convert_Chunk_To_Render_Block(const Fg1Chunk* pChunk, Fg1Block* pBlock);
 
-    s32 field_20_unused;
-    EReliveLevelIds field_24_level_id;
-    s16 field_26_path_id;
-    s16 field_28_render_block_count;
-    u8** field_2C_ptr;
-    Fg1Block* field_30_chnk_res;
+    s32 field_20_unused = 0;
+    EReliveLevelIds field_24_level_id = EReliveLevelIds::eNone;
+    s16 field_26_path_id = 0;
+    s16 field_28_render_block_count = 0;
+    u8** field_2C_ptr = nullptr;
+    Fg1Block* field_30_chnk_res = nullptr;
 };
 ALIVE_ASSERT_SIZEOF(FG1, 0x34);
 

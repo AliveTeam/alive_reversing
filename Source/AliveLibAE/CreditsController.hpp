@@ -17,8 +17,8 @@ public:
     ~CreditsController();
 
 public:
-    s32 field_20_next_cam_frame;
-    s16 field_24_camera_number;
+    s32 field_20_next_cam_frame = 0;
+    s16 field_24_camera_number = 0;
 };
 #pragma pack(pop)
 ALIVE_ASSERT_SIZEOF(CreditsController, 0x26);

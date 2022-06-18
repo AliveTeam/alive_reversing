@@ -28,24 +28,24 @@ public:
     virtual void VRender(PrimHeader** ppOt) override;
 
 private:
-    Font_Context field_20_font_context;
-    Alive::Font field_30_font;
-    s32 field_68_tlvInfo;
-    s16 field_6C_text_x;
-    s16 field_6E_text_y;
-    s16 field_70_polys_to_render_count;
-    s16 field_72_switch_id;
-    s16 field_74_tlv_x;
-    s16 field_76_tlv_y;
-    s16 field_78_count;
-    s16 field_7A_number_of_meter_bars;
-    s16 field_7C_mines_alarm_countdown;
-    s16 field_7E_starting_switch_state;
-    s16 field_80;
-    s16 field_82_bar_count;
-    Choice_short field_84_bStartFilled;
-    s16 field_86;
-    Poly_G4 field_88_polyG4s[2][kMeterBarsXCount];
+    Font_Context field_20_font_context = {};
+    Alive::Font field_30_font = {};
+    s32 field_68_tlvInfo = 0;
+    s16 field_6C_text_x = 0;
+    s16 field_6E_text_y = 0;
+    s16 field_70_polys_to_render_count = 0;
+    s16 field_72_switch_id = 0;
+    s16 field_74_tlv_x = 0;
+    s16 field_76_tlv_y = 0;
+    s16 field_78_count = 0;
+    s16 field_7A_number_of_meter_bars = 0;
+    s16 field_7C_mines_alarm_countdown = 0;
+    s16 field_7E_starting_switch_state = 0;
+    s16 field_80 = 0;
+    s16 field_82_bar_count = 0;
+    Choice_short field_84_bStartFilled = Choice_short::eNo_0;
+    s16 field_86 = 0;
+    Poly_G4 field_88_polyG4s[2][kMeterBarsXCount] = {};
 };
 ALIVE_ASSERT_SIZEOF(ColourfulMeter, 0x6c8);
 

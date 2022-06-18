@@ -3,8 +3,7 @@
 #include "BaseAnimatedWithPhysicsGameObject.hpp"
 #include "Path.hpp"
 #include "../AliveLibCommon/Function.hpp"
-
-enum class SwitchOp : s16;
+#include "SwitchStates.hpp"
 
 enum class PullRingSwitchSound : s16
 {
@@ -47,9 +46,9 @@ public:
     virtual void VMarkAsPulled();
 
 private:
-    s32 field_F4_stay_in_state_ticks;
-    s32 field_F8_rope_id;
-    s32 field_FC_ring_puller_id;
+    s32 field_F4_stay_in_state_ticks = 0;
+    s32 field_F8_rope_id = 0;
+    s32 field_FC_ring_puller_id = 0;
     enum class States : s16
     {
         eIdle_0 = 0,
@@ -57,13 +56,13 @@ private:
         eTriggerEvent_2 = 2,
         eReturnToIdle_3 = 3,
     };
-    States field_100_state;
-    s16 field_102_switch_id;
-    SwitchOp field_104_action;
-    PullRingSwitchSound field_106_on_sound;
-    PullRingSwitchSound field_108_off_sound;
-    PullRingSoundDirection field_10A_sound_direction;
-    s32 field_10C_is_pulled;
-    s32 field_110_tlvInfo;
+    States field_100_state = States::eIdle_0;
+    s16 field_102_switch_id = 0;
+    SwitchOp field_104_action = SwitchOp::eSetTrue_0;
+    PullRingSwitchSound field_106_on_sound = PullRingSwitchSound::eNone_0;
+    PullRingSwitchSound field_108_off_sound = PullRingSwitchSound::eNone_0;
+    PullRingSoundDirection field_10A_sound_direction = PullRingSoundDirection::eLeftAndRight_0;
+    s32 field_10C_is_pulled = 0;
+    s32 field_110_tlvInfo = 0;
 };
 ALIVE_ASSERT_SIZEOF(PullRingRope, 0x114);

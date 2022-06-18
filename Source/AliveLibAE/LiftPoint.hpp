@@ -79,24 +79,24 @@ private:
     void CreatePulleyIfExists();
 
 public:
-    s16 field_12C_bMoving;
+    s16 field_12C_bMoving = 0;
 
 private:
-    LiftPointStopType field_130_lift_point_stop_type;
-    s32 field_134_rope2_id;
-    s32 field_138_rope1_id;
-    Animation field_13C_lift_wheel;
-    Animation field_1D4_pulley_anim;
-    s16 field_26C_pulley_xpos;
-    s16 field_26E_pulley_ypos;
-    FP field_270_floorYLevel;
-    u8** field_274_ppRes;
+    LiftPointStopType field_130_lift_point_stop_type = LiftPointStopType::eTopFloor_0;
+    s32 field_134_rope2_id = 0;
+    s32 field_138_rope1_id = 0;
+    Animation field_13C_lift_wheel = {};
+    Animation field_1D4_pulley_anim = {};
+    s16 field_26C_pulley_xpos = 0;
+    s16 field_26E_pulley_ypos = 0;
+    FP field_270_floorYLevel = {};
+    u8** field_274_ppRes = nullptr;
 
 public:
-    u8 field_278_lift_point_id;
+    u8 field_278_lift_point_id = 0;
 
 private:
-    s32 field_27C_pTlv;
+    s32 field_27C_pTlv = 0;
     enum LiftFlags
     {
         eBit1_bTopFloor = 0x1,
@@ -108,6 +108,6 @@ private:
         eBit7_KeepOnMiddleFloor = 0x40,
         eBit8_bIgnoreLiftMover = 0x80,
     };
-    BitField16<LiftFlags> field_280_flags;
+    BitField16<LiftFlags> field_280_flags = {};
 };
 ALIVE_ASSERT_SIZEOF(LiftPoint, 0x284);

@@ -48,34 +48,34 @@ private:
     void sub_4328A0();
 
 private:
-    s32 field_24_tlvInfo;
-    s16 field_28_y;
-    s16 field_2A_x;
-    s16 field_2C_h;
-    s16 field_2E_w;
-    s16 field_34_bEnabled;
-    Choice_short field_36_bLaughing_gas;
-    Path_LaughingGas_Data field_48_tlv_data;
-    FP field_54_amount_on;
-    Layer field_58_layer;
+    s32 field_24_tlvInfo = 0;
+    s16 field_28_y = 0;
+    s16 field_2A_x = 0;
+    s16 field_2C_h = 0;
+    s16 field_2E_w = 0;
+    s16 field_34_bEnabled = 0;
+    Choice_short field_36_bLaughing_gas = Choice_short::eNo_0;
+    Path_LaughingGas_Data field_48_tlv_data = {};
+    FP field_54_amount_on = {};
+    Layer field_58_layer = Layer::eLayer_0;
 
-    Prim_GasEffect field_5C_prim;
+    Prim_GasEffect field_5C_prim = {};
 
-    f32 field_7C_gas_y[6][6];
-    f32 field_10C_gas_x[6][6];
+    f32 field_7C_gas_y[6][6] = {};
+    f32 field_10C_gas_x[6][6] = {};
 
-    u16* field_19C_pMem;
+    u16* field_19C_pMem = nullptr;
 
     struct Data final
     {
         f32 array_4[7];
     };
 
-    Data field_1A0_x_data[321];  // (640+2)/2
-    Data field_24D0_y_data[121]; // (480+4)/4
+    Data field_1A0_x_data[321] = {};  // (640+2)/2
+    Data field_24D0_y_data[121] = {}; // (480+4)/4
 
-    s32 field_31F8_w_count;
-    s32 field_31FC_h_count;
+    s32 field_31F8_w_count = 0;
+    s32 field_31FC_h_count = 0;
 };
 ALIVE_ASSERT_SIZEOF(LaughingGas, 0x3200);
 

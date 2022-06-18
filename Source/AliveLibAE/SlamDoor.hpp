@@ -44,12 +44,12 @@ private:
     void ClearInsideSlamDoor(BaseAliveGameObject* pObj, s16 xPosition, s16 width);
 
 private:
-    BitField16<SlamDoor_Flags_118> field_118_flags;
-    PathLine* field_11C_pCollisionLine_6_2;
-    PathLine* field_120_pCollisionLine_5_1;
-    s16 field_124_x1;
-    s16 field_126_y1;
-    s16 field_128_switch_id;
-    TlvItemInfoUnion field_12C_tlvInfo;
+    BitField16<SlamDoor_Flags_118> field_118_flags = {};
+    PathLine* field_11C_pCollisionLine_6_2 = nullptr;
+    PathLine* field_120_pCollisionLine_5_1 = nullptr;
+    s16 field_124_x1 = 0;
+    s16 field_126_y1 = 0;
+    s16 field_128_switch_id = 0;
+    TlvItemInfoUnion field_12C_tlvInfo = {};
 };
 ALIVE_ASSERT_SIZEOF(SlamDoor, 0x134);

@@ -35,17 +35,17 @@ public:
     void Start();
 
 private:
-    Prim_ScreenOffset field_20[2];
-    s16 field_40;
-    s16 field_42;
-    s16 field_44_start_delay;
-    s16 field_46_spacing_multiplicator;
-    PSX_RECT field_48_tlv_rect;
-    FP field_50_scale;
-    s16 field_54_switch_id;
-    s16 field_56_asset_interval;
-    s16 field_58_grid_spacing;
-    s16 field_5A_increasing_grid_spacing;
+    Prim_ScreenOffset field_20[2] = {};
+    s16 field_40 = 0;
+    s16 field_42 = 0;
+    s16 field_44_start_delay = 0;
+    s16 field_46_spacing_multiplicator = 0;
+    PSX_RECT field_48_tlv_rect = {};
+    FP field_50_scale = {};
+    s16 field_54_switch_id = 0;
+    s16 field_56_asset_interval = 0;
+    s16 field_58_grid_spacing = 0;
+    s16 field_5A_increasing_grid_spacing = 0;
 
     enum Flags_5C
     {
@@ -66,8 +66,8 @@ private:
         eBit15 = 0x4000,
         eBit16 = 0x8000,
     };
-    BitField16<Flags_5C> field_5C_flags;
-    s16 field_5E;
+    BitField16<Flags_5C> field_5C_flags = {};
+    s16 field_5E = 0;
 };
 ALIVE_ASSERT_SIZEOF(ExplosionSet, 0x60);
 

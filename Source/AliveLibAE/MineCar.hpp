@@ -115,29 +115,29 @@ private:
     bool HandleState1Move(const mineCarFPFunc func, const FP mineCarFPFuncArg1, const FP mineCarFPFuncArg2, const FP mineCarFPFuncArg3, u16 frameTableOffset, MineCarDirs mineCarDir, const s8 changeDir, FP rayCast1, FP rayCast2, FP rayCast3, FP rayCast4, const CollisionMask ModelMask1, const CollisionMask ModelMask2, FP moveX, FP moveY, InputCommands::Enum key, bool isVertical, bool verticalFlipXCond);
 
 private:
-    s32 field_118_tlvInfo;
+    s32 field_118_tlvInfo = 0;
 
 public:
-    MineCarStates field_11C_state;
+    MineCarStates field_11C_state = MineCarStates::eParkedWithoutAbe_0;
 
 private:
-    Scale_short field_11E_scale;
-    s16 field_120_max_damage;
-    Animation field_124_anim;
+    Scale_short field_11E_scale = Scale_short::eFull_0;
+    s16 field_120_max_damage = 0;
+    Animation field_124_anim = {};
 
 public:
-    MineCarDirs field_1BC_turn_direction;
+    MineCarDirs field_1BC_turn_direction = MineCarDirs::eDown_0;
 
 private:
-    s16 field_1BE_unused;
-    s16 field_1C0_unused;
-    s16 field_1C2_falling_counter;
-    s16 field_1C4_velx_index;
-    s32 field_1C8_frame_mod_16;
-    s16 field_1CC_spawned_path;
-    s16 field_1CE_spawned_camera;
-    s32 field_1D0_sound_channels_mask;
-    s16 field_1D4_previous_input;      //TODO change to InputCommands::Enum type when we can drop sizeof assert
-    s16 field_1D6_continue_move_input; //TODO change to InputCommands::Enum type when we can drop sizeof assert
+    s16 field_1BE_unused = 0;
+    s16 field_1C0_unused = 0;
+    s16 field_1C2_falling_counter = 0;
+    s16 field_1C4_velx_index = 0;
+    s32 field_1C8_frame_mod_16 = 0;
+    s16 field_1CC_spawned_path = 0;
+    s16 field_1CE_spawned_camera = 0;
+    s32 field_1D0_sound_channels_mask = 0;
+    s16 field_1D4_previous_input = 0;      //TODO change to InputCommands::Enum type when we can drop sizeof assert
+    s16 field_1D6_continue_move_input = 0; //TODO change to InputCommands::Enum type when we can drop sizeof assert
 };
 ALIVE_ASSERT_SIZEOF(MineCar, 0x1D8);

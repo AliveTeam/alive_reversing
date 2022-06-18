@@ -15,16 +15,16 @@ public:
     virtual void VRender(PrimHeader** ppOt) override;
 
 private:
-    s16 field_F4_rope_segment_count;
+    s16 field_F4_rope_segment_count = 0;
 
 public:
-    s16 field_F6_rope_length;
-    u8** field_F8_ppRopeRes;
-    AnimationUnknown* field_FC_pRopeRes;
-    s16 field_100_left;
-    s16 field_102_top;
-    s16 field_104_right;
-    s16 field_106_bottom;
+    s16 field_F6_rope_length = 0;
+    u8** field_F8_ppRopeRes = nullptr;
+    AnimationUnknown* field_FC_pRopeRes = nullptr;
+    s16 field_100_left = 0;
+    s16 field_102_top = 0;
+    s16 field_104_right = 0;
+    s16 field_106_bottom = 0;
 };
 ALIVE_ASSERT_SIZEOF(Rope, 0x108);
 

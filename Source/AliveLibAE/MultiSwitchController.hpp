@@ -3,8 +3,7 @@
 #include "../relive_lib/BaseGameObject.hpp"
 #include "Path.hpp"
 #include "../AliveLibCommon/Function.hpp"
-
-enum class SwitchOp : s16;
+#include "SwitchStates.hpp"
 
 struct Path_MultiSwitchController final : public Path_TLV
 {
@@ -35,23 +34,22 @@ private:
     void WaitingForAllOff();
 
 private:
-    u16 field_20_input_switch_id1;
-    u16 field_22_input_switch_id2;
-    u16 field_24_input_switch_id3;
-    u16 field_26_input_switch_id4;
-    u16 field_28_input_switch_id5;
-    u16 field_2A_input_switch_id6;
-    u16 field_2C_output_switch_id;
-    SwitchOp field_2E_action;
-    s32 field_30_tlvInfo;
-    s32 field_34_last_switch_on_time;
-    s32 field_38_all_switches_on_or_off_time;
-    s32 field_3C_on_off_delay;
+    u16 field_20_input_switch_id1 = 0;
+    u16 field_22_input_switch_id2 = 0;
+    u16 field_24_input_switch_id3 = 0;
+    u16 field_26_input_switch_id4 = 0;
+    u16 field_28_input_switch_id5 = 0;
+    u16 field_2A_input_switch_id6 = 0;
+    u16 field_2C_output_switch_id = 0;
+    SwitchOp field_2E_action = SwitchOp::eSetTrue_0;
+    s32 field_30_tlvInfo = 0;
+    s32 field_34_last_switch_on_time = 0;
+    s32 field_38_all_switches_on_or_off_time = 0;
+    s32 field_3C_on_off_delay = 0;
     enum Flags_40
     {
         eBit1_is_on = 0x1,
     };
-    BitField16<Flags_40> field_40_flags;
-    //s16 field_42; // pad
+    BitField16<Flags_40> field_40_flags = {};
 };
 ALIVE_ASSERT_SIZEOF(MultiSwitchController, 0x44);

@@ -77,25 +77,25 @@ public:
     static void static_EnableMusic(s16 bOn);
 
 private:
-    u16 field_20_vol;
-    u16 field_22_vol;
-    EReliveLevelIds field_24_currentLevelID;
-    s32 field_28_object_id;
-    s16 field_2C_flags_and_seq_idx;
-    u32 field_30_music_time;
-    u32 field_34_music_start_time;
-    u32 field_38_unused;
-    u32 field_3C_unused;
-    s16 field_40_flags_and_idx;
-    MusicTypes field_42_type;
-    s32 field_44;
-    u32 field_48_last_music_frame;
-    u16 field_4C_state;
-    u16 field_4E_starting_volume;
-    u16 field_50_current_vol;
-    u16 field_52_target_volume;
-    u32 field_54_music_volume_change_time;
-    BitField16<Flags_58> field_58_flags;
+    u16 field_20_vol = 0;
+    u16 field_22_vol = 0;
+    EReliveLevelIds field_24_currentLevelID = EReliveLevelIds::eNone;
+    s32 field_28_object_id = 0;
+    s16 field_2C_flags_and_seq_idx = 0;
+    u32 field_30_music_time = 0;
+    u32 field_34_music_start_time = 0;
+    u32 field_38_unused = 0;
+    u32 field_3C_unused = 0;
+    s16 field_40_flags_and_idx = 0;
+    MusicTypes field_42_type = MusicTypes::eNone_0;
+    s32 field_44 = 0;
+    u32 field_48_last_music_frame = 0;
+    u16 field_4C_state = 0;
+    u16 field_4E_starting_volume = 0;
+    u16 field_50_current_vol = 0;
+    u16 field_52_target_volume = 0;
+    u32 field_54_music_volume_change_time = 0;
+    BitField16<Flags_58> field_58_flags = {};
 };
 ALIVE_ASSERT_SIZEOF(MusicController, 0x5C);
 

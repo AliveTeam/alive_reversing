@@ -51,10 +51,10 @@ private:
         e24_Bit2_TriggeredByTimer = 0x2,
         e24_Bit3_SetMusicToNoneOnDtor = 0x4,
     };
-    BitField16<Flags_24> field_24_flags;
-    MusicController::MusicTypes field_26_music_type;
-    s32 field_28_counter;
-    PSX_Point field_2C_tl;
-    PSX_Point field_30_br;
+    BitField16<Flags_24> field_24_flags = {};
+    MusicController::MusicTypes field_26_music_type = MusicController::MusicTypes::eNone_0;
+    s32 field_28_counter = 0;
+    PSX_Point field_2C_tl = {};
+    PSX_Point field_30_br = {};
 };
 ALIVE_ASSERT_SIZEOF(MusicTrigger, 0x34);

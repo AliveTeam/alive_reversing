@@ -64,11 +64,11 @@ public:
     virtual s32 VGetSaveState(u8* pSaveBuffer) override;
 
 private:
-    s32 field_20_tlvInfo;
-    s32 field_24_spawned_slig_id;
-    s16 field_28_spawner_switch_id;
-    Path_TLV field_2C_tlv_header;
-    s32 field_3C_bSpawned;
-    s16 field_40_bFirstUpdate;
+    s32 field_20_tlvInfo = 0;
+    s32 field_24_spawned_slig_id = 0;
+    s16 field_28_spawner_switch_id = 0;
+    Path_TLV field_2C_tlv_header = {};
+    s32 field_3C_bSpawned = 0;
+    s16 field_40_bFirstUpdate = 0;
 };
 ALIVE_ASSERT_SIZEOF(FlyingSligSpawner, 0x44);

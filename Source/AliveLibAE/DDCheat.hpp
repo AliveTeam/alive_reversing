@@ -88,17 +88,17 @@ public:
     void Menu_Movies();
 
 public:
-    s32 field_20;
-    s16 field_24_fn_idx;
-    s16 field_26_next_fn_idx;
-    s32 field_28;
-    s32 field_2C;
-    s16 field_30;
-    s16 field_32;
-    s32 field_34;
-    s32 field_38_input_pressed;
-    BitField16<Flags_3C> field_3C_flags;
-    s16 field_3E;
+    s32 field_20 = 0;
+    s16 field_24_fn_idx = 0;
+    s16 field_26_next_fn_idx = 0;
+    s32 field_28 = 0;
+    s32 field_2C = 0;
+    s16 field_30 = 0;
+    s16 field_32 = 0;
+    s32 field_34 = 0;
+    s32 field_38_input_pressed = 0;
+    BitField16<Flags_3C> field_3C_flags = {};
+    s16 field_3E = 0;
 };
 
 ALIVE_ASSERT_SIZEOF(DDCheat, 0x40);

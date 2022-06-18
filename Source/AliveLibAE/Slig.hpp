@@ -572,9 +572,9 @@ private:
         eBit4_HeardGlukkon = 0x8,
         eBit5_Padding = 0x10,
     };
-    BitField16<Flags_216> field_216_flags;
+    BitField16<Flags_216> field_216_flags = {};
 
-    Path_Slig field_218_tlv_data;
+    Path_Slig field_218_tlv_data = {};
     PSX_Point field_268_points[10] = {};
     s16 field_290_points_count = 0;
     s16 field_292_prevent_depossession = 0;

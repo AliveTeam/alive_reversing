@@ -20,14 +20,14 @@ public:
 private:
     void DeInit();
 
-    s16 field_20_unused;
-    s16 field_22_volume;
-    u8** field_2C_ppRes;
-    s32 field_38_unused;
-    s32 field_3C_unused;
-    s8 field_44_cd_loc_min;
-    s8 field_45_cd_loc_sec;
-    s8 field_46_cd_loc_sector;
+    s16 field_20_unused = 0;
+    s16 field_22_volume = 0;
+    u8** field_2C_ppRes = nullptr;
+    s32 field_38_unused = 0;
+    s32 field_3C_unused = 0;
+    s8 field_44_cd_loc_min = 0;
+    s8 field_45_cd_loc_sec = 0;
+    s8 field_46_cd_loc_sector = 0;
 };
 ALIVE_ASSERT_SIZEOF(Movie, 0x48);
 

@@ -107,6 +107,6 @@ private:
         eBit5_SpeedChanged = 0x10,
         eBit6_StartPosIsBottom = 0x20,
     };
-    BitField16<Flags> field_128_flags;
+    BitField16<Flags> field_128_flags = {};
 };
 ALIVE_ASSERT_SIZEOF(Drill, 0x12C);

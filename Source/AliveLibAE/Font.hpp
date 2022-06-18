@@ -71,12 +71,12 @@ public:
     const char_type* SliceText(const char_type* text, s32 left, FP scale, s32 right);
 
 public:
-    u8 gap0[32];
-    u8** field_20_fnt_poly_block_ptr;
-    Poly_FT4* field_24_fnt_poly_array;
-    PSX_RECT field_28_palette_rect;
-    s32 field_30_poly_count;
-    Font_Context* field_34_font_context;
+    u8 gap0[32] = {};
+    u8** field_20_fnt_poly_block_ptr = nullptr;
+    Poly_FT4* field_24_fnt_poly_array = nullptr;
+    PSX_RECT field_28_palette_rect = {};
+    s32 field_30_poly_count = 0;
+    Font_Context* field_34_font_context = nullptr;
 };
 ALIVE_ASSERT_SIZEOF(Font, 0x38);
 } // namespace Alive

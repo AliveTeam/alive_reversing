@@ -54,12 +54,12 @@ private:
     LiftPoint* GetLiftPoint();
 
 private:
-    s16 field_20_lift_mover_switch_id;
-    s16 field_22_target_lift_point_id;
-    s32 field_24_tlvInfo;
-    s32 field_28_lift_id;
-    FP field_2C_speed;
-    LiftMoverStates field_30_state;
-    s16 field_32_bMoveInProgress;
+    s16 field_20_lift_mover_switch_id = 0;
+    s16 field_22_target_lift_point_id = 0;
+    s32 field_24_tlvInfo = 0;
+    s32 field_28_lift_id = 0;
+    FP field_2C_speed = {};
+    LiftMoverStates field_30_state = LiftMoverStates::eInactive_0;
+    s16 field_32_bMoveInProgress = 0;
 };
 ALIVE_ASSERT_SIZEOF(LiftMover, 0x34);

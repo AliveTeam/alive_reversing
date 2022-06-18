@@ -41,8 +41,8 @@ public:
     virtual s32 VGetSaveState(u8* pSaveBuffer) override;
 
 private:
-    s32 field_20_timer;
-    GameEnderController_States field_24_state;
+    s32 field_20_timer = 0;
+    GameEnderController_States field_24_state = GameEnderController_States::eInit_0;
 };
 ALIVE_ASSERT_SIZEOF(GameEnderController, 0x28);
 

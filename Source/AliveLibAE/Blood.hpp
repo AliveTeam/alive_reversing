@@ -26,16 +26,16 @@ public:
     ~Blood();
 
 private:
-    u8** field_F4_ppResBuf;
-    BloodParticle* field_F8_pResBuf;
-    Prim_SetTPage field_FC_tPages[2];
-    TPageMode field_11C_texture_mode;
-    s16 field_11E_xpos;
-    s16 field_120_ypos;
-    s16 field_122_to_render_count;
-    u8 field_124_rand_seed;
-    s16 field_126_total_count;
-    s32 field_128_timer;
-    Layer field_12C_render_layer;
+    u8** field_F4_ppResBuf = nullptr;
+    BloodParticle* field_F8_pResBuf = nullptr;
+    Prim_SetTPage field_FC_tPages[2] = {};
+    TPageMode field_11C_texture_mode = TPageMode::e4Bit_0;
+    s16 field_11E_xpos = 0;
+    s16 field_120_ypos = 0;
+    s16 field_122_to_render_count = 0;
+    u8 field_124_rand_seed = 0;
+    s16 field_126_total_count = 0;
+    s32 field_128_timer = 0;
+    Layer field_12C_render_layer = Layer::eLayer_0;
 };
 ALIVE_ASSERT_SIZEOF(Blood, 0x130);

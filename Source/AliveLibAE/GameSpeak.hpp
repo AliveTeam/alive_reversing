@@ -94,10 +94,10 @@ private:
     void PushEvent_Impl(GameSpeakEvents event);
 
 public:
-    GameSpeakEvents field_20_last_event;
-    u32 field_24_last_event_frame;
-    s32 field_28_last_event_index;
-    s8 field_2C_event_buffer[32];
+    GameSpeakEvents field_20_last_event = GameSpeakEvents::eUnknown_0;
+    u32 field_24_last_event_frame = 0;
+    s32 field_28_last_event_index = 0;
+    s8 field_2C_event_buffer[32] = {};
 };
 ALIVE_ASSERT_SIZEOF(GameSpeak, 0x4C);
 

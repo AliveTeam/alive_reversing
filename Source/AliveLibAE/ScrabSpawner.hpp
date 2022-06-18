@@ -40,12 +40,12 @@ public:
     virtual s32 VGetSaveState(u8* pSaveBuffer) override;
 
 private:
-    s32 field_20_tlvInfo;
-    s16 field_24_spawner_switch_id;
-    ScrabSpawnDirection field_26_spawn_direction;
-    Path_TLV field_28_tlv_data;
-    ScrabSpawnerStates field_38_state;
-    s32 field_3C_spawned_scrab_id;
-    s16 field_40_bFindSpawnedScrab;
+    s32 field_20_tlvInfo = 0;
+    s16 field_24_spawner_switch_id = 0;
+    ScrabSpawnDirection field_26_spawn_direction = ScrabSpawnDirection::eNone_0;
+    Path_TLV field_28_tlv_data = {};
+    ScrabSpawnerStates field_38_state = ScrabSpawnerStates::eInactive_0;
+    s32 field_3C_spawned_scrab_id = 0;
+    s16 field_40_bFindSpawnedScrab = 0;
 };
 ALIVE_ASSERT_SIZEOF(ScrabSpawner, 0x44);

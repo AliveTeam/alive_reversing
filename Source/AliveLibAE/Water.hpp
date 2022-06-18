@@ -53,8 +53,8 @@ private:
     void Add_Water_Particle();
 
 private:
-    u8** field_F4_ppWaterRes;
-    Water_Res* field_F8_pWaterRes;
+    u8** field_F4_ppWaterRes = nullptr;
+    Water_Res* field_F8_pWaterRes = nullptr;
 
     enum class WaterState : s16
     {
@@ -65,28 +65,27 @@ private:
         eInactive_4 = 4,
     };
 
-    WaterState field_FC_state;
-    TPageMode field_FE_texture_mode;
-    // pad
-    s16 field_100_screen_x;
-    s16 field_102_screen_y;
-    PSX_Point field_104_top_left;
-    PSX_Point field_108_bottom_right;
-    s16 field_10C_particle_count;
-    s16 field_10E_current_particle_idx;
-    s16 field_110_current_drops;
-    s32 field_114_tlvInfo;
-    FP field_118_radius;
-    FP field_11C_centre;
-    s16 field_120_frame_width;
-    s16 field_122_frame_height;
-    Path_Water_Data field_124_tlv_data;
-    FP field_130_splash_x_vel;
-    FP field_134_emit_x_vel;
-    s16 field_138_splash_time;
-    s32 field_13C_not_in_camera_count;
-    s32 field_140_water_duration;
-    s32 field_144_sound_channels;
-    s16 field_148_bHitTimeout;
+    WaterState field_FC_state = WaterState::eInit_0;
+    TPageMode field_FE_texture_mode = TPageMode::e4Bit_0;
+    s16 field_100_screen_x = 0;
+    s16 field_102_screen_y = 0;
+    PSX_Point field_104_top_left = {};
+    PSX_Point field_108_bottom_right = {};
+    s16 field_10C_particle_count = 0;
+    s16 field_10E_current_particle_idx = 0;
+    s16 field_110_current_drops = 0;
+    s32 field_114_tlvInfo = 0;
+    FP field_118_radius = {};
+    FP field_11C_centre = {};
+    s16 field_120_frame_width = 0;
+    s16 field_122_frame_height = 0;
+    Path_Water_Data field_124_tlv_data = {};
+    FP field_130_splash_x_vel = {};
+    FP field_134_emit_x_vel = {};
+    s16 field_138_splash_time = 0;
+    s32 field_13C_not_in_camera_count = 0;
+    s32 field_140_water_duration = 0;
+    s32 field_144_sound_channels = 0;
+    s16 field_148_bHitTimeout = 0;
 };
 ALIVE_ASSERT_SIZEOF(Water, 0x14C);

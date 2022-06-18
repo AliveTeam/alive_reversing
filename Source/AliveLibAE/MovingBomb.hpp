@@ -53,15 +53,15 @@ private:
         eBlowingUp_6 = 6,
         eKillMovingBomb_7 = 7
     };
-    States field_118_state;
-    s32 field_11C_tlvInfo;
-    s32 field_120_timer;
-    FP field_124_speed;
-    s16 field_128_start_moving_switch_id;
-    s16 field_12A_min;
-    s16 field_12C_max;
-    s32 field_130_sound_channels;
-    s16 field_134_disabled_resources;
-    Choice_short field_136_persist_offscreen;
+    States field_118_state = States::eTriggeredByAlarm_0;
+    s32 field_11C_tlvInfo = 0;
+    s32 field_120_timer = 0;
+    FP field_124_speed = {};
+    s16 field_128_start_moving_switch_id = 0;
+    s16 field_12A_min = 0;
+    s16 field_12C_max = 0;
+    s32 field_130_sound_channels = 0;
+    s16 field_134_disabled_resources = 0;
+    Choice_short field_136_persist_offscreen = Choice_short::eNo_0;
 };
 ALIVE_ASSERT_SIZEOF(MovingBomb, 0x138);

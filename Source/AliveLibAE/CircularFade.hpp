@@ -25,14 +25,14 @@ private:
         eBit3_DestroyOnDone = 0x4,
         eBit4_NeverSet = 0x8
     };
-    BitField16<Flags> field_F4_flags;
-    Prim_Tile field_F8_tile1[2];
-    Prim_Tile field_120_tile2[2];
-    Prim_Tile field_148_tile3[2];
-    Prim_Tile field_170_tile4[2];
-    Prim_SetTPage field_198_tPages[2];
-    s16 field_1B8_fade_colour;
-    s16 field_1BA_speed;
+    BitField16<Flags> field_F4_flags = {};
+    Prim_Tile field_F8_tile1[2] = {};
+    Prim_Tile field_120_tile2[2] = {};
+    Prim_Tile field_148_tile3[2] = {};
+    Prim_Tile field_170_tile4[2] = {};
+    Prim_SetTPage field_198_tPages[2] = {};
+    s16 field_1B8_fade_colour = 0;
+    s16 field_1BA_speed = 0;
 };
 ALIVE_ASSERT_SIZEOF(CircularFade, 0x1BC);
 

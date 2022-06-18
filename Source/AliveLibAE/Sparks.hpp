@@ -12,6 +12,6 @@ public:
     virtual void VScreenChanged() override;
 
 private:
-    s16 field_FA_16_random;
+    s16 field_FA_16_random = 0;
 };
 ALIVE_ASSERT_SIZEOF(Sparks, 0xFC);

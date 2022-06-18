@@ -315,32 +315,32 @@ private:
 
 
 private:
-    s32 field_118_meat_id;
-    s32 field_11C_web_id;
-    s32 field_120_obj_id;
-    s32 field_124_pull_ring_rope_id;
-    TParamiteBrainFn field_128_fn_brainState;
-    s16 field_12C_brain_ret;
-    s16 field_12E_surprise_web_delay_timer;
-    s32 field_130_timer;
-    s16 field_134_meat_eating_time;
-    s16 field_136_alone_chase_delay;
-    s32 field_138_depossession_timer;
-    FP field_13C_velx_offset;
-    s32 field_140_tlvInfo;
-    s32 field_144_group_chase_delay;
-    s32 field_148_timer;
-    s16 field_14C_id;
-    EReliveLevelIds field_14E_return_level;
-    s16 field_150_return_path;
-    s16 field_152_return_camera;
-    s32 field_154_input;
-    s16 field_158_next_brain_ret;
-    s16 field_15A_paramite_next_motion;
-    s16 field_15C_paramite_xOffset;
-    s32 field_160_last_event_index;
-    s16 field_174_unused;
-    s16 field_176_unused;
+    s32 field_118_meat_id = 0;
+    s32 field_11C_web_id = 0;
+    s32 field_120_obj_id = 0;
+    s32 field_124_pull_ring_rope_id = 0;
+    TParamiteBrainFn field_128_fn_brainState = nullptr;
+    s16 field_12C_brain_ret = 0;
+    s16 field_12E_surprise_web_delay_timer = 0;
+    s32 field_130_timer = 0;
+    s16 field_134_meat_eating_time = 0;
+    s16 field_136_alone_chase_delay = 0;
+    s32 field_138_depossession_timer = 0;
+    FP field_13C_velx_offset = {};
+    s32 field_140_tlvInfo = 0;
+    s32 field_144_group_chase_delay = 0;
+    s32 field_148_timer = 0;
+    s16 field_14C_id = 0;
+    EReliveLevelIds field_14E_return_level = EReliveLevelIds::eNone;
+    s16 field_150_return_path = 0;
+    s16 field_152_return_camera = 0;
+    s32 field_154_input = 0;
+    s16 field_158_next_brain_ret = 0;
+    s16 field_15A_paramite_next_motion = 0;
+    s16 field_15C_paramite_xOffset = 0;
+    s32 field_160_last_event_index = 0;
+    s16 field_174_unused = 0;
+    s16 field_176_unused = 0;
     enum Flags_178 : s16
     {
         eBit1_hiss_before_attack = 0x1,
@@ -359,6 +359,6 @@ private:
         eBit14_padding = 0x2000,
         eBit15_padding = 0x4000,
     };
-    BitField16<Flags_178> field_178_flags;
+    BitField16<Flags_178> field_178_flags = {};
 };
 ALIVE_ASSERT_SIZEOF(Paramite, 0x17C);

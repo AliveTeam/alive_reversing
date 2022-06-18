@@ -14,7 +14,6 @@ public:
     virtual void VUpdate() override;
 
 private:
-    s16 field_20_music_id;
-    // s16 field_22_padding;
+    s16 field_20_music_id = 0;
 };
 ALIVE_ASSERT_SIZEOF(BackgroundMusic, 0x24);

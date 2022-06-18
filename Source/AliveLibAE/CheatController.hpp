@@ -25,15 +25,15 @@ public:
     virtual void VScreenChanged() override;
 
 public:
-    s16 field_20;
-    s16 field_22;
-    s32 field_24;
-    s32 field_28;
-    s32 field_2C;
-    s32 field_30;
-    s32 field_34;
-    s32 field_38;
-    s32 field_3C;
+    s16 field_20 = 0;
+    s16 field_22 = 0;
+    s32 field_24 = 0;
+    s32 field_28 = 0;
+    s32 field_2C = 0;
+    s32 field_30 = 0;
+    s32 field_34 = 0;
+    s32 field_38 = 0;
+    s32 field_3C = 0;
 };
 ALIVE_ASSERT_SIZEOF(CheatController, 0x40);
 

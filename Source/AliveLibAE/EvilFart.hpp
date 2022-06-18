@@ -67,15 +67,15 @@ private:
     void BlowUp();
 
 private:
-    s16 field_118_bBlowUp;
-    s16 field_11A_bPossesed;
-    s16 field_11C_alive_timer;
-    s16 field_11E_path;
-    EReliveLevelIds field_120_level;
-    s16 field_122_camera;
-    FartStates field_124_state;
-    s32 field_128_timer;
-    s32 field_12C_back_to_abe_timer;
-    s32 field_130_sound_channels;
+    s16 field_118_bBlowUp = 0;
+    s16 field_11A_bPossesed = 0;
+    s16 field_11C_alive_timer = 0;
+    s16 field_11E_path = 0;
+    EReliveLevelIds field_120_level = EReliveLevelIds::eNone;
+    s16 field_122_camera = 0;
+    FartStates field_124_state = FartStates::eIdle_0;
+    s32 field_128_timer = 0;
+    s32 field_12C_back_to_abe_timer = 0;
+    s32 field_130_sound_channels = 0;
 };
 ALIVE_ASSERT_SIZEOF(EvilFart, 0x134);

@@ -43,7 +43,7 @@ private:
     BaseAliveGameObject* WhoIsStoodOnMe();
 
 private:
-    s32 field_F4_tlvInfo;
+    s32 field_F4_tlvInfo = 0;
     enum class States : s16
     {
         eWaitForStepOnMe_0 = 0,

@@ -24,14 +24,14 @@ public:
     void SetYPos(s32 /*not_used*/, s16 ypos);
 
 private:
-    Alive::Font field_20_font;
-    s16 field_58_k0_unused;
-    s16 field_5A_k4_unused;
-    s16 field_5C_xpos;
-    s16 field_5E_ypos;
-    s16 field_60_bShadow;
-    s32 field_64_render_count;
-    char_type field_68_txt_buffer[60];
+    Alive::Font field_20_font = {};
+    s16 field_58_k0_unused = 0;
+    s16 field_5A_k4_unused = 0;
+    s16 field_5C_xpos = 0;
+    s16 field_5E_ypos = 0;
+    s16 field_60_bShadow = 0;
+    s32 field_64_render_count = 0;
+    char_type field_68_txt_buffer[60] = {};
 };
 ALIVE_ASSERT_SIZEOF(Text, 0xA4);
 

@@ -61,19 +61,19 @@ protected:
     BaseGameObject* FindObjectOfType(ReliveTypes typeToFind, FP xpos, FP ypos);
 
 public:
-    FP_RECT mCollectionRect;
-    s16 mPreviousMotion;
-    s16 mBaseAliveGameObjectLastAnimFrame;
-    FP BaseAliveGameObjectLastLineYPos;
-    Path_TLV* BaseAliveGameObjectPathTLV;
-    PathLine* BaseAliveGameObjectCollisionLine;
-    s16 BaseAliveGameObjectCollisionLineType;
-    s16 mCurrentMotion;
-    s16 mNextMotion;
-    s16 field_10A_unused;
-    FP mHealth;
-    s32 BaseAliveGameObject_PlatformId;
-    BitField16<Flags_114> mBaseAliveGameObjectFlags;
+    FP_RECT mCollectionRect = {};
+    s16 mPreviousMotion = 0;
+    s16 mBaseAliveGameObjectLastAnimFrame = 0;
+    FP BaseAliveGameObjectLastLineYPos = {};
+    Path_TLV* BaseAliveGameObjectPathTLV = nullptr;
+    PathLine* BaseAliveGameObjectCollisionLine = nullptr;
+    s16 BaseAliveGameObjectCollisionLineType = 0;
+    s16 mCurrentMotion = 0;
+    s16 mNextMotion = 0;
+    s16 field_10A_unused = 0;
+    FP mHealth = {};
+    s32 BaseAliveGameObject_PlatformId = 0;
+    BitField16<Flags_114> mBaseAliveGameObjectFlags = {};
     s16 field_116_padding;
 };
 ALIVE_ASSERT_SIZEOF(BaseAliveGameObject, 0x118);

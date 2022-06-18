@@ -31,8 +31,8 @@ public:
     void BaseAddToPlatform(FnTypeMatcher cb);
 
 protected:
-    s16 field_118_count;
-    s16 field_11A_bDead;
+    s16 field_118_count = 0;
+    s16 field_11A_bDead = 0;
 };
 
 ALIVE_VAR_EXTERN(u16, gInfiniteGrenades_5C1BDE);

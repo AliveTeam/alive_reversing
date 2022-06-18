@@ -651,48 +651,48 @@ public:
     void ExitShrykull_45A9D0(s16 bResetRingTimer);
 
 public:
-    s32 field_118_prev_held;
-    s32 field_11C_released_buttons;
-    AllInternalStates field_120_state;
-    s16 field_122_knockdown_motion;
-    s32 field_124_timer;
-    Abe_1BC_20_sub_object field_128;
-    s32 field_144_auto_say_timer;
-    s32 field_148_fade_obj_id;
-    s32 field_14C_circular_fade_id;
-    s32 field_150_OrbWhirlWind_id;
-    s32 field_154_possessed_object_id;
-    s32 field_158_throwable_id;
-    s32 field_15C_pull_rope_id;
-    s32 field_160_slappable_or_pick_item_id;
-    s32 field_164_wheel_id;
-    s32 field_168_ring_pulse_timer;
-    s16 field_16C_bHaveShrykull;
-    s16 field_16E_bHaveInvisiblity;
-    s32 field_170_invisible_timer;
-    s16 field_174_unused;
-    s16 field_176_invisibility_duration;
-    s32 field_178_invisible_effect_id;
-    s8 field_17C_cam_idx;
-    TlvTypes32 field_180_hand_stone_type;
-    s16 field_184_fmv_id;
+    s32 field_118_prev_held = 0;
+    s32 field_11C_released_buttons = 0;
+    AllInternalStates field_120_state = {};
+    s16 field_122_knockdown_motion = 0;
+    s32 field_124_timer = 0;
+    Abe_1BC_20_sub_object field_128 = {};
+    s32 field_144_auto_say_timer = 0;
+    s32 field_148_fade_obj_id = 0;
+    s32 field_14C_circular_fade_id = 0;
+    s32 field_150_OrbWhirlWind_id = 0;
+    s32 field_154_possessed_object_id = 0;
+    s32 field_158_throwable_id = 0;
+    s32 field_15C_pull_rope_id = 0;
+    s32 field_160_slappable_or_pick_item_id = 0;
+    s32 field_164_wheel_id = 0;
+    s32 field_168_ring_pulse_timer = 0;
+    s16 field_16C_bHaveShrykull = 0;
+    s16 field_16E_bHaveInvisiblity = 0;
+    s32 field_170_invisible_timer = 0;
+    s16 field_174_unused = 0;
+    s16 field_176_invisibility_duration = 0;
+    s32 field_178_invisible_effect_id = 0;
+    s8 field_17C_cam_idx = 0;
+    TlvTypes32 field_180_hand_stone_type = {};
+    s16 field_184_fmv_id = 0;
     s16 field_186_to_camera_id[3];
-    s16 field_18C_unused;
-    s16 field_18E_unused;
-    s16 field_190_unused;
-    s16 field_192_unused;
-    s16 field_194_unused;
-    s16 field_196_unused;
-    s16 field_198_has_evil_fart;
-    EReliveLevelIds field_19A_to_level;
-    s16 field_19C_to_path;
-    s16 field_19E_to_camera;
-    s16 field_1A0_door_id;
-    s8 field_1A2_throwable_count;
-    s8 field_1A3_throw_direction;
-    PortalSubStates field_1A4_portal_sub_state;
-    s16 field_1A6_padding;
-    s32 field_1A8_portal_id;
+    s16 field_18C_unused = 0;
+    s16 field_18E_unused = 0;
+    s16 field_190_unused = 0;
+    s16 field_192_unused = 0;
+    s16 field_194_unused = 0;
+    s16 field_196_unused = 0;
+    s16 field_198_has_evil_fart = 0;
+    EReliveLevelIds field_19A_to_level = EReliveLevelIds::eNone;
+    s16 field_19C_to_path = 0;
+    s16 field_19E_to_camera = 0;
+    s16 field_1A0_door_id = 0;
+    s8 field_1A2_throwable_count = 0;
+    s8 field_1A3_throw_direction = 0;
+    PortalSubStates field_1A4_portal_sub_state = PortalSubStates::eJumpingInsidePortal_0;
+    s16 field_1A6_padding = 0;
+    s32 field_1A8_portal_id = 0;
 
     enum Flags_1AC
     {
@@ -713,16 +713,16 @@ public:
         e1AC_eBit15_have_healing = 0x4000,
         e1AC_eBit16_is_mudanchee_vault_ender = 0x8000,
     };
-    BitField16<Flags_1AC> field_1AC_flags;
+    BitField16<Flags_1AC> field_1AC_flags = {};
 
     enum Flags_1AE
     {
         e1AE_Bit1_is_mudomo_vault_ender = 0x1,
         e1AE_Bit2_do_quicksave = 0x2,
     };
-    BitField16<Flags_1AE> field_1AE_flags;
+    BitField16<Flags_1AE> field_1AE_flags = {};
 
-    s16 field_1B0_save_num;
+    s16 field_1B0_save_num = 0;
 };
 ALIVE_ASSERT_SIZEOF(Abe, 0x1BC);
 

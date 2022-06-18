@@ -74,16 +74,16 @@ private:
     s32 IsColliding();
 
 private:
-    UXBState field_118_state;
-    UXBState field_11A_starting_state;
-    u16 field_11C_disabled_resources;
-    TlvItemInfoUnion field_120_tlv;
-    u32 field_124_next_state_frame;
-    Animation field_128_animation;
-    u16 field_1C0_pattern_length;
-    u16 field_1C2_pattern_index;
-    u16 field_1C4_pattern;
-    u16 field_1C6_red_blink_count;
-    BitField16<UXB_Flags_1C8> field_1C8_flags;
+    UXBState field_118_state = UXBState::eDelay_0;
+    UXBState field_11A_starting_state = UXBState::eDelay_0;
+    u16 field_11C_disabled_resources = 0;
+    TlvItemInfoUnion field_120_tlv = {};
+    u32 field_124_next_state_frame = 0;
+    Animation field_128_animation = {};
+    u16 field_1C0_pattern_length = 0;
+    u16 field_1C2_pattern_index = 0;
+    u16 field_1C4_pattern = 0;
+    u16 field_1C6_red_blink_count = 0;
+    BitField16<UXB_Flags_1C8> field_1C8_flags = {};
 };
 ALIVE_ASSERT_SIZEOF(UXB, 0x1CC);

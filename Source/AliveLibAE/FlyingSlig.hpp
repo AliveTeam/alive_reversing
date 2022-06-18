@@ -241,7 +241,7 @@ public:
     bool BrainIs(TFlyingSligBrainFn fn);
 
 private:
-    Path_FlyingSlig field_118_data;
+    Path_FlyingSlig field_118_data = {};
     s32 field_148_tlvInfo = 0;
     s32 field_14C_timer = 0;
     s32 field_150_grenade_delay = 0;
@@ -272,7 +272,7 @@ private:
         eBit12_bNoNextLine = 0x800,
         eBit13_Persistant = 0x1000,
     };
-    BitField16<Flags_17E> field_17E_flags;
+    BitField16<Flags_17E> field_17E_flags = {};
     TlvTypes field_180_bound2 = TlvTypes::None_m1;
     TlvTypes field_182_bound1 = TlvTypes::None_m1;
     FP field_184_xSpeed = {};

@@ -24,15 +24,15 @@ public:
     virtual void VScreenChanged() override;
 
 public:
-    Alive::Font field_20_font1;
-    Alive::Font field_58_font2;
-    Alive::Font field_90_font3;
-    Alive::Font field_C8_font4;
-    s32 field_100_objectId;
-    s16 field_104_position_x;
-    s16 field_106_position_y;
-    s16 field_108_is_hidden;
-    s16 field_10A_muds_left_in_area;
+    Alive::Font field_20_font1 = {};
+    Alive::Font field_58_font2 = {};
+    Alive::Font field_90_font3 = {};
+    Alive::Font field_C8_font4 = {};
+    s32 field_100_objectId = 0;
+    s16 field_104_position_x = 0;
+    s16 field_106_position_y = 0;
+    s16 field_108_is_hidden = 0;
+    s16 field_10A_muds_left_in_area = 0;
 };
 ALIVE_ASSERT_SIZEOF(LCDStatusBoard, 0x10C);
 

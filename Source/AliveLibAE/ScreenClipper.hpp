@@ -19,10 +19,10 @@ public:
     void Update_Clip_Rect(PSX_Point xy, PSX_Point wh);
 
 private:
-    Prim_PrimClipper field_20_clippers[2];
-    PSX_RECT field_40_rect;
+    Prim_PrimClipper field_20_clippers[2] = {};
+    PSX_RECT field_40_rect = {};
 
 public:
-    Layer field_48_ot_layer;
+    Layer field_48_ot_layer = Layer::eLayer_0;
 };
 ALIVE_ASSERT_SIZEOF(ScreenClipper, 0x4C);

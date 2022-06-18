@@ -44,8 +44,8 @@ private:
         eBit1_DontDestroyTLV = 0x1,
         eBit2_UnlimitedSpawns = 0x2,
     };
-    BitField16<SpawnerFlags> field_26_flags;
-    Path_TLV field_28_tlv;
+    BitField16<SpawnerFlags> field_26_flags = {};
+    Path_TLV field_28_tlv = {};
     SpawnerStates field_38_state = SpawnerStates::eInactive_0;
     s32 field_3C_spawned_slig_obj_id = 0;
     s16 field_40_bFindSpawnedSlig = 0;

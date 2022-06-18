@@ -85,15 +85,15 @@ private:
     void GoRight();
     void Burst();
 
-    BitField16<SlurgFlags> field_118_flags;
-    s16 field_11A_switch_id;
-    Slurg_States field_11C_state;
-    s16 field_11E_moving_timer;
-    s16 field_120_delay_random;
-    PathLine* field_124_pLine;
-    Path_TLV* field_128_pTlv;
-    s32 field_12C_tlvInfo;
-    FP field_130_scale;
+    BitField16<SlurgFlags> field_118_flags = {};
+    s16 field_11A_switch_id = 0;
+    Slurg_States field_11C_state = Slurg_States::eMoving_0;
+    s16 field_11E_moving_timer = 0;
+    s16 field_120_delay_random = 0;
+    PathLine* field_124_pLine = nullptr;
+    Path_TLV* field_128_pTlv = nullptr;
+    s32 field_12C_tlvInfo = 0;
+    FP field_130_scale = {};
 };
 ALIVE_ASSERT_SIZEOF(Slurg, 0x134);
 

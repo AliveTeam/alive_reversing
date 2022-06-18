@@ -34,15 +34,15 @@ private:
     void SetupZapAnimation(Animation* pAnim);
 
 private:
-    Animation field_F4_tears_animation;
-    Animation field_18C_zap_animation;
-    u8** field_224_ppRes;
-    s32 field_230_tlvInfo;
-    s32 field_234_flash_colour_timer;
-    s16 field_238_flash_colour_counter;
-    s16 field_23A_kill_switch_id;
-    s16 field_23C_release_switch_id;
-    TorturedMudokonState field_23E_state;
-    s16 field_240_pain_sound_pitch;
+    Animation field_F4_tears_animation = {};
+    Animation field_18C_zap_animation = {};
+    u8** field_224_ppRes = nullptr;
+    s32 field_230_tlvInfo = 0;
+    s32 field_234_flash_colour_timer = 0;
+    s16 field_238_flash_colour_counter = 0;
+    s16 field_23A_kill_switch_id = 0;
+    s16 field_23C_release_switch_id = 0;
+    TorturedMudokonState field_23E_state = TorturedMudokonState::eBeingTortured_0;
+    s16 field_240_pain_sound_pitch = 0;
 };
 ALIVE_ASSERT_SIZEOF(TorturedMudokon, 0x244);

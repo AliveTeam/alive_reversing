@@ -29,11 +29,11 @@ private:
     FP* Random_Speed(FP* random);
 
 private:
-    u8** field_F4_ppRes;
-    ParticleBurst_Item* field_F8_pRes;
-    s16 field_FC_number_of_particles;
-    s32 field_100_timer;
-    BurstType field_104_type;
-    s16 field_106_count;
+    u8** field_F4_ppRes = nullptr;
+    ParticleBurst_Item* field_F8_pRes = nullptr;
+    s16 field_FC_number_of_particles = 0;
+    s32 field_100_timer = 0;
+    BurstType field_104_type = BurstType::eFallingRocks_0;
+    s16 field_106_count = 0;
 };
 ALIVE_ASSERT_SIZEOF(ParticleBurst, 0x108);

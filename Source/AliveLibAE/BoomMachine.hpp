@@ -38,8 +38,8 @@ public:
     virtual void VHandleButton();
 
 private:
-    s32 field_F4_tlvInfo;
-    s32 field_F8_nozzle_id;
-    s32 field_FC_bIsButtonOn;
+    s32 field_F4_tlvInfo = 0;
+    s32 field_F8_nozzle_id = 0;
+    s32 field_FC_bIsButtonOn = 0;
 };
 ALIVE_ASSERT_SIZEOF(BoomMachine, 0x100);

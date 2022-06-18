@@ -360,54 +360,54 @@ public:
     };
 
 
-    MainMenuControllerResources field_F4_resources;
-    Alive::Font field_120_font;
-    Animation field_158_animation;
-    s32 field_1F0_tlvOffsetLevelIdPathId;
-    s32 field_1F4_credits_next_frame;
-    s32 field_1F8_page_timeout; // Timer for starting demos automatically / backing out of menus
-    s16 field_1FC_button_index;
-    s16 field_1FE_highlite_alpha;
-    s16 field_200_highlite_glow_speed;
-    s16 field_202_input_hold_down_timer;
-    u32 field_204_prev_pressed;
-    MainMenuTransition* field_208_transition_obj;
+    MainMenuControllerResources field_F4_resources = {};
+    Alive::Font field_120_font = {};
+    Animation field_158_animation = {};
+    s32 field_1F0_tlvOffsetLevelIdPathId = 0;
+    s32 field_1F4_credits_next_frame = 0;
+    s32 field_1F8_page_timeout = 0; // Timer for starting demos automatically / backing out of menus
+    s16 field_1FC_button_index = 0;
+    s16 field_1FE_highlite_alpha = 0;
+    s16 field_200_highlite_glow_speed = 0;
+    s16 field_202_input_hold_down_timer = 0;
+    u32 field_204_prev_pressed = 0;
+    MainMenuTransition* field_208_transition_obj = nullptr;
 
     // These appear to never be used
-    BaseGameObject* field_20C_pUnused;
-    BaseGameObject* field_210_pUnused;
+    BaseGameObject* field_20C_pUnused = nullptr;
+    BaseGameObject* field_210_pUnused = nullptr;
 
-    s16 field_214_page_index;
-    s16 field_216_previous_page_index;
-    s16 field_218_target_page_index;
-    s16 field_21A_target_button_index;
-    camTransEffectState field_21C_camSwapEffectState;
-    s16 field_21E_changeScreenState;
-    s16 field_220_frame_table_idx;
-    s8 field_222_unused;
-    s32 field_224_timer_anim_delay;
-    s16 field_228_res_idx;
-    s16 field_22A_anim_frame_num;
-    s32 field_22C_T80_animation_delay;
-    s16 field_230_target_entry_index;
-    s16 field_232_unused;
-    const char_type* field_234_pStr;
-    s16 field_238_unused;
-    s16 field_23A_Inside_LoadGame_Screen;
-    BitField32<Flags> field_23C_T80;
-    s32 field_240_credits_current_cam;
-    EReliveLevelIds field_244_lvl_id;
-    s16 field_246_path_id;
-    s16 field_248_camera;
-    s16 field_24A_abeXOff;
-    s16 field_24C_abeYOff;
-    s16 field_24E_start_scale;
-    s16 field_250_selected_entry_index;
-    s16 field_252_unused;
-    FP field_254;
-    FP field_258;
-    s16 field_25C_Inside_FMV_Screen;
-    s16 field_25E_Inside_CheatLevelSelect_Screen;
+    s16 field_214_page_index = 0;
+    s16 field_216_previous_page_index = 0;
+    s16 field_218_target_page_index = 0;
+    s16 field_21A_target_button_index = 0;
+    camTransEffectState field_21C_camSwapEffectState = camTransEffectState::eDone_0;
+    s16 field_21E_changeScreenState = 0;
+    s16 field_220_frame_table_idx = 0;
+    s8 field_222_unused = 0;
+    s32 field_224_timer_anim_delay = 0;
+    s16 field_228_res_idx = 0;
+    s16 field_22A_anim_frame_num = 0;
+    s32 field_22C_T80_animation_delay = 0;
+    s16 field_230_target_entry_index = 0;
+    s16 field_232_unused = 0;
+    const char_type* field_234_pStr = nullptr;
+    s16 field_238_unused = 0;
+    s16 field_23A_Inside_LoadGame_Screen = 0;
+    BitField32<Flags> field_23C_T80 = {};
+    s32 field_240_credits_current_cam = 0;
+    EReliveLevelIds field_244_lvl_id = EReliveLevelIds::eNone;
+    s16 field_246_path_id = 0;
+    s16 field_248_camera = 0;
+    s16 field_24A_abeXOff = 0;
+    s16 field_24C_abeYOff = 0;
+    s16 field_24E_start_scale = 0;
+    s16 field_250_selected_entry_index = 0;
+    s16 field_252_unused = 0;
+    FP field_254 = {};
+    FP field_258 = {};
+    s16 field_25C_Inside_FMV_Screen = 0;
+    s16 field_25E_Inside_CheatLevelSelect_Screen = 0;
 
 private:
     void Unload_Resource(u8**& res);

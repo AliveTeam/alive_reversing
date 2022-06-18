@@ -70,15 +70,15 @@ private:
     s16 OnCollision(BaseGameObject* pHit);
 
 private:
-    MeatStates field_11C_state;
-    s16 field_11E_padding;
-    FP field_120_xpos;
-    FP field_124_ypos;
-    s32 field_128_timer;
-    s32 field_12C_deadtimer;
+    MeatStates field_11C_state = MeatStates::eCreated_0;
+    s16 field_11E_padding = 0;
+    FP field_120_xpos = {};
+    FP field_124_ypos = {};
+    s32 field_128_timer = 0;
+    s32 field_12C_deadtimer = 0;
 
 public:
-    PathLine* field_130_pLine;
+    PathLine* field_130_pLine = nullptr;
 };
 ALIVE_ASSERT_SIZEOF(Meat, 0x134);
 
@@ -103,12 +103,12 @@ public:
     virtual void VUpdate() override;
 
 private:
-    s32 field_118_tlvInfo;
-    s16 field_11C_bDoMeatSackIdleAnim;
-    s16 field_11E_amount_of_meat;
-    s16 field_120_bPlayWobbleSound;
-    s16 field_122_always_0;
-    FP field_124_velX;
-    FP field_128_velY;
+    s32 field_118_tlvInfo = 0;
+    s16 field_11C_bDoMeatSackIdleAnim = 0;
+    s16 field_11E_amount_of_meat = 0;
+    s16 field_120_bPlayWobbleSound = 0;
+    s16 field_122_always_0 = 0;
+    FP field_124_velX = {};
+    FP field_128_velY = {};
 };
 ALIVE_ASSERT_SIZEOF(MeatSack, 0x12C);

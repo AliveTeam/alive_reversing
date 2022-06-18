@@ -22,15 +22,15 @@ public:
     s16 SwitchId() const;
 
 private:
-    FP field_20_xpos;
-    FP field_24_ypos;
-    FP field_28_scale;
-    FP field_2C_door_x;
-    FP field_30_door_y;
-    FP field_34_door_scale;
-    s32 field_38_orb_whirlwind_id;
-    s16 field_3C_state;
-    s32 field_40_timer;
-    s16 field_44_switch_id;
+    FP field_20_xpos = {};
+    FP field_24_ypos = {};
+    FP field_28_scale = {};
+    FP field_2C_door_x = {};
+    FP field_30_door_y = {};
+    FP field_34_door_scale = {};
+    s32 field_38_orb_whirlwind_id = 0;
+    s16 field_3C_state = 0;
+    s32 field_40_timer = 0;
+    s16 field_44_switch_id = 0;
 };
 ALIVE_ASSERT_SIZEOF(SlapLockWhirlWind, 0x48);

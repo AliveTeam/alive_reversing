@@ -277,13 +277,13 @@ public:
 
     static void Reset_TLVs(u16 pathId);
 
-    EReliveLevelIds field_0_levelId;
-    u16 field_2_pathId;
-    s16 field_4_cameraId;
-    u16 field_6_cams_on_x;
-    u16 field_8_cams_on_y;
-    const PathData* field_C_pPathData;
-    u8** field_10_ppRes;
+    EReliveLevelIds field_0_levelId = EReliveLevelIds::eNone;
+    u16 field_2_pathId = 0;
+    s16 field_4_cameraId = 0;
+    u16 field_6_cams_on_x = 0;
+    u16 field_8_cams_on_y = 0;
+    const PathData* field_C_pPathData = nullptr;
+    u8** field_10_ppRes = nullptr;
 };
 ALIVE_ASSERT_SIZEOF(Path, 0x14);
 
