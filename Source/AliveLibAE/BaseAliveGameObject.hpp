@@ -74,7 +74,7 @@ public:
     FP mHealth = {};
     s32 BaseAliveGameObject_PlatformId = 0;
     BitField16<Flags_114> mBaseAliveGameObjectFlags = {};
-    s16 field_116_padding;
+    s16 field_116_padding = 0;
 };
 ALIVE_ASSERT_SIZEOF(BaseAliveGameObject, 0x118);
 

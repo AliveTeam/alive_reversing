@@ -11,7 +11,7 @@ public:
     DeathBirdParticle(FP xpos, FP ypos, s32 start, bool playSound, FP scale);
 
 private:
-    s8 field_F4_random;
+    s8 field_F4_random = 0;
     enum class States : s8
     {
         eAnimateDeathFlares_0 = 0,

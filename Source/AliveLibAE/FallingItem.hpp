@@ -42,7 +42,7 @@ private:
     void DamageHitItems();
 
 private:
-    s32 field_118_tlvInfo;
+    s32 field_118_tlvInfo = 0;
     enum class State : s16
     {
         eWaitForIdEnable_0 = 0,

@@ -676,7 +676,7 @@ public:
     s8 field_17C_cam_idx = 0;
     TlvTypes32 field_180_hand_stone_type = {};
     s16 field_184_fmv_id = 0;
-    s16 field_186_to_camera_id[3];
+    s16 field_186_to_camera_id[3] = {};
     s16 field_18C_unused = 0;
     s16 field_18E_unused = 0;
     s16 field_190_unused = 0;

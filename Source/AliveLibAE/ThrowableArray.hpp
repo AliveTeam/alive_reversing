@@ -33,7 +33,7 @@ public:
     void Add(s16 count);
 
 public:
-    s16 field_20_count;
+    s16 field_20_count = 0;
 
 private:
     enum Flags_22
