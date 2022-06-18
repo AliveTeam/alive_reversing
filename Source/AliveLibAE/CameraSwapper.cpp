@@ -433,10 +433,6 @@ void CameraSwapper::VUpdate()
             {
                 field_3A_current_slice++;
             }
-            else
-            {
-                pScreenManager->DisableRendering();
-            }
 
             // When no movie is playing start the next one
             if (sMovie_ref_count_BB4AE4 == 0)
@@ -455,10 +451,6 @@ void CameraSwapper::VUpdate()
             if (field_3A_current_slice < 1)
             {
                 field_3A_current_slice++;
-            }
-            else
-            {
-                pScreenManager->DisableRendering();
             }
 
             // When no movie is playing start the next one
