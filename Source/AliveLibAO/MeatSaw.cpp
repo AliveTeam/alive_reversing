@@ -141,10 +141,7 @@ MeatSaw::MeatSaw(Path_MeatSaw* pTlv, s32 tlvInfo)
             this,
             motorRec.mMaxW,
             motorRec.mMaxH,
-            ppRes2,
-            1,
-            0,
-            0))
+            ppRes2))
     {
         field_110_anim.mRenderLayer = mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer;
         field_110_anim.field_14_scale = mBaseAnimatedWithPhysicsGameObject_SpriteScale;

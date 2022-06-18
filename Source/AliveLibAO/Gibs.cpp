@@ -125,10 +125,7 @@ Gibs::Gibs(GibType gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scale)
                     this,
                     static_cast<s16>(armRec.mMaxW),
                     static_cast<s16>(armRec.mMaxH),
-                    ppAnimData,
-                    1,
-                    0,
-                    0))
+                    ppAnimData))
             {
                 field_5C4_parts_used_count = i;
                 mBaseGameObjectFlags.Set(BaseGameObject::eDead);
@@ -144,10 +141,7 @@ Gibs::Gibs(GibType gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scale)
                     this,
                     static_cast<s16>(bodyRec.mMaxW),
                     static_cast<s16>(bodyRec.mMaxH),
-                    ppAnimData,
-                    1,
-                    0,
-                    0))
+                    ppAnimData))
             {
                 field_5C4_parts_used_count = i;
                 mBaseGameObjectFlags.Set(BaseGameObject::eDead);

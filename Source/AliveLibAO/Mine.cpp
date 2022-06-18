@@ -55,10 +55,7 @@ Mine::Mine(Path_Mine* pTlv, s32 tlvInfo)
         this,
         flashRec.mMaxW,
         flashRec.mMaxH,
-        ppFLashRes,
-        1,
-        0,
-        0);
+        ppFLashRes);
 
     field_118_animation.mRenderLayer = mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer;
     field_118_animation.mAnimFlags.Set(AnimFlags::eBit16_bBlending);

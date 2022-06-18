@@ -446,10 +446,12 @@ void Animation::VRender(s32 xpos, s32 ypos, PrimHeader** ppOt, s16 width, s16 he
             u8 u1 = field_84_vram_rect.x & 63;
             if (textureMode == TPageMode::e8Bit_1)
             {
+                // 8 bit
                 u1 *= 2;
             }
             else if (textureMode == TPageMode::e4Bit_0)
             {
+                // 4 bit
                 u1 *= 4;
             }
             else
@@ -780,7 +782,7 @@ s16 Animation::Get_Frame_Count()
     return pHead->field_2_num_frames;
 }
 
-s16 Animation::Init(s32 frameTableOffset, DynamicArray* /*animList*/, BaseGameObject* pGameObj, u16 maxW, u16 maxH, u8** ppAnimData, u8 bAllocateVRam, s32 b_StartingAlternationState, s8 bEnable_flag10_alternating)
+s16 Animation::Init(s32 frameTableOffset, DynamicArray* /*animList*/, BaseGameObject* pGameObj, u16 maxW, u16 maxH, u8** ppAnimData)
 {
     FrameTableOffsetExists(frameTableOffset, false, maxW, maxH);
     mAnimFlags.Raw().all = 0; // TODO extra - init to 0's first - this may be wrong if any bits are explicitly set before this is called
@@ -807,9 +809,9 @@ s16 Animation::Init(s32 frameTableOffset, DynamicArray* /*animList*/, BaseGameOb
 
     mAnimFlags.Set(AnimFlags::eBit8_Loop, pHeader->field_6_flags & AnimationHeader::eLoopFlag);
 
-    mAnimFlags.Set(AnimFlags::eBit10_alternating_flag, bEnable_flag10_alternating);
+    mAnimFlags.Clear(AnimFlags::eBit10_alternating_flag);
 
-    mAnimFlags.Set(AnimFlags::eBit11_bToggle_Bit10, b_StartingAlternationState);
+    mAnimFlags.Clear(AnimFlags::eBit11_bToggle_Bit10);
 
     mAnimFlags.Clear(AnimFlags::eBit14_Is16Bit);
     mAnimFlags.Clear(AnimFlags::eBit13_Is8Bit);
@@ -839,7 +841,7 @@ s16 Animation::Init(s32 frameTableOffset, DynamicArray* /*animList*/, BaseGameOb
 
     u8* pClut = &pAnimData[pFrameHeader->field_0_clut_offset];
 
-    if (bAllocateVRam)
+    //if (bAllocateVRam)
     {
         field_84_vram_rect.w = 0;
     }
@@ -887,7 +889,7 @@ s16 Animation::Init(s32 frameTableOffset, DynamicArray* /*animList*/, BaseGameOb
     }
 
     s32 bVramAllocOK = 1;
-    if (bAllocateVRam)
+    //if (bAllocateVRam)
     {
         bVramAllocOK = vram_alloc_450B20(maxW, maxH, pFrameHeader->field_6_colour_depth, &field_84_vram_rect);
     }

@@ -52,10 +52,7 @@ TimedMine::TimedMine(Path_TimedMine* pTlv, s32 tlvInfo)
             this,
             tickRec.mMaxW,
             tickRec.mMaxH,
-            ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kBombflshAOResID, 1, 0),
-            1,
-            0,
-            0))
+            ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kBombflshAOResID, 1, 0)))
     {
         field_118_anim.mAnimFlags.Set(AnimFlags::eBit15_bSemiTrans);
         field_118_anim.mAnimFlags.Set(AnimFlags::eBit16_bBlending);

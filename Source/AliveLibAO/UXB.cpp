@@ -171,10 +171,7 @@ void UXB::InitBlinkAnim()
             this,
             tickRec.mMaxW,
             tickRec.mMaxH,
-            ppRes,
-            1,
-            0,
-            0))
+            ppRes))
     {
         field_11C_anim.mAnimFlags.Set(AnimFlags::eBit15_bSemiTrans);
         field_11C_anim.mAnimFlags.Set(AnimFlags::eBit16_bBlending);

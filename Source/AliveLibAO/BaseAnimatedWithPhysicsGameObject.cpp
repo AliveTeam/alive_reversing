@@ -131,10 +131,7 @@ void BaseAnimatedWithPhysicsGameObject::Animation_Init_417FD0(s32 frameTableOffs
             this,
             static_cast<u16>(maxW),
             static_cast<u16>(maxH),
-            ppAnimData,
-            1,
-            0,
-            0))
+            ppAnimData))
     {
         if (mBaseAnimatedWithPhysicsGameObject_SpriteScale == FP_FromInteger(1))
         {
