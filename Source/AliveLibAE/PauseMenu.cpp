@@ -1646,7 +1646,7 @@ void PauseMenu::VUpdate()
                 FrameInfoHeader* pFrameInfoHeader = field_158_animation.Get_FrameHeader(0);
                 FrameHeader* pHeader = reinterpret_cast<FrameHeader*>(&(*field_158_animation.field_20_ppBlock)[pFrameInfoHeader->field_0_frame_header_offset]);
 
-                field_158_animation.Load_Pal(field_158_animation.field_20_ppBlock, pHeader->field_0_clut_offset);
+                field_158_animation.LoadPal(field_158_animation.field_20_ppBlock, pHeader->field_0_clut_offset);
                 sDisableFontFlicker_5C9304 = 1;
                 field_144_active_menu = sPM_Page_Main_5465B0;
 

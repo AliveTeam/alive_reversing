@@ -377,7 +377,7 @@ s16 BaseAliveGameObject::SetBaseAnimPaletteTint(TintEntry* pTintArray, EReliveLe
         return 0;
     }
 
-    mBaseAnimatedWithPhysicsGameObject_Anim.Load_Pal(pPalResource, 0);
+    mBaseAnimatedWithPhysicsGameObject_Anim.LoadPal(pPalResource, 0);
     ResourceManager::FreeResource_49C330(pPalResource);
     return 1;
 }

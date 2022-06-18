@@ -1145,38 +1145,38 @@ void Mudokon::SetPal(Mud_Emotion emotion)
             if (field_16A_flags.Get(Flags_16A::eBit4_blind))
             {
                 mBaseAnimatedWithPhysicsGameObject_RGB.SetRGB(63, 63, 63);
-                mBaseAnimatedWithPhysicsGameObject_Anim.Load_Pal(field_10_resources_array.ItemAt(16), 0);
+                mBaseAnimatedWithPhysicsGameObject_Anim.LoadPal(field_10_resources_array.ItemAt(16), 0);
             }
             else
             {
                 mBaseAnimatedWithPhysicsGameObject_RGB.SetRGB(87, 103, 67);
                 FrameInfoHeader* pFrameInfoHeader = mBaseAnimatedWithPhysicsGameObject_Anim.Get_FrameHeader(-1);
                 FrameHeader* pHeader = reinterpret_cast<FrameHeader*>(&(*mBaseAnimatedWithPhysicsGameObject_Anim.field_20_ppBlock)[pFrameInfoHeader->field_0_frame_header_offset]);
-                mBaseAnimatedWithPhysicsGameObject_Anim.Load_Pal(mBaseAnimatedWithPhysicsGameObject_Anim.field_20_ppBlock, pHeader->field_0_clut_offset);
+                mBaseAnimatedWithPhysicsGameObject_Anim.LoadPal(mBaseAnimatedWithPhysicsGameObject_Anim.field_20_ppBlock, pHeader->field_0_clut_offset);
             }
             break;
 
         case Mud_Emotion::eAngry_1:
         case Mud_Emotion::eAggressive_2:
             mBaseAnimatedWithPhysicsGameObject_RGB.SetRGB(63, 63, 63);
-            mBaseAnimatedWithPhysicsGameObject_Anim.Load_Pal(field_10_resources_array.ItemAt(13), 0);
+            mBaseAnimatedWithPhysicsGameObject_Anim.LoadPal(field_10_resources_array.ItemAt(13), 0);
             break;
 
         case Mud_Emotion::eSad_3:
         case Mud_Emotion::eSuicidal_4:
             mBaseAnimatedWithPhysicsGameObject_RGB.SetRGB(63, 63, 63);
-            mBaseAnimatedWithPhysicsGameObject_Anim.Load_Pal(field_10_resources_array.ItemAt(14), 0);
+            mBaseAnimatedWithPhysicsGameObject_Anim.LoadPal(field_10_resources_array.ItemAt(14), 0);
             break;
 
         case Mud_Emotion::eHappy_5:
         case Mud_Emotion::eWired_6:
             mBaseAnimatedWithPhysicsGameObject_RGB.SetRGB(74, 74, 74);
-            mBaseAnimatedWithPhysicsGameObject_Anim.Load_Pal(field_10_resources_array.ItemAt(15), 0);
+            mBaseAnimatedWithPhysicsGameObject_Anim.LoadPal(field_10_resources_array.ItemAt(15), 0);
             break;
 
         case Mud_Emotion::eSick_7:
             mBaseAnimatedWithPhysicsGameObject_RGB.SetRGB(63, 63, 63);
-            mBaseAnimatedWithPhysicsGameObject_Anim.Load_Pal(field_10_resources_array.ItemAt(17), 0);
+            mBaseAnimatedWithPhysicsGameObject_Anim.LoadPal(field_10_resources_array.ItemAt(17), 0);
             break;
     }
 }

@@ -47,7 +47,7 @@ Rock::Rock(FP xpos, FP ypos, s16 count)
     u8** ppPal = ResourceManager::GetLoadedResource(ResourceManager::Resource_Palt, AEResourceID::kAberockResID, 0, 0);
     if (ppPal)
     {
-        mBaseAnimatedWithPhysicsGameObject_Anim.Load_Pal(ppPal, 0);
+        mBaseAnimatedWithPhysicsGameObject_Anim.LoadPal(ppPal, 0);
     }
     else
     {
@@ -55,7 +55,7 @@ Rock::Rock(FP xpos, FP ypos, s16 count)
 
         const FrameHeader* pFrameHeader = reinterpret_cast<const FrameHeader*>(&(*mBaseAnimatedWithPhysicsGameObject_Anim.field_20_ppBlock)[pFrameInfo->field_0_frame_header_offset]);
 
-        mBaseAnimatedWithPhysicsGameObject_Anim.Load_Pal(
+        mBaseAnimatedWithPhysicsGameObject_Anim.LoadPal(
             mBaseAnimatedWithPhysicsGameObject_Anim.field_20_ppBlock,
             pFrameHeader->field_0_clut_offset);
     }

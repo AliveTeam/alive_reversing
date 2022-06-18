@@ -1085,7 +1085,7 @@ s32 Abe::CreateFromSaveState(const u8* pData)
 
     FrameInfoHeader* pFrameInfoHeader = sActiveHero->mBaseAnimatedWithPhysicsGameObject_Anim.Get_FrameHeader(-1);
     const FrameHeader* pFrameHeader = reinterpret_cast<const FrameHeader*>(&(*sActiveHero->mBaseAnimatedWithPhysicsGameObject_Anim.field_20_ppBlock)[pFrameInfoHeader->field_0_frame_header_offset]);
-    sActiveHero->mBaseAnimatedWithPhysicsGameObject_Anim.Load_Pal(sActiveHero->mBaseAnimatedWithPhysicsGameObject_Anim.field_20_ppBlock, pFrameHeader->field_0_clut_offset);
+    sActiveHero->mBaseAnimatedWithPhysicsGameObject_Anim.LoadPal(sActiveHero->mBaseAnimatedWithPhysicsGameObject_Anim.field_20_ppBlock, pFrameHeader->field_0_clut_offset);
 
     sActiveHero->SetTint(sTintTable_Abe_554D20, gMap.mCurrentLevel);
     sActiveHero->mBaseAnimatedWithPhysicsGameObject_Anim.mRenderMode = TPageAbr::eBlend_0;

@@ -138,6 +138,8 @@ public:
 
     void DecompressFrame();
 
+    void Animation_Pal_Free();
+
     s32 field_10_frame_delay;
     FP field_14_scale;
     s32 field_18_frame_table_offset;

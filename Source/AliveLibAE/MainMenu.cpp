@@ -3135,7 +3135,7 @@ void MainMenuController::Load_Anim_Pal_4D06A0(Animation* pAnim)
     // TODO: If this is duplicated a lot it can be moved to a helper
     const FrameInfoHeader* pFrameInfo = pAnim->Get_FrameHeader(0);
     const FrameHeader* pFrameHeader = reinterpret_cast<const FrameHeader*>(&(*pAnim->field_20_ppBlock)[pFrameInfo->field_0_frame_header_offset]);
-    pAnim->Load_Pal(pAnim->field_20_ppBlock, pFrameHeader->field_0_clut_offset);
+    pAnim->LoadPal(pAnim->field_20_ppBlock, pFrameHeader->field_0_clut_offset);
 }
 
 ALIVE_VAR(1, 0x5ca408, u32, sLevelId_dword_5CA408, 0);

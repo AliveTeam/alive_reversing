@@ -258,7 +258,7 @@ Gibs::Gibs(GibType gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scale, bool b
 
         if (ppRes)
         {
-            pPart->field_18_animation.Load_Pal(ppRes, 0);
+            pPart->field_18_animation.LoadPal(ppRes, 0);
         }
 
         pPart++;

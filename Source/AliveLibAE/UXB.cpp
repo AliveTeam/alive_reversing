@@ -154,7 +154,7 @@ UXB::UXB(Path_UXB* tlv_params, TlvItemInfoUnion itemInfo)
     {
         if (tlv_params->field_16_start_state == Path_UXB::StartState::eOn_0)
         {
-            field_128_animation.Load_Pal(ResourceManager::GetLoadedResource(ResourceManager::Resource_Palt, AEResourceID::kGrenflshResID, 0, 0), 0);
+            field_128_animation.LoadPal(ResourceManager::GetLoadedResource(ResourceManager::Resource_Palt, AEResourceID::kGrenflshResID, 0, 0), 0);
             field_1C8_flags.Clear(UXB_Flags_1C8::eIsRed_Bit1);
             const AnimRecord& flashRec = AnimRec(AnimId::Bomb_RedGreenTick);
             field_128_animation.Set_Animation_Data(flashRec.mFrameTableOffset, 0);
@@ -178,7 +178,7 @@ UXB::UXB(Path_UXB* tlv_params, TlvItemInfoUnion itemInfo)
         }
         else
         {
-            field_128_animation.Load_Pal(ResourceManager::GetLoadedResource(ResourceManager::Resource_Palt, AEResourceID::kGrenflshResID, 0, 0), 0);
+            field_128_animation.LoadPal(ResourceManager::GetLoadedResource(ResourceManager::Resource_Palt, AEResourceID::kGrenflshResID, 0, 0), 0);
             field_1C8_flags.Clear(UXB_Flags_1C8::eIsRed_Bit1);
             const AnimRecord& flashRec = AnimRec(AnimId::Bomb_RedGreenTick);
             field_128_animation.Set_Animation_Data(flashRec.mFrameTableOffset, 0);
@@ -377,7 +377,7 @@ void UXB::VUpdate()
                     field_1C6_red_blink_count--;
                     if (field_1C6_red_blink_count == 0)
                     {
-                        field_128_animation.Load_Pal(ResourceManager::GetLoadedResource(ResourceManager::Resource_Palt, AEResourceID::kGrenflshResID, 0, 0), 0);
+                        field_128_animation.LoadPal(ResourceManager::GetLoadedResource(ResourceManager::Resource_Palt, AEResourceID::kGrenflshResID, 0, 0), 0);
                         field_1C8_flags.Clear(UXB_Flags_1C8::eIsRed_Bit1);
                     }
                 }
@@ -385,7 +385,7 @@ void UXB::VUpdate()
                 {
                     const FrameInfoHeader* pFrameInfo = field_128_animation.Get_FrameHeader(-1);
                     const FrameHeader* pFrameHeader = reinterpret_cast<const FrameHeader*>(&(*field_128_animation.field_20_ppBlock)[pFrameInfo->field_0_frame_header_offset]);
-                    field_128_animation.Load_Pal(field_128_animation.field_20_ppBlock, pFrameHeader->field_0_clut_offset);
+                    field_128_animation.LoadPal(field_128_animation.field_20_ppBlock, pFrameHeader->field_0_clut_offset);
 
                     field_1C8_flags.Set(UXB_Flags_1C8::eIsRed_Bit1);
 
@@ -556,7 +556,7 @@ s32 UXB::CreateFromSaveState(const u8* __pSaveState)
 
     if (pSaveState->field_C_state == UXBState::eDeactivated_3)
     {
-        pUXB->field_128_animation.Load_Pal(ResourceManager::GetLoadedResource(ResourceManager::Resource_Palt, AEResourceID::kGrenflshResID, 0, 0), 0);
+        pUXB->field_128_animation.LoadPal(ResourceManager::GetLoadedResource(ResourceManager::Resource_Palt, AEResourceID::kGrenflshResID, 0, 0), 0);
         const AnimRecord& tickRec = AnimRec(AnimId::Bomb_RedGreenTick);
         pUXB->field_128_animation.Set_Animation_Data(tickRec.mFrameTableOffset, 0);
         const AnimRecord& animRec = AnimRec(AnimId::UXB_Disabled);

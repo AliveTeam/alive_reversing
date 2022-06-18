@@ -303,7 +303,6 @@ void Animation::UploadTexture(const FrameHeader* pFrameHeader, const PSX_RECT& v
     }
 }
 
-
 bool Animation::EnsureDecompressionBuffer()
 {
     if (!field_24_dbuf)
@@ -465,11 +464,11 @@ void Animation::VRender(s32 xpos, s32 ypos, PrimHeader** ppOt, s16 width, s16 he
             if (field_14_scale != FP_FromInteger(1))
             {
                 // Apply scale to x/y pos
-                frame_height_fixed = (frame_height_fixed * field_14_scale);
-                frame_width_fixed = (frame_width_fixed * field_14_scale);
+                frame_height_fixed *= field_14_scale;
+                frame_width_fixed *= field_14_scale;
 
                 // Apply scale to x/y offset
-                xOffSet_fixed = (xOffSet_fixed * field_14_scale);
+                xOffSet_fixed *= field_14_scale;
                 yOffset_fixed = (yOffset_fixed * field_14_scale) - FP_FromInteger(1);
             }
 
@@ -511,24 +510,9 @@ void Animation::VRender(s32 xpos, s32 ypos, PrimHeader** ppOt, s16 width, s16 he
 
 void Animation::VCleanUp()
 {
-    if (mAnimFlags.Get(AnimFlags::eBit17_bOwnPal))
-    {
-        ResourceManager::FreeResource_455550(field_20_ppBlock);
-    }
-
     gAnimations->Remove_Item(this);
 
-
-    // inlined Animation_Pal_Free ?
-    if (field_84_vram_rect.w > 0)
-    {
-        Vram_free_450CE0({field_84_vram_rect.x, field_84_vram_rect.y}, {field_84_vram_rect.w, field_84_vram_rect.h});
-    }
-
-    if (field_90_pal_depth > 0)
-    {
-        IRenderer::GetRenderer()->PalFree(IRenderer::PalRecord{field_8C_pal_vram_xy.field_0_x, field_8C_pal_vram_xy.field_2_y, field_90_pal_depth});
-    }
+    Animation_Pal_Free();
 
     ResourceManager::FreeResource_455550(field_24_dbuf);
 }
@@ -687,6 +671,25 @@ s16 Animation::Set_Animation_Data(s32 frameTableOffset, u8** pAnimRes)
     field_92_current_frame = -1;
 
     return 1;
+}
+
+
+void Animation::Animation_Pal_Free()
+{
+    if (mAnimFlags.Get(AnimFlags::eBit17_bOwnPal))
+    {
+        ResourceManager::FreeResource_455550(field_20_ppBlock);
+    }
+
+    if (field_84_vram_rect.w > 0)
+    {
+        Vram_free_450CE0({field_84_vram_rect.x, field_84_vram_rect.y}, {field_84_vram_rect.w, field_84_vram_rect.h});
+    }
+
+    if (field_90_pal_depth > 0)
+    {
+        IRenderer::GetRenderer()->PalFree(IRenderer::PalRecord{field_8C_pal_vram_xy.field_0_x, field_8C_pal_vram_xy.field_2_y, field_90_pal_depth});
+    }
 }
 
 void Animation::SetFrame(s16 newFrame)

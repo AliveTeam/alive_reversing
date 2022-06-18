@@ -118,7 +118,7 @@ public:
     u16 Get_Frame_Count();
 
     FrameInfoHeader* Get_FrameHeader(s16 frame);
-    void Load_Pal(u8** pAnimData, s32 palOffset);
+    void LoadPal(u8** pAnimData, s32 palOffset);
     void Get_Frame_Rect(PSX_RECT* pRect);
    
 

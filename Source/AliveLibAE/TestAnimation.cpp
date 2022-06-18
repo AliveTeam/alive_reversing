@@ -52,7 +52,7 @@ void TestAnimation::DelayLoad()
         u8** ppPal = Add_Resource(ResourceManager::Resource_Palt, palRec.mResourceId);
         if (ppPal)
         {
-            mBaseAnimatedWithPhysicsGameObject_Anim.Load_Pal(ppPal, 0);
+            mBaseAnimatedWithPhysicsGameObject_Anim.LoadPal(ppPal, 0);
         }
     }
 }

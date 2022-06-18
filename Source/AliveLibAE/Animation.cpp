@@ -508,7 +508,7 @@ void Animation::VRender(s32 xpos, s32 ypos, PrimHeader** ppOt, s16 width, s32 he
     const u8 u0 = pFrameHeader->field_4_width + u1 - 1;
     const u8 v1 = pFrameHeader->field_5_height + v0 - 1;
 
-    if (field_14_scale != FP_FromDouble(1.0))
+    if (field_14_scale != FP_FromInteger(1))
     {
         // Apply scale to x/y pos
         frame_height_fixed *= field_14_scale;
@@ -523,7 +523,7 @@ void Animation::VRender(s32 xpos, s32 ypos, PrimHeader** ppOt, s16 width, s32 he
 
         // Apply scale to x/y offset
         xOffSet_fixed *= field_14_scale;
-        yOffset_fixed = (yOffset_fixed * field_14_scale) - FP_FromDouble(1.0);
+        yOffset_fixed = (yOffset_fixed * field_14_scale) - FP_FromInteger(1);
     }
 
     s16 polyXPos = 0;
@@ -596,7 +596,9 @@ void Animation::VRender(s32 xpos, s32 ypos, PrimHeader** ppOt, s16 width, s32 he
 void Animation::VCleanUp()
 {
     gAnimations->Remove_Item(this);
+
     Animation_Pal_Free();
+
     ResourceManager::FreeResource_49C330(field_24_dbuf);
 }
 
@@ -1051,18 +1053,18 @@ s16 Animation::Init(s32 frameTableOffset, DynamicArray* /*animList*/, BaseGameOb
     return 1;
 }
 
-void Animation::Load_Pal(u8** pAnimData, s32 palOffset)
+void Animation::LoadPal(u8** pAnimData, s32 palOffset)
 {
     if (pAnimData)
     {
         // +4 = skip CLUT len
-        const u8* pPal = &(*pAnimData)[palOffset];
+        const u8* pPalDataOffset = &(*pAnimData)[palOffset];
         if (field_90_pal_depth != 16 && field_90_pal_depth != 64 && field_90_pal_depth != 256)
         {
             LOG_ERROR("Bad pal depth " << field_90_pal_depth);
             ALIVE_FATAL("Bad pal depth");
         }
-        IRenderer::GetRenderer()->PalSetData(IRenderer::PalRecord{field_8C_pal_vram_xy.field_0_x, field_8C_pal_vram_xy.field_2_y, field_90_pal_depth}, pPal + 4);
+        IRenderer::GetRenderer()->PalSetData(IRenderer::PalRecord{field_8C_pal_vram_xy.field_0_x, field_8C_pal_vram_xy.field_2_y, field_90_pal_depth}, pPalDataOffset + 4); // +4 skip len, load pal
     }
 }
 
