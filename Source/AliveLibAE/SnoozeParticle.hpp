@@ -43,6 +43,6 @@ private:
     Prim_SetTPage field_1C4_tPage[2] = {};
 
 public:
-    SnoozeParticleState field_1E4_state = SnoozeParticleState::eBlowingUp_2;
+    SnoozeParticleState field_1E4_state = SnoozeParticleState::eRising_0;
 };
 ALIVE_ASSERT_SIZEOF(SnoozeParticle, 0x1E8);
