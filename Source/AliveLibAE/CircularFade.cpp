@@ -27,7 +27,7 @@ CircularFade::CircularFade(FP xpos, FP ypos, FP scale, s16 direction, s8 destroy
 
     const AnimRecord& spotLightRec = AnimRec(AnimId::SpotLight);
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kSpotliteResID);
-    Animation_Init(spotLightRec.mFrameTableOffset, spotLightRec.mMaxW, spotLightRec.mMaxH, ppRes, 1, 1u);
+    Animation_Init(spotLightRec.mFrameTableOffset, spotLightRec.mMaxW, spotLightRec.mMaxH, ppRes, 1);
 
     mApplyShadows &= ~1u;
 

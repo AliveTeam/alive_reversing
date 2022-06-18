@@ -20,7 +20,7 @@ Dove::Dove(s32 frameTableOffset, s32 maxW, s32 maxH, s32 resourceID, s32 tlvInfo
     SetType(ReliveTypes::eDove);
 
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, resourceID);
-    Animation_Init(frameTableOffset, maxW, maxH, ppRes, 1, 1);
+    Animation_Init(frameTableOffset, maxW, maxH, ppRes, 1);
 
     mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit15_bSemiTrans);
 
@@ -70,7 +70,7 @@ Dove::Dove(s32 frameTableOffset, s32 maxW, s32 maxH, s32 resourceID, FP xpos, FP
     SetType(ReliveTypes::eDove);
 
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, resourceID);
-    Animation_Init(frameTableOffset, maxW, maxH, ppRes, 1, 1);
+    Animation_Init(frameTableOffset, maxW, maxH, ppRes, 1);
 
     mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit15_bSemiTrans);
     mBaseAnimatedWithPhysicsGameObject_Anim.field_14_scale = scale;

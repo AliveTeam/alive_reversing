@@ -36,7 +36,7 @@ const TintEntry sTintMap_UXB_563A3C[19] = {
 void UXB::InitBlinkAnim(Animation* pAnimation)
 {
     const AnimRecord& rec = AnimRec(AnimId::Bomb_RedGreenTick);
-    if (pAnimation->Init(rec.mFrameTableOffset, gAnimations, this, rec.mMaxW, rec.mMaxH, Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId), 1u))
+    if (pAnimation->Init(rec.mFrameTableOffset, gAnimations, this, rec.mMaxW, rec.mMaxH, Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId)))
     {
         pAnimation->mRenderLayer = mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer;
         pAnimation->mAnimFlags.Set(AnimFlags::eBit15_bSemiTrans);
@@ -105,7 +105,7 @@ UXB::UXB(Path_UXB* tlv_params, TlvItemInfoUnion itemInfo)
 
     const AnimRecord& activeRec = AnimRec(AnimId::UXB_Active);
     auto pResource = BaseGameObject::Add_Resource(ResourceManager::Resource_Animation, activeRec.mResourceId);
-    Animation_Init(activeRec.mFrameTableOffset, activeRec.mMaxW, activeRec.mMaxH, pResource, 1, 1u);
+    Animation_Init(activeRec.mFrameTableOffset, activeRec.mMaxW, activeRec.mMaxH, pResource, 1);
 
     mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit15_bSemiTrans);
     mBaseAnimatedWithPhysicsGameObject_Anim.mRenderMode = TPageAbr::eBlend_0;

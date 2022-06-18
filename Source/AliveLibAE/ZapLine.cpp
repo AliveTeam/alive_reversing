@@ -20,7 +20,7 @@ ZapLine::ZapLine(FP xPosSource, FP yPosSource, FP xPosDest, FP yPosDest, s32 ali
         field_12E_number_of_segments = 12;
         const AnimRecord& rec = AnimRec(AnimId::Zap_Line_Blue);
         u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
-        Animation_Init(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
+        Animation_Init(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
         field_12C_tPageAbr = TPageAbr::eBlend_3;
     }
     else if (type == ZapLineType::eThick_0)
@@ -30,7 +30,7 @@ ZapLine::ZapLine(FP xPosSource, FP yPosSource, FP xPosDest, FP yPosDest, s32 ali
         field_12E_number_of_segments = 28;
         const AnimRecord& rec = AnimRec(AnimId::Zap_Line_Red);
         u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
-        Animation_Init(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
+        Animation_Init(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
         field_12C_tPageAbr = TPageAbr::eBlend_1;
     }
 

@@ -113,7 +113,7 @@ public:
     s16 Set_Animation_Data(s32 frameTableOffset, u8** pAnimRes);
     void SetFrame(s16 newFrame);
     
-    s16 Init(s32 frameTableOffset, DynamicArray* animList, BaseGameObject* pGameObj, u16 maxW, u16 maxH, u8** ppAnimData, u8 bOwnsPalData);
+    s16 Init(s32 frameTableOffset, DynamicArray* animList, BaseGameObject* pGameObj, u16 maxW, u16 maxH, u8** ppAnimData);
    
     u16 Get_Frame_Count();
 

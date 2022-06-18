@@ -28,7 +28,7 @@ TimedMine::TimedMine(Path_TimedMine* pPath, TlvItemInfoUnion tlv)
 
     const AnimRecord& rec = AnimRec(AnimId::TimedMine_Idle);
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
-    Animation_Init(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
+    Animation_Init(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
 
     mBaseGameObjectFlags.Set(Options::eInteractive_Bit8);
 
@@ -168,7 +168,7 @@ void TimedMine::VRender(PrimHeader** ppOt)
 void TimedMine::InitBlinkAnimation(Animation* pAnimation)
 {
     const AnimRecord& tickRec = AnimRec(AnimId::Bomb_RedGreenTick);
-    if (pAnimation->Init(tickRec.mFrameTableOffset, gAnimations, this, tickRec.mMaxW, tickRec.mMaxH, Add_Resource(ResourceManager::Resource_Animation, tickRec.mResourceId), 1))
+    if (pAnimation->Init(tickRec.mFrameTableOffset, gAnimations, this, tickRec.mMaxW, tickRec.mMaxH, Add_Resource(ResourceManager::Resource_Animation, tickRec.mResourceId)))
     {
         pAnimation->mRenderLayer = mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer;
         pAnimation->mAnimFlags.Set(AnimFlags::eBit15_bSemiTrans);

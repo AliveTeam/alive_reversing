@@ -25,7 +25,7 @@ MineCar::MineCar(Path_MineCar* pTlv, s32 tlvInfo, s32 /*a4*/, s32 /*a5*/, s32 /*
 
     const AnimRecord& rec = AnimRec(AnimId::Mine_Car_Open);
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
-    Animation_Init(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
+    Animation_Init(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
 
     field_11E_scale = pTlv->field_10_scale;
     field_120_max_damage = pTlv->field_12_max_damage;
@@ -285,7 +285,7 @@ void MineCar::LoadAnimation(Animation* pAnim)
     const AnimRecord& rec = AnimRec(AnimId::Mine_Car_Tread_Idle);
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
 
-    if (pAnim->Init(rec.mFrameTableOffset, gAnimations, this, rec.mMaxW, rec.mMaxH, ppRes, 1))
+    if (pAnim->Init(rec.mFrameTableOffset, gAnimations, this, rec.mMaxW, rec.mMaxH, ppRes))
     {
         pAnim->mRenderLayer = mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer;
         pAnim->mAnimFlags.Clear(AnimFlags::eBit16_bBlending);

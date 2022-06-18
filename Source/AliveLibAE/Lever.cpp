@@ -33,7 +33,7 @@ Lever::Lever(Path_Lever* pTlv, u32 tlvInfo)
     SetType(ReliveTypes::eLever);
     const AnimRecord& rec = AnimRec(AnimId::Lever_Idle);
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
-    Animation_Init(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
+    Animation_Init(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
 
     mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit15_bSemiTrans);
     field_F4_switch_id = pTlv->field_1A_switch_id;

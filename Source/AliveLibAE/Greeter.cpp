@@ -24,7 +24,7 @@ Greeter::Greeter(Path_Greeter* pTlv, s32 tlvInfo)
     SetType(ReliveTypes::eGreeter);
     const AnimRecord& rec = AnimRec(AnimId::Greeter_Moving);
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
-    Animation_Init(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
+    Animation_Init(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
 
     mApplyShadows |= 2u;
 

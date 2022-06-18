@@ -40,7 +40,6 @@ void PlatformBase::AddDynamicCollision(s32 frameTableOffset, s32 maxW, u16 maxH,
         maxW,
         maxH,
         ppAnimData,
-        1,
         1);
 
     if (mBaseAnimatedWithPhysicsGameObject_SpriteScale == FP_FromInteger(1))

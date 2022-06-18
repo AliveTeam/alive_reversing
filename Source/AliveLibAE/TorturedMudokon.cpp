@@ -22,7 +22,7 @@ TorturedMudokon::TorturedMudokon(Path_TorturedMudokon* pTlv, s32 tlvInfo)
     {
         mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pTlv->field_8_top_left.field_0_x);
         mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->field_8_top_left.field_2_y);
-        Animation_Init(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, field_224_ppRes, 1, 1);
+        Animation_Init(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, field_224_ppRes, 1);
         mBaseAnimatedWithPhysicsGameObject_Anim.SetFrame(Math_RandomRange(0, mBaseAnimatedWithPhysicsGameObject_Anim.Get_Frame_Count() - 1));
         field_23A_kill_switch_id = pTlv->field_10_kill_switch_id;
         field_23C_release_switch_id = pTlv->field_12_release_switch_id;
@@ -44,7 +44,7 @@ void TorturedMudokon::SetupTearsAnimation(Animation* pAnim)
 {
     const AnimRecord& rec = AnimRec(AnimId::Tortured_Mudokon_Tears);
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
-    if (pAnim->Init(rec.mFrameTableOffset, gAnimations, this, rec.mMaxW, rec.mMaxH, ppRes, 1))
+    if (pAnim->Init(rec.mFrameTableOffset, gAnimations, this, rec.mMaxW, rec.mMaxH, ppRes))
     {
         pAnim->mRenderLayer = mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer;
         pAnim->field_14_scale = mBaseAnimatedWithPhysicsGameObject_SpriteScale;
@@ -62,7 +62,7 @@ void TorturedMudokon::SetupZapAnimation(Animation* pAnim)
 {
     const AnimRecord& rec = AnimRec(AnimId::Electric_Wall);
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
-    if (pAnim->Init(rec.mFrameTableOffset, gAnimations, this, rec.mMaxW, rec.mMaxH, ppRes, 1))
+    if (pAnim->Init(rec.mFrameTableOffset, gAnimations, this, rec.mMaxW, rec.mMaxH, ppRes))
     {
         // TODO: clean this up
         const s32 layerM1 = static_cast<s32>(mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer) - 1;

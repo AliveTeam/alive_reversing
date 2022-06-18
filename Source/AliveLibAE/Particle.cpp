@@ -16,7 +16,7 @@ Particle::Particle(FP xpos, FP ypos, s32 animFrameTableOffset, s32 maxW, s32 max
 
     mBaseAnimatedWithPhysicsGameObject_RGB.SetRGB(128, 128, 128);
 
-    Animation_Init(animFrameTableOffset, static_cast<s16>(maxW), static_cast<s16>(maxH), ppAnimData, 1, 1);
+    Animation_Init(animFrameTableOffset, static_cast<s16>(maxW), static_cast<s16>(maxH), ppAnimData, 1);
 
     if (mBaseGameObjectFlags.Get(Options::eListAddFailed_Bit1))
     {

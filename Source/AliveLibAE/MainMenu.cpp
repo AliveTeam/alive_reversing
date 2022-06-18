@@ -511,7 +511,7 @@ MainMenuController::MainMenuController(Path_TLV* /*pTlv*/, TlvItemInfoUnion tlvO
         field_F4_resources.field_0_resources[MenuResIds::eAbeIntro] = nullptr;
         field_F4_resources.field_0_resources[MenuResIds::eMenuDoor] = nullptr;
         const AnimRecord& abeIdleRec = AnimRec(AnimId::MenuAbeSpeak_Idle);
-        Animation_Init(abeIdleRec.mFrameTableOffset, abeIdleRec.mMaxW, abeIdleRec.mMaxH, field_F4_resources.field_0_resources[MenuResIds::eAbeSpeak2], 1, 1);
+        Animation_Init(abeIdleRec.mFrameTableOffset, abeIdleRec.mMaxW, abeIdleRec.mMaxH, field_F4_resources.field_0_resources[MenuResIds::eAbeSpeak2], 1);
     }
     else
     {
@@ -520,7 +520,7 @@ MainMenuController::MainMenuController(Path_TLV* /*pTlv*/, TlvItemInfoUnion tlvO
         ResourceManager::LoadResourceFile_49C170("STDOOR.BAN", nullptr);
         field_F4_resources.field_0_resources[MenuResIds::eMenuDoor] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kMenuDoorResID, TRUE, FALSE);
         const AnimRecord& rec = AnimRec(AnimId::MenuDoor);
-        Animation_Init(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, field_F4_resources.field_0_resources[MenuResIds::eMenuDoor], 1, 1);
+        Animation_Init(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, field_F4_resources.field_0_resources[MenuResIds::eMenuDoor], 1);
     }
 
     mBaseAnimatedWithPhysicsGameObject_Anim.mBlue = 127;
@@ -530,7 +530,7 @@ MainMenuController::MainMenuController(Path_TLV* /*pTlv*/, TlvItemInfoUnion tlvO
 
     field_F4_resources.field_0_resources[MenuResIds::eResHighLite] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, kHighliteResID, TRUE, FALSE);
     const AnimRecord& rec = AnimRec(AnimId::MenuHighlight_Circle);
-    field_158_animation.Init(rec.mFrameTableOffset, gAnimations, this, rec.mMaxW, rec.mMaxH, field_F4_resources.field_0_resources[MenuResIds::eResHighLite], 1);
+    field_158_animation.Init(rec.mFrameTableOffset, gAnimations, this, rec.mMaxW, rec.mMaxH, field_F4_resources.field_0_resources[MenuResIds::eResHighLite]);
 
     field_158_animation.field_14_scale = mBaseAnimatedWithPhysicsGameObject_SpriteScale;
 

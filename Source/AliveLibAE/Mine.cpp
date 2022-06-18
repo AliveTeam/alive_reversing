@@ -26,7 +26,7 @@ Mine::Mine(Path_Mine* pPath, TlvItemInfoUnion tlv)
 
     const AnimRecord& rec = AnimRec(AnimId::Mine);
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
-    Animation_Init(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
+    Animation_Init(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
 
     field_118_detonating = 0;
     mBaseGameObjectFlags.Set(Options::eInteractive_Bit8);
@@ -72,7 +72,7 @@ Mine::Mine(Path_Mine* pPath, TlvItemInfoUnion tlv)
     field_11C_tlv = tlv;
     field_120_gnframe = sGnFrame;
     const AnimRecord& mineFlashrec = AnimRec(AnimId::Mine_Flash);
-    field_124_animation.Init(mineFlashrec.mFrameTableOffset, gAnimations, this, mineFlashrec.mMaxW, mineFlashrec.mMaxH, Add_Resource(ResourceManager::Resource_Animation, mineFlashrec.mResourceId), 1u);
+    field_124_animation.Init(mineFlashrec.mFrameTableOffset, gAnimations, this, mineFlashrec.mMaxW, mineFlashrec.mMaxH, Add_Resource(ResourceManager::Resource_Animation, mineFlashrec.mResourceId));
 
     field_124_animation.mAnimFlags.Set(AnimFlags::eBit15_bSemiTrans);
     field_124_animation.mAnimFlags.Set(AnimFlags::eBit16_bBlending);

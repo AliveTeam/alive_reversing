@@ -28,7 +28,7 @@ SlapLock::SlapLock(Path_SlapLock* pTlv, s32 tlvInfo)
 
     const AnimRecord& rec = AnimRec(AnimId::SlapLock_Initiate);
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
-    Animation_Init(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
+    Animation_Init(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
 
     if (field_118_pTlv->field_10_scale != Scale_short::eFull_0)
     {

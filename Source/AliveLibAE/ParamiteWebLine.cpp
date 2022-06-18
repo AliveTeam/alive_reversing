@@ -18,7 +18,7 @@ ParamiteWebLine::ParamiteWebLine(Path_ParamiteWebLine* pTlv, s32 tlvInfo)
 
     const AnimRecord& rec = AnimRec(AnimId::ParamiteWeb);
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
-    Animation_Init(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1u);
+    Animation_Init(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
 
     if (pTlv->field_10_scale != Scale_short::eFull_0)
     {
@@ -99,7 +99,7 @@ ParamiteWebLine::ParamiteWebLine(Path_ParamiteWebLine* pTlv, s32 tlvInfo)
 
     const AnimRecord& orbRec = AnimRec(AnimId::ChantOrb_Particle);
     u8** ppFlareRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, orbRec.mResourceId, 0, 0);
-    if (field_108_anim_flare.Init(orbRec.mFrameTableOffset, gAnimations, this, orbRec.mMaxW, orbRec.mMaxH, ppFlareRes, 1u))
+    if (field_108_anim_flare.Init(orbRec.mFrameTableOffset, gAnimations, this, orbRec.mMaxW, orbRec.mMaxH, ppFlareRes))
     {
         field_108_anim_flare.mRed = 100;
         field_108_anim_flare.mGreen = 100;

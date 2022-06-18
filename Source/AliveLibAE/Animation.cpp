@@ -861,7 +861,7 @@ u16 Animation::Get_Frame_Count()
     return pHead->field_2_num_frames;
 }
 
-s16 Animation::Init(s32 frameTableOffset, DynamicArray* /*animList*/, BaseGameObject* pGameObj, u16 maxW, u16 maxH, u8** ppAnimData, u8 bOwnsPalData)
+s16 Animation::Init(s32 frameTableOffset, DynamicArray* /*animList*/, BaseGameObject* pGameObj, u16 maxW, u16 maxH, u8** ppAnimData)
 {
     FrameTableOffsetExists(frameTableOffset, true, maxW, maxH);
     mAnimFlags.Raw().all = 0; // TODO extra - init to 0's first - this may be wrong if any bits are explicitly set before this is called
@@ -900,7 +900,7 @@ s16 Animation::Init(s32 frameTableOffset, DynamicArray* /*animList*/, BaseGameOb
     field_84_vram_rect.w = 0;
     field_90_pal_depth = 0;
 
-    if (bOwnsPalData)
+    //if (bOwnsPalData)
     {
         mAnimFlags.Set(AnimFlags::eBit17_bOwnPal);
     }

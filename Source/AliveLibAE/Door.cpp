@@ -215,11 +215,11 @@ Door::Door(Path_Door* pTlvData, s32 tlvInfo)
         if (gMap.mOverlayId == 108)
         {
             const AnimRecord& rec = AnimRec(AnimId::Door_BarracksMetal_Open);
-            Animation_Init(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1u);
+            Animation_Init(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
         }
         else
         {
-            Animation_Init(openRec.mFrameTableOffset, openRec.mMaxW, openRec.mMaxH, ppRes, 1, 1u);
+            Animation_Init(openRec.mFrameTableOffset, openRec.mMaxW, openRec.mMaxH, ppRes, 1);
         }
     }
     else
@@ -227,11 +227,11 @@ Door::Door(Path_Door* pTlvData, s32 tlvInfo)
         if (gMap.mOverlayId == 108)
         {
             const AnimRecord& rec = AnimRec(AnimId::Door_BarracksMetal_Closed);
-            Animation_Init(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1u);
+            Animation_Init(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
         }
         else
         {
-            Animation_Init(closedRec.mFrameTableOffset, closedRec.mMaxW, closedRec.mMaxH, ppRes, 1, 1u);
+            Animation_Init(closedRec.mFrameTableOffset, closedRec.mMaxW, closedRec.mMaxH, ppRes, 1);
         }
     }
 
@@ -498,7 +498,7 @@ TrainDoor::TrainDoor(Path_TrainDoor* pTlv, s32 tlvInfo)
 
     const AnimRecord& rec = AnimRec(AnimId::Door_Train_Closing);
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
-    Animation_Init(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
+    Animation_Init(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
 
     mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pTlv->field_8_top_left.field_0_x + 12);
     mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->field_8_top_left.field_2_y + 24);

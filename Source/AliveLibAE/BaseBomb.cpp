@@ -19,7 +19,7 @@ BaseBomb::BaseBomb(FP x, FP y, s32 /*unused*/, FP scale)
     SetType(ReliveTypes::eBaseBomb);
 
     const AnimRecord& rec = AnimRec(AnimId::Explosion_Mine);
-    Animation_Init(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, BaseGameObject::Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId), 1, 1);
+    Animation_Init(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, BaseGameObject::Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId), 1);
 
     mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit18_IsLastFrame); // Double Check
     mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit24);

@@ -124,7 +124,6 @@ Gibs::Gibs(GibType gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scale, bool b
         headGib.mMaxW,
         headGib.mMaxH,
         ppAnimData,
-        1,
         1);
 
     if (mBaseGameObjectFlags.Get(BaseGameObject::eListAddFailed_Bit1))
@@ -199,8 +198,7 @@ Gibs::Gibs(GibType gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scale, bool b
                     this,
                     armGib.mMaxW,
                     armGib.mMaxH,
-                    ppAnimData,
-                    1))
+                    ppAnimData))
             {
                 field_5D4_parts_used_count = i;
                 mBaseGameObjectFlags.Set(BaseGameObject::eDead);
@@ -216,8 +214,7 @@ Gibs::Gibs(GibType gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scale, bool b
                     this,
                     bodyGib.mMaxW,
                     bodyGib.mMaxH,
-                    ppAnimData,
-                    1u))
+                    ppAnimData))
             {
                 field_5D4_parts_used_count = i;
                 mBaseGameObjectFlags.Set(BaseGameObject::eDead);

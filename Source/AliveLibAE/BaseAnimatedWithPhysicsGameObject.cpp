@@ -121,7 +121,7 @@ void BaseAnimatedWithPhysicsGameObject::VRender(PrimHeader** ppOt)
 }
 
 
-void BaseAnimatedWithPhysicsGameObject::Animation_Init(s32 frameTableOffset, s32 maxW, s32 maxH, u8** ppAnimData, s16 bAddToDrawableList, u8 bOwnsPalData)
+void BaseAnimatedWithPhysicsGameObject::Animation_Init(s32 frameTableOffset, s32 maxW, s32 maxH, u8** ppAnimData, s16 bAddToDrawableList)
 {
     FrameTableOffsetExists(frameTableOffset, true, maxW, maxH);
     if (mBaseAnimatedWithPhysicsGameObject_Anim.Init(
@@ -130,8 +130,7 @@ void BaseAnimatedWithPhysicsGameObject::Animation_Init(s32 frameTableOffset, s32
             this,
             static_cast<s16>(maxW),
             static_cast<s16>(maxH),
-            ppAnimData,
-            bOwnsPalData))
+            ppAnimData))
     {
         if (mBaseAnimatedWithPhysicsGameObject_SpriteScale == FP_FromInteger(1))
         {
