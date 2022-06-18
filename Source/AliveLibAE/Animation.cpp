@@ -352,13 +352,13 @@ void Animation::DecompressFrame()
         mAnimFlags.Toggle(AnimFlags::eBit10_alternating_flag);
     }
 
-    const FrameInfoHeader* pFrameInfo = Get_FrameHeader(-1); // -1 = use current frame
-    if (pFrameInfo->field_6_count > 0)
+    const FrameInfoHeader* pFrameInfoHeader = Get_FrameHeader(-1); // -1 = use current frame
+    if (pFrameInfoHeader->field_6_count > 0)
     {
         Invoke_CallBacks();
     }
 
-    const FrameHeader* pFrameHeader = reinterpret_cast<const FrameHeader*>(&(*field_20_ppBlock)[pFrameInfo->field_0_frame_header_offset]);
+    const FrameHeader* pFrameHeader = reinterpret_cast<const FrameHeader*>(&(*field_20_ppBlock)[pFrameInfoHeader->field_0_frame_header_offset]);
 
     // No VRAM allocation
     if (field_84_vram_rect.w <= 0)
@@ -387,10 +387,11 @@ void Animation::DecompressFrame()
         field_84_vram_rect.x,
         field_84_vram_rect.y,
         width_bpp_adjusted,
-        pFrameHeader->field_5_height};
+        pFrameHeader->field_5_height,
+    };
 
     // Clamp width
-    if (width_bpp_adjusted > field_84_vram_rect.w)
+    if (vram_rect.w > field_84_vram_rect.w)
     {
         vram_rect.w = field_84_vram_rect.w;
     }
