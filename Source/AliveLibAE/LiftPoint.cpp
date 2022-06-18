@@ -122,9 +122,7 @@ LiftPoint::LiftPoint(Path_LiftPoint* pTlv, s32 tlvInfo)
             static_cast<u16>(bottomWheelRec.mMaxW),
             static_cast<u16>(bottomWheelRec.mMaxH),
             ppLiftWheels,
-            1u,
-            0,
-            0))
+            1u))
     {
         if (pTlv->field_18_scale != Scale_short::eFull_0)
         {
@@ -943,9 +941,7 @@ void LiftPoint::CreatePulleyIfExists()
         static_cast<s16>(topWheelRec.mMaxW),
         static_cast<s16>(topWheelRec.mMaxH),
         ppRes,
-        1,
-        0,
-        0);
+        1);
 
     field_1D4_pulley_anim.mAnimFlags.Clear(AnimFlags::eBit2_Animate);
     field_1D4_pulley_anim.mAnimFlags.Clear(AnimFlags::eBit15_bSemiTrans);

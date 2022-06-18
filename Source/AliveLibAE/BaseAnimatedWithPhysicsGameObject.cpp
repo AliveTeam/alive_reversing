@@ -131,9 +131,7 @@ void BaseAnimatedWithPhysicsGameObject::Animation_Init(s32 frameTableOffset, s32
             static_cast<s16>(maxW),
             static_cast<s16>(maxH),
             ppAnimData,
-            bOwnsPalData,
-            0,
-            0))
+            bOwnsPalData))
     {
         if (mBaseAnimatedWithPhysicsGameObject_SpriteScale == FP_FromInteger(1))
         {

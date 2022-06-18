@@ -285,7 +285,7 @@ void MineCar::LoadAnimation(Animation* pAnim)
     const AnimRecord& rec = AnimRec(AnimId::Mine_Car_Tread_Idle);
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
 
-    if (pAnim->Init(rec.mFrameTableOffset, gAnimations, this, rec.mMaxW, rec.mMaxH, ppRes, 1, 0, 0))
+    if (pAnim->Init(rec.mFrameTableOffset, gAnimations, this, rec.mMaxW, rec.mMaxH, ppRes, 1))
     {
         pAnim->mRenderLayer = mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer;
         pAnim->mAnimFlags.Clear(AnimFlags::eBit16_bBlending);

@@ -168,7 +168,7 @@ void TimedMine::VRender(PrimHeader** ppOt)
 void TimedMine::InitBlinkAnimation(Animation* pAnimation)
 {
     const AnimRecord& tickRec = AnimRec(AnimId::Bomb_RedGreenTick);
-    if (pAnimation->Init(tickRec.mFrameTableOffset, gAnimations, this, tickRec.mMaxW, tickRec.mMaxH, Add_Resource(ResourceManager::Resource_Animation, tickRec.mResourceId), 1, 0, 0))
+    if (pAnimation->Init(tickRec.mFrameTableOffset, gAnimations, this, tickRec.mMaxW, tickRec.mMaxH, Add_Resource(ResourceManager::Resource_Animation, tickRec.mResourceId), 1))
     {
         pAnimation->mRenderLayer = mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer;
         pAnimation->mAnimFlags.Set(AnimFlags::eBit15_bSemiTrans);

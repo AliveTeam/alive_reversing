@@ -813,6 +813,10 @@ s16 Animation::Init(s32 frameTableOffset, DynamicArray* /*animList*/, BaseGameOb
 
     mAnimFlags.Clear(AnimFlags::eBit14_Is16Bit);
     mAnimFlags.Clear(AnimFlags::eBit13_Is8Bit);
+
+    // Clear vram/pal inits to not allocated
+    field_84_vram_rect.w = 0;
+    field_90_pal_depth = 0;
     mAnimFlags.Set(AnimFlags::eBit17_bOwnPal);
 
     
@@ -839,8 +843,6 @@ s16 Animation::Init(s32 frameTableOffset, DynamicArray* /*animList*/, BaseGameOb
     {
         field_84_vram_rect.w = 0;
     }
-
-    field_90_pal_depth = 0;
 
     //s8 b256Pal = 0;
     s32 vram_width = 0;

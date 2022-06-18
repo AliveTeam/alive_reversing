@@ -36,7 +36,7 @@ const TintEntry sTintMap_UXB_563A3C[19] = {
 void UXB::InitBlinkAnim(Animation* pAnimation)
 {
     const AnimRecord& rec = AnimRec(AnimId::Bomb_RedGreenTick);
-    if (pAnimation->Init(rec.mFrameTableOffset, gAnimations, this, rec.mMaxW, rec.mMaxH, Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId), 1u, 0, 0))
+    if (pAnimation->Init(rec.mFrameTableOffset, gAnimations, this, rec.mMaxW, rec.mMaxH, Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId), 1u))
     {
         pAnimation->mRenderLayer = mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer;
         pAnimation->mAnimFlags.Set(AnimFlags::eBit15_bSemiTrans);

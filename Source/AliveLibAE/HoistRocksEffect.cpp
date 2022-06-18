@@ -50,9 +50,7 @@ HoistRocksEffect::HoistRocksEffect(Path_Hoist* pTlv, s32 tlvInfo)
             rec.mMaxW,
             rec.mMaxH,
             ppAnimData,
-            1u,
-            0,
-            0);
+            1u);
 
         particle.field_10_mAnim.mRed = 255;
         particle.field_10_mAnim.mGreen = 255;

@@ -861,7 +861,7 @@ u16 Animation::Get_Frame_Count()
     return pHead->field_2_num_frames;
 }
 
-s16 Animation::Init(s32 frameTableOffset, DynamicArray* /*animList*/, BaseGameObject* pGameObj, u16 maxW, u16 maxH, u8** ppAnimData, u8 bOwnsPalData, s32 b_StartingAlternationState, s8 bEnable_flag10_alternating)
+s16 Animation::Init(s32 frameTableOffset, DynamicArray* /*animList*/, BaseGameObject* pGameObj, u16 maxW, u16 maxH, u8** ppAnimData, u8 bOwnsPalData)
 {
     FrameTableOffsetExists(frameTableOffset, true, maxW, maxH);
     mAnimFlags.Raw().all = 0; // TODO extra - init to 0's first - this may be wrong if any bits are explicitly set before this is called
@@ -889,9 +889,9 @@ s16 Animation::Init(s32 frameTableOffset, DynamicArray* /*animList*/, BaseGameOb
 
     mAnimFlags.Set(AnimFlags::eBit8_Loop, pHeader->field_6_flags & AnimationHeader::eLoopFlag);
 
-    mAnimFlags.Set(AnimFlags::eBit10_alternating_flag, bEnable_flag10_alternating);
+    mAnimFlags.Clear(AnimFlags::eBit10_alternating_flag);
 
-    mAnimFlags.Set(AnimFlags::eBit11_bToggle_Bit10, b_StartingAlternationState);
+    mAnimFlags.Clear(AnimFlags::eBit11_bToggle_Bit10);
 
     mAnimFlags.Clear(AnimFlags::eBit14_Is16Bit);
     mAnimFlags.Clear(AnimFlags::eBit13_Is8Bit);
@@ -943,7 +943,6 @@ s16 Animation::Init(s32 frameTableOffset, DynamicArray* /*animList*/, BaseGameOb
 
     u8* pClut = &pAnimData[pFrameHeader->field_0_clut_offset];
 
-
     s8 b256Pal = 0;
     s32 vram_width = 0;
     s16 pal_depth = 0;
@@ -994,10 +993,7 @@ s16 Animation::Init(s32 frameTableOffset, DynamicArray* /*animList*/, BaseGameOb
     // This makes no sense
     mAnimFlags.Set(AnimFlags::eBit25_bDecompressDone, b256Pal);
 	
-    field_28_dbuf_size = maxH * (vram_width + 3);
-    field_28_dbuf_size += 8; // Add 8 for some reason
-    field_24_dbuf = nullptr;
-	
+
     if (mAnimFlags.Get(AnimFlags::eBit17_bOwnPal) && !mAnimFlags.Get(AnimFlags::eBit24))
     {
         IRenderer::PalRecord palRec{0, 0, pal_depth};
@@ -1009,11 +1005,15 @@ s16 Animation::Init(s32 frameTableOffset, DynamicArray* /*animList*/, BaseGameOb
 
         field_8C_pal_vram_xy.field_0_x = palRec.x;
         field_8C_pal_vram_xy.field_2_y = palRec.y;
-        field_90_pal_depth = pal_depth;
+        field_90_pal_depth = palRec.depth;
 
         IRenderer::GetRenderer()->PalSetData(palRec, pClut + 4); // +4 Skip len, load pal
     }
-
+    
+	field_28_dbuf_size = maxH * (vram_width + 3);
+    field_28_dbuf_size += 8; // Add 8 for some reason
+    field_24_dbuf = nullptr;
+	
     // NOTE: OG bug or odd compiler code gen? Why isn't it using the passed in list which appears to always be this anyway ??
     if (!gAnimations->Push_Back(this))
     {
