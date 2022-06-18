@@ -177,7 +177,7 @@ ScreenManager::ScreenManager(u8** ppBits, FP_Point* pCameraOffset)
 
 void ScreenManager::Init(u8** ppBits)
 {
-    DisableRendering();
+    EnableRendering();
 
     SetType(ReliveTypes::eScreenManager);
 

@@ -882,7 +882,7 @@ void Map::GoTo_Camera()
         pScreenManager->DecompressCameraToVRam(reinterpret_cast<u16**>(field_2C_camera_array[0]->field_C_pCamRes));
         pScreenManager->InvalidateRectCurrentIdx(0, 0, 640, 240);
         pScreenManager->MoveImage();
-        pScreenManager->DisableRendering();
+        pScreenManager->EnableRendering();
     }
 
     if (prevLevelId != mCurrentLevel)

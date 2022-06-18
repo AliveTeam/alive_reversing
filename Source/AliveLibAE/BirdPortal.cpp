@@ -421,7 +421,7 @@ void BirdPortal::VUpdate()
 
         case PortalStates::PortalExit_SetPosition_17:
         {
-            pScreenManager->DisableRendering();
+            pScreenManager->EnableRendering();
             pScreenManager->InvalidateRectCurrentIdx(
                 0,
                 0,

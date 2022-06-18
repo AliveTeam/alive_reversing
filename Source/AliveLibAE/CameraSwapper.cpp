@@ -435,7 +435,7 @@ void CameraSwapper::VUpdate()
             }
             else
             {
-                pScreenManager->EnableRendering();
+                pScreenManager->DisableRendering();
             }
 
             // When no movie is playing start the next one
@@ -458,7 +458,7 @@ void CameraSwapper::VUpdate()
             }
             else
             {
-                pScreenManager->EnableRendering();
+                pScreenManager->DisableRendering();
             }
 
             // When no movie is playing start the next one

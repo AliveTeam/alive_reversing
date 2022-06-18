@@ -6750,7 +6750,7 @@ void Abe::Motion_86_HandstoneBegin_45BD00()
             {
                 gPsxDisplay_5C1130.PutCurrentDispEnv_41DFA0();
                 pScreenManager->DecompressCameraToVRam((u16**) gMap.field_2C_camera_array[0]->field_C_pCamRes);
-                pScreenManager->DisableRendering();
+                pScreenManager->EnableRendering();
                 pCircularFade->VFadeIn(0, 0);
                 field_120_state.stone = StoneStates::eHandstoneEnd_3;
             }
