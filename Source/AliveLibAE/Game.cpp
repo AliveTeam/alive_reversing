@@ -744,6 +744,7 @@ EXPORT void CC Game_Loop_467230()
         bSkipGameObjectUpdates_5C2FA0 = 0;
 
         // Update objects
+        GetGameAutoPlayer().SyncPoint(SyncPoints::StartGameObjectUpdate);
         for (s32 baseObjIdx = 0; baseObjIdx < gBaseGameObject_list_BB47C4->Size(); baseObjIdx++)
         {
             BaseGameObject* pBaseGameObject = gBaseGameObject_list_BB47C4->ItemAt(baseObjIdx);
@@ -775,6 +776,8 @@ EXPORT void CC Game_Loop_467230()
                 }
             }
         }
+        
+        GetGameAutoPlayer().SyncPoint(SyncPoints::EndGameObjectUpdate);
 
         // Animate everything
         if (sNum_CamSwappers_5C1B66 <= 0)

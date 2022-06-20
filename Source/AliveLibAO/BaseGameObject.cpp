@@ -4,6 +4,7 @@
 #include "Function.hpp"
 #include "Events.hpp"
 #include "Map.hpp"
+#include "GameAutoPlayer.hpp"
 
 void AliveLibAO_ForceLink()
 { }
@@ -59,6 +60,8 @@ BaseGameObject* BaseGameObject::dtor_487DF0()
 
 void BaseGameObject::VScreenChanged_487E70()
 {
+    GetGameAutoPlayer().SyncPoint(SyncPoints::ScreenChanged);
+
     if (gMap_507BA8.field_0_current_level != gMap_507BA8.field_A_level
         || gMap_507BA8.field_2_current_path != gMap_507BA8.field_C_path
         || gMap_507BA8.field_28_cd_or_overlay_num != gMap_507BA8.GetOverlayId_4440B0())

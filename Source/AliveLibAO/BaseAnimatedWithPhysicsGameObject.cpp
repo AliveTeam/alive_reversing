@@ -12,6 +12,7 @@
 #include "Particle.hpp"
 #include "Sfx.hpp"
 #include "Math.hpp"
+#include "BaseGameAutoPlayer.hpp"
 
 namespace AO {
 
@@ -50,6 +51,7 @@ BaseAnimatedWithPhysicsGameObject* BaseAnimatedWithPhysicsGameObject::ctor_417C1
 
 void BaseAnimatedWithPhysicsGameObject::Animation_Init_417FD0(s32 frameTableOffset, s32 maxW, s32 maxH, u8** ppAnimData, s16 bAddToDrawableList)
 {
+    GetGameAutoPlayer().SyncPoint(SyncPoints::AnimInit, frameTableOffset);
     FrameTableOffsetExists(frameTableOffset, false, maxW, maxH);
     const auto init = field_10_anim.Init_402D20(
         frameTableOffset,
@@ -266,14 +268,17 @@ s16 BaseAnimatedWithPhysicsGameObject::VOnSameYLevel_418450(BaseAnimatedWithPhys
 
     if (theirMidY <= ourRect.h && theirMidY >= ourRect.y)
     {
+        GetGameAutoPlayer().SyncPoint(SyncPoints::SameYLevelP1);
         return TRUE;
     }
 
     if (ourMidY <= theirRect.h && ourMidY >= theirRect.y)
     {
+        GetGameAutoPlayer().SyncPoint(SyncPoints::SameYLevelP2);
         return TRUE;
     }
 
+    GetGameAutoPlayer().SyncPoint(SyncPoints::SameYLevelP3);
     return FALSE;
 }
 
