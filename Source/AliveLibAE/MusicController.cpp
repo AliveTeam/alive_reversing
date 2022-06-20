@@ -372,6 +372,8 @@ void CC MusicController::Shutdown_47FD20()
 
 MusicController::MusicTypes MusicController::GetMusicType_47FA80(u16* seq, u16* seq2, u32* seqTime)
 {
+    GetGameAutoPlayer().SyncPoint(SyncPoints::MusicControlller_GetMusicType);
+
     MusicController::UpdateMusicTime_47F8B0();
     if (seq)
     {
@@ -471,6 +473,8 @@ void MusicController::dtor_47EF50()
 
 void MusicController::EnableMusic_47FB80(s16 bEnable)
 {
+    GetGameAutoPlayer().SyncPoint(SyncPoints::MusicControlller_EnableMusic, bEnable);
+
     bool enableMusic = bEnable != 0 ? true : false;
     MusicController::UpdateMusicTime_47F8B0();
 
@@ -595,6 +599,8 @@ void MusicController::VUpdate()
 
 void MusicController::Update_47F730()
 {
+    GetGameAutoPlayer().SyncPoint(SyncPoints::MusicControlller_Update);
+
     MusicController::UpdateMusicTime_47F8B0();
 
     if (Event_Get_422C00(kEventDeathReset))
@@ -652,10 +658,14 @@ void MusicController::Update_47F730()
         UpdateMusic_47F260();
         UpdateAmbiance_47F0B0();
     }
+
+    GetGameAutoPlayer().SyncPoint(SyncPoints::MusicControlller_UpdateEnd);
 }
 
 void MusicController::PlayMusic_47F910(MusicTypes typeToSet, const BaseGameObject* pObj, s16 bFlag4, s8 bFlag0x20)
 {
+    GetGameAutoPlayer().SyncPoint(SyncPoints::MusicControlller_PlayMusic, static_cast<u32>(typeToSet));
+
     MusicController::UpdateMusicTime_47F8B0();
 
     if (typeToSet <= MusicTypes::eType1 || pObj)

@@ -10,6 +10,7 @@
 #include "Flash.hpp"
 #include "Particle.hpp"
 #include "BaseAliveGameObject.hpp"
+#include "GameAutoPlayer.hpp"
 
 namespace AO {
 
@@ -153,6 +154,8 @@ void BaseBomb::VUpdate()
 
 void BaseBomb::DealDamageRect_417A50(const PSX_RECT* pRect)
 {
+    GetGameAutoPlayer().SyncPoint(SyncPoints::DealDamageRect);
+
     if (gBaseAliveGameObjects_4FC8A0)
     {
         s16 min_w_x = pRect->w;
@@ -218,6 +221,7 @@ void BaseBomb::DealDamageRect_417A50(const PSX_RECT* pRect)
                 const s16 obj_ypos = FP_GetExponent(pObj->field_AC_ypos);
                 if (obj_ypos >= top && obj_ypos <= bottom && field_BC_sprite_scale == (pObj->field_BC_sprite_scale * FP_FromDouble(2.75)))
                 {
+                    GetGameAutoPlayer().SyncPoint(SyncPoints::DealDamageRectTakeDamage);
                     pObj->VTakeDamage(this);
                 }
             }

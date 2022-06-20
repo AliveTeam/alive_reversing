@@ -3,6 +3,7 @@
 #include "Function.hpp"
 #include "stdlib.hpp"
 #include "Sys_common.hpp"
+#include "GameAutoPlayer.hpp"
 
 ALIVE_VAR(1, 0x5C1B70, ObjectIds, sObjectIds_5C1B70, {});
 
@@ -69,6 +70,7 @@ ObjectId_Record* ObjectIds::Find_By_Id_449BC0(TObjectId_KeyType idToFind, Object
     {
         if (pRecord->field_0_id == idToFind)
         {
+            GetGameAutoPlayer().SyncPoint(SyncPoints::ObjectIdFound);
             return pRecord;
         }
 
@@ -78,11 +80,14 @@ ObjectId_Record* ObjectIds::Find_By_Id_449BC0(TObjectId_KeyType idToFind, Object
         // Go to the next record
         pRecord = pRecord->field_8_pNext;
     }
+    GetGameAutoPlayer().SyncPoint(SyncPoints::ObjectIdNotFound);
     return nullptr;
 }
 
 void ObjectIds::Insert_449C10(TObjectId_KeyType nextId, BaseGameObject* pGameObj)
 {
+    GetGameAutoPlayer().SyncPoint(SyncPoints::ObjectIdAdd);
+
     // Create new record
     ObjectId_Record* pRec = ae_new<ObjectId_Record>();
     pRec->field_0_id = nextId;
@@ -102,6 +107,7 @@ s16 ObjectIds::Remove_449C60(TObjectId_KeyType idToRemove)
     ObjectId_Record* pFound = Find_By_Id_449BC0(idToRemove, &pLastMatch);
     if (!pFound)
     {
+        GetGameAutoPlayer().SyncPoint(SyncPoints::ObjectIdNotFoundForRemove);
         return 0;
     }
 
@@ -112,12 +118,14 @@ s16 ObjectIds::Remove_449C60(TObjectId_KeyType idToRemove)
         // There was an object before this, so point to the one after what we found
         // so we can remove it.
         pLastMatch->field_8_pNext = pFound->field_8_pNext;
+        GetGameAutoPlayer().SyncPoint(SyncPoints::ObjectIdRemovedB1);
     }
     else
     {
         // There was not an object before this, so set the root to point the one after
         // we found so we can remove it.
         field_4_pBuffer[idx] = pFound->field_8_pNext;
+        GetGameAutoPlayer().SyncPoint(SyncPoints::ObjectIdRemovedB2);
     }
 
     // Free the found record
