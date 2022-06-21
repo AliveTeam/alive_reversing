@@ -5,7 +5,6 @@
 #include "BaseAliveGameObject.hpp"
 #include "DebugHelpers.hpp"
 #include <gmock/gmock.h>
-#include "GameAutoPlayer.hpp"
 
 struct EventsArray final
 {
@@ -51,7 +50,6 @@ const char_type* sEventEnumString[]{
 EXPORT void CC Event_Broadcast_422BC0(s32 eventType, BaseGameObject* pObject)
 {
     sEventPtrs_5BC124.field_0_events[!sEventsToUse_5BC1D4].field_0_event_ptrs[eventType] = pObject;
-    GetGameAutoPlayer().SyncPoint(SyncPoints::BroadCastEvent, eventType);
 
     if (sDebugEnabled_VerboseEvents)
     {
@@ -68,7 +66,6 @@ EXPORT void CC Event_Broadcast_422BC0(s32 eventType, BaseGameObject* pObject)
 
 EXPORT BaseGameObject* CC Event_Get_422C00(s16 eventType)
 {
-    GetGameAutoPlayer().SyncPoint(SyncPoints::EventGet, eventType);
     return sEventPtrs_5BC124.field_0_events[sEventsToUse_5BC1D4].field_0_event_ptrs[eventType];
 }
 
@@ -92,7 +89,6 @@ EXPORT void CC Events_Reset_Active_422DA0()
     }
 
     sEventsToUse_5BC1D4 = !sEventsToUse_5BC1D4;
-    GetGameAutoPlayer().SyncPoint(SyncPoints::EventsResetActive);
 }
 
 const s32 kGridMapWidth = 375;
@@ -103,13 +99,11 @@ EXPORT BaseAnimatedWithPhysicsGameObject* CC Event_Is_Event_In_Range_422C30(s16 
     BaseGameObject* pObj = sEventPtrs_5BC124.field_0_events[sEventsToUse_5BC1D4].field_0_event_ptrs[eventType];
     if (!pObj)
     {
-        GetGameAutoPlayer().SyncPoint(SyncPoints::EventsInRageP1);
         return nullptr;
     }
 
     if (!(pObj->field_6_flags.Get(BaseAliveGameObject::eIsBaseAnimatedWithPhysicsObj_Bit5)) || !(pObj->field_6_flags.Get(BaseAliveGameObject::eDrawable_Bit4)))
     {
-        GetGameAutoPlayer().SyncPoint(SyncPoints::EventsInRageP2);
         return nullptr;
     }
 
@@ -119,17 +113,14 @@ EXPORT BaseAnimatedWithPhysicsGameObject* CC Event_Is_Event_In_Range_422C30(s16 
         && FP_GetExponent(xpos) / kGridMapWidth == FP_GetExponent(pDerived->field_B8_xpos) / kGridMapWidth
         && FP_GetExponent(ypos) / kGridMapHeight == FP_GetExponent(pDerived->field_BC_ypos) / kGridMapHeight)
     {
-        GetGameAutoPlayer().SyncPoint(SyncPoints::EventsInRageP3);
         return pDerived;
     }
 
-    GetGameAutoPlayer().SyncPoint(SyncPoints::EventsInRageP4);
     return nullptr;
 }
 
 EXPORT void CC Event_Cancel_For_Obj_422DF0(BaseGameObject* pObj)
 {
-    GetGameAutoPlayer().SyncPoint(SyncPoints::EventCancel);
     for (s32 i = 0; i < 2; i++)
     {
         for (s32 j = 0; j < Event::kEventMax; j++)
@@ -137,7 +128,6 @@ EXPORT void CC Event_Cancel_For_Obj_422DF0(BaseGameObject* pObj)
             if (sEventPtrs_5BC124.field_0_events[i].field_0_event_ptrs[j] == pObj)
             {
                 sEventPtrs_5BC124.field_0_events[i].field_0_event_ptrs[j] = nullptr;
-                GetGameAutoPlayer().SyncPoint(SyncPoints::EventCancelled);
             }
         }
     }

@@ -13,7 +13,6 @@ enum RecordTypes : u32
     Rng = 0x696969,
     SysTicks = 0x19981998,
     SyncPoint = 0xf00df00d,
-    SyncPointInt = 0xf00dfffd,
     InputType = 0x101010,
 };
 
@@ -21,33 +20,6 @@ enum SyncPoints : u32
 {
     StartGameObjectUpdate = 1,
     EndGameObjectUpdate = 2,
-    ObjectIdNotFoundForRemove = 3,
-    ObjectIdRemovedB1 = 4,
-    ObjectIdRemovedB2 = 5,
-    ObjectIdAdd = 6,
-    ObjectIdNotFound = 7,
-    ObjectIdFound = 8,
-    EventsResetActive = 9,
-    EventsInRageP1 = 10,
-    EventsInRageP2 = 11,
-    EventsInRageP3 = 12,
-    EventsInRageP4 = 13,
-    EventCancel = 14,
-    EventCancelled = 15,
-    BroadCastEvent = 16,
-    EventGet = 17,
-    ScreenChanged = 18,
-    AnimInit = 19,
-    SameYLevelP1 = 20,
-    SameYLevelP2 = 21,
-    SameYLevelP3 = 22,
-    DealDamageRect = 23,
-    DealDamageRectTakeDamage = 24,
-    MusicControlller_GetMusicType = 25,
-    MusicControlller_EnableMusic = 26,
-    MusicControlller_Update = 27,
-    MusicControlller_PlayMusic = 28,
-    MusicControlller_UpdateEnd = 29,
 };
 
 class [[nodiscard]] AutoFILE final
@@ -142,18 +114,11 @@ public:
 
     void SaveTicks(u32 ticks);
     void SaveSyncPoint(u32 syncPointId);
-    void SaveSyncPoint(u32 syncPointId, u32 syncPointData);
 
     virtual void SaveObjectStates() = 0;
 
 protected:
     AutoFILE mFile;
-};
-
-struct SyncPointIntData final
-{
-    u32 mSyncPointId;
-    u32 mSyncPointData;
 };
 
 class [[nodiscard]] BasePlayer
@@ -166,7 +131,6 @@ public:
     s32 ReadRng();
     u32 ReadTicks();
     u32 ReadSyncPoint();
-    SyncPointIntData ReadSyncPointInt();
     virtual bool ValidateObjectStates() = 0;
 
 protected:
@@ -234,8 +198,6 @@ public:
     u32 SysGetTicks();
 
     void SyncPoint(u32 syncPointId);
-
-    void SyncPoint(u32 syncPointId, u32 syncPointData);
 
 private:
 
