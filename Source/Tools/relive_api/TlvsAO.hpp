@@ -1797,6 +1797,8 @@ struct Path_Bees final : public ReliveAPI::TlvObjectBaseAO
         ADD("Speed", mTlv.speed);
         ADD("Disable Resources", mTlv.disable_resources);
         ADD("Amount Of Bees", mTlv.num_bees);
+
+        ADD_RESOURCE(AnimId::Elum_BeesStruggling, ReliveAPI::AddResourceTo::File);
     }
 };
 
