@@ -76,13 +76,6 @@ void BaseRecorder::SaveSyncPoint(u32 syncPointId)
     mFile.Write(syncPointId);
 }
 
-void BaseRecorder::SaveSyncPoint(u32 syncPointId, u32 syncPointData)
-{
-    mFile.Write(RecordTypes::SyncPointInt);
-    mFile.Write(syncPointId);
-    mFile.Write(syncPointData);
-}
-
 void BasePlayer::Init(const char* pFileName)
 {
     LOG_INFO("Playing from " << pFileName);
@@ -134,19 +127,6 @@ u32 BasePlayer::ReadSyncPoint()
     u32 syncPointId = 0;
     mFile.Read(syncPointId);
     return syncPointId;
-}
-
-SyncPointIntData BasePlayer::ReadSyncPointInt()
-{
-    ValidateNextTypeIs(RecordTypes::SyncPointInt);
-
-    u32 syncPointId = 0;
-    mFile.Read(syncPointId);
-
-    u32 syncPointData = 0;
-    mFile.Read(syncPointData);
-
-    return {syncPointId, syncPointData};
 }
 
 void BasePlayer::ValidateNextTypeIs(RecordTypes type)
@@ -281,28 +261,6 @@ void BaseGameAutoPlayer::SyncPoint(u32 syncPointId)
         {
             LOG_ERROR("Sync point de-sync! Expected " << syncPointId << " but got " << readSyncPoint);
             ALIVE_FATAL("Sync point de-sync");
-        }
-    }
-}
-
-void BaseGameAutoPlayer::SyncPoint(u32 syncPointId, u32 syncPointData)
-{
-    if (IsRecording())
-    {
-        mRecorder.SaveSyncPoint(syncPointId, syncPointData);
-    }
-    else if (IsPlaying())
-    {
-        const SyncPointIntData readSyncPoint = mPlayer.ReadSyncPointInt();
-        if (readSyncPoint.mSyncPointId != syncPointId)
-        {
-            LOG_ERROR("Sync point de-sync! Expected " << syncPointId << " but got " << readSyncPoint.mSyncPointId);
-            ALIVE_FATAL("Sync point de-sync");
-        }
-        else if (readSyncPoint.mSyncPointData != syncPointData)
-        {
-            LOG_ERROR("Sync data point de-sync! Expected " << syncPointData << " but got " << readSyncPoint.mSyncPointData);
-            ALIVE_FATAL("Sync point data de-sync");
         }
     }
 }

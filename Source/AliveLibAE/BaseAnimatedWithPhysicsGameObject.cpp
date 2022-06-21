@@ -12,7 +12,6 @@
 #include <gmock/gmock.h>
 #include "Sfx.hpp"
 #include "Particle.hpp"
-#include "BaseGameAutoPlayer.hpp"
 
 BaseAnimatedWithPhysicsGameObject* BaseAnimatedWithPhysicsGameObject::BaseAnimatedWithPhysicsGameObject_ctor_424930(s16 resourceArraySize)
 {
@@ -171,8 +170,6 @@ void BaseAnimatedWithPhysicsGameObject::Render_424B90(PrimHeader** ppOt)
 
 void BaseAnimatedWithPhysicsGameObject::Animation_Init_424E10(s32 frameTableOffset, s32 maxW, u16 maxH, u8** ppAnimData, s16 bAddToDrawableList, u8 bOwnsPalData)
 {
-    GetGameAutoPlayer().SyncPoint(SyncPoints::AnimInit, frameTableOffset);
-
     FrameTableOffsetExists(frameTableOffset, true, maxW, maxH);
     if (field_20_animation.Init_40A030(
             frameTableOffset,
@@ -382,17 +379,14 @@ s16 BaseAnimatedWithPhysicsGameObject::OnSameYLevel_425520(BaseAnimatedWithPhysi
 
     if (theirMidY <= ourRect.h && theirMidY >= ourRect.y)
     {
-        GetGameAutoPlayer().SyncPoint(SyncPoints::SameYLevelP1);
         return TRUE;
     }
 
     if (ourMidY <= theirRect.h && ourMidY >= theirRect.y)
     {
-        GetGameAutoPlayer().SyncPoint(SyncPoints::SameYLevelP2);
         return TRUE;
     }
 
-    GetGameAutoPlayer().SyncPoint(SyncPoints::SameYLevelP3);
     return FALSE;
 }
 
@@ -436,8 +430,6 @@ void BaseAnimatedWithPhysicsGameObject::vOnThrowableHit_4081A0(BaseGameObject* /
 
 void BaseAnimatedWithPhysicsGameObject::DealDamageRect_4247A0(const PSX_RECT* pRect)
 {
-    GetGameAutoPlayer().SyncPoint(SyncPoints::DealDamageRect);
-
     if (gBaseAliveGameObjects_5C1B7C)
     {
         auto min_x_w = pRect->w;
@@ -486,7 +478,6 @@ void BaseAnimatedWithPhysicsGameObject::DealDamageRect_4247A0(const PSX_RECT* pR
                 {
                     if (field_CC_sprite_scale == (pObj->field_CC_sprite_scale * FP_FromDouble(2.75)))
                     {
-                        GetGameAutoPlayer().SyncPoint(SyncPoints::DealDamageRectTakeDamage);
                         pObj->VTakeDamage_408730(this);
                     }
                 }

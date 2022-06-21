@@ -6,7 +6,6 @@
 #include "Map.hpp"
 #include "QuikSave.hpp"
 #include "ObjectIds.hpp"
-#include "GameAutoPlayer.hpp"
 
 ALIVE_VAR(1, 0xBB47C4, DynamicArrayT<BaseGameObject>*, gBaseGameObject_list_BB47C4, nullptr);
 
@@ -27,7 +26,6 @@ void BaseGameObject::VScreenChanged()
 
 void BaseGameObject::ScreenChanged_4DC0A0()
 {
-    GetGameAutoPlayer().SyncPoint(SyncPoints::ScreenChanged);
     if (gMap_5C3030.field_0_current_level != gMap_5C3030.field_A_level
         || gMap_5C3030.field_2_current_path != gMap_5C3030.field_C_path
         || (gMap_5C3030.field_22_overlayID != gMap_5C3030.GetOverlayId_480710()))
