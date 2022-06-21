@@ -293,8 +293,8 @@ s32 Fleech::CreateFromSaveState(const u8* pBuffer)
         pFleech->field_146_wake_up_switch_anger_value = pState->field_7E_wake_up_switch_anger_value;
         pFleech->field_148_wake_up_switch_value = pState->field_80_wake_up_switch_value;
         pFleech->field_14A_can_wake_up_switch_id = pState->field_82_can_wake_up_id;
-        pFleech->field_14C = pState->field_84;
-        pFleech->field_14E = pState->field_86;
+        pFleech->field_14C_EventXPos = pState->field_84_EventXPos;
+        pFleech->field_14E_ScrabParamiteEventXPos = pState->field_86_ScrabParamiteEventXPos;
         pFleech->field_150_patrol_range = pState->field_88_patrol_range;
         pFleech->field_152 = pState->field_8A;
         pFleech->field_154 = pState->field_8C;
@@ -425,8 +425,8 @@ s32 Fleech::VGetSaveState(u8* pSaveBuffer)
     pState->field_7E_wake_up_switch_anger_value = field_146_wake_up_switch_anger_value;
     pState->field_80_wake_up_switch_value = field_148_wake_up_switch_value;
     pState->field_82_can_wake_up_id = field_14A_can_wake_up_switch_id;
-    pState->field_84 = field_14C;
-    pState->field_86 = field_14E;
+    pState->field_84_EventXPos = field_14C_EventXPos;
+    pState->field_86_ScrabParamiteEventXPos = field_14E_ScrabParamiteEventXPos;
     pState->field_88_patrol_range = field_150_patrol_range;
     pState->field_8A = field_152;
     pState->field_8C = field_154;
@@ -2286,11 +2286,11 @@ void Fleech::IncreaseAnger_430920()
                 {
                     if (pEvent->Type() == ReliveTypes::eScrab || pEvent->Type() == ReliveTypes::eParamite)
                     {
-                        field_14E = FP_GetExponent(pEvent->mBaseAnimatedWithPhysicsGameObject_XPos);
+                        field_14E_ScrabParamiteEventXPos = FP_GetExponent(pEvent->mBaseAnimatedWithPhysicsGameObject_XPos);
                     }
                     else
                     {
-                        field_14C = FP_GetExponent(pEvent->mBaseAnimatedWithPhysicsGameObject_YPos);
+                        field_14C_EventXPos = FP_GetExponent(pEvent->mBaseAnimatedWithPhysicsGameObject_XPos);
                     }
                 }
             }
@@ -2692,8 +2692,8 @@ s16 Fleech::Brain_Patrol_State_0()
     field_156_rnd_crawl = Fleech_NextRandom() & 0x3F;
     field_15A_chase_timer = 0;
     field_152 = FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos);
-    field_14C = -1;
-    field_14E = -1;
+    field_14C_EventXPos = -1;
+    field_14E_ScrabParamiteEventXPos = -1;
 
     if (field_13E_current_anger > field_140_max_anger)
     {
@@ -2861,14 +2861,14 @@ s16 Fleech::Brain_Patrol_State_4(BaseAliveGameObject* pTarget)
             {
                 field_13E_current_anger = field_140_max_anger + v27;
             }
-            field_14E = FP_GetExponent(pDangerObj->mBaseAnimatedWithPhysicsGameObject_XPos); // TODO: abs ?
+            field_14E_ScrabParamiteEventXPos = FP_GetExponent(pDangerObj->mBaseAnimatedWithPhysicsGameObject_XPos); // TODO: abs ?
         }
     }
 
     // TODO: Check OFSUB branches
-    if (field_14E >= 0)
+    if (field_14E_ScrabParamiteEventXPos >= 0)
     {
-        if ((FP_FromInteger(field_14E) > mBaseAnimatedWithPhysicsGameObject_XPos && !mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX)) || (FP_FromInteger(field_14E) < mBaseAnimatedWithPhysicsGameObject_XPos && mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX)))
+        if ((FP_FromInteger(field_14E_ScrabParamiteEventXPos) > mBaseAnimatedWithPhysicsGameObject_XPos && !mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX)) || (FP_FromInteger(field_14E_ScrabParamiteEventXPos) < mBaseAnimatedWithPhysicsGameObject_XPos && mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX)))
         {
             if (mCurrentMotion == eFleechMotions::M_Crawl_4_42E960)
             {
@@ -2948,16 +2948,16 @@ s16 Fleech::Brain_Patrol_State_4(BaseAliveGameObject* pTarget)
 
     if (mCurrentMotion == eFleechMotions::M_Idle_3_42E850)
     {
-        if (field_14C >= 0)
+        if (field_14C_EventXPos >= 0)
         {
             if (field_150_patrol_range > 0)
             {
-                if (FP_FromInteger(field_14C) <= mBaseAnimatedWithPhysicsGameObject_XPos)
+                if (FP_FromInteger(field_14C_EventXPos) <= mBaseAnimatedWithPhysicsGameObject_XPos)
                 {
                     s16 patrolRangeDelta = FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos) - field_150_patrol_range;
-                    if (field_14C > patrolRangeDelta)
+                    if (field_14C_EventXPos > patrolRangeDelta)
                     {
-                        patrolRangeDelta = field_14C;
+                        patrolRangeDelta = field_14C_EventXPos;
                     }
                     field_154 = patrolRangeDelta;
 
@@ -2969,9 +2969,9 @@ s16 Fleech::Brain_Patrol_State_4(BaseAliveGameObject* pTarget)
                 else
                 {
                     s16 patrolRangeDelta = field_150_patrol_range + FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos);
-                    if (field_14C <= patrolRangeDelta)
+                    if (field_14C_EventXPos <= patrolRangeDelta)
                     {
-                        patrolRangeDelta = field_14C;
+                        patrolRangeDelta = field_14C_EventXPos;
                     }
                     field_154 = patrolRangeDelta;
 
@@ -2982,25 +2982,25 @@ s16 Fleech::Brain_Patrol_State_4(BaseAliveGameObject* pTarget)
                 }
 
                 mNextMotion = eFleechMotions::M_Crawl_4_42E960;
-                field_14C = -1;
+                field_14C_EventXPos = -1;
             }
             else
             {
                 // TODO: Check __OFSUB__ on else branch
-                if (FP_FromInteger(field_14C) > mBaseAnimatedWithPhysicsGameObject_XPos)
+                if (FP_FromInteger(field_14C_EventXPos) > mBaseAnimatedWithPhysicsGameObject_XPos)
                 {
                     if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
                     {
                         mCurrentMotion = eFleechMotions::M_Knockback_6_42EAF0;
-                        field_14C = -1;
+                        field_14C_EventXPos = -1;
                     }
                 }
-                else if (FP_FromInteger(field_14C) < mBaseAnimatedWithPhysicsGameObject_XPos)
+                else if (FP_FromInteger(field_14C_EventXPos) < mBaseAnimatedWithPhysicsGameObject_XPos)
                 {
                     if (!mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
                     {
                         mCurrentMotion = eFleechMotions::M_Knockback_6_42EAF0;
-                        field_14C = -1;
+                        field_14C_EventXPos = -1;
                     }
                 }
             }
@@ -3051,7 +3051,7 @@ s16 Fleech::Brain_Patrol_State_5()
         return field_126_state;
     }
 
-    if ((FP_FromInteger(field_14E) > mBaseAnimatedWithPhysicsGameObject_XPos && !mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX)) || (FP_FromInteger(field_14E) < mBaseAnimatedWithPhysicsGameObject_XPos && mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX)))
+    if ((FP_FromInteger(field_14E_ScrabParamiteEventXPos) > mBaseAnimatedWithPhysicsGameObject_XPos && !mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX)) || (FP_FromInteger(field_14E_ScrabParamiteEventXPos) < mBaseAnimatedWithPhysicsGameObject_XPos && mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX)))
     {
         if (mCurrentMotion != eFleechMotions::M_Crawl_4_42E960)
         {
@@ -3067,7 +3067,7 @@ s16 Fleech::Brain_Patrol_State_5()
         return field_126_state;
     }
 
-    field_14E = -1;
+    field_14E_ScrabParamiteEventXPos = -1;
     mNextMotion = eFleechMotions::M_Crawl_4_42E960;
     CanMove_42E3E0();
     return PatrolStates::State_6;

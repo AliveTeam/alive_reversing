@@ -105,8 +105,8 @@ struct Fleech_State final
     s16 field_7E_wake_up_switch_anger_value;
     s16 field_80_wake_up_switch_value;
     s16 field_82_can_wake_up_id;
-    s16 field_84;
-    s16 field_86;
+    s16 field_84_EventXPos;
+    s16 field_86_ScrabParamiteEventXPos;
     s16 field_88_patrol_range;
     s16 field_8A;
     s16 field_8C;
@@ -264,8 +264,8 @@ private:
     s16 field_146_wake_up_switch_anger_value = 0;
     s16 field_148_wake_up_switch_value = 0;
     s16 field_14A_can_wake_up_switch_id = 0;
-    s16 field_14C = 0;
-    s16 field_14E = 0;
+    s16 field_14C_EventXPos = 0;
+    s16 field_14E_ScrabParamiteEventXPos = 0;
     s16 field_150_patrol_range = 0;
     s16 field_152 = 0;
     s16 field_154 = 0;
