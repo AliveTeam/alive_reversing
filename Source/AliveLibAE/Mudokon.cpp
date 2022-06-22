@@ -7484,7 +7484,7 @@ void Mudokon::TakeASlap_476090(BaseGameObject* pFrom)
             field_190_brain_sub_state = field_188_pTblEntry->field_6_sub_state;
         }
 
-        if (field_180_emo_tbl != Mud_Emotion::eSad_3 || pFrom == sActiveHero)
+        if (field_180_emo_tbl != Mud_Emotion::eSad_3 || IsActiveHero(pFrom))
         {
             field_180_emo_tbl = field_188_pTblEntry->field_4_emo_tbl;
         }

@@ -709,7 +709,7 @@ s16 Paramite::Brain_Patrol_State_12_Idle(BaseAliveGameObject* pObj)
     const auto pEventNoise = Event_Is_Event_In_Range(kEventNoise, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, AsEventScale(mBaseAnimatedWithPhysicsGameObject_Scale));
     const auto pEventSpeaking = Event_Is_Event_In_Range(kEventSpeaking, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, AsEventScale(mBaseAnimatedWithPhysicsGameObject_Scale));
 
-    if (sActiveHero == pEventNoise || sActiveHero == pEventSpeaking)
+    if (IsActiveHero(pEventNoise) || IsActiveHero(pEventSpeaking))
     {
         if (sActiveHero->mBaseAliveGameObjectFlags.Get(Flags_114::e114_Bit8_bInvisible))
         {

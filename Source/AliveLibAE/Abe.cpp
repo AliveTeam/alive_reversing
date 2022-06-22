@@ -419,6 +419,14 @@ const SfxDefinition sSFXList_555160[] = {
     {0u, 23u, 64u, 90u, 0, 0}};
 
 
+bool IsActiveHero(BaseGameObject* pObj)
+{
+    if (sActiveHero)
+    {
+        return sActiveHero == pObj;
+    }
+    return false;
+}
 
 s32 Environment_SFX_457A40(EnvironmentSfx sfxId, s32 volume, s32 pitchMin, BaseAliveGameObject* pAliveObj)
 {
@@ -568,7 +576,7 @@ s32 Environment_SFX_457A40(EnvironmentSfx sfxId, s32 volume, s32 pitchMin, BaseA
         sndVolume = 2 * sndVolume / 3;
     }
 
-    if (pAliveObj != sActiveHero)
+    if (!IsActiveHero(pAliveObj))
     {
         switch (gMap.GetDirection_4811A0(
             pAliveObj->mBaseAnimatedWithPhysicsGameObject_LvlNumber,
@@ -9723,7 +9731,7 @@ void Mudokon_SFX(MudSounds idx, s16 volume, s32 pitch, BaseAliveGameObject* pHer
         }
         case MudSounds::eGiggle_8:
         {
-            if (pHero == sActiveHero && gMap.mCurrentLevel == EReliveLevelIds::eBrewery_Ender)
+            if (IsActiveHero(pHero) && gMap.mCurrentLevel == EReliveLevelIds::eBrewery_Ender)
             {
                 idx = MudSounds::eLaugh_10;
             }
@@ -9750,7 +9758,7 @@ void Mudokon_SFX(MudSounds idx, s16 volume, s32 pitch, BaseAliveGameObject* pHer
                 volume = 2 * volume / 3;
             }
 
-            if (pHero == sActiveHero)
+            if (IsActiveHero(pHero))
             {
                 playAbeSFX(idx, volume, pitch);
                 return;

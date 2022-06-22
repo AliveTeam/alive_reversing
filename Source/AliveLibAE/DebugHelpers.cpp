@@ -130,7 +130,7 @@ void Command_Murder(const std::vector<std::string>& /*args*/)
             break;
         }
 
-        if (pBaseGameObject == sActiveHero)
+        if (IsActiveHero(pBaseGameObject))
         {
             continue;
         }

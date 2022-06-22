@@ -2636,7 +2636,7 @@ s16 Slog::Brain_ChasingAbe_State_2_Thinking(BaseAliveGameObject* pTarget)
         mCurrentMotion = eSlogMotions::M_TurnAround_3_4C65C0;
     }
 
-    if (field_160_flags.Get(Flags_160::eBit4_Hungry) && pTarget == sActiveHero && pTarget->mBaseAnimatedWithPhysicsGameObject_Scale == mBaseAnimatedWithPhysicsGameObject_Scale && (sActiveHero->mCurrentMotion == eAbeMotions::Motion_104_RockThrowStandingHold_455DF0 || sActiveHero->mCurrentMotion == eAbeMotions::Motion_107_RockThrowCrouchingHold_454410))
+    if (field_160_flags.Get(Flags_160::eBit4_Hungry) && IsActiveHero(pTarget) && pTarget->mBaseAnimatedWithPhysicsGameObject_Scale == mBaseAnimatedWithPhysicsGameObject_Scale && (sActiveHero->mCurrentMotion == eAbeMotions::Motion_104_RockThrowStandingHold_455DF0 || sActiveHero->mCurrentMotion == eAbeMotions::Motion_107_RockThrowCrouchingHold_454410))
     {
         mNextMotion = eSlogMotions::M_StopRunning_6_4C66C0;
         field_124_timer = sGnFrame + 90;

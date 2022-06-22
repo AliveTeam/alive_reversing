@@ -4101,7 +4101,7 @@ s16 Scrab::CanSeeAbe(BaseAliveGameObject* pObj)
         return 0;
     }
 
-    if (pObj == sActiveHero)
+    if (IsActiveHero(pObj))
     {
         if (sActiveHero->mCurrentMotion == eAbeMotions::Motion_67_LedgeHang_454E20 || sActiveHero->mCurrentMotion == eAbeMotions::Motion_69_LedgeHangWobble_454EF0)
         {

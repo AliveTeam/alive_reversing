@@ -64,7 +64,7 @@ s32 Animation_OnFrame_Common_4561B0(BaseGameObject* pObjPtr, s16* pData)
         sSlurg_Step_Watch_Points_Count_5BD4DC[sSlurg_Step_Watch_Points_Idx_5C1C08] = count + 1;
     }
 
-    if (pObj != sActiveHero)
+    if (!IsActiveHero(pObj))
     {
         return 1;
     }

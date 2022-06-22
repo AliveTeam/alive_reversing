@@ -1067,7 +1067,7 @@ void FlyingSlig::Brain_4_ChasingEnemy()
         return;
     }
 
-    if (Event_Get(kEventResetting) || sControlledCharacter_5C1B8C->mBaseAnimatedWithPhysicsGameObject_SpriteScale != mBaseAnimatedWithPhysicsGameObject_SpriteScale || IsInInvisibleZone(sControlledCharacter_5C1B8C) || sControlledCharacter_5C1B8C->mBaseAliveGameObjectFlags.Get(Flags_114::e114_Bit8_bInvisible) || (!IsWallBetween_43A550(this, sControlledCharacter_5C1B8C) && (sControlledCharacter_5C1B8C != sActiveHero || sActiveHero->mCurrentMotion != eAbeMotions::Motion_65_LedgeAscend_4548E0) && sControlledCharacter_5C1B8C->Type() != ReliveTypes::eMineCar))
+    if (Event_Get(kEventResetting) || sControlledCharacter_5C1B8C->mBaseAnimatedWithPhysicsGameObject_SpriteScale != mBaseAnimatedWithPhysicsGameObject_SpriteScale || IsInInvisibleZone(sControlledCharacter_5C1B8C) || sControlledCharacter_5C1B8C->mBaseAliveGameObjectFlags.Get(Flags_114::e114_Bit8_bInvisible) || (!IsWallBetween_43A550(this, sControlledCharacter_5C1B8C) && (!IsActiveHero(sControlledCharacter_5C1B8C) || sActiveHero->mCurrentMotion != eAbeMotions::Motion_65_LedgeAscend_4548E0) && sControlledCharacter_5C1B8C->Type() != ReliveTypes::eMineCar))
     {
         PatrolDelay_435860();
         return;
@@ -2309,7 +2309,7 @@ s16 FlyingSlig::sub_436730()
 
 s16 FlyingSlig::CanHearAbe_4369C0()
 {
-    return sActiveHero == Event_Is_Event_In_Range(kEventSuspiciousNoise, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, AsEventScale(mBaseAnimatedWithPhysicsGameObject_Scale)) || sActiveHero == Event_Is_Event_In_Range(kEventSpeaking, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, AsEventScale(mBaseAnimatedWithPhysicsGameObject_Scale));
+    return IsActiveHero(Event_Is_Event_In_Range(kEventSuspiciousNoise, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, AsEventScale(mBaseAnimatedWithPhysicsGameObject_Scale))) || IsActiveHero(Event_Is_Event_In_Range(kEventSpeaking, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, AsEventScale(mBaseAnimatedWithPhysicsGameObject_Scale)));
 }
 
 void FlyingSlig::ToSpottedEnemy_435E70()

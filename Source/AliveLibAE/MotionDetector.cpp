@@ -325,7 +325,7 @@ void MotionDetector::VUpdate()
                     && bLaserRect.y <= objRect.h
                     && pObj->mBaseAnimatedWithPhysicsGameObject_SpriteScale == mBaseAnimatedWithPhysicsGameObject_SpriteScale)
                 {
-                    if (pObj == sActiveHero)
+                    if (IsActiveHero(pObj))
                     {
                         if (sGnFrame % 2)
                         {
@@ -344,7 +344,7 @@ void MotionDetector::VUpdate()
                             {
                                 relive_new Alarm(field_10C_alarm_duration, field_10A_alarm_switch_id, 0, Layer::eLayer_Above_FG1_39);
 
-                                if (pObj == sActiveHero && pObj->mHealth > FP_FromInteger(0))
+                                if (IsActiveHero(pObj) && pObj->mHealth > FP_FromInteger(0))
                                 {
                                     Mudokon_SFX(MudSounds::eOops_14, 0, 0, 0);
                                 }

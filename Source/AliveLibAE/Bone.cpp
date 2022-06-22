@@ -677,7 +677,7 @@ void BoneBag::VUpdate()
         {
             if (gpThrowableArray_5D1E2C->field_20_count)
             {
-                if (sActiveHero->mCurrentMotion == 31) // TODO constant
+                if (sActiveHero->mCurrentMotion == eAbeMotions::Motion_31_RunJumpMid_452C10)
                 {
                     const AnimRecord& animRec = AnimRec(AnimId::BoneBag_HardHit);
                     mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
@@ -708,7 +708,7 @@ void BoneBag::VUpdate()
         SFX_Play_Mono(SoundEffect::SackHit_25, 0);
         Environment_SFX_457A40(EnvironmentSfx::eDeathNoise_7, 0, 0x7FFF, 0);
 
-        if (sActiveHero->mCurrentMotion == 31)
+        if (sActiveHero->mCurrentMotion == eAbeMotions::Motion_31_RunJumpMid_452C10)
         {
             const AnimRecord& animRec = AnimRec(AnimId::BoneBag_HardHit);
             mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);

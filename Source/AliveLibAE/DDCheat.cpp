@@ -277,7 +277,7 @@ void DDCheat::VUpdate()
             sDDCheat_FlyingEnabled_5C2C08 = !sDDCheat_FlyingEnabled_5C2C08;
             if (!sDDCheat_FlyingEnabled_5C2C08)
             {
-                if (sControlledCharacter_5C1B8C == sActiveHero)
+                if (IsActiveHero(sControlledCharacter_5C1B8C))
                 {
                     sActiveHero->field_1AC_flags.Set(Abe::e1AC_Bit7_land_softly);
                 }
@@ -372,7 +372,7 @@ void DDCheat::VUpdate()
                     sDDCheat_AlwaysShow_5BC000 = !sDDCheat_AlwaysShow_5BC000;
                 }
 
-                if (sControlledCharacter_5C1B8C == sActiveHero)
+                if (IsActiveHero(sControlledCharacter_5C1B8C))
                 {
                     sActiveHero->field_1AC_flags.Set(Abe::e1AC_Bit7_land_softly);
                 }
