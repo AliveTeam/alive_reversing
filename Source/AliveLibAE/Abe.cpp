@@ -5208,7 +5208,7 @@ void Abe::Motion_33_RunLoop_4508E0()
             else
             {
                 // Run to walk
-                if (field_20_animation.field_92_current_frame != 4)
+                if (field_20_animation.field_92_current_frame == 4)
                 {
                     field_106_current_motion = eAbeMotions::Motion_50_RunToWalk_450E20;
                 }
