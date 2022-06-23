@@ -2537,10 +2537,8 @@ s16 Slig::MainMovement_467020()
 void Slig::ToKnockBack_467300()
 {
     Environment_SFX_42A220(EnvironmentSfx::eKnockback_13, 0, 0x7FFF, this);
-    if (FP_GetExponent(field_B4_velx))
-    {
-        field_A8_xpos -= field_B4_velx;
-    }
+
+    field_A8_xpos -= field_B4_velx;
 
     if (field_F4_pLine)
     {
