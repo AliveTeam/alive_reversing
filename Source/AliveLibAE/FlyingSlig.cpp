@@ -3265,14 +3265,12 @@ void FlyingSlig::PullLever_436450()
     field_184_xSpeed = FP_FromInteger(0);
     field_188_ySpeed = FP_FromInteger(0);
 
-    if ((FP_Abs(field_B8_xpos - field_1C8_lever_pull_range_xpos) < FP_FromInteger(1)) && (FP_Abs(field_BC_ypos - field_1CC_lever_pull_range_ypos) < FP_FromInteger(1)))
+    if ((FP_Abs(field_B8_xpos - field_1C8_lever_pull_range_xpos) < FP_FromInteger(1)) &&
+        (FP_Abs(field_BC_ypos - field_1CC_lever_pull_range_ypos) < FP_FromInteger(1)))
     {
         VSetMotion_4081C0(eFlyingSligMotions::M_LeverPull_7_439150);
     }
-    else
-    {
-        SetBrain(&FlyingSlig::Brain_15_FlyingSligSpawn_4362C0);
-    }
+    SetBrain(&FlyingSlig::Brain_15_FlyingSligSpawn_4362C0);
 }
 
 s16 FlyingSlig::TryPullLever_439DB0()
