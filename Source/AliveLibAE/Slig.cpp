@@ -5967,14 +5967,12 @@ void Slig::PlatformCollide_4B4E00()
         (TCollisionCallBack) &BaseAliveGameObject::OnTrapDoorIntersection_408BA0);
 }
 
+// TODO: rename to ToKnockBack() to match AO
 void Slig::FallKnockBackOrSmash_4B4A90()
 {
     Environment_SFX_457A40(EnvironmentSfx::eKnockback_13, 0, 0x7FFF, this);
 
-    if (field_C4_velx > FP_FromInteger(0))
-    {
-        field_B8_xpos -= field_C4_velx;
-    }
+    field_B8_xpos -= field_C4_velx;
 
     if (field_100_pCollisionLine)
     {
@@ -6000,6 +5998,10 @@ void Slig::FallKnockBackOrSmash_4B4A90()
                 field_C4_velx = FP_FromInteger(0);
             }
         }
+    }
+    else
+    {
+        field_C4_velx = FP_FromInteger(0);
     }
 
     if (field_108_next_motion == eSligMotions::M_Smash_44_4B6B90)
