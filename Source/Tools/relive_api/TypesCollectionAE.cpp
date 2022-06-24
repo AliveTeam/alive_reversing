@@ -116,6 +116,7 @@ void TypesCollectionAE::AddAETypes()
     REGISTER_TYPE_AE(AETlvs::Path_CreditsController);
     REGISTER_TYPE_AE(AETlvs::Path_MovieHandstone);
     REGISTER_TYPE_AE(AETlvs::Path_MovingBomb);
+    REGISTER_TYPE_AE(AETlvs::Path_MovingBombStopper);
     REGISTER_TYPE_AE(AETlvs::Path_SecurityDoor);
     REGISTER_TYPE_AE(AETlvs::Path_CrawlingSlig);
     REGISTER_TYPE_AE(AETlvs::Path_SligGetPants);

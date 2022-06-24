@@ -1719,6 +1719,15 @@ struct Path_MovingBomb final : public ReliveAPI::TlvObjectBaseAE
     }
 };
 
+struct Path_MovingBombStopper final : public ReliveAPI::TlvObjectBaseAE
+{
+    CTOR_AE(Path_MovingBombStopper, "MovingBombStopper", TlvTypes::MovingBombStopper_53)
+    {
+        ADD("Min Delay", mTlv.field_10_min);
+        ADD("Max Delay", mTlv.field_12_max);
+    }
+};
+
 struct Path_SecurityDoor final : public ReliveAPI::TlvObjectBaseAE
 {
     CTOR_AE(Path_SecurityDoor, "SecurityDoor", TlvTypes::SecurityDoor_58)
