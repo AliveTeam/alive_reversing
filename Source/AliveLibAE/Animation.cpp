@@ -405,11 +405,6 @@ void Animation::DecompressFrame()
     UploadTexture(pFrameHeader, vram_rect, width_bpp_adjusted);
 }
 
-inline s16 FP_AdjustedToInteger(FP fp, FP adjustment)
-{
-    return FP_GetExponent(fp + adjustment);
-}
-
 void Animation::VRender(s32 xpos, s32 ypos, PrimHeader** ppOt, s16 width, s32 height)
 {
     if ((field_84_vram_rect.x || field_84_vram_rect.y) && !(mAnimFlags.Get(AnimFlags::eBit25_bDecompressDone)))
@@ -437,11 +432,12 @@ void Animation::VRender(s32 xpos, s32 ypos, PrimHeader** ppOt, s16 width, s32 he
         return;
     }
 
-    FrameInfoHeader* pFrameInfoHeader = Get_FrameHeader(-1);
-    FrameHeader* pFrameHeader = (FrameHeader*) &(*field_20_ppBlock)[pFrameInfoHeader->field_0_frame_header_offset];
 
-    FP frame_width_fixed;
-    FP frame_height_fixed;
+    const FrameInfoHeader* pFrameInfoHeader = Get_FrameHeader(-1);
+    const FrameHeader* pFrameHeader = (const FrameHeader*) &(*field_20_ppBlock)[pFrameInfoHeader->field_0_frame_header_offset];
+
+    FP frame_width_fixed = {};
+    FP frame_height_fixed = {};
     if (width_unknown)
     {
         frame_width_fixed = FP_FromInteger(width_unknown);
@@ -453,8 +449,8 @@ void Animation::VRender(s32 xpos, s32 ypos, PrimHeader** ppOt, s16 width, s32 he
         frame_height_fixed = FP_FromInteger(pFrameHeader->field_5_height);
     }
 
-    FP xOffSet_fixed;
-    FP yOffset_fixed;
+    FP xOffSet_fixed = {};
+    FP yOffset_fixed = {};
     if (mAnimFlags.Get(AnimFlags::eBit20_use_xy_offset))
     {
         xOffSet_fixed = FP_FromInteger(0);
@@ -528,53 +524,34 @@ void Animation::VRender(s32 xpos, s32 ypos, PrimHeader** ppOt, s16 width, s32 he
 
     s16 polyXPos = 0;
     s16 polyYPos = 0;
-    if (mAnimFlags.Get(AnimFlags::eBit6_FlipY))
+
+    const bool kFlipY = mAnimFlags.Get(AnimFlags::eBit6_FlipY);
+    const bool kFlipX = mAnimFlags.Get(AnimFlags::eBit5_FlipX);
+
+
+    if (kFlipX)
     {
-        if (mAnimFlags.Get(AnimFlags::eBit5_FlipX))
-        {
-            SetUV0(pPoly, u0, v1);
-            SetUV1(pPoly, u1, v1);
-            SetUV2(pPoly, u0, v0);
-            SetUV3(pPoly, u1, v0);
-            polyXPos = xpos_unknown - FP_AdjustedToInteger(xOffSet_fixed, FP_FromDouble(0.499)) - FP_AdjustedToInteger(frame_width_fixed, FP_FromDouble(0.499));
-        }
-        else
-        {
-            SetUV0(pPoly, u1, v1);
-            SetUV1(pPoly, u0, v1);
-            SetUV2(pPoly, u1, v0);
-            SetUV3(pPoly, u0, v0);
-            polyXPos = xpos_unknown + FP_AdjustedToInteger(xOffSet_fixed, FP_FromDouble(0.499));
-        }
-        // TODO: Might be wrong because this was doing something with the sign bit abs() ??
-        polyYPos = static_cast<s16>(ypos) - FP_AdjustedToInteger(yOffset_fixed, FP_FromDouble(0.499)) - FP_AdjustedToInteger(frame_height_fixed, FP_FromDouble(0.499));
+        polyXPos = xpos_unknown - FP_GetExponent(xOffSet_fixed + FP_FromDouble(0.499)) - FP_GetExponent(frame_width_fixed + FP_FromDouble(0.499));
     }
     else
     {
-        FP yPosFixed;
-        if (mAnimFlags.Get(AnimFlags::eBit5_FlipX))
-        {
-            SetUV0(pPoly, u0, v0);
-            SetUV1(pPoly, u1, v0);
-            SetUV2(pPoly, u0, v1);
-            SetUV3(pPoly, u1, v1);
-
-            polyXPos = xpos_unknown - FP_AdjustedToInteger(xOffSet_fixed, FP_FromDouble(0.499)) - FP_AdjustedToInteger(frame_width_fixed, FP_FromDouble(0.499));
-            polyYPos = static_cast<s16>(ypos) + FP_AdjustedToInteger(yOffset_fixed, FP_FromDouble(0.499));
-        }
-        else
-        {
-            SetUV0(pPoly, u1, v0);
-            SetUV1(pPoly, u0, v0);
-            SetUV2(pPoly, u1, v1);
-            SetUV3(pPoly, u0, v1);
-
-            polyXPos = xpos_unknown + FP_AdjustedToInteger(xOffSet_fixed, FP_FromDouble(0.499));
-
-            yPosFixed = yOffset_fixed + FP_FromDouble(0.499);
-            polyYPos = static_cast<s16>(ypos) + FP_AdjustedToInteger(yOffset_fixed, FP_FromDouble(0.499));
-        }
+        polyXPos = xpos_unknown + FP_GetExponent(xOffSet_fixed + FP_FromDouble(0.499));
     }
+
+    if (kFlipY)
+    {
+        // TODO: Might be wrong because this was doing something with the sign bit abs() ??
+        polyYPos = static_cast<s16>(ypos) - FP_GetExponent(yOffset_fixed + FP_FromDouble(0.499)) - FP_GetExponent(frame_height_fixed + FP_FromDouble(0.499));
+    }
+    else
+    {
+        polyYPos = static_cast<s16>(ypos) + FP_GetExponent(yOffset_fixed + FP_FromDouble(0.499));
+    }
+
+    SetUV0(pPoly, kFlipX ? u0 : u1, kFlipY ? v1 : v0);
+    SetUV1(pPoly, kFlipX ? u1 : u0, kFlipY ? v1 : v0);
+    SetUV2(pPoly, kFlipX ? u0 : u1, kFlipY ? v0 : v1);
+    SetUV3(pPoly, kFlipX ? u1 : u0, kFlipY ? v0 : v1);
 
     SetXY0(pPoly, polyXPos, polyYPos);
     SetXY1(pPoly, polyXPos + FP_GetExponent(frame_width_fixed - FP_FromDouble(0.501)), polyYPos);
