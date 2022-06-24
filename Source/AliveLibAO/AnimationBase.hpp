@@ -93,7 +93,7 @@ public:
 
     virtual void VDecode() = 0;
 
-    virtual void VRender(s32 xpos, s32 ypos, PrimHeader** ppOt, s16 width, s16 height) = 0;
+    virtual void VRender(s32 xpos, s32 ypos, PrimHeader** ppOt, s16 width, s32 height) = 0;
 
     virtual void VCleanUp() = 0;
 

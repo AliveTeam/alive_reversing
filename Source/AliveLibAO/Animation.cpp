@@ -365,8 +365,9 @@ void Animation::DecompressFrame()
 }
 
 
-void Animation::VRender(s32 xpos, s32 ypos, PrimHeader** ppOt, s16 width, s16 height)
+void Animation::VRender(s32 xpos, s32 ypos, PrimHeader** ppOt, s16 width, s32 height)
 {
+    const s16 xpos_unknown = static_cast<s16>(xpos);
     if (!mAnimFlags.Get(AnimFlags::eBit3_Render))
     {
         return;
@@ -471,17 +472,30 @@ void Animation::VRender(s32 xpos, s32 ypos, PrimHeader** ppOt, s16 width, s16 he
         yOffset_fixed = (yOffset_fixed * field_14_scale) - FP_FromInteger(1);
     }
 
+    s16 polyXPos = 0;
+    s16 polyYPos = 0;
+
     const bool kFlipY = mAnimFlags.Get(AnimFlags::eBit6_FlipY);
     const bool kFlipX = mAnimFlags.Get(AnimFlags::eBit5_FlipX);
 
-    s32 polyXPos;
+
     if (kFlipX)
     {
-        polyXPos = xpos - FP_GetExponent(xOffSet_fixed + frame_width_fixed + FP_FromDouble(0.499));
+        polyXPos = xpos_unknown - FP_GetExponent(xOffSet_fixed + frame_width_fixed + FP_FromDouble(0.499));
     }
     else
     {
-        polyXPos = xpos + FP_GetExponent(xOffSet_fixed + FP_FromDouble(0.499));
+        polyXPos = xpos_unknown + FP_GetExponent(xOffSet_fixed + FP_FromDouble(0.499));
+    }
+
+    if (kFlipY)
+    {
+        // TODO: Might be wrong because this was doing something with the sign bit abs() ??
+        polyYPos = static_cast<s16>(ypos) - FP_GetExponent(yOffset_fixed + FP_FromDouble(0.499)) - FP_GetExponent(frame_height_fixed + FP_FromDouble(0.499));
+    }
+    else
+    {
+        polyYPos = static_cast<s16>(ypos) + FP_GetExponent(yOffset_fixed + FP_FromDouble(0.499));
     }
 
     SetUV0(pPoly, kFlipX ? u0 : u1, kFlipY ? v1 : v0);
@@ -489,15 +503,11 @@ void Animation::VRender(s32 xpos, s32 ypos, PrimHeader** ppOt, s16 width, s16 he
     SetUV2(pPoly, kFlipX ? u0 : u1, kFlipY ? v0 : v1);
     SetUV3(pPoly, kFlipX ? u1 : u0, kFlipY ? v0 : v1);
 
-    const s16 polyYPos = static_cast<s16>(ypos + FP_GetExponent((yOffset_fixed + FP_FromDouble(0.499))));
-    const s16 xConverted = static_cast<s16>(PsxToPCX(polyXPos));
-    const s16 width_adjusted = FP_GetExponent(PsxToPCX(frame_width_fixed) - FP_FromDouble(0.501)) + xConverted;
-    const s16 height_adjusted = FP_GetExponent(frame_height_fixed - FP_FromDouble(0.501)) + polyYPos;
 
-    SetXY0(pPoly, xConverted, polyYPos);
-    SetXY1(pPoly, width_adjusted, polyYPos);
-    SetXY2(pPoly, xConverted, height_adjusted);
-    SetXY3(pPoly, width_adjusted, height_adjusted);
+    SetXY0(pPoly, static_cast<s16>(PsxToPCX(polyXPos)), polyYPos);
+    SetXY1(pPoly, FP_GetExponent(PsxToPCX(frame_width_fixed) - FP_FromDouble(0.501)) + static_cast<s16>(PsxToPCX(polyXPos)), polyYPos);
+    SetXY2(pPoly, static_cast<s16>(PsxToPCX(polyXPos)), FP_GetExponent(frame_height_fixed - FP_FromDouble(0.501)) + polyYPos);
+    SetXY3(pPoly, FP_GetExponent(PsxToPCX(frame_width_fixed) - FP_FromDouble(0.501)) + static_cast<s16>(PsxToPCX(polyXPos)), FP_GetExponent(frame_height_fixed - FP_FromDouble(0.501)) + polyYPos);
 
     SetPrimExtraPointerHack(pPoly, nullptr);
     OrderingTable_Add_498A80(OtLayer(ppOt, mRenderLayer), &pPoly->mBase.header);

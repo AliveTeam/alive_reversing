@@ -14,7 +14,7 @@ void AnimationUnknown::VRender2(s32 xpos, s32 ypos, PrimHeader** ppOt)
     VRender2_403FD0(xpos, ypos, ppOt);
 }
 
-void AnimationUnknown::VRender(s32 /*xpos*/, s32 /*ypos*/, PrimHeader** /*pOt*/, s16 /*width*/, s16 /*height*/)
+void AnimationUnknown::VRender(s32 /*xpos*/, s32 /*ypos*/, PrimHeader** /*pOt*/, s16 /*width*/, s32 /*height*/)
 {
     // Empty @ 402A20
 }
