@@ -108,7 +108,7 @@ ScreenWave::ScreenWave(FP xpos, FP ypos, Layer layer, FP width, FP speed, s32 ra
             for (s32 k = 0; k < 4; k++)
             {
                 PolyFT4_Init(&pData->field_B00_poly[i][j][k]);
-                Poly_Set_SemiTrans_498A40(&pData->field_B00_poly[i][j][k].mBase.header, 0);
+                Poly_Set_SemiTrans(&pData->field_B00_poly[i][j][k].mBase.header, 0);
             }
         }
     }
@@ -271,12 +271,12 @@ void ScreenWave::VRender(PrimHeader** ppOt)
                        static_cast<u8>(u3),
                        static_cast<u8>(v3));
 
-                Poly_Set_SemiTrans_498A40(&pPoly->mBase.header, 0);
-                Poly_Set_Blending_498A00(&pPoly->mBase.header, 1);
+                Poly_Set_SemiTrans(&pPoly->mBase.header, 0);
+                Poly_Set_Blending(&pPoly->mBase.header, 1);
 
                 SetPrimExtraPointerHack(pPoly, nullptr);
 
-                OrderingTable_Add_498A80(OtLayer(ppOt, field_10_layer), &pPoly->mBase.header);
+                OrderingTable_Add(OtLayer(ppOt, field_10_layer), &pPoly->mBase.header);
 
                 clearRectSize.x = std::min(clearRectSize.x, minX);
                 clearRectSize.y = std::min(clearRectSize.y, minY);

@@ -5,6 +5,7 @@
 #include "ResourceManager.hpp"
 #include "PsxDisplay.hpp"
 #include "stdlib.hpp"
+#include "../AliveLibAE/Primitives.hpp"
 
 namespace AO {
 
@@ -102,8 +103,8 @@ void CircularFade::VRender(PrimHeader** ppOt)
     SetXY0(pTile, 0, 0);
     pTile->field_14_w = gPsxDisplay_504C78.field_0_width;
     pTile->field_16_h = frameRect.y;
-    Poly_Set_SemiTrans_498A40(&pTile->mBase.header, 1);
-    OrderingTable_Add_498A80(OtLayer(ppOt, mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer), &pTile->mBase.header);
+    Poly_Set_SemiTrans(&pTile->mBase.header, 1);
+    OrderingTable_Add(OtLayer(ppOt, mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer), &pTile->mBase.header);
 
     Prim_Tile* pTile2_1 = &field_110[gPsxDisplay_504C78.field_A_buffer_index];
     Init_Tile(pTile2_1);
@@ -121,8 +122,8 @@ void CircularFade::VRender(PrimHeader** ppOt)
     SetXY0(pTile2_1, 0, frameRect.y);
     pTile2_1->field_14_w = w;
     pTile2_1->field_16_h = frameRect.h - frameRect.y;
-    Poly_Set_SemiTrans_498A40(&pTile2_1->mBase.header, 1);
-    OrderingTable_Add_498A80(OtLayer(ppOt, mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer), &pTile2_1->mBase.header);
+    Poly_Set_SemiTrans(&pTile2_1->mBase.header, 1);
+    OrderingTable_Add(OtLayer(ppOt, mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer), &pTile2_1->mBase.header);
 
     Prim_Tile* pTile2 = &field_138[gPsxDisplay_504C78.field_A_buffer_index];
     Init_Tile(pTile2);
@@ -130,8 +131,8 @@ void CircularFade::VRender(PrimHeader** ppOt)
     SetXY0(pTile2, frameRect.w + 1, frameRect.y);
     pTile2->field_14_w = gPsxDisplay_504C78.field_0_width - frameRect.w;
     pTile2->field_16_h = frameRect.h - frameRect.y;
-    Poly_Set_SemiTrans_498A40(&pTile2->mBase.header, 1);
-    OrderingTable_Add_498A80(OtLayer(ppOt, mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer), &pTile2->mBase.header);
+    Poly_Set_SemiTrans(&pTile2->mBase.header, 1);
+    OrderingTable_Add(OtLayer(ppOt, mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer), &pTile2->mBase.header);
 
     Prim_Tile* pTile3 = &field_160[gPsxDisplay_504C78.field_A_buffer_index];
     Init_Tile(pTile3);
@@ -139,9 +140,9 @@ void CircularFade::VRender(PrimHeader** ppOt)
     SetXY0(pTile3, 0, frameRect.h);
     pTile3->field_14_w = gPsxDisplay_504C78.field_0_width;
     pTile3->field_16_h = gPsxDisplay_504C78.field_2_height - frameRect.h;
-    Poly_Set_SemiTrans_498A40(&pTile3->mBase.header, 1);
-    OrderingTable_Add_498A80(OtLayer(ppOt, mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer), &pTile3->mBase.header);
-    OrderingTable_Add_498A80(OtLayer(ppOt, mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer), &field_188_tPage[gPsxDisplay_504C78.field_A_buffer_index].mBase);
+    Poly_Set_SemiTrans(&pTile3->mBase.header, 1);
+    OrderingTable_Add(OtLayer(ppOt, mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer), &pTile3->mBase.header);
+    OrderingTable_Add(OtLayer(ppOt, mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer), &field_188_tPage[gPsxDisplay_504C78.field_A_buffer_index].mBase);
 
     if (field_1A8_fade_colour < 255)
     {

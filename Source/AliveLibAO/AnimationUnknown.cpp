@@ -1,6 +1,7 @@
 #include "AnimationUnknown.hpp"
 #include "Animation.hpp"
 #include "PsxDisplay.hpp"
+#include "../AliveLibAE/Primitives.hpp"
 
 namespace AO {
 
@@ -124,7 +125,7 @@ void AnimationUnknown::VRender2_403FD0(s32 xpos, s32 ypos, PrimHeader** ppOt)
         SetXY3(pPoly, static_cast<s16>(w), static_cast<s16>(h));
 
         SetPrimExtraPointerHack(pPoly, nullptr);
-        OrderingTable_Add_498A80(OtLayer(ppOt, mRenderLayer), &pPoly->mBase.header);
+        OrderingTable_Add(OtLayer(ppOt, mRenderLayer), &pPoly->mBase.header);
     }
 }
 

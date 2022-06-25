@@ -100,23 +100,23 @@ Blood::Blood(FP xpos, FP ypos, FP xOff, FP yOff, FP scale, s32 count)
                 BloodParticle* pParticle = &field_E8_pResBuf[i];
                 Prim_Sprt* pSprt = &pParticle->field_10_prims[j];
 
-                AO::Sprt_Init(pSprt);
-                Poly_Set_SemiTrans_498A40(&pSprt->mBase.header, 1);
+                Sprt_Init(pSprt);
+                Poly_Set_SemiTrans(&pSprt->mBase.header, 1);
 
                 if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit16_bBlending))
                 {
-                    Poly_Set_Blending_498A00(&pSprt->mBase.header, 1);
+                    Poly_Set_Blending(&pSprt->mBase.header, 1);
                 }
                 else
                 {
-                    Poly_Set_Blending_498A00(&pSprt->mBase.header, 0);
+                    Poly_Set_Blending(&pSprt->mBase.header, 0);
 
                     SetRGB0(pSprt, mBaseAnimatedWithPhysicsGameObject_Anim.mRed, mBaseAnimatedWithPhysicsGameObject_Anim.mGreen, mBaseAnimatedWithPhysicsGameObject_Anim.mBlue);
                 }
 
                 SetClut(pSprt,
                         static_cast<s16>(
-                            PSX_getClut_496840(
+                            PSX_getClut(
                                 mBaseAnimatedWithPhysicsGameObject_Anim.field_8C_pal_vram_xy.field_0_x,
                                 mBaseAnimatedWithPhysicsGameObject_Anim.field_8C_pal_vram_xy.field_2_y)));
 
@@ -239,7 +239,7 @@ void Blood::VRender(PrimHeader** ppOt)
                 SetRGB0(pSprt, mBaseAnimatedWithPhysicsGameObject_Anim.mRed, mBaseAnimatedWithPhysicsGameObject_Anim.mGreen, mBaseAnimatedWithPhysicsGameObject_Anim.mBlue);
             }
 
-            OrderingTable_Add_498A80(OtLayer(ppOt, field_11C_render_layer), &pSprt->mBase.header);
+            OrderingTable_Add(OtLayer(ppOt, field_11C_render_layer), &pSprt->mBase.header);
 
             xy.field_0_x = std::min(x0, xy.field_0_x);
             xy.field_2_y = std::min(y0, xy.field_2_y);
@@ -262,7 +262,7 @@ void Blood::VRender(PrimHeader** ppOt)
             tpageY);
         Prim_SetTPage* pTPage = &field_EC_tPages[bufferIdx];
         Init_SetTPage(pTPage, 0, 0, tpage);
-        OrderingTable_Add_498A80(OtLayer(ppOt, field_11C_render_layer), &pTPage->mBase);
+        OrderingTable_Add(OtLayer(ppOt, field_11C_render_layer), &pTPage->mBase);
 
         pScreenManager->InvalidateRect(
             (xy.field_0_x - 12),

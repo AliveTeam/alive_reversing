@@ -101,11 +101,11 @@ ZapLine::ZapLine(FP x1, FP y1, FP x2, FP y2, s32 aliveTime, ZapLineType type, La
             for (s32 k = 0; k < field_120_number_of_pieces_per_segment; k++)
             {
                 Prim_Sprt* pSprt = &field_124_pSprts[(j * field_120_number_of_pieces_per_segment) + k].field_0_sprts[i];
-                AO::Sprt_Init(pSprt);
+                Sprt_Init(pSprt);
 
-                Poly_Set_SemiTrans_498A40(&pSprt->mBase.header, 1);
-                Poly_Set_Blending_498A00(&pSprt->mBase.header, 1);
-                SetClut(pSprt, static_cast<s16>(PSX_getClut_496840(
+                Poly_Set_SemiTrans(&pSprt->mBase.header, 1);
+                Poly_Set_Blending(&pSprt->mBase.header, 1);
+                SetClut(pSprt, static_cast<s16>(PSX_getClut(
                                    mBaseAnimatedWithPhysicsGameObject_Anim.field_8C_pal_vram_xy.field_0_x,
                                    mBaseAnimatedWithPhysicsGameObject_Anim.field_8C_pal_vram_xy.field_2_y)));
 
@@ -164,7 +164,7 @@ void ZapLine::VRender(PrimHeader** ppOt)
             for (s32 j = 0; j < field_120_number_of_pieces_per_segment; j++)
             {
                 Prim_Sprt* pSprt = &field_124_pSprts->field_0_sprts[j + (i * field_120_number_of_pieces_per_segment)];
-                OrderingTable_Add_498A80(OtLayer(ppOt, mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer), &pSprt[bufferIdx].mBase.header);
+                OrderingTable_Add(OtLayer(ppOt, mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer), &pSprt[bufferIdx].mBase.header);
             }
         }
 
@@ -176,7 +176,7 @@ void ZapLine::VRender(PrimHeader** ppOt)
 
         Prim_SetTPage* pTPage = &field_EC_tPage_p8[bufferIdx];
         Init_SetTPage(pTPage, 0, 0, calcTPage);
-        OrderingTable_Add_498A80(OtLayer(ppOt, mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer), &pTPage->mBase);
+        OrderingTable_Add(OtLayer(ppOt, mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer), &pTPage->mBase);
 
         PSX_RECT* pRect = &field_134_rects[bufferIdx];
         pRect->x = 32767;

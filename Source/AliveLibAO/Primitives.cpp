@@ -30,21 +30,10 @@ void Init_SetTPage(Prim_SetTPage* pPrim, s32 /*notUsed1*/, s32 /*notUsed2*/, s32
     pPrim->field_C_tpage = tpage;
 }
 
-void Poly_Set_Blending_498A00(PrimHeader* pPrim, s32 bBlending)
-{
-    // AE_IMPLEMENTED();
-    Poly_Set_Blending_4F8A20(pPrim, bBlending);
-}
 
-s32 PSX_getClut_496840(s32 x, s32 y)
+s32 PSX_getClut(s32 x, s32 y)
 {
     return (y << 6) | ((x >> 4) & 63);
-}
-
-void Poly_Set_SemiTrans_498A40(PrimHeader* pPrim, s32 bSemiTrans)
-{
-    // AE_IMPLEMENTED();
-    Poly_Set_SemiTrans_4F8A60(pPrim, bSemiTrans);
 }
 
 void Sprt_Init(Prim_Sprt* pPrim)
@@ -58,12 +47,6 @@ void Init_PrimClipper_495FD0(Prim_PrimClipper* pPrim, const PSX_RECT* pClipRect)
 {
     // AE_IMPLEMENTED();
     Init_PrimClipper_4F5B80(pPrim, pClipRect);
-}
-
-void OrderingTable_Add_498A80(PrimHeader** ppOt, PrimHeader* pItem)
-{
-    // AE_IMPLEMENTED();
-    OrderingTable_Add_4F8AA0(ppOt, pItem);
 }
 
 void PolyG4_Init_498890(Poly_G4* pPoly)

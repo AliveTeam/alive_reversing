@@ -110,7 +110,7 @@ s32 Font::DrawString_4337D0(PrimHeader** ppOt, const char_type* text, s32 x, s16
     auto poly = &field_24_fnt_poly_array[gPsxDisplay_5C1130.field_C_buffer_index + (2 * polyOffset)];
 
     s32 tpage = PSX_getTPage(TPageMode::e4Bit_0, abr, field_34_font_context->field_0_rect.x & 0xFFC0, field_34_font_context->field_0_rect.y & 0xFF00);
-    s32 clut = PSX_getClut_4F6350(field_28_palette_rect.x, field_28_palette_rect.y);
+    s32 clut = PSX_getClut(field_28_palette_rect.x, field_28_palette_rect.y);
 
     for (u32 i = 0; i < strlen(text); i++)
     {
@@ -146,8 +146,8 @@ s32 Font::DrawString_4337D0(PrimHeader** ppOt, const char_type* text, s32 x, s16
         const s16 heightScaled = static_cast<s16>(charHeight * FP_GetDouble(scale));
 
         PolyFT4_Init(poly);
-        Poly_Set_SemiTrans_4F8A60(&poly->mBase.header, bSemiTrans);
-        Poly_Set_Blending_4F8A20(&poly->mBase.header, blendMode);
+        Poly_Set_SemiTrans(&poly->mBase.header, bSemiTrans);
+        Poly_Set_Blending(&poly->mBase.header, blendMode);
 
         SetRGB0(
             poly,
@@ -178,7 +178,7 @@ s32 Font::DrawString_4337D0(PrimHeader** ppOt, const char_type* text, s32 x, s16
         SetXY3(poly, offsetX + widthScaled, y + heightScaled);
         SetUV3(poly, texture_u + charWidth, texture_v + charHeight);
 
-        OrderingTable_Add_4F8AA0(OtLayer(ppOt, layer), &poly->mBase.header);
+        OrderingTable_Add(OtLayer(ppOt, layer), &poly->mBase.header);
 
         ++characterRenderCount;
 

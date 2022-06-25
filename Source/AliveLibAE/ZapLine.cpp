@@ -91,10 +91,10 @@ ZapLine::ZapLine(FP xPosSource, FP yPosSource, FP xPosDest, FP yPosDest, s32 ali
                 Prim_Sprt* pSprt = &field_134_pSprites[(j * field_130_number_of_pieces_per_segment) + k].field_0_sprts[i];
                 Sprt_Init(pSprt);
 
-                Poly_Set_SemiTrans_4F8A60(&pSprt->mBase.header, 1);
-                Poly_Set_Blending_4F8A20(&pSprt->mBase.header, 1);
+                Poly_Set_SemiTrans(&pSprt->mBase.header, 1);
+                Poly_Set_Blending(&pSprt->mBase.header, 1);
 
-                SetClut(pSprt, static_cast<s16>(PSX_getClut_4F6350(mBaseAnimatedWithPhysicsGameObject_Anim.field_8C_pal_vram_xy.field_0_x, mBaseAnimatedWithPhysicsGameObject_Anim.field_8C_pal_vram_xy.field_2_y)));
+                SetClut(pSprt, static_cast<s16>(PSX_getClut(mBaseAnimatedWithPhysicsGameObject_Anim.field_8C_pal_vram_xy.field_0_x, mBaseAnimatedWithPhysicsGameObject_Anim.field_8C_pal_vram_xy.field_2_y)));
 
                 SetUV0(pSprt, u0, mBaseAnimatedWithPhysicsGameObject_Anim.field_84_vram_rect.y & 0xFF);
                 pSprt->field_14_w = frameW - 1;
@@ -385,7 +385,7 @@ void ZapLine::VRender(PrimHeader** ppOt)
             for (s32 j = 0; j < field_130_number_of_pieces_per_segment; j++)
             {
                 Prim_Sprt* pSprt = &field_134_pSprites->field_0_sprts[j + (i * field_130_number_of_pieces_per_segment)];
-                OrderingTable_Add_4F8AA0(OtLayer(ppOt, mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer), &pSprt[bufferIdx].mBase.header);
+                OrderingTable_Add(OtLayer(ppOt, mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer), &pSprt[bufferIdx].mBase.header);
             }
         }
 
@@ -397,7 +397,7 @@ void ZapLine::VRender(PrimHeader** ppOt)
 
         Prim_SetTPage* pTPage = &field_FC_tPage_p8[bufferIdx];
         Init_SetTPage(pTPage, 0, 0, calcTPage);
-        OrderingTable_Add_4F8AA0(OtLayer(ppOt, mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer), &pTPage->mBase);
+        OrderingTable_Add(OtLayer(ppOt, mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer), &pTPage->mBase);
 
         PSX_RECT* pRect = &field_144_rects[bufferIdx];
         pRect->x = 32767;

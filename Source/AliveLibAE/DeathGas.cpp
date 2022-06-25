@@ -56,7 +56,7 @@ DeathGas::DeathGas(Layer layer, s32 amount)
                 {
                     Poly_G4* pPoly = &gasPolys_5BC6E8.polys[i][k][l][j];
                     PolyG4_Init_4F88B0(pPoly);
-                    Poly_Set_SemiTrans_4F8A60(&pPoly->mBase.header, TRUE);
+                    Poly_Set_SemiTrans(&pPoly->mBase.header, TRUE);
                 }
             }
         }
@@ -239,12 +239,12 @@ void DeathGas::VRender(PrimHeader** ppOt)
                 SetXY2(pPoly, static_cast<s16>(x2), static_cast<s16>(y2 - yVal));
                 SetXY3(pPoly, static_cast<s16>(x3), static_cast<s16>(y3 - yVal));
 
-                OrderingTable_Add_4F8AA0(OtLayer(ppOt, field_28_layer), &pPoly->mBase.header);
+                OrderingTable_Add(OtLayer(ppOt, field_28_layer), &pPoly->mBase.header);
             }
         }
     }
 
-    OrderingTable_Add_4F8AA0(OtLayer(ppOt, field_28_layer), &gGasTPages_5BC6C8[gPsxDisplay_5C1130.field_C_buffer_index].mBase);
+    OrderingTable_Add(OtLayer(ppOt, field_28_layer), &gGasTPages_5BC6C8[gPsxDisplay_5C1130.field_C_buffer_index].mBase);
     pScreenManager->InvalidateRectCurrentIdx(0, 0, gPsxDisplay_5C1130.field_0_width, gPsxDisplay_5C1130.field_2_height);
 
     if (field_20_total >= 255)

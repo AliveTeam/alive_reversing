@@ -476,8 +476,8 @@ void PauseMenu::VRender(PrimHeader** ot)
     Prim_SetTPage* pTPage = &field_1F0_primitives[gPsxDisplay_5C1130.field_C_buffer_index];
     Poly_F4* pPolys = &field_210_polygons[gPsxDisplay_5C1130.field_C_buffer_index];
     PolyF4_Init_4F8830(pPolys);
-    Poly_Set_SemiTrans_4F8A60(&pPolys->mBase.header, TRUE);
-    Poly_Set_Blending_4F8A20(&pPolys->mBase.header, FALSE);
+    Poly_Set_SemiTrans(&pPolys->mBase.header, TRUE);
+    Poly_Set_Blending(&pPolys->mBase.header, FALSE);
     SetRGB0(pPolys,
             field_144_active_menu.field_E_background_r,
             field_144_active_menu.field_F_background_g,
@@ -487,8 +487,8 @@ void PauseMenu::VRender(PrimHeader** ot)
     SetXY2(pPolys, 0, 240);
     SetXY3(pPolys, 640, 240);
     Init_SetTPage(pTPage, 0, 0, PSX_getTPage(TPageMode::e4Bit_0, TPageAbr::eBlend_2, 0, 0));
-    OrderingTable_Add_4F8AA0(OtLayer(ot, Layer::eLayer_Menu_41), &pPolys->mBase.header);
-    OrderingTable_Add_4F8AA0(OtLayer(ot, Layer::eLayer_Menu_41), &pTPage->mBase);
+    OrderingTable_Add(OtLayer(ot, Layer::eLayer_Menu_41), &pPolys->mBase.header);
+    OrderingTable_Add(OtLayer(ot, Layer::eLayer_Menu_41), &pTPage->mBase);
     pScreenManager->InvalidateRectCurrentIdx(0, 0, 640, 240);
 }
 

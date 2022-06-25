@@ -287,14 +287,14 @@ void ThrowableTotalIndicator::VRender(PrimHeader** ppOt)
         SetRGB0(pLine, field_42_r & 0xFF, field_44_g & 0xFF, field_46_b & 0xFF);
         SetRGB1(pLine, field_42_r & 0xFF, field_44_g & 0xFF, field_46_b & 0xFF);
 
-        Poly_Set_SemiTrans_4F8A60(&pLine->mBase.header, TRUE);
-        OrderingTable_Add_4F8AA0(OtLayer(ppOt, field_40_layer), &pLine->mBase.header);
+        Poly_Set_SemiTrans(&pLine->mBase.header, TRUE);
+        OrderingTable_Add(OtLayer(ppOt, field_40_layer), &pLine->mBase.header);
     }
 
     Prim_SetTPage* pTPage = &field_16C_tPage[gPsxDisplay_5C1130.field_C_buffer_index];
     Init_SetTPage(pTPage, 1, 0, PSX_getTPage(TPageMode::e4Bit_0, TPageAbr::eBlend_1, 0, 0));
 
-    OrderingTable_Add_4F8AA0(OtLayer(ppOt, field_40_layer), &pTPage->mBase);
+    OrderingTable_Add(OtLayer(ppOt, field_40_layer), &pTPage->mBase);
 
     pScreenManager->InvalidateRectCurrentIdx(
         xpos - 8,

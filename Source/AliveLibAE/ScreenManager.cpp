@@ -258,8 +258,8 @@ void ScreenManager::Render_Helper_40E9F0(s32 xpos, s32 ypos, Layer idx, s32 spri
         {
             if (pCurrent_SprtTPage_5BB5DC)
             {
-                OrderingTable_Add_4F8AA0(OtLayer(ppOt, sIdx_5BB5D8), &pCurrent_SprtTPage_5BB5DC->mSprt.mBase.header);
-                OrderingTable_Add_4F8AA0(OtLayer(ppOt, sIdx_5BB5D8), &pCurrent_SprtTPage_5BB5DC->mTPage.mBase);
+                OrderingTable_Add(OtLayer(ppOt, sIdx_5BB5D8), &pCurrent_SprtTPage_5BB5DC->mSprt.mBase.header);
+                OrderingTable_Add(OtLayer(ppOt, sIdx_5BB5D8), &pCurrent_SprtTPage_5BB5DC->mTPage.mBase);
             }
             pSprite->mSprt.field_14_w = 32;
             pCurrent_SprtTPage_5BB5DC = pSprite;
@@ -273,8 +273,8 @@ void ScreenManager::Render_Helper_40E9F0(s32 xpos, s32 ypos, Layer idx, s32 spri
     }
     else if (pCurrent_SprtTPage_5BB5DC)
     {
-        OrderingTable_Add_4F8AA0(OtLayer(ppOt, sIdx_5BB5D8), &pCurrent_SprtTPage_5BB5DC->mSprt.mBase.header);
-        OrderingTable_Add_4F8AA0(OtLayer(ppOt, sIdx_5BB5D8), &pCurrent_SprtTPage_5BB5DC->mTPage.mBase);
+        OrderingTable_Add(OtLayer(ppOt, sIdx_5BB5D8), &pCurrent_SprtTPage_5BB5DC->mSprt.mBase.header);
+        OrderingTable_Add(OtLayer(ppOt, sIdx_5BB5D8), &pCurrent_SprtTPage_5BB5DC->mTPage.mBase);
         pCurrent_SprtTPage_5BB5DC = nullptr;
         sCurrentYPos_5BB5F0 = -1;
     }
@@ -304,7 +304,7 @@ void ScreenManager::VRender(PrimHeader** ppOt)
     static Prim_Sprt MagicBackgroundPrim;
     Sprt_Init(&MagicBackgroundPrim);
     SetRGB0(&MagicBackgroundPrim, 255, 254, 253);
-    OrderingTable_Add_4F8AA0(OtLayer(ppOt, Layer::eLayer_1), &MagicBackgroundPrim.mBase.header);
+    OrderingTable_Add(OtLayer(ppOt, Layer::eLayer_1), &MagicBackgroundPrim.mBase.header);
 #endif
 
     PSX_DrawSync_4F6280(0);
@@ -380,7 +380,7 @@ void ScreenManager::AddCurrentSPRT_TPage(PrimHeader** ppOt)
 {
     if (pCurrent_SprtTPage_5BB5DC)
     {
-        OrderingTable_Add_4F8AA0(OtLayer(ppOt, sIdx_5BB5D8), &pCurrent_SprtTPage_5BB5DC->mSprt.mBase.header);
-        OrderingTable_Add_4F8AA0(OtLayer(ppOt, sIdx_5BB5D8), &pCurrent_SprtTPage_5BB5DC->mTPage.mBase);
+        OrderingTable_Add(OtLayer(ppOt, sIdx_5BB5D8), &pCurrent_SprtTPage_5BB5DC->mSprt.mBase.header);
+        OrderingTable_Add(OtLayer(ppOt, sIdx_5BB5D8), &pCurrent_SprtTPage_5BB5DC->mTPage.mBase);
     }
 }

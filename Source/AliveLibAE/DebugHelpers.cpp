@@ -519,7 +519,7 @@ static void LoadTIM(TimInfo* pInfo, const u8* timBuffer, TPageAbr abr)
         PSX_RECT clutRect = {static_cast<s16>(pHeader->mClutX), static_cast<s16>(pHeader->mClutY), static_cast<s16>(pHeader->mNumClutColours), static_cast<s16>(1)};
         PSX_LoadImage16_4F5E20(&clutRect, (u8*) &pHeader[1]);
 
-        pInfo->mClut = static_cast<u16>(PSX_getClut_4F6350(pHeader->mClutX, pHeader->mClutY));
+        pInfo->mClut = static_cast<u16>(PSX_getClut(pHeader->mClutX, pHeader->mClutY));
     }
 
     if (pHeader->mFlag == 2) // 16 bit
@@ -586,7 +586,7 @@ public:
         xy.x = ypos;
         xy.y = ypos;
         InitType_ScreenOffset_4F5BB0(&mScreenOffset, &xy);
-        OrderingTable_Add_4F8AA0(OtLayer(ppOt, Layer::eLayer_InBirdPortal_30), &mScreenOffset.mBase);
+        OrderingTable_Add(OtLayer(ppOt, Layer::eLayer_InBirdPortal_30), &mScreenOffset.mBase);
 
         static PSX_RECT clipRect = {};
         clipRect.x = 80;
@@ -595,50 +595,50 @@ public:
         clipRect.h = 480 - 200;
 
         Init_PrimClipper_4F5B80(&mPrimClipper, &clipRect);
-        // OrderingTable_Add_4F8AA0(&pOrderingTable[30], &mPrimClipper.field_0_header);
+        // OrderingTable_Add(&pOrderingTable[30], &mPrimClipper.field_0_header);
 
         // Tiles
         for (s32 i = 0; i < 10; i++)
         {
-            OrderingTable_Add_4F8AA0(OtLayer(ppOt, Layer::eLayer_InBirdPortal_30), &mTiles[i].mBase.header);
+            OrderingTable_Add(OtLayer(ppOt, Layer::eLayer_InBirdPortal_30), &mTiles[i].mBase.header);
         }
-        OrderingTable_Add_4F8AA0(OtLayer(ppOt, Layer::eLayer_InBirdPortal_30), &mTile8.mBase.header);
-        OrderingTable_Add_4F8AA0(OtLayer(ppOt, Layer::eLayer_InBirdPortal_30), &mTile16.mBase.header);
-        OrderingTable_Add_4F8AA0(OtLayer(ppOt, Layer::eLayer_InBirdPortal_30), &mTile.mBase.header);
+        OrderingTable_Add(OtLayer(ppOt, Layer::eLayer_InBirdPortal_30), &mTile8.mBase.header);
+        OrderingTable_Add(OtLayer(ppOt, Layer::eLayer_InBirdPortal_30), &mTile16.mBase.header);
+        OrderingTable_Add(OtLayer(ppOt, Layer::eLayer_InBirdPortal_30), &mTile.mBase.header);
 
         // Sprites
-        OrderingTable_Add_4F8AA0(OtLayer(ppOt, Layer::eLayer_InBirdPortal_30), &mSprt8.mBase.header);
-        OrderingTable_Add_4F8AA0(OtLayer(ppOt, Layer::eLayer_InBirdPortal_30), &mSprt8_TPage.mBase);
+        OrderingTable_Add(OtLayer(ppOt, Layer::eLayer_InBirdPortal_30), &mSprt8.mBase.header);
+        OrderingTable_Add(OtLayer(ppOt, Layer::eLayer_InBirdPortal_30), &mSprt8_TPage.mBase);
 
-        OrderingTable_Add_4F8AA0(OtLayer(ppOt, Layer::eLayer_InBirdPortal_30), &mSprt16.mBase.header);
-        OrderingTable_Add_4F8AA0(OtLayer(ppOt, Layer::eLayer_InBirdPortal_30), &mSprt16_TPage.mBase);
+        OrderingTable_Add(OtLayer(ppOt, Layer::eLayer_InBirdPortal_30), &mSprt16.mBase.header);
+        OrderingTable_Add(OtLayer(ppOt, Layer::eLayer_InBirdPortal_30), &mSprt16_TPage.mBase);
 
-        OrderingTable_Add_4F8AA0(OtLayer(ppOt, Layer::eLayer_InBirdPortal_30), &mSprt.mBase.header);
-        OrderingTable_Add_4F8AA0(OtLayer(ppOt, Layer::eLayer_InBirdPortal_30), &mSprt_TPage.mBase);
+        OrderingTable_Add(OtLayer(ppOt, Layer::eLayer_InBirdPortal_30), &mSprt.mBase.header);
+        OrderingTable_Add(OtLayer(ppOt, Layer::eLayer_InBirdPortal_30), &mSprt_TPage.mBase);
 
         // Lines
-        OrderingTable_Add_4F8AA0(OtLayer(ppOt, Layer::eLayer_InBirdPortal_30), &mLineF2.mBase.header);
-        OrderingTable_Add_4F8AA0(OtLayer(ppOt, Layer::eLayer_InBirdPortal_30), &mLineF3.mBase.header);
-        OrderingTable_Add_4F8AA0(OtLayer(ppOt, Layer::eLayer_InBirdPortal_30), &mLineF4.mBase.header);
+        OrderingTable_Add(OtLayer(ppOt, Layer::eLayer_InBirdPortal_30), &mLineF2.mBase.header);
+        OrderingTable_Add(OtLayer(ppOt, Layer::eLayer_InBirdPortal_30), &mLineF3.mBase.header);
+        OrderingTable_Add(OtLayer(ppOt, Layer::eLayer_InBirdPortal_30), &mLineF4.mBase.header);
 
-        OrderingTable_Add_4F8AA0(OtLayer(ppOt, Layer::eLayer_InBirdPortal_30), &mLineG2.mBase.header);
-        OrderingTable_Add_4F8AA0(OtLayer(ppOt, Layer::eLayer_InBirdPortal_30), &mLineG3.mBase.header);
-        OrderingTable_Add_4F8AA0(OtLayer(ppOt, Layer::eLayer_InBirdPortal_30), &mLineG4.mBase.header);
+        OrderingTable_Add(OtLayer(ppOt, Layer::eLayer_InBirdPortal_30), &mLineG2.mBase.header);
+        OrderingTable_Add(OtLayer(ppOt, Layer::eLayer_InBirdPortal_30), &mLineG3.mBase.header);
+        OrderingTable_Add(OtLayer(ppOt, Layer::eLayer_InBirdPortal_30), &mLineG4.mBase.header);
 
         for (s32 i = 0; i < 4; i++)
         {
-            OrderingTable_Add_4F8AA0(OtLayer(ppOt, Layer::eLayer_InBirdPortal_30), &mPolyFT4[i].mBase.header);
+            OrderingTable_Add(OtLayer(ppOt, Layer::eLayer_InBirdPortal_30), &mPolyFT4[i].mBase.header);
         }
 
-        OrderingTable_Add_4F8AA0(OtLayer(ppOt, Layer::eLayer_InBirdPortal_30), &mPolyGT4.mBase.header);
-        OrderingTable_Add_4F8AA0(OtLayer(ppOt, Layer::eLayer_InBirdPortal_30), &mPolyF4.mBase.header);
-        OrderingTable_Add_4F8AA0(OtLayer(ppOt, Layer::eLayer_InBirdPortal_30), &mPolyG4.mBase.header);
+        OrderingTable_Add(OtLayer(ppOt, Layer::eLayer_InBirdPortal_30), &mPolyGT4.mBase.header);
+        OrderingTable_Add(OtLayer(ppOt, Layer::eLayer_InBirdPortal_30), &mPolyF4.mBase.header);
+        OrderingTable_Add(OtLayer(ppOt, Layer::eLayer_InBirdPortal_30), &mPolyG4.mBase.header);
 
         // Polys
-        OrderingTable_Add_4F8AA0(OtLayer(ppOt, Layer::eLayer_InBirdPortal_30), &mPolyF3.mBase.header);
-        OrderingTable_Add_4F8AA0(OtLayer(ppOt, Layer::eLayer_InBirdPortal_30), &mPolyG3.mBase.header);
-        OrderingTable_Add_4F8AA0(OtLayer(ppOt, Layer::eLayer_InBirdPortal_30), &mPolyFT3.mBase.header);
-        OrderingTable_Add_4F8AA0(OtLayer(ppOt, Layer::eLayer_InBirdPortal_30), &mPolyGT3.mBase.header);
+        OrderingTable_Add(OtLayer(ppOt, Layer::eLayer_InBirdPortal_30), &mPolyF3.mBase.header);
+        OrderingTable_Add(OtLayer(ppOt, Layer::eLayer_InBirdPortal_30), &mPolyG3.mBase.header);
+        OrderingTable_Add(OtLayer(ppOt, Layer::eLayer_InBirdPortal_30), &mPolyFT3.mBase.header);
+        OrderingTable_Add(OtLayer(ppOt, Layer::eLayer_InBirdPortal_30), &mPolyGT3.mBase.header);
     }
 
 private:
@@ -674,8 +674,8 @@ private:
 
             SetRGB0(&mPolyFT3, 127, 127, 127);
 
-            Poly_Set_Blending_4F8A20(&mPolyFT3.mBase.header, 1);
-            Poly_Set_SemiTrans_4F8A60(&mPolyFT3.mBase.header, 1);
+            Poly_Set_Blending(&mPolyFT3.mBase.header, 1);
+            Poly_Set_SemiTrans(&mPolyFT3.mBase.header, 1);
             SetTPage(&mPolyFT3, timInfo.mTPage);
             SetClut(&mPolyFT3, timInfo.mClut);
 
@@ -705,8 +705,8 @@ private:
             SetRGB1(&mPolyGT3, 255, 0, 0);
             SetRGB2(&mPolyGT3, 0, 255, 0);
 
-            Poly_Set_Blending_4F8A20(&mPolyGT3.mBase.header, 0);
-            Poly_Set_SemiTrans_4F8A60(&mPolyGT3.mBase.header, 0);
+            Poly_Set_Blending(&mPolyGT3.mBase.header, 0);
+            Poly_Set_SemiTrans(&mPolyGT3.mBase.header, 0);
             SetTPage(&mPolyGT3, timInfo.mTPage);
             SetClut(&mPolyGT3, timInfo.mClut);
 
@@ -745,26 +745,26 @@ private:
                 if (i == 0)
                 {
                     LoadTIM(&timInfo, &tim_16_bit[0], TPageAbr::eBlend_0);
-                    Poly_Set_Blending_4F8A20(&mPolyFT4[i].mBase.header, 0);
-                    Poly_Set_SemiTrans_4F8A60(&mPolyFT4[i].mBase.header, 0);
+                    Poly_Set_Blending(&mPolyFT4[i].mBase.header, 0);
+                    Poly_Set_SemiTrans(&mPolyFT4[i].mBase.header, 0);
                 }
                 else if (i == 1)
                 {
                     LoadTIM(&timInfo, &tim_8_bit[0], TPageAbr::eBlend_1);
-                    Poly_Set_Blending_4F8A20(&mPolyFT4[i].mBase.header, 1);
-                    Poly_Set_SemiTrans_4F8A60(&mPolyFT4[i].mBase.header, 1);
+                    Poly_Set_Blending(&mPolyFT4[i].mBase.header, 1);
+                    Poly_Set_SemiTrans(&mPolyFT4[i].mBase.header, 1);
                 }
                 else if (i == 2)
                 {
                     LoadTIM(&timInfo, &tim_8_bit2[0], TPageAbr::eBlend_2);
-                    Poly_Set_Blending_4F8A20(&mPolyFT4[i].mBase.header, 1);
-                    Poly_Set_SemiTrans_4F8A60(&mPolyFT4[i].mBase.header, 1);
+                    Poly_Set_Blending(&mPolyFT4[i].mBase.header, 1);
+                    Poly_Set_SemiTrans(&mPolyFT4[i].mBase.header, 1);
                 }
                 else
                 {
                     LoadTIM(&timInfo, &tim_4_bit[0], TPageAbr::eBlend_3);
-                    Poly_Set_Blending_4F8A20(&mPolyFT4[i].mBase.header, 1);
-                    Poly_Set_SemiTrans_4F8A60(&mPolyFT4[i].mBase.header, 1);
+                    Poly_Set_Blending(&mPolyFT4[i].mBase.header, 1);
+                    Poly_Set_SemiTrans(&mPolyFT4[i].mBase.header, 1);
                 }
 
                 SetRGB0(&mPolyFT4[i], 127, 127, 127);
@@ -802,8 +802,8 @@ private:
             SetRGB2(&mPolyGT4, 0, 0, 0);
             SetRGB3(&mPolyGT4, 0, 0, 0);
 
-            Poly_Set_Blending_4F8A20(&mPolyGT4.mBase.header, 0);
-            Poly_Set_SemiTrans_4F8A60(&mPolyGT4.mBase.header, 1);
+            Poly_Set_Blending(&mPolyGT4.mBase.header, 0);
+            Poly_Set_SemiTrans(&mPolyGT4.mBase.header, 1);
             SetTPage(&mPolyGT4, timInfo.mTPage);
             SetClut(&mPolyGT4, timInfo.mClut);
 
@@ -1029,18 +1029,18 @@ public:
         SetRGB0(&mPolys[2], 0, 255, 0);
         SetRGB0(&mPolys[3], 0, 0, 255);
 
-        Poly_Set_SemiTrans_4F8A60(&mPolys[2].mBase.header, TRUE);
-        Poly_Set_SemiTrans_4F8A60(&mPolys[3].mBase.header, TRUE);
+        Poly_Set_SemiTrans(&mPolys[2].mBase.header, TRUE);
+        Poly_Set_SemiTrans(&mPolys[3].mBase.header, TRUE);
 
-        Poly_Set_Blending_4F8A20(&mPolys[0].mBase.header, TRUE);
-        Poly_Set_Blending_4F8A20(&mPolys[1].mBase.header, TRUE);
+        Poly_Set_Blending(&mPolys[0].mBase.header, TRUE);
+        Poly_Set_Blending(&mPolys[1].mBase.header, TRUE);
     }
 
     void Render(PrimHeader** ppOt)
     {
         for (s32 i = 0; i < 4; i++)
         {
-            OrderingTable_Add_4F8AA0(OtLayer(ppOt, Layer::eLayer_InBirdPortal_30), &mPolys[i].mBase.header);
+            OrderingTable_Add(OtLayer(ppOt, Layer::eLayer_InBirdPortal_30), &mPolys[i].mBase.header);
         }
     }
 
@@ -1079,8 +1079,8 @@ public:
     {
         PolyF3_Init(&mPoly_F3);
         SetRGB0(&mPoly_F3, 255, 0, 0);
-        Poly_Set_SemiTrans_4F8A60(&mPoly_F3.mBase.header, FALSE);
-        Poly_Set_Blending_4F8A20(&mPoly_F3.mBase.header, FALSE);
+        Poly_Set_SemiTrans(&mPoly_F3.mBase.header, FALSE);
+        Poly_Set_Blending(&mPoly_F3.mBase.header, FALSE);
 
         SetXY0(&mPoly_F3, 50, 80);
         SetXY1(&mPoly_F3, 300, 200);
@@ -1088,8 +1088,8 @@ public:
 
         PolyF4_Init_4F8830(&mPoly_F4);
         SetRGB0(&mPoly_F4, 255, 0, 255);
-        Poly_Set_SemiTrans_4F8A60(&mPoly_F4.mBase.header, FALSE);
-        Poly_Set_Blending_4F8A20(&mPoly_F4.mBase.header, FALSE);
+        Poly_Set_SemiTrans(&mPoly_F4.mBase.header, FALSE);
+        Poly_Set_Blending(&mPoly_F4.mBase.header, FALSE);
 
         SetXY0(&mPoly_F4, 350, 100);
         SetXY1(&mPoly_F4, 550, 100);
@@ -1117,11 +1117,11 @@ public:
     {
         for (s32 i = 0; i < 4; i++)
         {
-            OrderingTable_Add_4F8AA0(OtLayer(ppOt, Layer::eLayer_InBirdPortal_30), &mPoly_F4_Verts[i].mBase.header);
+            OrderingTable_Add(OtLayer(ppOt, Layer::eLayer_InBirdPortal_30), &mPoly_F4_Verts[i].mBase.header);
         }
 
-        OrderingTable_Add_4F8AA0(OtLayer(ppOt, Layer::eLayer_InBirdPortal_30), &mPoly_F3.mBase.header);
-        OrderingTable_Add_4F8AA0(OtLayer(ppOt, Layer::eLayer_InBirdPortal_30), &mPoly_F4.mBase.header);
+        OrderingTable_Add(OtLayer(ppOt, Layer::eLayer_InBirdPortal_30), &mPoly_F3.mBase.header);
+        OrderingTable_Add(OtLayer(ppOt, Layer::eLayer_InBirdPortal_30), &mPoly_F4.mBase.header);
     }
 
     void Update()
@@ -1276,7 +1276,7 @@ public:
         mAnim[3].VRender(40 + (2 * 85), 40 + (2 * 90), ot, 0, 0);
         mAnim[4].VRender(180 + 90, 170 + 45, ot, 0, 0);
 
-        OrderingTable_Add_4F8AA0(OtLayer(ot, Layer::eLayer_InBirdPortal_30), &mPolyFT4[0].mBase.header);
+        OrderingTable_Add(OtLayer(ot, Layer::eLayer_InBirdPortal_30), &mPolyFT4[0].mBase.header);
 
         pScreenManager->InvalidateRectCurrentIdx(0, 0, 640, 240);
     }
@@ -1354,7 +1354,7 @@ private:
 
             SetRGB0(&mPolyFT4[i], 127, 127, 127);
             SetTPage(&mPolyFT4[i], 0);
-            SetClut(&mPolyFT4[i], static_cast<s16>(PSX_getClut_4F6350(pr.x, pr.y)));
+            SetClut(&mPolyFT4[i], static_cast<s16>(PSX_getClut(pr.x, pr.y)));
 
             const s16 xpos = 20 + (150 * i);
             const s16 ypos = 10;
@@ -1563,9 +1563,9 @@ void DEV::DebugFillRect(PrimHeader** ot, Layer layer, s32 x, s32 y, s32 width, s
     SetXY2(mPolyF4, static_cast<s16>(x + width), static_cast<s16>(y));
     SetXY3(mPolyF4, static_cast<s16>(x + width), static_cast<s16>(y + height));
 
-    Poly_Set_SemiTrans_4F8A60(&mPolyF4->mBase.header, semiTransparent);
+    Poly_Set_SemiTrans(&mPolyF4->mBase.header, semiTransparent);
 
-    OrderingTable_Add_4F8AA0(OtLayer(ot, layer), &mPolyF4->mBase.header);
+    OrderingTable_Add(OtLayer(ot, layer), &mPolyF4->mBase.header);
     pScreenManager->InvalidateRectCurrentIdx(0, 0, 640, 240);
 }
 
@@ -1603,9 +1603,9 @@ void DEV::DebugDrawLine(PrimHeader** ot, Layer layer, s32 x1, s32 y1, s32 x2, s3
     SetRGB1(mLineG2, r, g, b);
     SetXY1(mLineG2, static_cast<s16>(x2), static_cast<s16>(y2));
 
-    Poly_Set_SemiTrans_4F8A60(&mLineG2->mBase.header, semiTransparent);
+    Poly_Set_SemiTrans(&mLineG2->mBase.header, semiTransparent);
 
-    OrderingTable_Add_4F8AA0(OtLayer(ot, layer), &mLineG2->mBase.header);
+    OrderingTable_Add(OtLayer(ot, layer), &mLineG2->mBase.header);
     pScreenManager->InvalidateRectCurrentIdx(0, 0, 640, 240);
 }
 

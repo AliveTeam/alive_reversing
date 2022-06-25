@@ -495,10 +495,10 @@ MainMenuTransition::MainMenuTransition(Layer layer, s32 fadeDirection, s32 bKill
     for (s32 i = 0; i < 8; i++)
     {
         Prim_Init_Poly_G3_498870(&field_1C_polys[0].field_0_polys[i]);
-        Poly_Set_SemiTrans_498A40(&field_1C_polys[0].field_0_polys[i].mBase.header, 1);
+        Poly_Set_SemiTrans(&field_1C_polys[0].field_0_polys[i].mBase.header, 1);
 
         Prim_Init_Poly_G3_498870(&field_1C_polys[1].field_0_polys[i]);
-        Poly_Set_SemiTrans_498A40(&field_1C_polys[1].field_0_polys[i].mBase.header, 1);
+        Poly_Set_SemiTrans(&field_1C_polys[1].field_0_polys[i].mBase.header, 1);
     }
 
     field_23C_layer = layer;
@@ -654,10 +654,10 @@ void MainMenuTransition::VRender_436610(PrimHeader** ppOt)
         SetXY1(pPoly, x0, y0);
         SetXY2(pPoly, static_cast<s16>(x1), static_cast<s16>(y1));
 
-        OrderingTable_Add_498A80(OtLayer(ppOt, field_23C_layer), &pPoly->mBase.header);
+        OrderingTable_Add(OtLayer(ppOt, field_23C_layer), &pPoly->mBase.header);
     }
 
-    OrderingTable_Add_498A80(OtLayer(ppOt, field_23C_layer), &field_21C_tPage[gPsxDisplay_504C78.field_A_buffer_index].mBase);
+    OrderingTable_Add(OtLayer(ppOt, field_23C_layer), &field_21C_tPage[gPsxDisplay_504C78.field_A_buffer_index].mBase);
 
     pScreenManager->InvalidateRectCurrentIdx(0, 0, gPsxDisplay_504C78.field_0_width, gPsxDisplay_504C78.field_2_height);
 

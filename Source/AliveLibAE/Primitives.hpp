@@ -19,10 +19,10 @@ void Init_PrimClipper_4F5B80(Prim_PrimClipper* pPrim, const PSX_RECT* pClipRect)
 void InitType_ScreenOffset_4F5BB0(Prim_ScreenOffset* pPrim, const PSX_Pos16* pOffset);
 
 void Poly_FT4_Get_Rect_409DA0(PSX_RECT* pRect, const Poly_FT4* pPoly);
-void Poly_Set_Blending_4F8A20(PrimHeader* pPrim, s32 bBlending);
-void Poly_Set_SemiTrans_4F8A60(PrimHeader* pPrim, s32 bSemiTrans);
+void Poly_Set_Blending(PrimHeader* pPrim, s32 bBlending);
+void Poly_Set_SemiTrans(PrimHeader* pPrim, s32 bSemiTrans);
 PrimHeader** OtLayer(PrimHeader** ppOt, Layer layer);
-void OrderingTable_Add_4F8AA0(PrimHeader** ppOt, PrimHeader* pItem);
+void OrderingTable_Add(PrimHeader** ppOt, PrimHeader* pItem);
 
 enum class TPageMode : s8
 {
@@ -42,4 +42,4 @@ enum class TPageAbr : s8
 
 void Init_SetTPage(Prim_SetTPage* pPrim, s32 /*notUsed1*/, s32 /*notUsed2*/, s32 tpage);
 s32 PSX_getTPage(TPageMode tp, TPageAbr abr, s32 x, s16 y);
-s32 PSX_getClut_4F6350(s32 x, s32 y);
+s32 PSX_getClut(s32 x, s32 y);

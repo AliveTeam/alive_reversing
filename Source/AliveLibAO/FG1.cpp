@@ -149,8 +149,8 @@ void FG1::Convert_Chunk_To_Render_Block(const Fg1Chunk* pChunk, Fg1Block* pBlock
             rPoly = {};
 
             PolyFT4_Init(&rPoly);
-            Poly_Set_SemiTrans_498A40(&rPoly.mBase.header, FALSE);
-            Poly_Set_Blending_498A00(&rPoly.mBase.header, TRUE);
+            Poly_Set_SemiTrans(&rPoly.mBase.header, FALSE);
+            Poly_Set_Blending(&rPoly.mBase.header, TRUE);
 
             SetTPage(&rPoly, tPage);
 
@@ -188,8 +188,8 @@ void FG1::Convert_Chunk_To_Render_Block_AE(const Fg1Chunk* pChunk, Fg1Block* pBl
 
         PolyFT4_Init(&rPoly);
 
-        Poly_Set_SemiTrans_498A40(&rPoly.mBase.header, FALSE);
-        Poly_Set_Blending_498A00(&rPoly.mBase.header, TRUE);
+        Poly_Set_SemiTrans(&rPoly.mBase.header, FALSE);
+        Poly_Set_Blending(&rPoly.mBase.header, TRUE);
 
         SetTPage(&rPoly, static_cast<u16>(PSX_getTPage(TPageMode::e16Bit_2, TPageAbr::eBlend_0, 0, 0)));
 
@@ -282,7 +282,7 @@ void FG1::VRender(PrimHeader** ppOt)
         {
             Poly_FT4* pPoly = &pBlock->field_0_polys[gPsxDisplay_504C78.field_A_buffer_index];
 
-            OrderingTable_Add_498A80(OtLayer(ppOt, pBlock->field_66_mapped_layer), &pPoly->mBase.header);
+            OrderingTable_Add(OtLayer(ppOt, pBlock->field_66_mapped_layer), &pPoly->mBase.header);
 
             pScreenManager->InvalidateRect(
                 X0(pPoly),

@@ -182,8 +182,8 @@ void Spark::VRender(PrimHeader** ppOt)
                     static_cast<u8>(field_4E_g),
                     static_cast<u8>(field_50_b));
 
-            Poly_Set_SemiTrans_4F8A60(&pPrim->mBase.header, TRUE);
-            OrderingTable_Add_4F8AA0(OtLayer(ppOt, field_52_layer), &pPrim->mBase.header);
+            Poly_Set_SemiTrans(&pPrim->mBase.header, TRUE);
+            OrderingTable_Add(OtLayer(ppOt, field_52_layer), &pPrim->mBase.header);
 
             // TODO: Can be refactored much further - looks like min/max stuff
             s16 x1Short = static_cast<s16>(x1);
@@ -256,7 +256,7 @@ void Spark::VRender(PrimHeader** ppOt)
 
         Prim_SetTPage* pTPage = &field_20_tPage[gPsxDisplay_5C1130.field_C_buffer_index];
         Init_SetTPage(pTPage, 1, 0, PSX_getTPage(TPageMode::e4Bit_0, TPageAbr::eBlend_1, 0, 0));
-        OrderingTable_Add_4F8AA0(OtLayer(ppOt, field_52_layer), &pTPage->mBase);
+        OrderingTable_Add(OtLayer(ppOt, field_52_layer), &pTPage->mBase);
         pScreenManager->InvalidateRectCurrentIdx(
             xy.field_0_x,
             xy.field_2_y,

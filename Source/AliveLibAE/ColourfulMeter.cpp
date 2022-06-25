@@ -215,8 +215,8 @@ void ColourfulMeter::VRender(PrimHeader** ppOt)
             SetRGB3(pPolyG4, static_cast<u8>(12 * (poly_idx + 1)), 127, 0);
         }
 
-        Poly_Set_SemiTrans_4F8A60(&pPolyG4->mBase.header, FALSE);
-        OrderingTable_Add_4F8AA0(OtLayer(ppOt, Layer::eLayer_Well_23), &pPolyG4->mBase.header);
+        Poly_Set_SemiTrans(&pPolyG4->mBase.header, FALSE);
+        OrderingTable_Add(OtLayer(ppOt, Layer::eLayer_Well_23), &pPolyG4->mBase.header);
     }
 
     if (gbDrawMeterCountDown_5C1BF8)

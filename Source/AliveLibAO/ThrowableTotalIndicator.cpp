@@ -9,6 +9,7 @@
 #include "PsxDisplay.hpp"
 #include "ScreenManager.hpp"
 #include "Math.hpp"
+#include "../AliveLibAE/Primitives.hpp"
 
 namespace AO {
 
@@ -280,12 +281,12 @@ void ThrowableTotalIndicator::VRender(PrimHeader** ppOt)
                 static_cast<u8>(field_32_r),
                 static_cast<u8>(field_34_g),
                 static_cast<u8>(field_36_b));
-        Poly_Set_SemiTrans_498A40(&pLine->mBase.header, 1);
-        OrderingTable_Add_498A80(OtLayer(ppOt, field_30_layer), &pLine->mBase.header);
+        Poly_Set_SemiTrans(&pLine->mBase.header, 1);
+        OrderingTable_Add(OtLayer(ppOt, field_30_layer), &pLine->mBase.header);
     }
 
     Init_SetTPage(&field_17C_tPage[gPsxDisplay_504C78.field_A_buffer_index], 1, 0, PSX_getTPage(TPageMode::e4Bit_0, TPageAbr::eBlend_1, 0, 0));
-    OrderingTable_Add_498A80(OtLayer(ppOt, field_30_layer), &field_17C_tPage->mBase);
+    OrderingTable_Add(OtLayer(ppOt, field_30_layer), &field_17C_tPage->mBase);
 
     pScreenManager->InvalidateRect(
         PsxToPCX(xpos - 31),

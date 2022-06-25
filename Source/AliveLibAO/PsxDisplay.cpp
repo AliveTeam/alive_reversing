@@ -6,6 +6,7 @@
 #include "VRam.hpp"
 #include "Primitives.hpp"
 #include "../AliveLibAE/PsxDisplay.hpp"
+#include "../AliveLibAE/Primitives.hpp"
 
 namespace AO {
 
@@ -191,7 +192,7 @@ void PsxDisplay::Movie_Render_40DE60(u16 bufferIdx)
 
     Prim_MoveImage movePrim = {};
     Prim_Init_MoveImage(&movePrim, &rect, 0, 0);
-    OrderingTable_Add_498A80(field_C_drawEnv[0].field_70_ot_buffer, &movePrim.mPrimHeader);
+    OrderingTable_Add(field_C_drawEnv[0].field_70_ot_buffer, &movePrim.mPrimHeader);
     PSX_DrawOTag_4969F0(field_C_drawEnv[0].field_70_ot_buffer);
     PSX_DrawSync_496750(0);
     PSX_ClearOTag_496760(field_C_drawEnv[0].field_70_ot_buffer, field_8_buffer_size);

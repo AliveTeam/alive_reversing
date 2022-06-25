@@ -304,12 +304,12 @@ void MotionDetector::VRender(PrimHeader** ppOt)
         SetRGB0(pPrim, 64, 0, 0);
 
         // Add triangle
-        Poly_Set_SemiTrans_498A40(&pPrim->mBase.header, TRUE);
-        OrderingTable_Add_498A80(OtLayer(ppOt, mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer), &pPrim->mBase.header);
+        Poly_Set_SemiTrans(&pPrim->mBase.header, TRUE);
+        OrderingTable_Add(OtLayer(ppOt, mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer), &pPrim->mBase.header);
 
         // Add tpage
         Init_SetTPage(&field_13C_tPage[gPsxDisplay_504C78.field_A_buffer_index], 0, 0, PSX_getTPage(TPageMode::e16Bit_2, field_160_bObjectInLaser != 0 ? TPageAbr::eBlend_1 : TPageAbr::eBlend_3, 0, 0)); // When detected transparency is off, gives the "solid red" triangle
-        OrderingTable_Add_498A80(OtLayer(ppOt, mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer), &field_13C_tPage[gPsxDisplay_504C78.field_A_buffer_index].mBase);
+        OrderingTable_Add(OtLayer(ppOt, mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer), &field_13C_tPage[gPsxDisplay_504C78.field_A_buffer_index].mBase);
 
         pScreenManager->InvalidateRect(
             std::min(x0, std::min(x1, x1)),

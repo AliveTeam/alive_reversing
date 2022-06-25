@@ -1438,12 +1438,12 @@ HintFly::HintFly(Path_HintFly* pTlv, s32 tlvInfo)
                 {
                     Prim_Sprt* pSprt = &field_E8_pRes[i].field_24_sprt[j];
 
-                    AO::Sprt_Init(pSprt);
+                    Sprt_Init(pSprt);
 
-                    Poly_Set_SemiTrans_498A40(&pSprt->mBase.header, 1);
-                    Poly_Set_Blending_498A00(&pSprt->mBase.header, 1);
+                    Poly_Set_SemiTrans(&pSprt->mBase.header, 1);
+                    Poly_Set_Blending(&pSprt->mBase.header, 1);
 
-                    SetClut(pSprt, static_cast<s16>(PSX_getClut_496840(
+                    SetClut(pSprt, static_cast<s16>(PSX_getClut(
                                        mBaseAnimatedWithPhysicsGameObject_Anim.field_8C_pal_vram_xy.field_0_x,
                                        mBaseAnimatedWithPhysicsGameObject_Anim.field_8C_pal_vram_xy.field_2_y)));
 
@@ -1852,7 +1852,7 @@ void HintFly::VRender(PrimHeader** ppOt)
 
         SetXY0(pSprt, flyX, flyY);
 
-        OrderingTable_Add_498A80(OtLayer(ppOt, Layer::eLayer_Above_FG1_39), &pSprt->mBase.header);
+        OrderingTable_Add(OtLayer(ppOt, Layer::eLayer_Above_FG1_39), &pSprt->mBase.header);
 
         if (flyX < rect.x)
         {
@@ -1884,7 +1884,7 @@ void HintFly::VRender(PrimHeader** ppOt)
     const s32 tpage = PSX_getTPage(field_110_bitMode, TPageAbr::eBlend_1, mBaseAnimatedWithPhysicsGameObject_Anim.field_84_vram_rect.x & 0xFFC0, tPageY);
 
     Init_SetTPage(pTPage, 0, 0, tpage);
-    OrderingTable_Add_498A80(OtLayer(ppOt, Layer::eLayer_Above_FG1_39), &pTPage->mBase);
+    OrderingTable_Add(OtLayer(ppOt, Layer::eLayer_Above_FG1_39), &pTPage->mBase);
 
     pScreenManager->InvalidateRect(
         rect.x - 6,

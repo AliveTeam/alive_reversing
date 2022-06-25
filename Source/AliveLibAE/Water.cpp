@@ -113,10 +113,10 @@ Water::Water(Path_Water* pTlv, s32 tlvInfo)
                 Poly_FT4* pPoly = field_F8_pWaterRes[i].field_20_polys;
 
                 PolyFT4_Init(pPoly);
-                Poly_Set_SemiTrans_4F8A60(&pPoly->mBase.header, TRUE);
-                Poly_Set_Blending_4F8A20(&pPoly->mBase.header, TRUE);
+                Poly_Set_SemiTrans(&pPoly->mBase.header, TRUE);
+                Poly_Set_Blending(&pPoly->mBase.header, TRUE);
 
-                const s32 clut = PSX_getClut_4F6350(
+                const s32 clut = PSX_getClut(
                     mBaseAnimatedWithPhysicsGameObject_Anim.field_8C_pal_vram_xy.field_0_x,
                     mBaseAnimatedWithPhysicsGameObject_Anim.field_8C_pal_vram_xy.field_2_y);
 
@@ -559,7 +559,7 @@ void Water::VRender(PrimHeader** ppOt)
                 pPoly->mVerts[2].mUv.tpage_clut_pad = 0;
 
                 SetXYWH(pPoly, polyX, polyY, width, height);
-                OrderingTable_Add_4F8AA0(OtLayer(ppOt, Layer::eLayer_Above_FG1_39), &pPoly->mBase.header);
+                OrderingTable_Add(OtLayer(ppOt, Layer::eLayer_Above_FG1_39), &pPoly->mBase.header);
 
                 if (polyX < xMin)
                 {

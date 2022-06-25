@@ -670,8 +670,8 @@ void PauseMenu::DrawEntries(PrimHeader** ppOt, PauseEntry* entry, s16 selectedEn
     }
     Poly_F4* pPrim = &field_158[gPsxDisplay_504C78.field_A_buffer_index];
     PolyF4_Init(pPrim);
-    Poly_Set_SemiTrans_498A40(&pPrim->mBase.header, 1);
-    Poly_Set_Blending_498A00(&pPrim->mBase.header, 0);
+    Poly_Set_SemiTrans(&pPrim->mBase.header, 1);
+    Poly_Set_Blending(&pPrim->mBase.header, 0);
     u8 color = 0x64;
     if (field_126_page != PauseMenuPages::ePause_0)
     {
@@ -684,8 +684,8 @@ void PauseMenu::DrawEntries(PrimHeader** ppOt, PauseEntry* entry, s16 selectedEn
     SetXY3(pPrim, 640, 240);
     Prim_SetTPage* prim_tpage = &field_138_tPage[gPsxDisplay_504C78.field_A_buffer_index];
     Init_SetTPage(prim_tpage, 0, 0, PSX_getTPage(TPageMode::e4Bit_0, TPageAbr::eBlend_2, 0, 0));
-    OrderingTable_Add_498A80(OtLayer(ppOt, Layer::eLayer_Menu_41), &pPrim->mBase.header);
-    OrderingTable_Add_498A80(OtLayer(ppOt, Layer::eLayer_Menu_41), &prim_tpage->mBase);
+    OrderingTable_Add(OtLayer(ppOt, Layer::eLayer_Menu_41), &pPrim->mBase.header);
+    OrderingTable_Add(OtLayer(ppOt, Layer::eLayer_Menu_41), &prim_tpage->mBase);
     pScreenManager->InvalidateRect(
         0,
         0,

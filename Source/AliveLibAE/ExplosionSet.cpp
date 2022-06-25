@@ -126,7 +126,7 @@ void ExplosionSet::VRender(PrimHeader** ppOt)
         }
 
         InitType_ScreenOffset_4F5BB0(pScreenOff, &point);
-        OrderingTable_Add_4F8AA0(OtLayer(ppOt, Layer::eLayer_0), &pScreenOff->mBase);
+        OrderingTable_Add(OtLayer(ppOt, Layer::eLayer_0), &pScreenOff->mBase);
 
         /* constant 1, so always false, dead code.
         if (!dword_55EF94)

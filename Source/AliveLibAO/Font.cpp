@@ -5,7 +5,7 @@
 #include "VRam.hpp"
 #include "FixedPoint.hpp"
 #include "Sys_common.hpp"
-#include "Primitives.hpp"
+#include "../AliveLibAE/Primitives.hpp"
 #include "PsxDisplay.hpp"
 #include "../AliveLibCommon/Function.hpp"
 #include "ScreenManager.hpp"
@@ -395,7 +395,7 @@ s32 AliveFont::DrawString(PrimHeader** ppOt, const char_type* text, s16 x, s16 y
     auto poly = &field_24_fnt_poly_array[gPsxDisplay_504C78.field_A_buffer_index + (2 * polyOffset)];
 
     const s32 tpage = PSX_getTPage(TPageMode::e4Bit_0, abr, field_34_font_context->field_0_rect.x & ~63, field_34_font_context->field_0_rect.y);
-    const s32 clut = PSX_getClut_496840(field_28_palette_rect.x, field_28_palette_rect.y);
+    const s32 clut = PSX_getClut(field_28_palette_rect.x, field_28_palette_rect.y);
 
     for (u32 i = 0; i < strlen(text); i++)
     {
@@ -435,8 +435,8 @@ s32 AliveFont::DrawString(PrimHeader** ppOt, const char_type* text, s16 x, s16 y
 
         SetPrimExtraPointerHack(poly, nullptr);
 
-        Poly_Set_SemiTrans_498A40(&poly->mBase.header, bSemiTrans);
-        Poly_Set_Blending_498A00(&poly->mBase.header, blendMode);
+        Poly_Set_SemiTrans(&poly->mBase.header, bSemiTrans);
+        Poly_Set_Blending(&poly->mBase.header, blendMode);
 
         SetRGB0(
             poly,
@@ -467,7 +467,7 @@ s32 AliveFont::DrawString(PrimHeader** ppOt, const char_type* text, s16 x, s16 y
         SetXY3(poly, offsetX + widthScaled, y + heightScaled);
         SetUV3(poly, texture_u + charWidth, texture_v + charHeight);
 
-        OrderingTable_Add_498A80(OtLayer(ppOt, layer), &poly->mBase.header);
+        OrderingTable_Add(OtLayer(ppOt, layer), &poly->mBase.header);
 
         ++characterRenderCount;
 

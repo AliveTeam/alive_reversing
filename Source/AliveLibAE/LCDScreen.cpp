@@ -324,7 +324,7 @@ void LCDScreen::VRender(PrimHeader** ppOt)
             240};
 
         Init_PrimClipper_4F5B80(&field_20_prim_clippers[0][gPsxDisplay_5C1130.field_C_buffer_index], &clipRect);
-        OrderingTable_Add_4F8AA0(OtLayer(ppOt, Layer::eLayer_RopeWebDrill_24), &field_20_prim_clippers[0][gPsxDisplay_5C1130.field_C_buffer_index].mBase);
+        OrderingTable_Add(OtLayer(ppOt, Layer::eLayer_RopeWebDrill_24), &field_20_prim_clippers[0][gPsxDisplay_5C1130.field_C_buffer_index].mBase);
 
         sFontDrawScreenSpace_5CA4B4 = 1;
         field_60_font.DrawString_4337D0(
@@ -353,7 +353,7 @@ void LCDScreen::VRender(PrimHeader** ppOt)
 
         auto* clipper = &field_20_prim_clippers[1][gPsxDisplay_5C1130.field_C_buffer_index];
         Init_PrimClipper_4F5B80(clipper, &clipRect);
-        OrderingTable_Add_4F8AA0(OtLayer(ppOt, Layer::eLayer_RopeWebDrill_24), &clipper->mBase);
+        OrderingTable_Add(OtLayer(ppOt, Layer::eLayer_RopeWebDrill_24), &clipper->mBase);
 
         pScreenManager->InvalidateRectCurrentIdx(
             screenXWorld,

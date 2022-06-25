@@ -121,7 +121,7 @@ void AnimationUnknown::VRender(s32 xpos, s32 ypos, PrimHeader** ppOt, s16 /*widt
         {
             SetPrimExtraPointerHack(pPoly, nullptr);
         }
-        OrderingTable_Add_4F8AA0(OtLayer(ppOt, mRenderLayer), &pPoly->mBase.header);
+        OrderingTable_Add(OtLayer(ppOt, mRenderLayer), &pPoly->mBase.header);
     }
 }
 

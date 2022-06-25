@@ -11,6 +11,7 @@
 #include "Particle.hpp"
 #include "ScreenManager.hpp"
 #include "PsxDisplay.hpp"
+#include "../AliveLibAE/Primitives.hpp"
 
 #undef min
 #undef max
@@ -190,8 +191,8 @@ void Spark::VRender(PrimHeader** ppOt)
                 static_cast<u8>(field_3E_g),
                 static_cast<u8>(field_40_b));
 
-        Poly_Set_SemiTrans_498A40(&pPrim->mBase.header, TRUE);
-        OrderingTable_Add_498A80(OtLayer(ppOt, field_42_layer), &pPrim->mBase.header);
+        Poly_Set_SemiTrans(&pPrim->mBase.header, TRUE);
+        OrderingTable_Add(OtLayer(ppOt, field_42_layer), &pPrim->mBase.header);
 
         rect.x = std::min(rect.x, std::min(static_cast<s16>(x0), static_cast<s16>(x1)));
         rect.w = std::max(rect.w, std::max(static_cast<s16>(x0), static_cast<s16>(x1)));
@@ -202,7 +203,7 @@ void Spark::VRender(PrimHeader** ppOt)
 
     Prim_SetTPage* pTPage = &field_10_tPage[gPsxDisplay_504C78.field_A_buffer_index];
     Init_SetTPage(pTPage, 1, 0, PSX_getTPage(TPageMode::e4Bit_0, TPageAbr::eBlend_1, 0, 0));
-    OrderingTable_Add_498A80(OtLayer(ppOt, field_42_layer), &pTPage->mBase);
+    OrderingTable_Add(OtLayer(ppOt, field_42_layer), &pTPage->mBase);
     pScreenManager->InvalidateRect(
         rect.x,
         rect.y,

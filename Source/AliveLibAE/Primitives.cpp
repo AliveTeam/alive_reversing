@@ -85,7 +85,7 @@ void Poly_FT4_Get_Rect_409DA0(PSX_RECT* pRect, const Poly_FT4* pPoly)
     }
 }
 
-void Poly_Set_Blending_4F8A20(PrimHeader* pPrim, s32 bFlag1)
+void Poly_Set_Blending(PrimHeader* pPrim, s32 bFlag1)
 {
     SetUnknown(pPrim);
     if (bFlag1)
@@ -98,7 +98,7 @@ void Poly_Set_Blending_4F8A20(PrimHeader* pPrim, s32 bFlag1)
     }
 }
 
-void Poly_Set_SemiTrans_4F8A60(PrimHeader* pPrim, s32 bSemiTrans)
+void Poly_Set_SemiTrans(PrimHeader* pPrim, s32 bSemiTrans)
 {
     SetUnknown(pPrim);
     if (bSemiTrans)
@@ -111,7 +111,7 @@ void Poly_Set_SemiTrans_4F8A60(PrimHeader* pPrim, s32 bSemiTrans)
     }
 }
 
-void OrderingTable_Add_4F8AA0(PrimHeader** ppOt, PrimHeader* pItem)
+void OrderingTable_Add(PrimHeader** ppOt, PrimHeader* pItem)
 {
     // Debugging code, rendering type 2 will currently crash.
     // I can't see where in the code type 2 is ever used but somehow it must be
@@ -142,7 +142,7 @@ s32 PSX_getTPage(TPageMode tp, TPageAbr abr, s32 x, s16 y)
     return ((((static_cast<s8>(tp)) & 0x3) << 7) | (((static_cast<s8>(abr)) & 0x3) << 5) | (((y) &0x100) >> 4) | (((x) &0x3ff) >> 6) | (((y) &0x200) << 2));
 }
 
-s32 PSX_getClut_4F6350(s32 x, s32 y)
+s32 PSX_getClut(s32 x, s32 y)
 {
     return (y << 6) | ((x >> 4) & 63);
 }

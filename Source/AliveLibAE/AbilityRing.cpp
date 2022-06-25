@@ -234,7 +234,7 @@ AbilityRing::AbilityRing(FP xpos, FP ypos, RingTypes ringType, FP scale)
                 Poly_F4* pPoly = &mRingPolyBuffer[x].mPolys[y];
                 PolyF4_Init_4F8830(pPoly);
                 SetRGB0(pPoly, mRingRed & 255, mRingGreen & 255, mRingBlue & 255);
-                Poly_Set_SemiTrans_4F8A60(&pPoly->mBase.header, mRingSemiTrans);
+                Poly_Set_SemiTrans(&pPoly->mBase.header, mRingSemiTrans);
             }
             Init_SetTPage(&mRingPrimSetTPage[y], 0, 0, PSX_getTPage(TPageMode::e16Bit_2, mRingTPageMode, 0, 0));
         }
@@ -319,7 +319,7 @@ void AbilityRing::VRender(PrimHeader** ppOt)
                 SetXY2(pPoly, x3, y3);
                 SetXY3(pPoly, x4, y4);
 
-                OrderingTable_Add_4F8AA0(OtLayer(ppOt, mRingLayer), &pPoly->mBase.header);
+                OrderingTable_Add(OtLayer(ppOt, mRingLayer), &pPoly->mBase.header);
 
                 pScreenManager->InvalidateRectCurrentIdx(
                     rect.x,
@@ -339,7 +339,7 @@ void AbilityRing::VRender(PrimHeader** ppOt)
 
             ang += angIncrement;
         }
-        OrderingTable_Add_4F8AA0(OtLayer(ppOt, mRingLayer), &mRingPrimSetTPage[gPsxDisplay_5C1130.field_C_buffer_index].mBase);
+        OrderingTable_Add(OtLayer(ppOt, mRingLayer), &mRingPrimSetTPage[gPsxDisplay_5C1130.field_C_buffer_index].mBase);
     }
 }
 

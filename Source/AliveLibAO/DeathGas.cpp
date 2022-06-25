@@ -56,7 +56,7 @@ DeathGas::DeathGas(Layer layer, s32 amount)
                 {
                     Poly_G4* pPoly = &prims_dword_4FFDE8.polys[i][k][l][j];
                     PolyG4_Init_498890(pPoly);
-                    Poly_Set_SemiTrans_498A40(&pPoly->mBase.header, TRUE);
+                    Poly_Set_SemiTrans(&pPoly->mBase.header, TRUE);
                 }
             }
         }
@@ -246,7 +246,7 @@ void DeathGas::VRender(PrimHeader** ppOt)
                 SetXY2(pPoly, static_cast<s16>(x2), static_cast<s16>(y2 - yVal));
                 SetXY3(pPoly, static_cast<s16>(x3), static_cast<s16>(y3 - yVal));
 
-                OrderingTable_Add_498A80(OtLayer(ppOt, field_18_layer), &pPoly->mBase.header);
+                OrderingTable_Add(OtLayer(ppOt, field_18_layer), &pPoly->mBase.header);
 
                 /*
                 v32 = gPsxDisplay_504C78.field_2_height;
@@ -269,7 +269,7 @@ void DeathGas::VRender(PrimHeader** ppOt)
                 *((_WORD*)pPrim + 15) = v40 + yData_5007E8[0][1][v26] / 0x10000 - v41;
                 *((_WORD*)pPrim + 18) = v39 + xData_500908[0][1][v26 + 1] / 0x10000;
                 *((_WORD*)pPrim + 19) = v40 + 8 + yData_5007E8[0][1][v26 + 1] / 0x10000 - v41;
-                OrderingTable_Add_498A80(ppOt_layer, pPrim);
+                OrderingTable_Add(ppOt_layer, pPrim);
                 v22 = v38;
                 ++v26;
                 v14 = __OFSUB__((_WORD)a2a + 8, 32);
@@ -288,7 +288,7 @@ void DeathGas::VRender(PrimHeader** ppOt)
         }
     }
 
-    OrderingTable_Add_498A80(OtLayer(ppOt, field_18_layer), &gGasTPages_5008E8[gPsxDisplay_504C78.field_A_buffer_index].mBase);
+    OrderingTable_Add(OtLayer(ppOt, field_18_layer), &gGasTPages_5008E8[gPsxDisplay_504C78.field_A_buffer_index].mBase);
 
     pScreenManager->InvalidateRectCurrentIdx(
         0,

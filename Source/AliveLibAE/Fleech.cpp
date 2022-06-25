@@ -1371,7 +1371,7 @@ void Fleech::RenderEx(PrimHeader** ot)
                 static_cast<u8>(g),
                 static_cast<u8>(b));
 
-            OrderingTable_Add_4F8AA0(OtLayer(ot, mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer), &currTonguePoly1->mBase.header);
+            OrderingTable_Add(OtLayer(ot, mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer), &currTonguePoly1->mBase.header);
 
             Poly_G4* currTonguePoly2 = &field_2CC_tongue_polys2[i][gPsxDisplay_5C1130.field_C_buffer_index];
 
@@ -1419,7 +1419,7 @@ void Fleech::RenderEx(PrimHeader** ot)
                 static_cast<u8>(g),
                 static_cast<u8>(b));
 
-            OrderingTable_Add_4F8AA0(OtLayer(ot, mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer), &currTonguePoly2->mBase.header);
+            OrderingTable_Add(OtLayer(ot, mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer), &currTonguePoly2->mBase.header);
 
             s16 invRect_x;
             s16 invRect_y;
@@ -1470,7 +1470,7 @@ void Fleech::RenderEx(PrimHeader** ot)
         }
         const s32 tPage = PSX_getTPage(TPageMode::e4Bit_0, TPageAbr::eBlend_0, 0, 0);
         Init_SetTPage(&field_40C[gPsxDisplay_5C1130.field_C_buffer_index], 1, 0, tPage);
-        OrderingTable_Add_4F8AA0(OtLayer(ot, mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer), &field_40C[gPsxDisplay_5C1130.field_C_buffer_index].mBase);
+        OrderingTable_Add(OtLayer(ot, mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer), &field_40C[gPsxDisplay_5C1130.field_C_buffer_index].mBase);
         return;
     }
 }
@@ -1686,14 +1686,14 @@ void Fleech::InitTonguePolys_42B6E0()
             SetRGB1(&field_18C_tongue_polys1[i][j], 150, 100, 100);
             SetRGB2(&field_18C_tongue_polys1[i][j], 150, 100, 100);
             SetRGB3(&field_18C_tongue_polys1[i][j], 150, 100, 100);
-            Poly_Set_SemiTrans_4F8A60(&field_18C_tongue_polys1[i][j].mBase.header, FALSE);
+            Poly_Set_SemiTrans(&field_18C_tongue_polys1[i][j].mBase.header, FALSE);
 
             PolyG4_Init_4F88B0(&field_2CC_tongue_polys2[i][j]);
             SetRGB0(&field_2CC_tongue_polys2[i][j], 150, 100, 100);
             SetRGB1(&field_2CC_tongue_polys2[i][j], 150, 100, 100);
             SetRGB2(&field_2CC_tongue_polys2[i][j], 150, 100, 100);
             SetRGB3(&field_2CC_tongue_polys2[i][j], 150, 100, 100);
-            Poly_Set_SemiTrans_4F8A60(&field_2CC_tongue_polys2[i][j].mBase.header, TRUE);
+            Poly_Set_SemiTrans(&field_2CC_tongue_polys2[i][j].mBase.header, TRUE);
         }
     }
 }
