@@ -2748,7 +2748,7 @@ s16 FlyingSlig::sub_436C60(PSX_RECT* pRect, s16 arg_4)
         const FP r_w = FP_FromInteger(std::max(pRect->w, pRect->x));
 
         const FP r_y = FP_FromInteger(std::min(pRect->y, pRect->h));
-        const FP r_h = FP_FromInteger(std::max(pRect->h, pRect->w) + 150);
+        const FP r_h = FP_FromInteger(std::max(pRect->h, pRect->y) + 150);
 
         s32 bLeftInRect = 0;
         if (rLeft < r_x || rLeft > r_w || sControlledCharacter_5C1B8C->field_BC_ypos < r_y || sControlledCharacter_5C1B8C->field_BC_ypos > r_h)
