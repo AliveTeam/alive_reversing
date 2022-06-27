@@ -66,9 +66,7 @@ Dove::Dove(s32 frameTableOffset, s32 maxW, s32 maxH, s32 resourceID, s32 tlvInfo
 
     if (gMap.mCurrentLevel == EReliveLevelIds::eStockYards || gMap.mCurrentLevel == EReliveLevelIds::eStockYardsReturn)
     {
-        mBaseAnimatedWithPhysicsGameObject_RGB.b = 30;
-        mBaseAnimatedWithPhysicsGameObject_RGB.g = 30;
-        mBaseAnimatedWithPhysicsGameObject_RGB.r = 30;
+        mBaseAnimatedWithPhysicsGameObject_RGB.SetRGB(30, 30, 30);
     }
 
     if (bTheOneControllingTheMusic_4FF94C)
@@ -131,9 +129,7 @@ Dove::Dove(s32 frameTableOffset, s32 maxW, s32 maxH, s32 resourceID, FP xpos, FP
 
     if (gMap.mCurrentLevel == EReliveLevelIds::eStockYards || gMap.mCurrentLevel == EReliveLevelIds::eStockYardsReturn)
     {
-        mBaseAnimatedWithPhysicsGameObject_RGB.b = 30;
-        mBaseAnimatedWithPhysicsGameObject_RGB.g = 30;
-        mBaseAnimatedWithPhysicsGameObject_RGB.r = 30;
+        mBaseAnimatedWithPhysicsGameObject_RGB.SetRGB(30, 30, 30);
     }
 
     if (bTheOneControllingTheMusic_4FF94C)

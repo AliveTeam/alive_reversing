@@ -448,9 +448,7 @@ void DoorFlame::VUpdate()
                 if (field_F8_pFireBackgroundGlow)
                 {
                     field_F8_pFireBackgroundGlow->mBaseGameObjectRefCount++;
-                    field_F8_pFireBackgroundGlow->mBaseAnimatedWithPhysicsGameObject_RGB.r = mBaseAnimatedWithPhysicsGameObject_RGB.r;
-                    field_F8_pFireBackgroundGlow->mBaseAnimatedWithPhysicsGameObject_RGB.g = mBaseAnimatedWithPhysicsGameObject_RGB.g;
-                    field_F8_pFireBackgroundGlow->mBaseAnimatedWithPhysicsGameObject_RGB.b = mBaseAnimatedWithPhysicsGameObject_RGB.b;
+                    field_F8_pFireBackgroundGlow->mBaseAnimatedWithPhysicsGameObject_RGB = mBaseAnimatedWithPhysicsGameObject_RGB;
                 }
             }
             break;

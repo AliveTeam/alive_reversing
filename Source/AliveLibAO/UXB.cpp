@@ -145,9 +145,7 @@ UXB::UXB(Path_UXB* pTlv, s32 tlvInfo)
     if (gMap.mCurrentLevel == EReliveLevelIds::eStockYards || gMap.mCurrentLevel == EReliveLevelIds::eStockYardsReturn)
     {
         field_1BC_flags.Clear(flags_1BC::eIsRed_Bit1);
-        mBaseAnimatedWithPhysicsGameObject_RGB.r = 80;
-        mBaseAnimatedWithPhysicsGameObject_RGB.g = 90;
-        mBaseAnimatedWithPhysicsGameObject_RGB.b = 110;
+        mBaseAnimatedWithPhysicsGameObject_RGB.SetRGB(80, 90, 110);
         ResourceManager::GetLoadedResource(ResourceManager::Resource_Palt, AOResourceID::kAbeblowAOResID, 1, 0);
         ResourceManager::GetLoadedResource(ResourceManager::Resource_Palt, AOResourceID::kSlogBlowAOResID, 1, 0);
     }

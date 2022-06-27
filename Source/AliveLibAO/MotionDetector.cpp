@@ -30,9 +30,7 @@ MotionDetector::MotionDetector(Path_MotionDetector* pTlv, s32 tlvInfo)
     mBaseAnimatedWithPhysicsGameObject_Anim.mRenderMode = TPageAbr::eBlend_1;
     mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_Foreground_36;
     mBaseAnimatedWithPhysicsGameObject_YOffset = 0;
-    mBaseAnimatedWithPhysicsGameObject_RGB.r = 64;
-    mBaseAnimatedWithPhysicsGameObject_RGB.b = 0;
-    mBaseAnimatedWithPhysicsGameObject_RGB.g = 0;
+    mBaseAnimatedWithPhysicsGameObject_RGB.SetRGB(64, 0, 0);
     field_160_bObjectInLaser = 0;
     field_F6_bDontComeBack = 1;
     field_E4_tlvInfo = tlvInfo;

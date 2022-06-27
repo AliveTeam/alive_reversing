@@ -87,9 +87,7 @@ void Leaf::VScreenChanged()
 
 Leaf::Leaf(FP xpos, FP ypos, FP xVel, FP yVel, FP scale)
 {
-    mBaseAnimatedWithPhysicsGameObject_RGB.r = 100;
-    mBaseAnimatedWithPhysicsGameObject_RGB.g = 100;
-    mBaseAnimatedWithPhysicsGameObject_RGB.b = 100;
+    mBaseAnimatedWithPhysicsGameObject_RGB.SetRGB(100, 100, 100);
 
     const AnimRecord& leafRec = AO::AnimRec(AnimId::Well_Leaf);
     u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, leafRec.mResourceId, 1, 0);

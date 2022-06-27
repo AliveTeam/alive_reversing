@@ -30,9 +30,7 @@ ElectricWall::ElectricWall(Path_ElectricWall* pTlv, s32 tlvInfo)
         mBaseAnimatedWithPhysicsGameObject_Anim.SetFrame(Math_NextRandom() % mBaseAnimatedWithPhysicsGameObject_Anim.Get_Frame_Count());
     }
 
-    mBaseAnimatedWithPhysicsGameObject_RGB.b = 80;
-    mBaseAnimatedWithPhysicsGameObject_RGB.g = 80;
-    mBaseAnimatedWithPhysicsGameObject_RGB.r = 80;
+    mBaseAnimatedWithPhysicsGameObject_RGB.SetRGB(80, 80, 80);
     field_E4_tlv = tlvInfo;
     mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pTlv->field_10_top_left.field_0_x);
     mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->field_10_top_left.field_2_y);

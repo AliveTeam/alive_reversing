@@ -320,9 +320,7 @@ MainMenuFade::MainMenuFade(s32 xpos, s32 ypos, buttonType buttonType, s32 bDestr
 {
     mBaseGameObjectTypeId = ReliveTypes::MainMenuFade;
 
-    mBaseAnimatedWithPhysicsGameObject_RGB.b = 128;
-    mBaseAnimatedWithPhysicsGameObject_RGB.g = 128;
-    mBaseAnimatedWithPhysicsGameObject_RGB.r = 128;
+    mBaseAnimatedWithPhysicsGameObject_RGB.SetRGB(128, 128, 128);
 
     const AnimRecord& rec = AO::AnimRec(buttonAnimIds_4BB1B8[buttonType]);
     u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);

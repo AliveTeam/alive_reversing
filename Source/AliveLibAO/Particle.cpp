@@ -52,17 +52,14 @@ void New_Smoke_Particles_419A80(FP xpos, FP ypos, FP scale, s16 count, s16 type)
             pParticle->mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit15_bSemiTrans);
             pParticle->mBaseAnimatedWithPhysicsGameObject_Anim.mRenderMode = TPageAbr::eBlend_3;
 
+            // TODO: type enum
             if (type == 1)
             {
-                pParticle->mBaseAnimatedWithPhysicsGameObject_RGB.r = 32;
-                pParticle->mBaseAnimatedWithPhysicsGameObject_RGB.g = 128;
-                pParticle->mBaseAnimatedWithPhysicsGameObject_RGB.b = 32;
+                pParticle->mBaseAnimatedWithPhysicsGameObject_RGB.SetRGB(32, 128, 32);
             }
             else
             {
-                pParticle->mBaseAnimatedWithPhysicsGameObject_RGB.r = 128;
-                pParticle->mBaseAnimatedWithPhysicsGameObject_RGB.g = 128;
-                pParticle->mBaseAnimatedWithPhysicsGameObject_RGB.b = 128;
+                pParticle->mBaseAnimatedWithPhysicsGameObject_RGB.SetRGB(128, 128, 128);
             }
 
             pParticle->mBaseAnimatedWithPhysicsGameObject_VelX = (scale * FP_FromInteger(Math_RandomRange(-10, 10))) / FP_FromInteger(10);
@@ -124,9 +121,7 @@ void New_Shiny_Particle_4199A0(FP xpos, FP ypos, FP scale, Layer layer)
     {
         pParticle->mApplyShadows &= ~1u;
         pParticle->mBaseAnimatedWithPhysicsGameObject_Anim.mRenderMode = TPageAbr::eBlend_1;
-        pParticle->mBaseAnimatedWithPhysicsGameObject_RGB.r = 100;
-        pParticle->mBaseAnimatedWithPhysicsGameObject_RGB.g = 100;
-        pParticle->mBaseAnimatedWithPhysicsGameObject_RGB.b = 100;
+        pParticle->mBaseAnimatedWithPhysicsGameObject_RGB.SetRGB(100, 100, 100);
 
         if (layer != Layer::eLayer_0)
         {
@@ -154,9 +149,7 @@ void New_ShootingZFire_Particle_419810(FP xpos, FP ypos, FP scale)
     {
         pParticle->mApplyShadows &= ~1u;
 
-        pParticle->mBaseAnimatedWithPhysicsGameObject_RGB.b = 55;
-        pParticle->mBaseAnimatedWithPhysicsGameObject_RGB.g = 55;
-        pParticle->mBaseAnimatedWithPhysicsGameObject_RGB.r = 55;
+        pParticle->mBaseAnimatedWithPhysicsGameObject_RGB.SetRGB(55, 55, 55);
 
         pParticle->mBaseAnimatedWithPhysicsGameObject_Anim.mRenderMode = TPageAbr::eBlend_1;
 
@@ -181,9 +174,7 @@ void New_ShootingFire_Particle_419720(FP xpos, FP ypos, s8 direction, FP scale)
     if (pParticle)
     {
         pParticle->mApplyShadows &= ~1u;
-        pParticle->mBaseAnimatedWithPhysicsGameObject_RGB.b = 55;
-        pParticle->mBaseAnimatedWithPhysicsGameObject_RGB.g = 55;
-        pParticle->mBaseAnimatedWithPhysicsGameObject_RGB.r = 55;
+        pParticle->mBaseAnimatedWithPhysicsGameObject_RGB.SetRGB(55, 55, 55);
         pParticle->mBaseAnimatedWithPhysicsGameObject_Anim.mRenderMode = TPageAbr::eBlend_1;
 
         if (scale == FP_FromInteger(1))
@@ -202,9 +193,7 @@ void New_ShootingFire_Particle_419720(FP xpos, FP ypos, s8 direction, FP scale)
 
 Particle::Particle(FP xpos, FP ypos, s32 animFrameTableOffset, s32 maxW, s32 maxH, u8** ppAnimData)
 {
-    mBaseAnimatedWithPhysicsGameObject_RGB.b = 128;
-    mBaseAnimatedWithPhysicsGameObject_RGB.g = 128;
-    mBaseAnimatedWithPhysicsGameObject_RGB.r = 128;
+    mBaseAnimatedWithPhysicsGameObject_RGB.SetRGB(128, 128, 128);
 
     mBaseGameObjectTypeId = ReliveTypes::eParticle;
 

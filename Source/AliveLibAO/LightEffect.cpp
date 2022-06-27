@@ -112,9 +112,7 @@ void LightEffect::VUpdate()
             rgb = 255;
         }
 
-        mBaseAnimatedWithPhysicsGameObject_RGB.r = rgb;
-        mBaseAnimatedWithPhysicsGameObject_RGB.g = rgb;
-        mBaseAnimatedWithPhysicsGameObject_RGB.b = rgb;
+        mBaseAnimatedWithPhysicsGameObject_RGB.SetRGB(rgb, rgb, rgb);
     }
     else if (static_cast<s32>(sGnFrame) > field_F0_rnd2)
     {
@@ -123,9 +121,7 @@ void LightEffect::VUpdate()
         field_F8_rnd4 = Math_RandomRange(150, 180);
         u8 rgb = 96;
 
-        mBaseAnimatedWithPhysicsGameObject_RGB.r = rgb;
-        mBaseAnimatedWithPhysicsGameObject_RGB.g = rgb;
-        mBaseAnimatedWithPhysicsGameObject_RGB.b = rgb;
+        mBaseAnimatedWithPhysicsGameObject_RGB.SetRGB(rgb, rgb, rgb);
     }
 }
 

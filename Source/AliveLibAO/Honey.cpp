@@ -16,9 +16,7 @@ Honey::Honey(FP xpos, FP ypos)
 {
     mBaseGameObjectTypeId = ReliveTypes::eHoney;
 
-    mBaseAnimatedWithPhysicsGameObject_RGB.b = 128;
-    mBaseAnimatedWithPhysicsGameObject_RGB.g = 128;
-    mBaseAnimatedWithPhysicsGameObject_RGB.r = 128;
+    mBaseAnimatedWithPhysicsGameObject_RGB.SetRGB(128, 128, 128);
 
     const AnimRecord rec = AO::AnimRec(AnimId::Honey);
     u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);

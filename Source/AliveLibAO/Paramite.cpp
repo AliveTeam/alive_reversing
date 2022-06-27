@@ -190,9 +190,7 @@ Paramite::Paramite(Path_Paramite* pTlv, s32 tlvInfo)
         mBaseAnimatedWithPhysicsGameObject_YPos = hitY;
     }
 
-    mBaseAnimatedWithPhysicsGameObject_RGB.r = 105;
-    mBaseAnimatedWithPhysicsGameObject_RGB.g = 105;
-    mBaseAnimatedWithPhysicsGameObject_RGB.b = 105;
+    mBaseAnimatedWithPhysicsGameObject_RGB.SetRGB(105, 105, 105);
 
     field_128_never_read = 0;
     field_12C_tlvInfo = tlvInfo;

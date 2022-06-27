@@ -170,9 +170,7 @@ ParticleBurst::ParticleBurst(FP xpos, FP ypos, s32 particleCount, FP scale, Burs
 
             if (gMap.mCurrentLevel == EReliveLevelIds::eStockYards || gMap.mCurrentLevel == EReliveLevelIds::eStockYardsReturn)
             {
-                mBaseAnimatedWithPhysicsGameObject_RGB.b = 60;
-                mBaseAnimatedWithPhysicsGameObject_RGB.g = 60;
-                mBaseAnimatedWithPhysicsGameObject_RGB.r = 60;
+                mBaseAnimatedWithPhysicsGameObject_RGB.SetRGB(60, 60, 60);
             }
         }
     }

@@ -204,9 +204,7 @@ Scrab::Scrab(Path_Scrab* pTlv, s32 tlvInfo)
 
     mBaseAliveGameObjectFlags.Set(Flags_10A::e10A_Bit6);
 
-    mBaseAnimatedWithPhysicsGameObject_RGB.r = 127;
-    mBaseAnimatedWithPhysicsGameObject_RGB.g = 127;
-    mBaseAnimatedWithPhysicsGameObject_RGB.b = 127;
+    mBaseAnimatedWithPhysicsGameObject_RGB.SetRGB(127, 127, 127);
 
     field_130_unused = 0;
 

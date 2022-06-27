@@ -206,9 +206,7 @@ void Electrocute::VUpdate()
             field_2E_g = field_10_obj_target->mBaseAnimatedWithPhysicsGameObject_RGB.g;
             field_30_b = field_10_obj_target->mBaseAnimatedWithPhysicsGameObject_RGB.b;
 
-            field_10_obj_target->mBaseAnimatedWithPhysicsGameObject_RGB.r = 255;
-            field_10_obj_target->mBaseAnimatedWithPhysicsGameObject_RGB.b = 255;
-            field_10_obj_target->mBaseAnimatedWithPhysicsGameObject_RGB.g = 255;
+            field_10_obj_target->mBaseAnimatedWithPhysicsGameObject_RGB.SetRGB(255, 255, 255);
 
             field_32_state = States::eAlphaFadeout_1;
             return;

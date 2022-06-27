@@ -139,9 +139,7 @@ void DoorLight::VUpdate()
     {
         gNextDoorLightUpdate_4C30A8 = sGnFrame + Math_RandomRange(6, 20);
         gDoorLightUpdateTimer_4FC8A4 = gNextDoorLightUpdate_4C30A8 + Math_RandomRange(30, 45);
-        mBaseAnimatedWithPhysicsGameObject_RGB.r = 32;
-        mBaseAnimatedWithPhysicsGameObject_RGB.g = 32;
-        mBaseAnimatedWithPhysicsGameObject_RGB.b = 32;
+        mBaseAnimatedWithPhysicsGameObject_RGB.SetRGB(32, 32, 32);
     }
     else if (static_cast<s32>(sGnFrame) >= gNextDoorLightUpdate_4C30A8)
     {
@@ -177,22 +175,16 @@ void DoorLight::VUpdate()
                         SND_SEQ_Play_477760(SeqId::eSaveTriggerMusic_45, 1, 127, 127);
                     }
                 }
-                mBaseAnimatedWithPhysicsGameObject_RGB.r = 32;
-                mBaseAnimatedWithPhysicsGameObject_RGB.g = rgb;
-                mBaseAnimatedWithPhysicsGameObject_RGB.b = 32;
+                mBaseAnimatedWithPhysicsGameObject_RGB.SetRGB(32, rgb, 32);
             }
             else
             {
-                mBaseAnimatedWithPhysicsGameObject_RGB.r = rgb;
-                mBaseAnimatedWithPhysicsGameObject_RGB.g = 32;
-                mBaseAnimatedWithPhysicsGameObject_RGB.b = 32;
+                mBaseAnimatedWithPhysicsGameObject_RGB.SetRGB(rgb, 32, 32);
             }
         }
         else
         {
-            mBaseAnimatedWithPhysicsGameObject_RGB.r = rgb;
-            mBaseAnimatedWithPhysicsGameObject_RGB.g = rgb;
-            mBaseAnimatedWithPhysicsGameObject_RGB.b = rgb;
+            mBaseAnimatedWithPhysicsGameObject_RGB.SetRGB(rgb, rgb, rgb);
         }
     }
 }
