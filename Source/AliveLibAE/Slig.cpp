@@ -5834,7 +5834,7 @@ void Slig::FallKnockBackOrSmash_4B4A90()
     }
     else
     {
-        field_C4_velx = FP_FromInteger(0);
+        mBaseAnimatedWithPhysicsGameObject_VelX = FP_FromInteger(0);
     }
 
     if (mNextMotion == eSligMotions::M_Smash_44_4B6B90)

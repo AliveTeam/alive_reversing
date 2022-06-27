@@ -3179,7 +3179,7 @@ void FlyingSlig::PullLever_436450()
     {
         VSetMotion(eFlyingSligMotions::M_LeverPull_7_439150);
     }
-    SetBrain(&FlyingSlig::Brain_15_FlyingSligSpawn_4362C0);
+    SetBrain(&FlyingSlig::Brain_15_FlyingSligSpawn);
 }
 
 s16 FlyingSlig::TryPullLever_439DB0()

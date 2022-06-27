@@ -5003,25 +5003,25 @@ void Abe::Motion_33_RunLoop_4508E0()
         return;
     }
 
-    if (field_20_animation.field_92_current_frame == 0 || field_20_animation.field_92_current_frame == 8)
+    if (mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame == 0 || mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame == 8)
     {
-        MapFollowMe_408D10(TRUE);
+        MapFollowMe(TRUE);
         if (field_118_prev_held & sInputKey_Hop_5550E0)
         {
             DoRunJump();
         }
     }
-    else if (field_20_animation.field_92_current_frame == 4 || field_20_animation.field_92_current_frame == 12)
+    else if (mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame == 4 || mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame == 12)
     {
         Environment_SFX_457A40(EnvironmentSfx::eRunningFootstep_2, 0, 32767, this);
 
-        MapFollowMe_408D10(TRUE);
+        MapFollowMe(TRUE);
 
         // Turning around?
-        if ((field_C4_velx > FP_FromInteger(0) && Input().isPressed(sInputKey_Left_5550D4)) || (field_C4_velx < FP_FromInteger(0) && Input().isPressed(sInputKey_Right_5550D0)))
+        if ((mBaseAnimatedWithPhysicsGameObject_VelX > FP_FromInteger(0) && Input().isPressed(sInputKey_Left_5550D4)) || (mBaseAnimatedWithPhysicsGameObject_VelX < FP_FromInteger(0) && Input().isPressed(sInputKey_Right_5550D0)))
         {
             field_1AC_flags.Clear(Flags_1AC::e1AC_eBit14_unused);
-            field_106_current_motion = eAbeMotions::Motion_26_RunTurn_451500;
+            mCurrentMotion = eAbeMotions::Motion_26_RunTurn_451500;
             Environment_SFX_457A40(EnvironmentSfx::eRunSlide_4, 0, 32767, this);
             field_118_prev_held = 0;
             return;
@@ -5037,7 +5037,7 @@ void Abe::Motion_33_RunLoop_4508E0()
         if (field_118_prev_held & sInputKey_FartRoll_5550F0)
         {
             field_1AC_flags.Clear(Flags_1AC::e1AC_eBit14_unused);
-            field_106_current_motion = eAbeMotions::jMotion_38_RunToRoll_453A70;
+            mCurrentMotion = eAbeMotions::jMotion_38_RunToRoll_453A70;
             field_11C_released_buttons = 0;
             field_118_prev_held = 0;
             return;
@@ -5052,37 +5052,37 @@ void Abe::Motion_33_RunLoop_4508E0()
             }
 
             FP gridSize = {};
-            if (field_C4_velx >= FP_FromInteger(0))
+            if (mBaseAnimatedWithPhysicsGameObject_VelX >= FP_FromInteger(0))
             {
-                gridSize = ScaleToGridSize_4498B0(field_CC_sprite_scale);
+                gridSize = ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale);
             }
             else
             {
-                gridSize = -ScaleToGridSize_4498B0(field_CC_sprite_scale);
+                gridSize = -ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale);
             }
 
             // Run to walk and hit wall
-            if (WallHit_408750(field_CC_sprite_scale * FP_FromInteger(50), gridSize) || WallHit_408750(field_CC_sprite_scale * FP_FromInteger(20), gridSize))
+            if (WallHit(mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(50), gridSize) || WallHit(mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(20), gridSize))
             {
                 ToKnockback_44E700(1, 1);
             }
             else
             {
                 // Run to walk
-                if (field_20_animation.field_92_current_frame == 4)
+                if (mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame == 4)
                 {
-                    field_106_current_motion = eAbeMotions::Motion_50_RunToWalk_450E20;
+                    mCurrentMotion = eAbeMotions::Motion_50_RunToWalk_450E20;
                 }
                 else
                 {
-                    field_106_current_motion = eAbeMotions::Motion_51_MidRunToWalk_450F50;
+                    mCurrentMotion = eAbeMotions::Motion_51_MidRunToWalk_450F50;
                 }
             }
         }
         else
         {
             // No longer running or even moving, so slide stop
-            field_106_current_motion = eAbeMotions::Motion_25_RunSlideStop_451330;
+            mCurrentMotion = eAbeMotions::Motion_25_RunSlideStop_451330;
             Environment_SFX_457A40(EnvironmentSfx::eRunSlide_4, 0, 32767, this);
         }
 
