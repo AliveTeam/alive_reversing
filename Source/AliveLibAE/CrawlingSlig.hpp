@@ -94,26 +94,27 @@ struct CrawlingSlig_State final
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(CrawlingSlig_State, 0x80);
 
-enum CrawlingSligMotion : s16
+enum class CrawlingSligMotion : s16
 {
-    M_Idle_0_41B260 = 0,
-    M_UsingButton_1_41B890 = 1,
-    M_WakingUp_2_41BF00 = 2,
-    M_Crawling_3_41B280 = 3,
-    M_StartFalling_4_41B620 = 4,
-    M_Falling_5_41B650 = 5,
-    M_Landing_6_41B870 = 6,
-    M_ToShakingToIdle_7_41C010 = 7,
-    M_Speaking_8_41BF70 = 8,
-    M_Snoozing_9_41BD80 = 9,
-    M_PushingWall_10_41B400 = 10,
-    M_TurnAround_11_41B590 = 11,
-    M_Shaking_12_418C30 = 12,
-    M_Empty_13_418C50 = 13,
-    M_ShakingToIdle_14_41C040 = 14,
-    M_EndCrawling_15_41B600 = 15,
-    M_IdleToPushingWall_16_41B3C0 = 16,
-    M_EndPushingWall_17_41B3A0 = 17
+    None = -1,
+    Motion_0_Idle = 0,
+    Motion_1_UsingButton = 1,
+    Motion_2_WakingUp = 2,
+    Motion_3_Crawling = 3,
+    Motion_4_StartFalling = 4,
+    Motion_5_Falling = 5,
+    Motion_6_Landing = 6,
+    Motion_7_ToShakingToIdle = 7,
+    Motion_8_Speaking = 8,
+    Motion_9_Snoozing = 9,
+    Motion_10_PushingWall = 10,
+    Motion_11_TurnAround = 11,
+    Motion_12_Shaking = 12,
+    Motion_13_Empty = 13,
+    Motion_14_ShakingToIdle = 14,
+    Motion_15_EndCrawling = 15,
+    Motion_16_IdleToPushingWall = 16,
+    Motion_17_EndPushingWall = 17
 };
 
 class CrawlingSlig final : public BaseAliveGameObject
@@ -133,8 +134,16 @@ public:
     static s32 CreateFromSaveState(const u8* pBuffer);
 
 private:
+    CrawlingSligMotion GetNextMotion() const
+    {
+        return static_cast<CrawlingSligMotion>(mNextMotion);
+    }
+    CrawlingSligMotion GetCurrentMotion() const
+    {
+        return static_cast<CrawlingSligMotion>(mCurrentMotion);
+    }
 
-    void Set_AnimAndMotion_419890(s16 currentMotion, s16 bClearNextMotion);
+    void Set_AnimAndMotion(CrawlingSligMotion currentMotion, s16 bClearNextMotion);
     void UpdateAnimBlock();
     u8** GetAnimBlock(s32 currentMotion);
     static s16 NextRandom();
@@ -153,32 +162,32 @@ private:
     void PlatformCollide();
 
 public:
-    s16 Brain_0_Sleeping_419DE0();
-    s16 Brain_1_Idle_419F60();
-    s16 Brain_2_PanicGetALocker_419FE0();
-    s16 Brain_3_Possessed_41A5B0();
-    s16 Brain_4_GetKilled_41A880();
-    s16 Brain_5_Transformed_41ADF0();
+    s16 Brain_0_Sleeping();
+    s16 Brain_1_Idle();
+    s16 Brain_2_PanicGetALocker();
+    s16 Brain_3_Possessed();
+    s16 Brain_4_GetKilled();
+    s16 Brain_5_Transformed();
 
 
-    void M_Idle_0_41B260();
-    void M_UsingButton_1_41B890();
-    void M_WakingUp_2_41BF00();
-    void M_Crawling_3_41B280();
-    void M_StartFalling_4_41B620();
-    void M_Falling_5_41B650();
-    void M_Landing_6_41B870();
-    void M_ToShakingToIdle_7_41C010();
-    void M_Speaking_8_41BF70();
-    void M_Snoozing_9_41BD80();
-    void M_PushingWall_10_41B400();
-    void M_TurnAround_11_41B590();
-    void M_Shaking_12_418C30();
-    void M_Empty_13_418C50();
-    void M_ShakingToIdle_14_41C040();
-    void M_EndCrawling_15_41B600();
-    void M_IdleToPushingWall_16_41B3C0();
-    void M_EndPushingWall_17_41B3A0();
+    void Motion_0_Idle();
+    void Motion_1_UsingButton();
+    void Motion_2_WakingUp();
+    void Motion_3_Crawling();
+    void Motion_4_StartFalling();
+    void Motion_5_Falling();
+    void Motion_6_Landing();
+    void Motion_7_ToShakingToIdle();
+    void Motion_8_Speaking();
+    void Motion_9_Snoozing();
+    void Motion_10_PushingWall();
+    void Motion_11_TurnAround();
+    void Motion_12_Shaking();
+    void Motion_13_Empty();
+    void Motion_14_ShakingToIdle();
+    void Motion_15_EndCrawling();
+    void Motion_16_IdleToPushingWall();
+    void Motion_17_EndPushingWall();
 
 private:
     s32 field_118_tlvInfo = 0;

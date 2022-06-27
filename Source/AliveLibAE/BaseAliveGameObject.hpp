@@ -53,6 +53,22 @@ public:
     s16 OnTrapDoorIntersection(PlatformBase* pOther);
 
 protected:
+    template<class T>
+    inline void SetCurrentMotion(T motion)
+    {
+        mCurrentMotion = static_cast<s16>(motion);
+    }
+    template<class T>
+    inline void SetNextMotion(T motion)
+    {
+        mNextMotion = static_cast<s16>(motion);
+    }
+    template<class T>
+    inline void SetPreviousMotion(T motion)
+    {
+        mPreviousMotion = static_cast<s16>(motion);
+    }
+
     s16 SetBaseAnimPaletteTint(TintEntry* pTintArray, EReliveLevelIds level_id, s32 resourceID);
     Bool32 Check_IsOnEndOfLine(s16 direction, s16 distance);
     BaseAliveGameObject* GetStackedSlapTarget(s32 idToFind, ReliveTypes typeToFind, FP xpos, FP ypos);
