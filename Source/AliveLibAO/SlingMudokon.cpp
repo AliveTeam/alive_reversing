@@ -231,6 +231,7 @@ void SlingMudokon::VUpdateAnimData()
     {
         ppResBlock = field_150_res;
     }
+    
     const AnimRecord& rec = AO::AnimRec(sSlingMudAnimIdTables_4CFCC8[mCurrentMotion]);
     mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(rec.mFrameTableOffset, ppResBlock);
 }
@@ -380,16 +381,16 @@ s16 SlingMudokon::Brain_0_GiveCode()
                 switch (Code_LookUp(field_118_code_converted, field_158_code_pos, field_11C_code_length))
                 {
                     case GameSpeakEvents::eWhistleHigh_1:
-                        Mudokon_SFX_42A4D0(MudSounds::eWhistleHigh_1, 0, 0, this);
+                        Mudokon_SFX(MudSounds::eWhistleHigh_1, 0, 0, this);
                         break;
                     case GameSpeakEvents::eWhistleLow_2:
-                        Mudokon_SFX_42A4D0(MudSounds::eWhistleLow_2, 0, 0, this);
+                        Mudokon_SFX(MudSounds::eWhistleLow_2, 0, 0, this);
                         break;
                     case GameSpeakEvents::eFart_3:
-                        Mudokon_SFX_42A4D0(MudSounds::eFart_7, 0, 300, this);
+                        Mudokon_SFX(MudSounds::eFart_7, 0, 300, this);
                         break;
                     case GameSpeakEvents::eLaugh_4:
-                        Mudokon_SFX_42A4D0(MudSounds::eLaugh1_8, 0, 300, this);
+                        Mudokon_SFX(MudSounds::eLaugh1_8, 0, 300, this);
                         break;
                     default:
                         break;
@@ -484,11 +485,11 @@ s16 SlingMudokon::Brain_0_GiveCode()
 
             if (field_15A_bCodeMatches)
             {
-                Mudokon_SFX_42A4D0(MudSounds::eOkay_13, 0, 300, this);
+                Mudokon_SFX(MudSounds::eOkay_13, 0, 300, this);
             }
             else
             {
-                Mudokon_SFX_42A4D0(MudSounds::eRefuse_14, 0, 300, this);
+                Mudokon_SFX(MudSounds::eRefuse_14, 0, 300, this);
             }
 
             field_138_brain_state = field_154_previous_brain_state;
@@ -561,7 +562,7 @@ s16 SlingMudokon::Brain_1_Spawn()
             {
                 SetNextMotion(eSlingMudMotions::Motion_1_Angry);
                 field_140_timer = sGnFrame + 40;
-                Mudokon_SFX_42A4D0(MudSounds::eAngry_5, 0, 300, this);
+                Mudokon_SFX(MudSounds::eAngry_5, 0, 300, this);
                 return Brain_1_Spawn::eBrain1_PrepareToShoot_5;
             }
 
@@ -586,7 +587,7 @@ s16 SlingMudokon::Brain_1_Spawn()
             {
                 SetNextMotion(eSlingMudMotions::Motion_1_Angry);
                 field_140_timer = sGnFrame + 40;
-                Mudokon_SFX_42A4D0(MudSounds::eAngry_5, 0, 300, this);
+                Mudokon_SFX(MudSounds::eAngry_5, 0, 300, this);
                 return Brain_1_Spawn::eBrain1_PrepareToShoot_5;
             }
             else
@@ -739,7 +740,7 @@ s16 SlingMudokon::Brain_2_AskForPassword()
             {
                 SetNextMotion(eSlingMudMotions::Motion_1_Angry);
                 field_140_timer = sGnFrame + 40;
-                Mudokon_SFX_42A4D0(MudSounds::eAngry_5, 0, 300, this);
+                Mudokon_SFX(MudSounds::eAngry_5, 0, 300, this);
                 return 7;
             }
 
@@ -747,7 +748,7 @@ s16 SlingMudokon::Brain_2_AskForPassword()
             {
                 return field_13A_brain_sub_state;
             }
-            Mudokon_SFX_42A4D0(MudSounds::ePassword_9, 0, 300, this);
+            Mudokon_SFX(MudSounds::ePassword_9, 0, 300, this);
             SetNextMotion(eSlingMudMotions::Motion_2_Speak);
             return 4;
 
@@ -756,7 +757,7 @@ s16 SlingMudokon::Brain_2_AskForPassword()
             {
                 SetNextMotion(eSlingMudMotions::Motion_1_Angry);
                 field_140_timer = sGnFrame + 40;
-                Mudokon_SFX_42A4D0(MudSounds::eAngry_5, 0, 300, this);
+                Mudokon_SFX(MudSounds::eAngry_5, 0, 300, this);
                 return 7;
             }
             else
@@ -857,7 +858,7 @@ s16 SlingMudokon::Brain_2_AskForPassword()
 
             SetNextMotion(eSlingMudMotions::Motion_1_Angry);
             field_140_timer = sGnFrame + 40;
-            Mudokon_SFX_42A4D0(MudSounds::eAngry_5, 0, 300, this);
+            Mudokon_SFX(MudSounds::eAngry_5, 0, 300, this);
             return 7;
 
         case 6:
@@ -876,13 +877,13 @@ s16 SlingMudokon::Brain_2_AskForPassword()
             if (field_15A_bCodeMatches == 0)
             {
                 field_140_timer = sGnFrame + 60;
-                Mudokon_SFX_42A4D0(MudSounds::eRefuse_14, 0, 300, this);
+                Mudokon_SFX(MudSounds::eRefuse_14, 0, 300, this);
                 return 3;
             }
             else
             {
                 field_140_timer = sGnFrame + 30;
-                Mudokon_SFX_42A4D0(MudSounds::eOkay_13, 0, 300, this);
+                Mudokon_SFX(MudSounds::eOkay_13, 0, 300, this);
                 SFX_Play_Pitch(SoundEffect::PossessEffect_21, 0, -600);
                 return 9;
             }

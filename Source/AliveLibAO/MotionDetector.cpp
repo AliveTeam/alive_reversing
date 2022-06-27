@@ -214,7 +214,7 @@ void MotionDetector::VUpdate()
 
                                 if (pObj == sActiveHero_507678)
                                 {
-                                    Mudokon_SFX_42A4D0(MudSounds::eOops_16, 0, 0, nullptr);
+                                    Mudokon_SFX(MudSounds::eOops_16, 0, 0, nullptr);
                                 }
                             }
                         }

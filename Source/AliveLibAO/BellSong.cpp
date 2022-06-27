@@ -41,13 +41,13 @@ void BellSong::VUpdate()
                 switch (code_looked_up)
                 {
                     case GameSpeakEvents::eWhistleHigh_1:
-                        Mudokon_SFX_42A4D0(MudSounds::eWhistleHigh_1, 0, 0, 0);
+                        Mudokon_SFX(MudSounds::eWhistleHigh_1, 0, 0, 0);
                         break;
                     case GameSpeakEvents::eWhistleLow_2:
-                        Mudokon_SFX_42A4D0(MudSounds::eWhistleLow_2, 0, 0, 0);
+                        Mudokon_SFX(MudSounds::eWhistleLow_2, 0, 0, 0);
                         break;
                     default:
-                        Mudokon_SFX_42A4D0(MudSounds::eFart_7, 0, 0, 0);
+                        Mudokon_SFX(MudSounds::eFart_7, 0, 0, 0);
                 }
                 mBaseGameObjectUpdateDelay = 30;
                 break;

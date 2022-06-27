@@ -714,7 +714,7 @@ ALIVE_VAR_EXTERN(s16, gAbeInvisibleCheat_5076F8);
 
 s32 Environment_SFX_42A220(EnvironmentSfx sfxId, s32 volume, s32 pitchMin, BaseAliveGameObject* pAliveObj);
 
-s32 Mudokon_SFX_42A4D0(MudSounds idx, s32 volume, s32 pitch, BaseAliveGameObject* pHero);
+s32 Mudokon_SFX(MudSounds idx, s32 volume, s32 pitch, BaseAliveGameObject* pHero);
 
 s32 XGrid_Index_To_XPos(FP scale, s32 xGridIndex);
 

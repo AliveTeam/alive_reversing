@@ -282,7 +282,7 @@ void BeeSwarm::VUpdate()
                                     const s16 pitch = Math_RandomRange(
                                         200 * FP_GetExponent(pitch_val),
                                         200 * (FP_GetExponent(pitch_val) + 1));
-                                    Mudokon_SFX_42A4D0(snd, 0, pitch, sActiveHero_507678);
+                                    Mudokon_SFX(snd, 0, pitch, sActiveHero_507678);
                                 }
                             }
                         }

@@ -1228,7 +1228,7 @@ void Menu::SayHelloWaitForLoading_47B690()
         {
             ProgressInProgressFilesLoading();
         }
-        Mudokon_SFX_42A4D0(MudSounds::eHello_3, 0, 0, 0);
+        Mudokon_SFX(MudSounds::eHello_3, 0, 0, 0);
         const AnimRecord& rec = AO::AnimRec(AnimId::MenuAbeSpeak_Hello);
         mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(rec.mFrameTableOffset, field_E4_res_array[1]);
         field_1CC_fn_update = &Menu::WaitForAbeSayHello_47B770;
@@ -1363,14 +1363,14 @@ void Menu::MainScreen_Update_47AF60()
                 if (field_1E0_selected_index.mainmenu == MainMenuOptions::eBegin_1)
                 {
                     // Begin/new game
-                    Mudokon_SFX_42A4D0(MudSounds::eFollowMe_4, 0, 0, 0);
+                    Mudokon_SFX(MudSounds::eFollowMe_4, 0, 0, 0);
                     const AnimRecord& rec = AO::AnimRec(AnimId::MenuAbeSpeak_FollowMe);
                     mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(rec.mFrameTableOffset, field_E4_res_array[0]);
                 }
                 else if (field_1E0_selected_index.mainmenu == MainMenuOptions::eQuit_2)
                 {
                     // Quit
-                    Mudokon_SFX_42A4D0(MudSounds::eGoodbye_12, 0, 0, 0);
+                    Mudokon_SFX(MudSounds::eGoodbye_12, 0, 0, 0);
                     const AnimRecord& rec = AO::AnimRec(AnimId::MenuAbeSpeak_Goodbye);
                     mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(rec.mFrameTableOffset, field_E4_res_array[0]);
                 }
@@ -1379,7 +1379,7 @@ void Menu::MainScreen_Update_47AF60()
                     // 0 = game speak,
                     // 3 = load
                     // 4 = options
-                    Mudokon_SFX_42A4D0(MudSounds::eOkay_13, 0, 0, 0);
+                    Mudokon_SFX(MudSounds::eOkay_13, 0, 0, 0);
                     const AnimRecord& rec = AO::AnimRec(AnimId::MenuAbeSpeak_Ok);
                     mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(rec.mFrameTableOffset, field_E4_res_array[1]);
                 }
@@ -1440,7 +1440,7 @@ void Menu::MainScreen_Update_47AF60()
         sListCount_4D0228 = ALIVE_COUNTOF(gFmvs_4D0230);
         if (field_E4_res_array[0])
         {
-            Mudokon_SFX_42A4D0(MudSounds::eOkay_13, 0, 0, 0);
+            Mudokon_SFX(MudSounds::eOkay_13, 0, 0, 0);
             const AnimRecord& rec = AO::AnimRec(AnimId::MenuAbeSpeak_Ok);
             mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(rec.mFrameTableOffset, field_E4_res_array[1]);
             field_1CC_fn_update = &Menu::WaitForSpeakFinishAndStartChangeEffect_47BB90;
@@ -1474,7 +1474,7 @@ void Menu::MainScreen_Update_47AF60()
         sListCount_4D0228 = ALIVE_COUNTOF(sLevelList_4D0300);
         if (field_E4_res_array[0])
         {
-            Mudokon_SFX_42A4D0(MudSounds::eOkay_13, 0, 0, 0);
+            Mudokon_SFX(MudSounds::eOkay_13, 0, 0, 0);
             const AnimRecord& rec = AO::AnimRec(AnimId::MenuAbeSpeak_Ok);
             mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(rec.mFrameTableOffset, field_E4_res_array[1]);
             field_1CC_fn_update = &Menu::WaitForSpeakFinishAndStartChangeEffect_47BB90;
@@ -2142,7 +2142,7 @@ void Menu::Options_Update_47BF90()
 
     if (Input().IsAnyHeld(InputObject::PadIndex::First, InputCommands::eUnPause_OrConfirm | InputCommands::eDoAction))
     {
-        Mudokon_SFX_42A4D0(MudSounds::eOkay_13, 0, 0, 0);
+        Mudokon_SFX(MudSounds::eOkay_13, 0, 0, 0);
         const AnimRecord& rec = AO::AnimRec(AnimId::MenuAbeSpeak_Ok);
         mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(rec.mFrameTableOffset, field_E4_res_array[1]);
         field_1CC_fn_update = &Menu::Options_WaitForAbeSpeak_Update_47C280;
@@ -2154,7 +2154,7 @@ void Menu::Options_Update_47BF90()
         field_1E0_selected_index.options_menu = OptionsMenuOptions::eMainMenu_2;
         const AnimRecord& rec1 = AO::AnimRec(sOptionsButtons_4D0148[2].field_4_anim_id);
         field_134_anim.Set_Animation_Data(rec1.mFrameTableOffset, 0);
-        Mudokon_SFX_42A4D0(MudSounds::eOkay_13, 0, 0, 0);
+        Mudokon_SFX(MudSounds::eOkay_13, 0, 0, 0);
         const AnimRecord& rec2 = AO::AnimRec(AnimId::MenuAbeSpeak_Ok);
         mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(rec2.mFrameTableOffset, field_E4_res_array[1]);
         field_1CC_fn_update = &Menu::Options_WaitForAbeSpeak_Update_47C280;
@@ -2516,7 +2516,7 @@ void Menu::Options_Sound_Update_47C420()
             SND_Set_Stereo_477030();
         }
 
-        Mudokon_SFX_42A4D0(MudSounds::eOkay_13, 0, 0, nullptr);
+        Mudokon_SFX(MudSounds::eOkay_13, 0, 0, nullptr);
 
         const AnimRecord& rec = AO::AnimRec(AnimId::MenuAbeSpeak_Ok);
         mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(rec.mFrameTableOffset, field_E4_res_array[1]);
@@ -2528,7 +2528,7 @@ void Menu::Options_Sound_Update_47C420()
         field_1E0_selected_index.sound_menu = SoundOptions::eExit_2;
         const AnimRecord& rec1 = AO::AnimRec(sSoundOptionsButtons_4D01C0[2].field_4_anim_id);
         field_134_anim.Set_Animation_Data(rec1.mFrameTableOffset, nullptr);
-        Mudokon_SFX_42A4D0(MudSounds::eOkay_13, 0, 0, nullptr);
+        Mudokon_SFX(MudSounds::eOkay_13, 0, 0, nullptr);
         const AnimRecord& rec2 = AO::AnimRec(AnimId::MenuAbeSpeak_Ok);
         mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(rec2.mFrameTableOffset, field_E4_res_array[1]);
         field_1CC_fn_update = &Menu::Options_WaitForAbeSayOK_Update_47C720;
@@ -2726,7 +2726,7 @@ void Menu::GameSpeak_Update_47CBD0()
 
         if (Input().IsAnyHeld(InputObject::PadIndex::First, sInputKey_GameSpeak2_4C65BC))
         {
-            Mudokon_SFX_42A4D0(MudSounds::eFollowMe_4, 0, 0, 0);
+            Mudokon_SFX(MudSounds::eFollowMe_4, 0, 0, 0);
             field_204_flags |= 1u;
             const AnimRecord& rec = AO::AnimRec(AnimId::MenuAbeSpeak_FollowMe);
             mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(rec.mFrameTableOffset, field_E4_res_array[0]);
@@ -2735,7 +2735,7 @@ void Menu::GameSpeak_Update_47CBD0()
         }
         else if (Input().IsAnyHeld(InputObject::PadIndex::First, sInputKey_GameSpeak4_4C65C4))
         {
-            Mudokon_SFX_42A4D0(MudSounds::eWait_6, 0, 0, 0);
+            Mudokon_SFX(MudSounds::eWait_6, 0, 0, 0);
             field_204_flags |= 1u;
             const AnimRecord& rec = AO::AnimRec(AnimId::MenuAbeSpeak_Wait);
             mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(rec.mFrameTableOffset, field_E4_res_array[0]);
@@ -2744,7 +2744,7 @@ void Menu::GameSpeak_Update_47CBD0()
         }
         else if (Input().IsAnyHeld(InputObject::PadIndex::First, sInputKey_GameSpeak1_4C65C8))
         {
-            Mudokon_SFX_42A4D0(MudSounds::eHello_3, 0, 0, 0);
+            Mudokon_SFX(MudSounds::eHello_3, 0, 0, 0);
             field_204_flags |= 1u;
             const AnimRecord& rec = AO::AnimRec(AnimId::MenuAbeSpeak_Hello);
             mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(rec.mFrameTableOffset, field_E4_res_array[1]);
@@ -2753,7 +2753,7 @@ void Menu::GameSpeak_Update_47CBD0()
         }
         else if (Input().IsAnyPressed(InputObject::PadIndex::First, sInputKey_GameSpeak3_4C65C0))
         {
-            Mudokon_SFX_42A4D0(MudSounds::eAngry_5, 0, 0, 0);
+            Mudokon_SFX(MudSounds::eAngry_5, 0, 0, 0);
             field_204_flags |= 1u;
             const AnimRecord& rec = AO::AnimRec(AnimId::MenuAbeSpeak_Anger);
             mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(rec.mFrameTableOffset, field_E4_res_array[0]);
@@ -2782,7 +2782,7 @@ void Menu::GameSpeak_Update_47CBD0()
 
         if (Input().IsAnyHeld(InputObject::PadIndex::First, sInputKey_GameSpeak6_4C65E8))
         {
-            Mudokon_SFX_42A4D0(MudSounds::eWhistleHigh_1, 0, 0, 0);
+            Mudokon_SFX(MudSounds::eWhistleHigh_1, 0, 0, 0);
             field_204_flags |= 1u;
             const AnimRecord& rec = AO::AnimRec(AnimId::MenuAbeSpeak_WhistleHigh);
             mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(rec.mFrameTableOffset, field_E4_res_array[0]);
@@ -2791,7 +2791,7 @@ void Menu::GameSpeak_Update_47CBD0()
         }
         else if (Input().IsAnyHeld(InputObject::PadIndex::First, sInputKey_GameSpeak5_4C65EC))
         {
-            Mudokon_SFX_42A4D0(MudSounds::eWhistleLow_2, 0, 0, 0);
+            Mudokon_SFX(MudSounds::eWhistleLow_2, 0, 0, 0);
             field_204_flags |= 1u;
             const AnimRecord& rec = AO::AnimRec(AnimId::MenuAbeSpeak_WhistleLow);
             mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(rec.mFrameTableOffset, field_E4_res_array[0]);
@@ -2800,7 +2800,7 @@ void Menu::GameSpeak_Update_47CBD0()
         }
         else if (Input().IsAnyHeld(InputObject::PadIndex::First, sInputKey_GameSpeak8_4C65E0))
         {
-            Mudokon_SFX_42A4D0(MudSounds::eLaugh2_11, 0, 0, 0);
+            Mudokon_SFX(MudSounds::eLaugh2_11, 0, 0, 0);
             field_204_flags |= 1u;
             const AnimRecord& rec = AO::AnimRec(AnimId::MenuAbeSpeak_Laugh);
             mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(rec.mFrameTableOffset, field_E4_res_array[0]);
@@ -2809,7 +2809,7 @@ void Menu::GameSpeak_Update_47CBD0()
         }
         else if (Input().IsAnyHeld(InputObject::PadIndex::First, sInputKey_GameSpeak7_4C65E4))
         {
-            Mudokon_SFX_42A4D0(MudSounds::eFart_7, 0, 0, 0);
+            Mudokon_SFX(MudSounds::eFart_7, 0, 0, 0);
             field_204_flags |= 1u;
             const AnimRecord& rec = AO::AnimRec(AnimId::MenuAbeSpeak_Fart);
             mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(rec.mFrameTableOffset, field_E4_res_array[0]);
@@ -2831,7 +2831,7 @@ void Menu::GameSpeak_Update_47CBD0()
         return;
     }
 
-    Mudokon_SFX_42A4D0(MudSounds::eGoodbye_12, 0, 0, 0);
+    Mudokon_SFX(MudSounds::eGoodbye_12, 0, 0, 0);
 
     field_204_flags |= 1u;
     const AnimRecord& rec = AO::AnimRec(AnimId::MenuAbeSpeak_Goodbye);

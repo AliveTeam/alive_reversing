@@ -3330,7 +3330,7 @@ void Paramite::Motion_13_GameSpeakBegin()
                 if (sActiveHero_507678->mHealth > FP_FromInteger(0))
                 {
                     SFX_Play_Mono(SoundEffect::KillEffect_78, 0, 0);
-                    Mudokon_SFX_42A4D0(MudSounds::eKnockbackOuch_10, 0, 0, sActiveHero_507678);
+                    Mudokon_SFX(MudSounds::eKnockbackOuch_10, 0, 0, sActiveHero_507678);
                 }
                 sActiveHero_507678->VTakeDamage(this);
             }

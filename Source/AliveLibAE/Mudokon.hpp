@@ -82,16 +82,16 @@ enum class MudAction : s16
 
 
 #define MUD_BRAIN_STATES_ENUM(ENTRY)        \
-    ENTRY(Brain_0_GiveRings_470C10)         \
-    ENTRY(Brain_1_Chisel_47C5F0)            \
-    ENTRY(Brain_2_Scrub_47D270)             \
-    ENTRY(Brain_3_TurnWheel_47E0D0)         \
-    ENTRY(Brain_4_ListeningToAbe_477B40)    \
-    ENTRY(Brain_5_ShrivelDeath_4714A0)      \
-    ENTRY(Brain_6_Escape_47A560)            \
-    ENTRY(Brain_7_FallAndSmackDeath_471600) \
-    ENTRY(Brain_8_AngryWorker_47E910)       \
-    ENTRY(Brain_9_Sick_47A910)
+    ENTRY(Brain_0_GiveRings)         \
+    ENTRY(Brain_1_Chisel)            \
+    ENTRY(Brain_2_CrouchScrub)             \
+    ENTRY(Brain_3_TurnWheel)         \
+    ENTRY(Brain_4_ListeningToAbe)    \
+    ENTRY(Brain_5_ShrivelDeath)      \
+    ENTRY(Brain_6_Escape)            \
+    ENTRY(Brain_7_FallAndSmackDeath) \
+    ENTRY(Brain_8_AngryWorker)       \
+    ENTRY(Brain_9_Sick)
 
 #define MAKE_STRINGS(VAR) #VAR,
 const char_type* const sMudBrainStateNames[10] = {
@@ -108,9 +108,9 @@ enum Mud_Brain_State : u16
 // speak generic appears 3 times :(
 enum eMudMotions : u16
 {
-    M_Idle_0_4724E0,
-    M_WalkLoop_1_4728B0,
-    M_StandingTurn_2_472BF0,
+    Motion_0_Idle,
+    Motion_1_WalkLoop,
+    Motion_2_StandingTurn,
 
     // NOTE: 3-6 are all the same entry, added to avoid compile issue mentioned above.
     M_Speak_3_472FA0,
@@ -118,59 +118,59 @@ enum eMudMotions : u16
     M_Speak_5_472FA0,
     M_Speak_6_472FA0,
 
-    M_WalkBegin_7_472AB0,
-    M_WalkToIdle_8_472B30,
-    M_MidWalkToIdle_9_472BD0,
-    M_LeverUse_10_473020,
-    M_Chisel_11_4732D0,
-    M_StartChisel_12_473500,
-    M_StopChisel_13_473530,
-    M_CrouchScrub_14_473560,
-    M_CrouchIdle_15_474040,
-    M_CrouchTurn_16_4740E0,
-    M_StandToCrouch_17_474120,
-    M_CrouchToStand_18_474150,
-    M_WalkToRun_19_473600,
-    M_MidWalkToRun_20_4736D0,
-    M_RunLoop_21_473720,
-    M_RunToWalk_22_4738E0,
-    M_MidRunToWalk_23_4739B0,
-    M_RunSlideStop_24_473A00,
-    M_RunSlideTurn_25_473AA0,
-    M_RunTurnToRun_26_473BB0,
-    M_SneakLoop_27_473C40,
-    M_MidWalkToSneak_28_473D60,
-    M_SneakToWalk_29_473E20,
-    M_WalkToSneak_30_473EE0,
-    M_MidSneakToWalk_31_473F30,
-    M_SneakBegin_32_473F80,
-    M_SneakToIdle_33_473FF0,
-    M_MidSneakToIdle_34_474020,
-    M_RunJumpBegin_35_474460,
-    M_RunJumpMid_36_474570,
-    M_StandToRun_37_4749A0,
-    M_Punch_38_474AA0,
-    M_HoistBegin_39_4748E0,
-    M_HoistLand_40_474780,
-    M_LandSoft1_41_474960,
-    M_LandSoft2_42_4743F0,
-    M_DunnoBegin_43_472790,
-    M_DunnoEnd_44_4727B0,
-    M_KnockForward_45_474180,
-    M_Knockback_46_4742A0,
-    M_KnockbackGetUp_47_474380,
-    M_WalkOffEdge_48_4743C0,
-    M_Fall_49_472C60,
-    M_Chant_50_473040,
-    M_ChantEnd_51_4730D0,
-    M_ToDuck_52_474A20,
-    M_Duck_53_474A40,
-    M_DuckToCrouch_54_474A80,
-    M_DuckKnockback_55_474250,
-    M_SlapOwnHead_56_4727D0,
-    M_TurnWheelBegin_57_474C00,
-    M_TurnWheelLoop_58_474CC0,
-    M_TurnWheelEnd_59_474D30
+    Motion_7_WalkBegin,
+    Motion_8_WalkToIdle,
+    Motion_9_MidWalkToIdle,
+    Motion_10_LeverUse,
+    Motion_11_Chisel,
+    Motion_12_StartChisel,
+    Motion_13_StopChisel,
+    Motion_14_CrouchScrub,
+    Motion_15_CrouchIdle,
+    Motion_16_CrouchTurn,
+    Motion_17_StandToCrouch,
+    Motion_18_CrouchToStand,
+    Motion_19_WalkToRun,
+    Motion_20_MidWalkToRun,
+    Motion_21_RunLoop,
+    Motion_22_RunToWalk,
+    Motion_23_MidRunToWalk,
+    Motion_24_RunSlideStop,
+    Motion_25_RunSlideTurn,
+    Motion_26_RunTurnToRun,
+    Motion_27_SneakLoop,
+    Motion_28_MidWalkToSneak,
+    Motion_29_SneakToWalk,
+    Motion_30_WalkToSneak,
+    Motion_31_MidSneakToWalk,
+    Motion_32_SneakBegin,
+    Motion_33_SneakToIdle,
+    Motion_34_MidSneakToIdle,
+    Motion_35_RunJumpBegin,
+    Motion_36_RunJumpMid,
+    Motion_37_StandToRun,
+    Motion_38_Punch,
+    Motion_39_HoistBegin,
+    Motion_40_HoistLand,
+    Motion_41_LandSoft1,
+    Motion_42_LandSoft2,
+    Motion_43_DunnoBegin,
+    Motion_44_DunnoEnd,
+    Motion_45_KnockForward,
+    Motion_46_Knockback,
+    Motion_47_KnockbackGetUp,
+    Motion_48_WalkOffEdge,
+    Motion_49_Fall,
+    Motion_50_Chant,
+    Motion_51_ChantEnd,
+    Motion_52_ToDuck,
+    Motion_53_Duck,
+    Motion_54_DuckToCrouch,
+    Motion_55_DuckKnockback,
+    Motion_56_SlapOwnHead,
+    Motion_57_TurnWheelBegin,
+    Motion_58_TurnWheelLoop,
+    Motion_59_TurnWheelEnd
 };
 
 enum class MudAction : s16;
@@ -286,23 +286,23 @@ public:
     virtual void VOnTrapDoorOpen() override;
 
     // New virtuals
-    virtual void VUpdateAnimRes();
+    virtual void VUpdateResBlock();
 
     static s32 CreateFromSaveState(const u8* pBuffer);
 
 
 private:
     void SetPal(Mud_Emotion emotion);
-    s16 FacingTarget(BirdPortal* pTarget);
+    s16 FacingBirdPortal(BirdPortal* pTarget);
     s16 TurningWheelHelloOrAllYaResponse();
 
 public: // Brains
-    s16 Brain_0_GiveRings_470C10();
-    s16 Brain_1_Chisel_47C5F0();
-    s16 Brain_2_Scrub_47D270();
-    s16 Brain_3_TurnWheel_47E0D0();
+    s16 Brain_0_GiveRings();
+    s16 Brain_1_Chisel();
+    s16 Brain_2_CrouchScrub();
+    s16 Brain_3_TurnWheel();
 
-    s16 Brain_4_ListeningToAbe_477B40();
+    s16 Brain_4_ListeningToAbe();
 
     s16 Brain_ListeningToAbe_State_0();
     s16 Brain_ListeningToAbe_State_1();
@@ -328,110 +328,102 @@ public: // Brains
     s16 Brain_ListeningToAbe_State_21();
     s16 Brain_ListeningToAbe_State_22();
 
-    s16 Brain_5_ShrivelDeath_4714A0();
-    s16 Brain_6_Escape_47A560();
-    s16 Brain_7_FallAndSmackDeath_471600();
-    s16 Brain_8_AngryWorker_47E910();
-    s16 Brain_9_Sick_47A910();
+    s16 Brain_5_ShrivelDeath();
+    s16 Brain_6_Escape();
+    s16 Brain_7_FallAndSmackDeath();
+    s16 Brain_8_AngryWorker();
+    s16 Brain_9_Sick();
 
 public: // Motions
-    void M_Idle_0_4724E0();
-    void M_WalkLoop_1_4728B0();
-    void M_StandingTurn_2_472BF0();
-    void M_Speak_472FA0();
-    void M_WalkBegin_7_472AB0();
-    void M_WalkToIdle_8_472B30();
-    void M_MidWalkToIdle_9_472BD0();
-    void M_LeverUse_10_473020();
-    void M_Chisel_11_4732D0();
-    void M_StartChisel_12_473500();
-    void M_StopChisel_13_473530();
-    void M_CrouchScrub_14_473560();
-    void M_CrouchIdle_15_474040();
-    void M_CrouchTurn_16_4740E0();
-    void M_StandToCrouch_17_474120();
-    void M_CrouchToStand_18_474150();
-    void M_WalkToRun_19_473600();
-    void M_MidWalkToRun_20_4736D0();
-    void M_RunLoop_21_473720();
-    void M_RunToWalk_22_4738E0();
-    void M_MidRunToWalk_23_4739B0();
-    void M_RunSlideStop_24_473A00();
-    void M_RunSlideTurn_25_473AA0();
-    void M_RunTurnToRun_26_473BB0();
-    void M_SneakLoop_27_473C40();
-    void M_MidWalkToSneak_28_473D60();
-    void M_SneakToWalk_29_473E20();
-    void M_WalkToSneak_30_473EE0();
-    void M_MidSneakToWalk_31_473F30();
-    void M_SneakBegin_32_473F80();
-    void M_SneakToIdle_33_473FF0();
-    void M_MidSneakToIdle_34_474020();
-    void M_RunJumpBegin_35_474460();
-    void M_RunJumpMid_36_474570();
-    void M_StandToRun_37_4749A0();
-    void M_Punch_38_474AA0();
-    void M_HoistBegin_39_4748E0();
-    void M_HoistLand_40_474780();
-    void M_LandSoft1_41_474960();
-    void M_LandSoft2_42_4743F0();
-    void M_DunnoBegin_43_472790();
-    void M_DunnoEnd_44_4727B0();
-    void M_KnockForward_45_474180();
-    void M_Knockback_46_4742A0();
-    void M_KnockbackGetUp_47_474380();
-    void M_WalkOffEdge_48_4743C0();
-    void M_Fall_49_472C60();
-    void M_Chant_50_473040();
-    void M_ChantEnd_51_4730D0();
-    void M_ToDuck_52_474A20();
-    void M_Duck_53_474A40();
-    void M_DuckToCrouch_54_474A80();
-    void M_DuckKnockback_55_474250();
-    void M_SlapOwnHead_56_4727D0();
-    void M_TurnWheelBegin_57_474C00();
-    void M_TurnWheelLoop_58_474CC0();
-    void M_TurnWheelEnd_59_474D30();
+    void Motion_0_Idle();
+    void Motion_1_WalkLoop();
+    void Motion_2_StandingTurn();
+    void Motion_Speak();
+    void Motion_7_WalkBegin();
+    void Motion_8_WalkToIdle();
+    void Motion_9_MidWalkToIdle();
+    void Motion_10_LeverUse();
+    void Motion_11_Chisel();
+    void Motion_12_StartChisel();
+    void Motion_13_StopChisel();
+    void Motion_14_CrouchScrub();
+    void Motion_15_CrouchIdle();
+    void Motion_16_CrouchTurn();
+    void Motion_17_StandToCrouch();
+    void Motion_18_CrouchToStand();
+    void Motion_19_WalkToRun();
+    void Motion_20_MidWalkToRun();
+    void Motion_21_RunLoop();
+    void Motion_22_RunToWalk();
+    void Motion_23_MidRunToWalk();
+    void Motion_24_RunSlideStop();
+    void Motion_25_RunSlideTurn();
+    void Motion_26_RunTurnToRun();
+    void Motion_27_SneakLoop();
+    void Motion_28_MidWalkToSneak();
+    void Motion_29_SneakToWalk();
+    void Motion_30_WalkToSneak();
+    void Motion_31_MidSneakToWalk();
+    void Motion_32_SneakBegin();
+    void Motion_33_SneakToIdle();
+    void Motion_34_MidSneakToIdle();
+    void Motion_35_RunJumpBegin();
+    void Motion_36_RunJumpMid();
+    void Motion_37_StandToRun();
+    void Motion_38_Punch();
+    void Motion_39_HoistBegin();
+    void Motion_40_HoistLand();
+    void Motion_41_LandSoft1(); // TODO: better names
+    void Motion_42_LandSoft2(); // ^
+    void Motion_43_DunnoBegin();
+    void Motion_44_DunnoEnd();
+    void Motion_45_KnockForward();
+    void Motion_46_Knockback();
+    void Motion_47_KnockbackGetUp();
+    void Motion_48_WalkOffEdge();
+    void Motion_49_Fall();
+    void Motion_50_Chant();
+    void Motion_51_ChantEnd();
+    void Motion_52_ToDuck();
+    void Motion_53_Duck();
+    void Motion_54_DuckToCrouch();
+    void Motion_55_DuckKnockback();
+    void Motion_56_SlapOwnHead();
+    void Motion_57_TurnWheelBegin();
+    void Motion_58_TurnWheelLoop();
+    void Motion_59_TurnWheelEnd();
 
 private:
-    s16 StableDelay_477570();
-    s16 CheckForPortal_4775E0();
-    GameSpeakEvents LastGameSpeak_476FF0();
-    s16 LaughingGasInCurrentScreen_4774A0();
-    void Sound_475EC0(MudSounds idx);
-    s16 CanRespond_4770B0();
+    s16 MudResponseDelay();
+    s16 FindBirdPortal();
+    GameSpeakEvents LastGameSpeak();
+    s16 LaughingGasInCurrentScreen();
+    void MudEmotionSound(MudSounds idx);
+    s16 IAmNearestToAbe();
 
-    u8** AnimBlockForMotion_474DC0(s16 motion);
+    u8** GetResBlockForMotion(s16 motion);
 
-    void CheckFloorGone_472320();
-    void ToStand_4724A0();
+    void CheckFloorGone();
+    void ToStand();
 
-    s16 FindWheel_4777B0(FP xpos, FP ypos);
-    s16 GetBrainSubStateResponse_477AF0(MudAction action);
-    s16 StopAtWheel_477880();
-    void ToKnockback_473190();
-    s16 IsMotionUnknown_4730F0();
-    void MoveOnLine_4720D0();
+    s16 FindWheel(FP xpos, FP ypos);
+    s16 GetBrainSubStateResponse(MudAction action);
+    s16 StopAtWheel();
+    void ToKnockback();
+    s16 CanAbeSneak();
+    void MoveOnLine();
 
     static const struct MudEmotionTableEntry* ResponseTo_471730(Mud_Emotion emotion, MudAction action);
-
     void AddAlerted();
-
     void RemoveAlerted();
     s16 BrainStartWheelTurning();
     bool NeedToTurnAround();
-
-    void ReduceXVelocityBy_472260(FP velXScaleBy);
-
-    void CheckKnockedOntoABomb_4723C0();
-
-    void HurtSound_475DB0();
-
-    void TakeASlap_476090(BaseGameObject* pFrom);
-
-    s32 GetResponseEntryIdx_471760();
-
-    static const MudEmotionTableEntry* GetResponseEntry_471790(s32 idx);
+    void ReduceXVelocityBy(FP velXScaleBy);
+    void CheckKnockedOntoABomb();
+    void HurtSoundPitchedToHealth();
+    void TakeASlap(BaseGameObject* pFrom);
+    s32 GetResponseEntryIdx();
+    static const MudEmotionTableEntry* GetResponseEntry(s32 idx);
 
 private:
     s32 field_118_tlvInfo = 0;
@@ -497,12 +489,12 @@ private:
     MudAction field_17E_delayed_speak = MudAction::eHelloOrAllYa_0;
     Mud_Emotion field_180_emo_tbl = Mud_Emotion::eNormal_0;
     GameSpeakEvents field_182 = GameSpeakEvents::eUnknown_0;
-    eMudMotions field_184_next_motion2 = eMudMotions::M_Idle_0_4724E0;
+    eMudMotions field_184_next_motion2 = eMudMotions::Motion_0_Idle;
     const struct MudEmotionTableEntry* field_188_pTblEntry = nullptr;
     s16 field_18C_unused = 0;
 
 public:
-    Mud_Brain_State field_18E_brain_state = Mud_Brain_State::Brain_0_GiveRings_470C10;
+    Mud_Brain_State field_18E_brain_state = Mud_Brain_State::Brain_0_GiveRings;
 
 private:
     s16 field_190_brain_sub_state = 0;

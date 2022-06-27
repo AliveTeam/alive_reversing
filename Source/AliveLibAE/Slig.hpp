@@ -330,25 +330,15 @@ public:
     s16 Brain_Possessed_2_4BBCF0();
     s16 Brain_DeathDropDeath_3_4BC1E0();
     s16 Brain_ListeningToGlukkon_4_4B9D20();
-
     s16 Brain_ListeningToGlukkon_LostAttention();
-
     s16 Brain_ListeningToGlukkon_Shooting();
-
     s16 Brain_ListeningToGlukkon_StoppingOnLift(LiftPoint* pPlatformObj);
-
     s16 Brain_ListeningToGlukkon_PullingLever();
-
     s16 Brain_ListenToGlukkon_StoppingNextToLever();
-
     s16 Brain_ListenToGlukkon_Speaking();
-
     s16 Brain_ListenToGlukkon_NextLever(BaseAliveGameObject* pGlukkonObj);
-
     s16 Brain_ListenToGlukkon_Moving(BaseAliveGameObject* pGlukkonObj);
-
     s16 Brain_ListenToGlukkon_IdleListen(BaseAliveGameObject* pGlukkonObj, LiftPoint* pPlatformObj);
-
     s16 Brain_ListenToGlukkon_GettingAttention(BaseAliveGameObject* pGlukkonObj);
 
     s16 Brain_Empty_5_4B3220();

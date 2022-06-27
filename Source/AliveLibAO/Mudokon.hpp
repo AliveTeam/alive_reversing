@@ -11,69 +11,69 @@ void Mud_ForceLink();
 namespace AO {
 
 #define MUD_STATES_ENUM(ENTRY)                   \
-    ENTRY(Motion_0_Idle_43CA70)                   \
-    ENTRY(Motion_1_WalkLoop_43CC80)               \
-    ENTRY(Motion_2_StandingTurn_43D050)           \
-    ENTRY(Motion_3_Speak_43D440)                  \
-    ENTRY(Motion_4_Speak_43D440)                  \
-    ENTRY(Motion_5_Speak_43D440)                  \
-    ENTRY(Motion_6_Speak_43D440)                  \
-    ENTRY(Motion_7_WalkBegin_43CE60)              \
-    ENTRY(Motion_8_WalkToIdle_43CEF0)             \
-    ENTRY(Motion_9_MidWalkToIdle_43CFA0)          \
-    ENTRY(Motion_10_Unused_43D4D0)                \
-    ENTRY(Motion_11_Null_43D350)                  \
-    ENTRY(Motion_12_LiftUse_43D360)               \
-    ENTRY(Motion_13_LiftGrabBegin_43D3F0)         \
-    ENTRY(Motion_14_LiftGrabEnd_43D420)           \
-    ENTRY(Motion_15_LeverUse_43D4B0)              \
-    ENTRY(Motion_16_StandScrubLoop_43D7C0)        \
-    ENTRY(Motion_17_StandScrubLoopToPause_43D860) \
-    ENTRY(Motion_18_StandScrubPauseToLoop_43D880) \
-    ENTRY(Motion_19_StandScrubPause_43D8A0)       \
-    ENTRY(Motion_20_IdleToStandScrub_43D8D0)      \
-    ENTRY(Motion_21_StandScrubToIdle_43D8F0)      \
-    ENTRY(Motion_22_CrouchScrub_43D910)           \
-    ENTRY(Motion_23_CrouchIdle_43E590)            \
-    ENTRY(Motion_24_CrouchTurn_43E5F0)            \
-    ENTRY(Motion_25_StandToCrouch_43E620)         \
-    ENTRY(Motion_26_CrouchToStand_43E640)         \
-    ENTRY(Motion_27_WalkToRun_43D980)             \
-    ENTRY(Motion_28_MidWalkToRun_43DA40)          \
-    ENTRY(Motion_29_RunLoop_43DB10)               \
-    ENTRY(Motion_30_RunToWalk_43DD50)             \
-    ENTRY(Motion_31_MidRunToWalk_43DE10)          \
-    ENTRY(Motion_32_RunSlideStop_43DEE0)          \
-    ENTRY(Motion_33_RunSlideTurn_43DF80)          \
-    ENTRY(Motion_34_RunTurnToRun_43E070)          \
-    ENTRY(Motion_35_SneakLoop_43E0F0)             \
-    ENTRY(Motion_36_MidWalkToSneak_43E240)           \
-    ENTRY(Motion_37_SneakToWalk_43E2E0)           \
-    ENTRY(Motion_38_WalkToSneak_43E380)        \
-    ENTRY(Motion_39_MidSneakToWalk_43E430)        \
-    ENTRY(Motion_40_SneakBegin_43E4E0)            \
-    ENTRY(Motion_41_SneakToIdle_43E530)           \
-    ENTRY(Motion_42_MidSneakToIdle_43E560)        \
-    ENTRY(Motion_43_RunJumpBegin_43E870)             \
-    ENTRY(Motion_44_RunJumpMid_43E960)               \
-    ENTRY(Motion_45_StandToRun_43EB00)         \
-    ENTRY(Motion_46_FallLandDie_43E660)           \
-    ENTRY(Motion_47_Knockback_43E730)             \
-    ENTRY(Motion_48_KnockbackGetUp_43E7D0)        \
-    ENTRY(Motion_49_WalkOffEdge_43E800)            \
-    ENTRY(Motion_50_LandSoft_43E820)              \
-    ENTRY(Motion_51_Fall_43D0D0)                  \
-    ENTRY(Motion_52_Chant_43D520)                 \
-    ENTRY(Motion_53_ChantEnd_43D640)              \
-    ENTRY(Motion_54_ToDuck_43EB70)                \
-    ENTRY(Motion_55_Duck_43EB90)                  \
-    ENTRY(Motion_56_DuckToCrouch_43EBC0)          \
-    ENTRY(Motion_57_Struggle_43EBE0)              \
-    ENTRY(Motion_58_StruggleToCrouchChant_43EC00) \
-    ENTRY(Motion_59_CrouchChant_43EC20)           \
-    ENTRY(Motion_60_CrouchChantToSruggle_43ED50)  \
-    ENTRY(Motion_61_DuckKnockback_43E6E0)         \
-    ENTRY(Motion_62_PoisonGasDeath_43ED70)
+    ENTRY(Motion_0_Idle)                   \
+    ENTRY(Motion_1_WalkLoop)               \
+    ENTRY(Motion_2_StandingTurn)           \
+    ENTRY(Motion_3_Speak)                  \
+    ENTRY(Motion_4_Speak)                  \
+    ENTRY(Motion_5_Speak)                  \
+    ENTRY(Motion_6_Speak)                  \
+    ENTRY(Motion_7_WalkBegin)              \
+    ENTRY(Motion_8_WalkToIdle)             \
+    ENTRY(Motion_9_MidWalkToIdle)          \
+    ENTRY(Motion_10_Unused)                \
+    ENTRY(Motion_11_Null)                  \
+    ENTRY(Motion_12_LiftUse)               \
+    ENTRY(Motion_13_LiftGrabBegin)         \
+    ENTRY(Motion_14_LiftGrabEnd)           \
+    ENTRY(Motion_15_LeverUse)              \
+    ENTRY(Motion_16_StandScrubLoop)        \
+    ENTRY(Motion_17_StandScrubLoopToPause) \
+    ENTRY(Motion_18_StandScrubPauseToLoop) \
+    ENTRY(Motion_19_StandScrubPause)       \
+    ENTRY(Motion_20_IdleToStandScrub)      \
+    ENTRY(Motion_21_StandScrubToIdle)      \
+    ENTRY(Motion_22_CrouchScrub)           \
+    ENTRY(Motion_23_CrouchIdle)            \
+    ENTRY(Motion_24_CrouchTurn)            \
+    ENTRY(Motion_25_StandToCrouch)         \
+    ENTRY(Motion_26_CrouchToStand)         \
+    ENTRY(Motion_27_WalkToRun)             \
+    ENTRY(Motion_28_MidWalkToRun)          \
+    ENTRY(Motion_29_RunLoop)               \
+    ENTRY(Motion_30_RunToWalk)             \
+    ENTRY(Motion_31_MidRunToWalk)          \
+    ENTRY(Motion_32_RunSlideStop)          \
+    ENTRY(Motion_33_RunSlideTurn)          \
+    ENTRY(Motion_34_RunTurnToRun)          \
+    ENTRY(Motion_35_SneakLoop)             \
+    ENTRY(Motion_36_MidWalkToSneak)           \
+    ENTRY(Motion_37_SneakToWalk)           \
+    ENTRY(Motion_38_WalkToSneak)        \
+    ENTRY(Motion_39_MidSneakToWalk)        \
+    ENTRY(Motion_40_SneakBegin)            \
+    ENTRY(Motion_41_SneakToIdle)           \
+    ENTRY(Motion_42_MidSneakToIdle)        \
+    ENTRY(Motion_43_RunJumpBegin)             \
+    ENTRY(Motion_44_RunJumpMid)               \
+    ENTRY(Motion_45_StandToRun)         \
+    ENTRY(Motion_46_FallLandDie)           \
+    ENTRY(Motion_47_Knockback)             \
+    ENTRY(Motion_48_KnockbackGetUp)        \
+    ENTRY(Motion_49_WalkOffEdge)            \
+    ENTRY(Motion_50_LandSoft)              \
+    ENTRY(Motion_51_Fall)                  \
+    ENTRY(Motion_52_Chant)                 \
+    ENTRY(Motion_53_ChantEnd)              \
+    ENTRY(Motion_54_ToDuck)                \
+    ENTRY(Motion_55_Duck)                  \
+    ENTRY(Motion_56_DuckToCrouch)          \
+    ENTRY(Motion_57_Struggle)              \
+    ENTRY(Motion_58_StruggleToCrouchChant) \
+    ENTRY(Motion_59_CrouchChant)           \
+    ENTRY(Motion_60_CrouchChantToStruggle)  \
+    ENTRY(Motion_61_DuckKnockback)         \
+    ENTRY(Motion_62_PoisonGasDeath)
 
 #define MAKE_ENUM(VAR) VAR,
 enum eMudMotions : s32
@@ -162,126 +162,111 @@ public:
     virtual void VScreenChanged() override;
     virtual s16 VTakeDamage(BaseGameObject* pFrom) override;
 
-    virtual void VUpdateResBlock_43EDB0();
+    virtual void VUpdateResBlock();
 
 
     s16 DoSmashDamage();
-
     void KillBirdPortal();
-
-    u8** GetResBlockForMotion_43EDE0(s16 motion);
-
-    void DoPathTrans_43FE00();
-
-    void ToStand_43CA40();
-
-    void CheckFloorGone_43C9B0();
-
-    static s16 IsAbeSneaking_43D660(Mudokon* pMud);
-
-    void ToKnockback_43D6E0();
-
-    void ReduceXVelocityBy_43C920(FP amount);
-
-    void MoveOnLine_43C7E0();
-
-    s16 FindBirdPortal_440250();
-
-    s16 FacingTarget_43D6A0(BirdPortal* pTarget);
-
-    GameSpeakEvents LastGameSpeak_4400B0();
-
+    u8** GetResBlockForMotion(s16 motion);
+    void DoPathTrans();
+    void ToStand();
+    void CheckFloorGone();
+    static s16 CanAbeSneak(Mudokon* pMud); // TODO: unused parameter
+    void ToKnockback();
+    void ReduceXVelocityBy(FP amount);
+    void MoveOnLine();
+    s16 FindBirdPortal();
+    s16 FacingBirdPortal(BirdPortal* pTarget);
+    GameSpeakEvents LastGameSpeak();
     void AddAlerted();
-
     void RemoveAlerted();
-
-    s16 IAmNearestToAbe_440120();
+    s16 IAmNearestToAbe();
 
     // Motions
-    void Motion_0_Idle_43CA70();
-    void Motion_1_WalkLoop_43CC80();
-    void Motion_2_StandingTurn_43D050();
-    void Motion_3_Speak_43D440();
+    void Motion_0_Idle();
+    void Motion_1_WalkLoop();
+    void Motion_2_StandingTurn();
+    void Motion_3_Speak();
 
     // Not exported as same func as 3
-    void Motion_4_Speak_43D440();
-    void Motion_5_Speak_43D440();
-    void Motion_6_Speak_43D440();
+    void Motion_4_Speak();
+    void Motion_5_Speak();
+    void Motion_6_Speak();
 
-    void Motion_7_WalkBegin_43CE60();
-    void Motion_8_WalkToIdle_43CEF0();
-    void Motion_9_MidWalkToIdle_43CFA0();
-    void Motion_10_Unused_43D4D0();
-    void Motion_11_Null_43D350();
-    void Motion_12_LiftUse_43D360();
-    void Motion_13_LiftGrabBegin_43D3F0();
-    void Motion_14_LiftGrabEnd_43D420();
-    void Motion_15_LeverUse_43D4B0();
-    void Motion_16_StandScrubLoop_43D7C0();
-    void Motion_17_StandScrubLoopToPause_43D860();
-    void Motion_18_StandScrubPauseToLoop_43D880();
-    void Motion_19_StandScrubPause_43D8A0();
-    void Motion_20_IdleToStandScrub_43D8D0();
-    void Motion_21_StandScrubToIdle_43D8F0();
-    void Motion_22_CrouchScrub_43D910();
-    void Motion_23_CrouchIdle_43E590();
-    void Motion_24_CrouchTurn_43E5F0();
-    void Motion_25_StandToCrouch_43E620();
-    void Motion_26_CrouchToStand_43E640();
-    void Motion_27_WalkToRun_43D980();
-    void Motion_28_MidWalkToRun_43DA40();
-    void Motion_29_RunLoop_43DB10();
-    void Motion_30_RunToWalk_43DD50();
-    void Motion_31_MidRunToWalk_43DE10();
-    void Motion_32_RunSlideStop_43DEE0();
-    void Motion_33_RunSlideTurn_43DF80();
-    void Motion_34_RunTurnToRun_43E070();
-	void Motion_35_SneakLoop_43E0F0();
-	void Motion_36_MidWalkToSneak_43E240();
-	void Motion_37_SneakToWalk_43E2E0();
-	void Motion_38_WalkToSneak_43E380();
-	void Motion_39_MidSneakToWalk_43E430();
-	void Motion_40_SneakBegin_43E4E0();
-	void Motion_41_SneakToIdle_43E530();
-    void Motion_42_MidSneakToIdle_43E560();
-    void Motion_43_RunJumpBegin_43E870();
-    void Motion_44_RunJumpMid_43E960();
-    void Motion_45_StandToRun_43EB00();
-    void Motion_46_FallLandDie_43E660();
-    void Motion_47_Knockback_43E730();
-    void Motion_48_KnockbackGetUp_43E7D0();
-    void Motion_49_WalkOffEdge_43E800();
-    void Motion_50_LandSoft_43E820();
-    void Motion_51_Fall_43D0D0();
-    void Motion_52_Chant_43D520();
-    void Motion_53_ChantEnd_43D640();
-    void Motion_54_ToDuck_43EB70();
-    void Motion_55_Duck_43EB90();
-    void Motion_56_DuckToCrouch_43EBC0();
-    void Motion_57_Struggle_43EBE0();
-    void Motion_58_StruggleToCrouchChant_43EC00();
-    void Motion_59_CrouchChant_43EC20();
-    void Motion_60_CrouchChantToSruggle_43ED50();
-    void Motion_61_DuckKnockback_43E6E0();
-    void Motion_62_PoisonGasDeath_43ED70();
+    void Motion_7_WalkBegin();
+    void Motion_8_WalkToIdle();
+    void Motion_9_MidWalkToIdle();
+    void Motion_10_Unused();
+    void Motion_11_Null();
+    void Motion_12_LiftUse();
+    void Motion_13_LiftGrabBegin();
+    void Motion_14_LiftGrabEnd();
+    void Motion_15_LeverUse();
+    void Motion_16_StandScrubLoop();
+    void Motion_17_StandScrubLoopToPause();
+    void Motion_18_StandScrubPauseToLoop();
+    void Motion_19_StandScrubPause();
+    void Motion_20_IdleToStandScrub();
+    void Motion_21_StandScrubToIdle();
+    void Motion_22_CrouchScrub();
+    void Motion_23_CrouchIdle();
+    void Motion_24_CrouchTurn();
+    void Motion_25_StandToCrouch();
+    void Motion_26_CrouchToStand();
+    void Motion_27_WalkToRun();
+    void Motion_28_MidWalkToRun();
+    void Motion_29_RunLoop();
+    void Motion_30_RunToWalk();
+    void Motion_31_MidRunToWalk();
+    void Motion_32_RunSlideStop();
+    void Motion_33_RunSlideTurn();
+    void Motion_34_RunTurnToRun();
+	void Motion_35_SneakLoop();
+	void Motion_36_MidWalkToSneak();
+	void Motion_37_SneakToWalk();
+	void Motion_38_WalkToSneak();
+	void Motion_39_MidSneakToWalk();
+	void Motion_40_SneakBegin();
+	void Motion_41_SneakToIdle();
+    void Motion_42_MidSneakToIdle();
+    void Motion_43_RunJumpBegin();
+    void Motion_44_RunJumpMid();
+    void Motion_45_StandToRun();
+    void Motion_46_FallLandDie();
+    void Motion_47_Knockback();
+    void Motion_48_KnockbackGetUp();
+    void Motion_49_WalkOffEdge();
+    void Motion_50_LandSoft();
+    void Motion_51_Fall();
+    void Motion_52_Chant();
+    void Motion_53_ChantEnd();
+    void Motion_54_ToDuck();
+    void Motion_55_Duck();
+    void Motion_56_DuckToCrouch();
+    void Motion_57_Struggle();
+    void Motion_58_StruggleToCrouchChant();
+    void Motion_59_CrouchChant();
+    void Motion_60_CrouchChantToStruggle();
+    void Motion_61_DuckKnockback();
+    void Motion_62_PoisonGasDeath();
 
     // Brains
-    s16 Brain_ComingIn_0_441DE0();
-    s16 Brain_ComingOut_1_441E90();
-    s16 Brain_SingSequenceIdle_2_441CA0();
-    s16 Brain_SingSequenceSing_3_441510();
-    s16 Brain_SingSequencePassword_4_441260();
-    s16 Brain_LiftUse_5_43C180();
-    s16 Brain_LeverUse_6_43C250();
-    s16 Brain_GiveRings_7_43C2F0();
-    s16 Brain_StandScrub_8_441F40();
-    s16 Brain_CrouchScrub_9_4422A0();
-    s16 Brain_ListeningToAbe_10_440300();
-    s16 Brain_ShrivelDeath_11_43C5F0();
-    s16 Brain_Escape_12_440FD0();
-    s16 Brain_FallAndSmackDeath_13_43C700();
-    s16 Brain_Chant_14_442710();
-    s16 Brain_Choke_15_43C5D0();
+    s16 Brain_0_ComingIn();
+    s16 Brain_1_ComingOut();
+    s16 Brain_2_SingSequenceIdle();
+    s16 Brain_3_SingSequenceSing();
+    s16 Brain_4_SingSequencePassword();
+    s16 Brain_5_LiftUse();
+    s16 Brain_6_LeverUse();
+    s16 Brain_7_GiveRings();
+    s16 Brain_8_StandScrub();
+    s16 Brain_9_CrouchScrub();
+    s16 Brain_10_ListeningToAbe();
+    s16 Brain_11_ShrivelDeath();
+    s16 Brain_12_Escape();
+    s16 Brain_13_FallAndSmackDeath();
+    s16 Brain_14_Chant();
+    s16 Brain_15_Choke();
 
     s32 field_10C;
     s16 field_110_lift_switch_id;
@@ -342,7 +327,7 @@ public:
     s16 field_1B2_rescue_switch_id;
     s16 field_1B4_idle_time;
     s16 field_1B6;
-    s16 field_1B8_brain_idx;
+    s16 field_1B8_brain_state;
     s16 field_1BA_brain_sub_state;
     s16 field_1BC;
     s16 field_1BE;
