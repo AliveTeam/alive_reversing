@@ -2658,7 +2658,7 @@ s16 FlyingSlig::sub_436C60(PSX_RECT* pRect, s16 arg_4)
         const FP r_w = FP_FromInteger(std::max(pRect->w, pRect->x));
 
         const FP r_y = FP_FromInteger(std::min(pRect->y, pRect->h));
-        const FP r_h = FP_FromInteger(std::max(pRect->h, pRect->w) + 150);
+        const FP r_h = FP_FromInteger(std::max(pRect->h, pRect->y) + 150);
 
         s32 bLeftInRect = 0;
         if (rLeft < r_x || rLeft > r_w || sControlledCharacter_5C1B8C->mBaseAnimatedWithPhysicsGameObject_YPos < r_y || sControlledCharacter_5C1B8C->mBaseAnimatedWithPhysicsGameObject_YPos > r_h)
@@ -3174,14 +3174,12 @@ void FlyingSlig::PullLever_436450()
     field_184_xSpeed = FP_FromInteger(0);
     field_188_ySpeed = FP_FromInteger(0);
 
-    if ((FP_Abs(mBaseAnimatedWithPhysicsGameObject_XPos - field_1C8_lever_pull_range_xpos) < FP_FromInteger(1)) && (FP_Abs(mBaseAnimatedWithPhysicsGameObject_YPos - field_1CC_lever_pull_range_ypos) < FP_FromInteger(1)))
+    if ((FP_Abs(mBaseAnimatedWithPhysicsGameObject_XPos - field_1C8_lever_pull_range_xpos) < FP_FromInteger(1)) &&
+        (FP_Abs(mBaseAnimatedWithPhysicsGameObject_YPos - field_1CC_lever_pull_range_ypos) < FP_FromInteger(1)))
     {
         VSetMotion(eFlyingSligMotions::M_LeverPull_7_439150);
     }
-    else
-    {
-        SetBrain(&FlyingSlig::Brain_15_FlyingSligSpawn);
-    }
+    SetBrain(&FlyingSlig::Brain_15_FlyingSligSpawn_4362C0);
 }
 
 s16 FlyingSlig::TryPullLever_439DB0()

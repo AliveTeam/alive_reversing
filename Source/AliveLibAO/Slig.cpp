@@ -2434,10 +2434,7 @@ s16 Slig::MainMovement_467020()
 void Slig::ToKnockBack()
 {
     Environment_SFX_42A220(EnvironmentSfx::eKnockback_13, 0, 0x7FFF, this);
-    if (FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_VelX))
-    {
-        mBaseAnimatedWithPhysicsGameObject_XPos -= mBaseAnimatedWithPhysicsGameObject_VelX;
-    }
+    mBaseAnimatedWithPhysicsGameObject_XPos -= mBaseAnimatedWithPhysicsGameObject_VelX;
 
     if (BaseAliveGameObjectCollisionLine)
     {
