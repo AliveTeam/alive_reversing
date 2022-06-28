@@ -79,22 +79,22 @@ struct Fleech_State final
     s16 field_48_unused; //TODO: Saves and sets another unused field, field_120 -- Nemin (7/5/2020)
     s16 field_4A_save_tongue_state;
     s16 field_4C_save_tongue_sub_state;
-    s16 field_4E;
-    s16 field_50;
+    s16 field_4E_enemy_xpos;
+    s16 field_50_enemy_ypos;
     s16 field_52_tongue_x;
     s16 field_54_tongue_y;
-    s16 field_56_target_x;
-    s16 field_58_target_y;
+    s16 field_56_tongue_target_x;
+    s16 field_58_tongue_target_y;
     s16 field_5A;
     s8 field_5C_tongue_active_flag;
     s8 field_5D_render_flag;
     s16 field_5E_brain_state;
     s16 field_60_state;
     s16 field_62;
-    s32 field_64;
+    s32 field_64_shrivel_timer;
     s8 field_68_fleech_random_idx;
     s8 field_69;
-    s16 field_6A;
+    s16 field_6A_bDidMapFollowMe;
     s32 field_6C_unused;
     FP field_70_velx_factor;
     s16 field_74_unused;
@@ -108,20 +108,20 @@ struct Fleech_State final
     s16 field_84_EventXPos;
     s16 field_86_ScrabParamiteEventXPos;
     s16 field_88_patrol_range;
-    s16 field_8A;
+    s16 field_8A_old_xpos;
     s16 field_8C;
-    s16 field_8E;
+    s16 field_8E_rnd_crawl;
     s16 field_90_chase_delay;
     s16 field_92_chase_timer;
     s16 field_94_lost_target_timeout;
     s16 field_96_lost_target_timer;
     s16 field_98_hoistX;
     s16 field_9A_hoistY;
-    s16 field_9C;
+    s16 field_9C_always_0;
     s8 field_9E_angle;
     s8 field_9F;
-    FP field_A0;
-    FP field_A4;
+    FP field_A0_hoistY_distance;
+    FP field_A4_hoistX_distance;
     s32 field_A8;
     s32 field_AC_obj_id;
 
@@ -162,28 +162,28 @@ public:
     virtual s32 VGetSaveState(u8* pSaveBuffer) override;
     static s32 CreateFromSaveState(const u8* pBuffer);
 
-    void M_Sleeping_0_42F0B0();
-    void M_WakingUp_1_42F270();
-    void M_Unknown_2_42F2F0();
-    void M_Idle_3_42E850();
-    void M_Crawl_4_42E960();
-    void M_PatrolCry_5_42E810();
-    void M_Knockback_6_42EAF0();
-    void M_StopCrawling_7_42EBB0();
-    void M_StopMidCrawlCycle_8_42EB20();
-    void M_Fall_9_42ECD0();
-    void M_Land_10_42F330();
-    void M_RaiseHead_11_42F590();
-    void M_Climb_12_42F7F0();
-    void M_SettleOnGround_13_42FB00();
-    void M_ExtendTongueFromEnemy_14_42FBD0();
-    void M_RetractTongueFromEnemey_15_42FC40();
-    void M_DeathByFalling_16_42FCE0();
-    void M_SleepingWithTongue_17_42F370();
-    void M_Consume_18_42FDF0();
+    void Motion_0_Sleeping();
+    void Motion_1_WakingUp();
+    void Motion_2_Unknown();
+    void Motion_3_Idle();
+    void Motion_4_Crawl();
+    void Motion_5_PatrolCry();
+    void Motion_6_Knockback();
+    void Motion_7_StopCrawling();
+    void Motion_8_StopMidCrawlCycle();
+    void Motion_9_Fall();
+    void Motion_10_Land();
+    void Motion_11_RaiseHead();
+    void Motion_12_Climb();
+    void Motion_13_SettleOnGround();
+    void Motion_14_ExtendTongueFromEnemy();
+    void Motion_15_RetractTongueFromEnemey();
+    void Motion_16_DeathByFalling();
+    void Motion_17_SleepingWithTongue();
+    void Motion_18_Consume();
 
 public:
-    s16 Brain_0_Patrol_430BA0();
+    s16 Brain_0_Patrol();
     s16 Brain_Patrol_State_0();
     s16 Brain_Patrol_State_1();
     s16 Brain_Patrol_State_2();
@@ -196,7 +196,7 @@ public:
     s16 Brain_Patrol_State_9();
     s16 Brain_Patrol_State_10();
 
-    s16 Brain_1_ChasingAbe_428760();
+    s16 Brain_1_ChasingAbe();
 	s16 Brain_ChasingAbe_State_0(BaseAliveGameObject* pObj);
 
 	s16 Brain_ChasingAbe_State_1(BaseAliveGameObject* pObj);
@@ -205,39 +205,39 @@ public:
 	s16 Brain_ChasingAbe_State_2(BaseAliveGameObject* pObj);
     s16 Brain_ChasingAbe_State_9(BaseAliveGameObject* pObj);
 
-    s16 Brain_2_Scared_42D310();
-    s16 Brain_3_Death_42D1E0();
+    s16 Brain_2_Scared();
+    s16 Brain_3_Death();
 
 private:
     void RenderEx(PrimHeader** ot);
     s16 IsScrabOrParamiteNear(FP radius);
-    void Init_42A170();
-    void InitTonguePolys_42B6E0();
-    void SetAnim_429D80();
-    void ResetTarget_42CF70();
-    s16 GotNoTarget_42CFA0();
-    void SetTarget_42CF50();
-    void TongueHangingFromWall_42B9A0(s16 a2, s16 a3);
-    void TongueUpdate_42BD30();
-    void ToIdle_42E520();
-    s32 Sound_430520(FleechSound soundId);
-    u8** ResBlockForMotion_42A530(s32 motion);
-    s16 CanMove_42E3E0();
-    s16 HandleEnemyStopperOrSlamDoor_42ADC0(s32 velX);
-    s32 UpdateWakeUpSwitchValue_4308B0();
+    void Init();
+    void InitTonguePolys();
+    void SetAnim();
+    void ResetTarget();
+    s16 GotNoTarget();
+    void SetTarget();
+    void TongueHangingFromWall(s16 a2, s16 a3);
+    void TongueUpdate();
+    void ToIdle();
+    s32 Sound(FleechSound soundId);
+    u8** ResBlockForMotion(s32 motion);
+    s16 CanMove();
+    s16 HandleEnemyStopperOrSlamDoor(s32 velX);
+    s32 UpdateWakeUpSwitchValue();
     void sub_42B8C0();
-    void SetTongueState1_42B9F0();
-    void IncreaseAnger_430920();
-    s16 InRange_4307C0(BaseAliveGameObject* pObj);
-    s32 TongueActive_42B8A0();
-    void PullTargetIn_42BAF0();
+    void SetTongueState1();
+    void IncreaseAnger();
+    s16 AngerFleech(BaseAliveGameObject* pObj);
+    s32 TongueActive();
+    void PullTargetIn();
     void sub_42BA10();
-    void SetTongueState5_42BAD0();
-    BaseAliveGameObject* FindMudOrAbe_42CFD0();
-    void MoveAlongFloor_42E600();
-    s16 IsNear_428670(BaseAliveGameObject* pObj);
-    Bool32 Collision_42B290(s16 alwaysOne);
-    Path_Hoist* TryGetHoist_42AFD0(s32 xDistance, s16 bIgnoreDirection);
+    void SetTongueState5();
+    BaseAliveGameObject* FindMudOrAbe();
+    void MoveAlongFloor(); // MoveOnLine?
+    s16 IsNear(BaseAliveGameObject* pObj);
+    Bool32 Collision(s16 alwaysOne);
+    Path_Hoist* TryGetHoist(s32 xDistance, s16 bIgnoreDirection);
 
 public:
     void vOnFrame_42BC50(s16* pData);
@@ -251,8 +251,8 @@ private:
     u16 field_126_state = 0;
     s16 field_128 = 0;
     s16 field_12A = 0;
-    s32 field_12C = 0;
-    s16 field_130 = 0;
+    s32 field_12C_shrivel_timer = 0;
+    s16 field_130_bDidMapFollowMe = 0;
     s16 field_132 = 0;
     s32 field_134_unused = 0;
     FP field_138_velx_factor = {};
@@ -267,7 +267,7 @@ private:
     s16 field_14C_EventXPos = 0;
     s16 field_14E_ScrabParamiteEventXPos = 0;
     s16 field_150_patrol_range = 0;
-    s16 field_152 = 0;
+    s16 field_152_old_xpos = 0;
     s16 field_154 = 0;
     s16 field_156_rnd_crawl = 0;
     s16 field_158_chase_delay = 0;
@@ -276,11 +276,11 @@ private:
     s16 field_15E_lost_target_timer = 0;
     s16 field_160_hoistX = 0;
     s16 field_162_hoistY = 0;
-    s16 field_164 = 0;
+    s16 field_164_always_0 = 0;
     s8 field_166_angle = 0;
     s8 field_167 = 0;
-    FP field_168 = {};
-    FP field_16C = {};
+    FP field_168_hoistY_distance = {};
+    FP field_16C_hoistX_distance = {};
     s32 field_170_danger_obj = 0;
     enum Flags_174 : s16
     {
@@ -304,12 +304,12 @@ private:
     s16 field_176 = 0;
     s16 field_178_tongue_state = 0;
     s16 field_17A_tongue_sub_state = 0;
-    s16 field_17C = 0;
-    s16 field_17E = 0;
+    s16 field_17C_enemy_xpos = 0;
+    s16 field_17E_enemy_ypos = 0;
     s16 field_180_tongue_x = 0;
     s16 field_182_tongue_y = 0;
-    s16 field_184_target_x = 0;
-    s16 field_186_target_y = 0;
+    s16 field_184_tongue_target_x = 0;
+    s16 field_186_tongue_target_y = 0;
     s16 field_188 = 0;
 
     enum Flags_18A
