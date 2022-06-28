@@ -835,7 +835,7 @@ EXPORT Bool32 CC Sys_IsAppActive_4EDF30()
     return sAppIsActivated_BBBA00;
 }
 
-static void KeyDownEvent(const SDL_Event& event)
+static void KeyDownEvent(SDL_Scancode scanCode)
 {
 #if ORIGINAL_PS1_BEHAVIOR                  // OG Change - Allow for exiting save menu using controller
     const bool allowTyping = saveMenuOpen; // Allow typing if save menu is open
@@ -845,7 +845,7 @@ static void KeyDownEvent(const SDL_Event& event)
     if (allowTyping)
     {
         // "Typing" input
-        const s32 vk = sdl_key_to_win32_vkey(event.key.keysym.scancode);
+        const s32 vk = sdl_key_to_win32_vkey(scanCode);
 
         if (vk >= VK_F1 && vk <= VK_F12)
         {
@@ -894,7 +894,7 @@ static void KeyDownEvent(const SDL_Event& event)
     else
     {
         // "Game button" input
-        const s32 vk = sdl_key_to_win32_vkey(event.key.keysym.scancode);
+        const s32 vk = sdl_key_to_win32_vkey(scanCode);
         // LOG_INFO("Key down " << vk);
 
         Input_SetKeyState_4EDD80(vk, 1);
@@ -932,16 +932,16 @@ static void KeyDownEvent(const SDL_Event& event)
     }
 }
 
-static void KeyUpEvent(const SDL_Event& event)
+static void KeyUpEvent(SDL_Scancode scanCode)
 {
-    const s32 vk = sdl_key_to_win32_vkey(event.key.keysym.scancode);
+    const s32 vk = sdl_key_to_win32_vkey(scanCode);
     // LOG_INFO("Key up " << vk);
     Input_SetKeyState_4EDD80(vk, 0);
     sIsAKeyDown_BD309C = FALSE;
     sLastPressedKey_BD30A0 = 0;
 }
 
-static void QuitEvent(const SDL_Event&, bool isRecordedEvent, bool actuallyQuit)
+static void QuitEvent(bool isRecordedEvent, bool actuallyQuit)
 {
     if (sMovieSoundEntry_5CA230)
     {
@@ -1019,19 +1019,19 @@ EXPORT s8 CC Sys_PumpMessages_4EE4F4()
         while (GetGameAutoPlayer().PeekNextType() == RecordTypes::Event)
         {
             const RecordedEvent recordedEvent = GetGameAutoPlayer().GetEvent();
-            // TODO: Remap event types + populate event properties
+            // TODO: Recording SDL types directly might break across diff platforms/SDL2 versions/ports
             switch (recordedEvent.mType)
             {
                 case SDL_KEYDOWN:
-                    KeyDownEvent(event);
+                    KeyDownEvent(static_cast<SDL_Scancode>(recordedEvent.mData));
                     break;
 
                 case SDL_KEYUP:
-                    KeyUpEvent(event);
+                    KeyUpEvent(static_cast<SDL_Scancode>(recordedEvent.mData));
                     break;
 
                 case SDL_QUIT:
-                    QuitEvent(event, true, true);
+                    QuitEvent(true, recordedEvent.mData);
                     break;
 
                 default:
@@ -1071,20 +1071,24 @@ EXPORT s8 CC Sys_PumpMessages_4EE4F4()
 #endif // AUTO_SWITCH_CONTROLLER
         if (event.type == SDL_KEYDOWN && !isRecording)
         {
-            KeyDownEvent(event);
+            KeyDownEvent(event.key.keysym.scancode);
             if (isRecording)
             {
-                // TODO
-                //GetGameAutoPlayer().KeyDownEvent();
+                RecordedEvent recEvent;
+                recEvent.mType = event.type;
+                recEvent.mData = static_cast<u32>(event.key.keysym.scancode);
+                GetGameAutoPlayer().RecordEvent(recEvent);
             }
         }
         else if (event.type == SDL_KEYUP && !isRecording)
         {
-            KeyUpEvent(event);
+            KeyUpEvent(event.key.keysym.scancode);
             if (isRecording)
             {
-                // TODO
-                //GetGameAutoPlayer().KeyUpEvent();
+                RecordedEvent recEvent;
+                recEvent.mType = event.type;
+                recEvent.mData = static_cast<u32>(event.key.keysym.scancode);
+                GetGameAutoPlayer().RecordEvent(recEvent);
             }
         }
         else if (event.type == SDL_WINDOWEVENT)
@@ -1113,11 +1117,13 @@ EXPORT s8 CC Sys_PumpMessages_4EE4F4()
             else
             {
                 // Else alllow normal quit behaviour + record the result
-                QuitEvent(event, false, false);
+                QuitEvent(false, false);
                 if (isRecording)
                 {
-                    // TODO
-                    //GetGameAutoPlayer().QuitEvent(bNeedToQuit);
+                    RecordedEvent recEvent;
+                    recEvent.mType = event.type;
+                    recEvent.mData = bNeedToQuit ? 1 : 0;
+                    GetGameAutoPlayer().RecordEvent(recEvent);
                 }
             }
         }

@@ -27,6 +27,7 @@ enum SyncPoints : u32
 struct RecordedEvent final
 {
     u32 mType;
+    u32 mData;
 };
 
 class [[nodiscard]] AutoFILE final
@@ -69,6 +70,8 @@ public:
         static_assert(std::is_pod<TypeToRead>::value, "TypeToRead must be pod");
         return ::fread(&value, sizeof(TypeToRead), 1, mFile) == 1;
     }
+
+    u32 PeekU32();
 
     u32 ReadU32() const;
 
@@ -121,6 +124,7 @@ public:
 
     void SaveTicks(u32 ticks);
     void SaveSyncPoint(u32 syncPointId);
+    void SaveEvent(const RecordedEvent& event);
 
     virtual void SaveObjectStates() = 0;
 
@@ -138,6 +142,8 @@ public:
     s32 ReadRng();
     u32 ReadTicks();
     u32 ReadSyncPoint();
+    RecordTypes PeekNextType();
+    RecordedEvent ReadEvent();
     virtual bool ValidateObjectStates() = 0;
 
 protected:
@@ -183,6 +189,7 @@ public:
 
     RecordTypes PeekNextType();
 
+    void RecordEvent(const RecordedEvent& event);
     RecordedEvent GetEvent();
 
     u32 GetInput(u32 padIdx);

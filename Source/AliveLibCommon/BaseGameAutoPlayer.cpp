@@ -30,6 +30,20 @@ static bool ExtractNamePairArgument(char* pOutArgument, const char* pCmdLine, co
     return true;
 }
 
+u32 AutoFILE::PeekU32()
+{
+    const auto oldPos = ::ftell(mFile);
+
+    const u32 data = ReadU32();
+
+    if (::fseek(mFile, oldPos, SEEK_SET) != 0)
+    {
+        ALIVE_FATAL("Seek back failed");
+    }
+
+    return data;
+}
+
 u32 AutoFILE::ReadU32() const
 {
     u32 value = 0;
@@ -74,6 +88,13 @@ void BaseRecorder::SaveSyncPoint(u32 syncPointId)
 {
     mFile.Write(RecordTypes::SyncPoint);
     mFile.Write(syncPointId);
+}
+
+void BaseRecorder::SaveEvent(const RecordedEvent& event)
+{
+    mFile.Write(RecordTypes::Event);
+    mFile.Write(event.mType);
+    mFile.Write(event.mData);
 }
 
 void BasePlayer::Init(const char* pFileName)
@@ -129,6 +150,21 @@ u32 BasePlayer::ReadSyncPoint()
     return syncPointId;
 }
 
+RecordTypes BasePlayer::PeekNextType()
+{
+    return static_cast<RecordTypes>(mFile.PeekU32());
+}
+
+RecordedEvent BasePlayer::ReadEvent()
+{
+    ValidateNextTypeIs(RecordTypes::Event);
+
+    RecordedEvent event = {};
+    event.mType = mFile.ReadU32();
+    event.mData = mFile.ReadU32();
+    return event;
+}
+
 void BasePlayer::ValidateNextTypeIs(RecordTypes type)
 {
     const u32 actualType = mFile.ReadU32();
@@ -167,14 +203,25 @@ void BaseGameAutoPlayer::ParseCommandLine(const char* pCmdLine)
 
 RecordTypes BaseGameAutoPlayer::PeekNextType()
 {
-    // TODO
-    return {};
+    return mPlayer.PeekNextType();
+}
+
+void BaseGameAutoPlayer::RecordEvent(const RecordedEvent& event)
+{
+    if (IsRecording())
+    {
+        mRecorder.SaveEvent(event);
+    }
 }
 
 RecordedEvent BaseGameAutoPlayer::GetEvent()
 {
-    // TODO
-    return {};
+    RecordedEvent event = {};
+    if (IsPlaying())
+    {
+        event = mPlayer.ReadEvent();
+    }
+    return event;
 }
 
 u32 BaseGameAutoPlayer::GetInput(u32 padIdx)
