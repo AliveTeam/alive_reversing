@@ -1069,9 +1069,13 @@ EXPORT s8 CC Sys_PumpMessages_4EE4F4()
         }
         else 
 #endif // AUTO_SWITCH_CONTROLLER
-        if (event.type == SDL_KEYDOWN && !isRecording)
+        if (event.type == SDL_KEYDOWN)
         {
-            KeyDownEvent(event.key.keysym.scancode);
+            if (!isRecording && !isPlaying)
+            {
+                KeyDownEvent(event.key.keysym.scancode);
+            }
+
             if (isRecording)
             {
                 RecordedEvent recEvent;
@@ -1080,9 +1084,13 @@ EXPORT s8 CC Sys_PumpMessages_4EE4F4()
                 GetGameAutoPlayer().RecordEvent(recEvent);
             }
         }
-        else if (event.type == SDL_KEYUP && !isRecording)
+        else if (event.type == SDL_KEYUP)
         {
-            KeyUpEvent(event.key.keysym.scancode);
+            if (!isRecording && !isPlaying)
+            {
+                KeyUpEvent(event.key.keysym.scancode);
+            }
+
             if (isRecording)
             {
                 RecordedEvent recEvent;
