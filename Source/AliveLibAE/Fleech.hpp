@@ -52,13 +52,13 @@ struct Fleech_State final
     AETypes field_0_type;
     s16 field_2;
     s32 field_4_obj_id;
-    FP field_8_xpos;
-    FP field_C_ypos;
-    FP field_10_velx;
-    FP field_14_vely;
-    s16 field_18_path_number;
-    LevelIds field_1A_lvl_number;
-    FP field_1C_sprite_scale;
+    FP mXPos;
+    FP mYPos;
+    FP mVelX;
+    FP mVelY;
+    s16 mPathNumber;
+    LevelIds mLvlNumber;
+    FP mSpriteScale;
     s16 mRingRed;
     s16 mRingGreen;
     s16 mRingBlue;
@@ -68,23 +68,23 @@ struct Fleech_State final
     s16 field_2C_frame_change_counter;
     s8 field_2E_bRender;
     s8 field_2F_bDrawable;
-    FP field_30_health;
-    s16 field_34_current_motion;
-    s16 field_36_next_motion;
-    s16 field_38_lastLineYPos;
-    s16 field_3A_line_type;
-    s32 field_3C_id;
-    s32 field_40_tlvInfo;
+    FP mHealth;
+    s16 mCurrentMotion;
+    s16 mNextMotion;
+    s16 mLastLineYPos;
+    s16 mCollisionLineType;
+    s32 mPlatformId;
+    s32 mTlvInfo;
     s32 field_44_obj_id;
     s16 field_48_unused; //TODO: Saves and sets another unused field, field_120 -- Nemin (7/5/2020)
-    s16 field_4A_save_tongue_state;
-    s16 field_4C_save_tongue_sub_state;
-    s16 field_4E_enemy_xpos;
-    s16 field_50_enemy_ypos;
-    s16 field_52_tongue_x;
-    s16 field_54_tongue_y;
-    s16 field_56_tongue_target_x;
-    s16 field_58_tongue_target_y;
+    s16 mTongueState;
+    s16 mTongueSubState;
+    s16 mEnemyXPos;
+    s16 mEnemyYPos;
+    s16 mTongueOriginX;
+    s16 mTongueOriginY;
+    s16 mTongueDestinationX;
+    s16 mTongueDestinationY;
     s16 field_5A;
     s8 field_5C_tongue_active_flag;
     s8 field_5D_render_flag;
@@ -125,18 +125,18 @@ struct Fleech_State final
     s32 field_A8;
     s32 field_AC_obj_id;
 
-    enum Flags_B0
+    enum FleechStateFlags
     {
-        eBit1 = 0x1,
-        eBit2 = 0x2,
-        eBit3 = 0x4,
-        eBit4 = 0x8,
-        eBit5 = 0x10,
-        eBit6 = 0x20,
-        eBit7 = 0x40,
+        eHoistDone = 0x1,
+        eChasingOrScaredCrawlingLeft = 0x2,
+        eShrivelDeath = 0x4,
+        eScaredSound = 0x8,
+        eAsleep = 0x10,
+        eGoesToSleep = 0x20,
+        ePersistant = 0x40,
     };
 
-    BitField16<Flags_B0> field_B0;
+    BitField16<FleechStateFlags> mFleechStateFlags;
     s16 field_B2;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Fleech_State, 0xB4);
@@ -243,12 +243,12 @@ public:
     void vOnFrame_42BC50(s16* pData);
 
 private:
-    s32 field_118_tlvInfo = 0;
+    s32 mTlvInfo = 0;
     s32 field_11C_obj_id = 0;
     s16 field_120_unused = 0;
     s16 field_122 = 0;
     s16 field_124_brain_state = 0;
-    u16 field_126_state = 0;
+    u16 field_126_brain_sub_state = 0;
     s16 field_128 = 0;
     s16 field_12A = 0;
     s32 field_12C_shrivel_timer = 0;
@@ -282,49 +282,36 @@ private:
     FP field_168_hoistY_distance = {};
     FP field_16C_hoistX_distance = {};
     s32 field_170_danger_obj = 0;
-    enum Flags_174 : s16
+    enum FleechFlags : s16
     {
-        eBit1_bHoistDone = 0x1,
-        eBit2 = 0x2,
-        eBit3 = 0x4,
-        eBit4 = 0x8,
-        eBit5_asleep = 0x10,
-        eBit6_goes_to_sleep = 0x20,
-        eBit7_persistant = 0x40,
-        eBit8 = 0x80,
-        eBit9 = 0x100,
-        eBit10 = 0x200,
-        eBit11 = 0x400,
-        eBit12 = 0x800,
-        eBit13 = 0x1000,
-        eBit14 = 0x2000,
-        eBit15 = 0x4000,
+        eHoistDone = 0x1,
+        eChasingOrScaredCrawlingLeft = 0x2,
+        eShrivelDeath = 0x4,
+        eScaredSound = 0x8,
+        eAsleep = 0x10,
+        eGoesToSleep = 0x20,
+        ePersistant = 0x40
     };
-    BitField16<Flags_174> field_174_flags = {};
+    BitField16<FleechFlags> mFleechFlags = {};
     s16 field_176 = 0;
-    s16 field_178_tongue_state = 0;
-    s16 field_17A_tongue_sub_state = 0;
-    s16 field_17C_enemy_xpos = 0;
-    s16 field_17E_enemy_ypos = 0;
-    s16 field_180_tongue_x = 0;
-    s16 field_182_tongue_y = 0;
-    s16 field_184_tongue_target_x = 0;
-    s16 field_186_tongue_target_y = 0;
+    s16 mTongueState = 0;
+    s16 mTongueSubState = 0;
+    s16 mEnemyXPos = 0;
+    s16 mEnemyYPos = 0;
+    s16 mTongueOriginX = 0;
+    s16 mTongueOriginY = 0;
+    s16 mTongueDestinationX = 0;
+    s16 mTongueDestinationY = 0;
     s16 field_188 = 0;
 
-    enum Flags_18A
+    enum TongueFlags
     {
-        e18A_TongueActive_Bit1 = 0x1,
-        e18A_Render_Bit2 = 0x2,
-        e18A_Bit3 = 0x4,
-        e18A_Bit4 = 0x8,
-        e18A_Bit5 = 0x10,
-        e18A_Bit6 = 0x20,
-        e18A_Bit7 = 0x40,
+        eTongueActive = 0x1,
+        eRender = 0x2,
     };
-    BitField16<Flags_18A> field_18A = {};
-    Poly_G4 field_18C_tongue_polys1[4][2] = {};
-    Poly_G4 field_2CC_tongue_polys2[4][2] = {};
+    BitField16<TongueFlags> mTongueFlags = {};
+    Poly_G4 mTonguePolys1[4][2] = {};
+    Poly_G4 mTonguePolys2[4][2] = {};
     Prim_SetTPage field_40C[2] = {};
 };
 ALIVE_ASSERT_SIZEOF(Fleech, 0x42C);
