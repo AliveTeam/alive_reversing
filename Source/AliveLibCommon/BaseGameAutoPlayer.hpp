@@ -14,12 +14,19 @@ enum RecordTypes : u32
     SysTicks = 0x19981998,
     SyncPoint = 0xf00df00d,
     InputType = 0x101010,
+    Event = 0x445511,
 };
 
 enum SyncPoints : u32
 {
     StartGameObjectUpdate = 1,
     EndGameObjectUpdate = 2,
+    PumpEvents = 3,
+};
+
+struct RecordedEvent final
+{
+    u32 mType;
 };
 
 class [[nodiscard]] AutoFILE final
@@ -173,6 +180,10 @@ protected:
 
 public:
     void ParseCommandLine(const char* pCmdLine);
+
+    RecordTypes PeekNextType();
+
+    RecordedEvent GetEvent();
 
     u32 GetInput(u32 padIdx);
 

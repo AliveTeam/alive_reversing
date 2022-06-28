@@ -165,6 +165,18 @@ void BaseGameAutoPlayer::ParseCommandLine(const char* pCmdLine)
     }
 }
 
+RecordTypes BaseGameAutoPlayer::PeekNextType()
+{
+    // TODO
+    return {};
+}
+
+RecordedEvent BaseGameAutoPlayer::GetEvent()
+{
+    // TODO
+    return {};
+}
+
 u32 BaseGameAutoPlayer::GetInput(u32 padIdx)
 {
     if (mMode == Mode::Play)
