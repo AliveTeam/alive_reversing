@@ -440,7 +440,7 @@ void LiftPoint::VRender(PrimHeader** ppOt)
 
             if (field_280_flags.Get(LiftFlags::eBit4_bHasPulley))
             {
-                if (gMap.Is_Point_In_Current_Camera_4810D0(
+                if (gMap.Is_Point_In_Current_Camera(
                         mBaseAnimatedWithPhysicsGameObject_LvlNumber,
                         mBaseAnimatedWithPhysicsGameObject_PathNumber,
                         FP_FromInteger(field_26C_pulley_xpos),

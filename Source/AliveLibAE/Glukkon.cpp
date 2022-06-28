@@ -812,7 +812,7 @@ void Glukkon::M_Speak1_11_4437D0()
 {
     if (mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame == 2 && field_1EA_speak != GlukkonSpeak::None)
     {
-        if (gMap.Is_Point_In_Current_Camera_4810D0(
+        if (gMap.Is_Point_In_Current_Camera(
                 mBaseAnimatedWithPhysicsGameObject_LvlNumber,
                 mBaseAnimatedWithPhysicsGameObject_PathNumber,
                 mBaseAnimatedWithPhysicsGameObject_XPos,
@@ -1009,7 +1009,7 @@ void Glukkon::M_EndSingleStep_24_443990()
 
 s16 Glukkon::Brain_0_Calm_WalkAround_440B40()
 {
-    if (gMap.GetDirection_4811A0(
+    if (gMap.GetDirection(
             mBaseAnimatedWithPhysicsGameObject_LvlNumber,
             mBaseAnimatedWithPhysicsGameObject_PathNumber,
             mBaseAnimatedWithPhysicsGameObject_XPos,
@@ -1311,7 +1311,7 @@ s16 Glukkon::Brain_0_Calm_WalkAround_440B40()
 
 s16 Glukkon::Brain_1_Panic_4412F0()
 {
-    if (gMap.GetDirection_4811A0(
+    if (gMap.GetDirection(
             mBaseAnimatedWithPhysicsGameObject_LvlNumber,
             mBaseAnimatedWithPhysicsGameObject_PathNumber,
             mBaseAnimatedWithPhysicsGameObject_XPos,
@@ -1459,7 +1459,7 @@ s16 Glukkon::Brain_1_Panic_4412F0()
 
 s16 Glukkon::Brain_2_Slapped_441720()
 {
-    if (gMap.GetDirection_4811A0(
+    if (gMap.GetDirection(
             mBaseAnimatedWithPhysicsGameObject_LvlNumber,
             mBaseAnimatedWithPhysicsGameObject_PathNumber,
             mBaseAnimatedWithPhysicsGameObject_XPos,
@@ -1570,7 +1570,7 @@ s16 Glukkon::Brain_2_Slapped_441720()
 s16 Glukkon::Brain_3_PlayerControlled_441A30()
 {
     auto pDeathFadeOut = static_cast<DeathFadeOut*>(sObjectIds.Find_Impl(field_208_obj_id));
-    if (gMap.GetDirection_4811A0(
+    if (gMap.GetDirection(
             mBaseAnimatedWithPhysicsGameObject_LvlNumber,
             mBaseAnimatedWithPhysicsGameObject_PathNumber,
             mBaseAnimatedWithPhysicsGameObject_XPos,
@@ -1750,7 +1750,7 @@ static GibType AsGibType(GlukkonTypes glukkonType)
 
 s16 Glukkon::Brain_4_Death_442010()
 {
-    if (gMap.GetDirection_4811A0(
+    if (gMap.GetDirection(
             mBaseAnimatedWithPhysicsGameObject_LvlNumber,
             mBaseAnimatedWithPhysicsGameObject_PathNumber,
             mBaseAnimatedWithPhysicsGameObject_XPos,
@@ -1876,7 +1876,7 @@ const PSX_Point v00554768[8] = {
 
 s16 Glukkon::Brain_5_WaitToSpawn_442490()
 {
-    if (gMap.GetDirection_4811A0(
+    if (gMap.GetDirection(
             mBaseAnimatedWithPhysicsGameObject_LvlNumber,
             mBaseAnimatedWithPhysicsGameObject_PathNumber,
             mBaseAnimatedWithPhysicsGameObject_XPos,
@@ -2389,13 +2389,13 @@ s16 Glukkon::ShouldPanic(s16 panicEvenIfNotFacingMe)
         && !(sControlledCharacter_5C1B8C->mBaseAliveGameObjectFlags.Get(Flags_114::e114_Bit8_bInvisible))
         && !BaseAliveGameObject::IsInInvisibleZone(sControlledCharacter_5C1B8C)
         && !Event_Get(kEventResetting)
-        && gMap.Is_Point_In_Current_Camera_4810D0(
+        && gMap.Is_Point_In_Current_Camera(
             mBaseAnimatedWithPhysicsGameObject_LvlNumber,
             mBaseAnimatedWithPhysicsGameObject_PathNumber,
             mBaseAnimatedWithPhysicsGameObject_XPos,
             mBaseAnimatedWithPhysicsGameObject_YPos,
             0)
-        && gMap.Is_Point_In_Current_Camera_4810D0(
+        && gMap.Is_Point_In_Current_Camera(
             sControlledCharacter_5C1B8C->mBaseAnimatedWithPhysicsGameObject_LvlNumber,
             sControlledCharacter_5C1B8C->mBaseAnimatedWithPhysicsGameObject_PathNumber,
             sControlledCharacter_5C1B8C->mBaseAnimatedWithPhysicsGameObject_XPos,
@@ -2728,7 +2728,7 @@ void Glukkon::PlaySound(s32 sndIdx, Glukkon* pGlukkon)
         volumeRight = defaultSndIdxVol / 2;
     }
 
-    CameraPos direction = gMap.GetDirection_4811A0(
+    CameraPos direction = gMap.GetDirection(
         pGlukkon->mBaseAnimatedWithPhysicsGameObject_LvlNumber,
         pGlukkon->mBaseAnimatedWithPhysicsGameObject_PathNumber,
         pGlukkon->mBaseAnimatedWithPhysicsGameObject_XPos,

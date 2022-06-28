@@ -142,7 +142,7 @@ void RollingBall::VUpdate()
                     field_114_pRollingBallShaker->mBaseGameObjectRefCount++;
                 }
             }
-            else if (!gMap.Is_Point_In_Current_Camera_4449C0(
+            else if (!gMap.Is_Point_In_Current_Camera(
                          mBaseAnimatedWithPhysicsGameObject_LvlNumber,
                          mBaseAnimatedWithPhysicsGameObject_PathNumber,
                          mBaseAnimatedWithPhysicsGameObject_XPos,

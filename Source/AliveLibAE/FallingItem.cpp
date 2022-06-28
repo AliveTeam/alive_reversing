@@ -377,7 +377,7 @@ void FallingItem::VUpdate()
 
             --field_122_remaining_falling_items;
 
-            if ((field_120_max_falling_items > 0 && field_122_remaining_falling_items <= 0) || !gMap.Is_Point_In_Current_Camera_4810D0(mBaseAnimatedWithPhysicsGameObject_LvlNumber, mBaseAnimatedWithPhysicsGameObject_PathNumber, field_138_xpos, field_13C_ypos, 0))
+            if ((field_120_max_falling_items > 0 && field_122_remaining_falling_items <= 0) || !gMap.Is_Point_In_Current_Camera(mBaseAnimatedWithPhysicsGameObject_LvlNumber, mBaseAnimatedWithPhysicsGameObject_PathNumber, field_138_xpos, field_13C_ypos, 0))
             {
                 mBaseGameObjectFlags.Set(BaseGameObject::eDead);
             }

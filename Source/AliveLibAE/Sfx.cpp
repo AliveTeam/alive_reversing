@@ -229,7 +229,7 @@ s16 Calc_Slig_Sound_Direction_4C01B0(BaseAnimatedWithPhysicsGameObject* pObj, s1
             yOff = FP_FromInteger(20); // 0xffec0000
         }
 
-        const CameraPos dir = gMap.GetDirection_4811A0(
+        const CameraPos dir = gMap.GetDirection(
             pObj->mBaseAnimatedWithPhysicsGameObject_LvlNumber, pObj->mBaseAnimatedWithPhysicsGameObject_PathNumber,
             pObj->mBaseAnimatedWithPhysicsGameObject_XPos, pObj->mBaseAnimatedWithPhysicsGameObject_YPos - yOff);
 

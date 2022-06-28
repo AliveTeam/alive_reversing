@@ -74,7 +74,7 @@ TestAnimation::TestAnimation()
 
     mBaseGameObjectTypeId = ReliveTypes::eNone;
 
-    mApplyShadows &= ~1u;
+    mVisualFlags.Clear(VisualFlags::eApplyShadowZoneColour);
 
     mBaseGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4);
     mBaseGameObjectFlags.Set(BaseGameObject::eSurviveDeathReset_Bit9);

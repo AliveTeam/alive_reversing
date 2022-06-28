@@ -39,7 +39,7 @@ Bells::Bells(BellSize bellType, FP xpos, FP ypos, FP scale)
             break;
     }
 
-    mApplyShadows &= ~1u;
+    mVisualFlags.Clear(VisualFlags::eApplyShadowZoneColour);
     mBaseAnimatedWithPhysicsGameObject_SpriteScale = scale;
 
     mBaseAnimatedWithPhysicsGameObject_XPos = xpos;

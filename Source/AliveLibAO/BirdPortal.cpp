@@ -48,7 +48,7 @@ BirdPortalTerminator::BirdPortalTerminator(FP xpos, FP ypos, FP scale, PortalTyp
         mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_Above_FG1_Half_20;
     }
 
-    mApplyShadows &= ~1u;
+    mVisualFlags.Clear(VisualFlags::eApplyShadowZoneColour);
 
     mBaseAnimatedWithPhysicsGameObject_YPos = ypos;
     mBaseAnimatedWithPhysicsGameObject_XPos = xpos;
@@ -446,7 +446,7 @@ void BirdPortal::VUpdate()
                             ppLightRes);
                         if (pParticle)
                         {
-                            pParticle->mApplyShadows &= ~1u;
+                            pParticle->mVisualFlags.Clear(BaseAnimatedWithPhysicsGameObject::VisualFlags::eApplyShadowZoneColour);
                             pParticle->mBaseAnimatedWithPhysicsGameObject_Anim.mRenderMode = TPageAbr::eBlend_1;
                             pParticle->mBaseGameObjectTypeId = ReliveTypes::eBirdPortalTerminator;
                             pParticle->mBaseAnimatedWithPhysicsGameObject_SpriteScale = field_34_scale;
@@ -573,7 +573,7 @@ void BirdPortal::VUpdate()
                         ppLightRes);
                     if (pParticle_1)
                     {
-                        pParticle_1->mApplyShadows &= ~1u;
+                        pParticle_1->mVisualFlags.Clear(BaseAnimatedWithPhysicsGameObject::VisualFlags::eApplyShadowZoneColour);
                         pParticle_1->mBaseAnimatedWithPhysicsGameObject_Anim.mRenderMode = TPageAbr::eBlend_1;
                         pParticle_1->mBaseAnimatedWithPhysicsGameObject_SpriteScale = field_34_scale;
                     }

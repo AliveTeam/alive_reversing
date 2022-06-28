@@ -197,7 +197,7 @@ void TrapDoor::VUpdate()
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 
-    const CameraPos direction = gMap.GetDirection_444A40(
+    const CameraPos direction = gMap.GetDirection(
         mBaseAnimatedWithPhysicsGameObject_LvlNumber,
         mBaseAnimatedWithPhysicsGameObject_PathNumber,
         field_140_x,

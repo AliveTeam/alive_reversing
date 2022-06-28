@@ -29,7 +29,7 @@ MeatSack::MeatSack(Path_MeatSack* pTlv, s32 tlvInfo)
     Animation_Init_417FD0(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
 
     field_10C_tlvInfo = tlvInfo;
-    mApplyShadows &= ~1u;
+    mVisualFlags.Clear(VisualFlags::eApplyShadowZoneColour);
 
     field_110_bDoMeatSackIdleAnim = 0;
 
@@ -431,7 +431,7 @@ void Meat::VUpdate()
                 break;
 
             case 4:
-                if (gMap.Is_Point_In_Current_Camera_4449C0(mBaseAnimatedWithPhysicsGameObject_LvlNumber, mBaseAnimatedWithPhysicsGameObject_PathNumber, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, 0))
+                if (gMap.Is_Point_In_Current_Camera(mBaseAnimatedWithPhysicsGameObject_LvlNumber, mBaseAnimatedWithPhysicsGameObject_PathNumber, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, 0))
                 {
                     field_120_deadtimer = sGnFrame + 600;
                 }
@@ -456,7 +456,7 @@ void Meat::VUpdate()
                 mBaseAnimatedWithPhysicsGameObject_XPos += mBaseAnimatedWithPhysicsGameObject_VelX;
                 mBaseAnimatedWithPhysicsGameObject_YPos += mBaseAnimatedWithPhysicsGameObject_VelY;
 
-                if (!gMap.Is_Point_In_Current_Camera_4449C0(
+                if (!gMap.Is_Point_In_Current_Camera(
                         mBaseAnimatedWithPhysicsGameObject_LvlNumber,
                         mBaseAnimatedWithPhysicsGameObject_PathNumber,
                         mBaseAnimatedWithPhysicsGameObject_XPos,

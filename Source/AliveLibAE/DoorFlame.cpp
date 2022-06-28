@@ -24,7 +24,7 @@ public:
         u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
         Animation_Init(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
 
-        mApplyShadows &= ~1u;
+        mVisualFlags.Clear(VisualFlags::eApplyShadowZoneColour);
 
         mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit16_bBlending);
         mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit15_bSemiTrans);
@@ -143,7 +143,7 @@ public:
 
         mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit15_bSemiTrans);
 
-        mApplyShadows |= 1u;
+        mVisualFlags.Set(VisualFlags::eApplyShadowZoneColour);
         mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_Foreground_Half_17;
 
         mBaseAnimatedWithPhysicsGameObject_XPos = xpos;
@@ -316,7 +316,7 @@ DoorFlame::DoorFlame(Path_DoorFlame* pTlv, s32 tlvInfo)
     Animation_Init(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
 
     mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit15_bSemiTrans);
-    mApplyShadows |= 1u;
+    mVisualFlags.Set(VisualFlags::eApplyShadowZoneColour);
     mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_Foreground_Half_17;
     field_FA_frame_count = mBaseAnimatedWithPhysicsGameObject_Anim.Get_Frame_Count();
     mBaseAnimatedWithPhysicsGameObject_Anim.SetFrame(Math_RandomRange(0, field_FA_frame_count - 1));
@@ -476,7 +476,7 @@ void DoorFlame::VUpdate()
             break;
     }
 
-    if (!gMap.Is_Point_In_Current_Camera_4810D0(
+    if (!gMap.Is_Point_In_Current_Camera(
             mBaseAnimatedWithPhysicsGameObject_LvlNumber,
             mBaseAnimatedWithPhysicsGameObject_PathNumber,
             mBaseAnimatedWithPhysicsGameObject_XPos,

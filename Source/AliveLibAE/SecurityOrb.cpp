@@ -66,7 +66,7 @@ SecurityOrb::SecurityOrb(Path_SecurityOrb* pTlv, s32 tlvInfo)
         mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_27;
     }
 
-    mApplyShadows |= 2u;
+    mVisualFlags.Set(VisualFlags::eDoPurpleLightEffect);
     field_11C_state = 0;
     field_124_sound_channels_mask = 0;
 }

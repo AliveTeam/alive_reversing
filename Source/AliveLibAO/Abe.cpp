@@ -1292,7 +1292,7 @@ void Abe::VUpdate()
 
                 if (field_130_say >= 0 && static_cast<s32>(sGnFrame) >= field_134_auto_say_timer)
                 {
-                    if (gMap.Is_Point_In_Current_Camera_4449C0(
+                    if (gMap.Is_Point_In_Current_Camera(
                             mBaseAnimatedWithPhysicsGameObject_LvlNumber,
                             mBaseAnimatedWithPhysicsGameObject_PathNumber,
                             mBaseAnimatedWithPhysicsGameObject_XPos,
@@ -2757,7 +2757,7 @@ void Abe::BulletDamage_4220B0(Bullet* pBullet)
         || mCurrentMotion == eAbeMotions::Motion_136_ElumMountEnd_42E110
         || mCurrentMotion == eAbeMotions::Motion_138_ElumUnmountEnd_42E390
         || mCurrentMotion == eAbeMotions::Motion_139_ElumMountBegin_42E090
-        || !gMap.Is_Point_In_Current_Camera_4449C0(
+        || !gMap.Is_Point_In_Current_Camera(
             mBaseAnimatedWithPhysicsGameObject_LvlNumber,
             mBaseAnimatedWithPhysicsGameObject_PathNumber,
             mBaseAnimatedWithPhysicsGameObject_XPos,
@@ -9326,7 +9326,7 @@ void Abe::Motion_147_ShotRolling_4295C0()
         mBaseAnimatedWithPhysicsGameObject_YPos += (mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(4));
     }
 
-    if (!gMap.Is_Point_In_Current_Camera_4449C0(
+    if (!gMap.Is_Point_In_Current_Camera(
             mBaseAnimatedWithPhysicsGameObject_LvlNumber,
             mBaseAnimatedWithPhysicsGameObject_PathNumber,
             mBaseAnimatedWithPhysicsGameObject_XPos,
@@ -9358,7 +9358,7 @@ void Abe::Motion_148_Shot_4296A0()
         mBaseAnimatedWithPhysicsGameObject_YPos += (mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(4));
     }
 
-    if (!gMap.Is_Point_In_Current_Camera_4449C0(
+    if (!gMap.Is_Point_In_Current_Camera(
             mBaseAnimatedWithPhysicsGameObject_LvlNumber,
             mBaseAnimatedWithPhysicsGameObject_PathNumber,
             mBaseAnimatedWithPhysicsGameObject_XPos,

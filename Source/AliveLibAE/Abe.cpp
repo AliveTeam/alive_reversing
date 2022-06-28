@@ -578,7 +578,7 @@ s32 Environment_SFX_457A40(EnvironmentSfx sfxId, s32 volume, s32 pitchMin, BaseA
 
     if (!IsActiveHero(pAliveObj))
     {
-        switch (gMap.GetDirection_4811A0(
+        switch (gMap.GetDirection(
             pAliveObj->mBaseAnimatedWithPhysicsGameObject_LvlNumber,
             pAliveObj->mBaseAnimatedWithPhysicsGameObject_PathNumber,
             pAliveObj->mBaseAnimatedWithPhysicsGameObject_XPos,
@@ -1473,7 +1473,7 @@ void Abe::VUpdate()
 
         if (field_128.field_18_say != MudSounds::eNone && static_cast<s32>(sGnFrame) >= field_144_auto_say_timer)
         {
-            if (!gMap.Is_Point_In_Current_Camera_4810D0(mBaseAnimatedWithPhysicsGameObject_LvlNumber, mBaseAnimatedWithPhysicsGameObject_PathNumber, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, 0)
+            if (!gMap.Is_Point_In_Current_Camera(mBaseAnimatedWithPhysicsGameObject_LvlNumber, mBaseAnimatedWithPhysicsGameObject_PathNumber, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, 0)
                 || (mCurrentMotion == eAbeMotions::Motion_112_Chant_45B1C0)
                 || mCurrentMotion == eAbeMotions::Motion_7_Speak_45B140
                 || mCurrentMotion == eAbeMotions::Motion_8_Speak_45B160
@@ -1567,7 +1567,7 @@ void Abe::VUpdate()
         {
             if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit3_Render))
             {
-                if (gMap.Is_Point_In_Current_Camera_4810D0(mBaseAnimatedWithPhysicsGameObject_LvlNumber, mBaseAnimatedWithPhysicsGameObject_PathNumber, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, 0))
+                if (gMap.Is_Point_In_Current_Camera(mBaseAnimatedWithPhysicsGameObject_LvlNumber, mBaseAnimatedWithPhysicsGameObject_PathNumber, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, 0))
                 {
                     if (field_168_ring_pulse_timer > static_cast<s32>(sGnFrame))
                     {
@@ -7254,7 +7254,7 @@ void Abe::Motion_109_ZShotRolling_455550()
         mBaseAnimatedWithPhysicsGameObject_YPos += (mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(4));
     }
 
-    if (!gMap.Is_Point_In_Current_Camera_4810D0(mBaseAnimatedWithPhysicsGameObject_LvlNumber, mBaseAnimatedWithPhysicsGameObject_PathNumber, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, 0))
+    if (!gMap.Is_Point_In_Current_Camera(mBaseAnimatedWithPhysicsGameObject_LvlNumber, mBaseAnimatedWithPhysicsGameObject_PathNumber, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, 0))
     {
         if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit12_ForwardLoopCompleted))
         {
@@ -7290,7 +7290,7 @@ void Abe::Motion_110_ZShot_455670()
         mBaseAnimatedWithPhysicsGameObject_YPos += (mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(4));
     }
 
-    if (!gMap.Is_Point_In_Current_Camera_4810D0(mBaseAnimatedWithPhysicsGameObject_LvlNumber, mBaseAnimatedWithPhysicsGameObject_PathNumber, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, 0))
+    if (!gMap.Is_Point_In_Current_Camera(mBaseAnimatedWithPhysicsGameObject_LvlNumber, mBaseAnimatedWithPhysicsGameObject_PathNumber, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, 0))
     {
         mBaseAnimatedWithPhysicsGameObject_YPos += FP_FromInteger(240);
         Mudokon_SFX(MudSounds::eDeathDropScream_15, 0, 0, this);
@@ -8132,7 +8132,7 @@ void Abe::Motion_127_TurnWheelLoop_456750()
     else if (field_120_state.wheel == WorkWheelStates::eMapChanging_2)
     {
         // This happens for the Mines Tunnel 1 ender.
-        if (!gMap.Is_Point_In_Current_Camera_4810D0(
+        if (!gMap.Is_Point_In_Current_Camera(
                 mBaseAnimatedWithPhysicsGameObject_LvlNumber,
                 mBaseAnimatedWithPhysicsGameObject_PathNumber,
                 mBaseAnimatedWithPhysicsGameObject_XPos,
@@ -9288,7 +9288,7 @@ void Abe::BulletDamage_44C980(Bullet* pBullet)
             }
 
             const FP boundsY = FP_FromInteger(rect.y);
-            if (Bullet::InZBulletCover(mBaseAnimatedWithPhysicsGameObject_XPos, boundsY, rect) || !gMap.Is_Point_In_Current_Camera_4810D0(mBaseAnimatedWithPhysicsGameObject_LvlNumber, mBaseAnimatedWithPhysicsGameObject_PathNumber, mBaseAnimatedWithPhysicsGameObject_XPos, boundsY, 0))
+            if (Bullet::InZBulletCover(mBaseAnimatedWithPhysicsGameObject_XPos, boundsY, rect) || !gMap.Is_Point_In_Current_Camera(mBaseAnimatedWithPhysicsGameObject_LvlNumber, mBaseAnimatedWithPhysicsGameObject_PathNumber, mBaseAnimatedWithPhysicsGameObject_XPos, boundsY, 0))
             {
                 mBaseAliveGameObjectFlags.Clear(Flags_114::e114_Bit1_bShot);
                 mHealth = FP_FromInteger(1);
@@ -9759,7 +9759,7 @@ void Mudokon_SFX(MudSounds idx, s16 volume, s32 pitch, BaseAliveGameObject* pHer
                 return;
             }
 
-            switch (gMap.GetDirection_4811A0(
+            switch (gMap.GetDirection(
                 pHero->mBaseAnimatedWithPhysicsGameObject_LvlNumber,
                 pHero->mBaseAnimatedWithPhysicsGameObject_PathNumber,
                 pHero->mBaseAnimatedWithPhysicsGameObject_XPos,

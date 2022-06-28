@@ -683,7 +683,7 @@ void Slog::ToJump()
 
     Sfx(8);
 
-    if (gMap.GetDirection_444A40(
+    if (gMap.GetDirection(
             mBaseAnimatedWithPhysicsGameObject_LvlNumber,
             mBaseAnimatedWithPhysicsGameObject_PathNumber,
             mBaseAnimatedWithPhysicsGameObject_XPos,
@@ -732,7 +732,7 @@ void Slog::Sfx(s32 soundId)
         volumeRight = defaultSndIdxVol / 2;
     }
 
-    CameraPos direction = gMap.GetDirection_444A40(
+    CameraPos direction = gMap.GetDirection(
         mBaseAnimatedWithPhysicsGameObject_LvlNumber,
         mBaseAnimatedWithPhysicsGameObject_PathNumber,
         mBaseAnimatedWithPhysicsGameObject_XPos,
@@ -934,7 +934,7 @@ void Slog::Motion_0_Idle_4742E0()
         {
             if (mCurrentMotion != eSlogMotions::Motion_0_Idle_4742E0)
             {
-                if (gMap.Is_Point_In_Current_Camera_4449C0(
+                if (gMap.Is_Point_In_Current_Camera(
                         mBaseAnimatedWithPhysicsGameObject_LvlNumber,
                         mBaseAnimatedWithPhysicsGameObject_PathNumber,
                         mBaseAnimatedWithPhysicsGameObject_XPos,
@@ -944,13 +944,13 @@ void Slog::Motion_0_Idle_4742E0()
                     SND_SEQ_PlaySeq_4775A0(SeqId::Unknown_17, 1, 0);
                 }
 
-                if (gMap.GetDirection_444A40(
+                if (gMap.GetDirection(
                         mBaseAnimatedWithPhysicsGameObject_LvlNumber,
                         mBaseAnimatedWithPhysicsGameObject_PathNumber,
                         mBaseAnimatedWithPhysicsGameObject_XPos,
                         mBaseAnimatedWithPhysicsGameObject_YPos)
                         >= CameraPos::eCamCurrent_0
-                    && gMap.GetDirection_444A40(
+                    && gMap.GetDirection(
                            mBaseAnimatedWithPhysicsGameObject_LvlNumber,
                            mBaseAnimatedWithPhysicsGameObject_PathNumber,
                            mBaseAnimatedWithPhysicsGameObject_XPos,
@@ -1077,7 +1077,7 @@ const FP sSlogRunVelXTable_4BCC70[9] = {
 
 void Slog::Motion_2_Run_4749A0()
 {
-    if (gMap.GetDirection_444A40(
+    if (gMap.GetDirection(
             mBaseAnimatedWithPhysicsGameObject_LvlNumber,
             mBaseAnimatedWithPhysicsGameObject_PathNumber,
             mBaseAnimatedWithPhysicsGameObject_XPos,
@@ -1492,7 +1492,7 @@ void Slog::Motion_16_Sleeping_4752E0()
         if (!((sGnFrame - 20) % 60))
         {
             Sfx(11);
-            if (gMap.Is_Point_In_Current_Camera_4449C0(
+            if (gMap.Is_Point_In_Current_Camera(
                     mBaseAnimatedWithPhysicsGameObject_LvlNumber,
                     mBaseAnimatedWithPhysicsGameObject_PathNumber,
                     mBaseAnimatedWithPhysicsGameObject_XPos,
@@ -1506,7 +1506,7 @@ void Slog::Motion_16_Sleeping_4752E0()
     else
     {
         Sfx(10);
-        if (gMap.Is_Point_In_Current_Camera_4449C0(
+        if (gMap.Is_Point_In_Current_Camera(
                 mBaseAnimatedWithPhysicsGameObject_LvlNumber,
                 mBaseAnimatedWithPhysicsGameObject_PathNumber,
                 mBaseAnimatedWithPhysicsGameObject_XPos,
@@ -1568,7 +1568,7 @@ void Slog::Motion_18_WakeUp_475460()
         }
     }
 
-    if (gMap.GetDirection_444A40(
+    if (gMap.GetDirection(
             mBaseAnimatedWithPhysicsGameObject_LvlNumber,
             mBaseAnimatedWithPhysicsGameObject_PathNumber,
             mBaseAnimatedWithPhysicsGameObject_XPos,
@@ -1672,7 +1672,7 @@ void Slog::Motion_19_JumpForwards_475610()
 
 void Slog::Motion_20_JumpUpwards_475890()
 {
-    if (gMap.GetDirection_444A40(
+    if (gMap.GetDirection(
             mBaseAnimatedWithPhysicsGameObject_LvlNumber,
             mBaseAnimatedWithPhysicsGameObject_PathNumber,
             mBaseAnimatedWithPhysicsGameObject_XPos,

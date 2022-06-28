@@ -181,7 +181,7 @@ void Rock::VUpdate()
             mBaseAnimatedWithPhysicsGameObject_VelY += FP_FromInteger(1);
             mBaseAnimatedWithPhysicsGameObject_XPos += mBaseAnimatedWithPhysicsGameObject_VelX;
             mBaseAnimatedWithPhysicsGameObject_YPos += mBaseAnimatedWithPhysicsGameObject_VelY;
-            if (!gMap.Is_Point_In_Current_Camera_4449C0(
+            if (!gMap.Is_Point_In_Current_Camera(
                     mBaseAnimatedWithPhysicsGameObject_LvlNumber,
                     mBaseAnimatedWithPhysicsGameObject_PathNumber,
                     mBaseAnimatedWithPhysicsGameObject_XPos,

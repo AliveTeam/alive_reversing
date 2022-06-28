@@ -26,7 +26,7 @@ Greeter::Greeter(Path_Greeter* pTlv, s32 tlvInfo)
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
     Animation_Init(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
 
-    mApplyShadows |= 2u;
+    mVisualFlags.Set(VisualFlags::eDoPurpleLightEffect);
 
     if (pTlv->field_10_scale != Scale_short::eFull_0)
     {
@@ -324,7 +324,7 @@ void Greeter::BounceBackFromShot()
     const AnimRecord& animRec = AnimRec(AnimId::Greeter_Hit);
     mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
 
-    const CameraPos soundDirection = gMap.GetDirection_4811A0(mBaseAnimatedWithPhysicsGameObject_LvlNumber, mBaseAnimatedWithPhysicsGameObject_PathNumber, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos);
+    const CameraPos soundDirection = gMap.GetDirection(mBaseAnimatedWithPhysicsGameObject_LvlNumber, mBaseAnimatedWithPhysicsGameObject_PathNumber, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos);
     SFX_Play_Camera(SoundEffect::GreeterKnockback_121, 0, soundDirection, mBaseAnimatedWithPhysicsGameObject_SpriteScale);
 }
 
@@ -498,7 +498,7 @@ void Greeter::ZapTarget(FP xpos, FP ypos, BaseAliveGameObject* pTarget)
 
     pTarget->VTakeDamage(this);
 
-    const CameraPos soundDirection = gMap.GetDirection_4811A0(
+    const CameraPos soundDirection = gMap.GetDirection(
         mBaseAnimatedWithPhysicsGameObject_LvlNumber,
         mBaseAnimatedWithPhysicsGameObject_PathNumber,
         mBaseAnimatedWithPhysicsGameObject_XPos,
@@ -592,7 +592,7 @@ void Greeter::VUpdate()
         case GreeterBrainStates::eBrain_0_Patrol:
             if (!((sGnFrame - field_124_last_turn_time) % 14))
             {
-                const CameraPos soundDirection = gMap.GetDirection_4811A0(
+                const CameraPos soundDirection = gMap.GetDirection(
                     mBaseAnimatedWithPhysicsGameObject_LvlNumber,
                     mBaseAnimatedWithPhysicsGameObject_PathNumber,
                     mBaseAnimatedWithPhysicsGameObject_XPos,
@@ -683,7 +683,7 @@ void Greeter::VUpdate()
         {
             if (!(sGnFrame % 8))
             {
-                const CameraPos soundDirection2 = gMap.GetDirection_4811A0(
+                const CameraPos soundDirection2 = gMap.GetDirection(
                     mBaseAnimatedWithPhysicsGameObject_LvlNumber,
                     mBaseAnimatedWithPhysicsGameObject_PathNumber,
                     mBaseAnimatedWithPhysicsGameObject_XPos,
@@ -763,7 +763,7 @@ void Greeter::VUpdate()
                 mBaseAnimatedWithPhysicsGameObject_YPos = hitY;
                 BaseAliveGameObjectLastLineYPos = hitY;
 
-                const CameraPos soundDirection3 = gMap.GetDirection_4811A0(
+                const CameraPos soundDirection3 = gMap.GetDirection(
                     mBaseAnimatedWithPhysicsGameObject_LvlNumber,
                     mBaseAnimatedWithPhysicsGameObject_PathNumber,
                     mBaseAnimatedWithPhysicsGameObject_XPos,

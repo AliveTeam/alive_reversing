@@ -24,7 +24,7 @@ LightEffect::LightEffect(Path_LightEffect* pTlv, s32 tlvInfo)
     field_F4_rnd3 = Math_RandomRange(96, 128);
     field_F8_rnd4 = Math_RandomRange(190, 255);
 
-    mApplyShadows &= ~1u;
+    mVisualFlags.Clear(VisualFlags::eApplyShadowZoneColour);
 
     mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit20_use_xy_offset);
     mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit15_bSemiTrans);

@@ -158,7 +158,7 @@ void ZBall::VUpdate()
     // Pointless because never seems to be read
     field_E8_bFrameAbove12 = mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame >= 13;
 
-    if (!gMap.Is_Point_In_Current_Camera_4449C0(
+    if (!gMap.Is_Point_In_Current_Camera(
             mBaseAnimatedWithPhysicsGameObject_LvlNumber,
             mBaseAnimatedWithPhysicsGameObject_PathNumber,
             mBaseAnimatedWithPhysicsGameObject_XPos,

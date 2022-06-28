@@ -156,7 +156,7 @@ void ScreenWave::VUpdate()
 
 void ScreenWave::VRender(PrimHeader** ppOt)
 {
-    if (!gMap.Is_Point_In_Current_Camera_4449C0(
+    if (!gMap.Is_Point_In_Current_Camera(
             field_3A_level,
             field_3C_path,
             field_18_xpos,

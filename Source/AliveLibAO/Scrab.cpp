@@ -892,13 +892,13 @@ Scrab* Scrab::FindScrabToFight()
             if (pOther != this
                 && !pOther->BrainIs(&Scrab::Brain_Death_45CB80)
                 && VOnSameYLevel(pOther)
-                && gMap.Is_Point_In_Current_Camera_4449C0(
+                && gMap.Is_Point_In_Current_Camera(
                     pOther->mBaseAnimatedWithPhysicsGameObject_LvlNumber,
                     pOther->mBaseAnimatedWithPhysicsGameObject_PathNumber,
                     pOther->mBaseAnimatedWithPhysicsGameObject_XPos,
                     pOther->mBaseAnimatedWithPhysicsGameObject_YPos,
                     0)
-                && gMap.Is_Point_In_Current_Camera_4449C0(
+                && gMap.Is_Point_In_Current_Camera(
                     mBaseAnimatedWithPhysicsGameObject_LvlNumber,
                     mBaseAnimatedWithPhysicsGameObject_PathNumber,
                     mBaseAnimatedWithPhysicsGameObject_XPos,
@@ -2276,7 +2276,7 @@ s16 Scrab::Brain_Fighting_45C370()
                 xpos = mBaseAnimatedWithPhysicsGameObject_XPos + FP_FromInteger(50);
             }
 
-            if (gMap.Is_Point_In_Current_Camera_4449C0(
+            if (gMap.Is_Point_In_Current_Camera(
                     mBaseAnimatedWithPhysicsGameObject_LvlNumber,
                     mBaseAnimatedWithPhysicsGameObject_PathNumber,
                     xpos,
@@ -2571,7 +2571,7 @@ s16 Scrab::Brain_ChasingEnemy_45CC90()
         || (field_13C_spotting_timer <= static_cast<s32>(sGnFrame)
             && !CanSeeAbe(field_120_pTarget)
             && field_120_pTarget->mHealth > FP_FromInteger(0)
-            && gMap.Is_Point_In_Current_Camera_4449C0(
+            && gMap.Is_Point_In_Current_Camera(
                 mBaseAnimatedWithPhysicsGameObject_LvlNumber,
                 mBaseAnimatedWithPhysicsGameObject_PathNumber,
                 mBaseAnimatedWithPhysicsGameObject_XPos,
@@ -2625,7 +2625,7 @@ s16 Scrab::Brain_ChasingEnemy_45CC90()
         case 1:
         {
             if ((!CanSeeAbe(field_120_pTarget)
-                 && gMap.Is_Point_In_Current_Camera_4449C0(
+                 && gMap.Is_Point_In_Current_Camera(
                      mBaseAnimatedWithPhysicsGameObject_LvlNumber,
                      mBaseAnimatedWithPhysicsGameObject_PathNumber,
                      mBaseAnimatedWithPhysicsGameObject_XPos,
@@ -2646,7 +2646,7 @@ s16 Scrab::Brain_ChasingEnemy_45CC90()
 
             if (!VIsFacingMe(field_120_pTarget))
             {
-                if (gMap.Is_Point_In_Current_Camera_4449C0(
+                if (gMap.Is_Point_In_Current_Camera(
                         mBaseAnimatedWithPhysicsGameObject_LvlNumber,
                         mBaseAnimatedWithPhysicsGameObject_PathNumber,
                         mBaseAnimatedWithPhysicsGameObject_XPos,
@@ -2852,7 +2852,7 @@ s16 Scrab::Brain_ChasingEnemy_45CC90()
 
             if (!VIsFacingMe(field_120_pTarget))
             {
-                if (gMap.Is_Point_In_Current_Camera_4449C0(
+                if (gMap.Is_Point_In_Current_Camera(
                         mBaseAnimatedWithPhysicsGameObject_LvlNumber,
                         mBaseAnimatedWithPhysicsGameObject_PathNumber,
                         mBaseAnimatedWithPhysicsGameObject_XPos,
@@ -2933,7 +2933,7 @@ s16 Scrab::Brain_ChasingEnemy_45CC90()
         case 8:
         {
             if (!CanSeeAbe(field_120_pTarget)
-                && gMap.Is_Point_In_Current_Camera_4449C0(
+                && gMap.Is_Point_In_Current_Camera(
                     mBaseAnimatedWithPhysicsGameObject_LvlNumber,
                     mBaseAnimatedWithPhysicsGameObject_PathNumber,
                     mBaseAnimatedWithPhysicsGameObject_XPos,
@@ -3072,7 +3072,7 @@ s16 Scrab::Brain_ChasingEnemy_45CC90()
 
         case 11:
             if (!CanSeeAbe(field_120_pTarget)
-                && gMap.Is_Point_In_Current_Camera_4449C0(
+                && gMap.Is_Point_In_Current_Camera(
                     mBaseAnimatedWithPhysicsGameObject_LvlNumber,
                     mBaseAnimatedWithPhysicsGameObject_PathNumber,
                     mBaseAnimatedWithPhysicsGameObject_XPos,

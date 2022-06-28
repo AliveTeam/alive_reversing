@@ -82,7 +82,7 @@ PullRingRope::PullRingRope(Path_PullRingRope* pTlv, s32 tlvInfo)
         pRope->mBaseAnimatedWithPhysicsGameObject_YPos = FP_NoFractional(mBaseAnimatedWithPhysicsGameObject_YPos - (mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(16)));
     }
 
-    mApplyShadows |= 2;
+    mVisualFlags.Set(VisualFlags::eDoPurpleLightEffect);
 }
 
 PullRingRope::~PullRingRope()

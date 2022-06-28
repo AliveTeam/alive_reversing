@@ -254,7 +254,7 @@ AbilityRing::~AbilityRing()
 
 void AbilityRing::VRender(PrimHeader** ppOt)
 {
-    if (gMap.Is_Point_In_Current_Camera_4810D0(
+    if (gMap.Is_Point_In_Current_Camera(
             mRingLevel,
             mRingPath,
             mRingXPos,

@@ -80,7 +80,7 @@ DeathBirdParticle::DeathBirdParticle(FP xpos, FP ypos, s32 start, s32 bPlaySound
     }
     else
     {
-        mApplyShadows &= ~1u;
+        mVisualFlags.Clear(VisualFlags::eApplyShadowZoneColour);
         mBaseAnimatedWithPhysicsGameObject_Anim.mRenderMode = TPageAbr::eBlend_1;
         mBaseAnimatedWithPhysicsGameObject_SpriteScale = scale;
         mBaseAnimatedWithPhysicsGameObject_Anim.field_14_scale = scale;

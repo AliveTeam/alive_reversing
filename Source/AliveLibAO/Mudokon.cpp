@@ -1111,7 +1111,7 @@ s16 Mudokon::FacingBirdPortal(BirdPortal* pTarget)
 
 GameSpeakEvents Mudokon::LastGameSpeak()
 {
-    if (!gMap.Is_Point_In_Current_Camera_4449C0(
+    if (!gMap.Is_Point_In_Current_Camera(
             mBaseAnimatedWithPhysicsGameObject_LvlNumber,
             mBaseAnimatedWithPhysicsGameObject_PathNumber,
             mBaseAnimatedWithPhysicsGameObject_XPos,
@@ -1551,7 +1551,7 @@ void Mudokon::Motion_15_LeverUse()
 
 void Mudokon::Motion_16_StandScrubLoop()
 {
-    if (gMap.Is_Point_In_Current_Camera_4449C0(
+    if (gMap.Is_Point_In_Current_Camera(
             mBaseAnimatedWithPhysicsGameObject_LvlNumber,
             mBaseAnimatedWithPhysicsGameObject_PathNumber,
             mBaseAnimatedWithPhysicsGameObject_XPos,
@@ -1634,7 +1634,7 @@ void Mudokon::Motion_21_StandScrubToIdle()
 
 void Mudokon::Motion_22_CrouchScrub()
 {
-    if (gMap.Is_Point_In_Current_Camera_4449C0(
+    if (gMap.Is_Point_In_Current_Camera(
             mBaseAnimatedWithPhysicsGameObject_LvlNumber,
             mBaseAnimatedWithPhysicsGameObject_PathNumber,
             mBaseAnimatedWithPhysicsGameObject_XPos,
@@ -3689,7 +3689,7 @@ s16 Mudokon::Brain_10_ListeningToAbe()
                     }
 
                     if (Event_Get(kEventMudokonComfort)
-                        && gMap.Is_Point_In_Current_Camera_4449C0(
+                        && gMap.Is_Point_In_Current_Camera(
                             mBaseAnimatedWithPhysicsGameObject_LvlNumber,
                             mBaseAnimatedWithPhysicsGameObject_PathNumber,
                             mBaseAnimatedWithPhysicsGameObject_XPos,
@@ -3946,7 +3946,7 @@ s16 Mudokon::Brain_10_ListeningToAbe()
             field_1B4_idle_time++;
 
             if (field_1B4_idle_time <= 150
-                && gMap.Is_Point_In_Current_Camera_4449C0(
+                && gMap.Is_Point_In_Current_Camera(
                     mBaseAnimatedWithPhysicsGameObject_LvlNumber,
                     mBaseAnimatedWithPhysicsGameObject_PathNumber,
                     mBaseAnimatedWithPhysicsGameObject_XPos,
@@ -3961,7 +3961,7 @@ s16 Mudokon::Brain_10_ListeningToAbe()
                 }
 
                 if (Event_Get(kEventMudokonComfort)
-                    && gMap.Is_Point_In_Current_Camera_4449C0(
+                    && gMap.Is_Point_In_Current_Camera(
                         mBaseAnimatedWithPhysicsGameObject_LvlNumber,
                         mBaseAnimatedWithPhysicsGameObject_PathNumber,
                         mBaseAnimatedWithPhysicsGameObject_XPos,

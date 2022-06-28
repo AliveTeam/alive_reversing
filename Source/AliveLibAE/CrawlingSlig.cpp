@@ -765,7 +765,7 @@ enum Brain_0_Sleeping
 
 s16 CrawlingSlig::Brain_0_Sleeping()
 {
-    if (gMap.GetDirection_4811A0(
+    if (gMap.GetDirection(
             mBaseAnimatedWithPhysicsGameObject_LvlNumber,
             mBaseAnimatedWithPhysicsGameObject_PathNumber,
             mBaseAnimatedWithPhysicsGameObject_XPos,
@@ -830,7 +830,7 @@ s16 CrawlingSlig::Brain_0_Sleeping()
 
 s16 CrawlingSlig::Brain_1_Idle()
 {
-    if (gMap.GetDirection_4811A0(
+    if (gMap.GetDirection(
             mBaseAnimatedWithPhysicsGameObject_LvlNumber,
             mBaseAnimatedWithPhysicsGameObject_PathNumber,
             mBaseAnimatedWithPhysicsGameObject_XPos,
@@ -849,7 +849,7 @@ s16 CrawlingSlig::Brain_1_Idle()
 
 s16 CrawlingSlig::Brain_2_PanicGetALocker()
 {
-    if (gMap.GetDirection_4811A0(
+    if (gMap.GetDirection(
             mBaseAnimatedWithPhysicsGameObject_LvlNumber,
             mBaseAnimatedWithPhysicsGameObject_PathNumber,
             mBaseAnimatedWithPhysicsGameObject_XPos,
@@ -1067,7 +1067,7 @@ s16 CrawlingSlig::Brain_2_PanicGetALocker()
 
 s16 CrawlingSlig::Brain_3_Possessed()
 {
-    if (gMap.GetDirection_4811A0(
+    if (gMap.GetDirection(
             mBaseAnimatedWithPhysicsGameObject_LvlNumber,
             mBaseAnimatedWithPhysicsGameObject_PathNumber,
             mBaseAnimatedWithPhysicsGameObject_XPos,
@@ -1155,7 +1155,7 @@ s16 CrawlingSlig::Brain_3_Possessed()
 
 s16 CrawlingSlig::Brain_4_GetKilled()
 {
-    if (gMap.GetDirection_4811A0(
+    if (gMap.GetDirection(
             mBaseAnimatedWithPhysicsGameObject_LvlNumber,
             mBaseAnimatedWithPhysicsGameObject_PathNumber,
             mBaseAnimatedWithPhysicsGameObject_XPos,
@@ -1287,7 +1287,7 @@ s16 CrawlingSlig::Brain_4_GetKilled()
 s16 CrawlingSlig::Brain_5_Transformed()
 {
     BaseGameObject* pObj = sObjectIds.Find_Impl(field_1D8_obj_id);
-    if (gMap.GetDirection_4811A0(
+    if (gMap.GetDirection(
             mBaseAnimatedWithPhysicsGameObject_LvlNumber,
             mBaseAnimatedWithPhysicsGameObject_PathNumber,
             mBaseAnimatedWithPhysicsGameObject_XPos,
@@ -1605,7 +1605,7 @@ void CrawlingSlig::Motion_9_Snoozing()
             Slig_SoundEffect_4BFFE0(SligSfx::eSnooze2_4, this);
         }
 
-        if (gMap.Is_Point_In_Current_Camera_4810D0(
+        if (gMap.Is_Point_In_Current_Camera(
                 mBaseAnimatedWithPhysicsGameObject_LvlNumber,
                 mBaseAnimatedWithPhysicsGameObject_PathNumber,
                 mBaseAnimatedWithPhysicsGameObject_XPos,

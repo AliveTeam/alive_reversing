@@ -144,7 +144,7 @@ void Spark::VUpdate()
 
 void Spark::VRender(PrimHeader** ppOt)
 {
-    if (gMap.Is_Point_In_Current_Camera_4810D0(
+    if (gMap.Is_Point_In_Current_Camera(
             sActiveHero->mBaseAnimatedWithPhysicsGameObject_LvlNumber,
             sActiveHero->mBaseAnimatedWithPhysicsGameObject_PathNumber,
             field_40_xpos,

@@ -12,7 +12,7 @@ Sparks::Sparks(FP xpos, FP ypos, FP scale)
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
     Animation_Init(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
 
-    mApplyShadows &= ~1u;
+    mVisualFlags.Clear(VisualFlags::eApplyShadowZoneColour);
 
     mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_FG1_37;
     mBaseAnimatedWithPhysicsGameObject_Anim.mRenderMode = TPageAbr::eBlend_1;
@@ -22,7 +22,7 @@ Sparks::Sparks(FP xpos, FP ypos, FP scale)
     mBaseAnimatedWithPhysicsGameObject_Anim.mRed = 80;
 
     mBaseAnimatedWithPhysicsGameObject_SpriteScale = scale * (((FP_FromInteger(Math_NextRandom() % 6)) / FP_FromInteger(10)) + FP_FromDouble(0.7));
-    field_FA_16_random = Math_RandomRange(0, 16);
+    mSparkTimer = Math_RandomRange(0, 16);
 
     mBaseAnimatedWithPhysicsGameObject_XPos = xpos;
     mBaseAnimatedWithPhysicsGameObject_YPos = ypos;
@@ -33,16 +33,16 @@ Sparks::Sparks(FP xpos, FP ypos, FP scale)
 
 void Sparks::VUpdate()
 {
-    if (field_FA_16_random > 0)
+    if (mSparkTimer > 0)
     {
-        field_FA_16_random--;
+        mSparkTimer--;
     }
 
-    if (field_FA_16_random == 0)
+    if (mSparkTimer == 0)
     {
         const AnimRecord& animRec = AnimRec(AnimId::Sparks);
         mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
-        field_FA_16_random = -1;
+        mSparkTimer = -1;
     }
 
     mBaseAnimatedWithPhysicsGameObject_VelY += FP_FromDouble(0.8);
@@ -56,7 +56,12 @@ void Sparks::VUpdate()
     mBaseAnimatedWithPhysicsGameObject_YPos += mBaseAnimatedWithPhysicsGameObject_VelY;
     mBaseAnimatedWithPhysicsGameObject_XPos += mBaseAnimatedWithPhysicsGameObject_VelX;
 
-    if (!gMap.Is_Point_In_Current_Camera_4810D0(mBaseAnimatedWithPhysicsGameObject_LvlNumber, mBaseAnimatedWithPhysicsGameObject_PathNumber, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, 0))
+    if (!gMap.Is_Point_In_Current_Camera(
+        mBaseAnimatedWithPhysicsGameObject_LvlNumber,
+        mBaseAnimatedWithPhysicsGameObject_PathNumber,
+        mBaseAnimatedWithPhysicsGameObject_XPos,
+        mBaseAnimatedWithPhysicsGameObject_YPos,
+        0))
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }

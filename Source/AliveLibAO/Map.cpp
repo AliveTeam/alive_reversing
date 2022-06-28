@@ -1093,7 +1093,7 @@ s16 Map::SetActiveCameraDelayed(MapDirections direction, BaseAliveGameObject* pO
     return 1;
 }
 
-s16 Map::Is_Point_In_Current_Camera_4449C0(EReliveLevelIds level, s32 path, FP xpos, FP ypos, s16 width)
+s16 Map::Is_Point_In_Current_Camera(EReliveLevelIds level, s32 path, FP xpos, FP ypos, s16 width)
 {
     if (level != mCurrentLevel || path != mCurrentPath) // TODO: Remove when 100%
     {
@@ -1183,7 +1183,7 @@ CameraPos Map::Rect_Location_Relative_To_Active_Camera(const PSX_RECT* pRect, s1
     return CameraPos::eCamLeft_3;
 }
 
-CameraPos Map::GetDirection_444A40(EReliveLevelIds level, s32 path, FP xpos, FP ypos)
+CameraPos Map::GetDirection(EReliveLevelIds level, s32 path, FP xpos, FP ypos)
 {
     if (level != mCurrentLevel)
     {

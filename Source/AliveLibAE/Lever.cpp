@@ -89,7 +89,7 @@ Lever::Lever(Path_Lever* pTlv, u32 tlvInfo)
     field_108_sound_direction = pTlv->field_18_sound_direction;
 
     field_F8_state = LeverState::eWaiting_0;
-    mApplyShadows |= 2u;
+    mVisualFlags.Set(VisualFlags::eDoPurpleLightEffect);
 }
 
 Lever::~Lever()

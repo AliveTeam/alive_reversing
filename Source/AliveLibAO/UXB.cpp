@@ -71,7 +71,7 @@ UXB::UXB(Path_UXB* pTlv, s32 tlvInfo)
             const AnimRecord& flashRec = AO::AnimRec(AnimId::Bomb_RedGreenTick);
             field_11C_anim.Set_Animation_Data(flashRec.mFrameTableOffset, 0);
 
-            if (gMap.Is_Point_In_Current_Camera_4449C0(
+            if (gMap.Is_Point_In_Current_Camera(
                     mBaseAnimatedWithPhysicsGameObject_LvlNumber,
                     mBaseAnimatedWithPhysicsGameObject_PathNumber,
                     mBaseAnimatedWithPhysicsGameObject_XPos,
@@ -316,7 +316,7 @@ void UXB::VOnPickUpOrSlapped()
             {
                 const AnimRecord& flashRec = AO::AnimRec(AnimId::Bomb_RedGreenTick);
                 field_11C_anim.Set_Animation_Data(flashRec.mFrameTableOffset, 0);
-                if (gMap.Is_Point_In_Current_Camera_4449C0(
+                if (gMap.Is_Point_In_Current_Camera(
                         mBaseAnimatedWithPhysicsGameObject_LvlNumber,
                         mBaseAnimatedWithPhysicsGameObject_PathNumber,
                         mBaseAnimatedWithPhysicsGameObject_XPos,
@@ -337,7 +337,7 @@ void UXB::VOnPickUpOrSlapped()
             mBaseGameObjectUpdateDelay = 6;
             const AnimRecord& animRec = AO::AnimRec(AnimId::UXB_Active);
             mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(animRec.mFrameTableOffset, 0);
-            if (gMap.Is_Point_In_Current_Camera_4449C0(
+            if (gMap.Is_Point_In_Current_Camera(
                     mBaseAnimatedWithPhysicsGameObject_LvlNumber,
                     mBaseAnimatedWithPhysicsGameObject_PathNumber,
                     mBaseAnimatedWithPhysicsGameObject_XPos,
@@ -414,7 +414,7 @@ void UXB::VUpdate()
                 
                 if (field_1BC_flags.Get(flags_1BC::eIsRed_Bit1))
                 {
-                    if (gMap.Is_Point_In_Current_Camera_4449C0(
+                    if (gMap.Is_Point_In_Current_Camera(
                             mBaseAnimatedWithPhysicsGameObject_LvlNumber,
                             mBaseAnimatedWithPhysicsGameObject_PathNumber,
                             mBaseAnimatedWithPhysicsGameObject_XPos,
@@ -424,7 +424,7 @@ void UXB::VUpdate()
                         SFX_Play_Mono(SoundEffect::RedTick_4, 35, 0);
                     }
                 }
-                else if (gMap.Is_Point_In_Current_Camera_4449C0(
+                else if (gMap.Is_Point_In_Current_Camera(
                              mBaseAnimatedWithPhysicsGameObject_LvlNumber,
                              mBaseAnimatedWithPhysicsGameObject_PathNumber,
                              mBaseAnimatedWithPhysicsGameObject_XPos,
@@ -508,7 +508,7 @@ s16 UXB::IsColliding()
 
 void UXB::VRender(PrimHeader** ppOt)
 {
-    if (gMap.Is_Point_In_Current_Camera_4449C0(
+    if (gMap.Is_Point_In_Current_Camera(
             mBaseAnimatedWithPhysicsGameObject_LvlNumber,
             mBaseAnimatedWithPhysicsGameObject_PathNumber,
             mBaseAnimatedWithPhysicsGameObject_XPos,

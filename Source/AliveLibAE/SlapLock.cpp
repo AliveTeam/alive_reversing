@@ -315,7 +315,7 @@ void SlapLock::VUpdate()
             {
                 if (static_cast<s32>(sGnFrame) > field_124_timer1)
                 {
-                    if (!gMap.Is_Point_In_Current_Camera_4810D0(
+                    if (!gMap.Is_Point_In_Current_Camera(
                             sActiveHero->mBaseAnimatedWithPhysicsGameObject_LvlNumber,
                             sActiveHero->mBaseAnimatedWithPhysicsGameObject_PathNumber,
                             sActiveHero->mBaseAnimatedWithPhysicsGameObject_XPos,

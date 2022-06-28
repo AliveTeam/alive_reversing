@@ -107,7 +107,7 @@ void BaseBomb::VUpdate()
             if (pParticle)
             {
                 pParticle->mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit5_FlipX);
-                pParticle->mApplyShadows &= ~1u;
+                pParticle->mVisualFlags.Clear(VisualFlags::eApplyShadowZoneColour);
                 pParticle->mBaseAnimatedWithPhysicsGameObject_Anim.mRenderMode = TPageAbr::eBlend_1;
                 pParticle->mBaseAnimatedWithPhysicsGameObject_SpriteScale = mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromDouble(0.7);
             }
@@ -221,7 +221,7 @@ BaseBomb::BaseBomb(FP xpos, FP ypos, s32 /*unused*/, FP scale)
         mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_Foreground_Half_17;
     }
 
-    mApplyShadows &= ~1u;
+    mVisualFlags.Clear(VisualFlags::eApplyShadowZoneColour);
     mBaseAnimatedWithPhysicsGameObject_SpriteScale = scale * FP_FromDouble(2.75);
 
     mBaseAnimatedWithPhysicsGameObject_XPos = xpos;

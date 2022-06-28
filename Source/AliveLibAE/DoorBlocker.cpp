@@ -42,7 +42,7 @@ DoorBlocker::DoorBlocker(Path_DoorBlocker* pTlv, s32 tlvInfo)
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 
-    mApplyShadows |= 2u;
+    mVisualFlags.Set(VisualFlags::eDoPurpleLightEffect);
 }
 
 DoorBlocker::~DoorBlocker()

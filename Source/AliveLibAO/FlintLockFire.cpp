@@ -273,7 +273,7 @@ void FlintLockFire::VRender(PrimHeader** ppOt)
 
         const PSX_RECT bRect = VGetBoundingRect();
 
-        if (mApplyShadows & 1)
+        if (mVisualFlags.Get(VisualFlags::eApplyShadowZoneColour))
         {
             ShadowZone::ShadowZones_Calculate_Colour(
                 FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos),

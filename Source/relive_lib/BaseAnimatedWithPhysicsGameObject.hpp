@@ -61,7 +61,12 @@ public:
     Scale mBaseAnimatedWithPhysicsGameObject_Scale = Scale::Fg;
     s16 mBaseAnimatedWithPhysicsGameObject_YOffset = 0;
     s16 mBaseAnimatedWithPhysicsGameObject_XOffset = 0;
-    s16 mApplyShadows = 0;
+    enum VisualFlags : s16
+    {
+        eApplyShadowZoneColour = 0x1,
+        eDoPurpleLightEffect = 0x2
+    };
+    BitField16<VisualFlags> mVisualFlags = {};
 
     // TODO: Common shadow field
 };

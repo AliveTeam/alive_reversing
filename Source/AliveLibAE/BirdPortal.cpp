@@ -86,7 +86,7 @@ BirdPortal::BirdPortal(Path_BirdPortal* pTlv, s32 tlvInfo)
 
 void BirdPortal::VUpdate()
 {
-    const CameraPos direction = gMap.GetDirection_4811A0(
+    const CameraPos direction = gMap.GetDirection(
         field_8C_level,
         field_8E_path,
         field_2C_xpos,
@@ -230,15 +230,19 @@ void BirdPortal::VUpdate()
                             rec.mMaxW,
                             rec.mMaxH,
                             ppLightRes);
-                        pParticle->mApplyShadows &= ~1u;
-                        pParticle->mBaseAnimatedWithPhysicsGameObject_Anim.mRenderMode = TPageAbr::eBlend_1;
-                        pParticle->SetType(ReliveTypes::eBirdPortalTerminator);
-                        pParticle->mBaseAnimatedWithPhysicsGameObject_SpriteScale = field_60_scale;
 
-                        if (static_cast<s32>(sGnFrame) % 2)
+                        if (pParticle)
                         {
-                            pParticle->mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit19_LoopBackwards);
-                            pParticle->mBaseAnimatedWithPhysicsGameObject_Anim.SetFrame(pParticle->mBaseAnimatedWithPhysicsGameObject_Anim.Get_Frame_Count());
+                            pParticle->mVisualFlags.Clear(BaseAnimatedWithPhysicsGameObject::VisualFlags::eApplyShadowZoneColour);
+                            pParticle->mBaseAnimatedWithPhysicsGameObject_Anim.mRenderMode = TPageAbr::eBlend_1;
+                            pParticle->SetType(ReliveTypes::eBirdPortalTerminator);
+                            pParticle->mBaseAnimatedWithPhysicsGameObject_SpriteScale = field_60_scale;
+
+                            if (static_cast<s32>(sGnFrame) % 2)
+                            {
+                                pParticle->mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit19_LoopBackwards);
+                                pParticle->mBaseAnimatedWithPhysicsGameObject_Anim.SetFrame(pParticle->mBaseAnimatedWithPhysicsGameObject_Anim.Get_Frame_Count());
+                            }
                         }
 
                         if (direction == CameraPos::eCamCurrent_0)
@@ -357,7 +361,7 @@ void BirdPortal::VUpdate()
                         rec.mMaxH,
                         ppLightRes);
                     pParticle->mBaseAnimatedWithPhysicsGameObject_Anim.mRenderMode = TPageAbr::eBlend_1;
-                    pParticle->mApplyShadows &= ~1u;
+                    pParticle->mVisualFlags.Clear(BaseAnimatedWithPhysicsGameObject::VisualFlags::eApplyShadowZoneColour);
                     pParticle->mBaseAnimatedWithPhysicsGameObject_SpriteScale = field_60_scale;
                 }
 
@@ -1105,7 +1109,7 @@ BirdPortalTerminator::BirdPortalTerminator(FP xpos, FP ypos, FP scale, PortalTyp
         mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_Above_FG1_Half_20;
     }
 
-    mApplyShadows &= ~1u;
+    mVisualFlags.Clear(VisualFlags::eApplyShadowZoneColour);
 
     mBaseAnimatedWithPhysicsGameObject_YPos = ypos;
     mBaseAnimatedWithPhysicsGameObject_XPos = xpos;

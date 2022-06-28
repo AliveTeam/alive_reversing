@@ -937,13 +937,13 @@ void Elum::FindHoney_411600()
             if (pObjIter->mBaseGameObjectTypeId == ReliveTypes::eHoney)
             {
                 auto pHoney = static_cast<Honey*>(pObjIter);
-                if (gMap.Is_Point_In_Current_Camera_4449C0(
+                if (gMap.Is_Point_In_Current_Camera(
                         pHoney->mBaseAnimatedWithPhysicsGameObject_LvlNumber,
                         pHoney->mBaseAnimatedWithPhysicsGameObject_PathNumber,
                         pHoney->mBaseAnimatedWithPhysicsGameObject_XPos,
                         pHoney->mBaseAnimatedWithPhysicsGameObject_YPos,
                         0)
-                    && gMap.Is_Point_In_Current_Camera_4449C0(
+                    && gMap.Is_Point_In_Current_Camera(
                         mBaseAnimatedWithPhysicsGameObject_LvlNumber,
                         mBaseAnimatedWithPhysicsGameObject_PathNumber,
                         mBaseAnimatedWithPhysicsGameObject_XPos,
@@ -2393,7 +2393,7 @@ void Elum::Motion_19_Dead_415F90()
             field_12A_brain_sub_state = 6;
             field_122_bDontFollowAbe = 1;
 
-            if (!gMap.Is_Point_In_Current_Camera_4449C0(field_14A_continue_level, field_148_continue_path, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, 0))
+            if (!gMap.Is_Point_In_Current_Camera(field_14A_continue_level, field_148_continue_path, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, 0))
             {
                 Elum_SFX_416E10(ElumSounds::eHowl_2, this);
             }

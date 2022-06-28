@@ -30,7 +30,7 @@ ElectricWall::ElectricWall(Path_ElectricWall* pTlv, s32 tlvInfo)
         mBaseAnimatedWithPhysicsGameObject_Anim.SetFrame(sElecticWallFrames_55165C[Math_RandomRange(0, 4)]);
     }
 
-    mApplyShadows &= ~1;
+    mVisualFlags.Clear(VisualFlags::eApplyShadowZoneColour);
     mBaseAnimatedWithPhysicsGameObject_RGB.SetRGB(80, 80, 80);
 
     field_F4_tlvInfo = tlvInfo;
@@ -67,7 +67,7 @@ ElectricWall::~ElectricWall()
 
 void ElectricWall::VScreenChanged()
 {
-    if (gMap.mCurrentLevel != gMap.mLevel || gMap.mCurrentPath != gMap.mPath || gMap.GetDirection_4811A0(mBaseAnimatedWithPhysicsGameObject_LvlNumber, mBaseAnimatedWithPhysicsGameObject_PathNumber, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos) == CameraPos::eCamInvalid_m1)
+    if (gMap.mCurrentLevel != gMap.mLevel || gMap.mCurrentPath != gMap.mPath || gMap.GetDirection(mBaseAnimatedWithPhysicsGameObject_LvlNumber, mBaseAnimatedWithPhysicsGameObject_PathNumber, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos) == CameraPos::eCamInvalid_m1)
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
@@ -75,7 +75,7 @@ void ElectricWall::VScreenChanged()
 
 void ElectricWall::VUpdate()
 {
-    const CameraPos soundDirection = gMap.GetDirection_4811A0(
+    const CameraPos soundDirection = gMap.GetDirection(
         mBaseAnimatedWithPhysicsGameObject_LvlNumber,
         mBaseAnimatedWithPhysicsGameObject_PathNumber,
         mBaseAnimatedWithPhysicsGameObject_XPos,

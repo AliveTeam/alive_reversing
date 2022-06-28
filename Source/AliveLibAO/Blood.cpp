@@ -196,7 +196,7 @@ void Blood::VScreenChanged()
 void Blood::VRender(PrimHeader** ppOt)
 {
     const auto bufferIdx = gPsxDisplay_504C78.field_A_buffer_index;
-    if (gMap.Is_Point_In_Current_Camera_4449C0(
+    if (gMap.Is_Point_In_Current_Camera(
             mBaseAnimatedWithPhysicsGameObject_LvlNumber,
             mBaseAnimatedWithPhysicsGameObject_PathNumber,
             mBaseAnimatedWithPhysicsGameObject_XPos,

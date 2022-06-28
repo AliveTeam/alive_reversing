@@ -25,7 +25,7 @@ RockSack::RockSack(Path_RockSack* pTlv, s32 tlvInfo)
 
     mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit15_bSemiTrans);
 
-    mApplyShadows &= ~1u;
+    mVisualFlags.Clear(VisualFlags::eApplyShadowZoneColour);
 
     field_118_tlvInfo = tlvInfo;
     field_11C_has_been_hit = 0;
@@ -56,7 +56,7 @@ RockSack::RockSack(Path_RockSack* pTlv, s32 tlvInfo)
 
     mShadow = relive_new Shadow();
 
-    mApplyShadows |= 2u;
+    mVisualFlags.Set(VisualFlags::eDoPurpleLightEffect);
 }
 
 RockSack::~RockSack()

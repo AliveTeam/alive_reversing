@@ -182,7 +182,7 @@ void MeatSaw::VUpdate()
 
     GrindUpObjects_439CD0();
 
-    const CameraPos direction = gMap.GetDirection_444A40(
+    const CameraPos direction = gMap.GetDirection(
         mBaseAnimatedWithPhysicsGameObject_LvlNumber,
         mBaseAnimatedWithPhysicsGameObject_PathNumber,
         mBaseAnimatedWithPhysicsGameObject_XPos,
@@ -357,7 +357,7 @@ void MeatSaw::GrindUpObjects_439CD0()
 
 void MeatSaw::VRender(PrimHeader** ppOt)
 {
-    if (gMap.Is_Point_In_Current_Camera_4449C0(
+    if (gMap.Is_Point_In_Current_Camera(
             mBaseAnimatedWithPhysicsGameObject_LvlNumber,
             mBaseAnimatedWithPhysicsGameObject_PathNumber,
             mBaseAnimatedWithPhysicsGameObject_XPos,

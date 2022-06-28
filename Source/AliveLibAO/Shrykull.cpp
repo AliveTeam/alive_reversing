@@ -82,7 +82,7 @@ bool Shrykull::CanKill(BaseAnimatedWithPhysicsGameObject* pObj)
             || pObj->mBaseGameObjectTypeId == ReliveTypes::SecurityOrb)
         && pObj->mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit3_Render)
         && !pObj->mBaseGameObjectFlags.Get(BaseGameObject::eDead)
-        && gMap.Is_Point_In_Current_Camera_4449C0(
+        && gMap.Is_Point_In_Current_Camera(
             pObj->mBaseAnimatedWithPhysicsGameObject_LvlNumber,
             pObj->mBaseAnimatedWithPhysicsGameObject_PathNumber,
             pObj->mBaseAnimatedWithPhysicsGameObject_XPos,

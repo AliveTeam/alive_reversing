@@ -226,7 +226,7 @@ void Map::RemoveObjectsWithPurpleLight(s16 bMakeInvisible)
 
                 const PSX_RECT objRect = pBaseObj->VGetBoundingRect();
 
-                if (pBaseObj->mApplyShadows & 2)
+                if (pBaseObj->mVisualFlags.Get(BaseAnimatedWithPhysicsGameObject::VisualFlags::eDoPurpleLightEffect))
                 {
                     if (pBaseObj->mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit3_Render))
                     {
@@ -446,7 +446,7 @@ void Map::Handle_PathTransition()
     }
 }
 
-CameraPos Map::GetDirection_4811A0(EReliveLevelIds level, s32 path, FP xpos, FP ypos)
+CameraPos Map::GetDirection(EReliveLevelIds level, s32 path, FP xpos, FP ypos)
 {
     if (level != mCurrentLevel)
     {
@@ -1031,7 +1031,7 @@ s16 Map::Get_Camera_World_Rect(CameraPos camIdx, PSX_RECT* pRect)
     return 1;
 }
 
-s16 Map::Is_Point_In_Current_Camera_4810D0(EReliveLevelIds level, s32 path, FP xpos, FP ypos, s16 width)
+s16 Map::Is_Point_In_Current_Camera(EReliveLevelIds level, s32 path, FP xpos, FP ypos, s16 width)
 {
     const FP calculated_width = (width != 0) ? FP_FromInteger(6) : FP_FromInteger(0);
     if (level != mCurrentLevel || path != mCurrentPath) // TODO: Remove when 100%

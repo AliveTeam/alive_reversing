@@ -68,7 +68,7 @@ WorkWheel::WorkWheel(Path_WorkWheel* pTlv, s32 tlvInfo)
     }
 
 
-    mApplyShadows |= 2u;
+    mVisualFlags.Set(VisualFlags::eDoPurpleLightEffect);
     field_FC_state = WheelStates::eIdle_0;
     field_F4_tlv_info = tlvInfo;
 }
@@ -130,7 +130,7 @@ void WorkWheel::VUpdate()
         ++field_100_on_counter;
 
         if (!(field_100_on_counter % 10)
-            && gMap.Is_Point_In_Current_Camera_4810D0(
+            && gMap.Is_Point_In_Current_Camera(
                 mBaseAnimatedWithPhysicsGameObject_LvlNumber,
                 mBaseAnimatedWithPhysicsGameObject_PathNumber,
                 mBaseAnimatedWithPhysicsGameObject_XPos,

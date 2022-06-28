@@ -55,7 +55,7 @@ void UXB::InitBlinkAnim(Animation* pAnimation)
 
 void UXB::PlaySFX(SoundEffect sfxIdx)
 {
-    if (gMap.Is_Point_In_Current_Camera_4810D0(
+    if (gMap.Is_Point_In_Current_Camera(
             this->mBaseAnimatedWithPhysicsGameObject_LvlNumber,
             this->mBaseAnimatedWithPhysicsGameObject_PathNumber,
             this->mBaseAnimatedWithPhysicsGameObject_XPos,
@@ -231,7 +231,7 @@ UXB::UXB(Path_UXB* tlv_params, TlvItemInfoUnion itemInfo)
 
     const FP gridSnap = ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale);
     mBaseGameObjectFlags.Set(Options::eInteractive_Bit8);
-    mApplyShadows |= 2u;
+    mVisualFlags.Set(VisualFlags::eDoPurpleLightEffect);
 
     mCollectionRect.x = mBaseAnimatedWithPhysicsGameObject_XPos - (gridSnap / FP_FromDouble(2.0));
     mCollectionRect.y = mBaseAnimatedWithPhysicsGameObject_YPos - gridSnap;
@@ -454,7 +454,7 @@ void UXB::VRender(PrimHeader** ppOt)
 {
     if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit3_Render))
     {
-        if (gMap.Is_Point_In_Current_Camera_4810D0(
+        if (gMap.Is_Point_In_Current_Camera(
                 mBaseAnimatedWithPhysicsGameObject_LvlNumber,
                 mBaseAnimatedWithPhysicsGameObject_PathNumber,
                 mBaseAnimatedWithPhysicsGameObject_XPos,

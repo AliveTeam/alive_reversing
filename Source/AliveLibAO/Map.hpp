@@ -244,18 +244,13 @@ public:
 
     void sub_447430(u16 pathNum);
 
-    CameraPos GetDirection(EReliveLevelIds level, s32 path, FP xpos, FP ypos)
-    {
-        return GetDirection_444A40(level, path, xpos, ypos);
-    }
-
-    CameraPos GetDirection_444A40(EReliveLevelIds level, s32 path, FP xpos, FP ypos);
+    CameraPos GetDirection(EReliveLevelIds level, s32 path, FP xpos, FP ypos);
 
     CameraPos Rect_Location_Relative_To_Active_Camera(const PSX_RECT* pRect, s16 width);
 
     s16 Get_Camera_World_Rect(CameraPos camIdx, PSX_RECT* pRect);
 
-    s16 Is_Point_In_Current_Camera_4449C0(EReliveLevelIds level, s32 path, FP xpos, FP ypos, s16 width);
+    s16 Is_Point_In_Current_Camera(EReliveLevelIds level, s32 path, FP xpos, FP ypos, s16 width);
 
     s16 SetActiveCameraDelayed(MapDirections direction, BaseAliveGameObject* pObj, s16 swapEffect);
 

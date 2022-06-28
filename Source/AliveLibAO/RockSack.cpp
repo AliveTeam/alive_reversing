@@ -127,7 +127,7 @@ RockSack::RockSack(Path_RockSack* pTlv, s32 tlvInfo)
 
     field_10C_tlvInfo = tlvInfo;
     field_110_has_been_hit = 0;
-    mApplyShadows &= ~1u;
+    mVisualFlags.Clear(VisualFlags::eApplyShadowZoneColour);
     mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pTlv->field_10_top_left.field_0_x);
     mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->field_10_top_left.field_2_y);
     field_118_x_vel = FP_FromRaw(pTlv->field_1A_x_vel << 8);

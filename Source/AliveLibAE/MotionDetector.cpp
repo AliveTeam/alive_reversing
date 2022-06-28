@@ -404,7 +404,7 @@ void MotionDetector::VUpdate()
                 {
                     field_100_state = States::eWaitThenMoveLeft_1;
                     field_104_timer = sGnFrame + 15;
-                    const CameraPos soundDirection = gMap.GetDirection_4811A0(
+                    const CameraPos soundDirection = gMap.GetDirection(
                         mBaseAnimatedWithPhysicsGameObject_LvlNumber,
                         mBaseAnimatedWithPhysicsGameObject_PathNumber,
                         mBaseAnimatedWithPhysicsGameObject_XPos,
@@ -429,7 +429,7 @@ void MotionDetector::VUpdate()
                 {
                     field_100_state = States::eWaitThenMoveRight_3;
                     field_104_timer = sGnFrame + 15;
-                    const CameraPos soundDirection = gMap.GetDirection_4811A0(
+                    const CameraPos soundDirection = gMap.GetDirection(
                         mBaseAnimatedWithPhysicsGameObject_LvlNumber,
                         mBaseAnimatedWithPhysicsGameObject_PathNumber,
                         mBaseAnimatedWithPhysicsGameObject_XPos,

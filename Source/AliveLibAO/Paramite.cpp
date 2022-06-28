@@ -420,7 +420,7 @@ void Paramite::VOnTrapDoorOpen()
 void Paramite::VUpdate()
 {
     if (mHealth > FP_FromInteger(0)
-        && gMap.Is_Point_In_Current_Camera_4449C0(
+        && gMap.Is_Point_In_Current_Camera(
             mBaseAnimatedWithPhysicsGameObject_LvlNumber,
             mBaseAnimatedWithPhysicsGameObject_PathNumber,
             mBaseAnimatedWithPhysicsGameObject_XPos,
@@ -443,7 +443,7 @@ void Paramite::VUpdate()
             if (pObjIter->mBaseGameObjectTypeId == ReliveTypes::eParamite && pObjIter != this)
             {
                 Paramite* pOther = static_cast<Paramite*>(pObjIter);
-                if (gMap.Is_Point_In_Current_Camera_4449C0(
+                if (gMap.Is_Point_In_Current_Camera(
                         pOther->mBaseAnimatedWithPhysicsGameObject_LvlNumber,
                         pOther->mBaseAnimatedWithPhysicsGameObject_PathNumber,
                         pOther->mBaseAnimatedWithPhysicsGameObject_XPos,
@@ -684,13 +684,13 @@ s16 Paramite::AnotherParamiteNear()
         if (pObjIter->mBaseGameObjectTypeId == ReliveTypes::eParamite && pObjIter != this)
         {
             Paramite* pOther = static_cast<Paramite*>(pObjIter);
-            if (gMap.Is_Point_In_Current_Camera_4449C0(
+            if (gMap.Is_Point_In_Current_Camera(
                     pOther->mBaseAnimatedWithPhysicsGameObject_LvlNumber,
                     pOther->mBaseAnimatedWithPhysicsGameObject_PathNumber,
                     pOther->mBaseAnimatedWithPhysicsGameObject_XPos,
                     pOther->mBaseAnimatedWithPhysicsGameObject_YPos,
                     0)
-                && gMap.Is_Point_In_Current_Camera_4449C0(
+                && gMap.Is_Point_In_Current_Camera(
                     mBaseAnimatedWithPhysicsGameObject_LvlNumber,
                     mBaseAnimatedWithPhysicsGameObject_PathNumber,
                     mBaseAnimatedWithPhysicsGameObject_XPos,
@@ -748,7 +748,7 @@ Meat* Paramite::FindMeat()
             auto pMeat = static_cast<Meat*>(pObjIter);
             if (pMeat->VCanEatMe())
             {
-                if (gMap.Is_Point_In_Current_Camera_4449C0(
+                if (gMap.Is_Point_In_Current_Camera(
                         pMeat->mBaseAnimatedWithPhysicsGameObject_LvlNumber,
                         pMeat->mBaseAnimatedWithPhysicsGameObject_PathNumber,
                         pMeat->mBaseAnimatedWithPhysicsGameObject_XPos,
@@ -1506,7 +1506,7 @@ s16 Paramite::Brain_1_SurpriseWeb()
         case Brain_1_SurpriseWeb::eBrain1_AppearingRight_1:
             if (sActiveHero_507678->mBaseAnimatedWithPhysicsGameObject_XPos <= mBaseAnimatedWithPhysicsGameObject_XPos
                 || mBaseAnimatedWithPhysicsGameObject_SpriteScale != sActiveHero_507678->mBaseAnimatedWithPhysicsGameObject_SpriteScale
-                || !gMap.Is_Point_In_Current_Camera_4449C0(
+                || !gMap.Is_Point_In_Current_Camera(
                     mBaseAnimatedWithPhysicsGameObject_LvlNumber,
                     mBaseAnimatedWithPhysicsGameObject_PathNumber,
                     mBaseAnimatedWithPhysicsGameObject_XPos,
@@ -1525,7 +1525,7 @@ s16 Paramite::Brain_1_SurpriseWeb()
         case Brain_1_SurpriseWeb::eBrain1_AppearingLeft_2:
             if (sActiveHero_507678->mBaseAnimatedWithPhysicsGameObject_XPos >= mBaseAnimatedWithPhysicsGameObject_XPos
                 || mBaseAnimatedWithPhysicsGameObject_SpriteScale != sActiveHero_507678->mBaseAnimatedWithPhysicsGameObject_SpriteScale
-                || !gMap.Is_Point_In_Current_Camera_4449C0(
+                || !gMap.Is_Point_In_Current_Camera(
                     mBaseAnimatedWithPhysicsGameObject_LvlNumber,
                     mBaseAnimatedWithPhysicsGameObject_PathNumber,
                     mBaseAnimatedWithPhysicsGameObject_XPos,

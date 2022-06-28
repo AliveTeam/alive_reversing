@@ -219,7 +219,7 @@ SlamDoor::SlamDoor(Path_SlamDoor* pTlv, TlvItemInfoUnion tlvInfo)
     }
 
     field_118_flags.Set(SlamDoor_Flags_118::e118_Bit3_bLastFrame);
-    mApplyShadows |= 2u;
+    mVisualFlags.Set(VisualFlags::eDoPurpleLightEffect);
 }
 
 SlamDoor::~SlamDoor()

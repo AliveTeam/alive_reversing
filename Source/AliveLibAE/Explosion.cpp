@@ -48,7 +48,7 @@ Explosion::Explosion(FP xpos, FP ypos, FP scale, bool bSmall)
         field_FC_explosion_size = scale;
     }
 
-    mApplyShadows &= ~1u;
+    mVisualFlags.Clear(VisualFlags::eApplyShadowZoneColour);
     mBaseAnimatedWithPhysicsGameObject_XPos = xpos;
     mBaseAnimatedWithPhysicsGameObject_YPos = ypos;
 
@@ -145,7 +145,7 @@ void Explosion::VUpdate()
                     pParticle->mBaseGameObjectFlags.Set(BaseGameObject::eDead);
                 }
 
-                pParticle->mApplyShadows &= ~1u;
+                pParticle->mVisualFlags.Clear(VisualFlags::eApplyShadowZoneColour);
                 pParticle->mBaseAnimatedWithPhysicsGameObject_Anim.mRenderMode = TPageAbr::eBlend_1;
 
                 if (mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame == 3)
@@ -228,7 +228,7 @@ void Explosion::DealBlastDamage(PSX_RECT* pRect)
         {
             pTlv->field_0_flags.Set(TLV_Flags::eBit2_Destroyed);
 
-            const CameraPos dir = gMap.GetDirection_4811A0(
+            const CameraPos dir = gMap.GetDirection(
                 gMap.mCurrentLevel,
                 gMap.mCurrentPath,
                 FP_FromInteger(pTlv->field_8_top_left.field_0_x),

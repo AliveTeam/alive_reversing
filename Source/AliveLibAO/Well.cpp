@@ -100,7 +100,7 @@ void Well::WellExpress_Init(Path_WellExpress* pTlv, FP /*xpos*/, FP ypos)
             ppRes,
             1);
         mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit15_bSemiTrans);
-        mApplyShadows &= ~1u;
+        mVisualFlags.Clear(VisualFlags::eApplyShadowZoneColour);
     }
     else
     {
@@ -160,7 +160,7 @@ void Well::WellLocal_Init(Path_WellLocal* pTlv, FP /*xpos*/, FP ypos)
             ppRes,
             1);
         mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit15_bSemiTrans);
-        mApplyShadows &= ~1u;
+        mVisualFlags.Clear(VisualFlags::eApplyShadowZoneColour);
     }
     else
     {

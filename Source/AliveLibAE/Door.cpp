@@ -305,7 +305,7 @@ Door::Door(Path_Door* pTlvData, s32 tlvInfo)
     }
 
     mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit2_Animate);
-    mApplyShadows |= 2u;
+    mVisualFlags.Set(VisualFlags::eDoPurpleLightEffect);
 }
 
 Bool32 Door::vIsOpen()

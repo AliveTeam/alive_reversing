@@ -142,7 +142,7 @@ TrapDoor::TrapDoor(Path_TrapDoor* pTlv, Map* pMap, s32 tlvInfo)
     field_148_bounding_rect.w = pTlv->field_C_bottom_right.field_0_x;
     field_148_bounding_rect.h = pTlv->field_C_bottom_right.field_2_y;
 
-    mApplyShadows |= 2u;
+    mVisualFlags.Set(VisualFlags::eDoPurpleLightEffect);
     field_13C_stay_open_time = pTlv->field_1E_stay_open_time;
 }
 
@@ -193,7 +193,7 @@ void TrapDoor::VUpdate()
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 
-    const CameraPos direction = gMap.GetDirection_4811A0(mBaseAnimatedWithPhysicsGameObject_LvlNumber, mBaseAnimatedWithPhysicsGameObject_PathNumber, field_140_x, field_144_y);
+    const CameraPos direction = gMap.GetDirection(mBaseAnimatedWithPhysicsGameObject_LvlNumber, mBaseAnimatedWithPhysicsGameObject_PathNumber, field_140_x, field_144_y);
 
     switch (field_136_state)
     {

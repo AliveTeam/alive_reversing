@@ -224,7 +224,7 @@ void Slig::Slig_SoundEffect_46F310(SligSfx sfxIdx)
     s32 volRight = 0;
     s32 volLeft = 0;
 
-    auto dir = gMap.GetDirection_444A40(
+    auto dir = gMap.GetDirection(
         mBaseAnimatedWithPhysicsGameObject_LvlNumber,
         mBaseAnimatedWithPhysicsGameObject_PathNumber,
         mBaseAnimatedWithPhysicsGameObject_XPos,
@@ -1182,7 +1182,7 @@ void Slig::ShouldStilBeAlive_46C0D0()
         // Check not falling and not in the current screen
         if (mCurrentMotion != eSligMotions::Motion_7_Falling_46A1A0 && mCurrentMotion != eSligMotions::Motion_39_OutToFall_46A9E0)
         {
-            if (!gMap.Is_Point_In_Current_Camera_4449C0(
+            if (!gMap.Is_Point_In_Current_Camera(
                     mBaseAnimatedWithPhysicsGameObject_LvlNumber,
                     mBaseAnimatedWithPhysicsGameObject_PathNumber,
                     mBaseAnimatedWithPhysicsGameObject_XPos,
@@ -1197,7 +1197,7 @@ void Slig::ShouldStilBeAlive_46C0D0()
                 else
                 {
                     s32 i = 0;
-                    while (!gMap.Is_Point_In_Current_Camera_4449C0(
+                    while (!gMap.Is_Point_In_Current_Camera(
                         mBaseAnimatedWithPhysicsGameObject_LvlNumber,
                         mBaseAnimatedWithPhysicsGameObject_PathNumber,
                         FP_FromInteger(field_1CC_points[i].field_0_x),
@@ -2011,7 +2011,7 @@ void Slig::OperateLift()
         mCurrentMotion = eSligMotions::Motion_5_TurnAroundStanding_469C80;
         mNextMotion = eSligMotions::Motion_49_LiftGrip_4663A0;
 
-        const auto camPos = gMap.GetDirection_444A40(mBaseAnimatedWithPhysicsGameObject_LvlNumber, mBaseAnimatedWithPhysicsGameObject_PathNumber, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos);
+        const auto camPos = gMap.GetDirection(mBaseAnimatedWithPhysicsGameObject_LvlNumber, mBaseAnimatedWithPhysicsGameObject_PathNumber, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos);
         if ((camPos != CameraPos::eCamCurrent_0 && camPos != CameraPos::eCamInvalid_m1)
             && MusicController::GetAbmientAndMusicInfo(nullptr, nullptr, nullptr) <= MusicController::MusicTypes::eChase_4)
         {
@@ -2517,7 +2517,7 @@ void Slig::Motion_1_StandToWalk_4695D0()
 
 void Slig::Motion_2_Walking_469130()
 {
-    if (gMap.GetDirection_444A40(
+    if (gMap.GetDirection(
             mBaseAnimatedWithPhysicsGameObject_LvlNumber,
             mBaseAnimatedWithPhysicsGameObject_PathNumber,
             mBaseAnimatedWithPhysicsGameObject_XPos,
@@ -2676,7 +2676,7 @@ void Slig::Motion_3_StandToRun_469C00()
 
 void Slig::Motion_4_Running_469690()
 {
-    if (gMap.GetDirection_444A40(
+    if (gMap.GetDirection(
             mBaseAnimatedWithPhysicsGameObject_LvlNumber,
             mBaseAnimatedWithPhysicsGameObject_PathNumber,
             mBaseAnimatedWithPhysicsGameObject_XPos,
@@ -2769,7 +2769,7 @@ void Slig::Motion_4_Running_469690()
 
 void Slig::Motion_5_TurnAroundStanding_469C80()
 {
-    if (gMap.GetDirection_444A40(
+    if (gMap.GetDirection(
             mBaseAnimatedWithPhysicsGameObject_LvlNumber,
             mBaseAnimatedWithPhysicsGameObject_PathNumber,
             mBaseAnimatedWithPhysicsGameObject_XPos,
@@ -3373,7 +3373,7 @@ void Slig::Motion_33_Sleeping_46A410()
         {
             Slig_SoundEffect_46F310(SligSfx::eSnooze2_5);
 
-            if (gMap.Is_Point_In_Current_Camera_4449C0(
+            if (gMap.Is_Point_In_Current_Camera(
                     mBaseAnimatedWithPhysicsGameObject_LvlNumber,
                     mBaseAnimatedWithPhysicsGameObject_PathNumber,
                     mBaseAnimatedWithPhysicsGameObject_XPos,
@@ -3394,7 +3394,7 @@ void Slig::Motion_33_Sleeping_46A410()
     {
         Slig_SoundEffect_46F310(SligSfx::eSnooze1_4);
 
-        if (gMap.Is_Point_In_Current_Camera_4449C0(
+        if (gMap.Is_Point_In_Current_Camera(
                 mBaseAnimatedWithPhysicsGameObject_LvlNumber,
                 mBaseAnimatedWithPhysicsGameObject_PathNumber,
                 mBaseAnimatedWithPhysicsGameObject_XPos,
@@ -3994,7 +3994,7 @@ void Slig::Motion_52_Beat_46AA90()
 
 s16 Slig::Brain_SpottedEnemy_465EB0()
 {
-    if (gMap.Is_Point_In_Current_Camera_4449C0(
+    if (gMap.Is_Point_In_Current_Camera(
             mBaseAnimatedWithPhysicsGameObject_LvlNumber,
             mBaseAnimatedWithPhysicsGameObject_PathNumber,
             mBaseAnimatedWithPhysicsGameObject_XPos,
@@ -4100,7 +4100,7 @@ s16 Slig::Brain_Paused_466030()
             return Brain_Paused::eSetDead_4;
 
         case Brain_Paused::eSetDead_4:
-            if (!gMap.Is_Point_In_Current_Camera_4449C0(
+            if (!gMap.Is_Point_In_Current_Camera(
                     mBaseAnimatedWithPhysicsGameObject_LvlNumber,
                     mBaseAnimatedWithPhysicsGameObject_PathNumber,
                     mBaseAnimatedWithPhysicsGameObject_XPos,
@@ -4144,7 +4144,7 @@ s16 Slig::Brain_Paused_466030()
 s16 Slig::Brain_EnemyDead_466190()
 {
     if (Event_Get(kEventDeathReset)
-        && !gMap.Is_Point_In_Current_Camera_4449C0(
+        && !gMap.Is_Point_In_Current_Camera(
             mBaseAnimatedWithPhysicsGameObject_LvlNumber,
             mBaseAnimatedWithPhysicsGameObject_PathNumber,
             mBaseAnimatedWithPhysicsGameObject_XPos,
@@ -4210,7 +4210,7 @@ s16 Slig::Brain_Unknown_46B250()
         || !VIsFacingMe(sControlledCharacter_50767C)
         || IsInInvisibleZone_418870(sControlledCharacter_50767C)
         || IsWallBetween_46BE60(this, sControlledCharacter_50767C)
-        || !gMap.Is_Point_In_Current_Camera_4449C0(
+        || !gMap.Is_Point_In_Current_Camera(
             mBaseAnimatedWithPhysicsGameObject_LvlNumber,
             mBaseAnimatedWithPhysicsGameObject_PathNumber,
             mBaseAnimatedWithPhysicsGameObject_XPos,
@@ -4225,7 +4225,7 @@ s16 Slig::Brain_Unknown_46B250()
             || !VIsFacingMe(sControlledCharacter_50767C)
             || IsInInvisibleZone_418870(sControlledCharacter_50767C)
             || IsWallBetween_46BE60(this, sControlledCharacter_50767C)
-            || !gMap.Is_Point_In_Current_Camera_4449C0(
+            || !gMap.Is_Point_In_Current_Camera(
                 mBaseAnimatedWithPhysicsGameObject_LvlNumber,
                 mBaseAnimatedWithPhysicsGameObject_PathNumber,
                 mBaseAnimatedWithPhysicsGameObject_XPos,
@@ -4250,7 +4250,7 @@ s16 Slig::Brain_Unknown_46B250()
                              && sControlledCharacter_50767C != gElum_507680)
                          || !VIsFacingMe(sControlledCharacter_50767C)
                          || IsInInvisibleZone_418870(sControlledCharacter_50767C)
-                         || !gMap.Is_Point_In_Current_Camera_4449C0(
+                         || !gMap.Is_Point_In_Current_Camera(
                              mBaseAnimatedWithPhysicsGameObject_LvlNumber,
                              mBaseAnimatedWithPhysicsGameObject_PathNumber,
                              mBaseAnimatedWithPhysicsGameObject_XPos,
@@ -4318,7 +4318,7 @@ s16 Slig::Brain_Sleeping_46B4E0()
         {
             const auto kScaleGrid = ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale);
             const auto wake_up_dist_scaled = kScaleGrid * FP_FromInteger(field_174_tlv.field_52_noise_wake_up_distance);
-            if (VIsObjNearby(wake_up_dist_scaled, pEvent) && field_114_timer <= static_cast<s32>(sGnFrame) && gMap.Is_Point_In_Current_Camera_4449C0(mBaseAnimatedWithPhysicsGameObject_LvlNumber, mBaseAnimatedWithPhysicsGameObject_PathNumber, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, 0) && !Event_Get(kEventResetting))
+            if (VIsObjNearby(wake_up_dist_scaled, pEvent) && field_114_timer <= static_cast<s32>(sGnFrame) && gMap.Is_Point_In_Current_Camera(mBaseAnimatedWithPhysicsGameObject_LvlNumber, mBaseAnimatedWithPhysicsGameObject_PathNumber, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, 0) && !Event_Get(kEventResetting))
             {
                 WakeUp();
                 return 102;
@@ -4328,14 +4328,14 @@ s16 Slig::Brain_Sleeping_46B4E0()
 
     if (Event_Get(kEventSpeaking) || Event_Get(kEventAlarm) || Event_Get(kEventLoudNoise))
     {
-        if (pEvent != this && field_114_timer <= static_cast<s32>(sGnFrame) && gMap.Is_Point_In_Current_Camera_4449C0(mBaseAnimatedWithPhysicsGameObject_LvlNumber, mBaseAnimatedWithPhysicsGameObject_PathNumber, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, 0) && !Event_Get(kEventResetting))
+        if (pEvent != this && field_114_timer <= static_cast<s32>(sGnFrame) && gMap.Is_Point_In_Current_Camera(mBaseAnimatedWithPhysicsGameObject_LvlNumber, mBaseAnimatedWithPhysicsGameObject_PathNumber, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, 0) && !Event_Get(kEventResetting))
         {
             WakeUp();
             return 102;
         }
     }
 
-    if (SwitchStates_Get(120) && field_114_timer <= static_cast<s32>(sGnFrame) && gMap.Is_Point_In_Current_Camera_4449C0(mBaseAnimatedWithPhysicsGameObject_LvlNumber, mBaseAnimatedWithPhysicsGameObject_PathNumber, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, 0) && !Event_Get(kEventResetting))
+    if (SwitchStates_Get(120) && field_114_timer <= static_cast<s32>(sGnFrame) && gMap.Is_Point_In_Current_Camera(mBaseAnimatedWithPhysicsGameObject_LvlNumber, mBaseAnimatedWithPhysicsGameObject_PathNumber, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, 0) && !Event_Get(kEventResetting))
     {
         LOG_WARNING("if this is a custom level consider changing all switch id's with the value 120"
                     " to something else. sleeping sligs will always wake up if this switch id is set.");
@@ -4347,7 +4347,7 @@ s16 Slig::Brain_Sleeping_46B4E0()
 
     if (mBaseGameObjectFlags.Get(Options::eDead))
     {
-        Start_Slig_sounds(gMap.GetDirection_444A40(
+        Start_Slig_sounds(gMap.GetDirection(
                                      mBaseAnimatedWithPhysicsGameObject_LvlNumber,
                                      mBaseAnimatedWithPhysicsGameObject_PathNumber,
                                      mBaseAnimatedWithPhysicsGameObject_XPos,
@@ -4525,7 +4525,7 @@ s16 Slig::Brain_Death_46C3A0()
 
     if (sControlledCharacter_50767C != this)
     {
-        if (!gMap.Is_Point_In_Current_Camera_4449C0(
+        if (!gMap.Is_Point_In_Current_Camera(
                 mBaseAnimatedWithPhysicsGameObject_LvlNumber,
                 mBaseAnimatedWithPhysicsGameObject_PathNumber,
                 mBaseAnimatedWithPhysicsGameObject_XPos,
@@ -4619,7 +4619,7 @@ s16 Slig::Brain_ReturnControlToAbeAndDie_46C760()
 s16 Slig::Brain_PanicTurning_46C7C0()
 {
     if (Event_Get(kEventDeathReset)
-        && !gMap.Is_Point_In_Current_Camera_4449C0(
+        && !gMap.Is_Point_In_Current_Camera(
             mBaseAnimatedWithPhysicsGameObject_LvlNumber,
             mBaseAnimatedWithPhysicsGameObject_PathNumber,
             mBaseAnimatedWithPhysicsGameObject_XPos,
@@ -4702,13 +4702,13 @@ s16 Slig::Brain_PanicRunning_46CA20()
             && VIsFacingMe(sControlledCharacter_50767C)
             && !IsInInvisibleZone_418870(sControlledCharacter_50767C)
             && !IsWallBetween_46BE60(this, sControlledCharacter_50767C)
-            && gMap.Is_Point_In_Current_Camera_4449C0(
+            && gMap.Is_Point_In_Current_Camera(
                 mBaseAnimatedWithPhysicsGameObject_LvlNumber,
                 mBaseAnimatedWithPhysicsGameObject_PathNumber,
                 mBaseAnimatedWithPhysicsGameObject_XPos,
                 mBaseAnimatedWithPhysicsGameObject_YPos,
                 0)
-            && gMap.Is_Point_In_Current_Camera_4449C0(
+            && gMap.Is_Point_In_Current_Camera(
                 mBaseAnimatedWithPhysicsGameObject_LvlNumber,
                 mBaseAnimatedWithPhysicsGameObject_PathNumber,
                 mBaseAnimatedWithPhysicsGameObject_XPos,
@@ -4776,7 +4776,7 @@ s16 Slig::Brain_PanicYelling_46CC50()
 
 s16 Slig::Brain_Chasing_46CD60()
 {
-    if (gMap.Is_Point_In_Current_Camera_4449C0(
+    if (gMap.Is_Point_In_Current_Camera(
             mBaseAnimatedWithPhysicsGameObject_LvlNumber,
             mBaseAnimatedWithPhysicsGameObject_PathNumber,
             mBaseAnimatedWithPhysicsGameObject_XPos,
@@ -4805,7 +4805,7 @@ s16 Slig::Brain_Chasing_46CD60()
     if (mBaseAnimatedWithPhysicsGameObject_PathNumber != gMap.mCurrentPath
         || mBaseAnimatedWithPhysicsGameObject_LvlNumber != gMap.mCurrentLevel
         || (Event_Get(kEventDeathReset)
-            && !gMap.Is_Point_In_Current_Camera_4449C0(
+            && !gMap.Is_Point_In_Current_Camera(
                 mBaseAnimatedWithPhysicsGameObject_LvlNumber,
                 mBaseAnimatedWithPhysicsGameObject_PathNumber,
                 mBaseAnimatedWithPhysicsGameObject_XPos,
@@ -4814,7 +4814,7 @@ s16 Slig::Brain_Chasing_46CD60()
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
-    else if (gMap.Is_Point_In_Current_Camera_4449C0(
+    else if (gMap.Is_Point_In_Current_Camera(
                  mBaseAnimatedWithPhysicsGameObject_LvlNumber,
                  mBaseAnimatedWithPhysicsGameObject_PathNumber,
                  mBaseAnimatedWithPhysicsGameObject_XPos,
@@ -4851,7 +4851,7 @@ s16 Slig::Brain_StartChasing_46CF90()
 {
     if (field_114_timer > static_cast<s32>(sGnFrame))
     {
-        if (gMap.Is_Point_In_Current_Camera_4449C0(
+        if (gMap.Is_Point_In_Current_Camera(
                 mBaseAnimatedWithPhysicsGameObject_LvlNumber,
                 mBaseAnimatedWithPhysicsGameObject_PathNumber,
                 mBaseAnimatedWithPhysicsGameObject_XPos,
@@ -4899,7 +4899,7 @@ s16 Slig::Brain_Idle_46D6E0()
             || sControlledCharacter_50767C->mBaseGameObjectTypeId != ReliveTypes::eSlig)
         && !IsAbeEnteringDoor_46BEE0(sControlledCharacter_50767C)
         && !Event_Get(kEventResetting)
-        && gMap.Is_Point_In_Current_Camera_4449C0(
+        && gMap.Is_Point_In_Current_Camera(
             mBaseAnimatedWithPhysicsGameObject_LvlNumber,
             mBaseAnimatedWithPhysicsGameObject_PathNumber,
             mBaseAnimatedWithPhysicsGameObject_XPos,
@@ -4921,13 +4921,13 @@ s16 Slig::Brain_Idle_46D6E0()
         pEvent = static_cast<BaseAliveGameObject*>(Event_Get(kEventSpeaking));
     }
 
-    if (!pEvent || pEvent->mBaseAnimatedWithPhysicsGameObject_SpriteScale != mBaseAnimatedWithPhysicsGameObject_SpriteScale || pEvent == this || !gMap.Is_Point_In_Current_Camera_4449C0(mBaseAnimatedWithPhysicsGameObject_LvlNumber, mBaseAnimatedWithPhysicsGameObject_PathNumber, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, 0) || Event_Get(kEventResetting))
+    if (!pEvent || pEvent->mBaseAnimatedWithPhysicsGameObject_SpriteScale != mBaseAnimatedWithPhysicsGameObject_SpriteScale || pEvent == this || !gMap.Is_Point_In_Current_Camera(mBaseAnimatedWithPhysicsGameObject_LvlNumber, mBaseAnimatedWithPhysicsGameObject_PathNumber, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, 0) || Event_Get(kEventResetting))
     {
         if (sControlledCharacter_50767C->mBaseAnimatedWithPhysicsGameObject_SpriteScale > mBaseAnimatedWithPhysicsGameObject_SpriteScale
             && (sControlledCharacter_50767C == sActiveHero_507678
                 || sControlledCharacter_50767C == gElum_507680))
         {
-            if (VIsFacingMe(sControlledCharacter_50767C) && !IsInInvisibleZone_418870(sControlledCharacter_50767C) && gMap.Is_Point_In_Current_Camera_4449C0(mBaseAnimatedWithPhysicsGameObject_LvlNumber, mBaseAnimatedWithPhysicsGameObject_PathNumber, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, 0) && !IsInZCover_46BDA0(static_cast<Slig*>(sControlledCharacter_50767C)) && !IsInZCover_46BDA0(this) && !Event_Get(kEventResetting))
+            if (VIsFacingMe(sControlledCharacter_50767C) && !IsInInvisibleZone_418870(sControlledCharacter_50767C) && gMap.Is_Point_In_Current_Camera(mBaseAnimatedWithPhysicsGameObject_LvlNumber, mBaseAnimatedWithPhysicsGameObject_PathNumber, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, 0) && !IsInZCover_46BDA0(static_cast<Slig*>(sControlledCharacter_50767C)) && !IsInZCover_46BDA0(this) && !Event_Get(kEventResetting))
             {
                 ToZShoot_46F200();
                 return 104;
@@ -5018,7 +5018,7 @@ s16 Slig::Brain_Idle_46D6E0()
 s16 Slig::Brain_Turning_46DC70()
 {
     if (Event_Get(kEventDeathReset)
-        && !gMap.Is_Point_In_Current_Camera_4449C0(
+        && !gMap.Is_Point_In_Current_Camera(
             mBaseAnimatedWithPhysicsGameObject_LvlNumber,
             mBaseAnimatedWithPhysicsGameObject_PathNumber,
             mBaseAnimatedWithPhysicsGameObject_XPos,
@@ -5109,7 +5109,7 @@ s16 Slig::Brain_Walking_46DE90()
         return 108;
     }
 
-    if (VOnSameYLevel(sControlledCharacter_50767C) && VIsFacingMe(sControlledCharacter_50767C) && !IsInInvisibleZone_418870(sControlledCharacter_50767C) && !IsWallBetween_46BE60(this, sControlledCharacter_50767C) && gMap.Is_Point_In_Current_Camera_4449C0(mBaseAnimatedWithPhysicsGameObject_LvlNumber, mBaseAnimatedWithPhysicsGameObject_PathNumber, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, 0))
+    if (VOnSameYLevel(sControlledCharacter_50767C) && VIsFacingMe(sControlledCharacter_50767C) && !IsInInvisibleZone_418870(sControlledCharacter_50767C) && !IsWallBetween_46BE60(this, sControlledCharacter_50767C) && gMap.Is_Point_In_Current_Camera(mBaseAnimatedWithPhysicsGameObject_LvlNumber, mBaseAnimatedWithPhysicsGameObject_PathNumber, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, 0))
     {
         if (!field_20E_spotted_possessed_slig
             || sControlledCharacter_50767C->mBaseGameObjectTypeId != ReliveTypes::eSlig)
@@ -5122,7 +5122,7 @@ s16 Slig::Brain_Walking_46DE90()
         }
     }
 
-    if (VOnSameYLevel(sControlledCharacter_50767C) && VIsFacingMe(sControlledCharacter_50767C) && !IsWallBetween_46BE60(this, sControlledCharacter_50767C) && Event_Get(kEventAbeOhm) && gMap.Is_Point_In_Current_Camera_4449C0(mBaseAnimatedWithPhysicsGameObject_LvlNumber, mBaseAnimatedWithPhysicsGameObject_PathNumber, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, 0) && !Event_Get(kEventResetting))
+    if (VOnSameYLevel(sControlledCharacter_50767C) && VIsFacingMe(sControlledCharacter_50767C) && !IsWallBetween_46BE60(this, sControlledCharacter_50767C) && Event_Get(kEventAbeOhm) && gMap.Is_Point_In_Current_Camera(mBaseAnimatedWithPhysicsGameObject_LvlNumber, mBaseAnimatedWithPhysicsGameObject_PathNumber, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, 0) && !Event_Get(kEventResetting))
     {
         ToShoot_46F1D0();
         return 108;
@@ -5142,7 +5142,7 @@ s16 Slig::Brain_Walking_46DE90()
     {
         pEvent = static_cast<BaseAliveGameObject*>(Event_Get(kEventSpeaking));
     }
-    if (pEvent && pEvent->mBaseAnimatedWithPhysicsGameObject_SpriteScale == mBaseAnimatedWithPhysicsGameObject_SpriteScale && pEvent != this && gMap.Is_Point_In_Current_Camera_4449C0(mBaseAnimatedWithPhysicsGameObject_LvlNumber, mBaseAnimatedWithPhysicsGameObject_PathNumber, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, 0) && !Event_Get(kEventResetting))
+    if (pEvent && pEvent->mBaseAnimatedWithPhysicsGameObject_SpriteScale == mBaseAnimatedWithPhysicsGameObject_SpriteScale && pEvent != this && gMap.Is_Point_In_Current_Camera(mBaseAnimatedWithPhysicsGameObject_LvlNumber, mBaseAnimatedWithPhysicsGameObject_PathNumber, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, 0) && !Event_Get(kEventResetting))
     {
         if (VIsFacingMe(sControlledCharacter_50767C))
         {
@@ -5178,7 +5178,7 @@ s16 Slig::Brain_Walking_46DE90()
                  && sControlledCharacter_50767C != gElum_507680)
              || !VIsFacingMe(sControlledCharacter_50767C)
              || IsInInvisibleZone_418870(sControlledCharacter_50767C)
-             || !gMap.Is_Point_In_Current_Camera_4449C0(
+             || !gMap.Is_Point_In_Current_Camera(
                  mBaseAnimatedWithPhysicsGameObject_LvlNumber,
                  mBaseAnimatedWithPhysicsGameObject_PathNumber,
                  mBaseAnimatedWithPhysicsGameObject_XPos,
@@ -5289,7 +5289,7 @@ s16 Slig::Brain_GetAlerted_46E800()
         || !VIsFacingMe(sControlledCharacter_50767C)
         || IsInInvisibleZone_418870(sControlledCharacter_50767C)
         || IsWallBetween_46BE60(this, sControlledCharacter_50767C)
-        || !gMap.Is_Point_In_Current_Camera_4449C0(
+        || !gMap.Is_Point_In_Current_Camera(
             mBaseAnimatedWithPhysicsGameObject_LvlNumber,
             mBaseAnimatedWithPhysicsGameObject_PathNumber,
             mBaseAnimatedWithPhysicsGameObject_XPos,
@@ -5310,7 +5310,7 @@ s16 Slig::Brain_GetAlerted_46E800()
             if (pEvent && (pEvent == sControlledCharacter_50767C || pEvent->mBaseGameObjectTypeId == ReliveTypes::eMudokon)
                 && VOnSameYLevel(pEvent)
                 && VIsFacingMe(pEvent)
-                && gMap.Is_Point_In_Current_Camera_4449C0(
+                && gMap.Is_Point_In_Current_Camera(
                     mBaseAnimatedWithPhysicsGameObject_LvlNumber,
                     mBaseAnimatedWithPhysicsGameObject_PathNumber,
                     mBaseAnimatedWithPhysicsGameObject_XPos,
@@ -5324,7 +5324,7 @@ s16 Slig::Brain_GetAlerted_46E800()
             {
                 if (pEvent && (pEvent == sControlledCharacter_50767C || pEvent->mBaseGameObjectTypeId != ReliveTypes::eSlig)
                     && !VIsFacingMe(pEvent)
-                    && gMap.Is_Point_In_Current_Camera_4449C0(
+                    && gMap.Is_Point_In_Current_Camera(
                         mBaseAnimatedWithPhysicsGameObject_LvlNumber,
                         mBaseAnimatedWithPhysicsGameObject_PathNumber,
                         mBaseAnimatedWithPhysicsGameObject_XPos,
@@ -5490,7 +5490,7 @@ s16 Slig::Brain_ChaseAndDisappear_46EEE0()
     else
     {
         if (field_10E_brain_sub_state == Brain_ChaseAndDisappear::eReachedDestination_2
-            && gMap.Is_Point_In_Current_Camera_4449C0(
+            && gMap.Is_Point_In_Current_Camera(
                 mBaseAnimatedWithPhysicsGameObject_LvlNumber,
                 mBaseAnimatedWithPhysicsGameObject_PathNumber,
                 mBaseAnimatedWithPhysicsGameObject_XPos,
@@ -5538,13 +5538,13 @@ s16 Slig::Brain_Shooting_46EFD0()
             || !VIsFacingMe(sControlledCharacter_50767C)
             || IsInInvisibleZone_418870(sControlledCharacter_50767C)
             || IsWallBetween_46BE60(this, sControlledCharacter_50767C)
-            || !gMap.Is_Point_In_Current_Camera_4449C0(
+            || !gMap.Is_Point_In_Current_Camera(
                 mBaseAnimatedWithPhysicsGameObject_LvlNumber,
                 mBaseAnimatedWithPhysicsGameObject_PathNumber,
                 mBaseAnimatedWithPhysicsGameObject_XPos,
                 mBaseAnimatedWithPhysicsGameObject_YPos,
                 0)
-            || !gMap.Is_Point_In_Current_Camera_4449C0(
+            || !gMap.Is_Point_In_Current_Camera(
                 mBaseAnimatedWithPhysicsGameObject_LvlNumber,
                 mBaseAnimatedWithPhysicsGameObject_PathNumber,
                 mBaseAnimatedWithPhysicsGameObject_XPos,
@@ -5562,7 +5562,7 @@ s16 Slig::Brain_Shooting_46EFD0()
             return 111;
         }
 
-        if (!gMap.Is_Point_In_Current_Camera_4449C0(
+        if (!gMap.Is_Point_In_Current_Camera(
                 mBaseAnimatedWithPhysicsGameObject_LvlNumber,
                 mBaseAnimatedWithPhysicsGameObject_PathNumber,
                 mBaseAnimatedWithPhysicsGameObject_XPos,

@@ -33,7 +33,7 @@ MineCar::MineCar(Path_MineCar* pTlv, s32 tlvInfo, s32 /*a4*/, s32 /*a5*/, s32 /*
     mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pTlv->field_8_top_left.field_0_x);
     mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->field_8_top_left.field_2_y);
 
-    mApplyShadows |= 2u;
+    mVisualFlags.Set(VisualFlags::eDoPurpleLightEffect);
     field_1BE_unused = 0;
     mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_Shadow_26;
     mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromInteger(1);
@@ -383,7 +383,7 @@ void MineCar::VRender(PrimHeader** ppOt)
 
         const PSX_RECT bRect = VGetBoundingRect();
 
-        if (mApplyShadows & 1)
+        if (mVisualFlags.Get(VisualFlags::eApplyShadowZoneColour))
         {
             ShadowZone::ShadowZones_Calculate_Colour(
                 FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos),
@@ -398,7 +398,7 @@ void MineCar::VRender(PrimHeader** ppOt)
         field_124_anim.mGreen = static_cast<u8>(g);
         field_124_anim.mBlue = static_cast<u8>(b);
 
-        if (gMap.Is_Point_In_Current_Camera_4810D0(mBaseAnimatedWithPhysicsGameObject_LvlNumber, mBaseAnimatedWithPhysicsGameObject_PathNumber, mBaseAnimatedWithPhysicsGameObject_XPos + FP_FromInteger(30), mBaseAnimatedWithPhysicsGameObject_YPos, 0) || gMap.Is_Point_In_Current_Camera_4810D0(mBaseAnimatedWithPhysicsGameObject_LvlNumber, mBaseAnimatedWithPhysicsGameObject_PathNumber, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos - (mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(60)), 0) || gMap.Is_Point_In_Current_Camera_4810D0(mBaseAnimatedWithPhysicsGameObject_LvlNumber, mBaseAnimatedWithPhysicsGameObject_PathNumber, mBaseAnimatedWithPhysicsGameObject_XPos - FP_FromInteger(30), mBaseAnimatedWithPhysicsGameObject_YPos, 0))
+        if (gMap.Is_Point_In_Current_Camera(mBaseAnimatedWithPhysicsGameObject_LvlNumber, mBaseAnimatedWithPhysicsGameObject_PathNumber, mBaseAnimatedWithPhysicsGameObject_XPos + FP_FromInteger(30), mBaseAnimatedWithPhysicsGameObject_YPos, 0) || gMap.Is_Point_In_Current_Camera(mBaseAnimatedWithPhysicsGameObject_LvlNumber, mBaseAnimatedWithPhysicsGameObject_PathNumber, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos - (mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(60)), 0) || gMap.Is_Point_In_Current_Camera(mBaseAnimatedWithPhysicsGameObject_LvlNumber, mBaseAnimatedWithPhysicsGameObject_PathNumber, mBaseAnimatedWithPhysicsGameObject_XPos - FP_FromInteger(30), mBaseAnimatedWithPhysicsGameObject_YPos, 0))
         {
             field_124_anim.VRender(
                 FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos - pScreenManager->CamXPos()),

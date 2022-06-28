@@ -30,7 +30,7 @@ Particle* New_DestroyOrCreateObject_Particle_419D00(FP xpos, FP ypos, FP scale)
         pParticle->mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_Foreground_Half_17;
     }
 
-    pParticle->mApplyShadows &= ~1u;
+    pParticle->mVisualFlags.Clear(BaseAnimatedWithPhysicsGameObject::VisualFlags::eApplyShadowZoneColour);
 
     return pParticle;
 }
@@ -47,7 +47,7 @@ void New_Smoke_Particles_419A80(FP xpos, FP ypos, FP scale, s16 count, s16 type)
         auto pParticle = relive_new Particle(randX, particleY, rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes);
         if (pParticle)
         {
-            pParticle->mApplyShadows &= ~1u;
+            pParticle->mVisualFlags.Clear(BaseAnimatedWithPhysicsGameObject::VisualFlags::eApplyShadowZoneColour);
             pParticle->mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit16_bBlending);
             pParticle->mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit15_bSemiTrans);
             pParticle->mBaseAnimatedWithPhysicsGameObject_Anim.mRenderMode = TPageAbr::eBlend_3;
@@ -92,7 +92,7 @@ void New_Chant_Particle_4198E0(FP xpos, FP ypos, FP scale, Layer layer)
     auto pParticle = relive_new Particle(xpos, ypos, orbRec.mFrameTableOffset, orbRec.mMaxW, orbRec.mMaxH, ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, orbRec.mResourceId, 1, 0));
     if (pParticle)
     {
-        pParticle->mApplyShadows &= ~1u;
+        pParticle->mVisualFlags.Clear(BaseAnimatedWithPhysicsGameObject::VisualFlags::eApplyShadowZoneColour);
         pParticle->mBaseAnimatedWithPhysicsGameObject_Anim.mRenderMode = TPageAbr::eBlend_1;
 
         if (layer != Layer::eLayer_0)
@@ -119,7 +119,7 @@ void New_Shiny_Particle_4199A0(FP xpos, FP ypos, FP scale, Layer layer)
     auto pParticle = relive_new Particle(xpos, ypos, orbRec.mFrameTableOffset, orbRec.mMaxW, orbRec.mMaxH, ppRes);
     if (pParticle)
     {
-        pParticle->mApplyShadows &= ~1u;
+        pParticle->mVisualFlags.Clear(BaseAnimatedWithPhysicsGameObject::VisualFlags::eApplyShadowZoneColour);
         pParticle->mBaseAnimatedWithPhysicsGameObject_Anim.mRenderMode = TPageAbr::eBlend_1;
         pParticle->mBaseAnimatedWithPhysicsGameObject_RGB.SetRGB(100, 100, 100);
 
@@ -147,7 +147,7 @@ void New_ShootingZFire_Particle_419810(FP xpos, FP ypos, FP scale)
     auto pParticle = relive_new Particle(xpos, ypos, rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes);
     if (pParticle)
     {
-        pParticle->mApplyShadows &= ~1u;
+        pParticle->mVisualFlags.Clear(BaseAnimatedWithPhysicsGameObject::VisualFlags::eApplyShadowZoneColour);
 
         pParticle->mBaseAnimatedWithPhysicsGameObject_RGB.SetRGB(55, 55, 55);
 
@@ -173,7 +173,7 @@ void New_ShootingFire_Particle_419720(FP xpos, FP ypos, s8 direction, FP scale)
     auto pParticle = relive_new Particle(xpos, ypos, rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes);
     if (pParticle)
     {
-        pParticle->mApplyShadows &= ~1u;
+        pParticle->mVisualFlags.Clear(BaseAnimatedWithPhysicsGameObject::VisualFlags::eApplyShadowZoneColour);
         pParticle->mBaseAnimatedWithPhysicsGameObject_RGB.SetRGB(55, 55, 55);
         pParticle->mBaseAnimatedWithPhysicsGameObject_Anim.mRenderMode = TPageAbr::eBlend_1;
 

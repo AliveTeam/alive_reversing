@@ -211,7 +211,7 @@ void ParticleBurst::VUpdate()
 
             if (field_F4_type == BurstType::eMeat_4)
             {
-                if (gMap.Is_Point_In_Current_Camera_4449C0(
+                if (gMap.Is_Point_In_Current_Camera(
                         gMap.mCurrentLevel,
                         gMap.mCurrentPath,
                         pItem->field_0_x,

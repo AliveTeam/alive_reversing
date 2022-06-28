@@ -106,7 +106,7 @@ Mine::Mine(Path_Mine* pPath, TlvItemInfoUnion tlv)
 
     const FP gridSnap = ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale);
     mBaseGameObjectFlags.Set(Options::eInteractive_Bit8);
-    mApplyShadows |= 2u;
+    mVisualFlags.Set(VisualFlags::eDoPurpleLightEffect);
 
     mCollectionRect.x = mBaseAnimatedWithPhysicsGameObject_XPos - (gridSnap / FP_FromDouble(2.0));
     mCollectionRect.y = mBaseAnimatedWithPhysicsGameObject_YPos - gridSnap;
@@ -137,7 +137,7 @@ Mine::~Mine()
 
 void Mine::VUpdate()
 {
-    const s16 onScreen = gMap.Is_Point_In_Current_Camera_4810D0(
+    const s16 onScreen = gMap.Is_Point_In_Current_Camera(
         mBaseAnimatedWithPhysicsGameObject_LvlNumber,
         mBaseAnimatedWithPhysicsGameObject_PathNumber,
         mBaseAnimatedWithPhysicsGameObject_XPos,
@@ -187,7 +187,7 @@ void Mine::VRender(PrimHeader** ppOt)
 {
     if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit3_Render))
     {
-        if (gMap.Is_Point_In_Current_Camera_4810D0(
+        if (gMap.Is_Point_In_Current_Camera(
                 mBaseAnimatedWithPhysicsGameObject_LvlNumber,
                 mBaseAnimatedWithPhysicsGameObject_PathNumber,
                 mBaseAnimatedWithPhysicsGameObject_XPos,

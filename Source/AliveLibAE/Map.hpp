@@ -151,8 +151,8 @@ public:
 
     s16 SetActiveCameraDelayed(MapDirections direction, BaseAliveGameObject* pObj, s16 kMinus1);
 
-    s16 Is_Point_In_Current_Camera_4810D0(EReliveLevelIds level, s32 path, FP xpos, FP ypos, s16 width);
-    CameraPos GetDirection_4811A0(EReliveLevelIds level, s32 path, FP xpos, FP ypos);
+    s16 Is_Point_In_Current_Camera(EReliveLevelIds level, s32 path, FP xpos, FP ypos, s16 width);
+    CameraPos GetDirection(EReliveLevelIds level, s32 path, FP xpos, FP ypos);
 
     s16 Get_Camera_World_Rect(CameraPos camIdx, PSX_RECT* pRect);
 

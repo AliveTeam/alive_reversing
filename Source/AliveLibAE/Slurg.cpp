@@ -104,7 +104,7 @@ Slurg::Slurg(Path_Slurg* pTlv, u32 tlvInfo)
     }
 
     VStackOnObjectsOfType(ReliveTypes::eSlurg);
-    mApplyShadows |= 2u;
+    mVisualFlags.Set(VisualFlags::eDoPurpleLightEffect);
     mShadow = relive_new Shadow();
 }
 
@@ -228,7 +228,7 @@ void Slurg::VUpdate()
         case Slurg_States::eStopped_1:
             mBaseAnimatedWithPhysicsGameObject_VelX = FP_FromInteger(0);
             if (mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame == 0
-                && gMap.Is_Point_In_Current_Camera_4810D0(mBaseAnimatedWithPhysicsGameObject_LvlNumber, mBaseAnimatedWithPhysicsGameObject_PathNumber, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, 0))
+                && gMap.Is_Point_In_Current_Camera(mBaseAnimatedWithPhysicsGameObject_LvlNumber, mBaseAnimatedWithPhysicsGameObject_PathNumber, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, 0))
             {
                 SFX_Play_Mono(SoundEffect::SlurgStop_90, 0);
             }
