@@ -230,12 +230,6 @@ void PsxDisplay::Init()
     PSX_DrawSync_4F6280(0);
     PSX_VSync_4F6170(0);
     PSX_SetDispMask_4F89F0(1);
-
-    // TODO: HACK force off till pScreenManager is common
-    if (GetGameType() == GameType::eAo)
-    {
-        sCommandLine_NoFrameSkip = true;
-    }
 }
 
 void PsxDisplay::PutCurrentDispEnv()
@@ -269,10 +263,13 @@ void PsxDisplay::RenderOrderingTable()
             {
                 if (GetGameType() == GameType::eAo)
                 {
-                    ALIVE_FATAL("Broken till pScreenManager is common");
+                    //ALIVE_FATAL("Broken till pScreenManager is common");
                 }
-                pScreenManager->sub_40EE10();
-                turn_off_rendering_BD0F20 = 1;
+                else
+                {
+                    pScreenManager->sub_40EE10();
+                    turn_off_rendering_BD0F20 = 1;
+                }
             }
             PSX_VSync_4F6170(2);
         }
