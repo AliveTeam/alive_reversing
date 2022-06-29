@@ -517,23 +517,20 @@ void UXB::VRender(PrimHeader** ppOt)
     {
         field_11C_anim.VRender(
             FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos
-                           + FP_FromInteger(pScreenManager->mCamXOff)
-                           - pScreenManager->mCamPos->x),
+                           + pScreenManager->CamXPos()),
             FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos
-                           + (FP_FromInteger(pScreenManager->mCamYOff) - FP_NoFractional(mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(12)))
-                           - pScreenManager->mCamPos->y),
+                           + (pScreenManager->CamYPos() - FP_NoFractional(mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(12)))),
             ppOt,
             0,
             0);
 
         PSX_RECT rect = {};
         field_11C_anim.Get_Frame_Rect(&rect);
-        pScreenManager->InvalidateRect(
+        pScreenManager->InvalidateRectCurrentIdx(
             rect.x,
             rect.y,
             rect.w,
-            rect.h,
-            pScreenManager->mIdx);
+            rect.h);
 
         BaseAnimatedWithPhysicsGameObject::VRender(ppOt);
     }

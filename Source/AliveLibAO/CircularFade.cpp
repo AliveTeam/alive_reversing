@@ -64,12 +64,11 @@ void CircularFade::VRender(PrimHeader** ppOt)
         0);
     PSX_RECT frameRect = {};
     mBaseAnimatedWithPhysicsGameObject_Anim.Get_Frame_Rect(&frameRect);
-    pScreenManager->InvalidateRect(
+    pScreenManager->InvalidateRectCurrentIdx(
         frameRect.x,
         frameRect.y,
         frameRect.w,
-        frameRect.h,
-        pScreenManager->mIdx);
+        frameRect.h);
 
     frameRect.h--;
     frameRect.w--;

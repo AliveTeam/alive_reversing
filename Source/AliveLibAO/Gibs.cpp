@@ -274,12 +274,11 @@ void Gibs::VRender(PrimHeader** ppOt)
 
                 PSX_RECT frameRect = {};
                 pGib->field_18_animation.Get_Frame_Rect(&frameRect);
-                pScreenManager->InvalidateRect(
+                pScreenManager->InvalidateRectCurrentIdx(
                     frameRect.x,
                     frameRect.y,
                     frameRect.w,
-                    frameRect.h,
-                    pScreenManager->mIdx);
+                    frameRect.h);
             }
         }
     }

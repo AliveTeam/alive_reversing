@@ -369,7 +369,7 @@ void CameraSwapper::VUpdate()
                 pScreenManager->InvalidateRect(0, 0, 640, 240, 0);
                 pScreenManager->InvalidateRect(0, 0, 640, 240, 1);
                 pScreenManager->InvalidateRect(0, 0, 640, 240, 2);
-                pScreenManager->mFlags |= 1;
+                pScreenManager->EnableRendering();
             }
             mBaseGameObjectFlags.Set(BaseGameObject::eDead);
         }
@@ -453,7 +453,7 @@ void CameraSwapper::VUpdate()
             }
             else
             {
-                pScreenManager->mFlags &= ~1u;
+                pScreenManager->DisableRendering();
             }
 
             // When no movie is playing start the next one
@@ -478,7 +478,7 @@ void CameraSwapper::VUpdate()
             }
             else
             {
-                pScreenManager->mFlags &= ~1u;
+                pScreenManager->DisableRendering();
             }
 
             // When no movie is playing start the next one

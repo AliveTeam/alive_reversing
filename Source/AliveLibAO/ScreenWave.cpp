@@ -56,8 +56,8 @@ ScreenWave::ScreenWave(FP xpos, FP ypos, Layer layer, FP width, FP speed, s32 ra
 
     field_2C = FP_FromInteger(0);
 
-    field_36_screen_xpos = FP_GetExponent(xpos) - FP_GetExponent(pScreenManager->mCamPos->x - FP_FromInteger(pScreenManager->mCamXOff));
-    field_38_screen_ypos = FP_GetExponent(ypos) - FP_GetExponent(pScreenManager->mCamPos->y - FP_FromInteger(pScreenManager->mCamYOff));
+    field_36_screen_xpos = FP_GetExponent(xpos) - FP_GetExponent(pScreenManager->CamXPos());
+    field_38_screen_ypos = FP_GetExponent(ypos) - FP_GetExponent(pScreenManager->CamYPos());
 
     // TODO: This needs to be checked, my brain melted halfway
     const s16 v1 = static_cast<s16>(std::abs(field_36_screen_xpos) + std::abs(field_38_screen_ypos));
@@ -286,12 +286,11 @@ void ScreenWave::VRender(PrimHeader** ppOt)
         }
         if (clearRectSize.y <= clearRectSize.h && clearRectSize.x <= clearRectSize.w)
         {
-            pScreenManager->InvalidateRect(
+            pScreenManager->InvalidateRectCurrentIdx(
                 clearRectSize.x,
                 clearRectSize.y,
                 clearRectSize.w,
-                clearRectSize.h,
-                pScreenManager->mIdx);
+                clearRectSize.h);
         }
     }
 }

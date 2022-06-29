@@ -152,12 +152,11 @@ void LCDStatusBoard::VRender(PrimHeader** ppOt)
         biggestW = w3;
     }
 
-    pScreenManager->InvalidateRect(
+    pScreenManager->InvalidateRectCurrentIdx(
         field_CC_xpos,
         field_CE_ypos,
         biggestW,
-        48,
-        pScreenManager->mIdx);
+        48);
 }
 
 } // namespace AO

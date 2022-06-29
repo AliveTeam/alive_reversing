@@ -289,10 +289,9 @@ void SnoozeParticle::VRender(PrimHeader** ppOt)
     Init_SetTPage(thisTPage, 1, 0, tPage);
     OrderingTable_Add(OtLayer(ppOt, field_30_layer), &thisTPage->mBase);
 
-    pScreenManager->InvalidateRect(
+    pScreenManager->InvalidateRectCurrentIdx(
         rectToInvalidate.x, rectToInvalidate.y,
-        rectToInvalidate.w, rectToInvalidate.h,
-        pScreenManager->mIdx);
+        rectToInvalidate.w, rectToInvalidate.h);
 }
 
 } // namespace AO

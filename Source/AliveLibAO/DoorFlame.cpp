@@ -71,12 +71,11 @@ public:
 
             PSX_RECT rect = {};
             mBaseAnimatedWithPhysicsGameObject_Anim.Get_Frame_Rect(&rect);
-            pScreenManager->InvalidateRect(
+            pScreenManager->InvalidateRectCurrentIdx(
                 rect.x,
                 rect.y,
                 rect.w,
-                rect.h,
-                pScreenManager->mIdx);
+                rect.h);
         }
     }
 
@@ -249,12 +248,11 @@ public:
 
                 PSX_RECT frameRect = {};
                 mBaseAnimatedWithPhysicsGameObject_Anim.Get_Frame_Rect(&frameRect);
-                pScreenManager->InvalidateRect(
+                pScreenManager->InvalidateRectCurrentIdx(
                     frameRect.x,
                     frameRect.y,
                     frameRect.w,
-                    frameRect.h,
-                    pScreenManager->mIdx);
+                    frameRect.h);
 
                 for (auto& anim : field_E8_sparks)
                 {
@@ -270,12 +268,11 @@ public:
                                     ppOt);
 
                                 anim.field_14.GetRenderedSize(&frameRect);
-                                pScreenManager->InvalidateRect(
+                                pScreenManager->InvalidateRectCurrentIdx(
                                     frameRect.x,
                                     frameRect.y,
                                     frameRect.w,
-                                    frameRect.h,
-                                    pScreenManager->mIdx);
+                                    frameRect.h);
                             }
                         }
                     }

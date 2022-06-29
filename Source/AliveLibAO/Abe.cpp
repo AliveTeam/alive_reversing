@@ -3149,7 +3149,7 @@ void Abe::VOnTlvCollision(Path_TLV* pTlv)
 
                 SaveGame::SaveToMemory(&gSaveBuffer_505668);
 
-                const FP camXPos = FP_NoFractional(pScreenManager->mCamPos->x - FP_FromInteger(pScreenManager->mCamXOff));
+                const FP camXPos = FP_NoFractional(pScreenManager->CamXPos());
 
                 FP indicator_xpos = {};
                 if (mBaseAnimatedWithPhysicsGameObject_XPos - camXPos >= FP_FromInteger(384 / 2)) // mid screen x
@@ -7087,8 +7087,8 @@ void Abe::Motion_61_Respawn_42CD20()
         {
             if (static_cast<s32>(sGnFrame) > field_118_timer)
             {
-                auto xDiff = pScreenManager->mCamPos->x - FP_FromInteger(pScreenManager->mCamXOff);
-                auto yDiff = pScreenManager->mCamPos->y - FP_FromInteger(pScreenManager->mCamYOff);
+                auto xDiff = pScreenManager->CamXPos();
+                auto yDiff = pScreenManager->CamYPos();
 
                 for (s32 i = 0; i < 8; i++)
                 {
@@ -8272,7 +8272,7 @@ void Abe::Motion_88_HandstoneBegin_430590()
                 pScreenManager->DecompressCameraToVRam(
                     reinterpret_cast<u16**>(gMap.field_34_camera_array[0]->field_C_ppBits));
                 pScreenManager->MoveImage();
-                pScreenManager->mFlags |= 1;
+                pScreenManager->EnableRendering();
                 field_164_pCircularFade->VFadeIn(0, 0);
                 field_110_state.stone = StoneStates::eHandstoneEnd_5;
             }

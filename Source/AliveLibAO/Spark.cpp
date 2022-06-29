@@ -204,12 +204,11 @@ void Spark::VRender(PrimHeader** ppOt)
     Prim_SetTPage* pTPage = &field_10_tPage[gPsxDisplay.mBufferIndex];
     Init_SetTPage(pTPage, 1, 0, PSX_getTPage(TPageMode::e4Bit_0, TPageAbr::eBlend_1, 0, 0));
     OrderingTable_Add(OtLayer(ppOt, field_42_layer), &pTPage->mBase);
-    pScreenManager->InvalidateRect(
+    pScreenManager->InvalidateRectCurrentIdx(
         rect.x,
         rect.y,
         rect.w,
-        rect.h,
-        pScreenManager->mIdx);
+        rect.h);
 }
 
 } // namespace AO

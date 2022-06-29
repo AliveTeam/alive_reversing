@@ -435,12 +435,11 @@ void LCDScreen::VRender(PrimHeader** ppOt)
         Init_PrimClipper_495FD0(clipper, &clipRect2);
         OrderingTable_Add(OtLayer(ppOt, Layer::eLayer_BeforeWell_22), &clipper->mBase);
 
-        pScreenManager->InvalidateRect(
+        pScreenManager->InvalidateRectCurrentIdx(
             clipRect2.x,
             clipRect2.y,
             clipRect2.w,
-            24,
-            pScreenManager->mIdx);
+            24);
     }
 }
 

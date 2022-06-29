@@ -284,12 +284,11 @@ void FG1::VRender(PrimHeader** ppOt)
 
             OrderingTable_Add(OtLayer(ppOt, pBlock->field_66_mapped_layer), &pPoly->mBase.header);
 
-            pScreenManager->InvalidateRect(
+            pScreenManager->InvalidateRectCurrentIdx(
                 X0(pPoly),
                 Y0(pPoly),
                 X3(pPoly),
-                Y3(pPoly),
-                pScreenManager->mIdx);
+                Y3(pPoly));
         }
     }
 }

@@ -209,12 +209,11 @@ void DoorLight::VRender(PrimHeader** ppOt)
 
         PSX_RECT rect = {};
         mBaseAnimatedWithPhysicsGameObject_Anim.Get_Frame_Rect(&rect);
-        pScreenManager->InvalidateRect(
+        pScreenManager->InvalidateRectCurrentIdx(
             rect.x,
             rect.y,
             rect.w,
-            rect.h,
-            pScreenManager->mIdx);
+            rect.h);
     }
 }
 

@@ -601,12 +601,11 @@ void BeeSwarm::VRender(PrimHeader** ppOt)
         }
         if (!bDontClear)
         {
-            pScreenManager->InvalidateRect(
+            pScreenManager->InvalidateRectCurrentIdx(
                 out.x,
                 out.y,
                 out.w,
-                out.h,
-                pScreenManager->mIdx);
+                out.h);
         }
     }
 }

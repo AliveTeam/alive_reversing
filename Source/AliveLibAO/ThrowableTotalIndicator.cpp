@@ -288,12 +288,11 @@ void ThrowableTotalIndicator::VRender(PrimHeader** ppOt)
     Init_SetTPage(&field_17C_tPage[gPsxDisplay.mBufferIndex], 1, 0, PSX_getTPage(TPageMode::e4Bit_0, TPageAbr::eBlend_1, 0, 0));
     OrderingTable_Add(OtLayer(ppOt, field_30_layer), &field_17C_tPage->mBase);
 
-    pScreenManager->InvalidateRect(
+    pScreenManager->InvalidateRectCurrentIdx(
         PsxToPCX(xpos - 31),
         ypos - 21,
         PsxToPCX(xpos + 31),
-        ypos + 31,
-        pScreenManager->mIdx);
+        ypos + 31);
 }
 
 ThrowableTotalIndicator::ThrowableTotalIndicator(FP xpos, FP ypos, Layer layer, FP /*scale*/, s32 count, bool bFade)

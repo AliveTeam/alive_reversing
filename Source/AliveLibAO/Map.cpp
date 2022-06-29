@@ -1925,7 +1925,7 @@ void Map::GoTo_Camera()
         pScreenManager->DecompressCameraToVRam(reinterpret_cast<u16**>(field_34_camera_array[0]->field_C_ppBits));
         pScreenManager->InvalidateRectCurrentIdx(0, 0, 640, 240);
         pScreenManager->MoveImage();
-        pScreenManager->mFlags = (pScreenManager->mFlags & ~1) ^ 1;
+        pScreenManager->EnableRendering();
     }
 
     if (field_10_screenChangeEffect != CameraSwapEffects::ePlay1FMV_5 && field_10_screenChangeEffect != CameraSwapEffects::eUnknown_11)

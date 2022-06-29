@@ -640,13 +640,12 @@ void BirdPortal::VUpdate()
 
         case PortalStates::PortalExit_SetPosition_17:
         {
-            pScreenManager->mFlags = (pScreenManager->mFlags & ~1) ^ 1;
-            pScreenManager->InvalidateRect(
+            pScreenManager->EnableRendering();
+            pScreenManager->InvalidateRectCurrentIdx(
                 0,
                 0,
                 gPsxDisplay.mWidth,
-                gPsxDisplay.mHeight,
-                pScreenManager->mIdx);
+                gPsxDisplay.mHeight);
 
             CreateTerminators();
 

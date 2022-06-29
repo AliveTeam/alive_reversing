@@ -70,12 +70,11 @@ void OrbWhirlWindParticle::Render(PrimHeader** ppOt)
 
     PSX_RECT rect = {};
     field_8_anim.Get_Frame_Rect(&rect);
-    pScreenManager->InvalidateRect(
+    pScreenManager->InvalidateRectCurrentIdx(
         rect.x,
         rect.y,
         rect.w,
-        rect.h,
-        pScreenManager->mIdx);
+        rect.h);
 }
 
 void OrbWhirlWindParticle::SetActive(u8 active)

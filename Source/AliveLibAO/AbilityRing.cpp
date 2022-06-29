@@ -236,12 +236,11 @@ void AbilityRing::VRender(PrimHeader** ppOt)
 
                 OrderingTable_Add(OtLayer(ppOt, mRingLayer), &pPoly->mBase.header);
 
-                pScreenManager->InvalidateRect(
+                pScreenManager->InvalidateRectCurrentIdx(
                     rect.x,
                     rect.y,
                     rect.w,
-                    rect.h,
-                    pScreenManager->mIdx);
+                    rect.h);
 
                 mRingCollideRects[i] = rect;
                 mRingCollideRects[i].x = PCToPsxX(mRingCollideRects[i].x, 20);

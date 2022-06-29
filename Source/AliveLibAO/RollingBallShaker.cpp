@@ -5,6 +5,7 @@
 #include "stdlib.hpp"
 #include "PsxDisplay.hpp"
 #include "ScreenManager.hpp"
+#include "Primitives.hpp"
 #include "../AliveLibAE/Primitives.hpp"
 
 void RollingBallShaker_ForceLink()

@@ -216,12 +216,11 @@ void ZapLine::VRender(PrimHeader** ppOt)
         pRect->y -= 25;
         pRect->h += 25;
         const PSX_RECT* pRectToUse = &field_134_rects[gPsxDisplay.mBufferIndex];
-        pScreenManager->InvalidateRect(
+        pScreenManager->InvalidateRectCurrentIdx(
             pRectToUse->x,
             pRectToUse->y,
             pRectToUse->w,
-            pRectToUse->h,
-            pScreenManager->mIdx);
+            pRectToUse->h);
     }
 }
 

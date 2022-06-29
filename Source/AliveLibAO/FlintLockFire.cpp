@@ -338,38 +338,34 @@ void FlintLockFire::VRender(PrimHeader** ppOt)
 
         PSX_RECT frameRect = {};
         mBaseAnimatedWithPhysicsGameObject_Anim.Get_Frame_Rect(&frameRect);
-        pScreenManager->InvalidateRect(
+        pScreenManager->InvalidateRectCurrentIdx(
             frameRect.x,
             frameRect.y,
             frameRect.w,
-            frameRect.h,
-            pScreenManager->mIdx);
+            frameRect.h);
 
         field_F0_anim.Get_Frame_Rect(&frameRect);
-        pScreenManager->InvalidateRect(
+        pScreenManager->InvalidateRectCurrentIdx(
             frameRect.x,
             frameRect.y,
             frameRect.w,
-            frameRect.h,
-            pScreenManager->mIdx);
+            frameRect.h);
 
         if (sFlintLockFireData_4BAC70[cur_lvl].field_24_bFire)
         {
             field_188_anim.Get_Frame_Rect(&frameRect);
-            pScreenManager->InvalidateRect(
+            pScreenManager->InvalidateRectCurrentIdx(
                 frameRect.x,
                 frameRect.y,
                 frameRect.w,
-                frameRect.h,
-                pScreenManager->mIdx);
+                frameRect.h);
 
             field_220_anim.Get_Frame_Rect(&frameRect);
-            pScreenManager->InvalidateRect(
+            pScreenManager->InvalidateRectCurrentIdx(
                 frameRect.x,
                 frameRect.y,
                 frameRect.w,
-                frameRect.h,
-                pScreenManager->mIdx);
+                frameRect.h);
         }
     }
 }

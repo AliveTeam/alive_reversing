@@ -149,12 +149,11 @@ void TimedMine::VRender(PrimHeader** ppOt)
 
         PSX_RECT pRect = {};
         mTickAnim.Get_Frame_Rect(&pRect);
-        pScreenManager->InvalidateRect(
+        pScreenManager->InvalidateRectCurrentIdx(
             pRect.x,
             pRect.y,
             pRect.w,
-            pRect.h,
-            pScreenManager->mIdx);
+            pRect.h);
         BaseAnimatedWithPhysicsGameObject::VRender(ppOt);
     }
 }

@@ -1886,12 +1886,11 @@ void HintFly::VRender(PrimHeader** ppOt)
     Init_SetTPage(pTPage, 0, 0, tpage);
     OrderingTable_Add(OtLayer(ppOt, Layer::eLayer_Above_FG1_39), &pTPage->mBase);
 
-    pScreenManager->InvalidateRect(
+    pScreenManager->InvalidateRectCurrentIdx(
         rect.x - 6,
         rect.y - 6,
         rect.w + 9,
-        rect.h + 6,
-        pScreenManager->mIdx);
+        rect.h + 6);
 }
 
 } // namespace AO
