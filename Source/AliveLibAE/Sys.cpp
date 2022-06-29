@@ -941,7 +941,7 @@ static void KeyUpEvent(SDL_Scancode scanCode)
     sLastPressedKey_BD30A0 = 0;
 }
 
-static void QuitEvent(bool isRecordedEvent, bool actuallyQuit)
+static void QuitEvent(bool isRecordedEvent, bool isRecording)
 {
     if (sMovieSoundEntry_5CA230)
     {
@@ -976,8 +976,25 @@ static void QuitEvent(bool isRecordedEvent, bool actuallyQuit)
         }
     }
 
+    bool actuallyQuit = false;
+    if (isRecordedEvent)
+    {
+        // Reading the SDL_QUIT event
+        const RecordedEvent recordedEvent = GetGameAutoPlayer().GetEvent();
+        actuallyQuit = recordedEvent.mData ? true : false;
+    }
+
     const MessageBoxButton recordedButtonResult = actuallyQuit ? MessageBoxButton::eYes : MessageBoxButton::eNo;
     const MessageBoxButton button = isRecordedEvent ? recordedButtonResult : Sys_MessageBox(Sys_GetWindowHandle_4EE180(), "Do you really want to quit?", "R.E.L.I.V.E.", MessageBoxType::eQuestion);
+
+    if (isRecording)
+    {
+        RecordedEvent recEvent;
+        recEvent.mType = SDL_QUIT;
+        recEvent.mData = button == MessageBoxButton::eYes ? 1 : 0;
+        GetGameAutoPlayer().RecordEvent(recEvent);
+    }
+
     if (SND_Seq_Table_Valid_4CAFE0())
     {
         GetSoundAPI().SND_Restart();
@@ -1007,7 +1024,7 @@ static void QuitEvent(bool isRecordedEvent, bool actuallyQuit)
 EXPORT s8 CC Sys_PumpMessages_4EE4F4()
 {
 #if USE_SDL2
-    GetGameAutoPlayer().SyncPoint(SyncPoints::PumpEvents);
+    GetGameAutoPlayer().SyncPoint(SyncPoints::PumpEventsStart);
 
     SDL_Event event = {};
     const bool isRecording = GetGameAutoPlayer().IsRecording();
@@ -1030,8 +1047,10 @@ EXPORT s8 CC Sys_PumpMessages_4EE4F4()
                     KeyUpEvent(static_cast<SDL_Scancode>(recordedEvent.mData));
                     break;
 
-                case SDL_QUIT:
-                    QuitEvent(true, recordedEvent.mData);
+                case 0:
+                    // Hack for quit events, quit writes other events before the actual event data
+                    // this is used to mark the start
+                    QuitEvent(true, false);
                     break;
 
                 default:
@@ -1071,7 +1090,7 @@ EXPORT s8 CC Sys_PumpMessages_4EE4F4()
 #endif // AUTO_SWITCH_CONTROLLER
         if (event.type == SDL_KEYDOWN)
         {
-            if (!isRecording && !isPlaying)
+            if (!isPlaying)
             {
                 KeyDownEvent(event.key.keysym.scancode);
             }
@@ -1086,7 +1105,7 @@ EXPORT s8 CC Sys_PumpMessages_4EE4F4()
         }
         else if (event.type == SDL_KEYUP)
         {
-            if (!isRecording && !isPlaying)
+            if (!isPlaying)
             {
                 KeyUpEvent(event.key.keysym.scancode);
             }
@@ -1117,25 +1136,30 @@ EXPORT s8 CC Sys_PumpMessages_4EE4F4()
         }
         else if (event.type == SDL_QUIT)
         {
-            if (isPlaying)
+            if (!isPlaying)
+            {
+                // Required to write a dummy event first because the QuitEvent can write other events first
+                // which breaks the playback logic of Peeking and looping until the type isn't event.
+                if (isRecording)
+                {
+                    RecordedEvent recEvent;
+                    recEvent.mType = 0;
+                    recEvent.mData = 0;
+                    GetGameAutoPlayer().RecordEvent(recEvent);
+                }
+
+                // Else alllow normal quit behaviour + record the result
+                QuitEvent(false, isRecording);
+            }
+            else
             {
                 // Force quit if attempting to close the game during playback
                 bNeedToQuit = true;
             }
-            else
-            {
-                // Else alllow normal quit behaviour + record the result
-                QuitEvent(false, false);
-                if (isRecording)
-                {
-                    RecordedEvent recEvent;
-                    recEvent.mType = event.type;
-                    recEvent.mData = bNeedToQuit ? 1 : 0;
-                    GetGameAutoPlayer().RecordEvent(recEvent);
-                }
-            }
         }
     }
+    
+    GetGameAutoPlayer().SyncPoint(SyncPoints::PumpEventsEnd);
 
     if (bNeedToQuit)
     {

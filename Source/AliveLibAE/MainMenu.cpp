@@ -3337,7 +3337,7 @@ s32 MainMenuController::ChangeScreenAndIntroLogic_4CF640()
                     }
                 }
 
-                while (Input_IsVKPressed_4EDD40(13))
+                while (Input_IsVKPressed_4EDD40(VK_RETURN))
                 {
                     SYS_EventsPump_494580();
                 }

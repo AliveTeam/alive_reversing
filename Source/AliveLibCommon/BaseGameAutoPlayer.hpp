@@ -21,7 +21,19 @@ enum SyncPoints : u32
 {
     StartGameObjectUpdate = 1,
     EndGameObjectUpdate = 2,
-    PumpEvents = 3,
+    PumpEventsStart = 3,
+    MainLoopStart = 4,
+    ObjectsUpdateStart = 5,
+    ObjectsUpdateEnd = 6,
+    AnimateAll = 7,
+    DrawAllStart = 8,
+    DrawAllEnd = 9,
+    RenderStart = 10,
+    RenderEnd = 11,
+    IncrementFrame = 12,
+    MainLoopExit = 13,
+    RenderOT = 14,
+    PumpEventsEnd = 17,
 };
 
 struct RecordedEvent final
@@ -41,6 +53,10 @@ public:
     {
         Close();
         mFile = ::fopen(pFileName, pMode);
+        if (strchr(pMode, 'w'))
+        {
+            mIsWriter = true;
+        }
         mAutoFlushFile = autoFlushFile;
         return mFile != nullptr;
     }
@@ -88,6 +104,10 @@ public:
     {
         if (mFile)
         {
+            if (mIsWriter)
+            {
+                ::fflush(mFile);
+            }
             ::fclose(mFile);
         }
     }
@@ -104,7 +124,8 @@ private:
         }
     }
 
-    FILE* mFile = nullptr;
+    FILE* mFile = nullptr; 
+    bool mIsWriter = false;
     bool mAutoFlushFile = false;
 };
 
