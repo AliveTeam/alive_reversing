@@ -11,6 +11,7 @@
 #include "Sound/Sound.hpp"
 #include "PauseMenu.hpp" // pal_554474
 #include "Sys.hpp"
+#include "GameAutoPlayer.hpp"
 
 BaseGameObject* Text::VDestructor(s32 flags)
 {
@@ -237,15 +238,20 @@ EXPORT s8 CC Display_Full_Screen_Message_Blocking_465820(s32 /*not_used*/, Messa
         SND_StopAll_4CB060();
     }
 
-    u32 displayForMsecs = SYS_GetTicks() + 1000;
+    u32 displayForMsecs = GetGameAutoPlayer().SysGetTicks() + 1000;
 
     if (messageType == MessageType::eShortTitle_3)
     {
         displayForMsecs += 4000;
     }
 
+    if (GetGameAutoPlayer().IsRecording() || GetGameAutoPlayer().IsPlaying())
+    {
+        displayForMsecs = 200; // Get rid of these quickly for recordings
+    }
+
     s8 bQuitViaEnterOrTimeOut = 1;
-    if (SYS_GetTicks() < displayForMsecs)
+    if (GetGameAutoPlayer().SysGetTicks() < displayForMsecs)
     {
         bool waitReturn = true;
         while (!Input_IsVKPressed_4EDD40(VK_RETURN))
@@ -269,7 +275,7 @@ EXPORT s8 CC Display_Full_Screen_Message_Blocking_465820(s32 /*not_used*/, Messa
 
             SYS_EventsPump_494580();
 
-            if (SYS_GetTicks() >= displayForMsecs)
+            if (GetGameAutoPlayer().SysGetTicks() >= displayForMsecs)
             {
                 waitReturn = false;
                 break;

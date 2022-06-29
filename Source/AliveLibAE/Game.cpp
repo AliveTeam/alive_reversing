@@ -739,11 +739,14 @@ EXPORT void CC Game_Loop_467230()
     bool bPauseMenuObjectFound = false;
     while (!gBaseGameObject_list_BB47C4->IsEmpty())
     {
+        GetGameAutoPlayer().SyncPoint(SyncPoints::MainLoopStart);
+
         Events_Reset_Active_422DA0();
         Slurg::Clear_Slurg_Step_Watch_Points_449A90();
         bSkipGameObjectUpdates_5C2FA0 = 0;
 
         // Update objects
+        GetGameAutoPlayer().SyncPoint(SyncPoints::ObjectsUpdateStart);
         for (s32 baseObjIdx = 0; baseObjIdx < gBaseGameObject_list_BB47C4->Size(); baseObjIdx++)
         {
             BaseGameObject* pBaseGameObject = gBaseGameObject_list_BB47C4->ItemAt(baseObjIdx);
@@ -775,16 +778,19 @@ EXPORT void CC Game_Loop_467230()
                 }
             }
         }
+        GetGameAutoPlayer().SyncPoint(SyncPoints::ObjectsUpdateEnd);
 
         // Animate everything
         if (sNum_CamSwappers_5C1B66 <= 0)
         {
+            GetGameAutoPlayer().SyncPoint(SyncPoints::AnimateAll);
             AnimationBase::AnimateAll_40AC20(gObjList_animations_5C1A24);
         }
 
         PrimHeader** ppOtBuffer = gPsxDisplay_5C1130.field_10_drawEnv[gPsxDisplay_5C1130.field_C_buffer_index].field_70_ot_buffer;
 
         // Render objects
+        GetGameAutoPlayer().SyncPoint(SyncPoints::DrawAllStart);
         for (s32 i = 0; i < gObjList_drawables_5C1124->Size(); i++)
         {
             BaseGameObject* pObj = gObjList_drawables_5C1124->ItemAt(i);
@@ -803,6 +809,7 @@ EXPORT void CC Game_Loop_467230()
                 pObj->VRender(ppOtBuffer);
             }
         }
+        GetGameAutoPlayer().SyncPoint(SyncPoints::DrawAllEnd);
 
         // Render FG1's
         for (s32 i = 0; i < gFG1List_5D1E28->Size(); i++)
@@ -829,7 +836,10 @@ EXPORT void CC Game_Loop_467230()
         pScreenManager_5BB5F4->VRender(ppOtBuffer);
         SYS_EventsPump_494580(); // Exit checking?
 
+        GetGameAutoPlayer().SyncPoint(SyncPoints::RenderOT);
         gPsxDisplay_5C1130.PSX_Display_Render_OT_41DDF0();
+        
+        GetGameAutoPlayer().SyncPoint(SyncPoints::RenderStart);
 
         // Destroy objects with certain flags
         for (s16 idx = 0; idx < gBaseGameObject_list_BB47C4->Size(); idx++)
@@ -851,6 +861,8 @@ EXPORT void CC Game_Loop_467230()
             }
         }
 
+        GetGameAutoPlayer().SyncPoint(SyncPoints::RenderEnd);
+
         if (bPauseMenuObjectFound && pPauseMenu_5C9300)
         {
             pPauseMenu_5C9300->VUpdate();
@@ -863,11 +875,13 @@ EXPORT void CC Game_Loop_467230()
 
         if (sNum_CamSwappers_5C1B66 == 0)
         {
+            GetGameAutoPlayer().SyncPoint(SyncPoints::IncrementFrame);
             sGnFrame_5C1B84++;
         }
 
         if (sBreakGameLoop_5C2FE0)
         {
+            GetGameAutoPlayer().SyncPoint(SyncPoints::MainLoopExit);
             break;
         }
 
