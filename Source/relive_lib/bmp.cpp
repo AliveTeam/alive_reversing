@@ -1,9 +1,7 @@
 #include "stdafx.h"
 #include "bmp.hpp"
-#include "Function.hpp"
-#include "DDraw.hpp"
 #include "Error.hpp"
-#include "Sys_common.hpp"
+#include "../AliveLibCommon/Sys_common.hpp"
 
 ALIVE_VAR(1, 0xBC0BB4, u8, gVGA_force_sys_memory_surfaces_BC0BB4, 0);
 
@@ -25,7 +23,7 @@ s32 BMP_Blt_4F1E50(Bitmap* pDstBmp, s32 xPos, s32 yPos, Bitmap* pSrcBmp, LPRECT 
     return -1;
 }
 
-s32 BMP_ClearRect_4F1EE0(Bitmap* pBmp, const RECT* pRect, u32 fillColour)
+s32 BMP_ClearRect(Bitmap* pBmp, const RECT* pRect, u32 fillColour)
 {
     const SDL_Rect clearRect = {pRect->left, pRect->right, pRect->top, pRect->bottom};
     if (SDL_FillRect(pBmp->field_0_pSurface, &clearRect, fillColour /*SDL_MapRGB(pBmp->field_0_pSurface->format, 255, 0, 0)*/) != 0)
@@ -1366,7 +1364,7 @@ s32 BMP_Blt_4F1E50(Bitmap* pDstBmp, s32 xPos, s32 yPos, Bitmap* pSrcBmp, LPRECT 
 
 ALIVE_VAR(1, 0xBBC458, DDBLTFX, blt_fx_stru_BBC458, {});
 
-s32 BMP_ClearRect_4F1EE0(Bitmap* pBmp, const RECT* pRect, u32 fillColour)
+s32 BMP_ClearRect(Bitmap* pBmp, const RECT* pRect, u32 fillColour)
 {
     RECT rect = *pRect;
 

@@ -334,7 +334,7 @@ void Font_Context::LoadFontType_433400(s16 resourceID)
 
     field_C_resource_id = resourceID;
 
-    Vram_alloc_4956C0(fontFile->mWidth, fontFile->mHeight, fontFile->field_4_color_depth, &field_0_rect);
+    Vram_alloc(fontFile->mWidth, fontFile->mHeight, fontFile->field_4_color_depth, &field_0_rect);
     const PSX_RECT vramAllocatedRect = {field_0_rect.x, field_0_rect.y, static_cast<s16>(fontFile->mWidth / 4), fontFile->mHeight};
 
     IRenderer::GetRenderer()->Upload(fontFile->field_4_color_depth == 16 ? IRenderer::BitDepth::e16Bit : IRenderer::BitDepth::e4Bit, vramAllocatedRect, fontFile->field_28_pixel_buffer);
@@ -360,7 +360,7 @@ void Font_Context::dtor_433510()
 {
     if (field_0_rect.x)
     {
-        Vram_free_495A60({field_0_rect.x, field_0_rect.y}, {field_0_rect.w, field_0_rect.h});
+        Vram_free({field_0_rect.x, field_0_rect.y}, {field_0_rect.w, field_0_rect.h});
     }
 }
 
@@ -386,7 +386,7 @@ void Font_Context::LoadFontTypeCustom(File_Font* fontFile, Font_AtlasEntry* font
     // Give custom fonts a constant resource id for now.
     field_C_resource_id = 0xff;
 
-    Vram_alloc_4956C0(fontFile->mWidth, fontFile->mHeight, fontFile->field_4_color_depth, &field_0_rect);
+    Vram_alloc(fontFile->mWidth, fontFile->mHeight, fontFile->field_4_color_depth, &field_0_rect);
     const PSX_RECT vramAlloctedRect = {field_0_rect.x, field_0_rect.y, static_cast<s16>(fontFile->mWidth / 4), fontFile->mHeight};
 
     if (pPaletteOut)

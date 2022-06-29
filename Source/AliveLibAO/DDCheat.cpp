@@ -14,7 +14,7 @@
 #include "Game.hpp"
 #include "stdlib.hpp"
 #include "FixedPoint.hpp"
-#include "../AliveLibAE/PsxDisplay.hpp"
+#include "../relive_lib/PsxDisplay.hpp"
 
 namespace AO {
 

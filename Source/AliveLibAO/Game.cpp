@@ -36,6 +36,7 @@
 #include "AddPointer.hpp"
 #include "PathDataExtensions.hpp"
 #include "GameAutoPlayer.hpp"
+#include "../relive_lib/Error.hpp"
 
 namespace AO {
 
@@ -298,7 +299,7 @@ void Init_GameStates()
 
 void Init_Sound_DynamicArrays_And_Others_41CD20()
 {
-    DebugFont_Init_487EC0();
+    DebugFont_Init();
 
     for (OverlayRecord& rec : sOverlayTable_4C5AA8.records)
     {
@@ -395,7 +396,7 @@ void Game_Shutdown_48E050()
     SND_SsQuit();
     IO_Stop_ASync_IO_Thread_491A80();
     VGA_Shutdown_4900E0();
-    Error_ShowErrorStackToUser_48DF10(true);
+    Error_ShowErrorStackToUser(true);
 }
 
 
@@ -454,7 +455,7 @@ void Game_Loop_437630()
             }
         }
 
-        DebugFont_Flush_487F50();
+        DebugFont_Flush();
         PSX_DrawSync_496750(0);
         pScreenManager->VRender(ppOt);
         SYS_EventsPump_44FF90();

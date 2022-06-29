@@ -690,7 +690,7 @@ void Animation::Animation_Pal_Free()
 
     if (mVramRect.w > 0)
     {
-        Vram_free_450CE0({mVramRect.x, mVramRect.y}, {mVramRect.w, mVramRect.h});
+        Vram_free({mVramRect.x, mVramRect.y}, {mVramRect.w, mVramRect.h});
     }
 
     if (mPalDepth > 0)
@@ -885,7 +885,7 @@ s16 Animation::Init(s32 frameTableOffset, DynamicArray* /*animList*/, BaseGameOb
             return 0;
     }
 
-    if (!vram_alloc_450B20(maxW, maxH, pFrameHeader->field_6_colour_depth, &mVramRect))
+    if (!Vram_alloc(maxW, maxH, pFrameHeader->field_6_colour_depth, &mVramRect))
     {
         // Seems like this can at least happen with many bomb particles
         // this will be fixed in the future

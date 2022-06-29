@@ -1,17 +1,13 @@
 #include "stdafx.h"
 #include "PsxDisplay.hpp"
-#include "Function.hpp"
-#include "ScreenManager.hpp"
-#include "VGA.hpp"
 #include "Error.hpp"
-#include "Sound/Midi.hpp"
-#include "stdlib.hpp"
+#include "bmp.hpp"
 #include <type_traits>
 #include "VRam.hpp"
-#include "DebugHelpers.hpp"
-#include "PsxRender.hpp"
-#include "Sys.hpp"
-#include <gmock/gmock.h>
+#include "../AliveLibCommon/Sys_common.hpp"
+#include "../AliveLibAE/PsxRender.hpp"
+#include "GameType.hpp"
+#include "../AliveLibAE/ScreenManager.hpp"
 
 ALIVE_VAR(1, 0x5C1130, PsxDisplay, gPsxDisplay, {});
 
@@ -126,8 +122,8 @@ s32 DebugFont_Init() // Font
 {
     if (!sbDebugFontLoaded)
     {
-        Vram_alloc_explicit(960, 256, 991, 287);
-        Vram_alloc_explicit(960, 384, 975, 385);
+        Vram_alloc(960, 256, 991, 287);
+        Vram_alloc(960, 384, 975, 385);
         sbDebugFontLoaded = 1;
     }
     DebugFont_Reset_4F8B40();
@@ -153,7 +149,7 @@ s32 DebugFont_Printf(s32 idx, const char_type* formatStr, ...)
     return static_cast<s32>(strlen(sTexts_C27640[idx].field_9_text.field_0_src_txt));
 }
 
-void DebugFont_Flush_4DD050()
+void DebugFont_Flush()
 {
     DebugFont_Printf(sDebugTextIdx_BB47C8, sDebugFontTmpBuffer_BB47CC);
     DebugFont_Update_Text_4F8BE0(sDebugTextIdx_BB47C8);
@@ -201,9 +197,9 @@ void PsxDisplay::Init()
     PSX_SetGraphDebug_4F8A10(0);
     PSX_ResetGraph_4F8800(0);
 
-    Vram_init_495660();
-    Vram_alloc_explicit(0, 0, 639, 271);
-    Pal_Area_Init_483080(0, 240, 640, 32);
+    Vram_init();
+    Vram_alloc(0, 0, 639, 271);
+    Pal_Area_Init(0, 240, 640, 32);
     PSX_ClearOTag_4F6290(mDrawEnvs[0].mOrderingTable, mBufferSize);
     PSX_ClearOTag_4F6290(mDrawEnvs[1].mOrderingTable, mBufferSize);
     PSX_SetDefDrawEnv_4F5AA0(&mDrawEnvs[0].mDrawEnv, 0, 0, mWidth, mHeight);
@@ -234,6 +230,12 @@ void PsxDisplay::Init()
     PSX_DrawSync_4F6280(0);
     PSX_VSync_4F6170(0);
     PSX_SetDispMask_4F89F0(1);
+
+    // TODO: HACK force off till pScreenManager is common
+    if (GetGameType() == GameType::eAo)
+    {
+        sCommandLine_NoFrameSkip = true;
+    }
 }
 
 void PsxDisplay::PutCurrentDispEnv()
@@ -265,6 +267,10 @@ void PsxDisplay::RenderOrderingTable()
             }
             else
             {
+                if (GetGameType() == GameType::eAo)
+                {
+                    ALIVE_FATAL("Broken till pScreenManager is common");
+                }
                 pScreenManager->sub_40EE10();
                 turn_off_rendering_BD0F20 = 1;
             }

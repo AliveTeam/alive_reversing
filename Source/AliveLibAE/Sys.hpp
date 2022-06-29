@@ -1,7 +1,7 @@
 #pragma once
 
 #include "../AliveLibCommon/Function.hpp"
-#include "Sys_common.hpp"
+#include "../AliveLibCommon/Sys_common.hpp"
 
 void Sys_SetWindowText(TWindowHandleType windowHandle, const char_type* title);
 POINT Sys_GetScreenMousePos();
@@ -18,7 +18,7 @@ LPSTR Sys_GetCommandLine_4EE176();
 void Sys_SetWindowProc_Filter_4EE197(TWindowProcFilter pFilter);
 #endif
 void Sys_Set_Hwnd_4F2C50(TWindowHandleType hwnd);
-TWindowHandleType Sys_GetHWnd_4F2C70();
+TWindowHandleType Sys_GetHWnd();
 s32 Sys_WindowClass_Register_4EE22F(LPCSTR lpClassName, LPCSTR lpWindowName, s32 x, s32 y, s32 nWidth, s32 nHeight);
 TWindowHandleType Sys_GetWindowHandle_4EE180();
 Bool32 Sys_IsAnyKeyDown_4EDDF0();

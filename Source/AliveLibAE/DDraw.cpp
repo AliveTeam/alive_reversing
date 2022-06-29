@@ -502,9 +502,9 @@ s32 DD_SetDisplayMode_4F0730(u32 width, u32 height, u32 bpp)
     // TODO: HACK
     HWND hwnd;
         #if USE_SDL2
-    hwnd = Sys_Win32FromSDLWindow(Sys_GetHWnd_4F2C70());
+    hwnd = Sys_Win32FromSDLWindow(Sys_GetHWnd());
         #else
-    hwnd = Sys_GetHWnd_4F2C70();
+    hwnd = Sys_GetHWnd();
         #endif
 
     const LONG winStyle = ::GetWindowLongA(hwnd, GWL_STYLE);
@@ -521,7 +521,7 @@ s32 DD_SetDisplayMode_4F0730(u32 width, u32 height, u32 bpp)
         #if BEHAVIOUR_CHANGE_FORCE_WINDOW_MODE
             // Leave the window style alone in forced window mode
         #else
-    ::SetWindowLongA(Sys_GetHWnd_4F2C70(), GWL_STYLE, newWinStyle);
+    ::SetWindowLongA(Sys_GetHWnd(), GWL_STYLE, newWinStyle);
         #endif
     return sDDraw_BBC3D4->SetDisplayMode(width, height, bpp);
 }
@@ -870,9 +870,9 @@ void DD_render_back_buffer_4F0D90(IDirectDrawSurface* pSurf, RECT* pRect, s32 sc
         // TODO: HACK
         HWND hwnd;
         #if USE_SDL2
-        hwnd = Sys_Win32FromSDLWindow(Sys_GetHWnd_4F2C70());
+        hwnd = Sys_Win32FromSDLWindow(Sys_GetHWnd());
         #else
-        hwnd = Sys_GetHWnd_4F2C70();
+        hwnd = Sys_GetHWnd();
         #endif
 
         sDD_hWnd_BBC3B0 = hwnd;

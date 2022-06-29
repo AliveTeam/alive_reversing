@@ -1,7 +1,7 @@
 #pragma once
 
 #include "../AliveLibCommon/Sys_common.hpp"
-#include "Primitives.hpp"
+#include "../AliveLibCommon/Primitives_common.hpp"
 #include "../AliveLibCommon/Psx_common.hpp"
 #include <SDL.h>
 

@@ -1343,7 +1343,7 @@ private:
         mAnim[3].mAnimFlags.Set(AnimFlags::eBit15_bSemiTrans);
 
         PSX_RECT pr = {};
-        Pal_Allocate_483110(&pr, 16);
+        Pal_Allocate(&pr, 16);
         pr.w = 16;
         pr.h = 1;
         PSX_LoadImage16_4F5E20(&pr, (u8*) &kTestImagePal[0]);

@@ -99,7 +99,7 @@ s32 VGA_Convert_Colour_4F4DB0(s32 r, s32 g, s32 b)
 
 s32 VGA_ClearRect_4F4CF0(RECT* pRect, u32 fillColour)
 {
-    return BMP_ClearRect_4F1EE0(VGA_GetBitmap_4F3F00(), pRect, fillColour);
+    return BMP_ClearRect(VGA_GetBitmap_4F3F00(), pRect, fillColour);
 }
 
 void VGA_CopyToFront_4F3730(Bitmap* pBmp, RECT* pRect, s32 /*screenMode*/)
@@ -243,11 +243,11 @@ s32 VGA_DisplaySet_4F32C0(u16 width, u16 height, u8 bpp, u8 backbufferCount, TSu
     {
         /*
         RECT rect = {};
-        ::SetWindowPos(Sys_GetHWnd_4F2C70(), HWND_TOPMOST, 0, 0, width, height, 0x204u); // TODO: SDK constants
-        ::GetClientRect(Sys_GetHWnd_4F2C70(), &rect);
+        ::SetWindowPos(Sys_GetHWnd(), HWND_TOPMOST, 0, 0, width, height, 0x204u); // TODO: SDK constants
+        ::GetClientRect(Sys_GetHWnd(), &rect);
         if (width != rect.right || height != rect.bottom)
         {
-            ::SetWindowPos(Sys_GetHWnd_4F2C70(), HWND_TOPMOST, 0, 0, width - rect.right + width, height - rect.bottom + height, 0x204u); // TODO: SDK constants
+            ::SetWindowPos(Sys_GetHWnd(), HWND_TOPMOST, 0, 0, width - rect.right + width, height - rect.bottom + height, 0x204u); // TODO: SDK constants
         }
         */
     }
@@ -256,7 +256,7 @@ s32 VGA_DisplaySet_4F32C0(u16 width, u16 height, u8 bpp, u8 backbufferCount, TSu
     {
         // Create primary surface
         sVGA_bmp_primary_BD2A20.field_0_pSurface = SDL_CreateRGBSurface(0, width, height, bpp, 0x7c00, 0x03e0, 0x001f, 0x0); // TODO
-                                                                                                                             //        sVGA_bmp_primary_BD2A20.field_0_pSurface = SDL_GetWindowSurface(Sys_GetHWnd_4F2C70());
+                                                                                                                             //        sVGA_bmp_primary_BD2A20.field_0_pSurface = SDL_GetWindowSurface(Sys_GetHWnd());
 
         sVGA_bmp_primary_BD2A20.field_8_width = width;
         sVGA_bmp_primary_BD2A20.field_10_locked_pitch = sVGA_bmp_primary_BD2A20.field_0_pSurface->pitch; // TODO: Probably wrong ?
@@ -281,7 +281,7 @@ s32 VGA_DisplaySet_4F32C0(u16 width, u16 height, u8 bpp, u8 backbufferCount, TSu
         IRenderer::CreateRenderer(IRenderer::Renderers::Software);
     #endif
 
-        if (!IRenderer::GetRenderer()->Create(Sys_GetHWnd_4F2C70()))
+        if (!IRenderer::GetRenderer()->Create(Sys_GetHWnd()))
         {
             LOG_ERROR("Render create failed " << SDL_GetError());
             ALIVE_FATAL("Render create failed");
@@ -390,7 +390,7 @@ s32 VGA_Convert_Colour_4F4DB0(s32 r, s32 g, s32 b)
 
 s32 VGA_ClearRect_4F4CF0(RECT* pRect, u32 fillColour)
 {
-    return BMP_ClearRect_4F1EE0(VGA_GetBitmap_4F3F00(), pRect, fillColour);
+    return BMP_ClearRect(VGA_GetBitmap_4F3F00(), pRect, fillColour);
 }
 
 void VGA_CopyToFront_4F3730(Bitmap* pBmp, RECT* pRect, s32 screenMode)
@@ -671,7 +671,7 @@ s32 VGA_DisplaySet_4F32C0(u16 width, u16 height, u8 bpp, u8 backbufferCount, TSu
         VGA_Shutdown_4F3170();
     }
 
-    if (DD_Init_4F02D0(Sys_GetHWnd_4F2C70(), sVGA_IsWindowMode_BD0BF8, gVGA_force_sys_memory_surfaces_BC0BB4))
+    if (DD_Init_4F02D0(Sys_GetHWnd(), sVGA_IsWindowMode_BD0BF8, gVGA_force_sys_memory_surfaces_BC0BB4))
     {
         if (ppSurface)
         {
@@ -692,16 +692,16 @@ s32 VGA_DisplaySet_4F32C0(u16 width, u16 height, u8 bpp, u8 backbufferCount, TSu
         sVGA_height_BD0BEC = height;
         sVGA_width_BD0BC4 = width;
 
-        if (DD_Enable_4F0380(Sys_GetHWnd_4F2C70(), width, height, bpp, backbufferCount, 0))
+        if (DD_Enable_4F0380(Sys_GetHWnd(), width, height, bpp, backbufferCount, 0))
         {
             if (!sVGA_IsWindowMode_BD0BF8)
             {
                 RECT rect = {};
-                ::SetWindowPos(Sys_GetHWnd_4F2C70(), HWND_TOPMOST, 0, 0, width, height, 0x204u); // TODO: SDK constants
-                ::GetClientRect(Sys_GetHWnd_4F2C70(), &rect);
+                ::SetWindowPos(Sys_GetHWnd(), HWND_TOPMOST, 0, 0, width, height, 0x204u); // TODO: SDK constants
+                ::GetClientRect(Sys_GetHWnd(), &rect);
                 if (width != rect.right || height != rect.bottom)
                 {
-                    ::SetWindowPos(Sys_GetHWnd_4F2C70(), HWND_TOPMOST, 0, 0, width - rect.right + width, height - rect.bottom + height, 0x204u); // TODO: SDK constants
+                    ::SetWindowPos(Sys_GetHWnd(), HWND_TOPMOST, 0, 0, width - rect.right + width, height - rect.bottom + height, 0x204u); // TODO: SDK constants
                 }
             }
 
@@ -855,7 +855,7 @@ LPVOID VGA_BuffLockPtr_4F30A0(s32 always3)
         {
             if (!sVGA_IsWindowMode_BD0BF8)
             {
-                RECT rect = ClientToScreenConvert(Sys_GetHWnd_4F2C70());
+                RECT rect = ClientToScreenConvert(Sys_GetHWnd());
                 if (rect.left < 0 || rect.top < 0)
                 {
                     return nullptr;

@@ -79,9 +79,9 @@ s32 SND_CreateDS_DSound(u32 sampleRate, s32 bitsPerSample, s32 isStereo)
         // TODO: HACK
         HWND hwnd;
     #if USE_SDL2
-        hwnd = Sys_Win32FromSDLWindow(Sys_GetHWnd_4F2C70());
+        hwnd = Sys_Win32FromSDLWindow(Sys_GetHWnd());
     #else
-        hwnd = Sys_GetHWnd_4F2C70();
+        hwnd = Sys_GetHWnd();
     #endif
 
         if (hwnd)

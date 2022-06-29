@@ -7,8 +7,6 @@ SET(AliveLibSrcAO
    GameAutoPlayer.hpp
    PathDataExtensions.hpp
    PathDataExtensions.cpp
-   Error.hpp
-   Error.cpp
    TestAnimation.cpp
    TestAnimation.hpp
    Sys.hpp
@@ -163,8 +161,6 @@ SET(AliveLibSrcAO
    BeeSwarmHole.cpp
    BeeSwarm.hpp
    BeeSwarm.cpp
-   VRam.hpp
-   VRam.cpp
    DeathFadeOut.hpp
    DeathFadeOut.cpp
    Flash.hpp
@@ -249,8 +245,6 @@ SET(AliveLibSrcAO
    WinMain.cpp
    PathData.hpp
    PathData.cpp
-   bmp.hpp
-   bmp.cpp
    Animation.hpp
    Animation.cpp
    AnimationBase.hpp
@@ -277,8 +271,6 @@ SET(AliveLibSrcAO
    BaseAnimatedWithPhysicsGameObject.cpp
    BaseAliveGameObject.hpp
    BaseAliveGameObject.cpp
-   PsxDisplay.hpp
-   PsxDisplay.cpp
    FixedPoint.hpp
    FixedPoint.cpp
    AmbientSound.hpp

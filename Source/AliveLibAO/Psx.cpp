@@ -202,7 +202,7 @@ void Init_VGA_AndPsxVram()
     rect.top = 0;
     rect.right = 640;
     rect.bottom = 480;
-    BMP_ClearRect_48F810(&sVGA_bmp_primary_A8A4C0, &rect, 0);
+    BMP_ClearRect(&sVGA_bmp_primary_A8A4C0, &rect, 0);
     switch (VGA_GetPixelFormat_490E60())
     {
         case 8:
@@ -221,8 +221,8 @@ void Init_VGA_AndPsxVram()
             PSX_EMU_SetDispType_499E60(3);
             break;
         default:
-            Error_WarningMessageBox_48E470("This program requires a high-color display mode of 32768 or 65536 colors at 640x480 resolution.");
-            Error_ShowErrorStackToUser_48DF10(0);
+            Error_WarningMessageBox("This program requires a high-color display mode of 32768 or 65536 colors at 640x480 resolution.");
+            Error_ShowErrorStackToUser(0);
             exit(0);
             return;
     }

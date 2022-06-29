@@ -511,7 +511,7 @@ void renderWithGlowingEyes(PrimHeader** ot, BaseAliveGameObject* actor, s16* pPa
                     {
                         pPalAlloc[eyeColourIndices[i]] = pAnimDataWithOffset[eyeColourIndices[i]];
                     }
-                    Pal_Set_483510(
+                    Pal_Set(
                         actor->mBaseAnimatedWithPhysicsGameObject_Anim.mPalVramXY,
                         actor->mBaseAnimatedWithPhysicsGameObject_Anim.mPalDepth,
                         reinterpret_cast<const u8*>(pPalAlloc),

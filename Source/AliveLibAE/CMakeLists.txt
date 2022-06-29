@@ -25,8 +25,6 @@ SET(AliveLibAESrc
     VGA.hpp
     DDraw.cpp
     DDraw.hpp
-    Error.cpp
-    Error.hpp
     Psx.cpp
     Psx.hpp
     PsxRender.cpp
@@ -37,8 +35,6 @@ SET(AliveLibAESrc
     GameSpeak.cpp
     DDCheat.hpp
     DDCheat.cpp
-    bmp.cpp
-    bmp.hpp
     Sfx.hpp
     Sfx.cpp
     Game.cpp
@@ -77,8 +73,6 @@ SET(AliveLibAESrc
     Primitives.hpp
     Map.cpp
     Map.hpp
-    PsxDisplay.cpp
-    PsxDisplay.hpp
     ScreenManager.cpp
     ScreenManager.hpp
     Camera.cpp
@@ -128,8 +122,6 @@ SET(AliveLibAESrc
     LCDScreen.cpp
     LCDStatusBoard.hpp
     LCDStatusBoard.cpp
-    VRam.hpp
-    VRam.cpp
     Collisions.hpp
     Collisions.cpp
     CheatController.hpp

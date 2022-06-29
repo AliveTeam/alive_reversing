@@ -303,7 +303,7 @@ void Scrab::VUpdate()
         mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit3_Render);
         if (mBaseAnimatedWithPhysicsGameObject_Anim.mVramRect.w)
         {
-            Vram_free_450CE0(
+            Vram_free(
                 PSX_Point{mBaseAnimatedWithPhysicsGameObject_Anim.mVramRect.x, mBaseAnimatedWithPhysicsGameObject_Anim.mVramRect.y},
                 PSX_Point{mBaseAnimatedWithPhysicsGameObject_Anim.mVramRect.w, mBaseAnimatedWithPhysicsGameObject_Anim.mVramRect.h});
             mBaseAnimatedWithPhysicsGameObject_Anim.mVramRect.w = 0;
@@ -315,7 +315,7 @@ void Scrab::VUpdate()
         {
             if (!mBaseAnimatedWithPhysicsGameObject_Anim.mVramRect.w)
             {
-                vram_alloc_450B20(168, 69, 8u, &mBaseAnimatedWithPhysicsGameObject_Anim.mVramRect);
+                Vram_alloc(168, 69, 8u, &mBaseAnimatedWithPhysicsGameObject_Anim.mVramRect);
             }
             mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit2_Animate);
             mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit3_Render);

@@ -755,7 +755,7 @@ void Game_Loop_467230()
             }
         }
 
-        DebugFont_Flush_4DD050();
+        DebugFont_Flush();
         PSX_DrawSync_4F6280(0);
         pScreenManager->VRender(ppOtBuffer);
         SYS_EventsPump_494580(); // Exit checking?

@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Function.hpp"
-#include "../AliveLibAE/bmp.hpp" // For TSurfaceType
+#include "../relive_lib/bmp.hpp" // For TSurfaceType
 
 namespace AO {
 

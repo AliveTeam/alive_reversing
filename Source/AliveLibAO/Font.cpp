@@ -249,7 +249,7 @@ void FontContext::LoadFontType(s16 resourceID)
     auto loadedResource = ResourceManager::GetLoadedResource(ResourceManager::Resource_Font, resourceID, 1, 0);
     auto fontFile = reinterpret_cast<File_Font*>(*loadedResource);
 
-    vram_alloc_450B20(fontFile->mWidth, fontFile->mHeight, fontFile->field_4_color_depth, &field_0_rect);
+    Vram_alloc(fontFile->mWidth, fontFile->mHeight, fontFile->field_4_color_depth, &field_0_rect);
 
     const PSX_RECT rect = {field_0_rect.x, field_0_rect.y, static_cast<s16>(fontFile->mWidth / 4), fontFile->mHeight};
 
@@ -276,7 +276,7 @@ FontContext::~FontContext()
 {
     if (field_0_rect.x > 0)
     {
-        Vram_free_450CE0(
+        Vram_free(
             {field_0_rect.x, field_0_rect.y},
             {field_0_rect.w, field_0_rect.h});
     }

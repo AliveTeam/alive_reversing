@@ -126,7 +126,7 @@ Electrocute::Electrocute(BaseAliveGameObject* pTargetObj, bool bExtraOverwriter,
         case ReliveTypes::eAbe:
         case ReliveTypes::eSlig:
             field_40_pPalData = relive_new u16[pTargetObj->mBaseAnimatedWithPhysicsGameObject_Anim.mPalDepth];
-            Pal_Copy_483560(
+            Pal_Copy(
                 pTargetObj->mBaseAnimatedWithPhysicsGameObject_Anim.mPalVramXY,
                 pTargetObj->mBaseAnimatedWithPhysicsGameObject_Anim.mPalDepth,
                 field_40_pPalData,
@@ -201,12 +201,12 @@ void Electrocute::VUpdate()
                 field_30_pPalOverwriters[0] = relive_new PalleteOverwriter(
                     pTargetObj->mBaseAnimatedWithPhysicsGameObject_Anim.mPalVramXY,
                     pTargetObj->mBaseAnimatedWithPhysicsGameObject_Anim.mPalDepth,
-                    static_cast<s16>(Pal_Make_Colour_4834C0(255u, 255, 255, 1)));
+                    static_cast<s16>(Pal_Make_Colour(255u, 255, 255, 1)));
 
                 field_30_pPalOverwriters[1] = relive_new PalleteOverwriter(
                     pTargetObj->mBaseAnimatedWithPhysicsGameObject_Anim.mPalVramXY,
                     pTargetObj->mBaseAnimatedWithPhysicsGameObject_Anim.mPalDepth,
-                    static_cast<s16>(Pal_Make_Colour_4834C0(64u, 64, 255, 1)));
+                    static_cast<s16>(Pal_Make_Colour(64u, 64, 255, 1)));
                 if (field_30_pPalOverwriters[1])
                 {
                     field_30_pPalOverwriters[1]->SetUpdateDelay(4);
@@ -216,7 +216,7 @@ void Electrocute::VUpdate()
                 {
                     field_30_pPalOverwriters[2] = relive_new PalleteOverwriter(pTargetObj->mBaseAnimatedWithPhysicsGameObject_Anim.mPalVramXY,
                         pTargetObj->mBaseAnimatedWithPhysicsGameObject_Anim.mPalDepth,
-                        static_cast<s16>(Pal_Make_Colour_4834C0(0, 0, 0, 0)));
+                        static_cast<s16>(Pal_Make_Colour(0, 0, 0, 0)));
                     if (field_30_pPalOverwriters[2])
                     {
                         field_30_pPalOverwriters[2]->SetUpdateDelay(8);
@@ -233,7 +233,7 @@ void Electrocute::VUpdate()
                 {
                     if (field_40_pPalData)
                     {
-                        Pal_Set_483510(
+                        Pal_Set(
                             pTargetObj->mBaseAnimatedWithPhysicsGameObject_Anim.mPalVramXY,
                             pTargetObj->mBaseAnimatedWithPhysicsGameObject_Anim.mPalDepth,
                             reinterpret_cast<const u8*>(field_40_pPalData),
@@ -291,7 +291,7 @@ void Electrocute::VStop()
     {
         if (field_40_pPalData)
         {
-            Pal_Set_483510(
+            Pal_Set(
                 pTarget->mBaseAnimatedWithPhysicsGameObject_Anim.mPalVramXY,
                 pTarget->mBaseAnimatedWithPhysicsGameObject_Anim.mPalDepth,
                 reinterpret_cast<const u8*>(field_40_pPalData),

@@ -37,13 +37,13 @@ void SoftwareRenderer::StartFrame(s32 xOff, s32 yOff)
 
 void SoftwareRenderer::PalFree(const IRenderer::PalRecord& record)
 {
-    Pal_free_483390(PSX_Point{record.x, record.y}, record.depth);
+    Pal_free(PSX_Point{record.x, record.y}, record.depth);
 }
 
 bool SoftwareRenderer::PalAlloc(IRenderer::PalRecord& record)
 {
     PSX_RECT rect = {};
-    const bool ret = Pal_Allocate_483110(&rect, record.depth);
+    const bool ret = Pal_Allocate(&rect, record.depth);
     record.x = rect.x;
     record.y = rect.y;
     return ret;

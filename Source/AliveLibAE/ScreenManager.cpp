@@ -186,7 +186,7 @@ void ScreenManager::Init(u8** ppBits)
     mCamWidth = 640;
     mCamHeight = 240;
 
-    Vram_alloc_explicit(0, 272, 640 - 1, 512 - 1);
+    Vram_alloc(0, 272, 640 - 1, 512 - 1);
     DecompressCameraToVRam(reinterpret_cast<u16**>(ppBits));
 
     mScreenSprites = &sSpriteTPageBuffer[0];

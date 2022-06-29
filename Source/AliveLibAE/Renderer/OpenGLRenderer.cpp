@@ -3,7 +3,7 @@
 #include "OpenGLRenderer.hpp"
 #include "Compression.hpp"
 #include "VRam.hpp"
-
+#include "Primitives.hpp"
 #include "StbImageImplementation.hpp"
 
 #define GL_TO_IMGUI_TEX(v) *reinterpret_cast<ImTextureID*>(&v)
@@ -864,7 +864,7 @@ void OpenGLRenderer::StartFrame(s32 /*xOff*/, s32 /*yOff*/)
 // This function should free both vrams allocations AND palettes, cause theyre kinda the same thing.
 void OpenGLRenderer::PalFree(const PalRecord& record)
 {
-    Pal_free_483390(PSX_Point{record.x, record.y}, record.depth); // TODO: Stop depending on this
+    Pal_free(PSX_Point{record.x, record.y}, record.depth); // TODO: Stop depending on this
 
     Renderer_FreePalette({
         record.x,
@@ -880,7 +880,7 @@ bool OpenGLRenderer::PalAlloc(PalRecord& record)
 {
     PSX_RECT rect = {};
     // TODO: Stop depending on this
-    const bool ret = Pal_Allocate_483110(&rect, record.depth);
+    const bool ret = Pal_Allocate(&rect, record.depth);
     record.x = rect.x;
     record.y = rect.y;
     return ret;

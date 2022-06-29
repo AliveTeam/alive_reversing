@@ -123,7 +123,7 @@ static const Layer sFg1_layer_to_bits_layer_4BC024[] = {Layer::eLayer_FG1_37, La
 void FG1::Convert_Chunk_To_Render_Block(const Fg1Chunk* pChunk, Fg1Block* pBlock)
 {
     const s16 width_rounded = (pChunk->field_8_width + 1) & ~1u;
-    if (vram_alloc_450860(pChunk->field_8_width, pChunk->field_A_height, &pBlock->field_58_rect))
+    if (Vram_alloc(pChunk->field_8_width, pChunk->field_A_height, 16, &pBlock->field_58_rect))
     {
         pBlock->field_66_mapped_layer = sFg1_layer_to_bits_layer_4BC024[pChunk->field_2_layer_or_decompressed_size];
 
@@ -207,7 +207,7 @@ FG1::~FG1()
     {
         if (field_20_chnk_res[i].field_58_rect.w > 0)
         {
-            Vram_free_450CE0(
+            Vram_free(
                 {field_20_chnk_res[i].field_58_rect.x, field_20_chnk_res[i].field_58_rect.y},
                 {field_20_chnk_res[i].field_58_rect.w, field_20_chnk_res[i].field_58_rect.h});
         }

@@ -48,7 +48,7 @@ void Sys_Set_Hwnd_4F2C50(TWindowHandleType hwnd)
     // Note: Not setting byte BBE6F8
 }
 
-TWindowHandleType Sys_GetHWnd_4F2C70()
+TWindowHandleType Sys_GetHWnd()
 {
     return hWnd_BBFB04;
 }

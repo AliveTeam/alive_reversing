@@ -409,7 +409,7 @@ void Animation::VRender(s32 xpos, s32 ypos, PrimHeader** ppOt, s16 width, s32 he
 {
     if ((mVramRect.x || mVramRect.y) && !(mAnimFlags.Get(AnimFlags::eBit25_bDecompressDone)))
     {
-        Vram_free_495A60({mVramRect.x, mVramRect.y}, {mVramRect.w, mVramRect.h});
+        Vram_free({mVramRect.x, mVramRect.y}, {mVramRect.w, mVramRect.h});
         mVramRect.x = 0;
         mVramRect.y = 0;
     }
@@ -740,7 +740,7 @@ void Animation::Animation_Pal_Free()
     {
         if (mVramRect.x || mVramRect.y || mAnimFlags.Get(AnimFlags::eBit9))
         {
-            Vram_free_495A60({mVramRect.x, mVramRect.y}, {mVramRect.w, mVramRect.h});
+            Vram_free({mVramRect.x, mVramRect.y}, {mVramRect.w, mVramRect.h});
         }
     }
 
@@ -941,7 +941,7 @@ s16 Animation::Init(s32 frameTableOffset, DynamicArray* /*animList*/, BaseGameOb
             return 0;
     }
 
-    if (!Vram_alloc_4956C0(maxW, maxH, pFrameHeader->field_6_colour_depth, &mVramRect))
+    if (!Vram_alloc(maxW, maxH, pFrameHeader->field_6_colour_depth, &mVramRect))
     {
         // Seems like this can at least happen with many bomb particles
         // this will be fixed in the future

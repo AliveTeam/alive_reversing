@@ -1,8 +1,6 @@
 #include "stdafx.h"
 #include "Error.hpp"
-#include "Function.hpp"
-#include "Sys.hpp"
-#include "stdlib.hpp"
+#include "../AliveLibAE/Sys.hpp"
 
 struct ErrorData final
 {
@@ -63,7 +61,7 @@ void Error_DisplayMessageBox_4F2C80(const char_type* msg, s32 lineNum, const cha
         sprintf(sErrorTitle_BC03B4, "%s : %d", msg, lineNum);
     }
 
-    Sys_MessageBox(Sys_GetHWnd_4F2C70(), sErrorMessage_BBFBA8, sErrorTitle_BC03B4);
+    Sys_MessageBox(Sys_GetHWnd(), sErrorMessage_BBFBA8, sErrorTitle_BC03B4);
 }
 
 
@@ -87,19 +85,19 @@ void Error_MessageBox_4F2D00(const char_type* pFileName, s32 lineNum, const char
         sprintf(sErrorTitle_BBF6FC, "%s : %d", pFileName, lineNum);
     }
 
-    Sys_MessageBox(Sys_GetHWnd_4F2C70(), sErrorMsg_BBEEFC, sErrorTitle_BBF6FC);
+    Sys_MessageBox(Sys_GetHWnd(), sErrorMsg_BBEEFC, sErrorTitle_BBF6FC);
 }
 
-void Error_WarningMessageBox_4F2D80(const char_type* pWarningMsg, ...)
+void Error_WarningMessageBox(const char_type* pWarningMsg, ...)
 {
     static char_type sWarningMsg_BBE6FC[2048];
     va_list va;
     va_start(va, pWarningMsg);
     vsprintf(sWarningMsg_BBE6FC, pWarningMsg, va);
-    Sys_MessageBox(Sys_GetHWnd_4F2C70(), sWarningMsg_BBE6FC, "Warning");
+    Sys_MessageBox(Sys_GetHWnd(), sWarningMsg_BBE6FC, "Warning");
 }
 
-void Error_ShowErrorStackToUser_4F2A70(bool bDisplayAll)
+void Error_ShowErrorStackToUser(bool bDisplayAll)
 {
     if (!sErrorIndex_BBC564)
     {

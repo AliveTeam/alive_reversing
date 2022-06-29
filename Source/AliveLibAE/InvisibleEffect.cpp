@@ -19,14 +19,14 @@ InvisibleEffect::InvisibleEffect(BaseAliveGameObject* pTarget)
     field_44_objId = pTarget->field_8_object_id;
 
     field_24_pPal1 = relive_new u16[pTarget->mBaseAnimatedWithPhysicsGameObject_Anim.mPalDepth];
-    Pal_Copy_483560(
+    Pal_Copy(
         pTarget->mBaseAnimatedWithPhysicsGameObject_Anim.mPalVramXY,
         pTarget->mBaseAnimatedWithPhysicsGameObject_Anim.mPalDepth,
         field_24_pPal1,
         &field_28_pal_rect1);
 
     field_30_pPal2 = relive_new u16[pTarget->mBaseAnimatedWithPhysicsGameObject_Anim.mPalDepth];
-    Pal_Copy_483560(
+    Pal_Copy(
         pTarget->mBaseAnimatedWithPhysicsGameObject_Anim.mPalVramXY,
         pTarget->mBaseAnimatedWithPhysicsGameObject_Anim.mPalDepth,
         field_30_pPal2,
@@ -166,7 +166,7 @@ void InvisibleEffect::VUpdate()
                 }
                 else
                 {
-                    Pal_Set_483510(pTarget->mBaseAnimatedWithPhysicsGameObject_Anim.mPalVramXY, pTarget->mBaseAnimatedWithPhysicsGameObject_Anim.mPalDepth, (u8*) field_30_pPal2, &field_34_pal_rect2);
+                    Pal_Set(pTarget->mBaseAnimatedWithPhysicsGameObject_Anim.mPalVramXY, pTarget->mBaseAnimatedWithPhysicsGameObject_Anim.mPalDepth, (u8*) field_30_pPal2, &field_34_pal_rect2);
                     SetUpdateDelay(1);
                 }
 
@@ -181,7 +181,7 @@ void InvisibleEffect::VUpdate()
                     // Clear transparent bit
                     field_30_pPal2[i] &= 0x8000u;
                 }
-                Pal_Set_483510(pTarget->mBaseAnimatedWithPhysicsGameObject_Anim.mPalVramXY, pTarget->mBaseAnimatedWithPhysicsGameObject_Anim.mPalDepth, (u8*) field_30_pPal2, &field_34_pal_rect2);
+                Pal_Set(pTarget->mBaseAnimatedWithPhysicsGameObject_Anim.mPalVramXY, pTarget->mBaseAnimatedWithPhysicsGameObject_Anim.mPalDepth, (u8*) field_30_pPal2, &field_34_pal_rect2);
                 field_4A_flags.Clear(Flags_4A::eIsInvisible_Bit3);
                 SetUpdateDelay(1);
                 field_20_state_or_op = InvisibleState::eSetRenderMode1_0;
@@ -219,7 +219,7 @@ void InvisibleEffect::VUpdate()
 
                 if (v3)
                 {
-                    Pal_Set_483510(pTarget->mBaseAnimatedWithPhysicsGameObject_Anim.mPalVramXY, pTarget->mBaseAnimatedWithPhysicsGameObject_Anim.mPalDepth, (u8*) field_30_pPal2, &field_34_pal_rect2);
+                    Pal_Set(pTarget->mBaseAnimatedWithPhysicsGameObject_Anim.mPalVramXY, pTarget->mBaseAnimatedWithPhysicsGameObject_Anim.mPalDepth, (u8*) field_30_pPal2, &field_34_pal_rect2);
                     pTarget->mBaseAnimatedWithPhysicsGameObject_Anim.mRenderMode = TPageAbr::eBlend_1;
                     SetUpdateDelay(5);
                 }
@@ -231,7 +231,7 @@ void InvisibleEffect::VUpdate()
             }
             case InvisibleState::eClearInvisibility_5:
             {
-                Pal_Set_483510(pTarget->mBaseAnimatedWithPhysicsGameObject_Anim.mPalVramXY, pTarget->mBaseAnimatedWithPhysicsGameObject_Anim.mPalDepth, (u8*) field_24_pPal1, &field_28_pal_rect1);
+                Pal_Set(pTarget->mBaseAnimatedWithPhysicsGameObject_Anim.mPalVramXY, pTarget->mBaseAnimatedWithPhysicsGameObject_Anim.mPalDepth, (u8*) field_24_pPal1, &field_28_pal_rect1);
 
                 pTarget->mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit15_bSemiTrans, field_4A_flags.Get(Flags_4A::eSemiTrans_Bit1));
                 pTarget->mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit16_bBlending, field_4A_flags.Get(Flags_4A::eBlending_Bit2));

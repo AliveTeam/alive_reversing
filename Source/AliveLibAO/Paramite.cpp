@@ -493,7 +493,7 @@ void Paramite::VUpdate()
 
         if (mBaseAnimatedWithPhysicsGameObject_Anim.mVramRect.w)
         {
-            Vram_free_450CE0(
+            Vram_free(
                 {mBaseAnimatedWithPhysicsGameObject_Anim.mVramRect.x, mBaseAnimatedWithPhysicsGameObject_Anim.mVramRect.y},
                 {mBaseAnimatedWithPhysicsGameObject_Anim.mVramRect.w, mBaseAnimatedWithPhysicsGameObject_Anim.mVramRect.h});
             mBaseAnimatedWithPhysicsGameObject_Anim.mVramRect.w = 0;
@@ -503,7 +503,7 @@ void Paramite::VUpdate()
     {
         if (mBaseAnimatedWithPhysicsGameObject_Anim.mVramRect.w == 0)
         {
-            vram_alloc_450B20(138u, 49, 8u, &mBaseAnimatedWithPhysicsGameObject_Anim.mVramRect);
+            Vram_alloc(138u, 49, 8u, &mBaseAnimatedWithPhysicsGameObject_Anim.mVramRect);
         }
 
         mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit2_Animate);

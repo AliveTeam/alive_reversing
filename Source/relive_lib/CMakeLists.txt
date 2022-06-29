@@ -15,6 +15,14 @@ SET(relive_lib_src
     ResourceManagerWrapper.cpp
     MapWrapper.hpp
     MapWrapper.cpp
+    PsxDisplay.cpp
+    PsxDisplay.hpp
+    bmp.cpp
+    bmp.hpp
+    Error.cpp
+    Error.hpp
+    VRam.hpp
+    VRam.cpp
     BaseAnimatedWithPhysicsGameObject.hpp
     stdafx.h
 )
