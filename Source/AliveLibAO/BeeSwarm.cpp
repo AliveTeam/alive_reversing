@@ -169,7 +169,7 @@ void BeeSwarm::VUpdate()
         return;
     }
 
-    if (Event_Get(kEventDeathReset))
+    if (EventGet(kEventDeathReset))
     {
         ToFlyAwayAndDie();
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
@@ -191,7 +191,7 @@ void BeeSwarm::VUpdate()
     {
         if (Math_RandomRange(0, 100) < 40)
         {
-            SFX_Play_Mono(static_cast<SoundEffect>(Math_RandomRange(SoundEffect::Bees1_14, SoundEffect::Bees2_15)), Math_RandomRange(volMin, volMax));
+            SfxPlayMono(static_cast<SoundEffect>(Math_RandomRange(SoundEffect::Bees1_14, SoundEffect::Bees2_15)), Math_RandomRange(volMin, volMax));
         }
     }
 

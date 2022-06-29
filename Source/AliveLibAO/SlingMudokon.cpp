@@ -175,7 +175,7 @@ void SlingMudokon::VUpdate()
             mBaseAnimatedWithPhysicsGameObject_XPos,
             mBaseAnimatedWithPhysicsGameObject_YPos);
 
-        VOn_TLV_Collision(BaseAliveGameObjectPathTLV);
+        VOnTlvCollision(BaseAliveGameObjectPathTLV);
     }
 
     field_106_shot = 0;
@@ -243,7 +243,7 @@ void SlingMudokon::Motion_0_Idle()
         SetCurrentMotion(eSlingMudMotions::Motion_1_Angry);
         mNextMotion = -1;
     }
-    else if (!mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame && GetNextMotion() == eSlingMudMotions::Motion_2_Speak)
+    else if (!mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame && GetNextMotion() == eSlingMudMotions::Motion_2_Speak)
     {
         SetCurrentMotion(eSlingMudMotions::Motion_2_Speak);
         mNextMotion = -1;
@@ -252,9 +252,9 @@ void SlingMudokon::Motion_0_Idle()
 
 void SlingMudokon::Motion_1_Angry()
 {
-    if (!mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame)
+    if (!mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame)
     {
-        SFX_Play_Mono(SoundEffect::SlingshotExtend_83, 0, 0);
+        SfxPlayMono(SoundEffect::SlingshotExtend_83, 0, 0);
     }
 
     if (GetNextMotion() == eSlingMudMotions::Motion_3_ShootStart)
@@ -273,7 +273,7 @@ void SlingMudokon::Motion_2_Speak()
 {
     if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
     {
-        if (mBaseAnimatedWithPhysicsGameObject_Anim.field_18_frame_table_offset == 22744)
+        if (mBaseAnimatedWithPhysicsGameObject_Anim.mFrameTableOffset == 22744)
         {
             SetCurrentMotion(eSlingMudMotions::Motion_0_Idle);
         }
@@ -282,14 +282,14 @@ void SlingMudokon::Motion_2_Speak()
 
 void SlingMudokon::Motion_3_ShootStart()
 {
-    if (!mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame)
+    if (!mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame)
     {
-        SFX_Play_Mono(SoundEffect::SlingshotShoot_84, 0, 0);
+        SfxPlayMono(SoundEffect::SlingshotShoot_84, 0, 0);
     }
 
     if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
     {
-        if (mBaseAnimatedWithPhysicsGameObject_Anim.field_18_frame_table_offset == 22700)
+        if (mBaseAnimatedWithPhysicsGameObject_Anim.mFrameTableOffset == 22700)
         {
             const FP frame_x = FP_FromInteger(mBaseAnimatedWithPhysicsGameObject_Anim.Get_FrameHeader(-1)->field_8_data.points[2].x);
             FP bulletXPos = {};
@@ -375,7 +375,7 @@ s16 SlingMudokon::Brain_0_GiveCode()
             return Brain_0_GiveCode::eBrain0_GiveCode_1;
 
         case Brain_0_GiveCode::eBrain0_GiveCode_1:
-            if (mCurrentMotion || mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame == 0)
+            if (mCurrentMotion || mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame == 0)
             {
                 mNextMotion = 2;
                 switch (Code_LookUp(field_118_code_converted, field_158_code_pos, field_11C_code_length))
@@ -478,7 +478,7 @@ s16 SlingMudokon::Brain_0_GiveCode()
             return field_13A_brain_sub_state;
 
         case Brain_0_GiveCode::eBrain0_RespondToProvidedCode_5:
-            if (mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame || static_cast<s32>(sGnFrame) <= field_140_timer)
+            if (mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame || static_cast<s32>(sGnFrame) <= field_140_timer)
             {
                 return field_13A_brain_sub_state;
             }
@@ -623,7 +623,7 @@ s16 SlingMudokon::Brain_1_Spawn()
             return field_13A_brain_sub_state;
 
         case Brain_1_Spawn::eBrain1_Shoot_6:
-            if (Event_Get(kEventDeathReset))
+            if (EventGet(kEventDeathReset))
             {
                 mBaseGameObjectFlags.Set(BaseGameObject::eDead);
             }
@@ -663,7 +663,7 @@ s16 SlingMudokon::Brain_1_Spawn()
                     }
                 }
 
-                SFX_Play_Mono(SoundEffect::FlyingDoves_19, 0);
+                SfxPlayMono(SoundEffect::FlyingDoves_19, 0);
 
                 mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit3_Render);
 
@@ -744,7 +744,7 @@ s16 SlingMudokon::Brain_2_AskForPassword()
                 return 7;
             }
 
-            if (field_140_timer > static_cast<s32>(sGnFrame) || mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame)
+            if (field_140_timer > static_cast<s32>(sGnFrame) || mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame)
             {
                 return field_13A_brain_sub_state;
             }
@@ -862,7 +862,7 @@ s16 SlingMudokon::Brain_2_AskForPassword()
             return 7;
 
         case 6:
-            if (mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame)
+            if (mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame)
             {
                 return field_13A_brain_sub_state;
             }
@@ -908,7 +908,7 @@ s16 SlingMudokon::Brain_2_AskForPassword()
             return 3;
 
         case 8:
-            if (Event_Get(kEventDeathReset))
+            if (EventGet(kEventDeathReset))
             {
                 mBaseGameObjectFlags.Set(BaseGameObject::eDead);
             }
@@ -948,7 +948,7 @@ s16 SlingMudokon::Brain_2_AskForPassword()
                     }
                 }
 
-                SFX_Play_Mono(SoundEffect::Dove_16, 0);
+                SfxPlayMono(SoundEffect::Dove_16, 0);
 
                 mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit3_Render);
 

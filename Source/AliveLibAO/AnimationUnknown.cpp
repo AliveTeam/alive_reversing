@@ -36,7 +36,7 @@ void AnimationUnknown::VRender2_403FD0(s32 xpos, s32 ypos, PrimHeader** ppOt)
     if (mAnimFlags.Get(AnimFlags::eBit3_Render))
     {
         // Copy from animation to local
-        *pPoly = field_68_anim_ptr->field_2C_ot_data[gPsxDisplay_504C78.field_A_buffer_index];
+        *pPoly = field_68_anim_ptr->mOtData[gPsxDisplay_504C78.field_A_buffer_index];
 
         FrameInfoHeader* pFrameInfoHeader = field_68_anim_ptr->Get_FrameHeader(-1);
 

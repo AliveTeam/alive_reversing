@@ -250,7 +250,7 @@ void ParticleBurst::VUpdate()
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 
-    if (Event_Get(kEventDeathReset))
+    if (EventGet(kEventDeathReset))
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }

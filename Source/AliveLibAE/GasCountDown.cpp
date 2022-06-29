@@ -172,12 +172,12 @@ void GasCountDown::DealDamage()
 
 void GasCountDown::VUpdate()
 {
-    if (Event_Get(kEventDeathReset))
+    if (EventGet(kEventDeathReset))
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 
-    if (Event_Get(kEventDeathResetEnd))
+    if (EventGet(kEventDeathResetEnd))
     {
         sGasTimer_5C1BE8 = 0;
         gGasOn_5C1C00 = FALSE;
@@ -205,7 +205,7 @@ void GasCountDown::VUpdate()
             return;
         }
 
-        if (Event_Get(kEventResetting))
+        if (EventGet(kEventResetting))
         {
             sGasTimer_5C1BE8++;
         }

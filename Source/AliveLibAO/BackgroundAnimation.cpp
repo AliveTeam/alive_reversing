@@ -123,7 +123,7 @@ void BackgroundAnimation::VStopAudio()
 
 void BackgroundAnimation::VUpdate()
 {
-    if (Event_Get(kEventDeathReset))
+    if (EventGet(kEventDeathReset))
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
@@ -132,7 +132,7 @@ void BackgroundAnimation::VUpdate()
         if (!field_104_sound_channels_mask && field_100_sound_effect >= BgAnimSounds::eNone_0)
         {
             // play fire sounds
-            field_104_sound_channels_mask = SFX_Play_Mono(static_cast<SoundEffect>(field_100_sound_effect), 0, 0);
+            field_104_sound_channels_mask = SfxPlayMono(static_cast<SoundEffect>(field_100_sound_effect), 0, 0);
         }
         mBaseAnimatedWithPhysicsGameObject_XPos = field_F8_animXPos + FP_FromInteger(gTweak_X_5076D8);
         mBaseAnimatedWithPhysicsGameObject_YPos = field_FC_animYPos + FP_FromInteger(gTweak_Y_5076DC);

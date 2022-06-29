@@ -61,7 +61,7 @@ void Alarm::VRender(PrimHeader** ppOt)
 
 void Alarm::VUpdate()
 {
-    Event_Broadcast(kEventAlarm, this);
+    EventBroadcast(kEventAlarm, this);
 
     if (mEffectBasePathId != gMap.mCurrentPath || mEffectBaseLevelId != gMap.mCurrentLevel || static_cast<s32>(sGnFrame) > mAlarmDurationTimer)
     {
@@ -72,7 +72,7 @@ void Alarm::VUpdate()
     switch (mAlarmState)
     {
         case States::eAfterConstructed_0:
-            if (Event_Get(kEventHeroDying))
+            if (EventGet(kEventHeroDying))
             {
                 mBaseGameObjectFlags.Set(BaseGameObject::eDead);
                 return;
@@ -82,7 +82,7 @@ void Alarm::VUpdate()
             {
                 mAlarmState = States::eEnabling_1;
 
-                SFX_Play_Mono(SoundEffect::Alarm_45, 0, 0);
+                SfxPlayMono(SoundEffect::Alarm_45, 0, 0);
 
                 if (mAlarmSwitchId)
                 {
@@ -99,7 +99,7 @@ void Alarm::VUpdate()
                 mAlarmRed = 100;
                 mAlarmPauseTimer = sGnFrame + 15;
                 mAlarmState = States::eOnFlash_2;
-                SFX_Play_Mono(SoundEffect::Alarm_45, 0, 0);
+                SfxPlayMono(SoundEffect::Alarm_45, 0, 0);
             }
             break;
 
@@ -122,7 +122,7 @@ void Alarm::VUpdate()
             break;
 
         case States::eDisabled_4:
-            if (Event_Get(kEventHeroDying))
+            if (EventGet(kEventHeroDying))
             {
                 mBaseGameObjectFlags.Set(BaseGameObject::eDead);
                 return;
@@ -131,7 +131,7 @@ void Alarm::VUpdate()
             if (static_cast<s32>(sGnFrame) > mAlarmPauseTimer)
             {
                 mAlarmState = States::eEnabling_1;
-                SFX_Play_Mono(SoundEffect::Alarm_45, 0, 0);
+                SfxPlayMono(SoundEffect::Alarm_45, 0, 0);
             }
             break;
 

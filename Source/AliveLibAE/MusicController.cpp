@@ -563,7 +563,7 @@ void MusicController::VUpdate()
 {
     MusicController::UpdateMusicTime();
 
-    if (Event_Get(kEventDeathReset))
+    if (EventGet(kEventDeathReset))
     {
         field_58_flags.Set(Flags_58::e58_Dead_Bit3);
         field_28_object_id = sActiveHero->field_8_object_id;

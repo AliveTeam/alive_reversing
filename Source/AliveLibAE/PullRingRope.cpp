@@ -101,7 +101,7 @@ void PullRingRope::VUpdate()
     auto pRingPuller = static_cast<BaseAliveGameObject*>(sObjectIds.Find_Impl(field_FC_ring_puller_id));
     auto pRope = static_cast<Rope*>(sObjectIds.Find(field_F8_rope_id, ReliveTypes::eLiftRope));
 
-    if (Event_Get(kEventDeathReset))
+    if (EventGet(kEventDeathReset))
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
@@ -115,9 +115,9 @@ void PullRingRope::VUpdate()
     switch (field_100_state)
     {
         case States::eBeingPulled_1:
-            if (mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame == 2)
+            if (mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame == 2)
             {
-                SFX_Play_Mono(SoundEffect::RingRopePull_56, 0);
+                SfxPlayMono(SoundEffect::RingRopePull_56, 0);
             }
 
             mBaseAnimatedWithPhysicsGameObject_YPos += mBaseAnimatedWithPhysicsGameObject_VelY;
@@ -132,7 +132,7 @@ void PullRingRope::VUpdate()
 
                 if (gMap.mCurrentLevel == EReliveLevelIds::eMines || gMap.mCurrentLevel == EReliveLevelIds::eBonewerkz || gMap.mCurrentLevel == EReliveLevelIds::eFeeCoDepot || gMap.mCurrentLevel == EReliveLevelIds::eBarracks || gMap.mCurrentLevel == EReliveLevelIds::eBrewery)
                 {
-                    SFX_Play_Mono(SoundEffect::IndustrialTrigger_80, 0);
+                    SfxPlayMono(SoundEffect::IndustrialTrigger_80, 0);
                 }
             }
             break;
@@ -253,7 +253,7 @@ s16 PullRingRope::VPull(BaseGameObject* pObj)
     field_F4_stay_in_state_ticks = 6;
     const AnimRecord& rec = AnimRec(AnimId::PullRingRope_UseBegin);
     mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(rec.mFrameTableOffset, 0);
-    SFX_Play_Mono(SoundEffect::RingRopePull_56, 0);
+    SfxPlayMono(SoundEffect::RingRopePull_56, 0);
     return 1;
 }
 

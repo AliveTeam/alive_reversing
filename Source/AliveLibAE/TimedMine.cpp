@@ -89,7 +89,7 @@ TimedMine::TimedMine(Path_TimedMine* pPath, TlvItemInfoUnion tlv)
 void TimedMine::VUpdate()
 {
     auto pPlatform = static_cast<LiftPoint*>(sObjectIds.Find_Impl(BaseAliveGameObject_PlatformId));
-    if (Event_Get(kEventDeathReset))
+    if (EventGet(kEventDeathReset))
     {
         mBaseGameObjectFlags.Set(Options::eDead);
     }
@@ -205,8 +205,8 @@ void TimedMine::StickToLiftPoint()
             &pLine, &hitX, &hitY,
             (mBaseAnimatedWithPhysicsGameObject_Scale == Scale::Fg) ? kFgFloorCeilingOrWalls : kBgFloorCeilingOrWalls))
     {
-        if (pLine->field_8_type == eLineTypes::eDynamicCollision_32 ||
-            pLine->field_8_type == eLineTypes::eBackgroundDynamicCollision_36)
+        if (pLine->mLineType == eLineTypes::eDynamicCollision_32 ||
+            pLine->mLineType == eLineTypes::eBackgroundDynamicCollision_36)
         {
             if (ObjList_5C1B78)
             {
@@ -324,6 +324,6 @@ void TimedMine::VOnPickUpOrSlapped()
         const AnimRecord& flashRec = AnimRec(AnimId::Bomb_Flash);
         mExplosionTimer = sGnFrame + mTicksUntilExplosion;
         mTickAnim.Set_Animation_Data(flashRec.mFrameTableOffset, 0);
-        SFX_Play_Mono(SoundEffect::GreenTick_2, 0);
+        SfxPlayMono(SoundEffect::GreenTick_2, 0);
     }
 }

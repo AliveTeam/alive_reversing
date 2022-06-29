@@ -120,7 +120,7 @@ s32 WorkWheel::VGetSaveState(u8* pSaveBuffer)
 
 void WorkWheel::VUpdate()
 {
-    if (Event_Get(kEventDeathReset))
+    if (EventGet(kEventDeathReset))
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }

@@ -126,7 +126,7 @@ s16 SecurityOrb::VTakeDamage(BaseGameObject* pFrom)
 
 void SecurityOrb::VUpdate()
 {
-    if (Event_Get(kEventDeathReset))
+    if (EventGet(kEventDeathReset))
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
@@ -151,11 +151,11 @@ void SecurityOrb::VUpdate()
                 const s32 timerFrame = field_120_timer - sGnFrame;
                 if (timerFrame == 4)
                 {
-                    SFX_Play_Mono(SoundEffect::Zap1_49, 0, mBaseAnimatedWithPhysicsGameObject_SpriteScale);
+                    SfxPlayMono(SoundEffect::Zap1_49, 0, mBaseAnimatedWithPhysicsGameObject_SpriteScale);
                 }
                 else if (timerFrame == 1)
                 {
-                    SFX_Play_Mono(SoundEffect::Zap2_50, 0, mBaseAnimatedWithPhysicsGameObject_SpriteScale);
+                    SfxPlayMono(SoundEffect::Zap2_50, 0, mBaseAnimatedWithPhysicsGameObject_SpriteScale);
                 }
 
                 if (static_cast<s32>(sGnFrame) > field_120_timer)
@@ -216,7 +216,7 @@ void SecurityOrb::VUpdate()
     }
     else
     {
-        if (mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame == 2 || mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame == 6 || mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame == 10)
+        if (mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame == 2 || mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame == 6 || mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame == 10)
         {
             if (field_124_sound_channels_mask)
             {
@@ -233,7 +233,7 @@ void SecurityOrb::VUpdate()
             }
         }
 
-        if (Event_Get(kEventAbeOhm))
+        if (EventGet(kEventAbeOhm))
         {
             if (!sActiveHero->field_168_ring_pulse_timer || !sActiveHero->field_16C_bHaveShrykull || sActiveHero->mBaseAnimatedWithPhysicsGameObject_SpriteScale != FP_FromInteger(1))
             {

@@ -146,7 +146,7 @@ void MotionDetector::VScreenChanged()
 
 void MotionDetector::VUpdate()
 {
-    if (Event_Get(kEventDeathReset))
+    if (EventGet(kEventDeathReset))
     {
         mBaseGameObjectFlags.Set(Options::eDead);
     }
@@ -183,7 +183,7 @@ void MotionDetector::VUpdate()
                         {
                             if (sGnFrame % 2)
                             {
-                                SFX_Play_Mono(SoundEffect::Zap2_58, 45, 0);
+                                SfxPlayMono(SoundEffect::Zap2_58, 45, 0);
                             }
                         }
 
@@ -230,7 +230,7 @@ void MotionDetector::VUpdate()
                     {
                         field_E8_state = States::eWaitThenMoveLeft_1;
                         field_EC_timer = sGnFrame + 15;
-                        SFX_Play_Mono(SoundEffect::MenuNavigation_61, 0);
+                        SfxPlayMono(SoundEffect::MenuNavigation_61, 0);
                     }
                     else
                     {
@@ -250,7 +250,7 @@ void MotionDetector::VUpdate()
                     {
                         field_E8_state = States::eWaitThenMoveRight_3;
                         field_EC_timer = sGnFrame + 15;
-                        SFX_Play_Mono(SoundEffect::MenuNavigation_61, 0);
+                        SfxPlayMono(SoundEffect::MenuNavigation_61, 0);
                     }
                     else
                     {

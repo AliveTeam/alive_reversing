@@ -129,7 +129,7 @@ void Bat::FlyTo(FP xpos, FP ypos, FP* xSpeed, FP* ySpeed)
 
 void Bat::VUpdate()
 {
-    if (Event_Get(kEventDeathReset))
+    if (EventGet(kEventDeathReset))
     {
         mBaseGameObjectFlags.Set(Options::eDead);
     }
@@ -192,9 +192,9 @@ void Bat::VUpdate()
                 }
             }
 
-            if (!(mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame % 3))
+            if (!(mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame % 3))
             {
-                SFX_Play_Mono(static_cast<SoundEffect>(Math_RandomRange(SoundEffect::Bat1_41, SoundEffect::Bat2_42) & 0xFF), Math_RandomRange(20, 26), 0);
+                SfxPlayMono(static_cast<SoundEffect>(Math_RandomRange(SoundEffect::Bat1_41, SoundEffect::Bat2_42) & 0xFF), Math_RandomRange(20, 26), 0);
             }
 
             if (static_cast<s32>(sGnFrame) > field_F8_timer)
@@ -262,7 +262,7 @@ void Bat::VUpdate()
 
         case BatStates::eAttackTarget_4:
         {
-            if (field_10C_pBat->mBaseGameObjectFlags.Get(BaseGameObject::eDead) || Event_Get(kEventDeathReset))
+            if (field_10C_pBat->mBaseGameObjectFlags.Get(BaseGameObject::eDead) || EventGet(kEventDeathReset))
             {
                 mBaseGameObjectFlags.Set(Options::eDead);
                 return;
@@ -297,7 +297,7 @@ void Bat::VUpdate()
         case BatStates::eFlyAwayAndDie_5:
         {
             FlyTo(mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos - FP_FromInteger(40), &xSpeed, &ySpeed);
-            if (Event_Get(kEventDeathReset))
+            if (EventGet(kEventDeathReset))
             {
                 mBaseGameObjectFlags.Set(Options::eDead);
             }

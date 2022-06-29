@@ -181,14 +181,14 @@ FlintLockFire::FlintLockFire(Path_FlintLockFire* pTlv, s32 tlvInfo)
             field_220_anim.mAnimFlags.Set(AnimFlags::eBit2_Animate);
             field_220_anim.mAnimFlags.Set(AnimFlags::eBit3_Render);
 
-            field_EC_fire_sound = SFX_Play_Mono(SoundEffect::Fire_69, 0, 0);
+            field_EC_fire_sound = SfxPlayMono(SoundEffect::Fire_69, 0, 0);
         }
     }
 }
 
 void FlintLockFire::VUpdate()
 {
-    if (Event_Get(kEventDeathReset))
+    if (EventGet(kEventDeathReset))
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
@@ -211,10 +211,10 @@ void FlintLockFire::VUpdate()
         case States::eActivating_1:
             if (sFlintLockFireData_4BAC70[cur_lvl].field_24_bFire)
             {
-                if (mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame == 6)
+                if (mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame == 6)
                 {
-                    SFX_Play_Mono(SoundEffect::FlintLock_68, 0, 0);
-                    SFX_Play_Mono(SoundEffect::PostFlint_70, 0, 0);
+                    SfxPlayMono(SoundEffect::FlintLock_68, 0, 0);
+                    SfxPlayMono(SoundEffect::PostFlint_70, 0, 0);
                 }
             }
 
@@ -231,7 +231,7 @@ void FlintLockFire::VUpdate()
                     field_220_anim.mAnimFlags.Set(AnimFlags::eBit2_Animate);
                     field_220_anim.mAnimFlags.Set(AnimFlags::eBit3_Render);
 
-                    field_EC_fire_sound = SFX_Play_Mono(SoundEffect::Fire_69, 0, 0);
+                    field_EC_fire_sound = SfxPlayMono(SoundEffect::Fire_69, 0, 0);
                 }
 
                 relive_new MusicTrigger(MusicTriggerMusicType::eSecretAreaShort_6, TriggeredBy::eTouching_1, 0, 15);
@@ -243,7 +243,7 @@ void FlintLockFire::VUpdate()
             {
                 if (!field_EC_fire_sound)
                 {
-                    field_EC_fire_sound = SFX_Play_Mono(SoundEffect::Fire_69, 0, 0);
+                    field_EC_fire_sound = SfxPlayMono(SoundEffect::Fire_69, 0, 0);
                 }
             }
             break;

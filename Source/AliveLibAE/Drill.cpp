@@ -293,7 +293,7 @@ s32 Drill::CreateFromSaveState(const u8* pData)
 
 void Drill::VUpdate()
 {
-    if (Event_Get(kEventDeathReset))
+    if (EventGet(kEventDeathReset))
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
@@ -706,7 +706,7 @@ s16 Drill::DamageTouchingObjects()
                                  50);
 
     SFX_Play_Pitch(SoundEffect::DrillCollision_99, 127, -500);
-    SFX_Play_Mono(SoundEffect::KillEffect_64, 127);
+    SfxPlayMono(SoundEffect::KillEffect_64, 127);
     SFX_Play_Pitch(SoundEffect::KillEffect_64, 127, -700);
 
     return 1;

@@ -80,7 +80,7 @@ void FlyingSligSpawner::VUpdate()
     }
 
     BaseGameObject* pCurrentSlig = sObjectIds.Find_Impl(field_24_spawned_slig_id);
-    if (!Event_Get(kEventDeathReset) && !mBaseGameObjectFlags.Get(BaseGameObject::eDead))
+    if (!EventGet(kEventDeathReset) && !mBaseGameObjectFlags.Get(BaseGameObject::eDead))
     {
         if (field_3C_bSpawned)
         {
@@ -115,7 +115,7 @@ void FlyingSligSpawner::VUpdate()
 
             field_24_spawned_slig_id = pNewSlig->field_8_object_id;
             field_3C_bSpawned = TRUE;
-            SFX_Play_Mono(SoundEffect::FlyingSligSpawn_113, 0);
+            SfxPlayMono(SoundEffect::FlyingSligSpawn_113, 0);
         }
     }
 }

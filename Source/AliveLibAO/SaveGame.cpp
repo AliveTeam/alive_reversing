@@ -365,7 +365,7 @@ void SaveGame::SaveToMemory(SaveData* pSaveData)
     pSaveData->field_2A2_killed_mudokons = sKilledMudokons_5076BC;
     pSaveData->field_238_current_camera = gMap.mCurrentCamera;
     pSaveData->field_2A6_restartRuptureFarmsKilledMudokons = gRestartRuptureFarmsKilledMuds_5076C4;
-    pSaveData->field_240_last_anim_frame = sActiveHero_507678->mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame;
+    pSaveData->field_240_last_anim_frame = sActiveHero_507678->mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame;
     pSaveData->field_23E_current_motion = sActiveHero_507678->mCurrentMotion;
     pSaveData->field_224_xpos = FP_GetExponent(sActiveHero_507678->mBaseAnimatedWithPhysicsGameObject_XPos);
     pSaveData->field_228_ypos = FP_GetExponent(sActiveHero_507678->mBaseAnimatedWithPhysicsGameObject_YPos);

@@ -197,7 +197,7 @@ s16 SecurityClaw::VTakeDamage(BaseGameObject* pFrom)
 
 void SecurityClaw::VUpdate()
 {
-    if (Event_Get(kEventDeathReset))
+    if (EventGet(kEventDeathReset))
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
@@ -286,17 +286,17 @@ void SecurityClaw::VUpdate()
             break;
 
         case SecurityClawStates::eIdle_1:
-            if (Event_Get(kEventAbeOhm))
+            if (EventGet(kEventAbeOhm))
             {
                 field_114_timer = sGnFrame + 20;
                 field_110_state = SecurityClawStates::eDoZapEffects_2;
                 const AnimRecord& rec = AO::AnimRec(AnimId::Security_Claw_Lower_Open);
                 field_130_pClaw->mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(rec.mFrameTableOffset, nullptr);
-                SFX_Play_Mono(SoundEffect::IndustrialNoise3_95, 60, 0);
+                SfxPlayMono(SoundEffect::IndustrialNoise3_95, 60, 0);
                 SFX_Play_Pitch(SoundEffect::IndustrialNoise3_95, 90, -1000, 0);
             }
 
-            if (Event_Get(kEventShooting))
+            if (EventGet(kEventShooting))
             {
                 if (!alarmInstanceCount_5076A8)
                 {
@@ -374,11 +374,11 @@ void SecurityClaw::VUpdate()
 
             if (field_114_timer - sGnFrame == 4)
             {
-                SFX_Play_Mono(SoundEffect::Zap1_57, 0, 0);
+                SfxPlayMono(SoundEffect::Zap1_57, 0, 0);
             }
             else if (field_114_timer - sGnFrame == 1)
             {
-                SFX_Play_Mono(SoundEffect::Zap2_58, 0, 0);
+                SfxPlayMono(SoundEffect::Zap2_58, 0, 0);
             }
 
             if (static_cast<s32>(sGnFrame) > field_114_timer)
@@ -386,7 +386,7 @@ void SecurityClaw::VUpdate()
                 field_110_state = SecurityClawStates::eIdle_1;
                 const AnimRecord& rec = AO::AnimRec(AnimId::Security_Claw_Lower_Close);
                 field_130_pClaw->mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(rec.mFrameTableOffset, nullptr);
-                SFX_Play_Mono(SoundEffect::IndustrialTrigger_97, 0, 0);
+                SfxPlayMono(SoundEffect::IndustrialTrigger_97, 0, 0);
             }
             break;
 

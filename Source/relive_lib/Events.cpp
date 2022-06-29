@@ -6,45 +6,45 @@
 
 struct EventsArray final
 {
-    BaseGameObject* field_0_event_ptrs[Event::kEventMax];
+    BaseGameObject* mEventPtrs[Event::kEventMax];
 };
 
 struct Events final
 {
     // 2 copies for double buffering
-    EventsArray field_0_events[2];
+    EventsArray mEvents[2];
 };
 
 static s16 sEventsToUse = 0;
 static Events sEventPtrs = {};
 
-void Event_Broadcast(Event eventType, BaseGameObject* pObject)
+void EventBroadcast(Event eventType, BaseGameObject* pObject)
 {
-    sEventPtrs.field_0_events[!sEventsToUse].field_0_event_ptrs[eventType] = pObject;
+    sEventPtrs.mEvents[!sEventsToUse].mEventPtrs[eventType] = pObject;
 }
 
-BaseGameObject* Event_Get(Event eventType)
+BaseGameObject* EventGet(Event eventType)
 {
-    return sEventPtrs.field_0_events[sEventsToUse].field_0_event_ptrs[eventType];
+    return sEventPtrs.mEvents[sEventsToUse].mEventPtrs[eventType];
 }
 
-void Events_Reset()
+void EventsReset()
 {
     for (s32 i = 0; i < 2; i++)
     {
         for (s32 j = 0; j < Event::kEventMax; j++)
         {
-            sEventPtrs.field_0_events[i].field_0_event_ptrs[j] = nullptr;
+            sEventPtrs.mEvents[i].mEventPtrs[j] = nullptr;
         }
     }
     sEventsToUse = 0;
 }
 
-void Events_Reset_Active()
+void EventsResetActive()
 {
     for (s32 i = 0; i < Event::kEventMax; i++)
     {
-        sEventPtrs.field_0_events[sEventsToUse].field_0_event_ptrs[i] = nullptr;
+        sEventPtrs.mEvents[sEventsToUse].mEventPtrs[i] = nullptr;
     }
 
     sEventsToUse = !sEventsToUse;
@@ -53,9 +53,9 @@ void Events_Reset_Active()
 const s32 kGridMapWidth = 375;
 const s32 kGridMapHeight = 260;
 
-IBaseAnimatedWithPhysicsGameObject* Event_Is_Event_In_Range(Event eventType, FP xpos, FP ypos, EventScale scale)
+IBaseAnimatedWithPhysicsGameObject* IsEventInRange(Event eventType, FP xpos, FP ypos, EventScale scale)
 {
-    BaseGameObject* pObj = sEventPtrs.field_0_events[sEventsToUse].field_0_event_ptrs[eventType];
+    BaseGameObject* pObj = sEventPtrs.mEvents[sEventsToUse].mEventPtrs[eventType];
     if (!pObj)
     {
         return nullptr;
@@ -88,9 +88,9 @@ IBaseAnimatedWithPhysicsGameObject* Event_Is_Event_In_Range(Event eventType, FP 
     return nullptr;
 }
 
-IBaseAnimatedWithPhysicsGameObject* Event_Is_Event_In_Range(Event eventType, FP xpos, FP ypos, FP scale)
+IBaseAnimatedWithPhysicsGameObject* IsEventInRange(Event eventType, FP xpos, FP ypos, FP scale)
 {
-    BaseGameObject* pObj = sEventPtrs.field_0_events[sEventsToUse].field_0_event_ptrs[eventType];
+    BaseGameObject* pObj = sEventPtrs.mEvents[sEventsToUse].mEventPtrs[eventType];
     if (!pObj)
     {
         return nullptr;
@@ -111,15 +111,15 @@ IBaseAnimatedWithPhysicsGameObject* Event_Is_Event_In_Range(Event eventType, FP 
     return nullptr;
 }
 
-void Event_Cancel_For_Obj(BaseGameObject* pObj)
+void EventCancelForObj(BaseGameObject* pObj)
 {
     for (s32 i = 0; i < 2; i++)
     {
         for (s32 j = 0; j < Event::kEventMax; j++)
         {
-            if (sEventPtrs.field_0_events[i].field_0_event_ptrs[j] == pObj)
+            if (sEventPtrs.mEvents[i].mEventPtrs[j] == pObj)
             {
-                sEventPtrs.field_0_events[i].field_0_event_ptrs[j] = nullptr;
+                sEventPtrs.mEvents[i].mEventPtrs[j] = nullptr;
             }
         }
     }

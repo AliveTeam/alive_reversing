@@ -107,16 +107,16 @@ void Lever::VScreenChanged()
 
 void Lever::VUpdate()
 {
-    if (Event_Get(kEventDeathReset))
+    if (EventGet(kEventDeathReset))
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 
     if (field_F8_state == LeverState::ePulled_1)
     {
-        if (mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame == 3)
+        if (mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame == 3)
         {
-            SFX_Play_Mono(SoundEffect::LeverPull_63, 0);
+            SfxPlayMono(SoundEffect::LeverPull_63, 0);
         }
 
         if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
@@ -177,26 +177,26 @@ void Lever::VUpdate()
                     {
                         case LeverSoundType::eWell_1:
                             SFX_Play_Stereo(SoundEffect::WellExit_20, 80 * volLeft + 25, 80 * volRight + 25);
-                            Event_Broadcast(kEventNoise, this);
-                            Event_Broadcast(kEventSuspiciousNoise, this);
+                            EventBroadcast(kEventNoise, this);
+                            EventBroadcast(kEventSuspiciousNoise, this);
                             break;
 
                         case LeverSoundType::eUnknown_2:
                             SFX_Play_Stereo(SoundEffect::SwitchUnknownTrigger_11, 100 * volLeft + 25, 100 * volRight + 25);
-                            Event_Broadcast(kEventNoise, this);
-                            Event_Broadcast(kEventSuspiciousNoise, this);
+                            EventBroadcast(kEventNoise, this);
+                            EventBroadcast(kEventSuspiciousNoise, this);
                             break;
 
                         case LeverSoundType::eDoor_3:
                             SFX_Play_Stereo(SoundEffect::DoorEffect_57, 75 * volLeft + 15, 75 * volRight + 15);
-                            Event_Broadcast(kEventNoise, this);
-                            Event_Broadcast(kEventSuspiciousNoise, this);
+                            EventBroadcast(kEventNoise, this);
+                            EventBroadcast(kEventSuspiciousNoise, this);
                             break;
 
                         case LeverSoundType::eElectricWall_4:
                             SFX_Play_Stereo(SoundEffect::Zap1_49, 35 * volLeft + 25, 35 * volRight + 25);
-                            Event_Broadcast(kEventNoise, this);
-                            Event_Broadcast(kEventSuspiciousNoise, this);
+                            EventBroadcast(kEventNoise, this);
+                            EventBroadcast(kEventSuspiciousNoise, this);
                             break;
 
                         case LeverSoundType::eSecurityOrb_5:
@@ -205,8 +205,8 @@ void Lever::VUpdate()
 
                         case LeverSoundType::eLift_6:
                             SFX_Play_Stereo(SoundEffect::LiftStop_30, 35 * volLeft + 25, 35 * volRight + 25);
-                            Event_Broadcast(kEventNoise, this);
-                            Event_Broadcast(kEventSuspiciousNoise, this);
+                            EventBroadcast(kEventNoise, this);
+                            EventBroadcast(kEventSuspiciousNoise, this);
                             break;
 
                         default:
@@ -219,26 +219,26 @@ void Lever::VUpdate()
                     {
                         case LeverSoundType::eWell_1:
                             SFX_Play_Stereo(SoundEffect::WellExit_20, 80 * volLeft + 25, 80 * volRight + 25);
-                            Event_Broadcast(kEventNoise, this);
-                            Event_Broadcast(kEventSuspiciousNoise, this);
+                            EventBroadcast(kEventNoise, this);
+                            EventBroadcast(kEventSuspiciousNoise, this);
                             break;
 
                         case LeverSoundType::eUnknown_2:
                             SFX_Play_Stereo(SoundEffect::SwitchUnknownTrigger_11, 110 * volLeft + 25, 110 * volRight + 25);
-                            Event_Broadcast(kEventNoise, this);
-                            Event_Broadcast(kEventSuspiciousNoise, this);
+                            EventBroadcast(kEventNoise, this);
+                            EventBroadcast(kEventSuspiciousNoise, this);
                             break;
 
                         case LeverSoundType::eDoor_3:
                             SFX_Play_Stereo(SoundEffect::DoorEffect_57, 75 * volLeft + 15, 75 * volRight + 15);
-                            Event_Broadcast(kEventNoise, this);
-                            Event_Broadcast(kEventSuspiciousNoise, this);
+                            EventBroadcast(kEventNoise, this);
+                            EventBroadcast(kEventSuspiciousNoise, this);
                             break;
 
                         case LeverSoundType::eElectricWall_4:
                             SFX_Play_Stereo(SoundEffect::Zap1_49, 80 * volLeft + 25, 80 * volRight + 25);
-                            Event_Broadcast(kEventNoise, this);
-                            Event_Broadcast(kEventSuspiciousNoise, this);
+                            EventBroadcast(kEventNoise, this);
+                            EventBroadcast(kEventSuspiciousNoise, this);
                             break;
 
                         case LeverSoundType::eSecurityOrb_5:
@@ -247,8 +247,8 @@ void Lever::VUpdate()
 
                         case LeverSoundType::eLift_6:
                             SFX_Play_Stereo(SoundEffect::LiftStop_30, 35 * volLeft + 25, 35 * volRight + 25);
-                            Event_Broadcast(kEventNoise, this);
-                            Event_Broadcast(kEventSuspiciousNoise, this);
+                            EventBroadcast(kEventNoise, this);
+                            EventBroadcast(kEventSuspiciousNoise, this);
                             break;
 
                         default:

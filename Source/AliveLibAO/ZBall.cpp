@@ -109,19 +109,19 @@ ZBall::ZBall(Path_ZBall* pTlv, s32 tlvInfo)
     }
 
     field_E4_tlvInfo = tlvInfo;
-    mBaseAnimatedWithPhysicsGameObject_Anim.field_1C_fn_ptr_array = kZBall_Anim_Frame_Fns_4CEBF8;
+    mBaseAnimatedWithPhysicsGameObject_Anim.mFnPtrArray = kZBall_Anim_Frame_Fns_4CEBF8;
 }
 
 void ZBall::VUpdate()
 {
-    if (Event_Get(kEventDeathReset))
+    if (EventGet(kEventDeathReset))
     {
         mBaseGameObjectFlags.Set(Options::eDead);
     }
 
     if (gCenter_ZBall_9F1DCC == this || gOutZBall_9F1DD0 == this)
     {
-        if (mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame == 0 || mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame == 13)
+        if (mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame == 0 || mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame == 13)
         {
             SFX_Play_Pitch(SoundEffect::ZBall_62, 50, field_EA_sound_pitch, nullptr);
         }
@@ -129,13 +129,13 @@ void ZBall::VUpdate()
 
     if (gCenter_ZBall_9F1DCC == this)
     {
-        if (mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame == 3 || mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame == 16)
+        if (mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame == 3 || mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame == 16)
         {
             SFX_Play_Pitch(SoundEffect::SackWobble_34, 40, field_EA_sound_pitch - 2400, nullptr);
         }
     }
 
-    if (mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame <= 6 || mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame >= 19)
+    if (mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame <= 6 || mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame >= 19)
     {
         if (mBaseAnimatedWithPhysicsGameObject_SpriteScale == FP_FromInteger(1))
         {
@@ -156,7 +156,7 @@ void ZBall::VUpdate()
     }
 
     // Pointless because never seems to be read
-    field_E8_bFrameAbove12 = mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame >= 13;
+    field_E8_bFrameAbove12 = mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame >= 13;
 
     if (!gMap.Is_Point_In_Current_Camera(
             mBaseAnimatedWithPhysicsGameObject_LvlNumber,

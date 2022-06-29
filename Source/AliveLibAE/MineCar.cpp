@@ -189,7 +189,7 @@ s32 MineCar::CreateFromSaveState(const u8* pBuffer)
 
         const AnimRecord& animRec = AnimRec(sMineCarFrameTable[remapped1]);
         pMineCar->mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
-        pMineCar->mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame = pState->field_2A_current_anim_frame;
+        pMineCar->mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame = pState->field_2A_current_anim_frame;
 
 
         pMineCar->mBaseAnimatedWithPhysicsGameObject_Anim.mFrameChangeCounter = pState->field_2C_frame_change_counter;
@@ -234,7 +234,7 @@ s32 MineCar::CreateFromSaveState(const u8* pBuffer)
 
         const AnimRecord& animRec2 = AnimRec(sMineCarFrameTable[remapped2]);
         pMineCar->field_124_anim.Set_Animation_Data(animRec2.mFrameTableOffset, nullptr);
-        pMineCar->field_124_anim.field_92_current_frame = pState->field_2A_current_anim_frame;
+        pMineCar->field_124_anim.mCurrentFrame = pState->field_2A_current_anim_frame;
 
 
         // TODO: OG Bug same flags but save state saves 2 sets one for each anim ??
@@ -432,7 +432,7 @@ void MineCar::Stop()
         field_1D0_sound_channels_mask = 0;
     }
 
-    SFX_Play_Mono(SoundEffect::MinecarStop_101, 127, mBaseAnimatedWithPhysicsGameObject_SpriteScale);
+    SfxPlayMono(SoundEffect::MinecarStop_101, 127, mBaseAnimatedWithPhysicsGameObject_SpriteScale);
     
     mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
     field_124_anim.Set_Animation_Data(animRec2.mFrameTableOffset, nullptr);
@@ -451,7 +451,7 @@ void MineCar::Move(u16 frameTabeOffset, FP velX, FP velY, InputCommands::Enum in
 
     if (!field_1D0_sound_channels_mask)
     {
-        field_1D0_sound_channels_mask = SFX_Play_Mono(SoundEffect::MinecarMovement_100, 127, mBaseAnimatedWithPhysicsGameObject_SpriteScale);
+        field_1D0_sound_channels_mask = SfxPlayMono(SoundEffect::MinecarMovement_100, 127, mBaseAnimatedWithPhysicsGameObject_SpriteScale);
     }
 
     const AnimRecord& animRec2 = AnimRec(AnimId::Mine_Car_Tread_Move_A);
@@ -723,7 +723,7 @@ s32 MineCar::VGetSaveState(u8* pSaveBuffer)
     pState->field_20_b = mBaseAnimatedWithPhysicsGameObject_RGB.b;
 
     pState->field_28_current_motion = mCurrentMotion;
-    pState->field_2A_current_anim_frame = mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame;
+    pState->field_2A_current_anim_frame = mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame;
     pState->field_2C_frame_change_counter = mBaseAnimatedWithPhysicsGameObject_Anim.mFrameChangeCounter;
 
     pState->field_2F_drawable = mBaseGameObjectFlags.Get(BaseGameObject::eDrawable_Bit4);
@@ -731,7 +731,7 @@ s32 MineCar::VGetSaveState(u8* pSaveBuffer)
     pState->field_2E_render = mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit3_Render);
 
 
-    switch (mBaseAnimatedWithPhysicsGameObject_Anim.field_18_frame_table_offset)
+    switch (mBaseAnimatedWithPhysicsGameObject_Anim.mFrameTableOffset)
     {
         case 20788: // Mine_Car_Tread_Move_B
             pState->field_24_frame_table = 10860;
@@ -758,13 +758,13 @@ s32 MineCar::VGetSaveState(u8* pSaveBuffer)
             break;
     }
 
-    pState->field_34_unused = field_124_anim.field_92_current_frame;
+    pState->field_34_unused = field_124_anim.mCurrentFrame;
     pState->field_36_unused = field_124_anim.mFrameChangeCounter;
 
     pState->field_32_unused = field_124_anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX);
     pState->field_30_unused = field_124_anim.mAnimFlags.Get(AnimFlags::eBit3_Render);
     
-    switch (field_124_anim.field_18_frame_table_offset)
+    switch (field_124_anim.mFrameTableOffset)
     {
         case 20788: // Mine_Car_Tread_Move_B
             pState->field_38_frame_table_offset2 = 10860;
@@ -800,7 +800,7 @@ s32 MineCar::VGetSaveState(u8* pSaveBuffer)
 
     if (BaseAliveGameObjectCollisionLine)
     {
-        pState->field_46_collision_line_type = BaseAliveGameObjectCollisionLine->field_8_type;
+        pState->field_46_collision_line_type = BaseAliveGameObjectCollisionLine->mLineType;
     }
     else
     {
@@ -855,7 +855,7 @@ void MineCar::VUpdate()
         }
     }
 
-    if (Event_Get(kEventDeathReset))
+    if (EventGet(kEventDeathReset))
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
@@ -1098,7 +1098,7 @@ void MineCar::State_1_ParkedWithAbe()
             {
                 if (field_1BC_turn_direction != MineCarDirs::eLeft_2 && !(static_cast<s32>(sGnFrame) % 6))
                 {
-                    SFX_Play_Mono(SoundEffect::MinecarStuck_102, 127, mBaseAnimatedWithPhysicsGameObject_SpriteScale);
+                    SfxPlayMono(SoundEffect::MinecarStuck_102, 127, mBaseAnimatedWithPhysicsGameObject_SpriteScale);
                 }
             }
         }
@@ -1181,7 +1181,7 @@ void MineCar::State_1_ParkedWithAbe()
         {
             if (field_1BC_turn_direction != MineCarDirs::eRight_1 && !(static_cast<s32>(sGnFrame) % 6))
             {
-                SFX_Play_Mono(SoundEffect::MinecarStuck_102, 127, mBaseAnimatedWithPhysicsGameObject_SpriteScale);
+                SfxPlayMono(SoundEffect::MinecarStuck_102, 127, mBaseAnimatedWithPhysicsGameObject_SpriteScale);
             }
         }
     }
@@ -1318,7 +1318,7 @@ void MineCar::HandleUpDown()
             {
                 if (!(static_cast<s32>(sGnFrame) % 6))
                 {
-                    SFX_Play_Mono(SoundEffect::MinecarStuck_102, 127, mBaseAnimatedWithPhysicsGameObject_SpriteScale);
+                    SfxPlayMono(SoundEffect::MinecarStuck_102, 127, mBaseAnimatedWithPhysicsGameObject_SpriteScale);
                 }
             }
         }
@@ -1396,7 +1396,7 @@ void MineCar::HandleUpDown()
         {
             if (field_1BC_turn_direction != MineCarDirs::eUp_3 && !(static_cast<s32>(sGnFrame) % 6))
             {
-                SFX_Play_Mono(SoundEffect::MinecarStuck_102, 127, mBaseAnimatedWithPhysicsGameObject_SpriteScale);
+                SfxPlayMono(SoundEffect::MinecarStuck_102, 127, mBaseAnimatedWithPhysicsGameObject_SpriteScale);
             }
         }
     }
@@ -1429,7 +1429,7 @@ void MineCar::State_2_Moving()
     {
         // Play the mine car moving sound
         //
-        field_1D0_sound_channels_mask = SFX_Play_Mono(SoundEffect::MinecarMovement_100, 127, mBaseAnimatedWithPhysicsGameObject_SpriteScale);
+        field_1D0_sound_channels_mask = SfxPlayMono(SoundEffect::MinecarMovement_100, 127, mBaseAnimatedWithPhysicsGameObject_SpriteScale);
     }
 
     if (FollowDirection() && !field_1C4_velx_index)
@@ -1515,7 +1515,7 @@ void MineCar::State_2_Moving()
 
         if (++field_1C4_velx_index == 2)
         {
-            ++field_124_anim.field_10_frame_delay;
+            ++field_124_anim.mFrameDelay;
         }
     }
 
@@ -1598,7 +1598,7 @@ void MineCar::State_3_Falling()
                 9
             );
 
-            SFX_Play_Mono(SoundEffect::FallingItemHit_47, 80, mBaseAnimatedWithPhysicsGameObject_SpriteScale);
+            SfxPlayMono(SoundEffect::FallingItemHit_47, 80, mBaseAnimatedWithPhysicsGameObject_SpriteScale);
         }
     }
 
@@ -1620,7 +1620,7 @@ void MineCar::State_3_Falling()
                 9
             );
 
-            SFX_Play_Mono(SoundEffect::FallingItemHit_47, 80, mBaseAnimatedWithPhysicsGameObject_SpriteScale);
+            SfxPlayMono(SoundEffect::FallingItemHit_47, 80, mBaseAnimatedWithPhysicsGameObject_SpriteScale);
         }
     }
 

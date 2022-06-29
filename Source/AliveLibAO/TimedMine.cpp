@@ -236,7 +236,7 @@ void TimedMine::StickToLiftPoint()
 void TimedMine::VUpdate()
 {
     auto pPlatform = static_cast<LiftPoint*>(mLiftPoint);
-    if (Event_Get(kEventDeathReset))
+    if (EventGet(kEventDeathReset))
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
@@ -318,7 +318,7 @@ void TimedMine::VOnPickUpOrSlapped()
         mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(804, 0);
         mExplosionTimer = sGnFrame + mTicksUntilExplosion;
         mTickAnim.Set_Animation_Data(384, 0);
-        SFX_Play_Mono(SoundEffect::GreenTick_3, 0, 0);
+        SfxPlayMono(SoundEffect::GreenTick_3, 0, 0);
     }
 }
 

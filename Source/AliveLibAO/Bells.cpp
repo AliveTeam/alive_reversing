@@ -63,7 +63,7 @@ void Bells::VUpdate()
 
         if (field_EA_sound == Sounds::eLowPitch_0)
         {
-            SFX_Play_Mono(SoundEffect::BellChime_LowPitch_52, 0, 0);
+            SfxPlayMono(SoundEffect::BellChime_LowPitch_52, 0, 0);
         }
         else if (field_EA_sound == Sounds::eMediumPitch_1)
         {

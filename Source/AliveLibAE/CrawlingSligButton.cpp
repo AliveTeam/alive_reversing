@@ -69,16 +69,16 @@ CrawlingSligButton::~CrawlingSligButton()
 
 void CrawlingSligButton::VUpdate()
 {
-    if (Event_Get(kEventDeathReset))
+    if (EventGet(kEventDeathReset))
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 
     if (field_102_in_use == 1)
     {
-        SFX_Play_Mono(SoundEffect::LeverPull_63, 0);
-        Event_Broadcast(kEventNoise, this);
-        Event_Broadcast(kEventSuspiciousNoise, this);
+        SfxPlayMono(SoundEffect::LeverPull_63, 0);
+        EventBroadcast(kEventNoise, this);
+        EventBroadcast(kEventSuspiciousNoise, this);
 
         const s32 old_switch_state = SwitchStates_Get(field_F8_switch_id);
         SwitchStates_Do_Operation(field_F8_switch_id, field_FA_action);

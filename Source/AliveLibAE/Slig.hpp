@@ -260,7 +260,7 @@ public:
     virtual void VScreenChanged() override;
     virtual void VPossessed() override;
     virtual void VUnPosses() override;
-    virtual void VOn_TLV_Collision(Path_TLV* pTlv) override;
+    virtual void VOnTlvCollision(Path_TLV* pTlv) override;
     virtual void VOnTrapDoorOpen() override;
     virtual s16 VTakeDamage(BaseGameObject* pFrom) override;
 

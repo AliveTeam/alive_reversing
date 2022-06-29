@@ -117,7 +117,7 @@ public:
     Elum(s32 a2, anythingForTheTimeBeing a3, anythingForTheTimeBeing a4, s32 a5, TlvItemInfoUnion a6);
     ~Elum();
 
-    virtual void VOn_TLV_Collision(Path_TLV* pTlv) override;
+    virtual void VOnTlvCollision(Path_TLV* pTlv) override;
     virtual s16 VTakeDamage(BaseGameObject* pFrom) override;
     virtual void VOnTrapDoorOpen() override;
 

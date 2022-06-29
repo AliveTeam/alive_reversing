@@ -154,12 +154,12 @@ void Mine::VUpdate()
     }
     else
     {
-        if (mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame == 1
+        if (mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame == 1
             && (!sMineSFXOwner_5C3008 || sMineSFXOwner_5C3008 == this))
         {
             if (onScreen)
             {
-                SFX_Play_Mono(SoundEffect::RedTick_3, 35);
+                SfxPlayMono(SoundEffect::RedTick_3, 35);
                 sMineSFXOwner_5C3008 = this;
             }
             else
@@ -175,7 +175,7 @@ void Mine::VUpdate()
     }
     if (field_118_detonating != 1)
     {
-        BaseGameObject* pEventObj = Event_Get(kEventDeathReset);
+        BaseGameObject* pEventObj = EventGet(kEventDeathReset);
         if (pEventObj || mBaseAnimatedWithPhysicsGameObject_LvlNumber != gMap.mCurrentLevel || mBaseAnimatedWithPhysicsGameObject_PathNumber != gMap.mCurrentPath)
         {
             mBaseGameObjectFlags.Set(Options::eDead);

@@ -98,7 +98,7 @@ LiftPoint::LiftPoint(Path_LiftPoint* pTlv, s32 tlvInfo)
     else
     {
         mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_BeforeShadow_Half_6;
-        field_124_pCollisionLine->field_8_type = eLineTypes::eBackgroundDynamicCollision_36;
+        field_124_pCollisionLine->mLineType = eLineTypes::eBackgroundDynamicCollision_36;
     }
 
     SetTint(sLiftTints_55BF50, gMap.mCurrentLevel);
@@ -180,8 +180,8 @@ LiftPoint::LiftPoint(Path_LiftPoint* pTlv, s32 tlvInfo)
             field_134_rope2_id = pRope2->field_8_object_id;
         }
 
-        pRope2->field_106_bottom = FP_GetExponent((k25 * mBaseAnimatedWithPhysicsGameObject_SpriteScale) + FP_FromInteger(field_124_pCollisionLine->field_0_rect.y));
-        pRope1->field_106_bottom = FP_GetExponent((k25 * mBaseAnimatedWithPhysicsGameObject_SpriteScale) + FP_FromInteger(field_124_pCollisionLine->field_0_rect.y));
+        pRope2->field_106_bottom = FP_GetExponent((k25 * mBaseAnimatedWithPhysicsGameObject_SpriteScale) + FP_FromInteger(field_124_pCollisionLine->mRect.y));
+        pRope1->field_106_bottom = FP_GetExponent((k25 * mBaseAnimatedWithPhysicsGameObject_SpriteScale) + FP_FromInteger(field_124_pCollisionLine->mRect.y));
 
         const FP v28 = mBaseAnimatedWithPhysicsGameObject_YPos * FP_FromDouble(1.5);
         const FP v29 = FP_FromRaw(FP_GetExponent(v28 * mBaseAnimatedWithPhysicsGameObject_SpriteScale) % FP_FromInteger(pRope2->field_F6_rope_length).fpValue);
@@ -296,8 +296,8 @@ s32 LiftPoint::CreateFromSaveState(const u8* pData)
     Rope* pRope2 = static_cast<Rope*>(sObjectIds.Find(pLiftPoint->field_134_rope2_id, ReliveTypes::eLiftRope));
     Rope* pRope1 = static_cast<Rope*>(sObjectIds.Find(pLiftPoint->field_138_rope1_id, ReliveTypes::eLiftRope));
 
-    pRope2->field_106_bottom = FP_GetExponent(FP_FromInteger(pLiftPoint->field_124_pCollisionLine->field_0_rect.y) + (FP_FromInteger(25) * pLiftPoint->mBaseAnimatedWithPhysicsGameObject_SpriteScale));
-    pRope1->field_106_bottom = FP_GetExponent(FP_FromInteger(pLiftPoint->field_124_pCollisionLine->field_0_rect.y) + (FP_FromInteger(25) * pLiftPoint->mBaseAnimatedWithPhysicsGameObject_SpriteScale));
+    pRope2->field_106_bottom = FP_GetExponent(FP_FromInteger(pLiftPoint->field_124_pCollisionLine->mRect.y) + (FP_FromInteger(25) * pLiftPoint->mBaseAnimatedWithPhysicsGameObject_SpriteScale));
+    pRope1->field_106_bottom = FP_GetExponent(FP_FromInteger(pLiftPoint->field_124_pCollisionLine->mRect.y) + (FP_FromInteger(25) * pLiftPoint->mBaseAnimatedWithPhysicsGameObject_SpriteScale));
 
     if (pLiftPoint->field_280_flags.Get(LiftPoint::eBit4_bHasPulley))
     {
@@ -541,17 +541,17 @@ void LiftPoint::VUpdate()
                 mBaseAnimatedWithPhysicsGameObject_VelY = FP_FromInteger(0);
                 field_12C_bMoving &= ~1u;
                 field_280_flags.Clear(LiftFlags::eBit5_bMoveToFloorLevel);
-                SFX_Play_Mono(SoundEffect::LiftStop_30, 0);
+                SfxPlayMono(SoundEffect::LiftStop_30, 0);
                 SFX_Play_Pitch(SoundEffect::LiftStop_30, 80, -2000);
-                Event_Broadcast(kEventNoise, this);
-                Event_Broadcast(kEventSuspiciousNoise, this);
+                EventBroadcast(kEventNoise, this);
+                EventBroadcast(kEventSuspiciousNoise, this);
             }
         }
         else
         {
             field_130_lift_point_stop_type = LiftPointStopType::eStartPointOnly_4;
-            const FP lineY = FP_FromInteger(field_124_pCollisionLine->field_0_rect.y);
-            Path_TLV* pTlvIter = sPath_dword_BB47C0->TLV_Get_At_4DB290(
+            const FP lineY = FP_FromInteger(field_124_pCollisionLine->mRect.y);
+            Path_TLV* pTlvIter = sPath_dword_BB47C0->TlvGetAt(
                 nullptr,
                 mBaseAnimatedWithPhysicsGameObject_XPos,
                 lineY,
@@ -562,7 +562,7 @@ void LiftPoint::VUpdate()
             {
                 while (pTlvIter->mTlvType32.mType != TlvTypes::LiftPoint_7)
                 {
-                    pTlvIter = sPath_dword_BB47C0->TLV_Get_At_4DB290(
+                    pTlvIter = sPath_dword_BB47C0->TlvGetAt(
                         pTlvIter,
                         mBaseAnimatedWithPhysicsGameObject_XPos,
                         lineY,
@@ -731,10 +731,10 @@ void LiftPoint::VUpdate()
     }
 
     Rope* pRope2 = static_cast<Rope*>(sObjectIds.Find(field_134_rope2_id, ReliveTypes::eLiftRope));
-    pRope2->field_106_bottom = FP_GetExponent((FP_FromInteger(field_124_pCollisionLine->field_0_rect.y) + (FP_FromInteger(25) * mBaseAnimatedWithPhysicsGameObject_SpriteScale)));
+    pRope2->field_106_bottom = FP_GetExponent((FP_FromInteger(field_124_pCollisionLine->mRect.y) + (FP_FromInteger(25) * mBaseAnimatedWithPhysicsGameObject_SpriteScale)));
 
     Rope* pRope1 = static_cast<Rope*>(sObjectIds.Find(field_138_rope1_id, ReliveTypes::eLiftRope));
-    pRope1->field_106_bottom = FP_GetExponent((FP_FromInteger(field_124_pCollisionLine->field_0_rect.y) + (FP_FromInteger(25) * mBaseAnimatedWithPhysicsGameObject_SpriteScale)));
+    pRope1->field_106_bottom = FP_GetExponent((FP_FromInteger(field_124_pCollisionLine->mRect.y) + (FP_FromInteger(25) * mBaseAnimatedWithPhysicsGameObject_SpriteScale)));
 
     if (field_280_flags.Get(LiftPoint::eBit4_bHasPulley))
     {
@@ -770,17 +770,17 @@ void LiftPoint::VUpdate()
 
     if (gMap.mCurrentLevel == EReliveLevelIds::eNecrum || gMap.mCurrentLevel == EReliveLevelIds::eMudomoVault || gMap.mCurrentLevel == EReliveLevelIds::eMudomoVault_Ender || gMap.mCurrentLevel == EReliveLevelIds::eMudancheeVault || gMap.mCurrentLevel == EReliveLevelIds::eMudancheeVault_Ender)
     {
-        if (field_13C_lift_wheel.field_92_current_frame == 1 && field_13C_lift_wheel.mAnimFlags.Get(AnimFlags::eBit2_Animate))
+        if (field_13C_lift_wheel.mCurrentFrame == 1 && field_13C_lift_wheel.mAnimFlags.Get(AnimFlags::eBit2_Animate))
         {
-            SFX_Play_Mono(SoundEffect::WheelSqueak_31, 0);
+            SfxPlayMono(SoundEffect::WheelSqueak_31, 0);
         }
     }
-    else if (field_13C_lift_wheel.field_92_current_frame == 1 && field_13C_lift_wheel.mAnimFlags.Get(AnimFlags::eBit2_Animate) && sGnFrame & 1)
+    else if (field_13C_lift_wheel.mCurrentFrame == 1 && field_13C_lift_wheel.mAnimFlags.Get(AnimFlags::eBit2_Animate) && sGnFrame & 1)
     {
-        SFX_Play_Mono(SoundEffect::WheelSqueak_31, 0);
+        SfxPlayMono(SoundEffect::WheelSqueak_31, 0);
     }
 
-    if ((mBaseAnimatedWithPhysicsGameObject_LvlNumber != gMap.mCurrentLevel || mBaseAnimatedWithPhysicsGameObject_PathNumber != gMap.mCurrentPath || Event_Get(kEventDeathReset))
+    if ((mBaseAnimatedWithPhysicsGameObject_LvlNumber != gMap.mCurrentLevel || mBaseAnimatedWithPhysicsGameObject_PathNumber != gMap.mCurrentPath || EventGet(kEventDeathReset))
         && mPlatformBaseCount <= 0)
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
@@ -815,7 +815,7 @@ void LiftPoint::MoveObjectsOnLift(FP xVelocity)
             pObj->mBaseAnimatedWithPhysicsGameObject_XPos += xVelocity;
 
             // Keep ypos on the platform
-            pObj->mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(field_124_pCollisionLine->field_0_rect.y);
+            pObj->mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(field_124_pCollisionLine->mRect.y);
 
             if (pObj->mBaseGameObjectFlags.Get(BaseGameObject::eInteractive_Bit8))
             {
@@ -840,7 +840,7 @@ void LiftPoint::vStayOnFloor(s16 floor, Path_LiftPoint* pTlv)
     if (!floor)
     {
         mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->mTopLeft.y + -mPlatformBaseYOffset);
-        SFX_Play_Mono(SoundEffect::LiftStop_30, 0);
+        SfxPlayMono(SoundEffect::LiftStop_30, 0);
         SFX_Play_Pitch(SoundEffect::LiftStop_30, 80, -2000);
     }
 
@@ -850,8 +850,8 @@ void LiftPoint::vStayOnFloor(s16 floor, Path_LiftPoint* pTlv)
     pTlv->field_10_lift_point_id = field_278_lift_point_id;
     mBaseAnimatedWithPhysicsGameObject_VelY = FP_FromInteger(0);
 
-    Event_Broadcast(kEventNoise, this);
-    Event_Broadcast(kEventSuspiciousNoise, this);
+    EventBroadcast(kEventNoise, this);
+    EventBroadcast(kEventSuspiciousNoise, this);
 }
 
 s32 LiftPoint::VGetSaveState(u8* pSaveBuffer)
@@ -894,10 +894,10 @@ void LiftPoint::CreatePulleyIfExists()
         {
             if (pTlvIter->mTlvType32 == TlvTypes::Pulley_21)
             {
-                const FP left = FP_FromInteger(field_124_pCollisionLine->field_0_rect.x) + (ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale) / FP_FromInteger(2));
+                const FP left = FP_FromInteger(field_124_pCollisionLine->mRect.x) + (ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale) / FP_FromInteger(2));
                 if (left <= FP_FromInteger(pTlvIter->mTopLeft.x))
                 {
-                    const FP right = FP_FromInteger(field_124_pCollisionLine->field_0_rect.w) - (ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale) / FP_FromInteger(2));
+                    const FP right = FP_FromInteger(field_124_pCollisionLine->mRect.w) - (ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale) / FP_FromInteger(2));
                     if (FP_FromInteger(pTlvIter->mTopLeft.x) <= right)
                     {
                         pFound = pTlvIter;
@@ -1011,7 +1011,7 @@ LiftPoint::~LiftPoint()
         FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos),
         FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(30)),
         FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos),
-        FP_GetExponent(FP_FromInteger(field_124_pCollisionLine->field_0_rect.y) + (mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(30))),
+        FP_GetExponent(FP_FromInteger(field_124_pCollisionLine->mRect.y) + (mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(30))),
         TlvTypes::LiftPoint_7);
 
     if (pTlv)

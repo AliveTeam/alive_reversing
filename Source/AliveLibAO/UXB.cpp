@@ -78,7 +78,7 @@ UXB::UXB(Path_UXB* pTlv, s32 tlvInfo)
                     mBaseAnimatedWithPhysicsGameObject_YPos,
                     0))
             {
-                SFX_Play_Mono(SoundEffect::GreenTick_3, 35, 0);
+                SfxPlayMono(SoundEffect::GreenTick_3, 35, 0);
             }
 
             const AnimRecord& animRec = AO::AnimRec(AnimId::UXB_Disabled);
@@ -323,7 +323,7 @@ void UXB::VOnPickUpOrSlapped()
                         mBaseAnimatedWithPhysicsGameObject_YPos,
                         0))
                 {
-                    SFX_Play_Mono(SoundEffect::GreenTick_3, 35, 0);
+                    SfxPlayMono(SoundEffect::GreenTick_3, 35, 0);
                 }
                 const AnimRecord& animRec = AO::AnimRec(AnimId::UXB_Toggle);
                 mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(animRec.mFrameTableOffset, 0);
@@ -344,7 +344,7 @@ void UXB::VOnPickUpOrSlapped()
                     mBaseAnimatedWithPhysicsGameObject_YPos,
                     0))
             {
-                SFX_Play_Mono(SoundEffect::RedTick_4, 35, 0);
+                SfxPlayMono(SoundEffect::RedTick_4, 35, 0);
             }
         }
     }
@@ -421,7 +421,7 @@ void UXB::VUpdate()
                             mBaseAnimatedWithPhysicsGameObject_YPos,
                             0))
                     {
-                        SFX_Play_Mono(SoundEffect::RedTick_4, 35, 0);
+                        SfxPlayMono(SoundEffect::RedTick_4, 35, 0);
                     }
                 }
                 else if (gMap.Is_Point_In_Current_Camera(
@@ -431,7 +431,7 @@ void UXB::VUpdate()
                              mBaseAnimatedWithPhysicsGameObject_YPos,
                              0))
                 {
-                    SFX_Play_Mono(SoundEffect::GreenTick_3, 35, 0);
+                    SfxPlayMono(SoundEffect::GreenTick_3, 35, 0);
                 }
                 field_10C_state = UXBState::eDelay_0;
                 field_118_next_state_frame = sGnFrame + 10; // UXB change color delay
@@ -453,7 +453,7 @@ void UXB::VUpdate()
 
     if (field_10C_state != UXBState::eExploding_2)
     {
-        if (Event_Get(kEventDeathReset))
+        if (EventGet(kEventDeathReset))
         {
             if (field_10E_starting_state != UXBState::eDeactivated_3 || field_10C_state == UXBState::eDeactivated_3)
             {

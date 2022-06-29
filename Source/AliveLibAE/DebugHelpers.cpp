@@ -246,7 +246,7 @@ void Command_Event(const std::vector<std::string>& args)
         DEV_CONSOLE_MESSAGE_C("Invalid event id", 6, 127, 0, 0);
         return;
     }
-    Event_Broadcast(static_cast<Event>(eventId), sControlledCharacter_5C1B8C);
+    EventBroadcast(static_cast<Event>(eventId), sControlledCharacter_5C1B8C);
 }
 
 void Command_Menu(const std::vector<std::string>& args)
@@ -265,7 +265,7 @@ void Command_Midi1(const std::vector<std::string>& args)
 {
     const SoundEffect arg1 = static_cast<SoundEffect>(std::stoi(args[0]));
 
-    SFX_Play_Mono(arg1, 0);
+    SfxPlayMono(arg1, 0);
 
     DEV_CONSOLE_MESSAGE("Played Midi1", 6);
 }

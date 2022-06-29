@@ -76,7 +76,7 @@ void New_Smoke_Particles_419A80(FP xpos, FP ypos, FP scale, s16 count, s16 type)
             }
 
             pParticle->field_E4_scale_amount = scale * FP_FromDouble(0.03);
-            pParticle->mBaseAnimatedWithPhysicsGameObject_Anim.field_10_frame_delay = static_cast<u16>((i + 3) / 2);
+            pParticle->mBaseAnimatedWithPhysicsGameObject_Anim.mFrameDelay = static_cast<u16>((i + 3) / 2);
             if (Math_NextRandom() < 127)
             {
                 pParticle->mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit5_FlipX);

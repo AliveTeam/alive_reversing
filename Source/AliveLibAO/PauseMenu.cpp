@@ -273,7 +273,7 @@ void PauseMenu::VUpdate()
                                 field_12C = 0;
                                 field_12E = 0;
                                 field_134 = 1;
-                                SFX_Play_Mono(SoundEffect::IngameTransition_107, 90, 0);
+                                SfxPlayMono(SoundEffect::IngameTransition_107, 90, 0);
                                 s32 tmp = static_cast<s32>(MapWrapper::ToAO(gMap.mCurrentLevel));
                                 if (gMap.mCurrentLevel == EReliveLevelIds::eRuptureFarmsReturn)
                                 {
@@ -314,14 +314,14 @@ void PauseMenu::VUpdate()
                             {
                                 field_126_page = PauseMenuPages::eControls_2;
                                 field_128_controller_id = 0;
-                                SFX_Play_Mono(SoundEffect::IngameTransition_107, 90, 0);
+                                SfxPlayMono(SoundEffect::IngameTransition_107, 90, 0);
                                 break;
                             }
                             case Page1Selectables::eQuit_3:
                             {
                                 field_126_page = PauseMenuPages::eQuit_3;
                                 field_124 = 0;
-                                SFX_Play_Mono(SoundEffect::IngameTransition_107, 90, 0);
+                                SfxPlayMono(SoundEffect::IngameTransition_107, 90, 0);
                                 break;
                             }
                             default:
@@ -398,10 +398,10 @@ void PauseMenu::VUpdate()
                         {
                             if (string_len_no_nullterminator <= 1)
                             {
-                                SFX_Play_Mono(SoundEffect::ElectricZap_46, 0, 0);
+                                SfxPlayMono(SoundEffect::ElectricZap_46, 0, 0);
                                 break;
                             }
-                            SFX_Play_Mono(SoundEffect::IngameTransition_107, 90, 0);
+                            SfxPlayMono(SoundEffect::IngameTransition_107, 90, 0);
                             saveNameBuffer_5080C6.characters[string_len_no_nullterminator + 1] = 0;
                             field_12C = 4;
                             field_12A = 11;
@@ -413,12 +413,12 @@ void PauseMenu::VUpdate()
                         {
                             if (string_len_no_nullterminator <= 1)
                             {
-                                SFX_Play_Mono(SoundEffect::ElectricZap_46, 0, 0);
+                                SfxPlayMono(SoundEffect::ElectricZap_46, 0, 0);
                                 break;
                             }
                             saveNameBuffer_5080C6.characters[string_len_no_nullterminator] = 18;
                             saveNameBuffer_5080C6.characters[string_len_no_nullterminator + 1] = 0;
-                            SFX_Play_Mono(SoundEffect::PickupItem_33, 0, 0);
+                            SfxPlayMono(SoundEffect::PickupItem_33, 0, 0);
                             break;
                         }
                         default:
@@ -429,14 +429,14 @@ void PauseMenu::VUpdate()
                                 {
                                     if (string_len_no_nullterminator > 19)
                                     {
-                                        SFX_Play_Mono(SoundEffect::SackWobble_34, 0, 0);
+                                        SfxPlayMono(SoundEffect::SackWobble_34, 0, 0);
                                     }
                                     else
                                     {
                                         saveNameBuffer_5080C6.characters[string_len_no_nullterminator + 1] = lastPressedKeyNT[0];
                                         saveNameBuffer_5080C6.characters[string_len_no_nullterminator + 2] = 18;
                                         saveNameBuffer_5080C6.characters[string_len_no_nullterminator + 3] = 0;
-                                        SFX_Play_Mono(SoundEffect::RockBounce_31, 0, 0);
+                                        SfxPlayMono(SoundEffect::RockBounce_31, 0, 0);
                                     }
                                 }
                                 else
@@ -467,7 +467,7 @@ void PauseMenu::VUpdate()
                         field_128_controller_id++;
                         if (field_128_controller_id < 2)
                         {
-                            SFX_Play_Mono(SoundEffect::IngameTransition_107, 90, 0);
+                            SfxPlayMono(SoundEffect::IngameTransition_107, 90, 0);
                         }
                         else
                         {

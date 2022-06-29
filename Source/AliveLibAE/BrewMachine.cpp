@@ -100,7 +100,7 @@ void BrewMachine::VUpdate()
         pTlv->mTlvState = 50;
     }
 
-    if (Event_Get(kEventDeathReset))
+    if (EventGet(kEventDeathReset))
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }

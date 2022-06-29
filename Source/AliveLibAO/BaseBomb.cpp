@@ -19,11 +19,11 @@ void BaseBomb::VUpdate()
 {
     PSX_RECT rect = {};
 
-    Event_Broadcast(kEventShooting, this);
-    Event_Broadcast(kEventLoudNoise, this);
-    Event_Broadcast(kEventSuspiciousNoise, this);
+    EventBroadcast(kEventShooting, this);
+    EventBroadcast(kEventLoudNoise, this);
+    EventBroadcast(kEventSuspiciousNoise, this);
 
-    switch (mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame)
+    switch (mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame)
     {
         case 0:
             rect.x = FP_GetExponent(FP_FromInteger(-30) * field_E4_scale);
@@ -91,7 +91,7 @@ void BaseBomb::VUpdate()
             break;
     }
 
-    if (mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame == 3)
+    if (mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame == 3)
     {
         const AnimRecord& rec = AO::AnimRec(AnimId::Explosion_Mine);
         u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);

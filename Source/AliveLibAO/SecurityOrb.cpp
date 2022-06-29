@@ -111,7 +111,7 @@ s16 SecurityOrb::VTakeDamage(BaseGameObject* pFrom)
 
 void SecurityOrb::VUpdate()
 {
-    if (Event_Get(kEventDeathReset))
+    if (EventGet(kEventDeathReset))
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
@@ -119,7 +119,7 @@ void SecurityOrb::VUpdate()
     switch (field_110_state)
     {
         case SecurityOrbStates::eIdle_0:
-            if (mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame == 2 || mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame == 6 || mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame == 10)
+            if (mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame == 2 || mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame == 6 || mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame == 10)
             {
                 if (field_118_sound_channels)
                 {
@@ -136,7 +136,7 @@ void SecurityOrb::VUpdate()
                 }
             }
 
-            if (Event_Get(kEventAbeOhm))
+            if (EventGet(kEventAbeOhm))
             {
                 field_110_state = SecurityOrbStates::eDoZapEffects_1;
                 field_114_timer = sGnFrame + 20;
@@ -213,11 +213,11 @@ void SecurityOrb::VUpdate()
 
             if (field_114_timer - sGnFrame == 4)
             {
-                SFX_Play_Mono(SoundEffect::Zap1_57, 0, 0);
+                SfxPlayMono(SoundEffect::Zap1_57, 0, 0);
             }
             else if (field_114_timer - sGnFrame == 1)
             {
-                SFX_Play_Mono(SoundEffect::Zap2_58, 0, 0);
+                SfxPlayMono(SoundEffect::Zap2_58, 0, 0);
             }
 
             if (static_cast<s32>(sGnFrame) > field_114_timer)

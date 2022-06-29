@@ -141,7 +141,7 @@ static s16 Well_NextRandom()
 
 void Well::VUpdate()
 {
-    if (Event_Get(kEventDeathReset))
+    if (EventGet(kEventDeathReset))
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
         // Reset well state when Abe dies.

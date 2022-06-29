@@ -107,7 +107,7 @@ SnoozeParticle::SnoozeParticle(FP xpos, FP ypos, Layer layer, FP scale)
 
 void SnoozeParticle::VUpdate()
 {
-    if (Event_Get(kEventDeathReset))
+    if (EventGet(kEventDeathReset))
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
@@ -161,7 +161,7 @@ void SnoozeParticle::VUpdate()
                 }
                 else
                 {
-                    SFX_Play_Mono(SoundEffect::ZPop_5, 0, 0);
+                    SfxPlayMono(SoundEffect::ZPop_5, 0, 0);
                     mBaseGameObjectFlags.Set(BaseGameObject::eDead);
                 }
         }

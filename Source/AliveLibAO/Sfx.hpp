@@ -141,7 +141,7 @@ struct SfxDefinition final
 ALIVE_ASSERT_SIZEOF(SfxDefinition, 0x14);
 
 s32 SFX_Play_Pitch(SoundEffect sfxId, s32 volume, s32 pitch, BaseAnimatedWithPhysicsGameObject* pObj = nullptr);
-s32 SFX_Play_Mono(SoundEffect sfxId, s32 a2, BaseAnimatedWithPhysicsGameObject* a3 = nullptr);
+s32 SfxPlayMono(SoundEffect sfxId, s32 a2, BaseAnimatedWithPhysicsGameObject* a3 = nullptr);
 s32 SFX_Play_Stereo(SoundEffect sfxId, s32 leftVol, s32 rightVol, BaseAnimatedWithPhysicsGameObject* pObj);
 s32 SFX_Play_Camera(SoundEffect sfxId, s32 volume, CameraPos direction);
 

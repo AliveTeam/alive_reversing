@@ -89,12 +89,12 @@ void GasCountDown::VScreenChanged()
 
 void GasCountDown::VUpdate()
 {
-    if (Event_Get(kEventDeathReset))
+    if (EventGet(kEventDeathReset))
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 
-    if (Event_Get(kEventDeathResetEnd))
+    if (EventGet(kEventDeathResetEnd))
     {
         sGasTimer_507700 = 0;
         gGasOn_4FF888 = 0;
@@ -121,7 +121,7 @@ void GasCountDown::VUpdate()
             return;
         }
 
-        if (Event_Get(kEventResetting))
+        if (EventGet(kEventResetting))
         {
             sGasTimer_507700++;
         }

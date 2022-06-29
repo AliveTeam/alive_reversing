@@ -203,7 +203,7 @@ s16 Bone::OnCollision(BaseAnimatedWithPhysicsGameObject* pObj)
     pObj->VOnThrowableHit(this);
 
     field_130_hit_object |= 1u;
-    SFX_Play_Mono(SoundEffect::RockBounceOnMine_24, 80);
+    SfxPlayMono(SoundEffect::RockBounceOnMine_24, 80);
 
     if (pObj->Type() == ReliveTypes::eMine || pObj->Type() == ReliveTypes::eUXB)
     {
@@ -254,7 +254,7 @@ s32 Bone::VGetSaveState(u8* pSaveBuffer)
 
     if (BaseAliveGameObjectCollisionLine)
     {
-        pState->field_28_line_type = BaseAliveGameObjectCollisionLine->field_8_type;
+        pState->field_28_line_type = BaseAliveGameObjectCollisionLine->mLineType;
     }
     else
     {
@@ -301,7 +301,7 @@ void Bone::InTheAir()
             mBaseAnimatedWithPhysicsGameObject_Scale == Scale::Fg ? kFgFloorOrCeiling : kBgFloorOrCeiling)
         == 1)
     {
-        switch (BaseAliveGameObjectCollisionLine->field_8_type)
+        switch (BaseAliveGameObjectCollisionLine->mLineType)
         {
             case 0u:
             case 4u:
@@ -318,7 +318,7 @@ void Bone::InTheAir()
                 {
                     field_11C_state = BoneStates::eCollided_2;
 
-                    mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(BaseAliveGameObjectCollisionLine->field_0_rect.y);
+                    mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(BaseAliveGameObjectCollisionLine->mRect.y);
                     mBaseAnimatedWithPhysicsGameObject_VelY = FP_FromInteger(0);
                     if (mBaseAnimatedWithPhysicsGameObject_VelX >= FP_FromInteger(0) && mBaseAnimatedWithPhysicsGameObject_VelX < FP_FromInteger(1))
                     {
@@ -341,9 +341,9 @@ void Bone::InTheAir()
                     {
                         vol = 40;
                     }
-                    SFX_Play_Mono(SoundEffect::RockBounce_26, vol);
-                    Event_Broadcast(kEventNoise, this);
-                    Event_Broadcast(kEventSuspiciousNoise, this);
+                    SfxPlayMono(SoundEffect::RockBounce_26, vol);
+                    EventBroadcast(kEventNoise, this);
+                    EventBroadcast(kEventSuspiciousNoise, this);
                     field_11E_volume_modifier++;
                 }
                 break;
@@ -359,9 +359,9 @@ void Bone::InTheAir()
                     {
                         vol = 40;
                     }
-                    SFX_Play_Mono(SoundEffect::RockBounce_26, vol);
-                    Event_Broadcast(kEventNoise, this);
-                    Event_Broadcast(kEventSuspiciousNoise, this);
+                    SfxPlayMono(SoundEffect::RockBounce_26, vol);
+                    EventBroadcast(kEventNoise, this);
+                    EventBroadcast(kEventSuspiciousNoise, this);
                 }
                 break;
         }
@@ -369,7 +369,7 @@ void Bone::InTheAir()
 
     if (sCollisions->Raycast(field_120_xpos, field_124_ypos, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, &BaseAliveGameObjectCollisionLine, &hitX, &hitY, mBaseAnimatedWithPhysicsGameObject_Scale == Scale::Fg ? kFgWalls : kBgWalls) == 1)
     {
-        switch (BaseAliveGameObjectCollisionLine->field_8_type)
+        switch (BaseAliveGameObjectCollisionLine->mLineType)
         {
             case 1u:
             case 5u:
@@ -383,9 +383,9 @@ void Bone::InTheAir()
                     {
                         vol = 40;
                     }
-                    SFX_Play_Mono(SoundEffect::RockBounce_26, vol);
-                    Event_Broadcast(kEventNoise, this);
-                    Event_Broadcast(kEventSuspiciousNoise, this);
+                    SfxPlayMono(SoundEffect::RockBounce_26, vol);
+                    EventBroadcast(kEventNoise, this);
+                    EventBroadcast(kEventSuspiciousNoise, this);
                 }
                 BaseAliveGameObjectCollisionLine = nullptr;
                 break;
@@ -402,9 +402,9 @@ void Bone::InTheAir()
                     {
                         vol = 40;
                     }
-                    SFX_Play_Mono(SoundEffect::RockBounce_26, vol);
-                    Event_Broadcast(kEventNoise, this);
-                    Event_Broadcast(kEventSuspiciousNoise, this);
+                    SfxPlayMono(SoundEffect::RockBounce_26, vol);
+                    EventBroadcast(kEventNoise, this);
+                    EventBroadcast(kEventSuspiciousNoise, this);
                 }
                 BaseAliveGameObjectCollisionLine = nullptr;
                 break;
@@ -415,7 +415,7 @@ void Bone::InTheAir()
 void Bone::VUpdate()
 {
     auto pObj = sObjectIds.Find_Impl(BaseAliveGameObject_PlatformId);
-    if (Event_Get(kEventDeathReset))
+    if (EventGet(kEventDeathReset))
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
@@ -623,12 +623,12 @@ BoneBag::~BoneBag()
 
 void BoneBag::VUpdate()
 {
-    if (Event_Get(kEventDeathReset))
+    if (EventGet(kEventDeathReset))
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 
-    if (mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame == 2)
+    if (mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame == 2)
     {
         if (field_120_allow_sound)
         {
@@ -705,7 +705,7 @@ void BoneBag::VUpdate()
 
         pBone->VThrow(field_124_velX, field_128_velY);
 
-        SFX_Play_Mono(SoundEffect::SackHit_25, 0);
+        SfxPlayMono(SoundEffect::SackHit_25, 0);
         Environment_SFX_457A40(EnvironmentSfx::eDeathNoise_7, 0, 0x7FFF, 0);
 
         if (sActiveHero->mCurrentMotion == eAbeMotions::Motion_31_RunJumpMid_452C10)

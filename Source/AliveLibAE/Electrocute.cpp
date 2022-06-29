@@ -125,10 +125,10 @@ Electrocute::Electrocute(BaseAliveGameObject* pTargetObj, bool bExtraOverwriter,
         case ReliveTypes::eGlukkon:
         case ReliveTypes::eAbe:
         case ReliveTypes::eSlig:
-            field_40_pPalData = relive_new u16[pTargetObj->mBaseAnimatedWithPhysicsGameObject_Anim.field_90_pal_depth];
+            field_40_pPalData = relive_new u16[pTargetObj->mBaseAnimatedWithPhysicsGameObject_Anim.mPalDepth];
             Pal_Copy_483560(
-                pTargetObj->mBaseAnimatedWithPhysicsGameObject_Anim.field_8C_pal_vram_xy,
-                pTargetObj->mBaseAnimatedWithPhysicsGameObject_Anim.field_90_pal_depth,
+                pTargetObj->mBaseAnimatedWithPhysicsGameObject_Anim.mPalVramXY,
+                pTargetObj->mBaseAnimatedWithPhysicsGameObject_Anim.mPalDepth,
                 field_40_pPalData,
                 &field_4C_pal_rect);
             break;
@@ -199,13 +199,13 @@ void Electrocute::VUpdate()
 
             case States::eAlphaFadeout_1:
                 field_30_pPalOverwriters[0] = relive_new PalleteOverwriter(
-                    pTargetObj->mBaseAnimatedWithPhysicsGameObject_Anim.field_8C_pal_vram_xy,
-                    pTargetObj->mBaseAnimatedWithPhysicsGameObject_Anim.field_90_pal_depth,
+                    pTargetObj->mBaseAnimatedWithPhysicsGameObject_Anim.mPalVramXY,
+                    pTargetObj->mBaseAnimatedWithPhysicsGameObject_Anim.mPalDepth,
                     static_cast<s16>(Pal_Make_Colour_4834C0(255u, 255, 255, 1)));
 
                 field_30_pPalOverwriters[1] = relive_new PalleteOverwriter(
-                    pTargetObj->mBaseAnimatedWithPhysicsGameObject_Anim.field_8C_pal_vram_xy,
-                    pTargetObj->mBaseAnimatedWithPhysicsGameObject_Anim.field_90_pal_depth,
+                    pTargetObj->mBaseAnimatedWithPhysicsGameObject_Anim.mPalVramXY,
+                    pTargetObj->mBaseAnimatedWithPhysicsGameObject_Anim.mPalDepth,
                     static_cast<s16>(Pal_Make_Colour_4834C0(64u, 64, 255, 1)));
                 if (field_30_pPalOverwriters[1])
                 {
@@ -214,8 +214,8 @@ void Electrocute::VUpdate()
 
                 if (field_3C_extraOverwriter)
                 {
-                    field_30_pPalOverwriters[2] = relive_new PalleteOverwriter(pTargetObj->mBaseAnimatedWithPhysicsGameObject_Anim.field_8C_pal_vram_xy,
-                        pTargetObj->mBaseAnimatedWithPhysicsGameObject_Anim.field_90_pal_depth,
+                    field_30_pPalOverwriters[2] = relive_new PalleteOverwriter(pTargetObj->mBaseAnimatedWithPhysicsGameObject_Anim.mPalVramXY,
+                        pTargetObj->mBaseAnimatedWithPhysicsGameObject_Anim.mPalDepth,
                         static_cast<s16>(Pal_Make_Colour_4834C0(0, 0, 0, 0)));
                     if (field_30_pPalOverwriters[2])
                     {
@@ -234,8 +234,8 @@ void Electrocute::VUpdate()
                     if (field_40_pPalData)
                     {
                         Pal_Set_483510(
-                            pTargetObj->mBaseAnimatedWithPhysicsGameObject_Anim.field_8C_pal_vram_xy,
-                            pTargetObj->mBaseAnimatedWithPhysicsGameObject_Anim.field_90_pal_depth,
+                            pTargetObj->mBaseAnimatedWithPhysicsGameObject_Anim.mPalVramXY,
+                            pTargetObj->mBaseAnimatedWithPhysicsGameObject_Anim.mPalDepth,
                             reinterpret_cast<const u8*>(field_40_pPalData),
                             &field_4C_pal_rect);
                     }
@@ -292,8 +292,8 @@ void Electrocute::VStop()
         if (field_40_pPalData)
         {
             Pal_Set_483510(
-                pTarget->mBaseAnimatedWithPhysicsGameObject_Anim.field_8C_pal_vram_xy,
-                pTarget->mBaseAnimatedWithPhysicsGameObject_Anim.field_90_pal_depth,
+                pTarget->mBaseAnimatedWithPhysicsGameObject_Anim.mPalVramXY,
+                pTarget->mBaseAnimatedWithPhysicsGameObject_Anim.mPalDepth,
                 reinterpret_cast<const u8*>(field_40_pPalData),
                 &field_4C_pal_rect);
 

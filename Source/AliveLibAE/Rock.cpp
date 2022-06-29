@@ -147,7 +147,7 @@ void Rock::InTheAir()
             mBaseAnimatedWithPhysicsGameObject_Scale == Scale::Fg ? kFgFloorOrCeiling : kBgFloorOrCeiling)
         == 1)
     {
-        switch (BaseAliveGameObjectCollisionLine->field_8_type)
+        switch (BaseAliveGameObjectCollisionLine->mLineType)
         {
             case eLineTypes::eFloor_0:
             case eLineTypes::eBackgroundFloor_4:
@@ -198,9 +198,9 @@ void Rock::InTheAir()
                         vol = 40;
                     }
 
-                    SFX_Play_Mono(SoundEffect::RockBounce_26, vol);
-                    Event_Broadcast(kEventNoise, this);
-                    Event_Broadcast(kEventSuspiciousNoise, this);
+                    SfxPlayMono(SoundEffect::RockBounce_26, vol);
+                    EventBroadcast(kEventNoise, this);
+                    EventBroadcast(kEventSuspiciousNoise, this);
                     field_11E_volume++;
                 }
                 break;
@@ -216,9 +216,9 @@ void Rock::InTheAir()
                     {
                         vol = 40;
                     }
-                    SFX_Play_Mono(SoundEffect::RockBounce_26, vol);
-                    Event_Broadcast(kEventNoise, this);
-                    Event_Broadcast(kEventSuspiciousNoise, this);
+                    SfxPlayMono(SoundEffect::RockBounce_26, vol);
+                    EventBroadcast(kEventNoise, this);
+                    EventBroadcast(kEventSuspiciousNoise, this);
                 }
                 break;
         }
@@ -226,7 +226,7 @@ void Rock::InTheAir()
 
     if (sCollisions->Raycast(field_120_xpos, field_124_ypos, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, &BaseAliveGameObjectCollisionLine, &hitX, &hitY, mBaseAnimatedWithPhysicsGameObject_Scale == Scale::Fg ? kFgWalls : kBgWalls) == 1)
     {
-        switch (BaseAliveGameObjectCollisionLine->field_8_type)
+        switch (BaseAliveGameObjectCollisionLine->mLineType)
         {
             case eLineTypes::eWallLeft_1:
             case eLineTypes::eBackgroundWallLeft_5:
@@ -258,9 +258,9 @@ void Rock::BounceHorizontally( FP hitX, FP hitY )
     {
         vol = 40;
     }
-    SFX_Play_Mono(SoundEffect::RockBounce_26, vol);
-    Event_Broadcast(kEventNoise, this);
-    Event_Broadcast(kEventSuspiciousNoise, this);
+    SfxPlayMono(SoundEffect::RockBounce_26, vol);
+    EventBroadcast(kEventNoise, this);
+    EventBroadcast(kEventSuspiciousNoise, this);
 }
 
 //TODO Identical to AO - merge
@@ -286,14 +286,14 @@ s16 Rock::OnCollision(BaseAliveGameObject* pObj)
 
     pObj->VOnThrowableHit(this);
 
-    SFX_Play_Mono(SoundEffect::RockBounceOnMine_24, 80);
+    SfxPlayMono(SoundEffect::RockBounceOnMine_24, 80);
     return 0;
 }
 
 void Rock::VUpdate()
 {
     auto pObj = sObjectIds.Find_Impl(BaseAliveGameObject_PlatformId);
-    if (Event_Get(kEventDeathReset))
+    if (EventGet(kEventDeathReset))
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
@@ -439,7 +439,7 @@ s32 Rock::VGetSaveState(u8* pSaveBuffer)
 
     if (BaseAliveGameObjectCollisionLine)
     {
-        pState->field_28_line_type = BaseAliveGameObjectCollisionLine->field_8_type;
+        pState->field_28_line_type = BaseAliveGameObjectCollisionLine->mLineType;
     }
     else
     {

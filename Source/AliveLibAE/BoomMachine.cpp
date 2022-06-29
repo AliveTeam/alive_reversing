@@ -173,7 +173,7 @@ BoomMachine::BoomMachine(Path_BoomMachine* pTlv, s32 tlvInfo)
 
 void BoomMachine::VUpdate()
 {
-    if (Event_Get(kEventDeathReset))
+    if (EventGet(kEventDeathReset))
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
@@ -196,7 +196,7 @@ void BoomMachine::VUpdate()
             mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
         }
 
-        if (mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame == 3)
+        if (mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame == 3)
         {
             SFX_Play_Pitch(SoundEffect::RedTick_3, 25, -1200);
         }

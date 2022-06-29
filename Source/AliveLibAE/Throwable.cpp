@@ -81,8 +81,8 @@ void BaseThrowable::BaseAddToPlatform(BaseThrowable::FnTypeMatcher cb)
             &hitY,
             mBaseAnimatedWithPhysicsGameObject_Scale == Scale::Fg ? kFgFloorCeilingOrWalls : kBgFloorCeilingOrWalls)) // todo: mouze check me 0x10F changed to 0x0F
     {
-        if (pLine->field_8_type == eLineTypes ::eDynamicCollision_32 ||
-            pLine->field_8_type == eLineTypes::eBackgroundDynamicCollision_36)
+        if (pLine->mLineType == eLineTypes ::eDynamicCollision_32 ||
+            pLine->mLineType == eLineTypes::eBackgroundDynamicCollision_36)
         {
             if (ObjList_5C1B78)
             {

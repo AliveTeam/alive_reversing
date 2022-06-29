@@ -97,7 +97,7 @@ void MusicTrigger::VScreenChanged()
 
 void MusicTrigger::VUpdate()
 {
-    if (Event_Get(kEventHeroDying))
+    if (EventGet(kEventHeroDying))
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }

@@ -248,13 +248,13 @@ void Mine::VUpdate()
     }
     else
     {
-        if (mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame == 1)
+        if (mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame == 1)
         {
             if (sMinePlayingSound_507B88 == nullptr || sMinePlayingSound_507B88 == this)
             {
                 if (bInCamera)
                 {
-                    SFX_Play_Mono(SoundEffect::RedTick_4, 35, 0);
+                    SfxPlayMono(SoundEffect::RedTick_4, 35, 0);
                 }
                 sMinePlayingSound_507B88 = this;
             }
@@ -268,7 +268,7 @@ void Mine::VUpdate()
     }
 
     if (field_10C_detonating != 1
-        && (Event_Get(kEventDeathReset)
+        && (EventGet(kEventDeathReset)
             || mBaseAnimatedWithPhysicsGameObject_LvlNumber != gMap.mCurrentLevel
             || mBaseAnimatedWithPhysicsGameObject_PathNumber != gMap.mCurrentPath))
     {

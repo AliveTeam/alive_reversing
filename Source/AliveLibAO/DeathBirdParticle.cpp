@@ -54,7 +54,7 @@ void DeathBirdParticle::VUpdate()
                     pDove->mBaseAnimatedWithPhysicsGameObject_SpriteScale = mBaseAnimatedWithPhysicsGameObject_SpriteScale;
                     if (field_EC_bPlaySound)
                     {
-                        SFX_Play_Mono(SoundEffect::AbeDove_18, 0, 0);
+                        SfxPlayMono(SoundEffect::AbeDove_18, 0, 0);
                     }
                 }
             }

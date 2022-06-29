@@ -234,7 +234,7 @@ LCDScreen::LCDScreen(Path_LCDScreen* params, TlvItemInfoUnion itemInfo)
 
 void LCDScreen::VUpdate()
 {
-    if (Event_Get(kEventDeathReset))
+    if (EventGet(kEventDeathReset))
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
@@ -302,7 +302,7 @@ void LCDScreen::VUpdate()
         {
             if (field_2A8_play_sound_toggle)
             {
-                SFX_Play_Mono(SoundEffect::LCDScreen_73, 0);
+                SfxPlayMono(SoundEffect::LCDScreen_73, 0);
             }
         }
     }

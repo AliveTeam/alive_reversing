@@ -148,11 +148,11 @@ void BellHammer::VUpdate()
             else
             {
                 // Play those bell smashing sounds
-                if (mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame == 5)
+                if (mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame == 5)
                 {
-                    SFX_Play_Mono(SoundEffect::RingBellHammer_9, 0, 0);
+                    SfxPlayMono(SoundEffect::RingBellHammer_9, 0, 0);
                 }
-                else if (mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame == 15)
+                else if (mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame == 15)
                 {
                     SND_SEQ_PlaySeq_4775A0(SeqId::eRingBellHammerAndExtraSound_13, 1, 1);
                 }

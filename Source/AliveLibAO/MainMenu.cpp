@@ -550,7 +550,7 @@ void MainMenuTransition::StartTrans_436560(Layer layer, s16 fadeDirection, s16 b
 
     if (fadeDirection)
     {
-        SFX_Play_Mono(SoundEffect::MenuTransition_8, 0, 0);
+        SfxPlayMono(SoundEffect::MenuTransition_8, 0, 0);
     }
 }
 

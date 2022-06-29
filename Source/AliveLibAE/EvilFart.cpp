@@ -120,7 +120,7 @@ s32 EvilFart::CreateFromSaveState(const u8* pBuffer)
 
     pFart->mBaseAnimatedWithPhysicsGameObject_RGB.SetRGB(pState->field_2_r, pState->field_4_g, pState->field_6_b);
 
-    pFart->mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame = pState->field_20_anim_cur_frame;
+    pFart->mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame = pState->field_20_anim_cur_frame;
     pFart->mBaseAnimatedWithPhysicsGameObject_Anim.mFrameChangeCounter = pState->field_22_frame_change_counter;
 
     pFart->mBaseGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4, pState->field_25_bDrawable & 1);
@@ -162,7 +162,7 @@ s32 EvilFart::VGetSaveState(u8* pSaveBuffer)
     pState->field_6_b = mBaseAnimatedWithPhysicsGameObject_RGB.b;
 
     pState->field_2C.Set(EvilFart_State::eBit1_bControlled, sControlledCharacter_5C1B8C == this);
-    pState->field_20_anim_cur_frame = mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame;
+    pState->field_20_anim_cur_frame = mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame;
     pState->field_22_frame_change_counter = mBaseAnimatedWithPhysicsGameObject_Anim.mFrameChangeCounter;
 
     pState->field_25_bDrawable = mBaseGameObjectFlags.Get(BaseGameObject::eDrawable_Bit4);
@@ -286,7 +286,7 @@ s16 EvilFart::VTakeDamage(BaseGameObject* pFrom)
 
 void EvilFart::VUpdate()
 {
-    if (Event_Get(kEventDeathReset))
+    if (EventGet(kEventDeathReset))
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
@@ -498,7 +498,7 @@ void EvilFart::VUpdate()
                     field_124_state = FartStates::eDechanting_2;
                     field_128_timer = sGnFrame + 15;
                     field_12C_back_to_abe_timer = sGnFrame + 50;
-                    SFX_Play_Mono(SoundEffect::PossessEffect_17, 0);
+                    SfxPlayMono(SoundEffect::PossessEffect_17, 0);
                 }
             }
         }

@@ -89,7 +89,7 @@ s32 GameEnderController::VGetSaveState(u8* pSaveBuffer)
 
 void GameEnderController::VUpdate()
 {
-    if (Event_Get(kEventDeathReset))
+    if (EventGet(kEventDeathReset))
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }

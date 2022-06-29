@@ -49,13 +49,13 @@ Explosion::Explosion(FP xpos, FP ypos, FP exposion_size)
 
 void Explosion::VUpdate()
 {
-    Event_Broadcast(kEventShooting, this);
-    Event_Broadcast(kEventLoudNoise, this);
-    Event_Broadcast(kEventSuspiciousNoise, this);
+    EventBroadcast(kEventShooting, this);
+    EventBroadcast(kEventLoudNoise, this);
+    EventBroadcast(kEventSuspiciousNoise, this);
 
     PSX_RECT rect = {};
 
-    switch (mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame)
+    switch (mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame)
     {
         case 2:
             rect.x = FP_GetExponent(FP_FromInteger(-20) * field_E4_explosion_size);
@@ -105,12 +105,12 @@ void Explosion::VUpdate()
             break;
     }
 
-    if (mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame > 9)
+    if (mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame > 9)
     {
         mBaseAnimatedWithPhysicsGameObject_SpriteScale -= FP_FromDouble(0.2);
     }
 
-    if (mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame == 1)
+    if (mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame == 1)
     {
         const AnimRecord& rec = AO::AnimRec(AnimId::Explosion);
         const auto ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);

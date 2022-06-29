@@ -132,7 +132,7 @@ TorturedMudokon::~TorturedMudokon()
 
 void TorturedMudokon::VUpdate()
 {
-    if (Event_Get(kEventDeathReset))
+    if (EventGet(kEventDeathReset))
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
         return;
@@ -175,7 +175,7 @@ void TorturedMudokon::VUpdate()
 
     if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
     {
-        if (mBaseAnimatedWithPhysicsGameObject_Anim.mFrameChangeCounter == mBaseAnimatedWithPhysicsGameObject_Anim.field_10_frame_delay)
+        if (mBaseAnimatedWithPhysicsGameObject_Anim.mFrameChangeCounter == mBaseAnimatedWithPhysicsGameObject_Anim.mFrameDelay)
         {
             field_18C_zap_animation.mAnimFlags.Clear(AnimFlags::eBit3_Render);
             if (!Math_RandomRange(0, 8))
@@ -185,11 +185,11 @@ void TorturedMudokon::VUpdate()
         }
     }
 
-    if (mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame == 6)
+    if (mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame == 6)
     {
         if (Math_RandomRange(0, 2))
         {
-            mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame = 0;
+            mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame = 0;
         }
     }
 
@@ -213,11 +213,11 @@ void TorturedMudokon::VUpdate()
             break;
     }
 
-    if (mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame == 6 && mBaseAnimatedWithPhysicsGameObject_Anim.mFrameChangeCounter == mBaseAnimatedWithPhysicsGameObject_Anim.field_10_frame_delay)
+    if (mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame == 6 && mBaseAnimatedWithPhysicsGameObject_Anim.mFrameChangeCounter == mBaseAnimatedWithPhysicsGameObject_Anim.mFrameDelay)
     {
         relive_new Flash(Layer::eLayer_Above_FG1_39, rgbBase + 50, rgbBase + 50, rgbBase + 110, 1, TPageAbr::eBlend_1, 1);
         field_18C_zap_animation.mAnimFlags.Set(AnimFlags::eBit3_Render);
-        SFX_Play_Mono(SoundEffect::ElectricZap_39, 70);
+        SfxPlayMono(SoundEffect::ElectricZap_39, 70);
         const s16 sndRnd = Math_RandomRange(0, 3) - 1;
         if (sndRnd)
         {
@@ -232,7 +232,7 @@ void TorturedMudokon::VUpdate()
         }
     }
 
-    if (mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame >= 7 && !Math_RandomRange(0, 10))
+    if (mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame >= 7 && !Math_RandomRange(0, 10))
     {
         relive_new Flash(Layer::eLayer_Above_FG1_39, rgbBase + 10, rgbBase + 10, rgbBase + 50, 1, TPageAbr::eBlend_1, 1);
     }

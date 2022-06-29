@@ -143,7 +143,7 @@ void FallingItem::DamageHitItems()
 
 void FallingItem::VUpdate()
 {
-    if (Event_Get(kEventDeathReset))
+    if (EventGet(kEventDeathReset))
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
@@ -152,12 +152,12 @@ void FallingItem::VUpdate()
     {
         if (!((sGnFrame - field_134_created_gnFrame) % 87))
         {
-            SFX_Play_Mono(SoundEffect::MeatsawOffscreen_88, 45, 0);
+            SfxPlayMono(SoundEffect::MeatsawOffscreen_88, 45, 0);
         }
 
         if (!((sGnFrame - field_134_created_gnFrame) % 25))
         {
-            SFX_Play_Mono(SoundEffect::MeatsawIdle_89, 45, 0);
+            SfxPlayMono(SoundEffect::MeatsawIdle_89, 45, 0);
         }
     }
 
@@ -280,19 +280,19 @@ void FallingItem::VUpdate()
                         0))
                 {
                     SFX_Play_Pitch(SoundEffect::KillEffect_78, 127, -700, 0);
-                    SFX_Play_Mono(SoundEffect::FallingItemHit_53, 110, 0);
+                    SfxPlayMono(SoundEffect::FallingItemHit_53, 110, 0);
                 }
                 else
                 {
                     SND_SEQ_Play_477760(SeqId::Unknown_25, 1, 65, 65);
                     SFX_Play_Pitch(SoundEffect::KillEffect_78, 90, -700, 0);
-                    SFX_Play_Mono(SoundEffect::FallingItemHit_53, 33, 0);
+                    SfxPlayMono(SoundEffect::FallingItemHit_53, 33, 0);
                     SFX_Play_Pitch(SoundEffect::MeatsawUp_90, 80, -400, 0);
                 }
             }
             else
             {
-                SFX_Play_Mono(SoundEffect::FallingItemLand_73, 0, 0);
+                SfxPlayMono(SoundEffect::FallingItemLand_73, 0, 0);
                 SFX_Play_Pitch(SoundEffect::FallingItemHit_53, 110, -1536, 0);
             }
 

@@ -237,7 +237,7 @@ void LiftPoint::StayOnFloor(s16 floor, Path_LiftPoint* pLiftTlv)
     if (!floor)
     {
         mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pLiftTlv->mTopLeft.y - mPlatformBaseYOffset);
-        SFX_Play_Mono(SoundEffect::LiftStop_35, 0);
+        SfxPlayMono(SoundEffect::LiftStop_35, 0);
         SFX_Play_Pitch(SoundEffect::LiftStop_35, 80, -2000);
     }
 
@@ -246,8 +246,8 @@ void LiftPoint::StayOnFloor(s16 floor, Path_LiftPoint* pLiftTlv)
     pLiftTlv->field_18_lift_point_id = field_278_lift_point_id;
     mBaseAnimatedWithPhysicsGameObject_VelY = FP_FromInteger(0);
 
-    Event_Broadcast(kEventNoise, this);
-    Event_Broadcast(kEventSuspiciousNoise, this);
+    EventBroadcast(kEventNoise, this);
+    EventBroadcast(kEventSuspiciousNoise, this);
 }
 
 
@@ -320,10 +320,10 @@ void LiftPoint::VUpdate()
                 mBaseAnimatedWithPhysicsGameObject_VelY = FP_FromInteger(0);
                 field_12C_bMoving &= ~1u;
                 field_27A_flags.Clear(Flags::eBit6_bMoveToFloorLevel);
-                SFX_Play_Mono(SoundEffect::LiftStop_35, 0);
+                SfxPlayMono(SoundEffect::LiftStop_35, 0);
                 SFX_Play_Pitch(SoundEffect::LiftStop_35, 80, -2000);
-                Event_Broadcast(kEventNoise, this);
-                Event_Broadcast(kEventSuspiciousNoise, this);
+                EventBroadcast(kEventNoise, this);
+                EventBroadcast(kEventSuspiciousNoise, this);
             }
         }
         else
@@ -536,15 +536,15 @@ void LiftPoint::VUpdate()
         field_1D4_pulley_anim.mAnimFlags.Clear(AnimFlags::eBit19_LoopBackwards);
     }
 
-    if (field_13C_lift_wheel.field_92_current_frame == 1)
+    if (field_13C_lift_wheel.mCurrentFrame == 1)
     {
         if (field_13C_lift_wheel.mAnimFlags.Get(AnimFlags::eBit2_Animate))
         {
-            SFX_Play_Mono(SoundEffect::WheelSqueak_36, 0);
+            SfxPlayMono(SoundEffect::WheelSqueak_36, 0);
         }
     }
 
-    if (mBaseAnimatedWithPhysicsGameObject_LvlNumber != gMap.mCurrentLevel || mBaseAnimatedWithPhysicsGameObject_PathNumber != gMap.mCurrentPath || Event_Get(kEventDeathReset))
+    if (mBaseAnimatedWithPhysicsGameObject_LvlNumber != gMap.mCurrentLevel || mBaseAnimatedWithPhysicsGameObject_PathNumber != gMap.mCurrentPath || EventGet(kEventDeathReset))
     {
         if (mPlatformBaseCount <= 0)
         {

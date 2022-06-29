@@ -190,7 +190,7 @@ void ThrowableTotalIndicator::VScreenChanged()
 
 void ThrowableTotalIndicator::VUpdate()
 {
-    if (Event_Get(kEventDeathReset))
+    if (EventGet(kEventDeathReset))
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }

@@ -97,7 +97,7 @@ void Alarm::VUpdate()
 {
     if (mAlarmState != States::eWaitForSwitchEnable_0)
     {
-        Event_Broadcast(kEventAlarm, this);
+        EventBroadcast(kEventAlarm, this);
         if (static_cast<s32>(sGnFrame) > mAlarmDurationTimer)
         {
             mBaseGameObjectFlags.Set(BaseGameObject::eDead);
@@ -108,7 +108,7 @@ void Alarm::VUpdate()
     switch (mAlarmState)
     {
         case States::eWaitForSwitchEnable_0:
-            if (Event_Get(kEventDeathReset))
+            if (EventGet(kEventDeathReset))
             {
                 mBaseGameObjectFlags.Set(BaseGameObject::eDead);
             }
@@ -130,13 +130,13 @@ void Alarm::VUpdate()
             }
 
             mAlarmState = States::eEnabling_2;
-            SFX_Play_Mono(SoundEffect::SecurityDoorDeny_38, 0);
+            SfxPlayMono(SoundEffect::SecurityDoorDeny_38, 0);
             mAlarmDurationTimer = sGnFrame + mAlarmDuration;
             mEffectBaseRed = mAlarmRed;
             break;
 
         case States::eAfterConstructed_1: // When not created by a map TLV
-            if (Event_Get(kEventHeroDying))
+            if (EventGet(kEventHeroDying))
             {
                 mBaseGameObjectFlags.Set(BaseGameObject::eDead);
             }
@@ -149,7 +149,7 @@ void Alarm::VUpdate()
                 }
 
                 mAlarmState = States::eEnabling_2;
-                SFX_Play_Mono(SoundEffect::SecurityDoorDeny_38, 0);
+                SfxPlayMono(SoundEffect::SecurityDoorDeny_38, 0);
 
                 if (!mAlarmSwitchId)
                 {
@@ -174,7 +174,7 @@ void Alarm::VUpdate()
             mAlarmRed = 100;
             mAlarmState = States::eOnFlash_3;
             mAlarmPauseTimer = sGnFrame + 15;
-            SFX_Play_Mono(SoundEffect::SecurityDoorDeny_38, 0);
+            SfxPlayMono(SoundEffect::SecurityDoorDeny_38, 0);
             mEffectBaseRed = mAlarmRed;
             break;
 
@@ -205,7 +205,7 @@ void Alarm::VUpdate()
             break;
 
         case States::eDisabled_5:
-            if (Event_Get(kEventHeroDying))
+            if (EventGet(kEventHeroDying))
             {
                 mBaseGameObjectFlags.Set(BaseGameObject::eDead);
             }
@@ -214,7 +214,7 @@ void Alarm::VUpdate()
                 if (static_cast<s32>(sGnFrame) > mAlarmPauseTimer)
                 {
                     mAlarmState = States::eEnabling_2;
-                    SFX_Play_Mono(SoundEffect::SecurityDoorDeny_38, 0);
+                    SfxPlayMono(SoundEffect::SecurityDoorDeny_38, 0);
                 }
                 mEffectBaseRed = mAlarmRed;
             }

@@ -1596,10 +1596,10 @@ struct Path_Slurg final : public ReliveAPI::TlvObjectBaseAE
 {
     CTOR_AE(Path_Slurg, "Slurg", TlvTypes::Slurg_84)
     {
-        ADD("Time Until Turning Around", mTlv.field_10_slurg_data.field_0_moving_timer);
-        ADD("Start Direction", mTlv.field_10_slurg_data.field_2_start_direction);
-        ADD("Scale", mTlv.field_10_slurg_data.field_4_scale);
-        ADD("Switch ID (increment by 1 on death)", mTlv.field_10_slurg_data.field_6_switch_id);
+        ADD("Time Until Turning Around", mTlv.mSlurgData.mMovingTimer);
+        ADD("Start Direction", mTlv.mSlurgData.field_2_start_direction);
+        ADD("Scale", mTlv.mSlurgData.field_4_scale);
+        ADD("Switch ID (increment by 1 on death)", mTlv.mSlurgData.field_6_switch_id);
 
         ADD_RESOURCE(AnimId::Slurg_Burst, ReliveAPI::AddResourceTo::File);
         ADD_RESOURCE(AnimId::Slurg_Move, ReliveAPI::AddResourceTo::File);
@@ -2222,10 +2222,10 @@ struct Path_SlurgSpawner final : public ReliveAPI::TlvObjectBaseAE
 {
     CTOR_AE(Path_SlurgSpawner, "SlurgSpawner", TlvTypes::SlurgSpawner_89)
     {
-        ADD("Time Until Turning Around", mTlv.field_10_slurg_data.field_0_moving_timer);
-        ADD("Start Direction", mTlv.field_10_slurg_data.field_2_start_direction);
-        ADD("Scale", mTlv.field_10_slurg_data.field_4_scale);
-        ADD("Switch ID (increment by 1 on death)", mTlv.field_10_slurg_data.field_6_switch_id);
+        ADD("Time Until Turning Around", mTlv.mSlurgData.mMovingTimer);
+        ADD("Start Direction", mTlv.mSlurgData.field_2_start_direction);
+        ADD("Scale", mTlv.mSlurgData.field_4_scale);
+        ADD("Switch ID (increment by 1 on death)", mTlv.mSlurgData.field_6_switch_id);
 
         ADD("Spawn Interval", mTlv.field_18_spawner_data.field_8_spawn_delay_between_slurgs);
         ADD("Max Slurgs", mTlv.field_18_spawner_data.field_A_max_slurgs);

@@ -187,7 +187,7 @@ static s16 sAbePortalWidth_551544 = 0;
 
 void Dove::VUpdate()
 {
-    if (Event_Get(kEventDeathReset))
+    if (EventGet(kEventDeathReset))
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
@@ -201,12 +201,12 @@ void Dove::VUpdate()
     switch (field_FE_state)
     {
         case State::eOnGround_0:
-            if (Event_Get(kEventSpeaking))
+            if (EventGet(kEventSpeaking))
             {
                 Dove::All_FlyAway(0); // something is speaking, leg it
             }
 
-            if (Event_Get(kEventNoise))
+            if (EventGet(kEventNoise))
             {
                 // player getting near
                 if (VIsObjNearby(ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale) * FP_FromInteger(2), sControlledCharacter_5C1B8C))
@@ -230,7 +230,7 @@ void Dove::VUpdate()
                 if (!bExtraSeqStarted_5BC10C)
                 {
                     bExtraSeqStarted_5BC10C = 13;
-                    SFX_Play_Mono(SoundEffect::Dove_13, 0);
+                    SfxPlayMono(SoundEffect::Dove_13, 0);
                 }
             }
 

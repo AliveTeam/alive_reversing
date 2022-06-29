@@ -33,10 +33,10 @@ enum Event : s16
 
 class BaseGameObject;
 
-void Event_Broadcast(Event event, BaseGameObject* pObject);
-BaseGameObject* Event_Get(Event eventType);
-void Events_Reset();
-void Events_Reset_Active();
+void EventBroadcast(Event event, BaseGameObject* pObject);
+BaseGameObject* EventGet(Event eventType);
+void EventsReset();
+void EventsResetActive();
 
 enum class EventScale
 {
@@ -54,9 +54,9 @@ inline constexpr EventScale AsEventScale(Scale scale)
     return EventScale::Half;
 }
 
-IBaseAnimatedWithPhysicsGameObject* Event_Is_Event_In_Range(Event eventType, FP xpos, FP ypos, EventScale scale);
+IBaseAnimatedWithPhysicsGameObject* IsEventInRange(Event eventType, FP xpos, FP ypos, EventScale scale);
 
 // TODO: Get AO to stop using the FP scale and merge both copies
-IBaseAnimatedWithPhysicsGameObject* Event_Is_Event_In_Range(Event eventType, FP xpos, FP ypos, FP scale);
+IBaseAnimatedWithPhysicsGameObject* IsEventInRange(Event eventType, FP xpos, FP ypos, FP scale);
 
-void Event_Cancel_For_Obj(BaseGameObject* pObj);
+void EventCancelForObj(BaseGameObject* pObj);

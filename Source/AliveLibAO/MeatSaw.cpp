@@ -175,7 +175,7 @@ void MeatSaw::VScreenChanged()
 
 void MeatSaw::VUpdate()
 {
-    if (Event_Get(kEventDeathReset))
+    if (EventGet(kEventDeathReset))
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
@@ -344,7 +344,7 @@ void MeatSaw::GrindUpObjects_439CD0()
                                 mBaseAnimatedWithPhysicsGameObject_SpriteScale,
                                 50);
 
-                            SFX_Play_Mono(SoundEffect::KillEffect_78, 127, 0);
+                            SfxPlayMono(SoundEffect::KillEffect_78, 127, 0);
                             SFX_Play_Pitch(SoundEffect::KillEffect_78, 127, -700, 0);
                             return;
                         }

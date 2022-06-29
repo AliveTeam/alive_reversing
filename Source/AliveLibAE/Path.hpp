@@ -266,7 +266,7 @@ public:
 
     Path_TLV* TLV_First_Of_Type_In_Camera(TlvTypes objectType, s16 camX);
     Path_TLV* TLV_Get_At_4DB4B0(s16 xpos, s16 ypos, s16 width, s16 height, TlvTypes objectType);
-    Path_TLV* TLV_Get_At_4DB290(Path_TLV* pTlv, FP xpos, FP ypos, FP w, FP h);
+    Path_TLV* TlvGetAt(Path_TLV* pTlv, FP xpos, FP ypos, FP w, FP h);
     Path_TLV* TLV_From_Offset_Lvl_Cam(u32 tlvOffset_levelId_PathId);
 
     u32 TLVInfo_From_TLVPtr(Path_TLV* pTlv);

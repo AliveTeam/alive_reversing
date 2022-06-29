@@ -97,11 +97,11 @@ void Shrykull::VUpdate()
     switch (field_118_state)
     {
         case State::eTransform_0:
-            if (mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame == 0)
+            if (mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame == 0)
             {
                 SFX_Play_Pitch(SoundEffect::Shrykull1_85, 127, -2000);
                 SFX_Play_Pitch(SoundEffect::Shrykull2_86, 127, 0);
-                SFX_Play_Mono(SoundEffect::IngameTransition_84, 127);
+                SfxPlayMono(SoundEffect::IngameTransition_84, 127);
             }
 
             if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit12_ForwardLoopCompleted))
@@ -113,7 +113,7 @@ void Shrykull::VUpdate()
             break;
 
         case State::eZapTargets_1:
-            if (mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame == 0)
+            if (mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame == 0)
             {
                 if (Math_NextRandom() >= 128u)
                 {
@@ -190,7 +190,7 @@ void Shrykull::VUpdate()
                     pObj->mBaseAliveGameObjectFlags.Set(Flags_114::e114_Bit5_ZappedByShrykull);
 
                     SFX_Play_Pitch(SoundEffect::ShrykullZap_18, 100, 2000);
-                    SFX_Play_Mono(SoundEffect::Zap1_49, 0);
+                    SfxPlayMono(SoundEffect::Zap1_49, 0);
 
                     field_118_state = State::eKillTargets_4;
                     field_11C_timer = sGnFrame + 12;
@@ -208,7 +208,7 @@ void Shrykull::VUpdate()
             break;
 
         case State::eDetransform_2:
-            if (mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame == 7)
+            if (mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame == 7)
             {
                 if (Math_NextRandom() >= 0x80u)
                 {
@@ -219,7 +219,7 @@ void Shrykull::VUpdate()
                     SFX_Play_Pitch(SoundEffect::Shrykull1_85, 127, -512);
                 }
             }
-            else if (mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame == 20)
+            else if (mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame == 20)
             {
                 SFX_Play_Pitch(SoundEffect::Shrykull1_85, 127, -2000);
                 SFX_Play_Pitch(SoundEffect::Shrykull2_86, 127, 0);
@@ -242,7 +242,7 @@ void Shrykull::VUpdate()
             break;
 
         case State::eKillTargets_4:
-            if (mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame == 0)
+            if (mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame == 0)
             {
                 if (Math_NextRandom() >= 128u)
                 {

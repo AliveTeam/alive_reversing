@@ -17,12 +17,12 @@ namespace AO {
 
 void RockSack::VUpdate()
 {
-    if (Event_Get(kEventDeathReset))
+    if (EventGet(kEventDeathReset))
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 
-    if (mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame == 2)
+    if (mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame == 2)
     {
         if (field_114_can_play_wobble_sound)
         {
@@ -84,7 +84,7 @@ void RockSack::VUpdate()
                     pRock->VThrow(field_118_x_vel, field_11C_y_vel);
                 }
 
-                SFX_Play_Mono(SoundEffect::SackHit_30, 0, 0);
+                SfxPlayMono(SoundEffect::SackHit_30, 0, 0);
                 Environment_SFX_42A220(EnvironmentSfx::eDeathNoise_7, 0, 0x7FFF, 0);
             }
 

@@ -177,7 +177,7 @@ void SlapLock::VUpdate()
 {
     field_118_pTlv = static_cast<Path_SlapLock*>(sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam(field_11C_tlvInfo));
 
-    if (Event_Get(kEventDeathReset))
+    if (EventGet(kEventDeathReset))
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
@@ -244,7 +244,7 @@ void SlapLock::VUpdate()
                 mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
 
                 field_120_state = SlapLockStates::eIdle_1;
-                SFX_Play_Mono(SoundEffect::SpiritLockShake_105, 0);
+                SfxPlayMono(SoundEffect::SpiritLockShake_105, 0);
                 return;
             }
             case SlapLockStates::eIdle_1:
@@ -468,8 +468,8 @@ s16 SlapLock::VTakeDamage(BaseGameObject* pFrom)
 
     field_120_state = SlapLockStates::eSlapped_2;
     SwitchStates_Do_Operation(field_118_pTlv->field_1E_toggle_switch_id, SwitchOp::eToggle_2);
-    SFX_Play_Mono(SoundEffect::SpiritLockBreak_106, 0, mBaseAnimatedWithPhysicsGameObject_SpriteScale);
-    Event_Broadcast(kEventLoudNoise, this);
+    SfxPlayMono(SoundEffect::SpiritLockBreak_106, 0, mBaseAnimatedWithPhysicsGameObject_SpriteScale);
+    EventBroadcast(kEventLoudNoise, this);
 
     relive_new ParticleBurst(
         mBaseAnimatedWithPhysicsGameObject_XPos,

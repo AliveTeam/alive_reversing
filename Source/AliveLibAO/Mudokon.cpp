@@ -438,7 +438,7 @@ void Mudokon::KillLiftPoint_194()
 
 void Mudokon::VUpdate()
 {
-    if (Event_Get(kEventDeathReset))
+    if (EventGet(kEventDeathReset))
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
         return;
@@ -477,7 +477,7 @@ void Mudokon::VUpdate()
             mBaseAnimatedWithPhysicsGameObject_YPos,
             mBaseAnimatedWithPhysicsGameObject_XPos,
             mBaseAnimatedWithPhysicsGameObject_YPos);
-        VOn_TLV_Collision(BaseAliveGameObjectPathTLV);
+        VOnTlvCollision(BaseAliveGameObjectPathTLV);
     }
 
     if (old_motion != mCurrentMotion || field_108_bMotionChanged)
@@ -500,7 +500,7 @@ void Mudokon::VUpdate()
 
     if (mBaseAliveGameObjectFlags.Get(Flags_10A::e10A_Bit5_Electrocuted))
     {
-        Event_Broadcast(kEventMudokonDead, sActiveHero_507678);
+        EventBroadcast(kEventMudokonDead, sActiveHero_507678);
     }
 }
 
@@ -652,7 +652,7 @@ s16 Mudokon::VTakeDamage(BaseGameObject* pFrom)
                     mBaseAnimatedWithPhysicsGameObject_SpriteScale);
 
                 mBaseGameObjectFlags.Set(BaseGameObject::eDead);
-                Event_Broadcast(kEventMudokonDead, sActiveHero_507678);
+                EventBroadcast(kEventMudokonDead, sActiveHero_507678);
             }
             return 1;
 
@@ -682,14 +682,14 @@ s16 Mudokon::VTakeDamage(BaseGameObject* pFrom)
                     mBaseAnimatedWithPhysicsGameObject_SpriteScale,
                     50);
 
-                Event_Broadcast(kEventMudokonDead, sActiveHero_507678);
-                Event_Broadcast(kEventMudokonDead, sActiveHero_507678);
+                EventBroadcast(kEventMudokonDead, sActiveHero_507678);
+                EventBroadcast(kEventMudokonDead, sActiveHero_507678);
                 return DoSmashDamage();
             }
             return 1;
 
         case ReliveTypes::eRockSpawner:
-            Event_Broadcast(kEventMudokonDead, sActiveHero_507678);
+            EventBroadcast(kEventMudokonDead, sActiveHero_507678);
             return DoSmashDamage();
 
         case ReliveTypes::eScrab:
@@ -1072,7 +1072,7 @@ s16 Mudokon::FindBirdPortal()
         return 0;
     }
 
-    field_1AC_pBirdPortal = static_cast<BirdPortal*>(Event_Get(kEventPortalOpen));
+    field_1AC_pBirdPortal = static_cast<BirdPortal*>(EventGet(kEventPortalOpen));
     if (!field_1AC_pBirdPortal)
     {
         return 0;
@@ -1211,7 +1211,7 @@ void Mudokon::VOnTrapDoorOpen()
     }
 }
 
-void Mudokon::VOn_TLV_Collision(Path_TLV* pTlv)
+void Mudokon::VOnTlvCollision(Path_TLV* pTlv)
 {
     if (pTlv)
     {
@@ -1224,7 +1224,7 @@ void Mudokon::VOn_TLV_Collision(Path_TLV* pTlv)
                     field_1BA_brain_sub_state = 0;
                     mHealth = FP_FromInteger(0);
                     field_1B8_brain_state = 13;
-                    Event_Broadcast(kEventMudokonDead, sActiveHero_507678);
+                    EventBroadcast(kEventMudokonDead, sActiveHero_507678);
                 }
             }
             pTlv = gMap.TLV_Get_At_446060(pTlv, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos);
@@ -1312,8 +1312,8 @@ void Mudokon::Motion_0_Idle()
 
 void Mudokon::Motion_1_WalkLoop()
 {
-    Event_Broadcast(kEventNoise, this);
-    Event_Broadcast(kEventSuspiciousNoise, this);
+    EventBroadcast(kEventNoise, this);
+    EventBroadcast(kEventSuspiciousNoise, this);
 
     if (WallHit_401930(
             mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(50),
@@ -1326,7 +1326,7 @@ void Mudokon::Motion_1_WalkLoop()
         MoveOnLine();
         if (mCurrentMotion == eMudMotions::Motion_1_WalkLoop)
         {
-            switch (mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame)
+            switch (mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame)
             {
                 case 2:
                     if (mNextMotion == eMudMotions::Motion_0_Idle)
@@ -1396,7 +1396,7 @@ void Mudokon::Motion_2_StandingTurn()
 {
     CheckFloorGone();
 
-    if (mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame == 0)
+    if (mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame == 0)
     {
         Environment_SFX_42A220(EnvironmentSfx::eGenericMovement_9, 0, 0x7FFF, this);
     }
@@ -1412,8 +1412,8 @@ void Mudokon::Motion_3_Speak()
 {
     CheckFloorGone();
 
-    Event_Broadcast(kEventNoise, this);
-    Event_Broadcast(kEventSuspiciousNoise, this);
+    EventBroadcast(kEventNoise, this);
+    EventBroadcast(kEventSuspiciousNoise, this);
 
     if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
     {
@@ -1438,8 +1438,8 @@ void Mudokon::Motion_6_Speak()
 
 void Mudokon::Motion_7_WalkBegin()
 {
-    Event_Broadcast(kEventNoise, this);
-    Event_Broadcast(kEventSuspiciousNoise, this);
+    EventBroadcast(kEventNoise, this);
+    EventBroadcast(kEventSuspiciousNoise, this);
 
     if (WallHit_401930(
             mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(50),
@@ -1459,8 +1459,8 @@ void Mudokon::Motion_7_WalkBegin()
 
 void Mudokon::Motion_8_WalkToIdle()
 {
-    Event_Broadcast(kEventNoise, this);
-    Event_Broadcast(kEventSuspiciousNoise, this);
+    EventBroadcast(kEventNoise, this);
+    EventBroadcast(kEventSuspiciousNoise, this);
 
     if (WallHit_401930(
             mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(50),
@@ -1472,7 +1472,7 @@ void Mudokon::Motion_8_WalkToIdle()
     {
         MoveOnLine();
 
-        if (mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame == 0)
+        if (mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame == 0)
         {
             Environment_SFX_42A220(EnvironmentSfx::eWalkingFootstep_1, 0, 0x7FFF, this);
             return;
@@ -1558,16 +1558,16 @@ void Mudokon::Motion_16_StandScrubLoop()
             mBaseAnimatedWithPhysicsGameObject_YPos,
             0))
     {
-        if (mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame)
+        if (mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame)
         {
-            if (mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame == 5)
+            if (mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame == 5)
             {
-                SFX_Play_Mono(SoundEffect::Clean2_86, 0, 0);
+                SfxPlayMono(SoundEffect::Clean2_86, 0, 0);
             }
         }
         else
         {
-            SFX_Play_Mono(SoundEffect::Clean1_85, 0, 0);
+            SfxPlayMono(SoundEffect::Clean1_85, 0, 0);
         }
     }
 
@@ -1641,13 +1641,13 @@ void Mudokon::Motion_22_CrouchScrub()
             mBaseAnimatedWithPhysicsGameObject_YPos,
             0))
     {
-        if (mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame == 2)
+        if (mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame == 2)
         {
-            SFX_Play_Mono(SoundEffect::Clean1_85, 0, 0);
+            SfxPlayMono(SoundEffect::Clean1_85, 0, 0);
         }
-        else if (mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame == 6)
+        else if (mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame == 6)
         {
-            SFX_Play_Mono(SoundEffect::Clean2_86, 0, 0);
+            SfxPlayMono(SoundEffect::Clean2_86, 0, 0);
         }
     }
 
@@ -1711,8 +1711,8 @@ void Mudokon::Motion_26_CrouchToStand()
 
 void Mudokon::Motion_27_WalkToRun()
 {
-    Event_Broadcast(kEventNoise, this);
-    Event_Broadcast(kEventSuspiciousNoise, this);
+    EventBroadcast(kEventNoise, this);
+    EventBroadcast(kEventSuspiciousNoise, this);
 
     if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
     {
@@ -1740,8 +1740,8 @@ void Mudokon::Motion_27_WalkToRun()
 
 void Mudokon::Motion_28_MidWalkToRun()
 {
-    Event_Broadcast(kEventNoise, this);
-    Event_Broadcast(kEventSuspiciousNoise, this);
+    EventBroadcast(kEventNoise, this);
+    EventBroadcast(kEventSuspiciousNoise, this);
 
     if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
     {
@@ -1771,8 +1771,8 @@ void Mudokon::Motion_28_MidWalkToRun()
 
 void Mudokon::Motion_29_RunLoop()
 {
-    Event_Broadcast(kEventNoise, this);
-    Event_Broadcast(kEventSuspiciousNoise, this);
+    EventBroadcast(kEventNoise, this);
+    EventBroadcast(kEventSuspiciousNoise, this);
 
     if (WallHit_401930(mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(50), mBaseAnimatedWithPhysicsGameObject_VelX))
     {
@@ -1784,7 +1784,7 @@ void Mudokon::Motion_29_RunLoop()
 
     if (mCurrentMotion == eMudMotions::Motion_29_RunLoop)
     {
-        if (mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame == 0 || mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame == 8)
+        if (mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame == 0 || mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame == 8)
         {
             if (!field_144_flags.Get(Flags_144::e144_Bit7))
             {
@@ -1798,7 +1798,7 @@ void Mudokon::Motion_29_RunLoop()
                 mNextMotion = -1;
             }
         }
-        else if (mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame == 4 || mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame == 12)
+        else if (mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame == 4 || mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame == 12)
         {
             Environment_SFX_42A220(EnvironmentSfx::eRunningFootstep_2, 0, 0x7FFF, this);
             if (!field_144_flags.Get(Flags_144::e144_Bit7))
@@ -1810,7 +1810,7 @@ void Mudokon::Motion_29_RunLoop()
             switch (mNextMotion)
             {
                 case eMudMotions::Motion_1_WalkLoop:
-                    if (mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame == 4)
+                    if (mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame == 4)
                     {
                         mCurrentMotion = eMudMotions::Motion_30_RunToWalk;
                         mNextMotion = -1;
@@ -1821,7 +1821,7 @@ void Mudokon::Motion_29_RunLoop()
                     // couldn't see any breaking changes after commenting this out.
 
                     /*case eMudMotions::Motion_29_RunLoop_43DB10:
-                if (mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame == 12)
+                if (mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame == 12)
                 {
                     mCurrentMotion = eMudMotions::Motion_28_MidWalkToRun_43DA40;
                     field_FE_next_state = -1;
@@ -1855,8 +1855,8 @@ void Mudokon::Motion_29_RunLoop()
 
 void Mudokon::Motion_30_RunToWalk()
 {
-    Event_Broadcast(kEventNoise, this);
-    Event_Broadcast(kEventSuspiciousNoise, this);
+    EventBroadcast(kEventNoise, this);
+    EventBroadcast(kEventSuspiciousNoise, this);
 
     if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
     {
@@ -1884,8 +1884,8 @@ void Mudokon::Motion_30_RunToWalk()
 
 void Mudokon::Motion_31_MidRunToWalk()
 {
-    Event_Broadcast(kEventNoise, this);
-    Event_Broadcast(kEventSuspiciousNoise, this);
+    EventBroadcast(kEventNoise, this);
+    EventBroadcast(kEventSuspiciousNoise, this);
 
     if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
     {
@@ -1915,8 +1915,8 @@ void Mudokon::Motion_31_MidRunToWalk()
 
 void Mudokon::Motion_32_RunSlideStop()
 {
-    Event_Broadcast(kEventNoise, this);
-    Event_Broadcast(kEventSuspiciousNoise, this);
+    EventBroadcast(kEventNoise, this);
+    EventBroadcast(kEventSuspiciousNoise, this);
 
     if (WallHit_401930(mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(50), mBaseAnimatedWithPhysicsGameObject_VelX))
     {
@@ -1940,8 +1940,8 @@ void Mudokon::Motion_32_RunSlideStop()
 
 void Mudokon::Motion_33_RunSlideTurn()
 {
-    Event_Broadcast(kEventNoise, this);
-    Event_Broadcast(kEventSuspiciousNoise, this);
+    EventBroadcast(kEventNoise, this);
+    EventBroadcast(kEventSuspiciousNoise, this);
 
     if (WallHit_401930(mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(50), mBaseAnimatedWithPhysicsGameObject_VelX))
     {
@@ -1974,8 +1974,8 @@ void Mudokon::Motion_33_RunSlideTurn()
 
 void Mudokon::Motion_34_RunTurnToRun()
 {
-    Event_Broadcast(kEventNoise, this);
-    Event_Broadcast(kEventSuspiciousNoise, this);
+    EventBroadcast(kEventNoise, this);
+    EventBroadcast(kEventSuspiciousNoise, this);
 
     if (WallHit_401930(mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(50), mBaseAnimatedWithPhysicsGameObject_VelX))
     {
@@ -2003,7 +2003,7 @@ void Mudokon::Motion_35_SneakLoop()
         MoveOnLine();
         if (mCurrentMotion == eMudMotions::Motion_35_SneakLoop)
         {
-            switch (mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame)
+            switch (mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame)
             {
                 case 3:
                     if (!mNextMotion)
@@ -2196,14 +2196,14 @@ void Mudokon::Motion_42_MidSneakToIdle()
 
 void Mudokon::Motion_43_RunJumpBegin()
 {
-    Event_Broadcast(kEventNoise, this);
-    Event_Broadcast(kEventSuspiciousNoise, this);
+    EventBroadcast(kEventNoise, this);
+    EventBroadcast(kEventSuspiciousNoise, this);
 
     CheckFloorGone();
 
     mBaseAnimatedWithPhysicsGameObject_XPos += mBaseAnimatedWithPhysicsGameObject_VelX;
 
-    if (mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame == 0)
+    if (mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame == 0)
     {
         Environment_SFX_42A220(EnvironmentSfx::eRunJumpOrLedgeHoist_11, 0, 0x7FFF, this);
     }
@@ -2231,10 +2231,10 @@ void Mudokon::Motion_43_RunJumpBegin()
 
 void Mudokon::Motion_44_RunJumpMid()
 {
-    Event_Broadcast(kEventNoise, this);
-    Event_Broadcast(kEventSuspiciousNoise, this);
+    EventBroadcast(kEventNoise, this);
+    EventBroadcast(kEventSuspiciousNoise, this);
 
-    if (mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame == 5)
+    if (mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame == 5)
     {
         SFX_Play_Pitch(SoundEffect::PossessEffect_21, 40, 2400, 0);
     }
@@ -2280,8 +2280,8 @@ void Mudokon::Motion_45_StandToRun()
         mCurrentMotion = eMudMotions::Motion_29_RunLoop;
     }
 
-    Event_Broadcast(kEventNoise, this);
-    Event_Broadcast(kEventSuspiciousNoise, this);
+    EventBroadcast(kEventNoise, this);
+    EventBroadcast(kEventSuspiciousNoise, this);
 
     if (WallHit_401930(mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(50), mBaseAnimatedWithPhysicsGameObject_VelX))
     {
@@ -2295,7 +2295,7 @@ void Mudokon::Motion_45_StandToRun()
 
 void Mudokon::Motion_46_FallLandDie()
 {
-    if (mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame == 4)
+    if (mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame == 4)
     {
         Environment_SFX_42A220(EnvironmentSfx::eKnockback_13, 0, 0x7FFF, this);
     }
@@ -2303,7 +2303,7 @@ void Mudokon::Motion_46_FallLandDie()
     if ((gMap.mCurrentLevel == EReliveLevelIds::eRuptureFarms
          || gMap.mCurrentLevel == EReliveLevelIds::eRuptureFarmsReturn
          || gMap.mCurrentLevel == EReliveLevelIds::eBoardRoom)
-        && mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame == 7)
+        && mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame == 7)
     {
         Environment_SFX_42A220(EnvironmentSfx::eHitGroundSoft_6, 80, -200, this);
     }
@@ -2319,13 +2319,13 @@ void Mudokon::Motion_46_FallLandDie()
 
 void Mudokon::Motion_47_Knockback()
 {
-    Event_Broadcast(kEventNoise, this);
-    Event_Broadcast(kEventSuspiciousNoise, this);
+    EventBroadcast(kEventNoise, this);
+    EventBroadcast(kEventSuspiciousNoise, this);
 
     if ((gMap.mCurrentLevel == EReliveLevelIds::eRuptureFarms
          || gMap.mCurrentLevel == EReliveLevelIds::eRuptureFarmsReturn
          || gMap.mCurrentLevel == EReliveLevelIds::eBoardRoom)
-        && mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame == 7)
+        && mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame == 7)
     {
         Environment_SFX_42A220(EnvironmentSfx::eHitGroundSoft_6, 80, -200, this);
     }
@@ -2353,8 +2353,8 @@ void Mudokon::Motion_48_KnockbackGetUp()
 {
     CheckFloorGone();
 
-    Event_Broadcast(kEventNoise, this);
-    Event_Broadcast(kEventSuspiciousNoise, this);
+    EventBroadcast(kEventNoise, this);
+    EventBroadcast(kEventSuspiciousNoise, this);
 
     if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
     {
@@ -2375,7 +2375,7 @@ void Mudokon::Motion_50_LandSoft()
 {
     CheckFloorGone();
 
-    if (mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame == 2)
+    if (mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame == 2)
     {
         if (mPreviousMotion == eMudMotions::Motion_51_Fall)
         {
@@ -2610,7 +2610,7 @@ void Mudokon::Motion_60_CrouchChantToStruggle()
 
 void Mudokon::Motion_61_DuckKnockback()
 {
-    if (mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame == 1)
+    if (mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame == 1)
     {
         Environment_SFX_42A220(EnvironmentSfx::eGenericMovement_9, 0, 0x7FFF, this);
     }
@@ -3495,7 +3495,7 @@ s16 Mudokon::Brain_9_CrouchScrub()
                     mCurrentMotion = eMudMotions::Motion_22_CrouchScrub;
                 }
 
-                if (Event_Is_Event_In_Range(
+                if (IsEventInRange(
                         kEventSpeaking,
                         mBaseAnimatedWithPhysicsGameObject_XPos,
                         mBaseAnimatedWithPhysicsGameObject_YPos,
@@ -3688,7 +3688,7 @@ s16 Mudokon::Brain_10_ListeningToAbe()
                         }
                     }
 
-                    if (Event_Get(kEventMudokonComfort)
+                    if (EventGet(kEventMudokonComfort)
                         && gMap.Is_Point_In_Current_Camera(
                             mBaseAnimatedWithPhysicsGameObject_LvlNumber,
                             mBaseAnimatedWithPhysicsGameObject_PathNumber,
@@ -3960,7 +3960,7 @@ s16 Mudokon::Brain_10_ListeningToAbe()
                     return field_1BA_brain_sub_state;
                 }
 
-                if (Event_Get(kEventMudokonComfort)
+                if (EventGet(kEventMudokonComfort)
                     && gMap.Is_Point_In_Current_Camera(
                         mBaseAnimatedWithPhysicsGameObject_LvlNumber,
                         mBaseAnimatedWithPhysicsGameObject_PathNumber,
@@ -4202,7 +4202,7 @@ s16 Mudokon::Brain_11_ShrivelDeath()
 
 s16 Mudokon::Brain_12_Escape()
 {
-    if (Event_Get(kEventDeathReset))
+    if (EventGet(kEventDeathReset))
     {
         mBaseGameObjectFlags.Set(Options::eDead);
         return field_1BA_brain_sub_state;

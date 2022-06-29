@@ -322,7 +322,7 @@ s16 ChimeLock::UpdateBall()
 
 void ChimeLock::VUpdate()
 {
-    if (Event_Get(kEventDeathReset))
+    if (EventGet(kEventDeathReset))
     {
         mBaseGameObjectFlags.Set(Options::eDead);
     }

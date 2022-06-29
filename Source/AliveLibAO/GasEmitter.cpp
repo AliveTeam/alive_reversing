@@ -65,9 +65,9 @@ void GasEmitter::VUpdate()
 
         if (!gGasEmitter_5009D4)
         {
-            SFX_Play_Mono(SoundEffect::Gas1_99, 127, 0);
+            SfxPlayMono(SoundEffect::Gas1_99, 127, 0);
             gGasEmitter_5009D4 = this;
-            gGasEmitterFx_5009D8 = SFX_Play_Mono(SoundEffect::Gas2_100, 127, 0);
+            gGasEmitterFx_5009D8 = SfxPlayMono(SoundEffect::Gas2_100, 127, 0);
         }
     }
 }

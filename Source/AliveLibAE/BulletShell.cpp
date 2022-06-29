@@ -86,8 +86,8 @@ void BulletShell::VUpdate()
             mBaseAnimatedWithPhysicsGameObject_Scale == Scale::Fg ? kFgFloorCeilingOrWalls : kBgFloorCeilingOrWalls)
         == 1)
     {
-        if (BaseAliveGameObjectCollisionLine->field_8_type == eLineTypes::eFloor_0 ||
-            BaseAliveGameObjectCollisionLine->field_8_type == eLineTypes::eBackgroundFloor_4)
+        if (BaseAliveGameObjectCollisionLine->mLineType == eLineTypes::eFloor_0 ||
+            BaseAliveGameObjectCollisionLine->mLineType == eLineTypes::eBackgroundFloor_4)
         {
             mBaseAnimatedWithPhysicsGameObject_YPos = hitY - FP_FromInteger(1);
             mBaseAnimatedWithPhysicsGameObject_VelY = -(mBaseAnimatedWithPhysicsGameObject_VelY * FP_FromDouble(0.3));
@@ -108,7 +108,7 @@ void BulletShell::VUpdate()
                 volume = 19;
             }
 
-            SFX_Play_Mono(SoundEffect::BulletShell_6, volume);
+            SfxPlayMono(SoundEffect::BulletShell_6, volume);
             field_FC_hitCount++;
         }
     }

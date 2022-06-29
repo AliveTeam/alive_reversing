@@ -81,7 +81,7 @@ void ElectricWall::VUpdate()
         mBaseAnimatedWithPhysicsGameObject_XPos,
         mBaseAnimatedWithPhysicsGameObject_YPos);
 
-    if (Event_Get(kEventDeathReset))
+    if (EventGet(kEventDeathReset))
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }

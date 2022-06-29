@@ -125,7 +125,7 @@ FlyingSlig::FlyingSlig(Path_FlyingSlig* pTlv, s32 tlvInfo)
 
     field_15E_useless = 0;
 
-    mBaseAnimatedWithPhysicsGameObject_Anim.field_1C_fn_ptr_array = kFlyingSlig_Anim_Frames_Fns_55EFC4;
+    mBaseAnimatedWithPhysicsGameObject_Anim.mFnPtrArray = kFlyingSlig_Anim_Frames_Fns_55EFC4;
 
     mBaseAliveGameObjectFlags.Set(Flags_114::e114_Bit3_Can_Be_Possessed);
     mBaseAliveGameObjectFlags.Set(Flags_114::e114_Bit6_SetOffExplosives);
@@ -221,8 +221,8 @@ FlyingSlig::FlyingSlig(Path_FlyingSlig* pTlv, s32 tlvInfo)
 
     if (BaseAliveGameObjectCollisionLine)
     {
-        mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(BaseAliveGameObjectCollisionLine->field_0_rect.x);
-        mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(BaseAliveGameObjectCollisionLine->field_0_rect.y);
+        mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(BaseAliveGameObjectCollisionLine->mRect.x);
+        mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(BaseAliveGameObjectCollisionLine->mRect.y);
         sub_4348A0();
         field_194 = FP_FromInteger(0);
     }
@@ -342,7 +342,7 @@ s32 FlyingSlig::CreateFromSaveState(const u8* pBuffer)
         const AnimRecord& animRec = AnimRec(sFlyingSligFrameTables_552408[pFlyingSlig->mCurrentMotion]);
         pFlyingSlig->mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(animRec.mFrameTableOffset, ppRes);
 
-        pFlyingSlig->mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame = pSaveState->field_26_current_frame;
+        pFlyingSlig->mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame = pSaveState->field_26_current_frame;
 
         pFlyingSlig->mBaseAnimatedWithPhysicsGameObject_Anim.mFrameChangeCounter = pSaveState->field_28_frame_change_counter;
 
@@ -454,7 +454,7 @@ s32 FlyingSlig::VGetSaveState(u8* pSaveBuffer)
 
     pState->field_22_bAnimFlipX = mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX);
     pState->field_24_current_state = mCurrentMotion;
-    pState->field_26_current_frame = mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame;
+    pState->field_26_current_frame = mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame;
     pState->field_28_frame_change_counter = mBaseAnimatedWithPhysicsGameObject_Anim.mFrameChangeCounter;
 
     pState->field_2B_bDrawable = mBaseGameObjectFlags.Get(BaseGameObject::eDrawable_Bit4);
@@ -627,7 +627,7 @@ void FlyingSlig::VUpdate()
         }
     }
 
-    if (Event_Get(kEventDeathReset))
+    if (EventGet(kEventDeathReset))
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
@@ -936,7 +936,7 @@ s16 FlyingSlig::VTakeDamage(BaseGameObject* pFrom)
                 Path_TLV* pTlv = nullptr;
                 do
                 {
-                    pTlv = sPath_dword_BB47C0->TLV_Get_At_4DB290(pTlv,
+                    pTlv = sPath_dword_BB47C0->TlvGetAt(pTlv,
                                                                  mBaseAnimatedWithPhysicsGameObject_XPos,
                                                                  FP_FromInteger(bRect.y),
                                                                  mBaseAnimatedWithPhysicsGameObject_XPos,
@@ -1024,7 +1024,7 @@ void FlyingSlig::Brain_1_Death()
     if (static_cast<s32>(sGnFrame) >= field_14C_timer)
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
-        Event_Broadcast(kEventMudokonComfort, this);
+        EventBroadcast(kEventMudokonComfort, this);
     }
 }
 
@@ -1061,19 +1061,19 @@ void FlyingSlig::Brain_4_ChasingEnemy()
 {
     field_17E_flags.Clear(Flags_17E::eBit3);
 
-    if (Event_Get(kEventHeroDying) && gMap.Is_Point_In_Current_Camera(mBaseAnimatedWithPhysicsGameObject_LvlNumber, mBaseAnimatedWithPhysicsGameObject_PathNumber, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, 0))
+    if (EventGet(kEventHeroDying) && gMap.Is_Point_In_Current_Camera(mBaseAnimatedWithPhysicsGameObject_LvlNumber, mBaseAnimatedWithPhysicsGameObject_PathNumber, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, 0))
     {
         ToAbeDead_436010();
         return;
     }
 
-    if (Event_Get(kEventResetting) || sControlledCharacter_5C1B8C->mBaseAnimatedWithPhysicsGameObject_SpriteScale != mBaseAnimatedWithPhysicsGameObject_SpriteScale || IsInInvisibleZone(sControlledCharacter_5C1B8C) || sControlledCharacter_5C1B8C->mBaseAliveGameObjectFlags.Get(Flags_114::e114_Bit8_bInvisible) || (!IsWallBetween_43A550(this, sControlledCharacter_5C1B8C) && (!IsActiveHero(sControlledCharacter_5C1B8C) || sActiveHero->mCurrentMotion != eAbeMotions::Motion_65_LedgeAscend_4548E0) && sControlledCharacter_5C1B8C->Type() != ReliveTypes::eMineCar))
+    if (EventGet(kEventResetting) || sControlledCharacter_5C1B8C->mBaseAnimatedWithPhysicsGameObject_SpriteScale != mBaseAnimatedWithPhysicsGameObject_SpriteScale || IsInInvisibleZone(sControlledCharacter_5C1B8C) || sControlledCharacter_5C1B8C->mBaseAliveGameObjectFlags.Get(Flags_114::e114_Bit8_bInvisible) || (!IsWallBetween_43A550(this, sControlledCharacter_5C1B8C) && (!IsActiveHero(sControlledCharacter_5C1B8C) || sActiveHero->mCurrentMotion != eAbeMotions::Motion_65_LedgeAscend_4548E0) && sControlledCharacter_5C1B8C->Type() != ReliveTypes::eMineCar))
     {
         PatrolDelay_435860();
         return;
     }
 
-    if (sub_436C60(&BaseAliveGameObjectCollisionLine->field_0_rect, 1))
+    if (sub_436C60(&BaseAliveGameObjectCollisionLine->mRect, 1))
     {
         if (FP_Abs(field_194 - field_1C4) < (FP_FromInteger(15) * mBaseAnimatedWithPhysicsGameObject_SpriteScale))
         {
@@ -1128,7 +1128,7 @@ void FlyingSlig::Brain_7_PanicMoving()
         return;
     }
 
-    if (!Event_Is_Event_In_Range(kEventAbeOhm, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, AsEventScale(mBaseAnimatedWithPhysicsGameObject_Scale)))
+    if (!IsEventInRange(kEventAbeOhm, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, AsEventScale(mBaseAnimatedWithPhysicsGameObject_Scale)))
     {
         ToMoving_435720();
         return;
@@ -1152,7 +1152,7 @@ void FlyingSlig::Brain_8_PanicIdle()
     {
         ToChase_435E10();
     }
-    else if (Event_Is_Event_In_Range(kEventAbeOhm, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, AsEventScale(mBaseAnimatedWithPhysicsGameObject_Scale)))
+    else if (IsEventInRange(kEventAbeOhm, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, AsEventScale(mBaseAnimatedWithPhysicsGameObject_Scale)))
     {
         if (static_cast<s32>(sGnFrame) >= field_14C_timer && mCurrentMotion != eFlyingSligMotions::M_GameSpeak_8_4391D0)
         {
@@ -1396,7 +1396,7 @@ void FlyingSlig::M_HorizontalMovement_1_4386A0()
 
 void FlyingSlig::M_IdleToTurn_2_4388B0()
 {
-    if (mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame == 4)
+    if (mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame == 4)
     {
         if (field_184_xSpeed != FP_FromInteger(0))
         {
@@ -1551,7 +1551,7 @@ void FlyingSlig::M_UpMovementToTurn_6_439030()
 
 void FlyingSlig::M_LeverPull_7_439150()
 {
-    if (mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame)
+    if (mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame)
     {
         if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
         {
@@ -1571,7 +1571,7 @@ void FlyingSlig::M_LeverPull_7_439150()
 
 void FlyingSlig::M_GameSpeak_8_4391D0()
 {
-    if (mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame == 1 && field_17E_flags.Get(Flags_17E::eBit1_Speaking_flag1))
+    if (mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame == 1 && field_17E_flags.Get(Flags_17E::eBit1_Speaking_flag1))
     {
         field_17E_flags.Clear(Flags_17E::eBit1_Speaking_flag1);
 
@@ -1608,7 +1608,7 @@ void FlyingSlig::M_GameSpeak_8_4391D0()
             }
         }
         Slig_GameSpeak_SFX_4C04F0(field_17D_next_speak, 0, field_160_voice_pitch_min, this);
-        Event_Broadcast(kEventSpeaking, this);
+        EventBroadcast(kEventSpeaking, this);
     }
     else if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
     {
@@ -1993,12 +1993,12 @@ s16 FlyingSlig::IsPossessed()
 
 s16 FlyingSlig::CanChase_436850(BaseAliveGameObject* pObj)
 {
-    if (!gMap.Is_Point_In_Current_Camera(mBaseAnimatedWithPhysicsGameObject_LvlNumber, mBaseAnimatedWithPhysicsGameObject_PathNumber, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, 0) || !gMap.Is_Point_In_Current_Camera(mBaseAnimatedWithPhysicsGameObject_LvlNumber, mBaseAnimatedWithPhysicsGameObject_PathNumber, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, 0) || Event_Get(kEventResetting) || IsAbeEnteringDoor_43B030(pObj) || sActiveHero->mBaseAnimatedWithPhysicsGameObject_SpriteScale != mBaseAnimatedWithPhysicsGameObject_SpriteScale || !IsWallBetween_43A550(this, pObj))
+    if (!gMap.Is_Point_In_Current_Camera(mBaseAnimatedWithPhysicsGameObject_LvlNumber, mBaseAnimatedWithPhysicsGameObject_PathNumber, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, 0) || !gMap.Is_Point_In_Current_Camera(mBaseAnimatedWithPhysicsGameObject_LvlNumber, mBaseAnimatedWithPhysicsGameObject_PathNumber, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, 0) || EventGet(kEventResetting) || IsAbeEnteringDoor_43B030(pObj) || sActiveHero->mBaseAnimatedWithPhysicsGameObject_SpriteScale != mBaseAnimatedWithPhysicsGameObject_SpriteScale || !IsWallBetween_43A550(this, pObj))
     {
         return 0;
     }
 
-    if (Event_Is_Event_In_Range(kEventAbeOhm, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, AsEventScale(mBaseAnimatedWithPhysicsGameObject_Scale)))
+    if (IsEventInRange(kEventAbeOhm, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, AsEventScale(mBaseAnimatedWithPhysicsGameObject_Scale)))
     {
         return 1;
     }
@@ -2235,8 +2235,8 @@ void FlyingSlig::ThrowGrenade_43A1E0()
 
     New_ShootingFire_Particle(xpos + mBaseAnimatedWithPhysicsGameObject_XPos, ypos + mBaseAnimatedWithPhysicsGameObject_YPos, mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX), mBaseAnimatedWithPhysicsGameObject_SpriteScale);
     Slig_SoundEffect_4BFFE0(SligSfx::eThrowGrenade_8, this);
-    Event_Broadcast(kEventShooting, this);
-    Event_Broadcast(kEventLoudNoise, this);
+    EventBroadcast(kEventShooting, this);
+    EventBroadcast(kEventLoudNoise, this);
 
     Dove::All_FlyAway(0);
 
@@ -2262,8 +2262,8 @@ void FlyingSlig::BlowUp_436510()
     relive_new Blood(mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos - (FP_FromInteger(30) * mBaseAnimatedWithPhysicsGameObject_SpriteScale), FP_FromInteger(0), FP_FromInteger(0), mBaseAnimatedWithPhysicsGameObject_SpriteScale, 20);
 
     New_Smoke_Particles(mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos - (FP_FromInteger(30) * mBaseAnimatedWithPhysicsGameObject_SpriteScale), mBaseAnimatedWithPhysicsGameObject_SpriteScale, 3, 128u, 128u, 128u);
-    SFX_Play_Mono(SoundEffect::KillEffect_64, 128, mBaseAnimatedWithPhysicsGameObject_SpriteScale);
-    SFX_Play_Mono(SoundEffect::FallingItemHit_47, 90, mBaseAnimatedWithPhysicsGameObject_SpriteScale);
+    SfxPlayMono(SoundEffect::KillEffect_64, 128, mBaseAnimatedWithPhysicsGameObject_SpriteScale);
+    SfxPlayMono(SoundEffect::FallingItemHit_47, 90, mBaseAnimatedWithPhysicsGameObject_SpriteScale);
 
     mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit2_Animate);
     mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit3_Render);
@@ -2291,7 +2291,7 @@ s16 FlyingSlig::sub_436730()
         ToAlerted_4357E0();
         return 1;
     }
-    else if (Event_Is_Event_In_Range(kEventAbeOhm, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, AsEventScale(mBaseAnimatedWithPhysicsGameObject_Scale)))
+    else if (IsEventInRange(kEventAbeOhm, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, AsEventScale(mBaseAnimatedWithPhysicsGameObject_Scale)))
     {
         ToPanicMoving_435A50();
         return 1;
@@ -2309,7 +2309,7 @@ s16 FlyingSlig::sub_436730()
 
 s16 FlyingSlig::CanHearAbe_4369C0()
 {
-    return IsActiveHero(Event_Is_Event_In_Range(kEventSuspiciousNoise, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, AsEventScale(mBaseAnimatedWithPhysicsGameObject_Scale))) || IsActiveHero(Event_Is_Event_In_Range(kEventSpeaking, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, AsEventScale(mBaseAnimatedWithPhysicsGameObject_Scale)));
+    return IsActiveHero(IsEventInRange(kEventSuspiciousNoise, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, AsEventScale(mBaseAnimatedWithPhysicsGameObject_Scale))) || IsActiveHero(IsEventInRange(kEventSpeaking, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, AsEventScale(mBaseAnimatedWithPhysicsGameObject_Scale)));
 }
 
 void FlyingSlig::ToSpottedEnemy_435E70()
@@ -2367,7 +2367,7 @@ u8** FlyingSlig::ResBlockForMotion_4350F0(s32 /*motion*/)
 
 void FlyingSlig::ToChantShake_436270()
 {
-    SFX_Play_Mono(SoundEffect::PossessEffect_17, 0);
+    SfxPlayMono(SoundEffect::PossessEffect_17, 0);
     VSetMotion(eFlyingSligMotions::M_Possession_9_434290);
     SetBrain(&FlyingSlig::Brain_14_DePossession);
     field_14C_timer = sGnFrame + 45;
@@ -2559,10 +2559,10 @@ s16 FlyingSlig::sub_437C70(PathLine* pLine)
         return 0;
     }
 
-    field_1A4_rect.x = FP_FromInteger(BaseAliveGameObjectCollisionLine->field_0_rect.x);
-    field_1A4_rect.y = FP_FromInteger(BaseAliveGameObjectCollisionLine->field_0_rect.y);
-    field_1A4_rect.w = FP_FromInteger(BaseAliveGameObjectCollisionLine->field_0_rect.w);
-    field_1A4_rect.h = FP_FromInteger(BaseAliveGameObjectCollisionLine->field_0_rect.h);
+    field_1A4_rect.x = FP_FromInteger(BaseAliveGameObjectCollisionLine->mRect.x);
+    field_1A4_rect.y = FP_FromInteger(BaseAliveGameObjectCollisionLine->mRect.y);
+    field_1A4_rect.w = FP_FromInteger(BaseAliveGameObjectCollisionLine->mRect.w);
+    field_1A4_rect.h = FP_FromInteger(BaseAliveGameObjectCollisionLine->mRect.h);
 
 
     field_1EC_pNextLine = sCollisions->Get_Line_At_Idx(BaseAliveGameObjectCollisionLine->field_C_next);
@@ -2852,7 +2852,7 @@ Bool32 FlyingSlig::sub_436B20()
     {
         while (pNextLine != BaseAliveGameObjectCollisionLine)
         {
-            if (sub_436C60(&pNextLine->field_0_rect, 0))
+            if (sub_436C60(&pNextLine->mRect, 0))
             {
                 field_17E_flags.Set(Flags_17E::eBit4);
                 pLastNextOrPrevLine = pNextLine;
@@ -2880,7 +2880,7 @@ Bool32 FlyingSlig::sub_436B20()
     {
         while (pPrevLine != BaseAliveGameObjectCollisionLine)
         {
-            if (sub_436C60(&pPrevLine->field_0_rect, 0))
+            if (sub_436C60(&pPrevLine->mRect, 0))
             {
                 if (totalPrevSegmentLength < lastNextSegmentLength)
                 {

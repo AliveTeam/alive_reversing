@@ -78,7 +78,7 @@ Rock::~Rock()
 
 void Rock::VUpdate()
 {
-    if (Event_Get(kEventDeathReset))
+    if (EventGet(kEventDeathReset))
     {
         mBaseGameObjectFlags.Set(Options::eDead);
     }
@@ -280,9 +280,9 @@ void Rock::InTheAir()
                             {
                                 vol = 40;
                             }
-                            SFX_Play_Mono(SoundEffect::RockBounce_31, vol, 0);
-                            Event_Broadcast(kEventNoise, this);
-                            Event_Broadcast(kEventSuspiciousNoise, this);
+                            SfxPlayMono(SoundEffect::RockBounce_31, vol, 0);
+                            EventBroadcast(kEventNoise, this);
+                            EventBroadcast(kEventSuspiciousNoise, this);
                             field_118_vol++;
                         }
                         else
@@ -339,9 +339,9 @@ void Rock::BounceHorizontally( FP hitX, FP hitY )
         vol = 40;
     }
 
-    SFX_Play_Mono(SoundEffect::RockBounce_31, vol, 0);
-    Event_Broadcast(kEventNoise, this);
-    Event_Broadcast(kEventSuspiciousNoise, this);
+    SfxPlayMono(SoundEffect::RockBounce_31, vol, 0);
+    EventBroadcast(kEventNoise, this);
+    EventBroadcast(kEventSuspiciousNoise, this);
 }
 
 //TODO Identical to AE - merge
@@ -367,7 +367,7 @@ s16 Rock::OnCollision(BaseAnimatedWithPhysicsGameObject* pObj)
 
     pObj->VOnThrowableHit(this);
 
-    SFX_Play_Mono(SoundEffect::RockBounceOnMine_29, 80, 0);
+    SfxPlayMono(SoundEffect::RockBounceOnMine_29, 80, 0);
     return 0;
 }
 

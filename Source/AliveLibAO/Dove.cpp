@@ -227,7 +227,7 @@ void Dove::VRender(PrimHeader** ppOt)
 
 void Dove::VUpdate()
 {
-    if (Event_Get(kEventDeathReset))
+    if (EventGet(kEventDeathReset))
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
@@ -241,7 +241,7 @@ void Dove::VUpdate()
     switch (field_EE_state)
     {
         case State::eOnGround_0:
-            if (Event_Get(kEventSpeaking))
+            if (EventGet(kEventSpeaking))
             {
                 for (s32 i = 0; i < gDovesArray_4FF938.Size(); i++)
                 {
@@ -263,7 +263,7 @@ void Dove::VUpdate()
 
             if (FP_GetExponent(FP_Abs(mBaseAnimatedWithPhysicsGameObject_XPos - sControlledCharacter_50767C->mBaseAnimatedWithPhysicsGameObject_XPos)) < 100)
             {
-                if (Event_Get(kEventNoise))
+                if (EventGet(kEventNoise))
                 {
                     for (s32 i = 0; i < gDovesArray_4FF938.Size(); i++)
                     {
@@ -293,7 +293,7 @@ void Dove::VUpdate()
                 if (!bExtraSeqStarted_4FF944)
                 {
                     bExtraSeqStarted_4FF944 = 16;
-                    SFX_Play_Mono(SoundEffect::Dove_16, 0, 0);
+                    SfxPlayMono(SoundEffect::Dove_16, 0, 0);
                 }
             }
 

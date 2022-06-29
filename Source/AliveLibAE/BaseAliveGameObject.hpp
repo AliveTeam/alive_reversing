@@ -42,7 +42,7 @@ public:
     virtual void VSetMotion(s16 state);
     virtual void VOnPathTransition(s16 cameraWorldXPos, s16 cameraWorldYPos, CameraPos direction);
     virtual s16 VTakeDamage(BaseGameObject* pFrom);
-    virtual void VOn_TLV_Collision(Path_TLV* pTlv);
+    virtual void VOnTlvCollision(Path_TLV* pTlv);
     virtual void VCheckCollisionLineStillValid(s16 distance);
     virtual BirdPortal* VIntoBirdPortal(s16 gridBlocks);
     virtual void VOnTrapDoorOpen();

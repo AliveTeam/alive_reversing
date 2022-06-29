@@ -3615,7 +3615,7 @@ void MainMenuController::AnimationAndSoundLogic_4CFE80()
                     break;
             }
 
-            if (mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame == doSpeakSoundFrame)
+            if (mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame == doSpeakSoundFrame)
             {
                 if (field_220_frame_table_idx == eParamite_AllAYa)
                 {

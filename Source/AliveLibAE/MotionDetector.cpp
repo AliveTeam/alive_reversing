@@ -284,7 +284,7 @@ void MotionDetector::VUpdate()
     MotionDetectorLaser* pLaser = static_cast<MotionDetectorLaser*>(sObjectIds.Find(field_F8_laser_id, ReliveTypes::eRedLaser));
     Greeter* pOwner = static_cast<Greeter*>(sObjectIds.Find(field_FC_owner_id, ReliveTypes::eGreeter));
 
-    if (Event_Get(kEventDeathReset))
+    if (EventGet(kEventDeathReset))
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
@@ -329,7 +329,7 @@ void MotionDetector::VUpdate()
                     {
                         if (sGnFrame % 2)
                         {
-                            SFX_Play_Mono(SoundEffect::Zap2_50, 45);
+                            SfxPlayMono(SoundEffect::Zap2_50, 45);
                         }
                     }
 

@@ -71,12 +71,12 @@ void RockSack::VScreenChanged()
 
 void RockSack::VUpdate()
 {
-    if (Event_Get(kEventDeathReset))
+    if (EventGet(kEventDeathReset))
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 
-    if (mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame == 2)
+    if (mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame == 2)
     {
         if (field_120_can_play_wobble_sound)
         {
@@ -145,7 +145,7 @@ void RockSack::VUpdate()
                 pRock->VThrow(field_124_x_vel, field_128_y_vel);
             }
 
-            SFX_Play_Mono(SoundEffect::SackHit_25, 0);
+            SfxPlayMono(SoundEffect::SackHit_25, 0);
             Environment_SFX_457A40(EnvironmentSfx::eDeathNoise_7, 0, 0x7FFF, 0);
 
             if (sActiveHero->mCurrentMotion == eAbeMotions::Motion_31_RunJumpMid_452C10)

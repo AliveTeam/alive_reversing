@@ -135,11 +135,11 @@ void FootSwitch::VUpdate()
                 }
                 else
                 {
-                    SFX_Play_Mono(SoundEffect::FootSwitchPress_55, 0);
+                    SfxPlayMono(SoundEffect::FootSwitchPress_55, 0);
                 }
             }
 
-            if (mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame == 0)
+            if (mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame == 0)
             {
                 field_104_bCreateSparks = 1;
                 return;
@@ -165,7 +165,7 @@ void FootSwitch::VUpdate()
                 field_104_bCreateSparks = 0;
             }
 
-            if (mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame == 0)
+            if (mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame == 0)
             {
                 field_104_bCreateSparks = 1;
             }

@@ -115,11 +115,11 @@ void BirdPortal::VUpdate()
         case PortalStates::IdlePortal_1:
             if (static_cast<s32>(sGnFrame) >= field_5C_timer)
             {
-                SFX_Play_Mono(SoundEffect::Dove_13, 35, field_60_scale);
+                SfxPlayMono(SoundEffect::Dove_13, 35, field_60_scale);
                 field_5C_timer = sGnFrame + Math_RandomRange(24, 40);
             }
 
-            if (Event_Get(kEventAbeOhm))
+            if (EventGet(kEventAbeOhm))
             {
                 BaseGameObject* pShrykullNumMuds = sObjectIds.Find_Impl(field_40_throwable_indicator_id);
                 if (pShrykullNumMuds)
@@ -138,10 +138,10 @@ void BirdPortal::VUpdate()
 
                 field_28_state = PortalStates::JoinDovesInCenter_2;
                 field_5C_timer = sGnFrame + 15;
-                Event_Broadcast(GetEvent(), this);
-                SFX_Play_Mono(SoundEffect::Dove_13, 70, field_60_scale);
+                EventBroadcast(GetEvent(), this);
+                SfxPlayMono(SoundEffect::Dove_13, 70, field_60_scale);
             }
-            else if (IsScaredAway() || Event_Get(kEventShooting))
+            else if (IsScaredAway() || EventGet(kEventShooting))
             {
                 for (auto& id : field_44_dove_ids)
                 {
@@ -159,13 +159,13 @@ void BirdPortal::VUpdate()
                 {
                     pThrowableIndicator->mBaseGameObjectFlags.Set(BaseGameObject::eDead);
                 }
-                SFX_Play_Mono(SoundEffect::Dove_13, 70, field_60_scale);
+                SfxPlayMono(SoundEffect::Dove_13, 70, field_60_scale);
                 mBaseGameObjectFlags.Set(BaseGameObject::eDead);
             }
             break;
 
         case PortalStates::JoinDovesInCenter_2:
-            Event_Broadcast(GetEvent(), this);
+            EventBroadcast(GetEvent(), this);
             if (static_cast<s32>(sGnFrame) > field_5C_timer)
             {
                 CreateTerminators();
@@ -175,7 +175,7 @@ void BirdPortal::VUpdate()
             break;
 
         case PortalStates::KillDoves_3:
-            Event_Broadcast(GetEvent(), this);
+            EventBroadcast(GetEvent(), this);
             if (static_cast<s32>(sGnFrame) > field_5C_timer)
             {
                 for (auto& id : field_44_dove_ids)
@@ -191,7 +191,7 @@ void BirdPortal::VUpdate()
             break;
 
         case PortalStates::CreateTerminators_4:
-            Event_Broadcast(GetEvent(), this);
+            EventBroadcast(GetEvent(), this);
             if (pTerminator1->mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
             {
                 const AnimRecord& rec = AnimRec(AnimId::BirdPortal_TerminatorIdle);
@@ -199,13 +199,13 @@ void BirdPortal::VUpdate()
                 pTerminator2->mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(rec.mFrameTableOffset, 0);
                 field_5C_timer = sGnFrame + 12;
                 field_28_state = PortalStates::ExpandTerminators_5;
-                field_90_sfx_ret = SFX_Play_Mono(SoundEffect::PortalOpening_58, 0, field_60_scale);
+                field_90_sfx_ret = SfxPlayMono(SoundEffect::PortalOpening_58, 0, field_60_scale);
                 SFX_Play_Pitch(SoundEffect::IngameTransition_84, 115, 300, field_60_scale);
             }
             break;
 
         case PortalStates::ExpandTerminators_5:
-            Event_Broadcast(GetEvent(), this);
+            EventBroadcast(GetEvent(), this);
             pTerminator1->mBaseAnimatedWithPhysicsGameObject_YPos -= (FP_FromDouble(3.5) * field_60_scale);
             pTerminator2->mBaseAnimatedWithPhysicsGameObject_YPos += (FP_FromDouble(3.5) * field_60_scale);
             if (static_cast<s32>(sGnFrame) > field_5C_timer)
@@ -215,8 +215,8 @@ void BirdPortal::VUpdate()
             break;
 
         case PortalStates::ActivePortal_6:
-            Event_Broadcast(GetEvent(), this);
-            if ((field_24_portal_type != PortalType::eWorker_1 && field_24_portal_type != PortalType::eShrykull_2) || Event_Get(kEventAbeOhm))
+            EventBroadcast(GetEvent(), this);
+            if ((field_24_portal_type != PortalType::eWorker_1 && field_24_portal_type != PortalType::eShrykull_2) || EventGet(kEventAbeOhm))
             {
                 if ((Math_NextRandom() % 8) == 0)
                 {
@@ -311,7 +311,7 @@ void BirdPortal::VUpdate()
                         field_30_ypos + FP_FromInteger(Math_RandomRange(-scale32, scale32)),
                         field_60_scale);
 
-                    SFX_Play_Mono(SoundEffect::Dove_13, 70, field_60_scale);
+                    SfxPlayMono(SoundEffect::Dove_13, 70, field_60_scale);
                     pDove_1->mBaseAnimatedWithPhysicsGameObject_SpriteScale = field_60_scale;
                     pDove_1->AsJoin(sActiveHero->mBaseAnimatedWithPhysicsGameObject_XPos, FP_FromInteger(Math_RandomRange(-36, 4)) + sActiveHero->mBaseAnimatedWithPhysicsGameObject_YPos);
                     field_84_received_doves++;
@@ -435,7 +435,7 @@ void BirdPortal::VUpdate()
             CreateTerminators();
 
             field_28_state = PortalStates::PortalExit_CreateTerminators_18;
-            field_90_sfx_ret = SFX_Play_Mono(SoundEffect::PortalOpening_58, 0, field_60_scale);
+            field_90_sfx_ret = SfxPlayMono(SoundEffect::PortalOpening_58, 0, field_60_scale);
         }
         break;
 
@@ -512,7 +512,7 @@ void BirdPortal::VUpdate()
             break;
     }
 
-    if (Event_Get(kEventDeathReset))
+    if (EventGet(kEventDeathReset))
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }

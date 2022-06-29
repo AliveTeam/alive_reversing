@@ -38,7 +38,7 @@ SligGetPantsAndWings::SligGetPantsAndWings(Path_TLV* pTlv, s32 tlvInfo)
 void SligGetPantsAndWings::VUpdate()
 {
     Path_TLV* pTlv = sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam(field_F8_tlvInfo);
-    if (Event_Get(kEventDeathReset))
+    if (EventGet(kEventDeathReset))
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
@@ -57,7 +57,7 @@ void SligGetPantsAndWings::VUpdate()
             if (static_cast<s32>(sGnFrame) > field_FC_timer)
             {
                 field_F4_state = State::eFinished_2;
-                SFX_Play_Mono(SoundEffect::NakedSligTransformEnd_92, 0);
+                SfxPlayMono(SoundEffect::NakedSligTransformEnd_92, 0);
                 const AnimRecord& rec = AnimRec(AnimId::CrawlingSligLocker_Open);
                 mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(rec.mFrameTableOffset, nullptr);
             }

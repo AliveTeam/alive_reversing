@@ -102,60 +102,46 @@ struct FrameInfoHeader final
 class Animation final : public AnimationBase
 {
 public:
-    
-    void Animation_Pal_Free();
- 
-    void DecompressFrame();
-
     virtual void VDecode() override;
-
     virtual void VRender(s32 xpos, s32 ypos, PrimHeader** ppOt, s16 width, s32 height) override;
+    virtual void VCleanUp() override;
+
     s16 Set_Animation_Data(s32 frameTableOffset, u8** pAnimRes);
     void SetFrame(s16 newFrame);
-    
     s16 Init(s32 frameTableOffset, DynamicArray* animList, BaseGameObject* pGameObj, u16 maxW, u16 maxH, u8** ppAnimData);
-   
     u16 Get_Frame_Count();
-
     FrameInfoHeader* Get_FrameHeader(s16 frame);
     void LoadPal(u8** pAnimData, s32 palOffset);
     void Get_Frame_Rect(PSX_RECT* pRect);
-   
-
     void Get_Frame_Width_Height(s16* pWidth, s16* pHeight);
     void Get_Frame_Offset(s16* pBoundingX, s16* pBoundingY);
-
-    virtual void VCleanUp() override;
-
-    bool DecodeCommon();
-
-    void Invoke_CallBacks();
     bool EnsureDecompressionBuffer();
     void UploadTexture(const FrameHeader* pFrameHeader, const PSX_RECT& vram_rect, s16 width_bpp_adjusted);
+    void Invoke_CallBacks();
+    bool DecodeCommon();
+    void DecompressFrame();
+    void Animation_Pal_Free();
 
-    u16 field_10_frame_delay = 0;
+    u16 mFrameDelay = 0;
     u16 field_12_scale = 0; // padding?
     FP field_14_scale = {};
-    u32 field_18_frame_table_offset = 0;
-    s32(CC** field_1C_fn_ptr_array)(BaseGameObject*, s16*) = nullptr;
+    u32 mFrameTableOffset = 0;
+    s32(CC** mFnPtrArray)(BaseGameObject*, s16*) = nullptr;
     u8** field_20_ppBlock = nullptr; // pointer to a pointer which points to anim data
-    u8** field_24_dbuf = nullptr;
-
-    u32 field_28_dbuf_size = 0;
-    Poly_FT4 field_2C_ot_data[2] = {};
-
-    PSX_RECT field_84_vram_rect = {};
-    PSX_Point field_8C_pal_vram_xy = {};
-
-    s16 field_90_pal_depth = 0;
-    s16 field_92_current_frame = 0;
-    BaseGameObject* field_94_pGameObj = nullptr;
+    u8** mDbuf = nullptr;
+    u32 mDbufSize = 0;
+    Poly_FT4 mOtData[2] = {};
+    PSX_RECT mVramRect = {};
+    PSX_Point mPalVramXY = {};
+    s16 mPalDepth = 0;
+    s16 mCurrentFrame = 0;
+    BaseGameObject* mGameObj = nullptr;
 };
 ALIVE_ASSERT_SIZEOF(Animation, 0x98);
 
 inline bool IsLastFrame(const Animation* pAnim)
 {
     const u8* pAnimData = (*pAnim->field_20_ppBlock);
-    const auto pHeader = reinterpret_cast<const AnimationHeader*>(&pAnimData[pAnim->field_18_frame_table_offset]);
-    return (pAnim->field_92_current_frame == pHeader->field_2_num_frames - 1);
+    const auto pHeader = reinterpret_cast<const AnimationHeader*>(&pAnimData[pAnim->mFrameTableOffset]);
+    return (pAnim->mCurrentFrame == pHeader->field_2_num_frames - 1);
 }

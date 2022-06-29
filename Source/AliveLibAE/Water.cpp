@@ -81,7 +81,7 @@ Water::Water(Path_Water* pTlv, s32 tlvInfo)
                 field_FE_texture_mode = TPageMode::e4Bit_0;
             }
 
-            u8 u0 = mBaseAnimatedWithPhysicsGameObject_Anim.field_84_vram_rect.x & 63;
+            u8 u0 = mBaseAnimatedWithPhysicsGameObject_Anim.mVramRect.x & 63;
             if (field_FE_texture_mode == TPageMode::e8Bit_1)
             {
                 u0 = 2 * u0;
@@ -91,7 +91,7 @@ Water::Water(Path_Water* pTlv, s32 tlvInfo)
                 u0 = 4 * u0;
             }
 
-            const u8 v0 = mBaseAnimatedWithPhysicsGameObject_Anim.field_84_vram_rect.y & 0xFF;
+            const u8 v0 = mBaseAnimatedWithPhysicsGameObject_Anim.mVramRect.y & 0xFF;
 
             const FrameHeader* pFrameHeader = reinterpret_cast<const FrameHeader*>(&(*mBaseAnimatedWithPhysicsGameObject_Anim.field_20_ppBlock)[mBaseAnimatedWithPhysicsGameObject_Anim.Get_FrameHeader(-1)->field_0_frame_header_offset]);
             field_120_frame_width = pFrameHeader->field_4_width;
@@ -103,8 +103,8 @@ Water::Water(Path_Water* pTlv, s32 tlvInfo)
             const s32 tPage = PSX_getTPage(
                 field_FE_texture_mode,
                 TPageAbr::eBlend_3,
-                mBaseAnimatedWithPhysicsGameObject_Anim.field_84_vram_rect.x,
-                mBaseAnimatedWithPhysicsGameObject_Anim.field_84_vram_rect.y);
+                mBaseAnimatedWithPhysicsGameObject_Anim.mVramRect.x,
+                mBaseAnimatedWithPhysicsGameObject_Anim.mVramRect.y);
 
             for (s32 i = 0; i < field_124_tlv_data.field_10_max_drops; i++)
             {
@@ -117,8 +117,8 @@ Water::Water(Path_Water* pTlv, s32 tlvInfo)
                 Poly_Set_Blending(&pPoly->mBase.header, TRUE);
 
                 const s32 clut = PSX_getClut(
-                    mBaseAnimatedWithPhysicsGameObject_Anim.field_8C_pal_vram_xy.x,
-                    mBaseAnimatedWithPhysicsGameObject_Anim.field_8C_pal_vram_xy.y);
+                    mBaseAnimatedWithPhysicsGameObject_Anim.mPalVramXY.x,
+                    mBaseAnimatedWithPhysicsGameObject_Anim.mPalVramXY.y);
 
                 SetClut(pPoly, static_cast<s16>(clut));
                 SetTPage(pPoly, static_cast<s16>(tPage));
@@ -133,8 +133,8 @@ Water::Water(Path_Water* pTlv, s32 tlvInfo)
             field_102_screen_y = FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos - pScreenManager->CamYPos());
 
             PSX_RECT rect = {};
-            rect.y = mBaseAnimatedWithPhysicsGameObject_Anim.field_8C_pal_vram_xy.y;
-            rect.x = mBaseAnimatedWithPhysicsGameObject_Anim.field_8C_pal_vram_xy.x + 1;
+            rect.y = mBaseAnimatedWithPhysicsGameObject_Anim.mPalVramXY.y;
+            rect.x = mBaseAnimatedWithPhysicsGameObject_Anim.mPalVramXY.x + 1;
             rect.w = 1;
             rect.h = 1;
 
@@ -257,7 +257,7 @@ void Water::Add_Water_Particle()
 
 void Water::VUpdate()
 {
-    if (Event_Get(kEventDeathReset))
+    if (EventGet(kEventDeathReset))
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }

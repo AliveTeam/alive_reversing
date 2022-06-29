@@ -80,7 +80,7 @@ void SligSpawner::VUpdate()
 
     const auto pSpawnedSlig = static_cast<Slig*>(sObjectIds.Find_Impl(field_3C_spawned_slig_obj_id));
 
-    if (Event_Get(kEventDeathReset))
+    if (EventGet(kEventDeathReset))
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
@@ -107,7 +107,7 @@ void SligSpawner::VUpdate()
                 }
 
                 field_38_state = SpawnerStates::eSligSpawned_1;
-                SFX_Play_Mono(SoundEffect::SligSpawn_114, 0);
+                SfxPlayMono(SoundEffect::SligSpawn_114, 0);
             }
 
             if (!field_26_flags.Get(SpawnerFlags::eBit2_UnlimitedSpawns))

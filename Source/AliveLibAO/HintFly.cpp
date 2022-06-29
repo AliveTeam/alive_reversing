@@ -1420,7 +1420,7 @@ HintFly::HintFly(Path_HintFly* pTlv, s32 tlvInfo)
                 field_110_bitMode = TPageMode::e4Bit_0;
             }
 
-            s32 vram_x = mBaseAnimatedWithPhysicsGameObject_Anim.field_84_vram_rect.x & 0x3F;
+            s32 vram_x = mBaseAnimatedWithPhysicsGameObject_Anim.mVramRect.x & 0x3F;
             if (field_110_bitMode == TPageMode::e8Bit_1)
             {
                 vram_x = 2 * vram_x;
@@ -1444,10 +1444,10 @@ HintFly::HintFly(Path_HintFly* pTlv, s32 tlvInfo)
                     Poly_Set_Blending(&pSprt->mBase.header, 1);
 
                     SetClut(pSprt, static_cast<s16>(PSX_getClut(
-                                       mBaseAnimatedWithPhysicsGameObject_Anim.field_8C_pal_vram_xy.x,
-                                       mBaseAnimatedWithPhysicsGameObject_Anim.field_8C_pal_vram_xy.y)));
+                                       mBaseAnimatedWithPhysicsGameObject_Anim.mPalVramXY.x,
+                                       mBaseAnimatedWithPhysicsGameObject_Anim.mPalVramXY.y)));
 
-                    SetUV0(pSprt, vram_x & 0xFF, mBaseAnimatedWithPhysicsGameObject_Anim.field_84_vram_rect.y & 0xFF);
+                    SetUV0(pSprt, vram_x & 0xFF, mBaseAnimatedWithPhysicsGameObject_Anim.mVramRect.y & 0xFF);
 
                     pSprt->field_14_w = pHeader->field_4_width - 1;
                     pSprt->field_16_h = pHeader->field_5_height - 1;
@@ -1460,7 +1460,7 @@ HintFly::HintFly(Path_HintFly* pTlv, s32 tlvInfo)
 
             // Some unknown pal hack that seems to do nothing
             /*
-            const PSX_RECT rect = { static_cast<s16>(mBaseAnimatedWithPhysicsGameObject_Anim.field_8C_pal_vram_xy.x + 1), mBaseAnimatedWithPhysicsGameObject_Anim.field_8C_pal_vram_xy.y, 1, 1 };
+            const PSX_RECT rect = { static_cast<s16>(mBaseAnimatedWithPhysicsGameObject_Anim.mPalVramXY.x + 1), mBaseAnimatedWithPhysicsGameObject_Anim.mPalVramXY.y, 1, 1 };
             const u8 data[] = { 0, 0, 0, 0 };
             if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit14_Is16Bit))
             {
@@ -1628,7 +1628,7 @@ void HintFly::UpdateParticles()
             pParticle->field_4_ypos += (Math_Cosine_4510A0(pParticle->field_20_angle) * FP_FromInteger(2));
             if (i < 1 && Math_RandomRange(0, 100) < 20)
             {
-                SFX_Play_Mono(SoundEffect::HintFly_60, Math_RandomRange(18, 24), 0);
+                SfxPlayMono(SoundEffect::HintFly_60, Math_RandomRange(18, 24), 0);
             }
         }
     }
@@ -1636,7 +1636,7 @@ void HintFly::UpdateParticles()
 
 void HintFly::VUpdate()
 {
-    if (Event_Get(kEventDeathReset))
+    if (EventGet(kEventDeathReset))
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
@@ -1646,7 +1646,7 @@ void HintFly::VUpdate()
         case State::eIdleWaitForChanting_1:
             UpdateParticles();
 
-            if (Event_Get(kEventAbeOhm))
+            if (EventGet(kEventAbeOhm))
             {
                 field_11E_msg_idx = 0;
                 field_112_state = State::eState_3;
@@ -1659,7 +1659,7 @@ void HintFly::VUpdate()
             {
                 UpdateParticles();
 
-                if (!Event_Get(kEventAbeOhm))
+                if (!EventGet(kEventAbeOhm))
                 {
                     for (s32 i = 0; i < field_118_counter; i++)
                     {
@@ -1706,7 +1706,7 @@ void HintFly::VUpdate()
             // TODO: This block is duplicated above
             UpdateParticles();
 
-            if (!Event_Get(kEventAbeOhm))
+            if (!EventGet(kEventAbeOhm))
             {
                 for (s32 i = 0; i < field_118_counter; i++)
                 {
@@ -1732,7 +1732,7 @@ void HintFly::VUpdate()
         case State::eState_3:
             UpdateParticles();
 
-            if (!Event_Get(kEventAbeOhm))
+            if (!EventGet(kEventAbeOhm))
             {
                 for (s32 i = 0; i < field_118_counter; i++)
                 {
@@ -1765,7 +1765,7 @@ void HintFly::VUpdate()
         case State::eState_4:
             UpdateParticles();
 
-            if (Event_Get(kEventAbeOhm))
+            if (EventGet(kEventAbeOhm))
             {
                 if (static_cast<s32>(sGnFrame) > field_10C_timer)
                 {
@@ -1799,7 +1799,7 @@ void HintFly::VUpdate()
         case State::eState_5:
             if (field_118_counter == 20)
             {
-                if (Event_Get(kEventAbeOhm))
+                if (EventGet(kEventAbeOhm))
                 {
                     field_112_state = State::eIdleWaitForChanting_1;
                 }
@@ -1821,7 +1821,7 @@ void HintFly::VUpdate()
                 InitParticle(&field_E8_pRes[field_120_idx++]);
             }
 
-            if (field_118_counter == 20 && !Event_Get(kEventAbeOhm))
+            if (field_118_counter == 20 && !EventGet(kEventAbeOhm))
             {
                 field_112_state = State::eIdleWaitForChanting_1;
             }
@@ -1876,12 +1876,12 @@ void HintFly::VRender(PrimHeader** ppOt)
     }
 
     s16 tPageY = 256;
-    if (!mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit10_alternating_flag) && mBaseAnimatedWithPhysicsGameObject_Anim.field_84_vram_rect.y < 256u)
+    if (!mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit10_alternating_flag) && mBaseAnimatedWithPhysicsGameObject_Anim.mVramRect.y < 256u)
     {
         tPageY = 0;
     }
 
-    const s32 tpage = PSX_getTPage(field_110_bitMode, TPageAbr::eBlend_1, mBaseAnimatedWithPhysicsGameObject_Anim.field_84_vram_rect.x & 0xFFC0, tPageY);
+    const s32 tpage = PSX_getTPage(field_110_bitMode, TPageAbr::eBlend_1, mBaseAnimatedWithPhysicsGameObject_Anim.mVramRect.x & 0xFFC0, tPageY);
 
     Init_SetTPage(pTPage, 0, 0, tpage);
     OrderingTable_Add(OtLayer(ppOt, Layer::eLayer_Above_FG1_39), &pTPage->mBase);

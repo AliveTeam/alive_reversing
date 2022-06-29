@@ -151,7 +151,7 @@ s32 Greeter::CreateFromSaveState(const u8* pBuffer)
 
         pGreeter->mBaseAnimatedWithPhysicsGameObject_RGB.SetRGB(pState->field_2_r, pState->field_4_g, pState->field_6_b);
 
-        pGreeter->mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame = pState->field_20_current_frame;
+        pGreeter->mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame = pState->field_20_current_frame;
         pGreeter->mBaseAnimatedWithPhysicsGameObject_Anim.mFrameChangeCounter = pState->field_22_frame_change_counter;
 
         pGreeter->mBaseGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4, pState->field_25_bDrawable & 1);
@@ -208,7 +208,7 @@ s32 Greeter::VGetSaveState(u8* pSaveBuffer)
     pState->field_4_g = mBaseAnimatedWithPhysicsGameObject_RGB.g;
     pState->field_6_b = mBaseAnimatedWithPhysicsGameObject_RGB.b;
 
-    pState->field_20_current_frame = mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame;
+    pState->field_20_current_frame = mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame;
     pState->field_22_frame_change_counter = mBaseAnimatedWithPhysicsGameObject_Anim.mFrameChangeCounter;
     pState->field_25_bDrawable = mBaseGameObjectFlags.Get(BaseGameObject::eDrawable_Bit4);
     pState->field_24_bAnimRender = mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit3_Render);
@@ -331,7 +331,7 @@ void Greeter::BounceBackFromShot()
 void Greeter::HandleRollingAlong()
 {
     for (Path_TLV* pTlv = field_138_pTlv; pTlv;
-         pTlv = sPath_dword_BB47C0->TLV_Get_At_4DB290(pTlv,
+         pTlv = sPath_dword_BB47C0->TlvGetAt(pTlv,
                                                       mBaseAnimatedWithPhysicsGameObject_VelX + mBaseAnimatedWithPhysicsGameObject_XPos + mBaseAnimatedWithPhysicsGameObject_VelX,
                                                       mBaseAnimatedWithPhysicsGameObject_VelY + mBaseAnimatedWithPhysicsGameObject_YPos + mBaseAnimatedWithPhysicsGameObject_VelY,
                                                       mBaseAnimatedWithPhysicsGameObject_VelX + mBaseAnimatedWithPhysicsGameObject_XPos + mBaseAnimatedWithPhysicsGameObject_VelX,
@@ -582,7 +582,7 @@ BaseAliveGameObject* Greeter::GetMudToZap()
 
 void Greeter::VUpdate()
 {
-    if (Event_Get(kEventDeathReset))
+    if (EventGet(kEventDeathReset))
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
@@ -808,7 +808,7 @@ void Greeter::VUpdate()
                           + mBaseAnimatedWithPhysicsGameObject_YPos
                           + mBaseAnimatedWithPhysicsGameObject_VelY;
 
-            field_138_pTlv = sPath_dword_BB47C0->TLV_Get_At_4DB290(nullptr, xpos, ypos, xpos, ypos);
+            field_138_pTlv = sPath_dword_BB47C0->TlvGetAt(nullptr, xpos, ypos, xpos, ypos);
             HandleRollingAlong();
         }
     }
@@ -816,7 +816,7 @@ void Greeter::VUpdate()
     bool collisionCheck = true;
     if (field_13C_brain_state == GreeterBrainStates::eBrain_7_Fall)
     {
-        field_138_pTlv = sPath_dword_BB47C0->TLV_Get_At_4DB290(
+        field_138_pTlv = sPath_dword_BB47C0->TlvGetAt(
             nullptr,
             mBaseAnimatedWithPhysicsGameObject_XPos,
             mBaseAnimatedWithPhysicsGameObject_YPos,

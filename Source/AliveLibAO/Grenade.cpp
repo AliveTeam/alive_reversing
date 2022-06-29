@@ -124,7 +124,7 @@ void Grenade::VScreenChanged()
 
 void Grenade::VUpdate()
 {
-    if (Event_Get(kEventDeathReset))
+    if (EventGet(kEventDeathReset))
     {
         mBaseGameObjectFlags.Set(Options::eDead);
     }
@@ -350,11 +350,11 @@ s16 Grenade::InTheAir()
                 {
                     vol = 40;
                 }
-                SFX_Play_Mono(SoundEffect::GrenadeBounce_82, vol);
+                SfxPlayMono(SoundEffect::GrenadeBounce_82, vol);
                 field_118++;
-                Event_Broadcast(kEventNoise, this);
-                Event_Broadcast(kEventSuspiciousNoise, this);
-                Event_Broadcast(kEventSpeaking, this);
+                EventBroadcast(kEventNoise, this);
+                EventBroadcast(kEventSuspiciousNoise, this);
+                EventBroadcast(kEventSpeaking, this);
             }
         }
     }
@@ -385,10 +385,10 @@ s16 Grenade::InTheAir()
                     {
                         vol = 40;
                     }
-                    SFX_Play_Mono(SoundEffect::GrenadeBounce_82, vol, 0);
-                    Event_Broadcast(kEventNoise, this);
-                    Event_Broadcast(kEventSuspiciousNoise, this);
-                    Event_Broadcast(kEventSpeaking, this);
+                    SfxPlayMono(SoundEffect::GrenadeBounce_82, vol, 0);
+                    EventBroadcast(kEventNoise, this);
+                    EventBroadcast(kEventSuspiciousNoise, this);
+                    EventBroadcast(kEventSpeaking, this);
                 }
                 break;
 
@@ -405,10 +405,10 @@ s16 Grenade::InTheAir()
                         vol = 40;
                     }
 
-                    SFX_Play_Mono(SoundEffect::GrenadeBounce_82, vol, 0);
-                    Event_Broadcast(kEventNoise, this);
-                    Event_Broadcast(kEventSuspiciousNoise, this);
-                    Event_Broadcast(kEventSpeaking, this);
+                    SfxPlayMono(SoundEffect::GrenadeBounce_82, vol, 0);
+                    EventBroadcast(kEventNoise, this);
+                    EventBroadcast(kEventSuspiciousNoise, this);
+                    EventBroadcast(kEventSpeaking, this);
                 }
                 break;
 
@@ -443,7 +443,7 @@ s16 Grenade::OnCollision_BounceOff(BaseGameObject* pHit)
 
     pHit2->VOnThrowableHit(this);
 
-    SFX_Play_Mono(SoundEffect::RockBounceOnMine_29, 0, 0);
+    SfxPlayMono(SoundEffect::RockBounceOnMine_29, 0, 0);
     return 0;
 }
 
@@ -453,7 +453,7 @@ s16 Grenade::BlowUpAfterCountdown()
     const s16 timer = field_112_explode_timer;
     if (!(timer % 16))
     {
-        SFX_Play_Mono(SoundEffect::GreenTick_3, 0, 0);
+        SfxPlayMono(SoundEffect::GreenTick_3, 0, 0);
     }
 
     if (timer)

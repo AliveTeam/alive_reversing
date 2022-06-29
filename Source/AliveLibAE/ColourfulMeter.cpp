@@ -89,13 +89,13 @@ void ColourfulMeter::VScreenChanged()
 
 void ColourfulMeter::VUpdate()
 {
-    if (Event_Get(kEventDeathReset))
+    if (EventGet(kEventDeathReset))
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
         gTotalMeterBars_5C1BFA = 0;
     }
 
-    if (Event_Get(kEventDeathResetEnd))
+    if (EventGet(kEventDeathResetEnd))
     {
         gbDrawMeterCountDown_5C1BF8 = 0;
     }

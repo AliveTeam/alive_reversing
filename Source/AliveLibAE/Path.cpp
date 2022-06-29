@@ -214,7 +214,7 @@ Path_TLV* Path::TLV_Get_At_4DB4B0(s16 xpos, s16 ypos, s16 width, s16 height, Tlv
     return pTlvIter;
 }
 
-Path_TLV* Path::TLV_Get_At_4DB290(Path_TLV* pTlv, FP xpos, FP ypos, FP w, FP h)
+Path_TLV* Path::TlvGetAt(Path_TLV* pTlv, FP xpos, FP ypos, FP w, FP h)
 {
     const s32 xpos_converted = FP_GetExponent(xpos);
     const s32 ypos_converted = FP_GetExponent(ypos);

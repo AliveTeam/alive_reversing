@@ -62,7 +62,7 @@ void UXB::PlaySFX(SoundEffect sfxIdx)
             this->mBaseAnimatedWithPhysicsGameObject_YPos,
             0))
     {
-        SFX_Play_Mono(sfxIdx, 35);
+        SfxPlayMono(sfxIdx, 35);
     }
 }
 
@@ -428,7 +428,7 @@ void UXB::VUpdate()
 
     if (field_118_state != UXBState::eExploding_2)
     {
-        if (Event_Get(kEventDeathReset))
+        if (EventGet(kEventDeathReset))
         {
             if (field_11A_starting_state != UXBState::eDeactivated_3 || field_118_state == UXBState::eDeactivated_3)
             {

@@ -112,7 +112,7 @@ s32 Grenade::VGetSaveState(u8* pSaveBuffer)
 
     if (BaseAliveGameObjectCollisionLine)
     {
-        pState->field_28_line_type = BaseAliveGameObjectCollisionLine->field_8_type;
+        pState->field_28_line_type = BaseAliveGameObjectCollisionLine->mLineType;
     }
     else
     {
@@ -264,7 +264,7 @@ s16 Grenade::TimeToBlowUp()
     const s16 timer = field_122_explode_timer;
     if (!(timer % 16))
     {
-        SFX_Play_Mono(SoundEffect::GreenTick_2, 0);
+        SfxPlayMono(SoundEffect::GreenTick_2, 0);
     }
 
     if (timer)
@@ -281,7 +281,7 @@ void Grenade::VUpdate()
     auto pExplosion = sObjectIds.Find_Impl(field_11C_explosion_id);
 
 
-    if (Event_Get(kEventDeathReset))
+    if (EventGet(kEventDeathReset))
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
@@ -460,7 +460,7 @@ s16 Grenade::InTheAir(s16 blowUpOnFloorTouch)
     mBaseAnimatedWithPhysicsGameObject_XPos += mBaseAnimatedWithPhysicsGameObject_VelX;
     mBaseAnimatedWithPhysicsGameObject_YPos = mBaseAnimatedWithPhysicsGameObject_VelY + mBaseAnimatedWithPhysicsGameObject_YPos;
 
-    BaseAliveGameObjectPathTLV = sPath_dword_BB47C0->TLV_Get_At_4DB290(
+    BaseAliveGameObjectPathTLV = sPath_dword_BB47C0->TlvGetAt(
         nullptr,
         mBaseAnimatedWithPhysicsGameObject_XPos,
         mBaseAnimatedWithPhysicsGameObject_YPos,
@@ -475,7 +475,7 @@ s16 Grenade::InTheAir(s16 blowUpOnFloorTouch)
             return 1;
         }
 
-        BaseAliveGameObjectPathTLV = sPath_dword_BB47C0->TLV_Get_At_4DB290(
+        BaseAliveGameObjectPathTLV = sPath_dword_BB47C0->TlvGetAt(
             BaseAliveGameObjectPathTLV,
             mBaseAnimatedWithPhysicsGameObject_XPos,
             mBaseAnimatedWithPhysicsGameObject_YPos,
@@ -506,10 +506,10 @@ s16 Grenade::InTheAir(s16 blowUpOnFloorTouch)
             {
                 vol = 40;
             }
-            SFX_Play_Mono(SoundEffect::GrenadeBounce_68, vol);
-            Event_Broadcast(kEventNoise, this);
-            Event_Broadcast(kEventSuspiciousNoise, this);
-            Event_Broadcast(kEventSpeaking, this);
+            SfxPlayMono(SoundEffect::GrenadeBounce_68, vol);
+            EventBroadcast(kEventNoise, this);
+            EventBroadcast(kEventSuspiciousNoise, this);
+            EventBroadcast(kEventSpeaking, this);
         }
         else
         {
@@ -541,12 +541,12 @@ s16 Grenade::InTheAir(s16 blowUpOnFloorTouch)
                     vol = 40;
                 }
 
-                SFX_Play_Mono(SoundEffect::GrenadeBounce_68, vol);
+                SfxPlayMono(SoundEffect::GrenadeBounce_68, vol);
                 ++field_124;
 
-                Event_Broadcast(kEventNoise, this);
-                Event_Broadcast(kEventSuspiciousNoise, this);
-                Event_Broadcast(kEventSpeaking, this);
+                EventBroadcast(kEventNoise, this);
+                EventBroadcast(kEventSuspiciousNoise, this);
+                EventBroadcast(kEventSpeaking, this);
             }
         }
     }
@@ -562,7 +562,7 @@ s16 Grenade::InTheAir(s16 blowUpOnFloorTouch)
             mBaseAnimatedWithPhysicsGameObject_Scale == Scale::Fg ? kFgWalls : kBgWalls)
         == 1)
     {
-        switch (BaseAliveGameObjectCollisionLine->field_8_type)
+        switch (BaseAliveGameObjectCollisionLine->mLineType)
         {
             case 1u:
             case 5u:
@@ -576,10 +576,10 @@ s16 Grenade::InTheAir(s16 blowUpOnFloorTouch)
                     {
                         vol = 40;
                     }
-                    SFX_Play_Mono(SoundEffect::GrenadeBounce_68, vol);
-                    Event_Broadcast(kEventNoise, this);
-                    Event_Broadcast(kEventSuspiciousNoise, this);
-                    Event_Broadcast(kEventSpeaking, this);
+                    SfxPlayMono(SoundEffect::GrenadeBounce_68, vol);
+                    EventBroadcast(kEventNoise, this);
+                    EventBroadcast(kEventSuspiciousNoise, this);
+                    EventBroadcast(kEventSpeaking, this);
                 }
                 break;
 
@@ -595,10 +595,10 @@ s16 Grenade::InTheAir(s16 blowUpOnFloorTouch)
                     {
                         vol = 40;
                     }
-                    SFX_Play_Mono(SoundEffect::GrenadeBounce_68, vol);
-                    Event_Broadcast(kEventNoise, this);
-                    Event_Broadcast(kEventSuspiciousNoise, this);
-                    Event_Broadcast(kEventSpeaking, this);
+                    SfxPlayMono(SoundEffect::GrenadeBounce_68, vol);
+                    EventBroadcast(kEventNoise, this);
+                    EventBroadcast(kEventSuspiciousNoise, this);
+                    EventBroadcast(kEventSpeaking, this);
                 }
                 break;
 
@@ -644,7 +644,7 @@ s16 Grenade::OnCollision_BounceOff(BaseGameObject* pHit)
 
     pHit2->VOnThrowableHit(this);
 
-    SFX_Play_Mono(SoundEffect::RockBounceOnMine_24, 0);
+    SfxPlayMono(SoundEffect::RockBounceOnMine_24, 0);
     return 0;
 }
 

@@ -67,13 +67,13 @@ Explosion::Explosion(FP xpos, FP ypos, FP scale, bool bSmall)
 
 void Explosion::VUpdate()
 {
-    Event_Broadcast(kEventShooting, this);
-    Event_Broadcast(kEventLoudNoise, this);
-    Event_Broadcast(kEventSuspiciousNoise, this);
+    EventBroadcast(kEventShooting, this);
+    EventBroadcast(kEventLoudNoise, this);
+    EventBroadcast(kEventSuspiciousNoise, this);
 
     PSX_RECT rect = {};
 
-    switch (mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame)
+    switch (mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame)
     {
         case 2:
             rect.x = FP_GetExponent(FP_FromInteger(-20) * field_FC_explosion_size);
@@ -114,7 +114,7 @@ void Explosion::VUpdate()
             break;
     }
 
-    if (mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame > 9)
+    if (mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame > 9)
     {
         if (field_F4_bSmall)
         {
@@ -126,7 +126,7 @@ void Explosion::VUpdate()
         }
     }
 
-    if (mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame == 1)
+    if (mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame == 1)
     {
         u8** ppRes = field_F4_bSmall ? Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kSmallExplo2ResID) : Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kExplo2ResID);
         if (ppRes)
@@ -148,7 +148,7 @@ void Explosion::VUpdate()
                 pParticle->mVisualFlags.Clear(VisualFlags::eApplyShadowZoneColour);
                 pParticle->mBaseAnimatedWithPhysicsGameObject_Anim.mRenderMode = TPageAbr::eBlend_1;
 
-                if (mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame == 3)
+                if (mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame == 3)
                 {
                     pParticle->mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit5_FlipX);
                     pParticle->mBaseAnimatedWithPhysicsGameObject_SpriteScale = mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromDouble(0.5);

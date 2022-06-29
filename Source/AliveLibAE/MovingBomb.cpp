@@ -136,7 +136,7 @@ void MovingBomb::BlowUp()
     field_118_state = States::eBlowingUp_6;
     mBaseAnimatedWithPhysicsGameObject_VelY = FP_FromInteger(0);
     field_120_timer = sGnFrame + 1;
-    SFX_Play_Mono(SoundEffect::GreenTick_2, 100, mBaseAnimatedWithPhysicsGameObject_SpriteScale);
+    SfxPlayMono(SoundEffect::GreenTick_2, 100, mBaseAnimatedWithPhysicsGameObject_SpriteScale);
 }
 
 void MovingBomb::VRender(PrimHeader** ot)
@@ -253,7 +253,7 @@ s16 MovingBomb::HitObject()
 
 void MovingBomb::VUpdate()
 {
-    if (Event_Get(kEventDeathReset))
+    if (EventGet(kEventDeathReset))
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
@@ -271,7 +271,7 @@ void MovingBomb::VUpdate()
 
     if (gMovingBomb_5C300C == nullptr || gMovingBomb_5C300C == this)
     {
-        if (mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame != 0 && mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame != 7)
+        if (mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame != 0 && mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame != 7)
         {
             gMovingBomb_5C300C = this;
         }
@@ -289,11 +289,11 @@ void MovingBomb::VUpdate()
                 {
                     if (field_118_state == States::eWaitABit_4)
                     {
-                        field_130_sound_channels = SFX_Play_Mono(SoundEffect::SecurityOrb_48, 55, mBaseAnimatedWithPhysicsGameObject_SpriteScale);
+                        field_130_sound_channels = SfxPlayMono(SoundEffect::SecurityOrb_48, 55, mBaseAnimatedWithPhysicsGameObject_SpriteScale);
                     }
                     else
                     {
-                        field_130_sound_channels = SFX_Play_Mono(SoundEffect::SecurityOrb_48, 80, mBaseAnimatedWithPhysicsGameObject_SpriteScale);
+                        field_130_sound_channels = SfxPlayMono(SoundEffect::SecurityOrb_48, 80, mBaseAnimatedWithPhysicsGameObject_SpriteScale);
                     }
                     gMovingBomb_5C300C = this;
                 }
@@ -306,7 +306,7 @@ void MovingBomb::VUpdate()
                     }
                     else
                     {
-                        field_130_sound_channels = SFX_Play_Mono(SoundEffect::SecurityOrb_48, 12, mBaseAnimatedWithPhysicsGameObject_SpriteScale);
+                        field_130_sound_channels = SfxPlayMono(SoundEffect::SecurityOrb_48, 12, mBaseAnimatedWithPhysicsGameObject_SpriteScale);
                         gMovingBomb_5C300C = this;
                     }
                 }
@@ -317,7 +317,7 @@ void MovingBomb::VUpdate()
     switch (field_118_state)
     {
         case States::eTriggeredByAlarm_0:
-            if (Event_Get(kEventAlarm))
+            if (EventGet(kEventAlarm))
             {
                 mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit3_Render);
                 field_118_state = States::eMoving_2;
@@ -397,7 +397,7 @@ void MovingBomb::VUpdate()
         case States::eBlowingUp_6:
             if (field_120_timer <= static_cast<s32>(sGnFrame))
             {
-                SFX_Play_Mono(SoundEffect::GreenTick_2, 100, mBaseAnimatedWithPhysicsGameObject_SpriteScale);
+                SfxPlayMono(SoundEffect::GreenTick_2, 100, mBaseAnimatedWithPhysicsGameObject_SpriteScale);
 
                 mHealth = FP_FromInteger(0);
 

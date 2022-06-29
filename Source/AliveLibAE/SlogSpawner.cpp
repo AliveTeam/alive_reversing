@@ -38,7 +38,7 @@ void SlogSpawner::VScreenChanged()
 
 void SlogSpawner::VUpdate()
 {
-    if (Event_Get(kEventDeathReset))
+    if (EventGet(kEventDeathReset))
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
@@ -55,7 +55,7 @@ void SlogSpawner::VUpdate()
             }
 
             ++field_24_tlv_saved_slog_count;
-            SFX_Play_Mono(SoundEffect::SlogSpawn_115, 0);
+            SfxPlayMono(SoundEffect::SlogSpawn_115, 0);
 
             if (field_24_tlv_saved_slog_count >= field_36_max_slogs)
             {

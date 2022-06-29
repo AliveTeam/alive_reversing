@@ -121,7 +121,7 @@ void Bullet::VUpdate()
 
                             if (Math_RandomRange(0, 100) < 90)
                             {
-                                SFX_Play_Mono(static_cast<SoundEffect>(Math_RandomRange(SoundEffect::Bullet1_0, SoundEffect::Bullet2_1)), volume);
+                                SfxPlayMono(static_cast<SoundEffect>(Math_RandomRange(SoundEffect::Bullet1_0, SoundEffect::Bullet2_1)), volume);
                             }
                         }
 
@@ -156,7 +156,7 @@ void Bullet::VUpdate()
 
                 if (Math_RandomRange(0, 100) < 90)
                 {
-                    SFX_Play_Mono(static_cast<SoundEffect>(Math_RandomRange(SoundEffect::Bullet1_0, SoundEffect::Bullet2_1)), volume);
+                    SfxPlayMono(static_cast<SoundEffect>(Math_RandomRange(SoundEffect::Bullet1_0, SoundEffect::Bullet2_1)), volume);
                 }
                 mBaseGameObjectFlags.Set(BaseGameObject::eDead);
                 return;
@@ -201,7 +201,7 @@ void Bullet::VUpdate()
 
                     if (Math_RandomRange(0, 100) < 90)
                     {
-                        SFX_Play_Mono(static_cast<SoundEffect>(Math_RandomRange(SoundEffect::Bullet1_0, SoundEffect::Bullet2_1)), volume);
+                        SfxPlayMono(static_cast<SoundEffect>(Math_RandomRange(SoundEffect::Bullet1_0, SoundEffect::Bullet2_1)), volume);
                     }
                 }
 
@@ -218,7 +218,7 @@ void Bullet::VUpdate()
 
             if (Math_RandomRange(0, 100) < 70)
             {
-                SFX_Play_Mono(static_cast<SoundEffect>(Math_RandomRange(SoundEffect::Bullet1_0, SoundEffect::Bullet2_1)), volume);
+                SfxPlayMono(static_cast<SoundEffect>(Math_RandomRange(SoundEffect::Bullet1_0, SoundEffect::Bullet2_1)), volume);
             }
             mBaseGameObjectFlags.Set(BaseGameObject::eDead);
             return;
@@ -259,7 +259,7 @@ void Bullet::VUpdate()
                 relive_new Spark(hitX, hitY, FP_FromInteger(1), 9, -31, 159, SparkType::eSmallChantParticle_0);
                 New_Smoke_Particles(hitX, hitY, FP_FromInteger(1), 3, 128u, 128u, 128u);
             }
-            SFX_Play_Mono(static_cast<SoundEffect>(Math_RandomRange(SoundEffect::Bullet1_0, SoundEffect::Bullet2_1)), 75);
+            SfxPlayMono(static_cast<SoundEffect>(Math_RandomRange(SoundEffect::Bullet1_0, SoundEffect::Bullet2_1)), 75);
             mBaseGameObjectFlags.Set(BaseGameObject::eDead);
             return;
         }
@@ -305,7 +305,7 @@ void Bullet::VUpdate()
                     relive_new Spark(hitX, hitY, FP_FromInteger(1), 9, -31, 159, SparkType::eSmallChantParticle_0);
                     New_Smoke_Particles(hitX, hitY, FP_FromInteger(1), 3, 128u, 128u, 128u);
                 }
-                SFX_Play_Mono(static_cast<SoundEffect>(Math_RandomRange(SoundEffect::Bullet1_0, SoundEffect::Bullet2_1)), 75);
+                SfxPlayMono(static_cast<SoundEffect>(Math_RandomRange(SoundEffect::Bullet1_0, SoundEffect::Bullet2_1)), 75);
             }
             mBaseGameObjectFlags.Set(BaseGameObject::eDead);
             return;
@@ -323,7 +323,7 @@ bool Bullet::InZBulletCover(FP xpos, FP ypos, const PSX_RECT& objRect)
     while (1)
     {
         // Go to the next entry (or first if first call).
-        pZCover = sPath_dword_BB47C0->TLV_Get_At_4DB290(
+        pZCover = sPath_dword_BB47C0->TlvGetAt(
             pZCover,
             xpos,
             ypos,

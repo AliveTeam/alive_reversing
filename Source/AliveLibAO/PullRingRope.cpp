@@ -149,13 +149,13 @@ s16 PullRingRope::Pull(BaseAliveGameObject* pFrom)
         const AnimRecord& rec = AO::AnimRec(AnimId::Pullring_Desert_UseBegin);
         mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(rec.mFrameTableOffset, nullptr);
     }
-    SFX_Play_Mono(SoundEffect::RingRopePull_65, 0, 0);
+    SfxPlayMono(SoundEffect::RingRopePull_65, 0, 0);
     return 1;
 }
 
 void PullRingRope::VUpdate()
 {
-    if (Event_Get(kEventDeathReset))
+    if (EventGet(kEventDeathReset))
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
@@ -172,9 +172,9 @@ void PullRingRope::VUpdate()
     switch (field_EC_state)
     {
         case States::eBeingPulled_1:
-            if (mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame == 2)
+            if (mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame == 2)
             {
-                SFX_Play_Mono(SoundEffect::RingRopePull_65, 0);
+                SfxPlayMono(SoundEffect::RingRopePull_65, 0);
             }
 
             mBaseAnimatedWithPhysicsGameObject_YPos += mBaseAnimatedWithPhysicsGameObject_VelY;
@@ -188,7 +188,7 @@ void PullRingRope::VUpdate()
 
                 if (gMap.mCurrentLevel == EReliveLevelIds::eRuptureFarms || gMap.mCurrentLevel == EReliveLevelIds::eBoardRoom || gMap.mCurrentLevel == EReliveLevelIds::eRuptureFarmsReturn)
                 {
-                    SFX_Play_Mono(SoundEffect::IndustrialTrigger_97, 0);
+                    SfxPlayMono(SoundEffect::IndustrialTrigger_97, 0);
                 }
 
                 const auto oldSwitchValue = SwitchStates_Get(field_EE_switch_id);

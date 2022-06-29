@@ -41,28 +41,28 @@ const Lever_Data gLeverData_4BCF40[16] = {
 
 void Lever::VUpdate()
 {
-    if (Event_Get(kEventDeathReset))
+    if (EventGet(kEventDeathReset))
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 
     if (field_E8_state == LeverState::ePulled_1)
     {
-        if (mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame == 3)
+        if (mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame == 3)
         {
-            SFX_Play_Mono(SoundEffect::LeverPull_75, 0, 0);
+            SfxPlayMono(SoundEffect::LeverPull_75, 0, 0);
         }
 
         if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
         {
-            Event_Broadcast(kEventNoise, this);
-            Event_Broadcast(kEventSuspiciousNoise, this);
+            EventBroadcast(kEventNoise, this);
+            EventBroadcast(kEventSuspiciousNoise, this);
             const s32 lvl_idx = static_cast<s32>(MapWrapper::ToAO(gMap.mCurrentLevel));
             if (gMap.mCurrentLevel == EReliveLevelIds::eRuptureFarms
                 || gMap.mCurrentLevel == EReliveLevelIds::eBoardRoom
                 || gMap.mCurrentLevel == EReliveLevelIds::eRuptureFarmsReturn)
             {
-                SFX_Play_Mono(SoundEffect::IndustrialTrigger_97, 60, 0);
+                SfxPlayMono(SoundEffect::IndustrialTrigger_97, 60, 0);
             }
             field_E8_state = LeverState::eFinished_2;
 

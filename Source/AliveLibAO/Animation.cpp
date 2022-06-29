@@ -103,15 +103,15 @@ s16* Animation_OnFrame_Slig(BaseGameObject* pObj, s16* pData)
 
     if (pSlig->mBaseAnimatedWithPhysicsGameObject_SpriteScale == FP_FromDouble(0.5))
     {
-        SFX_Play_Mono(SoundEffect::SligShoot_6, 85);
+        SfxPlayMono(SoundEffect::SligShoot_6, 85);
     }
     else
     {
-        SFX_Play_Mono(SoundEffect::SligShoot_6, 0);
+        SfxPlayMono(SoundEffect::SligShoot_6, 0);
     }
 
-    Event_Broadcast(kEventShooting, pSlig);
-    Event_Broadcast(kEventLoudNoise, pSlig);
+    EventBroadcast(kEventShooting, pSlig);
+    EventBroadcast(kEventLoudNoise, pSlig);
 
     Dove::All_FlyAway();
 
@@ -156,7 +156,7 @@ s16* Slog_OnFrame(BaseGameObject* pObj, s16* pData)
 
                     pSlog->field_110 = 1;
 
-                    SFX_Play_Mono(SoundEffect::SlogBite_39, 0);
+                    SfxPlayMono(SoundEffect::SlogBite_39, 0);
                 }
             }
         }
@@ -259,9 +259,9 @@ void Animation::UploadTexture(const FrameHeader* pFrameHeader, const PSX_RECT& v
             {
                 Decompress_Type_2(
                     (u8*) &pFrameHeader[1],
-                    *field_24_dbuf,
+                    *mDbuf,
                     2 * pFrameHeader->field_5_height * width_bpp_adjusted);
-                renderer.Upload(AnimFlagsToBitDepth(mAnimFlags), vram_rect, *field_24_dbuf);
+                renderer.Upload(AnimFlagsToBitDepth(mAnimFlags), vram_rect, *mDbuf);
             }
             break;
 
@@ -271,10 +271,10 @@ void Animation::UploadTexture(const FrameHeader* pFrameHeader, const PSX_RECT& v
                 // TODO: Refactor structure to get pixel data/remove casts
                 Decompress_Type_3(
                     (u8*) &pFrameHeader[1],
-                    *field_24_dbuf,
+                    *mDbuf,
                     *(u32*) &pFrameHeader->field_8_width2,
                     2 * pFrameHeader->field_5_height * width_bpp_adjusted);
-                renderer.Upload(AnimFlagsToBitDepth(mAnimFlags), vram_rect, *field_24_dbuf);
+                renderer.Upload(AnimFlagsToBitDepth(mAnimFlags), vram_rect, *mDbuf);
             }
             break;
 
@@ -283,8 +283,8 @@ void Animation::UploadTexture(const FrameHeader* pFrameHeader, const PSX_RECT& v
             if (EnsureDecompressionBuffer())
             {
                 // TODO: Refactor structure to get pixel data/remove casts
-                Decompress_Type_4Or5(reinterpret_cast<const u8*>(&pFrameHeader->field_8_width2), *field_24_dbuf);
-                renderer.Upload(AnimFlagsToBitDepth(mAnimFlags), vram_rect, *field_24_dbuf);
+                Decompress_Type_4Or5(reinterpret_cast<const u8*>(&pFrameHeader->field_8_width2), *mDbuf);
+                renderer.Upload(AnimFlagsToBitDepth(mAnimFlags), vram_rect, *mDbuf);
             }
             break;
 
@@ -297,11 +297,11 @@ void Animation::UploadTexture(const FrameHeader* pFrameHeader, const PSX_RECT& v
 
 bool Animation::EnsureDecompressionBuffer()
 {
-    if (!field_24_dbuf)
+    if (!mDbuf)
     {
-        field_24_dbuf = ResourceManager::Alloc_New_Resource_454F20(ResourceManager::Resource_DecompressionBuffer, 0, field_28_dbuf_size);
+        mDbuf = ResourceManager::Alloc_New_Resource_454F20(ResourceManager::Resource_DecompressionBuffer, 0, mDbufSize);
     }
-    return field_24_dbuf != nullptr;
+    return mDbuf != nullptr;
 }
 
 void Animation::DecompressFrame()
@@ -320,7 +320,7 @@ void Animation::DecompressFrame()
     const FrameHeader* pFrameHeader = reinterpret_cast<const FrameHeader*>(&(*field_20_ppBlock)[pFrameInfoHeader->field_0_frame_header_offset]);
 
     // No VRAM allocation
-    if (field_84_vram_rect.w <= 0)
+    if (mVramRect.w <= 0)
     {
         return;
     }
@@ -343,22 +343,22 @@ void Animation::DecompressFrame()
     }
 
     PSX_RECT vram_rect = {
-        field_84_vram_rect.x,
-        field_84_vram_rect.y,
+        mVramRect.x,
+        mVramRect.y,
         width_bpp_adjusted,
         pFrameHeader->field_5_height,
     };
 
     // Clamp width
-    if (vram_rect.w > field_84_vram_rect.w)
+    if (vram_rect.w > mVramRect.w)
     {
-        vram_rect.w = field_84_vram_rect.w;
+        vram_rect.w = mVramRect.w;
     }
 
     // Clamp height
-    if (pFrameHeader->field_5_height > field_84_vram_rect.h)
+    if (pFrameHeader->field_5_height > mVramRect.h)
     {
-        vram_rect.h = field_84_vram_rect.h;
+        vram_rect.h = mVramRect.h;
     }
 
     UploadTexture(pFrameHeader, vram_rect, width_bpp_adjusted);
@@ -423,7 +423,7 @@ void Animation::VRender(s32 xpos, s32 ypos, PrimHeader** ppOt, s16 width, s32 he
     }
 
     s16 tPageY = 0;
-    if (mAnimFlags.Get(AnimFlags::eBit10_alternating_flag) || field_84_vram_rect.y >= 256)
+    if (mAnimFlags.Get(AnimFlags::eBit10_alternating_flag) || mVramRect.y >= 256)
     {
         tPageY = 256;
     }
@@ -432,16 +432,16 @@ void Animation::VRender(s32 xpos, s32 ypos, PrimHeader** ppOt, s16 width, s32 he
         tPageY = 0;
     }
 
-    Poly_FT4* pPoly = &field_2C_ot_data[gPsxDisplay_504C78.field_A_buffer_index];
+    Poly_FT4* pPoly = &mOtData[gPsxDisplay_504C78.field_A_buffer_index];
     PolyFT4_Init(pPoly);
     Poly_Set_SemiTrans(&pPoly->mBase.header, mAnimFlags.Get(AnimFlags::eBit15_bSemiTrans));
     Poly_Set_Blending(&pPoly->mBase.header, mAnimFlags.Get(AnimFlags::eBit16_bBlending));
 
     SetRGB0(pPoly, mRed, mGreen, mBlue);
-    SetTPage(pPoly, static_cast<s16>(PSX_getTPage(textureMode, mRenderMode, field_84_vram_rect.x, tPageY)));
-    SetClut(pPoly, static_cast<s16>(PSX_getClut(field_8C_pal_vram_xy.x, field_8C_pal_vram_xy.y)));
+    SetTPage(pPoly, static_cast<s16>(PSX_getTPage(textureMode, mRenderMode, mVramRect.x, tPageY)));
+    SetClut(pPoly, static_cast<s16>(PSX_getClut(mPalVramXY.x, mPalVramXY.y)));
 
-    u8 u1 = field_84_vram_rect.x & 63;
+    u8 u1 = mVramRect.x & 63;
     if (textureMode == TPageMode::e8Bit_1)
     {
         // 8 bit
@@ -457,7 +457,7 @@ void Animation::VRender(s32 xpos, s32 ypos, PrimHeader** ppOt, s16 width, s32 he
         // 16 bit
     }
 
-    const u8 v0 = static_cast<u8>(field_84_vram_rect.y);
+    const u8 v0 = static_cast<u8>(mVramRect.y);
     const u8 u0 = pFrameHeader->field_4_width + u1 - 1;
     const u8 v1 = pFrameHeader->field_5_height + v0 - 1;
 
@@ -519,7 +519,7 @@ void Animation::VCleanUp()
 
     Animation_Pal_Free();
 
-    ResourceManager::FreeResource_455550(field_24_dbuf);
+    ResourceManager::FreeResource_455550(mDbuf);
 }
 
 void Animation::VDecode()
@@ -537,7 +537,7 @@ bool Animation::DecodeCommon()
         return false;
     }
 
-    AnimationHeader* pAnimationHeader = reinterpret_cast<AnimationHeader*>(&(*field_20_ppBlock)[field_18_frame_table_offset]);
+    AnimationHeader* pAnimationHeader = reinterpret_cast<AnimationHeader*>(&(*field_20_ppBlock)[mFrameTableOffset]);
     if (pAnimationHeader->field_2_num_frames == 1 && mAnimFlags.Get(AnimFlags::eBit12_ForwardLoopCompleted))
     {
         return false;
@@ -547,28 +547,28 @@ bool Animation::DecodeCommon()
     if (mAnimFlags.Get(AnimFlags::eBit19_LoopBackwards))
     {
         // Loop backwards
-        const s16 prevFrameNum = --field_92_current_frame;
-        mFrameChangeCounter = static_cast<s16>(field_10_frame_delay);
+        const s16 prevFrameNum = --mCurrentFrame;
+        mFrameChangeCounter = static_cast<s16>(mFrameDelay);
 
         if (prevFrameNum < pAnimationHeader->field_4_loop_start_frame)
         {
             if (mAnimFlags.Get(AnimFlags::eBit8_Loop))
             {
                 // Loop to last frame
-                field_92_current_frame = pAnimationHeader->field_2_num_frames - 1;
+                mCurrentFrame = pAnimationHeader->field_2_num_frames - 1;
             }
             else
             {
                 // Stay on current frame
                 mFrameChangeCounter = 0;
-                field_92_current_frame = prevFrameNum + 1;
+                mCurrentFrame = prevFrameNum + 1;
             }
 
             // For some reason eBit12_ForwardLoopCompleted isn't set when going backwards
         }
 
         // Is first (last since running backwards) frame?
-        if (field_92_current_frame == 0)
+        if (mCurrentFrame == 0)
         {
             isLastFrame = true;
         }
@@ -576,8 +576,8 @@ bool Animation::DecodeCommon()
     else
     {
         // Loop forwards
-        const s16 nextFrameNum = ++field_92_current_frame;
-        mFrameChangeCounter = static_cast<s16>(field_10_frame_delay);
+        const s16 nextFrameNum = ++mCurrentFrame;
+        mFrameChangeCounter = static_cast<s16>(mFrameDelay);
 
         // Animation reached end point
         if (nextFrameNum >= pAnimationHeader->field_2_num_frames)
@@ -585,12 +585,12 @@ bool Animation::DecodeCommon()
             if (mAnimFlags.Get(AnimFlags::eBit8_Loop))
             {
                 // Loop back to loop start frame
-                field_92_current_frame = pAnimationHeader->field_4_loop_start_frame;
+                mCurrentFrame = pAnimationHeader->field_4_loop_start_frame;
             }
             else
             {
                 // Stay on current frame
-                field_92_current_frame = nextFrameNum - 1;
+                mCurrentFrame = nextFrameNum - 1;
                 mFrameChangeCounter = 0;
             }
 
@@ -598,7 +598,7 @@ bool Animation::DecodeCommon()
         }
 
         // Is last frame ?
-        if (field_92_current_frame == pAnimationHeader->field_2_num_frames - 1)
+        if (mCurrentFrame == pAnimationHeader->field_2_num_frames - 1)
         {
             isLastFrame = true;
         }
@@ -618,7 +618,7 @@ bool Animation::DecodeCommon()
 
 void Animation::Invoke_CallBacks()
 {
-    if (field_1C_fn_ptr_array)
+    if (mFnPtrArray)
     {
         FrameInfoHeader* pFrameHeaderCopy = Get_FrameHeader(-1);
 
@@ -629,14 +629,14 @@ void Animation::Invoke_CallBacks()
         const u32* pCallBackData = reinterpret_cast<const u32*>(&pFrameHeaderCopy->field_8_data.points[3]);
         for (s32 i = 0; i < pFrameHeaderCopy->field_6_count; i++)
         {
-            const auto pFnCallBack = field_1C_fn_ptr_array[*pCallBackData];
+            const auto pFnCallBack = mFnPtrArray[*pCallBackData];
             if (!pFnCallBack)
             {
                 break;
             }
             pCallBackData++; // Skip the array index
             // Pass the data pointer into the call back which will then read and skip any extra data
-            pCallBackData += *pFnCallBack(field_94_pGameObj, (s16*) pCallBackData);
+            pCallBackData += *pFnCallBack(mGameObj, (s16*) pCallBackData);
         }
     }
 }
@@ -654,10 +654,10 @@ s16 Animation::Set_Animation_Data(s32 frameTableOffset, u8** pAnimRes)
         return 0;
     }
 
-    field_18_frame_table_offset = frameTableOffset;
+    mFrameTableOffset = frameTableOffset;
 
-    AnimationHeader* pAnimationHeader = reinterpret_cast<AnimationHeader*>(&(*field_20_ppBlock)[field_18_frame_table_offset]);
-    field_10_frame_delay = pAnimationHeader->field_0_fps;
+    AnimationHeader* pAnimationHeader = reinterpret_cast<AnimationHeader*>(&(*field_20_ppBlock)[mFrameTableOffset]);
+    mFrameDelay = pAnimationHeader->field_0_fps;
 
     mAnimFlags.Clear(AnimFlags::eBit12_ForwardLoopCompleted);
     mAnimFlags.Clear(AnimFlags::eBit18_IsLastFrame);
@@ -670,13 +670,13 @@ s16 Animation::Set_Animation_Data(s32 frameTableOffset, u8** pAnimRes)
     }
 
     mFrameChangeCounter = 1;
-    field_92_current_frame = -1;
+    mCurrentFrame = -1;
 
     VDecode();
 
     // Reset to start frame
     mFrameChangeCounter = 1;
-    field_92_current_frame = -1;
+    mCurrentFrame = -1;
 
     return 1;
 }
@@ -688,14 +688,14 @@ void Animation::Animation_Pal_Free()
         ResourceManager::FreeResource_455550(field_20_ppBlock);
     }
 
-    if (field_84_vram_rect.w > 0)
+    if (mVramRect.w > 0)
     {
-        Vram_free_450CE0({field_84_vram_rect.x, field_84_vram_rect.y}, {field_84_vram_rect.w, field_84_vram_rect.h});
+        Vram_free_450CE0({mVramRect.x, mVramRect.y}, {mVramRect.w, mVramRect.h});
     }
 
-    if (field_90_pal_depth > 0)
+    if (mPalDepth > 0)
     {
-        IRenderer::GetRenderer()->PalFree(IRenderer::PalRecord{field_8C_pal_vram_xy.x, field_8C_pal_vram_xy.y, field_90_pal_depth});
+        IRenderer::GetRenderer()->PalFree(IRenderer::PalRecord{mPalVramXY.x, mPalVramXY.y, mPalDepth});
     }
 }
 
@@ -708,7 +708,7 @@ void Animation::SetFrame(s16 newFrame)
             newFrame = 0;
         }
 
-        AnimationHeader* pHead = reinterpret_cast<AnimationHeader*>(*field_20_ppBlock + field_18_frame_table_offset); // TODO: Make getting offset to animation header cleaner
+        AnimationHeader* pHead = reinterpret_cast<AnimationHeader*>(*field_20_ppBlock + mFrameTableOffset); // TODO: Make getting offset to animation header cleaner
 
         if (newFrame > pHead->field_2_num_frames)
         {
@@ -716,7 +716,7 @@ void Animation::SetFrame(s16 newFrame)
         }
 
         mFrameChangeCounter = 1;
-        field_92_current_frame = newFrame - 1;
+        mCurrentFrame = newFrame - 1;
     }
 }
 
@@ -731,10 +731,10 @@ FrameInfoHeader* Animation::Get_FrameHeader(s32 frame)
 
     if (frame < -1 || frame == -1)
     {
-        frame = field_92_current_frame != -1 ? field_92_current_frame : 0;
+        frame = mCurrentFrame != -1 ? mCurrentFrame : 0;
     }
 
-    AnimationHeader* pHead = reinterpret_cast<AnimationHeader*>(*field_20_ppBlock + field_18_frame_table_offset); // TODO: Make getting offset to animation header cleaner
+    AnimationHeader* pHead = reinterpret_cast<AnimationHeader*>(*field_20_ppBlock + mFrameTableOffset); // TODO: Make getting offset to animation header cleaner
     u32 frameOffset = pHead->mFrameOffsets[frame];
 
     FrameInfoHeader* pFrame = reinterpret_cast<FrameInfoHeader*>(*field_20_ppBlock + frameOffset);
@@ -754,7 +754,7 @@ FrameInfoHeader* Animation::Get_FrameHeader(s32 frame)
 
 void Animation::Get_Frame_Rect(PSX_RECT* pRect)
 {
-    Poly_FT4* pPoly = &field_2C_ot_data[gPsxDisplay_504C78.field_A_buffer_index];
+    Poly_FT4* pPoly = &mOtData[gPsxDisplay_504C78.field_A_buffer_index];
     if (!mAnimFlags.Get(AnimFlags::eBit20_use_xy_offset))
     {
         Poly_FT4_Get_Rect(pRect, pPoly);
@@ -780,7 +780,7 @@ void Animation::Get_Frame_Rect(PSX_RECT* pRect)
 
 s16 Animation::Get_Frame_Count()
 {
-    AnimationHeader* pHead = reinterpret_cast<AnimationHeader*>(*field_20_ppBlock + field_18_frame_table_offset); // TODO: Make getting offset to animation header cleaner
+    AnimationHeader* pHead = reinterpret_cast<AnimationHeader*>(*field_20_ppBlock + mFrameTableOffset); // TODO: Make getting offset to animation header cleaner
     return pHead->field_2_num_frames;
 }
 
@@ -789,17 +789,17 @@ s16 Animation::Init(s32 frameTableOffset, DynamicArray* /*animList*/, BaseGameOb
     FrameTableOffsetExists(frameTableOffset, false, maxW, maxH);
     mAnimFlags.Raw().all = 0; // TODO extra - init to 0's first - this may be wrong if any bits are explicitly set before this is called
 
-    field_18_frame_table_offset = frameTableOffset;
+    mFrameTableOffset = frameTableOffset;
     field_20_ppBlock = ppAnimData;
-    field_1C_fn_ptr_array = nullptr;
-    field_24_dbuf = nullptr;
+    mFnPtrArray = nullptr;
+    mDbuf = nullptr;
 
     if (!ppAnimData)
     {
         return 0;
     }
 
-    field_94_pGameObj = pGameObj;
+    mGameObj = pGameObj;
     AnimationHeader* pHeader = reinterpret_cast<AnimationHeader*>(&(*ppAnimData)[frameTableOffset]);
 
     mAnimFlags.Clear(AnimFlags::eBit1);
@@ -819,17 +819,17 @@ s16 Animation::Init(s32 frameTableOffset, DynamicArray* /*animList*/, BaseGameOb
     mAnimFlags.Clear(AnimFlags::eBit13_Is8Bit);
 
     // Clear vram/pal inits to not allocated
-    field_84_vram_rect.w = 0;
-    field_90_pal_depth = 0;
+    mVramRect.w = 0;
+    mPalDepth = 0;
 
     mAnimFlags.Set(AnimFlags::eBit17_bOwnPal);
 
     mAnimFlags.Clear(AnimFlags::eBit15_bSemiTrans);
     mAnimFlags.Set(AnimFlags::eBit16_bBlending);
 
-    field_10_frame_delay = pHeader->field_0_fps;
+    mFrameDelay = pHeader->field_0_fps;
     mFrameChangeCounter = 1;
-    field_92_current_frame = -1;
+    mCurrentFrame = -1;
     mRenderMode = TPageAbr::eBlend_0;
     mBlue = 0;
     mGreen = 0;
@@ -885,7 +885,7 @@ s16 Animation::Init(s32 frameTableOffset, DynamicArray* /*animList*/, BaseGameOb
             return 0;
     }
 
-    if (!vram_alloc_450B20(maxW, maxH, pFrameHeader->field_6_colour_depth, &field_84_vram_rect))
+    if (!vram_alloc_450B20(maxW, maxH, pFrameHeader->field_6_colour_depth, &mVramRect))
     {
         // Seems like this can at least happen with many bomb particles
         // this will be fixed in the future
@@ -901,16 +901,16 @@ s16 Animation::Init(s32 frameTableOffset, DynamicArray* /*animList*/, BaseGameOb
             ALIVE_FATAL("PalAlloc failed");
         }
 
-        field_8C_pal_vram_xy.x = palRec.x;
-        field_8C_pal_vram_xy.y = palRec.y;
-        field_90_pal_depth = palRec.depth;
+        mPalVramXY.x = palRec.x;
+        mPalVramXY.y = palRec.y;
+        mPalDepth = palRec.depth;
 
         IRenderer::GetRenderer()->PalSetData(palRec, pClut + 4); // +4 Skip len, load pal
     }
 
-    field_28_dbuf_size = maxH * (vram_width + 3);
-    field_28_dbuf_size += 8; // Add 8 for some reason
-    field_24_dbuf = nullptr;
+    mDbufSize = maxH * (vram_width + 3);
+    mDbufSize += 8; // Add 8 for some reason
+    mDbuf = nullptr;
 	
     // NOTE: OG bug or odd compiler code gen? Why isn't it using the passed in list which appears to always be this anyway ??
     if (!gAnimations->Push_Back(this))
@@ -923,7 +923,7 @@ s16 Animation::Init(s32 frameTableOffset, DynamicArray* /*animList*/, BaseGameOb
     VDecode();
 
     mFrameChangeCounter = 1;
-    field_92_current_frame = -1;
+    mCurrentFrame = -1;
 
     return 1;
 }
@@ -934,12 +934,12 @@ void Animation::LoadPal(u8** pAnimData, s32 palOffset)
     {
         // +4 = skip CLUT len
         const u8* pPalDataOffset = &(*pAnimData)[palOffset];
-        if (field_90_pal_depth != 16 && field_90_pal_depth != 64 && field_90_pal_depth != 256)
+        if (mPalDepth != 16 && mPalDepth != 64 && mPalDepth != 256)
         {
-            LOG_ERROR("Bad pal depth " << field_90_pal_depth);
+            LOG_ERROR("Bad pal depth " << mPalDepth);
             ALIVE_FATAL("Bad pal depth");
         }
-        IRenderer::GetRenderer()->PalSetData(IRenderer::PalRecord{field_8C_pal_vram_xy.x, field_8C_pal_vram_xy.y, field_90_pal_depth}, pPalDataOffset + 4); // +4 skip len, load pal
+        IRenderer::GetRenderer()->PalSetData(IRenderer::PalRecord{mPalVramXY.x, mPalVramXY.y, mPalDepth}, pPalDataOffset + 4); // +4 skip len, load pal
     }
 }
 

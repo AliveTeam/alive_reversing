@@ -240,7 +240,7 @@ s32 Fleech::CreateFromSaveState(const u8* pBuffer)
         pFleech->mCurrentMotion = pState->field_28_current_motion;
         const AnimRecord& animRec = AnimRec(sFleechAnimFromMotion[pFleech->mCurrentMotion]);
         pFleech->mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
-        pFleech->mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame = pState->field_2A_anim_current_frame;
+        pFleech->mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame = pState->field_2A_anim_current_frame;
         pFleech->mBaseAnimatedWithPhysicsGameObject_Anim.mFrameChangeCounter = pState->field_2C_frame_change_counter;
 
         pFleech->mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit5_FlipX, pState->field_26_bFlipX & 1);
@@ -352,7 +352,7 @@ s32 Fleech::VGetSaveState(u8* pSaveBuffer)
     pState->mRingBlue = mBaseAnimatedWithPhysicsGameObject_RGB.b;
     pState->field_26_bFlipX = mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX);
     pState->field_28_current_motion = mCurrentMotion;
-    pState->field_2A_anim_current_frame = mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame;
+    pState->field_2A_anim_current_frame = mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame;
     pState->field_2C_frame_change_counter = mBaseAnimatedWithPhysicsGameObject_Anim.mFrameChangeCounter;
     pState->field_2F_bDrawable = mBaseGameObjectFlags.Get(BaseGameObject::eDrawable_Bit4);
     pState->field_2E_bRender = mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit3_Render);
@@ -363,7 +363,7 @@ s32 Fleech::VGetSaveState(u8* pSaveBuffer)
 
     if (BaseAliveGameObjectCollisionLine)
     {
-        pState->mCollisionLineType = BaseAliveGameObjectCollisionLine->field_8_type;
+        pState->mCollisionLineType = BaseAliveGameObjectCollisionLine->mLineType;
     }
     else
     {
@@ -479,9 +479,9 @@ void Fleech::Motion_0_Sleeping()
 {
     if (mNextMotion == -1)
     {
-        if (mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame || sGnFrame & 3)
+        if (mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame || sGnFrame & 3)
         {
-            if (mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame == 4 && !(sGnFrame & 3))
+            if (mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame == 4 && !(sGnFrame & 3))
             {
                 Sound(FleechSound::SleepingExhale_4);
 
@@ -562,7 +562,7 @@ void Fleech::Motion_3_Idle()
             FP hitX = {};
             FP hitY = {};
             PathLine* pLine = nullptr;
-            if (mCurrentMotion == eFleechMotions::Motion_3_Idle && mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame == 0 && !sCollisions->Raycast(mBaseAnimatedWithPhysicsGameObject_XPos - FP_FromInteger(5), mBaseAnimatedWithPhysicsGameObject_YPos - FP_FromInteger(5), mBaseAnimatedWithPhysicsGameObject_XPos + FP_FromInteger(5), mBaseAnimatedWithPhysicsGameObject_YPos + FP_FromInteger(1), &pLine, &hitX, &hitY, mBaseAnimatedWithPhysicsGameObject_Scale == Scale::Fg ? kFgFloor : kBgFloor))
+            if (mCurrentMotion == eFleechMotions::Motion_3_Idle && mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame == 0 && !sCollisions->Raycast(mBaseAnimatedWithPhysicsGameObject_XPos - FP_FromInteger(5), mBaseAnimatedWithPhysicsGameObject_YPos - FP_FromInteger(5), mBaseAnimatedWithPhysicsGameObject_XPos + FP_FromInteger(5), mBaseAnimatedWithPhysicsGameObject_YPos + FP_FromInteger(1), &pLine, &hitX, &hitY, mBaseAnimatedWithPhysicsGameObject_Scale == Scale::Fg ? kFgFloor : kBgFloor))
             {
                 field_138_velx_factor = FP_FromInteger(0);
                 BaseAliveGameObjectLastLineYPos = mBaseAnimatedWithPhysicsGameObject_YPos;
@@ -588,19 +588,19 @@ const FP sFleechCrawlVelX_544FA0[7] = {
 
 void Fleech::Motion_4_Crawl()
 {
-    if (mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame > 6)
+    if (mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame > 6)
     {
-        mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame = 0;
+        mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame = 0;
     }
 
     FP velXTable = {};
     if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
     {
-        velXTable = -sFleechCrawlVelX_544FA0[mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame];
+        velXTable = -sFleechCrawlVelX_544FA0[mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame];
     }
     else
     {
-        velXTable = sFleechCrawlVelX_544FA0[mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame];
+        velXTable = sFleechCrawlVelX_544FA0[mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame];
     }
 
     mBaseAnimatedWithPhysicsGameObject_VelX = (mBaseAnimatedWithPhysicsGameObject_SpriteScale * velXTable);
@@ -615,11 +615,11 @@ void Fleech::Motion_4_Crawl()
         MoveAlongFloor();
         if (mCurrentMotion == eFleechMotions::Motion_4_Crawl)
         {
-            if (mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame == 4)
+            if (mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame == 4)
             {
                 Sound(FleechSound::CrawlRNG1_14);
             }
-            else if (mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame == 6)
+            else if (mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame == 6)
             {
                 if (field_130_bDidMapFollowMe == 0)
                 {
@@ -648,7 +648,7 @@ void Fleech::Motion_4_Crawl()
 
 void Fleech::Motion_5_PatrolCry()
 {
-    if (mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame == 0)
+    if (mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame == 0)
     {
         Sound(FleechSound::PatrolCry_0);
         field_13C_unused = 1;
@@ -764,7 +764,7 @@ void Fleech::Motion_9_Fall()
             &hitY,
             mBaseAnimatedWithPhysicsGameObject_Scale == Scale::Fg ? kFgFloorCeilingOrWalls : kBgFloorCeilingOrWalls))
     {
-        switch (pLine->field_8_type)
+        switch (pLine->mLineType)
         {
             case 0u:
             case 4u:
@@ -774,7 +774,7 @@ void Fleech::Motion_9_Fall()
                 mBaseAnimatedWithPhysicsGameObject_XPos = hitX;
                 mBaseAnimatedWithPhysicsGameObject_YPos = hitY;
                 MapFollowMe(TRUE);
-                if (BaseAliveGameObjectCollisionLine->field_8_type == eLineTypes::eDynamicCollision_32 || BaseAliveGameObjectCollisionLine->field_8_type == eLineTypes::eBackgroundDynamicCollision_36)
+                if (BaseAliveGameObjectCollisionLine->mLineType == eLineTypes::eDynamicCollision_32 || BaseAliveGameObjectCollisionLine->mLineType == eLineTypes::eBackgroundDynamicCollision_36)
                 {
                     const PSX_RECT bRect = VGetBoundingRect();
                     VOnCollisionWith(
@@ -812,7 +812,7 @@ void Fleech::Motion_9_Fall()
 
 void Fleech::Motion_10_Land()
 {
-    if (mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame == 0)
+    if (mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame == 0)
     {
         Sound(FleechSound::LandOnFloor_9);
     }
@@ -869,7 +869,7 @@ void Fleech::Motion_11_RaiseHead()
         field_164_always_0 = 0;
         sub_42BA10();
     }
-    else if (mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame < 4)
+    else if (mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame < 4)
     {
         mBaseAnimatedWithPhysicsGameObject_XPos += FP_FromInteger((mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX)) != 0 ? 1 : -1);
     }
@@ -921,7 +921,7 @@ void Fleech::Motion_12_Climb()
         FP hitY = {};
         if (sCollisions->Raycast(pX1, pY1, pX2, mBaseAnimatedWithPhysicsGameObject_VelY + mBaseAnimatedWithPhysicsGameObject_YPos, &pLine, &hitX, &hitY, mBaseAnimatedWithPhysicsGameObject_Scale == Scale::Fg ? kFgWalls : kBgWalls))
         {
-            switch (pLine->field_8_type)
+            switch (pLine->mLineType)
             {
                 case 1u:
                 case 5u:
@@ -972,7 +972,7 @@ void Fleech::Motion_12_Climb()
 
 void Fleech::Motion_13_SettleOnGround()
 {
-    if (!mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame)
+    if (!mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame)
     {
         SetTongueState5();
 
@@ -1063,9 +1063,9 @@ void Fleech::Motion_17_SleepingWithTongue()
     }
     else
     {
-        if (mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame || sGnFrame & 3)
+        if (mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame || sGnFrame & 3)
         {
-            if (mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame == 4 && !(sGnFrame & 3))
+            if (mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame == 4 && !(sGnFrame & 3))
             {
                 Sound(FleechSound::SleepingExhale_4);
                 if (gMap.Is_Point_In_Current_Camera(mBaseAnimatedWithPhysicsGameObject_LvlNumber, mBaseAnimatedWithPhysicsGameObject_PathNumber, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, 0))
@@ -1096,11 +1096,11 @@ void Fleech::Motion_17_SleepingWithTongue()
 
 void Fleech::Motion_18_Consume()
 {
-    if (mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame == 2)
+    if (mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame == 2)
     {
         Sound(FleechSound::Digesting_2);
     }
-    else if (mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame == 15 && field_11C_obj_id == sActiveHero->field_8_object_id)
+    else if (mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame == 15 && field_11C_obj_id == sActiveHero->field_8_object_id)
     {
         sActiveHero->SetAsDead_459430();
 
@@ -1193,7 +1193,7 @@ void Fleech::VUpdate()
         BaseAliveGameObject_PlatformId = BaseGameObject::RefreshId(BaseAliveGameObject_PlatformId);
     }
 
-    if (Event_Get(kEventDeathReset))
+    if (EventGet(kEventDeathReset))
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
@@ -1218,13 +1218,13 @@ void Fleech::VUpdate()
 
         if (oldX != mBaseAnimatedWithPhysicsGameObject_XPos || oldY != mBaseAnimatedWithPhysicsGameObject_YPos)
         {
-            BaseAliveGameObjectPathTLV = sPath_dword_BB47C0->TLV_Get_At_4DB290(
+            BaseAliveGameObjectPathTLV = sPath_dword_BB47C0->TlvGetAt(
                 nullptr,
                 mBaseAnimatedWithPhysicsGameObject_XPos,
                 mBaseAnimatedWithPhysicsGameObject_YPos,
                 mBaseAnimatedWithPhysicsGameObject_XPos,
                 mBaseAnimatedWithPhysicsGameObject_YPos);
-            VOn_TLV_Collision(BaseAliveGameObjectPathTLV);
+            VOnTlvCollision(BaseAliveGameObjectPathTLV);
         }
 
         if (oldMotion == mCurrentMotion)
@@ -1485,7 +1485,7 @@ void Fleech::VScreenChanged()
     }
 }
 
-void Fleech::VOn_TLV_Collision(Path_TLV* pTlv)
+void Fleech::VOnTlvCollision(Path_TLV* pTlv)
 {
     while (pTlv)
     {
@@ -1494,7 +1494,7 @@ void Fleech::VOn_TLV_Collision(Path_TLV* pTlv)
             mHealth = FP_FromInteger(0);
             mBaseGameObjectFlags.Set(BaseGameObject::eDead);
         }
-        pTlv = sPath_dword_BB47C0->TLV_Get_At_4DB290(pTlv, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos);
+        pTlv = sPath_dword_BB47C0->TlvGetAt(pTlv, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos);
     }
 }
 
@@ -1605,7 +1605,7 @@ void Fleech::Init()
 
     Animation_Init(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, field_10_resources_array.ItemAt(0), 1);
 
-    mBaseAnimatedWithPhysicsGameObject_Anim.field_1C_fn_ptr_array = kFleech_Anim_Frame_Fns_55EFD0;
+    mBaseAnimatedWithPhysicsGameObject_Anim.mFnPtrArray = kFleech_Anim_Frame_Fns_55EFD0;
 
     SetType(ReliveTypes::eFleech);
 
@@ -2265,16 +2265,16 @@ void Fleech::IncreaseAnger()
 {
     if (gMap.Is_Point_In_Current_Camera(mBaseAnimatedWithPhysicsGameObject_LvlNumber, mBaseAnimatedWithPhysicsGameObject_PathNumber, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, 0))
     {
-        IBaseAnimatedWithPhysicsGameObject* pEvent = Event_Is_Event_In_Range(kEventSpeaking, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, AsEventScale(mBaseAnimatedWithPhysicsGameObject_Scale));
+        IBaseAnimatedWithPhysicsGameObject* pEvent = IsEventInRange(kEventSpeaking, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, AsEventScale(mBaseAnimatedWithPhysicsGameObject_Scale));
 
         if (!pEvent)
         {
-            pEvent = Event_Is_Event_In_Range(kEventAlarm, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, AsEventScale(mBaseAnimatedWithPhysicsGameObject_Scale));
+            pEvent = IsEventInRange(kEventAlarm, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, AsEventScale(mBaseAnimatedWithPhysicsGameObject_Scale));
         }
 
         if (!pEvent)
         {
-            pEvent = Event_Is_Event_In_Range(kEventLoudNoise, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, AsEventScale(mBaseAnimatedWithPhysicsGameObject_Scale));
+            pEvent = IsEventInRange(kEventLoudNoise, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, AsEventScale(mBaseAnimatedWithPhysicsGameObject_Scale));
         }
 
         if (pEvent)
@@ -2296,7 +2296,7 @@ void Fleech::IncreaseAnger()
             }
         }
 
-        pEvent = Event_Is_Event_In_Range(kEventNoise, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, AsEventScale(mBaseAnimatedWithPhysicsGameObject_Scale));
+        pEvent = IsEventInRange(kEventNoise, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, AsEventScale(mBaseAnimatedWithPhysicsGameObject_Scale));
         if (pEvent)
         {
             if (VIsObjNearby(ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale) * FP_FromInteger(6),static_cast<BaseAnimatedWithPhysicsGameObject*>(pEvent)))
@@ -2428,17 +2428,17 @@ void Fleech::MoveAlongFloor()
     {
         PathLine* pOldLine = BaseAliveGameObjectCollisionLine;
         BaseAliveGameObjectCollisionLine = BaseAliveGameObjectCollisionLine->MoveOnLine(&mBaseAnimatedWithPhysicsGameObject_XPos, &mBaseAnimatedWithPhysicsGameObject_YPos, mBaseAnimatedWithPhysicsGameObject_VelX);
-        if (BaseAliveGameObjectCollisionLine && (mBaseAnimatedWithPhysicsGameObject_Scale == Scale::Fg ? kFgFloor : kBgFloor).Mask() == CollisionMask(BaseAliveGameObjectCollisionLine->field_8_type).Mask())
+        if (BaseAliveGameObjectCollisionLine && (mBaseAnimatedWithPhysicsGameObject_Scale == Scale::Fg ? kFgFloor : kBgFloor).Mask() == CollisionMask(BaseAliveGameObjectCollisionLine->mLineType).Mask())
         {
             if (pPlatform)
             {
-                if (BaseAliveGameObjectCollisionLine->field_8_type != eLineTypes::eDynamicCollision_32 && BaseAliveGameObjectCollisionLine->field_8_type != eLineTypes::eBackgroundDynamicCollision_36)
+                if (BaseAliveGameObjectCollisionLine->mLineType != eLineTypes::eDynamicCollision_32 && BaseAliveGameObjectCollisionLine->mLineType != eLineTypes::eBackgroundDynamicCollision_36)
                 {
                     pPlatform->VRemove(this);
                     BaseAliveGameObject_PlatformId = -1;
                 }
             }
-            else if (BaseAliveGameObjectCollisionLine->field_8_type == eLineTypes::eDynamicCollision_32 || BaseAliveGameObjectCollisionLine->field_8_type == eLineTypes::eBackgroundDynamicCollision_36)
+            else if (BaseAliveGameObjectCollisionLine->mLineType == eLineTypes::eDynamicCollision_32 || BaseAliveGameObjectCollisionLine->mLineType == eLineTypes::eBackgroundDynamicCollision_36)
             {
                 const PSX_RECT bRect = VGetBoundingRect();
                 const PSX_Point xy = {bRect.x, static_cast<s16>(bRect.y + 5)};

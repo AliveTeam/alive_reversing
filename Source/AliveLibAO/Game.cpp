@@ -405,7 +405,7 @@ void Game_Loop_437630()
 
     while (!sBreakGameLoop_507B78 && !gBaseGameObjects->Empty())
     {
-        Events_Reset_Active();
+        EventsResetActive();
 
         // Update objects
         GetGameAutoPlayer().SyncPoint(SyncPoints::StartGameObjectUpdate);

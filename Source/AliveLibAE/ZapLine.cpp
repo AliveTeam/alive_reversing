@@ -67,7 +67,7 @@ ZapLine::ZapLine(FP xPosSource, FP yPosSource, FP xPosDest, FP yPosDest, s32 ali
         field_124_tPageMode = TPageMode::e4Bit_0;
     }
 
-    u8 u0 = mBaseAnimatedWithPhysicsGameObject_Anim.field_84_vram_rect.x & 0x3F;
+    u8 u0 = mBaseAnimatedWithPhysicsGameObject_Anim.mVramRect.x & 0x3F;
     if (field_124_tPageMode == TPageMode::e8Bit_1)
     {
         u0 = 2 * u0;
@@ -94,9 +94,9 @@ ZapLine::ZapLine(FP xPosSource, FP yPosSource, FP xPosDest, FP yPosDest, s32 ali
                 Poly_Set_SemiTrans(&pSprt->mBase.header, 1);
                 Poly_Set_Blending(&pSprt->mBase.header, 1);
 
-                SetClut(pSprt, static_cast<s16>(PSX_getClut(mBaseAnimatedWithPhysicsGameObject_Anim.field_8C_pal_vram_xy.x, mBaseAnimatedWithPhysicsGameObject_Anim.field_8C_pal_vram_xy.y)));
+                SetClut(pSprt, static_cast<s16>(PSX_getClut(mBaseAnimatedWithPhysicsGameObject_Anim.mPalVramXY.x, mBaseAnimatedWithPhysicsGameObject_Anim.mPalVramXY.y)));
 
-                SetUV0(pSprt, u0, mBaseAnimatedWithPhysicsGameObject_Anim.field_84_vram_rect.y & 0xFF);
+                SetUV0(pSprt, u0, mBaseAnimatedWithPhysicsGameObject_Anim.mVramRect.y & 0xFF);
                 pSprt->field_14_w = frameW - 1;
                 pSprt->field_16_h = frameH - 1;
             }
@@ -392,8 +392,8 @@ void ZapLine::VRender(PrimHeader** ppOt)
         const s32 calcTPage = PSX_getTPage(
             field_124_tPageMode,
             field_12C_tPageAbr,
-            mBaseAnimatedWithPhysicsGameObject_Anim.field_84_vram_rect.x,
-            mBaseAnimatedWithPhysicsGameObject_Anim.field_84_vram_rect.y);
+            mBaseAnimatedWithPhysicsGameObject_Anim.mVramRect.x,
+            mBaseAnimatedWithPhysicsGameObject_Anim.mVramRect.y);
 
         Prim_SetTPage* pTPage = &field_FC_tPage_p8[bufferIdx];
         Init_SetTPage(pTPage, 0, 0, calcTPage);

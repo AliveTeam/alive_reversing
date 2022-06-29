@@ -66,13 +66,13 @@ void Shadow::Calculate_Position(FP xpos, FP ypos, PSX_RECT* frameRect, FP sprite
                 scale == Scale::Fg ? kFgFloorCeilingOrWalls : kBgFloorCeilingOrWalls))
         {
             const s16 camXPos = FP_GetExponent(pScreenManager->CamXPos());
-            s16 lineXScreen = pLine->field_0_rect.x - camXPos;
-            s16 lineWScreen = pLine->field_0_rect.w - camXPos;
+            s16 lineXScreen = pLine->mRect.x - camXPos;
+            s16 lineWScreen = pLine->mRect.w - camXPos;
 
             if (lineWScreen < lineXScreen)
             {
-                lineXScreen = pLine->field_0_rect.w - camXPos;
-                lineWScreen = pLine->field_0_rect.x - camXPos;
+                lineXScreen = pLine->mRect.w - camXPos;
+                lineWScreen = pLine->mRect.x - camXPos;
             }
 
             field_18_animation.mAnimFlags.Set(AnimFlags::eBit3_Render);
@@ -95,7 +95,7 @@ void Shadow::Calculate_Position(FP xpos, FP ypos, PSX_RECT* frameRect, FP sprite
                         &hitY,
                         scale == Scale::Fg ? kFgFloorCeilingOrWalls : kBgFloorCeilingOrWalls))
                 {
-                    lineXScreen = std::min(pLine->field_0_rect.x, pLine->field_0_rect.w) - FP_GetExponent(pScreenManager->CamXPos());
+                    lineXScreen = std::min(pLine->mRect.x, pLine->mRect.w) - FP_GetExponent(pScreenManager->CamXPos());
                 }
             }
 
@@ -112,7 +112,7 @@ void Shadow::Calculate_Position(FP xpos, FP ypos, PSX_RECT* frameRect, FP sprite
                         &hitY,
                         scale == Scale::Fg ? kFgFloorCeilingOrWalls : kBgFloorCeilingOrWalls))
                 {
-                    lineWScreen = std::max(pLine->field_0_rect.x, pLine->field_0_rect.w) - FP_GetExponent(pScreenManager->CamXPos());
+                    lineWScreen = std::max(pLine->mRect.x, pLine->mRect.w) - FP_GetExponent(pScreenManager->CamXPos());
                 }
             }
 

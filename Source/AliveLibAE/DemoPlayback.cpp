@@ -44,7 +44,7 @@ DemoPlayback::~DemoPlayback()
 
 void DemoPlayback::VUpdate()
 {
-    if (Event_Get(kEventDeathReset))
+    if (EventGet(kEventDeathReset))
     {
         sInputObject_5BD4E0.UnsetDemoPlaying_45F240();
     }

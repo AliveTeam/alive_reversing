@@ -71,12 +71,12 @@ MeatSack::~MeatSack()
 
 void MeatSack::VUpdate()
 {
-    if (Event_Get(kEventDeathReset))
+    if (EventGet(kEventDeathReset))
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 
-    if (mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame == 2)
+    if (mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame == 2)
     {
         if (field_114_bPlayWobbleSound)
         {
@@ -139,7 +139,7 @@ void MeatSack::VUpdate()
                 pMeat->mBaseAnimatedWithPhysicsGameObject_SpriteScale = mBaseAnimatedWithPhysicsGameObject_SpriteScale;
             }
 
-            SFX_Play_Mono(SoundEffect::SackHit_30, 0, 0);
+            SfxPlayMono(SoundEffect::SackHit_30, 0, 0);
             Environment_SFX_42A220(EnvironmentSfx::eDeathNoise_7, 0, 0x7FFF, nullptr);
             mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(MeatSackHitRec.mFrameTableOffset, nullptr);
             field_110_bDoMeatSackIdleAnim = 1;
@@ -305,8 +305,8 @@ void Meat::InTheAir()
                     mBaseAnimatedWithPhysicsGameObject_VelX = FP_FromInteger(0);
 
                     SFX_Play_Pitch(SoundEffect::MeatBounce_43, 0, -650, 0);
-                    Event_Broadcast(kEventNoise, this);
-                    Event_Broadcast(kEventSuspiciousNoise, this);
+                    EventBroadcast(kEventNoise, this);
+                    EventBroadcast(kEventSuspiciousNoise, this);
                     AddToPlatform();
                 }
                 break;
@@ -322,8 +322,8 @@ void Meat::InTheAir()
                 mBaseAnimatedWithPhysicsGameObject_VelX = (-mBaseAnimatedWithPhysicsGameObject_VelX / FP_FromInteger(2));
 
                 SFX_Play_Pitch(SoundEffect::MeatBounce_43, 0, -650, 0);
-                Event_Broadcast(kEventNoise, this);
-                Event_Broadcast(kEventSuspiciousNoise, this);
+                EventBroadcast(kEventNoise, this);
+                EventBroadcast(kEventSuspiciousNoise, this);
 
                 if (mBaseAnimatedWithPhysicsGameObject_VelY >= FP_FromInteger(0))
                 {
@@ -342,8 +342,8 @@ void Meat::InTheAir()
                     mBaseAnimatedWithPhysicsGameObject_VelX = (-mBaseAnimatedWithPhysicsGameObject_VelX / FP_FromInteger(4));
 
                     SFX_Play_Pitch(SoundEffect::MeatBounce_43, 0, -650, 0);
-                    Event_Broadcast(kEventNoise, this);
-                    Event_Broadcast(kEventSuspiciousNoise, this);
+                    EventBroadcast(kEventNoise, this);
+                    EventBroadcast(kEventSuspiciousNoise, this);
 
                     if (mBaseAnimatedWithPhysicsGameObject_VelY < FP_FromInteger(0))
                     {
@@ -364,7 +364,7 @@ void Meat::VUpdate()
 {
     if (sNumCamSwappers_507668 == 0)
     {
-        if (Event_Get(kEventDeathReset))
+        if (EventGet(kEventDeathReset))
         {
             mBaseGameObjectFlags.Set(Options::eDead);
         }

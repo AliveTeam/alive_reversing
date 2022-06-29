@@ -155,7 +155,7 @@ s32 SFX_Play_Pitch(SoundEffect sfxIdx, s16 volume, s32 pitch, FP scale)
     return SFX_SfxDefinition_Play_Mono(&sSfxEntries_55C2A0[sfxIdx], volume, static_cast<s16>(pitch), static_cast<s16>(pitch));
 }
 
-s32 SFX_Play_Mono(SoundEffect sfxIdx, s16 volume, FP scale)
+s32 SfxPlayMono(SoundEffect sfxIdx, s16 volume, FP scale)
 {
     if (!volume)
     {
@@ -178,10 +178,10 @@ s32 SFX_Play_Camera(SoundEffect sfxId, s16 volume, CameraPos direction, FP scale
     switch (direction)
     {
         case CameraPos::eCamCurrent_0:
-            return SFX_Play_Mono(sfxId, volume, scale);
+            return SfxPlayMono(sfxId, volume, scale);
         case CameraPos::eCamTop_1:
         case CameraPos::eCamBottom_2:
-            return SFX_Play_Mono(sfxId, 2 * volume / 3, scale);
+            return SfxPlayMono(sfxId, 2 * volume / 3, scale);
         case CameraPos::eCamLeft_3:
             return SFX_Play_Stereo(sfxId, 2 * volume / 3, 2 * volume / 9, scale);
         case CameraPos::eCamRight_4:

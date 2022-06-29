@@ -97,7 +97,7 @@ void DeathGas::VScreenChanged()
 
 void DeathGas::VUpdate()
 {
-    if (Event_Get(kEventDeathReset))
+    if (EventGet(kEventDeathReset))
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }

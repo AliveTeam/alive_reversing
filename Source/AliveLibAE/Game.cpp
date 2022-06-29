@@ -670,7 +670,7 @@ void Game_Loop_467230()
     bool bPauseMenuObjectFound = false;
     while (!gBaseGameObjects->IsEmpty())
     {
-        Events_Reset_Active();
+        EventsResetActive();
         Slurg::Clear_Slurg_Step_Watch_Points();
         bSkipGameObjectUpdates_5C2FA0 = 0;
 

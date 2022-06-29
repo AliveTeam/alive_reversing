@@ -186,7 +186,7 @@ public:
     virtual void VPossessed() override;
     virtual void VScreenChanged() override;
     virtual s16 VTakeDamage(BaseGameObject* pFrom) override;
-    virtual void VOn_TLV_Collision(Path_TLV* pTlv) override;
+    virtual void VOnTlvCollision(Path_TLV* pTlv) override;
 
     virtual s32 VGetSaveState(u8* pSaveBuffer) override;
     virtual s16 VOnSameYLevel(BaseAnimatedWithPhysicsGameObject* pOther) override;

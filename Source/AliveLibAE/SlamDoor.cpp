@@ -231,18 +231,18 @@ SlamDoor::~SlamDoor()
 
     if (field_11C_pCollisionLine_6_2)
     {
-        Rect_Clear(&field_11C_pCollisionLine_6_2->field_0_rect);
+        Rect_Clear(&field_11C_pCollisionLine_6_2->mRect);
     }
 
     if (field_120_pCollisionLine_5_1)
     {
-        Rect_Clear(&field_120_pCollisionLine_5_1->field_0_rect);
+        Rect_Clear(&field_120_pCollisionLine_5_1->mRect);
     }
 }
 
 void SlamDoor::VUpdate()
 {
-    if (Event_Get(kEventDeathReset))
+    if (EventGet(kEventDeathReset))
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
@@ -359,10 +359,10 @@ void SlamDoor::VUpdate()
         {
             const AnimRecord& animRec = AnimRec(sSlamDoorData_547168[static_cast<s32>(MapWrapper::ToAE(gMap.mCurrentLevel))][0]);
             mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(animRec.mFrameTableOffset, 0);
-            Rect_Clear(&field_11C_pCollisionLine_6_2->field_0_rect);
+            Rect_Clear(&field_11C_pCollisionLine_6_2->mRect);
             field_11C_pCollisionLine_6_2 = nullptr;
 
-            Rect_Clear(&field_120_pCollisionLine_5_1->field_0_rect);
+            Rect_Clear(&field_120_pCollisionLine_5_1->mRect);
             field_120_pCollisionLine_5_1 = nullptr;
         }
     }

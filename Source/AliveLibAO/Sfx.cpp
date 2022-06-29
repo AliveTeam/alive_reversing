@@ -135,7 +135,7 @@ s32 SFX_Play_Pitch(SoundEffect sfxIdx, s32 volume, s32 pitch, BaseAnimatedWithPh
     return SFX_SfxDefinition_Play_4770F0(&sSfxEntries_4CCA38[sfxIdx], volume, pitch, pitch);
 }
 
-s32 SFX_Play_Mono(SoundEffect sfxIdx, s32 volume, BaseAnimatedWithPhysicsGameObject* pObj)
+s32 SfxPlayMono(SoundEffect sfxIdx, s32 volume, BaseAnimatedWithPhysicsGameObject* pObj)
 {
     if (volume > 0)
     {

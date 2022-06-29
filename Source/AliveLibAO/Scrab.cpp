@@ -261,7 +261,7 @@ void Scrab::VRender(PrimHeader** ppOt)
 
 void Scrab::VUpdate()
 {
-    if (Event_Get(kEventDeathReset))
+    if (EventGet(kEventDeathReset))
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
@@ -301,21 +301,21 @@ void Scrab::VUpdate()
     {
         mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit2_Animate);
         mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit3_Render);
-        if (mBaseAnimatedWithPhysicsGameObject_Anim.field_84_vram_rect.w)
+        if (mBaseAnimatedWithPhysicsGameObject_Anim.mVramRect.w)
         {
             Vram_free_450CE0(
-                PSX_Point{mBaseAnimatedWithPhysicsGameObject_Anim.field_84_vram_rect.x, mBaseAnimatedWithPhysicsGameObject_Anim.field_84_vram_rect.y},
-                PSX_Point{mBaseAnimatedWithPhysicsGameObject_Anim.field_84_vram_rect.w, mBaseAnimatedWithPhysicsGameObject_Anim.field_84_vram_rect.h});
-            mBaseAnimatedWithPhysicsGameObject_Anim.field_84_vram_rect.w = 0;
+                PSX_Point{mBaseAnimatedWithPhysicsGameObject_Anim.mVramRect.x, mBaseAnimatedWithPhysicsGameObject_Anim.mVramRect.y},
+                PSX_Point{mBaseAnimatedWithPhysicsGameObject_Anim.mVramRect.w, mBaseAnimatedWithPhysicsGameObject_Anim.mVramRect.h});
+            mBaseAnimatedWithPhysicsGameObject_Anim.mVramRect.w = 0;
         }
     }
     else
     {
         if (mHealth > FP_FromInteger(0))
         {
-            if (!mBaseAnimatedWithPhysicsGameObject_Anim.field_84_vram_rect.w)
+            if (!mBaseAnimatedWithPhysicsGameObject_Anim.mVramRect.w)
             {
-                vram_alloc_450B20(168, 69, 8u, &mBaseAnimatedWithPhysicsGameObject_Anim.field_84_vram_rect);
+                vram_alloc_450B20(168, 69, 8u, &mBaseAnimatedWithPhysicsGameObject_Anim.mVramRect);
             }
             mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit2_Animate);
             mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit3_Render);
@@ -349,7 +349,7 @@ void Scrab::VUpdate()
                 mBaseAnimatedWithPhysicsGameObject_YPos,
                 mBaseAnimatedWithPhysicsGameObject_XPos,
                 mBaseAnimatedWithPhysicsGameObject_YPos);
-            VOn_TLV_Collision(BaseAliveGameObjectPathTLV);
+            VOnTlvCollision(BaseAliveGameObjectPathTLV);
         }
 
         if (old_motion != mCurrentMotion || field_188_flags & 0x10)
@@ -428,8 +428,8 @@ s16 Scrab::VTakeDamage(BaseGameObject* pFrom)
                 return 0;
 
             default:
-                SFX_Play_Mono(SoundEffect::KillEffect_78, 127, 0);
-                SFX_Play_Mono(SoundEffect::FallingItemHit_53, 90, 0);
+                SfxPlayMono(SoundEffect::KillEffect_78, 127, 0);
+                SfxPlayMono(SoundEffect::FallingItemHit_53, 90, 0);
                 mHealth = FP_FromInteger(0);
                 SetBrain(&Scrab::Brain_Death_45CB80);
                 field_130_unused = 2;
@@ -442,7 +442,7 @@ s16 Scrab::VTakeDamage(BaseGameObject* pFrom)
     return 1;
 }
 
-void Scrab::VOn_TLV_Collision(Path_TLV* pTlv)
+void Scrab::VOnTlvCollision(Path_TLV* pTlv)
 {
     while (pTlv)
     {
@@ -1032,7 +1032,7 @@ const FP sWalkVelTable_4BC788[22] = {
 
 void Scrab::Motion_2_Walk_45E730()
 {
-    switch (mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame)
+    switch (mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame)
     {
         case 3:
         case 8:
@@ -1048,11 +1048,11 @@ void Scrab::Motion_2_Walk_45E730()
     FP vel = {};
     if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
     {
-        vel = -sWalkVelTable_4BC788[mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame];
+        vel = -sWalkVelTable_4BC788[mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame];
     }
     else
     {
-        vel = sWalkVelTable_4BC788[mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame];
+        vel = sWalkVelTable_4BC788[mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame];
     }
 
     mBaseAnimatedWithPhysicsGameObject_VelX = (mBaseAnimatedWithPhysicsGameObject_SpriteScale * vel);
@@ -1068,7 +1068,7 @@ void Scrab::Motion_2_Walk_45E730()
 
     if (mCurrentMotion == eScrabMotions::Motion_2_Walk_45E730)
     {
-        if (mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame == 5 || mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame == 15)
+        if (mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame == 5 || mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame == 15)
         {
             if (mNextMotion == eScrabMotions::Motion_1_Stand_45E620
                 || mNextMotion == eScrabMotions::Motion_4_Turn_45EF30
@@ -1083,7 +1083,7 @@ void Scrab::Motion_2_Walk_45E730()
                 mCurrentMotion = eScrabMotions::Motion_12_WalkToStand_45E930;
             }
         }
-        else if (mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame == 7 || mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame == 18)
+        else if (mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame == 7 || mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame == 18)
         {
             if (mNextMotion == eScrabMotions::Motion_3_Run_45EAB0)
             {
@@ -1133,7 +1133,7 @@ const FP sRunVelTable_4BC800[14] = {
 
 void Scrab::Motion_3_Run_45EAB0()
 {
-    switch (mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame)
+    switch (mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame)
     {
         case 0:
         case 5:
@@ -1148,11 +1148,11 @@ void Scrab::Motion_3_Run_45EAB0()
     FP vel = {};
     if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
     {
-        vel = -sRunVelTable_4BC800[mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame];
+        vel = -sRunVelTable_4BC800[mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame];
     }
     else
     {
-        vel = sRunVelTable_4BC800[mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame];
+        vel = sRunVelTable_4BC800[mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame];
     }
     mBaseAnimatedWithPhysicsGameObject_VelX = (mBaseAnimatedWithPhysicsGameObject_SpriteScale * vel);
 
@@ -1181,14 +1181,14 @@ void Scrab::Motion_3_Run_45EAB0()
                     {
                         if (field_120_pTarget->VTakeDamage(this))
                         {
-                            SFX_Play_Mono(SoundEffect::KillEffect_78, 0, 0);
+                            SfxPlayMono(SoundEffect::KillEffect_78, 0, 0);
                             Mudokon_SFX(MudSounds::eKnockbackOuch_10, 0, 0, field_120_pTarget);
                         }
                     }
                 }
             }
 
-            if (mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame != 3 && mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame != 10)
+            if (mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame != 3 && mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame != 10)
             {
                 field_188_flags &= ~2u;
             }
@@ -1239,9 +1239,9 @@ void Scrab::Motion_3_Run_45EAB0()
 
 void Scrab::Motion_4_Turn_45EF30()
 {
-    if (mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame == 5
-        || mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame == 9
-        || mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame == 11)
+    if (mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame == 5
+        || mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame == 9
+        || mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame == 11)
     {
         Scrab_SFX(ScrabSounds::eWalk1_6, Math_RandomRange(40, 50), 0x7FFF, 1);
     }
@@ -1252,7 +1252,7 @@ void Scrab::Motion_4_Turn_45EF30()
 
         if (ToNextMotion())
         {
-            mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(mBaseAnimatedWithPhysicsGameObject_Anim.field_18_frame_table_offset, nullptr);
+            mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(mBaseAnimatedWithPhysicsGameObject_Anim.mFrameTableOffset, nullptr);
         }
         else
         {
@@ -1277,11 +1277,11 @@ void Scrab::Motion_5_RunToStand_45ED90()
 {
     if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
     {
-        mBaseAnimatedWithPhysicsGameObject_VelX = (mBaseAnimatedWithPhysicsGameObject_SpriteScale * -sRunToStandVelTable_4BC838[mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame]);
+        mBaseAnimatedWithPhysicsGameObject_VelX = (mBaseAnimatedWithPhysicsGameObject_SpriteScale * -sRunToStandVelTable_4BC838[mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame]);
     }
     else
     {
-        mBaseAnimatedWithPhysicsGameObject_VelX = (mBaseAnimatedWithPhysicsGameObject_SpriteScale * sRunToStandVelTable_4BC838[mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame]);
+        mBaseAnimatedWithPhysicsGameObject_VelX = (mBaseAnimatedWithPhysicsGameObject_SpriteScale * sRunToStandVelTable_4BC838[mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame]);
     }
 
     if (WallHit_401930(mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(30), mBaseAnimatedWithPhysicsGameObject_VelX))
@@ -1309,7 +1309,7 @@ void Scrab::Motion_5_RunToStand_45ED90()
                 {
                     if (field_120_pTarget->VTakeDamage(this))
                     {
-                        SFX_Play_Mono(SoundEffect::KillEffect_78, 0, 0);
+                        SfxPlayMono(SoundEffect::KillEffect_78, 0, 0);
                         Mudokon_SFX(MudSounds::eKnockbackOuch_10, 0, 0, field_120_pTarget);
                     }
                 }
@@ -1336,15 +1336,15 @@ const FP sHopBeginVelTable_4BC860[4] = {
 
 void Scrab::Motion_6_HopBegin_45F3C0()
 {
-    Event_Broadcast(kEventNoise, this);
+    EventBroadcast(kEventNoise, this);
 
     if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
     {
-        mBaseAnimatedWithPhysicsGameObject_VelX = (mBaseAnimatedWithPhysicsGameObject_SpriteScale * -sHopBeginVelTable_4BC860[mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame]);
+        mBaseAnimatedWithPhysicsGameObject_VelX = (mBaseAnimatedWithPhysicsGameObject_SpriteScale * -sHopBeginVelTable_4BC860[mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame]);
     }
     else
     {
-        mBaseAnimatedWithPhysicsGameObject_VelX = (mBaseAnimatedWithPhysicsGameObject_SpriteScale * sHopBeginVelTable_4BC860[mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame]);
+        mBaseAnimatedWithPhysicsGameObject_VelX = (mBaseAnimatedWithPhysicsGameObject_SpriteScale * sHopBeginVelTable_4BC860[mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame]);
     }
 
     if (!WallHit_401930(mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(30), mBaseAnimatedWithPhysicsGameObject_VelX))
@@ -1387,15 +1387,15 @@ const FP sHopMidAirVelTable_4BC870[8] = {
 
 void Scrab::Motion_7_HopMidair_45F1A0()
 {
-    Event_Broadcast(kEventNoise, this);
+    EventBroadcast(kEventNoise, this);
 
     if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
     {
-        mBaseAnimatedWithPhysicsGameObject_VelX = (mBaseAnimatedWithPhysicsGameObject_SpriteScale * -sHopMidAirVelTable_4BC870[mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame]);
+        mBaseAnimatedWithPhysicsGameObject_VelX = (mBaseAnimatedWithPhysicsGameObject_SpriteScale * -sHopMidAirVelTable_4BC870[mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame]);
     }
     else
     {
-        mBaseAnimatedWithPhysicsGameObject_VelX = (mBaseAnimatedWithPhysicsGameObject_SpriteScale * sHopMidAirVelTable_4BC870[mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame]);
+        mBaseAnimatedWithPhysicsGameObject_VelX = (mBaseAnimatedWithPhysicsGameObject_SpriteScale * sHopMidAirVelTable_4BC870[mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame]);
     }
 
     PathLine* pLine = nullptr;
@@ -1463,20 +1463,20 @@ const FP sLandVelXTable_4BC890[4] = {
 
 void Scrab::Motion_8_HopLand_45F500()
 {
-    if (mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame == 0)
+    if (mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame == 0)
     {
         Scrab_SFX(ScrabSounds::eHitCollision_4, 0, 0x7FFF, 1);
     }
 
-    Event_Broadcast(kEventNoise, this);
+    EventBroadcast(kEventNoise, this);
 
     if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
     {
-        mBaseAnimatedWithPhysicsGameObject_VelX = (mBaseAnimatedWithPhysicsGameObject_SpriteScale * -sLandVelXTable_4BC890[mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame]);
+        mBaseAnimatedWithPhysicsGameObject_VelX = (mBaseAnimatedWithPhysicsGameObject_SpriteScale * -sLandVelXTable_4BC890[mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame]);
     }
     else
     {
-        mBaseAnimatedWithPhysicsGameObject_VelX = (mBaseAnimatedWithPhysicsGameObject_SpriteScale * sLandVelXTable_4BC890[mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame]);
+        mBaseAnimatedWithPhysicsGameObject_VelX = (mBaseAnimatedWithPhysicsGameObject_SpriteScale * sLandVelXTable_4BC890[mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame]);
     }
 
     if (WallHit_401930(mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(30), mBaseAnimatedWithPhysicsGameObject_VelX))
@@ -1563,7 +1563,7 @@ const FP sStandToWalkVelTable_4BC778[3] = {
 
 void Scrab::Motion_10_StandToWalk_45E670()
 {
-    FP vel = sStandToWalkVelTable_4BC778[mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame];
+    FP vel = sStandToWalkVelTable_4BC778[mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame];
 
     if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
     {
@@ -1601,11 +1601,11 @@ void Scrab::Motion_11_StandToRun_45E9F0()
 {
     if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
     {
-        mBaseAnimatedWithPhysicsGameObject_VelX = (mBaseAnimatedWithPhysicsGameObject_SpriteScale * -sStandToRunVel_4BC7F0[mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame]);
+        mBaseAnimatedWithPhysicsGameObject_VelX = (mBaseAnimatedWithPhysicsGameObject_SpriteScale * -sStandToRunVel_4BC7F0[mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame]);
     }
     else
     {
-        mBaseAnimatedWithPhysicsGameObject_VelX = (mBaseAnimatedWithPhysicsGameObject_SpriteScale * sStandToRunVel_4BC7F0[mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame]);
+        mBaseAnimatedWithPhysicsGameObject_VelX = (mBaseAnimatedWithPhysicsGameObject_SpriteScale * sStandToRunVel_4BC7F0[mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame]);
     }
 
     if (WallHit_401930(mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(30), mBaseAnimatedWithPhysicsGameObject_VelX))
@@ -1635,11 +1635,11 @@ void Scrab::Motion_12_WalkToStand_45E930()
 {
     if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
     {
-        mBaseAnimatedWithPhysicsGameObject_VelX = (mBaseAnimatedWithPhysicsGameObject_SpriteScale * -sWalkToStandVel_4BC7E0[mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame]);
+        mBaseAnimatedWithPhysicsGameObject_VelX = (mBaseAnimatedWithPhysicsGameObject_SpriteScale * -sWalkToStandVel_4BC7E0[mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame]);
     }
     else
     {
-        mBaseAnimatedWithPhysicsGameObject_VelX = (mBaseAnimatedWithPhysicsGameObject_SpriteScale * sWalkToStandVel_4BC7E0[mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame]);
+        mBaseAnimatedWithPhysicsGameObject_VelX = (mBaseAnimatedWithPhysicsGameObject_SpriteScale * sWalkToStandVel_4BC7E0[mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame]);
     }
 
     if (WallHit_401930(mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(30), mBaseAnimatedWithPhysicsGameObject_VelX))
@@ -1673,20 +1673,20 @@ const FP sRunJumpBeginVelTable_4BC8A0[14] = {
 
 void Scrab::Motion_13_RunJumpBegin_45F5D0()
 {
-    if (mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame == 1)
+    if (mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame == 1)
     {
         SFX_Play_Pitch(SoundEffect::PickupItem_33, 50, -800, 0);
     }
 
-    Event_Broadcast(kEventNoise, this);
+    EventBroadcast(kEventNoise, this);
 
     if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
     {
-        mBaseAnimatedWithPhysicsGameObject_VelX = (mBaseAnimatedWithPhysicsGameObject_SpriteScale * -sRunJumpBeginVelTable_4BC8A0[mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame]);
+        mBaseAnimatedWithPhysicsGameObject_VelX = (mBaseAnimatedWithPhysicsGameObject_SpriteScale * -sRunJumpBeginVelTable_4BC8A0[mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame]);
     }
     else
     {
-        mBaseAnimatedWithPhysicsGameObject_VelX = (mBaseAnimatedWithPhysicsGameObject_SpriteScale * sRunJumpBeginVelTable_4BC8A0[mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame]);
+        mBaseAnimatedWithPhysicsGameObject_VelX = (mBaseAnimatedWithPhysicsGameObject_SpriteScale * sRunJumpBeginVelTable_4BC8A0[mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame]);
     }
 
     if (WallHit_401930(mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(30), mBaseAnimatedWithPhysicsGameObject_VelX))
@@ -1764,15 +1764,15 @@ const FP sRunJumpEndVelTable_4BC8C0[4] = {
 
 void Scrab::Motion_14_RunJumpEnd_45F850()
 {
-    Event_Broadcast(kEventNoise, this);
+    EventBroadcast(kEventNoise, this);
 
     if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
     {
-        mBaseAnimatedWithPhysicsGameObject_VelX = (mBaseAnimatedWithPhysicsGameObject_SpriteScale * -sRunJumpEndVelTable_4BC8C0[mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame]);
+        mBaseAnimatedWithPhysicsGameObject_VelX = (mBaseAnimatedWithPhysicsGameObject_SpriteScale * -sRunJumpEndVelTable_4BC8C0[mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame]);
     }
     else
     {
-        mBaseAnimatedWithPhysicsGameObject_VelX = (mBaseAnimatedWithPhysicsGameObject_SpriteScale * sRunJumpEndVelTable_4BC8C0[mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame]);
+        mBaseAnimatedWithPhysicsGameObject_VelX = (mBaseAnimatedWithPhysicsGameObject_SpriteScale * sRunJumpEndVelTable_4BC8C0[mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame]);
     }
 
     if (WallHit_401930(mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(30), mBaseAnimatedWithPhysicsGameObject_VelX))
@@ -1805,7 +1805,7 @@ void Scrab::Motion_15_ToFall_45F180()
 
 void Scrab::Motion_16_Stamp_45F920()
 {
-    if (mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame == 9)
+    if (mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame == 9)
     {
         Scrab_SFX(ScrabSounds::eHitCollision_4, 0, 0x7FFF, 1);
         SFX_Play_Pitch(SoundEffect::KillEffect_78, 60, Math_RandomRange(-255, 255), 0);
@@ -1869,7 +1869,7 @@ void Scrab::Motion_19_Unused_45F9D0()
 
 void Scrab::Motion_20_HowlBegin_45FA60()
 {
-    if (mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame == 2)
+    if (mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame == 2)
     {
         Scrab_SFX(ScrabSounds::eYell_8, 0, Math_RandomRange(-1600, -900), 1);
     }
@@ -1903,7 +1903,7 @@ void Scrab::Motion_21_HowlEnd_45FAF0()
 
 void Scrab::Motion_22_Shriek_45FB00()
 {
-    if (mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame == 4)
+    if (mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame == 4)
     {
         Scrab_SFX(ScrabSounds::eHowl_0, 0, 0x7FFF, 1);
     }
@@ -1929,7 +1929,7 @@ void Scrab::Motion_22_Shriek_45FB00()
 
 void Scrab::Motion_23_ScrabBattleAnim_45FBA0()
 {
-    if (mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame == 0)
+    if (mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame == 0)
     {
         field_14C = Scrab_SFX(ScrabSounds::eShredding_5, 100, Math_RandomRange(-600, 200), 1);
     }
@@ -1996,11 +1996,11 @@ void Scrab::Motion_25_ToFeed_45FCE0()
 {
     if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
     {
-        mBaseAnimatedWithPhysicsGameObject_VelX = (mBaseAnimatedWithPhysicsGameObject_SpriteScale * -FP_FromRaw(sFeedVelTable_4BC8D0[mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame]));
+        mBaseAnimatedWithPhysicsGameObject_VelX = (mBaseAnimatedWithPhysicsGameObject_SpriteScale * -FP_FromRaw(sFeedVelTable_4BC8D0[mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame]));
     }
     else
     {
-        mBaseAnimatedWithPhysicsGameObject_VelX = (mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromRaw(sFeedVelTable_4BC8D0[mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame]));
+        mBaseAnimatedWithPhysicsGameObject_VelX = (mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromRaw(sFeedVelTable_4BC8D0[mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame]));
     }
 
     if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
@@ -2023,15 +2023,15 @@ void Scrab::Motion_25_ToFeed_45FCE0()
 
 void Scrab::Motion_26_Feed_45FDA0()
 {
-    if (mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame == 0)
+    if (mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame == 0)
     {
         if (Math_RandomRange(0, 100) >= 50)
         {
-            SFX_Play_Mono(SoundEffect::Eating2_80, 0, 0);
+            SfxPlayMono(SoundEffect::Eating2_80, 0, 0);
         }
         else
         {
-            SFX_Play_Mono(SoundEffect::Eating1_79, 0, 0);
+            SfxPlayMono(SoundEffect::Eating1_79, 0, 0);
         }
     }
 
@@ -2058,7 +2058,7 @@ void Scrab::Motion_27_AttackLunge_45FDF0()
             {
                 if (field_120_pTarget->VTakeDamage(this))
                 {
-                    SFX_Play_Mono(SoundEffect::KillEffect_78, 0, 0);
+                    SfxPlayMono(SoundEffect::KillEffect_78, 0, 0);
                     Mudokon_SFX(MudSounds::eKnockbackOuch_10, 0, 0, field_120_pTarget);
                 }
 
@@ -2066,7 +2066,7 @@ void Scrab::Motion_27_AttackLunge_45FDF0()
             }
         }
 
-        if (mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame == 4)
+        if (mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame == 4)
         {
             Scrab_SFX(ScrabSounds::eHowl_0, 0, 0x7FFF, 1);
         }
@@ -2107,13 +2107,13 @@ void Scrab::Motion_29_DeathBegin_45FFA0()
     }
 
     s32 tableVal = 0;
-    if (mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame == -1)
+    if (mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame == -1)
     {
         tableVal = 0;
     }
     else
     {
-        tableVal = sFeedVelTable_4BC8D0[mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame];
+        tableVal = sFeedVelTable_4BC8D0[mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame];
     }
 
     if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
@@ -2133,7 +2133,7 @@ void Scrab::Motion_29_DeathBegin_45FFA0()
 
 s16 Scrab::Brain_Fighting_45C370()
 {
-    if (Event_Get(kEventDeathReset))
+    if (EventGet(kEventDeathReset))
     {
         mBaseGameObjectFlags.Set(Options::eDead);
     }
@@ -2453,7 +2453,7 @@ s16 Scrab::Brain_Fighting_45C370()
 
 s16 Scrab::Brain_BatDeath_45CA60()
 {
-    if (Event_Get(kEventDeathReset))
+    if (EventGet(kEventDeathReset))
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
@@ -2551,7 +2551,7 @@ s16 Scrab::Brain_ChasingEnemy_45CC90()
         //return Brain_ChasingEnemy_Real_45CC90();
     }
 
-    if (Event_Get(kEventDeathReset))
+    if (EventGet(kEventDeathReset))
     {
         mBaseGameObjectFlags.Set(Options::eDead);
     }
@@ -2604,7 +2604,7 @@ s16 Scrab::Brain_ChasingEnemy_45CC90()
         }
     }
 
-    if (Event_Get(kEventAbeOhm))
+    if (EventGet(kEventAbeOhm))
     {
         mNextMotion = eScrabMotions::Motion_20_HowlBegin_45FA60;
         return 18;
@@ -3214,7 +3214,7 @@ s16 Scrab::Brain_ChasingEnemy_45CC90()
         }
 
         case 18:
-            if (Event_Get(kEventAbeOhm))
+            if (EventGet(kEventAbeOhm))
             {
                 return field_110_brain_sub_state;
             }
@@ -3228,7 +3228,7 @@ s16 Scrab::Brain_ChasingEnemy_45CC90()
 
 s16 Scrab::Brain_Patrol_460020()
 {
-    if (Event_Get(kEventDeathReset))
+    if (EventGet(kEventDeathReset))
     {
         mBaseGameObjectFlags.Set(Options::eDead);
     }
@@ -3254,7 +3254,7 @@ s16 Scrab::Brain_Patrol_460020()
         field_120_pTarget = nullptr;
     }
 
-    if (Event_Get(kEventAbeOhm))
+    if (EventGet(kEventAbeOhm))
     {
         mNextMotion = eScrabMotions::Motion_20_HowlBegin_45FA60;
         return 9;
@@ -3518,7 +3518,7 @@ s16 Scrab::Brain_Patrol_460020()
             return 0;
 
         case 9:
-            if (!Event_Get(kEventAbeOhm))
+            if (!EventGet(kEventAbeOhm))
             {
                 mNextMotion = eScrabMotions::Motion_1_Stand_45E620;
                 return 0;
@@ -3532,7 +3532,7 @@ s16 Scrab::Brain_Patrol_460020()
 
 s16 Scrab::Brain_WalkAround_460D80()
 {
-    if (Event_Get(kEventDeathReset))
+    if (EventGet(kEventDeathReset))
     {
         mBaseGameObjectFlags.Set(Options::eDead);
     }
@@ -3558,7 +3558,7 @@ s16 Scrab::Brain_WalkAround_460D80()
         field_120_pTarget = nullptr;
     }
 
-    if (Event_Get(kEventAbeOhm))
+    if (EventGet(kEventAbeOhm))
     {
         mNextMotion = eScrabMotions::Motion_20_HowlBegin_45FA60;
         return 6;
@@ -3798,7 +3798,7 @@ s16 Scrab::Brain_WalkAround_460D80()
             return 1;
 
         case 6:
-            if (Event_Get(kEventAbeOhm))
+            if (EventGet(kEventAbeOhm))
             {
                 return field_110_brain_sub_state;
             }

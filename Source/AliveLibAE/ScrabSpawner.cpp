@@ -95,7 +95,7 @@ void ScrabSpawner::VUpdate()
     }
 
     auto pExistingSpawnedScrab = static_cast<Scrab*>(sObjectIds.Find_Impl(field_3C_spawned_scrab_id));
-    if (!Event_Get(kEventDeathReset) && !(mBaseGameObjectFlags.Get(BaseGameObject::eDead)))
+    if (!EventGet(kEventDeathReset) && !(mBaseGameObjectFlags.Get(BaseGameObject::eDead)))
     {
         if (field_38_state == ScrabSpawnerStates::eScrabSpawned_1)
         {
@@ -122,7 +122,7 @@ void ScrabSpawner::VUpdate()
                     auto pNewScrab = relive_new Scrab(pTlv, field_20_tlvInfo, field_26_spawn_direction);
                     if (pNewScrab)
                     {
-                        SFX_Play_Mono(SoundEffect::ScrabSpawn_111, 0);
+                        SfxPlayMono(SoundEffect::ScrabSpawn_111, 0);
 
                         field_38_state = ScrabSpawnerStates::eScrabSpawned_1;
                         field_3C_spawned_scrab_id = pNewScrab->field_8_object_id;

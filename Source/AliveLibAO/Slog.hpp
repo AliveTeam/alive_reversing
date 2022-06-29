@@ -73,7 +73,7 @@ public:
     void ToIdle();
 
     virtual s16 VTakeDamage(BaseGameObject* pFrom) override;
-    virtual void VOn_TLV_Collision(Path_TLV* pTlv) override;
+    virtual void VOnTlvCollision(Path_TLV* pTlv) override;
     virtual void VScreenChanged() override;
     virtual void VRender(PrimHeader** ppOt) override;
     virtual void VOnThrowableHit(BaseGameObject* pFrom) override;

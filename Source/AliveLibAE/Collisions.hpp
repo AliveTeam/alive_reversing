@@ -112,8 +112,8 @@ inline constexpr CollisionMask kBgFloorWallOrCeiling(eBackgroundFloor_4, eBackgr
 class PathLine final
 {
 public:
-    PSX_RECT field_0_rect;
-    eLineTypes field_8_type;
+    PSX_RECT mRect;
+    eLineTypes mLineType;
     s8 field_9_pad;
     s16 field_A_previous;
     s16 field_C_next;

@@ -51,7 +51,7 @@ public:
     virtual void VSetYSpawn(s32 camWorldY, s16 bLeft);
     virtual void VOnPathTransition(s16 camWorldX, s32 camWorldY, CameraPos direction);
     virtual s16 VTakeDamage(BaseGameObject* pFrom);
-    virtual void VOn_TLV_Collision(Path_TLV* pTlv);
+    virtual void VOnTlvCollision(Path_TLV* pTlv);
     virtual void VCheckCollisionLineStillValid(s32 distance);
     virtual void VOnTrapDoorOpen();
 

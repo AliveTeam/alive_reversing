@@ -60,7 +60,7 @@ Blood::Blood(FP xpos, FP ypos, FP xOff, FP yOff, FP scale, s32 count)
             field_11C_texture_mode = TPageMode::e4Bit_0;
         }
 
-        u8 u0 = mBaseAnimatedWithPhysicsGameObject_Anim.field_84_vram_rect.x & 63;
+        u8 u0 = mBaseAnimatedWithPhysicsGameObject_Anim.mVramRect.x & 63;
         if (field_11C_texture_mode == TPageMode::e8Bit_1)
         {
             u0 = 2 * u0;
@@ -70,7 +70,7 @@ Blood::Blood(FP xpos, FP ypos, FP xOff, FP yOff, FP scale, s32 count)
             u0 = 4 * u0;
         }
 
-        u8 v0 = mBaseAnimatedWithPhysicsGameObject_Anim.field_84_vram_rect.y & 0xFF;
+        u8 v0 = mBaseAnimatedWithPhysicsGameObject_Anim.mVramRect.y & 0xFF;
 
         FrameHeader* pFrameHeader = reinterpret_cast<FrameHeader*>(&(*mBaseAnimatedWithPhysicsGameObject_Anim.field_20_ppBlock)[mBaseAnimatedWithPhysicsGameObject_Anim.Get_FrameHeader(-1)->field_0_frame_header_offset]);
 
@@ -101,8 +101,8 @@ Blood::Blood(FP xpos, FP ypos, FP xOff, FP yOff, FP scale, s32 count)
                 SetClut(pSprt,
                         static_cast<s16>(
                             PSX_getClut(
-                                mBaseAnimatedWithPhysicsGameObject_Anim.field_8C_pal_vram_xy.x,
-                                mBaseAnimatedWithPhysicsGameObject_Anim.field_8C_pal_vram_xy.y)));
+                                mBaseAnimatedWithPhysicsGameObject_Anim.mPalVramXY.x,
+                                mBaseAnimatedWithPhysicsGameObject_Anim.mPalVramXY.y)));
 
                 SetUV0(pSprt, u0, v0);
                 pSprt->field_14_w = frameW - 1;
@@ -188,7 +188,7 @@ void Blood::VRender(PrimHeader** ppOt)
             BloodParticle* pParticle = &field_F8_pResBuf[i];
             Prim_Sprt* pSprt = &pParticle->field_10_prims[gPsxDisplay_5C1130.field_C_buffer_index];
 
-            u8 u0 = mBaseAnimatedWithPhysicsGameObject_Anim.field_84_vram_rect.x & 63;
+            u8 u0 = mBaseAnimatedWithPhysicsGameObject_Anim.mVramRect.x & 63;
             if (field_11C_texture_mode == TPageMode::e8Bit_1)
             {
                 u0 *= 2;
@@ -198,7 +198,7 @@ void Blood::VRender(PrimHeader** ppOt)
                 u0 *= 4;
             }
 
-            SetUV0(pSprt, u0, static_cast<u8>(mBaseAnimatedWithPhysicsGameObject_Anim.field_84_vram_rect.y));
+            SetUV0(pSprt, u0, static_cast<u8>(mBaseAnimatedWithPhysicsGameObject_Anim.mVramRect.y));
 
             FrameHeader* pFrameHeader = reinterpret_cast<FrameHeader*>(
                 &(*mBaseAnimatedWithPhysicsGameObject_Anim.field_20_ppBlock)[mBaseAnimatedWithPhysicsGameObject_Anim.Get_FrameHeader(-1)->field_0_frame_header_offset]);
@@ -228,8 +228,8 @@ void Blood::VRender(PrimHeader** ppOt)
         const s32 tpage = PSX_getTPage(
             field_11C_texture_mode,
             TPageAbr::eBlend_0,
-            mBaseAnimatedWithPhysicsGameObject_Anim.field_84_vram_rect.x,
-            mBaseAnimatedWithPhysicsGameObject_Anim.field_84_vram_rect.y);
+            mBaseAnimatedWithPhysicsGameObject_Anim.mVramRect.x,
+            mBaseAnimatedWithPhysicsGameObject_Anim.mVramRect.y);
 
         Prim_SetTPage* pTPage = &field_FC_tPages[gPsxDisplay_5C1130.field_C_buffer_index];
         Init_SetTPage(pTPage, 0, 0, static_cast<s16>(tpage));

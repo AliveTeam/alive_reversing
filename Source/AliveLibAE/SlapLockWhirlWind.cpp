@@ -87,7 +87,7 @@ s32 SlapLockWhirlWind::VGetSaveState(u8* pSaveBuffer)
 
 void SlapLockWhirlWind::VUpdate()
 {
-    if (Event_Get(kEventDeathReset))
+    if (EventGet(kEventDeathReset))
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
@@ -116,11 +116,11 @@ void SlapLockWhirlWind::VUpdate()
             {
                 if (static_cast<s32>(sGnFrame) % 20)
                 {
-                    SFX_Play_Mono(SoundEffect::FlyingSpirit1_107, 0);
+                    SfxPlayMono(SoundEffect::FlyingSpirit1_107, 0);
                 }
                 else
                 {
-                    SFX_Play_Mono(SoundEffect::FlyingSpirit2_108, 0);
+                    SfxPlayMono(SoundEffect::FlyingSpirit2_108, 0);
                 }
             }
 

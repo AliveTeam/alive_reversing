@@ -90,7 +90,7 @@ s16 BaseAliveGameObject::IsInInvisibleZone(BaseAliveGameObject* pObj)
         return TRUE;
     }*/
 
-    if (Event_Get(kEventAbeOhm))
+    if (EventGet(kEventAbeOhm))
     {
         return FALSE;
     }
@@ -118,7 +118,7 @@ s16 BaseAliveGameObject::IsInInvisibleZone(BaseAliveGameObject* pObj)
         }
 
         // Check for stacked/overlaping TLV's
-        pTlv = sPath_dword_BB47C0->TLV_Get_At_4DB290(pTlv,
+        pTlv = sPath_dword_BB47C0->TlvGetAt(pTlv,
                                                      FP_FromInteger(bRect.x),
                                                      FP_FromInteger(bRect.y),
                                                      FP_FromInteger(bRect.w),
@@ -257,7 +257,7 @@ s16 BaseAliveGameObject::VTakeDamage(BaseGameObject* /*pFrom*/)
     return 0;
 }
 
-void BaseAliveGameObject::VOn_TLV_Collision(Path_TLV* /*pTlv*/)
+void BaseAliveGameObject::VOnTlvCollision(Path_TLV* /*pTlv*/)
 {
     // Empty
 }
@@ -296,8 +296,8 @@ void BaseAliveGameObject::VCheckCollisionLineStillValid(s16 distance)
         BaseAliveGameObjectCollisionLine = pLine;
         mBaseAnimatedWithPhysicsGameObject_YPos = hitY;
 
-        if (pLine->field_8_type == eLineTypes::eDynamicCollision_32 ||
-            pLine->field_8_type == eLineTypes::eBackgroundDynamicCollision_36)
+        if (pLine->mLineType == eLineTypes::eDynamicCollision_32 ||
+            pLine->mLineType == eLineTypes::eBackgroundDynamicCollision_36)
         {
             const PSX_RECT bRect = VGetBoundingRect();
 
@@ -592,8 +592,8 @@ Bool32 BaseAliveGameObject::InAirCollision(PathLine** ppPathLine, FP* hitX, FP* 
 
     if (bCollision)
     {
-        if ((*ppPathLine)->field_8_type == eLineTypes::eDynamicCollision_32 ||
-            (*ppPathLine)->field_8_type == eLineTypes::eBackgroundDynamicCollision_36)
+        if ((*ppPathLine)->mLineType == eLineTypes::eDynamicCollision_32 ||
+            (*ppPathLine)->mLineType == eLineTypes::eBackgroundDynamicCollision_36)
         {
             return bCollision;
         }

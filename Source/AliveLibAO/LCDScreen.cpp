@@ -288,7 +288,7 @@ void LCDScreen::VScreenChanged()
 
 void LCDScreen::VUpdate()
 {
-    if (Event_Get(kEventDeathReset))
+    if (EventGet(kEventDeathReset))
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
@@ -365,7 +365,7 @@ void LCDScreen::VUpdate()
         field_A4_message_cutoff_ptr = slicedText;
         if (*slicedText != ' ')
         {
-            SFX_Play_Mono(SoundEffect::LCDScreen_87, 0, 0);
+            SfxPlayMono(SoundEffect::LCDScreen_87, 0, 0);
         }
     }
 }

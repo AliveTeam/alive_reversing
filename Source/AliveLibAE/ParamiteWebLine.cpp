@@ -54,12 +54,12 @@ ParamiteWebLine::ParamiteWebLine(Path_ParamiteWebLine* pTlv, s32 tlvInfo)
             mBaseAnimatedWithPhysicsGameObject_YPos + FP_FromInteger(20),
             &pLine, &hitX, &hitY, CollisionMask(eTrackLine_8)))
     {
-        mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pLine->field_0_rect.x);
+        mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pLine->mRect.x);
 
         const FP screenTop = pScreenManager->CamYPos();
-        if (FP_FromInteger(pLine->field_0_rect.y) >= screenTop)
+        if (FP_FromInteger(pLine->mRect.y) >= screenTop)
         {
-            field_F8_top = pLine->field_0_rect.y;
+            field_F8_top = pLine->mRect.y;
         }
         else
         {
@@ -67,9 +67,9 @@ ParamiteWebLine::ParamiteWebLine(Path_ParamiteWebLine* pTlv, s32 tlvInfo)
         }
 
         const FP screenBottom = pScreenManager->CamYPos() + FP_FromInteger(240);
-        if (FP_FromInteger(pLine->field_0_rect.h) <= screenBottom)
+        if (FP_FromInteger(pLine->mRect.h) <= screenBottom)
         {
-            field_FA_bottom = pLine->field_0_rect.h;
+            field_FA_bottom = pLine->mRect.h;
         }
         else
         {
@@ -168,7 +168,7 @@ void ParamiteWebLine::VUpdate()
         if (field_1A0_pulse_position > field_FA_bottom)
         {
             field_1A0_pulse_position = field_F8_top;
-            SFX_Play_Mono(static_cast<SoundEffect>(Math_RandomRange(SoundEffect::WebDrop1_103, SoundEffect::WebDrop2_104)), Math_RandomRange(40, 80));
+            SfxPlayMono(static_cast<SoundEffect>(Math_RandomRange(SoundEffect::WebDrop1_103, SoundEffect::WebDrop2_104)), Math_RandomRange(40, 80));
             field_106_wobble_pos = field_F8_top;
             return;
         }

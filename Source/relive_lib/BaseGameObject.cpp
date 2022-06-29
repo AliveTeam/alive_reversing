@@ -53,7 +53,7 @@ BaseGameObject::BaseGameObject(s16 bAddToObjectList, s16 resourceArraySize)
 
 BaseGameObject::~BaseGameObject()
 {
-    Event_Cancel_For_Obj(this);
+    EventCancelForObj(this);
 
     for (s32 i = 0; i < field_10_resources_array.Size(); i++)
     {

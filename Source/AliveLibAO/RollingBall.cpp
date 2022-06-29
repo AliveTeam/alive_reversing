@@ -155,9 +155,9 @@ void RollingBall::VUpdate()
 
         case States::eStartRolling_1:
         {
-            if (!(mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame % 3))
+            if (!(mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame % 3))
             {
-                SFX_Play_Mono(static_cast<SoundEffect>(Math_RandomRange(SoundEffect::RollingBallNoise1_71, SoundEffect::RollingBallNoise2_72)), 0, 0);
+                SfxPlayMono(static_cast<SoundEffect>(Math_RandomRange(SoundEffect::RollingBallNoise1_71, SoundEffect::RollingBallNoise2_72)), 0, 0);
             }
 
             Accelerate();
@@ -184,9 +184,9 @@ void RollingBall::VUpdate()
 
         case States::eRolling_2:
         {
-            if (!(mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame % 3))
+            if (!(mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame % 3))
             {
-                SFX_Play_Mono(static_cast<SoundEffect>(Math_RandomRange(SoundEffect::RollingBallNoise1_71, SoundEffect::RollingBallNoise2_72)), 0, 0);
+                SfxPlayMono(static_cast<SoundEffect>(Math_RandomRange(SoundEffect::RollingBallNoise1_71, SoundEffect::RollingBallNoise2_72)), 0, 0);
             }
 
             Accelerate();
@@ -205,7 +205,7 @@ void RollingBall::VUpdate()
 
             CrushThingsInTheWay();
 
-            if (Event_Get(kEventDeathReset))
+            if (EventGet(kEventDeathReset))
             {
                 field_114_pRollingBallShaker->mBaseGameObjectRefCount--;
                 field_114_pRollingBallShaker->field_32_bKillMe = 1;
@@ -271,7 +271,7 @@ void RollingBall::VUpdate()
                 return;
             }
 
-            if (Event_Get(kEventDeathReset))
+            if (EventGet(kEventDeathReset))
             {
                 mBaseGameObjectFlags.Set(Options::eDead);
                 CrushThingsInTheWay();
@@ -343,7 +343,7 @@ void RollingBall::VUpdate()
         }
 
         case States::eCrushedBees_4:
-            if (mBaseAnimatedWithPhysicsGameObject_LvlNumber != gMap.mCurrentLevel || mBaseAnimatedWithPhysicsGameObject_PathNumber != gMap.mCurrentPath || Event_Get(kEventDeathReset))
+            if (mBaseAnimatedWithPhysicsGameObject_LvlNumber != gMap.mCurrentLevel || mBaseAnimatedWithPhysicsGameObject_PathNumber != gMap.mCurrentPath || EventGet(kEventDeathReset))
             {
                 mBaseGameObjectFlags.Set(Options::eDead);
             }

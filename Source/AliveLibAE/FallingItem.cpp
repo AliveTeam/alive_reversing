@@ -177,7 +177,7 @@ void FallingItem::VScreenChanged()
 
 void FallingItem::VUpdate()
 {
-    if (Event_Get(kEventDeathReset))
+    if (EventGet(kEventDeathReset))
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
@@ -189,11 +189,11 @@ void FallingItem::VUpdate()
         {
             if (mBaseAnimatedWithPhysicsGameObject_Scale == Scale::Fg)
             {
-                SFX_Play_Mono(SoundEffect::FallingItemPresence1_74, 45);
+                SfxPlayMono(SoundEffect::FallingItemPresence1_74, 45);
             }
             else
             {
-                SFX_Play_Mono(SoundEffect::FallingItemPresence1_74, 20);
+                SfxPlayMono(SoundEffect::FallingItemPresence1_74, 20);
             }
         }
 
@@ -201,11 +201,11 @@ void FallingItem::VUpdate()
         {
             if (mBaseAnimatedWithPhysicsGameObject_Scale == Scale::Fg)
             {
-                SFX_Play_Mono(SoundEffect::FallingItemPresence2_75, 45);
+                SfxPlayMono(SoundEffect::FallingItemPresence2_75, 45);
             }
             else
             {
-                SFX_Play_Mono(SoundEffect::FallingItemPresence2_75, 20);
+                SfxPlayMono(SoundEffect::FallingItemPresence2_75, 20);
             }
         }
     }
@@ -355,8 +355,8 @@ void FallingItem::VUpdate()
                 field_140_sound_channels = 0;
             }
 
-            Event_Broadcast(kEventLoudNoise, this);
-            SFX_Play_Mono(SoundEffect::FallingItemLand_62, 0, mBaseAnimatedWithPhysicsGameObject_SpriteScale);
+            EventBroadcast(kEventLoudNoise, this);
+            SfxPlayMono(SoundEffect::FallingItemLand_62, 0, mBaseAnimatedWithPhysicsGameObject_SpriteScale);
 
             if (mBaseAnimatedWithPhysicsGameObject_Scale == Scale::Fg)
             {

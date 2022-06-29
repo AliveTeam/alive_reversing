@@ -97,7 +97,7 @@ s16 BackgroundGlukkon::VTakeDamage(BaseGameObject* pFrom)
 
 void BackgroundGlukkon::VUpdate()
 {
-    if (Event_Get(kEventDeathReset))
+    if (EventGet(kEventDeathReset))
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }

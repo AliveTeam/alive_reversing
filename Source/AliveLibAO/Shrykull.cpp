@@ -113,11 +113,11 @@ void Shrykull::VUpdate()
     switch (field_10C_state)
     {
         case State::eTransform_0:
-            if (mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame == 0)
+            if (mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame == 0)
             {
                 SFX_Play_Pitch(SoundEffect::Shrykull1_108, 127, -2000);
                 SFX_Play_Pitch(SoundEffect::Shrykull2_109, 127, 0);
-                SFX_Play_Mono(SoundEffect::IngameTransition_107, 127);
+                SfxPlayMono(SoundEffect::IngameTransition_107, 127);
             }
 
             if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit12_ForwardLoopCompleted))
@@ -128,7 +128,7 @@ void Shrykull::VUpdate()
             break;
 
         case State::eZapTargets_1:
-            if (mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame == 0)
+            if (mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame == 0)
             {
                 if (Math_NextRandom() >= 128u)
                 {
@@ -209,7 +209,7 @@ void Shrykull::VUpdate()
                     field_11C_obj_being_zapped->mBaseAliveGameObjectFlags.Set(Flags_10A::e10A_Bit3);
 
                     SFX_Play_Pitch(SoundEffect::Respawn_22, 100, 2000);
-                    SFX_Play_Mono(SoundEffect::Zap1_57, 0);
+                    SfxPlayMono(SoundEffect::Zap1_57, 0);
 
                     field_10C_state = State::eKillTargets_4;
                     field_110_timer = sGnFrame + 12;
@@ -236,7 +236,7 @@ void Shrykull::VUpdate()
             break;
 
         case State::eFinish_3:
-            if (mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame == 0)
+            if (mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame == 0)
             {
                 SFX_Play_Pitch(SoundEffect::Shrykull1_108, 127, -2000);
                 SFX_Play_Pitch(SoundEffect::Shrykull2_109, 127, 0);
@@ -250,7 +250,7 @@ void Shrykull::VUpdate()
             break;
 
         case State::eKillTargets_4:
-            if (mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame == 0)
+            if (mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame == 0)
             {
                 if (Math_NextRandom() >= 128u)
                 {

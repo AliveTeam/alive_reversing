@@ -98,7 +98,7 @@ void Bullet::VUpdate()
                     New_Smoke_Particles_419A80(hitX, hitY, field_2C_scale, 3, 0);
                     if (Math_RandomRange(0, 100) < 90 || Math_RandomRange(0, 128) >= 64)
                     {
-                        SFX_Play_Mono(SoundEffect::Bullet2_2, volume, 0);
+                        SfxPlayMono(SoundEffect::Bullet2_2, volume, 0);
                     }
                     mBaseGameObjectFlags.Set(BaseGameObject::eDead);
                     return;
@@ -110,11 +110,11 @@ void Bullet::VUpdate()
                 {
                     if (Math_RandomRange(0, 100) < 70)
                     {
-                        SFX_Play_Mono(SoundEffect::Bullet2_2, volume, 0);
+                        SfxPlayMono(SoundEffect::Bullet2_2, volume, 0);
                     }
                     if (Math_RandomRange(0, 128) < 64)
                     {
-                        SFX_Play_Mono(SoundEffect::Bullet1_1, volume, 0);
+                        SfxPlayMono(SoundEffect::Bullet1_1, volume, 0);
                     }
                     mBaseGameObjectFlags.Set(BaseGameObject::eDead);
                     return;
@@ -184,11 +184,11 @@ void Bullet::VUpdate()
 
             if (Math_RandomRange(0, 128) < 64)
             {
-                SFX_Play_Mono(SoundEffect::Bullet1_1, 75, 0);
+                SfxPlayMono(SoundEffect::Bullet1_1, 75, 0);
             }
             else
             {
-                SFX_Play_Mono(SoundEffect::Bullet2_2, 75, 0);
+                SfxPlayMono(SoundEffect::Bullet2_2, 75, 0);
             }
             mBaseGameObjectFlags.Set(BaseGameObject::eDead);
         }

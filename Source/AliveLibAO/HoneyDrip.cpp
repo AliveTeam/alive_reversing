@@ -27,9 +27,9 @@ void HoneyDrip::VUpdate()
     mBaseAnimatedWithPhysicsGameObject_XPos += mBaseAnimatedWithPhysicsGameObject_VelX;
     mBaseAnimatedWithPhysicsGameObject_YPos += mBaseAnimatedWithPhysicsGameObject_VelY;
 
-    if (mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame == 7 && !field_E4_bSoundPlaying)
+    if (mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame == 7 && !field_E4_bSoundPlaying)
     {
-        SFX_Play_Mono(SoundEffect::HoneyDrip_26, 0, 0);
+        SfxPlayMono(SoundEffect::HoneyDrip_26, 0, 0);
         field_E4_bSoundPlaying = TRUE;
     }
 

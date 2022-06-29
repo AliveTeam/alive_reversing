@@ -155,7 +155,7 @@ public:
     virtual void VUpdate() override;
     virtual void VRender(PrimHeader** ppOt) override;
     virtual void VScreenChanged() override;
-    virtual void VOn_TLV_Collision(Path_TLV* pTlv) override;
+    virtual void VOnTlvCollision(Path_TLV* pTlv) override;
     virtual s16 VTakeDamage(BaseGameObject* pFrom) override;
     virtual void VOnTrapDoorOpen() override;
     virtual void VOnThrowableHit(BaseGameObject* pFrom) override;

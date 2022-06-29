@@ -120,7 +120,7 @@ void HoneySack::VOnThrowableHit(BaseGameObject* /*pFrom*/)
 
 void HoneySack::VUpdate()
 {
-    if (Event_Get(kEventDeathReset))
+    if (EventGet(kEventDeathReset))
     {
         mBaseGameObjectFlags.Set(Options::eDead);
     }
@@ -195,7 +195,7 @@ void HoneySack::VUpdate()
                     &hitY,
                     mBaseAnimatedWithPhysicsGameObject_SpriteScale == FP_FromInteger(1) ? 0x01 : 0x10))
             {
-                SFX_Play_Mono(SoundEffect::MountingElum_38, 90, 0);
+                SfxPlayMono(SoundEffect::MountingElum_38, 90, 0);
                 Environment_SFX_42A220(EnvironmentSfx::eHitGroundSoft_6, 90, -1000, nullptr);
                 mBaseAnimatedWithPhysicsGameObject_YPos = hitY;
                 field_E8_state = State::eUpdateHoneySackOnGround_3;
