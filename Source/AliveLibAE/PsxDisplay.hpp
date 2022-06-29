@@ -30,38 +30,36 @@ struct PrimHeader;
 class PSX_Display_Buffer final
 {
 public:
-    PSX_DRAWENV field_0_draw_env;
-    PSX_DISPENV field_5C_disp_env;
-    PrimHeader* field_70_ot_buffer[256];
+    PSX_DRAWENV mDrawEnv;
+    PSX_DISPENV mDisplayEnv;
+    PrimHeader* mOrderingTable[256];
 };
 // TODO: Size
 
 class PsxDisplay final
 {
 public:
-    s16 field_0_width = 0;
-    s16 field_2_height = 0;
-    s16 field_4_unused = 0;
-    s16 field_6_bpp = 0;
-    s16 field_8_max_buffers = 0;
-    u16 field_A_buffer_size = 0;
-    u16 field_C_buffer_index = 0;
-    s16 field_E_padding = 0;
-    PSX_Display_Buffer field_10_drawEnv[2] = {};
+    s16 mWidth = 0;
+    s16 mHeight = 0;
+    s16 mBitsPerPixel = 0;
+    s16 mMaxBuffers = 0;
+    u16 mBufferSize = 0;
+    u16 mBufferIndex = 0;
+    PSX_Display_Buffer mDrawEnvs[2] = {};
 
-    void ctor_41DC30();
-    void PutCurrentDispEnv_41DFA0();
-    void PSX_Display_Render_OT_41DDF0();
+    void Init();
+    void PutCurrentDispEnv();
+    void RenderOrderingTable();
 };
 // TODO: Size
 
-ALIVE_VAR_EXTERN(PsxDisplay, gPsxDisplay_5C1130);
-ALIVE_VAR_EXTERN(bool, sCommandLine_NoFrameSkip_5CA4D1);
-ALIVE_VAR_EXTERN(s16, sbDebugFontLoaded_BB4A24);
-ALIVE_VAR_EXTERN(s32, sbDisplayRenderFrame_55EF8C);
+ALIVE_VAR_EXTERN(PsxDisplay, gPsxDisplay);
+ALIVE_VAR_EXTERN(bool, sCommandLine_NoFrameSkip);
+ALIVE_VAR_EXTERN(s16, sbDebugFontLoaded);
+ALIVE_VAR_EXTERN(s32, sbDisplayRenderFrame);
 
 void DebugFont_Flush_4DD050();
-s32 DebugFont_Printf_4F8B60(s32 idx, const char_type* formatStr, ...);
-s32 DebugFont_Init_4DCF40();
+s32 DebugFont_Printf(s32 idx, const char_type* formatStr, ...);
+s32 DebugFont_Init();
 
 void PSX_DrawDebugTextBuffers(Bitmap* pBmp, const RECT& rect);

@@ -161,7 +161,7 @@ void Spark::VRender(PrimHeader** ppOt)
         {
             SparkRes* pSpark = &field_58_pRes[i];
 
-            Line_G2* pPrim = &pSpark->field_1C_pLineG2s[gPsxDisplay_5C1130.field_C_buffer_index];
+            Line_G2* pPrim = &pSpark->field_1C_pLineG2s[gPsxDisplay.mBufferIndex];
             LineG2_Init(pPrim);
 
             const s32 y0 = yOrg + FP_GetExponent(pSpark->field_4_y0 * field_48_scale);
@@ -254,7 +254,7 @@ void Spark::VRender(PrimHeader** ppOt)
             }
         }
 
-        Prim_SetTPage* pTPage = &field_20_tPage[gPsxDisplay_5C1130.field_C_buffer_index];
+        Prim_SetTPage* pTPage = &field_20_tPage[gPsxDisplay.mBufferIndex];
         Init_SetTPage(pTPage, 1, 0, PSX_getTPage(TPageMode::e4Bit_0, TPageAbr::eBlend_1, 0, 0));
         OrderingTable_Add(OtLayer(ppOt, field_52_layer), &pTPage->mBase);
         pScreenManager->InvalidateRectCurrentIdx(

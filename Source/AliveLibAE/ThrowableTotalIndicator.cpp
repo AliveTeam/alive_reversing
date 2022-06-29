@@ -277,7 +277,7 @@ void ThrowableTotalIndicator::VRender(PrimHeader** ppOt)
         const FP y0 = FP_FromInteger(kNumbersArray_551B20[field_48_num_to_show][(4 * counter) + 2]) * field_38_scale;
         const FP x1 = FP_FromInteger(kNumbersArray_551B20[field_48_num_to_show][(4 * counter) + 3]) * field_38_scale;
         const FP y1 = FP_FromInteger(kNumbersArray_551B20[field_48_num_to_show][(4 * counter) + 4]) * field_38_scale;
-        Line_G2* pLine = &field_4C_lines[gPsxDisplay_5C1130.field_C_buffer_index][counter];
+        Line_G2* pLine = &field_4C_lines[gPsxDisplay.mBufferIndex][counter];
 
         LineG2_Init(pLine);
 
@@ -291,7 +291,7 @@ void ThrowableTotalIndicator::VRender(PrimHeader** ppOt)
         OrderingTable_Add(OtLayer(ppOt, field_40_layer), &pLine->mBase.header);
     }
 
-    Prim_SetTPage* pTPage = &field_16C_tPage[gPsxDisplay_5C1130.field_C_buffer_index];
+    Prim_SetTPage* pTPage = &field_16C_tPage[gPsxDisplay.mBufferIndex];
     Init_SetTPage(pTPage, 1, 0, PSX_getTPage(TPageMode::e4Bit_0, TPageAbr::eBlend_1, 0, 0));
 
     OrderingTable_Add(OtLayer(ppOt, field_40_layer), &pTPage->mBase);

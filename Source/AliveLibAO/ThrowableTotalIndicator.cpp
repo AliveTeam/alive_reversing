@@ -272,7 +272,7 @@ void ThrowableTotalIndicator::VRender(PrimHeader** ppOt)
             primVertX = PsxToPCX(xpos, 11);
         }
 
-        Line_F2* pLine = &field_3C_lines[gPsxDisplay_504C78.field_A_buffer_index][counter];
+        Line_F2* pLine = &field_3C_lines[gPsxDisplay.mBufferIndex][counter];
         Line_F2_Init(pLine);
 
         SetXY0(pLine, primBaseX + FP_GetExponent(x0), ypos + FP_GetExponent(y0));
@@ -285,7 +285,7 @@ void ThrowableTotalIndicator::VRender(PrimHeader** ppOt)
         OrderingTable_Add(OtLayer(ppOt, field_30_layer), &pLine->mBase.header);
     }
 
-    Init_SetTPage(&field_17C_tPage[gPsxDisplay_504C78.field_A_buffer_index], 1, 0, PSX_getTPage(TPageMode::e4Bit_0, TPageAbr::eBlend_1, 0, 0));
+    Init_SetTPage(&field_17C_tPage[gPsxDisplay.mBufferIndex], 1, 0, PSX_getTPage(TPageMode::e4Bit_0, TPageAbr::eBlend_1, 0, 0));
     OrderingTable_Add(OtLayer(ppOt, field_30_layer), &field_17C_tPage->mBase);
 
     pScreenManager->InvalidateRect(

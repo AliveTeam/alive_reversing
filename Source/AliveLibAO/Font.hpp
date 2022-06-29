@@ -12,8 +12,8 @@ namespace AO {
 
 struct File_Font final
 {
-    s16 field_0_width;
-    s16 field_2_height;
+    s16 mWidth;
+    s16 mHeight;
     s16 field_4_color_depth;
     s16 field_6_palette_size;
     u8 field_8_palette[32];

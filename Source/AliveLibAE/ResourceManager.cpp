@@ -57,25 +57,25 @@ void Game_ShowLoadingIcon_482D80()
     pParticle->mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit16_bBlending);
 
     pParticle->mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_0;
-    PSX_SetDefDrawEnv_4F5AA0(&dispBuffer.field_0_draw_env, 0, 0, 640, 240);
-    PSX_PutDrawEnv_4F5980(&dispBuffer.field_0_draw_env);
+    PSX_SetDefDrawEnv_4F5AA0(&dispBuffer.mDrawEnv, 0, 0, 640, 240);
+    PSX_PutDrawEnv_4F5980(&dispBuffer.mDrawEnv);
     PSX_DrawSync_4F6280(0);
 
     // This was doing something odd with OT index.. I think its trying to simulate f64 buffering by
     // using other parts of the OT while another part is drawn, but it was bugged because it cleared the other anyway
     // on PC it seems fine to just always start at zero.
-    PSX_ClearOTag_4F6290(dispBuffer.field_70_ot_buffer, 43);
-    pParticle->mBaseAnimatedWithPhysicsGameObject_Anim.VRender(320, 220, dispBuffer.field_70_ot_buffer, 0, 0);
-    PSX_DrawOTag_4F6540(dispBuffer.field_70_ot_buffer);
+    PSX_ClearOTag_4F6290(dispBuffer.mOrderingTable, 43);
+    pParticle->mBaseAnimatedWithPhysicsGameObject_Anim.VRender(320, 220, dispBuffer.mOrderingTable, 0, 0);
+    PSX_DrawOTag_4F6540(dispBuffer.mOrderingTable);
     PSX_DrawSync_4F6280(0);
 
-    PSX_ClearOTag_4F6290(dispBuffer.field_70_ot_buffer, 43);
-    pParticle->mBaseAnimatedWithPhysicsGameObject_Anim.VRender(320, 640 - 164, dispBuffer.field_70_ot_buffer, 0, 0);
-    PSX_DrawOTag_4F6540(dispBuffer.field_70_ot_buffer);
+    PSX_ClearOTag_4F6290(dispBuffer.mOrderingTable, 43);
+    pParticle->mBaseAnimatedWithPhysicsGameObject_Anim.VRender(320, 640 - 164, dispBuffer.mOrderingTable, 0, 0);
+    PSX_DrawOTag_4F6540(dispBuffer.mOrderingTable);
     PSX_DrawSync_4F6280(0);
 
-    PSX_SetDefDispEnv_4F55A0(&dispBuffer.field_5C_disp_env, 0, 0, 640, 240);
-    PSX_PutDispEnv_4F5890(&dispBuffer.field_5C_disp_env);
+    PSX_SetDefDispEnv_4F55A0(&dispBuffer.mDisplayEnv, 0, 0, 640, 240);
+    PSX_PutDispEnv_4F5890(&dispBuffer.mDisplayEnv);
     pParticle->mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     bHideLoadingIcon_5C1BAA = 1;
 }

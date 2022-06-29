@@ -206,7 +206,7 @@ void Rope::VRender(PrimHeader** ppOt)
                             pScreenManager->mIdx);
 
                         ClipPoly_Vertically_4584B0(
-                            &field_E8_pRopeRes[idx].field_10_polys[gPsxDisplay_504C78.field_A_buffer_index],
+                            &field_E8_pRopeRes[idx].field_10_polys[gPsxDisplay.mBufferIndex],
                             minY + mBaseAnimatedWithPhysicsGameObject_YOffset,
                             maxY + mBaseAnimatedWithPhysicsGameObject_YOffset);
 

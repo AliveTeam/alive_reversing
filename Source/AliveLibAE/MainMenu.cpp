@@ -1531,7 +1531,7 @@ MainMenuNextCam MainMenuController::Page_FMV_Level_Update_4D4AB0(u32 input_held)
                 }
             }
             stru_5C3110.Free_433130();
-            gPsxDisplay_5C1130.PutCurrentDispEnv_41DFA0();
+            gPsxDisplay.PutCurrentDispEnv();
             pScreenManager->DecompressCameraToVRam(reinterpret_cast<u16**>(gMap.field_2C_camera_array[0]->field_C_pCamRes));
             pScreenManager->MoveImage();
             pScreenManager->EnableRendering();
@@ -1931,7 +1931,7 @@ MainMenuNextCam MainMenuController::BackStory_Or_NewGame_Update_4D1C60(u32 input
                 }
             }
 
-            gPsxDisplay_5C1130.PutCurrentDispEnv_41DFA0();
+            gPsxDisplay.PutCurrentDispEnv();
             pScreenManager->DecompressCameraToVRam((u16**) gMap.field_2C_camera_array[0]->field_C_pCamRes);
             pScreenManager->MoveImage();
             pScreenManager->EnableRendering();
@@ -3293,7 +3293,7 @@ s32 MainMenuController::ChangeScreenAndIntroLogic_4CF640()
                     }
                 }
 
-                gPsxDisplay_5C1130.PutCurrentDispEnv_41DFA0();
+                gPsxDisplay.PutCurrentDispEnv();
 
                 gMap.SetActiveCam(EReliveLevelIds::eMenu, 1, 1, CameraSwapEffects::ePlay1FMV_5, 10502, 0);
                 const AnimRecord& rec = AnimRec(AnimId::MenuDoor);

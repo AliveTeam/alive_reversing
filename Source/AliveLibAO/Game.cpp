@@ -438,7 +438,7 @@ void Game_Loop_437630()
         }
 
         // Render objects
-        PrimHeader** ppOt = gPsxDisplay_504C78.field_C_drawEnv[gPsxDisplay_504C78.field_A_buffer_index].field_70_ot_buffer;
+        PrimHeader** ppOt = gPsxDisplay.mDrawEnvs[gPsxDisplay.mBufferIndex].mOrderingTable;
 
         for (s32 i = 0; i < gObjListDrawables->Size(); i++)
         {
@@ -459,7 +459,7 @@ void Game_Loop_437630()
         pScreenManager->VRender(ppOt);
         SYS_EventsPump_44FF90();
 
-        gPsxDisplay_504C78.PSX_Display_Render_OT_40DD20();
+        gPsxDisplay.RenderOrderingTable();
 
         // Destroy objects with certain flags
         for (s32 i = 0; i < gBaseGameObjects->Size(); i++)
@@ -531,7 +531,7 @@ void Game_Run_4373D0()
     //Nop_49BAF0();
     //Nop_49BB50();
 
-    gPsxDisplay_504C78.ctor_40DAB0(&gPsxDisplayParams_4BB830);
+    gPsxDisplay.Init();
     Input().InitPad(1);
 
     gBaseGameObjects = relive_new DynamicArrayT<BaseGameObject>(90);

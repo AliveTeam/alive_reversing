@@ -33,7 +33,7 @@ EffectBase::~EffectBase()
 
 void EffectBase::VRender(PrimHeader** ppOt)
 {
-    Prim_Tile* pTile = &mEffectBaseTile[gPsxDisplay_504C78.field_A_buffer_index];
+    Prim_Tile* pTile = &mEffectBaseTile[gPsxDisplay.mBufferIndex];
     Init_Tile(pTile);
 
     SetRGB0(pTile,
@@ -43,12 +43,12 @@ void EffectBase::VRender(PrimHeader** ppOt)
     SetXY0(pTile, 0, 0);
 
     pTile->field_14_w = 640;
-    pTile->field_16_h = gPsxDisplay_504C78.field_2_height;
+    pTile->field_16_h = gPsxDisplay.mHeight;
 
     Poly_Set_SemiTrans(&pTile->mBase.header, mSemiTrans);
     OrderingTable_Add(OtLayer(ppOt, mEffectBaseLayer), &pTile->mBase.header);
-    OrderingTable_Add(OtLayer(ppOt, mEffectBaseLayer), &mEffectBaseTPage[gPsxDisplay_504C78.field_A_buffer_index].mBase);
-    pScreenManager->InvalidateRectCurrentIdx(0, 0, 640, gPsxDisplay_504C78.field_2_height);
+    OrderingTable_Add(OtLayer(ppOt, mEffectBaseLayer), &mEffectBaseTPage[gPsxDisplay.mBufferIndex].mBase);
+    pScreenManager->InvalidateRectCurrentIdx(0, 0, 640, gPsxDisplay.mHeight);
 }
 
 } // namespace AO

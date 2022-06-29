@@ -129,7 +129,7 @@ void FG1::VRender(PrimHeader** ppOt)
 {
     for (s32 i = 0; i < field_28_render_block_count; i++)
     {
-        Poly_FT4* pPoly = &field_30_chnk_res[i].field_0_polys[gPsxDisplay_5C1130.field_C_buffer_index];
+        Poly_FT4* pPoly = &field_30_chnk_res[i].field_0_polys[gPsxDisplay.mBufferIndex];
         const s32 xpos = X0(pPoly);
         const s32 ypos = Y0(pPoly);
         if (pScreenManager->IsDirty(pScreenManager->Idx(), xpos, ypos) || pScreenManager->IsDirty(3, xpos, ypos))

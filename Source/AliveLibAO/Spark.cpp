@@ -169,7 +169,7 @@ void Spark::VRender(PrimHeader** ppOt)
     {
         SparkRes* pSpark = &field_48_pRes[i];
 
-        Line_G2* pPrim = &pSpark->field_1C_pLineG2s[gPsxDisplay_504C78.field_A_buffer_index];
+        Line_G2* pPrim = &pSpark->field_1C_pLineG2s[gPsxDisplay.mBufferIndex];
         LineG2_Init(pPrim);
 
         const s32 y0 = yOrg + FP_GetExponent(pSpark->field_4_y0 * field_38_scale);
@@ -201,7 +201,7 @@ void Spark::VRender(PrimHeader** ppOt)
         rect.h = std::max(rect.h, std::max(static_cast<s16>(y0), static_cast<s16>(y1)));
     }
 
-    Prim_SetTPage* pTPage = &field_10_tPage[gPsxDisplay_504C78.field_A_buffer_index];
+    Prim_SetTPage* pTPage = &field_10_tPage[gPsxDisplay.mBufferIndex];
     Init_SetTPage(pTPage, 1, 0, PSX_getTPage(TPageMode::e4Bit_0, TPageAbr::eBlend_1, 0, 0));
     OrderingTable_Add(OtLayer(ppOt, field_42_layer), &pTPage->mBase);
     pScreenManager->InvalidateRect(

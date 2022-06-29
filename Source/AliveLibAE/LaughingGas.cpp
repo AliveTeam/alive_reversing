@@ -162,13 +162,13 @@ void LaughingGas::VRender(PrimHeader** ppOt)
     {
         if (field_19C_pMem)
         {
-            if (sbDisplayRenderFrame_55EF8C)
+            if (sbDisplayRenderFrame)
             {
                 DoRender();
             }
             OrderingTable_Add(OtLayer(ppOt, field_58_layer), &field_5C_prim.mPrimHeader);
         }
-        pScreenManager->InvalidateRectCurrentIdx(0, 0, gPsxDisplay_5C1130.field_0_width, gPsxDisplay_5C1130.field_2_height);
+        pScreenManager->InvalidateRectCurrentIdx(0, 0, gPsxDisplay.mWidth, gPsxDisplay.mHeight);
     }
 }
 

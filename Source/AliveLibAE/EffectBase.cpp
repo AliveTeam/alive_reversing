@@ -28,7 +28,7 @@ EffectBase::~EffectBase()
 
 void EffectBase::VRender(PrimHeader** ppOt)
 {
-    Prim_Tile* pTile = &mEffectBaseTile[gPsxDisplay_5C1130.field_C_buffer_index];
+    Prim_Tile* pTile = &mEffectBaseTile[gPsxDisplay.mBufferIndex];
     Init_Tile(pTile);
     SetRGB0(pTile,
             static_cast<u8>(mEffectBaseRed),
@@ -36,20 +36,20 @@ void EffectBase::VRender(PrimHeader** ppOt)
             static_cast<u8>(mEffectBaseBlue));
     SetXY0(pTile, 0, 0);
     pTile->field_14_w = 640;
-    pTile->field_16_h = gPsxDisplay_5C1130.field_2_height;
+    pTile->field_16_h = gPsxDisplay.mHeight;
 
     if (mEffectBaseRed || mEffectBaseGreen || mEffectBaseBlue || !mSemiTrans)
     {
         Poly_Set_SemiTrans(&pTile->mBase.header, mSemiTrans);
         OrderingTable_Add(OtLayer(ppOt, mEffectBaseLayer), &pTile->mBase.header);
-        OrderingTable_Add(OtLayer(ppOt, mEffectBaseLayer), &mEffectBaseTPage[gPsxDisplay_5C1130.field_C_buffer_index].mBase);
+        OrderingTable_Add(OtLayer(ppOt, mEffectBaseLayer), &mEffectBaseTPage[gPsxDisplay.mBufferIndex].mBase);
         if (!dword_5CA4D4 || !(PSX_getTPage(TPageMode::e4Bit_0, TPageAbr::eBlend_1, 0, 0) & mEffectBaseTPage[0].field_C_tpage))
         {
             pScreenManager->InvalidateRectCurrentIdx(
                 0,
                 0,
                 640,
-                gPsxDisplay_5C1130.field_2_height);
+                gPsxDisplay.mHeight);
         }
     }
 }

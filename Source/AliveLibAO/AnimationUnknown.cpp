@@ -32,11 +32,11 @@ void AnimationUnknown::VCleanUp2_404280()
 
 void AnimationUnknown::VRender2_403FD0(s32 xpos, s32 ypos, PrimHeader** ppOt)
 {
-    Poly_FT4* pPoly = &field_10_polys[gPsxDisplay_504C78.field_A_buffer_index];
+    Poly_FT4* pPoly = &field_10_polys[gPsxDisplay.mBufferIndex];
     if (mAnimFlags.Get(AnimFlags::eBit3_Render))
     {
         // Copy from animation to local
-        *pPoly = field_68_anim_ptr->mOtData[gPsxDisplay_504C78.field_A_buffer_index];
+        *pPoly = field_68_anim_ptr->mOtData[gPsxDisplay.mBufferIndex];
 
         FrameInfoHeader* pFrameInfoHeader = field_68_anim_ptr->Get_FrameHeader(-1);
 
@@ -131,7 +131,7 @@ void AnimationUnknown::VRender2_403FD0(s32 xpos, s32 ypos, PrimHeader** ppOt)
 
 void AnimationUnknown::GetRenderedSize(PSX_RECT* pRect)
 {
-    Poly_FT4_Get_Rect(pRect, &field_10_polys[gPsxDisplay_504C78.field_A_buffer_index]);
+    Poly_FT4_Get_Rect(pRect, &field_10_polys[gPsxDisplay.mBufferIndex]);
 }
 
 }

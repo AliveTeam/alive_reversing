@@ -642,7 +642,7 @@ void MainMenuTransition::VRender_436610(PrimHeader** ppOt)
         s32 v27 = v26 + Math_FixedPoint_Multiply_451040(v36, val1);
         s32 v28 = Math_FixedPoint_Multiply_451040(op1, y1);
         y1 = field_240_k120 + (Math_FixedPoint_Multiply_451040(v27, v28) >> 16); // LOWORD
-        Poly_G3* pPoly = &field_1C_polys[gPsxDisplay_504C78.field_A_buffer_index].field_0_polys[i];
+        Poly_G3* pPoly = &field_1C_polys[gPsxDisplay.mBufferIndex].field_0_polys[i];
 
         SetRGB0(pPoly, static_cast<u8>(r0g0), static_cast<u8>(r0g0), 255);
         SetRGB1(pPoly, static_cast<u8>(rgValue), static_cast<u8>(rgValue), static_cast<u8>(bValue));
@@ -655,9 +655,9 @@ void MainMenuTransition::VRender_436610(PrimHeader** ppOt)
         OrderingTable_Add(OtLayer(ppOt, field_23C_layer), &pPoly->mBase.header);
     }
 
-    OrderingTable_Add(OtLayer(ppOt, field_23C_layer), &field_21C_tPage[gPsxDisplay_504C78.field_A_buffer_index].mBase);
+    OrderingTable_Add(OtLayer(ppOt, field_23C_layer), &field_21C_tPage[gPsxDisplay.mBufferIndex].mBase);
 
-    pScreenManager->InvalidateRectCurrentIdx(0, 0, gPsxDisplay_504C78.field_0_width, gPsxDisplay_504C78.field_2_height);
+    pScreenManager->InvalidateRectCurrentIdx(0, 0, gPsxDisplay.mWidth, gPsxDisplay.mHeight);
 
     if ((field_10_current_Value == 255 && field_14_fade_direction) || (field_10_current_Value == 0 && !field_14_fade_direction))
     {
@@ -1016,7 +1016,7 @@ void Menu::FMV_Select_Update_47E8D0()
                     }
 
                     stru_507C90.Free_41BEB0();
-                    gPsxDisplay_504C78.PutCurrentDispEnv_40DE40();
+                    gPsxDisplay.PutCurrentDispEnv();
                     pScreenManager->DecompressCameraToVRam(reinterpret_cast<u16**>(gMap.field_34_camera_array[0]->field_C_ppBits));
                     pScreenManager->MoveImage();
                     pScreenManager->mFlags = (pScreenManager->mFlags & ~1) ^ 1; // Toggle 1

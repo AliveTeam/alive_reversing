@@ -789,17 +789,17 @@ s16 Slog::IsPlayerNear()
 BaseAliveGameObject* Slog::FindAbeMudOrSlig()
 {
     BaseAliveGameObject* pResult = nullptr;
-    FP minDist = FP_FromInteger(gPsxDisplay_504C78.field_0_width);
+    FP minDist = FP_FromInteger(gPsxDisplay.mWidth);
 
     PSX_RECT bRect = VGetBoundingRect();
 
     if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
     {
-        bRect.x -= gPsxDisplay_504C78.field_0_width;
+        bRect.x -= gPsxDisplay.mWidth;
     }
     else
     {
-        bRect.w += gPsxDisplay_504C78.field_0_width;
+        bRect.w += gPsxDisplay.mWidth;
     }
 
     for (s32 i = 0; i < gBaseAliveGameObjects_4FC8A0->Size(); i++)

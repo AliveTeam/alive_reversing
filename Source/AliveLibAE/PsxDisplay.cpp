@@ -13,7 +13,7 @@
 #include "Sys.hpp"
 #include <gmock/gmock.h>
 
-ALIVE_VAR(1, 0x5C1130, PsxDisplay, gPsxDisplay_5C1130, {});
+ALIVE_VAR(1, 0x5C1130, PsxDisplay, gPsxDisplay, {});
 
 
 void PSX_Calc_FrameSkip_4945D0()
@@ -36,20 +36,20 @@ void PSX_Calc_FrameSkip_4945D0()
 
     if (ticks <= 400)
     {
-        sbDisplayRenderFrame_55EF8C = 1;
+        sbDisplayRenderFrame = 1;
     }
     else
     {
-        sbDisplayRenderFrame_55EF8C = sbDisplayRenderFrame_55EF8C == 0;
+        sbDisplayRenderFrame = sbDisplayRenderFrame == 0;
     }
 
     sLastTicks_5CA4CC = ticks;
     sPreviousTime_5CA4C8 = currentTime;
 
     // Override if frame skip is off
-    if (sCommandLine_NoFrameSkip_5CA4D1)
+    if (sCommandLine_NoFrameSkip)
     {
-        sbDisplayRenderFrame_55EF8C = 1;
+        sbDisplayRenderFrame = 1;
     }
 }
 
@@ -91,7 +91,7 @@ void DebugFont_Update_Text_4F8BE0(s32 idx)
 }
 
 ALIVE_ARY(1, 0xBB47CC, char_type, 600, sDebugFontTmpBuffer_BB47CC, {});
-ALIVE_VAR(1, 0xBB4A24, s16, sbDebugFontLoaded_BB4A24, 0);
+ALIVE_VAR(1, 0xBB4A24, s16, sbDebugFontLoaded, 0);
 ALIVE_VAR(1, 0xBB47C8, s32, sDebugTextIdx_BB47C8, 0);
 
 
@@ -122,23 +122,23 @@ s32 DebugFont_Open_4F8AB0(u8 xMargin, u8 yMargin, u8 displayWidth, u8 displayHei
     return idx;
 }
 
-s32 DebugFont_Init_4DCF40() // Font
+s32 DebugFont_Init() // Font
 {
-    if (!sbDebugFontLoaded_BB4A24)
+    if (!sbDebugFontLoaded)
     {
         Vram_alloc_explicit(960, 256, 991, 287);
         Vram_alloc_explicit(960, 384, 975, 385);
-        sbDebugFontLoaded_BB4A24 = 1;
+        sbDebugFontLoaded = 1;
     }
     DebugFont_Reset_4F8B40();
-    sDebugTextIdx_BB47C8 = DebugFont_Open_4F8AB0(8, 16, static_cast<u8>(gPsxDisplay_5C1130.field_0_width), 200, 0, 600u);
+    sDebugTextIdx_BB47C8 = DebugFont_Open_4F8AB0(8, 16, static_cast<u8>(gPsxDisplay.mWidth), 200, 0, 600u);
     //nullsub_7(sTextIdx_BB47C8);
     sDebugFontTmpBuffer_BB47CC[0] = 0;
     return 0;
 }
 
 
-s32 DebugFont_Printf_4F8B60(s32 idx, const char_type* formatStr, ...)
+s32 DebugFont_Printf(s32 idx, const char_type* formatStr, ...)
 {
     va_list va;
     va_start(va, formatStr);
@@ -155,7 +155,7 @@ s32 DebugFont_Printf_4F8B60(s32 idx, const char_type* formatStr, ...)
 
 void DebugFont_Flush_4DD050()
 {
-    DebugFont_Printf_4F8B60(sDebugTextIdx_BB47C8, sDebugFontTmpBuffer_BB47CC);
+    DebugFont_Printf(sDebugTextIdx_BB47C8, sDebugFontTmpBuffer_BB47CC);
     DebugFont_Update_Text_4F8BE0(sDebugTextIdx_BB47C8);
     sDebugFontTmpBuffer_BB47CC[0] = 0;
 }
@@ -183,42 +183,46 @@ void PSX_DrawDebugTextBuffers(Bitmap* pBmp, const RECT& rect)
     }
 }
 
-void PsxDisplay::ctor_41DC30()
+void PsxDisplay::Init()
 {
-    PSX_VSync_4F6170(0);
     PSX_SetDispMask_4F89F0(0);
+    PSX_VSync_4F6170(0);
     PSX_SetVideoMode_4FA8F0();
-    field_0_width = 640;
-    field_2_height = 240;
-    field_4_unused = 0;
-    field_6_bpp = 16;
-    field_8_max_buffers = 1;
-    field_A_buffer_size = 43;
-    field_C_buffer_index = 0;
-    PSX_ResetGraph_4F8800(0);
+
+    mBufferIndex = 0;
+    mBitsPerPixel = 16;
+
+    mWidth = 640;
+    mHeight = 240;
+
+    mMaxBuffers = 1;
+    mBufferSize = 43;
+
     PSX_SetGraphDebug_4F8A10(0);
+    PSX_ResetGraph_4F8800(0);
+
     Vram_init_495660();
     Vram_alloc_explicit(0, 0, 639, 271);
     Pal_Area_Init_483080(0, 240, 640, 32);
-    PSX_ClearOTag_4F6290(field_10_drawEnv[0].field_70_ot_buffer, field_A_buffer_size);
-    PSX_ClearOTag_4F6290(field_10_drawEnv[1].field_70_ot_buffer, field_A_buffer_size);
-    PSX_SetDefDrawEnv_4F5AA0(&field_10_drawEnv[0].field_0_draw_env, 0, 0, field_0_width, field_2_height);
-    PSX_SetDefDispEnv_4F55A0(&field_10_drawEnv[0].field_5C_disp_env, 0, 0, field_0_width, field_2_height);
+    PSX_ClearOTag_4F6290(mDrawEnvs[0].mOrderingTable, mBufferSize);
+    PSX_ClearOTag_4F6290(mDrawEnvs[1].mOrderingTable, mBufferSize);
+    PSX_SetDefDrawEnv_4F5AA0(&mDrawEnvs[0].mDrawEnv, 0, 0, mWidth, mHeight);
+    PSX_SetDefDispEnv_4F55A0(&mDrawEnvs[0].mDisplayEnv, 0, 0, mWidth, mHeight);
 
-    field_10_drawEnv[0].field_0_draw_env.field_17_dfe = 1;
-    field_10_drawEnv[1].field_0_draw_env.field_17_dfe = 1;
+    mDrawEnvs[0].mDrawEnv.field_17_dfe = 1;
+    mDrawEnvs[1].mDrawEnv.field_17_dfe = 1;
 
-    field_10_drawEnv[1].field_5C_disp_env.screen.x = 0;
-    field_10_drawEnv[0].field_5C_disp_env.screen.x = 0;
+    mDrawEnvs[1].mDisplayEnv.screen.x = 0;
+    mDrawEnvs[0].mDisplayEnv.screen.x = 0;
 
-    field_10_drawEnv[1].field_5C_disp_env.screen.y = 0;
-    field_10_drawEnv[0].field_5C_disp_env.screen.y = 0;
+    mDrawEnvs[1].mDisplayEnv.screen.y = 0;
+    mDrawEnvs[0].mDisplayEnv.screen.y = 0;
 
-    field_10_drawEnv[1].field_5C_disp_env.screen.h = 240;
-    field_10_drawEnv[0].field_5C_disp_env.screen.h = 240;
+    mDrawEnvs[1].mDisplayEnv.screen.h = 240;
+    mDrawEnvs[0].mDisplayEnv.screen.h = 240;
 
-    PSX_PutDrawEnv_4F5980(&field_10_drawEnv[0].field_0_draw_env);
-    PSX_PutDispEnv_4F5890(&field_10_drawEnv[0].field_5C_disp_env);
+    PSX_PutDrawEnv_4F5980(&mDrawEnvs[0].mDrawEnv);
+    PSX_PutDispEnv_4F5890(&mDrawEnvs[0].mDisplayEnv);
 
     PSX_RECT rect = {};
     rect.x = 0;
@@ -226,40 +230,37 @@ void PsxDisplay::ctor_41DC30()
     rect.w = 1024;
     rect.h = 512;
     PSX_ClearImage_4F5BD0(&rect, 0, 0, 0);
+
     PSX_DrawSync_4F6280(0);
     PSX_VSync_4F6170(0);
     PSX_SetDispMask_4F89F0(1);
 }
 
-void PsxDisplay::PutCurrentDispEnv_41DFA0()
+void PsxDisplay::PutCurrentDispEnv()
 {
-    PSX_PutDispEnv_4F5890(&field_10_drawEnv[field_C_buffer_index].field_5C_disp_env);
+    PSX_PutDispEnv_4F5890(&mDrawEnvs[mBufferIndex].mDisplayEnv);
 }
 
-ALIVE_VAR(1, 0x5CA4D1, bool, sCommandLine_NoFrameSkip_5CA4D1, false);
-ALIVE_VAR(1, 0x55EF8C, s32, sbDisplayRenderFrame_55EF8C, 1);
+ALIVE_VAR(1, 0x5CA4D1, bool, sCommandLine_NoFrameSkip, false);
+ALIVE_VAR(1, 0x55EF8C, s32, sbDisplayRenderFrame, 1);
 
-void PsxDisplay::PSX_Display_Render_OT_41DDF0()
+void PsxDisplay::RenderOrderingTable()
 {
-#if DEVELOPER_MODE
-    DEV::DebugOnFrameDraw(field_10_drawEnv[0].field_70_ot_buffer);
-#endif
-
-    if (field_8_max_buffers <= 1)
+    if (mMaxBuffers <= 1)
     {
         // Single buffered rendering
-        PSX_PutDrawEnv_4F5980(&field_10_drawEnv[0].field_0_draw_env);
+        PSX_PutDrawEnv_4F5980(&mDrawEnvs[0].mDrawEnv);
         PSX_Calc_FrameSkip_4945D0();
-        if (sCommandLine_NoFrameSkip_5CA4D1)
+        if (sCommandLine_NoFrameSkip)
         {
-            PSX_DrawOTag_4F6540(field_10_drawEnv[0].field_70_ot_buffer);
+            PSX_DrawOTag_4F6540(mDrawEnvs[0].mOrderingTable);
             PSX_DrawSync_4F6280(0);
         }
         else
         {
-            if (sbDisplayRenderFrame_55EF8C)
+            if (sbDisplayRenderFrame)
             {
-                PSX_DrawOTag_4F6540(field_10_drawEnv[0].field_70_ot_buffer);
+                PSX_DrawOTag_4F6540(mDrawEnvs[0].mOrderingTable);
                 PSX_DrawSync_4F6280(0);
             }
             else
@@ -269,9 +270,9 @@ void PsxDisplay::PSX_Display_Render_OT_41DDF0()
             }
             PSX_VSync_4F6170(2);
         }
-        PSX_PutDispEnv_4F58E0(&field_10_drawEnv[0].field_5C_disp_env);
-        PSX_ClearOTag_4F6290(field_10_drawEnv[0].field_70_ot_buffer, field_A_buffer_size);
-        field_C_buffer_index = 0;
+        PSX_PutDispEnv_4F58E0(&mDrawEnvs[0].mDisplayEnv);
+        PSX_ClearOTag_4F6290(mDrawEnvs[0].mOrderingTable, mBufferSize);
+        mBufferIndex = 0;
     }
     else
     {

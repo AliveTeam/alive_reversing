@@ -151,7 +151,7 @@ void ParamiteWeb::VRender(PrimHeader** ppOt)
                     PSX_RECT rect = {};
                     field_100_pRes[idx].GetRenderedSize(&rect);
                     pScreenManager->InvalidateRectCurrentIdx(rect.x, rect.y, rect.w, rect.h);
-                    ClipPoly_Vertically_4A09E0(&field_100_pRes[idx].field_10_polys[gPsxDisplay_5C1130.field_C_buffer_index], minY, maxY);
+                    ClipPoly_Vertically_4A09E0(&field_100_pRes[idx].field_10_polys[gPsxDisplay.mBufferIndex], minY, maxY);
                     y_start -= field_F6_segment_length;
                     if (y_start < minY)
                     {

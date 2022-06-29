@@ -6751,7 +6751,7 @@ void Abe::Motion_86_HandstoneBegin_45BD00()
         case StoneStates::eHandstoneMovieDone_2:
             if (sMovie_ref_count_BB4AE4 == 0)
             {
-                gPsxDisplay_5C1130.PutCurrentDispEnv_41DFA0();
+                gPsxDisplay.PutCurrentDispEnv();
                 pScreenManager->DecompressCameraToVRam((u16**) gMap.field_2C_camera_array[0]->field_C_pCamRes);
                 pScreenManager->EnableRendering();
                 pCircularFade->VFadeIn(0, 0);

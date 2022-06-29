@@ -197,7 +197,7 @@ void Rope::VRender(PrimHeader** ppOt)
                         rect.h);
 
                     ClipPoly_Vertically_4A09E0(
-                        &field_FC_pRopeRes[idx].field_10_polys[gPsxDisplay_5C1130.field_C_buffer_index],
+                        &field_FC_pRopeRes[idx].field_10_polys[gPsxDisplay.mBufferIndex],
                         minY,
                         maxY);
 

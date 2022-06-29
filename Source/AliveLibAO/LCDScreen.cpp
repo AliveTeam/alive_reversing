@@ -387,9 +387,9 @@ void LCDScreen::VRender(PrimHeader** ppOt)
             0,
             0,
             640,
-            static_cast<s16>(gPsxDisplay_504C78.field_2_height)};
+            static_cast<s16>(gPsxDisplay.mHeight)};
 
-        auto* pClippers = &field_10_prim_clippers[0][gPsxDisplay_504C78.field_A_buffer_index];
+        auto* pClippers = &field_10_prim_clippers[0][gPsxDisplay.mBufferIndex];
         Init_PrimClipper_495FD0(
             pClippers,
             &clipRect);
@@ -431,7 +431,7 @@ void LCDScreen::VRender(PrimHeader** ppOt)
         clipRect2.w = static_cast<s16>(PsxToPCX(maxWidth - screenX, 51));
         clipRect2.h = 48;
 
-        auto* clipper = &field_10_prim_clippers[1][gPsxDisplay_504C78.field_A_buffer_index];
+        auto* clipper = &field_10_prim_clippers[1][gPsxDisplay.mBufferIndex];
         Init_PrimClipper_495FD0(clipper, &clipRect2);
         OrderingTable_Add(OtLayer(ppOt, Layer::eLayer_BeforeWell_22), &clipper->mBase);
 

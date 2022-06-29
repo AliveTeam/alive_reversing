@@ -1834,7 +1834,7 @@ void HintFly::VUpdate()
 
 void HintFly::VRender(PrimHeader** ppOt)
 {
-    Prim_SetTPage* pTPage = &field_EC_tPages[gPsxDisplay_504C78.field_A_buffer_index];
+    Prim_SetTPage* pTPage = &field_EC_tPages[gPsxDisplay.mBufferIndex];
 
     PSX_RECT rect = {};
     rect.x = -32768;
@@ -1845,7 +1845,7 @@ void HintFly::VRender(PrimHeader** ppOt)
     for (s32 i = 0; i < field_118_counter; i++)
     {
         HintFlyParticle* pParticle = &field_E8_pRes[i];
-        Prim_Sprt* pSprt = &pParticle->field_24_sprt[gPsxDisplay_504C78.field_A_buffer_index];
+        Prim_Sprt* pSprt = &pParticle->field_24_sprt[gPsxDisplay.mBufferIndex];
 
         const s16 flyX = FP_GetExponent(PsxToPCX(pParticle->field_0_xpos, FP_FromInteger(11)));
         const s16 flyY = FP_GetExponent(pParticle->field_4_ypos);

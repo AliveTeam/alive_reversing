@@ -1078,7 +1078,7 @@ s16 Mudokon::FindBirdPortal()
         return 0;
     }
 
-    if (FP_Abs(field_1AC_pBirdPortal->field_18_xpos - mBaseAnimatedWithPhysicsGameObject_XPos) < FP_FromInteger(gPsxDisplay_504C78.field_0_width) && FP_Abs(field_1AC_pBirdPortal->field_28_ypos - mBaseAnimatedWithPhysicsGameObject_YPos) < FP_FromInteger(10))
+    if (FP_Abs(field_1AC_pBirdPortal->field_18_xpos - mBaseAnimatedWithPhysicsGameObject_XPos) < FP_FromInteger(gPsxDisplay.mWidth) && FP_Abs(field_1AC_pBirdPortal->field_28_ypos - mBaseAnimatedWithPhysicsGameObject_YPos) < FP_FromInteger(10))
     {
         if (field_1AC_pBirdPortal->field_10_portal_type == PortalType::eWorker_1 || field_1AC_pBirdPortal->field_10_portal_type == PortalType::eShrykull_2)
         {

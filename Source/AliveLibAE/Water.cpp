@@ -552,7 +552,7 @@ void Water::VRender(PrimHeader** ppOt)
                     }
                 }
 
-                Poly_FT4* pPoly = &pWaterRes->field_20_polys[gPsxDisplay_5C1130.field_C_buffer_index];
+                Poly_FT4* pPoly = &pWaterRes->field_20_polys[gPsxDisplay.mBufferIndex];
 
                 // Clear out the data pointer hack.
                 pPoly->mVerts[1].mUv.tpage_clut_pad = 0;

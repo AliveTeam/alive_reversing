@@ -3182,11 +3182,11 @@ BaseAliveGameObject* Slog::FindTarget_4C33C0(s16 bKillSligs, s16 bLookingUp)
     {
         bRect.x -= 368;
         bRect.w += 368;
-        bRect.y -= gPsxDisplay_5C1130.field_2_height;
-        bRect.h += gPsxDisplay_5C1130.field_2_height;
+        bRect.y -= gPsxDisplay.mHeight;
+        bRect.h += gPsxDisplay.mHeight;
     }
 
-    FP distanceToLastFoundObj = FP_FromInteger(gPsxDisplay_5C1130.field_0_width);
+    FP distanceToLastFoundObj = FP_FromInteger(gPsxDisplay.mWidth);
     auto pSligBeingListendTo = static_cast<BaseAliveGameObject*>(sObjectIds.Find_Impl(field_138_listening_to_slig_id));
 
     BaseAliveGameObject* pBestObj = nullptr;

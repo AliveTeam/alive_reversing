@@ -473,8 +473,8 @@ void PauseMenu::VRender(PrimHeader** ot)
     (this->*field_144_active_menu.field_4_fn_render)(ot, &field_144_active_menu);
 
     // Draw a full screen polygon that "dims" out the screen while paused
-    Prim_SetTPage* pTPage = &field_1F0_primitives[gPsxDisplay_5C1130.field_C_buffer_index];
-    Poly_F4* pPolys = &field_210_polygons[gPsxDisplay_5C1130.field_C_buffer_index];
+    Prim_SetTPage* pTPage = &field_1F0_primitives[gPsxDisplay.mBufferIndex];
+    Poly_F4* pPolys = &field_210_polygons[gPsxDisplay.mBufferIndex];
     PolyF4_Init_4F8830(pPolys);
     Poly_Set_SemiTrans(&pPolys->mBase.header, TRUE);
     Poly_Set_Blending(&pPolys->mBase.header, FALSE);
@@ -1672,16 +1672,16 @@ void PauseMenu::VUpdate()
                         {
                             if (pObj->mBaseGameObjectFlags.Get(BaseGameObject::eDrawable_Bit4))
                             {
-                                pObj->VRender(gPsxDisplay_5C1130.field_10_drawEnv[gPsxDisplay_5C1130.field_C_buffer_index].field_70_ot_buffer);
+                                pObj->VRender(gPsxDisplay.mDrawEnvs[gPsxDisplay.mBufferIndex].mOrderingTable);
                             }
                         }
                     }
 
-                    pScreenManager->VRender(gPsxDisplay_5C1130.field_10_drawEnv[gPsxDisplay_5C1130.field_C_buffer_index].field_70_ot_buffer);
+                    pScreenManager->VRender(gPsxDisplay.mDrawEnvs[gPsxDisplay.mBufferIndex].mOrderingTable);
 
                     PSX_DrawSync_4F6280(0);
                     ResourceManager::Reclaim_Memory_49C470(500000);
-                    gPsxDisplay_5C1130.PSX_Display_Render_OT_41DDF0();
+                    gPsxDisplay.RenderOrderingTable();
                     sInputObject_5BD4E0.Update(GetGameAutoPlayer());
 
                     if (field_130_selected_glow_counter > 0)

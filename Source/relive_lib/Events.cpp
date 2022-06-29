@@ -79,8 +79,8 @@ IBaseAnimatedWithPhysicsGameObject* IsEventInRange(Event eventType, FP xpos, FP 
     }
     else
     {
-        if (AsEventScale(pDerived->mBaseAnimatedWithPhysicsGameObject_Scale) == scale && FP_Abs(xpos - pDerived->mBaseAnimatedWithPhysicsGameObject_XPos) < FP_FromInteger(640) && // gPsxDisplay_504C78.field_0_width
-            FP_Abs(ypos - pDerived->mBaseAnimatedWithPhysicsGameObject_YPos) < FP_FromInteger(240)) // gPsxDisplay_504C78.field_2_height
+        if (AsEventScale(pDerived->mBaseAnimatedWithPhysicsGameObject_Scale) == scale && FP_Abs(xpos - pDerived->mBaseAnimatedWithPhysicsGameObject_XPos) < FP_FromInteger(640) && // gPsxDisplay.mWidth
+            FP_Abs(ypos - pDerived->mBaseAnimatedWithPhysicsGameObject_YPos) < FP_FromInteger(240)) // gPsxDisplay.mHeight
         {
             return pDerived;
         }
@@ -103,8 +103,8 @@ IBaseAnimatedWithPhysicsGameObject* IsEventInRange(Event eventType, FP xpos, FP 
 
     // At this point we known the type must be BaseAnimatedWithPhysicsGameObject
     auto pDerived = static_cast<IBaseAnimatedWithPhysicsGameObject*>(pObj);
-    if (pDerived->mBaseAnimatedWithPhysicsGameObject_SpriteScale == scale && FP_Abs(xpos - pDerived->mBaseAnimatedWithPhysicsGameObject_XPos) < FP_FromInteger(640) && // gPsxDisplay_504C78.field_0_width
-        FP_Abs(ypos - pDerived->mBaseAnimatedWithPhysicsGameObject_YPos) < FP_FromInteger(240))                                       // gPsxDisplay_504C78.field_2_height
+    if (pDerived->mBaseAnimatedWithPhysicsGameObject_SpriteScale == scale && FP_Abs(xpos - pDerived->mBaseAnimatedWithPhysicsGameObject_XPos) < FP_FromInteger(640) && // gPsxDisplay.mWidth
+        FP_Abs(ypos - pDerived->mBaseAnimatedWithPhysicsGameObject_YPos) < FP_FromInteger(240))                                       // gPsxDisplay.mHeight
     {
         return pDerived;
     }

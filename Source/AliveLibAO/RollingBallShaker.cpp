@@ -60,14 +60,14 @@ void RollingBallShaker::VUpdate()
 
 void RollingBallShaker::VRender(PrimHeader** ppOt)
 {
-    Prim_ScreenOffset* pPrim = &field_10_prim_screen_offset[gPsxDisplay_504C78.field_A_buffer_index + 1];
+    Prim_ScreenOffset* pPrim = &field_10_prim_screen_offset[gPsxDisplay.mBufferIndex + 1];
     if (field_32_bKillMe != 0)
     {
         // Unshake the screen
         PSX_Pos16 screenOff = {};
-        if (gPsxDisplay_504C78.field_A_buffer_index)
+        if (gPsxDisplay.mBufferIndex)
         {
-            screenOff.y = gPsxDisplay_504C78.field_2_height;
+            screenOff.y = gPsxDisplay.mHeight;
         }
         InitType_ScreenOffset_496000(pPrim, &screenOff);
         OrderingTable_Add(OtLayer(ppOt, Layer::eLayer_0), &pPrim->mBase);
@@ -78,15 +78,15 @@ void RollingBallShaker::VRender(PrimHeader** ppOt)
     else
     {
         PSX_Pos16 screenOff = sRollingBallShakerScreenOffsets_4BB740[field_30_shake_table_idx];
-        if (gPsxDisplay_504C78.field_A_buffer_index)
+        if (gPsxDisplay.mBufferIndex)
         {
-            screenOff.y += gPsxDisplay_504C78.field_2_height;
+            screenOff.y += gPsxDisplay.mHeight;
         }
 
         InitType_ScreenOffset_496000(pPrim, &screenOff);
         OrderingTable_Add(OtLayer(ppOt, Layer::eLayer_0), &pPrim->mBase);
     }
-    pScreenManager->InvalidateRectCurrentIdx(0, 0, 640, gPsxDisplay_504C78.field_2_height);
+    pScreenManager->InvalidateRectCurrentIdx(0, 0, 640, gPsxDisplay.mHeight);
 }
 
 } // namespace AO

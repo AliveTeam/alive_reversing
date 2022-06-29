@@ -177,7 +177,7 @@ void SnoozeParticle::VUpdate()
 void SnoozeParticle::VRender(PrimHeader** ppOt)
 {
     PSX_RECT rectToInvalidate = {};
-    const s16 bufIdx = gPsxDisplay_5C1130.field_C_buffer_index;
+    const s16 bufIdx = gPsxDisplay.mBufferIndex;
 
     if (field_1E4_state == SnoozeParticleState::eBlowingUp_2)
     {

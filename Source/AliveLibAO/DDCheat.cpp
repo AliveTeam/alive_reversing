@@ -109,7 +109,7 @@ static void writeHeaderElement(const T& element, FILE* f)
 
 void DDCheat::ScreenShot()
 {
-    auto pixelBuffer = relive_new u16[640 * gPsxDisplay_504C78.field_2_height];
+    auto pixelBuffer = relive_new u16[640 * gPsxDisplay.mHeight];
     if (pixelBuffer)
     {
         char_type fileNameBuffer[16] = {};
@@ -119,11 +119,11 @@ void DDCheat::ScreenShot()
         {
             return;
         }
-        const PSX_RECT rect = {0, 0, 640, static_cast<s16>(gPsxDisplay_504C78.field_2_height)};
+        const PSX_RECT rect = {0, 0, 640, static_cast<s16>(gPsxDisplay.mHeight)};
         PSX_StoreImage_496320(&rect, pixelBuffer);
         PSX_DrawSync_496750(0);
 
-        for (s32 i = 0; i < 640 * gPsxDisplay_504C78.field_2_height; i++)
+        for (s32 i = 0; i < 640 * gPsxDisplay.mHeight; i++)
         {
             const u16 pixel = pixelBuffer[i];
             pixelBuffer[i] = ((pixel >> 10) & 0x1F) + (32 * (32 * (pixel & 0x1F) + ((pixel >> 5) & 0x1F)));
@@ -566,7 +566,7 @@ s32 DDCheat::DebugFont_Printf(s32 idx, const char_type* formatStr, ...)
     char_type buffer[1024] = {};
     vsprintf(buffer, formatStr, va);
 
-    return ::DebugFont_Printf_4F8B60(idx, buffer);
+    return ::DebugFont_Printf(idx, buffer);
 }
 
 s32 DDCheat::DebugStr(const char_type* pStr, ...)

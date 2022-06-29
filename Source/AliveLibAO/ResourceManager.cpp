@@ -223,7 +223,7 @@ void Game_ShowLoadingIcon_445EB0()
 
             PSX_ClearOTag_496760(local_ot, 42);
 
-            pParticle->mBaseAnimatedWithPhysicsGameObject_Anim.VRender(320, gPsxDisplay_504C78.field_2_height + 220, local_ot, 0, 0);
+            pParticle->mBaseAnimatedWithPhysicsGameObject_Anim.VRender(320, gPsxDisplay.mHeight + 220, local_ot, 0, 0);
 
             PSX_DrawOTag_4969F0(local_ot);
             PSX_DrawSync_496750(0);

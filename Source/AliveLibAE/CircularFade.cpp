@@ -103,17 +103,17 @@ void CircularFade::VRender(PrimHeader** ppOt)
 
     const u8 fadeColour = static_cast<u8>(field_1B8_fade_colour);
 
-    Prim_Tile* pTile1 = &field_F8_tile1[gPsxDisplay_5C1130.field_C_buffer_index];
+    Prim_Tile* pTile1 = &field_F8_tile1[gPsxDisplay.mBufferIndex];
     Init_Tile(pTile1);
     SetRGB0(pTile1, fadeColour, fadeColour, fadeColour);
     SetXY0(pTile1, 0, 0);
-    pTile1->field_14_w = gPsxDisplay_5C1130.field_0_width;
+    pTile1->field_14_w = gPsxDisplay.mWidth;
     pTile1->field_16_h = frameRect.y;
     Poly_Set_SemiTrans(&pTile1->mBase.header, 1);
     OrderingTable_Add(OtLayer(ppOt, mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer), &pTile1->mBase.header);
 
 
-    Prim_Tile* pTile2 = &field_120_tile2[gPsxDisplay_5C1130.field_C_buffer_index];
+    Prim_Tile* pTile2 = &field_120_tile2[gPsxDisplay.mBufferIndex];
     Init_Tile(pTile2);
     SetRGB0(pTile2, fadeColour, fadeColour, fadeColour);
     SetXY0(pTile2, 0, frameRect.y);
@@ -130,33 +130,33 @@ void CircularFade::VRender(PrimHeader** ppOt)
     Poly_Set_SemiTrans(&pTile2->mBase.header, 1);
     OrderingTable_Add(OtLayer(ppOt, mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer), &pTile2->mBase.header);
 
-    Prim_Tile* pTile3 = &field_148_tile3[gPsxDisplay_5C1130.field_C_buffer_index];
+    Prim_Tile* pTile3 = &field_148_tile3[gPsxDisplay.mBufferIndex];
     Init_Tile(pTile3);
     SetRGB0(pTile3, fadeColour, fadeColour, fadeColour);
     SetXY0(pTile3, frameRect.w, frameRect.y);
-    pTile3->field_14_w = gPsxDisplay_5C1130.field_0_width - frameRect.w;
+    pTile3->field_14_w = gPsxDisplay.mWidth - frameRect.w;
     pTile3->field_16_h = frameRect.h - frameRect.y;
     Poly_Set_SemiTrans(&pTile3->mBase.header, 1);
     OrderingTable_Add(OtLayer(ppOt, mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer), &pTile3->mBase.header);
 
-    Prim_Tile* pTile4 = &field_170_tile4[gPsxDisplay_5C1130.field_C_buffer_index];
+    Prim_Tile* pTile4 = &field_170_tile4[gPsxDisplay.mBufferIndex];
     Init_Tile(pTile4);
     SetRGB0(pTile4, fadeColour, fadeColour, fadeColour);
     SetXY0(pTile4, 0, frameRect.h);
-    pTile4->field_14_w = gPsxDisplay_5C1130.field_0_width;
-    pTile4->field_16_h = gPsxDisplay_5C1130.field_2_height - frameRect.h;
+    pTile4->field_14_w = gPsxDisplay.mWidth;
+    pTile4->field_16_h = gPsxDisplay.mHeight - frameRect.h;
     Poly_Set_SemiTrans(&pTile4->mBase.header, 1);
     OrderingTable_Add(OtLayer(ppOt, mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer), &pTile4->mBase.header);
 
-    OrderingTable_Add(OtLayer(ppOt, mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer), &field_198_tPages[gPsxDisplay_5C1130.field_C_buffer_index].mBase);
+    OrderingTable_Add(OtLayer(ppOt, mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer), &field_198_tPages[gPsxDisplay.mBufferIndex].mBase);
 
     if (field_1B8_fade_colour < 255)
     {
         pScreenManager->InvalidateRectCurrentIdx(
             0,
             0,
-            gPsxDisplay_5C1130.field_0_width,
-            gPsxDisplay_5C1130.field_2_height);
+            gPsxDisplay.mWidth,
+            gPsxDisplay.mHeight);
     }
 
     if ((field_1B8_fade_colour == 255 && field_F4_flags.Get(Flags::eBit1_FadeIn)) || (field_1B8_fade_colour == 0 && !(field_F4_flags.Get(Flags::eBit1_FadeIn))))

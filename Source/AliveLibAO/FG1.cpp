@@ -280,7 +280,7 @@ void FG1::VRender(PrimHeader** ppOt)
         // AE blocks don't have a vram alloc
         //if (pBlock->field_58_rect.w > 0)
         {
-            Poly_FT4* pPoly = &pBlock->field_0_polys[gPsxDisplay_504C78.field_A_buffer_index];
+            Poly_FT4* pPoly = &pBlock->field_0_polys[gPsxDisplay.mBufferIndex];
 
             OrderingTable_Add(OtLayer(ppOt, pBlock->field_66_mapped_layer), &pPoly->mBase.header);
 

@@ -677,15 +677,15 @@ void Map::RemoveObjectsWithPurpleLight(s16 bMakeInvisible)
                     // TODO: Seems strange to check this flag, how did it get in the drawable list if its not a drawable ??
                     if (pDrawable->mBaseGameObjectFlags.Get(BaseGameObject::eDrawable_Bit4))
                     {
-                        pDrawable->VRender(gPsxDisplay_504C78.field_C_drawEnv[gPsxDisplay_504C78.field_A_buffer_index].field_70_ot_buffer);
+                        pDrawable->VRender(gPsxDisplay.mDrawEnvs[gPsxDisplay.mBufferIndex].mOrderingTable);
                     }
                 }
             }
 
             PSX_DrawSync_496750(0);
-            pScreenManager->VRender(gPsxDisplay_504C78.field_C_drawEnv[gPsxDisplay_504C78.field_A_buffer_index].field_70_ot_buffer);
+            pScreenManager->VRender(gPsxDisplay.mDrawEnvs[gPsxDisplay.mBufferIndex].mOrderingTable);
             SYS_EventsPump_44FF90();
-            gPsxDisplay_504C78.PSX_Display_Render_OT_40DD20();
+            gPsxDisplay.RenderOrderingTable();
         }
 
         if (bMakeInvisible)

@@ -322,7 +322,7 @@ void Main_ParseCommandLineArguments_494EA0(const char_type* /*pCmdLineNotUsed*/,
 
         if (strstr(pCommandLine, "-ddnoskip"))
         {
-            sCommandLine_NoFrameSkip_5CA4D1 = true;
+            sCommandLine_NoFrameSkip = true;
         }
 
         if (strstr(pCommandLine, "-ddfast"))
@@ -388,7 +388,7 @@ ALIVE_VAR(1, 0x5C1124, DynamicArrayT<BaseGameObject>*, gObjListDrawables, nullpt
 
 void Init_Sound_DynamicArrays_And_Others_43BDB0()
 {
-    DebugFont_Init_4DCF40();
+    DebugFont_Init();
     word_5C1B94 = 1; // Used in dead overlay stuff, CD number ??
     //Overlays_Init_43BFC0(); // Note: Pointless because never used in PC
     pPauseMenu_5C9300 = nullptr;
@@ -465,7 +465,7 @@ void Game_Run_466D40()
     SYS_EventsPump_494580();
 
     PSX_ResetCallBack_4FAA20();
-    gPsxDisplay_5C1130.ctor_41DC30();
+    gPsxDisplay.Init();
     PSX_CdInit_4FB2C0();
     PSX_CdSetDebug_4FB330(0);
     Input_Pads_Reset_4FA960(); // starts card/pads on psx ver
@@ -713,7 +713,7 @@ void Game_Loop_467230()
             AnimationBase::AnimateAll(gAnimations);
         }
 
-        PrimHeader** ppOtBuffer = gPsxDisplay_5C1130.field_10_drawEnv[gPsxDisplay_5C1130.field_C_buffer_index].field_70_ot_buffer;
+        PrimHeader** ppOtBuffer = gPsxDisplay.mDrawEnvs[gPsxDisplay.mBufferIndex].mOrderingTable;
 
         // Render objects
         for (s32 i = 0; i < gObjListDrawables->Size(); i++)
@@ -760,7 +760,7 @@ void Game_Loop_467230()
         pScreenManager->VRender(ppOtBuffer);
         SYS_EventsPump_494580(); // Exit checking?
 
-        gPsxDisplay_5C1130.PSX_Display_Render_OT_41DDF0();
+        gPsxDisplay.RenderOrderingTable();
 
         // Destroy objects with certain flags
         for (s16 idx = 0; idx < gBaseGameObjects->Size(); idx++)

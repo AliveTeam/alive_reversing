@@ -183,7 +183,7 @@ void DeathGas::VRender(PrimHeader** ppOt)
         {
             for (s32 k = 0; k < 4; k++)
             {
-                Poly_G4* pPoly = &gasPolys_5BC6E8.polys[i][j][k][gPsxDisplay_5C1130.field_C_buffer_index];
+                Poly_G4* pPoly = &gasPolys_5BC6E8.polys[i][j][k][gPsxDisplay.mBufferIndex];
 
                 SetRGB0(pPoly, 0, sbyte_3_5BD0E8.data[i][j][k], 0);
                 SetRGB1(pPoly, 0, sbyte_3_5BD0E8.data[i][j][k + 1], 0);
@@ -199,13 +199,13 @@ void DeathGas::VRender(PrimHeader** ppOt)
                     SetRGB3(pPoly, 0, sbyte_3_5BD0E8.data[i][j + 1][k + 1], 0);
                 }
 
-                const s32 heightBase = (gPsxDisplay_5C1130.field_2_height + 56) / 4;
+                const s32 heightBase = (gPsxDisplay.mHeight + 56) / 4;
 
                 const s32 height0 = ((j + 0) * heightBase) - 28 + (8 * k);
                 const s32 height1 = ((j + 1) * heightBase) - 28 + (8 * k);
 
-                const s32 width0 = ((gPsxDisplay_5C1130.field_0_width + 32) / 4) * (k + 0) - 16;
-                const s32 width1 = ((gPsxDisplay_5C1130.field_0_width + 32) / 4) * (k + 1) - 16;
+                const s32 width0 = ((gPsxDisplay.mWidth + 32) / 4) * (k + 0) - 16;
+                const s32 width1 = ((gPsxDisplay.mWidth + 32) / 4) * (k + 1) - 16;
 
 
                 s32 x0 = FP_GetExponent(xData_5BC600.data[i][j][k]);
@@ -232,7 +232,7 @@ void DeathGas::VRender(PrimHeader** ppOt)
                 x3 += width1;
                 y3 += height1 + 8;
 
-                const s32 yVal = (gPsxDisplay_5C1130.field_2_height + 28) * (255 - field_20_total) / 255;
+                const s32 yVal = (gPsxDisplay.mHeight + 28) * (255 - field_20_total) / 255;
 
                 SetXY0(pPoly, static_cast<s16>(x0), static_cast<s16>(y0 - yVal));
                 SetXY1(pPoly, static_cast<s16>(x1), static_cast<s16>(y1 - yVal));
@@ -244,8 +244,8 @@ void DeathGas::VRender(PrimHeader** ppOt)
         }
     }
 
-    OrderingTable_Add(OtLayer(ppOt, field_28_layer), &gGasTPages_5BC6C8[gPsxDisplay_5C1130.field_C_buffer_index].mBase);
-    pScreenManager->InvalidateRectCurrentIdx(0, 0, gPsxDisplay_5C1130.field_0_width, gPsxDisplay_5C1130.field_2_height);
+    OrderingTable_Add(OtLayer(ppOt, field_28_layer), &gGasTPages_5BC6C8[gPsxDisplay.mBufferIndex].mBase);
+    pScreenManager->InvalidateRectCurrentIdx(0, 0, gPsxDisplay.mWidth, gPsxDisplay.mHeight);
 
     if (field_20_total >= 255)
     {

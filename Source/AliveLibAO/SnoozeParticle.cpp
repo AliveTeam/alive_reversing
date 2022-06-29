@@ -191,7 +191,7 @@ void SnoozeParticle::VRender(PrimHeader** ppOt)
     //Identical to AE except xInScreen, yInScreen are offset by pScreenManager positions
     PSX_RECT rectToInvalidate = {};
     FP_Point* pCamPos = pScreenManager->mCamPos;
-    const s16 bufIdx = gPsxDisplay_504C78.field_A_buffer_index;
+    const s16 bufIdx = gPsxDisplay.mBufferIndex;
 
     if (field_1D4_state == SnoozeParticleState::eBlowingUp_2)
     {

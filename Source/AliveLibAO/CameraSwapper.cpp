@@ -149,14 +149,14 @@ void CameraSwapper::Init(u8** ppCamRes, CameraSwapEffects changeEffect)
         case CameraSwapEffects::eLeftToRight_1:
             field_46_slice_width = 48; // 384 / 8 ?
             field_2C_slices_per_tick = -1;
-            field_2E_total_slices = gPsxDisplay_504C78.field_0_width / field_46_slice_width;
+            field_2E_total_slices = gPsxDisplay.mWidth / field_46_slice_width;
             field_2A_current_slice = field_2E_total_slices;
 
             xy.y = 0;
-            xy.x = gPsxDisplay_504C78.field_0_width;
+            xy.x = gPsxDisplay.mWidth;
 
-            wh.x = gPsxDisplay_504C78.field_0_width;
-            wh.y = gPsxDisplay_504C78.field_2_height;
+            wh.x = gPsxDisplay.mWidth;
+            wh.y = gPsxDisplay.mHeight;
 
             field_24_pSubObject = relive_new ScreenClipper(xy, wh, Layer::eLayer_0);
             break;
@@ -164,14 +164,14 @@ void CameraSwapper::Init(u8** ppCamRes, CameraSwapEffects changeEffect)
         case CameraSwapEffects::eRightToLeft_2:
             field_46_slice_width = 48;
             field_2C_slices_per_tick = 1;
-            field_2E_total_slices = gPsxDisplay_504C78.field_0_width / field_46_slice_width + 1;
+            field_2E_total_slices = gPsxDisplay.mWidth / field_46_slice_width + 1;
             field_2A_current_slice = -1;
 
             xy.y = 0;
             xy.x = 0;
 
             wh.x = 0;
-            wh.y = gPsxDisplay_504C78.field_2_height;
+            wh.y = gPsxDisplay.mHeight;
 
             field_24_pSubObject = relive_new ScreenClipper(xy, wh, Layer::eLayer_0);
             break;
@@ -179,14 +179,14 @@ void CameraSwapper::Init(u8** ppCamRes, CameraSwapEffects changeEffect)
         case CameraSwapEffects::eTopToBottom_3:
             field_46_slice_width = 30; // 240 / 8 ?
             field_2C_slices_per_tick = -1;
-            field_2E_total_slices = gPsxDisplay_504C78.field_2_height / field_46_slice_width;
+            field_2E_total_slices = gPsxDisplay.mHeight / field_46_slice_width;
             field_2A_current_slice = field_2E_total_slices;
 
             xy.x = 0;
-            xy.y = gPsxDisplay_504C78.field_2_height;
+            xy.y = gPsxDisplay.mHeight;
 
-            wh.x = gPsxDisplay_504C78.field_0_width;
-            wh.y = gPsxDisplay_504C78.field_2_height;
+            wh.x = gPsxDisplay.mWidth;
+            wh.y = gPsxDisplay.mHeight;
 
             field_24_pSubObject = relive_new ScreenClipper(xy, wh, Layer::eLayer_0);
             break;
@@ -194,13 +194,13 @@ void CameraSwapper::Init(u8** ppCamRes, CameraSwapEffects changeEffect)
         case CameraSwapEffects::eBottomToTop_4:
             field_46_slice_width = 30; // 240 / 8 ?
             field_2C_slices_per_tick = 1;
-            field_2E_total_slices = gPsxDisplay_504C78.field_2_height / field_46_slice_width;
+            field_2E_total_slices = gPsxDisplay.mHeight / field_46_slice_width;
             field_2A_current_slice = -1;
 
             xy.x = 0;
             xy.y = 0;
 
-            wh.x = gPsxDisplay_504C78.field_0_width;
+            wh.x = gPsxDisplay.mWidth;
             wh.y = 0;
 
             field_24_pSubObject = relive_new ScreenClipper(xy, wh, Layer::eLayer_0);
@@ -208,15 +208,15 @@ void CameraSwapper::Init(u8** ppCamRes, CameraSwapEffects changeEffect)
 
         case CameraSwapEffects::eVerticalSplit_6:
             field_46_slice_width = 24; // ??
-            field_2E_total_slices = (gPsxDisplay_504C78.field_0_width / 2) / field_46_slice_width;
+            field_2E_total_slices = (gPsxDisplay.mWidth / 2) / field_46_slice_width;
             field_2C_slices_per_tick = 1;
             field_2A_current_slice = 0;
 
-            xy.x = gPsxDisplay_504C78.field_0_width / 2;
+            xy.x = gPsxDisplay.mWidth / 2;
             xy.y = 0;
 
-            wh.x = gPsxDisplay_504C78.field_0_width / 2;
-            wh.y = gPsxDisplay_504C78.field_2_height;
+            wh.x = gPsxDisplay.mWidth / 2;
+            wh.y = gPsxDisplay.mHeight;
 
             field_24_pSubObject = relive_new ScreenClipper(xy, wh, Layer::eLayer_0);
             break;
@@ -225,14 +225,14 @@ void CameraSwapper::Init(u8** ppCamRes, CameraSwapEffects changeEffect)
         case CameraSwapEffects::eHorizontalSplit_7:
             field_46_slice_width = 15; // ??
             field_2C_slices_per_tick = 1;
-            field_2E_total_slices = (gPsxDisplay_504C78.field_2_height / 2) / field_46_slice_width;
+            field_2E_total_slices = (gPsxDisplay.mHeight / 2) / field_46_slice_width;
             field_2A_current_slice = 0;
 
             xy.x = 0;
-            xy.y = gPsxDisplay_504C78.field_2_height / 2;
+            xy.y = gPsxDisplay.mHeight / 2;
 
-            wh.x = gPsxDisplay_504C78.field_0_width;
-            wh.y = gPsxDisplay_504C78.field_2_height / 2;
+            wh.x = gPsxDisplay.mWidth;
+            wh.y = gPsxDisplay.mHeight / 2;
 
             field_24_pSubObject = relive_new ScreenClipper(xy, wh, Layer::eLayer_0);
             break;
@@ -242,13 +242,13 @@ void CameraSwapper::Init(u8** ppCamRes, CameraSwapEffects changeEffect)
             field_42_XSlices = 24; // ??
             field_44_YSlices = 15; // ??
 
-            s16 xDiff = gPsxDisplay_504C78.field_0_width - field_3E_xpos_converted;
+            s16 xDiff = gPsxDisplay.mWidth - field_3E_xpos_converted;
             if (xDiff <= field_3E_xpos_converted)
             {
                 xDiff = field_3E_xpos_converted;
             }
 
-            s16 yDiff = gPsxDisplay_504C78.field_2_height - field_40_ypos_converted;
+            s16 yDiff = gPsxDisplay.mHeight - field_40_ypos_converted;
             if (yDiff <= field_40_ypos_converted)
             {
                 yDiff = field_40_ypos_converted;
@@ -268,8 +268,8 @@ void CameraSwapper::Init(u8** ppCamRes, CameraSwapEffects changeEffect)
             field_2E_total_slices = startingSlice + 1;
             field_2A_current_slice = 0;
 
-            xy.x = gPsxDisplay_504C78.field_0_width - 1;
-            xy.y = gPsxDisplay_504C78.field_2_height - 1;
+            xy.x = gPsxDisplay.mWidth - 1;
+            xy.y = gPsxDisplay.mHeight - 1;
 
             field_24_pSubObject = relive_new ScreenClipper(xy, PSX_Point{ 1, 1 }, Layer::eLayer_0);
 
@@ -316,13 +316,13 @@ void CameraSwapper::VUpdate()
 
             const s16 xpos = field_46_slice_width * field_2A_current_slice;
             s16 width = field_46_slice_width * (field_2A_current_slice + 1);
-            if (width > gPsxDisplay_504C78.field_0_width - 1)
+            if (width > gPsxDisplay.mWidth - 1)
             {
-                width = gPsxDisplay_504C78.field_0_width - 1;
+                width = gPsxDisplay.mWidth - 1;
             }
 
-            pScreenManager->InvalidateRect_Layer3(xpos, 0, width, gPsxDisplay_504C78.field_2_height);
-            field_24_pSubObject->Update_Clip_Rect({xpos, 0}, {static_cast<s16>(width + 1), static_cast<s16>(gPsxDisplay_504C78.field_2_height)});
+            pScreenManager->InvalidateRect_Layer3(xpos, 0, width, gPsxDisplay.mHeight);
+            field_24_pSubObject->Update_Clip_Rect({xpos, 0}, {static_cast<s16>(width + 1), static_cast<s16>(gPsxDisplay.mHeight)});
         }
         break;
 
@@ -343,9 +343,9 @@ void CameraSwapper::VUpdate()
             pScreenManager->InvalidateRect_Layer3(
                 0,
                 ypos,
-                gPsxDisplay_504C78.field_0_width,
+                gPsxDisplay.mWidth,
                 height);
-            field_24_pSubObject->Update_Clip_Rect({0, ypos}, {static_cast<s16>(gPsxDisplay_504C78.field_0_width), height});
+            field_24_pSubObject->Update_Clip_Rect({0, ypos}, {static_cast<s16>(gPsxDisplay.mWidth), height});
         }
         break;
 
@@ -359,7 +359,7 @@ void CameraSwapper::VUpdate()
 
             if (field_3C_movie_bPutDispEnv == 1)
             {
-                gPsxDisplay_504C78.PutCurrentDispEnv_40DE40();
+                gPsxDisplay.PutCurrentDispEnv();
             }
 
             // Now apply the camera we where storing now that the movie is finished
@@ -386,10 +386,10 @@ void CameraSwapper::VUpdate()
             }
 
             const s16 xpos = field_46_slice_width * field_2A_current_slice;
-            const s16 halfDisplayWidth = gPsxDisplay_504C78.field_0_width / 2;
+            const s16 halfDisplayWidth = gPsxDisplay.mWidth / 2;
 
-            pScreenManager->InvalidateRect_Layer3(static_cast<s16>(halfDisplayWidth - xpos), 0, static_cast<s16>(xpos + halfDisplayWidth), gPsxDisplay_504C78.field_2_height);
-            field_24_pSubObject->Update_Clip_Rect({static_cast<s16>(halfDisplayWidth - xpos), 0}, {static_cast<s16>(xpos + halfDisplayWidth + 1), static_cast<s16>(gPsxDisplay_504C78.field_2_height)});
+            pScreenManager->InvalidateRect_Layer3(static_cast<s16>(halfDisplayWidth - xpos), 0, static_cast<s16>(xpos + halfDisplayWidth), gPsxDisplay.mHeight);
+            field_24_pSubObject->Update_Clip_Rect({static_cast<s16>(halfDisplayWidth - xpos), 0}, {static_cast<s16>(xpos + halfDisplayWidth + 1), static_cast<s16>(gPsxDisplay.mHeight)});
         }
         break;
 
@@ -404,7 +404,7 @@ void CameraSwapper::VUpdate()
             }
 
             const s16 ypos = field_46_slice_width * field_2A_current_slice;
-            const s16 halfDisplayHeight = gPsxDisplay_504C78.field_2_height / 2;
+            const s16 halfDisplayHeight = gPsxDisplay.mHeight / 2;
 
             pScreenManager->InvalidateRect_Layer3(0, static_cast<s16>(halfDisplayHeight - ypos), 640, static_cast<s16>(halfDisplayHeight + ypos));
             field_24_pSubObject->Update_Clip_Rect({0, static_cast<s16>(halfDisplayHeight - ypos)}, {640, static_cast<s16>(halfDisplayHeight + ypos)});
@@ -422,10 +422,10 @@ void CameraSwapper::VUpdate()
             }
 
             const s16 xSlicePos = field_2A_current_slice * field_42_XSlices;
-            const s16 width = (field_3E_xpos_converted + xSlicePos > gPsxDisplay_504C78.field_0_width) ? gPsxDisplay_504C78.field_0_width : field_3E_xpos_converted + xSlicePos;
+            const s16 width = (field_3E_xpos_converted + xSlicePos > gPsxDisplay.mWidth) ? gPsxDisplay.mWidth : field_3E_xpos_converted + xSlicePos;
 
             const s16 ySlicePos = field_2A_current_slice * field_44_YSlices;
-            const s16 height = (ySlicePos + field_40_ypos_converted > gPsxDisplay_504C78.field_2_height) ? gPsxDisplay_504C78.field_2_height : ySlicePos + field_40_ypos_converted;
+            const s16 height = (ySlicePos + field_40_ypos_converted > gPsxDisplay.mHeight) ? gPsxDisplay.mHeight : ySlicePos + field_40_ypos_converted;
 
             PSX_Point rect_xy = {};
             rect_xy.x = (field_3E_xpos_converted - xSlicePos <= 0) ? 0 : field_3E_xpos_converted - xSlicePos;

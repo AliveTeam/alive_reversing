@@ -176,15 +176,15 @@ void PauseMenu::VUpdate()
                 {
                     if (pObjIter->mBaseGameObjectFlags.Get(Options::eDrawable_Bit4))
                     {
-                        pObjIter->VRender(gPsxDisplay_504C78.field_C_drawEnv[gPsxDisplay_504C78.field_A_buffer_index].field_70_ot_buffer);
+                        pObjIter->VRender(gPsxDisplay.mDrawEnvs[gPsxDisplay.mBufferIndex].mOrderingTable);
                     }
                 }
             }
             pScreenManager->VRender(
-                gPsxDisplay_504C78.field_C_drawEnv[gPsxDisplay_504C78.field_A_buffer_index].field_70_ot_buffer);
+                gPsxDisplay.mDrawEnvs[gPsxDisplay.mBufferIndex].mOrderingTable);
             PSX_DrawSync_496750(0);
             ResourceManager::Reclaim_Memory_455660(500000);
-            gPsxDisplay_504C78.PSX_Display_Render_OT_40DD20();
+            gPsxDisplay.RenderOrderingTable();
             Input().Update(GetGameAutoPlayer());
 
             if (field_120_selected_glow_counter > 0)
@@ -668,7 +668,7 @@ void PauseMenu::DrawEntries(PrimHeader** ppOt, PauseEntry* entry, s16 selectedEn
             640,
             0);
     }
-    Poly_F4* pPrim = &field_158[gPsxDisplay_504C78.field_A_buffer_index];
+    Poly_F4* pPrim = &field_158[gPsxDisplay.mBufferIndex];
     PolyF4_Init(pPrim);
     Poly_Set_SemiTrans(&pPrim->mBase.header, 1);
     Poly_Set_Blending(&pPrim->mBase.header, 0);
@@ -682,7 +682,7 @@ void PauseMenu::DrawEntries(PrimHeader** ppOt, PauseEntry* entry, s16 selectedEn
     SetXY1(pPrim, 640, 0);
     SetXY2(pPrim, 0, 240);
     SetXY3(pPrim, 640, 240);
-    Prim_SetTPage* prim_tpage = &field_138_tPage[gPsxDisplay_504C78.field_A_buffer_index];
+    Prim_SetTPage* prim_tpage = &field_138_tPage[gPsxDisplay.mBufferIndex];
     Init_SetTPage(prim_tpage, 0, 0, PSX_getTPage(TPageMode::e4Bit_0, TPageAbr::eBlend_2, 0, 0));
     OrderingTable_Add(OtLayer(ppOt, Layer::eLayer_Menu_41), &pPrim->mBase.header);
     OrderingTable_Add(OtLayer(ppOt, Layer::eLayer_Menu_41), &prim_tpage->mBase);

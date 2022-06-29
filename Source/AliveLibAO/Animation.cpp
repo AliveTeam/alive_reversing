@@ -432,7 +432,7 @@ void Animation::VRender(s32 xpos, s32 ypos, PrimHeader** ppOt, s16 width, s32 he
         tPageY = 0;
     }
 
-    Poly_FT4* pPoly = &mOtData[gPsxDisplay_504C78.field_A_buffer_index];
+    Poly_FT4* pPoly = &mOtData[gPsxDisplay.mBufferIndex];
     PolyFT4_Init(pPoly);
     Poly_Set_SemiTrans(&pPoly->mBase.header, mAnimFlags.Get(AnimFlags::eBit15_bSemiTrans));
     Poly_Set_Blending(&pPoly->mBase.header, mAnimFlags.Get(AnimFlags::eBit16_bBlending));
@@ -754,7 +754,7 @@ FrameInfoHeader* Animation::Get_FrameHeader(s32 frame)
 
 void Animation::Get_Frame_Rect(PSX_RECT* pRect)
 {
-    Poly_FT4* pPoly = &mOtData[gPsxDisplay_504C78.field_A_buffer_index];
+    Poly_FT4* pPoly = &mOtData[gPsxDisplay.mBufferIndex];
     if (!mAnimFlags.Get(AnimFlags::eBit20_use_xy_offset))
     {
         Poly_FT4_Get_Rect(pRect, pPoly);

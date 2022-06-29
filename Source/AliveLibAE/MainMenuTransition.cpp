@@ -220,7 +220,7 @@ void MainMenuTransition::VRender(PrimHeader** ppOt)
         s32 v27 = v26 + Math_FixedPoint_Multiply_496C50(v36, val1);
         s32 v28 = Math_FixedPoint_Multiply_496C50(op1, y1);
         y1 = this->field_250_k120 + (Math_FixedPoint_Multiply_496C50(v27, v28) >> 16); // LOWORD
-        Poly_G3* pPoly = &field_2C_polys[gPsxDisplay_5C1130.field_C_buffer_index].field_0_polys[i];
+        Poly_G3* pPoly = &field_2C_polys[gPsxDisplay.mBufferIndex].field_0_polys[i];
 
         SetRGB0(pPoly, static_cast<u8>(r0g0), static_cast<u8>(r0g0), 255);
         SetRGB1(pPoly, static_cast<u8>(rgValue), static_cast<u8>(rgValue), static_cast<u8>(bValue));
@@ -233,9 +233,9 @@ void MainMenuTransition::VRender(PrimHeader** ppOt)
         OrderingTable_Add(OtLayer(ppOt, field_24C_layer), &pPoly->mBase.header);
     }
 
-    OrderingTable_Add(OtLayer(ppOt, field_24C_layer), &field_22C_tPage[gPsxDisplay_5C1130.field_C_buffer_index].mBase);
+    OrderingTable_Add(OtLayer(ppOt, field_24C_layer), &field_22C_tPage[gPsxDisplay.mBufferIndex].mBase);
 
-    pScreenManager->InvalidateRectCurrentIdx(0, 0, gPsxDisplay_5C1130.field_0_width, gPsxDisplay_5C1130.field_2_height);
+    pScreenManager->InvalidateRectCurrentIdx(0, 0, gPsxDisplay.mWidth, gPsxDisplay.mHeight);
 
     if ((field_20_current_value == 255 && field_24_fade_direction) || (field_20_current_value == 0 && !field_24_fade_direction))
     {

@@ -72,7 +72,7 @@ const ScreenOffset sShakeOffsets_560388[16] = {
 
 void ScreenShake::VRender(PrimHeader** ppOt)
 {
-    Prim_ScreenOffset* pPrim = &field_20_screenOffset[gPsxDisplay_5C1130.field_C_buffer_index];
+    Prim_ScreenOffset* pPrim = &field_20_screenOffset[gPsxDisplay.mBufferIndex];
     if (field_40_shakeNumber < 14)
     {
         s16 xoff = 0;
@@ -91,7 +91,7 @@ void ScreenShake::VRender(PrimHeader** ppOt)
 
         PSX_Pos16 offset = {};
         offset.x = PsxToPCX(xoff); // TODO + 11 ?
-        if (gPsxDisplay_5C1130.field_C_buffer_index)
+        if (gPsxDisplay.mBufferIndex)
         {
             offset.y = yoff + 256;
         }
@@ -108,7 +108,7 @@ void ScreenShake::VRender(PrimHeader** ppOt)
             PSX_RECT clearRect = {};
             if (offset.y < 0)
             {
-                clearRect.y = offset.y + gPsxDisplay_5C1130.field_2_height;
+                clearRect.y = offset.y + gPsxDisplay.mHeight;
                 clearRect.h = -offset.y;
             }
             else if (offset.y > 0)
@@ -118,7 +118,7 @@ void ScreenShake::VRender(PrimHeader** ppOt)
             }
 
             clearRect.x = 0;
-            clearRect.w = 640; // Could probably replace with `gPsxDisplay_5C1130.field_0_width`
+            clearRect.w = 640; // Could probably replace with `gPsxDisplay.mWidth`
             PSX_ClearImage_4F5BD0(&clearRect, 0, 0, 0);
         }
 
@@ -127,7 +127,7 @@ void ScreenShake::VRender(PrimHeader** ppOt)
             PSX_RECT clearRect = {};
             if (offset.x < 0)
             {
-                clearRect.x = offset.x + 640; // Could probably replace with `gPsxDisplay_5C1130.field_0_width`
+                clearRect.x = offset.x + 640; // Could probably replace with `gPsxDisplay.mWidth`
                 clearRect.w = -offset.x;
             }
             else if (offset.x > 0)
@@ -137,7 +137,7 @@ void ScreenShake::VRender(PrimHeader** ppOt)
             }
 
             clearRect.y = 0;
-            clearRect.h = gPsxDisplay_5C1130.field_2_height;
+            clearRect.h = gPsxDisplay.mHeight;
             PSX_ClearImage_4F5BD0(&clearRect, 0, 0, 0);
         }
 

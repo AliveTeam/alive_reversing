@@ -42,13 +42,13 @@ void ScreenClipper::VRender(PrimHeader** ot)
     clipRect.w = field_40_rect.w - field_40_rect.x;
     clipRect.h = field_40_rect.h - field_40_rect.y;
 
-    if (gPsxDisplay_5C1130.field_C_buffer_index)
+    if (gPsxDisplay.mBufferIndex)
     {
         // Move to the lower buffer if not using the top buffer
         clipRect.y += 256;
     }
 
-    Prim_PrimClipper* pClipper = &field_20_clippers[gPsxDisplay_5C1130.field_C_buffer_index];
+    Prim_PrimClipper* pClipper = &field_20_clippers[gPsxDisplay.mBufferIndex];
     Init_PrimClipper_4F5B80(pClipper, &clipRect);
     OrderingTable_Add(OtLayer(ot, field_48_ot_layer), &pClipper->mBase);
 }

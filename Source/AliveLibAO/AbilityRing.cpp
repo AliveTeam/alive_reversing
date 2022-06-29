@@ -60,16 +60,16 @@ AbilityRing::AbilityRing(FP xpos, FP ypos, RingTypes ring_type)
         mRingScreenXPos = FP_GetExponent(xpos) - mRingScreenX;
         mRingScreenYPos = FP_GetExponent(ypos) - mRingScreenY;
 
-        const s32 d1 = MinDistance(mRingScreenXPos, mRingScreenYPos, gPsxDisplay_504C78.field_0_width, 0, 0, 0);
-        const s32 d2 = MinDistance(mRingScreenXPos, mRingScreenYPos, gPsxDisplay_504C78.field_0_width, gPsxDisplay_504C78.field_2_height, 0, gPsxDisplay_504C78.field_2_height);
+        const s32 d1 = MinDistance(mRingScreenXPos, mRingScreenYPos, gPsxDisplay.mWidth, 0, 0, 0);
+        const s32 d2 = MinDistance(mRingScreenXPos, mRingScreenYPos, gPsxDisplay.mWidth, gPsxDisplay.mHeight, 0, gPsxDisplay.mHeight);
 
         if (d1 <= d2)
         {
-            mRingFadeoutDistance = static_cast<s16>(MinDistance(mRingScreenXPos, mRingScreenYPos, gPsxDisplay_504C78.field_0_width, gPsxDisplay_504C78.field_2_height, 0, gPsxDisplay_504C78.field_2_height));
+            mRingFadeoutDistance = static_cast<s16>(MinDistance(mRingScreenXPos, mRingScreenYPos, gPsxDisplay.mWidth, gPsxDisplay.mHeight, 0, gPsxDisplay.mHeight));
         }
         else
         {
-            mRingFadeoutDistance = static_cast<s16>(MinDistance(mRingScreenXPos, mRingScreenYPos, gPsxDisplay_504C78.field_0_width, 0, 0, 0));
+            mRingFadeoutDistance = static_cast<s16>(MinDistance(mRingScreenXPos, mRingScreenYPos, gPsxDisplay.mWidth, 0, 0, 0));
         }
 
         mRingType = ring_type;
@@ -228,7 +228,7 @@ void AbilityRing::VRender(PrimHeader** ppOt)
             }
             else
             {
-                Poly_F4* pPoly = &mRingPolyBuffer[i].mPolys[gPsxDisplay_504C78.field_A_buffer_index];
+                Poly_F4* pPoly = &mRingPolyBuffer[i].mPolys[gPsxDisplay.mBufferIndex];
                 SetXY0(pPoly, x1, y1);
                 SetXY1(pPoly, x2, y2);
                 SetXY2(pPoly, x3, y3);
@@ -255,7 +255,7 @@ void AbilityRing::VRender(PrimHeader** ppOt)
 
             ang += 4;
         }
-        OrderingTable_Add(OtLayer(ppOt, mRingLayer), &mRingPrimSetTPage[gPsxDisplay_504C78.field_A_buffer_index].mBase);
+        OrderingTable_Add(OtLayer(ppOt, mRingLayer), &mRingPrimSetTPage[gPsxDisplay.mBufferIndex].mBase);
     }
 }
 

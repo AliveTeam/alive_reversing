@@ -249,9 +249,9 @@ void FontContext::LoadFontType(s16 resourceID)
     auto loadedResource = ResourceManager::GetLoadedResource(ResourceManager::Resource_Font, resourceID, 1, 0);
     auto fontFile = reinterpret_cast<File_Font*>(*loadedResource);
 
-    vram_alloc_450B20(fontFile->field_0_width, fontFile->field_2_height, fontFile->field_4_color_depth, &field_0_rect);
+    vram_alloc_450B20(fontFile->mWidth, fontFile->mHeight, fontFile->field_4_color_depth, &field_0_rect);
 
-    const PSX_RECT rect = {field_0_rect.x, field_0_rect.y, static_cast<s16>(fontFile->field_0_width / 4), fontFile->field_2_height};
+    const PSX_RECT rect = {field_0_rect.x, field_0_rect.y, static_cast<s16>(fontFile->mWidth / 4), fontFile->mHeight};
 
     IRenderer::GetRenderer()->Upload(fontFile->field_4_color_depth == 16 ? IRenderer::BitDepth::e16Bit : IRenderer::BitDepth::e4Bit, rect, fontFile->field_28_pixel_buffer);
 
@@ -392,7 +392,7 @@ s32 AliveFont::DrawString(PrimHeader** ppOt, const char_type* text, s16 x, s16 y
     const s32 maxRenderX = PsxToPCX(maxRenderWidth, 11);
     s16 offsetX = x;
     s32 charInfoIndex = 0;
-    auto poly = &field_24_fnt_poly_array[gPsxDisplay_504C78.field_A_buffer_index + (2 * polyOffset)];
+    auto poly = &field_24_fnt_poly_array[gPsxDisplay.mBufferIndex + (2 * polyOffset)];
 
     const s32 tpage = PSX_getTPage(TPageMode::e4Bit_0, abr, field_34_font_context->field_0_rect.x & ~63, field_34_font_context->field_0_rect.y);
     const s32 clut = PSX_getClut(field_28_palette_rect.x, field_28_palette_rect.y);

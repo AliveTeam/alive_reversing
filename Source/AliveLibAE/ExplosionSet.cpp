@@ -115,12 +115,12 @@ void ExplosionSet::VRender(PrimHeader** ppOt)
 {
     if (bEnabled_5C1BB6)
     {
-        Prim_ScreenOffset* pScreenOff = &field_20[gPsxDisplay_5C1130.field_C_buffer_index];
+        Prim_ScreenOffset* pScreenOff = &field_20[gPsxDisplay.mBufferIndex];
 
         PSX_Pos16 point = {};
         point.x = stru_550F38[field_40].x;
         point.y = stru_550F38[field_40].y;
-        if (gPsxDisplay_5C1130.field_C_buffer_index)
+        if (gPsxDisplay.mBufferIndex)
         {
             point.y += 256;
         }

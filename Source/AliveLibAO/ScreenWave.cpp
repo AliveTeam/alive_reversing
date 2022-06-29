@@ -61,10 +61,10 @@ ScreenWave::ScreenWave(FP xpos, FP ypos, Layer layer, FP width, FP speed, s32 ra
 
     // TODO: This needs to be checked, my brain melted halfway
     const s16 v1 = static_cast<s16>(std::abs(field_36_screen_xpos) + std::abs(field_38_screen_ypos));
-    const s16 v2 = static_cast<s16>(std::abs(field_36_screen_xpos - gPsxDisplay_504C78.field_0_width) + std::abs(field_38_screen_ypos));
+    const s16 v2 = static_cast<s16>(std::abs(field_36_screen_xpos - gPsxDisplay.mWidth) + std::abs(field_38_screen_ypos));
 
-    const s16 v3 = static_cast<s16>(std::abs(field_36_screen_xpos) + std::abs(field_38_screen_ypos - gPsxDisplay_504C78.field_2_height));
-    const s16 v4 = static_cast<s16>(std::abs(field_36_screen_xpos - gPsxDisplay_504C78.field_0_width) + std::abs(field_38_screen_ypos - gPsxDisplay_504C78.field_2_height));
+    const s16 v3 = static_cast<s16>(std::abs(field_36_screen_xpos) + std::abs(field_38_screen_ypos - gPsxDisplay.mHeight));
+    const s16 v4 = static_cast<s16>(std::abs(field_36_screen_xpos - gPsxDisplay.mWidth) + std::abs(field_38_screen_ypos - gPsxDisplay.mHeight));
 
     field_34_max_radius = static_cast<s16>(std::max(std::max(v1, v2), std::max(v3, v4)));
 
@@ -169,8 +169,8 @@ void ScreenWave::VRender(PrimHeader** ppOt)
     ScreenWave_Data* pScreenWaveData = *field_14_ppRes;
 
     const PSX_Point displaySize = {
-        static_cast<s16>(gPsxDisplay_504C78.field_0_width),
-        static_cast<s16>(gPsxDisplay_504C78.field_2_height)};
+        static_cast<s16>(gPsxDisplay.mWidth),
+        static_cast<s16>(gPsxDisplay.mHeight)};
 
     PSX_RECT clearRectSize = {};
 
@@ -215,7 +215,7 @@ void ScreenWave::VRender(PrimHeader** ppOt)
             if (
                 maxX >= 0 && maxY >= 0 && minX < displaySize.x && minY < displaySize.y)
             {
-                Poly_FT4* pPoly = &pScreenWaveData->field_B00_poly[gPsxDisplay_504C78.field_A_buffer_index][i][j];
+                Poly_FT4* pPoly = &pScreenWaveData->field_B00_poly[gPsxDisplay.mBufferIndex][i][j];
 
                 SetXY0(pPoly,
                        static_cast<s16>(PsxToPCX(x0, 11)),

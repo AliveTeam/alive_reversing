@@ -107,7 +107,7 @@ s32 Font::DrawString_4337D0(PrimHeader** ppOt, const char_type* text, s32 x, s16
     const s32 maxRenderX = static_cast<s32>(maxRenderWidth / 0.575);
     s16 offsetX = static_cast<s16>(x);
     s32 charInfoIndex = 0;
-    auto poly = &field_24_fnt_poly_array[gPsxDisplay_5C1130.field_C_buffer_index + (2 * polyOffset)];
+    auto poly = &field_24_fnt_poly_array[gPsxDisplay.mBufferIndex + (2 * polyOffset)];
 
     s32 tpage = PSX_getTPage(TPageMode::e4Bit_0, abr, field_34_font_context->field_0_rect.x & 0xFFC0, field_34_font_context->field_0_rect.y & 0xFF00);
     s32 clut = PSX_getClut(field_28_palette_rect.x, field_28_palette_rect.y);
@@ -334,8 +334,8 @@ void Font_Context::LoadFontType_433400(s16 resourceID)
 
     field_C_resource_id = resourceID;
 
-    Vram_alloc_4956C0(fontFile->field_0_width, fontFile->field_2_height, fontFile->field_4_color_depth, &field_0_rect);
-    const PSX_RECT vramAllocatedRect = {field_0_rect.x, field_0_rect.y, static_cast<s16>(fontFile->field_0_width / 4), fontFile->field_2_height};
+    Vram_alloc_4956C0(fontFile->mWidth, fontFile->mHeight, fontFile->field_4_color_depth, &field_0_rect);
+    const PSX_RECT vramAllocatedRect = {field_0_rect.x, field_0_rect.y, static_cast<s16>(fontFile->mWidth / 4), fontFile->mHeight};
 
     IRenderer::GetRenderer()->Upload(fontFile->field_4_color_depth == 16 ? IRenderer::BitDepth::e16Bit : IRenderer::BitDepth::e4Bit, vramAllocatedRect, fontFile->field_28_pixel_buffer);
 
@@ -386,8 +386,8 @@ void Font_Context::LoadFontTypeCustom(File_Font* fontFile, Font_AtlasEntry* font
     // Give custom fonts a constant resource id for now.
     field_C_resource_id = 0xff;
 
-    Vram_alloc_4956C0(fontFile->field_0_width, fontFile->field_2_height, fontFile->field_4_color_depth, &field_0_rect);
-    const PSX_RECT vramAlloctedRect = {field_0_rect.x, field_0_rect.y, static_cast<s16>(fontFile->field_0_width / 4), fontFile->field_2_height};
+    Vram_alloc_4956C0(fontFile->mWidth, fontFile->mHeight, fontFile->field_4_color_depth, &field_0_rect);
+    const PSX_RECT vramAlloctedRect = {field_0_rect.x, field_0_rect.y, static_cast<s16>(fontFile->mWidth / 4), fontFile->mHeight};
 
     if (pPaletteOut)
     {
@@ -415,7 +415,7 @@ bool Font_Context::LoadFontTypeFromOddFont(const char_type* fontPath, s8* pPalet
 bool Font_Context::LoadFontTypeFromOddFontMem(u8* data, s8* pPaletteOut)
 {
     auto fontFile = reinterpret_cast<File_Font*>(data);
-    s32* atlasCount = reinterpret_cast<s32*>(fontFile->field_28_pixel_buffer + ((fontFile->field_0_width * fontFile->field_2_height) / 2));
+    s32* atlasCount = reinterpret_cast<s32*>(fontFile->field_28_pixel_buffer + ((fontFile->mWidth * fontFile->mHeight) / 2));
     Font_AtlasEntry* atlasData = reinterpret_cast<Font_AtlasEntry*>(atlasCount + 1);
 
     auto debugFontAtlas = std::vector<u8>((u8*) atlasData, (u8*) atlasData + (sizeof(Font_AtlasEntry) * *atlasCount));

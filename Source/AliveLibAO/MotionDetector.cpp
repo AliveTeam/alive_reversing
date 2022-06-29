@@ -292,7 +292,7 @@ void MotionDetector::VRender(PrimHeader** ppOt)
         const s16 y2 = y1 + bLaserRect.y - bLaserRect.h;
         const s16 x1 = static_cast<s16>(PsxToPCX(FP_GetExponent(field_108_pLaser->mBaseAnimatedWithPhysicsGameObject_XPos) - screen_left, 11));
 
-        Poly_F3* pPrim = &field_10C_prims[gPsxDisplay_504C78.field_A_buffer_index];
+        Poly_F3* pPrim = &field_10C_prims[gPsxDisplay.mBufferIndex];
         PolyF3_Init(pPrim);
 
         SetXY0(pPrim, x0, y0);
@@ -306,8 +306,8 @@ void MotionDetector::VRender(PrimHeader** ppOt)
         OrderingTable_Add(OtLayer(ppOt, mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer), &pPrim->mBase.header);
 
         // Add tpage
-        Init_SetTPage(&field_13C_tPage[gPsxDisplay_504C78.field_A_buffer_index], 0, 0, PSX_getTPage(TPageMode::e16Bit_2, field_160_bObjectInLaser != 0 ? TPageAbr::eBlend_1 : TPageAbr::eBlend_3, 0, 0)); // When detected transparency is off, gives the "solid red" triangle
-        OrderingTable_Add(OtLayer(ppOt, mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer), &field_13C_tPage[gPsxDisplay_504C78.field_A_buffer_index].mBase);
+        Init_SetTPage(&field_13C_tPage[gPsxDisplay.mBufferIndex], 0, 0, PSX_getTPage(TPageMode::e16Bit_2, field_160_bObjectInLaser != 0 ? TPageAbr::eBlend_1 : TPageAbr::eBlend_3, 0, 0)); // When detected transparency is off, gives the "solid red" triangle
+        OrderingTable_Add(OtLayer(ppOt, mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer), &field_13C_tPage[gPsxDisplay.mBufferIndex].mBase);
 
         pScreenManager->InvalidateRect(
             std::min(x0, std::min(x1, x1)),

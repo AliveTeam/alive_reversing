@@ -8268,7 +8268,7 @@ void Abe::Motion_88_HandstoneBegin_430590()
         {
             if (sMovie_ref_count_9F309C == 0)
             {
-                gPsxDisplay_504C78.PutCurrentDispEnv_40DE40();
+                gPsxDisplay.PutCurrentDispEnv();
                 pScreenManager->DecompressCameraToVRam(
                     reinterpret_cast<u16**>(gMap.field_34_camera_array[0]->field_C_ppBits));
                 pScreenManager->MoveImage();

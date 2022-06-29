@@ -236,7 +236,7 @@ void DDCheat::DebugStr(const char_type* pFormatStr, ...)
 
     va_start(va, pFormatStr);
     vsprintf(buffer, pFormatStr, va);
-    DebugFont_Printf_4F8B60(0, buffer);
+    DebugFont_Printf(0, buffer);
 }
 
 void DDCheat::VUpdate()

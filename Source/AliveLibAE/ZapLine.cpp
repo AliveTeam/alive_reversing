@@ -200,13 +200,13 @@ void ZapLine::CalculateThickSpriteSegmentPositions()
 
     field_144_rects[0].x = 0;
     field_144_rects[0].y = 0;
-    field_144_rects[0].w = gPsxDisplay_5C1130.field_0_width;
-    field_144_rects[0].h = gPsxDisplay_5C1130.field_2_height;
+    field_144_rects[0].w = gPsxDisplay.mWidth;
+    field_144_rects[0].h = gPsxDisplay.mHeight;
 
     field_144_rects[1].x = 0;
     field_144_rects[1].y = 0;
-    field_144_rects[1].w = gPsxDisplay_5C1130.field_0_width;
-    field_144_rects[1].h = gPsxDisplay_5C1130.field_2_height;
+    field_144_rects[1].w = gPsxDisplay.mWidth;
+    field_144_rects[1].h = gPsxDisplay.mHeight;
 }
 
 void ZapLine::CalculateThinSpriteSegmentPositions()
@@ -378,7 +378,7 @@ void ZapLine::VRender(PrimHeader** ppOt)
             0)
         && field_F4_state > ZapLineState::eInitSpriteVertices_2)
     {
-        const auto bufferIdx = gPsxDisplay_5C1130.field_C_buffer_index;
+        const auto bufferIdx = gPsxDisplay.mBufferIndex;
 
         for (s32 i = 0; i < field_12E_number_of_segments; i++)
         {
@@ -436,7 +436,7 @@ void ZapLine::VRender(PrimHeader** ppOt)
         pRect->w += 25;
         pRect->y -= 25;
         pRect->h += 25;
-        const PSX_RECT* pRectToUse = &field_144_rects[gPsxDisplay_5C1130.field_C_buffer_index];
+        const PSX_RECT* pRectToUse = &field_144_rects[gPsxDisplay.mBufferIndex];
         pScreenManager->InvalidateRectCurrentIdx(
             pRectToUse->x,
             pRectToUse->y,

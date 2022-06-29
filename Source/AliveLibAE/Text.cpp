@@ -177,18 +177,18 @@ s8 Display_Full_Screen_Message_Blocking(s32 /*not_used*/, MessageType messageTyp
     const PSX_RECT rect = {0, 0, 640, 240};
     PSX_ClearImage_4F5BD0(&rect, 0, 0, 0);
     SYS_EventsPump_494580();
-    pTextObj->VRender(gPsxDisplay_5C1130.field_10_drawEnv[gPsxDisplay_5C1130.field_C_buffer_index].field_70_ot_buffer);
+    pTextObj->VRender(gPsxDisplay.mDrawEnvs[gPsxDisplay.mBufferIndex].mOrderingTable);
 
     if (pTextObj2)
     {
-        pTextObj2->VRender(gPsxDisplay_5C1130.field_10_drawEnv[gPsxDisplay_5C1130.field_C_buffer_index].field_70_ot_buffer);
+        pTextObj2->VRender(gPsxDisplay.mDrawEnvs[gPsxDisplay.mBufferIndex].mOrderingTable);
     }
 
     PSX_DrawSync_4F6280(0);
     Add_Dirty_Area_4ED970(0, 0, 640, 240);
     ResourceManager::Reclaim_Memory_49C470(500000);
-    sbDisplayRenderFrame_55EF8C = 0;
-    gPsxDisplay_5C1130.PSX_Display_Render_OT_41DDF0();
+    sbDisplayRenderFrame = 0;
+    gPsxDisplay.RenderOrderingTable();
 
     if (SND_Seq_Table_Valid())
     {
@@ -254,8 +254,8 @@ s8 Display_Full_Screen_Message_Blocking(s32 /*not_used*/, MessageType messageTyp
     PSX_DrawSync_4F6280(0);
     Add_Dirty_Area_4ED970(0, 0, 640, 240);
     ResourceManager::Reclaim_Memory_49C470(500000);
-    sbDisplayRenderFrame_55EF8C = 0;
-    gPsxDisplay_5C1130.PSX_Display_Render_OT_41DDF0();
+    sbDisplayRenderFrame = 0;
+    gPsxDisplay.RenderOrderingTable();
 
     if (pTextObj)
     {

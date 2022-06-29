@@ -429,8 +429,8 @@ void BirdPortal::VUpdate()
             pScreenManager->InvalidateRectCurrentIdx(
                 0,
                 0,
-                gPsxDisplay_5C1130.field_0_width,
-                gPsxDisplay_5C1130.field_2_height);
+                gPsxDisplay.mWidth,
+                gPsxDisplay.mHeight);
 
             CreateTerminators();
 

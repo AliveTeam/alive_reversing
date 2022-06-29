@@ -1326,7 +1326,7 @@ void Fleech::RenderEx(PrimHeader** ot)
                 &g2,
                 &b2);
 
-            Poly_G4* currTonguePoly1 = &mTonguePolys1[i][gPsxDisplay_5C1130.field_C_buffer_index];
+            Poly_G4* currTonguePoly1 = &mTonguePolys1[i][gPsxDisplay.mBufferIndex];
 
             const s32 tonguePolyX1 = PsxToPCX(FP_GetExponent(currTongueBlock_X));
             const s32 tonguePolyY1 = FP_GetExponent(currTongueBlock_Y);
@@ -1373,7 +1373,7 @@ void Fleech::RenderEx(PrimHeader** ot)
 
             OrderingTable_Add(OtLayer(ot, mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer), &currTonguePoly1->mBase.header);
 
-            Poly_G4* currTonguePoly2 = &mTonguePolys2[i][gPsxDisplay_5C1130.field_C_buffer_index];
+            Poly_G4* currTonguePoly2 = &mTonguePolys2[i][gPsxDisplay.mBufferIndex];
 
             s32 minus_one_one_switch = -1;
             if (FP_GetExponent(Tan_fp) <= 64 || FP_GetExponent(Tan_fp) >= 192)
@@ -1469,8 +1469,8 @@ void Fleech::RenderEx(PrimHeader** ot)
                 invRect_h);
         }
         const s32 tPage = PSX_getTPage(TPageMode::e4Bit_0, TPageAbr::eBlend_0, 0, 0);
-        Init_SetTPage(&field_40C[gPsxDisplay_5C1130.field_C_buffer_index], 1, 0, tPage);
-        OrderingTable_Add(OtLayer(ot, mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer), &field_40C[gPsxDisplay_5C1130.field_C_buffer_index].mBase);
+        Init_SetTPage(&field_40C[gPsxDisplay.mBufferIndex], 1, 0, tPage);
+        OrderingTable_Add(OtLayer(ot, mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer), &field_40C[gPsxDisplay.mBufferIndex].mBase);
         return;
     }
 }
@@ -2389,7 +2389,7 @@ void Fleech::SetTongueState5()
 BaseAliveGameObject* Fleech::FindMudOrAbe()
 {
     BaseAliveGameObject* pRet = nullptr;
-    FP lastDist = FP_FromInteger(gPsxDisplay_5C1130.field_0_width);
+    FP lastDist = FP_FromInteger(gPsxDisplay.mWidth);
     for (s32 i = 0; i < gBaseAliveGameObjects_5C1B7C->Size(); i++)
     {
         auto pObj = gBaseAliveGameObjects_5C1B7C->ItemAt(i);

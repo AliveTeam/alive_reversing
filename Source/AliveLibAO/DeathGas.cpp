@@ -190,7 +190,7 @@ void DeathGas::VRender(PrimHeader** ppOt)
         {
             for (s32 k = 0; k < 4; k++)
             {
-                Poly_G4* pPoly = &prims_dword_4FFDE8.polys[i][j][k][gPsxDisplay_504C78.field_A_buffer_index];
+                Poly_G4* pPoly = &prims_dword_4FFDE8.polys[i][j][k][gPsxDisplay.mBufferIndex];
 
                 SetRGB0(pPoly, 0, sbyte_3_4FFD78.data[i][j][k], 0);
                 SetRGB1(pPoly, 0, sbyte_3_4FFD78.data[i][j][k + 1], 0);
@@ -206,13 +206,13 @@ void DeathGas::VRender(PrimHeader** ppOt)
                     SetRGB3(pPoly, 0, sbyte_3_4FFD78.data[i][j + 1][k + 1], 0);
                 }
 
-                const s32 heightBase = (gPsxDisplay_504C78.field_2_height + 56) / 4;
+                const s32 heightBase = (gPsxDisplay.mHeight + 56) / 4;
 
                 const s32 height0 = ((j + 0) * heightBase) - 28 + (8 * k);
                 const s32 height1 = ((j + 1) * heightBase) - 28 + (8 * k);
 
-                const s32 width0 = ((gPsxDisplay_504C78.field_0_width + 32) / 4) * (k + 0) - 16;
-                const s32 width1 = ((gPsxDisplay_504C78.field_0_width + 32) / 4) * (k + 1) - 16;
+                const s32 width0 = ((gPsxDisplay.mWidth + 32) / 4) * (k + 0) - 16;
+                const s32 width1 = ((gPsxDisplay.mWidth + 32) / 4) * (k + 1) - 16;
 
 
                 s32 x0 = FP_GetExponent(xData_500908.data[i][j][k]);
@@ -239,7 +239,7 @@ void DeathGas::VRender(PrimHeader** ppOt)
                 x3 += width1;
                 y3 += height1 + 8;
 
-                const s32 yVal = (gPsxDisplay_504C78.field_2_height + 28) * (255 - field_10_total) / 255;
+                const s32 yVal = (gPsxDisplay.mHeight + 28) * (255 - field_10_total) / 255;
 
                 SetXY0(pPoly, static_cast<s16>(x0), static_cast<s16>(y0 - yVal));
                 SetXY1(pPoly, static_cast<s16>(x1), static_cast<s16>(y1 - yVal));
@@ -249,8 +249,8 @@ void DeathGas::VRender(PrimHeader** ppOt)
                 OrderingTable_Add(OtLayer(ppOt, field_18_layer), &pPoly->mBase.header);
 
                 /*
-                v32 = gPsxDisplay_504C78.field_2_height;
-                v33 = gPsxDisplay_504C78.field_0_width + 32;
+                v32 = gPsxDisplay.mHeight;
+                v33 = gPsxDisplay.mWidth + 32;
                 *((_BYTE*)pPrim + 34) = 0;
                 v34 = v33 / 4;
                 v35 = v33 / 4 * v22 - 16;
@@ -288,13 +288,13 @@ void DeathGas::VRender(PrimHeader** ppOt)
         }
     }
 
-    OrderingTable_Add(OtLayer(ppOt, field_18_layer), &gGasTPages_5008E8[gPsxDisplay_504C78.field_A_buffer_index].mBase);
+    OrderingTable_Add(OtLayer(ppOt, field_18_layer), &gGasTPages_5008E8[gPsxDisplay.mBufferIndex].mBase);
 
     pScreenManager->InvalidateRectCurrentIdx(
         0,
         0,
-        gPsxDisplay_504C78.field_0_width,
-        gPsxDisplay_504C78.field_2_height);
+        gPsxDisplay.mWidth,
+        gPsxDisplay.mHeight);
 
     if (field_10_total >= 255)
     {

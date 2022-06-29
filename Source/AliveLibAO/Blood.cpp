@@ -195,7 +195,7 @@ void Blood::VScreenChanged()
 
 void Blood::VRender(PrimHeader** ppOt)
 {
-    const auto bufferIdx = gPsxDisplay_504C78.field_A_buffer_index;
+    const auto bufferIdx = gPsxDisplay.mBufferIndex;
     if (gMap.Is_Point_In_Current_Camera(
             mBaseAnimatedWithPhysicsGameObject_LvlNumber,
             mBaseAnimatedWithPhysicsGameObject_PathNumber,
@@ -209,7 +209,7 @@ void Blood::VRender(PrimHeader** ppOt)
         for (s32 i = 0; i < field_112_to_render_count; i++)
         {
             BloodParticle* pParticle = &field_E8_pResBuf[i];
-            Prim_Sprt* pSprt = &pParticle->field_10_prims[gPsxDisplay_504C78.field_A_buffer_index];
+            Prim_Sprt* pSprt = &pParticle->field_10_prims[gPsxDisplay.mBufferIndex];
 
             u8 u0 = mBaseAnimatedWithPhysicsGameObject_Anim.mVramRect.x & 63;
             if (field_10C_texture_mode == TPageMode::e8Bit_1)

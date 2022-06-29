@@ -256,7 +256,7 @@ void ParamiteWebLine::VRender(PrimHeader** ppOt)
         pScreenManager->InvalidateRectCurrentIdx(rect.x, rect.y, rect.w, rect.h);
 
         ClipPoly_Vertically_4A09E0(
-            &field_FC_pRes[idx].field_10_polys[gPsxDisplay_5C1130.field_C_buffer_index],
+            &field_FC_pRes[idx].field_10_polys[gPsxDisplay.mBufferIndex],
             FP_GetExponent(FP_FromInteger(field_F8_top) - pScreenManager->CamYPos()),
             FP_GetExponent(FP_FromInteger(field_FA_bottom) - pScreenManager->CamYPos()));
 

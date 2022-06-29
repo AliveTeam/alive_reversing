@@ -186,7 +186,7 @@ void Blood::VRender(PrimHeader** ppOt)
         for (s32 i = 0; i < field_122_to_render_count; i++)
         {
             BloodParticle* pParticle = &field_F8_pResBuf[i];
-            Prim_Sprt* pSprt = &pParticle->field_10_prims[gPsxDisplay_5C1130.field_C_buffer_index];
+            Prim_Sprt* pSprt = &pParticle->field_10_prims[gPsxDisplay.mBufferIndex];
 
             u8 u0 = mBaseAnimatedWithPhysicsGameObject_Anim.mVramRect.x & 63;
             if (field_11C_texture_mode == TPageMode::e8Bit_1)
@@ -231,7 +231,7 @@ void Blood::VRender(PrimHeader** ppOt)
             mBaseAnimatedWithPhysicsGameObject_Anim.mVramRect.x,
             mBaseAnimatedWithPhysicsGameObject_Anim.mVramRect.y);
 
-        Prim_SetTPage* pTPage = &field_FC_tPages[gPsxDisplay_5C1130.field_C_buffer_index];
+        Prim_SetTPage* pTPage = &field_FC_tPages[gPsxDisplay.mBufferIndex];
         Init_SetTPage(pTPage, 0, 0, static_cast<s16>(tpage));
         OrderingTable_Add(OtLayer(ppOt, field_12C_render_layer), &pTPage->mBase);
 

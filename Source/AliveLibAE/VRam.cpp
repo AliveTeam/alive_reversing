@@ -181,7 +181,7 @@ void Vram_init_495660()
     {
         sVramAllocations_5CB888[i] = {};
     }
-    sbDebugFontLoaded_BB4A24 = 0;
+    sbDebugFontLoaded = 0;
     sVramNumberOfAllocations_5CC888 = 0;
 }
 
