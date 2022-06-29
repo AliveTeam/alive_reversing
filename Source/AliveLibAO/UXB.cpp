@@ -517,9 +517,11 @@ void UXB::VRender(PrimHeader** ppOt)
     {
         field_11C_anim.VRender(
             FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos
-                           + pScreenManager->CamXPos()),
+                           + FP_FromInteger(pScreenManager->mCamXOff)
+                           - pScreenManager->mCamPos->x),
             FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos
-                           + (pScreenManager->CamYPos() - FP_NoFractional(mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(12)))),
+                           + (FP_FromInteger(pScreenManager->mCamYOff) - FP_NoFractional(mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(12)))
+                           - pScreenManager->mCamPos->y),
             ppOt,
             0,
             0);
