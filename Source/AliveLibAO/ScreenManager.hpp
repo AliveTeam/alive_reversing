@@ -73,6 +73,16 @@ public:
         return mCamPos->y - FP_FromInteger(mCamYOff);
     }
 
+    void EnableRendering()
+    {
+        mFlags |= 1;
+    }
+
+    void DisableRendering()
+    {
+        mFlags &= ~1;
+    }
+
     FP_Point* mCamPos;
     s16 mCamXOff;
     u16 mCamYOff;
