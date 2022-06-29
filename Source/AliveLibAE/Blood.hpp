@@ -6,8 +6,8 @@
 
 struct BloodParticle final
 {
-    FP field_0_x;
-    FP field_4_y;
+    FP x;
+    FP y;
     FP field_8_offx;
     FP field_C_offy;
     Prim_Sprt field_10_prims[2];

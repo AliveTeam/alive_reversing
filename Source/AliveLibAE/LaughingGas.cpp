@@ -63,11 +63,11 @@ LaughingGas::LaughingGas(Layer layer, s32 /*notUsed*/, Path_LaughingGas* pTlv, s
     gObjListDrawables->Push_Back(this);
     mBaseGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4);
 
-    field_28_y = FP_GetExponent(FP_FromInteger(pTlv->field_8_top_left.field_2_y) - pScreenManager->CamYPos());
-    field_2A_x = FP_GetExponent(PsxToPCX(FP_FromInteger(pTlv->field_8_top_left.field_0_x) - pScreenManager->CamXPos()));
+    field_28_y = FP_GetExponent(FP_FromInteger(pTlv->mTopLeft.y) - pScreenManager->CamYPos());
+    field_2A_x = FP_GetExponent(PsxToPCX(FP_FromInteger(pTlv->mTopLeft.x) - pScreenManager->CamXPos()));
 
-    field_2C_h = FP_GetExponent(FP_FromInteger(pTlv->field_C_bottom_right.field_2_y) - pScreenManager->CamYPos());
-    field_2E_w = FP_GetExponent(PsxToPCX(FP_FromInteger(pTlv->field_C_bottom_right.field_0_x) - pScreenManager->CamXPos()));
+    field_2C_h = FP_GetExponent(FP_FromInteger(pTlv->mBottomRight.y) - pScreenManager->CamYPos());
+    field_2E_w = FP_GetExponent(PsxToPCX(FP_FromInteger(pTlv->mBottomRight.x) - pScreenManager->CamXPos()));
 
     field_31F8_w_count = (field_2E_w - field_2A_x) / 4;
     field_31FC_h_count = (field_2C_h - field_28_y + 2) / 2;

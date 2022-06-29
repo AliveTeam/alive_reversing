@@ -41,7 +41,7 @@ void CreditsController::VUpdate()
             {
                 gMap.SetActiveCam(EReliveLevelIds::eCredits, 2, field_24_camera_number, CameraSwapEffects::eTopToBottom_3, 0, 0);
             }
-            gMap.field_CE_free_all_anim_and_palts = 1;
+            gMap.mFreeAllAnimAndPalts = 1;
         }
         else
         {
@@ -53,7 +53,7 @@ void CreditsController::VUpdate()
             {
                 gMap.SetActiveCam(EReliveLevelIds::eCredits, 1, field_24_camera_number, CameraSwapEffects::eTopToBottom_3, 0, 0);
             }
-            gMap.field_CE_free_all_anim_and_palts = 1;
+            gMap.mFreeAllAnimAndPalts = 1;
         }
     }
 }

@@ -37,8 +37,7 @@ ALIVE_ASSERT_SIZEOF(FP_RECT, 4 * 4);
 
 struct PSX_Point final
 {
-    s16 field_0_x;
-    s16 field_2_y;
+    s16 x, y;
 };
 ALIVE_ASSERT_SIZEOF(PSX_Point, 4);
 

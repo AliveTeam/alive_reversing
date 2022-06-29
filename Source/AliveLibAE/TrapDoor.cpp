@@ -117,8 +117,8 @@ TrapDoor::TrapDoor(Path_TrapDoor* pTlv, Map* pMap, s32 tlvInfo)
 
     SetTint(sTrapDoorTints_5639AC, gMap.mCurrentLevel);
 
-    field_140_x = FP_FromInteger(pTlv->field_8_top_left.field_0_x);
-    field_144_y = FP_FromInteger(pTlv->field_8_top_left.field_2_y);
+    field_140_x = FP_FromInteger(pTlv->mTopLeft.x);
+    field_144_y = FP_FromInteger(pTlv->mTopLeft.y);
 
     mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(frameTableOffset, 0);
 
@@ -127,8 +127,8 @@ TrapDoor::TrapDoor(Path_TrapDoor* pTlv, Map* pMap, s32 tlvInfo)
         mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit5_FlipX);
     }
 
-    mPlatformBaseXOffset = FP_GetExponent(FP_FromInteger(pTlv->field_8_top_left.field_0_x) - mBaseAnimatedWithPhysicsGameObject_XPos);
-    mPlatformBaseWidthOffset = FP_GetExponent(FP_FromInteger(pTlv->field_C_bottom_right.field_0_x) - mBaseAnimatedWithPhysicsGameObject_XPos);
+    mPlatformBaseXOffset = FP_GetExponent(FP_FromInteger(pTlv->mTopLeft.x) - mBaseAnimatedWithPhysicsGameObject_XPos);
+    mPlatformBaseWidthOffset = FP_GetExponent(FP_FromInteger(pTlv->mBottomRight.x) - mBaseAnimatedWithPhysicsGameObject_XPos);
     field_13A_xOff = pTlv->field_1C_xOff;
 
     if (field_136_state == TrapDoorState::eOpen_2)
@@ -136,11 +136,11 @@ TrapDoor::TrapDoor(Path_TrapDoor* pTlv, Map* pMap, s32 tlvInfo)
         Open();
     }
 
-    field_148_bounding_rect.x = pTlv->field_8_top_left.field_0_x;
-    field_148_bounding_rect.y = pTlv->field_8_top_left.field_2_y;
+    field_148_bounding_rect.x = pTlv->mTopLeft.x;
+    field_148_bounding_rect.y = pTlv->mTopLeft.y;
 
-    field_148_bounding_rect.w = pTlv->field_C_bottom_right.field_0_x;
-    field_148_bounding_rect.h = pTlv->field_C_bottom_right.field_2_y;
+    field_148_bounding_rect.w = pTlv->mBottomRight.x;
+    field_148_bounding_rect.h = pTlv->mBottomRight.y;
 
     mVisualFlags.Set(VisualFlags::eDoPurpleLightEffect);
     field_13C_stay_open_time = pTlv->field_1E_stay_open_time;

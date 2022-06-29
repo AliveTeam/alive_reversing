@@ -16,7 +16,7 @@ Well::Well(Path_WellBase* pTlv, FP xpos, FP ypos, s32 tlvInfo)
     field_20_tlvInfo = tlvInfo;
     SetType(ReliveTypes::eWell);
 
-    if (pTlv->field_4_type == TlvTypes::LocalWell_8)
+    if (pTlv->mTlvType32 == TlvTypes::LocalWell_8)
     {
         WellLocal_Init(static_cast<Path_WellLocal*>(pTlv), xpos, ypos);
     }
@@ -51,18 +51,18 @@ void Well::WellExpress_Init(Path_WellExpress* pTlv, FP /*xpos*/, FP ypos)
         field_34_leaf_xpos = FP_FromInteger(pTlv->field_2E_leaf_x);
         if (pTlv->field_2E_leaf_x > 0)
         {
-            field_34_leaf_xpos += FP_FromInteger(abeSpawnPos.field_0_x);
+            field_34_leaf_xpos += FP_FromInteger(abeSpawnPos.x);
         }
         else
         {
-            const s32 pos = (PsxToPCX(pTlv->field_C_bottom_right.field_0_x - pTlv->field_8_top_left.field_0_x) / 2) + pTlv->field_8_top_left.field_0_x;
+            const s32 pos = (PsxToPCX(pTlv->mBottomRight.x - pTlv->mTopLeft.x) / 2) + pTlv->mTopLeft.x;
             field_34_leaf_xpos = FP_FromInteger(pos);
         }
 
         field_38_leaf_ypos = FP_FromInteger(pTlv->field_30_leaf_y);
         if (pTlv->field_30_leaf_y > 0)
         {
-            field_38_leaf_ypos += FP_FromInteger(abeSpawnPos.field_2_y);
+            field_38_leaf_ypos += FP_FromInteger(abeSpawnPos.y);
         }
         else
         {
@@ -93,18 +93,18 @@ void Well::WellLocal_Init(Path_WellLocal* pTlv, FP /*xpos*/, FP ypos)
 
         if (pTlv->field_22_leaf_x > 0)
         {
-            field_34_leaf_xpos += FP_FromInteger(abeSpawnPos.field_0_x);
+            field_34_leaf_xpos += FP_FromInteger(abeSpawnPos.x);
         }
         else
         {
-            const s32 pos = (PsxToPCX(pTlv->field_C_bottom_right.field_0_x - pTlv->field_8_top_left.field_0_x) / 2) + pTlv->field_8_top_left.field_0_x;
+            const s32 pos = (PsxToPCX(pTlv->mBottomRight.x - pTlv->mTopLeft.x) / 2) + pTlv->mTopLeft.x;
             field_34_leaf_xpos = FP_FromInteger(pos);
         }
 
         field_38_leaf_ypos = FP_FromInteger(pTlv->field_24_leaf_y);
         if (pTlv->field_24_leaf_y > 0)
         {
-            field_38_leaf_ypos += FP_FromInteger(abeSpawnPos.field_2_y);
+            field_38_leaf_ypos += FP_FromInteger(abeSpawnPos.y);
         }
         else
         {

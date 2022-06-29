@@ -31,7 +31,7 @@ struct File_Font final
 
 struct Font_AtlasEntry final
 {
-    u8 field_0_x;
+    u8 x;
     u8 field_1_y;
     u8 field_2_width;
     u8 field_3_height;

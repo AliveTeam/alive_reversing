@@ -176,8 +176,8 @@ BoomMachine::BoomMachine(Path_BoomMachine* pTlv, s32 tlvInfo)
         mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromInteger(1);
     }
 
-    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pTlv->field_10_top_left.field_0_x) + (ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale) / FP_FromInteger(2));
-    mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->field_10_top_left.field_2_y);
+    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pTlv->mTopLeft.x) + (ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale) / FP_FromInteger(2));
+    mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->mTopLeft.y);
 
     auto pNozzle = relive_new GrenadeMachineNozzle();
     if (pNozzle)

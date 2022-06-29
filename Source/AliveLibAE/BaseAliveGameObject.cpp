@@ -106,11 +106,11 @@ s16 BaseAliveGameObject::IsInInvisibleZone(BaseAliveGameObject* pObj)
 
     while (pTlv)
     {
-        if (pTlv->field_4_type == TlvTypes::InvisibleZone_33)
+        if (pTlv->mTlvType32 == TlvTypes::InvisibleZone_33)
         {
-            if (bRect.x >= pTlv->field_8_top_left.field_0_x && bRect.x <= pTlv->field_C_bottom_right.field_0_x && bRect.y >= pTlv->field_8_top_left.field_2_y)
+            if (bRect.x >= pTlv->mTopLeft.x && bRect.x <= pTlv->mBottomRight.x && bRect.y >= pTlv->mTopLeft.y)
             {
-                if (bRect.y <= pTlv->field_C_bottom_right.field_2_y && bRect.w >= pTlv->field_8_top_left.field_0_x && bRect.w <= pTlv->field_C_bottom_right.field_0_x && bRect.h >= pTlv->field_8_top_left.field_2_y && bRect.h <= pTlv->field_C_bottom_right.field_2_y)
+                if (bRect.y <= pTlv->mBottomRight.y && bRect.w >= pTlv->mTopLeft.x && bRect.w <= pTlv->mBottomRight.x && bRect.h >= pTlv->mTopLeft.y && bRect.h <= pTlv->mBottomRight.y)
                 {
                     return TRUE;
                 }
@@ -303,8 +303,8 @@ void BaseAliveGameObject::VCheckCollisionLineStillValid(s16 distance)
 
             PSX_Point xy = {bRect.x, bRect.y};
             PSX_Point wh = {bRect.w, bRect.h};
-            xy.field_2_y += 5;
-            wh.field_2_y += 5;
+            xy.y += 5;
+            wh.y += 5;
 
             VOnCollisionWith(xy, wh, ObjList_5C1B78, 1, (TCollisionCallBack) &BaseAliveGameObject::OnTrapDoorIntersection);
         }
@@ -508,7 +508,7 @@ s16 BaseAliveGameObject::MapFollowMe(s16 snapToGrid)
     gMap.GetCurrentCamCoords(&currentCamXY);
 
     // Gone off the left edge of the current screen
-    if (xposSnapped < currentCamXY.field_0_x && (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX) || mBaseAnimatedWithPhysicsGameObject_VelX < FP_FromInteger(0)))
+    if (xposSnapped < currentCamXY.x && (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX) || mBaseAnimatedWithPhysicsGameObject_VelX < FP_FromInteger(0)))
     {
         if (sControlledCharacter_5C1B8C == this && gMap.SetActiveCameraDelayed(Map::MapDirections::eMapLeft_0, this, -1))
         {
@@ -518,7 +518,7 @@ s16 BaseAliveGameObject::MapFollowMe(s16 snapToGrid)
         }
     }
     // Gone off the right edge of the current screen
-    else if (xposSnapped > currentCamXY.field_0_x + 368 && (!(mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX)) || mBaseAnimatedWithPhysicsGameObject_VelX > FP_FromInteger(0)))
+    else if (xposSnapped > currentCamXY.x + 368 && (!(mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX)) || mBaseAnimatedWithPhysicsGameObject_VelX > FP_FromInteger(0)))
     {
         if (sControlledCharacter_5C1B8C == this && gMap.SetActiveCameraDelayed(Map::MapDirections::eMapRight_1, this, -1))
         {

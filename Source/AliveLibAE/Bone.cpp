@@ -517,7 +517,7 @@ void Bone::VUpdate()
             const PSX_Point wh{bRect.w, static_cast<s16>(bRect.h + offset)};
             VOnCollisionWith(xy, wh, gBaseGameObjects, 1, (TCollisionCallBack) &Bone::OnCollision);
 
-            if (mBaseAnimatedWithPhysicsGameObject_YPos > FP_FromInteger(gMap.field_D4_ptr->field_6_bBottom))
+            if (mBaseAnimatedWithPhysicsGameObject_YPos > FP_FromInteger(gMap.mPathData->field_6_bBottom))
             {
                 mBaseGameObjectFlags.Set(BaseGameObject::eDead);
             }
@@ -580,8 +580,8 @@ BoneBag::BoneBag(Path_BoneBag* pTlv, s32 tlvInfo)
     field_11C_bIs_hit = 0;
     field_118_tlvInfo = tlvInfo;
 
-    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger((pTlv->field_8_top_left.field_0_x + pTlv->field_C_bottom_right.field_0_x) / 2);
-    mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->field_C_bottom_right.field_2_y);
+    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger((pTlv->mTopLeft.x + pTlv->mBottomRight.x) / 2);
+    mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->mBottomRight.y);
 
     mVisualFlags.Clear(VisualFlags::eApplyShadowZoneColour);
 

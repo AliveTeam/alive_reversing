@@ -145,8 +145,8 @@ BoomMachine::BoomMachine(Path_BoomMachine* pTlv, s32 tlvInfo)
         mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromInteger(1);
     }
 
-    mBaseAnimatedWithPhysicsGameObject_XPos = (ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale) / FP_FromInteger(2)) + FP_FromInteger(pTlv->field_8_top_left.field_0_x);
-    mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->field_8_top_left.field_2_y);
+    mBaseAnimatedWithPhysicsGameObject_XPos = (ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale) / FP_FromInteger(2)) + FP_FromInteger(pTlv->mTopLeft.x);
+    mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->mTopLeft.y);
 
     auto pNozzle = relive_new GrenadeMachineNozzle(
         ((pTlv->field_12_nozzle_side == Path_BoomMachine::NozzleSide::eLeft_1 ? -mBaseAnimatedWithPhysicsGameObject_SpriteScale : mBaseAnimatedWithPhysicsGameObject_SpriteScale) * FP_FromInteger(30)) + mBaseAnimatedWithPhysicsGameObject_XPos,

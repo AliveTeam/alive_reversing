@@ -150,8 +150,8 @@ Scrab::Scrab(Path_Scrab* pTlv, s32 tlvInfo)
 
     field_140_last_shriek_timer = 0;
 
-    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pTlv->field_10_top_left.field_0_x + 12);
-    mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->field_10_top_left.field_2_y);
+    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pTlv->mTopLeft.x + 12);
+    mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->mTopLeft.y);
 
     if (pTlv->field_18_scale == Scale_short::eHalf_1)
     {
@@ -446,7 +446,7 @@ void Scrab::VOn_TLV_Collision(Path_TLV* pTlv)
 {
     while (pTlv)
     {
-        if (pTlv->field_4_type == TlvTypes::DeathDrop_5)
+        if (pTlv->mTlvType32 == TlvTypes::DeathDrop_5)
         {
             Scrab_SFX(ScrabSounds::eYell_8, 127, -1000, 0);
             mBaseGameObjectFlags.Set(Options::eDead);

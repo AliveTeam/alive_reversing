@@ -44,14 +44,14 @@ StatusLight::StatusLight(Path_StatusLight* pTlv, u32 tlvInfo)
     mVisualFlags.Clear(VisualFlags::eApplyShadowZoneColour);
     mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit3_Render);
 
-    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger((pTlv->field_8_top_left.field_0_x + pTlv->field_C_bottom_right.field_0_x) / 2);
+    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger((pTlv->mTopLeft.x + pTlv->mBottomRight.x) / 2);
 
     if (field_104_bIgnore_grid_snapping == Choice_short::eNo_0)
     {
         mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(SnapToXGrid(mBaseAnimatedWithPhysicsGameObject_SpriteScale, FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos)));
     }
 
-    mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger((pTlv->field_8_top_left.field_2_y + pTlv->field_C_bottom_right.field_2_y) / 2);
+    mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger((pTlv->mTopLeft.y + pTlv->mBottomRight.y) / 2);
 
     PathLine* pPathLine = nullptr;
     FP hitX = {};

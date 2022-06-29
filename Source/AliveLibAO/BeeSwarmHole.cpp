@@ -18,11 +18,11 @@ BeeSwarmHole::BeeSwarmHole(Path_BeeSwarmHole* pTlv, s32 tlvInfo)
 
     field_1C_interval_timer = 0;
 
-    field_14_rect.x = pTlv->field_10_top_left.field_0_x;
-    field_14_rect.y = pTlv->field_10_top_left.field_2_y;
+    field_14_rect.x = pTlv->mTopLeft.x;
+    field_14_rect.y = pTlv->mTopLeft.y;
 
-    field_14_rect.w = pTlv->field_14_bottom_right.field_0_x;
-    field_14_rect.h = pTlv->field_14_bottom_right.field_2_y;
+    field_14_rect.w = pTlv->mBottomRight.x;
+    field_14_rect.h = pTlv->mBottomRight.y;
 
     field_20_interval = pTlv->field_1A_interval;
     field_22_fall_switch_id = pTlv->field_1C_fall_switch_id;

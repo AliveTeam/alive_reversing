@@ -22,10 +22,10 @@ SlogSpawner::SlogSpawner(Path_SlogSpawner* pTlv, s32 tlvInfo)
     field_40_listen_to_sligs = pTlv->field_1C_listen_to_sligs;
     field_42_chase_delay = pTlv->field_1E_chase_delay;
 
-    field_24_tlv_saved_slog_count = pTlv->field_1_tlv_state;
+    field_24_tlv_saved_slog_count = pTlv->mTlvState;
 
-    field_28_xpos = FP_FromInteger(pTlv->field_8_top_left.field_0_x);
-    field_2C_ypos = FP_FromInteger(pTlv->field_8_top_left.field_2_y);
+    field_28_xpos = FP_FromInteger(pTlv->mTopLeft.x);
+    field_2C_ypos = FP_FromInteger(pTlv->mTopLeft.y);
 
     field_30_spawn_timer = 0;
 }

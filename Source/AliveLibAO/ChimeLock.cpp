@@ -46,8 +46,8 @@ ChimeLock::ChimeLock(Path_ChimeLock* pTlv, s32 tlvInfo)
 
     field_114_left_bell = relive_new Bells(
         BellSize::eBig_0,
-        FP_FromInteger(pTlv->field_10_top_left.field_0_x),
-        FP_FromInteger(pTlv->field_10_top_left.field_2_y),
+        FP_FromInteger(pTlv->mTopLeft.x),
+        FP_FromInteger(pTlv->mTopLeft.y),
         scale);
     if (field_114_left_bell)
     {
@@ -56,8 +56,8 @@ ChimeLock::ChimeLock(Path_ChimeLock* pTlv, s32 tlvInfo)
 
     field_118_center_bell = relive_new Bells(
         BellSize::eMedium_1,
-        FP_FromInteger(pTlv->field_10_top_left.field_0_x),
-        FP_FromInteger(pTlv->field_10_top_left.field_2_y),
+        FP_FromInteger(pTlv->mTopLeft.x),
+        FP_FromInteger(pTlv->mTopLeft.y),
         scale);
     if (field_118_center_bell)
     {
@@ -66,8 +66,8 @@ ChimeLock::ChimeLock(Path_ChimeLock* pTlv, s32 tlvInfo)
 
     field_11C_right_bell = relive_new Bells(
         BellSize::eSmall_2,
-        FP_FromInteger(pTlv->field_10_top_left.field_0_x),
-        FP_FromInteger(pTlv->field_10_top_left.field_2_y),
+        FP_FromInteger(pTlv->mTopLeft.x),
+        FP_FromInteger(pTlv->mTopLeft.y),
         scale);
     if (field_11C_right_bell)
     {
@@ -99,13 +99,13 @@ ChimeLock::ChimeLock(Path_ChimeLock* pTlv, s32 tlvInfo)
 
     field_15E_ball_angle = 0;
 
-    field_140_targetY = FP_FromInteger(pTlv->field_10_top_left.field_2_y + 40);
-    mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->field_10_top_left.field_2_y + 40);
+    field_140_targetY = FP_FromInteger(pTlv->mTopLeft.y + 40);
+    mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->mTopLeft.y + 40);
 
     mBaseAnimatedWithPhysicsGameObject_VelY = FP_FromInteger(0);
 
-    field_13C_targetX = FP_FromInteger(pTlv->field_10_top_left.field_0_x);
-    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pTlv->field_10_top_left.field_0_x);
+    field_13C_targetX = FP_FromInteger(pTlv->mTopLeft.x);
+    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pTlv->mTopLeft.x);
     field_14C_increase_vely_by = FP_FromInteger(1);
 
     field_130_song_matching = 0;

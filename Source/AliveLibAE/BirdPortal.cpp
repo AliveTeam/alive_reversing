@@ -70,16 +70,16 @@ BirdPortal::BirdPortal(Path_BirdPortal* pTlv, s32 tlvInfo)
     FP hitX = {};
     PathLine* pLine = nullptr;
     sCollisions->Raycast(
-        FP_FromInteger(pTlv->field_8_top_left.field_0_x),
-        FP_FromInteger(pTlv->field_8_top_left.field_2_y),
-        FP_FromInteger(pTlv->field_C_bottom_right.field_0_x),
-        FP_FromInteger(pTlv->field_C_bottom_right.field_2_y),
+        FP_FromInteger(pTlv->mTopLeft.x),
+        FP_FromInteger(pTlv->mTopLeft.y),
+        FP_FromInteger(pTlv->mBottomRight.x),
+        FP_FromInteger(pTlv->mBottomRight.y),
         &pLine,
         &hitX,
         &field_3C_YPos,
         field_60_scale > FP_FromDouble(0.5) ? kFgFloor : kBgFloor);
 
-    field_2C_xpos = FP_FromInteger((pTlv->field_C_bottom_right.field_0_x + pTlv->field_8_top_left.field_0_x) / 2);
+    field_2C_xpos = FP_FromInteger((pTlv->mBottomRight.x + pTlv->mTopLeft.x) / 2);
     field_90_sfx_ret = 0;
     field_30_ypos = field_3C_YPos - (FP_FromInteger(55) * field_60_scale);
 }
@@ -688,19 +688,19 @@ s16 BirdPortal::VPortalClipper(s16 bIgnoreClipping)
     PSX_Point wh = {};
     if (field_26_side == PortalSide::eLeft_1)
     {
-        xy.field_0_x = 0;
-        xy.field_2_y = 0;
+        xy.x = 0;
+        xy.y = 0;
 
-        wh.field_0_x = PsxToPCX(FP_GetExponent(field_2C_xpos - pScreenManager->CamXPos()), 11);
-        wh.field_2_y = 240;
+        wh.x = PsxToPCX(FP_GetExponent(field_2C_xpos - pScreenManager->CamXPos()), 11);
+        wh.y = 240;
     }
     else
     {
-        xy.field_0_x = PsxToPCX(FP_GetExponent(field_2C_xpos - pScreenManager->CamXPos()), 11);
-        xy.field_2_y = 0;
+        xy.x = PsxToPCX(FP_GetExponent(field_2C_xpos - pScreenManager->CamXPos()), 11);
+        xy.y = 0;
 
-        wh.field_0_x = 640;
-        wh.field_2_y = 240;
+        wh.x = 640;
+        wh.y = 240;
     }
 
     // Clip objects entering portal?
@@ -821,16 +821,16 @@ void BirdPortal::VExitPortal()
 
         PathLine* pLine = nullptr;
         sCollisions->Raycast(
-            FP_FromInteger(pPortalExitTlv->field_8_top_left.field_0_x),
-            FP_FromInteger(pPortalExitTlv->field_8_top_left.field_2_y),
-            FP_FromInteger(pPortalExitTlv->field_C_bottom_right.field_0_x),
-            FP_FromInteger(pPortalExitTlv->field_C_bottom_right.field_2_y),
+            FP_FromInteger(pPortalExitTlv->mTopLeft.x),
+            FP_FromInteger(pPortalExitTlv->mTopLeft.y),
+            FP_FromInteger(pPortalExitTlv->mBottomRight.x),
+            FP_FromInteger(pPortalExitTlv->mBottomRight.y),
             &pLine,
             &field_34_exit_x,
             &field_38_exit_y,
             allLinesHack);
 
-        field_34_exit_x = FP_FromInteger((pPortalExitTlv->field_8_top_left.field_0_x + pPortalExitTlv->field_C_bottom_right.field_0_x) / 2);
+        field_34_exit_x = FP_FromInteger((pPortalExitTlv->mTopLeft.x + pPortalExitTlv->mBottomRight.x) / 2);
         field_2C_xpos = field_34_exit_x;
         field_30_ypos = field_38_exit_y - FP_FromInteger(55);
         field_26_side = pPortalExitTlv->field_10_side;

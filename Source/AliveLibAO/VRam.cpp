@@ -26,8 +26,8 @@ void Pal_Free_447870(PSX_Point xy, s16 palDepth)
 
 void Pal_Copy_4479D0(PSX_Point point, s16 w, u16* pPalData, PSX_RECT* rect)
 {
-    rect->y = point.field_2_y;
-    rect->x = point.field_0_x;
+    rect->y = point.y;
+    rect->x = point.x;
     rect->w = w;
     rect->h = 1;
     PSX_StoreImage_496320(rect, pPalData);
@@ -35,11 +35,11 @@ void Pal_Copy_4479D0(PSX_Point point, s16 w, u16* pPalData, PSX_RECT* rect)
 
 void Pal_Set_447990(PSX_Point xy, s16 w, const u8* palData, PSX_RECT* rect)
 {
-    rect->y = xy.field_2_y;
-    rect->x = xy.field_0_x;
+    rect->y = xy.y;
+    rect->x = xy.x;
     rect->w = w;
     rect->h = 1;
-    IRenderer::GetRenderer()->PalSetData(IRenderer::PalRecord{xy.field_0_x, xy.field_2_y, w}, palData);
+    IRenderer::GetRenderer()->PalSetData(IRenderer::PalRecord{xy.x, xy.y, w}, palData);
 }
 
 u32 Pal_Make_Colour_447950(u8 r, u8 g, u8 b, s16 bOpaque)

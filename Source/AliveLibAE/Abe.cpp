@@ -634,18 +634,18 @@ s32 Animation_OnFrame_Abe_455F80(BaseGameObject* pPtr, s16* pData)
 
     auto pThrowable = static_cast<BaseThrowable*>(sObjectIds.Find_Impl(sActiveHero->field_158_throwable_id));
 
-    auto tableX = sThrowVelocities_555118[pAbe->field_1A3_throw_direction].field_0_x * pAbe->mBaseAnimatedWithPhysicsGameObject_SpriteScale;
-    const auto tableY = sThrowVelocities_555118[pAbe->field_1A3_throw_direction].field_4_y * pAbe->mBaseAnimatedWithPhysicsGameObject_SpriteScale;
+    auto tableX = sThrowVelocities_555118[pAbe->field_1A3_throw_direction].x * pAbe->mBaseAnimatedWithPhysicsGameObject_SpriteScale;
+    const auto tableY = sThrowVelocities_555118[pAbe->field_1A3_throw_direction].y * pAbe->mBaseAnimatedWithPhysicsGameObject_SpriteScale;
 
     FP xOff = {};
     if (sActiveHero->mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
     {
         tableX = -tableX;
-        xOff = -(pAbe->mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(pFramePos->field_0_x));
+        xOff = -(pAbe->mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(pFramePos->x));
     }
     else
     {
-        xOff = pAbe->mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(pFramePos->field_0_x);
+        xOff = pAbe->mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(pFramePos->x);
     }
 
     PathLine* pLine = nullptr;
@@ -653,9 +653,9 @@ s32 Animation_OnFrame_Abe_455F80(BaseGameObject* pPtr, s16* pData)
     FP hitY = {};
     if (sCollisions->Raycast(
             pAbe->mBaseAnimatedWithPhysicsGameObject_XPos,
-            pAbe->mBaseAnimatedWithPhysicsGameObject_YPos + FP_FromInteger(pFramePos->field_2_y),
+            pAbe->mBaseAnimatedWithPhysicsGameObject_YPos + FP_FromInteger(pFramePos->y),
             xOff + pAbe->mBaseAnimatedWithPhysicsGameObject_XPos,
-            pAbe->mBaseAnimatedWithPhysicsGameObject_YPos + FP_FromInteger(pFramePos->field_2_y),
+            pAbe->mBaseAnimatedWithPhysicsGameObject_YPos + FP_FromInteger(pFramePos->y),
             &pLine,
             &hitX,
             &hitY,
@@ -668,7 +668,7 @@ s32 Animation_OnFrame_Abe_455F80(BaseGameObject* pPtr, s16* pData)
     if (pThrowable)
     {
         pThrowable->mBaseAnimatedWithPhysicsGameObject_XPos = xOff + sActiveHero->mBaseAnimatedWithPhysicsGameObject_XPos;
-        pThrowable->mBaseAnimatedWithPhysicsGameObject_YPos = (pAbe->mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(pFramePos->field_2_y)) + sActiveHero->mBaseAnimatedWithPhysicsGameObject_YPos;
+        pThrowable->mBaseAnimatedWithPhysicsGameObject_YPos = (pAbe->mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(pFramePos->y)) + sActiveHero->mBaseAnimatedWithPhysicsGameObject_YPos;
         pThrowable->VThrow(tableX, tableY);
         pThrowable->mBaseAnimatedWithPhysicsGameObject_SpriteScale = pAbe->mBaseAnimatedWithPhysicsGameObject_SpriteScale;
         pThrowable->mBaseAnimatedWithPhysicsGameObject_Scale = pAbe->mBaseAnimatedWithPhysicsGameObject_Scale;
@@ -821,8 +821,8 @@ Abe::Abe(s32 /*frameTableOffset*/, s32 /*r*/, s32 /*g*/, s32 /*b*/)
     PSX_Point point = {};
     gMap.GetCurrentCamCoords(&point);
 
-    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(point.field_0_x + XGrid_Index_To_XPos_4498F0(mBaseAnimatedWithPhysicsGameObject_SpriteScale, 4));
-    mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(point.field_2_y + 120);
+    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(point.x + XGrid_Index_To_XPos_4498F0(mBaseAnimatedWithPhysicsGameObject_SpriteScale, 4));
+    mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(point.y + 120);
 
     BaseAliveGameObjectLastLineYPos = mBaseAnimatedWithPhysicsGameObject_YPos;
     field_128.field_8_x_vel_slow_by = FP_FromInteger(0);
@@ -1388,13 +1388,13 @@ void Abe::VUpdate()
             PSX_Point mapSize = {};
             gMap.Get_map_size(&mapSize);
 
-            FP mapWidth = FP_FromInteger(mapSize.field_0_x);
+            FP mapWidth = FP_FromInteger(mapSize.x);
             if (mBaseAnimatedWithPhysicsGameObject_XPos >= mapWidth)
             {
                 mBaseAnimatedWithPhysicsGameObject_XPos = mapWidth - FP_FromDouble(1.0);
             }
 
-            FP mapHeight = FP_FromInteger(mapSize.field_2_y);
+            FP mapHeight = FP_FromInteger(mapSize.y);
             if (mBaseAnimatedWithPhysicsGameObject_YPos >= mapHeight)
             {
                 mBaseAnimatedWithPhysicsGameObject_YPos = mapHeight - FP_FromDouble(1.0);
@@ -2503,21 +2503,21 @@ void Abe::VOn_TLV_Collision(Path_TLV* pTlv)
                      mBaseAnimatedWithPhysicsGameObject_XPos,
                      mBaseAnimatedWithPhysicsGameObject_YPos))
     {
-        if (pTlv->field_4_type == TlvTypes::ContinuePoint_0)
+        if (pTlv->mTlvType32 == TlvTypes::ContinuePoint_0)
         {
             auto pContinuePoint = static_cast<Path_ContinuePoint*>(pTlv);
-            if (pContinuePoint->field_1_tlv_state == 0)
+            if (pContinuePoint->mTlvState == 0)
             {
                 if ((pContinuePoint->field_10_scale != Path_ContinuePoint::Scale::eHalf_1 || mBaseAnimatedWithPhysicsGameObject_SpriteScale == FP_FromInteger(1)) && (pContinuePoint->field_10_scale != Path_ContinuePoint::Scale::eFull_2 || mBaseAnimatedWithPhysicsGameObject_SpriteScale == FP_FromDouble(0.5))
                     && mHealth > FP_FromInteger(0) && !(mBaseAliveGameObjectFlags.Get(Flags_114::e114_Bit7_Electrocuted)))
                 {
-                    pContinuePoint->field_1_tlv_state = 1;
+                    pContinuePoint->mTlvState = 1;
                     field_1AE_flags.Set(Flags_1AE::e1AE_Bit2_do_quicksave);
                     field_1B0_save_num = pContinuePoint->field_12_save_file_id;
                 }
             }
         }
-        else if (pTlv->field_4_type == TlvTypes::DeathDrop_4)
+        else if (pTlv->mTlvType32 == TlvTypes::DeathDrop_4)
         {
             if (sControlledCharacter_5C1B8C->Type() != ReliveTypes::eMineCar || gMap.mCurrentLevel != EReliveLevelIds::eMines)
             {
@@ -2529,12 +2529,12 @@ void Abe::VOn_TLV_Collision(Path_TLV* pTlv)
                 ToDie_4588D0();
             }
         }
-        else if (pTlv->field_4_type == TlvTypes::ResetSwitchRange_76)
+        else if (pTlv->mTlvType32 == TlvTypes::ResetSwitchRange_76)
         {
             auto pResetSwitchRange = static_cast<Path_ResetSwitchRange*>(pTlv);
-            if (pResetSwitchRange->field_1_tlv_state == 0 || pResetSwitchRange->field_1C_bEnabled == Choice_short::eYes_1)
+            if (pResetSwitchRange->mTlvState == 0 || pResetSwitchRange->field_1C_bEnabled == Choice_short::eYes_1)
             {
-                pResetSwitchRange->field_1_tlv_state = 1;
+                pResetSwitchRange->mTlvState = 1;
                 if (pResetSwitchRange->field_10_reset_switch_ids == Choice_short::eYes_1)
                 {
                     for (s16 i = pResetSwitchRange->field_12_start_switch_id; i <= pResetSwitchRange->field_14_end_switch_id; i++)
@@ -3072,7 +3072,7 @@ void Abe::Motion_0_Idle_44EEB0()
         // Handle objects that accept "up"
         while (pTlv)
         {
-            switch (pTlv->field_4_type.mType)
+            switch (pTlv->mTlvType32.mType)
             {
                 case TlvTypes::Door_5:
                     if (NearDoorIsOpen_44EE10() && !mBaseAliveGameObjectFlags.Get(Flags_114::e114_Bit7_Electrocuted))
@@ -3495,7 +3495,7 @@ void Abe::Motion_3_Fall_459B60()
     {
         if (mHealth > FP_FromInteger(0))
         {
-            if (BaseAliveGameObjectPathTLV->field_4_type == TlvTypes::LocalWell_8 || BaseAliveGameObjectPathTLV->field_4_type == TlvTypes::WellExpress_23)
+            if (BaseAliveGameObjectPathTLV->mTlvType32 == TlvTypes::LocalWell_8 || BaseAliveGameObjectPathTLV->mTlvType32 == TlvTypes::WellExpress_23)
             {
                 // The well must be on the same scale/layer
                 Path_WellBase* pWellBase = static_cast<Path_WellBase*>(BaseAliveGameObjectPathTLV);
@@ -3631,15 +3631,15 @@ void Abe::Motion_3_Fall_459B60()
             return;
         }
 
-        mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger((BaseAliveGameObjectPathTLV->field_8_top_left.field_0_x + BaseAliveGameObjectPathTLV->field_C_bottom_right.field_0_x) / 2);
+        mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger((BaseAliveGameObjectPathTLV->mTopLeft.x + BaseAliveGameObjectPathTLV->mBottomRight.x) / 2);
 
         MapFollowMe(TRUE);
 
         if (!sCollisions->Raycast(
                 mBaseAnimatedWithPhysicsGameObject_XPos,
-                FP_FromInteger(BaseAliveGameObjectPathTLV->field_8_top_left.field_2_y - 10), // TODO: Negative ??
+                FP_FromInteger(BaseAliveGameObjectPathTLV->mTopLeft.y - 10), // TODO: Negative ??
                 mBaseAnimatedWithPhysicsGameObject_XPos,
-                FP_FromInteger(BaseAliveGameObjectPathTLV->field_8_top_left.field_2_y + 10),
+                FP_FromInteger(BaseAliveGameObjectPathTLV->mTopLeft.y + 10),
                 &pPathLine,
                 &hitX,
                 &hitY,
@@ -3652,7 +3652,7 @@ void Abe::Motion_3_Fall_459B60()
         BaseAliveGameObjectCollisionLine = pPathLine;
         mBaseAnimatedWithPhysicsGameObject_VelY = FP_FromInteger(0);
         mBaseAnimatedWithPhysicsGameObject_VelX = FP_FromInteger(0);
-        if (BaseAliveGameObjectPathTLV->field_4_type.mType != TlvTypes::Hoist_2 || (FP_FromInteger(BaseAliveGameObjectPathTLV->field_C_bottom_right.field_2_y - 1 * BaseAliveGameObjectPathTLV->field_8_top_left.field_2_y)) >= (mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(70)))
+        if (BaseAliveGameObjectPathTLV->mTlvType32.mType != TlvTypes::Hoist_2 || (FP_FromInteger(BaseAliveGameObjectPathTLV->mBottomRight.y - 1 * BaseAliveGameObjectPathTLV->mTopLeft.y)) >= (mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(70)))
         {
             mCurrentMotion = eAbeMotions::Motion_69_LedgeHangWobble_454EF0;
             mShadow->field_14_flags.Set(Shadow::Flags::eBit1_ShadowAtBottom);
@@ -3873,7 +3873,7 @@ void Abe::Motion_14_HoistIdle_452440()
         }
 
         // Hoist is too far away
-        if (FP_FromInteger(BaseAliveGameObjectPathTLV->field_C_bottom_right.field_2_y + -BaseAliveGameObjectPathTLV->field_8_top_left.field_2_y) > (mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(90)) || mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame)
+        if (FP_FromInteger(BaseAliveGameObjectPathTLV->mBottomRight.y + -BaseAliveGameObjectPathTLV->mTopLeft.y) > (mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(90)) || mBaseAnimatedWithPhysicsGameObject_Anim.field_92_current_frame)
         {
             return;
         }
@@ -3894,7 +3894,7 @@ void Abe::Motion_14_HoistIdle_452440()
 
                 Environment_SFX_457A40(EnvironmentSfx::eWalkingFootstep_1, 0, 127, this);
 
-                if (FP_FromInteger(BaseAliveGameObjectPathTLV->field_C_bottom_right.field_2_y - 1 * BaseAliveGameObjectPathTLV->field_8_top_left.field_2_y)
+                if (FP_FromInteger(BaseAliveGameObjectPathTLV->mBottomRight.y - 1 * BaseAliveGameObjectPathTLV->mTopLeft.y)
                     >= mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(70))
                 {
                     mCurrentMotion = eAbeMotions::Motion_67_LedgeHang_454E20;
@@ -3911,7 +3911,7 @@ void Abe::Motion_14_HoistIdle_452440()
             else
             {
                 Environment_SFX_457A40(EnvironmentSfx::eWalkingFootstep_1, 0, 127, this);
-                if (FP_FromInteger(BaseAliveGameObjectPathTLV->field_C_bottom_right.field_2_y - 1 * BaseAliveGameObjectPathTLV->field_8_top_left.field_2_y) >= mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(70))
+                if (FP_FromInteger(BaseAliveGameObjectPathTLV->mBottomRight.y - 1 * BaseAliveGameObjectPathTLV->mTopLeft.y) >= mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(70))
                 {
                     mCurrentMotion = eAbeMotions::Motion_67_LedgeHang_454E20;
                 }
@@ -3925,9 +3925,9 @@ void Abe::Motion_14_HoistIdle_452440()
 
             if (sCollisions->Raycast(
                     mBaseAnimatedWithPhysicsGameObject_XPos,
-                    FP_FromInteger(BaseAliveGameObjectPathTLV->field_8_top_left.field_2_y - 10),
+                    FP_FromInteger(BaseAliveGameObjectPathTLV->mTopLeft.y - 10),
                     mBaseAnimatedWithPhysicsGameObject_XPos,
-                    FP_FromInteger(BaseAliveGameObjectPathTLV->field_8_top_left.field_2_y + 10),
+                    FP_FromInteger(BaseAliveGameObjectPathTLV->mTopLeft.y + 10),
                     &pLine,
                     &hitX,
                     &hitY,
@@ -4562,15 +4562,15 @@ void Abe::Motion_28_HopMid_451C50()
 
         if (pEdgeTlv && pEdgeTlv->field_12_bCan_grab == Choice_short::eYes_1 && IsSameScaleAsEdge(pEdgeTlv, this) && ((isEdgeGrabbable(pEdgeTlv, this) && mBaseAnimatedWithPhysicsGameObject_VelX != FP_FromInteger(0))))
         {
-            mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger((pEdgeTlv->field_8_top_left.field_0_x + pEdgeTlv->field_C_bottom_right.field_0_x) / 2);
+            mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger((pEdgeTlv->mTopLeft.x + pEdgeTlv->mBottomRight.x) / 2);
 
             MapFollowMe(TRUE);
 
             if (sCollisions->Raycast(
                     mBaseAnimatedWithPhysicsGameObject_XPos,
-                    FP_FromInteger(BaseAliveGameObjectPathTLV->field_8_top_left.field_2_y - 10),
+                    FP_FromInteger(BaseAliveGameObjectPathTLV->mTopLeft.y - 10),
                     mBaseAnimatedWithPhysicsGameObject_XPos,
-                    FP_FromInteger(BaseAliveGameObjectPathTLV->field_8_top_left.field_2_y + 10),
+                    FP_FromInteger(BaseAliveGameObjectPathTLV->mTopLeft.y + 10),
                     &pLine,
                     &hitX,
                     &hitY,
@@ -4762,15 +4762,15 @@ void Abe::Motion_31_RunJumpMid_452C10()
         {
             if (sCollisions->Raycast(
                     mBaseAnimatedWithPhysicsGameObject_XPos,
-                    FP_FromInteger(BaseAliveGameObjectPathTLV->field_8_top_left.field_2_y - 10),
+                    FP_FromInteger(BaseAliveGameObjectPathTLV->mTopLeft.y - 10),
                     mBaseAnimatedWithPhysicsGameObject_XPos,
-                    FP_FromInteger(BaseAliveGameObjectPathTLV->field_8_top_left.field_2_y + 10),
+                    FP_FromInteger(BaseAliveGameObjectPathTLV->mTopLeft.y + 10),
                     &pLine,
                     &hitX,
                     &hitY,
                     mBaseAnimatedWithPhysicsGameObject_Scale == Scale::Fg ? kFgFloor : kBgFloor))
             {
-                mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger((BaseAliveGameObjectPathTLV->field_8_top_left.field_0_x + BaseAliveGameObjectPathTLV->field_C_bottom_right.field_0_x) / 2);
+                mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger((BaseAliveGameObjectPathTLV->mTopLeft.x + BaseAliveGameObjectPathTLV->mBottomRight.x) / 2);
 
                 MapFollowMe(TRUE);
                 mBaseAnimatedWithPhysicsGameObject_YPos = FP_NoFractional(hitY + FP_FromDouble(0.5));
@@ -4780,7 +4780,7 @@ void Abe::Motion_31_RunJumpMid_452C10()
                 mBaseAnimatedWithPhysicsGameObject_VelX = FP_FromInteger(0);
                 mBaseAnimatedWithPhysicsGameObject_VelY = FP_FromInteger(0);
 
-                if (BaseAliveGameObjectPathTLV->field_4_type.mType != TlvTypes::Hoist_2 || FP_FromInteger(BaseAliveGameObjectPathTLV->field_C_bottom_right.field_2_y - 1 * BaseAliveGameObjectPathTLV->field_8_top_left.field_2_y) >= mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(70))
+                if (BaseAliveGameObjectPathTLV->mTlvType32.mType != TlvTypes::Hoist_2 || FP_FromInteger(BaseAliveGameObjectPathTLV->mBottomRight.y - 1 * BaseAliveGameObjectPathTLV->mTopLeft.y) >= mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(70))
                 {
                     mCurrentMotion = eAbeMotions::Motion_69_LedgeHangWobble_454EF0;
                 }
@@ -5572,7 +5572,7 @@ void Abe::Motion_57_Dead_4589A0()
             field_118_prev_held = 0;
             field_124_timer++;
             field_128.field_0_abe_timer = sGnFrame + 30;
-            if (BaseAliveGameObjectPathTLV && BaseAliveGameObjectPathTLV->field_4_type == TlvTypes::DeathDrop_4)
+            if (BaseAliveGameObjectPathTLV && BaseAliveGameObjectPathTLV->mTlvType32 == TlvTypes::DeathDrop_4)
             {
                 const FP ypos = FP_FromInteger(Math_NextRandom() % 10) + mBaseAnimatedWithPhysicsGameObject_YPos + FP_FromInteger(15);
                 const FP xpos = FP_FromInteger((Math_NextRandom() % 64) - 32) + mBaseAnimatedWithPhysicsGameObject_XPos;
@@ -5600,7 +5600,7 @@ void Abe::Motion_57_Dead_4589A0()
             Event_Broadcast(kEventHeroDying, this);
             if (!(sGnFrame % 4))
             {
-                if (BaseAliveGameObjectPathTLV && BaseAliveGameObjectPathTLV->field_4_type == TlvTypes::DeathDrop_4)
+                if (BaseAliveGameObjectPathTLV && BaseAliveGameObjectPathTLV->mTlvType32 == TlvTypes::DeathDrop_4)
                 {
                     const FP ypos = FP_FromInteger(Math_NextRandom() % 10) + mBaseAnimatedWithPhysicsGameObject_YPos + FP_FromInteger(15);
                     const FP xpos = FP_FromInteger(((Math_NextRandom() % 64) - 32)) + mBaseAnimatedWithPhysicsGameObject_XPos;
@@ -5636,7 +5636,7 @@ void Abe::Motion_57_Dead_4589A0()
 
                 if (BaseAliveGameObjectPathTLV)
                 {
-                    if (BaseAliveGameObjectPathTLV->field_4_type == TlvTypes::DeathDrop_4)
+                    if (BaseAliveGameObjectPathTLV->mTlvType32 == TlvTypes::DeathDrop_4)
                     {
                         field_128.field_0_abe_timer = (sGnFrame + 60) + 45;
                     }
@@ -5904,7 +5904,7 @@ void Abe::Motion_66_LedgeDescend_454970()
 
         if (pHoist)
         {
-            if (FP_FromInteger((pHoist->field_C_bottom_right.field_2_y - 1 * pHoist->field_8_top_left.field_2_y)) < mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(70))
+            if (FP_FromInteger((pHoist->mBottomRight.y - 1 * pHoist->mTopLeft.y)) < mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(70))
             {
                 mBaseAnimatedWithPhysicsGameObject_YPos = (FP_FromInteger(60) * mBaseAnimatedWithPhysicsGameObject_SpriteScale) + mBaseAnimatedWithPhysicsGameObject_YPos;
 
@@ -5976,7 +5976,7 @@ void Abe::Motion_68_ToOffScreenHoist_454B80()
     mBaseAnimatedWithPhysicsGameObject_YPos -= mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(75);
     mShadow->field_14_flags.Set(Shadow::Flags::eBit1_ShadowAtBottom);
 
-    const FP ypos = FP_FromInteger(BaseAliveGameObjectPathTLV->field_8_top_left.field_2_y) - (FP_FromInteger(40) * mBaseAnimatedWithPhysicsGameObject_SpriteScale);
+    const FP ypos = FP_FromInteger(BaseAliveGameObjectPathTLV->mTopLeft.y) - (FP_FromInteger(40) * mBaseAnimatedWithPhysicsGameObject_SpriteScale);
     pHoist = sPath_dword_BB47C0->TLV_Get_At_4DB4B0(
         FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos),
         FP_GetExponent(ypos),
@@ -5989,7 +5989,7 @@ void Abe::Motion_68_ToOffScreenHoist_454B80()
     PathLine* pLine = nullptr;
     FP hitX = {};
     FP hitY = {};
-    if (pHoist && sCollisions->Raycast(mBaseAnimatedWithPhysicsGameObject_XPos, FP_FromInteger(pHoist->field_8_top_left.field_2_y - 10), mBaseAnimatedWithPhysicsGameObject_XPos, FP_FromInteger(pHoist->field_8_top_left.field_2_y + 10), &pLine, &hitX, &hitY, mBaseAnimatedWithPhysicsGameObject_Scale == Scale::Fg ? kFgFloor : kBgFloor))
+    if (pHoist && sCollisions->Raycast(mBaseAnimatedWithPhysicsGameObject_XPos, FP_FromInteger(pHoist->mTopLeft.y - 10), mBaseAnimatedWithPhysicsGameObject_XPos, FP_FromInteger(pHoist->mTopLeft.y + 10), &pLine, &hitX, &hitY, mBaseAnimatedWithPhysicsGameObject_Scale == Scale::Fg ? kFgFloor : kBgFloor))
     {
         BaseAliveGameObjectCollisionLine = pLine;
         mBaseAnimatedWithPhysicsGameObject_YPos = FP_NoFractional(hitY + FP_FromDouble(0.5));
@@ -6258,7 +6258,7 @@ void Abe::Motion_78_WellBegin_45C810()
         }
 
         const s16 xpos = FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos);
-        const s16 tlv_mid_x = (BaseAliveGameObjectPathTLV->field_8_top_left.field_0_x + BaseAliveGameObjectPathTLV->field_C_bottom_right.field_0_x) / 2;
+        const s16 tlv_mid_x = (BaseAliveGameObjectPathTLV->mTopLeft.x + BaseAliveGameObjectPathTLV->mBottomRight.x) / 2;
         if (xpos > tlv_mid_x)
         {
             mBaseAnimatedWithPhysicsGameObject_XPos -= mBaseAnimatedWithPhysicsGameObject_SpriteScale;
@@ -6330,7 +6330,7 @@ void Abe::Motion_79_InsideWellLocal_45CA60()
         field_1AC_flags.Clear(Flags_1AC::e1AC_Bit3_WalkToRun);
 
         Path_WellBase* pBaseWell = static_cast<Path_WellBase*>(BaseAliveGameObjectPathTLV);
-        if (pBaseWell->field_4_type == TlvTypes::LocalWell_8)
+        if (pBaseWell->mTlvType32 == TlvTypes::LocalWell_8)
         {
             Path_WellLocal* pLocal = static_cast<Path_WellLocal*>(pBaseWell);
             if (SwitchStates_Get(pBaseWell->field_2_switch_id))
@@ -6350,7 +6350,7 @@ void Abe::Motion_79_InsideWellLocal_45CA60()
                     pLocal->field_1A_off_dy);
             }
         }
-        else if (pBaseWell->field_4_type == TlvTypes::WellExpress_23)
+        else if (pBaseWell->mTlvType32 == TlvTypes::WellExpress_23)
         {
             Path_WellExpress* pExpress = static_cast<Path_WellExpress*>(pBaseWell);
             Calc_Well_Velocity_45C530(
@@ -6533,10 +6533,10 @@ void Abe::Motion_83_WellExpressShotOut_45CF70()
     {
         pTlvIter = sPath_dword_BB47C0->TLV_Get_At_4DB290(
             pTlvIter,
-            FP_FromInteger(camPos.field_0_x),
-            FP_FromInteger(camPos.field_2_y),
-            FP_FromInteger(camPos.field_0_x + 368),
-            FP_FromInteger(camPos.field_2_y + 240));
+            FP_FromInteger(camPos.x),
+            FP_FromInteger(camPos.y),
+            FP_FromInteger(camPos.x + 368),
+            FP_FromInteger(camPos.y + 240));
 
         // At the end, exit.
         if (!pTlvIter)
@@ -6545,7 +6545,7 @@ void Abe::Motion_83_WellExpressShotOut_45CF70()
         }
 
         // Is it a well?
-        if (pTlvIter->field_4_type == TlvTypes::LocalWell_8 || pTlvIter->field_4_type == TlvTypes::WellExpress_23)
+        if (pTlvIter->mTlvType32 == TlvTypes::LocalWell_8 || pTlvIter->mTlvType32 == TlvTypes::WellExpress_23)
         {
             // Is it the target of the previous well?
             Path_WellBase* pWellBase = static_cast<Path_WellBase*>(pTlvIter);
@@ -6573,8 +6573,8 @@ void Abe::Motion_83_WellExpressShotOut_45CF70()
             mBaseAnimatedWithPhysicsGameObject_Scale = Scale::Fg;
         }
 
-        mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger((pWell->field_8_top_left.field_0_x + pWell->field_C_bottom_right.field_0_x) / 2);
-        mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pWell->field_C_bottom_right.field_2_y);
+        mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger((pWell->mTopLeft.x + pWell->mBottomRight.x) / 2);
+        mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pWell->mBottomRight.y);
 
         BaseAliveGameObjectPathTLV = pWell;
 
@@ -6583,8 +6583,8 @@ void Abe::Motion_83_WellExpressShotOut_45CF70()
     }
     else
     {
-        mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(camPos.field_0_x + 184);
-        mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(camPos.field_2_y + 80);
+        mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(camPos.x + 184);
+        mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(camPos.y + 80);
         mBaseAnimatedWithPhysicsGameObject_VelX = mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromDouble(-2.68);
         mBaseAnimatedWithPhysicsGameObject_VelY = mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(-15);
     }
@@ -6704,7 +6704,7 @@ void Abe::Motion_86_HandstoneBegin_45BD00()
                         SwitchStates_Set(static_cast<s16>(switch_id), 1);
                     }
 
-                    field_180_hand_stone_type = BaseAliveGameObjectPathTLV->field_4_type.mType;
+                    field_180_hand_stone_type = BaseAliveGameObjectPathTLV->mTlvType32.mType;
                 }
                 else
                 {
@@ -7729,7 +7729,7 @@ void Abe::Motion_114_DoorEnter_459470()
                 return;
             }
 
-            gMap.field_1E_door = 1;
+            gMap.mDoorTransition = 1;
             s16 bForceChange = 0;
             const CameraSwapEffects effect = kPathChangeEffectToInternalScreenChangeEffect_55D55C[pDoorTlv->field_32_wipe_effect];
             if (effect == CameraSwapEffects::ePlay1FMV_5 || effect == CameraSwapEffects::eUnknown_11)
@@ -7752,7 +7752,7 @@ void Abe::Motion_114_DoorEnter_459470()
 
         case AbeDoorStates::eSetNewAbePosition_5:
         {
-            gMap.field_1E_door = 0;
+            gMap.mDoorTransition = 0;
             mBaseAnimatedWithPhysicsGameObject_LvlNumber = gMap.mCurrentLevel;
             mBaseAnimatedWithPhysicsGameObject_PathNumber = gMap.mCurrentPath;
 
@@ -7798,7 +7798,7 @@ void Abe::Motion_114_DoorEnter_459470()
                 mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit5_FlipX);
             }
 
-            mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(BaseAliveGameObjectPathTLV->field_8_top_left.field_0_x) + FP_FromInteger((BaseAliveGameObjectPathTLV->field_C_bottom_right.field_0_x - BaseAliveGameObjectPathTLV->field_8_top_left.field_0_x) / 2);
+            mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(BaseAliveGameObjectPathTLV->mTopLeft.x) + FP_FromInteger((BaseAliveGameObjectPathTLV->mBottomRight.x - BaseAliveGameObjectPathTLV->mTopLeft.x) / 2);
 
 
             MapFollowMe(TRUE);
@@ -7808,9 +7808,9 @@ void Abe::Motion_114_DoorEnter_459470()
             FP hitY = {};
             if (sCollisions->Raycast(
                     mBaseAnimatedWithPhysicsGameObject_XPos,
-                    FP_FromInteger(BaseAliveGameObjectPathTLV->field_8_top_left.field_2_y),
+                    FP_FromInteger(BaseAliveGameObjectPathTLV->mTopLeft.y),
                     mBaseAnimatedWithPhysicsGameObject_XPos,
-                    FP_FromInteger(BaseAliveGameObjectPathTLV->field_C_bottom_right.field_2_y),
+                    FP_FromInteger(BaseAliveGameObjectPathTLV->mBottomRight.y),
                     &pathLine,
                     &hitX,
                     &hitY,
@@ -7823,8 +7823,8 @@ void Abe::Motion_114_DoorEnter_459470()
             {
                 BaseAliveGameObjectCollisionLine = nullptr;
                 field_1AC_flags.Set(Flags_1AC::e1AC_Bit7_land_softly);
-                mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(BaseAliveGameObjectPathTLV->field_8_top_left.field_2_y);
-                BaseAliveGameObjectLastLineYPos = FP_FromInteger(BaseAliveGameObjectPathTLV->field_8_top_left.field_2_y);
+                mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(BaseAliveGameObjectPathTLV->mTopLeft.y);
+                BaseAliveGameObjectLastLineYPos = FP_FromInteger(BaseAliveGameObjectPathTLV->mTopLeft.y);
             }
 
             field_168_ring_pulse_timer = 0;
@@ -8149,9 +8149,9 @@ void Abe::Motion_127_TurnWheelLoop_456750()
             field_164_wheel_id = -1;
 
             auto pPathAbeStart = static_cast<Path_AbeStart*>(sPath_dword_BB47C0->TLV_First_Of_Type_In_Camera(TlvTypes::AbeStart_22, 0));
-            mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger((pPathAbeStart->field_8_top_left.field_0_x + pPathAbeStart->field_C_bottom_right.field_0_x) / 2);
-            mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pPathAbeStart->field_C_bottom_right.field_2_y);
-            BaseAliveGameObjectLastLineYPos = FP_FromInteger(pPathAbeStart->field_C_bottom_right.field_2_y);
+            mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger((pPathAbeStart->mTopLeft.x + pPathAbeStart->mBottomRight.x) / 2);
+            mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pPathAbeStart->mBottomRight.y);
+            BaseAliveGameObjectLastLineYPos = FP_FromInteger(pPathAbeStart->mBottomRight.y);
             // TODO: OG bug, scale not read from the TLV ??
 
             mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit5_FlipX);
@@ -8518,7 +8518,7 @@ s16 Abe::HandleDoAction_455BD0()
 
     for (;;)
     {
-        switch (pTlv->field_4_type.mType)
+        switch (pTlv->mTlvType32.mType)
         {
             case TlvTypes::LocalWell_8:
                 BaseAliveGameObjectPathTLV = pTlv;
@@ -8841,7 +8841,7 @@ s16 Abe::RunTryEnterDoor_451220()
     BaseAliveGameObjectPathTLV = pDoorTlv;
     field_120_state.raw = 0;
     mCurrentMotion = eAbeMotions::Motion_114_DoorEnter_459470;
-    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger((pDoorTlv->field_8_top_left.field_0_x + pDoorTlv->field_C_bottom_right.field_0_x) / 2);
+    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger((pDoorTlv->mTopLeft.x + pDoorTlv->mBottomRight.x) / 2);
     MapFollowMe(TRUE);
     return 1;
 }
@@ -9463,7 +9463,7 @@ void Abe::Calc_Well_Velocity_45C530(s16 xPosSource, s16 yPosSource, s16 xPosDest
     FP yPosRealDistance = {};
     if (yPosDest > 0)
     {
-        const s32 yPosSourceFull = abeSpawnPos.field_2_y + yPosSource;
+        const s32 yPosSourceFull = abeSpawnPos.y + yPosSource;
         if (yPosDest > yPosSourceFull)
         {
             const FP yPosDistance = FP_FromInteger(yPosDest - yPosSourceFull);
@@ -9481,7 +9481,7 @@ void Abe::Calc_Well_Velocity_45C530(s16 xPosSource, s16 yPosSource, s16 xPosDest
             FP yPosDistanceCalc = (yPosDistanceOffset / spriteScaleFactor) + FP_FromDouble(20.01);
             if (xPosDest > 0)
             {
-                mBaseAnimatedWithPhysicsGameObject_VelX = (xPosDistance - FP_FromInteger(abeSpawnPos.field_0_x)) / yPosDistanceCalc;
+                mBaseAnimatedWithPhysicsGameObject_VelX = (xPosDistance - FP_FromInteger(abeSpawnPos.x)) / yPosDistanceCalc;
             }
             else
             {
@@ -9516,7 +9516,7 @@ void Abe::Calc_Well_Velocity_45C530(s16 xPosSource, s16 yPosSource, s16 xPosDest
 
     if (xPosDest > 0)
     {
-        mBaseAnimatedWithPhysicsGameObject_VelX = (xPosDistance - FP_FromInteger(abeSpawnPos.field_0_x)) / (yVelocityAfterGravity + FP_FromDouble(8.9));
+        mBaseAnimatedWithPhysicsGameObject_VelX = (xPosDistance - FP_FromInteger(abeSpawnPos.x)) / (yVelocityAfterGravity + FP_FromDouble(8.9));
     }
     else
     {

@@ -88,7 +88,7 @@ extern "C"
         &gMap.mCurrentLevel,
         &gMap.mCurrentPath,
         &gMap.mCurrentCamera,
-        &gMap.field_12_fmv_base_id,
+        &gMap.mFmvBaseId,
         &sGnFrame,
         &sActiveHero,
         offsetof(Abe, mBaseAnimatedWithPhysicsGameObject_YPos),

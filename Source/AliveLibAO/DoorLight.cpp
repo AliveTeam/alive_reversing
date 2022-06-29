@@ -111,15 +111,15 @@ DoorLight::DoorLight(Path_LightEffect* pTlv, s32 tlvInfo)
 
     if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
     {
-        mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pTlv->field_10_top_left.field_0_x - xOff);
+        mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pTlv->mTopLeft.x - xOff);
     }
     else
     {
-        mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(xOff + pTlv->field_10_top_left.field_0_x);
+        mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(xOff + pTlv->mTopLeft.x);
     }
 
     mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromInteger(1);
-    mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->field_10_top_left.field_2_y);
+    mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->mTopLeft.y);
 }
 
 DoorLight::~DoorLight()
@@ -193,8 +193,8 @@ void DoorLight::VRender(PrimHeader** ppOt)
 {
     if (sNumCamSwappers_507668 == 0)
     {
-        const FP xpos = FP_FromInteger(pScreenManager->mCamXOff) + mBaseAnimatedWithPhysicsGameObject_XPos - pScreenManager->mCamPos->field_0_x;
-        const FP ypos = FP_FromInteger(pScreenManager->mCamYOff) + mBaseAnimatedWithPhysicsGameObject_YPos - pScreenManager->mCamPos->field_4_y;
+        const FP xpos = FP_FromInteger(pScreenManager->mCamXOff) + mBaseAnimatedWithPhysicsGameObject_XPos - pScreenManager->mCamPos->x;
+        const FP ypos = FP_FromInteger(pScreenManager->mCamYOff) + mBaseAnimatedWithPhysicsGameObject_YPos - pScreenManager->mCamPos->y;
 
         mBaseAnimatedWithPhysicsGameObject_Anim.mRed = static_cast<u8>(mBaseAnimatedWithPhysicsGameObject_RGB.r);
         mBaseAnimatedWithPhysicsGameObject_Anim.mGreen = static_cast<u8>(mBaseAnimatedWithPhysicsGameObject_RGB.g);

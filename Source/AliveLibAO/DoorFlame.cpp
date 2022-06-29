@@ -88,17 +88,17 @@ public:
         s16 frameH = 0;
 
         mBaseAnimatedWithPhysicsGameObject_Anim.Get_Frame_Width_Height(&frameW, &frameH);
-        mBaseAnimatedWithPhysicsGameObject_Anim.Get_Frame_Offset(&xy.field_0_x, &xy.field_2_y);
+        mBaseAnimatedWithPhysicsGameObject_Anim.Get_Frame_Offset(&xy.x, &xy.y);
 
         const auto& pCamPos = pScreenManager->mCamPos;
-        const FP screenX = FP_FromInteger(pScreenManager->mCamXOff) + mBaseAnimatedWithPhysicsGameObject_XPos - pCamPos->field_0_x;
-        const FP screenY = FP_FromInteger(pScreenManager->mCamYOff) + mBaseAnimatedWithPhysicsGameObject_YPos - pCamPos->field_4_y;
+        const FP screenX = FP_FromInteger(pScreenManager->mCamXOff) + mBaseAnimatedWithPhysicsGameObject_XPos - pCamPos->x;
+        const FP screenY = FP_FromInteger(pScreenManager->mCamYOff) + mBaseAnimatedWithPhysicsGameObject_YPos - pCamPos->y;
 
         const FP frameWScaled = (FP_FromInteger(frameW) * mBaseAnimatedWithPhysicsGameObject_SpriteScale);
         const FP frameHScaled = (FP_FromInteger(frameH) * mBaseAnimatedWithPhysicsGameObject_SpriteScale);
 
-        const s32 offXScaled = FP_GetExponent(FP_FromInteger(xy.field_0_x) * mBaseAnimatedWithPhysicsGameObject_SpriteScale);
-        const s32 offYScaled = FP_GetExponent(FP_FromInteger(xy.field_2_y) * mBaseAnimatedWithPhysicsGameObject_SpriteScale);
+        const s32 offXScaled = FP_GetExponent(FP_FromInteger(xy.x) * mBaseAnimatedWithPhysicsGameObject_SpriteScale);
+        const s32 offYScaled = FP_GetExponent(FP_FromInteger(xy.y) * mBaseAnimatedWithPhysicsGameObject_SpriteScale);
 
         // TODO: Refactor PSX <> PC width conversion
         const FP frameWScaled_converted = ((frameWScaled * FP_FromInteger(23)) + FP_FromInteger(20)) / FP_FromInteger(40);
@@ -123,8 +123,8 @@ ALIVE_ASSERT_SIZEOF(FireBackgroundGlow, 0xF4);
 
 struct FlameSpark final
 {
-    FP field_0_x;
-    FP field_4_y;
+    FP x;
+    FP y;
     FP field_8_off_x;
     FP field_C_off_y;
     s16 field_10_random64;
@@ -165,8 +165,8 @@ public:
             anim.field_14.mRenderLayer = static_cast<Layer>(rndLayer);
             anim.field_14.field_6C_scale = mBaseAnimatedWithPhysicsGameObject_SpriteScale;
 
-            anim.field_0_x = mBaseAnimatedWithPhysicsGameObject_XPos;
-            anim.field_4_y = mBaseAnimatedWithPhysicsGameObject_YPos;
+            anim.x = mBaseAnimatedWithPhysicsGameObject_XPos;
+            anim.y = mBaseAnimatedWithPhysicsGameObject_YPos;
 
             anim.field_8_off_x = FP_FromInteger(0);
             anim.field_C_off_y = FP_FromInteger(0);
@@ -196,8 +196,8 @@ public:
                         anim.field_12_bVisible = 1;
                         anim.field_10_random64 = Math_RandomRange(7, 9);
 
-                        anim.field_0_x = field_400_xpos;
-                        anim.field_4_y = field_404_ypos;
+                        anim.x = field_400_xpos;
+                        anim.y = field_404_ypos;
 
                         anim.field_8_off_x = FP_FromInteger(Math_NextRandom() - 127) / FP_FromInteger(96);
                         anim.field_C_off_y = FP_FromInteger(-Math_NextRandom()) / FP_FromInteger(96);
@@ -205,8 +205,8 @@ public:
                 }
                 else if (anim.field_10_random64 > 0)
                 {
-                    anim.field_0_x += anim.field_8_off_x;
-                    anim.field_4_y += anim.field_C_off_y;
+                    anim.x += anim.field_8_off_x;
+                    anim.y += anim.field_C_off_y;
 
                     if (!(anim.field_10_random64 % 3))
                     {
@@ -235,10 +235,10 @@ public:
 
                 const FP_Point* pCamPos = pScreenManager->mCamPos;
 
-                const FP screen_left = pCamPos->field_0_x - FP_FromInteger(pScreenManager->mCamXOff);
-                const FP screen_right = pCamPos->field_0_x + FP_FromInteger(pScreenManager->mCamXOff);
-                const FP screen_top = pCamPos->field_4_y - FP_FromInteger(pScreenManager->mCamYOff);
-                const FP screen_bottom = pCamPos->field_4_y + FP_FromInteger(pScreenManager->mCamYOff);
+                const FP screen_left = pCamPos->x - FP_FromInteger(pScreenManager->mCamXOff);
+                const FP screen_right = pCamPos->x + FP_FromInteger(pScreenManager->mCamXOff);
+                const FP screen_top = pCamPos->y - FP_FromInteger(pScreenManager->mCamYOff);
+                const FP screen_bottom = pCamPos->y + FP_FromInteger(pScreenManager->mCamYOff);
 
                 mBaseAnimatedWithPhysicsGameObject_Anim.VRender(
                     FP_GetExponent(PsxToPCX(mBaseAnimatedWithPhysicsGameObject_XPos - screen_left)),
@@ -260,13 +260,13 @@ public:
                 {
                     if (anim.field_12_bVisible)
                     {
-                        if (anim.field_0_x >= screen_left && anim.field_0_x <= screen_right)
+                        if (anim.x >= screen_left && anim.x <= screen_right)
                         {
-                            if (anim.field_4_y >= screen_top && anim.field_4_y <= screen_bottom)
+                            if (anim.y >= screen_top && anim.y <= screen_bottom)
                             {
                                 anim.field_14.VRender2(
-                                    FP_GetExponent(PsxToPCX(anim.field_0_x - screen_left)),
-                                    FP_GetExponent(anim.field_4_y - screen_top),
+                                    FP_GetExponent(PsxToPCX(anim.x - screen_left)),
+                                    FP_GetExponent(anim.y - screen_top),
                                     ppOt);
 
                                 anim.field_14.GetRenderedSize(&frameRect);
@@ -339,14 +339,14 @@ DoorFlame::DoorFlame(Path_DoorFlame* pTlv, s32 tlvInfo)
         pTlv->field_1A_scale == Path_DoorFlame::Scale::eHalf_2)
     {
         mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromDouble(0.5);
-        mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pTlv->field_10_top_left.field_0_x + 12);
-        mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->field_10_top_left.field_2_y + 15);
+        mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pTlv->mTopLeft.x + 12);
+        mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->mTopLeft.y + 15);
     }
     else if (pTlv->field_1A_scale == Path_DoorFlame::Scale::eFull_0)
     {
         mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromInteger(1);
-        mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pTlv->field_10_top_left.field_0_x + 12);
-        mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->field_10_top_left.field_2_y + 15);
+        mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pTlv->mTopLeft.x + 12);
+        mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->mTopLeft.y + 15);
     }
 
     switch (pTlv->field_1C_colour)

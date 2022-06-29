@@ -64,7 +64,7 @@ LiftPoint::LiftPoint(Path_LiftPoint* pTlv, s32 tlvInfo)
     mBaseGameObjectTlvInfo = tlvInfo;
     SetType(ReliveTypes::eLiftPoint);
 
-    pTlv->field_1_tlv_state = 3;
+    pTlv->mTlvState = 3;
 
     field_27C_pTlv = sPath_dword_BB47C0->TLVInfo_From_TLVPtr(pTlv);
 
@@ -332,14 +332,14 @@ s32 LiftPoint::CreateFromSaveState(const u8* pData)
         return sizeof(LiftPoint_State);
     }
 
-    pTlv->field_1_tlv_state = 1;
+    pTlv->mTlvState = 1;
     if (pState->field_10_pTlv == -1)
     {
         return sizeof(LiftPoint_State);
     }
 
     Path_TLV* pTlv2 = sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam(pState->field_10_pTlv);
-    pTlv2->field_1_tlv_state = 3;
+    pTlv2->mTlvState = 3;
     return sizeof(LiftPoint_State);
 }
 
@@ -401,7 +401,7 @@ void LiftPoint::VRender(PrimHeader** ppOt)
         PSX_Point camPos = {};
         gMap.GetCurrentCamCoords(&camPos);
 
-        if (mBaseAnimatedWithPhysicsGameObject_XPos >= FP_FromInteger(camPos.field_0_x) && mBaseAnimatedWithPhysicsGameObject_XPos <= FP_FromInteger(camPos.field_0_x + 640))
+        if (mBaseAnimatedWithPhysicsGameObject_XPos >= FP_FromInteger(camPos.x) && mBaseAnimatedWithPhysicsGameObject_XPos <= FP_FromInteger(camPos.x + 640))
         {
             s16 r = mBaseAnimatedWithPhysicsGameObject_RGB.r;
             s16 g = mBaseAnimatedWithPhysicsGameObject_RGB.g;
@@ -560,7 +560,7 @@ void LiftPoint::VUpdate()
 
             if (pTlvIter)
             {
-                while (pTlvIter->field_4_type.mType != TlvTypes::LiftPoint_7)
+                while (pTlvIter->mTlvType32.mType != TlvTypes::LiftPoint_7)
                 {
                     pTlvIter = sPath_dword_BB47C0->TLV_Get_At_4DB290(
                         pTlvIter,
@@ -588,7 +588,7 @@ void LiftPoint::VUpdate()
                     field_280_flags.Set(LiftFlags::eBit8_bIgnoreLiftMover);
                 }
 
-                if (pLiftTlv->field_1_tlv_state != static_cast<u8>(pLiftTlv->field_12_bStart_point))
+                if (pLiftTlv->mTlvState != static_cast<u8>(pLiftTlv->field_12_bStart_point))
                 {
                     field_280_flags.Set(LiftFlags::eBit6);
                 }
@@ -602,7 +602,7 @@ void LiftPoint::VUpdate()
             if (pLiftTlv)
             {
                 sub_461000(pLiftTlv);
-                field_270_floorYLevel = FP_FromInteger(pLiftTlv->field_8_top_left.field_2_y + -mPlatformBaseYOffset);
+                field_270_floorYLevel = FP_FromInteger(pLiftTlv->mTopLeft.y + -mPlatformBaseYOffset);
             }
             else
             {
@@ -622,7 +622,7 @@ void LiftPoint::VUpdate()
                     {
                         if (mBaseAnimatedWithPhysicsGameObject_VelY != FP_FromInteger(0) || distanceToFloor <= kMinus25Scaled || distanceToFloor >= k30Scaled)
                         {
-                            pLiftTlv->field_1_tlv_state = 1;
+                            pLiftTlv->mTlvState = 1;
                             field_280_flags.Clear(LiftFlags::eBit1_bTopFloor);
                             field_27C_pTlv = -1;
                         }
@@ -632,14 +632,14 @@ void LiftPoint::VUpdate()
                             field_12C_bMoving |= 1u;
                             mBaseAnimatedWithPhysicsGameObject_YPos = field_270_floorYLevel - distanceToFloor;
 
-                            pLiftTlv->field_1_tlv_state = 3;
+                            pLiftTlv->mTlvState = 3;
 
                             field_27C_pTlv = sPath_dword_BB47C0->TLVInfo_From_TLVPtr(pLiftTlv);
                             pLiftTlv->field_10_lift_point_id = field_278_lift_point_id;
                             field_280_flags.Set(LiftFlags::eBit1_bTopFloor);
                         }
                     }
-                    else if (mBaseAnimatedWithPhysicsGameObject_VelY + lineY <= FP_FromInteger(pLiftTlv->field_8_top_left.field_2_y))
+                    else if (mBaseAnimatedWithPhysicsGameObject_VelY + lineY <= FP_FromInteger(pLiftTlv->mTopLeft.y))
                     {
                         vStayOnFloor(field_280_flags.Get(LiftFlags::eBit1_bTopFloor), pLiftTlv);
                         field_280_flags.Set(LiftFlags::eBit1_bTopFloor);
@@ -651,7 +651,7 @@ void LiftPoint::VUpdate()
                     {
                         if (mBaseAnimatedWithPhysicsGameObject_VelY != FP_FromInteger(0) || distanceToFloor <= kMinus25Scaled || distanceToFloor >= k30Scaled)
                         {
-                            pLiftTlv->field_1_tlv_state = 1;
+                            pLiftTlv->mTlvState = 1;
 
                             field_280_flags.Clear(LiftFlags::eBit3_bBottomFloor);
                             field_27C_pTlv = -1;
@@ -662,14 +662,14 @@ void LiftPoint::VUpdate()
                             field_280_flags.Set(LiftFlags::eBit5_bMoveToFloorLevel);
                             mBaseAnimatedWithPhysicsGameObject_YPos = field_270_floorYLevel - distanceToFloor;
 
-                            pLiftTlv->field_1_tlv_state = 3;
+                            pLiftTlv->mTlvState = 3;
 
                             field_27C_pTlv = sPath_dword_BB47C0->TLVInfo_From_TLVPtr(pLiftTlv);
                             pLiftTlv->field_10_lift_point_id = field_278_lift_point_id;
                             field_280_flags.Set(LiftFlags::eBit3_bBottomFloor);
                         }
                     }
-                    else if (lineY + mBaseAnimatedWithPhysicsGameObject_VelY >= FP_FromInteger(pLiftTlv->field_8_top_left.field_2_y))
+                    else if (lineY + mBaseAnimatedWithPhysicsGameObject_VelY >= FP_FromInteger(pLiftTlv->mTopLeft.y))
                     {
                         vStayOnFloor(field_280_flags.Get(LiftFlags::eBit3_bBottomFloor), pLiftTlv);
                         field_280_flags.Set(LiftFlags::eBit3_bBottomFloor);
@@ -679,7 +679,7 @@ void LiftPoint::VUpdate()
                 case LiftPointStopType::eMiddleFloor_2:
                     if (distanceToFloor <= kMinus25Scaled || distanceToFloor >= k30Scaled)
                     {
-                        pLiftTlv->field_1_tlv_state = 1;
+                        pLiftTlv->mTlvState = 1;
                         field_27C_pTlv = -1;
                     }
                     else
@@ -697,7 +697,7 @@ void LiftPoint::VUpdate()
                             mBaseAnimatedWithPhysicsGameObject_YPos = field_270_floorYLevel - distanceToFloor;
                         }
 
-                        pLiftTlv->field_1_tlv_state = 3;
+                        pLiftTlv->mTlvState = 3;
                         field_27C_pTlv = sPath_dword_BB47C0->TLVInfo_From_TLVPtr(pLiftTlv);
                         pLiftTlv->field_10_lift_point_id = field_278_lift_point_id;
                         field_280_flags.Set(LiftFlags::eBit2_bMiddleFloor);
@@ -707,7 +707,7 @@ void LiftPoint::VUpdate()
                 case LiftPointStopType::eStartPointOnly_4:
                     if (pLiftTlv)
                     {
-                        pLiftTlv->field_1_tlv_state = 1;
+                        pLiftTlv->mTlvState = 1;
                         field_27C_pTlv = -1;
                     }
                     field_280_flags.Clear(LiftFlags::eBit1_bTopFloor);
@@ -830,22 +830,22 @@ void LiftPoint::MoveObjectsOnLift(FP xVelocity)
 
 void LiftPoint::sub_461000(Path_TLV* pTlv)
 {
-    pTlv->field_0_flags.Clear(eBit1_Created);
-    pTlv->field_0_flags.Clear(eBit2_Destroyed);
-    pTlv->field_1_tlv_state |= 1;
+    pTlv->mTlvFlags.Clear(eBit1_Created);
+    pTlv->mTlvFlags.Clear(eBit2_Destroyed);
+    pTlv->mTlvState |= 1;
 }
 
 void LiftPoint::vStayOnFloor(s16 floor, Path_LiftPoint* pTlv)
 {
     if (!floor)
     {
-        mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->field_8_top_left.field_2_y + -mPlatformBaseYOffset);
+        mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->mTopLeft.y + -mPlatformBaseYOffset);
         SFX_Play_Mono(SoundEffect::LiftStop_30, 0);
         SFX_Play_Pitch(SoundEffect::LiftStop_30, 80, -2000);
     }
 
     field_12C_bMoving &= ~1;
-    pTlv->field_1_tlv_state = 3;
+    pTlv->mTlvState = 3;
     field_27C_pTlv = sPath_dword_BB47C0->TLVInfo_From_TLVPtr(pTlv);
     pTlv->field_10_lift_point_id = field_278_lift_point_id;
     mBaseAnimatedWithPhysicsGameObject_VelY = FP_FromInteger(0);
@@ -882,23 +882,23 @@ void LiftPoint::CreatePulleyIfExists()
 {
     Path_TLV* pFound = nullptr;
 
-    const PathData* pPathData = sPath_dword_BB47C0->field_C_pPathData;
+    const PathData* pPathData = sPath_dword_BB47C0->mPathData;
     s16 yCamIdx = FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos) / pPathData->field_C_grid_height;
     // If we are in the top row of cameras then there can't be a pulley in the screen above because there are no more screens above!
     while (yCamIdx >= 0)
     {
-        const s16 xCamIdx = (FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos) / pPathData->field_A_grid_width) - gMap.field_D0_cam_x_idx;
+        const s16 xCamIdx = (FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos) / pPathData->field_A_grid_width) - gMap.mCamIdxOnX;
         // Keep looking up 1 camera for any camera that has TLVs in it.
-        Path_TLV* pTlvIter = sPath_dword_BB47C0->Get_First_TLV_For_Offsetted_Camera(xCamIdx, yCamIdx - gMap.field_D2_cam_y_idx);
+        Path_TLV* pTlvIter = sPath_dword_BB47C0->Get_First_TLV_For_Offsetted_Camera(xCamIdx, yCamIdx - gMap.mCamIdxOnY);
         while (pTlvIter)
         {
-            if (pTlvIter->field_4_type == TlvTypes::Pulley_21)
+            if (pTlvIter->mTlvType32 == TlvTypes::Pulley_21)
             {
                 const FP left = FP_FromInteger(field_124_pCollisionLine->field_0_rect.x) + (ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale) / FP_FromInteger(2));
-                if (left <= FP_FromInteger(pTlvIter->field_8_top_left.field_0_x))
+                if (left <= FP_FromInteger(pTlvIter->mTopLeft.x))
                 {
                     const FP right = FP_FromInteger(field_124_pCollisionLine->field_0_rect.w) - (ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale) / FP_FromInteger(2));
-                    if (FP_FromInteger(pTlvIter->field_8_top_left.field_0_x) <= right)
+                    if (FP_FromInteger(pTlvIter->mTopLeft.x) <= right)
                     {
                         pFound = pTlvIter;
                         break;
@@ -928,7 +928,7 @@ void LiftPoint::CreatePulleyIfExists()
     const FP kM10_scaled = FP_FromInteger(-10) * mBaseAnimatedWithPhysicsGameObject_SpriteScale;
 
     field_26C_pulley_xpos = FP_GetExponent(((kM10_scaled + k13_scaled) / FP_FromInteger(2)) + FP_NoFractional(mBaseAnimatedWithPhysicsGameObject_XPos));
-    field_26E_pulley_ypos = pFound->field_8_top_left.field_2_y;
+    field_26E_pulley_ypos = pFound->mTopLeft.y;
 
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kLiftWheelsResID);
     const LiftPointData& data = sLiftPointData_545AC8[static_cast<s32>(MapWrapper::ToAE(gMap.mCurrentLevel))];
@@ -1016,8 +1016,8 @@ LiftPoint::~LiftPoint()
 
     if (pTlv)
     {
-        pTlv->field_0_flags.Clear(eBit1_Created);
-        pTlv->field_0_flags.Clear(eBit2_Destroyed);
+        pTlv->mTlvFlags.Clear(eBit1_Created);
+        pTlv->mTlvFlags.Clear(eBit2_Destroyed);
     }
 
     field_13C_lift_wheel.VCleanUp();

@@ -69,8 +69,8 @@ void ScreenShake::VRender(PrimHeader** ppOt)
 
         s16 xoff = 0;
         s16 yoff = 0;
-        xoff = FP_GetExponent(stru_4CF850[field_30_shakeNumber].field_0_x); // TODO: Div 16 ??
-        yoff = FP_GetExponent(stru_4CF850[field_30_shakeNumber].field_4_y);
+        xoff = FP_GetExponent(stru_4CF850[field_30_shakeNumber].x); // TODO: Div 16 ??
+        yoff = FP_GetExponent(stru_4CF850[field_30_shakeNumber].y);
 
         if (gPsxDisplay_504C78.field_A_buffer_index)
         {

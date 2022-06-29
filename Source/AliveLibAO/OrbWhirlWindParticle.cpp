@@ -55,11 +55,11 @@ void OrbWhirlWindParticle::Render(PrimHeader** ppOt)
 
     const s16 xpos = FP_GetExponent(FP_FromInteger(pScreenManager->mCamXOff)
                                     + field_A0_xpos_render_offset
-                                    - pScreenManager->mCamPos->field_0_x);
+                                    - pScreenManager->mCamPos->x);
 
     const s16 ypos = FP_GetExponent(FP_FromInteger(pScreenManager->mCamYOff + 5)
                                     + field_A4_ypos_render_offset
-                                    - pScreenManager->mCamPos->field_4_y);
+                                    - pScreenManager->mCamPos->y);
 
     field_8_anim.VRender(
         xpos,

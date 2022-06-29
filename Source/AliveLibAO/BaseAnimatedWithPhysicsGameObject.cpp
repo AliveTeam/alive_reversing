@@ -93,8 +93,8 @@ void BaseAnimatedWithPhysicsGameObject::VRender(PrimHeader** ppOt)
             mBaseAnimatedWithPhysicsGameObject_Anim.mBlue = static_cast<u8>(b);
 
             mBaseAnimatedWithPhysicsGameObject_Anim.VRender(
-                FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos + (FP_FromInteger(pScreenManager->mCamXOff + mBaseAnimatedWithPhysicsGameObject_XOffset)) - pScreenManager->mCamPos->field_0_x),
-                FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos + (FP_FromInteger(pScreenManager->mCamYOff + mBaseAnimatedWithPhysicsGameObject_YOffset)) - pScreenManager->mCamPos->field_4_y),
+                FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos + (FP_FromInteger(pScreenManager->mCamXOff + mBaseAnimatedWithPhysicsGameObject_XOffset)) - pScreenManager->mCamPos->x),
+                FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos + (FP_FromInteger(pScreenManager->mCamYOff + mBaseAnimatedWithPhysicsGameObject_YOffset)) - pScreenManager->mCamPos->y),
                 ppOt,
                 0,
                 0);
@@ -211,7 +211,7 @@ void BaseAnimatedWithPhysicsGameObject::VOnCollisionWith(PSX_Point xy, PSX_Point
                 {
                     BaseAnimatedWithPhysicsGameObject* pObj = static_cast<BaseAnimatedWithPhysicsGameObject*>(pObjIter);
                     const PSX_RECT bRect = pObj->VGetBoundingRect(startingPointIdx);
-                    if (xy.field_0_x <= bRect.w && wh.field_0_x >= bRect.x && wh.field_2_y >= bRect.y && xy.field_2_y <= bRect.h)
+                    if (xy.x <= bRect.w && wh.x >= bRect.x && wh.y >= bRect.y && xy.y <= bRect.h)
                     {
                         if (!(this->*(pFn))(pObj))
                         {

@@ -243,8 +243,8 @@ void ThrowableTotalIndicator::VRender(PrimHeader** ppOt)
     }
 
     const FP_Point* camPos = pScreenManager->mCamPos;
-    const FP camX = FP_FromInteger(FP_GetExponent(camPos->field_0_x - FP_FromInteger(pScreenManager->mCamXOff)));
-    const FP camY = FP_FromInteger(FP_GetExponent(camPos->field_4_y - FP_FromInteger(pScreenManager->mCamYOff)));
+    const FP camX = FP_FromInteger(FP_GetExponent(camPos->x - FP_FromInteger(pScreenManager->mCamXOff)));
+    const FP camY = FP_FromInteger(FP_GetExponent(camPos->y - FP_FromInteger(pScreenManager->mCamYOff)));
 
     s16 xpos = 0;
     s16 ypos = 0;

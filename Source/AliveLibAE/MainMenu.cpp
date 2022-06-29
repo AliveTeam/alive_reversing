@@ -672,7 +672,7 @@ void MainMenuController::VRender(PrimHeader** ppOt)
         {
             if (field_1FC_button_index != NO_SELECTABLE_BUTTONS)
             {
-                field_158_animation.VRender(pButtons[field_1FC_button_index].field_2_x, pButtons[field_1FC_button_index].field_4_y, ppOt, 0, 0);
+                field_158_animation.VRender(pButtons[field_1FC_button_index].field_2_x, pButtons[field_1FC_button_index].y, ppOt, 0, 0);
                 PSX_RECT rect = {};
                 field_158_animation.Get_Frame_Rect(&rect);
                 pScreenManager->InvalidateRectCurrentIdx(rect.x, rect.y, rect.w, rect.h);
@@ -2614,8 +2614,8 @@ void MainMenuController::RemapInput_Render_4D2A10(PrimHeader** ppOt)
         field_158_animation.mBlue = rgb;
         field_158_animation.mGreen = rgb;
         field_158_animation.VRender(
-            kTextInfo_5626A0[sButtonToRemapIdx_BB43EC + 2].field_0_x - 18,
-            kTextInfo_5626A0[sButtonToRemapIdx_BB43EC + 2].field_4_y + 8,
+            kTextInfo_5626A0[sButtonToRemapIdx_BB43EC + 2].x - 18,
+            kTextInfo_5626A0[sButtonToRemapIdx_BB43EC + 2].y + 8,
             ppOt, 0, 0);
     }
 }
@@ -3794,8 +3794,8 @@ void MainMenuController::DrawMenuText_4D20D0(const MainMenuText* array, PrimHead
         fontScale = FP_FromDouble(array->field_10_scale);
     }
 
-    const s32 array_field_x = array->field_0_x;
-    const s32 array_field_y = array->field_4_y;
+    const s32 array_field_x = array->x;
+    const s32 array_field_y = array->y;
 
     s16 text_xpos = 0;
     if (array->field_C_align == 1)

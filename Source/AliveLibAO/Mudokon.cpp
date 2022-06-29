@@ -177,10 +177,10 @@ Mudokon::Mudokon(Path_TLV* pTlv, s32 tlvInfo)
     SetTint(sMudTints_4CD320, mBaseAnimatedWithPhysicsGameObject_LvlNumber);
 
     Scale_short scale = Scale_short::eFull_0;
-    switch (pTlv->field_4_type.mType)
+    switch (pTlv->mTlvType32.mType)
     {
         case TlvTypes::None_m1:
-            ALIVE_FATAL("Mudokon ctor pTlv->field_4_type.mType was None_m1. This shouldn't happen.");
+            ALIVE_FATAL("Mudokon ctor pTlv->mTlvType32.mType was None_m1. This shouldn't happen.");
             break;
         case TlvTypes::LiftMudokon_32:
         {
@@ -297,7 +297,7 @@ Mudokon::Mudokon(Path_TLV* pTlv, s32 tlvInfo)
         }
         break;
         default:
-            LOG_WARNING("Mudokon ctor pTlv->field_4_type.mType was " << magic_enum::enum_name(pTlv->field_4_type.mType) << ". This is unhandled.");
+            LOG_WARNING("Mudokon ctor pTlv->mTlvType32.mType was " << magic_enum::enum_name(pTlv->mTlvType32.mType) << ". This is unhandled.");
             break;
     }
 
@@ -319,16 +319,16 @@ Mudokon::Mudokon(Path_TLV* pTlv, s32 tlvInfo)
     FP hitX = {};
     FP hitY = {};
     const s16 bHit = sCollisions->Raycast(
-        FP_FromInteger(pTlv->field_10_top_left.field_0_x),
-        FP_FromInteger(pTlv->field_10_top_left.field_2_y),
-        FP_FromInteger(pTlv->field_14_bottom_right.field_0_x),
-        FP_FromInteger(pTlv->field_14_bottom_right.field_2_y),
+        FP_FromInteger(pTlv->mTopLeft.x),
+        FP_FromInteger(pTlv->mTopLeft.y),
+        FP_FromInteger(pTlv->mBottomRight.x),
+        FP_FromInteger(pTlv->mBottomRight.y),
         &BaseAliveGameObjectCollisionLine,
         &hitX,
         &hitY,
         mBaseAnimatedWithPhysicsGameObject_SpriteScale != FP_FromDouble(0.5) ? 7 : 0x70);
 
-    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger((pTlv->field_10_top_left.field_0_x + pTlv->field_14_bottom_right.field_0_x) / 2);
+    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger((pTlv->mTopLeft.x + pTlv->mBottomRight.x) / 2);
 
     if (bHit)
     {
@@ -596,7 +596,7 @@ void Mudokon::VScreenChanged()
         auto pTlv = gMap.TLV_Get_At_446060(nullptr, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos);
         while (pTlv)
         {
-            if (pTlv->field_4_type == TlvTypes::MudokonPathTrans_89)
+            if (pTlv->mTlvType32 == TlvTypes::MudokonPathTrans_89)
             {
                 // Gonna go to the next path
                 field_1C4_bDoPathTrans = TRUE;
@@ -872,11 +872,11 @@ void Mudokon::DoPathTrans()
 
     if (sActiveHero_507678->mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
     {
-        mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger((camCoords.field_0_x + XGrid_Index_To_XPos(mBaseAnimatedWithPhysicsGameObject_SpriteScale, MaxGridBlocks_41FA10(mBaseAnimatedWithPhysicsGameObject_SpriteScale)))) + ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale);
+        mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger((camCoords.x + XGrid_Index_To_XPos(mBaseAnimatedWithPhysicsGameObject_SpriteScale, MaxGridBlocks_41FA10(mBaseAnimatedWithPhysicsGameObject_SpriteScale)))) + ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale);
     }
     else
     {
-        mBaseAnimatedWithPhysicsGameObject_XPos = (FP_FromInteger(camCoords.field_0_x + XGrid_Index_To_XPos(mBaseAnimatedWithPhysicsGameObject_SpriteScale, 0))) - ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale);
+        mBaseAnimatedWithPhysicsGameObject_XPos = (FP_FromInteger(camCoords.x + XGrid_Index_To_XPos(mBaseAnimatedWithPhysicsGameObject_SpriteScale, 0))) - ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale);
     }
 
     if (sActiveHero_507678->BaseAliveGameObjectCollisionLine)
@@ -885,7 +885,7 @@ void Mudokon::DoPathTrans()
     }
     else
     {
-        mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos) % 480 + camCoords.field_2_y);
+        mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos) % 480 + camCoords.y);
     }
 
     if (BaseAliveGameObjectCollisionLine)
@@ -1217,7 +1217,7 @@ void Mudokon::VOn_TLV_Collision(Path_TLV* pTlv)
     {
         while (pTlv)
         {
-            if (pTlv->field_4_type == TlvTypes::DeathDrop_5)
+            if (pTlv->mTlvType32 == TlvTypes::DeathDrop_5)
             {
                 if (mHealth > FP_FromInteger(0))
                 {
@@ -2449,12 +2449,12 @@ void Mudokon::Motion_51_Fall()
                 mPreviousMotion = eMudMotions::Motion_51_Fall;
 
                 PSX_Point xy;
-                xy.field_0_x = FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos - FP_FromInteger(10));
-                xy.field_2_y = FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos - FP_FromInteger(10));
+                xy.x = FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos - FP_FromInteger(10));
+                xy.y = FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos - FP_FromInteger(10));
 
                 PSX_Point wh;
-                wh.field_0_x = FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos + FP_FromInteger(10));
-                wh.field_2_y = FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos + FP_FromInteger(10));
+                wh.x = FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos + FP_FromInteger(10));
+                wh.y = FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos + FP_FromInteger(10));
 
                 VOnCollisionWith(
                     xy,

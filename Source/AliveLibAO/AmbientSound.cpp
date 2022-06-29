@@ -70,7 +70,7 @@ void Start_Sounds_for_TLV(CameraPos direction, Path_TLV* pTlv)
 
     if (pAmbianceTbl)
     {
-        switch (pTlv->field_4_type.mType)
+        switch (pTlv->mTlvType32.mType)
         {
             case TlvTypes::Slig_24:
                 if (static_cast<Path_Slig*>(pTlv)->field_1A_start_state == Path_Slig::StartState::Patrol_1)

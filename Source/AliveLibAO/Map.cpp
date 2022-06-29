@@ -863,7 +863,7 @@ void Map::SaveBlyData(u8* pSaveBuffer)
 
                     for (;;)
                     {
-                        BitField8<TLV_Flags> flags = pTlv->field_0_flags;
+                        BitField8<TlvFlags> flags = pTlv->mTlvFlags;
                         if (flags.Get(eBit1_Created))
                         {
                             flags.Clear(eBit1_Created);
@@ -876,7 +876,7 @@ void Map::SaveBlyData(u8* pSaveBuffer)
                         *pAfterSwitchStates = pTlv->field_1_unknown;
                         pAfterSwitchStates++;
 
-                        if (pTlv->field_0_flags.Get(eBit3_End_TLV_List))
+                        if (pTlv->mTlvFlags.Get(eBit3_End_TLV_List))
                         {
                             break;
                         }
@@ -916,19 +916,19 @@ void Map::RestoreBlyData(const u8* pSaveData)
                         for (;;)
                         {
                             pTlv->RangeCheck();
-                            pTlv->field_0_flags.Raw().all = *pAfterSwitchStates;
+                            pTlv->mTlvFlags.Raw().all = *pAfterSwitchStates;
                             pAfterSwitchStates++;
 
                             pTlv->field_1_unknown = *pAfterSwitchStates;
                             pAfterSwitchStates++;
-                            if (pTlv->field_0_flags.Get(eBit3_End_TLV_List))
+                            if (pTlv->mTlvFlags.Get(eBit3_End_TLV_List))
                             {
                                 break;
                             }
 
                             pTlv = Path_TLV::Next_NoCheck(pTlv);
                             pTlv->RangeCheck();
-                            if (pTlv->field_2_length == 0)
+                            if (pTlv->mLength == 0)
                             {
                                 break;
                             }
@@ -965,15 +965,15 @@ void Map::Start_Sounds_For_Objects_In_Camera(CameraPos direction, s16 cam_x_idx,
             // Enumerate the TLVs
             for (;;)
             {
-                if (pTlv->field_10_top_left.field_0_x >= cam_global_left && pTlv->field_10_top_left.field_0_x <= cam_global_right)
+                if (pTlv->mTopLeft.x >= cam_global_left && pTlv->mTopLeft.x <= cam_global_right)
                 {
-                    if (pTlv->field_10_top_left.field_2_y >= cam_y_grid_top && pTlv->field_10_top_left.field_2_y <= cam_y_grid_bottom && (!pTlv->field_0_flags.Get(eBit1_Created) && !pTlv->field_0_flags.Get(eBit2_Destroyed)))
+                    if (pTlv->mTopLeft.y >= cam_y_grid_top && pTlv->mTopLeft.y <= cam_y_grid_bottom && (!pTlv->mTlvFlags.Get(eBit1_Created) && !pTlv->mTlvFlags.Get(eBit2_Destroyed)))
                     {
                         Start_Sounds_for_TLV(direction, pTlv);
                     }
                 }
 
-                if (pTlv->field_0_flags.Get(eBit3_End_TLV_List))
+                if (pTlv->mTlvFlags.Get(eBit3_End_TLV_List))
                 {
                     break;
                 }
@@ -1158,19 +1158,19 @@ CameraPos Map::Rect_Location_Relative_To_Active_Camera(const PSX_RECT* pRect, s1
         yTweak = FP_FromInteger(120);
     }
 
-    if (pRect->x > FP_GetExponent(field_2C_camera_offset.field_0_x + xTweak))
+    if (pRect->x > FP_GetExponent(field_2C_camera_offset.x + xTweak))
     {
         return CameraPos::eCamRight_4;
     }
 
-    if (pRect->y > FP_GetExponent(field_2C_camera_offset.field_4_y + yTweak))
+    if (pRect->y > FP_GetExponent(field_2C_camera_offset.y + yTweak))
     {
         return CameraPos::eCamBottom_2;
     }
 
-    if (pRect->w >= FP_GetExponent(field_2C_camera_offset.field_0_x - xTweak))
+    if (pRect->w >= FP_GetExponent(field_2C_camera_offset.x - xTweak))
     {
-        if (pRect->h < FP_GetExponent(field_2C_camera_offset.field_4_y - yTweak))
+        if (pRect->h < FP_GetExponent(field_2C_camera_offset.y - yTweak))
         {
             return CameraPos::eCamTop_1;
         }
@@ -1306,13 +1306,13 @@ Path_TLV* Map::TLV_Get_At_446260(s16 xpos, s16 ypos, s16 width, s16 height, TlvT
     Path_TLV* pTlvIter = reinterpret_cast<Path_TLV*>(*GetPathResourceBlockPtr(mCurrentPath) + indexTableEntry + field_D4_pPathData->field_14_object_offset);
     pTlvIter->RangeCheck();
 
-    while (right > pTlvIter->field_14_bottom_right.field_0_x
-           || left < pTlvIter->field_10_top_left.field_0_x
-           || bottom < pTlvIter->field_10_top_left.field_2_y
-           || top > pTlvIter->field_14_bottom_right.field_2_y
-           || pTlvIter->field_4_type.mType != typeToFind)
+    while (right > pTlvIter->mBottomRight.x
+           || left < pTlvIter->mTopLeft.x
+           || bottom < pTlvIter->mTopLeft.y
+           || top > pTlvIter->mBottomRight.y
+           || pTlvIter->mTlvType32.mType != typeToFind)
     {
-        if (pTlvIter->field_0_flags.Get(eBit3_End_TLV_List))
+        if (pTlvIter->mTlvFlags.Get(eBit3_End_TLV_List))
         {
             return nullptr;
         }
@@ -1372,13 +1372,13 @@ Path_TLV* Map::TLV_Get_At_446060(Path_TLV* pTlv, FP xpos, FP ypos, FP width, FP 
         pTlv = reinterpret_cast<Path_TLV*>(&ppPathRes[pPathData->field_14_object_offset + indexTableEntry]);
         pTlv->RangeCheck();
 
-        if (!bContinue || (xpos_converted <= pTlv->field_14_bottom_right.field_0_x && width_converted >= pTlv->field_10_top_left.field_0_x && height_converted >= pTlv->field_10_top_left.field_2_y && ypos_converted <= pTlv->field_14_bottom_right.field_2_y))
+        if (!bContinue || (xpos_converted <= pTlv->mBottomRight.x && width_converted >= pTlv->mTopLeft.x && height_converted >= pTlv->mTopLeft.y && ypos_converted <= pTlv->mBottomRight.y))
         {
             return pTlv;
         }
     }
 
-    if (pTlv->field_0_flags.Get(eBit3_End_TLV_List))
+    if (pTlv->mTlvFlags.Get(eBit3_End_TLV_List))
     {
         return nullptr;
     }
@@ -1388,12 +1388,12 @@ Path_TLV* Map::TLV_Get_At_446060(Path_TLV* pTlv, FP xpos, FP ypos, FP width, FP 
         pTlv = Path_TLV::Next_446460(pTlv);
         pTlv->RangeCheck();
 
-        if (!bContinue || (xpos_converted <= pTlv->field_14_bottom_right.field_0_x && width_converted >= pTlv->field_10_top_left.field_0_x && height_converted >= pTlv->field_10_top_left.field_2_y && ypos_converted <= pTlv->field_14_bottom_right.field_2_y))
+        if (!bContinue || (xpos_converted <= pTlv->mBottomRight.x && width_converted >= pTlv->mTopLeft.x && height_converted >= pTlv->mTopLeft.y && ypos_converted <= pTlv->mBottomRight.y))
         {
             break;
         }
 
-        if (pTlv->field_0_flags.Get(eBit3_End_TLV_List))
+        if (pTlv->mTlvFlags.Get(eBit3_End_TLV_List))
         {
             return 0;
         }
@@ -1422,20 +1422,20 @@ void Map::sub_447430(u16 pathNum)
 
                 pTlv->RangeCheck();
 
-                pTlv->field_0_flags.Clear(TLV_Flags::eBit1_Created);
-                pTlv->field_0_flags.Clear(TLV_Flags::eBit2_Destroyed);
-                while (!pTlv->field_0_flags.Get(TLV_Flags::eBit3_End_TLV_List))
+                pTlv->mTlvFlags.Clear(TlvFlags::eBit1_Created);
+                pTlv->mTlvFlags.Clear(TlvFlags::eBit2_Destroyed);
+                while (!pTlv->mTlvFlags.Get(TlvFlags::eBit3_End_TLV_List))
                 {
                     pTlv = Path_TLV::Next_NoCheck(pTlv);
 
                     pTlv->RangeCheck();
-                    if (pTlv->field_2_length == 0)
+                    if (pTlv->mLength == 0)
                     {
                         break;
                     }
 
-                    pTlv->field_0_flags.Clear(TLV_Flags::eBit1_Created);
-                    pTlv->field_0_flags.Clear(TLV_Flags::eBit2_Destroyed);
+                    pTlv->mTlvFlags.Clear(TlvFlags::eBit1_Created);
+                    pTlv->mTlvFlags.Clear(TlvFlags::eBit2_Destroyed);
                 }
             }
         }
@@ -1450,7 +1450,7 @@ Path_TLV* Map::TLV_First_Of_Type_In_Camera(TlvTypes type, s32 camX)
         return nullptr;
     }
 
-    while (pTlvIter->field_4_type.mType != type)
+    while (pTlvIter->mTlvType32.mType != type)
     {
         pTlvIter = Path_TLV::Next_446460(pTlvIter);
         if (!pTlvIter)
@@ -1811,8 +1811,8 @@ void Map::GoTo_Camera()
     field_20_camX_idx = camX_idx;
     field_22_camY_idx = camY_idx;
 
-    field_2C_camera_offset.field_0_x = FP_FromInteger(camX_idx * field_D4_pPathData->field_C_grid_width + 440);
-    field_2C_camera_offset.field_4_y = FP_FromInteger(camY_idx * field_D4_pPathData->field_E_grid_height + 240);
+    field_2C_camera_offset.x = FP_FromInteger(camX_idx * field_D4_pPathData->field_C_grid_width + 440);
+    field_2C_camera_offset.y = FP_FromInteger(camY_idx * field_D4_pPathData->field_E_grid_height + 240);
 
     if (old_current_path != mCurrentPath || old_current_level != mCurrentLevel)
     {
@@ -1939,8 +1939,8 @@ void Map::GoTo_Camera()
             }
 
             const auto pCamPos = pScreenManager->mCamPos;
-            const auto xpos = pScreenManager->mCamXOff + ((pTlvIter->field_10_top_left.field_0_x + pTlvIter->field_14_bottom_right.field_0_x) / 2) - FP_GetExponent(pCamPos->field_0_x);
-            const auto ypos = pScreenManager->mCamYOff + pTlvIter->field_10_top_left.field_2_y - FP_GetExponent(pCamPos->field_4_y);
+            const auto xpos = pScreenManager->mCamXOff + ((pTlvIter->mTopLeft.x + pTlvIter->mBottomRight.x) / 2) - FP_GetExponent(pCamPos->x);
+            const auto ypos = pScreenManager->mCamYOff + pTlvIter->mTopLeft.y - FP_GetExponent(pCamPos->y);
             relive_new CameraSwapper(
                 field_34_camera_array[0]->field_C_ppBits,
                 field_10_screenChangeEffect,
@@ -1974,13 +1974,13 @@ void Map::Loader(s16 camX, s16 camY, LoadMode loadMode, TlvTypes typeToLoad)
     Path_TLV* pPathTLV = reinterpret_cast<Path_TLV*>(ptr);
     pPathTLV->RangeCheck();
 
-    if (static_cast<s32>(pPathTLV->field_4_type.mType) <= 0x100000 && pPathTLV->field_2_length <= 0x2000u && pPathTLV->field_8 <= 0x1000000)
+    if (static_cast<s32>(pPathTLV->mTlvType32.mType) <= 0x100000 && pPathTLV->mLength <= 0x2000u && pPathTLV->field_8 <= 0x1000000)
     {
         while (1)
         {
-            if (typeToLoad == TlvTypes::None_m1 || typeToLoad == pPathTLV->field_4_type.mType)
+            if (typeToLoad == TlvTypes::None_m1 || typeToLoad == pPathTLV->mTlvType32.mType)
             {
-                if (loadMode != LoadMode::ConstructObject_0 || !(pPathTLV->field_0_flags.Get(TLV_Flags::eBit1_Created) || pPathTLV->field_0_flags.Get(TLV_Flags::eBit2_Destroyed)))
+                if (loadMode != LoadMode::ConstructObject_0 || !(pPathTLV->mTlvFlags.Get(TlvFlags::eBit1_Created) || pPathTLV->mTlvFlags.Get(TlvFlags::eBit2_Destroyed)))
                 {
                     TlvItemInfoUnion data;
                     data.parts.tlvOffset = static_cast<u16>(objectTableIdx);
@@ -1988,23 +1988,23 @@ void Map::Loader(s16 camX, s16 camY, LoadMode loadMode, TlvTypes typeToLoad)
                     data.parts.pathId = static_cast<u8>(mCurrentPath);
 
                     // Call the factory to construct the item
-                    field_D4_pPathData->field_1C_object_funcs.object_funcs[static_cast<s16>(pPathTLV->field_4_type.mType)](pPathTLV, this, data, loadMode);
+                    field_D4_pPathData->field_1C_object_funcs.object_funcs[static_cast<s16>(pPathTLV->mTlvType32.mType)](pPathTLV, this, data, loadMode);
 
                     if (loadMode == LoadMode::ConstructObject_0)
                     {
-                        pPathTLV->field_0_flags.Set(TLV_Flags::eBit1_Created);
-                        pPathTLV->field_0_flags.Set(TLV_Flags::eBit2_Destroyed);
+                        pPathTLV->mTlvFlags.Set(TlvFlags::eBit1_Created);
+                        pPathTLV->mTlvFlags.Set(TlvFlags::eBit2_Destroyed);
                     }
                 }
             }
 
             // End of TLV list for current camera
-            if (pPathTLV->field_0_flags.Get(TLV_Flags::eBit3_End_TLV_List))
+            if (pPathTLV->mTlvFlags.Get(TlvFlags::eBit3_End_TLV_List))
             {
                 break;
             }
 
-            objectTableIdx += pPathTLV->field_2_length;
+            objectTableIdx += pPathTLV->mLength;
             pPathTLV = Path_TLV::Next_446460(pPathTLV);
             pPathTLV->RangeCheck();
         }
@@ -2024,20 +2024,20 @@ void Map::TLV_Reset(u32 tlvOffset_levelId_PathId, s16 hiFlags, s8 bSetCreated, s
 
         if (bSetDestroyed & 1)
         {
-            pTlv->field_0_flags.Set(TLV_Flags::eBit2_Destroyed);
+            pTlv->mTlvFlags.Set(TlvFlags::eBit2_Destroyed);
         }
         else
         {
-            pTlv->field_0_flags.Clear(TLV_Flags::eBit2_Destroyed);
+            pTlv->mTlvFlags.Clear(TlvFlags::eBit2_Destroyed);
         }
 
         if (bSetCreated & 1)
         {
-            pTlv->field_0_flags.Set(TLV_Flags::eBit1_Created);
+            pTlv->mTlvFlags.Set(TlvFlags::eBit1_Created);
         }
         else
         {
-            pTlv->field_0_flags.Clear(TLV_Flags::eBit1_Created);
+            pTlv->mTlvFlags.Clear(TlvFlags::eBit1_Created);
         }
 
         if (hiFlags != -1)
@@ -2149,14 +2149,14 @@ CameraSwapper* Map::FMV_Camera_Change(u8** ppBits, Map* pMap, EReliveLevelIds le
 
 void Map::GetCurrentCamCoords(PSX_Point* pPoint)
 {
-    pPoint->field_0_x = field_D4_pPathData->field_C_grid_width * field_20_camX_idx;
-    pPoint->field_2_y = field_D4_pPathData->field_E_grid_height * field_22_camY_idx;
+    pPoint->x = field_D4_pPathData->field_C_grid_width * field_20_camX_idx;
+    pPoint->y = field_D4_pPathData->field_E_grid_height * field_22_camY_idx;
 }
 
 void Map::Get_map_size(PSX_Point* pPoint)
 {
-    pPoint->field_0_x = field_D4_pPathData->field_8_bTop;
-    pPoint->field_2_y = field_D4_pPathData->field_A_bBottom;
+    pPoint->x = field_D4_pPathData->field_8_bTop;
+    pPoint->y = field_D4_pPathData->field_A_bBottom;
 }
 
 Path_TLV* Path_TLV::Next_446460(Path_TLV* pTlv)
@@ -2175,7 +2175,7 @@ Path_TLV* Path_TLV::TLV_Next_Of_Type_446500(Path_TLV* pTlv, TlvTypes type)
         return nullptr;
     }
 
-    while (pTlv->field_4_type.mType != type)
+    while (pTlv->mTlvType32.mType != type)
     {
         pTlv = Path_TLV::Next_446460(pTlv);
         pTlv->RangeCheck();

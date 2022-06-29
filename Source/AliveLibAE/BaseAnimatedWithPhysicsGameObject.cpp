@@ -210,7 +210,7 @@ void BaseAnimatedWithPhysicsGameObject::VOnCollisionWith(PSX_Point xy, PSX_Point
                 {
                     BaseAnimatedWithPhysicsGameObject* pObj = static_cast<BaseAnimatedWithPhysicsGameObject*>(pObjIter);
                     const PSX_RECT bRect = pObj->VGetBoundingRect(startingPointIdx);
-                    if (xy.field_0_x <= bRect.w && xy.field_2_y <= bRect.h && wh.field_0_x >= bRect.x && wh.field_2_y >= bRect.y && mBaseAnimatedWithPhysicsGameObject_Scale == pObj->mBaseAnimatedWithPhysicsGameObject_Scale)
+                    if (xy.x <= bRect.w && xy.y <= bRect.h && wh.x >= bRect.x && wh.y >= bRect.y && mBaseAnimatedWithPhysicsGameObject_Scale == pObj->mBaseAnimatedWithPhysicsGameObject_Scale)
                     {
                         if (!(this->*(pFn))(pObj))
                         {

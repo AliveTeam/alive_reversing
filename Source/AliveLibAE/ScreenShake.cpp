@@ -47,7 +47,7 @@ void ScreenShake::VUpdate()
 
 struct ScreenOffset final
 {
-    s8 field_0_x;
+    s8 x;
     s8 field_1_y;
 };
 
@@ -80,12 +80,12 @@ void ScreenShake::VRender(PrimHeader** ppOt)
 
         if (field_44_softerShakes)
         {
-            xoff = sShakeOffsets_560388[field_40_shakeNumber].field_0_x / 2;
+            xoff = sShakeOffsets_560388[field_40_shakeNumber].x / 2;
             yoff = sShakeOffsets_560388[field_40_shakeNumber].field_1_y / 2;
         }
         else
         {
-            xoff = sShakeOffsets_560388[field_40_shakeNumber].field_0_x;
+            xoff = sShakeOffsets_560388[field_40_shakeNumber].x;
             yoff = sShakeOffsets_560388[field_40_shakeNumber].field_1_y;
         }
 

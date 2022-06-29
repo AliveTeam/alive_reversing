@@ -29,8 +29,8 @@ RockSack::RockSack(Path_RockSack* pTlv, s32 tlvInfo)
 
     field_118_tlvInfo = tlvInfo;
     field_11C_has_been_hit = 0;
-    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger((pTlv->field_8_top_left.field_0_x + pTlv->field_C_bottom_right.field_0_x) / 2);
-    mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->field_C_bottom_right.field_2_y);
+    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger((pTlv->mTopLeft.x + pTlv->mBottomRight.x) / 2);
+    mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->mBottomRight.y);
     field_124_x_vel = FP_FromRaw(pTlv->field_12_x_vel << 8);
     field_128_y_vel = FP_FromRaw(-256 * pTlv->field_14_y_vel);
 

@@ -16,8 +16,8 @@ InvisibleSwitch::InvisibleSwitch(Path_InvisibleSwitch* pTlv, u32 tlvInfo)
     field_22_action = pTlv->field_12_action;
     field_38_state = States::eWaitForTrigger_0;
     field_2C_delay = pTlv->field_14_delay;
-    field_30_top_left = pTlv->field_8_top_left;
-    field_34_bottom_right = pTlv->field_C_bottom_right;
+    field_30_top_left = pTlv->mTopLeft;
+    field_34_bottom_right = pTlv->mBottomRight;
     field_3A_set_off_alarm = pTlv->field_16_set_off_alarm;
     field_3C_scale = pTlv->field_18_scale;
 }
@@ -53,11 +53,11 @@ void InvisibleSwitch::VUpdate()
         {
             // Within X bounds?
             const FP charXPos = sControlledCharacter_5C1B8C->mBaseAnimatedWithPhysicsGameObject_XPos;
-            if (charXPos >= FP_FromInteger(field_30_top_left.field_0_x) && charXPos <= FP_FromInteger(field_34_bottom_right.field_0_x))
+            if (charXPos >= FP_FromInteger(field_30_top_left.x) && charXPos <= FP_FromInteger(field_34_bottom_right.x))
             {
                 // Within Y bounds?
                 const FP charYPos = sControlledCharacter_5C1B8C->mBaseAnimatedWithPhysicsGameObject_YPos;
-                if (charYPos >= FP_FromInteger(field_30_top_left.field_2_y) && charYPos <= FP_FromInteger(field_34_bottom_right.field_2_y))
+                if (charYPos >= FP_FromInteger(field_30_top_left.y) && charYPos <= FP_FromInteger(field_34_bottom_right.y))
                 {
                     // TODO: ???
                     if (!IsActiveHero(sActiveHero)

@@ -491,8 +491,8 @@ void Game_Run_466D40()
     ResourceManager::LoadResourceFile_49C170("STP01C25.CAM", &camera);
 
     camera.field_C_pCamRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Bits, AEResourceID::kUnknownResID_125, 1u, 0);
-    gMap.field_24_camera_offset.field_4_y = FP_FromInteger(0);
-    gMap.field_24_camera_offset.field_0_x = FP_FromInteger(0);
+    gMap.field_24_camera_offset.y = FP_FromInteger(0);
+    gMap.field_24_camera_offset.x = FP_FromInteger(0);
 
     pScreenManager = relive_new ScreenManager(camera.field_C_pCamRes, &gMap.field_24_camera_offset);
 

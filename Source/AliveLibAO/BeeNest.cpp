@@ -16,17 +16,17 @@ BeeNest::BeeNest(Path_BeeNest* pTlv, s32 tlvInfo)
 
     field_1C_tlvInfo = tlvInfo;
 
-    field_20_top_left = pTlv->field_10_top_left;
+    field_20_top_left = pTlv->mTopLeft;
     field_18_level = gMap.mCurrentLevel;
-    field_24_bottom_right = pTlv->field_14_bottom_right;
+    field_24_bottom_right = pTlv->mBottomRight;
 
     field_2A_swarm_size = pTlv->field_1A_swarm_size;
     field_1A_path = gMap.mCurrentPath;
 
     field_28_switch_id = pTlv->field_18_id;
 
-    field_10_bee_x = FP_FromInteger(pTlv->field_10_top_left.field_0_x);
-    field_14_bee_y = FP_FromInteger(pTlv->field_10_top_left.field_2_y);
+    field_10_bee_x = FP_FromInteger(pTlv->mTopLeft.x);
+    field_14_bee_y = FP_FromInteger(pTlv->mTopLeft.y);
 
     field_2C_chase_ticks = pTlv->field_1C_chase_time;
 

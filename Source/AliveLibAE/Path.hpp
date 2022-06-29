@@ -9,7 +9,7 @@
 
 struct PathData;
 
-enum TLV_Flags
+enum TlvFlags
 {
     eBit1_Created = 0x1,
     eBit2_Destroyed = 0x2,
@@ -208,12 +208,12 @@ enum class Choice_short : s16
 
 struct Path_TLV
 {
-    BitField8<TLV_Flags> field_0_flags;
-    u8 field_1_tlv_state;
-    s16 field_2_length;
-    TlvTypes32 field_4_type;
-    PSX_Point field_8_top_left;
-    PSX_Point field_C_bottom_right;
+    BitField8<TlvFlags> mTlvFlags;
+    u8 mTlvState;
+    s16 mLength;
+    TlvTypes32 mTlvType32;
+    PSX_Point mTopLeft;
+    PSX_Point mBottomRight;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_TLV, 0x10);
 
@@ -253,14 +253,14 @@ public:
     // note: inline as used by the API
     static Path_TLV* Next_TLV_Impl(Path_TLV* pTlv)
     {
-        if (pTlv->field_0_flags.Get(TLV_Flags::eBit3_End_TLV_List))
+        if (pTlv->mTlvFlags.Get(TlvFlags::eBit3_End_TLV_List))
         {
             return nullptr;
         }
 
         // Skip length bytes to get to the start of the next TLV
         u8* ptr = reinterpret_cast<u8*>(pTlv);
-        u8* pNext = ptr + pTlv->field_2_length;
+        u8* pNext = ptr + pTlv->mLength;
         return reinterpret_cast<Path_TLV*>(pNext);
     }
 
@@ -277,12 +277,12 @@ public:
 
     static void Reset_TLVs(u16 pathId);
 
-    EReliveLevelIds field_0_levelId = EReliveLevelIds::eNone;
-    u16 field_2_pathId = 0;
-    s16 field_4_cameraId = 0;
-    u16 field_6_cams_on_x = 0;
-    u16 field_8_cams_on_y = 0;
-    const PathData* field_C_pPathData = nullptr;
+    EReliveLevelIds mLevelId = EReliveLevelIds::eNone;
+    u16 mPathId = 0;
+    s16 mCameraId = 0;
+    u16 mCamsOnX = 0;
+    u16 mCamsOnY = 0;
+    const PathData* mPathData = nullptr;
     u8** field_10_ppRes = nullptr;
 };
 ALIVE_ASSERT_SIZEOF(Path, 0x14);

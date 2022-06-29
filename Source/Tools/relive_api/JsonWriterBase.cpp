@@ -171,13 +171,13 @@ void JsonWriterBase::Save(std::vector<u8>& fileDataBuffer, LvlReader& lvlReader,
 template <typename T>
 static void DebugDumpTlv(IFileIO& fileIo, const std::string& prefix, s32 idx, const T& tlv)
 {
-    const std::string fileName = prefix + "_" + std::to_string(static_cast<s32>(tlv.field_4_type.mType)) + "_" + std::to_string(idx) + ".dat";
+    const std::string fileName = prefix + "_" + std::to_string(static_cast<s32>(tlv.mTlvType32.mType)) + "_" + std::to_string(idx) + ".dat";
     auto hFile = fileIo.Open(fileName, IFileIO::Mode::WriteBinary);
     if (!hFile->IsOpen())
     {
         throw ReliveAPI::IOWriteException(fileName.c_str());
     }
-    hFile->Write(reinterpret_cast<const u8*>(&tlv), tlv.field_2_length);
+    hFile->Write(reinterpret_cast<const u8*>(&tlv), tlv.mLength);
 }
 
 void JsonWriterBase::DebugDumpTlv(IFileIO& fileIo, const std::string& prefix, s32 idx, const Path_TLV& tlv)

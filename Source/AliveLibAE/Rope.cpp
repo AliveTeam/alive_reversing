@@ -124,7 +124,7 @@ void Rope::VRender(PrimHeader** ppOt)
     if (mBaseAnimatedWithPhysicsGameObject_LvlNumber == gMap.mCurrentLevel && mBaseAnimatedWithPhysicsGameObject_PathNumber == gMap.mCurrentPath)
     {
         // In the current camera x range?
-        if (mBaseAnimatedWithPhysicsGameObject_XPos >= FP_FromInteger(camPos.field_0_x) && mBaseAnimatedWithPhysicsGameObject_XPos <= FP_FromInteger(camPos.field_0_x + 375))
+        if (mBaseAnimatedWithPhysicsGameObject_XPos >= FP_FromInteger(camPos.x) && mBaseAnimatedWithPhysicsGameObject_XPos <= FP_FromInteger(camPos.x + 375))
         {
             const FP camXPos = pScreenManager->CamXPos();
             const FP camYPos = pScreenManager->CamYPos();

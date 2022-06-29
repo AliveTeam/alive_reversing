@@ -139,7 +139,7 @@ s32 Font::DrawString_4337D0(PrimHeader** ppOt, const char_type* text, s32 x, s16
 
         const s8 charWidth = atlasEntry->field_2_width;
         const auto charHeight = atlasEntry->field_3_height;
-        const s8 texture_u = static_cast<s8>(atlasEntry->field_0_x + (4 * (fContext->field_0_rect.x & 0x3F)));
+        const s8 texture_u = static_cast<s8>(atlasEntry->x + (4 * (fContext->field_0_rect.x & 0x3F)));
         const s8 texture_v = static_cast<s8>(atlasEntry->field_1_y + LOBYTE(fContext->field_0_rect.y));
 
         const s16 widthScaled = static_cast<s16>(charWidth * FP_GetDouble(scale));

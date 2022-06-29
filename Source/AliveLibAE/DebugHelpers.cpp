@@ -152,8 +152,8 @@ void Command_HelperUpdate()
         PSX_Point pos;
         gMap.GetCurrentCamCoords(&pos);
 
-        sActiveHero->mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pos.field_0_x + 184);
-        sActiveHero->mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pos.field_2_y + 60);
+        sActiveHero->mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pos.x + 184);
+        sActiveHero->mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pos.y + 60);
         sHasTeleported = false;
         sActiveHero->mCurrentMotion = eAbeMotions::Motion_3_Fall_459B60;
         sActiveHero->field_1AC_flags.Set(Abe::Flags_1AC::e1AC_Bit7_land_softly);
@@ -171,8 +171,8 @@ void Command_HelperUpdate()
         for (s32 i = 0; i < 10; i++)
         {
             s32 centerIndex = ((i + 5) % 10);
-            FP xOffset = FP_FromDouble(pos.field_0_x + (subDevide * centerIndex));
-            FP yOffset = FP_FromDouble(pos.field_2_y);
+            FP xOffset = FP_FromDouble(pos.x + (subDevide * centerIndex));
+            FP yOffset = FP_FromDouble(pos.y);
             if (sCollisions->Raycast(xOffset, yOffset,
                                      xOffset, yOffset + FP_FromDouble(240), &rUnk, &rX, &rY, kFgFloor))
             {
@@ -405,14 +405,14 @@ void Command_Spawn(const std::vector<std::string>& args)
     mudPath.field_10_scale = Scale_short::eFull_0;
     mudPath.field_12_state = Mud_State::eScrub_1;
     mudPath.field_16_voice_pitch = (rand() % 1500) - 600;
-    mudPath.field_8_top_left = spawnTopLeft;
-    mudPath.field_C_bottom_right = spawnBottomRight;
+    mudPath.mTopLeft = spawnTopLeft;
+    mudPath.mBottomRight = spawnBottomRight;
 
     s8 blankMemory[512];
     memset(blankMemory, 0, sizeof(blankMemory));
     Path_TLV* basicTlvPath = reinterpret_cast<Path_TLV*>(&blankMemory);
-    basicTlvPath->field_8_top_left = spawnTopLeft;
-    basicTlvPath->field_C_bottom_right = spawnBottomRight;
+    basicTlvPath->mTopLeft = spawnTopLeft;
+    basicTlvPath->mBottomRight = spawnBottomRight;
 
     factoryTLV = basicTlvPath;
 
@@ -1547,8 +1547,8 @@ void DEV::DebugFillRect(PrimHeader** ot, Layer layer, s32 x, s32 y, s32 width, s
 
     if (worldspace)
     {
-        x -= FP_GetExponent(camOffset.field_0_x);
-        y -= FP_GetExponent(camOffset.field_4_y);
+        x -= FP_GetExponent(camOffset.x);
+        y -= FP_GetExponent(camOffset.y);
 
         x = static_cast<s32>(x / 0.575);
         y = static_cast<s32>(y / 0.575);
@@ -1586,11 +1586,11 @@ void DEV::DebugDrawLine(PrimHeader** ot, Layer layer, s32 x1, s32 y1, s32 x2, s3
 
     if (worldspace)
     {
-        x1 -= FP_GetExponent(camOffset.field_0_x);
-        y1 -= FP_GetExponent(camOffset.field_4_y);
+        x1 -= FP_GetExponent(camOffset.x);
+        y1 -= FP_GetExponent(camOffset.y);
 
-        x2 -= FP_GetExponent(camOffset.field_0_x);
-        y2 -= FP_GetExponent(camOffset.field_4_y);
+        x2 -= FP_GetExponent(camOffset.x);
+        y2 -= FP_GetExponent(camOffset.y);
 
         x1 = static_cast<s32>(x1 / 0.575);
         x2 = static_cast<s32>(x2 / 0.575);
@@ -1615,8 +1615,8 @@ void DEV::DebugDrawText(PrimHeader** ot, Layer layer, std::string& text, s32 x, 
 
     if (worldspace)
     {
-        x -= FP_GetExponent(camOffset.field_0_x);
-        y -= FP_GetExponent(camOffset.field_4_y);
+        x -= FP_GetExponent(camOffset.x);
+        y -= FP_GetExponent(camOffset.y);
     }
 
     g_DebugGlobalFontPolyIndex = g_DebugGlobalFont.DrawString_4337D0(ot, text.c_str(), x - (g_DebugGlobalFont.MeasureTextWidth(text.c_str()) / 2), static_cast<s16>(y), semiTransparent ? TPageAbr::eBlend_1 : TPageAbr::eBlend_0, 0, 0, layer, r, g, b, g_DebugGlobalFontPolyIndex, FP_FromDouble(1.0), 640, 0);

@@ -13,12 +13,12 @@ ScrabSpawner::ScrabSpawner(Path_ScrabSpawner* pTlv, s32 tlvInfo)
     field_20_tlvInfo = tlvInfo;
     SetType(ReliveTypes::eScrabSpawner);
 
-    field_28_tlv_data.field_0_flags = pTlv->field_0_flags;
-    field_28_tlv_data.field_1_tlv_state = pTlv->field_1_tlv_state;
-    field_28_tlv_data.field_2_length = pTlv->field_2_length;
-    field_28_tlv_data.field_4_type = pTlv->field_4_type;
-    field_28_tlv_data.field_8_top_left = pTlv->field_8_top_left;
-    field_28_tlv_data.field_C_bottom_right = pTlv->field_C_bottom_right;
+    field_28_tlv_data.mTlvFlags = pTlv->mTlvFlags;
+    field_28_tlv_data.mTlvState = pTlv->mTlvState;
+    field_28_tlv_data.mLength = pTlv->mLength;
+    field_28_tlv_data.mTlvType32 = pTlv->mTlvType32;
+    field_28_tlv_data.mTopLeft = pTlv->mTopLeft;
+    field_28_tlv_data.mBottomRight = pTlv->mBottomRight;
 
     field_24_spawner_switch_id = pTlv->field_2C_spawner_switch_id;
     field_26_spawn_direction = pTlv->field_2E_spawn_direction;
@@ -111,10 +111,10 @@ void ScrabSpawner::VUpdate()
             if (SwitchStates_Get(field_24_spawner_switch_id))
             {
                 auto pTlv = static_cast<Path_ScrabSpawner*>(sPath_dword_BB47C0->TLV_Get_At_4DB4B0(
-                    field_28_tlv_data.field_8_top_left.field_0_x,
-                    field_28_tlv_data.field_8_top_left.field_2_y,
-                    field_28_tlv_data.field_8_top_left.field_0_x,
-                    field_28_tlv_data.field_8_top_left.field_2_y,
+                    field_28_tlv_data.mTopLeft.x,
+                    field_28_tlv_data.mTopLeft.y,
+                    field_28_tlv_data.mTopLeft.x,
+                    field_28_tlv_data.mTopLeft.y,
                     TlvTypes::ScrabSpawner_102));
 
                 if (pTlv)

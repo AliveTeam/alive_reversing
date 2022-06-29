@@ -106,8 +106,8 @@ Paramite::Paramite(Path_Paramite* pTlv, s32 tlvInfo)
     mNextMotion = 0;
     mCurrentMotion = 0;
     field_154_input = 0;
-    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pTlv->field_8_top_left.field_0_x + 12);
-    mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->field_8_top_left.field_2_y);
+    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pTlv->mTopLeft.x + 12);
+    mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->mTopLeft.y);
 
     if (pTlv->field_10_scale == Scale_short::eHalf_1)
     {
@@ -5176,9 +5176,9 @@ void Paramite::VUpdate()
                     mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(0);
                 }
 
-                if (mBaseAnimatedWithPhysicsGameObject_XPos >= FP_FromInteger(mapBounds.field_0_x))
+                if (mBaseAnimatedWithPhysicsGameObject_XPos >= FP_FromInteger(mapBounds.x))
                 {
-                    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(mapBounds.field_0_x) - FP_FromInteger(1);
+                    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(mapBounds.x) - FP_FromInteger(1);
                 }
 
                 if (mBaseAnimatedWithPhysicsGameObject_YPos < FP_FromInteger(0))
@@ -5186,9 +5186,9 @@ void Paramite::VUpdate()
                     mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(0);
                 }
 
-                if (mBaseAnimatedWithPhysicsGameObject_YPos >= FP_FromInteger(mapBounds.field_2_y))
+                if (mBaseAnimatedWithPhysicsGameObject_YPos >= FP_FromInteger(mapBounds.y))
                 {
-                    mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(mapBounds.field_2_y) - FP_FromInteger(1);
+                    mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(mapBounds.y) - FP_FromInteger(1);
                     SetActiveCameraDelayedFromDir();
                     return;
                 }
@@ -5488,7 +5488,7 @@ void Paramite::VOn_TLV_Collision(Path_TLV* pTlv)
 {
     while (pTlv)
     {
-        if (pTlv->field_4_type == TlvTypes::DeathDrop_4)
+        if (pTlv->mTlvType32 == TlvTypes::DeathDrop_4)
         {
             if (mHealth > FP_FromInteger(0))
             {
@@ -6053,11 +6053,11 @@ void Paramite::CheckForPlatform()
     PSX_Point xy = {};
     PSX_Point wh = {};
 
-    xy.field_0_x = FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos - FP_FromInteger(5));
-    xy.field_2_y = FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos - FP_FromInteger(5));
+    xy.x = FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos - FP_FromInteger(5));
+    xy.y = FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos - FP_FromInteger(5));
 
-    wh.field_0_x = FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos + FP_FromInteger(5));
-    wh.field_2_y = FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos + FP_FromInteger(5));
+    wh.x = FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos + FP_FromInteger(5));
+    wh.y = FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos + FP_FromInteger(5));
 
     VOnCollisionWith(xy, wh, ObjList_5C1B78, 1, (TCollisionCallBack) &BaseAliveGameObject::OnTrapDoorIntersection);
 }

@@ -41,8 +41,8 @@ GlukkonSwitch::GlukkonSwitch(Path_GlukkonSwitch* pTlv, s32 tlvInfo)
 
     field_FA_ok_switch_id = pTlv->field_12_ok_switch_id;
     field_FC_fail_switch_id = pTlv->field_14_fail_switch_id;
-    field_118_top_left = pTlv->field_8_top_left;
-    field_11C_bottom_right = pTlv->field_C_bottom_right;
+    field_118_top_left = pTlv->mTopLeft;
+    field_11C_bottom_right = pTlv->mBottomRight;
 
     mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pTlv->field_16_xpos);
     mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->field_18_ypos);
@@ -51,25 +51,25 @@ GlukkonSwitch::GlukkonSwitch(Path_GlukkonSwitch* pTlv, s32 tlvInfo)
     gMap.Get_Abe_Spawn_Pos(&pos);
     if (mBaseAnimatedWithPhysicsGameObject_XPos > FP_FromInteger(0))
     {
-        mBaseAnimatedWithPhysicsGameObject_XPos -= FP_FromInteger(pos.field_0_x);
+        mBaseAnimatedWithPhysicsGameObject_XPos -= FP_FromInteger(pos.x);
     }
     else
     {
-        mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger((pTlv->field_8_top_left.field_0_x + pTlv->field_C_bottom_right.field_0_x) / 2);
+        mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger((pTlv->mTopLeft.x + pTlv->mBottomRight.x) / 2);
     }
 
     if (mBaseAnimatedWithPhysicsGameObject_YPos > FP_FromInteger(0))
     {
-        mBaseAnimatedWithPhysicsGameObject_YPos -= FP_FromInteger(pos.field_2_y);
+        mBaseAnimatedWithPhysicsGameObject_YPos -= FP_FromInteger(pos.y);
     }
     else
     {
-        mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger((pTlv->field_8_top_left.field_2_y + pTlv->field_C_bottom_right.field_2_y) / 2);
+        mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger((pTlv->mTopLeft.y + pTlv->mBottomRight.y) / 2);
     }
 
-    if (pTlv->field_1_tlv_state)
+    if (pTlv->mTlvState)
     {
-        field_F8_state = pTlv->field_1_tlv_state - 1;
+        field_F8_state = pTlv->mTlvState - 1;
     }
     else
     {
@@ -97,7 +97,7 @@ s16 GlukkonSwitch::PlayerNearMe()
     const s16 playerXPos = FP_GetExponent(sControlledCharacter_5C1B8C->mBaseAnimatedWithPhysicsGameObject_XPos);
     const s16 playerYPos = FP_GetExponent(sControlledCharacter_5C1B8C->mBaseAnimatedWithPhysicsGameObject_YPos);
 
-    if ((playerXPos >= field_118_top_left.field_0_x && playerXPos <= field_11C_bottom_right.field_0_x) && (playerYPos >= field_118_top_left.field_2_y && playerYPos <= field_11C_bottom_right.field_2_y))
+    if ((playerXPos >= field_118_top_left.x && playerXPos <= field_11C_bottom_right.x) && (playerYPos >= field_118_top_left.y && playerYPos <= field_11C_bottom_right.y))
     {
         return 1;
     }

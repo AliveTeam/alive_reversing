@@ -177,8 +177,8 @@ s16* Abe_OnFrame(BaseGameObject* pObj, s16* pData)
 {
     auto pAbe = static_cast<Abe*>(pObj);
 
-    FP xVel = kAbeVelTable_4C6608[pAbe->field_19D_throw_direction].field_0_x * pAbe->mBaseAnimatedWithPhysicsGameObject_SpriteScale;
-    const FP yVel = kAbeVelTable_4C6608[pAbe->field_19D_throw_direction].field_4_y * pAbe->mBaseAnimatedWithPhysicsGameObject_SpriteScale;
+    FP xVel = kAbeVelTable_4C6608[pAbe->field_19D_throw_direction].x * pAbe->mBaseAnimatedWithPhysicsGameObject_SpriteScale;
+    const FP yVel = kAbeVelTable_4C6608[pAbe->field_19D_throw_direction].y * pAbe->mBaseAnimatedWithPhysicsGameObject_SpriteScale;
 
     FP directed_x = {};
     if (sActiveHero_507678->mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
@@ -439,7 +439,7 @@ void Animation::VRender(s32 xpos, s32 ypos, PrimHeader** ppOt, s16 width, s32 he
 
     SetRGB0(pPoly, mRed, mGreen, mBlue);
     SetTPage(pPoly, static_cast<s16>(PSX_getTPage(textureMode, mRenderMode, field_84_vram_rect.x, tPageY)));
-    SetClut(pPoly, static_cast<s16>(PSX_getClut(field_8C_pal_vram_xy.field_0_x, field_8C_pal_vram_xy.field_2_y)));
+    SetClut(pPoly, static_cast<s16>(PSX_getClut(field_8C_pal_vram_xy.x, field_8C_pal_vram_xy.y)));
 
     u8 u1 = field_84_vram_rect.x & 63;
     if (textureMode == TPageMode::e8Bit_1)
@@ -695,7 +695,7 @@ void Animation::Animation_Pal_Free()
 
     if (field_90_pal_depth > 0)
     {
-        IRenderer::GetRenderer()->PalFree(IRenderer::PalRecord{field_8C_pal_vram_xy.field_0_x, field_8C_pal_vram_xy.field_2_y, field_90_pal_depth});
+        IRenderer::GetRenderer()->PalFree(IRenderer::PalRecord{field_8C_pal_vram_xy.x, field_8C_pal_vram_xy.y, field_90_pal_depth});
     }
 }
 
@@ -901,8 +901,8 @@ s16 Animation::Init(s32 frameTableOffset, DynamicArray* /*animList*/, BaseGameOb
             ALIVE_FATAL("PalAlloc failed");
         }
 
-        field_8C_pal_vram_xy.field_0_x = palRec.x;
-        field_8C_pal_vram_xy.field_2_y = palRec.y;
+        field_8C_pal_vram_xy.x = palRec.x;
+        field_8C_pal_vram_xy.y = palRec.y;
         field_90_pal_depth = palRec.depth;
 
         IRenderer::GetRenderer()->PalSetData(palRec, pClut + 4); // +4 Skip len, load pal
@@ -939,7 +939,7 @@ void Animation::LoadPal(u8** pAnimData, s32 palOffset)
             LOG_ERROR("Bad pal depth " << field_90_pal_depth);
             ALIVE_FATAL("Bad pal depth");
         }
-        IRenderer::GetRenderer()->PalSetData(IRenderer::PalRecord{field_8C_pal_vram_xy.field_0_x, field_8C_pal_vram_xy.field_2_y, field_90_pal_depth}, pPalDataOffset + 4); // +4 skip len, load pal
+        IRenderer::GetRenderer()->PalSetData(IRenderer::PalRecord{field_8C_pal_vram_xy.x, field_8C_pal_vram_xy.y, field_90_pal_depth}, pPalDataOffset + 4); // +4 skip len, load pal
     }
 }
 

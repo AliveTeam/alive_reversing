@@ -546,16 +546,16 @@ Mudokon::Mudokon(Path_Mudokon* pTlv, s32 tlvInfo)
     FP hitX = {};
     FP hitY = {};
     const auto bCollision = sCollisions->Raycast(
-        FP_FromInteger(pTlv->field_8_top_left.field_0_x),
-        FP_FromInteger(pTlv->field_8_top_left.field_2_y),
-        FP_FromInteger(pTlv->field_C_bottom_right.field_0_x),
-        FP_FromInteger(pTlv->field_C_bottom_right.field_2_y),
+        FP_FromInteger(pTlv->mTopLeft.x),
+        FP_FromInteger(pTlv->mTopLeft.y),
+        FP_FromInteger(pTlv->mBottomRight.x),
+        FP_FromInteger(pTlv->mBottomRight.y),
         &BaseAliveGameObjectCollisionLine,
         &hitX,
         &hitY,
         mBaseAnimatedWithPhysicsGameObject_Scale == Scale::Fg ? kFgFloor : kBgFloor);
 
-    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger((pTlv->field_8_top_left.field_0_x + pTlv->field_C_bottom_right.field_0_x) / 2);
+    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger((pTlv->mTopLeft.x + pTlv->mBottomRight.x) / 2);
     if (bCollision)
     {
         mBaseAnimatedWithPhysicsGameObject_YPos = hitY;
@@ -1201,7 +1201,7 @@ void Mudokon::VOn_TLV_Collision(Path_TLV* pTlv)
     Path_TLV* pTlvIter = pTlv;
     while (pTlvIter)
     {
-        if (pTlvIter->field_4_type == TlvTypes::DeathDrop_4)
+        if (pTlvIter->mTlvType32 == TlvTypes::DeathDrop_4)
         {
             if (mHealth > FP_FromInteger(0))
             {

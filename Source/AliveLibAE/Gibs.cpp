@@ -230,8 +230,8 @@ Gibs::Gibs(GibType gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scale, bool b
         pPart->field_18_animation.mGreen = static_cast<u8>(mBaseAnimatedWithPhysicsGameObject_RGB.g);
         pPart->field_18_animation.mBlue = static_cast<u8>(mBaseAnimatedWithPhysicsGameObject_RGB.b);
 
-        pPart->field_0_x = mBaseAnimatedWithPhysicsGameObject_XPos;
-        pPart->field_4_y = mBaseAnimatedWithPhysicsGameObject_YPos;
+        pPart->x = mBaseAnimatedWithPhysicsGameObject_XPos;
+        pPart->y = mBaseAnimatedWithPhysicsGameObject_YPos;
         pPart->field_8_z = field_F8_z;
 
         pPart->field_C_dx = xOff + Random_40FAF0(scale);
@@ -283,8 +283,8 @@ void Gibs::VUpdate()
 
     for (s32 i = 0; i < field_5D4_parts_used_count; i++)
     {
-        field_104_parts[i].field_0_x += field_104_parts[i].field_C_dx;
-        field_104_parts[i].field_4_y += field_104_parts[i].field_10_dy;
+        field_104_parts[i].x += field_104_parts[i].field_C_dx;
+        field_104_parts[i].y += field_104_parts[i].field_10_dy;
         field_104_parts[i].field_8_z += field_104_parts[i].field_14_dz;
 
         field_104_parts[i].field_10_dy += FP_FromDouble(0.25);
@@ -326,10 +326,10 @@ void Gibs::VRender(PrimHeader** ppOt)
     for (s32 i = 0; i < field_5D4_parts_used_count; i++)
     {
         // Part is within camera X?
-        if (field_104_parts[i].field_0_x >= camXPos && field_104_parts[i].field_0_x <= camXPos + FP_FromInteger(640))
+        if (field_104_parts[i].x >= camXPos && field_104_parts[i].x <= camXPos + FP_FromInteger(640))
         {
             // Part is within camera Y?
-            if (field_104_parts[i].field_4_y >= camYPos && field_104_parts[i].field_4_y <= camYPos + FP_FromInteger(240))
+            if (field_104_parts[i].y >= camYPos && field_104_parts[i].y <= camYPos + FP_FromInteger(240))
             {
                 field_104_parts[i].field_18_animation.field_14_scale = FP_FromInteger(100) / (field_104_parts[i].field_8_z + FP_FromInteger(100));
 
@@ -349,8 +349,8 @@ void Gibs::VRender(PrimHeader** ppOt)
 
                 if (field_104_parts[i].field_18_animation.field_14_scale <= FP_FromInteger(1))
                 {
-                    const s32 xpos = FP_GetExponent(field_104_parts[i].field_0_x - camXPos);
-                    const s32 ypos = FP_GetExponent(field_104_parts[i].field_4_y - camYPos);
+                    const s32 xpos = FP_GetExponent(field_104_parts[i].x - camXPos);
+                    const s32 ypos = FP_GetExponent(field_104_parts[i].y - camYPos);
 
                     field_104_parts[i].field_18_animation.VRender(xpos, ypos, ppOt, 0, 0);
 

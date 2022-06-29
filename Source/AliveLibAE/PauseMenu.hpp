@@ -34,7 +34,7 @@ struct PauseMenuPageEntry final
 {
     s16 field_0_unknown2;
     s16 field_2_x;
-    s16 field_4_y;
+    s16 y;
     s16 field_6_unknown;
     const char_type* field_8_text;
     u8 field_C_r;

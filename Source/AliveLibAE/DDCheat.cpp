@@ -259,8 +259,8 @@ void DDCheat::VUpdate()
             {
                 PSX_Point pos;
                 gMap.GetCurrentCamCoords(&pos);
-                sActiveHero->mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pos.field_0_x + 184);
-                sActiveHero->mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pos.field_2_y + 60);
+                sActiveHero->mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pos.x + 184);
+                sActiveHero->mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pos.y + 60);
                 sActiveHero->mCurrentMotion = 3;
                 sActiveHero->field_1AC_flags.Set(Abe::e1AC_Bit7_land_softly);
                 sActiveHero->mBaseAnimatedWithPhysicsGameObject_LvlNumber = MapWrapper::FromAE(static_cast<LevelIds>(sTeleport_Level_550F5C));

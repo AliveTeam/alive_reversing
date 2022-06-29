@@ -21,16 +21,16 @@ ColourfulMeter::ColourfulMeter(Path_ColourfulMeter* pTlv, s32 tlvInfo)
     SetType(ReliveTypes::eColourfulMeter);
     field_68_tlvInfo = tlvInfo;
 
-    field_74_tlv_x = pTlv->field_8_top_left.field_0_x;
-    field_76_tlv_y = pTlv->field_8_top_left.field_2_y;
+    field_74_tlv_x = pTlv->mTopLeft.x;
+    field_76_tlv_y = pTlv->mTopLeft.y;
 
     field_20_font_context.LoadFontType_433400(2);
     field_30_font.ctor_433590(5, byte_5543D0, &field_20_font_context);
     mBaseGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4);
     gObjListDrawables->Push_Back(this);
 
-    field_6C_text_x = FP_GetExponent((FP_FromInteger(pTlv->field_8_top_left.field_0_x)) - pScreenManager->CamXPos());
-    field_6E_text_y = FP_GetExponent((FP_FromInteger(pTlv->field_8_top_left.field_2_y)) - pScreenManager->CamYPos());
+    field_6C_text_x = FP_GetExponent((FP_FromInteger(pTlv->mTopLeft.x)) - pScreenManager->CamXPos());
+    field_6E_text_y = FP_GetExponent((FP_FromInteger(pTlv->mTopLeft.y)) - pScreenManager->CamYPos());
 
     field_72_switch_id = pTlv->field_10_switch_id;
     field_80 = 0;
@@ -184,14 +184,14 @@ void ColourfulMeter::VRender(PrimHeader** ppOt)
         Poly_G4* pPolyG4 = &field_88_polyG4s[gPsxDisplay_5C1130.field_C_buffer_index][poly_idx];
         PolyG4_Init_4F88B0(pPolyG4);
 
-        const s16 x0 = field_74_tlv_x + (FP_GetExponent(FP_FromInteger(stru_5543F0[poly_idx].field_0_x))) - screenXOff;
-        const s16 y0 = FP_GetExponent(FP_FromInteger(stru_5543F0[poly_idx].field_2_y)) - screenYOff + field_76_tlv_y - 20;
+        const s16 x0 = field_74_tlv_x + (FP_GetExponent(FP_FromInteger(stru_5543F0[poly_idx].x))) - screenXOff;
+        const s16 y0 = FP_GetExponent(FP_FromInteger(stru_5543F0[poly_idx].y)) - screenYOff + field_76_tlv_y - 20;
 
         const s16 x1 = field_74_tlv_x + ((poly_idx + 1) * 2) - screenXOff;
         const s16 y1 = field_76_tlv_y - screenYOff - 5;
 
-        const s16 x2 = field_74_tlv_x + FP_GetExponent(FP_FromInteger(stru_5543F0[poly_idx + 1].field_0_x)) - screenXOff;
-        const s16 y2 = FP_GetExponent(FP_FromInteger(stru_5543F0[poly_idx + 1].field_2_y)) - screenYOff + field_76_tlv_y - 20;
+        const s16 x2 = field_74_tlv_x + FP_GetExponent(FP_FromInteger(stru_5543F0[poly_idx + 1].x)) - screenXOff;
+        const s16 y2 = FP_GetExponent(FP_FromInteger(stru_5543F0[poly_idx + 1].y)) - screenYOff + field_76_tlv_y - 20;
 
         SetXY0(pPolyG4, static_cast<s16>(PsxToPCX(x0)), y0);
         SetXY1(pPolyG4, static_cast<s16>(PsxToPCX(x1)), y1);

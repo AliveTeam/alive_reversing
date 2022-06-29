@@ -27,9 +27,9 @@ HoneySack::HoneySack(Path_HoneySack* pTlv, s32 tlvInfo)
     field_100_chase_ticks = pTlv->field_18_chase_ticks;
     mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_DoorFlameRollingBallPortalClip_Half_31;
 
-    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pTlv->field_10_top_left.field_0_x);
-    mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->field_10_top_left.field_2_y);
-    field_FC_ypos2 = FP_FromInteger(pTlv->field_10_top_left.field_2_y);
+    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pTlv->mTopLeft.x);
+    mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->mTopLeft.y);
+    field_FC_ypos2 = FP_FromInteger(pTlv->mTopLeft.y);
 
     field_EA_bHit_ground = 0;
 
@@ -78,8 +78,8 @@ HoneySack::HoneySack(Path_HoneySack* pTlv, s32 tlvInfo)
         Path_TLV* pHoneyDripTarget = gMap.TLV_First_Of_Type_In_Camera(TlvTypes::HoneyDripTarget_42, 0);
         if (pHoneyDripTarget)
         {
-            field_F4_drip_target_x = FP_FromInteger(pHoneyDripTarget->field_10_top_left.field_0_x);
-            field_F8_drip_target_y = FP_FromInteger(pHoneyDripTarget->field_10_top_left.field_2_y);
+            field_F4_drip_target_x = FP_FromInteger(pHoneyDripTarget->mTopLeft.x);
+            field_F8_drip_target_y = FP_FromInteger(pHoneyDripTarget->mTopLeft.y);
         }
     }
 }

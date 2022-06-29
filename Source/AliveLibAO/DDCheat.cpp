@@ -203,8 +203,8 @@ void DDCheat::VUpdate()
                 gMap.GetCurrentCamCoords(&point);
                 pAbe = sActiveHero_507678;
                 cheat_enabled = 1;
-                pAbe->mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(point.field_0_x + 448);
-                pAbe->mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(point.field_2_y + 180);
+                pAbe->mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(point.x + 448);
+                pAbe->mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(point.y + 180);
                 pAbe->mCurrentMotion = eAbeMotions::Motion_3_Fall_42E7F0;
                 pAbe->field_2A8_flags.Set(Flags_2A8::e2A8_Bit8_bLandSoft);
                 pAbe->mBaseAnimatedWithPhysicsGameObject_LvlNumber = MapWrapper::FromAO(static_cast<LevelIds>(level_4C315C));

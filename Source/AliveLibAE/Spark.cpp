@@ -187,70 +187,70 @@ void Spark::VRender(PrimHeader** ppOt)
 
             // TODO: Can be refactored much further - looks like min/max stuff
             s16 x1Short = static_cast<s16>(x1);
-            s16 maxX = xy.field_0_x;
+            s16 maxX = xy.x;
 
-            if (x1Short <= xy.field_0_x)
+            if (x1Short <= xy.x)
             {
                 maxX = x1Short;
             }
 
             if (x0 <= maxX)
             {
-                xy.field_0_x = static_cast<s16>(x0);
+                xy.x = static_cast<s16>(x0);
             }
-            else if (x1Short <= xy.field_0_x)
+            else if (x1Short <= xy.x)
             {
-                xy.field_0_x = x1Short;
+                xy.x = x1Short;
             }
 
             s16 x1Short2 = x1Short;
-            if (x1Short <= wh.field_0_x)
+            if (x1Short <= wh.x)
             {
-                x1Short2 = wh.field_0_x;
+                x1Short2 = wh.x;
             }
 
             if (x0 <= x1Short2)
             {
-                if (x1Short > wh.field_0_x)
+                if (x1Short > wh.x)
                 {
-                    wh.field_0_x = x1Short;
+                    wh.x = x1Short;
                 }
             }
             else
             {
-                wh.field_0_x = static_cast<s16>(x0);
+                wh.x = static_cast<s16>(x0);
             }
 
-            s16 yPoint = xy.field_2_y;
-            if (y1 <= xy.field_2_y)
+            s16 yPoint = xy.y;
+            if (y1 <= xy.y)
             {
                 yPoint = static_cast<s16>(y1);
             }
             if (y0 <= yPoint)
             {
-                xy.field_2_y = static_cast<s16>(y0);
+                xy.y = static_cast<s16>(y0);
             }
-            else if (y1 <= xy.field_2_y)
+            else if (y1 <= xy.y)
             {
-                xy.field_2_y = static_cast<s16>(y1);
+                xy.y = static_cast<s16>(y1);
             }
 
             s16 y1Short = static_cast<s16>(y1);
-            if (y1 <= wh.field_2_y)
+            if (y1 <= wh.y)
             {
-                y1Short = wh.field_2_y;
+                y1Short = wh.y;
             }
 
             if (y0 <= y1Short)
             {
-                if (y1 > wh.field_2_y)
+                if (y1 > wh.y)
                 {
-                    wh.field_2_y = static_cast<s16>(y1);
+                    wh.y = static_cast<s16>(y1);
                 }
             }
             else
             {
-                wh.field_2_y = static_cast<s16>(y0);
+                wh.y = static_cast<s16>(y0);
             }
         }
 
@@ -258,10 +258,10 @@ void Spark::VRender(PrimHeader** ppOt)
         Init_SetTPage(pTPage, 1, 0, PSX_getTPage(TPageMode::e4Bit_0, TPageAbr::eBlend_1, 0, 0));
         OrderingTable_Add(OtLayer(ppOt, field_52_layer), &pTPage->mBase);
         pScreenManager->InvalidateRectCurrentIdx(
-            xy.field_0_x,
-            xy.field_2_y,
-            wh.field_0_x,
-            wh.field_2_y);
+            xy.x,
+            xy.y,
+            wh.x,
+            wh.y);
     }
 }
 

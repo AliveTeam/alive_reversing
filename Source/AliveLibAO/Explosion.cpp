@@ -214,14 +214,14 @@ void Explosion::DealBlastDamage(PSX_RECT* pRect)
 
     if (pTlv)
     {
-        if (!pTlv->field_0_flags.Get(TLV_Flags::eBit2_Destroyed) && pTlv->field_1A_start_state == Path_Slig::StartState::Sleeping_2)
+        if (!pTlv->mTlvFlags.Get(TlvFlags::eBit2_Destroyed) && pTlv->field_1A_start_state == Path_Slig::StartState::Sleeping_2)
         {
-            pTlv->field_0_flags.Set(TLV_Flags::eBit2_Destroyed);
+            pTlv->mTlvFlags.Set(TlvFlags::eBit2_Destroyed);
             const CameraPos dir = gMap.GetDirection(
                 gMap.mCurrentLevel,
                 gMap.mCurrentPath,
-                FP_FromInteger(pTlv->field_10_top_left.field_0_x),
-                FP_FromInteger(pTlv->field_10_top_left.field_2_y));
+                FP_FromInteger(pTlv->mTopLeft.x),
+                FP_FromInteger(pTlv->mTopLeft.y));
 
             if (dir == CameraPos::eCamLeft_3)
             {

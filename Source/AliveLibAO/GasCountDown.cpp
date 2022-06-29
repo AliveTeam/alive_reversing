@@ -65,9 +65,9 @@ GasCountDown::GasCountDown(Path_GasCountDown* pTlv, s32 tlvInfo)
 
     field_62_time_left = 120;
 
-    field_5C_xpos = FP_GetExponent((FP_FromInteger(pScreenManager->mCamXOff + pTlv->field_10_top_left.field_0_x) - pScreenManager->mCamPos->field_0_x));
+    field_5C_xpos = FP_GetExponent((FP_FromInteger(pScreenManager->mCamXOff + pTlv->mTopLeft.x) - pScreenManager->mCamPos->x));
 
-    field_5E_ypos = FP_GetExponent((FP_FromInteger(pScreenManager->mCamYOff + pTlv->field_10_top_left.field_2_y)) - pScreenManager->mCamPos->field_4_y);
+    field_5E_ypos = FP_GetExponent((FP_FromInteger(pScreenManager->mCamYOff + pTlv->mTopLeft.y)) - pScreenManager->mCamPos->y);
 
     field_60_start_switch_id = pTlv->field_18_start_switch_id;
 }

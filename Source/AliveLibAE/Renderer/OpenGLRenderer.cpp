@@ -132,7 +132,7 @@ static TextureCache* Renderer_TexFromTPage(u16 tPage, u8 u, u8 v)
     if (tpagex < 640 && tpagey < 240)
     {
         TextureCache* tc = GetBackgroundTextureCache();
-        tc->mUvOffset.field_0_x = tpagex;
+        tc->mUvOffset.x = tpagex;
         tc->mIgnoreColor = true;
         return tc;
     }
@@ -180,7 +180,7 @@ static PaletteCache* Renderer_ClutToPalette(s32 tClut)
     {
         PaletteCache* c = &gRendererPals[i];
 
-        if (x >= c->mPalPoint.field_0_x && x < (c->mPalPoint.field_0_x + c->mPalDepth) && c->mPalPoint.field_2_y == y)
+        if (x >= c->mPalPoint.x && x < (c->mPalPoint.x + c->mPalDepth) && c->mPalPoint.y == y)
         {
             return c;
         }
@@ -210,7 +210,7 @@ static void Renderer_FreeTexture(PSX_Point point)
     {
         TextureCache* c = &gRendererTextures[i];
 
-        if (c->mVramRect.x == point.field_0_x && c->mVramRect.y == point.field_2_y)
+        if (c->mVramRect.x == point.x && c->mVramRect.y == point.y)
         {
             glDeleteTextures(1, &c->mTextureID);
             gRendererTextures.erase(gRendererTextures.begin() + i);
@@ -238,7 +238,7 @@ static void Renderer_FreePalette(PSX_Point point)
     s32 i = 0;
     for (auto& c : gRendererPals)
     {
-        if (point.field_0_x >= c.mPalPoint.field_0_x && point.field_0_x < (c.mPalPoint.field_0_x + c.mPalDepth) && c.mPalPoint.field_2_y == point.field_2_y)
+        if (point.x >= c.mPalPoint.x && point.x < (c.mPalPoint.x + c.mPalDepth) && c.mPalPoint.y == point.y)
         {
             gRendererPals.erase(gRendererPals.begin() + i);
             return;
@@ -251,9 +251,9 @@ static void Renderer_LoadPalette(PSX_Point point, const u8* palData, s16 palDept
 {
     for (auto& c : gRendererPals)
     {
-        if (point.field_0_x >= c.mPalPoint.field_0_x && point.field_0_x < (c.mPalPoint.field_0_x + c.mPalDepth) && c.mPalPoint.field_2_y == point.field_2_y)
+        if (point.x >= c.mPalPoint.x && point.x < (c.mPalPoint.x + c.mPalDepth) && c.mPalPoint.y == point.y)
         {
-            s32 offset = point.field_0_x - c.mPalPoint.field_0_x;
+            s32 offset = point.x - c.mPalPoint.x;
             Renderer_DecodePalette(palData, c.mPalData + offset, palDepth);
 
             if (c.mPalDepth > 0)
@@ -975,7 +975,7 @@ void OpenGLRenderer::Draw(Prim_Sprt& sprt)
     s16 textureMode = (mLastTPage >> 7) & 3;
 
     // FG1 Blocks
-    if (vramPoint.field_0_x < 640)
+    if (vramPoint.x < 640)
     {
         glm::ivec4 lastClip = mLastClip;
         SetClipDirect(sprt.mBase.vert.x, sprt.mBase.vert.y, sprt.field_14_w + 1, sprt.field_16_h + 1);
@@ -987,7 +987,7 @@ void OpenGLRenderer::Draw(Prim_Sprt& sprt)
     glEnable(GL_TEXTURE_2D);
     glBindTexture(GL_TEXTURE_2D, 0);
 
-    TextureCache* pTexture = Renderer_TexFromVRam({static_cast<s16>(vramPoint.field_0_x + WidthBppDivide(textureMode, sprt.mUv.u)), static_cast<s16>(vramPoint.field_2_y + sprt.mUv.v)});
+    TextureCache* pTexture = Renderer_TexFromVRam({static_cast<s16>(vramPoint.x + WidthBppDivide(textureMode, sprt.mUv.u)), static_cast<s16>(vramPoint.y + sprt.mUv.v)});
     PaletteCache* pPal = Renderer_ClutToPalette(sprt.mUv.tpage_clut_pad);
 
     const VertexData verts[4] = {
@@ -1325,8 +1325,8 @@ void OpenGLRenderer::Draw(Poly_FT4& poly)
     xOff *= bppMulti;
 
     // macros suck. todo: fix that
-#define UV_U(v) (f32)(((pTexture->mUvOffset.field_0_x + v) - xOff) / (f32)(pTexture->mVramRect.w * bppMulti))
-#define UV_V(v) (f32)(((pTexture->mUvOffset.field_2_y + v) - static_cast<u8>(pTexture->mVramRect.y)) / (f32) pTexture->mVramRect.h)
+#define UV_U(v) (f32)(((pTexture->mUvOffset.x + v) - xOff) / (f32)(pTexture->mVramRect.w * bppMulti))
+#define UV_V(v) (f32)(((pTexture->mUvOffset.y + v) - static_cast<u8>(pTexture->mVramRect.y)) / (f32) pTexture->mVramRect.h)
 
     VertexData verts[4] = {
         {(f32) poly.mBase.vert.x, (f32) poly.mBase.vert.y, 0, r, g, b, UV_U(poly.mUv.u), UV_V(poly.mUv.v)},

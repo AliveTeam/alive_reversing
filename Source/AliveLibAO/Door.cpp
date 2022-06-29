@@ -147,10 +147,10 @@ Door::Door(Path_Door* pTlv, s32 tlvInfo)
                 }
 
                 if (sCollisions->Raycast(
-                    FP_FromInteger(pTlv->field_10_top_left.field_0_x + (pTlv->field_14_bottom_right.field_0_x - pTlv->field_10_top_left.field_0_x) / 2),
-                    FP_FromInteger(pTlv->field_10_top_left.field_2_y),
-                    FP_FromInteger(pTlv->field_10_top_left.field_0_x + (pTlv->field_14_bottom_right.field_0_x - pTlv->field_10_top_left.field_0_x) / 2),
-                    FP_FromInteger(pTlv->field_14_bottom_right.field_2_y),
+                    FP_FromInteger(pTlv->mTopLeft.x + (pTlv->mBottomRight.x - pTlv->mTopLeft.x) / 2),
+                    FP_FromInteger(pTlv->mTopLeft.y),
+                    FP_FromInteger(pTlv->mTopLeft.x + (pTlv->mBottomRight.x - pTlv->mTopLeft.x) / 2),
+                    FP_FromInteger(pTlv->mBottomRight.y),
                     &pLine,
                     &mBaseAnimatedWithPhysicsGameObject_XPos,
                     &mBaseAnimatedWithPhysicsGameObject_YPos,
@@ -158,13 +158,13 @@ Door::Door(Path_Door* pTlv, s32 tlvInfo)
                 {
                     mBaseAnimatedWithPhysicsGameObject_YPos -= (FP_FromInteger(12) * mBaseAnimatedWithPhysicsGameObject_SpriteScale);
                     gMap.GetCurrentCamCoords(&mapCoords);
-                    auto aux = SnapToXGrid(mBaseAnimatedWithPhysicsGameObject_SpriteScale, FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos) - mapCoords.field_0_x);
-                    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger((aux)+mapCoords.field_0_x);
+                    auto aux = SnapToXGrid(mBaseAnimatedWithPhysicsGameObject_SpriteScale, FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos) - mapCoords.x);
+                    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger((aux)+mapCoords.x);
                 }
                 else
                 {
-                    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pTlv->field_10_top_left.field_0_x + 12);
-                    mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->field_10_top_left.field_2_y + 24);
+                    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pTlv->mTopLeft.x + 12);
+                    mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->mTopLeft.y + 24);
                 }
                 break;
             }
@@ -216,10 +216,10 @@ Door::Door(Path_Door* pTlv, s32 tlvInfo)
             }
 
             if (sCollisions->Raycast(
-                FP_FromInteger(pTlv->field_10_top_left.field_0_x) + FP_FromInteger((pTlv->field_14_bottom_right.field_0_x - pTlv->field_10_top_left.field_0_x) / 2),
-                FP_FromInteger(pTlv->field_10_top_left.field_2_y),
-                FP_FromInteger(pTlv->field_10_top_left.field_0_x) + FP_FromInteger((pTlv->field_14_bottom_right.field_0_x - pTlv->field_10_top_left.field_0_x) / 2),
-                FP_FromInteger(pTlv->field_14_bottom_right.field_2_y),
+                FP_FromInteger(pTlv->mTopLeft.x) + FP_FromInteger((pTlv->mBottomRight.x - pTlv->mTopLeft.x) / 2),
+                FP_FromInteger(pTlv->mTopLeft.y),
+                FP_FromInteger(pTlv->mTopLeft.x) + FP_FromInteger((pTlv->mBottomRight.x - pTlv->mTopLeft.x) / 2),
+                FP_FromInteger(pTlv->mBottomRight.y),
                 &pLine,
                 &mBaseAnimatedWithPhysicsGameObject_XPos,
                 &mBaseAnimatedWithPhysicsGameObject_YPos,
@@ -227,12 +227,12 @@ Door::Door(Path_Door* pTlv, s32 tlvInfo)
             {
                 mBaseAnimatedWithPhysicsGameObject_YPos += FP_FromInteger(4);
                 gMap.GetCurrentCamCoords(&mapCoords);
-                mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(SnapToXGrid(scale, FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos) - mapCoords.field_0_x) + mapCoords.field_0_x);
+                mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(SnapToXGrid(scale, FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos) - mapCoords.x) + mapCoords.x);
             }
             else
             {
-                mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pTlv->field_10_top_left.field_0_x);
-                mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->field_10_top_left.field_2_y);
+                mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pTlv->mTopLeft.x);
+                mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->mTopLeft.y);
             }
             mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromInteger(1);
             break;
@@ -278,10 +278,10 @@ Door::Door(Path_Door* pTlv, s32 tlvInfo)
                     if (gMap.mCurrentLevel == EReliveLevelIds::eRuptureFarmsReturn || gMap.mCurrentLevel == EReliveLevelIds::eRuptureFarms)
                     {
                         if (sCollisions->Raycast(
-                                FP_FromInteger(pTlv->field_10_top_left.field_0_x + (pTlv->field_14_bottom_right.field_0_x - pTlv->field_10_top_left.field_0_x) / 2),
-                                FP_FromInteger(pTlv->field_10_top_left.field_2_y),
-                                FP_FromInteger(pTlv->field_10_top_left.field_0_x + (pTlv->field_14_bottom_right.field_0_x - pTlv->field_10_top_left.field_0_x) / 2),
-                                FP_FromInteger(pTlv->field_14_bottom_right.field_2_y),
+                                FP_FromInteger(pTlv->mTopLeft.x + (pTlv->mBottomRight.x - pTlv->mTopLeft.x) / 2),
+                                FP_FromInteger(pTlv->mTopLeft.y),
+                                FP_FromInteger(pTlv->mTopLeft.x + (pTlv->mBottomRight.x - pTlv->mTopLeft.x) / 2),
+                                FP_FromInteger(pTlv->mBottomRight.y),
                                 &pLine,
                                 &mBaseAnimatedWithPhysicsGameObject_XPos,
                                 &mBaseAnimatedWithPhysicsGameObject_YPos,
@@ -289,18 +289,18 @@ Door::Door(Path_Door* pTlv, s32 tlvInfo)
                         {
                             mBaseAnimatedWithPhysicsGameObject_YPos -= (FP_FromInteger(12) * mBaseAnimatedWithPhysicsGameObject_SpriteScale);
                             gMap.GetCurrentCamCoords(&mapCoords);
-                            mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(SnapToXGrid(FP_FromInteger(1), FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos) - mapCoords.field_0_x) + mapCoords.field_0_x);
+                            mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(SnapToXGrid(FP_FromInteger(1), FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos) - mapCoords.x) + mapCoords.x);
                         }
                         else
                         {
-                            mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pTlv->field_10_top_left.field_0_x + 12);
-                            mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->field_10_top_left.field_2_y + 24);
+                            mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pTlv->mTopLeft.x + 12);
+                            mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->mTopLeft.y + 24);
                         }
                     }
                     else
                     {
-                        mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pTlv->field_10_top_left.field_0_x + 9);
-                        mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->field_10_top_left.field_2_y + 20);
+                        mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pTlv->mTopLeft.x + 9);
+                        mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->mTopLeft.y + 20);
                     }
 
                     mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromInteger(1);

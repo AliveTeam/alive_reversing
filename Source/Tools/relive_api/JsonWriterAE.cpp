@@ -21,7 +21,7 @@ void JsonWriterAE::DebugDumpTlvs(IFileIO& fileIo, const std::string& prefix, con
 
         // Skip length bytes to get to the start of the next TLV
         u8* ptr = reinterpret_cast<u8*>(pPathTLV);
-        u8* pNext = ptr + pPathTLV->field_2_length;
+        u8* pNext = ptr + pPathTLV->mLength;
         pPathTLV = reinterpret_cast<Path_TLV*>(pNext);
     }
 }
@@ -70,13 +70,13 @@ void JsonWriterAE::ResetTypeCounterMap()
     Path_TLV* pPathTLV = reinterpret_cast<Path_TLV*>(ptr);
     while (pPathTLV)
     {
-        mTypeCounterMap[pPathTLV->field_4_type.mType]++;
-        auto obj = mTypesCollection->MakeTlvAE(pPathTLV->field_4_type.mType, pPathTLV, mTypeCounterMap[pPathTLV->field_4_type.mType]);
+        mTypeCounterMap[pPathTLV->mTlvType32.mType]++;
+        auto obj = mTypesCollection->MakeTlvAE(pPathTLV->mTlvType32.mType, pPathTLV, mTypeCounterMap[pPathTLV->mTlvType32.mType]);
         if (obj)
         {
-            if (pPathTLV->field_2_length != obj->TlvLen())
+            if (pPathTLV->mLength != obj->TlvLen())
             {
-                LOG_ERROR(magic_enum::enum_name(pPathTLV->field_4_type.mType) << " size should be " << pPathTLV->field_2_length << " but got " << obj->TlvLen());
+                LOG_ERROR(magic_enum::enum_name(pPathTLV->mTlvType32.mType) << " size should be " << pPathTLV->mLength << " but got " << obj->TlvLen());
                 throw ReliveAPI::WrongTLVLengthException();
             }
 
@@ -84,7 +84,7 @@ void JsonWriterAE::ResetTypeCounterMap()
         }
         else
         {
-            LOG_WARNING("Ignoring type: " << pPathTLV->field_4_type.mType);
+            LOG_WARNING("Ignoring type: " << pPathTLV->mTlvType32.mType);
         }
 
         pPathTLV = Path::Next_TLV_Impl(pPathTLV); // TODO: Will skip the last entry ??

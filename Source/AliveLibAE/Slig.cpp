@@ -100,8 +100,8 @@ s32 Animation_OnFrame_Slig_4C0600(BaseGameObject* pObj, s16* pData)
         bulletType = BulletType::eNormalBullet_2;
     }
 
-    const FP xOff = (pSlig->mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(pPoints->field_0_x));
-    const FP yOff = (pSlig->mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(pPoints->field_2_y));
+    const FP xOff = (pSlig->mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(pPoints->x));
+    const FP yOff = (pSlig->mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(pPoints->y));
 
     Bullet* pBullet = nullptr;
 
@@ -374,8 +374,8 @@ Slig::Slig(Path_Slig* pTlv, s32 tlvInfo)
     mCurrentMotion = eSligMotions::M_Falling_7_4B42D0;
 
     field_124_return_to_previous_motion = 0;
-    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pTlv->field_8_top_left.field_0_x);
-    mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->field_8_top_left.field_2_y);
+    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pTlv->mTopLeft.x);
+    mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->mTopLeft.y);
     field_130_falling_velx_scale_factor = FP_FromInteger(0);
     field_118_tlvInfo = tlvInfo;
     field_128_input = 0;
@@ -4552,7 +4552,7 @@ void Slig::Init()
             break;
 
         case Path_Slig::StartState::Sleeping_2:
-            if (field_218_tlv_data.field_1_tlv_state && field_218_tlv_data.field_46_stay_awake == Choice_short::eYes_1)
+            if (field_218_tlv_data.mTlvState && field_218_tlv_data.field_46_stay_awake == Choice_short::eYes_1)
             {
                 SetBrain(&Slig::Brain_Inactive_32_4B9430);
             }
@@ -4624,8 +4624,8 @@ void Slig::Init()
 
     field_290_points_count = 0;
 
-    field_268_points[field_290_points_count].field_0_x = FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos);
-    field_268_points[field_290_points_count].field_2_y = FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos);
+    field_268_points[field_290_points_count].x = FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos);
+    field_268_points[field_290_points_count].y = FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos);
     field_290_points_count++;
 
     for (s16 yCam = -3; yCam < 4; yCam++)
@@ -4636,23 +4636,23 @@ void Slig::Init()
             while (pTlvIter)
             {
                 bool addPoint = false;
-                if (pTlvIter->field_4_type == TlvTypes::SligBoundLeft_32)
+                if (pTlvIter->mTlvType32 == TlvTypes::SligBoundLeft_32)
                 {
                     if (static_cast<Path_SligLeftBound*>(pTlvIter)->field_10_slig_bound_id == field_218_tlv_data.field_38_slig_bound_id)
                     {
-                        field_138_zone_rect.x = pTlvIter->field_8_top_left.field_0_x;
+                        field_138_zone_rect.x = pTlvIter->mTopLeft.x;
                         addPoint = true;
                     }
                 }
-                else if (pTlvIter->field_4_type == TlvTypes::SligBoundRight_45)
+                else if (pTlvIter->mTlvType32 == TlvTypes::SligBoundRight_45)
                 {
                     if (static_cast<Path_SligRightBound*>(pTlvIter)->field_10_slig_bound_id == field_218_tlv_data.field_38_slig_bound_id)
                     {
-                        field_138_zone_rect.w = pTlvIter->field_8_top_left.field_0_x;
+                        field_138_zone_rect.w = pTlvIter->mTopLeft.x;
                         addPoint = true;
                     }
                 }
-                else if (pTlvIter->field_4_type == TlvTypes::SligPersist_46)
+                else if (pTlvIter->mTlvType32 == TlvTypes::SligPersist_46)
                 {
                     if (static_cast<Path_SligPersist*>(pTlvIter)->field_10_slig_bound_id == field_218_tlv_data.field_38_slig_bound_id)
                     {
@@ -4664,8 +4664,8 @@ void Slig::Init()
                 {
                     if (field_290_points_count < ALIVE_COUNTOF(field_268_points))
                     {
-                        field_268_points[field_290_points_count].field_0_x = pTlvIter->field_8_top_left.field_0_x;
-                        field_268_points[field_290_points_count].field_2_y = pTlvIter->field_8_top_left.field_2_y;
+                        field_268_points[field_290_points_count].x = pTlvIter->mTopLeft.x;
+                        field_268_points[field_290_points_count].y = pTlvIter->mTopLeft.y;
                         field_290_points_count++;
                     }
                 }
@@ -4699,17 +4699,17 @@ Slig::~Slig()
     Path_TLV* pTlv = sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam(field_118_tlvInfo);
     if (pTlv)
     {
-        if (pTlv->field_4_type.mType != TlvTypes::SligGetPants_104 && pTlv->field_4_type.mType != TlvTypes::SligSpawner_37)
+        if (pTlv->mTlvType32.mType != TlvTypes::SligGetPants_104 && pTlv->mTlvType32.mType != TlvTypes::SligSpawner_37)
         {
             if (mHealth <= FP_FromInteger(0))
             {
-                pTlv->field_0_flags.Clear(TLV_Flags::eBit1_Created);
-                pTlv->field_0_flags.Set(TLV_Flags::eBit2_Destroyed);
+                pTlv->mTlvFlags.Clear(TlvFlags::eBit1_Created);
+                pTlv->mTlvFlags.Set(TlvFlags::eBit2_Destroyed);
             }
             else
             {
-                pTlv->field_0_flags.Clear(TLV_Flags::eBit1_Created);
-                pTlv->field_0_flags.Clear(TLV_Flags::eBit2_Destroyed);
+                pTlv->mTlvFlags.Clear(TlvFlags::eBit1_Created);
+                pTlv->mTlvFlags.Clear(TlvFlags::eBit2_Destroyed);
             }
         }
     }
@@ -4828,9 +4828,9 @@ void Slig::VUpdate()
                 mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(0);
             }
 
-            if (mBaseAnimatedWithPhysicsGameObject_XPos >= FP_FromInteger(mapBounds.field_0_x))
+            if (mBaseAnimatedWithPhysicsGameObject_XPos >= FP_FromInteger(mapBounds.x))
             {
-                mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(mapBounds.field_0_x) - FP_FromInteger(1);
+                mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(mapBounds.x) - FP_FromInteger(1);
             }
 
             if (mBaseAnimatedWithPhysicsGameObject_YPos < FP_FromInteger(0))
@@ -4838,9 +4838,9 @@ void Slig::VUpdate()
                 mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(0);
             }
 
-            if (mBaseAnimatedWithPhysicsGameObject_YPos >= FP_FromInteger(mapBounds.field_2_y))
+            if (mBaseAnimatedWithPhysicsGameObject_YPos >= FP_FromInteger(mapBounds.y))
             {
-                mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(mapBounds.field_2_y) - FP_FromInteger(1);
+                mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(mapBounds.y) - FP_FromInteger(1);
             }
         }
         else
@@ -4936,7 +4936,7 @@ void Slig::VOn_TLV_Collision(Path_TLV* pTlv)
 {
     while (pTlv)
     {
-        if (pTlv->field_4_type == TlvTypes::DeathDrop_4)
+        if (pTlv->mTlvType32 == TlvTypes::DeathDrop_4)
         {
             if (mHealth > FP_FromInteger(0))
             {
@@ -4992,14 +4992,14 @@ void Slig::WakeUp_4B93B0()
 
     MusicController::static_PlayMusic(MusicController::MusicTypes::eTension_4, this, 0, 0);
     Path_TLV* pTlv = sPath_dword_BB47C0->TLV_Get_At_4DB4B0(
-        field_218_tlv_data.field_8_top_left.field_0_x,
-        field_218_tlv_data.field_8_top_left.field_2_y,
-        field_218_tlv_data.field_8_top_left.field_0_x,
-        field_218_tlv_data.field_8_top_left.field_2_y,
+        field_218_tlv_data.mTopLeft.x,
+        field_218_tlv_data.mTopLeft.y,
+        field_218_tlv_data.mTopLeft.x,
+        field_218_tlv_data.mTopLeft.y,
         TlvTypes::Slig_15);
     if (pTlv)
     {
-        pTlv->field_1_tlv_state = 1; // TODO: Keep track of these, 1 must keep slig awake ??
+        pTlv->mTlvState = 1; // TODO: Keep track of these, 1 must keep slig awake ??
     }
 }
 
@@ -5028,8 +5028,8 @@ void Slig::ShouldStillBeAlive_4BBC00()
                 while (!gMap.Is_Point_In_Current_Camera(
                     mBaseAnimatedWithPhysicsGameObject_LvlNumber,
                     mBaseAnimatedWithPhysicsGameObject_PathNumber,
-                    FP_FromInteger(field_268_points[i].field_0_x),
-                    FP_FromInteger(field_268_points[i].field_2_y),
+                    FP_FromInteger(field_268_points[i].x),
+                    FP_FromInteger(field_268_points[i].y),
                     0))
                 {
                     if (i >= field_290_points_count)
@@ -5785,12 +5785,12 @@ s16 Slig::ListenToGlukkonCommands_4B95D0()
 void Slig::PlatformCollide_4B4E00()
 {
     PSX_Point xy;
-    xy.field_0_x = FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos - FP_FromInteger(5));
-    xy.field_2_y = FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos - FP_FromInteger(5));
+    xy.x = FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos - FP_FromInteger(5));
+    xy.y = FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos - FP_FromInteger(5));
 
     PSX_Point wh;
-    wh.field_0_x = FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos + FP_FromInteger(5));
-    wh.field_2_y = FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos + FP_FromInteger(5));
+    wh.x = FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos + FP_FromInteger(5));
+    wh.y = FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos + FP_FromInteger(5));
 
     VOnCollisionWith(
         xy,
@@ -6568,15 +6568,15 @@ s16 Slig::NearOrFacingActiveChar_4B9930(BaseAliveGameObject* pObj)
 
 static s16 IsInZCover(Path_TLV* pTlv, const PSX_RECT* pRect)
 {
-    if (pTlv->field_4_type == TlvTypes::ZSligCover_50)
+    if (pTlv->mTlvType32 == TlvTypes::ZSligCover_50)
     {
-        if (pRect->x >= pTlv->field_8_top_left.field_0_x && pRect->x <= pTlv->field_C_bottom_right.field_0_x &&
+        if (pRect->x >= pTlv->mTopLeft.x && pRect->x <= pTlv->mBottomRight.x &&
 
-            pRect->y >= pTlv->field_8_top_left.field_2_y && pRect->y <= pTlv->field_C_bottom_right.field_2_y &&
+            pRect->y >= pTlv->mTopLeft.y && pRect->y <= pTlv->mBottomRight.y &&
 
-            pRect->w >= pTlv->field_8_top_left.field_0_x && pRect->w <= pTlv->field_C_bottom_right.field_0_x &&
+            pRect->w >= pTlv->mTopLeft.x && pRect->w <= pTlv->mBottomRight.x &&
 
-            pRect->h >= pTlv->field_8_top_left.field_2_y && pRect->h <= pTlv->field_C_bottom_right.field_2_y)
+            pRect->h >= pTlv->mTopLeft.y && pRect->h <= pTlv->mBottomRight.y)
         {
             return TRUE;
         }

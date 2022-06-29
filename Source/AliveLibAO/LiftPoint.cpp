@@ -236,7 +236,7 @@ void LiftPoint::StayOnFloor(s16 floor, Path_LiftPoint* pLiftTlv)
 {
     if (!floor)
     {
-        mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pLiftTlv->field_10_top_left.field_2_y - mPlatformBaseYOffset);
+        mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pLiftTlv->mTopLeft.y - mPlatformBaseYOffset);
         SFX_Play_Mono(SoundEffect::LiftStop_35, 0);
         SFX_Play_Pitch(SoundEffect::LiftStop_35, 80, -2000);
     }
@@ -253,8 +253,8 @@ void LiftPoint::StayOnFloor(s16 floor, Path_LiftPoint* pLiftTlv)
 
 void LiftPoint::Sub_Unknown(Path_TLV* pTlv)
 {
-    pTlv->field_0_flags.Clear(eBit1_Created);
-    pTlv->field_0_flags.Clear(eBit2_Destroyed);
+    pTlv->mTlvFlags.Clear(eBit1_Created);
+    pTlv->mTlvFlags.Clear(eBit2_Destroyed);
     pTlv->field_1_unknown |= 1;
 }
 
@@ -340,7 +340,7 @@ void LiftPoint::VUpdate()
                 (mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(30)) + lineY);
             while (pTlvIter)
             {
-                if (pTlvIter->field_4_type == TlvTypes::LiftPoint_8)
+                if (pTlvIter->mTlvType32 == TlvTypes::LiftPoint_8)
                 {
                     pLiftTlv = static_cast<Path_LiftPoint*>(pTlvIter);
                     field_130_lift_point_stop_type = pLiftTlv->field_1E_lift_point_stop_type;
@@ -367,7 +367,7 @@ void LiftPoint::VUpdate()
             {
                 Sub_Unknown(pLiftTlv);
 
-                field_270_floorYLevel = FP_FromInteger(pTlvIter->field_10_top_left.field_2_y + -mPlatformBaseYOffset);
+                field_270_floorYLevel = FP_FromInteger(pTlvIter->mTopLeft.y + -mPlatformBaseYOffset);
             }
             else
             {
@@ -401,7 +401,7 @@ void LiftPoint::VUpdate()
                             field_27A_flags.Set(Flags::eBit2_bTopFloor);
                         }
                     }
-                    else if (mBaseAnimatedWithPhysicsGameObject_VelY + lineY <= FP_FromInteger(pTlvIter->field_10_top_left.field_2_y))
+                    else if (mBaseAnimatedWithPhysicsGameObject_VelY + lineY <= FP_FromInteger(pTlvIter->mTopLeft.y))
                     {
                         StayOnFloor(field_27A_flags.Get(Flags::eBit2_bTopFloor), pLiftTlv);
 
@@ -429,7 +429,7 @@ void LiftPoint::VUpdate()
                             field_27A_flags.Set(Flags::eBit4_bBottomFloor);
                         }
                     }
-                    else if (mBaseAnimatedWithPhysicsGameObject_VelY + lineY >= FP_FromInteger(pTlvIter->field_10_top_left.field_2_y))
+                    else if (mBaseAnimatedWithPhysicsGameObject_VelY + lineY >= FP_FromInteger(pTlvIter->mTopLeft.y))
                     {
                         StayOnFloor(field_27A_flags.Get(Flags::eBit4_bBottomFloor), pLiftTlv);
                         field_27A_flags.Set(Flags::eBit4_bBottomFloor);
@@ -561,7 +561,7 @@ void LiftPoint::VRender(PrimHeader** ppOt)
     {
         if (mBaseAnimatedWithPhysicsGameObject_PathNumber == gMap.mCurrentPath)
         {
-            if (mBaseAnimatedWithPhysicsGameObject_XPos >= FP_FromInteger(mapCoord.field_0_x) && mBaseAnimatedWithPhysicsGameObject_XPos <= FP_FromInteger(mapCoord.field_0_x + 1024))
+            if (mBaseAnimatedWithPhysicsGameObject_XPos >= FP_FromInteger(mapCoord.x) && mBaseAnimatedWithPhysicsGameObject_XPos <= FP_FromInteger(mapCoord.x + 1024))
             {
                 BaseAnimatedWithPhysicsGameObject::VRender(ppOt);
 
@@ -589,10 +589,10 @@ void LiftPoint::VRender(PrimHeader** ppOt)
                 field_13C_lift_wheel.VRender(
                     FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos
                                    + xOff
-                                   + FP_FromInteger(pScreenManager->mCamXOff) - pScreenManager->mCamPos->field_0_x),
+                                   + FP_FromInteger(pScreenManager->mCamXOff) - pScreenManager->mCamPos->x),
                     FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos
                                    + yOff
-                                   + FP_FromInteger(pScreenManager->mCamYOff) - pScreenManager->mCamPos->field_4_y),
+                                   + FP_FromInteger(pScreenManager->mCamYOff) - pScreenManager->mCamPos->y),
                     ppOt,
                     0,
                     0);
@@ -634,8 +634,8 @@ void LiftPoint::VRender(PrimHeader** ppOt)
                         field_1D4_pulley_anim.mBlue = static_cast<u8>(b);
 
                         field_1D4_pulley_anim.VRender(
-                            FP_GetExponent(pulley_xpos + FP_FromInteger(pScreenManager->mCamXOff) - pScreenManager->mCamPos->field_0_x),
-                            FP_GetExponent(pulley_ypos + FP_FromInteger(pScreenManager->mCamYOff) - pScreenManager->mCamPos->field_4_y),
+                            FP_GetExponent(pulley_xpos + FP_FromInteger(pScreenManager->mCamXOff) - pScreenManager->mCamPos->x),
+                            FP_GetExponent(pulley_ypos + FP_FromInteger(pScreenManager->mCamYOff) - pScreenManager->mCamPos->y),
                             ppOt,
                             0,
                             0);
@@ -705,8 +705,8 @@ LiftPoint::~LiftPoint()
 
     if (pLiftPointTlv)
     {
-        pLiftPointTlv->field_0_flags.Clear(eBit1_Created);
-        pLiftPointTlv->field_0_flags.Clear(eBit2_Destroyed);
+        pLiftPointTlv->mTlvFlags.Clear(eBit1_Created);
+        pLiftPointTlv->mTlvFlags.Clear(eBit2_Destroyed);
     }
 
     field_13C_lift_wheel.VCleanUp();
@@ -726,12 +726,12 @@ void LiftPoint::CreatePulleyIfExists(s16 camX, s16 camY)
     {
         while (1)
         {
-            field_26E_pulley_ypos = pTlv->field_10_top_left.field_2_y;
-            field_26C_pulley_xpos = pTlv->field_10_top_left.field_0_x;
+            field_26E_pulley_ypos = pTlv->mTopLeft.y;
+            field_26C_pulley_xpos = pTlv->mTopLeft.x;
 
-            if (pTlv->field_4_type == TlvTypes::Pulley_35)
+            if (pTlv->mTlvType32 == TlvTypes::Pulley_35)
             {
-                if (mPlatformBaseCollisionLine->field_0_rect.x <= pTlv->field_10_top_left.field_0_x && pTlv->field_10_top_left.field_0_x <= mPlatformBaseCollisionLine->field_0_rect.w)
+                if (mPlatformBaseCollisionLine->field_0_rect.x <= pTlv->mTopLeft.x && pTlv->mTopLeft.x <= mPlatformBaseCollisionLine->field_0_rect.w)
                 {
                     break;
                 }

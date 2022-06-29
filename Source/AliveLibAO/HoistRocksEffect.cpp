@@ -97,8 +97,8 @@ HoistRocksEffect::HoistRocksEffect(Path_Hoist* pTlv, s32 tlvInfo)
     : BaseGameObject(TRUE, 0)
 {
     field_18_tlvInfo = tlvInfo;
-    field_10_xpos = FP_FromInteger(pTlv->field_10_top_left.field_0_x + 12);
-    field_14_ypos = FP_FromInteger(pTlv->field_10_top_left.field_2_y);
+    field_10_xpos = FP_FromInteger(pTlv->mTopLeft.x + 12);
+    field_14_ypos = FP_FromInteger(pTlv->mTopLeft.y);
 }
 
 void HoistRocksEffect::VUpdate()

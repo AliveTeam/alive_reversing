@@ -55,8 +55,8 @@ PullRingRope::PullRingRope(Path_PullRingRope* pTlv, s32 tlvInfo)
     field_EC_state = States::eIdle_0;
     field_E4_stay_in_state_ticks = 0;
 
-    mBaseAnimatedWithPhysicsGameObject_YPos += FP_FromInteger(pTlv->field_1C_rope_length + pTlv->field_10_top_left.field_2_y + 24);
-    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pTlv->field_10_top_left.field_0_x + 12);
+    mBaseAnimatedWithPhysicsGameObject_YPos += FP_FromInteger(pTlv->field_1C_rope_length + pTlv->mTopLeft.y + 24);
+    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pTlv->mTopLeft.x + 12);
 
     if (pTlv->field_1E_scale == Scale_short::eHalf_1)
     {

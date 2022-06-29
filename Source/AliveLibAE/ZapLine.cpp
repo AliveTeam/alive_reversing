@@ -94,7 +94,7 @@ ZapLine::ZapLine(FP xPosSource, FP yPosSource, FP xPosDest, FP yPosDest, s32 ali
                 Poly_Set_SemiTrans(&pSprt->mBase.header, 1);
                 Poly_Set_Blending(&pSprt->mBase.header, 1);
 
-                SetClut(pSprt, static_cast<s16>(PSX_getClut(mBaseAnimatedWithPhysicsGameObject_Anim.field_8C_pal_vram_xy.field_0_x, mBaseAnimatedWithPhysicsGameObject_Anim.field_8C_pal_vram_xy.field_2_y)));
+                SetClut(pSprt, static_cast<s16>(PSX_getClut(mBaseAnimatedWithPhysicsGameObject_Anim.field_8C_pal_vram_xy.x, mBaseAnimatedWithPhysicsGameObject_Anim.field_8C_pal_vram_xy.y)));
 
                 SetUV0(pSprt, u0, mBaseAnimatedWithPhysicsGameObject_Anim.field_84_vram_rect.y & 0xFF);
                 pSprt->field_14_w = frameW - 1;
@@ -166,11 +166,11 @@ void ZapLine::CalculateThickSpriteSegmentPositions()
     s32 v5 = 1 << v1;
     s32 v6 = 1 << (v1 - 1);
 
-    field_140_sprite_segment_positions[0].field_0_x = FP_FromInteger(field_11C_x_position_source);
-    field_140_sprite_segment_positions[0].field_4_y = FP_FromInteger(field_11E_y_position_source);
+    field_140_sprite_segment_positions[0].x = FP_FromInteger(field_11C_x_position_source);
+    field_140_sprite_segment_positions[0].y = FP_FromInteger(field_11E_y_position_source);
 
-    field_140_sprite_segment_positions[field_12E_number_of_segments - 1].field_0_x = FP_FromInteger(field_120_x_position_destination);
-    field_140_sprite_segment_positions[field_12E_number_of_segments - 1].field_4_y = FP_FromInteger(field_122_y_position_destination);
+    field_140_sprite_segment_positions[field_12E_number_of_segments - 1].x = FP_FromInteger(field_120_x_position_destination);
+    field_140_sprite_segment_positions[field_12E_number_of_segments - 1].y = FP_FromInteger(field_122_y_position_destination);
 
     s32 angExtra = 0;
     if ((sGnFrame / 8) & 1)
@@ -193,9 +193,9 @@ void ZapLine::CalculateThickSpriteSegmentPositions()
     for (s32 i = 1; i < field_12E_number_of_segments - 1; i++)
     {
         const u8 ang = static_cast<u8>(angExtra + 18 * i);
-        field_140_sprite_segment_positions[i].field_0_x = FP_FromInteger(Math_NextRandom() % v5) + (Math_Cosine_496CD0(ang) * xDiffDiv) + FP_FromInteger(field_11C_x_position_source) + (FP_FromInteger(i) * xDiff) - FP_FromInteger(v6);
+        field_140_sprite_segment_positions[i].x = FP_FromInteger(Math_NextRandom() % v5) + (Math_Cosine_496CD0(ang) * xDiffDiv) + FP_FromInteger(field_11C_x_position_source) + (FP_FromInteger(i) * xDiff) - FP_FromInteger(v6);
 
-        field_140_sprite_segment_positions[i].field_4_y = FP_FromInteger(Math_NextRandom() % v5) + (Math_Cosine_496CD0(ang) * yDiffDiv) + FP_FromInteger(field_11E_y_position_source) + (FP_FromInteger(i) * yDiff) - FP_FromInteger(v6);
+        field_140_sprite_segment_positions[i].y = FP_FromInteger(Math_NextRandom() % v5) + (Math_Cosine_496CD0(ang) * yDiffDiv) + FP_FromInteger(field_11E_y_position_source) + (FP_FromInteger(i) * yDiff) - FP_FromInteger(v6);
     }
 
     field_144_rects[0].x = 0;
@@ -211,10 +211,10 @@ void ZapLine::CalculateThickSpriteSegmentPositions()
 
 void ZapLine::CalculateThinSpriteSegmentPositions()
 {
-    field_140_sprite_segment_positions[0].field_0_x = FP_FromInteger(field_11C_x_position_source);
-    field_140_sprite_segment_positions[0].field_4_y = FP_FromInteger(field_11E_y_position_source);
-    field_140_sprite_segment_positions[field_12E_number_of_segments - 1].field_0_x = FP_FromInteger(field_120_x_position_destination);
-    field_140_sprite_segment_positions[field_12E_number_of_segments - 1].field_4_y = FP_FromInteger(field_122_y_position_destination);
+    field_140_sprite_segment_positions[0].x = FP_FromInteger(field_11C_x_position_source);
+    field_140_sprite_segment_positions[0].y = FP_FromInteger(field_11E_y_position_source);
+    field_140_sprite_segment_positions[field_12E_number_of_segments - 1].x = FP_FromInteger(field_120_x_position_destination);
+    field_140_sprite_segment_positions[field_12E_number_of_segments - 1].y = FP_FromInteger(field_122_y_position_destination);
 
     const FP x2Diff = FP_FromInteger(field_120_x_position_destination - field_11C_x_position_source) / FP_FromInteger(field_12E_number_of_segments);
     const FP y2Diff = FP_FromInteger(field_122_y_position_destination - field_11E_y_position_source) / FP_FromInteger(field_12E_number_of_segments);
@@ -225,8 +225,8 @@ void ZapLine::CalculateThinSpriteSegmentPositions()
     for (s32 i = 1; i < field_12E_number_of_segments - 1; i++)
     {
         const FP rnd = FP_FromInteger(Math_NextRandom() % 32 - 16);
-        field_140_sprite_segment_positions[i].field_0_x = (y2DiffDiv * rnd) + FP_FromInteger(field_11C_x_position_source) + (FP_FromInteger(i) * x2Diff);
-        field_140_sprite_segment_positions[i].field_4_y = (x2DiffDiv * rnd) + FP_FromInteger(field_11E_y_position_source) + (FP_FromInteger(i) * y2Diff);
+        field_140_sprite_segment_positions[i].x = (y2DiffDiv * rnd) + FP_FromInteger(field_11C_x_position_source) + (FP_FromInteger(i) * x2Diff);
+        field_140_sprite_segment_positions[i].y = (x2DiffDiv * rnd) + FP_FromInteger(field_11E_y_position_source) + (FP_FromInteger(i) * y2Diff);
     }
 }
 
@@ -246,26 +246,26 @@ void ZapLine::CalculateZapPoints()
 
 void ZapLine::CalculateSpritePositionsInner(s32 idx1, s32 idx2, s32 idx3, s16 idx4)
 {
-    const FP x1 = field_140_sprite_segment_positions[idx1].field_0_x;
-    const FP y1 = field_140_sprite_segment_positions[idx1].field_4_y;
+    const FP x1 = field_140_sprite_segment_positions[idx1].x;
+    const FP y1 = field_140_sprite_segment_positions[idx1].y;
 
-    const FP x2 = field_140_sprite_segment_positions[idx2].field_0_x;
-    const FP y2 = field_140_sprite_segment_positions[idx2].field_4_y;
+    const FP x2 = field_140_sprite_segment_positions[idx2].x;
+    const FP y2 = field_140_sprite_segment_positions[idx2].y;
 
-    const FP x3 = field_140_sprite_segment_positions[idx3].field_0_x;
-    const FP y3 = field_140_sprite_segment_positions[idx3].field_4_y;
+    const FP x3 = field_140_sprite_segment_positions[idx3].x;
+    const FP y3 = field_140_sprite_segment_positions[idx3].y;
 
     for (s32 i = 0; i < field_130_number_of_pieces_per_segment; i++)
     {
         auto pItem = &field_138_sprite_positions[i + (idx4 * field_130_number_of_pieces_per_segment)];
 
-        pItem->field_0_x = FP_GetExponent(
+        pItem->x = FP_GetExponent(
             FP_FromRaw((
                            (field_13C_zap_points[i].field_8_part_3 * x3) + (field_13C_zap_points[i].field_4_part_2 * x2) + (field_13C_zap_points[i].field_0_part_1 * x1))
                            .fpValue
                        >> 1));
 
-        pItem->field_2_y = FP_GetExponent(
+        pItem->y = FP_GetExponent(
             FP_FromRaw((
                            (field_13C_zap_points[i].field_8_part_3 * y3) + (field_13C_zap_points[i].field_4_part_2 * y2) + (field_13C_zap_points[i].field_0_part_1 * y1))
                            .fpValue
@@ -281,8 +281,8 @@ void ZapLine::UpdateSpriteVertexPositions()
         {
             const auto pPoint = &field_138_sprite_positions[j + (i * field_130_number_of_pieces_per_segment)];
             Prim_Sprt* pSprt = &field_134_pSprites->field_0_sprts[j + (i * field_130_number_of_pieces_per_segment)];
-            SetXY0(&pSprt[0], pPoint->field_0_x, pPoint->field_2_y);
-            SetXY0(&pSprt[1], pPoint->field_0_x, pPoint->field_2_y);
+            SetXY0(&pSprt[0], pPoint->x, pPoint->y);
+            SetXY0(&pSprt[1], pPoint->x, pPoint->y);
         }
     }
 }
@@ -410,24 +410,24 @@ void ZapLine::VRender(PrimHeader** ppOt)
             const PSX_Point* pPoint = &field_138_sprite_positions[i * field_130_number_of_pieces_per_segment];
             for (s32 j = 0; j < field_130_number_of_pieces_per_segment; j++)
             {
-                if (pPoint->field_0_x < pRect->x)
+                if (pPoint->x < pRect->x)
                 {
-                    pRect->x = pPoint->field_0_x;
+                    pRect->x = pPoint->x;
                 }
 
-                if (pPoint->field_0_x > pRect->w)
+                if (pPoint->x > pRect->w)
                 {
-                    pRect->w = pPoint->field_0_x;
+                    pRect->w = pPoint->x;
                 }
 
-                if (pPoint->field_2_y < pRect->y)
+                if (pPoint->y < pRect->y)
                 {
-                    pRect->y = pPoint->field_2_y;
+                    pRect->y = pPoint->y;
                 }
 
-                if (pPoint->field_2_y > pRect->h)
+                if (pPoint->y > pRect->h)
                 {
-                    pRect->h = pPoint->field_2_y;
+                    pRect->h = pPoint->y;
                 }
             }
         }

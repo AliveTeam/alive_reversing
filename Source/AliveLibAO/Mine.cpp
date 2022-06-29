@@ -42,8 +42,8 @@ Mine::Mine(Path_Mine* pTlv, s32 tlvInfo)
         mBaseAnimatedWithPhysicsGameObject_Scale = Scale::Fg;
     }
 
-    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pTlv->field_10_top_left.field_0_x + 12);
-    mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->field_10_top_left.field_2_y + 24);
+    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pTlv->mTopLeft.x + 12);
+    mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->mTopLeft.y + 24);
     field_110_tlv = tlvInfo;
     field_114_gnframe = sGnFrame;
 
@@ -216,8 +216,8 @@ void Mine::VRender(PrimHeader** ppOt)
             0))
     {
         field_118_animation.VRender(
-            FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos + (FP_FromInteger(pScreenManager->mCamXOff) - pScreenManager->mCamPos->field_0_x)),
-            FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos + (FP_FromInteger(pScreenManager->mCamYOff + mBaseAnimatedWithPhysicsGameObject_YOffset)) - pScreenManager->mCamPos->field_4_y),
+            FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos + (FP_FromInteger(pScreenManager->mCamXOff) - pScreenManager->mCamPos->x)),
+            FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos + (FP_FromInteger(pScreenManager->mCamYOff + mBaseAnimatedWithPhysicsGameObject_YOffset)) - pScreenManager->mCamPos->y),
             ppOt,
             0,
             0);

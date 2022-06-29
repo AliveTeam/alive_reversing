@@ -30,8 +30,8 @@ MineCar::MineCar(Path_MineCar* pTlv, s32 tlvInfo, s32 /*a4*/, s32 /*a5*/, s32 /*
     field_11E_scale = pTlv->field_10_scale;
     field_120_max_damage = pTlv->field_12_max_damage;
 
-    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pTlv->field_8_top_left.field_0_x);
-    mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->field_8_top_left.field_2_y);
+    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pTlv->mTopLeft.x);
+    mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->mTopLeft.y);
 
     mVisualFlags.Set(VisualFlags::eDoPurpleLightEffect);
     field_1BE_unused = 0;

@@ -35,8 +35,8 @@ ElectricWall::ElectricWall(Path_ElectricWall* pTlv, s32 tlvInfo)
 
     field_F4_tlvInfo = tlvInfo;
 
-    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pTlv->field_8_top_left.field_0_x);
-    mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->field_8_top_left.field_2_y);
+    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pTlv->mTopLeft.x);
+    mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->mTopLeft.y);
 
     if (pTlv->field_10_scale == Scale_short::eHalf_1)
     {

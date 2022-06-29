@@ -101,7 +101,7 @@ void ParamiteWeb::VRender(PrimHeader** ppOt)
     gMap.GetCurrentCamCoords(&camCoords);
     if (mBaseAnimatedWithPhysicsGameObject_LvlNumber == gMap.mCurrentLevel && mBaseAnimatedWithPhysicsGameObject_PathNumber == gMap.mCurrentPath)
     {
-        if (mBaseAnimatedWithPhysicsGameObject_XPos >= FP_FromInteger(camCoords.field_0_x) && mBaseAnimatedWithPhysicsGameObject_XPos <= FP_FromInteger(camCoords.field_0_x + 1024))
+        if (mBaseAnimatedWithPhysicsGameObject_XPos >= FP_FromInteger(camCoords.x) && mBaseAnimatedWithPhysicsGameObject_XPos <= FP_FromInteger(camCoords.x + 1024))
         {
             const FP cam_y = pScreenManager->CamYPos();
             const FP cam_x = pScreenManager->CamXPos();

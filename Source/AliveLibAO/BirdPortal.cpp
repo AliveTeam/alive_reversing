@@ -195,16 +195,16 @@ BirdPortal::BirdPortal(Path_BirdPortal* pTlv, s32 tlvInfo)
     PathLine* pLine = nullptr;
     FP hitX = {};
     sCollisions->Raycast(
-        FP_FromInteger(pTlv->field_10_top_left.field_0_x),
-        FP_FromInteger(pTlv->field_10_top_left.field_2_y),
-        FP_FromInteger(pTlv->field_14_bottom_right.field_0_x),
-        FP_FromInteger(pTlv->field_14_bottom_right.field_2_y),
+        FP_FromInteger(pTlv->mTopLeft.x),
+        FP_FromInteger(pTlv->mTopLeft.y),
+        FP_FromInteger(pTlv->mBottomRight.x),
+        FP_FromInteger(pTlv->mBottomRight.y),
         &pLine,
         &hitX,
         &field_28_ypos,
         0xFFFFFFFF); // -1 ??
 
-    field_18_xpos = FP_FromInteger(pTlv->field_10_top_left.field_0_x);
+    field_18_xpos = FP_FromInteger(pTlv->mTopLeft.x);
     field_68_sfx_ret = 0;
     field_1C_ypos = field_28_ypos - (FP_FromInteger(55) * field_34_scale);
 }
@@ -888,10 +888,10 @@ void BirdPortal::VExitPortal()
     {
         PathLine* pLine = nullptr;
         sCollisions->Raycast(
-            FP_FromInteger(pPortalExitTlv->field_10_top_left.field_0_x),
-            FP_FromInteger(pPortalExitTlv->field_10_top_left.field_2_y),
-            FP_FromInteger(pPortalExitTlv->field_14_bottom_right.field_0_x),
-            FP_FromInteger(pPortalExitTlv->field_14_bottom_right.field_2_y),
+            FP_FromInteger(pPortalExitTlv->mTopLeft.x),
+            FP_FromInteger(pPortalExitTlv->mTopLeft.y),
+            FP_FromInteger(pPortalExitTlv->mBottomRight.x),
+            FP_FromInteger(pPortalExitTlv->mBottomRight.y),
             &pLine,
             &field_20_exit_x,
             &field_24_exit_y,
@@ -899,7 +899,7 @@ void BirdPortal::VExitPortal()
 
         field_1C_ypos = field_24_exit_y - FP_FromInteger(55);
 
-        field_20_exit_x = FP_FromInteger(pPortalExitTlv->field_10_top_left.field_0_x);
+        field_20_exit_x = FP_FromInteger(pPortalExitTlv->mTopLeft.x);
         field_18_xpos = field_20_exit_x;
         field_12_side = pPortalExitTlv->field_18_side;
 
@@ -986,23 +986,23 @@ s16 BirdPortal::VPortalClipper(s16 bUnknown)
         return 1;
     }
 
-    const s16 portalX = static_cast<s16>(PsxToPCX(pScreenManager->mCamXOff + FP_GetExponent(field_18_xpos) - FP_GetExponent(pScreenManager->mCamPos->field_0_x), 11));
+    const s16 portalX = static_cast<s16>(PsxToPCX(pScreenManager->mCamXOff + FP_GetExponent(field_18_xpos) - FP_GetExponent(pScreenManager->mCamPos->x), 11));
 
     PSX_Point xy = {};
     PSX_Point wh = {};
     if (field_12_side != PortalSide::eRight_0)
     {
-        xy.field_0_x = 0;
-        wh.field_0_x = portalX;
+        xy.x = 0;
+        wh.x = portalX;
     }
     else
     {
-        xy.field_0_x = portalX;
-        wh.field_0_x = 640;
+        xy.x = portalX;
+        wh.x = 640;
     }
 
-    xy.field_2_y = 0;
-    wh.field_2_y = 240;
+    xy.y = 0;
+    wh.y = 240;
 
     field_44_pScreenClipper1 = relive_new ScreenClipper(xy, wh, Layer::eLayer_0);
     if (field_44_pScreenClipper1)

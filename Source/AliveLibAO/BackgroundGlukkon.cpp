@@ -35,8 +35,8 @@ BackgroundGlukkon::BackgroundGlukkon(Path_BackgroundGlukkon* pTlv, s32 tlvInfo)
 
     field_10C_tlvInfo = tlvInfo;
 
-    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pTlv->field_10_top_left.field_0_x);
-    mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->field_10_top_left.field_2_y);
+    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pTlv->mTopLeft.x);
+    mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->mTopLeft.y);
 
     mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromInteger(pTlv->field_18_scale_percent) / FP_FromInteger(100);
 

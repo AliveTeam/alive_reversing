@@ -98,7 +98,7 @@ void Start_Sounds_for_TLV(CameraPos direction, Path_TLV* pTlv)
             return;
     }
 
-    switch (pTlv->field_4_type.mType)
+    switch (pTlv->mTlvType32.mType)
     {
         case TlvTypes::Slig_15:
         {

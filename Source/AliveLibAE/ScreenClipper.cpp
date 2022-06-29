@@ -13,10 +13,10 @@ ScreenClipper::ScreenClipper(PSX_Point xy, PSX_Point wh, Layer layer)
     mBaseGameObjectFlags.Set(BaseGameObject::eUpdateDuringCamSwap_Bit10);
     mBaseGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4);
 
-    field_40_rect.x = xy.field_0_x;
-    field_40_rect.y = xy.field_2_y;
-    field_40_rect.w = wh.field_0_x;
-    field_40_rect.h = wh.field_2_y;
+    field_40_rect.x = xy.x;
+    field_40_rect.y = xy.y;
+    field_40_rect.w = wh.x;
+    field_40_rect.h = wh.y;
 
     field_48_ot_layer = layer;
 
@@ -60,9 +60,9 @@ ScreenClipper::~ScreenClipper()
 
 void ScreenClipper::Update_Clip_Rect(PSX_Point xy, PSX_Point wh)
 {
-    field_40_rect.x = std::min(xy.field_0_x, field_40_rect.x);
-    field_40_rect.y = std::min(xy.field_2_y, field_40_rect.y);
+    field_40_rect.x = std::min(xy.x, field_40_rect.x);
+    field_40_rect.y = std::min(xy.y, field_40_rect.y);
 
-    field_40_rect.w = std::max(wh.field_0_x, field_40_rect.w);
-    field_40_rect.h = std::max(wh.field_2_y, field_40_rect.h);
+    field_40_rect.w = std::max(wh.x, field_40_rect.w);
+    field_40_rect.h = std::max(wh.y, field_40_rect.h);
 }

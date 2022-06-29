@@ -45,8 +45,8 @@ ALIVE_ARY(1, 0xC1D5C0, s32, 4096, sPsxEmu_fixed_point_table_C1D5C0, {});
 
 struct Render_Unknown final
 {
-    s32 field_0_x; // 16:16 fixed ??
-    s32 field_4_y;
+    s32 x; // 16:16 fixed ??
+    s32 y;
     s32 field_8;
     s32 field_C;
     s32 field_10_float; // f32 ?
@@ -184,12 +184,12 @@ void PSX_EMU_Render_Polys_Textured_Blending_Opqaue_51CCA0(u16* pVRam, s32 ySize)
 
     for (s32 i = 0; i < ySize; i++)
     {
-        if (pLeft->field_0_x > pRight->field_0_x)
+        if (pLeft->x > pRight->x)
         {
             std::swap(pLeft, pRight);
         }
-        const s32 x_right = pRight->field_0_x >> 16;
-        const s32 x_left = pLeft->field_0_x >> 16;
+        const s32 x_right = pRight->x >> 16;
+        const s32 x_left = pLeft->x >> 16;
         const s32 x_diff = x_right - x_left;
 
         if (x_diff > 0)
@@ -297,11 +297,11 @@ void PSX_EMU_Render_Polys_Textured_Blending_Opqaue_51CCA0(u16* pVRam, s32 ySize)
             }
         }
 
-        left_side_BD3320.field_0_x += slope_1_BD3200.field_0_x;
+        left_side_BD3320.x += slope_1_BD3200.x;
         left_side_BD3320.field_14_u += slope_1_BD3200.field_14_u;
         left_side_BD3320.field_18_v += slope_1_BD3200.field_18_v;
 
-        right_side_BD32A0.field_0_x += slope_2_BD32E0.field_0_x;
+        right_side_BD32A0.x += slope_2_BD32E0.x;
         right_side_BD32A0.field_14_u += slope_2_BD32E0.field_14_u;
         right_side_BD32A0.field_18_v += slope_2_BD32E0.field_18_v;
 
@@ -318,13 +318,13 @@ void PSX_EMU_Render_Polys_Textured_NoBlending_Opaque_51E140(u16* pVRam, s32 ySiz
 
     for (s32 i = 0; i < ySize; i++)
     {
-        if (pLeft->field_0_x > pRight->field_0_x)
+        if (pLeft->x > pRight->x)
         {
             std::swap(pLeft, pRight);
         }
 
-        const s32 x_right = pRight->field_0_x >> 16;
-        const s32 x_left = pLeft->field_0_x >> 16;
+        const s32 x_right = pRight->x >> 16;
+        const s32 x_left = pLeft->x >> 16;
 
         const s32 x_diff = x_right - x_left;
         if (x_diff > 0)
@@ -450,11 +450,11 @@ void PSX_EMU_Render_Polys_Textured_NoBlending_Opaque_51E140(u16* pVRam, s32 ySiz
             }
         }
 
-        left_side_BD3320.field_0_x += slope_1_BD3200.field_0_x;
+        left_side_BD3320.x += slope_1_BD3200.x;
         left_side_BD3320.field_14_u += slope_1_BD3200.field_14_u;
         left_side_BD3320.field_18_v += slope_1_BD3200.field_18_v;
 
-        right_side_BD32A0.field_0_x += slope_2_BD32E0.field_0_x;
+        right_side_BD32A0.x += slope_2_BD32E0.x;
         right_side_BD32A0.field_14_u += slope_2_BD32E0.field_14_u;
         right_side_BD32A0.field_18_v += slope_2_BD32E0.field_18_v;
 
@@ -480,12 +480,12 @@ void PSX_EMU_Render_Polys_Textured_NoBlending_SemiTrans_51E890(u16* pVRam, s32 y
 
     for (s32 i = 0; i < ySize; i++)
     {
-        if (pLeft->field_0_x > pRight->field_0_x)
+        if (pLeft->x > pRight->x)
         {
             std::swap(pLeft, pRight);
         }
-        const s32 x_right = pRight->field_0_x >> 16;
-        const s32 x_left = pLeft->field_0_x >> 16;
+        const s32 x_right = pRight->x >> 16;
+        const s32 x_left = pLeft->x >> 16;
         const s32 x_diff = x_right - x_left;
 
         if (x_diff > 0)
@@ -602,11 +602,11 @@ void PSX_EMU_Render_Polys_Textured_NoBlending_SemiTrans_51E890(u16* pVRam, s32 y
             }
         }
 
-        left_side_BD3320.field_0_x += slope_1_BD3200.field_0_x;
+        left_side_BD3320.x += slope_1_BD3200.x;
         left_side_BD3320.field_14_u += slope_1_BD3200.field_14_u;
         left_side_BD3320.field_18_v += slope_1_BD3200.field_18_v;
 
-        right_side_BD32A0.field_0_x += slope_2_BD32E0.field_0_x;
+        right_side_BD32A0.x += slope_2_BD32E0.x;
         right_side_BD32A0.field_14_u += slope_2_BD32E0.field_14_u;
         right_side_BD32A0.field_18_v += slope_2_BD32E0.field_18_v;
 
@@ -627,15 +627,15 @@ void PSX_EMU_Render_Polys_FShaded_NoTexture_Opqaue_51C4C0(u16* pVram, s32 ySize)
     const u32 width_pitch = ((u32) spBitmap_C2D038->field_10_locked_pitch) / sizeof(u16);
     for (s32 i = 0; i < ySize; i++)
     {
-        if (pLeft->field_0_x > pRight->field_0_x)
+        if (pLeft->x > pRight->x)
         {
             Render_Unknown* pTmpLeft = pLeft;
             pLeft = pRight;
             pRight = pTmpLeft;
         }
 
-        u16* pDst = &pVram[pLeft->field_0_x >> 16];
-        u16* pEnd = &pVram[pRight->field_0_x >> 16];
+        u16* pDst = &pVram[pLeft->x >> 16];
+        u16* pEnd = &pVram[pRight->x >> 16];
         while (pDst < pEnd)
         {
             *pDst = sPoly_fill_colour_BD3350;
@@ -643,8 +643,8 @@ void PSX_EMU_Render_Polys_FShaded_NoTexture_Opqaue_51C4C0(u16* pVram, s32 ySize)
         }
 
         pVram = &pVram[width_pitch];
-        left_side_BD3320.field_0_x += slope_1_BD3200.field_0_x;
-        right_side_BD32A0.field_0_x += slope_2_BD32E0.field_0_x;
+        left_side_BD3320.x += slope_1_BD3200.x;
+        right_side_BD32A0.x += slope_2_BD32E0.x;
     }
 }
 
@@ -660,15 +660,15 @@ void PSX_EMU_Render_Polys_FShaded_NoTexture_SemiTrans_51C590(u16* pVRam, s32 ySi
 
     for (s32 i = 0; i < ySize; i++)
     {
-        if (pLeft1->field_0_x > pRight1->field_0_x)
+        if (pLeft1->x > pRight1->x)
         {
             const Render_Unknown* pLeft1Temp = pLeft1;
             pLeft1 = pRight1;
             pRight1 = pLeft1Temp;
         }
 
-        u16* pStart = &pVRam[pLeft1->field_0_x >> 16];
-        u16* pEnd = &pVRam[pRight1->field_0_x >> 16];
+        u16* pStart = &pVRam[pLeft1->x >> 16];
+        u16* pEnd = &pVRam[pRight1->x >> 16];
         while (pStart < pEnd)
         {
             const u16 vram_pixel = *pStart;
@@ -676,8 +676,8 @@ void PSX_EMU_Render_Polys_FShaded_NoTexture_SemiTrans_51C590(u16* pVRam, s32 ySi
             ++pStart;
         }
 
-        left_side_BD3320.field_0_x += slope_1_BD3200.field_0_x;
-        right_side_BD32A0.field_0_x += slope_2_BD32E0.field_0_x;
+        left_side_BD3320.x += slope_1_BD3200.x;
+        right_side_BD32A0.x += slope_2_BD32E0.x;
         pVRam += pitch;
     }
 }
@@ -691,12 +691,12 @@ void PSX_EMU_Render_Polys_Textured_Blending_SemiTrans_51D2B0(u16* pVram, s32 ySi
     const Psx_Test& abr_lut = sPsx_abr_lut_C215E0[sTexture_page_abr_BD0F18];
     for (s32 i = 0; i < ySize; i++)
     {
-        if (pLeft->field_0_x > pRight->field_0_x)
+        if (pLeft->x > pRight->x)
         {
             std::swap(pLeft, pRight);
         }
-        const s32 x_right = pRight->field_0_x >> 16;
-        const s32 x_left = pLeft->field_0_x >> 16;
+        const s32 x_right = pRight->x >> 16;
+        const s32 x_left = pLeft->x >> 16;
         if (x_right - x_left > 0)
         {
             s32 x_diff_m1 = x_right - x_left - 1;
@@ -772,12 +772,12 @@ void PSX_EMU_Render_Polys_Textured_Blending_SemiTrans_51D2B0(u16* pVram, s32 ySi
             }
         }
 
-        left_side_BD3320.field_0_x += slope_1_BD3200.field_0_x;
+        left_side_BD3320.x += slope_1_BD3200.x;
         left_side_BD3320.field_14_u += slope_1_BD3200.field_14_u;
         left_side_BD3320.field_18_v += slope_1_BD3200.field_18_v;
 
         right_side_BD32A0.field_18_v += slope_2_BD32E0.field_18_v;
-        right_side_BD32A0.field_0_x += slope_2_BD32E0.field_0_x;
+        right_side_BD32A0.x += slope_2_BD32E0.x;
         right_side_BD32A0.field_14_u += slope_2_BD32E0.field_14_u;
 
         pVram += pitch;
@@ -797,14 +797,14 @@ void PSX_EMU_Render_Polys_GShaded_NoTexture_Opqaue_51C6E0(u16* pVRam, s32 ySize)
 
     for (s32 i = 0; i < ySize; i++)
     {
-        if (pLeft->field_0_x > pRight->field_0_x)
+        if (pLeft->x > pRight->x)
         {
             const Render_Unknown* leftTemp = pLeft;
             pLeft = pRight;
             pRight = leftTemp;
         }
 
-        const s32 xdiff_f = (pRight->field_0_x >> 16) - (pLeft->field_0_x >> 16);
+        const s32 xdiff_f = (pRight->x >> 16) - (pLeft->x >> 16);
         if (xdiff_f > 0)
         {
             s32 shade_r = pLeft->field_1C_GShadeR;
@@ -815,8 +815,8 @@ void PSX_EMU_Render_Polys_GShaded_NoTexture_Opqaue_51C6E0(u16* pVRam, s32 ySize)
             const s32 g_scaled = PSX_poly_helper_fixed_point_scale_517FA0(pRight->field_20_GShadeG - shade_g, sPsxEmu_fixed_point_table_C1D5C0[xdiff_f + 1]);
             const s32 b_scaled = PSX_poly_helper_fixed_point_scale_517FA0(pRight->field_24_GShadeB - shade_b, sPsxEmu_fixed_point_table_C1D5C0[xdiff_f + 1]);
 
-            u16* pStart = &pVRam[pLeft->field_0_x >> 16];
-            u16* pEnd = &pVRam[pRight->field_0_x >> 16];
+            u16* pStart = &pVRam[pLeft->x >> 16];
+            u16* pEnd = &pVRam[pRight->x >> 16];
             while (pStart < pEnd)
             {
                 *pStart = ((shade_b >> 16) & 0x1F) | ((shade_g >> 10) & 0x7C0) | ((shade_r >> 5) & 0xF800);
@@ -827,12 +827,12 @@ void PSX_EMU_Render_Polys_GShaded_NoTexture_Opqaue_51C6E0(u16* pVRam, s32 ySize)
             }
         }
 
-        left_side_BD3320.field_0_x += slope_1_BD3200.field_0_x;
+        left_side_BD3320.x += slope_1_BD3200.x;
         left_side_BD3320.field_1C_GShadeR += slope_1_BD3200.field_1C_GShadeR;
         left_side_BD3320.field_20_GShadeG += slope_1_BD3200.field_20_GShadeG;
         left_side_BD3320.field_24_GShadeB += slope_1_BD3200.field_24_GShadeB;
 
-        right_side_BD32A0.field_0_x += slope_2_BD32E0.field_0_x;
+        right_side_BD32A0.x += slope_2_BD32E0.x;
         right_side_BD32A0.field_1C_GShadeR += slope_2_BD32E0.field_1C_GShadeR;
         right_side_BD32A0.field_20_GShadeG += slope_2_BD32E0.field_20_GShadeG;
         right_side_BD32A0.field_24_GShadeB += slope_2_BD32E0.field_24_GShadeB;
@@ -854,14 +854,14 @@ void PSX_EMU_Render_Polys_GShaded_NoTexture_SemiTrans_51C8D0(u16* pVram, s32 yCo
 
     for (s32 i = 0; i < yCount; i++)
     {
-        if (pLeft->field_0_x > pRight->field_0_x)
+        if (pLeft->x > pRight->x)
         {
             const Render_Unknown* leftTemp = pLeft;
             pLeft = pRight;
             pRight = leftTemp;
         }
 
-        const s32 xdiff_f = (pRight->field_0_x >> 16) - (pLeft->field_0_x >> 16);
+        const s32 xdiff_f = (pRight->x >> 16) - (pLeft->x >> 16);
         if (xdiff_f > 0)
         {
             s32 shade_r = pLeft->field_1C_GShadeR;
@@ -872,8 +872,8 @@ void PSX_EMU_Render_Polys_GShaded_NoTexture_SemiTrans_51C8D0(u16* pVram, s32 yCo
             const s32 g_scaled = PSX_poly_helper_fixed_point_scale_517FA0(pRight->field_20_GShadeG - shade_g, sPsxEmu_fixed_point_table_C1D5C0[xdiff_f + 1]);
             const s32 b_scaled = PSX_poly_helper_fixed_point_scale_517FA0(pRight->field_24_GShadeB - shade_b, sPsxEmu_fixed_point_table_C1D5C0[xdiff_f + 1]);
 
-            u16* pStart = &pVram[pLeft->field_0_x >> 16];
-            u16* pEnd = &pVram[pRight->field_0_x >> 16];
+            u16* pStart = &pVram[pLeft->x >> 16];
+            u16* pEnd = &pVram[pRight->x >> 16];
 
             while (pStart < pEnd)
             {
@@ -890,12 +890,12 @@ void PSX_EMU_Render_Polys_GShaded_NoTexture_SemiTrans_51C8D0(u16* pVram, s32 yCo
             }
         }
 
-        left_side_BD3320.field_0_x += slope_1_BD3200.field_0_x;
+        left_side_BD3320.x += slope_1_BD3200.x;
         left_side_BD3320.field_1C_GShadeR += slope_1_BD3200.field_1C_GShadeR;
         left_side_BD3320.field_20_GShadeG += slope_1_BD3200.field_20_GShadeG;
         left_side_BD3320.field_24_GShadeB += slope_1_BD3200.field_24_GShadeB;
 
-        right_side_BD32A0.field_0_x += slope_2_BD32E0.field_0_x;
+        right_side_BD32A0.x += slope_2_BD32E0.x;
         right_side_BD32A0.field_24_GShadeB += slope_2_BD32E0.field_24_GShadeB;
         right_side_BD32A0.field_1C_GShadeR += slope_2_BD32E0.field_1C_GShadeR;
         right_side_BD32A0.field_20_GShadeG += slope_2_BD32E0.field_20_GShadeG;
@@ -2315,19 +2315,19 @@ void PSX_poly_GShaded_NoTexture_517E60(Render_Unknown* pOrigin, Render_Unknown* 
     const s32 dx = (pV2->field_0_x0 - pV1->field_0_x0) << 16; // To FP 16:16
     const s32 dy = pV2->field_4_y0 - pV1->field_4_y0;
 
-    pSlope->field_0_x = dx;
+    pSlope->x = dx;
     if (dy > 0)
     {
         const s32 tableValue = sPsxEmu_fixed_point_table_C1D5C0[dy + 1];
-        pSlope->field_0_x = PSX_poly_helper_fixed_point_scale_517FA0(dx, tableValue);
+        pSlope->x = PSX_poly_helper_fixed_point_scale_517FA0(dx, tableValue);
         pSlope->field_1C_GShadeR = PSX_poly_helper_fixed_point_scale_517FA0(pSlope->field_1C_GShadeR, tableValue * 16);
         pSlope->field_20_GShadeG = PSX_poly_helper_fixed_point_scale_517FA0(pSlope->field_20_GShadeG, tableValue * 16);
         pSlope->field_24_GShadeB = PSX_poly_helper_fixed_point_scale_517FA0(pSlope->field_24_GShadeB, tableValue * 16);
     }
-    pSlope->field_4_y = dy;
+    pSlope->y = dy;
 
     const s32 v1_y0_rounded = ((pV1->field_4_y0 + 15) & ~15) - pV1->field_4_y0;
-    pOrigin->field_0_x = (pV1->field_0_x0 * 4096) + (v1_y0_rounded * pSlope->field_0_x) / 16;
+    pOrigin->x = (pV1->field_0_x0 * 4096) + (v1_y0_rounded * pSlope->x) / 16;
 
     pOrigin->field_1C_GShadeR = pV1->field_1C_r + (v1_y0_rounded * pSlope->field_1C_GShadeR) / 16;
     pOrigin->field_20_GShadeG = pV1->field_20_g + (v1_y0_rounded * pSlope->field_20_GShadeG) / 16;
@@ -2348,20 +2348,20 @@ void PSX_poly_FShaded_NoTexture_517DF0(Render_Unknown* pOrigin, Render_Unknown* 
     if (dy > 0)
     {
         // Amount to increment X by in pixels (fixed point)
-        pSlope->field_0_x = dx / dy;
+        pSlope->x = dx / dy;
     }
     else
     {
         // Amount to increment X by in pixels (fixed point)
-        pSlope->field_0_x = dx;
+        pSlope->x = dx;
     }
-    pSlope->field_4_y = dy;
+    pSlope->y = dy;
 
     // Set starting x to PSX GTE fixed format?
-    pOrigin->field_0_x = (pVerts_dword_BD3264[idx1].field_0_x0 * 4096);
+    pOrigin->x = (pVerts_dword_BD3264[idx1].field_0_x0 * 4096);
 
     const s32 v1_y_rounded = ((v1_y + 15) & ~15) - v1_y;
-    pOrigin->field_0_x += (v1_y_rounded * pSlope->field_0_x) / 16; // Div16 is conversion of fixed 16:16 ?
+    pOrigin->x += (v1_y_rounded * pSlope->x) / 16; // Div16 is conversion of fixed 16:16 ?
 }
 
 void PSX_poly_Textured_517FC0(Render_Unknown* pOrigin, Render_Unknown* pSlope, s32 idx1, s32 idx2)
@@ -2369,10 +2369,10 @@ void PSX_poly_Textured_517FC0(Render_Unknown* pOrigin, Render_Unknown* pSlope, s
     const OT_Vert* pV1 = &pVerts_dword_BD3264[idx1];
     const OT_Vert* pV2 = &pVerts_dword_BD3264[idx2];
 
-    pSlope->field_0_x = (pV2->field_0_x0 - pV1->field_0_x0) << 16;
+    pSlope->x = (pV2->field_0_x0 - pV1->field_0_x0) << 16;
     pSlope->field_14_u = (pV2->field_14_u - pV1->field_14_u) * 1024;
     pSlope->field_18_v = (pV2->field_18_v - pV1->field_18_v) * 1024;
-    pSlope->field_4_y = pV2->field_4_y0 - pV1->field_4_y0;
+    pSlope->y = pV2->field_4_y0 - pV1->field_4_y0;
 
     if (pSlope->field_18_v > 0)
     {
@@ -2383,15 +2383,15 @@ void PSX_poly_Textured_517FC0(Render_Unknown* pOrigin, Render_Unknown* pSlope, s
         pSlope->field_18_v -= 1024;
     }
 
-    if (pSlope->field_4_y > 0)
+    if (pSlope->y > 0)
     {
-        pSlope->field_0_x = pSlope->field_0_x / pSlope->field_4_y;
-        pSlope->field_14_u = (pSlope->field_14_u / pSlope->field_4_y) * 16;
-        pSlope->field_18_v = (pSlope->field_18_v / pSlope->field_4_y) * 16;
+        pSlope->x = pSlope->x / pSlope->y;
+        pSlope->field_14_u = (pSlope->field_14_u / pSlope->y) * 16;
+        pSlope->field_18_v = (pSlope->field_18_v / pSlope->y) * 16;
     }
 
     const s32 v1_y_rounded = ((pV1->field_4_y0 + 15) & ~15) - pV1->field_4_y0;
-    pOrigin->field_0_x = (pV1->field_0_x0 * 4096) + (v1_y_rounded * pSlope->field_0_x) / 16;
+    pOrigin->x = (pV1->field_0_x0 * 4096) + (v1_y_rounded * pSlope->x) / 16;
     pOrigin->field_14_u = (pV1->field_14_u * 1024) + (v1_y_rounded * pSlope->field_14_u) / 16;
     pOrigin->field_18_v = (pV1->field_18_v * 1024) + (v1_y_rounded * pSlope->field_18_v) / 16;
 }
@@ -2405,19 +2405,19 @@ void PSX_poly_Textured_Unknown_5180B0(Render_Unknown* /*pOrigin*/, Render_Unknow
     const s32 v1_x = pV1->field_0_x0;
     const s32 v2_y = pV1->field_4_y0;
 
-    pSlope->field_0_x = (pV2->field_0_x0 - pV1->field_0_x0) << 16; // To FP 16:16
-    pSlope->field_4_y = pV2->field_4_y0 - v2_y;
-    if (pSlope->field_4_y > 0)
+    pSlope->x = (pV2->field_0_x0 - pV1->field_0_x0) << 16; // To FP 16:16
+    pSlope->y = pV2->field_4_y0 - v2_y;
+    if (pSlope->y > 0)
     {
-        const f32 psx_fixed_to_float = sPsxEmu_float_table_C19160[pSlope->field_4_y];
-        pSlope->field_0_x = static_cast<s32>(pSlope->field_0_x * psx_fixed_to_float);
+        const f32 psx_fixed_to_float = sPsxEmu_float_table_C19160[pSlope->y];
+        pSlope->x = static_cast<s32>(pSlope->x * psx_fixed_to_float);
         pSlope->field_14_u = (pV2->field_14_u - pV1->field_14_u) * psx_fixed_to_float * 16.0f;
         pSlope->field_18_v = (pV2->field_18_v - pV1->field_18_v) * psx_fixed_to_float * 16.0f;
         pSlope->field_10_float = (pV2->field_10 - pV1->field_10) * psx_fixed_to_float * 16.0f;
     }
 
     const s32 yRounded = (pV1->field_4_y0 + 15) & ~15;
-    pOrigin->field_0_x = (yRounded * pSlope->field_0_x) + (v1_x * 4096) / 16;
+    pOrigin->x = (yRounded * pSlope->x) + (v1_x * 4096) / 16;
 
     const f32 yRounded_scaled = yRounded - (pV1->field_4_y0 / 16.0f); // * 0.0625f
     pOrigin->field_14_u = (yRounded_scaled * pSlope->field_14_u) + pV1->field_14_u;

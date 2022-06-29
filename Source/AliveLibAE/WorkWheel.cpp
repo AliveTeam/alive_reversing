@@ -22,8 +22,8 @@ WorkWheel::WorkWheel(Path_WorkWheel* pTlv, s32 tlvInfo)
 
     mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(eBit15_bSemiTrans);
 
-    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger((pTlv->field_8_top_left.field_0_x + pTlv->field_C_bottom_right.field_0_x) / 2);
-    mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->field_8_top_left.field_2_y);
+    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger((pTlv->mTopLeft.x + pTlv->mBottomRight.x) / 2);
+    mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->mTopLeft.y);
 
     if (pTlv->field_10_scale != Scale_short::eFull_0)
     {

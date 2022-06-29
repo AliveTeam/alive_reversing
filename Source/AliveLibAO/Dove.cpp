@@ -367,13 +367,13 @@ void Dove::VUpdate()
             break;
     }
 
-    const s32 doveScreenYPos = FP_GetExponent(FP_Abs(mBaseAnimatedWithPhysicsGameObject_YPos - pScreenManager->mCamPos->field_4_y));
+    const s32 doveScreenYPos = FP_GetExponent(FP_Abs(mBaseAnimatedWithPhysicsGameObject_YPos - pScreenManager->mCamPos->y));
     if (doveScreenYPos > pScreenManager->mCamYOff)
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 
-    const s32 doveScreenXPos = FP_GetExponent(FP_Abs(mBaseAnimatedWithPhysicsGameObject_XPos - pScreenManager->mCamPos->field_0_x));
+    const s32 doveScreenXPos = FP_GetExponent(FP_Abs(mBaseAnimatedWithPhysicsGameObject_XPos - pScreenManager->mCamPos->x));
     if (doveScreenXPos > pScreenManager->mCamXOff)
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);

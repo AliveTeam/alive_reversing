@@ -189,10 +189,10 @@ void SnoozeParticle::VRender(PrimHeader** ppOt)
             Line_G2* pZExplosionLine = &field_A4_G2_lines[bufIdx][i];
             LineG2_Init(pZExplosionLine);
 
-            const s32 scaledLineRelativeStartX = FP_GetExponent(FP_FromInteger(explosionVerts[i][0].field_0_x) * field_38_scale);
-            const s32 scaledLineRelativeStartY = FP_GetExponent(FP_FromInteger(explosionVerts[i][0].field_2_y) * field_38_scale);
-            const s32 scaledLineRelativeEndX = FP_GetExponent(FP_FromInteger(explosionVerts[i][1].field_0_x) * field_38_scale);
-            const s32 scaledLineRelativeEndY = FP_GetExponent(FP_FromInteger(explosionVerts[i][1].field_2_y) * field_38_scale);
+            const s32 scaledLineRelativeStartX = FP_GetExponent(FP_FromInteger(explosionVerts[i][0].x) * field_38_scale);
+            const s32 scaledLineRelativeStartY = FP_GetExponent(FP_FromInteger(explosionVerts[i][0].y) * field_38_scale);
+            const s32 scaledLineRelativeEndX = FP_GetExponent(FP_FromInteger(explosionVerts[i][1].x) * field_38_scale);
+            const s32 scaledLineRelativeEndY = FP_GetExponent(FP_FromInteger(explosionVerts[i][1].y) * field_38_scale);
             SetXY0(pZExplosionLine,
                    static_cast<s16>(PsxToPCX(xInScreen + scaledLineRelativeStartX, 11)),
                    static_cast<s16>(yInScreen + scaledLineRelativeStartY));

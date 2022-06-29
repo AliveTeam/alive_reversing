@@ -63,7 +63,7 @@ void DemoPlayback::VUpdate()
             gMap.SetActiveCam(EReliveLevelIds::eMenu, 1, 1, CameraSwapEffects::eInstantChange_0, 0, 0);
         }
 
-        gMap.field_CE_free_all_anim_and_palts = 1;
+        gMap.mFreeAllAnimAndPalts = 1;
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 }

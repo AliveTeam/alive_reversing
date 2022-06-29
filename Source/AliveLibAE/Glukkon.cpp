@@ -1498,13 +1498,13 @@ s16 Glukkon::Brain_2_Slapped_441720()
                 SwitchStates_Do_Operation(field_1A8_tlvData.field_18_help_switch_id, SwitchOp::eSetFalse_1);
                 SetBrain(&Glukkon::Brain_0_Calm_WalkAround_440B40);
 
-                if (FP_FromInteger(field_1A8_tlvData.field_8_top_left.field_0_x) >= mBaseAnimatedWithPhysicsGameObject_XPos)
+                if (FP_FromInteger(field_1A8_tlvData.mTopLeft.x) >= mBaseAnimatedWithPhysicsGameObject_XPos)
                 {
                     if (!(mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX)))
                     {
                         return 2;
                     }
-                    if (FP_FromInteger(field_1A8_tlvData.field_8_top_left.field_0_x) >= mBaseAnimatedWithPhysicsGameObject_XPos)
+                    if (FP_FromInteger(field_1A8_tlvData.mTopLeft.x) >= mBaseAnimatedWithPhysicsGameObject_XPos)
                     {
                         return 0;
                     }
@@ -1923,8 +1923,8 @@ s16 Glukkon::Brain_5_WaitToSpawn_442490()
 
             for (const auto& p : v00554768)
             {
-                const s16 sparkX = FP_GetExponent(FP_FromInteger(p.field_0_x) + mBaseAnimatedWithPhysicsGameObject_XPos + FP_FromInteger(13));
-                const s16 sparkY = FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos + FP_FromInteger(p.field_2_y) - FP_FromInteger(11));
+                const s16 sparkX = FP_GetExponent(FP_FromInteger(p.x) + mBaseAnimatedWithPhysicsGameObject_XPos + FP_FromInteger(13));
+                const s16 sparkY = FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos + FP_FromInteger(p.y) - FP_FromInteger(11));
                 relive_new Spark(FP_FromInteger(sparkX), FP_FromInteger(sparkY), FP_FromInteger(1), 9, -31, 159, SparkType::eBigChantParticle_1);
             }
 
@@ -1964,8 +1964,8 @@ void Glukkon::Init()
     mBaseGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4);
 
     SetTint(&kGlukkonTints_5546B4[0], gMap.mCurrentLevel);
-    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger((field_1A8_tlvData.field_8_top_left.field_0_x + field_1A8_tlvData.field_C_bottom_right.field_0_x) / 2);
-    mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(field_1A8_tlvData.field_8_top_left.field_2_y);
+    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger((field_1A8_tlvData.mTopLeft.x + field_1A8_tlvData.mBottomRight.x) / 2);
+    mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(field_1A8_tlvData.mTopLeft.y);
 
     if (field_1A8_tlvData.field_12_start_direction == Path_Glukkon::StartDirection::eLeft_1)
     {
@@ -2095,8 +2095,8 @@ void Glukkon::VUpdate()
 
                 PSX_Point xy = {bRect.x, bRect.y};
                 PSX_Point wh = {bRect.w, bRect.h};
-                xy.field_2_y += 5;
-                wh.field_2_y += 5;
+                xy.y += 5;
+                wh.y += 5;
 
                 VOnCollisionWith(xy, wh, ObjList_5C1B78, 1, (TCollisionCallBack) &BaseAliveGameObject::OnTrapDoorIntersection);
             }
@@ -2831,7 +2831,7 @@ void Glukkon::VOn_TLV_Collision(Path_TLV* pTlv)
 {
     while (pTlv)
     {
-        if (pTlv->field_4_type == TlvTypes::DeathDrop_4)
+        if (pTlv->mTlvType32 == TlvTypes::DeathDrop_4)
         {
             if (mHealth > FP_FromInteger(0))
             {

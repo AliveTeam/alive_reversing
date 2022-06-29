@@ -645,17 +645,17 @@ void PauseMenu::DrawEntries(PrimHeader** ppOt, PauseEntry* entry, s16 selectedEn
         if (entry[entryId].field_B == 1)
         {
             s16 font_width_2 = static_cast<s16>(field_E4_font.MeasureTextWidth(formattedString));
-            clampedFontWidth = font_width_2 >= 608 ? 16 : (entry[entryId].field_0_x - font_width_2 / 2);
+            clampedFontWidth = font_width_2 >= 608 ? 16 : (entry[entryId].x - font_width_2 / 2);
         }
         else
         {
-            clampedFontWidth = entry[entryId].field_0_x;
+            clampedFontWidth = entry[entryId].x;
         }
         polyOffset = field_E4_font.DrawString(
             ppOt,
             formattedString,
             clampedFontWidth,
-            entry[entryId].field_2_y,
+            entry[entryId].y,
             TPageAbr::eBlend_0,
             1,
             0,
@@ -737,8 +737,8 @@ void PauseMenu::VRender(PrimHeader** ppOt)
             auto polyOffset = field_E4_font.DrawString(
                 ppOt,
                 cameraNameBuffer,
-                static_cast<s16>(PauseEntry2_4CDE98[0].field_0_x - field_E4_font.MeasureTextWidth(cameraNameBuffer) / 2),
-                PauseEntry2_4CDE98[0].field_2_y,
+                static_cast<s16>(PauseEntry2_4CDE98[0].x - field_E4_font.MeasureTextWidth(cameraNameBuffer) / 2),
+                PauseEntry2_4CDE98[0].y,
                 TPageAbr::eBlend_0,
                 1,
                 0,

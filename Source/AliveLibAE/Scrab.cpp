@@ -133,8 +133,8 @@ Scrab::Scrab(Path_Scrab* pTlv, s32 tlvInfo, ScrabSpawnDirection spawnDirection)
     field_178_shred_power_active = 0;
     field_154_movement_timer = 0;
 
-    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pTlv->field_8_top_left.field_0_x + 12);
-    mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->field_8_top_left.field_2_y);
+    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pTlv->mTopLeft.x + 12);
+    mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->mTopLeft.y);
 
     if (pTlv->field_10_scale == Scale_short::eHalf_1)
     {
@@ -200,13 +200,13 @@ void Scrab::VOn_TLV_Collision(Path_TLV* pTlv)
 {
     while (pTlv != nullptr)
     {
-        if (pTlv->field_4_type == TlvTypes::DeathDrop_4)
+        if (pTlv->mTlvType32 == TlvTypes::DeathDrop_4)
         {
             Scrab_SFX(ScrabSounds::eYell_8, 127, -1000, 0);
             mBaseGameObjectFlags.Set(Options::eDead);
             mHealth = FP_FromInteger(0);
         }
-        else if (pTlv->field_4_type == TlvTypes::EnemyStopper_47)
+        else if (pTlv->mTlvType32 == TlvTypes::EnemyStopper_47)
         {
             const auto enemyStopperPath = static_cast<Path_EnemyStopper*>(BaseAliveGameObjectPathTLV); //TODO it should probably be pTlv, instead - OG bug?
             const Path_EnemyStopper::StopDirection stopDirection = enemyStopperPath->field_10_stop_direction;
@@ -665,9 +665,9 @@ void Scrab::VUpdate()
                         mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(0);
                     }
 
-                    if (mBaseAnimatedWithPhysicsGameObject_XPos >= FP_FromInteger(point.field_0_x))
+                    if (mBaseAnimatedWithPhysicsGameObject_XPos >= FP_FromInteger(point.x))
                     {
-                        mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(point.field_0_x) - FP_FromInteger(1);
+                        mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(point.x) - FP_FromInteger(1);
                     }
 
                     if (mBaseAnimatedWithPhysicsGameObject_YPos < FP_FromInteger(0))
@@ -675,9 +675,9 @@ void Scrab::VUpdate()
                         mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(0);
                     }
 
-                    if (mBaseAnimatedWithPhysicsGameObject_YPos >= FP_FromInteger(point.field_2_y))
+                    if (mBaseAnimatedWithPhysicsGameObject_YPos >= FP_FromInteger(point.y))
                     {
-                        mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(point.field_2_y) - FP_FromInteger(1);
+                        mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(point.y) - FP_FromInteger(1);
                     }
                 }
                 else

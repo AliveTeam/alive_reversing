@@ -56,7 +56,7 @@ Door::Door(Path_Door* pTlvData, s32 tlvInfo)
 
     if (pTlvData->field_40_close_on_exit == Choice_short::eYes_1)
     {
-        if (pTlvData->field_1_tlv_state)
+        if (pTlvData->mTlvState)
         {
             field_FE_start_state = eClosed_1;
         }
@@ -254,14 +254,14 @@ Door::Door(Path_Door* pTlvData, s32 tlvInfo)
     FP* xOff = &mBaseAnimatedWithPhysicsGameObject_XPos;
     FP* yOff = &mBaseAnimatedWithPhysicsGameObject_YPos;
 
-    FP tlvXMid = FP_FromInteger((pTlvData->field_8_top_left.field_0_x + pTlvData->field_C_bottom_right.field_0_x) / 2);
+    FP tlvXMid = FP_FromInteger((pTlvData->mTopLeft.x + pTlvData->mBottomRight.x) / 2);
     PathLine* pathLine = nullptr;
 
     if (sCollisions->Raycast(
             tlvXMid,
-            FP_FromInteger(pTlvData->field_8_top_left.field_2_y),
+            FP_FromInteger(pTlvData->mTopLeft.y),
             tlvXMid,
-            FP_FromInteger(pTlvData->field_C_bottom_right.field_2_y),
+            FP_FromInteger(pTlvData->mBottomRight.y),
             &pathLine,
             xOff,
             yOff,
@@ -276,8 +276,8 @@ Door::Door(Path_Door* pTlvData, s32 tlvInfo)
     else
     {
         // Couldn't glue to the floor.. just use the TLV pos
-        *xOff = FP_FromInteger(pTlvData->field_8_top_left.field_0_x + 12);
-        *yOff = FP_FromInteger(pTlvData->field_8_top_left.field_2_y + 24);
+        *xOff = FP_FromInteger(pTlvData->mTopLeft.x + 12);
+        *yOff = FP_FromInteger(pTlvData->mTopLeft.y + 24);
     }
 
     // Add on the TLV offset
@@ -328,7 +328,7 @@ void Door::vClose()
         field_FE_start_state = eClosed_1;
         field_FC_current_state = eClosing_3;
         Path_TLV* pTlv = sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam(field_F4_tlvInfo);
-        pTlv->field_1_tlv_state = 1;
+        pTlv->mTlvState = 1;
     }
 }
 
@@ -500,13 +500,13 @@ TrainDoor::TrainDoor(Path_TrainDoor* pTlv, s32 tlvInfo)
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
     Animation_Init(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
 
-    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pTlv->field_8_top_left.field_0_x + 12);
-    mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->field_8_top_left.field_2_y + 24);
+    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pTlv->mTopLeft.x + 12);
+    mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->mTopLeft.y + 24);
 
     sTrainDoorXPos_BB4AA0 = mBaseAnimatedWithPhysicsGameObject_XPos;
     sTrainDoorYPos_BB4AA4 = mBaseAnimatedWithPhysicsGameObject_YPos;
 
-    if (pTlv->field_1_tlv_state)
+    if (pTlv->mTlvState)
     {
         const AnimRecord& animRec = AnimRec(AnimId::Door_Train_Closed);
         mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(animRec.mFrameTableOffset, 0);

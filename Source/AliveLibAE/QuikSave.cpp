@@ -300,13 +300,13 @@ void QuikSave_RestoreBlyData(const u8* pSaveData)
                         while (pTlv)
                         {
                             // TODO: Convert table to strongly typed flags
-                            const u8 tableValue = kObjectTypeAttributesTable_byte_547794.mTypes[static_cast<s16>(pTlv->field_4_type.mType)];
+                            const u8 tableValue = kObjectTypeAttributesTable_byte_547794.mTypes[static_cast<s16>(pTlv->mTlvType32.mType)];
                             if (tableValue == 1 || tableValue == 2) // Type 0 ignored - actually it should never be written here anyway
                             {
-                                pTlv->field_0_flags.Raw().all = *pSrcFlags;
+                                pTlv->mTlvFlags.Raw().all = *pSrcFlags;
                                 pSrcFlags++;
 
-                                pTlv->field_1_tlv_state = *pSrcFlags;
+                                pTlv->mTlvState = *pSrcFlags;
                                 pSrcFlags++;
                             }
                             pTlv = Path::Next_TLV(pTlv);
@@ -336,7 +336,7 @@ void Quicksave_LoadFromMemory_4C95A0(Quicksave* quicksaveData)
     bSkipGameObjectUpdates_5C2FA0 = 1;
     Quicksave_ReadWorldInfo(&quicksaveData->field_204_world_info);
     sSwitchStates_5C1A28 = quicksaveData->field_45C_switch_states;
-    gMap.field_D8_restore_quick_save = reinterpret_cast<u8*>(quicksaveData->field_55C_objects_state_data);
+    gMap.mRestoreQuickSaveData = reinterpret_cast<u8*>(quicksaveData->field_55C_objects_state_data);
     gMap.SetActiveCam(
         MapWrapper::FromAE(quicksaveData->field_204_world_info.field_4_level),
         quicksaveData->field_204_world_info.field_6_path,
@@ -344,7 +344,7 @@ void Quicksave_LoadFromMemory_4C95A0(Quicksave* quicksaveData)
         CameraSwapEffects::eInstantChange_0,
         0,
         1);
-    gMap.field_8_force_load = 1;
+    gMap.mForceLoad = 1;
 }
 
 void Quicksave_LoadActive()
@@ -362,12 +362,12 @@ static void WriteChars(char_type*& pDst, u8 v1, u8 v2)
     pDst++;
 }
 
-static void WriteFlags(u8*& pSaveBuffer, const Path_TLV* pTlv, const BitField8<TLV_Flags>& flags)
+static void WriteFlags(u8*& pSaveBuffer, const Path_TLV* pTlv, const BitField8<TlvFlags>& flags)
 {
     *pSaveBuffer = flags.Raw().all;
     pSaveBuffer++;
 
-    *pSaveBuffer = pTlv->field_1_tlv_state;
+    *pSaveBuffer = pTlv->mTlvState;
     pSaveBuffer++;
 }
 
@@ -395,19 +395,19 @@ void Quicksave_SaveBlyData_4C9660(u8* pSaveBuffer)
                         Path_TLV* pTlv = reinterpret_cast<Path_TLV*>(ptr);
                         while (pTlv)
                         {
-                            if (kObjectTypeAttributesTable_byte_547794.mTypes[static_cast<s16>(pTlv->field_4_type.mType)] == 1)
+                            if (kObjectTypeAttributesTable_byte_547794.mTypes[static_cast<s16>(pTlv->mTlvType32.mType)] == 1)
                             {
-                                BitField8<TLV_Flags> flags = pTlv->field_0_flags;
-                                if (flags.Get(TLV_Flags::eBit1_Created))
+                                BitField8<TlvFlags> flags = pTlv->mTlvFlags;
+                                if (flags.Get(TlvFlags::eBit1_Created))
                                 {
-                                    flags.Clear(TLV_Flags::eBit1_Created);
-                                    flags.Clear(TLV_Flags::eBit2_Destroyed);
+                                    flags.Clear(TlvFlags::eBit1_Created);
+                                    flags.Clear(TlvFlags::eBit2_Destroyed);
                                 }
                                 WriteFlags(pSaveBuffer, pTlv, flags);
                             }
-                            else if (kObjectTypeAttributesTable_byte_547794.mTypes[static_cast<s16>(pTlv->field_4_type.mType)] == 2)
+                            else if (kObjectTypeAttributesTable_byte_547794.mTypes[static_cast<s16>(pTlv->mTlvType32.mType)] == 2)
                             {
-                                WriteFlags(pSaveBuffer, pTlv, pTlv->field_0_flags);
+                                WriteFlags(pSaveBuffer, pTlv, pTlv->mTlvFlags);
                             }
                             else
                             {
@@ -427,7 +427,7 @@ void Quicksave_SaveBlyData_4C9660(u8* pSaveBuffer)
 
 struct SaveFlagsAndData final
 {
-    BitField8<TLV_Flags> flags;
+    BitField8<TlvFlags> flags;
     u8 data;
 };
 ALIVE_ARY(1, 0xBB233C, SaveFlagsAndData, 8, sSwitchReset_Saved_States_BB233C, {});
@@ -457,12 +457,12 @@ void Quicksave_SaveSwitchResetterStates()
                         Path_TLV* pTlv = reinterpret_cast<Path_TLV*>(ptr);
                         while (pTlv)
                         {
-                            if (pTlv->field_4_type == TlvTypes::ResetSwitchRange_76)
+                            if (pTlv->mTlvType32 == TlvTypes::ResetSwitchRange_76)
                             {
                                 if (sQuickSave_saved_switchResetters_count_BB234C < 8)
                                 {
-                                    sSwitchReset_Saved_States_BB233C[sQuickSave_saved_switchResetters_count_BB234C].flags = pTlv->field_0_flags;
-                                    sSwitchReset_Saved_States_BB233C[sQuickSave_saved_switchResetters_count_BB234C].data = pTlv->field_1_tlv_state;
+                                    sSwitchReset_Saved_States_BB233C[sQuickSave_saved_switchResetters_count_BB234C].flags = pTlv->mTlvFlags;
+                                    sSwitchReset_Saved_States_BB233C[sQuickSave_saved_switchResetters_count_BB234C].data = pTlv->mTlvState;
 
                                     sQuickSave_saved_switchResetters_count_BB234C++;
                                 }
@@ -506,12 +506,12 @@ void Quicksave_RestoreSwitchResetterStates()
                         Path_TLV* pTlv = reinterpret_cast<Path_TLV*>(ptr);
                         while (pTlv)
                         {
-                            if (pTlv->field_4_type == TlvTypes::ResetSwitchRange_76)
+                            if (pTlv->mTlvType32 == TlvTypes::ResetSwitchRange_76)
                             {
                                 if (idx < 8)
                                 {
-                                    pTlv->field_0_flags = sSwitchReset_Saved_States_BB233C[idx].flags;
-                                    pTlv->field_1_tlv_state = sSwitchReset_Saved_States_BB233C[idx].data;
+                                    pTlv->mTlvFlags = sSwitchReset_Saved_States_BB233C[idx].flags;
+                                    pTlv->mTlvState = sSwitchReset_Saved_States_BB233C[idx].data;
 
                                     idx++;
                                 }

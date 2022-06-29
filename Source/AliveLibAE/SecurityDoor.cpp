@@ -41,8 +41,8 @@ SecurityDoor::SecurityDoor(Path_SecurityDoor* pTlv, s32 tlvInfo)
     field_FA_switch_id = pTlv->field_12_switch_id;
     field_FC_code_converted = Code_Convert(pTlv->field_14_code_1, pTlv->field_16_code_2);
     field_100_code_len = Code_Length(field_FC_code_converted);
-    field_11C_top_left = pTlv->field_8_top_left;
-    field_120_bottom_right = pTlv->field_C_bottom_right;
+    field_11C_top_left = pTlv->mTopLeft;
+    field_120_bottom_right = pTlv->mBottomRight;
     mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pTlv->field_18_xpos);
     mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->field_1A_ypos);
 
@@ -51,25 +51,25 @@ SecurityDoor::SecurityDoor(Path_SecurityDoor* pTlv, s32 tlvInfo)
 
     if (mBaseAnimatedWithPhysicsGameObject_XPos > FP_FromInteger(0))
     {
-        mBaseAnimatedWithPhysicsGameObject_XPos -= FP_FromInteger(point.field_0_x);
+        mBaseAnimatedWithPhysicsGameObject_XPos -= FP_FromInteger(point.x);
     }
     else
     {
-        mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger((pTlv->field_8_top_left.field_0_x + pTlv->field_C_bottom_right.field_0_x) / 2);
+        mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger((pTlv->mTopLeft.x + pTlv->mBottomRight.x) / 2);
     }
 
     if (mBaseAnimatedWithPhysicsGameObject_YPos > FP_FromInteger(0))
     {
-        mBaseAnimatedWithPhysicsGameObject_YPos -= FP_FromInteger(point.field_2_y);
+        mBaseAnimatedWithPhysicsGameObject_YPos -= FP_FromInteger(point.y);
     }
     else
     {
-        mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger((pTlv->field_8_top_left.field_2_y + pTlv->field_C_bottom_right.field_2_y) / 2);
+        mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger((pTlv->mTopLeft.y + pTlv->mBottomRight.y) / 2);
     }
 
-    if (pTlv->field_1_tlv_state)
+    if (pTlv->mTlvState)
     {
-        field_F8_state = static_cast<SecurityDoorStates>(pTlv->field_1_tlv_state - 1);
+        field_F8_state = static_cast<SecurityDoorStates>(pTlv->mTlvState - 1);
     }
     else
     {
@@ -102,12 +102,12 @@ s16 SecurityDoor::IsPlayerNear()
     const s16 xpos = FP_GetExponent(sControlledCharacter_5C1B8C->mBaseAnimatedWithPhysicsGameObject_XPos);
     const s16 ypos = FP_GetExponent(sControlledCharacter_5C1B8C->mBaseAnimatedWithPhysicsGameObject_YPos);
 
-    if (xpos < field_11C_top_left.field_0_x || xpos > field_120_bottom_right.field_0_x)
+    if (xpos < field_11C_top_left.x || xpos > field_120_bottom_right.x)
     {
         return 0;
     }
 
-    if (ypos >= field_11C_top_left.field_2_y && ypos <= field_120_bottom_right.field_2_y)
+    if (ypos >= field_11C_top_left.y && ypos <= field_120_bottom_right.y)
     {
         return 1;
     }

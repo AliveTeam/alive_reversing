@@ -87,8 +87,8 @@
         }\
         else\
         {\
-            mPSelfTlv->field_2_length = static_cast<s16>(mSizeOfT);\
-            mPSelfTlv->field_4_type.mType = mType;\
+            mPSelfTlv->mLength = static_cast<s16>(mSizeOfT);\
+            mPSelfTlv->mTlvType32.mType = mType;\
         }\
         AddProperties(globalTypes);\
     }\
@@ -274,8 +274,8 @@ struct Path_TimedMine final : public ReliveAPI::TlvObjectBaseAE
         ADD("Switch ID (Unused?)", mTlv.field_10_switch_id);
         ADD("State (Unused?)", mTlv.field_12_state);
         ADD("Scale", mTlv.field_14_scale);
-        ADD("Ticks Before Explosion", mTlv.field_16_ticks_before_explosion);
-        ADD("Disabled Resources", mTlv.field_18_disabled_resources);
+        ADD("Ticks Before Explosion", mTlv.mTicksUntilExplosion);
+        ADD("Disabled Resources", mTlv.mDisabledResources);
     }
 };
 

@@ -12,15 +12,14 @@ struct Path_TimedMine final : public Path_TLV
     s16 field_10_switch_id;
     s16 field_12_state;
     Scale_short field_14_scale;
-    s16 field_16_ticks_before_explosion;
-    s32 field_18_disabled_resources;
+    s16 mTicksUntilExplosion;
+    s32 mDisabledResources;
 };
 ALIVE_ASSERT_SIZEOF(Path_TimedMine, 0x1C);
 
-enum TimedMine_Flags_1C4
+enum TimedMineFlags
 {
-    eStickToLiftPoint_0 = 0x1, // TODO: This is never set.
-    ePadding_1 = 0x2,
+    eStickToLiftPoint = 0x1,
 };
 
 class TimedMine final : public BaseAliveGameObject
@@ -38,17 +37,17 @@ public:
     virtual void VOnPickUpOrSlapped() override;
 
 private:
-    void InitBlinkAnimation(Animation* pAnimation);
+    void InitTickAnimation();
     void StickToLiftPoint();
 
 public:
-    u16 field_118_armed = 0;
-    u16 field_11A_ticks_before_explosion = 0;
-    u32 field_11C_tlv = 0;
-    u32 field_120_gnframe = 0;
-    Animation field_124_animation = {};
-    u32 field_1BC_gnFrame_2 = 0;
-    u32 field_1C0_detonation_timer = 0;
-    BitField32<TimedMine_Flags_1C4> field_1C4_flags = {};
+    u16 mSlappedMine = 0;
+    u16 mTicksUntilExplosion = 0;
+    u32 mTlvInfo = 0;
+    u32 mExplosionTimer = 0;
+    Animation mTickAnim = {};
+    u32 mOldGnFrame = 0;
+    u32 mSingleTickTimer = 0;
+    BitField32<TimedMineFlags> mTimedMineFlags = {};
 };
 ALIVE_ASSERT_SIZEOF(TimedMine, 0x1C8);

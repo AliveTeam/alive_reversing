@@ -75,10 +75,10 @@ FootSwitch::FootSwitch(Path_FootSwitch* pTlv, s32 tlvInfo)
 
     field_FC_action = pTlv->field_14_action;
     field_FE_trigger_by = pTlv->field_16_trigger_by;
-    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger((pTlv->field_8_top_left.field_0_x + pTlv->field_C_bottom_right.field_0_x) / 2);
+    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger((pTlv->mTopLeft.x + pTlv->mBottomRight.x) / 2);
     field_F8_state = States::eWaitForStepOnMe_0;
     mVisualFlags.Set(VisualFlags::eDoPurpleLightEffect);
-    mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->field_C_bottom_right.field_2_y);
+    mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->mBottomRight.y);
     field_104_bCreateSparks = 0;
     field_F4_tlvInfo = tlvInfo;
     field_106_bFindStander = 1;

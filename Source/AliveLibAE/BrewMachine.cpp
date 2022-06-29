@@ -59,7 +59,7 @@ BrewMachine::BrewMachine(Path_BrewMachine* pTlv, s32 tlvInfo)
     mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_Well_23;
     field_1E4_remaining_brew_count = pTlv->field_10_brew_count;
 
-    const u8 savedBrewCount = pTlv->field_1_tlv_state;
+    const u8 savedBrewCount = pTlv->mTlvState;
     if (savedBrewCount == 0)
     {
         field_144_total_brew_count = field_1E4_remaining_brew_count;
@@ -73,10 +73,10 @@ BrewMachine::BrewMachine(Path_BrewMachine* pTlv, s32 tlvInfo)
         field_144_total_brew_count = savedBrewCount;
     }
 
-    field_13C_textX = FP_GetExponent((FP_FromInteger(pTlv->field_8_top_left.field_0_x + 5) - pScreenManager->CamXPos()));
-    field_13E_textY = FP_GetExponent((FP_FromInteger(pTlv->field_8_top_left.field_2_y + 10) - pScreenManager->CamYPos()));
-    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger((pTlv->field_8_top_left.field_0_x + pTlv->field_C_bottom_right.field_0_x) / 2);
-    mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->field_8_top_left.field_2_y);
+    field_13C_textX = FP_GetExponent((FP_FromInteger(pTlv->mTopLeft.x + 5) - pScreenManager->CamXPos()));
+    field_13E_textY = FP_GetExponent((FP_FromInteger(pTlv->mTopLeft.y + 10) - pScreenManager->CamYPos()));
+    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger((pTlv->mTopLeft.x + pTlv->mBottomRight.x) / 2);
+    mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->mTopLeft.y);
 
     field_1E6_cam_id = gMap.mCurrentCamera;
 }
@@ -93,11 +93,11 @@ void BrewMachine::VUpdate()
     Path_BrewMachine* pTlv = static_cast<Path_BrewMachine*>(sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam(field_140_tlvInfo));
     if (field_144_total_brew_count > 0)
     {
-        pTlv->field_1_tlv_state = static_cast<u8>(field_144_total_brew_count);
+        pTlv->mTlvState = static_cast<u8>(field_144_total_brew_count);
     }
     else
     {
-        pTlv->field_1_tlv_state = 50;
+        pTlv->mTlvState = 50;
     }
 
     if (Event_Get(kEventDeathReset))

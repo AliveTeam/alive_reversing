@@ -71,16 +71,16 @@ FallingItem::FallingItem(Path_FallingItem* pTlv, s32 tlvInfo)
     field_12C_reset_switch_id_after_use = pTlv->field_18_reset_switch_id_after_use;
     field_12E_do_sound_in_state_falling = TRUE;
 
-    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pTlv->field_8_top_left.field_0_x);
-    mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->field_8_top_left.field_2_y);
+    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pTlv->mTopLeft.x);
+    mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->mTopLeft.y);
 
     if (mBaseAnimatedWithPhysicsGameObject_YPos > pScreenManager->CamYPos())
     {
         mBaseAnimatedWithPhysicsGameObject_YPos = pScreenManager->CamYPos();
     }
 
-    field_138_xpos = FP_FromInteger((pTlv->field_8_top_left.field_0_x + pTlv->field_C_bottom_right.field_0_x) / 2);
-    field_13C_ypos = FP_FromInteger(pTlv->field_C_bottom_right.field_2_y);
+    field_138_xpos = FP_FromInteger((pTlv->mTopLeft.x + pTlv->mBottomRight.x) / 2);
+    field_13C_ypos = FP_FromInteger(pTlv->mBottomRight.y);
     field_130_yPosStart = mBaseAnimatedWithPhysicsGameObject_YPos;
     field_11C_state = State::eWaitForIdEnable_0;
     field_140_sound_channels = 0;

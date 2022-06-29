@@ -65,12 +65,12 @@ public:
 
     FP CamXPos() const
     {
-        return mCamPos->field_0_x - FP_FromInteger(mCamXOff);
+        return mCamPos->x - FP_FromInteger(mCamXOff);
     }
 
     FP CamYPos() const
     {
-        return mCamPos->field_4_y - FP_FromInteger(mCamYOff);
+        return mCamPos->y - FP_FromInteger(mCamYOff);
     }
 
     FP_Point* mCamPos;

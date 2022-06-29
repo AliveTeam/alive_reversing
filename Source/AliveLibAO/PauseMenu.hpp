@@ -18,8 +18,8 @@ public:
 
     struct PauseEntry final
     {
-        s16 field_0_x;
-        s16 field_2_y;
+        s16 x;
+        s16 y;
         const char_type* field_4_strBuf;
         u8 mRed;
         u8 mGreen;

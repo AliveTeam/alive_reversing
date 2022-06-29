@@ -44,11 +44,11 @@ MotionDetector::MotionDetector(Path_MotionDetector* pTlv, s32 tlvInfo)
         mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromInteger(1);
     }
 
-    field_F8_top_left_x = FP_FromInteger(pTlv->field_10_top_left.field_0_x);
-    field_100_bottom_right_x = FP_FromInteger(pTlv->field_14_bottom_right.field_0_x);
+    field_F8_top_left_x = FP_FromInteger(pTlv->mTopLeft.x);
+    field_100_bottom_right_x = FP_FromInteger(pTlv->mBottomRight.x);
 
-    field_FC_top_left_y = FP_FromInteger(pTlv->field_10_top_left.field_2_y);
-    field_104_bottom_right_y = FP_FromInteger(pTlv->field_14_bottom_right.field_2_y);
+    field_FC_top_left_y = FP_FromInteger(pTlv->mTopLeft.y);
+    field_104_bottom_right_y = FP_FromInteger(pTlv->mBottomRight.y);
 
     mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pTlv->field_1A_device_x);
     mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->field_1C_device_y);
@@ -280,9 +280,9 @@ void MotionDetector::VRender(PrimHeader** ppOt)
 
     if (!SwitchStates_Get(field_F0_disable_switch_id))
     {
-        const s16 screen_top = FP_GetExponent(pScreenManager->mCamPos->field_4_y - FP_FromInteger(pScreenManager->mCamYOff));
+        const s16 screen_top = FP_GetExponent(pScreenManager->mCamPos->y - FP_FromInteger(pScreenManager->mCamYOff));
 
-        const s16 screen_left = FP_GetExponent(pScreenManager->mCamPos->field_0_x - FP_FromInteger(pScreenManager->mCamXOff));
+        const s16 screen_left = FP_GetExponent(pScreenManager->mCamPos->x - FP_FromInteger(pScreenManager->mCamXOff));
 
         const PSX_RECT bLaserRect = field_108_pLaser->VGetBoundingRect();
 

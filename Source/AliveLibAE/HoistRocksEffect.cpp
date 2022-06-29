@@ -21,8 +21,8 @@ HoistRocksEffect::HoistRocksEffect(Path_Hoist* pTlv, s32 tlvInfo)
 {
     field_24_tlvInfo = tlvInfo;
 
-    field_20_xpos = (pTlv->field_8_top_left.field_0_x + pTlv->field_C_bottom_right.field_0_x) / 2;
-    field_22_ypos = pTlv->field_8_top_left.field_2_y;
+    field_20_xpos = (pTlv->mTopLeft.x + pTlv->mBottomRight.x) / 2;
+    field_22_ypos = pTlv->mTopLeft.y;
     field_28_timer = 0;
 
     if (pTlv->field_16_scale == Scale_short::eHalf_1)

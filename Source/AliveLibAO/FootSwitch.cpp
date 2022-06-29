@@ -31,8 +31,8 @@ FootSwitch::FootSwitch(Path_FootSwitch* pTlv, s32 tlvInfo)
     field_EC_action = pTlv->field_1C_action;
     field_EE_trigger_by = pTlv->field_1E_trigger_by;
 
-    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pTlv->field_10_top_left.field_0_x + 12);
-    mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->field_10_top_left.field_2_y);
+    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pTlv->mTopLeft.x + 12);
+    mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->mTopLeft.y);
 
     SwitchStates_Set(field_EA_switch_id, 0);
 

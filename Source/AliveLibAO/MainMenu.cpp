@@ -2611,8 +2611,8 @@ void Menu::GameSpeak_Update_47CBD0()
             const AnimRecord& rec = AO::AnimRec(AnimId::OptionChantOrb_Particle);
             ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
 
-            const FP screen_y = pScreenManager->mCamPos->field_4_y - FP_FromInteger(pScreenManager->mCamYOff);
-            const FP screen_x = pScreenManager->mCamPos->field_0_x - FP_FromInteger(pScreenManager->mCamXOff);
+            const FP screen_y = pScreenManager->mCamPos->y - FP_FromInteger(pScreenManager->mCamYOff);
+            const FP screen_x = pScreenManager->mCamPos->x - FP_FromInteger(pScreenManager->mCamXOff);
 
             auto pParticle = relive_new Particle(
                 screen_x + (FP_FromInteger(Math_RandomRange(-40, 40) + 184)),

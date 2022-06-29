@@ -162,8 +162,8 @@ void Spark::VRender(PrimHeader** ppOt)
 
     const FP_Point* pCamPos = pScreenManager->mCamPos;
 
-    const s16 xOrg = FP_GetExponent(field_30_xpos) - FP_GetExponent(pCamPos->field_0_x - FP_FromInteger(pScreenManager->mCamXOff));
-    const s16 yOrg = FP_GetExponent(field_34_ypos) - FP_GetExponent(pCamPos->field_4_y - FP_FromInteger(pScreenManager->mCamYOff));
+    const s16 xOrg = FP_GetExponent(field_30_xpos) - FP_GetExponent(pCamPos->x - FP_FromInteger(pScreenManager->mCamXOff));
+    const s16 yOrg = FP_GetExponent(field_34_ypos) - FP_GetExponent(pCamPos->y - FP_FromInteger(pScreenManager->mCamYOff));
 
     for (s32 i = 0; i < field_4C_count; i++)
     {

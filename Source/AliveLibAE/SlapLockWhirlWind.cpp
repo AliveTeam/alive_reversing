@@ -28,22 +28,22 @@ SlapLockWhirlWind::SlapLockWhirlWind(s16 doorNumber, s16 switchId, FP xpos, FP y
     field_44_switch_id = switchId;
 
     bool bFoundTarget = false;
-    for (s16 y = 0; y < sPath_dword_BB47C0->field_8_cams_on_y; y++)
+    for (s16 y = 0; y < sPath_dword_BB47C0->mCamsOnY; y++)
     {
-        for (s16 x = 0; x < sPath_dword_BB47C0->field_6_cams_on_x; x++)
+        for (s16 x = 0; x < sPath_dword_BB47C0->mCamsOnX; x++)
         {
             Path_Door* pDoorTlv = static_cast<Path_Door*>(sPath_dword_BB47C0->Get_First_TLV_For_Offsetted_Camera(
-                x - gMap.field_D0_cam_x_idx,
-                y - gMap.field_D2_cam_y_idx));
+                x - gMap.mCamIdxOnX,
+                y - gMap.mCamIdxOnY));
             while (pDoorTlv)
             {
-                if (pDoorTlv->field_4_type == TlvTypes::Door_5 && pDoorTlv->field_18_door_number == doorNumber)
+                if (pDoorTlv->mTlvType32 == TlvTypes::Door_5 && pDoorTlv->field_18_door_number == doorNumber)
                 {
                     // For some reason once found we just keep on searching...
                     bFoundTarget = true;
 
-                    field_2C_door_x = FP_FromInteger((pDoorTlv->field_8_top_left.field_0_x + pDoorTlv->field_C_bottom_right.field_0_x) / 2);
-                    field_30_door_y = FP_FromInteger((pDoorTlv->field_8_top_left.field_2_y + pDoorTlv->field_C_bottom_right.field_2_y) / 2);
+                    field_2C_door_x = FP_FromInteger((pDoorTlv->mTopLeft.x + pDoorTlv->mBottomRight.x) / 2);
+                    field_30_door_y = FP_FromInteger((pDoorTlv->mTopLeft.y + pDoorTlv->mBottomRight.y) / 2);
 
                     if (pDoorTlv->field_16_scale != Scale_short::eFull_0)
                     {

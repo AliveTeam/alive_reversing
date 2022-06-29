@@ -287,7 +287,7 @@ void Meat::VUpdate()
                     (TCollisionCallBack) &Meat::OnCollision);
 
                 // TODO: OG bug - why only checking for out of the bottom of the map?? Nades check for death object - probably should check both
-                if (mBaseAnimatedWithPhysicsGameObject_YPos > FP_FromInteger(gMap.field_D4_ptr->field_6_bBottom))
+                if (mBaseAnimatedWithPhysicsGameObject_YPos > FP_FromInteger(gMap.mPathData->field_6_bBottom))
                 {
                     mBaseGameObjectFlags.Set(BaseGameObject::eDead);
                 }
@@ -408,8 +408,8 @@ MeatSack::MeatSack(Path_MeatSack* pTlv, s32 tlvInfo)
 
     field_11C_bDoMeatSackIdleAnim = 0;
 
-    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pTlv->field_8_top_left.field_0_x);
-    mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->field_8_top_left.field_2_y);
+    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pTlv->mTopLeft.x);
+    mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->mTopLeft.y);
 
     field_124_velX = FP_FromRaw(pTlv->field_12_xVel << 8);
 

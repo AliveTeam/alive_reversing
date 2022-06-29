@@ -55,8 +55,8 @@ MeatSaw::MeatSaw(Path_MeatSaw* pTlv, s32 tlvInfo)
         mBaseAnimatedWithPhysicsGameObject_Scale = Scale::Fg;
     }
 
-    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pTlv->field_10_top_left.field_0_x + 8);
-    mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->field_10_top_left.field_2_y);
+    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pTlv->mTopLeft.x + 8);
+    mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->mTopLeft.y);
 
     field_F6_switch_min_time_off = pTlv->field_1A_switch_min_time_off;
     field_F8_switch_max_time_off = pTlv->field_1C_switch_max_time_off;
@@ -370,10 +370,10 @@ void MeatSaw::VRender(PrimHeader** ppOt)
         field_110_anim.VRender(
             FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos
                            + FP_FromInteger(pScreenManager->mCamXOff)
-                           - pScreenManager->mCamPos->field_0_x),
+                           - pScreenManager->mCamPos->x),
             FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos
                            + (FP_FromInteger(pScreenManager->mCamYOff + field_E6_max_rise_time))
-                           - pScreenManager->mCamPos->field_4_y),
+                           - pScreenManager->mCamPos->y),
             ppOt,
             0,
             0);

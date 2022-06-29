@@ -22,10 +22,10 @@ Teleporter::Teleporter(Path_Teleporter* pTlv, u32 tlvInfo)
     field_34_mTlvData = pTlv->field_10_data;
     field_20_tlvInfo = tlvInfo;
 
-    field_24_global_y1 = FP_GetExponent((FP_FromInteger(pTlv->field_8_top_left.field_2_y) - pScreenManager->CamYPos()));
-    field_28_global_y2 = FP_GetExponent((FP_FromInteger(pTlv->field_C_bottom_right.field_2_y) - pScreenManager->CamYPos()));
-    field_26_global_x1 = FP_GetExponent((FP_FromInteger(pTlv->field_8_top_left.field_0_x) - pScreenManager->CamXPos()));
-    field_2A_global_x2 = FP_GetExponent((FP_FromInteger(pTlv->field_C_bottom_right.field_0_x) - pScreenManager->CamXPos()));
+    field_24_global_y1 = FP_GetExponent((FP_FromInteger(pTlv->mTopLeft.y) - pScreenManager->CamYPos()));
+    field_28_global_y2 = FP_GetExponent((FP_FromInteger(pTlv->mBottomRight.y) - pScreenManager->CamYPos()));
+    field_26_global_x1 = FP_GetExponent((FP_FromInteger(pTlv->mTopLeft.x) - pScreenManager->CamXPos()));
+    field_2A_global_x2 = FP_GetExponent((FP_FromInteger(pTlv->mBottomRight.x) - pScreenManager->CamXPos()));
 
     field_2C_switch_state = SwitchStates_Get(field_34_mTlvData.field_1A_switch_id);
 
@@ -70,8 +70,8 @@ void Teleporter::SpawnRingSparks(Path_Teleporter_Data* pTlvData)
     PSX_Point abeSpawnPos = {};
     gMap.Get_Abe_Spawn_Pos(&abeSpawnPos);
 
-    const s16 xOrg = pTlvData->field_22_eletric_x - abeSpawnPos.field_0_x;
-    const s16 yOrg = pTlvData->field_24_electric_y - abeSpawnPos.field_2_y;
+    const s16 xOrg = pTlvData->field_22_eletric_x - abeSpawnPos.x;
+    const s16 yOrg = pTlvData->field_24_electric_y - abeSpawnPos.y;
 
     for (auto& sparkOffs : kSparkOffs_563988)
     {
@@ -79,13 +79,13 @@ void Teleporter::SpawnRingSparks(Path_Teleporter_Data* pTlvData)
         s32 sparkY = 0;
         if (pTlvData->field_1C_scale != Scale_short::eFull_0)
         {
-            sparkX = xOrg + (sparkOffs.field_0_x / 2);
-            sparkY = yOrg + (sparkOffs.field_2_y / 2);
+            sparkX = xOrg + (sparkOffs.x / 2);
+            sparkY = yOrg + (sparkOffs.y / 2);
         }
         else
         {
-            sparkX = xOrg + (sparkOffs.field_0_x);
-            sparkY = yOrg + (sparkOffs.field_2_y);
+            sparkX = xOrg + (sparkOffs.x);
+            sparkY = yOrg + (sparkOffs.y);
         }
 
         relive_new Spark(FP_FromInteger(sparkX), FP_FromInteger(sparkY), FP_FromInteger(1), 9, -31, 159, SparkType::eBigChantParticle_1);
@@ -202,7 +202,7 @@ void Teleporter::VUpdate()
 
             sControlledCharacter_5C1B8C->mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit3_Render);
 
-            gMap.field_20 = 1;
+            gMap.mTeleporterTransition = 1;
 
             const CameraSwapEffects effect = kPathChangeEffectToInternalScreenChangeEffect_55D55C[field_34_mTlvData.field_1E_cam_swap_effect];
             s16 bForceChange = 0;
@@ -227,7 +227,7 @@ void Teleporter::VUpdate()
 
         case TeleporterState::eTeleporting_2:
         {
-            gMap.field_20 = 0;
+            gMap.mTeleporterTransition = 0;
 
             Path_Teleporter* pTeleporterTlv = static_cast<Path_Teleporter*>(sPath_dword_BB47C0->TLV_First_Of_Type_In_Camera(TlvTypes::Teleporter_88, 0));
             Path_Teleporter_Data tlvData = pTeleporterTlv->field_10_data;
@@ -272,7 +272,7 @@ void Teleporter::VUpdate()
             }
 
             // XPos = TLV xpos + TLV middle point
-            sControlledCharacter_5C1B8C->mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pTeleporterTlv->field_8_top_left.field_0_x) + FP_FromInteger((pTeleporterTlv->field_C_bottom_right.field_0_x - pTeleporterTlv->field_8_top_left.field_0_x) / 2);
+            sControlledCharacter_5C1B8C->mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pTeleporterTlv->mTopLeft.x) + FP_FromInteger((pTeleporterTlv->mBottomRight.x - pTeleporterTlv->mTopLeft.x) / 2);
 
             sControlledCharacter_5C1B8C->MapFollowMe(TRUE);
 
@@ -281,9 +281,9 @@ void Teleporter::VUpdate()
             FP hitY = {};
             if (sCollisions->Raycast(
                     sControlledCharacter_5C1B8C->mBaseAnimatedWithPhysicsGameObject_XPos,
-                    FP_FromInteger(pTeleporterTlv->field_8_top_left.field_2_y),
+                    FP_FromInteger(pTeleporterTlv->mTopLeft.y),
                     sControlledCharacter_5C1B8C->mBaseAnimatedWithPhysicsGameObject_XPos,
-                    FP_FromInteger(pTeleporterTlv->field_C_bottom_right.field_2_y),
+                    FP_FromInteger(pTeleporterTlv->mBottomRight.y),
                     &pPathLine,
                     &hitX,
                     &hitY,
@@ -295,7 +295,7 @@ void Teleporter::VUpdate()
             else
             {
                 sControlledCharacter_5C1B8C->BaseAliveGameObjectCollisionLine = nullptr;
-                sControlledCharacter_5C1B8C->mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTeleporterTlv->field_8_top_left.field_2_y);
+                sControlledCharacter_5C1B8C->mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTeleporterTlv->mTopLeft.y);
                 sControlledCharacter_5C1B8C->BaseAliveGameObjectLastLineYPos = sControlledCharacter_5C1B8C->mBaseAnimatedWithPhysicsGameObject_YPos;
             }
             field_30_state = TeleporterState::eOutOfTeleporter_4;

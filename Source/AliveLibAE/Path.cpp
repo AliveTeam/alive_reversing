@@ -11,13 +11,13 @@ ALIVE_VAR(1, 0xbb47c0, Path*, sPath_dword_BB47C0, nullptr);
 
 Path::Path()
 {
-    field_C_pPathData = nullptr;
-    field_10_ppRes = 0;
-    field_8_cams_on_y = 0;
-    field_6_cams_on_x = 0;
-    field_4_cameraId = 0;
-    field_2_pathId = 0;
-    field_0_levelId = EReliveLevelIds::eMenu;
+    mPathData = nullptr;
+    field_10_ppRes = nullptr;
+    mCamsOnY = 0;
+    mCamsOnX = 0;
+    mCameraId = 0;
+    mPathId = 0;
+    mLevelId = EReliveLevelIds::eMenu;
 }
 
 Path::~Path()
@@ -28,13 +28,13 @@ Path::~Path()
 void Path::Free()
 {
     ResourceManager::FreeResource_49C330(field_10_ppRes);
-    field_C_pPathData = 0;
+    mPathData = 0;
     field_10_ppRes = nullptr;
-    field_8_cams_on_y = 0;
-    field_6_cams_on_x = 0;
-    field_4_cameraId = 0;
-    field_2_pathId = 0;
-    field_0_levelId = EReliveLevelIds::eMenu;
+    mCamsOnY = 0;
+    mCamsOnX = 0;
+    mCameraId = 0;
+    mPathId = 0;
+    mLevelId = EReliveLevelIds::eMenu;
 }
 
 void Path::Init(const PathData* pPathData, EReliveLevelIds level, s16 path, s16 cameraId, u8** ppPathRes)
@@ -43,80 +43,80 @@ void Path::Init(const PathData* pPathData, EReliveLevelIds level, s16 path, s16 
     field_10_ppRes = ppPathRes;
     ResourceManager::Inc_Ref_Count_49C310(ppPathRes);
 
-    field_4_cameraId = cameraId;
-    field_0_levelId = level;
-    field_2_pathId = path;
+    mCameraId = cameraId;
+    mLevelId = level;
+    mPathId = path;
 
-    field_C_pPathData = pPathData;
-    field_6_cams_on_x = (field_C_pPathData->field_4_bTop - field_C_pPathData->field_0_bLeft) / field_C_pPathData->field_A_grid_width;
-    field_8_cams_on_y = (field_C_pPathData->field_6_bBottom - field_C_pPathData->field_2_bRight) / field_C_pPathData->field_C_grid_height;
+    mPathData = pPathData;
+    mCamsOnX = (mPathData->field_4_bTop - mPathData->field_0_bLeft) / mPathData->field_A_grid_width;
+    mCamsOnY = (mPathData->field_6_bBottom - mPathData->field_2_bRight) / mPathData->field_C_grid_height;
 }
 
 void Path::Loader_4DB800(s16 xpos, s16 ypos, LoadMode loadMode, TlvTypes typeToLoad)
 {
     // Get a pointer to the array of index table offsets
-    const s32* indexTable = reinterpret_cast<const s32*>(*field_10_ppRes + field_C_pPathData->field_16_object_indextable_offset);
+    const s32* indexTable = reinterpret_cast<const s32*>(*field_10_ppRes + mPathData->field_16_object_indextable_offset);
 
     // Calculate the index of the offset we want for the given camera at x/y
-    s32 objectTableIdx = indexTable[xpos + (ypos * field_6_cams_on_x)];
+    s32 objectTableIdx = indexTable[xpos + (ypos * mCamsOnX)];
     if (objectTableIdx == -1)
     {
         // -1 means there are no objects for the given camera
         return;
     }
 
-    u8* ptr = &(*field_10_ppRes)[field_C_pPathData->field_12_object_offset + objectTableIdx];
+    u8* ptr = &(*field_10_ppRes)[mPathData->field_12_object_offset + objectTableIdx];
     Path_TLV* pPathTLV = reinterpret_cast<Path_TLV*>(ptr);
     while (pPathTLV)
     {
-        if (typeToLoad == TlvTypes::None_m1 || typeToLoad == pPathTLV->field_4_type.mType)
+        if (typeToLoad == TlvTypes::None_m1 || typeToLoad == pPathTLV->mTlvType32.mType)
         {
-            if (loadMode != LoadMode::ConstructObject_0 || !(pPathTLV->field_0_flags.Get(TLV_Flags::eBit1_Created) || pPathTLV->field_0_flags.Get(TLV_Flags::eBit2_Destroyed)))
+            if (loadMode != LoadMode::ConstructObject_0 || !(pPathTLV->mTlvFlags.Get(TlvFlags::eBit1_Created) || pPathTLV->mTlvFlags.Get(TlvFlags::eBit2_Destroyed)))
             {
                 if (loadMode == LoadMode::ConstructObject_0)
                 {
-                    pPathTLV->field_0_flags.Set(TLV_Flags::eBit1_Created);
-                    pPathTLV->field_0_flags.Set(TLV_Flags::eBit2_Destroyed);
+                    pPathTLV->mTlvFlags.Set(TlvFlags::eBit1_Created);
+                    pPathTLV->mTlvFlags.Set(TlvFlags::eBit2_Destroyed);
                 }
 
                 TlvItemInfoUnion data;
                 data.parts.tlvOffset = static_cast<u16>(objectTableIdx);
-                data.parts.levelId = static_cast<u8>(MapWrapper::ToAE(field_0_levelId));
-                data.parts.pathId = static_cast<u8>(field_2_pathId);
+                data.parts.levelId = static_cast<u8>(MapWrapper::ToAE(mLevelId));
+                data.parts.pathId = static_cast<u8>(mPathId);
 
                 // Call the factory to construct the item
-                field_C_pPathData->field_1E_object_funcs.object_funcs[static_cast<s32>(pPathTLV->field_4_type.mType)](pPathTLV, this, data, loadMode);
+                mPathData->field_1E_object_funcs.object_funcs[static_cast<s32>(pPathTLV->mTlvType32.mType)](pPathTLV, this, data, loadMode);
             }
         }
 
         // End of TLV list for current camera
-        if (pPathTLV->field_0_flags.Get(TLV_Flags::eBit3_End_TLV_List))
+        if (pPathTLV->mTlvFlags.Get(TlvFlags::eBit3_End_TLV_List))
         {
             break;
         }
 
-        objectTableIdx += pPathTLV->field_2_length;
+        objectTableIdx += pPathTLV->mLength;
         pPathTLV = Next_TLV(pPathTLV);
     }
 }
 
 Path_TLV* Path::Get_First_TLV_For_Offsetted_Camera(s16 cam_x_idx, s16 cam_y_idx)
 {
-    const s32 camY = cam_y_idx + gMap.field_D2_cam_y_idx;
-    const s32 camX = cam_x_idx + gMap.field_D0_cam_x_idx;
-    if (camX >= field_6_cams_on_x || camX < 0 || camY >= field_8_cams_on_y || camY < 0)
+    const s32 camY = cam_y_idx + gMap.mCamIdxOnY;
+    const s32 camX = cam_x_idx + gMap.mCamIdxOnX;
+    if (camX >= mCamsOnX || camX < 0 || camY >= mCamsOnY || camY < 0)
     {
         return nullptr;
     }
 
-    const s32* indexTable = reinterpret_cast<const s32*>(*field_10_ppRes + field_C_pPathData->field_16_object_indextable_offset);
-    const s32 indexTableEntry = indexTable[(camX + (camY * field_6_cams_on_x))];
+    const s32* indexTable = reinterpret_cast<const s32*>(*field_10_ppRes + mPathData->field_16_object_indextable_offset);
+    const s32 indexTableEntry = indexTable[(camX + (camY * mCamsOnX))];
     if (indexTableEntry == -1)
     {
         return nullptr;
     }
 
-    return reinterpret_cast<Path_TLV*>(&(*field_10_ppRes)[field_C_pPathData->field_12_object_offset + indexTableEntry]);
+    return reinterpret_cast<Path_TLV*>(&(*field_10_ppRes)[mPathData->field_12_object_offset + indexTableEntry]);
 }
 
 Path_TLV* Path::Next_TLV(Path_TLV* pTlv)
@@ -132,7 +132,7 @@ Path_TLV* Path::TLV_First_Of_Type_In_Camera(TlvTypes objectType, s16 camX)
         return nullptr;
     }
 
-    while (pTlv->field_4_type.mType != objectType)
+    while (pTlv->mTlvType32.mType != objectType)
     {
         pTlv = Next_TLV(pTlv);
         if (!pTlv)
@@ -174,37 +174,37 @@ Path_TLV* Path::TLV_Get_At_4DB4B0(s16 xpos, s16 ypos, s16 width, s16 height, Tlv
         bottom = height;
     }
 
-    const s32 grid_cell_y = (top + bottom) / (2 * field_C_pPathData->field_C_grid_height);
-    const s32 grid_cell_x = (right + left) / (2 * field_C_pPathData->field_A_grid_width);
+    const s32 grid_cell_y = (top + bottom) / (2 * mPathData->field_C_grid_height);
+    const s32 grid_cell_x = (right + left) / (2 * mPathData->field_A_grid_width);
 
     // Check within map bounds
-    if (grid_cell_x >= field_6_cams_on_x)
+    if (grid_cell_x >= mCamsOnX)
     {
         return nullptr;
     }
 
-    if (grid_cell_y >= field_8_cams_on_y)
+    if (grid_cell_y >= mCamsOnY)
     {
         return nullptr;
     }
 
     // Get the offset to where the TLV list starts for this camera cell
-    const s32* indexTable = reinterpret_cast<const s32*>(*field_10_ppRes + field_C_pPathData->field_16_object_indextable_offset);
-    const s32 indexTableEntry = indexTable[(grid_cell_x + (grid_cell_y * field_6_cams_on_x))];
+    const s32* indexTable = reinterpret_cast<const s32*>(*field_10_ppRes + mPathData->field_16_object_indextable_offset);
+    const s32 indexTableEntry = indexTable[(grid_cell_x + (grid_cell_y * mCamsOnX))];
     if (indexTableEntry == -1)
     {
         return nullptr;
     }
 
     // Iterate all TLVs for this cell till we find one that matches the type and is within the TLV bounding rect
-    Path_TLV* pTlvIter = reinterpret_cast<Path_TLV*>(&(*field_10_ppRes)[field_C_pPathData->field_12_object_offset + indexTableEntry]);
+    Path_TLV* pTlvIter = reinterpret_cast<Path_TLV*>(&(*field_10_ppRes)[mPathData->field_12_object_offset + indexTableEntry]);
     while (pTlvIter)
     {
-        if (pTlvIter->field_4_type == objectType
-            && right <= pTlvIter->field_C_bottom_right.field_0_x
-            && left >= pTlvIter->field_8_top_left.field_0_x
-            && bottom >= pTlvIter->field_8_top_left.field_2_y
-            && top <= pTlvIter->field_C_bottom_right.field_2_y)
+        if (pTlvIter->mTlvType32 == objectType
+            && right <= pTlvIter->mBottomRight.x
+            && left >= pTlvIter->mTopLeft.x
+            && bottom >= pTlvIter->mTopLeft.y
+            && top <= pTlvIter->mBottomRight.y)
         {
             return pTlvIter;
         }
@@ -235,11 +235,11 @@ Path_TLV* Path::TLV_Get_At_4DB290(Path_TLV* pTlv, FP xpos, FP ypos, FP w, FP h)
 
     if (!pTlv)
     {
-        const PathData* pPathData = field_C_pPathData;
+        const PathData* pPathData = mPathData;
         const s32 camX = (xpos_converted + width_converted) / (2 * pPathData->field_A_grid_width);
         const s32 camY = (ypos_converted + height_converted) / (2 * pPathData->field_C_grid_height);
 
-        if (camX >= field_6_cams_on_x || camY >= field_8_cams_on_y)
+        if (camX >= mCamsOnX || camY >= mCamsOnY)
         {
             return nullptr;
         }
@@ -251,7 +251,7 @@ Path_TLV* Path::TLV_Get_At_4DB290(Path_TLV* pTlv, FP xpos, FP ypos, FP w, FP h)
 
         u8* pPathRes = *field_10_ppRes;
         const s32* pIndexTable = reinterpret_cast<const s32*>(pPathRes + pPathData->field_16_object_indextable_offset);
-        const s32 indexTableEntry = pIndexTable[camX + (field_6_cams_on_x * camY)];
+        const s32 indexTableEntry = pIndexTable[camX + (mCamsOnX * camY)];
 
         if (indexTableEntry == -1)
         {
@@ -259,13 +259,13 @@ Path_TLV* Path::TLV_Get_At_4DB290(Path_TLV* pTlv, FP xpos, FP ypos, FP w, FP h)
         }
 
         pTlv = reinterpret_cast<Path_TLV*>(&pPathRes[pPathData->field_12_object_offset + indexTableEntry]);
-        if (!xyPosValid || (xpos_converted <= pTlv->field_C_bottom_right.field_0_x && width_converted >= pTlv->field_8_top_left.field_0_x && height_converted >= pTlv->field_8_top_left.field_2_y && ypos_converted <= pTlv->field_C_bottom_right.field_2_y))
+        if (!xyPosValid || (xpos_converted <= pTlv->mBottomRight.x && width_converted >= pTlv->mTopLeft.x && height_converted >= pTlv->mTopLeft.y && ypos_converted <= pTlv->mBottomRight.y))
         {
             return pTlv;
         }
     }
 
-    if (pTlv->field_0_flags.Get(TLV_Flags::eBit3_End_TLV_List))
+    if (pTlv->mTlvFlags.Get(TlvFlags::eBit3_End_TLV_List))
     {
         return nullptr;
     }
@@ -273,12 +273,12 @@ Path_TLV* Path::TLV_Get_At_4DB290(Path_TLV* pTlv, FP xpos, FP ypos, FP w, FP h)
     while (1)
     {
         pTlv = Path::Next_TLV(pTlv);
-        if (!xyPosValid || (xpos_converted <= pTlv->field_C_bottom_right.field_0_x && width_converted >= pTlv->field_8_top_left.field_0_x && height_converted >= pTlv->field_8_top_left.field_2_y && ypos_converted <= pTlv->field_C_bottom_right.field_2_y))
+        if (!xyPosValid || (xpos_converted <= pTlv->mBottomRight.x && width_converted >= pTlv->mTopLeft.x && height_converted >= pTlv->mTopLeft.y && ypos_converted <= pTlv->mBottomRight.y))
         {
             break;
         }
 
-        if (pTlv->field_0_flags.Get(TLV_Flags::eBit3_End_TLV_List))
+        if (pTlv->mTlvFlags.Get(TlvFlags::eBit3_End_TLV_List))
         {
             return nullptr;
         }
@@ -292,9 +292,9 @@ Path_TLV* Path::TLV_From_Offset_Lvl_Cam(u32 tlvOffset_levelId_PathId)
     TlvItemInfoUnion data;
     data.all = tlvOffset_levelId_PathId;
 
-    if (data.parts.levelId == static_cast<s32>(MapWrapper::ToAE(field_0_levelId)) && data.parts.pathId == field_2_pathId)
+    if (data.parts.levelId == static_cast<s32>(MapWrapper::ToAE(mLevelId)) && data.parts.pathId == mPathId)
     {
-        return reinterpret_cast<Path_TLV*>(&(*field_10_ppRes)[field_C_pPathData->field_12_object_offset + data.parts.tlvOffset]);
+        return reinterpret_cast<Path_TLV*>(&(*field_10_ppRes)[mPathData->field_12_object_offset + data.parts.tlvOffset]);
     }
     else
     {
@@ -305,14 +305,14 @@ Path_TLV* Path::TLV_From_Offset_Lvl_Cam(u32 tlvOffset_levelId_PathId)
 u32 Path::TLVInfo_From_TLVPtr(Path_TLV* pTlv)
 {
     TlvItemInfoUnion data;
-    data.parts.levelId = static_cast<u8>(MapWrapper::ToAE(field_0_levelId));
-    data.parts.pathId = static_cast<u8>(field_2_pathId);
+    data.parts.levelId = static_cast<u8>(MapWrapper::ToAE(mLevelId));
+    data.parts.pathId = static_cast<u8>(mPathId);
 
     // Num bytes into the path res block
     const std::size_t diff = reinterpret_cast<u8*>(pTlv) - (*field_10_ppRes);
 
     // Sub off the offset from the start of the path block to TLV data
-    data.parts.tlvOffset = static_cast<u16>(diff - field_C_pPathData->field_12_object_offset);
+    data.parts.tlvOffset = static_cast<u16>(diff - mPathData->field_12_object_offset);
     return data.all;
 }
 
@@ -324,7 +324,7 @@ Path_TLV* Path::TLV_Next_Of_Type(Path_TLV* pTlv, TlvTypes type)
         return nullptr;
     }
 
-    while (pTlv->field_4_type.mType != type)
+    while (pTlv->mTlvType32.mType != type)
     {
         pTlv = Path::Next_TLV(pTlv);
         if (!pTlv)
@@ -352,26 +352,26 @@ void Path::TLV_Reset(u32 tlvOffset_levelId_PathId, s16 hiFlags, s8 bSetCreated, 
 
             if (bSetDestroyed & 1)
             {
-                pTlv->field_0_flags.Set(TLV_Flags::eBit2_Destroyed);
+                pTlv->mTlvFlags.Set(TlvFlags::eBit2_Destroyed);
             }
             else
             {
-                pTlv->field_0_flags.Clear(TLV_Flags::eBit2_Destroyed);
+                pTlv->mTlvFlags.Clear(TlvFlags::eBit2_Destroyed);
             }
 
             if (bSetCreated & 1)
             {
-                pTlv->field_0_flags.Set(TLV_Flags::eBit1_Created);
+                pTlv->mTlvFlags.Set(TlvFlags::eBit1_Created);
             }
             else
             {
-                pTlv->field_0_flags.Clear(TLV_Flags::eBit1_Created);
+                pTlv->mTlvFlags.Clear(TlvFlags::eBit1_Created);
             }
 
             if (hiFlags != -1)
             {
                 // Seems to be a blob per TLV specific bits
-                pTlv->field_1_tlv_state = static_cast<u8>(hiFlags);
+                pTlv->mTlvState = static_cast<u8>(hiFlags);
             }
             ResourceManager::FreeResource_49C330(ppPathRes);
         }
@@ -383,7 +383,7 @@ void Path::Start_Sounds_For_Objects_In_Camera(CameraPos direction, s16 cam_x_idx
     Path_TLV* pTlv = sPath_dword_BB47C0->Get_First_TLV_For_Offsetted_Camera(cam_x_idx, cam_y_idx);
     while (pTlv)
     {
-        if (!(pTlv->field_0_flags.Get(TLV_Flags::eBit1_Created) || (pTlv->field_0_flags.Get(TLV_Flags::eBit2_Destroyed))))
+        if (!(pTlv->mTlvFlags.Get(TlvFlags::eBit1_Created) || (pTlv->mTlvFlags.Get(TlvFlags::eBit2_Destroyed))))
         {
             Start_Sounds_for_TLV(direction, pTlv);
         }
@@ -408,8 +408,8 @@ void Path::Reset_TLVs(u16 pathId)
                 Path_TLV* pTlv = reinterpret_cast<Path_TLV*>(&(*ppPath[pIdx[i] + pPathData->field_12_object_offset]));
                 while (pTlv)
                 {
-                    pTlv->field_0_flags.Clear(TLV_Flags::eBit1_Created);
-                    pTlv->field_0_flags.Clear(TLV_Flags::eBit2_Destroyed);
+                    pTlv->mTlvFlags.Clear(TlvFlags::eBit1_Created);
+                    pTlv->mTlvFlags.Clear(TlvFlags::eBit2_Destroyed);
                     pTlv = Path::Next_TLV(pTlv);
                 }
             }

@@ -52,7 +52,7 @@ public:
         if (!field_BE_bDone)
         {
             // TODO: FIX ME - abstraction break, the x value is used as an offset as to how much to overwrite, the width isn't isn't the pal depth in this case
-            const IRenderer::PalRecord palRec{ static_cast<s16>(field_10_pal_xy.field_0_x + field_B8_pal_x_index), field_10_pal_xy.field_2_y, field_BA_pal_w };
+            const IRenderer::PalRecord palRec{ static_cast<s16>(field_10_pal_xy.x + field_B8_pal_x_index), field_10_pal_xy.y, field_BA_pal_w };
             IRenderer::GetRenderer()->PalSetData(palRec, reinterpret_cast<u8*>(&field_A8_palBuffer[0]));
         }
     }

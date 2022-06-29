@@ -64,22 +64,22 @@ MotionDetector::MotionDetector(Path_MotionDetector* pTlv, s32 tlvInfo, BaseAnima
             mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromDouble(0.5);
         }
 
-        field_114_x1_fp = FP_FromInteger(pTlv->field_8_top_left.field_0_x);
-        field_11C_y1_fp = FP_FromInteger(pTlv->field_C_bottom_right.field_0_x);
-        field_118_x2_fp = FP_FromInteger(pTlv->field_8_top_left.field_2_y);
-        field_120_y2_fp = FP_FromInteger(pTlv->field_C_bottom_right.field_2_y);
+        field_114_x1_fp = FP_FromInteger(pTlv->mTopLeft.x);
+        field_11C_y1_fp = FP_FromInteger(pTlv->mBottomRight.x);
+        field_118_x2_fp = FP_FromInteger(pTlv->mTopLeft.y);
+        field_120_y2_fp = FP_FromInteger(pTlv->mBottomRight.y);
 
         PSX_Point pos = {};
         gMap.Get_Abe_Spawn_Pos(&pos);
         if (pTlv->field_12_device_x)
         {
-            mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pTlv->field_12_device_x - pos.field_0_x);
-            mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->field_14_device_y - pos.field_2_y);
+            mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pTlv->field_12_device_x - pos.x);
+            mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->field_14_device_y - pos.y);
         }
         else
         {
-            mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pTlv->field_8_top_left.field_0_x);
-            mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->field_8_top_left.field_2_y);
+            mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pTlv->mTopLeft.x);
+            mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->mTopLeft.y);
         }
 
         field_174_speed = FP_FromRaw((u16) pTlv->field_16_speed_x256 << 8);

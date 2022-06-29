@@ -115,8 +115,8 @@ UXB::UXB(Path_UXB* pTlv, s32 tlvInfo)
         }
     }
 
-    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pTlv->field_10_top_left.field_0_x + 12);
-    mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->field_10_top_left.field_2_y + 24);
+    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pTlv->mTopLeft.x + 12);
+    mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->mTopLeft.y + 24);
 
     field_114_tlvInfo = tlvInfo;
     field_118_next_state_frame = sGnFrame;
@@ -518,10 +518,10 @@ void UXB::VRender(PrimHeader** ppOt)
         field_11C_anim.VRender(
             FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos
                            + FP_FromInteger(pScreenManager->mCamXOff)
-                           - pScreenManager->mCamPos->field_0_x),
+                           - pScreenManager->mCamPos->x),
             FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos
                            + (FP_FromInteger(pScreenManager->mCamYOff) - FP_NoFractional(mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(12)))
-                           - pScreenManager->mCamPos->field_4_y),
+                           - pScreenManager->mCamPos->y),
             ppOt,
             0,
             0);

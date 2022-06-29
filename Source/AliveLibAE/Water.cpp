@@ -26,17 +26,17 @@ Water::Water(Path_Water* pTlv, s32 tlvInfo)
         Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kSplashResID);
 
         field_114_tlvInfo = tlvInfo;
-        mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pTlv->field_8_top_left.field_0_x);
-        mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->field_8_top_left.field_2_y);
+        mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pTlv->mTopLeft.x);
+        mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->mTopLeft.y);
 
-        field_104_top_left = pTlv->field_8_top_left;
-        field_108_bottom_right = pTlv->field_C_bottom_right;
+        field_104_top_left = pTlv->mTopLeft;
+        field_108_bottom_right = pTlv->mBottomRight;
 
-        field_104_top_left.field_0_x += -FP_GetExponent(pScreenManager->CamXPos());
-        field_104_top_left.field_2_y += -FP_GetExponent(pScreenManager->CamYPos());
+        field_104_top_left.x += -FP_GetExponent(pScreenManager->CamXPos());
+        field_104_top_left.y += -FP_GetExponent(pScreenManager->CamYPos());
 
-        field_108_bottom_right.field_0_x += -FP_GetExponent(pScreenManager->CamXPos());
-        field_108_bottom_right.field_2_y += -FP_GetExponent(pScreenManager->CamYPos());
+        field_108_bottom_right.x += -FP_GetExponent(pScreenManager->CamXPos());
+        field_108_bottom_right.y += -FP_GetExponent(pScreenManager->CamYPos());
 
         field_124_tlv_data = pTlv->field_10_data;
 
@@ -48,8 +48,8 @@ Water::Water(Path_Water* pTlv, s32 tlvInfo)
 
         field_130_splash_x_vel = FP_FromRaw(field_124_tlv_data.field_16_splash_x_velocity << 8);
         field_134_emit_x_vel = FP_FromRaw(field_124_tlv_data.field_16_splash_x_velocity << 8);
-        field_118_radius = FP_FromInteger((field_108_bottom_right.field_0_x - field_104_top_left.field_0_x) / 2);
-        field_11C_centre = FP_FromInteger(field_104_top_left.field_0_x) + field_118_radius;
+        field_118_radius = FP_FromInteger((field_108_bottom_right.x - field_104_top_left.x) / 2);
+        field_11C_centre = FP_FromInteger(field_104_top_left.x) + field_118_radius;
 
         field_138_splash_time = 0;
 
@@ -57,7 +57,7 @@ Water::Water(Path_Water* pTlv, s32 tlvInfo)
         if (field_F4_ppWaterRes)
         {
             field_F8_pWaterRes = reinterpret_cast<Water_Res*>(*field_F4_ppWaterRes);
-            field_FC_state = static_cast<WaterState>(pTlv->field_1_tlv_state);
+            field_FC_state = static_cast<WaterState>(pTlv->mTlvState);
 
             if (field_FC_state == WaterState::eFlowing_2)
             {
@@ -117,8 +117,8 @@ Water::Water(Path_Water* pTlv, s32 tlvInfo)
                 Poly_Set_Blending(&pPoly->mBase.header, TRUE);
 
                 const s32 clut = PSX_getClut(
-                    mBaseAnimatedWithPhysicsGameObject_Anim.field_8C_pal_vram_xy.field_0_x,
-                    mBaseAnimatedWithPhysicsGameObject_Anim.field_8C_pal_vram_xy.field_2_y);
+                    mBaseAnimatedWithPhysicsGameObject_Anim.field_8C_pal_vram_xy.x,
+                    mBaseAnimatedWithPhysicsGameObject_Anim.field_8C_pal_vram_xy.y);
 
                 SetClut(pPoly, static_cast<s16>(clut));
                 SetTPage(pPoly, static_cast<s16>(tPage));
@@ -133,8 +133,8 @@ Water::Water(Path_Water* pTlv, s32 tlvInfo)
             field_102_screen_y = FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos - pScreenManager->CamYPos());
 
             PSX_RECT rect = {};
-            rect.y = mBaseAnimatedWithPhysicsGameObject_Anim.field_8C_pal_vram_xy.field_2_y;
-            rect.x = mBaseAnimatedWithPhysicsGameObject_Anim.field_8C_pal_vram_xy.field_0_x + 1;
+            rect.y = mBaseAnimatedWithPhysicsGameObject_Anim.field_8C_pal_vram_xy.y;
+            rect.x = mBaseAnimatedWithPhysicsGameObject_Anim.field_8C_pal_vram_xy.x + 1;
             rect.w = 1;
             rect.h = 1;
 
@@ -242,7 +242,7 @@ void Water::Add_Water_Particle()
 
         pWaterRes->field_0_xpos = (Math_Sine_496DD0(rand1) * xRand) + field_11C_centre;
         pWaterRes->field_8_zpos = (Math_Cosine_496CD0(rand1) * rand2) * field_118_radius;
-        pWaterRes->field_4_ypos = FP_FromInteger(field_104_top_left.field_2_y);
+        pWaterRes->field_4_ypos = FP_FromInteger(field_104_top_left.y);
 
         pWaterRes->field_C_delta_x = field_134_emit_x_vel;
         pWaterRes->field_10_delta_y = FP_FromInteger(0);
@@ -447,7 +447,7 @@ void Water::VUpdate()
                 else
                 {
                     pWaterRes->field_C_delta_x.fpValue -= pWaterRes->field_C_delta_x.fpValue >> 3;
-                    if (FP_GetExponent(pWaterRes->field_4_ypos) > field_108_bottom_right.field_2_y)
+                    if (FP_GetExponent(pWaterRes->field_4_ypos) > field_108_bottom_right.y)
                     {
                         // TODO: Refactor
                         if (Math_NextRandom() % 32)
@@ -457,7 +457,7 @@ void Water::VUpdate()
                             pWaterRes->field_10_delta_y = -pWaterRes->field_10_delta_y * FP_FromDouble(0.25);
                             const FP dz = FP_FromRaw(Math_NextRandom() << 9) - FP_FromInteger(1);
                             pWaterRes->field_14_delta_z = FP_FromInteger(2) * dz;
-                            pWaterRes->field_4_ypos = FP_FromInteger(field_108_bottom_right.field_2_y);
+                            pWaterRes->field_4_ypos = FP_FromInteger(field_108_bottom_right.y);
                             pWaterRes->field_1C_state = 1;
                             pWaterRes->field_1A_splash_time = field_124_tlv_data.field_14_splash_time;
                         }
@@ -468,7 +468,7 @@ void Water::VUpdate()
                             pWaterRes->field_10_delta_y = -pWaterRes->field_10_delta_y * FP_FromDouble(0.5);
                             const FP dz = FP_FromRaw(Math_NextRandom() << 9) - FP_FromInteger(1);
                             pWaterRes->field_14_delta_z = FP_FromInteger(4) * dz;
-                            pWaterRes->field_4_ypos = FP_FromInteger(field_108_bottom_right.field_2_y);
+                            pWaterRes->field_4_ypos = FP_FromInteger(field_108_bottom_right.y);
                             pWaterRes->field_1C_state = 2;
                             pWaterRes->field_1A_splash_time = 15;
                         }
@@ -546,9 +546,9 @@ void Water::VRender(PrimHeader** ppOt)
 
                 if (pWaterRes->field_1C_state == 0)
                 {
-                    if ((height + polyY) > field_108_bottom_right.field_2_y)
+                    if ((height + polyY) > field_108_bottom_right.y)
                     {
-                        height = field_108_bottom_right.field_2_y - polyY;
+                        height = field_108_bottom_right.y - polyY;
                     }
                 }
 

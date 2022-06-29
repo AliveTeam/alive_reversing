@@ -150,7 +150,7 @@ UXB::UXB(Path_UXB* tlv_params, TlvItemInfoUnion itemInfo)
     }
 
     InitBlinkAnim(&field_128_animation);
-    if (tlv_params->field_1_tlv_state) // Stores the activated/deactivated state for UXB.
+    if (tlv_params->mTlvState) // Stores the activated/deactivated state for UXB.
     {
         if (tlv_params->field_16_start_state == Path_UXB::StartState::eOn_0)
         {
@@ -193,15 +193,15 @@ UXB::UXB(Path_UXB* tlv_params, TlvItemInfoUnion itemInfo)
     FP hitX = {};
     FP hitY = {};
 
-    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger((tlv_params->field_8_top_left.field_0_x + tlv_params->field_C_bottom_right.field_0_x) / 2);
-    mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(tlv_params->field_8_top_left.field_2_y);
+    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger((tlv_params->mTopLeft.x + tlv_params->mBottomRight.x) / 2);
+    mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(tlv_params->mTopLeft.y);
 
     // Raycasts on ctor to place perfectly on the floor.
     if (sCollisions->Raycast(
             mBaseAnimatedWithPhysicsGameObject_XPos,
-            FP_FromInteger(tlv_params->field_8_top_left.field_2_y),
+            FP_FromInteger(tlv_params->mTopLeft.y),
             mBaseAnimatedWithPhysicsGameObject_XPos,
-            FP_FromInteger(tlv_params->field_8_top_left.field_2_y + 24),
+            FP_FromInteger(tlv_params->mTopLeft.y + 24),
             &BaseAliveGameObjectCollisionLine,
             &hitX,
             &hitY,

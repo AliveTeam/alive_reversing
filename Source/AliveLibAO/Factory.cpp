@@ -290,8 +290,8 @@ void Factory_LiftPoint_4820F0(Path_TLV* pTlv, Map* pMap, TlvItemInfoUnion tlvOff
                 auto pLiftObj = static_cast<LiftPoint*>(pObjIter);
 
                 const s16 xpos_i = FP_GetExponent(pLiftObj->mBaseAnimatedWithPhysicsGameObject_XPos);
-                if (pTlv->field_10_top_left.field_0_x <= xpos_i
-                    && xpos_i <= pTlv->field_14_bottom_right.field_0_x
+                if (pTlv->mTopLeft.x <= xpos_i
+                    && xpos_i <= pTlv->mBottomRight.x
                     && pLiftObj->mBaseAnimatedWithPhysicsGameObject_LvlNumber == gMap.mCurrentLevel
                     && pLiftObj->mBaseAnimatedWithPhysicsGameObject_PathNumber == gMap.mCurrentPath)
                 {
@@ -323,10 +323,10 @@ void Factory_LiftPoint_4820F0(Path_TLV* pTlv, Map* pMap, TlvItemInfoUnion tlvOff
                     pointNumber / 2 * (pointNumber % 2 != 0 ? -1 : 1));
                 while (pTlvIter)
                 {
-                    if (pTlvIter->field_4_type == TlvTypes::LiftPoint_8)
+                    if (pTlvIter->mTlvType32 == TlvTypes::LiftPoint_8)
                     {
-                        const auto tlv_x = pTlv->field_10_top_left.field_0_x;
-                        const auto absX = pTlvIter->field_10_top_left.field_0_x - tlv_x >= 0 ? pTlvIter->field_10_top_left.field_0_x - tlv_x : tlv_x - pTlvIter->field_10_top_left.field_0_x;
+                        const auto tlv_x = pTlv->mTopLeft.x;
+                        const auto absX = pTlvIter->mTopLeft.x - tlv_x >= 0 ? pTlvIter->mTopLeft.x - tlv_x : tlv_x - pTlvIter->mTopLeft.x;
                         if (absX < 5)
                         {
                             if (pTlvIter->field_1_unknown & 2 || (pTlvIter->field_1_unknown == 0 && static_cast<Path_LiftPoint*>(pTlvIter)->field_1A_bstart_point == Choice_short::eYes_1))
@@ -374,8 +374,8 @@ void Factory_WellExpress_483340(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion 
         };
         ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, kResources);
 
-        const FP xpos = FP_FromInteger(pTlv->field_10_top_left.field_0_x);
-        const FP ypos = FP_FromInteger(pTlv->field_10_top_left.field_2_y);
+        const FP xpos = FP_FromInteger(pTlv->mTopLeft.x);
+        const FP ypos = FP_FromInteger(pTlv->mTopLeft.y);
         relive_new Well(static_cast<Path_WellBase*>(pTlv), xpos, ypos, tlvOffsetLevelIdPathId.all);
     }
 }
@@ -389,8 +389,8 @@ void Factory_Dove_4834C0(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffs
 
         auto pDoveTlv = static_cast<Path_Dove*>(pTlv);
 
-        const s16 width = pDoveTlv->field_14_bottom_right.field_0_x - pDoveTlv->field_10_top_left.field_0_x;
-        const s16 height = pDoveTlv->field_14_bottom_right.field_2_y - pDoveTlv->field_10_top_left.field_2_y;
+        const s16 width = pDoveTlv->mBottomRight.x - pDoveTlv->mTopLeft.x;
+        const s16 height = pDoveTlv->mBottomRight.y - pDoveTlv->mTopLeft.y;
 
         for (s32 i = 0; i < pDoveTlv->field_18_dove_count; i++)
         {
@@ -409,13 +409,13 @@ void Factory_Dove_4834C0(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffs
                 s16 ypos = 0;
                 if (pDoveTlv->field_1A_pixel_perfect == Choice_short::eYes_1)
                 {
-                    pDove->mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pDoveTlv->field_10_top_left.field_0_x);
-                    ypos = pDoveTlv->field_10_top_left.field_2_y;
+                    pDove->mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pDoveTlv->mTopLeft.x);
+                    ypos = pDoveTlv->mTopLeft.y;
                 }
                 else
                 {
-                    pDove->mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pDoveTlv->field_10_top_left.field_0_x + width * Math_NextRandom() / 256);
-                    ypos = pDoveTlv->field_10_top_left.field_2_y + height * Math_NextRandom() / 256;
+                    pDove->mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pDoveTlv->mTopLeft.x + width * Math_NextRandom() / 256);
+                    ypos = pDoveTlv->mTopLeft.y + height * Math_NextRandom() / 256;
                 }
 
                 pDove->mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(ypos) + FP_FromInteger(10);
@@ -620,10 +620,10 @@ void Factory_Honey_4844A0(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOff
         };
         ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, kResourcesToCheck);
 
-        const auto midPoint = (pTlv->field_14_bottom_right.field_0_x - pTlv->field_10_top_left.field_0_x) / 2;
+        const auto midPoint = (pTlv->mBottomRight.x - pTlv->mTopLeft.x) / 2;
         auto pHoney = relive_new Honey(
-            FP_FromInteger(midPoint + pTlv->field_10_top_left.field_0_x),
-            FP_FromInteger(pTlv->field_10_top_left.field_2_y + 24));
+            FP_FromInteger(midPoint + pTlv->mTopLeft.x),
+            FP_FromInteger(pTlv->mTopLeft.y + 24));
         if (pHoney)
         {
             pHoney->field_E4_tlvInfo = tlvOffsetLevelIdPathId.all;
@@ -641,7 +641,7 @@ void Factory_Null_484640(Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUnion /*t
 void Factory_TimedMine_484650(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
 {
     auto pTimedMineTlv = static_cast<Path_TimedMine*>(pTlv);
-    const auto disabledResource = pTimedMineTlv->field_20_disable_resources;
+    const auto disabledResource = pTimedMineTlv->mDisabledResources;
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
         ResourceManager::LoadResource_446C90("ABEBLOW.BAN", ResourceManager::Resource_Animation, AOResourceID::kAbeblowAOResID, loadMode, disabledResource & 1);
@@ -1029,8 +1029,8 @@ void Factory_AbeStart_486050(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion /*t
             sActiveHero_507678 = relive_new Abe(55888, 85, 57, 55);
             if (sActiveHero_507678)
             {
-                sActiveHero_507678->mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pTlv->field_10_top_left.field_0_x + 12);
-                sActiveHero_507678->mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->field_10_top_left.field_2_y);
+                sActiveHero_507678->mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pTlv->mTopLeft.x + 12);
+                sActiveHero_507678->mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->mTopLeft.y);
             }
         }
     }
@@ -1416,7 +1416,7 @@ static Path_TLV* FindMatchingSligTLV(Path_TLV* pTlvIter, Path_SligBound* pTlv)
 {
     while (pTlvIter)
     {
-        if (pTlvIter->field_4_type == TlvTypes::Slig_24 && pTlv->field_18_slig_id == static_cast<Path_Slig*>(pTlvIter)->field_40_slig_bound_id && !pTlvIter->field_0_flags.Get(TLV_Flags::eBit2_Destroyed))
+        if (pTlvIter->mTlvType32 == TlvTypes::Slig_24 && pTlv->field_18_slig_id == static_cast<Path_Slig*>(pTlvIter)->field_40_slig_bound_id && !pTlvIter->mTlvFlags.Get(TlvFlags::eBit2_Destroyed))
         {
             return pTlvIter;
         }
@@ -1436,8 +1436,8 @@ void Factory_SligLeftBound_482520(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnio
     }
     else
     {
-        pBound->field_0_flags.Clear(TLV_Flags::eBit1_Created);
-        pBound->field_0_flags.Clear(TLV_Flags::eBit2_Destroyed);
+        pBound->mTlvFlags.Clear(TlvFlags::eBit1_Created);
+        pBound->mTlvFlags.Clear(TlvFlags::eBit2_Destroyed);
 
         for (s16 camX_idx = -2; camX_idx < 3; camX_idx++)
         {
@@ -1445,8 +1445,8 @@ void Factory_SligLeftBound_482520(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnio
             pTlvIter = FindMatchingSligTLV(pTlvIter, pBound);
             if (pTlvIter)
             {
-                pTlvIter->field_0_flags.Set(TLV_Flags::eBit1_Created);
-                pTlvIter->field_0_flags.Set(TLV_Flags::eBit2_Destroyed);
+                pTlvIter->mTlvFlags.Set(TlvFlags::eBit1_Created);
+                pTlvIter->mTlvFlags.Set(TlvFlags::eBit2_Destroyed);
                 // AO OG bug tlvOffsetLevelIdPathId not recalculated??
                 relive_new Slig(static_cast<Path_Slig*>(pTlvIter), tlvOffsetLevelIdPathId.all);
                 return;
@@ -1627,8 +1627,8 @@ void Factory_ElumStart_Unknown_4873D0(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfo
     else
     {
         Elum::Spawn(tlvOffsetLevelIdPathId);
-        gElum_507680->mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pTlv->field_10_top_left.field_0_x);
-        gElum_507680->mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->field_10_top_left.field_2_y);
+        gElum_507680->mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pTlv->mTopLeft.x);
+        gElum_507680->mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->mTopLeft.y);
     }
 }
 
@@ -2297,7 +2297,7 @@ void Factory_RingCancel_4818D0(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion t
             s16 field_18_bShrykull_remove;
         };
 
-        if (pTlv->field_2_length == sizeof(Path_RingCancel_Corrected))
+        if (pTlv->mLength == sizeof(Path_RingCancel_Corrected))
         {
             bRemovesShrykull = static_cast<Path_RingCancel_Corrected*>(pTlv)->field_18_bShrykull_remove;
         }

@@ -374,7 +374,7 @@ void DumpMenus()
             output << "\t{ ";
             output << e->field_0_unknown2 << ", ";
             output << e->field_2_x << ", ";
-            output << e->field_4_y << ", ";
+            output << e->y << ", ";
             output << e->field_6_unknown << ", ";
             output << "\"" << EscapeUnknownCharacters(e->field_8_text) << "\""
                    << ", ";
@@ -916,7 +916,7 @@ void PauseMenu::Page_Base_Render(PrimHeader** ot, PauseMenu::PauseMenuPage* mp)
             ot,
             textFormatted,
             x,            // X
-            e->field_4_y, // Y
+            e->y, // Y
             TPageAbr::eBlend_0,
             1,
             0,
@@ -952,7 +952,7 @@ void PauseMenu::RestartPath()
         1,
         1);
 
-    gMap.field_8_force_load = TRUE;
+    gMap.mForceLoad = TRUE;
     if (sActiveHero->field_1A2_throwable_count)
     {
         LoadRockTypes_49AB30(
@@ -1145,7 +1145,7 @@ void PauseMenu::Page_ReallyQuit_Update()
 
         pPauseMenu_5C9300 = 0;
         gMap.SetActiveCam(EReliveLevelIds::eMenu, 1, 1, CameraSwapEffects::eInstantChange_0, 0, 0);
-        gMap.field_CE_free_all_anim_and_palts = 1;
+        gMap.mFreeAllAnimAndPalts = 1;
         sCurrentControllerIndex_5C1BBE = 0;
     }
 }

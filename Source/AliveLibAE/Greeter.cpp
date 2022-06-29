@@ -58,8 +58,8 @@ Greeter::Greeter(Path_Greeter* pTlv, s32 tlvInfo)
     field_12E_bDontSetDestroyed = 1;
     field_118_tlvInfo = tlvInfo;
 
-    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger((pTlv->field_8_top_left.field_0_x + pTlv->field_C_bottom_right.field_0_x) / 2);
-    mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->field_8_top_left.field_2_y);
+    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger((pTlv->mTopLeft.x + pTlv->mBottomRight.x) / 2);
+    mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->mTopLeft.y);
 
     FP hitX = {};
     FP hitY = {};
@@ -337,7 +337,7 @@ void Greeter::HandleRollingAlong()
                                                       mBaseAnimatedWithPhysicsGameObject_VelX + mBaseAnimatedWithPhysicsGameObject_XPos + mBaseAnimatedWithPhysicsGameObject_VelX,
                                                       mBaseAnimatedWithPhysicsGameObject_VelY + mBaseAnimatedWithPhysicsGameObject_YPos + mBaseAnimatedWithPhysicsGameObject_VelY))
     {
-        switch (pTlv->field_4_type.mType)
+        switch (pTlv->mTlvType32.mType)
         {
             case TlvTypes::DeathDrop_4:
                 BlowUp();

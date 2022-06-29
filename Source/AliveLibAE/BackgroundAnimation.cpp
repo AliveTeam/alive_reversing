@@ -20,11 +20,11 @@ BackgroundAnimation::BackgroundAnimation(Path_BackgroundAnimation* pTlv, TlvItem
         return;
     }
 
-    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pTlv->field_8_top_left.field_0_x);
-    mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->field_8_top_left.field_2_y);
+    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pTlv->mTopLeft.x);
+    mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->mTopLeft.y);
 
-    field_FC_animXPos = FP_FromInteger(pTlv->field_8_top_left.field_0_x);
-    field_100_animYPos = FP_FromInteger(pTlv->field_8_top_left.field_2_y);
+    field_FC_animXPos = FP_FromInteger(pTlv->mTopLeft.x);
+    field_100_animYPos = FP_FromInteger(pTlv->mTopLeft.y);
 
     Animation_Init(
         anim.mFrameTableOffset,

@@ -160,8 +160,8 @@ Gibs::Gibs(GibType gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scale)
         pPart->field_18_animation.mGreen = static_cast<u8>(mBaseAnimatedWithPhysicsGameObject_RGB.g);
         pPart->field_18_animation.mBlue = static_cast<u8>(mBaseAnimatedWithPhysicsGameObject_RGB.b);
 
-        pPart->field_0_x = mBaseAnimatedWithPhysicsGameObject_XPos;
-        pPart->field_4_y = mBaseAnimatedWithPhysicsGameObject_YPos;
+        pPart->x = mBaseAnimatedWithPhysicsGameObject_XPos;
+        pPart->y = mBaseAnimatedWithPhysicsGameObject_YPos;
         pPart->field_8_z = field_E8_z;
 
         pPart->field_C_dx = xOff + GibRand(scale);
@@ -201,8 +201,8 @@ void Gibs::VUpdate()
 
     for (s32 i = 0; i < field_5C4_parts_used_count; i++)
     {
-        field_F4_parts[i].field_0_x += field_F4_parts[i].field_C_dx;
-        field_F4_parts[i].field_4_y += field_F4_parts[i].field_10_dy;
+        field_F4_parts[i].x += field_F4_parts[i].field_C_dx;
+        field_F4_parts[i].y += field_F4_parts[i].field_10_dy;
         field_F4_parts[i].field_8_z += field_F4_parts[i].field_14_dz;
 
         field_F4_parts[i].field_10_dy += FP_FromDouble(0.25);
@@ -242,18 +242,18 @@ void Gibs::VRender(PrimHeader** ppOt)
     BaseAnimatedWithPhysicsGameObject::VRender(ppOt);
 
     const FP_Point* pCamPos = pScreenManager->mCamPos;
-    const FP left = pCamPos->field_0_x - FP_FromInteger(pScreenManager->mCamXOff);
-    const FP right = pCamPos->field_0_x + FP_FromInteger(pScreenManager->mCamXOff);
+    const FP left = pCamPos->x - FP_FromInteger(pScreenManager->mCamXOff);
+    const FP right = pCamPos->x + FP_FromInteger(pScreenManager->mCamXOff);
 
-    const FP up = pCamPos->field_4_y - FP_FromInteger(pScreenManager->mCamYOff);
-    const FP down = pCamPos->field_4_y + FP_FromInteger(pScreenManager->mCamYOff);
+    const FP up = pCamPos->y - FP_FromInteger(pScreenManager->mCamYOff);
+    const FP down = pCamPos->y + FP_FromInteger(pScreenManager->mCamYOff);
 
     for (s32 i = 0; i < field_5C4_parts_used_count; i++)
     {
         GibPart* pGib = &field_F4_parts[i];
-        if (pGib->field_0_x >= left && pGib->field_0_x <= right)
+        if (pGib->x >= left && pGib->x <= right)
         {
-            if (pGib->field_4_y >= up && pGib->field_4_y <= down)
+            if (pGib->y >= up && pGib->y <= down)
             {
                 pGib->field_18_animation.field_14_scale = FP_FromInteger(100) / (pGib->field_8_z + FP_FromInteger(100));
                 if (pGib->field_18_animation.field_14_scale < FP_FromInteger(1))
@@ -266,8 +266,8 @@ void Gibs::VRender(PrimHeader** ppOt)
                 }
 
                 pGib->field_18_animation.VRender(
-                    FP_GetExponent(pGib->field_0_x - left),
-                    FP_GetExponent(pGib->field_4_y - up),
+                    FP_GetExponent(pGib->x - left),
+                    FP_GetExponent(pGib->y - up),
                     ppOt,
                     0,
                     0);

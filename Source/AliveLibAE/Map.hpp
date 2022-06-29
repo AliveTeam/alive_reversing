@@ -14,7 +14,7 @@ struct Map_PathsArray_Extended final
 
 struct Map_PathsArray final
 {
-    u8** field_0_pPathRecs[30];
+    u8** mPathRecs[30];
 };
 ALIVE_ASSERT_SIZEOF(Map_PathsArray, 120);
 
@@ -89,34 +89,34 @@ public:
         eSliceCam_1 = 1,
         eInstantChange_2 = 2
     };
-    CamChangeStates field_6_state = CamChangeStates::eInactive_0;
-    s16 field_8_force_load = 0;
+    CamChangeStates mCamState = CamChangeStates::eInactive_0;
+    s16 mForceLoad = 0;
 
-    CameraSwapEffects field_10_screen_change_effect = CameraSwapEffects::eInstantChange_0;
-    u16 field_12_fmv_base_id = 0;
+    CameraSwapEffects mCameraSwapEffect = CameraSwapEffects::eInstantChange_0;
+    u16 mFmvBaseId = 0;
 
-    MapDirections field_14_direction = MapDirections::eMapLeft_0;
+    MapDirections mMapDirection = MapDirections::eMapLeft_0;
 
-    BaseAliveGameObject* field_18_pAliveObj = nullptr;
+    BaseAliveGameObject* mAliveObj = nullptr;
 
-    CameraSwapEffects field_1C = CameraSwapEffects::eInstantChange_0;
-    s16 field_1E_door = 0;
-    s16 field_20 = 0;
+    CameraSwapEffects mConvertedCameraSwapEffect_NeverRead = CameraSwapEffects::eInstantChange_0;
+    s16 mDoorTransition = 0;
+    s16 mTeleporterTransition = 0;
 
     FP_Point field_24_camera_offset = {};
 
     Camera* field_2C_camera_array[5] = {};
     Camera* field_40_stru_5[5] = {};
-    Map_PathsArray field_54_path_res_array = {};
+    Map_PathsArray mPathResArray = {};
 
     s16 field_CC_unused = 0;
-    s16 field_CE_free_all_anim_and_palts = 0;
+    s16 mFreeAllAnimAndPalts = 0;
 
-    s16 field_D0_cam_x_idx = 0;
-    s16 field_D2_cam_y_idx = 0;
+    s16 mCamIdxOnX = 0;
+    s16 mCamIdxOnY = 0;
 
-    const PathData* field_D4_ptr = nullptr;
-    u8* field_D8_restore_quick_save = nullptr;
+    const PathData* mPathData = nullptr;
+    u8* mRestoreQuickSaveData = nullptr;
 
 
     void ScreenChange();

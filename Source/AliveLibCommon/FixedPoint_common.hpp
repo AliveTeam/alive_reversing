@@ -132,8 +132,7 @@ ALIVE_ASSERT_SIZEOF(FP, 0x4);
 
 struct FP_Point final
 {
-    FP field_0_x;
-    FP field_4_y;
+    FP x, y;
 };
 ALIVE_ASSERT_SIZEOF(FP_Point, 8);
 

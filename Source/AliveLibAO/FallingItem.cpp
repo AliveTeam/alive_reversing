@@ -81,11 +81,11 @@ FallingItem::FallingItem(Path_FallingItem* pTlv, s32 tlvInfo)
     field_120_reset_switch_id_after_use = pTlv->field_20_reset_switch_id_after_use;
     field_122_do_sound_in_state_falling = 1;
 
-    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pTlv->field_10_top_left.field_0_x);
-    mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->field_10_top_left.field_2_y);
+    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pTlv->mTopLeft.x);
+    mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->mTopLeft.y);
 
-    field_128_xpos = FP_FromInteger((pTlv->field_14_bottom_right.field_0_x + pTlv->field_10_top_left.field_0_x) / 2);
-    field_12C_ypos = FP_FromInteger(pTlv->field_14_bottom_right.field_2_y);
+    field_128_xpos = FP_FromInteger((pTlv->mBottomRight.x + pTlv->mTopLeft.x) / 2);
+    field_12C_ypos = FP_FromInteger(pTlv->mBottomRight.y);
 
     field_124_yPosStart = mBaseAnimatedWithPhysicsGameObject_YPos;
     field_110_state = State::eWaitForIdEnable_0;

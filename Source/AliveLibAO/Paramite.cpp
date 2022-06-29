@@ -140,8 +140,8 @@ Paramite::Paramite(Path_Paramite* pTlv, s32 tlvInfo)
 
     field_14C_pWeb = nullptr;
 
-    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pTlv->field_10_top_left.field_0_x);
-    mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->field_10_top_left.field_2_y);
+    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pTlv->mTopLeft.x);
+    mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->mTopLeft.y);
 
     if (pTlv->field_18_scale == Scale_short::eHalf_1)
     {
@@ -381,7 +381,7 @@ void Paramite::VOn_TLV_Collision(Path_TLV* pTlv)
 {
     while (pTlv)
     {
-        if (pTlv->field_4_type == TlvTypes::DeathDrop_5)
+        if (pTlv->mTlvType32 == TlvTypes::DeathDrop_5)
         {
             mBaseGameObjectFlags.Set(BaseGameObject::eDead);
             mHealth = FP_FromInteger(0);

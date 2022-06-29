@@ -46,10 +46,10 @@ void ExplosionSet::Start()
 
 void ExplosionSet::Init(Path_ExplosionSet* pTlv)
 {
-    field_48_tlv_rect.x = pTlv->field_8_top_left.field_0_x;
-    field_48_tlv_rect.y = pTlv->field_8_top_left.field_2_y;
-    field_48_tlv_rect.w = pTlv->field_C_bottom_right.field_0_x - pTlv->field_8_top_left.field_0_x;
-    field_48_tlv_rect.h = pTlv->field_C_bottom_right.field_2_y - pTlv->field_8_top_left.field_2_y;
+    field_48_tlv_rect.x = pTlv->mTopLeft.x;
+    field_48_tlv_rect.y = pTlv->mTopLeft.y;
+    field_48_tlv_rect.w = pTlv->mBottomRight.x - pTlv->mTopLeft.x;
+    field_48_tlv_rect.h = pTlv->mBottomRight.y - pTlv->mTopLeft.y;
 
     if (pTlv->field_20_scale != Scale_short::eFull_0)
     {

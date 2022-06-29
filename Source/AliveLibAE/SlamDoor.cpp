@@ -93,11 +93,11 @@ SlamDoor::SlamDoor(Path_SlamDoor* pTlv, TlvItemInfoUnion tlvInfo)
 
     SetType(ReliveTypes::eSlamDoor);
 
-    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(((pTlv->field_8_top_left.field_0_x
-                                     + pTlv->field_C_bottom_right.field_0_x)
+    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(((pTlv->mTopLeft.x
+                                     + pTlv->mBottomRight.x)
                                     / 2));
 
-    mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->field_8_top_left.field_2_y);
+    mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->mTopLeft.y);
     field_12C_tlvInfo = tlvInfo;
 
     if (pTlv->field_12_scale == Scale_short::eHalf_1)

@@ -57,8 +57,8 @@ SecurityDoor::SecurityDoor(Path_SecurityDoor* pTlv, s32 tlvInfo)
     field_EA_switch_id = pTlv->field_1A_switch_id;
     field_EC_code_converted = Code_Convert(pTlv->field_1C_code_1, pTlv->field_1E_code2);
     field_F0_code_len = Code_Length(field_EC_code_converted);
-    field_10C_top_left = pTlv->field_10_top_left;
-    field_110_bottom_right = pTlv->field_14_bottom_right;
+    field_10C_top_left = pTlv->mTopLeft;
+    field_110_bottom_right = pTlv->mBottomRight;
     mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pTlv->field_20_xpos);
     mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->field_22_ypos);
 
@@ -87,12 +87,12 @@ Bool32 SecurityDoor::IsPlayerNear()
     const s16 xpos = FP_GetExponent(sControlledCharacter_50767C->mBaseAnimatedWithPhysicsGameObject_XPos);
     const s16 ypos = FP_GetExponent(sControlledCharacter_50767C->mBaseAnimatedWithPhysicsGameObject_YPos);
 
-    if (xpos < field_10C_top_left.field_0_x || xpos > field_110_bottom_right.field_0_x)
+    if (xpos < field_10C_top_left.x || xpos > field_110_bottom_right.x)
     {
         return 0;
     }
 
-    if (ypos >= field_10C_top_left.field_2_y && ypos <= field_110_bottom_right.field_2_y)
+    if (ypos >= field_10C_top_left.y && ypos <= field_110_bottom_right.y)
     {
         return 1;
     }

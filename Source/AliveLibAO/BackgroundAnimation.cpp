@@ -28,39 +28,39 @@ BackgroundAnimation::BackgroundAnimation(Path_BackgroundAnimation* pTlv, s32 tlv
     auto pHeader = reinterpret_cast<AnimHeader*>(*field_E4_res);
 
     // TODO: Refactor to use min/max
-    auto xMax = pTlv->field_10_top_left.field_0_x + pHeader->field_0_max_w;
-    if (pTlv->field_10_top_left.field_0_x <= pTlv->field_10_top_left.field_0_x + pHeader->field_0_max_w)
+    auto xMax = pTlv->mTopLeft.x + pHeader->field_0_max_w;
+    if (pTlv->mTopLeft.x <= pTlv->mTopLeft.x + pHeader->field_0_max_w)
     {
-        xMax = pTlv->field_10_top_left.field_0_x;
+        xMax = pTlv->mTopLeft.x;
     }
     field_E8_xpos = static_cast<s16>(xMax);
 
-    auto wMax = pTlv->field_10_top_left.field_0_x + pHeader->field_0_max_w;
-    if (wMax <= pTlv->field_10_top_left.field_0_x)
+    auto wMax = pTlv->mTopLeft.x + pHeader->field_0_max_w;
+    if (wMax <= pTlv->mTopLeft.x)
     {
-        wMax = pTlv->field_10_top_left.field_0_x;
+        wMax = pTlv->mTopLeft.x;
     }
     field_EC_w = static_cast<s16>(wMax);
 
-    auto yMax = pTlv->field_10_top_left.field_2_y + pHeader->field_2_max_h;
-    if (pTlv->field_10_top_left.field_2_y <= yMax)
+    auto yMax = pTlv->mTopLeft.y + pHeader->field_2_max_h;
+    if (pTlv->mTopLeft.y <= yMax)
     {
-        yMax = pTlv->field_10_top_left.field_2_y;
+        yMax = pTlv->mTopLeft.y;
     }
     field_EA_ypos = static_cast<s16>(yMax);
 
-    auto hMax = pTlv->field_10_top_left.field_2_y + pHeader->field_2_max_h;
-    if (pTlv->field_10_top_left.field_2_y + pHeader->field_2_max_h <= pTlv->field_10_top_left.field_2_y)
+    auto hMax = pTlv->mTopLeft.y + pHeader->field_2_max_h;
+    if (pTlv->mTopLeft.y + pHeader->field_2_max_h <= pTlv->mTopLeft.y)
     {
-        hMax = pTlv->field_10_top_left.field_2_y;
+        hMax = pTlv->mTopLeft.y;
     }
     field_EE_h = static_cast<s16>(hMax);
 
-    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pTlv->field_10_top_left.field_0_x);
-    mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->field_10_top_left.field_2_y);
+    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pTlv->mTopLeft.x);
+    mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->mTopLeft.y);
 
-    field_F8_animXPos = FP_FromInteger(pTlv->field_10_top_left.field_0_x);
-    field_FC_animYPos = FP_FromInteger(pTlv->field_10_top_left.field_2_y);
+    field_F8_animXPos = FP_FromInteger(pTlv->mTopLeft.x);
+    field_FC_animYPos = FP_FromInteger(pTlv->mTopLeft.y);
 
     if (pHeader->field_4_frame_table_offset != anim.mFrameTableOffset ||
         pHeader->field_0_max_w != anim.mMaxW ||

@@ -48,8 +48,8 @@ SecurityOrb::SecurityOrb(Path_SecurityOrb* pTlv, s32 tlvInfo)
 
     SetTint(sSecurityOrbTints_55C1EC, gMap.mCurrentLevel);
 
-    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pTlv->field_8_top_left.field_0_x);
-    mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->field_8_top_left.field_2_y);
+    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pTlv->mTopLeft.x);
+    mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->mTopLeft.y);
 
     field_118_tlvInfo = tlvInfo;
 

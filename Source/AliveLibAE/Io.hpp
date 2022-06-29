@@ -15,7 +15,7 @@ using IO_FileHandleType = struct FILE*;
 
 struct IO_Handle final
 {
-    s32 field_0_flags;
+    s32 mTlvFlags;
     s32 field_4;
     IO_FileHandleType field_8_hFile;
     s32 field_C_last_api_result;

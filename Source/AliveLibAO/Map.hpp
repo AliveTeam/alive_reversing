@@ -80,7 +80,7 @@ enum class CameraSwapEffects : s16
 
 extern const CameraSwapEffects kPathChangeEffectToInternalScreenChangeEffect_4CDC78[10];
 
-enum TLV_Flags
+enum TlvFlags
 {
     eBit1_Created = 0x1,
     eBit2_Destroyed = 0x2,
@@ -103,14 +103,14 @@ ALIVE_ASSERT_SIZEOF(TlvTypes32, 4);
 
 struct Path_TLV
 {
-    BitField8<TLV_Flags> field_0_flags;
+    BitField8<TlvFlags> mTlvFlags;
     s8 field_1_unknown;
-    s16 field_2_length;
-    TlvTypes32 field_4_type;
+    s16 mLength;
+    TlvTypes32 mTlvType32;
     s32 field_8;                 // only ever used as some sort of hacky memory overwrite check, always 0 in the Path data
-    PSX_Point field_C_sound_pos; // a completely pointless copy of field_10_top_left, the data is always the same in all released Paths
-    PSX_Point field_10_top_left;
-    PSX_Point field_14_bottom_right;
+    PSX_Point field_C_sound_pos; // a completely pointless copy of mTopLeft, the data is always the same in all released Paths
+    PSX_Point mTopLeft;
+    PSX_Point mBottomRight;
 
     // Note: Part of Path object in AE
     static Path_TLV* Next_446460(Path_TLV* pTlv);
@@ -118,7 +118,7 @@ struct Path_TLV
     // Note: must be inlined as its used by the api
     static Path_TLV* Next(Path_TLV* pTlv)
     {
-        if (pTlv->field_0_flags.Get(TLV_Flags::eBit3_End_TLV_List))
+        if (pTlv->mTlvFlags.Get(TlvFlags::eBit3_End_TLV_List))
         {
             return nullptr;
         }
@@ -131,7 +131,7 @@ struct Path_TLV
     {
         // Skip length bytes to get to the start of the next TLV
         u8* ptr = reinterpret_cast<u8*>(pTlv);
-        u8* pNext = ptr + pTlv->field_2_length;
+        u8* pNext = ptr + pTlv->mLength;
         return reinterpret_cast<Path_TLV*>(pNext);
     }
 
@@ -140,9 +140,9 @@ struct Path_TLV
     // Some strange self terminate check that is inlined everywhere
     void RangeCheck()
     {
-        if (field_2_length < 24u || field_2_length > 480u)
+        if (mLength < 24u || mLength > 480u)
         {
-            field_0_flags.Set(eBit3_End_TLV_List);
+            mTlvFlags.Set(eBit3_End_TLV_List);
         }
     }
 };

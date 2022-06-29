@@ -101,8 +101,8 @@ Blood::Blood(FP xpos, FP ypos, FP xOff, FP yOff, FP scale, s32 count)
                 SetClut(pSprt,
                         static_cast<s16>(
                             PSX_getClut(
-                                mBaseAnimatedWithPhysicsGameObject_Anim.field_8C_pal_vram_xy.field_0_x,
-                                mBaseAnimatedWithPhysicsGameObject_Anim.field_8C_pal_vram_xy.field_2_y)));
+                                mBaseAnimatedWithPhysicsGameObject_Anim.field_8C_pal_vram_xy.x,
+                                mBaseAnimatedWithPhysicsGameObject_Anim.field_8C_pal_vram_xy.y)));
 
                 SetUV0(pSprt, u0, v0);
                 pSprt->field_14_w = frameW - 1;
@@ -114,8 +114,8 @@ Blood::Blood(FP xpos, FP ypos, FP xOff, FP yOff, FP scale, s32 count)
         field_124_rand_seed = static_cast<u8>(sGnFrame);
         for (s32 i = 0; i < field_122_to_render_count; i++)
         {
-            field_F8_pResBuf[i].field_0_x = FP_FromInteger(field_11E_xpos);
-            field_F8_pResBuf[i].field_4_y = FP_FromInteger(field_120_ypos);
+            field_F8_pResBuf[i].x = FP_FromInteger(field_11E_xpos);
+            field_F8_pResBuf[i].y = FP_FromInteger(field_120_ypos);
 
             const FP randX = FP_FromInteger(sRandomBytes_546744[field_124_rand_seed++]) / FP_FromInteger(16);
             const FP adjustedX = FP_FromDouble(1.3) * (randX - FP_FromInteger(8));
@@ -163,8 +163,8 @@ void Blood::VUpdate()
             field_F8_pResBuf[i].field_8_offx = field_F8_pResBuf[i].field_8_offx * FP_FromDouble(0.9);
             field_F8_pResBuf[i].field_C_offy = field_F8_pResBuf[i].field_C_offy * FP_FromDouble(0.9);
 
-            field_F8_pResBuf[i].field_0_x += field_F8_pResBuf[i].field_8_offx;
-            field_F8_pResBuf[i].field_4_y += field_F8_pResBuf[i].field_C_offy;
+            field_F8_pResBuf[i].x += field_F8_pResBuf[i].field_8_offx;
+            field_F8_pResBuf[i].y += field_F8_pResBuf[i].field_C_offy;
         }
     }
 
@@ -206,8 +206,8 @@ void Blood::VRender(PrimHeader** ppOt)
             pSprt->field_14_w = pFrameHeader->field_4_width - 1;
             pSprt->field_16_h = pFrameHeader->field_5_height - 1;
 
-            const s16 x0 = PsxToPCX(FP_GetExponent(pParticle->field_0_x));
-            const s16 y0 = FP_GetExponent(pParticle->field_4_y);
+            const s16 x0 = PsxToPCX(FP_GetExponent(pParticle->x));
+            const s16 y0 = FP_GetExponent(pParticle->y);
 
             SetXY0(pSprt, x0, y0);
 
@@ -218,11 +218,11 @@ void Blood::VRender(PrimHeader** ppOt)
 
             OrderingTable_Add(OtLayer(ppOt, field_12C_render_layer), &pSprt->mBase.header);
 
-            xy.field_0_x = std::min(x0, xy.field_0_x);
-            xy.field_2_y = std::min(y0, xy.field_2_y);
+            xy.x = std::min(x0, xy.x);
+            xy.y = std::min(y0, xy.y);
 
-            wh.field_0_x = std::max(x0, wh.field_0_x);
-            wh.field_2_y = std::max(y0, wh.field_2_y);
+            wh.x = std::max(x0, wh.x);
+            wh.y = std::max(y0, wh.y);
         }
 
         const s32 tpage = PSX_getTPage(
@@ -236,10 +236,10 @@ void Blood::VRender(PrimHeader** ppOt)
         OrderingTable_Add(OtLayer(ppOt, field_12C_render_layer), &pTPage->mBase);
 
         pScreenManager->InvalidateRectCurrentIdx(
-            (xy.field_0_x - 12),
-            (xy.field_2_y - 12),
-            (wh.field_0_x + 12),
-            (wh.field_2_y + 12));
+            (xy.x - 12),
+            (xy.y - 12),
+            (wh.x + 12),
+            (wh.y + 12));
     }
 }
 

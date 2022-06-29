@@ -558,10 +558,10 @@ void BeeSwarm::VRender(PrimHeader** ppOt)
     mBaseAnimatedWithPhysicsGameObject_Anim.mBlue = static_cast<u8>(mBaseAnimatedWithPhysicsGameObject_RGB.b);
     mBaseAnimatedWithPhysicsGameObject_Anim.field_14_scale = mBaseAnimatedWithPhysicsGameObject_SpriteScale;
 
-    const auto campos_x_delta = pScreenManager->mCamPos->field_0_x - FP_FromInteger(pScreenManager->mCamXOff);
-    const auto campos_y_delta = pScreenManager->mCamPos->field_4_y - FP_FromInteger(pScreenManager->mCamYOff);
-    const auto cam_x_abs = pScreenManager->mCamPos->field_0_x + FP_FromInteger(pScreenManager->mCamXOff);
-    const auto cam_y_abs = pScreenManager->mCamPos->field_4_y + FP_FromInteger(pScreenManager->mCamYOff);
+    const auto campos_x_delta = pScreenManager->mCamPos->x - FP_FromInteger(pScreenManager->mCamXOff);
+    const auto campos_y_delta = pScreenManager->mCamPos->y - FP_FromInteger(pScreenManager->mCamYOff);
+    const auto cam_x_abs = pScreenManager->mCamPos->x + FP_FromInteger(pScreenManager->mCamXOff);
+    const auto cam_y_abs = pScreenManager->mCamPos->y + FP_FromInteger(pScreenManager->mCamYOff);
 
     PSX_Point xy = {32767, 32767};
     PSX_Point wh = {-32767, -32767};
@@ -593,11 +593,11 @@ void BeeSwarm::VRender(PrimHeader** ppOt)
                 bee->field_10_anim.GetRenderedSize(&out);
             }
 
-            out.x = std::min(out.x, xy.field_0_x);
-            out.y = std::min(out.y, xy.field_2_y);
+            out.x = std::min(out.x, xy.x);
+            out.y = std::min(out.y, xy.y);
 
-            out.w = std::max(out.w, wh.field_0_x);
-            out.h = std::max(out.h, wh.field_2_y);
+            out.w = std::max(out.w, wh.x);
+            out.h = std::max(out.h, wh.y);
         }
         if (!bDontClear)
         {

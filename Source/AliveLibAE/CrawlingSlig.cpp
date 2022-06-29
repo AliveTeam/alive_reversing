@@ -174,8 +174,8 @@ CrawlingSlig::CrawlingSlig(Path_CrawlingSlig* pTlv, s32 tlvInfo)
         mBaseAnimatedWithPhysicsGameObject_Scale = Scale::Fg;
     }
 
-    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger((pTlv->field_8_top_left.field_0_x + pTlv->field_C_bottom_right.field_0_x) / 2);
-    mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->field_8_top_left.field_2_y);
+    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger((pTlv->mTopLeft.x + pTlv->mBottomRight.x) / 2);
+    mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->mTopLeft.y);
 
     if (field_1E8_tlv.field_14_state == Path_CrawlingSlig::State::eAwake_2)
     {
@@ -560,7 +560,7 @@ Path_TLV* CrawlingSlig::FindPantsOrWings()
     Path_TLV* pTlvIter = sPath_dword_BB47C0->TLV_Get_At_4DB290(nullptr, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos);
     while (pTlvIter)
     {
-        if (pTlvIter->field_4_type == TlvTypes::SligGetPants_104 || pTlvIter->field_4_type == TlvTypes::SligGetWings_105)
+        if (pTlvIter->mTlvType32 == TlvTypes::SligGetPants_104 || pTlvIter->mTlvType32 == TlvTypes::SligGetWings_105)
         {
             return pTlvIter;
         }
@@ -589,7 +589,7 @@ void CrawlingSlig::VOn_TLV_Collision(Path_TLV* pTlv)
 {
     while (pTlv)
     {
-        if (pTlv->field_4_type == TlvTypes::DeathDrop_4)
+        if (pTlv->mTlvType32 == TlvTypes::DeathDrop_4)
         {
             if (mHealth > FP_FromInteger(0))
             {
@@ -950,7 +950,7 @@ s16 CrawlingSlig::Brain_2_PanicGetALocker()
                 field_1E4_pPantsOrWingsTlv = FindPantsOrWings();
             }
 
-            if (GetCurrentMotion() != CrawlingSligMotion::Motion_0_Idle || (field_1E4_pPantsOrWingsTlv && field_1E4_pPantsOrWingsTlv->field_1_tlv_state))
+            if (GetCurrentMotion() != CrawlingSligMotion::Motion_0_Idle || (field_1E4_pPantsOrWingsTlv && field_1E4_pPantsOrWingsTlv->mTlvState))
             {
                 if (Math_NextRandom() & 1)
                 {
@@ -966,8 +966,8 @@ s16 CrawlingSlig::Brain_2_PanicGetALocker()
             }
             else
             {
-                field_1E4_pPantsOrWingsTlv->field_1_tlv_state &= 0xFF;
-                field_1E4_pPantsOrWingsTlv->field_1_tlv_state |= 1;
+                field_1E4_pPantsOrWingsTlv->mTlvState &= 0xFF;
+                field_1E4_pPantsOrWingsTlv->mTlvState |= 1;
 
                 SetNextMotion(CrawlingSligMotion::Motion_1_UsingButton);
                 field_1AC_timer = sGnFrame + 20;
@@ -1336,7 +1336,7 @@ void CrawlingSlig::Motion_1_UsingButton()
         }
         else if (static_cast<s32>(sGnFrame) > field_1AC_timer)
         {
-            if (field_1E4_pPantsOrWingsTlv->field_4_type == TlvTypes::SligGetPants_104 && ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kSlgbasicResID, 0, 0))
+            if (field_1E4_pPantsOrWingsTlv->mTlvType32 == TlvTypes::SligGetPants_104 && ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kSlgbasicResID, 0, 0))
             {
                 // Transform to a walking slig
 
@@ -1365,7 +1365,7 @@ void CrawlingSlig::Motion_1_UsingButton()
 
                 mHealth = FP_FromInteger(0);
             }
-            else if (field_1E4_pPantsOrWingsTlv->field_4_type == TlvTypes::SligGetWings_105 && ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kFlySligResID, 0, 0))
+            else if (field_1E4_pPantsOrWingsTlv->mTlvType32 == TlvTypes::SligGetWings_105 && ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kFlySligResID, 0, 0))
             {
                 // Transform to a flying slig
 
@@ -1772,10 +1772,10 @@ void CrawlingSlig::HandleCommon()
             field_1E4_pPantsOrWingsTlv = FindPantsOrWings();
             if (field_1E4_pPantsOrWingsTlv)
             {
-                if (!field_1E4_pPantsOrWingsTlv->field_1_tlv_state)
+                if (!field_1E4_pPantsOrWingsTlv->mTlvState)
                 {
-                    field_1E4_pPantsOrWingsTlv->field_1_tlv_state &= 0xFF;
-                    field_1E4_pPantsOrWingsTlv->field_1_tlv_state |= 1;
+                    field_1E4_pPantsOrWingsTlv->mTlvState &= 0xFF;
+                    field_1E4_pPantsOrWingsTlv->mTlvState |= 1;
                     SetNextMotion(CrawlingSligMotion::Motion_1_UsingButton);
                     field_1AC_timer = sGnFrame + 20;
                 }
@@ -1974,8 +1974,8 @@ void CrawlingSlig::PlatformCollide()
 
     PSX_Point xy = {bRect.x, bRect.y};
     PSX_Point wh = {bRect.w, bRect.h};
-    xy.field_2_y += 5;
-    wh.field_2_y += 5;
+    xy.y += 5;
+    wh.y += 5;
 
     VOnCollisionWith(
         xy,

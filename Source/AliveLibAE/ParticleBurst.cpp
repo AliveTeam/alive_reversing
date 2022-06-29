@@ -11,8 +11,8 @@
 
 struct ParticleBurst_Item final
 {
-    FP field_0_x;
-    FP field_4_y;
+    FP x;
+    FP y;
     FP field_8_z;
     FP field_C_x_speed;
     FP field_10_y_speed;
@@ -166,8 +166,8 @@ ParticleBurst::ParticleBurst(FP xpos, FP ypos, u32 numOfParticles, FP scale, Bur
                 field_F8_pRes[i].field_18_animation.mGreen = mBaseAnimatedWithPhysicsGameObject_Anim.mGreen;
                 field_F8_pRes[i].field_18_animation.mBlue = mBaseAnimatedWithPhysicsGameObject_Anim.mBlue;
 
-                field_F8_pRes[i].field_0_x = mBaseAnimatedWithPhysicsGameObject_XPos;
-                field_F8_pRes[i].field_4_y = mBaseAnimatedWithPhysicsGameObject_YPos;
+                field_F8_pRes[i].x = mBaseAnimatedWithPhysicsGameObject_XPos;
+                field_F8_pRes[i].y = mBaseAnimatedWithPhysicsGameObject_YPos;
                 field_F8_pRes[i].field_8_z = FP_FromInteger(0);
 
                 Random_Speed(&field_F8_pRes[i].field_C_x_speed);
@@ -210,22 +210,22 @@ void ParticleBurst::VRender(PrimHeader** ppOt)
 
         for (s32 i = 0; i < field_FC_number_of_particles; i++)
         {
-            if (field_F8_pRes[i].field_0_x < camX)
+            if (field_F8_pRes[i].x < camX)
             {
                 continue;
             }
 
-            if (field_F8_pRes[i].field_0_x > camX + FP_FromInteger(640))
+            if (field_F8_pRes[i].x > camX + FP_FromInteger(640))
             {
                 continue;
             }
 
-            if (field_F8_pRes[i].field_4_y < camY)
+            if (field_F8_pRes[i].y < camY)
             {
                 continue;
             }
 
-            if (field_F8_pRes[i].field_4_y > camY + FP_FromInteger(240))
+            if (field_F8_pRes[i].y > camY + FP_FromInteger(240))
             {
                 continue;
             }
@@ -242,8 +242,8 @@ void ParticleBurst::VRender(PrimHeader** ppOt)
                 if (mBaseAnimatedWithPhysicsGameObject_Anim.field_14_scale <= FP_FromInteger(1))
                 {
                     mBaseAnimatedWithPhysicsGameObject_Anim.VRender(
-                        FP_GetExponent(field_F8_pRes[i].field_0_x - camX),
-                        FP_GetExponent(field_F8_pRes[i].field_4_y - camY),
+                        FP_GetExponent(field_F8_pRes[i].x - camX),
+                        FP_GetExponent(field_F8_pRes[i].y - camY),
                         ppOt,
                         0,
                         0);
@@ -297,8 +297,8 @@ void ParticleBurst::VRender(PrimHeader** ppOt)
                 if (field_F8_pRes[i].field_18_animation.field_6C_scale <= FP_FromInteger(1))
                 {
                     field_F8_pRes[i].field_18_animation.VRender(
-                        FP_GetExponent(field_F8_pRes[i].field_0_x - camX),
-                        FP_GetExponent(field_F8_pRes[i].field_4_y - camY),
+                        FP_GetExponent(field_F8_pRes[i].x - camX),
+                        FP_GetExponent(field_F8_pRes[i].y - camY),
                         ppOt,
                         0,
                         0);
@@ -351,8 +351,8 @@ void ParticleBurst::VUpdate()
     const s32 v3 = mBaseAnimatedWithPhysicsGameObject_SpriteScale != FP_FromInteger(1) ? 2 : 4;
     for (s32 i = 0; i < field_FC_number_of_particles; i++)
     {
-        field_F8_pRes[i].field_0_x += field_F8_pRes[i].field_C_x_speed;
-        field_F8_pRes[i].field_4_y += field_F8_pRes[i].field_10_y_speed;
+        field_F8_pRes[i].x += field_F8_pRes[i].field_C_x_speed;
+        field_F8_pRes[i].y += field_F8_pRes[i].field_10_y_speed;
         field_F8_pRes[i].field_8_z += field_F8_pRes[i].field_14_z_speed;
 
         field_F8_pRes[i].field_10_y_speed += FP_FromDouble(0.25);
@@ -361,11 +361,11 @@ void ParticleBurst::VUpdate()
         {
             if ((sGnFrame + i) & v3)
             {
-                field_F8_pRes[i].field_0_x -= FP_FromInteger(1);
+                field_F8_pRes[i].x -= FP_FromInteger(1);
             }
             else
             {
-                field_F8_pRes[i].field_0_x += FP_FromInteger(1);
+                field_F8_pRes[i].x += FP_FromInteger(1);
             }
         }
 

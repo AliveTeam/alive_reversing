@@ -25,8 +25,8 @@ GasEmitter::GasEmitter(Path_GasEmitter* pTlv, s32 tlvInfo)
 
     field_20_tlvInfo = tlvInfo;
 
-    field_30_xpos = FP_FromInteger(pTlv->field_8_top_left.field_0_x);
-    field_34_ypos = FP_FromInteger(pTlv->field_8_top_left.field_2_y);
+    field_30_xpos = FP_FromInteger(pTlv->mTopLeft.x);
+    field_34_ypos = FP_FromInteger(pTlv->mTopLeft.y);
 
     // Probably scale ?
     field_38_fp_not_used = FP_FromInteger(1);

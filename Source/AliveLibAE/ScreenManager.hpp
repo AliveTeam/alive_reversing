@@ -71,12 +71,12 @@ public:
 
     FP CamXPos() const
     {
-        return mCamPos->field_0_x;
+        return mCamPos->x;
     }
 
     FP CamYPos() const
     {
-        return mCamPos->field_4_y;
+        return mCamPos->y;
     }
 
     void DisableRendering()

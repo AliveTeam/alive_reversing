@@ -20,8 +20,8 @@ TorturedMudokon::TorturedMudokon(Path_TorturedMudokon* pTlv, s32 tlvInfo)
     field_224_ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
     if (field_224_ppRes)
     {
-        mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pTlv->field_8_top_left.field_0_x);
-        mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->field_8_top_left.field_2_y);
+        mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pTlv->mTopLeft.x);
+        mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->mTopLeft.y);
         Animation_Init(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, field_224_ppRes, 1);
         mBaseAnimatedWithPhysicsGameObject_Anim.SetFrame(Math_RandomRange(0, mBaseAnimatedWithPhysicsGameObject_Anim.Get_Frame_Count() - 1));
         field_23A_kill_switch_id = pTlv->field_10_kill_switch_id;
@@ -247,7 +247,7 @@ void TorturedMudokon::VUpdate()
         Path_TLV* pTlv = sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam(field_230_tlvInfo);
         if (pTlv)
         {
-            pTlv->field_1_tlv_state = 1;
+            pTlv->mTlvState = 1;
         }
     }
 }

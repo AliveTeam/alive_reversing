@@ -203,13 +203,13 @@ void Vram_free_495A60(PSX_Point xy, PSX_Point wh)
     auto pRend = IRenderer::GetRenderer();
     if (pRend)
     {
-        pRend->PalFree(IRenderer::PalRecord{xy.field_0_x, xy.field_2_y, 0});
+        pRend->PalFree(IRenderer::PalRecord{xy.x, xy.y, 0});
     }
 #endif
     // Find the allocation
     for (s32 i = 0; i < sVramNumberOfAllocations_5CC888; i++)
     {
-        if (sVramAllocations_5CB888[i].x == xy.field_0_x && sVramAllocations_5CB888[i].y == xy.field_2_y && sVramAllocations_5CB888[i].w == wh.field_0_x && sVramAllocations_5CB888[i].h == wh.field_2_y)
+        if (sVramAllocations_5CB888[i].x == xy.x && sVramAllocations_5CB888[i].y == xy.y && sVramAllocations_5CB888[i].w == wh.x && sVramAllocations_5CB888[i].h == wh.y)
         {
             // Copy the last element to this one
             sVramAllocations_5CB888[i] = sVramAllocations_5CB888[sVramNumberOfAllocations_5CC888 - 1];
@@ -337,8 +337,8 @@ s16 Pal_Allocate_483110(PSX_RECT* pRect, u32 paletteColorCount)
 
 void Pal_free_483390(PSX_Point xy, s16 palDepth)
 {
-    const s32 palIdx = xy.field_2_y - pal_ypos_5C9160;
-    const s32 palWidthBits = xy.field_0_x - pal_xpos_5C9162;
+    const s32 palIdx = xy.y - pal_ypos_5C9160;
+    const s32 palWidthBits = xy.x - pal_xpos_5C9162;
 
     switch (palDepth)
     {
@@ -372,8 +372,8 @@ void Pal_Area_Init_483080(s16 xpos, s16 ypos, u16 width, u16 height)
 
 void Pal_Copy_483560(PSX_Point pPoint, s16 w, u16* pPalData, PSX_RECT* rect)
 {
-    rect->x = pPoint.field_0_x;
-    rect->y = pPoint.field_2_y;
+    rect->x = pPoint.x;
+    rect->y = pPoint.y;
     rect->w = w;
     rect->h = 1;
     PSX_StoreImage_4F5E90(rect, pPalData);
@@ -386,9 +386,9 @@ u32 Pal_Make_Colour_4834C0(u8 r, u8 g, u8 b, s16 bOpaque)
 
 void Pal_Set_483510(PSX_Point xy, s16 w, const u8* palData, PSX_RECT* rect)
 {
-    rect->x = xy.field_0_x;
-    rect->y = xy.field_2_y;
+    rect->x = xy.x;
+    rect->y = xy.y;
     rect->w = w;
     rect->h = 1;
-    IRenderer::GetRenderer()->PalSetData(IRenderer::PalRecord{xy.field_0_x, xy.field_2_y, w}, palData);
+    IRenderer::GetRenderer()->PalSetData(IRenderer::PalRecord{xy.x, xy.y, w}, palData);
 }

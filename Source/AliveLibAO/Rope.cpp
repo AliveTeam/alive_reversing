@@ -134,9 +134,9 @@ void Rope::VRender(PrimHeader** ppOt)
     {
         if (mBaseAnimatedWithPhysicsGameObject_PathNumber == gMap.mCurrentPath)
         {
-            if (mBaseAnimatedWithPhysicsGameObject_XPos >= FP_FromInteger(camPos.field_0_x) && mBaseAnimatedWithPhysicsGameObject_XPos <= FP_FromInteger(camPos.field_0_x + 1024))
+            if (mBaseAnimatedWithPhysicsGameObject_XPos >= FP_FromInteger(camPos.x) && mBaseAnimatedWithPhysicsGameObject_XPos <= FP_FromInteger(camPos.x + 1024))
             {
-                const FP camYPos = pScreenManager->mCamPos->field_4_y;
+                const FP camYPos = pScreenManager->mCamPos->y;
 
                 s32 minY = FP_GetExponent((FP_FromInteger(pScreenManager->mCamYOff + field_EE_top))
                                           - camYPos);
@@ -150,7 +150,7 @@ void Rope::VRender(PrimHeader** ppOt)
                 }
 
                 s16 screenX = PsxToPCX(
-                    FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos + FP_FromInteger(pScreenManager->mCamXOff) - pScreenManager->mCamPos->field_0_x),
+                    FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos + FP_FromInteger(pScreenManager->mCamXOff) - pScreenManager->mCamPos->x),
                     11);
                 s16 screenY = FP_GetExponent(
                     (FP_FromInteger(pScreenManager->mCamYOff + ypos))
@@ -159,7 +159,7 @@ void Rope::VRender(PrimHeader** ppOt)
                 if (mBaseAnimatedWithPhysicsGameObject_YOffset + screenY > 240)
                 {
                     screenY = screenY % field_E6_rope_length + 240;
-                    ypos = FP_GetExponent(pScreenManager->mCamPos->field_4_y
+                    ypos = FP_GetExponent(pScreenManager->mCamPos->y
                                           + FP_FromInteger(screenY - pScreenManager->mCamYOff));
                 }
                 if (minY < 0)

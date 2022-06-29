@@ -200,7 +200,7 @@ void GameEnderController::VUpdate()
             if (sInputObject_5BD4E0.isHeld(InputCommands::Enum::eUnPause_OrConfirm) || sInputObject_5BD4E0.isHeld(InputCommands::Enum::eBack))
             {
                 gMap.SetActiveCam(EReliveLevelIds::eCredits, 2, 1, CameraSwapEffects::eInstantChange_0, 0, 0);
-                gMap.field_CE_free_all_anim_and_palts = TRUE;
+                gMap.mFreeAllAnimAndPalts = TRUE;
                 field_24_state = GameEnderController_States::eFinish_2;
             }
             break;

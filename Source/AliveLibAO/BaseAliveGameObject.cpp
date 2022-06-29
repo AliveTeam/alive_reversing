@@ -126,9 +126,9 @@ void BaseAliveGameObject::VSetXSpawn(s16 camWorldX, s32 screenXPos)
                 if (BaseAliveGameObjectPathTLV
                     && sCollisions->Raycast(
                         mBaseAnimatedWithPhysicsGameObject_XPos,
-                        FP_FromInteger(BaseAliveGameObjectPathTLV->field_10_top_left.field_2_y),
+                        FP_FromInteger(BaseAliveGameObjectPathTLV->mTopLeft.y),
                         mBaseAnimatedWithPhysicsGameObject_XPos,
-                        FP_FromInteger(BaseAliveGameObjectPathTLV->field_14_bottom_right.field_2_y),
+                        FP_FromInteger(BaseAliveGameObjectPathTLV->mBottomRight.y),
                         &pLine,
                         &hitX,
                         &hitY,
@@ -278,9 +278,9 @@ void BaseAliveGameObject::VCheckCollisionLineStillValid_401A90(s32 distance)
             {
                 if (sCollisions->Raycast(
                         mBaseAnimatedWithPhysicsGameObject_XPos,
-                        FP_FromInteger(BaseAliveGameObjectPathTLV->field_10_top_left.field_2_y),
+                        FP_FromInteger(BaseAliveGameObjectPathTLV->mTopLeft.y),
                         mBaseAnimatedWithPhysicsGameObject_XPos,
-                        FP_FromInteger(BaseAliveGameObjectPathTLV->field_14_bottom_right.field_2_y),
+                        FP_FromInteger(BaseAliveGameObjectPathTLV->mBottomRight.y),
                         &pLine,
                         &hitX,
                         &hitY,
@@ -498,10 +498,10 @@ void BaseAliveGameObject::VOnPathTransition_401470(s16 camWorldX, s32 camWorldY,
     PSX_Point camLoc = {};
     gMap.GetCurrentCamCoords(&camLoc);
 
-    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger((BaseAliveGameObjectPathTLV->field_14_bottom_right.field_0_x + BaseAliveGameObjectPathTLV->field_10_top_left.field_0_x) / 2);
-    mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(BaseAliveGameObjectPathTLV->field_10_top_left.field_2_y);
+    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger((BaseAliveGameObjectPathTLV->mBottomRight.x + BaseAliveGameObjectPathTLV->mTopLeft.x) / 2);
+    mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(BaseAliveGameObjectPathTLV->mTopLeft.y);
 
-    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(camLoc.field_0_x + SnapToXGrid(mBaseAnimatedWithPhysicsGameObject_SpriteScale, FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos - FP_FromInteger(camLoc.field_0_x))));
+    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(camLoc.x + SnapToXGrid(mBaseAnimatedWithPhysicsGameObject_SpriteScale, FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos - FP_FromInteger(camLoc.x))));
 
     if (mLiftPoint)
     {
@@ -548,7 +548,7 @@ void BaseAliveGameObject::VOnPathTransition_401470(s16 camWorldX, s32 camWorldY,
         // If we still didn't get a line then look for a start controller
         if (!BaseAliveGameObjectCollisionLine)
         {
-            if (BaseAliveGameObjectPathTLV->field_4_type == TlvTypes::StartController_28)
+            if (BaseAliveGameObjectPathTLV->mTlvType32 == TlvTypes::StartController_28)
             {
                 BaseAliveGameObjectLastLineYPos += mBaseAnimatedWithPhysicsGameObject_YPos - oldy;
             }
@@ -591,10 +591,10 @@ s16 BaseAliveGameObject::MapFollowMe_401D30(s16 snapToGrid)
     gMap.GetCurrentCamCoords(&camCoords);
 
     // Are we "in" the current camera X bounds?
-    if (mBaseAnimatedWithPhysicsGameObject_LvlNumber == gMap.mCurrentLevel && mBaseAnimatedWithPhysicsGameObject_PathNumber == gMap.mCurrentPath && mBaseAnimatedWithPhysicsGameObject_XPos > FP_FromInteger(camCoords.field_0_x) && mBaseAnimatedWithPhysicsGameObject_XPos < FP_FromInteger(camCoords.field_0_x + 1024))
+    if (mBaseAnimatedWithPhysicsGameObject_LvlNumber == gMap.mCurrentLevel && mBaseAnimatedWithPhysicsGameObject_PathNumber == gMap.mCurrentPath && mBaseAnimatedWithPhysicsGameObject_XPos > FP_FromInteger(camCoords.x) && mBaseAnimatedWithPhysicsGameObject_XPos < FP_FromInteger(camCoords.x + 1024))
     {
         // Snapped XPos in camera space
-        const s32 snappedXLocalCoords = SnapToXGrid(mBaseAnimatedWithPhysicsGameObject_SpriteScale, FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos - FP_FromInteger(camCoords.field_0_x)));
+        const s32 snappedXLocalCoords = SnapToXGrid(mBaseAnimatedWithPhysicsGameObject_SpriteScale, FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos - FP_FromInteger(camCoords.x)));
 
         // In the left camera void and moving left?
         if (snappedXLocalCoords < 256 && mBaseAnimatedWithPhysicsGameObject_VelX < FP_FromInteger(0))
@@ -638,7 +638,7 @@ s16 BaseAliveGameObject::MapFollowMe_401D30(s16 snapToGrid)
                 const s32 camXIndex = x_i % 1024;
 
                 gMap.Get_map_size(&camCoords);
-                if (x_i < (camCoords.field_0_x - 1024))
+                if (x_i < (camCoords.x - 1024))
                 {
                     UsePathTransScale_4020D0();
 
@@ -654,7 +654,7 @@ s16 BaseAliveGameObject::MapFollowMe_401D30(s16 snapToGrid)
         else if (snapToGrid)
         {
             // Not in the voids of the camera, just snap to the x grid
-            mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(snappedXLocalCoords + camCoords.field_0_x);
+            mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(snappedXLocalCoords + camCoords.x);
         }
         return 0;
     }
@@ -681,7 +681,7 @@ s16 BaseAliveGameObject::MapFollowMe_401D30(s16 snapToGrid)
         else if (camXIndex > 624 && mBaseAnimatedWithPhysicsGameObject_VelX > FP_FromInteger(0)) // Never hit as velx is < 0
         {
             gMap.Get_map_size(&camCoords);
-            if (x_i < (camCoords.field_0_x - 1024))
+            if (x_i < (camCoords.x - 1024))
             {
                 UsePathTransScale_4020D0();
 

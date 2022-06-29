@@ -31,8 +31,8 @@ SlogSpawner::SlogSpawner(Path_SlogSpawner* pTlv, s32 tlvInfo)
 
     field_14_spawned_count = pTlv->field_1_unknown;
 
-    field_18_xPos = FP_FromInteger(pTlv->field_10_top_left.field_0_x);
-    field_1C_yPos = FP_FromInteger(pTlv->field_10_top_left.field_2_y);
+    field_18_xPos = FP_FromInteger(pTlv->mTopLeft.x);
+    field_1C_yPos = FP_FromInteger(pTlv->mTopLeft.y);
 }
 
 void SlogSpawner::VUpdate()

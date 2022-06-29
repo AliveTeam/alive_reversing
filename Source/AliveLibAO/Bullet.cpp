@@ -212,12 +212,12 @@ bool Bullet::InZBulletCover(FP xpos, FP ypos, const PSX_RECT& objRect)
             break;
         }
 
-        if (pZCover->field_4_type.mType != TlvTypes::ZSligCover_83)
+        if (pZCover->mTlvType32.mType != TlvTypes::ZSligCover_83)
         {
             continue;
         }
 
-        if (objRect.x >= pZCover->field_10_top_left.field_0_x && objRect.x <= pZCover->field_14_bottom_right.field_0_x && objRect.y >= pZCover->field_10_top_left.field_2_y && objRect.y <= pZCover->field_14_bottom_right.field_2_y && objRect.w >= pZCover->field_10_top_left.field_0_x && objRect.w <= pZCover->field_14_bottom_right.field_0_x && objRect.h >= pZCover->field_10_top_left.field_2_y && objRect.h <= pZCover->field_14_bottom_right.field_2_y)
+        if (objRect.x >= pZCover->mTopLeft.x && objRect.x <= pZCover->mBottomRight.x && objRect.y >= pZCover->mTopLeft.y && objRect.y <= pZCover->mBottomRight.y && objRect.w >= pZCover->mTopLeft.x && objRect.w <= pZCover->mBottomRight.x && objRect.h >= pZCover->mTopLeft.y && objRect.h <= pZCover->mBottomRight.y)
         {
             return true;
         }

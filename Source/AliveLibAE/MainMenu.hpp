@@ -35,7 +35,7 @@ struct MainMenuButton final
 {
     s16 field_0_type;
     s16 field_2_x;
-    s16 field_4_y;
+    s16 y;
     s16 field_6;
     s32 field_8_frameTableOffset;
 };
@@ -62,8 +62,8 @@ struct MainMenuControllerResources final
 
 struct MainMenuText final
 {
-    s32 field_0_x;
-    s32 field_4_y;
+    s32 x;
+    s32 y;
     const char_type* field_8_text;
     u8 field_C_align;
     u8 field_D;

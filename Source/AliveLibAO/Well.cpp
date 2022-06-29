@@ -130,8 +130,8 @@ void Well::WellExpress_Init(Path_WellExpress* pTlv, FP /*xpos*/, FP ypos)
         field_F8_leaf_xpos = FP_FromInteger(pTlv->field_36_leaf_x);
         if (!FP_GetExponent(field_F8_leaf_xpos))
         {
-            field_F8_leaf_xpos = FP_FromInteger(pTlv->field_10_top_left.field_0_x
-                                                + (PsxToPCX(pTlv->field_14_bottom_right.field_0_x - pTlv->field_10_top_left.field_0_x, +11)
+            field_F8_leaf_xpos = FP_FromInteger(pTlv->mTopLeft.x
+                                                + (PsxToPCX(pTlv->mBottomRight.x - pTlv->mTopLeft.x, +11)
                                                    / 2));
         }
 
@@ -192,7 +192,7 @@ void Well::WellLocal_Init(Path_WellLocal* pTlv, FP /*xpos*/, FP ypos)
         field_F8_leaf_xpos = FP_FromInteger(pTlv->field_2E_leaf_x);
         if (!FP_GetExponent(field_F8_leaf_xpos))
         {
-            field_F8_leaf_xpos = FP_FromInteger(pTlv->field_10_top_left.field_0_x + (PsxToPCX(pTlv->field_14_bottom_right.field_0_x - pTlv->field_10_top_left.field_0_x, 11) / 2));
+            field_F8_leaf_xpos = FP_FromInteger(pTlv->mTopLeft.x + (PsxToPCX(pTlv->mBottomRight.x - pTlv->mTopLeft.x, 11) / 2));
         }
 
         field_FC_leaf_ypos = FP_FromInteger(pTlv->field_30_leaf_y);
@@ -213,7 +213,7 @@ Well::Well(Path_WellBase* pTlv, FP xpos, FP ypos, s32 tlvInfo)
     mBaseAnimatedWithPhysicsGameObject_YPos = ypos;
     mBaseAnimatedWithPhysicsGameObject_XPos = xpos;
 
-    if (pTlv->field_4_type == TlvTypes::WellLocal_11)
+    if (pTlv->mTlvType32 == TlvTypes::WellLocal_11)
     {
         WellLocal_Init(static_cast<Path_WellLocal*>(pTlv), xpos, ypos);
     }

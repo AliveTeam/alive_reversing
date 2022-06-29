@@ -61,8 +61,8 @@ SecurityClaw::SecurityClaw(Path_SecurityClaw* pTlv, s32 tlvInfo)
 
     field_10C_tlvInfo = tlvInfo;
 
-    field_11C_clawX = FP_FromInteger(pTlv->field_10_top_left.field_0_x);
-    field_120_clawY = FP_FromInteger(pTlv->field_10_top_left.field_2_y);
+    field_11C_clawX = FP_FromInteger(pTlv->mTopLeft.x);
+    field_120_clawY = FP_FromInteger(pTlv->mTopLeft.y);
 
     if (pTlv->field_18_scale == Scale_short::eHalf_1)
     {
@@ -81,8 +81,8 @@ SecurityClaw::SecurityClaw(Path_SecurityClaw* pTlv, s32 tlvInfo)
     mBaseAnimatedWithPhysicsGameObject_YPos = field_120_clawY + ((Math_Cosine_4510A0(0) * mBaseAnimatedWithPhysicsGameObject_SpriteScale) * FP_FromInteger(8));
     SetTint(&kSecurityClawTints_4C5488[0], gMap.mCurrentLevel);
 
-    field_134 = pTlv->field_10_top_left;
-    field_138 = pTlv->field_14_bottom_right;
+    field_134 = pTlv->mTopLeft;
+    field_138 = pTlv->mBottomRight;
 
     field_118_alarm_switch_id = pTlv->field_1A_alarm_switch_id;
     field_11A_alarm_duration = pTlv->field_1C_alarm_duration;
@@ -215,7 +215,7 @@ void SecurityClaw::VUpdate()
     {
         if (sActiveHero_507678->mBaseAnimatedWithPhysicsGameObject_XPos < field_11C_clawX)
         {
-            if (FP_GetExponent(field_11C_clawX) > field_134.field_0_x)
+            if (FP_GetExponent(field_11C_clawX) > field_134.x)
             {
                 field_11C_clawX -= FP_FromDouble(0.5);
             }
@@ -223,7 +223,7 @@ void SecurityClaw::VUpdate()
 
         if (sActiveHero_507678->mBaseAnimatedWithPhysicsGameObject_XPos >= field_11C_clawX)
         {
-            if (FP_GetExponent(field_11C_clawX) < field_138.field_0_x)
+            if (FP_GetExponent(field_11C_clawX) < field_138.x)
             {
                 field_11C_clawX += FP_FromDouble(0.5);
             }

@@ -18,8 +18,8 @@ namespace AO {
 
 struct ParticleBurst_Item final
 {
-    FP field_0_x;
-    FP field_4_y;
+    FP x;
+    FP y;
     FP field_8_z;
     FP field_C_x_speed;
     FP field_10_y_speed;
@@ -159,8 +159,8 @@ ParticleBurst::ParticleBurst(FP xpos, FP ypos, s32 particleCount, FP scale, Burs
                 field_E8_pRes[i].field_18_animation.mGreen = mBaseAnimatedWithPhysicsGameObject_Anim.mGreen;
                 field_E8_pRes[i].field_18_animation.mBlue = mBaseAnimatedWithPhysicsGameObject_Anim.mBlue;
 
-                field_E8_pRes[i].field_0_x = xpos;
-                field_E8_pRes[i].field_4_y = ypos;
+                field_E8_pRes[i].x = xpos;
+                field_E8_pRes[i].y = ypos;
                 field_E8_pRes[i].field_8_z = FP_FromInteger(0);
 
                 field_E8_pRes[i].field_C_x_speed = Random_Speed(scale);
@@ -194,15 +194,15 @@ void ParticleBurst::VUpdate()
     {
         ParticleBurst_Item* pItem = &field_E8_pRes[i];
 
-        pItem->field_0_x += pItem->field_C_x_speed;
-        pItem->field_4_y += pItem->field_10_y_speed;
+        pItem->x += pItem->field_C_x_speed;
+        pItem->y += pItem->field_10_y_speed;
         pItem->field_8_z += pItem->field_14_z_speed;
 
         pItem->field_10_y_speed += FP_FromDouble(0.25);
 
         u16 result = 0;
-        pItem->field_0_x = CamX_VoidSkipper(pItem->field_0_x, pItem->field_C_x_speed, 16, &result);
-        pItem->field_4_y = CamY_VoidSkipper(pItem->field_4_y, pItem->field_10_y_speed, 16, &result);
+        pItem->x = CamX_VoidSkipper(pItem->x, pItem->field_C_x_speed, 16, &result);
+        pItem->y = CamY_VoidSkipper(pItem->y, pItem->field_10_y_speed, 16, &result);
 
         if (pItem->field_8_z + FP_FromInteger(300) < FP_FromInteger(15))
         {
@@ -214,8 +214,8 @@ void ParticleBurst::VUpdate()
                 if (gMap.Is_Point_In_Current_Camera(
                         gMap.mCurrentLevel,
                         gMap.mCurrentPath,
-                        pItem->field_0_x,
-                        pItem->field_4_y,
+                        pItem->x,
+                        pItem->y,
                         0))
                 {
                     SFX_Play_Pitch(SoundEffect::KillEffect_78, 50, Math_RandomRange(-900, -300));
@@ -266,27 +266,27 @@ void ParticleBurst::VRender(PrimHeader** ppOt)
     mBaseAnimatedWithPhysicsGameObject_Anim.field_14_scale = mBaseAnimatedWithPhysicsGameObject_SpriteScale;
 
     const FP_Point* pCamPos = pScreenManager->mCamPos;
-    const FP screen_left = pCamPos->field_0_x - FP_FromInteger(pScreenManager->mCamXOff);
-    const FP screen_right = pCamPos->field_0_x + FP_FromInteger(pScreenManager->mCamXOff);
+    const FP screen_left = pCamPos->x - FP_FromInteger(pScreenManager->mCamXOff);
+    const FP screen_right = pCamPos->x + FP_FromInteger(pScreenManager->mCamXOff);
 
-    const FP screen_top = pCamPos->field_4_y + FP_FromInteger(pScreenManager->mCamYOff);
-    const FP screen_bottom = pCamPos->field_4_y - FP_FromInteger(pScreenManager->mCamYOff);
+    const FP screen_top = pCamPos->y + FP_FromInteger(pScreenManager->mCamYOff);
+    const FP screen_bottom = pCamPos->y - FP_FromInteger(pScreenManager->mCamYOff);
 
     bool bFirst = true;
     for (s32 i = 0; i < field_EC_count; i++)
     {
         ParticleBurst_Item* pItem = &field_E8_pRes[i];
-        if (pItem->field_0_x >= screen_left && pItem->field_0_x <= screen_right)
+        if (pItem->x >= screen_left && pItem->x <= screen_right)
         {
-            if (pItem->field_4_y >= screen_bottom && pItem->field_4_y <= screen_top)
+            if (pItem->y >= screen_bottom && pItem->y <= screen_top)
             {
                 PSX_RECT rect = {};
                 if (bFirst)
                 {
                     mBaseAnimatedWithPhysicsGameObject_Anim.field_14_scale = FP_FromInteger(100) / (pItem->field_8_z + FP_FromInteger(300));
                     mBaseAnimatedWithPhysicsGameObject_Anim.VRender(
-                        FP_GetExponent(PsxToPCX(pItem->field_0_x - screen_left, FP_FromInteger(11))),
-                        FP_GetExponent(pItem->field_4_y - screen_bottom),
+                        FP_GetExponent(PsxToPCX(pItem->x - screen_left, FP_FromInteger(11))),
+                        FP_GetExponent(pItem->y - screen_bottom),
                         ppOt,
                         0,
                         0);
@@ -297,8 +297,8 @@ void ParticleBurst::VRender(PrimHeader** ppOt)
                 {
                     pItem->field_18_animation.field_6C_scale = FP_FromInteger(100) / (pItem->field_8_z + FP_FromInteger(300));
                     pItem->field_18_animation.VRender2(
-                        FP_GetExponent(PsxToPCX(pItem->field_0_x - screen_left, FP_FromInteger(11))),
-                        FP_GetExponent(pItem->field_4_y - screen_bottom),
+                        FP_GetExponent(PsxToPCX(pItem->x - screen_left, FP_FromInteger(11))),
+                        FP_GetExponent(pItem->y - screen_bottom),
                         ppOt);
                     pItem->field_18_animation.GetRenderedSize(&rect);
                 }

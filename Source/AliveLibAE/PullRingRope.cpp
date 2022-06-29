@@ -41,8 +41,8 @@ PullRingRope::PullRingRope(Path_PullRingRope* pTlv, s32 tlvInfo)
     SetTint(sPullRingRopeTints_55FD1C, gMap.mCurrentLevel);
 
     mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit15_bSemiTrans);
-    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger((pTlv->field_8_top_left.field_0_x + pTlv->field_C_bottom_right.field_0_x) / 2);
-    mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->field_8_top_left.field_2_y + 24);
+    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger((pTlv->mTopLeft.x + pTlv->mBottomRight.x) / 2);
+    mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->mTopLeft.y + 24);
 
     field_102_switch_id = pTlv->field_10_switch_id;
     field_104_action = pTlv->field_12_action;

@@ -116,8 +116,8 @@ static u8 Fleech_NextRandom()
 Fleech::Fleech(Path_Fleech* pTlv, s32 tlvInfo)
     : BaseAliveGameObject(2)
 {
-    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pTlv->field_8_top_left.field_0_x);
-    mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->field_8_top_left.field_2_y);
+    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pTlv->mTopLeft.x);
+    mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->mTopLeft.y);
     mBaseGameObjectTlvInfo = tlvInfo;
 
     if (pTlv->field_10_scale == Scale_short::eHalf_1)
@@ -159,10 +159,10 @@ Fleech::Fleech(Path_Fleech* pTlv, s32 tlvInfo)
 
     if (pTlv->field_20_hanging == Choice_short::eYes_1)
     {
-        field_160_hoistX = (pTlv->field_C_bottom_right.field_0_x + pTlv->field_8_top_left.field_0_x) / 2;
+        field_160_hoistX = (pTlv->mBottomRight.x + pTlv->mTopLeft.x) / 2;
         field_166_angle = Fleech_NextRandom();
-        mBaseAnimatedWithPhysicsGameObject_YPos -= FP_FromInteger(pTlv->field_8_top_left.field_2_y - pTlv->field_C_bottom_right.field_2_y);
-        TongueHangingFromWall((pTlv->field_C_bottom_right.field_0_x + pTlv->field_8_top_left.field_0_x) / 2, pTlv->field_8_top_left.field_2_y);
+        mBaseAnimatedWithPhysicsGameObject_YPos -= FP_FromInteger(pTlv->mTopLeft.y - pTlv->mBottomRight.y);
+        TongueHangingFromWall((pTlv->mBottomRight.x + pTlv->mTopLeft.x) / 2, pTlv->mTopLeft.y);
         mCurrentMotion = eFleechMotions::Motion_17_SleepingWithTongue;
         SetAnim();
     }
@@ -846,12 +846,12 @@ void Fleech::Motion_11_RaiseHead()
             const FP doubleYOff = FP_FromInteger(yOff + 20) * FP_FromInteger(2);
             pHoist = static_cast<Path_Hoist*>(sPath_dword_BB47C0->TLV_Get_At_4DB4B0(
                 field_160_hoistX,
-                FP_GetExponent(FP_FromInteger(pHoist->field_8_top_left.field_2_y) - doubleYOff),
+                FP_GetExponent(FP_FromInteger(pHoist->mTopLeft.y) - doubleYOff),
                 field_160_hoistX,
-                FP_GetExponent(FP_FromInteger(pHoist->field_8_top_left.field_2_y) - doubleYOff),
+                FP_GetExponent(FP_FromInteger(pHoist->mTopLeft.y) - doubleYOff),
                 TlvTypes::Hoist_2));
 
-            field_162_hoistY = pHoist->field_8_top_left.field_2_y;
+            field_162_hoistY = pHoist->mTopLeft.y;
         }
         BaseAliveGameObjectLastLineYPos = mBaseAnimatedWithPhysicsGameObject_YPos;
         field_168_hoistY_distance = mBaseAnimatedWithPhysicsGameObject_YPos - FP_FromInteger(field_162_hoistY);
@@ -1489,7 +1489,7 @@ void Fleech::VOn_TLV_Collision(Path_TLV* pTlv)
 {
     while (pTlv)
     {
-        if (pTlv->field_4_type == TlvTypes::DeathDrop_4)
+        if (pTlv->mTlvType32 == TlvTypes::DeathDrop_4)
         {
             mHealth = FP_FromInteger(0);
             mBaseGameObjectFlags.Set(BaseGameObject::eDead);
@@ -2557,7 +2557,7 @@ Path_Hoist* Fleech::TryGetHoist(s32 xDistance, s16 bIgnoreDirection)
 
     if (WallHit(
             FP_FromInteger(mBaseAnimatedWithPhysicsGameObject_SpriteScale < FP_FromInteger(1) ? 5 : 10),
-            FP_FromInteger(pHoist->field_8_top_left.field_0_x + (mBaseAnimatedWithPhysicsGameObject_SpriteScale < FP_FromInteger(1) ? 6 : 12)) - mBaseAnimatedWithPhysicsGameObject_XPos))
+            FP_FromInteger(pHoist->mTopLeft.x + (mBaseAnimatedWithPhysicsGameObject_SpriteScale < FP_FromInteger(1) ? 6 : 12)) - mBaseAnimatedWithPhysicsGameObject_XPos))
     {
         return nullptr;
     }
@@ -2567,7 +2567,7 @@ Path_Hoist* Fleech::TryGetHoist(s32 xDistance, s16 bIgnoreDirection)
         return nullptr;
     }
 
-    if (pHoist->field_16_scale != (mBaseAnimatedWithPhysicsGameObject_SpriteScale < FP_FromInteger(1) ? Scale_short::eHalf_1 : Scale_short::eFull_0) || mBaseAnimatedWithPhysicsGameObject_YPos - FP_FromInteger(pHoist->field_8_top_left.field_2_y) > FP_FromInteger(mBaseAnimatedWithPhysicsGameObject_SpriteScale >= FP_FromInteger(1) ? 20 : 10) * FP_FromDouble(5.5))
+    if (pHoist->field_16_scale != (mBaseAnimatedWithPhysicsGameObject_SpriteScale < FP_FromInteger(1) ? Scale_short::eHalf_1 : Scale_short::eFull_0) || mBaseAnimatedWithPhysicsGameObject_YPos - FP_FromInteger(pHoist->mTopLeft.y) > FP_FromInteger(mBaseAnimatedWithPhysicsGameObject_SpriteScale >= FP_FromInteger(1) ? 20 : 10) * FP_FromDouble(5.5))
     {
         return nullptr;
     }
@@ -2925,8 +2925,8 @@ s16 Fleech::Brain_Patrol_State_4(BaseAliveGameObject* pTarget)
         {
             mNextMotion = eFleechMotions::Motion_3_Idle;
         }
-        field_160_hoistX = pHoist->field_8_top_left.field_0_x + (mBaseAnimatedWithPhysicsGameObject_SpriteScale >= FP_FromInteger(1) ? 12 : 6);
-        field_162_hoistY = pHoist->field_8_top_left.field_2_y;
+        field_160_hoistX = pHoist->mTopLeft.x + (mBaseAnimatedWithPhysicsGameObject_SpriteScale >= FP_FromInteger(1) ? 12 : 6);
+        field_162_hoistY = pHoist->mTopLeft.y;
         return 9;
     }
 
@@ -3253,8 +3253,8 @@ s16 Fleech::Brain_1_ChasingAbe()
             if (pHoist)
             {
                 mNextMotion = eFleechMotions::Motion_3_Idle;
-                field_160_hoistX = pHoist->field_8_top_left.field_0_x + (mBaseAnimatedWithPhysicsGameObject_SpriteScale < FP_FromInteger(1) ? 6 : 12);
-                field_162_hoistY = pHoist->field_8_top_left.field_2_y;
+                field_160_hoistX = pHoist->mTopLeft.x + (mBaseAnimatedWithPhysicsGameObject_SpriteScale < FP_FromInteger(1) ? 6 : 12);
+                field_162_hoistY = pHoist->mTopLeft.y;
                 return Brain_1_ChasingAbe::ePrepareToHoist_14;
             }
             [[fallthrough]];
@@ -3540,8 +3540,8 @@ s16 Fleech::Brain_ChasingAbe_State_2(BaseAliveGameObject* pObj)
             if (pHoist)
             {
                 mNextMotion = eFleechMotions::Motion_3_Idle;
-                field_160_hoistX = pHoist->field_8_top_left.field_0_x + (mBaseAnimatedWithPhysicsGameObject_SpriteScale < FP_FromInteger(1) ? 6 : 12);
-                field_162_hoistY = pHoist->field_8_top_left.field_2_y;
+                field_160_hoistX = pHoist->mTopLeft.x + (mBaseAnimatedWithPhysicsGameObject_SpriteScale < FP_FromInteger(1) ? 6 : 12);
+                field_162_hoistY = pHoist->mTopLeft.y;
                 return 14;
             }
 
@@ -3732,8 +3732,8 @@ s16 Fleech::Brain_ChasingAbe_State_1(BaseAliveGameObject* pObj)
     if (pHoist)
     {
         mNextMotion = eFleechMotions::Motion_3_Idle;
-        field_160_hoistX = pHoist->field_8_top_left.field_0_x + (mBaseAnimatedWithPhysicsGameObject_SpriteScale >= FP_FromInteger(1) ? 12 : 6);
-        field_162_hoistY = pHoist->field_8_top_left.field_2_y;
+        field_160_hoistX = pHoist->mTopLeft.x + (mBaseAnimatedWithPhysicsGameObject_SpriteScale >= FP_FromInteger(1) ? 12 : 6);
+        field_162_hoistY = pHoist->mTopLeft.y;
         return Brain_1_ChasingAbe::ePrepareToHoist_14;
     }
 
@@ -3750,8 +3750,8 @@ s16 Fleech::Brain_ChasingAbe_State_1(BaseAliveGameObject* pObj)
             }
 
             mNextMotion = eFleechMotions::Motion_3_Idle;
-            field_160_hoistX = pHoist->field_8_top_left.field_0_x + (mBaseAnimatedWithPhysicsGameObject_SpriteScale >= FP_FromInteger(1) ? 12 : 6);
-            field_162_hoistY = pHoist->field_8_top_left.field_2_y;
+            field_160_hoistX = pHoist->mTopLeft.x + (mBaseAnimatedWithPhysicsGameObject_SpriteScale >= FP_FromInteger(1) ? 12 : 6);
+            field_162_hoistY = pHoist->mTopLeft.y;
             return Brain_1_ChasingAbe::ePrepareToHoist_14;
         }
         else
@@ -3769,8 +3769,8 @@ s16 Fleech::Brain_ChasingAbe_State_1(BaseAliveGameObject* pObj)
         if (pHoist)
         {
             mNextMotion = eFleechMotions::Motion_4_Crawl;
-            field_160_hoistX = pHoist->field_8_top_left.field_0_x + (mBaseAnimatedWithPhysicsGameObject_SpriteScale >= FP_FromInteger(1) ? 12 : 6);
-            field_162_hoistY = pHoist->field_8_top_left.field_2_y;
+            field_160_hoistX = pHoist->mTopLeft.x + (mBaseAnimatedWithPhysicsGameObject_SpriteScale >= FP_FromInteger(1) ? 12 : 6);
+            field_162_hoistY = pHoist->mTopLeft.y;
             return field_126_brain_sub_state;
         }
 
@@ -3801,8 +3801,8 @@ s16 Fleech::Brain_ChasingAbe_State_1(BaseAliveGameObject* pObj)
                     break;
             }
 
-            field_160_hoistX = pHoist->field_8_top_left.field_0_x + (mBaseAnimatedWithPhysicsGameObject_SpriteScale >= FP_FromInteger(1) ? 12 : 6);
-            field_162_hoistY = pHoist->field_8_top_left.field_2_y;
+            field_160_hoistX = pHoist->mTopLeft.x + (mBaseAnimatedWithPhysicsGameObject_SpriteScale >= FP_FromInteger(1) ? 12 : 6);
+            field_162_hoistY = pHoist->mTopLeft.y;
             return field_126_brain_sub_state;
         }
 
@@ -4003,8 +4003,8 @@ s16 Fleech::Brain_2_Scared()
             if (pHoist)
             {
                 mNextMotion = eFleechMotions::Motion_8_StopMidCrawlCycle;
-                field_160_hoistX = pHoist->field_8_top_left.field_0_x + 12;
-                field_162_hoistY = pHoist->field_8_top_left.field_2_y;
+                field_160_hoistX = pHoist->mTopLeft.x + 12;
+                field_162_hoistY = pHoist->mTopLeft.y;
                 return Brain_2_Scared::ePrepareToHoist_10;
             }
 
@@ -4067,8 +4067,8 @@ s16 Fleech::Brain_2_Scared()
                     mNextMotion = eFleechMotions::Motion_3_Idle;
                 }
 
-                field_160_hoistX = pHoist->field_8_top_left.field_0_x + (mBaseAnimatedWithPhysicsGameObject_SpriteScale >= FP_FromInteger(1) ? 12 : 6);
-                field_162_hoistY = pHoist->field_8_top_left.field_2_y;
+                field_160_hoistX = pHoist->mTopLeft.x + (mBaseAnimatedWithPhysicsGameObject_SpriteScale >= FP_FromInteger(1) ? 12 : 6);
+                field_162_hoistY = pHoist->mTopLeft.y;
                 return Brain_2_Scared::ePrepareToHoist_10;
             }
             [[fallthrough]];

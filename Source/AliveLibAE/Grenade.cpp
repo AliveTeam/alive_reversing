@@ -469,7 +469,7 @@ s16 Grenade::InTheAir(s16 blowUpOnFloorTouch)
 
     while (BaseAliveGameObjectPathTLV)
     {
-        if (BaseAliveGameObjectPathTLV->field_4_type == TlvTypes::DeathDrop_4)
+        if (BaseAliveGameObjectPathTLV->mTlvType32 == TlvTypes::DeathDrop_4)
         {
             mBaseGameObjectFlags.Set(BaseGameObject::eDead);
             return 1;

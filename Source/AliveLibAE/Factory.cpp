@@ -306,7 +306,7 @@ void Factory_LiftPoint(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvOffsetLevelIdP
                 // Is there already an existing LiftPoint object for this TLV?
                 LiftPoint* pLiftPoint = static_cast<LiftPoint*>(pObj);
                 const s16 xpos = FP_GetExponent(pLiftPoint->mBaseAnimatedWithPhysicsGameObject_XPos);
-                if (pTlv->field_8_top_left.field_0_x <= xpos && xpos <= pTlv->field_C_bottom_right.field_0_x && pLiftPoint->field_278_lift_point_id == pLiftTlv->field_10_lift_point_id && pLiftPoint->mBaseAnimatedWithPhysicsGameObject_LvlNumber == gMap.mCurrentLevel && pLiftPoint->mBaseAnimatedWithPhysicsGameObject_PathNumber == gMap.mCurrentPath)
+                if (pTlv->mTopLeft.x <= xpos && xpos <= pTlv->mBottomRight.x && pLiftPoint->field_278_lift_point_id == pLiftTlv->field_10_lift_point_id && pLiftPoint->mBaseAnimatedWithPhysicsGameObject_LvlNumber == gMap.mCurrentLevel && pLiftPoint->mBaseAnimatedWithPhysicsGameObject_PathNumber == gMap.mCurrentPath)
                 {
                     // Yes so just reset its data
                     Path::TLV_Reset(tlvOffsetLevelIdPathId.all, -1, 0, 0);
@@ -316,7 +316,7 @@ void Factory_LiftPoint(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvOffsetLevelIdP
         }
 
         // TODO: Meaning of the data in field_1_unknown for lift point
-        if (pLiftTlv->field_1_tlv_state & 2 || (pLiftTlv->field_1_tlv_state == 0 && pLiftTlv->field_12_bStart_point == Choice_short::eYes_1))
+        if (pLiftTlv->mTlvState & 2 || (pLiftTlv->mTlvState == 0 && pLiftTlv->field_12_bStart_point == Choice_short::eYes_1))
         {
             relive_new LiftPoint(pLiftTlv, tlvOffsetLevelIdPathId.all);
             return;
@@ -333,14 +333,14 @@ void Factory_LiftPoint(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvOffsetLevelIdP
 
                 while (pTlvIter)
                 {
-                    if (pTlvIter->field_4_type == TlvTypes::LiftPoint_7)
+                    if (pTlvIter->mTlvType32 == TlvTypes::LiftPoint_7)
                     {
                         auto pLiftPointIter = static_cast<Path_LiftPoint*>(pTlvIter);
 
-                        const s32 tlvX = pTlv->field_8_top_left.field_0_x;
-                        const s32 absX = pTlvIter->field_8_top_left.field_0_x - tlvX >= 0 ? pTlvIter->field_8_top_left.field_0_x - tlvX : tlvX - pTlvIter->field_8_top_left.field_0_x;
+                        const s32 tlvX = pTlv->mTopLeft.x;
+                        const s32 absX = pTlvIter->mTopLeft.x - tlvX >= 0 ? pTlvIter->mTopLeft.x - tlvX : tlvX - pTlvIter->mTopLeft.x;
 
-                        if (absX < 5 && pLiftPointIter->field_10_lift_point_id == pLiftTlv->field_10_lift_point_id && (pLiftPointIter->field_1_tlv_state & 2 || pLiftPointIter->field_1_tlv_state == 0) && pLiftPointIter->field_12_bStart_point == Choice_short::eYes_1)
+                        if (absX < 5 && pLiftPointIter->field_10_lift_point_id == pLiftTlv->field_10_lift_point_id && (pLiftPointIter->mTlvState & 2 || pLiftPointIter->mTlvState == 0) && pLiftPointIter->field_12_bStart_point == Choice_short::eYes_1)
                         {
                             relive_new LiftPoint(pLiftPointIter, tlvOffsetLevelIdPathId.all);
                             return;
@@ -368,8 +368,8 @@ void Factory_ExpressWell(Path_TLV* pTlv, Path* /*pPath*/, TlvItemInfoUnion tlvOf
     else
     {
         Path_WellBase* pWellTlv = static_cast<Path_WellBase*>(pTlv);
-        const FP xpos = FP_FromInteger(pWellTlv->field_8_top_left.field_0_x);
-        const FP ypos = FP_FromInteger(pWellTlv->field_8_top_left.field_2_y + 5);
+        const FP xpos = FP_FromInteger(pWellTlv->mTopLeft.x);
+        const FP ypos = FP_FromInteger(pWellTlv->mTopLeft.y + 5);
         relive_new Well(pWellTlv, xpos, ypos, tlvOffsetLevelIdPathId.all);
     }
 }
@@ -380,8 +380,8 @@ void Factory_Dove(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode load
     {
         auto pDoveTlv = static_cast<Path_Dove*>(pTlv);
 
-        const s16 width = pDoveTlv->field_C_bottom_right.field_0_x - pDoveTlv->field_8_top_left.field_0_x;
-        const s16 height = pDoveTlv->field_C_bottom_right.field_2_y - pDoveTlv->field_8_top_left.field_2_y;
+        const s16 width = pDoveTlv->mBottomRight.x - pDoveTlv->mTopLeft.x;
+        const s16 height = pDoveTlv->mBottomRight.y - pDoveTlv->mTopLeft.y;
 
         for (s32 i = 0; i < pDoveTlv->field_10_dove_count; i++)
         {
@@ -396,13 +396,13 @@ void Factory_Dove(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode load
             s16 ypos = 0;
             if (pDoveTlv->field_12_pixel_perfect == Choice_short::eYes_1)
             {
-                pDove->mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pTlv->field_8_top_left.field_0_x);
-                ypos = pTlv->field_8_top_left.field_2_y;
+                pDove->mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pTlv->mTopLeft.x);
+                ypos = pTlv->mTopLeft.y;
             }
             else
             {
-                pDove->mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pTlv->field_8_top_left.field_0_x + width * Math_NextRandom() / 256);
-                ypos = pTlv->field_8_top_left.field_2_y + height * Math_NextRandom() / 256;
+                pDove->mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pTlv->mTopLeft.x + width * Math_NextRandom() / 256);
+                ypos = pTlv->mTopLeft.y + height * Math_NextRandom() / 256;
             }
             pDove->mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(ypos) + FP_FromInteger(10);
         }
@@ -483,8 +483,8 @@ void Factory_TimedMine(Path_TLV* pTlv, Path* /*pPath*/, TlvItemInfoUnion tlvOffs
 
     if (loadmode == LoadMode::LoadResourceFromList_1 || loadmode == LoadMode::LoadResource_2)
     {
-        Map::LoadResource("ABEBLOW.BAN", ResourceManager::Resource_Animation, AEResourceID::kAbeblowResID, loadmode, mine_tlv->field_18_disabled_resources & 1);
-        Map::LoadResource("DOGBLOW.BAN", ResourceManager::Resource_Animation, AEResourceID::kSlogBlowResID, loadmode, mine_tlv->field_18_disabled_resources & 2);
+        Map::LoadResource("ABEBLOW.BAN", ResourceManager::Resource_Animation, AEResourceID::kAbeblowResID, loadmode, mine_tlv->mDisabledResources & 1);
+        Map::LoadResource("DOGBLOW.BAN", ResourceManager::Resource_Animation, AEResourceID::kSlogBlowResID, loadmode, mine_tlv->mDisabledResources & 2);
 
         static CompileTimeResourceList<2> sTimedMineResourceList_563368({
             {ResourceManager::Resource_Animation, AEResourceID::kBombResID},
@@ -633,8 +633,8 @@ void Factory_AbeStart(Path_TLV* pTlv, Path*, TlvItemInfoUnion, LoadMode loadmode
             sActiveHero = relive_new Abe(rec.mFrameTableOffset, 85, 57, 55);
             if (sActiveHero)
             {
-                sActiveHero->mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pTlv->field_8_top_left.field_0_x + 12);
-                sActiveHero->mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->field_8_top_left.field_2_y);
+                sActiveHero->mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pTlv->mTopLeft.x + 12);
+                sActiveHero->mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->mTopLeft.y);
             }
         }
     }
@@ -809,7 +809,7 @@ static Path_TLV* FindMatchingSligTLV(Path_TLV* pTlvIter, Path_SligBound* pTlv)
 {
     while (pTlvIter)
     {
-        if (pTlvIter->field_4_type == TlvTypes::Slig_15 && pTlv->field_10_slig_bound_id == static_cast<Path_Slig*>(pTlvIter)->field_38_slig_bound_id && !pTlvIter->field_0_flags.Get(TLV_Flags::eBit2_Destroyed))
+        if (pTlvIter->mTlvType32 == TlvTypes::Slig_15 && pTlv->field_10_slig_bound_id == static_cast<Path_Slig*>(pTlvIter)->field_38_slig_bound_id && !pTlvIter->mTlvFlags.Get(TlvFlags::eBit2_Destroyed))
         {
             return pTlvIter;
         }
@@ -827,8 +827,8 @@ void Factory_SligBoundLeft(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, Load
     }
     else
     {
-        pBound->field_0_flags.Clear(TLV_Flags::eBit1_Created);
-        pBound->field_0_flags.Clear(TLV_Flags::eBit2_Destroyed);
+        pBound->mTlvFlags.Clear(TlvFlags::eBit1_Created);
+        pBound->mTlvFlags.Clear(TlvFlags::eBit2_Destroyed);
 
         for (s16 camX_idx = -2; camX_idx < 3; camX_idx++)
         {
@@ -836,8 +836,8 @@ void Factory_SligBoundLeft(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, Load
             pTlvIter = FindMatchingSligTLV(pTlvIter, pBound);
             if (pTlvIter)
             {
-                pTlvIter->field_0_flags.Set(TLV_Flags::eBit1_Created);
-                pTlvIter->field_0_flags.Set(TLV_Flags::eBit2_Destroyed);
+                pTlvIter->mTlvFlags.Set(TlvFlags::eBit1_Created);
+                pTlvIter->mTlvFlags.Set(TlvFlags::eBit2_Destroyed);
 
                 tlvInfo.parts.tlvOffset += static_cast<u16>(
                     reinterpret_cast<const u8*>(pTlvIter) - reinterpret_cast<const u8*>(pBound));
@@ -1793,7 +1793,7 @@ void Factory_DoorBlocker(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMo
 
 void Factory_TorturedMudokon(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode loadMode)
 {
-    if (!pTlv->field_1_tlv_state)
+    if (!pTlv->mTlvState)
     {
         if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
         {

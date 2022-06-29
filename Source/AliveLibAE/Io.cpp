@@ -99,7 +99,7 @@ IO_Handle* IO_Open_4F2320(const char_type* fileName, s32 modeFlag)
 
     if (pHandle->field_8_hFile)
     {
-        pHandle->field_0_flags = modeFlag;
+        pHandle->mTlvFlags = modeFlag;
         return pHandle;
     }
     else
@@ -219,7 +219,7 @@ s32 IO_Read_4F23A0(IO_Handle* hFile, void* pBuffer, size_t bytesCount)
     }
 
 #if _WIN32 && !USE_SDL2_IO
-    if (hFile->field_0_flags & 4) // ASync flag
+    if (hFile->mTlvFlags & 4) // ASync flag
     {
         IO_WaitForComplete_4F2510(hFile);
         IO_Issue_ASync_Read_4F2430(hFile, 3, pBuffer, bytesCount, 0, 0, 0);

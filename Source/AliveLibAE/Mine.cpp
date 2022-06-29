@@ -48,9 +48,9 @@ Mine::Mine(Path_Mine* pPath, TlvItemInfoUnion tlv)
         mBaseAnimatedWithPhysicsGameObject_Scale = Scale::Fg;
     }
 
-    const s32 v7 = pPath->field_8_top_left.field_0_x + pPath->field_C_bottom_right.field_0_x;
+    const s32 v7 = pPath->mTopLeft.x + pPath->mBottomRight.x;
     mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(v7 / 2);
-    const FP v8 = FP_FromInteger(pPath->field_8_top_left.field_2_y);
+    const FP v8 = FP_FromInteger(pPath->mTopLeft.y);
     mBaseAnimatedWithPhysicsGameObject_YPos = v8;
 
     FP hitY;

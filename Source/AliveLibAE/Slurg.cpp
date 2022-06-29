@@ -56,8 +56,8 @@ Slurg::Slurg(Path_Slurg* pTlv, u32 tlvInfo)
     mBaseGameObjectFlags.Set(BaseGameObject::eCanExplode_Bit7);
     SetType(ReliveTypes::eSlurg);
 
-    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger((pTlv->field_8_top_left.field_0_x + pTlv->field_C_bottom_right.field_0_x) / 2);
-    mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->field_8_top_left.field_2_y);
+    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger((pTlv->mTopLeft.x + pTlv->mBottomRight.x) / 2);
+    mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->mTopLeft.y);
 
     field_12C_tlvInfo = tlvInfo;
     if (pTlv->field_10_slurg_data.field_4_scale == Scale_short::eHalf_1)
@@ -281,14 +281,14 @@ void Slurg::VOn_TLV_Collision(Path_TLV* pTlv)
 {
     while (pTlv)
     {
-        if (pTlv->field_4_type == TlvTypes::ScrabLeftBound_43)
+        if (pTlv->mTlvType32 == TlvTypes::ScrabLeftBound_43)
         {
             if (field_118_flags.Get(SlurgFlags::Bit1_Direction))
             {
                 GoLeft();
             }
         }
-        else if (pTlv->field_4_type == TlvTypes::ScrabRightBound_44)
+        else if (pTlv->mTlvType32 == TlvTypes::ScrabRightBound_44)
         {
             if (!field_118_flags.Get(SlurgFlags::Bit1_Direction))
             {

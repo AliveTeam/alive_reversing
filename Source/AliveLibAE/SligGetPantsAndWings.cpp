@@ -31,8 +31,8 @@ SligGetPantsAndWings::SligGetPantsAndWings(Path_TLV* pTlv, s32 tlvInfo)
         mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_BeforeShadow_25;
     }
 
-    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger((pTlv->field_8_top_left.field_0_x + pTlv->field_C_bottom_right.field_0_x) / 2);
-    mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->field_C_bottom_right.field_2_y);
+    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger((pTlv->mTopLeft.x + pTlv->mBottomRight.x) / 2);
+    mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->mBottomRight.y);
 }
 
 void SligGetPantsAndWings::VUpdate()
@@ -46,7 +46,7 @@ void SligGetPantsAndWings::VUpdate()
     switch (field_F4_state)
     {
         case State::eWaiting_0:
-            if (pTlv->field_1_tlv_state)
+            if (pTlv->mTlvState)
             {
                 field_F4_state = State::eActive_1;
                 field_FC_timer = sGnFrame + 8;
@@ -69,7 +69,7 @@ void SligGetPantsAndWings::VUpdate()
                 field_F4_state = State::eWaiting_0;
                 const AnimRecord& rec = AnimRec(AnimId::CrawlingSligLocker_Closed);
                 mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(rec.mFrameTableOffset, nullptr);
-                pTlv->field_1_tlv_state = 0;
+                pTlv->mTlvState = 0;
             }
             break;
     }

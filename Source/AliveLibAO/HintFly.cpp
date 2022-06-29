@@ -1364,8 +1364,8 @@ HintFly::HintFly(Path_HintFly* pTlv, s32 tlvInfo)
 
         field_11C_message_id = pTlv->field_18_message_id;
 
-        mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pTlv->field_10_top_left.field_0_x);
-        mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->field_10_top_left.field_2_y);
+        mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pTlv->mTopLeft.x);
+        mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->mTopLeft.y);
 
         const char_type* pMsg = gHintFlyMessages.GetMessage(gMap.mCurrentLevel, gMap.mCurrentPath, pTlv->field_18_message_id);
 
@@ -1444,8 +1444,8 @@ HintFly::HintFly(Path_HintFly* pTlv, s32 tlvInfo)
                     Poly_Set_Blending(&pSprt->mBase.header, 1);
 
                     SetClut(pSprt, static_cast<s16>(PSX_getClut(
-                                       mBaseAnimatedWithPhysicsGameObject_Anim.field_8C_pal_vram_xy.field_0_x,
-                                       mBaseAnimatedWithPhysicsGameObject_Anim.field_8C_pal_vram_xy.field_2_y)));
+                                       mBaseAnimatedWithPhysicsGameObject_Anim.field_8C_pal_vram_xy.x,
+                                       mBaseAnimatedWithPhysicsGameObject_Anim.field_8C_pal_vram_xy.y)));
 
                     SetUV0(pSprt, vram_x & 0xFF, mBaseAnimatedWithPhysicsGameObject_Anim.field_84_vram_rect.y & 0xFF);
 
@@ -1455,12 +1455,12 @@ HintFly::HintFly(Path_HintFly* pTlv, s32 tlvInfo)
             }
 
 
-            field_114_xScreen = FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos + FP_FromInteger(pScreenManager->mCamXOff) - pScreenManager->mCamPos->field_0_x);
-            field_116_yScreen = FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos + FP_FromInteger(pScreenManager->mCamYOff) - pScreenManager->mCamPos->field_4_y);
+            field_114_xScreen = FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos + FP_FromInteger(pScreenManager->mCamXOff) - pScreenManager->mCamPos->x);
+            field_116_yScreen = FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos + FP_FromInteger(pScreenManager->mCamYOff) - pScreenManager->mCamPos->y);
 
             // Some unknown pal hack that seems to do nothing
             /*
-            const PSX_RECT rect = { static_cast<s16>(mBaseAnimatedWithPhysicsGameObject_Anim.field_8C_pal_vram_xy.field_0_x + 1), mBaseAnimatedWithPhysicsGameObject_Anim.field_8C_pal_vram_xy.field_2_y, 1, 1 };
+            const PSX_RECT rect = { static_cast<s16>(mBaseAnimatedWithPhysicsGameObject_Anim.field_8C_pal_vram_xy.x + 1), mBaseAnimatedWithPhysicsGameObject_Anim.field_8C_pal_vram_xy.y, 1, 1 };
             const u8 data[] = { 0, 0, 0, 0 };
             if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit14_Is16Bit))
             {

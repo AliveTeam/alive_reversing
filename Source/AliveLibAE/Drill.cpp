@@ -110,9 +110,9 @@ Drill::Drill(Path_Drill* pTlv, u32 tlvInfo)
     switch (field_FA_direction)
     {
         case DrillDirection::eDown_0:
-            field_110_xPos = FP_FromInteger(pTlv->field_8_top_left.field_0_x + 12);
+            field_110_xPos = FP_FromInteger(pTlv->mTopLeft.x + 12);
             mBaseAnimatedWithPhysicsGameObject_XPos = field_110_xPos;
-            field_114_yPos = FP_FromInteger(pTlv->field_C_bottom_right.field_2_y);
+            field_114_yPos = FP_FromInteger(pTlv->mBottomRight.y);
 
             if (field_128_flags.Get(Flags::eBit2_ToggleStartState_StartOn))
             {
@@ -125,7 +125,7 @@ Drill::Drill(Path_Drill* pTlv, u32 tlvInfo)
                 mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
             }
 
-            field_F6_width = pTlv->field_C_bottom_right.field_2_y - pTlv->field_8_top_left.field_2_y;
+            field_F6_width = pTlv->mBottomRight.y - pTlv->mTopLeft.y;
             if (field_128_flags.Get(Flags::eBit6_StartPosIsBottom))
             {
                 field_124_xyoff = FP_FromInteger(0);
@@ -138,8 +138,8 @@ Drill::Drill(Path_Drill* pTlv, u32 tlvInfo)
             break;
 
         case DrillDirection::eRight_1:
-            field_110_xPos = FP_FromInteger(pTlv->field_8_top_left.field_0_x + 12);
-            field_114_yPos = FP_FromInteger(pTlv->field_C_bottom_right.field_2_y);
+            field_110_xPos = FP_FromInteger(pTlv->mTopLeft.x + 12);
+            field_114_yPos = FP_FromInteger(pTlv->mBottomRight.y);
             mBaseAnimatedWithPhysicsGameObject_YPos = field_114_yPos;
 
             if (field_128_flags.Get(Flags::eBit2_ToggleStartState_StartOn))
@@ -153,7 +153,7 @@ Drill::Drill(Path_Drill* pTlv, u32 tlvInfo)
                 mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
             }
 
-            field_F6_width = pTlv->field_C_bottom_right.field_0_x - pTlv->field_8_top_left.field_0_x;
+            field_F6_width = pTlv->mBottomRight.x - pTlv->mTopLeft.x;
             if (field_128_flags.Get(Flags::eBit6_StartPosIsBottom))
             {
                 field_124_xyoff = FP_FromInteger(0);
@@ -168,8 +168,8 @@ Drill::Drill(Path_Drill* pTlv, u32 tlvInfo)
         case DrillDirection::eLeft_2:
             mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit5_FlipX);
 
-            field_110_xPos = FP_FromInteger(pTlv->field_C_bottom_right.field_0_x - 12);
-            field_114_yPos = FP_FromInteger(pTlv->field_C_bottom_right.field_2_y);
+            field_110_xPos = FP_FromInteger(pTlv->mBottomRight.x - 12);
+            field_114_yPos = FP_FromInteger(pTlv->mBottomRight.y);
             mBaseAnimatedWithPhysicsGameObject_YPos = field_114_yPos;
 
             if (field_128_flags.Get(Flags::eBit2_ToggleStartState_StartOn))
@@ -183,7 +183,7 @@ Drill::Drill(Path_Drill* pTlv, u32 tlvInfo)
                 mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
             }
 
-            field_F6_width = pTlv->field_C_bottom_right.field_0_x - pTlv->field_8_top_left.field_0_x;
+            field_F6_width = pTlv->mBottomRight.x - pTlv->mTopLeft.x;
             if (field_128_flags.Get(Flags::eBit6_StartPosIsBottom))
             {
                 field_124_xyoff = FP_FromInteger(0);

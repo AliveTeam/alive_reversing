@@ -195,18 +195,18 @@ void SnoozeParticle::VRender(PrimHeader** ppOt)
 
     if (field_1D4_state == SnoozeParticleState::eBlowingUp_2)
     {
-        const s16 xInScreen = FP_GetExponent(field_18_x - pCamPos->field_0_x) + pScreenManager->mCamXOff;
-        const s16 yInScreen = FP_GetExponent(field_1C_y - pCamPos->field_4_y) + pScreenManager->mCamYOff;
+        const s16 xInScreen = FP_GetExponent(field_18_x - pCamPos->x) + pScreenManager->mCamXOff;
+        const s16 yInScreen = FP_GetExponent(field_1C_y - pCamPos->y) + pScreenManager->mCamYOff;
 
         for (s32 i = 0; i < ALIVE_COUNTOF(explosionVerts); i++)
         {
             Line_G2* pZExplosionLine = &field_94_lines[bufIdx][i];
             LineG2_Init(pZExplosionLine);
 
-            const s32 scaledLineRelativeStartX = FP_GetExponent(FP_FromInteger(explosionVerts[i][0].field_0_x) * field_28_scale);
-            const s32 scaledLineRelativeStartY = FP_GetExponent(FP_FromInteger(explosionVerts[i][0].field_2_y) * field_28_scale);
-            const s32 scaledLineRelativeEndX = FP_GetExponent(FP_FromInteger(explosionVerts[i][1].field_0_x) * field_28_scale);
-            const s32 scaledLineRelativeEndY = FP_GetExponent(FP_FromInteger(explosionVerts[i][1].field_2_y) * field_28_scale);
+            const s32 scaledLineRelativeStartX = FP_GetExponent(FP_FromInteger(explosionVerts[i][0].x) * field_28_scale);
+            const s32 scaledLineRelativeStartY = FP_GetExponent(FP_FromInteger(explosionVerts[i][0].y) * field_28_scale);
+            const s32 scaledLineRelativeEndX = FP_GetExponent(FP_FromInteger(explosionVerts[i][1].x) * field_28_scale);
+            const s32 scaledLineRelativeEndY = FP_GetExponent(FP_FromInteger(explosionVerts[i][1].y) * field_28_scale);
             SetXY0(pZExplosionLine,
                    static_cast<s16>(PsxToPCX(xInScreen + scaledLineRelativeStartX, 11)),
                    static_cast<s16>(yInScreen + scaledLineRelativeStartY));
@@ -236,8 +236,8 @@ void SnoozeParticle::VRender(PrimHeader** ppOt)
         Line_G4* pZLine = &field_3C_lines[bufIdx];
         LineG4_Init(pZLine);
 
-        const s16 xInScreen = FP_GetExponent(field_18_x - pCamPos->field_0_x) + pScreenManager->mCamXOff;
-        const s16 yInScreen = FP_GetExponent(field_1C_y - pCamPos->field_4_y) + pScreenManager->mCamYOff;
+        const s16 xInScreen = FP_GetExponent(field_18_x - pCamPos->x) + pScreenManager->mCamXOff;
+        const s16 yInScreen = FP_GetExponent(field_1C_y - pCamPos->y) + pScreenManager->mCamYOff;
 
         const s16 RectX_v_Psx = xInScreen + FP_GetExponent(FP_FromInteger(zVerts[0]) * field_28_scale);
         const s16 RectW_v_Psx = xInScreen + FP_GetExponent(FP_FromInteger(zVerts[5]) * field_28_scale);

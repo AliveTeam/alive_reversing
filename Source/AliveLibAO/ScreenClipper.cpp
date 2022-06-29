@@ -54,11 +54,11 @@ ScreenClipper::ScreenClipper(PSX_Point xy, PSX_Point wh, Layer layer)
     mBaseGameObjectFlags.Set(Options::eUpdateDuringCamSwap_Bit10);
     mBaseGameObjectFlags.Set(Options::eDrawable_Bit4);
 
-    field_30_rect.x = xy.field_0_x;
-    field_30_rect.y = xy.field_2_y;
+    field_30_rect.x = xy.x;
+    field_30_rect.y = xy.y;
 
-    field_30_rect.w = wh.field_0_x;
-    field_30_rect.h = wh.field_2_y;
+    field_30_rect.w = wh.x;
+    field_30_rect.h = wh.y;
 
     field_38_ot_layer = layer;
 
@@ -67,11 +67,11 @@ ScreenClipper::ScreenClipper(PSX_Point xy, PSX_Point wh, Layer layer)
 
 void ScreenClipper::Update_Clip_Rect(PSX_Point xy, PSX_Point wh)
 {
-    field_30_rect.x = std::min(xy.field_0_x, field_30_rect.x);
-    field_30_rect.y = std::min(xy.field_2_y, field_30_rect.y);
+    field_30_rect.x = std::min(xy.x, field_30_rect.x);
+    field_30_rect.y = std::min(xy.y, field_30_rect.y);
 
-    field_30_rect.w = std::max(wh.field_0_x, field_30_rect.w);
-    field_30_rect.h = std::max(wh.field_2_y, field_30_rect.h);
+    field_30_rect.w = std::max(wh.x, field_30_rect.w);
+    field_30_rect.h = std::max(wh.y, field_30_rect.h);
 }
 
 } // namespace AO

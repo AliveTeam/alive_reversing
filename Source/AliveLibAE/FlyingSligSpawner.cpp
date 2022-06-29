@@ -94,10 +94,10 @@ void FlyingSligSpawner::VUpdate()
         else if (SwitchStates_Get(field_28_spawner_switch_id))
         {
             auto pFlyingSligTlv = static_cast<Path_FlyingSlig*>(sPath_dword_BB47C0->TLV_Get_At_4DB4B0(
-                field_2C_tlv_header.field_8_top_left.field_0_x,
-                field_2C_tlv_header.field_8_top_left.field_2_y,
-                field_2C_tlv_header.field_8_top_left.field_0_x + 25,
-                field_2C_tlv_header.field_8_top_left.field_2_y + 25,
+                field_2C_tlv_header.mTopLeft.x,
+                field_2C_tlv_header.mTopLeft.y,
+                field_2C_tlv_header.mTopLeft.x + 25,
+                field_2C_tlv_header.mTopLeft.y + 25,
                 TlvTypes::FlyingSligSpawner_92));
 
             if (!pFlyingSligTlv)

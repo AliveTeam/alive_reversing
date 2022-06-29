@@ -321,8 +321,8 @@ Slig::Slig(Path_Slig* pTlv, s32 tlvInfo)
 
     BaseAliveGameObjectPathTLV = pTlv;
     field_174_tlv = *pTlv;
-    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pTlv->field_10_top_left.field_0_x);
-    mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->field_10_top_left.field_2_y);
+    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pTlv->mTopLeft.x);
+    mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->mTopLeft.y);
     field_134_tlvInfo = tlvInfo;
     field_254_prevent_depossession &= ~7u;
     field_126_input = 0;
@@ -407,24 +407,24 @@ Slig::~Slig()
     }
 
     auto pTlv = gMap.TLV_Get_At_446260(
-        field_174_tlv.field_10_top_left.field_0_x,
-        field_174_tlv.field_10_top_left.field_2_y,
-        field_174_tlv.field_10_top_left.field_0_x,
-        field_174_tlv.field_10_top_left.field_2_y,
-        field_174_tlv.field_4_type.mType);
+        field_174_tlv.mTopLeft.x,
+        field_174_tlv.mTopLeft.y,
+        field_174_tlv.mTopLeft.x,
+        field_174_tlv.mTopLeft.y,
+        field_174_tlv.mTlvType32.mType);
 
     if (mHealth <= FP_FromInteger(0))
     {
         if (pTlv)
         {
-            pTlv->field_0_flags.Clear(TLV_Flags::eBit1_Created);
-            pTlv->field_0_flags.Set(TLV_Flags::eBit2_Destroyed);
+            pTlv->mTlvFlags.Clear(TlvFlags::eBit1_Created);
+            pTlv->mTlvFlags.Set(TlvFlags::eBit2_Destroyed);
         }
     }
     else if (pTlv)
     {
-        pTlv->field_0_flags.Clear(TLV_Flags::eBit1_Created);
-        pTlv->field_0_flags.Clear(TLV_Flags::eBit2_Destroyed);
+        pTlv->mTlvFlags.Clear(TlvFlags::eBit1_Created);
+        pTlv->mTlvFlags.Clear(TlvFlags::eBit2_Destroyed);
     }
 
     for (u8**& ppRes : field_210_resources.res)
@@ -564,8 +564,8 @@ void Slig::Init()
     }
     field_1F4_points_count = 0;
 
-    field_1CC_points[field_1F4_points_count].field_0_x = FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos);
-    field_1CC_points[field_1F4_points_count].field_2_y = FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos);
+    field_1CC_points[field_1F4_points_count].x = FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos);
+    field_1CC_points[field_1F4_points_count].y = FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos);
     field_1F4_points_count++;
 
     field_13C_zone_rect = {};
@@ -579,25 +579,25 @@ void Slig::Init()
             while (pTlvIter)
             {
                 bool addPoint = false;
-                if (pTlvIter->field_4_type == TlvTypes::eSligBoundLeft_57)
+                if (pTlvIter->mTlvType32 == TlvTypes::eSligBoundLeft_57)
                 {
                     if (static_cast<Path_SligLeftBound*>(pTlvIter)->field_18_slig_id == field_174_tlv.field_40_slig_bound_id)
                     {
-                        field_13C_zone_rect.x = pTlvIter->field_10_top_left.field_0_x;
+                        field_13C_zone_rect.x = pTlvIter->mTopLeft.x;
                         addPoint = true;
                         zoneRectSet = true;
                     }
                 }
-                else if (pTlvIter->field_4_type == TlvTypes::eSligBoundRight_76)
+                else if (pTlvIter->mTlvType32 == TlvTypes::eSligBoundRight_76)
                 {
                     if (static_cast<Path_SligRightBound*>(pTlvIter)->field_18_slig_id == field_174_tlv.field_40_slig_bound_id)
                     {
-                        field_13C_zone_rect.w = pTlvIter->field_10_top_left.field_0_x;
+                        field_13C_zone_rect.w = pTlvIter->mTopLeft.x;
                         addPoint = true;
                         zoneRectSet = true;
                     }
                 }
-                else if (pTlvIter->field_4_type == TlvTypes::eSligPersist_77)
+                else if (pTlvIter->mTlvType32 == TlvTypes::eSligPersist_77)
                 {
                     if (static_cast<Path_SligPersist*>(pTlvIter)->field_18_slig_id == field_174_tlv.field_40_slig_bound_id)
                     {
@@ -609,8 +609,8 @@ void Slig::Init()
                 {
                     if (field_1F4_points_count < ALIVE_COUNTOF(field_1CC_points))
                     {
-                        field_1CC_points[field_1F4_points_count].field_0_x = pTlvIter->field_10_top_left.field_0_x;
-                        field_1CC_points[field_1F4_points_count].field_2_y = pTlvIter->field_10_top_left.field_2_y;
+                        field_1CC_points[field_1F4_points_count].x = pTlvIter->mTopLeft.x;
+                        field_1CC_points[field_1F4_points_count].y = pTlvIter->mTopLeft.y;
                         field_1F4_points_count++;
                     }
                 }
@@ -676,9 +676,9 @@ void Slig::VUpdate()
                 mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(0);
             }
 
-            if (mBaseAnimatedWithPhysicsGameObject_XPos >= FP_FromInteger(mapSize.field_0_x))
+            if (mBaseAnimatedWithPhysicsGameObject_XPos >= FP_FromInteger(mapSize.x))
             {
-                mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(mapSize.field_0_x) - FP_FromInteger(1);
+                mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(mapSize.x) - FP_FromInteger(1);
             }
 
             if (mBaseAnimatedWithPhysicsGameObject_YPos < FP_FromInteger(0))
@@ -686,9 +686,9 @@ void Slig::VUpdate()
                 mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(0);
             }
 
-            if (mBaseAnimatedWithPhysicsGameObject_YPos >= FP_FromInteger(mapSize.field_2_y))
+            if (mBaseAnimatedWithPhysicsGameObject_YPos >= FP_FromInteger(mapSize.y))
             {
-                mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(mapSize.field_2_y) - FP_FromInteger(1);
+                mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(mapSize.y) - FP_FromInteger(1);
             }
         }
         else
@@ -1019,7 +1019,7 @@ void Slig::VOn_TLV_Collision(Path_TLV* pTlv)
 {
     while (pTlv)
     {
-        if (pTlv->field_4_type == TlvTypes::DeathDrop_5)
+        if (pTlv->mTlvType32 == TlvTypes::DeathDrop_5)
         {
             if (mHealth > FP_FromInteger(0))
             {
@@ -1200,8 +1200,8 @@ void Slig::ShouldStilBeAlive_46C0D0()
                     while (!gMap.Is_Point_In_Current_Camera(
                         mBaseAnimatedWithPhysicsGameObject_LvlNumber,
                         mBaseAnimatedWithPhysicsGameObject_PathNumber,
-                        FP_FromInteger(field_1CC_points[i].field_0_x),
-                        FP_FromInteger(field_1CC_points[i].field_2_y),
+                        FP_FromInteger(field_1CC_points[i].x),
+                        FP_FromInteger(field_1CC_points[i].y),
                         0))
                     {
                         if (i >= field_1F4_points_count)
@@ -1732,9 +1732,9 @@ s16 Slig::IsInInvisibleZone_418870(BaseAnimatedWithPhysicsGameObject* pObj)
     Path_TLV* pTlv = gMap.TLV_Get_At_446260(rect.x, rect.y, rect.w, rect.h, TlvTypes::InvisibleZone_58);
     if (pTlv)
     {
-        if (rect.x >= pTlv->field_10_top_left.field_0_x && rect.x <= pTlv->field_14_bottom_right.field_0_x && rect.y >= pTlv->field_10_top_left.field_2_y)
+        if (rect.x >= pTlv->mTopLeft.x && rect.x <= pTlv->mBottomRight.x && rect.y >= pTlv->mTopLeft.y)
         {
-            if (rect.y <= pTlv->field_14_bottom_right.field_2_y && rect.w >= pTlv->field_10_top_left.field_0_x && rect.w <= pTlv->field_14_bottom_right.field_0_x && rect.h >= pTlv->field_10_top_left.field_2_y && rect.h <= pTlv->field_14_bottom_right.field_2_y)
+            if (rect.y <= pTlv->mBottomRight.y && rect.w >= pTlv->mTopLeft.x && rect.w <= pTlv->mBottomRight.x && rect.h >= pTlv->mTopLeft.y && rect.h <= pTlv->mBottomRight.y)
             {
                 return TRUE;
             }
@@ -2119,7 +2119,7 @@ s16 Slig::HandlePlayerControlled()
             BaseAliveGameObjectPathTLV = pTlv;
             if (pTlv)
             {
-                if (FP_FromInteger(FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos) - pTlv->field_10_top_left.field_0_x) < kScaleGrid)
+                if (FP_FromInteger(FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos) - pTlv->mTopLeft.x) < kScaleGrid)
                 {
                     if (!(mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX)))
                     {
@@ -2141,7 +2141,7 @@ s16 Slig::HandlePlayerControlled()
                     mCurrentMotion = eSligMotions::Motion_5_TurnAroundStanding_469C80;
                     return 1;
                 }
-                if (FP_FromInteger(pTlv->field_14_bottom_right.field_0_x - FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos)) < kScaleGrid)
+                if (FP_FromInteger(pTlv->mBottomRight.x - FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos)) < kScaleGrid)
                 {
                     if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
                     {
@@ -4290,10 +4290,10 @@ void Slig::WakeUp()
     SetBrain(&Slig::Brain_WakingUp_46B700);
     MusicController::static_PlayMusic(MusicController::MusicTypes::eChase_4, this, 0, 0);
     auto pTlv = static_cast<Path_Slig*>(gMap.TLV_Get_At_446260(
-        field_174_tlv.field_10_top_left.field_0_x,
-        field_174_tlv.field_10_top_left.field_2_y,
-        field_174_tlv.field_10_top_left.field_0_x,
-        field_174_tlv.field_10_top_left.field_2_y,
+        field_174_tlv.mTopLeft.x,
+        field_174_tlv.mTopLeft.y,
+        field_174_tlv.mTopLeft.x,
+        field_174_tlv.mTopLeft.y,
         TlvTypes::Slig_24));
     if (pTlv)
     {
@@ -4951,7 +4951,7 @@ s16 Slig::Brain_Idle_46D6E0()
                 if (pTlv)
                 {
                     FP kScaleGrid = ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale);
-                    if ((FP_FromInteger(FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos) - pTlv->field_10_top_left.field_0_x) < kScaleGrid && !(mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))) || (FP_FromInteger(pTlv->field_14_bottom_right.field_0_x - FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos)) < kScaleGrid && mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX)))
+                    if ((FP_FromInteger(FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos) - pTlv->mTopLeft.x) < kScaleGrid && !(mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))) || (FP_FromInteger(pTlv->mBottomRight.x - FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos)) < kScaleGrid && mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX)))
                     {
                         auto pSwitch = static_cast<Lever*>(FindObjectOfType_418280(
                             ReliveTypes::eLever,

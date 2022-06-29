@@ -204,16 +204,16 @@ FlyingSlig::FlyingSlig(Path_FlyingSlig* pTlv, s32 tlvInfo)
 
     field_17C_launch_switch_id |= field_118_data.field_10_data.field_1C_launch_switch_id;
 
-    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger((pTlv->field_8_top_left.field_0_x + pTlv->field_C_bottom_right.field_0_x) / 2);
-    mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->field_8_top_left.field_2_y);
+    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger((pTlv->mTopLeft.x + pTlv->mBottomRight.x) / 2);
+    mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->mTopLeft.y);
 
     FP hitX = {};
     FP hitY = {};
     sCollisions->Raycast(
-        FP_FromInteger(pTlv->field_8_top_left.field_0_x),
-        FP_FromInteger(pTlv->field_8_top_left.field_2_y),
-        FP_FromInteger(pTlv->field_C_bottom_right.field_0_x),
-        FP_FromInteger(pTlv->field_C_bottom_right.field_2_y),
+        FP_FromInteger(pTlv->mTopLeft.x),
+        FP_FromInteger(pTlv->mTopLeft.y),
+        FP_FromInteger(pTlv->mBottomRight.x),
+        FP_FromInteger(pTlv->mBottomRight.y),
         &BaseAliveGameObjectCollisionLine,
         &hitX,
         &hitY,
@@ -566,7 +566,7 @@ FlyingSlig::~FlyingSlig()
     Path_TLV* pTlv = sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam(field_148_tlvInfo);
     if (pTlv)
     {
-        if (pTlv->field_4_type.mType != TlvTypes::SligGetWings_105 && pTlv->field_4_type.mType != TlvTypes::FlyingSligSpawner_92)
+        if (pTlv->mTlvType32.mType != TlvTypes::SligGetWings_105 && pTlv->mTlvType32.mType != TlvTypes::FlyingSligSpawner_92)
         {
             if (mHealth <= FP_FromInteger(0))
             {
@@ -754,8 +754,8 @@ void FlyingSlig::Movement()
 
         FP_Point posXY = {};
         sub_437AC0(field_18C, &posXY);
-        mBaseAnimatedWithPhysicsGameObject_VelX = posXY.field_0_x - mBaseAnimatedWithPhysicsGameObject_XPos;
-        mBaseAnimatedWithPhysicsGameObject_VelY = posXY.field_4_y - mBaseAnimatedWithPhysicsGameObject_YPos;
+        mBaseAnimatedWithPhysicsGameObject_VelX = posXY.x - mBaseAnimatedWithPhysicsGameObject_XPos;
+        mBaseAnimatedWithPhysicsGameObject_VelY = posXY.y - mBaseAnimatedWithPhysicsGameObject_YPos;
     }
     else
     {
@@ -945,13 +945,13 @@ s16 FlyingSlig::VTakeDamage(BaseGameObject* pFrom)
                     {
                         break;
                     }
-                    if (pTlv->field_4_type == TlvTypes::ZSligCover_50)
+                    if (pTlv->mTlvType32 == TlvTypes::ZSligCover_50)
                     {
                         // Left/right in cover
-                        if (bRect.x >= pTlv->field_8_top_left.field_0_x && bRect.x <= pTlv->field_C_bottom_right.field_0_x && bRect.y >= pTlv->field_8_top_left.field_2_y && bRect.y <= pTlv->field_C_bottom_right.field_2_y)
+                        if (bRect.x >= pTlv->mTopLeft.x && bRect.x <= pTlv->mBottomRight.x && bRect.y >= pTlv->mTopLeft.y && bRect.y <= pTlv->mBottomRight.y)
                         {
                             // Top/bottom in cover
-                            if (bRect.w >= pTlv->field_8_top_left.field_0_x && bRect.w <= pTlv->field_C_bottom_right.field_0_x && bRect.h >= pTlv->field_8_top_left.field_2_y && bRect.h <= pTlv->field_C_bottom_right.field_2_y)
+                            if (bRect.w >= pTlv->mTopLeft.x && bRect.w <= pTlv->mBottomRight.x && bRect.h >= pTlv->mTopLeft.y && bRect.h <= pTlv->mBottomRight.y)
                             {
                                 return 0;
                             }
@@ -3296,8 +3296,8 @@ void FlyingSlig::sub_437AC0(FP arg1, FP_Point* pPoint)
     FP unknown = arg1;
     if (arg1 == FP_FromInteger(0))
     {
-        pPoint->field_0_x = mBaseAnimatedWithPhysicsGameObject_XPos;
-        pPoint->field_4_y = mBaseAnimatedWithPhysicsGameObject_YPos;
+        pPoint->x = mBaseAnimatedWithPhysicsGameObject_XPos;
+        pPoint->y = mBaseAnimatedWithPhysicsGameObject_YPos;
         return;
     }
 
@@ -3351,6 +3351,6 @@ void FlyingSlig::sub_437AC0(FP arg1, FP_Point* pPoint)
     }
 
     field_194 += unknown;
-    pPoint->field_0_x = (field_194 * ((field_1A4_rect.w - field_1A4_rect.x) / field_198_line_length)) + field_1A4_rect.x;
-    pPoint->field_4_y = (field_194 * ((field_1A4_rect.h - field_1A4_rect.y) / field_198_line_length)) + field_1A4_rect.y;
+    pPoint->x = (field_194 * ((field_1A4_rect.w - field_1A4_rect.x) / field_198_line_length)) + field_1A4_rect.x;
+    pPoint->y = (field_194 * ((field_1A4_rect.h - field_1A4_rect.y) / field_198_line_length)) + field_1A4_rect.y;
 }

@@ -7,8 +7,8 @@ namespace AO {
 
 struct GibPart final
 {
-    FP field_0_x;
-    FP field_4_y;
+    FP x;
+    FP y;
     FP field_8_z;
     FP field_C_dx;
     FP field_10_dy;

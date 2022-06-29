@@ -225,8 +225,8 @@ FG1::FG1(u8** ppRes)
 
     mBaseGameObjectTypeId = ReliveTypes::eFG1;
 
-    field_10_cam_pos_x = FP_GetExponent(pScreenManager->mCamPos->field_0_x);
-    field_12_cam_pos_y = FP_GetExponent(pScreenManager->mCamPos->field_4_y);
+    field_10_cam_pos_x = FP_GetExponent(pScreenManager->mCamPos->x);
+    field_12_cam_pos_y = FP_GetExponent(pScreenManager->mCamPos->y);
 
     field_16_current_path = gMap.mCurrentPath;
     field_14_current_level = gMap.mCurrentLevel;

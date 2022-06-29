@@ -12,8 +12,8 @@ MusicTrigger::MusicTrigger(Path_MusicTrigger* pTlv, u32 tlvInfo)
     : BaseGameObject(TRUE, 0)
 {
     Init(pTlv->field_10_music_type, pTlv->field_12_triggered_by, pTlv->field_14_music_delay);
-    field_2C_tl = pTlv->field_8_top_left;
-    field_30_br = pTlv->field_C_bottom_right;
+    field_2C_tl = pTlv->mTopLeft;
+    field_30_br = pTlv->mBottomRight;
     field_20_tlvInfo = tlvInfo;
 }
 
@@ -107,7 +107,7 @@ void MusicTrigger::VUpdate()
         FP xpos = sControlledCharacter_5C1B8C->mBaseAnimatedWithPhysicsGameObject_XPos;
         FP ypos = sControlledCharacter_5C1B8C->mBaseAnimatedWithPhysicsGameObject_YPos;
 
-        if (xpos >= FP_FromInteger(field_2C_tl.field_0_x) && xpos <= FP_FromInteger(field_30_br.field_0_x) && (ypos >= FP_FromInteger(field_2C_tl.field_2_y) && ypos <= FP_FromInteger(field_30_br.field_2_y)))
+        if (xpos >= FP_FromInteger(field_2C_tl.x) && xpos <= FP_FromInteger(field_30_br.x) && (ypos >= FP_FromInteger(field_2C_tl.y) && ypos <= FP_FromInteger(field_30_br.y)))
         {
             field_24_flags.Clear(Flags_24::e24_Bit1_TriggeredByTouching);
             MusicController::static_PlayMusic(field_26_music_type, this, field_24_flags.Get(Flags_24::e24_Bit3_SetMusicToNoneOnDtor), 1);

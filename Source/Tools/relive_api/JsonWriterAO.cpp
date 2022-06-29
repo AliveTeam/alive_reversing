@@ -26,25 +26,25 @@ JsonWriterAO::JsonWriterAO(s32 pathId, const std::string& pathBndName, const Pat
     AO::Path_TLV* pPathTLV = reinterpret_cast<AO::Path_TLV*>(ptr);
     pPathTLV->RangeCheck();
 
-    if (static_cast<s32>(pPathTLV->field_4_type.mType) <= 0x100000 && pPathTLV->field_2_length <= 0x2000u && pPathTLV->field_8 <= 0x1000000)
+    if (static_cast<s32>(pPathTLV->mTlvType32.mType) <= 0x100000 && pPathTLV->mLength <= 0x2000u && pPathTLV->field_8 <= 0x1000000)
     {
         while (pPathTLV)
         {
-            mTypeCounterMap[pPathTLV->field_4_type.mType]++;
+            mTypeCounterMap[pPathTLV->mTlvType32.mType]++;
 
-            auto obj = mTypesCollection->MakeTlvAO(pPathTLV->field_4_type.mType, pPathTLV, mTypeCounterMap[pPathTLV->field_4_type.mType]);
+            auto obj = mTypesCollection->MakeTlvAO(pPathTLV->mTlvType32.mType, pPathTLV, mTypeCounterMap[pPathTLV->mTlvType32.mType]);
             if (obj)
             {
-                if (pPathTLV->field_2_length != obj->TlvLen())
+                if (pPathTLV->mLength != obj->TlvLen())
                 {
-                    LOG_ERROR(magic_enum::enum_name(pPathTLV->field_4_type.mType) << " size should be " << pPathTLV->field_2_length << " but got " << obj->TlvLen());
+                    LOG_ERROR(magic_enum::enum_name(pPathTLV->mTlvType32.mType) << " size should be " << pPathTLV->mLength << " but got " << obj->TlvLen());
                     throw ReliveAPI::WrongTLVLengthException();
                 }
                 mapObjects << obj->InstanceToJson(*mTypesCollection, context);
             }
             else
             {
-                LOG_WARNING("Ignoring type: " << magic_enum::enum_name(pPathTLV->field_4_type.mType));
+                LOG_WARNING("Ignoring type: " << magic_enum::enum_name(pPathTLV->mTlvType32.mType));
             }
 
             pPathTLV = AO::Path_TLV::Next(pPathTLV);
@@ -95,7 +95,7 @@ void JsonWriterAO::DebugDumpTlvs(IFileIO& fileIo, const std::string& prefix, con
     AO::Path_TLV* pPathTLV = reinterpret_cast<AO::Path_TLV*>(pStart);
     pPathTLV->RangeCheck();
     s32 idx = 0;
-    if (static_cast<s32>(pPathTLV->field_4_type.mType) <= 0x100000 && pPathTLV->field_2_length <= 0x2000u && pPathTLV->field_8 <= 0x1000000)
+    if (static_cast<s32>(pPathTLV->mTlvType32.mType) <= 0x100000 && pPathTLV->mLength <= 0x2000u && pPathTLV->field_8 <= 0x1000000)
     {
         while (pPathTLV)
         {
@@ -105,7 +105,7 @@ void JsonWriterAO::DebugDumpTlvs(IFileIO& fileIo, const std::string& prefix, con
             if (pPathTLV)
             {
                 pPathTLV->RangeCheck();
-                if (pPathTLV->field_2_length == 0)
+                if (pPathTLV->mLength == 0)
                 {
                     // Dont get stuck in a loop
                     break;

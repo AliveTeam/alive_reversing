@@ -43,11 +43,11 @@ SlapLock::SlapLock(Path_SlapLock* pTlv, s32 tlvInfo)
     field_124_timer1 = (Math_NextRandom() & 7) + sGnFrame + 25;
     field_134_id = -1;
     field_138_possesion_flicker_id = -1;
-    const FP midX = FP_FromInteger((pTlv->field_8_top_left.field_0_x + pTlv->field_C_bottom_right.field_0_x) / 2);
+    const FP midX = FP_FromInteger((pTlv->mTopLeft.x + pTlv->mBottomRight.x) / 2);
     field_128_midX = midX;
     mBaseAnimatedWithPhysicsGameObject_XPos = midX;
 
-    const FP ypos = FP_FromInteger(pTlv->field_C_bottom_right.field_2_y);
+    const FP ypos = FP_FromInteger(pTlv->mBottomRight.y);
     field_12C_midY = ypos;
     mBaseAnimatedWithPhysicsGameObject_YPos = ypos;
 
@@ -72,7 +72,7 @@ SlapLock::SlapLock(Path_SlapLock* pTlv, s32 tlvInfo)
         field_130_has_ghost = Choice_short::eNo_0;
     }
 
-    if (pTlv->field_1_tlv_state == 0)
+    if (pTlv->mTlvState == 0)
     {
         return;
     }
@@ -115,7 +115,7 @@ s32 SlapLock::CreateFromSaveState(const u8* pBuffer)
 
         pSlapLock->field_11C_tlvInfo = pState->field_4_tlvInfo;
 
-        pTlv->field_1_tlv_state = pState->field_8_tlv_state;
+        pTlv->mTlvState = pState->field_8_tlv_state;
 
         pSlapLock->field_120_state = pState->field_A_state;
         pSlapLock->field_124_timer1 = pState->field_C_timer1;
@@ -154,7 +154,7 @@ s32 SlapLock::VGetSaveState(u8* pSaveBuffer)
     pState->field_0_type = AETypes::eLockedSoul_61;
     pState->field_2_render = mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit3_Render) & 1;
     pState->field_4_tlvInfo = field_11C_tlvInfo;
-    pState->field_8_tlv_state = sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam(field_11C_tlvInfo)->field_1_tlv_state;
+    pState->field_8_tlv_state = sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam(field_11C_tlvInfo)->mTlvState;
     pState->field_A_state = field_120_state;
     pState->field_C_timer1 = field_124_timer1;
     pState->field_14_timer2 = field_13C_timer2;
@@ -187,7 +187,7 @@ void SlapLock::VUpdate()
         {
             mBaseAliveGameObjectFlags.Clear(Flags_114::e114_Bit9_RestoredFromQuickSave);
 
-            if (field_118_pTlv->field_1_tlv_state)
+            if (field_118_pTlv->mTlvState)
             {
                 SwitchStates_Do_Operation(field_118_pTlv->field_14_target_tomb_id2, SwitchOp::eSetTrue_0);
             }
@@ -482,6 +482,6 @@ s16 SlapLock::VTakeDamage(BaseGameObject* pFrom)
     const AnimRecord& animRec = AnimRec(AnimId::SlapLock_Punched);
     mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
 
-    field_118_pTlv->field_1_tlv_state = 1;
+    field_118_pTlv->mTlvState = 1;
     return 1;
 }
