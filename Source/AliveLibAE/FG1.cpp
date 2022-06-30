@@ -58,12 +58,44 @@ private:
     u32 mIdx = 0;
 };
 
+s16 FG1::Convert_Chunk_To_Render_Block(const Fg1Chunk* pChunk, Fg1Block* pBlock)
+{
+    // Map the layer from FG1 internal to OT layer
+    pBlock->field_66_mapped_layer = sFg1_layer_to_bits_layer_5469BC[pChunk->field_2_layer_or_decompressed_size];
+
+    // Copy in the bits that represent the see through pixels
+    memcpy(pBlock->field_68_array_of_height, &pChunk[1], pChunk->field_A_height * sizeof(u32));
+
+    for (Poly_FT4& rPoly : pBlock->field_0_polys)
+    {
+        rPoly = {};
+
+        PolyFT4_Init(&rPoly);
+
+        Poly_Set_SemiTrans(&rPoly.mBase.header, FALSE);
+        Poly_Set_Blending(&rPoly.mBase.header, TRUE);
+
+        SetTPage(&rPoly, static_cast<u16>(PSX_getTPage(TPageMode::e16Bit_2, TPageAbr::eBlend_0, 0, 0)));
+
+        SetXYWH(&rPoly, pChunk->field_4_xpos_or_compressed_size, pChunk->field_6_ypos, pChunk->field_8_width, pChunk->field_A_height);
+
+        SetPrimExtraPointerHack(&rPoly, pBlock->field_68_array_of_height);
+    }
+    return 1;
+}
+
+FG1::~FG1()
+{
+    gFG1List_5D1E28->Remove_Item(this);
+    ResourceManager::FreeResource_49C330(field_2C_ptr);
+}
+
 FG1::FG1(u8** pFG1Res)
     : BaseGameObject(TRUE, 0)
 {
-    mBaseGameObjectFlags.Set(BaseGameObject::eUpdateDuringCamSwap_Bit10);
-    mBaseGameObjectFlags.Set(BaseGameObject::eSurviveDeathReset_Bit9);
-    mBaseGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4);
+    mBaseGameObjectFlags.Set(Options::eDrawable_Bit4);
+    mBaseGameObjectFlags.Set(Options::eSurviveDeathReset_Bit9);
+    mBaseGameObjectFlags.Set(Options::eUpdateDuringCamSwap_Bit10);
 
     SetType(ReliveTypes::eFG1);
 
@@ -93,36 +125,11 @@ FG1::FG1(u8** pFG1Res)
 }
 
 
-FG1::~FG1()
+
+
+void FG1::VScreenChanged()
 {
-    gFG1List_5D1E28->Remove_Item(this);
-    ResourceManager::FreeResource_49C330(field_2C_ptr);
-}
-
-s16 FG1::Convert_Chunk_To_Render_Block(const Fg1Chunk* pChunk, Fg1Block* pBlock)
-{
-    // Map the layer from FG1 internal to OT layer
-    pBlock->field_66_mapped_layer = sFg1_layer_to_bits_layer_5469BC[pChunk->field_2_layer_or_decompressed_size];
-
-    // Copy in the bits that represent the see through pixels
-    memcpy(pBlock->field_68_array_of_height, &pChunk[1], pChunk->field_A_height * sizeof(u32));
-
-    for (Poly_FT4& rPoly : pBlock->field_0_polys)
-    {
-        rPoly = {};
-
-        PolyFT4_Init(&rPoly);
-
-        Poly_Set_SemiTrans(&rPoly.mBase.header, FALSE);
-        Poly_Set_Blending(&rPoly.mBase.header, TRUE);
-
-        SetTPage(&rPoly, static_cast<u16>(PSX_getTPage(TPageMode::e16Bit_2, TPageAbr::eBlend_0, 0, 0)));
-
-        SetXYWH(&rPoly, pChunk->field_4_xpos_or_compressed_size, pChunk->field_6_ypos, pChunk->field_8_width, pChunk->field_A_height);
-
-        SetPrimExtraPointerHack(&rPoly, pBlock->field_68_array_of_height);
-    }
-    return 1;
+    mBaseGameObjectFlags.Set(BaseGameObject::eDead);
 }
 
 void FG1::VRender(PrimHeader** ppOt)
@@ -139,9 +146,4 @@ void FG1::VRender(PrimHeader** ppOt)
             pScreenManager->InvalidateRectCurrentIdx(xpos, ypos, X3(pPoly), Y3(pPoly));
         }
     }
-}
-
-void FG1::VScreenChanged()
-{
-    mBaseGameObjectFlags.Set(BaseGameObject::eDead);
 }

@@ -43,7 +43,7 @@ public:
 
     void OnFullChunk(const Fg1Chunk& rChunk) override
     {
-        // For some reason the screen manage doesn't work the same as in AE and this won't
+        // For some reason the screen manager doesn't work the same as in AE and this won't
         // result in full blocks getting drawn. Therefore we should never see this get called
         // as all blocks are partial (full blocks are "fake" partial blocks).
         pScreenManager->InvalidateRect_IdxPlus4(
@@ -51,7 +51,7 @@ public:
             rChunk.field_6_ypos,
             rChunk.field_8_width + rChunk.field_4_xpos_or_compressed_size - 1,
             rChunk.field_A_height + rChunk.field_6_ypos - 1,
-            rChunk.field_2_layer_or_decompressed_size);
+            rChunk.field_2_layer_or_decompressed_size );
     }
 
     u8** Allocate(u32 len) override
@@ -191,7 +191,7 @@ void FG1::Convert_Chunk_To_Render_Block_AE(const Fg1Chunk* pChunk, Fg1Block* pBl
         Poly_Set_SemiTrans(&rPoly.mBase.header, FALSE);
         Poly_Set_Blending(&rPoly.mBase.header, TRUE);
 
-        SetTPage(&rPoly, static_cast<u16>(PSX_getTPage(TPageMode::e16Bit_2, TPageAbr::eBlend_0, 0, 0)));
+        SetTPage(&rPoly, static_cast<u16>(PSX_getTPage(TPageMode::e16Bit_2, TPageAbr::eBlend_0, 0, 0))); // 16bit hits psx renderer FG1 path ?
 
         SetXYWH(&rPoly, pChunk->field_4_xpos_or_compressed_size, pChunk->field_6_ypos, pChunk->field_8_width, pChunk->field_A_height);
 
@@ -223,7 +223,7 @@ FG1::FG1(u8** ppRes)
     mBaseGameObjectFlags.Set(Options::eSurviveDeathReset_Bit9);
     mBaseGameObjectFlags.Set(Options::eUpdateDuringCamSwap_Bit10);
 
-    mBaseGameObjectTypeId = ReliveTypes::eFG1;
+    SetType(ReliveTypes::eFG1);
 
     field_10_cam_pos_x = FP_GetExponent(pScreenManager->mCamPos->x);
     field_12_cam_pos_y = FP_GetExponent(pScreenManager->mCamPos->y);
@@ -276,19 +276,14 @@ void FG1::VRender(PrimHeader** ppOt)
 {
     for (s32 i = 0; i < field_18_render_block_count; i++)
     {
-        Fg1Block* pBlock = &field_20_chnk_res[i];
-        // AE blocks don't have a vram alloc
-        //if (pBlock->field_58_rect.w > 0)
+        Poly_FT4* pPoly = &field_20_chnk_res[i].field_0_polys[gPsxDisplay.mBufferIndex];
+        const s32 xpos = X0(pPoly);
+        const s32 ypos = Y0(pPoly);
+       // if (pScreenManager->IsDirty(pScreenManager->Idx(), xpos, ypos) || pScreenManager->IsDirty(3, xpos, ypos))
         {
-            Poly_FT4* pPoly = &pBlock->field_0_polys[gPsxDisplay.mBufferIndex];
+            OrderingTable_Add(OtLayer(ppOt, field_20_chnk_res[i].field_66_mapped_layer), &pPoly->mBase.header);
 
-            OrderingTable_Add(OtLayer(ppOt, pBlock->field_66_mapped_layer), &pPoly->mBase.header);
-
-            pScreenManager->InvalidateRectCurrentIdx(
-                X0(pPoly),
-                Y0(pPoly),
-                X3(pPoly),
-                Y3(pPoly));
+            pScreenManager->InvalidateRectCurrentIdx(xpos, ypos, X3(pPoly), Y3(pPoly));
         }
     }
 }
