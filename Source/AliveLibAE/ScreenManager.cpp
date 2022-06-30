@@ -9,6 +9,7 @@
 #include "Psx.hpp"
 #include "Renderer/IRenderer.hpp"
 #include "../AliveLibCommon/CamDecompressor.hpp"
+#include "../relive_lib/GameType.hpp"
 
 ALIVE_VAR(1, 0x5BB5F4, ScreenManager*, pScreenManager, nullptr);
 ALIVE_ARY(1, 0x5b86c8, SprtTPage, 300, sSpriteTPageBuffer, {});
@@ -70,10 +71,10 @@ void ScreenManager::UnsetDirtyBits(s32 idx)
 
 void ScreenManager::UnsetDirtyBits_FG1()
 {
-    UnsetDirtyBits(7);
+    UnsetDirtyBits(4);
     UnsetDirtyBits(5);
     UnsetDirtyBits(6);
-    UnsetDirtyBits(4);
+    UnsetDirtyBits(7);
 }
 
 s16 ScreenManager::IsDirty(s32 idx, s32 x, s32 y)
@@ -180,6 +181,13 @@ void ScreenManager::Init(u8** ppBits)
     EnableRendering();
 
     SetType(ReliveTypes::eScreenManager);
+
+    // TODO: Refactor out
+    if (GetGameType() == GameType::eAo)
+    {
+        mCamXOff = 184;
+        mCamYOff = 120;
+    }
 
     mUPos = 0;
     mVPos = 272;

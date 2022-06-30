@@ -71,12 +71,12 @@ public:
 
     FP CamXPos() const
     {
-        return mCamPos->x;
+        return mCamPos->x - FP_FromInteger(mCamXOff);
     }
 
     FP CamYPos() const
     {
-        return mCamPos->y;
+        return mCamPos->y - FP_FromInteger(mCamYOff);
     }
 
     void DisableRendering()
@@ -97,8 +97,12 @@ public:
 private:
     void AddCurrentSPRT_TPage(PrimHeader** ppOt);
 
-private:
+public:
     FP_Point* mCamPos = nullptr;
+    s16 mCamXOff = 0;
+    u16 mCamYOff = 0;
+
+private:
     SprtTPage* mScreenSprites = nullptr;
     u16 mUPos = 0;
     u16 mVPos = 0;
