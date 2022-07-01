@@ -51,12 +51,12 @@ void ScreenManager::InvalidateRect(s32 x, s32 y, s32 width, s32 height, s32 idx)
 
 void ScreenManager::InvalidateRect_Layer3(s32 x, s32 y, s32 width, s32 height)
 {
-    InvalidateRect(x, y, width, height, 3);
+    InvalidateRect(x, y, width, height, Unknown_3);
 }
 
 void ScreenManager::InvalidateRect_IdxPlus4(s32 x, s32 y, s32 width, s32 height, s32 idx)
 {
-    InvalidateRect(x, y, width, height, idx + 4);
+    InvalidateRect(x, y, width, height, idx + FG1_Half_Well_4);
 }
 
 void ScreenManager::InvalidateRectCurrentIdx(s32 x, s32 y, s32 width, s32 height)
@@ -71,10 +71,10 @@ void ScreenManager::UnsetDirtyBits(s32 idx)
 
 void ScreenManager::UnsetDirtyBits_FG1()
 {
-    UnsetDirtyBits(4);
-    UnsetDirtyBits(5);
-    UnsetDirtyBits(6);
-    UnsetDirtyBits(7);
+    UnsetDirtyBits(FG1_Half_Well_4);
+    UnsetDirtyBits(FG1_Half_5);
+    UnsetDirtyBits(FG1_Well_6);
+    UnsetDirtyBits(FG1_7);
 }
 
 s16 ScreenManager::IsDirty(s32 idx, s32 x, s32 y)
@@ -234,9 +234,9 @@ void ScreenManager::Init(u8** ppBits)
         UnsetDirtyBits(i);
     }
 
-    mIdx = 2;
-    mYIdx = 1;
-    mXIdx = 0;
+    mIdx = Unknown_2;
+    mYIdx = Unknown_1;
+    mXIdx = Unknown_0;
 }
 
 void ScreenManager::VUpdate()
@@ -259,7 +259,7 @@ ALIVE_VAR(1, 0x5bb5d8, Layer, sIdx_5BB5D8, Layer::eLayer_0);
 
 void ScreenManager::Render_Helper_40E9F0(s32 xpos, s32 ypos, Layer idx, s32 sprite_idx, PrimHeader** ppOt)
 {
-    if (IsDirty(mIdx, xpos, ypos) || IsDirty(mYIdx, xpos, ypos) || IsDirty(3, xpos, ypos))
+    if (IsDirty(mIdx, xpos, ypos) || IsDirty(mYIdx, xpos, ypos) || IsDirty(Unknown_3, xpos, ypos))
     {
         SprtTPage* pSprite = &mScreenSprites[sprite_idx];
         if (Y0(&pSprite->mSprt) != sCurrentYPos_5BB5F0 || sIdx_5BB5D8 != idx)
@@ -299,6 +299,7 @@ void ScreenManager::sub_40EE50()
     UnsetDirtyBits(mIdx);
 }
 
+
 void ScreenManager::VRender(PrimHeader** ppOt)
 {
     if (mRenderingDisabled)
@@ -325,23 +326,23 @@ void ScreenManager::VRender(PrimHeader** ppOt)
         const s32 spriteX = pSpriteTPage->mSprt.mBase.vert.x;
         const s32 spriteY = pSpriteTPage->mSprt.mBase.vert.y;
 
-        if (IsDirty(7, spriteX, spriteY))
+        if (IsDirty(FG1_7, spriteX, spriteY))
         {
             Render_Helper_40E9F0(spriteX, spriteY, Layer::eLayer_FG1_37, i, ppOt);
         }
-        else if (IsDirty(6, spriteX, spriteY))
+        else if (IsDirty(FG1_Well_6, spriteX, spriteY))
         {
             Render_Helper_40E9F0(spriteX, spriteY, Layer::eLayer_Well_23, i, ppOt);
         }
-        else if (IsDirty(5, spriteX, spriteY))
+        else if (IsDirty(FG1_Half_5, spriteX, spriteY))
         {
             Render_Helper_40E9F0(spriteX, spriteY, Layer::eLayer_FG1_Half_18, i, ppOt);
         }
-        else if (IsDirty(4, spriteX, spriteY))
+        else if (IsDirty(FG1_Half_Well_4, spriteX, spriteY))
         {
             Render_Helper_40E9F0(spriteX, spriteY, Layer::eLayer_Well_Half_4, i, ppOt);
         }
-        else if (IsDirty(mYIdx, spriteX, spriteY) || IsDirty(3, spriteX, spriteY))
+        else if (IsDirty(mYIdx, spriteX, spriteY) || IsDirty(Unknown_3, spriteX, spriteY))
         {
             if (spriteY != sCurrentYPos_5BB5F0 || sIdx_5BB5D8 != Layer::eLayer_1)
             {
@@ -373,10 +374,10 @@ void ScreenManager::VRender(PrimHeader** ppOt)
 
     for (s32 i = 0; i < 20; i++)
     {
-        mDirtyBits[mYIdx].mData[i] |= mDirtyBits[3].mData[i];
+        mDirtyBits[mYIdx].mData[i] |= mDirtyBits[Unknown_3].mData[i];
     }
 
-    UnsetDirtyBits(3);
+    UnsetDirtyBits(Unknown_3);
 }
 
 void ScreenManager::VScreenChanged()

@@ -112,6 +112,22 @@ private:
     u16 mYIdx = 0;
     u16 mXIdx = 0;
     bool mRenderingDisabled = false;
+
+    enum BitLayers
+    {
+        FG1_7 = 7,
+        FG1_Well_6 = 6,
+        FG1_Half_5 = 5,
+        FG1_Half_Well_4 = 4,
+
+        Unknown_3 = 3,
+
+        // Seems to be some sort of double buffer for the main layers?
+        Unknown_2 = 2,
+        Unknown_1 = 1,
+        Unknown_0 = 0,
+    };
+
     DirtyBits mDirtyBits[8] = {};
 };
 ALIVE_ASSERT_SIZEOF(ScreenManager, 0x1A4u);
