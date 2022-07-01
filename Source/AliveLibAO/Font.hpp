@@ -39,7 +39,7 @@ public:
     ~FontContext();
 
 
-    PSX_RECT field_0_rect;
+    PSX_RECT mRect;
     const Font_AtlasEntry* field_8_atlas_array;
     s16 field_C_resource_id;
 };

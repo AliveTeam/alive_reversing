@@ -106,7 +106,7 @@ LiftPoint::LiftPoint(Path_LiftPoint* pTlv, Map* pPath, s32 tlvInfo)
     else
     {
         mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_BeforeShadow_Half_6;
-        mPlatformBaseCollisionLine->field_8_type = eLineTypes::eBackgroundDynamicCollision_36;
+        mPlatformBaseCollisionLine->mLineType = eLineTypes::eBackgroundDynamicCollision_36;
     }
 
     const FP oldX = mBaseAnimatedWithPhysicsGameObject_XPos;
@@ -183,8 +183,8 @@ LiftPoint::LiftPoint(Path_LiftPoint* pTlv, Map* pPath, s32 tlvInfo)
             field_134_pRope2 = pRopeMem2;
         }
 
-        field_134_pRope2->field_F2_bottom = FP_GetExponent((FP_FromInteger(25) * mBaseAnimatedWithPhysicsGameObject_SpriteScale) + FP_FromInteger(mPlatformBaseCollisionLine->field_0_rect.y));
-        field_138_pRope1->field_F2_bottom = FP_GetExponent((FP_FromInteger(25) * mBaseAnimatedWithPhysicsGameObject_SpriteScale) + FP_FromInteger(mPlatformBaseCollisionLine->field_0_rect.y));
+        field_134_pRope2->field_F2_bottom = FP_GetExponent((FP_FromInteger(25) * mBaseAnimatedWithPhysicsGameObject_SpriteScale) + FP_FromInteger(mPlatformBaseCollisionLine->mRect.y));
+        field_138_pRope1->field_F2_bottom = FP_GetExponent((FP_FromInteger(25) * mBaseAnimatedWithPhysicsGameObject_SpriteScale) + FP_FromInteger(mPlatformBaseCollisionLine->mRect.y));
 
         const FP v29 = FP_FromRaw(FP_GetExponent((mBaseAnimatedWithPhysicsGameObject_YPos * FP_FromDouble(1.5)) * mBaseAnimatedWithPhysicsGameObject_SpriteScale) % FP_FromInteger(field_134_pRope2->field_E6_rope_length).fpValue);
         field_134_pRope2->mBaseAnimatedWithPhysicsGameObject_YPos = FP_NoFractional(mBaseAnimatedWithPhysicsGameObject_YPos + v29 + (FP_FromInteger(25) * mBaseAnimatedWithPhysicsGameObject_SpriteScale) + FP_FromInteger(field_134_pRope2->field_E6_rope_length));
@@ -329,7 +329,7 @@ void LiftPoint::VUpdate()
         else
         {
             field_130_lift_point_stop_type = LiftPointStopType::eStartPointOnly_4;
-            const FP lineY = FP_FromInteger(mPlatformBaseCollisionLine->field_0_rect.y);
+            const FP lineY = FP_FromInteger(mPlatformBaseCollisionLine->mRect.y);
 
             Path_LiftPoint* pLiftTlv = nullptr;
             Path_TLV* pTlvIter = gMap.TLV_Get_At_446060(
@@ -497,7 +497,7 @@ void LiftPoint::VUpdate()
     const FP rope2_rope_length = FP_FromInteger(pRope2->field_E6_rope_length);
     const FP rope1_rope_length = FP_FromInteger(pRope1->field_E6_rope_length);
 
-    const FP pColliRectY = FP_FromInteger(mPlatformBaseCollisionLine->field_0_rect.y);
+    const FP pColliRectY = FP_FromInteger(mPlatformBaseCollisionLine->mRect.y);
 
     pRope2->field_F2_bottom = FP_GetExponent(pColliRectY + FP_25xScale);
     pRope1->field_F2_bottom = FP_GetExponent(pColliRectY + FP_25xScale);
@@ -696,9 +696,9 @@ LiftPoint::~LiftPoint()
 
     auto pLiftPointTlv = gMap.TLV_Get_At_446260(
         FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos),
-        FP_GetExponent(FP_FromInteger(mPlatformBaseCollisionLine->field_0_rect.y)),
+        FP_GetExponent(FP_FromInteger(mPlatformBaseCollisionLine->mRect.y)),
         FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos),
-        FP_GetExponent((mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(30)) + FP_FromInteger(mPlatformBaseCollisionLine->field_0_rect.y)),
+        FP_GetExponent((mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(30)) + FP_FromInteger(mPlatformBaseCollisionLine->mRect.y)),
         TlvTypes::LiftPoint_8);
 
     if (pLiftPointTlv)
@@ -729,7 +729,7 @@ void LiftPoint::CreatePulleyIfExists(s16 camX, s16 camY)
 
             if (pTlv->mTlvType32 == TlvTypes::Pulley_35)
             {
-                if (mPlatformBaseCollisionLine->field_0_rect.x <= pTlv->mTopLeft.x && pTlv->mTopLeft.x <= mPlatformBaseCollisionLine->field_0_rect.w)
+                if (mPlatformBaseCollisionLine->mRect.x <= pTlv->mTopLeft.x && pTlv->mTopLeft.x <= mPlatformBaseCollisionLine->mRect.w)
                 {
                     break;
                 }

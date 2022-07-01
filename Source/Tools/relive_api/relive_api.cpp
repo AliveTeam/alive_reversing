@@ -311,12 +311,12 @@ static void ForEachItemAtXY(u32 xSize, u32 ySize, ContainerType& container, FnOn
 
 static void WriteCollisionLine(ByteStream& s, const AO::PathLine& line)
 {
-    s.Write(line.field_0_rect.x);
-    s.Write(line.field_0_rect.y);
-    s.Write(line.field_0_rect.w);
-    s.Write(line.field_0_rect.h);
+    s.Write(line.mRect.x);
+    s.Write(line.mRect.y);
+    s.Write(line.mRect.w);
+    s.Write(line.mRect.h);
 
-    s.Write(static_cast<u8>(line.field_8_type));
+    s.Write(static_cast<u8>(line.mLineType));
     s.Write(line.field_9_pad);
     s.Write(line.field_A_pad);
     s.Write(line.field_B_pad);
@@ -580,7 +580,7 @@ public:
         {
             auto chunk = file->ChunkAt(i);
             // Palts and other resources can share ids, explicitly look for anims
-            if (chunk.Id() == static_cast<u32>(animRec.mResourceId) && chunk.Header().field_8_type == ResourceManager::Resource_Animation)
+            if (chunk.Id() == static_cast<u32>(animRec.mResourceId) && chunk.Header().mLineType == ResourceManager::Resource_Animation)
             {
                 return chunk;
             }

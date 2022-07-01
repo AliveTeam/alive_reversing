@@ -42,7 +42,7 @@ void Leaf::VUpdate()
         17);
 
     // Hit the floor, die but only if in background..
-    if (bCollision && mBaseAnimatedWithPhysicsGameObject_SpriteScale == FP_FromDouble(0.5) && pLine->field_8_type == eLineTypes::eFloor_0)
+    if (bCollision && mBaseAnimatedWithPhysicsGameObject_SpriteScale == FP_FromDouble(0.5) && pLine->mLineType == eLineTypes::eFloor_0)
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
         return;
@@ -50,8 +50,8 @@ void Leaf::VUpdate()
 
     if (field_E4_bHitSomething & 1 || !bCollision || 
         (
-        (mBaseAnimatedWithPhysicsGameObject_SpriteScale != FP_FromDouble(0.5) || pLine->field_8_type != eLineTypes::eBackgroundFloor_4) &&
-        (mBaseAnimatedWithPhysicsGameObject_SpriteScale != FP_FromInteger(1) || pLine->field_8_type != eLineTypes::eFloor_0))
+        (mBaseAnimatedWithPhysicsGameObject_SpriteScale != FP_FromDouble(0.5) || pLine->mLineType != eLineTypes::eBackgroundFloor_4) &&
+        (mBaseAnimatedWithPhysicsGameObject_SpriteScale != FP_FromInteger(1) || pLine->mLineType != eLineTypes::eFloor_0))
         )
     {
         mBaseAnimatedWithPhysicsGameObject_XPos = x2;

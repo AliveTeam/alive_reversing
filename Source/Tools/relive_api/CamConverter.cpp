@@ -104,7 +104,7 @@ static void MergeFG1BlocksAndConvertToPng(const ChunkedLvlFile& camFile, BaseFG1
             ApiFG1Reader reader(fg1Format);
             for (u32 i = 0; i < camFile.ChunkCount(); i++)
             {
-                if (camFile.ChunkAt(i).Header().field_8_type == ResourceManager::Resource_FG1)
+                if (camFile.ChunkAt(i).Header().mLineType == ResourceManager::Resource_FG1)
                 {
                     reader.Iterate(reinterpret_cast<const FG1ResourceBlockHeader*>(camFile.ChunkAt(i).Data().data()));
                 }

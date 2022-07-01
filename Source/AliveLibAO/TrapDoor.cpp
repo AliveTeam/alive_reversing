@@ -110,7 +110,7 @@ void TrapDoor::Open()
         }
     }
 
-    Rect_Clear(&mPlatformBaseCollisionLine->field_0_rect);
+    Rect_Clear(&mPlatformBaseCollisionLine->mRect);
     mPlatformBaseCollisionLine = nullptr;
     ObjListPlatforms_50766C->Remove_Item(this);
 }

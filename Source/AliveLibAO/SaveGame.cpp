@@ -371,7 +371,7 @@ void SaveGame::SaveToMemory(SaveData* pSaveData)
     pSaveData->field_228_ypos = FP_GetExponent(sActiveHero_507678->mBaseAnimatedWithPhysicsGameObject_YPos);
     if (sActiveHero_507678->BaseAliveGameObjectCollisionLine)
     {
-        pSaveData->field_23A_mode_mask = sActiveHero_507678->BaseAliveGameObjectCollisionLine->field_8_type;
+        pSaveData->field_23A_mode_mask = sActiveHero_507678->BaseAliveGameObjectCollisionLine->mLineType;
     }
     else
     {
@@ -404,7 +404,7 @@ void SaveGame::SaveToMemory(SaveData* pSaveData)
         pSaveData->field_26C_elum_ypos = FP_GetExponent(gElum_507680->mBaseAnimatedWithPhysicsGameObject_YPos);
         if (gElum_507680->BaseAliveGameObjectCollisionLine)
         {
-            pSaveData->field_270_elum_line_type = gElum_507680->BaseAliveGameObjectCollisionLine->field_8_type;
+            pSaveData->field_270_elum_line_type = gElum_507680->BaseAliveGameObjectCollisionLine->mLineType;
         }
         else
         {

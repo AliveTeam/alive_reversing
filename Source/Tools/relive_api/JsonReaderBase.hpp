@@ -17,13 +17,13 @@ public:
             mLine = *line;
         }
 
-        ADD("x1", mLine.field_0_rect.x);
-        ADD("y1", mLine.field_0_rect.y);
+        ADD("x1", mLine.mRect.x);
+        ADD("y1", mLine.mRect.y);
 
-        ADD("x2", mLine.field_0_rect.w);
-        ADD("y2", mLine.field_0_rect.h);
+        ADD("x2", mLine.mRect.w);
+        ADD("y2", mLine.mRect.h);
 
-        ADD("Type", mLine.field_8_type);
+        ADD("Type", mLine.mLineType);
 
         ADD("Next", mLine.field_10_next);
         ADD("Previous", mLine.field_C_previous);

@@ -260,7 +260,7 @@ void Rock::InTheAir()
             &hitY,
             mBaseAnimatedWithPhysicsGameObject_SpriteScale != FP_FromInteger(1) ? 0x70 : 0x07))
     {
-        switch (field_114_pLine->field_8_type)
+        switch (field_114_pLine->mLineType)
         {
             case eLineTypes::eFloor_0:
             case eLineTypes::eBackgroundFloor_4:

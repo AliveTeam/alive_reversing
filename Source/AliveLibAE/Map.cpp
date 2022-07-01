@@ -995,7 +995,7 @@ void Map::Create_FG1s()
         if (*ppRes)
         {
             ResourceManager::Header* pHeader = ResourceManager::Get_Header_49C410(ppRes);
-            if (pHeader->field_8_type == ResourceManager::Resource_FG1)
+            if (pHeader->mLineType == ResourceManager::Resource_FG1)
             {
                 relive_new FG1(ppRes);
             }

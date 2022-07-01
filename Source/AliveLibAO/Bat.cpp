@@ -49,8 +49,8 @@ Bat::Bat(Path_Bat* pTlv, s32 tlvInfo)
 
     if (field_E4_pLine)
     {
-        mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(field_E4_pLine->field_0_rect.x);
-        mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(field_E4_pLine->field_0_rect.y);
+        mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(field_E4_pLine->mRect.x);
+        mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(field_E4_pLine->mRect.y);
     }
 
     field_EC_ticks_before_moving = pTlv->field_18_ticks_before_moving;

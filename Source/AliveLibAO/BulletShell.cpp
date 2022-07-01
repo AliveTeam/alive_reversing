@@ -69,8 +69,8 @@ void BulletShell::VUpdate()
             mBaseAnimatedWithPhysicsGameObject_SpriteScale != FP_FromDouble(0.5) ? 7 : 0x70)
         == 1)
     {
-        if (field_E4_pLine->field_8_type == eLineTypes ::eFloor_0 ||
-            field_E4_pLine->field_8_type == eLineTypes::eBackgroundFloor_4)
+        if (field_E4_pLine->mLineType == eLineTypes ::eFloor_0 ||
+            field_E4_pLine->mLineType == eLineTypes::eBackgroundFloor_4)
         {
             mBaseAnimatedWithPhysicsGameObject_YPos = hitY - FP_FromInteger(1);
             mBaseAnimatedWithPhysicsGameObject_VelY = -(mBaseAnimatedWithPhysicsGameObject_VelY * FP_FromDouble(0.3));

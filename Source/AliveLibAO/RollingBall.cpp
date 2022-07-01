@@ -32,7 +32,7 @@ RollingBall::~RollingBall()
 
     if (field_120_pCollisionLine)
     {
-        Rect_Clear(&field_120_pCollisionLine->field_0_rect);
+        Rect_Clear(&field_120_pCollisionLine->mRect);
     }
 
     if (field_114_pRollingBallShaker)
@@ -168,7 +168,7 @@ void RollingBall::VUpdate()
 
             if (InAirCollision_4019C0(&pLine, &hitX, &hitY, FP_FromInteger(0)))
             {
-                if (pLine->field_8_type != eLineTypes::eFloor_0 && pLine->field_8_type != eLineTypes::eBackgroundFloor_4)
+                if (pLine->mLineType != eLineTypes::eFloor_0 && pLine->mLineType != eLineTypes::eBackgroundFloor_4)
                 {
                     return;
                 }

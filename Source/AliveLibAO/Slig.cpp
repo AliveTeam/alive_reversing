@@ -1959,7 +1959,7 @@ void Slig::MoveOnLine()
         {
             if (mLiftPoint)
             {
-                if (BaseAliveGameObjectCollisionLine->field_8_type != eLineTypes::eDynamicCollision_32 && BaseAliveGameObjectCollisionLine->field_8_type != eLineTypes::eBackgroundDynamicCollision_36)
+                if (BaseAliveGameObjectCollisionLine->mLineType != eLineTypes::eDynamicCollision_32 && BaseAliveGameObjectCollisionLine->mLineType != eLineTypes::eBackgroundDynamicCollision_36)
                 {
                     const auto oldMotion = mCurrentMotion;
                     VOnTrapDoorOpen();
@@ -1968,7 +1968,7 @@ void Slig::MoveOnLine()
             }
             else
             {
-                if (BaseAliveGameObjectCollisionLine->field_8_type == eLineTypes::eDynamicCollision_32 || BaseAliveGameObjectCollisionLine->field_8_type == eLineTypes::eBackgroundDynamicCollision_36)
+                if (BaseAliveGameObjectCollisionLine->mLineType == eLineTypes::eDynamicCollision_32 || BaseAliveGameObjectCollisionLine->mLineType == eLineTypes::eBackgroundDynamicCollision_36)
                 {
                     // TODO: Inlined
                     PSX_RECT bRect = VGetBoundingRect();
@@ -2195,7 +2195,7 @@ s16 Slig::HandlePlayerControlled()
         {
             if (mLiftPoint && mLiftPoint->mBaseGameObjectTypeId == ReliveTypes::eLiftPoint)
             {
-                if (FP_Abs(mBaseAnimatedWithPhysicsGameObject_XPos - FP_FromInteger((BaseAliveGameObjectCollisionLine->field_0_rect.x + BaseAliveGameObjectCollisionLine->field_0_rect.w) / 2)) < kScaleGrid / FP_FromInteger(2))
+                if (FP_Abs(mBaseAnimatedWithPhysicsGameObject_XPos - FP_FromInteger((BaseAliveGameObjectCollisionLine->mRect.x + BaseAliveGameObjectCollisionLine->mRect.w) / 2)) < kScaleGrid / FP_FromInteger(2))
                 {
                     OperateLift();
                     return 1;
@@ -2220,7 +2220,7 @@ s16 Slig::HandlePlayerControlled()
         {
             if (mLiftPoint->field_10C == 1)
             {
-                if (FP_Abs(mBaseAnimatedWithPhysicsGameObject_XPos - FP_FromInteger((BaseAliveGameObjectCollisionLine->field_0_rect.x + BaseAliveGameObjectCollisionLine->field_0_rect.w) / 2)) < kScaleGrid / FP_FromInteger(2))
+                if (FP_Abs(mBaseAnimatedWithPhysicsGameObject_XPos - FP_FromInteger((BaseAliveGameObjectCollisionLine->mRect.x + BaseAliveGameObjectCollisionLine->mRect.w) / 2)) < kScaleGrid / FP_FromInteger(2))
                 {
                     OperateLift();
                     return 1;
@@ -2964,7 +2964,7 @@ void Slig::Motion_7_Falling_46A1A0()
     SetActiveCameraDelayedFromDir_401C90();
     if (bHit)
     {
-        switch (pLine->field_8_type)
+        switch (pLine->mLineType)
         {
             case 0:
             case 4:
@@ -3018,8 +3018,8 @@ void Slig::Motion_8_Unknown_4673E0()
             mCurrentMotion = mPreviousMotion;
             if (mLiftPoint)
             {
-                mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger((BaseAliveGameObjectCollisionLine->field_0_rect.x + BaseAliveGameObjectCollisionLine->field_0_rect.w) / 2);
-                mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(BaseAliveGameObjectCollisionLine->field_0_rect.y);
+                mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger((BaseAliveGameObjectCollisionLine->mRect.x + BaseAliveGameObjectCollisionLine->mRect.w) / 2);
+                mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(BaseAliveGameObjectCollisionLine->mRect.y);
             }
         }
         else

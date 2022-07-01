@@ -27,8 +27,8 @@ enum eLineTypes : u8
 class PathLine final
 {
 public:
-    PSX_RECT field_0_rect;
-    eLineTypes field_8_type;
+    PSX_RECT mRect;
+    eLineTypes mLineType;
     s8 field_9_pad;
     s8 field_A_pad;
     s8 field_B_pad;

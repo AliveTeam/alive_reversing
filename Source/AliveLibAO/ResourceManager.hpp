@@ -60,7 +60,7 @@ public:
         u32 field_0_size;
         s16 field_4_ref_count;
         s16 field_6_flags;
-        u32 field_8_type;
+        u32 mLineType;
         u32 field_C_id;
     };
     ALIVE_ASSERT_SIZEOF(Header, 0x10);
@@ -99,7 +99,7 @@ public:
 
         const char_type* field_0_fileName;
         ResourcesToLoadList* field_4_pResourcesToLoadList;
-        u32 field_8_type;
+        u32 mLineType;
         u32 field_C_resourceId;
         DynamicArrayT<ResourceManager_FilePartRecord> field_10_file_sections_dArray;
         LoadingFile* field_1C_pGameObjFileRec;

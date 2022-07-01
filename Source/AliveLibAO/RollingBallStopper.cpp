@@ -104,7 +104,7 @@ RollingBallStopper::~RollingBallStopper()
 
     if (field_118_pLine)
     {
-        Rect_Clear(&field_118_pLine->field_0_rect);
+        Rect_Clear(&field_118_pLine->mRect);
     }
 }
 
@@ -124,7 +124,7 @@ void RollingBallStopper::VUpdate()
         case States::eWaitForTrigger_0:
             if (SwitchStates_Get(field_114_release_switch_id))
             {
-                Rect_Clear(&field_118_pLine->field_0_rect);
+                Rect_Clear(&field_118_pLine->mRect);
                 field_118_pLine = nullptr;
                 field_112_state = States::eMoveStopper_1;
                 SFX_Play_Pitch(SoundEffect::PickupItem_33, 100, -2400, 0);

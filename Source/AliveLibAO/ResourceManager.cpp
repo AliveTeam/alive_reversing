@@ -109,7 +109,7 @@ public:
                     {
                         ResourceManager::Header* pHeader = ResourceManager::Get_Header_455620(field_20_ppRes);
                         field_24_readBuffer = pHeader;
-                        pHeader->field_8_type = ResourceManager::Resource_Pend;
+                        pHeader->mLineType = ResourceManager::Resource_Pend;
                         ResourceManager::Increment_Pending_Count_4557A0();
                         bLoadingAFile_50768C = 1;
                         field_28_state = 1;
@@ -308,7 +308,7 @@ void ResourceManager::LoadResource_446C90(const char_type* pFileName, u32 type, 
                     }
                 }
             }
-            else if (type == pExistingFileRec->field_8_type && resourceId == pExistingFileRec->field_C_resourceId)
+            else if (type == pExistingFileRec->mLineType && resourceId == pExistingFileRec->field_C_resourceId)
             {
                 found = true;
             }
@@ -329,7 +329,7 @@ void ResourceManager::LoadResource_446C90(const char_type* pFileName, u32 type, 
         {
             pFileRec->field_0_fileName = pFileName;
             pFileRec->field_4_pResourcesToLoadList = nullptr;
-            pFileRec->field_8_type = type;
+            pFileRec->mLineType = type;
             pFileRec->field_C_resourceId = resourceId;
 
             auto pFilePart = relive_new ResourceManager_FilePartRecord();
@@ -428,7 +428,7 @@ void ResourceManager::LoadResourcesFromList_446E80(const char_type* pFileName, R
         auto pNewFileRec = relive_new ResourceManager_FileRecord();
         pNewFileRec->field_0_fileName = pFileName;
         pNewFileRec->field_4_pResourcesToLoadList = pTypeAndIdList;
-        pNewFileRec->field_8_type = 0;
+        pNewFileRec->mLineType = 0;
         pNewFileRec->field_C_resourceId = 0;
 
         // Check if all resources are already loaded
@@ -646,7 +646,7 @@ void ResourceManager::Init_454DA0()
 
     Header* pHeader = Get_Header_455620(&sResourceLinkedList_50E270[0].field_0_ptr);
     pHeader->field_0_size = kResHeapSize;
-    pHeader->field_8_type = Resource_Free;
+    pHeader->mLineType = Resource_Free;
 
     sFirstLinkedListItem_50EE2C = &sResourceLinkedList_50E270[0];
     sSecondLinkedListItem_50EE28 = &sResourceLinkedList_50E270[1];
@@ -685,7 +685,7 @@ ResourceManager::ResourceHeapItem* ResourceManager::Split_block(ResourceManager:
         // Init header of split item
         Header* pHeader = Get_Header_455620(&pNewListItem->field_0_ptr);
         pHeader->field_0_size = sizeForNewRes;
-        pHeader->field_8_type = Resource_Free;
+        pHeader->mLineType = Resource_Free;
         pHeader->field_4_ref_count = 0;
         pHeader->field_C_id = 0;
 
@@ -725,7 +725,7 @@ u8** ResourceManager::Alloc_New_Resource_Impl(u32 type, u32 id, u32 size, bool l
     if (ppNewRes)
     {
         Header* pHeader = Get_Header_455620(ppNewRes);
-        pHeader->field_8_type = type;
+        pHeader->mLineType = type;
         pHeader->field_C_id = id;
         pHeader->field_4_ref_count = 1;
         pHeader->field_6_flags = locked ? ResourceHeaderFlags::eLocked : 0;
@@ -754,13 +754,13 @@ u8** ResourceManager::Allocate_New_Block_454FE0(u32 sizeBytes, BlockAllocMethod 
     {
         // Is it a free block?
         Header* pResHeader = Get_Header_455620(&pListItem->field_0_ptr);
-        if (pResHeader->field_8_type == Resource_Free)
+        if (pResHeader->mLineType == Resource_Free)
         {
             // Keep going till we hit a block that isn't free
             for (ResourceHeapItem* i = pListItem->field_4_pNext; i; i = pListItem->field_4_pNext)
             {
                 Header* pHeader = Get_Header_455620(&i->field_0_ptr);
-                if (pHeader->field_8_type != Resource_Free)
+                if (pHeader->mLineType != Resource_Free)
                 {
                     break;
                 }
@@ -891,9 +891,9 @@ s16 ResourceManager::Move_Resources_To_DArray_455430(u8** ppRes, DynamicArrayT<u
 {
     auto pItemToAdd = (ResourceHeapItem*) ppRes;
     Header* pHeader = Get_Header_455620(ppRes);
-    if (pHeader->field_8_type != Resource_End)
+    if (pHeader->mLineType != Resource_End)
     {
-        while (pHeader->field_8_type != Resource_Pend
+        while (pHeader->mLineType != Resource_Pend
                && pHeader->field_0_size
                && !(pHeader->field_0_size & 3))
         {
@@ -918,7 +918,7 @@ s16 ResourceManager::Move_Resources_To_DArray_455430(u8** ppRes, DynamicArrayT<u
             pItemToAdd = pNewListItem;
 
             // No more resources to add
-            if (pHeader->field_8_type == Resource_End)
+            if (pHeader->mLineType == Resource_End)
             {
                 break;
             }
@@ -927,7 +927,7 @@ s16 ResourceManager::Move_Resources_To_DArray_455430(u8** ppRes, DynamicArrayT<u
 
     if (pHeader)
     {
-        pHeader->field_8_type = Resource_Free;
+        pHeader->mLineType = Resource_Free;
         if (pItemToAdd->field_4_pNext)
         {
             // Size of next item - location of current res
@@ -955,7 +955,7 @@ u8** ResourceManager::GetLoadedResource(u32 type, u32 resourceId, s16 addUseCoun
     {
         // Find something that matches the type and resource ID
         Header* pResHeader = Get_Header_455620(&pListIter->field_0_ptr);
-        if (pResHeader->field_8_type == type && pResHeader->field_C_id == resourceId)
+        if (pResHeader->mLineType == type && pResHeader->field_C_id == resourceId)
         {
             if (addUseCount)
             {
@@ -1019,7 +1019,7 @@ s16 ResourceManager::FreeResource_Impl_4555B0(u8* handle)
             {
                 return 0;
             }
-            pHeader->field_8_type = Resource_Free;
+            pHeader->mLineType = Resource_Free;
             pHeader->field_6_flags = 0;
             sManagedMemoryUsedSize_9F0E48 -= pHeader->field_0_size;
         }
@@ -1052,7 +1052,7 @@ void ResourceManager::Reclaim_Memory_455660(u32 sizeToReclaim)
     while (pListItem)
     {
         Header* pCurrentHeader = Get_Header_455620(&pListItem->field_0_ptr);
-        if (pCurrentHeader->field_8_type == Resource_Free)
+        if (pCurrentHeader->mLineType == Resource_Free)
         {
             ResourceHeapItem* pNext = pListItem->field_4_pNext;
             if (!pNext)
@@ -1061,7 +1061,7 @@ void ResourceManager::Reclaim_Memory_455660(u32 sizeToReclaim)
             }
 
             Header* pNextHeader = Get_Header_455620(&pNext->field_0_ptr);
-            if (pNextHeader->field_8_type == Resource_Free)
+            if (pNextHeader->mLineType == Resource_Free)
             {
                 // Next block is also free, so we can merge them together
                 ResourceHeapItem* pToRemove = pListItem->field_4_pNext;
@@ -1101,7 +1101,7 @@ void ResourceManager::Reclaim_Memory_455660(u32 sizeToReclaim)
                     // Get resource header after the current one
                     Header* pNextResHeader = (Header*) ((s8*) pCurrentHeader + pCurrentHeader->field_0_size);
                     pNextResHeader->field_0_size = savedSize;
-                    pNextResHeader->field_8_type = Resource_Free;
+                    pNextResHeader->mLineType = Resource_Free;
 
                     pNext->field_0_ptr = (u8*) &pCurrentHeader[1];     // Data starts after header
                     pListItem->field_0_ptr = (u8*) &pNextResHeader[1]; // Data starts after header
@@ -1162,9 +1162,9 @@ void ResourceManager::Free_Resource_Of_Type_455810(u32 type)
     {
         // Free it if the type matches and its not flagged as never free
         Header* pHeader = Get_Header_455620(&pListItem->field_0_ptr);
-        if (pHeader->field_8_type == type && !(pHeader->field_6_flags & ResourceHeaderFlags::eNeverFree))
+        if (pHeader->mLineType == type && !(pHeader->field_6_flags & ResourceHeaderFlags::eNeverFree))
         {
-            pHeader->field_8_type = Resource_Free;
+            pHeader->mLineType = Resource_Free;
             pHeader->field_6_flags = 0;
             pHeader->field_4_ref_count = 0;
 

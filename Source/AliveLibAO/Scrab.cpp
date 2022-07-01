@@ -194,7 +194,7 @@ Scrab::Scrab(Path_Scrab* pTlv, s32 tlvInfo)
         mBaseAnimatedWithPhysicsGameObject_YPos = hitY;
         ToStand();
 
-        if (BaseAliveGameObjectCollisionLine->field_8_type == eLineTypes::eDynamicCollision_32 || BaseAliveGameObjectCollisionLine->field_8_type == eLineTypes::eBackgroundDynamicCollision_36)
+        if (BaseAliveGameObjectCollisionLine->mLineType == eLineTypes::eDynamicCollision_32 || BaseAliveGameObjectCollisionLine->mLineType == eLineTypes::eBackgroundDynamicCollision_36)
         {
             PlatformCollide();
         }
@@ -285,7 +285,7 @@ void Scrab::VUpdate()
 
             ToStand();
 
-            if (BaseAliveGameObjectCollisionLine->field_8_type == eLineTypes::eDynamicCollision_32 || BaseAliveGameObjectCollisionLine->field_8_type == eLineTypes::eBackgroundDynamicCollision_36)
+            if (BaseAliveGameObjectCollisionLine->mLineType == eLineTypes::eDynamicCollision_32 || BaseAliveGameObjectCollisionLine->mLineType == eLineTypes::eBackgroundDynamicCollision_36)
             {
                 PlatformCollide();
             }
@@ -803,7 +803,7 @@ void Scrab::MoveOnLine()
         {
             if (mLiftPoint)
             {
-                if (BaseAliveGameObjectCollisionLine->field_8_type != eLineTypes::eDynamicCollision_32 && BaseAliveGameObjectCollisionLine->field_8_type != eLineTypes::eBackgroundDynamicCollision_36)
+                if (BaseAliveGameObjectCollisionLine->mLineType != eLineTypes::eDynamicCollision_32 && BaseAliveGameObjectCollisionLine->mLineType != eLineTypes::eBackgroundDynamicCollision_36)
                 {
                     const auto oldMotion = mCurrentMotion;
                     VOnTrapDoorOpen();
@@ -812,7 +812,7 @@ void Scrab::MoveOnLine()
             }
             else
             {
-                if (BaseAliveGameObjectCollisionLine->field_8_type == eLineTypes::eDynamicCollision_32 || BaseAliveGameObjectCollisionLine->field_8_type == eLineTypes::eBackgroundDynamicCollision_36)
+                if (BaseAliveGameObjectCollisionLine->mLineType == eLineTypes::eDynamicCollision_32 || BaseAliveGameObjectCollisionLine->mLineType == eLineTypes::eBackgroundDynamicCollision_36)
                 {
                     PlatformCollide();
                 }
@@ -984,8 +984,8 @@ void Scrab::Motion_0_Empty_45E3D0()
             mCurrentMotion = mPreviousMotion;
             if (mLiftPoint)
             {
-                mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger((BaseAliveGameObjectCollisionLine->field_0_rect.x + BaseAliveGameObjectCollisionLine->field_0_rect.w) / 2);
-                mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(BaseAliveGameObjectCollisionLine->field_0_rect.y);
+                mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger((BaseAliveGameObjectCollisionLine->mRect.x + BaseAliveGameObjectCollisionLine->mRect.w) / 2);
+                mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(BaseAliveGameObjectCollisionLine->mRect.y);
             }
         }
     }
@@ -1410,7 +1410,7 @@ void Scrab::Motion_7_HopMidair_45F1A0()
     {
         if (InAirCollision_4019C0(&pLine, &hitX, &hitY, FP_FromDouble(1.8)))
         {
-            switch (pLine->field_8_type)
+            switch (pLine->mLineType)
             {
                 case eLineTypes::eFloor_0:
                 case eLineTypes::eBackgroundFloor_4:
@@ -1517,7 +1517,7 @@ void Scrab::Motion_9_JumpToFall_45EFD0()
     FP hitY = {};
     if (InAirCollision_4019C0(&pLine, &hitX, &hitY, FP_FromDouble(1.8)))
     {
-        switch (pLine->field_8_type)
+        switch (pLine->mLineType)
         {
             case eLineTypes::eFloor_0:
             case eLineTypes::eBackgroundFloor_4:
@@ -1701,7 +1701,7 @@ void Scrab::Motion_13_RunJumpBegin_45F5D0()
         FP hitY = {};
         if (InAirCollision_4019C0(&pLine, &hitX, &hitY, FP_FromDouble(1.8)))
         {
-            switch (pLine->field_8_type)
+            switch (pLine->mLineType)
             {
                 case eLineTypes::eFloor_0:
                 case eLineTypes::eBackgroundFloor_4:

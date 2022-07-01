@@ -288,7 +288,7 @@ void Meat::InTheAir()
 
     if (CollisionRaycast == 1)
     {
-        switch (field_124_pLine->field_8_type)
+        switch (field_124_pLine->mLineType)
         {
             case eLineTypes::eFloor_0:
             case eLineTypes::eBackgroundFloor_4:

@@ -109,7 +109,7 @@ s32 Font::DrawString_4337D0(PrimHeader** ppOt, const char_type* text, s32 x, s16
     s32 charInfoIndex = 0;
     auto poly = &field_24_fnt_poly_array[gPsxDisplay.mBufferIndex + (2 * polyOffset)];
 
-    s32 tpage = PSX_getTPage(TPageMode::e4Bit_0, abr, field_34_font_context->field_0_rect.x & 0xFFC0, field_34_font_context->field_0_rect.y & 0xFF00);
+    s32 tpage = PSX_getTPage(TPageMode::e4Bit_0, abr, field_34_font_context->mRect.x & 0xFFC0, field_34_font_context->mRect.y & 0xFF00);
     s32 clut = PSX_getClut(field_28_palette_rect.x, field_28_palette_rect.y);
 
     for (u32 i = 0; i < strlen(text); i++)
@@ -139,8 +139,8 @@ s32 Font::DrawString_4337D0(PrimHeader** ppOt, const char_type* text, s32 x, s16
 
         const s8 charWidth = atlasEntry->field_2_width;
         const auto charHeight = atlasEntry->field_3_height;
-        const s8 texture_u = static_cast<s8>(atlasEntry->x + (4 * (fContext->field_0_rect.x & 0x3F)));
-        const s8 texture_v = static_cast<s8>(atlasEntry->field_1_y + LOBYTE(fContext->field_0_rect.y));
+        const s8 texture_u = static_cast<s8>(atlasEntry->x + (4 * (fContext->mRect.x & 0x3F)));
+        const s8 texture_v = static_cast<s8>(atlasEntry->field_1_y + LOBYTE(fContext->mRect.y));
 
         const s16 widthScaled = static_cast<s16>(charWidth * FP_GetDouble(scale));
         const s16 heightScaled = static_cast<s16>(charHeight * FP_GetDouble(scale));
@@ -334,8 +334,8 @@ void Font_Context::LoadFontType_433400(s16 resourceID)
 
     field_C_resource_id = resourceID;
 
-    Vram_alloc(fontFile->mWidth, fontFile->mHeight, fontFile->field_4_color_depth, &field_0_rect);
-    const PSX_RECT vramAllocatedRect = {field_0_rect.x, field_0_rect.y, static_cast<s16>(fontFile->mWidth / 4), fontFile->mHeight};
+    Vram_alloc(fontFile->mWidth, fontFile->mHeight, fontFile->field_4_color_depth, &mRect);
+    const PSX_RECT vramAllocatedRect = {mRect.x, mRect.y, static_cast<s16>(fontFile->mWidth / 4), fontFile->mHeight};
 
     IRenderer::GetRenderer()->Upload(fontFile->field_4_color_depth == 16 ? IRenderer::BitDepth::e16Bit : IRenderer::BitDepth::e4Bit, vramAllocatedRect, fontFile->field_28_pixel_buffer);
 
@@ -358,9 +358,9 @@ void Font_Context::LoadFontType_433400(s16 resourceID)
 
 void Font_Context::dtor_433510()
 {
-    if (field_0_rect.x)
+    if (mRect.x)
     {
-        Vram_free({field_0_rect.x, field_0_rect.y}, {field_0_rect.w, field_0_rect.h});
+        Vram_free({mRect.x, mRect.y}, {mRect.w, mRect.h});
     }
 }
 
@@ -386,8 +386,8 @@ void Font_Context::LoadFontTypeCustom(File_Font* fontFile, Font_AtlasEntry* font
     // Give custom fonts a constant resource id for now.
     field_C_resource_id = 0xff;
 
-    Vram_alloc(fontFile->mWidth, fontFile->mHeight, fontFile->field_4_color_depth, &field_0_rect);
-    const PSX_RECT vramAlloctedRect = {field_0_rect.x, field_0_rect.y, static_cast<s16>(fontFile->mWidth / 4), fontFile->mHeight};
+    Vram_alloc(fontFile->mWidth, fontFile->mHeight, fontFile->field_4_color_depth, &mRect);
+    const PSX_RECT vramAlloctedRect = {mRect.x, mRect.y, static_cast<s16>(fontFile->mWidth / 4), fontFile->mHeight};
 
     if (pPaletteOut)
     {

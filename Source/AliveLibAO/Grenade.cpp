@@ -371,7 +371,7 @@ s16 Grenade::InTheAir()
 
     if (v20 == 1)
     {
-        switch (field_114_pCollisionLine->field_8_type)
+        switch (field_114_pCollisionLine->mLineType)
         {
             case 1:
             case 5:

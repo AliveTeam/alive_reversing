@@ -573,12 +573,12 @@ void Elum::MoveOnLine_412580(s16 xLookAhead)
         mBaseAnimatedWithPhysicsGameObject_XPos += mBaseAnimatedWithPhysicsGameObject_VelX;
         if (mLiftPoint)
         {
-            if (BaseAliveGameObjectCollisionLine->field_8_type != eLineTypes::eDynamicCollision_32)
+            if (BaseAliveGameObjectCollisionLine->mLineType != eLineTypes::eDynamicCollision_32)
             {
                 VOnTrapDoorOpen();
             }
         }
-        else if (BaseAliveGameObjectCollisionLine->field_8_type == eLineTypes::eDynamicCollision_32)
+        else if (BaseAliveGameObjectCollisionLine->mLineType == eLineTypes::eDynamicCollision_32)
         {
             const PSX_RECT bRect = VGetBoundingRect();
             VOnCollisionWith(
@@ -792,7 +792,7 @@ void Elum::HandleElumPathTrans_411460()
         mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(camCoords.y + FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos) % 480);
     }
 
-    if (BaseAliveGameObjectCollisionLine && BaseAliveGameObjectCollisionLine->field_8_type == eLineTypes::eDynamicCollision_32)
+    if (BaseAliveGameObjectCollisionLine && BaseAliveGameObjectCollisionLine->mLineType == eLineTypes::eDynamicCollision_32)
     {
         mLiftPoint = nullptr;
     }
@@ -2476,7 +2476,7 @@ void Elum::Motion_21_Land_414A20()
 
     if (bHit)
     {
-        switch (pLine->field_8_type)
+        switch (pLine->mLineType)
         {
             case eLineTypes::eFloor_0:
             case eLineTypes::eBackgroundFloor_4:
@@ -2743,7 +2743,7 @@ void Elum::RunJumpMidAndHopMid(MidType midType)
 
         if (InAirCollision)
         {
-            switch (BaseAliveGameObjectCollisionLine->field_8_type)
+            switch (BaseAliveGameObjectCollisionLine->mLineType)
             {
                 case eLineTypes::eFloor_0:
                 case eLineTypes::eBackgroundFloor_4:

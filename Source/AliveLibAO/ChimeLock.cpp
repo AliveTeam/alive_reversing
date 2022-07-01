@@ -301,8 +301,8 @@ s16 ChimeLock::UpdateBall()
                     mBaseAnimatedWithPhysicsGameObject_SpriteScale != FP_FromDouble(0.5) ? 7 : 0x70)
                 == 1)
             {
-                if (BaseAliveGameObjectCollisionLine->field_8_type == eLineTypes ::eFloor_0 ||
-                    BaseAliveGameObjectCollisionLine->field_8_type == eLineTypes::eBackgroundFloor_4)
+                if (BaseAliveGameObjectCollisionLine->mLineType == eLineTypes ::eFloor_0 ||
+                    BaseAliveGameObjectCollisionLine->mLineType == eLineTypes::eBackgroundFloor_4)
                 {
                     mBaseAnimatedWithPhysicsGameObject_YPos = hitY - FP_FromInteger(1);
                     mBaseAnimatedWithPhysicsGameObject_VelY = -(mBaseAnimatedWithPhysicsGameObject_VelY * FP_FromDouble(0.4));

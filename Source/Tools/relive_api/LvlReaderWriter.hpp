@@ -38,7 +38,7 @@ public:
     {
         mHeader.field_0_size = static_cast<u32>(mData.size());
         mHeader.field_C_id = id;
-        mHeader.field_8_type = resType;
+        mHeader.mLineType = resType;
     }
 
     [[nodiscard]] u32 Id() const
@@ -101,7 +101,7 @@ public:
     {
         for (auto& chunk : mChunks)
         {
-            if (chunk.Header().field_8_type == type)
+            if (chunk.Header().mLineType == type)
             {
                 return {chunk};
             }
@@ -114,7 +114,7 @@ public:
         auto it = mChunks.begin();
         while (it != mChunks.end())
         {
-            if (it->Header().field_8_type == type)
+            if (it->Header().mLineType == type)
             {
                 it = mChunks.erase(it);
             }
@@ -145,7 +145,7 @@ public:
         bool hasEndChunkAtEnd = false;
         if (!mChunks.empty())
         {
-            if (mChunks[mChunks.size() - 1].Header().field_8_type == ResourceManager::Resource_End)
+            if (mChunks[mChunks.size() - 1].Header().mLineType == ResourceManager::Resource_End)
             {
                 hasEndChunkAtEnd = true;
             }
@@ -184,7 +184,7 @@ public:
             s.Write(adjustedHeader.field_0_size);
             s.Write(adjustedHeader.field_4_ref_count);
             s.Write(adjustedHeader.field_6_flags);
-            s.Write(adjustedHeader.field_8_type);
+            s.Write(adjustedHeader.mLineType);
             s.Write(adjustedHeader.field_C_id);
 
             if (chunk.Size() > 0)
@@ -217,7 +217,7 @@ private:
             s.Read(resHeader.field_0_size);
             s.Read(resHeader.field_4_ref_count);
             s.Read(resHeader.field_6_flags);
-            s.Read(resHeader.field_8_type);
+            s.Read(resHeader.mLineType);
             s.Read(resHeader.field_C_id);
 
             std::vector<u8> tmpData(resHeader.field_0_size);
@@ -227,9 +227,9 @@ private:
                 s.Read(tmpData);
             }
 
-            mChunks.emplace_back(resHeader.field_C_id, static_cast<ResourceManager::ResourceType>(resHeader.field_8_type), std::move(tmpData));
+            mChunks.emplace_back(resHeader.field_C_id, static_cast<ResourceManager::ResourceType>(resHeader.mLineType), std::move(tmpData));
 
-            if (resHeader.field_8_type == ResourceManager::ResourceType::Resource_End)
+            if (resHeader.mLineType == ResourceManager::ResourceType::Resource_End)
             {
                 break;
             }

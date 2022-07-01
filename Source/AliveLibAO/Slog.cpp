@@ -468,8 +468,8 @@ void Slog::MoveOnLine()
         {
             if (mLiftPoint)
             {
-                if (BaseAliveGameObjectCollisionLine->field_8_type != eLineTypes::eDynamicCollision_32 &&
-                    BaseAliveGameObjectCollisionLine->field_8_type != eLineTypes::eBackgroundDynamicCollision_36)
+                if (BaseAliveGameObjectCollisionLine->mLineType != eLineTypes::eDynamicCollision_32 &&
+                    BaseAliveGameObjectCollisionLine->mLineType != eLineTypes::eBackgroundDynamicCollision_36)
                 {
                     mLiftPoint->VRemove(this);
                     mLiftPoint->mBaseGameObjectRefCount--;
@@ -478,8 +478,8 @@ void Slog::MoveOnLine()
             }
             else
             {
-                if (BaseAliveGameObjectCollisionLine->field_8_type == eLineTypes ::eDynamicCollision_32 ||
-                    BaseAliveGameObjectCollisionLine->field_8_type == eLineTypes::eBackgroundDynamicCollision_36)
+                if (BaseAliveGameObjectCollisionLine->mLineType == eLineTypes ::eDynamicCollision_32 ||
+                    BaseAliveGameObjectCollisionLine->mLineType == eLineTypes::eBackgroundDynamicCollision_36)
                 {
                     PSX_RECT rect = VGetBoundingRect();
                     rect.y += 5;
@@ -1184,7 +1184,7 @@ void Slog::Motion_4_Fall_4750C0()
 
     if (InAirCollision_4019C0(&pLine, &hitX, &hitY, FP_FromDouble(1.8)))
     {
-        switch (pLine->field_8_type)
+        switch (pLine->mLineType)
         {
             case eLineTypes::eFloor_0:
             case eLineTypes::eBackgroundFloor_4:
@@ -1195,8 +1195,8 @@ void Slog::Motion_4_Fall_4750C0()
                 mBaseAnimatedWithPhysicsGameObject_XPos = hitX;
                 MapFollowMe_401D30(FALSE);
 
-                if (BaseAliveGameObjectCollisionLine->field_8_type == eLineTypes ::eDynamicCollision_32 ||
-                    BaseAliveGameObjectCollisionLine->field_8_type == eLineTypes::eBackgroundDynamicCollision_36)
+                if (BaseAliveGameObjectCollisionLine->mLineType == eLineTypes ::eDynamicCollision_32 ||
+                    BaseAliveGameObjectCollisionLine->mLineType == eLineTypes::eBackgroundDynamicCollision_36)
                 {
                     PSX_RECT bRect = VGetBoundingRect();
                     bRect.y += 5;
@@ -1234,8 +1234,8 @@ void Slog::Motion_5_Unknown_474070()
         mCurrentMotion = mPreviousMotion;
         if (mLiftPoint)
         {
-            mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger((BaseAliveGameObjectCollisionLine->field_0_rect.x + BaseAliveGameObjectCollisionLine->field_0_rect.w) / 2);
-            mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(BaseAliveGameObjectCollisionLine->field_0_rect.y);
+            mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger((BaseAliveGameObjectCollisionLine->mRect.x + BaseAliveGameObjectCollisionLine->mRect.w) / 2);
+            mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(BaseAliveGameObjectCollisionLine->mRect.y);
         }
     }
 }
@@ -1608,7 +1608,7 @@ void Slog::Motion_19_JumpForwards_475610()
             mBaseAnimatedWithPhysicsGameObject_SpriteScale != FP_FromDouble(0.5) ? 6 : 0x60)
         == 1)
     {
-        switch (pLine->field_8_type)
+        switch (pLine->mLineType)
         {
             case eLineTypes::eWallLeft_1:
             case eLineTypes::eBackgroundWallLeft_5:
@@ -1642,7 +1642,7 @@ void Slog::Motion_19_JumpForwards_475610()
             &hitY,
             mBaseAnimatedWithPhysicsGameObject_SpriteScale != FP_FromDouble(0.5) ? 1 : 0x10))
     {
-        switch (pLine->field_8_type)
+        switch (pLine->mLineType)
         {
             case eLineTypes::eFloor_0:
             case eLineTypes::eBackgroundFloor_4:

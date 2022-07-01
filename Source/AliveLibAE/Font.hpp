@@ -40,7 +40,7 @@ ALIVE_ASSERT_SIZEOF(Font_AtlasEntry, 0x4);
 
 struct Font_Context final
 {
-    PSX_RECT field_0_rect;
+    PSX_RECT mRect;
     Font_AtlasEntry* field_8_atlas_array;
     s16 field_C_resource_id;
 

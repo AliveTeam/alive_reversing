@@ -95,10 +95,10 @@ void BaseAliveGameObject::VSetXSpawn(s16 camWorldX, s32 screenXPos)
     {
         mLiftPoint->mBaseAnimatedWithPhysicsGameObject_XPos += (mBaseAnimatedWithPhysicsGameObject_XPos - old_x);
 
-        BaseAliveGameObjectCollisionLine->field_0_rect.x += FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos - old_x);
-        BaseAliveGameObjectCollisionLine->field_0_rect.w += FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos - old_x);
-        BaseAliveGameObjectCollisionLine->field_0_rect.y = BaseAliveGameObjectCollisionLine->field_0_rect.y;
-        BaseAliveGameObjectCollisionLine->field_0_rect.h = BaseAliveGameObjectCollisionLine->field_0_rect.h;
+        BaseAliveGameObjectCollisionLine->mRect.x += FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos - old_x);
+        BaseAliveGameObjectCollisionLine->mRect.w += FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos - old_x);
+        BaseAliveGameObjectCollisionLine->mRect.y = BaseAliveGameObjectCollisionLine->mRect.y;
+        BaseAliveGameObjectCollisionLine->mRect.h = BaseAliveGameObjectCollisionLine->mRect.h;
     }
     else
     {
@@ -115,7 +115,7 @@ void BaseAliveGameObject::VSetXSpawn(s16 camWorldX, s32 screenXPos)
                     &pLine,
                     &hitX,
                     &hitY,
-                    1 << BaseAliveGameObjectCollisionLine->field_8_type))
+                    1 << BaseAliveGameObjectCollisionLine->mLineType))
             {
                 BaseAliveGameObjectCollisionLine = pLine;
                 mBaseAnimatedWithPhysicsGameObject_YPos = hitY;
@@ -132,7 +132,7 @@ void BaseAliveGameObject::VSetXSpawn(s16 camWorldX, s32 screenXPos)
                         &pLine,
                         &hitX,
                         &hitY,
-                        1 << BaseAliveGameObjectCollisionLine->field_8_type))
+                        1 << BaseAliveGameObjectCollisionLine->mLineType))
                 {
                     BaseAliveGameObjectCollisionLine = pLine;
                     mBaseAnimatedWithPhysicsGameObject_YPos = hitY;
@@ -189,10 +189,10 @@ void BaseAliveGameObject::VSetYSpawn(s32 camWorldY, s16 bLeft)
         mLiftPoint->mBaseAnimatedWithPhysicsGameObject_XPos += mBaseAnimatedWithPhysicsGameObject_XPos - oldx;
         mLiftPoint->mBaseAnimatedWithPhysicsGameObject_YPos += mBaseAnimatedWithPhysicsGameObject_YPos - oldy;
 
-        BaseAliveGameObjectCollisionLine->field_0_rect.x += FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos - oldx);
-        BaseAliveGameObjectCollisionLine->field_0_rect.w += FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos - oldx);
-        BaseAliveGameObjectCollisionLine->field_0_rect.y += FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos - oldy);
-        BaseAliveGameObjectCollisionLine->field_0_rect.h += FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos - oldy);
+        BaseAliveGameObjectCollisionLine->mRect.x += FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos - oldx);
+        BaseAliveGameObjectCollisionLine->mRect.w += FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos - oldx);
+        BaseAliveGameObjectCollisionLine->mRect.y += FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos - oldy);
+        BaseAliveGameObjectCollisionLine->mRect.h += FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos - oldy);
     }
 }
 
@@ -250,8 +250,8 @@ void BaseAliveGameObject::VCheckCollisionLineStillValid_401A90(s32 distance)
             mBaseAnimatedWithPhysicsGameObject_YPos = hitY;
             if (mLiftPoint)
             {
-                if (pLine->field_8_type == eLineTypes ::eDynamicCollision_32 ||
-                    pLine->field_8_type == eLineTypes::eBackgroundDynamicCollision_36)
+                if (pLine->mLineType == eLineTypes ::eDynamicCollision_32 ||
+                    pLine->mLineType == eLineTypes::eBackgroundDynamicCollision_36)
                 {
                     // OG bug fix: didn't remove ourself from the lift!
                     mLiftPoint->VRemove(this);
@@ -512,10 +512,10 @@ void BaseAliveGameObject::VOnPathTransition_401470(s16 camWorldX, s32 camWorldY,
         mLiftPoint->mBaseAnimatedWithPhysicsGameObject_XPos += rect_left;
         mLiftPoint->mBaseAnimatedWithPhysicsGameObject_YPos += rect_right;
 
-        BaseAliveGameObjectCollisionLine->field_0_rect.x += FP_GetExponent(rect_left);
-        BaseAliveGameObjectCollisionLine->field_0_rect.w += FP_GetExponent(rect_left);
-        BaseAliveGameObjectCollisionLine->field_0_rect.y += FP_GetExponent(rect_right);
-        BaseAliveGameObjectCollisionLine->field_0_rect.h += FP_GetExponent(rect_right);
+        BaseAliveGameObjectCollisionLine->mRect.x += FP_GetExponent(rect_left);
+        BaseAliveGameObjectCollisionLine->mRect.w += FP_GetExponent(rect_left);
+        BaseAliveGameObjectCollisionLine->mRect.y += FP_GetExponent(rect_right);
+        BaseAliveGameObjectCollisionLine->mRect.h += FP_GetExponent(rect_right);
     }
     else
     {
