@@ -23,6 +23,8 @@ SET(relive_lib_src
     Error.hpp
     VRam.hpp
     VRam.cpp
+    ScreenManager.cpp
+    ScreenManager.hpp
     BaseAnimatedWithPhysicsGameObject.hpp
     stdafx.h
 )

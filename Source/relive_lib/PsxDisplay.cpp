@@ -7,7 +7,7 @@
 #include "../AliveLibCommon/Sys_common.hpp"
 #include "../AliveLibAE/PsxRender.hpp"
 #include "GameType.hpp"
-#include "../AliveLibAE/ScreenManager.hpp"
+#include "ScreenManager.hpp"
 
 ALIVE_VAR(1, 0x5C1130, PsxDisplay, gPsxDisplay, {});
 

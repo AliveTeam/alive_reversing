@@ -46,12 +46,24 @@ public:
         // For some reason the screen manager doesn't work the same as in AE and this won't
         // result in full blocks getting drawn. Therefore we should never see this get called
         // as all blocks are partial (full blocks are "fake" partial blocks).
+        u16 remappedToAeLayer = 0;
+        if (rChunk.field_2_layer_or_decompressed_size == 0)
+        {
+            // FG1
+            remappedToAeLayer = ScreenManager::BitLayers::FG1_7 - ScreenManager::BitLayers::FG1_Half_Well_4;
+        }
+        else
+        {
+            // FG1 half
+            remappedToAeLayer = ScreenManager::BitLayers::FG1_Half_5 - ScreenManager::BitLayers::FG1_Half_Well_4;
+        }
+
         pScreenManager->InvalidateRect_IdxPlus4(
             rChunk.field_4_xpos_or_compressed_size,
             rChunk.field_6_ypos,
             rChunk.field_8_width + rChunk.field_4_xpos_or_compressed_size - 1,
             rChunk.field_A_height + rChunk.field_6_ypos - 1,
-            rChunk.field_2_layer_or_decompressed_size );
+            remappedToAeLayer);
     }
 
     u8** Allocate(u32 len) override
@@ -279,7 +291,7 @@ void FG1::VRender(PrimHeader** ppOt)
         Poly_FT4* pPoly = &field_20_chnk_res[i].field_0_polys[gPsxDisplay.mBufferIndex];
         const s32 xpos = X0(pPoly);
         const s32 ypos = Y0(pPoly);
-       // if (pScreenManager->IsDirty(pScreenManager->Idx(), xpos, ypos) || pScreenManager->IsDirty(3, xpos, ypos))
+        //if (pScreenManager->IsDirty(pScreenManager->Idx(), xpos, ypos) || pScreenManager->IsDirty(ScreenManager::BitLayers::Unknown_3, xpos, ypos))
         {
             OrderingTable_Add(OtLayer(ppOt, field_20_chnk_res[i].field_66_mapped_layer), &pPoly->mBase.header);
 

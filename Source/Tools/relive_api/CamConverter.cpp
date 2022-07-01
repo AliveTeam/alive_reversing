@@ -2,7 +2,7 @@
 #include "../../AliveLibAE/ResourceManager.hpp"
 #include "LvlReaderWriter.hpp"
 #include "relive_api_exceptions.hpp"
-#include "../../AliveLibAE/ScreenManager.hpp"
+#include "../../relive_lib/ScreenManager.hpp"
 #include "../../AliveLibCommon/CamDecompressor.hpp"
 #include "../../AliveLibCommon/FG1Reader.hpp"
 #include "../../AliveLibCommon/logger.hpp"

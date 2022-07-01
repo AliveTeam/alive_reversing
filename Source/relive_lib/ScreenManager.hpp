@@ -1,9 +1,9 @@
 #pragma once
 
 #include "../relive_lib/BaseGameObject.hpp"
-#include "Psx.hpp"
-#include "FixedPoint.hpp"
-#include "Primitives.hpp"
+#include "../AliveLibAE/Psx.hpp"
+#include "../AliveLibAE/FixedPoint.hpp"
+#include "../AliveLibAE/Primitives.hpp"
 
 struct Prim_Sprt;
 
@@ -101,18 +101,6 @@ public:
     FP_Point* mCamPos = nullptr;
     s16 mCamXOff = 0;
     u16 mCamYOff = 0;
-
-private:
-    SprtTPage* mScreenSprites = nullptr;
-    u16 mUPos = 0;
-    u16 mVPos = 0;
-    s16 mCamWidth = 0;
-    s16 mCamHeight = 0;
-    u16 mIdx = 0;
-    u16 mYIdx = 0;
-    u16 mXIdx = 0;
-    bool mRenderingDisabled = false;
-
     enum BitLayers
     {
         FG1_7 = 7,
@@ -128,6 +116,16 @@ private:
         Unknown_0 = 0,
     };
 
+private:
+    SprtTPage* mScreenSprites = nullptr;
+    u16 mUPos = 0;
+    u16 mVPos = 0;
+    s16 mCamWidth = 0;
+    s16 mCamHeight = 0;
+    u16 mIdx = 0;
+    u16 mYIdx = 0;
+    u16 mXIdx = 0;
+    bool mRenderingDisabled = false;
     DirtyBits mDirtyBits[8] = {};
 };
 ALIVE_ASSERT_SIZEOF(ScreenManager, 0x1A4u);

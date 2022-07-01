@@ -73,8 +73,6 @@ SET(AliveLibAESrc
     Primitives.hpp
     Map.cpp
     Map.hpp
-    ScreenManager.cpp
-    ScreenManager.hpp
     Camera.cpp
     Camera.hpp
     AnimationBase.cpp

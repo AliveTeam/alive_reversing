@@ -1,15 +1,11 @@
 #include "stdafx.h"
 #include "ScreenManager.hpp"
 #include "../AliveLibCommon/Function.hpp"
-#include "stdlib.hpp"
-#include "ResourceManager.hpp"
-#include <gmock/gmock.h>
-#include "Primitives.hpp"
 #include "VRam.hpp"
-#include "Psx.hpp"
-#include "Renderer/IRenderer.hpp"
+#include "../AliveLibAE/Renderer/IRenderer.hpp"
 #include "../AliveLibCommon/CamDecompressor.hpp"
 #include "../relive_lib/GameType.hpp"
+#include "ResourceManagerWrapper.hpp"
 
 ALIVE_VAR(1, 0x5BB5F4, ScreenManager*, pScreenManager, nullptr);
 ALIVE_ARY(1, 0x5b86c8, SprtTPage, 300, sSpriteTPageBuffer, {});
@@ -129,7 +125,7 @@ void ScreenManager::DecompressCameraToVRam(u16** ppBits)
     {
         // AE camera
 
-        u8** ppVlc = ResourceManager::Alloc_New_Resource_49BED0(ResourceManager::Resource_VLC, 0, 0x7E00); // 4 KB
+        u8** ppVlc = ResourceManagerWrapper::Alloc_New_Resource(ResourceManagerWrapper::Resource_VLC, 0, 0x7E00); // 4 KB
         if (ppVlc)
         {
             PSX_RECT rect = { 0, 0, 16, 240 };
@@ -155,7 +151,7 @@ void ScreenManager::DecompressCameraToVRam(u16** ppBits)
                 pIter += (stripSize / sizeof(u16));
             }
 
-            ResourceManager::FreeResource_49C330(ppVlc);
+            ResourceManagerWrapper::FreeResource(ppVlc);
         }
     }
 

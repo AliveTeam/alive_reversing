@@ -255,8 +255,6 @@ SET(AliveLibSrcAO
    ResourceManager.cpp
    Camera.hpp
    Camera.cpp
-   ScreenManager.hpp
-   ScreenManager.cpp
    Factory.hpp
    Factory.cpp
    GasCountDown.hpp

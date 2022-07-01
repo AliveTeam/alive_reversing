@@ -10,7 +10,7 @@
 #include "ResourceManager.hpp"
 #include "../relive_lib/PsxDisplay.hpp"
 #include "Primitives.hpp"
-#include "ScreenManager.hpp"
+#include "../relive_lib/ScreenManager.hpp"
 #include "FixedPoint.hpp"
 
 void static_font1context_init_433300();

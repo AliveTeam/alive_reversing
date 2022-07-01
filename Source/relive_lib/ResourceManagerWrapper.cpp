@@ -28,3 +28,15 @@ u8** ResourceManagerWrapper::GetLoadedResource(u32 type, u32 resourceID, u16 add
         return AO::ResourceManager::GetLoadedResource(type, resourceID, addUseCount, bLock);
     }
 }
+
+u8** ResourceManagerWrapper::Alloc_New_Resource(u32 type, u32 id, u32 size)
+{
+    if (GetGameType() == GameType::eAe)
+    {
+        return ResourceManager::Alloc_New_Resource_49BED0(type, id, size);
+    }
+    else
+    {
+        return AO::ResourceManager::Alloc_New_Resource_454F20(type, id, size);
+    }
+}
