@@ -10,6 +10,7 @@
 #include "DDraw.hpp"
 #include "Sound/Midi.hpp"
 #include "PauseMenu.hpp"
+#include "GameAutoPlayer.hpp"
 
 #if USE_SDL2
     #include "SDL.h"
@@ -274,15 +275,15 @@ LRESULT Sys_WindowMessageHandler_494A40(HWND hWnd, UINT msg, WPARAM wParam, LPAR
             }
         #endif
 
-            if (SND_Seq_Table_Valid())
+            if (SND_Seq_Table_Valid_4CAFE0())
             {
-                SND_StopAll();
+                SND_StopAll_4CB060();
             }
 
             ret = -(MessageBoxA(hWnd, "Do you really want to quit?", "Abe's Exoddus 1.0", 0x124u) != 6); // TODO: Constants, refactor negation
 
 
-            if (SND_Seq_Table_Valid())
+            if (SND_Seq_Table_Valid_4CAFE0())
             {
                 GetSoundAPI().SND_Restart();
             }
@@ -827,192 +828,6 @@ static s32 sdl_key_to_win32_vkey(SDL_Scancode key)
 // This is a combination of the window proc and the window proc "filter"
 
 static bool bNeedToQuit = false;
-
-static s32 Sys_EventFilter(void* /*userData*/, SDL_Event* event)
-{
-    if (event->type == SDL_KEYDOWN)
-    {
-    #if ORIGINAL_PS1_BEHAVIOR // OG Change - Allow for exiting save menu using controller
-        const bool allowTyping = saveMenuOpen; // Allow typing if save menu is open
-    #else
-        const bool allowTyping = !Input_GetInputEnabled_4EDDE0(); // Old method: Allow typing only if all other inputs disabled
-    #endif
-        if (allowTyping)
-        {
-            // "Typing" input
-            const s32 vk = sdl_key_to_win32_vkey(event->key.keysym.scancode);
-
-            if (vk >= VK_F1 && vk <= VK_F12)
-            {
-                return 0;
-            }
-            sLastPressedKey_BD30A0 = vk;
-
-            //LOG_INFO("Key down (input disabled) " << sLastPressedKey_BD30A0);
-
-            // Between A-Z
-            if (sLastPressedKey_BD30A0 >= 0x41 && sLastPressedKey_BD30A0 <= 0x5A)
-            {
-                sLastPressedKey_BD30A0 -= 0x41;
-
-                if (SDL_GetModState() & (KMOD_SHIFT | KMOD_CAPS))
-                {
-                    sLastPressedKey_BD30A0 += 'A';
-                }
-                else
-                {
-                    sLastPressedKey_BD30A0 += 'a';
-                }
-            }
-            // Between 0-9
-            else if (sLastPressedKey_BD30A0 >= VK_NUMPAD0 && sLastPressedKey_BD30A0 <= VK_NUMPAD9)
-            {
-                sLastPressedKey_BD30A0 -= VK_NUMPAD0;
-                LOG_INFO(sLastPressedKey_BD30A0);
-                if (SDL_GetModState() & (KMOD_SHIFT) && sLastPressedKey_BD30A0 == 1)
-                {
-                    sLastPressedKey_BD30A0 = '!';
-                }
-                else
-                {
-                    sLastPressedKey_BD30A0 += '0';
-                }
-            }
-
-            else if (sLastPressedKey_BD30A0 == VK_SUBTRACT)
-            {
-                sLastPressedKey_BD30A0 = '-';
-            }
-
-            sIsAKeyDown_BD309C = TRUE;
-        }
-        else
-        {
-            // "Game button" input
-            const s32 vk = sdl_key_to_win32_vkey(event->key.keysym.scancode);
-            //LOG_INFO("Key down " << vk);
-
-            Input_SetKeyState_4EDD80(vk, 1);
-
-            if (vk == VK_F5)
-            {
-                LOG_INFO("Save next frame for " << VK_F5);
-                sQuicksave_SaveNextFrame_5CA4D8 = 1;
-            }
-            else if (vk == VK_F6)
-            {
-                LOG_INFO("Load next frame for " << VK_F6);
-                sQuicksave_LoadNextFrame_5CA4D9 = 1;
-            }
-            else if (vk == VK_F10)
-            {
-                s_VGA_FilterScreen = !s_VGA_FilterScreen;
-            }
-            else if (vk == VK_F11)
-            {
-                s_VGA_KeepAspectRatio = !s_VGA_KeepAspectRatio;
-            }
-            else if (vk == VK_F12)
-            {
-                const Uint32 flags = SDL_GetWindowFlags(Sys_GetWindowHandle_4EE180());
-                if (flags & SDL_WINDOW_FULLSCREEN_DESKTOP)
-                {
-                    SDL_SetWindowFullscreen(Sys_GetWindowHandle_4EE180(), 0);
-                }
-                else
-                {
-                    SDL_SetWindowFullscreen(Sys_GetWindowHandle_4EE180(), SDL_WINDOW_FULLSCREEN_DESKTOP);
-                }
-            }
-        }
-    }
-    else if (event->type == SDL_KEYUP)
-    {
-        const s32 vk = sdl_key_to_win32_vkey(event->key.keysym.scancode);
-        //LOG_INFO("Key up " << vk);
-        Input_SetKeyState_4EDD80(vk, 0);
-        sIsAKeyDown_BD309C = FALSE;
-        sLastPressedKey_BD30A0 = 0;
-    }
-    else if (event->type == SDL_WINDOWEVENT)
-    {
-        if (event->window.type == SDL_WINDOWEVENT_FOCUS_GAINED)
-        {
-            sAppIsActivated_BBBA00 = TRUE;
-        }
-        else if (event->window.type == SDL_WINDOWEVENT_FOCUS_LOST)
-        {
-            sAppIsActivated_BBBA00 = FALSE;
-        }
-        else if (event->window.type == SDL_WINDOWEVENT_EXPOSED)
-        {
-            Add_Dirty_Area_4ED970(0, 0, 640, 240);
-        }
-        // SDL_WINDOWEVENT_SIZE_CHANGED
-    }
-    else if (event->type == SDL_QUIT)
-    {
-        if (sMovieSoundEntry_5CA230)
-        {
-    #if !USE_SDL2_SOUND
-            LPDIRECTSOUNDBUFFER pDSoundBuffer = sMovieSoundEntry_5CA230->field_4_pDSoundBuffer;
-            if (pDSoundBuffer)
-            {
-                pDSoundBuffer->Stop();
-            }
-    #endif
-        }
-        if (SND_Seq_Table_Valid())
-        {
-            SND_StopAll();
-        }
-
-        // Full screen message boxes act really strange.. so force window mode before we show it
-        const Uint32 flags = SDL_GetWindowFlags(Sys_GetWindowHandle_4EE180());
-        bool forcedWindowMode = false;
-        if (flags & SDL_WINDOW_FULLSCREEN_DESKTOP)
-        {
-            forcedWindowMode = true;
-            SDL_SetWindowFullscreen(Sys_GetWindowHandle_4EE180(), 0);
-            if (sPsxEMU_show_vram_BD1465)
-            {
-                VGA_CopyToFront_4F3710(&sPsxVram_C1D160, nullptr);
-            }
-            else
-            {
-                RECT rect = {0, 0, 640, 240};
-                VGA_CopyToFront_4F3710(&sPsxVram_C1D160, &rect);
-            }
-        }
-
-        const MessageBoxButton button = Sys_MessageBox(Sys_GetWindowHandle_4EE180(), "Do you really want to quit?", "R.E.L.I.V.E.", MessageBoxType::eQuestion);
-        if (SND_Seq_Table_Valid())
-        {
-            GetSoundAPI().SND_Restart();
-        }
-
-    #if !USE_SDL2_SOUND
-        if (sMovieSoundEntry_5CA230 && sMovieSoundEntry_5CA230->field_4_pDSoundBuffer)
-        {
-            sMovieSoundEntry_5CA230->field_4_pDSoundBuffer->Play(0, 0, 1);
-        }
-    #endif
-
-        if (button == MessageBoxButton::eYes)
-        {
-            // So Sys_PumpMessages_4EE4F4 thinks we got an quit
-            bNeedToQuit = true;
-        }
-        else
-        {
-            if (forcedWindowMode)
-            {
-                SDL_SetWindowFullscreen(Sys_GetWindowHandle_4EE180(), SDL_WINDOW_FULLSCREEN_DESKTOP);
-            }
-        }
-    }
-    return 0;
-}
 #endif
 
 Bool32 Sys_IsAppActive_4EDF30()
@@ -1020,21 +835,244 @@ Bool32 Sys_IsAppActive_4EDF30()
     return sAppIsActivated_BBBA00;
 }
 
+static void KeyDownEvent(SDL_Scancode scanCode)
+{
+#if ORIGINAL_PS1_BEHAVIOR                  // OG Change - Allow for exiting save menu using controller
+    const bool allowTyping = saveMenuOpen; // Allow typing if save menu is open
+#else
+    const bool allowTyping = !Input_GetInputEnabled_4EDDE0(); // Old method: Allow typing only if all other inputs disabled
+#endif
+    if (allowTyping)
+    {
+        // "Typing" input
+        const s32 vk = sdl_key_to_win32_vkey(scanCode);
+
+        if (vk >= VK_F1 && vk <= VK_F12)
+        {
+            return;
+        }
+        sLastPressedKey_BD30A0 = vk;
+
+        // LOG_INFO("Key down (input disabled) " << sLastPressedKey_BD30A0);
+
+        // Between A-Z
+        if (sLastPressedKey_BD30A0 >= 0x41 && sLastPressedKey_BD30A0 <= 0x5A)
+        {
+            sLastPressedKey_BD30A0 -= 0x41;
+
+            if (SDL_GetModState() & (KMOD_SHIFT | KMOD_CAPS))
+            {
+                sLastPressedKey_BD30A0 += 'A';
+            }
+            else
+            {
+                sLastPressedKey_BD30A0 += 'a';
+            }
+        }
+        // Between 0-9
+        else if (sLastPressedKey_BD30A0 >= VK_NUMPAD0 && sLastPressedKey_BD30A0 <= VK_NUMPAD9)
+        {
+            sLastPressedKey_BD30A0 -= VK_NUMPAD0;
+            LOG_INFO(sLastPressedKey_BD30A0);
+            if (SDL_GetModState() & (KMOD_SHIFT) && sLastPressedKey_BD30A0 == 1)
+            {
+                sLastPressedKey_BD30A0 = '!';
+            }
+            else
+            {
+                sLastPressedKey_BD30A0 += '0';
+            }
+        }
+
+        else if (sLastPressedKey_BD30A0 == VK_SUBTRACT)
+        {
+            sLastPressedKey_BD30A0 = '-';
+        }
+
+        sIsAKeyDown_BD309C = TRUE;
+    }
+    else
+    {
+        // "Game button" input
+        const s32 vk = sdl_key_to_win32_vkey(scanCode);
+        // LOG_INFO("Key down " << vk);
+
+        Input_SetKeyState_4EDD80(vk, 1);
+
+        if (vk == VK_F5)
+        {
+            LOG_INFO("Save next frame for " << VK_F5);
+            sQuicksave_SaveNextFrame_5CA4D8 = 1;
+        }
+        else if (vk == VK_F6)
+        {
+            LOG_INFO("Load next frame for " << VK_F6);
+            sQuicksave_LoadNextFrame_5CA4D9 = 1;
+        }
+        else if (vk == VK_F10)
+        {
+            s_VGA_FilterScreen = !s_VGA_FilterScreen;
+        }
+        else if (vk == VK_F11)
+        {
+            s_VGA_KeepAspectRatio = !s_VGA_KeepAspectRatio;
+        }
+        else if (vk == VK_F12)
+        {
+            const Uint32 flags = SDL_GetWindowFlags(Sys_GetWindowHandle_4EE180());
+            if (flags & SDL_WINDOW_FULLSCREEN_DESKTOP)
+            {
+                SDL_SetWindowFullscreen(Sys_GetWindowHandle_4EE180(), 0);
+            }
+            else
+            {
+                SDL_SetWindowFullscreen(Sys_GetWindowHandle_4EE180(), SDL_WINDOW_FULLSCREEN_DESKTOP);
+            }
+        }
+    }
+}
+
+static void KeyUpEvent(SDL_Scancode scanCode)
+{
+    const s32 vk = sdl_key_to_win32_vkey(scanCode);
+    // LOG_INFO("Key up " << vk);
+    Input_SetKeyState_4EDD80(vk, 0);
+    sIsAKeyDown_BD309C = FALSE;
+    sLastPressedKey_BD30A0 = 0;
+}
+
+static void QuitEvent(bool isRecordedEvent, bool isRecording)
+{
+    if (sMovieSoundEntry_5CA230)
+    {
+#if !USE_SDL2_SOUND
+        LPDIRECTSOUNDBUFFER pDSoundBuffer = sMovieSoundEntry_5CA230->field_4_pDSoundBuffer;
+        if (pDSoundBuffer)
+        {
+            pDSoundBuffer->Stop();
+        }
+#endif
+    }
+    if (SND_Seq_Table_Valid())
+    {
+        SND_StopAll();
+    }
+
+    // Full screen message boxes act really strange.. so force window mode before we show it
+    const Uint32 flags = SDL_GetWindowFlags(Sys_GetWindowHandle_4EE180());
+    bool forcedWindowMode = false;
+    if (flags & SDL_WINDOW_FULLSCREEN_DESKTOP)
+    {
+        forcedWindowMode = true;
+        SDL_SetWindowFullscreen(Sys_GetWindowHandle_4EE180(), 0);
+        if (sPsxEMU_show_vram_BD1465)
+        {
+            VGA_CopyToFront_4F3710(&sPsxVram_C1D160, nullptr);
+        }
+        else
+        {
+            RECT rect = {0, 0, 640, 240};
+            VGA_CopyToFront_4F3710(&sPsxVram_C1D160, &rect);
+        }
+    }
+
+    bool actuallyQuit = false;
+    if (isRecordedEvent)
+    {
+        // Reading the SDL_QUIT event
+        const RecordedEvent recordedEvent = GetGameAutoPlayer().GetEvent();
+        actuallyQuit = recordedEvent.mData ? true : false;
+    }
+
+    const MessageBoxButton recordedButtonResult = actuallyQuit ? MessageBoxButton::eYes : MessageBoxButton::eNo;
+    const MessageBoxButton button = isRecordedEvent ? recordedButtonResult : Sys_MessageBox(Sys_GetWindowHandle_4EE180(), "Do you really want to quit?", "R.E.L.I.V.E.", MessageBoxType::eQuestion);
+
+    if (isRecording)
+    {
+        RecordedEvent recEvent;
+        recEvent.mType = SDL_QUIT;
+        recEvent.mData = button == MessageBoxButton::eYes ? 1 : 0;
+        GetGameAutoPlayer().RecordEvent(recEvent);
+    }
+
+    if (SND_Seq_Table_Valid())
+    {
+        GetSoundAPI().SND_Restart();
+    }
+
+#if !USE_SDL2_SOUND
+    if (sMovieSoundEntry_5CA230 && sMovieSoundEntry_5CA230->field_4_pDSoundBuffer)
+    {
+        sMovieSoundEntry_5CA230->field_4_pDSoundBuffer->Play(0, 0, 1);
+    }
+#endif
+
+    if (button == MessageBoxButton::eYes)
+    {
+        // So Sys_PumpMessages_4EE4F4 thinks we got an quit
+        bNeedToQuit = true;
+    }
+    else
+    {
+        if (forcedWindowMode)
+        {
+            SDL_SetWindowFullscreen(Sys_GetWindowHandle_4EE180(), SDL_WINDOW_FULLSCREEN_DESKTOP);
+        }
+    }
+}
+
 s8 Sys_PumpMessages_4EE4F4()
 {
 #if USE_SDL2
-    SDL_Event event;
+    GetGameAutoPlayer().SyncPoint(SyncPoints::PumpEventsStart);
+
+    SDL_Event event = {};
+    const bool isRecording = GetGameAutoPlayer().IsRecording();
+    const bool isPlaying = GetGameAutoPlayer().IsPlaying();
+
+    // Replay any recorded events
+    if (isPlaying)
+    {
+        while (GetGameAutoPlayer().PeekNextType() == RecordTypes::Event)
+        {
+            const RecordedEvent recordedEvent = GetGameAutoPlayer().GetEvent();
+            // TODO: Recording SDL types directly might break across diff platforms/SDL2 versions/ports
+            switch (recordedEvent.mType)
+            {
+                case SDL_KEYDOWN:
+                    KeyDownEvent(static_cast<SDL_Scancode>(recordedEvent.mData));
+                    break;
+
+                case SDL_KEYUP:
+                    KeyUpEvent(static_cast<SDL_Scancode>(recordedEvent.mData));
+                    break;
+
+                case 0:
+                    // Hack for quit events, quit writes other events before the actual event data
+                    // this is used to mark the start
+                    QuitEvent(true, false);
+                    break;
+
+                default:
+                    LOG_ERROR("Unknown event type " << recordedEvent.mType);
+                    ALIVE_FATAL("Unknow event type");
+            }
+        }
+    }
+
+    // Even if playing back we still need to pump events for things to actually work, but we ignore
+    // inputs. Any attempt to quit while playing back is an instant quit to avoid desyncs.
     while (SDL_PollEvent(&event))
     {
- #if AUTO_SWITCH_CONTROLLER // OG Change - Automatically switches active controller (gamepad/keyboard)
-        if (event.type == SDL_JOYDEVICEADDED)
+    #if AUTO_SWITCH_CONTROLLER // OG Change - Automatically switches active controller (gamepad/keyboard)
+        if (event.type == SDL_JOYDEVICEADDED && !isRecording)
         {
             totalConnectedJoysticks++;
             LOG_INFO("User just inserted joystick!");
             Input_Init_491BC0();
             sJoystickEnabled_5C9F70 = 1;
         }
-        else if (event.type == SDL_JOYDEVICEREMOVED)
+        else if (event.type == SDL_JOYDEVICEREMOVED && !isRecording)
         {
             totalConnectedJoysticks--;
             LOG_INFO("User just removed joystick!");
@@ -1048,8 +1086,80 @@ s8 Sys_PumpMessages_4EE4F4()
                 sJoystickEnabled_5C9F70 = 0; // Returns to keyboard controls
             }
         }
-#endif
+        else
+    #endif // AUTO_SWITCH_CONTROLLER
+            if (event.type == SDL_KEYDOWN)
+            {
+                if (!isPlaying)
+                {
+                    KeyDownEvent(event.key.keysym.scancode);
+                }
+
+                if (isRecording)
+                {
+                    RecordedEvent recEvent;
+                    recEvent.mType = event.type;
+                    recEvent.mData = static_cast<u32>(event.key.keysym.scancode);
+                    GetGameAutoPlayer().RecordEvent(recEvent);
+                }
+            }
+            else if (event.type == SDL_KEYUP)
+            {
+                if (!isPlaying)
+                {
+                    KeyUpEvent(event.key.keysym.scancode);
+                }
+
+                if (isRecording)
+                {
+                    RecordedEvent recEvent;
+                    recEvent.mType = event.type;
+                    recEvent.mData = static_cast<u32>(event.key.keysym.scancode);
+                    GetGameAutoPlayer().RecordEvent(recEvent);
+                }
+            }
+            else if (event.type == SDL_WINDOWEVENT)
+            {
+                if (event.window.type == SDL_WINDOWEVENT_FOCUS_GAINED)
+                {
+                    sAppIsActivated_BBBA00 = TRUE;
+                }
+                else if (event.window.type == SDL_WINDOWEVENT_FOCUS_LOST)
+                {
+                    sAppIsActivated_BBBA00 = FALSE;
+                }
+                else if (event.window.type == SDL_WINDOWEVENT_EXPOSED)
+                {
+                    Add_Dirty_Area_4ED970(0, 0, 640, 240);
+                }
+                // SDL_WINDOWEVENT_SIZE_CHANGED
+            }
+            else if (event.type == SDL_QUIT)
+            {
+                if (!isPlaying)
+                {
+                    // Required to write a dummy event first because the QuitEvent can write other events first
+                    // which breaks the playback logic of Peeking and looping until the type isn't event.
+                    if (isRecording)
+                    {
+                        RecordedEvent recEvent;
+                        recEvent.mType = 0;
+                        recEvent.mData = 0;
+                        GetGameAutoPlayer().RecordEvent(recEvent);
+                    }
+
+                    // Else alllow normal quit behaviour + record the result
+                    QuitEvent(false, isRecording);
+                }
+                else
+                {
+                    // Force quit if attempting to close the game during playback
+                    bNeedToQuit = true;
+                }
+            }
     }
+
+    GetGameAutoPlayer().SyncPoint(SyncPoints::PumpEventsEnd);
 
     if (bNeedToQuit)
     {
@@ -1136,8 +1246,6 @@ static s32 Sys_WindowClass_Register_SDL(LPCSTR /*lpClassName*/, LPCSTR lpWindowN
     #endif
 
     Input_InitKeyStateArray_4EDD60();
-
-    SDL_AddEventWatch(Sys_EventFilter, nullptr);
 
     SDL_ShowCursor(SDL_DISABLE);
 

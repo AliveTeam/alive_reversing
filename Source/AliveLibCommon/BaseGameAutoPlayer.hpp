@@ -14,12 +14,32 @@ enum RecordTypes : u32
     SysTicks = 0x19981998,
     SyncPoint = 0xf00df00d,
     InputType = 0x101010,
+    Event = 0x445511,
 };
 
 enum SyncPoints : u32
 {
     StartGameObjectUpdate = 1,
     EndGameObjectUpdate = 2,
+    PumpEventsStart = 3,
+    MainLoopStart = 4,
+    ObjectsUpdateStart = 5,
+    ObjectsUpdateEnd = 6,
+    AnimateAll = 7,
+    DrawAllStart = 8,
+    DrawAllEnd = 9,
+    RenderStart = 10,
+    RenderEnd = 11,
+    IncrementFrame = 12,
+    MainLoopExit = 13,
+    RenderOT = 14,
+    PumpEventsEnd = 17,
+};
+
+struct RecordedEvent final
+{
+    u32 mType;
+    u32 mData;
 };
 
 class [[nodiscard]] AutoFILE final
@@ -33,6 +53,10 @@ public:
     {
         Close();
         mFile = ::fopen(pFileName, pMode);
+        if (strchr(pMode, 'w'))
+        {
+            mIsWriter = true;
+        }
         mAutoFlushFile = autoFlushFile;
         return mFile != nullptr;
     }
@@ -63,6 +87,8 @@ public:
         return ::fread(&value, sizeof(TypeToRead), 1, mFile) == 1;
     }
 
+    u32 PeekU32();
+
     u32 ReadU32() const;
 
     long FileSize()
@@ -78,6 +104,10 @@ public:
     {
         if (mFile)
         {
+            if (mIsWriter)
+            {
+                ::fflush(mFile);
+            }
             ::fclose(mFile);
         }
     }
@@ -94,7 +124,8 @@ private:
         }
     }
 
-    FILE* mFile = nullptr;
+    FILE* mFile = nullptr; 
+    bool mIsWriter = false;
     bool mAutoFlushFile = false;
 };
 
@@ -114,6 +145,7 @@ public:
 
     void SaveTicks(u32 ticks);
     void SaveSyncPoint(u32 syncPointId);
+    void SaveEvent(const RecordedEvent& event);
 
     virtual void SaveObjectStates() = 0;
 
@@ -131,6 +163,8 @@ public:
     s32 ReadRng();
     u32 ReadTicks();
     u32 ReadSyncPoint();
+    RecordTypes PeekNextType();
+    RecordedEvent ReadEvent();
     virtual bool ValidateObjectStates() = 0;
 
 protected:
@@ -173,6 +207,11 @@ protected:
 
 public:
     void ParseCommandLine(const char* pCmdLine);
+
+    RecordTypes PeekNextType();
+
+    void RecordEvent(const RecordedEvent& event);
+    RecordedEvent GetEvent();
 
     u32 GetInput(u32 padIdx);
 
