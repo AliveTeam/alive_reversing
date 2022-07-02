@@ -204,7 +204,7 @@ s16* Abe_OnFrame(BaseGameObject* pObj, s16* pData)
             &pLine,
             &hitX,
             &hitY,
-            pAbe->mBaseAnimatedWithPhysicsGameObject_SpriteScale != FP_FromDouble(0.5) ? 6 : 0x60))
+            pAbe->mBaseAnimatedWithPhysicsGameObject_SpriteScale != FP_FromDouble(0.5) ? kFgWalls : kBgWalls))
     {
         directed_x = hitX - pAbe->mBaseAnimatedWithPhysicsGameObject_XPos;
         xVel = -xVel;

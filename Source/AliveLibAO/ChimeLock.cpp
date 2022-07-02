@@ -298,10 +298,10 @@ s16 ChimeLock::UpdateBall()
                     &BaseAliveGameObjectCollisionLine,
                     &hitX,
                     &hitY,
-                    mBaseAnimatedWithPhysicsGameObject_SpriteScale != FP_FromDouble(0.5) ? 7 : 0x70)
+                    mBaseAnimatedWithPhysicsGameObject_SpriteScale != FP_FromDouble(0.5) ? kFgWallsOrFloor : kBgWallsOrFloor)
                 == 1)
             {
-                if (BaseAliveGameObjectCollisionLine->mLineType == eLineTypes ::eFloor_0 ||
+                if (BaseAliveGameObjectCollisionLine->mLineType == eLineTypes::eFloor_0 ||
                     BaseAliveGameObjectCollisionLine->mLineType == eLineTypes::eBackgroundFloor_4)
                 {
                     mBaseAnimatedWithPhysicsGameObject_YPos = hitY - FP_FromInteger(1);

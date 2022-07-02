@@ -75,7 +75,7 @@ void Bullet::VUpdate()
                     &field_14_pLine,
                     &hitX,
                     &hitY,
-                    field_2C_scale != FP_FromDouble(0.5) ? 7 : 0x70))
+                    field_2C_scale != FP_FromDouble(0.5) ? kFgWallsOrFloor : kBgWallsOrFloor))
             {
                 FP distHit = {};
                 FP distShot = {};
@@ -176,7 +176,7 @@ void Bullet::VUpdate()
                     &field_14_pLine,
                     &hitX,
                     &hitY,
-                    0x400))
+                    CollisionMask(eBulletWall_10)))
             {
                 relive_new Spark(hitX, hitY, FP_FromInteger(1), 9u, -31, 159);
                 New_Smoke_Particles_419A80(hitX, hitY, FP_FromInteger(1), 3, 0);

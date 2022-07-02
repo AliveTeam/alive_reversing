@@ -192,6 +192,10 @@ BirdPortal::BirdPortal(Path_BirdPortal* pTlv, s32 tlvInfo)
     field_60_pOrbWhirlWind = nullptr;
     field_5C_pThrowableTotalIndicator = nullptr;
 
+    // TODO: Clean up this hack by having a better way to match "any" type of line
+    CollisionMask allLinesHack;
+    allLinesHack.mMask = 0xFFFFFFFF;
+
     PathLine* pLine = nullptr;
     FP hitX = {};
     sCollisions->Raycast(
@@ -202,7 +206,7 @@ BirdPortal::BirdPortal(Path_BirdPortal* pTlv, s32 tlvInfo)
         &pLine,
         &hitX,
         &field_28_ypos,
-        0xFFFFFFFF); // -1 ??
+        allLinesHack);
 
     field_18_xpos = FP_FromInteger(pTlv->mTopLeft.x);
     field_68_sfx_ret = 0;
@@ -885,6 +889,10 @@ void BirdPortal::VExitPortal()
 
     if (pPortalExitTlv)
     {
+        // TODO: Clean up this hack by having a better way to match "any" type of line
+        CollisionMask allLinesHack;
+        allLinesHack.mMask = 0xFFFFFFFF;
+
         PathLine* pLine = nullptr;
         sCollisions->Raycast(
             FP_FromInteger(pPortalExitTlv->mTopLeft.x),
@@ -894,7 +902,7 @@ void BirdPortal::VExitPortal()
             &pLine,
             &field_20_exit_x,
             &field_24_exit_y,
-            0xFFFFFFFF); // -1 ??
+            allLinesHack);
 
         field_1C_ypos = field_24_exit_y - FP_FromInteger(55);
 

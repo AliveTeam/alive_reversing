@@ -74,7 +74,7 @@ void HoistParticle::VUpdate_431BD0()
                 &pLine,
                 &hitX,
                 &hitY,
-                mBaseAnimatedWithPhysicsGameObject_SpriteScale != FP_FromDouble(0.5) ? 7 : 0x70))
+                mBaseAnimatedWithPhysicsGameObject_SpriteScale != FP_FromDouble(0.5) ? kFgWallsOrFloor : kBgWallsOrFloor))
         {
             mBaseAnimatedWithPhysicsGameObject_YPos = hitY;
             mBaseAnimatedWithPhysicsGameObject_VelY = (mBaseAnimatedWithPhysicsGameObject_VelY * FP_FromDouble(-0.3));

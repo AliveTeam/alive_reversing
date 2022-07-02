@@ -322,7 +322,7 @@ s16 Grenade::InTheAir()
         &field_114_pCollisionLine,
         &hitX,
         &hitY,
-        mBaseAnimatedWithPhysicsGameObject_SpriteScale != FP_FromDouble(0.5) ? 1 : 0);
+        mBaseAnimatedWithPhysicsGameObject_SpriteScale != FP_FromDouble(0.5) ? kFgFloor : kBgFloor);
 
     result = bHit;
 
@@ -367,7 +367,7 @@ s16 Grenade::InTheAir()
         &field_114_pCollisionLine,
         &hitX,
         &hitY,
-        mBaseAnimatedWithPhysicsGameObject_SpriteScale != FP_FromDouble(0.5) ? 6 : 96);
+        mBaseAnimatedWithPhysicsGameObject_SpriteScale != FP_FromDouble(0.5) ? kFgWalls : kBgWalls);
 
     if (v20 == 1)
     {

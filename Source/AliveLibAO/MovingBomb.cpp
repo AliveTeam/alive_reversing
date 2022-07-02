@@ -105,7 +105,7 @@ MovingBomb::MovingBomb(Path_MovingBomb* pTlv, s32 tlvInfo)
             &BaseAliveGameObjectCollisionLine,
             &hitX,
             &hitY,
-            0x100))
+            CollisionMask(eTrackLine_8)))
     {
         mBaseAnimatedWithPhysicsGameObject_YPos = hitY;
         mBaseAnimatedWithPhysicsGameObject_XPos = hitX;
@@ -275,7 +275,7 @@ void MovingBomb::FollowLine()
                         &BaseAliveGameObjectCollisionLine,
                         &hitX,
                         &hitY,
-                        0x100))
+                        CollisionMask(eTrackLine_8)))
                 {
                     mBaseAnimatedWithPhysicsGameObject_YPos = hitY;
                 }
@@ -296,7 +296,7 @@ void MovingBomb::FollowLine()
                         &BaseAliveGameObjectCollisionLine,
                         &hitX,
                         &hitY,
-                        0x100))
+                        CollisionMask(eTrackLine_8)))
                 {
                     mBaseAnimatedWithPhysicsGameObject_XPos = hitX;
                 }

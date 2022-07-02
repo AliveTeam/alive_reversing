@@ -66,7 +66,7 @@ void BulletShell::VUpdate()
             &field_E4_pLine,
             &hitX,
             &hitY,
-            mBaseAnimatedWithPhysicsGameObject_SpriteScale != FP_FromDouble(0.5) ? 7 : 0x70)
+            mBaseAnimatedWithPhysicsGameObject_SpriteScale != FP_FromDouble(0.5) ? kFgWallsOrFloor : kBgWallsOrFloor)
         == 1)
     {
         if (field_E4_pLine->mLineType == eLineTypes ::eFloor_0 ||

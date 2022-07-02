@@ -154,7 +154,7 @@ Door::Door(Path_Door* pTlv, s32 tlvInfo)
                     &pLine,
                     &mBaseAnimatedWithPhysicsGameObject_XPos,
                     &mBaseAnimatedWithPhysicsGameObject_YPos,
-                    mBaseAnimatedWithPhysicsGameObject_SpriteScale != FP_FromDouble(0.5) ? 7 : 0x70))
+                        mBaseAnimatedWithPhysicsGameObject_SpriteScale != FP_FromDouble(0.5) ? kFgWallsOrFloor : kBgWallsOrFloor))
                 {
                     mBaseAnimatedWithPhysicsGameObject_YPos -= (FP_FromInteger(12) * mBaseAnimatedWithPhysicsGameObject_SpriteScale);
                     gMap.GetCurrentCamCoords(&mapCoords);
@@ -223,7 +223,7 @@ Door::Door(Path_Door* pTlv, s32 tlvInfo)
                 &pLine,
                 &mBaseAnimatedWithPhysicsGameObject_XPos,
                 &mBaseAnimatedWithPhysicsGameObject_YPos,
-                scale != FP_FromDouble(0.5) ? 7 : 0x70))
+                    scale != FP_FromDouble(0.5) ? kFgWallsOrFloor : kBgWallsOrFloor))
             {
                 mBaseAnimatedWithPhysicsGameObject_YPos += FP_FromInteger(4);
                 gMap.GetCurrentCamCoords(&mapCoords);
@@ -285,7 +285,7 @@ Door::Door(Path_Door* pTlv, s32 tlvInfo)
                                 &pLine,
                                 &mBaseAnimatedWithPhysicsGameObject_XPos,
                                 &mBaseAnimatedWithPhysicsGameObject_YPos,
-                                7))
+                                kFgWallsOrFloor)) // ?? only check bg for some reason
                         {
                             mBaseAnimatedWithPhysicsGameObject_YPos -= (FP_FromInteger(12) * mBaseAnimatedWithPhysicsGameObject_SpriteScale);
                             gMap.GetCurrentCamCoords(&mapCoords);

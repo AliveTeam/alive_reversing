@@ -94,7 +94,7 @@ RollingBall::RollingBall(Path_RollingBall* pTlv, s32 tlvInfo)
             &castX,
             &castY,
             // yeah this should be simplified, WTF!
-            mBaseAnimatedWithPhysicsGameObject_SpriteScale - FP_FromDouble(0.5) != FP_FromInteger(0) ? 1 : 0x10)
+            mBaseAnimatedWithPhysicsGameObject_SpriteScale - FP_FromDouble(0.5) != FP_FromInteger(0) ? kFgFloor : kBgFloor)
         == 1)
     {
         mBaseAnimatedWithPhysicsGameObject_YPos = castY;

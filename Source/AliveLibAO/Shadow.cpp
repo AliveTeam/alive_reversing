@@ -58,7 +58,7 @@ void Shadow::Calculate_Position(FP xpos, FP ypos, PSX_RECT* frameRect, FP sprite
             objY = ypos;
         }
 
-        const s32 lineType = spriteScale != FP_FromDouble(0.5) ? 7 : 0x70;
+        const CollisionMask lineType = spriteScale != FP_FromDouble(0.5) ? kFgWallsOrFloor : kBgWallsOrFloor;
         
         FP hitX = {};
         FP hitY = {};

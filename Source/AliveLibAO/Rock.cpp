@@ -258,7 +258,7 @@ void Rock::InTheAir()
             &field_114_pLine,
             &hitX,
             &hitY,
-            mBaseAnimatedWithPhysicsGameObject_SpriteScale != FP_FromInteger(1) ? 0x70 : 0x07))
+            mBaseAnimatedWithPhysicsGameObject_SpriteScale == FP_FromInteger(1) ? kFgWallsOrFloor : kBgWallsOrFloor))
     {
         switch (field_114_pLine->mLineType)
         {

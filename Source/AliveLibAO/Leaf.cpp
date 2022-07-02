@@ -39,7 +39,7 @@ void Leaf::VUpdate()
         &pLine,
         &hitX,
         &hitY,
-        17);
+        kFgOrBgFloor);
 
     // Hit the floor, die but only if in background..
     if (bCollision && mBaseAnimatedWithPhysicsGameObject_SpriteScale == FP_FromDouble(0.5) && pLine->mLineType == eLineTypes::eFloor_0)

@@ -188,7 +188,7 @@ Scrab::Scrab(Path_Scrab* pTlv, s32 tlvInfo)
             &BaseAliveGameObjectCollisionLine,
             &hitX,
             &hitY,
-            mBaseAnimatedWithPhysicsGameObject_SpriteScale != FP_FromDouble(0.5) ? 1 : 0x10)
+            mBaseAnimatedWithPhysicsGameObject_SpriteScale != FP_FromDouble(0.5) ? kFgFloor : kBgFloor)
         == 1)
     {
         mBaseAnimatedWithPhysicsGameObject_YPos = hitY;
@@ -278,7 +278,7 @@ void Scrab::VUpdate()
                 &BaseAliveGameObjectCollisionLine,
                 &hitX,
                 &hitY,
-                mBaseAnimatedWithPhysicsGameObject_SpriteScale != FP_FromDouble(0.5) ? 1 : 0x10)
+                mBaseAnimatedWithPhysicsGameObject_SpriteScale != FP_FromDouble(0.5) ? kFgFloor : kBgFloor)
             == 1)
         {
             mBaseAnimatedWithPhysicsGameObject_YPos = hitY;

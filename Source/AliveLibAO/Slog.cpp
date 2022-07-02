@@ -579,7 +579,7 @@ void Slog::Init()
             &BaseAliveGameObjectCollisionLine,
             &hitX,
             &hitY,
-            mBaseAnimatedWithPhysicsGameObject_SpriteScale == FP_FromInteger(1) ? 0x01 : 0x10)
+            mBaseAnimatedWithPhysicsGameObject_SpriteScale == FP_FromInteger(1) ? kFgFloor : kBgFloor)
         == 1)
     {
         mBaseAnimatedWithPhysicsGameObject_YPos = hitY;
@@ -1605,7 +1605,7 @@ void Slog::Motion_19_JumpForwards_475610()
             &pLine,
             &hitX,
             &hitY,
-            mBaseAnimatedWithPhysicsGameObject_SpriteScale != FP_FromDouble(0.5) ? 6 : 0x60)
+            mBaseAnimatedWithPhysicsGameObject_SpriteScale != FP_FromDouble(0.5) ? kFgWalls : kBgWalls)
         == 1)
     {
         switch (pLine->mLineType)
@@ -1640,7 +1640,7 @@ void Slog::Motion_19_JumpForwards_475610()
             &pLine,
             &hitX,
             &hitY,
-            mBaseAnimatedWithPhysicsGameObject_SpriteScale != FP_FromDouble(0.5) ? 1 : 0x10))
+            mBaseAnimatedWithPhysicsGameObject_SpriteScale != FP_FromDouble(0.5) ? kFgFloor : kBgFloor))
     {
         switch (pLine->mLineType)
         {

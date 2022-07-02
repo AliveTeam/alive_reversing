@@ -808,7 +808,7 @@ void Elum::HandleElumPathTrans_411460()
             &pLine,
             &hitX,
             &hitY,
-            mBaseAnimatedWithPhysicsGameObject_SpriteScale != FP_FromDouble(0.5) ? 7 : 0x70))
+            mBaseAnimatedWithPhysicsGameObject_SpriteScale != FP_FromDouble(0.5) ? kFgWallsOrFloor : kBgWallsOrFloor))
     {
         mBaseAnimatedWithPhysicsGameObject_YPos = hitY;
         BaseAliveGameObjectCollisionLine = pLine;
@@ -3577,7 +3577,7 @@ void Elum::VUpdate()
                         &pLine,
                         &hitX,
                         &hitY,
-                        mBaseAnimatedWithPhysicsGameObject_SpriteScale != FP_FromDouble(0.5) ? 7 : 0x70))
+                        mBaseAnimatedWithPhysicsGameObject_SpriteScale != FP_FromDouble(0.5) ? kFgWallsOrFloor : kBgWallsOrFloor))
                 {
                     mBaseAnimatedWithPhysicsGameObject_YPos = hitY;
                     BaseAliveGameObjectCollisionLine = pLine;

@@ -221,7 +221,7 @@ void FallingItem::VUpdate()
                     &pLine,
                     &hitX,
                     &hitY,
-                    mBaseAnimatedWithPhysicsGameObject_SpriteScale != FP_FromDouble(0.5) ? 1 : 16)
+                    mBaseAnimatedWithPhysicsGameObject_SpriteScale != FP_FromDouble(0.5) ? kFgFloor : kBgFloor)
                 == 1)
             {
                 mBaseAnimatedWithPhysicsGameObject_YPos = hitY;

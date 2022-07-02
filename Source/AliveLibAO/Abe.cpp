@@ -4580,7 +4580,7 @@ void Abe::Motion_3_Fall_42E7F0()
                 &pPathLine,
                 &hitX,
                 &hitY,
-                mBaseAnimatedWithPhysicsGameObject_SpriteScale != FP_FromDouble(0.5) ? 1 : 0x10))
+                mBaseAnimatedWithPhysicsGameObject_SpriteScale != FP_FromDouble(0.5) ? kFgFloor : kBgFloor))
         {
             mBaseAnimatedWithPhysicsGameObject_VelX = FP_FromInteger(0);
             mBaseAnimatedWithPhysicsGameObject_VelY = FP_FromInteger(0);
@@ -4853,7 +4853,7 @@ void Abe::Motion_17_HoistIdle_4269E0()
                         &pPathLine,
                         &hitX,
                         &hitY,
-                        mBaseAnimatedWithPhysicsGameObject_SpriteScale != FP_FromDouble(0.5) ? 1 : 0x10))
+                        mBaseAnimatedWithPhysicsGameObject_SpriteScale != FP_FromDouble(0.5) ? kFgFloor : kBgFloor))
                 {
                     mBaseAnimatedWithPhysicsGameObject_YPos = hitY;
                     BaseAliveGameObjectCollisionLine = pPathLine;
@@ -5056,7 +5056,7 @@ void Abe::Motion_19_CrouchIdle_4284C0()
                 &pLine,
                 &hitX,
                 &hitY,
-                mBaseAnimatedWithPhysicsGameObject_SpriteScale != FP_FromDouble(0.5) ? 8 : 0x80))
+                mBaseAnimatedWithPhysicsGameObject_SpriteScale != FP_FromDouble(0.5) ? kFgCeiling : kBgCeiling))
         {
             mCurrentMotion = eAbeMotions::Motion_20_CrouchToStand_428AF0;
             return;
@@ -5191,7 +5191,7 @@ Bool32 Abe::Is_Celling_Above()
                &pLine,
                &hitX,
                &hitY,
-               mBaseAnimatedWithPhysicsGameObject_SpriteScale != FP_FromDouble(0.5) ? 8 : 128)
+               mBaseAnimatedWithPhysicsGameObject_SpriteScale != FP_FromDouble(0.5) ? kFgCeiling : kBgCeiling)
         != 0;
 }
 
@@ -5774,7 +5774,7 @@ void Abe::Motion_33_RunJumpMid_426FA0()
                     &pLine,
                     &hitX,
                     &hitY,
-                    mBaseAnimatedWithPhysicsGameObject_SpriteScale != FP_FromDouble(0.5) ? 1 : 16))
+                    mBaseAnimatedWithPhysicsGameObject_SpriteScale != FP_FromDouble(0.5) ? kFgFloor : kBgFloor))
             {
                 mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(
                     (BaseAliveGameObjectPathTLV->mBottomRight.x + BaseAliveGameObjectPathTLV->mTopLeft.x) / 2);
@@ -7194,7 +7194,7 @@ void Abe::Motion_62_LoadedSaveSpawn_45ADD0()
                 &pLine2,
                 &hitX2,
                 &hitY2,
-                1 << pSaveData->field_23A_mode_mask))
+                CollisionMask(static_cast<eLineTypes>(pSaveData->field_23A_mode_mask))))
         {
             sActiveHero_507678->BaseAliveGameObjectCollisionLine = pLine2;
             sActiveHero_507678->mBaseAnimatedWithPhysicsGameObject_YPos = hitY2;
@@ -7288,7 +7288,7 @@ void Abe::Motion_62_LoadedSaveSpawn_45ADD0()
                             &pLine,
                             &hitX,
                             &hitY,
-                            1 << pSaveData->field_270_elum_line_type))
+                            CollisionMask(static_cast<eLineTypes>(pSaveData->field_270_elum_line_type))))
                     {
                         gElum_507680->BaseAliveGameObjectCollisionLine = pLine;
                         gElum_507680->mCurrentMotion = eElumMotions::Motion_1_Idle_412990;
@@ -7423,7 +7423,7 @@ void Abe::Motion_67_ToOffScreenHoist_428C50()
             &pLine,
             &hitX,
             &hitY,
-            mBaseAnimatedWithPhysicsGameObject_SpriteScale != FP_FromDouble(0.5) ? 1 : 0x10))
+            mBaseAnimatedWithPhysicsGameObject_SpriteScale != FP_FromDouble(0.5) ? kFgFloor : kBgFloor))
     {
         mBaseAnimatedWithPhysicsGameObject_YPos = hitY;
         BaseAliveGameObjectCollisionLine = pLine;
@@ -9814,7 +9814,7 @@ void Abe::Motion_156_DoorEnter_42D370()
                     &BaseAliveGameObjectCollisionLine,
                     &hitX,
                     &hitY,
-                    mBaseAnimatedWithPhysicsGameObject_SpriteScale != FP_FromDouble(0.5) ? 7 : 0x70))
+                    mBaseAnimatedWithPhysicsGameObject_SpriteScale != FP_FromDouble(0.5) ? kFgWallsOrFloor : kBgWallsOrFloor))
             {
                 mBaseAnimatedWithPhysicsGameObject_YPos = hitY;
             }

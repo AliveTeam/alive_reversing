@@ -106,7 +106,7 @@ void BeeSwarmHole::VUpdate()
                     &pLine,
                     &targetX,
                     &targetY,
-                    0x100)
+                    CollisionMask(eTrackLine_8))
                     == 1)
                 {
                     pSwarm->FollowLine(pLine, targetX, targetY, speed + FP_FromInteger(1));

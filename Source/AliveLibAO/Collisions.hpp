@@ -24,6 +24,88 @@ enum eLineTypes : u8
     eBackgroundDynamicCollision_36 = 36,
 };
 
+
+class CollisionMask final
+{
+public:
+    CollisionMask()
+    {
+
+    }
+
+    constexpr explicit CollisionMask(eLineTypes lineType)
+    {
+        Add(lineType);
+    }
+
+    constexpr CollisionMask(eLineTypes line1, eLineTypes line2)
+    {
+        Add(line1);
+        Add(line2);
+    }
+
+    constexpr CollisionMask(eLineTypes line1, eLineTypes line2, eLineTypes line3)
+    {
+        Add(line1);
+        Add(line2);
+        Add(line3);
+    }
+
+    constexpr CollisionMask(eLineTypes line1, eLineTypes line2, eLineTypes line3, eLineTypes line4)
+    {
+        Add(line1);
+        Add(line2);
+        Add(line3);
+        Add(line4);
+    }
+
+    constexpr CollisionMask(eLineTypes line1, eLineTypes line2, eLineTypes line3, eLineTypes line4, eLineTypes line5)
+    {
+        Add(line1);
+        Add(line2);
+        Add(line3);
+        Add(line4);
+        Add(line5);
+    }
+
+    constexpr void Add(eLineTypes lineType)
+    {
+        mMask |= (1 << (static_cast<u32>(lineType) % 32));
+    }
+
+    constexpr u32 Mask() const noexcept
+    {
+        return mMask;
+    }
+
+public:
+    u32 mMask = 0;
+};
+
+inline constexpr CollisionMask kFgWalls(eWallLeft_1, eWallRight_2);
+inline constexpr CollisionMask kBgWalls(eBackgroundWallLeft_5, eBackgroundWallRight_6);
+
+inline constexpr CollisionMask kFgFloor(eFloor_0, eDynamicCollision_32);
+inline constexpr CollisionMask kBgFloor(eBackgroundFloor_4, eBackgroundDynamicCollision_36);
+
+inline constexpr CollisionMask kFgOrBgFloor(eFloor_0, eDynamicCollision_32, eBackgroundFloor_4, eBackgroundDynamicCollision_36);
+
+inline constexpr CollisionMask kFgFloorCeilingOrWalls(eCeiling_3, eWallRight_2, eWallLeft_1, eFloor_0, eDynamicCollision_32);
+inline constexpr CollisionMask kBgFloorCeilingOrWalls(eBackgroundCeiling_7, eBackgroundWallRight_6, eBackgroundWallLeft_5, eBackgroundFloor_4, eBackgroundDynamicCollision_36);
+
+inline constexpr CollisionMask kFgCeiling(eCeiling_3);
+inline constexpr CollisionMask kBgCeiling(eBackgroundCeiling_7);
+
+inline constexpr CollisionMask kFgFloorOrCeiling(eFloor_0, eDynamicCollision_32, eCeiling_3);
+inline constexpr CollisionMask kBgFloorOrCeiling(eBackgroundFloor_4, eBackgroundDynamicCollision_36, eBackgroundCeiling_7);
+
+
+inline constexpr CollisionMask kFgFloorWallOrCeiling(eFloor_0, eDynamicCollision_32, eWallLeft_1, eWallRight_2, eCeiling_3);
+inline constexpr CollisionMask kBgFloorWallOrCeiling(eBackgroundFloor_4, eBackgroundDynamicCollision_36, eBackgroundWallLeft_5, eBackgroundWallRight_6, eBackgroundCeiling_7);
+
+inline constexpr CollisionMask kFgWallsOrFloor(eFloor_0, eDynamicCollision_32, eWallLeft_1, eWallRight_2);
+inline constexpr CollisionMask kBgWallsOrFloor(eBackgroundFloor_4, eBackgroundDynamicCollision_36, eBackgroundWallLeft_5, eBackgroundWallRight_6);
+
 class PathLine final
 {
 public:
@@ -49,7 +131,7 @@ public:
 
     PathLine* Add_Dynamic_Collision_Line(s16 x1, s16 y1, s16 x2, s16 y2, eLineTypes mode);
 
-    s16 Raycast(FP X1_16_16, FP Y1_16_16, FP X2_16_16, FP Y2_16_16, PathLine** ppLine, FP* hitX, FP* hitY, u32 modeMask);
+    s16 Raycast(FP X1_16_16, FP Y1_16_16, FP X2_16_16, FP Y2_16_16, PathLine** ppLine, FP* hitX, FP* hitY, const CollisionMask& modeMask);
 
     PathLine* PreviousLine(PathLine* pLine);
 

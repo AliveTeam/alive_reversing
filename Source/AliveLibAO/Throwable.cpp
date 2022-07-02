@@ -93,7 +93,7 @@ void BaseThrowable::BaseAddToPlatform()
             &pLine,
             &hitX,
             &hitY,
-            scale != FP_FromInteger(0) ? 7 : 0x70))
+            scale != FP_FromInteger(0) ? kFgWallsOrFloor : kBgWallsOrFloor))
     {
         if (pLine->mLineType == eLineTypes::eDynamicCollision_32 ||
             pLine->mLineType == eLineTypes::eBackgroundDynamicCollision_36)

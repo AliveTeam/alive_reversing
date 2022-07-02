@@ -193,7 +193,7 @@ void HoneySack::VUpdate()
                     &pLine,
                     &hitX,
                     &hitY,
-                    mBaseAnimatedWithPhysicsGameObject_SpriteScale == FP_FromInteger(1) ? 0x01 : 0x10))
+                    mBaseAnimatedWithPhysicsGameObject_SpriteScale == FP_FromInteger(1) ? kFgFloor : kBgFloor))
             {
                 SfxPlayMono(SoundEffect::MountingElum_38, 90, 0);
                 Environment_SFX_42A220(EnvironmentSfx::eHitGroundSoft_6, 90, -1000, nullptr);

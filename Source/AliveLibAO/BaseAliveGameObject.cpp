@@ -115,7 +115,7 @@ void BaseAliveGameObject::VSetXSpawn(s16 camWorldX, s32 screenXPos)
                     &pLine,
                     &hitX,
                     &hitY,
-                    1 << BaseAliveGameObjectCollisionLine->mLineType))
+                    CollisionMask(BaseAliveGameObjectCollisionLine->mLineType)))
             {
                 BaseAliveGameObjectCollisionLine = pLine;
                 mBaseAnimatedWithPhysicsGameObject_YPos = hitY;
@@ -132,7 +132,7 @@ void BaseAliveGameObject::VSetXSpawn(s16 camWorldX, s32 screenXPos)
                         &pLine,
                         &hitX,
                         &hitY,
-                        1 << BaseAliveGameObjectCollisionLine->mLineType))
+                        CollisionMask(BaseAliveGameObjectCollisionLine->mLineType)))
                 {
                     BaseAliveGameObjectCollisionLine = pLine;
                     mBaseAnimatedWithPhysicsGameObject_YPos = hitY;
@@ -153,7 +153,7 @@ void BaseAliveGameObject::VSetXSpawn(s16 camWorldX, s32 screenXPos)
                     &pLine,
                     &hitX,
                     &hitY,
-                    mBaseAnimatedWithPhysicsGameObject_SpriteScale != FP_FromDouble(0.5) ? 7 : 0x70))
+                    mBaseAnimatedWithPhysicsGameObject_SpriteScale != FP_FromDouble(0.5) ? kFgWallsOrFloor : kBgWallsOrFloor))
             {
                 mBaseAnimatedWithPhysicsGameObject_YPos += hitY - BaseAliveGameObjectLastLineYPos;
             }
@@ -235,7 +235,7 @@ void BaseAliveGameObject::VCheckCollisionLineStillValid_401A90(s32 distance)
         FP hitX = {};
         FP hitY = {};
 
-        const s32 mask = mBaseAnimatedWithPhysicsGameObject_SpriteScale != FP_FromDouble(0.5) ? 7 : 0x70;
+        const CollisionMask mask = mBaseAnimatedWithPhysicsGameObject_SpriteScale != FP_FromDouble(0.5) ? kFgWallsOrFloor : kBgWallsOrFloor;
         if (sCollisions->Raycast(
                 mBaseAnimatedWithPhysicsGameObject_XPos,
                 mBaseAnimatedWithPhysicsGameObject_YPos - FP_FromInteger(distance),
@@ -411,7 +411,7 @@ s16 BaseAliveGameObject::Check_IsOnEndOfLine_4021A0(s16 direction, s16 dist)
                &pLine,
                &hitX,
                &hitY,
-               mBaseAnimatedWithPhysicsGameObject_SpriteScale != FP_FromDouble(0.5) ? 7 : 0x70)
+               mBaseAnimatedWithPhysicsGameObject_SpriteScale != FP_FromDouble(0.5) ? kFgWallsOrFloor : kBgWallsOrFloor)
         == 0;
 }
 
@@ -534,7 +534,7 @@ void BaseAliveGameObject::VOnPathTransition_401470(s16 camWorldX, s32 camWorldY,
                     &pLine,
                     &hitX,
                     &hitY,
-                    mBaseAnimatedWithPhysicsGameObject_SpriteScale != FP_FromDouble(0.5) ? 7 : 0x70))
+                    mBaseAnimatedWithPhysicsGameObject_SpriteScale != FP_FromDouble(0.5) ? kFgWallsOrFloor : kBgWallsOrFloor))
             {
                 BaseAliveGameObjectCollisionLine = pLine;
                 mBaseAnimatedWithPhysicsGameObject_YPos = hitY;
@@ -564,7 +564,7 @@ void BaseAliveGameObject::VOnPathTransition_401470(s16 camWorldX, s32 camWorldY,
                     &pLine,
                     &hitX,
                     &hitY,
-                    mBaseAnimatedWithPhysicsGameObject_SpriteScale != FP_FromDouble(0.5) ? 7 : 0x70))
+                    mBaseAnimatedWithPhysicsGameObject_SpriteScale != FP_FromDouble(0.5) ? kFgWallsOrFloor : kBgWallsOrFloor))
             {
                 mBaseAnimatedWithPhysicsGameObject_YPos += hitY - BaseAliveGameObjectLastLineYPos;
             }
@@ -749,7 +749,7 @@ s16 BaseAliveGameObject::WallHit_401930(FP offY, FP offX)
                &pLine,
                &offX,
                &offY,
-               mBaseAnimatedWithPhysicsGameObject_SpriteScale != FP_FromDouble(0.5) ? 6 : 0x60)
+               mBaseAnimatedWithPhysicsGameObject_SpriteScale != FP_FromDouble(0.5) ? kFgWalls : kBgWalls)
         != 0;
 }
 
@@ -776,7 +776,7 @@ s16 BaseAliveGameObject::InAirCollision_4019C0(PathLine** ppLine, FP* hitX, FP* 
         ppLine,
         hitX,
         hitY,
-        mBaseAnimatedWithPhysicsGameObject_SpriteScale != FP_FromDouble(0.5) ? 7 : 0x70);
+        mBaseAnimatedWithPhysicsGameObject_SpriteScale != FP_FromDouble(0.5) ? kFgWallsOrFloor : kBgWallsOrFloor);
 }
 
 void BaseAliveGameObject::OnResourceLoaded_4019A0(BaseAliveGameObject* ppRes)

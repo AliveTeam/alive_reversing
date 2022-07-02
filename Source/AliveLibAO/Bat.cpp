@@ -43,7 +43,7 @@ Bat::Bat(Path_Bat* pTlv, s32 tlvInfo)
         &field_E4_pLine,
         &hitX,
         &hitY,
-        0x100);
+        CollisionMask(eTrackLine_8));
 
     field_F0_tlvInfo = tlvInfo;
 

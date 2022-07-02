@@ -156,7 +156,7 @@ inline Fixed_24_8 operator/(const Fixed_24_8& lhs, const Fixed_24_8& rhs)
     return r;
 }
 
-s16 Collisions::Raycast(FP X1_16_16, FP Y1_16_16, FP X2_16_16, FP Y2_16_16, PathLine** ppLine, FP* hitX, FP* hitY, u32 modeMask)
+s16 Collisions::Raycast(FP X1_16_16, FP Y1_16_16, FP X2_16_16, FP Y2_16_16, PathLine** ppLine, FP* hitX, FP* hitY, const CollisionMask& modeMask)
 {
     // NOTE: The local static k256_dword_5BC034 is omitted since its actually just a constant of 256
 
@@ -187,7 +187,7 @@ s16 Collisions::Raycast(FP X1_16_16, FP Y1_16_16, FP X2_16_16, FP Y2_16_16, Path
     for (s32 i = 0; i < field_C_max_count; i++)
     {
         PathLine* pLine = &field_0_pArray[i];
-        if (!(1 << (pLine->mLineType % 32) & modeMask))
+        if (!(1 << (pLine->mLineType % 32) & modeMask.Mask()))
         {
             // Not a match on type
             continue;

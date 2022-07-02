@@ -198,7 +198,7 @@ void TimedMine::StickToLiftPoint()
             &pLine,
             &hitX,
             &hitY,
-            (mBaseAnimatedWithPhysicsGameObject_SpriteScale != FP_FromDouble(0.5)) ? 7 : 0x70))
+            (mBaseAnimatedWithPhysicsGameObject_SpriteScale != FP_FromDouble(0.5)) ? kFgWallsOrFloor : kBgWallsOrFloor))
     {
         if (pLine->mLineType == eLineTypes ::eDynamicCollision_32 ||
             pLine->mLineType == eLineTypes::eBackgroundDynamicCollision_36)

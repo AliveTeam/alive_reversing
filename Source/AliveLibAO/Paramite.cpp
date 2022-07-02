@@ -183,7 +183,7 @@ Paramite::Paramite(Path_Paramite* pTlv, s32 tlvInfo)
             &BaseAliveGameObjectCollisionLine,
             &hitX,
             &hitY,
-            mBaseAnimatedWithPhysicsGameObject_SpriteScale != FP_FromInteger(0) ? 0x01 : 0x10)
+            mBaseAnimatedWithPhysicsGameObject_SpriteScale != FP_FromInteger(0) ? kFgFloor : kBgFloor)
         == 1)
     {
         SetCurrentMotion(eParamiteMotions::Motion_0_Idle);
@@ -3568,7 +3568,7 @@ void Paramite::Motion_18_RunningAttack()
                 &pLine,
                 &hitX,
                 &hitY,
-                mBaseAnimatedWithPhysicsGameObject_SpriteScale != FP_FromDouble(0.5) ? 7 : 0x70))
+                mBaseAnimatedWithPhysicsGameObject_SpriteScale != FP_FromDouble(0.5) ? kFgWallsOrFloor : kBgWallsOrFloor))
         {
             if (pLine->mLineType == eLineTypes ::eDynamicCollision_32 ||
                 pLine->mLineType == eLineTypes::eBackgroundDynamicCollision_36)
@@ -3630,7 +3630,7 @@ void Paramite::Motion_20_SurpriseWeb()
             &BaseAliveGameObjectCollisionLine,
             &hitX,
             &hitY,
-            mBaseAnimatedWithPhysicsGameObject_SpriteScale != FP_FromDouble(0.5) ? 1 : 0x10)
+            mBaseAnimatedWithPhysicsGameObject_SpriteScale != FP_FromDouble(0.5) ? kFgFloor : kBgFloor)
         == 1)
     {
         mBaseAnimatedWithPhysicsGameObject_YPos = hitY;
