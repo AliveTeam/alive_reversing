@@ -10,12 +10,12 @@ namespace AO {
 
 struct Path_Dove final : public Path_TLV
 {
-    s16 field_18_dove_count;
-    Choice_short field_1A_pixel_perfect;
-    Scale_short field_1C_scale;
+    s16 mDoveCount;
+    Choice_short mPixelPerfect;
+    Scale_short mScale;
     s16 field_1E_pad;
 };
-ALIVE_ASSERT_SIZEOF(Path_Dove, 0x20);
+ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Dove, 0x20);
 
 class Dove final : public BaseAnimatedWithPhysicsGameObject
 {
@@ -32,11 +32,11 @@ public:
     void AsAlmostACircle(FP xpos, FP ypos, u8 angle);
     void AsACircle(FP xpos, FP ypos, u8 angle);
     void AsJoin(FP xpos, FP ypos);
-    void FlyAway(s16 a2);
+    void FlyAway(bool spookedInstantly);
 
-    s16 field_E4_counter;
-    s32 field_E8_tlvInfo;
-    s16 field_EC_keepInGlobalArray;
+    s16 mFlyAwayCounter = 0;
+    s32 mTlvInfo = 0;
+    s16 mKeepInGlobalArray = 0;
     enum class State : s16
     {
         eOnGround_0 = 0,
@@ -45,13 +45,13 @@ public:
         eCircle_3 = 3,
         eAlmostACircle_4 = 4,
     };
-    State field_EE_state;
-    FP field_F0_xJoin;
-    FP field_F4_yJoin;
-    s32 field_F8_timer;
-    s8 field_FC_angle;
-    FP field_100_prevX;
-    FP field_104_prevY;
+    State mDoveState = State::eOnGround_0;
+    FP mJoinX = {};
+    FP mJoinY = {};
+    s32 mJoinDeadTimer = 0;
+    s8 mAngle = 0;
+    FP mPrevX_Unused = {};
+    FP mPrevY_Unused = {};
 };
 ALIVE_ASSERT_SIZEOF(Dove, 0x108);
 

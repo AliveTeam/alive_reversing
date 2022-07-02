@@ -815,9 +815,9 @@ struct Path_Dove final : public ReliveAPI::TlvObjectBaseAO
 {
     CTOR_AO(Path_Dove, "Dove", AO::TlvTypes::Dove_12)
     {
-        ADD("Dove Count", mTlv.field_18_dove_count);
-        ADD("Pixel Perfect", mTlv.field_1A_pixel_perfect);
-        ADD("Scale", mTlv.field_1C_scale);
+        ADD("Dove Count", mTlv.mDoveCount);
+        ADD("Pixel Perfect", mTlv.mPixelPerfect);
+        ADD("Scale", mTlv.mScale);
     }
 };
 
@@ -856,10 +856,10 @@ struct Path_Bat final : public ReliveAPI::TlvObjectBaseAO
 {
     CTOR_AO(Path_Bat, "Bat", AO::TlvTypes::Bat_49)
     {
-        ADD("Ticks Before Moving", mTlv.field_18_ticks_before_moving);
-        ADD("Speed", mTlv.field_1A_speed);
-        ADD("Scale", mTlv.field_1C_scale);
-        ADD("Attack Duration", mTlv.field_1E_attack_duration);
+        ADD("Ticks Before Moving", mTlv.mTicksBeforeMoving);
+        ADD("Speed", mTlv.mSpeed);
+        ADD("Scale", mTlv.mScale);
+        ADD("Attack Duration", mTlv.mAttackDuration);
 
         //ADD_RESOURCE(AnimId::Bat, ReliveAPI::AddResourceTo::CameraBlock);
         //ADD_RESOURCE(AnimId::Bat_Flying, ReliveAPI::AddResourceTo::CameraBlock);

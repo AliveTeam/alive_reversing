@@ -4227,7 +4227,7 @@ s16 Mudokon::Brain_12_Escape()
     switch (field_1BA_brain_sub_state)
     {
         case 0:
-            if (pPortal->VStateIs6())
+            if (pPortal->VActivePortal())
             {
                 field_1C0_timer = sGnFrame + (Math_NextRandom() % 8);
                 return 1;

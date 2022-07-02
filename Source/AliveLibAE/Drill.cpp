@@ -58,9 +58,9 @@ Drill::Drill(Path_Drill* pTlv, u32 tlvInfo)
         field_128_flags.Set(Flags::eBit1_StartOff);
     }
 
-    field_F8_switch_id = tlvData.field_16_switch_id;
+    mDrillSwitchId = tlvData.mSwitchId;
 
-    if (SwitchStates_Get(field_F8_switch_id) && field_128_flags.Get(Flags::eBit1_StartOff))
+    if (SwitchStates_Get(mDrillSwitchId) && field_128_flags.Get(Flags::eBit1_StartOff))
     {
         field_128_flags.Set(Flags::eBit2_ToggleStartState_StartOn);
     }
@@ -78,7 +78,7 @@ Drill::Drill(Path_Drill* pTlv, u32 tlvInfo)
         mBaseAnimatedWithPhysicsGameObject_Scale = Scale::Bg;
     }
 
-    field_FA_direction = tlvData.field_26_direction;
+    mDrillDirection = tlvData.field_26_direction;
     if (tlvData.field_24_bStart_position_bottom == Choice_short::eYes_1)
     {
         field_128_flags.Set(Flags::eBit6_StartPosIsBottom);
@@ -92,11 +92,11 @@ Drill::Drill(Path_Drill* pTlv, u32 tlvInfo)
     {
         if (field_128_flags.Get(Flags::eBit6_StartPosIsBottom))
         {
-            field_F4_state = DrillStates::State_2_GoingUp;
+            mDrillState = DrillStates::State_2_GoingUp;
         }
         else
         {
-            field_F4_state = DrillStates::State_1_Going_Down;
+            mDrillState = DrillStates::State_1_Going_Down;
         }
 
         const CameraPos direction = gMap.GetDirection(
@@ -104,15 +104,15 @@ Drill::Drill(Path_Drill* pTlv, u32 tlvInfo)
             mBaseAnimatedWithPhysicsGameObject_PathNumber,
             mBaseAnimatedWithPhysicsGameObject_XPos,
             mBaseAnimatedWithPhysicsGameObject_YPos);
-        field_10C_audio_channels_mask = SFX_Play_Camera(SoundEffect::DrillMovement_97, 25, direction);
+        mAudioChannelsMask = SFX_Play_Camera(SoundEffect::DrillMovement_97, 25, direction);
     }
 
-    switch (field_FA_direction)
+    switch (mDrillDirection)
     {
         case DrillDirection::eDown_0:
-            field_110_xPos = FP_FromInteger(pTlv->mTopLeft.x + 12);
-            mBaseAnimatedWithPhysicsGameObject_XPos = field_110_xPos;
-            field_114_yPos = FP_FromInteger(pTlv->mBottomRight.y);
+            mAdjustedXPos = FP_FromInteger(pTlv->mTopLeft.x + 12);
+            mBaseAnimatedWithPhysicsGameObject_XPos = mAdjustedXPos;
+            mAdjustedYPos = FP_FromInteger(pTlv->mBottomRight.y);
 
             if (field_128_flags.Get(Flags::eBit2_ToggleStartState_StartOn))
             {
@@ -125,22 +125,22 @@ Drill::Drill(Path_Drill* pTlv, u32 tlvInfo)
                 mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
             }
 
-            field_F6_width = pTlv->mBottomRight.y - pTlv->mTopLeft.y;
+            mDrillDistance = pTlv->mBottomRight.y - pTlv->mTopLeft.y;
             if (field_128_flags.Get(Flags::eBit6_StartPosIsBottom))
             {
                 field_124_xyoff = FP_FromInteger(0);
             }
             else
             {
-                field_124_xyoff = FP_FromInteger(field_F6_width);
+                field_124_xyoff = FP_FromInteger(mDrillDistance);
             }
-            mBaseAnimatedWithPhysicsGameObject_YPos = field_114_yPos - field_124_xyoff;
+            mBaseAnimatedWithPhysicsGameObject_YPos = mAdjustedYPos - field_124_xyoff;
             break;
 
         case DrillDirection::eRight_1:
-            field_110_xPos = FP_FromInteger(pTlv->mTopLeft.x + 12);
-            field_114_yPos = FP_FromInteger(pTlv->mBottomRight.y);
-            mBaseAnimatedWithPhysicsGameObject_YPos = field_114_yPos;
+            mAdjustedXPos = FP_FromInteger(pTlv->mTopLeft.x + 12);
+            mAdjustedYPos = FP_FromInteger(pTlv->mBottomRight.y);
+            mBaseAnimatedWithPhysicsGameObject_YPos = mAdjustedYPos;
 
             if (field_128_flags.Get(Flags::eBit2_ToggleStartState_StartOn))
             {
@@ -153,24 +153,24 @@ Drill::Drill(Path_Drill* pTlv, u32 tlvInfo)
                 mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
             }
 
-            field_F6_width = pTlv->mBottomRight.x - pTlv->mTopLeft.x;
+            mDrillDistance = pTlv->mBottomRight.x - pTlv->mTopLeft.x;
             if (field_128_flags.Get(Flags::eBit6_StartPosIsBottom))
             {
                 field_124_xyoff = FP_FromInteger(0);
             }
             else
             {
-                field_124_xyoff = FP_FromInteger(field_F6_width);
+                field_124_xyoff = FP_FromInteger(mDrillDistance);
             }
-            mBaseAnimatedWithPhysicsGameObject_XPos = field_124_xyoff + field_110_xPos;
+            mBaseAnimatedWithPhysicsGameObject_XPos = field_124_xyoff + mAdjustedXPos;
             break;
 
         case DrillDirection::eLeft_2:
             mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit5_FlipX);
 
-            field_110_xPos = FP_FromInteger(pTlv->mBottomRight.x - 12);
-            field_114_yPos = FP_FromInteger(pTlv->mBottomRight.y);
-            mBaseAnimatedWithPhysicsGameObject_YPos = field_114_yPos;
+            mAdjustedXPos = FP_FromInteger(pTlv->mBottomRight.x - 12);
+            mAdjustedYPos = FP_FromInteger(pTlv->mBottomRight.y);
+            mBaseAnimatedWithPhysicsGameObject_YPos = mAdjustedYPos;
 
             if (field_128_flags.Get(Flags::eBit2_ToggleStartState_StartOn))
             {
@@ -183,21 +183,21 @@ Drill::Drill(Path_Drill* pTlv, u32 tlvInfo)
                 mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
             }
 
-            field_F6_width = pTlv->mBottomRight.x - pTlv->mTopLeft.x;
+            mDrillDistance = pTlv->mBottomRight.x - pTlv->mTopLeft.x;
             if (field_128_flags.Get(Flags::eBit6_StartPosIsBottom))
             {
                 field_124_xyoff = FP_FromInteger(0);
             }
             else
             {
-                field_124_xyoff = FP_FromInteger(field_F6_width);
+                field_124_xyoff = FP_FromInteger(mDrillDistance);
             }
-            mBaseAnimatedWithPhysicsGameObject_XPos = field_110_xPos - field_124_xyoff;
+            mBaseAnimatedWithPhysicsGameObject_XPos = mAdjustedXPos - field_124_xyoff;
             break;
     }
 
-    field_FE_max_off_time = tlvData.field_14_max_off_time;
-    field_FC_min_off_time = tlvData.field_12_min_off_time;
+    mMaxOffTime = tlvData.field_14_max_off_time;
+    mMinOffTime = tlvData.field_12_min_off_time;
     switch (tlvData.field_18_behavior)
     {
         case DrillBehavior::eToggle_1:
@@ -216,25 +216,25 @@ Drill::Drill(Path_Drill* pTlv, u32 tlvInfo)
             break;
     }
 
-    field_118_speed = FP_FromInteger(tlvData.field_1A_speed);
-    if (tlvData.field_1A_speed == 250) // TODO: figure out why this is needed
+    mInitialSpeed = FP_FromInteger(tlvData.mSpeed);
+    if (tlvData.mSpeed == 250) // juicy OWI hack to allow 0.2 speed by setting the value 250 in the tlv data
     {
-        field_118_speed = FP_FromDouble(0.2);
+        mInitialSpeed = FP_FromDouble(0.2);
     }
 
-    field_11C_speed2 = field_118_speed;
-    field_120_off_speed = FP_FromInteger(tlvData.field_1E_off_speed);
-    if (tlvData.field_1E_off_speed == 250) // TODO: figure out why this is needed
+    mCurrentSpeed = mInitialSpeed;
+    mOffSpeed = FP_FromInteger(tlvData.mOffSpeed);
+    if (tlvData.mOffSpeed == 250) // juicy OWI hack to allow 0.2 speed by setting the value 250 in the tlv data
     {
-        field_120_off_speed = FP_FromDouble(0.2);
+        mOffSpeed = FP_FromDouble(0.2);
     }
 
     field_100_min_off_time_speed_change = tlvData.field_20_min_off_time_speed_change;
     field_102_max_off_time_speed_change = tlvData.field_22_max_off_time_speed_change;
-    field_108_off_timer = 0;
-    field_F4_state = DrillStates::State_0_Restart_Cycle;
-    field_104_tlv = tlvInfo;
-    field_10C_audio_channels_mask = 0;
+    mOffTimer = 0;
+    mDrillState = DrillStates::State_0_Restart_Cycle;
+    mTlvInfo = tlvInfo;
+    mAudioChannelsMask = 0;
 
     mShadow = relive_new Shadow();
 
@@ -267,7 +267,7 @@ s32 Drill::CreateFromSaveState(const u8* pData)
 
     if (pState->field_10_state != DrillStates::State_0_Restart_Cycle)
     {
-        switch (pDrill->field_FA_direction)
+        switch (pDrill->mDrillDirection)
         {
             case DrillDirection::eDown_0:
             {
@@ -285,8 +285,8 @@ s32 Drill::CreateFromSaveState(const u8* pData)
         }
     }
 
-    pDrill->field_108_off_timer = pState->field_C_off_timer;
-    pDrill->field_F4_state = pState->field_10_state;
+    pDrill->mOffTimer = pState->field_C_off_timer;
+    pDrill->mDrillState = pState->field_10_state;
     pDrill->field_124_xyoff = FP_FromInteger(pState->field_12_xyoff);
     return sizeof(Drill_State);
 }
@@ -300,16 +300,16 @@ void Drill::VUpdate()
 
     const CameraPos soundDirection = gMap.GetDirection(mBaseAnimatedWithPhysicsGameObject_LvlNumber, mBaseAnimatedWithPhysicsGameObject_PathNumber, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos);
 
-    switch (field_F4_state)
+    switch (mDrillState)
     {
         case DrillStates::State_0_Restart_Cycle:
-            if (Expired(field_108_off_timer) || field_128_flags.Get(eBit4_Toggle))
+            if (Expired(mOffTimer) || field_128_flags.Get(eBit4_Toggle))
             {
-                if ((!field_128_flags.Get(Flags::eBit3_UseId)) || (!!SwitchStates_Get(field_F8_switch_id) == (field_128_flags.Get(eBit1_StartOff))))
+                if ((!field_128_flags.Get(Flags::eBit3_UseId)) || (!!SwitchStates_Get(mDrillSwitchId) == (field_128_flags.Get(eBit1_StartOff))))
                 {
-                    field_F4_state = DrillStates::State_1_Going_Down;
+                    mDrillState = DrillStates::State_1_Going_Down;
 
-                    switch (field_FA_direction)
+                    switch (mDrillDirection)
                     {
                         case DrillDirection::eDown_0:
                         {
@@ -327,17 +327,17 @@ void Drill::VUpdate()
                     }
 
                     field_128_flags.Clear(Flags::eBit5_SpeedChanged);
-                    field_11C_speed2 = field_118_speed;
-                    field_10C_audio_channels_mask = SFX_Play_Camera(SoundEffect::DrillMovement_97, 25, soundDirection);
+                    mCurrentSpeed = mInitialSpeed;
+                    mAudioChannelsMask = SFX_Play_Camera(SoundEffect::DrillMovement_97, 25, soundDirection);
                     return;
                 }
             }
 
-            if (field_128_flags.Get(Flags::eBit3_UseId) && !field_128_flags.Get(Flags::eBit4_Toggle) && FP_GetExponent(field_120_off_speed) > 0 && Expired(field_108_off_timer))
+            if (field_128_flags.Get(Flags::eBit3_UseId) && !field_128_flags.Get(Flags::eBit4_Toggle) && FP_GetExponent(mOffSpeed) > 0 && Expired(mOffTimer))
             {
-                field_F4_state = DrillStates::State_1_Going_Down;
+                mDrillState = DrillStates::State_1_Going_Down;
 
-                switch (field_FA_direction)
+                switch (mDrillDirection)
                 {
                     case DrillDirection::eDown_0:
                     {
@@ -363,46 +363,46 @@ void Drill::VUpdate()
                 }
 
                 field_128_flags.Set(Flags::eBit5_SpeedChanged);
-                field_11C_speed2 = field_120_off_speed;
-                field_10C_audio_channels_mask = SFX_Play_Camera(SoundEffect::DrillMovement_97, 25, soundDirection);
+                mCurrentSpeed = mOffSpeed;
+                mAudioChannelsMask = SFX_Play_Camera(SoundEffect::DrillMovement_97, 25, soundDirection);
             }
             break;
 
         case DrillStates::State_1_Going_Down:
-            if (!field_10C_audio_channels_mask)
+            if (!mAudioChannelsMask)
             {
-                field_10C_audio_channels_mask = SFX_Play_Camera(SoundEffect::DrillMovement_97, 25, soundDirection);
+                mAudioChannelsMask = SFX_Play_Camera(SoundEffect::DrillMovement_97, 25, soundDirection);
             }
 
             DamageTouchingObjects();
 
-            field_124_xyoff = field_124_xyoff - field_11C_speed2;
+            field_124_xyoff -= mCurrentSpeed;
             if (field_124_xyoff <= FP_FromInteger(0))
             {
-                field_F4_state = DrillStates::State_2_GoingUp;
+                mDrillState = DrillStates::State_2_GoingUp;
                 SFX_Play_Camera(SoundEffect::DrillCollision_99, 50, soundDirection, FP_FromInteger(1));
             }
             EmitSparks();
             break;
 
         case DrillStates::State_2_GoingUp:
-            if (!field_10C_audio_channels_mask)
+            if (!mAudioChannelsMask)
             {
-                field_10C_audio_channels_mask = SFX_Play_Camera(SoundEffect::DrillMovement_97, 25, soundDirection);
+                mAudioChannelsMask = SFX_Play_Camera(SoundEffect::DrillMovement_97, 25, soundDirection);
             }
 
             DamageTouchingObjects();
 
-            field_124_xyoff = field_11C_speed2 + field_124_xyoff;
-            if (field_124_xyoff >= FP_FromInteger(field_F6_width))
+            field_124_xyoff = mCurrentSpeed + field_124_xyoff;
+            if (field_124_xyoff >= FP_FromInteger(mDrillDistance))
             {
-                if (field_10C_audio_channels_mask)
+                if (mAudioChannelsMask)
                 {
-                    SND_Stop_Channels_Mask(field_10C_audio_channels_mask);
-                    field_10C_audio_channels_mask = 0;
+                    SND_Stop_Channels_Mask(mAudioChannelsMask);
+                    mAudioChannelsMask = 0;
                 }
 
-                field_F4_state = DrillStates::State_0_Restart_Cycle;
+                mDrillState = DrillStates::State_0_Restart_Cycle;
                 SFX_Play_Camera(SoundEffect::DrillCollision_99, 50, soundDirection);
 
                 s16 max_off = 0;
@@ -414,13 +414,13 @@ void Drill::VUpdate()
                 }
                 else
                 {
-                    max_off = field_FE_max_off_time;
-                    min_off = field_FC_min_off_time;
+                    max_off = mMaxOffTime;
+                    min_off = mMinOffTime;
                 }
 
-                field_108_off_timer = MakeTimer(Math_RandomRange(min_off, max_off));
+                mOffTimer = MakeTimer(Math_RandomRange(min_off, max_off));
 
-                if (field_FA_direction == DrillDirection::eDown_0)
+                if (mDrillDirection == DrillDirection::eDown_0)
                 {
                     const AnimRecord& animRec = AnimRec(AnimId::Drill_Vertical_Off);
                     mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
@@ -433,7 +433,7 @@ void Drill::VUpdate()
 
                 if (field_128_flags.Get(eBit4_Toggle))
                 {
-                    SwitchStates_Set(field_F8_switch_id, !field_128_flags.Get(eBit1_StartOff));
+                    SwitchStates_Set(mDrillSwitchId, !field_128_flags.Get(eBit1_StartOff));
                 }
             }
 
@@ -444,25 +444,25 @@ void Drill::VUpdate()
 
 Drill::~Drill()
 {
-    if (field_10C_audio_channels_mask)
+    if (mAudioChannelsMask)
     {
-        SND_Stop_Channels_Mask(field_10C_audio_channels_mask);
-        field_10C_audio_channels_mask = 0;
+        SND_Stop_Channels_Mask(mAudioChannelsMask);
+        mAudioChannelsMask = 0;
     }
 
-    if (field_128_flags.Get(Flags::eBit3_UseId) && !!SwitchStates_Get(field_F8_switch_id) != field_128_flags.Get(Flags::eBit1_StartOff))
+    if (field_128_flags.Get(Flags::eBit3_UseId) && !!SwitchStates_Get(mDrillSwitchId) != field_128_flags.Get(Flags::eBit1_StartOff))
     {
-        Path::TLV_Reset(field_104_tlv, 1, 0, 0);
+        Path::TLV_Reset(mTlvInfo, 1, 0, 0);
     }
     else
     {
-        Path::TLV_Reset(field_104_tlv, 0, 0, 0);
+        Path::TLV_Reset(mTlvInfo, 0, 0, 0);
     }
 }
 
 void Drill::VScreenChanged()
 {
-    if (field_F4_state != DrillStates::State_0_Restart_Cycle)
+    if (mDrillState != DrillStates::State_0_Restart_Cycle)
     {
         if (field_128_flags.Get(Flags::eBit6_StartPosIsBottom))
         {
@@ -470,15 +470,15 @@ void Drill::VScreenChanged()
         }
         else
         {
-            field_124_xyoff = FP_FromInteger(field_F6_width);
+            field_124_xyoff = FP_FromInteger(mDrillDistance);
         }
     }
 
     // Stop that sound
-    if (field_10C_audio_channels_mask)
+    if (mAudioChannelsMask)
     {
-        SND_Stop_Channels_Mask(field_10C_audio_channels_mask);
-        field_10C_audio_channels_mask = 0;
+        SND_Stop_Channels_Mask(mAudioChannelsMask);
+        mAudioChannelsMask = 0;
     }
 
     // Seems the real function does this, but then always kill object at the end!
@@ -519,19 +519,19 @@ void Drill::VRender(PrimHeader** ppOt)
             mBaseAnimatedWithPhysicsGameObject_YPos,
             0))
     {
-        if (field_FA_direction == DrillDirection::eDown_0)
+        if (mDrillDirection == DrillDirection::eDown_0)
         {
-            mBaseAnimatedWithPhysicsGameObject_YPos = field_114_yPos - field_124_xyoff;
+            mBaseAnimatedWithPhysicsGameObject_YPos = mAdjustedYPos - field_124_xyoff;
             BaseAnimatedWithPhysicsGameObject::VRender(ppOt);
         }
-        else if (field_FA_direction == DrillDirection::eRight_1)
+        else if (mDrillDirection == DrillDirection::eRight_1)
         {
-            mBaseAnimatedWithPhysicsGameObject_XPos = field_110_xPos + field_124_xyoff;
+            mBaseAnimatedWithPhysicsGameObject_XPos = mAdjustedXPos + field_124_xyoff;
             BaseAnimatedWithPhysicsGameObject::VRender(ppOt);
         }
-        else if (field_FA_direction == DrillDirection::eLeft_2)
+        else if (mDrillDirection == DrillDirection::eLeft_2)
         {
-            mBaseAnimatedWithPhysicsGameObject_XPos = field_110_xPos - field_124_xyoff;
+            mBaseAnimatedWithPhysicsGameObject_XPos = mAdjustedXPos - field_124_xyoff;
             BaseAnimatedWithPhysicsGameObject::VRender(ppOt);
         }
     }
@@ -539,10 +539,10 @@ void Drill::VRender(PrimHeader** ppOt)
 
 void Drill::VStopAudio()
 {
-    if (field_10C_audio_channels_mask)
+    if (mAudioChannelsMask)
     {
-        SND_Stop_Channels_Mask(field_10C_audio_channels_mask);
-        field_10C_audio_channels_mask = 0;
+        SND_Stop_Channels_Mask(mAudioChannelsMask);
+        mAudioChannelsMask = 0;
     }
 }
 
@@ -550,9 +550,9 @@ s32 Drill::VGetSaveState(u8* pSaveBuffer)
 {
     Drill_State* pState = reinterpret_cast<Drill_State*>(pSaveBuffer);
     pState->field_0 = 30;
-    pState->field_8_tlvInfo = field_104_tlv;
-    pState->field_C_off_timer = field_108_off_timer;
-    pState->field_10_state = field_F4_state;
+    pState->field_8_tlvInfo = mTlvInfo;
+    pState->field_C_off_timer = mOffTimer;
+    pState->field_10_state = mDrillState;
     pState->field_12_xyoff = FP_GetExponent(field_124_xyoff);
     return sizeof(Drill_State);
 }
@@ -562,19 +562,19 @@ void Drill::EmitSparks()
     if (gMap.Is_Point_In_Current_Camera(mBaseAnimatedWithPhysicsGameObject_LvlNumber, mBaseAnimatedWithPhysicsGameObject_PathNumber, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, 0))
     {
         s32 speed = 0;
-        if (field_F4_state == DrillStates::State_1_Going_Down)
+        if (mDrillState == DrillStates::State_1_Going_Down)
         {
-            speed = -FP_GetExponent(field_11C_speed2 - FP_FromInteger(2));
+            speed = -FP_GetExponent(mCurrentSpeed - FP_FromInteger(2));
         }
-        else if (field_F4_state == DrillStates::State_2_GoingUp)
+        else if (mDrillState == DrillStates::State_2_GoingUp)
         {
-            speed = FP_GetExponent(field_11C_speed2);
+            speed = FP_GetExponent(mCurrentSpeed);
         }
 
         // 1 in 6 chance of sparks
         if (Math_RandomRange(0, 6) == 0)
         {
-            if (field_FA_direction == DrillDirection::eRight_1)
+            if (mDrillDirection == DrillDirection::eRight_1)
             {
                 relive_new Spark(mBaseAnimatedWithPhysicsGameObject_XPos - (mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(17)) + FP_FromInteger(speed),
                                              mBaseAnimatedWithPhysicsGameObject_YPos - (mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(12)),
@@ -592,7 +592,7 @@ void Drill::EmitSparks()
                                              205,
                                              SparkType::eSmallChantParticle_0);
             }
-            else if (field_FA_direction == DrillDirection::eLeft_2)
+            else if (mDrillDirection == DrillDirection::eLeft_2)
             {
                 relive_new Spark(mBaseAnimatedWithPhysicsGameObject_XPos + (mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(17)) - FP_FromInteger(speed),
                                              mBaseAnimatedWithPhysicsGameObject_YPos - (mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(12)),
@@ -610,7 +610,7 @@ void Drill::EmitSparks()
                                              205,
                                              SparkType::eSmallChantParticle_0);
             }
-            else if (field_FA_direction == DrillDirection::eDown_0)
+            else if (mDrillDirection == DrillDirection::eDown_0)
             {
                 relive_new Spark(mBaseAnimatedWithPhysicsGameObject_XPos,
                                              mBaseAnimatedWithPhysicsGameObject_YPos - (mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(22)) - FP_FromInteger(speed),
@@ -636,7 +636,7 @@ s16 Drill::DamageTouchingObjects()
 {
     PSX_RECT drillRect = VGetBoundingRect();
 
-    if (field_FA_direction == DrillDirection::eDown_0)
+    if (mDrillDirection == DrillDirection::eDown_0)
     {
         drillRect.y += 16;
     }

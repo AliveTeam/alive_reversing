@@ -392,7 +392,7 @@ void Factory_Dove_4834C0(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffs
         const s16 width = pDoveTlv->mBottomRight.x - pDoveTlv->mTopLeft.x;
         const s16 height = pDoveTlv->mBottomRight.y - pDoveTlv->mTopLeft.y;
 
-        for (s32 i = 0; i < pDoveTlv->field_18_dove_count; i++)
+        for (s32 i = 0; i < pDoveTlv->mDoveCount; i++)
         {
             const AnimRecord& doveRec = AO::AnimRec(AnimId::Dove_Idle);
 
@@ -402,12 +402,12 @@ void Factory_Dove_4834C0(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffs
                 doveRec.mMaxH,
                 doveRec.mResourceId,
                 tlvOffsetLevelIdPathId.all,
-                pDoveTlv->field_1C_scale != Scale_short::eFull_0 ? FP_FromDouble(0.5) : FP_FromInteger(1));
+                pDoveTlv->mScale != Scale_short::eFull_0 ? FP_FromDouble(0.5) : FP_FromInteger(1));
 
             if (pDove)
             {
                 s16 ypos = 0;
-                if (pDoveTlv->field_1A_pixel_perfect == Choice_short::eYes_1)
+                if (pDoveTlv->mPixelPerfect == Choice_short::eYes_1)
                 {
                     pDove->mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pDoveTlv->mTopLeft.x);
                     ypos = pDoveTlv->mTopLeft.y;

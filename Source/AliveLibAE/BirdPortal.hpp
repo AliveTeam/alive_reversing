@@ -92,10 +92,10 @@ public:
     static s32 CreateFromSaveState(const u8* pBuffer);
 
 private:
-    s16 IsScaredAway();
     void CreateDovesAndShrykullNumber();
-    void KillTerminators();
     void CreateTerminators();
+    s16 IsScaredAway();
+    void KillTerminators();
     Event GetEvent();
 
 private:

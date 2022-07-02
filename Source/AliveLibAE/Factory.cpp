@@ -383,18 +383,19 @@ void Factory_Dove(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode load
         const s16 width = pDoveTlv->mBottomRight.x - pDoveTlv->mTopLeft.x;
         const s16 height = pDoveTlv->mBottomRight.y - pDoveTlv->mTopLeft.y;
 
-        for (s32 i = 0; i < pDoveTlv->field_10_dove_count; i++)
+        for (s32 i = 0; i < pDoveTlv->mDoveCount; i++)
         {
             const AnimRecord& doveRec = AnimRec(AnimId::Dove_Idle);
-            auto pDove = relive_new Dove(doveRec.mFrameTableOffset,
-                                      doveRec.mMaxW,
-                                      doveRec.mMaxH,
-                                      doveRec.mResourceId,
-                                      tlvInfo.all,
-                                      pDoveTlv->field_14_scale != Scale_short::eFull_0 ? FP_FromDouble(0.5) : FP_FromInteger(1));
+            auto pDove = relive_new Dove(
+                doveRec.mFrameTableOffset,
+                doveRec.mMaxW,
+                doveRec.mMaxH,
+                doveRec.mResourceId,
+                tlvInfo.all,
+                pDoveTlv->mScale != Scale_short::eFull_0 ? FP_FromDouble(0.5) : FP_FromInteger(1));
 
             s16 ypos = 0;
-            if (pDoveTlv->field_12_pixel_perfect == Choice_short::eYes_1)
+            if (pDoveTlv->mPixelPerfect == Choice_short::eYes_1)
             {
                 pDove->mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pTlv->mTopLeft.x);
                 ypos = pTlv->mTopLeft.y;

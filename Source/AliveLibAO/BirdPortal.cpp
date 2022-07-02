@@ -637,7 +637,7 @@ void BirdPortal::VUpdate()
                 }
                 else
                 {
-                    field_14_state = PortalStates::State_16;
+                    field_14_state = PortalStates::AbeInsidePortal_16;
                 }
             }
             break;
@@ -674,7 +674,7 @@ void BirdPortal::VUpdate()
             field_40_pTerminator2->mBaseAnimatedWithPhysicsGameObject_YPos += (FP_FromDouble(3.5) * field_34_scale);
             if (static_cast<s32>(sGnFrame) > field_30_timer)
             {
-                field_14_state = PortalStates::State_20;
+                field_14_state = PortalStates::PortalExit_AbeExitting_20;
             }
             break;
 
@@ -808,7 +808,7 @@ void BirdPortal::VGiveShrykull(s16 bPlaySound)
 
 void BirdPortal::VScreenChanged()
 {
-    if (field_14_state <= PortalStates::IdlePortal_1 || field_14_state >= PortalStates::KillPortalClipper_21 || ((gMap.mCurrentLevel != gMap.mLevel || gMap.mCurrentPath != gMap.mPath) && (field_14_state != PortalStates::State_16 || field_10_portal_type != PortalType::eAbe_0 || gMap.mLevel != field_50_dest_level || gMap.mPath != field_52_dest_path)))
+    if (field_14_state <= PortalStates::IdlePortal_1 || field_14_state >= PortalStates::KillPortalClipper_21 || ((gMap.mCurrentLevel != gMap.mLevel || gMap.mCurrentPath != gMap.mPath) && (field_14_state != PortalStates::AbeInsidePortal_16 || field_10_portal_type != PortalType::eAbe_0 || gMap.mLevel != field_50_dest_level || gMap.mPath != field_52_dest_path)))
     {
         mBaseGameObjectFlags.Set(Options::eDead);
     }
@@ -870,14 +870,14 @@ void BirdPortal::VKillPortalClipper()
     }
 }
 
-bool BirdPortal::VStateIs6()
+bool BirdPortal::VActivePortal()
 {
     return field_14_state == PortalStates::ActivePortal_6;
 }
 
-bool BirdPortal::VStateIs16()
+bool BirdPortal::VAbeInsidePortal()
 {
-    return field_14_state == PortalStates::State_16;
+    return field_14_state == PortalStates::AbeInsidePortal_16;
 }
 
 void BirdPortal::VExitPortal()
@@ -932,9 +932,9 @@ void BirdPortal::VExitPortal()
     }
 }
 
-bool BirdPortal::VStateIs20()
+bool BirdPortal::VPortalExit_AbeExitting()
 {
-    return field_14_state == PortalStates::State_20;
+    return field_14_state == PortalStates::PortalExit_AbeExitting_20;
 }
 
 void BirdPortal::VIncreaseTimerAndKillPortalClipper()

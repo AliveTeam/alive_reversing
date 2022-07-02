@@ -11,12 +11,12 @@ namespace AO {
 
 struct Path_Bat final : public Path_TLV
 {
-    s16 field_18_ticks_before_moving;
-    s16 field_1A_speed;
-    Scale_short field_1C_scale;
-    s16 field_1E_attack_duration;
+    s16 mTicksBeforeMoving;
+    s16 mSpeed;
+    Scale_short mScale;
+    s16 mAttackDuration;
 };
-ALIVE_ASSERT_SIZEOF(Path_Bat, 0x20);
+ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Bat, 0x20);
 
 
 class Bat final : public BaseAnimatedWithPhysicsGameObject
@@ -30,10 +30,10 @@ public:
 
     void FlyTo(FP xpos, FP ypos, FP* xSpeed, FP* ySpeed);
 
-    PathLine* field_E4_pLine = nullptr;
-    FP field_E8_speed = FP_FromInteger(0);
-    s32 field_EC_ticks_before_moving = 0;
-    s32 field_F0_tlvInfo = 0;
+    PathLine* mBatLine = nullptr;
+    FP mBatSpeed = FP_FromInteger(0);
+    s32 mTicksBeforeMoving = 0;
+    s32 mTlvInfo = 0;
     enum class BatStates : s16
     {
         eSetTimer_0 = 0,
@@ -43,14 +43,14 @@ public:
         eAttackTarget_4 = 4,
         eFlyAwayAndDie_5 = 5,
     };
-    BatStates field_F4_state = BatStates::eSetTimer_0;
-    s16 field_F6_attack_duration = 0;
-    s32 field_F8_timer = 0;
-    s32 field_FC_attack_duration_timer = 0;
-    FP field_100_velx = FP_FromInteger(0);
-    FP field_104_target_xpos = FP_FromInteger(0);
-    FP field_108_target_ypos = FP_FromInteger(0);
-    BaseAliveGameObject* field_10C_pBat = nullptr;
+    BatStates mBatState = BatStates::eSetTimer_0;
+    s16 mAttackDuration = 0;
+    s32 mTimer = 0;
+    s32 mAttackDurationTimer = 0;
+    FP mBatVelX = FP_FromInteger(0);
+    FP mEnemyXPos = FP_FromInteger(0);
+    FP mEnemyYPos = FP_FromInteger(0);
+    BaseAliveGameObject* mAttackTarget = nullptr;
 };
 ALIVE_ASSERT_SIZEOF(Bat, 0x110);
 

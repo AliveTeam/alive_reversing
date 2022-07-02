@@ -68,9 +68,6 @@ class BirdPortal final : public BaseGameObject
 public:
     BirdPortal(Path_BirdPortal* pTlv, s32 tlvInfo);
     ~BirdPortal();
-
-    s16 IsScaredAway();
-
     
     virtual void VUpdate() override;
     virtual void VScreenChanged() override;
@@ -79,17 +76,18 @@ public:
     virtual s16 VPortalClipper(s16 bUnknown);
     virtual void VKillPortalClipper();
     virtual void VMudSaved();
-    virtual bool VStateIs6();
+    virtual bool VActivePortal();
     virtual void VGiveShrykull(s16 bPlaySound);
-    virtual bool VStateIs16();
+    virtual bool VAbeInsidePortal();
     virtual void VExitPortal();
+    virtual bool VPortalExit_AbeExitting();
     virtual void VIncreaseTimerAndKillPortalClipper();
-    virtual bool VStateIs20();
     virtual void VGetMapChange(EReliveLevelIds* level, u16* path, u16* camera, CameraSwapEffects* screenChangeEffect, u16* movieId);
 
 private:
     void CreateDovesAndShrykullNumber();
     void CreateTerminators();
+    s16 IsScaredAway();
 
 public:
     PortalType field_10_portal_type = PortalType::eAbe_0;
@@ -112,24 +110,24 @@ public:
         CreateFlash2_13 = 13,
         CreateFlash3_14 = 14,
         KillPortal_15 = 15,
-        State_16 = 16,
+        AbeInsidePortal_16 = 16,
         PortalExit_SetPosition_17 = 17,
         PortalExit_CreateTerminators_18 = 18,
         PortalExit_ExpandTerminators_19 = 19,
-        State_20 = 20,
+        PortalExit_AbeExitting_20 = 20,
         KillPortalClipper_21 = 21,
         FadeoutTerminators_22 = 22,
     };
     PortalStates field_14_state = PortalStates::CreatePortal_0;
     s16 field_16 = 0;
-    FP field_18_xpos = FP_FromInteger(0);
-    FP field_1C_ypos = FP_FromInteger(0);
-    FP field_20_exit_x = FP_FromInteger(0);
-    FP field_24_exit_y = FP_FromInteger(0);
-    FP field_28_ypos = FP_FromInteger(0);
+    FP field_18_xpos = {};
+    FP field_1C_ypos = {};
+    FP field_20_exit_x = {};
+    FP field_24_exit_y = {};
+    FP field_28_ypos = {};
     s32 field_2C_tlvInfo = 0;
     s32 field_30_timer = 0;
-    FP field_34_scale = FP_FromInteger(0);
+    FP field_34_scale = {};
     s16 field_38_movie_id = 0;
     s16 field_3A = 0;
     BirdPortalTerminator* field_3C_pTerminator1 = nullptr;

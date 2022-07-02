@@ -34,29 +34,29 @@ Bat::Bat(Path_Bat* pTlv, s32 tlvInfo)
     FP hitX = {};
     FP hitY = {};
     // OG Bug fix, if bat isn't spawned on a line then we crash
-    // so field_E4_pLine is checked here and in VUpdate
+    // so mBatLine is checked here and in VUpdate
     sCollisions->Raycast(
         FP_FromInteger(pTlv->mTopLeft.x),
         FP_FromInteger(pTlv->mTopLeft.y),
         FP_FromInteger(pTlv->mBottomRight.x),
         FP_FromInteger(pTlv->mBottomRight.y),
-        &field_E4_pLine,
+        &mBatLine,
         &hitX,
         &hitY,
         CollisionMask(eTrackLine_8));
 
-    field_F0_tlvInfo = tlvInfo;
+    mTlvInfo = tlvInfo;
 
-    if (field_E4_pLine)
+    if (mBatLine)
     {
-        mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(field_E4_pLine->mRect.x);
-        mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(field_E4_pLine->mRect.y);
+        mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(mBatLine->mRect.x);
+        mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(mBatLine->mRect.y);
     }
 
-    field_EC_ticks_before_moving = pTlv->field_18_ticks_before_moving;
-    field_E8_speed = FP_FromRaw(pTlv->field_1A_speed << 8);
+    mTicksBeforeMoving = pTlv->mTicksBeforeMoving;
+    mBatSpeed = FP_FromRaw(pTlv->mSpeed << 8);
 
-    if (pTlv->field_1C_scale == Scale_short::eHalf_1)
+    if (pTlv->mScale == Scale_short::eHalf_1)
     {
         mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromDouble(0.5);
         mBaseAnimatedWithPhysicsGameObject_Scale = Scale::Bg;
@@ -69,18 +69,18 @@ Bat::Bat(Path_Bat* pTlv, s32 tlvInfo)
         mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_BeforeShadow_25;
     }
 
-    field_F4_state = BatStates::eSetTimer_0;
-    field_10C_pBat = nullptr;
-    field_F6_attack_duration = pTlv->field_1E_attack_duration;
+    mBatState = BatStates::eSetTimer_0;
+    mAttackTarget = nullptr;
+    mAttackDuration = pTlv->mAttackDuration;
 }
 
 Bat::~Bat()
 {
-    if (field_10C_pBat)
+    if (mAttackTarget)
     {
-        field_10C_pBat->mBaseGameObjectRefCount--;
+        mAttackTarget->mBaseGameObjectRefCount--;
     }
-    gMap.TLV_Reset(field_F0_tlvInfo, -1, 0, 0);
+    gMap.TLV_Reset(mTlvInfo, -1, 0, 0);
 }
 
 void Bat::VScreenChanged()
@@ -90,20 +90,20 @@ void Bat::VScreenChanged()
 
 void Bat::FlyTo(FP xpos, FP ypos, FP* xSpeed, FP* ySpeed)
 {
-    const FP xd = FP_Abs(xpos - field_104_target_xpos);
+    const FP xd = FP_Abs(xpos - mEnemyXPos);
     if (xd > FP_FromInteger(350))
     {
         mBaseAnimatedWithPhysicsGameObject_XPos += *xSpeed;
     }
 
-    const FP yd = FP_Abs(ypos - field_108_target_ypos);
+    const FP yd = FP_Abs(ypos - mEnemyYPos);
     if (yd > FP_FromInteger(200))
     {
         mBaseAnimatedWithPhysicsGameObject_YPos += *ySpeed;
     }
 
-    field_104_target_xpos = xpos;
-    field_108_target_ypos = ypos;
+    mEnemyXPos = xpos;
+    mEnemyYPos = ypos;
 
     *xSpeed = xpos + FP_FromInteger((Math_NextRandom() & 63) - 32);
     *xSpeed = *xSpeed - mBaseAnimatedWithPhysicsGameObject_XPos;
@@ -142,53 +142,53 @@ void Bat::VUpdate()
     FP xSpeed = {};
     FP ySpeed = {};
 
-    switch (field_F4_state)
+    switch (mBatState)
     {
         case BatStates::eSetTimer_0:
-            field_F4_state = BatStates::eInit_1;
-            field_F8_timer = sGnFrame + field_EC_ticks_before_moving;
+            mBatState = BatStates::eInit_1;
+            mTimer = sGnFrame + mTicksBeforeMoving;
             break;
 
         case BatStates::eInit_1:
-            if (static_cast<s32>(sGnFrame) > field_F8_timer)
+            if (static_cast<s32>(sGnFrame) > mTimer)
             {
-                field_F4_state = BatStates::eStartMoving_2;
-                field_100_velx = FP_FromInteger(0);
+                mBatState = BatStates::eStartMoving_2;
+                mBatVelX = FP_FromInteger(0);
                 mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(6608, nullptr);
             }
             break;
 
         case BatStates::eStartMoving_2:
-            if (field_100_velx < field_E8_speed)
+            if (mBatVelX < mBatSpeed)
             {
-                field_100_velx += FP_FromDouble(1.8);
-                if (field_100_velx > field_E8_speed)
+                mBatVelX += FP_FromDouble(1.8);
+                if (mBatVelX > mBatSpeed)
                 {
-                    field_100_velx = field_E8_speed;
+                    mBatVelX = mBatSpeed;
                 }
             }
 
-            if (field_E4_pLine)
+            if (mBatLine)
             {
-                field_E4_pLine = field_E4_pLine->MoveOnLine(&mBaseAnimatedWithPhysicsGameObject_XPos, &mBaseAnimatedWithPhysicsGameObject_YPos, field_100_velx);
+                mBatLine = mBatLine->MoveOnLine(&mBaseAnimatedWithPhysicsGameObject_XPos, &mBaseAnimatedWithPhysicsGameObject_YPos, mBatVelX);
             }
 
             if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
             {
-                field_F4_state = BatStates::eFlying_3;
+                mBatState = BatStates::eFlying_3;
                 const AnimRecord& rec = AO::AnimRec(AnimId::Bat_Flying);
                 mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(rec.mFrameTableOffset, nullptr);
-                field_F8_timer = sGnFrame + Math_RandomRange(0, 90);
+                mTimer = sGnFrame + Math_RandomRange(0, 90);
             }
             break;
 
         case BatStates::eFlying_3:
-            if (field_100_velx < field_E8_speed)
+            if (mBatVelX < mBatSpeed)
             {
-                field_100_velx += FP_FromDouble(1.8);
-                if (field_100_velx > field_E8_speed)
+                mBatVelX += FP_FromDouble(1.8);
+                if (mBatVelX > mBatSpeed)
                 {
-                    field_100_velx = field_E8_speed;
+                    mBatVelX = mBatSpeed;
                 }
             }
 
@@ -197,18 +197,18 @@ void Bat::VUpdate()
                 SfxPlayMono(static_cast<SoundEffect>(Math_RandomRange(SoundEffect::Bat1_41, SoundEffect::Bat2_42) & 0xFF), Math_RandomRange(20, 26), 0);
             }
 
-            if (static_cast<s32>(sGnFrame) > field_F8_timer)
+            if (static_cast<s32>(sGnFrame) > mTimer)
             {
                 SND_SEQ_PlaySeq_4775A0(SeqId::eBatSqueaking_18, 1, 1);
-                field_F8_timer = sGnFrame + Math_RandomRange(120, 240);
+                mTimer = sGnFrame + Math_RandomRange(120, 240);
             }
 
-            if (field_E4_pLine)
+            if (mBatLine)
             {
-                field_E4_pLine = field_E4_pLine->MoveOnLine(&mBaseAnimatedWithPhysicsGameObject_XPos, &mBaseAnimatedWithPhysicsGameObject_YPos, field_100_velx);
+                mBatLine = mBatLine->MoveOnLine(&mBaseAnimatedWithPhysicsGameObject_XPos, &mBaseAnimatedWithPhysicsGameObject_YPos, mBatVelX);
             }
 
-            if (!field_E4_pLine)
+            if (!mBatLine)
             {
                 mBaseGameObjectFlags.Set(Options::eDead);
             }
@@ -240,18 +240,18 @@ void Bat::VUpdate()
                                 {
                                     auto pBat = static_cast<Bat*>(pMaybeBat);
 
-                                    pBat->field_10C_pBat = pObjIter;
-                                    pBat->field_10C_pBat->mBaseGameObjectRefCount++;
+                                    pBat->mAttackTarget = pObjIter;
+                                    pBat->mAttackTarget->mBaseGameObjectRefCount++;
 
-                                    pBat->field_F4_state = BatStates::eAttackTarget_4;
+                                    pBat->mBatState = BatStates::eAttackTarget_4;
                                     const AnimRecord& rec = AO::AnimRec(AnimId::Bat_Flying);
                                     pBat->mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(rec.mFrameTableOffset, nullptr);
 
-                                    pBat->field_F8_timer = 0;
-                                    pBat->field_FC_attack_duration_timer = sGnFrame + pBat->field_F6_attack_duration;
+                                    pBat->mTimer = 0;
+                                    pBat->mAttackDurationTimer = sGnFrame + pBat->mAttackDuration;
 
-                                    pBat->field_104_target_xpos = pBat->field_10C_pBat->mBaseAnimatedWithPhysicsGameObject_XPos;
-                                    pBat->field_108_target_ypos = pBat->field_10C_pBat->mBaseAnimatedWithPhysicsGameObject_YPos;
+                                    pBat->mEnemyXPos = pBat->mAttackTarget->mBaseAnimatedWithPhysicsGameObject_XPos;
+                                    pBat->mEnemyYPos = pBat->mAttackTarget->mBaseAnimatedWithPhysicsGameObject_YPos;
                                 }
                             }
                         }
@@ -262,13 +262,13 @@ void Bat::VUpdate()
 
         case BatStates::eAttackTarget_4:
         {
-            if (field_10C_pBat->mBaseGameObjectFlags.Get(BaseGameObject::eDead) || EventGet(kEventDeathReset))
+            if (mAttackTarget->mBaseGameObjectFlags.Get(BaseGameObject::eDead) || EventGet(kEventDeathReset))
             {
                 mBaseGameObjectFlags.Set(Options::eDead);
                 return;
             }
 
-            const PSX_RECT bRect = field_10C_pBat->VGetBoundingRect();
+            const PSX_RECT bRect = mAttackTarget->VGetBoundingRect();
             FlyTo(
                 FP_FromInteger((bRect.w + bRect.x) / 2),
                 FP_FromInteger((bRect.h + bRect.y) / 2),
@@ -277,19 +277,19 @@ void Bat::VUpdate()
 
             if (FP_Abs(xSpeed) < FP_FromInteger(10))
             {
-                if (FP_Abs(ySpeed) < FP_FromInteger(20) && static_cast<s32>(sGnFrame) > field_F8_timer)
+                if (FP_Abs(ySpeed) < FP_FromInteger(20) && static_cast<s32>(sGnFrame) > mTimer)
                 {
-                    field_10C_pBat->VTakeDamage(this);
-                    field_F8_timer = sGnFrame + 30;
+                    mAttackTarget->VTakeDamage(this);
+                    mTimer = sGnFrame + 30;
                     SND_SEQ_PlaySeq_4775A0(SeqId::eBatSqueaking_18, 1, 1);
                 }
             }
 
-            if (field_FC_attack_duration_timer <= static_cast<s32>(sGnFrame))
+            if (mAttackDurationTimer <= static_cast<s32>(sGnFrame))
             {
-                field_10C_pBat->mBaseGameObjectRefCount--;
-                field_10C_pBat = nullptr;
-                field_F4_state = BatStates::eFlyAwayAndDie_5;
+                mAttackTarget->mBaseGameObjectRefCount--;
+                mAttackTarget = nullptr;
+                mBatState = BatStates::eFlyAwayAndDie_5;
             }
         }
         break;

@@ -1341,11 +1341,11 @@ struct Path_Drill final : public ReliveAPI::TlvObjectBaseAE
         ADD("Scale", mTlv.field_10_data.field_10_scale);
         ADD("Min Off Time", mTlv.field_10_data.field_12_min_off_time);
         ADD("Max Off Time", mTlv.field_10_data.field_14_max_off_time);
-        ADD("Switch ID", mTlv.field_10_data.field_16_switch_id);
+        ADD("Switch ID", mTlv.field_10_data.mSwitchId);
         ADD("Behavior", mTlv.field_10_data.field_18_behavior);
-        ADD("Speed", mTlv.field_10_data.field_1A_speed);
+        ADD("Speed", mTlv.field_10_data.mSpeed);
         ADD("Start State On", mTlv.field_10_data.field_1C_bStart_state_on);
-        ADD("Off Speed", mTlv.field_10_data.field_1E_off_speed);
+        ADD("Off Speed", mTlv.field_10_data.mOffSpeed);
         ADD("Min Off Time Speed Change", mTlv.field_10_data.field_20_min_off_time_speed_change);
         ADD("Max Off Time Speed Change", mTlv.field_10_data.field_22_max_off_time_speed_change);
         ADD("Start Position Bottom", mTlv.field_10_data.field_24_bStart_position_bottom);
@@ -1623,9 +1623,9 @@ struct Path_Dove final : public ReliveAPI::TlvObjectBaseAE
 {
     CTOR_AE(Path_Dove, "Dove", TlvTypes::Dove_9)
     {
-        ADD("Dove Count", mTlv.field_10_dove_count);
-        ADD("Pixel Perfect", mTlv.field_12_pixel_perfect);
-        ADD("Scale", mTlv.field_14_scale);
+        ADD("Dove Count", mTlv.mDoveCount);
+        ADD("Pixel Perfect", mTlv.mPixelPerfect);
+        ADD("Scale", mTlv.mScale);
     }
 };
 

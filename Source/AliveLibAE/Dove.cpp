@@ -11,8 +11,11 @@
 #include "stdlib.hpp"
 #include "Grid.hpp"
 
-static bool bTheOneControllingTheMusic_5BC112 = false;
-static DynamicArrayT<Dove> gDovesArray_5BC100{3};
+static bool bTheOneControllingTheMusic = false;
+static DynamicArrayT<Dove> gDovesArray{3};
+static s32 sAbePortalTimer = 0;
+static s16 sAbePortalDirection = 0;
+static s16 sAbePortalWidth = 0;
 
 Dove::Dove(s32 frameTableOffset, s32 maxW, s32 maxH, s32 resourceID, s32 tlvInfo, FP scale)
     : BaseAnimatedWithPhysicsGameObject(0)
@@ -24,7 +27,7 @@ Dove::Dove(s32 frameTableOffset, s32 maxW, s32 maxH, s32 resourceID, s32 tlvInfo
 
     mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit15_bSemiTrans);
 
-    gDovesArray_5BC100.Push_Back(this);
+    gDovesArray.Push_Back(this);
 
     mBaseAnimatedWithPhysicsGameObject_Anim.field_14_scale = scale;
     mBaseAnimatedWithPhysicsGameObject_SpriteScale = scale;
@@ -50,18 +53,18 @@ Dove::Dove(s32 frameTableOffset, s32 maxW, s32 maxH, s32 resourceID, s32 tlvInfo
     }
 
     mBaseAnimatedWithPhysicsGameObject_VelY = FP_FromInteger(-4 - (Math_NextRandom() % 4));
-    field_FE_state = State::eOnGround_0;
+    mDoveState = State::eOnGround_0;
     mBaseAnimatedWithPhysicsGameObject_Anim.SetFrame(Math_NextRandom() % 8);
-    field_FC_keepInGlobalArray = FALSE;
-    field_F8_tlvInfo = tlvInfo;
+    mKeepInGlobalArray = FALSE;
+    mTlvInfo = tlvInfo;
 
-    if (bTheOneControllingTheMusic_5BC112)
+    if (bTheOneControllingTheMusic)
     {
         return;
     }
 
     SND_SEQ_PlaySeq(SeqId::NecrumAmbient2_17, 0, 1);
-    bTheOneControllingTheMusic_5BC112 = true;
+    bTheOneControllingTheMusic = true;
 }
 
 Dove::Dove(s32 frameTableOffset, s32 maxW, s32 maxH, s32 resourceID, FP xpos, FP ypos, FP scale)
@@ -96,94 +99,90 @@ Dove::Dove(s32 frameTableOffset, s32 maxW, s32 maxH, s32 resourceID, FP xpos, FP
     }
 
     mBaseAnimatedWithPhysicsGameObject_VelY = FP_FromInteger(-4 - (Math_NextRandom() % 4));
-    field_FE_state = State::eFlyAway_1;
-    field_FC_keepInGlobalArray = TRUE;
-    field_F4_counter = 0;
+    mDoveState = State::eFlyAway_1;
+    mKeepInGlobalArray = TRUE;
+    mFlyAwayCounter = 0;
 
     mBaseAnimatedWithPhysicsGameObject_XPos = xpos;
     mBaseAnimatedWithPhysicsGameObject_YPos = ypos;
-    field_110_prevX = xpos;
-    field_114_prevY = ypos;
+    mPrevX_Unused = xpos;
+    mPrevY_Unused = ypos;
 
-    field_F8_tlvInfo = 0;
+    mTlvInfo = 0;
 
     mBaseAnimatedWithPhysicsGameObject_Anim.SetFrame(Math_NextRandom() & 6);
 
-    if (bTheOneControllingTheMusic_5BC112)
+    if (bTheOneControllingTheMusic)
     {
         return;
     }
 
     SND_SEQ_PlaySeq(SeqId::NecrumAmbient2_17, 0, 1);
-    bTheOneControllingTheMusic_5BC112 = true;
+    bTheOneControllingTheMusic = true;
 }
 
 Dove::~Dove()
 {
-    if (!field_FC_keepInGlobalArray)
+    if (!mKeepInGlobalArray)
     {
-        gDovesArray_5BC100.Remove_Item(this);
-        if (field_F8_tlvInfo)
+        gDovesArray.Remove_Item(this);
+        if (mTlvInfo)
         {
-            Path::TLV_Reset(field_F8_tlvInfo, -1, 0, 0);
+            Path::TLV_Reset(mTlvInfo, -1, 0, 0);
         }
     }
 
-    if (bTheOneControllingTheMusic_5BC112)
+    if (bTheOneControllingTheMusic)
     {
         SND_SEQ_Stop(SeqId::NecrumAmbient2_17);
-        bTheOneControllingTheMusic_5BC112 = 0;
+        bTheOneControllingTheMusic = 0;
     }
 }
 
 void Dove::AsAlmostACircle(FP xpos, FP ypos, u8 angle)
 {
     AsACircle(xpos, ypos, angle);
-    field_FE_state = State::eAlmostACircle_4;
+    mDoveState = State::eAlmostACircle_4;
 }
 
 void Dove::AsACircle(FP xpos, FP ypos, u8 angle)
 {
-    field_100_xJoin = xpos;
-    field_104_yJoin = ypos;
-    field_10C_angle = angle;
-    field_FE_state = State::eCircle_3;
+    mJoinX = xpos;
+    mJoinY = ypos;
+    mAngle = angle;
+    mDoveState = State::eCircle_3;
 
     // TODO: Result thrown away.. some old removed behavior ??
-    //(Math_Sine_496DD0(field_10C_angle) * FP_FromInteger(30)) * mBaseAnimatedWithPhysicsGameObject_SpriteScale;
-    //(Math_Cosine_496CD0(field_10C_angle) * FP_FromInteger(35)) * mBaseAnimatedWithPhysicsGameObject_SpriteScale;
+    //(Math_Sine_496DD0(mAngle) * FP_FromInteger(30)) * mBaseAnimatedWithPhysicsGameObject_SpriteScale;
+    //(Math_Cosine_496CD0(mAngle) * FP_FromInteger(35)) * mBaseAnimatedWithPhysicsGameObject_SpriteScale;
 }
 
 void Dove::AsJoin(FP xpos, FP ypos)
 {
-    field_100_xJoin = xpos;
-    field_104_yJoin = ypos;
-    field_FE_state = State::eJoin_2;
-    field_108_timer = sGnFrame + 47;
+    mJoinX = xpos;
+    mJoinY = ypos;
+    mDoveState = State::eJoin_2;
+    mJoinDeadTimer = sGnFrame + 47;
 }
 
 void Dove::FlyAway(bool spookedInstantly)
 {
-    if (field_FE_state != State::eFlyAway_1)
+    if (mDoveState != State::eFlyAway_1)
     {
-        field_FE_state = State::eFlyAway_1;
+        mDoveState = State::eFlyAway_1;
         if (spookedInstantly)
         {
-            field_F4_counter = -1;
+            mFlyAwayCounter = -1;
         }
         else
         {
             // extra delay before flying away
-            field_F4_counter = -10 - Math_NextRandom() % 10;
+            mFlyAwayCounter = -10 - Math_NextRandom() % 10;
         }
     }
 }
 
 ALIVE_VAR(1, 0x5BC10C, s32, bExtraSeqStarted_5BC10C, 0);
-
-static s32 sAbePortalTimer_5BC114 = 0;
-static s16 sAbePortalDirection_551546 = 0;
-static s16 sAbePortalWidth_551544 = 0;
 
 void Dove::VUpdate()
 {
@@ -192,13 +191,13 @@ void Dove::VUpdate()
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 
-    if (!bTheOneControllingTheMusic_5BC112)
+    if (!bTheOneControllingTheMusic)
     {
         SND_SEQ_PlaySeq(SeqId::NecrumAmbient2_17, 0, 1);
-        bTheOneControllingTheMusic_5BC112 = 1;
+        bTheOneControllingTheMusic = 1;
     }
 
-    switch (field_FE_state)
+    switch (mDoveState)
     {
         case State::eOnGround_0:
             if (EventGet(kEventSpeaking))
@@ -222,8 +221,8 @@ void Dove::VUpdate()
             break;
 
         case State::eFlyAway_1:
-            field_F4_counter++;
-            if (field_F4_counter == 0)
+            mFlyAwayCounter++;
+            if (mFlyAwayCounter == 0)
             {
                 const AnimRecord& rec = AnimRec(AnimId::Dove_Flying);
                 mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(rec.mFrameTableOffset, 0);
@@ -234,7 +233,7 @@ void Dove::VUpdate()
                 }
             }
 
-            if (field_F4_counter > 0)
+            if (mFlyAwayCounter > 0)
             {
                 mBaseAnimatedWithPhysicsGameObject_XPos += mBaseAnimatedWithPhysicsGameObject_VelX;
                 mBaseAnimatedWithPhysicsGameObject_YPos += mBaseAnimatedWithPhysicsGameObject_VelY;
@@ -243,9 +242,9 @@ void Dove::VUpdate()
             mBaseAnimatedWithPhysicsGameObject_VelY = (mBaseAnimatedWithPhysicsGameObject_VelY * FP_FromDouble(1.03));
             mBaseAnimatedWithPhysicsGameObject_VelX = (mBaseAnimatedWithPhysicsGameObject_VelX * FP_FromDouble(1.03));
 
-            if (field_F4_counter >= (25 - (Math_NextRandom() % 8)))
+            if (mFlyAwayCounter >= (25 - (Math_NextRandom() % 8)))
             {
-                field_F4_counter += (Math_NextRandom() % 8) - 25;
+                mFlyAwayCounter += (Math_NextRandom() % 8) - 25;
                 mBaseAnimatedWithPhysicsGameObject_VelX = -mBaseAnimatedWithPhysicsGameObject_VelX;
             }
 
@@ -261,7 +260,7 @@ void Dove::VUpdate()
 
         case State::eJoin_2:
         {
-            if (static_cast<s32>(sGnFrame) > field_108_timer)
+            if (static_cast<s32>(sGnFrame) > mJoinDeadTimer)
             {
                 mBaseGameObjectFlags.Set(BaseGameObject::eDead);
             }
@@ -276,48 +275,48 @@ void Dove::VUpdate()
                 xOff = FP_FromInteger(-4);
             }
 
-            mBaseAnimatedWithPhysicsGameObject_VelX = (xOff + field_100_xJoin - mBaseAnimatedWithPhysicsGameObject_XPos) / FP_FromInteger(8);
-            mBaseAnimatedWithPhysicsGameObject_VelY = (field_104_yJoin - mBaseAnimatedWithPhysicsGameObject_YPos) / FP_FromInteger(8);
+            mBaseAnimatedWithPhysicsGameObject_VelX = (xOff + mJoinX - mBaseAnimatedWithPhysicsGameObject_XPos) / FP_FromInteger(8);
+            mBaseAnimatedWithPhysicsGameObject_VelY = (mJoinY - mBaseAnimatedWithPhysicsGameObject_YPos) / FP_FromInteger(8);
             mBaseAnimatedWithPhysicsGameObject_XPos += mBaseAnimatedWithPhysicsGameObject_VelX;
             mBaseAnimatedWithPhysicsGameObject_YPos += mBaseAnimatedWithPhysicsGameObject_VelY;
         }
             return;
 
         case State::eCircle_3:
-            field_110_prevX = mBaseAnimatedWithPhysicsGameObject_XPos;
-            field_114_prevY = mBaseAnimatedWithPhysicsGameObject_YPos;
+            mPrevX_Unused = mBaseAnimatedWithPhysicsGameObject_XPos;
+            mPrevY_Unused = mBaseAnimatedWithPhysicsGameObject_YPos;
 
-            field_10C_angle += 4;
+            mAngle += 4;
 
             // Spin around this point
-            mBaseAnimatedWithPhysicsGameObject_XPos = ((Math_Sine_496DD0(field_10C_angle) * FP_FromInteger(30)) * mBaseAnimatedWithPhysicsGameObject_SpriteScale) + field_100_xJoin;
-            mBaseAnimatedWithPhysicsGameObject_YPos = ((Math_Cosine_496CD0(field_10C_angle) * FP_FromInteger(35)) * mBaseAnimatedWithPhysicsGameObject_SpriteScale) + field_104_yJoin;
+            mBaseAnimatedWithPhysicsGameObject_XPos = ((Math_Sine_496DD0(mAngle) * FP_FromInteger(30)) * mBaseAnimatedWithPhysicsGameObject_SpriteScale) + mJoinX;
+            mBaseAnimatedWithPhysicsGameObject_YPos = ((Math_Cosine_496CD0(mAngle) * FP_FromInteger(35)) * mBaseAnimatedWithPhysicsGameObject_SpriteScale) + mJoinY;
             return;
 
         case State::eAlmostACircle_4:
-            if (sAbePortalTimer_5BC114 != static_cast<s32>(sGnFrame))
+            if (sAbePortalTimer != static_cast<s32>(sGnFrame))
             {
                 // increase or decrease the width of the Abe portal
-                sAbePortalWidth_551544 += sAbePortalDirection_551546;
-                sAbePortalTimer_5BC114 = sGnFrame;
+                sAbePortalWidth += sAbePortalDirection;
+                sAbePortalTimer = sGnFrame;
 
-                if (sAbePortalWidth_551544 == 0)
+                if (sAbePortalWidth == 0)
                 {
                     // expanding
-                    sAbePortalDirection_551546 = 1;
+                    sAbePortalDirection = 1;
                 }
-                else if (sAbePortalWidth_551544 == 30)
+                else if (sAbePortalWidth == 30)
                 {
                     // contracting
-                    sAbePortalDirection_551546 = -1;
+                    sAbePortalDirection = -1;
                 }
             }
 
-            field_114_prevY = mBaseAnimatedWithPhysicsGameObject_YPos;
-            field_10C_angle += 4;
-            field_110_prevX = mBaseAnimatedWithPhysicsGameObject_XPos;
-            mBaseAnimatedWithPhysicsGameObject_XPos = ((Math_Sine_496DD0(field_10C_angle) * FP_FromInteger(sAbePortalWidth_551544)) * mBaseAnimatedWithPhysicsGameObject_SpriteScale) + field_100_xJoin;
-            mBaseAnimatedWithPhysicsGameObject_YPos = ((Math_Cosine_496CD0(field_10C_angle) * FP_FromInteger(35)) * mBaseAnimatedWithPhysicsGameObject_SpriteScale) + field_104_yJoin;
+            mPrevY_Unused = mBaseAnimatedWithPhysicsGameObject_YPos;
+            mAngle += 4;
+            mPrevX_Unused = mBaseAnimatedWithPhysicsGameObject_XPos;
+            mBaseAnimatedWithPhysicsGameObject_XPos = ((Math_Sine_496DD0(mAngle) * FP_FromInteger(sAbePortalWidth)) * mBaseAnimatedWithPhysicsGameObject_SpriteScale) + mJoinX;
+            mBaseAnimatedWithPhysicsGameObject_YPos = ((Math_Cosine_496CD0(mAngle) * FP_FromInteger(35)) * mBaseAnimatedWithPhysicsGameObject_SpriteScale) + mJoinY;
             return;
 
         default:
@@ -337,9 +336,9 @@ void Dove::VUpdate()
 
 void Dove::All_FlyAway(bool spookedInstantly)
 {
-    for (s32 i = 0; i < gDovesArray_5BC100.Size(); i++)
+    for (s32 i = 0; i < gDovesArray.Size(); i++)
     {
-        Dove* pDove = gDovesArray_5BC100.ItemAt(i);
+        Dove* pDove = gDovesArray.ItemAt(i);
         if (!pDove)
         {
             break;
@@ -349,9 +348,9 @@ void Dove::All_FlyAway(bool spookedInstantly)
     }
 
     bExtraSeqStarted_5BC10C = 0; // TODO: Never read ??
-    if (bTheOneControllingTheMusic_5BC112)
+    if (bTheOneControllingTheMusic)
     {
         SND_SEQ_Stop(SeqId::NecrumAmbient2_17);
-        bTheOneControllingTheMusic_5BC112 = FALSE;
+        bTheOneControllingTheMusic = FALSE;
     }
 }

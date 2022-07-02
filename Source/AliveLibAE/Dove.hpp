@@ -6,9 +6,9 @@
 
 struct Path_Dove final : public Path_TLV
 {
-    s16 field_10_dove_count;
-    Choice_short field_12_pixel_perfect;
-    Scale_short field_14_scale;
+    s16 mDoveCount;
+    Choice_short mPixelPerfect;
+    Scale_short mScale;
     s16 field_16_pad;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Dove, 0x18);
@@ -35,9 +35,9 @@ public:
     static void All_FlyAway(bool spookedInstantly);
 
 private:
-    s16 field_F4_counter = 0;
-    s32 field_F8_tlvInfo = 0;
-    s16 field_FC_keepInGlobalArray = 0;
+    s16 mFlyAwayCounter = 0;
+    s32 mTlvInfo = 0;
+    s16 mKeepInGlobalArray = 0;
     enum class State : s16
     {
         eOnGround_0 = 0,
@@ -46,12 +46,12 @@ private:
         eCircle_3 = 3,
         eAlmostACircle_4 = 4,
     };
-    State field_FE_state = State::eOnGround_0;
-    FP field_100_xJoin = {};
-    FP field_104_yJoin = {};
-    s32 field_108_timer = 0;
-    s8 field_10C_angle = 0;
-    FP field_110_prevX = {};
-    FP field_114_prevY = {};
+    State mDoveState = State::eOnGround_0;
+    FP mJoinX = {};
+    FP mJoinY = {};
+    s32 mJoinDeadTimer = 0;
+    s8 mAngle = 0;
+    FP mPrevX_Unused = {};
+    FP mPrevY_Unused = {};
 };
 ALIVE_ASSERT_SIZEOF(Dove, 0x118);

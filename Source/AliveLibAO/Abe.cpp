@@ -5454,7 +5454,7 @@ void Abe::IntoPortalStates_4262A0()
         }
         case PortalSubStates::eSetNewActiveCamera_1:
         {
-            if (field_1A0_portal->VStateIs16())
+            if (field_1A0_portal->VAbeInsidePortal())
             {
                 EReliveLevelIds level = {};
                 u16 path = 0;
@@ -5469,7 +5469,7 @@ void Abe::IntoPortalStates_4262A0()
         }
         case PortalSubStates::eHopOutOfPortal_2:
         {
-            if (field_1A0_portal->VStateIs20())
+            if (field_1A0_portal->VPortalExit_AbeExitting())
             {
                 field_1A0_portal->VPortalClipper(0);
                 mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit3_Render);

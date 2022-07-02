@@ -24,11 +24,11 @@ struct Path_Drill_Data final
     Scale_short field_10_scale;
     s16 field_12_min_off_time;
     s16 field_14_max_off_time;
-    s16 field_16_switch_id;
+    s16 mSwitchId;
     DrillBehavior field_18_behavior;
-    s16 field_1A_speed;
+    s16 mSpeed;
     Choice_short field_1C_bStart_state_on;
-    s16 field_1E_off_speed;
+    s16 mOffSpeed;
     s16 field_20_min_off_time_speed_change;
     s16 field_22_max_off_time_speed_change;
     Choice_short field_24_bStart_position_bottom;
@@ -81,22 +81,22 @@ private:
     s16 DamageTouchingObjects();
 
 private:
-    DrillStates field_F4_state = DrillStates::State_0_Restart_Cycle;
-    s16 field_F6_width = 0;
-    s16 field_F8_switch_id = 0;
-    DrillDirection field_FA_direction = DrillDirection::eDown_0;
-    s16 field_FC_min_off_time = 0;
-    s16 field_FE_max_off_time = 0;
+    DrillStates mDrillState = DrillStates::State_0_Restart_Cycle;
+    s16 mDrillDistance = 0;
+    s16 mDrillSwitchId = 0;
+    DrillDirection mDrillDirection = DrillDirection::eDown_0;
+    s16 mMinOffTime = 0;
+    s16 mMaxOffTime = 0;
     s16 field_100_min_off_time_speed_change = 0;
     s16 field_102_max_off_time_speed_change = 0;
-    u32 field_104_tlv = 0;
-    s32 field_108_off_timer = 0;
-    s32 field_10C_audio_channels_mask = 0;
-    FP field_110_xPos = {};
-    FP field_114_yPos = {};
-    FP field_118_speed = {};
-    FP field_11C_speed2 = {};
-    FP field_120_off_speed = {};
+    u32 mTlvInfo = 0;
+    s32 mOffTimer = 0;
+    s32 mAudioChannelsMask = 0;
+    FP mAdjustedXPos = {};
+    FP mAdjustedYPos = {};
+    FP mInitialSpeed = {};
+    FP mCurrentSpeed = {};
+    FP mOffSpeed = {};
     FP field_124_xyoff = {};
     enum Flags
     {
