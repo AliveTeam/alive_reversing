@@ -62,7 +62,7 @@ void PlatformBase::AddDynamicCollision(s32 frameTableOffset, s32 maxW, u16 maxH,
         pTlv->mTopLeft.y,
         pTlv->mBottomRight.x,
         pTlv->mTopLeft.y,
-        32);
+        eLineTypes::eDynamicCollision_32);
 
     mPlatformBaseXOffset = FP_GetExponent(FP_FromInteger(pTlv->mTopLeft.x) - mBaseAnimatedWithPhysicsGameObject_XPos);
     mPlatformBaseWidthOffset = FP_GetExponent(FP_FromInteger(pTlv->mBottomRight.x) - mBaseAnimatedWithPhysicsGameObject_XPos);

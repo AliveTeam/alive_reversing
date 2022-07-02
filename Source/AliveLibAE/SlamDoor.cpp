@@ -174,7 +174,7 @@ SlamDoor::SlamDoor(Path_SlamDoor* pTlv, TlvItemInfoUnion tlvInfo)
                 FP_GetExponent(FP_FromInteger(field_126_y1) - lineHeight),
                 field_124_x1,
                 field_126_y1,
-                2);
+                eLineTypes::eWallRight_2);
             const FP x2 = FP_FromInteger(field_124_x1) + ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale);
             const FP y1 = FP_FromInteger(field_126_y1)
                         - (mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromDouble(80.0));
@@ -184,7 +184,7 @@ SlamDoor::SlamDoor(Path_SlamDoor* pTlv, TlvItemInfoUnion tlvInfo)
                 FP_GetExponent(y1),
                 FP_GetExponent(x2),
                 field_126_y1,
-                1);
+                eLineTypes::eWallLeft_1);
         }
         else
         {
@@ -195,7 +195,7 @@ SlamDoor::SlamDoor(Path_SlamDoor* pTlv, TlvItemInfoUnion tlvInfo)
                 FP_GetExponent(FP_FromInteger(field_126_y1) - lineHeight),
                 field_124_x1,
                 field_126_y1,
-                6);
+                eLineTypes::eBackgroundWallRight_6);
             const FP x2 = FP_FromInteger(field_124_x1) + ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale);
             const FP y1 = FP_FromInteger(field_126_y1) - (mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromDouble(80.0));
             const FP x1 = ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale) + FP_FromInteger(field_124_x1);
@@ -204,7 +204,7 @@ SlamDoor::SlamDoor(Path_SlamDoor* pTlv, TlvItemInfoUnion tlvInfo)
                 FP_GetExponent(y1),
                 FP_GetExponent(x2),
                 field_126_y1,
-                5);
+                eLineTypes::eBackgroundWallLeft_5);
         }
         field_120_pCollisionLine_5_1 = pPathLine;
 
@@ -299,13 +299,13 @@ void SlamDoor::VUpdate()
                     FP_GetExponent(FP_FromInteger(field_126_y1) - (FP_FromInteger(80) * FP_FromInteger(1))),
                     field_124_x1,
                     field_126_y1,
-                    1);
+                    eLineTypes::eWallLeft_1);
                 field_120_pCollisionLine_5_1 = sCollisions->Add_Dynamic_Collision_Line(
                     FP_GetExponent(ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale) + FP_FromInteger(field_124_x1)),
                     FP_GetExponent(FP_FromInteger(field_126_y1) - (FP_FromInteger(80) * mBaseAnimatedWithPhysicsGameObject_SpriteScale)),
                     FP_GetExponent(FP_FromInteger(field_124_x1) + ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale)),
                     field_126_y1,
-                    2);
+                    eLineTypes::eWallRight_2);
             }
             else
             {
@@ -314,13 +314,13 @@ void SlamDoor::VUpdate()
                     FP_GetExponent(FP_FromInteger(field_126_y1) - (FP_FromInteger(80) * mBaseAnimatedWithPhysicsGameObject_SpriteScale)),
                     field_124_x1,
                     field_126_y1,
-                    5);
+                    eLineTypes::eBackgroundWallLeft_5);
                 field_120_pCollisionLine_5_1 = sCollisions->Add_Dynamic_Collision_Line(
                     FP_GetExponent(ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale) + FP_FromInteger(field_124_x1)),
                     FP_GetExponent(FP_FromInteger(field_126_y1) - (FP_FromInteger(80) * mBaseAnimatedWithPhysicsGameObject_SpriteScale)),
                     FP_GetExponent(FP_FromInteger(field_124_x1) + ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale)),
                     field_126_y1,
-                    6);
+                    eLineTypes::eBackgroundWallRight_6);
             }
 
             PSX_RECT bRect = VGetBoundingRect();

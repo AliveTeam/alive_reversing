@@ -307,7 +307,7 @@ void TrapDoor::Add_To_Collisions_Array()
         field_148_bounding_rect.y,
         field_148_bounding_rect.w,
         field_148_bounding_rect.y,
-        32);
+        eLineTypes::eDynamicCollision_32);
 
     if (mBaseAnimatedWithPhysicsGameObject_SpriteScale != FP_FromInteger(1))
     {
