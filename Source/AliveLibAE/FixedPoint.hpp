@@ -31,4 +31,4 @@ inline FixedPoint operator/(const FixedPoint& lhs, const FixedPoint& rhs)
 }
 
 s32 Math_SquareRoot_Int_496E70(s32 value);
-FP Math_SquareRoot_FP_496E90(FP value);
+FP Math_SquareRoot_FP(FP value);

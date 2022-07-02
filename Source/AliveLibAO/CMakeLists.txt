@@ -287,8 +287,6 @@ SET(AliveLibSrcAO
    Particle.cpp
    LvlArchive.hpp
    LvlArchive.cpp
-   Collisions.hpp
-   Collisions.cpp
    Input.hpp
    Input.cpp
    GameSpeak.hpp

@@ -1,40 +1,33 @@
-#include "stdafx_ao.h"
+#include "stdafx.h"
 #include "Collisions.hpp"
-#include "PathData.hpp"
-#include "Math.hpp"
+#include "../AliveLibCommon/Sys_common.hpp"
+#include "../relive_lib/Math.hpp"
 
-// windows.h pollution fix
-#undef min
-#undef max
-
-namespace AO {
-
-ALIVE_VAR(1, 0x504C6C, Collisions*, sCollisions, nullptr);
+ALIVE_VAR(1, 0x5C1128, Collisions*, sCollisions, nullptr);
 
 Collisions::~Collisions()
 {
-    delete[] field_0_pArray;
+    relive_delete[] field_0_pArray;
 }
 
-Collisions::Collisions(const CollisionInfo* pCollisionInfo, const u8* ppPathData)
+Collisions::Collisions(LineFormat lineFormat, const CollisionInfo* pCollisionInfo, const u8* pPathRes)
 {
     field_8_item_count = pCollisionInfo->field_10_num_collision_items;
     field_4_current_item_count = static_cast<u16>(pCollisionInfo->field_10_num_collision_items);
 
-    // Up to 20 dynamic collisions, slam doors, trap doors, lift platforms etc. (Half of AEs)
-    field_C_max_count = pCollisionInfo->field_10_num_collision_items + 20;
+    // Up to 40 dynamic collisions, slam doors, trap doors, lift platforms etc.
+    field_C_max_count = pCollisionInfo->field_10_num_collision_items + (lineFormat == LineFormat::Ao ? 20 : 40);
 
     // Allocate memory for collisions array
-    field_0_pArray = new (std::nothrow) PathLine[field_C_max_count];
-    memset(field_0_pArray, 0, field_C_max_count * sizeof(PathLine));
+    field_0_pArray = relive_new PathLine[field_C_max_count];
 
-    // Copy collision line data out of Path resource
-    memcpy(field_0_pArray, &ppPathData[pCollisionInfo->field_C_collision_offset], field_4_current_item_count * sizeof(PathLine));
-
-    // Init dynamic collisions positions to zeros
-    for (s32 i = field_4_current_item_count; i < field_C_max_count; i++)
+    if (lineFormat == LineFormat::Ao)
     {
-        field_0_pArray[i] = {};
+        ConvertLineTypes<const PathLineAO*>(pCollisionInfo, pPathRes);
+    }
+    else
+    {
+        ConvertLineTypes<const PathLineAE*>(pCollisionInfo, pPathRes);
     }
 }
 
@@ -64,11 +57,10 @@ PathLine* Collisions::Add_Dynamic_Collision_Line(s16 x1, s16 y1, s16 x2, s16 y2,
     pAddedLine->mRect.w = x2;
     pAddedLine->mRect.h = y2;
     pAddedLine->mLineType = mode;
-    pAddedLine->field_10_next = -1;
-    pAddedLine->field_C_previous = -1;
+    pAddedLine->field_C_next = -1;
+    pAddedLine->field_A_previous = -1;
     return pAddedLine;
 }
-
 
 // 24:8 fixed type.. I guess 16:16 wasn't good enough for collision detection
 class Fixed_24_8 final
@@ -156,7 +148,7 @@ inline Fixed_24_8 operator/(const Fixed_24_8& lhs, const Fixed_24_8& rhs)
     return r;
 }
 
-s16 Collisions::Raycast(FP X1_16_16, FP Y1_16_16, FP X2_16_16, FP Y2_16_16, PathLine** ppLine, FP* hitX, FP* hitY, const CollisionMask& modeMask)
+Bool32 Collisions::Raycast(FP X1_16_16, FP Y1_16_16, FP X2_16_16, FP Y2_16_16, PathLine** ppLine, FP* hitX, FP* hitY, const CollisionMask& modeMask)
 {
     // NOTE: The local static k256_dword_5BC034 is omitted since its actually just a constant of 256
 
@@ -297,7 +289,7 @@ s16 Collisions::Raycast(FP X1_16_16, FP Y1_16_16, FP X2_16_16, FP Y2_16_16, Path
         *ppLine = pNearestMatch;
 
 #if DEVELOPER_MODE
-        //DebugAddRaycast({ X1_16_16,Y1_16_16,X2_16_16,Y2_16_16,*hitX,*hitY, *ppLine, modeMask });
+        //DebugAddRaycast({X1_16_16, Y1_16_16, X2_16_16, Y2_16_16, *hitX, *hitY, *ppLine, modeMask});
 #endif
 
         return TRUE;
@@ -307,19 +299,28 @@ s16 Collisions::Raycast(FP X1_16_16, FP Y1_16_16, FP X2_16_16, FP Y2_16_16, Path
 
 
 #if DEVELOPER_MODE
-    //DebugAddRaycast({ X1_16_16,Y1_16_16,X2_16_16,Y2_16_16,*hitX,*hitY, *ppLine, modeMask });
+    //DebugAddRaycast({X1_16_16, Y1_16_16, X2_16_16, Y2_16_16, *hitX, *hitY, *ppLine, modeMask});
 #endif
 
     return FALSE;
+}
+
+PathLine* Collisions::Get_Line_At_Idx(s16 idx)
+{
+    if (idx == -1)
+    {
+        return nullptr;
+    }
+    return &field_0_pArray[idx];
 }
 
 const s32 kNearLineTollerance = 8;
 
 PathLine* Collisions::PreviousLine(PathLine* pLine)
 {
-    if (pLine->field_C_previous != -1)
+    if (pLine->field_A_previous != -1)
     {
-        return &field_0_pArray[pLine->field_C_previous];
+        return &field_0_pArray[pLine->field_A_previous];
     }
 
     if (field_C_max_count == 0)
@@ -331,18 +332,20 @@ PathLine* Collisions::PreviousLine(PathLine* pLine)
     {
         if (abs(pLine->mRect.x - field_0_pArray[i].mRect.w) <= kNearLineTollerance && abs(pLine->mRect.y - field_0_pArray[i].mRect.h) <= kNearLineTollerance)
         {
-            return &field_0_pArray[i];
+            if ((1 << field_0_pArray[i].mLineType % 32) & (1 << pLine->mLineType % 32))
+            {
+                return &field_0_pArray[i];
+            }
         }
     }
-
     return nullptr;
 }
 
 PathLine* Collisions::NextLine(PathLine* pLine)
 {
-    if (pLine->field_10_next != -1)
+    if (pLine->field_C_next != -1)
     {
-        return &field_0_pArray[pLine->field_10_next];
+        return &field_0_pArray[pLine->field_C_next];
     }
 
     if (field_C_max_count == 0)
@@ -354,7 +357,10 @@ PathLine* Collisions::NextLine(PathLine* pLine)
     {
         if (abs(pLine->mRect.w - field_0_pArray[i].mRect.x) <= kNearLineTollerance && abs(pLine->mRect.h - field_0_pArray[i].mRect.y) <= kNearLineTollerance)
         {
-            return &field_0_pArray[i];
+            if ((1 << field_0_pArray[i].mLineType % 32) & (1 << pLine->mLineType % 32))
+            {
+                return &field_0_pArray[i];
+            }
         }
     }
     return nullptr;
@@ -362,6 +368,10 @@ PathLine* Collisions::NextLine(PathLine* pLine)
 
 PSX_RECT* Rect_Clear(PSX_RECT* pRect)
 {
+    if (!pRect)
+    {
+        return nullptr;
+    }
     pRect->x = 0;
     pRect->w = 0;
     pRect->y = 0;
@@ -488,12 +498,12 @@ PathLine* PathLine::MoveOnLine(FP* pXPos, FP* pYPos, const FP distToMove)
 
         if (yDiff_2 + xDiff_2 <= FP_FromInteger(180))
         {
-            squareRoot = Math_SquareRoot_FP_451210(
+            squareRoot = Math_SquareRoot_FP_Wrapper(
                 (yDiff * yDiff) + (xDiff * xDiff));
         }
         else
         {
-            squareRoot = FP_FromInteger(Math_SquareRoot_Int_4511B0(
+            squareRoot = FP_FromInteger(Math_SquareRoot_Int_496E70(
                 FP_GetExponent(xDiff) * FP_GetExponent(xDiff) + FP_GetExponent(yDiff) * FP_GetExponent(yDiff)));
         }
 
@@ -519,10 +529,10 @@ PathLine* PathLine::MoveOnLine(FP* pXPos, FP* pYPos, const FP distToMove)
             return nullptr;
         }
 
-        const FP root1 = Math_SquareRoot_FP_451210(
+        const FP root1 = Math_SquareRoot_FP_Wrapper(
             (FP_FromInteger(mRect.h) - ypos) * (FP_FromInteger(mRect.h) - ypos) + (FP_FromInteger(mRect.w) - xpos) * (FP_FromInteger(mRect.w) - xpos));
 
-        const FP root2 = Math_SquareRoot_FP_451210(
+        const FP root2 = Math_SquareRoot_FP_Wrapper(
             ((yPosRet - ypos) * (yPosRet - ypos)) + ((xPosRet - xpos) * (xPosRet - xpos)));
 
         *pXPos = FP_FromInteger(pNextLine->mRect.x);
@@ -542,10 +552,10 @@ PathLine* PathLine::MoveOnLine(FP* pXPos, FP* pYPos, const FP distToMove)
             return nullptr;
         }
 
-        const FP root1 = Math_SquareRoot_FP_451210(
+        const FP root1 = Math_SquareRoot_FP_Wrapper(
             (yPosRet - ypos) * (yPosRet - ypos) + (xPosRet - xpos) * (xPosRet - xpos));
 
-        const FP root2 = Math_SquareRoot_FP_451210(
+        const FP root2 = Math_SquareRoot_FP_Wrapper(
             (FP_FromInteger(mRect.y) - ypos) * (FP_FromInteger(mRect.y) - ypos)
             + (FP_FromInteger(mRect.x) - xpos) * (FP_FromInteger(mRect.x) - xpos));
 
@@ -559,5 +569,3 @@ PathLine* PathLine::MoveOnLine(FP* pXPos, FP* pYPos, const FP distToMove)
 
     return this;
 }
-
-} // namespace AO

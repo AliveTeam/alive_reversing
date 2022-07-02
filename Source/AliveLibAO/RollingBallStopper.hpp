@@ -5,9 +5,10 @@
 #include "Map.hpp"
 #include "../AliveLibAE/Path.hpp"
 
+class PathLine;
+
 namespace AO {
 
-class PathLine;
 
 struct Path_RollingBallStopper final : public Path_TLV
 {

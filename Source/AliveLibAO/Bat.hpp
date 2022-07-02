@@ -5,6 +5,8 @@
 #include "Map.hpp"
 #include "../AliveLibAE/Path.hpp"
 
+class PathLine;
+
 namespace AO {
 
 struct Path_Bat final : public Path_TLV
@@ -16,7 +18,6 @@ struct Path_Bat final : public Path_TLV
 };
 ALIVE_ASSERT_SIZEOF(Path_Bat, 0x20);
 
-class PathLine;
 
 class Bat final : public BaseAnimatedWithPhysicsGameObject
 {

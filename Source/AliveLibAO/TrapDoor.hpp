@@ -5,6 +5,8 @@
 #include "PlatformBase.hpp"
 #include "../AliveLibAE/Path.hpp"
 
+class PathLine;
+
 namespace AO {
 
 enum class TrapDoorState : s16
@@ -33,7 +35,6 @@ struct Path_TrapDoor final : public Path_TLV
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_TrapDoor, 0x28);
 
-class PathLine;
 
 class TrapDoor final : public PlatformBase
 {

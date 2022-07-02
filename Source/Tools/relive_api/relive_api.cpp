@@ -2,8 +2,7 @@
 #include "relive_api.hpp"
 #include "../../AliveLibAE/Path.hpp"
 #include "../../AliveLibAE/PathData.hpp"
-#include "../../AliveLibAO/Collisions.hpp"
-#include "../../AliveLibAE/Collisions.hpp"
+#include "../../relive_lib/Collisions.hpp"
 #include "LvlReaderWriter.hpp"
 #include "JsonUpgraderAO.hpp"
 #include "JsonUpgraderAE.hpp"
@@ -80,7 +79,7 @@ struct PathBND
     PathInfo mPathInfo;
 };
 
-[[nodiscard]] static PathInfo ToPathInfo(const AO::PathData& data, const AO::CollisionInfo& collisionInfo)
+[[nodiscard]] static PathInfo ToPathInfo(const AO::PathData& data, const CollisionInfo& collisionInfo)
 {
     PathInfo info = {};
     info.mGridWidth = data.field_C_grid_width;
@@ -309,7 +308,7 @@ static void ForEachItemAtXY(u32 xSize, u32 ySize, ContainerType& container, FnOn
     }
 }
 
-static void WriteCollisionLine(ByteStream& s, const AO::PathLine& line)
+static void WriteCollisionLine(ByteStream& s, const PathLineAO& line)
 {
     s.Write(line.mRect.x);
     s.Write(line.mRect.y);
@@ -325,7 +324,7 @@ static void WriteCollisionLine(ByteStream& s, const AO::PathLine& line)
     s.Write(line.field_10_next);
 }
 
-static void WriteCollisionLine(ByteStream& s, const ::PathLine& line)
+static void WriteCollisionLine(ByteStream& s, const ::PathLineAE& line)
 {
     s.Write(line.mRect.x);
     s.Write(line.mRect.y);

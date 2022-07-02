@@ -72,7 +72,7 @@ void JsonWriterAO::ResetTypeCounterMap()
 [[nodiscard]] jsonxx::Array JsonWriterAO::ReadCollisionStream(u8* ptr, s32 numItems, Context& context)
 {
     jsonxx::Array collisionsArray;
-    AO::PathLine* pLineIter = reinterpret_cast<AO::PathLine*>(ptr);
+    PathLineAO* pLineIter = reinterpret_cast<PathLineAO*>(ptr);
     TypesCollectionAO types;
 
     for (s32 i = 0; i < numItems; i++)

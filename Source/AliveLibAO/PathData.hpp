@@ -6,6 +6,8 @@
 
 enum class EReliveLevelIds : s16;
 
+struct CollisionInfo;
+
 namespace AO {
 
 enum class LevelIds : s16
@@ -164,20 +166,6 @@ struct PathData final
     s32 field_14_object_offset;
     s32 field_18_object_index_table_offset;
     PathFunctionTable field_1C_object_funcs;
-};
-
-struct CollisionInfo;
-
-struct CollisionInfo final
-{
-    s16 field_4_left;
-    s16 field_6_right;
-    s16 field_8_top;
-    s16 field_A_bottom;
-    u32 field_C_collision_offset;
-    u32 field_10_num_collision_items;
-    u32 field_14_grid_width;
-    u32 field_18_grid_height;
 };
 
 struct PathBlyRec final

@@ -6,6 +6,8 @@
 #include "Map.hpp"
 #include "AnimationUnknown.hpp"
 
+class PathLine;
+
 namespace AO {
 
 struct BeeSwarmParticle final
@@ -19,7 +21,6 @@ struct BeeSwarmParticle final
 };
 ALIVE_ASSERT_SIZEOF(BeeSwarmParticle, 0x80);
 
-class PathLine;
 
 struct BeeSwarmParticles final
 {

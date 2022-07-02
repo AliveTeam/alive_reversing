@@ -25,6 +25,10 @@ SET(relive_lib_src
     VRam.cpp
     ScreenManager.cpp
     ScreenManager.hpp
+    Math.hpp
+    Math.cpp
+    Collisions.hpp
+    Collisions.cpp
     BaseAnimatedWithPhysicsGameObject.hpp
     stdafx.h
 )

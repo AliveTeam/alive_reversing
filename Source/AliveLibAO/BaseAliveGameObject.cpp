@@ -776,7 +776,7 @@ s16 BaseAliveGameObject::InAirCollision_4019C0(PathLine** ppLine, FP* hitX, FP* 
         ppLine,
         hitX,
         hitY,
-        mBaseAnimatedWithPhysicsGameObject_SpriteScale != FP_FromDouble(0.5) ? kFgWallsOrFloor : kBgWallsOrFloor);
+        mBaseAnimatedWithPhysicsGameObject_SpriteScale != FP_FromDouble(0.5) ? kFgWallsOrFloor : kBgWallsOrFloor) ? 1 : 0;
 }
 
 void BaseAliveGameObject::OnResourceLoaded_4019A0(BaseAliveGameObject* ppRes)

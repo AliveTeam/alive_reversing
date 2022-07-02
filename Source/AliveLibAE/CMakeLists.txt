@@ -120,8 +120,6 @@ SET(AliveLibAESrc
     LCDScreen.cpp
     LCDStatusBoard.hpp
     LCDStatusBoard.cpp
-    Collisions.hpp
-    Collisions.cpp
     CheatController.hpp
     CheatController.cpp
     Compression.hpp

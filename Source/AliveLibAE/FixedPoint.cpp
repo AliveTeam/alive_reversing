@@ -29,7 +29,7 @@ s32 Math_SquareRoot_Int_496E70(s32 value)
     return Math_SquareRoot_Shifted_496E20(value, 0); // 15 iterations
 }
 
-FP Math_SquareRoot_FP_496E90(FP value)
+FP Math_SquareRoot_FP(FP value)
 {
     return FP_FromRaw(Math_SquareRoot_Shifted_496E20(value.fpValue, 16)); // 23 iterations (16/2+15)
 }

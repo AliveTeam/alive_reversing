@@ -283,7 +283,7 @@ void Meat::InTheAir()
         &field_124_pLine,
         &hitX,
         &hitY,
-        mBaseAnimatedWithPhysicsGameObject_SpriteScale == FP_FromInteger(1) ? kFgWallsOrFloor : kBgWallsOrFloor);
+        mBaseAnimatedWithPhysicsGameObject_SpriteScale == FP_FromInteger(1) ? kFgWallsOrFloor : kBgWallsOrFloor) ? 1 : 0;
 
 
     if (CollisionRaycast == 1)

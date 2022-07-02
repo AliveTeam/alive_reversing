@@ -1,7 +1,7 @@
 //#include "stdafx_ao.h"
 #include "PathData.hpp"
 #include "../AliveLibCommon/Function.hpp"
-#include "Collisions.hpp"
+#include "../relive_lib/Collisions.hpp"
 #include "../relive_lib/MapWrapper.hpp"
 
 namespace AO {

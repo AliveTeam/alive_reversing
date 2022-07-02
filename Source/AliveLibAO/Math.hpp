@@ -17,7 +17,7 @@ s32 Math_Distance(s32 x1, s32 y1, s32 x2, s32 y2);
 
 s32 Math_SquareRoot_Int_4511B0(s32 a1);
 
-FP Math_SquareRoot_FP_451210(FP v);
+FP Math_SquareRoot_FP(FP v);
 
 ALIVE_ARY_EXTERN(u8, 256, sRandomBytes_4BBE30);
 

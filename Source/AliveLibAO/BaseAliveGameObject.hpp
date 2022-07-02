@@ -5,6 +5,8 @@
 #include "../AliveLibCommon/BitField.hpp"
 #include "Psx.hpp"
 
+class PathLine;
+
 namespace AO {
 
 void BaseAliveGameObject_ForceLink();
@@ -12,7 +14,6 @@ void BaseAliveGameObject_ForceLink();
 
 struct Path_TLV;
 class PlatformBase;
-class PathLine;
 class BirdPortal;
 
 enum class CameraPos : s16;

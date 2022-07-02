@@ -23,6 +23,7 @@
 #include "Sound/Midi.hpp"
 #include "Sys_common.hpp"
 #include "Grid.hpp"
+#include "../relive_lib/Math.hpp"
 
 ALIVE_VAR(1, 0x5BC20C, u8, sFleechRandomIdx_5BC20C, 0);
 ALIVE_VAR(1, 0x5BC20E, s16, sFleechCount_5BC20E, 0);
@@ -1274,7 +1275,7 @@ void Fleech::RenderEx(PrimHeader** ot)
 
         const FP distanceX_squared = (tongueBlock_X[0] - tongueBlock_X[4]) * (tongueBlock_X[0] - tongueBlock_X[4]);
         const FP distanceY_squared = (tongueBlock_Y[0] - tongueBlock_Y[4]) * (tongueBlock_Y[0] - tongueBlock_Y[4]);
-        const FP distanceXY_squareRoot = Math_SquareRoot_FP_496E90(distanceY_squared + distanceX_squared);
+        const FP distanceXY_squareRoot = Math_SquareRoot_FP_Wrapper(distanceY_squared + distanceX_squared);
         const FP Tan_fp = Math_Tan_496F70(
             tongueBlock_Y[0] - tongueBlock_Y[4],
             tongueBlock_X[4] - tongueBlock_X[0]);

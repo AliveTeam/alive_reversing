@@ -55,6 +55,7 @@
 #include "TestAnimation.hpp"
 #include "Sys_common.hpp"
 #include "Grid.hpp"
+#include "../relive_lib/Math.hpp"
 
 using TAbeMotionFunction = decltype(&Abe::Motion_0_Idle_44EEB0);
 
@@ -9508,7 +9509,7 @@ void Abe::Calc_Well_Velocity_45C530(s16 xPosSource, s16 yPosSource, s16 xPosDest
 
     const FP yPosRealDistanceFull = (FP_FromInteger(80) * mBaseAnimatedWithPhysicsGameObject_SpriteScale) + yPosRealDistance;
     const FP gravityFactor = FP_FromInteger(8) * gravity;
-    const FP gravityCalc = Math_SquareRoot_FP_496E90(((gravityFactor * yPosRealDistanceFull) + (gravity * gravity)));
+    const FP gravityCalc = Math_SquareRoot_FP_Wrapper(((gravityFactor * yPosRealDistanceFull) + (gravity * gravity)));
     mBaseAnimatedWithPhysicsGameObject_VelY = (gravityCalc - gravity) * FP_FromDouble(0.5);
 
     const FP yVelocityAfterGravity = mBaseAnimatedWithPhysicsGameObject_VelY / gravity;

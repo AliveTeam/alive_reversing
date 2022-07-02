@@ -8,12 +8,12 @@
 enum class AnimId;
 
 namespace AO {
-class PathLine;
+class PathLineAO;
 enum class TlvTypes : s16;
 } // namespace AO
 
 
-class PathLine;
+class PathLineAE;
 enum class TlvTypes : s16;
 
 namespace jsonxx {

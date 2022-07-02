@@ -48,7 +48,7 @@ void JsonWriterAE::ResetTypeCounterMap()
 [[nodiscard]] jsonxx::Array JsonWriterAE::ReadCollisionStream(u8* ptr, s32 numItems, Context& context)
 {
     jsonxx::Array collisionsArray;
-    PathLine* pLineIter = reinterpret_cast<PathLine*>(ptr);
+    PathLineAE* pLineIter = reinterpret_cast<PathLineAE*>(ptr);
     TypesCollectionAE types;
 
     for (s32 i = 0; i < numItems; i++)

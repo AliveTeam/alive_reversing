@@ -2,7 +2,7 @@
 
 #include "../AliveLibCommon/Function.hpp"
 #include "Factory.hpp"
-#include "Collisions.hpp"
+#include "../relive_lib/Collisions.hpp"
 #include "../relive_lib/MapWrapper.hpp"
 
 enum class LevelIds : s16
@@ -36,19 +36,6 @@ struct FmvInfo final
     s16 field_A_volume; // usually 127 ?
 };
 ALIVE_ASSERT_SIZEOF(FmvInfo, 0xC);
-
-struct CollisionInfo final
-{
-    s16 field_4_left;
-    s16 field_6_right;
-    s16 field_8_top;
-    s16 field_A_bottom;
-    u32 field_C_collision_offset;
-    u32 field_10_num_collision_items;
-    u32 field_14_grid_width;
-    u32 field_18_grid_height;
-};
-ALIVE_ASSERT_SIZEOF(CollisionInfo, 0x1C);
 
 struct PathData final
 {

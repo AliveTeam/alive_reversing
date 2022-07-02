@@ -8,7 +8,7 @@ struct LoadedJsonAO final
 {
     std::vector<CameraNameAndTlvBlob> mPerCamData;
     std::set<AnimId> mResourcesRequiredInLvl;
-    std::vector<AO::PathLine> mCollisions;
+    std::vector<PathLineAO> mCollisions;
 };
 
 class JsonReaderAO final : public JsonReaderBase

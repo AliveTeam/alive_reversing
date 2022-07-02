@@ -802,7 +802,7 @@ void Map::GoTo_Camera()
     if (prevPathId != mCurrentPath || prevLevelId != mCurrentLevel)
     {
         relive_delete sCollisions;
-        sCollisions = relive_new Collisions(pPathRec_1->field_8_pCollisionData, *GetPathResourceBlockPtr(mCurrentPath));
+        sCollisions = relive_new Collisions(Collisions::LineFormat::Ae, pPathRec_1->field_8_pCollisionData, *GetPathResourceBlockPtr(mCurrentPath));
     }
 
     if (mRestoreQuickSaveData)

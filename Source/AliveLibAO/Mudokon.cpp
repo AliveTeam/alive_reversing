@@ -326,7 +326,7 @@ Mudokon::Mudokon(Path_TLV* pTlv, s32 tlvInfo)
         &BaseAliveGameObjectCollisionLine,
         &hitX,
         &hitY,
-        mBaseAnimatedWithPhysicsGameObject_SpriteScale != FP_FromDouble(0.5) ? kFgWallsOrFloor : kBgWallsOrFloor);
+        mBaseAnimatedWithPhysicsGameObject_SpriteScale != FP_FromDouble(0.5) ? kFgWallsOrFloor : kBgWallsOrFloor) ? 1 : 0;
 
     mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger((pTlv->mTopLeft.x + pTlv->mBottomRight.x) / 2);
 

@@ -5,6 +5,8 @@
 #include "BaseAliveGameObject.hpp"
 #include "../AliveLibAE/Path.hpp"
 
+class PathLine;
+
 namespace AO {
 
 struct Path_RollingBall final : public Path_TLV
@@ -19,7 +21,6 @@ struct Path_RollingBall final : public Path_TLV
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_RollingBall, 0x24);
 
 class RollingBallShaker;
-class PathLine;
 
 class RollingBall final : public BaseAliveGameObject
 {

@@ -1843,7 +1843,7 @@ void Map::GoTo_Camera()
             relive_delete sCollisions;
         }
 
-        sCollisions = relive_new Collisions(pPathRecord->field_8_pCollisionData, *GetPathResourceBlockPtr(mCurrentPath));
+        sCollisions = relive_new Collisions(Collisions::LineFormat::Ao, pPathRecord->field_8_pCollisionData, *GetPathResourceBlockPtr(mCurrentPath));
     }
 
     if (field_E0_save_data)

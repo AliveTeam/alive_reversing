@@ -10,7 +10,7 @@ LoadedJsonAO JsonReaderAO::Load(IFileIO& fileIO, const std::string& fileName, Co
 
     const jsonxx::Object& collisionsObject = ReadObject(loadedJsonBase.mMapJson, "collisions");
     const jsonxx::Array& collisionsArray = ReadArray(collisionsObject, "items");
-    std::vector<AO::PathLine> lines = ReadAOLines(globalTypes, collisionsArray, context);
+    std::vector<PathLineAO> lines = ReadAOLines(globalTypes, collisionsArray, context);
 
     LoadedJsonAO ret;
     ret.mResourcesRequiredInLvl = std::move(loadedJsonBase.mResourcesRequiredInLvl);

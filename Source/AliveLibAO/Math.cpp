@@ -86,7 +86,7 @@ s32 Math_SquareRoot_Int_4511B0(s32 a1)
     return Math_SquareRoot_Int_496E70(a1);
 }
 
-FP Math_SquareRoot_FP_451210(FP v)
+FP Math_SquareRoot_FP(FP v)
 {
     if (v == FP_FromInteger(0))
     {

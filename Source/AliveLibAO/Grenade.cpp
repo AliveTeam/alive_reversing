@@ -324,7 +324,7 @@ s16 Grenade::InTheAir()
         &hitY,
         mBaseAnimatedWithPhysicsGameObject_SpriteScale != FP_FromDouble(0.5) ? kFgFloor : kBgFloor);
 
-    result = bHit;
+    result = bHit ? 1 : 0;
 
     if (bHit == 1)
     {

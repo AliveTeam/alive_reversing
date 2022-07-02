@@ -2,15 +2,14 @@
 
 #include "JsonModelTypes.hpp"
 #include "PropertyCollection.hpp"
-#include "../../AliveLibAO/Collisions.hpp"
-#include "../../AliveLibAE/Collisions.hpp"
+#include "../../relive_lib/Collisions.hpp"
 #include "TlvObjectBaseMacros.hpp"
 
 namespace ReliveAPI {
 class AOLine final : public PropertyCollection
 {
 public:
-    AOLine(TypesCollectionBase& globalTypes, const AO::PathLine* line = nullptr)
+    AOLine(TypesCollectionBase& globalTypes, const PathLineAO* line = nullptr)
     {
         if (line)
         {
@@ -29,13 +28,13 @@ public:
         ADD("Previous", mLine.field_C_previous);
     }
 
-    AO::PathLine mLine = {};
+    PathLineAO mLine = {};
 };
 
 class AELine final : public PropertyCollection
 {
 public:
-    AELine(TypesCollectionBase& globalTypes, const PathLine* line = nullptr)
+    AELine(TypesCollectionBase& globalTypes, const PathLineAE* line = nullptr)
     {
         if (line)
         {
@@ -59,7 +58,7 @@ public:
         ADD("Length", mLine.field_12_line_length);
     }
 
-    PathLine mLine = {};
+    PathLineAE mLine = {};
 };
 
 class IFileIO;
@@ -81,7 +80,7 @@ public:
 protected:
     LoadedJsonBase Load(TypesCollectionBase& types, IFileIO& fileIO, const std::string& fileName, Context& context);
 
-    std::vector<AO::PathLine> ReadAOLines(TypesCollectionBase& types, const jsonxx::Array& collisionsArray, Context& context);
-    std::vector<::PathLine> ReadAELines(TypesCollectionBase& types, const jsonxx::Array& collisionsArray, Context& context);
+    std::vector<PathLineAO> ReadAOLines(TypesCollectionBase& types, const jsonxx::Array& collisionsArray, Context& context);
+    std::vector<::PathLineAE> ReadAELines(TypesCollectionBase& types, const jsonxx::Array& collisionsArray, Context& context);
 };
 } // namespace ReliveAPI

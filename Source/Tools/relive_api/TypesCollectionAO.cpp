@@ -9,7 +9,7 @@
 
 #include "../../AliveLibCommon/stdafx_common.h"
 
-#include "../../AliveLibAO/Collisions.hpp"
+#include "../../relive_lib/Collisions.hpp"
 
 namespace ReliveAPI {
 TypesCollectionAO::TypesCollectionAO()
@@ -138,21 +138,21 @@ void TypesCollectionAO::AddAOTypes()
     REGISTER_TYPE_AO(AOTlvs::Path_MovieStone);
 
 #undef REGISTER_TYPE_AO
-    AddEnum<AO::eLineTypes>("Enum_LineTypes",
+    AddEnum<eLineTypes>("Enum_LineTypes",
     {
-        {AO::eLineTypes::eFloor_0, "Floor"},
-        {AO::eLineTypes::eWallLeft_1, "Wall Left"},
-        {AO::eLineTypes::eWallRight_2, "Wall Right"},
-        {AO::eLineTypes::eCeiling_3, "Ceiling"},
-        {AO::eLineTypes::eBackgroundFloor_4, "Background Floor"},
-        {AO::eLineTypes::eBackgroundWallLeft_5, "Background Wall Left"},
-        {AO::eLineTypes::eBackgroundWallRight_6, "Background Wall Right"},
-        {AO::eLineTypes::eBackgroundCeiling_7, "Background Ceiling"},
-        {AO::eLineTypes::eTrackLine_8, "Track Line"},
-        {AO::eLineTypes::eArt_9, "Art"},
-        {AO::eLineTypes::eBulletWall_10, "Bullet Wall"},
-        {AO::eLineTypes::eDynamicCollision_32, "eUnknown_32"},
-        {AO::eLineTypes::eBackgroundDynamicCollision_36, "eUnknown_36"},
+        {eLineTypes::eFloor_0, "Floor"},
+        {eLineTypes::eWallLeft_1, "Wall Left"},
+        {eLineTypes::eWallRight_2, "Wall Right"},
+        {eLineTypes::eCeiling_3, "Ceiling"},
+        {eLineTypes::eBackgroundFloor_4, "Background Floor"},
+        {eLineTypes::eBackgroundWallLeft_5, "Background Wall Left"},
+        {eLineTypes::eBackgroundWallRight_6, "Background Wall Right"},
+        {eLineTypes::eBackgroundCeiling_7, "Background Ceiling"},
+        {eLineTypes::eTrackLine_8, "Track Line"},
+        {eLineTypes::eArt_9, "Art"},
+        {eLineTypes::eBulletWall_10, "Bullet Wall"},
+        {eLineTypes::eDynamicCollision_32, "eUnknown_32"},
+        {eLineTypes::eBackgroundDynamicCollision_36, "eUnknown_36"},
     });
 
     AddEnum<AO::Path_Slig::ShootPossessedSligs>("Enum_ShootPossessedSligs",

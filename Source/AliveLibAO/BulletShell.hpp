@@ -3,9 +3,8 @@
 #include "../AliveLibCommon/Function.hpp"
 #include "BaseAnimatedWithPhysicsGameObject.hpp"
 
-namespace AO {
-
 class PathLine;
+namespace AO {
 
 class BulletShell final : public BaseAnimatedWithPhysicsGameObject
 {
