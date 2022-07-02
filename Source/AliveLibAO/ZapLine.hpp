@@ -13,6 +13,7 @@ struct ZapLineSprites final
 };
 ALIVE_ASSERT_SIZEOF(ZapLineSprites, 0x30);
 
+// TODO: Give better names to the ZapPoint fields.
 struct ZapPoint final
 {
     FP field_0;

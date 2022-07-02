@@ -7,11 +7,19 @@
 #include "PsxDisplay.hpp"
 #include "Game.hpp"
 
+
+ZapLine::~ZapLine()
+{
+    ResourceManager::FreeResource_49C330(field_F8_ppRes);
+    relive_delete[] field_138_sprite_positions;
+    relive_delete[] field_13C_zap_points;
+    relive_delete[] field_140_sprite_segment_positions;
+}
 ZapLine::ZapLine(FP xPosSource, FP yPosSource, FP xPosDest, FP yPosDest, s32 aliveTime, ZapLineType type, Layer layer)
     : BaseAnimatedWithPhysicsGameObject(0)
 {
-    field_12A_type = type;
     SetType(ReliveTypes::eZapLine);
+    field_12A_type = type;
 
     if (type == ZapLineType::eThin_1)
     {
@@ -34,10 +42,10 @@ ZapLine::ZapLine(FP xPosSource, FP yPosSource, FP xPosDest, FP yPosDest, s32 ali
         field_12C_tPageAbr = TPageAbr::eBlend_1;
     }
 
-    field_132_number_of_sprites = field_12E_number_of_segments * field_130_number_of_pieces_per_segment;
     mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit25_bDecompressDone); // HIBYTE |= 1
     mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit15_bSemiTrans);
     mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = layer;
+    field_132_number_of_sprites = field_12E_number_of_segments * field_130_number_of_pieces_per_segment;
 
     field_F8_ppRes = ResourceManager::Allocate_New_Locked_Resource(ResourceManager::ResourceType::Resource_Spline, 0, sizeof(ZapLineSprites) * field_132_number_of_sprites); // Spln (spline?).
 
@@ -126,13 +134,6 @@ void ZapLine::CalculateSourceAndDestinationPositions(FP xPosSource, FP yPosSourc
     field_122_y_position_destination = FP_GetExponent(FP_FromInteger(yOff) + FP_FromInteger(field_122_y_position_destination));
 }
 
-ZapLine::~ZapLine()
-{
-    ResourceManager::FreeResource_49C330(field_F8_ppRes);
-    relive_delete[] field_138_sprite_positions;
-    relive_delete[] field_13C_zap_points;
-    relive_delete[] field_140_sprite_segment_positions;
-}
 
 void ZapLine::VScreenChanged()
 {
