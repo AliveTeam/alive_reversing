@@ -4,10 +4,24 @@
 #include "ResourceManager.hpp"
 #include "Game.hpp"
 #include "ScreenManager.hpp"
+#include "../relive_lib/GameType.hpp"
+
+// TODO: Move somewhere more sane
+const AnimRecord PerGameAnimRec(AnimId id)
+{
+    if (GetGameType() == GameType::eAe)
+    {
+        return AnimRec(id);
+    }
+    else
+    {
+        return AO::AnimRec(id);
+    }
+}
 
 Shadow::Shadow()
 {
-    const AnimRecord& shadowRec = AnimRec(AnimId::ObjectShadow);
+    const AnimRecord& shadowRec = PerGameAnimRec(AnimId::ObjectShadow);
     u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, shadowRec.mResourceId, TRUE, FALSE);
     field_18_animation.Init(shadowRec.mFrameTableOffset, gAnimations, 0, shadowRec.mMaxW, shadowRec.mMaxH, ppRes);
 
@@ -63,7 +77,7 @@ void Shadow::Calculate_Position(FP xpos, FP ypos, PSX_RECT* frameRect, FP sprite
                 &pLine,
                 &hitX,
                 &hitY,
-                scale == Scale::Fg ? kFgFloorCeilingOrWalls : kBgFloorCeilingOrWalls))
+                scale == Scale::Fg ? kFgFloorCeilingOrWalls : kBgFloorCeilingOrWalls)) // NOTE: AO didn't check ceilings
         {
             const s16 camXPos = FP_GetExponent(pScreenManager->CamXPos());
             s16 lineXScreen = pLine->mRect.x - camXPos;
@@ -78,7 +92,9 @@ void Shadow::Calculate_Position(FP xpos, FP ypos, PSX_RECT* frameRect, FP sprite
             field_18_animation.mAnimFlags.Set(AnimFlags::eBit3_Render);
 
             field_8_xpos = xpos;
-            field_C_ypos = hitY;
+
+            // TODO :Refactor out, AO uses an offset of 3 for unknown reasons
+            field_C_ypos = hitY + FP_FromInteger(GetGameType() == GameType::eAe ? 0: 3);
 
             field_10_scale = (FP_FromInteger(1) - (((hitY - objY) * FP_FromDouble(0.75)) / FP_FromInteger(240))) * spriteScale;
 
@@ -93,7 +109,7 @@ void Shadow::Calculate_Position(FP xpos, FP ypos, PSX_RECT* frameRect, FP sprite
                         &pLine,
                         &hitX,
                         &hitY,
-                        scale == Scale::Fg ? kFgFloorCeilingOrWalls : kBgFloorCeilingOrWalls))
+                        scale == Scale::Fg ? kFgFloorCeilingOrWalls : kBgFloorCeilingOrWalls)) // NOTE: AO didn't check ceilings
                 {
                     lineXScreen = std::min(pLine->mRect.x, pLine->mRect.w) - FP_GetExponent(pScreenManager->CamXPos());
                 }
