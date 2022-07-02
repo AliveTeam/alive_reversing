@@ -133,7 +133,7 @@ public:
     ~Collisions();
     Collisions(const CollisionInfo* pCollisionInfo, const u8* pPathRes);
 
-    PathLine* Add_Dynamic_Collision_Line(s16 x1, s16 y1, s16 x2, s16 y2, s8 mode);
+    PathLine* Add_Dynamic_Collision_Line(s16 x1, s16 y1, s16 x2, s16 y2, eLineTypes mode);
     PathLine* Get_Line_At_Idx(s16 idx);
     Bool32 Raycast(FP X1, FP Y1, FP X2, FP Y2, PathLine** ppLine, FP* hitX, FP* hitY, const CollisionMask& modeMask);
     PathLine* PreviousLine(PathLine* pLine);

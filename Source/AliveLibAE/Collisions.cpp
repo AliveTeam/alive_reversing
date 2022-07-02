@@ -33,7 +33,7 @@ Collisions::Collisions(const CollisionInfo* pCollisionInfo, const u8* pPathRes)
 }
 
 
-PathLine* Collisions::Add_Dynamic_Collision_Line(s16 x1, s16 y1, s16 x2, s16 y2, s8 mode)
+PathLine* Collisions::Add_Dynamic_Collision_Line(s16 x1, s16 y1, s16 x2, s16 y2, eLineTypes mode)
 {
     bool freeItemFound = false;
     s32 idx = field_8_item_count;
