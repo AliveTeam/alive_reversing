@@ -1594,7 +1594,7 @@ const TintEntry kFleechTints_551844[15] = {
 
 s32 Animation_OnFrame_Fleech_449A60(BaseGameObject* pObj, s16* pData)
 {
-    reinterpret_cast<Fleech*>(pObj)->vOnFrame_42BC50(pData);
+    reinterpret_cast<Fleech*>(pObj)->VOnFrame(pData);
     return 1;
 }
 
@@ -2586,7 +2586,7 @@ Path_Hoist* Fleech::TryGetHoist(s32 xDistance, s16 bIgnoreDirection)
     return nullptr;
 }
 
-void Fleech::vOnFrame_42BC50(s16* pData)
+void Fleech::VOnFrame(s16* pData)
 {
     FP xpos = {};
     if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))

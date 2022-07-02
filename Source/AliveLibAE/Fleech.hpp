@@ -240,7 +240,7 @@ private:
     Path_Hoist* TryGetHoist(s32 xDistance, s16 bIgnoreDirection);
 
 public:
-    void vOnFrame_42BC50(s16* pData);
+    void VOnFrame(s16* pData);
 
 private:
     s32 mTlvInfo = 0;

@@ -43,7 +43,7 @@ void SlogSpawner::VUpdate()
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 
-    if (static_cast<s32>(sGnFrame) > field_30_spawn_timer && sSlogCount_BAF7F2 < field_38_max_slogs_at_a_time)
+    if (static_cast<s32>(sGnFrame) > field_30_spawn_timer && sSlogCount < field_38_max_slogs_at_a_time)
     {
         if (SwitchStates_Get(field_3E_spawner_switch_id))
         {

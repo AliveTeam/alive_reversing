@@ -44,6 +44,36 @@ enum class SlogSound : s32
     SlowStep_18 = 18
 };
 
+enum class eSlogMotions
+{
+    m2 = -2,
+    m1 = -1,
+    Motion_0_Idle,
+    Motion_1_Walk,
+    Motion_2_Run,
+    Motion_3_TurnAround,
+    Motion_4_Fall,
+    Motion_5_MoveHeadUpwards,
+    Motion_6_StopRunning,
+    Motion_7_SlideTurn,
+    Motion_8_StartWalking,
+    Motion_9_EndWalking,
+    Motion_10_Land,
+    Motion_11_Unused,
+    Motion_12_StartFastBarking,
+    Motion_13_EndFastBarking,
+    Motion_14_AngryBark,
+    Motion_15_Sleeping,
+    Motion_16_MoveHeadDownwards,
+    Motion_17_WakeUp,
+    Motion_18_JumpForwards,
+    Motion_19_JumpUpwards,
+    Motion_20_Eating,
+    Motion_21_Dying,
+    Motion_22_Scratch,
+    Motion_23_Growl
+};
+
 struct Slog_State final
 {
     AETypes field_0_type;
@@ -131,33 +161,33 @@ public:
 
 public:
     // Motions
-    void M_Idle_0_4C5F90();
-    void M_Walk_1_4C60C0();
-    void M_Run_2_4C6340();
-    void M_TurnAround_3_4C65C0();
-    void M_Fall_4_4C6930();
-    void M_MoveHeadUpwards_5_4C5F20();
-    void M_StopRunning_6_4C66C0();
-    void M_SlideTurn_7_4C6790();
-    void M_StartWalking_8_4C62E0();
-    void M_EndWalking_9_4C6310();
-    void M_Land_10_4C7820();
-    void M_Unused_11_4C7860();
-    void M_StartFastBarking_12_4C7880();
-    void M_EndFastBarking_13_4C78D0();
-    void M_AngryBark_14_4C6CF0();
-    void M_Sleeping_15_4C6D60();
-    void M_MoveHeadDownwards_16_4C70D0();
-    void M_WakeUp_17_4C7000();
-    void M_JumpForwards_18_4C7210();
-    void M_JumpUpwards_19_4C7470();
-    void M_Eating_20_4C75F0();
-    void M_Dying_21_4C77F0();
-    void M_Scratch_22_4C7120();
-    void M_Growl_23_4C7170();
+    void Motion_0_Idle();
+    void Motion_1_Walk();
+    void Motion_2_Run();
+    void Motion_3_TurnAround();
+    void Motion_4_Fall();
+    void Motion_5_MoveHeadUpwards();
+    void Motion_6_StopRunning();
+    void Motion_7_SlideTurn();
+    void Motion_8_StartWalking();
+    void Motion_9_EndWalking();
+    void Motion_10_Land();
+    void Motion_11_Unused();
+    void Motion_12_StartFastBarking();
+    void Motion_13_EndFastBarking();
+    void Motion_14_AngryBark();
+    void Motion_15_Sleeping();
+    void Motion_16_MoveHeadDownwards();
+    void Motion_17_WakeUp();
+    void Motion_18_JumpForwards();
+    void Motion_19_JumpUpwards();
+    void Motion_20_Eating();
+    void Motion_21_Dying();
+    void Motion_22_Scratch();
+    void Motion_23_Growl();
 
 public:
-    s16 Brain_ListeningToSlig_0_4C3790();
+    s16 Brain_0_ListeningToSlig();
 
     s16 Brain_ListeningToSlig_State_0_Init();
     s16 Brain_ListeningToSlig_State_1_Idle(const FP xpos1GridAHead);
@@ -167,9 +197,9 @@ public:
     s16 Brain_ListeningToSlig_State_5_Waiting();
     s16 Brain_ListeningToSlig_State_6_Responding();
 
-    s16 Brain_Idle_1_4C2830();
+    s16 Brain_1_Idle();
 
-    s16 Brain_ChasingAbe_2_4C0A00();
+    s16 Brain_2_ChasingAbe();
     s16 Brain_ChasingAbe_State_0_Init();
     s16 Brain_ChasingAbe_State_1_Waiting();
     s16 Brain_ChasingAbe_State_2_Thinking(BaseAliveGameObject* pTarget);
@@ -192,40 +222,35 @@ public:
     s16 Brain_ChasingAbe_State_19_AboutToCollide(BaseAliveGameObject* pTarget);
     s16 Brain_ChasingAbe_State_20_Collided(BaseAliveGameObject* pTarget);
 
-    s16 Brain_Death_3_4C3250();
+    s16 Brain_3_Death();
 
 private:
-    u8** ResBlockForMotion_4C4A80(s16 motion);
-
-
-    void SetAnimFrame_4C42A0();
-
-    void Init_4C46A0();
+    u8** ResBlockForMotion(s16 motion);
+    void SetAnimFrame();
+    void Init();
 
 private:
-    void ToIdle_4C5C10();
+    eSlogMotions GetNextMotion() const
+    {
+        return static_cast<eSlogMotions>(mNextMotion);
+    }
+    eSlogMotions GetCurrentMotion() const
+    {
+        return static_cast<eSlogMotions>(mCurrentMotion);
+    }
 
-    void Sfx_4C7D30(SlogSound effectId);
-
-    void ToJump_4C5C60();
-
-    s16 ToNextMotion_4C5A30();
-
-    Bool32 CollisionCheck_4C5480(FP hitY, FP hitX);
-
-    void MoveOnLine_4C5DA0();
-
-    Bone* FindBone_4C25B0();
-
-    BaseAliveGameObject* FindTarget_4C33C0(s16 bKillSligs, s16 bLookingUp);
-
-    s16 PlayerOrNakedSligNear_4C26A0();
-
-    void DelayedResponse_4C3750(s16 responseIdx);
-
-    s16 HandleEnemyStopper_4C5340();
-
-    s16 Facing_4C4020(FP xpos);
+    void ToIdle();
+    void Sfx(SlogSound effectId);
+    void ToJump();
+    s16 ToNextMotion();
+    bool CollisionCheck(FP hitY, FP hitX);
+    void MoveOnLine();
+    Bone* FindBone();
+    BaseAliveGameObject* FindTarget(s16 bKillSligs, s16 bLookingUp);
+    s16 PlayerOrNakedSligNear();
+    void DelayedResponse(s16 responseIdx);
+    s16 HandleEnemyStopper();
+    s16 Facing(FP xpos);
 
 public:
     s32 field_118_target_id = 0;
@@ -277,4 +302,4 @@ private:
 };
 ALIVE_ASSERT_SIZEOF(Slog, 0x164);
 
-ALIVE_VAR_EXTERN(s16, sSlogCount_BAF7F2);
+ALIVE_VAR_EXTERN(s16, sSlogCount);
