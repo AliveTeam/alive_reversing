@@ -154,7 +154,7 @@ private:
     void SetBrain(TCrawlingSligBrainFn fn);
     bool BrainIs(TCrawlingSligBrainFn fn);
 
-    Bool32 PanicOn();
+    bool PanicOn();
     void ToIdle();
     void HandleCommon();
     s16 CanCrawl();

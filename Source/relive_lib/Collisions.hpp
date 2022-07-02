@@ -182,7 +182,7 @@ public:
 
     PathLine* Add_Dynamic_Collision_Line(s16 x1, s16 y1, s16 x2, s16 y2, eLineTypes mode);
     PathLine* Get_Line_At_Idx(s16 idx);
-    Bool32 Raycast(FP X1, FP Y1, FP X2, FP Y2, PathLine** ppLine, FP* hitX, FP* hitY, const CollisionMask& modeMask);
+    bool Raycast(FP X1, FP Y1, FP X2, FP Y2, PathLine** ppLine, FP* hitX, FP* hitY, const CollisionMask& modeMask);
     PathLine* PreviousLine(PathLine* pLine);
     PathLine* NextLine(PathLine* pLine);
 

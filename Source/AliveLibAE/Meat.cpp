@@ -86,12 +86,12 @@ void Meat::VOnTrapDoorOpen()
     }
 }
 
-Bool32 Meat::VIsFalling()
+bool Meat::VIsFalling()
 {
     return field_11C_state == MeatStates::eFall_5;
 }
 
-Bool32 Meat::VCanThrow()
+bool Meat::VCanThrow()
 {
     return field_11C_state == MeatStates::eBeingThrown_2;
 }
@@ -609,7 +609,7 @@ s32 Meat::VGetSaveState(u8* pSaveBuffer)
     return sizeof(Meat_SaveState);
 }
 
-Bool32 Meat::VCanEatMe()
+bool Meat::VCanEatMe()
 {
     return field_11C_state != MeatStates::eCreated_0;
 }

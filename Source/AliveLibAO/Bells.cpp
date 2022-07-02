@@ -141,7 +141,7 @@ void Bells::PlaySounds()
     }
 }
 
-Bool32 Bells::CanSmash()
+bool Bells::CanSmash()
 {
     return field_E8_bSmashing == 0;
 }

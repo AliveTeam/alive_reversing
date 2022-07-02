@@ -348,33 +348,33 @@ void LiftPoint::vKeepOnMiddleFloor()
     field_280_flags.Set(LiftFlags::eBit7_KeepOnMiddleFloor);
 }
 
-Bool32 LiftPoint::vOnTopFloor()
+bool LiftPoint::vOnTopFloor()
 {
     return field_280_flags.Get(LiftFlags::eBit1_bTopFloor) && !(field_280_flags.Get(LiftFlags::eBit5_bMoveToFloorLevel));
 }
 
-Bool32 LiftPoint::vOnMiddleFloor()
+bool LiftPoint::vOnMiddleFloor()
 {
     return field_280_flags.Get(LiftFlags::eBit2_bMiddleFloor) && !(field_280_flags.Get(LiftFlags::eBit5_bMoveToFloorLevel));
 }
 
-Bool32 LiftPoint::vOnBottomFloor()
+bool LiftPoint::vOnBottomFloor()
 {
     return field_280_flags.Get(LiftFlags::eBit3_bBottomFloor) && !(field_280_flags.Get(LiftFlags::eBit5_bMoveToFloorLevel));
 }
 
-Bool32 LiftPoint::vOnAnyFloor()
+bool LiftPoint::vOnAnyFloor()
 {
     return vOnBottomFloor() || vOnTopFloor() || vOnMiddleFloor();
 }
 
-Bool32 LiftPoint::vOnAFloorLiftMoverCanUse()
+bool LiftPoint::vOnAFloorLiftMoverCanUse()
 {
     // Top or bottom floor can still be activated by the lift mover?
     return (vOnMiddleFloor() && !field_280_flags.Get(LiftFlags::eBit8_bIgnoreLiftMover)) || vOnBottomFloor() || vOnTopFloor();
 }
 
-Bool32 LiftPoint::vMovingToFloorLevel()
+bool LiftPoint::vMovingToFloorLevel()
 {
     return field_280_flags.Get(LiftFlags::eBit5_bMoveToFloorLevel);
 }

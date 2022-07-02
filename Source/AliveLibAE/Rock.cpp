@@ -80,12 +80,12 @@ void Rock::VScreenChanged()
     }
 }
 
-Bool32 Rock::VIsFalling()
+bool Rock::VIsFalling()
 {
     return field_11C_state == RockStates::eFallingOutOfWorld_5;
 }
 
-Bool32 Rock::VCanThrow()
+bool Rock::VCanThrow()
 {
     return field_11C_state == RockStates::eBouncing_4;
 }

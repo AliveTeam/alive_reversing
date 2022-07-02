@@ -162,7 +162,7 @@ void Dove::AsJoin(FP xpos, FP ypos)
     field_108_timer = sGnFrame + 47;
 }
 
-void Dove::FlyAway(Bool32 spookedInstantly)
+void Dove::FlyAway(bool spookedInstantly)
 {
     if (field_FE_state != State::eFlyAway_1)
     {
@@ -335,7 +335,7 @@ void Dove::VUpdate()
     }
 }
 
-void Dove::All_FlyAway(Bool32 spookedInstantly)
+void Dove::All_FlyAway(bool spookedInstantly)
 {
     for (s32 i = 0; i < gDovesArray_5BC100.Size(); i++)
     {

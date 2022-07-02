@@ -30,9 +30,9 @@ public:
     void AsAlmostACircle(FP xpos, FP ypos, u8 angle);
     void AsACircle(FP xpos, FP ypos, u8 angle);
     void AsJoin(FP xpos, FP ypos);
-    void FlyAway(Bool32 spookedInstantly);
+    void FlyAway(bool spookedInstantly);
 
-    static void All_FlyAway(Bool32 spookedInstantly);
+    static void All_FlyAway(bool spookedInstantly);
 
 private:
     s16 field_F4_counter = 0;

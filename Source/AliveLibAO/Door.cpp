@@ -341,7 +341,7 @@ void Door::VScreenChanged()
     mBaseGameObjectFlags.Set(BaseGameObject::eDead);
 }
 
-Bool32 Door::vIsOpen_40E800()
+bool Door::vIsOpen_40E800()
 {
     return field_EC_current_state == DoorStates::eOpen_0;
 }

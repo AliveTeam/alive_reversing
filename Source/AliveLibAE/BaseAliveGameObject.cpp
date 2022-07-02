@@ -382,7 +382,7 @@ s16 BaseAliveGameObject::SetBaseAnimPaletteTint(TintEntry* pTintArray, EReliveLe
     return 1;
 }
 
-Bool32 BaseAliveGameObject::Check_IsOnEndOfLine(s16 direction, s16 distance)
+bool BaseAliveGameObject::Check_IsOnEndOfLine(s16 direction, s16 distance)
 {
     // Check if distance grid blocks from current snapped X is still on the line or not, if not then we are
     // about to head off an edge.
@@ -421,7 +421,7 @@ BaseAliveGameObject* BaseAliveGameObject::GetStackedSlapTarget(s32 idToFind, Rel
     const s16 xposD = FP_GetExponent(xpos);
     const s16 yposD = FP_GetExponent(ypos);
 
-    Bool32 bFound = FALSE;
+    bool bFound = FALSE;
     for (s32 idx = 0; idx < gBaseGameObjects->Size(); idx++)
     {
         BaseGameObject* pObj = gBaseGameObjects->ItemAt(idx);
@@ -530,7 +530,7 @@ s16 BaseAliveGameObject::MapFollowMe(s16 snapToGrid)
     return 0;
 }
 
-Bool32 BaseAliveGameObject::WallHit(FP offY, FP offX)
+bool BaseAliveGameObject::WallHit(FP offY, FP offX)
 {
     PathLine* pLine = nullptr;
     return sCollisions->Raycast(
@@ -545,7 +545,7 @@ Bool32 BaseAliveGameObject::WallHit(FP offY, FP offX)
         != 0;
 }
 
-Bool32 BaseAliveGameObject::InAirCollision(PathLine** ppPathLine, FP* hitX, FP* hitY, FP velY)
+bool BaseAliveGameObject::InAirCollision(PathLine** ppPathLine, FP* hitX, FP* hitY, FP velY)
 {
     mBaseAnimatedWithPhysicsGameObject_VelY += mBaseAnimatedWithPhysicsGameObject_SpriteScale * velY;
     if (mBaseAnimatedWithPhysicsGameObject_VelY > (mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(20)))

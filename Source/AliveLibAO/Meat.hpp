@@ -49,7 +49,7 @@ public:
     virtual void VScreenChanged() override;
     virtual void VThrow(FP velX, FP velY) override;
     virtual s16 VCanThrow() override;
-    virtual Bool32 VCanEatMe();
+    virtual bool VCanEatMe();
     virtual s16 VIsFalling() override;
     virtual void VTimeToExplodeRandom() override;
     virtual void VUpdate() override;

@@ -56,7 +56,7 @@ public:
     virtual void VScreenChanged() override;
     virtual void VUpdate() override;
 
-    Bool32 vIsOpen_40E800();
+    bool vIsOpen_40E800();
     void vOpen();
     void vClose();
     void vSetOpen();

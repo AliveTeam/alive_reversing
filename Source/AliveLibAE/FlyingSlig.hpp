@@ -206,7 +206,7 @@ public:
     void Say_436A50(SligSpeak speak, s16 pitch);
     s16 sub_4374A0(s16 a2);
     static s16 IsAbeEnteringDoor_43B030(BaseAliveGameObject* pThis);
-    static Bool32 IsWallBetween_43A550(BaseAliveGameObject* pThis, BaseAliveGameObject* pObj);
+    static bool IsWallBetween_43A550(BaseAliveGameObject* pThis, BaseAliveGameObject* pObj);
     void ThrowGrenade_43A1E0();
     void BlowUp_436510();
     s16 sub_436730();
@@ -227,7 +227,7 @@ public:
     s16 sub_437C70(PathLine* pLine);
     TlvTypes FindLeftOrRightBound_43B0A0(FP xOrY, FP wOrH);
     s16 sub_436C60(PSX_RECT* pRect, s16 op1);
-    Bool32 sub_436B20();
+    bool sub_436B20();
     void sub_4373B0();
     void vSetMotion_43B1B0(s16 newMotion);
     s16 CollisionUp_43A640(FP velY);

@@ -18,4 +18,4 @@ using f64 = double;
 using u64 = uint64_t;
 using s64 = int64_t;
 
-using Bool32 = long;
+//using Bool32 = long;

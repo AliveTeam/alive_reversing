@@ -1665,7 +1665,7 @@ s16 Slig::GetNextMotionIncGameSpeak_467700(u16 input)
     return -1;
 }
 
-Bool32 Slig::RenderLayerIs_46C0A0(BaseAliveGameObject* pThis)
+bool Slig::RenderLayerIs_46C0A0(BaseAliveGameObject* pThis)
 {
     return pThis->mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer == Layer::eLayer_BeforeWell_Half_3 || pThis->mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer == Layer::eLayer_BeforeWell_22;
 }
@@ -1941,7 +1941,7 @@ void Slig::GameSpeakResponse_46ED60()
     }
 }
 
-Bool32 Slig::VIs8_465630(s16 motion)
+bool Slig::VIs8_465630(s16 motion)
 {
     return motion == eSligMotions::Motion_8_Unknown_4673E0;
 }

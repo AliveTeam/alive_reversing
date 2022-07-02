@@ -759,7 +759,7 @@ void BirdPortal::VMudSaved()
     field_82_num_muds_for_shrykull--;
 }
 
-Bool32 BirdPortal::VActivePortal()
+bool BirdPortal::VActivePortal()
 {
     return field_28_state == PortalStates::ActivePortal_6;
 }
@@ -802,7 +802,7 @@ void BirdPortal::VGiveShrykull(s16 bPlaySound)
     }
 }
 
-Bool32 BirdPortal::VAbeInsidePortal()
+bool BirdPortal::VAbeInsidePortal()
 {
     return field_28_state == PortalStates::AbeInsidePortal_16;
 }
@@ -860,7 +860,7 @@ void BirdPortal::VExitPortal()
     }
 }
 
-Bool32 BirdPortal::VPortalExit_AbeExitting()
+bool BirdPortal::VPortalExit_AbeExitting()
 {
     return field_28_state == PortalStates::PortalExit_AbeExitting_20;
 }

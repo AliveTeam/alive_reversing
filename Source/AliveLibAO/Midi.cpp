@@ -220,7 +220,7 @@ public:
         return sMidiTime_A89194;
     }
 
-    virtual Bool32& sSoundDatIsNull() override
+    virtual bool& sSoundDatIsNull() override
     {
         return mSoundDatIsNull;
     }
@@ -263,7 +263,7 @@ public:
     }
 
 private:
-    Bool32 mSoundDatIsNull = FALSE; // Pretend we have sounds dat opened so AE funcs work
+    bool mSoundDatIsNull = FALSE; // Pretend we have sounds dat opened so AE funcs work
     u32 mMidi_WaitUntil = 0;
 };
 

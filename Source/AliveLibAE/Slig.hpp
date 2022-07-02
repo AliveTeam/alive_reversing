@@ -382,7 +382,7 @@ private:
 
 
 public:
-    Bool32 vUnderGlukkonCommand_4B1760();
+    bool vUnderGlukkonCommand_4B1760();
 
 private:
     void WakeUp_4B93B0();
@@ -432,7 +432,7 @@ private:
 
     void ToKilledAbe_4B3600();
 
-    Bool32 IsWallBetween_4BB8B0(BaseAliveGameObject* pLeft, BaseAliveGameObject* pRight);
+    bool IsWallBetween_4BB8B0(BaseAliveGameObject* pLeft, BaseAliveGameObject* pRight);
 
     GameSpeakEvents LastGlukkonSpeak_4B3090();
 
@@ -489,7 +489,7 @@ private:
 
     static s16 InZCover_4BB7C0(BaseAliveGameObject* pObj);
 
-    static Bool32 RenderLayerIs_4BBBC0(BaseAliveGameObject* pThis);
+    static bool RenderLayerIs_4BBBC0(BaseAliveGameObject* pThis);
 
     void NextCommand_4B9A00(s16 speakTableIndex, s16 responseState);
 

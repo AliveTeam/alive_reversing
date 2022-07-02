@@ -82,7 +82,7 @@ void SecurityDoor::VScreenChanged()
     mBaseGameObjectFlags.Set(BaseGameObject::eDead);
 }
 
-Bool32 SecurityDoor::IsPlayerNear()
+bool SecurityDoor::IsPlayerNear()
 {
     const s16 xpos = FP_GetExponent(sControlledCharacter_50767C->mBaseAnimatedWithPhysicsGameObject_XPos);
     const s16 ypos = FP_GetExponent(sControlledCharacter_50767C->mBaseAnimatedWithPhysicsGameObject_YPos);

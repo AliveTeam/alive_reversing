@@ -39,9 +39,9 @@ s32 PSX_LoadImage16_4F5E20(const PSX_RECT* pRect, const u8* pData);
 s32 PSX_LoadImage_4F5FB0(const PSX_RECT* pRect, const u8* pData);
 s32 PSX_StoreImage_4F5E90(const PSX_RECT* rect, u16* pData);
 
-Bool32 PSX_Rects_overlap_no_adjustment(const PSX_RECT* pRect1, const PSX_RECT* pRect2);
+bool PSX_Rects_overlap_no_adjustment(const PSX_RECT* pRect1, const PSX_RECT* pRect2);
 
-Bool32 PSX_Rects_overlap_4FA0B0(const PSX_RECT* pRect1, const PSX_RECT* pRect2);
+bool PSX_Rects_overlap_4FA0B0(const PSX_RECT* pRect1, const PSX_RECT* pRect2);
 void PSX_SetDrawEnv_Impl_4FE420(s32 x, s32 y, s32 w, s32 h, s32 unknown, u8* pBuffer);
 
 void PSX_CD_Normalize_FileName_4FAD90(char_type* pNormalized, const char_type* pFileName);

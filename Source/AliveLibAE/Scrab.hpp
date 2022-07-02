@@ -272,7 +272,7 @@ private:
     void KillTarget(BaseAliveGameObject* pTarget);
     s16 FindAbeOrMud();
     s16 CanSeeAbe(BaseAliveGameObject* pObj);
-    static Bool32 LineOfSightTo(Scrab* pThis, BaseAliveGameObject* pObj);
+    static bool LineOfSightTo(Scrab* pThis, BaseAliveGameObject* pObj);
     Scrab* FindScrabToFight();
     s16 Handle_SlamDoor_or_EnemyStopper(FP velX, s16 bCheckLeftRightBounds);
     GameSpeakEvents LastSpeak();

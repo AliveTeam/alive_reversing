@@ -4136,7 +4136,7 @@ s16 Scrab::CanSeeAbe(BaseAliveGameObject* pObj)
 }
 
 
-Bool32 Scrab::LineOfSightTo(Scrab* pThis, BaseAliveGameObject* pObj)
+bool Scrab::LineOfSightTo(Scrab* pThis, BaseAliveGameObject* pObj)
 {
     const PSX_RECT objRect = pObj->VGetBoundingRect();
     const PSX_RECT bRect = pThis->VGetBoundingRect();

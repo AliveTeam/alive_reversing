@@ -94,7 +94,7 @@ private:
     void HandleRollingAlong();
     void ZapTarget(FP xpos, FP ypos, BaseAliveGameObject* pTarget);
     void RandomishSpeak(GreeterSpeak effect);
-    Bool32 ZapIsNotBlocked(BaseAliveGameObject* pUs, BaseAliveGameObject* pThem);
+    bool ZapIsNotBlocked(BaseAliveGameObject* pUs, BaseAliveGameObject* pThem);
     BaseAliveGameObject* GetMudToZap();
 
 private:

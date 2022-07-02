@@ -467,7 +467,7 @@ public:
     BaseAliveGameObject* FindObjectToPossess_44B7B0();
     void Load_Basic_Resources_44D460();
     void Free_Resources_44D420();
-    Bool32 IsStanding_449D30();
+    bool IsStanding_449D30();
     void Free_Shrykull_Resources_45AA90();
 
     u8** MotionToAnimResource_44AAB0(s16 motion);
@@ -623,7 +623,7 @@ public:
     void PushWall_44E890();
     void MoveForward_44E9A0();
     s16 CrouchingGameSpeak_453E10();
-    Bool32 Is_Celling_Above_44E8D0();
+    bool Is_Celling_Above_44E8D0();
     void MoveWithVelocity_450FA0(FP velocityX);
     s16 RunTryEnterDoor_451220();
     s16 RunTryEnterWell_451060();

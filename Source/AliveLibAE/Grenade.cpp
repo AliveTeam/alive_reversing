@@ -213,12 +213,12 @@ void Grenade::VThrow(FP velX, FP velY)
     }
 }
 
-Bool32 Grenade::VCanThrow()
+bool Grenade::VCanThrow()
 {
     return FALSE;
 }
 
-Bool32 Grenade::VIsFalling()
+bool Grenade::VIsFalling()
 {
     return FALSE;
 }

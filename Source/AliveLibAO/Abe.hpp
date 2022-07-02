@@ -434,7 +434,7 @@ ALIVE_ASSERT_SIZEOF(Path_Stone, 0x2C);
 class Abe final : public BaseAliveGameObject
 {
 public:
-    Bool32 Is_Celling_Above();
+    bool Is_Celling_Above();
 
     Abe(s32 frameTableOffset, s32 /*r*/, s32 /*g*/, s32 /*b*/);
     ~Abe();
@@ -451,7 +451,7 @@ public:
     static void Free_Shrykull_Resources_42F4C0();
     void FreeElumRes_420F80();
     void ToDeathDropFall_42C3D0();
-    Bool32 IsStanding_41FC10();
+    bool IsStanding_41FC10();
     void FollowLift_42EE90();
     void ExitShrykull_42F440(s16 bResetRingTimer);
     s16 RunTryEnterWell_425880();
@@ -482,7 +482,7 @@ public:
     s16 TryMountElum_42E600();
     void BulletDamage_4220B0(Bullet* a2);
     s16 RunTryEnterDoor_4259C0();
-    Bool32 NearDoorIsOpen();
+    bool NearDoorIsOpen();
     void IntoPortalStates_4262A0();
     void TryHoist_423420();
     s16 HandleDoAction_429A70();

@@ -593,7 +593,7 @@ void Glukkon::M_Jump_4_443030()
         SetActiveCameraDelayedFromDir();
     }
 
-    Bool32 bCollision = FALSE;
+    bool bCollision = FALSE;
     PathLine* pLine = nullptr;
     FP hitX = {};
     FP hitY = {};
@@ -618,10 +618,10 @@ void Glukkon::M_Jump_4_443030()
 
     switch (pLine->mLineType)
     {
-        case 0u:
-        case 4u:
-        case 32u:
-        case 36u:
+        case eLineTypes::eFloor_0:
+        case eLineTypes::eBackgroundFloor_4:
+        case eLineTypes::eDynamicCollision_32:
+        case eLineTypes::eBackgroundDynamicCollision_36:
             PlaySound(1, this);
             mBaseAnimatedWithPhysicsGameObject_XPos = hitX;
             BaseAliveGameObjectCollisionLine = pLine;
@@ -630,8 +630,8 @@ void Glukkon::M_Jump_4_443030()
             GetOnPlatforms();
             break;
 
-        case 1u:
-        case 2u:
+        case eLineTypes::eWallLeft_1:
+        case eLineTypes::eWallRight_2:
             mBaseAnimatedWithPhysicsGameObject_VelX = (-mBaseAnimatedWithPhysicsGameObject_VelX / FP_FromInteger(2));
             break;
 
@@ -2891,7 +2891,7 @@ void Glukkon::PlaySound_GameSpeak(GlukkonSpeak sndIdx, s16 volume, s16 pitch, Gl
     SFX_SfxDefinition_Play_Mono(&gameSpeak_554858[sndIdxShort], calcedVolume, pitch, pitch);
 }
 
-Bool32 Glukkon::IsLineOfSightBetween(Glukkon* pGlukkon, BaseAliveGameObject* pOther)
+bool Glukkon::IsLineOfSightBetween(Glukkon* pGlukkon, BaseAliveGameObject* pOther)
 {
     FP hitX = {};
     FP hitY = {};

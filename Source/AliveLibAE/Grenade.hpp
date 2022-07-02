@@ -64,8 +64,8 @@ public:
     virtual void VUpdate() override;
     virtual void VOnTrapDoorOpen() override;
     virtual void VThrow(FP velX, FP velY) override;
-    virtual Bool32 VCanThrow() override;
-    virtual Bool32 VIsFalling() override;
+    virtual bool VCanThrow() override;
+    virtual bool VIsFalling() override;
     virtual void VTimeToExplodeRandom() override;
 
 

@@ -227,7 +227,7 @@ s16 Meat::VCanThrow()
     return field_110_state == 2;
 }
 
-Bool32 Meat::VCanEatMe()
+bool Meat::VCanEatMe()
 {
     return field_110_state != 0;
 }

@@ -742,7 +742,7 @@ CrawlingSlig::~CrawlingSlig()
     }
 }
 
-Bool32 CrawlingSlig::PanicOn()
+bool CrawlingSlig::PanicOn()
 {
     return SwitchStates_Get(field_1E8_tlv.field_18_panic_switch_id) != 0;
 }

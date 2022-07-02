@@ -4980,7 +4980,7 @@ void Slig::vUpdateAnim_4B1320()
     mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(animRec.mFrameTableOffset, ppRes);
 }
 
-Bool32 Slig::vUnderGlukkonCommand_4B1760()
+bool Slig::vUnderGlukkonCommand_4B1760()
 {
     return BrainIs(&Slig::Brain_ListeningToGlukkon_4_4B9D20);
 }
@@ -5708,7 +5708,7 @@ void Slig::ToKilledAbe_4B3600()
     field_120_timer = sGnFrame + 15;
 }
 
-Bool32 Slig::IsWallBetween_4BB8B0(BaseAliveGameObject* pLeft, BaseAliveGameObject* pRight)
+bool Slig::IsWallBetween_4BB8B0(BaseAliveGameObject* pLeft, BaseAliveGameObject* pRight)
 {
     const PSX_RECT thisBRect =  VGetBoundingRect();
     const PSX_RECT rightBRect = pRight->VGetBoundingRect();
@@ -6590,7 +6590,7 @@ s16 Slig::InZCover_4BB7C0(BaseAliveGameObject* pObj)
     return Bullet::InZBulletCover(pObj->mBaseAnimatedWithPhysicsGameObject_XPos, FP_FromInteger(bRect.y), bRect);
 }
 
-Bool32 Slig::RenderLayerIs_4BBBC0(BaseAliveGameObject* pThis)
+bool Slig::RenderLayerIs_4BBBC0(BaseAliveGameObject* pThis)
 {
     return pThis->mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer == Layer::eLayer_BeforeWell_Half_3 || pThis->mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer == Layer::eLayer_BeforeWell_22;
 }

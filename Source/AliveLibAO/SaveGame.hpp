@@ -97,7 +97,7 @@ public:
     static void LoadFromMemory(SaveData* pData, s32 bKillObjects);
     static void SaveToMemory(SaveData* pSaveData);
     static s16 LoadFromFile(const char_type* name);
-    static Bool32 SaveToFile(const char_type* name);
+    static bool SaveToFile(const char_type* name);
 
     static s16 GetPathId(s16 pathToFind, s16* outFoundPathRow = nullptr);
     static s32 Hash(SaveData* table);

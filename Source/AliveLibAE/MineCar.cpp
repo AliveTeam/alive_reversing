@@ -330,7 +330,7 @@ MineCar::~MineCar()
     field_124_anim.VCleanUp();
 }
 
-Bool32 MineCar::CheckRoofCollision(FP hitX, FP hitY)
+bool MineCar::CheckRoofCollision(FP hitX, FP hitY)
 {
     PathLine* pPathLine = nullptr;
     return sCollisions->Raycast(
@@ -345,7 +345,7 @@ Bool32 MineCar::CheckRoofCollision(FP hitX, FP hitY)
     );
 }
 
-Bool32 MineCar::CheckFloorCollision(FP hitX, FP hitY)
+bool MineCar::CheckFloorCollision(FP hitX, FP hitY)
 {
     PathLine* pPathLine = nullptr;
 

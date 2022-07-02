@@ -42,7 +42,7 @@ public:
     virtual void VUpdate() override;
     virtual void VScreenChanged() override;
 
-    Bool32 IsPlayerNear();
+    bool IsPlayerNear();
 
     s32 field_E4_tlvInfo;
     s16 field_E8_state;

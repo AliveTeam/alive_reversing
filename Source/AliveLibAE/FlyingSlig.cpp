@@ -2188,7 +2188,7 @@ s16 FlyingSlig::IsAbeEnteringDoor_43B030(BaseAliveGameObject* pThis)
     return Slig::IsAbeEnteringDoor_4BB990(pThis);
 }
 
-Bool32 FlyingSlig::IsWallBetween_43A550(BaseAliveGameObject* pThis, BaseAliveGameObject* pObj)
+bool FlyingSlig::IsWallBetween_43A550(BaseAliveGameObject* pThis, BaseAliveGameObject* pObj)
 {
     // TODO: Duplicated like IsAbeEnteringDoor_4BB990 ??
     const PSX_RECT bRect = pObj->VGetBoundingRect();
@@ -2840,7 +2840,7 @@ s16 FlyingSlig::sub_436C60(PSX_RECT* pRect, s16 arg_4)
     }
 }
 
-Bool32 FlyingSlig::sub_436B20()
+bool FlyingSlig::sub_436B20()
 {
     PathLine* pLastNextOrPrevLine = nullptr;
 

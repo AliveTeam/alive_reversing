@@ -2669,7 +2669,7 @@ void Abe::Free_Resources_44D420()
     }
 }
 
-Bool32 Abe::IsStanding_449D30()
+bool Abe::IsStanding_449D30()
 {
     return mCurrentMotion == eAbeMotions::Motion_0_Idle_44EEB0
         || mCurrentMotion == eAbeMotions::Motion_2_StandingTurn_451830
@@ -8356,7 +8356,7 @@ s16 Abe::ToLeftRightMovement_44E340()
 
     const u32 pressed = Input().field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed;
     const FP gridSize = ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale);
-    const Bool32 flipX = mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX);
+    const bool flipX = mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX);
 
     if ((flipX && (pressed & sInputKey_Right_5550D0)) || (!flipX && (pressed & sInputKey_Left_5550D4)))
     {
@@ -8759,7 +8759,7 @@ s16 Abe::CrouchingGameSpeak_453E10()
     }
 }
 
-Bool32 Abe::Is_Celling_Above_44E8D0()
+bool Abe::Is_Celling_Above_44E8D0()
 {
     FP hitY = {};
     FP hitX = {};

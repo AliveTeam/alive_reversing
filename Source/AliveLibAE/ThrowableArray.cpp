@@ -20,7 +20,7 @@ void FreeResourceArray_49AEC0(DynamicArrayT<u8*>* pArray)
 
 void LoadRockTypes_49AB30(EReliveLevelIds levelNumber, u16 pathNumber)
 {
-    Bool32 bDoLoadingLoop = FALSE;
+    bool bDoLoadingLoop = FALSE;
     const u8 throwableTypeIdx = LOBYTE(Path_Get_Bly_Record(levelNumber, pathNumber)->field_C_overlay_id);
 
     if (!ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kAbepickResID, 0, 0))

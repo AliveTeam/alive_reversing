@@ -54,4 +54,4 @@ ALIVE_ASSERT_SIZEOF(LvlArchive, 0x8);
 
 ALIVE_VAR_EXTERN(LvlArchive, sLvlArchive_5BC520);
 ALIVE_VAR_EXTERN(LvlArchive, stru_5C3110);
-ALIVE_VAR_EXTERN(Bool32, sbEnable_PCOpen_5CA4B0);
+ALIVE_VAR_EXTERN(bool, sbEnable_PCOpen_5CA4B0);

@@ -13,7 +13,7 @@ void Vram_free(PSX_Point xy, PSX_Point wh);
 
 s16 Pal_Allocate(PSX_RECT* pRect, u32 paletteColorCount);
 void Pal_free(PSX_Point xy, s16 palDepth);
-Bool32 Vram_rects_overlap(const PSX_RECT* pRect1, const PSX_RECT* pRect2);
+bool Vram_rects_overlap(const PSX_RECT* pRect1, const PSX_RECT* pRect2);
 
 
 void Pal_Area_Init(s16 xpos, s16 ypos, u16 width, u16 height);

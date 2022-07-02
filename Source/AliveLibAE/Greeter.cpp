@@ -534,7 +534,7 @@ void Greeter::RandomishSpeak(GreeterSpeak effect)
     }
 }
 
-Bool32 Greeter::ZapIsNotBlocked(BaseAliveGameObject* pUs, BaseAliveGameObject* pThem)
+bool Greeter::ZapIsNotBlocked(BaseAliveGameObject* pUs, BaseAliveGameObject* pThem)
 {
     const PSX_RECT usRect = VGetBoundingRect();
     const PSX_RECT bRectThem = pThem->VGetBoundingRect();

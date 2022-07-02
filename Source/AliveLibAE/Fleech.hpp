@@ -236,7 +236,7 @@ private:
     BaseAliveGameObject* FindMudOrAbe();
     void MoveAlongFloor(); // MoveOnLine?
     s16 IsNear(BaseAliveGameObject* pObj);
-    Bool32 Collision(s16 alwaysOne);
+    bool Collision(s16 alwaysOne);
     Path_Hoist* TryGetHoist(s32 xDistance, s16 bIgnoreDirection);
 
 public:

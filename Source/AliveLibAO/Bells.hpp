@@ -21,7 +21,7 @@ public:
     virtual void VUpdate() override;
 
     void PlaySounds();
-    Bool32 CanSmash();
+    bool CanSmash();
     void Ring();
 
     u16 field_E8_bSmashing = 0;

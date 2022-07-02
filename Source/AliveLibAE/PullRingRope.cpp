@@ -257,7 +257,7 @@ s16 PullRingRope::VPull(BaseGameObject* pObj)
     return 1;
 }
 
-Bool32 PullRingRope::VIsNotBeingPulled()
+bool PullRingRope::VIsNotBeingPulled()
 {
     return field_100_state != States::eBeingPulled_1;
 }

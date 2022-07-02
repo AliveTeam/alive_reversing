@@ -47,7 +47,7 @@ public:
     virtual void VScreenChanged() override;
     virtual void VUpdate() override;
 
-    Bool32 vIsNotBeingPulled();
+    bool vIsNotBeingPulled();
     s16 Pull(BaseAliveGameObject* pFrom);
 
     s32 field_E4_stay_in_state_ticks;

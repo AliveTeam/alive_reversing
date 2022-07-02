@@ -34,7 +34,7 @@ public:
 
     virtual void VUpdate() override;
     virtual void VScreenChanged() override;
-    virtual Bool32 VIsButtonOn();
+    virtual bool VIsButtonOn();
     virtual void VHandleButton();
 
 private:

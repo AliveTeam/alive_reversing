@@ -870,12 +870,12 @@ void BirdPortal::VKillPortalClipper()
     }
 }
 
-Bool32 BirdPortal::VStateIs6()
+bool BirdPortal::VStateIs6()
 {
     return field_14_state == PortalStates::ActivePortal_6;
 }
 
-Bool32 BirdPortal::VStateIs16()
+bool BirdPortal::VStateIs16()
 {
     return field_14_state == PortalStates::State_16;
 }
@@ -932,7 +932,7 @@ void BirdPortal::VExitPortal()
     }
 }
 
-Bool32 BirdPortal::VStateIs20()
+bool BirdPortal::VStateIs20()
 {
     return field_14_state == PortalStates::State_20;
 }

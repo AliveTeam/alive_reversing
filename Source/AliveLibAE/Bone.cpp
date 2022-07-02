@@ -156,12 +156,12 @@ void Bone::VOnTrapDoorOpen()
     }
 }
 
-Bool32 Bone::VIsFalling()
+bool Bone::VIsFalling()
 {
     return field_11C_state == BoneStates::eFalling_5;
 }
 
-Bool32 Bone::VCanThrow()
+bool Bone::VCanThrow()
 {
     return field_11C_state != BoneStates::eSpawned_0 && field_11C_state != BoneStates::eAirborne_1;
 }
@@ -221,7 +221,7 @@ void Bone::VScreenChanged()
     }
 }
 
-Bool32 Bone::VCanBeEaten()
+bool Bone::VCanBeEaten()
 {
     return field_11C_state == BoneStates::eEdible_4;
 }

@@ -107,7 +107,7 @@ void BoomMachine::VHandleButton()
     }
 }
 
-Bool32 BoomMachine::VIsButtonOn()
+bool BoomMachine::VIsButtonOn()
 {
     return field_E8_bIsButtonOn == 1;
 }

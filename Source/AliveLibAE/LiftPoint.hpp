@@ -62,12 +62,12 @@ public:
     static s32 CreateFromSaveState(const u8* pData);
 
     void vKeepOnMiddleFloor();
-    Bool32 vOnTopFloor();
-    Bool32 vOnMiddleFloor();
-    Bool32 vOnBottomFloor();
-    Bool32 vOnAnyFloor();
-    Bool32 vOnAFloorLiftMoverCanUse();
-    Bool32 vMovingToFloorLevel();
+    bool vOnTopFloor();
+    bool vOnMiddleFloor();
+    bool vOnBottomFloor();
+    bool vOnAnyFloor();
+    bool vOnAFloorLiftMoverCanUse();
+    bool vMovingToFloorLevel();
 
     void vMove_4626A0(FP xSpeed, FP ySpeed, s32 not_used);
 

@@ -222,7 +222,7 @@ public:
     s16 MainMovement_467020();
     void Slig_SoundEffect_46F310(SligSfx sfxIdx);
     u8** ResBlockForMotion_4654D0(s16 motion);
-    Bool32 VIs8_465630(s16 motion);
+    bool VIs8_465630(s16 motion);
     void ToShoot_46F1D0();
     void ToZShoot_46F200();
     void ShouldStilBeAlive_46C0D0();
@@ -242,7 +242,7 @@ public:
     void ToPanicTurn();
     void PlayerControlRunningSlideStopOrTurn(s16 last_anim_frame);
     s16 GetNextMotionIncGameSpeak_467700(u16 input);
-    static Bool32 RenderLayerIs_46C0A0(BaseAliveGameObject* pThis);
+    static bool RenderLayerIs_46C0A0(BaseAliveGameObject* pThis);
     static s16 IsAbeEnteringDoor_46BEE0(BaseAliveGameObject* pThis);
     static s16 IsWallBetween_46BE60(Slig* pLeft, BaseAliveGameObject* pRight);
     static void Slig_GameSpeak_SFX_46F560(SligSpeak effectId, s32 defaultVol, s32 pitch_min, BaseAliveGameObject* pObj);

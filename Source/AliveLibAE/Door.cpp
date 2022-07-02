@@ -308,7 +308,7 @@ Door::Door(Path_Door* pTlvData, s32 tlvInfo)
     mVisualFlags.Set(VisualFlags::eDoPurpleLightEffect);
 }
 
-Bool32 Door::vIsOpen()
+bool Door::vIsOpen()
 {
     return field_FC_current_state == eOpen_0;
 }

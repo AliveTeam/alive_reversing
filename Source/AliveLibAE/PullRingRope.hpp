@@ -42,7 +42,7 @@ public:
     virtual void VUpdate() override;
     virtual void VScreenChanged() override;
     virtual s16 VPull(BaseGameObject* a2);
-    virtual Bool32 VIsNotBeingPulled();
+    virtual bool VIsNotBeingPulled();
     virtual void VMarkAsPulled();
 
 private:

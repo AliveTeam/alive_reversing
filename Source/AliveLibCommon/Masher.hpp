@@ -6,12 +6,12 @@
 struct Movie_IO final
 {
     void(CC* mIO_Close)(void* pHandle);
-    Bool32(CC* mIO_Wait)
+    bool(CC* mIO_Wait)
     (void* pHandle);
-    Bool32(CC* mIO_Seek)
+    bool(CC* mIO_Seek)
     (void* pHandle, u32 offset, u32 origin);
     void*(CC* mIO_Open)(const char_type* pFileName);
-    Bool32(CC* mIO_Read)
+    bool(CC* mIO_Read)
     (void* pHandle, void* pBuffer, u32 size);
 };
 

@@ -566,7 +566,7 @@ void BeeSwarm::VRender(PrimHeader** ppOt)
     PSX_Point xy = {32767, 32767};
     PSX_Point wh = {-32767, -32767};
 
-    Bool32 bDontClear = 1;
+    bool bDontClear = 1;
     for (s32 next = 0; next < field_D66_bee_count; next++)
     {
         auto bee = &field_E4_bees.bees[next];

@@ -79,12 +79,12 @@ public:
     virtual s16 VPortalClipper(s16 bUnknown);
     virtual void VKillPortalClipper();
     virtual void VMudSaved();
-    virtual Bool32 VStateIs6();
+    virtual bool VStateIs6();
     virtual void VGiveShrykull(s16 bPlaySound);
-    virtual Bool32 VStateIs16();
+    virtual bool VStateIs16();
     virtual void VExitPortal();
     virtual void VIncreaseTimerAndKillPortalClipper();
-    virtual Bool32 VStateIs20();
+    virtual bool VStateIs20();
     virtual void VGetMapChange(EReliveLevelIds* level, u16* path, u16* camera, CameraSwapEffects* screenChangeEffect, u16* movieId);
 
 private:

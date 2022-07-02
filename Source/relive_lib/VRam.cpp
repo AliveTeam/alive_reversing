@@ -220,7 +220,7 @@ void Vram_free(PSX_Point xy, PSX_Point wh)
     }
 }
 
-Bool32 Vram_rects_overlap(const PSX_RECT* pRect1, const PSX_RECT* pRect2)
+bool Vram_rects_overlap(const PSX_RECT* pRect1, const PSX_RECT* pRect2)
 {
     const s32 x1 = pRect1->x;
     const s32 x2 = pRect2->x;

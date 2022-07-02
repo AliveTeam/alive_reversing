@@ -12,7 +12,7 @@ ALIVE_VAR(1, 0x50E26C, ThrowableArray*, gpThrowableArray_50E26C, nullptr);
 
 void LoadRockTypes(EReliveLevelIds levelNumber, u16 path)
 {
-    Bool32 bDoLoadingLoop = FALSE;
+    bool bDoLoadingLoop = FALSE;
     const u8 throwableTypeIdx = Path_Get_Bly_Record_434650(levelNumber, path)->field_C_overlay_id & 0xFF;
 
     if (!ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kAbepickAOResID, 0, 0))

@@ -486,7 +486,7 @@ s16 SaveGame::LoadFromFile(const char_type* name)
     }
 }
 
-Bool32 SaveGame::SaveToFile(const char_type* name)
+bool SaveGame::SaveToFile(const char_type* name)
 {
     char_type buffer[40] = {};
 

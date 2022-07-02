@@ -208,7 +208,7 @@ void BoomMachine::VScreenChanged()
     mBaseGameObjectFlags.Set(BaseGameObject::eDead);
 }
 
-Bool32 BoomMachine::VIsButtonOn()
+bool BoomMachine::VIsButtonOn()
 {
     return field_FC_bIsButtonOn == 1;
 }

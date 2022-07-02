@@ -58,7 +58,7 @@ public:
     Door(Path_Door* pTlvData, s32 tlvInfo);
     ~Door();
 
-    Bool32 vIsOpen();
+    bool vIsOpen();
     void vOpen();
     void vClose();
     void vSetOpen();

@@ -6,7 +6,7 @@
 
 const static s32 kSectorSize = 2048;
 
-ALIVE_VAR(1, 0x5CA4B0, Bool32, sbEnable_PCOpen_5CA4B0, FALSE);
+ALIVE_VAR(1, 0x5CA4B0, bool, sbEnable_PCOpen_5CA4B0, FALSE);
 ALIVE_VAR(1, 0x5BC218, s32, sWrappingFileIdx_5BC218, 0);
 ALIVE_VAR(1, 0x551D28, s32, sTotalOpenedFilesCount_551D28, 3); // Starts at 3.. for some reason
 ALIVE_ARY(1, 0x5BC220, LvlFileRecord, 32, sOpenFileNames_5BC220, {});
