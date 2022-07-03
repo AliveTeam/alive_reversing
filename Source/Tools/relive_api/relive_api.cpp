@@ -579,7 +579,7 @@ public:
         {
             auto chunk = file->ChunkAt(i);
             // Palts and other resources can share ids, explicitly look for anims
-            if (chunk.Id() == static_cast<u32>(animRec.mResourceId) && chunk.Header().mLineType == ResourceManager::Resource_Animation)
+            if (chunk.Id() == static_cast<u32>(animRec.mResourceId) && chunk.Header().mResourceType == ResourceManager::Resource_Animation)
             {
                 return chunk;
             }

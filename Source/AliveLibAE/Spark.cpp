@@ -74,9 +74,7 @@ Spark::Spark(FP xpos, FP ypos, FP scale, s32 count, s32 minAngle, s32 maxAngle, 
             auto pParticle = relive_new Particle(
                 field_40_xpos,
                 field_44_ypos,
-                rec.mFrameTableOffset,
-                rec.mMaxW,
-                rec.mMaxH,
+                AnimId::Zap_Sparks,
                 ppRes);
             if (pParticle)
             {

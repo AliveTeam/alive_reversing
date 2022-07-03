@@ -24,13 +24,13 @@ Explosion::Explosion(FP xpos, FP ypos, FP scale, bool bSmall)
     {
         const AnimRecord& rec = AnimRec(AnimId::Explosion_Small);
         u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
-        Animation_Init(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
+        Animation_Init(AnimId::Explosion_Small, ppRes, 1);
     }
     else
     {
         const AnimRecord& rec = AnimRec(AnimId::Explosion);
         u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
-        Animation_Init(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
+        Animation_Init(AnimId::Explosion, ppRes, 1);
     }
 
     mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit18_IsLastFrame);
@@ -131,12 +131,12 @@ void Explosion::VUpdate()
         u8** ppRes = field_F4_bSmall ? Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kSmallExplo2ResID) : Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kExplo2ResID);
         if (ppRes)
         {
-            const AnimRecord& rec = field_F4_bSmall ? AnimRec(AnimId::Explosion_Small) : AnimRec(AnimId::Explosion);
+            const AnimId explosionId = field_F4_bSmall ? AnimId::Explosion_Small : AnimId::Explosion;
             auto pParticle = relive_new Particle(
-                mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, rec.mFrameTableOffset,
-                202, // Same size for both explosions for some reason
-                91,  // ^^^
-                ppRes);
+                mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos,
+                explosionId,
+                ppRes,
+                true);
 
             if (pParticle)
             {

@@ -39,7 +39,7 @@ StatusLight::StatusLight(Path_StatusLight* pTlv, u32 tlvInfo)
 
     const AnimRecord& rec = AnimRec(AnimId::Status_Light_Red);
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
-    Animation_Init(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
+    Animation_Init(AnimId::Status_Light_Red, ppRes, 1);
 
     mVisualFlags.Clear(VisualFlags::eApplyShadowZoneColour);
     mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit3_Render);

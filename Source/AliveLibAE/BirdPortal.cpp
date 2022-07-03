@@ -219,15 +219,13 @@ void BirdPortal::VUpdate()
             {
                 if ((Math_NextRandom() % 8) == 0)
                 {
-                    u8** ppLightRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kPortliteResID, TRUE, FALSE);
+                    const AnimRecord& rec = AnimRec(AnimId::BirdPortal_Sparks);
+                    u8** ppLightRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, TRUE, FALSE);
                     if (ppLightRes)
                     {
-                        const AnimRecord& rec = AnimRec(AnimId::BirdPortal_Sparks);
                         auto pParticle = relive_new Particle(pTerminator2->mBaseAnimatedWithPhysicsGameObject_XPos,
                             (FP_FromInteger(10) * field_60_scale) + pTerminator2->mBaseAnimatedWithPhysicsGameObject_YPos,
-                            rec.mFrameTableOffset,
-                            rec.mMaxW,
-                            rec.mMaxH,
+                            AnimId::BirdPortal_Sparks,
                             ppLightRes);
 
                         if (pParticle)
@@ -352,9 +350,7 @@ void BirdPortal::VUpdate()
                     auto pParticle = relive_new Particle(
                         pTerminator2->mBaseAnimatedWithPhysicsGameObject_XPos,
                         pTerminator2->mBaseAnimatedWithPhysicsGameObject_YPos,
-                        rec.mFrameTableOffset,
-                        rec.mMaxW,
-                        rec.mMaxH,
+                        AnimId::BirdPortal_Flash,
                         ppLightRes);
                     pParticle->mBaseAnimatedWithPhysicsGameObject_Anim.mRenderMode = TPageAbr::eBlend_1;
                     pParticle->mVisualFlags.Clear(BaseAnimatedWithPhysicsGameObject::VisualFlags::eApplyShadowZoneColour);

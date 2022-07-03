@@ -108,7 +108,7 @@ Scrab::Scrab(Path_Scrab* pTlv, s32 tlvInfo, ScrabSpawnDirection spawnDirection)
 
     const AnimRecord& rec = AnimRec(AnimId::Scrab_Idle);
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
-    Animation_Init(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
+    Animation_Init(AnimId::Scrab_Idle, ppRes, 1);
 
     field_140_motion_resource_block_index = 0;
     field_12C_timer = 0;

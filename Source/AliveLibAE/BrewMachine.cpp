@@ -48,7 +48,7 @@ BrewMachine::BrewMachine(Path_BrewMachine* pTlv, s32 tlvInfo)
 
     const AnimRecord& rec = AnimRec(AnimId::BrewMachine_Button);
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
-    Animation_Init(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
+    Animation_Init(AnimId::BrewMachine_Button, ppRes, 1);
 
     Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kEvilFartResID);
     Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kExplo2ResID);

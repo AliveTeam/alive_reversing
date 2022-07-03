@@ -510,8 +510,7 @@ MainMenuController::MainMenuController(Path_TLV* /*pTlv*/, TlvItemInfoUnion tlvO
     {
         field_F4_resources.field_0_resources[MenuResIds::eAbeIntro] = nullptr;
         field_F4_resources.field_0_resources[MenuResIds::eMenuDoor] = nullptr;
-        const AnimRecord& abeIdleRec = AnimRec(AnimId::MenuAbeSpeak_Idle);
-        Animation_Init(abeIdleRec.mFrameTableOffset, abeIdleRec.mMaxW, abeIdleRec.mMaxH, field_F4_resources.field_0_resources[MenuResIds::eAbeSpeak2], 1);
+        Animation_Init(AnimId::MenuAbeSpeak_Idle, field_F4_resources.field_0_resources[MenuResIds::eAbeSpeak2], 1);
     }
     else
     {
@@ -519,8 +518,7 @@ MainMenuController::MainMenuController(Path_TLV* /*pTlv*/, TlvItemInfoUnion tlvO
         field_F4_resources.field_0_resources[MenuResIds::eAbeIntro] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kAbeintroResID, TRUE, FALSE);
         ResourceManager::LoadResourceFile_49C170("STDOOR.BAN", nullptr);
         field_F4_resources.field_0_resources[MenuResIds::eMenuDoor] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kMenuDoorResID, TRUE, FALSE);
-        const AnimRecord& rec = AnimRec(AnimId::MenuDoor);
-        Animation_Init(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, field_F4_resources.field_0_resources[MenuResIds::eMenuDoor], 1);
+        Animation_Init(AnimId::MenuDoor, field_F4_resources.field_0_resources[MenuResIds::eMenuDoor], 1);
     }
 
     mBaseAnimatedWithPhysicsGameObject_Anim.mBlue = 127;
@@ -788,9 +786,7 @@ MainMenuNextCam MainMenuController::AbeSpeak_Update_4D2D20(u32 input_held)
             ypos.fpValue += 0x44D60C; // TODO: 68.83 ??
             Particle* pParticle = relive_new Particle(xpos,
                     ypos,
-                    flareRec.mFrameTableOffset,
-                    flareRec.mMaxW,
-                    flareRec.mMaxH,
+                    AnimId::OptionChantOrb_Particle,
                     field_F4_resources.field_0_resources[MenuResIds::eOptionFlare]);
 
             if (pParticle)

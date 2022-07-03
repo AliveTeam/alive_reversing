@@ -25,8 +25,8 @@ Shrykull::Shrykull()
     field_124_zap_line_id = -1;
 
     const AnimRecord& shrykullRec = AnimRec(AnimId::ShrykullStart);
-    u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kShrmorphResID);
-    Animation_Init(shrykullRec.mFrameTableOffset, shrykullRec.mMaxW, shrykullRec.mMaxH, ppRes, 1);
+    u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, shrykullRec.mResourceId);
+    Animation_Init(AnimId::ShrykullStart, ppRes, 1);
 
     mBaseAnimatedWithPhysicsGameObject_XPos = sActiveHero->mBaseAnimatedWithPhysicsGameObject_XPos;
     mBaseAnimatedWithPhysicsGameObject_YPos = sActiveHero->mBaseAnimatedWithPhysicsGameObject_YPos;

@@ -15,7 +15,7 @@ DoorBlocker::DoorBlocker(Path_DoorBlocker* pTlv, s32 tlvInfo)
 
     const AnimRecord& rec = AnimRec(AnimId::Door_Lock_Idle);
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
-    Animation_Init(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
+    Animation_Init(AnimId::Door_Lock_Idle, ppRes, 1);
 
     field_118_bDone &= ~1u;
 

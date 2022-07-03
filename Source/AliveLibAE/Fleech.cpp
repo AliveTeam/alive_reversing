@@ -1599,7 +1599,7 @@ void Fleech::Init()
     field_10_resources_array.SetAt(0, ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, TRUE, FALSE));
     field_10_resources_array.SetAt(1, ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kFleeBlowResID_580, TRUE, FALSE));
 
-    Animation_Init(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, field_10_resources_array.ItemAt(0), 1);
+    Animation_Init(AnimId::Fleech_Idle, field_10_resources_array.ItemAt(0), 1);
 
     mBaseAnimatedWithPhysicsGameObject_Anim.mFnPtrArray = kFleech_Anim_Frame_Fns_55EFD0;
 

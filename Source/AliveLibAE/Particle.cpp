@@ -5,7 +5,7 @@
 #include "stdlib.hpp"
 #include "BaseAliveGameObject.hpp"
 
-Particle::Particle(FP xpos, FP ypos, s32 animFrameTableOffset, s32 maxW, s32 maxH, u8** ppAnimData)
+Particle::Particle(FP xpos, FP ypos, AnimId animId, u8** ppAnimData, bool explosionSizeHack)
     : BaseAnimatedWithPhysicsGameObject(0)
 {
     SetType(ReliveTypes::eParticle);
@@ -16,7 +16,17 @@ Particle::Particle(FP xpos, FP ypos, s32 animFrameTableOffset, s32 maxW, s32 max
 
     mBaseAnimatedWithPhysicsGameObject_RGB.SetRGB(128, 128, 128);
 
-    Animation_Init(animFrameTableOffset, static_cast<s16>(maxW), static_cast<s16>(maxH), ppAnimData, 1);
+    if (!explosionSizeHack)
+    {
+        Animation_Init(animId, ppAnimData, 1);
+    }
+    else
+    {
+        // AnimId::Explosion_Small and AnimId::Explosion have different width/height but for some reason
+        // OG inits both with the AnimId::Explosion width and height in Explosion.cpp
+        const AnimRecord& rec = AnimRec(animId);
+        Animation_Init(rec.mFrameTableOffset, 202, 91, ppAnimData, 1);
+    }
 
     if (mBaseGameObjectFlags.Get(Options::eListAddFailed_Bit1))
     {
@@ -44,7 +54,7 @@ Particle* New_DestroyOrCreateObject_Particle(FP xpos, FP ypos, FP scale)
 {
     const AnimRecord& rec = AnimRec(AnimId::DeathFlare_2);
     u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, FALSE, FALSE);
-    auto pParticle = relive_new Particle(xpos, ypos, rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes);
+    auto pParticle = relive_new Particle(xpos, ypos, AnimId::DeathFlare_2, ppRes);
 
     if (!pParticle)
     {
@@ -72,7 +82,7 @@ Particle* New_Orb_Particle(FP xpos, FP ypos, FP velX, FP velY, FP scale, Layer l
 {
     const AnimRecord& orbRec = AnimRec(AnimId::ChantOrb_Particle);
     u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, orbRec.mResourceId, 0, 0);
-    auto pParticle = relive_new Particle(xpos, ypos, orbRec.mFrameTableOffset, orbRec.mMaxW, orbRec.mMaxH, ppRes);
+    auto pParticle = relive_new Particle(xpos, ypos, AnimId::ChantOrb_Particle, ppRes);
     if (!pParticle)
     {
         return nullptr;
@@ -123,7 +133,7 @@ void New_Smoke_Particles(FP xpos, FP ypos, FP scale, s16 count, u8 r, u8 g, u8 b
         FP particleY = (FP_FromInteger(6 * (i + 1) / 2 * (1 - 2 * (i % 2))) * scale) + ypos;
         const AnimRecord& squibSmokeRec = AnimRec(AnimId::SquibSmoke_Particle);
         u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, squibSmokeRec.mResourceId, 0, 0);
-        auto pParticle = relive_new Particle(randX, particleY, squibSmokeRec.mFrameTableOffset, squibSmokeRec.mMaxW, squibSmokeRec.mMaxH, ppRes);
+        auto pParticle = relive_new Particle(randX, particleY, AnimId::SquibSmoke_Particle, ppRes);
         if (pParticle)
         {
             pParticle->mVisualFlags.Clear(BaseAnimatedWithPhysicsGameObject::VisualFlags::eApplyShadowZoneColour);
@@ -173,7 +183,7 @@ void New_ShootingZFire_Particle(FP xpos, FP ypos, FP scale)
 {
     const AnimRecord& ZFireRec = AnimRec(AnimId::ShootingZFire_Particle);
     u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, ZFireRec.mResourceId, 0, 0);
-    auto pParticle = relive_new Particle(xpos, ypos, ZFireRec.mFrameTableOffset, ZFireRec.mMaxW, ZFireRec.mMaxH, ppRes);
+    auto pParticle = relive_new Particle(xpos, ypos, AnimId::ShootingZFire_Particle, ppRes);
     if (pParticle)
     {
         pParticle->mVisualFlags.Clear(BaseAnimatedWithPhysicsGameObject::VisualFlags::eApplyShadowZoneColour);
@@ -195,7 +205,7 @@ void New_ShootingFire_Particle(FP xpos, FP ypos, s8 direction, FP scale)
 {
     const AnimRecord& shootingFireRec = AnimRec(AnimId::ShootingFire_Particle);
     u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, shootingFireRec.mResourceId, 0, 0);
-    auto pParticle = relive_new Particle(xpos, ypos, shootingFireRec.mFrameTableOffset, shootingFireRec.mMaxW, shootingFireRec.mMaxH, ppRes);
+    auto pParticle = relive_new Particle(xpos, ypos, AnimId::ShootingFire_Particle, ppRes);
     if (pParticle)
     {
         pParticle->mVisualFlags.Clear(BaseAnimatedWithPhysicsGameObject::VisualFlags::eApplyShadowZoneColour);

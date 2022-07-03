@@ -22,7 +22,7 @@ TorturedMudokon::TorturedMudokon(Path_TorturedMudokon* pTlv, s32 tlvInfo)
     {
         mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pTlv->mTopLeft.x);
         mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->mTopLeft.y);
-        Animation_Init(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, field_224_ppRes, 1);
+        Animation_Init(AnimId::Tortured_Mudokon, field_224_ppRes, 1);
         mBaseAnimatedWithPhysicsGameObject_Anim.SetFrame(Math_RandomRange(0, mBaseAnimatedWithPhysicsGameObject_Anim.Get_Frame_Count() - 1));
         field_23A_kill_switch_id = pTlv->field_10_kill_switch_id;
         field_23C_release_switch_id = pTlv->field_12_release_switch_id;

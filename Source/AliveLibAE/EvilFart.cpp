@@ -27,7 +27,7 @@ EvilFart::EvilFart()
 
     const AnimRecord& rec = AnimRec(AnimId::Fart);
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
-    Animation_Init(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
+    Animation_Init(AnimId::Fart, ppRes, 1);
 
     Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kExplo2ResID);
     Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kAbeblowResID);

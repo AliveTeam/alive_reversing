@@ -26,8 +26,8 @@ CircularFade::CircularFade(FP xpos, FP ypos, FP scale, s16 direction, s8 destroy
     mBaseAnimatedWithPhysicsGameObject_RGB.SetRGB(fade_rgb, fade_rgb, fade_rgb);
 
     const AnimRecord& spotLightRec = AnimRec(AnimId::SpotLight);
-    u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kSpotliteResID);
-    Animation_Init(spotLightRec.mFrameTableOffset, spotLightRec.mMaxW, spotLightRec.mMaxH, ppRes, 1);
+    u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, spotLightRec.mResourceId);
+    Animation_Init(AnimId::SpotLight, ppRes, 1);
 
     mVisualFlags.Clear(VisualFlags::eApplyShadowZoneColour);
 

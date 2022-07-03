@@ -84,7 +84,7 @@ s32 Animation_OnFrame_Common_4561B0(BaseGameObject* pObjPtr, s16* pData)
         ypos -= FP_FromInteger(5);
     }
 
-    auto pPartical = relive_new Particle(xpos, ypos, dustRec.mFrameTableOffset, dustRec.mMaxW, dustRec.mMaxH, ppAnimData);
+    auto pPartical = relive_new Particle(xpos, ypos, AnimId::Dust_Particle, ppAnimData);
     if (pPartical)
     {
         pPartical->mBaseAnimatedWithPhysicsGameObject_Anim.mRenderMode = TPageAbr::eBlend_1;
@@ -157,8 +157,7 @@ s32 Animation_OnFrame_Common_434130(BaseGameObject* pObjPtr, s16* pData)
         pObj->mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 
-    const AnimRecord& vaporizeRec = AnimRec(AnimId::Vaporize_Particle);
-    auto pParticle = relive_new Particle(xpos, ypos, vaporizeRec.mFrameTableOffset, vaporizeRec.mMaxW, vaporizeRec.mMaxH, ppAnimRes);
+    auto pParticle = relive_new Particle(xpos, ypos, AnimId::Vaporize_Particle, ppAnimRes);
     if (pParticle)
     {
         pParticle->mBaseAnimatedWithPhysicsGameObject_Anim.mRenderMode = TPageAbr::eBlend_1;

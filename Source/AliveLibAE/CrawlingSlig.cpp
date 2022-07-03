@@ -139,7 +139,7 @@ CrawlingSlig::CrawlingSlig(Path_CrawlingSlig* pTlv, s32 tlvInfo)
     const AnimRecord& rec = AnimRec(AnimId::CrawlingSlig_Idle);
     field_10_resources_array.SetAt(0, ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0));
     field_10_resources_array.SetAt(1, ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kSligBlowResID, 1, 0));
-    Animation_Init(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, field_10_resources_array.ItemAt(0), 1);
+    Animation_Init(AnimId::CrawlingSlig_Idle, field_10_resources_array.ItemAt(0), 1);
 
     SetTint(&kCrawlingSligTints_5514B8[0], gMap.mCurrentLevel);
 

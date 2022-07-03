@@ -47,7 +47,7 @@ FallingItem::FallingItem(Path_FallingItem* pTlv, s32 tlvInfo)
 
     const AnimRecord& rec = AnimRec(sFallingItemData_544DC0[lvlIdx][0]);
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
-    Animation_Init(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
+    Animation_Init(sFallingItemData_544DC0[lvlIdx][0], ppRes, 1);
 
     field_11E_switch_id = pTlv->field_10_switch_id;
 
@@ -106,7 +106,7 @@ FallingItem::FallingItem(Path_FallingItem* pTlv, s32 tlvInfo)
 
     const AnimRecord& rec = AnimRec(sFallingItemData_544DC0[lvlIdx][0]);
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
-    Animation_Init(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
+    Animation_Init(sFallingItemData_544DC0[lvlIdx][0], ppRes, 1);
 
     mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_FallingItemPortalClip_31;
 
@@ -324,9 +324,7 @@ void FallingItem::VUpdate()
                 u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, 0, 0);
                 auto pParticle = relive_new Particle(mBaseAnimatedWithPhysicsGameObject_XPos,
                                                   mBaseAnimatedWithPhysicsGameObject_YPos - (FP_FromInteger(15) * mBaseAnimatedWithPhysicsGameObject_SpriteScale),
-                                                  rec.mFrameTableOffset,
-                                                  rec.mMaxW,
-                                                  rec.mMaxH,
+                                                  AnimId::Explosion,
                                                   ppRes);
                 if (pParticle)
                 {

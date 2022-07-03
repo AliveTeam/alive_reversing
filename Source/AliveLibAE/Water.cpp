@@ -19,7 +19,7 @@ Water::Water(Path_Water* pTlv, s32 tlvInfo)
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, waterDropRec.mResourceId);
     if (ppRes)
     {
-        Animation_Init(waterDropRec.mFrameTableOffset, waterDropRec.mMaxW, waterDropRec.mMaxH, ppRes, 1);
+        Animation_Init(AnimId::WaterDrop, ppRes, 1);
         mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit25_bDecompressDone);
         mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit15_bSemiTrans);
 
@@ -478,12 +478,9 @@ void Water::VUpdate()
 
                         if (!(old_splash_time % 4) && !field_13C_not_in_camera_count)
                         {
-                            const AnimRecord& splashRec = AnimRec(AnimId::WaterSplash);
                             relive_new Particle(FP_NoFractional(pWaterRes->field_0_xpos) + pScreenManager->CamXPos(),
                                                               FP_NoFractional(pWaterRes->field_4_ypos) + pScreenManager->CamYPos() + FP_FromInteger(Math_NextRandom() % 4) - FP_FromInteger(2),
-                                                              splashRec.mFrameTableOffset,
-                                                              splashRec.mMaxW,
-                                                              splashRec.mMaxH,
+                                                              AnimId::WaterSplash,
                                                               field_10_resources_array.ItemAt(1));
                         }
                     }

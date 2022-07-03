@@ -69,9 +69,9 @@ void Path_Set_NewData_FromLvls()
 
                 // Iterate the chunks
                 ResourceManager::Header* pHeader = reinterpret_cast<ResourceManager::Header*>(pTmp);
-                while (pHeader->mLineType != ResourceManager::Resource_End)
+                while (pHeader->mResourceType != ResourceManager::Resource_End)
                 {
-                    if (pHeader->mLineType == Resource_Pxtd)
+                    if (pHeader->mResourceType == Resource_Pxtd)
                     {
                         auto pChunkData = reinterpret_cast<u8*>(&pHeader[1]);
                         auto pExt = reinterpret_cast<const PerPathExtension*>(pChunkData);

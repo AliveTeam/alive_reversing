@@ -157,9 +157,7 @@ void BaseBomb::VUpdate()
             Particle* pParticle = relive_new Particle(
                 mBaseAnimatedWithPhysicsGameObject_XPos,
                 mBaseAnimatedWithPhysicsGameObject_YPos,
-                rec.mFrameTableOffset,
-                rec.mMaxW,
-                rec.mMaxH,
+                AnimId::Explosion_Mine,
                 ppRes);
             if (pParticle)
             {

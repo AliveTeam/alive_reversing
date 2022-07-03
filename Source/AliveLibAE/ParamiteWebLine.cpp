@@ -18,7 +18,7 @@ ParamiteWebLine::ParamiteWebLine(Path_ParamiteWebLine* pTlv, s32 tlvInfo)
 
     const AnimRecord& rec = AnimRec(AnimId::ParamiteWeb);
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
-    Animation_Init(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
+    Animation_Init(AnimId::ParamiteWeb, ppRes, 1);
 
     if (pTlv->field_10_scale != Scale_short::eFull_0)
     {
