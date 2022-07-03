@@ -120,7 +120,7 @@ void BaseAnimatedWithPhysicsGameObject::VRender(PrimHeader** ppOt)
     }
 }
 
-void BaseAnimatedWithPhysicsGameObject::Animation_Init(s32 frametableoffset, u16 maxW, u16 maxH, u8** ppAnimData, bool bAddToDrawableList)
+void BaseAnimatedWithPhysicsGameObject::Animation_Init(s32 frametableoffset, u16 maxW, u16 maxH, u8** ppAnimData)
 {
     if (mBaseAnimatedWithPhysicsGameObject_Anim.Init(
         frametableoffset,
@@ -139,12 +139,7 @@ void BaseAnimatedWithPhysicsGameObject::Animation_Init(s32 frametableoffset, u16
             mBaseAnimatedWithPhysicsGameObject_Scale = Scale::Bg;
         }
 
-        bool added = true;
-        if (bAddToDrawableList)
-        {
-            added = gObjListDrawables->Push_Back(this) ? true : false;
-        }
-
+        const bool added = gObjListDrawables->Push_Back(this) ? true : false;
         if (added)
         {
             mBaseAnimatedWithPhysicsGameObject_Anim.mRenderMode = TPageAbr::eBlend_0;
@@ -164,10 +159,10 @@ void BaseAnimatedWithPhysicsGameObject::Animation_Init(s32 frametableoffset, u16
     }
 }
 
-void BaseAnimatedWithPhysicsGameObject::Animation_Init(AnimId animId, u8** ppAnimData, bool bAddToDrawableList)
+void BaseAnimatedWithPhysicsGameObject::Animation_Init(AnimId animId, u8** ppAnimData)
 {
     const AnimRecord& anim = AnimRec(animId);
-    Animation_Init(anim.mFrameTableOffset, anim.mMaxW, anim.mMaxH, ppAnimData, bAddToDrawableList);
+    Animation_Init(anim.mFrameTableOffset, anim.mMaxW, anim.mMaxH, ppAnimData);
 }
 
 CameraPos BaseAnimatedWithPhysicsGameObject::Is_In_Current_Camera()

@@ -87,7 +87,7 @@ Paramite::Paramite(Path_Paramite* pTlv, s32 tlvInfo)
 
     const AnimRecord& rec = AnimRec(AnimId::Paramite_Idle);
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
-    Animation_Init(AnimId::Paramite_Idle, ppRes, 1);
+    Animation_Init(AnimId::Paramite_Idle, ppRes);
 
     SetTint(&kParamiteTints_55D73C[0], gMap.mCurrentLevel);
 

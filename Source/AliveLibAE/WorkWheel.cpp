@@ -18,7 +18,7 @@ WorkWheel::WorkWheel(Path_WorkWheel* pTlv, s32 tlvInfo)
 
     const AnimRecord& rec = AnimRec(AnimId::Work_Wheel_Idle);
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
-    Animation_Init(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
+    Animation_Init(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes);
 
     mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(eBit15_bSemiTrans);
 

@@ -127,7 +127,7 @@ Scrab::Scrab(Path_Scrab* pTlv, s32 tlvInfo)
     field_150_resources[4] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kArswhirlAOResID, 1, 0);
     field_150_resources[13] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kArscrshAOResID, 1, 0);
 
-    Animation_Init(AnimId::Scrab_Idle, field_150_resources[0], 1);
+    Animation_Init(AnimId::Scrab_Idle, field_150_resources[0]);
 
     mBaseAliveGameObjectFlags.Set(Flags_10A::e10A_Bit4_SetOffExplosives);
 

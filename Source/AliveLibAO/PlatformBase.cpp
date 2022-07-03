@@ -32,7 +32,7 @@ void PlatformBase::AddDynamicCollision(AnimId animId, u8** ppAnimData, Path_TLV*
     field_110 = 0;
     mPlatformBaseCount = 0;
 
-    Animation_Init(animId, ppAnimData, 1);
+    Animation_Init(animId, ppAnimData);
 
     if (mBaseAnimatedWithPhysicsGameObject_SpriteScale == FP_FromInteger(1))
     {

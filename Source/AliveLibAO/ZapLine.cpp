@@ -47,7 +47,7 @@ ZapLine::ZapLine(FP x1, FP y1, FP x2, FP y2, s32 aliveTime, ZapLineType type, La
 
     const AnimRecord& rec = AO::AnimRec(animId);
     u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
-    Animation_Init(animId, ppRes, 1);
+    Animation_Init(animId, ppRes);
 
     mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit15_bSemiTrans);
     mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = layer;

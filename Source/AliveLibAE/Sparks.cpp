@@ -10,7 +10,7 @@ Sparks::Sparks(FP xpos, FP ypos, FP scale)
 
     const AnimRecord& rec = AnimRec(AnimId::Sparks);
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
-    Animation_Init(AnimId::Sparks, ppRes, 1);
+    Animation_Init(AnimId::Sparks, ppRes);
 
     mVisualFlags.Clear(VisualFlags::eApplyShadowZoneColour);
 

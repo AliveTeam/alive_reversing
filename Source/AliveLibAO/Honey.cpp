@@ -20,7 +20,7 @@ Honey::Honey(FP xpos, FP ypos)
 
     const AnimRecord rec = AO::AnimRec(AnimId::Honey);
     u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
-    Animation_Init(AnimId::Honey, ppRes, 1);
+    Animation_Init(AnimId::Honey, ppRes);
 
     mBaseAnimatedWithPhysicsGameObject_YPos = ypos;
     mBaseAnimatedWithPhysicsGameObject_XPos = xpos;

@@ -13,7 +13,7 @@ DeathBirdParticle::DeathBirdParticle(FP xpos, FP ypos, s32 start, bool bPlaySoun
 
     const AnimRecord& rec = AnimRec(AnimId::DeathFlare_1);
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
-    Animation_Init(AnimId::DeathFlare_1, ppRes, 1);
+    Animation_Init(AnimId::DeathFlare_1, ppRes);
 
     if (mBaseGameObjectFlags.Get(BaseGameObject::eListAddFailed_Bit1))
     {

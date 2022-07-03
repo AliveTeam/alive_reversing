@@ -23,7 +23,7 @@ Explosion::Explosion(FP xpos, FP ypos, FP exposion_size)
     mBaseGameObjectTypeId = ReliveTypes::eExplosion;
     const AnimRecord rec = AO::AnimRec(AnimId::Explosion);
     u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
-    Animation_Init(AnimId::Explosion, ppRes, 1);
+    Animation_Init(AnimId::Explosion, ppRes);
 
     mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit18_IsLastFrame);
     mBaseAnimatedWithPhysicsGameObject_Anim.mRenderMode = TPageAbr::eBlend_1;

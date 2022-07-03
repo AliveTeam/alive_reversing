@@ -53,7 +53,7 @@ RollingBall::RollingBall(Path_RollingBall* pTlv, s32 tlvInfo)
     
     const AnimRecord rec = AO::AnimRec(AnimId::Stone_Ball);
     u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
-    Animation_Init(AnimId::Stone_Ball, ppRes, 1);
+    Animation_Init(AnimId::Stone_Ball, ppRes);
 
     mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_DoorFlameRollingBallPortalClip_Half_31;
 

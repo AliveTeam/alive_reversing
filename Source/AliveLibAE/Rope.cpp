@@ -55,7 +55,7 @@ Rope::Rope(s32 left, s32 top, s32 bottom, FP scale)
 
     const AnimRecord& rec = AnimRec(AnimId::Lift_Rope);
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
-    Animation_Init(AnimId::Lift_Rope, ppRes, 1);
+    Animation_Init(AnimId::Lift_Rope, ppRes);
     SetTint(kRopeTints_55FD68, gMap.mCurrentLevel);
 
     mBaseAnimatedWithPhysicsGameObject_Anim.field_14_scale = scale;

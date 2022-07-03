@@ -26,7 +26,7 @@ MeatSack::MeatSack(Path_MeatSack* pTlv, s32 tlvInfo)
 
     const AnimRecord rec = AO::AnimRec(AnimId::MeatSack_Idle);
     u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
-    Animation_Init(AnimId::MeatSack_Idle, ppRes, 1);
+    Animation_Init(AnimId::MeatSack_Idle, ppRes);
 
     field_10C_tlvInfo = tlvInfo;
     mVisualFlags.Clear(VisualFlags::eApplyShadowZoneColour);
@@ -160,7 +160,7 @@ Meat::Meat(FP xpos, FP ypos, s16 count)
 
     const AnimRecord rec = AO::AnimRec(AnimId::Meat);
     u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
-    Animation_Init(AnimId::Meat, ppRes, 1);
+    Animation_Init(AnimId::Meat, ppRes);
 
     mBaseAnimatedWithPhysicsGameObject_XPos = xpos;
     mBaseAnimatedWithPhysicsGameObject_YPos = ypos;

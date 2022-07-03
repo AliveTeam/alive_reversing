@@ -48,10 +48,7 @@ FallingItem::FallingItem(Path_FallingItem* pTlv, s32 tlvInfo)
     const s32 lvlIdx = static_cast<s32>(MapWrapper::ToAO(gMap.mCurrentLevel));
     const AnimRecord& rec = AO::AnimRec(sFallingItemData_4BAB20[lvlIdx].field_0_falling_animId);
     u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
-    Animation_Init(
-        sFallingItemData_4BAB20[lvlIdx].field_0_falling_animId,
-        ppRes,
-        1);
+    Animation_Init(sFallingItemData_4BAB20[lvlIdx].field_0_falling_animId, ppRes);
 
     mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_DoorFlameRollingBallPortalClip_Half_31;
     if (gMap.mCurrentLevel == EReliveLevelIds::eLines)

@@ -71,12 +71,7 @@ BackgroundAnimation::BackgroundAnimation(Path_BackgroundAnimation* pTlv, s32 tlv
         LOG_WARNING("anim id data: anim id " << anim.mBgAnimId << " frametableoffset " << anim.mFrameTableOffset << " maxW " << anim.mMaxW << " maxH " << anim.mMaxH);
     }
 
-    Animation_Init(
-        anim.mFrameTableOffset,
-        anim.mMaxW,
-        anim.mMaxH,
-        field_E4_res,
-        1);
+    Animation_Init(anim.mFrameTableOffset, anim.mMaxW, anim.mMaxH, field_E4_res);
 
     mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit15_bSemiTrans, pTlv->field_1A_is_semi_trans == Choice_short::eYes_1);
     mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit16_bBlending);

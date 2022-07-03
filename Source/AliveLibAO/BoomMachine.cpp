@@ -157,7 +157,7 @@ BoomMachine::BoomMachine(Path_BoomMachine* pTlv, s32 tlvInfo)
 
     const AnimRecord rec = AO::AnimRec(AnimId::BoomMachine_Button_On);
     u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
-    Animation_Init(AnimId::BoomMachine_Button_On, ppRes, 1);
+    Animation_Init(AnimId::BoomMachine_Button_On, ppRes);
 
     mVisualFlags.Clear(VisualFlags::eApplyShadowZoneColour);
     field_E4_tlvInfo = tlvInfo;
@@ -186,7 +186,7 @@ BoomMachine::BoomMachine(Path_BoomMachine* pTlv, s32 tlvInfo)
 
         const AnimRecord rec2 = AO::AnimRec(AnimId::BoomMachine_Nozzle_Idle);
         u8** ppRes2 = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec2.mResourceId, 1, 0);
-        pNozzle->Animation_Init(AnimId::BoomMachine_Nozzle_Idle, ppRes2, 1);
+        pNozzle->Animation_Init(AnimId::BoomMachine_Nozzle_Idle, ppRes2);
 
         pNozzle->mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit15_bSemiTrans);
         pNozzle->mBaseAnimatedWithPhysicsGameObject_SpriteScale = mBaseAnimatedWithPhysicsGameObject_SpriteScale;

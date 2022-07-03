@@ -67,7 +67,7 @@ Rope::Rope(s32 left, s32 top, s32 bottom, FP scale)
         {
             const AnimRecord ropeRec = AO::AnimRec(AnimId::Rope_R1);
             u8** ppRopeRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, ropeRec.mResourceId, 1, 0);
-            Animation_Init(AnimId::Rope_R1, ppRopeRes, 1);
+            Animation_Init(AnimId::Rope_R1, ppRopeRes);
             break;
         }
 
@@ -75,7 +75,7 @@ Rope::Rope(s32 left, s32 top, s32 bottom, FP scale)
         {
             const AnimRecord ropeRec = AO::AnimRec(AnimId::Rope_Lines);
             u8** ppRopeRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, ropeRec.mResourceId, 1, 0);
-            Animation_Init(AnimId::Rope_Lines, ppRopeRes, 1);
+            Animation_Init(AnimId::Rope_Lines, ppRopeRes);
             break;
         }
     }

@@ -26,7 +26,7 @@ Mine::Mine(Path_Mine* pPath, TlvItemInfoUnion tlv)
 
     const AnimRecord& rec = AnimRec(AnimId::Mine);
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
-    Animation_Init(AnimId::Mine, ppRes, 1);
+    Animation_Init(AnimId::Mine, ppRes);
 
     field_118_detonating = 0;
     mBaseGameObjectFlags.Set(Options::eInteractive_Bit8);

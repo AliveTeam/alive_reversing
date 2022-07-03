@@ -28,7 +28,7 @@ TimedMine::TimedMine(Path_TimedMine* pPath, TlvItemInfoUnion tlv)
 
     const AnimRecord& rec = AnimRec(AnimId::TimedMine_Idle);
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
-    Animation_Init(AnimId::TimedMine_Idle, ppRes, 1);
+    Animation_Init(AnimId::TimedMine_Idle, ppRes);
 
     mBaseGameObjectFlags.Set(Options::eInteractive_Bit8);
     mTimedMineFlags.Clear(TimedMineFlags::eStickToLiftPoint);

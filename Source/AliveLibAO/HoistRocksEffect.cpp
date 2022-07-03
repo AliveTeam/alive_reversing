@@ -23,7 +23,7 @@ HoistParticle::HoistParticle(FP xpos, FP ypos, FP scale, s32 frameTableOffset)
     {
         maxW = 5;
     }
-    Animation_Init(frameTableOffset, maxW, 4, ppRes, 1);
+    Animation_Init(frameTableOffset, maxW, 4, ppRes);
 
     mBaseAnimatedWithPhysicsGameObject_SpriteScale = scale;
 

@@ -273,7 +273,7 @@ Glukkon::Glukkon(Path_Glukkon* pTlv, s32 tlvInfo)
             Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kGlukkonResID_801);
             const AnimRecord& rec = AnimRec(AnimId::Glukkon_Normal_Idle);
             u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
-            Animation_Init(AnimId::Glukkon_Normal_Idle, ppRes, 1);
+            Animation_Init(AnimId::Glukkon_Normal_Idle, ppRes);
             break;
         }
 
@@ -282,7 +282,7 @@ Glukkon::Glukkon(Path_Glukkon* pTlv, s32 tlvInfo)
             Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kAslikResID_803);
             const AnimRecord& rec = AnimRec(AnimId::Glukkon_Aslik_Idle);
             u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
-            Animation_Init(AnimId::Glukkon_Aslik_Idle, ppRes, 1);
+            Animation_Init(AnimId::Glukkon_Aslik_Idle, ppRes);
             break;
         }
 
@@ -291,7 +291,7 @@ Glukkon::Glukkon(Path_Glukkon* pTlv, s32 tlvInfo)
             Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kDripikResID_805);
             const AnimRecord& rec = AnimRec(AnimId::Glukkon_Dripik_Idle);
             u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
-            Animation_Init(AnimId::Glukkon_Dripik_Idle, ppRes, 1);
+            Animation_Init(AnimId::Glukkon_Dripik_Idle, ppRes);
             break;
         }
 
@@ -300,7 +300,7 @@ Glukkon::Glukkon(Path_Glukkon* pTlv, s32 tlvInfo)
             Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kPhlegResID_807);
             const AnimRecord& rec = AnimRec(AnimId::Glukkon_Phleg_Idle);
             u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
-            Animation_Init(AnimId::Glukkon_Phleg_Idle, ppRes, 1);
+            Animation_Init(AnimId::Glukkon_Phleg_Idle, ppRes);
             break;
         }
 

@@ -180,10 +180,7 @@ Lever::Lever(Path_Lever* pTlv, s32 tlvInfo)
     const s32 lvl_idx = static_cast<s32>(MapWrapper::ToAO(gMap.mCurrentLevel));
     const AnimRecord& rec = AO::AnimRec(gLeverData_4BCF40[lvl_idx].field_0_idle_animId);
     u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
-    Animation_Init(
-        gLeverData_4BCF40[lvl_idx].field_0_idle_animId,
-        ppRes,
-        1);
+    Animation_Init(gLeverData_4BCF40[lvl_idx].field_0_idle_animId, ppRes);
 
     mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit15_bSemiTrans);
 

@@ -19,7 +19,7 @@ public:
     {
         const AnimRecord& rec = AnimRec(AnimId::BoomMachine_Nozzle_Idle);
         u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
-        Animation_Init(AnimId::BoomMachine_Nozzle_Idle, ppRes, 1);
+        Animation_Init(AnimId::BoomMachine_Nozzle_Idle, ppRes);
 
         mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit15_bSemiTrans);
         mVisualFlags.Clear(VisualFlags::eApplyShadowZoneColour);
@@ -128,7 +128,7 @@ BoomMachine::BoomMachine(Path_BoomMachine* pTlv, s32 tlvInfo)
 
     const AnimRecord& rec = AnimRec(AnimId::BoomMachine_Button_Off);
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
-    Animation_Init(AnimId::BoomMachine_Button_Off, ppRes, 1);
+    Animation_Init(AnimId::BoomMachine_Button_Off, ppRes);
 
     mVisualFlags.Clear(VisualFlags::eApplyShadowZoneColour);
     field_F4_tlvInfo = tlvInfo;

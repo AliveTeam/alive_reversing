@@ -105,7 +105,7 @@ UXB::UXB(Path_UXB* tlv_params, TlvItemInfoUnion itemInfo)
 
     const AnimRecord& activeRec = AnimRec(AnimId::UXB_Active);
     auto pResource = BaseGameObject::Add_Resource(ResourceManager::Resource_Animation, activeRec.mResourceId);
-    Animation_Init(AnimId::UXB_Active, pResource, 1);
+    Animation_Init(AnimId::UXB_Active, pResource);
 
     mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit15_bSemiTrans);
     mBaseAnimatedWithPhysicsGameObject_Anim.mRenderMode = TPageAbr::eBlend_0;

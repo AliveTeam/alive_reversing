@@ -35,7 +35,7 @@ BirdPortalTerminator::BirdPortalTerminator(FP xpos, FP ypos, FP scale, PortalTyp
 
     const AnimRecord rec = AO::AnimRec(AnimId::BirdPortal_TerminatorGrow);
     u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
-    Animation_Init(AnimId::BirdPortal_TerminatorGrow, ppRes, 1);
+    Animation_Init(AnimId::BirdPortal_TerminatorGrow, ppRes);
     
     mBaseAnimatedWithPhysicsGameObject_Anim.mRenderMode = TPageAbr::eBlend_1;
     mBaseAnimatedWithPhysicsGameObject_SpriteScale = scale;

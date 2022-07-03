@@ -27,7 +27,7 @@ Grenade::Grenade(FP xpos, FP ypos, s16 numGrenades)
 
     const AnimRecord rec = AO::AnimRec(AnimId::Grenade);
     u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
-    Animation_Init(AnimId::Grenade, ppRes, 1);
+    Animation_Init(AnimId::Grenade, ppRes);
 
     mBaseGameObjectFlags.Clear(Options::eInteractive_Bit8);
     mBaseAnimatedWithPhysicsGameObject_Anim.mRenderMode = TPageAbr::eBlend_0;

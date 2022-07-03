@@ -120,7 +120,7 @@ FlyingSlig::FlyingSlig(Path_FlyingSlig* pTlv, s32 tlvInfo)
 
     const AnimRecord& rec = AnimRec(AnimId::FlyingSlig_Idle);
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
-    Animation_Init(AnimId::FlyingSlig_Idle, ppRes, 1);
+    Animation_Init(AnimId::FlyingSlig_Idle, ppRes);
 
     field_15E_useless = 0;
 

@@ -20,7 +20,7 @@ Mine::Mine(Path_Mine* pTlv, s32 tlvInfo)
     
     const AnimRecord rec = AO::AnimRec(AnimId::Mine);
     u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
-    Animation_Init(AnimId::Mine, ppRes, 1);
+    Animation_Init(AnimId::Mine, ppRes);
     
     mBaseGameObjectFlags.Set(Options::eCanExplode_Bit7);
     mBaseGameObjectFlags.Set(Options::eInteractive_Bit8);

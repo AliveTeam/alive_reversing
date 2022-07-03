@@ -26,7 +26,7 @@ TimedMine::TimedMine(Path_TimedMine* pTlv, s32 tlvInfo)
 
     const AnimRecord rec = AO::AnimRec(AnimId::TimedMine_Idle);
     u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
-    Animation_Init(AnimId::TimedMine_Idle, ppRes, 1);
+    Animation_Init(AnimId::TimedMine_Idle, ppRes);
 
     mBaseGameObjectFlags.Set(Options::eInteractive_Bit8);
     mTimedMineFlags.Clear(TimedMineFlags::eStickToLiftPoint);

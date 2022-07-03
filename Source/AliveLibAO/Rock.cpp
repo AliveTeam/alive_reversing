@@ -26,7 +26,7 @@ Rock::Rock(FP xpos, FP ypos, s16 count)
 
     const AnimRecord rec = AO::AnimRec(AnimId::Rock);
     u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
-    Animation_Init(AnimId::Rock, ppRes, 1);
+    Animation_Init(AnimId::Rock, ppRes);
 
     mBaseGameObjectFlags.Clear(Options::eInteractive_Bit8);
     mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit3_Render);

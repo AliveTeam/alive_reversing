@@ -34,21 +34,21 @@ DoorLight::DoorLight(Path_LightEffect* pTlv, s32 tlvInfo)
         case Path_LightEffect::Type::GoldGlow_1:
         {
             const AnimRecord& goldRec = AO::AnimRec(AnimId::GoldGlow);
-            Animation_Init(AnimId::GoldGlow, ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, goldRec.mResourceId, 1, 0), 1);
+            Animation_Init(AnimId::GoldGlow, ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, goldRec.mResourceId, 1, 0));
             break;
         }
 
         case Path_LightEffect::Type::GreenGlow_2:
         {
             const AnimRecord& greenRec = AO::AnimRec(AnimId::GreenGlow);
-            Animation_Init(AnimId::GreenGlow, ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, greenRec.mResourceId, 1, 0), 1);
+            Animation_Init(AnimId::GreenGlow, ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, greenRec.mResourceId, 1, 0));
             break;
         }
 
         case Path_LightEffect::Type::FlintGlow_3:
         {
             const AnimRecord& flintRec = AO::AnimRec(AnimId::FlintGlow);
-            Animation_Init(AnimId::FlintGlow, ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, flintRec.mResourceId, 1, 0), 1);
+            Animation_Init(AnimId::FlintGlow, ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, flintRec.mResourceId, 1, 0));
             field_EC_bHasID = 1;
             break;
         }
@@ -60,12 +60,12 @@ DoorLight::DoorLight(Path_LightEffect* pTlv, s32 tlvInfo)
             if (SwitchStates_Get(pTlv->field_1C_switch_id))
             {
                 const AnimRecord& greenRec = AO::AnimRec(AnimId::GreenDoorLight);
-                Animation_Init(AnimId::GreenDoorLight, ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, greenRec.mResourceId, 1, 0), 1);
+                Animation_Init(AnimId::GreenDoorLight, ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, greenRec.mResourceId, 1, 0));
             }
             else
             {
                 const AnimRecord& redRec = AO::AnimRec(AnimId::RedDoorLight);
-                Animation_Init(AnimId::RedDoorLight, ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, redRec.mResourceId, 1, 0), 1);
+                Animation_Init(AnimId::RedDoorLight, ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, redRec.mResourceId, 1, 0));
                 xOff = 6;
             }
             break;
@@ -78,12 +78,12 @@ DoorLight::DoorLight(Path_LightEffect* pTlv, s32 tlvInfo)
             if (SwitchStates_Get(pTlv->field_1C_switch_id))
             {
                 const AnimRecord& greenRec = AO::AnimRec(AnimId::GreenHubLight);
-                Animation_Init(AnimId::GreenHubLight, ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, greenRec.mResourceId, 1, 0), 1);
+                Animation_Init(AnimId::GreenHubLight, ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, greenRec.mResourceId, 1, 0));
             }
             else
             {
                 const AnimRecord& redRec = AO::AnimRec(AnimId::RedHubLight);
-                Animation_Init(AnimId::RedHubLight, ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, redRec.mResourceId, 1, 0), 1);
+                Animation_Init(AnimId::RedHubLight, ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, redRec.mResourceId, 1, 0));
             }
             break;
         }

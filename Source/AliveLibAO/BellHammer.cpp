@@ -17,7 +17,7 @@ BellHammer::BellHammer(Path_BellHammer* pTlv, s32 tlvInfo)
 
     const AnimRecord rec = AO::AnimRec(AnimId::BellHammer_Idle);
     u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
-    Animation_Init(AnimId::BellHammer_Idle, ppRes, 1);
+    Animation_Init(AnimId::BellHammer_Idle, ppRes);
 
     mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit15_bSemiTrans);
     field_F0_bSpawnElum = FALSE;

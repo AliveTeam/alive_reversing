@@ -324,10 +324,7 @@ MainMenuFade::MainMenuFade(s32 xpos, s32 ypos, buttonType buttonType, s32 bDestr
 
     const AnimRecord& rec = AO::AnimRec(buttonAnimIds_4BB1B8[buttonType]);
     u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
-    Animation_Init(
-        buttonAnimIds_4BB1B8[buttonType],
-        ppRes,
-        1);
+    Animation_Init(buttonAnimIds_4BB1B8[buttonType], ppRes);
 
     mBaseAnimatedWithPhysicsGameObject_Anim.mRenderMode = TPageAbr::eBlend_1;
     mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(xpos);
@@ -687,7 +684,7 @@ Menu::Menu(Path_TLV* /*pTlv*/, s32 tlvInfo)
     {
         field_E4_res_array[2] = nullptr;
         field_E4_res_array[3] = nullptr;
-        Animation_Init(AnimId::MenuAbeSpeak_Idle, field_E4_res_array[1], 1);
+        Animation_Init(AnimId::MenuAbeSpeak_Idle, field_E4_res_array[1]);
     }
     else
     {
@@ -698,7 +695,7 @@ Menu::Menu(Path_TLV* /*pTlv*/, s32 tlvInfo)
         const AnimRecord& doorRec = AO::AnimRec(AnimId::MenuDoor);
         ResourceManager::LoadResourceFile_455270(doorRec.mBanName, nullptr);
         field_E4_res_array[3] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, doorRec.mResourceId, 1, 0);
-        Animation_Init(AnimId::MenuDoor, field_E4_res_array[3], 1);
+        Animation_Init(AnimId::MenuDoor, field_E4_res_array[3]);
     }
 
     mBaseAnimatedWithPhysicsGameObject_Anim.mBlue = 127;

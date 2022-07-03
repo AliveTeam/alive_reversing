@@ -67,7 +67,7 @@ DeathBirdParticle::DeathBirdParticle(FP xpos, FP ypos, s32 start, s32 bPlaySound
 
     const AnimRecord rec = AO::AnimRec(AnimId::DeathFlare_1);
     u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
-    Animation_Init(AnimId::DeathFlare_1, ppRes, 1);
+    Animation_Init(AnimId::DeathFlare_1, ppRes);
 
     if (mBaseGameObjectFlags.Get(BaseGameObject::eListAddFailed_Bit1))
     {

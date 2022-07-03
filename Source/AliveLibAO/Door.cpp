@@ -115,11 +115,11 @@ Door::Door(Path_Door* pTlv, s32 tlvInfo)
             {
                 if (field_EC_current_state == DoorStates::eOpen_0)
                 {
-                    Animation_Init(sDoorAnimdIdTable[idx][1], ppRes, 1);
+                    Animation_Init(sDoorAnimdIdTable[idx][1], ppRes);
                 }
                 else
                 {
-                    Animation_Init(sDoorAnimdIdTable[idx][0], ppRes, 1);
+                    Animation_Init(sDoorAnimdIdTable[idx][0], ppRes);
                 }
 
                 if (pTlv->field_1E_scale == Scale_short::eHalf_1)
@@ -186,11 +186,11 @@ Door::Door(Path_Door* pTlv, s32 tlvInfo)
 
             if (field_EC_current_state == DoorStates::eOpen_0)
             {
-                Animation_Init(sDoorAnimdIdTable[idx][3], ppRes, 1);
+                Animation_Init(sDoorAnimdIdTable[idx][3], ppRes);
             }
             else
             {
-                Animation_Init(sDoorAnimdIdTable[idx][2], ppRes, 1);
+                Animation_Init(sDoorAnimdIdTable[idx][2], ppRes);
             }
 
             if (sCollisions->Raycast(
@@ -233,11 +233,11 @@ Door::Door(Path_Door* pTlv, s32 tlvInfo)
                 {
                     if (field_EC_current_state == DoorStates::eOpen_0)
                     {
-                        Animation_Init(sDoorAnimdIdTable[idx][5], ppRes, 1);
+                        Animation_Init(sDoorAnimdIdTable[idx][5], ppRes);
                     }
                     else
                     {
-                        Animation_Init(sDoorAnimdIdTable[idx][4], ppRes, 1);
+                        Animation_Init(sDoorAnimdIdTable[idx][4], ppRes);
                     }
 
                     mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_BeforeShadow_Half_6;

@@ -22,7 +22,7 @@ public:
 
         const AnimRecord& rec = AnimRec(AnimId::Door_FireBackgroundGlow);
         u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
-        Animation_Init(AnimId::Door_FireBackgroundGlow, ppRes, 1);
+        Animation_Init(AnimId::Door_FireBackgroundGlow, ppRes);
 
         mVisualFlags.Clear(VisualFlags::eApplyShadowZoneColour);
 
@@ -139,7 +139,7 @@ public:
 
         const AnimRecord& rec = AnimRec(AnimId::Zap_Sparks);
         u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
-        Animation_Init(AnimId::Zap_Sparks, ppRes, 1);
+        Animation_Init(AnimId::Zap_Sparks, ppRes);
 
         mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit15_bSemiTrans);
 
@@ -313,7 +313,7 @@ DoorFlame::DoorFlame(Path_DoorFlame* pTlv, s32 tlvInfo)
 
     const AnimRecord& rec = AnimRec(AnimId::Fire);
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
-    Animation_Init(AnimId::Fire, ppRes, 1);
+    Animation_Init(AnimId::Fire, ppRes);
 
     mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit15_bSemiTrans);
     mVisualFlags.Set(VisualFlags::eApplyShadowZoneColour);

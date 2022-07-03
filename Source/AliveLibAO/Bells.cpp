@@ -24,16 +24,16 @@ Bells::Bells(BellSize bellType, FP xpos, FP ypos, FP scale)
     {
         case BellSize::eBig_0:
             field_EA_sound = Sounds::eLowPitch_0;
-            Animation_Init(AnimId::BigChime, ppRes, 1);
+            Animation_Init(AnimId::BigChime, ppRes);
             break;
 
         case BellSize::eMedium_1:
             field_EA_sound = Sounds::eMediumPitch_1;
-            Animation_Init(AnimId::MediumChime, ppRes, 1);
+            Animation_Init(AnimId::MediumChime, ppRes);
             break;
         case BellSize::eSmall_2:
             field_EA_sound = Sounds::eHighPitch_2;
-            Animation_Init(AnimId::SmallChime, ppRes, 1);
+            Animation_Init(AnimId::SmallChime, ppRes);
             break;
     }
 

@@ -898,7 +898,7 @@ Abe::Abe(s32 frameTableOffset, s32 /*r*/, s32 /*g*/, s32 /*b*/)
     ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kDovbasicAOResID, 1, 0);
 
     field_128_resource_idx = 45;
-    Animation_Init(frameTableOffset, 135, 80, field_1A4_resources.res[45], 1);
+    Animation_Init(frameTableOffset, 135, 80, field_1A4_resources.res[45]);
 
     mBaseAnimatedWithPhysicsGameObject_Anim.mFnPtrArray = kAbe_Anim_Frame_Fns_4CEBEC;
 

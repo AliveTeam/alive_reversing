@@ -36,7 +36,7 @@ PullRingRope::PullRingRope(Path_PullRingRope* pTlv, s32 tlvInfo)
 
     const AnimRecord& rec = AnimRec(AnimId::PullRingRope_Idle);
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
-    Animation_Init(AnimId::PullRingRope_Idle, ppRes, 1);
+    Animation_Init(AnimId::PullRingRope_Idle, ppRes);
 
     SetTint(sPullRingRopeTints_55FD1C, gMap.mCurrentLevel);
 

@@ -16,7 +16,7 @@ FootSwitch::FootSwitch(Path_FootSwitch* pTlv, s32 tlvInfo)
 
     const AnimRecord rec = AO::AnimRec(AnimId::Foot_Switch_Temple);
     u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
-    Animation_Init(AnimId::Foot_Switch_Temple, ppRes, 1);
+    Animation_Init(AnimId::Foot_Switch_Temple, ppRes);
 
     mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_BeforeShadow_25;
 

@@ -55,7 +55,7 @@ ParticleBurst::ParticleBurst(FP xpos, FP ypos, s32 particleCount, FP scale, Burs
             {
                 const AnimRecord rockRec = AO::AnimRec(AnimId::Rock_Gib);
                 u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rockRec.mResourceId, 1, 0);
-                Animation_Init(AnimId::Rock_Gib, ppRes, 1);
+                Animation_Init(AnimId::Rock_Gib, ppRes);
                 mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit15_bSemiTrans);
                 mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit16_bBlending);
                 break;
@@ -65,7 +65,7 @@ ParticleBurst::ParticleBurst(FP xpos, FP ypos, s32 particleCount, FP scale, Burs
             {
                 const AnimRecord sticksRec = AO::AnimRec(AnimId::Stick_Gib);
                 u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, sticksRec.mResourceId, 1, 0);
-                Animation_Init(AnimId::Stick_Gib, ppRes, 1);
+                Animation_Init(AnimId::Stick_Gib, ppRes);
                 scale = FP_FromDouble(0.4) * scale;
                 mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit15_bSemiTrans);
                 mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit16_bBlending);
@@ -76,7 +76,7 @@ ParticleBurst::ParticleBurst(FP xpos, FP ypos, s32 particleCount, FP scale, Burs
             {
                 const AnimRecord flareRec = AO::AnimRec(AnimId::DeathFlare_2);
                 u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, flareRec.mResourceId, 1, 0);
-                Animation_Init(AnimId::DeathFlare_2, ppRes, 1);
+                Animation_Init(AnimId::DeathFlare_2, ppRes);
                 mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit15_bSemiTrans);
                 mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit16_bBlending);
                 mBaseAnimatedWithPhysicsGameObject_Anim.mRenderMode = TPageAbr::eBlend_1;
@@ -87,7 +87,7 @@ ParticleBurst::ParticleBurst(FP xpos, FP ypos, s32 particleCount, FP scale, Burs
             {
                 const AnimRecord flareRec = AO::AnimRec(AnimId::DeathFlare_2);
                 u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, flareRec.mResourceId, 1, 0);
-                Animation_Init(AnimId::DeathFlare_2, ppRes, 1);
+                Animation_Init(AnimId::DeathFlare_2, ppRes);
 
                 mBaseAnimatedWithPhysicsGameObject_Anim.mRenderMode = TPageAbr::eBlend_1;
                 mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit15_bSemiTrans);
@@ -103,7 +103,7 @@ ParticleBurst::ParticleBurst(FP xpos, FP ypos, s32 particleCount, FP scale, Burs
             {
                 const AnimRecord meatRec = AO::AnimRec(AnimId::Meat_Gib);
                 u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, meatRec.mResourceId, 1, 0);
-                Animation_Init(AnimId::Meat_Gib, ppRes, 1);
+                Animation_Init(AnimId::Meat_Gib, ppRes);
                 mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit15_bSemiTrans);
                 mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit16_bBlending);
                 break;

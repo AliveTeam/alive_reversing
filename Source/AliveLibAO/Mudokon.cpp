@@ -158,7 +158,7 @@ Mudokon::Mudokon(Path_TLV* pTlv, s32 tlvInfo)
 
     const AnimRecord& mudRec = AO::AnimRec(AnimId::Mudokon_Idle);
     field_148_res_array.res[0] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, mudRec.mResourceId, 1, 0);
-    Animation_Init(AnimId::Mudokon_Idle, field_148_res_array.res[0], 1);
+    Animation_Init(AnimId::Mudokon_Idle, field_148_res_array.res[0]);
 
     mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit15_bSemiTrans);
 

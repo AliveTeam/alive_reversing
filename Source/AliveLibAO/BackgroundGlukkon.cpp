@@ -31,7 +31,7 @@ BackgroundGlukkon::BackgroundGlukkon(Path_BackgroundGlukkon* pTlv, s32 tlvInfo)
 
     const AnimRecord rec = AO::AnimRec(AnimId::Background_Glukkon_Idle);
     u8** ppRes2 = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
-    Animation_Init(AnimId::Background_Glukkon_Idle, ppRes2, 1);
+    Animation_Init(AnimId::Background_Glukkon_Idle, ppRes2);
 
     field_10C_tlvInfo = tlvInfo;
 

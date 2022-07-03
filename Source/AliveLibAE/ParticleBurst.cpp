@@ -60,7 +60,7 @@ ParticleBurst::ParticleBurst(FP xpos, FP ypos, u32 numOfParticles, FP scale, Bur
             case BurstType::eFallingRocks_0:
             {
                 const AnimRecord& rocksRec = AnimRec(AnimId::Explosion_Rocks);
-                Animation_Init(AnimId::Explosion_Rocks, Add_Resource(ResourceManager::Resource_Animation, rocksRec.mResourceId), 1);
+                Animation_Init(AnimId::Explosion_Rocks, Add_Resource(ResourceManager::Resource_Animation, rocksRec.mResourceId));
                 mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit15_bSemiTrans);
                 mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit16_bBlending);
                 break;
@@ -69,7 +69,7 @@ ParticleBurst::ParticleBurst(FP xpos, FP ypos, u32 numOfParticles, FP scale, Bur
             case BurstType::eSticks_1:
             {
                 const AnimRecord& sticksRec = AnimRec(AnimId::Explosion_Sticks);
-                Animation_Init(AnimId::Explosion_Sticks, Add_Resource(ResourceManager::Resource_Animation, sticksRec.mResourceId), 1);
+                Animation_Init(AnimId::Explosion_Sticks, Add_Resource(ResourceManager::Resource_Animation, sticksRec.mResourceId));
                 mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit15_bSemiTrans);
                 mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit16_bBlending);
                 break;
@@ -78,7 +78,7 @@ ParticleBurst::ParticleBurst(FP xpos, FP ypos, u32 numOfParticles, FP scale, Bur
             case BurstType::eBigPurpleSparks_2:
             {
                 const AnimRecord& flareRec = AnimRec(AnimId::DeathFlare_2);
-                Animation_Init(AnimId::DeathFlare_2, Add_Resource(ResourceManager::Resource_Animation, flareRec.mResourceId), 1);
+                Animation_Init(AnimId::DeathFlare_2, Add_Resource(ResourceManager::Resource_Animation, flareRec.mResourceId));
                 mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit15_bSemiTrans);
                 mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit16_bBlending);
                 mBaseAnimatedWithPhysicsGameObject_Anim.mRenderMode = TPageAbr::eBlend_1;
@@ -90,7 +90,7 @@ ParticleBurst::ParticleBurst(FP xpos, FP ypos, u32 numOfParticles, FP scale, Bur
             case BurstType::eSmallPurpleSparks_6:
             {
                 const AnimRecord& flareRec = AnimRec(AnimId::DeathFlare_2);
-                Animation_Init(AnimId::DeathFlare_2, Add_Resource(ResourceManager::Resource_Animation, flareRec.mResourceId), 1);
+                Animation_Init(AnimId::DeathFlare_2, Add_Resource(ResourceManager::Resource_Animation, flareRec.mResourceId));
                 mBaseAnimatedWithPhysicsGameObject_Anim.mRenderMode = TPageAbr::eBlend_1;
                 mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit15_bSemiTrans);
                 mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit16_bBlending);

@@ -51,7 +51,7 @@ Slurg::Slurg(Path_Slurg* pTlv, u32 tlvInfo)
 
     const AnimRecord& rec = AnimRec(AnimId::Slurg_Move);
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
-    Animation_Init(AnimId::Slurg_Move, ppRes, 1);
+    Animation_Init(AnimId::Slurg_Move, ppRes);
 
     mBaseGameObjectFlags.Set(BaseGameObject::eCanExplode_Bit7);
     SetType(ReliveTypes::eSlurg);

@@ -155,7 +155,7 @@ void Grenade::Init(FP xpos, FP ypos)
 
     const AnimRecord& rec = AnimRec(AnimId::Grenade);
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
-    Animation_Init(AnimId::Grenade, ppRes, 1);
+    Animation_Init(AnimId::Grenade, ppRes);
     mBaseGameObjectFlags.Clear(BaseGameObject::eInteractive_Bit8);
 
     mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit3_Render);

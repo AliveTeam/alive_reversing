@@ -24,7 +24,7 @@ Dove::Dove(AnimId animId, s32 tlvInfo, FP scale)
 {
     mBaseGameObjectTypeId = ReliveTypes::eBird;
     u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AO::AnimRec(animId).mResourceId, 1, 0);
-    Animation_Init(animId, ppRes, 1);
+    Animation_Init(animId, ppRes);
     mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit15_bSemiTrans);
 
     gDovesArray.Push_Back(this);
@@ -78,7 +78,7 @@ Dove::Dove(AnimId animId, FP xpos, FP ypos, FP scale)
     mBaseGameObjectTypeId = ReliveTypes::eBird;
 
     u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AO::AnimRec(animId).mResourceId, 1, 0);
-    Animation_Init(animId, ppRes, 1);
+    Animation_Init(animId, ppRes);
 
     mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit15_bSemiTrans);
     mBaseAnimatedWithPhysicsGameObject_Anim.field_14_scale = scale;

@@ -120,10 +120,7 @@ Gibs::Gibs(GibType gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scale, bool b
     }
 
     // The base class renders the head gib
-    Animation_Init(
-        headGib,
-        ppAnimData,
-        1);
+    Animation_Init(headGib, ppAnimData);
 
     if (mBaseGameObjectFlags.Get(BaseGameObject::eListAddFailed_Bit1))
     {

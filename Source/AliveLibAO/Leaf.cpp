@@ -96,7 +96,7 @@ Leaf::Leaf(FP xpos, FP ypos, FP xVel, FP yVel, FP scale)
         return;
     }
 
-    Animation_Init(AnimId::Well_Leaf, ppRes, 1);
+    Animation_Init(AnimId::Well_Leaf, ppRes);
 
     mBaseAnimatedWithPhysicsGameObject_SpriteScale = scale;
     if (mBaseAnimatedWithPhysicsGameObject_SpriteScale == FP_FromInteger(1))

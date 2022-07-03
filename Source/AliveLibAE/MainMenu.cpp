@@ -510,7 +510,7 @@ MainMenuController::MainMenuController(Path_TLV* /*pTlv*/, TlvItemInfoUnion tlvO
     {
         field_F4_resources.field_0_resources[MenuResIds::eAbeIntro] = nullptr;
         field_F4_resources.field_0_resources[MenuResIds::eMenuDoor] = nullptr;
-        Animation_Init(AnimId::MenuAbeSpeak_Idle, field_F4_resources.field_0_resources[MenuResIds::eAbeSpeak2], 1);
+        Animation_Init(AnimId::MenuAbeSpeak_Idle, field_F4_resources.field_0_resources[MenuResIds::eAbeSpeak2]);
     }
     else
     {
@@ -518,7 +518,7 @@ MainMenuController::MainMenuController(Path_TLV* /*pTlv*/, TlvItemInfoUnion tlvO
         field_F4_resources.field_0_resources[MenuResIds::eAbeIntro] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kAbeintroResID, TRUE, FALSE);
         ResourceManager::LoadResourceFile_49C170("STDOOR.BAN", nullptr);
         field_F4_resources.field_0_resources[MenuResIds::eMenuDoor] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kMenuDoorResID, TRUE, FALSE);
-        Animation_Init(AnimId::MenuDoor, field_F4_resources.field_0_resources[MenuResIds::eMenuDoor], 1);
+        Animation_Init(AnimId::MenuDoor, field_F4_resources.field_0_resources[MenuResIds::eMenuDoor]);
     }
 
     mBaseAnimatedWithPhysicsGameObject_Anim.mBlue = 127;

@@ -121,13 +121,13 @@ void BaseAnimatedWithPhysicsGameObject::VRender(PrimHeader** ppOt)
     }
 }
 
-void BaseAnimatedWithPhysicsGameObject::Animation_Init(AnimId animId, u8** ppAnimData, s16 bAddToDrawableList)
+void BaseAnimatedWithPhysicsGameObject::Animation_Init(AnimId animId, u8** ppAnimData)
 {
     const AnimRecord& rec = AO::AnimRec(animId);
-    Animation_Init(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppAnimData, bAddToDrawableList);
+    Animation_Init(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppAnimData);
 }
 
-void BaseAnimatedWithPhysicsGameObject::Animation_Init(s32 frameTableOffset, u16 maxW, u16 maxH, u8** ppAnimData, s16 bAddToDrawableList)
+void BaseAnimatedWithPhysicsGameObject::Animation_Init(s32 frameTableOffset, u16 maxW, u16 maxH, u8** ppAnimData)
 {
     if (mBaseAnimatedWithPhysicsGameObject_Anim.Init(
             frameTableOffset,
@@ -146,12 +146,7 @@ void BaseAnimatedWithPhysicsGameObject::Animation_Init(s32 frameTableOffset, u16
             mBaseAnimatedWithPhysicsGameObject_Scale = Scale::Bg;
         }
 
-        bool added = true;
-        if (bAddToDrawableList)
-        {
-            added = gObjListDrawables->Push_Back(this) ? true : false;
-        }
-
+        const bool added =  gObjListDrawables->Push_Back(this) ? true : false;
         if (added)
         {
             mBaseAnimatedWithPhysicsGameObject_Anim.mRenderMode = TPageAbr::eBlend_0;

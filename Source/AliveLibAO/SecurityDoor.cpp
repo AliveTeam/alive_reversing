@@ -34,7 +34,7 @@ SecurityDoor::SecurityDoor(Path_SecurityDoor* pTlv, s32 tlvInfo)
 
     const AnimRecord rec = AO::AnimRec(AnimId::Security_Door);
     u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
-    Animation_Init(AnimId::Security_Door, ppRes, 1);
+    Animation_Init(AnimId::Security_Door, ppRes);
 
     mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit3_Render);
 

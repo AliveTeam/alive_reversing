@@ -197,7 +197,7 @@ Particle::Particle(FP xpos, FP ypos, AnimId animId, u8** ppAnimData)
 
     mBaseGameObjectTypeId = ReliveTypes::eParticle;
 
-    Animation_Init(animId, ppAnimData, 1);
+    Animation_Init(animId, ppAnimData);
 
     if (mBaseGameObjectFlags.Get(BaseGameObject::eListAddFailed_Bit1))
     {

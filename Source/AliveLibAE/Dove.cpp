@@ -24,7 +24,7 @@ Dove::Dove(AnimId animId, s32 tlvInfo, FP scale)
 
     const AnimRecord& anim = AnimRec(animId);
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, anim.mResourceId);
-    Animation_Init(animId, ppRes, true);
+    Animation_Init(animId, ppRes);
 
     mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit15_bSemiTrans);
 
@@ -75,7 +75,7 @@ Dove::Dove(AnimId animId, FP xpos, FP ypos, FP scale)
 
     const AnimRecord& anim = AnimRec(animId);
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, anim.mResourceId);
-    Animation_Init(animId, ppRes, true);
+    Animation_Init(animId, ppRes);
 
     mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit15_bSemiTrans);
     mBaseAnimatedWithPhysicsGameObject_Anim.field_14_scale = scale;

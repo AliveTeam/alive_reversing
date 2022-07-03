@@ -2767,7 +2767,7 @@ void Slog::Init()
     field_10_resources_array.SetAt(2, ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kDogattkResID, 1, 0));
     field_10_resources_array.SetAt(3, ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kDogknfdResID, 1, 0));
     field_10_resources_array.SetAt(4, ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kDogidleResID, 1, 0));
-    Animation_Init(AnimId::Slog_Idle, field_10_resources_array.ItemAt(0), 1);
+    Animation_Init(AnimId::Slog_Idle, field_10_resources_array.ItemAt(0));
 
     mBaseAliveGameObjectFlags.Set(Flags_114::e114_Bit6_SetOffExplosives);
 

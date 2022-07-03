@@ -815,7 +815,7 @@ Abe::Abe(s32 /*frameTableOffset*/, s32 /*r*/, s32 /*g*/, s32 /*b*/)
 
     const AnimRecord& rec = AnimRec(AnimId::Mudokon_Idle);
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
-    Animation_Init(AnimId::Mudokon_Idle, ppRes, 1);
+    Animation_Init(AnimId::Mudokon_Idle, ppRes);
 
     mBaseAnimatedWithPhysicsGameObject_Anim.mFnPtrArray = kAbe_Anim_Frame_Fns_55EF98;
 

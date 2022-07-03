@@ -38,7 +38,7 @@ Claw::Claw()
     
     const AnimRecord rec = AO::AnimRec(AnimId::Security_Claw_Lower_Idle);
     u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
-    Animation_Init(AnimId::Security_Claw_Lower_Idle, ppRes, 1);
+    Animation_Init(AnimId::Security_Claw_Lower_Idle, ppRes);
 }
 
 
@@ -57,7 +57,7 @@ SecurityClaw::SecurityClaw(Path_SecurityClaw* pTlv, s32 tlvInfo)
 
     const AnimRecord rec = AO::AnimRec(AnimId::Security_Claw_Upper_Rotating);
     u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
-    Animation_Init(AnimId::Security_Claw_Upper_Rotating, ppRes, 1);
+    Animation_Init(AnimId::Security_Claw_Upper_Rotating, ppRes);
 
     field_10C_tlvInfo = tlvInfo;
 

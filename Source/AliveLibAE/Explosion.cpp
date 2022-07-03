@@ -24,13 +24,13 @@ Explosion::Explosion(FP xpos, FP ypos, FP scale, bool bSmall)
     {
         const AnimRecord& rec = AnimRec(AnimId::Explosion_Small);
         u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
-        Animation_Init(AnimId::Explosion_Small, ppRes, 1);
+        Animation_Init(AnimId::Explosion_Small, ppRes);
     }
     else
     {
         const AnimRecord& rec = AnimRec(AnimId::Explosion);
         u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
-        Animation_Init(AnimId::Explosion, ppRes, 1);
+        Animation_Init(AnimId::Explosion, ppRes);
     }
 
     mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit18_IsLastFrame);

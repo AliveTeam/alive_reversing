@@ -121,7 +121,7 @@ Paramite::Paramite(Path_Paramite* pTlv, s32 tlvInfo)
 
     ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kWebAOResID, 1, 0);
 
-    Animation_Init(AnimId::Paramite_Idle, field_150_resources[0], 1);
+    Animation_Init(AnimId::Paramite_Idle, field_150_resources[0]);
 
     field_12A_res_idx = 0;
 

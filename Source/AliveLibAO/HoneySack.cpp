@@ -19,7 +19,7 @@ HoneySack::HoneySack(Path_HoneySack* pTlv, s32 tlvInfo)
 
     const AnimRecord hangingRec = AO::AnimRec(AnimId::HoneySack_Hanging);
     u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, hangingRec.mResourceId, 1, 0);
-    Animation_Init(AnimId::HoneySack_Hanging, ppRes, 1);
+    Animation_Init(AnimId::HoneySack_Hanging, ppRes);
 
     mBaseGameObjectFlags.Set(Options::eCanExplode_Bit7);
     field_E4_tlvInfo = tlvInfo;

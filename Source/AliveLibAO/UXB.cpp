@@ -19,7 +19,7 @@ UXB::UXB(Path_UXB* pTlv, s32 tlvInfo)
 
     const AnimRecord rec = AO::AnimRec(AnimId::UXB_Active);
     u8** ppRes2 = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
-    Animation_Init(AnimId::UXB_Active, ppRes2, 1);
+    Animation_Init(AnimId::UXB_Active, ppRes2);
 
     mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit15_bSemiTrans);
     mBaseAnimatedWithPhysicsGameObject_Anim.mRenderMode = TPageAbr::eBlend_0;

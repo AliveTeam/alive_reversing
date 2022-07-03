@@ -37,7 +37,7 @@ MeatSaw::MeatSaw(Path_MeatSaw* pTlv, s32 tlvInfo)
 
     const AnimRecord rec = AO::AnimRec(AnimId::MeatSaw_Idle);
     u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
-    Animation_Init(AnimId::MeatSaw_Idle, ppRes, 1);
+    Animation_Init(AnimId::MeatSaw_Idle, ppRes);
     
     mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit15_bSemiTrans);
     mBaseAnimatedWithPhysicsGameObject_Anim.mRenderMode = TPageAbr::eBlend_0;

@@ -18,14 +18,14 @@ Particle::Particle(FP xpos, FP ypos, AnimId animId, u8** ppAnimData, bool explos
 
     if (!explosionSizeHack)
     {
-        Animation_Init(animId, ppAnimData, 1);
+        Animation_Init(animId, ppAnimData);
     }
     else
     {
         // AnimId::Explosion_Small and AnimId::Explosion have different width/height but for some reason
         // OG inits both with the AnimId::Explosion width and height in Explosion.cpp
         const AnimRecord& rec = AnimRec(animId);
-        Animation_Init(rec.mFrameTableOffset, 202, 91, ppAnimData, 1);
+        Animation_Init(rec.mFrameTableOffset, 202, 91, ppAnimData);
     }
 
     if (mBaseGameObjectFlags.Get(Options::eListAddFailed_Bit1))

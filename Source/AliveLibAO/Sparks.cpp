@@ -14,7 +14,7 @@ Sparks::Sparks(FP xpos, FP ypos, FP scale)
 
     const AnimRecord& rec = AO::AnimRec(AnimId::Zap_Sparks);
     u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
-    Animation_Init(AnimId::Zap_Sparks, ppRes, 1);
+    Animation_Init(AnimId::Zap_Sparks, ppRes);
 
     mBaseAnimatedWithPhysicsGameObject_Anim.mBlue = 80;
     mBaseAnimatedWithPhysicsGameObject_Anim.mGreen = 80;

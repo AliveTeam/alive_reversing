@@ -48,7 +48,7 @@ BeeSwarm::BeeSwarm(FP xpos, FP ypos, FP speed, s32 numBees, s32 chaseTicks)
         numBeesToUse = 1;
     }
 
-    Animation_Init(AnimId::Bee_Swarm, ppRes, 1);
+    Animation_Init(AnimId::Bee_Swarm, ppRes);
     if (numBeesToUse <= 25)
     {
         field_D64_num_bees = static_cast<s16>(numBeesToUse);

@@ -89,7 +89,7 @@ SlamDoor::SlamDoor(Path_SlamDoor* pTlv, TlvItemInfoUnion tlvInfo)
     const s32 currentLevelId = static_cast<s32>(MapWrapper::ToAE(gMap.mCurrentLevel));
 
     const AnimRecord& rec = AnimRec(sSlamDoorAnimIds[currentLevelId][2]);
-    Animation_Init(sSlamDoorAnimIds[currentLevelId][2], Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId), 1);
+    Animation_Init(sSlamDoorAnimIds[currentLevelId][2], Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId));
 
     SetType(ReliveTypes::eSlamDoor);
 

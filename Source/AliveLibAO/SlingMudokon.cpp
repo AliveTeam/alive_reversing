@@ -58,7 +58,7 @@ SlingMudokon::SlingMudokon(Path_SlingMudokon* pTlv, s32 tlvInfo)
 
     const AnimRecord rec = AO::AnimRec(AnimId::Mudokon_Sling_Idle);
     u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
-    Animation_Init(AnimId::Mudokon_Sling_Idle, ppRes, 1);
+    Animation_Init(AnimId::Mudokon_Sling_Idle, ppRes);
 
     SetCurrentMotion(eSlingMudMotions::Motion_0_Idle);
 

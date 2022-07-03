@@ -14,7 +14,7 @@ Leaf::Leaf(FP xpos, FP ypos, FP xVel, FP yVel, FP scale)
 
     const AnimRecord& rec = AnimRec(AnimId::Well_Leaf);
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
-    Animation_Init(AnimId::Well_Leaf, ppRes, 1);
+    Animation_Init(AnimId::Well_Leaf, ppRes);
 
     mBaseAnimatedWithPhysicsGameObject_SpriteScale = scale;
 

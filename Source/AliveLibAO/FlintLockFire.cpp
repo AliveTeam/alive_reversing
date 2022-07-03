@@ -87,10 +87,7 @@ FlintLockFire::FlintLockFire(Path_FlintLockFire* pTlv, s32 tlvInfo)
     u8** ppHammersRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, disabledHammersRec.mResourceId, 1, 0);
     u8** ppGourdRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, gourdRec.mResourceId, 1, 0);
 
-    Animation_Init(
-        sFlintLockFireData_4BAC70[cur_lvl].field_14_hammers_disabled_anim_id,
-        ppHammersRes,
-        1);
+    Animation_Init(sFlintLockFireData_4BAC70[cur_lvl].field_14_hammers_disabled_anim_id, ppHammersRes);
     mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit15_bSemiTrans);
 
     field_F0_anim.Init(

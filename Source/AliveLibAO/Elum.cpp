@@ -3841,7 +3841,7 @@ Elum::Elum(s32, anythingForTheTimeBeing, anythingForTheTimeBeing, s32, TlvItemIn
 
     field_126_res_idx = 16;
 
-    Animation_Init(AnimId::Elum_Land, field_174_resources.res[16], 1);
+    Animation_Init(AnimId::Elum_Land, field_174_resources.res[16]);
 
     mBaseAnimatedWithPhysicsGameObject_SpriteScale = sActiveHero_507678->mBaseAnimatedWithPhysicsGameObject_SpriteScale;
 

@@ -34,7 +34,7 @@ MovingBomb::MovingBomb(Path_MovingBomb* pTlv, s32 tlvInfo)
     mBaseGameObjectTypeId = ReliveTypes::eTimedMine;
     const AnimRecord rec = AO::AnimRec(AnimId::MovingBomb);
     u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
-    Animation_Init(AnimId::MovingBomb, ppRes, 1);
+    Animation_Init(AnimId::MovingBomb, ppRes);
 
     mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit15_bSemiTrans);
     mBaseAnimatedWithPhysicsGameObject_Anim.mRenderMode = TPageAbr::eBlend_0;

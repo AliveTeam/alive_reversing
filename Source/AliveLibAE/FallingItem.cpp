@@ -47,7 +47,7 @@ FallingItem::FallingItem(Path_FallingItem* pTlv, s32 tlvInfo)
 
     const AnimRecord& rec = AnimRec(sFallingItemData_544DC0[lvlIdx][0]);
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
-    Animation_Init(sFallingItemData_544DC0[lvlIdx][0], ppRes, 1);
+    Animation_Init(sFallingItemData_544DC0[lvlIdx][0], ppRes);
 
     field_11E_switch_id = pTlv->field_10_switch_id;
 
@@ -106,7 +106,7 @@ FallingItem::FallingItem(Path_FallingItem* pTlv, s32 tlvInfo)
 
     const AnimRecord& rec = AnimRec(sFallingItemData_544DC0[lvlIdx][0]);
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
-    Animation_Init(sFallingItemData_544DC0[lvlIdx][0], ppRes, 1);
+    Animation_Init(sFallingItemData_544DC0[lvlIdx][0], ppRes);
 
     mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_FallingItemPortalClip_31;
 

@@ -19,7 +19,7 @@ Water::Water(Path_Water* pTlv, s32 tlvInfo)
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, waterDropRec.mResourceId);
     if (ppRes)
     {
-        Animation_Init(AnimId::WaterDrop, ppRes, 1);
+        Animation_Init(AnimId::WaterDrop, ppRes);
         mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit25_bDecompressDone);
         mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit15_bSemiTrans);
 

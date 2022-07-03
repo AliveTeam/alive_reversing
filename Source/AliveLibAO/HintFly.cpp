@@ -1356,7 +1356,7 @@ HintFly::HintFly(Path_HintFly* pTlv, s32 tlvInfo)
     u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
     if (ppRes)
     {
-        Animation_Init(AnimId::HintFly, ppRes, 1);
+        Animation_Init(AnimId::HintFly, ppRes);
 
         mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit15_bSemiTrans);
         field_124_tlvInfo = tlvInfo;
