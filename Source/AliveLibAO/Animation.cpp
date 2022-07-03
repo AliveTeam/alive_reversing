@@ -367,7 +367,9 @@ void Animation::DecompressFrame()
 
 void Animation::VRender(s32 xpos, s32 ypos, PrimHeader** ppOt, s16 width, s32 height)
 {
-    const s16 xpos_pc = static_cast<s16>(xpos);
+    const s16 xpos_pc = static_cast<s16>(PsxToPCX(xpos));
+    const s16 width_pc = static_cast<s16>(PsxToPCX(width));
+ 
     if (!mAnimFlags.Get(AnimFlags::eBit3_Render))
     {
         return;
@@ -384,14 +386,14 @@ void Animation::VRender(s32 xpos, s32 ypos, PrimHeader** ppOt, s16 width, s32 he
 
     FP scaled_width = {};
     FP scaled_height = {};
-    if (width)
+    if (width_pc)
     {
-        scaled_width = FP_FromInteger(width);
+        scaled_width = FP_FromInteger(width_pc);
         scaled_height = FP_FromInteger(height);
     }
     else
     {
-        scaled_width = FP_FromInteger(PCToPsxX(pFrameHeader->field_4_width, 20));
+        scaled_width = FP_FromInteger(pFrameHeader->field_4_width);
         scaled_height = FP_FromInteger(pFrameHeader->field_5_height);
     }
 
@@ -404,7 +406,7 @@ void Animation::VRender(s32 xpos, s32 ypos, PrimHeader** ppOt, s16 width, s32 he
     }
     else
     {
-        xOffSet_scaled = FP_FromInteger(pFrameInfoHeader->field_8_data.offsetAndRect.mOffset.x);
+        xOffSet_scaled = PsxToPCX(FP_FromInteger(pFrameInfoHeader->field_8_data.offsetAndRect.mOffset.x));
         yOffset_scaled = FP_FromInteger(pFrameInfoHeader->field_8_data.offsetAndRect.mOffset.y);
     }
 
@@ -422,25 +424,15 @@ void Animation::VRender(s32 xpos, s32 ypos, PrimHeader** ppOt, s16 width, s32 he
         textureMode = TPageMode::e4Bit_0;
     }
 
-    s16 tPageY = 0;
-    if (mAnimFlags.Get(AnimFlags::eBit10_alternating_flag) || mVramRect.y >= 256)
-    {
-        tPageY = 256;
-    }
-    else
-    {
-        tPageY = 0;
-    }
-
     Poly_FT4* pPoly = &mOtData[gPsxDisplay.mBufferIndex];
     PolyFT4_Init(pPoly);
     Poly_Set_SemiTrans(&pPoly->mBase.header, mAnimFlags.Get(AnimFlags::eBit15_bSemiTrans));
     Poly_Set_Blending(&pPoly->mBase.header, mAnimFlags.Get(AnimFlags::eBit16_bBlending));
 
     SetRGB0(pPoly, mRed, mGreen, mBlue);
-    SetTPage(pPoly, static_cast<s16>(PSX_getTPage(textureMode, mRenderMode, mVramRect.x, tPageY)));
+    SetTPage(pPoly, static_cast<s16>(PSX_getTPage(textureMode, mRenderMode, mVramRect.x, mVramRect.y)));
     SetClut(pPoly, static_cast<s16>(PSX_getClut(mPalVramXY.x, mPalVramXY.y)));
-
+ 
     u8 u1 = mVramRect.x & 63;
     if (textureMode == TPageMode::e8Bit_1)
     {
@@ -466,7 +458,7 @@ void Animation::VRender(s32 xpos, s32 ypos, PrimHeader** ppOt, s16 width, s32 he
         // Apply scale to x/y pos
         scaled_height *= field_14_scale;
         scaled_width *= field_14_scale;
-
+ 
         // Apply scale to x/y offset
         xOffSet_scaled *= field_14_scale;
         yOffset_scaled = (yOffset_scaled * field_14_scale) - FP_FromInteger(1);
@@ -504,11 +496,11 @@ void Animation::VRender(s32 xpos, s32 ypos, PrimHeader** ppOt, s16 width, s32 he
     SetUV3(pPoly, kFlipX ? u1 : u0, kFlipY ? v0 : v1);
 
 
-    SetXY0(pPoly, static_cast<s16>(PsxToPCX(polyXPos)), polyYPos);
-    SetXY1(pPoly, FP_GetExponent(PsxToPCX(scaled_width) - FP_FromDouble(0.501)) + static_cast<s16>(PsxToPCX(polyXPos)), polyYPos);
-    SetXY2(pPoly, static_cast<s16>(PsxToPCX(polyXPos)), FP_GetExponent(scaled_height - FP_FromDouble(0.501)) + polyYPos);
-    SetXY3(pPoly, FP_GetExponent(PsxToPCX(scaled_width) - FP_FromDouble(0.501)) + static_cast<s16>(PsxToPCX(polyXPos)), FP_GetExponent(scaled_height - FP_FromDouble(0.501)) + polyYPos);
-
+    SetXY0(pPoly, polyXPos, polyYPos);
+    SetXY1(pPoly, polyXPos + FP_GetExponent(scaled_width - FP_FromDouble(0.501)), polyYPos);
+    SetXY2(pPoly, polyXPos, polyYPos + FP_GetExponent(scaled_height - FP_FromDouble(0.501)));
+    SetXY3(pPoly, polyXPos + FP_GetExponent(scaled_width - FP_FromDouble(0.501)), polyYPos + FP_GetExponent(scaled_height - FP_FromDouble(0.501)));
+ 
     SetPrimExtraPointerHack(pPoly, nullptr);
     OrderingTable_Add(OtLayer(ppOt, mRenderLayer), &pPoly->mBase.header);
 }
