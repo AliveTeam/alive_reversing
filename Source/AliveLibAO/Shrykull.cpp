@@ -48,7 +48,7 @@ Shrykull::Shrykull()
     
     const AnimRecord rec = AO::AnimRec(AnimId::Mudokon_ToShrykull);
     u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
-    Animation_Init_417FD0(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
+    Animation_Init(AnimId::Mudokon_ToShrykull, ppRes, 1);
     field_118_zap_line = nullptr;
     field_11C_obj_being_zapped = nullptr;
 
@@ -122,6 +122,7 @@ void Shrykull::VUpdate()
 
             if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit12_ForwardLoopCompleted))
             {
+                // TODO: missing anim id
                 mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(92040, nullptr);
                 field_10C_state = State::eZapTargets_1;
             }
@@ -230,6 +231,7 @@ void Shrykull::VUpdate()
         case State::eDetransform_2:
             if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
             {
+                // TODO: missing anim id
                 mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(92152, nullptr);
                 field_10C_state = State::eFinish_3;
             }

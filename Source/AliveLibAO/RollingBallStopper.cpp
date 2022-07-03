@@ -17,7 +17,7 @@ RollingBallStopper::RollingBallStopper(Path_RollingBallStopper* pTlv, s32 tlvInf
     
     const AnimRecord rec = AO::AnimRec(AnimId::Stone_Ball_Stopper);
     u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
-    Animation_Init_417FD0(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
+    Animation_Init(AnimId::Stone_Ball_Stopper, ppRes, 1);
     mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_FG1_37;
 
     field_114_release_switch_id = pTlv->field_18_stopper_switch_id;

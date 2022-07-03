@@ -28,7 +28,7 @@ Bat::Bat(Path_Bat* pTlv, s32 tlvInfo)
         return;
     }
 
-    Animation_Init_417FD0(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
+    Animation_Init(AnimId::Bat, ppRes, 1);
     mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_SligBat_33;
 
     FP hitX = {};
@@ -154,7 +154,7 @@ void Bat::VUpdate()
             {
                 mBatState = BatStates::eStartMoving_2;
                 mBatVelX = FP_FromInteger(0);
-                mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(6608, nullptr);
+                mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::Bat_Unknown, nullptr);
             }
             break;
 
@@ -176,8 +176,7 @@ void Bat::VUpdate()
             if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
             {
                 mBatState = BatStates::eFlying_3;
-                const AnimRecord& rec = AO::AnimRec(AnimId::Bat_Flying);
-                mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(rec.mFrameTableOffset, nullptr);
+                mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::Bat_Flying, nullptr);
                 mTimer = sGnFrame + Math_RandomRange(0, 90);
             }
             break;
@@ -244,8 +243,7 @@ void Bat::VUpdate()
                                     pBat->mAttackTarget->mBaseGameObjectRefCount++;
 
                                     pBat->mBatState = BatStates::eAttackTarget_4;
-                                    const AnimRecord& rec = AO::AnimRec(AnimId::Bat_Flying);
-                                    pBat->mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(rec.mFrameTableOffset, nullptr);
+                                    pBat->mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::Bat_Flying, nullptr);
 
                                     pBat->mTimer = 0;
                                     pBat->mAttackDurationTimer = sGnFrame + pBat->mAttackDuration;

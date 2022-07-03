@@ -20,16 +20,11 @@ static s32 sAbePortalTimer = 0;
 static s16 sAbePortalWidth = 30;
 static s16 sAbePortalDirection = -1;
 
-Dove::Dove(s32 frameTableOffset, s32 maxW, s32 maxH, s32 resourceID, s32 tlvInfo, FP scale)
+Dove::Dove(AnimId animId, s32 tlvInfo, FP scale)
 {
     mBaseGameObjectTypeId = ReliveTypes::eBird;
-    u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, resourceID, 1, 0);
-    Animation_Init_417FD0(
-        frameTableOffset,
-        maxW,
-        maxH,
-        ppRes,
-        1);
+    u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AO::AnimRec(animId).mResourceId, 1, 0);
+    Animation_Init(animId, ppRes, 1);
     mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit15_bSemiTrans);
 
     gDovesArray.Push_Back(this);
@@ -78,17 +73,12 @@ Dove::Dove(s32 frameTableOffset, s32 maxW, s32 maxH, s32 resourceID, s32 tlvInfo
     bTheOneControllingTheMusic = true;
 }
 
-Dove::Dove(s32 frameTableOffset, s32 maxW, s32 maxH, s32 resourceID, FP xpos, FP ypos, FP scale)
+Dove::Dove(AnimId animId, FP xpos, FP ypos, FP scale)
 {
     mBaseGameObjectTypeId = ReliveTypes::eBird;
 
-    u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, resourceID, 1, 0);
-    Animation_Init_417FD0(
-        frameTableOffset,
-        maxW,
-        maxH,
-        ppRes,
-        1);
+    u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AO::AnimRec(animId).mResourceId, 1, 0);
+    Animation_Init(animId, ppRes, 1);
 
     mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit15_bSemiTrans);
     mBaseAnimatedWithPhysicsGameObject_Anim.field_14_scale = scale;
@@ -290,8 +280,7 @@ void Dove::VUpdate()
             mFlyAwayCounter++;
             if (mFlyAwayCounter == 0)
             {
-                const AnimRecord& rec = AO::AnimRec(AnimId::Dove_Flying);
-                mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(rec.mFrameTableOffset, nullptr);
+                mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::Dove_Flying, nullptr);
                 if (!bExtraSeqStarted_4FF944)
                 {
                     bExtraSeqStarted_4FF944 = 16;

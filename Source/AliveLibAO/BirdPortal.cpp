@@ -35,7 +35,7 @@ BirdPortalTerminator::BirdPortalTerminator(FP xpos, FP ypos, FP scale, PortalTyp
 
     const AnimRecord rec = AO::AnimRec(AnimId::BirdPortal_TerminatorGrow);
     u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
-    Animation_Init_417FD0(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
+    Animation_Init(AnimId::BirdPortal_TerminatorGrow, ppRes, 1);
     
     mBaseAnimatedWithPhysicsGameObject_Anim.mRenderMode = TPageAbr::eBlend_1;
     mBaseAnimatedWithPhysicsGameObject_SpriteScale = scale;
@@ -217,12 +217,8 @@ void BirdPortal::CreateDovesAndShrykullNumber()
 {
     for (u8 i = 0; i < 6; i++)
     {
-        const AnimRecord& doveRec = AO::AnimRec(AnimId::Dove_Flying);
         auto pDove = relive_new Dove(
-            doveRec.mFrameTableOffset,
-            doveRec.mMaxW,
-            doveRec.mMaxH,
-            doveRec.mResourceId,
+            AnimId::Dove_Flying,
             field_18_xpos,
             field_1C_ypos,
             field_34_scale);
@@ -411,9 +407,8 @@ void BirdPortal::VUpdate()
             EventBroadcast(kEventPortalOpen, this);
             if (field_3C_pTerminator1->mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
             {
-                const AnimRecord& rec = AO::AnimRec(AnimId::BirdPortal_TerminatorIdle);
-                field_3C_pTerminator1->mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(rec.mFrameTableOffset, 0);
-                field_40_pTerminator2->mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(rec.mFrameTableOffset, 0);
+                field_3C_pTerminator1->mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::BirdPortal_TerminatorIdle, nullptr);
+                field_40_pTerminator2->mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::BirdPortal_TerminatorIdle, nullptr);
                 field_30_timer = sGnFrame + 12;
                 field_14_state = PortalStates::ExpandTerminators_5;
                 field_68_sfx_ret = SfxPlayMono(SoundEffect::PortalOpening_67, 0, 0);
@@ -444,9 +439,7 @@ void BirdPortal::VUpdate()
                         auto pParticle = relive_new Particle(
                             field_40_pTerminator2->mBaseAnimatedWithPhysicsGameObject_XPos,
                             (FP_FromInteger(10) * field_34_scale) + field_40_pTerminator2->mBaseAnimatedWithPhysicsGameObject_YPos,
-                            rec.mFrameTableOffset,
-                            rec.mMaxW,
-                            rec.mMaxH,
+                            AnimId::BirdPortal_Sparks,
                             ppLightRes);
                         if (pParticle)
                         {
@@ -513,13 +506,9 @@ void BirdPortal::VUpdate()
                 if (static_cast<s32>(sGnFrame) >= field_30_timer)
                 {
                     field_30_timer = sGnFrame + Math_RandomRange(4, 12);
-                    const AnimRecord& doveRec = AO::AnimRec(AnimId::Dove_Flying);
 
                     auto pDoveMem = relive_new Dove(
-                        doveRec.mFrameTableOffset,
-                        doveRec.mMaxW,
-                        doveRec.mMaxH,
-                        doveRec.mResourceId,
+                        AnimId::Dove_Flying,
                         field_18_xpos + FP_FromInteger(FP_GetExponent(xOff)),
                         field_1C_ypos + FP_FromInteger(Math_RandomRange(-scale32, scale32)),
                         field_34_scale);
@@ -571,9 +560,7 @@ void BirdPortal::VUpdate()
                     auto pParticle_1 = relive_new Particle(
                         field_40_pTerminator2->mBaseAnimatedWithPhysicsGameObject_XPos,
                         field_40_pTerminator2->mBaseAnimatedWithPhysicsGameObject_YPos,
-                        rec.mFrameTableOffset,
-                        rec.mMaxW,
-                        rec.mMaxH,
+                        AnimId::BirdPortal_Flash,
                         ppLightRes);
                     if (pParticle_1)
                     {
@@ -661,9 +648,8 @@ void BirdPortal::VUpdate()
         case PortalStates::PortalExit_CreateTerminators_18:
             if (field_3C_pTerminator1->mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
             {
-                const AnimRecord& rec = AO::AnimRec(AnimId::BirdPortal_TerminatorIdle);
-                field_3C_pTerminator1->mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(rec.mFrameTableOffset, nullptr);
-                field_40_pTerminator2->mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(rec.mFrameTableOffset, nullptr);
+                field_3C_pTerminator1->mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::BirdPortal_TerminatorIdle, nullptr);
+                field_40_pTerminator2->mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::BirdPortal_TerminatorIdle, nullptr);
                 field_14_state = PortalStates::PortalExit_ExpandTerminators_19;
                 field_30_timer = sGnFrame + 12;
             }
@@ -681,9 +667,8 @@ void BirdPortal::VUpdate()
         case PortalStates::KillPortalClipper_21:
             if (static_cast<s32>(sGnFrame) > field_30_timer)
             {
-                const AnimRecord& rec = AO::AnimRec(AnimId::BirdPortal_TerminatorShrink);
-                field_3C_pTerminator1->mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(rec.mFrameTableOffset, nullptr);
-                field_40_pTerminator2->mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(rec.mFrameTableOffset, nullptr);
+                field_3C_pTerminator1->mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::BirdPortal_TerminatorShrink, nullptr);
+                field_40_pTerminator2->mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::BirdPortal_TerminatorShrink, nullptr);
                 field_14_state = PortalStates::FadeoutTerminators_22;
                 field_30_timer = sGnFrame + 30;
 

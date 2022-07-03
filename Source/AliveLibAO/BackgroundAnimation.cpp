@@ -71,7 +71,7 @@ BackgroundAnimation::BackgroundAnimation(Path_BackgroundAnimation* pTlv, s32 tlv
         LOG_WARNING("anim id data: anim id " << anim.mBgAnimId << " frametableoffset " << anim.mFrameTableOffset << " maxW " << anim.mMaxW << " maxH " << anim.mMaxH);
     }
 
-    Animation_Init_417FD0(
+    Animation_Init(
         anim.mFrameTableOffset,
         anim.mMaxW,
         anim.mMaxH,

@@ -19,7 +19,7 @@ HoneySack::HoneySack(Path_HoneySack* pTlv, s32 tlvInfo)
 
     const AnimRecord hangingRec = AO::AnimRec(AnimId::HoneySack_Hanging);
     u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, hangingRec.mResourceId, 1, 0);
-    Animation_Init_417FD0(hangingRec.mFrameTableOffset, hangingRec.mMaxW, hangingRec.mMaxH, ppRes, 1);
+    Animation_Init(AnimId::HoneySack_Hanging, ppRes, 1);
 
     mBaseGameObjectFlags.Set(Options::eCanExplode_Bit7);
     field_E4_tlvInfo = tlvInfo;
@@ -49,8 +49,7 @@ HoneySack::HoneySack(Path_HoneySack* pTlv, s32 tlvInfo)
         mBaseAnimatedWithPhysicsGameObject_YPos += FP_FromInteger(pTlv->field_1_unknown);
 
         field_E8_state = State::eUpdateHoneySackOnGround_3;
-        const AnimRecord& groundRec = AO::AnimRec(AnimId::HoneySack_OnGround);
-        mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(groundRec.mFrameTableOffset, 0);
+        mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::HoneySack_OnGround, nullptr);
         field_F0_pBee = nullptr;
     }
     else
@@ -157,8 +156,7 @@ void HoneySack::VUpdate()
         case State::eSetFallAnimation_1:
             if (static_cast<s32>(sGnFrame) > field_EC_timer - 68)
             {
-                const AnimRecord& rec = AO::AnimRec(AnimId::HoneySack_Falling);
-                mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(rec.mFrameTableOffset, 0);
+                mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::HoneySack_Falling, nullptr);
                 field_E8_state = State::eFallOnGround_2;
                 mBaseAnimatedWithPhysicsGameObject_VelX = FP_FromInteger(0);
                 mBaseAnimatedWithPhysicsGameObject_VelY = FP_FromInteger(0);
@@ -199,8 +197,7 @@ void HoneySack::VUpdate()
                 Environment_SFX_42A220(EnvironmentSfx::eHitGroundSoft_6, 90, -1000, nullptr);
                 mBaseAnimatedWithPhysicsGameObject_YPos = hitY;
                 field_E8_state = State::eUpdateHoneySackOnGround_3;
-                const AnimRecord& rec = AO::AnimRec(AnimId::HoneySack_FallingToSmashed);
-                mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(rec.mFrameTableOffset, 0);
+                mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::HoneySack_FallingToSmashed, nullptr);
 
                 auto pNewBee = relive_new BeeSwarm(
                     mBaseAnimatedWithPhysicsGameObject_XPos,

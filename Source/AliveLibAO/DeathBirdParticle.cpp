@@ -18,7 +18,7 @@ void DeathBirdParticle::VUpdate()
             if (static_cast<s32>(sGnFrame) > field_E8_start)
             {
                 // Death "star"
-                mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(6284, 0);
+                mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::DeathFlare_2, nullptr);
                 field_E5_state = States::eTransformStarsToDoves_1;
             }
             break;
@@ -27,14 +27,9 @@ void DeathBirdParticle::VUpdate()
             // Has the Death "star" finished animating?
             if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
             {
-                const AnimRecord& doveRec = AO::AnimRec(AnimId::Dove_Flying);
-
                 // Yes so magic it into a dove
                 auto pDove = relive_new Dove(
-                    doveRec.mFrameTableOffset,
-                    doveRec.mMaxW,
-                    doveRec.mMaxH,
-                    doveRec.mResourceId,
+                    AnimId::Dove_Flying,
                     mBaseAnimatedWithPhysicsGameObject_XPos,
                     mBaseAnimatedWithPhysicsGameObject_YPos - FP_FromInteger(15),
                     mBaseAnimatedWithPhysicsGameObject_SpriteScale);
@@ -72,7 +67,7 @@ DeathBirdParticle::DeathBirdParticle(FP xpos, FP ypos, s32 start, s32 bPlaySound
 
     const AnimRecord rec = AO::AnimRec(AnimId::DeathFlare_1);
     u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
-    Animation_Init_417FD0(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
+    Animation_Init(AnimId::DeathFlare_1, ppRes, 1);
 
     if (mBaseGameObjectFlags.Get(BaseGameObject::eListAddFailed_Bit1))
     {

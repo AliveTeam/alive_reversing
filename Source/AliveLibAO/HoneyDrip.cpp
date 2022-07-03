@@ -13,7 +13,7 @@ HoneyDrip::HoneyDrip(FP xpos, FP ypos)
 
     const AnimRecord rec = AO::AnimRec(AnimId::Honey_Drip);
     u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
-    Animation_Init_417FD0(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
+    Animation_Init(AnimId::Honey_Drip, ppRes, 1);
     mBaseAnimatedWithPhysicsGameObject_YPos = ypos;
     mBaseAnimatedWithPhysicsGameObject_XPos = xpos;
 

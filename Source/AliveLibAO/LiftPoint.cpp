@@ -91,9 +91,7 @@ LiftPoint::LiftPoint(Path_LiftPoint* pTlv, Map* pPath, s32 tlvInfo)
     }
 
     AddDynamicCollision(
-        platformRec.mFrameTableOffset,
-        platformRec.mMaxW,
-        platformRec.mMaxH,
+        sLiftPointData_4BB480[lvl_idx].field_0_platform_anim_id,
         ppLiftRes,
         pTlv,
         pPath,
@@ -122,11 +120,8 @@ LiftPoint::LiftPoint(Path_LiftPoint* pTlv, Map* pPath, s32 tlvInfo)
     const AnimRecord& bottomWheelRec = AO::AnimRec(sLiftPointData_4BB480[lvl_idx].field_C_lift_bottom_wheel_anim_id);
     u8** ppLiftWheelRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, bottomWheelRec.mResourceId, 1, 0);
     if (field_13C_lift_wheel.Init(
-            bottomWheelRec.mFrameTableOffset,
-            gAnimations,
+            sLiftPointData_4BB480[lvl_idx].field_C_lift_bottom_wheel_anim_id,
             this,
-            static_cast<s16>(bottomWheelRec.mMaxW),
-            static_cast<s16>(bottomWheelRec.mMaxH),
             ppLiftWheelRes))
     {
         if (pTlv->field_20_scale == Scale_short::eHalf_1)
@@ -752,11 +747,8 @@ void LiftPoint::CreatePulleyIfExists(s16 camX, s16 camY)
         u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, topWheelRec.mResourceId, 1, 0);
 
         field_1D4_pulley_anim.Init(
-            topWheelRec.mFrameTableOffset,
-            gAnimations,
+            sLiftPointData_4BB480[lvl_idx].field_10_lift_top_wheel_anim_id,
             this,
-            static_cast<s16>(topWheelRec.mMaxW),
-            static_cast<s16>(topWheelRec.mMaxH),
             ppRes);
 
         field_1D4_pulley_anim.mAnimFlags.Clear(AnimFlags::eBit15_bSemiTrans);

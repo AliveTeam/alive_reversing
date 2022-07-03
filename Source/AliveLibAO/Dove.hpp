@@ -20,8 +20,8 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Dove, 0x20);
 class Dove final : public BaseAnimatedWithPhysicsGameObject
 {
 public:
-    Dove(s32 frameTableOffset, s32 maxW, s32 maxH, s32 resourceID, s32 tlvInfo, FP scale);
-    Dove(s32 frameTableOffset, s32 maxW, s32 maxH, s32 resourceID, FP xpos, FP ypos, FP scale);
+    Dove(AnimId animId, s32 tlvInfo, FP scale);
+    Dove(AnimId animId, FP xpos, FP ypos, FP scale);
     ~Dove();
 
     virtual void VRender(PrimHeader** ppOt) override;

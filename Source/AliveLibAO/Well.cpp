@@ -93,7 +93,7 @@ void Well::WellExpress_Init(Path_WellExpress* pTlv, FP /*xpos*/, FP ypos)
     u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, anim.mBgAnimId, 1, 0);
     if (ppRes)
     {
-        Animation_Init_417FD0(
+        Animation_Init(
             anim.mFrameTableOffset,
             anim.mMaxW,
             anim.mMaxH,
@@ -153,7 +153,7 @@ void Well::WellLocal_Init(Path_WellLocal* pTlv, FP /*xpos*/, FP ypos)
     u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, anim.mBgAnimId, 1, 0);
     if (ppRes)
     {
-        Animation_Init_417FD0(
+        Animation_Init(
             anim.mFrameTableOffset,
             anim.mMaxW,
             anim.mMaxH,

@@ -44,7 +44,7 @@ void TestAnimation::DelayLoad()
     static DynamicArrayT<u8*> resourceArray{50};
 
     u8** ppRes = ::Add_Resource(resourceArray, AO::ResourceManager::Resource_Animation, animRec.mResourceId);
-    Animation_Init_417FD0(animRec.mFrameTableOffset, animRec.mMaxW, animRec.mMaxH, ppRes, 1);
+    Animation_Init(animRec.mFrameTableOffset, animRec.mMaxW, animRec.mMaxH, ppRes, 1);
     mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AO::AnimFlags::eBit8_Loop);
 
     if (animRec.mPalOverride != PalId::Default)

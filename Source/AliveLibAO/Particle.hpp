@@ -8,7 +8,7 @@ namespace AO {
 class Particle final : public BaseAnimatedWithPhysicsGameObject
 {
 public:
-    Particle(FP xpos, FP ypos, s32 animFrameTableOffset, s32 maxW, s32 maxH, u8** ppAnimData);
+    Particle(FP xpos, FP ypos, AnimId animId, u8** ppAnimData);
 
     virtual void VUpdate() override;
 

@@ -158,7 +158,7 @@ Mudokon::Mudokon(Path_TLV* pTlv, s32 tlvInfo)
 
     const AnimRecord& mudRec = AO::AnimRec(AnimId::Mudokon_Idle);
     field_148_res_array.res[0] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, mudRec.mResourceId, 1, 0);
-    Animation_Init_417FD0(mudRec.mFrameTableOffset, mudRec.mMaxW, mudRec.mMaxH, field_148_res_array.res[0], 1);
+    Animation_Init(AnimId::Mudokon_Idle, field_148_res_array.res[0], 1);
 
     mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit15_bSemiTrans);
 
@@ -504,7 +504,7 @@ void Mudokon::VUpdate()
     }
 }
 
-const AnimId sMudFrameTables_4CD330[64] = {
+const AnimId sMudMotionAnimIds[64] = {
     AnimId::Mudokon_Idle,
     AnimId::Mudokon_Walk,
     AnimId::Mudokon_StandingTurn,
@@ -572,9 +572,8 @@ const AnimId sMudFrameTables_4CD330[64] = {
 
 void Mudokon::VUpdateResBlock()
 {
-    const AnimRecord& rec = AO::AnimRec(sMudFrameTables_4CD330[mCurrentMotion]);
     mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(
-        rec.mFrameTableOffset,
+        sMudMotionAnimIds[mCurrentMotion],
         GetResBlockForMotion(mCurrentMotion));
 }
 

@@ -26,7 +26,7 @@ TimedMine::TimedMine(Path_TimedMine* pTlv, s32 tlvInfo)
 
     const AnimRecord rec = AO::AnimRec(AnimId::TimedMine_Idle);
     u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
-    Animation_Init_417FD0(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
+    Animation_Init(AnimId::TimedMine_Idle, ppRes, 1);
 
     mBaseGameObjectFlags.Set(Options::eInteractive_Bit8);
     mTimedMineFlags.Clear(TimedMineFlags::eStickToLiftPoint);
@@ -160,13 +160,9 @@ void TimedMine::VRender(PrimHeader** ppOt)
 
 void TimedMine::InitTickAnimation()
 {
-    const AnimRecord& tickRec = AO::AnimRec(AnimId::Bomb_RedGreenTick);
     if (mTickAnim.Init(
-        tickRec.mFrameTableOffset,
-        gAnimations,
+        AnimId::Bomb_RedGreenTick,
         this,
-        tickRec.mMaxW,
-        tickRec.mMaxH,
         ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kBombflshAOResID, 1, 0)))
     {
         mTickAnim.mAnimFlags.Set(AnimFlags::eBit15_bSemiTrans);
@@ -314,9 +310,10 @@ void TimedMine::VOnPickUpOrSlapped()
             mSingleTickTimer = mTicksUntilExplosion >> 2;
         }
         mOldGnFrame = sGnFrame;
-        mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(804, 0);
+        // TODO: missing animid
+        mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(804, nullptr);
         mExplosionTimer = sGnFrame + mTicksUntilExplosion;
-        mTickAnim.Set_Animation_Data(384, 0);
+        mTickAnim.Set_Animation_Data(AnimId::Bomb_Flash, nullptr);
         SfxPlayMono(SoundEffect::GreenTick_3, 0, 0);
     }
 }

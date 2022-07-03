@@ -42,7 +42,7 @@ ParamiteWeb::ParamiteWeb(FP xpos, s32 bottom, s32 top, FP scale)
 
     const AnimRecord rec = AO::AnimRec(AnimId::ParamiteWeb);
     u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
-    Animation_Init_417FD0(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
+    Animation_Init(AnimId::ParamiteWeb, ppRes, 1);
 
     mBaseAnimatedWithPhysicsGameObject_Anim.field_14_scale = scale;
     mBaseAnimatedWithPhysicsGameObject_SpriteScale = scale;

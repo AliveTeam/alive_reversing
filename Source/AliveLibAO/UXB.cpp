@@ -19,7 +19,7 @@ UXB::UXB(Path_UXB* pTlv, s32 tlvInfo)
 
     const AnimRecord rec = AO::AnimRec(AnimId::UXB_Active);
     u8** ppRes2 = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
-    Animation_Init_417FD0(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes2, 1);
+    Animation_Init(AnimId::UXB_Active, ppRes2, 1);
 
     mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit15_bSemiTrans);
     mBaseAnimatedWithPhysicsGameObject_Anim.mRenderMode = TPageAbr::eBlend_0;
@@ -68,8 +68,7 @@ UXB::UXB(Path_UXB* pTlv, s32 tlvInfo)
             field_11C_anim.LoadPal(ppRes, 0);
             field_1BC_flags.Clear(flags_1BC::eIsRed_Bit1);
 
-            const AnimRecord& flashRec = AO::AnimRec(AnimId::Bomb_RedGreenTick);
-            field_11C_anim.Set_Animation_Data(flashRec.mFrameTableOffset, 0);
+            field_11C_anim.Set_Animation_Data(AnimId::Bomb_RedGreenTick, nullptr);
 
             if (gMap.Is_Point_In_Current_Camera(
                     mBaseAnimatedWithPhysicsGameObject_LvlNumber,
@@ -81,8 +80,7 @@ UXB::UXB(Path_UXB* pTlv, s32 tlvInfo)
                 SfxPlayMono(SoundEffect::GreenTick_3, 35, 0);
             }
 
-            const AnimRecord& animRec = AO::AnimRec(AnimId::UXB_Disabled);
-            mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(animRec.mFrameTableOffset, 0);
+            mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::UXB_Disabled, nullptr);
 
             field_10C_state = UXBState::eDeactivated_3;
             field_10E_starting_state = UXBState::eDelay_0;
@@ -104,11 +102,9 @@ UXB::UXB(Path_UXB* pTlv, s32 tlvInfo)
             field_11C_anim.LoadPal(ppPal, 0);
             field_1BC_flags.Clear(flags_1BC::eIsRed_Bit1);
 
-            const AnimRecord& flashRec = AO::AnimRec(AnimId::Bomb_RedGreenTick);
-            field_11C_anim.Set_Animation_Data(flashRec.mFrameTableOffset, 0);
+            field_11C_anim.Set_Animation_Data(AnimId::Bomb_RedGreenTick, nullptr);
 
-            const AnimRecord& animRec = AO::AnimRec(AnimId::UXB_Disabled);
-            mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(animRec.mFrameTableOffset, 0);
+            mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::UXB_Disabled, nullptr);
 
             field_10E_starting_state = UXBState::eDeactivated_3;
             field_10C_state = UXBState::eDeactivated_3;
@@ -164,11 +160,8 @@ void UXB::InitBlinkAnim()
     const AnimRecord& tickRec = AO::AnimRec(AnimId::Bomb_RedGreenTick);
     u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, tickRec.mResourceId, 1, 0);
     if (field_11C_anim.Init(
-            tickRec.mFrameTableOffset,
-            gAnimations,
+            AnimId::Bomb_RedGreenTick,
             this,
-            tickRec.mMaxW,
-            tickRec.mMaxH,
             ppRes))
     {
         field_11C_anim.mAnimFlags.Set(AnimFlags::eBit15_bSemiTrans);
@@ -314,8 +307,7 @@ void UXB::VOnPickUpOrSlapped()
             }
             else
             {
-                const AnimRecord& flashRec = AO::AnimRec(AnimId::Bomb_RedGreenTick);
-                field_11C_anim.Set_Animation_Data(flashRec.mFrameTableOffset, 0);
+                field_11C_anim.Set_Animation_Data(AnimId::Bomb_RedGreenTick, nullptr);
                 if (gMap.Is_Point_In_Current_Camera(
                         mBaseAnimatedWithPhysicsGameObject_LvlNumber,
                         mBaseAnimatedWithPhysicsGameObject_PathNumber,
@@ -325,8 +317,7 @@ void UXB::VOnPickUpOrSlapped()
                 {
                     SfxPlayMono(SoundEffect::GreenTick_3, 35, 0);
                 }
-                const AnimRecord& animRec = AO::AnimRec(AnimId::UXB_Toggle);
-                mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(animRec.mFrameTableOffset, 0);
+                mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::UXB_Toggle, nullptr);
                 field_10C_state = UXBState::eDeactivated_3;
                 field_118_next_state_frame = sGnFrame + 10;
             }
@@ -335,8 +326,7 @@ void UXB::VOnPickUpOrSlapped()
         {
             field_10C_state = UXBState::eDelay_0;
             mBaseGameObjectUpdateDelay = 6;
-            const AnimRecord& animRec = AO::AnimRec(AnimId::UXB_Active);
-            mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(animRec.mFrameTableOffset, 0);
+            mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::UXB_Active, nullptr);
             if (gMap.Is_Point_In_Current_Camera(
                     mBaseAnimatedWithPhysicsGameObject_LvlNumber,
                     mBaseAnimatedWithPhysicsGameObject_PathNumber,
@@ -363,8 +353,7 @@ void UXB::VUpdate()
             else if (field_118_next_state_frame <= static_cast<s32>(sGnFrame))
             {
                 field_10C_state = UXBState::eActive_1;
-                const AnimRecord& rec = AO::AnimRec(AnimId::Bomb_Flash);
-                field_11C_anim.Set_Animation_Data(rec.mFrameTableOffset, 0);
+                field_11C_anim.Set_Animation_Data(AnimId::Bomb_Flash, nullptr);
                 field_118_next_state_frame = sGnFrame + 2;
             }
             break;
@@ -409,8 +398,7 @@ void UXB::VUpdate()
                     field_1BA_red_blink_count = (field_1B8_pattern / static_cast<s32>(pow(10, field_1B4_pattern_length - field_1B6_pattern_index - 1))) % 10;
                 }
 
-                const AnimRecord& rec = AO::AnimRec(AnimId::Bomb_RedGreenTick);
-                field_11C_anim.Set_Animation_Data(rec.mFrameTableOffset, 0);
+                field_11C_anim.Set_Animation_Data(AnimId::Bomb_RedGreenTick, nullptr);
                 
                 if (field_1BC_flags.Get(flags_1BC::eIsRed_Bit1))
                 {

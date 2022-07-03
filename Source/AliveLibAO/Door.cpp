@@ -49,7 +49,7 @@ ALIVE_ASSERT_SIZEOF(Door_Data, 0x30);
     {6624, 6600, 63, 62, 2036, 2012, 34, 29, 2072, 2048, 51, 27}, // forest chase
     {3176, 3152, 52, 69, 1048, 1024, 21, 29, 1016, 992, 26, 31}}; // desert escape*/
 
-const AnimId sDoorAnimdIdTable_4BA508[16][6] = {
+const AnimId sDoorAnimdIdTable[16][6] = {
     {AnimId::None, AnimId::None, AnimId::None, AnimId::None, AnimId::None, AnimId::None}, // menu
     {AnimId::Door_RuptureFarms_Closed, AnimId::Door_RuptureFarms_Open, AnimId::Door_RuptureFarms_Closed, AnimId::Door_RuptureFarms_Open, AnimId::Door_RuptureFarms_Closed, AnimId::Door_RuptureFarms_Open}, // rupture farms
     {AnimId::Door_Lines_Closed, AnimId::Door_Lines_Open, AnimId::Door_Lines_Closed, AnimId::Door_Lines_Open, AnimId::Door_Lines_Closed, AnimId::Door_Lines_Open}, // lines
@@ -102,7 +102,7 @@ Door::Door(Path_Door* pTlv, s32 tlvInfo)
     {
         case DoorStates::eOpen_0:
         {
-            const AnimRecord& openDoor = AO::AnimRec(sDoorAnimdIdTable_4BA508[idx][1]);
+            const AnimRecord& openDoor = AO::AnimRec(sDoorAnimdIdTable[idx][1]);
             ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, openDoor.mResourceId, 1, 0);
             if (!ppRes)
             {
@@ -115,22 +115,11 @@ Door::Door(Path_Door* pTlv, s32 tlvInfo)
             {
                 if (field_EC_current_state == DoorStates::eOpen_0)
                 {
-                    Animation_Init_417FD0(
-                        openDoor.mFrameTableOffset,
-                        openDoor.mMaxW,
-                        openDoor.mMaxH,
-                        ppRes,
-                        1);
+                    Animation_Init(sDoorAnimdIdTable[idx][1], ppRes, 1);
                 }
                 else
                 {
-                    const AnimRecord& closedDoor = AO::AnimRec(sDoorAnimdIdTable_4BA508[idx][0]);
-                    Animation_Init_417FD0(
-                        closedDoor.mFrameTableOffset,
-                        closedDoor.mMaxW,
-                        closedDoor.mMaxH,
-                        ppRes,
-                        1);
+                    Animation_Init(sDoorAnimdIdTable[idx][0], ppRes, 1);
                 }
 
                 if (pTlv->field_1E_scale == Scale_short::eHalf_1)
@@ -186,7 +175,7 @@ Door::Door(Path_Door* pTlv, s32 tlvInfo)
                 mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_BeforeShadow_Half_6;
                 scale = FP_FromDouble(0.5);
             }
-            const AnimRecord& openDoor = AO::AnimRec(sDoorAnimdIdTable_4BA508[idx][3]);
+            const AnimRecord& openDoor = AO::AnimRec(sDoorAnimdIdTable[idx][3]);
             ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, openDoor.mResourceId, 1, 0);
             if (!ppRes || openDoor.mFrameTableOffset == 0)
             {
@@ -197,22 +186,11 @@ Door::Door(Path_Door* pTlv, s32 tlvInfo)
 
             if (field_EC_current_state == DoorStates::eOpen_0)
             {
-                Animation_Init_417FD0(
-                    openDoor.mFrameTableOffset,
-                    openDoor.mMaxW,
-                    openDoor.mMaxH,
-                    ppRes,
-                    1);
+                Animation_Init(sDoorAnimdIdTable[idx][3], ppRes, 1);
             }
             else
             {
-                const AnimRecord& closedDoor = AO::AnimRec(sDoorAnimdIdTable_4BA508[idx][2]);
-                Animation_Init_417FD0(
-                    closedDoor.mFrameTableOffset,
-                    closedDoor.mMaxW,
-                    closedDoor.mMaxH,
-                    ppRes,
-                    1);
+                Animation_Init(sDoorAnimdIdTable[idx][2], ppRes, 1);
             }
 
             if (sCollisions->Raycast(
@@ -250,27 +228,16 @@ Door::Door(Path_Door* pTlv, s32 tlvInfo)
 
             if (ppRes)
             {
-                const AnimRecord& openDoor = AO::AnimRec(sDoorAnimdIdTable_4BA508[idx][5]);
+                const AnimRecord& openDoor = AO::AnimRec(sDoorAnimdIdTable[idx][5]);
                 if (openDoor.mFrameTableOffset)
                 {
                     if (field_EC_current_state == DoorStates::eOpen_0)
                     {
-                        Animation_Init_417FD0(
-                            openDoor.mFrameTableOffset,
-                            openDoor.mMaxW,
-                            openDoor.mMaxH,
-                            ppRes,
-                            1);
+                        Animation_Init(sDoorAnimdIdTable[idx][5], ppRes, 1);
                     }
                     else
                     {
-                        const AnimRecord& closedDoor = AO::AnimRec(sDoorAnimdIdTable_4BA508[idx][4]);
-                        Animation_Init_417FD0(
-                            closedDoor.mFrameTableOffset,
-                            closedDoor.mMaxW,
-                            closedDoor.mMaxH,
-                            ppRes,
-                            1);
+                        Animation_Init(sDoorAnimdIdTable[idx][4], ppRes, 1);
                     }
 
                     mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_BeforeShadow_Half_6;
@@ -452,23 +419,20 @@ void Door::VUpdate()
                     {
                         case DoorStates::eOpen_0:
                         {
-                            const AnimRecord& openDoor = AO::AnimRec(sDoorAnimdIdTable_4BA508[lvl][1]);
-                            mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(openDoor.mFrameTableOffset, nullptr);
+                            mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(sDoorAnimdIdTable[lvl][1], nullptr);
                             break;
                         }
 
                         case DoorStates::eClosed_1:
                         {
-                            const AnimRecord& openDoor = AO::AnimRec(sDoorAnimdIdTable_4BA508[lvl][3]);
-                            mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(openDoor.mFrameTableOffset, nullptr);
+                            mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(sDoorAnimdIdTable[lvl][3], nullptr);
                             break;
                         }
 
                         case DoorStates::eHubDoorClosed_2:
                         {
                         default:
-                            const AnimRecord& openDoor = AO::AnimRec(sDoorAnimdIdTable_4BA508[lvl][5]);
-                            mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(openDoor.mFrameTableOffset, nullptr);
+                            mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(sDoorAnimdIdTable[lvl][5], nullptr);
                             break;
                         }
                     }
@@ -490,23 +454,20 @@ void Door::VUpdate()
                     {
                         case DoorStates::eOpen_0:
                         {
-                            const AnimRecord& openDoor = AO::AnimRec(sDoorAnimdIdTable_4BA508[lvl][1]);
-                            mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(openDoor.mFrameTableOffset, nullptr);
+                            mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(sDoorAnimdIdTable[lvl][1], nullptr);
                             break;
                         }
 
                         case DoorStates::eClosed_1:
                         {
-                            const AnimRecord& openDoor = AO::AnimRec(sDoorAnimdIdTable_4BA508[lvl][3]);
-                            mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(openDoor.mFrameTableOffset, nullptr);
+                            mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(sDoorAnimdIdTable[lvl][3], nullptr);
                             break;
                         }
 
                         case DoorStates::eHubDoorClosed_2:
                         {
                         default:
-                            const AnimRecord& openDoor = AO::AnimRec(sDoorAnimdIdTable_4BA508[lvl][5]);
-                            mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(openDoor.mFrameTableOffset, nullptr);
+                            mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(sDoorAnimdIdTable[lvl][5], nullptr);
                             break;
                         }
                     }

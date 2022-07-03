@@ -394,13 +394,8 @@ void Factory_Dove_4834C0(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffs
 
         for (s32 i = 0; i < pDoveTlv->mDoveCount; i++)
         {
-            const AnimRecord& doveRec = AO::AnimRec(AnimId::Dove_Idle);
-
             auto pDove = relive_new Dove(
-                doveRec.mFrameTableOffset,
-                doveRec.mMaxW,
-                doveRec.mMaxH,
-                doveRec.mResourceId,
+                AnimId::Dove_Idle,
                 tlvOffsetLevelIdPathId.all,
                 pDoveTlv->mScale != Scale_short::eFull_0 ? FP_FromDouble(0.5) : FP_FromInteger(1));
 

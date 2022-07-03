@@ -12,7 +12,7 @@ Particle* New_DestroyOrCreateObject_Particle_419D00(FP xpos, FP ypos, FP scale)
     const AnimRecord& rec = AO::AnimRec(AnimId::DeathFlare_2);
     u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
 
-    auto pParticle = relive_new Particle(xpos, ypos, rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes);
+    auto pParticle = relive_new Particle(xpos, ypos, AnimId::DeathFlare_2, ppRes);
     if (!pParticle)
     {
         return nullptr;
@@ -44,7 +44,7 @@ void New_Smoke_Particles_419A80(FP xpos, FP ypos, FP scale, s16 count, s16 type)
         FP particleY = (FP_FromInteger(6 * (i + 1) / 2 * (1 - 2 * (i % 2))) * scale) + ypos;
         const AnimRecord& rec = AO::AnimRec(AnimId::SquibSmoke_Particle);
         u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
-        auto pParticle = relive_new Particle(randX, particleY, rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes);
+        auto pParticle = relive_new Particle(randX, particleY, AnimId::SquibSmoke_Particle, ppRes);
         if (pParticle)
         {
             pParticle->mVisualFlags.Clear(BaseAnimatedWithPhysicsGameObject::VisualFlags::eApplyShadowZoneColour);
@@ -89,7 +89,7 @@ void New_Smoke_Particles_419A80(FP xpos, FP ypos, FP scale, s16 count, s16 type)
 void New_Chant_Particle_4198E0(FP xpos, FP ypos, FP scale, Layer layer)
 {
     const AnimRecord& orbRec = AO::AnimRec(AnimId::ChantOrb_Particle);
-    auto pParticle = relive_new Particle(xpos, ypos, orbRec.mFrameTableOffset, orbRec.mMaxW, orbRec.mMaxH, ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, orbRec.mResourceId, 1, 0));
+    auto pParticle = relive_new Particle(xpos, ypos, AnimId::ChantOrb_Particle, ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, orbRec.mResourceId, 1, 0));
     if (pParticle)
     {
         pParticle->mVisualFlags.Clear(BaseAnimatedWithPhysicsGameObject::VisualFlags::eApplyShadowZoneColour);
@@ -116,7 +116,7 @@ void New_Shiny_Particle_4199A0(FP xpos, FP ypos, FP scale, Layer layer)
 {
     const AnimRecord& orbRec = AO::AnimRec(AnimId::ChantOrb_Particle);
     u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, orbRec.mResourceId, 1, 0);
-    auto pParticle = relive_new Particle(xpos, ypos, orbRec.mFrameTableOffset, orbRec.mMaxW, orbRec.mMaxH, ppRes);
+    auto pParticle = relive_new Particle(xpos, ypos, AnimId::ChantOrb_Particle, ppRes);
     if (pParticle)
     {
         pParticle->mVisualFlags.Clear(BaseAnimatedWithPhysicsGameObject::VisualFlags::eApplyShadowZoneColour);
@@ -144,7 +144,7 @@ void New_ShootingZFire_Particle_419810(FP xpos, FP ypos, FP scale)
 {
     const AnimRecord& rec = AO::AnimRec(AnimId::ShootingZFire_Particle);
     u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
-    auto pParticle = relive_new Particle(xpos, ypos, rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes);
+    auto pParticle = relive_new Particle(xpos, ypos, AnimId::ShootingZFire_Particle, ppRes);
     if (pParticle)
     {
         pParticle->mVisualFlags.Clear(BaseAnimatedWithPhysicsGameObject::VisualFlags::eApplyShadowZoneColour);
@@ -170,7 +170,7 @@ void New_ShootingFire_Particle_419720(FP xpos, FP ypos, s8 direction, FP scale)
 {
     const AnimRecord& rec = AO::AnimRec(AnimId::ShootingFire_Particle);
     u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
-    auto pParticle = relive_new Particle(xpos, ypos, rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes);
+    auto pParticle = relive_new Particle(xpos, ypos, AnimId::ShootingFire_Particle, ppRes);
     if (pParticle)
     {
         pParticle->mVisualFlags.Clear(BaseAnimatedWithPhysicsGameObject::VisualFlags::eApplyShadowZoneColour);
@@ -191,18 +191,13 @@ void New_ShootingFire_Particle_419720(FP xpos, FP ypos, s8 direction, FP scale)
     }
 }
 
-Particle::Particle(FP xpos, FP ypos, s32 animFrameTableOffset, s32 maxW, s32 maxH, u8** ppAnimData)
+Particle::Particle(FP xpos, FP ypos, AnimId animId, u8** ppAnimData)
 {
     mBaseAnimatedWithPhysicsGameObject_RGB.SetRGB(128, 128, 128);
 
     mBaseGameObjectTypeId = ReliveTypes::eParticle;
 
-    Animation_Init_417FD0(
-        animFrameTableOffset,
-        maxW,
-        maxH,
-        ppAnimData,
-        1);
+    Animation_Init(animId, ppAnimData, 1);
 
     if (mBaseGameObjectFlags.Get(BaseGameObject::eListAddFailed_Bit1))
     {

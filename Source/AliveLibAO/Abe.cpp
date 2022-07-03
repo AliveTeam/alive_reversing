@@ -240,7 +240,7 @@ const TAbeMotionFunction sAbeMotionMachineTable_4C5F08[] = {
     &Abe::Motion_163_ShrykullEnd_42F520,
     &Abe::Motion_164_PoisonGasDeath_42A120};
 
-const AnimId sAbeFrameOffsetTable_4C61A0[166] = {
+const AnimId sAbeMotionAnimIds[166] = {
     AnimId::Mudokon_Idle,
     AnimId::Mudokon_Walk,
     AnimId::Mudokon_StandingTurn,
@@ -408,7 +408,7 @@ const AnimId sAbeFrameOffsetTable_4C61A0[166] = {
     AnimId::Mudokon_PoisonGasDeath,
     AnimId::None};
 
-/*const s32 sAbeFrameOffsetTable_4C61A0[166] = {
+/*const s32 sAbeMotionAnimIds[166] = {
     55968,
     55888,
     56144,
@@ -898,7 +898,7 @@ Abe::Abe(s32 frameTableOffset, s32 /*r*/, s32 /*g*/, s32 /*b*/)
     ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kDovbasicAOResID, 1, 0);
 
     field_128_resource_idx = 45;
-    Animation_Init_417FD0(frameTableOffset, 135, 80, field_1A4_resources.res[45], 1);
+    Animation_Init(frameTableOffset, 135, 80, field_1A4_resources.res[45], 1);
 
     mBaseAnimatedWithPhysicsGameObject_Anim.mFnPtrArray = kAbe_Anim_Frame_Fns_4CEBEC;
 
@@ -1229,9 +1229,8 @@ void Abe::VUpdate()
 
                     if (mCurrentMotion != eAbeMotions::Motion_15_Null_42A210 && !field_2A8_flags.Get(Flags_2A8::e2A8_Bit6_bShrivel))
                     {
-                        const AnimRecord& rec = AO::AnimRec(sAbeFrameOffsetTable_4C61A0[mCurrentMotion]);
                         mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(
-                            rec.mFrameTableOffset,
+                            sAbeMotionAnimIds[mCurrentMotion],
                             StateToAnimResource_4204F0(mCurrentMotion));
 
                         field_12C_timer = sGnFrame;
@@ -1245,9 +1244,8 @@ void Abe::VUpdate()
                 else if (field_2A8_flags.Get(Flags_2A8::e2A8_Bit2_return_to_previous_motion))
                 {
                     mCurrentMotion = mPreviousMotion;
-                    const AnimRecord& rec = AO::AnimRec(sAbeFrameOffsetTable_4C61A0[mCurrentMotion]);
                     mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(
-                        rec.mFrameTableOffset,
+                        sAbeMotionAnimIds[mCurrentMotion],
                         StateToAnimResource_4204F0(mCurrentMotion));
 
                     field_12C_timer = sGnFrame;
@@ -2613,9 +2611,8 @@ void Abe::MoveWithVelocity_4257F0(FP speed)
 
 void Abe::ToNewElumSyncMotion_422520(s16 elum_frame)
 {
-    const AnimRecord& rec = AO::AnimRec(sAbeFrameOffsetTable_4C61A0[mCurrentMotion]);
     mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(
-        rec.mFrameTableOffset,
+        sAbeMotionAnimIds[mCurrentMotion],
         StateToAnimResource_4204F0(mCurrentMotion));
 
     field_12C_timer = sGnFrame;
@@ -2707,9 +2704,8 @@ void Abe::ElumKnockForward_42E780(s32 /*not_used*/)
     mCurrentMotion = eAbeMotions::Motion_128_KnockForward_429330;
     mNextMotion = eAbeMotions::Motion_0_Idle_423520;
     field_108_bMotionChanged = 1;
-    const AnimRecord& rec = AO::AnimRec(sAbeFrameOffsetTable_4C61A0[mCurrentMotion]);
     mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(
-        rec.mFrameTableOffset,
+        sAbeMotionAnimIds[mCurrentMotion],
         StateToAnimResource_4204F0(eAbeMotions::Motion_128_KnockForward_429330));
 
     sControlledCharacter_50767C = sActiveHero_507678;
@@ -4378,7 +4374,7 @@ void Abe::Motion_2_StandingTurn_426040()
         {
             if (ToLeftRightMovement_422AA0())
             {
-                mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(mBaseAnimatedWithPhysicsGameObject_Anim.mFrameTableOffset, 0);
+                mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(mBaseAnimatedWithPhysicsGameObject_Anim.mFrameTableOffset, nullptr);
                 return;
             }
         }
@@ -7092,12 +7088,8 @@ void Abe::Motion_61_Respawn_42CD20()
 
                 for (s32 i = 0; i < 8; i++)
                 {
-                    const AnimRecord& doveRec = AO::AnimRec(AnimId::Dove_Flying);
                     auto pDove = relive_new Dove(
-                        doveRec.mFrameTableOffset,
-                        doveRec.mMaxW,
-                        doveRec.mMaxH,
-                        doveRec.mResourceId,
+                        AnimId::Dove_Flying,
                         xDiff + FP_FromInteger(Math_NextRandom() * 2),
                         yDiff - FP_FromInteger(Math_NextRandom() % 32),
                         mBaseAnimatedWithPhysicsGameObject_SpriteScale);

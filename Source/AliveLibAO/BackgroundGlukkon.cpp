@@ -31,7 +31,7 @@ BackgroundGlukkon::BackgroundGlukkon(Path_BackgroundGlukkon* pTlv, s32 tlvInfo)
 
     const AnimRecord rec = AO::AnimRec(AnimId::Background_Glukkon_Idle);
     u8** ppRes2 = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
-    Animation_Init_417FD0(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes2, 1);
+    Animation_Init(AnimId::Background_Glukkon_Idle, ppRes2, 1);
 
     field_10C_tlvInfo = tlvInfo;
 
@@ -65,7 +65,7 @@ s16 BackgroundGlukkon::VTakeDamage(BaseGameObject* pFrom)
 
     if (pFrom->mBaseGameObjectTypeId == ReliveTypes::eShrykull)
     {
-        mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(46232, 0);
+        mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::Background_Glukkon_Dying, nullptr);
         const auto rndVol = Math_RandomRange(110, 127);
         const auto rndPitch = (75 * (Math_NextRandom() % 4)) + 200;
 
@@ -78,7 +78,7 @@ s16 BackgroundGlukkon::VTakeDamage(BaseGameObject* pFrom)
             SFX_Play_Pitch(SoundEffect::Empty_105, rndVol, rndPitch, 0);
         }
 
-        mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(46232, 0);
+        mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::Background_Glukkon_Dying, nullptr);
         field_110_state = BackgroundGlukkon::State::eKilledByShrykull_7;
     }
     else if (pFrom->mBaseGameObjectTypeId == ReliveTypes::eElectrocute && mHealth > FP_FromInteger(0))
@@ -125,14 +125,12 @@ void BackgroundGlukkon::VUpdate()
                     case 0:
                         if (sActiveHero_507678->mHealth <= FP_FromInteger(0))
                         {
-                            const AnimRecord& rec = AO::AnimRec(AnimId::Background_Glukkon_Laugh);
-                            mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(rec.mFrameTableOffset, 0);
+                            mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::Background_Glukkon_Laugh, nullptr);
                             SFX_Play_Pitch(SoundEffect::GlukkonLaugh1_103, rndVol, rndPitch, 0);
                         }
                         else
                         {
-                            const AnimRecord& rec = AO::AnimRec(AnimId::Background_Glukkon_KillHim1);
-                            mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(rec.mFrameTableOffset, 0);
+                            mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::Background_Glukkon_KillHim1, nullptr);
                             SFX_Play_Pitch(SoundEffect::GlukkonKillHim1_101, rndVol, rndPitch, 0);
                         }
                         field_110_state = BackgroundGlukkon::State::eAfterLaugh_SetSpeakPauseTimer_3;
@@ -141,14 +139,12 @@ void BackgroundGlukkon::VUpdate()
                     case 1:
                         if (sActiveHero_507678->mHealth <= FP_FromInteger(0))
                         {
-                            const AnimRecord& rec = AO::AnimRec(AnimId::Background_Glukkon_Laugh);
-                            mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(rec.mFrameTableOffset, 0);
+                            mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::Background_Glukkon_Laugh, nullptr);
                             SFX_Play_Pitch(SoundEffect::GlukkonLaugh1_103, rndVol, rndPitch, 0);
                         }
                         else
                         {
-                            const AnimRecord& rec = AO::AnimRec(AnimId::Background_Glukkon_KillHim2);
-                            mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(rec.mFrameTableOffset, 0);
+                            mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::Background_Glukkon_KillHim2, nullptr);
                             SFX_Play_Pitch(SoundEffect::GlukkonKillHim2_102, rndVol, rndPitch, 0);
                         }
                         field_110_state = BackgroundGlukkon::State::eAfterLaugh_SetSpeakPauseTimer_3;
@@ -157,14 +153,12 @@ void BackgroundGlukkon::VUpdate()
                     case 2:
                         if (sActiveHero_507678->mHealth <= FP_FromInteger(0))
                         {
-                            const AnimRecord& rec = AO::AnimRec(AnimId::Background_Glukkon_Laugh);
-                            mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(rec.mFrameTableOffset, 0);
+                            mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::Background_Glukkon_Laugh, nullptr);
                             SFX_Play_Pitch(SoundEffect::GlukkonLaugh1_103, rndVol, rndPitch, 0);
                         }
                         else
                         {
-                            const AnimRecord& rec = AO::AnimRec(AnimId::Background_Glukkon_KillHim1);
-                            mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(rec.mFrameTableOffset, 0);
+                            mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::Background_Glukkon_KillHim1, nullptr);
                             SFX_Play_Pitch(SoundEffect::Empty_105, rndVol, rndPitch, 0);
                         }
                         field_110_state = BackgroundGlukkon::State::eAfterLaugh_SetSpeakPauseTimer_3;
@@ -173,8 +167,7 @@ void BackgroundGlukkon::VUpdate()
                     case 3:
                         if (sActiveHero_507678->mHealth > FP_FromInteger(0))
                         {
-                            const AnimRecord& rec = AO::AnimRec(AnimId::Background_Glukkon_KillHim2);
-                            mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(rec.mFrameTableOffset, 0);
+                            mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::Background_Glukkon_KillHim2, nullptr);
                             SFX_Play_Pitch(SoundEffect::Empty_106, rndVol, rndPitch, 0);
                         }
                         field_110_state = BackgroundGlukkon::State::eAfterLaugh_SetSpeakPauseTimer_3;
@@ -193,7 +186,7 @@ void BackgroundGlukkon::VUpdate()
         case BackgroundGlukkon::State::eAfterLaugh_SetSpeakPauseTimer_3:
             if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
             {
-                mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(46096, 0);
+                mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::Background_Glukkon_Idle, nullptr);
                 field_110_state = BackgroundGlukkon::State::eSetSpeakPauseTimer_1;
             }
             break;

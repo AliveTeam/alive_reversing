@@ -106,7 +106,7 @@ const TSligStateFunction sSligMotionTable_4CF960[] = {
     &Slig::Motion_52_Beat_46AA90,
 };
 
-const AnimId sSligFrameTables_4CFA38[] = {
+const AnimId sSligMotionAnimIds[] = {
     AnimId::Slig_Idle,
     AnimId::Slig_StandToWalk,
     AnimId::Slig_Walking,
@@ -293,8 +293,7 @@ Slig::Slig(Path_Slig* pTlv, s32 tlvInfo)
 
     u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kSlgbasicAOResID, 1, 0);
     field_210_resources.res[0] = ppRes;
-    const AnimRecord& rec = AO::AnimRec(AnimId::Slig_Idle);
-    Animation_Init_417FD0(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
+    Animation_Init(AnimId::Slig_Idle, ppRes, 1);
 
     mBaseAliveGameObjectFlags.Clear(Flags_10A::e10A_Bit2_bPossesed);
     mBaseAliveGameObjectFlags.Set(Flags_10A::e10A_Bit1_Can_Be_Possessed);
@@ -1087,8 +1086,7 @@ void Slig::VUpdateAnimData()
         mCurrentMotion = eSligMotions::Motion_0_StandIdle_467640;
         ppRes = ResBlockForMotion_4654D0(mCurrentMotion);
     }
-    const AnimRecord& rec = AO::AnimRec(sSligFrameTables_4CFA38[mCurrentMotion]);
-    mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(rec.mFrameTableOffset, ppRes);
+    mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(sSligMotionAnimIds[mCurrentMotion], ppRes);
 }
 
 void Slig::Vshot()

@@ -31,7 +31,7 @@ const TSlingMudStateFunction gSlingMudMotionTable_4CFCB0[] = {
     &SlingMudokon::Motion_4_ShootEnd,
     &SlingMudokon::Motion_5_AngryToIdle};
 
-const AnimId sSlingMudAnimIdTables_4CFCC8[6] = {
+const AnimId sSlingMudMotionAnimIds[6] = {
     AnimId::Mudokon_Sling_Idle, 
     AnimId::Mudokon_Sling_Angry,
     AnimId::Mudokon_Sling_Speak,
@@ -58,7 +58,7 @@ SlingMudokon::SlingMudokon(Path_SlingMudokon* pTlv, s32 tlvInfo)
 
     const AnimRecord rec = AO::AnimRec(AnimId::Mudokon_Sling_Idle);
     u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
-    Animation_Init_417FD0(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
+    Animation_Init(AnimId::Mudokon_Sling_Idle, ppRes, 1);
 
     SetCurrentMotion(eSlingMudMotions::Motion_0_Idle);
 
@@ -232,8 +232,7 @@ void SlingMudokon::VUpdateAnimData()
         ppResBlock = field_150_res;
     }
     
-    const AnimRecord& rec = AO::AnimRec(sSlingMudAnimIdTables_4CFCC8[mCurrentMotion]);
-    mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(rec.mFrameTableOffset, ppResBlock);
+    mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(sSlingMudMotionAnimIds[mCurrentMotion], ppResBlock);
 }
 
 void SlingMudokon::Motion_0_Idle()
@@ -641,12 +640,8 @@ s16 SlingMudokon::Brain_1_Spawn()
             {
                 for (s32 i = 0; i < 8; i++)
                 {
-                    const AnimRecord& doveRec = AO::AnimRec(AnimId::Dove_Flying);
                     auto pDove = relive_new Dove(
-                        doveRec.mFrameTableOffset,
-                        doveRec.mMaxW,
-                        doveRec.mMaxH,
-                        doveRec.mResourceId,
+                        AnimId::Dove_Flying,
                         mBaseAnimatedWithPhysicsGameObject_XPos + FP_FromInteger(Math_NextRandom() % 16),
                         mBaseAnimatedWithPhysicsGameObject_YPos - FP_FromInteger(Math_NextRandom() % 16),
                         mBaseAnimatedWithPhysicsGameObject_SpriteScale);
@@ -926,12 +921,8 @@ s16 SlingMudokon::Brain_2_AskForPassword()
             {
                 for (s32 i = 0; i < 8; i++)
                 {
-                    const AnimRecord& doveRec = AO::AnimRec(AnimId::Dove_Flying);
                     auto pDove = relive_new Dove(
-                        doveRec.mFrameTableOffset,
-                        doveRec.mMaxW,
-                        doveRec.mMaxH,
-                        doveRec.mResourceId,
+                        AnimId::Dove_Flying,
                         mBaseAnimatedWithPhysicsGameObject_XPos + FP_FromInteger(Math_NextRandom() % 16),
                         mBaseAnimatedWithPhysicsGameObject_YPos - FP_FromInteger(Math_NextRandom() % 16),
                         mBaseAnimatedWithPhysicsGameObject_SpriteScale);;

@@ -53,7 +53,7 @@ RollingBall::RollingBall(Path_RollingBall* pTlv, s32 tlvInfo)
     
     const AnimRecord rec = AO::AnimRec(AnimId::Stone_Ball);
     u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
-    Animation_Init_417FD0(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
+    Animation_Init(AnimId::Stone_Ball, ppRes, 1);
 
     mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_DoorFlameRollingBallPortalClip_Half_31;
 
@@ -135,6 +135,7 @@ void RollingBall::VUpdate()
             {
                 mBaseAnimatedWithPhysicsGameObject_VelY = FP_FromDouble(2.5);
                 field_112_state = States::eStartRolling_1;
+                // TODO: missing anim id
                 mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(15608, 0);
                 field_114_pRollingBallShaker = relive_new RollingBallShaker();
                 if (field_114_pRollingBallShaker)

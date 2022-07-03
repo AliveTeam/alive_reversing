@@ -18,11 +18,9 @@ Mine::Mine(Path_Mine* pTlv, s32 tlvInfo)
 {
     mBaseGameObjectTypeId = ReliveTypes::eMine;
     
-    ///////////////////////////////////////////////////////////////////////////
     const AnimRecord rec = AO::AnimRec(AnimId::Mine);
     u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
-    Animation_Init_417FD0(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
-    ///////////////////////////////////////////////////////////////////////////
+    Animation_Init(AnimId::Mine, ppRes, 1);
     
     mBaseGameObjectFlags.Set(Options::eCanExplode_Bit7);
     mBaseGameObjectFlags.Set(Options::eInteractive_Bit8);
@@ -50,11 +48,8 @@ Mine::Mine(Path_Mine* pTlv, s32 tlvInfo)
     const AnimRecord& flashRec = AO::AnimRec(AnimId::Mine_Flash);
     u8** ppFLashRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, flashRec.mResourceId, 1, 0);
     field_118_animation.Init(
-        flashRec.mFrameTableOffset,
-        gAnimations,
+        AnimId::Mine_Flash,
         this,
-        flashRec.mMaxW,
-        flashRec.mMaxH,
         ppFLashRes);
 
     field_118_animation.mRenderLayer = mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer;

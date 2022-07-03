@@ -63,7 +63,7 @@ const TScrabMotionFunction sScrabMotionTable_4CF690[] = {
     &Scrab::Motion_29_DeathBegin_45FFA0,
 };
 
-const AnimId sScrabFrameTables_4CF708[30] = {
+const AnimId sScrabMotionAnimIds[30] = {
     AnimId::Scrab_Idle,
     AnimId::Scrab_Idle,
     AnimId::Scrab_Walk,
@@ -127,10 +127,7 @@ Scrab::Scrab(Path_Scrab* pTlv, s32 tlvInfo)
     field_150_resources[4] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kArswhirlAOResID, 1, 0);
     field_150_resources[13] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kArscrshAOResID, 1, 0);
 
-    const AnimRecord& rec = AO::AnimRec(AnimId::Scrab_Idle);
-
-    Animation_Init_417FD0(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, field_150_resources[0], 1);
-
+    Animation_Init(AnimId::Scrab_Idle, field_150_resources[0], 1);
 
     mBaseAliveGameObjectFlags.Set(Flags_10A::e10A_Bit4_SetOffExplosives);
 
@@ -498,9 +495,8 @@ void Scrab::ToStand()
 
 void Scrab::vUpdateAnim()
 {
-    const AnimRecord& rec = AO::AnimRec(sScrabFrameTables_4CF708[mCurrentMotion]);
     mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(
-        rec.mFrameTableOffset,
+        sScrabMotionAnimIds[mCurrentMotion],
         ResBlockForMotion(mCurrentMotion));
 }
 

@@ -200,7 +200,7 @@ void Game_ShowLoadingIcon_445EB0()
     u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
     if (ppRes)
     {
-        auto pParticle = relive_new Particle(FP_FromInteger(0), FP_FromInteger(0), rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes);
+        auto pParticle = relive_new Particle(FP_FromInteger(0), FP_FromInteger(0), AnimId::Loading_Icon2, ppRes);
         if (pParticle)
         {
             pParticle->mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit15_bSemiTrans);

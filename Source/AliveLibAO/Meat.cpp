@@ -26,7 +26,7 @@ MeatSack::MeatSack(Path_MeatSack* pTlv, s32 tlvInfo)
 
     const AnimRecord rec = AO::AnimRec(AnimId::MeatSack_Idle);
     u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
-    Animation_Init_417FD0(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
+    Animation_Init(AnimId::MeatSack_Idle, ppRes, 1);
 
     field_10C_tlvInfo = tlvInfo;
     mVisualFlags.Clear(VisualFlags::eApplyShadowZoneColour);
@@ -97,8 +97,7 @@ void MeatSack::VUpdate()
     {
         if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
         {
-            const AnimRecord& rec = AO::AnimRec(AnimId::MeatSack_Idle);
-            mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(rec.mFrameTableOffset, nullptr);
+            mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::MeatSack_Idle, nullptr);
             field_110_bDoMeatSackIdleAnim = 0;
         }
         return;
@@ -111,7 +110,6 @@ void MeatSack::VUpdate()
     {
         if (mBaseAnimatedWithPhysicsGameObject_SpriteScale == sActiveHero_507678->mBaseAnimatedWithPhysicsGameObject_SpriteScale)
         {
-            const AnimRecord& MeatSackHitRec = AO::AnimRec(AnimId::MeatSack_Hit);
             if (!gpThrowableArray_50E26C)
             {
                 gpThrowableArray_50E26C = relive_new ThrowableArray();
@@ -121,7 +119,7 @@ void MeatSack::VUpdate()
             {
                 if (gpThrowableArray_50E26C->field_10_count > 0)
                 {
-                    mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(MeatSackHitRec.mFrameTableOffset, nullptr);
+                    mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::MeatSack_Hit, nullptr);
                     field_110_bDoMeatSackIdleAnim = 1;
                     return;
                 }
@@ -141,7 +139,7 @@ void MeatSack::VUpdate()
 
             SfxPlayMono(SoundEffect::SackHit_30, 0, 0);
             Environment_SFX_42A220(EnvironmentSfx::eDeathNoise_7, 0, 0x7FFF, nullptr);
-            mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(MeatSackHitRec.mFrameTableOffset, nullptr);
+            mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::MeatSack_Hit, nullptr);
             field_110_bDoMeatSackIdleAnim = 1;
             return;
         }
@@ -162,7 +160,7 @@ Meat::Meat(FP xpos, FP ypos, s16 count)
 
     const AnimRecord rec = AO::AnimRec(AnimId::Meat);
     u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
-    Animation_Init_417FD0(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
+    Animation_Init(AnimId::Meat, ppRes, 1);
 
     mBaseAnimatedWithPhysicsGameObject_XPos = xpos;
     mBaseAnimatedWithPhysicsGameObject_YPos = ypos;

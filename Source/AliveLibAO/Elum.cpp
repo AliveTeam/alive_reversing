@@ -86,7 +86,7 @@ const TBrainStateFunc sElum_brain_table_4C52E8[] = {
     &Elum::Brain_1_HoneyAddiction_411730,
 };
 
-const AnimId gElumAnimIdTables_4C5218[52] = {
+const AnimId gElumMotionAnimIds[52] = {
     AnimId::Elum_Idle,
     AnimId::Elum_Idle,
     AnimId::Elum_Idle,
@@ -256,9 +256,8 @@ s16 Elum::VTakeDamage(BaseGameObject* pFrom)
                 }
 
                 mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit3_Render);
-                const AnimRecord& rec = AO::AnimRec(gElumAnimIdTables_4C5218[mCurrentMotion]);
                 mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(
-                    rec.mFrameTableOffset,
+                    gElumMotionAnimIds[mCurrentMotion],
                     GetResBlock_410D00(mCurrentMotion));
             }
             return 1;
@@ -332,9 +331,8 @@ void Elum::Vsub_416120()
 {
     ToIdle();
 
-    const AnimRecord& rec = AO::AnimRec(gElumAnimIdTables_4C5218[mCurrentMotion]);
     mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(
-        rec.mFrameTableOffset,
+        gElumMotionAnimIds[mCurrentMotion],
         GetResBlock_410D00(mCurrentMotion));
 }
 
@@ -2054,7 +2052,7 @@ void Elum::Motion_4_Turn_4140F0()
         }
         else if (ToNextMotion_4120F0())
         {
-            mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(mBaseAnimatedWithPhysicsGameObject_Anim.mFrameTableOffset, 0);
+            mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(mBaseAnimatedWithPhysicsGameObject_Anim.mFrameTableOffset, nullptr);
             if (sControlledCharacter_50767C == this)
             {
                 sActiveHero_507678->SyncToElum_42D850(mCurrentMotion);
@@ -3647,8 +3645,7 @@ void Elum::VUpdate()
                         return;
                     }
 
-                    const AnimRecord& rec = AO::AnimRec(gElumAnimIdTables_4C5218[mCurrentMotion]);
-                    mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(rec.mFrameTableOffset, ppRes);
+                    mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(gElumMotionAnimIds[mCurrentMotion], ppRes);
                     mBaseAnimatedWithPhysicsGameObject_Anim.SetFrame(mBaseAliveGameObjectLastAnimFrame);
                     field_120_bUnknown = 0;
                     if (sControlledCharacter_50767C == this)
@@ -3665,8 +3662,7 @@ void Elum::VUpdate()
                     return;
                 }
 
-                const AnimRecord& rec = AO::AnimRec(gElumAnimIdTables_4C5218[mCurrentMotion]);
-                mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(rec.mFrameTableOffset, ppRes);
+                mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(gElumMotionAnimIds[mCurrentMotion], ppRes);
                 if (sControlledCharacter_50767C == this)
                 {
                     sActiveHero_507678->SyncToElum_42D850(mCurrentMotion);
@@ -3845,13 +3841,7 @@ Elum::Elum(s32, anythingForTheTimeBeing, anythingForTheTimeBeing, s32, TlvItemIn
 
     field_126_res_idx = 16;
 
-    const AnimRecord& fallRec = AO::AnimRec(AnimId::Elum_Land);
-    Animation_Init_417FD0(
-        fallRec.mFrameTableOffset,
-        fallRec.mMaxW,
-        fallRec.mMaxH,
-        field_174_resources.res[16],
-        1);
+    Animation_Init(AnimId::Elum_Land, field_174_resources.res[16], 1);
 
     mBaseAnimatedWithPhysicsGameObject_SpriteScale = sActiveHero_507678->mBaseAnimatedWithPhysicsGameObject_SpriteScale;
 

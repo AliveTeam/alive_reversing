@@ -38,7 +38,7 @@ Claw::Claw()
     
     const AnimRecord rec = AO::AnimRec(AnimId::Security_Claw_Lower_Idle);
     u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
-    Animation_Init_417FD0(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
+    Animation_Init(AnimId::Security_Claw_Lower_Idle, ppRes, 1);
 }
 
 
@@ -57,7 +57,7 @@ SecurityClaw::SecurityClaw(Path_SecurityClaw* pTlv, s32 tlvInfo)
 
     const AnimRecord rec = AO::AnimRec(AnimId::Security_Claw_Upper_Rotating);
     u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
-    Animation_Init_417FD0(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
+    Animation_Init(AnimId::Security_Claw_Upper_Rotating, ppRes, 1);
 
     field_10C_tlvInfo = tlvInfo;
 
@@ -270,8 +270,7 @@ void SecurityClaw::VUpdate()
                     auto pDetector = static_cast<MotionDetector*>(pObjIter);
                     if (!field_13C_pArray)
                     {
-                        const AnimRecord& rec = AO::AnimRec(AnimId::Security_Claw_Upper_NoRotation);
-                        mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(rec.mFrameTableOffset, nullptr);
+                        mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::Security_Claw_Upper_NoRotation, nullptr);
                         field_13C_pArray = relive_new DynamicArrayT<MotionDetector>(10);
                     }
 
@@ -290,8 +289,7 @@ void SecurityClaw::VUpdate()
             {
                 field_114_timer = sGnFrame + 20;
                 field_110_state = SecurityClawStates::eDoZapEffects_2;
-                const AnimRecord& rec = AO::AnimRec(AnimId::Security_Claw_Lower_Open);
-                field_130_pClaw->mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(rec.mFrameTableOffset, nullptr);
+                field_130_pClaw->mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::Security_Claw_Lower_Open, nullptr);
                 SfxPlayMono(SoundEffect::IndustrialNoise3_95, 60, 0);
                 SFX_Play_Pitch(SoundEffect::IndustrialNoise3_95, 90, -1000, 0);
             }
@@ -384,8 +382,7 @@ void SecurityClaw::VUpdate()
             if (static_cast<s32>(sGnFrame) > field_114_timer)
             {
                 field_110_state = SecurityClawStates::eIdle_1;
-                const AnimRecord& rec = AO::AnimRec(AnimId::Security_Claw_Lower_Close);
-                field_130_pClaw->mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(rec.mFrameTableOffset, nullptr);
+                field_130_pClaw->mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::Security_Claw_Lower_Close, nullptr);
                 SfxPlayMono(SoundEffect::IndustrialTrigger_97, 0, 0);
             }
             break;

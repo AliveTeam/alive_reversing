@@ -76,8 +76,7 @@ void Lever::VUpdate()
                 animId = gLeverData_4BCF40[lvl_idx].field_10_releasing_left_animId;
             }
 
-            const AnimRecord& rec = AO::AnimRec(animId);
-            mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(rec.mFrameTableOffset, nullptr);
+            mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(animId, nullptr);
 
             const auto oldSwitchState = SwitchStates_Get(field_E4_switch_id);
             SwitchStates_Do_Operation(field_E4_switch_id, field_F2_action);
@@ -158,9 +157,8 @@ void Lever::VUpdate()
         if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit12_ForwardLoopCompleted))
         {
             field_E8_state = LeverState::eWaiting_0;
-            const AnimRecord& rec = AO::AnimRec(gLeverData_4BCF40[static_cast<s32>(MapWrapper::ToAO(gMap.mCurrentLevel))].field_0_idle_animId);
             mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(
-                rec.mFrameTableOffset,
+                gLeverData_4BCF40[static_cast<s32>(MapWrapper::ToAO(gMap.mCurrentLevel))].field_0_idle_animId,
                 nullptr);
         }
     }
@@ -182,10 +180,8 @@ Lever::Lever(Path_Lever* pTlv, s32 tlvInfo)
     const s32 lvl_idx = static_cast<s32>(MapWrapper::ToAO(gMap.mCurrentLevel));
     const AnimRecord& rec = AO::AnimRec(gLeverData_4BCF40[lvl_idx].field_0_idle_animId);
     u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
-    Animation_Init_417FD0(
-        rec.mFrameTableOffset,
-        rec.mMaxW,
-        rec.mMaxH,
+    Animation_Init(
+        gLeverData_4BCF40[lvl_idx].field_0_idle_animId,
         ppRes,
         1);
 
@@ -228,17 +224,15 @@ s32 Lever::VPull(s16 bLeftDirection)
         field_E8_state = LeverState::ePulled_1;
         if (bLeftDirection)
         {
-            const AnimRecord& rec = AO::AnimRec(gLeverData_4BCF40[lvl_idx].field_C_pulling_left_animId);
             mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(
-                rec.mFrameTableOffset,
+                gLeverData_4BCF40[lvl_idx].field_C_pulling_left_animId,
                 nullptr);
             field_F0_bPulledFromLeft = 1;
         }
         else
         {
-            const AnimRecord& rec = AO::AnimRec(gLeverData_4BCF40[lvl_idx].field_14_pulling_right_animId);
             mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(
-                rec.mFrameTableOffset,
+                gLeverData_4BCF40[lvl_idx].field_14_pulling_right_animId,
                 nullptr);
             field_F0_bPulledFromLeft = 0;
         }

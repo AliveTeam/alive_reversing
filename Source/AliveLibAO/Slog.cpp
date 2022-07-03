@@ -69,7 +69,7 @@ const TSlogBrainFunction sSlogBrainTable[] = {
     &Slog::Brain_2_ChasingAbe_470F50,
     &Slog::Brain_3_Dead_4721B0};
 
-const AnimId sSlogAnimIdTable_4CFD98[25] = {
+const AnimId sSlogMotionAnimIds[25] = {
     AnimId::Slog_Idle,
     AnimId::Slog_Walk,
     AnimId::Slog_Run,
@@ -139,8 +139,7 @@ Slog::Slog(Path_Slog* pTlv, s32 tlvInfo)
     {
         mCurrentMotion = eSlogMotions::Motion_16_Sleeping_4752E0;
         field_13C_res_idx = 1;
-        const AnimRecord& rec = AO::AnimRec(AnimId::Slog_Sleeping);
-        mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(rec.mFrameTableOffset, field_184_resources[1]);
+        mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::Slog_Sleeping, field_184_resources[1]);
     }
     else
     {
@@ -268,8 +267,7 @@ s16 Slog::VTakeDamage(BaseGameObject* pFrom)
             field_11C_timer = sGnFrame + 90;
             mCurrentMotion = eSlogMotions::Motion_22_Dying_475A90;
             field_13C_res_idx = 3;
-            const AnimRecord& rec = AO::AnimRec(AnimId::Slog_Dying);
-            mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(rec.mFrameTableOffset, field_184_resources[3]);
+            mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::Slog_Dying, field_184_resources[3]);
             mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit2_Animate);
             gNumSlogs_9F11C8--;
             field_178_bShot = 1;
@@ -328,8 +326,7 @@ s16 Slog::VTakeDamage(BaseGameObject* pFrom)
             field_11C_timer = sGnFrame + 90;
             mCurrentMotion = eSlogMotions::Motion_22_Dying_475A90;
             field_13C_res_idx = 3;
-            const AnimRecord& rec = AO::AnimRec(AnimId::Slog_Dying);
-            mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(rec.mFrameTableOffset, field_184_resources[3]);
+            mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::Slog_Dying, field_184_resources[3]);
             mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit2_Animate);
             break;
         }
@@ -413,8 +410,7 @@ void Slog::VUpdate()
 void Slog::SetAnimFrame()
 {
     u8** ppRes = ResBlockForMotion(mCurrentMotion);
-    const AnimRecord& rec = AO::AnimRec(sSlogAnimIdTable_4CFD98[mCurrentMotion]);
-    mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(rec.mFrameTableOffset, ppRes);
+    mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(sSlogMotionAnimIds[mCurrentMotion], ppRes);
 }
 
 u8** Slog::ResBlockForMotion(s16 motion)
@@ -529,8 +525,7 @@ void Slog::Init()
     field_184_resources[3] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kDogknfdAOResID, 1, 0);
     field_184_resources[4] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kDogidleAOResID, 1, 0);
 
-    const AnimRecord& rec = AO::AnimRec(AnimId::Slog_Idle);
-    Animation_Init_417FD0(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, field_184_resources[0], 1);
+    Animation_Init(AnimId::Slog_Idle, field_184_resources[0], 1);
 
     mBaseGameObjectFlags.Set(Options::eCanExplode_Bit7);
     mBaseAnimatedWithPhysicsGameObject_Anim.mFnPtrArray = kSlog_Anim_Frame_Fns_4CEBF4;

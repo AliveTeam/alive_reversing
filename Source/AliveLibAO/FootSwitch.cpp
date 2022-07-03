@@ -16,7 +16,7 @@ FootSwitch::FootSwitch(Path_FootSwitch* pTlv, s32 tlvInfo)
 
     const AnimRecord rec = AO::AnimRec(AnimId::Foot_Switch_Temple);
     u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
-    Animation_Init_417FD0(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
+    Animation_Init(AnimId::Foot_Switch_Temple, ppRes, 1);
 
     mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_BeforeShadow_25;
 
@@ -60,7 +60,7 @@ void FootSwitch::VUpdate()
                 field_F0_pStoodOnMe->mBaseGameObjectRefCount++;
                 SwitchStates_Do_Operation(field_EA_switch_id, field_EC_action);
                 field_E8_state = States::eWaitForGetOffMe_1;
-                mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(756, 0);
+                mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::Foot_Switch_Temple_Pressed, nullptr);
                 SfxPlayMono(SoundEffect::FootSwitchPress_64, 0, 0);
             }
             break;
@@ -72,7 +72,7 @@ void FootSwitch::VUpdate()
             if (field_F0_pStoodOnMe->mBaseAnimatedWithPhysicsGameObject_XPos < FP_FromInteger(bRect.x) || field_F0_pStoodOnMe->mBaseAnimatedWithPhysicsGameObject_XPos > FP_FromInteger(bRect.w) || field_F0_pStoodOnMe->mBaseGameObjectFlags.Get(BaseGameObject::eDead))
             {
                 field_E8_state = States::eWaitForStepOnMe_0;
-                mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(744, 0);
+                mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::Foot_Switch_Temple, nullptr);
                 field_F0_pStoodOnMe->mBaseGameObjectRefCount--;
             }
             break;

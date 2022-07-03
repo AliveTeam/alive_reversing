@@ -200,6 +200,7 @@ constexpr CombinedAnimRecord kAnimRecords[] = {
     
     {AnimId::Bat_Flying, kNullAnimDetails, { "BATBASIC.BAN", 6644, 48, 17, AO::kBatBasicAOResID, PalId::Default} },
     {AnimId::Bat, kNullAnimDetails, { "BATBASIC.BAN", 6560, 48, 17, AO::kBatBasicAOResID, PalId::Default} },
+    {AnimId::Bat_Unknown, kNullAnimDetails, { "BATBASIC.BAN", 6608, 48, 17, AO::kBatBasicAOResID, PalId::Default} },
     {AnimId::Bee_Swarm, kNullAnimDetails, { "WASP.BAN", 636, 7, 4, AO::kWaspAOResID, PalId::Default} },
 
     // Note: Fleech animations are sorted by order of appearance under Fleech.cpp (line 235)
@@ -1309,6 +1310,8 @@ constexpr CombinedAnimRecord kAnimRecords[] = {
     {AnimId::Background_Glukkon_Laugh, kNullAnimDetails, { "GLUKKON.BND", 46272, 68, 60, AO::kGlkbasicAOResID, PalId::Default} },
     {AnimId::Background_Glukkon_KillHim1, kNullAnimDetails, { "GLUKKON.BND", 46128, 68, 60, AO::kGlkbasicAOResID, PalId::Default} },
     {AnimId::Background_Glukkon_KillHim2, kNullAnimDetails, { "GLUKKON.BND", 46180, 68, 60, AO::kGlkbasicAOResID, PalId::Default} },
+    // TODO: anim id name not confirmed
+    {AnimId::Background_Glukkon_Dying, kNullAnimDetails, { "GLUKKON.BND", 46232, 68, 60, AO::kGlkbasicAOResID, PalId::Default} },
 
     {AnimId::BirdPortal_Sparks,
         {"PORTAL.BND", 4256, 32, 69, kPortliteResID, PalId::Default},
@@ -1521,6 +1524,7 @@ constexpr CombinedAnimRecord kAnimRecords[] = {
     {AnimId::Foot_Switch_Industrial_Idle, { "TRIGGER.BAN", 568, 45, 11, kTriggerResID, PalId::Default}, kNullAnimDetails },
     {AnimId::Foot_Switch_Industrial_Pressed, { "TRIGGER.BAN", 588, 45, 11, kTriggerResID, PalId::Default}, kNullAnimDetails },
     {AnimId::Foot_Switch_Temple, kNullAnimDetails, { "TRIGGER.BAN", 744, 68, 15, AO::kTriggerAOResID, PalId::Default} },
+    {AnimId::Foot_Switch_Temple_Pressed, kNullAnimDetails, { "TRIGGER.BAN", 756, 68, 15, AO::kTriggerAOResID, PalId::Default} },
     {AnimId::Foot_Switch_Vault_Idle, { "VLTTRIGR.BAN", 972, 72, 18, kTriggerResID, PalId::Default}, kNullAnimDetails },
     {AnimId::Foot_Switch_Vault_Pressed, { "VLTTRIGR.BAN", 992, 72, 18, kTriggerResID, PalId::Default}, kNullAnimDetails },
     {AnimId::Grenade, 

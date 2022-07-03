@@ -633,6 +633,12 @@ void Animation::Invoke_CallBacks()
     }
 }
 
+s16 Animation::Set_Animation_Data(AnimId animId, u8** resBlock)
+{
+    const AnimRecord& rec = AO::AnimRec(animId);
+    return Set_Animation_Data(rec.mFrameTableOffset, resBlock);
+}
+
 s16 Animation::Set_Animation_Data(s32 frameTableOffset, u8** pAnimRes)
 {
     FrameTableOffsetExists(frameTableOffset, false);
@@ -776,7 +782,13 @@ s16 Animation::Get_Frame_Count()
     return pHead->field_2_num_frames;
 }
 
-s16 Animation::Init(s32 frameTableOffset, DynamicArray* /*animList*/, BaseGameObject* pGameObj, u16 maxW, u16 maxH, u8** ppAnimData)
+s16 Animation::Init(AnimId animId, BaseGameObject* pGameObj, u8** ppAnimData)
+{
+    const AnimRecord& rec = AO::AnimRec(animId);
+    return Init(rec.mFrameTableOffset, pGameObj, rec.mMaxW, rec.mMaxH, ppAnimData);
+}
+
+s16 Animation::Init(s32 frameTableOffset, BaseGameObject* pGameObj, u16 maxW, u16 maxH, u8** ppAnimData)
 {
     FrameTableOffsetExists(frameTableOffset, false, maxW, maxH);
     mAnimFlags.Raw().all = 0; // TODO extra - init to 0's first - this may be wrong if any bits are explicitly set before this is called

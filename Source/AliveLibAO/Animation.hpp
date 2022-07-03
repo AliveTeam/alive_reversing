@@ -10,6 +10,7 @@
 #include "AnimationBase.hpp"
 
 class BaseGameObject;
+enum class AnimId;
 
 namespace AO {
 
@@ -108,9 +109,11 @@ public:
     virtual void VRender(s32 xpos, s32 ypos, PrimHeader** ppOt, s16 width, s32 height) override;
     virtual void VCleanUp() override;
 
+    s16 Set_Animation_Data(AnimId animId, u8** resBlock);
     s16 Set_Animation_Data(s32 frameTable, u8** resBlock);
     void SetFrame(s16 newFrame);
-    s16 Init(s32 frameTableOffset, DynamicArray* animList, BaseGameObject* pGameObj, u16 maxW, u16 maxH, u8** ppAnimData);
+    s16 Init(AnimId animId, BaseGameObject* pGameObj, u8** ppAnimData);
+    s16 Init(s32 frameTableOffset, BaseGameObject* pGameObj, u16 maxW, u16 maxH, u8** ppAnimData);
     s16 Get_Frame_Count();
     FrameInfoHeader* Get_FrameHeader(s32 frame);
     void LoadPal(u8** pPalData, s32 palOffset);

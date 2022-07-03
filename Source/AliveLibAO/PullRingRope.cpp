@@ -23,7 +23,7 @@ PullRingRope::PullRingRope(Path_PullRingRope* pTlv, s32 tlvInfo)
         {
             const AnimRecord rec1 = AO::AnimRec(AnimId::Pullring_Farms_Idle);
             u8** ppRes1 = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec1.mResourceId, 1, 0);
-            Animation_Init_417FD0(rec1.mFrameTableOffset, rec1.mMaxW, rec1.mMaxH, ppRes1, 1);
+            Animation_Init(AnimId::Pullring_Farms_Idle, ppRes1, 1);
             lvl_x_off = -2;
             break;
         }
@@ -32,7 +32,7 @@ PullRingRope::PullRingRope(Path_PullRingRope* pTlv, s32 tlvInfo)
         {
             const AnimRecord rec2 = AO::AnimRec(AnimId::Pullring_Desert_Idle);
             u8** ppRes2 = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec2.mResourceId, 1, 0);
-            Animation_Init_417FD0(rec2.mFrameTableOffset, rec2.mMaxW, rec2.mMaxH, ppRes2, 1);
+            Animation_Init(AnimId::Pullring_Desert_Idle, ppRes2, 1);
             lvl_x_off = 2;
             break;
         }
@@ -41,7 +41,7 @@ PullRingRope::PullRingRope(Path_PullRingRope* pTlv, s32 tlvInfo)
         {
             const AnimRecord rec2 = AO::AnimRec(AnimId::Pullring_Desert_Idle);
             u8** ppRes2 = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec2.mResourceId, 1, 0);
-            Animation_Init_417FD0(rec2.mFrameTableOffset, rec2.mMaxW, rec2.mMaxH, ppRes2, 1);
+            Animation_Init(AnimId::Pullring_Desert_Idle, ppRes2, 1);
             lvl_x_off = 0;
             break;
         }
@@ -141,13 +141,11 @@ s16 PullRingRope::Pull(BaseAliveGameObject* pFrom)
 
     if (gMap.mCurrentLevel == EReliveLevelIds::eRuptureFarms || gMap.mCurrentLevel == EReliveLevelIds::eBoardRoom || gMap.mCurrentLevel == EReliveLevelIds::eRuptureFarmsReturn)
     {
-        const AnimRecord& rec = AO::AnimRec(AnimId::Pullring_Farms_UseBegin);
-        mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(rec.mFrameTableOffset, nullptr);
+        mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::Pullring_Farms_UseBegin, nullptr);
     }
     else
     {
-        const AnimRecord& rec = AO::AnimRec(AnimId::Pullring_Desert_UseBegin);
-        mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(rec.mFrameTableOffset, nullptr);
+        mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::Pullring_Desert_UseBegin, nullptr);
     }
     SfxPlayMono(SoundEffect::RingRopePull_65, 0, 0);
     return 1;
@@ -260,13 +258,11 @@ void PullRingRope::VUpdate()
 
             if (gMap.mCurrentLevel == EReliveLevelIds::eRuptureFarms || gMap.mCurrentLevel == EReliveLevelIds::eBoardRoom || gMap.mCurrentLevel == EReliveLevelIds::eRuptureFarmsReturn)
             {
-                const AnimRecord& rec = AO::AnimRec(AnimId::Pullring_Farms_UseEnd);
-                mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(rec.mFrameTableOffset, nullptr);
+                mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::Pullring_Farms_UseEnd, nullptr);
             }
             else
             {
-                const AnimRecord& rec = AO::AnimRec(AnimId::Pullring_Desert_UseEnd);
-                mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(rec.mFrameTableOffset, nullptr);
+                mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::Pullring_Desert_UseEnd, nullptr);
             }
             break;
 
@@ -280,13 +276,11 @@ void PullRingRope::VUpdate()
 
                 if (gMap.mCurrentLevel == EReliveLevelIds::eRuptureFarms || gMap.mCurrentLevel == EReliveLevelIds::eBoardRoom || gMap.mCurrentLevel == EReliveLevelIds::eRuptureFarmsReturn)
                 {
-                    const AnimRecord& rec = AO::AnimRec(AnimId::Pullring_Farms_Idle);
-                    mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(rec.mFrameTableOffset, nullptr);
+                    mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::Pullring_Farms_Idle, nullptr);
                 }
                 else
                 {
-                    const AnimRecord& rec = AO::AnimRec(AnimId::Pullring_Desert_Idle);
-                    mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(rec.mFrameTableOffset, nullptr);
+                    mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::Pullring_Desert_Idle, nullptr);
                 }
             }
             break;

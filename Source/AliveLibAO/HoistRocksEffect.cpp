@@ -18,12 +18,12 @@ HoistParticle::HoistParticle(FP xpos, FP ypos, FP scale, s32 frameTableOffset)
     mBaseAnimatedWithPhysicsGameObject_XPos = xpos;
     mBaseAnimatedWithPhysicsGameObject_YPos = ypos;
     u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kHoistRocksAOResID, 1, 0);
-    s32 maxW = 7;
+    u16 maxW = 7;
     if (gMap.mCurrentLevel == EReliveLevelIds::eRuptureFarms || gMap.mCurrentLevel == EReliveLevelIds::eRuptureFarmsReturn)
     {
         maxW = 5;
     }
-    Animation_Init_417FD0(frameTableOffset, maxW, 4, ppRes, 1);
+    Animation_Init(frameTableOffset, maxW, 4, ppRes, 1);
 
     mBaseAnimatedWithPhysicsGameObject_SpriteScale = scale;
 

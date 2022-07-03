@@ -14,7 +14,7 @@ Sparks::Sparks(FP xpos, FP ypos, FP scale)
 
     const AnimRecord& rec = AO::AnimRec(AnimId::Zap_Sparks);
     u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
-    Animation_Init_417FD0(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
+    Animation_Init(AnimId::Zap_Sparks, ppRes, 1);
 
     mBaseAnimatedWithPhysicsGameObject_Anim.mBlue = 80;
     mBaseAnimatedWithPhysicsGameObject_Anim.mGreen = 80;
@@ -44,8 +44,7 @@ void Sparks::VUpdate()
 
     if (mSparkTimer == 0)
     {
-        const AnimRecord& rec = AO::AnimRec(AnimId::ChantOrb_Particle);
-        mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(rec.mFrameTableOffset, 0);
+        mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::ChantOrb_Particle, nullptr);
         mSparkTimer = -1;
     }
 

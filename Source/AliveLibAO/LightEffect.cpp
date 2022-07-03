@@ -17,7 +17,7 @@ LightEffect::LightEffect(Path_LightEffect* pTlv, s32 tlvInfo)
 
     const AnimRecord rec = AO::AnimRec(AnimId::Star);
     u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
-    Animation_Init_417FD0(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
+    Animation_Init(AnimId::Star, ppRes, 1);
 
     field_EC_rnd1 = sGnFrame + Math_RandomRange(2, 8);
     field_F0_rnd2 = field_EC_rnd1 + Math_RandomRange(4, 8);

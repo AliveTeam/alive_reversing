@@ -48,10 +48,8 @@ FallingItem::FallingItem(Path_FallingItem* pTlv, s32 tlvInfo)
     const s32 lvlIdx = static_cast<s32>(MapWrapper::ToAO(gMap.mCurrentLevel));
     const AnimRecord& rec = AO::AnimRec(sFallingItemData_4BAB20[lvlIdx].field_0_falling_animId);
     u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
-    Animation_Init_417FD0(
-        rec.mFrameTableOffset,
-        rec.mMaxW,
-        rec.mMaxH,
+    Animation_Init(
+        sFallingItemData_4BAB20[lvlIdx].field_0_falling_animId,
         ppRes,
         1);
 
@@ -176,8 +174,7 @@ void FallingItem::VUpdate()
             field_110_state = State::eWaitForFallDelay_2;
             mBaseAnimatedWithPhysicsGameObject_VelX = FP_FromInteger(0);
             mBaseAnimatedWithPhysicsGameObject_VelY = FP_FromInteger(0);
-            const AnimRecord& rec = AO::AnimRec(sFallingItemData_4BAB20[static_cast<s32>(MapWrapper::ToAO(gMap.mCurrentLevel))].field_4_waiting_animId);
-            mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(rec.mFrameTableOffset, nullptr);
+            mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(sFallingItemData_4BAB20[static_cast<s32>(MapWrapper::ToAO(gMap.mCurrentLevel))].field_4_waiting_animId, nullptr);
             field_11C_delay_timer = sGnFrame + field_118_fall_interval;
             break;
         }
@@ -312,8 +309,7 @@ void FallingItem::VUpdate()
             }
             else
             {
-                const AnimRecord& rec = AO::AnimRec(sFallingItemData_4BAB20[static_cast<s32>(MapWrapper::ToAO(gMap.mCurrentLevel))].field_0_falling_animId);
-                mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(rec.mFrameTableOffset, nullptr);
+                mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(sFallingItemData_4BAB20[static_cast<s32>(MapWrapper::ToAO(gMap.mCurrentLevel))].field_0_falling_animId, nullptr);
                 mBaseGameObjectFlags.Set(Options::eCanExplode_Bit7);
                 mBaseAnimatedWithPhysicsGameObject_VelY = FP_FromInteger(0);
                 mBaseAnimatedWithPhysicsGameObject_VelX = FP_FromInteger(0);

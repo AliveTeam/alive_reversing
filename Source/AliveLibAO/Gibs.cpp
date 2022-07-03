@@ -41,17 +41,10 @@ Gibs::Gibs(GibType gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scale)
 {
     field_E4_pGibData = &kGibData_4C30B0[gibType];
     const AnimRecord& headRec = AO::AnimRec(field_E4_pGibData->field_0_head);
-    const AnimRecord& armRec = AO::AnimRec(field_E4_pGibData->field_4_arm);
-    const AnimRecord& bodyRec = AO::AnimRec(field_E4_pGibData->field_8_body);
     u8** ppAnimData = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, headRec.mResourceId, 1, 0);
 
     // The base class renders the head gib
-    Animation_Init_417FD0(
-        headRec.mFrameTableOffset,
-        static_cast<s16>(headRec.mMaxW),
-        static_cast<s16>(headRec.mMaxH),
-        ppAnimData,
-        1);
+    Animation_Init(field_E4_pGibData->field_0_head, ppAnimData, 1);
 
     mBaseAnimatedWithPhysicsGameObject_SpriteScale = scale;
     mBaseAnimatedWithPhysicsGameObject_XPos = xpos;
@@ -119,13 +112,7 @@ Gibs::Gibs(GibType gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scale)
         if (i < 2)
         {
             // 2 arm parts
-            if (!pPart->field_18_animation.Init(
-                    armRec.mFrameTableOffset,
-                    gAnimations,
-                    this,
-                    static_cast<s16>(armRec.mMaxW),
-                    static_cast<s16>(armRec.mMaxH),
-                    ppAnimData))
+            if (!pPart->field_18_animation.Init(field_E4_pGibData->field_4_arm, this, ppAnimData))
             {
                 field_5C4_parts_used_count = i;
                 mBaseGameObjectFlags.Set(BaseGameObject::eDead);
@@ -135,13 +122,7 @@ Gibs::Gibs(GibType gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scale)
         else
         {
             // 2 body parts
-            if (!pPart->field_18_animation.Init(
-                    bodyRec.mFrameTableOffset,
-                    gAnimations,
-                    this,
-                    static_cast<s16>(bodyRec.mMaxW),
-                    static_cast<s16>(bodyRec.mMaxH),
-                    ppAnimData))
+            if (!pPart->field_18_animation.Init(field_E4_pGibData->field_8_body, this, ppAnimData))
             {
                 field_5C4_parts_used_count = i;
                 mBaseGameObjectFlags.Set(BaseGameObject::eDead);

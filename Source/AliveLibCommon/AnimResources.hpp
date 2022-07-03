@@ -102,6 +102,7 @@ enum class AnimId
 
     Bat_Flying,
     Bat,
+    Bat_Unknown,
     Bee_Swarm,
 
     Fleech_Climb,
@@ -643,6 +644,7 @@ enum class AnimId
     Background_Glukkon_Laugh,
     Background_Glukkon_KillHim1,
     Background_Glukkon_KillHim2,
+    Background_Glukkon_Dying,
     BellHammer_Idle,
     BellHammer_Smashing,
     ObjectShadow,
@@ -806,6 +808,7 @@ enum class AnimId
     Foot_Switch_Industrial_Idle,
     Foot_Switch_Industrial_Pressed,
     Foot_Switch_Temple,
+    Foot_Switch_Temple_Pressed,
     Foot_Switch_Vault_Idle,
     Foot_Switch_Vault_Pressed,
     Grenade,

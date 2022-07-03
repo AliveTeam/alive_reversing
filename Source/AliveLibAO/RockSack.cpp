@@ -45,7 +45,7 @@ void RockSack::VUpdate()
         {
             if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
             {
-                mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(13756, 0);
+                mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::RockSack_Idle, nullptr);
                 field_110_has_been_hit = 0;
             }
         }
@@ -90,13 +90,11 @@ void RockSack::VUpdate()
 
             if (sActiveHero_507678->mCurrentMotion == eAbeMotions::Motion_33_RunJumpMid_426FA0)
             {
-                const AnimRecord& hardHitRec = AO::AnimRec(AnimId::RockSack_HardHit);
-                mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(hardHitRec.mFrameTableOffset, 0);
+                mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::RockSack_HardHit, nullptr);
             }
             else
             {
-                const AnimRecord& softHitRec = AO::AnimRec(AnimId::RockSack_SoftHit);
-                mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(softHitRec.mFrameTableOffset, 0);
+                mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::RockSack_SoftHit, nullptr);
             }
 
             field_110_has_been_hit = 1;
@@ -121,7 +119,7 @@ RockSack::RockSack(Path_RockSack* pTlv, s32 tlvInfo)
     auto pAnimationHeader = reinterpret_cast<AnimationHeader*>(*ppRes + 6878); // TODO: frametableoffset
     pAnimationHeader->field_0_fps = 0;
 
-    Animation_Init_417FD0(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
+    Animation_Init(AnimId::RockSack_Idle, ppRes, 1);
 
     mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit15_bSemiTrans);
 

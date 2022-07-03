@@ -63,7 +63,7 @@ const TParamiteMotionFunction sParamiteMotionTable_4CDCB0[] = {
     &Paramite::Motion_25_Death,
 };
 
-const static AnimId sParamiteAnimIdTable_4CDD18[] = {
+const static AnimId sParamiteMotionAnimIds[] = {
     AnimId::Paramite_Idle,
     AnimId::Paramite_WalkBegin,
     AnimId::Paramite_Walking,
@@ -121,8 +121,7 @@ Paramite::Paramite(Path_Paramite* pTlv, s32 tlvInfo)
 
     ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kWebAOResID, 1, 0);
 
-    const AnimRecord& rec = AO::AnimRec(AnimId::Paramite_Idle);
-    Animation_Init_417FD0(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, field_150_resources[0], 1);
+    Animation_Init(AnimId::Paramite_Idle, field_150_resources[0], 1);
 
     field_12A_res_idx = 0;
 
@@ -665,9 +664,8 @@ s16 Paramite::ToNextMotion()
 
 void Paramite::VUpdateAnimData()
 {
-    const AnimRecord& rec = AO::AnimRec(sParamiteAnimIdTable_4CDD18[mCurrentMotion]);
     mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(
-        rec.mFrameTableOffset,
+        sParamiteMotionAnimIds[mCurrentMotion],
         ResBlockForMotion(mCurrentMotion));
 }
 

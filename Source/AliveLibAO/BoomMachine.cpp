@@ -32,8 +32,7 @@ public:
                 if (static_cast<s32>(sGnFrame) > field_E8_timer)
                 {
                     field_E4_state = BoomMachineStates::eDropGrenade_3;
-                    const AnimRecord& rec = AO::AnimRec(AnimId::BoomMachine_Nozzle_DropGrenade);
-                    mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(rec.mFrameTableOffset, nullptr);
+                    mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::BoomMachine_Nozzle_DropGrenade, nullptr);
                 }
                 break;
 
@@ -66,8 +65,7 @@ public:
                         pNewNade->VThrow(mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX) ? FP_FromDouble(-0.75) : FP_FromDouble(0.75), FP_FromInteger(3));
                     }
 
-                    const AnimRecord& rec = AO::AnimRec(AnimId::BoomMachine_Nozzle_Idle);
-                    mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(rec.mFrameTableOffset, nullptr);
+                    mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::BoomMachine_Nozzle_Idle, nullptr);
                     field_E4_state = BoomMachineStates::eInactive_0;
                 }
                 break;
@@ -124,8 +122,7 @@ void BoomMachine::VUpdate()
         if (!gpThrowableArray_50E26C || gpThrowableArray_50E26C->field_10_count == 0)
         {
             field_E8_bIsButtonOn = 1;
-            const AnimRecord& rec = AO::AnimRec(AnimId::BoomMachine_Button_On);
-            mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(rec.mFrameTableOffset, nullptr);
+            mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::BoomMachine_Button_On, nullptr);
         }
     }
     else if (field_E8_bIsButtonOn == 1)
@@ -133,8 +130,7 @@ void BoomMachine::VUpdate()
         if (gpThrowableArray_50E26C && gpThrowableArray_50E26C->field_10_count > 0)
         {
             field_E8_bIsButtonOn = 0;
-            const AnimRecord& rec = AO::AnimRec(AnimId::BoomMachine_Button_Off);
-            mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(rec.mFrameTableOffset, nullptr);
+            mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::BoomMachine_Button_Off, nullptr);
         }
 
         if (mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame == 3)
@@ -161,7 +157,7 @@ BoomMachine::BoomMachine(Path_BoomMachine* pTlv, s32 tlvInfo)
 
     const AnimRecord rec = AO::AnimRec(AnimId::BoomMachine_Button_On);
     u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
-    Animation_Init_417FD0(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
+    Animation_Init(AnimId::BoomMachine_Button_On, ppRes, 1);
 
     mVisualFlags.Clear(VisualFlags::eApplyShadowZoneColour);
     field_E4_tlvInfo = tlvInfo;
@@ -190,7 +186,7 @@ BoomMachine::BoomMachine(Path_BoomMachine* pTlv, s32 tlvInfo)
 
         const AnimRecord rec2 = AO::AnimRec(AnimId::BoomMachine_Nozzle_Idle);
         u8** ppRes2 = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec2.mResourceId, 1, 0);
-        pNozzle->Animation_Init_417FD0(rec2.mFrameTableOffset, rec2.mMaxW, rec2.mMaxH, ppRes2, 1);
+        pNozzle->Animation_Init(AnimId::BoomMachine_Nozzle_Idle, ppRes2, 1);
 
         pNozzle->mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit15_bSemiTrans);
         pNozzle->mBaseAnimatedWithPhysicsGameObject_SpriteScale = mBaseAnimatedWithPhysicsGameObject_SpriteScale;
@@ -209,7 +205,7 @@ BoomMachine::BoomMachine(Path_BoomMachine* pTlv, s32 tlvInfo)
     if (gpThrowableArray_50E26C && gpThrowableArray_50E26C->field_10_count)
     {
         field_E8_bIsButtonOn = 1;
-        mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(1572, 0);
+        mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::BoomMachine_Button_On, nullptr);
     }
     else
     {
