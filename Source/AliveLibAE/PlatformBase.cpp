@@ -24,7 +24,7 @@ void PlatformBase::VRemove(BaseAliveGameObject* pObj)
     vRemoveCount(pObj);
 }
 
-void PlatformBase::AddDynamicCollision(s32 frameTableOffset, s32 maxW, u16 maxH, u8** ppAnimData, Path_TLV* pTlv, Map* /*pMap*/, s32 tlvInfo)
+void PlatformBase::AddDynamicCollision(AnimId animId, u8** ppAnimData, Path_TLV* pTlv, s32 tlvInfo)
 {
     mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pTlv->mTopLeft.x);
     mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->mTopLeft.y);
@@ -36,9 +36,7 @@ void PlatformBase::AddDynamicCollision(s32 frameTableOffset, s32 maxW, u16 maxH,
 
     mPlatformBaseCount = 0;
     Animation_Init(
-        frameTableOffset,
-        maxW,
-        maxH,
+        animId,
         ppAnimData,
         1);
 

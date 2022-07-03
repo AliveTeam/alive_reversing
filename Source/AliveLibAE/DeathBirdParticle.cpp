@@ -13,7 +13,7 @@ DeathBirdParticle::DeathBirdParticle(FP xpos, FP ypos, s32 start, bool bPlaySoun
 
     const AnimRecord& rec = AnimRec(AnimId::DeathFlare_1);
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
-    Animation_Init(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
+    Animation_Init(AnimId::DeathFlare_1, ppRes, 1);
 
     if (mBaseGameObjectFlags.Get(BaseGameObject::eListAddFailed_Bit1))
     {
@@ -52,7 +52,7 @@ void DeathBirdParticle::VUpdate()
             if (static_cast<s32>(sGnFrame) > field_F8_start)
             {
                 // Death "star"
-                mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(9912, 0);
+                mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::DeathFlare_2, nullptr);
                 field_F5_state = States::eTransformStarsToDoves_1;
             }
             break;
@@ -63,10 +63,7 @@ void DeathBirdParticle::VUpdate()
             {
                 // Yes so magic it into a dove
                 auto pDove = relive_new Dove(
-                    5516, // TODO: Hard coded frame table
-                    41,
-                    20,
-                    60,
+                    AnimId::Dove_Flying,
                     mBaseAnimatedWithPhysicsGameObject_XPos,
                     mBaseAnimatedWithPhysicsGameObject_YPos - FP_FromInteger(15),
                     mBaseAnimatedWithPhysicsGameObject_SpriteScale);

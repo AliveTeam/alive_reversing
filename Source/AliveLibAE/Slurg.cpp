@@ -155,8 +155,7 @@ Slurg::~Slurg()
 void Slurg::Burst()
 {
     mSlurgState = SlurgStates::eBurst_2;
-    const AnimRecord& animRec = AnimRec(AnimId::Slurg_Burst);
-    mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
+    mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::Slurg_Burst, nullptr);
 
     relive_new Blood(mBaseAnimatedWithPhysicsGameObject_XPos,
                                 mBaseAnimatedWithPhysicsGameObject_YPos,
@@ -186,8 +185,7 @@ void Slurg::VUpdate()
     {
         mMovingTimer = Math_RandomRange(mRngForMovingTimer, mRngForMovingTimer + 20);
         mSlurgState = SlurgStates::ePausing_1;
-        const AnimRecord& animRec = AnimRec(AnimId::Slurg_Turn_Around);
-        mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
+        mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::Slurg_Turn_Around, nullptr);
     }
 
     const PSX_RECT bRect = VGetBoundingRect();
@@ -236,8 +234,7 @@ void Slurg::VUpdate()
             if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
             {
                 mSlurgState = SlurgStates::eMoving_0;
-                const AnimRecord& animRec = AnimRec(AnimId::Slurg_Move);
-                mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
+                mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::Slurg_Move, nullptr);
             }
             break;
 
@@ -348,8 +345,7 @@ void Slurg::GoLeft()
     mSlurgFlags.Clear(SlurgFlags::eGoingRight);
 
     mSlurgState = SlurgStates::ePausing_1;
-    const AnimRecord& animRec = AnimRec(AnimId::Slurg_Turn_Around);
-    mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
+    mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::Slurg_Turn_Around, nullptr);
 }
 
 void Slurg::GoRight()
@@ -358,6 +354,5 @@ void Slurg::GoRight()
     mSlurgFlags.Set(SlurgFlags::eGoingRight);
 
     mSlurgState = SlurgStates::ePausing_1;
-    const AnimRecord& animRec = AnimRec(AnimId::Slurg_Turn_Around);
-    mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
+    mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::Slurg_Turn_Around, nullptr);
 }

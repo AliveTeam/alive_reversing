@@ -120,17 +120,14 @@ void BaseAnimatedWithPhysicsGameObject::VRender(PrimHeader** ppOt)
     }
 }
 
-
-void BaseAnimatedWithPhysicsGameObject::Animation_Init(s32 frameTableOffset, s32 maxW, s32 maxH, u8** ppAnimData, s16 bAddToDrawableList)
+void BaseAnimatedWithPhysicsGameObject::Animation_Init(s32 frametableoffset, u16 maxW, u16 maxH, u8** ppAnimData, bool bAddToDrawableList)
 {
-    FrameTableOffsetExists(frameTableOffset, true, maxW, maxH);
     if (mBaseAnimatedWithPhysicsGameObject_Anim.Init(
-            frameTableOffset,
-            gAnimations,
-            this,
-            static_cast<s16>(maxW),
-            static_cast<s16>(maxH),
-            ppAnimData))
+        frametableoffset,
+        maxW,
+        maxH,
+        this,
+        ppAnimData))
     {
         if (mBaseAnimatedWithPhysicsGameObject_SpriteScale == FP_FromInteger(1))
         {
@@ -165,6 +162,12 @@ void BaseAnimatedWithPhysicsGameObject::Animation_Init(s32 frameTableOffset, s32
         mBaseGameObjectFlags.Set(BaseGameObject::eListAddFailed_Bit1);
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
+}
+
+void BaseAnimatedWithPhysicsGameObject::Animation_Init(AnimId animId, u8** ppAnimData, bool bAddToDrawableList)
+{
+    const AnimRecord& anim = AnimRec(animId);
+    Animation_Init(anim.mFrameTableOffset, anim.mMaxW, anim.mMaxH, ppAnimData, bAddToDrawableList);
 }
 
 CameraPos BaseAnimatedWithPhysicsGameObject::Is_In_Current_Camera()

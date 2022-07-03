@@ -19,7 +19,7 @@ public:
     {
         const AnimRecord& rec = AnimRec(AnimId::BoomMachine_Nozzle_Idle);
         u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
-        Animation_Init(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
+        Animation_Init(AnimId::BoomMachine_Nozzle_Idle, ppRes, 1);
 
         mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit15_bSemiTrans);
         mVisualFlags.Clear(VisualFlags::eApplyShadowZoneColour);
@@ -72,8 +72,7 @@ private:
                 if (static_cast<s32>(sGnFrame) > field_F8_timer)
                 {
                     field_F4_state = BoomMachineStates::eDropGrenade_3;
-                    const AnimRecord& animRec = AnimRec(AnimId::BoomMachine_Nozzle_DropGrenade);
-                    mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
+                    mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::BoomMachine_Nozzle_DropGrenade, nullptr);
                 }
                 break;
 
@@ -108,8 +107,7 @@ private:
  
                     pGrenade->VThrow((mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX)) != 0 ? -FP_FromDouble(0.75) : FP_FromDouble(0.75), FP_FromInteger(3));
 
-                    const AnimRecord& animRec = AnimRec(AnimId::BoomMachine_Nozzle_Idle);
-                    mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
+                    mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::BoomMachine_Nozzle_Idle, nullptr);
                     field_F4_state = BoomMachineStates::eInactive_0;
                 }
                 break;
@@ -117,9 +115,9 @@ private:
     }
 
 private:
-    BoomMachineStates field_F4_state;
-    s32 field_F8_timer;
-    s16 field_FC_numGrenades;
+    BoomMachineStates field_F4_state = BoomMachineStates::eInactive_0;
+    s32 field_F8_timer = 0;
+    s16 field_FC_numGrenades = 0;
 };
 ALIVE_ASSERT_SIZEOF(GrenadeMachineNozzle, 0x100);
 
@@ -130,7 +128,7 @@ BoomMachine::BoomMachine(Path_BoomMachine* pTlv, s32 tlvInfo)
 
     const AnimRecord& rec = AnimRec(AnimId::BoomMachine_Button_Off);
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
-    Animation_Init(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
+    Animation_Init(AnimId::BoomMachine_Button_Off, ppRes, 1);
 
     mVisualFlags.Clear(VisualFlags::eApplyShadowZoneColour);
     field_F4_tlvInfo = tlvInfo;
@@ -162,8 +160,7 @@ BoomMachine::BoomMachine(Path_BoomMachine* pTlv, s32 tlvInfo)
     if (gpThrowableArray_5D1E2C && gpThrowableArray_5D1E2C->field_20_count)
     {
         field_FC_bIsButtonOn = 1;
-        const AnimRecord& animRec = AnimRec(AnimId::BoomMachine_Button_On);
-        mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
+        mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::BoomMachine_Button_On, nullptr);
     }
     else
     {
@@ -183,8 +180,7 @@ void BoomMachine::VUpdate()
         if (!gpThrowableArray_5D1E2C || gpThrowableArray_5D1E2C->field_20_count == 0)
         {
             field_FC_bIsButtonOn = 1;
-            const AnimRecord& animRec = AnimRec(AnimId::BoomMachine_Button_On);
-            mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
+            mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::BoomMachine_Button_On, nullptr);
         }
     }
     else if (field_FC_bIsButtonOn)
@@ -192,8 +188,7 @@ void BoomMachine::VUpdate()
         if (gpThrowableArray_5D1E2C && gpThrowableArray_5D1E2C->field_20_count > 0)
         {
             field_FC_bIsButtonOn = 0;
-            const AnimRecord& animRec = AnimRec(AnimId::BoomMachine_Button_Off);
-            mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
+            mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::BoomMachine_Button_Off, nullptr);
         }
 
         if (mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame == 3)

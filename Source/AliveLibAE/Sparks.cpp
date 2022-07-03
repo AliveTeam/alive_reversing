@@ -40,8 +40,7 @@ void Sparks::VUpdate()
 
     if (mSparkTimer == 0)
     {
-        const AnimRecord& animRec = AnimRec(AnimId::Sparks);
-        mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
+        mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::Sparks, nullptr);
         mSparkTimer = -1;
     }
 

@@ -175,7 +175,7 @@ void TimedMine::VRender(PrimHeader** ppOt)
 void TimedMine::InitTickAnimation()
 {
     const AnimRecord& tickRec = AnimRec(AnimId::Bomb_RedGreenTick);
-    if (mTickAnim.Init(tickRec.mFrameTableOffset, gAnimations, this, tickRec.mMaxW, tickRec.mMaxH, Add_Resource(ResourceManager::Resource_Animation, tickRec.mResourceId)))
+    if (mTickAnim.Init(AnimId::Bomb_RedGreenTick, this, Add_Resource(ResourceManager::Resource_Animation, tickRec.mResourceId)))
     {
         mTickAnim.mRenderLayer = mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer;
         mTickAnim.mAnimFlags.Set(AnimFlags::eBit15_bSemiTrans);
@@ -319,11 +319,9 @@ void TimedMine::VOnPickUpOrSlapped()
             mSingleTickTimer = mTicksUntilExplosion >> 2;
         }
         mOldGnFrame = sGnFrame;
-        const AnimRecord& animRec = AnimRec(AnimId::TimedMine_Activated);
-        mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
-        const AnimRecord& flashRec = AnimRec(AnimId::Bomb_Flash);
+        mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::TimedMine_Activated, nullptr);
         mExplosionTimer = sGnFrame + mTicksUntilExplosion;
-        mTickAnim.Set_Animation_Data(flashRec.mFrameTableOffset, 0);
+        mTickAnim.Set_Animation_Data(AnimId::Bomb_Flash, nullptr);
         SfxPlayMono(SoundEffect::GreenTick_2, 0);
     }
 }

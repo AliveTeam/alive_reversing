@@ -235,7 +235,7 @@ FlyingSlig::FlyingSlig(Path_FlyingSlig* pTlv, s32 tlvInfo)
     mShadow = relive_new Shadow();
 }
 
-const AnimId sFlyingSligFrameTables_552408[28] = {
+const AnimId sFlyingSligAnimIdTable[28] = {
     AnimId::FlyingSlig_Idle,
     AnimId::FlyingSlig_MoveHorizontal,
     AnimId::FlyingSlig_IdleTurnAround,
@@ -339,8 +339,7 @@ s32 FlyingSlig::CreateFromSaveState(const u8* pBuffer)
         pFlyingSlig->mCurrentMotion = pSaveState->field_24_current_state;
 
         u8** ppRes = pFlyingSlig->ResBlockForMotion_4350F0(pSaveState->field_24_current_state);
-        const AnimRecord& animRec = AnimRec(sFlyingSligFrameTables_552408[pFlyingSlig->mCurrentMotion]);
-        pFlyingSlig->mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(animRec.mFrameTableOffset, ppRes);
+        pFlyingSlig->mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(sFlyingSligAnimIdTable[pFlyingSlig->mCurrentMotion], ppRes);
 
         pFlyingSlig->mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame = pSaveState->field_26_current_frame;
 
@@ -2384,8 +2383,7 @@ void FlyingSlig::ToPossesed_436130()
 void FlyingSlig::vUpdateAnimRes_4350A0()
 {
     u8** ppRes = ResBlockForMotion_4350F0(mCurrentMotion);
-    const AnimRecord& animRec = AnimRec(sFlyingSligFrameTables_552408[mCurrentMotion]);
-    mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(animRec.mFrameTableOffset, ppRes);
+    mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(sFlyingSligAnimIdTable[mCurrentMotion], ppRes);
 }
 
 void FlyingSlig::PatrolDelay_435860()

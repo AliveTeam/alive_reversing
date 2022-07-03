@@ -300,8 +300,7 @@ void Greeter::ChangeDirection()
 {
     field_13C_brain_state = GreeterBrainStates::eBrain_1_PatrolTurn;
     mBaseAnimatedWithPhysicsGameObject_VelX = FP_FromInteger(0);
-    const AnimRecord& animRec = AnimRec(AnimId::Greeter_Turn);
-    mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
+    mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::Greeter_Turn, nullptr);
     field_124_last_turn_time = sGnFrame;
 }
 
@@ -321,8 +320,7 @@ void Greeter::BounceBackFromShot()
     field_13E_targetOnLeft = 0;
     field_140_targetOnRight = 0;
 
-    const AnimRecord& animRec = AnimRec(AnimId::Greeter_Hit);
-    mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
+    mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::Greeter_Hit, nullptr);
 
     const CameraPos soundDirection = gMap.GetDirection(mBaseAnimatedWithPhysicsGameObject_LvlNumber, mBaseAnimatedWithPhysicsGameObject_PathNumber, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos);
     SFX_Play_Camera(SoundEffect::GreeterKnockback_121, 0, soundDirection, mBaseAnimatedWithPhysicsGameObject_SpriteScale);
@@ -518,8 +516,7 @@ void Greeter::RandomishSpeak(GreeterSpeak effect)
 {
     field_13C_brain_state = GreeterBrainStates::eBrain_2_Speak;
     mBaseAnimatedWithPhysicsGameObject_VelX = FP_FromInteger(0);
-    const AnimRecord& animRec = AnimRec(AnimId::Greeter_Speak);
-    mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
+    mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::Greeter_Speak, nullptr);
     field_120_unused = sGnFrame + 25;
 
     if (effect == GreeterSpeak::eRandomized_1000)
@@ -640,8 +637,7 @@ void Greeter::VUpdate()
             if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
             {
                 field_13C_brain_state = GreeterBrainStates::eBrain_0_Patrol;
-                const AnimRecord& animRec = AnimRec(AnimId::Greeter_Moving);
-                mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
+                mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::Greeter_Moving, nullptr);
                 mBaseAnimatedWithPhysicsGameObject_VelY = FP_FromInteger(0);
                 field_13E_targetOnLeft = 0;
                 field_140_targetOnRight = 0;
@@ -661,8 +657,7 @@ void Greeter::VUpdate()
             {
                 field_130_bChasing = 0;
                 field_13C_brain_state = GreeterBrainStates::eBrain_0_Patrol;
-                const AnimRecord& animRec = AnimRec(AnimId::Greeter_Moving);
-                mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
+                mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::Greeter_Moving, nullptr);
                 mBaseAnimatedWithPhysicsGameObject_VelY = FP_FromInteger(0);
                 field_128_timer = sGnFrame + Math_RandomRange(160, 200);
             }
@@ -673,8 +668,7 @@ void Greeter::VUpdate()
             {
                 field_130_bChasing = 1;
                 field_13C_brain_state = GreeterBrainStates::eBrain_4_Chase;
-                const AnimRecord& animRec = AnimRec(AnimId::Greeter_Chase);
-                mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
+                mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::Greeter_Chase, nullptr);
                 mBaseAnimatedWithPhysicsGameObject_VelY = FP_FromInteger(0);
             }
             break;
@@ -776,14 +770,12 @@ void Greeter::VUpdate()
                     if (!field_130_bChasing)
                     {
                         field_13C_brain_state = GreeterBrainStates::eBrain_0_Patrol;
-                        const AnimRecord& animRec = AnimRec(AnimId::Greeter_Moving);
-                        mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
+                        mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::Greeter_Moving, nullptr);
                     }
                     else
                     {
                         field_13C_brain_state = GreeterBrainStates::eBrain_4_Chase;
-                        const AnimRecord& animRec = AnimRec(AnimId::Greeter_Chase);
-                        mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
+                        mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::Greeter_Chase, nullptr);
                     }
                 }
             }
@@ -834,8 +826,7 @@ void Greeter::VUpdate()
         if (Check_IsOnEndOfLine(0, 0))
         {
             field_13C_brain_state = GreeterBrainStates::eBrain_7_Fall;
-            const AnimRecord& animRec = AnimRec(AnimId::Greeter_Falling);
-            mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
+            mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::Greeter_Falling, nullptr);
         }
     }
 

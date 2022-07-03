@@ -44,7 +44,7 @@ void TorturedMudokon::SetupTearsAnimation(Animation* pAnim)
 {
     const AnimRecord& rec = AnimRec(AnimId::Tortured_Mudokon_Tears);
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
-    if (pAnim->Init(rec.mFrameTableOffset, gAnimations, this, rec.mMaxW, rec.mMaxH, ppRes))
+    if (pAnim->Init(AnimId::Tortured_Mudokon_Tears, this, ppRes))
     {
         pAnim->mRenderLayer = mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer;
         pAnim->field_14_scale = mBaseAnimatedWithPhysicsGameObject_SpriteScale;
@@ -62,7 +62,7 @@ void TorturedMudokon::SetupZapAnimation(Animation* pAnim)
 {
     const AnimRecord& rec = AnimRec(AnimId::Electric_Wall);
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
-    if (pAnim->Init(rec.mFrameTableOffset, gAnimations, this, rec.mMaxW, rec.mMaxH, ppRes))
+    if (pAnim->Init(AnimId::Electric_Wall, this, ppRes))
     {
         // TODO: clean this up
         const s32 layerM1 = static_cast<s32>(mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer) - 1;
@@ -154,8 +154,7 @@ void TorturedMudokon::VUpdate()
             if (SwitchStates_Get(field_23A_kill_switch_id))
             {
                 field_23E_state = TorturedMudokonState::eKilled_1;
-                const AnimRecord& animRec = AnimRec(AnimId::Tortured_Mudokon_Zap);
-                mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
+                mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::Tortured_Mudokon_Zap, nullptr);
             }
             break;
 
@@ -240,8 +239,7 @@ void TorturedMudokon::VUpdate()
     if (SwitchStates_Get(field_23C_release_switch_id))
     {
         field_23E_state = TorturedMudokonState::eReleased_2;
-        const AnimRecord& animRec = AnimRec(AnimId::Tortured_Mudokon_Released);
-        mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
+        mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::Tortured_Mudokon_Released, nullptr);
         field_F4_tears_animation.mAnimFlags.Clear(AnimFlags::eBit3_Render);
         field_18C_zap_animation.mAnimFlags.Clear(AnimFlags::eBit3_Render);
         Path_TLV* pTlv = sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam(field_230_tlvInfo);

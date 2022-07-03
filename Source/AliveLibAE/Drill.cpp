@@ -116,13 +116,11 @@ Drill::Drill(Path_Drill* pTlv, u32 tlvInfo)
 
             if (field_128_flags.Get(Flags::eBit2_ToggleStartState_StartOn))
             {
-                const AnimRecord& animRec = AnimRec(AnimId::Drill_Vertical_On);
-                mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
+                mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::Drill_Vertical_On, nullptr);
             }
             else
             {
-                const AnimRecord& animRec = AnimRec(AnimId::Drill_Vertical_Off);
-                mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
+                mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::Drill_Vertical_Off, nullptr);
             }
 
             mDrillDistance = pTlv->mBottomRight.y - pTlv->mTopLeft.y;
@@ -144,13 +142,11 @@ Drill::Drill(Path_Drill* pTlv, u32 tlvInfo)
 
             if (field_128_flags.Get(Flags::eBit2_ToggleStartState_StartOn))
             {
-                const AnimRecord& animRec = AnimRec(AnimId::Drill_Horizontal_On);
-                mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
+                mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::Drill_Horizontal_On, nullptr);
             }
             else
             {
-                const AnimRecord& animRec = AnimRec(AnimId::Drill_Horizontal_Off);
-                mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
+                mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::Drill_Horizontal_Off, nullptr);
             }
 
             mDrillDistance = pTlv->mBottomRight.x - pTlv->mTopLeft.x;
@@ -174,13 +170,11 @@ Drill::Drill(Path_Drill* pTlv, u32 tlvInfo)
 
             if (field_128_flags.Get(Flags::eBit2_ToggleStartState_StartOn))
             {
-                const AnimRecord& animRec = AnimRec(AnimId::Drill_Horizontal_On);
-                mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
+                mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::Drill_Horizontal_On, nullptr);
             }
             else
             {
-                const AnimRecord& animRec = AnimRec(AnimId::Drill_Horizontal_Off);
-                mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
+                mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::Drill_Horizontal_Off, nullptr);
             }
 
             mDrillDistance = pTlv->mBottomRight.x - pTlv->mTopLeft.x;
@@ -271,15 +265,13 @@ s32 Drill::CreateFromSaveState(const u8* pData)
         {
             case DrillDirection::eDown_0:
             {
-                const AnimRecord& animRec = AnimRec(AnimId::Drill_Vertical_On);
-                pDrill->mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
+                pDrill->mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::Drill_Vertical_On, nullptr);
                 break;
             }
             case DrillDirection::eRight_1:
             case DrillDirection::eLeft_2:
             {
-                const AnimRecord& animRec = AnimRec(AnimId::Drill_Horizontal_On);
-                pDrill->mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
+                pDrill->mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::Drill_Horizontal_On, nullptr);
                 break;
             }
         }
@@ -313,15 +305,13 @@ void Drill::VUpdate()
                     {
                         case DrillDirection::eDown_0:
                         {
-                            const AnimRecord& animRec = AnimRec(AnimId::Drill_Vertical_On);
-                            mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
+                            mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::Drill_Vertical_On, nullptr);
                             break;
                         }
                         case DrillDirection::eRight_1:
                         case DrillDirection::eLeft_2:
                         {
-                            const AnimRecord& animRec = AnimRec(AnimId::Drill_Horizontal_On);
-                            mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
+                            mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::Drill_Horizontal_On, nullptr);
                             break;
                         }
                     }
@@ -341,22 +331,19 @@ void Drill::VUpdate()
                 {
                     case DrillDirection::eDown_0:
                     {
-                        const AnimRecord& animRec = AnimRec(AnimId::Drill_Vertical_On);
-                        mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
+                        mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::Drill_Vertical_On, nullptr);
                         break;
                     }
 
                     case DrillDirection::eRight_1:
                     {
-                        const AnimRecord& animRec = AnimRec(AnimId::Drill_Horizontal_On);
-                        mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
+                        mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::Drill_Horizontal_On, nullptr);
                         break;
                     }
 
                     case DrillDirection::eLeft_2:
                     {
-                        const AnimRecord& animRec = AnimRec(AnimId::Drill_Horizontal_On);
-                        mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
+                        mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::Drill_Horizontal_On, nullptr);
                         mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit5_FlipX);
                         break;
                     }
@@ -422,13 +409,11 @@ void Drill::VUpdate()
 
                 if (mDrillDirection == DrillDirection::eDown_0)
                 {
-                    const AnimRecord& animRec = AnimRec(AnimId::Drill_Vertical_Off);
-                    mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
+                    mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::Drill_Vertical_Off, nullptr);
                 }
                 else
                 {
-                    const AnimRecord& animRec = AnimRec(AnimId::Drill_Horizontal_Off);
-                    mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
+                    mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::Drill_Horizontal_Off, nullptr);
                 }
 
                 if (field_128_flags.Get(eBit4_Toggle))

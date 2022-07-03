@@ -180,8 +180,7 @@ void WorkWheel::VStartTurning()
     if (field_FC_state == WheelStates::eIdle_0)
     {
         field_FC_state = WheelStates::eTurning_1;
-        const AnimRecord& animRec = AnimRec(AnimId::Work_Wheel_Turning);
-        mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
+        mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::Work_Wheel_Turning, nullptr);
     }
 }
 
@@ -192,8 +191,7 @@ void WorkWheel::VStopTurning(s16 bResetSwitch)
         field_FC_state = WheelStates::eIdle_0;
 
         // Spin it.
-        const AnimRecord& animRec = AnimRec(AnimId::Work_Wheel_Idle);
-        mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
+        mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::Work_Wheel_Idle, nullptr);
 
         if (field_104_turn_off_when_stopped == Choice_short::eYes_1)
         {

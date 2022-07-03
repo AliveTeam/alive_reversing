@@ -37,9 +37,9 @@ Gibs::Gibs(GibType gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scale, bool b
 {
     field_F4_not_used = nullptr;
 
-    AnimRecord headGib = {};
-    AnimRecord armGib = {};
-    AnimRecord bodyGib = {};
+    AnimId headGib = AnimId::None;
+    AnimId armGib = AnimId::None;
+    AnimId bodyGib = AnimId::None;
 
     switch (gibType)
     {
@@ -47,82 +47,81 @@ Gibs::Gibs(GibType gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scale, bool b
             [[fallthrough]];
 
         case GibType::Mud_3:
-            headGib = AnimRec(AnimId::Abe_Head_Gib);
-            armGib = AnimRec(AnimId::Abe_Arm_Gib);
-            bodyGib = AnimRec(AnimId::Abe_Body_Gib);
+            headGib = AnimId::Abe_Head_Gib;
+            armGib = AnimId::Abe_Arm_Gib;
+            bodyGib = AnimId::Abe_Body_Gib;
             break;
 
         case GibType::Slig_1:
-            headGib = AnimRec(AnimId::Slig_Head_Gib);
-            armGib = AnimRec(AnimId::Slig_Arm_Gib);
-            bodyGib = AnimRec(AnimId::Slig_Body_Gib);
+            headGib = AnimId::Slig_Head_Gib;
+            armGib = AnimId::Slig_Arm_Gib;
+            bodyGib = AnimId::Slig_Body_Gib;
             break;
 
         case GibType::Slog_2:
-            headGib = AnimRec(AnimId::Slog_Head_Gib);
-            armGib = AnimRec(AnimId::Slog_Body_Gib); // No arms
-            bodyGib = AnimRec(AnimId::Slog_Body_Gib);
+            headGib = AnimId::Slog_Head_Gib;
+            armGib = AnimId::Slog_Body_Gib; // No arms
+            bodyGib = AnimId::Slog_Body_Gib;
             break;
 
         case GibType::BlindMud_4:
-            headGib = AnimRec(AnimId::BlindMud_Head_Gib);
-            armGib = AnimRec(AnimId::BlindMud_Arm_Gib);
-            bodyGib = AnimRec(AnimId::BlindMud_Body_Gib);
+            headGib = AnimId::BlindMud_Head_Gib;
+            armGib = AnimId::BlindMud_Arm_Gib;
+            bodyGib = AnimId::BlindMud_Body_Gib;
             break;
 
         case GibType::Metal_5:
             // No body parts, all metal
-            headGib = AnimRec(AnimId::Metal_Gib);
-            armGib = AnimRec(AnimId::Metal_Gib);
-            bodyGib = AnimRec(AnimId::Metal_Gib);
+            headGib = AnimId::Metal_Gib;
+            armGib = AnimId::Metal_Gib;
+            bodyGib = AnimId::Metal_Gib;
             break;
 
         case GibType::Glukkon_6:
-            headGib = AnimRec(AnimId::Glukkon_Head_Gib);
-            armGib = AnimRec(AnimId::Glukkon_Arm_Gib);
-            bodyGib = AnimRec(AnimId::Glukkon_Body_Gib);
+            headGib = AnimId::Glukkon_Head_Gib;
+            armGib = AnimId::Glukkon_Arm_Gib;
+            bodyGib = AnimId::Glukkon_Body_Gib;
             break;
 
         case GibType::Aslik_7:
-            headGib = AnimRec(AnimId::Aslik_Head_Gib);
-            armGib = AnimRec(AnimId::Aslik_Arm_Gib);
-            bodyGib = AnimRec(AnimId::Aslik_Body_Gib);
+            headGib = AnimId::Aslik_Head_Gib;
+            armGib = AnimId::Aslik_Arm_Gib;
+            bodyGib = AnimId::Aslik_Body_Gib;
             break;
 
         case GibType::Dripik_8:
-            headGib = AnimRec(AnimId::Dripik_Head_Gib);
-            armGib = AnimRec(AnimId::Dripik_Arm_Gib);
-            bodyGib = AnimRec(AnimId::Dripik_Body_Gib);
+            headGib = AnimId::Dripik_Head_Gib;
+            armGib = AnimId::Dripik_Arm_Gib;
+            bodyGib = AnimId::Dripik_Body_Gib;
             break;
 
         case GibType::Phleg_9:
-            headGib = AnimRec(AnimId::Phleg_Head_Gib);
-            armGib = AnimRec(AnimId::Phleg_Arm_Gib);
-            bodyGib = AnimRec(AnimId::Phleg_Body_Gib);
+            headGib = AnimId::Phleg_Head_Gib;
+            armGib = AnimId::Phleg_Arm_Gib;
+            bodyGib = AnimId::Phleg_Body_Gib;
             break;
 
         case GibType::Fleech_10:
-            headGib = AnimRec(AnimId::Fleech_Head_Gib);
-            armGib = AnimRec(AnimId::Fleech_Body_Gib); // No arms
-            bodyGib = AnimRec(AnimId::Fleech_Body_Gib);
+            headGib = AnimId::Fleech_Head_Gib;
+            armGib = AnimId::Fleech_Body_Gib; // No arms
+            bodyGib = AnimId::Fleech_Body_Gib;
             break;
     }
 
+    const AnimRecord& headGibRec = AnimRec(headGib);
     // TODO: It is assumed all 3 gib parts have the same resource id - might not be true for mods
-    u8** ppAnimData = Add_Resource(ResourceManager::Resource_Animation, headGib.mResourceId);
+    u8** ppAnimData = Add_Resource(ResourceManager::Resource_Animation, headGibRec.mResourceId);
 
     // TODO: It is assumed all 3 gib parts use the same pal - might not be true for mods
     u8** ppRes = nullptr;
-    if (headGib.mPalOverride != PalId::Default)
+    if (headGibRec.mPalOverride != PalId::Default)
     {
-        ppRes = Add_Resource(ResourceManager::Resource_Palt, PalRec(headGib.mPalOverride).mResourceId);
+        ppRes = Add_Resource(ResourceManager::Resource_Palt, PalRec(headGibRec.mPalOverride).mResourceId);
     }
 
     // The base class renders the head gib
     Animation_Init(
-        headGib.mFrameTableOffset,
-        headGib.mMaxW,
-        headGib.mMaxH,
+        headGib,
         ppAnimData,
         1);
 
@@ -193,11 +192,8 @@ Gibs::Gibs(GibType gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scale, bool b
         {
             // 2 arm parts
             if (!pPart->field_18_animation.Init(
-                    armGib.mFrameTableOffset,
-                    gAnimations,
+                    armGib,
                     this,
-                    armGib.mMaxW,
-                    armGib.mMaxH,
                     ppAnimData))
             {
                 field_5D4_parts_used_count = i;
@@ -209,11 +205,8 @@ Gibs::Gibs(GibType gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scale, bool b
         {
             // 2 body parts
             if (!pPart->field_18_animation.Init(
-                    bodyGib.mFrameTableOffset,
-                    gAnimations,
+                    bodyGib,
                     this,
-                    bodyGib.mMaxW,
-                    bodyGib.mMaxH,
                     ppAnimData))
             {
                 field_5D4_parts_used_count = i;

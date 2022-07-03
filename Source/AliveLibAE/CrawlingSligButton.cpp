@@ -57,8 +57,7 @@ void CrawlingSligButton::UseButton()
     if (!field_102_in_use)
     {
         field_102_in_use = 1;
-        const AnimRecord& rec = AnimRec(AnimId::CrawlingSligButtonUse);
-        mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(rec.mFrameTableOffset, nullptr);
+        mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::CrawlingSligButtonUse, nullptr);
     }
 }
 
@@ -98,7 +97,6 @@ void CrawlingSligButton::VUpdate()
         }
 
         field_102_in_use = 0;
-        const AnimRecord& rec = AnimRec(AnimId::CrawlingSligButton);
-        mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(rec.mFrameTableOffset, nullptr);
+        mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::CrawlingSligButton, nullptr);
     }
 }

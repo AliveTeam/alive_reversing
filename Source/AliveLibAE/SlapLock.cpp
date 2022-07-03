@@ -240,8 +240,7 @@ void SlapLock::VUpdate()
                     return;
                 }
 
-                const AnimRecord& animRec = AnimRec(AnimId::SlapLock_Shaking);
-                mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
+                mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::SlapLock_Shaking, nullptr);
 
                 field_120_state = SlapLockStates::eIdle_1;
                 SfxPlayMono(SoundEffect::SpiritLockShake_105, 0);
@@ -266,8 +265,7 @@ void SlapLock::VUpdate()
                     return;
                 }
 
-                const AnimRecord& animRec = AnimRec(AnimId::SlapLock_Initiate);
-                mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
+                mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::SlapLock_Initiate, nullptr);
 
                 field_120_state = SlapLockStates::eShaking_0;
                 field_124_timer1 = Math_NextRandom() + sGnFrame + 25;
@@ -479,8 +477,7 @@ s16 SlapLock::VTakeDamage(BaseGameObject* pFrom)
         BurstType::eGreenSparks_5,
         11);
 
-    const AnimRecord& animRec = AnimRec(AnimId::SlapLock_Punched);
-    mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
+    mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::SlapLock_Punched, nullptr);
 
     field_118_pTlv->mTlvState = 1;
     return 1;

@@ -46,7 +46,7 @@ const TintEntry kCrawlingSligTints_5514B8[18] = {
     {EReliveLevelIds::eBonewerkz_Ender, 127u, 127u, 127u},
     {EReliveLevelIds::eNone, 127u, 127u, 127u}};
 
-const AnimId sCrawlingSligFrameTableOffsets_551470[18] = {
+const AnimId sCrawlingSligAnimIdTable[18] = {
     AnimId::CrawlingSlig_Idle,
     AnimId::CrawlingSlig_UsingButton,
     AnimId::CrawlingSlig_WakingUp,
@@ -279,8 +279,7 @@ s32 CrawlingSlig::CreateFromSaveState(const u8* pBuffer)
 
         pCrawlingSlig->mCurrentMotion = pState->field_28_current_motion;
 
-        const AnimRecord& rec = AnimRec(sCrawlingSligFrameTableOffsets_551470[pState->field_28_current_motion]);
-        pCrawlingSlig->mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(rec.mFrameTableOffset, nullptr);
+        pCrawlingSlig->mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(sCrawlingSligAnimIdTable[pState->field_28_current_motion], nullptr);
         pCrawlingSlig->mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame = pState->field_2A_anim_cur_frame;
 
         pCrawlingSlig->mBaseAnimatedWithPhysicsGameObject_Anim.mFrameChangeCounter = pState->field_2C_anim_frame_change_counter;
@@ -414,8 +413,7 @@ void CrawlingSlig::VPossessed()
 
 void CrawlingSlig::Set_AnimAndMotion(CrawlingSligMotion currentMotion, s16 bClearNextMotion)
 {
-    const AnimRecord& rec = AnimRec(sCrawlingSligFrameTableOffsets_551470[static_cast<s16>(currentMotion)]);
-    mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(rec.mFrameTableOffset, nullptr);
+    mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(sCrawlingSligAnimIdTable[static_cast<s16>(currentMotion)], nullptr);
     mCurrentMotion = static_cast<s16>(currentMotion);
 
     UpdateAnimBlock();
@@ -434,8 +432,7 @@ void CrawlingSlig::UpdateAnimBlock()
         mCurrentMotion = 0;
         ppRes = GetAnimBlock(0);
     }
-    const AnimRecord& rec = AnimRec(sCrawlingSligFrameTableOffsets_551470[mCurrentMotion]);
-    mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(rec.mFrameTableOffset, ppRes);
+    mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(sCrawlingSligAnimIdTable[mCurrentMotion], ppRes);
 }
 
 u8** CrawlingSlig::GetAnimBlock(s32 /*currentMotion*/)

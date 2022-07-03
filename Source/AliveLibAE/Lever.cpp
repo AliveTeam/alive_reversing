@@ -138,13 +138,11 @@ void Lever::VUpdate()
 
             if (field_100_flags.Get(Flags_100::eBit1_lever_anim_left_direction))
             {
-                const AnimRecord& animRec = AnimRec(AnimId::Lever_Pull_Release_Left);
-                mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
+                mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::Lever_Pull_Release_Left, nullptr);
             }
             else
             {
-                const AnimRecord& animRec = AnimRec(AnimId::Lever_Pull_Release_Right);
-                mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
+                mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::Lever_Pull_Release_Right, nullptr);
             }
 
             const s32 switch_state = SwitchStates_Get(field_F4_switch_id);
@@ -263,8 +261,7 @@ void Lever::VUpdate()
         if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit12_ForwardLoopCompleted))
         {
             field_F8_state = LeverState::eWaiting_0;
-            const AnimRecord& animRec = AnimRec(AnimId::Lever_Idle);
-            mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
+            mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::Lever_Idle, nullptr);
         }
     }
 }
@@ -280,14 +277,12 @@ s16 Lever::VPull(s16 bLeftDirection)
 
     if (bLeftDirection)
     {
-        const AnimRecord& animRec = AnimRec(AnimId::Lever_Pull_Left);
-        mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
+        mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::Lever_Pull_Left, nullptr);
         field_100_flags.Set(Flags_100::eBit1_lever_anim_left_direction);
     }
     else
     {
-        const AnimRecord& animRec = AnimRec(AnimId::Lever_Pull_Right);
-        mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
+        mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::Lever_Pull_Right, nullptr);
         field_100_flags.Clear(Flags_100::eBit1_lever_anim_left_direction);
     }
 

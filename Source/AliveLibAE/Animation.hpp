@@ -7,6 +7,8 @@
 #include "../relive_lib/BaseGameObject.hpp"
 #include "FixedPoint.hpp"
 
+enum class AnimId;
+
 using TFrameCallBackType = s32(CC*)(BaseGameObject*, s16*);
 
 extern TFrameCallBackType kAbe_Anim_Frame_Fns_55EF98[5];
@@ -106,9 +108,10 @@ public:
     virtual void VRender(s32 xpos, s32 ypos, PrimHeader** ppOt, s16 width, s32 height) override;
     virtual void VCleanUp() override;
 
-    s16 Set_Animation_Data(s32 frameTableOffset, u8** pAnimRes);
+    s16 Set_Animation_Data(AnimId animId, u8** pAnimRes);
     void SetFrame(s16 newFrame);
-    s16 Init(s32 frameTableOffset, DynamicArray* animList, BaseGameObject* pGameObj, u16 maxW, u16 maxH, u8** ppAnimData);
+    s16 Init(s32 frametableoffset, u16 maxW, u16 maxH, BaseGameObject* pGameObj, u8** ppAnimData);
+    s16 Init(AnimId animId, BaseGameObject* pGameObj, u8** ppAnimData);
     u16 Get_Frame_Count();
     FrameInfoHeader* Get_FrameHeader(s16 frame);
     void LoadPal(u8** pAnimData, s32 palOffset);

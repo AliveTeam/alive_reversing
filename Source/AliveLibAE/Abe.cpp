@@ -238,7 +238,7 @@ const SfxDefinition sAbeSFXList_555250[41] = {
     {0u, 0u, 0u, 0u, 0, 0},
     {0u, 0u, 0u, 0u, 0, 0}};
 
-const AnimId sAbeFrameTables[130] = {
+const AnimId sAbeAnimIdTable[130] = {
     AnimId::Mudokon_Idle,
     AnimId::Mudokon_Walk,
     AnimId::Mudokon_StandingTurn,
@@ -1065,7 +1065,6 @@ s32 Abe::CreateFromSaveState(const u8* pData)
 
     sActiveHero->mCurrentMotion = pSaveState->current_motion;
 
-    const AnimRecord& animRec = AnimRec(sAbeFrameTables[sActiveHero->mCurrentMotion]);
     u8** animFromState = sActiveHero->MotionToAnimResource_44AAB0(sActiveHero->mCurrentMotion);
     if (!animFromState)
     {
@@ -1075,8 +1074,8 @@ s32 Abe::CreateFromSaveState(const u8* pData)
         animFromState = sActiveHero->field_10_resources_array.ItemAt(sActiveHero->field_128.field_10_resource_index);
     }
 
-    sActiveHero->mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(animRec.mFrameTableOffset, animFromState);
-    //sActiveHero->mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data_409C80(sAbeFrameTables[sActiveHero->mCurrentMotion], animFromState);
+    sActiveHero->mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(sAbeAnimIdTable[sActiveHero->mCurrentMotion], animFromState);
+    //sActiveHero->mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data_409C80(sAbeAnimIdTable[sActiveHero->mCurrentMotion], animFromState);
 
     sActiveHero->mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame = pSaveState->anim_current_frame;
     sActiveHero->mBaseAnimatedWithPhysicsGameObject_Anim.mFrameChangeCounter = pSaveState->anim_frame_change_counter;
@@ -1532,9 +1531,7 @@ void Abe::VUpdate()
             mBaseAliveGameObjectFlags.Clear(Flags_114::e114_MotionChanged_Bit2);
             if (mCurrentMotion != eAbeMotions::Motion_12_Null_4569C0 && !(field_1AC_flags.Get(Flags_1AC::e1AC_Bit5_shrivel)))
             {
-                const AnimRecord& animRec = AnimRec(sAbeFrameTables[mCurrentMotion]);
-                mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(animRec.mFrameTableOffset, MotionToAnimResource_44AAB0(mCurrentMotion));
-                //mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data_409C80( sAbeFrameTables[mCurrentMotion], MotionToAnimResource_44AAB0(mCurrentMotion));
+                mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(sAbeAnimIdTable[mCurrentMotion], MotionToAnimResource_44AAB0(mCurrentMotion));
 
                 field_128.field_14_rolling_motion_timer = sGnFrame;
 
@@ -1549,9 +1546,7 @@ void Abe::VUpdate()
         {
             mCurrentMotion = mPreviousMotion;
 
-            const AnimRecord& animRec = AnimRec(sAbeFrameTables[mCurrentMotion]);
-            mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(animRec.mFrameTableOffset, MotionToAnimResource_44AAB0(mCurrentMotion));
-            //mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data_409C80( sAbeFrameTables[mCurrentMotion], MotionToAnimResource_44AAB0(mCurrentMotion));
+            mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(sAbeAnimIdTable[mCurrentMotion], MotionToAnimResource_44AAB0(mCurrentMotion));
 
             field_128.field_14_rolling_motion_timer = sGnFrame;
             mBaseAnimatedWithPhysicsGameObject_Anim.SetFrame(mBaseAliveGameObjectLastAnimFrame);

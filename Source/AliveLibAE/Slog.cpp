@@ -292,7 +292,7 @@ s32 Slog::VGetSaveState(u8* pSaveBuffer)
 }
 
 
-const AnimId sSlogFrameOffsetTable_5609D8[24] = {
+const AnimId sSlogAnimIdTable[24] = {
     AnimId::Slog_Idle,
     AnimId::Slog_Walk,
     AnimId::Slog_Run,
@@ -362,8 +362,7 @@ s32 Slog::CreateFromSaveState(const u8* pBuffer)
 
     pSlog->SetCurrentMotion(pState->field_28_current_motion);
     u8** ppRes = pSlog->ResBlockForMotion(pState->field_28_current_motion);
-    const AnimRecord& animRec = AnimRec(sSlogFrameOffsetTable_5609D8[pSlog->mCurrentMotion]);
-    pSlog->mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(animRec.mFrameTableOffset, ppRes);
+    pSlog->mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(sSlogAnimIdTable[pSlog->mCurrentMotion], ppRes);
 
     pSlog->mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame = pState->field_2A_anim_cur_frame;
     pSlog->mBaseAnimatedWithPhysicsGameObject_Anim.mFrameChangeCounter = pState->field_2C_frame_change_counter;
@@ -2738,9 +2737,8 @@ u8** Slog::ResBlockForMotion(s16 motion)
 
 void Slog::SetAnimFrame()
 {
-    const AnimRecord& animRec = AnimRec(sSlogFrameOffsetTable_5609D8[mCurrentMotion]);
     u8** ppRes = ResBlockForMotion(mCurrentMotion);
-    mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(animRec.mFrameTableOffset, ppRes);
+    mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(sSlogAnimIdTable[mCurrentMotion], ppRes);
 }
 
 const TintEntry sSlogTints_560A48[] = {

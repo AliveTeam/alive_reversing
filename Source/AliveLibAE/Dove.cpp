@@ -17,13 +17,14 @@ static s32 sAbePortalTimer = 0;
 static s16 sAbePortalDirection = 0;
 static s16 sAbePortalWidth = 0;
 
-Dove::Dove(s32 frameTableOffset, s32 maxW, s32 maxH, s32 resourceID, s32 tlvInfo, FP scale)
+Dove::Dove(AnimId animId, s32 tlvInfo, FP scale)
     : BaseAnimatedWithPhysicsGameObject(0)
 {
     SetType(ReliveTypes::eDove);
 
-    u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, resourceID);
-    Animation_Init(frameTableOffset, maxW, maxH, ppRes, 1);
+    const AnimRecord& anim = AnimRec(animId);
+    u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, anim.mResourceId);
+    Animation_Init(animId, ppRes, true);
 
     mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit15_bSemiTrans);
 
@@ -67,13 +68,14 @@ Dove::Dove(s32 frameTableOffset, s32 maxW, s32 maxH, s32 resourceID, s32 tlvInfo
     bTheOneControllingTheMusic = true;
 }
 
-Dove::Dove(s32 frameTableOffset, s32 maxW, s32 maxH, s32 resourceID, FP xpos, FP ypos, FP scale)
+Dove::Dove(AnimId animId, FP xpos, FP ypos, FP scale)
     : BaseAnimatedWithPhysicsGameObject(0)
 {
     SetType(ReliveTypes::eDove);
 
-    u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, resourceID);
-    Animation_Init(frameTableOffset, maxW, maxH, ppRes, 1);
+    const AnimRecord& anim = AnimRec(animId);
+    u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, anim.mResourceId);
+    Animation_Init(animId, ppRes, true);
 
     mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit15_bSemiTrans);
     mBaseAnimatedWithPhysicsGameObject_Anim.field_14_scale = scale;
@@ -224,8 +226,7 @@ void Dove::VUpdate()
             mFlyAwayCounter++;
             if (mFlyAwayCounter == 0)
             {
-                const AnimRecord& rec = AnimRec(AnimId::Dove_Flying);
-                mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(rec.mFrameTableOffset, 0);
+                mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::Dove_Flying, nullptr);
                 if (!bExtraSeqStarted_5BC10C)
                 {
                     bExtraSeqStarted_5BC10C = 13;

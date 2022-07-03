@@ -26,7 +26,7 @@ Bone::Bone(FP xpos, FP ypos, s16 countId)
 
     const AnimRecord& rec = AnimRec(AnimId::Bone);
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
-    Animation_Init(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
+    Animation_Init(AnimId::Bone, ppRes, 1);
 
     mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit15_bSemiTrans);
 
@@ -573,7 +573,7 @@ BoneBag::BoneBag(Path_BoneBag* pTlv, s32 tlvInfo)
     // TODO: Super super OWI hack, WTF?? Figure out exactly what this is patching in the animation
     *((u16*) *ppRes + 4374) = 0;
 
-    Animation_Init(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
+    Animation_Init(AnimId::BoneBag_Idle, ppRes, 1);
     mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit15_bSemiTrans);
     SetTint(&kBoneTints_550EC0[0], gMap.mCurrentLevel);
 
@@ -657,8 +657,7 @@ void BoneBag::VUpdate()
             return;
         }
 
-        const AnimRecord& animRec = AnimRec(AnimId::BoneBag_Idle);
-        mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
+        mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::BoneBag_Idle, nullptr);
         field_11C_bIs_hit = 0;
         return;
     }
@@ -679,13 +678,11 @@ void BoneBag::VUpdate()
             {
                 if (sActiveHero->mCurrentMotion == eAbeMotions::Motion_31_RunJumpMid_452C10)
                 {
-                    const AnimRecord& animRec = AnimRec(AnimId::BoneBag_HardHit);
-                    mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
+                    mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::BoneBag_HardHit, nullptr);
                 }
                 else
                 {
-                    const AnimRecord& animRec = AnimRec(AnimId::BoneBag_SoftHit);
-                    mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
+                    mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::BoneBag_SoftHit, nullptr);
                 }
                 field_11C_bIs_hit = 1;
                 return;
@@ -710,13 +707,11 @@ void BoneBag::VUpdate()
 
         if (sActiveHero->mCurrentMotion == eAbeMotions::Motion_31_RunJumpMid_452C10)
         {
-            const AnimRecord& animRec = AnimRec(AnimId::BoneBag_HardHit);
-            mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
+            mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::BoneBag_HardHit, nullptr);
         }
         else
         {
-            const AnimRecord& animRec = AnimRec(AnimId::BoneBag_SoftHit);
-            mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
+            mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::BoneBag_SoftHit, nullptr);
         }
 
         field_11C_bIs_hit = 1;

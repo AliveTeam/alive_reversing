@@ -68,18 +68,16 @@ TrapDoor::TrapDoor(Path_TrapDoor* pTlv, Map* pMap, s32 tlvInfo)
 
     const s32 levelIdx = static_cast<s32>(MapWrapper::ToAE(gMap.mCurrentLevel));
 
-    s32 frameTableOffset = 0;
-    const AnimRecord& closedRec = AnimRec(sTrapDoorData_547B78[levelIdx].field_4_closed);
+    AnimId animId = AnimId::None;
     if (field_138_switch_state == SwitchStates_Get(field_134_switch_id))
     {
         field_136_state = TrapDoorState::eOpen_2;
-        const AnimRecord& openRec = AnimRec(sTrapDoorData_547B78[levelIdx].field_0_open);
-        frameTableOffset = openRec.mFrameTableOffset;
+        animId = sTrapDoorData_547B78[levelIdx].field_0_open;
     }
     else
     {
         field_136_state = TrapDoorState::eClosed_0;
-        frameTableOffset = closedRec.mFrameTableOffset;
+        animId = sTrapDoorData_547B78[levelIdx].field_4_closed;
     }
 
     field_13E_self_closing = pTlv->field_14_self_closing;
@@ -97,12 +95,9 @@ TrapDoor::TrapDoor(Path_TrapDoor* pTlv, Map* pMap, s32 tlvInfo)
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kP6c1trapResID);
 
     AddDynamicCollision(
-        closedRec.mFrameTableOffset,
-        closedRec.mMaxW,
-        closedRec.mMaxH,
+        animId,
         ppRes,
         pTlv,
-        pMap,
         tlvInfo);
 
     if (mBaseAnimatedWithPhysicsGameObject_SpriteScale == FP_FromInteger(1))
@@ -120,7 +115,7 @@ TrapDoor::TrapDoor(Path_TrapDoor* pTlv, Map* pMap, s32 tlvInfo)
     field_140_x = FP_FromInteger(pTlv->mTopLeft.x);
     field_144_y = FP_FromInteger(pTlv->mTopLeft.y);
 
-    mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(frameTableOffset, 0);
+    mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(animId, nullptr);
 
     if (pTlv->field_1A_direction == XDirection_short::eRight_1) // TODO: check if this is the correct direction
     {
@@ -202,8 +197,7 @@ void TrapDoor::VUpdate()
             {
                 Open();
                 field_136_state = TrapDoorState::eOpening_1;
-                const AnimRecord& openingRec = AnimRec(sTrapDoorData_547B78[static_cast<s32>(MapWrapper::ToAE(gMap.mCurrentLevel))].field_8_opening);
-                mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(openingRec.mFrameTableOffset, 0);
+                mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(sTrapDoorData_547B78[static_cast<s32>(MapWrapper::ToAE(gMap.mCurrentLevel))].field_8_opening, nullptr);
 
                 if (gMap.mCurrentLevel == EReliveLevelIds::eMines || gMap.mCurrentLevel == EReliveLevelIds::eBonewerkz || gMap.mCurrentLevel == EReliveLevelIds::eBonewerkz_Ender || gMap.mCurrentLevel == EReliveLevelIds::eFeeCoDepot || gMap.mCurrentLevel == EReliveLevelIds::eFeeCoDepot_Ender || gMap.mCurrentLevel == EReliveLevelIds::eBarracks || gMap.mCurrentLevel == EReliveLevelIds::eBarracks_Ender || gMap.mCurrentLevel == EReliveLevelIds::eBrewery || gMap.mCurrentLevel == EReliveLevelIds::eBrewery_Ender)
                 {
@@ -227,8 +221,7 @@ void TrapDoor::VUpdate()
 
             if ((field_13E_self_closing == Choice_short::eYes_1 && field_130_stay_open_time2 + 1 <= 0) || SwitchStates_Get(field_134_switch_id) != field_138_switch_state)
             {
-                const AnimRecord& closingRec = AnimRec(sTrapDoorData_547B78[static_cast<s32>(MapWrapper::ToAE(gMap.mCurrentLevel))].field_C_closing);
-                mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(closingRec.mFrameTableOffset, 0);
+                mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(sTrapDoorData_547B78[static_cast<s32>(MapWrapper::ToAE(gMap.mCurrentLevel))].field_C_closing, nullptr);
 
                 field_136_state = TrapDoorState::eClosing_3;
 

@@ -70,8 +70,7 @@ void DoorBlocker::VUpdate()
         {
             SFX_Play_Pitch(SoundEffect::DoorEffect_57, 100, 900);
             SFX_Play_Pitch(SoundEffect::DoorEffect_57, 100, -100);
-            const AnimRecord& animRec = AnimRec(AnimId::Door_Lock_Open);
-            mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(animRec.mFrameTableOffset, 0);
+            mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::Door_Lock_Open, 0);
             field_118_bDone |= 1u;
         }
     }

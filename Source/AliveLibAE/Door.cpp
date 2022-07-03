@@ -22,7 +22,7 @@ struct Door_Info final
 };
 ALIVE_ASSERT_SIZEOF(Door_Info, 0x10);
 
-const AnimId sDoorAnimIdTable_544888[16][2] = {
+const AnimId sDoorAnimIdTable[16][2] = {
     {AnimId::Door_Mines_Closed, AnimId::Door_Mines_Open},
     {AnimId::Door_Mines_Closed, AnimId::Door_Mines_Open},
     {AnimId::Door_Temple_Closed, AnimId::Door_Temple_Open},
@@ -200,8 +200,10 @@ Door::Door(Path_Door* pTlvData, s32 tlvInfo)
         field_102_hub_ids[7] = pTlvData->field_22_hub8;
     }
 
-    const AnimRecord& closedRec = AnimRec(sDoorAnimIdTable_544888[static_cast<s32>(MapWrapper::ToAE(gMap.mCurrentLevel))][0]);
-    const AnimRecord& openRec = AnimRec(sDoorAnimIdTable_544888[static_cast<s32>(MapWrapper::ToAE(gMap.mCurrentLevel))][1]);
+    const AnimId closedDoor = sDoorAnimIdTable[static_cast<s32>(MapWrapper::ToAE(gMap.mCurrentLevel))][0];
+    const AnimId openDoor = sDoorAnimIdTable[static_cast<s32>(MapWrapper::ToAE(gMap.mCurrentLevel))][1];
+
+    const AnimRecord& openRec = AnimRec(openDoor);
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kF2p3dorResID);
     if (!ppRes || openRec.mFrameTableOffset == 0)
     {
@@ -214,24 +216,22 @@ Door::Door(Path_Door* pTlvData, s32 tlvInfo)
     {
         if (gMap.mOverlayId == 108)
         {
-            const AnimRecord& rec = AnimRec(AnimId::Door_BarracksMetal_Open);
-            Animation_Init(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
+            Animation_Init(AnimId::Door_BarracksMetal_Open, ppRes, 1);
         }
         else
         {
-            Animation_Init(openRec.mFrameTableOffset, openRec.mMaxW, openRec.mMaxH, ppRes, 1);
+            Animation_Init(openDoor, ppRes, 1);
         }
     }
     else
     {
         if (gMap.mOverlayId == 108)
         {
-            const AnimRecord& rec = AnimRec(AnimId::Door_BarracksMetal_Closed);
-            Animation_Init(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
+            Animation_Init(AnimId::Door_BarracksMetal_Closed, ppRes, 1);
         }
         else
         {
-            Animation_Init(closedRec.mFrameTableOffset, closedRec.mMaxW, closedRec.mMaxH, ppRes, 1);
+            Animation_Init(closedDoor, ppRes, 1);
         }
     }
 
@@ -415,13 +415,11 @@ void Door::VUpdate()
                     field_FC_current_state = DoorStates::eClosing_3;
                     if (gMap.mOverlayId == 108)
                     {
-                        const AnimRecord& rec = AnimRec(AnimId::Door_BarracksMetal_Open);
-                        mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(rec.mFrameTableOffset, nullptr);
+                        mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::Door_BarracksMetal_Open, nullptr);
                     }
                     else
                     {
-                        const AnimRecord& animRec = AnimRec(sDoorAnimIdTable_544888[static_cast<s32>(MapWrapper::ToAE(gMap.mCurrentLevel))][1]);
-                        mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
+                        mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(sDoorAnimIdTable[static_cast<s32>(MapWrapper::ToAE(gMap.mCurrentLevel))][1], nullptr);
                     }
 
                     mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit19_LoopBackwards);
@@ -438,13 +436,11 @@ void Door::VUpdate()
                     field_FC_current_state = DoorStates::eOpening_2;
                     if (gMap.mOverlayId == 108)
                     {
-                        const AnimRecord& rec = AnimRec(AnimId::Door_BarracksMetal_Open);
-                        mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(rec.mFrameTableOffset, nullptr);
+                        mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::Door_BarracksMetal_Open, nullptr);
                     }
                     else
                     {
-                        const AnimRecord& animRec = AnimRec(sDoorAnimIdTable_544888[static_cast<s32>(MapWrapper::ToAE(gMap.mCurrentLevel))][1]);
-                        mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
+                        mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(sDoorAnimIdTable[static_cast<s32>(MapWrapper::ToAE(gMap.mCurrentLevel))][1], nullptr);
                     }
 
                     mBaseAnimatedWithPhysicsGameObject_Anim.SetFrame(3);
@@ -498,7 +494,7 @@ TrainDoor::TrainDoor(Path_TrainDoor* pTlv, s32 tlvInfo)
 
     const AnimRecord& rec = AnimRec(AnimId::Door_Train_Closing);
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
-    Animation_Init(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
+    Animation_Init(AnimId::Door_Train_Closing, ppRes, 1);
 
     mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pTlv->mTopLeft.x + 12);
     mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->mTopLeft.y + 24);
@@ -508,8 +504,7 @@ TrainDoor::TrainDoor(Path_TrainDoor* pTlv, s32 tlvInfo)
 
     if (pTlv->mTlvState)
     {
-        const AnimRecord& animRec = AnimRec(AnimId::Door_Train_Closed);
-        mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(animRec.mFrameTableOffset, 0);
+        mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::Door_Train_Closed, 0);
         field_FC_current_state = eClosed_1;
     }
     else
@@ -541,8 +536,7 @@ void TrainDoor::VUpdate()
         if (sActiveHero->mCurrentMotion != eAbeMotions::Motion_115_DoorExit_459A40 && sActiveHero->mCurrentMotion != eAbeMotions::Motion_114_DoorEnter_459470)
         {
             // Then close
-            const AnimRecord& animRec = AnimRec(AnimId::Door_Train_Closing);
-            mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(animRec.mFrameTableOffset, 0);
+            mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::Door_Train_Closing, nullptr);
             mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit2_Animate);
             mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit3_Render);
             field_FC_current_state = eClosed_1;

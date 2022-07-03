@@ -694,9 +694,9 @@ void Animation::Invoke_CallBacks()
     }
 }
 
-s16 Animation::Set_Animation_Data(s32 frameTableOffset, u8** pAnimRes)
+s16 Animation::Set_Animation_Data(AnimId animId, u8** pAnimRes)
 {
-    FrameTableOffsetExists(frameTableOffset, true);
+    const AnimRecord& anim = AnimRec(animId);
     if (pAnimRes)
     {
         field_20_ppBlock = pAnimRes;
@@ -707,7 +707,7 @@ s16 Animation::Set_Animation_Data(s32 frameTableOffset, u8** pAnimRes)
         return 0;
     }
 
-    mFrameTableOffset = frameTableOffset;
+    mFrameTableOffset = anim.mFrameTableOffset;
 
     AnimationHeader* pAnimationHeader = reinterpret_cast<AnimationHeader*>(&(*field_20_ppBlock)[mFrameTableOffset]);
     mFrameDelay = pAnimationHeader->field_0_fps;
@@ -835,13 +835,12 @@ u16 Animation::Get_Frame_Count()
     return pHead->field_2_num_frames;
 }
 
-s16 Animation::Init(s32 frameTableOffset, DynamicArray* /*animList*/, BaseGameObject* pGameObj, u16 maxW, u16 maxH, u8** ppAnimData)
+s16 Animation::Init(s32 frametableoffset, u16 maxW, u16 maxH, BaseGameObject* pGameObj, u8** ppAnimData)
 {
-    FrameTableOffsetExists(frameTableOffset, true, maxW, maxH);
     mAnimFlags.Raw().all = 0; // TODO extra - init to 0's first - this may be wrong if any bits are explicitly set before this is called
     mAnimFlags.Set(AnimFlags::eBit21);
 
-    mFrameTableOffset = frameTableOffset;
+    mFrameTableOffset = frametableoffset;
     field_20_ppBlock = ppAnimData;
     mFnPtrArray = nullptr;
     mDbuf = nullptr;
@@ -852,7 +851,7 @@ s16 Animation::Init(s32 frameTableOffset, DynamicArray* /*animList*/, BaseGameOb
     }
 
     mGameObj = pGameObj;
-    AnimationHeader* pHeader = reinterpret_cast<AnimationHeader*>(&(*ppAnimData)[frameTableOffset]);
+    AnimationHeader* pHeader = reinterpret_cast<AnimationHeader*>(&(*ppAnimData)[frametableoffset]);
 
     mAnimFlags.Clear(AnimFlags::eBit1);
     mAnimFlags.Clear(AnimFlags::eBit5_FlipX);
@@ -905,40 +904,40 @@ s16 Animation::Init(s32 frameTableOffset, DynamicArray* /*animList*/, BaseGameOb
 
     switch (pFrameHeader->field_6_colour_depth)
     {
-        case 4:
+    case 4:
+    {
+        vram_width = (maxW % 2) + (maxW / 2);
+        pal_depth = 16;
+        b256Pal = 0; // is 16 pal
+    }
+    break;
+
+    case 8:
+    {
+        vram_width = maxW;
+        if (*(u32*)pClut == 64) // CLUT entry count/len
         {
-            vram_width = (maxW % 2) + (maxW / 2);
-            pal_depth = 16;
-            b256Pal = 0; // is 16 pal
+            pal_depth = 64;
         }
-        break;
-
-        case 8:
+        else
         {
-            vram_width = maxW;
-            if (*(u32*) pClut == 64) // CLUT entry count/len
-            {
-                pal_depth = 64;
-            }
-            else
-            {
-				pal_depth = 256;
-                b256Pal = 1; // is 256 pal
-            }
-            mAnimFlags.Set(AnimFlags::eBit13_Is8Bit);
-
+            pal_depth = 256;
+            b256Pal = 1; // is 256 pal
         }
-        break;
+        mAnimFlags.Set(AnimFlags::eBit13_Is8Bit);
 
-        case 16:
-        {
-            vram_width = maxW * 2;
-            mAnimFlags.Set(AnimFlags::eBit14_Is16Bit);
-        }
-        break;
+    }
+    break;
 
-        default:
-            return 0;
+    case 16:
+    {
+        vram_width = maxW * 2;
+        mAnimFlags.Set(AnimFlags::eBit14_Is16Bit);
+    }
+    break;
+
+    default:
+        return 0;
     }
 
     if (!Vram_alloc(maxW, maxH, pFrameHeader->field_6_colour_depth, &mVramRect))
@@ -948,14 +947,14 @@ s16 Animation::Init(s32 frameTableOffset, DynamicArray* /*animList*/, BaseGameOb
         LOG_ERROR("Vram alloc failed");
         return 0;
     }
-	
+
     // This makes no sense
     mAnimFlags.Set(AnimFlags::eBit25_bDecompressDone, b256Pal);
-	
+
 
     if (pal_depth > 0)
     {
-        IRenderer::PalRecord palRec{0, 0, pal_depth};
+        IRenderer::PalRecord palRec{ 0, 0, pal_depth };
         if (!IRenderer::GetRenderer()->PalAlloc(palRec))
         {
             ALIVE_FATAL("PalAlloc failed");
@@ -971,7 +970,7 @@ s16 Animation::Init(s32 frameTableOffset, DynamicArray* /*animList*/, BaseGameOb
     mDbufSize = maxH * (vram_width + 3);
     mDbufSize += 8; // Add 8 for some reason
     mDbuf = nullptr;
-	
+
     // NOTE: OG bug or odd compiler code gen? Why isn't it using the passed in list which appears to always be this anyway ??
     if (!gAnimations->Push_Back(this))
     {
@@ -986,6 +985,12 @@ s16 Animation::Init(s32 frameTableOffset, DynamicArray* /*animList*/, BaseGameOb
     mCurrentFrame = -1;
 
     return 1;
+}
+
+s16 Animation::Init(AnimId animId, BaseGameObject* pGameObj, u8** ppAnimData)
+{
+    const AnimRecord& anim = AnimRec(animId);
+    return Init(anim.mFrameTableOffset, anim.mMaxW, anim.mMaxH, pGameObj, ppAnimData);
 }
 
 void Animation::LoadPal(u8** pAnimData, s32 palOffset)

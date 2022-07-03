@@ -36,7 +36,7 @@ const TintEntry sTintMap_UXB_563A3C[19] = {
 void UXB::InitBlinkAnim(Animation* pAnimation)
 {
     const AnimRecord& rec = AnimRec(AnimId::Bomb_RedGreenTick);
-    if (pAnimation->Init(rec.mFrameTableOffset, gAnimations, this, rec.mMaxW, rec.mMaxH, Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId)))
+    if (pAnimation->Init(AnimId::Bomb_RedGreenTick, this, Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId)))
     {
         pAnimation->mRenderLayer = mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer;
         pAnimation->mAnimFlags.Set(AnimFlags::eBit15_bSemiTrans);
@@ -156,12 +156,10 @@ UXB::UXB(Path_UXB* tlv_params, TlvItemInfoUnion itemInfo)
         {
             field_128_animation.LoadPal(ResourceManager::GetLoadedResource(ResourceManager::Resource_Palt, AEResourceID::kGrenflshResID, 0, 0), 0);
             field_1C8_flags.Clear(UXB_Flags_1C8::eIsRed_Bit1);
-            const AnimRecord& flashRec = AnimRec(AnimId::Bomb_RedGreenTick);
-            field_128_animation.Set_Animation_Data(flashRec.mFrameTableOffset, 0);
+            field_128_animation.Set_Animation_Data(AnimId::Bomb_RedGreenTick, nullptr);
             PlaySFX(SoundEffect::GreenTick_2);
 
-            const AnimRecord& animRec = AnimRec(AnimId::UXB_Disabled);
-            mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
+            mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::UXB_Disabled, nullptr);
             field_118_state = UXBState::eDeactivated_3;
             field_11A_starting_state = UXBState::eDelay_0;
         }
@@ -180,11 +178,9 @@ UXB::UXB(Path_UXB* tlv_params, TlvItemInfoUnion itemInfo)
         {
             field_128_animation.LoadPal(ResourceManager::GetLoadedResource(ResourceManager::Resource_Palt, AEResourceID::kGrenflshResID, 0, 0), 0);
             field_1C8_flags.Clear(UXB_Flags_1C8::eIsRed_Bit1);
-            const AnimRecord& flashRec = AnimRec(AnimId::Bomb_RedGreenTick);
-            field_128_animation.Set_Animation_Data(flashRec.mFrameTableOffset, 0);
+            field_128_animation.Set_Animation_Data(AnimId::Bomb_RedGreenTick, nullptr);
 
-            const AnimRecord& animRec = AnimRec(AnimId::UXB_Disabled);
-            mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
+            mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::UXB_Disabled, nullptr);
             field_11A_starting_state = UXBState::eDeactivated_3;
             field_118_state = UXBState::eDeactivated_3;
         }
@@ -253,12 +249,10 @@ void UXB::VOnPickUpOrSlapped()
             }
             else
             {
-                const AnimRecord& flashRec = AnimRec(AnimId::Bomb_RedGreenTick);
-                field_128_animation.Set_Animation_Data(flashRec.mFrameTableOffset, 0);
+                field_128_animation.Set_Animation_Data(AnimId::Bomb_RedGreenTick, nullptr);
                 PlaySFX(SoundEffect::GreenTick_2);
 
-                const AnimRecord& animRec = AnimRec(AnimId::UXB_Toggle);
-                mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
+                mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::UXB_Toggle, nullptr);
                 field_118_state = UXBState::eDeactivated_3;
 
                 field_124_next_state_frame = sGnFrame + 10;
@@ -268,8 +262,7 @@ void UXB::VOnPickUpOrSlapped()
         {
             field_118_state = UXBState::eDelay_0;
             SetUpdateDelay(6);
-            const AnimRecord& animRec = AnimRec(AnimId::UXB_Active);
-            mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
+            mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::UXB_Active, nullptr);
             PlaySFX(SoundEffect::RedTick_3);
         }
     }
@@ -353,9 +346,8 @@ void UXB::VUpdate()
             }
             else if (field_124_next_state_frame <= sGnFrame)
             {
-                const AnimRecord& flashRec = AnimRec(AnimId::Bomb_Flash);
                 field_118_state = UXBState::eActive_1;
-                field_128_animation.Set_Animation_Data(flashRec.mFrameTableOffset, 0);
+                field_128_animation.Set_Animation_Data(AnimId::Bomb_Flash, nullptr);
                 field_124_next_state_frame = sGnFrame + 2;
             }
             break;
@@ -400,8 +392,7 @@ void UXB::VUpdate()
                     field_1C6_red_blink_count = (field_1C4_pattern / static_cast<s32>(pow(10, field_1C0_pattern_length - field_1C2_pattern_index - 1))) % 10;
                 }
 
-                const AnimRecord& rec = AnimRec(AnimId::Bomb_RedGreenTick);
-                field_128_animation.Set_Animation_Data(rec.mFrameTableOffset, 0);
+                field_128_animation.Set_Animation_Data(AnimId::Bomb_RedGreenTick, nullptr);
 
                 if (field_1C8_flags.Get(UXB_Flags_1C8::eIsRed_Bit1))
                 {
@@ -557,10 +548,8 @@ s32 UXB::CreateFromSaveState(const u8* __pSaveState)
     if (pSaveState->field_C_state == UXBState::eDeactivated_3)
     {
         pUXB->field_128_animation.LoadPal(ResourceManager::GetLoadedResource(ResourceManager::Resource_Palt, AEResourceID::kGrenflshResID, 0, 0), 0);
-        const AnimRecord& tickRec = AnimRec(AnimId::Bomb_RedGreenTick);
-        pUXB->field_128_animation.Set_Animation_Data(tickRec.mFrameTableOffset, 0);
-        const AnimRecord& animRec = AnimRec(AnimId::UXB_Disabled);
-        pUXB->mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
+        pUXB->field_128_animation.Set_Animation_Data(AnimId::Bomb_RedGreenTick, nullptr);
+        pUXB->mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::UXB_Disabled, nullptr);
     }
 
     pUXB->field_124_next_state_frame = pSaveState->field_8_next_state_frame;

@@ -610,8 +610,7 @@ MainMenuController::MainMenuController(Path_TLV* /*pTlv*/, TlvItemInfoUnion tlvO
         field_25C_Inside_FMV_Screen = 1;
         pDemosOrFmvs_BB4414.mFmvRec = &sFmvs_561540[0];
         sMenuItemCount_561538 = ALIVE_COUNTOF(sFmvs_561540);
-        const AnimRecord& abeIdleRec = AnimRec(AnimId::MenuAbeSpeak_Idle);
-        mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(abeIdleRec.mFrameTableOffset, field_F4_resources.field_0_resources[MenuResIds::eAbeSpeak2]);
+        mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::MenuAbeSpeak_Idle, field_F4_resources.field_0_resources[MenuResIds::eAbeSpeak2]);
         Load_Anim_Pal_4D06A0(&mBaseAnimatedWithPhysicsGameObject_Anim);
         return;
     }
@@ -986,8 +985,7 @@ void MainMenuController::GlukkonSpeak_Load_4D3480()
 
     ResourceManager::LoadResourceFile_49C170("GLKSPEAK.BAN", nullptr);
     field_F4_resources.field_0_resources[MenuResIds::eGlukkonSpeak] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kGlukkonSpeakResID, TRUE, FALSE);
-    const AnimRecord& rec = AnimRec(AnimId::MenuGlukkonSpeak_Idle);
-    mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(rec.mFrameTableOffset, field_F4_resources.field_0_resources[MenuResIds::eGlukkonSpeak]);
+    mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::MenuGlukkonSpeak_Idle, field_F4_resources.field_0_resources[MenuResIds::eGlukkonSpeak]);
     Set_Anim_4D05E0(MainMenuGamespeakAnimIds::eGlukkon_Idle);
 }
 
@@ -1040,8 +1038,7 @@ void MainMenuController::ScrabSpeak_Load_4D3870()
 
     ResourceManager::LoadResourceFile_49C170("SCRSPEAK.BAN", nullptr);
     field_F4_resources.field_0_resources[MenuResIds::eScrabSpeak] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kScrabSpeakResID, TRUE, FALSE);
-    const AnimRecord& rec = AnimRec(AnimId::MenuScrabSpeak_Idle);
-    mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(rec.mFrameTableOffset, field_F4_resources.field_0_resources[MenuResIds::eScrabSpeak]);
+    mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::MenuScrabSpeak_Idle, field_F4_resources.field_0_resources[MenuResIds::eScrabSpeak]);
     Set_Anim_4D05E0(MainMenuGamespeakAnimIds::eScrab_Idle);
 }
 
@@ -1769,8 +1766,7 @@ MainMenuNextCam MainMenuController::LoadNewGame_Update_4D0920(u32 /*input*/)
             {
                 pResourceManager_5C1BB0->LoadingLoop_465590(FALSE);
             }
-            const AnimRecord& abeSpeakRec = AnimRec(AnimId::MenuAbeSpeak_Idle);
-            mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(abeSpeakRec.mFrameTableOffset, field_F4_resources.field_0_resources[MenuResIds::eAbeSpeak2]);
+            mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::MenuAbeSpeak_Idle, field_F4_resources.field_0_resources[MenuResIds::eAbeSpeak2]);
 
             ResourceManager::FreeResource_49C330(field_F4_resources.field_0_resources[MenuResIds::eAbeSpeak]);
             field_F4_resources.field_0_resources[MenuResIds::eAbeSpeak] = nullptr;
@@ -1828,8 +1824,7 @@ MainMenuNextCam MainMenuController::LoadNewGame_Update_4D0920(u32 /*input*/)
         pResourceManager_5C1BB0->LoadingLoop_465590(FALSE);
     }
 
-    const AnimRecord& abeIdleRec = AnimRec(AnimId::MenuAbeSpeak_Idle);
-    mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(abeIdleRec.mFrameTableOffset, field_F4_resources.field_0_resources[MenuResIds::eAbeSpeak2]);
+    mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::MenuAbeSpeak_Idle, field_F4_resources.field_0_resources[MenuResIds::eAbeSpeak2]);
 
     ResourceManager::FreeResource_49C330(field_F4_resources.field_0_resources[MenuResIds::eAbeSpeak]);
     field_F4_resources.field_0_resources[MenuResIds::eAbeSpeak] = nullptr;
@@ -2106,8 +2101,7 @@ MainMenuNextCam MainMenuController::LoadDemo_Update_4D1040(u32)
         {
             pResourceManager_5C1BB0->LoadingLoop_465590(0);
         }
-        const AnimRecord& abeIdleRec = AnimRec(AnimId::MenuAbeSpeak_Idle);
-        mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(abeIdleRec.mFrameTableOffset, field_F4_resources.field_0_resources[MenuResIds::eAbeSpeak2]);
+        mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::MenuAbeSpeak_Idle, field_F4_resources.field_0_resources[MenuResIds::eAbeSpeak2]);
         ResourceManager::FreeResource_49C330(field_F4_resources.field_0_resources[MenuResIds::eAbeSpeak]);
         field_F4_resources.field_0_resources[MenuResIds::eAbeSpeak] = nullptr;
         ResourceManager::Reclaim_Memory_49C470(0);
@@ -2407,8 +2401,7 @@ MainMenuNextCam MainMenuController::Options_Update_4D1AB0(u32 input)
             field_258 = FP_FromInteger(0);
             pDemosOrFmvs_BB4414.mDemoRec = &sDemos_5617F0[0];
             sMenuItemCount_561538 = ALIVE_COUNTOF(sDemos_5617F0);
-            const AnimRecord& abeIdleRec = AnimRec(AnimId::MenuAbeSpeak_Idle);
-            mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(abeIdleRec.mFrameTableOffset, field_F4_resources.field_0_resources[MenuResIds::eAbeSpeak2]);
+            mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::MenuAbeSpeak_Idle, field_F4_resources.field_0_resources[MenuResIds::eAbeSpeak2]);
             Load_Anim_Pal_4D06A0(&mBaseAnimatedWithPhysicsGameObject_Anim);
             field_230_target_entry_index = 0;
             return MainMenuNextCam(MainMenuCams::eDemoSelectionCam, NO_SELECTABLE_BUTTONS);
@@ -2503,8 +2496,7 @@ ALIVE_VAR(1, 0xBB43EC, s32, sButtonToRemapIdx_BB43EC, 0);
 
 void MainMenuController::RemapInput_Load_4D17E0()
 {
-    const AnimRecord& rec = AnimRec(AnimId::MenuHighlight_ButtonRemapSquare);
-    field_158_animation.Set_Animation_Data(rec.mFrameTableOffset, nullptr);
+    field_158_animation.Set_Animation_Data(AnimId::MenuHighlight_ButtonRemapSquare, nullptr);
     sButtonToRemapIdx_BB43EC = 0;
     dword_BB43F8 = 0;
 }
@@ -2706,8 +2698,7 @@ MainMenuNextCam MainMenuController::RemapInput_Update_4D1820(u32 input)
     else
     {
         // prepare animating the blinking outline of the rectangular input slots
-        const AnimRecord& rec = AnimRec(AnimId::MenuHighlight_ButtonRemapSquare);
-        field_158_animation.Set_Animation_Data(rec.mFrameTableOffset, nullptr);
+        field_158_animation.Set_Animation_Data(AnimId::MenuHighlight_ButtonRemapSquare, nullptr);
 
         if (input & InputCommands::Enum::eUp)
         {
@@ -3296,8 +3287,7 @@ s32 MainMenuController::ChangeScreenAndIntroLogic_4CF640()
                 gPsxDisplay.PutCurrentDispEnv();
 
                 gMap.SetActiveCam(EReliveLevelIds::eMenu, 1, 1, CameraSwapEffects::ePlay1FMV_5, 10502, 0);
-                const AnimRecord& rec = AnimRec(AnimId::MenuDoor);
-                mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(rec.mFrameTableOffset, field_F4_resources.field_0_resources[MenuResIds::eMenuDoor]);
+                mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::MenuDoor, field_F4_resources.field_0_resources[MenuResIds::eMenuDoor]);
                 Load_Anim_Pal_4D06A0(&mBaseAnimatedWithPhysicsGameObject_Anim);
 
                 field_23C_T80.Set(Flags::eBit17_bDisableChangingSelection);
@@ -3708,9 +3698,8 @@ void MainMenuController::AnimationAndSoundLogic_4CFE80()
 
                         mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit2_Animate);
 
-                        const AnimRecord& rec = AnimRec(sMainMenuFrameTable_561CC8[field_228_res_idx].field_0_animation);
                         mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(
-                            rec.mFrameTableOffset,
+                            sMainMenuFrameTable_561CC8[field_228_res_idx].field_0_animation,
                             field_F4_resources.field_0_resources[sMainMenuFrameTable_561CC8[field_228_res_idx].field_4_menu_res_id]);
                         if (sMainMenuFrameTable_561CC8[field_228_res_idx].field_4_menu_res_id != sMainMenuFrameTable_561CC8[field_220_frame_table_idx].field_4_menu_res_id)
                         {

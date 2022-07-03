@@ -26,12 +26,7 @@ BackgroundAnimation::BackgroundAnimation(Path_BackgroundAnimation* pTlv, TlvItem
     field_FC_animXPos = FP_FromInteger(pTlv->mTopLeft.x);
     field_100_animYPos = FP_FromInteger(pTlv->mTopLeft.y);
 
-    Animation_Init(
-        anim.mFrameTableOffset,
-        anim.mMaxW,
-        anim.mMaxH,
-        reinterpret_cast<u8**>(field_F4_res),
-        1);
+    Animation_Init(anim.mFrameTableOffset, anim.mMaxW, anim.mMaxH, reinterpret_cast<u8**>(field_F4_res), 1);
 
     mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit15_bSemiTrans, pTlv->field_12_is_semi_trans == Choice_short::eYes_1);
     mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit16_bBlending);

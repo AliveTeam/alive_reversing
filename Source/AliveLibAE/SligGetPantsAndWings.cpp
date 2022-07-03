@@ -58,8 +58,7 @@ void SligGetPantsAndWings::VUpdate()
             {
                 field_F4_state = State::eFinished_2;
                 SfxPlayMono(SoundEffect::NakedSligTransformEnd_92, 0);
-                const AnimRecord& rec = AnimRec(AnimId::CrawlingSligLocker_Open);
-                mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(rec.mFrameTableOffset, nullptr);
+                mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::CrawlingSligLocker_Open, nullptr);
             }
             break;
 
@@ -67,8 +66,7 @@ void SligGetPantsAndWings::VUpdate()
             if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
             {
                 field_F4_state = State::eWaiting_0;
-                const AnimRecord& rec = AnimRec(AnimId::CrawlingSligLocker_Closed);
-                mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(rec.mFrameTableOffset, nullptr);
+                mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::CrawlingSligLocker_Closed, nullptr);
                 pTlv->mTlvState = 0;
             }
             break;

@@ -385,12 +385,8 @@ void Factory_Dove(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode load
 
         for (s32 i = 0; i < pDoveTlv->mDoveCount; i++)
         {
-            const AnimRecord& doveRec = AnimRec(AnimId::Dove_Idle);
             auto pDove = relive_new Dove(
-                doveRec.mFrameTableOffset,
-                doveRec.mMaxW,
-                doveRec.mMaxH,
-                doveRec.mResourceId,
+                AnimId::Dove_Idle,
                 tlvInfo.all,
                 pDoveTlv->mScale != Scale_short::eFull_0 ? FP_FromDouble(0.5) : FP_FromInteger(1));
 

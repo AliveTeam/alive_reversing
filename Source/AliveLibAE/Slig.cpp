@@ -169,7 +169,7 @@ TintEntry sSligTint_560570[15] = {
 ALIVE_VAR(1, 0xBAF7E4, s32, unused_BAF7E4, 0);
 ALIVE_VAR(1, 0xBAF7E8, s16, sSligsUnderControlCount_BAF7E8, 0);
 
-const AnimId sSligFrameTables_547318[52] = {
+const AnimId sSligAnimIdTable[52] = {
     AnimId::Slig_Idle,
     AnimId::Slig_StandToWalk,
     AnimId::Slig_Walking,
@@ -794,9 +794,8 @@ s32 Slig::CreateFromSaveState(const u8* pBuffer)
         pSlig->mBaseAnimatedWithPhysicsGameObject_RGB.SetRGB(pState->field_1E_r, pState->field_20_g, pState->field_22_b);
 
         pSlig->mCurrentMotion = pState->field_26_current_motion;
-        const AnimRecord& animRec = AnimRec(sSligFrameTables_547318[pState->field_26_current_motion]);
         u8** ppRes = pSlig->ResForMotion_4B1E90(pSlig->mCurrentMotion);
-        pSlig->mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(animRec.mFrameTableOffset, ppRes);
+        pSlig->mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(sSligAnimIdTable[pState->field_26_current_motion], ppRes);
 
 
         pSlig->mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame = pState->field_28_current_frame;
@@ -4976,8 +4975,7 @@ void Slig::vUpdateAnim_4B1320()
         ppRes = ResForMotion_4B1E90(mCurrentMotion);
     }
 
-    const AnimRecord& animRec = AnimRec(sSligFrameTables_547318[mCurrentMotion]);
-    mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(animRec.mFrameTableOffset, ppRes);
+    mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(sSligAnimIdTable[mCurrentMotion], ppRes);
 }
 
 bool Slig::vUnderGlukkonCommand_4B1760()

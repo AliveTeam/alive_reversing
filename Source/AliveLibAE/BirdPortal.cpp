@@ -194,9 +194,8 @@ void BirdPortal::VUpdate()
             EventBroadcast(GetEvent(), this);
             if (pTerminator1->mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
             {
-                const AnimRecord& rec = AnimRec(AnimId::BirdPortal_TerminatorIdle);
-                pTerminator1->mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(rec.mFrameTableOffset, 0);
-                pTerminator2->mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(rec.mFrameTableOffset, 0);
+                pTerminator1->mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::BirdPortal_TerminatorIdle, nullptr);
+                pTerminator2->mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::BirdPortal_TerminatorIdle, nullptr);
                 field_5C_timer = sGnFrame + 12;
                 field_28_state = PortalStates::ExpandTerminators_5;
                 field_90_sfx_ret = SfxPlayMono(SoundEffect::PortalOpening_58, 0, field_60_scale);
@@ -303,10 +302,7 @@ void BirdPortal::VUpdate()
                 {
                     field_5C_timer = sGnFrame + Math_RandomRange(4, 12);
                     auto pDove_1 = relive_new Dove(
-                        5516, // TODO: Hard coded frame table
-                        41,
-                        20u,
-                        60,
+                        AnimId::Dove_Flying,
                         FP_FromInteger(xOffExp) + field_2C_xpos,
                         field_30_ypos + FP_FromInteger(Math_RandomRange(-scale32, scale32)),
                         field_60_scale);
@@ -442,9 +438,8 @@ void BirdPortal::VUpdate()
         case PortalStates::PortalExit_CreateTerminators_18:
             if (pTerminator1->mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
             {
-                const AnimRecord& rec = AnimRec(AnimId::BirdPortal_TerminatorIdle);
-                pTerminator1->mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(rec.mFrameTableOffset, 0);
-                pTerminator2->mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(rec.mFrameTableOffset, 0);
+                pTerminator1->mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::BirdPortal_TerminatorIdle, nullptr);
+                pTerminator2->mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::BirdPortal_TerminatorIdle, nullptr);
                 field_28_state = PortalStates::PortalExit_ExpandTerminators_19;
                 field_5C_timer = sGnFrame + 12;
             }
@@ -462,9 +457,8 @@ void BirdPortal::VUpdate()
         case PortalStates::KillPortalClipper_21:
             if (static_cast<s32>(sGnFrame) > field_5C_timer)
             {
-                const AnimRecord& rec = AnimRec(AnimId::BirdPortal_TerminatorShrink);
-                pTerminator1->mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(rec.mFrameTableOffset, 0);
-                pTerminator2->mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(rec.mFrameTableOffset, 0);
+                pTerminator1->mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::BirdPortal_TerminatorShrink, nullptr);
+                pTerminator2->mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::BirdPortal_TerminatorShrink, nullptr);
                 field_28_state = PortalStates::FadeoutTerminators_22;
                 field_5C_timer = sGnFrame + 30;
 
@@ -998,8 +992,7 @@ void BirdPortal::CreateDovesAndShrykullNumber()
 {
     for (u8 i = 0; i < ALIVE_COUNTOF(field_44_dove_ids); i++)
     {
-        const AnimRecord& doveRec = AnimRec(AnimId::Dove_Flying);
-        auto pDove = relive_new Dove(doveRec.mFrameTableOffset, doveRec.mMaxW, doveRec.mMaxH, doveRec.mResourceId, field_2C_xpos, field_30_ypos, field_60_scale);
+        auto pDove = relive_new Dove(AnimId::Dove_Flying, field_2C_xpos, field_30_ypos, field_60_scale);
         field_44_dove_ids[i] = pDove->field_8_object_id;
 
         field_68_doves_exist = 1;
@@ -1096,7 +1089,7 @@ BirdPortalTerminator::BirdPortalTerminator(FP xpos, FP ypos, FP scale, PortalTyp
 
     const AnimRecord& rec = AnimRec(AnimId::BirdPortal_TerminatorGrow);
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
-    Animation_Init(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
+    Animation_Init(AnimId::BirdPortal_TerminatorGrow, ppRes, 1);
 
     mBaseAnimatedWithPhysicsGameObject_Anim.mRenderMode = TPageAbr::eBlend_1;
     mBaseAnimatedWithPhysicsGameObject_SpriteScale = scale;

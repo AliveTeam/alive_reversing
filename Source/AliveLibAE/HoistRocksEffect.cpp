@@ -8,7 +8,7 @@
 #include "Map.hpp"
 #include "ScreenManager.hpp"
 
-const static AnimId HoistRocksAnimIdTable_5556E0[4] = 
+const static AnimId HoistRocksAnimIdTable[4] = 
 {AnimId::HoistRock1,
 AnimId::HoistRock2,
 AnimId::HoistRock3,
@@ -42,13 +42,9 @@ HoistRocksEffect::HoistRocksEffect(Path_Hoist* pTlv, s32 tlvInfo)
     u8** ppAnimData = Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kHoistRocks);
     for (HoistRockParticle& particle : field_30_rocks)
     {
-        const AnimRecord& rec = AnimRec(AnimId::HoistRock1);
         particle.field_10_mAnim.Init(
-            rec.mFrameTableOffset,
-            gAnimations,
+            AnimId::HoistRock1,
             this,
-            rec.mMaxW,
-            rec.mMaxH,
             ppAnimData);
 
         particle.field_10_mAnim.mRed = 255;
@@ -117,8 +113,7 @@ void HoistRocksEffect::VUpdate()
             field_30_rocks[idx].field_0_state = 1;
 
             const s32 randomAnimAndUpdate = 2 * Math_RandomRange(0, 3);
-            const AnimRecord& rec = AnimRec(HoistRocksAnimIdTable_5556E0[randomAnimAndUpdate / 2]);
-            field_30_rocks[idx].field_10_mAnim.Set_Animation_Data(rec.mFrameTableOffset, nullptr);
+            field_30_rocks[idx].field_10_mAnim.Set_Animation_Data(HoistRocksAnimIdTable[randomAnimAndUpdate / 2], nullptr);
             field_28_timer = sGnFrame + Math_RandomRange(word_5556F0[randomAnimAndUpdate], 2 * word_5556F0[randomAnimAndUpdate]);
         }
     }

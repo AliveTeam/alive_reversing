@@ -239,8 +239,7 @@ s32 Fleech::CreateFromSaveState(const u8* pBuffer)
         pFleech->mBaseAnimatedWithPhysicsGameObject_RGB.SetRGB(pState->mRingRed, pState->mRingGreen, pState->mRingBlue);
 
         pFleech->mCurrentMotion = pState->field_28_current_motion;
-        const AnimRecord& animRec = AnimRec(sFleechAnimFromMotion[pFleech->mCurrentMotion]);
-        pFleech->mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
+        pFleech->mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(sFleechAnimFromMotion[pFleech->mCurrentMotion], nullptr);
         pFleech->mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame = pState->field_2A_anim_current_frame;
         pFleech->mBaseAnimatedWithPhysicsGameObject_Anim.mFrameChangeCounter = pState->field_2C_frame_change_counter;
 
@@ -1109,12 +1108,8 @@ void Fleech::Motion_18_Consume()
 
         for (s32 i = 0; i < 3; i++)
         {
-            const AnimRecord& doveRec = AnimRec(AnimId::Dove_Flying);
             auto pDove = relive_new Dove(
-                doveRec.mFrameTableOffset,
-                doveRec.mMaxW,
-                doveRec.mMaxH,
-                doveRec.mResourceId,
+                AnimId::Dove_Flying,
                 mBaseAnimatedWithPhysicsGameObject_XPos,
                 mBaseAnimatedWithPhysicsGameObject_YPos + FP_FromInteger(10),
                 mBaseAnimatedWithPhysicsGameObject_SpriteScale);
@@ -1702,8 +1697,7 @@ void Fleech::InitTonguePolys()
 void Fleech::SetAnim()
 {
     u8** ppRes = ResBlockForMotion(mCurrentMotion);
-    const AnimRecord& animRec = AnimRec(sFleechAnimFromMotion[mCurrentMotion]);
-    mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(animRec.mFrameTableOffset, ppRes);
+    mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(sFleechAnimFromMotion[mCurrentMotion], ppRes);
 }
 
 void Fleech::ResetTarget()
