@@ -17,7 +17,7 @@ struct SlamDoor_Data final
     s16 field_E_maxW;
 };
 
-const AnimId sSlamDoorData_547168[15][3] = {
+const AnimId sSlamDoorAnimIds[15][3] = {
     {AnimId::Slam_Door_Industrial_Closing, AnimId::Slam_Door_Industrial_Closed, AnimId::Slam_Door_Industrial_Opening},
     {AnimId::Slam_Door_Industrial_Closing, AnimId::Slam_Door_Industrial_Closed, AnimId::Slam_Door_Industrial_Opening},
     {AnimId::Slam_Door_Vault_Closing, AnimId::Slam_Door_Vault_Closed, AnimId::Slam_Door_Vault_Opening},
@@ -88,7 +88,7 @@ SlamDoor::SlamDoor(Path_SlamDoor* pTlv, TlvItemInfoUnion tlvInfo)
 
     const s32 currentLevelId = static_cast<s32>(MapWrapper::ToAE(gMap.mCurrentLevel));
 
-    const AnimRecord& rec = AnimRec(sSlamDoorData_547168[currentLevelId][2]);
+    const AnimRecord& rec = AnimRec(sSlamDoorAnimIds[currentLevelId][2]);
     Animation_Init(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId), 1);
 
     SetType(ReliveTypes::eSlamDoor);
@@ -208,8 +208,7 @@ SlamDoor::SlamDoor(Path_SlamDoor* pTlv, TlvItemInfoUnion tlvInfo)
         }
         field_120_pCollisionLine_5_1 = pPathLine;
 
-        const AnimRecord& animRec = AnimRec(sSlamDoorData_547168[currentLevelId][1]);
-        mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(animRec.mFrameTableOffset, 0);
+        mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(sSlamDoorAnimIds[currentLevelId][1], nullptr);
     }
     else
     {
@@ -289,8 +288,7 @@ void SlamDoor::VUpdate()
         {
             mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit3_Render);
 
-            const AnimRecord& animRec = AnimRec(sSlamDoorData_547168[static_cast<s32>(MapWrapper::ToAE(gMap.mCurrentLevel))][2]);
-            mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
+            mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(sSlamDoorAnimIds[static_cast<s32>(MapWrapper::ToAE(gMap.mCurrentLevel))][2], nullptr);
 
             if (mBaseAnimatedWithPhysicsGameObject_SpriteScale == FP_FromInteger(1))
             {
@@ -357,8 +355,7 @@ void SlamDoor::VUpdate()
         }
         else
         {
-            const AnimRecord& animRec = AnimRec(sSlamDoorData_547168[static_cast<s32>(MapWrapper::ToAE(gMap.mCurrentLevel))][0]);
-            mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(animRec.mFrameTableOffset, 0);
+            mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(sSlamDoorAnimIds[static_cast<s32>(MapWrapper::ToAE(gMap.mCurrentLevel))][0], nullptr);
             Rect_Clear(&field_11C_pCollisionLine_6_2->mRect);
             field_11C_pCollisionLine_6_2 = nullptr;
 

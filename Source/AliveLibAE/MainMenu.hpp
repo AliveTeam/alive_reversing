@@ -37,7 +37,7 @@ struct MainMenuButton final
     s16 field_2_x;
     s16 y;
     s16 field_6;
-    s32 field_8_frameTableOffset;
+    AnimId field_8_anim_id;
 };
 
 enum MenuResIds

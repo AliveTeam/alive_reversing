@@ -90,6 +90,7 @@ bool Player::ValidateObjectStates()
             validateFailed |= ValidField(mFile, pAliveObj->mHealth, "health motion");
             if (validateFailed)
             {
+                __debugbreak();
                 return false;
             }
         }

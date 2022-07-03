@@ -106,8 +106,7 @@ void Shrykull::VUpdate()
 
             if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit12_ForwardLoopCompleted))
             {
-                const AnimRecord& rec = AnimRec(AnimId::ShrykullTransform);
-                mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(rec.mFrameTableOffset, nullptr);
+                mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::ShrykullTransform, nullptr);
                 field_118_state = State::eZapTargets_1;
             }
             break;
@@ -227,8 +226,7 @@ void Shrykull::VUpdate()
 
             if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
             {
-                const AnimRecord& rec = AnimRec(AnimId::ShrykullDetransform);
-                mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(rec.mFrameTableOffset, nullptr);
+                mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::ShrykullDetransform, nullptr);
                 field_118_state = State::eFinish_3;
             }
             break;

@@ -230,7 +230,7 @@ void Scrab::VOnTlvCollision(Path_TLV* pTlv)
     }
 }
 
-const AnimId sScrabFrameTableOffsets_5601C0[40] = {
+const AnimId sScrabMotionAnimIds[40] = {
     AnimId::Scrab_Idle,
     AnimId::Scrab_Walk,
     AnimId::Scrab_Run,
@@ -308,9 +308,8 @@ s32 Scrab::CreateFromSaveState(const u8* pBuffer)
         pScrab->mBaseAnimatedWithPhysicsGameObject_RGB.SetRGB(pState->mRingRed, pState->mRingGreen, pState->mRingBlue);
         pScrab->mCurrentMotion = pState->field_28_current_motion;
 
-        const AnimRecord& animRec = AnimRec(sScrabFrameTableOffsets_5601C0[pState->field_28_current_motion]);
         u8** ppRes = pScrab->ResBlockForMotion(pState->field_28_current_motion);
-        pScrab->mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(animRec.mFrameTableOffset, ppRes);
+        pScrab->mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(sScrabMotionAnimIds[pState->field_28_current_motion], ppRes);
 
         pScrab->mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame = pState->field_2A_current_frame;
         pScrab->mBaseAnimatedWithPhysicsGameObject_Anim.mFrameChangeCounter = pState->field_2C_frame_change_counter;
@@ -533,8 +532,7 @@ void Scrab::VOnTrapDoorOpen()
 
 void Scrab::vUpdateAnim()
 {
-    const AnimRecord& animRec = AnimRec(sScrabFrameTableOffsets_5601C0[mCurrentMotion]);
-    mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(animRec.mFrameTableOffset, ResBlockForMotion(mCurrentMotion));
+    mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(sScrabMotionAnimIds[mCurrentMotion], ResBlockForMotion(mCurrentMotion));
 }
 
 s16 Scrab::OnFloor()

@@ -94,7 +94,7 @@ MineCar::MineCar(Path_MineCar* pTlv, s32 tlvInfo, s32 /*a4*/, s32 /*a5*/, s32 /*
     field_1C4_velx_index = 0;
 }
 
-const AnimId sMineCarFrameTable[7] = {
+const AnimId sMineCarAnimIdTable[7] = {
     AnimId::Mine_Car_Closed,
     AnimId::Mine_Car_Open,
     AnimId::Mine_Car_Shake_A,
@@ -159,36 +159,34 @@ s32 MineCar::CreateFromSaveState(const u8* pBuffer)
 
         pMineCar->mCurrentMotion = pState->field_28_current_motion;
 
-        s32 remapped1 = 0;
+        // TODO: replace Set_Animation_Data sMineCarAnimIdTable[] with the actual anim id's
         switch (pState->field_24_frame_table)
         {
         case 10860:
-            remapped1 = 6;
+            pMineCar->mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(sMineCarAnimIdTable[6], nullptr);
             break;
         case 10884:
-            remapped1 = 1;
+            pMineCar->mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(sMineCarAnimIdTable[1], nullptr);
             break;
         case 10896:
-            remapped1 = 4;
+            pMineCar->mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(sMineCarAnimIdTable[4], nullptr);
             break;
         case 10908:
-            remapped1 = 0;
+            pMineCar->mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(sMineCarAnimIdTable[0], nullptr);
             break;
         case 10920:
-            remapped1 = 5;
+            pMineCar->mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(sMineCarAnimIdTable[5], nullptr);
             break;
         case 10944:
-            remapped1 = 2;
+            pMineCar->mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(sMineCarAnimIdTable[2], nullptr);
             break;
         case 10972:
-            remapped1 = 3;
+            pMineCar->mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(sMineCarAnimIdTable[3], nullptr);
             break;
         default:
             break;
         }
 
-        const AnimRecord& animRec = AnimRec(sMineCarFrameTable[remapped1]);
-        pMineCar->mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
         pMineCar->mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame = pState->field_2A_current_anim_frame;
 
 
@@ -204,36 +202,34 @@ s32 MineCar::CreateFromSaveState(const u8* pBuffer)
             pMineCar->mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit18_IsLastFrame);
         }
 
-        s32 remapped2 = 0;
+        // TODO: replace Set_Animation_Data sMineCarAnimIdTable[] with the actual anim id's
         switch (pState->field_38_frame_table_offset2)
         {
         case 10860:
-            remapped2 = 6;
+            pMineCar->field_124_anim.Set_Animation_Data(sMineCarAnimIdTable[6], nullptr);
             break;
         case 10884:
-            remapped2 = 1;
+            pMineCar->field_124_anim.Set_Animation_Data(sMineCarAnimIdTable[1], nullptr);
             break;
         case 10896:
-            remapped2 = 4;
+            pMineCar->field_124_anim.Set_Animation_Data(sMineCarAnimIdTable[4], nullptr);
             break;
         case 10908:
-            remapped2 = 0;
+            pMineCar->field_124_anim.Set_Animation_Data(sMineCarAnimIdTable[0], nullptr);
             break;
         case 10920:
-            remapped2 = 5;
+            pMineCar->field_124_anim.Set_Animation_Data(sMineCarAnimIdTable[5], nullptr);
             break;
         case 10944:
-            remapped2 = 2;
+            pMineCar->field_124_anim.Set_Animation_Data(sMineCarAnimIdTable[2], nullptr);
             break;
         case 10972:
-            remapped2 = 3;
+            pMineCar->field_124_anim.Set_Animation_Data(sMineCarAnimIdTable[3], nullptr);
             break;
         default:
             break;
         }
 
-        const AnimRecord& animRec2 = AnimRec(sMineCarFrameTable[remapped2]);
-        pMineCar->field_124_anim.Set_Animation_Data(animRec2.mFrameTableOffset, nullptr);
         pMineCar->field_124_anim.mCurrentFrame = pState->field_2A_current_anim_frame;
 
 
@@ -284,8 +280,7 @@ void MineCar::LoadAnimation(Animation* pAnim)
 {
     const AnimRecord& rec = AnimRec(AnimId::Mine_Car_Tread_Idle);
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
-
-    if (pAnim->Init(rec.mFrameTableOffset, gAnimations, this, rec.mMaxW, rec.mMaxH, ppRes))
+    if (pAnim->Init(AnimId::Mine_Car_Tread_Idle, this, ppRes))
     {
         pAnim->mRenderLayer = mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer;
         pAnim->mAnimFlags.Clear(AnimFlags::eBit16_bBlending);
@@ -421,9 +416,6 @@ void MineCar::VRender(PrimHeader** ppOt)
 
 void MineCar::Stop()
 {
-    const AnimRecord& animRec = AnimRec(AnimId::Mine_Car_Closed);
-    const AnimRecord& animRec2 = AnimRec(AnimId::Mine_Car_Tread_Idle);
-
     field_11C_state = MineCarStates::eParkedWithAbe_1;
 
     if (field_1D0_sound_channels_mask)
@@ -434,17 +426,17 @@ void MineCar::Stop()
 
     SfxPlayMono(SoundEffect::MinecarStop_101, 127, mBaseAnimatedWithPhysicsGameObject_SpriteScale);
     
-    mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
-    field_124_anim.Set_Animation_Data(animRec2.mFrameTableOffset, nullptr);
+    mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::Mine_Car_Closed, nullptr);
+    field_124_anim.Set_Animation_Data(AnimId::Mine_Car_Tread_Idle, nullptr);
 
     field_1C4_velx_index = 0;
 
     mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(SnapToXGrid(mBaseAnimatedWithPhysicsGameObject_SpriteScale, FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos)));
 }
 
-void MineCar::Move(u16 frameTabeOffset, FP velX, FP velY, InputCommands::Enum input, MineCarDirs turnDirection, s8 bChangeDirection)
+void MineCar::Move(AnimId animId, FP velX, FP velY, InputCommands::Enum input, MineCarDirs turnDirection, s8 bChangeDirection)
 {
-    mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(frameTabeOffset, nullptr);
+    mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(animId, nullptr);
 
     field_11C_state = MineCarStates::eMoving_2;
     field_1C8_frame_mod_16 = static_cast<s32>(sGnFrame) % 16;
@@ -454,9 +446,7 @@ void MineCar::Move(u16 frameTabeOffset, FP velX, FP velY, InputCommands::Enum in
         field_1D0_sound_channels_mask = SfxPlayMono(SoundEffect::MinecarMovement_100, 127, mBaseAnimatedWithPhysicsGameObject_SpriteScale);
     }
 
-    const AnimRecord& animRec2 = AnimRec(AnimId::Mine_Car_Tread_Move_A);
-
-    field_124_anim.Set_Animation_Data(animRec2.mFrameTableOffset, nullptr);
+    field_124_anim.Set_Animation_Data(AnimId::Mine_Car_Tread_Move_A, nullptr);
 
     mBaseAnimatedWithPhysicsGameObject_VelX = velX;
     mBaseAnimatedWithPhysicsGameObject_VelY = velY;
@@ -730,7 +720,7 @@ s32 MineCar::VGetSaveState(u8* pSaveBuffer)
     pState->field_22_xFlip = mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX);
     pState->field_2E_render = mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit3_Render);
 
-
+    // this makes no sense because we convert pState->field_24_frame_table back to the actual offset in CreateFromSaveState
     switch (mBaseAnimatedWithPhysicsGameObject_Anim.mFrameTableOffset)
     {
         case 20788: // Mine_Car_Tread_Move_B
@@ -944,9 +934,7 @@ void MineCar::State_0_ParkedWithoutAbe()
         sActiveHero->mBaseAnimatedWithPhysicsGameObject_SpriteScale == mBaseAnimatedWithPhysicsGameObject_SpriteScale
     )
     {
-        const AnimRecord& animRec = AnimRec(AnimId::Mine_Car_Closed);
-
-        mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
+        mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::Mine_Car_Closed, nullptr);
         field_11C_state = MineCarStates::eParkedWithAbe_1;
         sControlledCharacter_5C1B8C = this;
         mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_BombMineCar_35;
@@ -975,15 +963,12 @@ void MineCar::State_1_ParkedWithAbe()
     //
     if (sActiveHero->mCurrentMotion != eAbeMotions::Motion_117_InMineCar_4587C0)
     {
-        const AnimRecord& animRec = AnimRec(AnimId::Mine_Car_Open);
-        const AnimRecord& animRec2 = AnimRec(AnimId::Mine_Car_Tread_Idle);
-
         sActiveHero->mBaseAnimatedWithPhysicsGameObject_XPos = mBaseAnimatedWithPhysicsGameObject_XPos;
         sActiveHero->mBaseAnimatedWithPhysicsGameObject_YPos = mBaseAnimatedWithPhysicsGameObject_YPos;
         field_11C_state = MineCarStates::eParkedWithoutAbe_0;
         
-        field_124_anim.Set_Animation_Data(animRec2.mFrameTableOffset, nullptr);
-        mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
+        field_124_anim.Set_Animation_Data(AnimId::Mine_Car_Tread_Idle, nullptr);
+        mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::Mine_Car_Open, nullptr);
 
         sControlledCharacter_5C1B8C = sActiveHero;
         field_1CC_spawned_path = gMap.mCurrentPath;
@@ -1042,15 +1027,13 @@ void MineCar::State_1_ParkedWithAbe()
         
         const FP hitX = mineCarWidthAdjusted + FP_FromInteger(2);
         const FP hitX2 = FP_FromInteger(4) - mineCarWidthAdjusted;
-        const u16 frameTableOffset = 20872u;
-
         if (
             HandleState1Move(
                 &MineCar::CheckFloorCollision,
                 hitX,
                 FP_FromInteger(4),
                 hitX2,
-                frameTableOffset,
+                AnimId::Mine_Car_Shake_A,
                 MineCarDirs::eUp_3,
                 FALSE,
                 rayCastX,
@@ -1070,7 +1053,7 @@ void MineCar::State_1_ParkedWithAbe()
                 hitX,
                 -mineCarHeight,
                 hitX2,
-                frameTableOffset,
+                AnimId::Mine_Car_Shake_A,
                 MineCarDirs::eDown_0,
                 TRUE,
                 rayCastX,
@@ -1127,7 +1110,6 @@ void MineCar::State_1_ParkedWithAbe()
         
         const FP hitX = mineCarWidthAdjusted - FP_FromInteger(4);
         const FP hitX2 = -(mineCarWidthAdjusted + FP_FromInteger(2));
-        const u16 frameTableOffset = 20900u;
 
         if (
             HandleState1Move(
@@ -1135,7 +1117,7 @@ void MineCar::State_1_ParkedWithAbe()
                 hitX,
                 FP_FromInteger(4),
                 hitX2,
-                frameTableOffset,
+                AnimId::Mine_Car_Shake_B,
                 MineCarDirs::eUp_3,
                 TRUE,
                 rayCastX,
@@ -1155,7 +1137,7 @@ void MineCar::State_1_ParkedWithAbe()
                 hitX,
                 -mineCarHeight,
                 hitX2,
-                frameTableOffset,
+                AnimId::Mine_Car_Shake_B,
                 MineCarDirs::eDown_0,
                 FALSE,
                 rayCastX,
@@ -1190,7 +1172,7 @@ void MineCar::State_1_ParkedWithAbe()
 }
 
 bool MineCar::HandleState1Move(const mineCarFPFunc func, const FP mineCarFPFuncArg1, const FP mineCarFPFuncArg2, const FP mineCarFPFuncArg3,
-                               u16 frameTableOffset, MineCarDirs mineCarDir, const s8 bChangeDir, FP rayCastX1, FP rayCastY1, FP rayCastX2, FP rayCastY2, const CollisionMask ModelMask1, const CollisionMask ModelMask2,
+                               AnimId animId, MineCarDirs mineCarDir, const s8 bChangeDir, FP rayCastX1, FP rayCastY1, FP rayCastX2, FP rayCastY2, const CollisionMask ModelMask1, const CollisionMask ModelMask2,
                                FP velX, FP velY, InputCommands::Enum key, bool isVertical, bool verticalFlipXCond)
 {
     PathLine* pPathLine = nullptr;
@@ -1220,7 +1202,7 @@ bool MineCar::HandleState1Move(const mineCarFPFunc func, const FP mineCarFPFuncA
                 )
             )
             {
-                Move(frameTableOffset, velX, velY, key, mineCarDir, bChangeDir);
+                Move(animId, velX, velY, key, mineCarDir, bChangeDir);
                 return true;
             }
         }
@@ -1242,7 +1224,6 @@ void MineCar::HandleUpDown()
     
     const FP velX = FP_FromInteger(0);
     const FP velY = k5Scaled;
-    const u16 frameTableOffset = 20836u;
 
     InputCommands::Enum inputKey = sInputKey_Up_5550D8;
 
@@ -1270,7 +1251,7 @@ void MineCar::HandleUpDown()
                 hitY,
                 hitX,
                 hitY2,
-                frameTableOffset,
+                AnimId::Mine_Car_Closed,
                 MineCarDirs::eLeft_2,
                 FALSE,
                 rayCastX1,
@@ -1290,7 +1271,7 @@ void MineCar::HandleUpDown()
                 hitY,
                 -hitX,
                 hitY2,
-                frameTableOffset,
+                AnimId::Mine_Car_Closed,
                 MineCarDirs::eRight_1,
                 TRUE,
                 rayCastX1,
@@ -1350,7 +1331,7 @@ void MineCar::HandleUpDown()
                 hitY,
                 hitX,
                 hitY2,
-                frameTableOffset,
+                AnimId::Mine_Car_Closed,
                 MineCarDirs::eLeft_2,
                 TRUE,
                 rayCastX1,
@@ -1370,7 +1351,7 @@ void MineCar::HandleUpDown()
                 hitY,
                 -hitX,
                 hitY2,
-                frameTableOffset,
+                AnimId::Mine_Car_Closed,
                 MineCarDirs::eRight_1,
                 FALSE,
                 rayCastX1,

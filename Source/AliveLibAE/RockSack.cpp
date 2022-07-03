@@ -97,8 +97,7 @@ void RockSack::VUpdate()
     {
         if (field_11C_has_been_hit == 1 && mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
         {
-            const AnimRecord& animRec = AnimRec(AnimId::RockSack_Idle);
-            mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
+            mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::RockSack_Idle, nullptr);
             field_11C_has_been_hit = 0;
         }
     }
@@ -120,13 +119,11 @@ void RockSack::VUpdate()
                 {
                     if (sActiveHero->mCurrentMotion == eAbeMotions::Motion_31_RunJumpMid_452C10)
                     {
-                        const AnimRecord& animRec = AnimRec(AnimId::RockSack_HardHit);
-                        mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
+                        mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::RockSack_HardHit, nullptr);
                     }
                     else
                     {
-                        const AnimRecord& animRec = AnimRec(AnimId::RockSack_SoftHit);
-                        mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
+                        mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::RockSack_SoftHit, nullptr);
                     }
                     field_11C_has_been_hit = 1;
                     return;
@@ -150,13 +147,11 @@ void RockSack::VUpdate()
 
             if (sActiveHero->mCurrentMotion == eAbeMotions::Motion_31_RunJumpMid_452C10)
             {
-                const AnimRecord& animRec = AnimRec(AnimId::RockSack_HardHit);
-                mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
+                mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::RockSack_HardHit, nullptr);
             }
             else
             {
-                const AnimRecord& animRec = AnimRec(AnimId::RockSack_SoftHit);
-                mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
+                mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::RockSack_SoftHit, nullptr);
             }
             field_11C_has_been_hit = 1;
         }

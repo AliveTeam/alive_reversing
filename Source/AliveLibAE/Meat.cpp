@@ -522,8 +522,7 @@ void MeatSack::VUpdate()
     {
         if (field_11C_bDoMeatSackIdleAnim == 1 && mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
         {
-            const AnimRecord& rec = AnimRec(AnimId::MeatSack_Idle);
-            mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(rec.mFrameTableOffset, 0);
+            mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::MeatSack_Idle, nullptr);
             field_11C_bDoMeatSackIdleAnim = 0;
         }
     }
@@ -534,12 +533,11 @@ void MeatSack::VUpdate()
 
         if (RectsOverlap(ourRect, abeRect) && mBaseAnimatedWithPhysicsGameObject_SpriteScale == sActiveHero->mBaseAnimatedWithPhysicsGameObject_SpriteScale)
         {
-            const AnimRecord& MeatSackHitRec = AnimRec(AnimId::MeatSack_Hit);
             if (gpThrowableArray_5D1E2C)
             {
                 if (gpThrowableArray_5D1E2C->field_20_count)
                 {
-                    mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(MeatSackHitRec.mFrameTableOffset, 0);
+                    mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::MeatSack_Hit, nullptr);
                     field_11C_bDoMeatSackIdleAnim = 1;
                     return;
                 }
@@ -558,7 +556,7 @@ void MeatSack::VUpdate()
             SfxPlayMono(SoundEffect::SackHit_25, 0);
             Environment_SFX_457A40(EnvironmentSfx::eDeathNoise_7, 0, 0x7FFF, 0);
 
-            mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(MeatSackHitRec.mFrameTableOffset, 0);
+            mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::MeatSack_Hit, nullptr);
             field_11C_bDoMeatSackIdleAnim = 1;
         }
     }

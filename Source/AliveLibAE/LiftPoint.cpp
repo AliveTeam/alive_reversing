@@ -81,14 +81,10 @@ LiftPoint::LiftPoint(Path_LiftPoint* pTlv, s32 tlvInfo)
     }
 
     const LiftPointData& rPlatformData = sLiftPointData_545AC8[static_cast<u32>(MapWrapper::ToAE(gMap.mCurrentLevel))];
-    const AnimRecord& platformRec = AnimRec(rPlatformData.field_0_platform_anim_id);
     AddDynamicCollision(
-        platformRec.mFrameTableOffset,
-        platformRec.mMaxW,
-        static_cast<u16>(platformRec.mMaxH),
+        rPlatformData.field_0_platform_anim_id,
         ppRes,
         pTlv,
-        &gMap,
         tlvInfo);
 
     if (mBaseAnimatedWithPhysicsGameObject_SpriteScale == FP_FromInteger(1))

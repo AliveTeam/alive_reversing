@@ -697,6 +697,12 @@ void Animation::Invoke_CallBacks()
 s16 Animation::Set_Animation_Data(AnimId animId, u8** pAnimRes)
 {
     const AnimRecord& anim = AnimRec(animId);
+    return Set_Animation_Data(anim.mFrameTableOffset, pAnimRes);
+}
+
+s16 Animation::Set_Animation_Data(s32 frametableoffset, u8** pAnimRes)
+{
+    
     if (pAnimRes)
     {
         field_20_ppBlock = pAnimRes;
@@ -707,7 +713,7 @@ s16 Animation::Set_Animation_Data(AnimId animId, u8** pAnimRes)
         return 0;
     }
 
-    mFrameTableOffset = anim.mFrameTableOffset;
+    mFrameTableOffset = frametableoffset;
 
     AnimationHeader* pAnimationHeader = reinterpret_cast<AnimationHeader*>(&(*field_20_ppBlock)[mFrameTableOffset]);
     mFrameDelay = pAnimationHeader->field_0_fps;

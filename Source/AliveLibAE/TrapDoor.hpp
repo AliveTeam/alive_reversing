@@ -42,7 +42,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(TrapDoor_State, 0xC);
 class TrapDoor final : public PlatformBase
 {
 public:
-    TrapDoor(Path_TrapDoor* pTlv, Map* pMap, s32 tlvInfo);
+    TrapDoor(Path_TrapDoor* pTlv, s32 tlvInfo);
     ~TrapDoor();
 
     virtual void VUpdate() override;

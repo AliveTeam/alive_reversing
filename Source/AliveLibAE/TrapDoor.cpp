@@ -55,7 +55,7 @@ const TintEntry sTrapDoorTints_5639AC[18] = {
     {EReliveLevelIds::eBonewerkz_Ender, 127u, 127u, 127u},
     {EReliveLevelIds::eNone, 127u, 127u, 127u}};
 
-TrapDoor::TrapDoor(Path_TrapDoor* pTlv, Map* pMap, s32 tlvInfo)
+TrapDoor::TrapDoor(Path_TrapDoor* pTlv, s32 tlvInfo)
 {
     SetType(ReliveTypes::eTrapDoor);
     mBaseGameObjectTlvInfo = tlvInfo;
@@ -95,7 +95,7 @@ TrapDoor::TrapDoor(Path_TrapDoor* pTlv, Map* pMap, s32 tlvInfo)
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kP6c1trapResID);
 
     AddDynamicCollision(
-        animId,
+        sTrapDoorData_547B78[levelIdx].field_4_closed,
         ppRes,
         pTlv,
         tlvInfo);
@@ -166,7 +166,7 @@ s32 TrapDoor::CreateFromSaveState(const u8* pData)
             break;
     }
 
-    auto pTrapDoor = relive_new TrapDoor(pTlv, nullptr, pState->field_8_tlvInfo);
+    auto pTrapDoor = relive_new TrapDoor(pTlv, pState->field_8_tlvInfo);
     if (pTrapDoor)
     {
         pTrapDoor->field_130_stay_open_time2 = pState->field_4_open_time;

@@ -60,73 +60,73 @@ ALIVE_VAR(1, 0x5c2f68, const char_type, byte_5C2F68, 0);
 // which will be out of bounds
 
 MainMenuButton sBtnArray_FrontEnd_560FA0[] = {
-    {MainMenuButtonType::eCircularSelectableButton, 33, 82, 0, 13912},   // Begin
-    {MainMenuButtonType::eCircularSelectableButton, 32, 104, 0, 13912},  // Quit
-    {MainMenuButtonType::eCircularSelectableButton, 337, 219, 0, 13912}, // Load
-    {MainMenuButtonType::eCircularSelectableButton, 337, 239, 0, 13912}, // Options
-    {MainMenuButtonType::eCircularSelectableButton, 33, 62, 0, 13912},   // Gamespeak
-    {0, 0, 0, 0, 0}};
+    {MainMenuButtonType::eCircularSelectableButton, 33, 82, 0, AnimId::MenuHighlight_Circle},   // Begin
+    {MainMenuButtonType::eCircularSelectableButton, 32, 104, 0, AnimId::MenuHighlight_Circle},  // Quit
+    {MainMenuButtonType::eCircularSelectableButton, 337, 219, 0, AnimId::MenuHighlight_Circle}, // Load
+    {MainMenuButtonType::eCircularSelectableButton, 337, 239, 0, AnimId::MenuHighlight_Circle}, // Options
+    {MainMenuButtonType::eCircularSelectableButton, 33, 62, 0, AnimId::MenuHighlight_Circle},   // Gamespeak
+    {0, 0, 0, 0, AnimId::None}};
 
 MainMenuButton sBtnArray_Cheat_Level_Or_FMVSelection_560FE8[] = {
-    {MainMenuButtonType::eUnused_3, 34, 65, 0, 13912},
-    {0, 0, 0, 0, 0}};
+    {MainMenuButtonType::eUnused_3, 34, 65, 0, AnimId::MenuHighlight_Circle},
+    {0, 0, 0, 0, AnimId::None}};
 
 MainMenuButton sBtnArray_InputKeys_561000[] = {
     // first column
-    {MainMenuButtonType::eUnused_2, 51, 119, 0, 13912}, // Run
-    {MainMenuButtonType::eUnused_2, 46, 151, 0, 13912}, // Sneak
-    {MainMenuButtonType::eUnused_2, 46, 182, 0, 13912}, // Jump
-    {MainMenuButtonType::eUnused_2, 55, 211, 0, 13912}, // Speak I
+    {MainMenuButtonType::eUnused_2, 51, 119, 0, AnimId::MenuHighlight_Circle}, // Run
+    {MainMenuButtonType::eUnused_2, 46, 151, 0, AnimId::MenuHighlight_Circle}, // Sneak
+    {MainMenuButtonType::eUnused_2, 46, 182, 0, AnimId::MenuHighlight_Circle}, // Jump
+    {MainMenuButtonType::eUnused_2, 55, 211, 0, AnimId::MenuHighlight_Circle}, // Speak I
     // second column
-    {MainMenuButtonType::eUnused_2, 314, 119, 0, 13912}, // Action
-    {MainMenuButtonType::eUnused_2, 323, 151, 0, 13912}, // Throw
-    {MainMenuButtonType::eUnused_2, 323, 182, 0, 13912}, // Fart/Roll
-    {MainMenuButtonType::eUnused_2, 317, 211, 0, 13912}, // Speak II
-    {MainMenuButtonType::eUnused_3, 166, 240, 0, 13924},
-    {0, 0, 0, 0, 0}};
+    {MainMenuButtonType::eUnused_2, 314, 119, 0, AnimId::MenuHighlight_Circle}, // Action
+    {MainMenuButtonType::eUnused_2, 323, 151, 0, AnimId::MenuHighlight_Circle}, // Throw
+    {MainMenuButtonType::eUnused_2, 323, 182, 0, AnimId::MenuHighlight_Circle}, // Fart/Roll
+    {MainMenuButtonType::eUnused_2, 317, 211, 0, AnimId::MenuHighlight_Circle}, // Speak II
+    {MainMenuButtonType::eUnused_3, 166, 240, 0, AnimId::MenuHighlight_Triangle},
+    {0, 0, 0, 0, AnimId::None}};
 
 MainMenuButton sBtnArray_Unknown_5610C0[] = {
-    {MainMenuButtonType::eUnused_2, 150, 26, 0, 13900},
-    {MainMenuButtonType::eUnused_2, 198, 26, 0, 13900},
-    {MainMenuButtonType::eUnused_2, 292, 35, 0, 13900},
-    {0, 0, 0, 0, 0}};
+    {MainMenuButtonType::eUnused_2, 150, 26, 0, AnimId::MenuHighlight_Square},
+    {MainMenuButtonType::eUnused_2, 198, 26, 0, AnimId::MenuHighlight_Square},
+    {MainMenuButtonType::eUnused_2, 292, 35, 0, AnimId::MenuHighlight_Square},
+    {0, 0, 0, 0, AnimId::None}};
 
 MainMenuButton sBtnArray_Game_BackStory_Or_NewGame_561420[] = {
-    {MainMenuButtonType::eCircularSelectableButton, 59, 199, 0, 13912},  // Show me what happened
-    {MainMenuButtonType::eCircularSelectableButton, 248, 199, 0, 13912}, // Just start the game
-    {MainMenuButtonType::eUnused_3, 180, 240, 0, 13912},
-    {0, 0, 0, 0, 0}};
+    {MainMenuButtonType::eCircularSelectableButton, 59, 199, 0, AnimId::MenuHighlight_Circle},  // Show me what happened
+    {MainMenuButtonType::eCircularSelectableButton, 248, 199, 0, AnimId::MenuHighlight_Circle}, // Just start the game
+    {MainMenuButtonType::eUnused_3, 180, 240, 0, AnimId::MenuHighlight_Circle},
+    {0, 0, 0, 0, AnimId::None}};
 
 MainMenuButton sBtnArray_Gamespeak_561310[] = {
-    {MainMenuButtonType::eCircularSelectableButton, 153, 122, 0, 13912}, // Abe
-    {MainMenuButtonType::eCircularSelectableButton, 153, 143, 0, 13912}, // Slig
-    {MainMenuButtonType::eCircularSelectableButton, 153, 164, 0, 13912}, // Glukkon
-    {MainMenuButtonType::eCircularSelectableButton, 153, 184, 0, 13912}, // Scrab
-    {MainMenuButtonType::eCircularSelectableButton, 153, 205, 0, 13912}, // Paramite
-    {MainMenuButtonType::eUnused_3, 313, 240, 0, 13924},
-    {0, 0, 0, 0, 0}};
+    {MainMenuButtonType::eCircularSelectableButton, 153, 122, 0, AnimId::MenuHighlight_Circle}, // Abe
+    {MainMenuButtonType::eCircularSelectableButton, 153, 143, 0, AnimId::MenuHighlight_Circle}, // Slig
+    {MainMenuButtonType::eCircularSelectableButton, 153, 164, 0, AnimId::MenuHighlight_Circle}, // Glukkon
+    {MainMenuButtonType::eCircularSelectableButton, 153, 184, 0, AnimId::MenuHighlight_Circle}, // Scrab
+    {MainMenuButtonType::eCircularSelectableButton, 153, 205, 0, AnimId::MenuHighlight_Circle}, // Paramite
+    {MainMenuButtonType::eUnused_3, 313, 240, 0, AnimId::MenuHighlight_Triangle},
+    {0, 0, 0, 0, AnimId::None}};
 
 MainMenuButton sBtnArray_Options_561368[] = {
-    {MainMenuButtonType::eCircularSelectableButton, 33, 62, 0, 13912},  // Controls
-    {MainMenuButtonType::eCircularSelectableButton, 336, 61, 0, 13912}, // Demos
-    {MainMenuButtonType::eUnused_3, 332, 240, 0, 13912},
-    {0, 0, 0, 0, 0}};
+    {MainMenuButtonType::eCircularSelectableButton, 33, 62, 0, AnimId::MenuHighlight_Circle},  // Controls
+    {MainMenuButtonType::eCircularSelectableButton, 336, 61, 0, AnimId::MenuHighlight_Circle}, // Demos
+    {MainMenuButtonType::eUnused_3, 332, 240, 0, AnimId::MenuHighlight_Circle},
+    {0, 0, 0, 0, AnimId::None}};
 
 MainMenuButton sBtnArray_PSX_1Player_Or_2Player_NewGame_5613C8[] = {
-    {MainMenuButtonType::eCircularSelectableButton, 33, 62, 0, 13912},  // One player
-    {MainMenuButtonType::eCircularSelectableButton, 336, 60, 0, 13912}, // Two players
-    {MainMenuButtonType::eUnused_3, 331, 240, 0, 13912},
-    {0, 0, 0, 0, 0}};
+    {MainMenuButtonType::eCircularSelectableButton, 33, 62, 0, AnimId::MenuHighlight_Circle},  // One player
+    {MainMenuButtonType::eCircularSelectableButton, 336, 60, 0, AnimId::MenuHighlight_Circle}, // Two players
+    {MainMenuButtonType::eUnused_3, 331, 240, 0, AnimId::MenuHighlight_Circle},
+    {0, 0, 0, 0, AnimId::None}};
 
 MainMenuButton sBtnArray_Cooperative_Mode_Prompt_5613F8[] = {
-    {MainMenuButtonType::eCircularSelectableButton, 31, 62, 0, 13912}, // Begin
-    {MainMenuButtonType::eUnused_3, 331, 240, 0, 13912},
-    {0, 0, 0, 0, 0}};
+    {MainMenuButtonType::eCircularSelectableButton, 31, 62, 0, AnimId::MenuHighlight_Circle}, // Begin
+    {MainMenuButtonType::eUnused_3, 331, 240, 0, AnimId::MenuHighlight_Circle},
+    {0, 0, 0, 0, AnimId::None}};
 
 MainMenuButton sBtnArray_LoadGame_561450[] = {
-    {MainMenuButtonType::eCircularSelectableButton, 32, 62, 0, 13912}, // probably used to be the select button, isn't actually rendered
-    {MainMenuButtonType::eUnused_3, 331, 239, 0, 13912},
-    {0, 0, 0, 0, 0},
+    {MainMenuButtonType::eCircularSelectableButton, 32, 62, 0, AnimId::MenuHighlight_Circle}, // probably used to be the select button, isn't actually rendered
+    {MainMenuButtonType::eUnused_3, 331, 239, 0, AnimId::MenuHighlight_Circle},
+    {0, 0, 0, 0, AnimId::None},
 };
 
 
@@ -529,8 +529,7 @@ MainMenuController::MainMenuController(Path_TLV* /*pTlv*/, TlvItemInfoUnion tlvO
 
 
     field_F4_resources.field_0_resources[MenuResIds::eResHighLite] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, kHighliteResID, TRUE, FALSE);
-    const AnimRecord& rec = AnimRec(AnimId::MenuHighlight_Circle);
-    field_158_animation.Init(rec.mFrameTableOffset, gAnimations, this, rec.mMaxW, rec.mMaxH, field_F4_resources.field_0_resources[MenuResIds::eResHighLite]);
+    field_158_animation.Init(AnimId::MenuHighlight_Circle, this, field_F4_resources.field_0_resources[MenuResIds::eResHighLite]);
 
     field_158_animation.field_14_scale = mBaseAnimatedWithPhysicsGameObject_SpriteScale;
 
@@ -631,8 +630,7 @@ MainMenuController::MainMenuController(Path_TLV* /*pTlv*/, TlvItemInfoUnion tlvO
         pDemosOrFmvs_BB4414.mDemoRec = &sDemos_5617F0[0];
         sMenuItemCount_561538 = ALIVE_COUNTOF(sDemos_5617F0);
         field_230_target_entry_index = sDemoIdChosenFromDemoMenu_5C1B9E;
-        const AnimRecord& abeIdleRec = AnimRec(AnimId::MenuAbeSpeak_Idle);
-        mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(abeIdleRec.mFrameTableOffset, field_F4_resources.field_0_resources[MenuResIds::eAbeSpeak2]);
+        mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::MenuAbeSpeak_Idle, field_F4_resources.field_0_resources[MenuResIds::eAbeSpeak2]);
         Load_Anim_Pal_4D06A0(&mBaseAnimatedWithPhysicsGameObject_Anim);
     }
 }
@@ -925,8 +923,7 @@ void MainMenuController::SligSpeak_Load_4D3090()
 
     ResourceManager::LoadResourceFile_49C170("SLGSPEAK.BAN", nullptr);
     field_F4_resources.field_0_resources[MenuResIds::eSligSpeak] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kSligSpeakResID, TRUE, FALSE);
-    const AnimRecord& rec = AnimRec(AnimId::MenuSligSpeak_Idle);
-    mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(rec.mFrameTableOffset, field_F4_resources.field_0_resources[MenuResIds::eSligSpeak]);
+    mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::MenuSligSpeak_Idle, field_F4_resources.field_0_resources[MenuResIds::eSligSpeak]);
     Set_Anim_4D05E0(MainMenuGamespeakAnimIds::eSlig_Idle);
 }
 
@@ -1100,8 +1097,7 @@ void MainMenuController::ParamiteSpeak_Load_4D3B70()
 
     ResourceManager::LoadResourceFile_49C170("PARSPEAK.BAN", nullptr);
     field_F4_resources.field_0_resources[MenuResIds::eParamiteSpeak] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kParamiteSpeakResID, TRUE, FALSE);
-    const AnimRecord& rec = AnimRec(AnimId::MenuParamiteSpeak_Idle);
-    mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(rec.mFrameTableOffset, field_F4_resources.field_0_resources[MenuResIds::eParamiteSpeak]);
+    mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::MenuParamiteSpeak_Idle, field_F4_resources.field_0_resources[MenuResIds::eParamiteSpeak]);
     Set_Anim_4D05E0(MainMenuGamespeakAnimIds::eParamite_Idle);
 }
 
@@ -2999,7 +2995,7 @@ void MainMenuController::HandleMainMenuUpdate()
                         }
                     }
 
-                    field_158_animation.Set_Animation_Data(pPage->field_18_buttons[field_1FC_button_index].field_8_frameTableOffset, 0);
+                    field_158_animation.Set_Animation_Data(pPage->field_18_buttons[field_1FC_button_index].field_8_anim_id, nullptr);
 
                     SFX_Play_Pitch(SoundEffect::MenuNavigation_52, 35, 400);
                 }
@@ -3023,7 +3019,7 @@ void MainMenuController::HandleMainMenuUpdate()
                         }
                     }
 
-                    field_158_animation.Set_Animation_Data(pPage->field_18_buttons[field_1FC_button_index].field_8_frameTableOffset, 0);
+                    field_158_animation.Set_Animation_Data(pPage->field_18_buttons[field_1FC_button_index].field_8_anim_id, 0);
                     SFX_Play_Pitch(SoundEffect::MenuNavigation_52, 35, 400);
                 }
             }
@@ -3409,7 +3405,7 @@ s32 MainMenuController::ChangeScreenAndIntroLogic_4CF640()
                 {
                     // prepare for animating the blinking outline of the currently highlighted button
                     field_158_animation.Set_Animation_Data(
-                        targetPage.field_18_buttons[field_1FC_button_index].field_8_frameTableOffset,
+                        targetPage.field_18_buttons[field_1FC_button_index].field_8_anim_id,
                         nullptr);
                 }
             }

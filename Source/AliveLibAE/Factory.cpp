@@ -792,8 +792,7 @@ void Factory_TrapDoor(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode 
     }
     else
     {
-        // TODO: OG bug - actually passes Path* instead of Map* .. probably works because this parameter never gets used!
-        relive_new TrapDoor(static_cast<Path_TrapDoor*>(pTlv), &gMap, tlvInfo.all);
+        relive_new TrapDoor(static_cast<Path_TrapDoor*>(pTlv), tlvInfo.all);
     }
 }
 

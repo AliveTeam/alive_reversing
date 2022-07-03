@@ -24,7 +24,7 @@ Greeter::Greeter(Path_Greeter* pTlv, s32 tlvInfo)
     SetType(ReliveTypes::eGreeter);
     const AnimRecord& rec = AnimRec(AnimId::Greeter_Moving);
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
-    Animation_Init(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
+    Animation_Init(AnimId::Greeter_Moving, ppRes, true);
 
     mVisualFlags.Set(VisualFlags::eDoPurpleLightEffect);
 

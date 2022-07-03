@@ -144,8 +144,7 @@ void PullRingRope::VUpdate()
                 field_FC_ring_puller_id = -1;
                 field_100_state = States::eReturnToIdle_3;
                 field_F4_stay_in_state_ticks = 3;
-                const AnimRecord& rec = AnimRec(AnimId::PullRingRope_UseEnd);
-                mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(rec.mFrameTableOffset, 0);
+                mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::PullRingRope_UseEnd, nullptr);
 
                 const s32 oldSwitchValue = SwitchStates_Get(field_102_switch_id);
                 SwitchStates_Do_Operation(field_102_switch_id, field_104_action);
@@ -216,8 +215,7 @@ void PullRingRope::VUpdate()
             {
                 mBaseAnimatedWithPhysicsGameObject_VelY = FP_FromInteger(0);
                 field_100_state = States::eIdle_0;
-                const AnimRecord& rec = AnimRec(AnimId::PullRingRope_Idle);
-                mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(rec.mFrameTableOffset, 0);
+                mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::PullRingRope_Idle, nullptr);
             }
             break;
 
@@ -251,8 +249,7 @@ s16 PullRingRope::VPull(BaseGameObject* pObj)
     field_100_state = States::eBeingPulled_1;
     mBaseAnimatedWithPhysicsGameObject_VelY = FP_FromInteger(2) * mBaseAnimatedWithPhysicsGameObject_SpriteScale;
     field_F4_stay_in_state_ticks = 6;
-    const AnimRecord& rec = AnimRec(AnimId::PullRingRope_UseBegin);
-    mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(rec.mFrameTableOffset, 0);
+    mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::PullRingRope_UseBegin, nullptr);
     SfxPlayMono(SoundEffect::RingRopePull_56, 0);
     return 1;
 }

@@ -151,8 +151,7 @@ void SecurityDoor::VUpdate()
         case SecurityDoorStates::eSayingHi_2:
         {
             Slig_GameSpeak_SFX_4C04F0(SligSpeak::eHi_0, 127, -200, 0);
-            const AnimRecord& animRec = AnimRec(AnimId::Security_Door_Speak);
-            mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
+            mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::Security_Door_Speak, nullptr);
             field_F8_state = SecurityDoorStates::eListeningForHi_3;
             field_124_timer = sGnFrame + 150;
             return;
@@ -214,8 +213,7 @@ void SecurityDoor::VUpdate()
                     break;
             }
 
-            const AnimRecord& animRec = AnimRec(AnimId::Security_Door_Speak);
-            mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
+            mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::Security_Door_Speak, nullptr);
             if (++field_128_max_idx >= field_100_code_len)
             {
                 field_F8_state = SecurityDoorStates::eListeningForPassword_9;

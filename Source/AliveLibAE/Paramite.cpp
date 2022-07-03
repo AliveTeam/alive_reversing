@@ -207,7 +207,7 @@ Paramite::Paramite(Path_Paramite* pTlv, s32 tlvInfo)
     mShadow = relive_new Shadow();
 }
 
-const AnimId sParamiteAnimIdTable_55D660[44] = {
+const AnimId sParamiteMotionAnimIds[44] = {
     AnimId::Paramite_Idle,
     AnimId::Paramite_WalkBegin,
     AnimId::Paramite_Walking,
@@ -287,9 +287,8 @@ s32 Paramite::CreateFromSaveState(const u8* pBuffer)
     pParamite->mBaseAnimatedWithPhysicsGameObject_RGB.SetRGB(pState->field_1C_r, pState->field_1E_g, pState->field_20_b);
 
     pParamite->mCurrentMotion = pState->field_24_current_motion;
-    const AnimRecord& animRec = AnimRec(sParamiteAnimIdTable_55D660[pParamite->mCurrentMotion]);
     u8** ppRes = pParamite->ResBlockForMotion(pParamite->mCurrentMotion);
-    pParamite->mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(animRec.mFrameTableOffset, ppRes);
+    pParamite->mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(sParamiteMotionAnimIds[pParamite->mCurrentMotion], ppRes);
 
     pParamite->mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame = pState->field_26_anim_current_frame;
     pParamite->mBaseAnimatedWithPhysicsGameObject_Anim.mFrameChangeCounter = pState->field_28_frame_change_counter;
@@ -5276,9 +5275,8 @@ s16 Paramite::Find_Paramite()
 
 void Paramite::vUpdateAnim()
 {
-    const AnimRecord& animRec = AnimRec(sParamiteAnimIdTable_55D660[mCurrentMotion]);
     u8** ppRes = ResBlockForMotion(mCurrentMotion);
-    mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(animRec.mFrameTableOffset, ppRes);
+    mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(sParamiteMotionAnimIds[mCurrentMotion], ppRes);
 }
 
 Meat* Paramite::FindMeat()

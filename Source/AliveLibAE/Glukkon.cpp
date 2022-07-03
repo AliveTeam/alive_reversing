@@ -73,7 +73,7 @@ const TGlukkonBrainFn sGlukkon_brain_table_5544A0[6] = {
     &Glukkon::Brain_4_Death_442010,
     &Glukkon::Brain_5_WaitToSpawn_442490};
 
-const AnimId sGlukkonsFrameTableOffsetTable_554524[4][25] = {
+const AnimId sGlukkonsAnimIdTable[4][25] = {
     {AnimId::Glukkon_Normal_Idle, AnimId::Glukkon_Normal_Walk, AnimId::Glukkon_Normal_Turn, AnimId::Glukkon_Normal_KnockBack, AnimId::Glukkon_Normal_Jump,
      AnimId::Glukkon_Normal_JumpToFall, AnimId::Glukkon_Normal_WalkToFall, AnimId::Glukkon_Normal_Fall, AnimId::Glukkon_Normal_DeathFall, AnimId::Glukkon_Normal_Land,
      AnimId::Glukkon_Normal_ChantShake, AnimId::Glukkon_Normal_Speak1, AnimId::Glukkon_Normal_Speak2, AnimId::Glukkon_Normal_LongLaugh, AnimId::Glukkon_Normal_BeginWalk,
@@ -189,8 +189,7 @@ s32 Glukkon::CreateFromSaveState(const u8* pData)
             glukType = GlukkonTypes::Normal_0;
         }
 
-        const AnimRecord& animRec = AnimRec(sGlukkonsFrameTableOffsetTable_554524[static_cast<s32>(glukType)][pSaveState->field_28_current_motion]);
-        pGlukkon->mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
+        pGlukkon->mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(sGlukkonsAnimIdTable[static_cast<s32>(glukType)][pSaveState->field_28_current_motion], nullptr);
 
         pGlukkon->mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame = pSaveState->field_2A_current_frame;
         pGlukkon->mBaseAnimatedWithPhysicsGameObject_Anim.mFrameChangeCounter = pSaveState->field_2C_frame_change_counter;
@@ -2192,8 +2191,7 @@ void Glukkon::SetAnim(s16 currentMotion, s16 bClearNextMotion)
         typeIndex = 0;
     }
 
-    const AnimRecord& animRec = AnimRec(sGlukkonsFrameTableOffsetTable_554524[typeIndex][currentMotion]);
-    mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(animRec.mFrameTableOffset, nullptr);
+    mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(sGlukkonsAnimIdTable[typeIndex][currentMotion], nullptr);
 
     mCurrentMotion = currentMotion;
     if (bClearNextMotion)

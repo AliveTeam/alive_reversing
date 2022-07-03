@@ -108,6 +108,7 @@ public:
     virtual void VRender(s32 xpos, s32 ypos, PrimHeader** ppOt, s16 width, s32 height) override;
     virtual void VCleanUp() override;
 
+    s16 Set_Animation_Data(s32 frametableoffset, u8** pAnimRes);
     s16 Set_Animation_Data(AnimId animId, u8** pAnimRes);
     void SetFrame(s16 newFrame);
     s16 Init(s32 frametableoffset, u16 maxW, u16 maxH, BaseGameObject* pGameObj, u8** ppAnimData);

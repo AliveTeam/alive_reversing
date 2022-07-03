@@ -593,7 +593,7 @@ Mudokon::Mudokon(Path_Mudokon* pTlv, s32 tlvInfo)
     VUpdate();
 }
 
-const AnimId kMudFrameTableOffsets_55CD00[60] = {
+const AnimId kMudMotionAnimIds[60] = {
     AnimId::Mudokon_Idle,
     AnimId::Mudokon_Walk,
     AnimId::Mudokon_StandingTurn,
@@ -763,10 +763,9 @@ s32 Mudokon::CreateFromSaveState(const u8* pBuffer)
 
         pMud->mCurrentMotion = pState->field_24_current_motion;
 
-        const AnimRecord& animRec = AnimRec(kMudFrameTableOffsets_55CD00[pMud->mCurrentMotion]);
         u8** ppRes = pMud->GetResBlockForMotion(pState->field_24_current_motion);
 
-        pMud->mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(animRec.mFrameTableOffset, ppRes);
+        pMud->mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(kMudMotionAnimIds[pMud->mCurrentMotion], ppRes);
 
         pMud->mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame = pState->field_26_anim_current_frame;
         pMud->mBaseAnimatedWithPhysicsGameObject_Anim.mFrameChangeCounter = pState->field_28_anim_frame_change_counter;
@@ -1698,8 +1697,7 @@ void Mudokon::VUpdateResBlock()
     {
         LOG_ERROR("No res for " << mCurrentMotion);
     }
-    const AnimRecord& animRec = AnimRec(kMudFrameTableOffsets_55CD00[mCurrentMotion]);
-    mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(animRec.mFrameTableOffset, ppRes);
+    mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(kMudMotionAnimIds[mCurrentMotion], ppRes);
 }
 
 enum Brain_0_GiveRings
