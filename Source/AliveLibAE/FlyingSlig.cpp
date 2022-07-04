@@ -29,6 +29,7 @@
 #include "Sys_common.hpp"
 #include "Grid.hpp"
 #include "Function.hpp"
+#include "AnimationCallBacks.hpp"
 
 // Warning, index is saved, order matters here
 ALIVE_ARY(1, 0x5523A0, TFlyingSligBrainFn, 26, sFlyingSlig_motion_table_5523A0,

@@ -6,6 +6,7 @@
 #include "Events.hpp"
 #include "Sfx.hpp"
 #include "BaseAliveGameObject.hpp"
+#include "AnimationCallBacks.hpp"
 
 namespace AO {
 

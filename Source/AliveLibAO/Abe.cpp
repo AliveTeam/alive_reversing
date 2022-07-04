@@ -57,6 +57,7 @@
 #include "Gibs.hpp"
 #include "Camera.hpp"
 #include "Sys_common.hpp"
+#include "AnimationCallBacks.hpp"
 
 #include "TestAnimation.hpp"
 

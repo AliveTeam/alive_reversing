@@ -33,6 +33,7 @@
 #include "SwitchStates.hpp"
 #include <algorithm>
 #include "Psx_common.hpp"
+#include "AnimationCallBacks.hpp"
 
 // TODO: fix
 #undef max

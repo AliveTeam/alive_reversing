@@ -24,6 +24,7 @@
 #include "Sys_common.hpp"
 #include "Grid.hpp"
 #include "../relive_lib/Math.hpp"
+#include "AnimationCallBacks.hpp"
 
 ALIVE_VAR(1, 0x5BC20C, u8, sFleechRandomIdx_5BC20C, 0);
 ALIVE_VAR(1, 0x5BC20E, s16, sFleechCount_5BC20E, 0);

@@ -79,6 +79,8 @@ SET(AliveLibAESrc
     AnimationBase.hpp
     Animation.cpp
     Animation.hpp
+    AnimationCallBacks.cpp
+    AnimationCallBacks.hpp
     AnimationUnknown.cpp
     AnimationUnknown.hpp
     BackgroundAnimation.cpp

@@ -247,6 +247,8 @@ SET(AliveLibSrcAO
    PathData.cpp
    Animation.hpp
    Animation.cpp
+   AnimationCallBacks.cpp
+   AnimationCallBacks.hpp
    AnimationBase.hpp
    AnimationBase.cpp
    AnimationUnknown.hpp

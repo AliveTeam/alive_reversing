@@ -25,6 +25,7 @@
 #include "Particle.hpp"
 #include "GameSpeak.hpp"
 #include "Grid.hpp"
+#include "AnimationCallBacks.hpp"
 
 void Slog_ForceLink()
 { }

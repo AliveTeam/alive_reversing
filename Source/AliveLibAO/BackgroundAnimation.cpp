@@ -11,6 +11,15 @@
 
 namespace AO {
 
+void BackgroundAnimation::VStopAudio()
+{
+    if (field_104_sound_channels_mask)
+    {
+        SND_Stop_Channels_Mask_4774A0(field_104_sound_channels_mask);
+        field_104_sound_channels_mask = 0;
+    }
+}
+
 BackgroundAnimation::BackgroundAnimation(Path_BackgroundAnimation* pTlv, s32 tlvInfo)
 {
     mBaseGameObjectTypeId = ReliveTypes::eBackgroundAnimation;
@@ -93,29 +102,6 @@ BackgroundAnimation::BackgroundAnimation(Path_BackgroundAnimation* pTlv, s32 tlv
     field_104_sound_channels_mask = 0;
 }
 
-BackgroundAnimation::~BackgroundAnimation()
-{
-    gMap.TLV_Reset(field_F0_tlvInfo, -1, 0, 0);
-    if (field_104_sound_channels_mask)
-    {
-        SND_Stop_Channels_Mask_4774A0(field_104_sound_channels_mask);
-    }
-}
-
-void BackgroundAnimation::VScreenChanged()
-{
-    mBaseGameObjectFlags.Set(BaseGameObject::eDead);
-}
-
-void BackgroundAnimation::VStopAudio()
-{
-    if (field_104_sound_channels_mask)
-    {
-        SND_Stop_Channels_Mask_4774A0(field_104_sound_channels_mask);
-        field_104_sound_channels_mask = 0;
-    }
-}
-
 void BackgroundAnimation::VUpdate()
 {
     if (EventGet(kEventDeathReset))
@@ -134,4 +120,17 @@ void BackgroundAnimation::VUpdate()
     }
 }
 
+void BackgroundAnimation::VScreenChanged()
+{
+    mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+}
+
+BackgroundAnimation::~BackgroundAnimation()
+{
+    gMap.TLV_Reset(field_F0_tlvInfo, -1, 0, 0);
+    if (field_104_sound_channels_mask)
+    {
+        SND_Stop_Channels_Mask_4774A0(field_104_sound_channels_mask);
+    }
+}
 } // namespace AO
