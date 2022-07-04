@@ -18,7 +18,7 @@ void Init_SetTPage(Prim_SetTPage* pPrim, s32 /*notUsed1*/, s32 /*notUsed2*/, s32
 void Init_PrimClipper_4F5B80(Prim_PrimClipper* pPrim, const PSX_RECT* pClipRect);
 void InitType_ScreenOffset_4F5BB0(Prim_ScreenOffset* pPrim, const PSX_Pos16* pOffset);
 
-void Poly_FT4_Get_Rect_409DA0(PSX_RECT* pRect, const Poly_FT4* pPoly);
+void Poly_FT4_Get_Rect(PSX_RECT* pRect, const Poly_FT4* pPoly);
 void Poly_Set_Blending(PrimHeader* pPrim, s32 bBlending);
 void Poly_Set_SemiTrans(PrimHeader* pPrim, s32 bSemiTrans);
 PrimHeader** OtLayer(PrimHeader** ppOt, Layer layer);

@@ -535,8 +535,6 @@ void Animation::SetFrame(s16 newFrame)
     }
 }
 
-ALIVE_VAR(1, 0x5440AC, FrameInfoHeader, sBlankFrameInfoHeader_5440AC, {});
-
 FrameInfoHeader* Animation::Get_FrameHeader(s16 frame)
 {
     if (!field_20_ppBlock)
@@ -553,17 +551,6 @@ FrameInfoHeader* Animation::Get_FrameHeader(s16 frame)
     u32 frameOffset = pHead->mFrameOffsets[frame];
 
     FrameInfoHeader* pFrame = reinterpret_cast<FrameInfoHeader*>(*field_20_ppBlock + frameOffset);
-
-    // Never seen this get hit, perhaps some sort of PSX specific check as addresses have to be aligned there?
-    // TODO: Remove it in the future when proven to be not required?
-#if defined(_MSC_VER) && !defined(_WIN64)
-    if (reinterpret_cast<u32>(pFrame) & 3)
-    {
-        FrameInfoHeader* Unknown = &sBlankFrameInfoHeader_5440AC;
-        return Unknown;
-    }
-#endif
-
     return pFrame;
 }
 
@@ -572,7 +559,7 @@ void Animation::Get_Frame_Rect(PSX_RECT* pRect)
     Poly_FT4* pPoly = &mOtData[gPsxDisplay.mBufferIndex];
     if (!mAnimFlags.Get(AnimFlags::eBit20_use_xy_offset))
     {
-        Poly_FT4_Get_Rect_409DA0(pRect, pPoly);
+        Poly_FT4_Get_Rect(pRect, pPoly);
         return;
     }
 
@@ -599,12 +586,19 @@ u16 Animation::Get_Frame_Count()
     return pHead->field_2_num_frames;
 }
 
-s16 Animation::Init(s32 frametableoffset, u16 maxW, u16 maxH, BaseGameObject* pGameObj, u8** ppAnimData)
+s16 Animation::Init(AnimId animId, BaseGameObject* pGameObj, u8** ppAnimData)
 {
+    const AnimRecord& anim = AnimRec(animId);
+    return Init(anim.mFrameTableOffset, anim.mMaxW, anim.mMaxH, pGameObj, ppAnimData);
+}
+
+s16 Animation::Init(s32 frameTableOffset, u16 maxW, u16 maxH, BaseGameObject* pGameObj, u8** ppAnimData)
+{
+    FrameTableOffsetExists(frameTableOffset, true, maxW, maxH);
     mAnimFlags.Raw().all = 0; // TODO extra - init to 0's first - this may be wrong if any bits are explicitly set before this is called
     mAnimFlags.Set(AnimFlags::eBit21);
 
-    mFrameTableOffset = frametableoffset;
+    mFrameTableOffset = frameTableOffset;
     field_20_ppBlock = ppAnimData;
     mFnPtrArray = nullptr;
     mDbuf = nullptr;
@@ -615,7 +609,7 @@ s16 Animation::Init(s32 frametableoffset, u16 maxW, u16 maxH, BaseGameObject* pG
     }
 
     mGameObj = pGameObj;
-    AnimationHeader* pHeader = reinterpret_cast<AnimationHeader*>(&(*ppAnimData)[frametableoffset]);
+    AnimationHeader* pHeader = reinterpret_cast<AnimationHeader*>(&(*ppAnimData)[frameTableOffset]);
 
     mAnimFlags.Clear(AnimFlags::eBit1);
     mAnimFlags.Clear(AnimFlags::eBit5_FlipX);
@@ -747,12 +741,6 @@ s16 Animation::Init(s32 frametableoffset, u16 maxW, u16 maxH, BaseGameObject* pG
     mCurrentFrame = -1;
 
     return 1;
-}
-
-s16 Animation::Init(AnimId animId, BaseGameObject* pGameObj, u8** ppAnimData)
-{
-    const AnimRecord& anim = AnimRec(animId);
-    return Init(anim.mFrameTableOffset, anim.mMaxW, anim.mMaxH, pGameObj, ppAnimData);
 }
 
 void Animation::LoadPal(u8** pAnimData, s32 palOffset)

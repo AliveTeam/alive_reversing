@@ -67,7 +67,7 @@ void PolyGT4_Init(Poly_GT4* pPrim)
     SetCode(&pPrim->mBase.header, PrimTypeCodes::ePolyGT4);
 }
 
-void Poly_FT4_Get_Rect_409DA0(PSX_RECT* pRect, const Poly_FT4* pPoly)
+void Poly_FT4_Get_Rect(PSX_RECT* pRect, const Poly_FT4* pPoly)
 {
     if (PSX_Prim_Code_Without_Blending_Or_SemiTransparency(pPoly->mBase.header.rgb_code.code_or_pad) == PrimTypeCodes::ePolyFT4)
     {

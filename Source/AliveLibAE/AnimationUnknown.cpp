@@ -127,6 +127,6 @@ void AnimationUnknown::VRender(s32 xpos, s32 ypos, PrimHeader** ppOt, s16 /*widt
 
 void AnimationUnknown::GetRenderedSize(PSX_RECT* pRect)
 {
-    Poly_FT4_Get_Rect_409DA0(pRect, &field_10_polys[gPsxDisplay.mBufferIndex]);
+    Poly_FT4_Get_Rect(pRect, &field_10_polys[gPsxDisplay.mBufferIndex]);
 }
 

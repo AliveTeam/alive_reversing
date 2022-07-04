@@ -154,12 +154,12 @@ void Animation::DecompressFrame()
     UploadTexture(pFrameHeader, vram_rect, width_bpp_adjusted);
 }
 
-
 void Animation::VRender(s32 xpos, s32 ypos, PrimHeader** ppOt, s16 width, s32 height)
 {
+
     const s16 xpos_pc = static_cast<s16>(PsxToPCX(xpos));
     const s16 width_pc = static_cast<s16>(PsxToPCX(width));
- 
+
     if (!mAnimFlags.Get(AnimFlags::eBit3_Render))
     {
         return;
@@ -222,7 +222,7 @@ void Animation::VRender(s32 xpos, s32 ypos, PrimHeader** ppOt, s16 width, s32 he
     SetRGB0(pPoly, mRed, mGreen, mBlue);
     SetTPage(pPoly, static_cast<s16>(PSX_getTPage(textureMode, mRenderMode, mVramRect.x, mVramRect.y)));
     SetClut(pPoly, static_cast<s16>(PSX_getClut(mPalVramXY.x, mPalVramXY.y)));
- 
+
     u8 u1 = mVramRect.x & 63;
     if (textureMode == TPageMode::e8Bit_1)
     {
@@ -512,8 +512,6 @@ void Animation::SetFrame(s16 newFrame)
     }
 }
 
-ALIVE_VAR(1, 0x4BA090, FrameInfoHeader, sBlankFrameInfoHeader_4BA090, {});
-
 FrameInfoHeader* Animation::Get_FrameHeader(s32 frame)
 {
     if (!field_20_ppBlock)
@@ -530,17 +528,6 @@ FrameInfoHeader* Animation::Get_FrameHeader(s32 frame)
     u32 frameOffset = pHead->mFrameOffsets[frame];
 
     FrameInfoHeader* pFrame = reinterpret_cast<FrameInfoHeader*>(*field_20_ppBlock + frameOffset);
-
-    // Never seen this get hit, perhaps some sort of PSX specific check as addresses have to be aligned there?
-    // TODO: Remove it in the future when proven to be not required?
-#if defined(_MSC_VER) && !defined(_WIN64)
-    if (reinterpret_cast<u32>(pFrame) & 3)
-    {
-        FrameInfoHeader* Unknown = &sBlankFrameInfoHeader_4BA090;
-        return Unknown;
-    }
-#endif
-
     return pFrame;
 }
 
@@ -549,7 +536,7 @@ void Animation::Get_Frame_Rect(PSX_RECT* pRect)
     Poly_FT4* pPoly = &mOtData[gPsxDisplay.mBufferIndex];
     if (!mAnimFlags.Get(AnimFlags::eBit20_use_xy_offset))
     {
-        Poly_FT4_Get_Rect(pRect, pPoly);
+        ::Poly_FT4_Get_Rect(pRect, pPoly);
         return;
     }
 
@@ -578,11 +565,11 @@ s16 Animation::Get_Frame_Count()
 
 s16 Animation::Init(AnimId animId, BaseGameObject* pGameObj, u8** ppAnimData)
 {
-    const AnimRecord& rec = AO::AnimRec(animId);
-    return Init(rec.mFrameTableOffset, pGameObj, rec.mMaxW, rec.mMaxH, ppAnimData);
+    const AnimRecord& anim = AO::AnimRec(animId);
+    return Init(anim.mFrameTableOffset, anim.mMaxW, anim.mMaxH, pGameObj, ppAnimData);
 }
 
-s16 Animation::Init(s32 frameTableOffset, BaseGameObject* pGameObj, u16 maxW, u16 maxH, u8** ppAnimData)
+s16 Animation::Init(s32 frameTableOffset, u16 maxW, u16 maxH, BaseGameObject* pGameObj, u8** ppAnimData)
 {
     FrameTableOffsetExists(frameTableOffset, false, maxW, maxH);
     mAnimFlags.Raw().all = 0; // TODO extra - init to 0's first - this may be wrong if any bits are explicitly set before this is called
@@ -707,7 +694,7 @@ s16 Animation::Init(s32 frameTableOffset, BaseGameObject* pGameObj, u16 maxW, u1
     mDbufSize = maxH * (vram_width + 3);
     mDbufSize += 8; // Add 8 for some reason
     mDbuf = nullptr;
-	
+
     // NOTE: OG bug or odd compiler code gen? Why isn't it using the passed in list which appears to always be this anyway ??
     if (!gAnimations->Push_Back(this))
     {

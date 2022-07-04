@@ -131,9 +131,9 @@ void BaseAnimatedWithPhysicsGameObject::Animation_Init(s32 frameTableOffset, u16
 {
     if (mBaseAnimatedWithPhysicsGameObject_Anim.Init(
             frameTableOffset,
-            this,
             maxW,
             maxH,
+            this,
             ppAnimData))
     {
         if (mBaseAnimatedWithPhysicsGameObject_SpriteScale == FP_FromInteger(1))
