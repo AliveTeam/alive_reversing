@@ -257,54 +257,54 @@ public:
 
     static void RenderElement_47A4E0(s32 xpos, s32 ypos, s32 input_command, PrimHeader** ot, AliveFont* pFont, s32* pPolyOffset);
 
-    s32 field_D4[4];
-    u8** field_E4_res_array[6];
+    s32 field_D4[4] = {};
+    u8** field_E4_res_array[6] = {};
     AliveFont field_FC_font;
     Animation field_134_anim;
 
     using TUpdateFn = decltype(&Menu::WaitForDoorToOpen_47B550);
 
-    TUpdateFn field_1CC_fn_update;
+    TUpdateFn field_1CC_fn_update = nullptr;
 
     using TRenderFn = decltype(&Menu::Empty_Render_47AC80);
 
-    TRenderFn field_1D0_fn_render;
+    TRenderFn field_1D0_fn_render = nullptr;
 
-    s32 field_1D4_tlvInfo;
-    s32 field_1D8_timer;
-    s32 field_1DC_idle_input_counter;
+    s32 field_1D4_tlvInfo = 0;
+    s32 field_1D8_timer = 0;
+    s32 field_1DC_idle_input_counter = 0;
     MenuOption field_1E0_selected_index;
-    s16 field_1E2_rgb;
-    s16 field_1E4_colour_counter;
-    s16 field_1E6;
-    MainMenuTransition* field_1E8_pMenuTrans;
-    MainMenuFade* field_1EC_pObj1;
-    MainMenuFade* field_1F0_pObj2;
-    const char_type* field_1F4_text;
-    s16 field_1F8;
-    s16 field_1FA;
-    s16 field_1FC;
-    s16 field_1FE;
-    s16 field_200;
-    s16 field_202;
-    s16 field_204_flags;
-    s16 field_206;
-    s32 field_208_camera;
-    s16 field_20C_bStartInSpecificMap;
-    EReliveLevelIds field_20E_level;
-    s16 field_210_path;
-    s16 field_212_camera;
-    s16 field_214_abe_xpos;
-    s16 field_216_abe_ypos;
-    s16 field_218_previous_fmv_or_level_selection;
-    s16 field_21A;
-    FP field_21C;
-    FP field_220;
-    s16 field_224_bToFmvSelect;
-    s16 field_226_bToLevelSelect;
-    FP field_228;
-    FP field_22C;
-    s32 field_230_bGoBack;
+    s16 field_1E2_rgb = 0;
+    s16 field_1E4_colour_counter = 0;
+    s16 field_1E6 = 0;
+    MainMenuTransition* field_1E8_pMenuTrans = nullptr;
+    MainMenuFade* field_1EC_pObj1 = nullptr;
+    MainMenuFade* field_1F0_pObj2 = nullptr;
+    const char_type* field_1F4_text = nullptr;
+    s16 field_1F8 = 0;
+    s16 field_1FA = 0;
+    s16 field_1FC = 0;
+    s16 field_1FE = 0;
+    s16 field_200 = 0;
+    s16 field_202 = 0;
+    s16 field_204_flags = 0;
+    s16 field_206 = 0;
+    s32 field_208_camera = 0;
+    s16 field_20C_bStartInSpecificMap = 0;
+    EReliveLevelIds field_20E_level = EReliveLevelIds::eNone;
+    s16 field_210_path = 0;
+    s16 field_212_camera = 0;
+    s16 field_214_abe_xpos = 0;
+    s16 field_216_abe_ypos = 0;
+    s16 field_218_previous_fmv_or_level_selection = 0;
+    s16 field_21A = 0;
+    FP field_21C = {};
+    FP field_220 = {};
+    s16 field_224_bToFmvSelect = 0;
+    s16 field_226_bToLevelSelect = 0;
+    FP field_228 = {};
+    FP field_22C = {};
+    s32 field_230_bGoBack = 0;
 };
 ALIVE_ASSERT_SIZEOF(Menu, 0x234);
 

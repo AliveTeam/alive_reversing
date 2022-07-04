@@ -28,11 +28,11 @@ public:
 
     FontContext field_10_font_context;
     AliveFont field_20_font;
-    s32 field_58_tlvInfo;
-    s16 field_5C_xpos;
-    s16 field_5E_ypos;
-    u16 field_60_start_switch_id;
-    s16 field_62_time_left;
+    s32 field_58_tlvInfo = 0;
+    s16 field_5C_xpos = 0;
+    s16 field_5E_ypos = 0;
+    u16 field_60_start_switch_id = 0;
+    s16 field_62_time_left = 0;
 };
 ALIVE_ASSERT_SIZEOF(GasCountDown, 0x64);
 

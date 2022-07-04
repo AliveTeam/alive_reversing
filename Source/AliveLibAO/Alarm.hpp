@@ -29,10 +29,10 @@ private:
         eDisabling_3 = 3,
         eDisabled_4 = 4
     };
-    States mAlarmState;
-    s32 mAlarmPauseTimer;
-    s32 mAlarmDurationTimer;
-    s16 mAlarmSwitchId;
+    States mAlarmState = States::eAfterConstructed_0;
+    s32 mAlarmPauseTimer = 0;
+    s32 mAlarmDurationTimer = 0;
+    s16 mAlarmSwitchId = 0;
 };
 ALIVE_ASSERT_SIZEOF(Alarm, 0x7C);
 

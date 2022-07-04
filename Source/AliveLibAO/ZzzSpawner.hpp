@@ -26,13 +26,13 @@ public:
     virtual void VScreenChanged() override;
     virtual void VUpdate() override;
 
-    FP field_10_xpos;
-    FP field_14_ypos;
-    FP field_18_scale;
-    s32 field_1C_tlvInfo;
-    s16 field_20_switch_id;
-    s32 field_24_timer;
-    s16 field_28_Zzz_delay;
+    FP field_10_xpos = {};
+    FP field_14_ypos = {};
+    FP field_18_scale = {};
+    s32 field_1C_tlvInfo = 0;
+    s16 field_20_switch_id = 0;
+    s32 field_24_timer = 0;
+    s16 field_28_Zzz_delay = 0;
 };
 ALIVE_ASSERT_SIZEOF(ZzzSpawner, 0x2C);
 

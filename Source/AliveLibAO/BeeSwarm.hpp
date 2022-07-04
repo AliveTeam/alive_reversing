@@ -44,12 +44,12 @@ public:
     BeeSwarmParticles field_E4_bees = {};
     s16 field_D64_num_bees = 0;
     s16 field_D66_bee_count = 0;
-    FP field_D68_xpos = FP_FromInteger(0);
-    FP field_D6C_ypos = FP_FromInteger(0);
-    FP field_D70_chase_target_x = FP_FromInteger(0);
-    FP field_D74_chase_target_y = FP_FromInteger(0);
-    FP field_D78_speed = FP_FromInteger(0);
-    FP field_D7C_pos_offset = FP_FromInteger(0);
+    FP field_D68_xpos = {};
+    FP field_D6C_ypos = {};
+    FP field_D70_chase_target_x = {};
+    FP field_D74_chase_target_y = {};
+    FP field_D78_speed = {};
+    FP field_D7C_pos_offset = {};
 
     enum class BeeSwarmStates : s16
     {
@@ -63,17 +63,17 @@ public:
     s32 field_D84_chaseTicks = 0;
 
     // TODO: Might be a rect
-    FP field_D88_rect_x = FP_FromInteger(0);
-    FP field_D8C_rect_y = FP_FromInteger(0);
-    FP field_D90_rect_w = FP_FromInteger(0);
-    FP field_D94_rect_h = FP_FromInteger(0);
+    FP field_D88_rect_x = {};
+    FP field_D8C_rect_y = {};
+    FP field_D90_rect_w = {};
+    FP field_D94_rect_h = {};
 
     BaseAliveGameObject* field_D98_pChaseTarget = nullptr;
     s32 field_D9C_alive_timer = 0;
     s32 field_DA0_do_damage_or_pain_sound_timer = 0;
     s32 field_DA4_update_chase_timer = 0;
     PathLine* field_DA8_pLine = nullptr;
-    FP field_DAC_line_follow_speed = FP_FromInteger(0);
+    FP field_DAC_line_follow_speed = {};
 };
 ALIVE_ASSERT_SIZEOF(BeeSwarm, 0xDB0);
 

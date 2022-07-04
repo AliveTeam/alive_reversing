@@ -48,22 +48,22 @@ public:
 
     s16 IsColliding();
 
-    UXBState field_10C_state;
-    UXBState field_10E_starting_state;
-    s16 field_110_disabled_resources;
-    s32 field_114_tlvInfo;
-    s32 field_118_next_state_frame;
+    UXBState field_10C_state = UXBState::eDelay_0;
+    UXBState field_10E_starting_state = UXBState::eDelay_0;
+    s16 field_110_disabled_resources = 0;
+    s32 field_114_tlvInfo = 0;
+    s32 field_118_next_state_frame = 0;
     Animation field_11C_anim;
-    s16 field_1B4_pattern_length;
-    s16 field_1B6_pattern_index;
-    s16 field_1B8_pattern;
-    s16 field_1BA_red_blink_count;
+    s16 field_1B4_pattern_length = 0;
+    s16 field_1B6_pattern_index = 0;
+    s16 field_1B8_pattern = 0;
+    s16 field_1BA_red_blink_count = 0;
     enum flags_1BC
     {
         eUnused_Bit0 = 0x1,
         eIsRed_Bit1 = 0x2,
     };
-    BitField16<flags_1BC> field_1BC_flags;
+    BitField16<flags_1BC> field_1BC_flags = {};
 };
 ALIVE_ASSERT_SIZEOF(UXB, 0x1C0);
 

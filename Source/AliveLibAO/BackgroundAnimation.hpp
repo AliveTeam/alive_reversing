@@ -42,8 +42,8 @@ public:
     s16 field_EC_w = 0;
     s16 field_EE_h = 0;
     s32 field_F0_tlvInfo = 0;
-    FP field_F8_animXPos = FP_FromInteger(0);
-    FP field_FC_animYPos = FP_FromInteger(0);
+    FP field_F8_animXPos = {};
+    FP field_FC_animYPos = {};
     BgAnimSounds field_100_sound_effect = BgAnimSounds::eNone_0;
     s32 field_104_sound_channels_mask = 0;
 };

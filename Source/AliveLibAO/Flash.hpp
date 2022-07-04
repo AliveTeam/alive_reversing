@@ -13,7 +13,7 @@ public:
 
     virtual void VUpdate() override;
 
-    s32 field_68_flash_time;
+    s32 field_68_flash_time = 0;
 };
 ALIVE_ASSERT_SIZEOF(Flash, 0x6C);
 

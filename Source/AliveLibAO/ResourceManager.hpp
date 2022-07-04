@@ -97,12 +97,12 @@ public:
 
         }
 
-        const char_type* field_0_fileName;
-        ResourcesToLoadList* field_4_pResourcesToLoadList;
-        u32 mLineType;
-        u32 field_C_resourceId;
+        const char_type* field_0_fileName = nullptr;
+        ResourcesToLoadList* field_4_pResourcesToLoadList = nullptr;
+        u32 mLineType = 0;
+        u32 field_C_resourceId = 0;
         DynamicArrayT<ResourceManager_FilePartRecord> field_10_file_sections_dArray;
-        LoadingFile* field_1C_pGameObjFileRec;
+        LoadingFile* field_1C_pGameObjFileRec = nullptr;
     };
     ALIVE_ASSERT_SIZEOF(ResourceManager_FileRecord, 0x20);
 

@@ -20,11 +20,11 @@ public:
     virtual void VScreenChanged() override;
     virtual void VUpdate() override;
 
-    s32 field_10_tlvInfo;
-    s32 field_14_emit_power;
-    FP field_18_xpos;
-    FP field_1C_ypos;
-    FP field_20_fp_not_used;
+    s32 field_10_tlvInfo = 0;
+    s32 field_14_emit_power = 0;
+    FP field_18_xpos = {};
+    FP field_1C_ypos = {};
+    FP field_20_fp_not_used = {};
 };
 ALIVE_ASSERT_SIZEOF(GasEmitter, 0x24);
 

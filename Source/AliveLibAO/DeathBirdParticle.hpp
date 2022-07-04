@@ -12,15 +12,15 @@ public:
 
     virtual void VUpdate() override;
 
-    s8 field_E4_random;
+    s8 field_E4_random = 0;
     enum class States : s8
     {
         eAnimateDeathFlares_0 = 0,
         eTransformStarsToDoves_1 = 1
     };
-    States field_E5_state;
-    s32 field_E8_start;
-    s16 field_EC_bPlaySound;
+    States field_E5_state = States::eAnimateDeathFlares_0;
+    s32 field_E8_start = 0;
+    s16 field_EC_bPlaySound = 0;
 };
 ALIVE_ASSERT_SIZEOF(DeathBirdParticle, 0xF0);
 

@@ -26,8 +26,8 @@ public:
     virtual void VScreenChanged() override;
     virtual void VUpdate() override;
 
-    s32 field_10_timer;
-    GameEnderController_States field_14_state;
+    s32 field_10_timer = 0;
+    GameEnderController_States field_14_state = GameEnderController_States::eInit_0;
 };
 ALIVE_ASSERT_SIZEOF(GameEnderController, 0x18);
 

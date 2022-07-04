@@ -39,9 +39,9 @@ public:
     ~FontContext();
 
 
-    PSX_RECT mRect;
-    const Font_AtlasEntry* field_8_atlas_array;
-    s16 field_C_resource_id;
+    PSX_RECT mRect = {};
+    const Font_AtlasEntry* field_8_atlas_array = nullptr;
+    s16 field_C_resource_id = 0;
 };
 
 
@@ -59,12 +59,12 @@ public:
 
     const char_type* SliceText(const char_type* text, s32 left, FP scale, s32 right);
 
-    u8 gap0[32];
-    u8** field_20_fnt_poly_block_ptr;
-    Poly_FT4* field_24_fnt_poly_array;
-    PSX_RECT field_28_palette_rect;
-    s32 field_30_poly_count;
-    FontContext* field_34_font_context;
+    u8 gap0[32] = {};
+    u8** field_20_fnt_poly_block_ptr = nullptr;
+    Poly_FT4* field_24_fnt_poly_array = nullptr;
+    PSX_RECT field_28_palette_rect = {};
+    s32 field_30_poly_count = 0;
+    FontContext* field_34_font_context = nullptr;
 };
 ALIVE_ASSERT_SIZEOF(AliveFont, 0x38);
 

@@ -33,8 +33,8 @@ public:
     void Accelerate();
     void CrushThingsInTheWay();
 
-    s32 field_10C_tlvInfo;
-    u16 field_110_release_switch_id;
+    s32 field_10C_tlvInfo = 0;
+    u16 field_110_release_switch_id = 0;
     enum class States : s16
     {
         eInactive_0,
@@ -43,11 +43,11 @@ public:
         eFallingAndHittingWall_3,
         eCrushedBees_4
     };
-    States field_112_state;
-    RollingBallShaker* field_114_pRollingBallShaker;
-    FP field_118_speed;
-    FP field_11C_acceleration;
-    PathLine* field_120_pCollisionLine;
+    States field_112_state = States::eInactive_0;
+    RollingBallShaker* field_114_pRollingBallShaker = nullptr;
+    FP field_118_speed = {};
+    FP field_11C_acceleration = {};
+    PathLine* field_120_pCollisionLine = nullptr;
 };
 ALIVE_ASSERT_SIZEOF(RollingBall, 0x12C);
 

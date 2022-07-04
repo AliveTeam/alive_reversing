@@ -13,8 +13,8 @@ public:
     virtual void VUpdate() override;
     virtual void VScreenChanged() override;
 
-    s32 field_D4[4];
-    s32 field_E4_tlvInfo;
+    s32 field_D4[4] = {};
+    s32 field_E4_tlvInfo = 0;
 };
 ALIVE_ASSERT_SIZEOF(Honey, 0xE8);
 

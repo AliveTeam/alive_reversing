@@ -28,13 +28,13 @@ public:
         eFinish_3 = 3,
         eKillTargets_4 = 4,
     };
-    State field_10C_state;
-    s32 field_110_timer;
-    s32 field_114_timer;
-    ZapLine* field_118_zap_line;
-    BaseAliveGameObject* field_11C_obj_being_zapped;
-    s16 field_120_bElectrocute;
-    s16 field_122_bResetRingTimer;
+    State field_10C_state = State::eTransform_0;
+    s32 field_110_timer = 0;
+    s32 field_114_timer = 0;
+    ZapLine* field_118_zap_line = nullptr;
+    BaseAliveGameObject* field_11C_obj_being_zapped = nullptr;
+    s16 field_120_bElectrocute = 0;
+    s16 field_122_bResetRingTimer = 0;
 };
 ALIVE_ASSERT_SIZEOF(Shrykull, 0x124);
 

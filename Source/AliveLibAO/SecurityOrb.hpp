@@ -32,10 +32,10 @@ public:
     virtual void VUpdate() override;
 
 public:
-    s32 field_10C_tlvInfo;
-    SecurityOrbStates field_110_state;
-    s32 field_114_timer;
-    s32 field_118_sound_channels;
+    s32 field_10C_tlvInfo = 0;
+    SecurityOrbStates field_110_state = SecurityOrbStates::eIdle_0;
+    s32 field_114_timer = 0;
+    s32 field_118_sound_channels = 0;
 };
 ALIVE_ASSERT_SIZEOF(SecurityOrb, 0x11C);
 

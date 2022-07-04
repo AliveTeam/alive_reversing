@@ -22,8 +22,8 @@ public:
     virtual void VRender(PrimHeader** ppOt) override;
     virtual void VScreenChanged() override;
 
-    s16 field_10_count;
-    s16 field_12_flags;
+    s16 field_10_count = 0;
+    s16 field_12_flags = 0;
 };
 ALIVE_ASSERT_SIZEOF(ThrowableArray, 0x14);
 

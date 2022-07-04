@@ -12,7 +12,7 @@ public:
 
     virtual void VUpdate() override;
 
-    FP field_E4_scale_amount;
+    FP field_E4_scale_amount = {};
 };
 ALIVE_ASSERT_SIZEOF(Particle, 0xE8);
 

@@ -37,12 +37,12 @@ public:
     virtual void VRender(PrimHeader** ppOt) override;
 
 public:
-    s32 field_E4_tlvInfo;
-    s16 field_E8_width;
-    s16 field_EA_height;
-    s16 field_EC_bHasID;
-    s16 field_EE_switch_value;
-    s16 field_F0_switch_id;
+    s32 field_E4_tlvInfo = 0;
+    s16 field_E8_width = 0;
+    s16 field_EA_height = 0;
+    s16 field_EC_bHasID = 0;
+    s16 field_EE_switch_value = 0;
+    s16 field_F0_switch_id = 0;
 };
 ALIVE_ASSERT_SIZEOF(DoorLight, 0xF4);
 

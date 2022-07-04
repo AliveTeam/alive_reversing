@@ -33,14 +33,14 @@ public:
         eBouncing_4 = 4,
         eFallingOutOfWorld_5 = 5,
     };
-    States field_110_state;
-    s16 field_112;
-    PathLine* field_114_pLine;
-    s16 field_118_vol;
-    s16 field_11A;
-    FP field_11C_xpos;
-    FP field_120_ypos;
-    s32 field_124_shimmer_timer;
+    States field_110_state = States::eNone_0;
+    s16 field_112 = 0;
+    PathLine* field_114_pLine = nullptr;
+    s16 field_118_vol = 0;
+    s16 field_11A = 0;
+    FP field_11C_xpos = {};
+    FP field_120_ypos = {};
+    s32 field_124_shimmer_timer = 0;
 };
 ALIVE_ASSERT_SIZEOF(Rock, 0x128);
 

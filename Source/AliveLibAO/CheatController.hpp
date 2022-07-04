@@ -14,8 +14,8 @@ public:
     virtual void VScreenChanged() override;
     virtual void VUpdate() override;
 
-    s16 field_10;
-    s16 field_12;
+    s16 field_10 = 0;
+    s16 field_12 = 0;
 };
 ALIVE_ASSERT_SIZEOF(CheatController, 0x14);
 

@@ -46,20 +46,20 @@ public:
     // Note: Completely inlined in AO
     s16 ApplysToScale(Scale scale);
 
-    s32 field_10_tlvInfo;
-    EReliveLevelIds field_14_level;
-    s16 field_16_path;
-    s16 field_18_centre_x;
-    s16 field_1A_centre_y;
-    s16 field_1C_centre_mid_x;
-    s16 field_1E_centre_mid_y;
-    s16 field_20_mid_x;
-    s16 field_22_mid_y;
-    s16 field_24_id;
-    ShadowZoneScale field_26_scale;
-    FP field_28_r;
-    FP field_2C_g;
-    FP field_30_b;
+    s32 field_10_tlvInfo = 0;
+    EReliveLevelIds field_14_level = EReliveLevelIds::eNone;
+    s16 field_16_path = 0;
+    s16 field_18_centre_x = 0;
+    s16 field_1A_centre_y = 0;
+    s16 field_1C_centre_mid_x = 0;
+    s16 field_1E_centre_mid_y = 0;
+    s16 field_20_mid_x = 0;
+    s16 field_22_mid_y = 0;
+    s16 field_24_id = 0;
+    ShadowZoneScale field_26_scale = ShadowZoneScale::eBoth_0;
+    FP field_28_r = {};
+    FP field_2C_g = {};
+    FP field_30_b = {};
 };
 ALIVE_ASSERT_SIZEOF(ShadowZone, 0x34);
 

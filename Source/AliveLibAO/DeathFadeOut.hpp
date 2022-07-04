@@ -17,12 +17,12 @@ public:
     virtual void VRender(PrimHeader** ppOt) override;
 
 
-    s16 field_68_current_fade_rgb;
-    s16 field_6A_speed;
-    s16 field_6C_direction;
-    s16 field_6E_bDone;
-    s16 field_70_destroy_on_done;
-    s16 field_72;
+    s16 field_68_current_fade_rgb = 0;
+    s16 field_6A_speed = 0;
+    s16 field_6C_direction = 0;
+    s16 field_6E_bDone = 0;
+    s16 field_70_destroy_on_done = 0;
+    s16 field_72 = 0;
 };
 ALIVE_ASSERT_SIZEOF(DeathFadeOut, 0x74);
 

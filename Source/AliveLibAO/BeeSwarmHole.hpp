@@ -34,15 +34,15 @@ public:
 
     virtual void VUpdate() override;
 
-    s32 field_10_tlvInfo;
-    PSX_RECT field_14_rect;
-    s32 field_1C_interval_timer;
-    u16 field_20_interval;
-    s16 field_22_fall_switch_id;
-    Path_BeeSwarmHole::MovementType field_24_movement_type;
-    s16 field_26_bees_amount;
-    u16 field_28_chase_time;
-    u16 field_2A_speed;
+    s32 field_10_tlvInfo = 0;
+    PSX_RECT field_14_rect = {};
+    s32 field_1C_interval_timer = 0;
+    u16 field_20_interval = 0;
+    s16 field_22_fall_switch_id = 0;
+    Path_BeeSwarmHole::MovementType field_24_movement_type = Path_BeeSwarmHole::MovementType::eHover_0;
+    s16 field_26_bees_amount = 0;
+    u16 field_28_chase_time = 0;
+    u16 field_2A_speed = 0;
 };
 ALIVE_ASSERT_SIZEOF(BeeSwarmHole, 0x2C);
 

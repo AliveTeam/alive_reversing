@@ -49,7 +49,7 @@ public:
     void UpdateSpriteVertexPositions();
     void CalculateSpritePositionsInner(s32 idx1, s32 idx2, s32 idx3, s16 idx4);
 
-    s32 field_D4[4];
+    s32 field_D4[4] = {};
 
     enum class ZapLineState : s16
     {
@@ -60,27 +60,27 @@ public:
         eUpdateSpriteVertices_4 = 4
     };
 
-    ZapLineState field_E4_state;
+    ZapLineState field_E4_state = ZapLineState::eInit_0;
 
-    u8** field_E8_ppRes;
-    Prim_SetTPage field_EC_tPage_p8[2];
-    s16 field_10C_x_position_source;
-    s16 field_10E_y_position_source;
-    s16 field_110_x_position_destination;
-    s16 field_112_y_position_destination;
-    TPageMode field_114_tPageMode;
-    s16 field_116_alive_timer;
-    s16 field_118_max_alive_time;
-    ZapLineType field_11A_type;
-    TPageAbr field_11C_tPageAbr;
-    s16 field_11E_number_of_segments;
-    s16 field_120_number_of_pieces_per_segment;
-    s16 field_122_number_of_sprites;
-    ZapLineSprites* field_124_pSprts;
-    PSX_Point* field_128_sprite_positions;
-    ZapPoint* field_12C_zap_points;
-    FP_Point* field_130_sprite_segment_positions;
-    PSX_RECT field_134_rects[2];
+    u8** field_E8_ppRes = nullptr;
+    Prim_SetTPage field_EC_tPage_p8[2] = {};
+    s16 field_10C_x_position_source = 0;
+    s16 field_10E_y_position_source = 0;
+    s16 field_110_x_position_destination = 0;
+    s16 field_112_y_position_destination = 0;
+    TPageMode field_114_tPageMode = TPageMode::e4Bit_0;
+    s16 field_116_alive_timer = 0;
+    s16 field_118_max_alive_time = 0;
+    ZapLineType field_11A_type = ZapLineType::eThick_0;
+    TPageAbr field_11C_tPageAbr = TPageAbr::eBlend_0;
+    s16 field_11E_number_of_segments = 0;
+    s16 field_120_number_of_pieces_per_segment = 0;
+    s16 field_122_number_of_sprites = 0;
+    ZapLineSprites* field_124_pSprts = nullptr;
+    PSX_Point* field_128_sprite_positions = nullptr;
+    ZapPoint* field_12C_zap_points = nullptr;
+    FP_Point* field_130_sprite_segment_positions = nullptr;
+    PSX_RECT field_134_rects[2] = {};
 };
 ALIVE_ASSERT_SIZEOF(ZapLine, 0x144);
 

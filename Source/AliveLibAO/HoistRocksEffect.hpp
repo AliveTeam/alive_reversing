@@ -52,10 +52,10 @@ public:
     virtual void VScreenChanged() override;
     virtual void VUpdate() override;
 
-    FP field_10_xpos;
-    FP field_14_ypos;
-    s32 field_18_tlvInfo;
-    s32 field_1C_never_used[4];
+    FP field_10_xpos = {};
+    FP field_14_ypos = {};
+    s32 field_18_tlvInfo = 0;
+    s32 field_1C_never_used[4] = {};
 };
 ALIVE_ASSERT_SIZEOF(HoistRocksEffect, 0x2C);
 

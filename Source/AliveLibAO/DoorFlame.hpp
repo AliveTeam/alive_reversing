@@ -42,19 +42,19 @@ public:
     virtual void VStopAudio() override;
     virtual void VUpdate() override;
 
-    s32 field_E4_tlvInfo;
-    s16 field_E8_switch_id;
-    s16 field_EA_frame_count;
+    s32 field_E4_tlvInfo = 0;
+    s16 field_E8_switch_id = 0;
+    s16 field_EA_frame_count = 0;
     enum class States : u16
     {
         eDisabled_0 = 0,
         eEnabled_1 = 1
     };
-    States field_EC_state;
-    s16 field_EE_2_random;
-    s32 field_F0_sounds_mask;
-    FireBackgroundGlow* field_F8_pFireBackgroundGlow;
-    FlameSparks* field_FC_pFlameSparks;
+    States field_EC_state = States::eDisabled_0;
+    s16 field_EE_2_random = 0;
+    s32 field_F0_sounds_mask = 0;
+    FireBackgroundGlow* field_F8_pFireBackgroundGlow = nullptr;
+    FlameSparks* field_FC_pFlameSparks = nullptr;
 };
 ALIVE_ASSERT_SIZEOF(DoorFlame, 0x100);
 

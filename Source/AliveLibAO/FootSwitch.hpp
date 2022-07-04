@@ -4,6 +4,7 @@
 #include "BaseAnimatedWithPhysicsGameObject.hpp"
 #include "Map.hpp"
 #include "../AliveLibAE/Path.hpp"
+#include "SwitchStates.hpp"
 
 namespace AO {
 
@@ -35,17 +36,17 @@ public:
 
     BaseAliveGameObject* WhoIsStoodOnMe();
 
-    s32 field_E4_tlvInfo;
+    s32 field_E4_tlvInfo = 0;
     enum class States : s16
     {
         eWaitForStepOnMe_0 = 0,
         eWaitForGetOffMe_1 = 1,
     };
-    States field_E8_state;
-    s16 field_EA_switch_id;
-    SwitchOp field_EC_action;
-    FootSwitchTriggerBy field_EE_trigger_by;
-    BaseAliveGameObject* field_F0_pStoodOnMe;
+    States field_E8_state = States::eWaitForStepOnMe_0;
+    s16 field_EA_switch_id = 0;
+    SwitchOp field_EC_action = SwitchOp::eSetTrue_0;
+    FootSwitchTriggerBy field_EE_trigger_by = FootSwitchTriggerBy::eAbe_0;
+    BaseAliveGameObject* field_F0_pStoodOnMe = nullptr;
 };
 ALIVE_ASSERT_SIZEOF(FootSwitch, 0xF4);
 

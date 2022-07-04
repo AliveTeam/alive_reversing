@@ -17,8 +17,8 @@ public:
     CreditsController(Path_CreditsController* pTlv, s32 tlvInfo);
     ~CreditsController();
 
-    s32 field_10_next_cam_frame;
-    s16 field_14_camera_number;
+    s32 field_10_next_cam_frame = 0;
+    s16 field_14_camera_number = 0;
 };
 ALIVE_ASSERT_SIZEOF(CreditsController, 0x18);
 

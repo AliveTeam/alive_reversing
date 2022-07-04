@@ -33,12 +33,12 @@ private:
 public:
     BulletType field_10_type = BulletType::ePossessedSlig_0;
     PathLine* field_14_pLine = nullptr;
-    FP field_18_xpos = FP_FromInteger(0);
-    FP field_1C_ypos = FP_FromInteger(0);
-    FP field_20_x_distance = FP_FromInteger(0);
+    FP field_18_xpos = {};
+    FP field_1C_ypos = {};
+    FP field_20_x_distance = {};
     EReliveLevelIds field_28_level = EReliveLevelIds::eNone;
     s16 field_2A_path = 0;
-    FP field_2C_scale = FP_FromInteger(0);
+    FP field_2C_scale = {};
     BaseAliveGameObject* field_30_pParent = nullptr;
     s16 field_34_number_of_bullets = 0;
     s16 field_36 = 0;

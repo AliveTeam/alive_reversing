@@ -23,10 +23,10 @@ private:
     void VUpdate_4028A0();
 
 private:
-    s32 field_10_tlvInfo;
-    u16 field_14_slig_spawner_switch_id;
-    s16 field_16_flags;
-    Path_TLV field_18_tlv;
+    s32 field_10_tlvInfo = 0;
+    u16 field_14_slig_spawner_switch_id = 0;
+    s16 field_16_flags = 0;
+    Path_TLV field_18_tlv = {};
 };
 ALIVE_ASSERT_SIZEOF(SligSpawner, 0x30);
 

@@ -26,11 +26,11 @@ public:
     virtual void VUpdate() override;
     virtual void VRender(PrimHeader** ppOt) override;
 
-    u8** field_E4_ppRes;
-    ParticleBurst_Item* field_E8_pRes;
-    s16 field_EC_count;
-    s32 field_F0_timer;
-    BurstType field_F4_type;
+    u8** field_E4_ppRes = nullptr;
+    ParticleBurst_Item* field_E8_pRes = nullptr;
+    s16 field_EC_count = 0;
+    s32 field_F0_timer = 0;
+    BurstType field_F4_type = BurstType::eFallingRocks_0;
 };
 ALIVE_ASSERT_SIZEOF(ParticleBurst, 0xF8);
 

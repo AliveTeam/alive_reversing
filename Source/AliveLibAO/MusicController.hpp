@@ -2,6 +2,8 @@
 
 #include "../AliveLibCommon/Function.hpp"
 #include "../relive_lib/BaseGameObject.hpp"
+#include "../relive_lib/MapWrapper.hpp"
+#include "Midi.hpp"
 
 enum class EReliveLevelIds : s16;
 class BaseGameObject;
@@ -9,8 +11,6 @@ class BaseGameObject;
 namespace AO {
 
 class BaseAliveGameObject;
-
-enum class SeqId : s16;
 
 class MusicController final : public BaseGameObject
 {
@@ -64,31 +64,31 @@ public:
     void UpdateAmbiance();
     s16 SetMusicVolumeDelayed(s16 vol, s16 delay);
 
-    s16 field_10_bEnableMusic;
-    s16 field_12_target_volume;
-    s16 field_14;
-    s16 field_16_bScreenChanged;
-    EReliveLevelIds field_18_level;
-    BaseGameObject* field_1C_pObj;
-    s16 field_20;
-    s16 field_22;
-    s16 field_24_bAmbientMusicEnabled;
-    SeqId field_26_ambient_seq;
-    s32 field_28_amibent_seq_duration;
-    s32 field_2C_music_start_time;
-    s32 field_30_music_timer;
-    s32 field_34_sync_after_beats;
-    SeqId field_38_music_seq;
-    MusicTypes field_3A_type;
-    s32 field_3C_music_seq_duration;
-    s32 field_40_started_time;
-    s16 field_44_bTypeChanged;
-    s16 field_46_restart_track;
-    s16 field_48_vol_state;
-    s16 field_4A_starting_volume;
-    s16 field_4C_current_vol;
-    s16 field_4E_vol;
-    s32 field_50_music_volume_change_time;
+    s16 field_10_bEnableMusic = 0;
+    s16 field_12_target_volume = 0;
+    s16 field_14 = 0;
+    s16 field_16_bScreenChanged = 0;
+    EReliveLevelIds field_18_level = EReliveLevelIds::eNone;
+    BaseGameObject* field_1C_pObj = nullptr;
+    s16 field_20 = 0;
+    s16 field_22 = 0;
+    s16 field_24_bAmbientMusicEnabled = 0;
+    SeqId field_26_ambient_seq = SeqId::None_M1;
+    s32 field_28_amibent_seq_duration = 0;
+    s32 field_2C_music_start_time = 0;
+    s32 field_30_music_timer = 0;
+    s32 field_34_sync_after_beats = 0;
+    SeqId field_38_music_seq = SeqId::None_M1;
+    MusicTypes field_3A_type = MusicTypes::eType0;
+    s32 field_3C_music_seq_duration = 0;
+    s32 field_40_started_time = 0;
+    s16 field_44_bTypeChanged = 0;
+    s16 field_46_restart_track = 0;
+    s16 field_48_vol_state = 0;
+    s16 field_4A_starting_volume = 0;
+    s16 field_4C_current_vol = 0;
+    s16 field_4E_vol = 0;
+    s32 field_50_music_volume_change_time = 0;
 };
 ALIVE_ASSERT_SIZEOF(MusicController, 0x54);
 

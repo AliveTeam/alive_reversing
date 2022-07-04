@@ -44,20 +44,20 @@ public:
 
     bool IsPlayerNear();
 
-    s32 field_E4_tlvInfo;
-    s16 field_E8_state;
-    s16 field_EA_switch_id;
-    s32 field_EC_code_converted;
-    s16 field_F0_code_len;
-    s32 field_F4_event_idx;
-    u8 field_F8_stru[16];
-    s16 field_108_max_idx;
-    s16 field_10A_event_idx;
-    PSX_Point field_10C_top_left;
-    PSX_Point field_110_bottom_right;
-    s32 field_114_timer;
-    s16 field_118_max_idx;
-    s16 field_11A_unused;
+    s32 field_E4_tlvInfo = 0;
+    s16 field_E8_state = 0;
+    s16 field_EA_switch_id = 0;
+    s32 field_EC_code_converted = 0;
+    s16 field_F0_code_len = 0;
+    s32 field_F4_event_idx = 0;
+    u8 field_F8_stru[16] = {};
+    s16 field_108_max_idx = 0;
+    s16 field_10A_event_idx = 0;
+    PSX_Point field_10C_top_left = {};
+    PSX_Point field_110_bottom_right = {};
+    s32 field_114_timer = 0;
+    s16 field_118_max_idx = 0;
+    s16 field_11A_unused = 0;
 };
 ALIVE_ASSERT_SIZEOF(SecurityDoor, 0x11C);
 

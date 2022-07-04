@@ -14,7 +14,7 @@ public:
 
     virtual void VUpdate() override;
 
-    FP field_E4_scale;
+    FP field_E4_scale = {};
 };
 ALIVE_ASSERT_SIZEOF(BaseBomb, 0xE8);
 

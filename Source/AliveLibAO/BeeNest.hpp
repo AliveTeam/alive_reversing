@@ -37,19 +37,19 @@ public:
     virtual void VScreenChanged() override;
     virtual void VUpdate() override;
 
-    FP field_10_bee_x;
-    FP field_14_bee_y;
-    EReliveLevelIds field_18_level;
-    s16 field_1A_path;
-    s32 field_1C_tlvInfo;
-    PSX_Point field_20_top_left;
-    PSX_Point field_24_bottom_right;
-    u16 field_28_switch_id;
-    s16 field_2A_swarm_size;
-    u16 field_2C_chase_ticks;
-    BeeNestStates field_2E_state;
-    FP field_30_speed;
-    BeeSwarm* field_34_pBeeSwarm;
+    FP field_10_bee_x = {};
+    FP field_14_bee_y = {};
+    EReliveLevelIds field_18_level = EReliveLevelIds::eNone;
+    s16 field_1A_path = 0;
+    s32 field_1C_tlvInfo = 0;
+    PSX_Point field_20_top_left = {};
+    PSX_Point field_24_bottom_right = {};
+    u16 field_28_switch_id = 0;
+    s16 field_2A_swarm_size = 0;
+    u16 field_2C_chase_ticks = 0;
+    BeeNestStates field_2E_state = BeeNestStates::eWaitForTrigger_0;
+    FP field_30_speed = {};
+    BeeSwarm* field_34_pBeeSwarm = nullptr;
 };
 ALIVE_ASSERT_SIZEOF(BeeNest, 0x38);
 

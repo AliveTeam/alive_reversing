@@ -31,17 +31,17 @@ public:
     virtual void VScreenChanged() override;
     virtual void VUpdate() override;
 
-    s32 field_10_tlvInfo;
-    s16 field_14_spawned_count;
-    FP field_18_xPos;
-    FP field_1C_yPos;
-    s32 field_20_spawn_timer;
-    Scale_short field_24_scale;
-    u16 field_26_max_slogs;
-    u16 field_28_max_slogs_at_a_time;
-    StartDirection field_2A_start_direction;
-    u16 field_2C_slog_spawn_interval;
-    u16 field_2E_spawner_switch_id;
+    s32 field_10_tlvInfo = 0;
+    s16 field_14_spawned_count = 0;
+    FP field_18_xPos = {};
+    FP field_1C_yPos = {};
+    s32 field_20_spawn_timer = 0;
+    Scale_short field_24_scale = Scale_short::eFull_0;
+    u16 field_26_max_slogs = 0;
+    u16 field_28_max_slogs_at_a_time = 0;
+    StartDirection field_2A_start_direction = StartDirection::eRight_0;
+    u16 field_2C_slog_spawn_interval = 0;
+    u16 field_2E_spawner_switch_id = 0;
 };
 ALIVE_ASSERT_SIZEOF(SlogSpawner, 0x30);
 

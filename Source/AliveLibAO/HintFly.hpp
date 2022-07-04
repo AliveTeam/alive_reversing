@@ -36,13 +36,12 @@ public:
     void FormWordAndAdvanceToNextWord();
     void UpdateParticles();
 
-    s32 field_D4[4];
-    u8** field_E4_ppRes;
-    HintFlyParticle* field_E8_pRes;
-    Prim_SetTPage field_EC_tPages[2];
-    s32 field_10C_timer;
-    TPageMode field_110_bitMode;
-    // pad
+    s32 field_D4[4] = {};
+    u8** field_E4_ppRes = nullptr;
+    HintFlyParticle* field_E8_pRes = nullptr;
+    Prim_SetTPage field_EC_tPages[2] = {};
+    s32 field_10C_timer = 0;
+    TPageMode field_110_bitMode = TPageMode::e4Bit_0;
 
     enum class State : s16
     {
@@ -54,16 +53,16 @@ public:
         eState_5 = 5,
         eState_6 = 6,
     };
-    State field_112_state;
-    s16 field_114_xScreen;
-    s16 field_116_yScreen;
-    s16 field_118_counter;
-    s16 field_11A_msg_len;
-    s16 field_11C_message_id;
-    s16 field_11E_msg_idx;
-    s16 field_120_idx;
-    s16 field_122_target_count;
-    s32 field_124_tlvInfo;
+    State field_112_state = State::eState_0;
+    s16 field_114_xScreen = 0;
+    s16 field_116_yScreen = 0;
+    s16 field_118_counter = 0;
+    s16 field_11A_msg_len = 0;
+    s16 field_11C_message_id = 0;
+    s16 field_11E_msg_idx = 0;
+    s16 field_120_idx = 0;
+    s16 field_122_target_count = 0;
+    s32 field_124_tlvInfo = 0;
 };
 ALIVE_ASSERT_SIZEOF(HintFly, 0x128);
 

@@ -273,31 +273,31 @@ public:
         eSliceCam_1 = 1,
         eInstantChange_2 = 2
     };
-    CamChangeStates field_6_state;
-    s16 field_8_force_load;
+    CamChangeStates field_6_state = CamChangeStates::eInactive_0;
+    s16 field_8_force_load = 0;
 
-    CameraSwapEffects field_10_screenChangeEffect;
-    s16 field_12_fmv_base_id;
-    MapDirections field_14_direction;
-    s16 field_16;
-    BaseAliveGameObject* field_18_pAliveObj;
-    CameraSwapEffects field_1C_cameraSwapEffect;
-    s16 field_1E_door;
-    s16 field_20_camX_idx;
-    s16 field_22_camY_idx;
-    u16 field_24_max_cams_x;
-    u16 field_26_max_cams_y;;
-    s16 field_2A;
-    FP_Point field_2C_camera_offset;
-    Camera* field_34_camera_array[5];
-    Camera* field_48_stru_5[5];
-    Map_PathsArray field_5C_path_res_array;
-    const PathData* field_D4_pPathData;
-    s16 field_D8;
-    s16 field_DA_bMapChanged;
-    s16 field_DC_free_all_anim_and_palts;
-    s16 field_DE;
-    u8* field_E0_save_data;
+    CameraSwapEffects field_10_screenChangeEffect = CameraSwapEffects::eInstantChange_0;
+    s16 field_12_fmv_base_id = 0;
+    MapDirections field_14_direction = MapDirections::eMapLeft_0;
+    s16 field_16 = 0;
+    BaseAliveGameObject* field_18_pAliveObj = nullptr;
+    CameraSwapEffects field_1C_cameraSwapEffect = CameraSwapEffects::eInstantChange_0;
+    s16 field_1E_door = 0;
+    s16 field_20_camX_idx = 0;
+    s16 field_22_camY_idx = 0;
+    u16 field_24_max_cams_x = 0;
+    u16 field_26_max_cams_y = 0;;
+    s16 field_2A = 0;
+    FP_Point field_2C_camera_offset = {};
+    Camera* field_34_camera_array[5] = {};
+    Camera* field_48_stru_5[5] = {};
+    Map_PathsArray field_5C_path_res_array = {};
+    const PathData* field_D4_pPathData = nullptr;
+    s16 field_D8 = 0;
+    s16 field_DA_bMapChanged = 0;
+    s16 field_DC_free_all_anim_and_palts = 0;
+    s16 field_DE = 0;
+    u8* field_E0_save_data = nullptr;
 };
 
 ALIVE_ASSERT_SIZEOF(Map, 0xE4);

@@ -66,11 +66,11 @@ public:
     static s16 sub_40FA60(s32 code, u8* pBuffer);
     GameSpeakMatch MatchBuffer(u8* pBuffer, s16 bufferLen, s16 bufferStartIdx);
 
-    GameSpeakEvents field_10_last_event;
-    s16 field_12;
-    u32 field_14_last_event_frame;
-    s32 field_18_last_event_index;
-    s8 field_1C_event_buffer[32];
+    GameSpeakEvents field_10_last_event = GameSpeakEvents::eNone_m1;
+    s16 field_12 = 0;
+    u32 field_14_last_event_frame = 0;
+    s32 field_18_last_event_index = 0;
+    s8 field_1C_event_buffer[32] = {};
 };
 ALIVE_ASSERT_SIZEOF(GameSpeak, 0x3C);
 

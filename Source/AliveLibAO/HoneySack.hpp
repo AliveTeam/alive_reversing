@@ -26,7 +26,7 @@ public:
     virtual void VOnThrowableHit(BaseGameObject* pFrom) override;
     virtual void VUpdate() override;
 
-    s32 field_E4_tlvInfo;
+    s32 field_E4_tlvInfo = 0;
     enum class State : s16
     {
         eDripHoney_0 = 0,
@@ -34,14 +34,14 @@ public:
         eFallOnGround_2 = 2,
         eUpdateHoneySackOnGround_3 = 3
     };
-    State field_E8_state;
-    s16 field_EA_bHit_ground;
-    s32 field_EC_timer;
-    BeeSwarm* field_F0_pBee;
-    FP field_F4_drip_target_x;
-    FP field_F8_drip_target_y;
-    FP field_FC_ypos2;
-    u16 field_100_chase_ticks;
+    State field_E8_state = State::eDripHoney_0;
+    s16 field_EA_bHit_ground = 0;
+    s32 field_EC_timer = 0;
+    BeeSwarm* field_F0_pBee = nullptr;
+    FP field_F4_drip_target_x = {};
+    FP field_F8_drip_target_y = {};
+    FP field_FC_ypos2 = {};
+    u16 field_100_chase_ticks = 0;
 };
 ALIVE_ASSERT_SIZEOF(HoneySack, 0x104);
 

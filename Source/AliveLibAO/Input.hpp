@@ -150,14 +150,14 @@ public:
 
     s32 IsDemoPlaying();
 
-    PSX_Pad field_0_pads[2];
-    u32** field_18_demo_res;
-    s32 field_1C_demo_command_index;
-    s16 field_20_demo_playing;
-    s16 field_22;
-    s32 field_24_command;
-    s32 field_28_command_duration;
-    s32 field_2C;
+    PSX_Pad field_0_pads[2] = {};
+    u32** field_18_demo_res = nullptr;
+    s32 field_1C_demo_command_index = 0;
+    s16 field_20_demo_playing = 0;
+    s16 field_22 = 0;
+    s32 field_24_command = 0;
+    s32 field_28_command_duration = 0;
+    s32 field_2C = 0;
 
     // These use the active pad
     bool IsAnyPressed(u32 command) const;

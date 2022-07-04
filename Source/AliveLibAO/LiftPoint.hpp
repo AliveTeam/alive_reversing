@@ -76,20 +76,20 @@ public:
 
     void CreatePulleyIfExists(s16 camX, s16 camY);
 
-    s16 field_12C_bMoving;
-    s16 field_12E;
-    LiftPointStopType field_130_lift_point_stop_type;
-    s16 field_132;
-    Rope* field_134_pRope2;
-    Rope* field_138_pRope1;
+    s16 field_12C_bMoving = 0;
+    s16 field_12E = 0;
+    LiftPointStopType field_130_lift_point_stop_type = LiftPointStopType::eTopFloor_0;
+    s16 field_132 = 0;
+    Rope* field_134_pRope2 = nullptr;
+    Rope* field_138_pRope1 = nullptr;
     Animation field_13C_lift_wheel;
     Animation field_1D4_pulley_anim;
-    s16 field_26C_pulley_xpos;
-    s16 field_26E_pulley_ypos;
-    FP field_270_floorYLevel;
-    u8** field_274_ppRes;
-    s16 field_278_lift_point_id;
-    BitField16<Flags> field_27A_flags;
+    s16 field_26C_pulley_xpos = 0;
+    s16 field_26E_pulley_ypos = 0;
+    FP field_270_floorYLevel = {};
+    u8** field_274_ppRes = nullptr;
+    s16 field_278_lift_point_id = 0;
+    BitField16<Flags> field_27A_flags = {};
 };
 
 ALIVE_ASSERT_SIZEOF(LiftPoint, 0x27C);

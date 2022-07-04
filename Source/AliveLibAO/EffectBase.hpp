@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../relive_lib/BaseGameObject.hpp"
+#include "../relive_lib/MapWrapper.hpp"
 #include "Primitives.hpp"
 #include "../AliveLibCommon/Function.hpp"
 #include "Layer.hpp"
@@ -18,15 +19,15 @@ public:
     virtual void VRender(PrimHeader** ppOt) override;
 
 protected:
-    s16 mEffectBasePathId;
-    EReliveLevelIds mEffectBaseLevelId;
-    Prim_Tile mEffectBaseTile[2];
-    Prim_SetTPage mEffectBaseTPage[2];
-    Layer mEffectBaseLayer;
-    s16 mEffectBaseRed;
-    s16 mEffectBaseGreen;
-    s16 mEffectBaseBlue;
-    s16 mSemiTrans;
+    s16 mEffectBasePathId = 0;
+    EReliveLevelIds mEffectBaseLevelId = EReliveLevelIds::eNone;
+    Prim_Tile mEffectBaseTile[2] = {};
+    Prim_SetTPage mEffectBaseTPage[2] = {};
+    Layer mEffectBaseLayer = Layer::eLayer_0;
+    s16 mEffectBaseRed = 0;
+    s16 mEffectBaseGreen = 0;
+    s16 mEffectBaseBlue = 0;
+    s16 mSemiTrans = 0;
 };
 ALIVE_ASSERT_SIZEOF(EffectBase, 0x68);
 

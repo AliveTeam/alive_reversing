@@ -34,11 +34,11 @@ public:
 
     static void OnResLoaded(BellHammer* pThis);
 
-    BellHammerStates field_E4_state;
-    s16 field_E6_switch_id;
-    s32 field_E8_tlvInfo;
-    s32 field_EC_pending_resource_count;
-    s32 field_F0_bSpawnElum;
+    BellHammerStates field_E4_state = BellHammerStates::eWaitForActivation_0;
+    s16 field_E6_switch_id = 0;
+    s32 field_E8_tlvInfo = 0;
+    s32 field_EC_pending_resource_count = 0;
+    s32 field_F0_bSpawnElum = 0;
 };
 ALIVE_ASSERT_SIZEOF(BellHammer, 0xF4);
 

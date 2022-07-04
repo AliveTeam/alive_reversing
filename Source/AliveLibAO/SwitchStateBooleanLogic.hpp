@@ -32,11 +32,11 @@ public:
     virtual void VScreenChanged() override;
     virtual void VUpdate() override;
 
-    u16 field_10_input_1;
-    u16 field_12_input_2;
-    u16 field_14_output;
-    BooleanOperatorType field_16_operator;
-    s32 field_18_tlvInfo;
+    u16 field_10_input_1 = 0;
+    u16 field_12_input_2 = 0;
+    u16 field_14_output = 0;
+    BooleanOperatorType field_16_operator = BooleanOperatorType::eAnd_0;
+    s32 field_18_tlvInfo = 0;
 };
 ALIVE_ASSERT_SIZEOF(SwitchStateBooleanLogic, 0x1C);
 

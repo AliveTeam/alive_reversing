@@ -15,7 +15,7 @@ public:
     static void Stop();
     static void Play();
 
-    s16 field_10_music_id;
+    s16 field_10_music_id = 0;
 };
 ALIVE_ASSERT_SIZEOF(BackgroundMusic, 0x14);
 

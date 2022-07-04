@@ -70,9 +70,9 @@ public:
     s16 Brain_1_Spawn();
     s16 Brain_2_AskForPassword();
 
-    s32 field_110_tlvInfo;
-    s32 field_118_code_converted;
-    s16 field_11C_code_length;
+    s32 field_110_tlvInfo = 0;
+    s32 field_118_code_converted = 0;
+    s16 field_11C_code_length = 0;
 
     enum Flags_11E
     {
@@ -81,22 +81,22 @@ public:
         eBit3_padding = 0x4,
         eBit4_bAbeGettingCloser = 0x8
     };
-    BitField16<Flags_11E> field_11E_flags;
+    BitField16<Flags_11E> field_11E_flags = {};
 
-    s32 field_120_last_event_idx;
-    u8 field_124_code_buffer[16];
-    s16 field_134_buffer_start;
-    s16 field_136_buffer_idx;
-    u16 field_138_brain_state;
-    s16 field_13A_brain_sub_state;
-    s16 field_13C_redundant;
-    s32 field_140_timer;
-    s32 field_144_timer2;
-    u8** field_150_res;
-    s16 field_154_previous_brain_state;
-    s16 field_156_always_4;
-    s16 field_158_code_pos;
-    s16 field_15A_bCodeMatches;
+    s32 field_120_last_event_idx = 0;
+    u8 field_124_code_buffer[16] = {};
+    s16 field_134_buffer_start = 0;
+    s16 field_136_buffer_idx = 0;
+    u16 field_138_brain_state = 0;
+    s16 field_13A_brain_sub_state = 0;
+    s16 field_13C_redundant = 0;
+    s32 field_140_timer = 0;
+    s32 field_144_timer2 = 0;
+    u8** field_150_res = nullptr;
+    s16 field_154_previous_brain_state = 0;
+    s16 field_156_always_4 = 0;
+    s16 field_158_code_pos = 0;
+    s16 field_15A_bCodeMatches = 0;
 };
 ALIVE_ASSERT_SIZEOF(SlingMudokon, 0x15C);
 

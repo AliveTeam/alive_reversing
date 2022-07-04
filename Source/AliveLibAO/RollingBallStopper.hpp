@@ -36,10 +36,10 @@ public:
         eMoveStopper_1,
         eMovingDone_2
     };
-    States field_112_state;
-    u16 field_114_release_switch_id;
-    u16 field_116_ball_switch_id;
-    PathLine* field_118_pLine;
+    States field_112_state = States::eWaitForTrigger_0;
+    u16 field_114_release_switch_id = 0;
+    u16 field_116_ball_switch_id = 0;
+    PathLine* field_118_pLine = nullptr;
 };
 ALIVE_ASSERT_SIZEOF(RollingBallStopper, 0x11C);
 

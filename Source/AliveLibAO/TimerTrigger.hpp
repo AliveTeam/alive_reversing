@@ -28,7 +28,7 @@ public:
 
     void ToggleAllIds();
 
-    u16 field_10_source_switch_id;
+    u16 field_10_source_switch_id = 0;
 
     enum class State : s16
     {
@@ -37,12 +37,12 @@ public:
         eCheckForStartAgain_2 = 2,
         eWaitForSecondTrigger_3 = 3,
     };
-    State field_12_state;
-    s16 field_14_ids[4];
-    s32 field_1C_tlvInfo;
-    s32 field_20_trigger_interval_timer;
-    s32 field_24_trigger_interval;
-    s16 field_28_starting_switch_state;
+    State field_12_state = State::eWaitForEnabled_0;
+    s16 field_14_ids[4] = {};
+    s32 field_1C_tlvInfo = 0;
+    s32 field_20_trigger_interval_timer = 0;
+    s32 field_24_trigger_interval = 0;
+    s16 field_28_starting_switch_state = 0;
 };
 ALIVE_ASSERT_SIZEOF(TimerTrigger, 0x2C);
 

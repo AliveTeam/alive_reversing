@@ -31,10 +31,10 @@ public:
         eActivating_1 = 1,
         eActivated_2 = 2
     };
-    States field_E4_state;
-    s16 field_E6_switch_id;
-    s32 field_E8_tlvInfo;
-    s32 field_EC_fire_sound;
+    States field_E4_state = States::eDisabled_0;
+    s16 field_E6_switch_id = 0;
+    s32 field_E8_tlvInfo = 0;
+    s32 field_EC_fire_sound = 0;
     Animation field_F0_anim;
     Animation field_188_anim;
     Animation field_220_anim;

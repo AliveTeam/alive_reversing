@@ -28,13 +28,13 @@ public:
     void ToSpin(FP xpos, FP ypos, BaseAliveGameObject* pObj);
     void ToStop();
 
-    s32 field_10_particle_spawn_counter;
-    ParticlesState field_14_particles_state;
-    s16 field_16_particleIdx;
-    OrbWhirlWindParticle* field_18_particles[16];
-    FP field_58_xpos;
-    FP field_5C_ypos;
-    FP field_60_scale;
+    s32 field_10_particle_spawn_counter = 0;
+    ParticlesState field_14_particles_state = ParticlesState::eCreating;
+    s16 field_16_particleIdx = 0;
+    OrbWhirlWindParticle* field_18_particles[16] = {};
+    FP field_58_xpos = {};
+    FP field_5C_ypos = {};
+    FP field_60_scale = {};
 };
 ALIVE_ASSERT_SIZEOF(OrbWhirlWind, 0x64);
 

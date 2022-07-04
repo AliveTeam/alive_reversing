@@ -268,20 +268,20 @@ public:
     s16 Brain_14_Chant();
     s16 Brain_15_Choke();
 
-    s32 field_10C;
-    s16 field_110_lift_switch_id;
-    s16 field_112;
-    s32 field_114;
-    s32 field_118;
-    FP field_11C;
-    s32 field_120_unused;
-    s16 field_124_voice_pitch;
-    s16 field_126_input;
-    s32 field_128;
-    u8 field_12C[16];
-    s16 field_13C;
-    s16 field_13E;
-    s32 field_140;
+    s32 field_10C = 0;
+    s16 field_110_lift_switch_id = 0;
+    s16 field_112 = 0;
+    s32 field_114 = 0;
+    s32 field_118 = 0;
+    FP field_11C = {};
+    s32 field_120_unused = 0;
+    s16 field_124_voice_pitch = 0;
+    s16 field_126_input = 0;
+    s32 field_128 = 0;
+    u8 field_12C[16] = {};
+    s16 field_13C = 0;
+    s16 field_13E = 0;
+    s32 field_140 = 0;
 
     enum Flags_144
     {
@@ -302,38 +302,38 @@ public:
         e144_eBit15 = 0x4000,
         e144_eBit16 = 0x8000,
     };
-    BitField16<Flags_144> field_144_flags;
+    BitField16<Flags_144> field_144_flags = {};
 
-    s16 field_146;
-    Mudokon_Resources field_148_res_array;
-    s16 field_184;
-    Choice_short field_186_give_password;
-    s16 field_188;
-    s16 field_18A;
-    FP field_18C_how_far_to_walk;
-    FP field_190;
-    LiftPoint* field_194_pLiftPoint;
-    s16 field_198_abe_must_face_mud;
-    s16 field_19A;
-    s16 field_19C;
-    s16 field_19E_code_idx;
-    s16 field_1A0;
-    s16 field_1A2;
-    s32 field_1A4_code_converted;
-    s16 field_1A8_code_length;
-    u16 field_1AA_ring_timeout;
-    BirdPortal* field_1AC_pBirdPortal;
-    s16 field_1B0;
-    s16 field_1B2_rescue_switch_id;
-    s16 field_1B4_idle_time;
-    s16 field_1B6;
-    s16 field_1B8_brain_state;
-    s16 field_1BA_brain_sub_state;
-    s16 field_1BC;
-    s16 field_1BE;
-    s32 field_1C0_timer;
-    s16 field_1C4_bDoPathTrans;
-    s16 field_1C6;
+    s16 field_146 = 0;
+    Mudokon_Resources field_148_res_array = {};
+    s16 field_184 = 0;
+    Choice_short field_186_give_password = Choice_short::eNo_0;
+    s16 field_188 = 0;
+    s16 field_18A = 0;
+    FP field_18C_how_far_to_walk = {};
+    FP field_190 = {};
+    LiftPoint* field_194_pLiftPoint = nullptr;
+    s16 field_198_abe_must_face_mud = 0;
+    s16 field_19A = 0;
+    s16 field_19C = 0;
+    s16 field_19E_code_idx = 0;
+    s16 field_1A0 = 0;
+    s16 field_1A2 = 0;
+    s32 field_1A4_code_converted = 0;
+    s16 field_1A8_code_length = 0;
+    u16 field_1AA_ring_timeout = 0;
+    BirdPortal* field_1AC_pBirdPortal = nullptr;
+    s16 field_1B0 = 0;
+    s16 field_1B2_rescue_switch_id = 0;
+    s16 field_1B4_idle_time = 0;
+    s16 field_1B6 = 0;
+    s16 field_1B8_brain_state = 0;
+    s16 field_1BA_brain_sub_state = 0;
+    s16 field_1BC = 0;
+    s16 field_1BE = 0;
+    s32 field_1C0_timer = 0;
+    s16 field_1C4_bDoPathTrans = 0;
+    s16 field_1C6 = 0;
 };
 ALIVE_ASSERT_SIZEOF(Mudokon, 0x1C8);
 

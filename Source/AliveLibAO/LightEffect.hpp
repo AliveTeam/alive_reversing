@@ -15,18 +15,18 @@ public:
     virtual void VScreenChanged() override;
     virtual void VUpdate() override;
 
-    s32 field_D4;
-    s32 field_D8;
-    s32 field_DC;
-    s32 field_E0;
+    s32 field_D4 = 0;
+    s32 field_D8 = 0;
+    s32 field_DC = 0;
+    s32 field_E0 = 0;
 
-    s32 field_E4_tlvInfo;
-    s16 field_E8;
-    s16 field_EA;
-    s32 field_EC_rnd1;
-    s32 field_F0_rnd2;
-    s32 field_F4_rnd3;
-    s32 field_F8_rnd4;
+    s32 field_E4_tlvInfo = 0;
+    s16 field_E8 = 0;
+    s16 field_EA = 0;
+    s32 field_EC_rnd1= 0;
+    s32 field_F0_rnd2= 0;
+    s32 field_F4_rnd3= 0;
+    s32 field_F8_rnd4= 0;
 };
 ALIVE_ASSERT_SIZEOF(LightEffect, 0xFC);
 

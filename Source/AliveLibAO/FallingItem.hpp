@@ -51,20 +51,20 @@ private:
     };
 
 public:
-    s32 field_10C_tlvInfo;
-    State field_110_state;
-    u16 field_112_switch_id;
-    s16 field_114_max_falling_items;
-    s16 field_116_remaining_falling_items;
-    s16 field_118_fall_interval;
-    s32 field_11C_delay_timer;
-    Choice_short field_120_reset_switch_id_after_use;
-    s16 field_122_do_sound_in_state_falling;
-    FP field_124_yPosStart;
-    FP field_128_xpos;
-    FP field_12C_ypos;
-    s32 field_130_sound_channels;
-    s32 field_134_created_gnFrame;
+    s32 field_10C_tlvInfo = 0;
+    State field_110_state = State::eWaitForIdEnable_0;
+    u16 field_112_switch_id = 0;
+    s16 field_114_max_falling_items = 0;
+    s16 field_116_remaining_falling_items = 0;
+    s16 field_118_fall_interval = 0;
+    s32 field_11C_delay_timer = 0;
+    Choice_short field_120_reset_switch_id_after_use = Choice_short::eNo_0;
+    s16 field_122_do_sound_in_state_falling = 0;
+    FP field_124_yPosStart = {};
+    FP field_128_xpos = {};
+    FP field_12C_ypos = {};
+    s32 field_130_sound_channels = 0;
+    s32 field_134_created_gnFrame = 0;
 };
 ALIVE_ASSERT_SIZEOF(FallingItem, 0x138);
 

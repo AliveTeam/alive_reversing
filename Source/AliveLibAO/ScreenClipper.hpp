@@ -21,11 +21,11 @@ public:
 
 private:
 
-    Prim_PrimClipper field_10_clippers[2];
-    PSX_RECT field_30_rect;
+    Prim_PrimClipper field_10_clippers[2] = {};
+    PSX_RECT field_30_rect = {};
 
 public:
-    Layer field_38_ot_layer;
+    Layer field_38_ot_layer = Layer::eLayer_0;
 
 };
 ALIVE_ASSERT_SIZEOF(ScreenClipper, 0x3C);

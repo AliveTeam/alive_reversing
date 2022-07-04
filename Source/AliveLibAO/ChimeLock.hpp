@@ -37,7 +37,7 @@ public:
     s16 UpdateBall();
     void SetTargetBellIfSpace(s16 targetNum);
 
-    s32 field_10C_tlvInfo;
+    s32 field_10C_tlvInfo = 0;
     enum class ChimeLockStates : s16
     {
         eIdle_0 = 0,
@@ -61,13 +61,13 @@ public:
     s16 field_134_pressed = 0;
     s16 field_136_unpossession_timer = 0;
     s16 field_138_flags = 0;
-    FP field_13C_targetX = FP_FromInteger(0);
-    FP field_140_targetY = FP_FromInteger(0);
-    FP field_144_ball_start_x = FP_FromInteger(0);
-    FP field_148_ball_start_y = FP_FromInteger(0);
-    FP field_14C_increase_vely_by = FP_FromInteger(0);
-    FP field_150_xpos_offset = FP_FromInteger(0);
-    FP field_154_ypos_offset = FP_FromInteger(0);
+    FP field_13C_targetX = {};
+    FP field_140_targetY = {};
+    FP field_144_ball_start_x = {};
+    FP field_148_ball_start_y = {};
+    FP field_14C_increase_vely_by = {};
+    FP field_150_xpos_offset = {};
+    FP field_154_ypos_offset = {};
     s16 field_158_xSize = 0;
     s16 field_15A_ySize = 0;
     enum class BallStates : s16

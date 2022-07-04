@@ -16,13 +16,13 @@ public:
     virtual void VUpdate() override;
     virtual void VRender(PrimHeader** ppOt) override;
 
-    s16 field_E4_rope_segment_count;
-    s16 field_E6_rope_length;
+    s16 field_E4_rope_segment_count = 0;
+    s16 field_E6_rope_length = 0;
     AnimationUnknown* field_E8_pRopeRes;
-    s16 field_EC_left;
-    s16 field_EE_top;
-    s16 field_F0_right;
-    s16 field_F2_bottom;
+    s16 field_EC_left = 0;
+    s16 field_EE_top = 0;
+    s16 field_F0_right = 0;
+    s16 field_F2_bottom = 0;
 };
 ALIVE_ASSERT_SIZEOF(Rope, 0xF4);
 

@@ -67,12 +67,12 @@ public:
     static s32 DebugFont_Printf(s32 idx, const char_type* formatStr, ...);
     static s32 DebugStr(const char_type* pStr, ...);
 
-    s32 field_10_bInvalidateRect;
-    s32 field_14_SelectedCheat;
-    s32 field_18_backInputPressed;
-    s32 field_1C_unused;
-    s32 field_20_bTeleportCheatActive;
-    s32 field_24_input;
+    s32 field_10_bInvalidateRect = 0;
+    s32 field_14_SelectedCheat = 0;
+    s32 field_18_backInputPressed = 0;
+    s32 field_1C_unused = 0;
+    s32 field_20_bTeleportCheatActive = 0;
+    s32 field_24_input = 0;
 };
 ALIVE_ASSERT_SIZEOF(DDCheat, 0x28);
 

@@ -36,13 +36,13 @@ public:
         eWaitForExplodeEnd_6 = 6,
         eExploded_7 = 7
     };
-    States field_110_state;
-    s16 field_112_explode_timer;
-    PathLine* field_114_pCollisionLine;
-    s16 field_118;
-    BaseGameObject* field_11C;
-    FP field_120_xpos;
-    FP field_124_ypos;
+    States field_110_state = States::eFallingToBeCollected_0;
+    s16 field_112_explode_timer = 0;
+    PathLine* field_114_pCollisionLine = nullptr;
+    s16 field_118 = 0;
+    BaseGameObject* field_11C = nullptr;
+    FP field_120_xpos = {};
+    FP field_124_ypos = {};
 };
 ALIVE_ASSERT_SIZEOF(Grenade, 0x128);
 

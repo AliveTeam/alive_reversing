@@ -16,16 +16,16 @@ public:
     virtual void VScreenChanged() override;
     virtual void VUpdate() override;
 
-    BaseAliveGameObject* field_10_pObj;
-    s32 field_14_time_to_flicker;
+    BaseAliveGameObject* field_10_pObj = nullptr;
+    s32 field_14_time_to_flicker = 0;
 
-    s16 field_18_r;
-    s16 field_1A_g;
-    s16 field_1C_b;
+    s16 field_18_r = 0;
+    s16 field_1A_g = 0;
+    s16 field_1C_b = 0;
 
-    s16 field_1E_old_r;
-    s16 field_20_old_g;
-    s16 field_22_old_b;
+    s16 field_1E_old_r = 0;
+    s16 field_20_old_g = 0;
+    s16 field_22_old_b = 0;
 };
 ALIVE_ASSERT_SIZEOF(PossessionFlicker, 0x24);
 

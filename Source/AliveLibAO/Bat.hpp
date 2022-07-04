@@ -31,7 +31,7 @@ public:
     void FlyTo(FP xpos, FP ypos, FP* xSpeed, FP* ySpeed);
 
     PathLine* mBatLine = nullptr;
-    FP mBatSpeed = FP_FromInteger(0);
+    FP mBatSpeed = {};
     s32 mTicksBeforeMoving = 0;
     s32 mTlvInfo = 0;
     enum class BatStates : s16
@@ -47,9 +47,9 @@ public:
     s16 mAttackDuration = 0;
     s32 mTimer = 0;
     s32 mAttackDurationTimer = 0;
-    FP mBatVelX = FP_FromInteger(0);
-    FP mEnemyXPos = FP_FromInteger(0);
-    FP mEnemyYPos = FP_FromInteger(0);
+    FP mBatVelX = {};
+    FP mEnemyXPos = {};
+    FP mEnemyYPos = {};
     BaseAliveGameObject* mAttackTarget = nullptr;
 };
 ALIVE_ASSERT_SIZEOF(Bat, 0x110);

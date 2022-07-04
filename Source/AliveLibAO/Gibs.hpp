@@ -48,12 +48,12 @@ public:
     virtual void VUpdate() override;
     virtual void VRender(PrimHeader** ppOt) override;
 
-    const Gib_Data* field_E4_pGibData;
-    FP field_E8_z;
-    FP field_EC_dz;
-    s32 field_F0_timer;
-    GibPart field_F4_parts[7];
-    s16 field_5C4_parts_used_count;
+    const Gib_Data* field_E4_pGibData = nullptr;
+    FP field_E8_z = {};
+    FP field_EC_dz = {};
+    s32 field_F0_timer = 0;
+    GibPart field_F4_parts[7] = {};
+    s16 field_5C4_parts_used_count = 0;
 };
 ALIVE_ASSERT_SIZEOF(Gibs, 0x5C8);
 
