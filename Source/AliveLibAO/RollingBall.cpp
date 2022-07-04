@@ -121,7 +121,7 @@ RollingBall::RollingBall(Path_RollingBall* pTlv, s32 tlvInfo)
         mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit2_Animate);
         mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(2522);
         mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(1300);
-        mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_BombRollingBall_35;
+        mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_RollingBallBombMineCar_35;
         field_112_state = States::eCrushedBees_4;
     }
 }
@@ -293,7 +293,7 @@ void RollingBall::VUpdate()
                         mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit2_Animate);
                         mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(2522);
                         mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(1300);
-                        mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_BombRollingBall_35;
+                        mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_RollingBallBombMineCar_35;
                         field_112_state = States::eCrushedBees_4;
                         CrushThingsInTheWay();
                         return;

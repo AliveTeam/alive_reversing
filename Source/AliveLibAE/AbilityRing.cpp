@@ -217,7 +217,7 @@ AbilityRing::AbilityRing(FP xpos, FP ypos, RingTypes ringType, FP scale)
 
         if (mRingType == RingTypes::eShrykull_Pulse_Orange_6 && scale == FP_FromDouble(0.5))
         {
-            mRingLayer = Layer::eLayer_BombMineCar_Half_16;
+            mRingLayer = Layer::eLayer_RollingBallBombMineCar_Half_16;
         }
 
         mRingScaleX = FP_FromDouble(1.0999); // TODO: Matching ?? 0x11999

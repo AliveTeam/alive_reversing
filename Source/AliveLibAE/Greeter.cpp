@@ -30,13 +30,13 @@ Greeter::Greeter(Path_Greeter* pTlv, s32 tlvInfo)
 
     if (pTlv->field_10_scale != Scale_short::eFull_0)
     {
-        mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_SligGreeterFarts_Half_14;
+        mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_SligGreeterFartsBat_Half_14;
         mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromDouble(0.5);
         mBaseAnimatedWithPhysicsGameObject_Scale = Scale::Bg;
     }
     else
     {
-        mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_SligGreeterFarts_33;
+        mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_SligGreeterFartsBats_33;
         mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromInteger(1);
         mBaseAnimatedWithPhysicsGameObject_Scale = Scale::Fg;
     }
@@ -454,7 +454,7 @@ void Greeter::ZapTarget(FP xpos, FP ypos, BaseAliveGameObject* pTarget)
         ypos,
         8,
         ZapLineType::eThick_0,
-        Layer::eLayer_ZapLinesMuds_28);
+        Layer::eLayer_ZapLinesElumMuds_28);
 
     relive_new ZapLine(
         mBaseAnimatedWithPhysicsGameObject_XPos,
@@ -463,7 +463,7 @@ void Greeter::ZapTarget(FP xpos, FP ypos, BaseAliveGameObject* pTarget)
         ypos,
         8,
         ZapLineType::eThick_0,
-        Layer::eLayer_ZapLinesMuds_28);
+        Layer::eLayer_ZapLinesElumMuds_28);
 
     relive_new ZapLine(
         mBaseAnimatedWithPhysicsGameObject_XPos,
@@ -472,7 +472,7 @@ void Greeter::ZapTarget(FP xpos, FP ypos, BaseAliveGameObject* pTarget)
         ypos,
         8,
         ZapLineType::eThick_0,
-        Layer::eLayer_ZapLinesMuds_28);
+        Layer::eLayer_ZapLinesElumMuds_28);
 
     relive_new ParticleBurst(
         xpos,

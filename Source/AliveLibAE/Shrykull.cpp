@@ -155,7 +155,7 @@ void Shrykull::VUpdate()
                             FP_FromInteger((objRect.x + objRect.w) / 2),
                             FP_FromInteger((objRect.y + objRect.h) / 2),
                             0, ZapLineType::eThin_1,
-                            Layer::eLayer_ZapLinesMuds_28);
+                            Layer::eLayer_ZapLinesElumMuds_28);
                         if (pZapLine)
                         {
                             field_124_zap_line_id = pZapLine->field_8_object_id;

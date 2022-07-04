@@ -556,12 +556,12 @@ void Slog::Init()
 
     if (mBaseAnimatedWithPhysicsGameObject_SpriteScale == FP_FromInteger(1))
     {
-        mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_Slog_34;
+        mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_SlogFleech_34;
         mBaseAnimatedWithPhysicsGameObject_Scale = Scale::Fg;
     }
     else
     {
-        mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_Slog_Half_15;
+        mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_SlogFleech_Half_15;
         mBaseAnimatedWithPhysicsGameObject_Scale = Scale::Bg;
     }
 

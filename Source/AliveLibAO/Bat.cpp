@@ -29,7 +29,7 @@ Bat::Bat(Path_Bat* pTlv, s32 tlvInfo)
     }
 
     Animation_Init(AnimId::Bat, ppRes);
-    mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_SligBat_33;
+    mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_SligGreeterFartsBats_33;
 
     FP hitX = {};
     FP hitY = {};

@@ -63,13 +63,13 @@ Slurg::Slurg(Path_Slurg* pTlv, u32 tlvInfo)
     if (pTlv->mSlurgData.field_4_scale == Scale_short::eHalf_1)
     {
         mSlurgSpriteScale = FP_FromDouble(0.5);
-        mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_SligGreeterFarts_Half_14;
+        mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_SligGreeterFartsBat_Half_14;
         mBaseAnimatedWithPhysicsGameObject_Scale = Scale::Bg;
     }
     else if (pTlv->mSlurgData.field_4_scale == Scale_short::eFull_0)
     {
         mSlurgSpriteScale = FP_FromInteger(1);
-        mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_SligGreeterFarts_33;
+        mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_SligGreeterFartsBats_33;
         mBaseAnimatedWithPhysicsGameObject_Scale = Scale::Fg;
     }
 

@@ -34,7 +34,7 @@ ParamiteWeb::ParamiteWeb(FP xpos, s32 bottom, s32 top, FP scale)
     }
     else
     {
-        mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_RopeWebDrill_Half_5;
+        mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_RopeWebDrillMeatSaw_Half_5;
         mBaseAnimatedWithPhysicsGameObject_Anim.field_14_scale = FP_FromDouble(0.7);
         mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromDouble(0.7);
         mBaseAnimatedWithPhysicsGameObject_Scale = Scale::Bg;

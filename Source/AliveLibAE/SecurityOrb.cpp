@@ -178,7 +178,7 @@ void SecurityOrb::VUpdate()
                 ypos,
                 8,
                 ZapLineType::eThick_0,
-                Layer::eLayer_ZapLinesMuds_28);
+                Layer::eLayer_ZapLinesElumMuds_28);
 
             relive_new PossessionFlicker(sActiveHero, 8, 255, 100, 100);
 

@@ -937,13 +937,13 @@ void MineCar::State_0_ParkedWithoutAbe()
         mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::Mine_Car_Closed, nullptr);
         field_11C_state = MineCarStates::eParkedWithAbe_1;
         sControlledCharacter_5C1B8C = this;
-        mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_BombMineCar_35;
-        field_124_anim.mRenderLayer = Layer::eLayer_BombMineCar_35;
+        mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_RollingBallBombMineCar_35;
+        field_124_anim.mRenderLayer = Layer::eLayer_RollingBallBombMineCar_35;
 
         if (mBaseAnimatedWithPhysicsGameObject_SpriteScale == FP_FromDouble(0.5))
         {
-            mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_BombMineCar_Half_16;
-            field_124_anim.mRenderLayer = Layer::eLayer_BombMineCar_Half_16;
+            mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_RollingBallBombMineCar_Half_16;
+            field_124_anim.mRenderLayer = Layer::eLayer_RollingBallBombMineCar_Half_16;
         }
 
         SFX_Play_Pitch(SoundEffect::DoorEffect_57, 100, 500, mBaseAnimatedWithPhysicsGameObject_SpriteScale);

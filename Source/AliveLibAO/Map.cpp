@@ -463,7 +463,7 @@ void Map::Handle_PathTransition()
                 if (gElum_507680)
                 {
                     gElum_507680->mBaseAnimatedWithPhysicsGameObject_SpriteScale = sActiveHero_507678->mBaseAnimatedWithPhysicsGameObject_SpriteScale;
-                    gElum_507680->mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_ZapLinesElum_28;
+                    gElum_507680->mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_ZapLinesElumMuds_28;
                 }
                 break;
 
@@ -473,7 +473,7 @@ void Map::Handle_PathTransition()
                 if (gElum_507680)
                 {
                     gElum_507680->mBaseAnimatedWithPhysicsGameObject_SpriteScale = sActiveHero_507678->mBaseAnimatedWithPhysicsGameObject_SpriteScale;
-                    gElum_507680->mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_ZapLinesElum_Half_9;
+                    gElum_507680->mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_ZapLinesMudsElum_Half_9;
                 }
                 break;
 

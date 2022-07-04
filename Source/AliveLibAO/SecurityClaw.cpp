@@ -93,7 +93,7 @@ SecurityClaw::SecurityClaw(Path_SecurityClaw* pTlv, s32 tlvInfo)
     if (field_130_pClaw)
     {
         field_130_pClaw->mBaseAnimatedWithPhysicsGameObject_SpriteScale = mBaseAnimatedWithPhysicsGameObject_SpriteScale;
-        field_130_pClaw->mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = mBaseAnimatedWithPhysicsGameObject_SpriteScale == FP_FromInteger(1) ? Layer::eLayer_ZapLinesElum_28 : Layer::eLayer_ZapLinesElum_Half_9;
+        field_130_pClaw->mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = mBaseAnimatedWithPhysicsGameObject_SpriteScale == FP_FromInteger(1) ? Layer::eLayer_ZapLinesElumMuds_28 : Layer::eLayer_ZapLinesMudsElum_Half_9;
 
         field_130_pClaw->mBaseAnimatedWithPhysicsGameObject_XPos = field_11C_clawX;
         field_130_pClaw->mBaseAnimatedWithPhysicsGameObject_YPos = field_120_clawY;
@@ -318,7 +318,7 @@ void SecurityClaw::VUpdate()
                     hero_mid_x,
                     hero_mid_y,
                     8, ZapLineType::eThick_0,
-                    Layer::eLayer_ZapLinesElum_28);
+                    Layer::eLayer_ZapLinesElumMuds_28);
 
                 relive_new PossessionFlicker(sActiveHero_507678, 8, 255, 100, 100);
 

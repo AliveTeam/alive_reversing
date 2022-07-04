@@ -534,7 +534,7 @@ MainMenuController::MainMenuController(Path_TLV* /*pTlv*/, TlvItemInfoUnion tlvO
     field_158_animation.mAnimFlags.Clear(AnimFlags::eBit16_bBlending);
     field_158_animation.mAnimFlags.Set(AnimFlags::eBit15_bSemiTrans);
 
-    field_158_animation.mRenderLayer = Layer::eLayer_MainMenuButton_38;
+    field_158_animation.mRenderLayer = Layer::eLayer_MainMenuButtonBees_38;
     field_158_animation.mRenderMode = TPageAbr::eBlend_1;
 
     field_1FE_highlite_alpha = 40;

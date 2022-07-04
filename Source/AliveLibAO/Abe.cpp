@@ -7048,7 +7048,7 @@ void Abe::Motion_61_Respawn_42CD20()
                 mBaseAnimatedWithPhysicsGameObject_Scale = Scale::Bg;
                 if (gElum_507680)
                 {
-                    gElum_507680->mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_ZapLinesElum_Half_9;
+                    gElum_507680->mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_ZapLinesMudsElum_Half_9;
                     gElum_507680->mBaseAnimatedWithPhysicsGameObject_Scale = Scale::Bg;
                 }
             }
@@ -7058,7 +7058,7 @@ void Abe::Motion_61_Respawn_42CD20()
                 mBaseAnimatedWithPhysicsGameObject_Scale = Scale::Fg;
                 if (gElum_507680)
                 {
-                    gElum_507680->mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_ZapLinesElum_28;
+                    gElum_507680->mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_ZapLinesElumMuds_28;
                     gElum_507680->mBaseAnimatedWithPhysicsGameObject_Scale = Scale::Fg;
                 }
             }

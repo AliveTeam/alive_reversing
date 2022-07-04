@@ -1314,7 +1314,7 @@ private:
 
             mAnim[i].field_14_scale = FP_FromDouble(2.0);
 
-            mAnim[i].mRenderLayer = Layer::eLayer_MainMenuButton_38;
+            mAnim[i].mRenderLayer = Layer::eLayer_MainMenuButtonBees_38;
             mAnim[i].mRenderMode = TPageAbr::eBlend_1;
 
             mAnim[i].mBlue = 127;
@@ -1638,15 +1638,15 @@ void DEV::DebugOnFrameDraw(PrimHeader** ppOt)
                 const s32 hitX = FP_GetExponent(rc.hitX);
                 const s32 hitY = FP_GetExponent(rc.hitY);
 
-                DEV::DebugDrawLine(ppOt, Layer::eLayer_MainMenuButton_38, FP_GetExponent(rc.x1), FP_GetExponent(rc.y1), hitX, hitY, 255, 255, 0, true, true);
+                DEV::DebugDrawLine(ppOt, Layer::eLayer_MainMenuButtonBees_38, FP_GetExponent(rc.x1), FP_GetExponent(rc.y1), hitX, hitY, 255, 255, 0, true, true);
 
 
-                DEV::DebugDrawLine(ppOt, Layer::eLayer_MainMenuButton_38, hitX - 1, hitY - 1, hitX + 1, hitY + 1, 255, 255, 255, true, true);
-                DEV::DebugDrawLine(ppOt, Layer::eLayer_MainMenuButton_38, hitX + 1, hitY - 1, hitX - 1, hitY + 1, 255, 255, 255, true, true);
+                DEV::DebugDrawLine(ppOt, Layer::eLayer_MainMenuButtonBees_38, hitX - 1, hitY - 1, hitX + 1, hitY + 1, 255, 255, 255, true, true);
+                DEV::DebugDrawLine(ppOt, Layer::eLayer_MainMenuButtonBees_38, hitX + 1, hitY - 1, hitX - 1, hitY + 1, 255, 255, 255, true, true);
             }
             else
             {
-                DEV::DebugDrawLine(ppOt, Layer::eLayer_MainMenuButton_38, FP_GetExponent(rc.x1), FP_GetExponent(rc.y1), FP_GetExponent(rc.x2), FP_GetExponent(rc.y2), 0, 255, 0, true, true);
+                DEV::DebugDrawLine(ppOt, Layer::eLayer_MainMenuButtonBees_38, FP_GetExponent(rc.x1), FP_GetExponent(rc.y1), FP_GetExponent(rc.x2), FP_GetExponent(rc.y2), 0, 255, 0, true, true);
             }
         }
     }
