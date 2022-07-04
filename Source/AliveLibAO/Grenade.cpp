@@ -332,6 +332,7 @@ void Grenade::VOnTrapDoorOpen_41F920()
     {
         field_F8_pLiftPoint->VRemove(this);
         field_F8_pLiftPoint->field_C_refCount--;
+        field_F8_pLiftPoint = nullptr;
 
         if (field_110_state == States::eWaitToBeCollected_1 || field_110_state == States::eDoesNothing_2)
         {
