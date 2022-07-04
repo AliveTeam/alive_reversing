@@ -1014,11 +1014,11 @@ s16 BirdPortal::VPortalClipper(s16 bUnknown)
     {
         if (field_34_scale == FP_FromInteger(1))
         {
-            field_48_pScreenClipper2->field_38_ot_layer = Layer::eLayer_DoorFlameRollingBallPortalClip_Half_31;
+            field_48_pScreenClipper2->field_38_ot_layer = Layer::eLayer_FallingItemDoorFlameRollingBallPortalClip_Half_31;
         }
         else
         {
-            field_48_pScreenClipper2->field_38_ot_layer = Layer::eLayer_DoorFlameRollingBallPortalClip_12;
+            field_48_pScreenClipper2->field_38_ot_layer = Layer::eLayer_DoorFlameRollingBallFallingItemPortalClip_Half_12;
         }
     }
 

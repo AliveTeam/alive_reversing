@@ -68,7 +68,7 @@ Drill::Drill(Path_Drill* pTlv, u32 tlvInfo)
     if (tlvData.field_10_scale == Scale_short::eFull_0)
     {
         mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromInteger(1);
-        mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_RopeWebDrill_24;
+        mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_RopeWebDrillMeatSaw_24;
         mBaseAnimatedWithPhysicsGameObject_Scale = Scale::Fg;
     }
     else

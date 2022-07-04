@@ -37,7 +37,7 @@ public:
         mBaseAnimatedWithPhysicsGameObject_XPos = xpos;
         mBaseAnimatedWithPhysicsGameObject_YPos = ypos + FP_FromInteger(4);
 
-        mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_DoorFlameRollingBallPortalClip_12;
+        mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_DoorFlameRollingBallFallingItemPortalClip_Half_12;
         mBaseAnimatedWithPhysicsGameObject_Anim.mRenderMode = TPageAbr::eBlend_3;
 
         mBaseAnimatedWithPhysicsGameObject_Anim.mRed = 100;

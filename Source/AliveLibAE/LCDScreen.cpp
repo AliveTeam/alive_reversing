@@ -324,7 +324,7 @@ void LCDScreen::VRender(PrimHeader** ppOt)
             240};
 
         Init_PrimClipper_4F5B80(&field_20_prim_clippers[0][gPsxDisplay.mBufferIndex], &clipRect);
-        OrderingTable_Add(OtLayer(ppOt, Layer::eLayer_RopeWebDrill_24), &field_20_prim_clippers[0][gPsxDisplay.mBufferIndex].mBase);
+        OrderingTable_Add(OtLayer(ppOt, Layer::eLayer_RopeWebDrillMeatSaw_24), &field_20_prim_clippers[0][gPsxDisplay.mBufferIndex].mBase);
 
         sFontDrawScreenSpace_5CA4B4 = 1;
         field_60_font.DrawString_4337D0(
@@ -335,7 +335,7 @@ void LCDScreen::VRender(PrimHeader** ppOt)
             TPageAbr::eBlend_1,
             1,
             0,
-            Layer::eLayer_RopeWebDrill_24,
+            Layer::eLayer_RopeWebDrillMeatSaw_24,
             127,
             127,
             127,
@@ -353,7 +353,7 @@ void LCDScreen::VRender(PrimHeader** ppOt)
 
         auto* clipper = &field_20_prim_clippers[1][gPsxDisplay.mBufferIndex];
         Init_PrimClipper_4F5B80(clipper, &clipRect);
-        OrderingTable_Add(OtLayer(ppOt, Layer::eLayer_RopeWebDrill_24), &clipper->mBase);
+        OrderingTable_Add(OtLayer(ppOt, Layer::eLayer_RopeWebDrillMeatSaw_24), &clipper->mBase);
 
         pScreenManager->InvalidateRectCurrentIdx(
             screenXWorld,

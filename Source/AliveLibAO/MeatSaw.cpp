@@ -51,7 +51,7 @@ MeatSaw::MeatSaw(Path_MeatSaw* pTlv, s32 tlvInfo)
     else
     {
         mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromInteger(1);
-        mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_RopeWebMeatSaw_24;
+        mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_RopeWebDrillMeatSaw_24;
         mBaseAnimatedWithPhysicsGameObject_Scale = Scale::Fg;
     }
 

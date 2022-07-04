@@ -32,7 +32,7 @@ ParamiteWebLine::ParamiteWebLine(Path_ParamiteWebLine* pTlv, s32 tlvInfo)
     }
     else
     {
-        mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_RopeWebDrill_24;
+        mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_RopeWebDrillMeatSaw_24;
         mBaseAnimatedWithPhysicsGameObject_Anim.field_14_scale = FP_FromInteger(1);
         mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromInteger(1);
         mBaseAnimatedWithPhysicsGameObject_Scale = Scale::Fg;

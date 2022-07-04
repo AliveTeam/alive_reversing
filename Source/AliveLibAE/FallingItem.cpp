@@ -55,13 +55,13 @@ FallingItem::FallingItem(Path_FallingItem* pTlv, s32 tlvInfo)
     {
         mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromDouble(0.5);
         mBaseAnimatedWithPhysicsGameObject_Scale = Scale::Bg;
-        mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_FallingItemPortalClip_Half_12;
+        mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_DoorFlameRollingBallFallingItemPortalClip_Half_12;
     }
     else
     {
         mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromInteger(1);
         mBaseAnimatedWithPhysicsGameObject_Scale = Scale::Fg;
-        mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_FallingItemPortalClip_31;
+        mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_FallingItemDoorFlameRollingBallPortalClip_Half_31;
     }
 
     field_124_fall_interval = pTlv->field_14_fall_interval;
@@ -108,7 +108,7 @@ FallingItem::FallingItem(Path_FallingItem* pTlv, s32 tlvInfo)
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
     Animation_Init(sFallingItemData_544DC0[lvlIdx][0], ppRes);
 
-    mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_FallingItemPortalClip_31;
+    mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_FallingItemDoorFlameRollingBallPortalClip_Half_31;
 
     if (id)
     {

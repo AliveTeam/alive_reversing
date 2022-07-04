@@ -715,11 +715,11 @@ s16 BirdPortal::VPortalClipper(s16 bIgnoreClipping)
         field_78_screen_clipper_id = pClipper2->field_8_object_id;
         if (field_60_scale == FP_FromInteger(1))
         {
-            pClipper2->field_48_ot_layer = Layer::eLayer_FallingItemPortalClip_31;
+            pClipper2->field_48_ot_layer = Layer::eLayer_FallingItemDoorFlameRollingBallPortalClip_Half_31;
         }
         else
         {
-            pClipper2->field_48_ot_layer = Layer::eLayer_FallingItemPortalClip_Half_12;
+            pClipper2->field_48_ot_layer = Layer::eLayer_DoorFlameRollingBallFallingItemPortalClip_Half_12;
         }
     }
 

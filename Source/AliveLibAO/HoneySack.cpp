@@ -25,7 +25,7 @@ HoneySack::HoneySack(Path_HoneySack* pTlv, s32 tlvInfo)
     field_E4_tlvInfo = tlvInfo;
 
     field_100_chase_ticks = pTlv->field_18_chase_ticks;
-    mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_DoorFlameRollingBallPortalClip_Half_31;
+    mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_FallingItemDoorFlameRollingBallPortalClip_Half_31;
 
     mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pTlv->mTopLeft.x);
     mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->mTopLeft.y);

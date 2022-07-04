@@ -55,12 +55,12 @@ RollingBall::RollingBall(Path_RollingBall* pTlv, s32 tlvInfo)
     u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
     Animation_Init(AnimId::Stone_Ball, ppRes);
 
-    mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_DoorFlameRollingBallPortalClip_Half_31;
+    mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_FallingItemDoorFlameRollingBallPortalClip_Half_31;
 
     if (pTlv->field_18_scale == Scale_short::eHalf_1)
     {
         mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromDouble(0.5);
-        mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_DoorFlameRollingBallPortalClip_12;
+        mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_DoorFlameRollingBallFallingItemPortalClip_Half_12;
         mBaseAnimatedWithPhysicsGameObject_Scale = Scale::Bg;
     }
 

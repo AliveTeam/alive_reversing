@@ -50,7 +50,7 @@ FallingItem::FallingItem(Path_FallingItem* pTlv, s32 tlvInfo)
     u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
     Animation_Init(sFallingItemData_4BAB20[lvlIdx].field_0_falling_animId, ppRes);
 
-    mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_DoorFlameRollingBallPortalClip_Half_31;
+    mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_FallingItemDoorFlameRollingBallPortalClip_Half_31;
     if (gMap.mCurrentLevel == EReliveLevelIds::eLines)
     {
         mBaseAnimatedWithPhysicsGameObject_RGB.SetRGB(77, 120, 190);
