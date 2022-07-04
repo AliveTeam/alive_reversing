@@ -36,7 +36,6 @@ Shadow::Shadow()
     field_18_animation.mAnimFlags.Set(AnimFlags::eBit2_Animate);
     field_18_animation.mAnimFlags.Set(AnimFlags::eBit8_Loop);
     field_18_animation.mAnimFlags.Set(AnimFlags::eBit15_bSemiTrans);
-    field_18_animation.mAnimFlags.Set(AnimFlags::eBit17_bOwnPal);
     field_18_animation.mAnimFlags.Set(AnimFlags::eBit18_IsLastFrame);
     field_18_animation.mAnimFlags.Set(AnimFlags::eBit20_use_xy_offset);
     field_18_animation.mAnimFlags.Set(AnimFlags::eBit21);

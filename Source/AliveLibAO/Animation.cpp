@@ -681,14 +681,18 @@ s16 Animation::Set_Animation_Data(s32 frameTableOffset, u8** pAnimRes)
 
 void Animation::Animation_Pal_Free()
 {
-    if (mAnimFlags.Get(AnimFlags::eBit17_bOwnPal))
+    if (field_20_ppBlock)
     {
         ResourceManager::FreeResource_455550(field_20_ppBlock);
+        field_20_ppBlock = nullptr;
     }
 
     if (mVramRect.w > 0)
     {
-        Vram_free({mVramRect.x, mVramRect.y}, {mVramRect.w, mVramRect.h});
+        if (mVramRect.x || mVramRect.y)
+        {
+            Vram_free({mVramRect.x, mVramRect.y}, {mVramRect.w, mVramRect.h});
+        }
     }
 
     if (mPalDepth > 0)
@@ -825,8 +829,6 @@ s16 Animation::Init(s32 frameTableOffset, BaseGameObject* pGameObj, u16 maxW, u1
     // Clear vram/pal inits to not allocated
     mVramRect.w = 0;
     mPalDepth = 0;
-
-    mAnimFlags.Set(AnimFlags::eBit17_bOwnPal);
 
     mAnimFlags.Clear(AnimFlags::eBit15_bSemiTrans);
     mAnimFlags.Set(AnimFlags::eBit16_bBlending);

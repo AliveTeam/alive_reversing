@@ -30,7 +30,7 @@ enum AnimFlags
     eBit8_Loop = 0x80,
 
     // Bit 9 = ?
-    eBit9 = 0x100,
+   // eBit9 = 0x100,
 
     // Bit 10 = ?
     eBit10_alternating_flag = 0x200,
