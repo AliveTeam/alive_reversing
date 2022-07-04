@@ -16,12 +16,12 @@
 
 namespace AO {
 
-s16* Animation_OnFrame_Slig(BaseGameObject* pObj, s16* pData)
+s32 Animation_OnFrame_Slig(BaseGameObject* pObj, s16* pData)
 {
     auto pSlig = static_cast<Slig*>(pObj);
     if (pSlig->mBaseGameObjectUpdateDelay != 0)
     {
-        return pData + 2;
+        return 1;
     }
 
     BulletType bulletType = BulletType::ePossessedSlig_0;
@@ -100,12 +100,12 @@ s16* Animation_OnFrame_Slig(BaseGameObject* pObj, s16* pData)
 
     Dove::All_FlyAway();
 
-    return pData + 2;
+    return 1;
 }
 
-s16* Animation_OnFrame_ZBallSmacker(BaseGameObject* pObj, s16* pData);
+s32 Animation_OnFrame_ZBallSmacker(BaseGameObject* pObj, s16* pData);
 
-s16* Slog_OnFrame(BaseGameObject* pObj, s16* pData)
+s32 Slog_OnFrame(BaseGameObject* pObj, s16* pData)
 {
     auto pSlog = static_cast<Slog*>(pObj);
     if (pSlog->field_10C_pTarget)
@@ -147,7 +147,7 @@ s16* Slog_OnFrame(BaseGameObject* pObj, s16* pData)
         }
     }
 
-    return pData + 2;
+    return 1;
 }
 
 const FP_Point kAbeVelTable_4C6608[6] = {
@@ -158,7 +158,7 @@ const FP_Point kAbeVelTable_4C6608[6] = {
     {FP_FromInteger(10), FP_FromInteger(-4)},
     {FP_FromInteger(4), FP_FromInteger(-3)}};
 
-s16* Abe_OnFrame(BaseGameObject* pObj, s16* pData)
+s32 Abe_OnFrame(BaseGameObject* pObj, s16* pData)
 {
     auto pAbe = static_cast<Abe*>(pObj);
 
@@ -204,7 +204,7 @@ s16* Abe_OnFrame(BaseGameObject* pObj, s16* pData)
         pThrowable->mBaseAnimatedWithPhysicsGameObject_SpriteScale = pAbe->mBaseAnimatedWithPhysicsGameObject_SpriteScale;
         sActiveHero_507678->field_198_pThrowable = nullptr;
     }
-    return pData + 2;
+    return 1;
 }
 
 TFrameCallBackType kAbe_Anim_Frame_Fns_4CEBEC[] = {Abe_OnFrame};

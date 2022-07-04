@@ -438,6 +438,7 @@ void Animation::Invoke_CallBacks()
     FrameInfoHeader* pFrameHeaderCopy = Get_FrameHeader(-1);
     // This data can be an array of u32's + other data up to field_6_count
     // which appears AFTER the usual data.
+    // TODO: Should be typed to s16* ??
     const u32* pCallBackData = reinterpret_cast<const u32*>(&pFrameHeaderCopy->field_8_data.points[3]);
     for (s32 i = 0; i < pFrameHeaderCopy->field_6_count; i++)
     {
@@ -454,13 +455,13 @@ void Animation::Invoke_CallBacks()
 
 s16 Animation::Set_Animation_Data(AnimId animId, u8** pAnimRes)
 {
-    const AnimRecord& anim = AnimRec(animId);
-    return Set_Animation_Data(anim.mFrameTableOffset, pAnimRes);
+    const AnimRecord& rec = AnimRec(animId);
+    return Set_Animation_Data(rec.mFrameTableOffset, pAnimRes);
 }
 
-s16 Animation::Set_Animation_Data(s32 frametableoffset, u8** pAnimRes)
+s16 Animation::Set_Animation_Data(s32 frameTableOffset, u8** pAnimRes)
 {
-    
+    FrameTableOffsetExists(frameTableOffset, true);
     if (pAnimRes)
     {
         field_20_ppBlock = pAnimRes;
@@ -471,7 +472,7 @@ s16 Animation::Set_Animation_Data(s32 frametableoffset, u8** pAnimRes)
         return 0;
     }
 
-    mFrameTableOffset = frametableoffset;
+    mFrameTableOffset = frameTableOffset;
 
     AnimationHeader* pAnimationHeader = reinterpret_cast<AnimationHeader*>(&(*field_20_ppBlock)[mFrameTableOffset]);
     mFrameDelay = pAnimationHeader->field_0_fps;
@@ -596,7 +597,6 @@ s16 Animation::Init(s32 frameTableOffset, u16 maxW, u16 maxH, BaseGameObject* pG
 {
     FrameTableOffsetExists(frameTableOffset, true, maxW, maxH);
     mAnimFlags.Raw().all = 0; // TODO extra - init to 0's first - this may be wrong if any bits are explicitly set before this is called
-    mAnimFlags.Set(AnimFlags::eBit21);
 
     mFrameTableOffset = frameTableOffset;
     field_20_ppBlock = ppAnimData;
@@ -630,10 +630,6 @@ s16 Animation::Init(s32 frameTableOffset, u16 maxW, u16 maxH, BaseGameObject* pG
     // Clear vram/pal inits to not allocated
     mVramRect.w = 0;
     mPalDepth = 0;
-
-    mAnimFlags.Clear(AnimFlags::eBit24);
-    mAnimFlags.Clear(AnimFlags::eBit23);
-    mAnimFlags.Clear(AnimFlags::eBit22_DeadMode);
 
     mAnimFlags.Clear(AnimFlags::eBit15_bSemiTrans);
     mAnimFlags.Set(AnimFlags::eBit16_bBlending);

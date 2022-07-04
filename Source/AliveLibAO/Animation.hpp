@@ -14,7 +14,7 @@ enum class AnimId;
 
 namespace AO {
 
-using TFrameCallBackType = s16*(CC*) (BaseGameObject*, s16*);
+using TFrameCallBackType = s32(CC*) (BaseGameObject*, s16*);
 
 
 struct AnimHeader final

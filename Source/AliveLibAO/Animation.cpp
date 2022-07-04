@@ -400,33 +400,33 @@ bool Animation::DecodeCommon()
 
 void Animation::Invoke_CallBacks()
 {
-    if (mFnPtrArray)
+    if (!field_20_ppBlock || !mFnPtrArray)
     {
-        FrameInfoHeader* pFrameHeaderCopy = Get_FrameHeader(-1);
+        return;
+    }
 
-        // This data can be an array of u32's + other data up to field_6_count
-        // which appears AFTER the usual data.
-
-        // TODO: Should be typed to s16* ??
-        const u32* pCallBackData = reinterpret_cast<const u32*>(&pFrameHeaderCopy->field_8_data.points[3]);
-        for (s32 i = 0; i < pFrameHeaderCopy->field_6_count; i++)
+    FrameInfoHeader* pFrameHeaderCopy = Get_FrameHeader(-1);
+    // This data can be an array of u32's + other data up to field_6_count
+    // which appears AFTER the usual data.
+    // TODO: Should be typed to s16* ??
+    const u32* pCallBackData = reinterpret_cast<const u32*>(&pFrameHeaderCopy->field_8_data.points[3]);
+    for (s32 i = 0; i < pFrameHeaderCopy->field_6_count; i++)
+    {
+        const auto pFnCallBack = mFnPtrArray[*pCallBackData];
+        if (!pFnCallBack)
         {
-            const auto pFnCallBack = mFnPtrArray[*pCallBackData];
-            if (!pFnCallBack)
-            {
-                break;
-            }
-            pCallBackData++; // Skip the array index
-            // Pass the data pointer into the call back which will then read and skip any extra data
-            pCallBackData += *pFnCallBack(mGameObj, (s16*) pCallBackData);
+            break;
         }
+        pCallBackData++; // Skip the array index
+        // Pass the data pointer into the call back which will then read and skip any extra data
+        pCallBackData += pFnCallBack(mGameObj, (s16*) pCallBackData);
     }
 }
 
-s16 Animation::Set_Animation_Data(AnimId animId, u8** resBlock)
+s16 Animation::Set_Animation_Data(AnimId animId, u8** pAnimRes)
 {
     const AnimRecord& rec = AO::AnimRec(animId);
-    return Set_Animation_Data(rec.mFrameTableOffset, resBlock);
+    return Set_Animation_Data(rec.mFrameTableOffset, pAnimRes);
 }
 
 s16 Animation::Set_Animation_Data(s32 frameTableOffset, u8** pAnimRes)

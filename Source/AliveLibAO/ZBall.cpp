@@ -13,7 +13,7 @@ namespace AO {
 ALIVE_VAR(1, 0x9F1DCC, ZBall*, gCenter_ZBall_9F1DCC, nullptr);
 ALIVE_VAR(1, 0x9F1DD0, ZBall*, gOutZBall_9F1DD0, nullptr);
 
-s16* Animation_OnFrame_ZBallSmacker(BaseGameObject* pObj, s16* pData)
+s32 Animation_OnFrame_ZBallSmacker(BaseGameObject* pObj, s16* pData)
 {
     auto pZBall = static_cast<ZBall*>(pObj);
     for (s32 i = 0; i < gBaseGameObjects->Size(); i++)
@@ -38,7 +38,7 @@ s16* Animation_OnFrame_ZBallSmacker(BaseGameObject* pObj, s16* pData)
         }
     }
 
-    return pData + 4; // A rect I guess ?
+    return 2;
 }
 
 ZBall::ZBall(Path_ZBall* pTlv, s32 tlvInfo)
