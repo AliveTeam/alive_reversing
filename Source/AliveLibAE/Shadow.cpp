@@ -9,8 +9,8 @@
 Shadow::Shadow()
 {
     const AnimRecord& shadowRec = PerGameAnimRec(AnimId::ObjectShadow);
-    u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, shadowRec.mResourceId, TRUE, FALSE);
-    mAnim.Init(AnimId::ObjectShadow, nullptr, ppRes);
+    mAnimRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, shadowRec.mResourceId, TRUE, FALSE);
+    mAnim.Init(AnimId::ObjectShadow, nullptr, mAnimRes);
 
     mFlags.Clear(Flags::eShadowAtBottom);
     mFlags.Set(Flags::eEnabled);
@@ -31,6 +31,7 @@ Shadow::Shadow()
 Shadow::~Shadow()
 {
     mAnim.VCleanUp();
+    ResourceManager::FreeResource_49C330(mAnimRes);
 }
 
 void Shadow::Calculate_Position(FP xpos, FP ypos, PSX_RECT* frameRect, FP spriteScale, Scale scale)

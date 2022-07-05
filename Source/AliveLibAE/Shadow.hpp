@@ -31,5 +31,5 @@ public:
     };
     BitField32<Flags> mFlags = {};
     Animation mAnim = {};
+    u8** mAnimRes = nullptr;
 };
-ALIVE_ASSERT_SIZEOF(Shadow, 0xB0);
