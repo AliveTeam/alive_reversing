@@ -8,6 +8,9 @@
 #include "FixedPoint.hpp"
 
 enum class AnimId;
+struct AnimRecord;
+
+const AnimRecord PerGameAnimRec(AnimId id);
 
 using TFrameCallBackType = s32(CC*)(BaseGameObject*, s16*);
 

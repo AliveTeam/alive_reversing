@@ -6,19 +6,6 @@
 #include "ScreenManager.hpp"
 #include "../relive_lib/GameType.hpp"
 
-// TODO: Move somewhere more sane
-const AnimRecord PerGameAnimRec(AnimId id)
-{
-    if (GetGameType() == GameType::eAe)
-    {
-        return AnimRec(id);
-    }
-    else
-    {
-        return AO::AnimRec(id);
-    }
-}
-
 Shadow::Shadow()
 {
     const AnimRecord& shadowRec = PerGameAnimRec(AnimId::ObjectShadow);
