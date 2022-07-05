@@ -296,10 +296,10 @@ void ParticleBurst::VRender(PrimHeader** ppOt)
                 else
                 {
                     pItem->field_18_animation.field_6C_scale = FP_FromInteger(100) / (pItem->field_8_z + FP_FromInteger(300));
-                    pItem->field_18_animation.VRender2(
+                    pItem->field_18_animation.VRender(
                         FP_GetExponent(PsxToPCX(pItem->x - screen_left, FP_FromInteger(11))),
                         FP_GetExponent(pItem->y - screen_bottom),
-                        ppOt);
+                        ppOt, 0, 0);
                     pItem->field_18_animation.GetRenderedSize(&rect);
                 }
 

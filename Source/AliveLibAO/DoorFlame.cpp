@@ -262,10 +262,10 @@ public:
                         {
                             if (anim.y >= screen_top && anim.y <= screen_bottom)
                             {
-                                anim.field_14.VRender2(
+                                anim.field_14.VRender(
                                     FP_GetExponent(PsxToPCX(anim.x - screen_left)),
                                     FP_GetExponent(anim.y - screen_top),
-                                    ppOt);
+                                    ppOt, 0, 0);
 
                                 anim.field_14.GetRenderedSize(&frameRect);
                                 pScreenManager->InvalidateRectCurrentIdx(

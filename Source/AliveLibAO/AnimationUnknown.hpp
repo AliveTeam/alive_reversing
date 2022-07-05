@@ -14,15 +14,8 @@ public:
     virtual void VDecode() override;
     virtual void VRender(s32 xpos, s32 ypos, PrimHeader** ppOt, s16 width, s32 height) override;
     virtual void VCleanUp() override;
-    virtual void VRender2(s32 xpos, s32 ypos, PrimHeader** ppOt);
 
     void GetRenderedSize(PSX_RECT* pRect);
-
-private:
-    void VCleanUp2_404280();
-
-    // New virtual
-    void VRender2_403FD0(s32 xpos, s32 ypos, PrimHeader** ppOt);
 
 public:
     Poly_FT4 field_10_polys[2] = {};

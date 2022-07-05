@@ -22,12 +22,8 @@ void AnimationUnknown::VRender(s32 xpos, s32 ypos, PrimHeader** ppOt, s16 /*widt
     {
         // Copy from animation to local
         *pPoly = field_68_anim_ptr->mOtData[gPsxDisplay.mBufferIndex];
-        FrameInfoHeader* pFrameInfoHeader = field_68_anim_ptr->Get_FrameHeader(-1);
 
-        if (field_68_anim_ptr->mAnimFlags.Get(AnimFlags::eBit22_DeadMode))
-        {
-            ALIVE_FATAL("Impossible branch.");
-        }
+        FrameInfoHeader* pFrameInfoHeader = field_68_anim_ptr->Get_FrameHeader(-1);
 
         FrameHeader* pFrameHeader = reinterpret_cast<FrameHeader*>(&(*field_68_anim_ptr->field_20_ppBlock)[pFrameInfoHeader->field_0_frame_header_offset]);
 

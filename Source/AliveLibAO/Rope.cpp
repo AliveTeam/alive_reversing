@@ -191,10 +191,10 @@ void Rope::VRender(PrimHeader** ppOt)
                         field_E8_pRopeRes[idx].mGreen = static_cast<u8>(g);
                         field_E8_pRopeRes[idx].mBlue = static_cast<u8>(b);
 
-                        field_E8_pRopeRes[idx].VRender2(
+                        field_E8_pRopeRes[idx].VRender(
                             screenX,
                             mBaseAnimatedWithPhysicsGameObject_YOffset + screenY,
-                            ppOt);
+                            ppOt, 0, 0);
 
                         PSX_RECT rect = {};
                         field_E8_pRopeRes[idx].GetRenderedSize(&rect);

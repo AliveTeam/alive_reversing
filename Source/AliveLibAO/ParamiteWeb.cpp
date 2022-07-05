@@ -153,7 +153,7 @@ void ParamiteWeb::VRender(PrimHeader** ppOt)
                     field_EC_pRes[idx].mRed = static_cast<u8>(r);
                     field_EC_pRes[idx].mGreen = static_cast<u8>(g);
                     field_EC_pRes[idx].mBlue = static_cast<u8>(b);
-                    field_EC_pRes[idx].VRender2(x_start, y_start + mBaseAnimatedWithPhysicsGameObject_YOffset, ppOt);
+                    field_EC_pRes[idx].VRender(x_start, y_start + mBaseAnimatedWithPhysicsGameObject_YOffset, ppOt, 0, 0);
                     PSX_RECT rect = {};
                     field_EC_pRes[idx].GetRenderedSize(&rect);
                     pScreenManager->InvalidateRectCurrentIdx(rect.x, rect.y, rect.w, rect.h);

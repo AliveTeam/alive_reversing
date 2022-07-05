@@ -124,7 +124,7 @@ public:
     u16 field_12_scale = 0; // padding?
     FP field_14_scale = {};
     u32 mFrameTableOffset = 0;
-    s32(CC** mFnPtrArray)(BaseGameObject*, s16*) = nullptr;
+    TFrameCallBackType* mFnPtrArray = nullptr;
     u8** field_20_ppBlock = nullptr; // pointer to a pointer which points to anim data
     u8** mDbuf = nullptr;
     u32 mDbufSize = 0;

@@ -7,17 +7,7 @@ namespace AO {
 
 void AnimationUnknown::VCleanUp()
 {
-    VCleanUp2_404280();
-}
-
-void AnimationUnknown::VRender2(s32 xpos, s32 ypos, PrimHeader** ppOt)
-{
-    VRender2_403FD0(xpos, ypos, ppOt);
-}
-
-void AnimationUnknown::VRender(s32 /*xpos*/, s32 /*ypos*/, PrimHeader** /*pOt*/, s16 /*width*/, s32 /*height*/)
-{
-    // Empty @ 402A20
+    field_68_anim_ptr = nullptr;
 }
 
 void AnimationUnknown::VDecode()
@@ -25,12 +15,7 @@ void AnimationUnknown::VDecode()
     // Empty
 }
 
-void AnimationUnknown::VCleanUp2_404280()
-{
-    field_68_anim_ptr = nullptr;
-}
-
-void AnimationUnknown::VRender2_403FD0(s32 xpos, s32 ypos, PrimHeader** ppOt)
+void AnimationUnknown::VRender(s32 xpos, s32 ypos, PrimHeader** ppOt, s16 /*width*/, s32 /*height*/)
 {
     Poly_FT4* pPoly = &field_10_polys[gPsxDisplay.mBufferIndex];
     if (mAnimFlags.Get(AnimFlags::eBit3_Render))

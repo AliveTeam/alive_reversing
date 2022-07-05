@@ -586,10 +586,10 @@ void BeeSwarm::VRender(PrimHeader** ppOt)
             }
             else
             {
-                bee->field_10_anim.VRender2(
+                bee->field_10_anim.VRender(
                     FP_GetExponent(PsxToPCX((bee->field_0_xpos - campos_x_delta), FP_FromInteger(11))),
                     FP_GetExponent(bee->field_4_ypos - campos_y_delta),
-                    ppOt);
+                    ppOt, 0, 0);
                 bee->field_10_anim.GetRenderedSize(&out);
             }
 
