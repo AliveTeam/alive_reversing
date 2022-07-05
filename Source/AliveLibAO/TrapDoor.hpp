@@ -19,13 +19,13 @@ enum class TrapDoorState : s16
 
 struct Path_TrapDoor final : public Path_TLV
 {
-    s16 field_18_switch_id;
+    s16 mSwitchId;
     enum StartState : s16
     {
         eOpen_0 = 0,
         eClosed_1 = 1,
     };
-    StartState field_1A_start_state;
+    StartState mStartState;
     Choice_short field_1C_self_closing;
     Scale_short field_1E_scale;
     s16 field_20_dest_level;
@@ -51,16 +51,15 @@ public:
     virtual void VRender(PrimHeader** ppOt) override;
     virtual void VUpdate() override;
 
-    s16 field_12C_flag = 0;
-    s32 field_130_stay_open_time = 0;
-    s16 field_134_switch_id = 0;
-    TrapDoorState field_136_state = TrapDoorState::eClosed_0;
-    s16 field_138_switch_state = 0;
-    s16 field_13A_xOff = 0;
-    Choice_short field_13C_self_closing = Choice_short::eNo_0;
-    FP field_140_x = {};
-    FP field_144_y = {};
-    PSX_RECT field_148_bounding_rect = {};
+    s32 mStayOpenTimeTimer = 0;
+    s16 mSwitchId = 0;
+    TrapDoorState mState = TrapDoorState::eClosed_0;
+    s16 mStartState = 0;
+    s16 mXOffset = 0;
+    Choice_short mSelfClosing = Choice_short::eNo_0;
+    FP mTrapDoorX = {};
+    FP mTrapDoorY = {};
+    PSX_RECT mBoundingRect = {};
 };
 ALIVE_ASSERT_SIZEOF(TrapDoor, 0x150);
 

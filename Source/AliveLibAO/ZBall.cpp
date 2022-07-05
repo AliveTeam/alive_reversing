@@ -10,8 +10,8 @@
 
 namespace AO {
 
-ALIVE_VAR(1, 0x9F1DCC, ZBall*, gCenter_ZBall_9F1DCC, nullptr);
-ALIVE_VAR(1, 0x9F1DD0, ZBall*, gOutZBall_9F1DD0, nullptr);
+ALIVE_VAR(1, 0x9F1DCC, ZBall*, gCenterZBall, nullptr);
+ALIVE_VAR(1, 0x9F1DD0, ZBall*, gOutZBall, nullptr);
 
 s32 Animation_OnFrame_ZBallSmacker(BaseGameObject* pObj, s16* pData)
 {
@@ -47,7 +47,7 @@ ZBall::ZBall(Path_ZBall* pTlv, s32 tlvInfo)
 
     mBaseAnimatedWithPhysicsGameObject_RGB.SetRGB(128, 128, 128);
 
-    switch (pTlv->field_1C_speed)
+    switch (pTlv->mSpeed)
     {
         case Path_ZBall::Speed::eNormal_0:
         {
@@ -80,36 +80,36 @@ ZBall::ZBall(Path_ZBall* pTlv, s32 tlvInfo)
 
     if (gMap.mCurrentLevel == EReliveLevelIds::eForestTemple)
     {
-        switch (pTlv->field_18_start_pos)
+        switch (pTlv->mStartPos)
         {
             case Path_ZBall::StartPos::eCenter_0:
                 mBaseAnimatedWithPhysicsGameObject_Anim.SetFrame(6u);
-                gCenter_ZBall_9F1DCC = this;
-                field_EA_sound_pitch = -800;
+                gCenterZBall = this;
+                mSoundPitch = -800;
                 break;
 
             case Path_ZBall::StartPos::eOut_1:
                 mBaseAnimatedWithPhysicsGameObject_Anim.SetFrame(0);
-                gOutZBall_9F1DD0 = this;
-                field_EA_sound_pitch = -400;
+                gOutZBall = this;
+                mSoundPitch = -400;
                 break;
 
             case Path_ZBall::StartPos::eIn_2:
                 mBaseAnimatedWithPhysicsGameObject_Anim.SetFrame(13u);
-                field_EA_sound_pitch = 0;
+                mSoundPitch = 0;
                 break;
         }
 
         mBaseAnimatedWithPhysicsGameObject_Anim.VDecode();
     }
 
-    if (pTlv->field_1A_scale != Scale_short::eFull_0)
+    if (pTlv->mScale != Scale_short::eFull_0)
     {
         mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromDouble(0.5);
         mBaseAnimatedWithPhysicsGameObject_Scale = Scale::Bg;
     }
 
-    field_E4_tlvInfo = tlvInfo;
+    mTlvInfo = tlvInfo;
     mBaseAnimatedWithPhysicsGameObject_Anim.mFnPtrArray = kZBall_Anim_Frame_Fns_4CEBF8;
 }
 
@@ -120,19 +120,19 @@ void ZBall::VUpdate()
         mBaseGameObjectFlags.Set(Options::eDead);
     }
 
-    if (gCenter_ZBall_9F1DCC == this || gOutZBall_9F1DD0 == this)
+    if (gCenterZBall == this || gOutZBall == this)
     {
         if (mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame == 0 || mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame == 13)
         {
-            SFX_Play_Pitch(SoundEffect::ZBall_62, 50, field_EA_sound_pitch, nullptr);
+            SFX_Play_Pitch(SoundEffect::ZBall_62, 50, mSoundPitch, nullptr);
         }
     }
 
-    if (gCenter_ZBall_9F1DCC == this)
+    if (gCenterZBall == this)
     {
         if (mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame == 3 || mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame == 16)
         {
-            SFX_Play_Pitch(SoundEffect::SackWobble_34, 40, field_EA_sound_pitch - 2400, nullptr);
+            SFX_Play_Pitch(SoundEffect::SackWobble_34, 40, mSoundPitch - 2400, nullptr);
         }
     }
 
@@ -156,8 +156,7 @@ void ZBall::VUpdate()
         mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_BeforeWell_Half_3;
     }
 
-    // Pointless because never seems to be read
-    field_E8_bFrameAbove12 = mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame >= 13;
+    mFrameAbove12 = mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame >= 13;
 
     if (!gMap.Is_Point_In_Current_Camera(
             mBaseAnimatedWithPhysicsGameObject_LvlNumber,
@@ -167,9 +166,9 @@ void ZBall::VUpdate()
             0))
     {
         mBaseGameObjectFlags.Set(Options::eDead);
-        if (field_E4_tlvInfo != -1)
+        if (mTlvInfo != -1)
         {
-            gMap.TLV_Reset(field_E4_tlvInfo, -1, 0, 0);
+            gMap.TLV_Reset(mTlvInfo, -1, 0, 0);
         }
     }
 }

@@ -24,7 +24,7 @@ void GasEmitter::VStopAudio()
     if (gGasEmitter_5009D4 == this)
     {
         gGasEmitter_5009D4 = 0;
-        SND_Stop_Channels_Mask_4774A0(gGasEmitterFx_5009D8);
+        SND_Stop_Channels_Mask(gGasEmitterFx_5009D8);
         gGasEmitterFx_5009D8 = 0;
     }
 }
@@ -36,7 +36,7 @@ GasEmitter::~GasEmitter()
     if (gGasEmitter_5009D4 == this)
     {
         gGasEmitter_5009D4 = 0;
-        SND_Stop_Channels_Mask_4774A0(gGasEmitterFx_5009D8);
+        SND_Stop_Channels_Mask(gGasEmitterFx_5009D8);
         gGasEmitterFx_5009D8 = 0;
     }
 }

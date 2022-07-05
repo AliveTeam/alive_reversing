@@ -15,11 +15,11 @@ enum class StartDirection : s16
 struct Path_SlogSpawner final : public Path_TLV
 {
     Scale_short field_18_scale;
-    s16 field_1A_max_slogs;
-    s16 field_1C_max_slogs_at_a_time;
-    StartDirection field_1E_start_direction;
-    s16 field_20_slog_spawn_interval;
-    s16 field_22_spawner_switch_id;
+    s16 mMaxSlogs;
+    s16 mMaxSlogsAtATime;
+    StartDirection mStartDirection;
+    s16 mSlogSpawnInterval;
+    s16 mSpawnerSwitchId;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_SlogSpawner, 0x24);
 
@@ -31,17 +31,17 @@ public:
     virtual void VScreenChanged() override;
     virtual void VUpdate() override;
 
-    s32 field_10_tlvInfo = 0;
-    s16 field_14_spawned_count = 0;
-    FP field_18_xPos = {};
-    FP field_1C_yPos = {};
-    s32 field_20_spawn_timer = 0;
-    Scale_short field_24_scale = Scale_short::eFull_0;
-    u16 field_26_max_slogs = 0;
-    u16 field_28_max_slogs_at_a_time = 0;
-    StartDirection field_2A_start_direction = StartDirection::eRight_0;
-    u16 field_2C_slog_spawn_interval = 0;
-    u16 field_2E_spawner_switch_id = 0;
+    s32 mTlvInfo = 0;
+    s16 mSpawnedSlogsCount = 0;
+    FP mXPos = {};
+    FP mYPos = {};
+    s32 mSpawnTimer = 0;
+    Scale_short mScale = Scale_short::eFull_0;
+    u16 mMaxSlogs = 0;
+    u16 mMaxSlogsAtATime = 0;
+    StartDirection mStartDirection = StartDirection::eRight_0;
+    u16 mSlogSpawnInterval = 0;
+    u16 mSpawnerSwitchId = 0;
 };
 ALIVE_ASSERT_SIZEOF(SlogSpawner, 0x30);
 

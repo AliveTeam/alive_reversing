@@ -2387,7 +2387,7 @@ s16 Scrab::Brain_Fighting_45C370()
                 return field_110_brain_sub_state;
             }
 
-            SND_Stop_Channels_Mask_4774A0(field_14C);
+            SND_Stop_Channels_Mask(field_14C);
 
             field_14C = 0;
 

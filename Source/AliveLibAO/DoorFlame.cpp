@@ -293,7 +293,7 @@ void DoorFlame::VStopAudio()
     if (pFlameControllingTheSound_507734 == this)
     {
         pFlameControllingTheSound_507734 = nullptr;
-        SND_Stop_Channels_Mask_4774A0(field_F0_sounds_mask);
+        SND_Stop_Channels_Mask(field_F0_sounds_mask);
     }
 }
 

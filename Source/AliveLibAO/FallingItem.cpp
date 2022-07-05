@@ -260,7 +260,7 @@ void FallingItem::VUpdate()
         {
             if (field_130_sound_channels)
             {
-                SND_Stop_Channels_Mask_4774A0(field_130_sound_channels);
+                SND_Stop_Channels_Mask(field_130_sound_channels);
                 field_130_sound_channels = 0;
             }
 

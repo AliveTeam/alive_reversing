@@ -30,32 +30,32 @@ Spark::Spark(FP xpos, FP ypos, FP scale, s32 count, s32 min, s32 max)
 
     gObjListDrawables->Push_Back(this);
 
-    field_30_xpos = xpos;
-    field_34_ypos = ypos;
-    field_38_scale = scale;
+    mXPos = xpos;
+    mYPos = ypos;
+    mScale = scale;
 
     if (scale == FP_FromDouble(0.5))
     {
-        field_42_layer = Layer::eLayer_Foreground_Half_17;
+        mLayer = Layer::eLayer_Foreground_Half_17;
     }
     else
     {
-        field_42_layer = Layer::eLayer_Foreground_36;
+        mLayer = Layer::eLayer_Foreground_36;
     }
 
-    field_40_b = 127;
-    field_3C_r = 31;
-    field_3E_g = 31;
+    mBlue = 127;
+    mRed = 31;
+    mGreen = 31;
 
-    field_4C_count = static_cast<s16>(count);
+    mSparkCount = static_cast<s16>(count);
 
-    field_44_ppSprxRes = ResourceManager::Allocate_New_Locked_Resource(ResourceManager::Resource_Sprx, 0, sizeof(SparkRes) * count);
-    if (field_44_ppSprxRes)
+    mSprxRes = ResourceManager::Allocate_New_Locked_Resource(ResourceManager::Resource_Sprx, 0, sizeof(SparkRes) * count);
+    if (mSprxRes)
     {
-        field_48_pRes = reinterpret_cast<SparkRes*>(*field_44_ppSprxRes);
-        for (s32 idx = 0; idx < field_4C_count; idx++)
+        mSparkRes = reinterpret_cast<SparkRes*>(*mSprxRes);
+        for (s32 idx = 0; idx < mSparkCount; idx++)
         {
-            SparkRes* pSparkIter = &field_48_pRes[idx];
+            SparkRes* pSparkIter = &mSparkRes[idx];
             s32 randAng = 0;
             if (min >= 0)
             {
@@ -70,7 +70,7 @@ Spark::Spark(FP xpos, FP ypos, FP scale, s32 count, s32 min, s32 max)
             pSparkIter->field_18_len = FP_FromInteger(Math_RandomRange(2, 4));
         }
 
-        field_50_timer = sGnFrame + 3;
+        mTimer = sGnFrame + 3;
 
         const AnimRecord& rec = AO::AnimRec(AnimId::Zap_Sparks);
         u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
@@ -110,9 +110,9 @@ Spark::~Spark()
         gObjListDrawables->Remove_Item(this);
     }
 
-    if (field_44_ppSprxRes)
+    if (mSprxRes)
     {
-        ResourceManager::FreeResource_455550(field_44_ppSprxRes);
+        ResourceManager::FreeResource_455550(mSprxRes);
     }
 }
 
@@ -129,20 +129,20 @@ void Spark::VUpdate()
     }
     if (!sNumCamSwappers_507668)
     {
-        if (static_cast<s32>(sGnFrame) < field_50_timer)
+        if (static_cast<s32>(sGnFrame) < mTimer)
         {
-            if (static_cast<s32>(sGnFrame) == field_50_timer - 1)
+            if (static_cast<s32>(sGnFrame) == mTimer - 1)
             {
-                field_4C_count /= 3;
+                mSparkCount /= 3;
             }
-            for (s32 idx = 0; idx < field_4C_count; idx++)
+            for (s32 idx = 0; idx < mSparkCount; idx++)
             {
-                field_48_pRes[idx].field_0_x0 = field_48_pRes[idx].field_14_radius * Math_Sine_451110(field_48_pRes[idx].field_10_ang);
-                field_48_pRes[idx].field_4_y0 = field_48_pRes[idx].field_14_radius * Math_Cosine_4510A0(field_48_pRes[idx].field_10_ang);
-                field_48_pRes[idx].field_8_x1 = (field_48_pRes[idx].field_18_len + field_48_pRes[idx].field_14_radius) * Math_Sine_451110(field_48_pRes[idx].field_10_ang);
-                field_48_pRes[idx].field_C_y1 = (field_48_pRes[idx].field_18_len + field_48_pRes[idx].field_14_radius) * Math_Cosine_4510A0(field_48_pRes[idx].field_10_ang);
-                field_48_pRes[idx].field_14_radius = field_48_pRes[idx].field_18_len + FP_FromInteger(Math_RandomRange(2, 5));
-                field_48_pRes[idx].field_18_len = field_48_pRes[idx].field_18_len + FP_FromInteger(2);
+                mSparkRes[idx].field_0_x0 = mSparkRes[idx].field_14_radius * Math_Sine_451110(mSparkRes[idx].field_10_ang);
+                mSparkRes[idx].field_4_y0 = mSparkRes[idx].field_14_radius * Math_Cosine_4510A0(mSparkRes[idx].field_10_ang);
+                mSparkRes[idx].field_8_x1 = (mSparkRes[idx].field_18_len + mSparkRes[idx].field_14_radius) * Math_Sine_451110(mSparkRes[idx].field_10_ang);
+                mSparkRes[idx].field_C_y1 = (mSparkRes[idx].field_18_len + mSparkRes[idx].field_14_radius) * Math_Cosine_4510A0(mSparkRes[idx].field_10_ang);
+                mSparkRes[idx].field_14_radius = mSparkRes[idx].field_18_len + FP_FromInteger(Math_RandomRange(2, 5));
+                mSparkRes[idx].field_18_len = mSparkRes[idx].field_18_len + FP_FromInteger(2);
             }
         }
         else
@@ -162,37 +162,37 @@ void Spark::VRender(PrimHeader** ppOt)
 
     const FP_Point* pCamPos = pScreenManager->mCamPos;
 
-    const s16 xOrg = FP_GetExponent(field_30_xpos) - FP_GetExponent(pCamPos->x - FP_FromInteger(pScreenManager->mCamXOff));
-    const s16 yOrg = FP_GetExponent(field_34_ypos) - FP_GetExponent(pCamPos->y - FP_FromInteger(pScreenManager->mCamYOff));
+    const s16 xOrg = FP_GetExponent(mXPos) - FP_GetExponent(pCamPos->x - FP_FromInteger(pScreenManager->mCamXOff));
+    const s16 yOrg = FP_GetExponent(mYPos) - FP_GetExponent(pCamPos->y - FP_FromInteger(pScreenManager->mCamYOff));
 
-    for (s32 i = 0; i < field_4C_count; i++)
+    for (s32 i = 0; i < mSparkCount; i++)
     {
-        SparkRes* pSpark = &field_48_pRes[i];
+        SparkRes* pSpark = &mSparkRes[i];
 
         Line_G2* pPrim = &pSpark->field_1C_pLineG2s[gPsxDisplay.mBufferIndex];
         LineG2_Init(pPrim);
 
-        const s32 y0 = yOrg + FP_GetExponent(pSpark->field_4_y0 * field_38_scale);
-        const s32 y1 = yOrg + FP_GetExponent(pSpark->field_C_y1 * field_38_scale);
+        const s32 y0 = yOrg + FP_GetExponent(pSpark->field_4_y0 * mScale);
+        const s32 y1 = yOrg + FP_GetExponent(pSpark->field_C_y1 * mScale);
 
-        const s32 x0 = PsxToPCX(xOrg + FP_GetExponent(pSpark->field_0_x0 * field_38_scale), 11);
-        const s32 x1 = PsxToPCX(xOrg + FP_GetExponent(pSpark->field_8_x1 * field_38_scale), 11);
+        const s32 x0 = PsxToPCX(xOrg + FP_GetExponent(pSpark->field_0_x0 * mScale), 11);
+        const s32 x1 = PsxToPCX(xOrg + FP_GetExponent(pSpark->field_8_x1 * mScale), 11);
 
         SetXY0(pPrim, static_cast<s16>(x0), static_cast<s16>(y0));
         SetXY1(pPrim, static_cast<s16>(x1), static_cast<s16>(y1));
 
         SetRGB0(pPrim,
-                static_cast<u8>(field_3C_r / 2),
-                static_cast<u8>(field_3E_g / 2),
-                static_cast<u8>(field_40_b / 2));
+                static_cast<u8>(mRed / 2),
+                static_cast<u8>(mGreen / 2),
+                static_cast<u8>(mBlue / 2));
 
         SetRGB1(pPrim,
-                static_cast<u8>(field_3C_r),
-                static_cast<u8>(field_3E_g),
-                static_cast<u8>(field_40_b));
+                static_cast<u8>(mRed),
+                static_cast<u8>(mGreen),
+                static_cast<u8>(mBlue));
 
         Poly_Set_SemiTrans(&pPrim->mBase.header, TRUE);
-        OrderingTable_Add(OtLayer(ppOt, field_42_layer), &pPrim->mBase.header);
+        OrderingTable_Add(OtLayer(ppOt, mLayer), &pPrim->mBase.header);
 
         rect.x = std::min(rect.x, std::min(static_cast<s16>(x0), static_cast<s16>(x1)));
         rect.w = std::max(rect.w, std::max(static_cast<s16>(x0), static_cast<s16>(x1)));
@@ -201,9 +201,9 @@ void Spark::VRender(PrimHeader** ppOt)
         rect.h = std::max(rect.h, std::max(static_cast<s16>(y0), static_cast<s16>(y1)));
     }
 
-    Prim_SetTPage* pTPage = &field_10_tPage[gPsxDisplay.mBufferIndex];
+    Prim_SetTPage* pTPage = &mTPage[gPsxDisplay.mBufferIndex];
     Init_SetTPage(pTPage, 1, 0, PSX_getTPage(TPageMode::e4Bit_0, TPageAbr::eBlend_1, 0, 0));
-    OrderingTable_Add(OtLayer(ppOt, field_42_layer), &pTPage->mBase);
+    OrderingTable_Add(OtLayer(ppOt, mLayer), &pTPage->mBase);
     pScreenManager->InvalidateRectCurrentIdx(
         rect.x,
         rect.y,

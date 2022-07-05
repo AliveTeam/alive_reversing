@@ -183,7 +183,7 @@ void SND_Reset_476BA0();
 
 void SND_Load_VABS_477040(SoundBlockInfo* pSoundBlockInfo, s32 reverb);
 
-void SND_Stop_Channels_Mask_4774A0(s32 mask);
+void SND_Stop_Channels_Mask(s32 mask);
 
 void SND_Load_Seqs_477AB0(OpenSeqHandleAE* pSeqTable, const char_type* bsqFileName);
 

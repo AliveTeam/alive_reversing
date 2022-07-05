@@ -14,8 +14,8 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_SecurityClaw, 0x18);
 
 struct Path_SecurityOrb final : public Path_TLV
 {
-    Scale_short field_10_scale;
-    s16 field_12_disabled_resources;
+    Scale_short mScale;
+    s16 mDisabledResources;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_SecurityOrb, 0x14);
 
@@ -34,9 +34,15 @@ public:
     virtual s16 VTakeDamage(BaseGameObject* pFrom) override;
 
 private:
-    s32 field_118_tlvInfo = 0;
-    s16 field_11C_state = 0;
-    s32 field_120_timer = 0;
-    s32 field_124_sound_channels_mask = 0;
+    s32 mTlvInfo = 0;
+    enum class States : s16
+    {
+        eIdle_0,
+        eDoZapEffects_1,
+        eDoFlashAndSound_2
+    };
+    States mState = States::eIdle_0;
+    s32 mTimer = 0;
+    s32 mSoundChannelsMask = 0;
 };
 ALIVE_ASSERT_SIZEOF(SecurityOrb, 0x128);

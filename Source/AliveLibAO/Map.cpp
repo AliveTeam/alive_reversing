@@ -724,7 +724,7 @@ void Map::ScreenChange_Common()
     }
 
     field_6_state = CamChangeStates::eInactive_0;
-    SND_Stop_Channels_Mask_4774A0(gSndChannels_507CA0);
+    SND_Stop_Channels_Mask(gSndChannels_507CA0);
     gSndChannels_507CA0 = 0;
 }
 

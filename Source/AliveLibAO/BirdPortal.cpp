@@ -129,7 +129,7 @@ BirdPortal::~BirdPortal()
 
     if (field_68_sfx_ret)
     {
-        SND_Stop_Channels_Mask_4774A0(field_68_sfx_ret);
+        SND_Stop_Channels_Mask(field_68_sfx_ret);
         field_68_sfx_ret = 0;
     }
 
@@ -586,7 +586,7 @@ void BirdPortal::VUpdate()
             {
                 if (field_68_sfx_ret)
                 {
-                    SND_Stop_Channels_Mask_4774A0(field_68_sfx_ret);
+                    SND_Stop_Channels_Mask(field_68_sfx_ret);
                     field_68_sfx_ret = 0;
                 }
                 field_14_state = PortalStates::CreateFlash1_12;
@@ -680,7 +680,7 @@ void BirdPortal::VUpdate()
 
                 if (field_68_sfx_ret)
                 {
-                    SND_Stop_Channels_Mask_4774A0(field_68_sfx_ret);
+                    SND_Stop_Channels_Mask(field_68_sfx_ret);
                     field_68_sfx_ret = 0;
                 }
             }
@@ -828,7 +828,7 @@ void BirdPortal::VScreenChanged()
     {
         if (field_68_sfx_ret)
         {
-            SND_Stop_Channels_Mask_4774A0(field_68_sfx_ret);
+            SND_Stop_Channels_Mask(field_68_sfx_ret);
             field_68_sfx_ret = 0;
         }
     }
@@ -838,7 +838,7 @@ void BirdPortal::VStopAudio()
 {
     if (field_68_sfx_ret)
     {
-        SND_Stop_Channels_Mask_4774A0(field_68_sfx_ret);
+        SND_Stop_Channels_Mask(field_68_sfx_ret);
         field_68_sfx_ret = 0;
     }
 }

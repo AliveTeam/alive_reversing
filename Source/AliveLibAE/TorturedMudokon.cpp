@@ -14,24 +14,24 @@ TorturedMudokon::TorturedMudokon(Path_TorturedMudokon* pTlv, s32 tlvInfo)
     : BaseAnimatedWithPhysicsGameObject(0)
 {
     SetType(ReliveTypes::eTorturedMud);
-    field_230_tlvInfo = tlvInfo;
+    mTlvInfo = tlvInfo;
 
     const AnimRecord& rec = AnimRec(AnimId::Tortured_Mudokon);
-    field_224_ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
-    if (field_224_ppRes)
+    mTorturedMudRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
+    if (mTorturedMudRes)
     {
         mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pTlv->mTopLeft.x);
         mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->mTopLeft.y);
-        Animation_Init(AnimId::Tortured_Mudokon, field_224_ppRes);
+        Animation_Init(AnimId::Tortured_Mudokon, mTorturedMudRes);
         mBaseAnimatedWithPhysicsGameObject_Anim.SetFrame(Math_RandomRange(0, mBaseAnimatedWithPhysicsGameObject_Anim.Get_Frame_Count() - 1));
-        field_23A_kill_switch_id = pTlv->field_10_kill_switch_id;
-        field_23C_release_switch_id = pTlv->field_12_release_switch_id;
-        field_23E_state = TorturedMudokonState::eBeingTortured_0;
-        SetupTearsAnimation(&field_F4_tears_animation);
-        SetupZapAnimation(&field_18C_zap_animation);
-        field_240_pain_sound_pitch = Math_RandomRange(800, 1000);
-        field_234_flash_colour_timer = sGnFrame + 100;
-        field_238_flash_colour_counter = 0;
+        mKillSwitchId = pTlv->mKillSwitchId;
+        mReleaseSwitchId = pTlv->mReleaseSwitchId;
+        mState = TorturedMudokonState::eBeingTortured_0;
+        SetupTearsAnimation(&mTearsAnim);
+        SetupZapAnimation(&mZapAnim);
+        mPainSoundPitch = Math_RandomRange(800, 1000);
+        mFlashColourTimer = sGnFrame + 100;
+        mFlashColourCounter = 0;
     }
     else
     {
@@ -85,15 +85,15 @@ void TorturedMudokon::VScreenChanged()
 
 void TorturedMudokon::VRender(PrimHeader** ppOt)
 {
-    field_F4_tears_animation.VRender(
+    mTearsAnim.VRender(
         FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos - pScreenManager->CamXPos()),
         FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos - pScreenManager->CamYPos()),
         ppOt,
         0,
         0);
-    if (field_F4_tears_animation.mAnimFlags.Get(AnimFlags::eBit3_Render))
+    if (mTearsAnim.mAnimFlags.Get(AnimFlags::eBit3_Render))
     {
-        field_18C_zap_animation.VRender(
+        mZapAnim.VRender(
             FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos - pScreenManager->CamXPos()),
             FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos - pScreenManager->CamYPos()),
             ppOt,
@@ -102,14 +102,14 @@ void TorturedMudokon::VRender(PrimHeader** ppOt)
     }
 
     PSX_RECT rect = {};
-    field_F4_tears_animation.Get_Frame_Rect(&rect);
+    mTearsAnim.Get_Frame_Rect(&rect);
     pScreenManager->InvalidateRectCurrentIdx(
         rect.x,
         rect.y,
         rect.w,
         rect.h);
 
-    field_18C_zap_animation.Get_Frame_Rect(&rect);
+    mZapAnim.Get_Frame_Rect(&rect);
     pScreenManager->InvalidateRectCurrentIdx(
         rect.x,
         rect.y,
@@ -121,13 +121,13 @@ void TorturedMudokon::VRender(PrimHeader** ppOt)
 
 TorturedMudokon::~TorturedMudokon()
 {
-    if (field_23E_state != TorturedMudokonState::eReleased_2)
+    if (mState != TorturedMudokonState::eReleased_2)
     {
-        Path::TLV_Reset(field_230_tlvInfo, -1, 0, 0);
+        Path::TLV_Reset(mTlvInfo, -1, 0, 0);
     }
 
-    field_F4_tears_animation.VCleanUp();
-    field_18C_zap_animation.VCleanUp();
+    mTearsAnim.VCleanUp();
+    mZapAnim.VCleanUp();
 }
 
 void TorturedMudokon::VUpdate()
@@ -138,22 +138,22 @@ void TorturedMudokon::VUpdate()
         return;
     }
 
-    if (field_234_flash_colour_timer == static_cast<s32>(sGnFrame))
+    if (mFlashColourTimer == static_cast<s32>(sGnFrame))
     {
-        field_238_flash_colour_counter++;
-        field_234_flash_colour_timer = sGnFrame + 100;
-        if (field_238_flash_colour_counter == 4)
+        mFlashColourCounter++;
+        mFlashColourTimer = sGnFrame + 100;
+        if (mFlashColourCounter == 4)
         {
-            field_238_flash_colour_counter = 0;
+            mFlashColourCounter = 0;
         }
     }
 
-    switch (field_23E_state)
+    switch (mState)
     {
         case TorturedMudokonState::eBeingTortured_0:
-            if (SwitchStates_Get(field_23A_kill_switch_id))
+            if (SwitchStates_Get(mKillSwitchId))
             {
-                field_23E_state = TorturedMudokonState::eKilled_1;
+                mState = TorturedMudokonState::eKilled_1;
                 mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::Tortured_Mudokon_Zap, nullptr);
             }
             break;
@@ -176,10 +176,10 @@ void TorturedMudokon::VUpdate()
     {
         if (mBaseAnimatedWithPhysicsGameObject_Anim.mFrameChangeCounter == mBaseAnimatedWithPhysicsGameObject_Anim.mFrameDelay)
         {
-            field_18C_zap_animation.mAnimFlags.Clear(AnimFlags::eBit3_Render);
+            mZapAnim.mAnimFlags.Clear(AnimFlags::eBit3_Render);
             if (!Math_RandomRange(0, 8))
             {
-                Mudokon_SFX(MudSounds::eNoSad_22, 100, Math_RandomRange(field_240_pain_sound_pitch, field_240_pain_sound_pitch + 100), 0);
+                Mudokon_SFX(MudSounds::eNoSad_22, 100, Math_RandomRange(mPainSoundPitch, mPainSoundPitch + 100), 0);
             }
         }
     }
@@ -193,10 +193,10 @@ void TorturedMudokon::VUpdate()
     }
 
     u8 rgbBase = 0;
-    switch (field_238_flash_colour_counter)
+    switch (mFlashColourCounter)
     {
         case 0:
-            rgbBase = static_cast<u8>((field_234_flash_colour_timer & 0xFF) - sGnFrame);
+            rgbBase = static_cast<u8>((mFlashColourTimer & 0xFF) - sGnFrame);
             break;
 
         case 1:
@@ -204,7 +204,7 @@ void TorturedMudokon::VUpdate()
             break;
 
         case 2:
-            rgbBase = static_cast<u8>(sGnFrame - (field_234_flash_colour_timer & 0xFF) + 100);
+            rgbBase = static_cast<u8>(sGnFrame - (mFlashColourTimer & 0xFF) + 100);
             break;
 
         case 3:
@@ -215,19 +215,19 @@ void TorturedMudokon::VUpdate()
     if (mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame == 6 && mBaseAnimatedWithPhysicsGameObject_Anim.mFrameChangeCounter == mBaseAnimatedWithPhysicsGameObject_Anim.mFrameDelay)
     {
         relive_new Flash(Layer::eLayer_Above_FG1_39, rgbBase + 50, rgbBase + 50, rgbBase + 110, 1, TPageAbr::eBlend_1, 1);
-        field_18C_zap_animation.mAnimFlags.Set(AnimFlags::eBit3_Render);
+        mZapAnim.mAnimFlags.Set(AnimFlags::eBit3_Render);
         SfxPlayMono(SoundEffect::ElectricZap_39, 70);
         const s16 sndRnd = Math_RandomRange(0, 3) - 1;
         if (sndRnd)
         {
             if (sndRnd == 1)
             {
-                Mudokon_SFX(MudSounds::eHurt1_16, 127, Math_RandomRange(field_240_pain_sound_pitch, field_240_pain_sound_pitch + 100), 0);
+                Mudokon_SFX(MudSounds::eHurt1_16, 127, Math_RandomRange(mPainSoundPitch, mPainSoundPitch + 100), 0);
             }
         }
         else
         {
-            Mudokon_SFX(MudSounds::eHurt2_9, 127, Math_RandomRange(field_240_pain_sound_pitch, field_240_pain_sound_pitch + 100), 0);
+            Mudokon_SFX(MudSounds::eHurt2_9, 127, Math_RandomRange(mPainSoundPitch, mPainSoundPitch + 100), 0);
         }
     }
 
@@ -236,13 +236,13 @@ void TorturedMudokon::VUpdate()
         relive_new Flash(Layer::eLayer_Above_FG1_39, rgbBase + 10, rgbBase + 10, rgbBase + 50, 1, TPageAbr::eBlend_1, 1);
     }
 
-    if (SwitchStates_Get(field_23C_release_switch_id))
+    if (SwitchStates_Get(mReleaseSwitchId))
     {
-        field_23E_state = TorturedMudokonState::eReleased_2;
+        mState = TorturedMudokonState::eReleased_2;
         mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::Tortured_Mudokon_Released, nullptr);
-        field_F4_tears_animation.mAnimFlags.Clear(AnimFlags::eBit3_Render);
-        field_18C_zap_animation.mAnimFlags.Clear(AnimFlags::eBit3_Render);
-        Path_TLV* pTlv = sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam(field_230_tlvInfo);
+        mTearsAnim.mAnimFlags.Clear(AnimFlags::eBit3_Render);
+        mZapAnim.mAnimFlags.Clear(AnimFlags::eBit3_Render);
+        Path_TLV* pTlv = sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam(mTlvInfo);
         if (pTlv)
         {
             pTlv->mTlvState = 1;

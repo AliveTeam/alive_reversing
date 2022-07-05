@@ -32,9 +32,9 @@ SecurityOrb::SecurityOrb(Path_SecurityOrb* pTlv, s32 tlvInfo)
     mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pTlv->mTopLeft.x);
     mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->mTopLeft.y);
 
-    field_10C_tlvInfo = tlvInfo;
+    mTlvInfo = tlvInfo;
 
-    if (pTlv->field_18_scale == Scale_short::eHalf_1)
+    if (pTlv->mScale == Scale_short::eHalf_1)
     {
         mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromDouble(0.5);
         mBaseAnimatedWithPhysicsGameObject_Scale = Scale::Bg;
@@ -45,24 +45,24 @@ SecurityOrb::SecurityOrb(Path_SecurityOrb* pTlv, s32 tlvInfo)
         mBaseAnimatedWithPhysicsGameObject_Scale = Scale::Fg;
     }
 
-    field_110_state = SecurityOrbStates::eIdle_0;
-    field_118_sound_channels = 0;
+    mState = States::eIdle_0;
+    mSoundChannelsMask = 0;
 }
 
 SecurityOrb::~SecurityOrb()
 {
-    if (field_118_sound_channels)
+    if (mSoundChannelsMask)
     {
-        SND_Stop_Channels_Mask_4774A0(field_118_sound_channels);
+        SND_Stop_Channels_Mask(mSoundChannelsMask);
     }
 
     if (mHealth > FP_FromInteger(0))
     {
-        gMap.TLV_Reset(field_10C_tlvInfo, -1, 0, 0);
+        gMap.TLV_Reset(mTlvInfo, -1, 0, 0);
     }
     else
     {
-        gMap.TLV_Reset(field_10C_tlvInfo, -1, 0, 1);
+        gMap.TLV_Reset(mTlvInfo, -1, 0, 1);
     }
 }
 
@@ -116,35 +116,35 @@ void SecurityOrb::VUpdate()
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 
-    switch (field_110_state)
+    switch (mState)
     {
-        case SecurityOrbStates::eIdle_0:
+        case States::eIdle_0:
             if (mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame == 2 || mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame == 6 || mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame == 10)
             {
-                if (field_118_sound_channels)
+                if (mSoundChannelsMask)
                 {
-                    SND_Stop_Channels_Mask_4774A0(field_118_sound_channels);
+                    SND_Stop_Channels_Mask(mSoundChannelsMask);
                 }
 
                 if (mBaseAnimatedWithPhysicsGameObject_SpriteScale == FP_FromDouble(0.5))
                 {
-                    field_118_sound_channels = SFX_Play_Pitch(SoundEffect::SecurityOrb_56, 35, 720);
+                    mSoundChannelsMask = SFX_Play_Pitch(SoundEffect::SecurityOrb_56, 35, 720);
                 }
                 else
                 {
-                    field_118_sound_channels = SFX_Play_Pitch(SoundEffect::SecurityOrb_56, 55, 700);
+                    mSoundChannelsMask = SFX_Play_Pitch(SoundEffect::SecurityOrb_56, 55, 700);
                 }
             }
 
             if (EventGet(kEventAbeOhm))
             {
-                field_110_state = SecurityOrbStates::eDoZapEffects_1;
-                field_114_timer = sGnFrame + 20;
+                mState = States::eDoZapEffects_1;
+                mTimer = sGnFrame + 20;
             }
             break;
 
-        case SecurityOrbStates::eDoZapEffects_1:
-            if (static_cast<s32>(sGnFrame) > field_114_timer)
+        case States::eDoZapEffects_1:
+            if (static_cast<s32>(sGnFrame) > mTimer)
             {
                 const PSX_RECT abeRect = sActiveHero_507678->VGetBoundingRect();
 
@@ -163,8 +163,8 @@ void SecurityOrb::VUpdate()
                 relive_new PossessionFlicker(sActiveHero_507678, 8, 255, 100, 100);
 
                 sActiveHero_507678->VTakeDamage(this);
-                field_114_timer = sGnFrame + 8;
-                field_110_state = SecurityOrbStates::eDoFlashAndSound_2;
+                mTimer = sGnFrame + 8;
+                mState = States::eDoFlashAndSound_2;
 
                 relive_new ScreenShake(1);
 
@@ -200,29 +200,29 @@ void SecurityOrb::VUpdate()
             }
             break;
 
-        case SecurityOrbStates::eDoFlashAndSound_2:
-            if (static_cast<s32>(sGnFrame) == field_114_timer - 5 || static_cast<s32>(sGnFrame) == field_114_timer - 1)
+        case States::eDoFlashAndSound_2:
+            if (static_cast<s32>(sGnFrame) == mTimer - 5 || static_cast<s32>(sGnFrame) == mTimer - 1)
             {
                 relive_new Flash(Layer::eLayer_Above_FG1_39, 255u, 0, 0);
             }
 
-            if (static_cast<s32>(sGnFrame) == field_114_timer - 4)
+            if (static_cast<s32>(sGnFrame) == mTimer - 4)
             {
                 relive_new Flash(Layer::eLayer_Above_FG1_39, 255u, 0, 0, 1, TPageAbr::eBlend_1, 1);
             }
 
-            if (field_114_timer - sGnFrame == 4)
+            if (mTimer - sGnFrame == 4)
             {
                 SfxPlayMono(SoundEffect::Zap1_57, 0, 0);
             }
-            else if (field_114_timer - sGnFrame == 1)
+            else if (mTimer - sGnFrame == 1)
             {
                 SfxPlayMono(SoundEffect::Zap2_58, 0, 0);
             }
 
-            if (static_cast<s32>(sGnFrame) > field_114_timer)
+            if (static_cast<s32>(sGnFrame) > mTimer)
             {
-                field_110_state = SecurityOrbStates::eIdle_0;
+                mState = States::eIdle_0;
             }
             break;
     }

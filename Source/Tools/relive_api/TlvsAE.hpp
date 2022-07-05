@@ -1076,8 +1076,8 @@ struct Path_SecurityOrb final : public ReliveAPI::TlvObjectBaseAE
 {
     CTOR_AE(Path_SecurityOrb, "SecurityOrb", TlvTypes::SecurityOrb_19)
     {
-        ADD("Scale", mTlv.field_10_scale);
-        ADD("Disabled Resources", mTlv.field_12_disabled_resources);
+        ADD("Scale", mTlv.mScale);
+        ADD("Disabled Resources", mTlv.mDisabledResources);
     }
 };
 
@@ -1409,14 +1409,14 @@ struct Path_TrapDoor final : public ReliveAPI::TlvObjectBaseAE
 
     CTOR_AE(Path_TrapDoor, "TrapDoor", TlvTypes::TrapDoor_30)
     {
-        ADD("Switch ID", mTlv.field_10_switch_id);
-        ADD("Start State", mTlv.field_12_start_state);
-        ADD("Self Closing", mTlv.field_14_self_closing);
+        ADD("Switch ID", mTlv.mSwitchId);
+        ADD("Start State", mTlv.mStartState);
+        ADD("Self Closing", mTlv.mSelfClosing);
         ADD("Scale", mTlv.field_16_scale);
         ADD("Dest Level (Unused?)", mTlv.field_18_dest_level);
-        ADD("Direction", mTlv.field_1A_direction);
+        ADD("Direction", mTlv.mDirection);
         ADD("X Offset", mTlv.field_1C_xOff);
-        ADD("Stay Open Time", mTlv.field_1E_stay_open_time);
+        ADD("Stay Open Time", mTlv.mStayOpenTime);
     }
 };
 
@@ -2067,14 +2067,14 @@ struct Path_SlogSpawner final : public ReliveAPI::TlvObjectBaseAE
 
     CTOR_AE(Path_SlogSpawner, "SlogSpawner", TlvTypes::SlogSpawner_68)
     {
-        ADD("Scale", mTlv.field_10_scale);
-        ADD("Max Slogs", mTlv.field_12_max_slogs);
-        ADD("Max Slogs At A Time", mTlv.field_14_max_slogs_at_a_time);
-        ADD("Start Direction", mTlv.field_16_start_direction);
-        ADD("Slog Spawn Interval", mTlv.field_18_slog_spawn_interval);
-        ADD("Spawner Switch ID", mTlv.field_1A_spawner_switch_id);
-        ADD("Listen To Sligs", mTlv.field_1C_listen_to_sligs);
-        ADD("Chase Delay", mTlv.field_1E_chase_delay);
+        ADD("Scale", mTlv.mScale);
+        ADD("Max Slogs", mTlv.mMaxSlogs);
+        ADD("Max Slogs At A Time", mTlv.mMaxSlogsAtATime);
+        ADD("Start Direction", mTlv.mStartDirection);
+        ADD("Slog Spawn Interval", mTlv.mSlogSpawnInterval);
+        ADD("Spawner Switch ID", mTlv.mSpawnerSwitchId);
+        ADD("Listen To Sligs", mTlv.mListenToSligs);
+        ADD("Chase Delay", mTlv.mChaseDelay);
     }
 };
 
@@ -2339,8 +2339,8 @@ struct Path_TorturedMudokon final : public ReliveAPI::TlvObjectBaseAE
 {
     CTOR_AE(Path_TorturedMudokon, "TorturedMudokon", TlvTypes::TorturedMudokon_110)
     {
-        ADD("Kill Switch ID", mTlv.field_10_kill_switch_id);
-        ADD("Release Switch ID", mTlv.field_12_release_switch_id);
+        ADD("Kill Switch ID", mTlv.mKillSwitchId);
+        ADD("Release Switch ID", mTlv.mReleaseSwitchId);
         
         ADD_RESOURCE(AnimId::Tortured_Mudokon, ReliveAPI::AddResourceTo::File);
         ADD_RESOURCE(AnimId::Tortured_Mudokon_Tears, ReliveAPI::AddResourceTo::File);

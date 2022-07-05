@@ -55,7 +55,7 @@ void FlintLockFire::VStopAudio()
 {
     if (field_EC_fire_sound)
     {
-        SND_Stop_Channels_Mask_4774A0(field_EC_fire_sound);
+        SND_Stop_Channels_Mask(field_EC_fire_sound);
         field_EC_fire_sound = 0;
     }
 }
@@ -71,7 +71,7 @@ FlintLockFire::~FlintLockFire()
         field_220_anim.VCleanUp();
         if (field_EC_fire_sound)
         {
-            SND_Stop_Channels_Mask_4774A0(field_EC_fire_sound);
+            SND_Stop_Channels_Mask(field_EC_fire_sound);
         }
     }
 }

@@ -73,7 +73,7 @@ ScopedSeq::~ScopedSeq()
 
     if (field_8_channel_mask)
     {
-        SND_Stop_Channels_Mask_4774A0(field_8_channel_mask);
+        SND_Stop_Channels_Mask(field_8_channel_mask);
     }
 }
 

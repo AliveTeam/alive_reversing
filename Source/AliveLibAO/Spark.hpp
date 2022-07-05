@@ -33,19 +33,18 @@ public:
     virtual void VUpdate() override;
     virtual void VRender(PrimHeader** ppOt) override;
 
-    Prim_SetTPage field_10_tPage[2] = {};
-    FP field_30_xpos = {};
-    FP field_34_ypos = {};
-    FP field_38_scale = {};
-    s16 field_3C_r = 0;
-    s16 field_3E_g = 0;
-    s16 field_40_b = 0;
-    Layer field_42_layer = Layer::eLayer_0;
-    u8** field_44_ppSprxRes = nullptr;
-    SparkRes* field_48_pRes = nullptr;
-    s16 field_4C_count = 0;
-    s16 field_4E = 0;
-    s32 field_50_timer = 0;
+    Prim_SetTPage mTPage[2] = {};
+    FP mXPos = {};
+    FP mYPos = {};
+    FP mScale = {};
+    s16 mRed = 0;
+    s16 mGreen = 0;
+    s16 mBlue = 0;
+    Layer mLayer = Layer::eLayer_0;
+    u8** mSprxRes = nullptr;
+    SparkRes* mSparkRes = nullptr;
+    s16 mSparkCount = 0;
+    s32 mTimer = 0;
 };
 ALIVE_ASSERT_SIZEOF(Spark, 0x54);
 

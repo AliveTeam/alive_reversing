@@ -6,19 +6,19 @@
 
 struct Path_TrapDoor final : public Path_TLV
 {
-    s16 field_10_switch_id;
+    s16 mSwitchId;
     enum StartState : s16
     {
         eOpen_0 = 0,
         eClosed_1 = 1,
     };
-    StartState field_12_start_state;
-    Choice_short field_14_self_closing;
+    StartState mStartState;
+    Choice_short mSelfClosing;
     Scale_short field_16_scale;
     s16 field_18_dest_level;
-    XDirection_short field_1A_direction;
+    XDirection_short mDirection;
     s16 field_1C_xOff;
-    s16 field_1E_stay_open_time;
+    s16 mStayOpenTime;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_TrapDoor, 0x20);
 
@@ -60,16 +60,15 @@ private:
     void Open();
 
 private:
-    s16 field_12C_unused = 0;
-    s32 field_130_stay_open_time2 = 0;
-    s16 field_134_switch_id = 0;
-    TrapDoorState field_136_state = TrapDoorState::eClosed_0;
-    s16 field_138_switch_state = 0;
-    s16 field_13A_xOff = 0;
-    s16 field_13C_stay_open_time = 0;
-    Choice_short field_13E_self_closing = Choice_short::eNo_0;
-    FP field_140_x = {};
-    FP field_144_y = {};
-    PSX_RECT field_148_bounding_rect = {};
+    s32 mStayOpenTimeTimer = 0;
+    s16 mSwitchId = 0;
+    TrapDoorState mState = TrapDoorState::eClosed_0;
+    s16 mStartState = 0;
+    s16 mXOffset = 0;
+    s16 mStayOpenTime = 0;
+    Choice_short mSelfClosing = Choice_short::eNo_0;
+    FP mTrapDoorX = {};
+    FP mTrapDoorY = {};
+    PSX_RECT mBoundingRect = {};
 };
 ALIVE_ASSERT_SIZEOF(TrapDoor, 0x150);

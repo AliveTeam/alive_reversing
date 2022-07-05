@@ -151,7 +151,7 @@ MovingBomb::~MovingBomb()
     {
         if (field_124_sound_channels)
         {
-            SND_Stop_Channels_Mask_4774A0(field_124_sound_channels);
+            SND_Stop_Channels_Mask(field_124_sound_channels);
             field_124_sound_channels = 0;
         }
         gMovingBomb_507B8C = nullptr;
@@ -334,7 +334,7 @@ void MovingBomb::VUpdate()
         {
             if (field_124_sound_channels)
             {
-                SND_Stop_Channels_Mask_4774A0(field_124_sound_channels);
+                SND_Stop_Channels_Mask(field_124_sound_channels);
             }
 
             if (VIsObjNearby(FP_FromInteger(700), sActiveHero_507678))

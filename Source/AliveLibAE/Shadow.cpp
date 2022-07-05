@@ -23,39 +23,39 @@ Shadow::Shadow()
 {
     const AnimRecord& shadowRec = PerGameAnimRec(AnimId::ObjectShadow);
     u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, shadowRec.mResourceId, TRUE, FALSE);
-    field_18_animation.Init(AnimId::ObjectShadow, nullptr, ppRes);
+    mAnim.Init(AnimId::ObjectShadow, nullptr, ppRes);
 
-    field_14_flags.Clear(Flags::eBit1_ShadowAtBottom);
-    field_14_flags.Set(Flags::eBit2_Enabled);
+    mFlags.Clear(Flags::eShadowAtBottom);
+    mFlags.Set(Flags::eEnabled);
 
-    field_18_animation.mRenderMode = TPageAbr::eBlend_2;
+    mAnim.mRenderMode = TPageAbr::eBlend_2;
 
-    field_18_animation.mAnimFlags.Clear(AnimFlags::eBit3_Render);
-    field_18_animation.mAnimFlags.Clear(AnimFlags::eBit16_bBlending);
+    mAnim.mAnimFlags.Clear(AnimFlags::eBit3_Render);
+    mAnim.mAnimFlags.Clear(AnimFlags::eBit16_bBlending);
 
-    field_18_animation.mAnimFlags.Set(AnimFlags::eBit2_Animate);
-    field_18_animation.mAnimFlags.Set(AnimFlags::eBit8_Loop);
-    field_18_animation.mAnimFlags.Set(AnimFlags::eBit15_bSemiTrans);
-    field_18_animation.mAnimFlags.Set(AnimFlags::eBit18_IsLastFrame);
-    field_18_animation.mAnimFlags.Set(AnimFlags::eBit20_use_xy_offset);
-    field_18_animation.mAnimFlags.Set(AnimFlags::eBit21);
+    mAnim.mAnimFlags.Set(AnimFlags::eBit2_Animate);
+    mAnim.mAnimFlags.Set(AnimFlags::eBit8_Loop);
+    mAnim.mAnimFlags.Set(AnimFlags::eBit15_bSemiTrans);
+    mAnim.mAnimFlags.Set(AnimFlags::eBit18_IsLastFrame);
+    mAnim.mAnimFlags.Set(AnimFlags::eBit20_use_xy_offset);
+    mAnim.mAnimFlags.Set(AnimFlags::eBit21);
 }
 
 Shadow::~Shadow()
 {
-    field_18_animation.VCleanUp();
+    mAnim.VCleanUp();
 }
 
 void Shadow::Calculate_Position(FP xpos, FP ypos, PSX_RECT* frameRect, FP spriteScale, Scale scale)
 {
-    if (field_14_flags.Get(Flags::eBit2_Enabled))
+    if (mFlags.Get(Flags::eEnabled))
     {
         // TODO: Is this the same as PsxToPCX ??
         const s16 objX = (23 * frameRect->x) / 40;
         const s16 objW = (23 * frameRect->w) / 40;
 
         FP objY = {};
-        if (field_14_flags.Get(Flags::eBit1_ShadowAtBottom))
+        if (mFlags.Get(Flags::eShadowAtBottom))
         {
             // Get the bottom of the object
             objY = FP_FromInteger(frameRect->h) + pScreenManager->CamYPos();
@@ -88,14 +88,14 @@ void Shadow::Calculate_Position(FP xpos, FP ypos, PSX_RECT* frameRect, FP sprite
                 lineWScreen = pLine->mRect.x - camXPos;
             }
 
-            field_18_animation.mAnimFlags.Set(AnimFlags::eBit3_Render);
+            mAnim.mAnimFlags.Set(AnimFlags::eBit3_Render);
 
-            field_8_xpos = xpos;
+            mXPos = xpos;
 
             // TODO :Refactor out, AO uses an offset of 3 for unknown reasons
-            field_C_ypos = hitY + FP_FromInteger(GetGameType() == GameType::eAe ? 0: 3);
+            mYPos = hitY + FP_FromInteger(GetGameType() == GameType::eAe ? 0: 3);
 
-            field_10_scale = (FP_FromInteger(1) - (((hitY - objY) * FP_FromDouble(0.75)) / FP_FromInteger(240))) * spriteScale;
+            mScale = (FP_FromInteger(1) - (((hitY - objY) * FP_FromDouble(0.75)) / FP_FromInteger(240))) * spriteScale;
 
             // Object is before the line we hit
             if (objX < lineXScreen)
@@ -132,68 +132,68 @@ void Shadow::Calculate_Position(FP xpos, FP ypos, PSX_RECT* frameRect, FP sprite
             }
 
 
-            field_0_x1 = std::max(objX, lineXScreen);
-            field_4_x2 = std::min(objW, lineWScreen);
+            mX1 = std::max(objX, lineXScreen);
+            mX2 = std::min(objW, lineWScreen);
 
             s16 height;
-            if (FP_GetExponent(field_10_scale * FP_FromInteger(6)) <= 6)
+            if (FP_GetExponent(mScale * FP_FromInteger(6)) <= 6)
             {
-                height = FP_GetExponent(field_10_scale * FP_FromInteger(6));
+                height = FP_GetExponent(mScale * FP_FromInteger(6));
             }
             else
             {
                 height = 6;
             }
 
-            const s16 finalYPos = FP_GetExponent(field_C_ypos - pScreenManager->CamYPos()) - height / 2;
-            field_2_y1 = finalYPos;
-            field_6_y2 = finalYPos + height;
+            const s16 finalYPos = FP_GetExponent(mYPos - pScreenManager->CamYPos()) - height / 2;
+            mY1 = finalYPos;
+            mY2 = finalYPos + height;
         }
         else
         {
             // Didn't hit anything so don't draw a shadow
-            field_18_animation.mAnimFlags.Clear(AnimFlags::eBit3_Render);
+            mAnim.mAnimFlags.Clear(AnimFlags::eBit3_Render);
         }
 
         if (scale == Scale::Fg)
         {
-            field_18_animation.mRenderLayer = Layer::eLayer_Shadow_26;
+            mAnim.mRenderLayer = Layer::eLayer_Shadow_26;
         }
         else
         {
-            field_18_animation.mRenderLayer = Layer::eLayer_Shadow_Half_7;
+            mAnim.mRenderLayer = Layer::eLayer_Shadow_Half_7;
         }
     }
 }
 
 void Shadow::Render(PrimHeader** ppOt)
 {
-    if (field_14_flags.Get(Flags::eBit2_Enabled))
+    if (mFlags.Get(Flags::eEnabled))
     {
-        field_18_animation.field_14_scale = FP_FromInteger(1);
-        if (field_10_scale == FP_FromDouble(0.5))
+        mAnim.field_14_scale = FP_FromInteger(1);
+        if (mScale == FP_FromDouble(0.5))
         {
-            field_18_animation.mRed = 63;
-            field_18_animation.mGreen = 63;
-            field_18_animation.mBlue = 63;
+            mAnim.mRed = 63;
+            mAnim.mGreen = 63;
+            mAnim.mBlue = 63;
         }
         else
         {
-            field_18_animation.mRed = 127;
-            field_18_animation.mGreen = 127;
-            field_18_animation.mBlue = 127;
+            mAnim.mRed = 127;
+            mAnim.mGreen = 127;
+            mAnim.mBlue = 127;
         }
 
-        field_18_animation.VRender(
+        mAnim.VRender(
             // Note: OG converted to FP and back here but its pointless
-            field_0_x1,
-            field_2_y1,
+            mX1,
+            mY1,
             ppOt,
-            (field_4_x2 - field_0_x1) + 1,
-            (field_6_y2 - field_2_y1) + 1);
+            (mX2 - mX1) + 1,
+            (mY2 - mY1) + 1);
 
         PSX_RECT frameRect = {};
-        field_18_animation.Get_Frame_Rect(&frameRect);
+        mAnim.Get_Frame_Rect(&frameRect);
         pScreenManager->InvalidateRectCurrentIdx(
             frameRect.x,
             frameRect.y,

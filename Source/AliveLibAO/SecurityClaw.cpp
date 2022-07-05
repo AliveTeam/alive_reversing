@@ -138,7 +138,7 @@ SecurityClaw::~SecurityClaw()
 
     if (field_128_sound_channels)
     {
-        SND_Stop_Channels_Mask_4774A0(field_128_sound_channels);
+        SND_Stop_Channels_Mask(field_128_sound_channels);
     }
 }
 
@@ -206,7 +206,7 @@ void SecurityClaw::VUpdate()
     {
         if (field_128_sound_channels)
         {
-            SND_Stop_Channels_Mask_4774A0(field_128_sound_channels);
+            SND_Stop_Channels_Mask(field_128_sound_channels);
         }
         field_128_sound_channels = SFX_Play_Pitch(SoundEffect::SecurityOrb_56, 55, -300, 0);
     }

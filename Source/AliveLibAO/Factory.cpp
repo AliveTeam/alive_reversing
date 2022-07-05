@@ -887,7 +887,7 @@ void Factory_StartController_Null_4817E0(Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvI
 void Factory_SecurityOrb_485550(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
 {
     auto pSecurityOrbTlv = static_cast<Path_SecurityOrb*>(pTlv);
-    const auto disabledResources = pSecurityOrbTlv->field_1A_disable_resources;
+    const auto disabledResources = pSecurityOrbTlv->mDisabledResources;
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
         ResourceManager::LoadResource_446C90("F2MAMORB.BAN", ResourceManager::Resource_Animation, AOResourceID::kMaimGameAOResID, loadMode, 0);

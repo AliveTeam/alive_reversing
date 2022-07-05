@@ -773,8 +773,8 @@ struct Path_SecurityOrb final : public ReliveAPI::TlvObjectBaseAO
 {
     CTOR_AO(Path_SecurityOrb, "SecurityOrb", AO::TlvTypes::SecurityOrb_29)
     {
-        ADD("Scale", mTlv.field_18_scale);
-        ADD("Disabled Resources", mTlv.field_1A_disable_resources);
+        ADD("Scale", mTlv.mScale);
+        ADD("Disabled Resources", mTlv.mDisabledResources);
 
         ADD_RESOURCE(AnimId::Abe_Head_Gib, ReliveAPI::AddResourceTo::File);
         ADD_RESOURCE(AnimId::Abe_Arm_Gib, ReliveAPI::AddResourceTo::File);
@@ -1178,8 +1178,8 @@ struct Path_TrapDoor final : public ReliveAPI::TlvObjectBaseAO
 
     CTOR_AO(Path_TrapDoor, "TrapDoor", AO::TlvTypes::TrapDoor_55)
     {
-        ADD("Switch ID", mTlv.field_18_switch_id);
-        ADD("Start State", mTlv.field_1A_start_state);
+        ADD("Switch ID", mTlv.mSwitchId);
+        ADD("Start State", mTlv.mStartState);
         ADD("Self Closing", mTlv.field_1C_self_closing);
         ADD("Scale", mTlv.field_1E_scale);
         ADD("Dest Level (Unused?)", mTlv.field_20_dest_level);
@@ -1398,11 +1398,11 @@ struct Path_SlogSpawner final : public ReliveAPI::TlvObjectBaseAO
     CTOR_AO(Path_SlogSpawner, "SlogSpawner", AO::TlvTypes::SlogSpawner_107)
     {
         ADD("Scale", mTlv.field_18_scale);
-        ADD("Max Slogs", mTlv.field_1A_max_slogs);
-        ADD("Max Slogs At A Time", mTlv.field_1C_max_slogs_at_a_time);
-        ADD("Start Direction", mTlv.field_1E_start_direction);
-        ADD("Slog Spawn Interval", mTlv.field_20_slog_spawn_interval);
-        ADD("Spawner Switch ID", mTlv.field_22_spawner_switch_id);
+        ADD("Max Slogs", mTlv.mMaxSlogs);
+        ADD("Max Slogs At A Time", mTlv.mMaxSlogsAtATime);
+        ADD("Start Direction", mTlv.mStartDirection);
+        ADD("Slog Spawn Interval", mTlv.mSlogSpawnInterval);
+        ADD("Spawner Switch ID", mTlv.mSpawnerSwitchId);
 
         ADD_RESOURCE(AnimId::Slog_AngryBark, ReliveAPI::AddResourceTo::File);
         ADD_RESOURCE(AnimId::Slog_Head_Gib, ReliveAPI::AddResourceTo::File);
@@ -1823,9 +1823,9 @@ struct Path_ZBall final : public ReliveAPI::TlvObjectBaseAO
 
     CTOR_AO(Path_ZBall, "ZBall", AO::TlvTypes::ZBall_14)
     {
-        ADD("Start Position", mTlv.field_18_start_pos);
-        ADD("Scale", mTlv.field_1A_scale);
-        ADD("Speed", mTlv.field_1C_speed);
+        ADD("Start Position", mTlv.mStartPos);
+        ADD("Scale", mTlv.mScale);
+        ADD("Speed", mTlv.mSpeed);
 
         ADD_RESOURCE(AnimId::Swinging_Ball_Fast, ReliveAPI::AddResourceTo::CameraBlock);
         ADD_RESOURCE(AnimId::Swinging_Ball_Normal, ReliveAPI::AddResourceTo::CameraBlock);

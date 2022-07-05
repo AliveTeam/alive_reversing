@@ -304,9 +304,9 @@ s16 SsVabOpenHead_49CFB0(VabHeader* pVabHeader)
     return SsVabOpenHead_4FC620(pVabHeader);
 }
 
-void SND_Stop_Channels_Mask_4774A0(s32 mask)
+void SND_Stop_Channels_Mask(s32 mask)
 {
-    SND_Stop_Channels_Mask(mask);
+    ::SND_Stop_Channels_Mask(mask);
 }
 
 s16 SND_SEQ_PlaySeq_4775A0(SeqId idx, s32 repeatCount, s16 bDontStop)

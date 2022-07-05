@@ -51,9 +51,9 @@ SecurityOrb::SecurityOrb(Path_SecurityOrb* pTlv, s32 tlvInfo)
     mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pTlv->mTopLeft.x);
     mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->mTopLeft.y);
 
-    field_118_tlvInfo = tlvInfo;
+    mTlvInfo = tlvInfo;
 
-    if (pTlv->field_10_scale == Scale_short::eHalf_1)
+    if (pTlv->mScale == Scale_short::eHalf_1)
     {
         mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromDouble(0.5);
         mBaseAnimatedWithPhysicsGameObject_Scale = Scale::Bg;
@@ -67,24 +67,24 @@ SecurityOrb::SecurityOrb(Path_SecurityOrb* pTlv, s32 tlvInfo)
     }
 
     mVisualFlags.Set(VisualFlags::eDoPurpleLightEffect);
-    field_11C_state = 0;
-    field_124_sound_channels_mask = 0;
+    mState = States::eIdle_0;
+    mSoundChannelsMask = 0;
 }
 
 SecurityOrb::~SecurityOrb()
 {
-    if (field_124_sound_channels_mask)
+    if (mSoundChannelsMask)
     {
-        SND_Stop_Channels_Mask(field_124_sound_channels_mask);
+        SND_Stop_Channels_Mask(mSoundChannelsMask);
     }
 
     if (mHealth > FP_FromInteger(0))
     {
-        Path::TLV_Reset(field_118_tlvInfo, -1, 0, 0);
+        Path::TLV_Reset(mTlvInfo, -1, 0, 0);
     }
     else
     {
-        Path::TLV_Reset(field_118_tlvInfo, -1, 0, 1);
+        Path::TLV_Reset(mTlvInfo, -1, 0, 1);
     }
 }
 
@@ -131,115 +131,112 @@ void SecurityOrb::VUpdate()
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 
-    // TODO: untangle
-    if (field_11C_state)
+    switch (mState)
     {
-        const s32 stateM1 = field_11C_state - 1;
-        if (stateM1)
-        {
-            if (stateM1 == 1)
+        case States::eIdle_0:
+            if (mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame == 2 || mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame == 6 || mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame == 10)
             {
-                if (static_cast<s32>(sGnFrame) == field_120_timer - 5 || static_cast<s32>(sGnFrame) == field_120_timer - 1)
+                if (mSoundChannelsMask)
                 {
-                    relive_new Flash(Layer::eLayer_Above_FG1_39, 255, 0, 0, 1, TPageAbr::eBlend_3, 1);
-                }
-                if (static_cast<s32>(sGnFrame) == field_120_timer - 4)
-                {
-                    relive_new Flash(Layer::eLayer_Above_FG1_39, 255, 0, 0, 1, TPageAbr::eBlend_1, 1);
+                    SND_Stop_Channels_Mask(mSoundChannelsMask);
                 }
 
-                const s32 timerFrame = field_120_timer - sGnFrame;
-                if (timerFrame == 4)
+                if (mBaseAnimatedWithPhysicsGameObject_SpriteScale == FP_FromDouble(0.5))
                 {
-                    SfxPlayMono(SoundEffect::Zap1_49, 0, mBaseAnimatedWithPhysicsGameObject_SpriteScale);
+                    mSoundChannelsMask = SFX_Play_Pitch(SoundEffect::SecurityOrb_48, 35, 720, mBaseAnimatedWithPhysicsGameObject_SpriteScale);
                 }
-                else if (timerFrame == 1)
+                else
                 {
-                    SfxPlayMono(SoundEffect::Zap2_50, 0, mBaseAnimatedWithPhysicsGameObject_SpriteScale);
-                }
-
-                if (static_cast<s32>(sGnFrame) > field_120_timer)
-                {
-                    field_11C_state = 0;
+                    mSoundChannelsMask = SFX_Play_Pitch(SoundEffect::SecurityOrb_48, 55, 700, mBaseAnimatedWithPhysicsGameObject_SpriteScale);
                 }
             }
-        }
-        else if (static_cast<s32>(sGnFrame) > field_120_timer)
-        {
-            const PSX_RECT bRect = sActiveHero->VGetBoundingRect();
 
-            const FP xpos = FP_FromInteger((bRect.x + bRect.w) / 2);
-            const FP ypos = FP_FromInteger((bRect.y + bRect.h) / 2);
-
-            relive_new ZapLine(
-                mBaseAnimatedWithPhysicsGameObject_XPos,
-                mBaseAnimatedWithPhysicsGameObject_YPos - (FP_FromInteger(8) * mBaseAnimatedWithPhysicsGameObject_SpriteScale),
-                xpos,
-                ypos,
-                8,
-                ZapLineType::eThick_0,
-                Layer::eLayer_ZapLinesElumMuds_28);
-
-            relive_new PossessionFlicker(sActiveHero, 8, 255, 100, 100);
-
-            if (sActiveHero->mHealth > FP_FromInteger(0))
+            if (EventGet(kEventAbeOhm))
             {
-                sActiveHero->VTakeDamage(this);
-            }
-
-            field_120_timer = sGnFrame + 8;
-            field_11C_state = 2;
-
-            relive_new ScreenShake(1, 0);
-
-            auto pSpark = relive_new Sparks(mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos - (FP_FromInteger(8) * mBaseAnimatedWithPhysicsGameObject_SpriteScale), mBaseAnimatedWithPhysicsGameObject_SpriteScale);
-            if (pSpark)
-            {
-                pSpark->mBaseAnimatedWithPhysicsGameObject_RGB.SetRGB(255, 65, 65);
-            }
-
-            auto pSpark2 = relive_new Sparks(mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos - (FP_FromInteger(8) * mBaseAnimatedWithPhysicsGameObject_SpriteScale), mBaseAnimatedWithPhysicsGameObject_SpriteScale);
-            if (pSpark2)
-            {
-                pSpark2->mBaseAnimatedWithPhysicsGameObject_RGB.SetRGB(255, 65, 65);
-            }
-
-            for (s32 i = 0; i < 9; i++)
-            {
-                auto pSpark3 = relive_new Sparks(xpos, ypos, mBaseAnimatedWithPhysicsGameObject_SpriteScale);
-                if (pSpark3)
+                if (!sActiveHero->field_168_ring_pulse_timer || !sActiveHero->field_16C_bHaveShrykull || sActiveHero->mBaseAnimatedWithPhysicsGameObject_SpriteScale != FP_FromInteger(1))
                 {
-                    pSpark3->mBaseAnimatedWithPhysicsGameObject_RGB.SetRGB(255, 65, 65);
+                    mState = States::eDoZapEffects_1;
+                    mTimer = sGnFrame + 20;
                 }
             }
-        }
-    }
-    else
-    {
-        if (mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame == 2 || mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame == 6 || mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame == 10)
-        {
-            if (field_124_sound_channels_mask)
+            break;
+
+        case States::eDoZapEffects_1:
+            if (static_cast<s32>(sGnFrame) > mTimer)
             {
-                SND_Stop_Channels_Mask(field_124_sound_channels_mask);
+                const PSX_RECT bRect = sActiveHero->VGetBoundingRect();
+
+                const FP xpos = FP_FromInteger((bRect.x + bRect.w) / 2);
+                const FP ypos = FP_FromInteger((bRect.y + bRect.h) / 2);
+
+                relive_new ZapLine(
+                    mBaseAnimatedWithPhysicsGameObject_XPos,
+                    mBaseAnimatedWithPhysicsGameObject_YPos - (FP_FromInteger(8) * mBaseAnimatedWithPhysicsGameObject_SpriteScale),
+                    xpos,
+                    ypos,
+                    8,
+                    ZapLineType::eThick_0,
+                    Layer::eLayer_ZapLinesElumMuds_28);
+
+                relive_new PossessionFlicker(sActiveHero, 8, 255, 100, 100);
+
+                if (sActiveHero->mHealth > FP_FromInteger(0))
+                {
+                    sActiveHero->VTakeDamage(this);
+                }
+
+                mTimer = sGnFrame + 8;
+                mState = States::eDoFlashAndSound_2;
+
+                relive_new ScreenShake(1, 0);
+
+                auto pSpark = relive_new Sparks(mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos - (FP_FromInteger(8) * mBaseAnimatedWithPhysicsGameObject_SpriteScale), mBaseAnimatedWithPhysicsGameObject_SpriteScale);
+                if (pSpark)
+                {
+                    pSpark->mBaseAnimatedWithPhysicsGameObject_RGB.SetRGB(255, 65, 65);
+                }
+
+                auto pSpark2 = relive_new Sparks(mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos - (FP_FromInteger(8) * mBaseAnimatedWithPhysicsGameObject_SpriteScale), mBaseAnimatedWithPhysicsGameObject_SpriteScale);
+                if (pSpark2)
+                {
+                    pSpark2->mBaseAnimatedWithPhysicsGameObject_RGB.SetRGB(255, 65, 65);
+                }
+
+                for (s32 i = 0; i < 9; i++)
+                {
+                    auto pSpark3 = relive_new Sparks(xpos, ypos, mBaseAnimatedWithPhysicsGameObject_SpriteScale);
+                    if (pSpark3)
+                    {
+                        pSpark3->mBaseAnimatedWithPhysicsGameObject_RGB.SetRGB(255, 65, 65);
+                    }
+                }
+            }
+            break;
+
+        case States::eDoFlashAndSound_2:
+            if (static_cast<s32>(sGnFrame) == mTimer - 5 || static_cast<s32>(sGnFrame) == mTimer - 1)
+            {
+                relive_new Flash(Layer::eLayer_Above_FG1_39, 255, 0, 0, 1, TPageAbr::eBlend_3, 1);
+            }
+            if (static_cast<s32>(sGnFrame) == mTimer - 4)
+            {
+                relive_new Flash(Layer::eLayer_Above_FG1_39, 255, 0, 0, 1, TPageAbr::eBlend_1, 1);
             }
 
-            if (mBaseAnimatedWithPhysicsGameObject_SpriteScale == FP_FromDouble(0.5))
+            const s32 timerFrame = mTimer - sGnFrame;
+            if (timerFrame == 4)
             {
-                field_124_sound_channels_mask = SFX_Play_Pitch(SoundEffect::SecurityOrb_48, 35, 720, mBaseAnimatedWithPhysicsGameObject_SpriteScale);
+                SfxPlayMono(SoundEffect::Zap1_49, 0, mBaseAnimatedWithPhysicsGameObject_SpriteScale);
             }
-            else
+            else if (timerFrame == 1)
             {
-                field_124_sound_channels_mask = SFX_Play_Pitch(SoundEffect::SecurityOrb_48, 55, 700, mBaseAnimatedWithPhysicsGameObject_SpriteScale);
+                SfxPlayMono(SoundEffect::Zap2_50, 0, mBaseAnimatedWithPhysicsGameObject_SpriteScale);
             }
-        }
 
-        if (EventGet(kEventAbeOhm))
-        {
-            if (!sActiveHero->field_168_ring_pulse_timer || !sActiveHero->field_16C_bHaveShrykull || sActiveHero->mBaseAnimatedWithPhysicsGameObject_SpriteScale != FP_FromInteger(1))
+            if (static_cast<s32>(sGnFrame) > mTimer)
             {
-                field_11C_state = 1;
-                field_120_timer = sGnFrame + 20;
+                mState = States::eIdle_0;
             }
-        }
+            break;
     }
 }
