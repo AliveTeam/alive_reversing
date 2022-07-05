@@ -137,9 +137,9 @@ public:
     {
         SetType(ReliveTypes::eNone);
 
-        const AnimRecord& rec = AnimRec(AnimId::Zap_Sparks);
+        const AnimRecord& rec = AnimRec(AnimId::ChantOrb_Particle_Small);
         u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
-        Animation_Init(AnimId::Zap_Sparks, ppRes);
+        Animation_Init(AnimId::ChantOrb_Particle_Small, ppRes);
 
         mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit15_bSemiTrans);
 

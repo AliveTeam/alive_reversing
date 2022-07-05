@@ -8,7 +8,7 @@
 #include "Gibs.hpp"
 #include "ZapLine.hpp"
 #include "Sfx.hpp"
-#include "Sparks.hpp"
+#include "ZapSpark.hpp"
 #include "Abe.hpp"
 #include "PossessionFlicker.hpp"
 #include "ScreenShake.hpp"
@@ -168,7 +168,7 @@ void SecurityOrb::VUpdate()
 
                 relive_new ScreenShake(1);
 
-                auto pSpark1 = relive_new Sparks(
+                auto pSpark1 = relive_new ZapSpark(
                     mBaseAnimatedWithPhysicsGameObject_XPos,
                     mBaseAnimatedWithPhysicsGameObject_YPos - (FP_FromInteger(8) * mBaseAnimatedWithPhysicsGameObject_SpriteScale),
                     mBaseAnimatedWithPhysicsGameObject_SpriteScale);
@@ -177,7 +177,7 @@ void SecurityOrb::VUpdate()
                     pSpark1->mBaseAnimatedWithPhysicsGameObject_RGB.SetRGB(255, 65, 65);
                 }
 
-                auto pSpark2 = relive_new Sparks(
+                auto pSpark2 = relive_new ZapSpark(
                     mBaseAnimatedWithPhysicsGameObject_XPos,
                     mBaseAnimatedWithPhysicsGameObject_YPos - (FP_FromInteger(8) * mBaseAnimatedWithPhysicsGameObject_SpriteScale),
                     mBaseAnimatedWithPhysicsGameObject_SpriteScale);
@@ -188,7 +188,7 @@ void SecurityOrb::VUpdate()
 
                 for (s32 i = 0; i < 9; i++)
                 {
-                    auto pSparks = relive_new Sparks(
+                    auto pSparks = relive_new ZapSpark(
                         FP_FromInteger(width / 2),
                         FP_FromInteger(height / 2),
                         mBaseAnimatedWithPhysicsGameObject_SpriteScale);

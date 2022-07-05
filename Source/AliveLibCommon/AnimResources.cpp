@@ -1643,7 +1643,8 @@ constexpr CombinedAnimRecord kAnimRecords[] = {
     {AnimId::SlapLock_Punched, { "GHOSTTRP.BAN", 7056, 58, 44, kGhostTrpResID_1053, PalId::Default}, kNullAnimDetails },
     {AnimId::SlapLock_Shaking, { "GHOSTTRP.BAN", 6976, 58, 44, kGhostTrpResID_1053, PalId::Default}, kNullAnimDetails },
 
-    {AnimId::Sparks, { "SPARKS.BAN", 808, 19, 11, kSparksResID, PalId::Default}, kNullAnimDetails },
+    // smoother version of ChantOrb_Particle_Small with more frames
+    {AnimId::AE_ZapSpark, { "SPARKS.BAN", 808, 19, 11, kSparksResID, PalId::Default}, kNullAnimDetails },
     {AnimId::Star, kNullAnimDetails, { "STAR.BAN", 748, 20, 12, AO::kBGStarAOResID, PalId::Default} },
 
     {AnimId::Status_Light_Green, { "STATUSLT.BAN", 240, 14, 9u, kStatusLightResID, PalId::Default}, kNullAnimDetails },
@@ -1746,7 +1747,7 @@ constexpr CombinedAnimRecord kAnimRecords[] = {
         {"SPLINE.BAN", 288, 14, 9, kSplineResID, PalId::Default},
         {"SPLINE.BAN", 240, 9, 9, AO::kSplineAOResID, PalId::Default}},
 
-    {AnimId::Zap_Sparks,
+    {AnimId::ChantOrb_Particle_Small,
         {"OMMFLARE.BAN", 1672, 39, 21, kOmmflareResID, PalId::Default},
         {"OMMFLARE.BAN", 1532, 38, 21, kOmmflareResID, PalId::Default}},
 

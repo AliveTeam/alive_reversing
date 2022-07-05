@@ -197,8 +197,8 @@ SET(AliveLibSrcAO
    ChimeLock.cpp
    PsxRender.hpp
    PsxRender.cpp
-   Sparks.hpp
-   Sparks.cpp
+   ZapSpark.hpp
+   ZapSpark.cpp
    Spark.hpp
    Spark.cpp
    Bullet.hpp

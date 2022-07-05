@@ -1,6 +1,6 @@
 #include "stdafx_ao.h"
 #include "Function.hpp"
-#include "Sparks.hpp"
+#include "ZapSpark.hpp"
 #include "ResourceManager.hpp"
 #include "Math.hpp"
 #include "Map.hpp"
@@ -8,13 +8,13 @@
 
 namespace AO {
 
-Sparks::Sparks(FP xpos, FP ypos, FP scale)
+ZapSpark::ZapSpark(FP xpos, FP ypos, FP scale)
 {
-    mBaseGameObjectTypeId = ReliveTypes::eSpark;
+    mBaseGameObjectTypeId = ReliveTypes::eZapSpark;
 
-    const AnimRecord& rec = AO::AnimRec(AnimId::Zap_Sparks);
+    const AnimRecord& rec = AO::AnimRec(AnimId::ChantOrb_Particle_Small);
     u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
-    Animation_Init(AnimId::Zap_Sparks, ppRes);
+    Animation_Init(AnimId::ChantOrb_Particle_Small, ppRes);
 
     mBaseAnimatedWithPhysicsGameObject_Anim.mBlue = 80;
     mBaseAnimatedWithPhysicsGameObject_Anim.mGreen = 80;
@@ -35,7 +35,7 @@ Sparks::Sparks(FP xpos, FP ypos, FP scale)
     mBaseAnimatedWithPhysicsGameObject_VelY = FP_FromInteger(Math_RandomRange(-6, -3));
 }
 
-void Sparks::VUpdate()
+void ZapSpark::VUpdate()
 {
     if (mSparkTimer > 0)
     {
@@ -68,7 +68,7 @@ void Sparks::VUpdate()
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
 }
 
-void Sparks::VScreenChanged()
+void ZapSpark::VScreenChanged()
 {
     mBaseGameObjectFlags.Set(BaseGameObject::eDead);
 }

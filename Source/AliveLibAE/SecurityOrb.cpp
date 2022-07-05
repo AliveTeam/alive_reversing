@@ -15,7 +15,7 @@
 #include "Explosion.hpp"
 #include "ZapLine.hpp"
 #include "Function.hpp"
-#include "Sparks.hpp"
+#include "ZapSpark.hpp"
 
 const TintEntry sSecurityOrbTints_55C1EC[18] = {
     {EReliveLevelIds::eMines, 127u, 127u, 127u},
@@ -190,13 +190,13 @@ void SecurityOrb::VUpdate()
 
                 relive_new ScreenShake(1, 0);
 
-                auto pSpark = relive_new Sparks(mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos - (FP_FromInteger(8) * mBaseAnimatedWithPhysicsGameObject_SpriteScale), mBaseAnimatedWithPhysicsGameObject_SpriteScale);
+                auto pSpark = relive_new ZapSpark(mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos - (FP_FromInteger(8) * mBaseAnimatedWithPhysicsGameObject_SpriteScale), mBaseAnimatedWithPhysicsGameObject_SpriteScale);
                 if (pSpark)
                 {
                     pSpark->mBaseAnimatedWithPhysicsGameObject_RGB.SetRGB(255, 65, 65);
                 }
 
-                auto pSpark2 = relive_new Sparks(mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos - (FP_FromInteger(8) * mBaseAnimatedWithPhysicsGameObject_SpriteScale), mBaseAnimatedWithPhysicsGameObject_SpriteScale);
+                auto pSpark2 = relive_new ZapSpark(mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos - (FP_FromInteger(8) * mBaseAnimatedWithPhysicsGameObject_SpriteScale), mBaseAnimatedWithPhysicsGameObject_SpriteScale);
                 if (pSpark2)
                 {
                     pSpark2->mBaseAnimatedWithPhysicsGameObject_RGB.SetRGB(255, 65, 65);
@@ -204,7 +204,7 @@ void SecurityOrb::VUpdate()
 
                 for (s32 i = 0; i < 9; i++)
                 {
-                    auto pSpark3 = relive_new Sparks(xpos, ypos, mBaseAnimatedWithPhysicsGameObject_SpriteScale);
+                    auto pSpark3 = relive_new ZapSpark(xpos, ypos, mBaseAnimatedWithPhysicsGameObject_SpriteScale);
                     if (pSpark3)
                     {
                         pSpark3->mBaseAnimatedWithPhysicsGameObject_RGB.SetRGB(255, 65, 65);

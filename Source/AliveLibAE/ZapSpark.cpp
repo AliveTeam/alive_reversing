@@ -1,16 +1,16 @@
 #include "stdafx.h"
-#include "Sparks.hpp"
+#include "ZapSpark.hpp"
 #include "Function.hpp"
 #include "stdlib.hpp"
 
-Sparks::Sparks(FP xpos, FP ypos, FP scale)
+ZapSpark::ZapSpark(FP xpos, FP ypos, FP scale)
     : BaseAnimatedWithPhysicsGameObject(0)
 {
-    SetType(ReliveTypes::eSparks);
+    SetType(ReliveTypes::eZapSpark);
 
-    const AnimRecord& rec = AnimRec(AnimId::Sparks);
+    const AnimRecord& rec = AnimRec(AnimId::AE_ZapSpark);
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
-    Animation_Init(AnimId::Sparks, ppRes);
+    Animation_Init(AnimId::AE_ZapSpark, ppRes);
 
     mVisualFlags.Clear(VisualFlags::eApplyShadowZoneColour);
 
@@ -31,7 +31,7 @@ Sparks::Sparks(FP xpos, FP ypos, FP scale)
     mBaseAnimatedWithPhysicsGameObject_VelY = FP_FromInteger(Math_RandomRange(-6, -3));
 }
 
-void Sparks::VUpdate()
+void ZapSpark::VUpdate()
 {
     if (mSparkTimer > 0)
     {
@@ -40,7 +40,7 @@ void Sparks::VUpdate()
 
     if (mSparkTimer == 0)
     {
-        mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::Sparks, nullptr);
+        mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::AE_ZapSpark, nullptr);
         mSparkTimer = -1;
     }
 
@@ -66,7 +66,7 @@ void Sparks::VUpdate()
     }
 }
 
-void Sparks::VScreenChanged()
+void ZapSpark::VScreenChanged()
 {
     mBaseGameObjectFlags.Set(BaseGameObject::eDead);
 }

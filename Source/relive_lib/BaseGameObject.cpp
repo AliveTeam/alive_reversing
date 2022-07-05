@@ -136,8 +136,8 @@ ReliveTypes BaseGameObject::FromAO(AO::AOTypes aoType)
             return ReliveTypes::eBells;
         case AO::AOTypes::eChimeLock_14:
             return ReliveTypes::eChimeLock;
-        case AO::AOTypes::eSpark_15:
-            return ReliveTypes::eSpark;
+        case AO::AOTypes::eZapSpark_15:
+            return ReliveTypes::eZapSpark;
         case AO::AOTypes::eGasClock_16:
             return ReliveTypes::eGasClock;
         case AO::AOTypes::eParticleBurst_19:
@@ -324,8 +324,8 @@ AO::AOTypes BaseGameObject::ToAO(ReliveTypes reliveType)
             return AO::AOTypes::eBells_13;
         case ReliveTypes::eChimeLock:
             return AO::AOTypes::eChimeLock_14;
-        case ReliveTypes::eSpark:
-            return AO::AOTypes::eSpark_15;
+        case ReliveTypes::eZapSpark:
+            return AO::AOTypes::eZapSpark_15;
         case ReliveTypes::eGasClock:
             return AO::AOTypes::eGasClock_16;
         case ReliveTypes::eParticleBurst:
@@ -518,8 +518,8 @@ ReliveTypes BaseGameObject::FromAE(AETypes aeType)
             return ReliveTypes::eExplosionSet;
         case AETypes::eDDCheat_19:
             return ReliveTypes::eDDCheat;
-        case AETypes::eSparks_22:
-            return ReliveTypes::eSparks;
+        case AETypes::eZapSpark_22:
+            return ReliveTypes::eZapSpark;
         case AETypes::eGasClock_23:
             return ReliveTypes::eGasClock;
         case AETypes::eMetal_24:
@@ -742,8 +742,8 @@ AETypes BaseGameObject::ToAE(ReliveTypes reliveType)
             return AETypes::eExplosionSet_18;
         case ReliveTypes::eDDCheat:
             return AETypes::eDDCheat_19;
-        case ReliveTypes::eSparks:
-            return AETypes::eSparks_22;
+        case ReliveTypes::eZapSpark:
+            return AETypes::eZapSpark_22;
         case ReliveTypes::eGasClock:
             return AETypes::eGasClock_23;
         case ReliveTypes::eMetal:

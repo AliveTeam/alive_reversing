@@ -3,15 +3,17 @@
 #include "../AliveLibCommon/Function.hpp"
 #include "BaseAnimatedWithPhysicsGameObject.hpp"
 
-class Sparks final : public ::BaseAnimatedWithPhysicsGameObject
+namespace AO {
+
+class ZapSpark final : public BaseAnimatedWithPhysicsGameObject
 {
 public:
-    Sparks(FP xpos, FP ypos, FP scale);
+    ZapSpark(FP xpos, FP ypos, FP scale);
     
     virtual void VUpdate() override;
     virtual void VScreenChanged() override;
 
-private:
     s16 mSparkTimer = 0;
 };
-ALIVE_ASSERT_SIZEOF(Sparks, 0xFC);
+
+} // namespace AO

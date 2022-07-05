@@ -4,7 +4,7 @@
 #include "ResourceManager.hpp"
 #include "stdlib.hpp"
 #include "ScreenWave.hpp"
-#include "Sparks.hpp"
+#include "ZapSpark.hpp"
 #include "Game.hpp"
 #include "Math.hpp"
 #include "Sfx.hpp"
@@ -110,7 +110,7 @@ void Bells::VUpdate()
             {
                 const FP sparkx = mBaseAnimatedWithPhysicsGameObject_XPos + FP_FromInteger(Math_RandomRange(-2, 2)) + xOff;
                 const FP sparky = mBaseAnimatedWithPhysicsGameObject_YPos + FP_FromInteger(Math_RandomRange(-2, 2)) + yOff;
-                relive_new Sparks(sparkx, sparky, mBaseAnimatedWithPhysicsGameObject_SpriteScale);
+                relive_new ZapSpark(sparkx, sparky, mBaseAnimatedWithPhysicsGameObject_SpriteScale);
             }
         }
 

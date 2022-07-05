@@ -10,7 +10,7 @@
 #include "Explosion.hpp"
 #include "ZapLine.hpp"
 #include "Sfx.hpp"
-#include "Sparks.hpp"
+#include "ZapSpark.hpp"
 #include "Abe.hpp"
 #include "Game.hpp"
 #include "Flash.hpp"
@@ -324,7 +324,7 @@ void SecurityClaw::VUpdate()
 
                 sActiveHero_507678->VTakeDamage(this);
 
-                auto pSpark = relive_new Sparks(
+                auto pSpark = relive_new ZapSpark(
                     mBaseAnimatedWithPhysicsGameObject_XPos,
                     mBaseAnimatedWithPhysicsGameObject_YPos - (FP_FromInteger(8) * mBaseAnimatedWithPhysicsGameObject_SpriteScale),
                     mBaseAnimatedWithPhysicsGameObject_SpriteScale);
@@ -333,7 +333,7 @@ void SecurityClaw::VUpdate()
                     pSpark->mBaseAnimatedWithPhysicsGameObject_RGB.SetRGB(255, 65, 65);
                 }
 
-                auto pSpark2 = relive_new Sparks(
+                auto pSpark2 = relive_new ZapSpark(
                     mBaseAnimatedWithPhysicsGameObject_XPos,
                     mBaseAnimatedWithPhysicsGameObject_YPos - (FP_FromInteger(8) * mBaseAnimatedWithPhysicsGameObject_SpriteScale),
                     mBaseAnimatedWithPhysicsGameObject_SpriteScale);
@@ -344,7 +344,7 @@ void SecurityClaw::VUpdate()
 
                 for (s32 i = 0; i < 9; i++)
                 {
-                    auto pSpark3 = relive_new Sparks(
+                    auto pSpark3 = relive_new ZapSpark(
                         hero_mid_x,
                         hero_mid_y,
                         mBaseAnimatedWithPhysicsGameObject_SpriteScale);

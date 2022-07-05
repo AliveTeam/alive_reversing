@@ -138,9 +138,9 @@ public:
     FlameSparks(FP xpos, FP ypos)
     {
         mBaseGameObjectTypeId = ReliveTypes::eNone;
-        const AnimRecord rec = AO::AnimRec(AnimId::Zap_Sparks);
+        const AnimRecord rec = AO::AnimRec(AnimId::ChantOrb_Particle_Small);
         u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
-        Animation_Init(AnimId::Zap_Sparks, ppRes);
+        Animation_Init(AnimId::ChantOrb_Particle_Small, ppRes);
         mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit15_bSemiTrans);
 
         mVisualFlags.Set(VisualFlags::eApplyShadowZoneColour);

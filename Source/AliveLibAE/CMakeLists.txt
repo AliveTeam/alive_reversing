@@ -360,8 +360,8 @@ SET(AliveLibAESrc
     TouchController.hpp
     ScopedSeq.cpp
     ScopedSeq.hpp
-    Sparks.hpp
-    Sparks.cpp
+    ZapSpark.hpp
+    ZapSpark.cpp
     TestAnimation.cpp
     TestAnimation.hpp
 )

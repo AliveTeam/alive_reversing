@@ -10,7 +10,7 @@
 #include "Collisions.hpp"
 #include "Elum.hpp"
 #include "Math.hpp"
-#include "Sparks.hpp"
+#include "ZapSpark.hpp"
 
 namespace AO {
 
