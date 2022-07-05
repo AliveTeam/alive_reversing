@@ -182,7 +182,7 @@ void ColourfulMeter::VRender(PrimHeader** ppOt)
     for (s16 poly_idx = 0; poly_idx < field_70_polys_to_render_count && poly_idx < kMeterBarsXCount - 1; poly_idx++)
     {
         Poly_G4* pPolyG4 = &field_88_polyG4s[gPsxDisplay.mBufferIndex][poly_idx];
-        PolyG4_Init_4F88B0(pPolyG4);
+        PolyG4_Init(pPolyG4);
 
         const s16 x0 = field_74_tlv_x + (FP_GetExponent(FP_FromInteger(stru_5543F0[poly_idx].x))) - screenXOff;
         const s16 y0 = FP_GetExponent(FP_FromInteger(stru_5543F0[poly_idx].y)) - screenYOff + field_76_tlv_y - 20;

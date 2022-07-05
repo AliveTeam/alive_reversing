@@ -9,7 +9,7 @@
 #include "Math.hpp"
 #include "ResourceManager.hpp"
 #include "../relive_lib/PsxDisplay.hpp"
-#include "Primitives.hpp"
+#include "../relive_lib/Primitives.hpp"
 #include "../relive_lib/ScreenManager.hpp"
 #include "FixedPoint.hpp"
 

@@ -6,10 +6,10 @@
 void Game_ForceLink();
 
 class BaseGameObject;
+class AnimationBase;
 
 namespace AO {
 
-class AnimationBase;
 
 ALIVE_VAR_EXTERN(u32, sGnFrame);
 ALIVE_VAR_EXTERN(s16, gAttract_507698);

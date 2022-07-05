@@ -5,7 +5,7 @@
 #include "VRam.hpp"
 #include "FixedPoint.hpp"
 #include "Sys_common.hpp"
-#include "../AliveLibAE/Primitives.hpp"
+#include "../relive_lib/Primitives.hpp"
 #include "PsxDisplay.hpp"
 #include "../AliveLibCommon/Function.hpp"
 #include "ScreenManager.hpp"

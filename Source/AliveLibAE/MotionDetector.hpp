@@ -3,7 +3,7 @@
 #include "BaseAnimatedWithPhysicsGameObject.hpp"
 #include "Path.hpp"
 #include "../AliveLibCommon/Function.hpp"
-#include "Layer.hpp"
+#include "../relive_lib/Layer.hpp"
 
 struct Path_MotionDetector final : public Path_TLV
 {

@@ -125,7 +125,7 @@ void ExplosionSet::VRender(PrimHeader** ppOt)
             point.y += 256;
         }
 
-        InitType_ScreenOffset_4F5BB0(pScreenOff, &point);
+        InitType_ScreenOffset(pScreenOff, &point);
         OrderingTable_Add(OtLayer(ppOt, Layer::eLayer_0), &pScreenOff->mBase);
 
         /* constant 1, so always false, dead code.

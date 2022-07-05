@@ -8,7 +8,7 @@ namespace AO {
 class Animation;
 
 // TODO: Figure out how this differs from the standard Animation
-class AnimationUnknown final : public AnimationBase
+class AnimationUnknown final : public ::AnimationBase
 {
 public:
     virtual void VDecode() override;

@@ -4,7 +4,7 @@
 #include "stdlib.hpp"
 #include "Game.hpp"
 #include "PsxDisplay.hpp"
-#include "../AliveLibAE/Primitives.hpp"
+#include "../relive_lib/Primitives.hpp"
 
 #undef min
 #undef max
@@ -32,7 +32,7 @@ void ScreenClipper::VRender(PrimHeader** ppOt)
     }
 
     Prim_PrimClipper* pClipper = &field_10_clippers[gPsxDisplay.mBufferIndex];
-    Init_PrimClipper_495FD0(pClipper, &clipRect);
+    Init_PrimClipper(pClipper, &clipRect);
     OrderingTable_Add(OtLayer(ppOt, field_38_ot_layer), &pClipper->mBase);
 }
 

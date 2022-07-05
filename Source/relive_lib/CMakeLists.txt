@@ -30,6 +30,11 @@ SET(relive_lib_src
     Collisions.hpp
     Collisions.cpp
     BaseAnimatedWithPhysicsGameObject.hpp
+    AnimationBase.cpp
+    AnimationBase.hpp
+    Primitives.hpp
+    Primitives.cpp
+    Layer.hpp
     stdafx.h
 )
 

@@ -1678,14 +1678,14 @@ void Fleech::InitTonguePolys()
     {
         for (s32 j = 0; j < 2; j++)
         {
-            PolyG4_Init_4F88B0(&mTonguePolys1[i][j]);
+            PolyG4_Init(&mTonguePolys1[i][j]);
             SetRGB0(&mTonguePolys1[i][j], 150, 100, 100);
             SetRGB1(&mTonguePolys1[i][j], 150, 100, 100);
             SetRGB2(&mTonguePolys1[i][j], 150, 100, 100);
             SetRGB3(&mTonguePolys1[i][j], 150, 100, 100);
             Poly_Set_SemiTrans(&mTonguePolys1[i][j].mBase.header, FALSE);
 
-            PolyG4_Init_4F88B0(&mTonguePolys2[i][j]);
+            PolyG4_Init(&mTonguePolys2[i][j]);
             SetRGB0(&mTonguePolys2[i][j], 150, 100, 100);
             SetRGB1(&mTonguePolys2[i][j], 150, 100, 100);
             SetRGB2(&mTonguePolys2[i][j], 150, 100, 100);

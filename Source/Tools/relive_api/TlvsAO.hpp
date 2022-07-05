@@ -1556,12 +1556,12 @@ struct Path_BackgroundAnimation final : public ReliveAPI::TlvObjectBaseAO
 {
     void AddTypes(ReliveAPI::TypesCollectionBase& types) override
     {
-        types.AddEnum<AO::TPageAbr>("Enum_TPageAbr",
+        types.AddEnum<TPageAbr>("Enum_TPageAbr",
         {
-            {AO::TPageAbr::eBlend_1, "blend_1"},
-            {AO::TPageAbr::eBlend_2, "blend_2"},
-            {AO::TPageAbr::eBlend_3, "blend_3"},
-            {AO::TPageAbr::eBlend_0, "blend_0"},
+            {TPageAbr::eBlend_1, "blend_1"},
+            {TPageAbr::eBlend_2, "blend_2"},
+            {TPageAbr::eBlend_3, "blend_3"},
+            {TPageAbr::eBlend_0, "blend_0"},
         });
 
         types.AddEnum<AO::BgAnimSounds>("Enum_BgAnimSounds",

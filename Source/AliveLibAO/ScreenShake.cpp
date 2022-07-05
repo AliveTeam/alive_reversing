@@ -5,7 +5,7 @@
 #include "Game.hpp"
 #include "stdlib.hpp"
 #include "PsxDisplay.hpp"
-#include "../AliveLibAE/Primitives.hpp"
+#include "../relive_lib/Primitives.hpp"
 #include "ScreenManager.hpp"
 #include "PsxRender.hpp"
 
@@ -88,7 +88,7 @@ void ScreenShake::VRender(PrimHeader** ppOt)
             offset.y = yoff;
         }
 
-        InitType_ScreenOffset_496000(pPrim, &offset);
+        InitType_ScreenOffset(pPrim, &offset);
         OrderingTable_Add(OtLayer(ppOt, Layer::eLayer_0), &pPrim->mBase);
 
         if (offset.y != 0)

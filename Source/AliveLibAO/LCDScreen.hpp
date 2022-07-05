@@ -4,7 +4,7 @@
 #include "Map.hpp"
 #include "../relive_lib/BaseGameObject.hpp"
 #include "Font.hpp"
-#include "Primitives.hpp"
+#include "../relive_lib/Primitives.hpp"
 
 struct StringTable;
 

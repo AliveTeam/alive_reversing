@@ -5,7 +5,7 @@
 #include "ResourceManager.hpp"
 #include "PsxDisplay.hpp"
 #include "stdlib.hpp"
-#include "../AliveLibAE/Primitives.hpp"
+#include "../relive_lib/Primitives.hpp"
 
 namespace AO {
 

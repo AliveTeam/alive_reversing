@@ -55,7 +55,7 @@ DeathGas::DeathGas(Layer layer, s32 amount)
                 for (s32 l = 0; l < 4; l++)
                 {
                     Poly_G4* pPoly = &prims_dword_4FFDE8.polys[i][k][l][j];
-                    PolyG4_Init_498890(pPoly);
+                    PolyG4_Init(pPoly);
                     Poly_Set_SemiTrans(&pPoly->mBase.header, TRUE);
                 }
             }

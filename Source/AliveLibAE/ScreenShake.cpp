@@ -100,7 +100,7 @@ void ScreenShake::VRender(PrimHeader** ppOt)
             offset.y = yoff;
         }
 
-        InitType_ScreenOffset_4F5BB0(pPrim, &offset);
+        InitType_ScreenOffset(pPrim, &offset);
         OrderingTable_Add(OtLayer(ppOt, Layer::eLayer_0), &pPrim->mBase);
 
         if (offset.y != 0)

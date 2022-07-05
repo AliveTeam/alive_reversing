@@ -5,7 +5,7 @@
 #include "Animation.hpp"
 #include "Path.hpp"
 #include "Factory.hpp"
-#include "Layer.hpp"
+#include "../relive_lib/Layer.hpp"
 
 struct Path_BackgroundAnimation final : public Path_TLV
 {

@@ -3,7 +3,7 @@
 #include "../AliveLibCommon/Function.hpp"
 #include "../relive_lib/BaseGameObject.hpp"
 #include "Path.hpp"
-#include "Primitives.hpp"
+#include "../relive_lib/Primitives.hpp"
 
 // TODO: These can be combined
 struct Path_LaughingGas_Data final

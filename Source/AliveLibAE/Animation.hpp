@@ -1,6 +1,6 @@
 #pragma once
 
-#include "AnimationBase.hpp"
+#include "../relive_lib/AnimationBase.hpp"
 #include "../AliveLibCommon/Function.hpp"
 #include "../relive_lib/DynamicArray.hpp"
 #include "Psx.hpp"

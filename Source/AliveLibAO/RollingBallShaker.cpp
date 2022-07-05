@@ -6,7 +6,7 @@
 #include "PsxDisplay.hpp"
 #include "ScreenManager.hpp"
 #include "Primitives.hpp"
-#include "../AliveLibAE/Primitives.hpp"
+#include "../relive_lib/Primitives.hpp"
 
 void RollingBallShaker_ForceLink()
 { }
@@ -70,7 +70,7 @@ void RollingBallShaker::VRender(PrimHeader** ppOt)
         {
             screenOff.y = gPsxDisplay.mHeight;
         }
-        InitType_ScreenOffset_496000(pPrim, &screenOff);
+        InitType_ScreenOffset(pPrim, &screenOff);
         OrderingTable_Add(OtLayer(ppOt, Layer::eLayer_0), &pPrim->mBase);
 
         // Kill yourself
@@ -84,7 +84,7 @@ void RollingBallShaker::VRender(PrimHeader** ppOt)
             screenOff.y += gPsxDisplay.mHeight;
         }
 
-        InitType_ScreenOffset_496000(pPrim, &screenOff);
+        InitType_ScreenOffset(pPrim, &screenOff);
         OrderingTable_Add(OtLayer(ppOt, Layer::eLayer_0), &pPrim->mBase);
     }
     pScreenManager->InvalidateRectCurrentIdx(0, 0, 640, gPsxDisplay.mHeight);

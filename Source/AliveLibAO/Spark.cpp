@@ -11,7 +11,7 @@
 #include "Particle.hpp"
 #include "ScreenManager.hpp"
 #include "PsxDisplay.hpp"
-#include "../AliveLibAE/Primitives.hpp"
+#include "../relive_lib/Primitives.hpp"
 
 #undef min
 #undef max

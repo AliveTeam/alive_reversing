@@ -69,14 +69,10 @@ SET(AliveLibAESrc
     CreditsController.hpp
     PauseMenu.cpp
     PauseMenu.hpp
-    Primitives.cpp
-    Primitives.hpp
     Map.cpp
     Map.hpp
     Camera.cpp
     Camera.hpp
-    AnimationBase.cpp
-    AnimationBase.hpp
     Animation.cpp
     Animation.hpp
     AnimationCallBacks.cpp
@@ -368,7 +364,6 @@ SET(AliveLibAESrc
     Sparks.cpp
     TestAnimation.cpp
     TestAnimation.hpp
-    Layer.hpp
 )
 
 add_library(AliveLibAE ${AliveLibAESrc})

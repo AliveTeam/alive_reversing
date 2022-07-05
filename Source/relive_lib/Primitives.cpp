@@ -1,8 +1,5 @@
 #include "stdafx.h"
 #include "Primitives.hpp"
-#include "Function.hpp"
-#include "stdlib.hpp"
-#include "Game.hpp"
 
 void Init_SetTPage(Prim_SetTPage* pPrim, s32 /*notUsed1*/, s32 /*notUsed2*/, s32 tpage)
 {
@@ -11,7 +8,7 @@ void Init_SetTPage(Prim_SetTPage* pPrim, s32 /*notUsed1*/, s32 /*notUsed2*/, s32
     pPrim->field_C_tpage = tpage;
 }
 
-void Init_PrimClipper_4F5B80(Prim_PrimClipper* pPrim, const PSX_RECT* pClipRect)
+void Init_PrimClipper(Prim_PrimClipper* pPrim, const PSX_RECT* pClipRect)
 {
     SetUnknown(&pPrim->mBase);
     SetCode(&pPrim->mBase, PrimTypeCodes::ePrimClipper);
@@ -21,7 +18,7 @@ void Init_PrimClipper_4F5B80(Prim_PrimClipper* pPrim, const PSX_RECT* pClipRect)
     pPrim->mBase.header.mRect.h = pClipRect->h;
 }
 
-void InitType_ScreenOffset_4F5BB0(Prim_ScreenOffset* pPrim, const PSX_Pos16* pOffset)
+void InitType_ScreenOffset(Prim_ScreenOffset* pPrim, const PSX_Pos16* pOffset)
 {
     SetUnknown(&pPrim->mBase);
     SetCode(&pPrim->mBase, PrimTypeCodes::eScreenOffset);
@@ -39,21 +36,21 @@ void Sprt_Init(Prim_Sprt* pPrim)
 
 
 
-void PolyG3_Init_4F8890(Poly_G3* pPrim)
+void PolyG3_Init(Poly_G3* pPrim)
 {
     SetNumLongs(&pPrim->mBase.header, 6);
     SetUnknown(&pPrim->mBase.header);
     SetCode(&pPrim->mBase.header, PrimTypeCodes::ePolyG3);
 }
 
-void PolyG4_Init_4F88B0(Poly_G4* pPrim)
+void PolyG4_Init(Poly_G4* pPrim)
 {
     SetNumLongs(&pPrim->mBase.header, 8);
     SetUnknown(&pPrim->mBase.header);
     SetCode(&pPrim->mBase.header, PrimTypeCodes::ePolyG4);
 }
 
-void PolyF4_Init_4F8830(Poly_F4* pPrim)
+void PolyF4_Init(Poly_F4* pPrim)
 {
     SetNumLongs(&pPrim->mBase.header, 5);
     SetUnknown(&pPrim->mBase.header);

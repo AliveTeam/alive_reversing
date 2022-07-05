@@ -232,7 +232,7 @@ AbilityRing::AbilityRing(FP xpos, FP ypos, RingTypes ringType, FP scale)
             for (s32 x = 0; x < 64; x++)
             {
                 Poly_F4* pPoly = &mRingPolyBuffer[x].mPolys[y];
-                PolyF4_Init_4F8830(pPoly);
+                PolyF4_Init(pPoly);
                 SetRGB0(pPoly, mRingRed & 255, mRingGreen & 255, mRingBlue & 255);
                 Poly_Set_SemiTrans(&pPoly->mBase.header, mRingSemiTrans);
             }

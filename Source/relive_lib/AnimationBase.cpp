@@ -1,8 +1,4 @@
-#include "stdafx.h"
 #include "AnimationBase.hpp"
-#include "Function.hpp"
-#include "stdlib.hpp"
-#include "Sys_common.hpp"
 
 void AnimationBase::AnimateAll(DynamicArrayT<AnimationBase>* pAnims)
 {

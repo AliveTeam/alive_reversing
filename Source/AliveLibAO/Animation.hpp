@@ -5,9 +5,9 @@
 #include "../relive_lib/DynamicArray.hpp"
 #include "../AliveLibCommon/BitField.hpp"
 #include "Psx.hpp"
-#include "Primitives.hpp"
-#include "Layer.hpp"
-#include "AnimationBase.hpp"
+#include "../relive_lib/Primitives.hpp"
+#include "../relive_lib/Layer.hpp"
+#include "../relive_lib/AnimationBase.hpp"
 
 class BaseGameObject;
 enum class AnimId;
@@ -97,7 +97,7 @@ struct FrameInfoHeader final
     PointsUnion field_8_data;
 };
 
-class Animation final : public AnimationBase
+class Animation final : public ::AnimationBase
 {
 public:
     virtual void VDecode() override;

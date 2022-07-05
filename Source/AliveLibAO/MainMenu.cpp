@@ -486,10 +486,10 @@ MainMenuTransition::MainMenuTransition(Layer layer, s32 fadeDirection, s32 bKill
 
     for (s32 i = 0; i < 8; i++)
     {
-        Prim_Init_Poly_G3_498870(&field_1C_polys[0].field_0_polys[i]);
+        PolyG3_Init(&field_1C_polys[0].field_0_polys[i]);
         Poly_Set_SemiTrans(&field_1C_polys[0].field_0_polys[i].mBase.header, 1);
 
-        Prim_Init_Poly_G3_498870(&field_1C_polys[1].field_0_polys[i]);
+        PolyG3_Init(&field_1C_polys[1].field_0_polys[i]);
         Poly_Set_SemiTrans(&field_1C_polys[1].field_0_polys[i].mBase.header, 1);
     }
 

@@ -9,7 +9,7 @@
 #include "PsxDisplay.hpp"
 #include "ScreenManager.hpp"
 #include "Math.hpp"
-#include "../AliveLibAE/Primitives.hpp"
+#include "../relive_lib/Primitives.hpp"
 
 namespace AO {
 

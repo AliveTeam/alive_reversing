@@ -3,7 +3,7 @@
 #include "../AliveLibCommon/Function.hpp"
 #include "../AliveLibCommon/FixedPoint_common.hpp"
 #include "Psx.hpp"
-#include "Primitives.hpp"
+#include "../relive_lib/Primitives.hpp"
 
 struct PrimHeader;
 

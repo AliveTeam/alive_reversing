@@ -585,7 +585,7 @@ public:
         }
         xy.x = ypos;
         xy.y = ypos;
-        InitType_ScreenOffset_4F5BB0(&mScreenOffset, &xy);
+        InitType_ScreenOffset(&mScreenOffset, &xy);
         OrderingTable_Add(OtLayer(ppOt, Layer::eLayer_InBirdPortal_30), &mScreenOffset.mBase);
 
         static PSX_RECT clipRect = {};
@@ -594,7 +594,7 @@ public:
         clipRect.w = 640 - 300;
         clipRect.h = 480 - 200;
 
-        Init_PrimClipper_4F5B80(&mPrimClipper, &clipRect);
+        Init_PrimClipper(&mPrimClipper, &clipRect);
         // OrderingTable_Add(&pOrderingTable[30], &mPrimClipper.field_0_header);
 
         // Tiles
@@ -645,7 +645,7 @@ private:
     void InitTestRender()
     {
         {
-            PolyG3_Init_4F8890(&mPolyG3);
+            PolyG3_Init(&mPolyG3);
 
             SetRGB0(&mPolyG3, 255, 0, 0);
             SetRGB1(&mPolyG3, 0, 255, 0);
@@ -726,7 +726,7 @@ private:
         }
 
         {
-            PolyF4_Init_4F8830(&mPolyF4);
+            PolyF4_Init(&mPolyF4);
 
             SetRGB0(&mPolyF4, 255, 255, 255);
 
@@ -825,7 +825,7 @@ private:
         }
 
         {
-            PolyG4_Init_4F88B0(&mPolyG4);
+            PolyG4_Init(&mPolyG4);
 
             SetRGB0(&mPolyG4, 255, 0, 0);
             SetRGB1(&mPolyG4, 0, 0, 255);
@@ -1086,7 +1086,7 @@ public:
         SetXY1(&mPoly_F3, 300, 200);
         SetXY2(&mPoly_F3, 200, 100);
 
-        PolyF4_Init_4F8830(&mPoly_F4);
+        PolyF4_Init(&mPoly_F4);
         SetRGB0(&mPoly_F4, 255, 0, 255);
         Poly_Set_SemiTrans(&mPoly_F4.mBase.header, FALSE);
         Poly_Set_Blending(&mPoly_F4.mBase.header, FALSE);
@@ -1541,7 +1541,7 @@ void DEV::DebugFillRect(PrimHeader** ot, Layer layer, s32 x, s32 y, s32 width, s
 {
     Poly_F4* mPolyF4 = &sPolyF4PrimBuffer[++sNextPolyF4Prim];
     *mPolyF4 = {};
-    PolyF4_Init_4F8830(mPolyF4);
+    PolyF4_Init(mPolyF4);
 
     const auto camOffset = gMap.field_24_camera_offset;
 

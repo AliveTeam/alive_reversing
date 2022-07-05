@@ -3,7 +3,7 @@
 #include "../relive_lib/BaseGameObject.hpp"
 #include "../AliveLibAE/Psx.hpp"
 #include "../AliveLibAE/FixedPoint.hpp"
-#include "../AliveLibAE/Primitives.hpp"
+#include "../relive_lib/Primitives.hpp"
 
 struct Prim_Sprt;
 

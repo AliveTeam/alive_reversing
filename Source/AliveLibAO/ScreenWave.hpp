@@ -9,10 +9,9 @@
 void Forcelink_ScreenWave();
 
 enum class EReliveLevelIds : s16;
+enum class Layer : s16;
 
 namespace AO {
-
-enum class Layer : s16;
 
 struct ScreenWave_Data;
 

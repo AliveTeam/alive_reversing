@@ -1,7 +1,7 @@
 #include "AnimationUnknown.hpp"
 #include "Animation.hpp"
 #include "PsxDisplay.hpp"
-#include "../AliveLibAE/Primitives.hpp"
+#include "../relive_lib/Primitives.hpp"
 
 namespace AO {
 

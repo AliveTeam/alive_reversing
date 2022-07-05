@@ -3,7 +3,7 @@
 #include "../AliveLibCommon/Function.hpp"
 #include "Path.hpp"
 #include "../relive_lib/BaseGameObject.hpp"
-#include "Primitives.hpp"
+#include "../relive_lib/Primitives.hpp"
 
 struct Path_ExplosionSet final : public Path_TLV
 {

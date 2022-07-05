@@ -323,7 +323,7 @@ void LCDScreen::VRender(PrimHeader** ppOt)
             640,
             240};
 
-        Init_PrimClipper_4F5B80(&field_20_prim_clippers[0][gPsxDisplay.mBufferIndex], &clipRect);
+        Init_PrimClipper(&field_20_prim_clippers[0][gPsxDisplay.mBufferIndex], &clipRect);
         OrderingTable_Add(OtLayer(ppOt, Layer::eLayer_RopeWebDrillMeatSaw_24), &field_20_prim_clippers[0][gPsxDisplay.mBufferIndex].mBase);
 
         sFontDrawScreenSpace_5CA4B4 = 1;
@@ -352,7 +352,7 @@ void LCDScreen::VRender(PrimHeader** ppOt)
             48};
 
         auto* clipper = &field_20_prim_clippers[1][gPsxDisplay.mBufferIndex];
-        Init_PrimClipper_4F5B80(clipper, &clipRect);
+        Init_PrimClipper(clipper, &clipRect);
         OrderingTable_Add(OtLayer(ppOt, Layer::eLayer_RopeWebDrillMeatSaw_24), &clipper->mBase);
 
         pScreenManager->InvalidateRectCurrentIdx(

@@ -9,7 +9,7 @@
 #include "Compression.hpp"
 #include "../AliveLibAE/Renderer/IRenderer.hpp"
 #include "AnimResources.hpp"
-#include "../AliveLibAE/Primitives.hpp"
+#include "../relive_lib/Primitives.hpp"
 
 // Fix pollution from windows.h
 #undef min

@@ -235,8 +235,6 @@ SET(AliveLibSrcAO
    Game.cpp
    EffectBase.hpp
    EffectBase.cpp
-   Primitives.hpp
-   Primitives.cpp
    Map.hpp
    Map.cpp
    Alarm.hpp
@@ -249,8 +247,6 @@ SET(AliveLibSrcAO
    Animation.cpp
    AnimationCallBacks.cpp
    AnimationCallBacks.hpp
-   AnimationBase.hpp
-   AnimationBase.cpp
    AnimationUnknown.hpp
    AnimationUnknown.cpp
    ResourceManager.hpp
@@ -315,7 +311,6 @@ SET(AliveLibSrcAO
    ZBall.cpp
    RollingBallShaker.hpp
    RollingBallShaker.cpp
-   Layer.hpp
 )
 
 add_library(AliveLibAO ${AliveLibSrcAO})

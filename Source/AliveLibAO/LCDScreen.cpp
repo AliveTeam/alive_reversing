@@ -390,7 +390,7 @@ void LCDScreen::VRender(PrimHeader** ppOt)
             static_cast<s16>(gPsxDisplay.mHeight)};
 
         auto* pClippers = &field_10_prim_clippers[0][gPsxDisplay.mBufferIndex];
-        Init_PrimClipper_495FD0(
+        Init_PrimClipper(
             pClippers,
             &clipRect);
         OrderingTable_Add(OtLayer(ppOt, Layer::eLayer_BeforeWell_22), &pClippers->mBase);
@@ -432,7 +432,7 @@ void LCDScreen::VRender(PrimHeader** ppOt)
         clipRect2.h = 48;
 
         auto* clipper = &field_10_prim_clippers[1][gPsxDisplay.mBufferIndex];
-        Init_PrimClipper_495FD0(clipper, &clipRect2);
+        Init_PrimClipper(clipper, &clipRect2);
         OrderingTable_Add(OtLayer(ppOt, Layer::eLayer_BeforeWell_22), &clipper->mBase);
 
         pScreenManager->InvalidateRectCurrentIdx(
