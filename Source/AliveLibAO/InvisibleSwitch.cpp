@@ -12,7 +12,7 @@ namespace AO {
 
 InvisibleSwitch::~InvisibleSwitch()
 {
-    gMap.TLV_Reset(field_14_tlvInfo, -1, 0, 0);
+    Path::TLV_Reset(field_14_tlvInfo, -1, 0, 0);
 }
 
 InvisibleSwitch::InvisibleSwitch(Path_InvisibleSwitch* pTlv, s32 tlvInfo)

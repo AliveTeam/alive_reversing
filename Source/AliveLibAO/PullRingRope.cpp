@@ -104,7 +104,7 @@ void PullRingRope::VScreenChanged()
 
 PullRingRope::~PullRingRope()
 {
-    gMap.TLV_Reset(field_E8_tlv_info, -1, 0, 0);
+    Path::TLV_Reset(field_E8_tlv_info, -1, 0, 0);
 
     if (field_F4_pPuller)
     {

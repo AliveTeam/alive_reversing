@@ -303,6 +303,8 @@ SET(AliveLibSrcAO
    Elum.cpp
    ZBall.hpp
    ZBall.cpp
+   Path.hpp
+   Path.cpp
    RollingBallShaker.hpp
    RollingBallShaker.cpp
 )

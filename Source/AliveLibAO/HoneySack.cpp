@@ -89,11 +89,11 @@ HoneySack::~HoneySack()
 
     if (field_E8_state == State::eDripHoney_0)
     {
-        gMap.TLV_Reset(field_E4_tlvInfo, -1, 0, 0);
+        Path::TLV_Reset(field_E4_tlvInfo, -1, 0, 0);
     }
     else
     {
-        gMap.TLV_Reset(field_E4_tlvInfo, FP_GetExponent(mYPos - field_FC_ypos2), 0, 0);
+        Path::TLV_Reset(field_E4_tlvInfo, FP_GetExponent(mYPos - field_FC_ypos2), 0, 0);
     }
 
     if (field_F0_pBee)

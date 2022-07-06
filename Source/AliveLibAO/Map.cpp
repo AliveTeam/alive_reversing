@@ -2011,43 +2011,6 @@ void Map::Loader(s16 camX, s16 camY, LoadMode loadMode, TlvTypes typeToLoad)
     }
 }
 
-void Map::TLV_Reset(u32 tlvOffset_levelId_PathId, s16 hiFlags, s8 bSetCreated, s8 bSetDestroyed)
-{
-    TlvItemInfoUnion data;
-    data.all = tlvOffset_levelId_PathId;
-
-    if (data.parts.levelId == static_cast<s32>(MapWrapper::ToAO(mCurrentLevel)))
-    {
-        const auto pBlyRec = Path_Get_Bly_Record_434650(MapWrapper::FromAO(static_cast<LevelIds>(data.parts.levelId)), data.parts.pathId);
-
-        Path_TLV* pTlv = reinterpret_cast<Path_TLV*>(*GetPathResourceBlockPtr(data.parts.pathId) + pBlyRec->field_4_pPathData->field_14_object_offset + data.parts.tlvOffset);
-
-        if (bSetDestroyed & 1)
-        {
-            pTlv->mTlvFlags.Set(TlvFlags::eBit2_Destroyed);
-        }
-        else
-        {
-            pTlv->mTlvFlags.Clear(TlvFlags::eBit2_Destroyed);
-        }
-
-        if (bSetCreated & 1)
-        {
-            pTlv->mTlvFlags.Set(TlvFlags::eBit1_Created);
-        }
-        else
-        {
-            pTlv->mTlvFlags.Clear(TlvFlags::eBit1_Created);
-        }
-
-        if (hiFlags != -1)
-        {
-            // Seems to be a blob per TLV specific bits
-            pTlv->field_1_unknown = static_cast<u8>(hiFlags);
-        }
-    }
-}
-
 CameraSwapper* Map::FMV_Camera_Change(u8** ppBits, Map* pMap, EReliveLevelIds levelId)
 {
     if (pMap->field_12_fmv_base_id > 10000u)

@@ -783,7 +783,7 @@ Menu::Menu(Path_TLV* /*pTlv*/, s32 tlvInfo)
 
 Menu::~Menu()
 {
-    gMap.TLV_Reset(field_1D4_tlvInfo, -1, 0, 0);
+    Path::TLV_Reset(field_1D4_tlvInfo, -1, 0, 0);
     field_134_anim.VCleanUp();
 
     for (s32 i = 0; i < ALIVE_COUNTOF(field_E4_res_array); i++)

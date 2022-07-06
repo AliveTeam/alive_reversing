@@ -687,7 +687,7 @@ LiftPoint::~LiftPoint()
     field_134_pRope2 = nullptr;
     field_138_pRope1 = nullptr;
 
-    gMap.TLV_Reset(mPlatformBaseTlvInfo, -1, 0, 0);
+    Path::TLV_Reset(mPlatformBaseTlvInfo, -1, 0, 0);
 
     auto pLiftPointTlv = gMap.TLV_Get_At_446260(
         FP_GetExponent(mXPos),

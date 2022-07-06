@@ -58,11 +58,11 @@ SecurityOrb::~SecurityOrb()
 
     if (mHealth > FP_FromInteger(0))
     {
-        gMap.TLV_Reset(mTlvInfo, -1, 0, 0);
+        Path::TLV_Reset(mTlvInfo, -1, 0, 0);
     }
     else
     {
-        gMap.TLV_Reset(mTlvInfo, -1, 0, 1);
+        Path::TLV_Reset(mTlvInfo, -1, 0, 1);
     }
 }
 

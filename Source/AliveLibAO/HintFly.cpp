@@ -1514,7 +1514,7 @@ HintFly::~HintFly()
     {
         ResourceManager::FreeResource_455550(field_E4_ppRes);
     }
-    gMap.TLV_Reset(field_124_tlvInfo, -1, 0, 0);
+    Path::TLV_Reset(field_124_tlvInfo, -1, 0, 0);
 }
 
 void HintFly::FormWordAndAdvanceToNextWord()

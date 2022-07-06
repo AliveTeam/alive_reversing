@@ -8,6 +8,7 @@
 #include "../relive_lib/BaseGameObject.hpp"
 #include "../AliveLibAE/Map.hpp"
 #include "../relive_lib/MapWrapper.hpp"
+#include "Path.hpp"
 
 namespace AO {
 
@@ -80,73 +81,6 @@ enum class CameraSwapEffects : s16
 
 extern const CameraSwapEffects kPathChangeEffectToInternalScreenChangeEffect_4CDC78[10];
 
-enum TlvFlags
-{
-    eBit1_Created = 0x1,
-    eBit2_Destroyed = 0x2,
-    eBit3_End_TLV_List = 0x4,
-};
-
-// ABI fix to allow using the enum as a 32bit type
-struct TlvTypes32 final
-{
-    TlvTypes mType;
-    s16 padto32Bits;
-
-    bool operator==(TlvTypes type) const
-    {
-        return mType == type;
-    }
-};
-static_assert(std::is_pod<TlvTypes32>::value, "TlvTypes32 must be pod");
-ALIVE_ASSERT_SIZEOF(TlvTypes32, 4);
-
-struct Path_TLV
-{
-    BitField8<TlvFlags> mTlvFlags;
-    s8 field_1_unknown;
-    s16 mLength;
-    TlvTypes32 mTlvType32;
-    s32 field_8;                 // only ever used as some sort of hacky memory overwrite check, always 0 in the Path data
-    PSX_Point field_C_sound_pos; // a completely pointless copy of mTopLeft, the data is always the same in all released Paths
-    PSX_Point mTopLeft;
-    PSX_Point mBottomRight;
-
-    // Note: Part of Path object in AE
-    static Path_TLV* Next_446460(Path_TLV* pTlv);
-
-    // Note: must be inlined as its used by the api
-    static Path_TLV* Next(Path_TLV* pTlv)
-    {
-        if (pTlv->mTlvFlags.Get(TlvFlags::eBit3_End_TLV_List))
-        {
-            return nullptr;
-        }
-
-        return Next_NoCheck(pTlv);
-    }
-
-    // Note: must be inlined as its used by the api
-    static Path_TLV* Next_NoCheck(Path_TLV* pTlv)
-    {
-        // Skip length bytes to get to the start of the next TLV
-        u8* ptr = reinterpret_cast<u8*>(pTlv);
-        u8* pNext = ptr + pTlv->mLength;
-        return reinterpret_cast<Path_TLV*>(pNext);
-    }
-
-    static Path_TLV* TLV_Next_Of_Type_446500(Path_TLV* pTlv, TlvTypes type);
-
-    // Some strange self terminate check that is inlined everywhere
-    void RangeCheck()
-    {
-        if (mLength < 24u || mLength > 480u)
-        {
-            mTlvFlags.Set(eBit3_End_TLV_List);
-        }
-    }
-};
-ALIVE_ASSERT_SIZEOF(Path_TLV, 0x18);
 
 struct Path_EnemyStopper final : public Path_TLV
 {
@@ -212,8 +146,6 @@ public:
     void GoTo_Camera();
 
     void Loader(s16 camX, s16 camY, LoadMode loadMode, TlvTypes typeToLoad);
-
-    void TLV_Reset(u32 tlvOffset_levelId_PathId, s16 hiFlags, s8 bSetCreated, s8 bSetDestroyed);
 
     void RemoveObjectsWithPurpleLight(s16 bMakeInvisible);
 

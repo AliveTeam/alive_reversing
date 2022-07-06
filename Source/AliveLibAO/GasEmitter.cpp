@@ -31,7 +31,7 @@ void GasEmitter::VStopAudio()
 
 GasEmitter::~GasEmitter()
 {
-    gMap.TLV_Reset(field_10_tlvInfo, -1, 0, 0);
+    Path::TLV_Reset(field_10_tlvInfo, -1, 0, 0);
 
     if (gGasEmitter_5009D4 == this)
     {

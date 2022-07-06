@@ -124,11 +124,11 @@ SlingMudokon::~SlingMudokon()
 {
     if (field_11E_flags.Get(Flags_11E::eBit1_bDontSetDestroyed))
     {
-        gMap.TLV_Reset(field_110_tlvInfo, -1, 0, 0);
+        Path::TLV_Reset(field_110_tlvInfo, -1, 0, 0);
     }
     else
     {
-        gMap.TLV_Reset(field_110_tlvInfo, -1, 0, 1);
+        Path::TLV_Reset(field_110_tlvInfo, -1, 0, 1);
     }
 
     // TODO: Check it isn't 2 resources freed here

@@ -129,7 +129,7 @@ void MusicTrigger::VUpdate()
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
         if (field_10_tlvInfo >= 0)
         {
-            gMap.TLV_Reset(field_10_tlvInfo, -1, 0, 0);
+            Path::TLV_Reset(field_10_tlvInfo, -1, 0, 0);
         }
     }
 

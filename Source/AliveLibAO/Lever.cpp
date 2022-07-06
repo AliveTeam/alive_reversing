@@ -171,7 +171,7 @@ void Lever::VScreenChanged()
 
 Lever::~Lever()
 {
-    gMap.TLV_Reset(field_EC_tlvInfo, -1, 0, 0);
+    Path::TLV_Reset(field_EC_tlvInfo, -1, 0, 0);
 }
 
 Lever::Lever(Path_Lever* pTlv, s32 tlvInfo)

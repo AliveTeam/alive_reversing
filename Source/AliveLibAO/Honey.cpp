@@ -29,7 +29,7 @@ Honey::Honey(FP xpos, FP ypos)
 void Honey::VScreenChanged()
 {
     mBaseGameObjectFlags.Set(BaseGameObject::eDead);
-    gMap.TLV_Reset(field_E4_tlvInfo, -1, 0, 0);
+    Path::TLV_Reset(field_E4_tlvInfo, -1, 0, 0);
 }
 
 } // namespace AO

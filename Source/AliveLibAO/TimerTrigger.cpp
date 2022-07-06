@@ -18,7 +18,7 @@ void TimerTrigger::VScreenChanged()
 
 TimerTrigger::~TimerTrigger()
 {
-    gMap.TLV_Reset(field_1C_tlvInfo, -1, 0, 0);
+    Path::TLV_Reset(field_1C_tlvInfo, -1, 0, 0);
 }
 
 TimerTrigger::TimerTrigger(Path_TimerTrigger* pTlv, s32 tlvInfo)

@@ -23,11 +23,11 @@ RollingBall::~RollingBall()
 {
     if (field_112_state != States::eInactive_0)
     {
-        gMap.TLV_Reset(field_10C_tlvInfo, -1, 0, 1);
+        Path::TLV_Reset(field_10C_tlvInfo, -1, 0, 1);
     }
     else
     {
-        gMap.TLV_Reset(field_10C_tlvInfo, -1, 0, 0);
+        Path::TLV_Reset(field_10C_tlvInfo, -1, 0, 0);
     }
 
     if (field_120_pCollisionLine)

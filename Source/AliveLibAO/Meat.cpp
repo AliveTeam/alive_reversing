@@ -66,7 +66,7 @@ MeatSack::MeatSack(Path_MeatSack* pTlv, s32 tlvInfo)
 
 MeatSack::~MeatSack()
 {
-    gMap.TLV_Reset(field_10C_tlvInfo, -1, 0, 0);
+    Path::TLV_Reset(field_10C_tlvInfo, -1, 0, 0);
 }
 
 void MeatSack::VUpdate()

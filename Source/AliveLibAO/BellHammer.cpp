@@ -110,7 +110,7 @@ BellHammer::~BellHammer()
         ResourceManager::FreeResource_455550(ppRes);
     }
 
-    gMap.TLV_Reset(mTlvInfo, -1, 0, 0);
+    Path::TLV_Reset(mTlvInfo, -1, 0, 0);
 }
 
 void BellHammer::VScreenChanged()

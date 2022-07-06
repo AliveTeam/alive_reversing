@@ -315,7 +315,7 @@ DoorFlame::~DoorFlame()
 
     VStopAudio();
 
-    gMap.TLV_Reset(field_E4_tlvInfo, -1, 0, 0);
+    Path::TLV_Reset(field_E4_tlvInfo, -1, 0, 0);
 }
 
 DoorFlame::DoorFlame(Path_DoorFlame* pTlv, s32 tlvInfo)

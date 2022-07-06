@@ -140,11 +140,11 @@ MovingBomb::~MovingBomb()
 
     if (field_10C_state == States::eBlowingUp_6 || field_10C_state == States::eKillMovingBomb_7)
     {
-        gMap.TLV_Reset(field_110_tlvInfo, -1, 0, 1);
+        Path::TLV_Reset(field_110_tlvInfo, -1, 0, 1);
     }
     else
     {
-        gMap.TLV_Reset(field_110_tlvInfo, -1, 0, 0);
+        Path::TLV_Reset(field_110_tlvInfo, -1, 0, 0);
     }
 
     if (gMovingBomb_507B8C == this)

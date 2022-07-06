@@ -125,11 +125,11 @@ MotionDetector::~MotionDetector()
 {
     if (field_F6_bDontComeBack)
     {
-        gMap.TLV_Reset(field_E4_tlvInfo, -1, 0, 0);
+        Path::TLV_Reset(field_E4_tlvInfo, -1, 0, 0);
     }
     else
     {
-        gMap.TLV_Reset(field_E4_tlvInfo, -1, 0, 1);
+        Path::TLV_Reset(field_E4_tlvInfo, -1, 0, 1);
     }
 
     if (field_108_pLaser)

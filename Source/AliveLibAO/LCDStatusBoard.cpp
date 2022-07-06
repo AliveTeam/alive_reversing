@@ -52,7 +52,7 @@ void LCDStatusBoard::VScreenChanged()
 LCDStatusBoard::~LCDStatusBoard()
 {
     gObjListDrawables->Remove_Item(this);
-    gMap.TLV_Reset(field_C8_tlv, -1, 0, 0);
+    Path::TLV_Reset(field_C8_tlv, -1, 0, 0);
 }
 
 LCDStatusBoard::LCDStatusBoard(Path_LCDStatusBoard* pTlv, s32 tlvInfo)

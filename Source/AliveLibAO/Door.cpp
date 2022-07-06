@@ -300,7 +300,7 @@ Door::Door(Path_Door* pTlv, s32 tlvInfo)
 
 Door::~Door()
 {
-    gMap.TLV_Reset(field_E4_tlvInfo, -1, 0, 0);
+    Path::TLV_Reset(field_E4_tlvInfo, -1, 0, 0);
 }
 
 void Door::VScreenChanged()

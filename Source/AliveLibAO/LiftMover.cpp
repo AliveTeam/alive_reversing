@@ -37,7 +37,7 @@ LiftMover::~LiftMover()
         field_18_pLiftPoint->mBaseGameObjectRefCount--;
         field_18_pLiftPoint = nullptr;
     }
-    gMap.TLV_Reset(field_14_tlvInfo, -1, 0, 0);
+    Path::TLV_Reset(field_14_tlvInfo, -1, 0, 0);
 }
 
 void LiftMover::VUpdate()

@@ -108,7 +108,7 @@ void ShadowZone::ShadowZones_Calculate_Colour(s32 xpos, s32 ypos, Scale scale, s
 
 ShadowZone::~ShadowZone()
 {
-    gMap.TLV_Reset(field_10_tlvInfo, -1, 0, 0);
+    Path::TLV_Reset(field_10_tlvInfo, -1, 0, 0);
     sShadowZone_dArray_507B08->Remove_Item(this);
 }
 

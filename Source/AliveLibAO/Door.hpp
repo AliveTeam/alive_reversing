@@ -5,6 +5,7 @@
 #include "Map.hpp"
 #include "BaseAnimatedWithPhysicsGameObject.hpp"
 #include "../AliveLibAE/Path.hpp"
+#include "Path.hpp"
 
 namespace AO {
 

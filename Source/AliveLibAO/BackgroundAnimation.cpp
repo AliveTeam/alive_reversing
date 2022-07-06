@@ -127,7 +127,7 @@ void BackgroundAnimation::VScreenChanged()
 
 BackgroundAnimation::~BackgroundAnimation()
 {
-    gMap.TLV_Reset(field_F0_tlvInfo, -1, 0, 0);
+    Path::TLV_Reset(field_F0_tlvInfo, -1, 0, 0);
     if (field_104_sound_channels_mask)
     {
         SND_Stop_Channels_Mask(field_104_sound_channels_mask);

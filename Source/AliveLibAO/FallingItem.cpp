@@ -102,7 +102,7 @@ FallingItem::~FallingItem()
     {
         pPrimaryFallingItem_4FFA54 = nullptr;
     }
-    gMap.TLV_Reset(field_10C_tlvInfo, -1, 0, 0);
+    Path::TLV_Reset(field_10C_tlvInfo, -1, 0, 0);
 }
 
 void FallingItem::DamageHitItems()

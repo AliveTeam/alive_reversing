@@ -393,11 +393,11 @@ Mudokon::~Mudokon()
 
     if (!field_144_flags.Get(Flags_144::e144_Bit2) || mHealth <= FP_FromInteger(0) || mBaseAliveGameObjectFlags.Get(Flags_10A::e10A_Bit5_Electrocuted))
     {
-        gMap.TLV_Reset(field_10C, -1, 0, 1);
+        Path::TLV_Reset(field_10C, -1, 0, 1);
     }
     else
     {
-        gMap.TLV_Reset(field_10C, -1, 0, 0);
+        Path::TLV_Reset(field_10C, -1, 0, 0);
     }
 
     for (auto& res : field_148_res_array.res)

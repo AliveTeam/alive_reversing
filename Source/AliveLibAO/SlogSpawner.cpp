@@ -12,7 +12,7 @@ namespace AO {
 
 void SlogSpawner::VScreenChanged()
 {
-    gMap.TLV_Reset(mTlvInfo, mSpawnedSlogsCount, 0, 0);
+    Path::TLV_Reset(mTlvInfo, mSpawnedSlogsCount, 0, 0);
     mBaseGameObjectFlags.Set(BaseGameObject::eDead);
 }
 
@@ -63,7 +63,7 @@ void SlogSpawner::VUpdate()
 
             if (mSpawnedSlogsCount >= mMaxSlogs)
             {
-                gMap.TLV_Reset(mTlvInfo, mSpawnedSlogsCount, 0, 1);
+                Path::TLV_Reset(mTlvInfo, mSpawnedSlogsCount, 0, 1);
                 mBaseGameObjectFlags.Set(BaseGameObject::eDead);
             }
         }

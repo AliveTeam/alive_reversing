@@ -66,11 +66,11 @@ SligSpawner::~SligSpawner()
 {
     if (field_16_flags)
     {
-        gMap.TLV_Reset(field_10_tlvInfo, -1, 0, 0);
+        Path::TLV_Reset(field_10_tlvInfo, -1, 0, 0);
     }
     else
     {
-        gMap.TLV_Reset(field_10_tlvInfo, -1, 0, 1);
+        Path::TLV_Reset(field_10_tlvInfo, -1, 0, 1);
     }
 }
 

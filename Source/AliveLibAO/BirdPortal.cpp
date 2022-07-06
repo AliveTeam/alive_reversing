@@ -133,7 +133,7 @@ BirdPortal::~BirdPortal()
         mSfxPlaying = 0;
     }
 
-    gMap.TLV_Reset(mTlvInfo, -1, 0, 0);
+    Path::TLV_Reset(mTlvInfo, -1, 0, 0);
     if (mState >= PortalStates::PortalExit_SetPosition_17)
     {
         if (sActiveHero)

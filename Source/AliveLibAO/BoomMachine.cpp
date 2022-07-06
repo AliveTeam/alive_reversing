@@ -148,7 +148,7 @@ BoomMachine::~BoomMachine()
         field_EC_pNozzle->mBaseGameObjectFlags.Set(Options::eDead);
     }
 
-    gMap.TLV_Reset(field_E4_tlvInfo, -1, 0, 0);
+    Path::TLV_Reset(field_E4_tlvInfo, -1, 0, 0);
 }
 
 BoomMachine::BoomMachine(Path_BoomMachine* pTlv, s32 tlvInfo)

@@ -109,11 +109,11 @@ SecurityClaw::~SecurityClaw()
 {
     if (field_12C_pDetector)
     {
-        gMap.TLV_Reset(field_10C_tlvInfo, -1, 0, 0);
+        Path::TLV_Reset(field_10C_tlvInfo, -1, 0, 0);
     }
     else
     {
-        gMap.TLV_Reset(field_10C_tlvInfo, -1, 0, 1);
+        Path::TLV_Reset(field_10C_tlvInfo, -1, 0, 1);
     }
 
     if (field_130_pClaw)

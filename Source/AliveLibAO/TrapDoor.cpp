@@ -148,7 +148,7 @@ PSX_RECT TrapDoor::VGetBoundingRect(s32 /*pointIdx*/)
 
 TrapDoor::~TrapDoor()
 {
-    gMap.TLV_Reset(mPlatformBaseTlvInfo, -1, 0, 0);
+    Path::TLV_Reset(mPlatformBaseTlvInfo, -1, 0, 0);
 }
 
 void TrapDoor::Open()

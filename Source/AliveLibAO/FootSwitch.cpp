@@ -46,7 +46,7 @@ FootSwitch::~FootSwitch()
         field_F0_pStoodOnMe->mBaseGameObjectRefCount--;
         field_F0_pStoodOnMe = nullptr;
     }
-    gMap.TLV_Reset(field_E4_tlvInfo, -1, 0, 0);
+    Path::TLV_Reset(field_E4_tlvInfo, -1, 0, 0);
 }
 
 void FootSwitch::VUpdate()

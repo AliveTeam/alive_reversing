@@ -185,11 +185,11 @@ UXB::~UXB()
 {
     if (field_10C_state != UXBState::eExploding_2 || static_cast<s32>(sGnFrame) < field_118_next_state_frame)
     {
-        gMap.TLV_Reset(field_114_tlvInfo, -1, 0, 0);
+        Path::TLV_Reset(field_114_tlvInfo, -1, 0, 0);
     }
     else
     {
-        gMap.TLV_Reset(field_114_tlvInfo, -1, 0, 1);
+        Path::TLV_Reset(field_114_tlvInfo, -1, 0, 1);
     }
 
     ResourceManager::FreeResource_455550(ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kAbebombAOResID, 0, 0));
@@ -226,17 +226,17 @@ void UXB::VScreenChanged()
     {
         if (field_10E_starting_state == UXBState::eDeactivated_3 && field_10C_state != UXBState::eDeactivated_3)
         {
-            gMap.TLV_Reset(field_114_tlvInfo, 1, 1u, 0);
+            Path::TLV_Reset(field_114_tlvInfo, 1, 1u, 0);
             mBaseGameObjectFlags.Set(BaseGameObject::eDead);
         }
         else if (field_10E_starting_state != UXBState::eDelay_0 || field_10C_state != UXBState::eDeactivated_3)
         {
-            gMap.TLV_Reset(field_114_tlvInfo, 0, 1u, 0);
+            Path::TLV_Reset(field_114_tlvInfo, 0, 1u, 0);
             mBaseGameObjectFlags.Set(BaseGameObject::eDead);
         }
         else
         {
-            gMap.TLV_Reset(field_114_tlvInfo, 1, 1u, 0);
+            Path::TLV_Reset(field_114_tlvInfo, 1, 1u, 0);
             mBaseGameObjectFlags.Set(BaseGameObject::eDead);
         }
     }
@@ -447,16 +447,16 @@ void UXB::VUpdate()
             {
                 if (field_10E_starting_state != UXBState::eDelay_0 || field_10C_state != UXBState::eDeactivated_3)
                 {
-                    gMap.TLV_Reset(field_114_tlvInfo, 0, 1u, 0);
+                    Path::TLV_Reset(field_114_tlvInfo, 0, 1u, 0);
                 }
                 else
                 {
-                    gMap.TLV_Reset(field_114_tlvInfo, 1, 1u, 0);
+                    Path::TLV_Reset(field_114_tlvInfo, 1, 1u, 0);
                 }
             }
             else
             {
-                gMap.TLV_Reset(field_114_tlvInfo, 1, 1u, 0);
+                Path::TLV_Reset(field_114_tlvInfo, 1, 1u, 0);
             }
             mBaseGameObjectFlags.Set(BaseGameObject::eDead);
         }

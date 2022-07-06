@@ -69,11 +69,11 @@ TimedMine::~TimedMine()
 {
     if (mSlappedMine != 1 || static_cast<s32>(sGnFrame) < mExplosionTimer)
     {
-        gMap.TLV_Reset(mTlvInfo, -1, 0, 0);
+        Path::TLV_Reset(mTlvInfo, -1, 0, 0);
     }
     else
     {
-        gMap.TLV_Reset(mTlvInfo, -1, 0, 1);
+        Path::TLV_Reset(mTlvInfo, -1, 0, 1);
     }
 
     mTickAnim.VCleanUp();

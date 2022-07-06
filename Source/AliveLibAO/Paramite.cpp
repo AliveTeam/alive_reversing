@@ -236,11 +236,11 @@ Paramite::~Paramite()
     ResourceManager::FreeResource_455550(ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kWebAOResID, 0, 0));
     if (mHealth <= FP_FromInteger(0))
     {
-        gMap.TLV_Reset(field_12C_tlvInfo, -1, 0, 1);
+        Path::TLV_Reset(field_12C_tlvInfo, -1, 0, 1);
     }
     else
     {
-        gMap.TLV_Reset(field_12C_tlvInfo, -1, 0, 0);
+        Path::TLV_Reset(field_12C_tlvInfo, -1, 0, 0);
     }
 
     SND_Seq_Stop_477A60(SeqId::eParamiteNearby_30);

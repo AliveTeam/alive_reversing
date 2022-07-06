@@ -149,7 +149,7 @@ void Factory_Hoist_487230(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOff
         }
         else
         {
-            gMap.TLV_Reset(tlvOffsetLevelIdPathId.all, -1, 0, 0);
+            Path::TLV_Reset(tlvOffsetLevelIdPathId.all, -1, 0, 0);
         }
     }
 }
@@ -168,7 +168,7 @@ void Factory_Edge_481730(Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUnion tlv
     }
     else
     {
-        gMap.TLV_Reset(tlvOffsetLevelIdPathId.all, -1, 0, 0);
+        Path::TLV_Reset(tlvOffsetLevelIdPathId.all, -1, 0, 0);
     }
 }
 
@@ -295,7 +295,7 @@ void Factory_LiftPoint_4820F0(Path_TLV* pTlv, Map* pMap, TlvItemInfoUnion tlvOff
                     && pLiftObj->mCurrentLevel == gMap.mCurrentLevel
                     && pLiftObj->mCurrentPath == gMap.mCurrentPath)
                 {
-                    gMap.TLV_Reset(tlvOffsetLevelIdPathId.all, -1, 0, 0);
+                    Path::TLV_Reset(tlvOffsetLevelIdPathId.all, -1, 0, 0);
                     return;
                 }
             }
@@ -1053,7 +1053,7 @@ void Factory_ElumWall_487370(Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUnion
     }
     else
     {
-        gMap.TLV_Reset(tlvOffsetLevelIdPathId.all, -1, 0, 0);
+        Path::TLV_Reset(tlvOffsetLevelIdPathId.all, -1, 0, 0);
     }
 }
 
@@ -1347,7 +1347,7 @@ void Factory_BellSong_487450(Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUnion
 {
     if (loadMode != LoadMode::LoadResourceFromList_1 && loadMode != LoadMode::LoadResource_2)
     {
-        gMap.TLV_Reset(tlvOffsetLevelIdPathId.all, -1, 0, 0);
+        Path::TLV_Reset(tlvOffsetLevelIdPathId.all, -1, 0, 0);
     }
 }
 
@@ -2091,7 +2091,7 @@ void Factory_HandStone_487480(Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUnio
     }
     else
     {
-        gMap.TLV_Reset(tlvOffsetLevelIdPathId.all, -1, 0, 0);
+        Path::TLV_Reset(tlvOffsetLevelIdPathId.all, -1, 0, 0);
     }
 }
 
@@ -2336,7 +2336,7 @@ void Factory_RingCancel_4818D0(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion t
                 sActiveHero->field_168_ring_pulse_timer = 0;
             }
         }
-        gMap.TLV_Reset(tlvOffsetLevelIdPathId.all, -1, 0, 0);
+        Path::TLV_Reset(tlvOffsetLevelIdPathId.all, -1, 0, 0);
     }
 }
 
@@ -2393,7 +2393,7 @@ void Factory_KillUnsavedMuds_487DA0(Path_TLV* /*pTlv*/, Map* pMap, TlvItemInfoUn
         {
             gbKillUnsavedMudsDone_5076CC = 1;
             sKilledMudokons_5076BC = 28 - sRescuedMudokons_5076C0;
-            gMap.TLV_Reset(tlvOffsetLevelIdPathId.all, -1, 0, 1);
+            Path::TLV_Reset(tlvOffsetLevelIdPathId.all, -1, 0, 1);
         }
     }
 }

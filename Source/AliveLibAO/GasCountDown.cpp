@@ -75,7 +75,7 @@ GasCountDown::GasCountDown(Path_GasCountDown* pTlv, s32 tlvInfo)
 GasCountDown::~GasCountDown()
 {
     gObjListDrawables->Remove_Item(this);
-    gMap.TLV_Reset(field_58_tlvInfo, -1, 0, 0);
+    Path::TLV_Reset(field_58_tlvInfo, -1, 0, 0);
 }
 
 void GasCountDown::VScreenChanged()

@@ -105,11 +105,11 @@ Mine::~Mine()
 {
     if (field_10C_detonating == 1)
     {
-        gMap.TLV_Reset(field_110_tlv, -1, 0, 1);
+        Path::TLV_Reset(field_110_tlv, -1, 0, 1);
     }
     else
     {
-        gMap.TLV_Reset(field_110_tlv, -1, 0, 0);
+        Path::TLV_Reset(field_110_tlv, -1, 0, 0);
     }
 
     field_118_animation.VCleanUp();

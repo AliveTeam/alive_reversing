@@ -149,7 +149,7 @@ ChimeLock::~ChimeLock()
         field_11C_right_bell->mBaseGameObjectFlags.Set(Options::eDead);
     }
 
-    gMap.TLV_Reset(field_10C_tlvInfo, -1, 0, 0);
+    Path::TLV_Reset(field_10C_tlvInfo, -1, 0, 0);
 }
 
 void ChimeLock::VScreenChanged()

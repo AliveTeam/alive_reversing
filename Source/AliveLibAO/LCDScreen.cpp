@@ -278,7 +278,7 @@ LCDScreen::~LCDScreen()
     IRenderer::GetRenderer()->PalFree(IRenderer::PalRecord{field_98_pal_rect.x, field_98_pal_rect.y, field_98_pal_rect.w});
 
     gObjListDrawables->Remove_Item(this);
-    gMap.TLV_Reset(field_2B8_tlv_item_info, -1, 0, 0);
+    Path::TLV_Reset(field_2B8_tlv_item_info, -1, 0, 0);
 }
 
 void LCDScreen::VScreenChanged()

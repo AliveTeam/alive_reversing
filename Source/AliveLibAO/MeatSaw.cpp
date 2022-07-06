@@ -19,11 +19,11 @@ MeatSaw::~MeatSaw()
 {
     if (field_1A8_flags.Get(flags_1A8::eBit1_ResetOffscreen) && SwitchStates_Get(field_EE_switch_id) != field_F2_switch_value)
     {
-        gMap.TLV_Reset(field_100_tlvInfo, 1, 0, 0);
+        Path::TLV_Reset(field_100_tlvInfo, 1, 0, 0);
     }
     else
     {
-        gMap.TLV_Reset(field_100_tlvInfo, 0, 0, 0);
+        Path::TLV_Reset(field_100_tlvInfo, 0, 0, 0);
     }
 
     field_110_anim.VCleanUp();

@@ -45,7 +45,7 @@ LightEffect::LightEffect(Path_LightEffect* pTlv, s32 tlvInfo)
 
 LightEffect::~LightEffect()
 {
-    gMap.TLV_Reset(field_E4_tlvInfo, -1, 0, 0);
+    Path::TLV_Reset(field_E4_tlvInfo, -1, 0, 0);
 }
 
 void LightEffect::VRender(PrimHeader** /*ppOt*/)
