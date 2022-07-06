@@ -18,11 +18,11 @@ public:
 
     virtual void VUpdate() override;
 
-    s32 field_10_code_idx = 0;
-    s16 field_14_bDone = 0;
-    BellsongTypes field_16_type = BellsongTypes::eWhistle;
-    s32 field_18_code = 0;
-    s16 field_1C_code_len = 0;
+    s32 mCodeIdx = 0;
+    bool mDone = false;
+    BellsongTypes mType = BellsongTypes::eWhistle;
+    s32 mCode = 0;
+    s16 mCodeLength = 0;
 };
 ALIVE_ASSERT_SIZEOF(BellSong, 0x20);
 

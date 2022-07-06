@@ -328,13 +328,13 @@ BirdPortal* BaseAliveGameObject::VIntoBirdPortal(s16 numGridBlocks)
         if (pObj->Type() == ReliveTypes::eBirdPortal)
         {
             auto pBirdPortal = static_cast<BirdPortal*>(pObj);
-            if (pBirdPortal->field_2C_xpos >= mXPos)
+            if (pBirdPortal->mXPos >= mXPos)
             {
-                if (pBirdPortal->field_26_side == PortalSide::eLeft_1)
+                if (pBirdPortal->mEnterSide == PortalSide::eLeft_1)
                 {
-                    if (pBirdPortal->field_2C_xpos - mXPos <= (ScaleToGridSize(mSpriteScale) * FP_FromInteger(numGridBlocks)) && !(mAnim.mFlags.Get(AnimFlags::eBit5_FlipX)))
+                    if (pBirdPortal->mXPos - mXPos <= (ScaleToGridSize(mSpriteScale) * FP_FromInteger(numGridBlocks)) && !(mAnim.mFlags.Get(AnimFlags::eBit5_FlipX)))
                     {
-                        if (FP_Abs(mYPos - pBirdPortal->field_3C_YPos) < mSpriteScale * FP_FromInteger(10) && pBirdPortal->VPortalClipper(1))
+                        if (FP_Abs(mYPos - pBirdPortal->mHitY) < mSpriteScale * FP_FromInteger(10) && pBirdPortal->VPortalClipper(1))
                         {
                             mAnim.mRenderLayer = mSpriteScale != FP_FromInteger(1) ? Layer::eLayer_InBirdPortal_Half_11 : Layer::eLayer_InBirdPortal_30;
                             return pBirdPortal;
@@ -342,13 +342,13 @@ BirdPortal* BaseAliveGameObject::VIntoBirdPortal(s16 numGridBlocks)
                     }
                 }
             }
-            else if (pBirdPortal->field_26_side == PortalSide::eRight_0)
+            else if (pBirdPortal->mEnterSide == PortalSide::eRight_0)
             {
-                if (mXPos - pBirdPortal->field_2C_xpos <= ScaleToGridSize(mSpriteScale) * FP_FromInteger(numGridBlocks))
+                if (mXPos - pBirdPortal->mXPos <= ScaleToGridSize(mSpriteScale) * FP_FromInteger(numGridBlocks))
                 {
                     if (mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
                     {
-                        if (FP_Abs(mYPos - pBirdPortal->field_3C_YPos) < mSpriteScale * FP_FromInteger(10) && pBirdPortal->VPortalClipper(1))
+                        if (FP_Abs(mYPos - pBirdPortal->mHitY) < mSpriteScale * FP_FromInteger(10) && pBirdPortal->VPortalClipper(1))
                         {
                             mAnim.mRenderLayer = mSpriteScale != FP_FromInteger(1) ? Layer::eLayer_InBirdPortal_Half_11 : Layer::eLayer_InBirdPortal_30;
                             return pBirdPortal;

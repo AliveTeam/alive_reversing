@@ -31,9 +31,9 @@ public:
     void BaseAddToPlatform(FnTypeMatcher cb);
 
 protected:
-    s16 field_118_count = 0;
-    s16 field_11A_bDead = 0;
+    s16 mBaseThrowableCount = 0;
+    s16 mBaseThrowableDead = 0;
 };
 
-ALIVE_VAR_EXTERN(u16, gInfiniteGrenades_5C1BDE);
+ALIVE_VAR_EXTERN(u16, gInfiniteThrowables);
 extern const AETypes throwable_types_55FAFC[252];

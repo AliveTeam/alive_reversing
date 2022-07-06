@@ -1302,7 +1302,7 @@ void Factory_BirdPortal_486710(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion t
             {ResourceManager::Resource_Animation, AOResourceID::kPortlitAOResID}};
         ResourceManager::LoadResourcesFromList_446E80("PORTAL.BND", kResources1.AsList(), loadMode, 0);
 
-        if (pBirdPortalTlv->field_24_portal_type == PortalType::eShrykull_2)
+        if (pBirdPortalTlv->mPortalType == PortalType::eShrykull_2)
         {
             static CompileTimeResourceList<2> kResources2 = {
                 {ResourceManager::Resource_Animation, AOResourceID::kAbemorphAOResID},
@@ -1319,7 +1319,7 @@ void Factory_BirdPortal_486710(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion t
         };
         ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, kResources);
 
-        if (pBirdPortalTlv->field_24_portal_type != PortalType::eShrykull_2)
+        if (pBirdPortalTlv->mPortalType != PortalType::eShrykull_2)
         {
             relive_new BirdPortal(pBirdPortalTlv, tlvOffsetLevelIdPathId.all);
             return;

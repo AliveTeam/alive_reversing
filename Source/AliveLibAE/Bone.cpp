@@ -17,7 +17,7 @@
 Bone::Bone(FP xpos, FP ypos, s16 countId)
     : BaseThrowable(0)
 {
-    field_11A_bDead = 0;
+    mBaseThrowableDead = 0;
     SetType(ReliveTypes::eBone);
     if (!ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kBoneResID, 0, 0))
     {
@@ -32,19 +32,19 @@ Bone::Bone(FP xpos, FP ypos, s16 countId)
 
     mXPos = xpos;
     mYPos = ypos;
-    field_120_xpos = xpos;
-    field_124_ypos = ypos;
+    mInitialXPos = xpos;
+    mInitialYPos = ypos;
     mVelX = FP_FromInteger(0);
     mVelY = FP_FromInteger(0);
     mBaseGameObjectFlags.Clear(BaseGameObject::eInteractive_Bit8);
-    field_130_hit_object &= ~1u;
+    mHitObject &= ~1u;
 
     mAnim.mFlags.Clear(AnimFlags::eBit3_Render);
 
-    field_12C_time_to_live = sGnFrame + 300;
-    field_118_count = countId;
-    field_11C_state = BoneStates::eSpawned_0;
-    field_11E_volume_modifier = 0;
+    mTimeToLiveTimer = sGnFrame + 300;
+    mBaseThrowableCount = countId;
+    mState = BoneStates::eSpawned_0;
+    mVolumeModifier = 0;
 
     mShadow = relive_new Shadow();
 }
@@ -58,26 +58,26 @@ s32 Bone::CreateFromSaveState(const u8* pData)
 {
     auto pState = reinterpret_cast<const Bone_SaveState*>(pData);
 
-    auto pBone = relive_new Bone(pState->field_8_xpos, pState->field_C_ypos, pState->field_2A_count);
+    auto pBone = relive_new Bone(pState->mXPos, pState->mYPos, pState->mBaseThrowableCount);
 
     pBone->mBaseGameObjectTlvInfo = pState->field_4_obj_id;
 
-    pBone->mXPos = pState->field_8_xpos;
-    pBone->mYPos = pState->field_C_ypos;
+    pBone->mXPos = pState->mXPos;
+    pBone->mYPos = pState->mYPos;
 
     pBone->mCollectionRect.x = pBone->mXPos - (ScaleToGridSize(pBone->mSpriteScale) / FP_FromInteger(2));
     pBone->mCollectionRect.y = pBone->mYPos - ScaleToGridSize(pBone->mSpriteScale);
     pBone->mCollectionRect.w = (ScaleToGridSize(pBone->mSpriteScale) / FP_FromInteger(2)) + pBone->mXPos;
     pBone->mCollectionRect.h = pBone->mYPos;
 
-    pBone->mVelX = pState->field_10_velx;
-    pBone->mVelY = pState->field_14_vely;
+    pBone->mVelX = pState->mVelX;
+    pBone->mVelY = pState->mVelY;
 
-    pBone->mCurrentPath = pState->field_1C_path_number;
-    pBone->mCurrentLevel = MapWrapper::FromAE(pState->field_1E_lvl_number);
-    pBone->mSpriteScale = pState->field_18_sprite_scale;
+    pBone->mCurrentPath = pState->mCurrentPath;
+    pBone->mCurrentLevel = MapWrapper::FromAE(pState->mCurrentLevel);
+    pBone->mSpriteScale = pState->mSpriteScale;
 
-    pBone->mScale = pState->field_18_sprite_scale > FP_FromDouble(0.75) ? Scale::Fg : Scale::Bg;
+    pBone->mScale = pState->mSpriteScale > FP_FromDouble(0.75) ? Scale::Fg : Scale::Bg;
 
     pBone->mAnim.mFlags.Set(AnimFlags::eBit8_Loop, pState->field_20_flags.Get(Bone_SaveState::eBit3_bLoop));
     pBone->mAnim.mFlags.Set(AnimFlags::eBit3_Render, pState->field_20_flags.Get(Bone_SaveState::eBit1_bRender));
@@ -87,22 +87,22 @@ s32 Bone::CreateFromSaveState(const u8* pData)
 
     pBone->mBaseAliveGameObjectFlags.Set(Flags_114::e114_Bit9_RestoredFromQuickSave);
 
-    pBone->field_128_shine_timer = sGnFrame;
+    pBone->mShineTimer = sGnFrame;
 
-    pBone->BaseAliveGameObjectCollisionLineType = pState->field_28_line_type;
-    pBone->field_118_count = pState->field_2A_count;
-    pBone->field_11C_state = pState->field_2C_state;
+    pBone->BaseAliveGameObjectCollisionLineType = pState->mCollisionLineType;
+    pBone->mBaseThrowableCount = pState->mBaseThrowableCount;
+    pBone->mState = pState->mState;
 
-    pBone->field_11E_volume_modifier = pState->field_2E_volume_modifier;
-    pBone->field_120_xpos = pState->field_30_xpos;
-    pBone->field_124_ypos = pState->field_34_ypos;
+    pBone->mVolumeModifier = pState->mVolumeModifier;
+    pBone->mInitialXPos = pState->mInitialXPos;
+    pBone->mInitialYPos = pState->mInitialYPos;
 
-    pBone->field_12C_time_to_live = pState->field_38_time_to_live;
+    pBone->mTimeToLiveTimer = pState->mTimeToLiveTimer;
 
-    pBone->field_130_hit_object = 0;
+    pBone->mHitObject = 0;
     if (pState->field_20_flags.Get(Bone_SaveState::eBit5_bHitObject))
     {
-        pBone->field_130_hit_object |= 1;
+        pBone->mHitObject |= 1;
     }
 
     return sizeof(Bone_SaveState);
@@ -110,11 +110,11 @@ s32 Bone::CreateFromSaveState(const u8* pData)
 
 Bone::~Bone()
 {
-    if (!gInfiniteGrenades_5C1BDE && !field_11A_bDead)
+    if (!gInfiniteThrowables && !mBaseThrowableDead)
     {
-        if (gpThrowableArray_5D1E2C)
+        if (gpThrowableArray)
         {
-            gpThrowableArray_5D1E2C->Remove(field_118_count >= 1 ? field_118_count : 1);
+            gpThrowableArray->Remove(mBaseThrowableCount >= 1 ? mBaseThrowableCount : 1);
         }
     }
 }
@@ -132,13 +132,13 @@ void Bone::VThrow(FP velX, FP velY)
 
     mAnim.mFlags.Set(AnimFlags::eBit3_Render);
 
-    if (field_118_count == 0)
+    if (mBaseThrowableCount == 0)
     {
-        field_11C_state = BoneStates::eEdible_4;
+        mState = BoneStates::eEdible_4;
     }
     else
     {
-        field_11C_state = BoneStates::eAirborne_1;
+        mState = BoneStates::eAirborne_1;
     }
 }
 
@@ -149,21 +149,21 @@ void Bone::VOnTrapDoorOpen()
     {
         pPlatform->VRemove(this);
         BaseAliveGameObject_PlatformId = -1;
-        if (field_11C_state == BoneStates::eCollided_2 || field_11C_state == BoneStates::eOnGround_3)
+        if (mState == BoneStates::eCollided_2 || mState == BoneStates::eOnGround_3)
         {
-            field_11C_state = BoneStates::eAirborne_1;
+            mState = BoneStates::eAirborne_1;
         }
     }
 }
 
 bool Bone::VIsFalling()
 {
-    return field_11C_state == BoneStates::eFalling_5;
+    return mState == BoneStates::eFalling_5;
 }
 
 bool Bone::VCanThrow()
 {
-    return field_11C_state != BoneStates::eSpawned_0 && field_11C_state != BoneStates::eAirborne_1;
+    return mState != BoneStates::eSpawned_0 && mState != BoneStates::eAirborne_1;
 }
 
 s16 Bone::OnCollision(BaseAnimatedWithPhysicsGameObject* pObj)
@@ -173,7 +173,7 @@ s16 Bone::OnCollision(BaseAnimatedWithPhysicsGameObject* pObj)
         return 1;
     }
 
-    if (pObj->Type() != ReliveTypes::eMine && pObj->Type() != ReliveTypes::eUXB && (field_130_hit_object & 1))
+    if (pObj->Type() != ReliveTypes::eMine && pObj->Type() != ReliveTypes::eUXB && (mHitObject & 1))
     {
         return 1;
     }
@@ -185,7 +185,7 @@ s16 Bone::OnCollision(BaseAnimatedWithPhysicsGameObject* pObj)
 
     const PSX_RECT bRect = pObj->VGetBoundingRect();
 
-    if (field_120_xpos < FP_FromInteger(bRect.x) || field_120_xpos > FP_FromInteger(bRect.w))
+    if (mInitialXPos < FP_FromInteger(bRect.x) || mInitialXPos > FP_FromInteger(bRect.w))
     {
         mXPos -= mVelX;
         mVelX = (-mVelX / FP_FromInteger(2));
@@ -202,7 +202,7 @@ s16 Bone::OnCollision(BaseAnimatedWithPhysicsGameObject* pObj)
 
     pObj->VOnThrowableHit(this);
 
-    field_130_hit_object |= 1u;
+    mHitObject |= 1u;
     SfxPlayMono(SoundEffect::RockBounceOnMine_24, 80);
 
     if (pObj->Type() == ReliveTypes::eMine || pObj->Type() == ReliveTypes::eUXB)
@@ -223,26 +223,26 @@ void Bone::VScreenChanged()
 
 bool Bone::VCanBeEaten()
 {
-    return field_11C_state == BoneStates::eEdible_4;
+    return mState == BoneStates::eEdible_4;
 }
 
 s32 Bone::VGetSaveState(u8* pSaveBuffer)
 {
     auto pState = reinterpret_cast<Bone_SaveState*>(pSaveBuffer);
 
-    pState->field_0_type = AETypes::eBone_11;
+    pState->mAEType = AETypes::eBone_11;
     pState->field_4_obj_id = mBaseGameObjectTlvInfo;
 
-    pState->field_8_xpos = mXPos;
-    pState->field_C_ypos = mYPos;
+    pState->mXPos = mXPos;
+    pState->mYPos = mYPos;
 
-    pState->field_10_velx = mVelX;
-    pState->field_14_vely = mVelY;
+    pState->mVelX = mVelX;
+    pState->mVelY = mVelY;
 
-    pState->field_1C_path_number = mCurrentPath;
-    pState->field_1E_lvl_number = MapWrapper::ToAE(mCurrentLevel);
+    pState->mCurrentPath = mCurrentPath;
+    pState->mCurrentLevel = MapWrapper::ToAE(mCurrentLevel);
 
-    pState->field_18_sprite_scale = mSpriteScale;
+    pState->mSpriteScale = mSpriteScale;
 
     pState->field_20_flags.Set(Bone_SaveState::eBit3_bLoop, mAnim.mFlags.Get(AnimFlags::eBit8_Loop));
     pState->field_20_flags.Set(Bone_SaveState::eBit1_bRender, mAnim.mFlags.Get(AnimFlags::eBit3_Render));
@@ -250,34 +250,34 @@ s32 Bone::VGetSaveState(u8* pSaveBuffer)
     pState->field_20_flags.Set(Bone_SaveState::eBit2_bDrawable, mBaseGameObjectFlags.Get(BaseGameObject::eDrawable_Bit4));
     pState->field_20_flags.Set(Bone_SaveState::eBit4_bInteractive, mBaseGameObjectFlags.Get(BaseGameObject::eInteractive_Bit8));
 
-    pState->field_20_flags.Set(Bone_SaveState::eBit5_bHitObject, field_130_hit_object & 1);
+    pState->field_20_flags.Set(Bone_SaveState::eBit5_bHitObject, mHitObject & 1);
 
     if (BaseAliveGameObjectCollisionLine)
     {
-        pState->field_28_line_type = BaseAliveGameObjectCollisionLine->mLineType;
+        pState->mCollisionLineType = BaseAliveGameObjectCollisionLine->mLineType;
     }
     else
     {
-        pState->field_28_line_type = -1;
+        pState->mCollisionLineType = -1;
     }
 
     pState->field_24_base_id = BaseAliveGameObject_PlatformId;
-    pState->field_2A_count = field_118_count;
-    pState->field_2C_state = field_11C_state;
+    pState->mBaseThrowableCount = mBaseThrowableCount;
+    pState->mState = mState;
 
-    pState->field_2E_volume_modifier = field_11E_volume_modifier;
-    pState->field_30_xpos = field_120_xpos;
+    pState->mVolumeModifier = mVolumeModifier;
+    pState->mInitialXPos = mInitialXPos;
 
-    pState->field_34_ypos = field_124_ypos;
-    pState->field_38_time_to_live = field_12C_time_to_live;
+    pState->mInitialYPos = mInitialYPos;
+    pState->mTimeToLiveTimer = mTimeToLiveTimer;
 
     return sizeof(Bone_SaveState);
 }
 
 void Bone::InTheAir()
 {
-    field_120_xpos = mXPos;
-    field_124_ypos = mYPos;
+    mInitialXPos = mXPos;
+    mInitialYPos = mYPos;
 
     if (mVelY > FP_FromInteger(30))
     {
@@ -291,8 +291,8 @@ void Bone::InTheAir()
     FP hitX = {};
     FP hitY = {};
     if (sCollisions->Raycast(
-            field_120_xpos,
-            field_124_ypos,
+            mInitialXPos,
+            mInitialYPos,
             mXPos,
             mYPos,
             &BaseAliveGameObjectCollisionLine,
@@ -303,10 +303,10 @@ void Bone::InTheAir()
     {
         switch (BaseAliveGameObjectCollisionLine->mLineType)
         {
-            case 0u:
-            case 4u:
-            case 32u:
-            case 36u:
+            case eLineTypes::eFloor_0:
+            case eLineTypes::eBackgroundFloor_4:
+            case eLineTypes::eDynamicCollision_32:
+            case eLineTypes::eBackgroundDynamicCollision_36:
                 if (mVelY <= FP_FromInteger(0))
                 {
                     break;
@@ -316,7 +316,7 @@ void Bone::InTheAir()
 
                 if (mVelY < FP_FromInteger(1))
                 {
-                    field_11C_state = BoneStates::eCollided_2;
+                    mState = BoneStates::eCollided_2;
 
                     mYPos = FP_FromInteger(BaseAliveGameObjectCollisionLine->mRect.y);
                     mVelY = FP_FromInteger(0);
@@ -336,7 +336,7 @@ void Bone::InTheAir()
                     mYPos -= FP_FromDouble(0.1);
                     mVelY = (-mVelY / FP_FromInteger(2));
                     mVelX = (mVelX / FP_FromInteger(2));
-                    s16 vol = 20 * (4 - field_11E_volume_modifier);
+                    s16 vol = 20 * (4 - mVolumeModifier);
                     if (vol < 40)
                     {
                         vol = 40;
@@ -344,17 +344,17 @@ void Bone::InTheAir()
                     SfxPlayMono(SoundEffect::RockBounce_26, vol);
                     EventBroadcast(kEventNoise, this);
                     EventBroadcast(kEventSuspiciousNoise, this);
-                    field_11E_volume_modifier++;
+                    mVolumeModifier++;
                 }
                 break;
 
-            case 3u:
-            case 7u:
+            case eLineTypes::eCeiling_3:
+            case eLineTypes::eBackgroundCeiling_7:
                 if (mVelY < FP_FromInteger(0))
                 {
                     mYPos = hitY;
                     mVelY = (-mVelY / FP_FromInteger(2));
-                    s16 vol = 20 * (4 - field_11E_volume_modifier);
+                    s16 vol = 20 * (4 - mVolumeModifier);
                     if (vol < 40)
                     {
                         vol = 40;
@@ -367,18 +367,18 @@ void Bone::InTheAir()
         }
     }
 
-    if (sCollisions->Raycast(field_120_xpos, field_124_ypos, mXPos, mYPos, &BaseAliveGameObjectCollisionLine, &hitX, &hitY, mScale == Scale::Fg ? kFgWalls : kBgWalls) == 1)
+    if (sCollisions->Raycast(mInitialXPos, mInitialYPos, mXPos, mYPos, &BaseAliveGameObjectCollisionLine, &hitX, &hitY, mScale == Scale::Fg ? kFgWalls : kBgWalls) == 1)
     {
         switch (BaseAliveGameObjectCollisionLine->mLineType)
         {
-            case 1u:
-            case 5u:
+            case eLineTypes::eWallLeft_1:
+            case eLineTypes::eBackgroundWallLeft_5:
                 if (mVelX < FP_FromInteger(0))
                 {
                     mVelX = (-mVelX / FP_FromInteger(2));
                     mXPos = hitX;
                     mYPos = hitY;
-                    s16 vol = 20 * (4 - field_11E_volume_modifier);
+                    s16 vol = 20 * (4 - mVolumeModifier);
                     if (vol < 40)
                     {
                         vol = 40;
@@ -390,14 +390,14 @@ void Bone::InTheAir()
                 BaseAliveGameObjectCollisionLine = nullptr;
                 break;
 
-            case 2u:
-            case 6u:
+            case eLineTypes::eWallRight_2:
+            case eLineTypes::eBackgroundWallRight_6:
                 if (mVelX > FP_FromInteger(0))
                 {
                     mVelX = (-mVelX / FP_FromInteger(2));
                     mXPos = hitX;
                     mYPos = hitY;
-                    s16 vol = 20 * (4 - field_11E_volume_modifier);
+                    s16 vol = 20 * (4 - mVolumeModifier);
                     if (vol < 40)
                     {
                         vol = 40;
@@ -420,7 +420,7 @@ void Bone::VUpdate()
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 
-    switch (field_11C_state)
+    switch (mState)
     {
         case BoneStates::eSpawned_0:
             break;
@@ -464,10 +464,10 @@ void Bone::VUpdate()
                     mCollectionRect.w = mXPos + (ScaleToGridSize(mSpriteScale) / FP_FromInteger(2));
                     mCollectionRect.h = mYPos;
 
-                    field_11C_state = BoneStates::eOnGround_3;
+                    mState = BoneStates::eOnGround_3;
                     mBaseGameObjectFlags.Set(BaseGameObject::eInteractive_Bit8);
                     mAnim.mFlags.Clear(AnimFlags::eBit8_Loop);
-                    field_128_shine_timer = sGnFrame;
+                    mShineTimer = sGnFrame;
                     AddToPlatform();
                     return;
                 }
@@ -480,17 +480,17 @@ void Bone::VUpdate()
             }
 
             mAnim.mFlags.Set(AnimFlags::eBit8_Loop);
-            field_11C_state = BoneStates::eEdible_4;
+            mState = BoneStates::eEdible_4;
         }
             return;
 
         case BoneStates::eOnGround_3:
             if (gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0))
             {
-                field_12C_time_to_live = sGnFrame + 300;
+                mTimeToLiveTimer = sGnFrame + 300;
             }
 
-            if (static_cast<s32>(sGnFrame) > field_128_shine_timer && !pObj)
+            if (static_cast<s32>(sGnFrame) > mShineTimer && !pObj)
             {
                 // For the shiny star twinkle effect.
                 New_TintShiny_Particle(
@@ -499,10 +499,10 @@ void Bone::VUpdate()
                     FP_FromDouble(0.3),
                     Layer::eLayer_Foreground_36);
 
-                field_128_shine_timer = (Math_NextRandom() % 16) + sGnFrame + 60;
+                mShineTimer = (Math_NextRandom() % 16) + sGnFrame + 60;
             }
 
-            if (field_12C_time_to_live < static_cast<s32>(sGnFrame))
+            if (mTimeToLiveTimer < static_cast<s32>(sGnFrame))
             {
                 mBaseGameObjectFlags.Set(BaseGameObject::eDead);
             }
@@ -538,11 +538,11 @@ void Bone::VUpdate()
 
 s16 Bone::VGetCount()
 {
-    if (field_11C_state == BoneStates::eOnGround_3 && field_118_count == 0)
+    if (mState == BoneStates::eOnGround_3 && mBaseThrowableCount == 0)
     {
         return 1;
     }
-    return field_118_count;
+    return mBaseThrowableCount;
 }
 
 const TintEntry kBoneTints_550EC0[18] = {
@@ -577,36 +577,36 @@ BoneBag::BoneBag(Path_BoneBag* pTlv, s32 tlvInfo)
     mAnim.mFlags.Clear(AnimFlags::eBit15_bSemiTrans);
     SetTint(&kBoneTints_550EC0[0], gMap.mCurrentLevel);
 
-    field_11C_bIs_hit = 0;
-    field_118_tlvInfo = tlvInfo;
+    mIsBagHit = false;
+    mTlvInfo = tlvInfo;
 
     mXPos = FP_FromInteger((pTlv->mTopLeft.x + pTlv->mBottomRight.x) / 2);
     mYPos = FP_FromInteger(pTlv->mBottomRight.y);
 
     mVisualFlags.Clear(VisualFlags::eApplyShadowZoneColour);
 
-    field_124_velX = FP_FromRaw(pTlv->field_12_x_vel << 8);
-    field_128_velY = FP_FromRaw(-256 * pTlv->field_14_y_vel); // TODO: << 8 negated ??
+    mBoneVelX = FP_FromRaw(pTlv->mBoneVelX << 8);
+    mBoneVelY = FP_FromRaw(-256 * pTlv->mBoneVelY); // TODO: << 8 negated ??
 
-    if (pTlv->field_10_bone_fall_direction == XDirection_short::eLeft_0)
+    if (pTlv->mBoneFallDirection == XDirection_short::eLeft_0)
     {
-        field_124_velX = -field_124_velX;
+        mBoneVelX = -mBoneVelX;
     }
 
-    if (pTlv->field_16_scale == Scale_short::eHalf_1)
+    if (pTlv->mScale == Scale_short::eHalf_1)
     {
         mSpriteScale = FP_FromDouble(0.5);
         mScale = Scale::Bg;
     }
-    else if (pTlv->field_16_scale == Scale_short::eFull_0)
+    else if (pTlv->mScale == Scale_short::eFull_0)
     {
         mSpriteScale = FP_FromInteger(1);
         mScale = Scale::Fg;
     }
 
-    field_11E_count = pTlv->field_18_bone_amount;
-    field_120_allow_sound = 1;
-    field_122_force_play_sound = 1;
+    mBoneCount = pTlv->mBoneCount;
+    mAllowSound = true;
+    mForcePlayWobbleSound = true;
 
     mShadow = relive_new Shadow();
 }
@@ -618,7 +618,7 @@ void BoneBag::VScreenChanged()
 
 BoneBag::~BoneBag()
 {
-    Path::TLV_Reset(field_118_tlvInfo, -1, 0, 0);
+    Path::TLV_Reset(mTlvInfo, -1, 0, 0);
 }
 
 void BoneBag::VUpdate()
@@ -630,24 +630,25 @@ void BoneBag::VUpdate()
 
     if (mAnim.mCurrentFrame == 2)
     {
-        if (field_120_allow_sound)
+        if (mAllowSound)
         {
-            if (Math_NextRandom() < 40 || field_122_force_play_sound)
+            if (Math_NextRandom() < 40 || mForcePlayWobbleSound)
             {
-                field_120_allow_sound = 0;
-                field_122_force_play_sound = 0;
+                mAllowSound = false;
+                mForcePlayWobbleSound = false;
                 SFX_Play_Pitch(SoundEffect::SackWobble_29, 24, Math_RandomRange(-2400, -2200));
             }
         }
     }
     else
     {
-        field_120_allow_sound = 0;
+        mAllowSound = false;
     }
 
-    if (field_11C_bIs_hit)
+    if (mIsBagHit)
     {
-        if (field_11C_bIs_hit != 1)
+        // dead code??
+        if (mIsBagHit != 1)
         {
             return;
         }
@@ -658,7 +659,7 @@ void BoneBag::VUpdate()
         }
 
         mAnim.Set_Animation_Data(AnimId::BoneBag_Idle, nullptr);
-        field_11C_bIs_hit = 0;
+        mIsBagHit = false;
         return;
     }
 
@@ -672,9 +673,9 @@ void BoneBag::VUpdate()
 
     if (bRect.x <= bPlayerRect.w && bRect.w >= bPlayerRect.x && bRect.h >= bPlayerRect.y && bRect.y <= bPlayerRect.h && mSpriteScale == sActiveHero->mSpriteScale)
     {
-        if (gpThrowableArray_5D1E2C)
+        if (gpThrowableArray)
         {
-            if (gpThrowableArray_5D1E2C->field_20_count)
+            if (gpThrowableArray->field_20_count)
             {
                 if (sActiveHero->mCurrentMotion == eAbeMotions::Motion_31_RunJumpMid_452C10)
                 {
@@ -684,23 +685,23 @@ void BoneBag::VUpdate()
                 {
                     mAnim.Set_Animation_Data(AnimId::BoneBag_SoftHit, nullptr);
                 }
-                field_11C_bIs_hit = 1;
+                mIsBagHit = true;
                 return;
             }
         }
         else
         {
-            gpThrowableArray_5D1E2C = relive_new ThrowableArray();
+            gpThrowableArray = relive_new ThrowableArray();
         }
 
-        gpThrowableArray_5D1E2C->Add(field_11E_count);
+        gpThrowableArray->Add(mBoneCount);
 
-        auto pBone = relive_new Bone(mXPos, mYPos - FP_FromInteger(30), field_11E_count);
+        auto pBone = relive_new Bone(mXPos, mYPos - FP_FromInteger(30), mBoneCount);
 
         pBone->mSpriteScale = mSpriteScale;
         pBone->mScale = mScale;
 
-        pBone->VThrow(field_124_velX, field_128_velY);
+        pBone->VThrow(mBoneVelX, mBoneVelY);
 
         SfxPlayMono(SoundEffect::SackHit_25, 0);
         Environment_SFX_457A40(EnvironmentSfx::eDeathNoise_7, 0, 0x7FFF, 0);
@@ -714,6 +715,6 @@ void BoneBag::VUpdate()
             mAnim.Set_Animation_Data(AnimId::BoneBag_SoftHit, nullptr);
         }
 
-        field_11C_bIs_hit = 1;
+        mIsBagHit = true;
     }
 }

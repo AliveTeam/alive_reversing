@@ -81,12 +81,12 @@ private:
                 {
                     SFX_Play_Pitch(SoundEffect::PickupItem_28, 127, -900);
 
-                    if (!gpThrowableArray_5D1E2C)
+                    if (!gpThrowableArray)
                     {
-                        gpThrowableArray_5D1E2C = relive_new ThrowableArray();
+                        gpThrowableArray = relive_new ThrowableArray();
                     }
 
-                    gpThrowableArray_5D1E2C->Add(field_FC_numGrenades);
+                    gpThrowableArray->Add(field_FC_numGrenades);
 
                     FP directedScale = {};
                     if (mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
@@ -157,7 +157,7 @@ BoomMachine::BoomMachine(Path_BoomMachine* pTlv, s32 tlvInfo)
         field_F8_nozzle_id = pNozzle->field_8_object_id;
     }
 
-    if (gpThrowableArray_5D1E2C && gpThrowableArray_5D1E2C->field_20_count)
+    if (gpThrowableArray && gpThrowableArray->field_20_count)
     {
         field_FC_bIsButtonOn = 1;
         mAnim.Set_Animation_Data(AnimId::BoomMachine_Button_On, nullptr);
@@ -177,7 +177,7 @@ void BoomMachine::VUpdate()
 
     if (!field_FC_bIsButtonOn)
     {
-        if (!gpThrowableArray_5D1E2C || gpThrowableArray_5D1E2C->field_20_count == 0)
+        if (!gpThrowableArray || gpThrowableArray->field_20_count == 0)
         {
             field_FC_bIsButtonOn = 1;
             mAnim.Set_Animation_Data(AnimId::BoomMachine_Button_On, nullptr);
@@ -185,7 +185,7 @@ void BoomMachine::VUpdate()
     }
     else if (field_FC_bIsButtonOn)
     {
-        if (gpThrowableArray_5D1E2C && gpThrowableArray_5D1E2C->field_20_count > 0)
+        if (gpThrowableArray && gpThrowableArray->field_20_count > 0)
         {
             field_FC_bIsButtonOn = 0;
             mAnim.Set_Animation_Data(AnimId::BoomMachine_Button_Off, nullptr);

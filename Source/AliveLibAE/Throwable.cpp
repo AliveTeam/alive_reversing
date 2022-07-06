@@ -10,7 +10,7 @@
 #include "PlatformBase.hpp"
 #include "Game.hpp"
 
-ALIVE_VAR(1, 0x5c1bde, u16, gInfiniteGrenades_5C1BDE, 0);
+ALIVE_VAR(1, 0x5c1bde, u16, gInfiniteThrowables, 0);
 
 // Overlay to throwable type table ??
 const AETypes throwable_types_55FAFC[252] = {
@@ -116,7 +116,7 @@ void BaseThrowable::BaseAddToPlatform(BaseThrowable::FnTypeMatcher cb)
 void BaseThrowable::VToDead()
 {
     mBaseGameObjectFlags.Set(BaseGameObject::eDead);
-    field_11A_bDead = 1;
+    mBaseThrowableDead = 1;
 }
 
 void BaseThrowable::VOnPickUpOrSlapped()
@@ -126,5 +126,5 @@ void BaseThrowable::VOnPickUpOrSlapped()
 
 s16 BaseThrowable::VGetCount()
 {
-    return field_118_count;
+    return mBaseThrowableCount;
 }

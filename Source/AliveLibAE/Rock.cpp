@@ -17,7 +17,7 @@ Rock::Rock(FP xpos, FP ypos, s16 count)
 {
     SetType(ReliveTypes::eRock);
 
-    field_11A_bDead = 0;
+    mBaseThrowableDead = 0;
 
     if (!ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kAberockResID, 0, 0))
     {
@@ -41,7 +41,7 @@ Rock::Rock(FP xpos, FP ypos, s16 count)
     mVelX = FP_FromInteger(0);
     mVelY = FP_FromInteger(0);
 
-    field_118_count = count;
+    mBaseThrowableCount = count;
     field_11C_state = RockStates::eNone_0;
 
     u8** ppPal = ResourceManager::GetLoadedResource(ResourceManager::Resource_Palt, AEResourceID::kAberockResID, 0, 0);
@@ -92,11 +92,11 @@ bool Rock::VCanThrow()
 
 Rock::~Rock()
 {
-    if (!gInfiniteGrenades_5C1BDE && !field_11A_bDead)
+    if (!gInfiniteThrowables && !mBaseThrowableDead)
     {
-        if (gpThrowableArray_5D1E2C)
+        if (gpThrowableArray)
         {
-            gpThrowableArray_5D1E2C->Remove(field_118_count >= 1 ? field_118_count : 1);
+            gpThrowableArray->Remove(mBaseThrowableCount >= 1 ? mBaseThrowableCount : 1);
         }
     }
 }
@@ -109,7 +109,7 @@ void Rock::VThrow(FP velX, FP velY)
 
     mAnim.mFlags.Set(AnimFlags::eBit3_Render);
 
-    if (field_118_count == 0)
+    if (mBaseThrowableCount == 0)
     {
         field_11C_state = RockStates::eBouncing_4;
     }
@@ -446,7 +446,7 @@ s32 Rock::VGetSaveState(u8* pSaveBuffer)
         pState->field_28_line_type = -1;
     }
     pState->field_24_id = BaseAliveGameObject_PlatformId;
-    pState->field_2A_count = field_118_count;
+    pState->field_2A_count = mBaseThrowableCount;
     pState->field_2C_state = field_11C_state;
     pState->field_2E_volume = field_11E_volume;
     pState->field_30_xpos = field_120_xpos;
@@ -491,7 +491,7 @@ s32 Rock::CreateFromSaveState(const u8* pData)
 
     pRock->BaseAliveGameObjectCollisionLineType = pState->field_28_line_type;
 
-    pRock->field_118_count = pState->field_2A_count;
+    pRock->mBaseThrowableCount = pState->field_2A_count;
     pRock->field_11C_state = pState->field_2C_state;
 
     pRock->field_11E_volume = pState->field_2E_volume;

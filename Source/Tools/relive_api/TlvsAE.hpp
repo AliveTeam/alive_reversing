@@ -360,16 +360,16 @@ struct Path_BirdPortal final : public ReliveAPI::TlvObjectBaseAE
 
     CTOR_AE(Path_BirdPortal, "BirdPortal", TlvTypes::BirdPortal_28)
     {
-        ADD("Enter Side", mTlv.field_10_side);
-        ADD("BirdPortalExit Level", mTlv.field_12_dest_level);
-        ADD("BirdPortalExit Path", mTlv.field_14_dest_path);
-        ADD("BirdPortalExit Camera", mTlv.field_16_dest_camera);
-        ADD("Scale", mTlv.field_18_scale);
-        ADD("Movie ID", mTlv.field_1A_movie_id);
-        ADD("Portal Type", mTlv.field_1C_portal_type);
-        ADD("Mudokon Amount For Shrykull", mTlv.field_1E_mudokon_amount_for_shrykull);
-        ADD("Create Portal Switch ID", mTlv.field_20_create_portal_switch_id);
-        ADD("Delete Portal Switch ID", mTlv.field_22_delete_portal_switch_id);
+        ADD("Enter Side", mTlv.mEnterSide);
+        ADD("BirdPortalExit Level", mTlv.mExitLevel);
+        ADD("BirdPortalExit Path", mTlv.mExitPath);
+        ADD("BirdPortalExit Camera", mTlv.mExitCamera);
+        ADD("Scale", mTlv.mScale);
+        ADD("Movie ID", mTlv.mMovieId);
+        ADD("Portal Type", mTlv.mPortalType);
+        ADD("Mudokon Amount For Shrykull", mTlv.mMudCountForShrykull);
+        ADD("Create Portal Switch ID", mTlv.mCreatePortalSwitchId);
+        ADD("Delete Portal Switch ID", mTlv.mDeletePortalSwitchId);
     }
 };
 
@@ -1633,8 +1633,8 @@ struct Path_BirdPortalExit final : public ReliveAPI::TlvObjectBaseAE
 {
     CTOR_AE(Path_BirdPortalExit, "BirdPortalExit", TlvTypes::BirdPortalExit_29)
     {
-        ADD("Exit Direction", mTlv.field_10_side);
-        ADD("Scale", mTlv.field_12_scale);
+        ADD("Exit Direction", mTlv.mExitSide);
+        ADD("Scale", mTlv.mScale);
     }
 };
 
@@ -1997,11 +1997,11 @@ struct Path_BoneBag final : public ReliveAPI::TlvObjectBaseAE
 {
     CTOR_AE(Path_BoneBag, "BoneBag", TlvTypes::BoneBag_94)
     {
-        ADD("Bone Fall Direction", mTlv.field_10_bone_fall_direction);
-        ADD("X Velocity", mTlv.field_12_x_vel);
-        ADD("Y Velocity", mTlv.field_14_y_vel);
-        ADD("Scale", mTlv.field_16_scale);
-        ADD("Bone Amount", mTlv.field_18_bone_amount);
+        ADD("Bone Fall Direction", mTlv.mBoneFallDirection);
+        ADD("X Velocity", mTlv.mBoneVelX);
+        ADD("Y Velocity", mTlv.mBoneVelY);
+        ADD("Scale", mTlv.mScale);
+        ADD("Bone Amount", mTlv.mBoneCount);
 
         ADD_RESOURCE(AnimId::BoneBag_HardHit, ReliveAPI::AddResourceTo::CameraBlock);
         ADD_RESOURCE(AnimId::BoneBag_Idle, ReliveAPI::AddResourceTo::CameraBlock);

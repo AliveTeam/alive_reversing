@@ -14,16 +14,16 @@ enum class BoneStates : s16
 
 struct Bone_SaveState final
 {
-    AETypes field_0_type;
+    AETypes mAEType;
     s16 field_2_padding;
     s32 field_4_obj_id;
-    FP field_8_xpos;
-    FP field_C_ypos;
-    FP field_10_velx;
-    FP field_14_vely;
-    FP field_18_sprite_scale;
-    s16 field_1C_path_number;
-    LevelIds field_1E_lvl_number;
+    FP mXPos;
+    FP mYPos;
+    FP mVelX;
+    FP mVelY;
+    FP mSpriteScale;
+    s16 mCurrentPath;
+    LevelIds mCurrentLevel;
 
     enum BoneStateFlags
     {
@@ -37,13 +37,13 @@ struct Bone_SaveState final
     BitField16<BoneStateFlags> field_20_flags;
     s16 field_22_padding;
     s32 field_24_base_id;
-    s16 field_28_line_type;
-    s16 field_2A_count;
-    BoneStates field_2C_state;
-    s16 field_2E_volume_modifier;
-    FP field_30_xpos;
-    FP field_34_ypos;
-    s32 field_38_time_to_live;
+    s16 mCollisionLineType;
+    s16 mBaseThrowableCount;
+    BoneStates mState;
+    s16 mVolumeModifier;
+    FP mInitialXPos;
+    FP mInitialYPos;
+    s32 mTimeToLiveTimer;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Bone_SaveState, 0x3C);
 
@@ -71,24 +71,23 @@ private:
     void InTheAir();
 
 private:
-    BoneStates field_11C_state = BoneStates::eSpawned_0;
-    s16 field_11E_volume_modifier = 0;
-    FP field_120_xpos = {};
-    FP field_124_ypos = {};
-    s32 field_128_shine_timer = 0;
-    s32 field_12C_time_to_live = 0;
-    s16 field_130_hit_object = 0;
-    s16 field_132_padding = 0;
+    BoneStates mState = BoneStates::eSpawned_0;
+    s16 mVolumeModifier = 0;
+    FP mInitialXPos = {};
+    FP mInitialYPos = {};
+    s32 mShineTimer = 0;
+    s32 mTimeToLiveTimer = 0;
+    s16 mHitObject = 0; // TODO: flag
 };
 ALIVE_ASSERT_SIZEOF(Bone, 0x134);
 
 struct Path_BoneBag final : public Path_TLV
 {
-    XDirection_short field_10_bone_fall_direction;
-    u16 field_12_x_vel;
-    u16 field_14_y_vel;
-    Scale_short field_16_scale;
-    s16 field_18_bone_amount;
+    XDirection_short mBoneFallDirection;
+    u16 mBoneVelX;
+    u16 mBoneVelY;
+    Scale_short mScale;
+    s16 mBoneCount;
     s16 field_1A_padding;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_BoneBag, 0x1C);
@@ -103,12 +102,12 @@ public:
     virtual void VScreenChanged() override;
  
 private:
-    s32 field_118_tlvInfo = 0;
-    s16 field_11C_bIs_hit = 0;
-    s16 field_11E_count = 0;
-    s16 field_120_allow_sound = 0;
-    s16 field_122_force_play_sound = 0;
-    FP field_124_velX = {};
-    FP field_128_velY = {};
+    s32 mTlvInfo = 0;
+    bool mIsBagHit = false;
+    s16 mBoneCount = 0;
+    bool mAllowSound = false;
+    bool mForcePlayWobbleSound = false;
+    FP mBoneVelX = {};
+    FP mBoneVelY = {};
 };
 ALIVE_ASSERT_SIZEOF(BoneBag, 0x12C);

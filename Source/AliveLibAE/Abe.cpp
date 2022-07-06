@@ -1668,7 +1668,7 @@ void Abe::VUpdate()
 BirdPortal* Abe::VIntoBirdPortal(s16 gridBlocks)
 {
     auto pPortal = BaseAliveGameObject::VIntoBirdPortal(gridBlocks);
-    if (pPortal && pPortal->field_24_portal_type == PortalType::eAbe_0)
+    if (pPortal && pPortal->mPortalType == PortalType::eAbe_0)
     {
         return pPortal;
     }
@@ -1753,7 +1753,7 @@ void Abe::ToKnockback_44E700(s16 bKnockbackSound, s16 bDelayedAnger)
         {
             pfield_158->VToDead();
             field_158_throwable_id = -1;
-            if (!gInfiniteGrenades_5C1BDE)
+            if (!gInfiniteThrowables)
             {
                 field_1A2_throwable_count++;
             }
@@ -1800,9 +1800,9 @@ void Abe::VScreenChanged()
         {
             if (field_1A2_throwable_count > 0)
             {
-                if (gpThrowableArray_5D1E2C)
+                if (gpThrowableArray)
                 {
-                    gpThrowableArray_5D1E2C->Remove(field_1A2_throwable_count);
+                    gpThrowableArray->Remove(field_1A2_throwable_count);
                 }
             }
 
@@ -3235,7 +3235,7 @@ void Abe::Motion_0_Idle_44EEB0()
     {
         if ((sInputKey_ThrowItem & held) && mCurrentMotion == eAbeMotions::Motion_0_Idle_44EEB0)
         {
-            if (field_1A2_throwable_count > 0 || gInfiniteGrenades_5C1BDE)
+            if (field_1A2_throwable_count > 0 || gInfiniteThrowables)
             {
                 field_158_throwable_id = Make_Throwable_49AF30(
                                              mXPos,
@@ -3257,7 +3257,7 @@ void Abe::Motion_0_Idle_44EEB0()
 
                 mCurrentMotion = eAbeMotions::Motion_104_RockThrowStandingHold_455DF0;
 
-                if (!gInfiniteGrenades_5C1BDE)
+                if (!gInfiniteThrowables)
                 {
                     field_1A2_throwable_count--;
                 }
@@ -4072,7 +4072,7 @@ void Abe::Motion_17_CrouchIdle_456BC0()
     // Crouching throw stuff
     if (sInputKey_ThrowItem & held
         && mCurrentMotion == eAbeMotions::Motion_17_CrouchIdle_456BC0
-        && (field_1A2_throwable_count > 0 || gInfiniteGrenades_5C1BDE))
+        && (field_1A2_throwable_count > 0 || gInfiniteThrowables))
     {
         field_158_throwable_id = Make_Throwable_49AF30(mXPos, mYPos - FP_FromInteger(40), 0)->field_8_object_id;
         if (!bThrowableIndicatorExists_5C112C)
@@ -4090,7 +4090,7 @@ void Abe::Motion_17_CrouchIdle_456BC0()
 
         mCurrentMotion = eAbeMotions::Motion_107_RockThrowCrouchingHold_454410;
 
-        if (!gInfiniteGrenades_5C1BDE)
+        if (!gInfiniteThrowables)
         {
             field_1A2_throwable_count--;
         }
@@ -7165,7 +7165,7 @@ void Abe::Motion_104_RockThrowStandingHold_455DF0()
         pRock->VToDead();
         field_158_throwable_id = -1;
         mCurrentMotion = eAbeMotions::Motion_106_RockThrowStandingEnd_455F20;
-        if (!gInfiniteGrenades_5C1BDE)
+        if (!gInfiniteThrowables)
         {
             field_1A2_throwable_count++;
         }
@@ -7214,7 +7214,7 @@ void Abe::Motion_107_RockThrowCrouchingHold_454410()
         pRock->VToDead();
         field_158_throwable_id = -1;
         mCurrentMotion = eAbeMotions::Motion_17_CrouchIdle_456BC0;
-        if (!gInfiniteGrenades_5C1BDE)
+        if (!gInfiniteThrowables)
         {
             field_1A2_throwable_count++;
         }
@@ -7684,9 +7684,9 @@ void Abe::Motion_114_DoorEnter_459470()
 
             if (pDoorTlv->field_42_clear_throwables == Choice_short::eYes_1)
             {
-                if (field_1A2_throwable_count > 0 && gpThrowableArray_5D1E2C)
+                if (field_1A2_throwable_count > 0 && gpThrowableArray)
                 {
-                    gpThrowableArray_5D1E2C->Remove(field_1A2_throwable_count);
+                    gpThrowableArray->Remove(field_1A2_throwable_count);
                     field_1A2_throwable_count = 0;
                 }
             }
@@ -9383,7 +9383,7 @@ void Abe::IntoPortalStates_451990()
         {
             case PortalSubStates::eJumpingInsidePortal_0:
                 bRect = VGetBoundingRect();
-                if ((mVelX > FP_FromInteger(0) && FP_FromInteger(bRect.x) > pBirdPortal->field_2C_xpos) || (mVelX < FP_FromInteger(0) && FP_FromInteger(bRect.w) < pBirdPortal->field_2C_xpos))
+                if ((mVelX > FP_FromInteger(0) && FP_FromInteger(bRect.x) > pBirdPortal->mXPos) || (mVelX < FP_FromInteger(0) && FP_FromInteger(bRect.w) < pBirdPortal->mXPos))
                 {
                     mAnim.mFlags.Clear(AnimFlags::eBit3_Render);
                     mVelY = FP_FromInteger(0);
@@ -9428,18 +9428,18 @@ void Abe::IntoPortalStates_451990()
                 pBirdPortal->VExitPortal();
                 field_1A4_portal_sub_state = PortalSubStates::eHopOutOfPortal_2;
 
-                mAnim.mFlags.Set(AnimFlags::eBit5_FlipX, pBirdPortal->field_26_side == PortalSide::eLeft_1);
+                mAnim.mFlags.Set(AnimFlags::eBit5_FlipX, pBirdPortal->mEnterSide == PortalSide::eLeft_1);
 
                 if (mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
                 {
-                    mXPos = ScaleToGridSize(mSpriteScale) + pBirdPortal->field_34_exit_x;
+                    mXPos = ScaleToGridSize(mSpriteScale) + pBirdPortal->mExitX;
                 }
                 else
                 {
-                    mXPos = pBirdPortal->field_34_exit_x - ScaleToGridSize(mSpriteScale);
+                    mXPos = pBirdPortal->mExitX - ScaleToGridSize(mSpriteScale);
                 }
-                mYPos = pBirdPortal->field_38_exit_y;
-                BaseAliveGameObjectLastLineYPos = pBirdPortal->field_38_exit_y;
+                mYPos = pBirdPortal->mExitY;
+                BaseAliveGameObjectLastLineYPos = pBirdPortal->mExitY;
                 mVelY = FP_FromInteger(0);
                 field_128.field_8_x_vel_slow_by = FP_FromInteger(0);
                 break;

@@ -17,7 +17,7 @@
 Meat::Meat(FP xpos, FP ypos, s16 count)
     : BaseThrowable(0)
 {
-    field_11A_bDead = 0;
+    mBaseThrowableDead = 0;
     SetType(ReliveTypes::eMeat);
 
     if (!ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kMeatResID, 0, 0))
@@ -46,7 +46,7 @@ Meat::Meat(FP xpos, FP ypos, s16 count)
 
     field_12C_deadtimer = sGnFrame + 600;
     field_130_pLine = nullptr;
-    field_118_count = count;
+    mBaseThrowableCount = count;
     field_11C_state = MeatStates::eCreated_0;
 
     mShadow = relive_new Shadow();
@@ -98,11 +98,11 @@ bool Meat::VCanThrow()
 
 Meat::~Meat()
 {
-    if (!field_11A_bDead)
+    if (!mBaseThrowableDead)
     {
-        if (gpThrowableArray_5D1E2C)
+        if (gpThrowableArray)
         {
-            gpThrowableArray_5D1E2C->Remove(field_118_count >= 1 ? field_118_count : 1);
+            gpThrowableArray->Remove(mBaseThrowableCount >= 1 ? mBaseThrowableCount : 1);
         }
     }
 }
@@ -114,7 +114,7 @@ void Meat::VThrow(FP velX, FP velY)
     mVelX = velX;
     mVelY = velY;
 
-    if (field_118_count == 0)
+    if (mBaseThrowableCount == 0)
     {
         field_11C_state = MeatStates::eBeingThrown_2;
     }
@@ -126,12 +126,12 @@ void Meat::VThrow(FP velX, FP velY)
 
 s16 Meat::VGetCount()
 {
-    if (field_11C_state == MeatStates::eWaitForPickUp_4 && field_118_count == 0)
+    if (field_11C_state == MeatStates::eWaitForPickUp_4 && mBaseThrowableCount == 0)
     {
         return 1;
     }
 
-    return field_118_count;
+    return mBaseThrowableCount;
 }
 
 void Meat::InTheAir()
@@ -474,7 +474,7 @@ s32 Meat::CreateFromSaveState(const u8* pBuffer)
     pMeat->field_128_timer = sGnFrame;
     pMeat->BaseAliveGameObjectCollisionLineType = pState->field_28_line_type;
 
-    pMeat->field_118_count = pState->field_2A_count;
+    pMeat->mBaseThrowableCount = pState->field_2A_count;
     pMeat->field_11C_state = pState->field_2C_state;
 
     pMeat->field_120_xpos = pState->field_30_xpos;
@@ -533,9 +533,9 @@ void MeatSack::VUpdate()
 
         if (RectsOverlap(ourRect, abeRect) && mSpriteScale == sActiveHero->mSpriteScale)
         {
-            if (gpThrowableArray_5D1E2C)
+            if (gpThrowableArray)
             {
-                if (gpThrowableArray_5D1E2C->field_20_count)
+                if (gpThrowableArray->field_20_count)
                 {
                     mAnim.Set_Animation_Data(AnimId::MeatSack_Hit, nullptr);
                     field_11C_bDoMeatSackIdleAnim = 1;
@@ -544,10 +544,10 @@ void MeatSack::VUpdate()
             }
             else
             {
-                gpThrowableArray_5D1E2C = relive_new ThrowableArray();
+                gpThrowableArray = relive_new ThrowableArray();
             }
 
-            gpThrowableArray_5D1E2C->Add(field_11E_amount_of_meat);
+            gpThrowableArray->Add(field_11E_amount_of_meat);
 
             auto pMeat = relive_new Meat(mXPos, mYPos - FP_FromInteger(30), field_11E_amount_of_meat);
              pMeat->VThrow(field_124_velX, field_128_velY);
@@ -596,7 +596,7 @@ s32 Meat::VGetSaveState(u8* pSaveBuffer)
     }
 
     pState->field_24_base_id = BaseAliveGameObject_PlatformId;
-    pState->field_2A_count = field_118_count;
+    pState->field_2A_count = mBaseThrowableCount;
     pState->field_2C_state = field_11C_state;
 
     pState->field_30_xpos = field_120_xpos;

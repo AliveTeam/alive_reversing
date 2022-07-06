@@ -18,17 +18,17 @@
 Grenade::Grenade(FP xpos, FP ypos, s32 numGrenades, bool bBlowUpOnCollision, s32 unused, BaseGameObject* pOwner)
     : BaseThrowable(0)
 {
-    field_11A_bDead = 0;
+    mBaseThrowableDead = 0;
 
     Init(xpos, ypos);
 
-    field_118_count = static_cast<s16>(numGrenades);
+    mBaseThrowableCount = static_cast<s16>(numGrenades);
     field_132_bBlowUpOnCollision = bBlowUpOnCollision;
 
     if (bBlowUpOnCollision)
     {
         field_120_state = GrenadeStates::eDoesNothing_8;
-        field_11A_bDead = 1;
+        mBaseThrowableDead = 1;
     }
     else if (numGrenades)
     {
@@ -73,7 +73,7 @@ s32 Grenade::CreateFromSaveState(const u8* pBuffer)
 
     pGrenade->mBaseAliveGameObjectFlags.Set(Flags_114::e114_Bit9_RestoredFromQuickSave);
     pGrenade->BaseAliveGameObjectCollisionLineType = pState->field_28_line_type;
-    pGrenade->field_118_count = pState->field_2A_savedcount;
+    pGrenade->mBaseThrowableCount = pState->field_2A_savedcount;
     pGrenade->field_120_state = pState->field_2C_state;
     pGrenade->field_124 = pState->field_2E;
     pGrenade->field_128_xpos = pState->field_34_xpos;
@@ -120,7 +120,7 @@ s32 Grenade::VGetSaveState(u8* pSaveBuffer)
     }
 
     pState->field_24_base_id = BaseAliveGameObject_PlatformId;
-    pState->field_2A_savedcount = field_118_count;
+    pState->field_2A_savedcount = mBaseThrowableCount;
     pState->field_2C_state = field_120_state;
     pState->field_2E = field_124;
     pState->field_34_xpos = field_128_xpos;
@@ -170,7 +170,7 @@ void Grenade::Init(FP xpos, FP ypos)
     field_12C_ypos = ypos;
     mVelX = FP_FromInteger(0);
     mVelY = FP_FromInteger(0);
-    field_118_count = 0;
+    mBaseThrowableCount = 0;
     field_124 = 0;
     field_134_bExplodeNow = FALSE;
 }
@@ -202,7 +202,7 @@ void Grenade::VThrow(FP velX, FP velY)
 
     if (field_132_bBlowUpOnCollision == 0)
     {
-        if (field_118_count == 0)
+        if (mBaseThrowableCount == 0)
         {
             field_120_state = GrenadeStates::eFalling_4;
         }
@@ -249,11 +249,11 @@ void Grenade::BlowUp(s16 bSmallExplosion)
 
 Grenade::~Grenade()
 {
-    if (!gInfiniteGrenades_5C1BDE && !field_11A_bDead)
+    if (!gInfiniteThrowables && !mBaseThrowableDead)
     {
-        if (gpThrowableArray_5D1E2C)
+        if (gpThrowableArray)
         {
-            gpThrowableArray_5D1E2C->Remove(field_118_count >= 1 ? field_118_count : 1);
+            gpThrowableArray->Remove(mBaseThrowableCount >= 1 ? mBaseThrowableCount : 1);
         }
     }
 }

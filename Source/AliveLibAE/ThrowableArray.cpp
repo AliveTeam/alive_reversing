@@ -6,7 +6,7 @@
 #include "PathData.hpp"
 #include "Throwable.hpp"
 
-ALIVE_VAR(1, 0x5d1e2c, ThrowableArray*, gpThrowableArray_5D1E2C, nullptr);
+ALIVE_VAR(1, 0x5d1e2c, ThrowableArray*, gpThrowableArray, nullptr);
 
 void FreeResourceArray_49AEC0(DynamicArrayT<u8*>* pArray)
 {
@@ -123,7 +123,7 @@ ThrowableArray::ThrowableArray()
 {
     mBaseGameObjectFlags.Clear(BaseGameObject::eUpdatable_Bit2);
     field_20_count = 0;
-    gpThrowableArray_5D1E2C = this;
+    gpThrowableArray = this;
     field_22_flags.Clear(Flags_22::eBit1_Unknown);
     field_22_flags.Clear(Flags_22::eBit2_Unknown);
     field_22_flags.Clear(Flags_22::eBit3_Unknown);
@@ -131,7 +131,7 @@ ThrowableArray::ThrowableArray()
 
 ThrowableArray::~ThrowableArray()
 {
-    gpThrowableArray_5D1E2C = nullptr;
+    gpThrowableArray = nullptr;
     FreeResourceArray_49AEC0(&field_24_throwables);
 }
 

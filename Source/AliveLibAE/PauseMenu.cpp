@@ -959,12 +959,12 @@ void PauseMenu::RestartPath()
             MapWrapper::FromAE(sActiveQuicksaveData_BAF7F8.field_244_restart_path_world_info.field_4_level),
             sActiveQuicksaveData_BAF7F8.field_244_restart_path_world_info.field_6_path);
 
-        if (!gpThrowableArray_5D1E2C)
+        if (!gpThrowableArray)
         {
-            gpThrowableArray_5D1E2C = relive_new ThrowableArray();
+            gpThrowableArray = relive_new ThrowableArray();
         }
 
-        gpThrowableArray_5D1E2C->Add(sActiveHero->field_1A2_throwable_count);
+        gpThrowableArray->Add(sActiveHero->field_1A2_throwable_count);
     }
 
     word12C_flags &= ~1;

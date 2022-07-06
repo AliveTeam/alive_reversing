@@ -1077,9 +1077,9 @@ s16 Mudokon::FindBirdPortal()
         return 0;
     }
 
-    if (FP_Abs(field_1AC_pBirdPortal->field_18_xpos - mXPos) < FP_FromInteger(gPsxDisplay.mWidth) && FP_Abs(field_1AC_pBirdPortal->field_28_ypos - mYPos) < FP_FromInteger(10))
+    if (FP_Abs(field_1AC_pBirdPortal->mXPos - mXPos) < FP_FromInteger(gPsxDisplay.mWidth) && FP_Abs(field_1AC_pBirdPortal->mHitY - mYPos) < FP_FromInteger(10))
     {
-        if (field_1AC_pBirdPortal->field_10_portal_type == PortalType::eWorker_1 || field_1AC_pBirdPortal->field_10_portal_type == PortalType::eShrykull_2)
+        if (field_1AC_pBirdPortal->mPortalType == PortalType::eWorker_1 || field_1AC_pBirdPortal->mPortalType == PortalType::eShrykull_2)
         {
             sActiveHero->ChangeChantState_430510(1);
             field_1AC_pBirdPortal->mBaseGameObjectRefCount++;
@@ -1093,15 +1093,15 @@ s16 Mudokon::FindBirdPortal()
 
 s16 Mudokon::FacingBirdPortal(BirdPortal* pTarget)
 {
-    if (pTarget->field_18_xpos == mXPos)
+    if (pTarget->mXPos == mXPos)
     {
         return TRUE;
     }
-    else if (pTarget->field_18_xpos > mXPos && !mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
+    else if (pTarget->mXPos > mXPos && !mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
     {
         return TRUE;
     }
-    else if (pTarget->field_18_xpos < mXPos && mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
+    else if (pTarget->mXPos < mXPos && mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
     {
         return TRUE;
     }
@@ -2240,7 +2240,7 @@ void Mudokon::Motion_44_RunJumpMid()
 
     const PSX_RECT bRect = VGetBoundingRect();
 
-    if ((mVelX > FP_FromInteger(0) && (FP_FromInteger(bRect.x) > field_1AC_pBirdPortal->field_18_xpos)) || ((mVelX < FP_FromInteger(0) && FP_FromInteger(bRect.w) < field_1AC_pBirdPortal->field_18_xpos)))
+    if ((mVelX > FP_FromInteger(0) && (FP_FromInteger(bRect.x) > field_1AC_pBirdPortal->mXPos)) || ((mVelX < FP_FromInteger(0) && FP_FromInteger(bRect.w) < field_1AC_pBirdPortal->mXPos)))
     {
         field_144_flags.Clear(Flags_144::e144_Bit2);
         field_144_flags.Clear(Flags_144::e144_Bit6_bPersist);
@@ -4236,7 +4236,7 @@ s16 Mudokon::Brain_12_Escape()
         case 1:
             if (static_cast<s32>(sGnFrame) > field_1C0_timer)
             {
-                if (FP_Abs(pPortal->field_18_xpos - mXPos) >= ScaleToGridSize(mSpriteScale))
+                if (FP_Abs(pPortal->mXPos - mXPos) >= ScaleToGridSize(mSpriteScale))
                 {
                     return 2;
                 }
@@ -4307,7 +4307,7 @@ s16 Mudokon::Brain_12_Escape()
 
             if (mCurrentMotion == eMudMotions::Motion_0_Idle || mCurrentMotion == eMudMotions::Motion_1_WalkLoop)
             {
-                if ((pPortal->field_12_side == PortalSide::eRight_0) == mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
+                if ((pPortal->mEnterSide == PortalSide::eRight_0) == mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
                 {
                     mNextMotion = eMudMotions::Motion_2_StandingTurn;
                 }
@@ -4319,7 +4319,7 @@ s16 Mudokon::Brain_12_Escape()
 
             if (mCurrentMotion == eMudMotions::Motion_29_RunLoop)
             {
-                if (FP_Abs(pPortal->field_18_xpos - mXPos) <= ScaleToGridSize(mSpriteScale))
+                if (FP_Abs(pPortal->mXPos - mXPos) <= ScaleToGridSize(mSpriteScale))
                 {
                     return field_1BA_brain_sub_state;
                 }

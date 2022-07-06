@@ -307,15 +307,15 @@ BirdPortal* BaseAliveGameObject::IntoBirdPortal_402350(s16 distance)
         if (pObjIter->mBaseGameObjectTypeId == ReliveTypes::eBirdPortal)
         {
             auto pPortal = static_cast<BirdPortal*>(pObjIter);
-            if (pPortal->field_18_xpos >= mXPos)
+            if (pPortal->mXPos >= mXPos)
             {
-                if (pPortal->field_12_side == PortalSide::eLeft_1)
+                if (pPortal->mEnterSide == PortalSide::eLeft_1)
                 {
-                    if (pPortal->field_18_xpos - mXPos <= (ScaleToGridSize(mSpriteScale) * FP_FromInteger(distance)))
+                    if (pPortal->mXPos - mXPos <= (ScaleToGridSize(mSpriteScale) * FP_FromInteger(distance)))
                     {
                         if (!mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
                         {
-                            if (FP_Abs(mYPos - pPortal->field_28_ypos) < mSpriteScale * FP_FromInteger(10))
+                            if (FP_Abs(mYPos - pPortal->mHitY) < mSpriteScale * FP_FromInteger(10))
                             {
                                 if (pPortal->VPortalClipper(1))
                                 {
@@ -329,13 +329,13 @@ BirdPortal* BaseAliveGameObject::IntoBirdPortal_402350(s16 distance)
             }
             else
             {
-                if (pPortal->field_12_side == PortalSide::eRight_0)
+                if (pPortal->mEnterSide == PortalSide::eRight_0)
                 {
-                    if (mXPos - pPortal->field_18_xpos <= (ScaleToGridSize(mSpriteScale) * FP_FromInteger(distance)))
+                    if (mXPos - pPortal->mXPos <= (ScaleToGridSize(mSpriteScale) * FP_FromInteger(distance)))
                     {
                         if (mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
                         {
-                            if (FP_Abs(mYPos - pPortal->field_28_ypos) < (mSpriteScale * FP_FromInteger(10)))
+                            if (FP_Abs(mYPos - pPortal->mHitY) < (mSpriteScale * FP_FromInteger(10)))
                             {
                                 if (pPortal->VPortalClipper(1))
                                 {

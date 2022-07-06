@@ -3846,7 +3846,7 @@ void Abe::Motion_0_Idle_423520()
             auto pObj = IntoBirdPortal_402350(2);
             if (pObj)
             {
-                if (pObj->field_10_portal_type != PortalType::eAbe_0)
+                if (pObj->mPortalType != PortalType::eAbe_0)
                 {
                     pObj = nullptr;
                 }
@@ -4611,7 +4611,7 @@ void Abe::Motion_4_WalkToIdle_4243C0()
                 field_1A0_portal = IntoBirdPortal_402350(2);
                 if (field_1A0_portal)
                 {
-                    if (field_1A0_portal->field_10_portal_type != PortalType::eAbe_0)
+                    if (field_1A0_portal->mPortalType != PortalType::eAbe_0)
                     {
                         field_1A0_portal = nullptr;
                     }
@@ -4653,7 +4653,7 @@ void Abe::Motion_5_MidWalkToIdle_424490()
                 field_1A0_portal = IntoBirdPortal_402350(2);
                 if (field_1A0_portal)
                 {
-                    if (field_1A0_portal->field_10_portal_type != PortalType::eAbe_0)
+                    if (field_1A0_portal->mPortalType != PortalType::eAbe_0)
                     {
                         field_1A0_portal = nullptr;
                     }
@@ -4924,7 +4924,7 @@ void Abe::Motion_18_HoistLand_426EB0()
 
                 if (field_1A0_portal)
                 {
-                    if (field_1A0_portal->field_10_portal_type != PortalType::eAbe_0)
+                    if (field_1A0_portal->mPortalType != PortalType::eAbe_0)
                     {
                         field_1A0_portal = nullptr;
                     }
@@ -5415,7 +5415,7 @@ void Abe::Motion_29_HopBegin_4267B0()
             field_1A0_portal = IntoBirdPortal_402350(2);
             if (field_1A0_portal)
             {
-                if (field_1A0_portal->field_10_portal_type != PortalType::eAbe_0)
+                if (field_1A0_portal->mPortalType != PortalType::eAbe_0)
                 {
                     field_1A0_portal = nullptr;
                 }
@@ -5436,7 +5436,7 @@ void Abe::IntoPortalStates_4262A0()
         case PortalSubStates::eJumpingInsidePortal_0:
         {
             PSX_RECT bRect = VGetBoundingRect();
-            if ((mVelX > FP_FromInteger(0) && FP_FromInteger(bRect.x) > field_1A0_portal->field_18_xpos) || (mVelX < FP_FromInteger(0) && FP_FromInteger(bRect.w) < field_1A0_portal->field_18_xpos))
+            if ((mVelX > FP_FromInteger(0) && FP_FromInteger(bRect.x) > field_1A0_portal->mXPos) || (mVelX < FP_FromInteger(0) && FP_FromInteger(bRect.w) < field_1A0_portal->mXPos))
             {
                 mAnim.mFlags.Clear(AnimFlags::eBit3_Render);
                 mVelY = FP_FromInteger(0);
@@ -5481,18 +5481,18 @@ void Abe::IntoPortalStates_4262A0()
         {
             field_1A0_portal->VExitPortal();
             field_19E_portal_sub_state = PortalSubStates::eHopOutOfPortal_2;
-            mAnim.mFlags.Set(AnimFlags::eBit5_FlipX, field_1A0_portal->field_12_side == PortalSide::eLeft_1);
+            mAnim.mFlags.Set(AnimFlags::eBit5_FlipX, field_1A0_portal->mEnterSide == PortalSide::eLeft_1);
 
             if (mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
             {
-                mXPos = ScaleToGridSize(mSpriteScale) + field_1A0_portal->field_20_exit_x;
+                mXPos = ScaleToGridSize(mSpriteScale) + field_1A0_portal->mExitX;
             }
             else
             {
-                mXPos = field_1A0_portal->field_20_exit_x - ScaleToGridSize(mSpriteScale);
+                mXPos = field_1A0_portal->mExitX - ScaleToGridSize(mSpriteScale);
             }
 
-            mYPos = field_1A0_portal->field_24_exit_y;
+            mYPos = field_1A0_portal->mExitY;
             mVelY = FP_FromInteger(0);
             field_120_x_vel_slow_by = FP_FromInteger(0);
             break;
@@ -5871,7 +5871,7 @@ void Abe::Motion_34_RunJumpLand_427560()
             field_1A0_portal = IntoBirdPortal_402350(3);
             if (field_1A0_portal)
             {
-                if (field_1A0_portal->field_10_portal_type != PortalType::eAbe_0)
+                if (field_1A0_portal->mPortalType != PortalType::eAbe_0)
                 {
                     field_1A0_portal = nullptr;
                 }
@@ -5894,7 +5894,7 @@ void Abe::Motion_34_RunJumpLand_427560()
                 field_1A0_portal = IntoBirdPortal_402350(3);
                 if (field_1A0_portal)
                 {
-                    if (field_1A0_portal->field_10_portal_type != PortalType::eAbe_0)
+                    if (field_1A0_portal->mPortalType != PortalType::eAbe_0)
                     {
                         field_1A0_portal = nullptr;
                     }
@@ -5957,7 +5957,7 @@ void Abe::Motion_34_RunJumpLand_427560()
             field_1A0_portal = IntoBirdPortal_402350(3);
             if (field_1A0_portal)
             {
-                if (field_1A0_portal->field_10_portal_type != PortalType::eAbe_0)
+                if (field_1A0_portal->mPortalType != PortalType::eAbe_0)
                 {
                     field_1A0_portal = nullptr;
                 }
@@ -5981,7 +5981,7 @@ bool Abe::CheckForPortalAndRunJump()
         field_1A0_portal = IntoBirdPortal_402350(3);
         if (field_1A0_portal)
         {
-            if (field_1A0_portal->field_10_portal_type != PortalType::eAbe_0)
+            if (field_1A0_portal->mPortalType != PortalType::eAbe_0)
             {
                 field_1A0_portal = nullptr;
             }
@@ -8096,7 +8096,7 @@ void Abe::Motion_87_ToFall_428FA0()
 ALIVE_VAR(1, 0x507728, s32, gCounter_507728, 0);
 ALIVE_VAR(1, 0x50772C, u8**, gpDemoPlaybackRes_50772C, nullptr);
 ALIVE_VAR(1, 0x507730, s32, sAbeSound_507730, 0);
-ALIVE_VAR(1, 0x507724, BellSong*, sBellSong_507724, nullptr);
+ALIVE_VAR(1, 0x507724, BellSong*, sBellSong, nullptr);
 
 void Abe::Motion_88_HandstoneBegin_430590()
 {
@@ -8215,7 +8215,7 @@ void Abe::Motion_88_HandstoneBegin_430590()
                     }
                     case TlvTypes::BellSongStone_54:
                     {
-                        sBellSong_507724 = relive_new BellSong(
+                        sBellSong = relive_new BellSong(
                             field_174_pathStone.dataBellsong.type,
                             Code_Convert(field_174_pathStone.dataBellsong.code1, field_174_pathStone.dataBellsong.code2));
 
@@ -8294,9 +8294,9 @@ void Abe::Motion_88_HandstoneBegin_430590()
         }
         case StoneStates::eBellSongDone_4:
         {
-            if (sBellSong_507724->field_14_bDone)
+            if (sBellSong->mDone)
             {
-                sBellSong_507724->mBaseGameObjectFlags.Set(Options::eDead);
+                sBellSong->mBaseGameObjectFlags.Set(Options::eDead);
                 field_164_pCircularFade->VFadeIn(0, 0);
                 field_110_state.stone = StoneStates::eHandstoneEnd_5;
             }

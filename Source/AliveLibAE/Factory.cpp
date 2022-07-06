@@ -746,7 +746,7 @@ void Factory_BirdPortal(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMod
         });
 
         gMap.LoadResourcesFromList("PORTAL.BND", kResources_5634E8.AsList(), loadMode);
-        if (pBirdPortalTlv->field_1C_portal_type == PortalType::eShrykull_2)
+        if (pBirdPortalTlv->mPortalType == PortalType::eShrykull_2)
         {
             static CompileTimeResourceList<2> kResources_563504({
                 {ResourceManager::Resource_Animation, AEResourceID::kAbemorphResID},
@@ -757,7 +757,7 @@ void Factory_BirdPortal(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMod
             gMap.LoadResource("SPLINE.BAN", ResourceManager::Resource_Animation, AEResourceID::kSplineResID, loadMode);
         }
     }
-    else if (SwitchStates_Get(pBirdPortalTlv->field_20_create_portal_switch_id))
+    else if (SwitchStates_Get(pBirdPortalTlv->mCreatePortalSwitchId))
     {
         relive_new BirdPortal(pBirdPortalTlv, tlvInfo.all);
     }

@@ -1224,15 +1224,15 @@ void Mudokon::VOnTlvCollision(Path_TLV* pTlv)
 
 s16 Mudokon::FacingBirdPortal(BirdPortal* pTarget)
 {
-    if (pTarget->field_2C_xpos == mXPos)
+    if (pTarget->mXPos == mXPos)
     {
         return TRUE;
     }
-    else if (pTarget->field_2C_xpos > mXPos && !mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
+    else if (pTarget->mXPos > mXPos && !mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
     {
         return TRUE;
     }
-    else if (pTarget->field_2C_xpos < mXPos && mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
+    else if (pTarget->mXPos < mXPos && mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
     {
         return TRUE;
     }
@@ -4921,7 +4921,7 @@ s16 Mudokon::Brain_6_Escape()
         bool bOver60Away = false;
         if (pBirdPortal)
         {
-            bOver60Away = FP_Abs(pBirdPortal->field_30_ypos - mYPos) > (mSpriteScale * FP_FromInteger(60));
+            bOver60Away = FP_Abs(pBirdPortal->mYPos - mYPos) > (mSpriteScale * FP_FromInteger(60));
         }
 
         if (bOver60Away || noBirdPortalOrPortalIsDead)
@@ -4960,7 +4960,7 @@ s16 Mudokon::Brain_6_Escape()
                     {
                         return field_190_brain_sub_state;
                     }
-                    return FP_Abs(pBirdPortal->field_2C_xpos - mXPos) >= ScaleToGridSize(mSpriteScale) ? 2 : 4;
+                    return FP_Abs(pBirdPortal->mXPos - mXPos) >= ScaleToGridSize(mSpriteScale) ? 2 : 4;
 
                 case Brain_6_Escape::eBrain6_Running_2:
                     if (mCurrentMotion == eMudMotions::Motion_15_CrouchIdle)
@@ -5024,7 +5024,7 @@ s16 Mudokon::Brain_6_Escape()
 
                     if (mCurrentMotion == eMudMotions::Motion_0_Idle || mCurrentMotion == eMudMotions::Motion_1_WalkLoop)
                     {
-                        if ((pBirdPortal->field_26_side == PortalSide::eRight_0 && mAnim.mFlags.Get(AnimFlags::eBit5_FlipX)) || (pBirdPortal->field_26_side == PortalSide::eLeft_1 && !mAnim.mFlags.Get(AnimFlags::eBit5_FlipX)))
+                        if ((pBirdPortal->mEnterSide == PortalSide::eRight_0 && mAnim.mFlags.Get(AnimFlags::eBit5_FlipX)) || (pBirdPortal->mEnterSide == PortalSide::eLeft_1 && !mAnim.mFlags.Get(AnimFlags::eBit5_FlipX)))
                         {
                             mNextMotion = eMudMotions::Motion_2_StandingTurn;
                         }
@@ -5039,7 +5039,7 @@ s16 Mudokon::Brain_6_Escape()
                         return field_190_brain_sub_state;
                     }
 
-                    if (FP_Abs(pBirdPortal->field_2C_xpos - mXPos) <= ScaleToGridSize(mSpriteScale))
+                    if (FP_Abs(pBirdPortal->mXPos - mXPos) <= ScaleToGridSize(mSpriteScale))
                     {
                         return field_190_brain_sub_state;
                     }
@@ -6336,7 +6336,7 @@ void Mudokon::Motion_36_RunJumpMid()
 
     const PSX_RECT rect = VGetBoundingRect();
 
-    if ((mVelX > FP_FromInteger(0) && FP_FromInteger(rect.x) > pBirdPortal->field_2C_xpos) || (mVelX < FP_FromInteger(0) && FP_FromInteger(rect.w) < pBirdPortal->field_2C_xpos))
+    if ((mVelX > FP_FromInteger(0) && FP_FromInteger(rect.x) > pBirdPortal->mXPos) || (mVelX < FP_FromInteger(0) && FP_FromInteger(rect.w) < pBirdPortal->mXPos))
     {
         field_16A_flags.Clear(Flags_16A::eBit1_not_rescued);
         field_16A_flags.Clear(Flags_16A::eBit2_persist_and_reset_offscreen);
@@ -6879,14 +6879,14 @@ s16 Mudokon::FindBirdPortal()
     auto pOpenPortal = static_cast<BirdPortal*>(EventGet(kEventPortalOpen));
     if (pOpenPortal)
     {
-        const FP xDist = pOpenPortal->field_2C_xpos - mXPos;
+        const FP xDist = pOpenPortal->mXPos - mXPos;
         if (FP_Abs(xDist) < FP_FromInteger(368))
         {
-            if (FP_Abs(pOpenPortal->field_3C_YPos - mYPos) < FP_FromInteger(10))
+            if (FP_Abs(pOpenPortal->mHitY - mYPos) < FP_FromInteger(10))
             {
                 if (!WallHit(mSpriteScale * FP_FromInteger(50), xDist))
                 {
-                    if (pOpenPortal->field_24_portal_type == PortalType::eWorker_1 || pOpenPortal->field_24_portal_type == PortalType::eShrykull_2)
+                    if (pOpenPortal->mPortalType == PortalType::eWorker_1 || pOpenPortal->mPortalType == PortalType::eShrykull_2)
                     {
                         sActiveHero->ChangeChantState_45BB90(1);
                         field_11C_bird_portal_id = pOpenPortal->field_8_object_id;
@@ -6902,14 +6902,14 @@ s16 Mudokon::FindBirdPortal()
     auto pPortal20 = static_cast<BirdPortal*>(EventGet(kEventOtherPortalOpen));
     if (pPortal20)
     {
-        const FP xDist = pPortal20->field_2C_xpos - mXPos;
+        const FP xDist = pPortal20->mXPos - mXPos;
         if (FP_Abs(xDist) < FP_FromInteger(368))
         {
-            if (FP_Abs(pPortal20->field_3C_YPos - mYPos) < FP_FromInteger(10))
+            if (FP_Abs(pPortal20->mHitY - mYPos) < FP_FromInteger(10))
             {
                 if (!WallHit(mSpriteScale * FP_FromInteger(50), xDist))
                 {
-                    if (pPortal20->field_24_portal_type == PortalType::eWorker_1 || pPortal20->field_24_portal_type == PortalType::eShrykull_2)
+                    if (pPortal20->mPortalType == PortalType::eWorker_1 || pPortal20->mPortalType == PortalType::eShrykull_2)
                     {
                         sActiveHero->ChangeChantState_45BB90(1);
                         field_11C_bird_portal_id = pPortal20->field_8_object_id;

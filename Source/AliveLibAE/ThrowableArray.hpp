@@ -47,4 +47,4 @@ private:
 };
 ALIVE_ASSERT_SIZEOF(ThrowableArray, 0x30);
 
-ALIVE_VAR_EXTERN(ThrowableArray*, gpThrowableArray_5D1E2C);
+ALIVE_VAR_EXTERN(ThrowableArray*, gpThrowableArray);

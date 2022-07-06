@@ -1209,14 +1209,14 @@ struct Path_BirdPortal final : public ReliveAPI::TlvObjectBaseAO
 
     CTOR_AO(Path_BirdPortal, "BirdPortal", AO::TlvTypes::BirdPortal_52)
     {
-        ADD("Enter Side", mTlv.field_18_side);
-        ADD("Level Destination", mTlv.field_1A_dest_level);
-        ADD("Path Destination", mTlv.field_1C_dest_path);
-        ADD("Camera Destination", mTlv.field_1E_dest_camera);
-        ADD("Scale", mTlv.field_20_scale);
-        ADD("Movie ID", mTlv.field_22_movie_id);
-        ADD("Portal Type", mTlv.field_24_portal_type);
-        ADD("Mudokon Amount For Shrykull", mTlv.field_26_num_muds_for_shrykul);
+        ADD("Enter Side", mTlv.mEnterSide);
+        ADD("Level Destination", mTlv.mExitLevel);
+        ADD("Path Destination", mTlv.mExitPath);
+        ADD("Camera Destination", mTlv.mExitCamera);
+        ADD("Scale", mTlv.mScale);
+        ADD("Movie ID", mTlv.mMovieId);
+        ADD("Portal Type", mTlv.mPortalType);
+        ADD("Mudokon Amount For Shrykull", mTlv.mMudCountForShrykull);
     }
 };
 
@@ -1280,8 +1280,8 @@ struct Path_BirdPortalExit final : public ReliveAPI::TlvObjectBaseAO
 {
     CTOR_AO(Path_BirdPortalExit, "BirdPortalExit", AO::TlvTypes::BirdPortalExit_53)
     {
-        ADD("Exit Direction", mTlv.field_18_side);
-        ADD("Scale", mTlv.field_1A_scale);
+        ADD("Exit Direction", mTlv.mExitSide);
+        ADD("Scale", mTlv.mScale);
     }
 };
 

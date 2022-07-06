@@ -22,32 +22,32 @@ enum class PortalSide : s16
 
 struct Path_BirdPortal final : public Path_TLV
 {
-    PortalSide field_10_side;
-    LevelIds field_12_dest_level;
-    s16 field_14_dest_path;
-    s16 field_16_dest_camera;
-    Scale_short field_18_scale;
-    s16 field_1A_movie_id;
-    PortalType field_1C_portal_type;
-    s16 field_1E_mudokon_amount_for_shrykull;
-    s16 field_20_create_portal_switch_id;
-    s16 field_22_delete_portal_switch_id;
+    PortalSide mEnterSide;
+    LevelIds mExitLevel;
+    s16 mExitPath;
+    s16 mExitCamera;
+    Scale_short mScale;
+    s16 mMovieId;
+    PortalType mPortalType;
+    s16 mMudCountForShrykull;
+    s16 mCreatePortalSwitchId;
+    s16 mDeletePortalSwitchId;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_BirdPortal, 0x24);
 
 struct Path_BirdPortalExit final : public Path_TLV
 {
-    PortalSide field_10_side;
-    Scale_short field_12_scale;
+    PortalSide mExitSide;
+    Scale_short mScale;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_BirdPortal, 0x24);
 
 struct BirdPortal_State final
 {
-    AETypes field_0_type;
-    u8 field_2_state;
-    u8 field_3_mud_count;
-    s32 field_4_tlvInfo;
+    AETypes mAEType;
+    u8 mState;
+    u8 mMudCountForShrykull;
+    s32 mTlvInfo;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(BirdPortal_State, 8);
 
@@ -99,11 +99,11 @@ private:
     Event GetEvent();
 
 private:
-    s32 field_20_tlvInfo = 0;
+    s32 mTlvInfo = 0;
 
 public:
-    PortalType field_24_portal_type = PortalType::eAbe_0;
-    PortalSide field_26_side = PortalSide::eRight_0;
+    PortalType mPortalType = PortalType::eAbe_0;
+    PortalSide mEnterSide = PortalSide::eRight_0;
 
 public:
     enum class PortalStates : s16
@@ -132,37 +132,37 @@ public:
         KillPortalClipper_21 = 21,
         FadeoutTerminators_22 = 22,
     };
-    PortalStates field_28_state = PortalStates::CreatePortal_0;
+    PortalStates mState = PortalStates::CreatePortal_0;
 
 public:
-    FP field_2C_xpos = {};
-    FP field_30_ypos = {};
-    FP field_34_exit_x = {};
-    FP field_38_exit_y = {};
+    FP mXPos = {};
+    FP mYPos = {};
+    FP mExitX = {};
+    FP mExitY = {};
 
 public:
-    FP field_3C_YPos = {};
+    FP mHitY = {};
 
 private:
-    s32 field_40_throwable_indicator_id = 0;
-    s32 field_44_dove_ids[6] = {};
-    s32 field_5C_timer = 0;
-    FP field_60_scale = {};
-    s16 field_64_movie_id = 0;
-    s16 field_66_delete_portal_switch_id = 0;
-    s16 field_68_doves_exist = 0;
-    s32 field_6C_terminator_id = 0;
-    s32 field_70_terminator_id = 0;
-    s32 field_74_screen_clipper_id = 0;
-    s32 field_78_screen_clipper_id = 0;
-    EReliveLevelIds field_7C_dest_level = EReliveLevelIds::eNone;
-    s16 field_7E_dest_path = 0;
-    s16 field_80_dest_camera = 0;
-    s16 field_82_num_muds_for_shrykull = 0;
-    s16 field_84_received_doves = 0;
-    OrbWhirlWind* field_88_pWhirlWind = nullptr;
-    EReliveLevelIds field_8C_level = EReliveLevelIds::eNone;
-    s16 field_8E_path = 0;
-    s32 field_90_sfx_ret = 0;
+    s32 mThrowableIndicatorId = 0; // AE only
+    s32 mDoveIds[6] = {}; // AE only
+    s32 mTimer = 0;
+    FP mSpriteScale = {};
+    s16 mMovieId = 0;
+    s16 mDeletePortalSwitchId = 0; // AE only
+    s16 mDovesExist = 0;
+    s32 mTerminatorId1 = 0; // object pointer in AO
+    s32 mTerminatorId2 = 0; // object pointer in AO
+    s32 mScreenClipperId1 = 0; // object pointer in AO
+    s32 mScreenClipperId2 = 0; // object pointer in AO
+    EReliveLevelIds mExitLevel = EReliveLevelIds::eNone;
+    s16 mExitPath = 0;
+    s16 mExitCamera = 0;
+    s16 mMudCountForShrykull = 0;
+    s16 mReceivedDovesCount = 0;
+    OrbWhirlWind* mOrbWhirlWind = nullptr;
+    EReliveLevelIds mCurrentLevel = EReliveLevelIds::eNone;
+    s16 mCurrentPath = 0;
+    s32 mSfxPlaying = 0;
 };
 ALIVE_ASSERT_SIZEOF(BirdPortal, 0x100);
