@@ -3,9 +3,9 @@
 #include "AnimationBase.hpp"
 #include "Primitives.hpp"
 
-namespace AO {
-
 class Animation;
+
+namespace AO {
 
 // TODO: Figure out how this differs from the standard Animation
 class AnimationUnknown final : public ::AnimationBase

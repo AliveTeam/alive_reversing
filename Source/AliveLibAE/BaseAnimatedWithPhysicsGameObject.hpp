@@ -4,7 +4,7 @@
 #include "FixedPoint.hpp"
 #include "../AliveLibCommon/Function.hpp"
 #include "../AliveLibCommon/Sys_common.hpp"
-#include "Animation.hpp"
+#include "../relive_lib/Animation.hpp"
 #include "AnimationUnknown.hpp"
 #include "Map.hpp"
 #include "PathData.hpp"

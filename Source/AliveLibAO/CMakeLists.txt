@@ -243,8 +243,6 @@ SET(AliveLibSrcAO
    WinMain.cpp
    PathData.hpp
    PathData.cpp
-   Animation.hpp
-   Animation.cpp
    AnimationCallBacks.cpp
    AnimationCallBacks.hpp
    AnimationUnknown.hpp

@@ -2,7 +2,7 @@
 #include "Rope.hpp"
 #include "Function.hpp"
 #include "PsxDisplay.hpp"
-#include "Animation.hpp"
+#include "../relive_lib/Animation.hpp"
 #include "stdlib.hpp"
 #include "ScreenManager.hpp"
 #include "ShadowZone.hpp"

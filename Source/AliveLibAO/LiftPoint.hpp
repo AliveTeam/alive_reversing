@@ -2,7 +2,7 @@
 
 #include "../AliveLibCommon/Function.hpp"
 #include "BaseAliveGameObject.hpp"
-#include "Animation.hpp"
+#include "../relive_lib/Animation.hpp"
 #include "PlatformBase.hpp"
 #include "Map.hpp"
 #include "../AliveLibAE/Path.hpp"

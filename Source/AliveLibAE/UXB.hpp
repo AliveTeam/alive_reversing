@@ -5,7 +5,7 @@
 #include "BaseAliveGameObject.hpp"
 #include "Path.hpp"
 #include "Factory.hpp"
-#include "Animation.hpp"
+#include "../relive_lib/Animation.hpp"
 #include "Sfx.hpp"
 
 enum class UXBState : u16

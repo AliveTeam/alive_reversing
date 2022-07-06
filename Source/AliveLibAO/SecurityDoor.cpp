@@ -9,7 +9,7 @@
 #include "Midi.hpp"
 #include "Slig.hpp"
 #include "Abe.hpp"
-#include "Animation.hpp"
+#include "../relive_lib/Animation.hpp"
 #include "Sfx.hpp"
 #include "SwitchStates.hpp"
 #include "CheatController.hpp"

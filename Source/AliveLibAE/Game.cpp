@@ -15,7 +15,7 @@
 #include "PsxDisplay.hpp"
 #include "Map.hpp"
 #include "ScreenManager.hpp"
-#include "Animation.hpp"
+#include "../relive_lib/Animation.hpp"
 #include "stdlib.hpp"
 #include "PauseMenu.hpp"
 #include "GameSpeak.hpp"
@@ -382,7 +382,6 @@ s32 CreateTimer_4EDEC0(UINT /*uDelay*/, void* /*callBack*/)
 }
 
 
-ALIVE_VAR(1, 0x5C1A24, DynamicArrayT<AnimationBase>*, gAnimations, nullptr);
 ALIVE_VAR(1, 0x5C1124, DynamicArrayT<BaseGameObject>*, gObjListDrawables, nullptr);
 
 
@@ -476,7 +475,7 @@ void Game_Run_466D40()
 
     gFG1List_5D1E28 = relive_new DynamicArrayT<FG1>(4);
 
-    gAnimations = relive_new DynamicArrayT<AnimationBase>(30);
+    AnimationBase::CreateAnimationArray();
 
     pResourceManager_5C1BB0 = relive_new ResourceManager();
 
@@ -537,7 +536,7 @@ void Game_Run_466D40()
     DDCheat::ClearProperties();
     gMap.Shutdown();
 
-    relive_delete gAnimations;
+    AnimationBase::FreeAnimationArray();
     relive_delete gObjListDrawables;
     relive_delete gFG1List_5D1E28;
     relive_delete gBaseGameObjects;
@@ -715,7 +714,7 @@ void Game_Loop_467230()
         if (sNum_CamSwappers_5C1B66 <= 0)
         {
             GetGameAutoPlayer().SyncPoint(SyncPoints::AnimateAll);
-            AnimationBase::AnimateAll(gAnimations);
+            AnimationBase::AnimateAll(AnimationBase::gAnimations);
         }
 
         PrimHeader** ppOtBuffer = gPsxDisplay.mDrawEnvs[gPsxDisplay.mBufferIndex].mOrderingTable;

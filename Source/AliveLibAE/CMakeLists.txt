@@ -73,8 +73,6 @@ SET(AliveLibAESrc
     Map.hpp
     Camera.cpp
     Camera.hpp
-    Animation.cpp
-    Animation.hpp
     AnimationCallBacks.cpp
     AnimationCallBacks.hpp
     AnimationUnknown.cpp

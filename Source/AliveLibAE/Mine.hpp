@@ -5,7 +5,7 @@
 #include "BaseAliveGameObject.hpp"
 #include "Path.hpp"
 #include "Factory.hpp"
-#include "Animation.hpp"
+#include "../relive_lib/Animation.hpp"
 
 struct Path_Mine final : public Path_TLV
 {

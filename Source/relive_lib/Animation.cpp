@@ -1,21 +1,26 @@
-#include "stdafx_ao.h"
+#include "stdafx.h"
 #include "Animation.hpp"
-#include "PsxDisplay.hpp"
-#include "Sys_common.hpp"
-#include "ResourceManager.hpp"
+#include "../AliveLibAE/Compression.hpp"
+#include "../AliveLibAO/Compression.hpp"
 #include "VRam.hpp"
-#include "Game.hpp"
-#include "stdlib.hpp"
-#include "Compression.hpp"
+#include "PsxDisplay.hpp"
+#include "../AliveLibCommon/Sys_common.hpp"
 #include "../AliveLibAE/Renderer/IRenderer.hpp"
-#include "AnimResources.hpp"
-#include "../relive_lib/Primitives.hpp"
+#include "../relive_lib/GameType.hpp"
+#include "../relive_lib/ResourceManagerWrapper.hpp"
+#include "../AliveLibCommon/AnimResources.hpp"
 
-// Fix pollution from windows.h
-#undef min
-#undef max
-
-namespace AO {
+const AnimRecord PerGameAnimRec(AnimId id)
+{
+    if (GetGameType() == GameType::eAe)
+    {
+        return AnimRec(id);
+    }
+    else
+    {
+        return AO::AnimRec(id);
+    }
+}
 
 static IRenderer::BitDepth AnimFlagsToBitDepth(const BitField32<AnimFlags>& flags)
 {
@@ -33,10 +38,16 @@ static IRenderer::BitDepth AnimFlagsToBitDepth(const BitField32<AnimFlags>& flag
 void Animation::UploadTexture(const FrameHeader* pFrameHeader, const PSX_RECT& vram_rect, s16 width_bpp_adjusted)
 {
     IRenderer& renderer = *IRenderer::GetRenderer();
+    
+    // TODO: Remove when rendering is common
+    const bool ignoreCacheBit = GetGameType() == GameType::eAo;
+
     switch (pFrameHeader->field_7_compression_type)
     {
         case CompressionType::eType_0_NoCompression:
-            renderer.Upload(AnimFlagsToBitDepth(mAnimFlags), vram_rect, reinterpret_cast<const u8*>(&pFrameHeader->field_8_width2));
+            // No compression, load the data directly into frame buffer
+            mAnimFlags.Set(AnimFlags::eBit25_bDecompressDone);
+            renderer.Upload(AnimFlagsToBitDepth(mAnimFlags), vram_rect, reinterpret_cast<const u8*>(&pFrameHeader->field_8_width2)); // TODO: Refactor structure to get pixel data
             break;
 
         case CompressionType::eType_1_NotUsed:
@@ -45,26 +56,41 @@ void Animation::UploadTexture(const FrameHeader* pFrameHeader, const PSX_RECT& v
             break;
 
         case CompressionType::eType_2_ThreeToFourBytes:
+            mAnimFlags.Set(AnimFlags::eBit25_bDecompressDone);
             if (EnsureDecompressionBuffer())
             {
-                Decompress_Type_2(
-                    (u8*) &pFrameHeader[1],
+                // TODO: Refactor structure to get pixel data.
+                CompressionType2_Decompress_40AA50(
+                    reinterpret_cast<const u8*>(&pFrameHeader[1]),
                     *mDbuf,
-                    2 * pFrameHeader->field_5_height * width_bpp_adjusted);
+                    width_bpp_adjusted * pFrameHeader->field_5_height * 2);
+
                 renderer.Upload(AnimFlagsToBitDepth(mAnimFlags), vram_rect, *mDbuf);
             }
             break;
 
         case CompressionType::eType_3_RLE_Blocks:
-            if (EnsureDecompressionBuffer())
+            if (ignoreCacheBit || mAnimFlags.Get(AnimFlags::eBit25_bDecompressDone))
             {
-                // TODO: Refactor structure to get pixel data/remove casts
-                Decompress_Type_3(
-                    (u8*) &pFrameHeader[1],
-                    *mDbuf,
-                    *(u32*) &pFrameHeader->field_8_width2,
-                    2 * pFrameHeader->field_5_height * width_bpp_adjusted);
-                renderer.Upload(AnimFlagsToBitDepth(mAnimFlags), vram_rect, *mDbuf);
+                if (EnsureDecompressionBuffer())
+                {
+                    // TODO: Refactor structure to get pixel data.
+					
+					// Type 3 algorithm changes per game, yikies
+					if (GetGameType() == GameType::eAe)
+    				{
+                    	CompressionType_3Ae_Decompress_40A6A0(reinterpret_cast<const u8*>(&pFrameHeader->field_8_width2), *mDbuf);
+					}
+					else
+					{
+						 AO::Decompress_Type_3(
+		                    (u8*) &pFrameHeader[1],
+		                    *mDbuf,
+		                    *(u32*) &pFrameHeader->field_8_width2,
+		                    2 * pFrameHeader->field_5_height * width_bpp_adjusted);
+					}
+                    renderer.Upload(AnimFlagsToBitDepth(mAnimFlags), vram_rect, *mDbuf);
+                }
             }
             break;
 
@@ -72,13 +98,30 @@ void Animation::UploadTexture(const FrameHeader* pFrameHeader, const PSX_RECT& v
         case CompressionType::eType_5_RLE:
             if (EnsureDecompressionBuffer())
             {
-                // TODO: Refactor structure to get pixel data/remove casts
-                Decompress_Type_4Or5(reinterpret_cast<const u8*>(&pFrameHeader->field_8_width2), *mDbuf);
+                // TODO: Refactor structure to get pixel data.
+                CompressionType_4Or5_Decompress_4ABAB0(reinterpret_cast<const u8*>(&pFrameHeader->field_8_width2), *mDbuf);
                 renderer.Upload(AnimFlagsToBitDepth(mAnimFlags), vram_rect, *mDbuf);
             }
             break;
 
-        default:
+        case CompressionType::eType_6_RLE:
+            if (mAnimFlags.Get(AnimFlags::eBit25_bDecompressDone))
+            {
+                if (EnsureDecompressionBuffer())
+                {
+                    // TODO: Refactor structure to get pixel data.
+                    CompressionType6Ae_Decompress_40A8A0(reinterpret_cast<const u8*>(&pFrameHeader->field_8_width2), *mDbuf);
+                    renderer.Upload(AnimFlagsToBitDepth(mAnimFlags), vram_rect, *mDbuf);
+                }
+            }
+            break;
+
+        case CompressionType::eType_7_NotUsed:
+        case CompressionType::eType_8_NotUsed:
+            ALIVE_FATAL("Decompression 7 and 8 never expected to be used");
+            break;
+			
+		default:
             LOG_ERROR("Unknown compression type " << static_cast<s32>(pFrameHeader->field_7_compression_type));
             ALIVE_FATAL("Unknown compression type");
             break;
@@ -89,7 +132,7 @@ bool Animation::EnsureDecompressionBuffer()
 {
     if (!mDbuf)
     {
-        mDbuf = ResourceManager::Alloc_New_Resource_454F20(ResourceManager::Resource_DecompressionBuffer, 0, mDbufSize);
+        mDbuf = ResourceManagerWrapper::Alloc_New_Resource(ResourceManagerWrapper::Resource_DecompressionBuffer, 0, mDbufSize);
     }
     return mDbuf != nullptr;
 }
@@ -156,6 +199,16 @@ void Animation::DecompressFrame()
 
 void Animation::VRender(s32 xpos, s32 ypos, PrimHeader** ppOt, s16 width, s32 height)
 {
+    // TODO: Factor out  - required to due the way psx rendering currently works for AE
+    if (GetGameType() == GameType::eAe)
+    {
+        if ((mVramRect.x || mVramRect.y) && !(mAnimFlags.Get(AnimFlags::eBit25_bDecompressDone)))
+        {
+            Vram_free({mVramRect.x, mVramRect.y}, {mVramRect.w, mVramRect.h});
+            mVramRect.x = 0;
+            mVramRect.y = 0;
+        }
+    }
 
     const s16 xpos_pc = static_cast<s16>(PsxToPCX(xpos));
     const s16 width_pc = static_cast<s16>(PsxToPCX(width));
@@ -196,7 +249,16 @@ void Animation::VRender(s32 xpos, s32 ypos, PrimHeader** ppOt, s16 width, s32 he
     }
     else
     {
-        xOffSet_scaled = PsxToPCX(FP_FromInteger(pFrameInfoHeader->field_8_data.offsetAndRect.mOffset.x));
+		// TODO: Factor out when data conversion completed
+    	if (GetGameType() == GameType::eAe)
+		{
+        	xOffSet_scaled = FP_FromInteger(pFrameInfoHeader->field_8_data.offsetAndRect.mOffset.x);
+		}
+		else
+		{
+			// TODO: Fix this when data conversion is done
+			xOffSet_scaled = PsxToPCX(FP_FromInteger(pFrameInfoHeader->field_8_data.offsetAndRect.mOffset.x));
+		}	
         yOffset_scaled = FP_FromInteger(pFrameInfoHeader->field_8_data.offsetAndRect.mOffset.y);
     }
 
@@ -220,8 +282,8 @@ void Animation::VRender(s32 xpos, s32 ypos, PrimHeader** ppOt, s16 width, s32 he
     Poly_Set_Blending(&pPoly->mBase.header, mAnimFlags.Get(AnimFlags::eBit16_bBlending));
 
     SetRGB0(pPoly, mRed, mGreen, mBlue);
-    SetTPage(pPoly, static_cast<s16>(PSX_getTPage(textureMode, mRenderMode, mVramRect.x, mVramRect.y)));
-    SetClut(pPoly, static_cast<s16>(PSX_getClut(mPalVramXY.x, mPalVramXY.y)));
+    SetTPage(pPoly, static_cast<u16>(PSX_getTPage(textureMode, mRenderMode, mVramRect.x, mVramRect.y)));
+    SetClut(pPoly, static_cast<u16>(PSX_getClut(mPalVramXY.x, mPalVramXY.y)));
 
     u8 u1 = mVramRect.x & 63;
     if (textureMode == TPageMode::e8Bit_1)
@@ -248,7 +310,19 @@ void Animation::VRender(s32 xpos, s32 ypos, PrimHeader** ppOt, s16 width, s32 he
         // Apply scale to x/y pos
         scaled_height *= field_14_scale;
         scaled_width *= field_14_scale;
- 
+
+		// TODO: Factor out when data conversion completed
+		if (GetGameType() == GameType::eAe)
+		{
+			// If applied to AO causes BG sprites to bounce by 1 pixel on Y
+	        if (field_14_scale == FP_FromDouble(0.5))
+	        {
+	            // Add 1 if half scale
+	            scaled_height += FP_FromDouble(1.0);
+	            scaled_width += FP_FromDouble(1.0);
+	        }
+		}
+
         // Apply scale to x/y offset
         xOffSet_scaled *= field_14_scale;
         yOffset_scaled = (yOffset_scaled * field_14_scale) - FP_FromInteger(1);
@@ -263,7 +337,7 @@ void Animation::VRender(s32 xpos, s32 ypos, PrimHeader** ppOt, s16 width, s32 he
 
     if (kFlipX)
     {
-        polyXPos = xpos_pc - FP_GetExponent(xOffSet_scaled + scaled_width + FP_FromDouble(0.499));
+        polyXPos = xpos_pc - FP_GetExponent(xOffSet_scaled + FP_FromDouble(0.499)) - FP_GetExponent(scaled_width + FP_FromDouble(0.499));
     }
     else
     {
@@ -290,18 +364,28 @@ void Animation::VRender(s32 xpos, s32 ypos, PrimHeader** ppOt, s16 width, s32 he
     SetXY1(pPoly, polyXPos + FP_GetExponent(scaled_width - FP_FromDouble(0.501)), polyYPos);
     SetXY2(pPoly, polyXPos, polyYPos + FP_GetExponent(scaled_height - FP_FromDouble(0.501)));
     SetXY3(pPoly, polyXPos + FP_GetExponent(scaled_width - FP_FromDouble(0.501)), polyYPos + FP_GetExponent(scaled_height - FP_FromDouble(0.501)));
- 
-    SetPrimExtraPointerHack(pPoly, nullptr);
+
+	// TODO: Factor out when rendering is rewritten
+    if (GetGameType() == GameType::eAe && (pFrameHeader->field_7_compression_type == CompressionType::eType_3_RLE_Blocks || pFrameHeader->field_7_compression_type == CompressionType::eType_6_RLE))
+    {
+	
+        SetPrimExtraPointerHack(pPoly, &pFrameHeader->field_8_width2);
+    }
+    else
+    {
+        SetPrimExtraPointerHack(pPoly, nullptr);
+    }
+
     OrderingTable_Add(OtLayer(ppOt, mRenderLayer), &pPoly->mBase.header);
 }
 
 void Animation::VCleanUp()
 {
-    gAnimations->Remove_Item(this);
+    AnimationBase::gAnimations->Remove_Item(this);
 
     Animation_Pal_Free();
 
-    ResourceManager::FreeResource_455550(mDbuf);
+    ResourceManagerWrapper::FreeResource(mDbuf);
 }
 
 void Animation::VDecode()
@@ -330,7 +414,7 @@ bool Animation::DecodeCommon()
     {
         // Loop backwards
         const s16 prevFrameNum = --mCurrentFrame;
-        mFrameChangeCounter = static_cast<s16>(mFrameDelay);
+        mFrameChangeCounter = mFrameDelay;
 
         if (prevFrameNum < pAnimationHeader->field_4_loop_start_frame)
         {
@@ -359,7 +443,7 @@ bool Animation::DecodeCommon()
     {
         // Loop forwards
         const s16 nextFrameNum = ++mCurrentFrame;
-        mFrameChangeCounter = static_cast<s16>(mFrameDelay);
+        mFrameChangeCounter = mFrameDelay;
 
         // Animation reached end point
         if (nextFrameNum >= pAnimationHeader->field_2_num_frames)
@@ -425,13 +509,13 @@ void Animation::Invoke_CallBacks()
 
 s16 Animation::Set_Animation_Data(AnimId animId, u8** pAnimRes)
 {
-    const AnimRecord& rec = AO::AnimRec(animId);
+    const AnimRecord& rec = PerGameAnimRec(animId);
     return Set_Animation_Data(rec.mFrameTableOffset, pAnimRes);
 }
 
 s16 Animation::Set_Animation_Data(s32 frameTableOffset, u8** pAnimRes)
 {
-    FrameTableOffsetExists(frameTableOffset, false);
+    FrameTableOffsetExists(frameTableOffset, GetGameType() == GameType::eAe ? true : false);
     if (pAnimRes)
     {
         field_20_ppBlock = pAnimRes;
@@ -471,11 +555,15 @@ s16 Animation::Set_Animation_Data(s32 frameTableOffset, u8** pAnimRes)
 
 void Animation::Animation_Pal_Free()
 {
-    if (field_20_ppBlock)
-    {
-        ResourceManager::FreeResource_455550(field_20_ppBlock);
-        field_20_ppBlock = nullptr;
-    }
+	// TODO: Remove when all objects use the BaseGameObject resource list in AO
+	if (GetGameType() == GameType::eAo)
+	{
+	    if (field_20_ppBlock)
+	    {
+            ResourceManagerWrapper::FreeResource(field_20_ppBlock);
+	        field_20_ppBlock = nullptr;
+	    }
+	}
 
     if (mVramRect.w > 0)
     {
@@ -512,7 +600,7 @@ void Animation::SetFrame(s16 newFrame)
     }
 }
 
-FrameInfoHeader* Animation::Get_FrameHeader(s32 frame)
+FrameInfoHeader* Animation::Get_FrameHeader(s16 frame)
 {
     if (!field_20_ppBlock)
     {
@@ -536,7 +624,7 @@ void Animation::Get_Frame_Rect(PSX_RECT* pRect)
     Poly_FT4* pPoly = &mOtData[gPsxDisplay.mBufferIndex];
     if (!mAnimFlags.Get(AnimFlags::eBit20_use_xy_offset))
     {
-        ::Poly_FT4_Get_Rect(pRect, pPoly);
+        Poly_FT4_Get_Rect(pRect, pPoly);
         return;
     }
 
@@ -557,7 +645,7 @@ void Animation::Get_Frame_Rect(PSX_RECT* pRect)
     pRect->h = std::max(max_y0_y1, max_y2_y3);
 }
 
-s16 Animation::Get_Frame_Count()
+u16 Animation::Get_Frame_Count()
 {
     AnimationHeader* pHead = reinterpret_cast<AnimationHeader*>(*field_20_ppBlock + mFrameTableOffset); // TODO: Make getting offset to animation header cleaner
     return pHead->field_2_num_frames;
@@ -565,13 +653,13 @@ s16 Animation::Get_Frame_Count()
 
 s16 Animation::Init(AnimId animId, BaseGameObject* pGameObj, u8** ppAnimData)
 {
-    const AnimRecord& anim = AO::AnimRec(animId);
+    const AnimRecord& anim = PerGameAnimRec(animId);
     return Init(anim.mFrameTableOffset, anim.mMaxW, anim.mMaxH, pGameObj, ppAnimData);
 }
 
 s16 Animation::Init(s32 frameTableOffset, u16 maxW, u16 maxH, BaseGameObject* pGameObj, u8** ppAnimData)
 {
-    FrameTableOffsetExists(frameTableOffset, false, maxW, maxH);
+    FrameTableOffsetExists(frameTableOffset, GetGameType() == GameType::eAe ? true : false, maxW, maxH);
     mAnimFlags.Raw().all = 0; // TODO extra - init to 0's first - this may be wrong if any bits are explicitly set before this is called
 
     mFrameTableOffset = frameTableOffset;
@@ -626,46 +714,47 @@ s16 Animation::Init(s32 frameTableOffset, u16 maxW, u16 maxH, BaseGameObject* pG
 
     u8* pClut = &pAnimData[pFrameHeader->field_0_clut_offset];
 
-    //s8 b256Pal = 0;
+    s8 b256Pal = 0;
     s32 vram_width = 0;
     s16 pal_depth = 0;
 
     switch (pFrameHeader->field_6_colour_depth)
     {
-        case 4:
+    case 4:
+    {
+        vram_width = (maxW % 2) + (maxW / 2);
+        pal_depth = 16;
+        b256Pal = 0; // is 16 pal
+    }
+    break;
+
+    case 8:
+    {
+        vram_width = maxW;
+		// TODO: Should this be u16* ??
+        if (*(u32*)pClut == 64) // CLUT entry count/len
         {
-            vram_width = (maxW % 2) + (maxW / 2);
-            pal_depth = 16;
-            //b256Pal = 0; // is 16 pal
+            pal_depth = 64;
         }
-        break;
-
-        case 8:
+        else
         {
-            vram_width = maxW;
-            if (*(u16*) pClut == 64) // CLUT entry count/len
-            {
-                pal_depth = 64;
-            }
-            else
-            {
-				pal_depth = 256;
-                //b256Pal = 1; // is 256 pal
-            }
-            mAnimFlags.Set(AnimFlags::eBit13_Is8Bit);
-
+            pal_depth = 256;
+            b256Pal = 1; // is 256 pal
         }
-        break;
+        mAnimFlags.Set(AnimFlags::eBit13_Is8Bit);
 
-        case 16:
-        {
-            vram_width = maxW * 2;
-            mAnimFlags.Set(AnimFlags::eBit14_Is16Bit);
-        }
-        break;
+    }
+    break;
 
-        default:
-            return 0;
+    case 16:
+    {
+        vram_width = maxW * 2;
+        mAnimFlags.Set(AnimFlags::eBit14_Is16Bit);
+    }
+    break;
+
+    default:
+        return 0;
     }
 
     if (!Vram_alloc(maxW, maxH, pFrameHeader->field_6_colour_depth, &mVramRect))
@@ -676,9 +765,14 @@ s16 Animation::Init(s32 frameTableOffset, u16 maxW, u16 maxH, BaseGameObject* pG
         return 0;
     }
 
+    // TODO: This flag name is wrong and likely not needed once the rendering
+	// or psx rendering simulation is removed
+    mAnimFlags.Set(AnimFlags::eBit25_bDecompressDone, b256Pal);
+
+
     if (pal_depth > 0)
     {
-        IRenderer::PalRecord palRec{0, 0, pal_depth};
+        IRenderer::PalRecord palRec{ 0, 0, pal_depth };
         if (!IRenderer::GetRenderer()->PalAlloc(palRec))
         {
             ALIVE_FATAL("PalAlloc failed");
@@ -696,9 +790,9 @@ s16 Animation::Init(s32 frameTableOffset, u16 maxW, u16 maxH, BaseGameObject* pG
     mDbuf = nullptr;
 
     // NOTE: OG bug or odd compiler code gen? Why isn't it using the passed in list which appears to always be this anyway ??
-    if (!gAnimations->Push_Back(this))
+    if (!AnimationBase::gAnimations->Push_Back(this))
     {
-        LOG_ERROR("gAnimations->Push_Back(this) returned 0 but shouldn't");
+        LOG_ERROR("AnimationBase::gAnimations->Push_Back(this) returned 0 but shouldn't");
         return 0;
     }
 
@@ -748,6 +842,3 @@ void Animation::Get_Frame_Width_Height(s16* pWidth, s16* pHeight)
         *pHeight = pHeader->field_5_height;
     }
 }
-
-
-} // namespace AO

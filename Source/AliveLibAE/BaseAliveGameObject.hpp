@@ -2,7 +2,7 @@
 
 #include "../AliveLibCommon/Function.hpp"
 #include "../relive_lib/DynamicArray.hpp"
-#include "Animation.hpp"
+#include "../relive_lib/Animation.hpp"
 #include "BaseAnimatedWithPhysicsGameObject.hpp"
 
 struct Path_TLV;

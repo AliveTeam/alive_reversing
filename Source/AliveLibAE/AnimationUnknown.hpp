@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Animation.hpp"
+#include "../relive_lib/Animation.hpp"
 
 // TODO: Figure out how this differs from the standard Animation.
 class AnimationUnknown final : public AnimationBase

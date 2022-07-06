@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Animation.hpp"
+#include "../relive_lib/Animation.hpp"
 
 namespace AO {
 extern TFrameCallBackType kAbe_Anim_Frame_Fns_4CEBEC[];

@@ -2,7 +2,7 @@
 
 #include "../AliveLibCommon/Function.hpp"
 #include "../relive_lib/BaseGameObject.hpp"
-#include "Animation.hpp"
+#include "../relive_lib/Animation.hpp"
 #include "../relive_lib/Primitives.hpp"
 #include "PathData.hpp"
 
@@ -15,7 +15,6 @@ ALIVE_VAR_EXTERN(u32, sGnFrame);
 ALIVE_VAR_EXTERN(bool, sCommandLine_DDCheatEnabled_5CA4B5);
 ALIVE_VAR_EXTERN(bool, sCommandLine_ShowFps_5CA4D0);
 ALIVE_VAR_EXTERN(DynamicArrayT<BaseGameObject>*, gObjListDrawables);
-ALIVE_VAR_EXTERN(DynamicArrayT<AnimationBase>*, gAnimations);
 ALIVE_ARY_EXTERN(s8, 30, sCdRomDrives_5CA488);
 ALIVE_VAR_EXTERN(u16, gAttract_5C1BA0);
 ALIVE_VAR_EXTERN(s16, bSkipGameObjectUpdates_5C2FA0);

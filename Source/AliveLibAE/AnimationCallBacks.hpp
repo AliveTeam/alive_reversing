@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Animation.hpp"
+#include "../relive_lib/Animation.hpp"
 
 extern TFrameCallBackType kAbe_Anim_Frame_Fns_55EF98[5];
 extern TFrameCallBackType kSlig_Anim_Frame_Fns_55EFAC[4];

@@ -182,7 +182,6 @@ ALIVE_VAR(1, 0x507B78, s16, sBreakGameLoop_507B78, 0);
 ALIVE_VAR(1, 0x507698, s16, gAttract_507698, 0);
 ALIVE_VAR(1, 0x507B0C, s32, gTimeOut_NotUsed_507B0C, 0);
 ALIVE_VAR(1, 0x507B10, s32, gFileOffset_NotUsed_507B10, 0);
-ALIVE_VAR(1, 0x505564, DynamicArrayT<AnimationBase>*, gAnimations, nullptr);
 
 ALIVE_VAR(1, 0x508BF8, s8, gDDCheatMode_508BF8, 0);
 ALIVE_VAR(1, 0x508BFC, s8, byte_508BFC, 0);
@@ -435,7 +434,7 @@ void Game_Loop_437630()
         // Animate everything
         if (sNumCamSwappers_507668 <= 0)
         {
-            AnimationBase::AnimateAll(gAnimations);
+            AnimationBase::AnimateAll(AnimationBase::gAnimations);
         }
 
         // Render objects
@@ -539,7 +538,7 @@ void Game_Run_4373D0()
 
     gObjListDrawables = relive_new DynamicArrayT<BaseGameObject>(80);
 
-    gAnimations = relive_new DynamicArrayT<AnimationBase>(80);
+    AnimationBase::CreateAnimationArray();
 
     Init_Sound_DynamicArrays_And_Others_41CD20();
     Input_Init();
@@ -568,7 +567,7 @@ void Game_Run_4373D0()
 
     gMap.Shutdown();
 
-    relive_delete gAnimations;
+    AnimationBase::FreeAnimationArray();
     relive_delete gObjListDrawables;
     relive_delete gBaseGameObjects;
 

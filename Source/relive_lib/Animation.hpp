@@ -1,21 +1,18 @@
 #pragma once
 
-#include "../AliveLibCommon/Function.hpp"
-#include "FixedPoint.hpp"
-#include "../relive_lib/DynamicArray.hpp"
-#include "../AliveLibCommon/BitField.hpp"
-#include "Psx.hpp"
-#include "../relive_lib/Primitives.hpp"
-#include "../relive_lib/Layer.hpp"
 #include "../relive_lib/AnimationBase.hpp"
+#include "../AliveLibCommon/Function.hpp"
+#include "../relive_lib/DynamicArray.hpp"
+#include "../AliveLibAE/Psx.hpp"
+#include "../relive_lib/BaseGameObject.hpp"
+#include "../AliveLibAE/FixedPoint.hpp"
 
-class BaseGameObject;
 enum class AnimId;
+struct AnimRecord;
 
-namespace AO {
+const AnimRecord PerGameAnimRec(AnimId id);
 
-using TFrameCallBackType = s32(CC*) (BaseGameObject*, s16*);
-
+using TFrameCallBackType = s32(CC*)(BaseGameObject*, s16*);
 
 struct AnimHeader final
 {
@@ -24,6 +21,7 @@ struct AnimHeader final
     s32 field_4_frame_table_offset;
 };
 ALIVE_ASSERT_SIZEOF(AnimHeader, 0x8);
+
 
 struct AnimationHeader final
 {
@@ -54,6 +52,9 @@ enum class CompressionType : u8
     eType_3_RLE_Blocks = 3,
     eType_4_RLE = 4,
     eType_5_RLE = 5,
+    eType_6_RLE = 6,
+    eType_7_NotUsed = 7,
+    eType_8_NotUsed = 8,
 };
 
 struct FrameHeader final
@@ -97,21 +98,21 @@ struct FrameInfoHeader final
     PointsUnion field_8_data;
 };
 
-class Animation final : public ::AnimationBase
+class Animation final : public AnimationBase
 {
 public:
     virtual void VDecode() override;
     virtual void VRender(s32 xpos, s32 ypos, PrimHeader** ppOt, s16 width, s32 height) override;
     virtual void VCleanUp() override;
 
-    s16 Set_Animation_Data(AnimId animId, u8** resBlock);
-    s16 Set_Animation_Data(s32 frameTable, u8** resBlock);
+    s16 Set_Animation_Data(s32 frametableoffset, u8** pAnimRes);
+    s16 Set_Animation_Data(AnimId animId, u8** pAnimRes);
     void SetFrame(s16 newFrame);
+    s16 Init(s32 frametableoffset, u16 maxW, u16 maxH, BaseGameObject* pGameObj, u8** ppAnimData);
     s16 Init(AnimId animId, BaseGameObject* pGameObj, u8** ppAnimData);
-    s16 Init(s32 frameTableOffset, u16 maxW, u16 maxH, BaseGameObject* pGameObj, u8** ppAnimData);
-    s16 Get_Frame_Count();
-    FrameInfoHeader* Get_FrameHeader(s32 frame);
-    void LoadPal(u8** pPalData, s32 palOffset);
+    u16 Get_Frame_Count();
+    FrameInfoHeader* Get_FrameHeader(s16 frame);
+    void LoadPal(u8** pAnimData, s32 palOffset);
     void Get_Frame_Rect(PSX_RECT* pRect);
     void Get_Frame_Width_Height(s16* pWidth, s16* pHeight);
     void Get_Frame_Offset(s16* pBoundingX, s16* pBoundingY);
@@ -122,13 +123,14 @@ public:
     void DecompressFrame();
     void Animation_Pal_Free();
 
-    s32 mFrameDelay = 0;
+    u16 mFrameDelay = 0;
+    u16 field_12_scale = 0; // padding?
     FP field_14_scale = {};
-    s32 mFrameTableOffset = 0;
+    u32 mFrameTableOffset = 0;
     TFrameCallBackType* mFnPtrArray = nullptr;
-    u8** field_20_ppBlock = nullptr;
+    u8** field_20_ppBlock = nullptr; // pointer to a pointer which points to anim data
     u8** mDbuf = nullptr;
-    s32 mDbufSize = 0;
+    u32 mDbufSize = 0;
     Poly_FT4 mOtData[2] = {};
     PSX_RECT mVramRect = {};
     PSX_Point mPalVramXY = {};
@@ -138,4 +140,9 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(Animation, 0x98);
 
-} // namespace AO
+inline bool IsLastFrame(const Animation* pAnim)
+{
+    const u8* pAnimData = (*pAnim->field_20_ppBlock);
+    const auto pHeader = reinterpret_cast<const AnimationHeader*>(&pAnimData[pAnim->mFrameTableOffset]);
+    return (pAnim->mCurrentFrame == pHeader->field_2_num_frames - 1);
+}

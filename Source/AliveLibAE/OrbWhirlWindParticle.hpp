@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Animation.hpp"
-#include "Animation.hpp"
+#include "../relive_lib/Animation.hpp"
+#include "../relive_lib/Animation.hpp"
 #include "FixedPoint.hpp"
 
 class BaseGameObject;

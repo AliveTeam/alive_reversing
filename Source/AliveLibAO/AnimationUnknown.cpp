@@ -1,5 +1,5 @@
 #include "AnimationUnknown.hpp"
-#include "Animation.hpp"
+#include "../relive_lib/Animation.hpp"
 #include "PsxDisplay.hpp"
 #include "../relive_lib/Primitives.hpp"
 

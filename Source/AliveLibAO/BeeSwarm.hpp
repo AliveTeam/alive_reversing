@@ -2,7 +2,7 @@
 
 #include "../AliveLibCommon/Function.hpp"
 #include "BaseAnimatedWithPhysicsGameObject.hpp"
-#include "Animation.hpp"
+#include "../relive_lib/Animation.hpp"
 #include "Map.hpp"
 #include "AnimationUnknown.hpp"
 

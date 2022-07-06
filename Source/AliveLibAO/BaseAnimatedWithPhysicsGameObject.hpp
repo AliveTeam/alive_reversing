@@ -1,7 +1,7 @@
 #pragma once
 
 #include "../relive_lib/BaseGameObject.hpp"
-#include "Animation.hpp"
+#include "../relive_lib/Animation.hpp"
 #include "../AliveLibCommon/FixedPoint_common.hpp"
 #include "../AliveLibCommon/Psx_common.hpp"
 #include "../AliveLibCommon/Sys_common.hpp"

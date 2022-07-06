@@ -7,7 +7,7 @@
 #include "ResourceManager.hpp"
 #include "Math.hpp"
 #include "stdlib.hpp"
-#include "Animation.hpp"
+#include "../relive_lib/Animation.hpp"
 #include "Particle.hpp"
 #include "ScreenManager.hpp"
 #include "PsxDisplay.hpp"

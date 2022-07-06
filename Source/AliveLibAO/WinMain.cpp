@@ -8,7 +8,7 @@
 #include "DynamicArray.hpp"
 #include "Game.hpp"
 #include "Map.hpp"
-#include "Animation.hpp"
+#include "../relive_lib/Animation.hpp"
 #include "FixedPoint_common.hpp"
 #include "ScreenManager.hpp"
 #include "ResourceManager.hpp"

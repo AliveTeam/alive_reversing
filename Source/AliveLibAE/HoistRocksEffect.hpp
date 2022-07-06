@@ -3,7 +3,7 @@
 #include "../AliveLibCommon/Function.hpp"
 #include "../relive_lib/BaseGameObject.hpp"
 #include "FixedPoint.hpp"
-#include "Animation.hpp"
+#include "../relive_lib/Animation.hpp"
 
 struct HoistRockParticle final
 {

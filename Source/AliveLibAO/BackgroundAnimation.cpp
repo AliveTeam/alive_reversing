@@ -2,7 +2,7 @@
 #include "Function.hpp"
 #include "BackgroundAnimation.hpp"
 #include "ResourceManager.hpp"
-#include "Animation.hpp"
+#include "../relive_lib/Animation.hpp"
 #include "Midi.hpp"
 #include "stdlib.hpp"
 #include "Events.hpp"

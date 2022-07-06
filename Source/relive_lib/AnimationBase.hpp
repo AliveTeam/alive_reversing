@@ -85,6 +85,9 @@ enum AnimFlags
 class AnimationBase
 {
 public:
+    static void CreateAnimationArray();
+    static void FreeAnimationArray();
+
     virtual ~AnimationBase() { }
 
     virtual void VDecode() = 0;
@@ -103,5 +106,6 @@ public:
     TPageAbr mRenderMode = TPageAbr::eBlend_0;
     Layer mRenderLayer = Layer::eLayer_0;
     u16 mFrameChangeCounter = 0;
+
+    static DynamicArrayT<AnimationBase>* gAnimations;
 };
-ALIVE_ASSERT_SIZEOF(AnimationBase, 0x10);
