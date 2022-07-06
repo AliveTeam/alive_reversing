@@ -1,21 +1,16 @@
-#include "stdafx_ao.h"
-#include "Function.hpp"
+#include "stdafx.h"
 #include "Shadow.hpp"
-#include "Game.hpp"
-#include "ResourceManager.hpp"
 #include "ScreenManager.hpp"
+#include "ResourceManagerWrapper.hpp"
+#include "GameType.hpp"
 #include "Collisions.hpp"
-
-#undef min
-#undef max
-
-namespace AO {
+#include "../AliveLibCommon/AnimResources.hpp"
 
 Shadow::Shadow()
 {
-    const AnimRecord& shadowRec = AO::AnimRec(AnimId::ObjectShadow);
-    u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, shadowRec.mResourceId, TRUE, FALSE);
-    mAnim.Init(AnimId::ObjectShadow, nullptr, ppRes);
+    const AnimRecord& shadowRec = PerGameAnimRec(AnimId::ObjectShadow);
+    mAnimRes = ResourceManagerWrapper::GetLoadedResource(ResourceManagerWrapper::Resource_Animation, shadowRec.mResourceId, TRUE, FALSE);
+    mAnim.Init(AnimId::ObjectShadow, nullptr, mAnimRes);
 
     mFlags.Clear(Flags::eShadowAtBottom);
     mFlags.Set(Flags::eEnabled);
@@ -36,6 +31,12 @@ Shadow::Shadow()
 Shadow::~Shadow()
 {
     mAnim.VCleanUp();
+
+    // TODO: This can be removed once Animation doesn't take ownership of the resource
+    if (GetGameType() == GameType::eAe)
+    {
+        ResourceManagerWrapper::FreeResource(mAnimRes);
+    }
 }
 
 void Shadow::Calculate_Position(FP xpos, FP ypos, PSX_RECT* frameRect, FP spriteScale, Scale scale)
@@ -57,8 +58,6 @@ void Shadow::Calculate_Position(FP xpos, FP ypos, PSX_RECT* frameRect, FP sprite
             objY = ypos;
         }
 
-        const CollisionMask lineType = spriteScale != FP_FromDouble(0.5) ? kFgWallsOrFloor : kBgWallsOrFloor;
-        
         FP hitX = {};
         FP hitY = {};
         PathLine* pLine = nullptr;
@@ -70,7 +69,7 @@ void Shadow::Calculate_Position(FP xpos, FP ypos, PSX_RECT* frameRect, FP sprite
                 &pLine,
                 &hitX,
                 &hitY,
-                lineType))
+                scale == Scale::Fg ? kFgFloorCeilingOrWalls : kBgFloorCeilingOrWalls)) // NOTE: AO didn't check ceilings
         {
             const s16 camXPos = FP_GetExponent(pScreenManager->CamXPos());
             s16 lineXScreen = pLine->mRect.x - camXPos;
@@ -85,9 +84,14 @@ void Shadow::Calculate_Position(FP xpos, FP ypos, PSX_RECT* frameRect, FP sprite
             mAnim.mAnimFlags.Set(AnimFlags::eBit3_Render);
 
             mXPos = xpos;
-            mYPos = hitY + FP_FromInteger(3);
+
+            // TODO :Refactor out, AO uses an offset of 3 for unknown reasons
+            mYPos = hitY + FP_FromInteger(GetGameType() == GameType::eAe ? 0: 3);
 
             mScale = (FP_FromInteger(1) - (((hitY - objY) * FP_FromDouble(0.75)) / FP_FromInteger(240))) * spriteScale;
+
+            const CollisionMask lineType = scale == Scale::Fg ? kFgFloorCeilingOrWalls : kBgFloorCeilingOrWalls;
+            // lineType = spriteScale != FP_FromDouble(0.5) ? kFgWallsOrFloor : kBgWallsOrFloor;
 
             // Object is before the line we hit
             if (objX < lineXScreen)
@@ -100,14 +104,14 @@ void Shadow::Calculate_Position(FP xpos, FP ypos, PSX_RECT* frameRect, FP sprite
                         &pLine,
                         &hitX,
                         &hitY,
-                        lineType))
+                        lineType)) // NOTE: AO didn't check ceilings
                 {
                     lineXScreen = std::min(pLine->mRect.x, pLine->mRect.w) - FP_GetExponent(pScreenManager->CamXPos());
                 }
             }
 
             // Object is after the line we hit
-            if (objX > lineWScreen)
+            if (objW > lineWScreen)
             {
                 if (sCollisions->Raycast(
                         FP_NoFractional(pScreenManager->CamXPos()) + (FP_FromInteger(lineWScreen + 1)) + FP_FromInteger(4),
@@ -193,5 +197,3 @@ void Shadow::Render(PrimHeader** ppOt)
             frameRect.h);
     }
 }
-
-} // namespace AO

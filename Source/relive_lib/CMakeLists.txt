@@ -38,6 +38,8 @@ SET(relive_lib_src
     Animation.hpp
     AnimationUnknown.cpp
     AnimationUnknown.hpp
+    Shadow.hpp
+    Shadow.cpp
     Layer.hpp
     stdafx.h
 )

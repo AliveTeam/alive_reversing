@@ -11,10 +11,10 @@
 #include "../relive_lib/MapWrapper.hpp"
 
 enum class EReliveLevelIds : s16;
+class Shadow;
 
 namespace AO {
 
-class Shadow;
 class BaseAliveGameObject;
 
 

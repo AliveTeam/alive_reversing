@@ -1,9 +1,8 @@
 #pragma once
 
-#include <Function.hpp>
-#include "../relive_lib/Animation.hpp"
-#include "BitField.hpp"
-#include "../relive_lib/BaseAnimatedWithPhysicsGameObject.hpp"
+#include "Animation.hpp"
+#include "../AliveLibCommon/BitField.hpp"
+#include "BaseAnimatedWithPhysicsGameObject.hpp"
 
 class Shadow final
 {

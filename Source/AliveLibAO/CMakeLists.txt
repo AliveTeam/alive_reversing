@@ -225,8 +225,6 @@ SET(AliveLibSrcAO
    Bat.cpp
    Math.hpp
    Math.cpp
-   Shadow.hpp
-   Shadow.cpp
    Slig.hpp
    Slig.cpp
    SligSpawner.hpp

@@ -132,8 +132,6 @@ SET(AliveLibAESrc
     WinMain.hpp
     Text.cpp
     Text.hpp
-    Shadow.hpp
-    Shadow.cpp
     ThrowableArray.cpp
     ThrowableArray.hpp
     UXB.cpp
