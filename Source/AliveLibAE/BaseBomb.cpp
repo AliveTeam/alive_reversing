@@ -21,36 +21,36 @@ BaseBomb::BaseBomb(FP x, FP y, s32 /*unused*/, FP scale)
     const AnimRecord& rec = AnimRec(AnimId::Explosion_Mine);
     Animation_Init(AnimId::Explosion_Mine, BaseGameObject::Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId));
 
-    mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit18_IsLastFrame); // Double Check
-    mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit24);
+    mAnim.mFlags.Clear(AnimFlags::eBit18_IsLastFrame); // Double Check
+    mAnim.mFlags.Set(AnimFlags::eBit24);
 
-    mBaseAnimatedWithPhysicsGameObject_Anim.mRenderMode = TPageAbr::eBlend_1;
+    mAnim.mRenderMode = TPageAbr::eBlend_1;
 
-    mBaseAnimatedWithPhysicsGameObject_Anim.mBlue = 128;
-    mBaseAnimatedWithPhysicsGameObject_Anim.mGreen = 128;
-    mBaseAnimatedWithPhysicsGameObject_Anim.mRed = 128;
+    mAnim.mBlue = 128;
+    mAnim.mGreen = 128;
+    mAnim.mRed = 128;
 
     field_f4_scale = scale;
 
     if (scale == FP_FromDouble(1.0))
     {
-        mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_Foreground_36;
+        mAnim.mRenderLayer = Layer::eLayer_Foreground_36;
     }
     else
     {
-        mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_Foreground_Half_17;
+        mAnim.mRenderLayer = Layer::eLayer_Foreground_Half_17;
     }
 
     mVisualFlags.Clear(VisualFlags::eApplyShadowZoneColour);
-    mBaseAnimatedWithPhysicsGameObject_SpriteScale = scale * FP_FromDouble(2.75);
-    mBaseAnimatedWithPhysicsGameObject_XPos = x;
-    mBaseAnimatedWithPhysicsGameObject_YPos = y;
+    mSpriteScale = scale * FP_FromDouble(2.75);
+    mXPos = x;
+    mYPos = y;
 
     relive_new ScreenShake(true, false);
 
     relive_new ParticleBurst(
-        mBaseAnimatedWithPhysicsGameObject_XPos,
-        mBaseAnimatedWithPhysicsGameObject_YPos,
+        mXPos,
+        mYPos,
         35,
         field_f4_scale,
         BurstType::eFallingRocks_0,
@@ -78,7 +78,7 @@ void BaseBomb::VUpdate()
     EventBroadcast(kEventLoudNoise, this);
     EventBroadcast(kEventSuspiciousNoise, this);
 
-    switch (this->mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame)
+    switch (this->mAnim.mCurrentFrame)
     {
         case 0:
             rect.x = FP_GetExponent(FP_FromInteger(-30) * field_f4_scale);
@@ -107,10 +107,10 @@ void BaseBomb::VUpdate()
         case 3:
         {
             relive_new ParticleBurst(
-                mBaseAnimatedWithPhysicsGameObject_XPos,
-                mBaseAnimatedWithPhysicsGameObject_YPos,
+                mXPos,
+                mYPos,
                 20,
-                mBaseAnimatedWithPhysicsGameObject_SpriteScale,
+                mSpriteScale,
                 BurstType::eBigRedSparks_3,
                 13);
 
@@ -133,10 +133,10 @@ void BaseBomb::VUpdate()
         case 7:
         {
             relive_new ParticleBurst(
-                mBaseAnimatedWithPhysicsGameObject_XPos,
-                mBaseAnimatedWithPhysicsGameObject_YPos,
+                mXPos,
+                mYPos,
                 20u,
-                mBaseAnimatedWithPhysicsGameObject_SpriteScale,
+                mSpriteScale,
                 BurstType::eBigRedSparks_3,
                 13);
 
@@ -148,28 +148,28 @@ void BaseBomb::VUpdate()
             break;
     }
 
-    if (mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame == 3)
+    if (mAnim.mCurrentFrame == 3)
     {
         const AnimRecord& rec = AnimRec(AnimId::Explosion_Mine);
         u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
         if (ppRes)
         {
             Particle* pParticle = relive_new Particle(
-                mBaseAnimatedWithPhysicsGameObject_XPos,
-                mBaseAnimatedWithPhysicsGameObject_YPos,
+                mXPos,
+                mYPos,
                 AnimId::Explosion_Mine,
                 ppRes);
             if (pParticle)
             {
-                pParticle->mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit5_FlipX);
+                pParticle->mAnim.mFlags.Set(AnimFlags::eBit5_FlipX);
                 pParticle->mVisualFlags.Clear(VisualFlags::eApplyShadowZoneColour);
-                pParticle->mBaseAnimatedWithPhysicsGameObject_Anim.mRenderMode = TPageAbr::eBlend_1;
-                pParticle->mBaseAnimatedWithPhysicsGameObject_SpriteScale = mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromDouble(0.7);
+                pParticle->mAnim.mRenderMode = TPageAbr::eBlend_1;
+                pParticle->mSpriteScale = mSpriteScale * FP_FromDouble(0.7);
             }
         }
     }
 
-    if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit12_ForwardLoopCompleted)) // Animation ended
+    if (mAnim.mFlags.Get(AnimFlags::eBit12_ForwardLoopCompleted)) // Animation ended
     {
         // Time to die
         mBaseGameObjectFlags.Set(Options::eDead);
@@ -204,10 +204,10 @@ void BaseBomb::DealDamageRect(const PSX_RECT* pRect)
             min_h_y = pRect->y;
         }
 
-        const auto right = FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos) + min_x_w;
-        const auto left = FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos) + min_w_x;
-        const auto top = FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos) + min_y_h;
-        const auto bottom = FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos) + min_h_y;
+        const auto right = FP_GetExponent(mXPos) + min_x_w;
+        const auto left = FP_GetExponent(mXPos) + min_w_x;
+        const auto top = FP_GetExponent(mYPos) + min_y_h;
+        const auto bottom = FP_GetExponent(mYPos) + min_h_y;
 
         for (s32 i = 0; i < gBaseAliveGameObjects_5C1B7C->Size(); i++)
         {
@@ -217,14 +217,14 @@ void BaseBomb::DealDamageRect(const PSX_RECT* pRect)
                 break;
             }
 
-            const auto objXPos = FP_GetExponent(pObj->mBaseAnimatedWithPhysicsGameObject_XPos);
-            const auto objYPos = FP_GetExponent(pObj->mBaseAnimatedWithPhysicsGameObject_YPos);
+            const auto objXPos = FP_GetExponent(pObj->mXPos);
+            const auto objYPos = FP_GetExponent(pObj->mYPos);
 
             if (objXPos >= right && objXPos <= left)
             {
                 if (objYPos >= top && objYPos <= bottom)
                 {
-                    if (mBaseAnimatedWithPhysicsGameObject_SpriteScale == (pObj->mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromDouble(2.75)))
+                    if (mSpriteScale == (pObj->mSpriteScale * FP_FromDouble(2.75)))
                     {
                         pObj->VTakeDamage(this);
                     }

@@ -16,7 +16,7 @@ void AnimationUnknown::VDecode()
 void AnimationUnknown::VRender(s32 xpos, s32 ypos, PrimHeader** ppOt, s16 /*width*/, s32 /*height*/)
 {
     Poly_FT4* pPoly = &field_10_polys[gPsxDisplay.mBufferIndex];
-    if (mAnimFlags.Get(AnimFlags::eBit3_Render))
+    if (mFlags.Get(AnimFlags::eBit3_Render))
     {
         // Copy from animation to local
         *pPoly = field_68_anim_ptr->mOtData[gPsxDisplay.mBufferIndex];
@@ -47,11 +47,11 @@ void AnimationUnknown::VRender(s32 xpos, s32 ypos, PrimHeader** ppOt, s16 /*widt
         // TODO: Factor out when file formats are converted
         const bool isAe = GetGameType() == GameType::eAe;
         s32 xConverted = isAe ? PsxToPCX(xpos) : xpos;
-        if (field_68_anim_ptr->mAnimFlags.Get(AnimFlags::eBit7_SwapXY))
+        if (field_68_anim_ptr->mFlags.Get(AnimFlags::eBit7_SwapXY))
         {
-            if (field_68_anim_ptr->mAnimFlags.Get(AnimFlags::eBit6_FlipY))
+            if (field_68_anim_ptr->mFlags.Get(AnimFlags::eBit6_FlipY))
             {
-                if (field_68_anim_ptr->mAnimFlags.Get(AnimFlags::eBit5_FlipX))
+                if (field_68_anim_ptr->mFlags.Get(AnimFlags::eBit5_FlipX))
                 {
                     polyX = xConverted - frameOffY - frameH;
                 }
@@ -63,7 +63,7 @@ void AnimationUnknown::VRender(s32 xpos, s32 ypos, PrimHeader** ppOt, s16 /*widt
             }
             else
             {
-                if (field_68_anim_ptr->mAnimFlags.Get(AnimFlags::eBit5_FlipX))
+                if (field_68_anim_ptr->mFlags.Get(AnimFlags::eBit5_FlipX))
                 {
                     polyX = xConverted - frameOffY - frameH;
                 }
@@ -74,9 +74,9 @@ void AnimationUnknown::VRender(s32 xpos, s32 ypos, PrimHeader** ppOt, s16 /*widt
                 polyY = ypos - frameOffX - frameW;
             }
         }
-        else if (field_68_anim_ptr->mAnimFlags.Get(AnimFlags::eBit6_FlipY))
+        else if (field_68_anim_ptr->mFlags.Get(AnimFlags::eBit6_FlipY))
         {
-            if (field_68_anim_ptr->mAnimFlags.Get(AnimFlags::eBit5_FlipX))
+            if (field_68_anim_ptr->mFlags.Get(AnimFlags::eBit5_FlipX))
             {
                 polyX = xConverted - frameOffX - frameW;
             }
@@ -88,7 +88,7 @@ void AnimationUnknown::VRender(s32 xpos, s32 ypos, PrimHeader** ppOt, s16 /*widt
         }
         else
         {
-            if (field_68_anim_ptr->mAnimFlags.Get(AnimFlags::eBit5_FlipX))
+            if (field_68_anim_ptr->mFlags.Get(AnimFlags::eBit5_FlipX))
             {
                 polyX = xConverted - frameOffX - frameW;
             }
@@ -99,7 +99,7 @@ void AnimationUnknown::VRender(s32 xpos, s32 ypos, PrimHeader** ppOt, s16 /*widt
             polyY = frameOffY + ypos;
         }
 
-        if (!mAnimFlags.Get(AnimFlags::eBit16_bBlending))
+        if (!mFlags.Get(AnimFlags::eBit16_bBlending))
         {
             SetRGB0(pPoly, mRed, mGreen, mBlue);
         }

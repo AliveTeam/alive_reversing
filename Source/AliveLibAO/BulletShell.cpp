@@ -18,71 +18,71 @@ BulletShell::BulletShell(FP xpos, FP ypos, s32 direction, FP scale)
     u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
     Animation_Init(AnimId::Bullet_Shell, ppRes);
 
-    mBaseAnimatedWithPhysicsGameObject_SpriteScale = scale;
+    mSpriteScale = scale;
 
     if (scale == FP_FromInteger(1))
     {
-        mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_Foreground_36;
+        mAnim.mRenderLayer = Layer::eLayer_Foreground_36;
     }
     else
     {
-        mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_Foreground_Half_17;
+        mAnim.mRenderLayer = Layer::eLayer_Foreground_Half_17;
     }
 
     mVisualFlags.Clear(VisualFlags::eApplyShadowZoneColour);
-    mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit5_FlipX, direction & 1);
+    mAnim.mFlags.Set(AnimFlags::eBit5_FlipX, direction & 1);
 
     field_EC_hitCount = 0;
 
-    mBaseAnimatedWithPhysicsGameObject_XPos = xpos;
-    mBaseAnimatedWithPhysicsGameObject_YPos = ypos;
+    mXPos = xpos;
+    mYPos = ypos;
 
     if (direction)
     {
-        mBaseAnimatedWithPhysicsGameObject_VelX = FP_FromInteger(Math_RandomRange(-6, -3));
+        mVelX = FP_FromInteger(Math_RandomRange(-6, -3));
     }
     else
     {
-        mBaseAnimatedWithPhysicsGameObject_VelX = FP_FromInteger(Math_RandomRange(3, 6));
+        mVelX = FP_FromInteger(Math_RandomRange(3, 6));
     }
-    mBaseAnimatedWithPhysicsGameObject_VelY = FP_FromInteger(Math_RandomRange(-4, -1));
+    mVelY = FP_FromInteger(Math_RandomRange(-4, -1));
     field_F0_speed = FP_FromInteger(1);
 }
 
 void BulletShell::VUpdate()
 {
-    mBaseAnimatedWithPhysicsGameObject_XPos += mBaseAnimatedWithPhysicsGameObject_VelX;
-    mBaseAnimatedWithPhysicsGameObject_YPos += mBaseAnimatedWithPhysicsGameObject_VelY;
+    mXPos += mVelX;
+    mYPos += mVelY;
 
-    mBaseAnimatedWithPhysicsGameObject_VelY += field_F0_speed;
+    mVelY += field_F0_speed;
 
     FP hitX = {};
     FP hitY = {};
     if (sCollisions->Raycast(
-            mBaseAnimatedWithPhysicsGameObject_XPos,
-            mBaseAnimatedWithPhysicsGameObject_YPos - mBaseAnimatedWithPhysicsGameObject_VelY,
-            mBaseAnimatedWithPhysicsGameObject_XPos,
-            mBaseAnimatedWithPhysicsGameObject_YPos,
+            mXPos,
+            mYPos - mVelY,
+            mXPos,
+            mYPos,
             &field_E4_pLine,
             &hitX,
             &hitY,
-            mBaseAnimatedWithPhysicsGameObject_SpriteScale != FP_FromDouble(0.5) ? kFgWallsOrFloor : kBgWallsOrFloor)
+            mSpriteScale != FP_FromDouble(0.5) ? kFgWallsOrFloor : kBgWallsOrFloor)
         == 1)
     {
         if (field_E4_pLine->mLineType == eLineTypes ::eFloor_0 ||
             field_E4_pLine->mLineType == eLineTypes::eBackgroundFloor_4)
         {
-            mBaseAnimatedWithPhysicsGameObject_YPos = hitY - FP_FromInteger(1);
-            mBaseAnimatedWithPhysicsGameObject_VelY = -(mBaseAnimatedWithPhysicsGameObject_VelY * FP_FromDouble(0.3));
-            mBaseAnimatedWithPhysicsGameObject_VelX = (mBaseAnimatedWithPhysicsGameObject_VelX * FP_FromDouble(0.3));
+            mYPos = hitY - FP_FromInteger(1);
+            mVelY = -(mVelY * FP_FromDouble(0.3));
+            mVelX = (mVelX * FP_FromDouble(0.3));
 
-            if (mBaseAnimatedWithPhysicsGameObject_VelX < FP_FromInteger(0) && mBaseAnimatedWithPhysicsGameObject_VelX > FP_FromInteger(-1))
+            if (mVelX < FP_FromInteger(0) && mVelX > FP_FromInteger(-1))
             {
-                mBaseAnimatedWithPhysicsGameObject_VelX = FP_FromInteger(-1);
+                mVelX = FP_FromInteger(-1);
             }
-            else if (mBaseAnimatedWithPhysicsGameObject_VelX > FP_FromInteger(0) && mBaseAnimatedWithPhysicsGameObject_VelX < FP_FromInteger(1))
+            else if (mVelX > FP_FromInteger(0) && mVelX < FP_FromInteger(1))
             {
-                mBaseAnimatedWithPhysicsGameObject_VelX = FP_FromInteger(1);
+                mVelX = FP_FromInteger(1);
             }
 
             s16 volume = 19 * (3 - field_EC_hitCount);
@@ -96,10 +96,10 @@ void BulletShell::VUpdate()
     }
 
     if (!gMap.Is_Point_In_Current_Camera(
-            mBaseAnimatedWithPhysicsGameObject_LvlNumber,
-            mBaseAnimatedWithPhysicsGameObject_PathNumber,
-            mBaseAnimatedWithPhysicsGameObject_XPos,
-            mBaseAnimatedWithPhysicsGameObject_YPos,
+            mCurrentLevel,
+            mCurrentPath,
+            mXPos,
+            mYPos,
             0))
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);

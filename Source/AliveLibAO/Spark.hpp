@@ -36,7 +36,7 @@ public:
     Prim_SetTPage mTPage[2] = {};
     FP mXPos = {};
     FP mYPos = {};
-    FP mScale = {};
+    FP mSpriteScale = {};
     s16 mRed = 0;
     s16 mGreen = 0;
     s16 mBlue = 0;

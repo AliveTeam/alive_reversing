@@ -91,7 +91,7 @@ extern "C"
         &gMap.mFmvBaseId,
         &sGnFrame,
         &sActiveHero,
-        offsetof(Abe, mBaseAnimatedWithPhysicsGameObject_YPos),
+        offsetof(Abe, mYPos),
         & sDisableFontFlicker_5C9304};
 
     const void* GetAeInfo()
@@ -108,7 +108,7 @@ extern "C"
         &AO::gMap.mCurrentCamera,
         &AO::sGnFrame,
         &AO::sActiveHero_507678,
-        offsetof(AO::Abe, mBaseAnimatedWithPhysicsGameObject_YPos) + sizeof(s16), // +2 for exp only
+        offsetof(AO::Abe, mYPos) + sizeof(s16), // +2 for exp only
         &AO::sDisableFontFlicker_5080E4,
         &AO::sSwitchStates_505568.mData[70]};
 

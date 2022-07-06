@@ -23,14 +23,14 @@ RockSack::RockSack(Path_RockSack* pTlv, s32 tlvInfo)
 
     Animation_Init(AnimId::RockSack_Idle, ppRes);
 
-    mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit15_bSemiTrans);
+    mAnim.mFlags.Clear(AnimFlags::eBit15_bSemiTrans);
 
     mVisualFlags.Clear(VisualFlags::eApplyShadowZoneColour);
 
     field_118_tlvInfo = tlvInfo;
     field_11C_has_been_hit = 0;
-    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger((pTlv->mTopLeft.x + pTlv->mBottomRight.x) / 2);
-    mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->mBottomRight.y);
+    mXPos = FP_FromInteger((pTlv->mTopLeft.x + pTlv->mBottomRight.x) / 2);
+    mYPos = FP_FromInteger(pTlv->mBottomRight.y);
     field_124_x_vel = FP_FromRaw(pTlv->field_12_x_vel << 8);
     field_128_y_vel = FP_FromRaw(-256 * pTlv->field_14_y_vel);
 
@@ -41,13 +41,13 @@ RockSack::RockSack(Path_RockSack* pTlv, s32 tlvInfo)
 
     if (pTlv->field_16_scale == Scale_short::eHalf_1)
     {
-        mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromDouble(0.5);
-        mBaseAnimatedWithPhysicsGameObject_Scale = Scale::Bg;
+        mSpriteScale = FP_FromDouble(0.5);
+        mScale = Scale::Bg;
     }
     else if (pTlv->field_16_scale == Scale_short::eFull_0)
     {
-        mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromInteger(1);
-        mBaseAnimatedWithPhysicsGameObject_Scale = Scale::Fg;
+        mSpriteScale = FP_FromInteger(1);
+        mScale = Scale::Fg;
     }
 
     field_11E_rock_amount = pTlv->field_18_rock_amount;
@@ -76,7 +76,7 @@ void RockSack::VUpdate()
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 
-    if (mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame == 2)
+    if (mAnim.mCurrentFrame == 2)
     {
         if (field_120_can_play_wobble_sound)
         {
@@ -95,23 +95,23 @@ void RockSack::VUpdate()
 
     if (field_11C_has_been_hit)
     {
-        if (field_11C_has_been_hit == 1 && mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
+        if (field_11C_has_been_hit == 1 && mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
         {
-            mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::RockSack_Idle, nullptr);
+            mAnim.Set_Animation_Data(AnimId::RockSack_Idle, nullptr);
             field_11C_has_been_hit = 0;
         }
     }
     else
     {
-        if (mBaseAnimatedWithPhysicsGameObject_Anim.mFrameChangeCounter == 0)
+        if (mAnim.mFrameChangeCounter == 0)
         {
-            mBaseAnimatedWithPhysicsGameObject_Anim.mFrameChangeCounter = Math_RandomRange(2, 10);
+            mAnim.mFrameChangeCounter = Math_RandomRange(2, 10);
         }
 
         const PSX_RECT bPlayerRect = sActiveHero->VGetBoundingRect();
         const PSX_RECT bRect = VGetBoundingRect();
 
-        if (bRect.x <= bPlayerRect.w && bRect.w >= bPlayerRect.x && bRect.h >= bPlayerRect.y && bRect.y <= bPlayerRect.h && mBaseAnimatedWithPhysicsGameObject_SpriteScale == sActiveHero->mBaseAnimatedWithPhysicsGameObject_SpriteScale)
+        if (bRect.x <= bPlayerRect.w && bRect.w >= bPlayerRect.x && bRect.h >= bPlayerRect.y && bRect.y <= bPlayerRect.h && mSpriteScale == sActiveHero->mSpriteScale)
         {
             if (gpThrowableArray_5D1E2C)
             {
@@ -119,11 +119,11 @@ void RockSack::VUpdate()
                 {
                     if (sActiveHero->mCurrentMotion == eAbeMotions::Motion_31_RunJumpMid_452C10)
                     {
-                        mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::RockSack_HardHit, nullptr);
+                        mAnim.Set_Animation_Data(AnimId::RockSack_HardHit, nullptr);
                     }
                     else
                     {
-                        mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::RockSack_SoftHit, nullptr);
+                        mAnim.Set_Animation_Data(AnimId::RockSack_SoftHit, nullptr);
                     }
                     field_11C_has_been_hit = 1;
                     return;
@@ -136,7 +136,7 @@ void RockSack::VUpdate()
 
             gpThrowableArray_5D1E2C->Add(field_11E_rock_amount);
 
-            auto pRock = relive_new Rock(mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos - FP_FromInteger(30), field_11E_rock_amount);
+            auto pRock = relive_new Rock(mXPos, mYPos - FP_FromInteger(30), field_11E_rock_amount);
             if (pRock)
             {
                 pRock->VThrow(field_124_x_vel, field_128_y_vel);
@@ -147,11 +147,11 @@ void RockSack::VUpdate()
 
             if (sActiveHero->mCurrentMotion == eAbeMotions::Motion_31_RunJumpMid_452C10)
             {
-                mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::RockSack_HardHit, nullptr);
+                mAnim.Set_Animation_Data(AnimId::RockSack_HardHit, nullptr);
             }
             else
             {
-                mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::RockSack_SoftHit, nullptr);
+                mAnim.Set_Animation_Data(AnimId::RockSack_SoftHit, nullptr);
             }
             field_11C_has_been_hit = 1;
         }

@@ -60,7 +60,7 @@ void BeeNest::VScreenChanged()
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 
-    if (gMap.mCurrentLevel != gMap.mLevel || gMap.mCurrentPath != gMap.mPath || !field_34_pBeeSwarm)
+    if (gMap.mCurrentLevel != gMap.mNextLevel || gMap.mCurrentPath != gMap.mNextPath || !field_34_pBeeSwarm)
     {
         gMap.TLV_Reset(field_1C_tlvInfo, -1, 0, 0);
         if (field_34_pBeeSwarm)

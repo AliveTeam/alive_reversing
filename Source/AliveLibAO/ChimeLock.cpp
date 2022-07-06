@@ -32,7 +32,7 @@ ChimeLock::ChimeLock(Path_ChimeLock* pTlv, s32 tlvInfo)
     const AnimRecord rec = AO::AnimRec(AnimId::Chime_Ball);
     u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
     Animation_Init(AnimId::Chime_Ball, ppRes);
-    mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_FG1_37;
+    mAnim.mRenderLayer = Layer::eLayer_FG1_37;
 
     FP scale = {};
     if (pTlv->field_18_scale == Scale_short::eHalf_1)
@@ -100,12 +100,12 @@ ChimeLock::ChimeLock(Path_ChimeLock* pTlv, s32 tlvInfo)
     field_15E_ball_angle = 0;
 
     field_140_targetY = FP_FromInteger(pTlv->mTopLeft.y + 40);
-    mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->mTopLeft.y + 40);
+    mYPos = FP_FromInteger(pTlv->mTopLeft.y + 40);
 
-    mBaseAnimatedWithPhysicsGameObject_VelY = FP_FromInteger(0);
+    mVelY = FP_FromInteger(0);
 
     field_13C_targetX = FP_FromInteger(pTlv->mTopLeft.x);
-    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pTlv->mTopLeft.x);
+    mXPos = FP_FromInteger(pTlv->mTopLeft.x);
     field_14C_increase_vely_by = FP_FromInteger(1);
 
     field_130_song_matching = 0;
@@ -223,11 +223,11 @@ void ChimeLock::SetBallTarget(FP ballTargetX, FP ballTargetY, s16 timer, s16 xSi
         field_160_ball_timer = timer;
         field_15E_ball_angle = 0;
 
-        mBaseAnimatedWithPhysicsGameObject_VelX = (ballTargetX - mBaseAnimatedWithPhysicsGameObject_XPos) / timerFP;
-        mBaseAnimatedWithPhysicsGameObject_VelY = (ballTargetY - mBaseAnimatedWithPhysicsGameObject_YPos) / timerFP;
+        mVelX = (ballTargetX - mXPos) / timerFP;
+        mVelY = (ballTargetY - mYPos) / timerFP;
 
-        field_144_ball_start_x = mBaseAnimatedWithPhysicsGameObject_XPos;
-        field_148_ball_start_y = mBaseAnimatedWithPhysicsGameObject_YPos;
+        field_144_ball_start_x = mXPos;
+        field_148_ball_start_y = mYPos;
 
         field_150_xpos_offset = FP_FromInteger(256) / timerFP;
         field_154_ypos_offset = FP_FromInteger(256) / timerFP;
@@ -257,16 +257,16 @@ s16 ChimeLock::UpdateBall()
     switch (field_15C_ball_state)
     {
         case BallStates::eIdle_0:
-            mBaseAnimatedWithPhysicsGameObject_XPos = (FP_FromInteger(5) * Math_Cosine_4510A0((4 * field_15E_ball_angle) & 0xFF)) + field_13C_targetX;
-            mBaseAnimatedWithPhysicsGameObject_YPos = (FP_FromInteger(3) * Math_Cosine_4510A0((3 * field_15E_ball_angle) & 0xFF)) + field_140_targetY;
+            mXPos = (FP_FromInteger(5) * Math_Cosine_4510A0((4 * field_15E_ball_angle) & 0xFF)) + field_13C_targetX;
+            mYPos = (FP_FromInteger(3) * Math_Cosine_4510A0((3 * field_15E_ball_angle) & 0xFF)) + field_140_targetY;
             return 0;
 
         case BallStates::eMovingToBell_1:
         case BallStates::eMovingBackToIdle_2:
-            field_144_ball_start_x += mBaseAnimatedWithPhysicsGameObject_VelX;
-            field_148_ball_start_y += mBaseAnimatedWithPhysicsGameObject_VelY;
-            mBaseAnimatedWithPhysicsGameObject_XPos = (FP_FromInteger(field_158_xSize) * Math_Cosine_4510A0(FP_GetExponent(FP_FromInteger(field_15E_ball_angle) * field_150_xpos_offset) & 0xFF)) + field_144_ball_start_x;
-            mBaseAnimatedWithPhysicsGameObject_YPos = (FP_FromInteger(field_15A_ySize) * Math_Cosine_4510A0(FP_GetExponent(FP_FromInteger(field_15E_ball_angle) * field_154_ypos_offset) & 0xFF)) + field_148_ball_start_y;
+            field_144_ball_start_x += mVelX;
+            field_148_ball_start_y += mVelY;
+            mXPos = (FP_FromInteger(field_158_xSize) * Math_Cosine_4510A0(FP_GetExponent(FP_FromInteger(field_15E_ball_angle) * field_150_xpos_offset) & 0xFF)) + field_144_ball_start_x;
+            mYPos = (FP_FromInteger(field_15A_ySize) * Math_Cosine_4510A0(FP_GetExponent(FP_FromInteger(field_15E_ball_angle) * field_154_ypos_offset) & 0xFF)) + field_148_ball_start_y;
             if (field_15E_ball_angle >= field_160_ball_timer)
             {
                 field_15E_ball_angle = 0;
@@ -285,27 +285,27 @@ s16 ChimeLock::UpdateBall()
             if (true)
                 ALIVE_FATAL("never expected BallStates::eNeverRead_3 to be called");
 
-            mBaseAnimatedWithPhysicsGameObject_VelY += field_14C_increase_vely_by;
-            mBaseAnimatedWithPhysicsGameObject_YPos += mBaseAnimatedWithPhysicsGameObject_VelY;
+            mVelY += field_14C_increase_vely_by;
+            mYPos += mVelY;
 
             FP hitX = {};
             FP hitY = {};
             if (sCollisions->Raycast(
-                    mBaseAnimatedWithPhysicsGameObject_XPos,
-                    mBaseAnimatedWithPhysicsGameObject_VelY - mBaseAnimatedWithPhysicsGameObject_VelY,
-                    mBaseAnimatedWithPhysicsGameObject_XPos,
-                    mBaseAnimatedWithPhysicsGameObject_YPos,
+                    mXPos,
+                    mVelY - mVelY,
+                    mXPos,
+                    mYPos,
                     &BaseAliveGameObjectCollisionLine,
                     &hitX,
                     &hitY,
-                    mBaseAnimatedWithPhysicsGameObject_SpriteScale != FP_FromDouble(0.5) ? kFgWallsOrFloor : kBgWallsOrFloor)
+                    mSpriteScale != FP_FromDouble(0.5) ? kFgWallsOrFloor : kBgWallsOrFloor)
                 == 1)
             {
                 if (BaseAliveGameObjectCollisionLine->mLineType == eLineTypes::eFloor_0 ||
                     BaseAliveGameObjectCollisionLine->mLineType == eLineTypes::eBackgroundFloor_4)
                 {
-                    mBaseAnimatedWithPhysicsGameObject_YPos = hitY - FP_FromInteger(1);
-                    mBaseAnimatedWithPhysicsGameObject_VelY = -(mBaseAnimatedWithPhysicsGameObject_VelY * FP_FromDouble(0.4));
+                    mYPos = hitY - FP_FromInteger(1);
+                    mVelY = -(mVelY * FP_FromDouble(0.4));
                     if (field_162_never_set >= 3)
                     {
                         return 1;
@@ -567,9 +567,9 @@ void ChimeLock::VUpdate()
             }
 
             New_Chant_Particle_4198E0(
-                field_13C_targetX + (mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(Math_RandomRange(-30, 30))),
-                field_140_targetY - (mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(Math_RandomRange(-20, 20))),
-                mBaseAnimatedWithPhysicsGameObject_SpriteScale,
+                field_13C_targetX + (mSpriteScale * FP_FromInteger(Math_RandomRange(-30, 30))),
+                field_140_targetY - (mSpriteScale * FP_FromInteger(Math_RandomRange(-20, 20))),
+                mSpriteScale,
                 Layer::eLayer_0);
             return;
 

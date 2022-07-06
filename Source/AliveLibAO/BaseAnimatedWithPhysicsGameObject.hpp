@@ -70,11 +70,6 @@ protected:
 
     BetweenCamPos BetweenCameras_418500();
 
-
-public:
-    Animation mBaseAnimatedWithPhysicsGameObject_Anim;
-
-    Shadow* mShadow = nullptr;
 };
 ALIVE_ASSERT_SIZEOF(BaseAnimatedWithPhysicsGameObject, 0xD4);
 

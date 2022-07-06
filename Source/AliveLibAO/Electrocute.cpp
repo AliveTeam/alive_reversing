@@ -114,10 +114,10 @@ Electrocute::Electrocute(BaseAliveGameObject* pTargetObj, s32 bExtraOverwriter)
 
     if (pTargetObj->mBaseGameObjectTypeId == ReliveTypes::eAbe)
     {
-        field_28_pPalData = relive_new u16[pTargetObj->mBaseAnimatedWithPhysicsGameObject_Anim.mPalDepth];
+        field_28_pPalData = relive_new u16[pTargetObj->mAnim.mPalDepth];
         Pal_Copy(
-            pTargetObj->mBaseAnimatedWithPhysicsGameObject_Anim.mPalVramXY,
-            pTargetObj->mBaseAnimatedWithPhysicsGameObject_Anim.mPalDepth,
+            pTargetObj->mAnim.mPalVramXY,
+            pTargetObj->mAnim.mPalDepth,
             field_28_pPalData,
             &field_38_pal_rect);
     }
@@ -174,13 +174,13 @@ void Electrocute::Stop()
         if (field_10_obj_target->mBaseGameObjectTypeId == ReliveTypes::eAbe)
         {
             Pal_Set(
-                field_10_obj_target->mBaseAnimatedWithPhysicsGameObject_Anim.mPalVramXY,
-                field_10_obj_target->mBaseAnimatedWithPhysicsGameObject_Anim.mPalDepth,
+                field_10_obj_target->mAnim.mPalVramXY,
+                field_10_obj_target->mAnim.mPalDepth,
                 reinterpret_cast<const u8*>(field_28_pPalData),
                 &field_38_pal_rect);
-            field_10_obj_target->mBaseAnimatedWithPhysicsGameObject_RGB.r = field_2C_r;
-            field_10_obj_target->mBaseAnimatedWithPhysicsGameObject_RGB.g = field_2E_g;
-            field_10_obj_target->mBaseAnimatedWithPhysicsGameObject_RGB.b = field_30_b;
+            field_10_obj_target->mRGB.r = field_2C_r;
+            field_10_obj_target->mRGB.g = field_2E_g;
+            field_10_obj_target->mRGB.b = field_30_b;
         }
 
         field_10_obj_target->VTakeDamage(this);
@@ -202,24 +202,24 @@ void Electrocute::VUpdate()
     switch (field_32_state)
     {
         case States::eSetNewColour_0:
-            field_2C_r = field_10_obj_target->mBaseAnimatedWithPhysicsGameObject_RGB.r;
-            field_2E_g = field_10_obj_target->mBaseAnimatedWithPhysicsGameObject_RGB.g;
-            field_30_b = field_10_obj_target->mBaseAnimatedWithPhysicsGameObject_RGB.b;
+            field_2C_r = field_10_obj_target->mRGB.r;
+            field_2E_g = field_10_obj_target->mRGB.g;
+            field_30_b = field_10_obj_target->mRGB.b;
 
-            field_10_obj_target->mBaseAnimatedWithPhysicsGameObject_RGB.SetRGB(255, 255, 255);
+            field_10_obj_target->mRGB.SetRGB(255, 255, 255);
 
             field_32_state = States::eAlphaFadeout_1;
             return;
 
         case States::eAlphaFadeout_1:
             field_18_pPalOverwriters[0] = relive_new PalleteOverwriter(
-                field_10_obj_target->mBaseAnimatedWithPhysicsGameObject_Anim.mPalVramXY,
-                field_10_obj_target->mBaseAnimatedWithPhysicsGameObject_Anim.mPalDepth,
+                field_10_obj_target->mAnim.mPalVramXY,
+                field_10_obj_target->mAnim.mPalDepth,
                 static_cast<s16>(Pal_Make_Colour(255u, 255, 255, 1)));
 
             field_18_pPalOverwriters[1] = relive_new PalleteOverwriter(
-                field_10_obj_target->mBaseAnimatedWithPhysicsGameObject_Anim.mPalVramXY,
-                field_10_obj_target->mBaseAnimatedWithPhysicsGameObject_Anim.mPalDepth,
+                field_10_obj_target->mAnim.mPalVramXY,
+                field_10_obj_target->mAnim.mPalDepth,
                 static_cast<s16>(Pal_Make_Colour(64u, 64, 255, 1)));
             if (field_18_pPalOverwriters[1])
             {
@@ -229,8 +229,8 @@ void Electrocute::VUpdate()
             if (field_24_extraOverwriter)
             {
                 field_18_pPalOverwriters[2] = relive_new PalleteOverwriter(
-                    field_10_obj_target->mBaseAnimatedWithPhysicsGameObject_Anim.mPalVramXY,
-                    field_10_obj_target->mBaseAnimatedWithPhysicsGameObject_Anim.mPalDepth,
+                    field_10_obj_target->mAnim.mPalVramXY,
+                    field_10_obj_target->mAnim.mPalDepth,
                     static_cast<s16>(Pal_Make_Colour(0, 0, 0, 0)));
                 if (field_18_pPalOverwriters[2])
                 {
@@ -250,14 +250,14 @@ void Electrocute::VUpdate()
                 {
                     field_10_obj_target->VTakeDamage(this);
                     Pal_Set(
-                        field_10_obj_target->mBaseAnimatedWithPhysicsGameObject_Anim.mPalVramXY,
-                        field_10_obj_target->mBaseAnimatedWithPhysicsGameObject_Anim.mPalDepth,
+                        field_10_obj_target->mAnim.mPalVramXY,
+                        field_10_obj_target->mAnim.mPalDepth,
                         reinterpret_cast<const u8*>(field_28_pPalData),
                         &field_38_pal_rect);
 
-                    field_10_obj_target->mBaseAnimatedWithPhysicsGameObject_RGB.r = field_2C_r;
-                    field_10_obj_target->mBaseAnimatedWithPhysicsGameObject_RGB.g = field_2E_g;
-                    field_10_obj_target->mBaseAnimatedWithPhysicsGameObject_RGB.b = field_30_b;
+                    field_10_obj_target->mRGB.r = field_2C_r;
+                    field_10_obj_target->mRGB.g = field_2E_g;
+                    field_10_obj_target->mRGB.b = field_30_b;
 
                     field_32_state = States::eKillElectrocute_3;
                 }

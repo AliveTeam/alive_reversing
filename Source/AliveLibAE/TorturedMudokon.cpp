@@ -20,10 +20,10 @@ TorturedMudokon::TorturedMudokon(Path_TorturedMudokon* pTlv, s32 tlvInfo)
     mTorturedMudRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
     if (mTorturedMudRes)
     {
-        mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pTlv->mTopLeft.x);
-        mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->mTopLeft.y);
+        mXPos = FP_FromInteger(pTlv->mTopLeft.x);
+        mYPos = FP_FromInteger(pTlv->mTopLeft.y);
         Animation_Init(AnimId::Tortured_Mudokon, mTorturedMudRes);
-        mBaseAnimatedWithPhysicsGameObject_Anim.SetFrame(Math_RandomRange(0, mBaseAnimatedWithPhysicsGameObject_Anim.Get_Frame_Count() - 1));
+        mAnim.SetFrame(Math_RandomRange(0, mAnim.Get_Frame_Count() - 1));
         mKillSwitchId = pTlv->mKillSwitchId;
         mReleaseSwitchId = pTlv->mReleaseSwitchId;
         mState = TorturedMudokonState::eBeingTortured_0;
@@ -46,8 +46,8 @@ void TorturedMudokon::SetupTearsAnimation(Animation* pAnim)
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
     if (pAnim->Init(AnimId::Tortured_Mudokon_Tears, this, ppRes))
     {
-        pAnim->mRenderLayer = mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer;
-        pAnim->field_14_scale = mBaseAnimatedWithPhysicsGameObject_SpriteScale;
+        pAnim->mRenderLayer = mAnim.mRenderLayer;
+        pAnim->field_14_scale = mSpriteScale;
         pAnim->mRed = 128;
         pAnim->mGreen = 128;
         pAnim->mBlue = 128;
@@ -65,9 +65,9 @@ void TorturedMudokon::SetupZapAnimation(Animation* pAnim)
     if (pAnim->Init(AnimId::Electric_Wall, this, ppRes))
     {
         // TODO: clean this up
-        const s32 layerM1 = static_cast<s32>(mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer) - 1;
+        const s32 layerM1 = static_cast<s32>(mAnim.mRenderLayer) - 1;
         pAnim->mRenderLayer = static_cast<Layer>(layerM1);
-        pAnim->field_14_scale = mBaseAnimatedWithPhysicsGameObject_SpriteScale;
+        pAnim->field_14_scale = mSpriteScale;
         pAnim->mRed = 128;
         pAnim->mGreen = 128;
         pAnim->mBlue = 128;
@@ -86,16 +86,16 @@ void TorturedMudokon::VScreenChanged()
 void TorturedMudokon::VRender(PrimHeader** ppOt)
 {
     mTearsAnim.VRender(
-        FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos - pScreenManager->CamXPos()),
-        FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos - pScreenManager->CamYPos()),
+        FP_GetExponent(mXPos - pScreenManager->CamXPos()),
+        FP_GetExponent(mYPos - pScreenManager->CamYPos()),
         ppOt,
         0,
         0);
-    if (mTearsAnim.mAnimFlags.Get(AnimFlags::eBit3_Render))
+    if (mTearsAnim.mFlags.Get(AnimFlags::eBit3_Render))
     {
         mZapAnim.VRender(
-            FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos - pScreenManager->CamXPos()),
-            FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos - pScreenManager->CamYPos()),
+            FP_GetExponent(mXPos - pScreenManager->CamXPos()),
+            FP_GetExponent(mYPos - pScreenManager->CamYPos()),
             ppOt,
             0,
             0);
@@ -154,12 +154,12 @@ void TorturedMudokon::VUpdate()
             if (SwitchStates_Get(mKillSwitchId))
             {
                 mState = TorturedMudokonState::eKilled_1;
-                mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::Tortured_Mudokon_Zap, nullptr);
+                mAnim.Set_Animation_Data(AnimId::Tortured_Mudokon_Zap, nullptr);
             }
             break;
 
         case TorturedMudokonState::eKilled_1:
-            if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
+            if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
             {
                 mBaseGameObjectFlags.Set(BaseGameObject::eDead);
             }
@@ -172,11 +172,11 @@ void TorturedMudokon::VUpdate()
             break;
     }
 
-    if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
+    if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
     {
-        if (mBaseAnimatedWithPhysicsGameObject_Anim.mFrameChangeCounter == mBaseAnimatedWithPhysicsGameObject_Anim.mFrameDelay)
+        if (mAnim.mFrameChangeCounter == mAnim.mFrameDelay)
         {
-            mZapAnim.mAnimFlags.Clear(AnimFlags::eBit3_Render);
+            mZapAnim.mFlags.Clear(AnimFlags::eBit3_Render);
             if (!Math_RandomRange(0, 8))
             {
                 Mudokon_SFX(MudSounds::eNoSad_22, 100, Math_RandomRange(mPainSoundPitch, mPainSoundPitch + 100), 0);
@@ -184,11 +184,11 @@ void TorturedMudokon::VUpdate()
         }
     }
 
-    if (mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame == 6)
+    if (mAnim.mCurrentFrame == 6)
     {
         if (Math_RandomRange(0, 2))
         {
-            mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame = 0;
+            mAnim.mCurrentFrame = 0;
         }
     }
 
@@ -212,10 +212,10 @@ void TorturedMudokon::VUpdate()
             break;
     }
 
-    if (mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame == 6 && mBaseAnimatedWithPhysicsGameObject_Anim.mFrameChangeCounter == mBaseAnimatedWithPhysicsGameObject_Anim.mFrameDelay)
+    if (mAnim.mCurrentFrame == 6 && mAnim.mFrameChangeCounter == mAnim.mFrameDelay)
     {
         relive_new Flash(Layer::eLayer_Above_FG1_39, rgbBase + 50, rgbBase + 50, rgbBase + 110, 1, TPageAbr::eBlend_1, 1);
-        mZapAnim.mAnimFlags.Set(AnimFlags::eBit3_Render);
+        mZapAnim.mFlags.Set(AnimFlags::eBit3_Render);
         SfxPlayMono(SoundEffect::ElectricZap_39, 70);
         const s16 sndRnd = Math_RandomRange(0, 3) - 1;
         if (sndRnd)
@@ -231,7 +231,7 @@ void TorturedMudokon::VUpdate()
         }
     }
 
-    if (mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame >= 7 && !Math_RandomRange(0, 10))
+    if (mAnim.mCurrentFrame >= 7 && !Math_RandomRange(0, 10))
     {
         relive_new Flash(Layer::eLayer_Above_FG1_39, rgbBase + 10, rgbBase + 10, rgbBase + 50, 1, TPageAbr::eBlend_1, 1);
     }
@@ -239,9 +239,9 @@ void TorturedMudokon::VUpdate()
     if (SwitchStates_Get(mReleaseSwitchId))
     {
         mState = TorturedMudokonState::eReleased_2;
-        mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::Tortured_Mudokon_Released, nullptr);
-        mTearsAnim.mAnimFlags.Clear(AnimFlags::eBit3_Render);
-        mZapAnim.mAnimFlags.Clear(AnimFlags::eBit3_Render);
+        mAnim.Set_Animation_Data(AnimId::Tortured_Mudokon_Released, nullptr);
+        mTearsAnim.mFlags.Clear(AnimFlags::eBit3_Render);
+        mZapAnim.mFlags.Clear(AnimFlags::eBit3_Render);
         Path_TLV* pTlv = sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam(mTlvInfo);
         if (pTlv)
         {

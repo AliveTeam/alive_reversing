@@ -36,7 +36,7 @@ static inline FP Random_Speed(FP scale)
 ParticleBurst::ParticleBurst(FP xpos, FP ypos, s32 particleCount, FP scale, BurstType type)
 {
     mBaseGameObjectTypeId = ReliveTypes::eParticleBurst;
-    mBaseAnimatedWithPhysicsGameObject_SpriteScale = scale;
+    mSpriteScale = scale;
 
     field_E4_ppRes = ResourceManager::Allocate_New_Locked_Resource(ResourceManager::ResourceType::Resource_3DGibs, 0, sizeof(ParticleBurst_Item) * particleCount);
     if (field_E4_ppRes)
@@ -56,8 +56,8 @@ ParticleBurst::ParticleBurst(FP xpos, FP ypos, s32 particleCount, FP scale, Burs
                 const AnimRecord rockRec = AO::AnimRec(AnimId::Rock_Gib);
                 u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rockRec.mResourceId, 1, 0);
                 Animation_Init(AnimId::Rock_Gib, ppRes);
-                mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit15_bSemiTrans);
-                mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit16_bBlending);
+                mAnim.mFlags.Clear(AnimFlags::eBit15_bSemiTrans);
+                mAnim.mFlags.Set(AnimFlags::eBit16_bBlending);
                 break;
             }
 
@@ -67,8 +67,8 @@ ParticleBurst::ParticleBurst(FP xpos, FP ypos, s32 particleCount, FP scale, Burs
                 u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, sticksRec.mResourceId, 1, 0);
                 Animation_Init(AnimId::Stick_Gib, ppRes);
                 scale = FP_FromDouble(0.4) * scale;
-                mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit15_bSemiTrans);
-                mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit16_bBlending);
+                mAnim.mFlags.Clear(AnimFlags::eBit15_bSemiTrans);
+                mAnim.mFlags.Set(AnimFlags::eBit16_bBlending);
                 break;
             }
 
@@ -77,9 +77,9 @@ ParticleBurst::ParticleBurst(FP xpos, FP ypos, s32 particleCount, FP scale, Burs
                 const AnimRecord flareRec = AO::AnimRec(AnimId::DeathFlare_2);
                 u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, flareRec.mResourceId, 1, 0);
                 Animation_Init(AnimId::DeathFlare_2, ppRes);
-                mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit15_bSemiTrans);
-                mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit16_bBlending);
-                mBaseAnimatedWithPhysicsGameObject_Anim.mRenderMode = TPageAbr::eBlend_1;
+                mAnim.mFlags.Set(AnimFlags::eBit15_bSemiTrans);
+                mAnim.mFlags.Set(AnimFlags::eBit16_bBlending);
+                mAnim.mRenderMode = TPageAbr::eBlend_1;
                 break;
             }
 
@@ -89,13 +89,13 @@ ParticleBurst::ParticleBurst(FP xpos, FP ypos, s32 particleCount, FP scale, Burs
                 u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, flareRec.mResourceId, 1, 0);
                 Animation_Init(AnimId::DeathFlare_2, ppRes);
 
-                mBaseAnimatedWithPhysicsGameObject_Anim.mRenderMode = TPageAbr::eBlend_1;
-                mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit15_bSemiTrans);
-                mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit16_bBlending);
+                mAnim.mRenderMode = TPageAbr::eBlend_1;
+                mAnim.mFlags.Set(AnimFlags::eBit15_bSemiTrans);
+                mAnim.mFlags.Clear(AnimFlags::eBit16_bBlending);
 
-                mBaseAnimatedWithPhysicsGameObject_Anim.mRed = 254;
-                mBaseAnimatedWithPhysicsGameObject_Anim.mGreen = 148;
-                mBaseAnimatedWithPhysicsGameObject_Anim.mBlue = 18;
+                mAnim.mRed = 254;
+                mAnim.mGreen = 148;
+                mAnim.mBlue = 18;
                 break;
             }
 
@@ -104,8 +104,8 @@ ParticleBurst::ParticleBurst(FP xpos, FP ypos, s32 particleCount, FP scale, Burs
                 const AnimRecord meatRec = AO::AnimRec(AnimId::Meat_Gib);
                 u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, meatRec.mResourceId, 1, 0);
                 Animation_Init(AnimId::Meat_Gib, ppRes);
-                mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit15_bSemiTrans);
-                mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit16_bBlending);
+                mAnim.mFlags.Clear(AnimFlags::eBit15_bSemiTrans);
+                mAnim.mFlags.Set(AnimFlags::eBit16_bBlending);
                 break;
             }
 
@@ -119,45 +119,45 @@ ParticleBurst::ParticleBurst(FP xpos, FP ypos, s32 particleCount, FP scale, Burs
         }
         else
         {
-            if (mBaseAnimatedWithPhysicsGameObject_SpriteScale == FP_FromInteger(1))
+            if (mSpriteScale == FP_FromInteger(1))
             {
-                mBaseAnimatedWithPhysicsGameObject_Scale = Scale::Fg;
-                mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_Above_FG1_39;
+                mScale = Scale::Fg;
+                mAnim.mRenderLayer = Layer::eLayer_Above_FG1_39;
             }
             else
             {
-                mBaseAnimatedWithPhysicsGameObject_Scale = Scale::Bg;
-                mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_Above_FG1_Half_20;
+                mScale = Scale::Bg;
+                mAnim.mRenderLayer = Layer::eLayer_Above_FG1_Half_20;
             }
 
             field_EC_count = static_cast<s16>(particleCount);
             field_F0_timer = sGnFrame + 91;
-            mBaseAnimatedWithPhysicsGameObject_XPos = xpos;
-            mBaseAnimatedWithPhysicsGameObject_YPos = ypos;
+            mXPos = xpos;
+            mYPos = ypos;
 
             for (s32 i = 0; i < particleCount; i++)
             {
-                field_E8_pRes[i].field_18_animation.field_68_anim_ptr = &mBaseAnimatedWithPhysicsGameObject_Anim;
-                field_E8_pRes[i].field_18_animation.mRenderLayer = mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer;
-                field_E8_pRes[i].field_18_animation.field_6C_scale = FP_FromDouble(0.95) * mBaseAnimatedWithPhysicsGameObject_SpriteScale;
+                field_E8_pRes[i].field_18_animation.field_68_anim_ptr = &mAnim;
+                field_E8_pRes[i].field_18_animation.mRenderLayer = mAnim.mRenderLayer;
+                field_E8_pRes[i].field_18_animation.field_6C_scale = FP_FromDouble(0.95) * mSpriteScale;
 
-                field_E8_pRes[i].field_18_animation.mAnimFlags.Set(AnimFlags::eBit3_Render);
+                field_E8_pRes[i].field_18_animation.mFlags.Set(AnimFlags::eBit3_Render);
 
-                field_E8_pRes[i].field_18_animation.mAnimFlags.Set(AnimFlags::eBit15_bSemiTrans, mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit15_bSemiTrans));
+                field_E8_pRes[i].field_18_animation.mFlags.Set(AnimFlags::eBit15_bSemiTrans, mAnim.mFlags.Get(AnimFlags::eBit15_bSemiTrans));
 
-                field_E8_pRes[i].field_18_animation.mAnimFlags.Set(AnimFlags::eBit16_bBlending, mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit16_bBlending));
+                field_E8_pRes[i].field_18_animation.mFlags.Set(AnimFlags::eBit16_bBlending, mAnim.mFlags.Get(AnimFlags::eBit16_bBlending));
 
                 if (type == BurstType::eBigPurpleSparks_2)
                 {
                     if (i % 2)
                     {
-                        field_E8_pRes[i].field_18_animation.mAnimFlags.Set(AnimFlags::eBit16_bBlending);
+                        field_E8_pRes[i].field_18_animation.mFlags.Set(AnimFlags::eBit16_bBlending);
                     }
                 }
 
-                field_E8_pRes[i].field_18_animation.mRed = mBaseAnimatedWithPhysicsGameObject_Anim.mRed;
-                field_E8_pRes[i].field_18_animation.mGreen = mBaseAnimatedWithPhysicsGameObject_Anim.mGreen;
-                field_E8_pRes[i].field_18_animation.mBlue = mBaseAnimatedWithPhysicsGameObject_Anim.mBlue;
+                field_E8_pRes[i].field_18_animation.mRed = mAnim.mRed;
+                field_E8_pRes[i].field_18_animation.mGreen = mAnim.mGreen;
+                field_E8_pRes[i].field_18_animation.mBlue = mAnim.mBlue;
 
                 field_E8_pRes[i].x = xpos;
                 field_E8_pRes[i].y = ypos;
@@ -170,7 +170,7 @@ ParticleBurst::ParticleBurst(FP xpos, FP ypos, s32 particleCount, FP scale, Burs
 
             if (gMap.mCurrentLevel == EReliveLevelIds::eStockYards || gMap.mCurrentLevel == EReliveLevelIds::eStockYardsReturn)
             {
-                mBaseAnimatedWithPhysicsGameObject_RGB.SetRGB(60, 60, 60);
+                mRGB.SetRGB(60, 60, 60);
             }
         }
     }
@@ -263,7 +263,7 @@ void ParticleBurst::VRender(PrimHeader** ppOt)
         return;
     }
 
-    mBaseAnimatedWithPhysicsGameObject_Anim.field_14_scale = mBaseAnimatedWithPhysicsGameObject_SpriteScale;
+    mAnim.field_14_scale = mSpriteScale;
 
     const FP_Point* pCamPos = pScreenManager->mCamPos;
     const FP screen_left = pCamPos->x - FP_FromInteger(pScreenManager->mCamXOff);
@@ -283,14 +283,14 @@ void ParticleBurst::VRender(PrimHeader** ppOt)
                 PSX_RECT rect = {};
                 if (bFirst)
                 {
-                    mBaseAnimatedWithPhysicsGameObject_Anim.field_14_scale = FP_FromInteger(100) / (pItem->field_8_z + FP_FromInteger(300));
-                    mBaseAnimatedWithPhysicsGameObject_Anim.VRender(
+                    mAnim.field_14_scale = FP_FromInteger(100) / (pItem->field_8_z + FP_FromInteger(300));
+                    mAnim.VRender(
                         FP_GetExponent(PsxToPCX(pItem->x - screen_left, FP_FromInteger(11))),
                         FP_GetExponent(pItem->y - screen_bottom),
                         ppOt,
                         0,
                         0);
-                    mBaseAnimatedWithPhysicsGameObject_Anim.Get_Frame_Rect(&rect);
+                    mAnim.Get_Frame_Rect(&rect);
                     bFirst = false;
                 }
                 else

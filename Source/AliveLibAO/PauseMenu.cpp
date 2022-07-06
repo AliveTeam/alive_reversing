@@ -84,7 +84,7 @@ PauseMenu::~PauseMenu()
 
 void PauseMenu::VScreenChanged()
 {
-    if (gMap.mLevel == EReliveLevelIds::eCredits)
+    if (gMap.mNextLevel == EReliveLevelIds::eCredits)
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }

@@ -24,11 +24,11 @@ private:
     void SetActive(u8 active);
 
 private:
-    enum Flags_4
+    enum Flags
     {
-        eBit1_is_active = 0x1
+        eIsActive = 0x1
     };
-    BitField16<Flags_4> mAnimFlags = {};
+    BitField16<Flags> mFlags = {};
     Animation field_8_Anim = {};
     FP field_A0_xpos_render_offset = {};
     FP field_A4_ypos_render_offset = {};

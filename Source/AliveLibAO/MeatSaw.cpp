@@ -39,24 +39,24 @@ MeatSaw::MeatSaw(Path_MeatSaw* pTlv, s32 tlvInfo)
     u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
     Animation_Init(AnimId::MeatSaw_Idle, ppRes);
     
-    mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit15_bSemiTrans);
-    mBaseAnimatedWithPhysicsGameObject_Anim.mRenderMode = TPageAbr::eBlend_0;
+    mAnim.mFlags.Set(AnimFlags::eBit15_bSemiTrans);
+    mAnim.mRenderMode = TPageAbr::eBlend_0;
 
     if (pTlv->field_18_scale == Scale_short::eHalf_1)
     {
-        mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromDouble(0.5);
-        mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_RopeWebDrillMeatSaw_Half_5;
-        mBaseAnimatedWithPhysicsGameObject_Scale = Scale::Bg;
+        mSpriteScale = FP_FromDouble(0.5);
+        mAnim.mRenderLayer = Layer::eLayer_RopeWebDrillMeatSaw_Half_5;
+        mScale = Scale::Bg;
     }
     else
     {
-        mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromInteger(1);
-        mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_RopeWebDrillMeatSaw_24;
-        mBaseAnimatedWithPhysicsGameObject_Scale = Scale::Fg;
+        mSpriteScale = FP_FromInteger(1);
+        mAnim.mRenderLayer = Layer::eLayer_RopeWebDrillMeatSaw_24;
+        mScale = Scale::Fg;
     }
 
-    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pTlv->mTopLeft.x + 8);
-    mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->mTopLeft.y);
+    mXPos = FP_FromInteger(pTlv->mTopLeft.x + 8);
+    mYPos = FP_FromInteger(pTlv->mTopLeft.y);
 
     field_F6_switch_min_time_off = pTlv->field_1A_switch_min_time_off;
     field_F8_switch_max_time_off = pTlv->field_1C_switch_max_time_off;
@@ -64,7 +64,7 @@ MeatSaw::MeatSaw(Path_MeatSaw* pTlv, s32 tlvInfo)
     field_E6_max_rise_time = pTlv->field_1E_max_rise_time;
     field_EE_switch_id = pTlv->field_20_switch_id;
 
-    mBaseAnimatedWithPhysicsGameObject_YOffset = 0;
+    mYOffset = 0;
     field_F4 = 0;
 
     if (pTlv->field_22_type == Path_MeatSaw::Type::eAutomatic_1)
@@ -124,7 +124,7 @@ MeatSaw::MeatSaw(Path_MeatSaw* pTlv, s32 tlvInfo)
     field_104_idle_timer = 0;
     field_E4_state = MeatSawStates::eIdle_0;
     field_10C_FrameCount = 0;
-    mBaseAnimatedWithPhysicsGameObject_YPos -= FP_FromInteger(pTlv->field_1E_max_rise_time);
+    mYPos -= FP_FromInteger(pTlv->field_1E_max_rise_time);
     field_100_tlvInfo = tlvInfo;
 
     if (pTlv->field_2E_inital_position != 0)
@@ -140,17 +140,17 @@ MeatSaw::MeatSaw(Path_MeatSaw* pTlv, s32 tlvInfo)
             this,
             ppRes2))
     {
-        field_110_anim.mRenderLayer = mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer;
-        field_110_anim.field_14_scale = mBaseAnimatedWithPhysicsGameObject_SpriteScale;
+        field_110_anim.mRenderLayer = mAnim.mRenderLayer;
+        field_110_anim.field_14_scale = mSpriteScale;
 
-        field_110_anim.mRed = static_cast<u8>(mBaseAnimatedWithPhysicsGameObject_RGB.r);
-        field_110_anim.mGreen = static_cast<u8>(mBaseAnimatedWithPhysicsGameObject_RGB.g);
-        field_110_anim.mBlue = static_cast<u8>(mBaseAnimatedWithPhysicsGameObject_RGB.b);
+        field_110_anim.mRed = static_cast<u8>(mRGB.r);
+        field_110_anim.mGreen = static_cast<u8>(mRGB.g);
+        field_110_anim.mBlue = static_cast<u8>(mRGB.b);
 
         field_110_anim.mRenderMode = TPageAbr::eBlend_0;
 
-        field_110_anim.mAnimFlags.Clear(AnimFlags::eBit16_bBlending);
-        field_110_anim.mAnimFlags.Set(AnimFlags::eBit15_bSemiTrans);
+        field_110_anim.mFlags.Clear(AnimFlags::eBit16_bBlending);
+        field_110_anim.mFlags.Set(AnimFlags::eBit15_bSemiTrans);
 
         mShadow = relive_new Shadow();
         ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kAbeblowAOResID, 1, 0);
@@ -163,8 +163,8 @@ MeatSaw::MeatSaw(Path_MeatSaw* pTlv, s32 tlvInfo)
 
 void MeatSaw::VScreenChanged()
 {
-    if (gMap.mCurrentLevel != gMap.mLevel || gMap.mCurrentPath != gMap.mPath || !sControlledCharacter_50767C || // Can be nullptr during the game ender
-        FP_Abs(sControlledCharacter_50767C->mBaseAnimatedWithPhysicsGameObject_XPos - mBaseAnimatedWithPhysicsGameObject_XPos) > FP_FromInteger(1024))
+    if (gMap.mCurrentLevel != gMap.mNextLevel || gMap.mCurrentPath != gMap.mNextPath || !sControlledCharacter_50767C || // Can be nullptr during the game ender
+        FP_Abs(sControlledCharacter_50767C->mXPos - mXPos) > FP_FromInteger(1024))
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
@@ -180,10 +180,10 @@ void MeatSaw::VUpdate()
     GrindUpObjects_439CD0();
 
     const CameraPos direction = gMap.GetDirection(
-        mBaseAnimatedWithPhysicsGameObject_LvlNumber,
-        mBaseAnimatedWithPhysicsGameObject_PathNumber,
-        mBaseAnimatedWithPhysicsGameObject_XPos,
-        mBaseAnimatedWithPhysicsGameObject_YPos);
+        mCurrentLevel,
+        mCurrentPath,
+        mXPos,
+        mYPos);
 
     if (!(field_10C_FrameCount % 87))
     {
@@ -204,7 +204,7 @@ void MeatSaw::VUpdate()
                 (!field_1A8_flags.Get(flags_1A8::eBit1_ResetOffscreen) || SwitchStates_Get(field_EE_switch_id) == field_F0_switch_value))
             {
                 field_E4_state = MeatSawStates::eGoingDown_1;
-                mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::MeatSaw_Moving, nullptr);
+                mAnim.Set_Animation_Data(AnimId::MeatSaw_Moving, nullptr);
                 field_1A8_flags.Clear(flags_1A8::eBit3_AutomaticMeatSawIsDown);
                 field_E8_speed2 = field_EA_speed1;
                 field_108_SFX_timer = sGnFrame + 2;
@@ -220,7 +220,7 @@ void MeatSaw::VUpdate()
                             if (field_104_idle_timer <= static_cast<s32>(sGnFrame))
                             {
                                 field_E4_state = MeatSawStates::eGoingDown_1;
-                                mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::MeatSaw_Moving, nullptr);
+                                mAnim.Set_Animation_Data(AnimId::MeatSaw_Moving, nullptr);
                                 field_1A8_flags.Set(flags_1A8::eBit3_AutomaticMeatSawIsDown);
                                 field_E8_speed2 = field_EC_off_speed;
                                 field_108_SFX_timer = sGnFrame + 2;
@@ -272,7 +272,7 @@ void MeatSaw::VUpdate()
                 }
 
                 field_104_idle_timer = sGnFrame + Math_RandomRange(minRnd, maxRnd);
-                mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::MeatSaw_Idle, nullptr);
+                mAnim.Set_Animation_Data(AnimId::MeatSaw_Idle, nullptr);
                 if (field_1A8_flags.Get(flags_1A8::eBit2_SwitchIdMeatSaw))
                 {
                     SwitchStates_Set(field_EE_switch_id, field_F0_switch_value == 0 ? 1 : 0);
@@ -286,8 +286,8 @@ void MeatSaw::GrindUpObjects_439CD0()
 {
     PSX_RECT ourRect = VGetBoundingRect();
 
-    ourRect.y += mBaseAnimatedWithPhysicsGameObject_YOffset;
-    ourRect.h += mBaseAnimatedWithPhysicsGameObject_YOffset;
+    ourRect.y += mYOffset;
+    ourRect.h += mYOffset;
 
     for (s32 i = 0; i < gBaseAliveGameObjects_4FC8A0->Size(); i++)
     {
@@ -306,9 +306,9 @@ void MeatSaw::GrindUpObjects_439CD0()
                 {
                     const PSX_RECT objRect = pObjIter->VGetBoundingRect();
 
-                    if (RectsOverlap(ourRect, objRect) && pObjIter->mBaseAnimatedWithPhysicsGameObject_SpriteScale == mBaseAnimatedWithPhysicsGameObject_SpriteScale && pObjIter->mHealth > FP_FromInteger(0))
+                    if (RectsOverlap(ourRect, objRect) && pObjIter->mSpriteScale == mSpriteScale && pObjIter->mHealth > FP_FromInteger(0))
                     {
-                        if (pObjIter->mBaseAnimatedWithPhysicsGameObject_XPos >= FP_FromInteger(ourRect.x) && pObjIter->mBaseAnimatedWithPhysicsGameObject_XPos <= FP_FromInteger(ourRect.w))
+                        if (pObjIter->mXPos >= FP_FromInteger(ourRect.x) && pObjIter->mXPos <= FP_FromInteger(ourRect.w))
                         {
                             if (!pObjIter->VTakeDamage(this))
                             {
@@ -316,27 +316,27 @@ void MeatSaw::GrindUpObjects_439CD0()
                             }
 
                             relive_new Blood(
-                                pObjIter->mBaseAnimatedWithPhysicsGameObject_XPos,
+                                pObjIter->mXPos,
                                 FP_FromInteger(ourRect.h - 10),
                                 FP_FromInteger(-5),
                                 FP_FromInteger(5),
-                                mBaseAnimatedWithPhysicsGameObject_SpriteScale,
+                                mSpriteScale,
                                 50);
 
                             relive_new Blood(
-                                pObjIter->mBaseAnimatedWithPhysicsGameObject_XPos,
+                                pObjIter->mXPos,
                                 FP_FromInteger(ourRect.h - 10),
                                 FP_FromInteger(0),
                                 FP_FromInteger(5),
-                                mBaseAnimatedWithPhysicsGameObject_SpriteScale,
+                                mSpriteScale,
                                 50);
 
                             relive_new Blood(
-                                pObjIter->mBaseAnimatedWithPhysicsGameObject_XPos,
+                                pObjIter->mXPos,
                                 FP_FromInteger(ourRect.h - 10),
                                 FP_FromInteger(5),
                                 FP_FromInteger(5),
-                                mBaseAnimatedWithPhysicsGameObject_SpriteScale,
+                                mSpriteScale,
                                 50);
 
                             SfxPlayMono(SoundEffect::KillEffect_78, 127, 0);
@@ -353,20 +353,20 @@ void MeatSaw::GrindUpObjects_439CD0()
 void MeatSaw::VRender(PrimHeader** ppOt)
 {
     if (gMap.Is_Point_In_Current_Camera(
-            mBaseAnimatedWithPhysicsGameObject_LvlNumber,
-            mBaseAnimatedWithPhysicsGameObject_PathNumber,
-            mBaseAnimatedWithPhysicsGameObject_XPos,
-            mBaseAnimatedWithPhysicsGameObject_YPos,
+            mCurrentLevel,
+            mCurrentPath,
+            mXPos,
+            mYPos,
             0))
     {
-        mBaseAnimatedWithPhysicsGameObject_YOffset = field_F4;
+        mYOffset = field_F4;
         BaseAnimatedWithPhysicsGameObject::VRender(ppOt);
 
         field_110_anim.VRender(
-            FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos
+            FP_GetExponent(mXPos
                            + FP_FromInteger(pScreenManager->mCamXOff)
                            - pScreenManager->mCamPos->x),
-            FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos
+            FP_GetExponent(mYPos
                            + (FP_FromInteger(pScreenManager->mCamYOff + field_E6_max_rise_time))
                            - pScreenManager->mCamPos->y),
             ppOt,

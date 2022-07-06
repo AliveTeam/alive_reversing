@@ -22,27 +22,27 @@ Meat::Meat(FP xpos, FP ypos, s16 count)
 
     if (!ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kMeatResID, 0, 0))
     {
-        LoadRockTypes_49AB30(mBaseAnimatedWithPhysicsGameObject_LvlNumber, mBaseAnimatedWithPhysicsGameObject_PathNumber);
+        LoadRockTypes_49AB30(mCurrentLevel, mCurrentPath);
     }
 
     const AnimRecord& rec = AnimRec(AnimId::Meat);
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
     Animation_Init(AnimId::Meat, ppRes);
 
-    mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit15_bSemiTrans);
+    mAnim.mFlags.Clear(AnimFlags::eBit15_bSemiTrans);
 
-    mBaseAnimatedWithPhysicsGameObject_XPos = xpos;
-    mBaseAnimatedWithPhysicsGameObject_YPos = ypos;
+    mXPos = xpos;
+    mYPos = ypos;
 
     field_120_xpos = xpos;
     field_124_ypos = ypos;
 
-    mBaseAnimatedWithPhysicsGameObject_VelX = FP_FromInteger(0);
-    mBaseAnimatedWithPhysicsGameObject_VelY = FP_FromInteger(0);
+    mVelX = FP_FromInteger(0);
+    mVelY = FP_FromInteger(0);
     field_128_timer = 0;
     mBaseGameObjectFlags.Clear(BaseGameObject::eInteractive_Bit8);
 
-    mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit3_Render);
+    mAnim.mFlags.Clear(AnimFlags::eBit3_Render);
 
     field_12C_deadtimer = sGnFrame + 600;
     field_130_pLine = nullptr;
@@ -59,7 +59,7 @@ void Meat::VTimeToExplodeRandom()
 
 void Meat::VScreenChanged()
 {
-    if (gMap.mCurrentPath != gMap.mPath || gMap.mCurrentLevel != gMap.mLevel)
+    if (gMap.mCurrentPath != gMap.mNextPath || gMap.mCurrentLevel != gMap.mNextLevel)
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
@@ -109,10 +109,10 @@ Meat::~Meat()
 
 void Meat::VThrow(FP velX, FP velY)
 {
-    mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit3_Render);
+    mAnim.mFlags.Set(AnimFlags::eBit3_Render);
 
-    mBaseAnimatedWithPhysicsGameObject_VelX = velX;
-    mBaseAnimatedWithPhysicsGameObject_VelY = velY;
+    mVelX = velX;
+    mVelY = velY;
 
     if (field_118_count == 0)
     {
@@ -136,20 +136,20 @@ s16 Meat::VGetCount()
 
 void Meat::InTheAir()
 {
-    field_120_xpos = mBaseAnimatedWithPhysicsGameObject_XPos;
-    field_124_ypos = mBaseAnimatedWithPhysicsGameObject_YPos;
+    field_120_xpos = mXPos;
+    field_124_ypos = mYPos;
 
-    if (mBaseAnimatedWithPhysicsGameObject_VelY < FP_FromInteger(18))
+    if (mVelY < FP_FromInteger(18))
     {
-        mBaseAnimatedWithPhysicsGameObject_VelY += FP_FromInteger(1);
+        mVelY += FP_FromInteger(1);
     }
 
-    mBaseAnimatedWithPhysicsGameObject_XPos += mBaseAnimatedWithPhysicsGameObject_VelX;
-    mBaseAnimatedWithPhysicsGameObject_YPos += mBaseAnimatedWithPhysicsGameObject_VelY;
+    mXPos += mVelX;
+    mYPos += mVelY;
 
     FP hitX = {};
     FP hitY = {};
-    if (sCollisions->Raycast(field_120_xpos, field_124_ypos, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, &field_130_pLine, &hitX, &hitY, mBaseAnimatedWithPhysicsGameObject_Scale == Scale::Fg ? kFgFloorCeilingOrWalls : kBgFloorCeilingOrWalls) == 1)
+    if (sCollisions->Raycast(field_120_xpos, field_124_ypos, mXPos, mYPos, &field_130_pLine, &hitX, &hitY, mScale == Scale::Fg ? kFgFloorCeilingOrWalls : kBgFloorCeilingOrWalls) == 1)
     {
         switch (field_130_pLine->mLineType)
         {
@@ -157,13 +157,13 @@ void Meat::InTheAir()
             case eLineTypes::eBackgroundFloor_4:
             case eLineTypes::eDynamicCollision_32:
             case eLineTypes::eBackgroundDynamicCollision_36:
-                if (mBaseAnimatedWithPhysicsGameObject_VelY > FP_FromInteger(0))
+                if (mVelY > FP_FromInteger(0))
                 {
-                    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(SnapToXGrid(mBaseAnimatedWithPhysicsGameObject_SpriteScale, FP_GetExponent(hitX)));
-                    mBaseAnimatedWithPhysicsGameObject_YPos = hitY;
+                    mXPos = FP_FromInteger(SnapToXGrid(mSpriteScale, FP_GetExponent(hitX)));
+                    mYPos = hitY;
                     field_11C_state = MeatStates::eBecomeAPickUp_3;
-                    mBaseAnimatedWithPhysicsGameObject_VelY = FP_FromInteger(0);
-                    mBaseAnimatedWithPhysicsGameObject_VelX = FP_FromInteger(0);
+                    mVelY = FP_FromInteger(0);
+                    mVelX = FP_FromInteger(0);
                     SFX_Play_Pitch(SoundEffect::MeatBounce_36, 0, -650);
                     EventBroadcast(kEventNoise, this);
                     EventBroadcast(kEventSuspiciousNoise, this);
@@ -173,17 +173,17 @@ void Meat::InTheAir()
 
             case eLineTypes::eWallLeft_1:
             case eLineTypes::eBackgroundWallLeft_5:
-                if (mBaseAnimatedWithPhysicsGameObject_VelX < FP_FromInteger(0))
+                if (mVelX < FP_FromInteger(0))
                 {
-                    mBaseAnimatedWithPhysicsGameObject_XPos = hitX;
-                    mBaseAnimatedWithPhysicsGameObject_YPos = hitY;
-                    mBaseAnimatedWithPhysicsGameObject_VelX = (-mBaseAnimatedWithPhysicsGameObject_VelX / FP_FromInteger(4));
+                    mXPos = hitX;
+                    mYPos = hitY;
+                    mVelX = (-mVelX / FP_FromInteger(4));
                     SFX_Play_Pitch(SoundEffect::MeatBounce_36, 0, -650);
                     EventBroadcast(kEventNoise, this);
                     EventBroadcast(kEventSuspiciousNoise, this);
-                    if (mBaseAnimatedWithPhysicsGameObject_VelY < FP_FromInteger(0))
+                    if (mVelY < FP_FromInteger(0))
                     {
-                        mBaseAnimatedWithPhysicsGameObject_VelY = FP_FromInteger(0);
+                        mVelY = FP_FromInteger(0);
                     }
                 }
                 field_130_pLine = nullptr;
@@ -191,17 +191,17 @@ void Meat::InTheAir()
 
             case eLineTypes::eWallRight_2:
             case eLineTypes::eBackgroundWallRight_6:
-                if (mBaseAnimatedWithPhysicsGameObject_VelX > FP_FromInteger(0))
+                if (mVelX > FP_FromInteger(0))
                 {
-                    mBaseAnimatedWithPhysicsGameObject_XPos = hitX;
-                    mBaseAnimatedWithPhysicsGameObject_YPos = hitY;
-                    mBaseAnimatedWithPhysicsGameObject_VelX = (-mBaseAnimatedWithPhysicsGameObject_VelX / FP_FromInteger(4));
+                    mXPos = hitX;
+                    mYPos = hitY;
+                    mVelX = (-mVelX / FP_FromInteger(4));
                     SFX_Play_Pitch(SoundEffect::MeatBounce_36, 0, -650);
                     EventBroadcast(kEventNoise, this);
                     EventBroadcast(kEventSuspiciousNoise, this);
-                    if (mBaseAnimatedWithPhysicsGameObject_VelY < FP_FromInteger(0))
+                    if (mVelY < FP_FromInteger(0))
                     {
-                        mBaseAnimatedWithPhysicsGameObject_VelY = FP_FromInteger(0);
+                        mVelY = FP_FromInteger(0);
                     }
                 }
                 field_130_pLine = nullptr;
@@ -209,11 +209,11 @@ void Meat::InTheAir()
 
             case eLineTypes::eCeiling_3:
             case eLineTypes::eBackgroundCeiling_7:
-                if (mBaseAnimatedWithPhysicsGameObject_VelY < FP_FromInteger(0))
+                if (mVelY < FP_FromInteger(0))
                 {
-                    mBaseAnimatedWithPhysicsGameObject_XPos = hitX;
-                    mBaseAnimatedWithPhysicsGameObject_YPos = hitY + FP_FromInteger(1);
-                    mBaseAnimatedWithPhysicsGameObject_VelY = FP_FromInteger(0);
+                    mXPos = hitX;
+                    mYPos = hitY + FP_FromInteger(1);
+                    mVelY = FP_FromInteger(0);
                     SFX_Play_Pitch(SoundEffect::MeatBounce_36, 0, -650);
                     EventBroadcast(kEventNoise, this);
                     EventBroadcast(kEventSuspiciousNoise, this);
@@ -241,13 +241,13 @@ s16 Meat::OnCollision(BaseGameObject* pHit)
 
     if (field_120_xpos < FP_FromInteger(bRect.x) || field_120_xpos > FP_FromInteger(bRect.w))
     {
-        mBaseAnimatedWithPhysicsGameObject_XPos -= mBaseAnimatedWithPhysicsGameObject_VelX;
-        mBaseAnimatedWithPhysicsGameObject_VelX = (-mBaseAnimatedWithPhysicsGameObject_VelX / FP_FromInteger(2));
+        mXPos -= mVelX;
+        mVelX = (-mVelX / FP_FromInteger(2));
     }
     else
     {
-        mBaseAnimatedWithPhysicsGameObject_YPos -= mBaseAnimatedWithPhysicsGameObject_VelY;
-        mBaseAnimatedWithPhysicsGameObject_VelY = (-mBaseAnimatedWithPhysicsGameObject_VelY / FP_FromInteger(2));
+        mYPos -= mVelY;
+        mVelY = (-mVelY / FP_FromInteger(2));
     }
 
     static_cast<BaseAliveGameObject*>(pHit)->VOnThrowableHit(this);
@@ -287,7 +287,7 @@ void Meat::VUpdate()
                     (TCollisionCallBack) &Meat::OnCollision);
 
                 // TODO: OG bug - why only checking for out of the bottom of the map?? Nades check for death object - probably should check both
-                if (mBaseAnimatedWithPhysicsGameObject_YPos > FP_FromInteger(gMap.mPathData->field_6_bBottom))
+                if (mYPos > FP_FromInteger(gMap.mPathData->field_6_bBottom))
                 {
                     mBaseGameObjectFlags.Set(BaseGameObject::eDead);
                 }
@@ -295,37 +295,37 @@ void Meat::VUpdate()
             break;
 
             case MeatStates::eBecomeAPickUp_3:
-                if (FP_Abs(mBaseAnimatedWithPhysicsGameObject_VelX) < FP_FromInteger(1))
+                if (FP_Abs(mVelX) < FP_FromInteger(1))
                 {
-                    mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit8_Loop);
+                    mAnim.mFlags.Clear(AnimFlags::eBit8_Loop);
                 }
 
-                if (FP_Abs(mBaseAnimatedWithPhysicsGameObject_VelX) >= FP_FromDouble(0.5))
+                if (FP_Abs(mVelX) >= FP_FromDouble(0.5))
                 {
-                    if (mBaseAnimatedWithPhysicsGameObject_VelX <= FP_FromInteger(0))
+                    if (mVelX <= FP_FromInteger(0))
                     {
-                        mBaseAnimatedWithPhysicsGameObject_VelX += FP_FromDouble(0.01);
+                        mVelX += FP_FromDouble(0.01);
                     }
                     else
                     {
-                        mBaseAnimatedWithPhysicsGameObject_VelX -= FP_FromDouble(0.01);
+                        mVelX -= FP_FromDouble(0.01);
                     }
 
-                    field_130_pLine = field_130_pLine->MoveOnLine(&mBaseAnimatedWithPhysicsGameObject_XPos, &mBaseAnimatedWithPhysicsGameObject_YPos, mBaseAnimatedWithPhysicsGameObject_VelX);
+                    field_130_pLine = field_130_pLine->MoveOnLine(&mXPos, &mYPos, mVelX);
                     if (!field_130_pLine)
                     {
-                        mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit8_Loop);
+                        mAnim.mFlags.Set(AnimFlags::eBit8_Loop);
                         field_11C_state = MeatStates::eBeingThrown_2;
                     }
                 }
                 else
                 {
-                    mBaseAnimatedWithPhysicsGameObject_VelX = FP_FromInteger(0);
+                    mVelX = FP_FromInteger(0);
 
-                    mCollectionRect.x = mBaseAnimatedWithPhysicsGameObject_XPos - (ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale) / FP_FromInteger(2));
-                    mCollectionRect.y = mBaseAnimatedWithPhysicsGameObject_YPos - ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale);
-                    mCollectionRect.w = (ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale) / FP_FromInteger(2)) + mBaseAnimatedWithPhysicsGameObject_XPos;
-                    mCollectionRect.h = mBaseAnimatedWithPhysicsGameObject_YPos;
+                    mCollectionRect.x = mXPos - (ScaleToGridSize(mSpriteScale) / FP_FromInteger(2));
+                    mCollectionRect.y = mYPos - ScaleToGridSize(mSpriteScale);
+                    mCollectionRect.w = (ScaleToGridSize(mSpriteScale) / FP_FromInteger(2)) + mXPos;
+                    mCollectionRect.h = mYPos;
 
                     mBaseGameObjectFlags.Set(BaseGameObject::eInteractive_Bit8);
                     field_11C_state = MeatStates::eWaitForPickUp_4;
@@ -333,7 +333,7 @@ void Meat::VUpdate()
                 break;
 
             case MeatStates::eWaitForPickUp_4:
-                if (gMap.Is_Point_In_Current_Camera(mBaseAnimatedWithPhysicsGameObject_LvlNumber, mBaseAnimatedWithPhysicsGameObject_PathNumber, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, 0))
+                if (gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0))
                 {
                     field_12C_deadtimer = sGnFrame + 600;
                 }
@@ -342,8 +342,8 @@ void Meat::VUpdate()
                 {
                     // That strange "shimmer" the meat gives off
                     New_TintShiny_Particle(
-                        (mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(1)) + mBaseAnimatedWithPhysicsGameObject_XPos,
-                        mBaseAnimatedWithPhysicsGameObject_YPos + (mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(-7)),
+                        (mSpriteScale * FP_FromInteger(1)) + mXPos,
+                        mYPos + (mSpriteScale * FP_FromInteger(-7)),
                         FP_FromDouble(0.3),
                         Layer::eLayer_Foreground_36);
                     field_128_timer = Math_NextRandom() % 16 + sGnFrame + 60;
@@ -355,10 +355,10 @@ void Meat::VUpdate()
                 break;
 
             case MeatStates::eFall_5:
-                mBaseAnimatedWithPhysicsGameObject_VelY += FP_FromInteger(1);
-                mBaseAnimatedWithPhysicsGameObject_XPos += mBaseAnimatedWithPhysicsGameObject_VelX;
-                mBaseAnimatedWithPhysicsGameObject_YPos = mBaseAnimatedWithPhysicsGameObject_VelY + mBaseAnimatedWithPhysicsGameObject_YPos;
-                if (!gMap.Is_Point_In_Current_Camera(mBaseAnimatedWithPhysicsGameObject_LvlNumber, mBaseAnimatedWithPhysicsGameObject_PathNumber, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, 0))
+                mVelY += FP_FromInteger(1);
+                mXPos += mVelX;
+                mYPos = mVelY + mYPos;
+                if (!gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0))
                 {
                     mBaseGameObjectFlags.Set(BaseGameObject::eDead);
                 }
@@ -408,8 +408,8 @@ MeatSack::MeatSack(Path_MeatSack* pTlv, s32 tlvInfo)
 
     field_11C_bDoMeatSackIdleAnim = 0;
 
-    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pTlv->mTopLeft.x);
-    mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->mTopLeft.y);
+    mXPos = FP_FromInteger(pTlv->mTopLeft.x);
+    mYPos = FP_FromInteger(pTlv->mTopLeft.y);
 
     field_124_velX = FP_FromRaw(pTlv->field_12_xVel << 8);
 
@@ -423,15 +423,15 @@ MeatSack::MeatSack(Path_MeatSack* pTlv, s32 tlvInfo)
 
     if (pTlv->field_16_scale == Scale_short::eHalf_1)
     {
-        mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromDouble(0.5);
-        mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_8;
-        mBaseAnimatedWithPhysicsGameObject_Scale = Scale::Bg;
+        mSpriteScale = FP_FromDouble(0.5);
+        mAnim.mRenderLayer = Layer::eLayer_8;
+        mScale = Scale::Bg;
     }
     else if (pTlv->field_16_scale == Scale_short::eFull_0)
     {
-        mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromInteger(1);
-        mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_27;
-        mBaseAnimatedWithPhysicsGameObject_Scale = Scale::Fg;
+        mSpriteScale = FP_FromInteger(1);
+        mAnim.mRenderLayer = Layer::eLayer_27;
+        mScale = Scale::Fg;
     }
 
     field_11E_amount_of_meat = pTlv->field_18_amount_of_meat;
@@ -447,24 +447,24 @@ s32 Meat::CreateFromSaveState(const u8* pBuffer)
 
     pMeat->mBaseGameObjectTlvInfo = pState->field_4_obj_id;
 
-    pMeat->mBaseAnimatedWithPhysicsGameObject_XPos = pState->field_8_xpos;
-    pMeat->mBaseAnimatedWithPhysicsGameObject_YPos = pState->field_C_ypos;
+    pMeat->mXPos = pState->field_8_xpos;
+    pMeat->mYPos = pState->field_C_ypos;
 
-    pMeat->mCollectionRect.x = pMeat->mBaseAnimatedWithPhysicsGameObject_XPos - (ScaleToGridSize(pMeat->mBaseAnimatedWithPhysicsGameObject_SpriteScale) / FP_FromInteger(2));
-    pMeat->mCollectionRect.y = pMeat->mBaseAnimatedWithPhysicsGameObject_YPos - ScaleToGridSize(pMeat->mBaseAnimatedWithPhysicsGameObject_SpriteScale);
-    pMeat->mCollectionRect.w = (ScaleToGridSize(pMeat->mBaseAnimatedWithPhysicsGameObject_SpriteScale) / FP_FromInteger(2)) + pMeat->mBaseAnimatedWithPhysicsGameObject_XPos;
-    pMeat->mCollectionRect.h = pMeat->mBaseAnimatedWithPhysicsGameObject_YPos;
+    pMeat->mCollectionRect.x = pMeat->mXPos - (ScaleToGridSize(pMeat->mSpriteScale) / FP_FromInteger(2));
+    pMeat->mCollectionRect.y = pMeat->mYPos - ScaleToGridSize(pMeat->mSpriteScale);
+    pMeat->mCollectionRect.w = (ScaleToGridSize(pMeat->mSpriteScale) / FP_FromInteger(2)) + pMeat->mXPos;
+    pMeat->mCollectionRect.h = pMeat->mYPos;
 
-    pMeat->mBaseAnimatedWithPhysicsGameObject_VelX = pState->field_10_velx;
-    pMeat->mBaseAnimatedWithPhysicsGameObject_VelY = pState->field_14_vely;
+    pMeat->mVelX = pState->field_10_velx;
+    pMeat->mVelY = pState->field_14_vely;
 
-    pMeat->mBaseAnimatedWithPhysicsGameObject_PathNumber = pState->field_1C_path_number;
-    pMeat->mBaseAnimatedWithPhysicsGameObject_LvlNumber = MapWrapper::FromAE(pState->field_1E_lvl_number);
+    pMeat->mCurrentPath = pState->field_1C_path_number;
+    pMeat->mCurrentLevel = MapWrapper::FromAE(pState->field_1E_lvl_number);
 
-    pMeat->mBaseAnimatedWithPhysicsGameObject_SpriteScale = pState->field_18_sprite_scale;
+    pMeat->mSpriteScale = pState->field_18_sprite_scale;
 
-    pMeat->mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit8_Loop, pState->field_20_flags.Get(Meat_SaveState::eBit3_bLoop));
-    pMeat->mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit3_Render, pState->field_20_flags.Get(Meat_SaveState::eBit1_bRender));
+    pMeat->mAnim.mFlags.Set(AnimFlags::eBit8_Loop, pState->field_20_flags.Get(Meat_SaveState::eBit3_bLoop));
+    pMeat->mAnim.mFlags.Set(AnimFlags::eBit3_Render, pState->field_20_flags.Get(Meat_SaveState::eBit1_bRender));
 
     pMeat->mBaseGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4, pState->field_20_flags.Get(Meat_SaveState::eBit2_bDrawable));
     pMeat->mBaseGameObjectFlags.Set(BaseGameObject::eInteractive_Bit8, pState->field_20_flags.Get(Meat_SaveState::eBit4_bInteractive));
@@ -501,7 +501,7 @@ void MeatSack::VUpdate()
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 
-    if (mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame == 2)
+    if (mAnim.mCurrentFrame == 2)
     {
         if (field_120_bPlayWobbleSound)
         {
@@ -520,9 +520,9 @@ void MeatSack::VUpdate()
 
     if (field_11C_bDoMeatSackIdleAnim)
     {
-        if (field_11C_bDoMeatSackIdleAnim == 1 && mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
+        if (field_11C_bDoMeatSackIdleAnim == 1 && mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
         {
-            mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::MeatSack_Idle, nullptr);
+            mAnim.Set_Animation_Data(AnimId::MeatSack_Idle, nullptr);
             field_11C_bDoMeatSackIdleAnim = 0;
         }
     }
@@ -531,13 +531,13 @@ void MeatSack::VUpdate()
         const PSX_RECT abeRect = sActiveHero->VGetBoundingRect();
         const PSX_RECT ourRect = VGetBoundingRect();
 
-        if (RectsOverlap(ourRect, abeRect) && mBaseAnimatedWithPhysicsGameObject_SpriteScale == sActiveHero->mBaseAnimatedWithPhysicsGameObject_SpriteScale)
+        if (RectsOverlap(ourRect, abeRect) && mSpriteScale == sActiveHero->mSpriteScale)
         {
             if (gpThrowableArray_5D1E2C)
             {
                 if (gpThrowableArray_5D1E2C->field_20_count)
                 {
-                    mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::MeatSack_Hit, nullptr);
+                    mAnim.Set_Animation_Data(AnimId::MeatSack_Hit, nullptr);
                     field_11C_bDoMeatSackIdleAnim = 1;
                     return;
                 }
@@ -549,14 +549,14 @@ void MeatSack::VUpdate()
 
             gpThrowableArray_5D1E2C->Add(field_11E_amount_of_meat);
 
-            auto pMeat = relive_new Meat(mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos - FP_FromInteger(30), field_11E_amount_of_meat);
+            auto pMeat = relive_new Meat(mXPos, mYPos - FP_FromInteger(30), field_11E_amount_of_meat);
              pMeat->VThrow(field_124_velX, field_128_velY);
-            pMeat->mBaseAnimatedWithPhysicsGameObject_SpriteScale = mBaseAnimatedWithPhysicsGameObject_SpriteScale;
+            pMeat->mSpriteScale = mSpriteScale;
 
             SfxPlayMono(SoundEffect::SackHit_25, 0);
             Environment_SFX_457A40(EnvironmentSfx::eDeathNoise_7, 0, 0x7FFF, 0);
 
-            mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::MeatSack_Hit, nullptr);
+            mAnim.Set_Animation_Data(AnimId::MeatSack_Hit, nullptr);
             field_11C_bDoMeatSackIdleAnim = 1;
         }
     }
@@ -569,19 +569,19 @@ s32 Meat::VGetSaveState(u8* pSaveBuffer)
     pState->field_0_type = AETypes::eMeat_84;
     pState->field_4_obj_id = mBaseGameObjectTlvInfo;
 
-    pState->field_8_xpos = mBaseAnimatedWithPhysicsGameObject_XPos;
-    pState->field_C_ypos = mBaseAnimatedWithPhysicsGameObject_YPos;
+    pState->field_8_xpos = mXPos;
+    pState->field_C_ypos = mYPos;
 
-    pState->field_10_velx = mBaseAnimatedWithPhysicsGameObject_VelX;
-    pState->field_14_vely = mBaseAnimatedWithPhysicsGameObject_VelY;
+    pState->field_10_velx = mVelX;
+    pState->field_14_vely = mVelY;
 
-    pState->field_1C_path_number = mBaseAnimatedWithPhysicsGameObject_PathNumber;
-    pState->field_1E_lvl_number = MapWrapper::ToAE(mBaseAnimatedWithPhysicsGameObject_LvlNumber);
+    pState->field_1C_path_number = mCurrentPath;
+    pState->field_1E_lvl_number = MapWrapper::ToAE(mCurrentLevel);
 
-    pState->field_18_sprite_scale = mBaseAnimatedWithPhysicsGameObject_SpriteScale;
+    pState->field_18_sprite_scale = mSpriteScale;
 
-    pState->field_20_flags.Set(Meat_SaveState::eBit3_bLoop, mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit8_Loop));
-    pState->field_20_flags.Set(Meat_SaveState::eBit1_bRender, mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit3_Render));
+    pState->field_20_flags.Set(Meat_SaveState::eBit3_bLoop, mAnim.mFlags.Get(AnimFlags::eBit8_Loop));
+    pState->field_20_flags.Set(Meat_SaveState::eBit1_bRender, mAnim.mFlags.Get(AnimFlags::eBit3_Render));
 
     pState->field_20_flags.Set(Meat_SaveState::eBit2_bDrawable, mBaseGameObjectFlags.Get(BaseGameObject::eDrawable_Bit4));
     pState->field_20_flags.Set(Meat_SaveState::eBit4_bInteractive, mBaseGameObjectFlags.Get(BaseGameObject::eInteractive_Bit8));

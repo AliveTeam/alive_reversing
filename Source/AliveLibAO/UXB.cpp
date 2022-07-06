@@ -21,8 +21,8 @@ UXB::UXB(Path_UXB* pTlv, s32 tlvInfo)
     u8** ppRes2 = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
     Animation_Init(AnimId::UXB_Active, ppRes2);
 
-    mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit15_bSemiTrans);
-    mBaseAnimatedWithPhysicsGameObject_Anim.mRenderMode = TPageAbr::eBlend_0;
+    mAnim.mFlags.Set(AnimFlags::eBit15_bSemiTrans);
+    mAnim.mRenderMode = TPageAbr::eBlend_0;
 
     mBaseGameObjectFlags.Set(Options::eInteractive_Bit8);
     field_1BC_flags.Clear(flags_1BC::eUnused_Bit0);
@@ -47,15 +47,15 @@ UXB::UXB(Path_UXB* pTlv, s32 tlvInfo)
 
     if (pTlv->field_1C_scale == Scale_short::eHalf_1)
     {
-        mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromDouble(0.5);
-        mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_RollingBallBombMineCar_Half_16;
-        mBaseAnimatedWithPhysicsGameObject_Scale = Scale::Bg;
+        mSpriteScale = FP_FromDouble(0.5);
+        mAnim.mRenderLayer = Layer::eLayer_RollingBallBombMineCar_Half_16;
+        mScale = Scale::Bg;
     }
     else
     {
-        mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromInteger(1);
-        mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_RollingBallBombMineCar_35;
-        mBaseAnimatedWithPhysicsGameObject_Scale = Scale::Fg;
+        mSpriteScale = FP_FromInteger(1);
+        mAnim.mRenderLayer = Layer::eLayer_RollingBallBombMineCar_35;
+        mScale = Scale::Fg;
     }
 
     InitBlinkAnim();
@@ -71,16 +71,16 @@ UXB::UXB(Path_UXB* pTlv, s32 tlvInfo)
             field_11C_anim.Set_Animation_Data(AnimId::Bomb_RedGreenTick, nullptr);
 
             if (gMap.Is_Point_In_Current_Camera(
-                    mBaseAnimatedWithPhysicsGameObject_LvlNumber,
-                    mBaseAnimatedWithPhysicsGameObject_PathNumber,
-                    mBaseAnimatedWithPhysicsGameObject_XPos,
-                    mBaseAnimatedWithPhysicsGameObject_YPos,
+                    mCurrentLevel,
+                    mCurrentPath,
+                    mXPos,
+                    mYPos,
                     0))
             {
                 SfxPlayMono(SoundEffect::GreenTick_3, 35, 0);
             }
 
-            mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::UXB_Disabled, nullptr);
+            mAnim.Set_Animation_Data(AnimId::UXB_Disabled, nullptr);
 
             field_10C_state = UXBState::eDeactivated_3;
             field_10E_starting_state = UXBState::eDelay_0;
@@ -104,15 +104,15 @@ UXB::UXB(Path_UXB* pTlv, s32 tlvInfo)
 
             field_11C_anim.Set_Animation_Data(AnimId::Bomb_RedGreenTick, nullptr);
 
-            mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::UXB_Disabled, nullptr);
+            mAnim.Set_Animation_Data(AnimId::UXB_Disabled, nullptr);
 
             field_10E_starting_state = UXBState::eDeactivated_3;
             field_10C_state = UXBState::eDeactivated_3;
         }
     }
 
-    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pTlv->mTopLeft.x + 12);
-    mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->mTopLeft.y + 24);
+    mXPos = FP_FromInteger(pTlv->mTopLeft.x + 12);
+    mYPos = FP_FromInteger(pTlv->mTopLeft.y + 24);
 
     field_114_tlvInfo = tlvInfo;
     field_118_next_state_frame = sGnFrame;
@@ -141,18 +141,18 @@ UXB::UXB(Path_UXB* pTlv, s32 tlvInfo)
     if (gMap.mCurrentLevel == EReliveLevelIds::eStockYards || gMap.mCurrentLevel == EReliveLevelIds::eStockYardsReturn)
     {
         field_1BC_flags.Clear(flags_1BC::eIsRed_Bit1);
-        mBaseAnimatedWithPhysicsGameObject_RGB.SetRGB(80, 90, 110);
+        mRGB.SetRGB(80, 90, 110);
         ResourceManager::GetLoadedResource(ResourceManager::Resource_Palt, AOResourceID::kAbeblowAOResID, 1, 0);
         ResourceManager::GetLoadedResource(ResourceManager::Resource_Palt, AOResourceID::kSlogBlowAOResID, 1, 0);
     }
 
-    const FP gridSnap = ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale);
+    const FP gridSnap = ScaleToGridSize(mSpriteScale);
     mBaseGameObjectFlags.Set(Options::eInteractive_Bit8);
 
-    mCollectionRect.x = mBaseAnimatedWithPhysicsGameObject_XPos - (gridSnap / FP_FromInteger(2));
-    mCollectionRect.y = mBaseAnimatedWithPhysicsGameObject_YPos - gridSnap;
-    mCollectionRect.w = mBaseAnimatedWithPhysicsGameObject_XPos + (gridSnap / FP_FromInteger(2));
-    mCollectionRect.h = mBaseAnimatedWithPhysicsGameObject_YPos;
+    mCollectionRect.x = mXPos - (gridSnap / FP_FromInteger(2));
+    mCollectionRect.y = mYPos - gridSnap;
+    mCollectionRect.w = mXPos + (gridSnap / FP_FromInteger(2));
+    mCollectionRect.h = mYPos;
 }
 
 void UXB::InitBlinkAnim()
@@ -164,11 +164,11 @@ void UXB::InitBlinkAnim()
             this,
             ppRes))
     {
-        field_11C_anim.mAnimFlags.Set(AnimFlags::eBit15_bSemiTrans);
-        field_11C_anim.mAnimFlags.Set(AnimFlags::eBit16_bBlending);
+        field_11C_anim.mFlags.Set(AnimFlags::eBit15_bSemiTrans);
+        field_11C_anim.mFlags.Set(AnimFlags::eBit16_bBlending);
 
-        field_11C_anim.mRenderLayer = mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer;
-        field_11C_anim.field_14_scale = mBaseAnimatedWithPhysicsGameObject_SpriteScale;
+        field_11C_anim.mRenderLayer = mAnim.mRenderLayer;
+        field_11C_anim.field_14_scale = mSpriteScale;
         field_11C_anim.mRed = 128;
         field_11C_anim.mGreen = 128;
         field_11C_anim.mBlue = 128;
@@ -222,7 +222,7 @@ UXB::~UXB()
 
 void UXB::VScreenChanged()
 {
-    if (gMap.mCurrentLevel != gMap.mLevel || gMap.mCurrentPath != gMap.mPath)
+    if (gMap.mCurrentLevel != gMap.mNextLevel || gMap.mCurrentPath != gMap.mNextPath)
     {
         if (field_10E_starting_state == UXBState::eDeactivated_3 && field_10C_state != UXBState::eDeactivated_3)
         {
@@ -270,10 +270,10 @@ s16 UXB::VTakeDamage(BaseGameObject* pFrom)
     mBaseGameObjectFlags.Set(BaseGameObject::eDead);
 
     relive_new BaseBomb(
-        mBaseAnimatedWithPhysicsGameObject_XPos,
-        mBaseAnimatedWithPhysicsGameObject_YPos,
+        mXPos,
+        mYPos,
         0,
-        mBaseAnimatedWithPhysicsGameObject_SpriteScale);
+        mSpriteScale);
 
     field_10C_state = UXBState::eExploding_2;
     field_118_next_state_frame = sGnFrame;
@@ -284,10 +284,10 @@ s16 UXB::VTakeDamage(BaseGameObject* pFrom)
 void UXB::VOnThrowableHit(BaseGameObject* /*pFrom*/)
 {
     relive_new BaseBomb(
-        mBaseAnimatedWithPhysicsGameObject_XPos,
-        mBaseAnimatedWithPhysicsGameObject_YPos,
+        mXPos,
+        mYPos,
         0,
-        mBaseAnimatedWithPhysicsGameObject_SpriteScale);
+        mSpriteScale);
 
     mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     field_10C_state = UXBState::eExploding_2;
@@ -309,15 +309,15 @@ void UXB::VOnPickUpOrSlapped()
             {
                 field_11C_anim.Set_Animation_Data(AnimId::Bomb_RedGreenTick, nullptr);
                 if (gMap.Is_Point_In_Current_Camera(
-                        mBaseAnimatedWithPhysicsGameObject_LvlNumber,
-                        mBaseAnimatedWithPhysicsGameObject_PathNumber,
-                        mBaseAnimatedWithPhysicsGameObject_XPos,
-                        mBaseAnimatedWithPhysicsGameObject_YPos,
+                        mCurrentLevel,
+                        mCurrentPath,
+                        mXPos,
+                        mYPos,
                         0))
                 {
                     SfxPlayMono(SoundEffect::GreenTick_3, 35, 0);
                 }
-                mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::UXB_Toggle, nullptr);
+                mAnim.Set_Animation_Data(AnimId::UXB_Toggle, nullptr);
                 field_10C_state = UXBState::eDeactivated_3;
                 field_118_next_state_frame = sGnFrame + 10;
             }
@@ -326,12 +326,12 @@ void UXB::VOnPickUpOrSlapped()
         {
             field_10C_state = UXBState::eDelay_0;
             mBaseGameObjectUpdateDelay = 6;
-            mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::UXB_Active, nullptr);
+            mAnim.Set_Animation_Data(AnimId::UXB_Active, nullptr);
             if (gMap.Is_Point_In_Current_Camera(
-                    mBaseAnimatedWithPhysicsGameObject_LvlNumber,
-                    mBaseAnimatedWithPhysicsGameObject_PathNumber,
-                    mBaseAnimatedWithPhysicsGameObject_XPos,
-                    mBaseAnimatedWithPhysicsGameObject_YPos,
+                    mCurrentLevel,
+                    mCurrentPath,
+                    mXPos,
+                    mYPos,
                     0))
             {
                 SfxPlayMono(SoundEffect::RedTick_4, 35, 0);
@@ -403,20 +403,20 @@ void UXB::VUpdate()
                 if (field_1BC_flags.Get(flags_1BC::eIsRed_Bit1))
                 {
                     if (gMap.Is_Point_In_Current_Camera(
-                            mBaseAnimatedWithPhysicsGameObject_LvlNumber,
-                            mBaseAnimatedWithPhysicsGameObject_PathNumber,
-                            mBaseAnimatedWithPhysicsGameObject_XPos,
-                            mBaseAnimatedWithPhysicsGameObject_YPos,
+                            mCurrentLevel,
+                            mCurrentPath,
+                            mXPos,
+                            mYPos,
                             0))
                     {
                         SfxPlayMono(SoundEffect::RedTick_4, 35, 0);
                     }
                 }
                 else if (gMap.Is_Point_In_Current_Camera(
-                             mBaseAnimatedWithPhysicsGameObject_LvlNumber,
-                             mBaseAnimatedWithPhysicsGameObject_PathNumber,
-                             mBaseAnimatedWithPhysicsGameObject_XPos,
-                             mBaseAnimatedWithPhysicsGameObject_YPos,
+                             mCurrentLevel,
+                             mCurrentPath,
+                             mXPos,
+                             mYPos,
                              0))
                 {
                     SfxPlayMono(SoundEffect::GreenTick_3, 35, 0);
@@ -430,10 +430,10 @@ void UXB::VUpdate()
             if (static_cast<s32>(sGnFrame) >= field_118_next_state_frame)
             {
                 relive_new BaseBomb(
-                    mBaseAnimatedWithPhysicsGameObject_XPos,
-                    mBaseAnimatedWithPhysicsGameObject_YPos,
+                    mXPos,
+                    mYPos,
                     0,
-                    mBaseAnimatedWithPhysicsGameObject_SpriteScale);
+                    mSpriteScale);
                 mBaseGameObjectFlags.Set(BaseGameObject::eDead);
             }
             break;
@@ -477,14 +477,14 @@ s16 UXB::IsColliding()
 
         if (pObj->mBaseAliveGameObjectFlags.Get(Flags_10A::e10A_Bit4_SetOffExplosives))
         {
-            if (pObj->mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit3_Render))
+            if (pObj->mAnim.mFlags.Get(AnimFlags::eBit3_Render))
             {
                 const PSX_RECT objBound = pObj->VGetBoundingRect();
 
-                const s32 objX = FP_GetExponent(pObj->mBaseAnimatedWithPhysicsGameObject_XPos);
-                const s32 objY = FP_GetExponent(pObj->mBaseAnimatedWithPhysicsGameObject_YPos);
+                const s32 objX = FP_GetExponent(pObj->mXPos);
+                const s32 objY = FP_GetExponent(pObj->mYPos);
 
-                if (objX > uxbBound.x && objX < uxbBound.w && objY < uxbBound.h + 5 && uxbBound.x <= objBound.w && uxbBound.w >= objBound.x && uxbBound.h >= objBound.y && uxbBound.y <= objBound.h && pObj->mBaseAnimatedWithPhysicsGameObject_SpriteScale == mBaseAnimatedWithPhysicsGameObject_SpriteScale)
+                if (objX > uxbBound.x && objX < uxbBound.w && objY < uxbBound.h + 5 && uxbBound.x <= objBound.w && uxbBound.w >= objBound.x && uxbBound.h >= objBound.y && uxbBound.y <= objBound.h && pObj->mSpriteScale == mSpriteScale)
                 {
                     return 1;
                 }
@@ -497,18 +497,18 @@ s16 UXB::IsColliding()
 void UXB::VRender(PrimHeader** ppOt)
 {
     if (gMap.Is_Point_In_Current_Camera(
-            mBaseAnimatedWithPhysicsGameObject_LvlNumber,
-            mBaseAnimatedWithPhysicsGameObject_PathNumber,
-            mBaseAnimatedWithPhysicsGameObject_XPos,
-            mBaseAnimatedWithPhysicsGameObject_YPos,
+            mCurrentLevel,
+            mCurrentPath,
+            mXPos,
+            mYPos,
             0))
     {
         field_11C_anim.VRender(
-            FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos
+            FP_GetExponent(mXPos
                            + FP_FromInteger(pScreenManager->mCamXOff)
                            - pScreenManager->mCamPos->x),
-            FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos
-                           + (FP_FromInteger(pScreenManager->mCamYOff) - FP_NoFractional(mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(12)))
+            FP_GetExponent(mYPos
+                           + (FP_FromInteger(pScreenManager->mCamYOff) - FP_NoFractional(mSpriteScale * FP_FromInteger(12)))
                            - pScreenManager->mCamPos->y),
             ppOt,
             0,

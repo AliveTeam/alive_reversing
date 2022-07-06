@@ -98,7 +98,7 @@ public:
 
     static void AnimateAll(DynamicArrayT<AnimationBase>* pAnimations);
 
-    BitField32<AnimFlags> mAnimFlags = {};
+    BitField32<AnimFlags> mFlags = {};
 
     u8 mRed = 0;
     u8 mGreen = 0;

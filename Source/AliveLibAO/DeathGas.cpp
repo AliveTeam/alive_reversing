@@ -89,7 +89,7 @@ DeathGas::~DeathGas()
 
 void DeathGas::VScreenChanged()
 {
-    if (gMap.mCurrentLevel != gMap.mLevel || gMap.mOverlayId != gMap.GetOverlayId() || !sActiveHero_507678)
+    if (gMap.mCurrentLevel != gMap.mNextLevel || gMap.mOverlayId != gMap.GetOverlayId() || !sActiveHero_507678)
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }

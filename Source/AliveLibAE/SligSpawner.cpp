@@ -46,7 +46,7 @@ SligSpawner::~SligSpawner()
 
 void SligSpawner::VScreenChanged()
 {
-    if (gMap.mCurrentLevel != gMap.mLevel || gMap.mCurrentPath != gMap.mPath || field_38_state == SpawnerStates::eInactive_0)
+    if (gMap.mCurrentLevel != gMap.mNextLevel || gMap.mCurrentPath != gMap.mNextPath || field_38_state == SpawnerStates::eInactive_0)
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }

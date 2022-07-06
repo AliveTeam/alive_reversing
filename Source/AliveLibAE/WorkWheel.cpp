@@ -20,25 +20,25 @@ WorkWheel::WorkWheel(Path_WorkWheel* pTlv, s32 tlvInfo)
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
     Animation_Init(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes);
 
-    mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(eBit15_bSemiTrans);
+    mAnim.mFlags.Set(eBit15_bSemiTrans);
 
-    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger((pTlv->mTopLeft.x + pTlv->mBottomRight.x) / 2);
-    mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->mTopLeft.y);
+    mXPos = FP_FromInteger((pTlv->mTopLeft.x + pTlv->mBottomRight.x) / 2);
+    mYPos = FP_FromInteger(pTlv->mTopLeft.y);
 
     if (pTlv->field_10_scale != Scale_short::eFull_0)
     {
         if (pTlv->field_10_scale == Scale_short::eHalf_1)
         {
-            mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromDouble(0.5);
-            mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_BeforeShadow_Half_6;
-            mBaseAnimatedWithPhysicsGameObject_Scale = Scale::Bg;
+            mSpriteScale = FP_FromDouble(0.5);
+            mAnim.mRenderLayer = Layer::eLayer_BeforeShadow_Half_6;
+            mScale = Scale::Bg;
         }
     }
     else
     {
-        mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromInteger(1);
-        mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_BeforeShadow_25;
-        mBaseAnimatedWithPhysicsGameObject_Scale = Scale::Fg;
+        mSpriteScale = FP_FromInteger(1);
+        mAnim.mRenderLayer = Layer::eLayer_BeforeShadow_25;
+        mScale = Scale::Fg;
     }
 
     field_F8_switch_id = pTlv->field_12_switch_id;
@@ -51,20 +51,20 @@ WorkWheel::WorkWheel(Path_WorkWheel* pTlv, s32 tlvInfo)
     FP hitX = {};
     FP hitY = {};
     if (sCollisions->Raycast(
-            mBaseAnimatedWithPhysicsGameObject_XPos,
-            mBaseAnimatedWithPhysicsGameObject_YPos,
-            mBaseAnimatedWithPhysicsGameObject_XPos,
-            mBaseAnimatedWithPhysicsGameObject_YPos + FP_FromInteger(24),
+            mXPos,
+            mYPos,
+            mXPos,
+            mYPos + FP_FromInteger(24),
             &pathLine,
             &hitX,
             &hitY,
-            (mBaseAnimatedWithPhysicsGameObject_Scale == Scale::Fg) ? kFgFloorCeilingOrWalls : kBgFloorCeilingOrWalls))
+            (mScale == Scale::Fg) ? kFgFloorCeilingOrWalls : kBgFloorCeilingOrWalls))
     {
-        mBaseAnimatedWithPhysicsGameObject_YPos = hitY;
+        mYPos = hitY;
     }
     else
     {
-        mBaseAnimatedWithPhysicsGameObject_YPos += FP_FromInteger(20) * mBaseAnimatedWithPhysicsGameObject_SpriteScale;
+        mYPos += FP_FromInteger(20) * mSpriteScale;
     }
 
 
@@ -131,10 +131,10 @@ void WorkWheel::VUpdate()
 
         if (!(field_100_on_counter % 10)
             && gMap.Is_Point_In_Current_Camera(
-                mBaseAnimatedWithPhysicsGameObject_LvlNumber,
-                mBaseAnimatedWithPhysicsGameObject_PathNumber,
-                mBaseAnimatedWithPhysicsGameObject_XPos,
-                mBaseAnimatedWithPhysicsGameObject_YPos,
+                mCurrentLevel,
+                mCurrentPath,
+                mXPos,
+                mYPos,
                 0))
         {
             const s16 randomVol = Math_RandomRange(-30, 0);
@@ -169,7 +169,7 @@ void WorkWheel::VUpdate()
 
 void WorkWheel::VScreenChanged()
 {
-    if (gMap.mCurrentLevel != gMap.mLevel || gMap.mCurrentPath != gMap.mPath || field_FC_state == WheelStates::eIdle_0)
+    if (gMap.mCurrentLevel != gMap.mNextLevel || gMap.mCurrentPath != gMap.mNextPath || field_FC_state == WheelStates::eIdle_0)
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
@@ -180,7 +180,7 @@ void WorkWheel::VStartTurning()
     if (field_FC_state == WheelStates::eIdle_0)
     {
         field_FC_state = WheelStates::eTurning_1;
-        mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::Work_Wheel_Turning, nullptr);
+        mAnim.Set_Animation_Data(AnimId::Work_Wheel_Turning, nullptr);
     }
 }
 
@@ -191,7 +191,7 @@ void WorkWheel::VStopTurning(s16 bResetSwitch)
         field_FC_state = WheelStates::eIdle_0;
 
         // Spin it.
-        mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::Work_Wheel_Idle, nullptr);
+        mAnim.Set_Animation_Data(AnimId::Work_Wheel_Idle, nullptr);
 
         if (field_104_turn_off_when_stopped == Choice_short::eYes_1)
         {

@@ -1358,14 +1358,14 @@ HintFly::HintFly(Path_HintFly* pTlv, s32 tlvInfo)
     {
         Animation_Init(AnimId::HintFly, ppRes);
 
-        mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit15_bSemiTrans);
+        mAnim.mFlags.Clear(AnimFlags::eBit15_bSemiTrans);
         field_124_tlvInfo = tlvInfo;
         field_11E_msg_idx = 0;
 
         field_11C_message_id = pTlv->field_18_message_id;
 
-        mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pTlv->mTopLeft.x);
-        mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->mTopLeft.y);
+        mXPos = FP_FromInteger(pTlv->mTopLeft.x);
+        mYPos = FP_FromInteger(pTlv->mTopLeft.y);
 
         const char_type* pMsg = gHintFlyMessages.GetMessage(gMap.mCurrentLevel, gMap.mCurrentPath, pTlv->field_18_message_id);
 
@@ -1407,11 +1407,11 @@ HintFly::HintFly(Path_HintFly* pTlv, s32 tlvInfo)
             field_112_state = State::eIdleWaitForChanting_1;
             field_10C_timer = 0;
 
-            if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit13_Is8Bit))
+            if (mAnim.mFlags.Get(AnimFlags::eBit13_Is8Bit))
             {
                 field_110_bitMode = TPageMode::e8Bit_1;
             }
-            else if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit14_Is16Bit))
+            else if (mAnim.mFlags.Get(AnimFlags::eBit14_Is16Bit))
             {
                 field_110_bitMode = TPageMode::e16Bit_2;
             }
@@ -1420,7 +1420,7 @@ HintFly::HintFly(Path_HintFly* pTlv, s32 tlvInfo)
                 field_110_bitMode = TPageMode::e4Bit_0;
             }
 
-            s32 vram_x = mBaseAnimatedWithPhysicsGameObject_Anim.mVramRect.x & 0x3F;
+            s32 vram_x = mAnim.mVramRect.x & 0x3F;
             if (field_110_bitMode == TPageMode::e8Bit_1)
             {
                 vram_x = 2 * vram_x;
@@ -1430,7 +1430,7 @@ HintFly::HintFly(Path_HintFly* pTlv, s32 tlvInfo)
                 vram_x = 4 * vram_x;
             }
 
-            const auto pHeader = reinterpret_cast<const FrameHeader*>(&(*mBaseAnimatedWithPhysicsGameObject_Anim.field_20_ppBlock)[mBaseAnimatedWithPhysicsGameObject_Anim.Get_FrameHeader(-1)->field_0_frame_header_offset]);
+            const auto pHeader = reinterpret_cast<const FrameHeader*>(&(*mAnim.field_20_ppBlock)[mAnim.Get_FrameHeader(-1)->field_0_frame_header_offset]);
 
             for (s32 i = 0; i < field_11A_msg_len; i++)
             {
@@ -1444,10 +1444,10 @@ HintFly::HintFly(Path_HintFly* pTlv, s32 tlvInfo)
                     Poly_Set_Blending(&pSprt->mBase.header, 1);
 
                     SetClut(pSprt, static_cast<s16>(PSX_getClut(
-                                       mBaseAnimatedWithPhysicsGameObject_Anim.mPalVramXY.x,
-                                       mBaseAnimatedWithPhysicsGameObject_Anim.mPalVramXY.y)));
+                                       mAnim.mPalVramXY.x,
+                                       mAnim.mPalVramXY.y)));
 
-                    SetUV0(pSprt, vram_x & 0xFF, mBaseAnimatedWithPhysicsGameObject_Anim.mVramRect.y & 0xFF);
+                    SetUV0(pSprt, vram_x & 0xFF, mAnim.mVramRect.y & 0xFF);
 
                     pSprt->field_14_w = pHeader->field_4_width - 1;
                     pSprt->field_16_h = pHeader->field_5_height - 1;
@@ -1455,14 +1455,14 @@ HintFly::HintFly(Path_HintFly* pTlv, s32 tlvInfo)
             }
 
 
-            field_114_xScreen = FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos + FP_FromInteger(pScreenManager->mCamXOff) - pScreenManager->mCamPos->x);
-            field_116_yScreen = FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos + FP_FromInteger(pScreenManager->mCamYOff) - pScreenManager->mCamPos->y);
+            field_114_xScreen = FP_GetExponent(mXPos + FP_FromInteger(pScreenManager->mCamXOff) - pScreenManager->mCamPos->x);
+            field_116_yScreen = FP_GetExponent(mYPos + FP_FromInteger(pScreenManager->mCamYOff) - pScreenManager->mCamPos->y);
 
             // Some unknown pal hack that seems to do nothing
             /*
-            const PSX_RECT rect = { static_cast<s16>(mBaseAnimatedWithPhysicsGameObject_Anim.mPalVramXY.x + 1), mBaseAnimatedWithPhysicsGameObject_Anim.mPalVramXY.y, 1, 1 };
+            const PSX_RECT rect = { static_cast<s16>(mAnim.mPalVramXY.x + 1), mAnim.mPalVramXY.y, 1, 1 };
             const u8 data[] = { 0, 0, 0, 0 };
-            if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit14_Is16Bit))
+            if (mAnim.mFlags.Get(AnimFlags::eBit14_Is16Bit))
             {
                 PSX_LoadImage16_4962A0(&rect, data);
             }
@@ -1876,12 +1876,12 @@ void HintFly::VRender(PrimHeader** ppOt)
     }
 
     s16 tPageY = 256;
-    if (!mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit10_alternating_flag) && mBaseAnimatedWithPhysicsGameObject_Anim.mVramRect.y < 256u)
+    if (!mAnim.mFlags.Get(AnimFlags::eBit10_alternating_flag) && mAnim.mVramRect.y < 256u)
     {
         tPageY = 0;
     }
 
-    const s32 tpage = PSX_getTPage(field_110_bitMode, TPageAbr::eBlend_1, mBaseAnimatedWithPhysicsGameObject_Anim.mVramRect.x & 0xFFC0, tPageY);
+    const s32 tpage = PSX_getTPage(field_110_bitMode, TPageAbr::eBlend_1, mAnim.mVramRect.x & 0xFFC0, tPageY);
 
     Init_SetTPage(pTPage, 0, 0, tpage);
     OrderingTable_Add(OtLayer(ppOt, Layer::eLayer_Above_FG1_39), &pTPage->mBase);

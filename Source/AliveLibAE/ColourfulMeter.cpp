@@ -81,7 +81,7 @@ void ColourfulMeter::VScreenChanged()
 {
     mBaseGameObjectFlags.Set(BaseGameObject::eDead);
 
-    if (gMap.mCurrentLevel != gMap.mLevel || gMap.mCurrentPath != gMap.mPath)
+    if (gMap.mCurrentLevel != gMap.mNextLevel || gMap.mCurrentPath != gMap.mNextPath)
     {
         gTotalMeterBars_5C1BFA = 0;
     }

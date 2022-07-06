@@ -46,7 +46,7 @@ void OrbWhirlWindParticle::ToStop()
 
 s32 OrbWhirlWindParticle::IsActive()
 {
-    return mAnimFlags & 1;
+    return mFlags.Get(Flags::eIsActive);
 }
 
 void OrbWhirlWindParticle::Render(PrimHeader** ppOt)
@@ -81,11 +81,11 @@ void OrbWhirlWindParticle::SetActive(u8 active)
 {
     if (active)
     {
-        mAnimFlags |= 1;
+        mFlags.Set(Flags::eIsActive);
     }
     else
     {
-        mAnimFlags &= ~1;
+        mFlags.Clear(Flags::eIsActive);
     }
 }
 
@@ -120,7 +120,7 @@ void OrbWhirlWindParticle::Update()
                     field_F0_scale = field_CC_xpos_mid;
                     field_FC_xpos_offset2 = field_D0_ypos_mid;
                     field_F4_xpos_offset = field_D0_ypos_mid;
-                    field_C8_scale_offset_fly_to_target = (field_E4_pObj->mBaseAnimatedWithPhysicsGameObject_SpriteScale - field_C0_current_scale) / FP_FromInteger(16);
+                    field_C8_scale_offset_fly_to_target = (field_E4_pObj->mSpriteScale - field_C0_current_scale) / FP_FromInteger(16);
                     field_DC_position_timer = sGnFrame + 16;
                     field_B4_state = State::State_2_FlyToTarget;
                     CalculateRenderProperties(1);
@@ -195,7 +195,7 @@ OrbWhirlWindParticle::OrbWhirlWindParticle(FP xpos, FP ypos, FP scale)
     u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, orbRec.mResourceId, 1, 0);
     field_8_anim.Init(AnimId::ChantOrb_Particle, nullptr, ppRes);
 
-    field_8_anim.mAnimFlags.Set(AnimFlags::eBit15_bSemiTrans);
+    field_8_anim.mFlags.Set(AnimFlags::eBit15_bSemiTrans);
 
     field_8_anim.mRenderLayer = Layer::eLayer_AbeMenu_32;
     field_8_anim.mRenderMode = TPageAbr::eBlend_1;
@@ -205,7 +205,7 @@ OrbWhirlWindParticle::OrbWhirlWindParticle(FP xpos, FP ypos, FP scale)
     field_8_anim.mBlue = 80;
 
     field_8_anim.SetFrame(Math_RandomRange(0, field_8_anim.Get_Frame_Count() - 1));
-    mAnimFlags &= ~1u;
+    mFlags.Clear(Flags::eIsActive);
     field_B4_state = State::State_0_Start;
     field_B8_render_angle = Math_RandomRange(0, 255);
     field_BC_counter = 1;

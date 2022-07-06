@@ -34,11 +34,11 @@ void Well::VScreenChanged()
 
 void Well::VRender(PrimHeader** ppOt)
 {
-    mBaseAnimatedWithPhysicsGameObject_XPos += FP_FromInteger(gTweak_X_5076D8);
-    mBaseAnimatedWithPhysicsGameObject_YPos += FP_FromInteger(gTweak_Y_5076DC);
+    mXPos += FP_FromInteger(gTweak_X_5076D8);
+    mYPos += FP_FromInteger(gTweak_Y_5076DC);
     BaseAnimatedWithPhysicsGameObject::VRender(ppOt);
-    mBaseAnimatedWithPhysicsGameObject_XPos -= FP_FromInteger(gTweak_X_5076D8);
-    mBaseAnimatedWithPhysicsGameObject_YPos -= FP_FromInteger(gTweak_Y_5076DC);
+    mXPos -= FP_FromInteger(gTweak_X_5076D8);
+    mYPos -= FP_FromInteger(gTweak_Y_5076DC);
 }
 
 void Well::VUpdate()
@@ -70,11 +70,11 @@ void Well::VUpdate()
                     {
                         if (field_EC_scale == FP_FromDouble(0.5))
                         {
-                            pLeaf->mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_BeforeWell_Half_3;
+                            pLeaf->mAnim.mRenderLayer = Layer::eLayer_BeforeWell_Half_3;
                         }
                         else
                         {
-                            pLeaf->mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_BeforeWell_22;
+                            pLeaf->mAnim.mRenderLayer = Layer::eLayer_BeforeWell_22;
                         }
                     }
                 }
@@ -94,23 +94,23 @@ void Well::WellExpress_Init(Path_WellExpress* pTlv, FP /*xpos*/, FP ypos)
     if (ppRes)
     {
         Animation_Init(anim.mFrameTableOffset, anim.mMaxW, anim.mMaxH, ppRes);
-        mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit15_bSemiTrans);
+        mAnim.mFlags.Clear(AnimFlags::eBit15_bSemiTrans);
         mVisualFlags.Clear(VisualFlags::eApplyShadowZoneColour);
     }
     else
     {
-        mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit3_Render);
+        mAnim.mFlags.Clear(AnimFlags::eBit3_Render);
         mBaseGameObjectFlags.Clear(Options::eDrawable_Bit4);
     }
 
     if (pTlv->field_18_scale == Scale_short::eHalf_1)
     {
-        mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_Well_Half_4;
+        mAnim.mRenderLayer = Layer::eLayer_Well_Half_4;
         field_EC_scale = FP_FromDouble(0.5);
     }
     else
     {
-        mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_Well_23;
+        mAnim.mRenderLayer = Layer::eLayer_Well_23;
         field_EC_scale = FP_FromInteger(1);
     }
 
@@ -149,26 +149,26 @@ void Well::WellLocal_Init(Path_WellLocal* pTlv, FP /*xpos*/, FP ypos)
     if (ppRes)
     {
         Animation_Init(anim.mFrameTableOffset, anim.mMaxW, anim.mMaxH, ppRes);
-        mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit15_bSemiTrans);
+        mAnim.mFlags.Clear(AnimFlags::eBit15_bSemiTrans);
         mVisualFlags.Clear(VisualFlags::eApplyShadowZoneColour);
     }
     else
     {
-        mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit3_Render);
+        mAnim.mFlags.Clear(AnimFlags::eBit3_Render);
         mBaseGameObjectFlags.Clear(Options::eDrawable_Bit4);
     }
 
     if (pTlv->field_18_scale == Scale_short::eHalf_1)
     {
-        mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_Well_Half_4;
+        mAnim.mRenderLayer = Layer::eLayer_Well_Half_4;
         field_EC_scale = FP_FromDouble(0.5);
-        mBaseAnimatedWithPhysicsGameObject_Scale = Scale::Bg;
+        mScale = Scale::Bg;
     }
     else
     {
-        mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_Well_23;
+        mAnim.mRenderLayer = Layer::eLayer_Well_23;
         field_EC_scale = FP_FromInteger(1);
-        mBaseAnimatedWithPhysicsGameObject_Scale = Scale::Fg;
+        mScale = Scale::Fg;
     }
 
     field_E8_switch_id = pTlv->field_1A_switch_id;
@@ -198,10 +198,10 @@ Well::Well(Path_WellBase* pTlv, FP xpos, FP ypos, s32 tlvInfo)
     field_E4_tlvInfo = tlvInfo;
     mBaseGameObjectTypeId = ReliveTypes::eWell;
 
-    mBaseAnimatedWithPhysicsGameObject_RGB.SetRGB(128, 128, 128);
+    mRGB.SetRGB(128, 128, 128);
 
-    mBaseAnimatedWithPhysicsGameObject_YPos = ypos;
-    mBaseAnimatedWithPhysicsGameObject_XPos = xpos;
+    mYPos = ypos;
+    mXPos = xpos;
 
     if (pTlv->mTlvType32 == TlvTypes::WellLocal_11)
     {

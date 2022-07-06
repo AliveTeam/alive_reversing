@@ -53,15 +53,15 @@ FallingItem::FallingItem(Path_FallingItem* pTlv, s32 tlvInfo)
 
     if (pTlv->field_12_scale == Scale_short::eHalf_1)
     {
-        mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromDouble(0.5);
-        mBaseAnimatedWithPhysicsGameObject_Scale = Scale::Bg;
-        mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_DoorFlameRollingBallFallingItemPortalClip_Half_12;
+        mSpriteScale = FP_FromDouble(0.5);
+        mScale = Scale::Bg;
+        mAnim.mRenderLayer = Layer::eLayer_DoorFlameRollingBallFallingItemPortalClip_Half_12;
     }
     else
     {
-        mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromInteger(1);
-        mBaseAnimatedWithPhysicsGameObject_Scale = Scale::Fg;
-        mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_FallingItemDoorFlameRollingBallPortalClip_Half_31;
+        mSpriteScale = FP_FromInteger(1);
+        mScale = Scale::Fg;
+        mAnim.mRenderLayer = Layer::eLayer_FallingItemDoorFlameRollingBallPortalClip_Half_31;
     }
 
     field_124_fall_interval = pTlv->field_14_fall_interval;
@@ -71,17 +71,17 @@ FallingItem::FallingItem(Path_FallingItem* pTlv, s32 tlvInfo)
     field_12C_reset_switch_id_after_use = pTlv->field_18_reset_switch_id_after_use;
     field_12E_do_sound_in_state_falling = TRUE;
 
-    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pTlv->mTopLeft.x);
-    mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->mTopLeft.y);
+    mXPos = FP_FromInteger(pTlv->mTopLeft.x);
+    mYPos = FP_FromInteger(pTlv->mTopLeft.y);
 
-    if (mBaseAnimatedWithPhysicsGameObject_YPos > pScreenManager->CamYPos())
+    if (mYPos > pScreenManager->CamYPos())
     {
-        mBaseAnimatedWithPhysicsGameObject_YPos = pScreenManager->CamYPos();
+        mYPos = pScreenManager->CamYPos();
     }
 
     field_138_xpos = FP_FromInteger((pTlv->mTopLeft.x + pTlv->mBottomRight.x) / 2);
     field_13C_ypos = FP_FromInteger(pTlv->mBottomRight.y);
-    field_130_yPosStart = mBaseAnimatedWithPhysicsGameObject_YPos;
+    field_130_yPosStart = mYPos;
     field_11C_state = State::eWaitForIdEnable_0;
     field_140_sound_channels = 0;
 
@@ -108,7 +108,7 @@ FallingItem::FallingItem(Path_FallingItem* pTlv, s32 tlvInfo)
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
     Animation_Init(sFallingItemData_544DC0[lvlIdx][0], ppRes);
 
-    mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_FallingItemDoorFlameRollingBallPortalClip_Half_31;
+    mAnim.mRenderLayer = Layer::eLayer_FallingItemDoorFlameRollingBallPortalClip_Half_31;
 
     if (id)
     {
@@ -121,13 +121,13 @@ FallingItem::FallingItem(Path_FallingItem* pTlv, s32 tlvInfo)
 
     if (scale)
     {
-        mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromDouble(0.5);
-        mBaseAnimatedWithPhysicsGameObject_Scale = Scale::Bg;
+        mSpriteScale = FP_FromDouble(0.5);
+        mScale = Scale::Bg;
     }
     else
     {
-        mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromInteger(1);
-        mBaseAnimatedWithPhysicsGameObject_Scale = Scale::Fg;
+        mSpriteScale = FP_FromInteger(1);
+        mScale = Scale::Fg;
     }
 
     field_124_fall_interval = static_cast<s16>(fallInterval);
@@ -141,8 +141,8 @@ FallingItem::FallingItem(Path_FallingItem* pTlv, s32 tlvInfo)
     field_12C_reset_switch_id_after_use = static_cast<Choice_short>(bResetIdAfterUse);
     field_134_bHitDrillOrMineCar = FALSE;
     field_12E_do_sound_in_state_falling = TRUE;
-    mBaseAnimatedWithPhysicsGameObject_XPos = xFixed;
-    mBaseAnimatedWithPhysicsGameObject_YPos = yFixed;
+    mXPos = xFixed;
+    mYPos = yFixed;
     field_138_xpos = xFixed;
     field_13C_ypos = yFixed;
     field_130_yPosStart = yFixed;
@@ -169,7 +169,7 @@ FallingItem::~FallingItem()
 
 void FallingItem::VScreenChanged()
 {
-    if (gMap.mCurrentLevel != gMap.mLevel || gMap.mCurrentPath != gMap.mPath || field_11C_state != State::eFalling_3)
+    if (gMap.mCurrentLevel != gMap.mNextLevel || gMap.mCurrentPath != gMap.mNextPath || field_11C_state != State::eFalling_3)
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
@@ -187,7 +187,7 @@ void FallingItem::VUpdate()
     {
         if (!((sGnFrame - field_144_created_gnFrame) % 87))
         {
-            if (mBaseAnimatedWithPhysicsGameObject_Scale == Scale::Fg)
+            if (mScale == Scale::Fg)
             {
                 SfxPlayMono(SoundEffect::FallingItemPresence1_74, 45);
             }
@@ -199,7 +199,7 @@ void FallingItem::VUpdate()
 
         if (!((sGnFrame - field_144_created_gnFrame) % 25))
         {
-            if (mBaseAnimatedWithPhysicsGameObject_Scale == Scale::Fg)
+            if (mScale == Scale::Fg)
             {
                 SfxPlayMono(SoundEffect::FallingItemPresence2_75, 45);
             }
@@ -217,10 +217,10 @@ void FallingItem::VUpdate()
             {
                 mBaseGameObjectFlags.Clear(BaseGameObject::eCanExplode_Bit7);
                 field_11C_state = State::eWaitForFallDelay_2;
-                mBaseAnimatedWithPhysicsGameObject_VelX = FP_FromInteger(0);
-                mBaseAnimatedWithPhysicsGameObject_VelY = FP_FromInteger(0);
+                mVelX = FP_FromInteger(0);
+                mVelY = FP_FromInteger(0);
 
-                mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(sFallingItemData_544DC0[static_cast<s32>(MapWrapper::ToAE(gMap.mCurrentLevel))][1], nullptr);
+                mAnim.Set_Animation_Data(sFallingItemData_544DC0[static_cast<s32>(MapWrapper::ToAE(gMap.mCurrentLevel))][1], nullptr);
 
                 field_128_fall_interval_timer = sGnFrame + field_124_fall_interval;
             }
@@ -231,10 +231,10 @@ void FallingItem::VUpdate()
         {
             mBaseGameObjectFlags.Clear(BaseGameObject::eCanExplode_Bit7);
             field_11C_state = State::eWaitForFallDelay_2;
-            mBaseAnimatedWithPhysicsGameObject_VelX = FP_FromInteger(0);
-            mBaseAnimatedWithPhysicsGameObject_VelY = FP_FromInteger(0);
+            mVelX = FP_FromInteger(0);
+            mVelY = FP_FromInteger(0);
 
-            mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(sFallingItemData_544DC0[static_cast<s32>(MapWrapper::ToAE(gMap.mCurrentLevel))][1], nullptr);
+            mAnim.Set_Animation_Data(sFallingItemData_544DC0[static_cast<s32>(MapWrapper::ToAE(gMap.mCurrentLevel))][1], nullptr);
 
             field_128_fall_interval_timer = sGnFrame + field_124_fall_interval;
             break;
@@ -245,7 +245,7 @@ void FallingItem::VUpdate()
             {
                 field_11C_state = State::eFalling_3;
                 field_12E_do_sound_in_state_falling = TRUE;
-                if (mBaseAnimatedWithPhysicsGameObject_Scale == Scale::Fg)
+                if (mScale == Scale::Fg)
                 {
                     field_140_sound_channels = SFX_Play_Pitch(SoundEffect::AirStream_23, 50, -2600);
                 }
@@ -260,10 +260,10 @@ void FallingItem::VUpdate()
         {
             if (field_12E_do_sound_in_state_falling)
             {
-                if (mBaseAnimatedWithPhysicsGameObject_YPos >= sActiveHero->mBaseAnimatedWithPhysicsGameObject_YPos - FP_FromInteger(240 / 2))
+                if (mYPos >= sActiveHero->mYPos - FP_FromInteger(240 / 2))
                 {
                     field_12E_do_sound_in_state_falling = FALSE;
-                    if (mBaseAnimatedWithPhysicsGameObject_Scale == Scale::Fg)
+                    if (mScale == Scale::Fg)
                     {
                         SFX_Play_Pitch(SoundEffect::AirStream_23, 127, -1300);
                     }
@@ -276,68 +276,68 @@ void FallingItem::VUpdate()
 
             DamageHitItems();
 
-            if (mBaseAnimatedWithPhysicsGameObject_VelY < FP_FromInteger(20))
+            if (mVelY < FP_FromInteger(20))
             {
-                mBaseAnimatedWithPhysicsGameObject_VelY += mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromDouble(1.8);
+                mVelY += mSpriteScale * FP_FromDouble(1.8);
             }
 
             PathLine* pathLine = nullptr;
             FP hitX = {};
             FP hitY = {};
             if (sCollisions->Raycast(
-                    mBaseAnimatedWithPhysicsGameObject_XPos,
-                    mBaseAnimatedWithPhysicsGameObject_YPos,
-                    mBaseAnimatedWithPhysicsGameObject_XPos,
-                    mBaseAnimatedWithPhysicsGameObject_VelY + mBaseAnimatedWithPhysicsGameObject_YPos,
+                    mXPos,
+                    mYPos,
+                    mXPos,
+                    mVelY + mYPos,
                     &pathLine,
                     &hitX,
                     &hitY,
-                    mBaseAnimatedWithPhysicsGameObject_Scale == Scale::Fg ? kFgFloor : kBgFloor)
+                    mScale == Scale::Fg ? kFgFloor : kBgFloor)
                 == 1)
             {
                 if (!field_134_bHitDrillOrMineCar)
                 {
-                    mBaseAnimatedWithPhysicsGameObject_YPos = hitY;
+                    mYPos = hitY;
                 }
             }
             else if (!field_134_bHitDrillOrMineCar)
             {
-                mBaseAnimatedWithPhysicsGameObject_YPos += mBaseAnimatedWithPhysicsGameObject_VelY;
+                mYPos += mVelY;
                 return;
             }
 
             field_134_bHitDrillOrMineCar = FALSE;
             field_11C_state = State::eSmashed_4;
 
-            relive_new ScreenShake(0, mBaseAnimatedWithPhysicsGameObject_SpriteScale == FP_FromDouble(0.5));
+            relive_new ScreenShake(0, mSpriteScale == FP_FromDouble(0.5));
 
             if (gMap.mCurrentLevel == EReliveLevelIds::eBonewerkz)
             {
-                relive_new ParticleBurst(mBaseAnimatedWithPhysicsGameObject_XPos,
-                                                   mBaseAnimatedWithPhysicsGameObject_YPos,
+                relive_new ParticleBurst(mXPos,
+                                                   mYPos,
                                                    20,
-                                                   mBaseAnimatedWithPhysicsGameObject_SpriteScale,
+                                                   mSpriteScale,
                                                    BurstType::eSticks_1,
                                                    13);
 
                 const AnimRecord& rec = AnimRec(AnimId::Explosion);
                 u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, 0, 0);
-                auto pParticle = relive_new Particle(mBaseAnimatedWithPhysicsGameObject_XPos,
-                                                  mBaseAnimatedWithPhysicsGameObject_YPos - (FP_FromInteger(15) * mBaseAnimatedWithPhysicsGameObject_SpriteScale),
+                auto pParticle = relive_new Particle(mXPos,
+                                                  mYPos - (FP_FromInteger(15) * mSpriteScale),
                                                   AnimId::Explosion,
                                                   ppRes);
                 if (pParticle)
                 {
-                    pParticle->mBaseAnimatedWithPhysicsGameObject_Anim.mRenderMode = TPageAbr::eBlend_1;
-                    pParticle->mBaseAnimatedWithPhysicsGameObject_SpriteScale = mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromDouble(0.75);
+                    pParticle->mAnim.mRenderMode = TPageAbr::eBlend_1;
+                    pParticle->mSpriteScale = mSpriteScale * FP_FromDouble(0.75);
                 }
             }
             else
             {
-                relive_new ParticleBurst(mBaseAnimatedWithPhysicsGameObject_XPos,
-                                                        mBaseAnimatedWithPhysicsGameObject_YPos,
+                relive_new ParticleBurst(mXPos,
+                                                        mYPos,
                                                         25,
-                                                        mBaseAnimatedWithPhysicsGameObject_SpriteScale,
+                                                        mSpriteScale,
                                                         BurstType::eFallingRocks_0,
                                                         13);
             }
@@ -352,9 +352,9 @@ void FallingItem::VUpdate()
             }
 
             EventBroadcast(kEventLoudNoise, this);
-            SfxPlayMono(SoundEffect::FallingItemLand_62, 0, mBaseAnimatedWithPhysicsGameObject_SpriteScale);
+            SfxPlayMono(SoundEffect::FallingItemLand_62, 0, mSpriteScale);
 
-            if (mBaseAnimatedWithPhysicsGameObject_Scale == Scale::Fg)
+            if (mScale == Scale::Fg)
             {
                 SFX_Play_Pitch(SoundEffect::FallingItemHit_47, 110, -1536);
             }
@@ -373,17 +373,17 @@ void FallingItem::VUpdate()
 
             --field_122_remaining_falling_items;
 
-            if ((field_120_max_falling_items > 0 && field_122_remaining_falling_items <= 0) || !gMap.Is_Point_In_Current_Camera(mBaseAnimatedWithPhysicsGameObject_LvlNumber, mBaseAnimatedWithPhysicsGameObject_PathNumber, field_138_xpos, field_13C_ypos, 0))
+            if ((field_120_max_falling_items > 0 && field_122_remaining_falling_items <= 0) || !gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, field_138_xpos, field_13C_ypos, 0))
             {
                 mBaseGameObjectFlags.Set(BaseGameObject::eDead);
             }
             else
             {
-                mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(sFallingItemData_544DC0[static_cast<s32>(MapWrapper::ToAE(gMap.mCurrentLevel))][0], nullptr);
+                mAnim.Set_Animation_Data(sFallingItemData_544DC0[static_cast<s32>(MapWrapper::ToAE(gMap.mCurrentLevel))][0], nullptr);
                 mBaseGameObjectFlags.Set(BaseGameObject::eCanExplode_Bit7);
-                mBaseAnimatedWithPhysicsGameObject_VelY = FP_FromInteger(0);
-                mBaseAnimatedWithPhysicsGameObject_VelX = FP_FromInteger(0);
-                mBaseAnimatedWithPhysicsGameObject_YPos = field_130_yPosStart;
+                mVelY = FP_FromInteger(0);
+                mVelX = FP_FromInteger(0);
+                mYPos = field_130_yPosStart;
                 field_11C_state = State::eWaitForIdEnable_0;
             }
             break;
@@ -412,15 +412,15 @@ void FallingItem::DamageHitItems()
                 PSX_RECT fallingItemRect = VGetBoundingRect();
                 PSX_RECT objRect = pAliveObj->VGetBoundingRect();
 
-                if (pAliveObj->mBaseAnimatedWithPhysicsGameObject_SpriteScale == mBaseAnimatedWithPhysicsGameObject_SpriteScale)
+                if (pAliveObj->mSpriteScale == mSpriteScale)
                 {
                     if (pAliveObj->Type() == ReliveTypes::eDrill || pAliveObj->Type() == ReliveTypes::eMineCar)
                     {
-                        objRect.x += pAliveObj->mBaseAnimatedWithPhysicsGameObject_XOffset;
-                        objRect.y += pAliveObj->mBaseAnimatedWithPhysicsGameObject_YOffset;
+                        objRect.x += pAliveObj->mXOffset;
+                        objRect.y += pAliveObj->mYOffset;
 
-                        objRect.w += pAliveObj->mBaseAnimatedWithPhysicsGameObject_XOffset;
-                        objRect.h += pAliveObj->mBaseAnimatedWithPhysicsGameObject_YOffset;
+                        objRect.w += pAliveObj->mXOffset;
+                        objRect.h += pAliveObj->mYOffset;
                     }
 
                     if (PSX_Rects_overlap_no_adjustment(&fallingItemRect, &objRect))
@@ -442,7 +442,7 @@ void FallingItem::DamageHitItems()
                             {
                                 // Some strange edge case for paramites - prevents them getting smashed by
                                 // falling items when stood on an edge by their huge heads peeking over a bit.
-                                if (pAliveObj->mBaseAnimatedWithPhysicsGameObject_XPos < FP_FromInteger(fallingItemRect.x) || pAliveObj->mBaseAnimatedWithPhysicsGameObject_XPos > FP_FromInteger(fallingItemRect.w))
+                                if (pAliveObj->mXPos < FP_FromInteger(fallingItemRect.x) || pAliveObj->mXPos > FP_FromInteger(fallingItemRect.w))
                                 {
                                     doDamage = false;
                                 }

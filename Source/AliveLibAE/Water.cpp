@@ -20,14 +20,14 @@ Water::Water(Path_Water* pTlv, s32 tlvInfo)
     if (ppRes)
     {
         Animation_Init(AnimId::WaterDrop, ppRes);
-        mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit25_bDecompressDone);
-        mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit15_bSemiTrans);
+        mAnim.mFlags.Set(AnimFlags::eBit25_bDecompressDone);
+        mAnim.mFlags.Clear(AnimFlags::eBit15_bSemiTrans);
 
         Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kSplashResID);
 
         field_114_tlvInfo = tlvInfo;
-        mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pTlv->mTopLeft.x);
-        mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->mTopLeft.y);
+        mXPos = FP_FromInteger(pTlv->mTopLeft.x);
+        mYPos = FP_FromInteger(pTlv->mTopLeft.y);
 
         field_104_top_left = pTlv->mTopLeft;
         field_108_bottom_right = pTlv->mBottomRight;
@@ -68,11 +68,11 @@ Water::Water(Path_Water* pTlv, s32 tlvInfo)
             field_10C_particle_count = 0;
             field_10E_current_particle_idx = 0;
 
-            if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit13_Is8Bit))
+            if (mAnim.mFlags.Get(AnimFlags::eBit13_Is8Bit))
             {
                 field_FE_texture_mode = TPageMode::e8Bit_1;
             }
-            else if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit14_Is16Bit))
+            else if (mAnim.mFlags.Get(AnimFlags::eBit14_Is16Bit))
             {
                 field_FE_texture_mode = TPageMode::e16Bit_2;
             }
@@ -81,7 +81,7 @@ Water::Water(Path_Water* pTlv, s32 tlvInfo)
                 field_FE_texture_mode = TPageMode::e4Bit_0;
             }
 
-            u8 u0 = mBaseAnimatedWithPhysicsGameObject_Anim.mVramRect.x & 63;
+            u8 u0 = mAnim.mVramRect.x & 63;
             if (field_FE_texture_mode == TPageMode::e8Bit_1)
             {
                 u0 = 2 * u0;
@@ -91,9 +91,9 @@ Water::Water(Path_Water* pTlv, s32 tlvInfo)
                 u0 = 4 * u0;
             }
 
-            const u8 v0 = mBaseAnimatedWithPhysicsGameObject_Anim.mVramRect.y & 0xFF;
+            const u8 v0 = mAnim.mVramRect.y & 0xFF;
 
-            const FrameHeader* pFrameHeader = reinterpret_cast<const FrameHeader*>(&(*mBaseAnimatedWithPhysicsGameObject_Anim.field_20_ppBlock)[mBaseAnimatedWithPhysicsGameObject_Anim.Get_FrameHeader(-1)->field_0_frame_header_offset]);
+            const FrameHeader* pFrameHeader = reinterpret_cast<const FrameHeader*>(&(*mAnim.field_20_ppBlock)[mAnim.Get_FrameHeader(-1)->field_0_frame_header_offset]);
             field_120_frame_width = pFrameHeader->field_4_width;
             field_122_frame_height = pFrameHeader->field_5_height;
 
@@ -103,8 +103,8 @@ Water::Water(Path_Water* pTlv, s32 tlvInfo)
             const s32 tPage = PSX_getTPage(
                 field_FE_texture_mode,
                 TPageAbr::eBlend_3,
-                mBaseAnimatedWithPhysicsGameObject_Anim.mVramRect.x,
-                mBaseAnimatedWithPhysicsGameObject_Anim.mVramRect.y);
+                mAnim.mVramRect.x,
+                mAnim.mVramRect.y);
 
             for (s32 i = 0; i < field_124_tlv_data.field_10_max_drops; i++)
             {
@@ -117,8 +117,8 @@ Water::Water(Path_Water* pTlv, s32 tlvInfo)
                 Poly_Set_Blending(&pPoly->mBase.header, TRUE);
 
                 const s32 clut = PSX_getClut(
-                    mBaseAnimatedWithPhysicsGameObject_Anim.mPalVramXY.x,
-                    mBaseAnimatedWithPhysicsGameObject_Anim.mPalVramXY.y);
+                    mAnim.mPalVramXY.x,
+                    mAnim.mPalVramXY.y);
 
                 SetClut(pPoly, static_cast<s16>(clut));
                 SetTPage(pPoly, static_cast<s16>(tPage));
@@ -129,12 +129,12 @@ Water::Water(Path_Water* pTlv, s32 tlvInfo)
                 SetUV3(pPoly, u1, v1);
             }
 
-            field_100_screen_x = FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos - pScreenManager->CamXPos());
-            field_102_screen_y = FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos - pScreenManager->CamYPos());
+            field_100_screen_x = FP_GetExponent(mXPos - pScreenManager->CamXPos());
+            field_102_screen_y = FP_GetExponent(mYPos - pScreenManager->CamYPos());
 
             PSX_RECT rect = {};
-            rect.y = mBaseAnimatedWithPhysicsGameObject_Anim.mPalVramXY.y;
-            rect.x = mBaseAnimatedWithPhysicsGameObject_Anim.mPalVramXY.x + 1;
+            rect.y = mAnim.mPalVramXY.y;
+            rect.x = mAnim.mPalVramXY.x + 1;
             rect.w = 1;
             rect.h = 1;
 
@@ -196,7 +196,7 @@ void Water::VScreenChanged()
         field_144_sound_channels = 0;
     }
 
-    if (gMap.mCurrentLevel != gMap.mLevel || gMap.mCurrentPath != gMap.mPath || gMap.mOverlayId != gMap.GetOverlayId())
+    if (gMap.mCurrentLevel != gMap.mNextLevel || gMap.mCurrentPath != gMap.mNextPath || gMap.mOverlayId != gMap.GetOverlayId())
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
@@ -263,10 +263,10 @@ void Water::VUpdate()
     }
 
     if (gMap.Is_Point_In_Current_Camera(
-            mBaseAnimatedWithPhysicsGameObject_LvlNumber,
-            mBaseAnimatedWithPhysicsGameObject_PathNumber,
-            mBaseAnimatedWithPhysicsGameObject_XPos,
-            mBaseAnimatedWithPhysicsGameObject_YPos,
+            mCurrentLevel,
+            mCurrentPath,
+            mXPos,
+            mYPos,
             0))
     {
         field_13C_not_in_camera_count = 0;
@@ -279,10 +279,10 @@ void Water::VUpdate()
     if (field_13C_not_in_camera_count <= 90)
     {
         const CameraPos soundDir = gMap.GetDirection(
-            mBaseAnimatedWithPhysicsGameObject_LvlNumber,
-            mBaseAnimatedWithPhysicsGameObject_PathNumber,
-            mBaseAnimatedWithPhysicsGameObject_XPos,
-            mBaseAnimatedWithPhysicsGameObject_YPos);
+            mCurrentLevel,
+            mCurrentPath,
+            mXPos,
+            mYPos);
 
         switch (field_FC_state)
         {
@@ -493,10 +493,10 @@ void Water::VUpdate()
 void Water::VRender(PrimHeader** ppOt)
 {
     if (gMap.Is_Point_In_Current_Camera(
-            mBaseAnimatedWithPhysicsGameObject_LvlNumber,
-            mBaseAnimatedWithPhysicsGameObject_PathNumber,
-            mBaseAnimatedWithPhysicsGameObject_XPos,
-            mBaseAnimatedWithPhysicsGameObject_YPos,
+            mCurrentLevel,
+            mCurrentPath,
+            mXPos,
+            mYPos,
             0))
     {
         s16 xMin = 32767;

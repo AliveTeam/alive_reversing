@@ -116,7 +116,7 @@ void Command_Test(const std::vector<std::string>& args)
 
 void Command_Die(const std::vector<std::string>& /*args*/)
 {
-    relive_new BaseBomb(sControlledCharacter_5C1B8C->mBaseAnimatedWithPhysicsGameObject_XPos, sControlledCharacter_5C1B8C->mBaseAnimatedWithPhysicsGameObject_YPos, 0, sControlledCharacter_5C1B8C->mBaseAnimatedWithPhysicsGameObject_SpriteScale);
+    relive_new BaseBomb(sControlledCharacter_5C1B8C->mXPos, sControlledCharacter_5C1B8C->mYPos, 0, sControlledCharacter_5C1B8C->mSpriteScale);
 }
 
 void Command_Murder(const std::vector<std::string>& /*args*/)
@@ -139,7 +139,7 @@ void Command_Murder(const std::vector<std::string>& /*args*/)
         {
             auto aliveObj =  static_cast<BaseAliveGameObject*>(pBaseGameObject);
 
-            relive_new BaseBomb(aliveObj->mBaseAnimatedWithPhysicsGameObject_XPos, aliveObj->mBaseAnimatedWithPhysicsGameObject_YPos, 0, aliveObj->mBaseAnimatedWithPhysicsGameObject_SpriteScale);
+            relive_new BaseBomb(aliveObj->mXPos, aliveObj->mYPos, 0, aliveObj->mSpriteScale);
         }
     }
 }
@@ -152,17 +152,17 @@ void Command_HelperUpdate()
         PSX_Point pos;
         gMap.GetCurrentCamCoords(&pos);
 
-        sActiveHero->mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pos.x + 184);
-        sActiveHero->mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pos.y + 60);
+        sActiveHero->mXPos = FP_FromInteger(pos.x + 184);
+        sActiveHero->mYPos = FP_FromInteger(pos.y + 60);
         sHasTeleported = false;
         sActiveHero->mCurrentMotion = eAbeMotions::Motion_3_Fall_459B60;
         sActiveHero->field_1AC_flags.Set(Abe::Flags_1AC::e1AC_Bit7_land_softly);
-        sActiveHero->mBaseAnimatedWithPhysicsGameObject_LvlNumber = gMap.mCurrentLevel;
-        sActiveHero->mBaseAnimatedWithPhysicsGameObject_PathNumber = gMap.mCurrentPath;
+        sActiveHero->mCurrentLevel = gMap.mCurrentLevel;
+        sActiveHero->mCurrentPath = gMap.mCurrentPath;
         sActiveHero->BaseAliveGameObjectCollisionLine = nullptr;
-        sActiveHero->BaseAliveGameObjectLastLineYPos = sActiveHero->mBaseAnimatedWithPhysicsGameObject_YPos;
-        sActiveHero->mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromDouble(1.0);
-        sActiveHero->mBaseAnimatedWithPhysicsGameObject_Scale = Scale::Fg;
+        sActiveHero->BaseAliveGameObjectLastLineYPos = sActiveHero->mYPos;
+        sActiveHero->mSpriteScale = FP_FromDouble(1.0);
+        sActiveHero->mScale = Scale::Fg;
         FP rX = FP_FromInteger(0);
         FP rY = FP_FromInteger(0);
         PathLine* rUnk = nullptr;
@@ -176,19 +176,19 @@ void Command_HelperUpdate()
             if (sCollisions->Raycast(xOffset, yOffset,
                                      xOffset, yOffset + FP_FromDouble(240), &rUnk, &rX, &rY, kFgFloor))
             {
-                sActiveHero->mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromDouble(1.0);
-                sActiveHero->mBaseAnimatedWithPhysicsGameObject_Scale = Scale::Fg;
-                sActiveHero->mBaseAnimatedWithPhysicsGameObject_XPos = rX;
-                sActiveHero->mBaseAnimatedWithPhysicsGameObject_YPos = rY;
+                sActiveHero->mSpriteScale = FP_FromDouble(1.0);
+                sActiveHero->mScale = Scale::Fg;
+                sActiveHero->mXPos = rX;
+                sActiveHero->mYPos = rY;
                 break;
             }
             else if (sCollisions->Raycast(xOffset, yOffset,
                                           xOffset, yOffset + FP_FromDouble(240), &rUnk, &rX, &rY, kBgFloor))
             {
-                sActiveHero->mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromDouble(0.5);
-                sActiveHero->mBaseAnimatedWithPhysicsGameObject_Scale = Scale::Bg;
-                sActiveHero->mBaseAnimatedWithPhysicsGameObject_XPos = rX;
-                sActiveHero->mBaseAnimatedWithPhysicsGameObject_YPos = rY;
+                sActiveHero->mSpriteScale = FP_FromDouble(0.5);
+                sActiveHero->mScale = Scale::Bg;
+                sActiveHero->mXPos = rX;
+                sActiveHero->mYPos = rY;
                 break;
             }
         }
@@ -330,7 +330,7 @@ void Command_SetState(const std::vector<std::string>& args)
     if (resource != nullptr)
     {
         pAbe->mCurrentMotion = motion;
-        //pAbe->mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data_409C80(sAbeFrameOffsetTable_554B18[motion], resource);
+        //pAbe->mAnim.Set_Animation_Data_409C80(sAbeFrameOffsetTable_554B18[motion], resource);
         DEV_CONSOLE_PRINTF("Set motion to %i", motion);
     }
     else
@@ -347,7 +347,7 @@ void Command_Ring(const std::vector<std::string>& args)
     AbilityRing::Factory(
         FP_FromInteger((rect.x + rect.w) / 2),
         FP_FromInteger((rect.y + rect.h) / 2),
-        static_cast<RingTypes>(ringType), sActiveHero->mBaseAnimatedWithPhysicsGameObject_SpriteScale);
+        static_cast<RingTypes>(ringType), sActiveHero->mSpriteScale);
 
     SFX_Play_Pitch(SoundEffect::PossessEffect_17, 25, 2650);
 }
@@ -383,8 +383,8 @@ void Command_Spawn(const std::vector<std::string>& args)
     std::string objName = args[0];
     TlvItemInfoUnion tlvinfo;
     tlvinfo.all = 0;
-    s32 spawnX = FP_GetExponent(sControlledCharacter_5C1B8C->mBaseAnimatedWithPhysicsGameObject_XPos) + 50;
-    s32 spawnY = FP_GetExponent(sControlledCharacter_5C1B8C->mBaseAnimatedWithPhysicsGameObject_YPos);
+    s32 spawnX = FP_GetExponent(sControlledCharacter_5C1B8C->mXPos) + 50;
+    s32 spawnY = FP_GetExponent(sControlledCharacter_5C1B8C->mYPos);
 
     FP hitX;
     FP hitY;
@@ -1309,8 +1309,8 @@ private:
             }
             // No 16 bit test case because there are simply no 16bit sprites at all in the game data
 
-            mAnim[i].mAnimFlags.Clear(AnimFlags::eBit16_bBlending);
-            mAnim[i].mAnimFlags.Clear(AnimFlags::eBit15_bSemiTrans);
+            mAnim[i].mFlags.Clear(AnimFlags::eBit16_bBlending);
+            mAnim[i].mFlags.Clear(AnimFlags::eBit15_bSemiTrans);
 
             mAnim[i].field_14_scale = FP_FromDouble(2.0);
 
@@ -1323,24 +1323,24 @@ private:
         }
 
         // 4 bit o
-        mAnim[0].mAnimFlags.Clear(AnimFlags::eBit16_bBlending);
-        mAnim[0].mAnimFlags.Clear(AnimFlags::eBit15_bSemiTrans);
-        mAnim[0].mAnimFlags.Set(AnimFlags::eBit5_FlipX);
+        mAnim[0].mFlags.Clear(AnimFlags::eBit16_bBlending);
+        mAnim[0].mFlags.Clear(AnimFlags::eBit15_bSemiTrans);
+        mAnim[0].mFlags.Set(AnimFlags::eBit5_FlipX);
         mAnim[0].field_14_scale = FP_FromDouble(1.0);
 
         // 4 bit s
-        mAnim[1].mAnimFlags.Clear(AnimFlags::eBit16_bBlending);
-        mAnim[1].mAnimFlags.Set(AnimFlags::eBit15_bSemiTrans);
+        mAnim[1].mFlags.Clear(AnimFlags::eBit16_bBlending);
+        mAnim[1].mFlags.Set(AnimFlags::eBit15_bSemiTrans);
         mAnim[1].field_14_scale = FP_FromDouble(2.0);
 
         // 8 bit o
-        mAnim[2].mAnimFlags.Clear(AnimFlags::eBit16_bBlending);
-        mAnim[2].mAnimFlags.Clear(AnimFlags::eBit15_bSemiTrans);
+        mAnim[2].mFlags.Clear(AnimFlags::eBit16_bBlending);
+        mAnim[2].mFlags.Clear(AnimFlags::eBit15_bSemiTrans);
         mAnim[2].field_14_scale = FP_FromDouble(1.0);
 
         // 8 bit s
-        mAnim[3].mAnimFlags.Clear(AnimFlags::eBit16_bBlending);
-        mAnim[3].mAnimFlags.Set(AnimFlags::eBit15_bSemiTrans);
+        mAnim[3].mFlags.Clear(AnimFlags::eBit16_bBlending);
+        mAnim[3].mFlags.Set(AnimFlags::eBit15_bSemiTrans);
 
         PSX_RECT pr = {};
         Pal_Allocate(&pr, 16);

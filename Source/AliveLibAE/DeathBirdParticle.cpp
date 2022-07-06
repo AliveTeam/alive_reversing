@@ -22,21 +22,21 @@ DeathBirdParticle::DeathBirdParticle(FP xpos, FP ypos, s32 start, bool bPlaySoun
     else
     {
         mVisualFlags.Clear(VisualFlags::eApplyShadowZoneColour);
-        mBaseAnimatedWithPhysicsGameObject_Anim.mRenderMode = TPageAbr::eBlend_1;
-        mBaseAnimatedWithPhysicsGameObject_SpriteScale = scale;
-        mBaseAnimatedWithPhysicsGameObject_Anim.field_14_scale = scale;
+        mAnim.mRenderMode = TPageAbr::eBlend_1;
+        mSpriteScale = scale;
+        mAnim.field_14_scale = scale;
 
         if (scale <= FP_FromDouble(0.5))
         {
-            mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_Foreground_Half_17;
+            mAnim.mRenderLayer = Layer::eLayer_Foreground_Half_17;
         }
         else
         {
-            mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_Above_FG1_39;
+            mAnim.mRenderLayer = Layer::eLayer_Above_FG1_39;
         }
 
-        mBaseAnimatedWithPhysicsGameObject_XPos = xpos;
-        mBaseAnimatedWithPhysicsGameObject_YPos = ypos;
+        mXPos = xpos;
+        mYPos = ypos;
         field_F4_random = Math_NextRandom();
         field_F8_start = start;
         field_F5_state = States::eAnimateDeathFlares_0;
@@ -52,32 +52,32 @@ void DeathBirdParticle::VUpdate()
             if (static_cast<s32>(sGnFrame) > field_F8_start)
             {
                 // Death "star"
-                mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::DeathFlare_2, nullptr);
+                mAnim.Set_Animation_Data(AnimId::DeathFlare_2, nullptr);
                 field_F5_state = States::eTransformStarsToDoves_1;
             }
             break;
 
         case States::eTransformStarsToDoves_1:
             // Has the Death "star" finished animating?
-            if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
+            if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
             {
                 // Yes so magic it into a dove
                 auto pDove = relive_new Dove(
                     AnimId::Dove_Flying,
-                    mBaseAnimatedWithPhysicsGameObject_XPos,
-                    mBaseAnimatedWithPhysicsGameObject_YPos - FP_FromInteger(15),
-                    mBaseAnimatedWithPhysicsGameObject_SpriteScale);
+                    mXPos,
+                    mYPos - FP_FromInteger(15),
+                    mSpriteScale);
 
-                if (pDove->mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
+                if (pDove->mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
                 {
-                    pDove->mBaseAnimatedWithPhysicsGameObject_XPos += FP_FromInteger(8);
+                    pDove->mXPos += FP_FromInteger(8);
                 }
                 else
                 {
-                    pDove->mBaseAnimatedWithPhysicsGameObject_XPos -= FP_FromInteger(8);
+                    pDove->mXPos -= FP_FromInteger(8);
                 }
 
-                pDove->mBaseAnimatedWithPhysicsGameObject_SpriteScale = mBaseAnimatedWithPhysicsGameObject_SpriteScale;
+                pDove->mSpriteScale = mSpriteScale;
                 mBaseGameObjectFlags.Set(BaseGameObject::eDead);
 
                 if (field_FC_bPlaySound)
@@ -88,7 +88,7 @@ void DeathBirdParticle::VUpdate()
             break;
     }
 
-    mBaseAnimatedWithPhysicsGameObject_XPos += FP_FromInteger(2) * Math_Sine_496DD0(field_F4_random);
-    mBaseAnimatedWithPhysicsGameObject_YPos -= FP_FromInteger(2);
+    mXPos += FP_FromInteger(2) * Math_Sine_496DD0(field_F4_random);
+    mYPos -= FP_FromInteger(2);
     field_F4_random += 5;
 }

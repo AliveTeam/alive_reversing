@@ -22,39 +22,39 @@ ParamiteWebLine::ParamiteWebLine(Path_ParamiteWebLine* pTlv, s32 tlvInfo)
 
     if (pTlv->field_10_scale != Scale_short::eFull_0)
     {
-        mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_RopeWebDrillMeatSaw_Half_5;
-        mBaseAnimatedWithPhysicsGameObject_Anim.field_14_scale = FP_FromDouble(0.7);
-        mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromDouble(0.7);
-        mBaseAnimatedWithPhysicsGameObject_Scale = Scale::Bg;
+        mAnim.mRenderLayer = Layer::eLayer_RopeWebDrillMeatSaw_Half_5;
+        mAnim.field_14_scale = FP_FromDouble(0.7);
+        mSpriteScale = FP_FromDouble(0.7);
+        mScale = Scale::Bg;
         field_F6_piece_length = 7;
         field_1A2_pulse_position_speed = 1;
-        mBaseAnimatedWithPhysicsGameObject_RGB.SetRGB(50, 50, 200);
+        mRGB.SetRGB(50, 50, 200);
     }
     else
     {
-        mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_RopeWebDrillMeatSaw_24;
-        mBaseAnimatedWithPhysicsGameObject_Anim.field_14_scale = FP_FromInteger(1);
-        mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromInteger(1);
-        mBaseAnimatedWithPhysicsGameObject_Scale = Scale::Fg;
+        mAnim.mRenderLayer = Layer::eLayer_RopeWebDrillMeatSaw_24;
+        mAnim.field_14_scale = FP_FromInteger(1);
+        mSpriteScale = FP_FromInteger(1);
+        mScale = Scale::Fg;
         field_F6_piece_length = 15;
         field_1A2_pulse_position_speed = 2;
-        mBaseAnimatedWithPhysicsGameObject_RGB.SetRGB(10, 10, 10);
+        mRGB.SetRGB(10, 10, 10);
     }
 
-    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pTlv->mTopLeft.x);
-    mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->mTopLeft.y);
+    mXPos = FP_FromInteger(pTlv->mTopLeft.x);
+    mYPos = FP_FromInteger(pTlv->mTopLeft.y);
 
     PathLine* pLine = nullptr;
     FP hitX = {};
     FP hitY = {};
     if (sCollisions->Raycast(
-            mBaseAnimatedWithPhysicsGameObject_XPos,
-            mBaseAnimatedWithPhysicsGameObject_YPos,
-            mBaseAnimatedWithPhysicsGameObject_XPos + FP_FromInteger(20),
-            mBaseAnimatedWithPhysicsGameObject_YPos + FP_FromInteger(20),
+            mXPos,
+            mYPos,
+            mXPos + FP_FromInteger(20),
+            mYPos + FP_FromInteger(20),
             &pLine, &hitX, &hitY, CollisionMask(eTrackLine_8)))
     {
-        mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pLine->mRect.x);
+        mXPos = FP_FromInteger(pLine->mRect.x);
 
         const FP screenTop = pScreenManager->CamYPos();
         if (FP_FromInteger(pLine->mRect.y) >= screenTop)
@@ -75,7 +75,7 @@ ParamiteWebLine::ParamiteWebLine(Path_ParamiteWebLine* pTlv, s32 tlvInfo)
         {
             field_FA_bottom = FP_GetExponent(screenBottom);
         }
-        mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(field_FA_bottom);
+        mYPos = FP_FromInteger(field_FA_bottom);
     }
     else
     {
@@ -86,12 +86,12 @@ ParamiteWebLine::ParamiteWebLine(Path_ParamiteWebLine* pTlv, s32 tlvInfo)
     field_FC_pRes = relive_new AnimationUnknown[field_F4_anim_segment_count];
     for (s32 i = 0; i < field_F4_anim_segment_count; i++)
     {
-        field_FC_pRes[i].mAnimFlags.Set(AnimFlags::eBit3_Render);
-        field_FC_pRes[i].field_68_anim_ptr = &mBaseAnimatedWithPhysicsGameObject_Anim;
-        field_FC_pRes[i].mRenderLayer = mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer;
-        field_FC_pRes[i].field_6C_scale = mBaseAnimatedWithPhysicsGameObject_SpriteScale;
-        field_FC_pRes[i].mAnimFlags.Clear(AnimFlags::eBit15_bSemiTrans);
-        field_FC_pRes[i].mAnimFlags.Clear(AnimFlags::eBit16_bBlending);
+        field_FC_pRes[i].mFlags.Set(AnimFlags::eBit3_Render);
+        field_FC_pRes[i].field_68_anim_ptr = &mAnim;
+        field_FC_pRes[i].mRenderLayer = mAnim.mRenderLayer;
+        field_FC_pRes[i].field_6C_scale = mSpriteScale;
+        field_FC_pRes[i].mFlags.Clear(AnimFlags::eBit15_bSemiTrans);
+        field_FC_pRes[i].mFlags.Clear(AnimFlags::eBit16_bBlending);
     }
 
     field_104_wobble_idx = 0;
@@ -105,13 +105,13 @@ ParamiteWebLine::ParamiteWebLine(Path_ParamiteWebLine* pTlv, s32 tlvInfo)
         field_108_anim_flare.mGreen = 100;
         field_108_anim_flare.mBlue = 100;
 
-        field_108_anim_flare.mRenderLayer = mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer;
+        field_108_anim_flare.mRenderLayer = mAnim.mRenderLayer;
         field_108_anim_flare.field_14_scale = FP_FromDouble(0.3);
         field_108_anim_flare.mRenderMode = TPageAbr::eBlend_1;
 
-        field_108_anim_flare.mAnimFlags.Clear(AnimFlags::eBit15_bSemiTrans);
-        field_108_anim_flare.mAnimFlags.Clear(AnimFlags::eBit16_bBlending);
-        field_108_anim_flare.mAnimFlags.Set(AnimFlags::eBit7_SwapXY);
+        field_108_anim_flare.mFlags.Clear(AnimFlags::eBit15_bSemiTrans);
+        field_108_anim_flare.mFlags.Clear(AnimFlags::eBit16_bBlending);
+        field_108_anim_flare.mFlags.Set(AnimFlags::eBit7_SwapXY);
 
         field_1A0_pulse_position = field_F8_top;
         field_1A4_delay_counter = Math_RandomRange(0, 10);
@@ -178,7 +178,7 @@ void ParamiteWebLine::VUpdate()
 
 PSX_RECT ParamiteWebLine::VGetBoundingRect(s32 /*idx*/)
 {
-    const s16 xpos = FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos);
+    const s16 xpos = FP_GetExponent(mXPos);
 
     PSX_RECT r;
     r.x = xpos - 2;
@@ -197,7 +197,7 @@ void ParamiteWebLine::VRender(PrimHeader** ppOt)
     if (!field_104_wobble_idx && !field_1A4_delay_counter)
     {
         field_108_anim_flare.VRender(
-            FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos - pScreenManager->CamXPos()),
+            FP_GetExponent(mXPos - pScreenManager->CamXPos()),
             FP_GetExponent(FP_FromInteger(field_1A0_pulse_position) - pScreenManager->CamYPos()),
             ppOt, 0, 0);
         PSX_RECT rect = {};
@@ -205,17 +205,17 @@ void ParamiteWebLine::VRender(PrimHeader** ppOt)
         pScreenManager->InvalidateRectCurrentIdx(rect.x, rect.y, rect.w, rect.h);
     }
 
-    mBaseAnimatedWithPhysicsGameObject_Anim.VRender(640, 240, ppOt, 0, 0);
+    mAnim.VRender(640, 240, ppOt, 0, 0);
 
     s32 idx = 0;
     s16 render_ypos = field_FA_bottom;
     while (render_ypos > field_F8_top)
     {
-        s16 r = mBaseAnimatedWithPhysicsGameObject_RGB.r;
-        s16 g = mBaseAnimatedWithPhysicsGameObject_RGB.g;
-        s16 b = mBaseAnimatedWithPhysicsGameObject_RGB.b;
+        s16 r = mRGB.r;
+        s16 g = mRGB.g;
+        s16 b = mRGB.b;
 
-        FP xVal = mBaseAnimatedWithPhysicsGameObject_XPos;
+        FP xVal = mXPos;
         if (field_104_wobble_idx != 0)
         {
             if (render_ypos >= field_106_wobble_pos)
@@ -226,7 +226,7 @@ void ParamiteWebLine::VRender(PrimHeader** ppOt)
                 }
                 const FP bottomDiff = FP_FromInteger(field_FA_bottom - field_106_wobble_pos);
                 const FP ang = FP_FromInteger(field_FA_bottom - render_ypos) * FP_FromInteger(128);
-                xVal = mBaseAnimatedWithPhysicsGameObject_XPos - (Math_Cosine_496D60(ang / bottomDiff) * FP_FromInteger(word_563A8C[field_104_wobble_idx]));
+                xVal = mXPos - (Math_Cosine_496D60(ang / bottomDiff) * FP_FromInteger(word_563A8C[field_104_wobble_idx]));
             }
             else
             {
@@ -236,12 +236,12 @@ void ParamiteWebLine::VRender(PrimHeader** ppOt)
                 }
                 const FP topDiff = FP_FromInteger(field_106_wobble_pos - field_F8_top);
                 const FP ang = FP_FromInteger(field_106_wobble_pos - render_ypos) * FP_FromInteger(128);
-                xVal = (Math_Cosine_496D60(ang / topDiff) * FP_FromInteger(word_563A8C[field_104_wobble_idx])) + mBaseAnimatedWithPhysicsGameObject_XPos;
+                xVal = (Math_Cosine_496D60(ang / topDiff) * FP_FromInteger(word_563A8C[field_104_wobble_idx])) + mXPos;
             }
         }
 
         const s16 render_xpos = FP_GetExponent(xVal);
-        ShadowZone::ShadowZones_Calculate_Colour(render_xpos, render_ypos, mBaseAnimatedWithPhysicsGameObject_Scale, &r, &g, &b);
+        ShadowZone::ShadowZones_Calculate_Colour(render_xpos, render_ypos, mScale, &r, &g, &b);
         field_FC_pRes[idx].mRed = static_cast<u8>(r);
         field_FC_pRes[idx].mGreen = static_cast<u8>(g);
         field_FC_pRes[idx].mBlue = static_cast<u8>(b);

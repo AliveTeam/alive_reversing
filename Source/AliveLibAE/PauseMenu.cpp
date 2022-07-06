@@ -453,8 +453,8 @@ void PauseMenu::Init()
     u8** ppAnimData = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
     if (field_158_animation.Init(AnimId::NormalMudIcon, this, ppAnimData))
     {
-        this->field_158_animation.mRenderLayer = mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer;
-        this->field_158_animation.field_14_scale = mBaseAnimatedWithPhysicsGameObject_SpriteScale;
+        this->field_158_animation.mRenderLayer = mAnim.mRenderLayer;
+        this->field_158_animation.field_14_scale = mSpriteScale;
         this->field_158_animation.mRed = 127;
         this->field_158_animation.mGreen = 127;
         this->field_158_animation.mBlue = 127;
@@ -494,7 +494,7 @@ void PauseMenu::VRender(PrimHeader** ot)
 
 void PauseMenu::VScreenChanged()
 {
-    if (gMap.mLevel == EReliveLevelIds::eCredits)
+    if (gMap.mNextLevel == EReliveLevelIds::eCredits)
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
@@ -849,25 +849,25 @@ void PauseMenu_ForceLink()
                                             pm->ClosePauseMenu();
                                             sActiveHero->field_106_current_motion = eAbeMotions::Motion_3_Fall_459B60;
                                             sActiveHero->field_1AC_flags.Set(Abe::e1AC_Bit7_land_softly);
-                                            sActiveHero->mBaseAnimatedWithPhysicsGameObject_LvlNumber = levelSelectEntry.field_4_level;
-                                            sActiveHero->mBaseAnimatedWithPhysicsGameObject_PathNumber = levelSelectEntry.field_6_path;
+                                            sActiveHero->mCurrentLevel = levelSelectEntry.field_4_level;
+                                            sActiveHero->mCurrentPath = levelSelectEntry.field_6_path;
                                             sActiveHero->field_100_pCollisionLine = nullptr;
 
                                             if (levelSelectEntry.field_A_id & 1)
                                             {
-                                                sActiveHero->mBaseAnimatedWithPhysicsGameObject_Scale = 1;
-                                                sActiveHero->mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromDouble(1.0);
+                                                sActiveHero->mScale = 1;
+                                                sActiveHero->mSpriteScale = FP_FromDouble(1.0);
                                             }
                                             else
                                             {
-                                                sActiveHero->mBaseAnimatedWithPhysicsGameObject_Scale = 0;
-                                                sActiveHero->mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromDouble(0.5);
+                                                sActiveHero->mScale = 0;
+                                                sActiveHero->mSpriteScale = FP_FromDouble(0.5);
                                             }
 
-                                            sActiveHero->field_F8_LastLineYPos = sActiveHero->mBaseAnimatedWithPhysicsGameObject_YPos;
+                                            sActiveHero->field_F8_LastLineYPos = sActiveHero->mYPos;
                                             gMap.SetActiveCam(levelSelectEntry.field_4_level, levelSelectEntry.field_6_path, levelSelectEntry.field_8_camera, CameraSwapEffects::eInstantChange_0, 0, 0);
-                                            sActiveHero->mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(levelSelectEntry.field_C_abe_x_off - Path_Get_Bly_Record(levelSelectEntry.field_4_level, levelSelectEntry.field_6_path)->field_4_pPathData->field_1A_abe_start_xpos);
-                                            sActiveHero->mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(levelSelectEntry.field_E_abe_y_off - Path_Get_Bly_Record(levelSelectEntry.field_4_level, levelSelectEntry.field_6_path)->field_4_pPathData->field_1C_abe_start_ypos);
+                                            sActiveHero->mXPos = FP_FromInteger(levelSelectEntry.field_C_abe_x_off - Path_Get_Bly_Record(levelSelectEntry.field_4_level, levelSelectEntry.field_6_path)->field_4_pPathData->field_1A_abe_start_xpos);
+                                            sActiveHero->mYPos = FP_FromInteger(levelSelectEntry.field_E_abe_y_off - Path_Get_Bly_Record(levelSelectEntry.field_4_level, levelSelectEntry.field_6_path)->field_4_pPathData->field_1C_abe_start_ypos);
                                             DEV_CONSOLE_MESSAGE("Teleported to " + std::string(levelSelectEntry.field_0_display_name), 6);
                                         }});
     }
@@ -1430,8 +1430,8 @@ void PauseMenu::Page_Load_Update()
             if (hFile)
             {
                 ::fread(&sActiveQuicksaveData_BAF7F8, sizeof(Quicksave), 1u, hFile);
-                sActiveHero->mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(0);
-                sActiveHero->mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(0);
+                sActiveHero->mXPos = FP_FromInteger(0);
+                sActiveHero->mYPos = FP_FromInteger(0);
                 Quicksave_LoadActive();
                 word12C_flags &= ~1u;
                 // TODO: OG bug, file handle is leaked

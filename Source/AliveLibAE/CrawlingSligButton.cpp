@@ -30,13 +30,13 @@ CrawlingSligButton::CrawlingSligButton(Path_CrawlingSligButton* pTlv, s32 tlvInf
 
     if (pTlv->field_10_scale == Scale_short::eHalf_1)
     {
-        mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromDouble(0.5);
-        mBaseAnimatedWithPhysicsGameObject_Scale = Scale::Bg;
-        mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_BeforeShadow_Half_6;
+        mSpriteScale = FP_FromDouble(0.5);
+        mScale = Scale::Bg;
+        mAnim.mRenderLayer = Layer::eLayer_BeforeShadow_Half_6;
     }
     else if (pTlv->field_10_scale == Scale_short::eFull_0)
     {
-        mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_BeforeShadow_25;
+        mAnim.mRenderLayer = Layer::eLayer_BeforeShadow_25;
     }
 
     field_F8_switch_id = pTlv->field_12_switch_id;
@@ -48,8 +48,8 @@ CrawlingSligButton::CrawlingSligButton(Path_CrawlingSligButton* pTlv, s32 tlvInf
 
     field_102_in_use = 0;
 
-    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger((pTlv->mTopLeft.x + pTlv->mBottomRight.x) / 2);
-    mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->mBottomRight.y);
+    mXPos = FP_FromInteger((pTlv->mTopLeft.x + pTlv->mBottomRight.x) / 2);
+    mYPos = FP_FromInteger(pTlv->mBottomRight.y);
 }
 
 void CrawlingSligButton::UseButton()
@@ -57,7 +57,7 @@ void CrawlingSligButton::UseButton()
     if (!field_102_in_use)
     {
         field_102_in_use = 1;
-        mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::CrawlingSligButtonUse, nullptr);
+        mAnim.Set_Animation_Data(AnimId::CrawlingSligButtonUse, nullptr);
     }
 }
 
@@ -92,11 +92,11 @@ void CrawlingSligButton::VUpdate()
                     static_cast<SoundEffect>(buttonSfxInfo_544488[static_cast<u16>(sound_id)].field_0_block_idx),
                     buttonSfxInfo_544488[static_cast<u16>(sound_id)].field_2_note + buttonSfxInfo_544488[static_cast<u16>(sound_id)].field_4_pitch_min * (field_100_sound_direction & 2),
                     buttonSfxInfo_544488[static_cast<u16>(sound_id)].field_2_note + buttonSfxInfo_544488[static_cast<u16>(sound_id)].field_4_pitch_min * (field_100_sound_direction & 1),
-                    mBaseAnimatedWithPhysicsGameObject_SpriteScale);
+                    mSpriteScale);
             }
         }
 
         field_102_in_use = 0;
-        mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::CrawlingSligButton, nullptr);
+        mAnim.Set_Animation_Data(AnimId::CrawlingSligButton, nullptr);
     }
 }

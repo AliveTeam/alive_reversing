@@ -45,7 +45,7 @@ Rope::Rope(s32 left, s32 top, s32 bottom, FP scale)
 {
     mBaseGameObjectTypeId = ReliveTypes::eRope;
 
-    mBaseAnimatedWithPhysicsGameObject_YOffset = 0;
+    mYOffset = 0;
 
     if (scale == FP_FromInteger(1))
     {
@@ -79,28 +79,28 @@ Rope::Rope(s32 left, s32 top, s32 bottom, FP scale)
             break;
         }
     }
-    mBaseAnimatedWithPhysicsGameObject_Anim.field_14_scale = scale;
-    mBaseAnimatedWithPhysicsGameObject_SpriteScale = scale;
+    mAnim.field_14_scale = scale;
+    mSpriteScale = scale;
     if (scale == FP_FromInteger(1))
     {
-        mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_RopeWebDrillMeatSaw_24;
-        mBaseAnimatedWithPhysicsGameObject_Scale = Scale::Fg;
+        mAnim.mRenderLayer = Layer::eLayer_RopeWebDrillMeatSaw_24;
+        mScale = Scale::Fg;
     }
     else
     {
-        mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_RopeWebDrillMeatSaw_Half_5;
-        mBaseAnimatedWithPhysicsGameObject_Scale = Scale::Bg;
+        mAnim.mRenderLayer = Layer::eLayer_RopeWebDrillMeatSaw_Half_5;
+        mScale = Scale::Bg;
     }
 
-    mBaseAnimatedWithPhysicsGameObject_Anim.mRed = 128;
-    mBaseAnimatedWithPhysicsGameObject_Anim.mGreen = 128;
-    mBaseAnimatedWithPhysicsGameObject_Anim.mBlue = 128;
+    mAnim.mRed = 128;
+    mAnim.mGreen = 128;
+    mAnim.mBlue = 128;
 
     field_F2_bottom = static_cast<s16>(bottom);
     field_E4_rope_segment_count = 240 / field_E6_rope_length + 1;
 
-    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(left);
-    mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(bottom);
+    mXPos = FP_FromInteger(left);
+    mYPos = FP_FromInteger(bottom);
     field_EC_left = static_cast<s16>(left);
     field_F0_right = static_cast<s16>(left);
     field_EE_top = static_cast<s16>(top);
@@ -111,12 +111,12 @@ Rope::Rope(s32 left, s32 top, s32 bottom, FP scale)
         for (s32 i = 0; i < field_E4_rope_segment_count; i++)
         {
             AnimationUnknown* pSegment = &field_E8_pRopeRes[i];
-            pSegment->mAnimFlags.Set(AnimFlags::eBit3_Render);
-            pSegment->field_68_anim_ptr = &mBaseAnimatedWithPhysicsGameObject_Anim;
-            pSegment->mRenderLayer = mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer;
+            pSegment->mFlags.Set(AnimFlags::eBit3_Render);
+            pSegment->field_68_anim_ptr = &mAnim;
+            pSegment->mRenderLayer = mAnim.mRenderLayer;
             pSegment->field_6C_scale = scale;
-            pSegment->mAnimFlags.Clear(AnimFlags::eBit15_bSemiTrans);
-            pSegment->mAnimFlags.Clear(AnimFlags::eBit16_bBlending);
+            pSegment->mFlags.Clear(AnimFlags::eBit15_bSemiTrans);
+            pSegment->mFlags.Clear(AnimFlags::eBit16_bBlending);
         }
     }
 }
@@ -130,11 +130,11 @@ void Rope::VRender(PrimHeader** ppOt)
 {
     PSX_Point camPos = {};
     gMap.GetCurrentCamCoords(&camPos);
-    if (mBaseAnimatedWithPhysicsGameObject_LvlNumber == gMap.mCurrentLevel)
+    if (mCurrentLevel == gMap.mCurrentLevel)
     {
-        if (mBaseAnimatedWithPhysicsGameObject_PathNumber == gMap.mCurrentPath)
+        if (mCurrentPath == gMap.mCurrentPath)
         {
-            if (mBaseAnimatedWithPhysicsGameObject_XPos >= FP_FromInteger(camPos.x) && mBaseAnimatedWithPhysicsGameObject_XPos <= FP_FromInteger(camPos.x + 1024))
+            if (mXPos >= FP_FromInteger(camPos.x) && mXPos <= FP_FromInteger(camPos.x + 1024))
             {
                 const FP camYPos = pScreenManager->mCamPos->y;
 
@@ -143,20 +143,20 @@ void Rope::VRender(PrimHeader** ppOt)
                 s32 maxY = FP_GetExponent((FP_FromInteger(pScreenManager->mCamYOff + field_F2_bottom))
                                           - camYPos);
 
-                s16 ypos = FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos);
+                s16 ypos = FP_GetExponent(mYPos);
                 if (ypos > field_F2_bottom)
                 {
                     ypos = field_F2_bottom + ((ypos - field_F2_bottom) % field_E6_rope_length);
                 }
 
                 s16 screenX = PsxToPCX(
-                    FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos + FP_FromInteger(pScreenManager->mCamXOff) - pScreenManager->mCamPos->x),
+                    FP_GetExponent(mXPos + FP_FromInteger(pScreenManager->mCamXOff) - pScreenManager->mCamPos->x),
                     11);
                 s16 screenY = FP_GetExponent(
                     (FP_FromInteger(pScreenManager->mCamYOff + ypos))
                     - camYPos);
 
-                if (mBaseAnimatedWithPhysicsGameObject_YOffset + screenY > 240)
+                if (mYOffset + screenY > 240)
                 {
                     screenY = screenY % field_E6_rope_length + 240;
                     ypos = FP_GetExponent(pScreenManager->mCamPos->y
@@ -171,7 +171,7 @@ void Rope::VRender(PrimHeader** ppOt)
                     maxY = 240;
                 }
 
-                mBaseAnimatedWithPhysicsGameObject_Anim.VRender(640, 240, ppOt, 0, 0);
+                mAnim.VRender(640, 240, ppOt, 0, 0);
                 if (screenY >= minY)
                 {
                     for (s32 idx = 0; idx < field_E4_rope_segment_count; idx++)
@@ -180,9 +180,9 @@ void Rope::VRender(PrimHeader** ppOt)
                         s16 g = 128;
                         s16 b = 128;
                         ShadowZone::ShadowZones_Calculate_Colour(
-                            FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos),
+                            FP_GetExponent(mXPos),
                             ypos - (idx * field_E6_rope_length),
-                            mBaseAnimatedWithPhysicsGameObject_Scale,
+                            mScale,
                             &r,
                             &g,
                             &b);
@@ -193,7 +193,7 @@ void Rope::VRender(PrimHeader** ppOt)
 
                         field_E8_pRopeRes[idx].VRender(
                             screenX,
-                            mBaseAnimatedWithPhysicsGameObject_YOffset + screenY,
+                            mYOffset + screenY,
                             ppOt, 0, 0);
 
                         PSX_RECT rect = {};
@@ -206,8 +206,8 @@ void Rope::VRender(PrimHeader** ppOt)
 
                         ClipPoly_Vertically_4584B0(
                             &field_E8_pRopeRes[idx].field_10_polys[gPsxDisplay.mBufferIndex],
-                            minY + mBaseAnimatedWithPhysicsGameObject_YOffset,
-                            maxY + mBaseAnimatedWithPhysicsGameObject_YOffset);
+                            minY + mYOffset,
+                            maxY + mYOffset);
 
                         screenY -= field_E6_rope_length;
                         if (screenY < minY)

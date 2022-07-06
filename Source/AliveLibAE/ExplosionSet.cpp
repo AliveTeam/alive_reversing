@@ -82,7 +82,7 @@ ExplosionSet::~ExplosionSet()
 
 void ExplosionSet::VScreenChanged()
 {
-    if (gMap.mCurrentLevel == gMap.mLevel && gMap.mCurrentPath == gMap.mPath)
+    if (gMap.mCurrentLevel == gMap.mNextLevel && gMap.mCurrentPath == gMap.mNextPath)
     {
         field_5C_flags.Clear(Flags_5C::eBit3_Active);
     }

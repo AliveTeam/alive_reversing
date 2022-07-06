@@ -49,7 +49,7 @@ MinesAlarm::~MinesAlarm()
 
 void MinesAlarm::VScreenChanged()
 {
-    if (gMap.mCurrentLevel != gMap.mLevel || gMap.mCurrentPath != gMap.mPath)
+    if (gMap.mCurrentLevel != gMap.mNextLevel || gMap.mCurrentPath != gMap.mNextPath)
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }

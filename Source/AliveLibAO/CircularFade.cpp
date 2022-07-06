@@ -24,7 +24,7 @@ CircularFade::CircularFade(FP xpos, FP ypos, FP scale, s16 direction, s8 destroy
     VFadeIn(static_cast<s8>(direction), destroyOnDone);
 
     const u8 fade_rgb = static_cast<u8>((field_1A8_fade_colour * 60) / 100);
-    mBaseAnimatedWithPhysicsGameObject_RGB.SetRGB(fade_rgb, fade_rgb, fade_rgb);
+    mRGB.SetRGB(fade_rgb, fade_rgb, fade_rgb);
 
     const AnimRecord rec = AO::AnimRec(AnimId::Circular_Fade);
     u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
@@ -32,15 +32,15 @@ CircularFade::CircularFade(FP xpos, FP ypos, FP scale, s16 direction, s8 destroy
 
     mVisualFlags.Clear(VisualFlags::eApplyShadowZoneColour);
 
-    mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit16_bBlending);
-    mBaseAnimatedWithPhysicsGameObject_SpriteScale.fpValue = scale.fpValue * 2;
-    mBaseAnimatedWithPhysicsGameObject_Anim.field_14_scale.fpValue = scale.fpValue * 2;
+    mAnim.mFlags.Clear(AnimFlags::eBit16_bBlending);
+    mSpriteScale.fpValue = scale.fpValue * 2;
+    mAnim.field_14_scale.fpValue = scale.fpValue * 2;
 
-    mBaseAnimatedWithPhysicsGameObject_XPos = xpos;
-    mBaseAnimatedWithPhysicsGameObject_YPos = ypos;
-    mBaseAnimatedWithPhysicsGameObject_Anim.mRenderMode = TPageAbr::eBlend_2;
-    mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_FadeFlash_40;
-    mBaseAnimatedWithPhysicsGameObject_RGB.SetRGB(field_1A8_fade_colour, field_1A8_fade_colour, field_1A8_fade_colour);
+    mXPos = xpos;
+    mYPos = ypos;
+    mAnim.mRenderMode = TPageAbr::eBlend_2;
+    mAnim.mRenderLayer = Layer::eLayer_FadeFlash_40;
+    mRGB.SetRGB(field_1A8_fade_colour, field_1A8_fade_colour, field_1A8_fade_colour);
 
     Init_SetTPage(&field_188_tPage[0], 0, 0, PSX_getTPage(TPageMode::e16Bit_2, TPageAbr::eBlend_2, 0, 0));
     Init_SetTPage(&field_188_tPage[1], 0, 0, PSX_getTPage(TPageMode::e16Bit_2, TPageAbr::eBlend_2, 0, 0));
@@ -50,20 +50,20 @@ void CircularFade::VRender(PrimHeader** ppOt)
 {
     const u8 fade_rgb = static_cast<u8>((field_1A8_fade_colour * 60) / 100);
 
-    mBaseAnimatedWithPhysicsGameObject_RGB.SetRGB(fade_rgb, fade_rgb, fade_rgb);
+    mRGB.SetRGB(fade_rgb, fade_rgb, fade_rgb);
 
-    mBaseAnimatedWithPhysicsGameObject_Anim.mRed = fade_rgb;
-    mBaseAnimatedWithPhysicsGameObject_Anim.mGreen = fade_rgb;
-    mBaseAnimatedWithPhysicsGameObject_Anim.mBlue = fade_rgb;
+    mAnim.mRed = fade_rgb;
+    mAnim.mGreen = fade_rgb;
+    mAnim.mBlue = fade_rgb;
 
-    mBaseAnimatedWithPhysicsGameObject_Anim.VRender(
-        FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos + (FP_FromInteger(pScreenManager->mCamXOff + mBaseAnimatedWithPhysicsGameObject_XOffset)) - pScreenManager->mCamPos->x),
-        FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos + (FP_FromInteger(pScreenManager->mCamYOff + mBaseAnimatedWithPhysicsGameObject_YOffset)) - pScreenManager->mCamPos->y),
+    mAnim.VRender(
+        FP_GetExponent(mXPos + (FP_FromInteger(pScreenManager->mCamXOff + mXOffset)) - pScreenManager->mCamPos->x),
+        FP_GetExponent(mYPos + (FP_FromInteger(pScreenManager->mCamYOff + mYOffset)) - pScreenManager->mCamPos->y),
         ppOt,
         0,
         0);
     PSX_RECT frameRect = {};
-    mBaseAnimatedWithPhysicsGameObject_Anim.Get_Frame_Rect(&frameRect);
+    mAnim.Get_Frame_Rect(&frameRect);
     pScreenManager->InvalidateRectCurrentIdx(
         frameRect.x,
         frameRect.y,
@@ -103,14 +103,14 @@ void CircularFade::VRender(PrimHeader** ppOt)
     pTile->field_14_w = gPsxDisplay.mWidth;
     pTile->field_16_h = frameRect.y;
     Poly_Set_SemiTrans(&pTile->mBase.header, 1);
-    OrderingTable_Add(OtLayer(ppOt, mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer), &pTile->mBase.header);
+    OrderingTable_Add(OtLayer(ppOt, mAnim.mRenderLayer), &pTile->mBase.header);
 
     Prim_Tile* pTile2_1 = &field_110[gPsxDisplay.mBufferIndex];
     Init_Tile(pTile2_1);
     SetRGB0(pTile2_1, fadeColour, fadeColour, fadeColour);
 
     s16 w = 0;
-    if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
+    if (mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
     {
         w = frameRect.x + 1;
     }
@@ -122,7 +122,7 @@ void CircularFade::VRender(PrimHeader** ppOt)
     pTile2_1->field_14_w = w;
     pTile2_1->field_16_h = frameRect.h - frameRect.y;
     Poly_Set_SemiTrans(&pTile2_1->mBase.header, 1);
-    OrderingTable_Add(OtLayer(ppOt, mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer), &pTile2_1->mBase.header);
+    OrderingTable_Add(OtLayer(ppOt, mAnim.mRenderLayer), &pTile2_1->mBase.header);
 
     Prim_Tile* pTile2 = &field_138[gPsxDisplay.mBufferIndex];
     Init_Tile(pTile2);
@@ -131,7 +131,7 @@ void CircularFade::VRender(PrimHeader** ppOt)
     pTile2->field_14_w = gPsxDisplay.mWidth - frameRect.w;
     pTile2->field_16_h = frameRect.h - frameRect.y;
     Poly_Set_SemiTrans(&pTile2->mBase.header, 1);
-    OrderingTable_Add(OtLayer(ppOt, mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer), &pTile2->mBase.header);
+    OrderingTable_Add(OtLayer(ppOt, mAnim.mRenderLayer), &pTile2->mBase.header);
 
     Prim_Tile* pTile3 = &field_160[gPsxDisplay.mBufferIndex];
     Init_Tile(pTile3);
@@ -140,8 +140,8 @@ void CircularFade::VRender(PrimHeader** ppOt)
     pTile3->field_14_w = gPsxDisplay.mWidth;
     pTile3->field_16_h = gPsxDisplay.mHeight - frameRect.h;
     Poly_Set_SemiTrans(&pTile3->mBase.header, 1);
-    OrderingTable_Add(OtLayer(ppOt, mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer), &pTile3->mBase.header);
-    OrderingTable_Add(OtLayer(ppOt, mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer), &field_188_tPage[gPsxDisplay.mBufferIndex].mBase);
+    OrderingTable_Add(OtLayer(ppOt, mAnim.mRenderLayer), &pTile3->mBase.header);
+    OrderingTable_Add(OtLayer(ppOt, mAnim.mRenderLayer), &field_188_tPage[gPsxDisplay.mBufferIndex].mBase);
 
     if (field_1A8_fade_colour < 255)
     {

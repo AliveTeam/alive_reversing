@@ -35,58 +35,58 @@ s32 Animation_OnFrame_Slig(BaseGameObject* pObj, s16* pData)
         bulletType = BulletType::eNormalBullet_1;
     }
 
-    const FP xOff = pSlig->mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(pData[0]);
-    const FP yOff = pSlig->mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(pData[1]);
-    if (pSlig->mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
+    const FP xOff = pSlig->mSpriteScale * FP_FromInteger(pData[0]);
+    const FP yOff = pSlig->mSpriteScale * FP_FromInteger(pData[1]);
+    if (pSlig->mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
     {
         relive_new Bullet(
             pSlig,
             bulletType,
-            pSlig->mBaseAnimatedWithPhysicsGameObject_XPos,
-            yOff + pSlig->mBaseAnimatedWithPhysicsGameObject_YPos,
+            pSlig->mXPos,
+            yOff + pSlig->mYPos,
             FP_FromInteger(-640),
             0,
-            pSlig->mBaseAnimatedWithPhysicsGameObject_SpriteScale,
+            pSlig->mSpriteScale,
             0);
 
         New_ShootingFire_Particle_419720(
-            pSlig->mBaseAnimatedWithPhysicsGameObject_XPos - xOff,
-            pSlig->mBaseAnimatedWithPhysicsGameObject_YPos + yOff,
+            pSlig->mXPos - xOff,
+            pSlig->mYPos + yOff,
             1,
-            pSlig->mBaseAnimatedWithPhysicsGameObject_SpriteScale);
+            pSlig->mSpriteScale);
 
         relive_new BulletShell(
-            pSlig->mBaseAnimatedWithPhysicsGameObject_XPos,
-            pSlig->mBaseAnimatedWithPhysicsGameObject_YPos + yOff,
+            pSlig->mXPos,
+            pSlig->mYPos + yOff,
             0,
-            pSlig->mBaseAnimatedWithPhysicsGameObject_SpriteScale);
+            pSlig->mSpriteScale);
     }
     else
     {
         relive_new Bullet(
             pSlig,
             bulletType,
-            pSlig->mBaseAnimatedWithPhysicsGameObject_XPos,
-            yOff + pSlig->mBaseAnimatedWithPhysicsGameObject_YPos,
+            pSlig->mXPos,
+            yOff + pSlig->mYPos,
             FP_FromInteger(640),
             0,
-            pSlig->mBaseAnimatedWithPhysicsGameObject_SpriteScale,
+            pSlig->mSpriteScale,
             0);
 
         New_ShootingFire_Particle_419720(
-            pSlig->mBaseAnimatedWithPhysicsGameObject_XPos + xOff,
-            pSlig->mBaseAnimatedWithPhysicsGameObject_YPos + yOff,
+            pSlig->mXPos + xOff,
+            pSlig->mYPos + yOff,
             0,
-            pSlig->mBaseAnimatedWithPhysicsGameObject_SpriteScale);
+            pSlig->mSpriteScale);
 
         relive_new BulletShell(
-            pSlig->mBaseAnimatedWithPhysicsGameObject_XPos,
-            pSlig->mBaseAnimatedWithPhysicsGameObject_YPos + yOff,
+            pSlig->mXPos,
+            pSlig->mYPos + yOff,
             1,
-            pSlig->mBaseAnimatedWithPhysicsGameObject_SpriteScale);
+            pSlig->mSpriteScale);
     }
 
-    if (pSlig->mBaseAnimatedWithPhysicsGameObject_SpriteScale == FP_FromDouble(0.5))
+    if (pSlig->mSpriteScale == FP_FromDouble(0.5))
     {
         SfxPlayMono(SoundEffect::SligShoot_6, 85);
     }
@@ -115,28 +115,28 @@ s32 Slog_OnFrame(BaseGameObject* pObj, s16* pData)
 
         if (RectsOverlap(slogRect, targetRect))
         {
-            if (pSlog->field_10C_pTarget->mBaseAnimatedWithPhysicsGameObject_SpriteScale == pSlog->mBaseAnimatedWithPhysicsGameObject_SpriteScale && !pSlog->field_110)
+            if (pSlog->field_10C_pTarget->mSpriteScale == pSlog->mSpriteScale && !pSlog->field_110)
             {
                 if (pSlog->field_10C_pTarget->VTakeDamage(pSlog))
                 {
                     FP blood_xpos = {};
-                    if (pSlog->mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
+                    if (pSlog->mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
                     {
-                        blood_xpos = pSlog->mBaseAnimatedWithPhysicsGameObject_XPos - (pSlog->mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(pData[0]));
+                        blood_xpos = pSlog->mXPos - (pSlog->mSpriteScale * FP_FromInteger(pData[0]));
                     }
                     else
                     {
-                        blood_xpos = pSlog->mBaseAnimatedWithPhysicsGameObject_XPos + (pSlog->mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(pData[0]));
+                        blood_xpos = pSlog->mXPos + (pSlog->mSpriteScale * FP_FromInteger(pData[0]));
                     }
 
-                    const FP blood_ypos = (pSlog->mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(pData[1])) + pSlog->mBaseAnimatedWithPhysicsGameObject_YPos;
+                    const FP blood_ypos = (pSlog->mSpriteScale * FP_FromInteger(pData[1])) + pSlog->mYPos;
 
                     relive_new Blood(
                         blood_xpos,
                         blood_ypos - FP_FromInteger(8),
-                        (pSlog->mBaseAnimatedWithPhysicsGameObject_VelX * FP_FromInteger(2)),
+                        (pSlog->mVelX * FP_FromInteger(2)),
                         FP_FromInteger(0),
-                        pSlog->mBaseAnimatedWithPhysicsGameObject_SpriteScale,
+                        pSlog->mSpriteScale,
                         50);
 
                     pSlog->field_110 = 1;
@@ -162,18 +162,18 @@ s32 Abe_OnFrame(BaseGameObject* pObj, s16* pData)
 {
     auto pAbe = static_cast<Abe*>(pObj);
 
-    FP xVel = kAbeVelTable_4C6608[pAbe->field_19D_throw_direction].x * pAbe->mBaseAnimatedWithPhysicsGameObject_SpriteScale;
-    const FP yVel = kAbeVelTable_4C6608[pAbe->field_19D_throw_direction].y * pAbe->mBaseAnimatedWithPhysicsGameObject_SpriteScale;
+    FP xVel = kAbeVelTable_4C6608[pAbe->field_19D_throw_direction].x * pAbe->mSpriteScale;
+    const FP yVel = kAbeVelTable_4C6608[pAbe->field_19D_throw_direction].y * pAbe->mSpriteScale;
 
     FP directed_x = {};
-    if (sActiveHero_507678->mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
+    if (sActiveHero_507678->mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
     {
         xVel = -xVel;
-        directed_x = -(pAbe->mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(pData[0]));
+        directed_x = -(pAbe->mSpriteScale * FP_FromInteger(pData[0]));
     }
     else
     {
-        directed_x = (pAbe->mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(pData[0]));
+        directed_x = (pAbe->mSpriteScale * FP_FromInteger(pData[0]));
     }
 
     FP data_y = FP_FromInteger(pData[1]);
@@ -182,26 +182,26 @@ s32 Abe_OnFrame(BaseGameObject* pObj, s16* pData)
     FP hitY = {};
     PathLine* pLine = nullptr;
     if (sCollisions->Raycast(
-            pAbe->mBaseAnimatedWithPhysicsGameObject_XPos,
-            pAbe->mBaseAnimatedWithPhysicsGameObject_YPos + data_y,
-            pAbe->mBaseAnimatedWithPhysicsGameObject_XPos + directed_x,
-            pAbe->mBaseAnimatedWithPhysicsGameObject_YPos + data_y,
+            pAbe->mXPos,
+            pAbe->mYPos + data_y,
+            pAbe->mXPos + directed_x,
+            pAbe->mYPos + data_y,
             &pLine,
             &hitX,
             &hitY,
-            pAbe->mBaseAnimatedWithPhysicsGameObject_SpriteScale != FP_FromDouble(0.5) ? kFgWalls : kBgWalls))
+            pAbe->mSpriteScale != FP_FromDouble(0.5) ? kFgWalls : kBgWalls))
     {
-        directed_x = hitX - pAbe->mBaseAnimatedWithPhysicsGameObject_XPos;
+        directed_x = hitX - pAbe->mXPos;
         xVel = -xVel;
     }
 
     if (sActiveHero_507678->field_198_pThrowable)
     {
-        sActiveHero_507678->field_198_pThrowable->mBaseAnimatedWithPhysicsGameObject_XPos = directed_x + sActiveHero_507678->mBaseAnimatedWithPhysicsGameObject_XPos;
+        sActiveHero_507678->field_198_pThrowable->mXPos = directed_x + sActiveHero_507678->mXPos;
         BaseThrowable* pThrowable = sActiveHero_507678->field_198_pThrowable;
-        pThrowable->mBaseAnimatedWithPhysicsGameObject_YPos = (pAbe->mBaseAnimatedWithPhysicsGameObject_SpriteScale * data_y) + sActiveHero_507678->mBaseAnimatedWithPhysicsGameObject_YPos;
+        pThrowable->mYPos = (pAbe->mSpriteScale * data_y) + sActiveHero_507678->mYPos;
         pThrowable->VThrow(xVel, yVel);
-        pThrowable->mBaseAnimatedWithPhysicsGameObject_SpriteScale = pAbe->mBaseAnimatedWithPhysicsGameObject_SpriteScale;
+        pThrowable->mSpriteScale = pAbe->mSpriteScale;
         sActiveHero_507678->field_198_pThrowable = nullptr;
     }
     return 1;

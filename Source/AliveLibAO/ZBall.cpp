@@ -31,7 +31,7 @@ s32 Animation_OnFrame_ZBallSmacker(BaseGameObject* pObj, s16* pData)
 
             const PSX_RECT bRect = pAliveObj->VGetBoundingRect();
 
-            if (bRect.x <= (FP_GetExponent(pZBall->mBaseAnimatedWithPhysicsGameObject_XPos) + pData[2]) && bRect.w >= (FP_GetExponent(pZBall->mBaseAnimatedWithPhysicsGameObject_XPos) + pData[0]) && bRect.h >= (FP_GetExponent(pZBall->mBaseAnimatedWithPhysicsGameObject_YPos) + pData[1]) && bRect.y <= (FP_GetExponent(pZBall->mBaseAnimatedWithPhysicsGameObject_YPos) + pData[3]))
+            if (bRect.x <= (FP_GetExponent(pZBall->mXPos) + pData[2]) && bRect.w >= (FP_GetExponent(pZBall->mXPos) + pData[0]) && bRect.h >= (FP_GetExponent(pZBall->mYPos) + pData[1]) && bRect.y <= (FP_GetExponent(pZBall->mYPos) + pData[3]))
             {
                 pAliveObj->VTakeDamage(pZBall);
             }
@@ -45,7 +45,7 @@ ZBall::ZBall(Path_ZBall* pTlv, s32 tlvInfo)
 {
     mBaseGameObjectTypeId = ReliveTypes::eZBall;
 
-    mBaseAnimatedWithPhysicsGameObject_RGB.SetRGB(128, 128, 128);
+    mRGB.SetRGB(128, 128, 128);
 
     switch (pTlv->mSpeed)
     {
@@ -75,42 +75,42 @@ ZBall::ZBall(Path_ZBall* pTlv, s32 tlvInfo)
 
     }
 
-    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pTlv->mTopLeft.x);
-    mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->mTopLeft.y);
+    mXPos = FP_FromInteger(pTlv->mTopLeft.x);
+    mYPos = FP_FromInteger(pTlv->mTopLeft.y);
 
     if (gMap.mCurrentLevel == EReliveLevelIds::eForestTemple)
     {
         switch (pTlv->mStartPos)
         {
             case Path_ZBall::StartPos::eCenter_0:
-                mBaseAnimatedWithPhysicsGameObject_Anim.SetFrame(6u);
+                mAnim.SetFrame(6u);
                 gCenterZBall = this;
                 mSoundPitch = -800;
                 break;
 
             case Path_ZBall::StartPos::eOut_1:
-                mBaseAnimatedWithPhysicsGameObject_Anim.SetFrame(0);
+                mAnim.SetFrame(0);
                 gOutZBall = this;
                 mSoundPitch = -400;
                 break;
 
             case Path_ZBall::StartPos::eIn_2:
-                mBaseAnimatedWithPhysicsGameObject_Anim.SetFrame(13u);
+                mAnim.SetFrame(13u);
                 mSoundPitch = 0;
                 break;
         }
 
-        mBaseAnimatedWithPhysicsGameObject_Anim.VDecode();
+        mAnim.VDecode();
     }
 
     if (pTlv->mScale != Scale_short::eFull_0)
     {
-        mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromDouble(0.5);
-        mBaseAnimatedWithPhysicsGameObject_Scale = Scale::Bg;
+        mSpriteScale = FP_FromDouble(0.5);
+        mScale = Scale::Bg;
     }
 
     mTlvInfo = tlvInfo;
-    mBaseAnimatedWithPhysicsGameObject_Anim.mFnPtrArray = kZBall_Anim_Frame_Fns_4CEBF8;
+    mAnim.mFnPtrArray = kZBall_Anim_Frame_Fns_4CEBF8;
 }
 
 void ZBall::VUpdate()
@@ -122,7 +122,7 @@ void ZBall::VUpdate()
 
     if (gCenterZBall == this || gOutZBall == this)
     {
-        if (mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame == 0 || mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame == 13)
+        if (mAnim.mCurrentFrame == 0 || mAnim.mCurrentFrame == 13)
         {
             SFX_Play_Pitch(SoundEffect::ZBall_62, 50, mSoundPitch, nullptr);
         }
@@ -130,39 +130,39 @@ void ZBall::VUpdate()
 
     if (gCenterZBall == this)
     {
-        if (mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame == 3 || mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame == 16)
+        if (mAnim.mCurrentFrame == 3 || mAnim.mCurrentFrame == 16)
         {
             SFX_Play_Pitch(SoundEffect::SackWobble_34, 40, mSoundPitch - 2400, nullptr);
         }
     }
 
-    if (mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame <= 6 || mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame >= 19)
+    if (mAnim.mCurrentFrame <= 6 || mAnim.mCurrentFrame >= 19)
     {
-        if (mBaseAnimatedWithPhysicsGameObject_SpriteScale == FP_FromInteger(1))
+        if (mSpriteScale == FP_FromInteger(1))
         {
-            mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_Foreground_36;
+            mAnim.mRenderLayer = Layer::eLayer_Foreground_36;
         }
         else
         {
-            mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_Foreground_Half_17;
+            mAnim.mRenderLayer = Layer::eLayer_Foreground_Half_17;
         }
     }
-    else if (mBaseAnimatedWithPhysicsGameObject_SpriteScale == FP_FromInteger(1))
+    else if (mSpriteScale == FP_FromInteger(1))
     {
-        mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_BeforeWell_22;
+        mAnim.mRenderLayer = Layer::eLayer_BeforeWell_22;
     }
     else
     {
-        mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_BeforeWell_Half_3;
+        mAnim.mRenderLayer = Layer::eLayer_BeforeWell_Half_3;
     }
 
-    mFrameAbove12 = mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame >= 13;
+    mFrameAbove12 = mAnim.mCurrentFrame >= 13;
 
     if (!gMap.Is_Point_In_Current_Camera(
-            mBaseAnimatedWithPhysicsGameObject_LvlNumber,
-            mBaseAnimatedWithPhysicsGameObject_PathNumber,
-            mBaseAnimatedWithPhysicsGameObject_XPos,
-            mBaseAnimatedWithPhysicsGameObject_YPos,
+            mCurrentLevel,
+            mCurrentPath,
+            mXPos,
+            mYPos,
             0))
     {
         mBaseGameObjectFlags.Set(Options::eDead);

@@ -173,7 +173,7 @@ s32 ThrowableArray::VGetSaveState(u8* pSaveBuffer)
 
 void ThrowableArray::VScreenChanged()
 {
-    if (gMap.mLevel != EReliveLevelIds::eMenu && gMap.mLevel != EReliveLevelIds::eCredits)
+    if (gMap.mNextLevel != EReliveLevelIds::eMenu && gMap.mNextLevel != EReliveLevelIds::eCredits)
     {
         if (throwable_types_55FAFC[gMap.mOverlayId] != throwable_types_55FAFC[gMap.GetOverlayId()])
         {

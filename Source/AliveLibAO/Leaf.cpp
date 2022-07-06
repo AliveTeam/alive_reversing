@@ -14,26 +14,26 @@ ALIVE_VAR(1, 0x4D148C, u8, sLeafRandIdx_4D148C, 8);
 
 void Leaf::VUpdate()
 {
-    mBaseAnimatedWithPhysicsGameObject_VelY += FP_FromDouble(0.5);
+    mVelY += FP_FromDouble(0.5);
 
-    mBaseAnimatedWithPhysicsGameObject_VelX = mBaseAnimatedWithPhysicsGameObject_VelX * FP_FromDouble(0.8);
-    mBaseAnimatedWithPhysicsGameObject_VelY = mBaseAnimatedWithPhysicsGameObject_VelY * FP_FromDouble(0.8);
+    mVelX = mVelX * FP_FromDouble(0.8);
+    mVelY = mVelY * FP_FromDouble(0.8);
 
     const s32 randX = sRandomBytes_4BBE30[sLeafRandIdx_4D148C++] - 127;
-    mBaseAnimatedWithPhysicsGameObject_VelX += mBaseAnimatedWithPhysicsGameObject_SpriteScale * (FP_FromInteger(randX) / FP_FromInteger(64));
+    mVelX += mSpriteScale * (FP_FromInteger(randX) / FP_FromInteger(64));
 
     const s32 randY = sRandomBytes_4BBE30[sLeafRandIdx_4D148C++] - 127;
-    mBaseAnimatedWithPhysicsGameObject_VelY += (mBaseAnimatedWithPhysicsGameObject_SpriteScale * (FP_FromInteger(randY) / FP_FromInteger(64)));
+    mVelY += (mSpriteScale * (FP_FromInteger(randY) / FP_FromInteger(64)));
 
-    const FP x2 = mBaseAnimatedWithPhysicsGameObject_VelX + mBaseAnimatedWithPhysicsGameObject_XPos;
-    const FP y2 = mBaseAnimatedWithPhysicsGameObject_VelY + mBaseAnimatedWithPhysicsGameObject_YPos;
+    const FP x2 = mVelX + mXPos;
+    const FP y2 = mVelY + mYPos;
 
     PathLine* pLine = nullptr;
     FP hitX = {};
     FP hitY = {};
     const auto bCollision = sCollisions->Raycast(
-        mBaseAnimatedWithPhysicsGameObject_XPos,
-        mBaseAnimatedWithPhysicsGameObject_YPos,
+        mXPos,
+        mYPos,
         x2,
         y2,
         &pLine,
@@ -42,7 +42,7 @@ void Leaf::VUpdate()
         kFgOrBgFloor);
 
     // Hit the floor, die but only if in background..
-    if (bCollision && mBaseAnimatedWithPhysicsGameObject_SpriteScale == FP_FromDouble(0.5) && pLine->mLineType == eLineTypes::eFloor_0)
+    if (bCollision && mSpriteScale == FP_FromDouble(0.5) && pLine->mLineType == eLineTypes::eFloor_0)
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
         return;
@@ -50,30 +50,30 @@ void Leaf::VUpdate()
 
     if (field_E4_bHitSomething & 1 || !bCollision || 
         (
-        (mBaseAnimatedWithPhysicsGameObject_SpriteScale != FP_FromDouble(0.5) || pLine->mLineType != eLineTypes::eBackgroundFloor_4) &&
-        (mBaseAnimatedWithPhysicsGameObject_SpriteScale != FP_FromInteger(1) || pLine->mLineType != eLineTypes::eFloor_0))
+        (mSpriteScale != FP_FromDouble(0.5) || pLine->mLineType != eLineTypes::eBackgroundFloor_4) &&
+        (mSpriteScale != FP_FromInteger(1) || pLine->mLineType != eLineTypes::eFloor_0))
         )
     {
-        mBaseAnimatedWithPhysicsGameObject_XPos = x2;
-        mBaseAnimatedWithPhysicsGameObject_YPos = y2;
+        mXPos = x2;
+        mYPos = y2;
     }
     else
     {
-        mBaseAnimatedWithPhysicsGameObject_VelX = FP_FromInteger(0);
-        mBaseAnimatedWithPhysicsGameObject_VelY = FP_FromInteger(0);
+        mVelX = FP_FromInteger(0);
+        mVelY = FP_FromInteger(0);
 
         field_E4_bHitSomething |= 1;
 
-        mBaseAnimatedWithPhysicsGameObject_XPos = hitX;
-        mBaseAnimatedWithPhysicsGameObject_YPos = hitY;
+        mXPos = hitX;
+        mYPos = hitY;
     }
 
     // Out of the camera, die
     if (!gMap.Is_Point_In_Current_Camera(
-            mBaseAnimatedWithPhysicsGameObject_LvlNumber,
-            mBaseAnimatedWithPhysicsGameObject_PathNumber,
-            mBaseAnimatedWithPhysicsGameObject_XPos,
-            mBaseAnimatedWithPhysicsGameObject_YPos,
+            mCurrentLevel,
+            mCurrentPath,
+            mXPos,
+            mYPos,
             0))
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
@@ -87,7 +87,7 @@ void Leaf::VScreenChanged()
 
 Leaf::Leaf(FP xpos, FP ypos, FP xVel, FP yVel, FP scale)
 {
-    mBaseAnimatedWithPhysicsGameObject_RGB.SetRGB(100, 100, 100);
+    mRGB.SetRGB(100, 100, 100);
 
     const AnimRecord& leafRec = AO::AnimRec(AnimId::Well_Leaf);
     u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, leafRec.mResourceId, 1, 0);
@@ -98,30 +98,30 @@ Leaf::Leaf(FP xpos, FP ypos, FP xVel, FP yVel, FP scale)
 
     Animation_Init(AnimId::Well_Leaf, ppRes);
 
-    mBaseAnimatedWithPhysicsGameObject_SpriteScale = scale;
-    if (mBaseAnimatedWithPhysicsGameObject_SpriteScale == FP_FromInteger(1))
+    mSpriteScale = scale;
+    if (mSpriteScale == FP_FromInteger(1))
     {
-        mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_27;
-        mBaseAnimatedWithPhysicsGameObject_Scale = Scale::Fg;
+        mAnim.mRenderLayer = Layer::eLayer_27;
+        mScale = Scale::Fg;
     }
     else
     {
-        mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_8;
-        mBaseAnimatedWithPhysicsGameObject_Scale = Scale::Bg;
+        mAnim.mRenderLayer = Layer::eLayer_8;
+        mScale = Scale::Bg;
     }
 
-    mBaseAnimatedWithPhysicsGameObject_XPos = xpos;
-    mBaseAnimatedWithPhysicsGameObject_YPos = ypos;
+    mXPos = xpos;
+    mYPos = ypos;
 
-    mBaseAnimatedWithPhysicsGameObject_VelX = xVel * mBaseAnimatedWithPhysicsGameObject_SpriteScale;
-    mBaseAnimatedWithPhysicsGameObject_VelY = yVel * mBaseAnimatedWithPhysicsGameObject_SpriteScale;
+    mVelX = xVel * mSpriteScale;
+    mVelY = yVel * mSpriteScale;
 
     sLeafRandIdx_4D148C++;
 
     field_E4_bHitSomething &= ~1u;
 
     s16 randLeftVol = Math_RandomRange(19, 24);
-    if (mBaseAnimatedWithPhysicsGameObject_SpriteScale == FP_FromDouble(0.4)) // ??
+    if (mSpriteScale == FP_FromDouble(0.4)) // ??
     {
         randLeftVol -= 7;
     }

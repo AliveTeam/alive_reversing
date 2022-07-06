@@ -18,16 +18,16 @@ StatusLight::StatusLight(Path_StatusLight* pTlv, u32 tlvInfo)
     {
         if (pTlv->field_12_scale == Scale_short::eHalf_1)
         {
-            mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromDouble(0.5);
-            mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_8;
-            mBaseAnimatedWithPhysicsGameObject_Scale = Scale::Bg;
+            mSpriteScale = FP_FromDouble(0.5);
+            mAnim.mRenderLayer = Layer::eLayer_8;
+            mScale = Scale::Bg;
         }
     }
     else
     {
-        mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromInteger(1);
-        mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_27;
-        mBaseAnimatedWithPhysicsGameObject_Scale = Scale::Fg;
+        mSpriteScale = FP_FromInteger(1);
+        mAnim.mRenderLayer = Layer::eLayer_27;
+        mScale = Scale::Fg;
     }
 
     field_FA_id1 = pTlv->field_14_id1;
@@ -42,78 +42,78 @@ StatusLight::StatusLight(Path_StatusLight* pTlv, u32 tlvInfo)
     Animation_Init(AnimId::Status_Light_Red, ppRes);
 
     mVisualFlags.Clear(VisualFlags::eApplyShadowZoneColour);
-    mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit3_Render);
+    mAnim.mFlags.Clear(AnimFlags::eBit3_Render);
 
-    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger((pTlv->mTopLeft.x + pTlv->mBottomRight.x) / 2);
+    mXPos = FP_FromInteger((pTlv->mTopLeft.x + pTlv->mBottomRight.x) / 2);
 
     if (field_104_bIgnore_grid_snapping == Choice_short::eNo_0)
     {
-        mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(SnapToXGrid(mBaseAnimatedWithPhysicsGameObject_SpriteScale, FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos)));
+        mXPos = FP_FromInteger(SnapToXGrid(mSpriteScale, FP_GetExponent(mXPos)));
     }
 
-    mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger((pTlv->mTopLeft.y + pTlv->mBottomRight.y) / 2);
+    mYPos = FP_FromInteger((pTlv->mTopLeft.y + pTlv->mBottomRight.y) / 2);
 
     PathLine* pPathLine = nullptr;
     FP hitX = {};
     FP hitY = {};
     const auto bCollision = sCollisions->Raycast(
-        mBaseAnimatedWithPhysicsGameObject_XPos,
-        mBaseAnimatedWithPhysicsGameObject_YPos,
-        mBaseAnimatedWithPhysicsGameObject_XPos,
-        mBaseAnimatedWithPhysicsGameObject_YPos + (mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(56)),
+        mXPos,
+        mYPos,
+        mXPos,
+        mYPos + (mSpriteScale * FP_FromInteger(56)),
         &pPathLine,
         &hitX,
         &hitY,
-        mBaseAnimatedWithPhysicsGameObject_Scale == Scale::Fg ? kFgFloor : kBgFloor); // TODO: mouze check, 0xF1 : 0x10 seemed like it should be 0x1 : 0x10
+        mScale == Scale::Fg ? kFgFloor : kBgFloor); // TODO: mouze check, 0xF1 : 0x10 seemed like it should be 0x1 : 0x10
 
     if (field_104_bIgnore_grid_snapping == Choice_short::eNo_0)
     {
         if (bCollision)
         {
-            mBaseAnimatedWithPhysicsGameObject_YPos = hitY - (mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(56));
+            mYPos = hitY - (mSpriteScale * FP_FromInteger(56));
         }
     }
 
-    field_108_xpos = mBaseAnimatedWithPhysicsGameObject_XPos;
-    field_10C_ypos = mBaseAnimatedWithPhysicsGameObject_YPos;
+    field_108_xpos = mXPos;
+    field_10C_ypos = mYPos;
 }
 
 void StatusLight::VUpdate()
 {
     // TODO: Document how this works
 
-    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(sTweakX_5C1BD0) + field_108_xpos;
-    mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(sTweakY_5C1BD4) + field_10C_ypos;
+    mXPos = FP_FromInteger(sTweakX_5C1BD0) + field_108_xpos;
+    mYPos = FP_FromInteger(sTweakY_5C1BD4) + field_10C_ypos;
 
     if (SwitchStates_Get(field_F8_switch_id))
     {
         if ((!SwitchStates_Get(field_FA_id1) && field_FA_id1) || (!SwitchStates_Get(field_FC_id2) && field_FC_id2) || (!SwitchStates_Get(field_FE_id3) && field_FE_id3) || (!SwitchStates_Get(field_100_id4) && field_100_id4) || (!SwitchStates_Get(field_102_id5) && field_102_id5)
             || (sGnFrame % 8) >= 4)
         {
-            mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit3_Render);
+            mAnim.mFlags.Set(AnimFlags::eBit3_Render);
         }
         else
         {
-            mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit3_Render);
+            mAnim.mFlags.Clear(AnimFlags::eBit3_Render);
         }
-        mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::Status_Light_Green, nullptr);
+        mAnim.Set_Animation_Data(AnimId::Status_Light_Green, nullptr);
     }
     else if (SwitchStates_Get(field_FA_id1) || SwitchStates_Get(field_FC_id2) || SwitchStates_Get(field_FE_id3) || SwitchStates_Get(field_100_id4) || SwitchStates_Get(field_102_id5))
     {
         if ((sGnFrame % 8) >= 4)
         {
-            mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit3_Render);
+            mAnim.mFlags.Set(AnimFlags::eBit3_Render);
         }
         else
         {
-            mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit3_Render);
+            mAnim.mFlags.Clear(AnimFlags::eBit3_Render);
         }
-        mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::Status_Light_Red, nullptr);
+        mAnim.Set_Animation_Data(AnimId::Status_Light_Red, nullptr);
     }
     else
     {
-        mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit3_Render);
-        mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::Status_Light_Red, nullptr);
+        mAnim.mFlags.Clear(AnimFlags::eBit3_Render);
+        mAnim.Set_Animation_Data(AnimId::Status_Light_Red, nullptr);
     }
 }
 

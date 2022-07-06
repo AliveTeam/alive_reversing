@@ -65,8 +65,8 @@ BackgroundAnimation::BackgroundAnimation(Path_BackgroundAnimation* pTlv, s32 tlv
     }
     field_EE_h = static_cast<s16>(hMax);
 
-    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pTlv->mTopLeft.x);
-    mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->mTopLeft.y);
+    mXPos = FP_FromInteger(pTlv->mTopLeft.x);
+    mYPos = FP_FromInteger(pTlv->mTopLeft.y);
 
     field_F8_animXPos = FP_FromInteger(pTlv->mTopLeft.x);
     field_FC_animYPos = FP_FromInteger(pTlv->mTopLeft.y);
@@ -82,13 +82,13 @@ BackgroundAnimation::BackgroundAnimation(Path_BackgroundAnimation* pTlv, s32 tlv
 
     Animation_Init(anim.mFrameTableOffset, anim.mMaxW, anim.mMaxH, field_E4_res);
 
-    mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit15_bSemiTrans, pTlv->field_1A_is_semi_trans == Choice_short::eYes_1);
-    mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit16_bBlending);
+    mAnim.mFlags.Set(AnimFlags::eBit15_bSemiTrans, pTlv->field_1A_is_semi_trans == Choice_short::eYes_1);
+    mAnim.mFlags.Set(AnimFlags::eBit16_bBlending);
 
-    mBaseAnimatedWithPhysicsGameObject_Anim.mRenderMode = pTlv->field_1C_semi_trans_mode;
+    mAnim.mRenderMode = pTlv->field_1C_semi_trans_mode;
 
-    mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_1;
-    mBaseAnimatedWithPhysicsGameObject_YOffset = 0;
+    mAnim.mRenderLayer = Layer::eLayer_1;
+    mYOffset = 0;
 
     field_100_sound_effect = pTlv->field_1E_sound_effect;
     if (field_100_sound_effect == BgAnimSounds::eFire_1) // Apparently there is only 1 possible sound effect
@@ -115,8 +115,8 @@ void BackgroundAnimation::VUpdate()
             // play fire sounds
             field_104_sound_channels_mask = SfxPlayMono(static_cast<SoundEffect>(field_100_sound_effect), 0, 0);
         }
-        mBaseAnimatedWithPhysicsGameObject_XPos = field_F8_animXPos + FP_FromInteger(gTweak_X_5076D8);
-        mBaseAnimatedWithPhysicsGameObject_YPos = field_FC_animYPos + FP_FromInteger(gTweak_Y_5076DC);
+        mXPos = field_F8_animXPos + FP_FromInteger(gTweak_X_5076D8);
+        mYPos = field_FC_animYPos + FP_FromInteger(gTweak_Y_5076DC);
     }
 }
 

@@ -28,7 +28,11 @@ public:
     void CalculateRenderProperties(s16 bStarted);
     void Spin(FP xpos, FP ypos, BaseAliveGameObject* pObj);
 
-    s32 mAnimFlags = 0;
+    enum Flags
+    {
+        eIsActive = 0x1
+    };
+    BitField16<Flags> mFlags = {};
     Animation field_8_anim;
     FP field_A0_xpos_render_offset = {};
     FP field_A4_ypos_render_offset = {};

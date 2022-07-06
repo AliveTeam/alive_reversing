@@ -46,23 +46,23 @@ Gibs::Gibs(GibType gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scale)
     // The base class renders the head gib
     Animation_Init(field_E4_pGibData->field_0_head, ppAnimData);
 
-    mBaseAnimatedWithPhysicsGameObject_SpriteScale = scale;
-    mBaseAnimatedWithPhysicsGameObject_XPos = xpos;
-    mBaseAnimatedWithPhysicsGameObject_YPos = ypos + FP_FromInteger(2);
+    mSpriteScale = scale;
+    mXPos = xpos;
+    mYPos = ypos + FP_FromInteger(2);
 
     field_F0_timer = sGnFrame + 91;
 
     if (scale == FP_FromInteger(1))
     {
         field_E8_z = FP_FromInteger(0);
-        mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_FG1_37;
-        mBaseAnimatedWithPhysicsGameObject_Scale = Scale::Fg;
+        mAnim.mRenderLayer = Layer::eLayer_FG1_37;
+        mScale = Scale::Fg;
     }
     else if (scale == FP_FromDouble(0.5))
     {
         field_E8_z = FP_FromInteger(100);
-        mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_Foreground_Half_17;
-        mBaseAnimatedWithPhysicsGameObject_Scale = Scale::Bg;
+        mAnim.mRenderLayer = Layer::eLayer_Foreground_Half_17;
+        mScale = Scale::Bg;
     }
     else
     {
@@ -70,8 +70,8 @@ Gibs::Gibs(GibType gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scale)
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 
-    mBaseAnimatedWithPhysicsGameObject_VelX = xOff + GibRand(scale);
-    mBaseAnimatedWithPhysicsGameObject_VelY = yOff + GibRand(scale);
+    mVelX = xOff + GibRand(scale);
+    mVelY = yOff + GibRand(scale);
 
     if ((GibRand(scale) / FP_FromInteger(2)) >= FP_FromInteger(0))
     {
@@ -132,18 +132,18 @@ Gibs::Gibs(GibType gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scale)
             }
         }
 
-        pPart->field_18_animation.mRenderLayer = mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer;
+        pPart->field_18_animation.mRenderLayer = mAnim.mRenderLayer;
         pPart->field_18_animation.field_14_scale = scale;
 
-        pPart->field_18_animation.mAnimFlags.Clear(AnimFlags::eBit16_bBlending);
-        pPart->field_18_animation.mAnimFlags.Clear(AnimFlags::eBit15_bSemiTrans);
+        pPart->field_18_animation.mFlags.Clear(AnimFlags::eBit16_bBlending);
+        pPart->field_18_animation.mFlags.Clear(AnimFlags::eBit15_bSemiTrans);
 
-        pPart->field_18_animation.mRed = static_cast<u8>(mBaseAnimatedWithPhysicsGameObject_RGB.r);
-        pPart->field_18_animation.mGreen = static_cast<u8>(mBaseAnimatedWithPhysicsGameObject_RGB.g);
-        pPart->field_18_animation.mBlue = static_cast<u8>(mBaseAnimatedWithPhysicsGameObject_RGB.b);
+        pPart->field_18_animation.mRed = static_cast<u8>(mRGB.r);
+        pPart->field_18_animation.mGreen = static_cast<u8>(mRGB.g);
+        pPart->field_18_animation.mBlue = static_cast<u8>(mRGB.b);
 
-        pPart->x = mBaseAnimatedWithPhysicsGameObject_XPos;
-        pPart->y = mBaseAnimatedWithPhysicsGameObject_YPos;
+        pPart->x = mXPos;
+        pPart->y = mYPos;
         pPart->field_8_z = field_E8_z;
 
         pPart->field_C_dx = xOff + GibRand(scale);
@@ -169,11 +169,11 @@ Gibs::Gibs(GibType gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scale)
 
 void Gibs::VUpdate()
 {
-    mBaseAnimatedWithPhysicsGameObject_XPos += mBaseAnimatedWithPhysicsGameObject_VelX;
-    mBaseAnimatedWithPhysicsGameObject_YPos += mBaseAnimatedWithPhysicsGameObject_VelY;
+    mXPos += mVelX;
+    mYPos += mVelY;
     field_E8_z += field_EC_dz;
 
-    mBaseAnimatedWithPhysicsGameObject_VelY += FP_FromDouble(0.25);
+    mVelY += FP_FromDouble(0.25);
 
     if (field_E8_z + FP_FromInteger(100) < FP_FromInteger(15))
     {
@@ -218,7 +218,7 @@ void Gibs::VRender(PrimHeader** ppOt)
         return;
     }
 
-    mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromInteger(100) / (field_E8_z + FP_FromInteger(100));
+    mSpriteScale = FP_FromInteger(100) / (field_E8_z + FP_FromInteger(100));
 
     // Head part rendering
     BaseAnimatedWithPhysicsGameObject::VRender(ppOt);

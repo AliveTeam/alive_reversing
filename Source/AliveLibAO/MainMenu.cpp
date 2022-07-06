@@ -320,15 +320,15 @@ MainMenuFade::MainMenuFade(s32 xpos, s32 ypos, buttonType buttonType, s32 bDestr
 {
     mBaseGameObjectTypeId = ReliveTypes::MainMenuFade;
 
-    mBaseAnimatedWithPhysicsGameObject_RGB.SetRGB(128, 128, 128);
+    mRGB.SetRGB(128, 128, 128);
 
     const AnimRecord& rec = AO::AnimRec(buttonAnimIds_4BB1B8[buttonType]);
     u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
     Animation_Init(buttonAnimIds_4BB1B8[buttonType], ppRes);
 
-    mBaseAnimatedWithPhysicsGameObject_Anim.mRenderMode = TPageAbr::eBlend_1;
-    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(xpos);
-    mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(ypos);
+    mAnim.mRenderMode = TPageAbr::eBlend_1;
+    mXPos = FP_FromInteger(xpos);
+    mYPos = FP_FromInteger(ypos);
     field_E8_bDestroyOnDone = static_cast<s16>(bDestroyOnDone);
     field_E4 = 40;
     field_E6 = 8;
@@ -340,7 +340,7 @@ MainMenuFade::MainMenuFade(s32 xpos, s32 ypos, buttonType buttonType, s32 bDestr
         {
             break;
         }
-        if (pObj->mBaseGameObjectTypeId == ReliveTypes::MainMenuFade && pObj != this && static_cast<BaseAnimatedWithPhysicsGameObject*>(pObj)->mBaseAnimatedWithPhysicsGameObject_XPos == mBaseAnimatedWithPhysicsGameObject_XPos && static_cast<BaseAnimatedWithPhysicsGameObject*>(pObj)->mBaseAnimatedWithPhysicsGameObject_YPos == mBaseAnimatedWithPhysicsGameObject_YPos)
+        if (pObj->mBaseGameObjectTypeId == ReliveTypes::MainMenuFade && pObj != this && static_cast<BaseAnimatedWithPhysicsGameObject*>(pObj)->mXPos == mXPos && static_cast<BaseAnimatedWithPhysicsGameObject*>(pObj)->mYPos == mYPos)
         {
             pObj->mBaseGameObjectFlags.Set(BaseGameObject::eDead);
         }
@@ -368,22 +368,22 @@ void MainMenuFade::VUpdate()
         field_E6 = -field_E6;
     }
 
-    mBaseAnimatedWithPhysicsGameObject_Anim.mBlue = static_cast<u8>(field_E4);
-    mBaseAnimatedWithPhysicsGameObject_Anim.mGreen = static_cast<u8>(field_E4);
-    mBaseAnimatedWithPhysicsGameObject_Anim.mRed = static_cast<u8>(field_E4);
+    mAnim.mBlue = static_cast<u8>(field_E4);
+    mAnim.mGreen = static_cast<u8>(field_E4);
+    mAnim.mRed = static_cast<u8>(field_E4);
 }
 
 void MainMenuFade::VRender(PrimHeader** ppOt)
 {
-    mBaseAnimatedWithPhysicsGameObject_Anim.VRender(
-        FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos),
-        FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos),
+    mAnim.VRender(
+        FP_GetExponent(mXPos),
+        FP_GetExponent(mYPos),
         ppOt,
         0,
         0);
 
     PSX_RECT rect = {};
-    mBaseAnimatedWithPhysicsGameObject_Anim.Get_Frame_Rect(&rect);
+    mAnim.Get_Frame_Rect(&rect);
     pScreenManager->InvalidateRectCurrentIdx(
         rect.x,
         rect.y,
@@ -698,19 +698,19 @@ Menu::Menu(Path_TLV* /*pTlv*/, s32 tlvInfo)
         Animation_Init(AnimId::MenuDoor, field_E4_res_array[3]);
     }
 
-    mBaseAnimatedWithPhysicsGameObject_Anim.mBlue = 127;
-    mBaseAnimatedWithPhysicsGameObject_Anim.mGreen = 127;
-    mBaseAnimatedWithPhysicsGameObject_Anim.mRed = 127;
+    mAnim.mBlue = 127;
+    mAnim.mGreen = 127;
+    mAnim.mRed = 127;
 
     const AnimRecord& circleRec = AO::AnimRec(AnimId::MenuHighlight_Circle);
     u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, circleRec.mResourceId, 1, 0);
     field_134_anim.Init(AnimId::MenuHighlight_Circle, this, ppRes);
 
-    field_134_anim.mAnimFlags.Clear(AnimFlags::eBit16_bBlending);
-    field_134_anim.mAnimFlags.Set(AnimFlags::eBit15_bSemiTrans);
+    field_134_anim.mFlags.Clear(AnimFlags::eBit16_bBlending);
+    field_134_anim.mFlags.Set(AnimFlags::eBit15_bSemiTrans);
 
     field_134_anim.mRenderLayer = Layer::eLayer_MainMenuButtonBees_38;
-    field_134_anim.field_14_scale = mBaseAnimatedWithPhysicsGameObject_SpriteScale;
+    field_134_anim.field_14_scale = mSpriteScale;
     field_134_anim.mRenderMode = TPageAbr::eBlend_1;
     field_134_anim.LoadPal(field_E4_res_array[5], 0);
     field_204_flags &= ~6u;
@@ -728,7 +728,7 @@ Menu::Menu(Path_TLV* /*pTlv*/, s32 tlvInfo)
     {
         field_1CC_fn_update = &Menu::WaitForDoorToOpen_47B550;
         field_204_flags |= 2;
-        mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::MenuDoor, field_E4_res_array[3]);
+        mAnim.Set_Animation_Data(AnimId::MenuDoor, field_E4_res_array[3]);
     }
 
     field_1D0_fn_render = &Menu::Empty_Render_47AC80;
@@ -769,12 +769,12 @@ Menu::Menu(Path_TLV* /*pTlv*/, s32 tlvInfo)
         sActiveList_9F2DE4 = gFmvs_4D0230;
         sListCount_4D0228 = ALIVE_COUNTOF(gFmvs_4D0230);
 
-        mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::MenuAbeSpeak_Idle, field_E4_res_array[1]);
+        mAnim.Set_Animation_Data(AnimId::MenuAbeSpeak_Idle, field_E4_res_array[1]);
 
-        FrameInfoHeader* pFrameInfoHeader = mBaseAnimatedWithPhysicsGameObject_Anim.Get_FrameHeader(0);
-        auto pFrameHeader = reinterpret_cast<FrameHeader*>(&(*mBaseAnimatedWithPhysicsGameObject_Anim.field_20_ppBlock)[pFrameInfoHeader->field_0_frame_header_offset]);
-        mBaseAnimatedWithPhysicsGameObject_Anim.LoadPal(
-            mBaseAnimatedWithPhysicsGameObject_Anim.field_20_ppBlock,
+        FrameInfoHeader* pFrameInfoHeader = mAnim.Get_FrameHeader(0);
+        auto pFrameHeader = reinterpret_cast<FrameHeader*>(&(*mAnim.field_20_ppBlock)[pFrameInfoHeader->field_0_frame_header_offset]);
+        mAnim.LoadPal(
+            mAnim.field_20_ppBlock,
             pFrameHeader->field_0_clut_offset);
     }
 
@@ -788,7 +788,7 @@ Menu::~Menu()
 
     for (s32 i = 0; i < ALIVE_COUNTOF(field_E4_res_array); i++)
     {
-        if (mBaseAnimatedWithPhysicsGameObject_Anim.field_20_ppBlock != field_E4_res_array[i])
+        if (mAnim.field_20_ppBlock != field_E4_res_array[i])
         {
             ResourceManager::FreeResource_455550(field_E4_res_array[i]);
         }
@@ -823,10 +823,10 @@ void Menu::VRender_47AC00(PrimHeader** ppOt)
 {
     if ((field_204_flags >> 1) & 1)
     {
-        mBaseAnimatedWithPhysicsGameObject_Anim.VRender(184, 162, ppOt, 0, 0);
+        mAnim.VRender(184, 162, ppOt, 0, 0);
 
         PSX_RECT rect = {};
-        mBaseAnimatedWithPhysicsGameObject_Anim.Get_Frame_Rect(&rect);
+        mAnim.Get_Frame_Rect(&rect);
         pScreenManager->InvalidateRectCurrentIdx(
             rect.x,
             rect.y,
@@ -867,12 +867,12 @@ void Menu::VUpdate_47ABB0()
 void Menu::WaitForDoorToOpen_47B550()
 {
     field_204_flags |= 2u;
-    if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
+    if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
     {
-        mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::AbeIntro, field_E4_res_array[2]);
-        FrameInfoHeader* pFrameInfoHeader = mBaseAnimatedWithPhysicsGameObject_Anim.Get_FrameHeader(0);
-        auto pFrameHeader = reinterpret_cast<FrameHeader*>(&(*mBaseAnimatedWithPhysicsGameObject_Anim.field_20_ppBlock)[pFrameInfoHeader->field_0_frame_header_offset]);
-        mBaseAnimatedWithPhysicsGameObject_Anim.LoadPal(mBaseAnimatedWithPhysicsGameObject_Anim.field_20_ppBlock, pFrameHeader->field_0_clut_offset);
+        mAnim.Set_Animation_Data(AnimId::AbeIntro, field_E4_res_array[2]);
+        FrameInfoHeader* pFrameInfoHeader = mAnim.Get_FrameHeader(0);
+        auto pFrameHeader = reinterpret_cast<FrameHeader*>(&(*mAnim.field_20_ppBlock)[pFrameInfoHeader->field_0_frame_header_offset]);
+        mAnim.LoadPal(mAnim.field_20_ppBlock, pFrameHeader->field_0_clut_offset);
         field_1CC_fn_update = &Menu::WaitForAbesHeadPoppingThroughDoor_47B5E0;
         ResourceManager::FreeResource_455550(field_E4_res_array[3]);
         field_204_flags &= ~2u;
@@ -886,17 +886,17 @@ void Menu::WaitForAbesHeadPoppingThroughDoor_47B5E0()
     if (field_1D8_timer <= static_cast<s32>(sGnFrame))
     {
         field_204_flags |= 2u;
-        mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::AbeIntro, nullptr);
+        mAnim.Set_Animation_Data(AnimId::AbeIntro, nullptr);
         field_1CC_fn_update = &Menu::AbePopThroughDoor_47B620;
     }
 }
 
 void Menu::AbePopThroughDoor_47B620()
 {
-    if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
+    if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
     {
         // Put abe into the bug eyed idle loop
-        mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::MenuAbeSpeak_IdleBlink, field_E4_res_array[1]);
+        mAnim.Set_Animation_Data(AnimId::MenuAbeSpeak_IdleBlink, field_E4_res_array[1]);
         field_1CC_fn_update = &Menu::SayHelloWaitForLoading_47B690;
         field_1DC_idle_input_counter = 0;
         ResourceManager::FreeResource_455550(field_E4_res_array[2]);
@@ -921,7 +921,7 @@ void Menu::CopyRight_Update_47B4C0()
         {
             gMap.SetActiveCam(EReliveLevelIds::eMenu, 1, CameraIds::Menu::eMainMenu_1, CameraSwapEffects::ePlay1FMV_5, 30102, 0);
             field_1CC_fn_update = &Menu::WaitForDoorToOpen_47B550;
-            mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::MenuDoor, field_E4_res_array[3]);
+            mAnim.Set_Animation_Data(AnimId::MenuDoor, field_E4_res_array[3]);
         }
     }
 }
@@ -1208,7 +1208,7 @@ void Menu::FMV_Or_Level_Select_Render_47EEA0(PrimHeader** ppOt)
 void Menu::SayHelloWaitForLoading_47B690()
 {
     // After 1 idle anim loop
-    if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
+    if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
     {
         // Wait for in progress loading (gamespeak ban) to finish
         if (!field_E4_res_array[0])
@@ -1216,18 +1216,18 @@ void Menu::SayHelloWaitForLoading_47B690()
             ProgressInProgressFilesLoading();
         }
         Mudokon_SFX(MudSounds::eHello_3, 0, 0, 0);
-        mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::MenuAbeSpeak_Hello, field_E4_res_array[1]);
+        mAnim.Set_Animation_Data(AnimId::MenuAbeSpeak_Hello, field_E4_res_array[1]);
         field_1CC_fn_update = &Menu::WaitForAbeSayHello_47B770;
     }
 }
 
 void Menu::WaitForAbeSayHello_47B770()
 {
-    if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
+    if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
     {
         // Abe has finished saying hello, go to main menu handler
-        mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::MenuAbeSpeak_Idle, field_E4_res_array[1]);
-        mBaseAnimatedWithPhysicsGameObject_Anim.SetFrame(7u);
+        mAnim.Set_Animation_Data(AnimId::MenuAbeSpeak_Idle, field_E4_res_array[1]);
+        mAnim.SetFrame(7u);
         field_1CC_fn_update = &Menu::MainScreen_Update_47AF60;
         field_1D0_fn_render = &Menu::MainScreen_Render_47BED0;
         field_1D8_timer = sGnFrame + Math_RandomRange(300, 450);
@@ -1346,13 +1346,13 @@ void Menu::MainScreen_Update_47AF60()
                 {
                     // Begin/new game
                     Mudokon_SFX(MudSounds::eFollowMe_4, 0, 0, 0);
-                    mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::MenuAbeSpeak_FollowMe, field_E4_res_array[0]);
+                    mAnim.Set_Animation_Data(AnimId::MenuAbeSpeak_FollowMe, field_E4_res_array[0]);
                 }
                 else if (field_1E0_selected_index.mainmenu == MainMenuOptions::eQuit_2)
                 {
                     // Quit
                     Mudokon_SFX(MudSounds::eGoodbye_12, 0, 0, 0);
-                    mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::MenuAbeSpeak_Goodbye, field_E4_res_array[0]);
+                    mAnim.Set_Animation_Data(AnimId::MenuAbeSpeak_Goodbye, field_E4_res_array[0]);
                 }
                 else
                 {
@@ -1360,7 +1360,7 @@ void Menu::MainScreen_Update_47AF60()
                     // 3 = load
                     // 4 = options
                     Mudokon_SFX(MudSounds::eOkay_13, 0, 0, 0);
-                    mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::MenuAbeSpeak_Ok, field_E4_res_array[1]);
+                    mAnim.Set_Animation_Data(AnimId::MenuAbeSpeak_Ok, field_E4_res_array[1]);
                 }
 
                 field_1CC_fn_update = &Menu::WaitForSpeakFinishAndStartChangeEffect_47BB90;
@@ -1380,7 +1380,7 @@ void Menu::MainScreen_Update_47AF60()
                     }
                 }
 
-                mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::MenuAbeSpeak_Idle, field_E4_res_array[1]);
+                mAnim.Set_Animation_Data(AnimId::MenuAbeSpeak_Idle, field_E4_res_array[1]);
                 field_1CC_fn_update = &Menu::GoToSelectedMenuPage_47BC50;
             }
         }
@@ -1419,7 +1419,7 @@ void Menu::MainScreen_Update_47AF60()
         if (field_E4_res_array[0])
         {
             Mudokon_SFX(MudSounds::eOkay_13, 0, 0, 0);
-            mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::MenuAbeSpeak_Ok, field_E4_res_array[1]);
+            mAnim.Set_Animation_Data(AnimId::MenuAbeSpeak_Ok, field_E4_res_array[1]);
             field_1CC_fn_update = &Menu::WaitForSpeakFinishAndStartChangeEffect_47BB90;
         }
         else
@@ -1437,7 +1437,7 @@ void Menu::MainScreen_Update_47AF60()
                 }
             }
 
-            mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::MenuAbeSpeak_Idle, field_E4_res_array[1]);
+            mAnim.Set_Animation_Data(AnimId::MenuAbeSpeak_Idle, field_E4_res_array[1]);
             field_1CC_fn_update = &Menu::GoToSelectedMenuPage_47BC50;
         }
     }
@@ -1451,7 +1451,7 @@ void Menu::MainScreen_Update_47AF60()
         if (field_E4_res_array[0])
         {
             Mudokon_SFX(MudSounds::eOkay_13, 0, 0, 0);
-            mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::MenuAbeSpeak_Ok, field_E4_res_array[1]);
+            mAnim.Set_Animation_Data(AnimId::MenuAbeSpeak_Ok, field_E4_res_array[1]);
             field_1CC_fn_update = &Menu::WaitForSpeakFinishAndStartChangeEffect_47BB90;
         }
         else
@@ -1469,7 +1469,7 @@ void Menu::MainScreen_Update_47AF60()
                 }
             }
 
-            mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::MenuAbeSpeak_Idle, field_E4_res_array[1]);
+            mAnim.Set_Animation_Data(AnimId::MenuAbeSpeak_Idle, field_E4_res_array[1]);
             field_1CC_fn_update = &Menu::GoToSelectedMenuPage_47BC50;
         }
     }
@@ -1477,18 +1477,18 @@ void Menu::MainScreen_Update_47AF60()
     // Some sort of idle anim toggling
     if (((field_204_flags) >> 2) & 1)
     {
-        if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
+        if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
         {
-            mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::MenuAbeSpeak_Idle, field_E4_res_array[1]);
+            mAnim.Set_Animation_Data(AnimId::MenuAbeSpeak_Idle, field_E4_res_array[1]);
             field_204_flags &= ~4u;
             field_1D8_timer = sGnFrame + Math_RandomRange(120, 450);
         }
     }
     else if (field_1D8_timer <= static_cast<s32>(sGnFrame))
     {
-        if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
+        if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
         {
-            mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::MenuAbeSpeak_IdleBlink, field_E4_res_array[1]);
+            mAnim.Set_Animation_Data(AnimId::MenuAbeSpeak_IdleBlink, field_E4_res_array[1]);
             field_204_flags |= 4u;
         }
     }
@@ -1569,7 +1569,7 @@ void Menu::GoToSelectedMenuPage_47BC50()
 void Menu::WaitForSpeakFinishAndStartChangeEffect_47BB90()
 {
     // Abe finished speaking?
-    if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
+    if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
     {
         if (field_1E8_pMenuTrans)
         {
@@ -1584,7 +1584,7 @@ void Menu::WaitForSpeakFinishAndStartChangeEffect_47BB90()
             }
         }
 
-        mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::MenuAbeSpeak_Idle, field_E4_res_array[1]);
+        mAnim.Set_Animation_Data(AnimId::MenuAbeSpeak_Idle, field_E4_res_array[1]);
         field_1CC_fn_update = &Menu::GoToSelectedMenuPage_47BC50;
     }
 }
@@ -1683,11 +1683,11 @@ void Menu::ToGameSpeak_Update_47D620()
 void Menu::GameSpeak_Render_47D700(PrimHeader** ppOt)
 {
 #if AUTO_SWITCH_CONTROLLER // OG Change - Automatically switch between Gamepad/Keyboard GameSpeak Menu if joystick is added/removed
-    if (Input_JoyStickEnabled() && gMap.mCamera == CameraIds::Menu::eGamespeakKeyboard_33)
+    if (Input_JoyStickEnabled() && gMap.mNextCamera == CameraIds::Menu::eGamespeakKeyboard_33)
     {
         gMap.SetActiveCam(EReliveLevelIds::eMenu, 1, CameraIds::Menu::eGamespeakGamepad_3, CameraSwapEffects::eInstantChange_0, 0, 0);
     }
-    else if (!Input_JoyStickEnabled() && gMap.mCamera == CameraIds::Menu::eGamespeakGamepad_3)
+    else if (!Input_JoyStickEnabled() && gMap.mNextCamera == CameraIds::Menu::eGamespeakGamepad_3)
     {
         gMap.SetActiveCam(EReliveLevelIds::eMenu, 1, CameraIds::Menu::eGamespeakKeyboard_33, CameraSwapEffects::eInstantChange_0, 0, 0);
     }
@@ -2004,7 +2004,7 @@ void Menu::Loading_Update_47B870()
                     ProgressInProgressFilesLoading();
                 }
 
-                mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::MenuAbeSpeak_Idle, field_E4_res_array[1]);
+                mAnim.Set_Animation_Data(AnimId::MenuAbeSpeak_Idle, field_E4_res_array[1]);
                 ResourceManager::FreeResource_455550(field_E4_res_array[0]);
                 field_E4_res_array[0] = nullptr;
                 ResourceManager::Reclaim_Memory_455660(0);
@@ -2042,8 +2042,8 @@ void Menu::NewGameStart_47B9C0()
         {
             field_20C_bStartInSpecificMap = FALSE;
             gMap.SetActiveCam(field_20E_level, field_210_path, field_212_camera, CameraSwapEffects::eInstantChange_0, 0, 0);
-            sActiveHero_507678->mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(field_214_abe_xpos);
-            sActiveHero_507678->mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(field_216_abe_ypos);
+            sActiveHero_507678->mXPos = FP_FromInteger(field_214_abe_xpos);
+            sActiveHero_507678->mYPos = FP_FromInteger(field_216_abe_ypos);
         }
         else
         {
@@ -2052,8 +2052,8 @@ void Menu::NewGameStart_47B9C0()
             gMap.SetActiveCam(EReliveLevelIds::eRuptureFarms, 15, 1, CameraSwapEffects::ePlay1FMV_5, 102, 0);
 
             // What if someone made a level editor and wanted to change where abe spawns on the first map? Well... hard luck pal
-            sActiveHero_507678->mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(1378);
-            sActiveHero_507678->mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(83);
+            sActiveHero_507678->mXPos = FP_FromInteger(1378);
+            sActiveHero_507678->mYPos = FP_FromInteger(83);
         }
     }
     mBaseGameObjectFlags.Set(BaseGameObject::eDead);
@@ -2106,7 +2106,7 @@ void Menu::Options_Update_47BF90()
     if (Input().IsAnyHeld(InputObject::PadIndex::First, InputCommands::eUnPause_OrConfirm | InputCommands::eDoAction))
     {
         Mudokon_SFX(MudSounds::eOkay_13, 0, 0, 0);
-        mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::MenuAbeSpeak_Ok, field_E4_res_array[1]);
+        mAnim.Set_Animation_Data(AnimId::MenuAbeSpeak_Ok, field_E4_res_array[1]);
         field_1CC_fn_update = &Menu::Options_WaitForAbeSpeak_Update_47C280;
     }
 
@@ -2116,25 +2116,25 @@ void Menu::Options_Update_47BF90()
         field_1E0_selected_index.options_menu = OptionsMenuOptions::eMainMenu_2;
         field_134_anim.Set_Animation_Data(sOptionsButtons_4D0148[2].field_4_anim_id, nullptr);
         Mudokon_SFX(MudSounds::eOkay_13, 0, 0, 0);
-        mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::MenuAbeSpeak_Ok, field_E4_res_array[1]);
+        mAnim.Set_Animation_Data(AnimId::MenuAbeSpeak_Ok, field_E4_res_array[1]);
         field_1CC_fn_update = &Menu::Options_WaitForAbeSpeak_Update_47C280;
     }
 
     // Some sort of idle anim toggle?
     if (((field_204_flags) >> 2) & 1)
     {
-        if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
+        if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
         {
-            mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::MenuAbeSpeak_Idle, field_E4_res_array[1]);
+            mAnim.Set_Animation_Data(AnimId::MenuAbeSpeak_Idle, field_E4_res_array[1]);
             field_204_flags &= ~4u;
             field_1D8_timer = sGnFrame + Math_RandomRange(120, 450);
         }
     }
     else if (field_1D8_timer <= static_cast<s32>(sGnFrame))
     {
-        if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
+        if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
         {
-            mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::MenuAbeSpeak_IdleBlink, field_E4_res_array[1]);
+            mAnim.Set_Animation_Data(AnimId::MenuAbeSpeak_IdleBlink, field_E4_res_array[1]);
             field_204_flags |= 4u;
         }
     }
@@ -2142,9 +2142,9 @@ void Menu::Options_Update_47BF90()
 
 void Menu::Options_WaitForAbeSpeak_Update_47C280()
 {
-    if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
+    if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
     {
-        mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::MenuAbeSpeak_Idle, field_E4_res_array[1]);
+        mAnim.Set_Animation_Data(AnimId::MenuAbeSpeak_Idle, field_E4_res_array[1]);
         field_1E8_pMenuTrans->StartTrans_436560(Layer::eLayer_FadeFlash_40, 1, 0, 16);
         field_1CC_fn_update = &Menu::Option_GoTo_Selected_Update_47C2C0;
     }
@@ -2469,7 +2469,7 @@ void Menu::Options_Sound_Update_47C420()
 
         Mudokon_SFX(MudSounds::eOkay_13, 0, 0, nullptr);
 
-        mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::MenuAbeSpeak_Ok, field_E4_res_array[1]);
+        mAnim.Set_Animation_Data(AnimId::MenuAbeSpeak_Ok, field_E4_res_array[1]);
         field_1CC_fn_update = &Menu::Options_WaitForAbeSayOK_Update_47C720;
     }
 
@@ -2478,25 +2478,25 @@ void Menu::Options_Sound_Update_47C420()
         field_1E0_selected_index.sound_menu = SoundOptions::eExit_2;
         field_134_anim.Set_Animation_Data(sSoundOptionsButtons_4D01C0[2].field_4_anim_id, nullptr);
         Mudokon_SFX(MudSounds::eOkay_13, 0, 0, nullptr);
-        mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::MenuAbeSpeak_Ok, field_E4_res_array[1]);
+        mAnim.Set_Animation_Data(AnimId::MenuAbeSpeak_Ok, field_E4_res_array[1]);
         field_1CC_fn_update = &Menu::Options_WaitForAbeSayOK_Update_47C720;
     }
 
     // Idle anim toggle ?
     if (((field_204_flags) >> 2) & 1)
     {
-        if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
+        if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
         {
-            mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::MenuAbeSpeak_Idle, field_E4_res_array[1]);
+            mAnim.Set_Animation_Data(AnimId::MenuAbeSpeak_Idle, field_E4_res_array[1]);
             field_204_flags &= ~4u;
             field_1D8_timer = sGnFrame + Math_RandomRange(120, 450);
         }
     }
     else if (field_1D8_timer <= static_cast<s32>(sGnFrame))
     {
-        if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
+        if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
         {
-            mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::MenuAbeSpeak_IdleBlink, field_E4_res_array[1]);
+            mAnim.Set_Animation_Data(AnimId::MenuAbeSpeak_IdleBlink, field_E4_res_array[1]);
             field_204_flags |= 4u;
         }
     }
@@ -2504,9 +2504,9 @@ void Menu::Options_Sound_Update_47C420()
 
 void Menu::Options_WaitForAbeSayOK_Update_47C720()
 {
-    if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
+    if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
     {
-        mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::MenuAbeSpeak_Idle, field_E4_res_array[1]);
+        mAnim.Set_Animation_Data(AnimId::MenuAbeSpeak_Idle, field_E4_res_array[1]);
         field_1E8_pMenuTrans->StartTrans_436560(Layer::eLayer_FadeFlash_40, 1, 0, 16);
         field_1CC_fn_update = &Menu::Options_WaitForScreenTrans_Update_47C760;
     }
@@ -2565,12 +2565,12 @@ void Menu::GameSpeak_Update_47CBD0()
                 field_E4_res_array[4]);
             if (pParticle)
             {
-                pParticle->mBaseAnimatedWithPhysicsGameObject_Anim.mRenderMode = TPageAbr::eBlend_1;
-                pParticle->mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_Above_FG1_39;
+                pParticle->mAnim.mRenderMode = TPageAbr::eBlend_1;
+                pParticle->mAnim.mRenderLayer = Layer::eLayer_Above_FG1_39;
             }
         }
 
-        if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
+        if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
         {
             if (field_1E0_selected_index.gamespeak_menu == GameSpeakOptions::eChant_8)
             {
@@ -2587,7 +2587,7 @@ void Menu::GameSpeak_Update_47CBD0()
                         field_1F0_pObj2 = nullptr;
                     }
 
-                    mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::MenuAbeSpeak_ChantEnd, field_E4_res_array[0]);
+                    mAnim.Set_Animation_Data(AnimId::MenuAbeSpeak_ChantEnd, field_E4_res_array[0]);
                     field_1E0_selected_index.gamespeak_menu = GameSpeakOptions::eHello_1;
                 }
             }
@@ -2596,12 +2596,12 @@ void Menu::GameSpeak_Update_47CBD0()
                 field_204_flags &= ~1u;
                 if (field_1E0_selected_index.gamespeak_menu == GameSpeakOptions::eLaugh_6 || field_1E0_selected_index.gamespeak_menu == GameSpeakOptions::eHello_1)
                 {
-                    mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::MenuAbeSpeak_IdleBlink, field_E4_res_array[1]);
-                    mBaseAnimatedWithPhysicsGameObject_Anim.SetFrame(7u);
+                    mAnim.Set_Animation_Data(AnimId::MenuAbeSpeak_IdleBlink, field_E4_res_array[1]);
+                    mAnim.SetFrame(7u);
                 }
                 else
                 {
-                    mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::MenuAbeSpeak_Idle, field_E4_res_array[1]);
+                    mAnim.Set_Animation_Data(AnimId::MenuAbeSpeak_Idle, field_E4_res_array[1]);
                 }
             }
         }
@@ -2614,7 +2614,7 @@ void Menu::GameSpeak_Update_47CBD0()
         SND_SEQ_PlaySeq_4775A0(SeqId::eMudokonChant1_11, 0, 1);
 
         field_204_flags |= 1u;
-        mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::MenuAbeSpeak_Chant, field_E4_res_array[0]);
+        mAnim.Set_Animation_Data(AnimId::MenuAbeSpeak_Chant, field_E4_res_array[0]);
         field_1E0_selected_index.gamespeak_menu = GameSpeakOptions::eChant_8;
 
         if (!field_1EC_pObj1)
@@ -2651,10 +2651,10 @@ void Menu::GameSpeak_Update_47CBD0()
         if (field_1F0_pObj2)
         {
             const FP xpos = FP_FromInteger(stru_4D00E0[10].field_0_xpos);
-            if (field_1F0_pObj2->mBaseAnimatedWithPhysicsGameObject_XPos != xpos)
+            if (field_1F0_pObj2->mXPos != xpos)
             {
-                field_1F0_pObj2->mBaseAnimatedWithPhysicsGameObject_XPos = xpos;
-                field_1F0_pObj2->mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(stru_4D00E0[10].field_2_ypos + 36);
+                field_1F0_pObj2->mXPos = xpos;
+                field_1F0_pObj2->mYPos = FP_FromInteger(stru_4D00E0[10].field_2_ypos + 36);
             }
         }
         else if (Input_JoyStickEnabled())
@@ -2666,7 +2666,7 @@ void Menu::GameSpeak_Update_47CBD0()
         {
             Mudokon_SFX(MudSounds::eFollowMe_4, 0, 0, 0);
             field_204_flags |= 1u;
-            mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::MenuAbeSpeak_FollowMe, field_E4_res_array[0]);
+            mAnim.Set_Animation_Data(AnimId::MenuAbeSpeak_FollowMe, field_E4_res_array[0]);
             field_1E0_selected_index.gamespeak_menu = GameSpeakOptions::eFollowMe_2;
             relive_new MainMenuFade(stru_4D00E0[2].field_0_xpos, stru_4D00E0[2].field_2_ypos + 36, buttonType::eCircle_0, 1);
         }
@@ -2674,7 +2674,7 @@ void Menu::GameSpeak_Update_47CBD0()
         {
             Mudokon_SFX(MudSounds::eWait_6, 0, 0, 0);
             field_204_flags |= 1u;
-            mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::MenuAbeSpeak_Wait, field_E4_res_array[0]);
+            mAnim.Set_Animation_Data(AnimId::MenuAbeSpeak_Wait, field_E4_res_array[0]);
             field_1E0_selected_index.gamespeak_menu = GameSpeakOptions::eWait_0;
             relive_new MainMenuFade(stru_4D00E0[0].field_0_xpos, stru_4D00E0[0].field_2_ypos + 36, buttonType::eCircle_0, 1);
         }
@@ -2682,7 +2682,7 @@ void Menu::GameSpeak_Update_47CBD0()
         {
             Mudokon_SFX(MudSounds::eHello_3, 0, 0, 0);
             field_204_flags |= 1u;
-            mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::MenuAbeSpeak_Hello, field_E4_res_array[1]);
+            mAnim.Set_Animation_Data(AnimId::MenuAbeSpeak_Hello, field_E4_res_array[1]);
             field_1E0_selected_index.gamespeak_menu = GameSpeakOptions::eHello_1;
             relive_new MainMenuFade(stru_4D00E0[1].field_0_xpos, stru_4D00E0[1].field_2_ypos + 36, buttonType::eCircle_0, 1);
         }
@@ -2690,7 +2690,7 @@ void Menu::GameSpeak_Update_47CBD0()
         {
             Mudokon_SFX(MudSounds::eAngry_5, 0, 0, 0);
             field_204_flags |= 1u;
-            mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::MenuAbeSpeak_Anger, field_E4_res_array[0]);
+            mAnim.Set_Animation_Data(AnimId::MenuAbeSpeak_Anger, field_E4_res_array[0]);
             field_1E0_selected_index.gamespeak_menu = GameSpeakOptions::eAngry_3;
             relive_new MainMenuFade(stru_4D00E0[3].field_0_xpos, stru_4D00E0[3].field_2_ypos + 36, buttonType::eCircle_0, 1);
         }
@@ -2703,10 +2703,10 @@ void Menu::GameSpeak_Update_47CBD0()
         if (field_1F0_pObj2)
         {
             const FP xpos = FP_FromInteger(stru_4D00E0[12].field_0_xpos);
-            if (field_1F0_pObj2->mBaseAnimatedWithPhysicsGameObject_XPos != xpos)
+            if (field_1F0_pObj2->mXPos != xpos)
             {
-                field_1F0_pObj2->mBaseAnimatedWithPhysicsGameObject_XPos = xpos;
-                field_1F0_pObj2->mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(stru_4D00E0[12].field_2_ypos + 36);
+                field_1F0_pObj2->mXPos = xpos;
+                field_1F0_pObj2->mYPos = FP_FromInteger(stru_4D00E0[12].field_2_ypos + 36);
             }
         }
         else if (Input_JoyStickEnabled())
@@ -2718,7 +2718,7 @@ void Menu::GameSpeak_Update_47CBD0()
         {
             Mudokon_SFX(MudSounds::eWhistleHigh_1, 0, 0, 0);
             field_204_flags |= 1u;
-            mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::MenuAbeSpeak_WhistleHigh, field_E4_res_array[0]);
+            mAnim.Set_Animation_Data(AnimId::MenuAbeSpeak_WhistleHigh, field_E4_res_array[0]);
             field_1E0_selected_index.gamespeak_menu = GameSpeakOptions::eWhistleHigh_4;
             relive_new MainMenuFade(stru_4D00E0[4].field_0_xpos, stru_4D00E0[4].field_2_ypos + 36, buttonType::eCircle_0, 1);
         }
@@ -2726,7 +2726,7 @@ void Menu::GameSpeak_Update_47CBD0()
         {
             Mudokon_SFX(MudSounds::eWhistleLow_2, 0, 0, 0);
             field_204_flags |= 1u;
-            mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::MenuAbeSpeak_WhistleLow, field_E4_res_array[0]);
+            mAnim.Set_Animation_Data(AnimId::MenuAbeSpeak_WhistleLow, field_E4_res_array[0]);
             field_1E0_selected_index.gamespeak_menu = GameSpeakOptions::eWhistleLow_5;
             relive_new MainMenuFade(stru_4D00E0[5].field_0_xpos, stru_4D00E0[5].field_2_ypos + 36, buttonType::eCircle_0, 1);
         }
@@ -2734,7 +2734,7 @@ void Menu::GameSpeak_Update_47CBD0()
         {
             Mudokon_SFX(MudSounds::eLaugh2_11, 0, 0, 0);
             field_204_flags |= 1u;
-            mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::MenuAbeSpeak_Laugh, field_E4_res_array[0]);
+            mAnim.Set_Animation_Data(AnimId::MenuAbeSpeak_Laugh, field_E4_res_array[0]);
             field_1E0_selected_index.gamespeak_menu = GameSpeakOptions::eLaugh_6;
             relive_new MainMenuFade(stru_4D00E0[6].field_0_xpos, stru_4D00E0[6].field_2_ypos + 36, buttonType::eCircle_0, 1);
         }
@@ -2742,7 +2742,7 @@ void Menu::GameSpeak_Update_47CBD0()
         {
             Mudokon_SFX(MudSounds::eFart_7, 0, 0, 0);
             field_204_flags |= 1u;
-            mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::MenuAbeSpeak_Fart, field_E4_res_array[0]);
+            mAnim.Set_Animation_Data(AnimId::MenuAbeSpeak_Fart, field_E4_res_array[0]);
             field_1E0_selected_index.gamespeak_menu = GameSpeakOptions::eFart_7;
             relive_new MainMenuFade(stru_4D00E0[7].field_0_xpos, stru_4D00E0[7].field_2_ypos + 36, buttonType::eCircle_0, 1);
         }
@@ -2764,7 +2764,7 @@ void Menu::GameSpeak_Update_47CBD0()
     Mudokon_SFX(MudSounds::eGoodbye_12, 0, 0, 0);
 
     field_204_flags |= 1u;
-    mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::MenuAbeSpeak_Goodbye, field_E4_res_array[0]);
+    mAnim.Set_Animation_Data(AnimId::MenuAbeSpeak_Goodbye, field_E4_res_array[0]);
     field_1E0_selected_index.gamespeak_menu = GameSpeakOptions::eMainMenu_9;
 
     relive_new MainMenuFade(stru_4D00E0[9].field_0_xpos, stru_4D00E0[9].field_2_ypos + 36, buttonType::eCircle_0, 1);
@@ -2792,9 +2792,9 @@ void Menu::CycleGameSpeakIdleAnims()
     {
         if ((field_204_flags >> 2) & 1)
         {
-            if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
+            if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
             {
-                mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::MenuAbeSpeak_Idle, field_E4_res_array[1]);
+                mAnim.Set_Animation_Data(AnimId::MenuAbeSpeak_Idle, field_E4_res_array[1]);
                 field_204_flags &= ~4u;
                 field_1D8_timer = sGnFrame + Math_RandomRange(120, 450);
             }
@@ -2803,9 +2803,9 @@ void Menu::CycleGameSpeakIdleAnims()
         {
             if (field_1D8_timer <= static_cast<s32>(sGnFrame))
             {
-                if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
+                if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
                 {
-                    mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::MenuAbeSpeak_IdleBlink, field_E4_res_array[1]);
+                    mAnim.Set_Animation_Data(AnimId::MenuAbeSpeak_IdleBlink, field_E4_res_array[1]);
                     field_204_flags |= 4u;
                 }
             }
@@ -3689,9 +3689,9 @@ void Menu::Load_BackToMainScreen_Update_47DA40()
 
 void Menu::GameSpeakBack_WaitForAbeGoodbye_Update_47D5E0()
 {
-    if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
+    if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
     {
-        mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::MenuAbeSpeak_Idle, field_E4_res_array[1]);
+        mAnim.Set_Animation_Data(AnimId::MenuAbeSpeak_Idle, field_E4_res_array[1]);
         field_1E8_pMenuTrans->StartTrans_436560(Layer::eLayer_FadeFlash_40, 1, 0, 16);
         field_1CC_fn_update = &Menu::GamespeakBack_WaitForScreenTrans_Update_47D650;
     }

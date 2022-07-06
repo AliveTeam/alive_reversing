@@ -21,7 +21,7 @@ Rock::Rock(FP xpos, FP ypos, s16 count)
 
     if (!ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kAberockResID, 0, 0))
     {
-        LoadRockTypes_49AB30(mBaseAnimatedWithPhysicsGameObject_LvlNumber, mBaseAnimatedWithPhysicsGameObject_PathNumber);
+        LoadRockTypes_49AB30(mCurrentLevel, mCurrentPath);
     }
 
     const AnimRecord& rec = AnimRec(AnimId::Rock);
@@ -29,17 +29,17 @@ Rock::Rock(FP xpos, FP ypos, s16 count)
     Animation_Init(AnimId::Rock, ppRes);
 
     mBaseGameObjectFlags.Clear(BaseGameObject::eInteractive_Bit8);
-    mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit3_Render);
-    mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit15_bSemiTrans);
+    mAnim.mFlags.Clear(AnimFlags::eBit3_Render);
+    mAnim.mFlags.Clear(AnimFlags::eBit15_bSemiTrans);
 
-    mBaseAnimatedWithPhysicsGameObject_XPos = xpos;
-    mBaseAnimatedWithPhysicsGameObject_YPos = ypos;
+    mXPos = xpos;
+    mYPos = ypos;
 
     field_120_xpos = xpos;
     field_124_ypos = ypos;
 
-    mBaseAnimatedWithPhysicsGameObject_VelX = FP_FromInteger(0);
-    mBaseAnimatedWithPhysicsGameObject_VelY = FP_FromInteger(0);
+    mVelX = FP_FromInteger(0);
+    mVelY = FP_FromInteger(0);
 
     field_118_count = count;
     field_11C_state = RockStates::eNone_0;
@@ -47,16 +47,16 @@ Rock::Rock(FP xpos, FP ypos, s16 count)
     u8** ppPal = ResourceManager::GetLoadedResource(ResourceManager::Resource_Palt, AEResourceID::kAberockResID, 0, 0);
     if (ppPal)
     {
-        mBaseAnimatedWithPhysicsGameObject_Anim.LoadPal(ppPal, 0);
+        mAnim.LoadPal(ppPal, 0);
     }
     else
     {
-        const FrameInfoHeader* pFrameInfo = mBaseAnimatedWithPhysicsGameObject_Anim.Get_FrameHeader(-1);
+        const FrameInfoHeader* pFrameInfo = mAnim.Get_FrameHeader(-1);
 
-        const FrameHeader* pFrameHeader = reinterpret_cast<const FrameHeader*>(&(*mBaseAnimatedWithPhysicsGameObject_Anim.field_20_ppBlock)[pFrameInfo->field_0_frame_header_offset]);
+        const FrameHeader* pFrameHeader = reinterpret_cast<const FrameHeader*>(&(*mAnim.field_20_ppBlock)[pFrameInfo->field_0_frame_header_offset]);
 
-        mBaseAnimatedWithPhysicsGameObject_Anim.LoadPal(
-            mBaseAnimatedWithPhysicsGameObject_Anim.field_20_ppBlock,
+        mAnim.LoadPal(
+            mAnim.field_20_ppBlock,
             pFrameHeader->field_0_clut_offset);
     }
 
@@ -73,8 +73,8 @@ void Rock::VTimeToExplodeRandom()
 //TODO Identical to AO - merge
 void Rock::VScreenChanged()
 {
-    if (gMap.mCurrentPath != gMap.mPath
-        || gMap.mCurrentLevel != gMap.mLevel)
+    if (gMap.mCurrentPath != gMap.mNextPath
+        || gMap.mCurrentLevel != gMap.mNextLevel)
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
@@ -104,10 +104,10 @@ Rock::~Rock()
 //TODO Identical to AO - merge
 void Rock::VThrow(FP velX, FP velY)
 {
-    mBaseAnimatedWithPhysicsGameObject_VelX = velX;
-    mBaseAnimatedWithPhysicsGameObject_VelY = velY;
+    mVelX = velX;
+    mVelY = velY;
 
-    mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit3_Render);
+    mAnim.mFlags.Set(AnimFlags::eBit3_Render);
 
     if (field_118_count == 0)
     {
@@ -121,30 +121,30 @@ void Rock::VThrow(FP velX, FP velY)
 
 void Rock::InTheAir()
 {
-    field_120_xpos = mBaseAnimatedWithPhysicsGameObject_XPos;
-    field_124_ypos = mBaseAnimatedWithPhysicsGameObject_YPos;
+    field_120_xpos = mXPos;
+    field_124_ypos = mYPos;
 
-    if (mBaseAnimatedWithPhysicsGameObject_VelY > FP_FromInteger(30))
+    if (mVelY > FP_FromInteger(30))
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 
-    mBaseAnimatedWithPhysicsGameObject_VelY += FP_FromDouble(1.01);
+    mVelY += FP_FromDouble(1.01);
 
-    mBaseAnimatedWithPhysicsGameObject_XPos += mBaseAnimatedWithPhysicsGameObject_VelX;
-    mBaseAnimatedWithPhysicsGameObject_YPos += mBaseAnimatedWithPhysicsGameObject_VelY;
+    mXPos += mVelX;
+    mYPos += mVelY;
 
     FP hitX = {};
     FP hitY = {};
     if (sCollisions->Raycast(
             field_120_xpos,
             field_124_ypos,
-            mBaseAnimatedWithPhysicsGameObject_XPos,
-            mBaseAnimatedWithPhysicsGameObject_YPos,
+            mXPos,
+            mYPos,
             &BaseAliveGameObjectCollisionLine,
             &hitX,
             &hitY,
-            mBaseAnimatedWithPhysicsGameObject_Scale == Scale::Fg ? kFgFloorOrCeiling : kBgFloorOrCeiling)
+            mScale == Scale::Fg ? kFgFloorOrCeiling : kBgFloorOrCeiling)
         == 1)
     {
         switch (BaseAliveGameObjectCollisionLine->mLineType)
@@ -153,44 +153,44 @@ void Rock::InTheAir()
             case eLineTypes::eBackgroundFloor_4:
             case eLineTypes::eDynamicCollision_32:
             case eLineTypes::eBackgroundDynamicCollision_36:
-                if (mBaseAnimatedWithPhysicsGameObject_VelY <= FP_FromInteger(0))
+                if (mVelY <= FP_FromInteger(0))
                 {
                     break;
                 }
 
-                if (!gMap.Is_Point_In_Current_Camera(mBaseAnimatedWithPhysicsGameObject_LvlNumber, mBaseAnimatedWithPhysicsGameObject_PathNumber, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, 0))
+                if (!gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0))
                 {
                     return;
                 }
 
-                if (field_11C_state == RockStates::eBouncing_4 && mBaseAnimatedWithPhysicsGameObject_VelY < FP_FromInteger(5))
+                if (field_11C_state == RockStates::eBouncing_4 && mVelY < FP_FromInteger(5))
                 {
                     field_11C_state = RockStates::eFallingOutOfWorld_5;
                     return;
                 }
 
-                if (field_11C_state == RockStates::eFallingOutOfRockSack_1 && mBaseAnimatedWithPhysicsGameObject_VelY < FP_FromInteger(1))
+                if (field_11C_state == RockStates::eFallingOutOfRockSack_1 && mVelY < FP_FromInteger(1))
                 {
                     field_11C_state = RockStates::eRolling_2;
 
-                    if (mBaseAnimatedWithPhysicsGameObject_VelX >= FP_FromInteger(0) && mBaseAnimatedWithPhysicsGameObject_VelX < FP_FromInteger(1))
+                    if (mVelX >= FP_FromInteger(0) && mVelX < FP_FromInteger(1))
                     {
-                        mBaseAnimatedWithPhysicsGameObject_VelX = FP_FromInteger(1);
+                        mVelX = FP_FromInteger(1);
                     }
 
-                    if (mBaseAnimatedWithPhysicsGameObject_VelX > FP_FromInteger(-1) && mBaseAnimatedWithPhysicsGameObject_VelX < FP_FromInteger(0))
+                    if (mVelX > FP_FromInteger(-1) && mVelX < FP_FromInteger(0))
                     {
-                        mBaseAnimatedWithPhysicsGameObject_VelX = FP_FromInteger(-1);
+                        mVelX = FP_FromInteger(-1);
                     }
 
-                    mBaseAnimatedWithPhysicsGameObject_YPos = hitY;
+                    mYPos = hitY;
                     return;
                 }
                 else
                 {
-                    mBaseAnimatedWithPhysicsGameObject_YPos = hitY;
-                    mBaseAnimatedWithPhysicsGameObject_VelX = (mBaseAnimatedWithPhysicsGameObject_VelX / FP_FromInteger(2));
-                    mBaseAnimatedWithPhysicsGameObject_VelY = (-mBaseAnimatedWithPhysicsGameObject_VelY / FP_FromInteger(2));
+                    mYPos = hitY;
+                    mVelX = (mVelX / FP_FromInteger(2));
+                    mVelY = (-mVelY / FP_FromInteger(2));
 
                     s16 vol = 20 * (4 - field_11E_volume);
                     if (vol < 40)
@@ -207,10 +207,10 @@ void Rock::InTheAir()
 
             case eLineTypes::eCeiling_3:
             case eLineTypes::eBackgroundCeiling_7:
-                if (mBaseAnimatedWithPhysicsGameObject_VelY < FP_FromInteger(0))
+                if (mVelY < FP_FromInteger(0))
                 {
-                    mBaseAnimatedWithPhysicsGameObject_YPos = hitY;
-                    mBaseAnimatedWithPhysicsGameObject_VelY = (-mBaseAnimatedWithPhysicsGameObject_VelY / FP_FromInteger(2));
+                    mYPos = hitY;
+                    mVelY = (-mVelY / FP_FromInteger(2));
                     s16 vol = 20 * (4 - field_11E_volume);
                     if (vol < 40)
                     {
@@ -224,13 +224,13 @@ void Rock::InTheAir()
         }
     }
 
-    if (sCollisions->Raycast(field_120_xpos, field_124_ypos, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, &BaseAliveGameObjectCollisionLine, &hitX, &hitY, mBaseAnimatedWithPhysicsGameObject_Scale == Scale::Fg ? kFgWalls : kBgWalls) == 1)
+    if (sCollisions->Raycast(field_120_xpos, field_124_ypos, mXPos, mYPos, &BaseAliveGameObjectCollisionLine, &hitX, &hitY, mScale == Scale::Fg ? kFgWalls : kBgWalls) == 1)
     {
         switch (BaseAliveGameObjectCollisionLine->mLineType)
         {
             case eLineTypes::eWallLeft_1:
             case eLineTypes::eBackgroundWallLeft_5:
-                if (mBaseAnimatedWithPhysicsGameObject_VelX < FP_FromInteger(0))
+                if (mVelX < FP_FromInteger(0))
                 {
                     BounceHorizontally( hitX, hitY );
                 }
@@ -238,7 +238,7 @@ void Rock::InTheAir()
 
             case eLineTypes::eWallRight_2:
             case eLineTypes::eBackgroundWallRight_6:
-                if (mBaseAnimatedWithPhysicsGameObject_VelX > FP_FromInteger(0))
+                if (mVelX > FP_FromInteger(0))
                 {
                     BounceHorizontally( hitX, hitY );
                 }
@@ -250,9 +250,9 @@ void Rock::InTheAir()
 //TODO Identical to AO - merge
 void Rock::BounceHorizontally( FP hitX, FP hitY )
 {
-    mBaseAnimatedWithPhysicsGameObject_VelX = (-mBaseAnimatedWithPhysicsGameObject_VelX / FP_FromInteger(2));
-    mBaseAnimatedWithPhysicsGameObject_XPos = hitX;
-    mBaseAnimatedWithPhysicsGameObject_YPos = hitY;
+    mVelX = (-mVelX / FP_FromInteger(2));
+    mXPos = hitX;
+    mYPos = hitY;
     s16 vol = 20 * (4 - field_11E_volume);
     if (vol < 40)
     {
@@ -275,13 +275,13 @@ s16 Rock::OnCollision(BaseAliveGameObject* pObj)
 
     if (field_120_xpos < FP_FromInteger(bRect.x) || field_120_xpos > FP_FromInteger(bRect.w))
     {
-        mBaseAnimatedWithPhysicsGameObject_XPos -= mBaseAnimatedWithPhysicsGameObject_VelX;
-        mBaseAnimatedWithPhysicsGameObject_VelX = (-mBaseAnimatedWithPhysicsGameObject_VelX / FP_FromInteger(2));
+        mXPos -= mVelX;
+        mVelX = (-mVelX / FP_FromInteger(2));
     }
     else
     {
-        mBaseAnimatedWithPhysicsGameObject_YPos -= mBaseAnimatedWithPhysicsGameObject_VelY;
-        mBaseAnimatedWithPhysicsGameObject_VelY = (-mBaseAnimatedWithPhysicsGameObject_VelY / FP_FromInteger(2));
+        mYPos -= mVelY;
+        mVelY = (-mVelY / FP_FromInteger(2));
     }
 
     pObj->VOnThrowableHit(this);
@@ -308,13 +308,13 @@ void Rock::VUpdate()
         else
         {
             sCollisions->Raycast(
-                mBaseAnimatedWithPhysicsGameObject_XPos,
-                mBaseAnimatedWithPhysicsGameObject_YPos - FP_FromInteger(10),
-                mBaseAnimatedWithPhysicsGameObject_XPos,
-                mBaseAnimatedWithPhysicsGameObject_YPos + FP_FromInteger(10),
+                mXPos,
+                mYPos - FP_FromInteger(10),
+                mXPos,
+                mYPos + FP_FromInteger(10),
                 &BaseAliveGameObjectCollisionLine,
-                &mBaseAnimatedWithPhysicsGameObject_XPos,
-                &mBaseAnimatedWithPhysicsGameObject_YPos,
+                &mXPos,
+                &mYPos,
                 CollisionMask(static_cast<eLineTypes>(BaseAliveGameObjectCollisionLineType)));
         }
         BaseAliveGameObjectCollisionLineType = 0;
@@ -330,34 +330,34 @@ void Rock::VUpdate()
             return;
 
         case RockStates::eRolling_2:
-            if (FP_Abs(mBaseAnimatedWithPhysicsGameObject_VelX) >= FP_FromInteger(1))
+            if (FP_Abs(mVelX) >= FP_FromInteger(1))
             {
-                if (mBaseAnimatedWithPhysicsGameObject_VelX <= FP_FromInteger(0))
+                if (mVelX <= FP_FromInteger(0))
                 {
-                    mBaseAnimatedWithPhysicsGameObject_VelX += FP_FromDouble(0.01);
+                    mVelX += FP_FromDouble(0.01);
                 }
                 else
                 {
-                    mBaseAnimatedWithPhysicsGameObject_VelX -= FP_FromDouble(0.01);
+                    mVelX -= FP_FromDouble(0.01);
                 }
-                BaseAliveGameObjectCollisionLine = BaseAliveGameObjectCollisionLine->MoveOnLine(&mBaseAnimatedWithPhysicsGameObject_XPos, &mBaseAnimatedWithPhysicsGameObject_YPos, mBaseAnimatedWithPhysicsGameObject_VelX);
+                BaseAliveGameObjectCollisionLine = BaseAliveGameObjectCollisionLine->MoveOnLine(&mXPos, &mYPos, mVelX);
             }
             else
             {
-                if (abs(SnapToXGrid(mBaseAnimatedWithPhysicsGameObject_SpriteScale, FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos)) - FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos)) <= 1)
+                if (abs(SnapToXGrid(mSpriteScale, FP_GetExponent(mXPos)) - FP_GetExponent(mXPos)) <= 1)
                 {
-                    mBaseAnimatedWithPhysicsGameObject_VelX = FP_FromInteger(0);
-                    mCollectionRect.x = mBaseAnimatedWithPhysicsGameObject_XPos - (ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale) / FP_FromInteger(2));
-                    mCollectionRect.w = (ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale) / FP_FromInteger(2)) + mBaseAnimatedWithPhysicsGameObject_XPos;
+                    mVelX = FP_FromInteger(0);
+                    mCollectionRect.x = mXPos - (ScaleToGridSize(mSpriteScale) / FP_FromInteger(2));
+                    mCollectionRect.w = (ScaleToGridSize(mSpriteScale) / FP_FromInteger(2)) + mXPos;
                     mBaseGameObjectFlags.Set(BaseGameObject::eInteractive_Bit8);
-                    mCollectionRect.h = mBaseAnimatedWithPhysicsGameObject_YPos;
-                    mCollectionRect.y = mBaseAnimatedWithPhysicsGameObject_YPos - ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale);
+                    mCollectionRect.h = mYPos;
+                    mCollectionRect.y = mYPos - ScaleToGridSize(mSpriteScale);
                     field_11C_state = RockStates::eOnGround_3;
-                    mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit8_Loop);
+                    mAnim.mFlags.Clear(AnimFlags::eBit8_Loop);
                     field_128_shimmer_timer = sGnFrame;
                     return;
                 }
-                BaseAliveGameObjectCollisionLine = BaseAliveGameObjectCollisionLine->MoveOnLine(&mBaseAnimatedWithPhysicsGameObject_XPos, &mBaseAnimatedWithPhysicsGameObject_YPos, mBaseAnimatedWithPhysicsGameObject_VelX);
+                BaseAliveGameObjectCollisionLine = BaseAliveGameObjectCollisionLine->MoveOnLine(&mXPos, &mYPos, mVelX);
             }
 
             if (BaseAliveGameObjectCollisionLine)
@@ -365,7 +365,7 @@ void Rock::VUpdate()
                 return;
             }
 
-            mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit8_Loop);
+            mAnim.mFlags.Set(AnimFlags::eBit8_Loop);
             field_11C_state = RockStates::eBouncing_4;
             return;
 
@@ -376,8 +376,8 @@ void Rock::VUpdate()
             }
             // The strange shimmering that rocks give off.
             New_TintShiny_Particle(
-                (mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(1)) + mBaseAnimatedWithPhysicsGameObject_XPos,
-                (mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(-7)) + mBaseAnimatedWithPhysicsGameObject_YPos,
+                (mSpriteScale * FP_FromInteger(1)) + mXPos,
+                (mSpriteScale * FP_FromInteger(-7)) + mYPos,
                 FP_FromDouble(0.3),
                 Layer::eLayer_Foreground_36);
             field_128_shimmer_timer = (Math_NextRandom() % 16) + sGnFrame + 60;
@@ -394,7 +394,7 @@ void Rock::VUpdate()
                                     1,
                                     (TCollisionCallBack) &Rock::OnCollision);
 
-            if (mBaseAnimatedWithPhysicsGameObject_VelY > FP_FromInteger(30))
+            if (mVelY > FP_FromInteger(30))
             {
                 field_11C_state = RockStates::eFallingOutOfWorld_5;
             }
@@ -402,10 +402,10 @@ void Rock::VUpdate()
             return;
 
         case RockStates::eFallingOutOfWorld_5:
-            mBaseAnimatedWithPhysicsGameObject_VelY += FP_FromDouble(1.01);
-            mBaseAnimatedWithPhysicsGameObject_XPos += mBaseAnimatedWithPhysicsGameObject_VelX;
-            mBaseAnimatedWithPhysicsGameObject_YPos = mBaseAnimatedWithPhysicsGameObject_VelY + mBaseAnimatedWithPhysicsGameObject_YPos;
-            if (!gMap.Is_Point_In_Current_Camera(mBaseAnimatedWithPhysicsGameObject_LvlNumber, mBaseAnimatedWithPhysicsGameObject_PathNumber, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, 0) && !gMap.Is_Point_In_Current_Camera(mBaseAnimatedWithPhysicsGameObject_LvlNumber, mBaseAnimatedWithPhysicsGameObject_PathNumber, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos + FP_FromInteger(240), 0))
+            mVelY += FP_FromDouble(1.01);
+            mXPos += mVelX;
+            mYPos = mVelY + mYPos;
+            if (!gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0) && !gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos + FP_FromInteger(240), 0))
             {
                 mBaseGameObjectFlags.Set(BaseGameObject::eDead);
             }
@@ -420,21 +420,21 @@ s32 Rock::VGetSaveState(u8* pSaveBuffer)
     pState->field_0_type = AETypes::eRock_105;
     pState->field_4_obj_id = mBaseGameObjectTlvInfo;
 
-    pState->field_8_xpos = mBaseAnimatedWithPhysicsGameObject_XPos;
-    pState->field_C_ypos = mBaseAnimatedWithPhysicsGameObject_YPos;
+    pState->field_8_xpos = mXPos;
+    pState->field_C_ypos = mYPos;
 
-    pState->field_10_velx = mBaseAnimatedWithPhysicsGameObject_VelX;
-    pState->field_14_vely = mBaseAnimatedWithPhysicsGameObject_VelY;
+    pState->field_10_velx = mVelX;
+    pState->field_14_vely = mVelY;
 
-    pState->field_1C_path_number = mBaseAnimatedWithPhysicsGameObject_PathNumber;
-    pState->field_1E_lvl_number = MapWrapper::ToAE(mBaseAnimatedWithPhysicsGameObject_LvlNumber);
+    pState->field_1C_path_number = mCurrentPath;
+    pState->field_1E_lvl_number = MapWrapper::ToAE(mCurrentLevel);
 
-    pState->field_18_sprite_scale = mBaseAnimatedWithPhysicsGameObject_SpriteScale;
+    pState->field_18_sprite_scale = mSpriteScale;
 
-    pState->field_20_flags.Set(RockSaveState::eBit1_bRender, mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit3_Render));
+    pState->field_20_flags.Set(RockSaveState::eBit1_bRender, mAnim.mFlags.Get(AnimFlags::eBit3_Render));
     pState->field_20_flags.Set(RockSaveState::eBit2_bDrawable, mBaseGameObjectFlags.Get(BaseGameObject::eDrawable_Bit4));
 
-    pState->field_20_flags.Set(RockSaveState::eBit3_bLoop, mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit8_Loop));
+    pState->field_20_flags.Set(RockSaveState::eBit3_bLoop, mAnim.mFlags.Get(AnimFlags::eBit8_Loop));
     pState->field_20_flags.Set(RockSaveState::eBit4_bInteractive, mBaseGameObjectFlags.Get(BaseGameObject::eInteractive_Bit8));
 
     if (BaseAliveGameObjectCollisionLine)
@@ -462,25 +462,25 @@ s32 Rock::CreateFromSaveState(const u8* pData)
 
     pRock->mBaseGameObjectTlvInfo = pState->field_4_obj_id;
 
-    pRock->mBaseAnimatedWithPhysicsGameObject_XPos = pState->field_8_xpos;
-    pRock->mBaseAnimatedWithPhysicsGameObject_YPos = pState->field_C_ypos;
+    pRock->mXPos = pState->field_8_xpos;
+    pRock->mYPos = pState->field_C_ypos;
 
-    pRock->mCollectionRect.x = pRock->mBaseAnimatedWithPhysicsGameObject_XPos - (ScaleToGridSize(pRock->mBaseAnimatedWithPhysicsGameObject_SpriteScale) / FP_FromInteger(2));
-    pRock->mCollectionRect.w = pRock->mBaseAnimatedWithPhysicsGameObject_XPos + (ScaleToGridSize(pRock->mBaseAnimatedWithPhysicsGameObject_SpriteScale) / FP_FromInteger(2));
-    pRock->mCollectionRect.h = pRock->mBaseAnimatedWithPhysicsGameObject_YPos;
-    pRock->mCollectionRect.y = pRock->mBaseAnimatedWithPhysicsGameObject_YPos - ScaleToGridSize(pRock->mBaseAnimatedWithPhysicsGameObject_SpriteScale);
+    pRock->mCollectionRect.x = pRock->mXPos - (ScaleToGridSize(pRock->mSpriteScale) / FP_FromInteger(2));
+    pRock->mCollectionRect.w = pRock->mXPos + (ScaleToGridSize(pRock->mSpriteScale) / FP_FromInteger(2));
+    pRock->mCollectionRect.h = pRock->mYPos;
+    pRock->mCollectionRect.y = pRock->mYPos - ScaleToGridSize(pRock->mSpriteScale);
 
-    pRock->mBaseAnimatedWithPhysicsGameObject_VelX = pState->field_10_velx;
-    pRock->mBaseAnimatedWithPhysicsGameObject_VelY = pState->field_14_vely;
+    pRock->mVelX = pState->field_10_velx;
+    pRock->mVelY = pState->field_14_vely;
 
-    pRock->mBaseAnimatedWithPhysicsGameObject_PathNumber = pState->field_1C_path_number;
-    pRock->mBaseAnimatedWithPhysicsGameObject_LvlNumber = MapWrapper::FromAE(pState->field_1E_lvl_number);
+    pRock->mCurrentPath = pState->field_1C_path_number;
+    pRock->mCurrentLevel = MapWrapper::FromAE(pState->field_1E_lvl_number);
 
-    pRock->mBaseAnimatedWithPhysicsGameObject_SpriteScale = pState->field_18_sprite_scale;
-    pRock->mBaseAnimatedWithPhysicsGameObject_Scale = pState->field_18_sprite_scale > FP_FromDouble(0.75) ? Scale::Fg : Scale::Bg;
+    pRock->mSpriteScale = pState->field_18_sprite_scale;
+    pRock->mScale = pState->field_18_sprite_scale > FP_FromDouble(0.75) ? Scale::Fg : Scale::Bg;
 
-    pRock->mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit3_Render, pState->field_20_flags.Get(RockSaveState::eBit1_bRender));
-    pRock->mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit8_Loop, pState->field_20_flags.Get(RockSaveState::eBit3_bLoop));
+    pRock->mAnim.mFlags.Set(AnimFlags::eBit3_Render, pState->field_20_flags.Get(RockSaveState::eBit1_bRender));
+    pRock->mAnim.mFlags.Set(AnimFlags::eBit8_Loop, pState->field_20_flags.Get(RockSaveState::eBit3_bLoop));
 
     pRock->mBaseGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4, pState->field_20_flags.Get(RockSaveState::eBit2_bDrawable));
     pRock->mBaseGameObjectFlags.Set(BaseGameObject::eInteractive_Bit8, pState->field_20_flags.Get(RockSaveState::eBit4_bInteractive));

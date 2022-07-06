@@ -105,7 +105,7 @@ void ThrowableArray::VUpdate()
 
 void ThrowableArray::VScreenChanged()
 {
-    if (gMap.mLevel != EReliveLevelIds::eMenu && gMap.mLevel != EReliveLevelIds::eCredits)
+    if (gMap.mNextLevel != EReliveLevelIds::eMenu && gMap.mNextLevel != EReliveLevelIds::eCredits)
     {
         if (word_4CF158[gMap.mOverlayId] != word_4CF158[gMap.GetOverlayId()])
         {

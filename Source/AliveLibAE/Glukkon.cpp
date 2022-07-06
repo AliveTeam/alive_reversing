@@ -164,18 +164,18 @@ s32 Glukkon::CreateFromSaveState(const u8* pData)
         pGlukkon->BaseAliveGameObjectPathTLV = nullptr;
         pGlukkon->BaseAliveGameObjectCollisionLine = nullptr;
 
-        pGlukkon->mBaseAnimatedWithPhysicsGameObject_XPos = pSaveState->field_8_xpos;
-        pGlukkon->mBaseAnimatedWithPhysicsGameObject_YPos = pSaveState->field_C_ypos;
+        pGlukkon->mXPos = pSaveState->field_8_xpos;
+        pGlukkon->mYPos = pSaveState->field_C_ypos;
 
-        pGlukkon->mBaseAnimatedWithPhysicsGameObject_VelX = pSaveState->field_10_xvel;
-        pGlukkon->mBaseAnimatedWithPhysicsGameObject_VelY = pSaveState->field_14_yvel;
+        pGlukkon->mVelX = pSaveState->field_10_xvel;
+        pGlukkon->mVelY = pSaveState->field_14_yvel;
 
         pGlukkon->field_1D8_falling_velx_scale_factor = pSaveState->field_58_falling_velx_scale_factor;
-        pGlukkon->mBaseAnimatedWithPhysicsGameObject_PathNumber = pSaveState->field_18_path;
-        pGlukkon->mBaseAnimatedWithPhysicsGameObject_LvlNumber = MapWrapper::FromAE(pSaveState->field_1A_level);
-        pGlukkon->mBaseAnimatedWithPhysicsGameObject_SpriteScale = pSaveState->field_1C_sprite_scale;
+        pGlukkon->mCurrentPath = pSaveState->field_18_path;
+        pGlukkon->mCurrentLevel = MapWrapper::FromAE(pSaveState->field_1A_level);
+        pGlukkon->mSpriteScale = pSaveState->field_1C_sprite_scale;
 
-        pGlukkon->mBaseAnimatedWithPhysicsGameObject_RGB.SetRGB(pSaveState->mRingRed, pSaveState->mRingGreen, pSaveState->mRingBlue);
+        pGlukkon->mRGB.SetRGB(pSaveState->mRingRed, pSaveState->mRingGreen, pSaveState->mRingBlue);
 
         pGlukkon->field_1A0_red = pSaveState->mRingRed;
         pGlukkon->field_1A2_green = pSaveState->mRingGreen;
@@ -189,17 +189,17 @@ s32 Glukkon::CreateFromSaveState(const u8* pData)
             glukType = GlukkonTypes::Normal_0;
         }
 
-        pGlukkon->mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(sGlukkonsAnimIdTable[static_cast<s32>(glukType)][pSaveState->field_28_current_motion], nullptr);
+        pGlukkon->mAnim.Set_Animation_Data(sGlukkonsAnimIdTable[static_cast<s32>(glukType)][pSaveState->field_28_current_motion], nullptr);
 
-        pGlukkon->mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame = pSaveState->field_2A_current_frame;
-        pGlukkon->mBaseAnimatedWithPhysicsGameObject_Anim.mFrameChangeCounter = pSaveState->field_2C_frame_change_counter;
+        pGlukkon->mAnim.mCurrentFrame = pSaveState->field_2A_current_frame;
+        pGlukkon->mAnim.mFrameChangeCounter = pSaveState->field_2C_frame_change_counter;
         pGlukkon->mBaseGameObjectFlags.Set(BaseGameObject::Options::eDrawable_Bit4, pSaveState->field_2F_drawable & 1);
-        pGlukkon->mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit5_FlipX, pSaveState->field_26_flipX & 1);
-        pGlukkon->mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit3_Render, pSaveState->field_2E_render & 1);
+        pGlukkon->mAnim.mFlags.Set(AnimFlags::eBit5_FlipX, pSaveState->field_26_flipX & 1);
+        pGlukkon->mAnim.mFlags.Set(AnimFlags::eBit3_Render, pSaveState->field_2E_render & 1);
 
-        if (IsLastFrame(&pGlukkon->mBaseAnimatedWithPhysicsGameObject_Anim))
+        if (IsLastFrame(&pGlukkon->mAnim))
         {
-            pGlukkon->mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit18_IsLastFrame);
+            pGlukkon->mAnim.mFlags.Set(AnimFlags::eBit18_IsLastFrame);
         }
 
         pGlukkon->mHealth = pSaveState->field_30_health;
@@ -336,21 +336,21 @@ s32 Glukkon::VGetSaveState(u8* pSaveBuffer)
     }
     pSaveState->field_0_id = AETypes::eGlukkon_67;
     pSaveState->field_4_object_id = mBaseGameObjectTlvInfo;
-    pSaveState->field_8_xpos = mBaseAnimatedWithPhysicsGameObject_XPos;
-    pSaveState->field_C_ypos = mBaseAnimatedWithPhysicsGameObject_YPos;
-    pSaveState->field_10_xvel = mBaseAnimatedWithPhysicsGameObject_VelX;
-    pSaveState->field_14_yvel = mBaseAnimatedWithPhysicsGameObject_VelY;
-    pSaveState->field_18_path = mBaseAnimatedWithPhysicsGameObject_PathNumber;
-    pSaveState->field_1A_level = MapWrapper::ToAE(mBaseAnimatedWithPhysicsGameObject_LvlNumber);
-    pSaveState->field_1C_sprite_scale = mBaseAnimatedWithPhysicsGameObject_SpriteScale;
-    pSaveState->mRingRed = mBaseAnimatedWithPhysicsGameObject_RGB.r;
-    pSaveState->mRingGreen = mBaseAnimatedWithPhysicsGameObject_RGB.g;
-    pSaveState->mRingBlue = mBaseAnimatedWithPhysicsGameObject_RGB.b;
+    pSaveState->field_8_xpos = mXPos;
+    pSaveState->field_C_ypos = mYPos;
+    pSaveState->field_10_xvel = mVelX;
+    pSaveState->field_14_yvel = mVelY;
+    pSaveState->field_18_path = mCurrentPath;
+    pSaveState->field_1A_level = MapWrapper::ToAE(mCurrentLevel);
+    pSaveState->field_1C_sprite_scale = mSpriteScale;
+    pSaveState->mRingRed = mRGB.r;
+    pSaveState->mRingGreen = mRGB.g;
+    pSaveState->mRingBlue = mRGB.b;
     pSaveState->field_28_current_motion = mCurrentMotion;
-    pSaveState->field_2A_current_frame = mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame;
-    pSaveState->field_2C_frame_change_counter = mBaseAnimatedWithPhysicsGameObject_Anim.mFrameChangeCounter;
-    pSaveState->field_26_flipX = mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX);
-    pSaveState->field_2E_render = mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit3_Render);
+    pSaveState->field_2A_current_frame = mAnim.mCurrentFrame;
+    pSaveState->field_2C_frame_change_counter = mAnim.mFrameChangeCounter;
+    pSaveState->field_26_flipX = mAnim.mFlags.Get(AnimFlags::eBit5_FlipX);
+    pSaveState->field_2E_render = mAnim.mFlags.Get(AnimFlags::eBit3_Render);
     pSaveState->field_2F_drawable = mBaseGameObjectFlags.Get(BaseGameObject::Options::eDrawable_Bit4);
     pSaveState->field_30_health = mHealth;
     pSaveState->field_34_current_motion = mCurrentMotion;
@@ -412,7 +412,7 @@ void Glukkon::M_Walk_1_442D30()
 {
     if (DoMovement())
     {
-        switch (mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame)
+        switch (mAnim.mCurrentFrame)
         {
             case 0:
             case 9:
@@ -445,7 +445,7 @@ void Glukkon::M_Walk_1_442D30()
                 {
                     if (mNextMotion == eGlukkonMotions::M_Idle_0_442D10 || mNextMotion == eGlukkonMotions::M_Turn_2_442F10 || mNextMotion == eGlukkonMotions::M_Speak1_11_4437D0 || mNextMotion == eGlukkonMotions::M_Speak2_12_4438F0 || mNextMotion == eGlukkonMotions::M_Speak3_23_443910 || mNextMotion == eGlukkonMotions::M_LongLaugh_13_443930)
                     {
-                        if (mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame != 8)
+                        if (mAnim.mCurrentFrame != 8)
                         {
                             SetAnim(eGlukkonMotions::M_EndWalk_15_443970);
                         }
@@ -457,9 +457,9 @@ void Glukkon::M_Walk_1_442D30()
                 }
                 else
                 {
-                    if ((mBaseAnimatedWithPhysicsGameObject_VelX > FP_FromInteger(0) && (sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed & InputCommands::Enum::eLeft)) || (mBaseAnimatedWithPhysicsGameObject_VelX < FP_FromInteger(0) && (sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed & InputCommands::Enum::eRight)) || !(sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed & (InputCommands::Enum::eLeft | InputCommands::Enum::eRight)))
+                    if ((mVelX > FP_FromInteger(0) && (sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed & InputCommands::Enum::eLeft)) || (mVelX < FP_FromInteger(0) && (sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed & InputCommands::Enum::eRight)) || !(sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed & (InputCommands::Enum::eLeft | InputCommands::Enum::eRight)))
                     {
-                        if (mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame == 8)
+                        if (mAnim.mCurrentFrame == 8)
                         {
                             SetAnim(eGlukkonMotions::M_EndSingleStep_24_443990, TRUE);
                         }
@@ -479,16 +479,16 @@ void Glukkon::M_Walk_1_442D30()
 
 void Glukkon::M_Turn_2_442F10()
 {
-    if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
+    if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
     {
-        mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Toggle(AnimFlags::eBit5_FlipX);
+        mAnim.mFlags.Toggle(AnimFlags::eBit5_FlipX);
         ToStand();
     }
 }
 
 void Glukkon::M_KnockBack_3_442F40()
 {
-    if (mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame == 0)
+    if (mAnim.mCurrentFrame == 0)
     {
         PlaySound(2, this);
     }
@@ -496,7 +496,7 @@ void Glukkon::M_KnockBack_3_442F40()
     if (BaseAliveGameObjectCollisionLine)
     {
         SlowDown(FP_FromDouble(0.35));
-        if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
+        if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
         {
             if (mHealth > FP_FromInteger(0))
             {
@@ -538,16 +538,16 @@ void Glukkon::M_Jump_4_443030()
 {
     auto pPlatform = static_cast<PlatformBase*>(sObjectIds.Find_Impl(BaseAliveGameObject_PlatformId));
 
-    if (mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame >= 10)
+    if (mAnim.mCurrentFrame >= 10)
     {
         JumpHelper();
         return;
     }
 
-    if (mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame == 0)
+    if (mAnim.mCurrentFrame == 0)
     {
         SFX_Play_Pitch(SoundEffect::PickupItem_28, 50, -900);
-        BaseAliveGameObjectLastLineYPos = mBaseAnimatedWithPhysicsGameObject_YPos;
+        BaseAliveGameObjectLastLineYPos = mYPos;
         if (pPlatform)
         {
             pPlatform->VRemove(this);
@@ -556,31 +556,31 @@ void Glukkon::M_Jump_4_443030()
         BaseAliveGameObjectCollisionLine = nullptr;
     }
 
-    mBaseAnimatedWithPhysicsGameObject_VelY = (mBaseAnimatedWithPhysicsGameObject_SpriteScale * sGlukkonVelY_5453DC[mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame]);
+    mVelY = (mSpriteScale * sGlukkonVelY_5453DC[mAnim.mCurrentFrame]);
 
     FP velXTableValue = {};
-    if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
+    if (mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
     {
-        velXTableValue = -sGlukkonJumpVelX_54539C[mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame];
+        velXTableValue = -sGlukkonJumpVelX_54539C[mAnim.mCurrentFrame];
     }
     else
     {
-        velXTableValue = sGlukkonJumpVelX_54539C[mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame];
+        velXTableValue = sGlukkonJumpVelX_54539C[mAnim.mCurrentFrame];
     }
 
-    mBaseAnimatedWithPhysicsGameObject_VelX = (mBaseAnimatedWithPhysicsGameObject_SpriteScale * velXTableValue);
+    mVelX = (mSpriteScale * velXTableValue);
 
-    if (WallHit(mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(50), mBaseAnimatedWithPhysicsGameObject_VelX) || WallHit(mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(2), mBaseAnimatedWithPhysicsGameObject_VelX))
+    if (WallHit(mSpriteScale * FP_FromInteger(50), mVelX) || WallHit(mSpriteScale * FP_FromInteger(2), mVelX))
     {
-        mBaseAnimatedWithPhysicsGameObject_VelY = FP_FromInteger(0);
+        mVelY = FP_FromInteger(0);
         field_1D8_falling_velx_scale_factor = FP_FromDouble(0.35);
-        if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
+        if (mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
         {
-            mBaseAnimatedWithPhysicsGameObject_VelX = (ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale) / FP_FromInteger(6));
+            mVelX = (ScaleToGridSize(mSpriteScale) / FP_FromInteger(6));
         }
         else
         {
-            mBaseAnimatedWithPhysicsGameObject_VelX = -(ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale) / FP_FromInteger(6));
+            mVelX = -(ScaleToGridSize(mSpriteScale) / FP_FromInteger(6));
         }
         SetAnim(eGlukkonMotions::M_KnockBack_3_442F40, TRUE);
         MapFollowMe(TRUE);
@@ -605,9 +605,9 @@ void Glukkon::M_Jump_4_443030()
         bCollision = InAirCollision(&pLine, &hitX, &hitY, FP_FromInteger(0));
     }
 
-    if (mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame == 0 || !bCollision)
+    if (mAnim.mCurrentFrame == 0 || !bCollision)
     {
-        if (mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame == 9 && !BaseAliveGameObjectCollisionLine)
+        if (mAnim.mCurrentFrame == 9 && !BaseAliveGameObjectCollisionLine)
         {
             SetAnim(eGlukkonMotions::M_Fall_7_443510, TRUE);
         }
@@ -622,20 +622,20 @@ void Glukkon::M_Jump_4_443030()
         case eLineTypes::eDynamicCollision_32:
         case eLineTypes::eBackgroundDynamicCollision_36:
             PlaySound(1, this);
-            mBaseAnimatedWithPhysicsGameObject_XPos = hitX;
+            mXPos = hitX;
             BaseAliveGameObjectCollisionLine = pLine;
-            mBaseAnimatedWithPhysicsGameObject_YPos = hitY;
+            mYPos = hitY;
             MapFollowMe(TRUE);
             GetOnPlatforms();
             break;
 
         case eLineTypes::eWallLeft_1:
         case eLineTypes::eWallRight_2:
-            mBaseAnimatedWithPhysicsGameObject_VelX = (-mBaseAnimatedWithPhysicsGameObject_VelX / FP_FromInteger(2));
+            mVelX = (-mVelX / FP_FromInteger(2));
             break;
 
         default:
-            if (mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame == 9 && !BaseAliveGameObjectCollisionLine)
+            if (mAnim.mCurrentFrame == 9 && !BaseAliveGameObjectCollisionLine)
             {
                 SetAnim(eGlukkonMotions::M_Fall_7_443510, TRUE);
             }
@@ -646,7 +646,7 @@ void Glukkon::M_Jump_4_443030()
 
 void Glukkon::JumpHelper()
 {
-    if (mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame != 15)
+    if (mAnim.mCurrentFrame != 15)
     {
         return;
     }
@@ -655,7 +655,7 @@ void Glukkon::JumpHelper()
     {
         const auto input_pressed = sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed;
 
-        if ((mBaseAnimatedWithPhysicsGameObject_VelX > FP_FromInteger(0) && (input_pressed & InputCommands::Enum::eLeft)) || (mBaseAnimatedWithPhysicsGameObject_VelX < FP_FromInteger(0) && (input_pressed & InputCommands::Enum::eRight)))
+        if ((mVelX > FP_FromInteger(0) && (input_pressed & InputCommands::Enum::eLeft)) || (mVelX < FP_FromInteger(0) && (input_pressed & InputCommands::Enum::eRight)))
         {
             // Direction changed
             SetAnim(eGlukkonMotions::M_JumpToStand_17_4439D0, TRUE);
@@ -704,7 +704,7 @@ void Glukkon::M_WalkToFall_6_4434E0()
 {
     M_Fall_7_443510();
 
-    if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
+    if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
     {
         SetAnim(eGlukkonMotions::M_Fall_7_443510, TRUE);
     }
@@ -712,20 +712,20 @@ void Glukkon::M_WalkToFall_6_4434E0()
 
 void Glukkon::M_Fall_7_443510()
 {
-    if (mBaseAnimatedWithPhysicsGameObject_VelX > FP_FromInteger(0))
+    if (mVelX > FP_FromInteger(0))
     {
-        mBaseAnimatedWithPhysicsGameObject_VelX = mBaseAnimatedWithPhysicsGameObject_VelX - (mBaseAnimatedWithPhysicsGameObject_SpriteScale * field_1D8_falling_velx_scale_factor);
-        if (mBaseAnimatedWithPhysicsGameObject_VelX < FP_FromInteger(0))
+        mVelX = mVelX - (mSpriteScale * field_1D8_falling_velx_scale_factor);
+        if (mVelX < FP_FromInteger(0))
         {
-            mBaseAnimatedWithPhysicsGameObject_VelX = FP_FromInteger(0);
+            mVelX = FP_FromInteger(0);
         }
     }
-    else if (mBaseAnimatedWithPhysicsGameObject_VelX < FP_FromInteger(0))
+    else if (mVelX < FP_FromInteger(0))
     {
-        mBaseAnimatedWithPhysicsGameObject_VelX = (mBaseAnimatedWithPhysicsGameObject_SpriteScale * field_1D8_falling_velx_scale_factor) + mBaseAnimatedWithPhysicsGameObject_VelX;
-        if (mBaseAnimatedWithPhysicsGameObject_VelX > FP_FromInteger(0))
+        mVelX = (mSpriteScale * field_1D8_falling_velx_scale_factor) + mVelX;
+        if (mVelX > FP_FromInteger(0))
         {
-            mBaseAnimatedWithPhysicsGameObject_VelX = FP_FromInteger(0);
+            mVelX = FP_FromInteger(0);
         }
     }
 
@@ -748,13 +748,13 @@ void Glukkon::M_Fall_7_443510()
             case 32:
             case 36:
                 BaseAliveGameObjectCollisionLine = pLine;
-                mBaseAnimatedWithPhysicsGameObject_YPos = hitY;
-                mBaseAnimatedWithPhysicsGameObject_XPos = hitX;
-                mBaseAnimatedWithPhysicsGameObject_VelY = FP_FromInteger(0);
+                mYPos = hitY;
+                mXPos = hitX;
+                mVelY = FP_FromInteger(0);
 
                 GetOnPlatforms();
 
-                if (hitY - BaseAliveGameObjectLastLineYPos > (ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale) * FP_FromInteger(7)))
+                if (hitY - BaseAliveGameObjectLastLineYPos > (ScaleToGridSize(mSpriteScale) * FP_FromInteger(7)))
                 {
                     SetAnim(eGlukkonMotions::M_DeathFall_8_443760, TRUE);
                     SetBrain(&Glukkon::Brain_4_Death_442010);
@@ -768,8 +768,8 @@ void Glukkon::M_Fall_7_443510()
 
             case 1u:
             case 2u:
-                mBaseAnimatedWithPhysicsGameObject_XPos = hitX;
-                mBaseAnimatedWithPhysicsGameObject_VelX = -mBaseAnimatedWithPhysicsGameObject_VelX / FP_FromInteger(2);
+                mXPos = hitX;
+                mVelX = -mVelX / FP_FromInteger(2);
                 break;
 
             default:
@@ -780,7 +780,7 @@ void Glukkon::M_Fall_7_443510()
 
 void Glukkon::M_DeathFall_8_443760()
 {
-    if (mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame == 0)
+    if (mAnim.mCurrentFrame == 0)
     {
         SfxPlayMono(SoundEffect::KillEffect_64, 85);
     }
@@ -788,12 +788,12 @@ void Glukkon::M_DeathFall_8_443760()
 
 void Glukkon::M_Land_9_443790()
 {
-    if (mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame == 0)
+    if (mAnim.mCurrentFrame == 0)
     {
         Glukkon::PlaySound(1, this);
     }
 
-    if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
+    if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
     {
         HandleInput();
     }
@@ -809,13 +809,13 @@ void Glukkon::M_ChantShake_10_443B50()
 
 void Glukkon::M_Speak1_11_4437D0()
 {
-    if (mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame == 2 && field_1EA_speak != GlukkonSpeak::None)
+    if (mAnim.mCurrentFrame == 2 && field_1EA_speak != GlukkonSpeak::None)
     {
         if (gMap.Is_Point_In_Current_Camera(
-                mBaseAnimatedWithPhysicsGameObject_LvlNumber,
-                mBaseAnimatedWithPhysicsGameObject_PathNumber,
-                mBaseAnimatedWithPhysicsGameObject_XPos,
-                mBaseAnimatedWithPhysicsGameObject_YPos,
+                mCurrentLevel,
+                mCurrentPath,
+                mXPos,
+                mYPos,
                 0))
         {
             if (field_1FC)
@@ -885,7 +885,7 @@ void Glukkon::M_Speak1_11_4437D0()
         field_1EA_speak = GlukkonSpeak::None;
     }
 
-    if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
+    if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
     {
         HandleInput();
     }
@@ -919,7 +919,7 @@ void Glukkon::M_StandToJump_16_4439B0()
 void Glukkon::M_JumpToStand_17_4439D0()
 {
     DoMovement();
-    if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
+    if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
     {
         Glukkon::HandleInput();
     }
@@ -928,7 +928,7 @@ void Glukkon::M_JumpToStand_17_4439D0()
 void Glukkon::M_WalkToJump_18_443A00()
 {
     DoMovement();
-    if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
+    if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
     {
         SetAnim(eGlukkonMotions::M_Jump_4_443030);
     }
@@ -937,7 +937,7 @@ void Glukkon::M_WalkToJump_18_443A00()
 void Glukkon::M_JumpToWalk_19_443A30()
 {
     DoMovement();
-    if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
+    if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
     {
         SetAnim(eGlukkonMotions::M_Walk_1_442D30);
     }
@@ -945,9 +945,9 @@ void Glukkon::M_JumpToWalk_19_443A30()
 
 void Glukkon::M_KnockBackStandBegin_20_442FC0()
 {
-    if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
+    if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
     {
-        mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Toggle(AnimFlags::eBit5_FlipX);
+        mAnim.mFlags.Toggle(AnimFlags::eBit5_FlipX);
         PlaySound_GameSpeak(GlukkonSpeak::Heh_5, 0, 0, 0);
         SetAnim(eGlukkonMotions::M_KnockBackStandEnd_22_443010, TRUE);
     }
@@ -966,31 +966,31 @@ void Glukkon::M_GetShot_21_443A60()
 
     if (static_cast<s32>(sGnFrame) >= field_204_getting_shot_timer)
     {
-        if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit3_Render))
+        if (mAnim.mFlags.Get(AnimFlags::eBit3_Render))
         {
             field_210_brain_sub_state = 2;
-            const FP shotXVel = FP_FromInteger(20) * mBaseAnimatedWithPhysicsGameObject_SpriteScale;
-            if (mBaseAnimatedWithPhysicsGameObject_VelX >= FP_FromInteger(0))
+            const FP shotXVel = FP_FromInteger(20) * mSpriteScale;
+            if (mVelX >= FP_FromInteger(0))
             {
-                mBaseAnimatedWithPhysicsGameObject_VelX = mBaseAnimatedWithPhysicsGameObject_VelX <= FP_FromInteger(0) ? FP_FromInteger(0) : shotXVel;
+                mVelX = mVelX <= FP_FromInteger(0) ? FP_FromInteger(0) : shotXVel;
             }
             else
             {
-                mBaseAnimatedWithPhysicsGameObject_VelX = -shotXVel;
+                mVelX = -shotXVel;
             }
         }
     }
 
     if (static_cast<s32>(sGnFrame) > field_200_knockback_delay_after_getting_shot_timer)
     {
-        mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit5_FlipX, mBaseAnimatedWithPhysicsGameObject_VelX > FP_FromInteger(0));
+        mAnim.mFlags.Set(AnimFlags::eBit5_FlipX, mVelX > FP_FromInteger(0));
         SetAnim(eGlukkonMotions::M_KnockBack_3_442F40, TRUE);
     }
 }
 
 void Glukkon::M_KnockBackStandEnd_22_443010()
 {
-    if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
+    if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
     {
         SetAnim(eGlukkonMotions::M_Idle_0_442D10, TRUE);
     }
@@ -1009,10 +1009,10 @@ void Glukkon::M_EndSingleStep_24_443990()
 s16 Glukkon::Brain_0_Calm_WalkAround_440B40()
 {
     if (gMap.GetDirection(
-            mBaseAnimatedWithPhysicsGameObject_LvlNumber,
-            mBaseAnimatedWithPhysicsGameObject_PathNumber,
-            mBaseAnimatedWithPhysicsGameObject_XPos,
-            mBaseAnimatedWithPhysicsGameObject_YPos)
+            mCurrentLevel,
+            mCurrentPath,
+            mXPos,
+            mYPos)
         >= CameraPos::eCamCurrent_0)
     {
         MusicController::static_PlayMusic(MusicController::MusicTypes::eTension_4, this, 0, 0);
@@ -1056,9 +1056,9 @@ s16 Glukkon::Brain_0_Calm_WalkAround_440B40()
             {
                 if (IsEventInRange(
                         kEventAbeOhm,
-                        mBaseAnimatedWithPhysicsGameObject_XPos,
-                        mBaseAnimatedWithPhysicsGameObject_YPos,
-                        AsEventScale(mBaseAnimatedWithPhysicsGameObject_Scale)))
+                        mXPos,
+                        mYPos,
+                        AsEventScale(mScale)))
                 {
                     field_1D4_timer = sGnFrame + 10;
                 }
@@ -1073,9 +1073,9 @@ s16 Glukkon::Brain_0_Calm_WalkAround_440B40()
 
             pEvent17 = IsEventInRange(
                 kEventGlukkonUnknown,
-                mBaseAnimatedWithPhysicsGameObject_XPos,
-                mBaseAnimatedWithPhysicsGameObject_YPos,
-                AsEventScale(mBaseAnimatedWithPhysicsGameObject_Scale));
+                mXPos,
+                mYPos,
+                AsEventScale(mScale));
             if (pEvent17 && pEvent17 != this)
             {
                 field_1D4_timer = sGnFrame + 20;
@@ -1084,7 +1084,7 @@ s16 Glukkon::Brain_0_Calm_WalkAround_440B40()
 
             if (field_1A8_tlvData.field_14_behaviour == Path_Glukkon::Behavior::eCheckForWalls_1)
             {
-                if (Check_IsOnEndOfLine(mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX), 1) || PathBlocked(mBaseAnimatedWithPhysicsGameObject_VelX, 1))
+                if (Check_IsOnEndOfLine(mAnim.mFlags.Get(AnimFlags::eBit5_FlipX), 1) || PathBlocked(mVelX, 1))
                 {
                     mNextMotion = eGlukkonMotions::M_Turn_2_442F10;
                     return 2;
@@ -1104,9 +1104,9 @@ s16 Glukkon::Brain_0_Calm_WalkAround_440B40()
             {
                 if (IsEventInRange(
                         kEventAbeOhm,
-                        mBaseAnimatedWithPhysicsGameObject_XPos,
-                        mBaseAnimatedWithPhysicsGameObject_YPos,
-                        AsEventScale(mBaseAnimatedWithPhysicsGameObject_Scale)))
+                        mXPos,
+                        mYPos,
+                        AsEventScale(mScale)))
                 {
                     field_1D4_timer = sGnFrame + 10;
                 }
@@ -1123,9 +1123,9 @@ s16 Glukkon::Brain_0_Calm_WalkAround_440B40()
             {
                 auto pEvent17_1 = IsEventInRange(
                     kEventGlukkonUnknown,
-                    mBaseAnimatedWithPhysicsGameObject_XPos,
-                    mBaseAnimatedWithPhysicsGameObject_YPos,
-                    AsEventScale(mBaseAnimatedWithPhysicsGameObject_Scale));
+                    mXPos,
+                    mYPos,
+                    AsEventScale(mScale));
                 if (pEvent17_1 && pEvent17_1 != this)
                 {
                     field_1D4_timer = sGnFrame + 20;
@@ -1134,7 +1134,7 @@ s16 Glukkon::Brain_0_Calm_WalkAround_440B40()
 
                 if (field_1A8_tlvData.field_14_behaviour == Path_Glukkon::Behavior::eCheckForWalls_1)
                 {
-                    if (Check_IsOnEndOfLine(mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX), 1) || PathBlocked(mBaseAnimatedWithPhysicsGameObject_VelX, 1))
+                    if (Check_IsOnEndOfLine(mAnim.mFlags.Get(AnimFlags::eBit5_FlipX), 1) || PathBlocked(mVelX, 1))
                     {
                         if (static_cast<s32>(sGnFrame) <= field_1F0_randomish_speak_timer)
                         {
@@ -1192,9 +1192,9 @@ s16 Glukkon::Brain_0_Calm_WalkAround_440B40()
             {
                 if (IsEventInRange(
                         kEventAbeOhm,
-                        mBaseAnimatedWithPhysicsGameObject_XPos,
-                        mBaseAnimatedWithPhysicsGameObject_YPos,
-                        AsEventScale(mBaseAnimatedWithPhysicsGameObject_Scale)))
+                        mXPos,
+                        mYPos,
+                        AsEventScale(mScale)))
                 {
                     field_1D4_timer = sGnFrame + 10;
                 }
@@ -1209,9 +1209,9 @@ s16 Glukkon::Brain_0_Calm_WalkAround_440B40()
 
             pEvent17 = IsEventInRange(
                 kEventGlukkonUnknown,
-                mBaseAnimatedWithPhysicsGameObject_XPos,
-                mBaseAnimatedWithPhysicsGameObject_YPos,
-                AsEventScale(mBaseAnimatedWithPhysicsGameObject_Scale));
+                mXPos,
+                mYPos,
+                AsEventScale(mScale));
             if (pEvent17 && pEvent17 != this)
             {
                 field_1D4_timer = sGnFrame + 20;
@@ -1233,9 +1233,9 @@ s16 Glukkon::Brain_0_Calm_WalkAround_440B40()
             {
                 if (IsEventInRange(
                         kEventAbeOhm,
-                        mBaseAnimatedWithPhysicsGameObject_XPos,
-                        mBaseAnimatedWithPhysicsGameObject_YPos,
-                        AsEventScale(mBaseAnimatedWithPhysicsGameObject_Scale)))
+                        mXPos,
+                        mYPos,
+                        AsEventScale(mScale)))
                 {
                     field_1D4_timer = sGnFrame + 10;
                 }
@@ -1251,9 +1251,9 @@ s16 Glukkon::Brain_0_Calm_WalkAround_440B40()
             {
                 auto pEvent17_3 = IsEventInRange(
                     kEventGlukkonUnknown,
-                    mBaseAnimatedWithPhysicsGameObject_XPos,
-                    mBaseAnimatedWithPhysicsGameObject_YPos,
-                    AsEventScale(mBaseAnimatedWithPhysicsGameObject_Scale));
+                    mXPos,
+                    mYPos,
+                    AsEventScale(mScale));
                 if (pEvent17_3 && pEvent17_3 != this)
                 {
                     field_1D4_timer = sGnFrame + 20;
@@ -1311,10 +1311,10 @@ s16 Glukkon::Brain_0_Calm_WalkAround_440B40()
 s16 Glukkon::Brain_1_Panic_4412F0()
 {
     if (gMap.GetDirection(
-            mBaseAnimatedWithPhysicsGameObject_LvlNumber,
-            mBaseAnimatedWithPhysicsGameObject_PathNumber,
-            mBaseAnimatedWithPhysicsGameObject_XPos,
-            mBaseAnimatedWithPhysicsGameObject_YPos)
+            mCurrentLevel,
+            mCurrentPath,
+            mXPos,
+            mYPos)
         >= CameraPos::eCamCurrent_0)
     {
         MusicController::static_PlayMusic(MusicController::MusicTypes::eSoftChase_8, this, 0, 0);
@@ -1369,7 +1369,7 @@ s16 Glukkon::Brain_1_Panic_4412F0()
 
             if (field_1A8_tlvData.field_14_behaviour != Path_Glukkon::Behavior::eIgnoreWalls_0)
             {
-                if (Check_IsOnEndOfLine(mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX), 1) || PathBlocked(mBaseAnimatedWithPhysicsGameObject_VelX, 1))
+                if (Check_IsOnEndOfLine(mAnim.mFlags.Get(AnimFlags::eBit5_FlipX), 1) || PathBlocked(mVelX, 1))
                 {
                     mNextMotion = eGlukkonMotions::M_Turn_2_442F10;
                     return 3;
@@ -1385,7 +1385,7 @@ s16 Glukkon::Brain_1_Panic_4412F0()
         case 2:
             if (field_1A8_tlvData.field_14_behaviour == Path_Glukkon::Behavior::eCheckForWalls_1)
             {
-                if (Check_IsOnEndOfLine(mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX), 1) || PathBlocked(mBaseAnimatedWithPhysicsGameObject_VelX, 1))
+                if (Check_IsOnEndOfLine(mAnim.mFlags.Get(AnimFlags::eBit5_FlipX), 1) || PathBlocked(mVelX, 1))
                 {
                     Glukkon::Speak(GlukkonSpeak::Help_6);
                     return 5;
@@ -1459,10 +1459,10 @@ s16 Glukkon::Brain_1_Panic_4412F0()
 s16 Glukkon::Brain_2_Slapped_441720()
 {
     if (gMap.GetDirection(
-            mBaseAnimatedWithPhysicsGameObject_LvlNumber,
-            mBaseAnimatedWithPhysicsGameObject_PathNumber,
-            mBaseAnimatedWithPhysicsGameObject_XPos,
-            mBaseAnimatedWithPhysicsGameObject_YPos)
+            mCurrentLevel,
+            mCurrentPath,
+            mXPos,
+            mYPos)
         >= CameraPos::eCamCurrent_0)
     {
         MusicController::static_PlayMusic(MusicController::MusicTypes::eSoftChase_8, this, 0, 0);
@@ -1497,26 +1497,26 @@ s16 Glukkon::Brain_2_Slapped_441720()
                 SwitchStates_Do_Operation(field_1A8_tlvData.field_18_help_switch_id, SwitchOp::eSetFalse_1);
                 SetBrain(&Glukkon::Brain_0_Calm_WalkAround_440B40);
 
-                if (FP_FromInteger(field_1A8_tlvData.mTopLeft.x) >= mBaseAnimatedWithPhysicsGameObject_XPos)
+                if (FP_FromInteger(field_1A8_tlvData.mTopLeft.x) >= mXPos)
                 {
-                    if (!(mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX)))
+                    if (!(mAnim.mFlags.Get(AnimFlags::eBit5_FlipX)))
                     {
                         return 2;
                     }
-                    if (FP_FromInteger(field_1A8_tlvData.mTopLeft.x) >= mBaseAnimatedWithPhysicsGameObject_XPos)
+                    if (FP_FromInteger(field_1A8_tlvData.mTopLeft.x) >= mXPos)
                     {
                         return 0;
                     }
                 }
 
-                if (!(mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX)))
+                if (!(mAnim.mFlags.Get(AnimFlags::eBit5_FlipX)))
                 {
                     return 0;
                 }
                 return 2;
             }
 
-            if ((BaseAliveGameObjectCollisionLine && Check_IsOnEndOfLine(mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX), 4)) || PathBlocked(mBaseAnimatedWithPhysicsGameObject_VelX, 0))
+            if ((BaseAliveGameObjectCollisionLine && Check_IsOnEndOfLine(mAnim.mFlags.Get(AnimFlags::eBit5_FlipX), 4)) || PathBlocked(mVelX, 0))
             {
                 mNextMotion = eGlukkonMotions::M_Turn_2_442F10;
                 return 2;
@@ -1539,7 +1539,7 @@ s16 Glukkon::Brain_2_Slapped_441720()
                 return 0;
             }
 
-            if (!BaseAliveGameObjectCollisionLine || (!Check_IsOnEndOfLine(mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX), 4) && !PathBlocked(mBaseAnimatedWithPhysicsGameObject_VelX, 0)))
+            if (!BaseAliveGameObjectCollisionLine || (!Check_IsOnEndOfLine(mAnim.mFlags.Get(AnimFlags::eBit5_FlipX), 4) && !PathBlocked(mVelX, 0)))
             {
                 if (Math_NextRandom() >= 10u || static_cast<s32>(sGnFrame) <= field_1F0_randomish_speak_timer)
                 {
@@ -1570,10 +1570,10 @@ s16 Glukkon::Brain_3_PlayerControlled_441A30()
 {
     auto pDeathFadeOut = static_cast<DeathFadeOut*>(sObjectIds.Find_Impl(field_208_obj_id));
     if (gMap.GetDirection(
-            mBaseAnimatedWithPhysicsGameObject_LvlNumber,
-            mBaseAnimatedWithPhysicsGameObject_PathNumber,
-            mBaseAnimatedWithPhysicsGameObject_XPos,
-            mBaseAnimatedWithPhysicsGameObject_YPos)
+            mCurrentLevel,
+            mCurrentPath,
+            mXPos,
+            mYPos)
         >= CameraPos::eCamCurrent_0)
     {
         MusicController::static_PlayMusic(MusicController::MusicTypes::ePossessed_9, this, 0, 0);
@@ -1637,9 +1637,9 @@ s16 Glukkon::Brain_3_PlayerControlled_441A30()
                     const FP xRand = FP_FromInteger(Math_RandomRange(-20, 20));
                     const FP yRand = FP_FromInteger(Math_RandomRange(20, 50));
                     New_TintChant_Particle(
-                        (mBaseAnimatedWithPhysicsGameObject_SpriteScale * xRand) + mBaseAnimatedWithPhysicsGameObject_XPos,
-                        mBaseAnimatedWithPhysicsGameObject_YPos - (mBaseAnimatedWithPhysicsGameObject_SpriteScale * yRand),
-                        mBaseAnimatedWithPhysicsGameObject_SpriteScale,
+                        (mSpriteScale * xRand) + mXPos,
+                        mYPos - (mSpriteScale * yRand),
+                        mSpriteScale,
                         Layer::eLayer_0);
                 }
 
@@ -1750,10 +1750,10 @@ static GibType AsGibType(GlukkonTypes glukkonType)
 s16 Glukkon::Brain_4_Death_442010()
 {
     if (gMap.GetDirection(
-            mBaseAnimatedWithPhysicsGameObject_LvlNumber,
-            mBaseAnimatedWithPhysicsGameObject_PathNumber,
-            mBaseAnimatedWithPhysicsGameObject_XPos,
-            mBaseAnimatedWithPhysicsGameObject_YPos)
+            mCurrentLevel,
+            mCurrentPath,
+            mXPos,
+            mYPos)
         >= CameraPos::eCamCurrent_0)
     {
         MusicController::static_PlayMusic(MusicController::MusicTypes::eNone_0, this, 0, 0);
@@ -1762,7 +1762,7 @@ s16 Glukkon::Brain_4_Death_442010()
     switch (field_210_brain_sub_state)
     {
         case 0:
-            if (mCurrentMotion != eGlukkonMotions::M_DeathFall_8_443760 || !(mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame)))
+            if (mCurrentMotion != eGlukkonMotions::M_DeathFall_8_443760 || !(mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame)))
             {
                 return field_210_brain_sub_state;
             }
@@ -1782,11 +1782,11 @@ s16 Glukkon::Brain_4_Death_442010()
             }
             else
             {
-                mBaseAnimatedWithPhysicsGameObject_SpriteScale -= FP_FromDouble(0.008);
+                mSpriteScale -= FP_FromDouble(0.008);
 
-                mBaseAnimatedWithPhysicsGameObject_RGB.r -= 2;
-                mBaseAnimatedWithPhysicsGameObject_RGB.g -= 2;
-                mBaseAnimatedWithPhysicsGameObject_RGB.b -= 2;
+                mRGB.r -= 2;
+                mRGB.g -= 2;
+                mRGB.b -= 2;
 
                 DeathSmokeEffect(true);
 
@@ -1798,40 +1798,40 @@ s16 Glukkon::Brain_4_Death_442010()
         {
             relive_new Gibs(
                 AsGibType(field_1A8_tlvData.field_22_glukkon_type),
-                mBaseAnimatedWithPhysicsGameObject_XPos,
-                mBaseAnimatedWithPhysicsGameObject_YPos,
-                mBaseAnimatedWithPhysicsGameObject_VelX,
-                mBaseAnimatedWithPhysicsGameObject_VelY,
-                mBaseAnimatedWithPhysicsGameObject_SpriteScale,
+                mXPos,
+                mYPos,
+                mVelX,
+                mVelY,
+                mSpriteScale,
                 0);
 
             relive_new Blood(
-                mBaseAnimatedWithPhysicsGameObject_XPos,
-                mBaseAnimatedWithPhysicsGameObject_YPos - (FP_FromInteger(30) * mBaseAnimatedWithPhysicsGameObject_SpriteScale),
+                mXPos,
+                mYPos - (FP_FromInteger(30) * mSpriteScale),
                 FP_FromInteger(0),
                 FP_FromInteger(0),
-                mBaseAnimatedWithPhysicsGameObject_SpriteScale,
+                mSpriteScale,
                 20);
 
             New_Smoke_Particles(
-                mBaseAnimatedWithPhysicsGameObject_XPos,
-                mBaseAnimatedWithPhysicsGameObject_YPos - (FP_FromInteger(30) * mBaseAnimatedWithPhysicsGameObject_SpriteScale),
-                mBaseAnimatedWithPhysicsGameObject_SpriteScale,
+                mXPos,
+                mYPos - (FP_FromInteger(30) * mSpriteScale),
+                mSpriteScale,
                 3,
                 128u,
                 128u,
                 128u);
 
-            SfxPlayMono(SoundEffect::KillEffect_64, 128, mBaseAnimatedWithPhysicsGameObject_SpriteScale);
-            SfxPlayMono(SoundEffect::FallingItemHit_47, 90, mBaseAnimatedWithPhysicsGameObject_SpriteScale);
+            SfxPlayMono(SoundEffect::KillEffect_64, 128, mSpriteScale);
+            SfxPlayMono(SoundEffect::FallingItemHit_47, 90, mSpriteScale);
 
-            mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit2_Animate);
-            mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit3_Render);
+            mAnim.mFlags.Clear(AnimFlags::eBit2_Animate);
+            mAnim.mFlags.Clear(AnimFlags::eBit3_Render);
 
             SetAnim(eGlukkonMotions::M_ChantShake_10_443B50, TRUE);
 
-            mBaseAnimatedWithPhysicsGameObject_VelY = FP_FromInteger(0);
-            mBaseAnimatedWithPhysicsGameObject_VelX = FP_FromInteger(0);
+            mVelY = FP_FromInteger(0);
+            mVelX = FP_FromInteger(0);
             mHealth = FP_FromInteger(0);
             field_1D4_timer = sGnFrame + 40;
         }
@@ -1846,7 +1846,7 @@ s16 Glukkon::Brain_4_Death_442010()
 
         case 4:
         case 5:
-            if (!BaseAliveGameObjectCollisionLine || mCurrentMotion != eGlukkonMotions::M_KnockBack_3_442F40 || !(mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame)))
+            if (!BaseAliveGameObjectCollisionLine || mCurrentMotion != eGlukkonMotions::M_KnockBack_3_442F40 || !(mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame)))
             {
                 return field_210_brain_sub_state;
             }
@@ -1876,10 +1876,10 @@ const PSX_Point v00554768[8] = {
 s16 Glukkon::Brain_5_WaitToSpawn_442490()
 {
     if (gMap.GetDirection(
-            mBaseAnimatedWithPhysicsGameObject_LvlNumber,
-            mBaseAnimatedWithPhysicsGameObject_PathNumber,
-            mBaseAnimatedWithPhysicsGameObject_XPos,
-            mBaseAnimatedWithPhysicsGameObject_YPos)
+            mCurrentLevel,
+            mCurrentPath,
+            mXPos,
+            mYPos)
         >= CameraPos::eCamCurrent_0)
     {
         MusicController::static_PlayMusic(MusicController::MusicTypes::eNone_0, this, 0, 0);
@@ -1922,8 +1922,8 @@ s16 Glukkon::Brain_5_WaitToSpawn_442490()
 
             for (const auto& p : v00554768)
             {
-                const s16 sparkX = FP_GetExponent(FP_FromInteger(p.x) + mBaseAnimatedWithPhysicsGameObject_XPos + FP_FromInteger(13));
-                const s16 sparkY = FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos + FP_FromInteger(p.y) - FP_FromInteger(11));
+                const s16 sparkX = FP_GetExponent(FP_FromInteger(p.x) + mXPos + FP_FromInteger(13));
+                const s16 sparkY = FP_GetExponent(mYPos + FP_FromInteger(p.y) - FP_FromInteger(11));
                 relive_new Spark(FP_FromInteger(sparkX), FP_FromInteger(sparkY), FP_FromInteger(1), 9, -31, 159, SparkType::eBigChantParticle_1);
             }
 
@@ -1931,12 +1931,12 @@ s16 Glukkon::Brain_5_WaitToSpawn_442490()
 
             New_DestroyOrCreateObject_Particle(
                 FP_FromInteger((bRect.x + bRect.w) / 2),
-                FP_FromInteger((bRect.y + bRect.h) / 2) + (mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(60)),
-                mBaseAnimatedWithPhysicsGameObject_SpriteScale);
+                FP_FromInteger((bRect.y + bRect.h) / 2) + (mSpriteScale * FP_FromInteger(60)),
+                mSpriteScale);
 
             relive_new ParticleBurst(
-                mBaseAnimatedWithPhysicsGameObject_XPos,
-                mBaseAnimatedWithPhysicsGameObject_YPos - FP_FromInteger(18),
+                mXPos,
+                mYPos - FP_FromInteger(18),
                 6,
                 FP_FromInteger(1),
                 BurstType::eBigRedSparks_3,
@@ -1957,31 +1957,31 @@ s16 Glukkon::Brain_5_WaitToSpawn_442490()
 
 void Glukkon::Init()
 {
-    mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit2_Animate);
-    mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit3_Render);
+    mAnim.mFlags.Set(AnimFlags::eBit2_Animate);
+    mAnim.mFlags.Set(AnimFlags::eBit3_Render);
 
     mBaseGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4);
 
     SetTint(&kGlukkonTints_5546B4[0], gMap.mCurrentLevel);
-    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger((field_1A8_tlvData.mTopLeft.x + field_1A8_tlvData.mBottomRight.x) / 2);
-    mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(field_1A8_tlvData.mTopLeft.y);
+    mXPos = FP_FromInteger((field_1A8_tlvData.mTopLeft.x + field_1A8_tlvData.mBottomRight.x) / 2);
+    mYPos = FP_FromInteger(field_1A8_tlvData.mTopLeft.y);
 
     if (field_1A8_tlvData.field_12_start_direction == Path_Glukkon::StartDirection::eLeft_1)
     {
-        mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit5_FlipX);
+        mAnim.mFlags.Set(AnimFlags::eBit5_FlipX);
     }
 
     if (field_1A8_tlvData.field_1C_spawn_switch_id)
     {
         if (field_1A8_tlvData.field_1E_spawn_type == Path_Glukkon::SpawnType::eFacingLeft_1)
         {
-            mBaseAnimatedWithPhysicsGameObject_XPos -= ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale);
-            mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit5_FlipX);
+            mXPos -= ScaleToGridSize(mSpriteScale);
+            mAnim.mFlags.Clear(AnimFlags::eBit5_FlipX);
         }
         else if (field_1A8_tlvData.field_1E_spawn_type == Path_Glukkon::SpawnType::eFacingRight_2)
         {
-            mBaseAnimatedWithPhysicsGameObject_XPos += ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale);
-            mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit5_FlipX);
+            mXPos += ScaleToGridSize(mSpriteScale);
+            mAnim.mFlags.Set(AnimFlags::eBit5_FlipX);
         }
         mBaseAliveGameObjectFlags.Clear(Flags_114::e114_Bit3_Can_Be_Possessed);
         mBaseGameObjectFlags.Clear(BaseGameObject::eDrawable_Bit4);
@@ -1999,31 +1999,31 @@ void Glukkon::Init()
 
     if (field_1A8_tlvData.field_10_scale == Scale_short::eHalf_1)
     {
-        mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromDouble(0.5);
-        mBaseAnimatedWithPhysicsGameObject_Scale = Scale::Bg;
-        mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_8;
+        mSpriteScale = FP_FromDouble(0.5);
+        mScale = Scale::Bg;
+        mAnim.mRenderLayer = Layer::eLayer_8;
     }
     else if (field_1A8_tlvData.field_10_scale == Scale_short::eFull_0)
     {
-        mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromInteger(1);
-        mBaseAnimatedWithPhysicsGameObject_Scale = Scale::Fg;
-        mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_27;
+        mSpriteScale = FP_FromInteger(1);
+        mScale = Scale::Fg;
+        mAnim.mRenderLayer = Layer::eLayer_27;
     }
 
     FP hitX = {};
     FP hitY = {};
     if (sCollisions->Raycast(
-            mBaseAnimatedWithPhysicsGameObject_XPos,
-            mBaseAnimatedWithPhysicsGameObject_YPos,
-            mBaseAnimatedWithPhysicsGameObject_XPos,
-            mBaseAnimatedWithPhysicsGameObject_YPos + FP_FromInteger(79),
+            mXPos,
+            mYPos,
+            mXPos,
+            mYPos + FP_FromInteger(79),
             &BaseAliveGameObjectCollisionLine,
             &hitX,
             &hitY,
-            mBaseAnimatedWithPhysicsGameObject_Scale == Scale::Fg ? kFgFloor : kBgFloor)
+            mScale == Scale::Fg ? kFgFloor : kBgFloor)
         == 1)
     {
-        mBaseAnimatedWithPhysicsGameObject_YPos = hitY;
+        mYPos = hitY;
     }
 
     SetAnim(0, TRUE);
@@ -2040,7 +2040,7 @@ void Glukkon::Init()
     field_1FC = 0;
     field_200_knockback_delay_after_getting_shot_timer = 0;
     field_204_getting_shot_timer = 0;
-    field_1DC_previous_ypos = mBaseAnimatedWithPhysicsGameObject_YPos;
+    field_1DC_previous_ypos = mYPos;
 
     if (!mShadow)
     {
@@ -2079,13 +2079,13 @@ void Glukkon::VUpdate()
         else
         {
             sCollisions->Raycast(
-                mBaseAnimatedWithPhysicsGameObject_XPos,
-                mBaseAnimatedWithPhysicsGameObject_YPos - FP_FromInteger(20),
-                mBaseAnimatedWithPhysicsGameObject_XPos,
-                mBaseAnimatedWithPhysicsGameObject_YPos + FP_FromInteger(20),
+                mXPos,
+                mYPos - FP_FromInteger(20),
+                mXPos,
+                mYPos + FP_FromInteger(20),
                 &BaseAliveGameObjectCollisionLine,
-                &mBaseAnimatedWithPhysicsGameObject_XPos,
-                &mBaseAnimatedWithPhysicsGameObject_YPos,
+                &mXPos,
+                &mYPos,
                 CollisionMask(static_cast<eLineTypes>(BaseAliveGameObjectCollisionLineType)));
 
             if (BaseAliveGameObjectCollisionLine->mLineType == eLineTypes::eDynamicCollision_32 || BaseAliveGameObjectCollisionLine->mLineType == eLineTypes::eBackgroundDynamicCollision_36)
@@ -2118,8 +2118,8 @@ void Glukkon::VUpdate()
 
         field_210_brain_sub_state = (this->*field_20C_brain_state_fn)();
 
-        const FP oldXPos = mBaseAnimatedWithPhysicsGameObject_XPos;
-        const FP oldYPos = mBaseAnimatedWithPhysicsGameObject_YPos;
+        const FP oldXPos = mXPos;
+        const FP oldYPos = mYPos;
 
         (this->*sGlukkon_motion_table_5544C0[mCurrentMotion])();
 
@@ -2129,14 +2129,14 @@ void Glukkon::VUpdate()
             //LOG_INFO("Glukkon: Old motion = " << sGlukkonMotionNames[oldMotion] << " new motion = " << sGlukkonMotionNames[mCurrentMotion]);
         }
 
-        if (oldXPos != mBaseAnimatedWithPhysicsGameObject_XPos || oldYPos != mBaseAnimatedWithPhysicsGameObject_YPos)
+        if (oldXPos != mXPos || oldYPos != mYPos)
         {
             Path_TLV* pTlv = sPath_dword_BB47C0->TlvGetAt(
                 nullptr,
-                mBaseAnimatedWithPhysicsGameObject_XPos,
-                mBaseAnimatedWithPhysicsGameObject_YPos,
-                mBaseAnimatedWithPhysicsGameObject_XPos,
-                mBaseAnimatedWithPhysicsGameObject_YPos);
+                mXPos,
+                mYPos,
+                mXPos,
+                mYPos);
             VOnTlvCollision(pTlv);
         }
 
@@ -2144,10 +2144,10 @@ void Glukkon::VUpdate()
 
         if (sControlledCharacter_5C1B8C == this && BaseAliveGameObject_PlatformId != -1)
         {
-            mBaseAnimatedWithPhysicsGameObject_VelY = mBaseAnimatedWithPhysicsGameObject_YPos - field_1DC_previous_ypos;
+            mVelY = mYPos - field_1DC_previous_ypos;
             SetActiveCameraDelayedFromDir();
         }
-        field_1DC_previous_ypos = mBaseAnimatedWithPhysicsGameObject_YPos;
+        field_1DC_previous_ypos = mYPos;
     }
 }
 
@@ -2167,7 +2167,7 @@ void Glukkon::VPossessed()
 
 void Glukkon::Update_Slurg_WatchPoints()
 {
-    if (mCurrentMotion == eGlukkonMotions::M_Walk_1_442D30 || (mCurrentMotion == eGlukkonMotions::M_Jump_4_443030 && mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame > 8))
+    if (mCurrentMotion == eGlukkonMotions::M_Walk_1_442D30 || (mCurrentMotion == eGlukkonMotions::M_Jump_4_443030 && mAnim.mCurrentFrame > 8))
     {
         if (sGnFrame & 1)
         {
@@ -2175,7 +2175,7 @@ void Glukkon::Update_Slurg_WatchPoints()
             if (count < 5)
             {
                 Slurg_Step_Watch_Points* pPoints = &sSlurg_Step_Watch_Points_5C1B28[sSlurg_Step_Watch_Points_Idx_5C1C08];
-                pPoints->field_0_points[count].field_0_xPos = FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos);
+                pPoints->field_0_points[count].field_0_xPos = FP_GetExponent(mXPos);
                 pPoints->field_0_points[count].field_2_yPos = BaseAliveGameObjectCollisionLine->mRect.y - 5;
                 sSlurg_Step_Watch_Points_Count_5BD4DC[sSlurg_Step_Watch_Points_Idx_5C1C08] = count + 1;
             }
@@ -2191,7 +2191,7 @@ void Glukkon::SetAnim(s16 currentMotion, s16 bClearNextMotion)
         typeIndex = 0;
     }
 
-    mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(sGlukkonsAnimIdTable[typeIndex][currentMotion], nullptr);
+    mAnim.Set_Animation_Data(sGlukkonsAnimIdTable[typeIndex][currentMotion], nullptr);
 
     mCurrentMotion = currentMotion;
     if (bClearNextMotion)
@@ -2293,7 +2293,7 @@ void Glukkon::HandleInput()
             const auto inputPressed = sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed;
             if (inputPressed & InputCommands::Enum::eRight)
             {
-                if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
+                if (mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
                 {
                     mNextMotion = eGlukkonMotions::M_Turn_2_442F10;
                 }
@@ -2304,7 +2304,7 @@ void Glukkon::HandleInput()
             }
             else if (inputPressed & InputCommands::Enum::eLeft)
             {
-                if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
+                if (mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
                 {
                     mNextMotion = eGlukkonMotions::M_BeginWalk_14_443950;
                 }
@@ -2361,15 +2361,15 @@ void Glukkon::HandleInput()
         case eGlukkonMotions::M_StandToJump_16_4439B0:
         {
             FP xOff = {};
-            if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
+            if (mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
             {
-                xOff = -ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale);
+                xOff = -ScaleToGridSize(mSpriteScale);
             }
             else
             {
-                xOff = ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale);
+                xOff = ScaleToGridSize(mSpriteScale);
             }
-            if (!WallHit(mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(50), xOff))
+            if (!WallHit(mSpriteScale * FP_FromInteger(50), xOff))
             {
                 SetAnim(mNextMotion, TRUE);
             }
@@ -2388,16 +2388,16 @@ s16 Glukkon::ShouldPanic(s16 panicEvenIfNotFacingMe)
         && !BaseAliveGameObject::IsInInvisibleZone(sControlledCharacter_5C1B8C)
         && !EventGet(kEventResetting)
         && gMap.Is_Point_In_Current_Camera(
-            mBaseAnimatedWithPhysicsGameObject_LvlNumber,
-            mBaseAnimatedWithPhysicsGameObject_PathNumber,
-            mBaseAnimatedWithPhysicsGameObject_XPos,
-            mBaseAnimatedWithPhysicsGameObject_YPos,
+            mCurrentLevel,
+            mCurrentPath,
+            mXPos,
+            mYPos,
             0)
         && gMap.Is_Point_In_Current_Camera(
-            sControlledCharacter_5C1B8C->mBaseAnimatedWithPhysicsGameObject_LvlNumber,
-            sControlledCharacter_5C1B8C->mBaseAnimatedWithPhysicsGameObject_PathNumber,
-            sControlledCharacter_5C1B8C->mBaseAnimatedWithPhysicsGameObject_XPos,
-            sControlledCharacter_5C1B8C->mBaseAnimatedWithPhysicsGameObject_YPos,
+            sControlledCharacter_5C1B8C->mCurrentLevel,
+            sControlledCharacter_5C1B8C->mCurrentPath,
+            sControlledCharacter_5C1B8C->mXPos,
+            sControlledCharacter_5C1B8C->mYPos,
             0)
         && (panicEvenIfNotFacingMe || VIsFacingMe(sControlledCharacter_5C1B8C)))
     {
@@ -2407,9 +2407,9 @@ s16 Glukkon::ShouldPanic(s16 panicEvenIfNotFacingMe)
     // Panic if Abe is chanting
     if (IsEventInRange(
             kEventAbeOhm,
-            mBaseAnimatedWithPhysicsGameObject_XPos,
-            mBaseAnimatedWithPhysicsGameObject_YPos,
-            AsEventScale(mBaseAnimatedWithPhysicsGameObject_Scale)))
+            mXPos,
+            mYPos,
+            AsEventScale(mScale)))
     {
         return 1;
     }
@@ -2423,15 +2423,15 @@ s16 Glukkon::ShouldPanic(s16 panicEvenIfNotFacingMe)
     // Panic if player is speaking (I guess it can be rather alarming?)
     auto pSpeakEvent = IsEventInRange(
         kEventSpeaking,
-        mBaseAnimatedWithPhysicsGameObject_XPos,
-        mBaseAnimatedWithPhysicsGameObject_YPos,
-        AsEventScale(mBaseAnimatedWithPhysicsGameObject_Scale));
+        mXPos,
+        mYPos,
+        AsEventScale(mScale));
     return pSpeakEvent && pSpeakEvent == sControlledCharacter_5C1B8C;
 }
 
 s16 Glukkon::PathBlocked(FP /*a2*/, s16 checkBounds)
 {
-    FP gridSize = ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale);
+    FP gridSize = ScaleToGridSize(mSpriteScale);
     if (mCurrentMotion == eGlukkonMotions::M_Jump_4_443030)
     {
         gridSize = (gridSize * FP_FromInteger(4));
@@ -2439,7 +2439,7 @@ s16 Glukkon::PathBlocked(FP /*a2*/, s16 checkBounds)
 
     Path_EnemyStopper::StopDirection direction = Path_EnemyStopper::StopDirection::Left_0;
     TlvTypes boundType = TlvTypes::ScrabLeftBound_43;
-    if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
+    if (mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
     {
         boundType = TlvTypes::ScrabLeftBound_43;
         direction = Path_EnemyStopper::StopDirection::Left_0;
@@ -2451,16 +2451,16 @@ s16 Glukkon::PathBlocked(FP /*a2*/, s16 checkBounds)
         direction = Path_EnemyStopper::StopDirection::Right_1;
     }
 
-    if (WallHit(mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(50), gridSize * FP_FromInteger(1)))
+    if (WallHit(mSpriteScale * FP_FromInteger(50), gridSize * FP_FromInteger(1)))
     {
         return 1;
     }
 
     BaseAliveGameObjectPathTLV = sPath_dword_BB47C0->TLV_Get_At_4DB4B0(
-        FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos),
-        FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos), // TODO Abs() ??
-        FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos + gridSize),
-        FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos - ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale)),
+        FP_GetExponent(mXPos),
+        FP_GetExponent(mYPos), // TODO Abs() ??
+        FP_GetExponent(mXPos + gridSize),
+        FP_GetExponent(mYPos - ScaleToGridSize(mSpriteScale)),
         TlvTypes::SlamDoor_85);
 
     auto pSlamDoorTlv = static_cast<Path_SlamDoor*>(BaseAliveGameObjectPathTLV);
@@ -2471,10 +2471,10 @@ s16 Glukkon::PathBlocked(FP /*a2*/, s16 checkBounds)
     }
 
     BaseAliveGameObjectPathTLV = sPath_dword_BB47C0->TLV_Get_At_4DB4B0(
-        FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos),
-        FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos),
-        FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos + gridSize),
-        FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos - ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale)),
+        FP_GetExponent(mXPos),
+        FP_GetExponent(mYPos),
+        FP_GetExponent(mXPos + gridSize),
+        FP_GetExponent(mYPos - ScaleToGridSize(mSpriteScale)),
         TlvTypes::EnemyStopper_47);
 
     auto pEnemyStopper = static_cast<Path_EnemyStopper*>(BaseAliveGameObjectPathTLV);
@@ -2491,10 +2491,10 @@ s16 Glukkon::PathBlocked(FP /*a2*/, s16 checkBounds)
     }
 
     if (sPath_dword_BB47C0->TLV_Get_At_4DB4B0(
-            FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos),
-            FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos), // TODO: Abs() ??
-            FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos + gridSize),
-            FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos - ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale)),
+            FP_GetExponent(mXPos),
+            FP_GetExponent(mYPos), // TODO: Abs() ??
+            FP_GetExponent(mXPos + gridSize),
+            FP_GetExponent(mYPos - ScaleToGridSize(mSpriteScale)),
             boundType))
     {
         return 1;
@@ -2584,33 +2584,33 @@ s16 Glukkon::DoMovement()
     const FP* pTable = motion_velx_table_5547C4[mCurrentMotion];
     if (pTable)
     {
-        if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
+        if (mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
         {
-            mBaseAnimatedWithPhysicsGameObject_VelX = -pTable[mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame];
+            mVelX = -pTable[mAnim.mCurrentFrame];
         }
         else
         {
-            mBaseAnimatedWithPhysicsGameObject_VelX = pTable[mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame];
+            mVelX = pTable[mAnim.mCurrentFrame];
         }
     }
     else
     {
-        mBaseAnimatedWithPhysicsGameObject_VelX = FP_FromInteger(0);
+        mVelX = FP_FromInteger(0);
     }
 
-    mBaseAnimatedWithPhysicsGameObject_VelX = mBaseAnimatedWithPhysicsGameObject_VelX * mBaseAnimatedWithPhysicsGameObject_SpriteScale;
+    mVelX = mVelX * mSpriteScale;
 
-    if (WallHit(mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(50), mBaseAnimatedWithPhysicsGameObject_VelX))
+    if (WallHit(mSpriteScale * FP_FromInteger(50), mVelX))
     {
         field_1D8_falling_velx_scale_factor = FP_FromInteger(0);
-        mBaseAnimatedWithPhysicsGameObject_VelY = FP_FromInteger(0);
-        if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
+        mVelY = FP_FromInteger(0);
+        if (mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
         {
-            mBaseAnimatedWithPhysicsGameObject_VelX = (ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale) / FP_FromInteger(6));
+            mVelX = (ScaleToGridSize(mSpriteScale) / FP_FromInteger(6));
         }
         else
         {
-            mBaseAnimatedWithPhysicsGameObject_VelX = -(ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale) / FP_FromInteger(6));
+            mVelX = -(ScaleToGridSize(mSpriteScale) / FP_FromInteger(6));
         }
         MapFollowMe(TRUE);
         SetAnim(eGlukkonMotions::M_KnockBack_3_442F40, TRUE);
@@ -2626,11 +2626,11 @@ s16 Glukkon::DoMovement()
 void Glukkon::FollowLine()
 {
     auto pPlatform = static_cast<PlatformBase*>(sObjectIds.Find_Impl(BaseAliveGameObject_PlatformId));
-    const FP prevXPos = mBaseAnimatedWithPhysicsGameObject_XPos;
+    const FP prevXPos = mXPos;
 
     if (BaseAliveGameObjectCollisionLine)
     {
-        BaseAliveGameObjectCollisionLine = BaseAliveGameObjectCollisionLine->MoveOnLine(&mBaseAnimatedWithPhysicsGameObject_XPos, &mBaseAnimatedWithPhysicsGameObject_YPos, mBaseAnimatedWithPhysicsGameObject_VelX);
+        BaseAliveGameObjectCollisionLine = BaseAliveGameObjectCollisionLine->MoveOnLine(&mXPos, &mYPos, mVelX);
         if (BaseAliveGameObjectCollisionLine)
         {
             if (pPlatform)
@@ -2649,7 +2649,7 @@ void Glukkon::FollowLine()
         }
         else
         {
-            BaseAliveGameObjectLastLineYPos = mBaseAnimatedWithPhysicsGameObject_YPos;
+            BaseAliveGameObjectLastLineYPos = mYPos;
 
             VOnTrapDoorOpen();
 
@@ -2666,7 +2666,7 @@ void Glukkon::FollowLine()
                 SetAnim(eGlukkonMotions::M_Fall_7_443510, TRUE);
             }
 
-            mBaseAnimatedWithPhysicsGameObject_XPos = prevXPos + mBaseAnimatedWithPhysicsGameObject_VelX;
+            mXPos = prevXPos + mVelX;
             field_1D8_falling_velx_scale_factor = FP_FromInteger(1);
 
             if (mCurrentMotion == eGlukkonMotions::M_KnockBack_3_442F40)
@@ -2677,7 +2677,7 @@ void Glukkon::FollowLine()
     }
     else
     {
-        BaseAliveGameObjectLastLineYPos = mBaseAnimatedWithPhysicsGameObject_YPos;
+        BaseAliveGameObjectLastLineYPos = mYPos;
         SetAnim(eGlukkonMotions::M_Fall_7_443510, TRUE);
     }
 }
@@ -2685,8 +2685,8 @@ void Glukkon::FollowLine()
 void Glukkon::GetOnPlatforms()
 {
     VOnCollisionWith(
-        {FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos - FP_FromInteger(5)), FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos - FP_FromInteger(5))},
-        {FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos + FP_FromInteger(5)), FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos + FP_FromInteger(5))},
+        {FP_GetExponent(mXPos - FP_FromInteger(5)), FP_GetExponent(mYPos - FP_FromInteger(5))},
+        {FP_GetExponent(mXPos + FP_FromInteger(5)), FP_GetExponent(mYPos + FP_FromInteger(5))},
         ObjList_5C1B78,
         1,
         (TCollisionCallBack) &BaseAliveGameObject::OnTrapDoorIntersection);
@@ -2717,7 +2717,7 @@ void Glukkon::PlaySound(s32 sndIdx, Glukkon* pGlukkon)
         pitch = 127 * pitchCap;
     }
 
-    if (pGlukkon->mBaseAnimatedWithPhysicsGameObject_SpriteScale == FP_FromInteger(1))
+    if (pGlukkon->mSpriteScale == FP_FromInteger(1))
     {
         volumeRight = defaultSndIdxVol;
     }
@@ -2727,10 +2727,10 @@ void Glukkon::PlaySound(s32 sndIdx, Glukkon* pGlukkon)
     }
 
     CameraPos direction = gMap.GetDirection(
-        pGlukkon->mBaseAnimatedWithPhysicsGameObject_LvlNumber,
-        pGlukkon->mBaseAnimatedWithPhysicsGameObject_PathNumber,
-        pGlukkon->mBaseAnimatedWithPhysicsGameObject_XPos,
-        pGlukkon->mBaseAnimatedWithPhysicsGameObject_YPos);
+        pGlukkon->mCurrentLevel,
+        pGlukkon->mCurrentPath,
+        pGlukkon->mXPos,
+        pGlukkon->mYPos);
     PSX_RECT worldRect;
     gMap.Get_Camera_World_Rect(direction, &worldRect);
     switch (direction)
@@ -2749,14 +2749,14 @@ void Glukkon::PlaySound(s32 sndIdx, Glukkon* pGlukkon)
         break;
         case CameraPos::eCamLeft_3:
         {
-            FP percentHowFar = (FP_FromInteger(worldRect.w) - pGlukkon->mBaseAnimatedWithPhysicsGameObject_XPos) / FP_FromInteger(368);
+            FP percentHowFar = (FP_FromInteger(worldRect.w) - pGlukkon->mXPos) / FP_FromInteger(368);
             volumeLeft = volumeRight - FP_GetExponent(percentHowFar * FP_FromInteger(volumeRight - (volumeRight / 3)));
             volumeRight -= FP_GetExponent(percentHowFar * FP_FromInteger(volumeRight));
             break;
         }
         case CameraPos::eCamRight_4:
         {
-            FP percentHowFar = (pGlukkon->mBaseAnimatedWithPhysicsGameObject_XPos - FP_FromInteger(worldRect.x)) / FP_FromInteger(368);
+            FP percentHowFar = (pGlukkon->mXPos - FP_FromInteger(worldRect.x)) / FP_FromInteger(368);
             volumeLeft = volumeRight - FP_GetExponent(percentHowFar * FP_FromInteger(volumeRight));
             volumeRight -= FP_GetExponent(percentHowFar * FP_FromInteger(volumeRight - (volumeRight / 3)));
             break;
@@ -2765,7 +2765,7 @@ void Glukkon::PlaySound(s32 sndIdx, Glukkon* pGlukkon)
             return;
     }
 
-    if (pGlukkon->mBaseAnimatedWithPhysicsGameObject_SpriteScale == FP_FromDouble(0.5)) //TODO figure out if this does actually happen
+    if (pGlukkon->mSpriteScale == FP_FromDouble(0.5)) //TODO figure out if this does actually happen
     {
         volumeLeft = FP_GetExponent(FP_FromInteger(volumeLeft * 2) / FP_FromInteger(3));
         volumeRight = FP_GetExponent(FP_FromInteger(volumeRight * 2) / FP_FromInteger(3));
@@ -2784,7 +2784,7 @@ void Glukkon::ToDead()
         sControlledCharacter_5C1B8C = sActiveHero;
         MusicController::static_PlayMusic(MusicController::MusicTypes::eNone_0, this, 0, 0);
 
-        if (gMap.mLevel != EReliveLevelIds::eMenu)
+        if (gMap.mNextLevel != EReliveLevelIds::eMenu)
         {
             gMap.SetActiveCam(
                 field_1E4_level,
@@ -2834,8 +2834,8 @@ void Glukkon::VOnTlvCollision(Path_TLV* pTlv)
             if (mHealth > FP_FromInteger(0))
             {
                 mHealth = FP_FromInteger(0);
-                mBaseAnimatedWithPhysicsGameObject_VelY = FP_FromInteger(0);
-                mBaseAnimatedWithPhysicsGameObject_VelX = FP_FromInteger(0);
+                mVelY = FP_FromInteger(0);
+                mVelX = FP_FromInteger(0);
 
                 PlaySound_GameSpeak(GlukkonSpeak::Unused_9, 0, 0, 0);
                 ToDead();
@@ -2847,10 +2847,10 @@ void Glukkon::VOnTlvCollision(Path_TLV* pTlv)
 
         pTlv = sPath_dword_BB47C0->TlvGetAt(
             pTlv,
-            mBaseAnimatedWithPhysicsGameObject_XPos,
-            mBaseAnimatedWithPhysicsGameObject_YPos,
-            mBaseAnimatedWithPhysicsGameObject_XPos,
-            mBaseAnimatedWithPhysicsGameObject_YPos);
+            mXPos,
+            mYPos,
+            mXPos,
+            mYPos);
     }
 }
 
@@ -2881,7 +2881,7 @@ void Glukkon::PlaySound_GameSpeak(GlukkonSpeak sndIdx, s16 volume, s16 pitch, Gl
     }
     if (pGlukkon)
     {
-        if (pGlukkon->mBaseAnimatedWithPhysicsGameObject_SpriteScale == FP_FromDouble(0.5))
+        if (pGlukkon->mSpriteScale == FP_FromDouble(0.5))
         {
             calcedVolume = FP_GetExponent(FP_FromInteger(calcedVolume * 2) / FP_FromInteger(3));
         }
@@ -2900,14 +2900,14 @@ bool Glukkon::IsLineOfSightBetween(Glukkon* pGlukkon, BaseAliveGameObject* pOthe
     const FP Y2 = FP_FromInteger((bRect.y + bRect.y) / 2);
 
     return sCollisions->Raycast(
-               pGlukkon->mBaseAnimatedWithPhysicsGameObject_XPos,
-               pGlukkon->mBaseAnimatedWithPhysicsGameObject_YPos,
+               pGlukkon->mXPos,
+               pGlukkon->mYPos,
                X2,
                Y2,
                &pathLine,
                &hitX,
                &hitY,
-               pGlukkon->mBaseAnimatedWithPhysicsGameObject_Scale == Scale::Fg ? kFgFloorWallOrCeiling
+               pGlukkon->mScale == Scale::Fg ? kFgFloorWallOrCeiling
                : kBgFloorWallOrCeiling)
         != 1;
 }
@@ -2915,34 +2915,34 @@ bool Glukkon::IsLineOfSightBetween(Glukkon* pGlukkon, BaseAliveGameObject* pOthe
 void Glukkon::ToStand()
 {
     field_1D8_falling_velx_scale_factor = FP_FromInteger(0);
-    mBaseAnimatedWithPhysicsGameObject_VelX = FP_FromInteger(0);
-    mBaseAnimatedWithPhysicsGameObject_VelY = FP_FromInteger(0);
+    mVelX = FP_FromInteger(0);
+    mVelY = FP_FromInteger(0);
     SetAnim(eGlukkonMotions::M_Idle_0_442D10);
     MapFollowMe(TRUE);
 }
 
 void Glukkon::SlowDown(FP speed)
 {
-    if (FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_VelX))
+    if (FP_GetExponent(mVelX))
     {
         FollowLine();
-        if (mBaseAnimatedWithPhysicsGameObject_VelX <= FP_FromInteger(0))
+        if (mVelX <= FP_FromInteger(0))
         {
-            if (mBaseAnimatedWithPhysicsGameObject_VelX < FP_FromInteger(0))
+            if (mVelX < FP_FromInteger(0))
             {
-                mBaseAnimatedWithPhysicsGameObject_VelX = (mBaseAnimatedWithPhysicsGameObject_SpriteScale * speed) + mBaseAnimatedWithPhysicsGameObject_VelX;
-                if (mBaseAnimatedWithPhysicsGameObject_VelX > FP_FromInteger(0))
+                mVelX = (mSpriteScale * speed) + mVelX;
+                if (mVelX > FP_FromInteger(0))
                 {
-                    mBaseAnimatedWithPhysicsGameObject_VelX = FP_FromInteger(0);
+                    mVelX = FP_FromInteger(0);
                 }
             }
         }
         else
         {
-            mBaseAnimatedWithPhysicsGameObject_VelX = mBaseAnimatedWithPhysicsGameObject_VelX - (mBaseAnimatedWithPhysicsGameObject_SpriteScale * speed);
-            if (mBaseAnimatedWithPhysicsGameObject_VelX < FP_FromInteger(0))
+            mVelX = mVelX - (mSpriteScale * speed);
+            if (mVelX < FP_FromInteger(0))
             {
-                mBaseAnimatedWithPhysicsGameObject_VelX = FP_FromInteger(0);
+                mVelX = FP_FromInteger(0);
             }
         }
     }
@@ -2963,7 +2963,7 @@ void Glukkon::VOnTrapDoorOpen()
     auto pPlatform = static_cast<PlatformBase*>(sObjectIds.Find_Impl(BaseAliveGameObject_PlatformId));
     if (pPlatform)
     {
-        BaseAliveGameObjectLastLineYPos = mBaseAnimatedWithPhysicsGameObject_YPos;
+        BaseAliveGameObjectLastLineYPos = mYPos;
         pPlatform->VRemove(this);
         BaseAliveGameObject_PlatformId = -1;
         SetAnim(eGlukkonMotions::M_WalkToFall_6_4434E0, TRUE);
@@ -2991,24 +2991,24 @@ s16 Glukkon::VTakeDamage(BaseGameObject* pFrom)
                         const FP yRand = (FP_FromInteger(Math_NextRandom() % 16)) - FP_FromInteger(8);
                         const FP xRand = FP_FromInteger(Math_NextRandom() & 0xF); // TODO: Might be wrong as was trying to make this abs() but result is unsigned anyway ??
 
-                        const FP xPos = (mBaseAnimatedWithPhysicsGameObject_SpriteScale * (pBullet->field_30_x_distance <= FP_FromInteger(0) ? -FP_FromInteger(6) : FP_FromInteger(6)));
+                        const FP xPos = (mSpriteScale * (pBullet->field_30_x_distance <= FP_FromInteger(0) ? -FP_FromInteger(6) : FP_FromInteger(6)));
                         relive_new Blood(
-                            xPos + mBaseAnimatedWithPhysicsGameObject_XPos,
-                            mBaseAnimatedWithPhysicsGameObject_YPos - (FP_FromInteger(25) * mBaseAnimatedWithPhysicsGameObject_SpriteScale),
+                            xPos + mXPos,
+                            mYPos - (FP_FromInteger(25) * mSpriteScale),
                             ((pBullet->field_30_x_distance <= FP_FromInteger(0) ? -FP_FromInteger(1) : FP_FromInteger(1)) * xRand + FP_FromInteger(16)),
                             yRand,
-                            mBaseAnimatedWithPhysicsGameObject_SpriteScale,
+                            mSpriteScale,
                             12);
                     }
 
                     {
-                        const FP xPos = (mBaseAnimatedWithPhysicsGameObject_SpriteScale * (pBullet->field_30_x_distance <= FP_FromInteger(0) ? -FP_FromInteger(12) : FP_FromInteger(12)));
+                        const FP xPos = (mSpriteScale * (pBullet->field_30_x_distance <= FP_FromInteger(0) ? -FP_FromInteger(12) : FP_FromInteger(12)));
                         relive_new Blood(
-                            xPos + mBaseAnimatedWithPhysicsGameObject_XPos,
-                            mBaseAnimatedWithPhysicsGameObject_YPos - (FP_FromInteger(25) * mBaseAnimatedWithPhysicsGameObject_SpriteScale),
+                            xPos + mXPos,
+                            mYPos - (FP_FromInteger(25) * mSpriteScale),
                             pBullet->field_30_x_distance <= FP_FromInteger(0) ? -FP_FromInteger(6) : FP_FromInteger(6),
                             FP_FromInteger(0),
-                            mBaseAnimatedWithPhysicsGameObject_SpriteScale,
+                            mSpriteScale,
                             8);
                     }
                 }
@@ -3018,11 +3018,11 @@ s16 Glukkon::VTakeDamage(BaseGameObject* pFrom)
                 case BulletType::eZBullet_3:
                 {
                     relive_new Blood(
-                        mBaseAnimatedWithPhysicsGameObject_XPos,
-                        mBaseAnimatedWithPhysicsGameObject_YPos - (FP_FromInteger(25) * mBaseAnimatedWithPhysicsGameObject_SpriteScale),
+                        mXPos,
+                        mYPos - (FP_FromInteger(25) * mSpriteScale),
                         FP_FromInteger(0),
                         FP_FromInteger(0),
-                        mBaseAnimatedWithPhysicsGameObject_SpriteScale,
+                        mSpriteScale,
                         25);
                 }
                 break;
@@ -3060,11 +3060,11 @@ s16 Glukkon::VTakeDamage(BaseGameObject* pFrom)
 
             if (pBullet->field_30_x_distance >= FP_FromInteger(0))
             {
-                mBaseAnimatedWithPhysicsGameObject_VelX = FP_FromDouble(0.001);
+                mVelX = FP_FromDouble(0.001);
             }
             else
             {
-                mBaseAnimatedWithPhysicsGameObject_VelX = -FP_FromDouble(0.001);
+                mVelX = -FP_FromDouble(0.001);
             }
             mHealth = FP_FromInteger(0);
             EventBroadcast(kEventMudokonComfort, this);
@@ -3120,15 +3120,15 @@ s16 Glukkon::VTakeDamage(BaseGameObject* pFrom)
                 EventBroadcast(kEventMudokonComfort, this);
                 if (!VIsFacingMe(static_cast<BaseAnimatedWithPhysicsGameObject*>(pFrom)))
                 {
-                    mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Toggle(AnimFlags::eBit5_FlipX);
+                    mAnim.mFlags.Toggle(AnimFlags::eBit5_FlipX);
                 }
-                mBaseAnimatedWithPhysicsGameObject_VelX = FP_FromInteger(0);
+                mVelX = FP_FromInteger(0);
                 SetAnim(eGlukkonMotions::M_KnockBack_3_442F40, TRUE);
             }
             break;
 
         case ReliveTypes::eElectrocute:
-            mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit3_Render);
+            mAnim.mFlags.Clear(AnimFlags::eBit3_Render);
             mHealth = FP_FromInteger(0);
             SetBrain(&Glukkon::Brain_4_Death_442010);
             field_210_brain_sub_state = 3;

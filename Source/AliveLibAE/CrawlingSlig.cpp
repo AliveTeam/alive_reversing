@@ -163,19 +163,19 @@ CrawlingSlig::CrawlingSlig(Path_CrawlingSlig* pTlv, s32 tlvInfo)
 
     if (field_1E8_tlv.field_10_scale == Scale_short::eHalf_1)
     {
-        mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromDouble(0.5);
-        mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_8;
-        mBaseAnimatedWithPhysicsGameObject_Scale = Scale::Bg;
+        mSpriteScale = FP_FromDouble(0.5);
+        mAnim.mRenderLayer = Layer::eLayer_8;
+        mScale = Scale::Bg;
     }
     else if (field_1E8_tlv.field_10_scale == Scale_short::eFull_0)
     {
-        mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromInteger(1);
-        mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_27;
-        mBaseAnimatedWithPhysicsGameObject_Scale = Scale::Fg;
+        mSpriteScale = FP_FromInteger(1);
+        mAnim.mRenderLayer = Layer::eLayer_27;
+        mScale = Scale::Fg;
     }
 
-    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger((pTlv->mTopLeft.x + pTlv->mBottomRight.x) / 2);
-    mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->mTopLeft.y);
+    mXPos = FP_FromInteger((pTlv->mTopLeft.x + pTlv->mBottomRight.x) / 2);
+    mYPos = FP_FromInteger(pTlv->mTopLeft.y);
 
     if (field_1E8_tlv.field_14_state == Path_CrawlingSlig::State::eAwake_2)
     {
@@ -184,13 +184,13 @@ CrawlingSlig::CrawlingSlig(Path_CrawlingSlig* pTlv, s32 tlvInfo)
     }
     else
     {
-        if (mBaseAnimatedWithPhysicsGameObject_SpriteScale == FP_FromInteger(1))
+        if (mSpriteScale == FP_FromInteger(1))
         {
-            mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_BeforeShadow_25;
+            mAnim.mRenderLayer = Layer::eLayer_BeforeShadow_25;
         }
         else
         {
-            mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_BeforeShadow_Half_6;
+            mAnim.mRenderLayer = Layer::eLayer_BeforeShadow_Half_6;
         }
         Set_AnimAndMotion(CrawlingSligMotion::Motion_9_Snoozing, TRUE);
         SetBrain(&CrawlingSlig::Brain_0_Sleeping);
@@ -211,17 +211,17 @@ CrawlingSlig::CrawlingSlig(Path_CrawlingSlig* pTlv, s32 tlvInfo)
     FP hitX = {};
     FP hitY = {};
     if (sCollisions->Raycast(
-            mBaseAnimatedWithPhysicsGameObject_XPos,
-            mBaseAnimatedWithPhysicsGameObject_YPos,
-            mBaseAnimatedWithPhysicsGameObject_XPos,
-            mBaseAnimatedWithPhysicsGameObject_YPos + FP_FromInteger(37),
+            mXPos,
+            mYPos,
+            mXPos,
+            mYPos + FP_FromInteger(37),
             &BaseAliveGameObjectCollisionLine,
             &hitX,
             &hitY,
-            mBaseAnimatedWithPhysicsGameObject_Scale == Scale::Fg ? kFgFloor : kBgFloor)
+            mScale == Scale::Fg ? kFgFloor : kBgFloor)
         == 1)
     {
-        mBaseAnimatedWithPhysicsGameObject_YPos = hitY;
+        mYPos = hitY;
     }
 }
 
@@ -260,38 +260,38 @@ s32 CrawlingSlig::CreateFromSaveState(const u8* pBuffer)
         pCrawlingSlig->BaseAliveGameObjectPathTLV = nullptr;
         pCrawlingSlig->BaseAliveGameObjectCollisionLine = nullptr;
 
-        pCrawlingSlig->mBaseAnimatedWithPhysicsGameObject_XPos = pState->field_8_xpos;
-        pCrawlingSlig->mBaseAnimatedWithPhysicsGameObject_YPos = pState->field_C_ypos;
-        pCrawlingSlig->mBaseAnimatedWithPhysicsGameObject_VelX = pState->field_10_velx;
-        pCrawlingSlig->mBaseAnimatedWithPhysicsGameObject_VelY = pState->field_14_vely;
+        pCrawlingSlig->mXPos = pState->field_8_xpos;
+        pCrawlingSlig->mYPos = pState->field_C_ypos;
+        pCrawlingSlig->mVelX = pState->field_10_velx;
+        pCrawlingSlig->mVelY = pState->field_14_vely;
 
         pCrawlingSlig->field_1B0_velx_scale_factor = pState->field_58_velx_scale_factor;
 
-        pCrawlingSlig->mBaseAnimatedWithPhysicsGameObject_PathNumber = pState->field_18_path_number;
-        pCrawlingSlig->mBaseAnimatedWithPhysicsGameObject_LvlNumber = MapWrapper::FromAE(pState->field_1A_lvl_number);
-        pCrawlingSlig->mBaseAnimatedWithPhysicsGameObject_SpriteScale = pState->field_1C_sprite_scale;
+        pCrawlingSlig->mCurrentPath = pState->field_18_path_number;
+        pCrawlingSlig->mCurrentLevel = MapWrapper::FromAE(pState->field_1A_lvl_number);
+        pCrawlingSlig->mSpriteScale = pState->field_1C_sprite_scale;
 
         pCrawlingSlig->field_1A4_r = pState->mRingRed;
         pCrawlingSlig->field_1A6_g = pState->mRingGreen;
         pCrawlingSlig->field_1A8_b = pState->mRingBlue;
 
-        pCrawlingSlig->mBaseAnimatedWithPhysicsGameObject_RGB.SetRGB(pState->mRingRed, pState->mRingGreen, pState->mRingBlue);
+        pCrawlingSlig->mRGB.SetRGB(pState->mRingRed, pState->mRingGreen, pState->mRingBlue);
 
         pCrawlingSlig->mCurrentMotion = pState->field_28_current_motion;
 
-        pCrawlingSlig->mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(sCrawlingSligAnimIdTable[pState->field_28_current_motion], nullptr);
-        pCrawlingSlig->mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame = pState->field_2A_anim_cur_frame;
+        pCrawlingSlig->mAnim.Set_Animation_Data(sCrawlingSligAnimIdTable[pState->field_28_current_motion], nullptr);
+        pCrawlingSlig->mAnim.mCurrentFrame = pState->field_2A_anim_cur_frame;
 
-        pCrawlingSlig->mBaseAnimatedWithPhysicsGameObject_Anim.mFrameChangeCounter = pState->field_2C_anim_frame_change_counter;
+        pCrawlingSlig->mAnim.mFrameChangeCounter = pState->field_2C_anim_frame_change_counter;
 
-        pCrawlingSlig->mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit5_FlipX, pState->field_26_bFlipX & 1);
-        pCrawlingSlig->mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit3_Render, pState->field_2E_bRender & 1);
+        pCrawlingSlig->mAnim.mFlags.Set(AnimFlags::eBit5_FlipX, pState->field_26_bFlipX & 1);
+        pCrawlingSlig->mAnim.mFlags.Set(AnimFlags::eBit3_Render, pState->field_2E_bRender & 1);
 
         pCrawlingSlig->mBaseGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4, pState->field_2F_bDrawable & 1);
 
-        if (IsLastFrame(&pCrawlingSlig->mBaseAnimatedWithPhysicsGameObject_Anim))
+        if (IsLastFrame(&pCrawlingSlig->mAnim))
         {
-            pCrawlingSlig->mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit18_IsLastFrame);
+            pCrawlingSlig->mAnim.mFlags.Set(AnimFlags::eBit18_IsLastFrame);
         }
 
         pCrawlingSlig->mHealth = pState->field_30_health;
@@ -333,26 +333,26 @@ s32 CrawlingSlig::VGetSaveState(u8* pSaveBuffer)
     pState->field_0_type = AETypes::eCrawlingSlig_26;
     pState->field_4_obj_id = mBaseGameObjectTlvInfo;
 
-    pState->field_8_xpos = mBaseAnimatedWithPhysicsGameObject_XPos;
-    pState->field_C_ypos = mBaseAnimatedWithPhysicsGameObject_YPos;
-    pState->field_10_velx = mBaseAnimatedWithPhysicsGameObject_VelX;
-    pState->field_14_vely = mBaseAnimatedWithPhysicsGameObject_VelY;
+    pState->field_8_xpos = mXPos;
+    pState->field_C_ypos = mYPos;
+    pState->field_10_velx = mVelX;
+    pState->field_14_vely = mVelY;
 
     pState->field_58_velx_scale_factor = field_1B0_velx_scale_factor;
 
-    pState->field_18_path_number = mBaseAnimatedWithPhysicsGameObject_PathNumber;
-    pState->field_1A_lvl_number = MapWrapper::ToAE(mBaseAnimatedWithPhysicsGameObject_LvlNumber);
-    pState->field_1C_sprite_scale = mBaseAnimatedWithPhysicsGameObject_SpriteScale;
+    pState->field_18_path_number = mCurrentPath;
+    pState->field_1A_lvl_number = MapWrapper::ToAE(mCurrentLevel);
+    pState->field_1C_sprite_scale = mSpriteScale;
 
-    pState->mRingRed = mBaseAnimatedWithPhysicsGameObject_RGB.r;
-    pState->mRingGreen = mBaseAnimatedWithPhysicsGameObject_RGB.g;
-    pState->mRingBlue = mBaseAnimatedWithPhysicsGameObject_RGB.b;
-    pState->field_26_bFlipX = mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX);
+    pState->mRingRed = mRGB.r;
+    pState->mRingGreen = mRGB.g;
+    pState->mRingBlue = mRGB.b;
+    pState->field_26_bFlipX = mAnim.mFlags.Get(AnimFlags::eBit5_FlipX);
     pState->field_28_current_motion = mCurrentMotion;
-    pState->field_2A_anim_cur_frame = mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame;
-    pState->field_2C_anim_frame_change_counter = mBaseAnimatedWithPhysicsGameObject_Anim.mFrameChangeCounter;
+    pState->field_2A_anim_cur_frame = mAnim.mCurrentFrame;
+    pState->field_2C_anim_frame_change_counter = mAnim.mFrameChangeCounter;
     pState->field_2F_bDrawable = mBaseGameObjectFlags.Get(BaseGameObject::eDrawable_Bit4);
-    pState->field_2E_bRender = mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit3_Render);
+    pState->field_2E_bRender = mAnim.mFlags.Get(AnimFlags::eBit3_Render);
     pState->field_30_health = mHealth;
     pState->field_34_cur_motion = mCurrentMotion;
     pState->field_36_next_motion = mNextMotion;
@@ -413,7 +413,7 @@ void CrawlingSlig::VPossessed()
 
 void CrawlingSlig::Set_AnimAndMotion(CrawlingSligMotion currentMotion, s16 bClearNextMotion)
 {
-    mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(sCrawlingSligAnimIdTable[static_cast<s16>(currentMotion)], nullptr);
+    mAnim.Set_Animation_Data(sCrawlingSligAnimIdTable[static_cast<s16>(currentMotion)], nullptr);
     mCurrentMotion = static_cast<s16>(currentMotion);
 
     UpdateAnimBlock();
@@ -432,7 +432,7 @@ void CrawlingSlig::UpdateAnimBlock()
         mCurrentMotion = 0;
         ppRes = GetAnimBlock(0);
     }
-    mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(sCrawlingSligAnimIdTable[mCurrentMotion], ppRes);
+    mAnim.Set_Animation_Data(sCrawlingSligAnimIdTable[mCurrentMotion], ppRes);
 }
 
 u8** CrawlingSlig::GetAnimBlock(s32 /*currentMotion*/)
@@ -467,13 +467,13 @@ void CrawlingSlig::VUpdate()
             else
             {
                 sCollisions->Raycast(
-                    mBaseAnimatedWithPhysicsGameObject_XPos,
-                    mBaseAnimatedWithPhysicsGameObject_YPos - FP_FromInteger(20),
-                    mBaseAnimatedWithPhysicsGameObject_XPos,
-                    mBaseAnimatedWithPhysicsGameObject_YPos + FP_FromInteger(20),
+                    mXPos,
+                    mYPos - FP_FromInteger(20),
+                    mXPos,
+                    mYPos + FP_FromInteger(20),
                     &BaseAliveGameObjectCollisionLine,
-                    &mBaseAnimatedWithPhysicsGameObject_XPos,
-                    &mBaseAnimatedWithPhysicsGameObject_YPos,
+                    &mXPos,
+                    &mYPos,
                     CollisionMask(static_cast<eLineTypes>(BaseAliveGameObjectCollisionLineType)));
             }
             BaseAliveGameObjectCollisionLineType = 0;
@@ -489,19 +489,19 @@ void CrawlingSlig::VUpdate()
 
         field_208_brain_sub_state = (this->*field_204_brain_state)();
 
-        const FP oldX = mBaseAnimatedWithPhysicsGameObject_XPos;
-        const FP oldY = mBaseAnimatedWithPhysicsGameObject_YPos;
+        const FP oldX = mXPos;
+        const FP oldY = mYPos;
 
         (this->*sCrawlingSlig_motions_551428[mCurrentMotion])();
 
-        if (oldX != mBaseAnimatedWithPhysicsGameObject_XPos || oldY != mBaseAnimatedWithPhysicsGameObject_YPos)
+        if (oldX != mXPos || oldY != mYPos)
         {
             auto pTlv = sPath_dword_BB47C0->TlvGetAt(
                 nullptr,
-                mBaseAnimatedWithPhysicsGameObject_XPos,
-                mBaseAnimatedWithPhysicsGameObject_YPos,
-                mBaseAnimatedWithPhysicsGameObject_XPos,
-                mBaseAnimatedWithPhysicsGameObject_YPos);
+                mXPos,
+                mYPos,
+                mXPos,
+                mYPos);
 
             VOnTlvCollision(pTlv);
         }
@@ -510,9 +510,9 @@ void CrawlingSlig::VUpdate()
 
 s16 CrawlingSlig::HandleEnemyStopper(FP /*velX*/)
 {
-    FP gridSizeDirected = ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale);
+    FP gridSizeDirected = ScaleToGridSize(mSpriteScale);
     Path_EnemyStopper::StopDirection direction = Path_EnemyStopper::StopDirection::Both_2;
-    if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
+    if (mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
     {
         direction = Path_EnemyStopper::StopDirection::Left_0;
         gridSizeDirected = -gridSizeDirected;
@@ -522,17 +522,17 @@ s16 CrawlingSlig::HandleEnemyStopper(FP /*velX*/)
         direction = Path_EnemyStopper::StopDirection::Right_1;
     }
 
-    if (WallHit(mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(30), gridSizeDirected * FP_FromDouble(1.5)))
+    if (WallHit(mSpriteScale * FP_FromInteger(30), gridSizeDirected * FP_FromDouble(1.5)))
     {
         return 1;
     }
 
-    const FP gridSize = ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale);
+    const FP gridSize = ScaleToGridSize(mSpriteScale);
     auto pSlamDoor = static_cast<Path_SlamDoor*>(sPath_dword_BB47C0->TLV_Get_At_4DB4B0(
-        FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos),
-        FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos),
-        FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos + gridSizeDirected),
-        FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos - gridSize),
+        FP_GetExponent(mXPos),
+        FP_GetExponent(mYPos),
+        FP_GetExponent(mXPos + gridSizeDirected),
+        FP_GetExponent(mYPos - gridSize),
         TlvTypes::SlamDoor_85));
     BaseAliveGameObjectPathTLV = pSlamDoor;
 
@@ -542,10 +542,10 @@ s16 CrawlingSlig::HandleEnemyStopper(FP /*velX*/)
     }
 
     auto pStopper = static_cast<Path_EnemyStopper*>(sPath_dword_BB47C0->TLV_Get_At_4DB4B0(
-        FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos),
-        FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos),
-        FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos + gridSizeDirected),
-        FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos - gridSize),
+        FP_GetExponent(mXPos),
+        FP_GetExponent(mYPos),
+        FP_GetExponent(mXPos + gridSizeDirected),
+        FP_GetExponent(mYPos - gridSize),
         TlvTypes::EnemyStopper_47));
     BaseAliveGameObjectPathTLV = pStopper;
 
@@ -554,21 +554,21 @@ s16 CrawlingSlig::HandleEnemyStopper(FP /*velX*/)
 
 Path_TLV* CrawlingSlig::FindPantsOrWings()
 {
-    Path_TLV* pTlvIter = sPath_dword_BB47C0->TlvGetAt(nullptr, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos);
+    Path_TLV* pTlvIter = sPath_dword_BB47C0->TlvGetAt(nullptr, mXPos, mYPos, mXPos, mYPos);
     while (pTlvIter)
     {
         if (pTlvIter->mTlvType32 == TlvTypes::SligGetPants_104 || pTlvIter->mTlvType32 == TlvTypes::SligGetWings_105)
         {
             return pTlvIter;
         }
-        pTlvIter = sPath_dword_BB47C0->TlvGetAt(pTlvIter, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos);
+        pTlvIter = sPath_dword_BB47C0->TlvGetAt(pTlvIter, mXPos, mYPos, mXPos, mYPos);
     }
     return nullptr;
 }
 
 BaseGameObject* CrawlingSlig::FindSligButton()
 {
-    return FindObjectOfType(ReliveTypes::eSligButton, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos - (FP_FromInteger(30) * mBaseAnimatedWithPhysicsGameObject_SpriteScale));
+    return FindObjectOfType(ReliveTypes::eSligButton, mXPos, mYPos - (FP_FromInteger(30) * mSpriteScale));
 }
 
 void CrawlingSlig::VOnTrapDoorOpen()
@@ -593,8 +593,8 @@ void CrawlingSlig::VOnTlvCollision(Path_TLV* pTlv)
                 mHealth = FP_FromInteger(0);
                 SetBrain(&CrawlingSlig::Brain_4_GetKilled);
                 field_208_brain_sub_state = Brain_4_GetKilled::eBrain4_DeathDrop_5;
-                mBaseAnimatedWithPhysicsGameObject_VelY = FP_FromInteger(0);
-                mBaseAnimatedWithPhysicsGameObject_VelX = FP_FromInteger(0);
+                mVelY = FP_FromInteger(0);
+                mVelX = FP_FromInteger(0);
                 EventBroadcast(kEventMudokonComfort, this);
                 Slig_GameSpeak_SFX_4C04F0(SligSpeak::eHelp_10, 0, field_1C2_pitch, this);
                 field_1AC_timer = sGnFrame + 60;
@@ -603,10 +603,10 @@ void CrawlingSlig::VOnTlvCollision(Path_TLV* pTlv)
 
         pTlv = sPath_dword_BB47C0->TlvGetAt(
             pTlv,
-            mBaseAnimatedWithPhysicsGameObject_XPos,
-            mBaseAnimatedWithPhysicsGameObject_YPos,
-            mBaseAnimatedWithPhysicsGameObject_XPos,
-            mBaseAnimatedWithPhysicsGameObject_YPos);
+            mXPos,
+            mYPos,
+            mXPos,
+            mYPos);
     }
 }
 
@@ -673,8 +673,8 @@ s16 CrawlingSlig::VTakeDamage(BaseGameObject* pFrom)
                 {
                     SetBrain(&CrawlingSlig::Brain_4_GetKilled);
                     field_208_brain_sub_state = Brain_4_GetKilled::eBrain4_DeathBySlog_4;
-                    mBaseAnimatedWithPhysicsGameObject_VelY = FP_FromInteger(0);
-                    mBaseAnimatedWithPhysicsGameObject_VelX = FP_FromInteger(0);
+                    mVelY = FP_FromInteger(0);
+                    mVelX = FP_FromInteger(0);
                     mHealth = FP_FromInteger(0);
                     MapFollowMe(TRUE);
                     field_1AC_timer = sGnFrame + 15;
@@ -686,7 +686,7 @@ s16 CrawlingSlig::VTakeDamage(BaseGameObject* pFrom)
             case ReliveTypes::eElectrocute:
                 if (!BrainIs(&CrawlingSlig::Brain_4_GetKilled))
                 {
-                    mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit3_Render);
+                    mAnim.mFlags.Clear(AnimFlags::eBit3_Render);
                     mHealth = FP_FromInteger(0);
                     field_1AC_timer = sGnFrame + 1;
                     SetBrain(&CrawlingSlig::Brain_4_GetKilled);
@@ -718,7 +718,7 @@ CrawlingSlig::~CrawlingSlig()
     {
         sControlledCharacter_5C1B8C = sActiveHero;
         MusicController::static_PlayMusic(MusicController::MusicTypes::eNone_0, this, 0, 0);
-        if (gMap.mLevel != EReliveLevelIds::eMenu)
+        if (gMap.mNextLevel != EReliveLevelIds::eMenu)
         {
             gMap.SetActiveCam(
                 field_1BA_prev_level,
@@ -747,8 +747,8 @@ bool CrawlingSlig::PanicOn()
 void CrawlingSlig::ToIdle()
 {
     field_1B0_velx_scale_factor = FP_FromInteger(0);
-    mBaseAnimatedWithPhysicsGameObject_VelX = FP_FromInteger(0);
-    mBaseAnimatedWithPhysicsGameObject_VelY = FP_FromInteger(0);
+    mVelX = FP_FromInteger(0);
+    mVelY = FP_FromInteger(0);
     Set_AnimAndMotion(CrawlingSligMotion::Motion_0_Idle, FALSE);
     MapFollowMe(TRUE);
 }
@@ -763,10 +763,10 @@ enum Brain_0_Sleeping
 s16 CrawlingSlig::Brain_0_Sleeping()
 {
     if (gMap.GetDirection(
-            mBaseAnimatedWithPhysicsGameObject_LvlNumber,
-            mBaseAnimatedWithPhysicsGameObject_PathNumber,
-            mBaseAnimatedWithPhysicsGameObject_XPos,
-            mBaseAnimatedWithPhysicsGameObject_YPos)
+            mCurrentLevel,
+            mCurrentPath,
+            mXPos,
+            mYPos)
         >= CameraPos::eCamCurrent_0)
     {
         MusicController::static_PlayMusic(MusicController::MusicTypes::eNone_0, this, 0, 0);
@@ -806,18 +806,18 @@ s16 CrawlingSlig::Brain_0_Sleeping()
 
     if (field_208_brain_sub_state != Brain_0_Sleeping::eBrain0_IsAwake_2 ||
         GetCurrentMotion() != CrawlingSligMotion::Motion_2_WakingUp ||
-        !(mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame)))
+        !(mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame)))
     {
         return field_208_brain_sub_state;
     }
 
-    if (mBaseAnimatedWithPhysicsGameObject_SpriteScale == FP_FromInteger(1))
+    if (mSpriteScale == FP_FromInteger(1))
     {
-        mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_27;
+        mAnim.mRenderLayer = Layer::eLayer_27;
     }
     else
     {
-        mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_8;
+        mAnim.mRenderLayer = Layer::eLayer_8;
     }
 
     ToIdle();
@@ -828,10 +828,10 @@ s16 CrawlingSlig::Brain_0_Sleeping()
 s16 CrawlingSlig::Brain_1_Idle()
 {
     if (gMap.GetDirection(
-            mBaseAnimatedWithPhysicsGameObject_LvlNumber,
-            mBaseAnimatedWithPhysicsGameObject_PathNumber,
-            mBaseAnimatedWithPhysicsGameObject_XPos,
-            mBaseAnimatedWithPhysicsGameObject_YPos)
+            mCurrentLevel,
+            mCurrentPath,
+            mXPos,
+            mYPos)
         >= CameraPos::eCamCurrent_0)
     {
         MusicController::static_PlayMusic(MusicController::MusicTypes::eTension_4, this, 0, 0);
@@ -847,10 +847,10 @@ s16 CrawlingSlig::Brain_1_Idle()
 s16 CrawlingSlig::Brain_2_PanicGetALocker()
 {
     if (gMap.GetDirection(
-            mBaseAnimatedWithPhysicsGameObject_LvlNumber,
-            mBaseAnimatedWithPhysicsGameObject_PathNumber,
-            mBaseAnimatedWithPhysicsGameObject_XPos,
-            mBaseAnimatedWithPhysicsGameObject_YPos)
+            mCurrentLevel,
+            mCurrentPath,
+            mXPos,
+            mYPos)
         >= CameraPos::eCamCurrent_0)
     {
         MusicController::static_PlayMusic(MusicController::MusicTypes::eSoftChase_8, this, 0, 0);
@@ -864,7 +864,7 @@ s16 CrawlingSlig::Brain_2_PanicGetALocker()
     switch (field_208_brain_sub_state)
     {
         case Brain_2_PanicGetALocker::eBrain2_DetermineCrawlDirection_0:
-            if ((field_1E0_crawl_direction != Path_CrawlingSlig::CrawlDirection::eRight_1 || !(mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))) && (field_1E0_crawl_direction != Path_CrawlingSlig::CrawlDirection::eLeft_0 || mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX)))
+            if ((field_1E0_crawl_direction != Path_CrawlingSlig::CrawlDirection::eRight_1 || !(mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))) && (field_1E0_crawl_direction != Path_CrawlingSlig::CrawlDirection::eLeft_0 || mAnim.mFlags.Get(AnimFlags::eBit5_FlipX)))
             {
                 SetNextMotion(CrawlingSligMotion::Motion_3_Crawling);
                 return Brain_2_PanicGetALocker::eBrain2_SearchLocker_2;
@@ -880,7 +880,7 @@ s16 CrawlingSlig::Brain_2_PanicGetALocker()
             return Brain_2_PanicGetALocker::eBrain2_DetermineCrawlDirection_0;
 
         case Brain_2_PanicGetALocker::eBrain2_SearchLocker_2:
-            if (HandleEnemyStopper(mBaseAnimatedWithPhysicsGameObject_VelX))
+            if (HandleEnemyStopper(mVelX))
             {
                 field_1AC_timer = (Math_NextRandom() & 15) + sGnFrame + 30;
                 SetNextMotion(CrawlingSligMotion::Motion_11_TurnAround);
@@ -907,7 +907,7 @@ s16 CrawlingSlig::Brain_2_PanicGetALocker()
             break;
 
         case Brain_2_PanicGetALocker::eBrain2_TurnAroundForLocker_3:
-            if (GetCurrentMotion() != CrawlingSligMotion::Motion_11_TurnAround || !(mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame)))
+            if (GetCurrentMotion() != CrawlingSligMotion::Motion_11_TurnAround || !(mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame)))
             {
                 return field_208_brain_sub_state;
             }
@@ -916,19 +916,19 @@ s16 CrawlingSlig::Brain_2_PanicGetALocker()
 
         case Brain_2_PanicGetALocker::eBrain2_SearchLockerOrTurnAround_4:
         {
-            if (GetCurrentMotion() != CrawlingSligMotion::Motion_8_Speaking || !(mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame)))
+            if (GetCurrentMotion() != CrawlingSligMotion::Motion_8_Speaking || !(mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame)))
             {
                 return field_208_brain_sub_state;
             }
 
             FP gridScale = {};
-            if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
+            if (mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
             {
-                gridScale = -ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale);
+                gridScale = -ScaleToGridSize(mSpriteScale);
             }
             else
             {
-                gridScale = ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale);
+                gridScale = ScaleToGridSize(mSpriteScale);
             }
 
             if (!WallHit(FP_FromInteger(35), gridScale))
@@ -981,7 +981,7 @@ s16 CrawlingSlig::Brain_2_PanicGetALocker()
             return field_208_brain_sub_state;
 
         case Brain_2_PanicGetALocker::eBrain2_TurnAround_7:
-            if (GetCurrentMotion() == CrawlingSligMotion::Motion_11_TurnAround && mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
+            if (GetCurrentMotion() == CrawlingSligMotion::Motion_11_TurnAround && mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
             {
                 SetNextMotion(CrawlingSligMotion::Motion_3_Crawling);
                 return Brain_2_PanicGetALocker::eBrain2_Crawling_8;
@@ -989,7 +989,7 @@ s16 CrawlingSlig::Brain_2_PanicGetALocker()
             return field_208_brain_sub_state;
 
         case Brain_2_PanicGetALocker::eBrain2_Crawling_8:
-            if (HandleEnemyStopper(mBaseAnimatedWithPhysicsGameObject_VelX))
+            if (HandleEnemyStopper(mVelX))
             {
                 SetNextMotion(CrawlingSligMotion::Motion_11_TurnAround);
                 return Brain_2_PanicGetALocker::eBrain2_TurnAroundForLocker_3;
@@ -1013,19 +1013,19 @@ s16 CrawlingSlig::Brain_2_PanicGetALocker()
 
         case Brain_2_PanicGetALocker::eBrain2_CheckIfWallHit_9:
         {
-            if (GetCurrentMotion() != CrawlingSligMotion::Motion_8_Speaking || !(mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame)))
+            if (GetCurrentMotion() != CrawlingSligMotion::Motion_8_Speaking || !(mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame)))
             {
                 return field_208_brain_sub_state;
             }
 
             FP gridScale = {};
-            if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
+            if (mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
             {
-                gridScale = -ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale);
+                gridScale = -ScaleToGridSize(mSpriteScale);
             }
             else
             {
-                gridScale = ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale);
+                gridScale = ScaleToGridSize(mSpriteScale);
             }
 
             if (WallHit(FP_FromInteger(35), gridScale))
@@ -1044,7 +1044,7 @@ s16 CrawlingSlig::Brain_2_PanicGetALocker()
         case Brain_2_PanicGetALocker::eBrain2_BeatBySlig_10:
             if (GetCurrentMotion() == CrawlingSligMotion::Motion_14_ShakingToIdle)
             {
-                if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
+                if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
                 {
                     Set_AnimAndMotion(CrawlingSligMotion::Motion_0_Idle, TRUE);
                     field_208_brain_sub_state = Brain_2_PanicGetALocker::eBrain2_DetermineCrawlDirection_0;
@@ -1065,10 +1065,10 @@ s16 CrawlingSlig::Brain_2_PanicGetALocker()
 s16 CrawlingSlig::Brain_3_Possessed()
 {
     if (gMap.GetDirection(
-            mBaseAnimatedWithPhysicsGameObject_LvlNumber,
-            mBaseAnimatedWithPhysicsGameObject_PathNumber,
-            mBaseAnimatedWithPhysicsGameObject_XPos,
-            mBaseAnimatedWithPhysicsGameObject_YPos)
+            mCurrentLevel,
+            mCurrentPath,
+            mXPos,
+            mYPos)
         >= CameraPos::eCamCurrent_0)
     {
         MusicController::static_PlayMusic(MusicController::MusicTypes::ePossessed_9, this, 0, 0);
@@ -1100,9 +1100,9 @@ s16 CrawlingSlig::Brain_3_Possessed()
                 if (!(static_cast<s32>(sGnFrame) % 4))
                 {
                     New_TintChant_Particle(
-                        (mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(Math_RandomRange(-20, 20))) + mBaseAnimatedWithPhysicsGameObject_XPos,
-                        mBaseAnimatedWithPhysicsGameObject_YPos - (mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(Math_RandomRange(0, 30))),
-                        mBaseAnimatedWithPhysicsGameObject_SpriteScale,
+                        (mSpriteScale * FP_FromInteger(Math_RandomRange(-20, 20))) + mXPos,
+                        mYPos - (mSpriteScale * FP_FromInteger(Math_RandomRange(0, 30))),
+                        mSpriteScale,
                         Layer::eLayer_0);
                 }
 
@@ -1135,7 +1135,7 @@ s16 CrawlingSlig::Brain_3_Possessed()
                 return field_208_brain_sub_state;
             }
 
-            if (!(mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame)))
+            if (!(mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame)))
             {
                 return field_208_brain_sub_state;
             }
@@ -1153,10 +1153,10 @@ s16 CrawlingSlig::Brain_3_Possessed()
 s16 CrawlingSlig::Brain_4_GetKilled()
 {
     if (gMap.GetDirection(
-            mBaseAnimatedWithPhysicsGameObject_LvlNumber,
-            mBaseAnimatedWithPhysicsGameObject_PathNumber,
-            mBaseAnimatedWithPhysicsGameObject_XPos,
-            mBaseAnimatedWithPhysicsGameObject_YPos)
+            mCurrentLevel,
+            mCurrentPath,
+            mXPos,
+            mYPos)
         >= CameraPos::eCamCurrent_0)
     {
         MusicController::static_PlayMusic(MusicController::MusicTypes::eNone_0, this, 0, 0);
@@ -1165,7 +1165,7 @@ s16 CrawlingSlig::Brain_4_GetKilled()
     switch (field_208_brain_sub_state)
     {
         case Brain_4_GetKilled::eBrain4_Unknown_0:
-            if (GetCurrentMotion() != CrawlingSligMotion::Motion_7_ToShakingToIdle || !(mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame)))
+            if (GetCurrentMotion() != CrawlingSligMotion::Motion_7_ToShakingToIdle || !(mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame)))
             {
                 return field_208_brain_sub_state;
             }
@@ -1174,10 +1174,10 @@ s16 CrawlingSlig::Brain_4_GetKilled()
         case Brain_4_GetKilled::eBrain4_Vaporize_1:
             if (field_1AC_timer < static_cast<s32>((sGnFrame + 80)))
             {
-                mBaseAnimatedWithPhysicsGameObject_SpriteScale -= FP_FromDouble(0.008);
-                mBaseAnimatedWithPhysicsGameObject_RGB.r -= 2;
-                mBaseAnimatedWithPhysicsGameObject_RGB.g -= 2;
-                mBaseAnimatedWithPhysicsGameObject_RGB.b -= 2;
+                mSpriteScale -= FP_FromDouble(0.008);
+                mRGB.r -= 2;
+                mRGB.g -= 2;
+                mRGB.b -= 2;
             }
 
             if (static_cast<s32>(sGnFrame) < field_1AC_timer - 24)
@@ -1195,39 +1195,39 @@ s16 CrawlingSlig::Brain_4_GetKilled()
         {
             relive_new Gibs(
                 GibType::Slig_1,
-                mBaseAnimatedWithPhysicsGameObject_XPos,
-                mBaseAnimatedWithPhysicsGameObject_YPos,
-                mBaseAnimatedWithPhysicsGameObject_VelX,
-                mBaseAnimatedWithPhysicsGameObject_VelY,
-                mBaseAnimatedWithPhysicsGameObject_SpriteScale,
+                mXPos,
+                mYPos,
+                mVelX,
+                mVelY,
+                mSpriteScale,
                 0);
 
             relive_new Blood(
-                mBaseAnimatedWithPhysicsGameObject_XPos,
-                mBaseAnimatedWithPhysicsGameObject_YPos - (FP_FromInteger(30) * mBaseAnimatedWithPhysicsGameObject_SpriteScale),
+                mXPos,
+                mYPos - (FP_FromInteger(30) * mSpriteScale),
                 FP_FromInteger(0),
                 FP_FromInteger(0),
-                mBaseAnimatedWithPhysicsGameObject_SpriteScale,
+                mSpriteScale,
                 20);
 
             New_Smoke_Particles(
-                mBaseAnimatedWithPhysicsGameObject_XPos,
-                mBaseAnimatedWithPhysicsGameObject_YPos - (FP_FromInteger(30) * mBaseAnimatedWithPhysicsGameObject_SpriteScale),
-                mBaseAnimatedWithPhysicsGameObject_SpriteScale,
+                mXPos,
+                mYPos - (FP_FromInteger(30) * mSpriteScale),
+                mSpriteScale,
                 3,
                 128u,
                 128u,
                 128u);
 
-            SfxPlayMono(SoundEffect::KillEffect_64, 128, mBaseAnimatedWithPhysicsGameObject_SpriteScale);
-            SfxPlayMono(SoundEffect::FallingItemHit_47, 90, mBaseAnimatedWithPhysicsGameObject_SpriteScale);
+            SfxPlayMono(SoundEffect::KillEffect_64, 128, mSpriteScale);
+            SfxPlayMono(SoundEffect::FallingItemHit_47, 90, mSpriteScale);
 
-            mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit3_Render);
-            mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit2_Animate);
+            mAnim.mFlags.Clear(AnimFlags::eBit3_Render);
+            mAnim.mFlags.Clear(AnimFlags::eBit2_Animate);
 
             Set_AnimAndMotion(CrawlingSligMotion::Motion_12_Shaking, TRUE);
-            mBaseAnimatedWithPhysicsGameObject_VelY = FP_FromInteger(0);
-            mBaseAnimatedWithPhysicsGameObject_VelX = FP_FromInteger(0);
+            mVelY = FP_FromInteger(0);
+            mVelX = FP_FromInteger(0);
             mHealth = FP_FromInteger(0);
             field_1AC_timer = sGnFrame + 40;
             return Brain_4_GetKilled::eBrain4_SetDead_3;
@@ -1285,10 +1285,10 @@ s16 CrawlingSlig::Brain_5_Transformed()
 {
     BaseGameObject* pObj = sObjectIds.Find_Impl(field_1D8_obj_id);
     if (gMap.GetDirection(
-            mBaseAnimatedWithPhysicsGameObject_LvlNumber,
-            mBaseAnimatedWithPhysicsGameObject_PathNumber,
-            mBaseAnimatedWithPhysicsGameObject_XPos,
-            mBaseAnimatedWithPhysicsGameObject_YPos)
+            mCurrentLevel,
+            mCurrentPath,
+            mXPos,
+            mYPos)
         >= CameraPos::eCamCurrent_0)
     {
         MusicController::static_PlayMusic(MusicController::MusicTypes::eNone_0, this, 0, 0);
@@ -1311,7 +1311,7 @@ void CrawlingSlig::Motion_1_UsingButton()
 {
     // Check for using a slig button which is a button than can trigger an id
     auto pSligButton = static_cast<CrawlingSligButton*>(sObjectIds.Find_Impl(field_1D0_slig_button_id));
-    if (pSligButton && mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame == 8)
+    if (pSligButton && mAnim.mCurrentFrame == 8)
     {
         pSligButton->UseButton();
         field_1D0_slig_button_id = -1;
@@ -1319,7 +1319,7 @@ void CrawlingSlig::Motion_1_UsingButton()
     // If not using a button check if we are on a locker to get pants or wings
     else if (field_1E4_pPantsOrWingsTlv)
     {
-        if (mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame == 7)
+        if (mAnim.mCurrentFrame == 7)
         {
             SfxPlayMono(SoundEffect::CrawlingSligTransformStart_93, 0);
         }
@@ -1327,9 +1327,9 @@ void CrawlingSlig::Motion_1_UsingButton()
         if (static_cast<s32>(sGnFrame) == field_1AC_timer - 1)
         {
             New_DestroyOrCreateObject_Particle(
-                mBaseAnimatedWithPhysicsGameObject_XPos,
-                (mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(45)) + mBaseAnimatedWithPhysicsGameObject_YPos,
-                mBaseAnimatedWithPhysicsGameObject_SpriteScale);
+                mXPos,
+                (mSpriteScale * FP_FromInteger(45)) + mYPos,
+                mSpriteScale);
         }
         else if (static_cast<s32>(sGnFrame) > field_1AC_timer)
         {
@@ -1344,9 +1344,9 @@ void CrawlingSlig::Motion_1_UsingButton()
                 {
                     field_1D8_obj_id = pWalkingSlig->field_8_object_id;
 
-                    pWalkingSlig->mBaseAnimatedWithPhysicsGameObject_SpriteScale = mBaseAnimatedWithPhysicsGameObject_SpriteScale;
+                    pWalkingSlig->mSpriteScale = mSpriteScale;
 
-                    pWalkingSlig->mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit5_FlipX, mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX));
+                    pWalkingSlig->mAnim.mFlags.Set(AnimFlags::eBit5_FlipX, mAnim.mFlags.Get(AnimFlags::eBit5_FlipX));
 
                     if (BrainIs(&CrawlingSlig::Brain_3_Possessed))
                     {
@@ -1372,12 +1372,12 @@ void CrawlingSlig::Motion_1_UsingButton()
                 if (pFlyingSlig)
                 {
                     field_1D8_obj_id = pFlyingSlig->field_8_object_id;
-                    pFlyingSlig->mBaseAnimatedWithPhysicsGameObject_XPos = mBaseAnimatedWithPhysicsGameObject_XPos;
-                    pFlyingSlig->mBaseAnimatedWithPhysicsGameObject_YPos = mBaseAnimatedWithPhysicsGameObject_YPos - FP_FromInteger(15);
-                    pFlyingSlig->field_294_nextXPos = mBaseAnimatedWithPhysicsGameObject_XPos;
-                    pFlyingSlig->field_298_nextYPos = pFlyingSlig->mBaseAnimatedWithPhysicsGameObject_YPos;
-                    pFlyingSlig->mBaseAnimatedWithPhysicsGameObject_SpriteScale = mBaseAnimatedWithPhysicsGameObject_SpriteScale;
-                    pFlyingSlig->mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit5_FlipX, mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX));
+                    pFlyingSlig->mXPos = mXPos;
+                    pFlyingSlig->mYPos = mYPos - FP_FromInteger(15);
+                    pFlyingSlig->field_294_nextXPos = mXPos;
+                    pFlyingSlig->field_298_nextYPos = pFlyingSlig->mYPos;
+                    pFlyingSlig->mSpriteScale = mSpriteScale;
+                    pFlyingSlig->mAnim.mFlags.Set(AnimFlags::eBit5_FlipX, mAnim.mFlags.Get(AnimFlags::eBit5_FlipX));
 
                     if (BrainIs(&CrawlingSlig::Brain_3_Possessed))
                     {
@@ -1387,11 +1387,11 @@ void CrawlingSlig::Motion_1_UsingButton()
                         pFlyingSlig->field_2A2_abe_path = field_1BC_prev_path;
                         pFlyingSlig->field_2A4_abe_camera = field_1BE_prev_camera;
                         sControlledCharacter_5C1B8C = pFlyingSlig;
-                        pFlyingSlig->field_2A8_max_x_speed = (FP_FromDouble(5.5) * mBaseAnimatedWithPhysicsGameObject_SpriteScale);
-                        pFlyingSlig->field_2AC_up_vel = (-FP_FromDouble(5.5) * mBaseAnimatedWithPhysicsGameObject_SpriteScale);
-                        pFlyingSlig->field_2B0_down_vel = (FP_FromDouble(5.5) * mBaseAnimatedWithPhysicsGameObject_SpriteScale);
-                        pFlyingSlig->field_2B4_max_slow_down = (FP_FromDouble(0.3) * mBaseAnimatedWithPhysicsGameObject_SpriteScale);
-                        pFlyingSlig->field_2B8_max_speed_up = (FP_FromDouble(0.8) * mBaseAnimatedWithPhysicsGameObject_SpriteScale);
+                        pFlyingSlig->field_2A8_max_x_speed = (FP_FromDouble(5.5) * mSpriteScale);
+                        pFlyingSlig->field_2AC_up_vel = (-FP_FromDouble(5.5) * mSpriteScale);
+                        pFlyingSlig->field_2B0_down_vel = (FP_FromDouble(5.5) * mSpriteScale);
+                        pFlyingSlig->field_2B4_max_slow_down = (FP_FromDouble(0.3) * mSpriteScale);
+                        pFlyingSlig->field_2B8_max_speed_up = (FP_FromDouble(0.8) * mSpriteScale);
                     }
                     else
                     {
@@ -1408,17 +1408,17 @@ void CrawlingSlig::Motion_1_UsingButton()
             // Final transform
             mBaseGameObjectFlags.Set(BaseGameObject::eDead);
             SetBrain(&CrawlingSlig::Brain_5_Transformed);
-            mBaseAnimatedWithPhysicsGameObject_VelY = FP_FromInteger(0);
-            mBaseAnimatedWithPhysicsGameObject_VelX = FP_FromInteger(0);
+            mVelY = FP_FromInteger(0);
+            mVelX = FP_FromInteger(0);
             Set_AnimAndMotion(CrawlingSligMotion::Motion_0_Idle, TRUE);
-            mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit2_Animate);
-            mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit3_Render);
+            mAnim.mFlags.Clear(AnimFlags::eBit2_Animate);
+            mAnim.mFlags.Clear(AnimFlags::eBit3_Render);
             SetType(ReliveTypes::eNone);
         }
     }
     else
     {
-        if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
+        if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
         {
             HandleCommon();
         }
@@ -1441,7 +1441,7 @@ void CrawlingSlig::Motion_2_WakingUp()
         }
     }
 
-    if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
+    if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
     {
         HandleCommon();
     }
@@ -1451,11 +1451,11 @@ void CrawlingSlig::Motion_3_Crawling()
 {
     if (CanCrawl())
     {
-        if (mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame == 3 || mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame == 6)
+        if (mAnim.mCurrentFrame == 3 || mAnim.mCurrentFrame == 6)
         {
             Slig_SoundEffect_4BFFE0(static_cast<SligSfx>(Math_RandomRange(14, 16)), this);
         }
-        else if (mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame == 11)
+        else if (mAnim.mCurrentFrame == 11)
         {
             if (sControlledCharacter_5C1B8C != this || mHealth <= FP_FromInteger(0))
             {
@@ -1466,7 +1466,7 @@ void CrawlingSlig::Motion_3_Crawling()
             }
             else
             {
-                if ((mBaseAnimatedWithPhysicsGameObject_VelX > FP_FromInteger(0) && sInputObject_5BD4E0.isPressed(InputCommands::Enum::eLeft)) || (mBaseAnimatedWithPhysicsGameObject_VelX < FP_FromInteger(0) && sInputObject_5BD4E0.isPressed(InputCommands::Enum::eRight)) || !(sInputObject_5BD4E0.isPressed(InputCommands::Enum::eLeft | InputCommands::Enum::eRight)))
+                if ((mVelX > FP_FromInteger(0) && sInputObject_5BD4E0.isPressed(InputCommands::Enum::eLeft)) || (mVelX < FP_FromInteger(0) && sInputObject_5BD4E0.isPressed(InputCommands::Enum::eRight)) || !(sInputObject_5BD4E0.isPressed(InputCommands::Enum::eLeft | InputCommands::Enum::eRight)))
                 {
                     Set_AnimAndMotion(CrawlingSligMotion::Motion_15_EndCrawling, TRUE);
                 }
@@ -1479,7 +1479,7 @@ void CrawlingSlig::Motion_3_Crawling()
 void CrawlingSlig::Motion_4_StartFalling()
 {
     Motion_5_Falling();
-    if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
+    if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
     {
         Set_AnimAndMotion(CrawlingSligMotion::Motion_5_Falling, TRUE);
     }
@@ -1487,20 +1487,20 @@ void CrawlingSlig::Motion_4_StartFalling()
 
 void CrawlingSlig::Motion_5_Falling()
 {
-    if (mBaseAnimatedWithPhysicsGameObject_VelX > FP_FromInteger(0))
+    if (mVelX > FP_FromInteger(0))
     {
-        mBaseAnimatedWithPhysicsGameObject_VelX = mBaseAnimatedWithPhysicsGameObject_VelX - (mBaseAnimatedWithPhysicsGameObject_SpriteScale * field_1B0_velx_scale_factor);
-        if (mBaseAnimatedWithPhysicsGameObject_VelX < FP_FromInteger(0))
+        mVelX = mVelX - (mSpriteScale * field_1B0_velx_scale_factor);
+        if (mVelX < FP_FromInteger(0))
         {
-            mBaseAnimatedWithPhysicsGameObject_VelX = FP_FromInteger(0);
+            mVelX = FP_FromInteger(0);
         }
     }
-    else if (mBaseAnimatedWithPhysicsGameObject_VelX < FP_FromInteger(0))
+    else if (mVelX < FP_FromInteger(0))
     {
-        mBaseAnimatedWithPhysicsGameObject_VelX = (mBaseAnimatedWithPhysicsGameObject_SpriteScale * field_1B0_velx_scale_factor) + mBaseAnimatedWithPhysicsGameObject_VelX;
-        if (mBaseAnimatedWithPhysicsGameObject_VelX > FP_FromInteger(0))
+        mVelX = (mSpriteScale * field_1B0_velx_scale_factor) + mVelX;
+        if (mVelX > FP_FromInteger(0))
         {
-            mBaseAnimatedWithPhysicsGameObject_VelX = FP_FromInteger(0);
+            mVelX = FP_FromInteger(0);
         }
     }
 
@@ -1524,10 +1524,10 @@ void CrawlingSlig::Motion_5_Falling()
             case eLineTypes::eBackgroundDynamicCollision_36:
                 BaseAliveGameObjectCollisionLine = pLine;
                 PlatformCollide();
-                mBaseAnimatedWithPhysicsGameObject_YPos = hitY;
-                mBaseAnimatedWithPhysicsGameObject_XPos = hitX;
+                mYPos = hitY;
+                mXPos = hitX;
                 MapFollowMe(TRUE);
-                if ((hitY - BaseAliveGameObjectLastLineYPos) > (ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale) * FP_FromInteger(5)))
+                if ((hitY - BaseAliveGameObjectLastLineYPos) > (ScaleToGridSize(mSpriteScale) * FP_FromInteger(5)))
                 {
                     SetBrain(&CrawlingSlig::Brain_4_GetKilled);
                     field_208_brain_sub_state = Brain_4_GetKilled::eBrain4_GibsDeath_2;
@@ -1540,7 +1540,7 @@ void CrawlingSlig::Motion_5_Falling()
 
             case eLineTypes::eWallLeft_1:
             case eLineTypes::eWallRight_2:
-                mBaseAnimatedWithPhysicsGameObject_VelX = -mBaseAnimatedWithPhysicsGameObject_VelX / FP_FromInteger(2);
+                mVelX = -mVelX / FP_FromInteger(2);
                 break;
 
             default:
@@ -1551,7 +1551,7 @@ void CrawlingSlig::Motion_5_Falling()
 
 void CrawlingSlig::Motion_6_Landing()
 {
-    if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
+    if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
     {
         Set_AnimAndMotion(CrawlingSligMotion::Motion_14_ShakingToIdle, TRUE);
     }
@@ -1559,7 +1559,7 @@ void CrawlingSlig::Motion_6_Landing()
 
 void CrawlingSlig::Motion_7_ToShakingToIdle()
 {
-    if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
+    if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
     {
         if (GetNextMotion() == CrawlingSligMotion::Motion_14_ShakingToIdle)
         {
@@ -1570,16 +1570,16 @@ void CrawlingSlig::Motion_7_ToShakingToIdle()
 
 void CrawlingSlig::Motion_8_Speaking()
 {
-    if (mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame == 2 && field_1C0_speak != SligSpeak::eNone)
+    if (mAnim.mCurrentFrame == 2 && field_1C0_speak != SligSpeak::eNone)
     {
-        if (gMap.mCurrentPath == mBaseAnimatedWithPhysicsGameObject_PathNumber && gMap.mCurrentLevel == mBaseAnimatedWithPhysicsGameObject_LvlNumber && Is_In_Current_Camera() == CameraPos::eCamCurrent_0)
+        if (gMap.mCurrentPath == mCurrentPath && gMap.mCurrentLevel == mCurrentLevel && Is_In_Current_Camera() == CameraPos::eCamCurrent_0)
         {
             Slig_GameSpeak_SFX_4C04F0(field_1C0_speak, 0, 0, this);
         }
         field_1C0_speak = SligSpeak::eNone;
     }
 
-    if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
+    if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
     {
         HandleCommon();
     }
@@ -1603,28 +1603,28 @@ void CrawlingSlig::Motion_9_Snoozing()
         }
 
         if (gMap.Is_Point_In_Current_Camera(
-                mBaseAnimatedWithPhysicsGameObject_LvlNumber,
-                mBaseAnimatedWithPhysicsGameObject_PathNumber,
-                mBaseAnimatedWithPhysicsGameObject_XPos,
-                mBaseAnimatedWithPhysicsGameObject_YPos,
+                mCurrentLevel,
+                mCurrentPath,
+                mXPos,
+                mYPos,
                 0))
         {
             FP xOff = {};
-            if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
+            if (mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
             {
-                xOff = -(mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(-10));
+                xOff = -(mSpriteScale * FP_FromInteger(-10));
             }
             else
             {
-                xOff = (mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(-10));
+                xOff = (mSpriteScale * FP_FromInteger(-10));
             }
 
-            const FP yOff = (mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(-10));
+            const FP yOff = (mSpriteScale * FP_FromInteger(-10));
             relive_new SnoozeParticle(
-                mBaseAnimatedWithPhysicsGameObject_XPos + xOff,
-                mBaseAnimatedWithPhysicsGameObject_YPos + yOff,
-                mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer,
-                mBaseAnimatedWithPhysicsGameObject_Anim.field_14_scale);
+                mXPos + xOff,
+                mYPos + yOff,
+                mAnim.mRenderLayer,
+                mAnim.field_14_scale);
         }
     }
 }
@@ -1633,16 +1633,16 @@ void CrawlingSlig::Motion_10_PushingWall()
 {
     MoveOnLine();
 
-    if (mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame == 4 || mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame == 8)
+    if (mAnim.mCurrentFrame == 4 || mAnim.mCurrentFrame == 8)
     {
         MapFollowMe(TRUE);
-        mBaseAnimatedWithPhysicsGameObject_VelX = FP_FromInteger(0);
+        mVelX = FP_FromInteger(0);
         Slig_SoundEffect_4BFFE0(static_cast<SligSfx>(Math_RandomRange(14, 16)), this);
     }
 
     if (BrainIs(&CrawlingSlig::Brain_3_Possessed))
     {
-        const bool flipX = mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX);
+        const bool flipX = mAnim.mFlags.Get(AnimFlags::eBit5_FlipX);
         if ((!flipX && sInputObject_5BD4E0.isPressed(InputCommands::Enum::eLeft)) || (flipX && sInputObject_5BD4E0.isPressed(InputCommands::Enum::eRight)) || !(sInputObject_5BD4E0.isPressed(InputCommands::Enum::eLeft | InputCommands::Enum::eRight)))
         {
             Set_AnimAndMotion(CrawlingSligMotion::Motion_17_EndPushingWall, TRUE);
@@ -1652,14 +1652,14 @@ void CrawlingSlig::Motion_10_PushingWall()
             FP yPos = {};
             if (flipX)
             {
-                yPos = -ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale);
+                yPos = -ScaleToGridSize(mSpriteScale);
             }
             else
             {
-                yPos = ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale);
+                yPos = ScaleToGridSize(mSpriteScale);
             }
 
-            if (!WallHit(mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(30), yPos))
+            if (!WallHit(mSpriteScale * FP_FromInteger(30), yPos))
             {
                 Set_AnimAndMotion(CrawlingSligMotion::Motion_3_Crawling, TRUE);
             }
@@ -1676,14 +1676,14 @@ void CrawlingSlig::Motion_10_PushingWall()
 
 void CrawlingSlig::Motion_11_TurnAround()
 {
-    if (mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame == 8)
+    if (mAnim.mCurrentFrame == 8)
     {
         Slig_SoundEffect_4BFFE0(static_cast<SligSfx>(Math_RandomRange(14, 16)), this);
     }
 
-    if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
+    if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
     {
-        mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Toggle(AnimFlags::eBit5_FlipX);
+        mAnim.mFlags.Toggle(AnimFlags::eBit5_FlipX);
         MapFollowMe(TRUE);
         HandleCommon();
     }
@@ -1701,7 +1701,7 @@ void CrawlingSlig::Motion_13_Empty()
 
 void CrawlingSlig::Motion_14_ShakingToIdle()
 {
-    if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
+    if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
     {
         if (mHealth > FP_FromInteger(0))
         {
@@ -1713,7 +1713,7 @@ void CrawlingSlig::Motion_14_ShakingToIdle()
 
 void CrawlingSlig::Motion_15_EndCrawling()
 {
-    if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
+    if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
     {
         HandleCommon();
     }
@@ -1721,7 +1721,7 @@ void CrawlingSlig::Motion_15_EndCrawling()
 
 void CrawlingSlig::Motion_16_IdleToPushingWall()
 {
-    if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
+    if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
     {
         Slig_GameSpeak_SFX_4C04F0(static_cast<SligSpeak>(Math_RandomRange(static_cast<s32>(SligSpeak::eOuch1_13), static_cast<s32>(SligSpeak::eOuch2_14))), 0, 0, this);
         Set_AnimAndMotion(CrawlingSligMotion::Motion_10_PushingWall, TRUE);
@@ -1730,7 +1730,7 @@ void CrawlingSlig::Motion_16_IdleToPushingWall()
 
 void CrawlingSlig::Motion_17_EndPushingWall()
 {
-    if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
+    if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
     {
         ToIdle();
     }
@@ -1744,7 +1744,7 @@ void CrawlingSlig::HandleCommon()
     {
         if (sInputObject_5BD4E0.isPressed(InputCommands::Enum::eRight))
         {
-            if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
+            if (mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
             {
                 SetNextMotion(CrawlingSligMotion::Motion_11_TurnAround);
             }
@@ -1755,7 +1755,7 @@ void CrawlingSlig::HandleCommon()
         }
         else if (sInputObject_5BD4E0.isPressed(InputCommands::Enum::eLeft))
         {
-            if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
+            if (mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
             {
                 SetNextMotion(CrawlingSligMotion::Motion_3_Crawling);
             }
@@ -1853,16 +1853,16 @@ void CrawlingSlig::HandleCommon()
         case CrawlingSligMotion::Motion_3_Crawling:
         {
             FP gridScale = {};
-            if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
+            if (mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
             {
-                gridScale = -ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale);
+                gridScale = -ScaleToGridSize(mSpriteScale);
             }
             else
             {
-                gridScale = ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale);
+                gridScale = ScaleToGridSize(mSpriteScale);
             }
 
-            if (WallHit(mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(30), gridScale))
+            if (WallHit(mSpriteScale * FP_FromInteger(30), gridScale))
             {
                 if (sControlledCharacter_5C1B8C == this)
                 {
@@ -1897,24 +1897,24 @@ const FP sCrawlingSligXVels_54471C[15] = {
 
 s16 CrawlingSlig::CanCrawl()
 {
-    mBaseAnimatedWithPhysicsGameObject_VelX = sCrawlingSligXVels_54471C[mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame];
+    mVelX = sCrawlingSligXVels_54471C[mAnim.mCurrentFrame];
 
-    FP gridScale = ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale);
-    if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
+    FP gridScale = ScaleToGridSize(mSpriteScale);
+    if (mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
     {
-        mBaseAnimatedWithPhysicsGameObject_VelX = -mBaseAnimatedWithPhysicsGameObject_VelX;
+        mVelX = -mVelX;
         gridScale = -gridScale;
     }
 
-    mBaseAnimatedWithPhysicsGameObject_VelX = (mBaseAnimatedWithPhysicsGameObject_VelX * mBaseAnimatedWithPhysicsGameObject_SpriteScale);
+    mVelX = (mVelX * mSpriteScale);
 
-    if (sControlledCharacter_5C1B8C == this && WallHit(mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(30), gridScale))
+    if (sControlledCharacter_5C1B8C == this && WallHit(mSpriteScale * FP_FromInteger(30), gridScale))
     {
         field_1B0_velx_scale_factor = FP_FromInteger(0);
-        mBaseAnimatedWithPhysicsGameObject_VelY = FP_FromInteger(0);
+        mVelY = FP_FromInteger(0);
         Set_AnimAndMotion(CrawlingSligMotion::Motion_10_PushingWall, TRUE);
-        const s32 snappedX = SnapToXGrid(mBaseAnimatedWithPhysicsGameObject_SpriteScale, FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos));
-        mBaseAnimatedWithPhysicsGameObject_VelX = ((FP_FromInteger(snappedX) - mBaseAnimatedWithPhysicsGameObject_XPos) / FP_FromInteger(4));
+        const s32 snappedX = SnapToXGrid(mSpriteScale, FP_GetExponent(mXPos));
+        mVelX = ((FP_FromInteger(snappedX) - mXPos) / FP_FromInteger(4));
         Slig_GameSpeak_SFX_4C04F0(static_cast<SligSpeak>(Math_RandomRange(static_cast<s32>(SligSpeak::eOuch1_13), static_cast<s32>(SligSpeak::eOuch2_14))), 0, 0, this);
         return FALSE;
     }
@@ -1930,7 +1930,7 @@ void CrawlingSlig::MoveOnLine()
     auto pPlatform = static_cast<PlatformBase*>(sObjectIds.Find_Impl(BaseAliveGameObject_PlatformId));
     if (BaseAliveGameObjectCollisionLine)
     {
-        BaseAliveGameObjectCollisionLine = BaseAliveGameObjectCollisionLine->MoveOnLine(&mBaseAnimatedWithPhysicsGameObject_XPos, &mBaseAnimatedWithPhysicsGameObject_YPos, mBaseAnimatedWithPhysicsGameObject_VelX);
+        BaseAliveGameObjectCollisionLine = BaseAliveGameObjectCollisionLine->MoveOnLine(&mXPos, &mYPos, mVelX);
         if (BaseAliveGameObjectCollisionLine)
         {
             if (pPlatform)
@@ -1949,18 +1949,18 @@ void CrawlingSlig::MoveOnLine()
         else
         {
             VOnTrapDoorOpen();
-            BaseAliveGameObjectLastLineYPos = mBaseAnimatedWithPhysicsGameObject_YPos;
+            BaseAliveGameObjectLastLineYPos = mYPos;
             if (GetCurrentMotion() == CrawlingSligMotion::Motion_3_Crawling)
             {
                 Set_AnimAndMotion(CrawlingSligMotion::Motion_4_StartFalling, TRUE);
             }
             field_1B0_velx_scale_factor = FP_FromInteger(1);
-            mBaseAnimatedWithPhysicsGameObject_XPos = mBaseAnimatedWithPhysicsGameObject_XPos + mBaseAnimatedWithPhysicsGameObject_VelX;
+            mXPos = mXPos + mVelX;
         }
     }
     else
     {
-        BaseAliveGameObjectLastLineYPos = mBaseAnimatedWithPhysicsGameObject_YPos;
+        BaseAliveGameObjectLastLineYPos = mYPos;
         Set_AnimAndMotion(CrawlingSligMotion::Motion_5_Falling, TRUE);
     }
 }

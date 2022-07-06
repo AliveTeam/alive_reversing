@@ -89,7 +89,7 @@ MusicTrigger::~MusicTrigger()
 
 void MusicTrigger::VScreenChanged()
 {
-    if (gMap.mCurrentLevel != gMap.mLevel)
+    if (gMap.mCurrentLevel != gMap.mNextLevel)
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
@@ -104,8 +104,8 @@ void MusicTrigger::VUpdate()
 
     if (field_24_flags.Get(Flags_24::e24_Bit1_TriggeredByTouching))
     {
-        FP xpos = sControlledCharacter_5C1B8C->mBaseAnimatedWithPhysicsGameObject_XPos;
-        FP ypos = sControlledCharacter_5C1B8C->mBaseAnimatedWithPhysicsGameObject_YPos;
+        FP xpos = sControlledCharacter_5C1B8C->mXPos;
+        FP ypos = sControlledCharacter_5C1B8C->mYPos;
 
         if (xpos >= FP_FromInteger(field_2C_tl.x) && xpos <= FP_FromInteger(field_30_br.x) && (ypos >= FP_FromInteger(field_2C_tl.y) && ypos <= FP_FromInteger(field_30_br.y)))
         {

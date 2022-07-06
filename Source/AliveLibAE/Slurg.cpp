@@ -56,21 +56,21 @@ Slurg::Slurg(Path_Slurg* pTlv, u32 tlvInfo)
     mBaseGameObjectFlags.Set(BaseGameObject::eCanExplode_Bit7);
     SetType(ReliveTypes::eSlurg);
 
-    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger((pTlv->mTopLeft.x + pTlv->mBottomRight.x) / 2);
-    mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->mTopLeft.y);
+    mXPos = FP_FromInteger((pTlv->mTopLeft.x + pTlv->mBottomRight.x) / 2);
+    mYPos = FP_FromInteger(pTlv->mTopLeft.y);
 
     mTlvInfo = tlvInfo;
     if (pTlv->mSlurgData.field_4_scale == Scale_short::eHalf_1)
     {
         mSlurgSpriteScale = FP_FromDouble(0.5);
-        mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_SligGreeterFartsBat_Half_14;
-        mBaseAnimatedWithPhysicsGameObject_Scale = Scale::Bg;
+        mAnim.mRenderLayer = Layer::eLayer_SligGreeterFartsBat_Half_14;
+        mScale = Scale::Bg;
     }
     else if (pTlv->mSlurgData.field_4_scale == Scale_short::eFull_0)
     {
         mSlurgSpriteScale = FP_FromInteger(1);
-        mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_SligGreeterFartsBats_33;
-        mBaseAnimatedWithPhysicsGameObject_Scale = Scale::Fg;
+        mAnim.mRenderLayer = Layer::eLayer_SligGreeterFartsBats_33;
+        mScale = Scale::Fg;
     }
 
     mMovingTimer = pTlv->mSlurgData.mMovingTimer;
@@ -81,17 +81,17 @@ Slurg::Slurg(Path_Slurg* pTlv, u32 tlvInfo)
     FP hitX = {};
     FP hitY = {};
     if (sCollisions->Raycast(
-            mBaseAnimatedWithPhysicsGameObject_XPos,
-            mBaseAnimatedWithPhysicsGameObject_YPos,
-            mBaseAnimatedWithPhysicsGameObject_XPos,
-            mBaseAnimatedWithPhysicsGameObject_YPos + FP_FromInteger(24),
+            mXPos,
+            mYPos,
+            mXPos,
+            mYPos + FP_FromInteger(24),
             &mSlurgLine,
             &hitX,
             &hitY,
-            mBaseAnimatedWithPhysicsGameObject_Scale == Scale::Fg ? kFgFloor : kBgFloor)
+            mScale == Scale::Fg ? kFgFloor : kBgFloor)
         == 1)
     {
-        mBaseAnimatedWithPhysicsGameObject_YPos = hitY;
+        mYPos = hitY;
     }
 
     mSlurgSwitchId = pTlv->mSlurgData.field_6_switch_id;
@@ -120,21 +120,21 @@ s32 Slurg::CreateFromSaveState(const u8* pData)
 
     auto pSlurg = relive_new Slurg(pTlv, pState->mTlvInfo);
 
-    pSlurg->mBaseAnimatedWithPhysicsGameObject_XPos = pState->mXPos;
-    pSlurg->mBaseAnimatedWithPhysicsGameObject_YPos = pState->mYPos;
-    pSlurg->mBaseAnimatedWithPhysicsGameObject_VelX = pState->mVelX;
-    pSlurg->mBaseAnimatedWithPhysicsGameObject_Anim.mFrameChangeCounter = pState->mFrameChangeCounter;
+    pSlurg->mXPos = pState->mXPos;
+    pSlurg->mYPos = pState->mYPos;
+    pSlurg->mVelX = pState->mVelX;
+    pSlurg->mAnim.mFrameChangeCounter = pState->mFrameChangeCounter;
 
     // OG BUG: This wasn't restored
-    pSlurg->mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame = pState->mAnimCurrentFrame;
-    pSlurg->mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit5_FlipX, pState->mFlipX & 1);
-    pSlurg->mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit3_Render, pState->mRender & 1);
+    pSlurg->mAnim.mCurrentFrame = pState->mAnimCurrentFrame;
+    pSlurg->mAnim.mFlags.Set(AnimFlags::eBit5_FlipX, pState->mFlipX & 1);
+    pSlurg->mAnim.mFlags.Set(AnimFlags::eBit3_Render, pState->mRender & 1);
 
     pSlurg->mBaseGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4, pState->mDrawable & 1);
 
-    if (IsLastFrame(&pSlurg->mBaseAnimatedWithPhysicsGameObject_Anim))
+    if (IsLastFrame(&pSlurg->mAnim))
     {
-        pSlurg->mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit18_IsLastFrame);
+        pSlurg->mAnim.mFlags.Set(AnimFlags::eBit18_IsLastFrame);
     }
 
     pSlurg->mSlurgState = pState->mSlurgState;
@@ -155,10 +155,10 @@ Slurg::~Slurg()
 void Slurg::Burst()
 {
     mSlurgState = SlurgStates::eBurst_2;
-    mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::Slurg_Burst, nullptr);
+    mAnim.Set_Animation_Data(AnimId::Slurg_Burst, nullptr);
 
-    relive_new Blood(mBaseAnimatedWithPhysicsGameObject_XPos,
-                                mBaseAnimatedWithPhysicsGameObject_YPos,
+    relive_new Blood(mXPos,
+                                mYPos,
                                 FP_FromInteger(0),
                                 FP_FromInteger(5),
                                 mSlurgSpriteScale,
@@ -175,7 +175,7 @@ void Slurg::Burst()
 
 void Slurg::VUpdate()
 {
-    const FP oldXPos = mBaseAnimatedWithPhysicsGameObject_XPos;
+    const FP oldXPos = mXPos;
     if (EventGet(kEventDeathReset))
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
@@ -185,7 +185,7 @@ void Slurg::VUpdate()
     {
         mMovingTimer = Math_RandomRange(mRngForMovingTimer, mRngForMovingTimer + 20);
         mSlurgState = SlurgStates::ePausing_1;
-        mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::Slurg_Turn_Around, nullptr);
+        mAnim.Set_Animation_Data(AnimId::Slurg_Turn_Around, nullptr);
     }
 
     const PSX_RECT bRect = VGetBoundingRect();
@@ -208,38 +208,38 @@ void Slurg::VUpdate()
     switch (mSlurgState)
     {
         case SlurgStates::eMoving_0:
-            mBaseAnimatedWithPhysicsGameObject_VelX = FP_FromInteger(1);
+            mVelX = FP_FromInteger(1);
             mMovingTimer--;
             if (mSlurgFlags.Get(SlurgFlags::eGoingRight))
             {
-                mBaseAnimatedWithPhysicsGameObject_VelX = -FP_FromInteger(1);
+                mVelX = -FP_FromInteger(1);
             }
 
             mSlurgFlags.Toggle(SlurgFlags::eMoving);
 
             if (mSlurgFlags.Get(SlurgFlags::eMoving))
             {
-                mBaseAnimatedWithPhysicsGameObject_XPos += mBaseAnimatedWithPhysicsGameObject_VelX;
+                mXPos += mVelX;
             }
             break;
 
         case SlurgStates::ePausing_1:
-            mBaseAnimatedWithPhysicsGameObject_VelX = FP_FromInteger(0);
-            if (mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame == 0
-                && gMap.Is_Point_In_Current_Camera(mBaseAnimatedWithPhysicsGameObject_LvlNumber, mBaseAnimatedWithPhysicsGameObject_PathNumber, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, 0))
+            mVelX = FP_FromInteger(0);
+            if (mAnim.mCurrentFrame == 0
+                && gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0))
             {
                 SfxPlayMono(SoundEffect::SlurgPause_90, 0);
             }
 
-            if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
+            if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
             {
                 mSlurgState = SlurgStates::eMoving_0;
-                mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::Slurg_Move, nullptr);
+                mAnim.Set_Animation_Data(AnimId::Slurg_Move, nullptr);
             }
             break;
 
         case SlurgStates::eBurst_2:
-            if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
+            if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
             {
                 mBaseGameObjectFlags.Set(BaseGameObject::eDead);
             }
@@ -249,14 +249,14 @@ void Slurg::VUpdate()
             break;
     }
 
-    if (oldXPos != mBaseAnimatedWithPhysicsGameObject_XPos)
+    if (oldXPos != mXPos)
     {
         mSlurgTlv = sPath_dword_BB47C0->TlvGetAt(
             nullptr,
-            mBaseAnimatedWithPhysicsGameObject_XPos,
-            mBaseAnimatedWithPhysicsGameObject_YPos,
-            mBaseAnimatedWithPhysicsGameObject_XPos,
-            mBaseAnimatedWithPhysicsGameObject_YPos);
+            mXPos,
+            mYPos,
+            mXPos,
+            mYPos);
 
         VOnTlvCollision(mSlurgTlv);
     }
@@ -292,7 +292,7 @@ void Slurg::VOnTlvCollision(Path_TLV* pTlv)
                 GoRight();
             }
         }
-        pTlv = sPath_dword_BB47C0->TlvGetAt(pTlv, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos);
+        pTlv = sPath_dword_BB47C0->TlvGetAt(pTlv, mXPos, mYPos, mXPos, mYPos);
     }
 
     if (mSlurgFlags.Get(SlurgFlags::eGoingRight))
@@ -321,17 +321,17 @@ s32 Slurg::VGetSaveState(u8* pSaveBuffer)
     auto pState = reinterpret_cast<Slurg_State*>(pSaveBuffer);
 
     pState->mType = AETypes::eSlurg_129;
-    pState->mXPos = mBaseAnimatedWithPhysicsGameObject_XPos;
-    pState->mYPos = mBaseAnimatedWithPhysicsGameObject_YPos;
-    pState->mVelX = mBaseAnimatedWithPhysicsGameObject_VelX;
+    pState->mXPos = mXPos;
+    pState->mYPos = mYPos;
+    pState->mVelX = mVelX;
     pState->mSlurgSpriteScale = mSlurgSpriteScale;
-    pState->mFlipX = mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX);
+    pState->mFlipX = mAnim.mFlags.Get(AnimFlags::eBit5_FlipX);
     pState->mCurrentMotion = mCurrentMotion;
-    pState->mAnimCurrentFrame = mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame;
-    pState->mFrameChangeCounter = mBaseAnimatedWithPhysicsGameObject_Anim.mFrameChangeCounter;
+    pState->mAnimCurrentFrame = mAnim.mCurrentFrame;
+    pState->mFrameChangeCounter = mAnim.mFrameChangeCounter;
     pState->mDrawable = mBaseGameObjectFlags.Get(BaseGameObject::eDrawable_Bit4);
-    pState->mRender = mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit3_Render);
-    pState->mFrameTableOffset = mBaseAnimatedWithPhysicsGameObject_Anim.mFrameTableOffset;
+    pState->mRender = mAnim.mFlags.Get(AnimFlags::eBit3_Render);
+    pState->mFrameTableOffset = mAnim.mFrameTableOffset;
     pState->mTlvInfo = mTlvInfo;
     pState->mSlurgState = mSlurgState;
     pState->mSlurgFlags.Set(SlurgFlags::eGoingRight, mSlurgFlags.Get(SlurgFlags::eGoingRight));
@@ -341,18 +341,18 @@ s32 Slurg::VGetSaveState(u8* pSaveBuffer)
 
 void Slurg::GoLeft()
 {
-    mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit5_FlipX);
+    mAnim.mFlags.Clear(AnimFlags::eBit5_FlipX);
     mSlurgFlags.Clear(SlurgFlags::eGoingRight);
 
     mSlurgState = SlurgStates::ePausing_1;
-    mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::Slurg_Turn_Around, nullptr);
+    mAnim.Set_Animation_Data(AnimId::Slurg_Turn_Around, nullptr);
 }
 
 void Slurg::GoRight()
 {
-    mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit5_FlipX);
+    mAnim.mFlags.Set(AnimFlags::eBit5_FlipX);
     mSlurgFlags.Set(SlurgFlags::eGoingRight);
 
     mSlurgState = SlurgStates::ePausing_1;
-    mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::Slurg_Turn_Around, nullptr);
+    mAnim.Set_Animation_Data(AnimId::Slurg_Turn_Around, nullptr);
 }

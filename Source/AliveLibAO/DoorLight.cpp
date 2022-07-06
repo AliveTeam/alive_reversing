@@ -92,7 +92,7 @@ DoorLight::DoorLight(Path_LightEffect* pTlv, s32 tlvInfo)
             break;
     }
 
-    mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit5_FlipX, pTlv->field_1E_direction == XDirection_short::eLeft_0);
+    mAnim.mFlags.Set(AnimFlags::eBit5_FlipX, pTlv->field_1E_direction == XDirection_short::eLeft_0);
 
     if (gNextDoorLightUpdate_4C30A8 < 0)
     {
@@ -100,26 +100,26 @@ DoorLight::DoorLight(Path_LightEffect* pTlv, s32 tlvInfo)
         gDoorLightUpdateTimer_4FC8A4 = gNextDoorLightUpdate_4C30A8 + Math_RandomRange(30, 45);
     }
 
-    mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit20_use_xy_offset);
+    mAnim.mFlags.Set(AnimFlags::eBit20_use_xy_offset);
 
     mVisualFlags.Clear(VisualFlags::eApplyShadowZoneColour);
-    mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_Foreground_Half_17;
-    mBaseAnimatedWithPhysicsGameObject_Anim.mRenderMode = TPageAbr::eBlend_3;
+    mAnim.mRenderLayer = Layer::eLayer_Foreground_Half_17;
+    mAnim.mRenderMode = TPageAbr::eBlend_3;
 
-    mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit16_bBlending);
-    mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit15_bSemiTrans);
+    mAnim.mFlags.Clear(AnimFlags::eBit16_bBlending);
+    mAnim.mFlags.Set(AnimFlags::eBit15_bSemiTrans);
 
-    if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
+    if (mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
     {
-        mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pTlv->mTopLeft.x - xOff);
+        mXPos = FP_FromInteger(pTlv->mTopLeft.x - xOff);
     }
     else
     {
-        mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(xOff + pTlv->mTopLeft.x);
+        mXPos = FP_FromInteger(xOff + pTlv->mTopLeft.x);
     }
 
-    mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromInteger(1);
-    mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->mTopLeft.y);
+    mSpriteScale = FP_FromInteger(1);
+    mYPos = FP_FromInteger(pTlv->mTopLeft.y);
 }
 
 DoorLight::~DoorLight()
@@ -139,7 +139,7 @@ void DoorLight::VUpdate()
     {
         gNextDoorLightUpdate_4C30A8 = sGnFrame + Math_RandomRange(6, 20);
         gDoorLightUpdateTimer_4FC8A4 = gNextDoorLightUpdate_4C30A8 + Math_RandomRange(30, 45);
-        mBaseAnimatedWithPhysicsGameObject_RGB.SetRGB(32, 32, 32);
+        mRGB.SetRGB(32, 32, 32);
     }
     else if (static_cast<s32>(sGnFrame) >= gNextDoorLightUpdate_4C30A8)
     {
@@ -175,16 +175,16 @@ void DoorLight::VUpdate()
                         SND_SEQ_Play_477760(SeqId::eSaveTriggerMusic_45, 1, 127, 127);
                     }
                 }
-                mBaseAnimatedWithPhysicsGameObject_RGB.SetRGB(32, rgb, 32);
+                mRGB.SetRGB(32, rgb, 32);
             }
             else
             {
-                mBaseAnimatedWithPhysicsGameObject_RGB.SetRGB(rgb, 32, 32);
+                mRGB.SetRGB(rgb, 32, 32);
             }
         }
         else
         {
-            mBaseAnimatedWithPhysicsGameObject_RGB.SetRGB(rgb, rgb, rgb);
+            mRGB.SetRGB(rgb, rgb, rgb);
         }
     }
 }
@@ -193,14 +193,14 @@ void DoorLight::VRender(PrimHeader** ppOt)
 {
     if (sNumCamSwappers_507668 == 0)
     {
-        const FP xpos = FP_FromInteger(pScreenManager->mCamXOff) + mBaseAnimatedWithPhysicsGameObject_XPos - pScreenManager->mCamPos->x;
-        const FP ypos = FP_FromInteger(pScreenManager->mCamYOff) + mBaseAnimatedWithPhysicsGameObject_YPos - pScreenManager->mCamPos->y;
+        const FP xpos = FP_FromInteger(pScreenManager->mCamXOff) + mXPos - pScreenManager->mCamPos->x;
+        const FP ypos = FP_FromInteger(pScreenManager->mCamYOff) + mYPos - pScreenManager->mCamPos->y;
 
-        mBaseAnimatedWithPhysicsGameObject_Anim.mRed = static_cast<u8>(mBaseAnimatedWithPhysicsGameObject_RGB.r);
-        mBaseAnimatedWithPhysicsGameObject_Anim.mGreen = static_cast<u8>(mBaseAnimatedWithPhysicsGameObject_RGB.g);
-        mBaseAnimatedWithPhysicsGameObject_Anim.mBlue = static_cast<u8>(mBaseAnimatedWithPhysicsGameObject_RGB.b);
+        mAnim.mRed = static_cast<u8>(mRGB.r);
+        mAnim.mGreen = static_cast<u8>(mRGB.g);
+        mAnim.mBlue = static_cast<u8>(mRGB.b);
 
-        mBaseAnimatedWithPhysicsGameObject_Anim.VRender(
+        mAnim.VRender(
             FP_GetExponent(FP_FromInteger((FP_GetExponent(xpos) - field_E8_width / 2))),
             FP_GetExponent(FP_FromInteger((FP_GetExponent(ypos) - field_EA_height / 2))),
             ppOt,
@@ -208,7 +208,7 @@ void DoorLight::VRender(PrimHeader** ppOt)
             field_EA_height);
 
         PSX_RECT rect = {};
-        mBaseAnimatedWithPhysicsGameObject_Anim.Get_Frame_Rect(&rect);
+        mAnim.Get_Frame_Rect(&rect);
         pScreenManager->InvalidateRectCurrentIdx(
             rect.x,
             rect.y,

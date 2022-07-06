@@ -84,19 +84,19 @@ void BaseAliveGameObject::VSetMotion(s16 state)
 
 void BaseAliveGameObject::VSetXSpawn(s16 camWorldX, s32 screenXPos)
 {
-    const FP old_x = mBaseAnimatedWithPhysicsGameObject_XPos;
-    const FP old_y = mBaseAnimatedWithPhysicsGameObject_YPos;
+    const FP old_x = mXPos;
+    const FP old_y = mYPos;
 
-    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(camWorldX + XGrid_Index_To_XPos(mBaseAnimatedWithPhysicsGameObject_SpriteScale, screenXPos));
+    mXPos = FP_FromInteger(camWorldX + XGrid_Index_To_XPos(mSpriteScale, screenXPos));
 
-    BaseAliveGameObjectPathTLV = gMap.TLV_Get_At_446060(0, mBaseAnimatedWithPhysicsGameObject_XPos, old_y, mBaseAnimatedWithPhysicsGameObject_XPos, old_y);
+    BaseAliveGameObjectPathTLV = gMap.TLV_Get_At_446060(0, mXPos, old_y, mXPos, old_y);
 
     if (mLiftPoint)
     {
-        mLiftPoint->mBaseAnimatedWithPhysicsGameObject_XPos += (mBaseAnimatedWithPhysicsGameObject_XPos - old_x);
+        mLiftPoint->mXPos += (mXPos - old_x);
 
-        BaseAliveGameObjectCollisionLine->mRect.x += FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos - old_x);
-        BaseAliveGameObjectCollisionLine->mRect.w += FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos - old_x);
+        BaseAliveGameObjectCollisionLine->mRect.x += FP_GetExponent(mXPos - old_x);
+        BaseAliveGameObjectCollisionLine->mRect.w += FP_GetExponent(mXPos - old_x);
         BaseAliveGameObjectCollisionLine->mRect.y = BaseAliveGameObjectCollisionLine->mRect.y;
         BaseAliveGameObjectCollisionLine->mRect.h = BaseAliveGameObjectCollisionLine->mRect.h;
     }
@@ -108,9 +108,9 @@ void BaseAliveGameObject::VSetXSpawn(s16 camWorldX, s32 screenXPos)
         if (BaseAliveGameObjectCollisionLine)
         {
             if (sCollisions->Raycast(
-                    mBaseAnimatedWithPhysicsGameObject_XPos,
+                    mXPos,
                     old_y - FP_FromInteger(40),
-                    mBaseAnimatedWithPhysicsGameObject_XPos,
+                    mXPos,
                     old_y + FP_FromInteger(40),
                     &pLine,
                     &hitX,
@@ -118,16 +118,16 @@ void BaseAliveGameObject::VSetXSpawn(s16 camWorldX, s32 screenXPos)
                     CollisionMask(BaseAliveGameObjectCollisionLine->mLineType)))
             {
                 BaseAliveGameObjectCollisionLine = pLine;
-                mBaseAnimatedWithPhysicsGameObject_YPos = hitY;
+                mYPos = hitY;
             }
             else
             {
                 BaseAliveGameObjectPathTLV = gMap.TLV_First_Of_Type_In_Camera(TlvTypes::StartController_28, 0);
                 if (BaseAliveGameObjectPathTLV
                     && sCollisions->Raycast(
-                        mBaseAnimatedWithPhysicsGameObject_XPos,
+                        mXPos,
                         FP_FromInteger(BaseAliveGameObjectPathTLV->mTopLeft.y),
-                        mBaseAnimatedWithPhysicsGameObject_XPos,
+                        mXPos,
                         FP_FromInteger(BaseAliveGameObjectPathTLV->mBottomRight.y),
                         &pLine,
                         &hitX,
@@ -135,7 +135,7 @@ void BaseAliveGameObject::VSetXSpawn(s16 camWorldX, s32 screenXPos)
                         CollisionMask(BaseAliveGameObjectCollisionLine->mLineType)))
                 {
                     BaseAliveGameObjectCollisionLine = pLine;
-                    mBaseAnimatedWithPhysicsGameObject_YPos = hitY;
+                    mYPos = hitY;
                 }
                 else
                 {
@@ -146,16 +146,16 @@ void BaseAliveGameObject::VSetXSpawn(s16 camWorldX, s32 screenXPos)
         else
         {
             if (sCollisions->Raycast(
-                    mBaseAnimatedWithPhysicsGameObject_XPos,
+                    mXPos,
                     BaseAliveGameObjectLastLineYPos - FP_FromInteger(40),
-                    mBaseAnimatedWithPhysicsGameObject_XPos,
+                    mXPos,
                     BaseAliveGameObjectLastLineYPos + FP_FromInteger(40),
                     &pLine,
                     &hitX,
                     &hitY,
-                    mBaseAnimatedWithPhysicsGameObject_SpriteScale != FP_FromDouble(0.5) ? kFgWallsOrFloor : kBgWallsOrFloor))
+                    mSpriteScale != FP_FromDouble(0.5) ? kFgWallsOrFloor : kBgWallsOrFloor))
             {
-                mBaseAnimatedWithPhysicsGameObject_YPos += hitY - BaseAliveGameObjectLastLineYPos;
+                mYPos += hitY - BaseAliveGameObjectLastLineYPos;
             }
         }
     }
@@ -163,36 +163,36 @@ void BaseAliveGameObject::VSetXSpawn(s16 camWorldX, s32 screenXPos)
 
 void BaseAliveGameObject::VSetYSpawn(s32 camWorldY, s16 bLeft)
 {
-    const FP oldx = mBaseAnimatedWithPhysicsGameObject_XPos;
-    const FP oldy = mBaseAnimatedWithPhysicsGameObject_YPos;
+    const FP oldx = mXPos;
+    const FP oldy = mYPos;
 
-    auto pFrameHeader = reinterpret_cast<FrameHeader*>(&(*mBaseAnimatedWithPhysicsGameObject_Anim.field_20_ppBlock)[mBaseAnimatedWithPhysicsGameObject_Anim.Get_FrameHeader(-1)->field_0_frame_header_offset]);
+    auto pFrameHeader = reinterpret_cast<FrameHeader*>(&(*mAnim.field_20_ppBlock)[mAnim.Get_FrameHeader(-1)->field_0_frame_header_offset]);
 
     if (bLeft == 1)
     {
-        mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pFrameHeader->field_5_height + camWorldY + 356);
+        mYPos = FP_FromInteger(pFrameHeader->field_5_height + camWorldY + 356);
     }
     else
     {
-        mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(camWorldY + 124);
+        mYPos = FP_FromInteger(camWorldY + 124);
     }
 
     BaseAliveGameObjectPathTLV = gMap.TLV_Get_At_446060(
         nullptr,
-        mBaseAnimatedWithPhysicsGameObject_XPos,
-        mBaseAnimatedWithPhysicsGameObject_YPos,
-        mBaseAnimatedWithPhysicsGameObject_XPos,
-        mBaseAnimatedWithPhysicsGameObject_YPos);
+        mXPos,
+        mYPos,
+        mXPos,
+        mYPos);
 
     if (mLiftPoint)
     {
-        mLiftPoint->mBaseAnimatedWithPhysicsGameObject_XPos += mBaseAnimatedWithPhysicsGameObject_XPos - oldx;
-        mLiftPoint->mBaseAnimatedWithPhysicsGameObject_YPos += mBaseAnimatedWithPhysicsGameObject_YPos - oldy;
+        mLiftPoint->mXPos += mXPos - oldx;
+        mLiftPoint->mYPos += mYPos - oldy;
 
-        BaseAliveGameObjectCollisionLine->mRect.x += FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos - oldx);
-        BaseAliveGameObjectCollisionLine->mRect.w += FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos - oldx);
-        BaseAliveGameObjectCollisionLine->mRect.y += FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos - oldy);
-        BaseAliveGameObjectCollisionLine->mRect.h += FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos - oldy);
+        BaseAliveGameObjectCollisionLine->mRect.x += FP_GetExponent(mXPos - oldx);
+        BaseAliveGameObjectCollisionLine->mRect.w += FP_GetExponent(mXPos - oldx);
+        BaseAliveGameObjectCollisionLine->mRect.y += FP_GetExponent(mYPos - oldy);
+        BaseAliveGameObjectCollisionLine->mRect.h += FP_GetExponent(mYPos - oldy);
     }
 }
 
@@ -235,19 +235,19 @@ void BaseAliveGameObject::VCheckCollisionLineStillValid_401A90(s32 distance)
         FP hitX = {};
         FP hitY = {};
 
-        const CollisionMask mask = mBaseAnimatedWithPhysicsGameObject_SpriteScale != FP_FromDouble(0.5) ? kFgWallsOrFloor : kBgWallsOrFloor;
+        const CollisionMask mask = mSpriteScale != FP_FromDouble(0.5) ? kFgWallsOrFloor : kBgWallsOrFloor;
         if (sCollisions->Raycast(
-                mBaseAnimatedWithPhysicsGameObject_XPos,
-                mBaseAnimatedWithPhysicsGameObject_YPos - FP_FromInteger(distance),
-                mBaseAnimatedWithPhysicsGameObject_XPos,
-                mBaseAnimatedWithPhysicsGameObject_YPos + FP_FromInteger(distance),
+                mXPos,
+                mYPos - FP_FromInteger(distance),
+                mXPos,
+                mYPos + FP_FromInteger(distance),
                 &pLine,
                 &hitX,
                 &hitY,
                 mask))
         {
             BaseAliveGameObjectCollisionLine = pLine;
-            mBaseAnimatedWithPhysicsGameObject_YPos = hitY;
+            mYPos = hitY;
             if (mLiftPoint)
             {
                 if (pLine->mLineType == eLineTypes ::eDynamicCollision_32 ||
@@ -277,9 +277,9 @@ void BaseAliveGameObject::VCheckCollisionLineStillValid_401A90(s32 distance)
             if (BaseAliveGameObjectPathTLV)
             {
                 if (sCollisions->Raycast(
-                        mBaseAnimatedWithPhysicsGameObject_XPos,
+                        mXPos,
                         FP_FromInteger(BaseAliveGameObjectPathTLV->mTopLeft.y),
-                        mBaseAnimatedWithPhysicsGameObject_XPos,
+                        mXPos,
                         FP_FromInteger(BaseAliveGameObjectPathTLV->mBottomRight.y),
                         &pLine,
                         &hitX,
@@ -287,7 +287,7 @@ void BaseAliveGameObject::VCheckCollisionLineStillValid_401A90(s32 distance)
                         mask))
                 {
                     BaseAliveGameObjectCollisionLine = pLine;
-                    mBaseAnimatedWithPhysicsGameObject_YPos = hitY;
+                    mYPos = hitY;
                 }
             }
         }
@@ -307,19 +307,19 @@ BirdPortal* BaseAliveGameObject::IntoBirdPortal_402350(s16 distance)
         if (pObjIter->mBaseGameObjectTypeId == ReliveTypes::eBirdPortal)
         {
             auto pPortal = static_cast<BirdPortal*>(pObjIter);
-            if (pPortal->field_18_xpos >= mBaseAnimatedWithPhysicsGameObject_XPos)
+            if (pPortal->field_18_xpos >= mXPos)
             {
                 if (pPortal->field_12_side == PortalSide::eLeft_1)
                 {
-                    if (pPortal->field_18_xpos - mBaseAnimatedWithPhysicsGameObject_XPos <= (ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale) * FP_FromInteger(distance)))
+                    if (pPortal->field_18_xpos - mXPos <= (ScaleToGridSize(mSpriteScale) * FP_FromInteger(distance)))
                     {
-                        if (!mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
+                        if (!mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
                         {
-                            if (FP_Abs(mBaseAnimatedWithPhysicsGameObject_YPos - pPortal->field_28_ypos) < mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(10))
+                            if (FP_Abs(mYPos - pPortal->field_28_ypos) < mSpriteScale * FP_FromInteger(10))
                             {
                                 if (pPortal->VPortalClipper(1))
                                 {
-                                    mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = mBaseAnimatedWithPhysicsGameObject_SpriteScale != FP_FromInteger(1) ? Layer::eLayer_InBirdPortal_Half_11 : Layer::eLayer_InBirdPortal_30;
+                                    mAnim.mRenderLayer = mSpriteScale != FP_FromInteger(1) ? Layer::eLayer_InBirdPortal_Half_11 : Layer::eLayer_InBirdPortal_30;
                                     return pPortal;
                                 }
                             }
@@ -331,15 +331,15 @@ BirdPortal* BaseAliveGameObject::IntoBirdPortal_402350(s16 distance)
             {
                 if (pPortal->field_12_side == PortalSide::eRight_0)
                 {
-                    if (mBaseAnimatedWithPhysicsGameObject_XPos - pPortal->field_18_xpos <= (ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale) * FP_FromInteger(distance)))
+                    if (mXPos - pPortal->field_18_xpos <= (ScaleToGridSize(mSpriteScale) * FP_FromInteger(distance)))
                     {
-                        if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
+                        if (mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
                         {
-                            if (FP_Abs(mBaseAnimatedWithPhysicsGameObject_YPos - pPortal->field_28_ypos) < (mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(10)))
+                            if (FP_Abs(mYPos - pPortal->field_28_ypos) < (mSpriteScale * FP_FromInteger(10)))
                             {
                                 if (pPortal->VPortalClipper(1))
                                 {
-                                    mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = mBaseAnimatedWithPhysicsGameObject_SpriteScale != FP_FromInteger(1) ? Layer::eLayer_InBirdPortal_Half_11 : Layer::eLayer_InBirdPortal_30;
+                                    mAnim.mRenderLayer = mSpriteScale != FP_FromInteger(1) ? Layer::eLayer_InBirdPortal_Half_11 : Layer::eLayer_InBirdPortal_30;
                                     return pPortal;
                                 }
                             }
@@ -365,14 +365,14 @@ s16 BaseAliveGameObject::SetBaseAnimPaletteTint(const TintEntry* pTintArray, ERe
         pIter++;
     }
 
-    mBaseAnimatedWithPhysicsGameObject_RGB.SetRGB(pIter->field_1_r, pIter->field_2_g, pIter->field_3_b);
+    mRGB.SetRGB(pIter->field_1_r, pIter->field_2_g, pIter->field_3_b);
 
     u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Palt, palId, 1, 0);
     if (!ppRes)
     {
         return 0;
     }
-    mBaseAnimatedWithPhysicsGameObject_Anim.LoadPal(ppRes, 0);
+    mAnim.LoadPal(ppRes, 0);
     ResourceManager::FreeResource_455550(ppRes);
     return 1;
 }
@@ -381,7 +381,7 @@ s16 BaseAliveGameObject::Check_IsOnEndOfLine_4021A0(s16 direction, s16 dist)
 {
     // Check if distance grid blocks from current snapped X is still on the line or not, if not then we are
     // about to head off an edge.
-    const FP gridSize = ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale);
+    const FP gridSize = ScaleToGridSize(mSpriteScale);
 
     FP xLoc = {};
     if (direction == 1)
@@ -393,8 +393,8 @@ s16 BaseAliveGameObject::Check_IsOnEndOfLine_4021A0(s16 direction, s16 dist)
         xLoc = gridSize * FP_FromInteger(dist);
     }
 
-    const s16 xposRounded = FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos) & 1023;
-    const FP xPosSnapped = FP_FromInteger((FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos) & 0xFC00) + SnapToXGrid(mBaseAnimatedWithPhysicsGameObject_SpriteScale, xposRounded));
+    const s16 xposRounded = FP_GetExponent(mXPos) & 1023;
+    const FP xPosSnapped = FP_FromInteger((FP_GetExponent(mXPos) & 0xFC00) + SnapToXGrid(mSpriteScale, xposRounded));
     if (xposRounded < (240 + 16) || xposRounded > (640 - 16))
     {
         return 0;
@@ -405,20 +405,20 @@ s16 BaseAliveGameObject::Check_IsOnEndOfLine_4021A0(s16 direction, s16 dist)
     FP hitY = {};
     return sCollisions->Raycast(
                xLoc + xPosSnapped,
-               mBaseAnimatedWithPhysicsGameObject_YPos - FP_FromInteger(4),
+               mYPos - FP_FromInteger(4),
                xLoc + xPosSnapped,
-               mBaseAnimatedWithPhysicsGameObject_YPos + FP_FromInteger(4),
+               mYPos + FP_FromInteger(4),
                &pLine,
                &hitX,
                &hitY,
-               mBaseAnimatedWithPhysicsGameObject_SpriteScale != FP_FromDouble(0.5) ? kFgWallsOrFloor : kBgWallsOrFloor)
+               mSpriteScale != FP_FromDouble(0.5) ? kFgWallsOrFloor : kBgWallsOrFloor)
         == 0;
 }
 
 void BaseAliveGameObject::VOnPathTransition_401470(s16 camWorldX, s32 camWorldY, CameraPos direction)
 {
-    const FP oldx = mBaseAnimatedWithPhysicsGameObject_XPos;
-    const FP oldy = mBaseAnimatedWithPhysicsGameObject_YPos;
+    const FP oldx = mXPos;
+    const FP oldy = mYPos;
 
     // TODO: This was probably a rect ??
     s32 xpos = 0;
@@ -436,10 +436,10 @@ void BaseAliveGameObject::VOnPathTransition_401470(s16 camWorldX, s32 camWorldY,
             height = camWorldY + 170;
 
             // Get the fame header for the first frame in the animation and take its height
-            const s32 frameH = reinterpret_cast<FrameHeader*>((*mBaseAnimatedWithPhysicsGameObject_Anim.field_20_ppBlock)[mBaseAnimatedWithPhysicsGameObject_Anim.Get_FrameHeader(-1)->field_0_frame_header_offset])->field_5_height;
+            const s32 frameH = reinterpret_cast<FrameHeader*>((*mAnim.field_20_ppBlock)[mAnim.Get_FrameHeader(-1)->field_0_frame_header_offset])->field_5_height;
 
-            mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(camWorldX + (FP_GetExponent(oldx) % 1024));
-            mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(frameH + camWorldY + 356);
+            mXPos = FP_FromInteger(camWorldX + (FP_GetExponent(oldx) % 1024));
+            mYPos = FP_FromInteger(frameH + camWorldY + 356);
             break;
         }
 
@@ -448,8 +448,8 @@ void BaseAliveGameObject::VOnPathTransition_401470(s16 camWorldX, s32 camWorldY,
             width = camWorldX + 674;
             ypos = camWorldY + 310;
             height = camWorldY + 410;
-            mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(camWorldX + (FP_GetExponent(oldx) % 1024));
-            mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(camWorldY + 124);
+            mXPos = FP_FromInteger(camWorldX + (FP_GetExponent(oldx) % 1024));
+            mYPos = FP_FromInteger(camWorldY + 124);
             break;
 
         case CameraPos::eCamLeft_3:
@@ -457,8 +457,8 @@ void BaseAliveGameObject::VOnPathTransition_401470(s16 camWorldX, s32 camWorldY,
             xpos = camWorldX + 524;
             ypos = camWorldY + 70;
             height = camWorldY + 410;
-            mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(camWorldX + XGrid_Index_To_XPos(mBaseAnimatedWithPhysicsGameObject_SpriteScale, MaxGridBlocks_41FA10(mBaseAnimatedWithPhysicsGameObject_SpriteScale) - 1));
-            mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(camWorldY + (FP_GetExponent(oldy) % 480));
+            mXPos = FP_FromInteger(camWorldX + XGrid_Index_To_XPos(mSpriteScale, MaxGridBlocks_41FA10(mSpriteScale) - 1));
+            mYPos = FP_FromInteger(camWorldY + (FP_GetExponent(oldy) % 480));
             break;
 
         case CameraPos::eCamRight_4:
@@ -466,8 +466,8 @@ void BaseAliveGameObject::VOnPathTransition_401470(s16 camWorldX, s32 camWorldY,
             xpos = camWorldX + 206;
             ypos = camWorldY + 70;
             height = camWorldY + 410;
-            mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(camWorldX + XGrid_Index_To_XPos(mBaseAnimatedWithPhysicsGameObject_SpriteScale, 1));
-            mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(camWorldY + (FP_GetExponent(oldy) % 480));
+            mXPos = FP_FromInteger(camWorldX + XGrid_Index_To_XPos(mSpriteScale, 1));
+            mYPos = FP_FromInteger(camWorldY + (FP_GetExponent(oldy) % 480));
             break;
 
         default:
@@ -481,8 +481,8 @@ void BaseAliveGameObject::VOnPathTransition_401470(s16 camWorldX, s32 camWorldY,
     {
         BaseAliveGameObjectPathTLV = gMap.TLV_First_Of_Type_In_Camera(TlvTypes::StartController_28, 0);
         LOG_INFO("Flip direction after the path trans as we are not touching the start controller");
-        mBaseAnimatedWithPhysicsGameObject_VelX = -mBaseAnimatedWithPhysicsGameObject_VelX;
-        mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Toggle(AnimFlags::eBit5_FlipX);
+        mVelX = -mVelX;
+        mAnim.mFlags.Toggle(AnimFlags::eBit5_FlipX);
     }
     else
     {
@@ -498,19 +498,19 @@ void BaseAliveGameObject::VOnPathTransition_401470(s16 camWorldX, s32 camWorldY,
     PSX_Point camLoc = {};
     gMap.GetCurrentCamCoords(&camLoc);
 
-    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger((BaseAliveGameObjectPathTLV->mBottomRight.x + BaseAliveGameObjectPathTLV->mTopLeft.x) / 2);
-    mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(BaseAliveGameObjectPathTLV->mTopLeft.y);
+    mXPos = FP_FromInteger((BaseAliveGameObjectPathTLV->mBottomRight.x + BaseAliveGameObjectPathTLV->mTopLeft.x) / 2);
+    mYPos = FP_FromInteger(BaseAliveGameObjectPathTLV->mTopLeft.y);
 
-    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(camLoc.x + SnapToXGrid(mBaseAnimatedWithPhysicsGameObject_SpriteScale, FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos - FP_FromInteger(camLoc.x))));
+    mXPos = FP_FromInteger(camLoc.x + SnapToXGrid(mSpriteScale, FP_GetExponent(mXPos - FP_FromInteger(camLoc.x))));
 
     if (mLiftPoint)
     {
         // Move lift point into the new path
-        const FP rect_left = mBaseAnimatedWithPhysicsGameObject_XPos - oldx;
-        const FP rect_right = mBaseAnimatedWithPhysicsGameObject_YPos - oldy;
+        const FP rect_left = mXPos - oldx;
+        const FP rect_right = mYPos - oldy;
 
-        mLiftPoint->mBaseAnimatedWithPhysicsGameObject_XPos += rect_left;
-        mLiftPoint->mBaseAnimatedWithPhysicsGameObject_YPos += rect_right;
+        mLiftPoint->mXPos += rect_left;
+        mLiftPoint->mYPos += rect_right;
 
         BaseAliveGameObjectCollisionLine->mRect.x += FP_GetExponent(rect_left);
         BaseAliveGameObjectCollisionLine->mRect.w += FP_GetExponent(rect_left);
@@ -527,17 +527,17 @@ void BaseAliveGameObject::VOnPathTransition_401470(s16 camWorldX, s32 camWorldY,
             FP hitX = {};
             FP hitY = {};
             if (sCollisions->Raycast(
-                    mBaseAnimatedWithPhysicsGameObject_XPos,
-                    mBaseAnimatedWithPhysicsGameObject_YPos - FP_FromInteger(40),
-                    mBaseAnimatedWithPhysicsGameObject_XPos,
-                    mBaseAnimatedWithPhysicsGameObject_YPos + FP_FromInteger(40),
+                    mXPos,
+                    mYPos - FP_FromInteger(40),
+                    mXPos,
+                    mYPos + FP_FromInteger(40),
                     &pLine,
                     &hitX,
                     &hitY,
-                    mBaseAnimatedWithPhysicsGameObject_SpriteScale != FP_FromDouble(0.5) ? kFgWallsOrFloor : kBgWallsOrFloor))
+                    mSpriteScale != FP_FromDouble(0.5) ? kFgWallsOrFloor : kBgWallsOrFloor))
             {
                 BaseAliveGameObjectCollisionLine = pLine;
-                mBaseAnimatedWithPhysicsGameObject_YPos = hitY;
+                mYPos = hitY;
             }
             else
             {
@@ -550,36 +550,36 @@ void BaseAliveGameObject::VOnPathTransition_401470(s16 camWorldX, s32 camWorldY,
         {
             if (BaseAliveGameObjectPathTLV->mTlvType32 == TlvTypes::StartController_28)
             {
-                BaseAliveGameObjectLastLineYPos += mBaseAnimatedWithPhysicsGameObject_YPos - oldy;
+                BaseAliveGameObjectLastLineYPos += mYPos - oldy;
             }
 
             PathLine* pLine = nullptr;
             FP hitX = {};
             FP hitY = {};
             if (sCollisions->Raycast(
-                    mBaseAnimatedWithPhysicsGameObject_XPos,
+                    mXPos,
                     BaseAliveGameObjectLastLineYPos - FP_FromInteger(40),
-                    mBaseAnimatedWithPhysicsGameObject_XPos,
+                    mXPos,
                     BaseAliveGameObjectLastLineYPos + FP_FromInteger(40),
                     &pLine,
                     &hitX,
                     &hitY,
-                    mBaseAnimatedWithPhysicsGameObject_SpriteScale != FP_FromDouble(0.5) ? kFgWallsOrFloor : kBgWallsOrFloor))
+                    mSpriteScale != FP_FromDouble(0.5) ? kFgWallsOrFloor : kBgWallsOrFloor))
             {
-                mBaseAnimatedWithPhysicsGameObject_YPos += hitY - BaseAliveGameObjectLastLineYPos;
+                mYPos += hitY - BaseAliveGameObjectLastLineYPos;
             }
         }
     }
 
-    if (mBaseAnimatedWithPhysicsGameObject_SpriteScale == FP_FromInteger(1) && mBaseAnimatedWithPhysicsGameObject_Anim.field_14_scale == FP_FromDouble(0.5))
+    if (mSpriteScale == FP_FromInteger(1) && mAnim.field_14_scale == FP_FromDouble(0.5))
     {
-        mBaseAnimatedWithPhysicsGameObject_VelX = (mBaseAnimatedWithPhysicsGameObject_VelX * FP_FromInteger(2));
+        mVelX = (mVelX * FP_FromInteger(2));
         return;
     }
 
-    if (mBaseAnimatedWithPhysicsGameObject_SpriteScale == FP_FromDouble(0.5) && mBaseAnimatedWithPhysicsGameObject_Anim.field_14_scale == FP_FromInteger(1))
+    if (mSpriteScale == FP_FromDouble(0.5) && mAnim.field_14_scale == FP_FromInteger(1))
     {
-        mBaseAnimatedWithPhysicsGameObject_VelX = (mBaseAnimatedWithPhysicsGameObject_VelX * FP_FromDouble(0.5));
+        mVelX = (mVelX * FP_FromDouble(0.5));
         return;
     }
 }
@@ -591,50 +591,50 @@ s16 BaseAliveGameObject::MapFollowMe_401D30(s16 snapToGrid)
     gMap.GetCurrentCamCoords(&camCoords);
 
     // Are we "in" the current camera X bounds?
-    if (mBaseAnimatedWithPhysicsGameObject_LvlNumber == gMap.mCurrentLevel && mBaseAnimatedWithPhysicsGameObject_PathNumber == gMap.mCurrentPath && mBaseAnimatedWithPhysicsGameObject_XPos > FP_FromInteger(camCoords.x) && mBaseAnimatedWithPhysicsGameObject_XPos < FP_FromInteger(camCoords.x + 1024))
+    if (mCurrentLevel == gMap.mCurrentLevel && mCurrentPath == gMap.mCurrentPath && mXPos > FP_FromInteger(camCoords.x) && mXPos < FP_FromInteger(camCoords.x + 1024))
     {
         // Snapped XPos in camera space
-        const s32 snappedXLocalCoords = SnapToXGrid(mBaseAnimatedWithPhysicsGameObject_SpriteScale, FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos - FP_FromInteger(camCoords.x)));
+        const s32 snappedXLocalCoords = SnapToXGrid(mSpriteScale, FP_GetExponent(mXPos - FP_FromInteger(camCoords.x)));
 
         // In the left camera void and moving left?
-        if (snappedXLocalCoords < 256 && mBaseAnimatedWithPhysicsGameObject_VelX < FP_FromInteger(0))
+        if (snappedXLocalCoords < 256 && mVelX < FP_FromInteger(0))
         {
             if (sControlledCharacter_50767C == this && gMap.SetActiveCameraDelayed(Map::MapDirections::eMapLeft_0, this, -1))
             {
-                mBaseAnimatedWithPhysicsGameObject_PathNumber = gMap.mCurrentPath;
-                mBaseAnimatedWithPhysicsGameObject_LvlNumber = gMap.mCurrentLevel;
+                mCurrentPath = gMap.mCurrentPath;
+                mCurrentLevel = gMap.mCurrentLevel;
                 return 1;
             }
             else
             {
-                const s32 x_i = abs(FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos));
+                const s32 x_i = abs(FP_GetExponent(mXPos));
                 const s32 camXIndex = x_i % 1024;
                 if (x_i > 1024)
                 {
                     UsePathTransScale_4020D0();
 
                     // Put at the right side of the camera to the left
-                    const s32 cam1GridBeforeRight = XGrid_Index_To_XPos(mBaseAnimatedWithPhysicsGameObject_SpriteScale, (MaxGridBlocks_41FA10(mBaseAnimatedWithPhysicsGameObject_SpriteScale) - 1));
+                    const s32 cam1GridBeforeRight = XGrid_Index_To_XPos(mSpriteScale, (MaxGridBlocks_41FA10(mSpriteScale) - 1));
                     const s32 camRightEdge = x_i - camXIndex - 1024;
-                    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(camRightEdge) + FP_FromInteger(cam1GridBeforeRight) + ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale);
+                    mXPos = FP_FromInteger(camRightEdge) + FP_FromInteger(cam1GridBeforeRight) + ScaleToGridSize(mSpriteScale);
 
                     VCheckCollisionLineStillValid(40);
                 }
             }
         }
         // In the right camera void and moving right?
-        else if (snappedXLocalCoords > 624 && mBaseAnimatedWithPhysicsGameObject_VelX > FP_FromInteger(0))
+        else if (snappedXLocalCoords > 624 && mVelX > FP_FromInteger(0))
         {
             // Go to the right camera in under player control
             if (sControlledCharacter_50767C == this && gMap.SetActiveCameraDelayed(Map::MapDirections::eMapRight_1, this, -1))
             {
-                mBaseAnimatedWithPhysicsGameObject_PathNumber = gMap.mCurrentPath;
-                mBaseAnimatedWithPhysicsGameObject_LvlNumber = gMap.mCurrentLevel;
+                mCurrentPath = gMap.mCurrentPath;
+                mCurrentLevel = gMap.mCurrentLevel;
                 return 1;
             }
             else
             {
-                const s32 x_i = abs(FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos));
+                const s32 x_i = abs(FP_GetExponent(mXPos));
                 const s32 camXIndex = x_i % 1024;
 
                 gMap.Get_map_size(&camCoords);
@@ -643,9 +643,9 @@ s16 BaseAliveGameObject::MapFollowMe_401D30(s16 snapToGrid)
                     UsePathTransScale_4020D0();
 
                     // Put at the left side of the camera to the right
-                    const s32 cam1GridAfterLeft = XGrid_Index_To_XPos(mBaseAnimatedWithPhysicsGameObject_SpriteScale, 1);
+                    const s32 cam1GridAfterLeft = XGrid_Index_To_XPos(mSpriteScale, 1);
                     const s32 camLeftEdge = x_i - camXIndex + 1024;
-                    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(camLeftEdge) + FP_FromInteger(cam1GridAfterLeft) - ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale);
+                    mXPos = FP_FromInteger(camLeftEdge) + FP_FromInteger(cam1GridAfterLeft) - ScaleToGridSize(mSpriteScale);
 
                     VCheckCollisionLineStillValid(40);
                 }
@@ -654,40 +654,40 @@ s16 BaseAliveGameObject::MapFollowMe_401D30(s16 snapToGrid)
         else if (snapToGrid)
         {
             // Not in the voids of the camera, just snap to the x grid
-            mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(snappedXLocalCoords + camCoords.x);
+            mXPos = FP_FromInteger(snappedXLocalCoords + camCoords.x);
         }
         return 0;
     }
     else
     {
-        const s32 x_i = abs(FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos));
+        const s32 x_i = abs(FP_GetExponent(mXPos));
         const s32 camXIndex = x_i % 1024;
 
         // In the left camera void and moving left?
-        if (camXIndex < 256 && mBaseAnimatedWithPhysicsGameObject_VelX < FP_FromInteger(0))
+        if (camXIndex < 256 && mVelX < FP_FromInteger(0))
         {
             if (x_i > 1024)
             {
                 UsePathTransScale_4020D0();
 
-                const s32 camRightGrid = XGrid_Index_To_XPos(mBaseAnimatedWithPhysicsGameObject_SpriteScale, MaxGridBlocks_41FA10(mBaseAnimatedWithPhysicsGameObject_SpriteScale));
+                const s32 camRightGrid = XGrid_Index_To_XPos(mSpriteScale, MaxGridBlocks_41FA10(mSpriteScale));
                 const s32 camRightEdge = x_i - camXIndex - 1024;
-                mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(camRightEdge) + FP_FromInteger(camRightGrid) + ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale);
+                mXPos = FP_FromInteger(camRightEdge) + FP_FromInteger(camRightGrid) + ScaleToGridSize(mSpriteScale);
 
                 VCheckCollisionLineStillValid(40);
             }
         }
         // In the right camera void and moving right?
-        else if (camXIndex > 624 && mBaseAnimatedWithPhysicsGameObject_VelX > FP_FromInteger(0)) // Never hit as velx is < 0
+        else if (camXIndex > 624 && mVelX > FP_FromInteger(0)) // Never hit as velx is < 0
         {
             gMap.Get_map_size(&camCoords);
             if (x_i < (camCoords.x - 1024))
             {
                 UsePathTransScale_4020D0();
 
-                const s32 camLeftGrid = XGrid_Index_To_XPos(mBaseAnimatedWithPhysicsGameObject_SpriteScale, 0);
+                const s32 camLeftGrid = XGrid_Index_To_XPos(mSpriteScale, 0);
                 const s32 camLeftEdge = x_i - camXIndex + 1024;
-                mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(camLeftEdge) + FP_FromInteger(camLeftGrid) - ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale);
+                mXPos = FP_FromInteger(camLeftEdge) + FP_FromInteger(camLeftGrid) - ScaleToGridSize(mSpriteScale);
 
                 VCheckCollisionLineStillValid(40);
             }
@@ -703,28 +703,28 @@ void BaseAliveGameObject::SetActiveCameraDelayedFromDir_401C90()
         switch (Is_In_Current_Camera())
         {
             case CameraPos::eCamTop_1:
-                if (mBaseAnimatedWithPhysicsGameObject_VelY < FP_FromInteger(0))
+                if (mVelY < FP_FromInteger(0))
                 {
                     gMap.SetActiveCameraDelayed(Map::MapDirections::eMapTop_2, this, -1);
                 }
                 break;
 
             case CameraPos::eCamBottom_2:
-                if (mBaseAnimatedWithPhysicsGameObject_VelY > FP_FromInteger(0))
+                if (mVelY > FP_FromInteger(0))
                 {
                     gMap.SetActiveCameraDelayed(Map::MapDirections::eMapBottom_3, this, -1);
                 }
                 break;
 
             case CameraPos::eCamLeft_3:
-                if (mBaseAnimatedWithPhysicsGameObject_VelX < FP_FromInteger(0))
+                if (mVelX < FP_FromInteger(0))
                 {
                     gMap.SetActiveCameraDelayed(Map::MapDirections::eMapLeft_0, this, -1);
                 }
                 break;
 
             case CameraPos::eCamRight_4:
-                if (mBaseAnimatedWithPhysicsGameObject_VelX > FP_FromInteger(0))
+                if (mVelX > FP_FromInteger(0))
                 {
                     gMap.SetActiveCameraDelayed(Map::MapDirections::eMapRight_1, this, -1);
                 }
@@ -742,41 +742,41 @@ s16 BaseAliveGameObject::WallHit_401930(FP offY, FP offX)
 {
     PathLine* pLine = nullptr;
     return sCollisions->Raycast(
-               mBaseAnimatedWithPhysicsGameObject_XPos,
-               mBaseAnimatedWithPhysicsGameObject_YPos - offY,
-               mBaseAnimatedWithPhysicsGameObject_XPos + offX,
-               mBaseAnimatedWithPhysicsGameObject_YPos - offY,
+               mXPos,
+               mYPos - offY,
+               mXPos + offX,
+               mYPos - offY,
                &pLine,
                &offX,
                &offY,
-               mBaseAnimatedWithPhysicsGameObject_SpriteScale != FP_FromDouble(0.5) ? kFgWalls : kBgWalls)
+               mSpriteScale != FP_FromDouble(0.5) ? kFgWalls : kBgWalls)
         != 0;
 }
 
 s16 BaseAliveGameObject::InAirCollision_4019C0(PathLine** ppLine, FP* hitX, FP* hitY, FP vely)
 {
-    mBaseAnimatedWithPhysicsGameObject_VelY += (mBaseAnimatedWithPhysicsGameObject_SpriteScale * vely);
+    mVelY += (mSpriteScale * vely);
 
-    if (mBaseAnimatedWithPhysicsGameObject_VelY > (mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(20)))
+    if (mVelY > (mSpriteScale * FP_FromInteger(20)))
     {
-        mBaseAnimatedWithPhysicsGameObject_VelY = (mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(20));
+        mVelY = (mSpriteScale * FP_FromInteger(20));
     }
 
-    const FP old_xpos = mBaseAnimatedWithPhysicsGameObject_XPos;
-    const FP old_ypos = mBaseAnimatedWithPhysicsGameObject_YPos;
+    const FP old_xpos = mXPos;
+    const FP old_ypos = mYPos;
 
-    mBaseAnimatedWithPhysicsGameObject_XPos += mBaseAnimatedWithPhysicsGameObject_VelX;
-    mBaseAnimatedWithPhysicsGameObject_YPos += mBaseAnimatedWithPhysicsGameObject_VelY;
+    mXPos += mVelX;
+    mYPos += mVelY;
 
     return sCollisions->Raycast(
         old_xpos,
         old_ypos,
-        mBaseAnimatedWithPhysicsGameObject_XPos,
-        mBaseAnimatedWithPhysicsGameObject_YPos,
+        mXPos,
+        mYPos,
         ppLine,
         hitX,
         hitY,
-        mBaseAnimatedWithPhysicsGameObject_SpriteScale != FP_FromDouble(0.5) ? kFgWallsOrFloor : kBgWallsOrFloor) ? 1 : 0;
+        mSpriteScale != FP_FromDouble(0.5) ? kFgWallsOrFloor : kBgWallsOrFloor) ? 1 : 0;
 }
 
 void BaseAliveGameObject::OnResourceLoaded_4019A0(BaseAliveGameObject* ppRes)
@@ -787,30 +787,30 @@ void BaseAliveGameObject::OnResourceLoaded_4019A0(BaseAliveGameObject* ppRes)
 void BaseAliveGameObject::UsePathTransScale_4020D0()
 {
     auto pPathTrans = static_cast<Path_Change*>(gMap.TLV_Get_At_446260(
-        FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos),
-        FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos),
-        FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos),
-        FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos),
+        FP_GetExponent(mXPos),
+        FP_GetExponent(mYPos),
+        FP_GetExponent(mXPos),
+        FP_GetExponent(mYPos),
         TlvTypes::PathTransition_1));
 
     if (pPathTrans)
     {
         if (pPathTrans->field_22_next_path_scale == Scale_short::eHalf_1)
         {
-            if (mBaseAnimatedWithPhysicsGameObject_SpriteScale != FP_FromDouble(0.5))
+            if (mSpriteScale != FP_FromDouble(0.5))
             {
-                mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromDouble(0.5);
-                mBaseAnimatedWithPhysicsGameObject_Scale = Scale::Bg;
-                mBaseAnimatedWithPhysicsGameObject_VelX = (mBaseAnimatedWithPhysicsGameObject_VelX * FP_FromDouble(0.5));
+                mSpriteScale = FP_FromDouble(0.5);
+                mScale = Scale::Bg;
+                mVelX = (mVelX * FP_FromDouble(0.5));
             }
         }
         else if (pPathTrans->field_22_next_path_scale == Scale_short::eFull_0)
         {
-            if (mBaseAnimatedWithPhysicsGameObject_SpriteScale != FP_FromInteger(1))
+            if (mSpriteScale != FP_FromInteger(1))
             {
-                mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromInteger(1);
-                mBaseAnimatedWithPhysicsGameObject_Scale = Scale::Fg;
-                mBaseAnimatedWithPhysicsGameObject_VelX = (mBaseAnimatedWithPhysicsGameObject_VelX * FP_FromInteger(2));
+                mSpriteScale = FP_FromInteger(1);
+                mScale = Scale::Fg;
+                mVelX = (mVelX * FP_FromInteger(2));
             }
         }
     }
@@ -846,7 +846,7 @@ BaseGameObject* BaseAliveGameObject::FindObjectOfType_418280(ReliveTypes typeToF
 s16 BaseAliveGameObject::OnTrapDoorIntersection_401C10(PlatformBase* pPlatform)
 {
     const PSX_RECT rect = pPlatform->VGetBoundingRect();
-    if (FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos) < rect.x || FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos) > rect.w || FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos) > rect.h)
+    if (FP_GetExponent(mXPos) < rect.x || FP_GetExponent(mXPos) > rect.w || FP_GetExponent(mYPos) > rect.h)
     {
         return 1;
     }

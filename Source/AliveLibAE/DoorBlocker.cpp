@@ -20,21 +20,21 @@ DoorBlocker::DoorBlocker(Path_DoorBlocker* pTlv, s32 tlvInfo)
     field_118_bDone &= ~1u;
 
     SetType(ReliveTypes::eDoorLock);
-    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger((pTlv->mTopLeft.x + pTlv->mBottomRight.x) / 2);
-    mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->mTopLeft.y);
+    mXPos = FP_FromInteger((pTlv->mTopLeft.x + pTlv->mBottomRight.x) / 2);
+    mYPos = FP_FromInteger(pTlv->mTopLeft.y);
     field_11C_tlvInfo = tlvInfo;
 
     if (pTlv->field_10_scale == Scale_short::eHalf_1)
     {
-        mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromDouble(0.5);
-        mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_Shadow_Half_7;
-        mBaseAnimatedWithPhysicsGameObject_Scale = Scale::Bg;
+        mSpriteScale = FP_FromDouble(0.5);
+        mAnim.mRenderLayer = Layer::eLayer_Shadow_Half_7;
+        mScale = Scale::Bg;
     }
     else
     {
-        mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromInteger(1);
-        mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_Shadow_26;
-        mBaseAnimatedWithPhysicsGameObject_Scale = Scale::Fg;
+        mSpriteScale = FP_FromInteger(1);
+        mAnim.mRenderLayer = Layer::eLayer_Shadow_26;
+        mScale = Scale::Fg;
     }
 
     if (SwitchStates_Get(field_11A_switch_id))
@@ -61,7 +61,7 @@ void DoorBlocker::VUpdate()
     {
         if (field_118_bDone & 1)
         {
-            if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
+            if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
             {
                 mBaseGameObjectFlags.Set(BaseGameObject::eDead);
             }
@@ -70,7 +70,7 @@ void DoorBlocker::VUpdate()
         {
             SFX_Play_Pitch(SoundEffect::DoorEffect_57, 100, 900);
             SFX_Play_Pitch(SoundEffect::DoorEffect_57, 100, -100);
-            mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::Door_Lock_Open, 0);
+            mAnim.Set_Animation_Data(AnimId::Door_Lock_Open, 0);
             field_118_bDone |= 1u;
         }
     }

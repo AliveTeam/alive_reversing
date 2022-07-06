@@ -25,43 +25,43 @@ Dove::Dove(AnimId animId, s32 tlvInfo, FP scale)
     mBaseGameObjectTypeId = ReliveTypes::eBird;
     u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AO::AnimRec(animId).mResourceId, 1, 0);
     Animation_Init(animId, ppRes);
-    mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit15_bSemiTrans);
+    mAnim.mFlags.Clear(AnimFlags::eBit15_bSemiTrans);
 
     gDovesArray.Push_Back(this);
 
-    mBaseAnimatedWithPhysicsGameObject_Anim.field_14_scale = scale;
-    mBaseAnimatedWithPhysicsGameObject_SpriteScale = scale;
+    mAnim.field_14_scale = scale;
+    mSpriteScale = scale;
     if (scale == FP_FromInteger(1))
     {
-        mBaseAnimatedWithPhysicsGameObject_Scale = Scale::Fg;
-        mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_27;
+        mScale = Scale::Fg;
+        mAnim.mRenderLayer = Layer::eLayer_27;
     }
     else
     {
-        mBaseAnimatedWithPhysicsGameObject_Scale = Scale::Bg;
-        mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_8;
+        mScale = Scale::Bg;
+        mAnim.mRenderLayer = Layer::eLayer_8;
     }
 
-    mBaseAnimatedWithPhysicsGameObject_VelX = FP_FromInteger((Math_NextRandom() / 12 - 11));
-    if (mBaseAnimatedWithPhysicsGameObject_VelX >= FP_FromInteger(0))
+    mVelX = FP_FromInteger((Math_NextRandom() / 12 - 11));
+    if (mVelX >= FP_FromInteger(0))
     {
-        mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit5_FlipX);
+        mAnim.mFlags.Clear(AnimFlags::eBit5_FlipX);
     }
     else
     {
-        mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit5_FlipX);
+        mAnim.mFlags.Set(AnimFlags::eBit5_FlipX);
     }
 
     mDoveState = State::eOnGround_0;
 
-    mBaseAnimatedWithPhysicsGameObject_VelY = FP_FromInteger(-4 - (Math_NextRandom() & 3));
-    mBaseAnimatedWithPhysicsGameObject_Anim.SetFrame(Math_NextRandom() & 7);
+    mVelY = FP_FromInteger(-4 - (Math_NextRandom() & 3));
+    mAnim.SetFrame(Math_NextRandom() & 7);
     mKeepInGlobalArray = FALSE;
     mTlvInfo = tlvInfo;
 
     if (gMap.mCurrentLevel == EReliveLevelIds::eStockYards || gMap.mCurrentLevel == EReliveLevelIds::eStockYardsReturn)
     {
-        mBaseAnimatedWithPhysicsGameObject_RGB.SetRGB(30, 30, 30);
+        mRGB.SetRGB(30, 30, 30);
     }
 
     if (bTheOneControllingTheMusic)
@@ -80,46 +80,46 @@ Dove::Dove(AnimId animId, FP xpos, FP ypos, FP scale)
     u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AO::AnimRec(animId).mResourceId, 1, 0);
     Animation_Init(animId, ppRes);
 
-    mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit15_bSemiTrans);
-    mBaseAnimatedWithPhysicsGameObject_Anim.field_14_scale = scale;
-    mBaseAnimatedWithPhysicsGameObject_SpriteScale = scale;
+    mAnim.mFlags.Clear(AnimFlags::eBit15_bSemiTrans);
+    mAnim.field_14_scale = scale;
+    mSpriteScale = scale;
 
     if (scale == FP_FromInteger(1))
     {
-        mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_27;
+        mAnim.mRenderLayer = Layer::eLayer_27;
     }
     else
     {
-        mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_8;
+        mAnim.mRenderLayer = Layer::eLayer_8;
     }
 
-    mBaseAnimatedWithPhysicsGameObject_VelX = FP_FromInteger(Math_NextRandom() / 12 - 11);
+    mVelX = FP_FromInteger(Math_NextRandom() / 12 - 11);
     if (scale >= FP_FromInteger(0))
     {
-        mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit5_FlipX);
+        mAnim.mFlags.Clear(AnimFlags::eBit5_FlipX);
     }
     else
     {
-        mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit5_FlipX);
+        mAnim.mFlags.Set(AnimFlags::eBit5_FlipX);
     }
 
-    mBaseAnimatedWithPhysicsGameObject_VelY = FP_FromInteger(-4 - ((Math_NextRandom()) & 3));
+    mVelY = FP_FromInteger(-4 - ((Math_NextRandom()) & 3));
     mDoveState = Dove::State::eFlyAway_1;
     mKeepInGlobalArray = TRUE;
     mFlyAwayCounter = 0;
 
-    mBaseAnimatedWithPhysicsGameObject_XPos = xpos;
-    mBaseAnimatedWithPhysicsGameObject_YPos = ypos;
+    mXPos = xpos;
+    mYPos = ypos;
     mPrevX_Unused = xpos;
     mPrevY_Unused = ypos;
 
     mTlvInfo = 0;
 
-    mBaseAnimatedWithPhysicsGameObject_Anim.SetFrame((Math_NextRandom() & 6) + 1);
+    mAnim.SetFrame((Math_NextRandom() & 6) + 1);
 
     if (gMap.mCurrentLevel == EReliveLevelIds::eStockYards || gMap.mCurrentLevel == EReliveLevelIds::eStockYardsReturn)
     {
-        mBaseAnimatedWithPhysicsGameObject_RGB.SetRGB(30, 30, 30);
+        mRGB.SetRGB(30, 30, 30);
     }
 
     if (bTheOneControllingTheMusic)
@@ -252,7 +252,7 @@ void Dove::VUpdate()
                 }
             }
 
-            if (FP_GetExponent(FP_Abs(mBaseAnimatedWithPhysicsGameObject_XPos - sControlledCharacter_50767C->mBaseAnimatedWithPhysicsGameObject_XPos)) < 100)
+            if (FP_GetExponent(FP_Abs(mXPos - sControlledCharacter_50767C->mXPos)) < 100)
             {
                 if (EventGet(kEventNoise))
                 {
@@ -280,7 +280,7 @@ void Dove::VUpdate()
             mFlyAwayCounter++;
             if (mFlyAwayCounter == 0)
             {
-                mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::Dove_Flying, nullptr);
+                mAnim.Set_Animation_Data(AnimId::Dove_Flying, nullptr);
                 if (!bExtraSeqStarted_4FF944)
                 {
                     bExtraSeqStarted_4FF944 = 16;
@@ -290,20 +290,20 @@ void Dove::VUpdate()
 
             if (mFlyAwayCounter > 0)
             {
-                mBaseAnimatedWithPhysicsGameObject_XPos += mBaseAnimatedWithPhysicsGameObject_VelX;
-                mBaseAnimatedWithPhysicsGameObject_YPos += mBaseAnimatedWithPhysicsGameObject_VelY;
+                mXPos += mVelX;
+                mYPos += mVelY;
             }
 
-            mBaseAnimatedWithPhysicsGameObject_VelY = (mBaseAnimatedWithPhysicsGameObject_VelY * FP_FromDouble(1.03));
-            mBaseAnimatedWithPhysicsGameObject_VelX = (mBaseAnimatedWithPhysicsGameObject_VelX * FP_FromDouble(1.03));
+            mVelY = (mVelY * FP_FromDouble(1.03));
+            mVelX = (mVelX * FP_FromDouble(1.03));
 
             if (mFlyAwayCounter >= 25 - (Math_NextRandom() & 7))
             {
                 mFlyAwayCounter = (Math_NextRandom() & 7) + mFlyAwayCounter - 25;
-                mBaseAnimatedWithPhysicsGameObject_VelX = -mBaseAnimatedWithPhysicsGameObject_VelX;
+                mVelX = -mVelX;
             }
 
-            mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit5_FlipX, mBaseAnimatedWithPhysicsGameObject_VelX < FP_FromInteger(0));
+            mAnim.mFlags.Set(AnimFlags::eBit5_FlipX, mVelX < FP_FromInteger(0));
             break;
 
         case State::eJoin_2:
@@ -313,23 +313,23 @@ void Dove::VUpdate()
                 mBaseGameObjectFlags.Set(BaseGameObject::eDead);
             }
 
-            const FP k4Directed = mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX) ? FP_FromInteger(4) : FP_FromInteger(-4);
-            mBaseAnimatedWithPhysicsGameObject_VelX = (k4Directed + mJoinX - mBaseAnimatedWithPhysicsGameObject_XPos) / FP_FromInteger(8);
-            mBaseAnimatedWithPhysicsGameObject_XPos += mBaseAnimatedWithPhysicsGameObject_VelX;
-            mBaseAnimatedWithPhysicsGameObject_VelY = (mJoinY - mBaseAnimatedWithPhysicsGameObject_YPos) / FP_FromInteger(8);
-            mBaseAnimatedWithPhysicsGameObject_YPos += mBaseAnimatedWithPhysicsGameObject_VelY;
+            const FP k4Directed = mAnim.mFlags.Get(AnimFlags::eBit5_FlipX) ? FP_FromInteger(4) : FP_FromInteger(-4);
+            mVelX = (k4Directed + mJoinX - mXPos) / FP_FromInteger(8);
+            mXPos += mVelX;
+            mVelY = (mJoinY - mYPos) / FP_FromInteger(8);
+            mYPos += mVelY;
         }
             return;
 
         case State::eCircle_3:
-            mPrevX_Unused = mBaseAnimatedWithPhysicsGameObject_XPos;
-            mPrevY_Unused = mBaseAnimatedWithPhysicsGameObject_YPos;
+            mPrevX_Unused = mXPos;
+            mPrevY_Unused = mYPos;
 
             mAngle += 4;
 
             // Spin around this point
-            mBaseAnimatedWithPhysicsGameObject_XPos = ((Math_Sine_451110(mAngle) * FP_FromInteger(30)) * mBaseAnimatedWithPhysicsGameObject_SpriteScale) + mJoinX;
-            mBaseAnimatedWithPhysicsGameObject_YPos = ((Math_Cosine_4510A0(mAngle) * FP_FromInteger(35)) * mBaseAnimatedWithPhysicsGameObject_SpriteScale) + mJoinY;
+            mXPos = ((Math_Sine_451110(mAngle) * FP_FromInteger(30)) * mSpriteScale) + mJoinX;
+            mYPos = ((Math_Cosine_4510A0(mAngle) * FP_FromInteger(35)) * mSpriteScale) + mJoinY;
             return;
 
         case State::eAlmostACircle_4:
@@ -347,24 +347,24 @@ void Dove::VUpdate()
                     sAbePortalDirection = -1;
                 }
             }
-            mPrevX_Unused = mBaseAnimatedWithPhysicsGameObject_XPos;
+            mPrevX_Unused = mXPos;
             mAngle += 4;
-            mPrevY_Unused = mBaseAnimatedWithPhysicsGameObject_YPos;
-            mBaseAnimatedWithPhysicsGameObject_XPos = ((Math_Sine_451110(mAngle) * FP_FromInteger(sAbePortalWidth)) * mBaseAnimatedWithPhysicsGameObject_SpriteScale) + mJoinX;
-            mBaseAnimatedWithPhysicsGameObject_YPos = ((Math_Cosine_4510A0(mAngle) * FP_FromInteger(35)) * mBaseAnimatedWithPhysicsGameObject_SpriteScale) + mJoinY;
+            mPrevY_Unused = mYPos;
+            mXPos = ((Math_Sine_451110(mAngle) * FP_FromInteger(sAbePortalWidth)) * mSpriteScale) + mJoinX;
+            mYPos = ((Math_Cosine_4510A0(mAngle) * FP_FromInteger(35)) * mSpriteScale) + mJoinY;
             return;
 
         default:
             break;
     }
 
-    const s32 doveScreenYPos = FP_GetExponent(FP_Abs(mBaseAnimatedWithPhysicsGameObject_YPos - pScreenManager->mCamPos->y));
+    const s32 doveScreenYPos = FP_GetExponent(FP_Abs(mYPos - pScreenManager->mCamPos->y));
     if (doveScreenYPos > pScreenManager->mCamYOff)
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 
-    const s32 doveScreenXPos = FP_GetExponent(FP_Abs(mBaseAnimatedWithPhysicsGameObject_XPos - pScreenManager->mCamPos->x));
+    const s32 doveScreenXPos = FP_GetExponent(FP_Abs(mXPos - pScreenManager->mCamPos->x));
     if (doveScreenXPos > pScreenManager->mCamXOff)
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);

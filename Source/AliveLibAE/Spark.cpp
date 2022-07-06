@@ -22,7 +22,7 @@ Spark::Spark(FP xpos, FP ypos, FP scale, s32 count, s32 minAngle, s32 maxAngle, 
     mSparkType = type;
     mXPos = xpos;
     mYPos = ypos;
-    mScale = scale;
+    mSpriteScale = scale;
 
     if (scale == FP_FromDouble(0.5))
     {
@@ -78,24 +78,24 @@ Spark::Spark(FP xpos, FP ypos, FP scale, s32 count, s32 minAngle, s32 maxAngle, 
                 ppRes);
             if (pParticle)
             {
-                pParticle->mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit15_bSemiTrans);
-                pParticle->mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit16_bBlending);
+                pParticle->mAnim.mFlags.Set(AnimFlags::eBit15_bSemiTrans);
+                pParticle->mAnim.mFlags.Set(AnimFlags::eBit16_bBlending);
 
-                pParticle->mBaseAnimatedWithPhysicsGameObject_Anim.mRenderMode = TPageAbr::eBlend_1;
-                pParticle->mBaseAnimatedWithPhysicsGameObject_Anim.mRed = 128;
-                pParticle->mBaseAnimatedWithPhysicsGameObject_Anim.mGreen = 128;
-                pParticle->mBaseAnimatedWithPhysicsGameObject_Anim.mBlue = 128;
+                pParticle->mAnim.mRenderMode = TPageAbr::eBlend_1;
+                pParticle->mAnim.mRed = 128;
+                pParticle->mAnim.mGreen = 128;
+                pParticle->mAnim.mBlue = 128;
 
                 if (scale == FP_FromInteger(1))
                 {
-                    pParticle->mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_Foreground_36;
+                    pParticle->mAnim.mRenderLayer = Layer::eLayer_Foreground_36;
                 }
                 else
                 {
-                    pParticle->mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_Foreground_Half_17;
+                    pParticle->mAnim.mRenderLayer = Layer::eLayer_Foreground_Half_17;
                 }
 
-                pParticle->mBaseAnimatedWithPhysicsGameObject_SpriteScale = scale;
+                pParticle->mSpriteScale = scale;
             }
         }
     }
@@ -143,8 +143,8 @@ void Spark::VUpdate()
 void Spark::VRender(PrimHeader** ppOt)
 {
     if (gMap.Is_Point_In_Current_Camera(
-            sActiveHero->mBaseAnimatedWithPhysicsGameObject_LvlNumber,
-            sActiveHero->mBaseAnimatedWithPhysicsGameObject_PathNumber,
+            sActiveHero->mCurrentLevel,
+            sActiveHero->mCurrentPath,
             mXPos,
             mYPos,
             0))
@@ -162,10 +162,10 @@ void Spark::VRender(PrimHeader** ppOt)
             Line_G2* pPrim = &pSpark->field_1C_pLineG2s[gPsxDisplay.mBufferIndex];
             LineG2_Init(pPrim);
 
-            const s32 y0 = yOrg + FP_GetExponent(pSpark->field_4_y0 * mScale);
-            const s32 y1 = yOrg + FP_GetExponent(pSpark->field_C_y1 * mScale);
-            const s32 x0 = PsxToPCX(xOrg + FP_GetExponent(pSpark->field_0_x0 * mScale));
-            const s32 x1 = PsxToPCX(xOrg + FP_GetExponent(pSpark->field_8_x1 * mScale));
+            const s32 y0 = yOrg + FP_GetExponent(pSpark->field_4_y0 * mSpriteScale);
+            const s32 y1 = yOrg + FP_GetExponent(pSpark->field_C_y1 * mSpriteScale);
+            const s32 x0 = PsxToPCX(xOrg + FP_GetExponent(pSpark->field_0_x0 * mSpriteScale));
+            const s32 x1 = PsxToPCX(xOrg + FP_GetExponent(pSpark->field_8_x1 * mSpriteScale));
 
             SetXY0(pPrim, static_cast<s16>(x0), static_cast<s16>(y0));
             SetXY1(pPrim, static_cast<s16>(x1), static_cast<s16>(y1));

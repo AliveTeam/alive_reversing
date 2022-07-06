@@ -289,11 +289,11 @@ void Factory_LiftPoint_4820F0(Path_TLV* pTlv, Map* pMap, TlvItemInfoUnion tlvOff
             {
                 auto pLiftObj = static_cast<LiftPoint*>(pObjIter);
 
-                const s16 xpos_i = FP_GetExponent(pLiftObj->mBaseAnimatedWithPhysicsGameObject_XPos);
+                const s16 xpos_i = FP_GetExponent(pLiftObj->mXPos);
                 if (pTlv->mTopLeft.x <= xpos_i
                     && xpos_i <= pTlv->mBottomRight.x
-                    && pLiftObj->mBaseAnimatedWithPhysicsGameObject_LvlNumber == gMap.mCurrentLevel
-                    && pLiftObj->mBaseAnimatedWithPhysicsGameObject_PathNumber == gMap.mCurrentPath)
+                    && pLiftObj->mCurrentLevel == gMap.mCurrentLevel
+                    && pLiftObj->mCurrentPath == gMap.mCurrentPath)
                 {
                     gMap.TLV_Reset(tlvOffsetLevelIdPathId.all, -1, 0, 0);
                     return;
@@ -404,16 +404,16 @@ void Factory_Dove_4834C0(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffs
                 s16 ypos = 0;
                 if (pDoveTlv->mPixelPerfect == Choice_short::eYes_1)
                 {
-                    pDove->mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pDoveTlv->mTopLeft.x);
+                    pDove->mXPos = FP_FromInteger(pDoveTlv->mTopLeft.x);
                     ypos = pDoveTlv->mTopLeft.y;
                 }
                 else
                 {
-                    pDove->mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pDoveTlv->mTopLeft.x + width * Math_NextRandom() / 256);
+                    pDove->mXPos = FP_FromInteger(pDoveTlv->mTopLeft.x + width * Math_NextRandom() / 256);
                     ypos = pDoveTlv->mTopLeft.y + height * Math_NextRandom() / 256;
                 }
 
-                pDove->mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(ypos) + FP_FromInteger(10);
+                pDove->mYPos = FP_FromInteger(ypos) + FP_FromInteger(10);
             }
         }
     }
@@ -1024,8 +1024,8 @@ void Factory_AbeStart_486050(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion /*t
             sActiveHero_507678 = relive_new Abe(55888, 85, 57, 55);
             if (sActiveHero_507678)
             {
-                sActiveHero_507678->mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pTlv->mTopLeft.x + 12);
-                sActiveHero_507678->mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->mTopLeft.y);
+                sActiveHero_507678->mXPos = FP_FromInteger(pTlv->mTopLeft.x + 12);
+                sActiveHero_507678->mYPos = FP_FromInteger(pTlv->mTopLeft.y);
             }
         }
     }
@@ -1622,8 +1622,8 @@ void Factory_ElumStart_Unknown_4873D0(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfo
     else
     {
         Elum::Spawn(tlvOffsetLevelIdPathId);
-        gElum_507680->mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pTlv->mTopLeft.x);
-        gElum_507680->mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->mTopLeft.y);
+        gElum_507680->mXPos = FP_FromInteger(pTlv->mTopLeft.x);
+        gElum_507680->mYPos = FP_FromInteger(pTlv->mTopLeft.y);
     }
 }
 

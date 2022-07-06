@@ -20,7 +20,7 @@ private:
     s16 mY2 = 0;
     FP mXPos = {};
     FP mYPos = {};
-    FP mScale = {};
+    FP mSpriteScale = {};
 
 public:
     enum Flags

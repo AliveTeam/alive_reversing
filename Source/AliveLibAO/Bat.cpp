@@ -29,7 +29,7 @@ Bat::Bat(Path_Bat* pTlv, s32 tlvInfo)
     }
 
     Animation_Init(AnimId::Bat, ppRes);
-    mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_SligGreeterFartsBats_33;
+    mAnim.mRenderLayer = Layer::eLayer_SligGreeterFartsBats_33;
 
     FP hitX = {};
     FP hitY = {};
@@ -49,8 +49,8 @@ Bat::Bat(Path_Bat* pTlv, s32 tlvInfo)
 
     if (mBatLine)
     {
-        mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(mBatLine->mRect.x);
-        mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(mBatLine->mRect.y);
+        mXPos = FP_FromInteger(mBatLine->mRect.x);
+        mYPos = FP_FromInteger(mBatLine->mRect.y);
     }
 
     mTicksBeforeMoving = pTlv->mTicksBeforeMoving;
@@ -58,15 +58,15 @@ Bat::Bat(Path_Bat* pTlv, s32 tlvInfo)
 
     if (pTlv->mScale == Scale_short::eHalf_1)
     {
-        mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromDouble(0.5);
-        mBaseAnimatedWithPhysicsGameObject_Scale = Scale::Bg;
-        mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_BeforeShadow_Half_6;
+        mSpriteScale = FP_FromDouble(0.5);
+        mScale = Scale::Bg;
+        mAnim.mRenderLayer = Layer::eLayer_BeforeShadow_Half_6;
     }
     else
     {
-        mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromInteger(1);
-        mBaseAnimatedWithPhysicsGameObject_Scale = Scale::Fg;
-        mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_BeforeShadow_25;
+        mSpriteScale = FP_FromInteger(1);
+        mScale = Scale::Fg;
+        mAnim.mRenderLayer = Layer::eLayer_BeforeShadow_25;
     }
 
     mBatState = BatStates::eSetTimer_0;
@@ -93,23 +93,23 @@ void Bat::FlyTo(FP xpos, FP ypos, FP* xSpeed, FP* ySpeed)
     const FP xd = FP_Abs(xpos - mEnemyXPos);
     if (xd > FP_FromInteger(350))
     {
-        mBaseAnimatedWithPhysicsGameObject_XPos += *xSpeed;
+        mXPos += *xSpeed;
     }
 
     const FP yd = FP_Abs(ypos - mEnemyYPos);
     if (yd > FP_FromInteger(200))
     {
-        mBaseAnimatedWithPhysicsGameObject_YPos += *ySpeed;
+        mYPos += *ySpeed;
     }
 
     mEnemyXPos = xpos;
     mEnemyYPos = ypos;
 
     *xSpeed = xpos + FP_FromInteger((Math_NextRandom() & 63) - 32);
-    *xSpeed = *xSpeed - mBaseAnimatedWithPhysicsGameObject_XPos;
+    *xSpeed = *xSpeed - mXPos;
 
     *ySpeed = ypos + FP_FromInteger((Math_NextRandom() & 31) - 8);
-    *ySpeed = *ySpeed - mBaseAnimatedWithPhysicsGameObject_YPos;
+    *ySpeed = *ySpeed - mYPos;
 
     const s32 ySpeedi = FP_GetExponent(*ySpeed);
     const s32 xSpeedi = FP_GetExponent(*xSpeed);
@@ -120,11 +120,11 @@ void Bat::FlyTo(FP xpos, FP ypos, FP* xSpeed, FP* ySpeed)
         x_final += FP_FromInteger(1);
     }
 
-    mBaseAnimatedWithPhysicsGameObject_VelX = (FP_FromInteger(8) * *xSpeed) / x_final;
-    mBaseAnimatedWithPhysicsGameObject_VelY = (FP_FromInteger(8) * *ySpeed) / x_final;
+    mVelX = (FP_FromInteger(8) * *xSpeed) / x_final;
+    mVelY = (FP_FromInteger(8) * *ySpeed) / x_final;
 
-    mBaseAnimatedWithPhysicsGameObject_XPos += mBaseAnimatedWithPhysicsGameObject_VelX;
-    mBaseAnimatedWithPhysicsGameObject_YPos += mBaseAnimatedWithPhysicsGameObject_VelY;
+    mXPos += mVelX;
+    mYPos += mVelY;
 }
 
 void Bat::VUpdate()
@@ -154,7 +154,7 @@ void Bat::VUpdate()
             {
                 mBatState = BatStates::eStartMoving_2;
                 mBatVelX = FP_FromInteger(0);
-                mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::Bat_Unknown, nullptr);
+                mAnim.Set_Animation_Data(AnimId::Bat_Unknown, nullptr);
             }
             break;
 
@@ -170,13 +170,13 @@ void Bat::VUpdate()
 
             if (mBatLine)
             {
-                mBatLine = mBatLine->MoveOnLine(&mBaseAnimatedWithPhysicsGameObject_XPos, &mBaseAnimatedWithPhysicsGameObject_YPos, mBatVelX);
+                mBatLine = mBatLine->MoveOnLine(&mXPos, &mYPos, mBatVelX);
             }
 
-            if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
+            if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
             {
                 mBatState = BatStates::eFlying_3;
-                mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::Bat_Flying, nullptr);
+                mAnim.Set_Animation_Data(AnimId::Bat_Flying, nullptr);
                 mTimer = sGnFrame + Math_RandomRange(0, 90);
             }
             break;
@@ -191,7 +191,7 @@ void Bat::VUpdate()
                 }
             }
 
-            if (!(mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame % 3))
+            if (!(mAnim.mCurrentFrame % 3))
             {
                 SfxPlayMono(static_cast<SoundEffect>(Math_RandomRange(SoundEffect::Bat1_41, SoundEffect::Bat2_42) & 0xFF), Math_RandomRange(20, 26), 0);
             }
@@ -204,7 +204,7 @@ void Bat::VUpdate()
 
             if (mBatLine)
             {
-                mBatLine = mBatLine->MoveOnLine(&mBaseAnimatedWithPhysicsGameObject_XPos, &mBaseAnimatedWithPhysicsGameObject_YPos, mBatVelX);
+                mBatLine = mBatLine->MoveOnLine(&mXPos, &mYPos, mBatVelX);
             }
 
             if (!mBatLine)
@@ -225,7 +225,7 @@ void Bat::VUpdate()
                     if (pObjIter->mBaseGameObjectTypeId != ReliveTypes::SecurityOrb && pObjIter->mBaseGameObjectTypeId != ReliveTypes::eSlig && pObjIter->mBaseGameObjectTypeId != ReliveTypes::eSlog)
                     {
                         const PSX_RECT bObjRect = pObjIter->VGetBoundingRect();
-                        if (FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos) >= bObjRect.x && FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos) <= bObjRect.w && FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos) >= bObjRect.y && FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos) <= bObjRect.h && pObjIter->mBaseAnimatedWithPhysicsGameObject_SpriteScale == mBaseAnimatedWithPhysicsGameObject_SpriteScale)
+                        if (FP_GetExponent(mXPos) >= bObjRect.x && FP_GetExponent(mXPos) <= bObjRect.w && FP_GetExponent(mYPos) >= bObjRect.y && FP_GetExponent(mYPos) <= bObjRect.h && pObjIter->mSpriteScale == mSpriteScale)
                         {
                             for (s32 j = 0; j < gBaseGameObjects->Size(); j++)
                             {
@@ -243,13 +243,13 @@ void Bat::VUpdate()
                                     pBat->mAttackTarget->mBaseGameObjectRefCount++;
 
                                     pBat->mBatState = BatStates::eAttackTarget_4;
-                                    pBat->mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::Bat_Flying, nullptr);
+                                    pBat->mAnim.Set_Animation_Data(AnimId::Bat_Flying, nullptr);
 
                                     pBat->mTimer = 0;
                                     pBat->mAttackDurationTimer = sGnFrame + pBat->mAttackDuration;
 
-                                    pBat->mEnemyXPos = pBat->mAttackTarget->mBaseAnimatedWithPhysicsGameObject_XPos;
-                                    pBat->mEnemyYPos = pBat->mAttackTarget->mBaseAnimatedWithPhysicsGameObject_YPos;
+                                    pBat->mEnemyXPos = pBat->mAttackTarget->mXPos;
+                                    pBat->mEnemyYPos = pBat->mAttackTarget->mYPos;
                                 }
                             }
                         }
@@ -294,7 +294,7 @@ void Bat::VUpdate()
 
         case BatStates::eFlyAwayAndDie_5:
         {
-            FlyTo(mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos - FP_FromInteger(40), &xSpeed, &ySpeed);
+            FlyTo(mXPos, mYPos - FP_FromInteger(40), &xSpeed, &ySpeed);
             if (EventGet(kEventDeathReset))
             {
                 mBaseGameObjectFlags.Set(Options::eDead);

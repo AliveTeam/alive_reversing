@@ -402,10 +402,10 @@ s16 Map::SetActiveCam(EReliveLevelIds level, s16 path, s16 cam, CameraSwapEffect
         return 0;
     }
 
-    mCamera = cam;
+    mNextCamera = cam;
     field_12_fmv_base_id = fmvBaseId;
-    mPath = path;
-    mLevel = level;
+    mNextPath = path;
+    mNextLevel = level;
     field_10_screenChangeEffect = screenChangeEffect;
     field_6_state = CamChangeStates::eInstantChange_2;
 
@@ -428,24 +428,24 @@ void Map::Handle_PathTransition()
     if (field_18_pAliveObj)
     {
         pTlv = static_cast<Path_Change*>(TLV_Get_At_446260(
-            FP_GetExponent(field_18_pAliveObj->mBaseAnimatedWithPhysicsGameObject_XPos),
-            FP_GetExponent(field_18_pAliveObj->mBaseAnimatedWithPhysicsGameObject_YPos),
-            FP_GetExponent(field_18_pAliveObj->mBaseAnimatedWithPhysicsGameObject_XPos),
-            FP_GetExponent(field_18_pAliveObj->mBaseAnimatedWithPhysicsGameObject_YPos),
+            FP_GetExponent(field_18_pAliveObj->mXPos),
+            FP_GetExponent(field_18_pAliveObj->mYPos),
+            FP_GetExponent(field_18_pAliveObj->mXPos),
+            FP_GetExponent(field_18_pAliveObj->mYPos),
             TlvTypes::PathTransition_1));
     }
 
     if (field_18_pAliveObj && pTlv)
     {
-        mLevel = MapWrapper::FromAO(pTlv->field_18_level);
-        mPath = pTlv->field_1A_path;
-        mCamera = pTlv->field_1C_camera;
+        mNextLevel = MapWrapper::FromAO(pTlv->field_18_level);
+        mNextPath = pTlv->field_1A_path;
+        mNextCamera = pTlv->field_1C_camera;
         field_12_fmv_base_id = pTlv->field_1E_movie;
 
         field_10_screenChangeEffect = kPathChangeEffectToInternalScreenChangeEffect_4CDC78[pTlv->field_20_wipe];
 
-        field_18_pAliveObj->mBaseAnimatedWithPhysicsGameObject_LvlNumber = MapWrapper::FromAO(pTlv->field_18_level);
-        field_18_pAliveObj->mBaseAnimatedWithPhysicsGameObject_PathNumber = pTlv->field_1A_path;
+        field_18_pAliveObj->mCurrentLevel = MapWrapper::FromAO(pTlv->field_18_level);
+        field_18_pAliveObj->mCurrentPath = pTlv->field_1A_path;
 
         // TODO: Probably OG bug, when changing camera/path the TLV pointer can become invalid
         // resulting in a corrupted next_path_scale value ?
@@ -458,22 +458,22 @@ void Map::Handle_PathTransition()
         switch (next_path_scale)
         {
             case Scale_short::eFull_0:
-                sActiveHero_507678->mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromInteger(1);
-                sActiveHero_507678->mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_AbeMenu_32;
+                sActiveHero_507678->mSpriteScale = FP_FromInteger(1);
+                sActiveHero_507678->mAnim.mRenderLayer = Layer::eLayer_AbeMenu_32;
                 if (gElum_507680)
                 {
-                    gElum_507680->mBaseAnimatedWithPhysicsGameObject_SpriteScale = sActiveHero_507678->mBaseAnimatedWithPhysicsGameObject_SpriteScale;
-                    gElum_507680->mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_ZapLinesElumMuds_28;
+                    gElum_507680->mSpriteScale = sActiveHero_507678->mSpriteScale;
+                    gElum_507680->mAnim.mRenderLayer = Layer::eLayer_ZapLinesElumMuds_28;
                 }
                 break;
 
             case Scale_short::eHalf_1:
-                sActiveHero_507678->mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromDouble(0.5);
-                sActiveHero_507678->mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_AbeMenu_Half_13;
+                sActiveHero_507678->mSpriteScale = FP_FromDouble(0.5);
+                sActiveHero_507678->mAnim.mRenderLayer = Layer::eLayer_AbeMenu_Half_13;
                 if (gElum_507680)
                 {
-                    gElum_507680->mBaseAnimatedWithPhysicsGameObject_SpriteScale = sActiveHero_507678->mBaseAnimatedWithPhysicsGameObject_SpriteScale;
-                    gElum_507680->mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_ZapLinesMudsElum_Half_9;
+                    gElum_507680->mSpriteScale = sActiveHero_507678->mSpriteScale;
+                    gElum_507680->mAnim.mRenderLayer = Layer::eLayer_ZapLinesMudsElum_Half_9;
                 }
                 break;
 
@@ -514,7 +514,7 @@ void Map::Handle_PathTransition()
                 {
                     field_18_pAliveObj->VSetXSpawn(
                         field_20_camX_idx * field_D4_pPathData->field_C_grid_width,
-                        MaxGridBlocks_41FA10(field_18_pAliveObj->mBaseAnimatedWithPhysicsGameObject_SpriteScale) - 1);
+                        MaxGridBlocks_41FA10(field_18_pAliveObj->mSpriteScale) - 1);
                 }
                 field_10_screenChangeEffect = CameraSwapEffects::eRightToLeft_2;
                 break;
@@ -554,7 +554,7 @@ void Map::Handle_PathTransition()
         auto pCameraName = reinterpret_cast<const CameraName*>(pPathRes + pCamNameOffset);
 
         // Convert the 2 digit camera number string to an integer
-        mCamera = 1 * (pCameraName->name[7] - '0') + 10 * (pCameraName->name[6] - '0');
+        mNextCamera = 1 * (pCameraName->name[7] - '0') + 10 * (pCameraName->name[6] - '0');
 
         GoTo_Camera();
     }
@@ -577,19 +577,19 @@ void Map::RemoveObjectsWithPurpleLight(s16 bMakeInvisible)
 
         if (pObjIter->mBaseGameObjectFlags.Get(BaseGameObject::eDrawable_Bit4)
             && pObjIter->mBaseAliveGameObjectFlags.Get(Flags_10A::e10A_Bit6)
-            && pObjIter->mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit3_Render)
+            && pObjIter->mAnim.mFlags.Get(AnimFlags::eBit3_Render)
             && !pObjIter->mBaseGameObjectFlags.Get(BaseGameObject::eDead)
             && pObjIter != sControlledCharacter_50767C)
         {
             bool bAdd = false;
-            if (pObjIter->mBaseAnimatedWithPhysicsGameObject_LvlNumber == mCurrentLevel
-                && pObjIter->mBaseAnimatedWithPhysicsGameObject_PathNumber == mCurrentPath)
+            if (pObjIter->mCurrentLevel == mCurrentLevel
+                && pObjIter->mCurrentPath == mCurrentPath)
             {
                 PSX_RECT rect = {};
-                rect.x = FP_GetExponent(pObjIter->mBaseAnimatedWithPhysicsGameObject_XPos);
-                rect.w = FP_GetExponent(pObjIter->mBaseAnimatedWithPhysicsGameObject_XPos);
-                rect.y = FP_GetExponent(pObjIter->mBaseAnimatedWithPhysicsGameObject_YPos);
-                rect.h = FP_GetExponent(pObjIter->mBaseAnimatedWithPhysicsGameObject_YPos);
+                rect.x = FP_GetExponent(pObjIter->mXPos);
+                rect.w = FP_GetExponent(pObjIter->mXPos);
+                rect.y = FP_GetExponent(pObjIter->mYPos);
+                rect.h = FP_GetExponent(pObjIter->mYPos);
                 bAdd = Rect_Location_Relative_To_Active_Camera(&rect, 0) == CameraPos::eCamCurrent_0;
             }
 
@@ -599,11 +599,11 @@ void Map::RemoveObjectsWithPurpleLight(s16 bMakeInvisible)
 
                 const PSX_RECT objRect = pObjIter->VGetBoundingRect();
 
-                const FP k60Scaled = pObjIter->mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(60);
+                const FP k60Scaled = pObjIter->mSpriteScale * FP_FromInteger(60);
                 auto pPurpleLight = New_DestroyOrCreateObject_Particle_419D00(
                     FP_FromInteger((objRect.x + objRect.w) / 2),
                     FP_FromInteger((objRect.y + objRect.h) / 2) + k60Scaled,
-                    pObjIter->mBaseAnimatedWithPhysicsGameObject_SpriteScale);
+                    pObjIter->mSpriteScale);
 
                 if (pPurpleLight)
                 {
@@ -631,7 +631,7 @@ void Map::RemoveObjectsWithPurpleLight(s16 bMakeInvisible)
                     {
                         break;
                     }
-                    pObj->mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit3_Render);
+                    pObj->mAnim.mFlags.Clear(AnimFlags::eBit3_Render);
                 }
             }
 
@@ -660,7 +660,7 @@ void Map::RemoveObjectsWithPurpleLight(s16 bMakeInvisible)
 
                 if (!pLight->mBaseGameObjectFlags.Get(BaseGameObject::eDead))
                 {
-                    pLight->mBaseAnimatedWithPhysicsGameObject_Anim.VDecode();
+                    pLight->mAnim.VDecode();
                 }
             }
 
@@ -698,7 +698,7 @@ void Map::RemoveObjectsWithPurpleLight(s16 bMakeInvisible)
                 {
                     break;
                 }
-                pObj->mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit3_Render);
+                pObj->mAnim.mFlags.Set(AnimFlags::eBit3_Render);
             }
         }
     }
@@ -782,17 +782,17 @@ void Map::ScreenChange()
         }
     }
 
-    if (sMap_bDoPurpleLightEffect_507C9C || mLevel != mCurrentLevel)
+    if (sMap_bDoPurpleLightEffect_507C9C || mNextLevel != mCurrentLevel)
     {
-        if (mLevel != mCurrentLevel)
+        if (mNextLevel != mCurrentLevel)
         {
             SsUtAllKeyOff_49EDE0(0);
         }
 
         // TODO: Re-check this logic
-        if (mLevel != EReliveLevelIds::eMenu)
+        if (mNextLevel != EReliveLevelIds::eMenu)
         {
-            if ((mLevel != EReliveLevelIds::eRuptureFarmsReturn && mLevel != EReliveLevelIds::eForestChase && mLevel != EReliveLevelIds::eDesertEscape) || (mLevel == EReliveLevelIds::eBoardRoom && mCurrentLevel == EReliveLevelIds::eBoardRoom))
+            if ((mNextLevel != EReliveLevelIds::eRuptureFarmsReturn && mNextLevel != EReliveLevelIds::eForestChase && mNextLevel != EReliveLevelIds::eDesertEscape) || (mNextLevel == EReliveLevelIds::eBoardRoom && mCurrentLevel == EReliveLevelIds::eBoardRoom))
             {
                 gSndChannels_507CA0 = 0;
             }
@@ -808,7 +808,7 @@ void Map::ScreenChange()
 
 s16 Map::GetOverlayId()
 {
-    return Path_Get_Bly_Record_434650(mLevel, mPath)->field_C_overlay_id;
+    return Path_Get_Bly_Record_434650(mNextLevel, mNextPath)->field_C_overlay_id;
 }
 
 Path_TLV* Map::Get_First_TLV_For_Offsetted_Camera(s16 cam_x_idx, s16 cam_y_idx)
@@ -1022,18 +1022,18 @@ s16 Map::SetActiveCameraDelayed(MapDirections direction, BaseAliveGameObject* pO
     if (pObj)
     {
         pPathChangeTLV = static_cast<Path_Change*>(TLV_Get_At_446260(
-            FP_GetExponent(pObj->mBaseAnimatedWithPhysicsGameObject_XPos),
-            FP_GetExponent(pObj->mBaseAnimatedWithPhysicsGameObject_YPos),
-            FP_GetExponent(pObj->mBaseAnimatedWithPhysicsGameObject_XPos),
-            FP_GetExponent(pObj->mBaseAnimatedWithPhysicsGameObject_YPos),
+            FP_GetExponent(pObj->mXPos),
+            FP_GetExponent(pObj->mYPos),
+            FP_GetExponent(pObj->mXPos),
+            FP_GetExponent(pObj->mYPos),
             TlvTypes::PathTransition_1));
     }
 
     if (pObj && pPathChangeTLV)
     {
-        mLevel = MapWrapper::FromAO(pPathChangeTLV->field_18_level);
-        mPath = pPathChangeTLV->field_1A_path;
-        mCamera = pPathChangeTLV->field_1C_camera;
+        mNextLevel = MapWrapper::FromAO(pPathChangeTLV->field_18_level);
+        mNextPath = pPathChangeTLV->field_1A_path;
+        mNextCamera = pPathChangeTLV->field_1C_camera;
         if (swapEffect < 0)
         {
             // Map the TLV/editor value of screen change to the internal screen change
@@ -1075,8 +1075,8 @@ s16 Map::SetActiveCameraDelayed(MapDirections direction, BaseAliveGameObject* pO
                 break;
         }
 
-        mPath = mCurrentPath;
-        mLevel = mCurrentLevel;
+        mNextPath = mCurrentPath;
+        mNextLevel = mCurrentLevel;
     }
 
     field_14_direction = direction;
@@ -1617,7 +1617,7 @@ void Map::FreePathResourceBlocks()
 void Map::GetPathResourceBlockPtrs()
 {
     // Get pointer to each PATH
-    for (s32 i = 1; i < Path_Get_Num_Paths(mLevel); ++i)
+    for (s32 i = 1; i < Path_Get_Num_Paths(mNextLevel); ++i)
     {
         sPathsArrayExtended.field_0_pPathRecs[i] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Path, i, TRUE, FALSE);
 
@@ -1696,18 +1696,18 @@ void Map::GoTo_Camera()
 
     if (mCurrentLevel != EReliveLevelIds::eMenu)
     {
-        if (mLevel != mCurrentLevel || (mPath != mCurrentPath && field_10_screenChangeEffect == CameraSwapEffects::ePlay1FMV_5))
+        if (mNextLevel != mCurrentLevel || (mNextPath != mCurrentPath && field_10_screenChangeEffect == CameraSwapEffects::ePlay1FMV_5))
         {
             Game_ShowLoadingIcon_445EB0();
         }
     }
 
-    if (mLevel != mCurrentLevel || mPath != mCurrentPath)
+    if (mNextLevel != mCurrentLevel || mNextPath != mCurrentPath)
     {
         mOverlayId = GetOverlayId();
     }
 
-    if (mLevel != mCurrentLevel)
+    if (mNextLevel != mCurrentLevel)
     {
         ResourceManager::LoadingLoop_41EAD0(bShowLoadingIcon);
 
@@ -1736,20 +1736,20 @@ void Map::GoTo_Camera()
         ResourceManager::LoadingLoop_41EAD0(bShowLoadingIcon);
 
         // Open Path BND
-        auto tmp = sOverlayTable_4C5AA8.records[Path_Get_OverlayIdx(mLevel)].field_4_pos;
-        sLvlArchive_4FFD60.OpenArchive(CdLvlName(mLevel), tmp);
+        auto tmp = sOverlayTable_4C5AA8.records[Path_Get_OverlayIdx(mNextLevel)].field_4_pos;
+        sLvlArchive_4FFD60.OpenArchive(CdLvlName(mNextLevel), tmp);
 
-        ResourceManager::LoadResourceFile_455270(Path_Get_BndName(mLevel), nullptr);
+        ResourceManager::LoadResourceFile_455270(Path_Get_BndName(mNextLevel), nullptr);
 
         GetPathResourceBlockPtrs();
 
-        SND_Load_VABS_477040(Path_Get_MusicInfo(mLevel), Path_Get_Reverb(mLevel));
+        SND_Load_VABS_477040(Path_Get_MusicInfo(mNextLevel), Path_Get_Reverb(mNextLevel));
 
         // Struct is using AE format so pass address of seq table in the exe to avoid a crash
         //SND_Load_Seqs_477AB0(reinterpret_cast<OpenSeqHandleAE*>(0x4C9E70), rPathRoot.field_C_bsq_file_name);
 
-        SND_Load_Seqs_477AB0(g_SeqTable_4C9E70, Path_Get_BsqFileName(mLevel));
-        relive_new BackgroundMusic(Path_Get_BackGroundMusicId(mLevel));
+        SND_Load_Seqs_477AB0(g_SeqTable_4C9E70, Path_Get_BsqFileName(mNextLevel));
+        relive_new BackgroundMusic(Path_Get_BackGroundMusicId(mNextLevel));
 
         // TODO: Re-add function
         for (s32 i = 0; i < 236; i++)
@@ -1765,35 +1765,35 @@ void Map::GoTo_Camera()
         }
     }
 
-    if (!mPath)
+    if (!mNextPath)
     {
-        mPath = 1;
+        mNextPath = 1;
     }
 
 
     const auto old_current_path = mCurrentPath;
     const auto old_current_level = mCurrentLevel;
 
-    field_DA_bMapChanged = mPath != old_current_path || mLevel != mCurrentLevel;
+    field_DA_bMapChanged = mNextPath != old_current_path || mNextLevel != mCurrentLevel;
 
-    mCurrentCamera = mCamera;
-    mCurrentPath = mPath;
-    mCurrentLevel = mLevel;
+    mCurrentCamera = mNextCamera;
+    mCurrentPath = mNextPath;
+    mCurrentLevel = mNextLevel;
 
-    const PathBlyRec* pPathRecord = Path_Get_Bly_Record_434650(mLevel, mPath);
+    const PathBlyRec* pPathRecord = Path_Get_Bly_Record_434650(mNextLevel, mNextPath);
     field_D4_pPathData = pPathRecord->field_4_pPathData;
     field_24_max_cams_x = (field_D4_pPathData->field_8_bTop - field_D4_pPathData->field_4_bLeft) / field_D4_pPathData->field_C_grid_width;
     field_26_max_cams_y = (field_D4_pPathData->field_A_bBottom - field_D4_pPathData->field_6_bRight) / field_D4_pPathData->field_E_grid_height;
 
     char_type camNameBuffer[20] = {};
-    Path_Format_CameraName_4346B0(camNameBuffer, mLevel, mPath, mCamera);
+    Path_Format_CameraName_4346B0(camNameBuffer, mNextLevel, mNextPath, mNextCamera);
 
     const auto totalCams = field_26_max_cams_y * field_24_max_cams_x;
 
     s32 camIdx = 0;
     if (totalCams > 0)
     {
-        auto ppPathRes = GetPathResourceBlockPtr(mPath);
+        auto ppPathRes = GetPathResourceBlockPtr(mNextPath);
         auto pName = reinterpret_cast<CameraName*>(&(*ppPathRes)[0]);
         for (camIdx = 0; camIdx < totalCams; camIdx++)
         {
@@ -1902,12 +1902,12 @@ void Map::GoTo_Camera()
 
     if (old_current_path != mCurrentPath || old_current_level != mCurrentLevel)
     {
-        if (sActiveHero_507678 && mCurrentPath == sActiveHero_507678->mBaseAnimatedWithPhysicsGameObject_PathNumber)
+        if (sActiveHero_507678 && mCurrentPath == sActiveHero_507678->mCurrentPath)
         {
             sActiveHero_507678->VCheckCollisionLineStillValid(10);
         }
 
-        if (gElum_507680 && sControlledCharacter_50767C != gElum_507680 && mCurrentPath == gElum_507680->mBaseAnimatedWithPhysicsGameObject_PathNumber)
+        if (gElum_507680 && sControlledCharacter_50767C != gElum_507680 && mCurrentPath == gElum_507680->mCurrentPath)
         {
             gElum_507680->VCheckCollisionLineStillValid(10);
         }
@@ -1917,7 +1917,7 @@ void Map::GoTo_Camera()
 
     if (field_10_screenChangeEffect == CameraSwapEffects::ePlay1FMV_5)
     {
-        FMV_Camera_Change(field_34_camera_array[0]->field_C_ppBits, this, mLevel);
+        FMV_Camera_Change(field_34_camera_array[0]->field_C_ppBits, this, mNextLevel);
     }
 
     if (field_10_screenChangeEffect == CameraSwapEffects::eUnknown_11)

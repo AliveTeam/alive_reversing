@@ -2,6 +2,9 @@
 
 #include "BaseGameObject.hpp"
 #include "MapWrapper.hpp"
+#include "../relive_lib/Animation.hpp"
+
+class Shadow;
 
 struct TintEntry
 {
@@ -48,25 +51,23 @@ public:
 
 
 public:
-    // TODO: Common anim field
-
-    FP mBaseAnimatedWithPhysicsGameObject_XPos = {};
-    FP mBaseAnimatedWithPhysicsGameObject_YPos = {};
-    s16 mBaseAnimatedWithPhysicsGameObject_PathNumber = 0;
-    EReliveLevelIds mBaseAnimatedWithPhysicsGameObject_LvlNumber = EReliveLevelIds::eNone;
-    FP mBaseAnimatedWithPhysicsGameObject_VelX = {};
-    FP mBaseAnimatedWithPhysicsGameObject_VelY = {};
-    FP mBaseAnimatedWithPhysicsGameObject_SpriteScale = {};
-    RGB16 mBaseAnimatedWithPhysicsGameObject_RGB;
-    Scale mBaseAnimatedWithPhysicsGameObject_Scale = Scale::Fg;
-    s16 mBaseAnimatedWithPhysicsGameObject_YOffset = 0;
-    s16 mBaseAnimatedWithPhysicsGameObject_XOffset = 0;
+    Animation mAnim = {};
+    FP mXPos = {};
+    FP mYPos = {};
+    s16 mCurrentPath = 0;
+    EReliveLevelIds mCurrentLevel = EReliveLevelIds::eNone;
+    FP mVelX = {};
+    FP mVelY = {};
+    FP mSpriteScale = {};
+    RGB16 mRGB;
+    Scale mScale = Scale::Fg;
+    s16 mYOffset = 0;
+    s16 mXOffset = 0;
     enum VisualFlags : s16
     {
         eApplyShadowZoneColour = 0x1,
         eDoPurpleLightEffect = 0x2
     };
     BitField16<VisualFlags> mVisualFlags = {};
-
-    // TODO: Common shadow field
+    Shadow* mShadow = nullptr;
 };

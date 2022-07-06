@@ -20,34 +20,34 @@ BackgroundAnimation::BackgroundAnimation(Path_BackgroundAnimation* pTlv, TlvItem
         return;
     }
 
-    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pTlv->mTopLeft.x);
-    mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->mTopLeft.y);
+    mXPos = FP_FromInteger(pTlv->mTopLeft.x);
+    mYPos = FP_FromInteger(pTlv->mTopLeft.y);
 
     field_FC_animXPos = FP_FromInteger(pTlv->mTopLeft.x);
     field_100_animYPos = FP_FromInteger(pTlv->mTopLeft.y);
 
     Animation_Init(anim.mFrameTableOffset, anim.mMaxW, anim.mMaxH, reinterpret_cast<u8**>(field_F4_res));
 
-    mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit15_bSemiTrans, pTlv->field_12_is_semi_trans == Choice_short::eYes_1);
-    mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit16_bBlending);
+    mAnim.mFlags.Set(AnimFlags::eBit15_bSemiTrans, pTlv->field_12_is_semi_trans == Choice_short::eYes_1);
+    mAnim.mFlags.Set(AnimFlags::eBit16_bBlending);
 
-    mBaseAnimatedWithPhysicsGameObject_Anim.mRenderMode = pTlv->field_14_semi_trans_mode;
+    mAnim.mRenderMode = pTlv->field_14_semi_trans_mode;
 
     if (pTlv->field_1A_layer > Layer::eLayer_0)
     {
         const s32 translatedLayer = static_cast<s32>(pTlv->field_1A_layer) - 1;
         if (!translatedLayer)
         {
-            mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_Above_FG1_Half_20;
+            mAnim.mRenderLayer = Layer::eLayer_Above_FG1_Half_20;
         }
         if (translatedLayer == 1)
         {
-            mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_Above_FG1_39;
+            mAnim.mRenderLayer = Layer::eLayer_Above_FG1_39;
         }
     }
     else
     {
-        mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_1;
+        mAnim.mRenderLayer = Layer::eLayer_1;
     }
 }
 
@@ -59,8 +59,8 @@ void BackgroundAnimation::VUpdate()
     }
     else
     {
-        mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(sTweakX_5C1BD0) + field_FC_animXPos;
-        mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(sTweakY_5C1BD4) + field_100_animYPos;
+        mXPos = FP_FromInteger(sTweakX_5C1BD0) + field_FC_animXPos;
+        mYPos = FP_FromInteger(sTweakY_5C1BD4) + field_100_animYPos;
     }
 }
 

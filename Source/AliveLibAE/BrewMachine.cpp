@@ -56,7 +56,7 @@ BrewMachine::BrewMachine(Path_BrewMachine* pTlv, s32 tlvInfo)
 
     mVisualFlags.Clear(VisualFlags::eApplyShadowZoneColour);
     field_140_tlvInfo = tlvInfo;
-    mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_Well_23;
+    mAnim.mRenderLayer = Layer::eLayer_Well_23;
     field_1E4_remaining_brew_count = pTlv->field_10_brew_count;
 
     const u8 savedBrewCount = pTlv->mTlvState;
@@ -75,8 +75,8 @@ BrewMachine::BrewMachine(Path_BrewMachine* pTlv, s32 tlvInfo)
 
     field_13C_textX = FP_GetExponent((FP_FromInteger(pTlv->mTopLeft.x + 5) - pScreenManager->CamXPos()));
     field_13E_textY = FP_GetExponent((FP_FromInteger(pTlv->mTopLeft.y + 10) - pScreenManager->CamYPos()));
-    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger((pTlv->mTopLeft.x + pTlv->mBottomRight.x) / 2);
-    mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->mTopLeft.y);
+    mXPos = FP_FromInteger((pTlv->mTopLeft.x + pTlv->mBottomRight.x) / 2);
+    mYPos = FP_FromInteger(pTlv->mTopLeft.y);
 
     field_1E6_cam_id = gMap.mCurrentCamera;
 }

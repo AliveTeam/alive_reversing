@@ -29,19 +29,19 @@ Mine::Mine(Path_Mine* pTlv, s32 tlvInfo)
 
     if (pTlv->field_1C_scale == Scale_short::eHalf_1)
     {
-        mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromDouble(0.5);
-        mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_RollingBallBombMineCar_Half_16;
-        mBaseAnimatedWithPhysicsGameObject_Scale = Scale::Bg;
+        mSpriteScale = FP_FromDouble(0.5);
+        mAnim.mRenderLayer = Layer::eLayer_RollingBallBombMineCar_Half_16;
+        mScale = Scale::Bg;
     }
     else
     {
-        mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromInteger(1);
-        mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_RollingBallBombMineCar_35;
-        mBaseAnimatedWithPhysicsGameObject_Scale = Scale::Fg;
+        mSpriteScale = FP_FromInteger(1);
+        mAnim.mRenderLayer = Layer::eLayer_RollingBallBombMineCar_35;
+        mScale = Scale::Fg;
     }
 
-    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pTlv->mTopLeft.x + 12);
-    mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->mTopLeft.y + 24);
+    mXPos = FP_FromInteger(pTlv->mTopLeft.x + 12);
+    mYPos = FP_FromInteger(pTlv->mTopLeft.y + 24);
     field_110_tlv = tlvInfo;
     field_114_gnframe = sGnFrame;
 
@@ -52,10 +52,10 @@ Mine::Mine(Path_Mine* pTlv, s32 tlvInfo)
         this,
         ppFLashRes);
 
-    field_118_animation.mRenderLayer = mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer;
-    field_118_animation.mAnimFlags.Set(AnimFlags::eBit16_bBlending);
-    field_118_animation.mAnimFlags.Set(AnimFlags::eBit15_bSemiTrans);
-    field_118_animation.field_14_scale = mBaseAnimatedWithPhysicsGameObject_SpriteScale;
+    field_118_animation.mRenderLayer = mAnim.mRenderLayer;
+    field_118_animation.mFlags.Set(AnimFlags::eBit16_bBlending);
+    field_118_animation.mFlags.Set(AnimFlags::eBit15_bSemiTrans);
+    field_118_animation.field_14_scale = mSpriteScale;
 
     field_118_animation.mRed = 128;
     field_118_animation.mGreen = 128;
@@ -88,15 +88,15 @@ Mine::Mine(Path_Mine* pTlv, s32 tlvInfo)
 
     if (gMap.mCurrentLevel == EReliveLevelIds::eStockYards || gMap.mCurrentLevel == EReliveLevelIds::eStockYardsReturn)
     {
-        mBaseAnimatedWithPhysicsGameObject_RGB.SetRGB(50, 50, 50);
+        mRGB.SetRGB(50, 50, 50);
         ResourceManager::GetLoadedResource(ResourceManager::Resource_Palt, AOResourceID::kAbeblowAOResID, 1, 0);
         ResourceManager::GetLoadedResource(ResourceManager::Resource_Palt, AOResourceID::kSlogBlowAOResID, 1, 0);
     }
 
-    mCollectionRect.x = mBaseAnimatedWithPhysicsGameObject_XPos - (ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale) / FP_FromInteger(2));
-    mCollectionRect.y = mBaseAnimatedWithPhysicsGameObject_YPos - ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale);
-    mCollectionRect.w = mBaseAnimatedWithPhysicsGameObject_XPos + (ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale) / FP_FromInteger(2));
-    mCollectionRect.h = mBaseAnimatedWithPhysicsGameObject_YPos;
+    mCollectionRect.x = mXPos - (ScaleToGridSize(mSpriteScale) / FP_FromInteger(2));
+    mCollectionRect.y = mYPos - ScaleToGridSize(mSpriteScale);
+    mCollectionRect.w = mXPos + (ScaleToGridSize(mSpriteScale) / FP_FromInteger(2));
+    mCollectionRect.h = mYPos;
 
     mBaseGameObjectFlags.Set(Options::eInteractive_Bit8);
 }
@@ -146,7 +146,7 @@ Mine::~Mine()
 
 void Mine::VScreenChanged()
 {
-    if (gMap.mCurrentLevel != gMap.mLevel || gMap.mCurrentPath != gMap.mPath || !(field_1B0_flags & 2))
+    if (gMap.mCurrentLevel != gMap.mNextLevel || gMap.mCurrentPath != gMap.mNextPath || !(field_1B0_flags & 2))
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
@@ -168,10 +168,10 @@ s16 Mine::VTakeDamage(BaseGameObject* pFrom)
         {
             mBaseGameObjectFlags.Set(BaseGameObject::eDead);
             relive_new BaseBomb(
-                mBaseAnimatedWithPhysicsGameObject_XPos,
-                mBaseAnimatedWithPhysicsGameObject_YPos,
+                mXPos,
+                mYPos,
                 0,
-                mBaseAnimatedWithPhysicsGameObject_SpriteScale);
+                mSpriteScale);
             field_10C_detonating = 1;
             field_114_gnframe = sGnFrame;
             return 1;
@@ -185,10 +185,10 @@ s16 Mine::VTakeDamage(BaseGameObject* pFrom)
 void Mine::VOnThrowableHit(BaseGameObject* /*pFrom*/)
 {
     relive_new BaseBomb(
-        mBaseAnimatedWithPhysicsGameObject_XPos,
-        mBaseAnimatedWithPhysicsGameObject_YPos,
+        mXPos,
+        mYPos,
         0,
-        mBaseAnimatedWithPhysicsGameObject_SpriteScale);
+        mSpriteScale);
     field_10C_detonating = 1;
 }
 
@@ -204,15 +204,15 @@ void Mine::VOnPickUpOrSlapped()
 void Mine::VRender(PrimHeader** ppOt)
 {
     if (gMap.Is_Point_In_Current_Camera(
-            mBaseAnimatedWithPhysicsGameObject_LvlNumber,
-            mBaseAnimatedWithPhysicsGameObject_PathNumber,
-            mBaseAnimatedWithPhysicsGameObject_XPos,
-            mBaseAnimatedWithPhysicsGameObject_YPos,
+            mCurrentLevel,
+            mCurrentPath,
+            mXPos,
+            mYPos,
             0))
     {
         field_118_animation.VRender(
-            FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos + (FP_FromInteger(pScreenManager->mCamXOff) - pScreenManager->mCamPos->x)),
-            FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos + (FP_FromInteger(pScreenManager->mCamYOff + mBaseAnimatedWithPhysicsGameObject_YOffset)) - pScreenManager->mCamPos->y),
+            FP_GetExponent(mXPos + (FP_FromInteger(pScreenManager->mCamXOff) - pScreenManager->mCamPos->x)),
+            FP_GetExponent(mYPos + (FP_FromInteger(pScreenManager->mCamYOff + mYOffset)) - pScreenManager->mCamPos->y),
             ppOt,
             0,
             0);
@@ -223,10 +223,10 @@ void Mine::VRender(PrimHeader** ppOt)
 void Mine::VUpdate()
 {
     const s16 bInCamera = gMap.Is_Point_In_Current_Camera(
-        mBaseAnimatedWithPhysicsGameObject_LvlNumber,
-        mBaseAnimatedWithPhysicsGameObject_PathNumber,
-        mBaseAnimatedWithPhysicsGameObject_XPos,
-        mBaseAnimatedWithPhysicsGameObject_YPos,
+        mCurrentLevel,
+        mCurrentPath,
+        mXPos,
+        mYPos,
         0);
 
     if (field_10C_detonating)
@@ -234,16 +234,16 @@ void Mine::VUpdate()
         if (field_10C_detonating == 1 && static_cast<s32>(sGnFrame) >= field_114_gnframe)
         {
             relive_new BaseBomb(
-                mBaseAnimatedWithPhysicsGameObject_XPos,
-                mBaseAnimatedWithPhysicsGameObject_YPos,
+                mXPos,
+                mYPos,
                 0,
-                mBaseAnimatedWithPhysicsGameObject_SpriteScale);
+                mSpriteScale);
             mBaseGameObjectFlags.Set(BaseGameObject::eDead);
         }
     }
     else
     {
-        if (mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame == 1)
+        if (mAnim.mCurrentFrame == 1)
         {
             if (sMinePlayingSound_507B88 == nullptr || sMinePlayingSound_507B88 == this)
             {
@@ -264,8 +264,8 @@ void Mine::VUpdate()
 
     if (field_10C_detonating != 1
         && (EventGet(kEventDeathReset)
-            || mBaseAnimatedWithPhysicsGameObject_LvlNumber != gMap.mCurrentLevel
-            || mBaseAnimatedWithPhysicsGameObject_PathNumber != gMap.mCurrentPath))
+            || mCurrentLevel != gMap.mCurrentLevel
+            || mCurrentPath != gMap.mCurrentPath))
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
@@ -285,11 +285,11 @@ s16 Mine::IsColliding()
 
         if (pObj->mBaseAliveGameObjectFlags.Get(Flags_10A::e10A_Bit4_SetOffExplosives))
         {
-            if (pObj->mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit3_Render))
+            if (pObj->mAnim.mFlags.Get(AnimFlags::eBit3_Render))
             {
                 const PSX_RECT bObjRect = pObj->VGetBoundingRect();
 
-                if (FP_GetExponent(pObj->mBaseAnimatedWithPhysicsGameObject_XPos) > bRect.x && FP_GetExponent(pObj->mBaseAnimatedWithPhysicsGameObject_XPos) < bRect.w && FP_GetExponent(pObj->mBaseAnimatedWithPhysicsGameObject_YPos) < bRect.h + 5 && bRect.x <= bObjRect.w && bRect.w >= bObjRect.x && bRect.h >= bObjRect.y && bRect.y <= bObjRect.h && pObj->mBaseAnimatedWithPhysicsGameObject_SpriteScale == mBaseAnimatedWithPhysicsGameObject_SpriteScale)
+                if (FP_GetExponent(pObj->mXPos) > bRect.x && FP_GetExponent(pObj->mXPos) < bRect.w && FP_GetExponent(pObj->mYPos) < bRect.h + 5 && bRect.x <= bObjRect.w && bRect.w >= bObjRect.x && bRect.h >= bObjRect.y && bRect.y <= bObjRect.h && pObj->mSpriteScale == mSpriteScale)
                 {
                     return 1;
                 }

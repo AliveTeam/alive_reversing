@@ -23,7 +23,7 @@ SlapLock::SlapLock(Path_SlapLock* pTlv, s32 tlvInfo)
 
     if (pTlv->field_10_scale == Scale_short::eHalf_1)
     {
-        mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromDouble(0.5);
+        mSpriteScale = FP_FromDouble(0.5);
     }
 
     const AnimRecord& rec = AnimRec(AnimId::SlapLock_Initiate);
@@ -32,11 +32,11 @@ SlapLock::SlapLock(Path_SlapLock* pTlv, s32 tlvInfo)
 
     if (field_118_pTlv->field_10_scale != Scale_short::eFull_0)
     {
-        mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_BeforeShadow_Half_6;
+        mAnim.mRenderLayer = Layer::eLayer_BeforeShadow_Half_6;
     }
     else
     {
-        mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_BeforeShadow_25;
+        mAnim.mRenderLayer = Layer::eLayer_BeforeShadow_25;
     }
 
     field_120_state = SlapLockStates::eShaking_0;
@@ -45,11 +45,11 @@ SlapLock::SlapLock(Path_SlapLock* pTlv, s32 tlvInfo)
     field_138_possesion_flicker_id = -1;
     const FP midX = FP_FromInteger((pTlv->mTopLeft.x + pTlv->mBottomRight.x) / 2);
     field_128_midX = midX;
-    mBaseAnimatedWithPhysicsGameObject_XPos = midX;
+    mXPos = midX;
 
     const FP ypos = FP_FromInteger(pTlv->mBottomRight.y);
     field_12C_midY = ypos;
-    mBaseAnimatedWithPhysicsGameObject_YPos = ypos;
+    mYPos = ypos;
 
     field_130_has_ghost = field_118_pTlv->field_18_has_ghost;
 
@@ -77,7 +77,7 @@ SlapLock::SlapLock(Path_SlapLock* pTlv, s32 tlvInfo)
         return;
     }
 
-    mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit3_Render);
+    mAnim.mFlags.Clear(AnimFlags::eBit3_Render);
 
     field_124_timer1 = sGnFrame + 60;
     field_13C_timer2 = sGnFrame + 30;
@@ -111,7 +111,7 @@ s32 SlapLock::CreateFromSaveState(const u8* pBuffer)
     auto pSlapLock = relive_new SlapLock(pTlv, pState->field_4_tlvInfo);
     if (pSlapLock)
     {
-        pSlapLock->mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit3_Render, pState->field_2_render & 1);
+        pSlapLock->mAnim.mFlags.Set(AnimFlags::eBit3_Render, pState->field_2_render & 1);
 
         pSlapLock->field_11C_tlvInfo = pState->field_4_tlvInfo;
 
@@ -152,7 +152,7 @@ s32 SlapLock::VGetSaveState(u8* pSaveBuffer)
     auto pState = reinterpret_cast<SlapLock_State*>(pSaveBuffer);
 
     pState->field_0_type = AETypes::eLockedSoul_61;
-    pState->field_2_render = mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit3_Render) & 1;
+    pState->field_2_render = mAnim.mFlags.Get(AnimFlags::eBit3_Render) & 1;
     pState->field_4_tlvInfo = field_11C_tlvInfo;
     pState->field_8_tlv_state = sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam(field_11C_tlvInfo)->mTlvState;
     pState->field_A_state = field_120_state;
@@ -223,10 +223,10 @@ void SlapLock::VUpdate()
                     if (!(sGnFrame & 63))
                     {
                         AbilityRing::Factory(
-                            mBaseAnimatedWithPhysicsGameObject_XPos,
-                            mBaseAnimatedWithPhysicsGameObject_YPos - (FP_FromInteger(40) * mBaseAnimatedWithPhysicsGameObject_SpriteScale),
+                            mXPos,
+                            mYPos - (FP_FromInteger(40) * mSpriteScale),
                             RingTypes::eInvisible_Pulse_Large_8,
-                            mBaseAnimatedWithPhysicsGameObject_SpriteScale);
+                            mSpriteScale);
                     }
                 }
 
@@ -240,7 +240,7 @@ void SlapLock::VUpdate()
                     return;
                 }
 
-                mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::SlapLock_Shaking, nullptr);
+                mAnim.Set_Animation_Data(AnimId::SlapLock_Shaking, nullptr);
 
                 field_120_state = SlapLockStates::eIdle_1;
                 SfxPlayMono(SoundEffect::SpiritLockShake_105, 0);
@@ -253,19 +253,19 @@ void SlapLock::VUpdate()
                     if (!(sGnFrame & 63))
                     {
                         AbilityRing::Factory(
-                            mBaseAnimatedWithPhysicsGameObject_XPos,
-                            mBaseAnimatedWithPhysicsGameObject_YPos - (FP_FromInteger(40) * mBaseAnimatedWithPhysicsGameObject_SpriteScale),
+                            mXPos,
+                            mYPos - (FP_FromInteger(40) * mSpriteScale),
                             RingTypes::eInvisible_Pulse_Large_8,
-                            mBaseAnimatedWithPhysicsGameObject_SpriteScale);
+                            mSpriteScale);
                     }
                 }
 
-                if (!(mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame)))
+                if (!(mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame)))
                 {
                     return;
                 }
 
-                mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::SlapLock_Initiate, nullptr);
+                mAnim.Set_Animation_Data(AnimId::SlapLock_Initiate, nullptr);
 
                 field_120_state = SlapLockStates::eShaking_0;
                 field_124_timer1 = Math_NextRandom() + sGnFrame + 25;
@@ -273,12 +273,12 @@ void SlapLock::VUpdate()
             }
             case SlapLockStates::eSlapped_2:
             {
-                if (!(mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame)))
+                if (!(mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame)))
                 {
                     return;
                 }
 
-                mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit3_Render);
+                mAnim.mFlags.Clear(AnimFlags::eBit3_Render);
 
                 if (field_118_pTlv->field_1A_give_invisibility_powerup == Choice_short::eNo_0)
                 {
@@ -301,10 +301,10 @@ void SlapLock::VUpdate()
                 }
 
                 New_TintShiny_Particle(
-                    (mBaseAnimatedWithPhysicsGameObject_SpriteScale * (FP_FromInteger(Math_RandomRange(-2, 2)) + FP_FromInteger(1))) + mBaseAnimatedWithPhysicsGameObject_XPos,
-                    (mBaseAnimatedWithPhysicsGameObject_SpriteScale * (FP_FromInteger(Math_RandomRange(-3, 3)) - FP_FromInteger(33))) + mBaseAnimatedWithPhysicsGameObject_YPos,
+                    (mSpriteScale * (FP_FromInteger(Math_RandomRange(-2, 2)) + FP_FromInteger(1))) + mXPos,
+                    (mSpriteScale * (FP_FromInteger(Math_RandomRange(-3, 3)) - FP_FromInteger(33))) + mYPos,
                     FP_FromDouble(0.3),
-                    mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer);
+                    mAnim.mRenderLayer);
 
                 field_13C_timer2 = Math_RandomRange(-30, 30) + sGnFrame + 60;
                 return;
@@ -314,19 +314,19 @@ void SlapLock::VUpdate()
                 if (static_cast<s32>(sGnFrame) > field_124_timer1)
                 {
                     if (!gMap.Is_Point_In_Current_Camera(
-                            sActiveHero->mBaseAnimatedWithPhysicsGameObject_LvlNumber,
-                            sActiveHero->mBaseAnimatedWithPhysicsGameObject_PathNumber,
-                            sActiveHero->mBaseAnimatedWithPhysicsGameObject_XPos,
-                            sActiveHero->mBaseAnimatedWithPhysicsGameObject_YPos,
+                            sActiveHero->mCurrentLevel,
+                            sActiveHero->mCurrentPath,
+                            sActiveHero->mXPos,
+                            sActiveHero->mYPos,
                             1)
                         || sActiveHero->field_168_ring_pulse_timer
                         || sActiveHero->mBaseAliveGameObjectFlags.Get(Flags_114::e114_Bit8_bInvisible))
                     {
                         AbilityRing::Factory(
-                            mBaseAnimatedWithPhysicsGameObject_XPos,
-                            mBaseAnimatedWithPhysicsGameObject_YPos - (FP_FromInteger(40) * mBaseAnimatedWithPhysicsGameObject_SpriteScale),
+                            mXPos,
+                            mYPos - (FP_FromInteger(40) * mSpriteScale),
                             RingTypes::eInvisible_Pulse_Large_8,
-                            mBaseAnimatedWithPhysicsGameObject_SpriteScale);
+                            mSpriteScale);
                         field_124_timer1 = Math_RandomRange(1, 10) + sGnFrame + 55;
                     }
                     else
@@ -342,10 +342,10 @@ void SlapLock::VUpdate()
                 }
 
                 New_TintShiny_Particle(
-                    (mBaseAnimatedWithPhysicsGameObject_SpriteScale * (FP_FromInteger(Math_RandomRange(-2, 2)) + FP_FromInteger(1))) + mBaseAnimatedWithPhysicsGameObject_XPos,
-                    (mBaseAnimatedWithPhysicsGameObject_SpriteScale * (FP_FromInteger(Math_RandomRange(-3, 3)) - FP_FromInteger(33))) + mBaseAnimatedWithPhysicsGameObject_YPos,
+                    (mSpriteScale * (FP_FromInteger(Math_RandomRange(-2, 2)) + FP_FromInteger(1))) + mXPos,
+                    (mSpriteScale * (FP_FromInteger(Math_RandomRange(-3, 3)) - FP_FromInteger(33))) + mYPos,
                     FP_FromDouble(0.3),
-                    mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer);
+                    mAnim.mRenderLayer);
 
                 field_13C_timer2 = Math_RandomRange(-30, 30) + sGnFrame + 60;
                 return;
@@ -401,10 +401,10 @@ void SlapLock::VUpdate()
 void SlapLock::SetInvisibilityTarget()
 {
     AbilityRing::Factory(
-        mBaseAnimatedWithPhysicsGameObject_XPos,
-        mBaseAnimatedWithPhysicsGameObject_YPos - (FP_FromInteger(40) * mBaseAnimatedWithPhysicsGameObject_SpriteScale),
+        mXPos,
+        mYPos - (FP_FromInteger(40) * mSpriteScale),
         RingTypes::eInvisible_Pulse_Emit_9,
-        mBaseAnimatedWithPhysicsGameObject_SpriteScale);
+        mSpriteScale);
 
     const PSX_RECT bRect = sActiveHero->VGetBoundingRect();
 
@@ -412,7 +412,7 @@ void SlapLock::SetInvisibilityTarget()
         FP_FromInteger((bRect.x + bRect.w) / 2),
         FP_FromInteger((bRect.y + bRect.h) / 2),
         RingTypes::eInvisible_Pulse_Give_10,
-        sActiveHero->mBaseAnimatedWithPhysicsGameObject_SpriteScale);
+        sActiveHero->mSpriteScale);
 
     pRing->mBaseGameObjectTlvInfo = mBaseGameObjectTlvInfo;
     field_134_id = pRing->field_8_object_id;
@@ -454,9 +454,9 @@ s16 SlapLock::VTakeDamage(BaseGameObject* pFrom)
         relive_new SlapLockWhirlWind(
             field_118_pTlv->field_12_target_tomb_id1,
             field_118_pTlv->field_14_target_tomb_id2,
-            mBaseAnimatedWithPhysicsGameObject_XPos,
-            mBaseAnimatedWithPhysicsGameObject_YPos - (FP_FromInteger(40) * mBaseAnimatedWithPhysicsGameObject_SpriteScale),
-            mBaseAnimatedWithPhysicsGameObject_SpriteScale);
+            mXPos,
+            mYPos - (FP_FromInteger(40) * mSpriteScale),
+            mSpriteScale);
     }
 
     if (field_118_pTlv->field_1A_give_invisibility_powerup == Choice_short::eYes_1)
@@ -466,18 +466,18 @@ s16 SlapLock::VTakeDamage(BaseGameObject* pFrom)
 
     field_120_state = SlapLockStates::eSlapped_2;
     SwitchStates_Do_Operation(field_118_pTlv->field_1E_toggle_switch_id, SwitchOp::eToggle_2);
-    SfxPlayMono(SoundEffect::SpiritLockBreak_106, 0, mBaseAnimatedWithPhysicsGameObject_SpriteScale);
+    SfxPlayMono(SoundEffect::SpiritLockBreak_106, 0, mSpriteScale);
     EventBroadcast(kEventLoudNoise, this);
 
     relive_new ParticleBurst(
-        mBaseAnimatedWithPhysicsGameObject_XPos,
-        mBaseAnimatedWithPhysicsGameObject_YPos - (FP_FromInteger(40) * mBaseAnimatedWithPhysicsGameObject_SpriteScale),
+        mXPos,
+        mYPos - (FP_FromInteger(40) * mSpriteScale),
         15,
-        mBaseAnimatedWithPhysicsGameObject_SpriteScale,
+        mSpriteScale,
         BurstType::eGreenSparks_5,
         11);
 
-    mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::SlapLock_Punched, nullptr);
+    mAnim.Set_Animation_Data(AnimId::SlapLock_Punched, nullptr);
 
     field_118_pTlv->mTlvState = 1;
     return 1;

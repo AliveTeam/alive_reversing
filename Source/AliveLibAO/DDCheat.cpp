@@ -203,12 +203,12 @@ void DDCheat::VUpdate()
                 gMap.GetCurrentCamCoords(&point);
                 pAbe = sActiveHero_507678;
                 cheat_enabled = 1;
-                pAbe->mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(point.x + 448);
-                pAbe->mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(point.y + 180);
+                pAbe->mXPos = FP_FromInteger(point.x + 448);
+                pAbe->mYPos = FP_FromInteger(point.y + 180);
                 pAbe->mCurrentMotion = eAbeMotions::Motion_3_Fall_42E7F0;
                 pAbe->field_2A8_flags.Set(Flags_2A8::e2A8_Bit8_bLandSoft);
-                pAbe->mBaseAnimatedWithPhysicsGameObject_LvlNumber = MapWrapper::FromAO(static_cast<LevelIds>(level_4C315C));
-                pAbe->mBaseAnimatedWithPhysicsGameObject_PathNumber = static_cast<s16>(path_4C3160);
+                pAbe->mCurrentLevel = MapWrapper::FromAO(static_cast<LevelIds>(level_4C315C));
+                pAbe->mCurrentPath = static_cast<s16>(path_4C3160);
                 sDDCheat_FlyingEnabled_50771C = 1;
                 field_18_backInputPressed = 0;
             }
@@ -226,7 +226,7 @@ void DDCheat::VUpdate()
                         pAbe->field_2A8_flags.Set(Flags_2A8::e2A8_Bit8_bLandSoft);
                         showDebugCreatureInfo_5076E0 = 0;
                         sControlledCharacter_50767C->BaseAliveGameObjectCollisionLine = nullptr;
-                        sControlledCharacter_50767C->BaseAliveGameObjectLastLineYPos = sControlledCharacter_50767C->mBaseAnimatedWithPhysicsGameObject_YPos;
+                        sControlledCharacter_50767C->BaseAliveGameObjectLastLineYPos = sControlledCharacter_50767C->mYPos;
                         switch (sControlledCharacter_50767C->mBaseGameObjectTypeId)
                         {
                             case ReliveTypes::eElum:
@@ -271,7 +271,7 @@ void DDCheat::VUpdate()
                 if (sControlledCharacter_50767C)
                 {
                     sControlledCharacter_50767C->BaseAliveGameObjectCollisionLine = nullptr;
-                    sControlledCharacter_50767C->BaseAliveGameObjectLastLineYPos = sControlledCharacter_50767C->mBaseAnimatedWithPhysicsGameObject_YPos;
+                    sControlledCharacter_50767C->BaseAliveGameObjectLastLineYPos = sControlledCharacter_50767C->mYPos;
                 }
             }
 
@@ -308,8 +308,8 @@ void DDCheat::VUpdate()
                 {
                     DebugStr(
                         "\nheroxy=%4d,%4d\n",
-                        FP_GetExponent(sActiveHero_507678->mBaseAnimatedWithPhysicsGameObject_XPos),
-                        FP_GetExponent(sActiveHero_507678->mBaseAnimatedWithPhysicsGameObject_YPos));
+                        FP_GetExponent(sActiveHero_507678->mXPos),
+                        FP_GetExponent(sActiveHero_507678->mYPos));
                 }
 
                 cheat_enabled = sDDCheat_FlyingEnabled_50771C;
@@ -482,27 +482,27 @@ void DDCheat::Misc()
     if (field_24_input & InputCommands::eLeft)
     {
         gScale_4C3158 = 100;
-        sControlledCharacter_50767C->mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromInteger(1);
-        sControlledCharacter_50767C->mBaseAnimatedWithPhysicsGameObject_Scale = Scale::Fg;
-        sControlledCharacter_50767C->mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_AbeMenu_32;
+        sControlledCharacter_50767C->mSpriteScale = FP_FromInteger(1);
+        sControlledCharacter_50767C->mScale = Scale::Fg;
+        sControlledCharacter_50767C->mAnim.mRenderLayer = Layer::eLayer_AbeMenu_32;
     }
     else if (field_24_input & InputCommands::eRight)
     {
         sControlledCharacter_50767C = sControlledCharacter_50767C;
         gScale_4C3158 = 50;
-        sControlledCharacter_50767C->mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromDouble(0.5);
-        sControlledCharacter_50767C->mBaseAnimatedWithPhysicsGameObject_Scale = Scale::Bg;
-        sControlledCharacter_50767C->mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_AbeMenu_Half_13;
+        sControlledCharacter_50767C->mSpriteScale = FP_FromDouble(0.5);
+        sControlledCharacter_50767C->mScale = Scale::Bg;
+        sControlledCharacter_50767C->mAnim.mRenderLayer = Layer::eLayer_AbeMenu_Half_13;
     }
     else if (field_24_input & InputCommands::eDown)
     {
         gScale_4C3158 -= 5;
-        sControlledCharacter_50767C->mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromInteger(gScale_4C3158) * FP_FromDouble(0.01);
+        sControlledCharacter_50767C->mSpriteScale = FP_FromInteger(gScale_4C3158) * FP_FromDouble(0.01);
     }
     else if (field_24_input & InputCommands::eUp)
     {
         gScale_4C3158 += 5;
-        sControlledCharacter_50767C->mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromInteger(gScale_4C3158) * FP_FromDouble(0.01);
+        sControlledCharacter_50767C->mSpriteScale = FP_FromInteger(gScale_4C3158) * FP_FromDouble(0.01);
     }
     else if (field_24_input & InputCommands::eHop)
     {
@@ -539,15 +539,15 @@ void DDCheat::Misc()
     }
     else if (sControlledCharacter_50767C != gElum_507680)
     {
-        gElum_507680->mBaseAnimatedWithPhysicsGameObject_SpriteScale = sControlledCharacter_50767C->mBaseAnimatedWithPhysicsGameObject_SpriteScale;
-        gElum_507680->mBaseAnimatedWithPhysicsGameObject_Scale = sControlledCharacter_50767C->mBaseAnimatedWithPhysicsGameObject_Scale;
+        gElum_507680->mSpriteScale = sControlledCharacter_50767C->mSpriteScale;
+        gElum_507680->mScale = sControlledCharacter_50767C->mScale;
         if (sControlledCharacter_50767C != gElum_507680)
         {
             return;
         }
     }
-    sActiveHero_507678->mBaseAnimatedWithPhysicsGameObject_SpriteScale = sControlledCharacter_50767C->mBaseAnimatedWithPhysicsGameObject_SpriteScale;
-    sActiveHero_507678->mBaseAnimatedWithPhysicsGameObject_Scale = sControlledCharacter_50767C->mBaseAnimatedWithPhysicsGameObject_Scale;
+    sActiveHero_507678->mSpriteScale = sControlledCharacter_50767C->mSpriteScale;
+    sActiveHero_507678->mScale = sControlledCharacter_50767C->mScale;
 }
 
 

@@ -37,35 +37,35 @@ BirdPortalTerminator::BirdPortalTerminator(FP xpos, FP ypos, FP scale, PortalTyp
     u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
     Animation_Init(AnimId::BirdPortal_TerminatorGrow, ppRes);
     
-    mBaseAnimatedWithPhysicsGameObject_Anim.mRenderMode = TPageAbr::eBlend_1;
-    mBaseAnimatedWithPhysicsGameObject_SpriteScale = scale;
+    mAnim.mRenderMode = TPageAbr::eBlend_1;
+    mSpriteScale = scale;
     if (scale == FP_FromInteger(1))
     {
-        mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_Above_FG1_39;
+        mAnim.mRenderLayer = Layer::eLayer_Above_FG1_39;
     }
     else
     {
-        mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_Above_FG1_Half_20;
+        mAnim.mRenderLayer = Layer::eLayer_Above_FG1_Half_20;
     }
 
     mVisualFlags.Clear(VisualFlags::eApplyShadowZoneColour);
 
-    mBaseAnimatedWithPhysicsGameObject_YPos = ypos;
-    mBaseAnimatedWithPhysicsGameObject_XPos = xpos;
+    mYPos = ypos;
+    mXPos = xpos;
 
-    mBaseAnimatedWithPhysicsGameObject_RGB.SetRGB(255, 128, 64);
+    mRGB.SetRGB(255, 128, 64);
 }
 
 void BirdPortalTerminator::Fadeout()
 {
-    const s16 r = mBaseAnimatedWithPhysicsGameObject_RGB.r;
-    mBaseAnimatedWithPhysicsGameObject_RGB.r = (r >> 1) + (r >> 2);
+    const s16 r = mRGB.r;
+    mRGB.r = (r >> 1) + (r >> 2);
 
-    const s16 g = mBaseAnimatedWithPhysicsGameObject_RGB.g;
-    mBaseAnimatedWithPhysicsGameObject_RGB.g = (g >> 1) + (g >> 2);
+    const s16 g = mRGB.g;
+    mRGB.g = (g >> 1) + (g >> 2);
 
-    const s16 b = mBaseAnimatedWithPhysicsGameObject_RGB.b;
-    mBaseAnimatedWithPhysicsGameObject_RGB.b = (b >> 1) + (b >> 2);
+    const s16 b = mRGB.b;
+    mRGB.b = (b >> 1) + (b >> 2);
 }
 
 // ==========================================================================
@@ -140,11 +140,11 @@ BirdPortal::~BirdPortal()
         {
             if (field_34_scale == FP_FromInteger(1))
             {
-                sActiveHero_507678->mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_AbeMenu_32;
+                sActiveHero_507678->mAnim.mRenderLayer = Layer::eLayer_AbeMenu_32;
             }
             else
             {
-                sActiveHero_507678->mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_AbeMenu_Half_13;
+                sActiveHero_507678->mAnim.mRenderLayer = Layer::eLayer_AbeMenu_Half_13;
             }
         }
     }
@@ -234,7 +234,7 @@ void BirdPortal::CreateDovesAndShrykullNumber()
                 pDove->AsACircle(field_18_xpos, field_1C_ypos + (field_34_scale * FP_FromInteger(30)), 42 * i);
             }
 
-            pDove->mBaseAnimatedWithPhysicsGameObject_SpriteScale = field_34_scale;
+            pDove->mSpriteScale = field_34_scale;
             field_4C_pDovesArray->Push_Back(pDove);
         }
     }
@@ -405,10 +405,10 @@ void BirdPortal::VUpdate()
 
         case PortalStates::CreateTerminators_4:
             EventBroadcast(kEventPortalOpen, this);
-            if (field_3C_pTerminator1->mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
+            if (field_3C_pTerminator1->mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
             {
-                field_3C_pTerminator1->mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::BirdPortal_TerminatorIdle, nullptr);
-                field_40_pTerminator2->mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::BirdPortal_TerminatorIdle, nullptr);
+                field_3C_pTerminator1->mAnim.Set_Animation_Data(AnimId::BirdPortal_TerminatorIdle, nullptr);
+                field_40_pTerminator2->mAnim.Set_Animation_Data(AnimId::BirdPortal_TerminatorIdle, nullptr);
                 field_30_timer = sGnFrame + 12;
                 field_14_state = PortalStates::ExpandTerminators_5;
                 field_68_sfx_ret = SfxPlayMono(SoundEffect::PortalOpening_67, 0, 0);
@@ -418,8 +418,8 @@ void BirdPortal::VUpdate()
 
         case PortalStates::ExpandTerminators_5:
             EventBroadcast(kEventPortalOpen, this);
-            field_3C_pTerminator1->mBaseAnimatedWithPhysicsGameObject_YPos -= (FP_FromDouble(3.5) * field_34_scale);
-            field_40_pTerminator2->mBaseAnimatedWithPhysicsGameObject_YPos += (FP_FromDouble(3.5) * field_34_scale);
+            field_3C_pTerminator1->mYPos -= (FP_FromDouble(3.5) * field_34_scale);
+            field_40_pTerminator2->mYPos += (FP_FromDouble(3.5) * field_34_scale);
             if (static_cast<s32>(sGnFrame) > field_30_timer)
             {
                 field_14_state = PortalStates::ActivePortal_6;
@@ -437,21 +437,21 @@ void BirdPortal::VUpdate()
                     if (ppLightRes)
                     {
                         auto pParticle = relive_new Particle(
-                            field_40_pTerminator2->mBaseAnimatedWithPhysicsGameObject_XPos,
-                            (FP_FromInteger(10) * field_34_scale) + field_40_pTerminator2->mBaseAnimatedWithPhysicsGameObject_YPos,
+                            field_40_pTerminator2->mXPos,
+                            (FP_FromInteger(10) * field_34_scale) + field_40_pTerminator2->mYPos,
                             AnimId::BirdPortal_Sparks,
                             ppLightRes);
                         if (pParticle)
                         {
                             pParticle->mVisualFlags.Clear(BaseAnimatedWithPhysicsGameObject::VisualFlags::eApplyShadowZoneColour);
-                            pParticle->mBaseAnimatedWithPhysicsGameObject_Anim.mRenderMode = TPageAbr::eBlend_1;
+                            pParticle->mAnim.mRenderMode = TPageAbr::eBlend_1;
                             pParticle->mBaseGameObjectTypeId = ReliveTypes::eBirdPortalTerminator;
-                            pParticle->mBaseAnimatedWithPhysicsGameObject_SpriteScale = field_34_scale;
+                            pParticle->mSpriteScale = field_34_scale;
 
                             if (sGnFrame % 2)
                             {
-                                pParticle->mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit19_LoopBackwards);
-                                pParticle->mBaseAnimatedWithPhysicsGameObject_Anim.SetFrame(pParticle->mBaseAnimatedWithPhysicsGameObject_Anim.Get_Frame_Count());
+                                pParticle->mAnim.mFlags.Set(AnimFlags::eBit19_LoopBackwards);
+                                pParticle->mAnim.SetFrame(pParticle->mAnim.Get_Frame_Count());
                             }
                         }
 
@@ -464,12 +464,12 @@ void BirdPortal::VUpdate()
                 if (!(sGnFrame % 8))
                 {
                     AbilityRing::Factory(
-                        field_3C_pTerminator1->mBaseAnimatedWithPhysicsGameObject_XPos,
-                        field_3C_pTerminator1->mBaseAnimatedWithPhysicsGameObject_YPos + FP_FromInteger(7),
+                        field_3C_pTerminator1->mXPos,
+                        field_3C_pTerminator1->mYPos + FP_FromInteger(7),
                         RingTypes::eShrykull_Pulse_Orange_6);
                     AbilityRing::Factory(
-                        field_40_pTerminator2->mBaseAnimatedWithPhysicsGameObject_XPos,
-                        field_40_pTerminator2->mBaseAnimatedWithPhysicsGameObject_YPos + FP_FromInteger(7),
+                        field_40_pTerminator2->mXPos,
+                        field_40_pTerminator2->mYPos + FP_FromInteger(7),
                         RingTypes::eShrykull_Pulse_Orange_6);
                 }
             }
@@ -515,17 +515,17 @@ void BirdPortal::VUpdate()
                     if (pDoveMem)
                     {
                         SfxPlayMono(SoundEffect::Dove_16, 70, 0);
-                        pDoveMem->mBaseAnimatedWithPhysicsGameObject_SpriteScale = field_34_scale;
-                        pDoveMem->AsJoin(sActiveHero_507678->mBaseAnimatedWithPhysicsGameObject_XPos,
-                            FP_FromInteger(Math_RandomRange(-36, 4)) + sActiveHero_507678->mBaseAnimatedWithPhysicsGameObject_YPos);
+                        pDoveMem->mSpriteScale = field_34_scale;
+                        pDoveMem->AsJoin(sActiveHero_507678->mXPos,
+                            FP_FromInteger(Math_RandomRange(-36, 4)) + sActiveHero_507678->mYPos);
                     }
 
                     field_58_received_doves++;
                     if (field_58_received_doves == 6)
                     {
                         field_60_pOrbWhirlWind->ToSpin(
-                            sActiveHero_507678->mBaseAnimatedWithPhysicsGameObject_XPos,
-                            sActiveHero_507678->mBaseAnimatedWithPhysicsGameObject_YPos - (sActiveHero_507678->mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(38)),
+                            sActiveHero_507678->mXPos,
+                            sActiveHero_507678->mYPos - (sActiveHero_507678->mSpriteScale * FP_FromInteger(38)),
                             sActiveHero_507678);
                         field_60_pOrbWhirlWind = nullptr;
                     }
@@ -548,25 +548,25 @@ void BirdPortal::VUpdate()
             break;
 
         case PortalStates::CollapseTerminators_10:
-            field_3C_pTerminator1->mBaseAnimatedWithPhysicsGameObject_YPos += FP_FromDouble(3.5) * field_34_scale;
-            field_40_pTerminator2->mBaseAnimatedWithPhysicsGameObject_YPos -= FP_FromDouble(3.5) * field_34_scale;
+            field_3C_pTerminator1->mYPos += FP_FromDouble(3.5) * field_34_scale;
+            field_40_pTerminator2->mYPos -= FP_FromDouble(3.5) * field_34_scale;
 
-            if (FP_GetExponent(field_3C_pTerminator1->mBaseAnimatedWithPhysicsGameObject_YPos) >= FP_GetExponent(field_40_pTerminator2->mBaseAnimatedWithPhysicsGameObject_YPos))
+            if (FP_GetExponent(field_3C_pTerminator1->mYPos) >= FP_GetExponent(field_40_pTerminator2->mYPos))
             {
                 const AnimRecord& rec = AO::AnimRec(AnimId::BirdPortal_Flash);
                 u8** ppLightRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
                 if (ppLightRes)
                 {
                     auto pParticle_1 = relive_new Particle(
-                        field_40_pTerminator2->mBaseAnimatedWithPhysicsGameObject_XPos,
-                        field_40_pTerminator2->mBaseAnimatedWithPhysicsGameObject_YPos,
+                        field_40_pTerminator2->mXPos,
+                        field_40_pTerminator2->mYPos,
                         AnimId::BirdPortal_Flash,
                         ppLightRes);
                     if (pParticle_1)
                     {
                         pParticle_1->mVisualFlags.Clear(BaseAnimatedWithPhysicsGameObject::VisualFlags::eApplyShadowZoneColour);
-                        pParticle_1->mBaseAnimatedWithPhysicsGameObject_Anim.mRenderMode = TPageAbr::eBlend_1;
-                        pParticle_1->mBaseAnimatedWithPhysicsGameObject_SpriteScale = field_34_scale;
+                        pParticle_1->mAnim.mRenderMode = TPageAbr::eBlend_1;
+                        pParticle_1->mSpriteScale = field_34_scale;
                     }
 
                 }
@@ -646,18 +646,18 @@ void BirdPortal::VUpdate()
         break;
 
         case PortalStates::PortalExit_CreateTerminators_18:
-            if (field_3C_pTerminator1->mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
+            if (field_3C_pTerminator1->mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
             {
-                field_3C_pTerminator1->mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::BirdPortal_TerminatorIdle, nullptr);
-                field_40_pTerminator2->mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::BirdPortal_TerminatorIdle, nullptr);
+                field_3C_pTerminator1->mAnim.Set_Animation_Data(AnimId::BirdPortal_TerminatorIdle, nullptr);
+                field_40_pTerminator2->mAnim.Set_Animation_Data(AnimId::BirdPortal_TerminatorIdle, nullptr);
                 field_14_state = PortalStates::PortalExit_ExpandTerminators_19;
                 field_30_timer = sGnFrame + 12;
             }
             break;
 
         case PortalStates::PortalExit_ExpandTerminators_19:
-            field_3C_pTerminator1->mBaseAnimatedWithPhysicsGameObject_YPos -= (FP_FromDouble(3.5) * field_34_scale);
-            field_40_pTerminator2->mBaseAnimatedWithPhysicsGameObject_YPos += (FP_FromDouble(3.5) * field_34_scale);
+            field_3C_pTerminator1->mYPos -= (FP_FromDouble(3.5) * field_34_scale);
+            field_40_pTerminator2->mYPos += (FP_FromDouble(3.5) * field_34_scale);
             if (static_cast<s32>(sGnFrame) > field_30_timer)
             {
                 field_14_state = PortalStates::PortalExit_AbeExitting_20;
@@ -667,8 +667,8 @@ void BirdPortal::VUpdate()
         case PortalStates::KillPortalClipper_21:
             if (static_cast<s32>(sGnFrame) > field_30_timer)
             {
-                field_3C_pTerminator1->mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::BirdPortal_TerminatorShrink, nullptr);
-                field_40_pTerminator2->mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::BirdPortal_TerminatorShrink, nullptr);
+                field_3C_pTerminator1->mAnim.Set_Animation_Data(AnimId::BirdPortal_TerminatorShrink, nullptr);
+                field_40_pTerminator2->mAnim.Set_Animation_Data(AnimId::BirdPortal_TerminatorShrink, nullptr);
                 field_14_state = PortalStates::FadeoutTerminators_22;
                 field_30_timer = sGnFrame + 30;
 
@@ -726,12 +726,12 @@ s16 BirdPortal::IsScaredAway()
             case ReliveTypes::eParamite:
             case ReliveTypes::eScrab:
             case ReliveTypes::eSlig:
-                if (pObj->mBaseAnimatedWithPhysicsGameObject_PathNumber != field_66_path)
+                if (pObj->mCurrentPath != field_66_path)
                 {
                     continue;
                 }
 
-                if (FP_Abs(pObj->mBaseAnimatedWithPhysicsGameObject_XPos - field_18_xpos) >= FP_FromInteger(75) || FP_Abs(pObj->mBaseAnimatedWithPhysicsGameObject_YPos - field_28_ypos) >= FP_FromInteger(30) || pObj->mBaseAnimatedWithPhysicsGameObject_SpriteScale != field_34_scale)
+                if (FP_Abs(pObj->mXPos - field_18_xpos) >= FP_FromInteger(75) || FP_Abs(pObj->mYPos - field_28_ypos) >= FP_FromInteger(30) || pObj->mSpriteScale != field_34_scale)
                 {
                     continue;
                 }
@@ -753,9 +753,9 @@ void BirdPortal::VGiveShrykull(s16 bPlaySound)
         field_58_received_doves = 0;
 
         field_60_pOrbWhirlWind = relive_new OrbWhirlWind(
-            sActiveHero_507678->mBaseAnimatedWithPhysicsGameObject_XPos,
-            sActiveHero_507678->mBaseAnimatedWithPhysicsGameObject_YPos - (sActiveHero_507678->mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(38)),
-            sActiveHero_507678->mBaseAnimatedWithPhysicsGameObject_SpriteScale);
+            sActiveHero_507678->mXPos,
+            sActiveHero_507678->mYPos - (sActiveHero_507678->mSpriteScale * FP_FromInteger(38)),
+            sActiveHero_507678->mSpriteScale);
 
         if (sActiveHero_507678->mCurrentMotion == eAbeMotions::Motion_150_Chant_42FD50)
         {
@@ -793,7 +793,7 @@ void BirdPortal::VGiveShrykull(s16 bPlaySound)
 
 void BirdPortal::VScreenChanged()
 {
-    if (field_14_state <= PortalStates::IdlePortal_1 || field_14_state >= PortalStates::KillPortalClipper_21 || ((gMap.mCurrentLevel != gMap.mLevel || gMap.mCurrentPath != gMap.mPath) && (field_14_state != PortalStates::AbeInsidePortal_16 || field_10_portal_type != PortalType::eAbe_0 || gMap.mLevel != field_50_dest_level || gMap.mPath != field_52_dest_path)))
+    if (field_14_state <= PortalStates::IdlePortal_1 || field_14_state >= PortalStates::KillPortalClipper_21 || ((gMap.mCurrentLevel != gMap.mNextLevel || gMap.mCurrentPath != gMap.mNextPath) && (field_14_state != PortalStates::AbeInsidePortal_16 || field_10_portal_type != PortalType::eAbe_0 || gMap.mNextLevel != field_50_dest_level || gMap.mNextPath != field_52_dest_path)))
     {
         mBaseGameObjectFlags.Set(Options::eDead);
     }
@@ -898,18 +898,18 @@ void BirdPortal::VExitPortal()
         if (pPortalExitTlv->field_1A_scale == Scale_short::eHalf_1)
         {
             field_34_scale = FP_FromDouble(0.5);
-            sActiveHero_507678->mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_InBirdPortal_Half_11;
+            sActiveHero_507678->mAnim.mRenderLayer = Layer::eLayer_InBirdPortal_Half_11;
         }
         else
         {
             field_34_scale = FP_FromInteger(1);
-            sActiveHero_507678->mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_InBirdPortal_30;
+            sActiveHero_507678->mAnim.mRenderLayer = Layer::eLayer_InBirdPortal_30;
         }
 
-        sActiveHero_507678->mBaseAnimatedWithPhysicsGameObject_SpriteScale = field_34_scale;
+        sActiveHero_507678->mSpriteScale = field_34_scale;
         field_14_state = PortalStates::PortalExit_SetPosition_17;
-        sActiveHero_507678->mBaseAnimatedWithPhysicsGameObject_LvlNumber = gMap.mCurrentLevel;
-        sActiveHero_507678->mBaseAnimatedWithPhysicsGameObject_PathNumber = gMap.mCurrentPath;
+        sActiveHero_507678->mCurrentLevel = gMap.mCurrentLevel;
+        sActiveHero_507678->mCurrentPath = gMap.mCurrentPath;
     }
     else
     {

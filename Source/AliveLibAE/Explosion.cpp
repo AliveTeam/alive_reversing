@@ -33,11 +33,11 @@ Explosion::Explosion(FP xpos, FP ypos, FP scale, bool bSmall)
         Animation_Init(AnimId::Explosion, ppRes);
     }
 
-    mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit18_IsLastFrame);
-    mBaseAnimatedWithPhysicsGameObject_Anim.mRenderMode = TPageAbr::eBlend_1;
+    mAnim.mFlags.Clear(AnimFlags::eBit18_IsLastFrame);
+    mAnim.mRenderMode = TPageAbr::eBlend_1;
     field_F8_scale = scale;
-    mBaseAnimatedWithPhysicsGameObject_Scale = scale == FP_FromInteger(1) ? Scale::Fg : Scale::Bg;
-    mBaseAnimatedWithPhysicsGameObject_SpriteScale = scale * FP_FromInteger(2);
+    mScale = scale == FP_FromInteger(1) ? Scale::Fg : Scale::Bg;
+    mSpriteScale = scale * FP_FromInteger(2);
 
     if (field_F4_bSmall)
     {
@@ -49,8 +49,8 @@ Explosion::Explosion(FP xpos, FP ypos, FP scale, bool bSmall)
     }
 
     mVisualFlags.Clear(VisualFlags::eApplyShadowZoneColour);
-    mBaseAnimatedWithPhysicsGameObject_XPos = xpos;
-    mBaseAnimatedWithPhysicsGameObject_YPos = ypos;
+    mXPos = xpos;
+    mYPos = ypos;
 
     relive_new ScreenShake(bEnabled_5C1BB6 ? 0 : 1, field_F4_bSmall);
 
@@ -73,7 +73,7 @@ void Explosion::VUpdate()
 
     PSX_RECT rect = {};
 
-    switch (mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame)
+    switch (mAnim.mCurrentFrame)
     {
         case 2:
             rect.x = FP_GetExponent(FP_FromInteger(-20) * field_FC_explosion_size);
@@ -105,7 +105,7 @@ void Explosion::VUpdate()
 
         case 8:
         {
-            relive_new ParticleBurst(mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, field_F4_bSmall ? 6 : 20, field_F8_scale, BurstType::eBigRedSparks_3, field_F4_bSmall ? 11 : 13);
+            relive_new ParticleBurst(mXPos, mYPos, field_F4_bSmall ? 6 : 20, field_F8_scale, BurstType::eBigRedSparks_3, field_F4_bSmall ? 11 : 13);
             relive_new Flash(Layer::eLayer_Above_FG1_39, 255, 255, 255, 1, TPageAbr::eBlend_3, 1);
             break;
         }
@@ -114,26 +114,26 @@ void Explosion::VUpdate()
             break;
     }
 
-    if (mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame > 9)
+    if (mAnim.mCurrentFrame > 9)
     {
         if (field_F4_bSmall)
         {
-            mBaseAnimatedWithPhysicsGameObject_SpriteScale -= FP_FromDouble(0.066);
+            mSpriteScale -= FP_FromDouble(0.066);
         }
         else
         {
-            mBaseAnimatedWithPhysicsGameObject_SpriteScale -= FP_FromDouble(0.2);
+            mSpriteScale -= FP_FromDouble(0.2);
         }
     }
 
-    if (mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame == 1)
+    if (mAnim.mCurrentFrame == 1)
     {
         u8** ppRes = field_F4_bSmall ? Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kSmallExplo2ResID) : Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kExplo2ResID);
         if (ppRes)
         {
             const AnimId explosionId = field_F4_bSmall ? AnimId::Explosion_Small : AnimId::Explosion;
             auto pParticle = relive_new Particle(
-                mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos,
+                mXPos, mYPos,
                 explosionId,
                 ppRes,
                 true);
@@ -146,23 +146,23 @@ void Explosion::VUpdate()
                 }
 
                 pParticle->mVisualFlags.Clear(VisualFlags::eApplyShadowZoneColour);
-                pParticle->mBaseAnimatedWithPhysicsGameObject_Anim.mRenderMode = TPageAbr::eBlend_1;
+                pParticle->mAnim.mRenderMode = TPageAbr::eBlend_1;
 
-                if (mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame == 3)
+                if (mAnim.mCurrentFrame == 3)
                 {
-                    pParticle->mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit5_FlipX);
-                    pParticle->mBaseAnimatedWithPhysicsGameObject_SpriteScale = mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromDouble(0.5);
+                    pParticle->mAnim.mFlags.Set(AnimFlags::eBit5_FlipX);
+                    pParticle->mSpriteScale = mSpriteScale * FP_FromDouble(0.5);
                 }
                 else
                 {
-                    pParticle->mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit5_FlipX);
-                    pParticle->mBaseAnimatedWithPhysicsGameObject_SpriteScale = mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromDouble(0.25);
+                    pParticle->mAnim.mFlags.Clear(AnimFlags::eBit5_FlipX);
+                    pParticle->mSpriteScale = mSpriteScale * FP_FromDouble(0.25);
                 }
             }
         }
     }
 
-    if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit12_ForwardLoopCompleted))
+    if (mAnim.mFlags.Get(AnimFlags::eBit12_ForwardLoopCompleted))
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
@@ -190,11 +190,11 @@ void Explosion::DealBlastDamage(PSX_RECT* pRect)
     expandedRect.y = std::min(pRect->y, pRect->h);
     expandedRect.h = std::max(pRect->y, pRect->h);
 
-    expandedRect.x += FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos);
-    expandedRect.w += FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos);
+    expandedRect.x += FP_GetExponent(mXPos);
+    expandedRect.w += FP_GetExponent(mXPos);
 
-    expandedRect.y += FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos);
-    expandedRect.h += FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos);
+    expandedRect.y += FP_GetExponent(mYPos);
+    expandedRect.h += FP_GetExponent(mYPos);
 
     for (s32 idx = 0; idx < gBaseAliveGameObjects_5C1B7C->Size(); idx++)
     {
@@ -208,7 +208,7 @@ void Explosion::DealBlastDamage(PSX_RECT* pRect)
         {
             const PSX_RECT boundRect = pObj->VGetBoundingRect();
 
-            if (PSX_Rects_overlap_no_adjustment(&boundRect, &expandedRect) && mBaseAnimatedWithPhysicsGameObject_Scale == pObj->mBaseAnimatedWithPhysicsGameObject_Scale)
+            if (PSX_Rects_overlap_no_adjustment(&boundRect, &expandedRect) && mScale == pObj->mScale)
             {
                 pObj->VTakeDamage(this);
             }
@@ -236,11 +236,11 @@ void Explosion::DealBlastDamage(PSX_RECT* pRect)
 
             if (dir == CameraPos::eCamLeft_3)
             {
-                relive_new Gibs(GibType::Slig_1, mBaseAnimatedWithPhysicsGameObject_XPos + FP_FromInteger(656), mBaseAnimatedWithPhysicsGameObject_YPos, FP_FromInteger(0), FP_FromInteger(0), FP_FromInteger(1), 0);
+                relive_new Gibs(GibType::Slig_1, mXPos + FP_FromInteger(656), mYPos, FP_FromInteger(0), FP_FromInteger(0), FP_FromInteger(1), 0);
             }
             else if (dir == CameraPos::eCamRight_4)
             {
-                relive_new Gibs(GibType::Slig_1, mBaseAnimatedWithPhysicsGameObject_XPos - FP_FromInteger(656), mBaseAnimatedWithPhysicsGameObject_YPos, FP_FromInteger(0), FP_FromInteger(0), FP_FromInteger(1), 0);
+                relive_new Gibs(GibType::Slig_1, mXPos - FP_FromInteger(656), mYPos, FP_FromInteger(0), FP_FromInteger(0), FP_FromInteger(1), 0);
             }
 
             Stop_slig_sounds(dir, 0);

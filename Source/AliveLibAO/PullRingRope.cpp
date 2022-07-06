@@ -47,7 +47,7 @@ PullRingRope::PullRingRope(Path_PullRingRope* pTlv, s32 tlvInfo)
         }
     }
 
-    mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit15_bSemiTrans);
+    mAnim.mFlags.Set(AnimFlags::eBit15_bSemiTrans);
 
     field_EE_switch_id = pTlv->field_18_switch_id;
     field_F0_action = pTlv->field_1A_action;
@@ -55,20 +55,20 @@ PullRingRope::PullRingRope(Path_PullRingRope* pTlv, s32 tlvInfo)
     field_EC_state = States::eIdle_0;
     field_E4_stay_in_state_ticks = 0;
 
-    mBaseAnimatedWithPhysicsGameObject_YPos += FP_FromInteger(pTlv->field_1C_rope_length + pTlv->mTopLeft.y + 24);
-    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pTlv->mTopLeft.x + 12);
+    mYPos += FP_FromInteger(pTlv->field_1C_rope_length + pTlv->mTopLeft.y + 24);
+    mXPos = FP_FromInteger(pTlv->mTopLeft.x + 12);
 
     if (pTlv->field_1E_scale == Scale_short::eHalf_1)
     {
-        mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromDouble(0.5);
-        mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_8;
-        mBaseAnimatedWithPhysicsGameObject_Scale = Scale::Bg;
+        mSpriteScale = FP_FromDouble(0.5);
+        mAnim.mRenderLayer = Layer::eLayer_8;
+        mScale = Scale::Bg;
     }
     else
     {
-        mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromInteger(1);
-        mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_27;
-        mBaseAnimatedWithPhysicsGameObject_Scale = Scale::Fg;
+        mSpriteScale = FP_FromInteger(1);
+        mAnim.mRenderLayer = Layer::eLayer_27;
+        mScale = Scale::Fg;
     }
 
     field_100_sound_direction = pTlv->field_24_sound_direction;
@@ -79,10 +79,10 @@ PullRingRope::PullRingRope(Path_PullRingRope* pTlv, s32 tlvInfo)
     field_F4_pPuller = nullptr;
 
     field_F8_pRope = relive_new Rope(
-        FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos + FP_FromInteger((lvl_x_off + 1))),
-        FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos) - pTlv->field_1C_rope_length,
-        FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos + (FP_FromInteger(mBaseAnimatedWithPhysicsGameObject_YOffset))),
-        mBaseAnimatedWithPhysicsGameObject_SpriteScale);
+        FP_GetExponent(mXPos + FP_FromInteger((lvl_x_off + 1))),
+        FP_GetExponent(mYPos) - pTlv->field_1C_rope_length,
+        FP_GetExponent(mYPos + (FP_FromInteger(mYOffset))),
+        mSpriteScale);
     if (field_F8_pRope)
     {
         field_F8_pRope->mBaseGameObjectRefCount++;
@@ -134,18 +134,18 @@ s16 PullRingRope::Pull(BaseAliveGameObject* pFrom)
     field_F4_pPuller->mBaseGameObjectRefCount++;
 
     field_EC_state = States::eBeingPulled_1;
-    mBaseAnimatedWithPhysicsGameObject_VelY = FP_FromInteger(2);
+    mVelY = FP_FromInteger(2);
     field_E4_stay_in_state_ticks = 6;
 
     SwitchStates_Do_Operation(field_EE_switch_id, field_F0_action);
 
     if (gMap.mCurrentLevel == EReliveLevelIds::eRuptureFarms || gMap.mCurrentLevel == EReliveLevelIds::eBoardRoom || gMap.mCurrentLevel == EReliveLevelIds::eRuptureFarmsReturn)
     {
-        mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::Pullring_Farms_UseBegin, nullptr);
+        mAnim.Set_Animation_Data(AnimId::Pullring_Farms_UseBegin, nullptr);
     }
     else
     {
-        mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::Pullring_Desert_UseBegin, nullptr);
+        mAnim.Set_Animation_Data(AnimId::Pullring_Desert_UseBegin, nullptr);
     }
     SfxPlayMono(SoundEffect::RingRopePull_65, 0, 0);
     return 1;
@@ -170,18 +170,18 @@ void PullRingRope::VUpdate()
     switch (field_EC_state)
     {
         case States::eBeingPulled_1:
-            if (mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame == 2)
+            if (mAnim.mCurrentFrame == 2)
             {
                 SfxPlayMono(SoundEffect::RingRopePull_65, 0);
             }
 
-            mBaseAnimatedWithPhysicsGameObject_YPos += mBaseAnimatedWithPhysicsGameObject_VelY;
-            field_F4_pPuller->mBaseAnimatedWithPhysicsGameObject_YPos += mBaseAnimatedWithPhysicsGameObject_VelY;
+            mYPos += mVelY;
+            field_F4_pPuller->mYPos += mVelY;
             field_E4_stay_in_state_ticks--;
 
             if (field_E4_stay_in_state_ticks == 0)
             {
-                mBaseAnimatedWithPhysicsGameObject_VelY = FP_FromInteger(0);
+                mVelY = FP_FromInteger(0);
                 field_EC_state = States::eTriggerEvent_2;
 
                 if (gMap.mCurrentLevel == EReliveLevelIds::eRuptureFarms || gMap.mCurrentLevel == EReliveLevelIds::eBoardRoom || gMap.mCurrentLevel == EReliveLevelIds::eRuptureFarmsReturn)
@@ -249,7 +249,7 @@ void PullRingRope::VUpdate()
             break;
 
         case States::eTriggerEvent_2:
-            mBaseAnimatedWithPhysicsGameObject_VelY = FP_FromInteger(4);
+            mVelY = FP_FromInteger(4);
             field_EC_state = States::eReturnToIdle_3;
             field_F4_pPuller->mBaseGameObjectRefCount--;
             field_F4_pPuller = nullptr;
@@ -258,29 +258,29 @@ void PullRingRope::VUpdate()
 
             if (gMap.mCurrentLevel == EReliveLevelIds::eRuptureFarms || gMap.mCurrentLevel == EReliveLevelIds::eBoardRoom || gMap.mCurrentLevel == EReliveLevelIds::eRuptureFarmsReturn)
             {
-                mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::Pullring_Farms_UseEnd, nullptr);
+                mAnim.Set_Animation_Data(AnimId::Pullring_Farms_UseEnd, nullptr);
             }
             else
             {
-                mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::Pullring_Desert_UseEnd, nullptr);
+                mAnim.Set_Animation_Data(AnimId::Pullring_Desert_UseEnd, nullptr);
             }
             break;
 
         case States::eReturnToIdle_3:
-            mBaseAnimatedWithPhysicsGameObject_YPos -= mBaseAnimatedWithPhysicsGameObject_VelY;
+            mYPos -= mVelY;
             field_E4_stay_in_state_ticks--;
             if (field_E4_stay_in_state_ticks == 0)
             {
-                mBaseAnimatedWithPhysicsGameObject_VelY = FP_FromInteger(0);
+                mVelY = FP_FromInteger(0);
                 field_EC_state = States::eIdle_0;
 
                 if (gMap.mCurrentLevel == EReliveLevelIds::eRuptureFarms || gMap.mCurrentLevel == EReliveLevelIds::eBoardRoom || gMap.mCurrentLevel == EReliveLevelIds::eRuptureFarmsReturn)
                 {
-                    mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::Pullring_Farms_Idle, nullptr);
+                    mAnim.Set_Animation_Data(AnimId::Pullring_Farms_Idle, nullptr);
                 }
                 else
                 {
-                    mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::Pullring_Desert_Idle, nullptr);
+                    mAnim.Set_Animation_Data(AnimId::Pullring_Desert_Idle, nullptr);
                 }
             }
             break;
@@ -289,7 +289,7 @@ void PullRingRope::VUpdate()
             break;
     }
 
-    field_F8_pRope->mBaseAnimatedWithPhysicsGameObject_YPos = FP_NoFractional(FP_FromInteger(mBaseAnimatedWithPhysicsGameObject_YOffset - 16) + mBaseAnimatedWithPhysicsGameObject_YPos);
+    field_F8_pRope->mYPos = FP_NoFractional(FP_FromInteger(mYOffset - 16) + mYPos);
 }
 
 } // namespace AO

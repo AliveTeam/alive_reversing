@@ -21,7 +21,7 @@ void TestAnimation::DelayLoad()
 {
     // Trying to load on these lvls will result in a phat failure because they hardly have
     // any resource files
-    if (mBaseAnimatedWithPhysicsGameObject_LvlNumber == EReliveLevelIds::eMenu || mBaseAnimatedWithPhysicsGameObject_LvlNumber == EReliveLevelIds::eCredits)
+    if (mCurrentLevel == EReliveLevelIds::eMenu || mCurrentLevel == EReliveLevelIds::eCredits)
     {
         return;
     }
@@ -45,7 +45,7 @@ void TestAnimation::DelayLoad()
 
     u8** ppRes = ::Add_Resource(resourceArray, AO::ResourceManager::Resource_Animation, animRec.mResourceId);
     Animation_Init(animRec.mFrameTableOffset, animRec.mMaxW, animRec.mMaxH, ppRes);
-    mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit8_Loop);
+    mAnim.mFlags.Set(AnimFlags::eBit8_Loop);
 
     if (animRec.mPalOverride != PalId::Default)
     {
@@ -63,7 +63,7 @@ void TestAnimation::DelayLoad()
         u8** ppPal = ::Add_Resource(resourceArray, AO::ResourceManager::Resource_Palt, palRec.mResourceId);
         if (ppPal)
         {
-            mBaseAnimatedWithPhysicsGameObject_Anim.LoadPal(ppPal, 0);
+            mAnim.LoadPal(ppPal, 0);
         }
     }
 }
@@ -83,15 +83,15 @@ TestAnimation::TestAnimation()
 
 void TestAnimation::SyncToAbePos()
 {
-    mBaseAnimatedWithPhysicsGameObject_XPos = AO::sActiveHero_507678->mBaseAnimatedWithPhysicsGameObject_XPos + FP_FromInteger(30);
-    mBaseAnimatedWithPhysicsGameObject_YPos = AO::sActiveHero_507678->mBaseAnimatedWithPhysicsGameObject_YPos - FP_FromInteger(30);
-    mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = AO::sActiveHero_507678->mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer;
+    mXPos = AO::sActiveHero_507678->mXPos + FP_FromInteger(30);
+    mYPos = AO::sActiveHero_507678->mYPos - FP_FromInteger(30);
+    mAnim.mRenderLayer = AO::sActiveHero_507678->mAnim.mRenderLayer;
 }
 
 void TestAnimation::VUpdate()
 {
-    mBaseAnimatedWithPhysicsGameObject_PathNumber = AO::gMap.mCurrentPath;
-    mBaseAnimatedWithPhysicsGameObject_LvlNumber = AO::gMap.mCurrentLevel;
+    mCurrentPath = AO::gMap.mCurrentPath;
+    mCurrentLevel = AO::gMap.mCurrentLevel;
     if (mLoaded)
     {
         SyncToAbePos();

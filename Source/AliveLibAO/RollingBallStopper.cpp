@@ -18,44 +18,44 @@ RollingBallStopper::RollingBallStopper(Path_RollingBallStopper* pTlv, s32 tlvInf
     const AnimRecord rec = AO::AnimRec(AnimId::Stone_Ball_Stopper);
     u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
     Animation_Init(AnimId::Stone_Ball_Stopper, ppRes);
-    mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_FG1_37;
+    mAnim.mRenderLayer = Layer::eLayer_FG1_37;
 
     field_114_release_switch_id = pTlv->field_18_stopper_switch_id;
 
     if (pTlv->field_1A_scale == Scale_short::eHalf_1)
     {
-        mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromDouble(0.5);
-        mBaseAnimatedWithPhysicsGameObject_Scale = Scale::Bg;
+        mSpriteScale = FP_FromDouble(0.5);
+        mScale = Scale::Bg;
     }
 
     field_116_ball_switch_id = pTlv->field_1C_ball_switch_id;
 
     if (pTlv->field_1E_direction == XDirection_short::eLeft_0)
     {
-        mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit5_FlipX);
+        mAnim.mFlags.Set(AnimFlags::eBit5_FlipX);
     }
 
-    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pTlv->mTopLeft.x);
-    mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->mTopLeft.y);
+    mXPos = FP_FromInteger(pTlv->mTopLeft.x);
+    mYPos = FP_FromInteger(pTlv->mTopLeft.y);
 
-    mBaseAnimatedWithPhysicsGameObject_VelX = mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX) ? FP_FromInteger(22) : FP_FromInteger(-22);
-    mBaseAnimatedWithPhysicsGameObject_VelY = FP_FromInteger(0);
+    mVelX = mAnim.mFlags.Get(AnimFlags::eBit5_FlipX) ? FP_FromInteger(22) : FP_FromInteger(-22);
+    mVelY = FP_FromInteger(0);
 
     field_10C_tlvInfo = tlvInfo;
 
     // Check its enabled ?
     if (pTlv->field_1_unknown)
     {
-        mBaseAnimatedWithPhysicsGameObject_YPos += mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(70);
-        if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
+        mYPos += mSpriteScale * FP_FromInteger(70);
+        if (mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
         {
             field_112_state = States::eMovingDone_2;
-            mBaseAnimatedWithPhysicsGameObject_XPos += mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(35);
+            mXPos += mSpriteScale * FP_FromInteger(35);
         }
         else
         {
             field_112_state = States::eMovingDone_2;
-            mBaseAnimatedWithPhysicsGameObject_XPos -= mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(35);
+            mXPos -= mSpriteScale * FP_FromInteger(35);
         }
     }
     else
@@ -65,23 +65,23 @@ RollingBallStopper::RollingBallStopper(Path_RollingBallStopper* pTlv, s32 tlvInf
         SwitchStates_Set(pTlv->field_18_stopper_switch_id, 0);
     }
 
-    const auto oldXPos = mBaseAnimatedWithPhysicsGameObject_XPos;
+    const auto oldXPos = mXPos;
     MapFollowMe_401D30(TRUE);
-    mBaseAnimatedWithPhysicsGameObject_XPos = oldXPos;
+    mXPos = oldXPos;
 
     FP lineXPos = {};
-    if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
+    if (mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
     {
-        lineXPos = (ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale) / FP_FromInteger(2)) + FP_NoFractional(oldXPos);
+        lineXPos = (ScaleToGridSize(mSpriteScale) / FP_FromInteger(2)) + FP_NoFractional(oldXPos);
     }
     else
     {
-        lineXPos = FP_NoFractional(oldXPos) - (ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale) / FP_FromInteger(2));
+        lineXPos = FP_NoFractional(oldXPos) - (ScaleToGridSize(mSpriteScale) / FP_FromInteger(2));
     }
 
     const auto x1 = FP_GetExponent(lineXPos);
-    const auto y1 = FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos);
-    if (mBaseAnimatedWithPhysicsGameObject_SpriteScale == FP_FromInteger(1))
+    const auto y1 = FP_GetExponent(mYPos);
+    if (mSpriteScale == FP_FromInteger(1))
     {
         field_118_pLine = sCollisions->Add_Dynamic_Collision_Line(x1, y1 - 70, x1, y1, eLineTypes::eWallLeft_1);
     }
@@ -133,11 +133,11 @@ void RollingBallStopper::VUpdate()
             break;
 
         case States::eMoveStopper_1:
-            mBaseAnimatedWithPhysicsGameObject_VelY += (mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(25));
-            if (mBaseAnimatedWithPhysicsGameObject_VelY <= (mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(70)))
+            mVelY += (mSpriteScale * FP_FromInteger(25));
+            if (mVelY <= (mSpriteScale * FP_FromInteger(70)))
             {
-                mBaseAnimatedWithPhysicsGameObject_XPos += mBaseAnimatedWithPhysicsGameObject_VelX;
-                mBaseAnimatedWithPhysicsGameObject_YPos += (mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(25));
+                mXPos += mVelX;
+                mYPos += (mSpriteScale * FP_FromInteger(25));
             }
             else
             {

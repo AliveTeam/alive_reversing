@@ -48,22 +48,22 @@ SecurityOrb::SecurityOrb(Path_SecurityOrb* pTlv, s32 tlvInfo)
 
     SetTint(sSecurityOrbTints_55C1EC, gMap.mCurrentLevel);
 
-    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pTlv->mTopLeft.x);
-    mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->mTopLeft.y);
+    mXPos = FP_FromInteger(pTlv->mTopLeft.x);
+    mYPos = FP_FromInteger(pTlv->mTopLeft.y);
 
     mTlvInfo = tlvInfo;
 
     if (pTlv->mScale == Scale_short::eHalf_1)
     {
-        mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromDouble(0.5);
-        mBaseAnimatedWithPhysicsGameObject_Scale = Scale::Bg;
-        mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_8;
+        mSpriteScale = FP_FromDouble(0.5);
+        mScale = Scale::Bg;
+        mAnim.mRenderLayer = Layer::eLayer_8;
     }
     else
     {
-        mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromInteger(1);
-        mBaseAnimatedWithPhysicsGameObject_Scale = Scale::Fg;
-        mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_27;
+        mSpriteScale = FP_FromInteger(1);
+        mScale = Scale::Fg;
+        mAnim.mRenderLayer = Layer::eLayer_27;
     }
 
     mVisualFlags.Set(VisualFlags::eDoPurpleLightEffect);
@@ -106,18 +106,18 @@ s16 SecurityOrb::VTakeDamage(BaseGameObject* pFrom)
     if (pFrom->Type() == ReliveTypes::eMineCar || pFrom->Type() == ReliveTypes::eAbilityRing || pFrom->Type() == ReliveTypes::eShrykull)
     {
         relive_new Explosion(
-            mBaseAnimatedWithPhysicsGameObject_XPos,
-            mBaseAnimatedWithPhysicsGameObject_YPos - (mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(5)),
-            mBaseAnimatedWithPhysicsGameObject_SpriteScale,
+            mXPos,
+            mYPos - (mSpriteScale * FP_FromInteger(5)),
+            mSpriteScale,
             0);
 
         relive_new Gibs(
             GibType::Metal_5,
-            mBaseAnimatedWithPhysicsGameObject_XPos,
-            mBaseAnimatedWithPhysicsGameObject_YPos,
+            mXPos,
+            mYPos,
             FP_FromInteger(0),
             FP_FromInteger(0),
-            mBaseAnimatedWithPhysicsGameObject_SpriteScale,
+            mSpriteScale,
             0);
     }
 
@@ -134,26 +134,26 @@ void SecurityOrb::VUpdate()
     switch (mState)
     {
         case States::eIdle_0:
-            if (mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame == 2 || mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame == 6 || mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame == 10)
+            if (mAnim.mCurrentFrame == 2 || mAnim.mCurrentFrame == 6 || mAnim.mCurrentFrame == 10)
             {
                 if (mSoundChannelsMask)
                 {
                     SND_Stop_Channels_Mask(mSoundChannelsMask);
                 }
 
-                if (mBaseAnimatedWithPhysicsGameObject_SpriteScale == FP_FromDouble(0.5))
+                if (mSpriteScale == FP_FromDouble(0.5))
                 {
-                    mSoundChannelsMask = SFX_Play_Pitch(SoundEffect::SecurityOrb_48, 35, 720, mBaseAnimatedWithPhysicsGameObject_SpriteScale);
+                    mSoundChannelsMask = SFX_Play_Pitch(SoundEffect::SecurityOrb_48, 35, 720, mSpriteScale);
                 }
                 else
                 {
-                    mSoundChannelsMask = SFX_Play_Pitch(SoundEffect::SecurityOrb_48, 55, 700, mBaseAnimatedWithPhysicsGameObject_SpriteScale);
+                    mSoundChannelsMask = SFX_Play_Pitch(SoundEffect::SecurityOrb_48, 55, 700, mSpriteScale);
                 }
             }
 
             if (EventGet(kEventAbeOhm))
             {
-                if (!sActiveHero->field_168_ring_pulse_timer || !sActiveHero->field_16C_bHaveShrykull || sActiveHero->mBaseAnimatedWithPhysicsGameObject_SpriteScale != FP_FromInteger(1))
+                if (!sActiveHero->field_168_ring_pulse_timer || !sActiveHero->field_16C_bHaveShrykull || sActiveHero->mSpriteScale != FP_FromInteger(1))
                 {
                     mState = States::eDoZapEffects_1;
                     mTimer = sGnFrame + 20;
@@ -170,8 +170,8 @@ void SecurityOrb::VUpdate()
                 const FP ypos = FP_FromInteger((bRect.y + bRect.h) / 2);
 
                 relive_new ZapLine(
-                    mBaseAnimatedWithPhysicsGameObject_XPos,
-                    mBaseAnimatedWithPhysicsGameObject_YPos - (FP_FromInteger(8) * mBaseAnimatedWithPhysicsGameObject_SpriteScale),
+                    mXPos,
+                    mYPos - (FP_FromInteger(8) * mSpriteScale),
                     xpos,
                     ypos,
                     8,
@@ -190,24 +190,24 @@ void SecurityOrb::VUpdate()
 
                 relive_new ScreenShake(1, 0);
 
-                auto pSpark = relive_new ZapSpark(mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos - (FP_FromInteger(8) * mBaseAnimatedWithPhysicsGameObject_SpriteScale), mBaseAnimatedWithPhysicsGameObject_SpriteScale);
+                auto pSpark = relive_new ZapSpark(mXPos, mYPos - (FP_FromInteger(8) * mSpriteScale), mSpriteScale);
                 if (pSpark)
                 {
-                    pSpark->mBaseAnimatedWithPhysicsGameObject_RGB.SetRGB(255, 65, 65);
+                    pSpark->mRGB.SetRGB(255, 65, 65);
                 }
 
-                auto pSpark2 = relive_new ZapSpark(mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos - (FP_FromInteger(8) * mBaseAnimatedWithPhysicsGameObject_SpriteScale), mBaseAnimatedWithPhysicsGameObject_SpriteScale);
+                auto pSpark2 = relive_new ZapSpark(mXPos, mYPos - (FP_FromInteger(8) * mSpriteScale), mSpriteScale);
                 if (pSpark2)
                 {
-                    pSpark2->mBaseAnimatedWithPhysicsGameObject_RGB.SetRGB(255, 65, 65);
+                    pSpark2->mRGB.SetRGB(255, 65, 65);
                 }
 
                 for (s32 i = 0; i < 9; i++)
                 {
-                    auto pSpark3 = relive_new ZapSpark(xpos, ypos, mBaseAnimatedWithPhysicsGameObject_SpriteScale);
+                    auto pSpark3 = relive_new ZapSpark(xpos, ypos, mSpriteScale);
                     if (pSpark3)
                     {
-                        pSpark3->mBaseAnimatedWithPhysicsGameObject_RGB.SetRGB(255, 65, 65);
+                        pSpark3->mRGB.SetRGB(255, 65, 65);
                     }
                 }
             }
@@ -226,11 +226,11 @@ void SecurityOrb::VUpdate()
             const s32 timerFrame = mTimer - sGnFrame;
             if (timerFrame == 4)
             {
-                SfxPlayMono(SoundEffect::Zap1_49, 0, mBaseAnimatedWithPhysicsGameObject_SpriteScale);
+                SfxPlayMono(SoundEffect::Zap1_49, 0, mSpriteScale);
             }
             else if (timerFrame == 1)
             {
-                SfxPlayMono(SoundEffect::Zap2_50, 0, mBaseAnimatedWithPhysicsGameObject_SpriteScale);
+                SfxPlayMono(SoundEffect::Zap2_50, 0, mSpriteScale);
             }
 
             if (static_cast<s32>(sGnFrame) > mTimer)

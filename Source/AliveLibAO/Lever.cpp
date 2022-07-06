@@ -48,12 +48,12 @@ void Lever::VUpdate()
 
     if (field_E8_state == LeverState::ePulled_1)
     {
-        if (mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame == 3)
+        if (mAnim.mCurrentFrame == 3)
         {
             SfxPlayMono(SoundEffect::LeverPull_75, 0, 0);
         }
 
-        if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
+        if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
         {
             EventBroadcast(kEventNoise, this);
             EventBroadcast(kEventSuspiciousNoise, this);
@@ -76,7 +76,7 @@ void Lever::VUpdate()
                 animId = gLeverData_4BCF40[lvl_idx].field_10_releasing_left_animId;
             }
 
-            mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(animId, nullptr);
+            mAnim.Set_Animation_Data(animId, nullptr);
 
             const auto oldSwitchState = SwitchStates_Get(field_E4_switch_id);
             SwitchStates_Do_Operation(field_E4_switch_id, field_F2_action);
@@ -154,10 +154,10 @@ void Lever::VUpdate()
     }
     else if (field_E8_state == LeverState::eFinished_2)
     {
-        if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit12_ForwardLoopCompleted))
+        if (mAnim.mFlags.Get(AnimFlags::eBit12_ForwardLoopCompleted))
         {
             field_E8_state = LeverState::eWaiting_0;
-            mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(
+            mAnim.Set_Animation_Data(
                 gLeverData_4BCF40[static_cast<s32>(MapWrapper::ToAO(gMap.mCurrentLevel))].field_0_idle_animId,
                 nullptr);
         }
@@ -182,27 +182,27 @@ Lever::Lever(Path_Lever* pTlv, s32 tlvInfo)
     u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
     Animation_Init(gLeverData_4BCF40[lvl_idx].field_0_idle_animId, ppRes);
 
-    mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit15_bSemiTrans);
+    mAnim.mFlags.Set(AnimFlags::eBit15_bSemiTrans);
 
-    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger((pTlv->mBottomRight.x
+    mXPos = FP_FromInteger((pTlv->mBottomRight.x
                                     + pTlv->mTopLeft.x)
                                    / 2);
 
     field_E4_switch_id = pTlv->field_18_switch_id;
-    mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->mTopLeft.y);
+    mYPos = FP_FromInteger(pTlv->mTopLeft.y);
     field_F2_action = pTlv->field_1A_action;
 
     if (pTlv->field_1C_scale == Scale_short::eHalf_1)
     {
-        mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromDouble(0.5);
-        mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_BeforeShadow_Half_6;
-        mBaseAnimatedWithPhysicsGameObject_Scale = Scale::Bg;
+        mSpriteScale = FP_FromDouble(0.5);
+        mAnim.mRenderLayer = Layer::eLayer_BeforeShadow_Half_6;
+        mScale = Scale::Bg;
     }
     else
     {
-        mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromInteger(1);
-        mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_BeforeShadow_25;
-        mBaseAnimatedWithPhysicsGameObject_Scale = Scale::Fg;
+        mSpriteScale = FP_FromInteger(1);
+        mAnim.mRenderLayer = Layer::eLayer_BeforeShadow_25;
+        mScale = Scale::Fg;
     }
 
     field_F4_on_sound = pTlv->field_1E_on_sound;
@@ -221,14 +221,14 @@ s32 Lever::VPull(s16 bLeftDirection)
         field_E8_state = LeverState::ePulled_1;
         if (bLeftDirection)
         {
-            mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(
+            mAnim.Set_Animation_Data(
                 gLeverData_4BCF40[lvl_idx].field_C_pulling_left_animId,
                 nullptr);
             field_F0_bPulledFromLeft = 1;
         }
         else
         {
-            mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(
+            mAnim.Set_Animation_Data(
                 gLeverData_4BCF40[lvl_idx].field_14_pulling_right_animId,
                 nullptr);
             field_F0_bPulledFromLeft = 0;

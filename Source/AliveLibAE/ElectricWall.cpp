@@ -21,32 +21,32 @@ ElectricWall::ElectricWall(Path_ElectricWall* pTlv, s32 tlvInfo)
     const AnimRecord& rec = AnimRec(AnimId::Electric_Wall);
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
     Animation_Init(AnimId::Electric_Wall, ppRes);
-    mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit15_bSemiTrans);
-    mBaseAnimatedWithPhysicsGameObject_Anim.mRenderMode = TPageAbr::eBlend_1;
-    mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_Foreground_36;
+    mAnim.mFlags.Set(AnimFlags::eBit15_bSemiTrans);
+    mAnim.mRenderMode = TPageAbr::eBlend_1;
+    mAnim.mRenderLayer = Layer::eLayer_Foreground_36;
 
-    if (mBaseAnimatedWithPhysicsGameObject_Anim.Get_Frame_Count() > 0)
+    if (mAnim.Get_Frame_Count() > 0)
     {
-        mBaseAnimatedWithPhysicsGameObject_Anim.SetFrame(sElecticWallFrames_55165C[Math_RandomRange(0, 4)]);
+        mAnim.SetFrame(sElecticWallFrames_55165C[Math_RandomRange(0, 4)]);
     }
 
     mVisualFlags.Clear(VisualFlags::eApplyShadowZoneColour);
-    mBaseAnimatedWithPhysicsGameObject_RGB.SetRGB(80, 80, 80);
+    mRGB.SetRGB(80, 80, 80);
 
     field_F4_tlvInfo = tlvInfo;
 
-    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pTlv->mTopLeft.x);
-    mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->mTopLeft.y);
+    mXPos = FP_FromInteger(pTlv->mTopLeft.x);
+    mYPos = FP_FromInteger(pTlv->mTopLeft.y);
 
     if (pTlv->field_10_scale == Scale_short::eHalf_1)
     {
-        mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromDouble(0.5);
-        mBaseAnimatedWithPhysicsGameObject_Scale = Scale::Bg;
+        mSpriteScale = FP_FromDouble(0.5);
+        mScale = Scale::Bg;
     }
     else
     {
-        mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromInteger(1);
-        mBaseAnimatedWithPhysicsGameObject_Scale = Scale::Fg;
+        mSpriteScale = FP_FromInteger(1);
+        mScale = Scale::Fg;
     }
 
     field_F8_switch_id = pTlv->field_12_switch_id;
@@ -54,7 +54,7 @@ ElectricWall::ElectricWall(Path_ElectricWall* pTlv, s32 tlvInfo)
 
     if (SwitchStates_Get(field_F8_switch_id) == field_FA_start_state)
     {
-        mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit3_Render);
+        mAnim.mFlags.Clear(AnimFlags::eBit3_Render);
     }
 
     field_FC_sound_timer = 0;
@@ -67,7 +67,7 @@ ElectricWall::~ElectricWall()
 
 void ElectricWall::VScreenChanged()
 {
-    if (gMap.mCurrentLevel != gMap.mLevel || gMap.mCurrentPath != gMap.mPath || gMap.GetDirection(mBaseAnimatedWithPhysicsGameObject_LvlNumber, mBaseAnimatedWithPhysicsGameObject_PathNumber, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos) == CameraPos::eCamInvalid_m1)
+    if (gMap.mCurrentLevel != gMap.mNextLevel || gMap.mCurrentPath != gMap.mNextPath || gMap.GetDirection(mCurrentLevel, mCurrentPath, mXPos, mYPos) == CameraPos::eCamInvalid_m1)
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
@@ -76,10 +76,10 @@ void ElectricWall::VScreenChanged()
 void ElectricWall::VUpdate()
 {
     const CameraPos soundDirection = gMap.GetDirection(
-        mBaseAnimatedWithPhysicsGameObject_LvlNumber,
-        mBaseAnimatedWithPhysicsGameObject_PathNumber,
-        mBaseAnimatedWithPhysicsGameObject_XPos,
-        mBaseAnimatedWithPhysicsGameObject_YPos);
+        mCurrentLevel,
+        mCurrentPath,
+        mXPos,
+        mYPos);
 
     if (EventGet(kEventDeathReset))
     {
@@ -88,40 +88,40 @@ void ElectricWall::VUpdate()
 
     if (SwitchStates_Get(field_F8_switch_id) == field_FA_start_state)
     {
-        mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit3_Render);
+        mAnim.mFlags.Clear(AnimFlags::eBit3_Render);
     }
     else
     {
         // If we are about to become visible set a random starting frame
-        if (!(mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit3_Render)))
+        if (!(mAnim.mFlags.Get(AnimFlags::eBit3_Render)))
         {
-            if (mBaseAnimatedWithPhysicsGameObject_Anim.Get_Frame_Count() > 0)
+            if (mAnim.Get_Frame_Count() > 0)
             {
-                mBaseAnimatedWithPhysicsGameObject_Anim.SetFrame(sElecticWallFrames_55165C[Math_RandomRange(0, 4)]);
+                mAnim.SetFrame(sElecticWallFrames_55165C[Math_RandomRange(0, 4)]);
             }
         }
 
-        mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit3_Render);
+        mAnim.mFlags.Set(AnimFlags::eBit3_Render);
 
         // Keep flipping direction
         if (!(sGnFrame % 8))
         {
-            mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Toggle(AnimFlags::eBit5_FlipX);
+            mAnim.mFlags.Toggle(AnimFlags::eBit5_FlipX);
         }
 
         // Play sound every so often
         if (static_cast<s32>(sGnFrame) >= field_FC_sound_timer)
         {
-            SFX_Play_Camera(SoundEffect::BirdPortalSpark_41, 45, soundDirection, mBaseAnimatedWithPhysicsGameObject_SpriteScale);
+            SFX_Play_Camera(SoundEffect::BirdPortalSpark_41, 45, soundDirection, mSpriteScale);
             field_FC_sound_timer = sGnFrame + Math_RandomRange(24, 40);
         }
 
         const PSX_RECT bRect = VGetBoundingRect();
 
         PSX_RECT bRectBigger;
-        bRectBigger.x = FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos - FP_FromInteger(4));
+        bRectBigger.x = FP_GetExponent(mXPos - FP_FromInteger(4));
         bRectBigger.y = static_cast<s16>(bRect.y + 5);
-        bRectBigger.w = FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos + FP_FromInteger(4));
+        bRectBigger.w = FP_GetExponent(mXPos + FP_FromInteger(4));
         bRectBigger.h = static_cast<s16>(bRect.h + 5);
 
         for (s32 i = 0; i < gBaseAliveGameObjects_5C1B7C->Size(); i++)
@@ -143,7 +143,7 @@ void ElectricWall::VUpdate()
                     break;
 
                 default:
-                    if (pObj->mBaseAnimatedWithPhysicsGameObject_Scale == mBaseAnimatedWithPhysicsGameObject_Scale)
+                    if (pObj->mScale == mScale)
                     {
                         PSX_RECT objRect = pObj->VGetBoundingRect();
 
@@ -160,7 +160,7 @@ void ElectricWall::VUpdate()
                                 if (RectsOverlap(bRectBigger, objRect) && pObj->mHealth > FP_FromInteger(0))
                                 {
                                     // When near play the buzzing sound
-                                    SFX_Play_Camera(SoundEffect::ElectricGateLoud_40, 45, soundDirection, mBaseAnimatedWithPhysicsGameObject_SpriteScale);
+                                    SFX_Play_Camera(SoundEffect::ElectricGateLoud_40, 45, soundDirection, mSpriteScale);
                                 }
                             }
                         }
@@ -175,7 +175,7 @@ void ElectricWall::VUpdate()
 
                                 pObj->VTakeDamage(this);
 
-                                SFX_Play_Camera(SoundEffect::ElectricZap_39, 127, soundDirection, mBaseAnimatedWithPhysicsGameObject_SpriteScale);
+                                SFX_Play_Camera(SoundEffect::ElectricZap_39, 127, soundDirection, mSpriteScale);
 
                                 relive_new Flash(Layer::eLayer_Above_FG1_39, 255, 255, 255, 1, TPageAbr::eBlend_3, 1);
                             }

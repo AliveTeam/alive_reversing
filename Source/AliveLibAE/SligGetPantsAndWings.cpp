@@ -22,17 +22,17 @@ SligGetPantsAndWings::SligGetPantsAndWings(Path_TLV* pTlv, s32 tlvInfo)
     auto pHack = static_cast<Path_Slig*>(pTlv);
     if (pHack->field_10_scale == Scale_short::eHalf_1)
     {
-        mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromDouble(0.5);
-        mBaseAnimatedWithPhysicsGameObject_Scale = Scale::Bg;
-        mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_BeforeShadow_Half_6;
+        mSpriteScale = FP_FromDouble(0.5);
+        mScale = Scale::Bg;
+        mAnim.mRenderLayer = Layer::eLayer_BeforeShadow_Half_6;
     }
     else if (pHack->field_10_scale == Scale_short::eFull_0)
     {
-        mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_BeforeShadow_25;
+        mAnim.mRenderLayer = Layer::eLayer_BeforeShadow_25;
     }
 
-    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger((pTlv->mTopLeft.x + pTlv->mBottomRight.x) / 2);
-    mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->mBottomRight.y);
+    mXPos = FP_FromInteger((pTlv->mTopLeft.x + pTlv->mBottomRight.x) / 2);
+    mYPos = FP_FromInteger(pTlv->mBottomRight.y);
 }
 
 void SligGetPantsAndWings::VUpdate()
@@ -58,15 +58,15 @@ void SligGetPantsAndWings::VUpdate()
             {
                 field_F4_state = State::eFinished_2;
                 SfxPlayMono(SoundEffect::NakedSligTransformEnd_92, 0);
-                mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::CrawlingSligLocker_Open, nullptr);
+                mAnim.Set_Animation_Data(AnimId::CrawlingSligLocker_Open, nullptr);
             }
             break;
 
         case State::eFinished_2:
-            if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
+            if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
             {
                 field_F4_state = State::eWaiting_0;
-                mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::CrawlingSligLocker_Closed, nullptr);
+                mAnim.Set_Animation_Data(AnimId::CrawlingSligLocker_Closed, nullptr);
                 pTlv->mTlvState = 0;
             }
             break;

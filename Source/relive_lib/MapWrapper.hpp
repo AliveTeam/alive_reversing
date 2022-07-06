@@ -63,9 +63,9 @@ public:
     s16 mCurrentPath;
     s16 mCurrentCamera;
 
-    EReliveLevelIds mLevel;
-    s16 mPath;
-    s16 mCamera;
+    EReliveLevelIds mNextLevel;
+    s16 mNextPath;
+    s16 mNextCamera;
 
     s16 mOverlayId;
 

@@ -305,8 +305,8 @@ void Factory_LiftPoint(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvOffsetLevelIdP
             {
                 // Is there already an existing LiftPoint object for this TLV?
                 LiftPoint* pLiftPoint = static_cast<LiftPoint*>(pObj);
-                const s16 xpos = FP_GetExponent(pLiftPoint->mBaseAnimatedWithPhysicsGameObject_XPos);
-                if (pTlv->mTopLeft.x <= xpos && xpos <= pTlv->mBottomRight.x && pLiftPoint->field_278_lift_point_id == pLiftTlv->field_10_lift_point_id && pLiftPoint->mBaseAnimatedWithPhysicsGameObject_LvlNumber == gMap.mCurrentLevel && pLiftPoint->mBaseAnimatedWithPhysicsGameObject_PathNumber == gMap.mCurrentPath)
+                const s16 xpos = FP_GetExponent(pLiftPoint->mXPos);
+                if (pTlv->mTopLeft.x <= xpos && xpos <= pTlv->mBottomRight.x && pLiftPoint->field_278_lift_point_id == pLiftTlv->field_10_lift_point_id && pLiftPoint->mCurrentLevel == gMap.mCurrentLevel && pLiftPoint->mCurrentPath == gMap.mCurrentPath)
                 {
                     // Yes so just reset its data
                     Path::TLV_Reset(tlvOffsetLevelIdPathId.all, -1, 0, 0);
@@ -393,15 +393,15 @@ void Factory_Dove(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode load
             s16 ypos = 0;
             if (pDoveTlv->mPixelPerfect == Choice_short::eYes_1)
             {
-                pDove->mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pTlv->mTopLeft.x);
+                pDove->mXPos = FP_FromInteger(pTlv->mTopLeft.x);
                 ypos = pTlv->mTopLeft.y;
             }
             else
             {
-                pDove->mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pTlv->mTopLeft.x + width * Math_NextRandom() / 256);
+                pDove->mXPos = FP_FromInteger(pTlv->mTopLeft.x + width * Math_NextRandom() / 256);
                 ypos = pTlv->mTopLeft.y + height * Math_NextRandom() / 256;
             }
-            pDove->mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(ypos) + FP_FromInteger(10);
+            pDove->mYPos = FP_FromInteger(ypos) + FP_FromInteger(10);
         }
     }
 }
@@ -630,8 +630,8 @@ void Factory_AbeStart(Path_TLV* pTlv, Path*, TlvItemInfoUnion, LoadMode loadmode
             sActiveHero = relive_new Abe(rec.mFrameTableOffset, 85, 57, 55);
             if (sActiveHero)
             {
-                sActiveHero->mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pTlv->mTopLeft.x + 12);
-                sActiveHero->mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->mTopLeft.y);
+                sActiveHero->mXPos = FP_FromInteger(pTlv->mTopLeft.x + 12);
+                sActiveHero->mYPos = FP_FromInteger(pTlv->mTopLeft.y);
             }
         }
     }

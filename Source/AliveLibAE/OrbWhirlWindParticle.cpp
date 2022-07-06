@@ -16,20 +16,20 @@ OrbWhirlWindParticle::OrbWhirlWindParticle(FP xpos, FP ypos, FP scale, s16 bIsMu
 
     field_B6_unused = bIsMudokonSpirit;
 
-    field_8_Anim.mAnimFlags.Set(AnimFlags::eBit15_bSemiTrans);
+    field_8_Anim.mFlags.Set(AnimFlags::eBit15_bSemiTrans);
 
     field_8_Anim.mRenderLayer = Layer::eLayer_AbeMenu_32;
     field_8_Anim.mRenderMode = TPageAbr::eBlend_1;
     if (bIsMudokonSpirit == 1)
     {
         field_8_Anim.mRed = 0;
-        field_8_Anim.mAnimFlags.Clear(AnimFlags::eBit16_bBlending);
+        field_8_Anim.mFlags.Clear(AnimFlags::eBit16_bBlending);
         field_8_Anim.mGreen = 255;
         field_8_Anim.mBlue = 32;
     }
     else
     {
-        field_8_Anim.mAnimFlags.Set(AnimFlags::eBit16_bBlending);
+        field_8_Anim.mFlags.Set(AnimFlags::eBit16_bBlending);
         field_8_Anim.mRed = 80;
         field_8_Anim.mGreen = 80;
         field_8_Anim.mBlue = 80;
@@ -53,7 +53,7 @@ OrbWhirlWindParticle::OrbWhirlWindParticle(FP xpos, FP ypos, FP scale, s16 bIsMu
 
 s32 OrbWhirlWindParticle::IsActive()
 {
-    return mAnimFlags.Get(Flags_4::eBit1_is_active);
+    return mFlags.Get(Flags::eIsActive);
 }
 
 void OrbWhirlWindParticle::Spin(FP xpos, FP ypos, FP scale, BaseGameObject* pObj)
@@ -261,10 +261,10 @@ void OrbWhirlWindParticle::SetActive(u8 active)
 {
     if (active)
     {
-        mAnimFlags.Set(Flags_4::eBit1_is_active);
+        mFlags.Set(Flags::eIsActive);
     }
     else
     {
-        mAnimFlags.Clear(Flags_4::eBit1_is_active);
+        mFlags.Clear(Flags::eIsActive);
     }
 }

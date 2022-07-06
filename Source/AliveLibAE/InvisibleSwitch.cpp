@@ -52,11 +52,11 @@ void InvisibleSwitch::VUpdate()
         if (field_22_action != SwitchOp::eSetFalse_1 || SwitchStates_Get(field_20_switch_id))
         {
             // Within X bounds?
-            const FP charXPos = sControlledCharacter_5C1B8C->mBaseAnimatedWithPhysicsGameObject_XPos;
+            const FP charXPos = sControlledCharacter_5C1B8C->mXPos;
             if (charXPos >= FP_FromInteger(field_30_top_left.x) && charXPos <= FP_FromInteger(field_34_bottom_right.x))
             {
                 // Within Y bounds?
-                const FP charYPos = sControlledCharacter_5C1B8C->mBaseAnimatedWithPhysicsGameObject_YPos;
+                const FP charYPos = sControlledCharacter_5C1B8C->mYPos;
                 if (charYPos >= FP_FromInteger(field_30_top_left.y) && charYPos <= FP_FromInteger(field_34_bottom_right.y))
                 {
                     // TODO: ???
@@ -66,8 +66,8 @@ void InvisibleSwitch::VUpdate()
                     {
                         // Scale matches ?
                         if (field_3C_scale == InvisibleSwitchScale::eAny_2
-                            || (field_3C_scale == InvisibleSwitchScale::eHalf_0 && sControlledCharacter_5C1B8C->mBaseAnimatedWithPhysicsGameObject_SpriteScale == FP_FromDouble(0.5))
-                            || (field_3C_scale == InvisibleSwitchScale::eFull_1 && sControlledCharacter_5C1B8C->mBaseAnimatedWithPhysicsGameObject_SpriteScale == FP_FromDouble(1.0)))
+                            || (field_3C_scale == InvisibleSwitchScale::eHalf_0 && sControlledCharacter_5C1B8C->mSpriteScale == FP_FromDouble(0.5))
+                            || (field_3C_scale == InvisibleSwitchScale::eFull_1 && sControlledCharacter_5C1B8C->mSpriteScale == FP_FromDouble(1.0)))
                         {
                             field_38_state = States::eWaitForDelayTimer_1;
                             field_28_delay_timer = sGnFrame + field_2C_delay;

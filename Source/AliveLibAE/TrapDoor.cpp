@@ -81,13 +81,13 @@ TrapDoor::TrapDoor(Path_TrapDoor* pTlv, s32 tlvInfo)
     mSelfClosing = pTlv->mSelfClosing;
     if (pTlv->field_16_scale == Scale_short::eHalf_1)
     {
-        mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromDouble(0.5);
-        mBaseAnimatedWithPhysicsGameObject_Scale = Scale::Bg;
+        mSpriteScale = FP_FromDouble(0.5);
+        mScale = Scale::Bg;
     }
     else
     {
-        mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromInteger(1);
-        mBaseAnimatedWithPhysicsGameObject_Scale = Scale::Fg;
+        mSpriteScale = FP_FromInteger(1);
+        mScale = Scale::Fg;
     }
 
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kP6c1trapResID);
@@ -98,13 +98,13 @@ TrapDoor::TrapDoor(Path_TrapDoor* pTlv, s32 tlvInfo)
         pTlv,
         tlvInfo);
 
-    if (mBaseAnimatedWithPhysicsGameObject_SpriteScale == FP_FromInteger(1))
+    if (mSpriteScale == FP_FromInteger(1))
     {
-        mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_Shadow_26;
+        mAnim.mRenderLayer = Layer::eLayer_Shadow_26;
     }
     else
     {
-        mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_Shadow_Half_7;
+        mAnim.mRenderLayer = Layer::eLayer_Shadow_Half_7;
         field_124_pCollisionLine->mLineType = eLineTypes::eBackgroundDynamicCollision_36;
     }
 
@@ -113,16 +113,16 @@ TrapDoor::TrapDoor(Path_TrapDoor* pTlv, s32 tlvInfo)
     mTrapDoorX = FP_FromInteger(pTlv->mTopLeft.x);
     mTrapDoorY = FP_FromInteger(pTlv->mTopLeft.y);
 
-    mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(animId, nullptr);
+    mAnim.Set_Animation_Data(animId, nullptr);
 
     if (pTlv->mDirection == XDirection_short::eRight_1) // TODO: check if this is the correct direction
     {
-        mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit5_FlipX);
+        mAnim.mFlags.Set(AnimFlags::eBit5_FlipX);
     }
 
-    mPlatformBaseXOffset = FP_GetExponent(FP_FromInteger(pTlv->mTopLeft.x) - mBaseAnimatedWithPhysicsGameObject_XPos);
-    mPlatformBaseWidthOffset = FP_GetExponent(FP_FromInteger(pTlv->mBottomRight.x) - mBaseAnimatedWithPhysicsGameObject_XPos);
-    mXOffset = pTlv->field_1C_xOff;
+    mPlatformBaseXOffset = FP_GetExponent(FP_FromInteger(pTlv->mTopLeft.x) - mXPos);
+    mPlatformBaseWidthOffset = FP_GetExponent(FP_FromInteger(pTlv->mBottomRight.x) - mXPos);
+    mTrapDoorXOffset = pTlv->field_1C_xOff;
 
     if (mState == TrapDoorState::eOpen_2)
     {
@@ -141,9 +141,9 @@ TrapDoor::TrapDoor(Path_TrapDoor* pTlv, s32 tlvInfo)
 
 void TrapDoor::VRender(PrimHeader** ppOt)
 {
-    mBaseAnimatedWithPhysicsGameObject_XPos += FP_FromInteger(mXOffset);
+    mXPos += FP_FromInteger(mTrapDoorXOffset);
     BaseAliveGameObject::VRender(ppOt);
-    mBaseAnimatedWithPhysicsGameObject_XPos -= FP_FromInteger(mXOffset);
+    mXPos -= FP_FromInteger(mTrapDoorXOffset);
 }
 
 void TrapDoor::VRemove(BaseAliveGameObject* pObj)
@@ -158,7 +158,7 @@ void TrapDoor::VAdd(BaseAliveGameObject* pObj)
 
 void TrapDoor::VScreenChanged()
 {
-    if (gMap.mCurrentLevel != gMap.mLevel || gMap.mCurrentPath != gMap.mPath || gMap.mOverlayId != gMap.GetOverlayId())
+    if (gMap.mCurrentLevel != gMap.mNextLevel || gMap.mCurrentPath != gMap.mNextPath || gMap.mOverlayId != gMap.GetOverlayId())
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
         if (mSelfClosing == Choice_short::eYes_1)
@@ -218,7 +218,7 @@ void TrapDoor::VUpdate()
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 
-    const CameraPos direction = gMap.GetDirection(mBaseAnimatedWithPhysicsGameObject_LvlNumber, mBaseAnimatedWithPhysicsGameObject_PathNumber, mTrapDoorX, mTrapDoorY);
+    const CameraPos direction = gMap.GetDirection(mCurrentLevel, mCurrentPath, mTrapDoorX, mTrapDoorY);
 
     switch (mState)
     {
@@ -227,7 +227,7 @@ void TrapDoor::VUpdate()
         {
             Open();
             mState = TrapDoorState::eOpening_1;
-            mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(sTrapDoorData_547B78[static_cast<s32>(MapWrapper::ToAE(gMap.mCurrentLevel))].field_8_opening, nullptr);
+            mAnim.Set_Animation_Data(sTrapDoorData_547B78[static_cast<s32>(MapWrapper::ToAE(gMap.mCurrentLevel))].field_8_opening, nullptr);
 
             if (gMap.mCurrentLevel == EReliveLevelIds::eMines || gMap.mCurrentLevel == EReliveLevelIds::eBonewerkz || gMap.mCurrentLevel == EReliveLevelIds::eBonewerkz_Ender || gMap.mCurrentLevel == EReliveLevelIds::eFeeCoDepot || gMap.mCurrentLevel == EReliveLevelIds::eFeeCoDepot_Ender || gMap.mCurrentLevel == EReliveLevelIds::eBarracks || gMap.mCurrentLevel == EReliveLevelIds::eBarracks_Ender || gMap.mCurrentLevel == EReliveLevelIds::eBrewery || gMap.mCurrentLevel == EReliveLevelIds::eBrewery_Ender)
             {
@@ -238,7 +238,7 @@ void TrapDoor::VUpdate()
         break;
 
     case TrapDoorState::eOpening_1:
-        if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
+        if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
         {
             SFX_Play_Camera(SoundEffect::TrapdoorOpen_43, 70, direction);
             mState = TrapDoorState::eOpen_2;
@@ -251,7 +251,7 @@ void TrapDoor::VUpdate()
 
         if ((mSelfClosing == Choice_short::eYes_1 && mStayOpenTimeTimer + 1 <= 0) || SwitchStates_Get(mSwitchId) != mStartState)
         {
-            mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(sTrapDoorData_547B78[static_cast<s32>(MapWrapper::ToAE(gMap.mCurrentLevel))].field_C_closing, nullptr);
+            mAnim.Set_Animation_Data(sTrapDoorData_547B78[static_cast<s32>(MapWrapper::ToAE(gMap.mCurrentLevel))].field_C_closing, nullptr);
 
             mState = TrapDoorState::eClosing_3;
 
@@ -264,7 +264,7 @@ void TrapDoor::VUpdate()
         break;
 
     case TrapDoorState::eClosing_3:
-        if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
+        if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
         {
             SFX_Play_Camera(SoundEffect::TrapdoorClose_42, 70, direction);
             Add_To_Collisions_Array();
@@ -338,7 +338,7 @@ void TrapDoor::Add_To_Collisions_Array()
         mBoundingRect.y,
         eLineTypes::eDynamicCollision_32);
 
-    if (mBaseAnimatedWithPhysicsGameObject_SpriteScale != FP_FromInteger(1))
+    if (mSpriteScale != FP_FromInteger(1))
     {
         field_124_pCollisionLine->mLineType = eLineTypes::eBackgroundDynamicCollision_36;
     }

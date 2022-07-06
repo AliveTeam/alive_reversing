@@ -30,21 +30,21 @@ public:
 
         mVisualFlags.Set(VisualFlags::eApplyShadowZoneColour);
 
-        mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit16_bBlending);
-        mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit15_bSemiTrans);
-        mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit20_use_xy_offset);
+        mAnim.mFlags.Clear(AnimFlags::eBit16_bBlending);
+        mAnim.mFlags.Set(AnimFlags::eBit15_bSemiTrans);
+        mAnim.mFlags.Set(AnimFlags::eBit20_use_xy_offset);
 
-        mBaseAnimatedWithPhysicsGameObject_XPos = xpos;
-        mBaseAnimatedWithPhysicsGameObject_YPos = ypos + FP_FromInteger(4);
+        mXPos = xpos;
+        mYPos = ypos + FP_FromInteger(4);
 
-        mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_DoorFlameRollingBallFallingItemPortalClip_Half_12;
-        mBaseAnimatedWithPhysicsGameObject_Anim.mRenderMode = TPageAbr::eBlend_3;
+        mAnim.mRenderLayer = Layer::eLayer_DoorFlameRollingBallFallingItemPortalClip_Half_12;
+        mAnim.mRenderMode = TPageAbr::eBlend_3;
 
-        mBaseAnimatedWithPhysicsGameObject_Anim.mRed = 100;
-        mBaseAnimatedWithPhysicsGameObject_Anim.mGreen = 100;
-        mBaseAnimatedWithPhysicsGameObject_Anim.mBlue = 63;
+        mAnim.mRed = 100;
+        mAnim.mGreen = 100;
+        mAnim.mBlue = 63;
 
-        mBaseAnimatedWithPhysicsGameObject_SpriteScale = scale;
+        mSpriteScale = scale;
 
         Calc_Rect();
     }
@@ -58,11 +58,11 @@ public:
     {
         if (Is_In_Current_Camera() == CameraPos::eCamCurrent_0)
         {
-            mBaseAnimatedWithPhysicsGameObject_Anim.mRed = static_cast<u8>(mBaseAnimatedWithPhysicsGameObject_RGB.r);
-            mBaseAnimatedWithPhysicsGameObject_Anim.mGreen = static_cast<u8>(mBaseAnimatedWithPhysicsGameObject_RGB.g);
-            mBaseAnimatedWithPhysicsGameObject_Anim.mBlue = static_cast<u8>(mBaseAnimatedWithPhysicsGameObject_RGB.b);
+            mAnim.mRed = static_cast<u8>(mRGB.r);
+            mAnim.mGreen = static_cast<u8>(mRGB.g);
+            mAnim.mBlue = static_cast<u8>(mRGB.b);
 
-            mBaseAnimatedWithPhysicsGameObject_Anim.VRender(
+            mAnim.VRender(
                 FP_GetExponent(field_E4_xPos),
                 FP_GetExponent(field_E8_yPos),
                 ppOt,
@@ -70,7 +70,7 @@ public:
                 FP_GetExponent(field_F0_yOff - field_E8_yPos) + 1);
 
             PSX_RECT rect = {};
-            mBaseAnimatedWithPhysicsGameObject_Anim.Get_Frame_Rect(&rect);
+            mAnim.Get_Frame_Rect(&rect);
             pScreenManager->InvalidateRectCurrentIdx(
                 rect.x,
                 rect.y,
@@ -86,18 +86,18 @@ public:
         s16 frameW = 0;
         s16 frameH = 0;
 
-        mBaseAnimatedWithPhysicsGameObject_Anim.Get_Frame_Width_Height(&frameW, &frameH);
-        mBaseAnimatedWithPhysicsGameObject_Anim.Get_Frame_Offset(&xy.x, &xy.y);
+        mAnim.Get_Frame_Width_Height(&frameW, &frameH);
+        mAnim.Get_Frame_Offset(&xy.x, &xy.y);
 
         const auto& pCamPos = pScreenManager->mCamPos;
-        const FP screenX = FP_FromInteger(pScreenManager->mCamXOff) + mBaseAnimatedWithPhysicsGameObject_XPos - pCamPos->x;
-        const FP screenY = FP_FromInteger(pScreenManager->mCamYOff) + mBaseAnimatedWithPhysicsGameObject_YPos - pCamPos->y;
+        const FP screenX = FP_FromInteger(pScreenManager->mCamXOff) + mXPos - pCamPos->x;
+        const FP screenY = FP_FromInteger(pScreenManager->mCamYOff) + mYPos - pCamPos->y;
 
-        const FP frameWScaled = (FP_FromInteger(frameW) * mBaseAnimatedWithPhysicsGameObject_SpriteScale);
-        const FP frameHScaled = (FP_FromInteger(frameH) * mBaseAnimatedWithPhysicsGameObject_SpriteScale);
+        const FP frameWScaled = (FP_FromInteger(frameW) * mSpriteScale);
+        const FP frameHScaled = (FP_FromInteger(frameH) * mSpriteScale);
 
-        const s32 offXScaled = FP_GetExponent(FP_FromInteger(xy.x) * mBaseAnimatedWithPhysicsGameObject_SpriteScale);
-        const s32 offYScaled = FP_GetExponent(FP_FromInteger(xy.y) * mBaseAnimatedWithPhysicsGameObject_SpriteScale);
+        const s32 offXScaled = FP_GetExponent(FP_FromInteger(xy.x) * mSpriteScale);
+        const s32 offYScaled = FP_GetExponent(FP_FromInteger(xy.y) * mSpriteScale);
 
         // TODO: Refactor PSX <> PC width conversion
         const FP frameWScaled_converted = ((frameWScaled * FP_FromInteger(23)) + FP_FromInteger(20)) / FP_FromInteger(40);
@@ -141,31 +141,31 @@ public:
         const AnimRecord rec = AO::AnimRec(AnimId::ChantOrb_Particle_Small);
         u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
         Animation_Init(AnimId::ChantOrb_Particle_Small, ppRes);
-        mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit15_bSemiTrans);
+        mAnim.mFlags.Set(AnimFlags::eBit15_bSemiTrans);
 
         mVisualFlags.Set(VisualFlags::eApplyShadowZoneColour);
-        mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_Foreground_Half_17;
+        mAnim.mRenderLayer = Layer::eLayer_Foreground_Half_17;
 
-        mBaseAnimatedWithPhysicsGameObject_XPos = xpos;
-        mBaseAnimatedWithPhysicsGameObject_YPos = ypos;
+        mXPos = xpos;
+        mYPos = ypos;
         field_400_xpos = xpos;
         field_404_ypos = ypos;
 
-        mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromDouble(0.3);
+        mSpriteScale = FP_FromDouble(0.3);
 
         for (auto& anim : field_E8_sparks)
         {
-            anim.field_14.field_68_anim_ptr = &mBaseAnimatedWithPhysicsGameObject_Anim;
+            anim.field_14.field_68_anim_ptr = &mAnim;
 
-            anim.field_14.mAnimFlags.Set(AnimFlags::eBit3_Render);
-            anim.field_14.mAnimFlags.Set(AnimFlags::eBit16_bBlending);
+            anim.field_14.mFlags.Set(AnimFlags::eBit3_Render);
+            anim.field_14.mFlags.Set(AnimFlags::eBit16_bBlending);
 
-            const s16 rndLayer = static_cast<s16>(mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer) + Math_RandomRange(-1, 1);
+            const s16 rndLayer = static_cast<s16>(mAnim.mRenderLayer) + Math_RandomRange(-1, 1);
             anim.field_14.mRenderLayer = static_cast<Layer>(rndLayer);
-            anim.field_14.field_6C_scale = mBaseAnimatedWithPhysicsGameObject_SpriteScale;
+            anim.field_14.field_6C_scale = mSpriteScale;
 
-            anim.x = mBaseAnimatedWithPhysicsGameObject_XPos;
-            anim.y = mBaseAnimatedWithPhysicsGameObject_YPos;
+            anim.x = mXPos;
+            anim.y = mYPos;
 
             anim.field_8_off_x = FP_FromInteger(0);
             anim.field_C_off_y = FP_FromInteger(0);
@@ -181,8 +181,8 @@ public:
     {
         PSX_RECT rect = {};
         gMap.Get_Camera_World_Rect(CameraPos::eCamCurrent_0, &rect);
-        mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(rect.w + 16);
-        mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(rect.y - 16);
+        mXPos = FP_FromInteger(rect.w + 16);
+        mYPos = FP_FromInteger(rect.y - 16);
         if (field_E4_bRender)
         {
             for (auto& anim : field_E8_sparks)
@@ -228,9 +228,9 @@ public:
         {
             if (field_E4_bRender)
             {
-                mBaseAnimatedWithPhysicsGameObject_Anim.mGreen = 32;
-                mBaseAnimatedWithPhysicsGameObject_Anim.mBlue = 32;
-                mBaseAnimatedWithPhysicsGameObject_Anim.mRed = 240;
+                mAnim.mGreen = 32;
+                mAnim.mBlue = 32;
+                mAnim.mRed = 240;
 
                 const FP_Point* pCamPos = pScreenManager->mCamPos;
 
@@ -239,15 +239,15 @@ public:
                 const FP screen_top = pCamPos->y - FP_FromInteger(pScreenManager->mCamYOff);
                 const FP screen_bottom = pCamPos->y + FP_FromInteger(pScreenManager->mCamYOff);
 
-                mBaseAnimatedWithPhysicsGameObject_Anim.VRender(
-                    FP_GetExponent(PsxToPCX(mBaseAnimatedWithPhysicsGameObject_XPos - screen_left)),
-                    FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos - screen_top),
+                mAnim.VRender(
+                    FP_GetExponent(PsxToPCX(mXPos - screen_left)),
+                    FP_GetExponent(mYPos - screen_top),
                     ppOt,
                     0,
                     0);
 
                 PSX_RECT frameRect = {};
-                mBaseAnimatedWithPhysicsGameObject_Anim.Get_Frame_Rect(&frameRect);
+                mAnim.Get_Frame_Rect(&frameRect);
                 pScreenManager->InvalidateRectCurrentIdx(
                     frameRect.x,
                     frameRect.y,
@@ -326,36 +326,36 @@ DoorFlame::DoorFlame(Path_DoorFlame* pTlv, s32 tlvInfo)
     u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
     Animation_Init(AnimId::Fire, ppRes);
 
-    mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit15_bSemiTrans);
+    mAnim.mFlags.Set(AnimFlags::eBit15_bSemiTrans);
     mVisualFlags.Set(VisualFlags::eApplyShadowZoneColour);
-    mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_Foreground_Half_17;
-    field_EA_frame_count = mBaseAnimatedWithPhysicsGameObject_Anim.Get_Frame_Count();
+    mAnim.mRenderLayer = Layer::eLayer_Foreground_Half_17;
+    field_EA_frame_count = mAnim.Get_Frame_Count();
     field_E8_switch_id = pTlv->field_18_switch_id;
 
     if (pTlv->field_1A_scale == Path_DoorFlame::Scale::eHalf_1 || 
         pTlv->field_1A_scale == Path_DoorFlame::Scale::eHalf_2)
     {
-        mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromDouble(0.5);
-        mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pTlv->mTopLeft.x + 12);
-        mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->mTopLeft.y + 15);
+        mSpriteScale = FP_FromDouble(0.5);
+        mXPos = FP_FromInteger(pTlv->mTopLeft.x + 12);
+        mYPos = FP_FromInteger(pTlv->mTopLeft.y + 15);
     }
     else if (pTlv->field_1A_scale == Path_DoorFlame::Scale::eFull_0)
     {
-        mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromInteger(1);
-        mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pTlv->mTopLeft.x + 12);
-        mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->mTopLeft.y + 15);
+        mSpriteScale = FP_FromInteger(1);
+        mXPos = FP_FromInteger(pTlv->mTopLeft.x + 12);
+        mYPos = FP_FromInteger(pTlv->mTopLeft.y + 15);
     }
 
     switch (pTlv->field_1C_colour)
     {
         case Path_DoorFlame::Colour::red_1:
-            mBaseAnimatedWithPhysicsGameObject_RGB.r = 127;
+            mRGB.r = 127;
             break;
         case Path_DoorFlame::Colour::green_2:
-            mBaseAnimatedWithPhysicsGameObject_RGB.g = 127;
+            mRGB.g = 127;
             break;
         case Path_DoorFlame::Colour::blue_3:
-            mBaseAnimatedWithPhysicsGameObject_RGB.b = 127;
+            mRGB.b = 127;
             break;
         
         case Path_DoorFlame::Colour::unknown_0:
@@ -367,19 +367,19 @@ DoorFlame::DoorFlame(Path_DoorFlame* pTlv, s32 tlvInfo)
 
     if (SwitchStates_Get(pTlv->field_18_switch_id))
     {
-        mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit3_Render);
+        mAnim.mFlags.Set(AnimFlags::eBit3_Render);
         field_EC_state = States::eEnabled_1;
     }
     else
     {
-        mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit3_Render);
+        mAnim.mFlags.Clear(AnimFlags::eBit3_Render);
         field_EC_state = States::eDisabled_0;
     }
 
-    mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit2_Animate);
+    mAnim.mFlags.Set(AnimFlags::eBit2_Animate);
     field_EE_2_random = Math_NextRandom() & 1;
 
-    field_FC_pFlameSparks = relive_new FlameSparks(mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos);
+    field_FC_pFlameSparks = relive_new FlameSparks(mXPos, mYPos);
     if (field_FC_pFlameSparks)
     {
         field_FC_pFlameSparks->mBaseGameObjectRefCount++;
@@ -391,7 +391,7 @@ void DoorFlame::VUpdate()
     switch (field_EC_state)
     {
         case States::eDisabled_0:
-            mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit3_Render);
+            mAnim.mFlags.Clear(AnimFlags::eBit3_Render);
             if (field_FC_pFlameSparks)
             {
                 field_FC_pFlameSparks->field_E4_bRender = 0;
@@ -426,7 +426,7 @@ void DoorFlame::VUpdate()
                 }
             }
 
-            mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit3_Render);
+            mAnim.mFlags.Set(AnimFlags::eBit3_Render);
             if (field_FC_pFlameSparks)
             {
                 field_FC_pFlameSparks->field_E4_bRender = 1;
@@ -439,13 +439,13 @@ void DoorFlame::VUpdate()
 
             if (!field_F8_pFireBackgroundGlow)
             {
-                field_F8_pFireBackgroundGlow = relive_new FireBackgroundGlow(mBaseAnimatedWithPhysicsGameObject_XPos,
-                    mBaseAnimatedWithPhysicsGameObject_YPos + FP_FromInteger(4),
+                field_F8_pFireBackgroundGlow = relive_new FireBackgroundGlow(mXPos,
+                    mYPos + FP_FromInteger(4),
                     FP_FromDouble(0.5));
                 if (field_F8_pFireBackgroundGlow)
                 {
                     field_F8_pFireBackgroundGlow->mBaseGameObjectRefCount++;
-                    field_F8_pFireBackgroundGlow->mBaseAnimatedWithPhysicsGameObject_RGB = mBaseAnimatedWithPhysicsGameObject_RGB;
+                    field_F8_pFireBackgroundGlow->mRGB = mRGB;
                 }
             }
             break;
@@ -455,10 +455,10 @@ void DoorFlame::VUpdate()
     }
 
     if (!gMap.Is_Point_In_Current_Camera(
-            mBaseAnimatedWithPhysicsGameObject_LvlNumber,
-            mBaseAnimatedWithPhysicsGameObject_PathNumber,
-            mBaseAnimatedWithPhysicsGameObject_XPos,
-            mBaseAnimatedWithPhysicsGameObject_YPos,
+            mCurrentLevel,
+            mCurrentPath,
+            mXPos,
+            mYPos,
             0))
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);

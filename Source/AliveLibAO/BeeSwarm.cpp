@@ -65,7 +65,7 @@ BeeSwarm::BeeSwarm(FP xpos, FP ypos, FP speed, s32 numBees, s32 chaseTicks)
 
     field_D84_chaseTicks = chaseTicks;
     field_D68_xpos = xpos;
-    mBaseAnimatedWithPhysicsGameObject_XPos = xpos;
+    mXPos = xpos;
     field_D6C_ypos = ypos;
     field_D80_state = BeeSwarmStates::eIdle_0;
     field_D98_pChaseTarget = 0;
@@ -78,7 +78,7 @@ BeeSwarm::BeeSwarm(FP xpos, FP ypos, FP speed, s32 numBees, s32 chaseTicks)
     field_D94_rect_h = FP_FromInteger(1);
     field_D66_bee_count = 0;
     field_D7C_pos_offset = FP_FromInteger(0);
-    mBaseAnimatedWithPhysicsGameObject_YPos = ypos;
+    mYPos = ypos;
 }
 
 BeeSwarm::~BeeSwarm()
@@ -107,8 +107,8 @@ void BeeSwarm::VScreenChanged()
         mBaseGameObjectFlags.Set(Options::eDead);
     }
 
-    if (gMap.mCurrentLevel != gMap.mLevel
-        || gMap.mCurrentPath != gMap.mPath)
+    if (gMap.mCurrentLevel != gMap.mNextLevel
+        || gMap.mCurrentPath != gMap.mNextPath)
     {
         mBaseGameObjectFlags.Set(Options::eDead);
     }
@@ -156,8 +156,8 @@ void BeeSwarm::Chase(BaseAliveGameObject* pChaseTarget)
 
     pChaseTarget->mBaseGameObjectRefCount++;
 
-    field_D70_chase_target_x = pChaseTarget->mBaseAnimatedWithPhysicsGameObject_XPos;
-    field_D74_chase_target_y = pChaseTarget->mBaseAnimatedWithPhysicsGameObject_YPos;
+    field_D70_chase_target_x = pChaseTarget->mXPos;
+    field_D74_chase_target_y = pChaseTarget->mYPos;
 
     field_D9C_alive_timer = sGnFrame + field_D84_chaseTicks;
 }
@@ -199,10 +199,10 @@ void BeeSwarm::VUpdate()
     {
         case BeeSwarmStates::eIdle_0:
             if (!gMap.Is_Point_In_Current_Camera(
-                    mBaseAnimatedWithPhysicsGameObject_LvlNumber,
-                    mBaseAnimatedWithPhysicsGameObject_PathNumber,
-                    mBaseAnimatedWithPhysicsGameObject_XPos,
-                    mBaseAnimatedWithPhysicsGameObject_YPos,
+                    mCurrentLevel,
+                    mCurrentPath,
+                    mXPos,
+                    mYPos,
                     0))
             {
                 mBaseGameObjectFlags.Set(BaseGameObject::eDead);
@@ -217,25 +217,25 @@ void BeeSwarm::VUpdate()
             else
             {
                 // Move far on X bees closer to target
-                const s32 toTargetXDelta = FP_GetExponent(field_D98_pChaseTarget->mBaseAnimatedWithPhysicsGameObject_XPos - field_D70_chase_target_x);
+                const s32 toTargetXDelta = FP_GetExponent(field_D98_pChaseTarget->mXPos - field_D70_chase_target_x);
                 if (abs(toTargetXDelta) > 368)
                 {
                     for (s32 i = 0; i < field_D66_bee_count; i++)
                     {
                         field_E4_bees.bees[i].field_0_xpos += FP_FromInteger(toTargetXDelta);
                     }
-                    mBaseAnimatedWithPhysicsGameObject_XPos += FP_FromInteger(toTargetXDelta);
+                    mXPos += FP_FromInteger(toTargetXDelta);
                 }
 
                 // Move far on  Y bees closer to target
-                const s32 toTargetYDelta = FP_GetExponent(field_D98_pChaseTarget->mBaseAnimatedWithPhysicsGameObject_YPos - field_D74_chase_target_y);
+                const s32 toTargetYDelta = FP_GetExponent(field_D98_pChaseTarget->mYPos - field_D74_chase_target_y);
                 if (abs(toTargetYDelta) > 200)
                 {
                     for (s32 i = 0; i < field_D66_bee_count; i++)
                     {
                         field_E4_bees.bees[i].field_4_ypos += FP_FromInteger(toTargetYDelta);
                     }
-                    mBaseAnimatedWithPhysicsGameObject_YPos += FP_FromInteger(toTargetYDelta);
+                    mYPos += FP_FromInteger(toTargetYDelta);
                 }
 
                 // Update target x/y to the mid of the target rect
@@ -244,8 +244,8 @@ void BeeSwarm::VUpdate()
                 field_D70_chase_target_x = FP_FromInteger((targetRect.w + targetRect.x) / 2);
 
                 if (Math_Distance(
-                        FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos),
-                        FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos),
+                        FP_GetExponent(mXPos),
+                        FP_GetExponent(mYPos),
                         FP_GetExponent(field_D70_chase_target_x),
                         FP_GetExponent(field_D74_chase_target_y))
                         < 60
@@ -373,8 +373,8 @@ void BeeSwarm::VUpdate()
                             field_D98_pChaseTarget->mBaseGameObjectRefCount++;
 
                             field_D80_state = BeeSwarmStates::eAttackChase_1;
-                            field_D70_chase_target_x = pObjIter->mBaseAnimatedWithPhysicsGameObject_XPos;
-                            field_D74_chase_target_y = pObjIter->mBaseAnimatedWithPhysicsGameObject_YPos;
+                            field_D70_chase_target_x = pObjIter->mXPos;
+                            field_D74_chase_target_y = pObjIter->mYPos;
 
                             field_D9C_alive_timer = sGnFrame + field_D84_chaseTicks;
                             field_DA4_update_chase_timer = sGnFrame + 60;
@@ -457,7 +457,7 @@ void BeeSwarm::VUpdate()
         FP xMove = {};
         if (field_D98_pChaseTarget)
         {
-            if (FP_Abs(distToTargetX) > FP_FromInteger(20) || field_D98_pChaseTarget->mBaseAnimatedWithPhysicsGameObject_VelX != FP_FromInteger(0))
+            if (FP_Abs(distToTargetX) > FP_FromInteger(20) || field_D98_pChaseTarget->mVelX != FP_FromInteger(0))
             {
                 if (distToTargetX <= FP_FromInteger(0))
                 {
@@ -512,11 +512,11 @@ void BeeSwarm::VUpdate()
     {
         BeeSwarmParticle* pBee = &field_E4_bees.bees[field_D66_bee_count];
 
-        pBee->field_10_anim.mAnimFlags.Set(AnimFlags::eBit3_Render);
-        pBee->field_10_anim.mAnimFlags.Set(AnimFlags::eBit16_bBlending); // TODO: or higher byte
+        pBee->field_10_anim.mFlags.Set(AnimFlags::eBit3_Render);
+        pBee->field_10_anim.mFlags.Set(AnimFlags::eBit16_bBlending); // TODO: or higher byte
 
-        pBee->field_10_anim.field_68_anim_ptr = &mBaseAnimatedWithPhysicsGameObject_Anim;
-        pBee->field_10_anim.field_6C_scale = mBaseAnimatedWithPhysicsGameObject_SpriteScale;
+        pBee->field_10_anim.field_68_anim_ptr = &mAnim;
+        pBee->field_10_anim.field_6C_scale = mSpriteScale;
 
         pBee->field_10_anim.mRenderLayer = Layer::eLayer_MainMenuButtonBees_38;
 
@@ -531,8 +531,8 @@ void BeeSwarm::VUpdate()
         field_D66_bee_count++;
     }
 
-    mBaseAnimatedWithPhysicsGameObject_XPos = field_E4_bees.bees[0].field_0_xpos;
-    mBaseAnimatedWithPhysicsGameObject_YPos = field_E4_bees.bees[0].field_4_ypos;
+    mXPos = field_E4_bees.bees[0].field_0_xpos;
+    mYPos = field_E4_bees.bees[0].field_4_ypos;
 }
 
 void BeeSwarm::ToFlyAwayAndDie()
@@ -552,11 +552,11 @@ void BeeSwarm::ToFlyAwayAndDie()
 
 void BeeSwarm::VRender(PrimHeader** ppOt)
 {
-    mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_MainMenuButtonBees_38;
-    mBaseAnimatedWithPhysicsGameObject_Anim.mRed = static_cast<u8>(mBaseAnimatedWithPhysicsGameObject_RGB.r);
-    mBaseAnimatedWithPhysicsGameObject_Anim.mGreen = static_cast<u8>(mBaseAnimatedWithPhysicsGameObject_RGB.g);
-    mBaseAnimatedWithPhysicsGameObject_Anim.mBlue = static_cast<u8>(mBaseAnimatedWithPhysicsGameObject_RGB.b);
-    mBaseAnimatedWithPhysicsGameObject_Anim.field_14_scale = mBaseAnimatedWithPhysicsGameObject_SpriteScale;
+    mAnim.mRenderLayer = Layer::eLayer_MainMenuButtonBees_38;
+    mAnim.mRed = static_cast<u8>(mRGB.r);
+    mAnim.mGreen = static_cast<u8>(mRGB.g);
+    mAnim.mBlue = static_cast<u8>(mRGB.b);
+    mAnim.field_14_scale = mSpriteScale;
 
     const auto campos_x_delta = pScreenManager->mCamPos->x - FP_FromInteger(pScreenManager->mCamXOff);
     const auto campos_y_delta = pScreenManager->mCamPos->y - FP_FromInteger(pScreenManager->mCamYOff);
@@ -575,14 +575,14 @@ void BeeSwarm::VRender(PrimHeader** ppOt)
         {
             if (bDontClear)
             {
-                mBaseAnimatedWithPhysicsGameObject_Anim.VRender(
+                mAnim.VRender(
                     FP_GetExponent(bee->field_0_xpos - campos_x_delta),
                     FP_GetExponent(bee->field_4_ypos - campos_y_delta),
                     ppOt,
                     0,
                     0);
                 bDontClear = 0;
-                mBaseAnimatedWithPhysicsGameObject_Anim.Get_Frame_Rect(&out);
+                mAnim.Get_Frame_Rect(&out);
             }
             else
             {

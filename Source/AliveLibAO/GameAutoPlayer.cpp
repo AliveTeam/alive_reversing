@@ -22,8 +22,8 @@ void Recorder::SaveObjectStates()
         {
             auto pAliveObj = static_cast<BaseAliveGameObject*>(pObj);
 
-            mFile.Write(pAliveObj->mBaseAnimatedWithPhysicsGameObject_XPos.fpValue);
-            mFile.Write(pAliveObj->mBaseAnimatedWithPhysicsGameObject_YPos.fpValue);
+            mFile.Write(pAliveObj->mXPos.fpValue);
+            mFile.Write(pAliveObj->mYPos.fpValue);
 
             mFile.Write(pAliveObj->BaseAliveGameObjectLastLineYPos.fpValue);
 
@@ -47,8 +47,8 @@ bool Player::ValidateBaseAliveGameObject(BaseGameObject* pObj)
             {
                 LOG_WARNING("Object is not base alive game object, skip");
             }
-            SkipValidField<decltype(BaseAliveGameObject::mBaseAnimatedWithPhysicsGameObject_XPos)>(mFile);
-            SkipValidField<decltype(BaseAliveGameObject::mBaseAnimatedWithPhysicsGameObject_YPos)>(mFile);
+            SkipValidField<decltype(BaseAliveGameObject::mXPos)>(mFile);
+            SkipValidField<decltype(BaseAliveGameObject::mYPos)>(mFile);
             SkipValidField<decltype(BaseAliveGameObject::BaseAliveGameObjectLastLineYPos)>(mFile);
             SkipValidField<decltype(BaseAliveGameObject::mCurrentMotion)>(mFile);
             SkipValidField<decltype(BaseAliveGameObject::mNextMotion)>(mFile);
@@ -60,8 +60,8 @@ bool Player::ValidateBaseAliveGameObject(BaseGameObject* pObj)
         {
             auto pAliveObj = static_cast<BaseAliveGameObject*>(pObj);
             bool validateFailed = false;
-            validateFailed |= ValidField(mFile, pAliveObj->mBaseAnimatedWithPhysicsGameObject_XPos, "xpos");
-            validateFailed |= ValidField(mFile, pAliveObj->mBaseAnimatedWithPhysicsGameObject_YPos, "ypos");
+            validateFailed |= ValidField(mFile, pAliveObj->mXPos, "xpos");
+            validateFailed |= ValidField(mFile, pAliveObj->mYPos, "ypos");
             validateFailed |= ValidField(mFile, pAliveObj->BaseAliveGameObjectLastLineYPos, "last line ypos");
             validateFailed |= ValidField(mFile, pAliveObj->mCurrentMotion, "current motion");
             validateFailed |= ValidField(mFile, pAliveObj->mNextMotion, "next motion");

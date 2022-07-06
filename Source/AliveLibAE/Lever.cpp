@@ -35,7 +35,7 @@ Lever::Lever(Path_Lever* pTlv, u32 tlvInfo)
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
     Animation_Init(AnimId::Lever_Idle, ppRes);
 
-    mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit15_bSemiTrans);
+    mAnim.mFlags.Set(AnimFlags::eBit15_bSemiTrans);
     field_F4_switch_id = pTlv->field_1A_switch_id;
     field_102_action = pTlv->field_10_action;
     field_100_flags.Clear(Flags_100::eBit1_lever_anim_left_direction);
@@ -51,36 +51,36 @@ Lever::Lever(Path_Lever* pTlv, u32 tlvInfo)
 
     if (pTlv->field_12_scale == Scale_short::eHalf_1)
     {
-        mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromDouble(0.5);
-        mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_BeforeShadow_Half_6;
-        mBaseAnimatedWithPhysicsGameObject_Scale = Scale::Bg;
+        mSpriteScale = FP_FromDouble(0.5);
+        mAnim.mRenderLayer = Layer::eLayer_BeforeShadow_Half_6;
+        mScale = Scale::Bg;
     }
     else if (pTlv->field_12_scale == Scale_short::eFull_0)
     {
-        mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromInteger(1);
-        mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_BeforeShadow_25;
-        mBaseAnimatedWithPhysicsGameObject_Scale = Scale::Fg;
+        mSpriteScale = FP_FromInteger(1);
+        mAnim.mRenderLayer = Layer::eLayer_BeforeShadow_25;
+        mScale = Scale::Fg;
     }
 
     SetTint(&kLeverTints_563228[0], gMap.mCurrentLevel);
-    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger((pTlv->mTopLeft.x + pTlv->mBottomRight.x) / 2);
-    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(SnapToXGrid(mBaseAnimatedWithPhysicsGameObject_SpriteScale, FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos)));
-    mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->mTopLeft.y);
+    mXPos = FP_FromInteger((pTlv->mTopLeft.x + pTlv->mBottomRight.x) / 2);
+    mXPos = FP_FromInteger(SnapToXGrid(mSpriteScale, FP_GetExponent(mXPos)));
+    mYPos = FP_FromInteger(pTlv->mTopLeft.y);
 
     PathLine* pPathLine = nullptr;
     FP hitX = {};
     FP hitY = {};
     if (sCollisions->Raycast(
-            mBaseAnimatedWithPhysicsGameObject_XPos,
-            mBaseAnimatedWithPhysicsGameObject_YPos,
-            mBaseAnimatedWithPhysicsGameObject_XPos,
-            mBaseAnimatedWithPhysicsGameObject_YPos + FP_FromInteger(24),
+            mXPos,
+            mYPos,
+            mXPos,
+            mYPos + FP_FromInteger(24),
             &pPathLine,
             &hitX,
             &hitY,
-            mBaseAnimatedWithPhysicsGameObject_Scale == Scale::Fg ? kFgFloor : kBgFloor))
+            mScale == Scale::Fg ? kFgFloor : kBgFloor))
     {
-        mBaseAnimatedWithPhysicsGameObject_YPos = hitY;
+        mYPos = hitY;
     }
 
     field_104_on_sound = pTlv->field_14_on_sound;
@@ -99,7 +99,7 @@ Lever::~Lever()
 
 void Lever::VScreenChanged()
 {
-    if (!field_100_flags.Get(Flags_100::eBit2_persist_offscreen) || gMap.mCurrentLevel != gMap.mLevel || gMap.mCurrentPath != gMap.mPath || gMap.mOverlayId != gMap.GetOverlayId())
+    if (!field_100_flags.Get(Flags_100::eBit2_persist_offscreen) || gMap.mCurrentLevel != gMap.mNextLevel || gMap.mCurrentPath != gMap.mNextPath || gMap.mOverlayId != gMap.GetOverlayId())
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
@@ -114,12 +114,12 @@ void Lever::VUpdate()
 
     if (field_F8_state == LeverState::ePulled_1)
     {
-        if (mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame == 3)
+        if (mAnim.mCurrentFrame == 3)
         {
             SfxPlayMono(SoundEffect::LeverPull_63, 0);
         }
 
-        if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
+        if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
         {
             if (gMap.mCurrentLevel == EReliveLevelIds::eMines
                 || gMap.mCurrentLevel == EReliveLevelIds::eBonewerkz
@@ -138,11 +138,11 @@ void Lever::VUpdate()
 
             if (field_100_flags.Get(Flags_100::eBit1_lever_anim_left_direction))
             {
-                mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::Lever_Pull_Release_Left, nullptr);
+                mAnim.Set_Animation_Data(AnimId::Lever_Pull_Release_Left, nullptr);
             }
             else
             {
-                mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::Lever_Pull_Release_Right, nullptr);
+                mAnim.Set_Animation_Data(AnimId::Lever_Pull_Release_Right, nullptr);
             }
 
             const s32 switch_state = SwitchStates_Get(field_F4_switch_id);
@@ -258,10 +258,10 @@ void Lever::VUpdate()
     }
     else if (field_F8_state == LeverState::eFinished_2)
     {
-        if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit12_ForwardLoopCompleted))
+        if (mAnim.mFlags.Get(AnimFlags::eBit12_ForwardLoopCompleted))
         {
             field_F8_state = LeverState::eWaiting_0;
-            mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::Lever_Idle, nullptr);
+            mAnim.Set_Animation_Data(AnimId::Lever_Idle, nullptr);
         }
     }
 }
@@ -277,12 +277,12 @@ s16 Lever::VPull(s16 bLeftDirection)
 
     if (bLeftDirection)
     {
-        mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::Lever_Pull_Left, nullptr);
+        mAnim.Set_Animation_Data(AnimId::Lever_Pull_Left, nullptr);
         field_100_flags.Set(Flags_100::eBit1_lever_anim_left_direction);
     }
     else
     {
-        mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::Lever_Pull_Right, nullptr);
+        mAnim.Set_Animation_Data(AnimId::Lever_Pull_Right, nullptr);
         field_100_flags.Clear(Flags_100::eBit1_lever_anim_left_direction);
     }
 

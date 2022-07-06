@@ -28,17 +28,17 @@ s32 Animation_OnFrame_Common_4561B0(BaseGameObject* pObjPtr, s16* pData)
     u8** ppAnimData = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, dustRec.mResourceId, FALSE, FALSE);
 
     FP xOff = {};
-    if (pObj->mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
+    if (pObj->mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
     {
-        xOff = -(pObj->mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(pData[0]));
+        xOff = -(pObj->mSpriteScale * FP_FromInteger(pData[0]));
     }
     else
     {
-        xOff = (pObj->mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(pData[0]));
+        xOff = (pObj->mSpriteScale * FP_FromInteger(pData[0]));
     }
 
-    FP xpos = xOff + pObj->mBaseAnimatedWithPhysicsGameObject_XPos;
-    FP ypos = (pObj->mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(pData[1])) + pObj->mBaseAnimatedWithPhysicsGameObject_YPos + FP_FromInteger(25);
+    FP xpos = xOff + pObj->mXPos;
+    FP ypos = (pObj->mSpriteScale * FP_FromInteger(pData[1])) + pObj->mYPos + FP_FromInteger(25);
     if (!pObj->BaseAliveGameObjectCollisionLine)
     {
         return 1;
@@ -58,12 +58,12 @@ s32 Animation_OnFrame_Common_4561B0(BaseGameObject* pObjPtr, s16* pData)
         return 1;
     }
 
-    if (pObj->mBaseAnimatedWithPhysicsGameObject_SpriteScale == FP_FromDouble(0.5))
+    if (pObj->mSpriteScale == FP_FromDouble(0.5))
     {
         ypos -= FP_FromInteger(14);
     }
 
-    if (pObj->mCurrentMotion == eAbeMotions::Motion_71_Knockback_455090 && pObj->mBaseAnimatedWithPhysicsGameObject_SpriteScale == FP_FromDouble(0.5))
+    if (pObj->mCurrentMotion == eAbeMotions::Motion_71_Knockback_455090 && pObj->mSpriteScale == FP_FromDouble(0.5))
     {
         ypos += FP_FromInteger(5);
     }
@@ -76,35 +76,35 @@ s32 Animation_OnFrame_Common_4561B0(BaseGameObject* pObjPtr, s16* pData)
     auto pPartical = relive_new Particle(xpos, ypos, AnimId::Dust_Particle, ppAnimData);
     if (pPartical)
     {
-        pPartical->mBaseAnimatedWithPhysicsGameObject_Anim.mRenderMode = TPageAbr::eBlend_1;
+        pPartical->mAnim.mRenderMode = TPageAbr::eBlend_1;
 
-        if (pObj->mBaseAnimatedWithPhysicsGameObject_Scale == Scale::Fg)
+        if (pObj->mScale == Scale::Fg)
         {
-            pPartical->mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_Foreground_36;
+            pPartical->mAnim.mRenderLayer = Layer::eLayer_Foreground_36;
         }
         else
         {
-            pPartical->mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_Foreground_Half_17;
+            pPartical->mAnim.mRenderLayer = Layer::eLayer_Foreground_Half_17;
         }
 
-        pPartical->mBaseAnimatedWithPhysicsGameObject_RGB.SetRGB(45, 35, 5);
+        pPartical->mRGB.SetRGB(45, 35, 5);
 
         switch (pObj->mCurrentMotion)
         {
             case eAbeMotions::Motion_1_WalkLoop_44FBA0:
-                pPartical->mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromDouble(0.3) * pObj->mBaseAnimatedWithPhysicsGameObject_SpriteScale;
+                pPartical->mSpriteScale = FP_FromDouble(0.3) * pObj->mSpriteScale;
                 break;
 
             case eAbeMotions::Motion_40_SneakLoop_450550:
-                pPartical->mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromInteger(0);
+                pPartical->mSpriteScale = FP_FromInteger(0);
                 break;
 
             case eAbeMotions::Motion_71_Knockback_455090:
-                pPartical->mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromInteger(1) * pObj->mBaseAnimatedWithPhysicsGameObject_SpriteScale;
+                pPartical->mSpriteScale = FP_FromInteger(1) * pObj->mSpriteScale;
                 break;
 
             default:
-                pPartical->mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromDouble(0.6) * pObj->mBaseAnimatedWithPhysicsGameObject_SpriteScale;
+                pPartical->mSpriteScale = FP_FromDouble(0.6) * pObj->mSpriteScale;
                 break;
         }
     }
@@ -129,17 +129,17 @@ s32 Animation_OnFrame_Common_434130(BaseGameObject* pObjPtr, s16* pData)
     // flying slig: kVaporResID
     u8** ppAnimRes = pObj->field_10_resources_array.ItemAt(7);
     FP xOff = {};
-    if (pObj->mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
+    if (pObj->mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
     {
-        xOff = -(pObj->mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(pData[0]));
+        xOff = -(pObj->mSpriteScale * FP_FromInteger(pData[0]));
     }
     else
     {
-        xOff = (pObj->mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(pData[0]));
+        xOff = (pObj->mSpriteScale * FP_FromInteger(pData[0]));
     }
 
-    FP xpos = xOff + pObj->mBaseAnimatedWithPhysicsGameObject_XPos;
-    FP ypos = (pObj->mBaseAnimatedWithPhysicsGameObject_SpriteScale * (FP_FromInteger(pData[1]) + FP_FromInteger(25))) + pObj->mBaseAnimatedWithPhysicsGameObject_YPos;
+    FP xpos = xOff + pObj->mXPos;
+    FP ypos = (pObj->mSpriteScale * (FP_FromInteger(pData[1]) + FP_FromInteger(25))) + pObj->mYPos;
 
     if (EventGet(kEventDeathReset))
     {
@@ -149,10 +149,10 @@ s32 Animation_OnFrame_Common_434130(BaseGameObject* pObjPtr, s16* pData)
     auto pParticle = relive_new Particle(xpos, ypos, AnimId::Vaporize_Particle, ppAnimRes);
     if (pParticle)
     {
-        pParticle->mBaseAnimatedWithPhysicsGameObject_Anim.mRenderMode = TPageAbr::eBlend_1;
-        pParticle->mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_Foreground_36;
-        pParticle->mBaseAnimatedWithPhysicsGameObject_RGB.SetRGB(64, 64, 64);
-        pParticle->mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromDouble(0.6) * pObj->mBaseAnimatedWithPhysicsGameObject_SpriteScale;
+        pParticle->mAnim.mRenderMode = TPageAbr::eBlend_1;
+        pParticle->mAnim.mRenderLayer = Layer::eLayer_Foreground_36;
+        pParticle->mRGB.SetRGB(64, 64, 64);
+        pParticle->mSpriteScale = FP_FromDouble(0.6) * pObj->mSpriteScale;
     }
     return 1;
 }
@@ -174,7 +174,7 @@ s32 Animation_OnFrame_Slog_4C3030(BaseGameObject* pObjPtr, s16* pPoints)
     const PSX_RECT bTargetRect = pTarget->VGetBoundingRect();
     const PSX_RECT bSlogRect = pSlog->VGetBoundingRect();
 
-    if (bSlogRect.x > bTargetRect.w || bSlogRect.w < bTargetRect.x || bSlogRect.h < bTargetRect.y || bSlogRect.y > bTargetRect.h || pTarget->mBaseAnimatedWithPhysicsGameObject_SpriteScale != FP_FromInteger(1) || pSlog->field_11C_biting_target)
+    if (bSlogRect.x > bTargetRect.w || bSlogRect.w < bTargetRect.x || bSlogRect.h < bTargetRect.y || bSlogRect.y > bTargetRect.h || pTarget->mSpriteScale != FP_FromInteger(1) || pSlog->field_11C_biting_target)
     {
         return 1;
     }
@@ -185,23 +185,23 @@ s32 Animation_OnFrame_Slog_4C3030(BaseGameObject* pObjPtr, s16* pPoints)
     }
 
     FP bloodX = {};
-    if (pSlog->mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
+    if (pSlog->mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
     {
-        bloodX = pSlog->mBaseAnimatedWithPhysicsGameObject_XPos - (pSlog->mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(pPoints[0]));
+        bloodX = pSlog->mXPos - (pSlog->mSpriteScale * FP_FromInteger(pPoints[0]));
     }
     else
     {
-        bloodX = (pSlog->mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(pPoints[0])) + pSlog->mBaseAnimatedWithPhysicsGameObject_XPos;
+        bloodX = (pSlog->mSpriteScale * FP_FromInteger(pPoints[0])) + pSlog->mXPos;
     }
 
-    const FP bloodY = (pSlog->mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(pPoints[1])) + pSlog->mBaseAnimatedWithPhysicsGameObject_YPos;
+    const FP bloodY = (pSlog->mSpriteScale * FP_FromInteger(pPoints[1])) + pSlog->mYPos;
 
     relive_new Blood(
         bloodX,
         bloodY - FP_FromInteger(8),
-        pSlog->mBaseAnimatedWithPhysicsGameObject_VelX * FP_FromInteger(2),
+        pSlog->mVelX * FP_FromInteger(2),
         FP_FromInteger(0),
-        pSlog->mBaseAnimatedWithPhysicsGameObject_SpriteScale,
+        pSlog->mSpriteScale,
         50);
 
     pSlog->field_11C_biting_target = 1;

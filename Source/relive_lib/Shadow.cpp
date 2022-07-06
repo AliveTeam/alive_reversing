@@ -17,15 +17,15 @@ Shadow::Shadow()
 
     mAnim.mRenderMode = TPageAbr::eBlend_2;
 
-    mAnim.mAnimFlags.Clear(AnimFlags::eBit3_Render);
-    mAnim.mAnimFlags.Clear(AnimFlags::eBit16_bBlending);
+    mAnim.mFlags.Clear(AnimFlags::eBit3_Render);
+    mAnim.mFlags.Clear(AnimFlags::eBit16_bBlending);
 
-    mAnim.mAnimFlags.Set(AnimFlags::eBit2_Animate);
-    mAnim.mAnimFlags.Set(AnimFlags::eBit8_Loop);
-    mAnim.mAnimFlags.Set(AnimFlags::eBit15_bSemiTrans);
-    mAnim.mAnimFlags.Set(AnimFlags::eBit18_IsLastFrame);
-    mAnim.mAnimFlags.Set(AnimFlags::eBit20_use_xy_offset);
-    mAnim.mAnimFlags.Set(AnimFlags::eBit21);
+    mAnim.mFlags.Set(AnimFlags::eBit2_Animate);
+    mAnim.mFlags.Set(AnimFlags::eBit8_Loop);
+    mAnim.mFlags.Set(AnimFlags::eBit15_bSemiTrans);
+    mAnim.mFlags.Set(AnimFlags::eBit18_IsLastFrame);
+    mAnim.mFlags.Set(AnimFlags::eBit20_use_xy_offset);
+    mAnim.mFlags.Set(AnimFlags::eBit21);
 }
 
 Shadow::~Shadow()
@@ -81,14 +81,14 @@ void Shadow::Calculate_Position(FP xpos, FP ypos, PSX_RECT* frameRect, FP sprite
                 lineWScreen = pLine->mRect.x - camXPos;
             }
 
-            mAnim.mAnimFlags.Set(AnimFlags::eBit3_Render);
+            mAnim.mFlags.Set(AnimFlags::eBit3_Render);
 
             mXPos = xpos;
 
             // TODO :Refactor out, AO uses an offset of 3 for unknown reasons
             mYPos = hitY + FP_FromInteger(GetGameType() == GameType::eAe ? 0: 3);
 
-            mScale = (FP_FromInteger(1) - (((hitY - objY) * FP_FromDouble(0.75)) / FP_FromInteger(240))) * spriteScale;
+            mSpriteScale = (FP_FromInteger(1) - (((hitY - objY) * FP_FromDouble(0.75)) / FP_FromInteger(240))) * spriteScale;
 
             const CollisionMask lineType = scale == Scale::Fg ? kFgFloorCeilingOrWalls : kBgFloorCeilingOrWalls;
             // lineType = spriteScale != FP_FromDouble(0.5) ? kFgWallsOrFloor : kBgWallsOrFloor;
@@ -132,9 +132,9 @@ void Shadow::Calculate_Position(FP xpos, FP ypos, PSX_RECT* frameRect, FP sprite
             mX2 = std::min(objW, lineWScreen);
 
             s16 height;
-            if (FP_GetExponent(mScale * FP_FromInteger(6)) <= 6)
+            if (FP_GetExponent(mSpriteScale * FP_FromInteger(6)) <= 6)
             {
-                height = FP_GetExponent(mScale * FP_FromInteger(6));
+                height = FP_GetExponent(mSpriteScale * FP_FromInteger(6));
             }
             else
             {
@@ -148,7 +148,7 @@ void Shadow::Calculate_Position(FP xpos, FP ypos, PSX_RECT* frameRect, FP sprite
         else
         {
             // Didn't hit anything so don't draw a shadow
-            mAnim.mAnimFlags.Clear(AnimFlags::eBit3_Render);
+            mAnim.mFlags.Clear(AnimFlags::eBit3_Render);
         }
 
         if (scale == Scale::Fg)
@@ -167,7 +167,7 @@ void Shadow::Render(PrimHeader** ppOt)
     if (mFlags.Get(Flags::eEnabled))
     {
         mAnim.field_14_scale = FP_FromInteger(1);
-        if (mScale == FP_FromDouble(0.5))
+        if (mSpriteScale == FP_FromDouble(0.5))
         {
             mAnim.mRed = 63;
             mAnim.mGreen = 63;

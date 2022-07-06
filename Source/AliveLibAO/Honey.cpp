@@ -16,14 +16,14 @@ Honey::Honey(FP xpos, FP ypos)
 {
     mBaseGameObjectTypeId = ReliveTypes::eHoney;
 
-    mBaseAnimatedWithPhysicsGameObject_RGB.SetRGB(128, 128, 128);
+    mRGB.SetRGB(128, 128, 128);
 
     const AnimRecord rec = AO::AnimRec(AnimId::Honey);
     u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
     Animation_Init(AnimId::Honey, ppRes);
 
-    mBaseAnimatedWithPhysicsGameObject_YPos = ypos;
-    mBaseAnimatedWithPhysicsGameObject_XPos = xpos;
+    mYPos = ypos;
+    mXPos = xpos;
 }
 
 void Honey::VScreenChanged()

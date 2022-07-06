@@ -31,7 +31,7 @@ InvisibleSwitch::InvisibleSwitch(Path_InvisibleSwitch* pTlv, s32 tlvInfo)
 
 void InvisibleSwitch::VScreenChanged()
 {
-    if (gMap.mCurrentLevel != gMap.mLevel || gMap.mCurrentPath != gMap.mPath)
+    if (gMap.mCurrentLevel != gMap.mNextLevel || gMap.mCurrentPath != gMap.mNextPath)
     {
         mBaseGameObjectFlags.Set(Options::eDead);
     }
@@ -50,11 +50,11 @@ void InvisibleSwitch::VUpdate()
         {
             // sControlledCharacter_50767C can be nullptr during the game ender
             // Within X bounds?
-            const FP charXPos = sControlledCharacter_50767C->mBaseAnimatedWithPhysicsGameObject_XPos;
+            const FP charXPos = sControlledCharacter_50767C->mXPos;
             if (sControlledCharacter_50767C && charXPos >= FP_FromInteger(field_20_top_left.x) && charXPos <= FP_FromInteger(field_24_bottom_right.x))
             {
                 // Within Y bounds?
-                const FP charYPos = sControlledCharacter_50767C->mBaseAnimatedWithPhysicsGameObject_YPos;
+                const FP charYPos = sControlledCharacter_50767C->mYPos;
                 if (charYPos >= FP_FromInteger(field_20_top_left.y) && charYPos <= FP_FromInteger(field_24_bottom_right.y))
                 {
                     // TODO: ???
@@ -64,8 +64,8 @@ void InvisibleSwitch::VUpdate()
                     {
                         // Scale matches ?
                         if (field_2C_scale == InvisibleSwitchScale::eAny_2
-                            || (field_2C_scale == InvisibleSwitchScale::eHalf_0 && sControlledCharacter_50767C->mBaseAnimatedWithPhysicsGameObject_SpriteScale == FP_FromDouble(0.5))
-                            || (field_2C_scale == InvisibleSwitchScale::eFull_1 && sControlledCharacter_50767C->mBaseAnimatedWithPhysicsGameObject_SpriteScale == FP_FromInteger(1)))
+                            || (field_2C_scale == InvisibleSwitchScale::eHalf_0 && sControlledCharacter_50767C->mSpriteScale == FP_FromDouble(0.5))
+                            || (field_2C_scale == InvisibleSwitchScale::eFull_1 && sControlledCharacter_50767C->mSpriteScale == FP_FromInteger(1)))
                         {
                             field_28_state = States::eWaitForDelayTimer_1;
                             field_18_delay_timer = sGnFrame + field_1C_delay;

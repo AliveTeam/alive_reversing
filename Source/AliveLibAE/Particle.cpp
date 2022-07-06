@@ -14,7 +14,7 @@ Particle::Particle(FP xpos, FP ypos, AnimId animId, u8** ppAnimData, bool explos
 
     field_10_resources_array.Push_Back(ppAnimData);
 
-    mBaseAnimatedWithPhysicsGameObject_RGB.SetRGB(128, 128, 128);
+    mRGB.SetRGB(128, 128, 128);
 
     if (!explosionSizeHack)
     {
@@ -33,18 +33,18 @@ Particle::Particle(FP xpos, FP ypos, AnimId animId, u8** ppAnimData, bool explos
         mBaseGameObjectFlags.Set(Options::eDead);
     }
 
-    mBaseAnimatedWithPhysicsGameObject_YPos = ypos;
-    mBaseAnimatedWithPhysicsGameObject_XPos = xpos;
+    mYPos = ypos;
+    mXPos = xpos;
     field_F4_scale_amount = FP_FromInteger(0);
 }
 
 void Particle::VUpdate()
 {
-    mBaseAnimatedWithPhysicsGameObject_XPos += mBaseAnimatedWithPhysicsGameObject_VelX;
-    mBaseAnimatedWithPhysicsGameObject_YPos += mBaseAnimatedWithPhysicsGameObject_VelY;
-    mBaseAnimatedWithPhysicsGameObject_SpriteScale += field_F4_scale_amount;
+    mXPos += mVelX;
+    mYPos += mVelY;
+    mSpriteScale += field_F4_scale_amount;
 
-    if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
+    if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
     {
         mBaseGameObjectFlags.Set(Options::eDead);
     }
@@ -61,16 +61,16 @@ Particle* New_DestroyOrCreateObject_Particle(FP xpos, FP ypos, FP scale)
         return nullptr;
     }
 
-    pParticle->mBaseAnimatedWithPhysicsGameObject_Anim.mRenderMode = TPageAbr::eBlend_1;
-    pParticle->mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromRaw(scale.fpValue * 2);
+    pParticle->mAnim.mRenderMode = TPageAbr::eBlend_1;
+    pParticle->mSpriteScale = FP_FromRaw(scale.fpValue * 2);
 
     if (scale == FP_FromInteger(1))
     {
-        pParticle->mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_Above_FG1_39;
+        pParticle->mAnim.mRenderLayer = Layer::eLayer_Above_FG1_39;
     }
     else
     {
-        pParticle->mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_Foreground_Half_17;
+        pParticle->mAnim.mRenderLayer = Layer::eLayer_Foreground_Half_17;
     }
 
     pParticle->mVisualFlags.Clear(BaseAnimatedWithPhysicsGameObject::VisualFlags::eApplyShadowZoneColour);
@@ -88,32 +88,32 @@ Particle* New_Orb_Particle(FP xpos, FP ypos, FP velX, FP velY, FP scale, Layer l
         return nullptr;
     }
 
-    pParticle->mBaseAnimatedWithPhysicsGameObject_RGB.SetRGB(r, g, b);
+    pParticle->mRGB.SetRGB(r, g, b);
 
-    pParticle->mBaseAnimatedWithPhysicsGameObject_VelY = velY;
-    pParticle->mBaseAnimatedWithPhysicsGameObject_VelX = velX;
+    pParticle->mVelY = velY;
+    pParticle->mVelX = velX;
 
     pParticle->mVisualFlags.Clear(BaseAnimatedWithPhysicsGameObject::VisualFlags::eApplyShadowZoneColour);
 
-    pParticle->mBaseAnimatedWithPhysicsGameObject_Anim.mRenderMode = TPageAbr::eBlend_1;
+    pParticle->mAnim.mRenderMode = TPageAbr::eBlend_1;
 
     if (layer != Layer::eLayer_0)
     {
-        pParticle->mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = layer;
+        pParticle->mAnim.mRenderLayer = layer;
     }
     else
     {
         if (scale == FP_FromInteger(1))
         {
-            pParticle->mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_Foreground_36;
+            pParticle->mAnim.mRenderLayer = Layer::eLayer_Foreground_36;
         }
         else
         {
-            pParticle->mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_Foreground_Half_17;
+            pParticle->mAnim.mRenderLayer = Layer::eLayer_Foreground_Half_17;
         }
     }
 
-    pParticle->mBaseAnimatedWithPhysicsGameObject_SpriteScale = scale;
+    pParticle->mSpriteScale = scale;
 
     return pParticle;
 }
@@ -137,30 +137,30 @@ void New_Smoke_Particles(FP xpos, FP ypos, FP scale, s16 count, u8 r, u8 g, u8 b
         if (pParticle)
         {
             pParticle->mVisualFlags.Clear(BaseAnimatedWithPhysicsGameObject::VisualFlags::eApplyShadowZoneColour);
-            pParticle->mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit16_bBlending);
-            pParticle->mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit15_bSemiTrans);
-            pParticle->mBaseAnimatedWithPhysicsGameObject_Anim.mRenderMode = TPageAbr::eBlend_3;
+            pParticle->mAnim.mFlags.Clear(AnimFlags::eBit16_bBlending);
+            pParticle->mAnim.mFlags.Set(AnimFlags::eBit15_bSemiTrans);
+            pParticle->mAnim.mRenderMode = TPageAbr::eBlend_3;
 
-            pParticle->mBaseAnimatedWithPhysicsGameObject_RGB.SetRGB(r, g, b);
+            pParticle->mRGB.SetRGB(r, g, b);
 
-            pParticle->mBaseAnimatedWithPhysicsGameObject_VelX = (scale * FP_FromInteger(Math_RandomRange(-10, 10))) / FP_FromInteger(10);
-            pParticle->mBaseAnimatedWithPhysicsGameObject_VelY = ((scale * velYCounter) * FP_FromInteger(Math_RandomRange(50, 50))) / FP_FromInteger(100);
-            pParticle->mBaseAnimatedWithPhysicsGameObject_SpriteScale = scale;
+            pParticle->mVelX = (scale * FP_FromInteger(Math_RandomRange(-10, 10))) / FP_FromInteger(10);
+            pParticle->mVelY = ((scale * velYCounter) * FP_FromInteger(Math_RandomRange(50, 50))) / FP_FromInteger(100);
+            pParticle->mSpriteScale = scale;
 
             if (scale == FP_FromInteger(1))
             {
-                pParticle->mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_Foreground_36;
+                pParticle->mAnim.mRenderLayer = Layer::eLayer_Foreground_36;
             }
             else
             {
-                pParticle->mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_Foreground_Half_17;
+                pParticle->mAnim.mRenderLayer = Layer::eLayer_Foreground_Half_17;
             }
 
             pParticle->field_F4_scale_amount = scale * FP_FromDouble(0.03);
-            pParticle->mBaseAnimatedWithPhysicsGameObject_Anim.mFrameDelay = static_cast<u16>((i + 3) / 2);
+            pParticle->mAnim.mFrameDelay = static_cast<u16>((i + 3) / 2);
             if (Math_NextRandom() < 127)
             {
-                pParticle->mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit5_FlipX);
+                pParticle->mAnim.mFlags.Set(AnimFlags::eBit5_FlipX);
             }
         }
         velYCounter -= FP_FromInteger(1);
@@ -169,9 +169,9 @@ void New_Smoke_Particles(FP xpos, FP ypos, FP scale, s16 count, u8 r, u8 g, u8 b
 
 void New_RandomizedChant_Particle(BaseAliveGameObject* pObj)
 {
-    const FP ypos = pObj->mBaseAnimatedWithPhysicsGameObject_YPos - (pObj->mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(Math_RandomRange(30, 60)));
-    const FP xpos = (pObj->mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(Math_RandomRange(-20, 20))) + pObj->mBaseAnimatedWithPhysicsGameObject_XPos;
-    New_TintChant_Particle(xpos, ypos, pObj->mBaseAnimatedWithPhysicsGameObject_SpriteScale, Layer::eLayer_0);
+    const FP ypos = pObj->mYPos - (pObj->mSpriteScale * FP_FromInteger(Math_RandomRange(30, 60)));
+    const FP xpos = (pObj->mSpriteScale * FP_FromInteger(Math_RandomRange(-20, 20))) + pObj->mXPos;
+    New_TintChant_Particle(xpos, ypos, pObj->mSpriteScale, Layer::eLayer_0);
 }
 
 Particle* New_TintShiny_Particle(FP xpos, FP ypos, FP scale, Layer layer)
@@ -187,17 +187,17 @@ void New_ShootingZFire_Particle(FP xpos, FP ypos, FP scale)
     if (pParticle)
     {
         pParticle->mVisualFlags.Clear(BaseAnimatedWithPhysicsGameObject::VisualFlags::eApplyShadowZoneColour);
-        pParticle->mBaseAnimatedWithPhysicsGameObject_RGB.SetRGB(55, 55, 55);
-        pParticle->mBaseAnimatedWithPhysicsGameObject_Anim.mRenderMode = TPageAbr::eBlend_1;
+        pParticle->mRGB.SetRGB(55, 55, 55);
+        pParticle->mAnim.mRenderMode = TPageAbr::eBlend_1;
         if (scale == FP_FromInteger(1))
         {
-            pParticle->mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_Foreground_36;
+            pParticle->mAnim.mRenderLayer = Layer::eLayer_Foreground_36;
         }
         else
         {
-            pParticle->mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_Foreground_Half_17;
+            pParticle->mAnim.mRenderLayer = Layer::eLayer_Foreground_Half_17;
         }
-        pParticle->mBaseAnimatedWithPhysicsGameObject_SpriteScale = scale;
+        pParticle->mSpriteScale = scale;
     }
 }
 
@@ -209,19 +209,19 @@ void New_ShootingFire_Particle(FP xpos, FP ypos, s8 direction, FP scale)
     if (pParticle)
     {
         pParticle->mVisualFlags.Clear(BaseAnimatedWithPhysicsGameObject::VisualFlags::eApplyShadowZoneColour);
-        pParticle->mBaseAnimatedWithPhysicsGameObject_RGB.SetRGB(55, 55, 55);
-        pParticle->mBaseAnimatedWithPhysicsGameObject_Anim.mRenderMode = TPageAbr::eBlend_1;
+        pParticle->mRGB.SetRGB(55, 55, 55);
+        pParticle->mAnim.mRenderMode = TPageAbr::eBlend_1;
 
         if (scale == FP_FromInteger(1))
         {
-            pParticle->mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_Foreground_36;
+            pParticle->mAnim.mRenderLayer = Layer::eLayer_Foreground_36;
         }
         else
         {
-            pParticle->mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_Foreground_Half_17;
+            pParticle->mAnim.mRenderLayer = Layer::eLayer_Foreground_Half_17;
         }
 
-        pParticle->mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit5_FlipX, direction & 1);
-        pParticle->mBaseAnimatedWithPhysicsGameObject_SpriteScale = scale;
+        pParticle->mAnim.mFlags.Set(AnimFlags::eBit5_FlipX, direction & 1);
+        pParticle->mSpriteScale = scale;
     }
 }

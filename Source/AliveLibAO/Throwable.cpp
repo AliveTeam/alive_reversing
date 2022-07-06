@@ -80,16 +80,16 @@ void BaseThrowable::VOnPickUpOrSlapped()
 
 void BaseThrowable::BaseAddToPlatform()
 {
-    const FP scale = mBaseAnimatedWithPhysicsGameObject_SpriteScale - FP_FromDouble(0.5);
+    const FP scale = mSpriteScale - FP_FromDouble(0.5);
 
     PathLine* pLine = nullptr;
     FP hitX = {};
     FP hitY = {};
     if (sCollisions->Raycast(
-            mBaseAnimatedWithPhysicsGameObject_XPos,
-            mBaseAnimatedWithPhysicsGameObject_YPos - FP_FromInteger(20),
-            mBaseAnimatedWithPhysicsGameObject_XPos,
-            mBaseAnimatedWithPhysicsGameObject_YPos + FP_FromInteger(20),
+            mXPos,
+            mYPos - FP_FromInteger(20),
+            mXPos,
+            mYPos + FP_FromInteger(20),
             &pLine,
             &hitX,
             &hitY,
@@ -112,7 +112,7 @@ void BaseThrowable::BaseAddToPlatform()
 
                     const PSX_RECT objRect = pPlatformBase->VGetBoundingRect();
 
-                    if (FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos) > objRect.x && FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos) < objRect.w && FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos) < objRect.h)
+                    if (FP_GetExponent(mXPos) > objRect.x && FP_GetExponent(mXPos) < objRect.w && FP_GetExponent(mYPos) < objRect.h)
                     {
                         if (mLiftPoint)
                         {

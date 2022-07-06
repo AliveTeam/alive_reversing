@@ -26,36 +26,36 @@ Dove::Dove(AnimId animId, s32 tlvInfo, FP scale)
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, anim.mResourceId);
     Animation_Init(animId, ppRes);
 
-    mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit15_bSemiTrans);
+    mAnim.mFlags.Clear(AnimFlags::eBit15_bSemiTrans);
 
     gDovesArray.Push_Back(this);
 
-    mBaseAnimatedWithPhysicsGameObject_Anim.field_14_scale = scale;
-    mBaseAnimatedWithPhysicsGameObject_SpriteScale = scale;
+    mAnim.field_14_scale = scale;
+    mSpriteScale = scale;
     if (scale == FP_FromInteger(1))
     {
-        mBaseAnimatedWithPhysicsGameObject_Scale = Scale::Fg;
-        mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_27;
+        mScale = Scale::Fg;
+        mAnim.mRenderLayer = Layer::eLayer_27;
     }
     else
     {
-        mBaseAnimatedWithPhysicsGameObject_Scale = Scale::Bg;
-        mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_8;
+        mScale = Scale::Bg;
+        mAnim.mRenderLayer = Layer::eLayer_8;
     }
 
-    mBaseAnimatedWithPhysicsGameObject_VelX = FP_FromInteger(Math_NextRandom() / 12 - 11);
-    if (mBaseAnimatedWithPhysicsGameObject_VelX >= FP_FromInteger(0))
+    mVelX = FP_FromInteger(Math_NextRandom() / 12 - 11);
+    if (mVelX >= FP_FromInteger(0))
     {
-        mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit5_FlipX);
+        mAnim.mFlags.Clear(AnimFlags::eBit5_FlipX);
     }
     else
     {
-        mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit5_FlipX);
+        mAnim.mFlags.Set(AnimFlags::eBit5_FlipX);
     }
 
-    mBaseAnimatedWithPhysicsGameObject_VelY = FP_FromInteger(-4 - (Math_NextRandom() % 4));
+    mVelY = FP_FromInteger(-4 - (Math_NextRandom() % 4));
     mDoveState = State::eOnGround_0;
-    mBaseAnimatedWithPhysicsGameObject_Anim.SetFrame(Math_NextRandom() % 8);
+    mAnim.SetFrame(Math_NextRandom() % 8);
     mKeepInGlobalArray = FALSE;
     mTlvInfo = tlvInfo;
 
@@ -77,42 +77,42 @@ Dove::Dove(AnimId animId, FP xpos, FP ypos, FP scale)
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, anim.mResourceId);
     Animation_Init(animId, ppRes);
 
-    mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit15_bSemiTrans);
-    mBaseAnimatedWithPhysicsGameObject_Anim.field_14_scale = scale;
-    mBaseAnimatedWithPhysicsGameObject_SpriteScale = scale;
+    mAnim.mFlags.Clear(AnimFlags::eBit15_bSemiTrans);
+    mAnim.field_14_scale = scale;
+    mSpriteScale = scale;
 
     if (scale == FP_FromInteger(1))
     {
-        mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_27;
+        mAnim.mRenderLayer = Layer::eLayer_27;
     }
     else
     {
-        mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_8;
+        mAnim.mRenderLayer = Layer::eLayer_8;
     }
 
-    mBaseAnimatedWithPhysicsGameObject_VelX = FP_FromInteger(Math_NextRandom() / 12 - 11);
-    if (mBaseAnimatedWithPhysicsGameObject_VelX >= FP_FromInteger(0))
+    mVelX = FP_FromInteger(Math_NextRandom() / 12 - 11);
+    if (mVelX >= FP_FromInteger(0))
     {
-        mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit5_FlipX);
+        mAnim.mFlags.Clear(AnimFlags::eBit5_FlipX);
     }
     else
     {
-        mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit5_FlipX);
+        mAnim.mFlags.Set(AnimFlags::eBit5_FlipX);
     }
 
-    mBaseAnimatedWithPhysicsGameObject_VelY = FP_FromInteger(-4 - (Math_NextRandom() % 4));
+    mVelY = FP_FromInteger(-4 - (Math_NextRandom() % 4));
     mDoveState = State::eFlyAway_1;
     mKeepInGlobalArray = TRUE;
     mFlyAwayCounter = 0;
 
-    mBaseAnimatedWithPhysicsGameObject_XPos = xpos;
-    mBaseAnimatedWithPhysicsGameObject_YPos = ypos;
+    mXPos = xpos;
+    mYPos = ypos;
     mPrevX_Unused = xpos;
     mPrevY_Unused = ypos;
 
     mTlvInfo = 0;
 
-    mBaseAnimatedWithPhysicsGameObject_Anim.SetFrame(Math_NextRandom() & 6);
+    mAnim.SetFrame(Math_NextRandom() & 6);
 
     if (bTheOneControllingTheMusic)
     {
@@ -155,8 +155,8 @@ void Dove::AsACircle(FP xpos, FP ypos, u8 angle)
     mDoveState = State::eCircle_3;
 
     // TODO: Result thrown away.. some old removed behavior ??
-    //(Math_Sine_496DD0(mAngle) * FP_FromInteger(30)) * mBaseAnimatedWithPhysicsGameObject_SpriteScale;
-    //(Math_Cosine_496CD0(mAngle) * FP_FromInteger(35)) * mBaseAnimatedWithPhysicsGameObject_SpriteScale;
+    //(Math_Sine_496DD0(mAngle) * FP_FromInteger(30)) * mSpriteScale;
+    //(Math_Cosine_496CD0(mAngle) * FP_FromInteger(35)) * mSpriteScale;
 }
 
 void Dove::AsJoin(FP xpos, FP ypos)
@@ -210,11 +210,11 @@ void Dove::VUpdate()
             if (EventGet(kEventNoise))
             {
                 // player getting near
-                if (VIsObjNearby(ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale) * FP_FromInteger(2), sControlledCharacter_5C1B8C))
+                if (VIsObjNearby(ScaleToGridSize(mSpriteScale) * FP_FromInteger(2), sControlledCharacter_5C1B8C))
                 {
                     Dove::All_FlyAway(1);
                 }
-                if (VIsObjNearby(ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale) * FP_FromInteger(4), sControlledCharacter_5C1B8C))
+                if (VIsObjNearby(ScaleToGridSize(mSpriteScale) * FP_FromInteger(4), sControlledCharacter_5C1B8C))
                 {
                     // noise is too near, leg it
                     Dove::All_FlyAway(0);
@@ -226,7 +226,7 @@ void Dove::VUpdate()
             mFlyAwayCounter++;
             if (mFlyAwayCounter == 0)
             {
-                mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::Dove_Flying, nullptr);
+                mAnim.Set_Animation_Data(AnimId::Dove_Flying, nullptr);
                 if (!bExtraSeqStarted_5BC10C)
                 {
                     bExtraSeqStarted_5BC10C = 13;
@@ -236,26 +236,26 @@ void Dove::VUpdate()
 
             if (mFlyAwayCounter > 0)
             {
-                mBaseAnimatedWithPhysicsGameObject_XPos += mBaseAnimatedWithPhysicsGameObject_VelX;
-                mBaseAnimatedWithPhysicsGameObject_YPos += mBaseAnimatedWithPhysicsGameObject_VelY;
+                mXPos += mVelX;
+                mYPos += mVelY;
             }
 
-            mBaseAnimatedWithPhysicsGameObject_VelY = (mBaseAnimatedWithPhysicsGameObject_VelY * FP_FromDouble(1.03));
-            mBaseAnimatedWithPhysicsGameObject_VelX = (mBaseAnimatedWithPhysicsGameObject_VelX * FP_FromDouble(1.03));
+            mVelY = (mVelY * FP_FromDouble(1.03));
+            mVelX = (mVelX * FP_FromDouble(1.03));
 
             if (mFlyAwayCounter >= (25 - (Math_NextRandom() % 8)))
             {
                 mFlyAwayCounter += (Math_NextRandom() % 8) - 25;
-                mBaseAnimatedWithPhysicsGameObject_VelX = -mBaseAnimatedWithPhysicsGameObject_VelX;
+                mVelX = -mVelX;
             }
 
-            if (mBaseAnimatedWithPhysicsGameObject_VelX >= FP_FromInteger(0))
+            if (mVelX >= FP_FromInteger(0))
             {
-                mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit5_FlipX);
+                mAnim.mFlags.Clear(AnimFlags::eBit5_FlipX);
             }
             else
             {
-                mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit5_FlipX);
+                mAnim.mFlags.Set(AnimFlags::eBit5_FlipX);
             }
             break;
 
@@ -267,7 +267,7 @@ void Dove::VUpdate()
             }
 
             FP xOff = {};
-            if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
+            if (mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
             {
                 xOff = FP_FromInteger(4);
             }
@@ -276,22 +276,22 @@ void Dove::VUpdate()
                 xOff = FP_FromInteger(-4);
             }
 
-            mBaseAnimatedWithPhysicsGameObject_VelX = (xOff + mJoinX - mBaseAnimatedWithPhysicsGameObject_XPos) / FP_FromInteger(8);
-            mBaseAnimatedWithPhysicsGameObject_VelY = (mJoinY - mBaseAnimatedWithPhysicsGameObject_YPos) / FP_FromInteger(8);
-            mBaseAnimatedWithPhysicsGameObject_XPos += mBaseAnimatedWithPhysicsGameObject_VelX;
-            mBaseAnimatedWithPhysicsGameObject_YPos += mBaseAnimatedWithPhysicsGameObject_VelY;
+            mVelX = (xOff + mJoinX - mXPos) / FP_FromInteger(8);
+            mVelY = (mJoinY - mYPos) / FP_FromInteger(8);
+            mXPos += mVelX;
+            mYPos += mVelY;
         }
             return;
 
         case State::eCircle_3:
-            mPrevX_Unused = mBaseAnimatedWithPhysicsGameObject_XPos;
-            mPrevY_Unused = mBaseAnimatedWithPhysicsGameObject_YPos;
+            mPrevX_Unused = mXPos;
+            mPrevY_Unused = mYPos;
 
             mAngle += 4;
 
             // Spin around this point
-            mBaseAnimatedWithPhysicsGameObject_XPos = ((Math_Sine_496DD0(mAngle) * FP_FromInteger(30)) * mBaseAnimatedWithPhysicsGameObject_SpriteScale) + mJoinX;
-            mBaseAnimatedWithPhysicsGameObject_YPos = ((Math_Cosine_496CD0(mAngle) * FP_FromInteger(35)) * mBaseAnimatedWithPhysicsGameObject_SpriteScale) + mJoinY;
+            mXPos = ((Math_Sine_496DD0(mAngle) * FP_FromInteger(30)) * mSpriteScale) + mJoinX;
+            mYPos = ((Math_Cosine_496CD0(mAngle) * FP_FromInteger(35)) * mSpriteScale) + mJoinY;
             return;
 
         case State::eAlmostACircle_4:
@@ -313,11 +313,11 @@ void Dove::VUpdate()
                 }
             }
 
-            mPrevY_Unused = mBaseAnimatedWithPhysicsGameObject_YPos;
+            mPrevY_Unused = mYPos;
             mAngle += 4;
-            mPrevX_Unused = mBaseAnimatedWithPhysicsGameObject_XPos;
-            mBaseAnimatedWithPhysicsGameObject_XPos = ((Math_Sine_496DD0(mAngle) * FP_FromInteger(sAbePortalWidth)) * mBaseAnimatedWithPhysicsGameObject_SpriteScale) + mJoinX;
-            mBaseAnimatedWithPhysicsGameObject_YPos = ((Math_Cosine_496CD0(mAngle) * FP_FromInteger(35)) * mBaseAnimatedWithPhysicsGameObject_SpriteScale) + mJoinY;
+            mPrevX_Unused = mXPos;
+            mXPos = ((Math_Sine_496DD0(mAngle) * FP_FromInteger(sAbePortalWidth)) * mSpriteScale) + mJoinX;
+            mYPos = ((Math_Cosine_496CD0(mAngle) * FP_FromInteger(35)) * mSpriteScale) + mJoinY;
             return;
 
         default:
@@ -325,10 +325,10 @@ void Dove::VUpdate()
     }
 
     if (!gMap.Is_Point_In_Current_Camera(
-            mBaseAnimatedWithPhysicsGameObject_LvlNumber,
-            mBaseAnimatedWithPhysicsGameObject_PathNumber,
-            mBaseAnimatedWithPhysicsGameObject_XPos,
-            mBaseAnimatedWithPhysicsGameObject_YPos,
+            mCurrentLevel,
+            mCurrentPath,
+            mXPos,
+            mYPos,
             0))
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);

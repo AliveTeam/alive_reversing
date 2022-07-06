@@ -39,8 +39,8 @@ Drill::Drill(Path_Drill* pTlv, u32 tlvInfo)
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
     Animation_Init(AnimId::Drill_Vertical_Off, ppRes);
 
-    mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit15_bSemiTrans);
-    mBaseAnimatedWithPhysicsGameObject_Anim.mRenderMode = TPageAbr::eBlend_0;
+    mAnim.mFlags.Set(AnimFlags::eBit15_bSemiTrans);
+    mAnim.mRenderMode = TPageAbr::eBlend_0;
 
     SetTint(kDrillTints_551548, gMap.mCurrentLevel);
     Path_Drill_Data tlvData = pTlv->field_10_data;
@@ -67,15 +67,15 @@ Drill::Drill(Path_Drill* pTlv, u32 tlvInfo)
 
     if (tlvData.field_10_scale == Scale_short::eFull_0)
     {
-        mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromInteger(1);
-        mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_RopeWebDrillMeatSaw_24;
-        mBaseAnimatedWithPhysicsGameObject_Scale = Scale::Fg;
+        mSpriteScale = FP_FromInteger(1);
+        mAnim.mRenderLayer = Layer::eLayer_RopeWebDrillMeatSaw_24;
+        mScale = Scale::Fg;
     }
     else
     {
-        mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromDouble(0.5);
-        mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_RopeWebDrillMeatSaw_Half_5;
-        mBaseAnimatedWithPhysicsGameObject_Scale = Scale::Bg;
+        mSpriteScale = FP_FromDouble(0.5);
+        mAnim.mRenderLayer = Layer::eLayer_RopeWebDrillMeatSaw_Half_5;
+        mScale = Scale::Bg;
     }
 
     mDrillDirection = tlvData.field_26_direction;
@@ -100,10 +100,10 @@ Drill::Drill(Path_Drill* pTlv, u32 tlvInfo)
         }
 
         const CameraPos direction = gMap.GetDirection(
-            mBaseAnimatedWithPhysicsGameObject_LvlNumber,
-            mBaseAnimatedWithPhysicsGameObject_PathNumber,
-            mBaseAnimatedWithPhysicsGameObject_XPos,
-            mBaseAnimatedWithPhysicsGameObject_YPos);
+            mCurrentLevel,
+            mCurrentPath,
+            mXPos,
+            mYPos);
         mAudioChannelsMask = SFX_Play_Camera(SoundEffect::DrillMovement_97, 25, direction);
     }
 
@@ -111,16 +111,16 @@ Drill::Drill(Path_Drill* pTlv, u32 tlvInfo)
     {
         case DrillDirection::eDown_0:
             mAdjustedXPos = FP_FromInteger(pTlv->mTopLeft.x + 12);
-            mBaseAnimatedWithPhysicsGameObject_XPos = mAdjustedXPos;
+            mXPos = mAdjustedXPos;
             mAdjustedYPos = FP_FromInteger(pTlv->mBottomRight.y);
 
             if (field_128_flags.Get(Flags::eBit2_ToggleStartState_StartOn))
             {
-                mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::Drill_Vertical_On, nullptr);
+                mAnim.Set_Animation_Data(AnimId::Drill_Vertical_On, nullptr);
             }
             else
             {
-                mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::Drill_Vertical_Off, nullptr);
+                mAnim.Set_Animation_Data(AnimId::Drill_Vertical_Off, nullptr);
             }
 
             mDrillDistance = pTlv->mBottomRight.y - pTlv->mTopLeft.y;
@@ -132,21 +132,21 @@ Drill::Drill(Path_Drill* pTlv, u32 tlvInfo)
             {
                 field_124_xyoff = FP_FromInteger(mDrillDistance);
             }
-            mBaseAnimatedWithPhysicsGameObject_YPos = mAdjustedYPos - field_124_xyoff;
+            mYPos = mAdjustedYPos - field_124_xyoff;
             break;
 
         case DrillDirection::eRight_1:
             mAdjustedXPos = FP_FromInteger(pTlv->mTopLeft.x + 12);
             mAdjustedYPos = FP_FromInteger(pTlv->mBottomRight.y);
-            mBaseAnimatedWithPhysicsGameObject_YPos = mAdjustedYPos;
+            mYPos = mAdjustedYPos;
 
             if (field_128_flags.Get(Flags::eBit2_ToggleStartState_StartOn))
             {
-                mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::Drill_Horizontal_On, nullptr);
+                mAnim.Set_Animation_Data(AnimId::Drill_Horizontal_On, nullptr);
             }
             else
             {
-                mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::Drill_Horizontal_Off, nullptr);
+                mAnim.Set_Animation_Data(AnimId::Drill_Horizontal_Off, nullptr);
             }
 
             mDrillDistance = pTlv->mBottomRight.x - pTlv->mTopLeft.x;
@@ -158,23 +158,23 @@ Drill::Drill(Path_Drill* pTlv, u32 tlvInfo)
             {
                 field_124_xyoff = FP_FromInteger(mDrillDistance);
             }
-            mBaseAnimatedWithPhysicsGameObject_XPos = field_124_xyoff + mAdjustedXPos;
+            mXPos = field_124_xyoff + mAdjustedXPos;
             break;
 
         case DrillDirection::eLeft_2:
-            mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit5_FlipX);
+            mAnim.mFlags.Set(AnimFlags::eBit5_FlipX);
 
             mAdjustedXPos = FP_FromInteger(pTlv->mBottomRight.x - 12);
             mAdjustedYPos = FP_FromInteger(pTlv->mBottomRight.y);
-            mBaseAnimatedWithPhysicsGameObject_YPos = mAdjustedYPos;
+            mYPos = mAdjustedYPos;
 
             if (field_128_flags.Get(Flags::eBit2_ToggleStartState_StartOn))
             {
-                mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::Drill_Horizontal_On, nullptr);
+                mAnim.Set_Animation_Data(AnimId::Drill_Horizontal_On, nullptr);
             }
             else
             {
-                mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::Drill_Horizontal_Off, nullptr);
+                mAnim.Set_Animation_Data(AnimId::Drill_Horizontal_Off, nullptr);
             }
 
             mDrillDistance = pTlv->mBottomRight.x - pTlv->mTopLeft.x;
@@ -186,7 +186,7 @@ Drill::Drill(Path_Drill* pTlv, u32 tlvInfo)
             {
                 field_124_xyoff = FP_FromInteger(mDrillDistance);
             }
-            mBaseAnimatedWithPhysicsGameObject_XPos = mAdjustedXPos - field_124_xyoff;
+            mXPos = mAdjustedXPos - field_124_xyoff;
             break;
     }
 
@@ -265,13 +265,13 @@ s32 Drill::CreateFromSaveState(const u8* pData)
         {
             case DrillDirection::eDown_0:
             {
-                pDrill->mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::Drill_Vertical_On, nullptr);
+                pDrill->mAnim.Set_Animation_Data(AnimId::Drill_Vertical_On, nullptr);
                 break;
             }
             case DrillDirection::eRight_1:
             case DrillDirection::eLeft_2:
             {
-                pDrill->mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::Drill_Horizontal_On, nullptr);
+                pDrill->mAnim.Set_Animation_Data(AnimId::Drill_Horizontal_On, nullptr);
                 break;
             }
         }
@@ -290,7 +290,7 @@ void Drill::VUpdate()
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 
-    const CameraPos soundDirection = gMap.GetDirection(mBaseAnimatedWithPhysicsGameObject_LvlNumber, mBaseAnimatedWithPhysicsGameObject_PathNumber, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos);
+    const CameraPos soundDirection = gMap.GetDirection(mCurrentLevel, mCurrentPath, mXPos, mYPos);
 
     switch (mDrillState)
     {
@@ -305,13 +305,13 @@ void Drill::VUpdate()
                     {
                         case DrillDirection::eDown_0:
                         {
-                            mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::Drill_Vertical_On, nullptr);
+                            mAnim.Set_Animation_Data(AnimId::Drill_Vertical_On, nullptr);
                             break;
                         }
                         case DrillDirection::eRight_1:
                         case DrillDirection::eLeft_2:
                         {
-                            mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::Drill_Horizontal_On, nullptr);
+                            mAnim.Set_Animation_Data(AnimId::Drill_Horizontal_On, nullptr);
                             break;
                         }
                     }
@@ -331,20 +331,20 @@ void Drill::VUpdate()
                 {
                     case DrillDirection::eDown_0:
                     {
-                        mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::Drill_Vertical_On, nullptr);
+                        mAnim.Set_Animation_Data(AnimId::Drill_Vertical_On, nullptr);
                         break;
                     }
 
                     case DrillDirection::eRight_1:
                     {
-                        mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::Drill_Horizontal_On, nullptr);
+                        mAnim.Set_Animation_Data(AnimId::Drill_Horizontal_On, nullptr);
                         break;
                     }
 
                     case DrillDirection::eLeft_2:
                     {
-                        mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::Drill_Horizontal_On, nullptr);
-                        mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit5_FlipX);
+                        mAnim.Set_Animation_Data(AnimId::Drill_Horizontal_On, nullptr);
+                        mAnim.mFlags.Set(AnimFlags::eBit5_FlipX);
                         break;
                     }
                 }
@@ -409,11 +409,11 @@ void Drill::VUpdate()
 
                 if (mDrillDirection == DrillDirection::eDown_0)
                 {
-                    mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::Drill_Vertical_Off, nullptr);
+                    mAnim.Set_Animation_Data(AnimId::Drill_Vertical_Off, nullptr);
                 }
                 else
                 {
-                    mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::Drill_Horizontal_Off, nullptr);
+                    mAnim.Set_Animation_Data(AnimId::Drill_Horizontal_Off, nullptr);
                 }
 
                 if (field_128_flags.Get(eBit4_Toggle))
@@ -478,14 +478,14 @@ void Drill::VScreenChanged()
     }
 
     // More than 1 screen away on X?
-    if (FP_Abs(sControlledCharacter_5C1B8C->mBaseAnimatedWithPhysicsGameObject_XPos - mBaseAnimatedWithPhysicsGameObject_XPos) > FP_FromInteger(375))
+    if (FP_Abs(sControlledCharacter_5C1B8C->mXPos - mXPos) > FP_FromInteger(375))
     {
         field_6_flags.Set(BaseGameObject::eDead);
         return;
     }
 
     // More than 1 screen away on Y?
-    if (FP_Abs(sControlledCharacter_5C1B8C->mBaseAnimatedWithPhysicsGameObject_YPos - mBaseAnimatedWithPhysicsGameObject_YPos) > FP_FromInteger(260))
+    if (FP_Abs(sControlledCharacter_5C1B8C->mYPos - mYPos) > FP_FromInteger(260))
     {
         field_6_flags.Set(BaseGameObject::eDead);
         return;
@@ -498,25 +498,25 @@ void Drill::VScreenChanged()
 void Drill::VRender(PrimHeader** ppOt)
 {
     if (gMap.Is_Point_In_Current_Camera(
-            mBaseAnimatedWithPhysicsGameObject_LvlNumber,
-            mBaseAnimatedWithPhysicsGameObject_PathNumber,
-            mBaseAnimatedWithPhysicsGameObject_XPos,
-            mBaseAnimatedWithPhysicsGameObject_YPos,
+            mCurrentLevel,
+            mCurrentPath,
+            mXPos,
+            mYPos,
             0))
     {
         if (mDrillDirection == DrillDirection::eDown_0)
         {
-            mBaseAnimatedWithPhysicsGameObject_YPos = mAdjustedYPos - field_124_xyoff;
+            mYPos = mAdjustedYPos - field_124_xyoff;
             BaseAnimatedWithPhysicsGameObject::VRender(ppOt);
         }
         else if (mDrillDirection == DrillDirection::eRight_1)
         {
-            mBaseAnimatedWithPhysicsGameObject_XPos = mAdjustedXPos + field_124_xyoff;
+            mXPos = mAdjustedXPos + field_124_xyoff;
             BaseAnimatedWithPhysicsGameObject::VRender(ppOt);
         }
         else if (mDrillDirection == DrillDirection::eLeft_2)
         {
-            mBaseAnimatedWithPhysicsGameObject_XPos = mAdjustedXPos - field_124_xyoff;
+            mXPos = mAdjustedXPos - field_124_xyoff;
             BaseAnimatedWithPhysicsGameObject::VRender(ppOt);
         }
     }
@@ -544,7 +544,7 @@ s32 Drill::VGetSaveState(u8* pSaveBuffer)
 
 void Drill::EmitSparks()
 {
-    if (gMap.Is_Point_In_Current_Camera(mBaseAnimatedWithPhysicsGameObject_LvlNumber, mBaseAnimatedWithPhysicsGameObject_PathNumber, mBaseAnimatedWithPhysicsGameObject_XPos, mBaseAnimatedWithPhysicsGameObject_YPos, 0))
+    if (gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0))
     {
         s32 speed = 0;
         if (mDrillState == DrillStates::State_1_Going_Down)
@@ -561,17 +561,17 @@ void Drill::EmitSparks()
         {
             if (mDrillDirection == DrillDirection::eRight_1)
             {
-                relive_new Spark(mBaseAnimatedWithPhysicsGameObject_XPos - (mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(17)) + FP_FromInteger(speed),
-                                             mBaseAnimatedWithPhysicsGameObject_YPos - (mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(12)),
-                                             mBaseAnimatedWithPhysicsGameObject_SpriteScale,
+                relive_new Spark(mXPos - (mSpriteScale * FP_FromInteger(17)) + FP_FromInteger(speed),
+                                             mYPos - (mSpriteScale * FP_FromInteger(12)),
+                                             mSpriteScale,
                                              6u,
                                              50,
                                              205,
                                              SparkType::eSmallChantParticle_0);
 
-                relive_new Spark(mBaseAnimatedWithPhysicsGameObject_XPos + (mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(17)) + FP_FromInteger(speed),
-                                             mBaseAnimatedWithPhysicsGameObject_YPos - (mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(12)),
-                                             mBaseAnimatedWithPhysicsGameObject_SpriteScale,
+                relive_new Spark(mXPos + (mSpriteScale * FP_FromInteger(17)) + FP_FromInteger(speed),
+                                             mYPos - (mSpriteScale * FP_FromInteger(12)),
+                                             mSpriteScale,
                                              6u,
                                              50,
                                              205,
@@ -579,17 +579,17 @@ void Drill::EmitSparks()
             }
             else if (mDrillDirection == DrillDirection::eLeft_2)
             {
-                relive_new Spark(mBaseAnimatedWithPhysicsGameObject_XPos + (mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(17)) - FP_FromInteger(speed),
-                                             mBaseAnimatedWithPhysicsGameObject_YPos - (mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(12)),
-                                             mBaseAnimatedWithPhysicsGameObject_SpriteScale,
+                relive_new Spark(mXPos + (mSpriteScale * FP_FromInteger(17)) - FP_FromInteger(speed),
+                                             mYPos - (mSpriteScale * FP_FromInteger(12)),
+                                             mSpriteScale,
                                              6u,
                                              50,
                                              205,
                                              SparkType::eSmallChantParticle_0);
 
-                relive_new Spark(mBaseAnimatedWithPhysicsGameObject_XPos - (mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(17)) - FP_FromInteger(speed),
-                                             mBaseAnimatedWithPhysicsGameObject_YPos - (mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(12)),
-                                             mBaseAnimatedWithPhysicsGameObject_SpriteScale,
+                relive_new Spark(mXPos - (mSpriteScale * FP_FromInteger(17)) - FP_FromInteger(speed),
+                                             mYPos - (mSpriteScale * FP_FromInteger(12)),
+                                             mSpriteScale,
                                              6u,
                                              50,
                                              205,
@@ -597,17 +597,17 @@ void Drill::EmitSparks()
             }
             else if (mDrillDirection == DrillDirection::eDown_0)
             {
-                relive_new Spark(mBaseAnimatedWithPhysicsGameObject_XPos,
-                                             mBaseAnimatedWithPhysicsGameObject_YPos - (mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(22)) - FP_FromInteger(speed),
-                                             mBaseAnimatedWithPhysicsGameObject_SpriteScale,
+                relive_new Spark(mXPos,
+                                             mYPos - (mSpriteScale * FP_FromInteger(22)) - FP_FromInteger(speed),
+                                             mSpriteScale,
                                              6u,
                                              50,
                                              205,
                                              SparkType::eSmallChantParticle_0);
 
-                relive_new Spark(mBaseAnimatedWithPhysicsGameObject_XPos,
-                                             mBaseAnimatedWithPhysicsGameObject_YPos + (mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(4)) - FP_FromInteger(speed),
-                                             mBaseAnimatedWithPhysicsGameObject_SpriteScale,
+                relive_new Spark(mXPos,
+                                             mYPos + (mSpriteScale * FP_FromInteger(4)) - FP_FromInteger(speed),
+                                             mSpriteScale,
                                              6u,
                                              50,
                                              205,
@@ -643,9 +643,9 @@ s16 Drill::DamageTouchingObjects()
                 {
                     const PSX_RECT objRect = pObj->VGetBoundingRect();
 
-                    if (RectsOverlap(drillRect, objRect) && pObj->mBaseAnimatedWithPhysicsGameObject_Scale == mBaseAnimatedWithPhysicsGameObject_Scale && pObj->mHealth > FP_FromInteger(0))
+                    if (RectsOverlap(drillRect, objRect) && pObj->mScale == mScale && pObj->mHealth > FP_FromInteger(0))
                     {
-                        if (pObj->mBaseAnimatedWithPhysicsGameObject_XPos + FP_FromInteger(3) >= FP_FromInteger(drillRect.x) && pObj->mBaseAnimatedWithPhysicsGameObject_XPos - FP_FromInteger(3) <= FP_FromInteger(drillRect.w))
+                        if (pObj->mXPos + FP_FromInteger(3) >= FP_FromInteger(drillRect.x) && pObj->mXPos - FP_FromInteger(3) <= FP_FromInteger(drillRect.w))
                         {
                             pFound = pObj;
                             break;
@@ -668,26 +668,26 @@ s16 Drill::DamageTouchingObjects()
         return 1;
     }
 
-    relive_new Blood(pFound->mBaseAnimatedWithPhysicsGameObject_XPos,
+    relive_new Blood(pFound->mXPos,
                                 FP_FromInteger(drillRect.h - 10),
                                 FP_FromInteger(-5),
                                 FP_FromInteger(5),
-                                mBaseAnimatedWithPhysicsGameObject_SpriteScale,
+                                mSpriteScale,
                                 50);
 
 
-    relive_new Blood(pFound->mBaseAnimatedWithPhysicsGameObject_XPos,
+    relive_new Blood(pFound->mXPos,
                                  FP_FromInteger(drillRect.h - 10),
                                  FP_FromInteger(0),
                                  FP_FromInteger(5),
-                                 mBaseAnimatedWithPhysicsGameObject_SpriteScale,
+                                 mSpriteScale,
                                  50);
 
-    relive_new Blood(pFound->mBaseAnimatedWithPhysicsGameObject_XPos,
+    relive_new Blood(pFound->mXPos,
                                  FP_FromInteger(drillRect.h - 10),
                                  FP_FromInteger(5),
                                  FP_FromInteger(5),
-                                 mBaseAnimatedWithPhysicsGameObject_SpriteScale,
+                                 mSpriteScale,
                                  50);
 
     SFX_Play_Pitch(SoundEffect::DrillCollision_99, 127, -500);

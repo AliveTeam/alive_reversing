@@ -32,12 +32,12 @@ public:
                 if (static_cast<s32>(sGnFrame) > field_E8_timer)
                 {
                     field_E4_state = BoomMachineStates::eDropGrenade_3;
-                    mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::BoomMachine_Nozzle_DropGrenade, nullptr);
+                    mAnim.Set_Animation_Data(AnimId::BoomMachine_Nozzle_DropGrenade, nullptr);
                 }
                 break;
 
             case BoomMachineStates::eDropGrenade_3:
-                if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
+                if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
                 {
                     SFX_Play_Pitch(SoundEffect::PickupItem_33, 127, -900, 0);
                     if (!gpThrowableArray_50E26C)
@@ -48,24 +48,24 @@ public:
                     gpThrowableArray_50E26C->Add(field_EC_num_grenades);
 
                     FP directedScale = {};
-                    if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX))
+                    if (mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
                     {
-                        directedScale = -mBaseAnimatedWithPhysicsGameObject_SpriteScale;
+                        directedScale = -mSpriteScale;
                     }
                     else
                     {
-                        directedScale = mBaseAnimatedWithPhysicsGameObject_SpriteScale;
+                        directedScale = mSpriteScale;
                     }
                     auto pNewNade = relive_new Grenade(
-                        mBaseAnimatedWithPhysicsGameObject_XPos + (FP_FromInteger(6) * directedScale),
-                        mBaseAnimatedWithPhysicsGameObject_YPos + (-FP_FromInteger(6) * directedScale),
+                        mXPos + (FP_FromInteger(6) * directedScale),
+                        mYPos + (-FP_FromInteger(6) * directedScale),
                         field_EC_num_grenades);
                     if (pNewNade)
                     {
-                        pNewNade->VThrow(mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit5_FlipX) ? FP_FromDouble(-0.75) : FP_FromDouble(0.75), FP_FromInteger(3));
+                        pNewNade->VThrow(mAnim.mFlags.Get(AnimFlags::eBit5_FlipX) ? FP_FromDouble(-0.75) : FP_FromDouble(0.75), FP_FromInteger(3));
                     }
 
-                    mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::BoomMachine_Nozzle_Idle, nullptr);
+                    mAnim.Set_Animation_Data(AnimId::BoomMachine_Nozzle_Idle, nullptr);
                     field_E4_state = BoomMachineStates::eInactive_0;
                 }
                 break;
@@ -122,7 +122,7 @@ void BoomMachine::VUpdate()
         if (!gpThrowableArray_50E26C || gpThrowableArray_50E26C->field_10_count == 0)
         {
             field_E8_bIsButtonOn = 1;
-            mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::BoomMachine_Button_On, nullptr);
+            mAnim.Set_Animation_Data(AnimId::BoomMachine_Button_On, nullptr);
         }
     }
     else if (field_E8_bIsButtonOn == 1)
@@ -130,10 +130,10 @@ void BoomMachine::VUpdate()
         if (gpThrowableArray_50E26C && gpThrowableArray_50E26C->field_10_count > 0)
         {
             field_E8_bIsButtonOn = 0;
-            mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::BoomMachine_Button_Off, nullptr);
+            mAnim.Set_Animation_Data(AnimId::BoomMachine_Button_Off, nullptr);
         }
 
-        if (mBaseAnimatedWithPhysicsGameObject_Anim.mCurrentFrame == 3)
+        if (mAnim.mCurrentFrame == 3)
         {
             SFX_Play_Pitch(SoundEffect::RedTick_4, 25, -1200, 0);
         }
@@ -161,24 +161,24 @@ BoomMachine::BoomMachine(Path_BoomMachine* pTlv, s32 tlvInfo)
 
     mVisualFlags.Clear(VisualFlags::eApplyShadowZoneColour);
     field_E4_tlvInfo = tlvInfo;
-    mBaseAnimatedWithPhysicsGameObject_Anim.mRenderMode = TPageAbr::eBlend_1;
+    mAnim.mRenderMode = TPageAbr::eBlend_1;
 
     if (pTlv->field_18_scale == Scale_short::eHalf_1)
     {
-        mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromDouble(0.5);
+        mSpriteScale = FP_FromDouble(0.5);
     }
     else
     {
-        mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromInteger(1);
+        mSpriteScale = FP_FromInteger(1);
     }
 
-    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pTlv->mTopLeft.x) + (ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale) / FP_FromInteger(2));
-    mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->mTopLeft.y);
+    mXPos = FP_FromInteger(pTlv->mTopLeft.x) + (ScaleToGridSize(mSpriteScale) / FP_FromInteger(2));
+    mYPos = FP_FromInteger(pTlv->mTopLeft.y);
 
     auto pNozzle = relive_new GrenadeMachineNozzle();
     if (pNozzle)
     {
-        FP directedScale = mBaseAnimatedWithPhysicsGameObject_SpriteScale;
+        FP directedScale = mSpriteScale;
         if (pTlv->field_1A_nozzle_side == Path_BoomMachine::NozzleSide::eLeft_1)
         {
             directedScale = -directedScale;
@@ -188,16 +188,16 @@ BoomMachine::BoomMachine(Path_BoomMachine* pTlv, s32 tlvInfo)
         u8** ppRes2 = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec2.mResourceId, 1, 0);
         pNozzle->Animation_Init(AnimId::BoomMachine_Nozzle_Idle, ppRes2);
 
-        pNozzle->mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Clear(AnimFlags::eBit15_bSemiTrans);
-        pNozzle->mBaseAnimatedWithPhysicsGameObject_SpriteScale = mBaseAnimatedWithPhysicsGameObject_SpriteScale;
+        pNozzle->mAnim.mFlags.Clear(AnimFlags::eBit15_bSemiTrans);
+        pNozzle->mSpriteScale = mSpriteScale;
         pNozzle->mVisualFlags.Clear(VisualFlags::eApplyShadowZoneColour);
         pNozzle->field_E4_state = BoomMachineStates::eInactive_0;
-        pNozzle->mBaseAnimatedWithPhysicsGameObject_XPos = mBaseAnimatedWithPhysicsGameObject_XPos + (directedScale * FP_FromInteger(30));
-        pNozzle->mBaseAnimatedWithPhysicsGameObject_YPos = mBaseAnimatedWithPhysicsGameObject_YPos + (mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(-30));
+        pNozzle->mXPos = mXPos + (directedScale * FP_FromInteger(30));
+        pNozzle->mYPos = mYPos + (mSpriteScale * FP_FromInteger(-30));
         pNozzle->field_EC_num_grenades = static_cast<s16>(pTlv->field_1E_number_of_grenades);
     }
 
-    pNozzle->mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit5_FlipX, pTlv->field_1A_nozzle_side == Path_BoomMachine::NozzleSide::eLeft_1);
+    pNozzle->mAnim.mFlags.Set(AnimFlags::eBit5_FlipX, pTlv->field_1A_nozzle_side == Path_BoomMachine::NozzleSide::eLeft_1);
 
     pNozzle->mBaseGameObjectRefCount++;
     field_EC_pNozzle = pNozzle;
@@ -205,14 +205,14 @@ BoomMachine::BoomMachine(Path_BoomMachine* pTlv, s32 tlvInfo)
     if (gpThrowableArray_50E26C && gpThrowableArray_50E26C->field_10_count)
     {
         field_E8_bIsButtonOn = 1;
-        mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(AnimId::BoomMachine_Button_On, nullptr);
+        mAnim.Set_Animation_Data(AnimId::BoomMachine_Button_On, nullptr);
     }
     else
     {
         field_E8_bIsButtonOn = 0;
     }
 
-    mBaseAnimatedWithPhysicsGameObject_YOffset = 0;
+    mYOffset = 0;
 }
 
 

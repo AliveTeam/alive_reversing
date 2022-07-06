@@ -34,32 +34,32 @@ TimedMine::TimedMine(Path_TimedMine* pTlv, s32 tlvInfo)
 
     if (pTlv->field_1C_scale == Scale_short::eHalf_1)
     {
-        mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromDouble(0.5);
-        mBaseAnimatedWithPhysicsGameObject_Scale = Scale::Bg;
-        mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_RollingBallBombMineCar_Half_16;
+        mSpriteScale = FP_FromDouble(0.5);
+        mScale = Scale::Bg;
+        mAnim.mRenderLayer = Layer::eLayer_RollingBallBombMineCar_Half_16;
     }
     else
     {
-        mBaseAnimatedWithPhysicsGameObject_SpriteScale = FP_FromInteger(1);
-        mBaseAnimatedWithPhysicsGameObject_Scale = Scale::Fg;
-        mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_RollingBallBombMineCar_35;
+        mSpriteScale = FP_FromInteger(1);
+        mScale = Scale::Fg;
+        mAnim.mRenderLayer = Layer::eLayer_RollingBallBombMineCar_35;
     }
 
     InitTickAnimation();
 
     mTicksUntilExplosion = pTlv->mTicksUntilExplosion;
 
-    mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(pTlv->mTopLeft.x + 12);
-    mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(pTlv->mTopLeft.y + 24);
+    mXPos = FP_FromInteger(pTlv->mTopLeft.x + 12);
+    mYPos = FP_FromInteger(pTlv->mTopLeft.y + 24);
 
     mExplosionTimer = sGnFrame;
     mTlvInfo = tlvInfo;
 
     SetBaseAnimPaletteTint(kTimedMineTints_4C3140, gMap.mCurrentLevel, 1005);
-    mCollectionRect.x = mBaseAnimatedWithPhysicsGameObject_XPos - (ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale) / FP_FromInteger(2));
-    mCollectionRect.w = mBaseAnimatedWithPhysicsGameObject_XPos + (ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale) / FP_FromInteger(2));
-    mCollectionRect.h = mBaseAnimatedWithPhysicsGameObject_YPos;
-    mCollectionRect.y = mBaseAnimatedWithPhysicsGameObject_YPos - ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale);
+    mCollectionRect.x = mXPos - (ScaleToGridSize(mSpriteScale) / FP_FromInteger(2));
+    mCollectionRect.w = mXPos + (ScaleToGridSize(mSpriteScale) / FP_FromInteger(2));
+    mCollectionRect.h = mYPos;
+    mCollectionRect.y = mYPos - ScaleToGridSize(mSpriteScale);
 
     mBaseGameObjectFlags.Set(Options::eInteractive_Bit8);
     mLiftPoint = nullptr;
@@ -90,7 +90,7 @@ TimedMine::~TimedMine()
 
 void TimedMine::VScreenChanged()
 {
-    if (gMap.mCurrentLevel != gMap.mLevel || gMap.mCurrentPath != gMap.mPath)
+    if (gMap.mCurrentLevel != gMap.mNextLevel || gMap.mCurrentPath != gMap.mNextPath)
     {
         mBaseGameObjectFlags.Set(Options::eDead);
     }
@@ -117,10 +117,10 @@ s16 TimedMine::VTakeDamage(BaseGameObject* pFrom)
         {
             mBaseGameObjectFlags.Set(BaseGameObject::eDead);
             relive_new BaseBomb(
-                mBaseAnimatedWithPhysicsGameObject_XPos,
-                mBaseAnimatedWithPhysicsGameObject_YPos,
+                mXPos,
+                mYPos,
                 0,
-                mBaseAnimatedWithPhysicsGameObject_SpriteScale);
+                mSpriteScale);
             mSlappedMine = 1;
             mExplosionTimer = sGnFrame;
             return 1;
@@ -133,15 +133,15 @@ s16 TimedMine::VTakeDamage(BaseGameObject* pFrom)
 void TimedMine::VRender(PrimHeader** ppOt)
 {
     if (gMap.Is_Point_In_Current_Camera(
-            mBaseAnimatedWithPhysicsGameObject_LvlNumber,
-            mBaseAnimatedWithPhysicsGameObject_PathNumber,
-            mBaseAnimatedWithPhysicsGameObject_XPos,
-            mBaseAnimatedWithPhysicsGameObject_YPos,
+            mCurrentLevel,
+            mCurrentPath,
+            mXPos,
+            mYPos,
             0))
     {
         mTickAnim.VRender(
-            FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos + FP_FromInteger(pScreenManager->mCamXOff) - pScreenManager->mCamPos->x),
-            FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos + FP_FromInteger(pScreenManager->mCamYOff - FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(14)))
+            FP_GetExponent(mXPos + FP_FromInteger(pScreenManager->mCamXOff) - pScreenManager->mCamPos->x),
+            FP_GetExponent(mYPos + FP_FromInteger(pScreenManager->mCamYOff - FP_GetExponent(mSpriteScale * FP_FromInteger(14)))
                            - pScreenManager->mCamPos->y),
             ppOt,
             0,
@@ -165,10 +165,10 @@ void TimedMine::InitTickAnimation()
         this,
         ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kBombflshAOResID, 1, 0)))
     {
-        mTickAnim.mAnimFlags.Set(AnimFlags::eBit15_bSemiTrans);
-        mTickAnim.mAnimFlags.Set(AnimFlags::eBit16_bBlending);
-        mTickAnim.mRenderLayer = mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer;
-        mTickAnim.field_14_scale = mBaseAnimatedWithPhysicsGameObject_SpriteScale;
+        mTickAnim.mFlags.Set(AnimFlags::eBit15_bSemiTrans);
+        mTickAnim.mFlags.Set(AnimFlags::eBit16_bBlending);
+        mTickAnim.mRenderLayer = mAnim.mRenderLayer;
+        mTickAnim.field_14_scale = mSpriteScale;
         mTickAnim.mRed = 128;
         mTickAnim.mGreen = 128;
         mTickAnim.mBlue = 128;
@@ -187,14 +187,14 @@ void TimedMine::StickToLiftPoint()
     PathLine* pLine = nullptr;
     mTimedMineFlags.Set(TimedMineFlags::eStickToLiftPoint);
     if (sCollisions->Raycast(
-            mBaseAnimatedWithPhysicsGameObject_XPos,
-            mBaseAnimatedWithPhysicsGameObject_YPos - FP_FromInteger(20),
-            mBaseAnimatedWithPhysicsGameObject_XPos,
-            mBaseAnimatedWithPhysicsGameObject_YPos + FP_FromInteger(20),
+            mXPos,
+            mYPos - FP_FromInteger(20),
+            mXPos,
+            mYPos + FP_FromInteger(20),
             &pLine,
             &hitX,
             &hitY,
-            (mBaseAnimatedWithPhysicsGameObject_SpriteScale != FP_FromDouble(0.5)) ? kFgWallsOrFloor : kBgWallsOrFloor))
+            (mSpriteScale != FP_FromDouble(0.5)) ? kFgWallsOrFloor : kBgWallsOrFloor))
     {
         if (pLine->mLineType == eLineTypes ::eDynamicCollision_32 ||
             pLine->mLineType == eLineTypes::eBackgroundDynamicCollision_36)
@@ -214,7 +214,7 @@ void TimedMine::StickToLiftPoint()
                         auto pLiftPoint = static_cast<LiftPoint*>(pObj);
                         const PSX_RECT pObjRect = pLiftPoint->VGetBoundingRect();
 
-                        if (FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos) > pObjRect.x && FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos) < pObjRect.w && FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_YPos) < pObjRect.h)
+                        if (FP_GetExponent(mXPos) > pObjRect.x && FP_GetExponent(mXPos) < pObjRect.w && FP_GetExponent(mYPos) < pObjRect.h)
                         {
                             mLiftPoint = pLiftPoint;
                             pLiftPoint->VAdd(this);
@@ -243,10 +243,10 @@ void TimedMine::VUpdate()
 
     if (pPlatform && pPlatform->OnAnyFloor())
     {
-        mCollectionRect.x = mBaseAnimatedWithPhysicsGameObject_XPos - ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale) / FP_FromInteger(2);
-        mCollectionRect.y = mBaseAnimatedWithPhysicsGameObject_YPos - ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale);
-        mCollectionRect.w = mBaseAnimatedWithPhysicsGameObject_XPos + ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale) / FP_FromInteger(2);
-        mCollectionRect.h = mBaseAnimatedWithPhysicsGameObject_YPos;
+        mCollectionRect.x = mXPos - ScaleToGridSize(mSpriteScale) / FP_FromInteger(2);
+        mCollectionRect.y = mYPos - ScaleToGridSize(mSpriteScale);
+        mCollectionRect.w = mXPos + ScaleToGridSize(mSpriteScale) / FP_FromInteger(2);
+        mCollectionRect.h = mYPos;
     }
     if (mSlappedMine == 1)
     {
@@ -254,10 +254,10 @@ void TimedMine::VUpdate()
         {
             mOldGnFrame = sGnFrame;
             auto soundDir = gMap.GetDirection(
-                mBaseAnimatedWithPhysicsGameObject_LvlNumber,
-                mBaseAnimatedWithPhysicsGameObject_PathNumber,
-                mBaseAnimatedWithPhysicsGameObject_XPos,
-                mBaseAnimatedWithPhysicsGameObject_YPos);
+                mCurrentLevel,
+                mCurrentPath,
+                mXPos,
+                mYPos);
             SFX_Play_Camera(SoundEffect::GreenTick_3, 50, soundDir);
 
             //~7 limits the number to multiples of 8
@@ -273,10 +273,10 @@ void TimedMine::VUpdate()
         if (static_cast<s32>(sGnFrame) >= mExplosionTimer)
         {
             relive_new BaseBomb(
-                mBaseAnimatedWithPhysicsGameObject_XPos,
-                mBaseAnimatedWithPhysicsGameObject_YPos,
+                mXPos,
+                mYPos,
                 0,
-                mBaseAnimatedWithPhysicsGameObject_SpriteScale);
+                mSpriteScale);
 
             mBaseGameObjectFlags.Set(BaseGameObject::eDead);
         }
@@ -286,10 +286,10 @@ void TimedMine::VUpdate()
 void TimedMine::VOnThrowableHit(BaseGameObject* /*pFrom*/)
 {
     relive_new BaseBomb(
-        mBaseAnimatedWithPhysicsGameObject_XPos,
-        mBaseAnimatedWithPhysicsGameObject_YPos,
+        mXPos,
+        mYPos,
         0,
-        mBaseAnimatedWithPhysicsGameObject_SpriteScale);
+        mSpriteScale);
 
     mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     mSlappedMine = 1;
@@ -311,7 +311,7 @@ void TimedMine::VOnPickUpOrSlapped()
         }
         mOldGnFrame = sGnFrame;
         // TODO: missing animid
-        mBaseAnimatedWithPhysicsGameObject_Anim.Set_Animation_Data(804, nullptr);
+        mAnim.Set_Animation_Data(804, nullptr);
         mExplosionTimer = sGnFrame + mTicksUntilExplosion;
         mTickAnim.Set_Animation_Data(AnimId::Bomb_Flash, nullptr);
         SfxPlayMono(SoundEffect::GreenTick_3, 0, 0);

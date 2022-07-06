@@ -12,7 +12,7 @@ void TestAnimation::DelayLoad()
 {
     // Trying to load on these lvls will result in a phat failure because they hardly have
     // any resource fiiles
-    if (mBaseAnimatedWithPhysicsGameObject_LvlNumber == EReliveLevelIds::eMenu || mBaseAnimatedWithPhysicsGameObject_LvlNumber == EReliveLevelIds::eCredits)
+    if (mCurrentLevel == EReliveLevelIds::eMenu || mCurrentLevel == EReliveLevelIds::eCredits)
     {
         return;
     }
@@ -34,7 +34,7 @@ void TestAnimation::DelayLoad()
 
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, animRec.mResourceId);
     Animation_Init(animRec.mFrameTableOffset, animRec.mMaxW, animRec.mMaxH, ppRes);
-    mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Set(AnimFlags::eBit8_Loop);
+    mAnim.mFlags.Set(AnimFlags::eBit8_Loop);
 
     if (animRec.mPalOverride != PalId::Default)
     {
@@ -52,7 +52,7 @@ void TestAnimation::DelayLoad()
         u8** ppPal = Add_Resource(ResourceManager::Resource_Palt, palRec.mResourceId);
         if (ppPal)
         {
-            mBaseAnimatedWithPhysicsGameObject_Anim.LoadPal(ppPal, 0);
+            mAnim.LoadPal(ppPal, 0);
         }
     }
 }
@@ -72,16 +72,16 @@ TestAnimation::TestAnimation()
 
 void TestAnimation::SyncToAbePos()
 {
-    mBaseAnimatedWithPhysicsGameObject_XPos = sActiveHero->mBaseAnimatedWithPhysicsGameObject_XPos + FP_FromInteger(30);
-    mBaseAnimatedWithPhysicsGameObject_YPos = sActiveHero->mBaseAnimatedWithPhysicsGameObject_YPos - FP_FromInteger(30);
+    mXPos = sActiveHero->mXPos + FP_FromInteger(30);
+    mYPos = sActiveHero->mYPos - FP_FromInteger(30);
 
-    mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = sActiveHero->mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer;
+    mAnim.mRenderLayer = sActiveHero->mAnim.mRenderLayer;
 }
 
 void TestAnimation::VUpdate()
 {
-    mBaseAnimatedWithPhysicsGameObject_PathNumber = gMap.mCurrentPath;
-    mBaseAnimatedWithPhysicsGameObject_LvlNumber = gMap.mCurrentLevel;
+    mCurrentPath = gMap.mCurrentPath;
+    mCurrentLevel = gMap.mCurrentLevel;
 
     if (mLoaded)
     {

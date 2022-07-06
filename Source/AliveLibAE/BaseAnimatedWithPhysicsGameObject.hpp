@@ -50,9 +50,5 @@ public:
 protected:
     void DeathSmokeEffect(bool bPlaySound);
 
-public:
-    Animation mBaseAnimatedWithPhysicsGameObject_Anim = {};
-
-    Shadow* mShadow = nullptr;
 };
 ALIVE_ASSERT_SIZEOF(BaseAnimatedWithPhysicsGameObject, 0xF4);
