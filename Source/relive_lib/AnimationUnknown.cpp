@@ -1,9 +1,8 @@
 #include "stdafx.h"
-#include "AnimationUnknown.hpp"
-#include "Function.hpp"
+#include "../relive_lib/AnimationUnknown.hpp"
 #include "PsxDisplay.hpp"
-#include "stdlib.hpp"
-#include "Sys_common.hpp"
+#include "../AliveLibCommon/Sys_common.hpp"
+#include "GameType.hpp"
 
 void AnimationUnknown::VCleanUp()
 {
@@ -13,7 +12,6 @@ void AnimationUnknown::VDecode()
 {
     // Empty
 }
-
 
 void AnimationUnknown::VRender(s32 xpos, s32 ypos, PrimHeader** ppOt, s16 /*width*/, s32 /*height*/)
 {
@@ -45,7 +43,10 @@ void AnimationUnknown::VRender(s32 xpos, s32 ypos, PrimHeader** ppOt, s16 /*widt
 
         s32 polyX = 0;
         s32 polyY = 0;
-        s32 xConverted = PsxToPCX(xpos);
+
+        // TODO: Factor out when file formats are converted
+        const bool isAe = GetGameType() == GameType::eAe;
+        s32 xConverted = isAe ? PsxToPCX(xpos) : xpos;
         if (field_68_anim_ptr->mAnimFlags.Get(AnimFlags::eBit7_SwapXY))
         {
             if (field_68_anim_ptr->mAnimFlags.Get(AnimFlags::eBit6_FlipY))
@@ -109,7 +110,8 @@ void AnimationUnknown::VRender(s32 xpos, s32 ypos, PrimHeader** ppOt, s16 /*widt
                 static_cast<s16>(frameW - 1),
                 static_cast<s16>(frameH - 1));
 
-        if (pFrameHeader->field_7_compression_type == CompressionType::eType_3_RLE_Blocks || pFrameHeader->field_7_compression_type == CompressionType::eType_6_RLE)
+        // TODO: Factor out when renderingg is common
+        if (isAe && (pFrameHeader->field_7_compression_type == CompressionType::eType_3_RLE_Blocks || pFrameHeader->field_7_compression_type == CompressionType::eType_6_RLE))
         {
             SetPrimExtraPointerHack(pPoly, &pFrameHeader->field_8_width2);
         }

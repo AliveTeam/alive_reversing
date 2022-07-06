@@ -4,7 +4,7 @@
 #include "BaseAnimatedWithPhysicsGameObject.hpp"
 #include "../relive_lib/Animation.hpp"
 #include "Map.hpp"
-#include "AnimationUnknown.hpp"
+#include "../relive_lib/AnimationUnknown.hpp"
 
 class PathLine;
 

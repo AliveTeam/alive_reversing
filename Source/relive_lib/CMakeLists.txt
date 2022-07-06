@@ -36,6 +36,8 @@ SET(relive_lib_src
     Primitives.cpp
     Animation.cpp
     Animation.hpp
+    AnimationUnknown.cpp
+    AnimationUnknown.hpp
     Layer.hpp
     stdafx.h
 )

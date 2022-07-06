@@ -8,7 +8,7 @@
 #include "ShadowZone.hpp"
 #include "Map.hpp"
 #include "ResourceManager.hpp"
-#include "AnimationUnknown.hpp"
+#include "../relive_lib/AnimationUnknown.hpp"
 
 namespace AO {
 

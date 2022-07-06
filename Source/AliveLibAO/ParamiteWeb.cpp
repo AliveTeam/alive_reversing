@@ -8,7 +8,7 @@
 #include "Rope.hpp"
 #include "ScreenManager.hpp"
 #include "ShadowZone.hpp"
-#include "AnimationUnknown.hpp"
+#include "../relive_lib/AnimationUnknown.hpp"
 
 namespace AO {
 

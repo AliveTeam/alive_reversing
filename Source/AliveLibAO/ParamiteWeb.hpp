@@ -3,9 +3,9 @@
 #include "../AliveLibCommon/Function.hpp"
 #include "BaseAnimatedWithPhysicsGameObject.hpp"
 
-namespace AO {
-
 class AnimationUnknown;
+
+namespace AO {
 
 class ParamiteWeb final : public BaseAnimatedWithPhysicsGameObject
 {

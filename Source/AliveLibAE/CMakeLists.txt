@@ -75,8 +75,6 @@ SET(AliveLibAESrc
     Camera.hpp
     AnimationCallBacks.cpp
     AnimationCallBacks.hpp
-    AnimationUnknown.cpp
-    AnimationUnknown.hpp
     BackgroundAnimation.cpp
     BackgroundAnimation.hpp
     PathData.cpp

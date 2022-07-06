@@ -11,7 +11,7 @@
 #include "ScreenManager.hpp"
 #include "CameraSwapper.hpp"
 #include "PsxDisplay.hpp"
-#include "AnimationUnknown.hpp"
+#include "../relive_lib/AnimationUnknown.hpp"
 
 namespace AO {
 
