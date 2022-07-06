@@ -12,6 +12,7 @@
 #include "Particle.hpp"
 #include "Sfx.hpp"
 #include "Math.hpp"
+#include "../relive_lib/GameType.hpp"
 
 namespace AO {
 
@@ -19,18 +20,26 @@ BaseAnimatedWithPhysicsGameObject::BaseAnimatedWithPhysicsGameObject()
     : IBaseAnimatedWithPhysicsGameObject(0)
 {
     mVisualFlags.Set(VisualFlags::eApplyShadowZoneColour);
-	
+
     mCurrentPath = gMap.mCurrentPath;
     mCurrentLevel = gMap.mCurrentLevel;
-
+	
     mVelX = FP_FromInteger(0);
     mVelY = FP_FromInteger(0);
-	
+
     mXPos = FP_FromInteger(0);
     mYPos = FP_FromInteger(0);
 
-    mRGB.SetRGB(105, 105, 105);
-
+	// TODO: This can be removed if everything uses the tint table or passes down the RGB
+	if (GetGameType() == GameType::eAe)
+	{
+    	mRGB.SetRGB(127, 127, 127);
+	}
+	else
+	{
+		mRGB.SetRGB(105, 105, 105);
+	}
+	
     mBaseGameObjectFlags.Clear(BaseGameObject::eInteractive_Bit8);
     mBaseGameObjectFlags.Clear(BaseGameObject::eCanExplode_Bit7);
 
@@ -38,12 +47,22 @@ BaseAnimatedWithPhysicsGameObject::BaseAnimatedWithPhysicsGameObject()
     mBaseGameObjectFlags.Set(BaseGameObject::eIsBaseAnimatedWithPhysicsObj_Bit5);
 
     mSpriteScale = FP_FromInteger(1);
+
     mScale = Scale::Fg;
 	
     mXOffset = 0;
-    mYOffset = 5;
 	
-	mShadow = nullptr;
+	// TODO: factor this out, not yet known why AO needs an offset of 5
+	if (GetGameType() == GameType::eAe)
+	{
+    	mYOffset = 0;
+	}
+	else
+	{
+		mYOffset = 5;
+	}
+	
+    mShadow = nullptr;
 }
 
 BaseAnimatedWithPhysicsGameObject::~BaseAnimatedWithPhysicsGameObject()
@@ -65,9 +84,9 @@ void BaseAnimatedWithPhysicsGameObject::VRender(PrimHeader** ppOt)
     if (mAnim.mFlags.Get(AnimFlags::eBit3_Render))
     {
         // Only render if in the active level, path and camera
-        if (gMap.mCurrentPath == mCurrentPath 
-		&& gMap.mCurrentLevel == mCurrentLevel 
-		&& Is_In_Current_Camera() == CameraPos::eCamCurrent_0)
+        if (gMap.mCurrentPath == mCurrentPath
+            && gMap.mCurrentLevel == mCurrentLevel
+            && Is_In_Current_Camera() == CameraPos::eCamCurrent_0)
         {
             mAnim.field_14_scale = mSpriteScale;
 
@@ -121,20 +140,14 @@ void BaseAnimatedWithPhysicsGameObject::VRender(PrimHeader** ppOt)
     }
 }
 
-void BaseAnimatedWithPhysicsGameObject::Animation_Init(AnimId animId, u8** ppAnimData)
-{
-    const AnimRecord& rec = AO::AnimRec(animId);
-    Animation_Init(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppAnimData);
-}
-
 void BaseAnimatedWithPhysicsGameObject::Animation_Init(s32 frameTableOffset, u16 maxW, u16 maxH, u8** ppAnimData)
 {
     if (mAnim.Init(
-            frameTableOffset,
-            maxW,
-            maxH,
-            this,
-            ppAnimData))
+        frameTableOffset,
+        maxW,
+        maxH,
+        this,
+        ppAnimData))
     {
         if (mSpriteScale == FP_FromInteger(1))
         {
@@ -146,7 +159,7 @@ void BaseAnimatedWithPhysicsGameObject::Animation_Init(s32 frameTableOffset, u16
             mScale = Scale::Bg;
         }
 
-        const bool added =  gObjListDrawables->Push_Back(this) ? true : false;
+        const bool added = gObjListDrawables->Push_Back(this) ? true : false;
         if (added)
         {
             mAnim.mRenderMode = TPageAbr::eBlend_0;
@@ -155,8 +168,8 @@ void BaseAnimatedWithPhysicsGameObject::Animation_Init(s32 frameTableOffset, u16
         }
         else
         {
+            mBaseGameObjectFlags.Set(BaseGameObject::eDead);
             mBaseGameObjectFlags.Set(BaseGameObject::eListAddFailed_Bit1);
-            gBaseGameObjects->Remove_Item(this);
         }
     }
     else
@@ -164,6 +177,12 @@ void BaseAnimatedWithPhysicsGameObject::Animation_Init(s32 frameTableOffset, u16
         mBaseGameObjectFlags.Set(BaseGameObject::eListAddFailed_Bit1);
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
+}
+
+void BaseAnimatedWithPhysicsGameObject::Animation_Init(AnimId animId, u8** ppAnimData)
+{
+    const AnimRecord& rec = PerGameAnimRec(animId);
+    Animation_Init(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppAnimData);
 }
 
 CameraPos BaseAnimatedWithPhysicsGameObject::Is_In_Current_Camera()
@@ -225,10 +244,14 @@ void BaseAnimatedWithPhysicsGameObject::VOnCollisionWith(PSX_Point xy, PSX_Point
 s16 BaseAnimatedWithPhysicsGameObject::VIsObjNearby(FP radius, BaseAnimatedWithPhysicsGameObject* pOtherObj)
 {
     FP distance = FP_Abs(pOtherObj->mXPos - mXPos);
-    if (distance > FP_FromInteger(400))
-    {
-        distance += ScaleToGridSize(mSpriteScale) - FP_FromInteger(656);
-    }
+	// TODO: Factor out
+	if (GetGameType() == GameType::eAo)
+	{
+ 		if (distance > FP_FromInteger(400))
+    	{
+        	distance += ScaleToGridSize(mSpriteScale) - FP_FromInteger(656);
+    	}	
+	}
     return distance <= radius;
 }
 
@@ -300,7 +323,7 @@ s16 BaseAnimatedWithPhysicsGameObject::VOnSameYLevel(BaseAnimatedWithPhysicsGame
 
 void BaseAnimatedWithPhysicsGameObject::VStackOnObjectsOfType(ReliveTypes typeToFind)
 {
-    const s16 offsets[6] = {
+    static const s16 offsets[6] = {
         0, 3, -3, 6, -6, 2};
 
     s32 array_idx = 0;
@@ -383,7 +406,7 @@ void BaseAnimatedWithPhysicsGameObject::SetTint(const TintEntry* pTintArray, ERe
 {
     while (pTintArray->field_0_level != level_id)
     {
-        if (pTintArray->field_0_level == level_id || pTintArray->field_0_level == EReliveLevelIds::eNone) // End of entries
+        if (pTintArray->field_0_level == level_id || pTintArray->field_0_level == EReliveLevelIds::eNone)
         {
             break;
         }

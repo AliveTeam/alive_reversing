@@ -20,13 +20,14 @@ ShadowZone::ShadowZone(Path_ShadowZone* pTlv, Path* /*pPath*/, u32 tlvInfo)
     field_32_mid_y = (pTlv->mBottomRight.y - pTlv->mTopLeft.y) / 2;
 
     field_28_centre_x = field_30_mid_x + pTlv->mTopLeft.x;
+    field_2A_center_y = field_32_mid_y + pTlv->mTopLeft.y;
+
     field_2C_centre_mid_x = field_30_mid_x - 75;
     if (field_2C_centre_mid_x < 0)
     {
         field_2C_centre_mid_x = 0;
     }
 
-    field_2A_center_y = field_32_mid_y + pTlv->mTopLeft.y;
     field_2E_centre_mid_y = field_32_mid_y - 75;
     if (field_2E_centre_mid_y < 0)
     {

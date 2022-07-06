@@ -33,8 +33,8 @@ Particle::Particle(FP xpos, FP ypos, AnimId animId, u8** ppAnimData, bool explos
         mBaseGameObjectFlags.Set(Options::eDead);
     }
 
-    mYPos = ypos;
     mXPos = xpos;
+    mYPos = ypos;
     field_F4_scale_amount = FP_FromInteger(0);
 }
 
@@ -42,11 +42,12 @@ void Particle::VUpdate()
 {
     mXPos += mVelX;
     mYPos += mVelY;
+
     mSpriteScale += field_F4_scale_amount;
 
     if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
     {
-        mBaseGameObjectFlags.Set(Options::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 }
 
@@ -54,6 +55,7 @@ Particle* New_DestroyOrCreateObject_Particle(FP xpos, FP ypos, FP scale)
 {
     const AnimRecord& rec = AnimRec(AnimId::DeathFlare_2);
     u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, FALSE, FALSE);
+
     auto pParticle = relive_new Particle(xpos, ypos, AnimId::DeathFlare_2, ppRes);
 
     if (!pParticle)
@@ -62,7 +64,7 @@ Particle* New_DestroyOrCreateObject_Particle(FP xpos, FP ypos, FP scale)
     }
 
     pParticle->mAnim.mRenderMode = TPageAbr::eBlend_1;
-    pParticle->mSpriteScale = FP_FromRaw(scale.fpValue * 2);
+    pParticle->mSpriteScale = FP_FromInteger(2) * scale;
 
     if (scale == FP_FromInteger(1))
     {
@@ -76,51 +78,6 @@ Particle* New_DestroyOrCreateObject_Particle(FP xpos, FP ypos, FP scale)
     pParticle->mVisualFlags.Clear(BaseAnimatedWithPhysicsGameObject::VisualFlags::eApplyShadowZoneColour);
 
     return pParticle;
-}
-
-Particle* New_Orb_Particle(FP xpos, FP ypos, FP velX, FP velY, FP scale, Layer layer, u8 r, u8 b, u8 g)
-{
-    const AnimRecord& orbRec = AnimRec(AnimId::ChantOrb_Particle);
-    u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, orbRec.mResourceId, 0, 0);
-    auto pParticle = relive_new Particle(xpos, ypos, AnimId::ChantOrb_Particle, ppRes);
-    if (!pParticle)
-    {
-        return nullptr;
-    }
-
-    pParticle->mRGB.SetRGB(r, g, b);
-
-    pParticle->mVelY = velY;
-    pParticle->mVelX = velX;
-
-    pParticle->mVisualFlags.Clear(BaseAnimatedWithPhysicsGameObject::VisualFlags::eApplyShadowZoneColour);
-
-    pParticle->mAnim.mRenderMode = TPageAbr::eBlend_1;
-
-    if (layer != Layer::eLayer_0)
-    {
-        pParticle->mAnim.mRenderLayer = layer;
-    }
-    else
-    {
-        if (scale == FP_FromInteger(1))
-        {
-            pParticle->mAnim.mRenderLayer = Layer::eLayer_Foreground_36;
-        }
-        else
-        {
-            pParticle->mAnim.mRenderLayer = Layer::eLayer_Foreground_Half_17;
-        }
-    }
-
-    pParticle->mSpriteScale = scale;
-
-    return pParticle;
-}
-
-Particle* New_TintChant_Particle(FP xpos, FP ypos, FP scale, Layer layer)
-{
-    return New_Orb_Particle(xpos, ypos, FP_FromInteger(0), FP_FromInteger(0), scale, layer, 128u, 128u, 128u);
 }
 
 // Fart/dust cloud particle spawner
@@ -167,6 +124,49 @@ void New_Smoke_Particles(FP xpos, FP ypos, FP scale, s16 count, u8 r, u8 g, u8 b
     }
 }
 
+Particle* New_Orb_Particle(FP xpos, FP ypos, FP velX, FP velY, FP scale, Layer layer, u8 r, u8 b, u8 g)
+{
+    const AnimRecord& orbRec = AnimRec(AnimId::ChantOrb_Particle);
+    u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, orbRec.mResourceId, 0, 0);
+    auto pParticle = relive_new Particle(xpos, ypos, AnimId::ChantOrb_Particle, ppRes);
+    if (pParticle)
+    {
+        pParticle->mVisualFlags.Clear(BaseAnimatedWithPhysicsGameObject::VisualFlags::eApplyShadowZoneColour);
+        pParticle->mBaseAnimatedWithPhysicsGameObject_Anim.mRenderMode = TPageAbr::eBlend_1;
+
+        pParticle->mBaseAnimatedWithPhysicsGameObject_RGB.SetRGB(r, g, b);
+
+        pParticle->mBaseAnimatedWithPhysicsGameObject_VelY = velY;
+        pParticle->mBaseAnimatedWithPhysicsGameObject_VelX = velX;
+
+        if (layer != Layer::eLayer_0)
+        {
+            pParticle->mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = layer;
+        }
+        else if (scale == FP_FromInteger(1))
+        {
+            pParticle->mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_Foreground_36;
+        }
+        else
+        {
+            pParticle->mBaseAnimatedWithPhysicsGameObject_Anim.mRenderLayer = Layer::eLayer_Foreground_Half_17;
+        }
+
+        pParticle->mBaseAnimatedWithPhysicsGameObject_SpriteScale = scale;
+    }
+    return pParticle;
+}
+
+Particle* New_TintShiny_Particle(FP xpos, FP ypos, FP scale, Layer layer)
+{
+    return New_Orb_Particle(xpos, ypos, FP_FromInteger(0), FP_FromInteger(0), scale, layer, 100u, 100u, 100u);
+}
+
+Particle* New_TintChant_Particle(FP xpos, FP ypos, FP scale, Layer layer)
+{
+    return New_Orb_Particle(xpos, ypos, FP_FromInteger(0), FP_FromInteger(0), scale, layer, 128u, 128u, 128u);
+}
+
 void New_RandomizedChant_Particle(BaseAliveGameObject* pObj)
 {
     const FP ypos = pObj->mYPos - (pObj->mSpriteScale * FP_FromInteger(Math_RandomRange(30, 60)));
@@ -174,10 +174,7 @@ void New_RandomizedChant_Particle(BaseAliveGameObject* pObj)
     New_TintChant_Particle(xpos, ypos, pObj->mSpriteScale, Layer::eLayer_0);
 }
 
-Particle* New_TintShiny_Particle(FP xpos, FP ypos, FP scale, Layer layer)
-{
-    return New_Orb_Particle(xpos, ypos, FP_FromInteger(0), FP_FromInteger(0), scale, layer, 100u, 100u, 100u);
-}
+
 
 void New_ShootingZFire_Particle(FP xpos, FP ypos, FP scale)
 {

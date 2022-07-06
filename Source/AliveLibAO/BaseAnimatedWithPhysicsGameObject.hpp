@@ -35,11 +35,16 @@ FP ScaleToGridSize(FP scale);
 class BaseAnimatedWithPhysicsGameObject : public IBaseAnimatedWithPhysicsGameObject
 {
 public:
+BaseAnimatedWithPhysicsGameObject();
+    ~BaseAnimatedWithPhysicsGameObject();
+
     virtual void VRender(PrimHeader** ppOt) override;
+
+
     virtual void VOnCollisionWith(PSX_Point xy, PSX_Point wh, DynamicArrayT<BaseGameObject>* pObjList, s32 startingPointIdx, TCollisionCallBack pFn);
     virtual PSX_RECT VGetBoundingRect(s32 pointIdx = 1);
-    virtual s16 VIsObjNearby(FP radius, BaseAnimatedWithPhysicsGameObject* pOtherObj);
-    virtual s16 VIsObj_GettingNear_On_X(BaseAnimatedWithPhysicsGameObject* pOther);
+    virtual s16 VIsObjNearby(FP radius, BaseAnimatedWithPhysicsGameObject* pObj);
+    virtual s16 VIsObj_GettingNear_On_X(BaseAnimatedWithPhysicsGameObject* pObj);
     virtual s16 VIsFacingMe(BaseAnimatedWithPhysicsGameObject* pOther);
     virtual s16 VOnSameYLevel(BaseAnimatedWithPhysicsGameObject* pOther);
     virtual void VStackOnObjectsOfType(ReliveTypes typeToFind);
@@ -47,8 +52,6 @@ public:
     virtual void VOnThrowableHit(BaseGameObject* pFrom);
 
     void SetTint(const TintEntry* pTintArray, EReliveLevelIds levelId);
-
-    BaseAnimatedWithPhysicsGameObject();
 
     // Note inlined in AO everywhere
     CameraPos Is_In_Current_Camera();
@@ -59,8 +62,6 @@ public:
 protected:
     void DeathSmokeEffect(bool bPlaySound);
 
-    ~BaseAnimatedWithPhysicsGameObject();
-
     enum class BetweenCamPos : s16
     {
         None_0 = 0,
@@ -70,7 +71,12 @@ protected:
 
     BetweenCamPos BetweenCameras_418500();
 
+
+    Shadow* mShadow = nullptr;
+
+    Shadow* mShadow = nullptr;
+
+    Shadow* mShadow = nullptr;
 };
-ALIVE_ASSERT_SIZEOF(BaseAnimatedWithPhysicsGameObject, 0xD4);
 
 } // namespace AO
