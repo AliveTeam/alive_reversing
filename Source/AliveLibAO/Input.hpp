@@ -8,13 +8,13 @@ namespace AO {
 
 struct PSX_Pad final
 {
-    u16 field_0_pressed;
-    u8 field_2_dir;
+    u16 mPressed;
+    u8 mDir;
     s8 field_3;
-    s16 field_4_previously_pressed;
-    u16 field_6_held;
-    s16 field_8_released;
-    s8 field_A_prev_dir;
+    s16 mPreviousInput;
+    u16 mHeld;
+    s16 mReleased;
+    s8 mPreviousDir;
     s8 field_B;
 };
 ALIVE_ASSERT_SIZEOF(PSX_Pad, 0xC);
@@ -59,28 +59,28 @@ enum InputCommands : u32
     //e0x80000000 = 1u << 31,
 };
 
-extern const InputCommands sInputKey_Right_4C6590;
-extern const InputCommands sInputKey_Left_4C6594;
-extern const InputCommands sInputKey_Up_4C6598;
-extern const InputCommands sInputKey_Down_4C659C;
-extern const InputCommands sInputKey_Hop_4C65A0;
-extern const InputCommands sInputKey_DoAction_4C65A4;
-extern const InputCommands sInputKey_Run_4C65A8;
-extern const InputCommands sInputKey_Sneak_4C65AC;
-extern const InputCommands sInputKey_FartRoll_4C65B0;
-extern const InputCommands sInputKey_ThrowItem_4C65B4;
+extern const InputCommands sInputKey_Right;
+extern const InputCommands sInputKey_Left;
+extern const InputCommands sInputKey_Up;
+extern const InputCommands sInputKey_Down;
+extern const InputCommands sInputKey_Hop;
+extern const InputCommands sInputKey_DoAction;
+extern const InputCommands sInputKey_Run;
+extern const InputCommands sInputKey_Sneak;
+extern const InputCommands sInputKey_FartRoll;
+extern const InputCommands sInputKey_ThrowItem;
 
-extern const InputCommands sInputKey_LeftGameSpeakEnabler_4C65B8;
-extern const InputCommands sInputKey_GameSpeak1_4C65C8;
-extern const InputCommands sInputKey_GameSpeak2_4C65BC;
-extern const InputCommands sInputKey_GameSpeak3_4C65C0;
-extern const InputCommands sInputKey_GameSpeak4_4C65C4;
+extern const InputCommands sInputKey_LeftGameSpeakEnabler;
+extern const InputCommands sInputKey_GameSpeak1;
+extern const InputCommands sInputKey_GameSpeak2;
+extern const InputCommands sInputKey_GameSpeak3;
+extern const InputCommands sInputKey_GameSpeak4;
 
-extern const InputCommands sInputKey_RightGameSpeakEnabler_4C65DC;
-extern const InputCommands sInputKey_GameSpeak5_4C65EC;
-extern const InputCommands sInputKey_GameSpeak6_4C65E8;
-extern const InputCommands sInputKey_GameSpeak7_4C65E4;
-extern const InputCommands sInputKey_GameSpeak8_4C65E0;
+extern const InputCommands sInputKey_RightGameSpeakEnabler;
+extern const InputCommands sInputKey_GameSpeak5;
+extern const InputCommands sInputKey_GameSpeak6;
+extern const InputCommands sInputKey_GameSpeak7;
+extern const InputCommands sInputKey_GameSpeak8;
 
 const InputCommands sInputKey_Chant = static_cast<InputCommands>(eRightGameSpeak | eLeftGamespeak);
 
@@ -150,7 +150,7 @@ public:
 
     s32 IsDemoPlaying();
 
-    PSX_Pad field_0_pads[2] = {};
+    PSX_Pad mPads[2] = {};
     u32** field_18_demo_res = nullptr;
     s32 field_1C_demo_command_index = 0;
     s16 field_20_demo_playing = 0;

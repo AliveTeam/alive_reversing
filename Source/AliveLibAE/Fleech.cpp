@@ -207,7 +207,7 @@ s32 Fleech::CreateFromSaveState(const u8* pBuffer)
 {
     auto pState = reinterpret_cast<const Fleech_State*>(pBuffer);
 
-    auto pTlv = static_cast<Path_Fleech*>(sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam(pState->mTlvInfo));
+    auto pTlv = static_cast<Path_Fleech*>(sPathInfo->TLV_From_Offset_Lvl_Cam(pState->mTlvInfo));
     if (!ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kFleechResID, FALSE, FALSE))
     {
         ResourceManager::LoadResourceFile_49C170("FLEECH.BAN", nullptr);
@@ -835,7 +835,7 @@ void Fleech::Motion_11_RaiseHead()
         mVelY = FP_FromInteger(-1);
 
         const s16 yOff = mSpriteScale >= FP_FromInteger(1) ? 0 : -10;
-        auto pHoist = static_cast<Path_Hoist*>(sPath_dword_BB47C0->TLV_Get_At_4DB4B0(
+        auto pHoist = static_cast<Path_Hoist*>(sPathInfo->TLV_Get_At_4DB4B0(
             field_160_hoistX,
             FP_GetExponent(mYPos - FP_FromInteger((yOff + 20))),
             field_160_hoistX,
@@ -845,7 +845,7 @@ void Fleech::Motion_11_RaiseHead()
         if (pHoist->field_10_type == Path_Hoist::Type::eOffScreen)
         {
             const FP doubleYOff = FP_FromInteger(yOff + 20) * FP_FromInteger(2);
-            pHoist = static_cast<Path_Hoist*>(sPath_dword_BB47C0->TLV_Get_At_4DB4B0(
+            pHoist = static_cast<Path_Hoist*>(sPathInfo->TLV_Get_At_4DB4B0(
                 field_160_hoistX,
                 FP_GetExponent(FP_FromInteger(pHoist->mTopLeft.y) - doubleYOff),
                 field_160_hoistX,
@@ -1215,7 +1215,7 @@ void Fleech::VUpdate()
 
         if (oldX != mXPos || oldY != mYPos)
         {
-            BaseAliveGameObjectPathTLV = sPath_dword_BB47C0->TlvGetAt(
+            BaseAliveGameObjectPathTLV = sPathInfo->TlvGetAt(
                 nullptr,
                 mXPos,
                 mYPos,
@@ -1491,7 +1491,7 @@ void Fleech::VOnTlvCollision(Path_TLV* pTlv)
             mHealth = FP_FromInteger(0);
             mBaseGameObjectFlags.Set(BaseGameObject::eDead);
         }
-        pTlv = sPath_dword_BB47C0->TlvGetAt(pTlv, mXPos, mYPos, mXPos, mYPos);
+        pTlv = sPathInfo->TlvGetAt(pTlv, mXPos, mYPos, mXPos, mYPos);
     }
 }
 
@@ -2089,7 +2089,7 @@ s16 Fleech::HandleEnemyStopperOrSlamDoor(s32 velX)
         stopperXPos = mXPos;
     }
 
-    auto pStopper = static_cast<Path_EnemyStopper*>(sPath_dword_BB47C0->TLV_Get_At_4DB4B0(
+    auto pStopper = static_cast<Path_EnemyStopper*>(sPathInfo->TLV_Get_At_4DB4B0(
         FP_GetExponent(stopperXPos),
         FP_GetExponent(mYPos),
         FP_GetExponent(stopperXPos),
@@ -2112,7 +2112,7 @@ s16 Fleech::HandleEnemyStopperOrSlamDoor(s32 velX)
         slamDoorXPos = nextXPos;
     }
 
-    auto pSlamDoor = static_cast<Path_SlamDoor*>(sPath_dword_BB47C0->TLV_Get_At_4DB4B0(
+    auto pSlamDoor = static_cast<Path_SlamDoor*>(sPathInfo->TLV_Get_At_4DB4B0(
         FP_GetExponent(slamDoorXPos),
         FP_GetExponent(mYPos),
         FP_GetExponent(slamDoorXPos),
@@ -2539,7 +2539,7 @@ Path_Hoist* Fleech::TryGetHoist(s32 xDistance, s16 bIgnoreDirection)
         xCheck = (ScaleToGridSize(mSpriteScale) * FP_FromInteger(xDistance)) + xSnapped;
     }
 
-    auto pHoist = static_cast<Path_Hoist*>(sPath_dword_BB47C0->TLV_Get_At_4DB4B0(
+    auto pHoist = static_cast<Path_Hoist*>(sPathInfo->TLV_Get_At_4DB4B0(
         FP_GetExponent(std::min(xCheck, mXPos)),
         FP_GetExponent(y2),
         FP_GetExponent(std::max(xCheck, mXPos)),
@@ -3633,7 +3633,7 @@ s16 Fleech::Brain_ChasingAbe_State_1(BaseAliveGameObject* pObj)
                 slamDoorW = xOffset;
             }
 
-            Path_TLV* pSlamDoor = sPath_dword_BB47C0->TLV_Get_At_4DB4B0(
+            Path_TLV* pSlamDoor = sPathInfo->TLV_Get_At_4DB4B0(
                 FP_GetExponent(slamDoorX),
                 FP_GetExponent(mYPos),
                 FP_GetExponent(slamDoorW),

@@ -323,7 +323,7 @@ const AnimId sSlogAnimIdTable[24] = {
 s32 Slog::CreateFromSaveState(const u8* pBuffer)
 {
     auto pState = reinterpret_cast<const Slog_State*>(pBuffer);
-    auto pTlv = static_cast<Path_Slog*>(sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam(pState->field_40_tlvInfo));
+    auto pTlv = static_cast<Path_Slog*>(sPathInfo->TLV_From_Offset_Lvl_Cam(pState->field_40_tlvInfo));
     if (!ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kDogbasicResID, FALSE, FALSE))
     {
         ResourceManager::LoadResourceFile_49C170("SLOG.BND", nullptr);
@@ -2885,7 +2885,7 @@ void Slog::VUpdate()
 
         if (oldXPos != mXPos || oldYPos != mYPos)
         {
-            BaseAliveGameObjectPathTLV = sPath_dword_BB47C0->TlvGetAt(
+            BaseAliveGameObjectPathTLV = sPathInfo->TlvGetAt(
                 nullptr,
                 mXPos,
                 mYPos,
@@ -3281,7 +3281,7 @@ void Slog::VOnTlvCollision(Path_TLV* pTlv)
             mHealth = FP_FromInteger(0);
             mBaseGameObjectFlags.Set(BaseGameObject::eDead);
         }
-        pTlv = sPath_dword_BB47C0->TlvGetAt(pTlv, mXPos, mYPos, mXPos, mYPos);
+        pTlv = sPathInfo->TlvGetAt(pTlv, mXPos, mYPos, mXPos, mYPos);
     }
 }
 
@@ -3463,7 +3463,7 @@ s16 Slog::HandleEnemyStopper()
     }
 
     const auto stopperPath = static_cast<Path_EnemyStopper*>(
-        sPath_dword_BB47C0->TLV_Get_At_4DB4B0(
+        sPathInfo->TLV_Get_At_4DB4B0(
             FP_GetExponent(xToUse), FP_GetExponent(mYPos),
             FP_GetExponent(width), FP_GetExponent(mYPos), TlvTypes::EnemyStopper_47));
 

@@ -524,7 +524,7 @@ s32 UXB::CreateFromSaveState(const u8* __pSaveState)
 {
     const SaveState_UXB* pSaveState = reinterpret_cast<const SaveState_UXB*>(__pSaveState);
 
-    Path_UXB* uxbPath = reinterpret_cast<Path_UXB*>(sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam(pSaveState->field_4_tlv.all));
+    Path_UXB* uxbPath = reinterpret_cast<Path_UXB*>(sPathInfo->TLV_From_Offset_Lvl_Cam(pSaveState->field_4_tlv.all));
 
     if (!(uxbPath->field_18_disabled_resources & 1) && !ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kAbeblowResID, 0, 0))
     {

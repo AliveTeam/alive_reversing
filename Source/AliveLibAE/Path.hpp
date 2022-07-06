@@ -434,4 +434,4 @@ struct Path_AbeStart final : public Path_TLV
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_AbeStart, 0x14);
 
-ALIVE_VAR_EXTERN(Path*, sPath_dword_BB47C0);
+ALIVE_VAR_EXTERN(Path*, sPathInfo);

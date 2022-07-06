@@ -215,7 +215,7 @@ void Explosion::DealBlastDamage(PSX_RECT* pRect)
         }
     }
 
-    auto pTlv = static_cast<Path_Slig*>(sPath_dword_BB47C0->TLV_Get_At_4DB4B0(
+    auto pTlv = static_cast<Path_Slig*>(sPathInfo->TLV_Get_At_4DB4B0(
         expandedRect.x,
         expandedRect.y,
         expandedRect.w,

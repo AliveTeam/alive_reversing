@@ -111,7 +111,7 @@ Slurg::Slurg(Path_Slurg* pTlv, u32 tlvInfo)
 s32 Slurg::CreateFromSaveState(const u8* pData)
 {
     auto pState = reinterpret_cast<const Slurg_State*>(pData);
-    auto pTlv = static_cast<Path_Slurg*>(sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam(pState->mTlvInfo));
+    auto pTlv = static_cast<Path_Slurg*>(sPathInfo->TLV_From_Offset_Lvl_Cam(pState->mTlvInfo));
 
     if (!ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kSlurgResID, FALSE, FALSE))
     {
@@ -251,7 +251,7 @@ void Slurg::VUpdate()
 
     if (oldXPos != mXPos)
     {
-        mSlurgTlv = sPath_dword_BB47C0->TlvGetAt(
+        mSlurgTlv = sPathInfo->TlvGetAt(
             nullptr,
             mXPos,
             mYPos,
@@ -292,7 +292,7 @@ void Slurg::VOnTlvCollision(Path_TLV* pTlv)
                 GoRight();
             }
         }
-        pTlv = sPath_dword_BB47C0->TlvGetAt(pTlv, mXPos, mYPos, mXPos, mYPos);
+        pTlv = sPathInfo->TlvGetAt(pTlv, mXPos, mYPos, mXPos, mYPos);
     }
 
     if (mSlurgFlags.Get(SlurgFlags::eGoingRight))

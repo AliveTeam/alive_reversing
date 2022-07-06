@@ -7,7 +7,7 @@
 #include "AmbientSound.hpp"
 #include <assert.h>
 
-ALIVE_VAR(1, 0xbb47c0, Path*, sPath_dword_BB47C0, nullptr);
+ALIVE_VAR(1, 0xbb47c0, Path*, sPathInfo, nullptr);
 
 Path::Path()
 {
@@ -380,7 +380,7 @@ void Path::TLV_Reset(u32 tlvOffset_levelId_PathId, s16 hiFlags, s8 bSetCreated, 
 
 void Path::Start_Sounds_For_Objects_In_Camera(CameraPos direction, s16 cam_x_idx, s16 cam_y_idx)
 {
-    Path_TLV* pTlv = sPath_dword_BB47C0->Get_First_TLV_For_Offsetted_Camera(cam_x_idx, cam_y_idx);
+    Path_TLV* pTlv = sPathInfo->Get_First_TLV_For_Offsetted_Camera(cam_x_idx, cam_y_idx);
     while (pTlv)
     {
         if (!(pTlv->mTlvFlags.Get(TlvFlags::eBit1_Created) || (pTlv->mTlvFlags.Get(TlvFlags::eBit2_Destroyed))))

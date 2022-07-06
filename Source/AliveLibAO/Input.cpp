@@ -9,38 +9,38 @@
 
 namespace AO {
 
-ALIVE_VAR(1, 0x5009E8, InputObject, sInputObject_5009E8, {});
-ALIVE_VAR(1, 0x5076B8, u16, sCurrentControllerIndex_5076B8, 0);
-ALIVE_VAR(1, 0x508A60, s32, sJoystickEnabled_508A60, 0);
-ALIVE_VAR(1, 0x9F7710, u8, sInputEnabled_9F7710, 0);
-ALIVE_VAR(1, 0xA8A604, u32, sLastPressedKey_A8A604, 0);
+ALIVE_VAR(1, 0x5009E8, InputObject, sInputObject, {});
+ALIVE_VAR(1, 0x5076B8, u16, sCurrentControllerIndex, 0);
+ALIVE_VAR(1, 0x508A60, s32, sJoystickEnabled, 0);
+ALIVE_VAR(1, 0x9F7710, u8, sInputEnabled, 0);
+ALIVE_VAR(1, 0xA8A604, u32, sLastPressedKey, 0);
 
-const InputCommands sInputKey_Right_4C6590 = eRight;
-const InputCommands sInputKey_Left_4C6594 = eLeft;
-const InputCommands sInputKey_Up_4C6598 = eUp;
-const InputCommands sInputKey_Down_4C659C = eDown;
-const InputCommands sInputKey_Hop_4C65A0 = eHop;
-const InputCommands sInputKey_DoAction_4C65A4 = eDoAction;
-const InputCommands sInputKey_Run_4C65A8 = eRun;
-const InputCommands sInputKey_Sneak_4C65AC = eSneak;
-const InputCommands sInputKey_FartRoll_4C65B0 = eCrouchOrRoll;
-const InputCommands sInputKey_ThrowItem_4C65B4 = eThrowItem;
+const InputCommands sInputKey_Right = eRight;
+const InputCommands sInputKey_Left = eLeft;
+const InputCommands sInputKey_Up = eUp;
+const InputCommands sInputKey_Down = eDown;
+const InputCommands sInputKey_Hop = eHop;
+const InputCommands sInputKey_DoAction = eDoAction;
+const InputCommands sInputKey_Run = eRun;
+const InputCommands sInputKey_Sneak = eSneak;
+const InputCommands sInputKey_FartRoll = eCrouchOrRoll;
+const InputCommands sInputKey_ThrowItem = eThrowItem;
 
-const InputCommands sInputKey_LeftGameSpeakEnabler_4C65B8 = eLeftGamespeak;
-const InputCommands sInputKey_GameSpeak1_4C65C8 = eHop;
-const InputCommands sInputKey_GameSpeak2_4C65BC = eDoAction;
-const InputCommands sInputKey_GameSpeak3_4C65C0 = eThrowItem;
-const InputCommands sInputKey_GameSpeak4_4C65C4 = eCrouchOrRoll;
+const InputCommands sInputKey_LeftGameSpeakEnabler = eLeftGamespeak;
+const InputCommands sInputKey_GameSpeak1 = eHop;
+const InputCommands sInputKey_GameSpeak2 = eDoAction;
+const InputCommands sInputKey_GameSpeak3 = eThrowItem;
+const InputCommands sInputKey_GameSpeak4 = eCrouchOrRoll;
 
-const InputCommands sInputKey_RightGameSpeakEnabler_4C65DC = eRightGameSpeak;
-const InputCommands sInputKey_GameSpeak5_4C65EC = eCrouchOrRoll;
-const InputCommands sInputKey_GameSpeak6_4C65E8 = eHop;
-const InputCommands sInputKey_GameSpeak7_4C65E4 = eThrowItem;
-const InputCommands sInputKey_GameSpeak8_4C65E0 = eDoAction;
+const InputCommands sInputKey_RightGameSpeakEnabler = eRightGameSpeak;
+const InputCommands sInputKey_GameSpeak5 = eCrouchOrRoll;
+const InputCommands sInputKey_GameSpeak6 = eHop;
+const InputCommands sInputKey_GameSpeak7 = eThrowItem;
+const InputCommands sInputKey_GameSpeak8 = eDoAction;
 
 void InputObject::InitPad(u32 /*padCount*/)
 {
-    for (PSX_Pad& pad : field_0_pads)
+    for (PSX_Pad& pad : mPads)
     {
         pad = {};
     }
@@ -281,29 +281,29 @@ void InputObject::Update(BaseGameAutoPlayer& gameAutoPlayer)
 
     for (s32 i = 0; i < 2; i++)
     {
-        field_0_pads[i].field_A_prev_dir = field_0_pads[i].field_2_dir;
-        field_0_pads[i].field_B = field_0_pads[i].field_3;
-        field_0_pads[i].field_4_previously_pressed = field_0_pads[i].field_0_pressed;
+        mPads[i].mPreviousDir = mPads[i].mDir;
+        mPads[i].field_B = mPads[i].field_3;
+        mPads[i].mPreviousInput = mPads[i].mPressed;
     }
 
     // Do AE input reading
     ::Input().Update(gameAutoPlayer);
 
     // Convert from AE bit flags to AO bit flags
-    field_0_pads[0].field_0_pressed = static_cast<u16>(AEInputCommandsToAOInputCommands(MakeAEInputBits(::Input().field_0_pads[0].field_0_pressed)).Raw().all);
+    mPads[0].mPressed = static_cast<u16>(AEInputCommandsToAOInputCommands(MakeAEInputBits(::Input().mPads[0].mPressed)).Raw().all);
 
     // TODO: This one probably needs its own conversion
-    field_0_pads[0].field_2_dir = ::Input().field_0_pads[0].field_4_dir;
+    mPads[0].mDir = ::Input().mPads[0].mDir;
 
-    field_0_pads[0].field_4_previously_pressed = static_cast<u16>(AEInputCommandsToAOInputCommands(MakeAEInputBits(::Input().field_0_pads[0].field_8_previous)).Raw().all);
-    field_0_pads[0].field_6_held = static_cast<u16>(AEInputCommandsToAOInputCommands(MakeAEInputBits(::Input().field_0_pads[0].field_C_held)).Raw().all);
-    field_0_pads[0].field_8_released = static_cast<u16>(AEInputCommandsToAOInputCommands(MakeAEInputBits(::Input().field_0_pads[0].field_10_released)).Raw().all);
+    mPads[0].mPreviousInput = static_cast<u16>(AEInputCommandsToAOInputCommands(MakeAEInputBits(::Input().mPads[0].mPreviousInput)).Raw().all);
+    mPads[0].mHeld = static_cast<u16>(AEInputCommandsToAOInputCommands(MakeAEInputBits(::Input().mPads[0].mHeld)).Raw().all);
+    mPads[0].mReleased = static_cast<u16>(AEInputCommandsToAOInputCommands(MakeAEInputBits(::Input().mPads[0].mReleased)).Raw().all);
 
     // Handle demo input (AO impl)
     if (field_20_demo_playing & 1)
     {
         // Stop if any button on any pad is pressed
-        if (field_0_pads[sCurrentControllerIndex_5076B8].field_0_pressed)
+        if (mPads[sCurrentControllerIndex].mPressed)
         {
             field_20_demo_playing &= ~1u;
             return;
@@ -325,15 +325,15 @@ void InputObject::Update(BaseGameAutoPlayer& gameAutoPlayer)
         // Will do nothing if we hit the end command..
         if (field_20_demo_playing & 1)
         {
-            field_0_pads[0].field_0_pressed = static_cast<u16>(field_24_command);
+            mPads[0].mPressed = static_cast<u16>(field_24_command);
         }
 
         for (s32 i = 0; i < 2; i++)
         {
-            field_0_pads[i].field_8_released = ~field_0_pads[i].field_0_pressed & field_0_pads[i].field_4_previously_pressed;
-            field_0_pads[i].field_6_held = ~field_0_pads[i].field_4_previously_pressed & field_0_pads[i].field_0_pressed;
-            field_0_pads[i].field_2_dir = byte_4BB428[(field_0_pads[i].field_0_pressed >> 12) & 0xF];
-            field_0_pads[i].field_3 = byte_4BB428[(field_0_pads[i].field_0_pressed >> 4) & 0xF];
+            mPads[i].mReleased = ~mPads[i].mPressed & mPads[i].mPreviousInput;
+            mPads[i].mHeld = ~mPads[i].mPreviousInput & mPads[i].mPressed;
+            mPads[i].mDir = byte_4BB428[(mPads[i].mPressed >> 12) & 0xF];
+            mPads[i].field_3 = byte_4BB428[(mPads[i].mPressed >> 4) & 0xF];
         }
 
         return;
@@ -342,33 +342,33 @@ void InputObject::Update(BaseGameAutoPlayer& gameAutoPlayer)
     // Original AO impl
     //for (s32 i = 0; i < 2; i++)
     //{
-    //    field_0_pads[i].field_A_prev_dir = field_0_pads[i].field_2_dir;
-    //    field_0_pads[i].field_B = field_0_pads[i].field_3;
-    //    field_0_pads[i].field_4_previously_pressed = field_0_pads[i].field_0_pressed;
+    //    mPads[i].mPreviousDir = mPads[i].mDir;
+    //    mPads[i].field_B = mPads[i].field_3;
+    //    mPads[i].mPreviousInput = mPads[i].mPressed;
     //}
 
     //if (sPad1Buffer_507778[0])
     //{
-    //    field_0_pads[0].field_0_pressed = 0;
+    //    mPads[0].mPressed = 0;
     //}
     //else
     //{
-    //    field_0_pads[0].field_0_pressed = ~(sPad1Buffer_507778[3] + (sPad1Buffer_507778[2] << 8));
+    //    mPads[0].mPressed = ~(sPad1Buffer_507778[3] + (sPad1Buffer_507778[2] << 8));
     //}
 
     //if (sPad2Buffer_507738[0])
     //{
-    //    field_0_pads[1].field_0_pressed = 0;
+    //    mPads[1].mPressed = 0;
     //}
     //else
     //{
-    //    field_0_pads[1].field_0_pressed = ~(sPad2Buffer_507738[3] + (sPad2Buffer_507738[2] << 8));
+    //    mPads[1].mPressed = ~(sPad2Buffer_507738[3] + (sPad2Buffer_507738[2] << 8));
     //}
 
     //if (field_20_demo_playing & 1)
     //{
     //    // Stop if any button on any pad is pressed
-    //    if (field_0_pads[sCurrentControllerIndex_5076B8].field_0_pressed)
+    //    if (mPads[sCurrentControllerIndex].mPressed)
     //    {
     //        field_20_demo_playing &= ~1u;
     //        return;
@@ -390,16 +390,16 @@ void InputObject::Update(BaseGameAutoPlayer& gameAutoPlayer)
     //    // Will do nothing if we hit the end command..
     //    if (field_20_demo_playing & 1)
     //    {
-    //        field_0_pads[0].field_0_pressed = static_cast<u16>(field_24_command);
+    //        mPads[0].mPressed = static_cast<u16>(field_24_command);
     //    }
     //}
 
     //for (s32 i = 0; i < 2; i++)
     //{
-    //    field_0_pads[i].field_8_released = ~field_0_pads[i].field_0_pressed & field_0_pads[i].field_4_previously_pressed;
-    //    field_0_pads[i].field_6_held = ~field_0_pads[i].field_4_previously_pressed & field_0_pads[i].field_0_pressed;
-    //    field_0_pads[i].field_2_dir = byte_4BB428[(field_0_pads[i].field_0_pressed >> 12) & 0xF];
-    //    field_0_pads[i].field_3 = byte_4BB428[(field_0_pads[i].field_0_pressed >> 4) & 0xF];
+    //    mPads[i].mReleased = ~mPads[i].mPressed & mPads[i].mPreviousInput;
+    //    mPads[i].mHeld = ~mPads[i].mPreviousInput & mPads[i].mPressed;
+    //    mPads[i].mDir = byte_4BB428[(mPads[i].mPressed >> 12) & 0xF];
+    //    mPads[i].field_3 = byte_4BB428[(mPads[i].mPressed >> 4) & 0xF];
     //}
 }
 
@@ -426,7 +426,7 @@ static s32 PadIndexToInt(InputObject::PadIndex idx)
     switch (idx)
     {
         case InputObject::PadIndex::Active:
-            return sCurrentControllerIndex_5076B8;
+            return sCurrentControllerIndex;
 
         case InputObject::PadIndex::Second:
             return 1;
@@ -439,7 +439,7 @@ static s32 PadIndexToInt(InputObject::PadIndex idx)
 
 InputObject::PadIndex InputObject::CurrentController() const
 {
-    if (sCurrentControllerIndex_5076B8 == 0)
+    if (sCurrentControllerIndex == 0)
     {
         return PadIndex::First;
     }
@@ -449,7 +449,7 @@ InputObject::PadIndex InputObject::CurrentController() const
 
 void InputObject::SetCurrentController(PadIndex padIdx)
 {
-    sCurrentControllerIndex_5076B8 = padIdx == InputObject::PadIndex::First ? 0 : 1;
+    sCurrentControllerIndex = padIdx == InputObject::PadIndex::First ? 0 : 1;
 }
 
 
@@ -465,7 +465,7 @@ bool InputObject::IsAnyPressed(u32 command) const
 
 bool InputObject::IsAnyPressed(PadIndex padIx, u32 command) const
 {
-    return (field_0_pads[PadIndexToInt(padIx)].field_0_pressed & command) != 0;
+    return (mPads[PadIndexToInt(padIx)].mPressed & command) != 0;
 }
 
 bool InputObject::IsAnyHeld(u32 command) const
@@ -475,7 +475,7 @@ bool InputObject::IsAnyHeld(u32 command) const
 
 bool InputObject::IsAnyHeld(PadIndex padIx, u32 command) const
 {
-    return (field_0_pads[PadIndexToInt(padIx)].field_6_held & command) != 0;
+    return (mPads[PadIndexToInt(padIx)].mHeld & command) != 0;
 }
 
 bool InputObject::IsAnyReleased(u32 command) const
@@ -485,12 +485,12 @@ bool InputObject::IsAnyReleased(u32 command) const
 
 bool InputObject::IsAnyReleased(PadIndex padIx, u32 command) const
 {
-    return (field_0_pads[PadIndexToInt(padIx)].field_8_released & command) != 0;
+    return (mPads[PadIndexToInt(padIx)].mReleased & command) != 0;
 }
 
 u8 InputObject::Dir() const
 {
-    return sInputObject_5009E8.field_0_pads[sCurrentControllerIndex_5076B8].field_2_dir >> 5;
+    return Input().mPads[sCurrentControllerIndex].mDir >> 5;
 }
 
 
@@ -501,13 +501,13 @@ bool InputObject::IsAllPressed(u32 commands) const
 
 bool InputObject::IsAllPressed(PadIndex padIx, u32 commands) const
 {
-    return (field_0_pads[PadIndexToInt(padIx)].field_0_pressed & commands) == commands;
+    return (mPads[PadIndexToInt(padIx)].mPressed & commands) == commands;
 }
 
 
 bool InputObject::IsAllHeld(u32 commands) const
 {
-    return (field_0_pads[sCurrentControllerIndex_5076B8].field_6_held & commands) == commands;
+    return (mPads[sCurrentControllerIndex].mHeld & commands) == commands;
 }
 
 u16 InputObject::Pressed() const
@@ -517,7 +517,7 @@ u16 InputObject::Pressed() const
 
 u16 InputObject::Pressed(PadIndex padIx) const
 {
-    return field_0_pads[PadIndexToInt(padIx)].field_0_pressed;
+    return mPads[PadIndexToInt(padIx)].mPressed;
 }
 
 u16 InputObject::Held() const
@@ -527,7 +527,7 @@ u16 InputObject::Held() const
 
 u16 InputObject::Held(PadIndex padIx) const
 {
-    return sInputObject_5009E8.field_0_pads[PadIndexToInt(padIx)].field_6_held;
+    return Input().mPads[PadIndexToInt(padIx)].mHeld;
 }
 
 u32 InputObject::Input_Read_Pad(u32 padIdx)
@@ -537,7 +537,7 @@ u32 InputObject::Input_Read_Pad(u32 padIdx)
 
 u16 InputObject::Released() const
 {
-    return sInputObject_5009E8.field_0_pads[sCurrentControllerIndex_5076B8].field_8_released;
+    return Input().mPads[sCurrentControllerIndex].mReleased;
 }
 
 bool Input_IsChanting()
@@ -615,9 +615,9 @@ s8 Input_GetLastPressedKey()
     //    return 0;
     //}
 
-    //const s8 result = static_cast<s8>(sLastPressedKey_A8A604);
+    //const s8 result = static_cast<s8>(sLastPressedKey);
     //sIsAKeyDown_A8A600 = 0;
-    //sLastPressedKey_A8A604 = 0;
+    //sLastPressedKey = 0;
     //return result;
 }
 
@@ -628,7 +628,7 @@ s32 Input_Enable_48E6A0()
     return 0;
 
     // AO impl
-    //sInputEnabled_9F7710 = 1;
+    //sInputEnabled = 1;
     //return 0;
 }
 
@@ -646,7 +646,7 @@ bool Input_JoyStickEnabled()
     return ::Input_JoyStickEnabled();
 
     // Use AO var
-    //return sJoystickEnabled_508A60 ? true : false;
+    //return sJoystickEnabled ? true : false;
 }
 
 bool Input_JoyStickAvailable()
@@ -660,7 +660,7 @@ void Input_SetJoyStickEnabled(bool enabled)
     return ::Input_SetJoyStickEnabled(enabled);
 
     // Use AO var
-    //sJoystickEnabled_508A60 = enabled;
+    //sJoystickEnabled = enabled;
 }
 
 ALIVE_VAR(1, 0x508A64, u32, dword_508A64, 0);
@@ -721,7 +721,7 @@ s32 Input_SaveSettingsIni()
 
 InputObject& Input()
 {
-    return sInputObject_5009E8;
+    return sInputObject;
 }
 
 } // namespace AO

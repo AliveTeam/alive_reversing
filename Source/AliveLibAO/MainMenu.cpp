@@ -2646,7 +2646,7 @@ void Menu::GameSpeak_Update_47CBD0()
         return;
     }
 
-    if (Input().IsAnyPressed(InputObject::PadIndex::First, sInputKey_LeftGameSpeakEnabler_4C65B8))
+    if (Input().IsAnyPressed(InputObject::PadIndex::First, sInputKey_LeftGameSpeakEnabler))
     {
         if (field_1F0_pObj2)
         {
@@ -2662,7 +2662,7 @@ void Menu::GameSpeak_Update_47CBD0()
             field_1F0_pObj2 = relive_new MainMenuFade(stru_4D00E0[10].field_0_xpos, stru_4D00E0[10].field_2_ypos + 36, buttonType::eCircle_0, 0);
         }
 
-        if (Input().IsAnyHeld(InputObject::PadIndex::First, sInputKey_GameSpeak2_4C65BC))
+        if (Input().IsAnyHeld(InputObject::PadIndex::First, sInputKey_GameSpeak2))
         {
             Mudokon_SFX(MudSounds::eFollowMe_4, 0, 0, 0);
             field_204_flags |= 1u;
@@ -2670,7 +2670,7 @@ void Menu::GameSpeak_Update_47CBD0()
             field_1E0_selected_index.gamespeak_menu = GameSpeakOptions::eFollowMe_2;
             relive_new MainMenuFade(stru_4D00E0[2].field_0_xpos, stru_4D00E0[2].field_2_ypos + 36, buttonType::eCircle_0, 1);
         }
-        else if (Input().IsAnyHeld(InputObject::PadIndex::First, sInputKey_GameSpeak4_4C65C4))
+        else if (Input().IsAnyHeld(InputObject::PadIndex::First, sInputKey_GameSpeak4))
         {
             Mudokon_SFX(MudSounds::eWait_6, 0, 0, 0);
             field_204_flags |= 1u;
@@ -2678,7 +2678,7 @@ void Menu::GameSpeak_Update_47CBD0()
             field_1E0_selected_index.gamespeak_menu = GameSpeakOptions::eWait_0;
             relive_new MainMenuFade(stru_4D00E0[0].field_0_xpos, stru_4D00E0[0].field_2_ypos + 36, buttonType::eCircle_0, 1);
         }
-        else if (Input().IsAnyHeld(InputObject::PadIndex::First, sInputKey_GameSpeak1_4C65C8))
+        else if (Input().IsAnyHeld(InputObject::PadIndex::First, sInputKey_GameSpeak1))
         {
             Mudokon_SFX(MudSounds::eHello_3, 0, 0, 0);
             field_204_flags |= 1u;
@@ -2686,7 +2686,7 @@ void Menu::GameSpeak_Update_47CBD0()
             field_1E0_selected_index.gamespeak_menu = GameSpeakOptions::eHello_1;
             relive_new MainMenuFade(stru_4D00E0[1].field_0_xpos, stru_4D00E0[1].field_2_ypos + 36, buttonType::eCircle_0, 1);
         }
-        else if (Input().IsAnyPressed(InputObject::PadIndex::First, sInputKey_GameSpeak3_4C65C0))
+        else if (Input().IsAnyPressed(InputObject::PadIndex::First, sInputKey_GameSpeak3))
         {
             Mudokon_SFX(MudSounds::eAngry_5, 0, 0, 0);
             field_204_flags |= 1u;
@@ -2698,7 +2698,7 @@ void Menu::GameSpeak_Update_47CBD0()
         return;
     }
 
-    if (Input().IsAnyPressed(InputObject::PadIndex::First, sInputKey_RightGameSpeakEnabler_4C65DC))
+    if (Input().IsAnyPressed(InputObject::PadIndex::First, sInputKey_RightGameSpeakEnabler))
     {
         if (field_1F0_pObj2)
         {
@@ -2714,7 +2714,7 @@ void Menu::GameSpeak_Update_47CBD0()
             field_1F0_pObj2 = relive_new MainMenuFade(stru_4D00E0[12].field_0_xpos, stru_4D00E0[12].field_2_ypos + 36, buttonType::eCircle_0, 0);
         }
 
-        if (Input().IsAnyHeld(InputObject::PadIndex::First, sInputKey_GameSpeak6_4C65E8))
+        if (Input().IsAnyHeld(InputObject::PadIndex::First, sInputKey_GameSpeak6))
         {
             Mudokon_SFX(MudSounds::eWhistleHigh_1, 0, 0, 0);
             field_204_flags |= 1u;
@@ -2722,7 +2722,7 @@ void Menu::GameSpeak_Update_47CBD0()
             field_1E0_selected_index.gamespeak_menu = GameSpeakOptions::eWhistleHigh_4;
             relive_new MainMenuFade(stru_4D00E0[4].field_0_xpos, stru_4D00E0[4].field_2_ypos + 36, buttonType::eCircle_0, 1);
         }
-        else if (Input().IsAnyHeld(InputObject::PadIndex::First, sInputKey_GameSpeak5_4C65EC))
+        else if (Input().IsAnyHeld(InputObject::PadIndex::First, sInputKey_GameSpeak5))
         {
             Mudokon_SFX(MudSounds::eWhistleLow_2, 0, 0, 0);
             field_204_flags |= 1u;
@@ -2730,7 +2730,7 @@ void Menu::GameSpeak_Update_47CBD0()
             field_1E0_selected_index.gamespeak_menu = GameSpeakOptions::eWhistleLow_5;
             relive_new MainMenuFade(stru_4D00E0[5].field_0_xpos, stru_4D00E0[5].field_2_ypos + 36, buttonType::eCircle_0, 1);
         }
-        else if (Input().IsAnyHeld(InputObject::PadIndex::First, sInputKey_GameSpeak8_4C65E0))
+        else if (Input().IsAnyHeld(InputObject::PadIndex::First, sInputKey_GameSpeak8))
         {
             Mudokon_SFX(MudSounds::eLaugh2_11, 0, 0, 0);
             field_204_flags |= 1u;
@@ -2738,7 +2738,7 @@ void Menu::GameSpeak_Update_47CBD0()
             field_1E0_selected_index.gamespeak_menu = GameSpeakOptions::eLaugh_6;
             relive_new MainMenuFade(stru_4D00E0[6].field_0_xpos, stru_4D00E0[6].field_2_ypos + 36, buttonType::eCircle_0, 1);
         }
-        else if (Input().IsAnyHeld(InputObject::PadIndex::First, sInputKey_GameSpeak7_4C65E4))
+        else if (Input().IsAnyHeld(InputObject::PadIndex::First, sInputKey_GameSpeak7))
         {
             Mudokon_SFX(MudSounds::eFart_7, 0, 0, 0);
             field_204_flags |= 1u;

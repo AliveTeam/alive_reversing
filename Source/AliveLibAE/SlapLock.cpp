@@ -101,7 +101,7 @@ s32 SlapLock::CreateFromSaveState(const u8* pBuffer)
 {
     auto pState = reinterpret_cast<const SlapLock_State*>(pBuffer);
 
-    auto pTlv = static_cast<Path_SlapLock*>(sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam(pState->field_4_tlvInfo));
+    auto pTlv = static_cast<Path_SlapLock*>(sPathInfo->TLV_From_Offset_Lvl_Cam(pState->field_4_tlvInfo));
 
     if (!ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kGhostTrpResID_1053, FALSE, FALSE))
     {
@@ -137,7 +137,7 @@ void SlapLock::VScreenChanged()
 
 void SlapLock::GiveInvisibility()
 {
-    field_118_pTlv = static_cast<Path_SlapLock*>(sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam(field_11C_tlvInfo));
+    field_118_pTlv = static_cast<Path_SlapLock*>(sPathInfo->TLV_From_Offset_Lvl_Cam(field_11C_tlvInfo));
     if (sActiveHero)
     {
         sActiveHero->field_176_invisibility_duration = field_118_pTlv->field_1C_invisibility_duration;
@@ -154,7 +154,7 @@ s32 SlapLock::VGetSaveState(u8* pSaveBuffer)
     pState->field_0_type = AETypes::eLockedSoul_61;
     pState->field_2_render = mAnim.mFlags.Get(AnimFlags::eBit3_Render) & 1;
     pState->field_4_tlvInfo = field_11C_tlvInfo;
-    pState->field_8_tlv_state = sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam(field_11C_tlvInfo)->mTlvState;
+    pState->field_8_tlv_state = sPathInfo->TLV_From_Offset_Lvl_Cam(field_11C_tlvInfo)->mTlvState;
     pState->field_A_state = field_120_state;
     pState->field_C_timer1 = field_124_timer1;
     pState->field_14_timer2 = field_13C_timer2;
@@ -175,7 +175,7 @@ s32 SlapLock::VGetSaveState(u8* pSaveBuffer)
 
 void SlapLock::VUpdate()
 {
-    field_118_pTlv = static_cast<Path_SlapLock*>(sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam(field_11C_tlvInfo));
+    field_118_pTlv = static_cast<Path_SlapLock*>(sPathInfo->TLV_From_Offset_Lvl_Cam(field_11C_tlvInfo));
 
     if (EventGet(kEventDeathReset))
     {
@@ -422,7 +422,7 @@ void SlapLock::SetInvisibilityTarget()
 
 s16 SlapLock::VTakeDamage(BaseGameObject* pFrom)
 {
-    field_118_pTlv = static_cast<Path_SlapLock*>(sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam(field_11C_tlvInfo));
+    field_118_pTlv = static_cast<Path_SlapLock*>(sPathInfo->TLV_From_Offset_Lvl_Cam(field_11C_tlvInfo));
 
     if (pFrom->Type() != ReliveTypes::eAbe)
     {

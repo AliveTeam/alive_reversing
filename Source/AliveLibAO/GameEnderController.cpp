@@ -184,7 +184,7 @@ void GameEnderController::VUpdate()
             break;
 
         case GameEnderController_States::eBadEnding_3:
-            if (Input().IsAnyHeld(sInputKey_FartRoll_4C65B0))
+            if (Input().IsAnyHeld(sInputKey_FartRoll))
             {
                 gMap.SetActiveCam(EReliveLevelIds::eRuptureFarmsReturn, 19, 3, CameraSwapEffects::eInstantChange_0, 0, 0);
                 field_14_state = GameEnderController_States::eFinish_2;
@@ -192,7 +192,7 @@ void GameEnderController::VUpdate()
             break;
 
         case GameEnderController_States::ePerfectEnding_4:
-            if (Input().IsAnyHeld(sInputKey_FartRoll_4C65B0))
+            if (Input().IsAnyHeld(sInputKey_FartRoll))
             {
                 gMap.SetActiveCam(EReliveLevelIds::eMenu, 1, CameraIds::Menu::eFmvSelect_30, CameraSwapEffects::eInstantChange_0, 0, 0);
                 gMap.field_DC_free_all_anim_and_palts = 1;

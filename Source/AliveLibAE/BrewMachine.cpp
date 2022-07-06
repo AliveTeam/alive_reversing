@@ -90,7 +90,7 @@ BrewMachine::~BrewMachine()
 
 void BrewMachine::VUpdate()
 {
-    Path_BrewMachine* pTlv = static_cast<Path_BrewMachine*>(sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam(field_140_tlvInfo));
+    Path_BrewMachine* pTlv = static_cast<Path_BrewMachine*>(sPathInfo->TLV_From_Offset_Lvl_Cam(field_140_tlvInfo));
     if (field_144_total_brew_count > 0)
     {
         pTlv->mTlvState = static_cast<u8>(field_144_total_brew_count);

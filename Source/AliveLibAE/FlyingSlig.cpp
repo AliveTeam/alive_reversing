@@ -268,7 +268,7 @@ s32 FlyingSlig::CreateFromSaveState(const u8* pBuffer)
 {
     auto pSaveState = reinterpret_cast<const FlyingSlig_State*>(pBuffer);
 
-    auto pTlv = static_cast<Path_FlyingSlig*>(sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam(pSaveState->field_3C_tlvInfo));
+    auto pTlv = static_cast<Path_FlyingSlig*>(sPathInfo->TLV_From_Offset_Lvl_Cam(pSaveState->field_3C_tlvInfo));
     if (!ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kFlySligResID, FALSE, FALSE))
     {
         ResourceManager::LoadResourceFile_49C170("FLYSLIG.BND", nullptr);
@@ -562,7 +562,7 @@ FlyingSlig::~FlyingSlig()
         }
     }
 
-    Path_TLV* pTlv = sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam(field_148_tlvInfo);
+    Path_TLV* pTlv = sPathInfo->TLV_From_Offset_Lvl_Cam(field_148_tlvInfo);
     if (pTlv)
     {
         if (pTlv->mTlvType32.mType != TlvTypes::SligGetWings_105 && pTlv->mTlvType32.mType != TlvTypes::FlyingSligSpawner_92)
@@ -935,7 +935,7 @@ s16 FlyingSlig::VTakeDamage(BaseGameObject* pFrom)
                 Path_TLV* pTlv = nullptr;
                 do
                 {
-                    pTlv = sPath_dword_BB47C0->TlvGetAt(pTlv,
+                    pTlv = sPathInfo->TlvGetAt(pTlv,
                                                                  mXPos,
                                                                  FP_FromInteger(bRect.y),
                                                                  mXPos,
@@ -2446,12 +2446,12 @@ void FlyingSlig::HandlePlayerControls_439340()
     field_184_xSpeed = FP_FromInteger(0);
     field_188_ySpeed = FP_FromInteger(0);
 
-    if (sInputObject_5BD4E0.isHeld(InputCommands::Enum::eThrowItem))
+    if (Input().isHeld(InputCommands::Enum::eThrowItem))
     {
         field_17E_flags.Set(Flags_17E::eBit5_Throw);
     }
 
-    if (sInputObject_5BD4E0.isHeld(InputCommands::Enum::eDoAction))
+    if (Input().isHeld(InputCommands::Enum::eDoAction))
     {
         field_17E_flags.Set(Flags_17E::eBit7_DoAction);
     }
@@ -2463,35 +2463,35 @@ void FlyingSlig::HandlePlayerControls_439340()
 
         field_160_voice_pitch_min = 0;
 
-        if (sInputObject_5BD4E0.isHeld(sInputKey_GameSpeak1_555104))
+        if (Input().isHeld(sInputKey_GameSpeak1))
         {
             field_17D_next_speak = SligSpeak::eHi_0;
         }
-        else if (sInputObject_5BD4E0.isHeld(sInputKey_GameSpeak3_555100))
+        else if (Input().isHeld(sInputKey_GameSpeak3))
         {
-            field_17D_next_speak = sInputObject_5BD4E0.Is_Demo_Playing_45F220() != 0 ? SligSpeak::eGetHim_2 : SligSpeak::eFreeze_8;
+            field_17D_next_speak = Input().Is_Demo_Playing_45F220() != 0 ? SligSpeak::eGetHim_2 : SligSpeak::eFreeze_8;
         }
-        else if (sInputObject_5BD4E0.isHeld(sInputKey_GameSpeak4_5550FC))
+        else if (Input().isHeld(sInputKey_GameSpeak4))
         {
-            field_17D_next_speak = sInputObject_5BD4E0.Is_Demo_Playing_45F220() != 0 ? SligSpeak::eFreeze_8 : SligSpeak::eGetHim_2;
+            field_17D_next_speak = Input().Is_Demo_Playing_45F220() != 0 ? SligSpeak::eFreeze_8 : SligSpeak::eGetHim_2;
         }
-        else if (sInputObject_5BD4E0.isHeld(sInputKey_GameSpeak2_5550F8))
+        else if (Input().isHeld(sInputKey_GameSpeak2))
         {
             field_17D_next_speak = SligSpeak::eHereBoy_1;
         }
-        else if (sInputObject_5BD4E0.isHeld(sInputKey_GameSpeak6_555108))
+        else if (Input().isHeld(sInputKey_GameSpeak6))
         {
             field_17D_next_speak = SligSpeak::eBullshit_5;
         }
-        else if (sInputObject_5BD4E0.isHeld(sInputKey_GameSpeak7_555114))
+        else if (Input().isHeld(sInputKey_GameSpeak7))
         {
             field_17D_next_speak = SligSpeak::eLookOut_6;
         }
-        else if (sInputObject_5BD4E0.isHeld(sInputKey_GameSpeak5_55510C))
+        else if (Input().isHeld(sInputKey_GameSpeak5))
         {
             field_17D_next_speak = SligSpeak::eBullshit2_7;
         }
-        else if (sInputObject_5BD4E0.isHeld(sInputKey_GameSpeak8_555110))
+        else if (Input().isHeld(sInputKey_GameSpeak8))
         {
             field_17D_next_speak = SligSpeak::eLaugh_3;
         }
@@ -2502,15 +2502,15 @@ void FlyingSlig::HandlePlayerControls_439340()
         }
     }
 
-    if (sInputObject_5BD4E0.isPressed(InputCommands::Enum::eUp))
+    if (Input().isPressed(InputCommands::Enum::eUp))
     {
-        if (sInputObject_5BD4E0.isPressed(InputCommands::Enum::eLeft))
+        if (Input().isPressed(InputCommands::Enum::eLeft))
         {
             field_184_xSpeed = (-field_2B8_max_speed_up * FP_FromDouble(0.707));
             field_188_ySpeed = (-field_2B8_max_speed_up * FP_FromDouble(0.707));
             return;
         }
-        if (sInputObject_5BD4E0.isPressed(InputCommands::Enum::eRight))
+        if (Input().isPressed(InputCommands::Enum::eRight))
         {
             field_184_xSpeed = (field_2B8_max_speed_up * FP_FromDouble(0.707));
             field_188_ySpeed = (-field_2B8_max_speed_up * FP_FromDouble(0.707));
@@ -2519,14 +2519,14 @@ void FlyingSlig::HandlePlayerControls_439340()
         field_184_xSpeed = FP_FromInteger(0);
         field_188_ySpeed = -field_2B8_max_speed_up;
     }
-    else if (sInputObject_5BD4E0.isPressed(InputCommands::Enum::eDown))
+    else if (Input().isPressed(InputCommands::Enum::eDown))
     {
-        if (sInputObject_5BD4E0.isPressed(InputCommands::Enum::eLeft))
+        if (Input().isPressed(InputCommands::Enum::eLeft))
         {
             field_184_xSpeed = (-field_2B8_max_speed_up * FP_FromDouble(0.707));
             field_188_ySpeed = (field_2B8_max_speed_up * FP_FromDouble(0.707));
         }
-        else if (sInputObject_5BD4E0.isPressed(InputCommands::Enum::eRight))
+        else if (Input().isPressed(InputCommands::Enum::eRight))
         {
             field_184_xSpeed = (field_2B8_max_speed_up * FP_FromDouble(0.707));
             field_188_ySpeed = (field_2B8_max_speed_up * FP_FromDouble(0.707));
@@ -2537,12 +2537,12 @@ void FlyingSlig::HandlePlayerControls_439340()
             field_188_ySpeed = field_2B8_max_speed_up;
         }
     }
-    else if (sInputObject_5BD4E0.isPressed(InputCommands::Enum::eLeft))
+    else if (Input().isPressed(InputCommands::Enum::eLeft))
     {
         field_188_ySpeed = FP_FromInteger(0);
         field_184_xSpeed = -field_2B8_max_speed_up;
     }
-    else if (sInputObject_5BD4E0.isPressed(InputCommands::Enum::eRight))
+    else if (Input().isPressed(InputCommands::Enum::eRight))
     {
         field_188_ySpeed = FP_FromInteger(0);
         field_184_xSpeed = field_2B8_max_speed_up;
@@ -2596,11 +2596,11 @@ TlvTypes FlyingSlig::FindLeftOrRightBound_43B0A0(FP xOrY, FP wOrH)
     // TODO: Check left is really Abs'd.
     TlvTypes found_type = {};
 
-    if (sPath_dword_BB47C0->TLV_Get_At_4DB4B0(FP_GetExponent(FP_Abs(left)), FP_GetExponent(top), FP_GetExponent(right), FP_GetExponent(bottom), TlvTypes::SligBoundLeft_32))
+    if (sPathInfo->TLV_Get_At_4DB4B0(FP_GetExponent(FP_Abs(left)), FP_GetExponent(top), FP_GetExponent(right), FP_GetExponent(bottom), TlvTypes::SligBoundLeft_32))
     {
         found_type = TlvTypes::SligBoundLeft_32;
     }
-    else if (sPath_dword_BB47C0->TLV_Get_At_4DB4B0(FP_GetExponent(left), FP_GetExponent(top), FP_GetExponent(right), FP_GetExponent(bottom), TlvTypes::SligBoundRight_45))
+    else if (sPathInfo->TLV_Get_At_4DB4B0(FP_GetExponent(left), FP_GetExponent(top), FP_GetExponent(right), FP_GetExponent(bottom), TlvTypes::SligBoundRight_45))
     {
         found_type = TlvTypes::SligBoundRight_45;
     }

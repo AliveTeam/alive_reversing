@@ -516,7 +516,7 @@ private:
     s32 field_120_timer = 0;
     s16 field_124_return_to_previous_motion = 0;
     s16 field_126_checked_if_off_screen = 0;
-    s32 field_128_input = 0;
+    s32 mInput = 0;
     s32 field_12C_timer = 0;
     FP field_130_falling_velx_scale_factor = {};
     s16 field_134_res_idx = 0;

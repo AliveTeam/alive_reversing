@@ -248,7 +248,7 @@ void DDCheat::VUpdate()
 
     field_20 = 0;
 
-    auto activePadPressed = sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_C_held;
+    auto activePadPressed = Input().mPads[sCurrentControllerIndex].mHeld;
 
     if (sCommandLine_DDCheatEnabled_5CA4B5)
     {
@@ -386,8 +386,8 @@ void DDCheat::VUpdate()
             DebugStr_4F5560("\nPeak: %ikb", sPeakedManagedMemUsage_AB4A08 / 1024);*/
         }
 
-        field_38_input_pressed = sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE == 0].field_C_held;
-        if (sDDCheat_PrevDebugInput_5BBFF4 == sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE == 0].field_0_pressed
+        field_38_input_pressed = Input().mPads[sCurrentControllerIndex == 0].mHeld;
+        if (sDDCheat_PrevDebugInput_5BBFF4 == Input().mPads[sCurrentControllerIndex == 0].mPressed
             && sDDCheat_PrevDebugInput_5BBFF4)
         {
             if (!--sDDCheat_DebugInputDelay_550FA8)
@@ -398,7 +398,7 @@ void DDCheat::VUpdate()
         }
         else
         {
-            sDDCheat_PrevDebugInput_5BBFF4 = sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE == 0].field_0_pressed;
+            sDDCheat_PrevDebugInput_5BBFF4 = Input().mPads[sCurrentControllerIndex == 0].mPressed;
             sDDCheat_DebugInputDelay_550FA8 = 10;
         }
 
@@ -409,7 +409,7 @@ void DDCheat::VUpdate()
 
         if (field_3C_flags.Get(DDCheat::Flags_3C::e3C_Bit1))
         {
-            if (sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE == 0].field_0_pressed & InputCommands::Enum::eCheatMode)
+            if (Input().mPads[sCurrentControllerIndex == 0].mPressed & InputCommands::Enum::eCheatMode)
             {
                 field_24_fn_idx = 0;
             }
@@ -420,7 +420,7 @@ void DDCheat::VUpdate()
             }
 
             // Using hop instead looks like the only way to actually change the menu properly
-            if (sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE == 0].field_0_pressed & InputCommands::Enum::eHop /*field_3C_flags & 2*/)
+            if (Input().mPads[sCurrentControllerIndex == 0].mPressed & InputCommands::Enum::eHop /*field_3C_flags & 2*/)
             {
                 if (field_38_input_pressed & InputCommands::Enum::eDown)
                 {

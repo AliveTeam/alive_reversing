@@ -1601,29 +1601,29 @@ s16 Slig::GetNextMotionIncGameSpeak_467700(u16 input)
         return eSligMotions::Motion_37_Depossessing_4684D0;
     }
 
-    if (Input().IsAnyPressed(sInputKey_LeftGameSpeakEnabler_4C65B8))
+    if (Input().IsAnyPressed(sInputKey_LeftGameSpeakEnabler))
     {
-        if (input & sInputKey_GameSpeak2_4C65BC)
+        if (input & sInputKey_GameSpeak2)
         {
             pEventSystem_4FF954->VPushEvent(GameSpeakEvents::Slig_HereBoy_24);
             Slig_GameSpeak_SFX_46F560(SligSpeak::eHereBoy_1, 0, field_110_pitch_min, this);
             return eSligMotions::Motion_21_SpeakHereBoy_467BD0;
         }
-        if (input & sInputKey_GameSpeak1_4C65C8)
+        if (input & sInputKey_GameSpeak1)
         {
             pEventSystem_4FF954->VPushEvent(GameSpeakEvents::Slig_Hi_23);
             Slig_GameSpeak_SFX_46F560(SligSpeak::eHi_0, 0, field_110_pitch_min, this);
             return eSligMotions::Motion_22_SpeakHi_467C90;
         }
 
-        if (input & sInputKey_GameSpeak3_4C65C0)
+        if (input & sInputKey_GameSpeak3)
         {
             pEventSystem_4FF954->VPushEvent(GameSpeakEvents::eUnknown_27);
             Slig_GameSpeak_SFX_46F560(SligSpeak::eFreeze_8, 0, field_110_pitch_min, this);
             return eSligMotions::Motion_23_SpeakFreeze_467D50;
         }
 
-        if (input & sInputKey_GameSpeak4_4C65C4)
+        if (input & sInputKey_GameSpeak4)
         {
             pEventSystem_4FF954->VPushEvent(GameSpeakEvents::eUnknown_25);
             Slig_GameSpeak_SFX_46F560(SligSpeak::eGetHim_2, 0, field_110_pitch_min, this);
@@ -1631,30 +1631,30 @@ s16 Slig::GetNextMotionIncGameSpeak_467700(u16 input)
         }
         return -1;
     }
-    else if (Input().IsAnyPressed(sInputKey_RightGameSpeakEnabler_4C65DC))
+    else if (Input().IsAnyPressed(sInputKey_RightGameSpeakEnabler))
     {
-        if (input & sInputKey_GameSpeak8_4C65E0)
+        if (input & sInputKey_GameSpeak8)
         {
             pEventSystem_4FF954->VPushEvent(GameSpeakEvents::eUnknown_8);
             Slig_GameSpeak_SFX_46F560(SligSpeak::eLaugh_7, 0, field_110_pitch_min, this);
             return eSligMotions::Motion_25_SpeakLaugh_467ED0;
         }
 
-        if (input & sInputKey_GameSpeak6_4C65E8)
+        if (input & sInputKey_GameSpeak6)
         {
             pEventSystem_4FF954->VPushEvent(GameSpeakEvents::eUnknown_5);
             Slig_GameSpeak_SFX_46F560(SligSpeak::eBullshit_4, 0, field_110_pitch_min, this);
             return eSligMotions::Motion_26_SpeakBullshit1_467F90;
         }
 
-        if (input & sInputKey_GameSpeak7_4C65E4)
+        if (input & sInputKey_GameSpeak7)
         {
             pEventSystem_4FF954->VPushEvent(GameSpeakEvents::Slig_LookOut_6);
             Slig_GameSpeak_SFX_46F560(SligSpeak::eLookOut_5, 0, field_110_pitch_min, this);
             return eSligMotions::Motion_27_SpeakLookOut_468050;
         }
 
-        if (input & sInputKey_GameSpeak5_4C65EC)
+        if (input & sInputKey_GameSpeak5)
         {
             pEventSystem_4FF954->VPushEvent(GameSpeakEvents::eUnknown_7);
             Slig_GameSpeak_SFX_46F560(SligSpeak::eBullshit2_6, 0, field_110_pitch_min, this);
@@ -1798,12 +1798,12 @@ s16 Slig::MoveLift_4665E0(FP ySpeed)
             return eSligMotions::Motion_51_LiftGripping_466480;
         }
 
-        if (Input().IsAnyPressed(sInputKey_Up_4C6598))
+        if (Input().IsAnyPressed(sInputKey_Up))
         {
             return eSligMotions::Motion_47_LiftUp_4665A0;
         }
 
-        if (Input().IsAnyPressed(sInputKey_Down_4C659C))
+        if (Input().IsAnyPressed(sInputKey_Down))
         {
             return eSligMotions::Motion_48_LiftDown_4665C0;
         }
@@ -1815,12 +1815,12 @@ s16 Slig::MoveLift_4665E0(FP ySpeed)
             return eSligMotions::Motion_51_LiftGripping_466480;
         }
 
-        if (Input().IsAnyPressed(sInputKey_Down_4C659C))
+        if (Input().IsAnyPressed(sInputKey_Down))
         {
             return eSligMotions::Motion_48_LiftDown_4665C0;
         }
 
-        if (Input().IsAnyPressed(sInputKey_Up_4C6598))
+        if (Input().IsAnyPressed(sInputKey_Up))
         {
             return eSligMotions::Motion_47_LiftUp_4665A0;
         }
@@ -2034,11 +2034,11 @@ s16 Slig::HandlePlayerControlled()
     FP kScaleGrid = ScaleToGridSize(mSpriteScale);
 
     const auto pressed = Input().Pressed();
-    if (pressed & sInputKey_Right_4C6590)
+    if (pressed & sInputKey_Right)
     {
         if (!mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
         {
-            if (pressed & sInputKey_Run_4C65A8)
+            if (pressed & sInputKey_Run)
             {
                 mVelX = kScaleGrid / FP_FromInteger(4);
                 mCurrentMotion = eSligMotions::Motion_3_StandToRun_469C00;
@@ -2070,11 +2070,11 @@ s16 Slig::HandlePlayerControlled()
         }
     }
 
-    if (pressed & sInputKey_Left_4C6594)
+    if (pressed & sInputKey_Left)
     {
         if (mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
         {
-            if (pressed & sInputKey_Run_4C65A8)
+            if (pressed & sInputKey_Run)
             {
                 mCurrentMotion = eSligMotions::Motion_3_StandToRun_469C00;
                 mVelX = -(kScaleGrid / FP_FromInteger(4));
@@ -2104,8 +2104,8 @@ s16 Slig::HandlePlayerControlled()
         }
     }
 
-    if (Input().IsAnyHeld(sInputKey_DoAction_4C65A4)
-        && !(pressed & (sInputKey_LeftGameSpeakEnabler_4C65B8 | sInputKey_RightGameSpeakEnabler_4C65DC)))
+    if (Input().IsAnyHeld(sInputKey_DoAction)
+        && !(pressed & (sInputKey_LeftGameSpeakEnabler | sInputKey_RightGameSpeakEnabler)))
     {
         if (!Input_IsChanting())
         {
@@ -2167,8 +2167,8 @@ s16 Slig::HandlePlayerControlled()
             return 1;
         }
     }
-    if (pressed & sInputKey_ThrowItem_4C65B4
-        && !(pressed & (sInputKey_LeftGameSpeakEnabler_4C65B8 | sInputKey_RightGameSpeakEnabler_4C65DC)))
+    if (pressed & sInputKey_ThrowItem
+        && !(pressed & (sInputKey_LeftGameSpeakEnabler | sInputKey_RightGameSpeakEnabler)))
     {
         if (!Input_IsChanting())
         {
@@ -2177,8 +2177,8 @@ s16 Slig::HandlePlayerControlled()
             return 1;
         }
     }
-    if (pressed & sInputKey_FartRoll_4C65B0
-        && !(pressed & (sInputKey_LeftGameSpeakEnabler_4C65B8 | sInputKey_RightGameSpeakEnabler_4C65DC)))
+    if (pressed & sInputKey_FartRoll
+        && !(pressed & (sInputKey_LeftGameSpeakEnabler | sInputKey_RightGameSpeakEnabler)))
     {
         if (!Input_IsChanting())
         {
@@ -2188,7 +2188,7 @@ s16 Slig::HandlePlayerControlled()
         }
     }
 
-    if (pressed & sInputKey_Down_4C659C)
+    if (pressed & sInputKey_Down)
     {
         if (mLiftPoint)
         {
@@ -2203,7 +2203,7 @@ s16 Slig::HandlePlayerControlled()
         }
         else
         {
-            if (Input().IsAnyHeld(sInputKey_Down_4C659C))
+            if (Input().IsAnyHeld(sInputKey_Down))
             {
                 Slig::Slig_GameSpeak_SFX_46F560(SligSpeak::eWhat_9, 0, field_110_pitch_min, this);
                 mCurrentMotion = eSligMotions::Motion_30_SpeakWhat_468290;
@@ -2213,7 +2213,7 @@ s16 Slig::HandlePlayerControlled()
             return 0;
         }
     }
-    if (pressed & sInputKey_Up_4C6598)
+    if (pressed & sInputKey_Up)
     {
         if (mLiftPoint)
         {
@@ -2228,7 +2228,7 @@ s16 Slig::HandlePlayerControlled()
         }
         else
         {
-            if (Input().IsAnyHeld(sInputKey_Up_4C6598))
+            if (Input().IsAnyHeld(sInputKey_Up))
             {
                 Slig::Slig_GameSpeak_SFX_46F560(SligSpeak::eWhat_9, 0, field_110_pitch_min, this);
                 mCurrentMotion = eSligMotions::Motion_30_SpeakWhat_468290;
@@ -2239,7 +2239,7 @@ s16 Slig::HandlePlayerControlled()
         }
     }
 
-    if (Input().IsAnyHeld(sInputKey_Hop_4C65A0 | sInputKey_FartRoll_4C65B0) && !(Input().IsAnyPressed(sInputKey_LeftGameSpeakEnabler_4C65B8 | sInputKey_RightGameSpeakEnabler_4C65DC)))
+    if (Input().IsAnyHeld(sInputKey_Hop | sInputKey_FartRoll) && !(Input().IsAnyPressed(sInputKey_LeftGameSpeakEnabler | sInputKey_RightGameSpeakEnabler)))
     {
         Slig::Slig_GameSpeak_SFX_46F560(SligSpeak::eBlurgh_11, 0, field_110_pitch_min, this);
         mCurrentMotion = eSligMotions::Motion_32_Blurgh_468410;
@@ -2251,7 +2251,7 @@ s16 Slig::HandlePlayerControlled()
 
 void Slig::PlayerControlRunningSlideStopOrTurn(s16 last_anim_frame)
 {
-    if (mVelX > FP_FromInteger(0) && Input().IsAnyPressed(sInputKey_Left_4C6594))
+    if (mVelX > FP_FromInteger(0) && Input().IsAnyPressed(sInputKey_Left))
     {
         mVelX = mSpriteScale * FP_FromDouble(13.2);
         mCurrentMotion = eSligMotions::Motion_10_SlidingTurn_469F10;
@@ -2259,7 +2259,7 @@ void Slig::PlayerControlRunningSlideStopOrTurn(s16 last_anim_frame)
         return;
     }
 
-    if (mVelX < FP_FromInteger(0) && Input().IsAnyPressed(sInputKey_Right_4C6590))
+    if (mVelX < FP_FromInteger(0) && Input().IsAnyPressed(sInputKey_Right))
     {
         mVelX = mSpriteScale * FP_FromDouble(-13.2);
         mCurrentMotion = eSligMotions::Motion_10_SlidingTurn_469F10;
@@ -2267,7 +2267,7 @@ void Slig::PlayerControlRunningSlideStopOrTurn(s16 last_anim_frame)
         return;
     }
 
-    if (!Input().IsAnyPressed(sInputKey_Right_4C6590 | sInputKey_Left_4C6594))
+    if (!Input().IsAnyPressed(sInputKey_Right | sInputKey_Left))
     {
         if (mVelX >= FP_FromInteger(0))
         {
@@ -2283,7 +2283,7 @@ void Slig::PlayerControlRunningSlideStopOrTurn(s16 last_anim_frame)
         return;
     }
 
-    if (Input().IsAnyPressed(sInputKey_Run_4C65A8))
+    if (Input().IsAnyPressed(sInputKey_Run))
     {
         field_126_input = 0;
         return;
@@ -2552,7 +2552,7 @@ void Slig::Motion_2_Walking_469130()
                 }
                 if (sControlledCharacter == this && mHealth > FP_FromInteger(0))
                 {
-                    if (Input().IsAnyPressed(sInputKey_Run_4C65A8))
+                    if (Input().IsAnyPressed(sInputKey_Run))
                     {
                         mPreviousMotion = eSligMotions::Motion_4_Running_469690;
                         mBaseAliveGameObjectLastAnimFrame = 5;
@@ -2602,9 +2602,9 @@ void Slig::Motion_2_Walking_469130()
                 }
                 else
                 {
-                    if ((mVelX > FP_FromInteger(0) && Input().IsAnyPressed(sInputKey_Left_4C6594))
-                        || (mVelX < FP_FromInteger(0) && Input().IsAnyPressed(sInputKey_Right_4C6590))
-                        || !(Input().IsAnyPressed(sInputKey_Right_4C6590 | sInputKey_Left_4C6594)))
+                    if ((mVelX > FP_FromInteger(0) && Input().IsAnyPressed(sInputKey_Left))
+                        || (mVelX < FP_FromInteger(0) && Input().IsAnyPressed(sInputKey_Right))
+                        || !(Input().IsAnyPressed(sInputKey_Right | sInputKey_Left)))
                     {
                         mCurrentMotion = eSligMotions::Motion_19_WalkToStand_469610;
                     }
@@ -2623,7 +2623,7 @@ void Slig::Motion_2_Walking_469130()
 
                 if (sControlledCharacter == this && mHealth > FP_FromInteger(0))
                 {
-                    if (Input().IsAnyPressed(sInputKey_Run_4C65A8))
+                    if (Input().IsAnyPressed(sInputKey_Run))
                     {
                         mPreviousMotion = 4;
                         mBaseAliveGameObjectLastAnimFrame = 13;
@@ -2794,14 +2794,14 @@ void Slig::Motion_6_Shoot_468820()
     {
         if (sControlledCharacter == this && mHealth > FP_FromInteger(0))
         {
-            if (Input().IsAnyPressed(sInputKey_ThrowItem_4C65B4))
+            if (Input().IsAnyPressed(sInputKey_ThrowItem))
             {
                 const FP k35Scaled = mSpriteScale * FP_FromInteger(35);
                 const FP kGridSize = ScaleToGridSize(mSpriteScale);
                 const FP k8 = FP_FromInteger(8);
 
                 // Recoil right
-                if (mAnim.mFlags.Get(AnimFlags::eBit5_FlipX) && Input().IsAnyPressed(sInputKey_Right_4C6590))
+                if (mAnim.mFlags.Get(AnimFlags::eBit5_FlipX) && Input().IsAnyPressed(sInputKey_Right))
                 {
                     PathLine* pLine = nullptr;
                     FP hitX = {};
@@ -2833,7 +2833,7 @@ void Slig::Motion_6_Shoot_468820()
                 }
 
                 // Recoil left
-                if (!mAnim.mFlags.Get(AnimFlags::eBit5_FlipX) && Input().IsAnyPressed(sInputKey_Left_4C6594))
+                if (!mAnim.mFlags.Get(AnimFlags::eBit5_FlipX) && Input().IsAnyPressed(sInputKey_Left))
                 {
                     PathLine* pLine = nullptr;
                     FP hitX = {};
@@ -3057,8 +3057,8 @@ void Slig::Motion_9_SlidingToStand_469DF0()
                     MainMovement_467020();
                 }
             }
-            else if ((mAnim.mFlags.Get(AnimFlags::eBit5_FlipX) && Input().IsAnyPressed(sInputKey_Right_4C6590))
-                     || (!(mAnim.mFlags.Get(AnimFlags::eBit5_FlipX)) && Input().IsAnyPressed(sInputKey_Left_4C6594)))
+            else if ((mAnim.mFlags.Get(AnimFlags::eBit5_FlipX) && Input().IsAnyPressed(sInputKey_Right))
+                     || (!(mAnim.mFlags.Get(AnimFlags::eBit5_FlipX)) && Input().IsAnyPressed(sInputKey_Left)))
             {
                 mPreviousMotion = eSligMotions::Motion_10_SlidingTurn_469F10;
                 mBaseAliveGameObjectLastAnimFrame = mAnim.mCurrentFrame;
@@ -3096,7 +3096,7 @@ void Slig::Motion_10_SlidingTurn_469F10()
             }
             else
             {
-                if (Input().IsAnyPressed(sInputKey_Run_4C65A8))
+                if (Input().IsAnyPressed(sInputKey_Run))
                 {
                     mVelX = (ScaleToGridSize(mSpriteScale) / FP_FromInteger(4));
                     mCurrentMotion = eSligMotions::Motion_12_SlidingTurnToRun_46A160;
@@ -3119,7 +3119,7 @@ void Slig::Motion_10_SlidingTurn_469F10()
             }
             else
             {
-                if (Input().IsAnyPressed(sInputKey_Run_4C65A8))
+                if (Input().IsAnyPressed(sInputKey_Run))
                 {
                     mCurrentMotion = eSligMotions::Motion_12_SlidingTurnToRun_46A160;
                     mVelX = -(ScaleToGridSize(mSpriteScale) / FP_FromInteger(4));
@@ -3198,7 +3198,7 @@ void Slig::Motion_16_StandingToStep_468FD0()
 {
     if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
     {
-        if (Input().IsAnyPressed(sInputKey_Left_4C6594 | sInputKey_Right_4C6590))
+        if (Input().IsAnyPressed(sInputKey_Left | sInputKey_Right))
         {
             mCurrentMotion = eSligMotions::Motion_1_StandToWalk_4695D0;
         }
@@ -3272,7 +3272,7 @@ void Slig::Motion_20_Recoil_468D30()
                     mNextMotion = -1;
                 }
             }
-            else if (Input().IsAnyPressed(sInputKey_ThrowItem_4C65B4))
+            else if (Input().IsAnyPressed(sInputKey_ThrowItem))
             {
                 mVelX = FP_FromInteger(0);
                 mPreviousMotion = eSligMotions::Motion_6_Shoot_468820;
@@ -3871,7 +3871,7 @@ void Slig::Motion_49_LiftGrip_4663A0()
 
     if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
     {
-        if (Input().IsAnyPressed(sInputKey_Up_4C6598))
+        if (Input().IsAnyPressed(sInputKey_Up))
         {
             if (pLiftPoint->OnTopFloor())
             {
@@ -3884,7 +3884,7 @@ void Slig::Motion_49_LiftGrip_4663A0()
             return;
         }
 
-        if (Input().IsAnyPressed(sInputKey_Down_4C659C))
+        if (Input().IsAnyPressed(sInputKey_Down))
         {
             if (pLiftPoint->OnBottomFloor())
             {
@@ -3920,7 +3920,7 @@ void Slig::Motion_51_LiftGripping_466480()
     pLift->Move(FP_FromInteger(0), FP_FromInteger(0), 0);
     mVelY = FP_FromInteger(0);
 
-    if (Input().IsAnyPressed(sInputKey_Up_4C6598))
+    if (Input().IsAnyPressed(sInputKey_Up))
     {
         if (!pLift->OnTopFloor())
         {
@@ -3929,7 +3929,7 @@ void Slig::Motion_51_LiftGripping_466480()
     }
     else
     {
-        if (Input().IsAnyPressed(sInputKey_Down_4C659C))
+        if (Input().IsAnyPressed(sInputKey_Down))
         {
             if (!pLift->OnBottomFloor())
             {

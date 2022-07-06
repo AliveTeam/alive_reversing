@@ -173,7 +173,7 @@ void GameEnderController::VUpdate()
         break;
 
         case GameEnderController_States::eBadEnding_3:
-            if (sInputObject_5BD4E0.isHeld(InputCommands::Enum::eUnPause_OrConfirm) || sInputObject_5BD4E0.isHeld(InputCommands::Enum::eBack))
+            if (Input().isHeld(InputCommands::Enum::eUnPause_OrConfirm) || Input().isHeld(InputCommands::Enum::eBack))
             {
                 gMap.SetActiveCam(EReliveLevelIds::eFeeCoDepot, 1, 1, CameraSwapEffects::eInstantChange_0, 0, 0);
                 field_24_state = GameEnderController_States::eFinish_2;
@@ -181,7 +181,7 @@ void GameEnderController::VUpdate()
             break;
 
         case GameEnderController_States::eGoodEnding_4:
-            if (sInputObject_5BD4E0.isHeld(InputCommands::Enum::eUnPause_OrConfirm) || sInputObject_5BD4E0.isHeld(InputCommands::Enum::eBack))
+            if (Input().isHeld(InputCommands::Enum::eUnPause_OrConfirm) || Input().isHeld(InputCommands::Enum::eBack))
             {
                 gMap.SetActiveCam(EReliveLevelIds::eCredits, 1, 1, CameraSwapEffects::eInstantChange_0, 0, 0);
                 field_24_state = GameEnderController_States::eFinish_2;
@@ -189,7 +189,7 @@ void GameEnderController::VUpdate()
             break;
 
         case GameEnderController_States::eAngelicEnding_5:
-            if (sInputObject_5BD4E0.isHeld(InputCommands::Enum::eUnPause_OrConfirm) || sInputObject_5BD4E0.isHeld(InputCommands::Enum::eBack))
+            if (Input().isHeld(InputCommands::Enum::eUnPause_OrConfirm) || Input().isHeld(InputCommands::Enum::eBack))
             {
                 gMap.SetActiveCam(EReliveLevelIds::eBrewery_Ender, 1, 20, CameraSwapEffects::eInstantChange_0, 0, 0);
                 field_24_state = GameEnderController_States::eAngelicEndingCredits_6;
@@ -197,7 +197,7 @@ void GameEnderController::VUpdate()
             break;
 
         case GameEnderController_States::eAngelicEndingCredits_6:
-            if (sInputObject_5BD4E0.isHeld(InputCommands::Enum::eUnPause_OrConfirm) || sInputObject_5BD4E0.isHeld(InputCommands::Enum::eBack))
+            if (Input().isHeld(InputCommands::Enum::eUnPause_OrConfirm) || Input().isHeld(InputCommands::Enum::eBack))
             {
                 gMap.SetActiveCam(EReliveLevelIds::eCredits, 2, 1, CameraSwapEffects::eInstantChange_0, 0, 0);
                 gMap.mFreeAllAnimAndPalts = TRUE;

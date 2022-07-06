@@ -221,7 +221,7 @@ void Scrab::VOnTlvCollision(Path_TLV* pTlv)
                 }
             }
         }
-        pTlv = sPath_dword_BB47C0->TlvGetAt(
+        pTlv = sPathInfo->TlvGetAt(
             pTlv,
             mXPos,
             mYPos,
@@ -276,7 +276,7 @@ s32 Scrab::CreateFromSaveState(const u8* pBuffer)
 {
     auto pState = reinterpret_cast<const Scrab_State*>(pBuffer);
 
-    auto pTlv = static_cast<Path_Scrab*>(sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam(pState->field_44_tlvInfo));
+    auto pTlv = static_cast<Path_Scrab*>(sPathInfo->TLV_From_Offset_Lvl_Cam(pState->field_44_tlvInfo));
 
     if (!ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kArsbasicResID, FALSE, FALSE))
     {
@@ -639,17 +639,17 @@ void Scrab::VUpdate()
                 // Handle DDCheat mode
                 BaseAliveGameObjectCollisionLine = nullptr;
 
-                if (sInputObject_5BD4E0.isPressed(InputCommands::Enum::eUp | InputCommands::Enum::eDown | InputCommands::Enum::eLeft | InputCommands::Enum::eRight))
+                if (Input().isPressed(InputCommands::Enum::eUp | InputCommands::Enum::eDown | InputCommands::Enum::eLeft | InputCommands::Enum::eRight))
                 {
                     // TODO: InputCommand constants
-                    mVelX = velx_input_entries_546D84[sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_4_dir >> 5];
-                    mVelY = vely_input_entries_546DA4[sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_4_dir >> 5];
+                    mVelX = velx_input_entries_546D84[Input().mPads[sCurrentControllerIndex].mDir >> 5];
+                    mVelY = vely_input_entries_546DA4[Input().mPads[sCurrentControllerIndex].mDir >> 5];
 
-                    if (sInputObject_5BD4E0.isPressed(InputCommands::Enum::eRun))
+                    if (Input().isPressed(InputCommands::Enum::eRun))
                     {
-                        mVelX += velx_input_entries_546D84[sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_4_dir >> 5];
-                        mVelX += velx_input_entries_546D84[sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_4_dir >> 5];
-                        mVelY += vely_input_entries_546DA4[sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_4_dir >> 5];
+                        mVelX += velx_input_entries_546D84[Input().mPads[sCurrentControllerIndex].mDir >> 5];
+                        mVelX += velx_input_entries_546D84[Input().mPads[sCurrentControllerIndex].mDir >> 5];
+                        mVelY += vely_input_entries_546DA4[Input().mPads[sCurrentControllerIndex].mDir >> 5];
                     }
 
                     mXPos += mVelX;
@@ -720,7 +720,7 @@ void Scrab::VUpdate()
 
             if (field_198_max_xpos != mXPos || field_19C_max_ypos != mYPos)
             {
-                BaseAliveGameObjectPathTLV = sPath_dword_BB47C0->TlvGetAt(
+                BaseAliveGameObjectPathTLV = sPathInfo->TlvGetAt(
                     nullptr,
                     mXPos,
                     mYPos,
@@ -1529,7 +1529,7 @@ s16 Scrab::Brain_ChasingEnemy_State_2_Running(BaseAliveGameObject* pObj)
     if (xPosition < 6
         && Check_IsOnEndOfLine(mVelX < FP_FromInteger(0), 1)
         && ((pObj->mYPos - mYPos < FP_FromInteger(5))
-            || sPath_dword_BB47C0->TLV_Get_At_4DB4B0(
+            || sPathInfo->TLV_Get_At_4DB4B0(
                 FP_GetExponent(mXPos + xOffset),
                 FP_GetExponent(mYPos + FP_FromInteger(10)),
                 FP_GetExponent(mXPos + xOffset),
@@ -1996,21 +1996,21 @@ void Scrab::M_Stand_0_4A8220()
             return;
         }
 
-        if (sInputObject_5BD4E0.isHeld(sInputKey_GameSpeak2_5550F8))
+        if (Input().isHeld(sInputKey_GameSpeak2))
         {
             mCurrentMotion = eScrabMotions::M_Shriek_30_4A9EA0;
             mNextMotion = eScrabMotions::M_Stand_0_4A8220;
             return;
         }
 
-        if (sInputObject_5BD4E0.isHeld(sInputKey_GameSpeak1_555104))
+        if (Input().isHeld(sInputKey_GameSpeak1))
         {
             mCurrentMotion = eScrabMotions::M_HowlBegin_26_4A9DA0;
             mNextMotion = eScrabMotions::M_Stand_0_4A8220;
             return;
         }
 
-        if (sInputObject_5BD4E0.isPressed(InputCommands::Enum::eThrowItem | InputCommands::Enum::eDoAction) && field_178_shred_power_active)
+        if (Input().isPressed(InputCommands::Enum::eThrowItem | InputCommands::Enum::eDoAction) && field_178_shred_power_active)
         {
             mCurrentMotion = eScrabMotions::M_AttackSpin_32_4A8DC0;
             mNextMotion = -1;
@@ -2018,14 +2018,14 @@ void Scrab::M_Stand_0_4A8220()
             return;
         }
 
-        if (sInputObject_5BD4E0.isPressed(InputCommands::Enum::eThrowItem | InputCommands::Enum::eDoAction))
+        if (Input().isPressed(InputCommands::Enum::eThrowItem | InputCommands::Enum::eDoAction))
         {
             mCurrentMotion = eScrabMotions::M_Stamp_21_4A9CC0;
             mNextMotion = -1;
             return;
         }
 
-        if (sInputObject_5BD4E0.isPressed(sInputKey_Hop_5550E0))
+        if (Input().isPressed(sInputKey_Hop))
         {
             const FP k45Scaled = (mSpriteScale * FP_FromInteger(45));
             const FP kGridSize = ScaleToGridSize(mSpriteScale);
@@ -2131,7 +2131,7 @@ void Scrab::M_Walk_1_4A84D0()
             }
             else
             {
-                if ((mVelX > FP_FromInteger(0) && sInputObject_5BD4E0.isPressed(InputCommands::Enum::eLeft)) || (mVelX < FP_FromInteger(0) && sInputObject_5BD4E0.isPressed(InputCommands::Enum::eRight)) || !sInputObject_5BD4E0.isPressed(InputCommands::Enum::eRight | InputCommands::Enum::eLeft))
+                if ((mVelX > FP_FromInteger(0) && Input().isPressed(InputCommands::Enum::eLeft)) || (mVelX < FP_FromInteger(0) && Input().isPressed(InputCommands::Enum::eRight)) || !Input().isPressed(InputCommands::Enum::eRight | InputCommands::Enum::eLeft))
                 {
                     mCurrentMotion = eScrabMotions::M_WalkToStand_11_4A8880;
                 }
@@ -2154,7 +2154,7 @@ void Scrab::M_Walk_1_4A84D0()
                 return;
             }
 
-            if (sInputObject_5BD4E0.isPressed(InputCommands::Enum::eThrowItem | InputCommands::Enum::eDoAction) && field_178_shred_power_active)
+            if (Input().isPressed(InputCommands::Enum::eThrowItem | InputCommands::Enum::eDoAction) && field_178_shred_power_active)
             {
                 mCurrentMotion = eScrabMotions::M_AttackSpin_32_4A8DC0;
                 field_12C_timer = sGnFrame + field_174_possessed_max_whirl_attack_duration;
@@ -2163,7 +2163,7 @@ void Scrab::M_Walk_1_4A84D0()
                 return;
             }
 
-            if (sInputObject_5BD4E0.isPressed(InputCommands::Enum::eRun))
+            if (Input().isPressed(InputCommands::Enum::eRun))
             {
                 mCurrentMotion = eScrabMotions::M_WalkToRun_16_4A8D60;
                 mNextMotion = -1;
@@ -2171,7 +2171,7 @@ void Scrab::M_Walk_1_4A84D0()
                 return;
             }
 
-            if (sInputObject_5BD4E0.isPressed(InputCommands::Enum::eHop))
+            if (Input().isPressed(InputCommands::Enum::eHop))
             {
                 mCurrentMotion = eScrabMotions::M_HopBegin_5_4A96C0;
                 mNextMotion = -1;
@@ -2279,25 +2279,25 @@ void Scrab::M_Run_2_4A89C0()
                 }
                 else
                 {
-                    if ((mVelX <= FP_FromInteger(0) || !sInputObject_5BD4E0.isPressed(sInputKey_Left_5550D4)) && (mVelX >= FP_FromInteger(0) || !sInputObject_5BD4E0.isPressed(sInputKey_Right_5550D0)))
+                    if ((mVelX <= FP_FromInteger(0) || !Input().isPressed(sInputKey_Left)) && (mVelX >= FP_FromInteger(0) || !Input().isPressed(sInputKey_Right)))
                     {
-                        if (sInputObject_5BD4E0.isPressed(sInputKey_Left_5550D4 | sInputKey_Right_5550D0))
+                        if (Input().isPressed(sInputKey_Left | sInputKey_Right))
                         {
-                            if (!sInputObject_5BD4E0.isPressed(sInputKey_Run_5550E8))
+                            if (!Input().isPressed(sInputKey_Run))
                             {
                                 mCurrentMotion = eScrabMotions::M_RunToWalk_17_4A8D90;
                                 MapFollowMe(TRUE);
                                 return;
                             }
 
-                            if (sInputObject_5BD4E0.isPressed(sInputKey_Hop_5550E0))
+                            if (Input().isPressed(sInputKey_Hop))
                             {
                                 ToJump();
                                 MapFollowMe(TRUE);
                                 return;
                             }
 
-                            if (sInputObject_5BD4E0.isPressed(0xA0) && field_178_shred_power_active)
+                            if (Input().isPressed(0xA0) && field_178_shred_power_active)
                             {
                                 field_12C_timer = MakeTimer(field_174_possessed_max_whirl_attack_duration);
                                 mCurrentMotion = eScrabMotions::M_AttackSpin_32_4A8DC0;
@@ -3167,33 +3167,33 @@ void Scrab::M_AttackSpin_32_4A8DC0()
     }
     else
     {
-        if (sInputObject_5BD4E0.isPressed(InputCommands::Enum::eThrowItem | InputCommands::Enum::eDoAction))
+        if (Input().isPressed(InputCommands::Enum::eThrowItem | InputCommands::Enum::eDoAction))
         {
-            if (!sInputObject_5BD4E0.isPressed(sInputKey_Left_5550D4 | sInputKey_Right_5550D0))
+            if (!Input().isPressed(sInputKey_Left | sInputKey_Right))
             {
                 mVelX = FP_FromInteger(0);
             }
 
-            if (sInputObject_5BD4E0.isPressed(sInputKey_Run_5550E8))
+            if (Input().isPressed(sInputKey_Run))
             {
-                if (sInputObject_5BD4E0.isPressed(sInputKey_Left_5550D4))
+                if (Input().isPressed(sInputKey_Left))
                 {
                     mVelX = -(kGridSize / FP_FromDouble(3.5));
                 }
 
-                if (sInputObject_5BD4E0.isPressed(sInputKey_Right_5550D0))
+                if (Input().isPressed(sInputKey_Right))
                 {
                     mVelX = (kGridSize / FP_FromDouble(3.5));
                 }
             }
             else
             {
-                if (sInputObject_5BD4E0.isPressed(sInputKey_Left_5550D4))
+                if (Input().isPressed(sInputKey_Left))
                 {
                     mVelX = -(kGridSize / FP_FromInteger(7));
                 }
 
-                if (sInputObject_5BD4E0.isPressed(sInputKey_Right_5550D0))
+                if (Input().isPressed(sInputKey_Right))
                 {
                     mVelX = (kGridSize / FP_FromInteger(7));
                 }
@@ -3689,7 +3689,7 @@ s16 Scrab::PlayerControlled()
     const FP kGridSize = ScaleToGridSize(mSpriteScale);
     const FP k45Scaled = (mSpriteScale * FP_FromInteger(45));
 
-    if (sInputObject_5BD4E0.isPressed(sInputKey_Right_5550D0))
+    if (Input().isPressed(sInputKey_Right))
     {
         if (mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
         {
@@ -3703,7 +3703,7 @@ s16 Scrab::PlayerControlled()
                 return 0;
             }
 
-            if (sInputObject_5BD4E0.isPressed(sInputKey_Run_5550E8))
+            if (Input().isPressed(sInputKey_Run))
             {
                 mVelX = (kGridSize / FP_FromDouble(3.5));
                 mCurrentMotion = eScrabMotions::M_StandToRun_10_4A8900;
@@ -3717,7 +3717,7 @@ s16 Scrab::PlayerControlled()
             }
         }
     }
-    else if (sInputObject_5BD4E0.isPressed(sInputKey_Left_5550D4))
+    else if (Input().isPressed(sInputKey_Left))
     {
         if (!mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
         {
@@ -3731,7 +3731,7 @@ s16 Scrab::PlayerControlled()
                 return 0;
             }
 
-            if (sInputObject_5BD4E0.isPressed(sInputKey_Run_5550E8))
+            if (Input().isPressed(sInputKey_Run))
             {
                 mVelX = -(kGridSize / FP_FromDouble(3.5));
                 mCurrentMotion = eScrabMotions::M_StandToRun_10_4A8900;
@@ -3747,13 +3747,13 @@ s16 Scrab::PlayerControlled()
     }
     else
     {
-        if (sInputObject_5BD4E0.isPressed(sInputKey_Up_5550D8))
+        if (Input().isPressed(sInputKey_Up))
         {
             mCurrentMotion = eScrabMotions::M_StandToFeed_35_4AA010;
             return 1;
         }
 
-        if (sInputObject_5BD4E0.isPressed(sInputKey_Down_5550DC))
+        if (Input().isPressed(sInputKey_Down))
         {
             mCurrentMotion = eScrabMotions::M_Stamp_21_4A9CC0;
             return 1;
@@ -4246,7 +4246,7 @@ s16 Scrab::Handle_SlamDoor_or_EnemyStopper(FP velX, s16 bCheckLeftRightBounds)
         return 1;
     }
 
-    BaseAliveGameObjectPathTLV = sPath_dword_BB47C0->TLV_Get_At_4DB4B0(
+    BaseAliveGameObjectPathTLV = sPathInfo->TLV_Get_At_4DB4B0(
         FP_GetExponent(mXPos),
         FP_GetExponent(FP_Abs(mYPos)),
         FP_GetExponent(mXPos + gridSize),
@@ -4259,7 +4259,7 @@ s16 Scrab::Handle_SlamDoor_or_EnemyStopper(FP velX, s16 bCheckLeftRightBounds)
         return 1;
     }
 
-    BaseAliveGameObjectPathTLV = sPath_dword_BB47C0->TLV_Get_At_4DB4B0(
+    BaseAliveGameObjectPathTLV = sPathInfo->TLV_Get_At_4DB4B0(
         FP_GetExponent(mXPos),
         FP_GetExponent(mYPos),
         FP_GetExponent(mXPos + gridSize),
@@ -4274,7 +4274,7 @@ s16 Scrab::Handle_SlamDoor_or_EnemyStopper(FP velX, s16 bCheckLeftRightBounds)
 
     if (bCheckLeftRightBounds)
     {
-        if (sPath_dword_BB47C0->TLV_Get_At_4DB4B0(
+        if (sPathInfo->TLV_Get_At_4DB4B0(
                 FP_GetExponent(mXPos),
                 FP_GetExponent(FP_Abs(mYPos)),
                 FP_GetExponent(mXPos + gridSize),

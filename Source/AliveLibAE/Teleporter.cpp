@@ -112,7 +112,7 @@ void Teleporter::VUpdate()
 
             field_2C_switch_state = SwitchStates_Get(field_34_mTlvData.field_1A_switch_id);
 
-            if (!sPath_dword_BB47C0->TLV_Get_At_4DB4B0(
+            if (!sPathInfo->TLV_Get_At_4DB4B0(
                     FP_GetExponent(sControlledCharacter->mXPos),
                     FP_GetExponent(sControlledCharacter->mYPos),
                     FP_GetExponent(sControlledCharacter->mXPos),
@@ -229,13 +229,13 @@ void Teleporter::VUpdate()
         {
             gMap.mTeleporterTransition = 0;
 
-            Path_Teleporter* pTeleporterTlv = static_cast<Path_Teleporter*>(sPath_dword_BB47C0->TLV_First_Of_Type_In_Camera(TlvTypes::Teleporter_88, 0));
+            Path_Teleporter* pTeleporterTlv = static_cast<Path_Teleporter*>(sPathInfo->TLV_First_Of_Type_In_Camera(TlvTypes::Teleporter_88, 0));
             Path_Teleporter_Data tlvData = pTeleporterTlv->field_10_data;
             if (tlvData.field_10_teleporter_switch_id != field_34_mTlvData.field_12_other_teleporter_switch_id)
             {
                 while (pTeleporterTlv)
                 {
-                    pTeleporterTlv = static_cast<Path_Teleporter*>(sPath_dword_BB47C0->TLV_Next_Of_Type(pTeleporterTlv, TlvTypes::Teleporter_88));
+                    pTeleporterTlv = static_cast<Path_Teleporter*>(sPathInfo->TLV_Next_Of_Type(pTeleporterTlv, TlvTypes::Teleporter_88));
                     tlvData = pTeleporterTlv->field_10_data;
 
                     if (tlvData.field_10_teleporter_switch_id == field_34_mTlvData.field_12_other_teleporter_switch_id)

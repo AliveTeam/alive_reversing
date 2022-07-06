@@ -37,7 +37,7 @@ SligGetPantsAndWings::SligGetPantsAndWings(Path_TLV* pTlv, s32 tlvInfo)
 
 void SligGetPantsAndWings::VUpdate()
 {
-    Path_TLV* pTlv = sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam(field_F8_tlvInfo);
+    Path_TLV* pTlv = sPathInfo->TLV_From_Offset_Lvl_Cam(field_F8_tlvInfo);
     if (EventGet(kEventDeathReset))
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);

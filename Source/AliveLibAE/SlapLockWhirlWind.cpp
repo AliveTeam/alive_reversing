@@ -28,11 +28,11 @@ SlapLockWhirlWind::SlapLockWhirlWind(s16 doorNumber, s16 switchId, FP xpos, FP y
     field_44_switch_id = switchId;
 
     bool bFoundTarget = false;
-    for (s16 y = 0; y < sPath_dword_BB47C0->mCamsOnY; y++)
+    for (s16 y = 0; y < sPathInfo->mCamsOnY; y++)
     {
-        for (s16 x = 0; x < sPath_dword_BB47C0->mCamsOnX; x++)
+        for (s16 x = 0; x < sPathInfo->mCamsOnX; x++)
         {
-            Path_Door* pDoorTlv = static_cast<Path_Door*>(sPath_dword_BB47C0->Get_First_TLV_For_Offsetted_Camera(
+            Path_Door* pDoorTlv = static_cast<Path_Door*>(sPathInfo->Get_First_TLV_For_Offsetted_Camera(
                 x - gMap.mCamIdxOnX,
                 y - gMap.mCamIdxOnY));
             while (pDoorTlv)
@@ -56,7 +56,7 @@ SlapLockWhirlWind::SlapLockWhirlWind(s16 doorNumber, s16 switchId, FP xpos, FP y
 
                     field_30_door_y -= (FP_FromInteger(40) * field_34_door_scale);
                 }
-                pDoorTlv = static_cast<Path_Door*>(sPath_dword_BB47C0->Next_TLV(pDoorTlv));
+                pDoorTlv = static_cast<Path_Door*>(sPathInfo->Next_TLV(pDoorTlv));
             }
         }
     }

@@ -64,24 +64,24 @@ enum Enum : u32
 
 } // namespace InputCommands
 
-extern const InputCommands::Enum sInputKey_Right_5550D0;
-extern const InputCommands::Enum sInputKey_Left_5550D4;
-extern const InputCommands::Enum sInputKey_Up_5550D8;
-extern const InputCommands::Enum sInputKey_Down_5550DC;
-extern const InputCommands::Enum sInputKey_Hop_5550E0;
-extern const InputCommands::Enum sInputKey_DoAction_5550E4;
-extern const InputCommands::Enum sInputKey_Run_5550E8;
-extern const InputCommands::Enum sInputKey_Sneak_5550EC;
-extern const InputCommands::Enum sInputKey_FartRoll_5550F0;
-extern const InputCommands::Enum sInputKey_ThrowItem_5550F4;
-extern const InputCommands::Enum sInputKey_GameSpeak2_5550F8;
-extern const InputCommands::Enum sInputKey_GameSpeak4_5550FC;
-extern const InputCommands::Enum sInputKey_GameSpeak3_555100;
-extern const InputCommands::Enum sInputKey_GameSpeak1_555104;
-extern const InputCommands::Enum sInputKey_GameSpeak6_555108;
-extern const InputCommands::Enum sInputKey_GameSpeak5_55510C;
-extern const InputCommands::Enum sInputKey_GameSpeak8_555110;
-extern const InputCommands::Enum sInputKey_GameSpeak7_555114;
+extern const InputCommands::Enum sInputKey_Right;
+extern const InputCommands::Enum sInputKey_Left;
+extern const InputCommands::Enum sInputKey_Up;
+extern const InputCommands::Enum sInputKey_Down;
+extern const InputCommands::Enum sInputKey_Hop;
+extern const InputCommands::Enum sInputKey_DoAction;
+extern const InputCommands::Enum sInputKey_Run;
+extern const InputCommands::Enum sInputKey_Sneak;
+extern const InputCommands::Enum sInputKey_FartRoll;
+extern const InputCommands::Enum sInputKey_ThrowItem;
+extern const InputCommands::Enum sInputKey_GameSpeak2;
+extern const InputCommands::Enum sInputKey_GameSpeak4;
+extern const InputCommands::Enum sInputKey_GameSpeak3;
+extern const InputCommands::Enum sInputKey_GameSpeak1;
+extern const InputCommands::Enum sInputKey_GameSpeak6;
+extern const InputCommands::Enum sInputKey_GameSpeak5;
+extern const InputCommands::Enum sInputKey_GameSpeak8;
+extern const InputCommands::Enum sInputKey_GameSpeak7;
 
 extern const InputCommands::Enum sInputKey_Chant;
 
@@ -119,15 +119,16 @@ s32 Input_Remap_492680(InputCommands::Enum inputCmd);
 void Input_ResetBinding_4925A0(s32 input_command, s32 bIsGamePad);
 s32 Input_Read_Pad_4FA9C0(s32 padNum);
 
+// TODO: struct is called PSX_Pad in AO
 struct InputPadObject final
 {
-    u32 field_0_pressed;
-    u8 field_4_dir;
+    u32 mPressed;
+    u8 mDir;
     u8 field_5;
     u16 field_6_padding; // Not confirmed
-    u32 field_8_previous;
-    u32 field_C_held;
-    u32 field_10_released;
+    u32 mPreviousInput;
+    u32 mHeld;
+    u32 mReleased;
     u32 field_14_padding; // Not confirmed
 };
 ALIVE_ASSERT_SIZEOF(InputPadObject, 0x18);
@@ -179,7 +180,7 @@ public:
     void ShutDown_45F020();
 
 public:
-    InputPadObject field_0_pads[2] = {};
+    InputPadObject mPads[2] = {};
     u32** field_30_pDemoRes = nullptr;
     u32 field_34_demo_command_index = 0;
     u16 field_38_bDemoPlaying = 0;
@@ -194,9 +195,9 @@ ALIVE_ASSERT_SIZEOF(InputObject, 0x44);
 
 InputObject& Input();
 
-ALIVE_VAR_EXTERN(InputObject, sInputObject_5BD4E0);
-ALIVE_VAR_EXTERN(u16, sCurrentControllerIndex_5C1BBE);
-ALIVE_VAR_EXTERN(u32, sLastPressedKey_BD30A0);
-ALIVE_VAR_EXTERN(s32, sIsAKeyDown_BD309C);
-ALIVE_VAR_EXTERN(s16, bLongerTimeoutToNextDemo_5C1B9A);
-ALIVE_VAR_EXTERN(s32, sJoystickEnabled_5C9F70);
+ALIVE_VAR_EXTERN(InputObject, sInputObject);
+ALIVE_VAR_EXTERN(u16, sCurrentControllerIndex);
+ALIVE_VAR_EXTERN(u32, sLastPressedKey);
+ALIVE_VAR_EXTERN(s32, sIsAKeyDown);
+ALIVE_VAR_EXTERN(s16, bLongerTimeoutToNextDemo);
+ALIVE_VAR_EXTERN(s32, sJoystickEnabled);

@@ -182,9 +182,9 @@ s32 EvilFart::VGetSaveState(u8* pSaveBuffer)
 void EvilFart::InputControlFart()
 {
     const FP kFartSpeed = FP_FromDouble(0.2);
-    const u32 pressedKeys = sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed;
+    const u32 pressedKeys = Input().mPads[sCurrentControllerIndex].mPressed;
 
-    if (sInputKey_Right_5550D0 & pressedKeys)
+    if (sInputKey_Right & pressedKeys)
     {
         if (mVelX < FP_FromInteger(4))
         {
@@ -192,7 +192,7 @@ void EvilFart::InputControlFart()
         }
     }
 
-    if (sInputKey_Left_5550D4 & pressedKeys)
+    if (sInputKey_Left & pressedKeys)
     {
         if (mVelX > FP_FromInteger(-4))
         {
@@ -200,7 +200,7 @@ void EvilFart::InputControlFart()
         }
     }
 
-    if (sInputKey_Down_5550DC & pressedKeys)
+    if (sInputKey_Down & pressedKeys)
     {
         if (mVelY < FP_FromInteger(4))
         {
@@ -208,7 +208,7 @@ void EvilFart::InputControlFart()
         }
     }
 
-    if (sInputKey_Up_5550D8 & pressedKeys)
+    if (sInputKey_Up & pressedKeys)
     {
         if (mVelY > FP_FromInteger(-4))
         {
@@ -216,7 +216,7 @@ void EvilFart::InputControlFart()
         }
     }
 
-    if (!(pressedKeys & sInputKey_Right_5550D0) && !(pressedKeys & sInputKey_Left_5550D4))
+    if (!(pressedKeys & sInputKey_Right) && !(pressedKeys & sInputKey_Left))
     {
         if (mVelX > FP_FromInteger(0))
         {
@@ -229,7 +229,7 @@ void EvilFart::InputControlFart()
         }
     }
 
-    if (!(pressedKeys & sInputKey_Up_5550D8) && !(pressedKeys & sInputKey_Down_5550DC))
+    if (!(pressedKeys & sInputKey_Up) && !(pressedKeys & sInputKey_Down))
     {
         if (mVelY > FP_FromInteger(0))
         {

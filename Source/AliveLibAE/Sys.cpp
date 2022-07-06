@@ -56,7 +56,7 @@ TWindowHandleType Sys_GetHWnd()
 
 bool Sys_IsAnyKeyDown_4EDDF0()
 {
-    return sIsAKeyDown_BD309C;
+    return sIsAKeyDown;
 }
 
 #if _WIN32
@@ -152,7 +152,7 @@ LRESULT CALLBACK Sys_WindowProc_4EE32D(HWND hWnd, UINT msg, WPARAM wParam, LPARA
             if (!Input_GetInputEnabled_4EDDE0())
             {
                 // Store the ASCII of a single key press. Used for typing in text for save names etc.
-                sIsAKeyDown_BD309C = TRUE;
+                sIsAKeyDown = TRUE;
                 u8 KeyState[256] = {};
                 ::GetKeyboardState(KeyState);
 
@@ -163,13 +163,13 @@ LRESULT CALLBACK Sys_WindowProc_4EE32D(HWND hWnd, UINT msg, WPARAM wParam, LPARA
                 const s32 numBytesWritten = ::ToAscii(vKey, scanCode, KeyState, reinterpret_cast<u16*>(&translated), 0);
                 translated[numBytesWritten] = 0;
                 ::CharToOemA(translated, translated);
-                sLastPressedKey_BD30A0 = translated[0];
+                sLastPressedKey = translated[0];
             }
             break;
 
         case WM_KEYUP:
-            sIsAKeyDown_BD309C = 0;
-            sLastPressedKey_BD30A0 = 0;
+            sIsAKeyDown = 0;
+            sLastPressedKey = 0;
             break;
     }
     return ::DefWindowProcA(hWnd, msg, wParam, lParam);
@@ -851,45 +851,45 @@ static void KeyDownEvent(SDL_Scancode scanCode)
         {
             return;
         }
-        sLastPressedKey_BD30A0 = vk;
+        sLastPressedKey = vk;
 
-        // LOG_INFO("Key down (input disabled) " << sLastPressedKey_BD30A0);
+        // LOG_INFO("Key down (input disabled) " << sLastPressedKey);
 
         // Between A-Z
-        if (sLastPressedKey_BD30A0 >= 0x41 && sLastPressedKey_BD30A0 <= 0x5A)
+        if (sLastPressedKey >= 0x41 && sLastPressedKey <= 0x5A)
         {
-            sLastPressedKey_BD30A0 -= 0x41;
+            sLastPressedKey -= 0x41;
 
             if (SDL_GetModState() & (KMOD_SHIFT | KMOD_CAPS))
             {
-                sLastPressedKey_BD30A0 += 'A';
+                sLastPressedKey += 'A';
             }
             else
             {
-                sLastPressedKey_BD30A0 += 'a';
+                sLastPressedKey += 'a';
             }
         }
         // Between 0-9
-        else if (sLastPressedKey_BD30A0 >= VK_NUMPAD0 && sLastPressedKey_BD30A0 <= VK_NUMPAD9)
+        else if (sLastPressedKey >= VK_NUMPAD0 && sLastPressedKey <= VK_NUMPAD9)
         {
-            sLastPressedKey_BD30A0 -= VK_NUMPAD0;
-            LOG_INFO(sLastPressedKey_BD30A0);
-            if (SDL_GetModState() & (KMOD_SHIFT) && sLastPressedKey_BD30A0 == 1)
+            sLastPressedKey -= VK_NUMPAD0;
+            LOG_INFO(sLastPressedKey);
+            if (SDL_GetModState() & (KMOD_SHIFT) && sLastPressedKey == 1)
             {
-                sLastPressedKey_BD30A0 = '!';
+                sLastPressedKey = '!';
             }
             else
             {
-                sLastPressedKey_BD30A0 += '0';
+                sLastPressedKey += '0';
             }
         }
 
-        else if (sLastPressedKey_BD30A0 == VK_SUBTRACT)
+        else if (sLastPressedKey == VK_SUBTRACT)
         {
-            sLastPressedKey_BD30A0 = '-';
+            sLastPressedKey = '-';
         }
 
-        sIsAKeyDown_BD309C = TRUE;
+        sIsAKeyDown = TRUE;
     }
     else
     {
@@ -937,8 +937,8 @@ static void KeyUpEvent(SDL_Scancode scanCode)
     const s32 vk = sdl_key_to_win32_vkey(scanCode);
     // LOG_INFO("Key up " << vk);
     Input_SetKeyState_4EDD80(vk, 0);
-    sIsAKeyDown_BD309C = FALSE;
-    sLastPressedKey_BD30A0 = 0;
+    sIsAKeyDown = FALSE;
+    sLastPressedKey = 0;
 }
 
 static void QuitEvent(bool isRecordedEvent, bool isRecording)
@@ -1070,7 +1070,7 @@ s8 Sys_PumpMessages_4EE4F4()
             totalConnectedJoysticks++;
             LOG_INFO("User just inserted joystick!");
             Input_Init_491BC0();
-            sJoystickEnabled_5C9F70 = 1;
+            sJoystickEnabled = 1;
         }
         else if (event.type == SDL_JOYDEVICEREMOVED && !isRecording)
         {
@@ -1083,7 +1083,7 @@ s8 Sys_PumpMessages_4EE4F4()
             }
             else
             {
-                sJoystickEnabled_5C9F70 = 0; // Returns to keyboard controls
+                sJoystickEnabled = 0; // Returns to keyboard controls
             }
         }
         else

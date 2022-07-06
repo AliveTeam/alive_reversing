@@ -351,7 +351,7 @@ void Map::Handle_PathTransition()
     Path_Change* pPathChangeTLV = nullptr;
     if (mAliveObj)
     {
-        pPathChangeTLV = static_cast<Path_Change*>(sPath_dword_BB47C0->TLV_Get_At_4DB4B0(
+        pPathChangeTLV = static_cast<Path_Change*>(sPathInfo->TLV_Get_At_4DB4B0(
             FP_GetExponent(mAliveObj->mXPos),
             FP_GetExponent(mAliveObj->mYPos),
             FP_GetExponent(mAliveObj->mXPos),
@@ -435,7 +435,7 @@ void Map::Handle_PathTransition()
                 break;
         }
 
-        const u32 pCamNameOffset = sizeof(CameraName) * (mCamIdxOnX + (mCamIdxOnY * sPath_dword_BB47C0->mCamsOnX));
+        const u32 pCamNameOffset = sizeof(CameraName) * (mCamIdxOnX + (mCamIdxOnY * sPathInfo->mCamsOnX));
         const u8* pPathRes = *GetPathResourceBlockPtr(mCurrentPath);
         auto pCameraName = reinterpret_cast<const CameraName*>(pPathRes + pCamNameOffset);
 
@@ -517,7 +517,7 @@ CameraPos Map::GetDirection(EReliveLevelIds level, s32 path, FP xpos, FP ypos)
 
 void Map::Init(EReliveLevelIds level, s16 path, s16 camera, CameraSwapEffects screenChangeEffect, s16 fmvBaseId, s16 forceChange)
 {
-    sPath_dword_BB47C0 = relive_new Path();
+    sPathInfo = relive_new Path();
 
     field_2C_camera_array[0] = nullptr;
     field_2C_camera_array[1] = nullptr;
@@ -560,8 +560,8 @@ void Map::Shutdown()
     pScreenManager = nullptr;
 
     // Free 
-    relive_delete sPath_dword_BB47C0;
-    sPath_dword_BB47C0 = nullptr;
+    relive_delete sPathInfo;
+    sPathInfo = nullptr;
 
     ResourceManager::Reclaim_Memory_49C470(0);
     Reset();
@@ -680,7 +680,7 @@ void Map::GoTo_Camera()
             // Free all but the first ?
             FreePathResourceBlocks();
 
-            sPath_dword_BB47C0->Free();
+            sPathInfo->Free();
 
             if (mNextLevel != mCurrentLevel)
             {
@@ -755,7 +755,7 @@ void Map::GoTo_Camera()
     const PathBlyRec* pPathRec_1 = Path_Get_Bly_Record(mNextLevel, mNextPath);
     mPathData = pPathRec_1->field_4_pPathData;
 
-    sPath_dword_BB47C0->Init(
+    sPathInfo->Init(
         mPathData,
         mNextLevel,
         mNextPath,
@@ -771,7 +771,7 @@ void Map::GoTo_Camera()
     Path_Format_CameraName(pStrBuffer, mNextLevel, mNextPath, mNextCamera);
 
     u32 pCamNameOffset = 0;
-    if (sizeof(CameraName) * sPath_dword_BB47C0->mCamsOnX * sPath_dword_BB47C0->mCamsOnY > 0)
+    if (sizeof(CameraName) * sPathInfo->mCamsOnX * sPathInfo->mCamsOnY > 0)
     {
         for (;;)
         {
@@ -785,7 +785,7 @@ void Map::GoTo_Camera()
             }
 
             pCamNameOffset += sizeof(CameraName);
-            if (pCamNameOffset >= sizeof(CameraName) * sPath_dword_BB47C0->mCamsOnX * sPath_dword_BB47C0->mCamsOnY)
+            if (pCamNameOffset >= sizeof(CameraName) * sPathInfo->mCamsOnX * sPathInfo->mCamsOnY)
             {
                 // Out of bounds
                 break;
@@ -793,8 +793,8 @@ void Map::GoTo_Camera()
         }
     }
 
-    mCamIdxOnX = static_cast<s16>((pCamNameOffset / sizeof(CameraName)) % sPath_dword_BB47C0->mCamsOnX);
-    mCamIdxOnY = static_cast<s16>((pCamNameOffset / sizeof(CameraName)) / sPath_dword_BB47C0->mCamsOnX);
+    mCamIdxOnX = static_cast<s16>((pCamNameOffset / sizeof(CameraName)) % sPathInfo->mCamsOnX);
+    mCamIdxOnY = static_cast<s16>((pCamNameOffset / sizeof(CameraName)) / sPathInfo->mCamsOnX);
     field_24_camera_offset.x = FP_FromInteger(mCamIdxOnX * mPathData->field_A_grid_width);
     field_24_camera_offset.y = FP_FromInteger(mCamIdxOnY * mPathData->field_C_grid_height);
 
@@ -858,7 +858,7 @@ void Map::GoTo_Camera()
         pScreenManager = relive_new ScreenManager(field_2C_camera_array[0]->field_C_pCamRes, &field_24_camera_offset);
     }
 
-    sPath_dword_BB47C0->Loader_4DB800(mCamIdxOnX, mCamIdxOnY, LoadMode::ConstructObject_0, TlvTypes::None_m1); // none = load all
+    sPathInfo->Loader_4DB800(mCamIdxOnX, mCamIdxOnY, LoadMode::ConstructObject_0, TlvTypes::None_m1); // none = load all
     if (prevPathId != mCurrentPath || prevLevelId != mCurrentLevel)
     {
         if (sActiveHero)
@@ -897,7 +897,7 @@ void Map::GoTo_Camera()
             // TODO: Add template helpers
 
             // Door transition
-            Path_Door* pDoorTlv = static_cast<Path_Door*>(sPath_dword_BB47C0->TLV_First_Of_Type_In_Camera(TlvTypes::Door_5, 0));
+            Path_Door* pDoorTlv = static_cast<Path_Door*>(sPathInfo->TLV_First_Of_Type_In_Camera(TlvTypes::Door_5, 0));
             while (pDoorTlv->field_18_door_number != sActiveHero->field_1A0_door_id)
             {
                 pDoorTlv = static_cast<Path_Door*>(Path::TLV_Next_Of_Type(pDoorTlv, TlvTypes::Door_5));
@@ -916,7 +916,7 @@ void Map::GoTo_Camera()
                 // TODO: Add template helpers
 
                 // Teleporter transition
-                Path_Teleporter* pTeleporterTlv = static_cast<Path_Teleporter*>(sPath_dword_BB47C0->TLV_First_Of_Type_In_Camera(TlvTypes::Teleporter_88, 0));
+                Path_Teleporter* pTeleporterTlv = static_cast<Path_Teleporter*>(sPathInfo->TLV_First_Of_Type_In_Camera(TlvTypes::Teleporter_88, 0));
                 Path_Teleporter_Data teleporterData = pTeleporterTlv->field_10_data;
                 while (teleporterData.field_10_teleporter_switch_id != sActiveHero->field_1A0_door_id)
                 {
@@ -1198,7 +1198,7 @@ Camera* Map::Create_Camera(s16 xpos, s16 ypos, s32 /*a4*/)
     }
 
     // Check max bounds
-    if (xpos >= sPath_dword_BB47C0->mCamsOnX || ypos >= sPath_dword_BB47C0->mCamsOnY)
+    if (xpos >= sPathInfo->mCamsOnX || ypos >= sPathInfo->mCamsOnY)
     {
         return nullptr;
     }
@@ -1220,7 +1220,7 @@ Camera* Map::Create_Camera(s16 xpos, s16 ypos, s32 /*a4*/)
 
     // Get a pointer to the camera name from the Path resource
     const u8* pPathData = *GetPathResourceBlockPtr(mCurrentPath);
-    auto pCamName = reinterpret_cast<const CameraName*>(&pPathData[(xpos + (ypos * sPath_dword_BB47C0->mCamsOnX)) * sizeof(CameraName)]);
+    auto pCamName = reinterpret_cast<const CameraName*>(&pPathData[(xpos + (ypos * sPathInfo->mCamsOnX)) * sizeof(CameraName)]);
 
     // Empty/blank camera in the map array
     if (!pCamName->name[0])
@@ -1268,7 +1268,7 @@ void Map::Load_Path_Items(Camera* pCamera, LoadMode loadMode)
             ResourceManager::LoadResourceFile_49C130(pCamera->field_1E_cam_name, Camera::On_Loaded, pCamera, pCamera);
 
             sCameraBeingLoaded_5C3118 = pCamera;
-            sPath_dword_BB47C0->Loader_4DB800(pCamera->mCamXOff, pCamera->mCamYOff, LoadMode::LoadResourceFromList_1, TlvTypes::None_m1); // none = load all
+            sPathInfo->Loader_4DB800(pCamera->mCamXOff, pCamera->mCamYOff, LoadMode::LoadResourceFromList_1, TlvTypes::None_m1); // none = load all
         }
         else
         {
@@ -1278,7 +1278,7 @@ void Map::Load_Path_Items(Camera* pCamera, LoadMode loadMode)
             pCamera->field_C_pCamRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Bits, pCamera->field_10_camera_resource_id, 1, 0);
 
             sCameraBeingLoaded_5C3118 = pCamera;
-            sPath_dword_BB47C0->Loader_4DB800(pCamera->mCamXOff, pCamera->mCamYOff, LoadMode::LoadResource_2, TlvTypes::None_m1); // none = load all
+            sPathInfo->Loader_4DB800(pCamera->mCamXOff, pCamera->mCamYOff, LoadMode::LoadResource_2, TlvTypes::None_m1); // none = load all
         }
         sCameraBeingLoaded_5C3118 = nullptr;
     }
@@ -1314,7 +1314,7 @@ s16 Map::SetActiveCameraDelayed(MapDirections direction, BaseAliveGameObject* pO
     CameraSwapEffects convertedSwapEffect = CameraSwapEffects::eInstantChange_0;
     if (pObj)
     {
-        pPathChangeTLV = reinterpret_cast<Path_Change*>(sPath_dword_BB47C0->TLV_Get_At_4DB4B0(
+        pPathChangeTLV = reinterpret_cast<Path_Change*>(sPathInfo->TLV_Get_At_4DB4B0(
             FP_GetExponent(pObj->mXPos),
             FP_GetExponent(pObj->mYPos),
             FP_GetExponent(pObj->mXPos),

@@ -554,7 +554,7 @@ void Game_Run_466D40()
     PSX_CdControlB_4FB320(8, 0, 0);
     PSX_ResetCallBack_4FAA20();
     PSX_StopCallBack_4FAA30();
-    sInputObject_5BD4E0.ShutDown_45F020();
+    Input().ShutDown_45F020();
     PSX_ResetGraph_4F8800(0);
 }
 
@@ -801,7 +801,7 @@ void Game_Loop_467230()
         bPauseMenuObjectFound = false;
 
         gMap.ScreenChange();
-        sInputObject_5BD4E0.Update(GetGameAutoPlayer());
+        Input().Update(GetGameAutoPlayer());
 
         if (sNum_CamSwappers_5C1B66 == 0)
         {

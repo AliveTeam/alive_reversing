@@ -242,7 +242,7 @@ void TorturedMudokon::VUpdate()
         mAnim.Set_Animation_Data(AnimId::Tortured_Mudokon_Released, nullptr);
         mTearsAnim.mFlags.Clear(AnimFlags::eBit3_Render);
         mZapAnim.mFlags.Clear(AnimFlags::eBit3_Render);
-        Path_TLV* pTlv = sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam(mTlvInfo);
+        Path_TLV* pTlv = sPathInfo->TLV_From_Offset_Lvl_Cam(mTlvInfo);
         if (pTlv)
         {
             pTlv->mTlvState = 1;

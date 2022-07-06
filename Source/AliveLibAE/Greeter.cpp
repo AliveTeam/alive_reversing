@@ -102,7 +102,7 @@ Greeter::Greeter(Path_Greeter* pTlv, s32 tlvInfo)
 s32 Greeter::CreateFromSaveState(const u8* pBuffer)
 {
     auto pState = reinterpret_cast<const Greeter_State*>(pBuffer);
-    auto pTlv = static_cast<Path_Greeter*>(sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam(pState->field_28_tlvInfo));
+    auto pTlv = static_cast<Path_Greeter*>(sPathInfo->TLV_From_Offset_Lvl_Cam(pState->field_28_tlvInfo));
 
     if (!ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kMflareResID, FALSE, FALSE))
     {
@@ -329,7 +329,7 @@ void Greeter::BounceBackFromShot()
 void Greeter::HandleRollingAlong()
 {
     for (Path_TLV* pTlv = field_138_pTlv; pTlv;
-         pTlv = sPath_dword_BB47C0->TlvGetAt(pTlv,
+         pTlv = sPathInfo->TlvGetAt(pTlv,
                                                       mVelX + mXPos + mVelX,
                                                       mVelY + mYPos + mVelY,
                                                       mVelX + mXPos + mVelX,
@@ -800,7 +800,7 @@ void Greeter::VUpdate()
                           + mYPos
                           + mVelY;
 
-            field_138_pTlv = sPath_dword_BB47C0->TlvGetAt(nullptr, xpos, ypos, xpos, ypos);
+            field_138_pTlv = sPathInfo->TlvGetAt(nullptr, xpos, ypos, xpos, ypos);
             HandleRollingAlong();
         }
     }
@@ -808,7 +808,7 @@ void Greeter::VUpdate()
     bool collisionCheck = true;
     if (field_13C_brain_state == GreeterBrainStates::eBrain_7_Fall)
     {
-        field_138_pTlv = sPath_dword_BB47C0->TlvGetAt(
+        field_138_pTlv = sPathInfo->TlvGetAt(
             nullptr,
             mXPos,
             mYPos,

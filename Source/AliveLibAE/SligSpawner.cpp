@@ -97,7 +97,7 @@ void SligSpawner::VUpdate()
     {
         if (SwitchStates_Get(field_24_slig_spawner_switch_id))
         {
-            Path_TLV* pSpawnerTlv = sPath_dword_BB47C0->TLV_Get_At_4DB4B0(field_28_tlv.mTopLeft.x, field_28_tlv.mTopLeft.y, field_28_tlv.mTopLeft.x, field_28_tlv.mTopLeft.y, TlvTypes::SligSpawner_37);
+            Path_TLV* pSpawnerTlv = sPathInfo->TLV_Get_At_4DB4B0(field_28_tlv.mTopLeft.x, field_28_tlv.mTopLeft.y, field_28_tlv.mTopLeft.x, field_28_tlv.mTopLeft.y, TlvTypes::SligSpawner_37);
             if (pSpawnerTlv)
             {
                 auto pSligMem = relive_new Slig(static_cast<Path_Slig*>(pSpawnerTlv), field_20_tlv_info);
@@ -143,7 +143,7 @@ s32 SligSpawner::VGetSaveState(u8* pSaveBuffer)
 s32 SligSpawner::CreateFromSaveState(const u8* pBuffer)
 {
     auto pState = reinterpret_cast<const Slig_Spawner_State*>(pBuffer);
-    auto pTlv = static_cast<Path_Slig*>(sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam(pState->field_4_tlvInfo));
+    auto pTlv = static_cast<Path_Slig*>(sPathInfo->TLV_From_Offset_Lvl_Cam(pState->field_4_tlvInfo));
     auto pSpawner = relive_new SligSpawner(pTlv, pState->field_4_tlvInfo);
     if (pSpawner)
     {

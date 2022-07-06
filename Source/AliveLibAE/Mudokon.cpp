@@ -664,7 +664,7 @@ s32 Mudokon::CreateFromSaveState(const u8* pBuffer)
 {
     auto pState = reinterpret_cast<const Mudokon_State*>(pBuffer);
 
-    auto pTlv = static_cast<Path_Mudokon*>(sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam(pState->field_40_tlvInfo));
+    auto pTlv = static_cast<Path_Mudokon*>(sPathInfo->TLV_From_Offset_Lvl_Cam(pState->field_40_tlvInfo));
     if (!ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kAbebsic1ResID, FALSE, FALSE))
     {
         ResourceManager::LoadResourceFile_49C170("ABEBSIC1.BAN", nullptr);
@@ -1113,7 +1113,7 @@ void Mudokon::VUpdate()
 
     if (oldXPos != mXPos || oldYPos != mYPos)
     {
-        BaseAliveGameObjectPathTLV = sPath_dword_BB47C0->TlvGetAt(
+        BaseAliveGameObjectPathTLV = sPathInfo->TlvGetAt(
             nullptr,
             mXPos,
             mYPos,
@@ -1213,7 +1213,7 @@ void Mudokon::VOnTlvCollision(Path_TLV* pTlv)
             }
         }
 
-        pTlvIter = sPath_dword_BB47C0->TlvGetAt(
+        pTlvIter = sPathInfo->TlvGetAt(
             pTlvIter,
             mXPos,
             mYPos,
@@ -1664,7 +1664,7 @@ s16 Mudokon::TurningWheelHelloOrAllYaResponse()
         return field_190_brain_sub_state;
     }
 
-    auto pWheelTlv = static_cast<Path_WorkWheel*>(sPath_dword_BB47C0->TLV_Get_At_4DB4B0(
+    auto pWheelTlv = static_cast<Path_WorkWheel*>(sPathInfo->TLV_Get_At_4DB4B0(
         FP_GetExponent(mXPos),
         FP_GetExponent(mYPos),
         FP_GetExponent(mXPos),
@@ -3269,7 +3269,7 @@ s16 Mudokon::Brain_4_ListeningToAbe()
             {
                 field_16A_flags.Set(Flags_16A::eBit8_do_angry);
 
-                if (sPath_dword_BB47C0->TLV_Get_At_4DB4B0(
+                if (sPathInfo->TLV_Get_At_4DB4B0(
                         FP_GetExponent(mXPos),
                         FP_GetExponent(mYPos - FP_FromInteger(5)),
                         FP_GetExponent(mXPos),
@@ -5122,7 +5122,7 @@ s16 Mudokon::Brain_8_AngryWorker()
             // adds mudokon lag when quicksaving/quickloading in the same screen
             AddAlerted();
 
-            return sPath_dword_BB47C0->TLV_Get_At_4DB4B0(
+            return sPathInfo->TLV_Get_At_4DB4B0(
                        FP_GetExponent(mXPos),
                        FP_GetExponent(mYPos),
                        FP_GetExponent(mXPos),
@@ -5215,7 +5215,7 @@ s16 Mudokon::Brain_8_AngryWorker()
                 mNextMotion = eMudMotions::M_Speak_6_472FA0;
                 MudEmotionSound(field_160_delayed_speak);
                 field_194_timer = sGnFrame + Math_RandomRange(30, 45);
-                return sPath_dword_BB47C0->TLV_Get_At_4DB4B0(
+                return sPathInfo->TLV_Get_At_4DB4B0(
                            FP_GetExponent(mXPos),
                            FP_GetExponent(mYPos),
                            FP_GetExponent(mXPos),
@@ -6652,7 +6652,7 @@ void Mudokon::Motion_49_Fall()
 
                 MapFollowMe(TRUE);
 
-                if ((sPath_dword_BB47C0->TLV_Get_At_4DB4B0(
+                if ((sPathInfo->TLV_Get_At_4DB4B0(
                          FP_GetExponent(mXPos),
                          FP_GetExponent(mYPos),
                          FP_GetExponent(mXPos),
@@ -7162,7 +7162,7 @@ void Mudokon::ToStand()
 s16 Mudokon::FindWheel(FP xpos, FP ypos)
 {
     auto* pWheelTlv = static_cast<Path_WorkWheel*>(
-        sPath_dword_BB47C0->TLV_Get_At_4DB4B0(
+        sPathInfo->TLV_Get_At_4DB4B0(
             FP_GetExponent(xpos), FP_GetExponent(ypos), FP_GetExponent(xpos), FP_GetExponent(ypos), TlvTypes::WorkWheel_79));
 
     if (pWheelTlv)
@@ -7237,7 +7237,7 @@ s16 Mudokon::StopAtWheel()
             // Check if the other mud has already take the spot of this work wheel
             if (bRect.x <= ourRect.w && bRect.w >= ourRect.x && bRect.h >= ourRect.y && bRect.y <= ourRect.h)
             {
-                if (pOtherMud->field_16A_flags.Get(Flags_16A::eBit7_stopped_at_wheel) || (sPath_dword_BB47C0->TLV_Get_At_4DB4B0(FP_GetExponent(pObj->mXPos), FP_GetExponent(pObj->mYPos), FP_GetExponent(pObj->mXPos), FP_GetExponent(pObj->mYPos), TlvTypes::WorkWheel_79) && pOtherMud->mVelX == FP_FromInteger(0)))
+                if (pOtherMud->field_16A_flags.Get(Flags_16A::eBit7_stopped_at_wheel) || (sPathInfo->TLV_Get_At_4DB4B0(FP_GetExponent(pObj->mXPos), FP_GetExponent(pObj->mYPos), FP_GetExponent(pObj->mXPos), FP_GetExponent(pObj->mYPos), TlvTypes::WorkWheel_79) && pOtherMud->mVelX == FP_FromInteger(0)))
                 {
                     // Another mud has stolen this wheel so don't stop
                     return 0;

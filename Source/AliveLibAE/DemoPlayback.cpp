@@ -24,7 +24,7 @@ DemoPlayback::DemoPlayback()
 
         u32** ppRes = reinterpret_cast<u32**>(Add_Resource(ResourceManager::Resource_Demo, AEResourceID::kDemoResID));
         SetUpdateDelay(1);
-        sInputObject_5BD4E0.SetDemoResource_45F1E0(ppRes);
+        Input().SetDemoResource_45F1E0(ppRes);
         SetType(ReliveTypes::eDemoPlayback);
     }
 }
@@ -46,10 +46,10 @@ void DemoPlayback::VUpdate()
 {
     if (EventGet(kEventDeathReset))
     {
-        sInputObject_5BD4E0.UnsetDemoPlaying_45F240();
+        Input().UnsetDemoPlaying_45F240();
     }
 
-    if (!sInputObject_5BD4E0.Is_Demo_Playing_45F220())
+    if (!Input().Is_Demo_Playing_45F220())
     {
         // demo finished playing, go back to the appropriate menu
         if (gIsDemoStartedManually_5C1B9C)

@@ -82,7 +82,7 @@ s32 WorkWheel::CreateFromSaveState(const u8* pState)
 {
     const WorkWheel_SaveState* pData = reinterpret_cast<const WorkWheel_SaveState*>(pState);
 
-    Path_WorkWheel* pTlv = static_cast<Path_WorkWheel*>(sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam(pData->field_4_tlvInfo));
+    Path_WorkWheel* pTlv = static_cast<Path_WorkWheel*>(sPathInfo->TLV_From_Offset_Lvl_Cam(pData->field_4_tlvInfo));
 
     if (!ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kAbeworkResID, FALSE, FALSE))
     {

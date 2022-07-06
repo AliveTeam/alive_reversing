@@ -14,7 +14,7 @@ void String_FormatString(const char_type* src, char_type* dst, s32 /*bufferLen*/
         if (src_char <= 25u) // End of medium, first 25 ASCII values are for button mappings?
         {
             const char_type* pButtonStr = nullptr;
-            if (sJoystickEnabled_5C9F70)
+            if (sJoystickEnabled)
             {
                 if (isAbeMotionsMenuWithAController) //TODO probably get rid of it, somehow
                 {

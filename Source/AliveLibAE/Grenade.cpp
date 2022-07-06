@@ -460,7 +460,7 @@ s16 Grenade::InTheAir(s16 blowUpOnFloorTouch)
     mXPos += mVelX;
     mYPos = mVelY + mYPos;
 
-    BaseAliveGameObjectPathTLV = sPath_dword_BB47C0->TlvGetAt(
+    BaseAliveGameObjectPathTLV = sPathInfo->TlvGetAt(
         nullptr,
         mXPos,
         mYPos,
@@ -475,7 +475,7 @@ s16 Grenade::InTheAir(s16 blowUpOnFloorTouch)
             return 1;
         }
 
-        BaseAliveGameObjectPathTLV = sPath_dword_BB47C0->TlvGetAt(
+        BaseAliveGameObjectPathTLV = sPathInfo->TlvGetAt(
             BaseAliveGameObjectPathTLV,
             mXPos,
             mYPos,

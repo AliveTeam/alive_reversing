@@ -457,7 +457,7 @@ s32 SlamDoor::CreateFromSaveState(const u8* pData)
         }
     }
 
-    relive_new SlamDoor(static_cast<Path_SlamDoor*>(sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam(pSaveState->field_4_tlv.all)), pSaveState->field_4_tlv);
+    relive_new SlamDoor(static_cast<Path_SlamDoor*>(sPathInfo->TLV_From_Offset_Lvl_Cam(pSaveState->field_4_tlv.all)), pSaveState->field_4_tlv);
 
     return sizeof(Quicksave_Obj_SlamDoor);
 }

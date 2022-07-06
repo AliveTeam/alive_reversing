@@ -1417,7 +1417,7 @@ MainMenuNextCam MainMenuController::Page_FMV_Level_Update_4D4AB0(u32 input_held)
     }
 
     s32 inputToUse = 0;
-    if (field_204_prev_pressed && field_204_prev_pressed == sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed)
+    if (field_204_prev_pressed && field_204_prev_pressed == Input().mPads[sCurrentControllerIndex].mPressed)
     {
         field_202_input_hold_down_timer--;
         if (field_202_input_hold_down_timer == 0)
@@ -1433,7 +1433,7 @@ MainMenuNextCam MainMenuController::Page_FMV_Level_Update_4D4AB0(u32 input_held)
     else
     {
         field_202_input_hold_down_timer = 15;
-        field_204_prev_pressed = sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed;
+        field_204_prev_pressed = Input().mPads[sCurrentControllerIndex].mPressed;
         inputToUse = input_held;
     }
 
@@ -1662,16 +1662,16 @@ MainMenuNextCam MainMenuController::Page_Front_Update_4D0720(u32 input)
 
 #endif
     // Reset time out if any input detected
-    if (sInputObject_5BD4E0.field_0_pads[0].field_0_pressed)
+    if (Input().mPads[0].mPressed)
     {
         field_1F8_page_timeout = 0;
-        bLongerTimeoutToNextDemo_5C1B9A = 0;
+        bLongerTimeoutToNextDemo = 0;
     }
 
     // Go to loading a demo screen if no input after time out, after one demo plays the next time out is lower if input isn't pressed
-    if (field_1F8_page_timeout > (bLongerTimeoutToNextDemo_5C1B9A ? 300 : 1500))
+    if (field_1F8_page_timeout > (bLongerTimeoutToNextDemo ? 300 : 1500))
     {
-        bLongerTimeoutToNextDemo_5C1B9A = 1;
+        bLongerTimeoutToNextDemo = 1;
         field_1FC_button_index = 0;
         return MainMenuNextCam(MainMenuCams::eDemoIsLoading_ShaddapCam, NO_SELECTABLE_BUTTONS);
     }
@@ -1928,7 +1928,7 @@ MainMenuNextCam MainMenuController::BackStory_Or_NewGame_Update_4D1C60(u32 input
         }
         else if (field_1FC_button_index == 1) // Start game
         {
-            sCurrentControllerIndex_5C1BBE = 0;
+            sCurrentControllerIndex = 0;
             sGameStartedFrame_5C1B88 = sGnFrame;
             return MainMenuNextCam(MainMenuCams::eGameIsLoading_ShaddapCam, NO_SELECTABLE_BUTTONS);
         }
@@ -2172,7 +2172,7 @@ MainMenuNextCam MainMenuController::DemoSelect_Update_4D0E10(u32 input)
     gIsDemoStartedManually_5C1B9C = FALSE;
 
     s32 input_or_field_204 = input;
-    if (field_204_prev_pressed && field_204_prev_pressed == sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed)
+    if (field_204_prev_pressed && field_204_prev_pressed == Input().mPads[sCurrentControllerIndex].mPressed)
     {
         field_202_input_hold_down_timer--;
         if (field_202_input_hold_down_timer == 0)
@@ -2184,7 +2184,7 @@ MainMenuNextCam MainMenuController::DemoSelect_Update_4D0E10(u32 input)
     else
     {
         field_202_input_hold_down_timer = 15;
-        field_204_prev_pressed = sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed;
+        field_204_prev_pressed = Input().mPads[sCurrentControllerIndex].mPressed;
     }
 
     if (input_or_field_204 & (InputCommands::Enum::eUp | InputCommands::Enum::eLeft))
@@ -2442,7 +2442,7 @@ MainMenuNextCam MainMenuController::AbeMotions_Update_4D1F50(u32 input)
 
 MainMenuNextCam MainMenuController::PSX_Cooperative_Mode_Update_4D49B0(u32 /*input*/)
 {
-    const u32 held = sInputObject_5BD4E0.field_0_pads[0].field_C_held;
+    const u32 held = Input().mPads[0].mHeld;
     if (held & (InputCommands::Enum::eUnPause_OrConfirm | InputCommands::Enum::eBack))
     {
         return MainMenuNextCam(MainMenuCams::eBackstory_Or_NewGameCam);
@@ -2456,7 +2456,7 @@ MainMenuNextCam MainMenuController::PSX_Gamemode_Selection_Update_4D48C0(u32 inp
     if (input & InputCommands::Enum::eUnPause_OrConfirm)
     {
         sGameStartedFrame_5C1B88 = sGnFrame;
-        sCurrentControllerIndex_5C1BBE = 0;
+        sCurrentControllerIndex = 0;
         const bool twoPlayerModeSelected = field_1FC_button_index == 1;
 
         MainMenuController::Set_Anim_4D05E0(MainMenuGamespeakAnimIds::eAbe_FollowMe);
@@ -2495,8 +2495,8 @@ void MainMenuController::RemapInput_Load_4D17E0()
 
 void MainMenuController::ControllerMenu_Load_4D16B0()
 {
-    sControllerEntryToSelect_BB43D8 = sJoystickEnabled_5C9F70;
-    sSelectedControllerEntry_BB43F4 = sJoystickEnabled_5C9F70;
+    sControllerEntryToSelect_BB43D8 = sJoystickEnabled;
+    sSelectedControllerEntry_BB43F4 = sJoystickEnabled;
 }
 
 const char_type* sInputButtonNames_562790[8] = {
@@ -2527,7 +2527,7 @@ void MainMenuController::RemapInput_Render_4D2A10(PrimHeader** ppOt)
     s32 polyIndex = 0;
     if (dword_BB43F8 == 3)
     {
-        if (sJoystickEnabled_5C9F70)
+        if (sJoystickEnabled)
         {
             field_234_pStr = "Press button to use";
         }
@@ -2574,7 +2574,7 @@ void MainMenuController::RemapInput_Render_4D2A10(PrimHeader** ppOt)
     }
     else
     {
-        if (!sJoystickEnabled_5C9F70)
+        if (!sJoystickEnabled)
         {
             // Speak 1
             const MainMenuText speak1Stru_562760 = {152, 174, "-", 3u, 0u, 0u, 0u, 0.88f, 0u, 0u, 0u, 0u};
@@ -2631,7 +2631,7 @@ MainMenuNextCam MainMenuController::ControllerMenu_Update_4D16D0(u32 input)
     // Enter - set active input device
     if (input & InputCommands::Enum::eUnPause_OrConfirm)
     {
-        sJoystickEnabled_5C9F70 = sControllerEntryToSelect_BB43D8;
+        sJoystickEnabled = sControllerEntryToSelect_BB43D8;
         Input_Init_Names_491870();
         Input_SaveSettingsIni_492840();
         return MainMenuNextCam(MainMenuCams::eOptionsCam);
@@ -2646,7 +2646,7 @@ MainMenuNextCam MainMenuController::ControllerMenu_Update_4D16D0(u32 input)
     if (configButtonPressed)
     {
         // c configure controller
-        sJoystickEnabled_5C9F70 = sControllerEntryToSelect_BB43D8;
+        sJoystickEnabled = sControllerEntryToSelect_BB43D8;
         Input_Init_Names_491870();
         return MainMenuNextCam(MainMenuCams::eRemapInputsCam);
     }
@@ -2671,7 +2671,7 @@ MainMenuNextCam MainMenuController::RemapInput_Update_4D1820(u32 input)
 {
     if (dword_BB43F8)
     {
-        if (dword_BB43F8 == 1 && sInputObject_5BD4E0.IsReleased(InputCommands::Enum::eUnPause_OrConfirm))
+        if (dword_BB43F8 == 1 && Input().IsReleased(InputCommands::Enum::eUnPause_OrConfirm))
         {
             dword_BB43F8 = 2;
             return MainMenuNextCam(MainMenuCams::eNoChange);
@@ -2701,7 +2701,7 @@ MainMenuNextCam MainMenuController::RemapInput_Update_4D1820(u32 input)
                 sButtonToRemapIdx_BB43EC = 7;
             }
 
-            if (!sJoystickEnabled_5C9F70 && (sButtonToRemapIdx_BB43EC == 7 || sButtonToRemapIdx_BB43EC == 3))
+            if (!sJoystickEnabled && (sButtonToRemapIdx_BB43EC == 7 || sButtonToRemapIdx_BB43EC == 3))
             {
                 sButtonToRemapIdx_BB43EC--;
             }
@@ -2713,7 +2713,7 @@ MainMenuNextCam MainMenuController::RemapInput_Update_4D1820(u32 input)
         {
             sButtonToRemapIdx_BB43EC++;
 
-            if (!sJoystickEnabled_5C9F70 && (sButtonToRemapIdx_BB43EC == 7 || sButtonToRemapIdx_BB43EC == 3))
+            if (!sJoystickEnabled && (sButtonToRemapIdx_BB43EC == 7 || sButtonToRemapIdx_BB43EC == 3))
             {
                 sButtonToRemapIdx_BB43EC++;
             }
@@ -2879,7 +2879,7 @@ MainMenuNextCam MainMenuController::HandleGameSpeakInput(u32 input_held, std::fu
 
 void MainMenuController::HandleCreditsControllerUpdate()
 {
-    if (sInputObject_5BD4E0.isPressed(InputCommands::Enum::eBack))
+    if (Input().isPressed(InputCommands::Enum::eBack))
     {
         sDoesCreditsControllerExist_5C1B90 = 0;
         gMap.SetActiveCam(EReliveLevelIds::eMenu, 1, 6, CameraSwapEffects::eInstantChange_0, 0, 0);
@@ -2950,7 +2950,7 @@ void MainMenuController::HandleMainMenuUpdate()
     MainMenuPage* pPage = &sMainMenuPages_561960[field_214_page_index];
 
     const auto currentCamId = pPage->field_0_cam_id;
-    if (sInputObject_5BD4E0.field_0_pads[0].field_0_pressed && currentCamId != MainMenuCams::eGameBootCopyrightSplashCam && currentCamId != MainMenuCams::eUnknown20Cam && currentCamId != MainMenuCams::eControllerSelectionCam)
+    if (Input().mPads[0].mPressed && currentCamId != MainMenuCams::eGameBootCopyrightSplashCam && currentCamId != MainMenuCams::eUnknown20Cam && currentCamId != MainMenuCams::eControllerSelectionCam)
     {
         field_1F8_page_timeout = 0;
     }
@@ -2962,7 +2962,7 @@ void MainMenuController::HandleMainMenuUpdate()
     if (pPage->field_4_time_out <= 0 || pPage->field_8_next_idx <= 0 || field_1F8_page_timeout <= pPage->field_4_time_out)
     {
         const MainMenuButton* btnArray = pPage->field_18_buttons;
-        const u32 inputHeld = sInputObject_5BD4E0.field_0_pads[0].field_C_held;
+        const u32 inputHeld = Input().mPads[0].mHeld;
 
         if (btnArray)
         {

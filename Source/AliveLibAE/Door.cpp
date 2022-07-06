@@ -327,7 +327,7 @@ void Door::vClose()
     {
         field_FE_start_state = eClosed_1;
         field_FC_current_state = eClosing_3;
-        Path_TLV* pTlv = sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam(field_F4_tlvInfo);
+        Path_TLV* pTlv = sPathInfo->TLV_From_Offset_Lvl_Cam(field_F4_tlvInfo);
         pTlv->mTlvState = 1;
     }
 }

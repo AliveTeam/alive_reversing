@@ -732,10 +732,10 @@ void Movie::DeInit()
 
 bool AreMovieSkippingInputsHeld()
 {
-    if (sJoystickEnabled_5C9F70)
+    if (sJoystickEnabled)
     {
         // OG bugfix - previously controllers couldn't skip movies
-        return (Input_Read_Pad_4FA9C0(sCurrentControllerIndex_5C1BBE) & MOVIE_SKIPPER_GAMEPAD_INPUTS) != 0;
+        return (Input_Read_Pad_4FA9C0(sCurrentControllerIndex) & MOVIE_SKIPPER_GAMEPAD_INPUTS) != 0;
     }
     else
     {

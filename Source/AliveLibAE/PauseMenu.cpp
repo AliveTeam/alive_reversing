@@ -584,7 +584,7 @@ public:
 
     void Update(PauseMenu* pm)
     {
-        auto input = sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_C_held;
+        auto input = Input().mPads[sCurrentControllerIndex].mHeld;
         if (input & InputCommands::Enum::eDown)
         {
             if (++index >= static_cast<s32>(entries->size()))
@@ -977,7 +977,7 @@ ALIVE_ARY(1, 0x55E398, char_type, 2, sArrowStr_55E398, {kArrowChar, 0});
 
 void PauseMenu::Page_Main_Update()
 {
-    if (sInputObject_5BD4E0.isHeld(InputCommands::Enum::eDown))
+    if (Input().isHeld(InputCommands::Enum::eDown))
     {
         if (++field_134_index_main > MainPages::ePage_Quit_7)
         {
@@ -986,7 +986,7 @@ void PauseMenu::Page_Main_Update()
         SFX_Play_Pitch(SoundEffect::MenuNavigation_52, 45, 400);
     }
 
-    if (sInputObject_5BD4E0.isHeld(InputCommands::Enum::eUp))
+    if (Input().isHeld(InputCommands::Enum::eUp))
     {
         if (--field_134_index_main < MainPages::ePage_Continue_0)
         {
@@ -997,13 +997,13 @@ void PauseMenu::Page_Main_Update()
 
     field_144_active_menu.field_C_selected_index = field_134_index_main;
 
-    if (sInputObject_5BD4E0.isHeld(InputCommands::Enum::eBack))
+    if (Input().isHeld(InputCommands::Enum::eBack))
     {
         word12C_flags &= ~1u;
         SFX_Play_Pitch(SoundEffect::PossessEffect_17, 40, 2400);
         GetSoundAPI().SND_Restart();
     }
-    else if (sInputObject_5BD4E0.isHeld(InputCommands::Enum::eUnPause_OrConfirm))
+    else if (Input().isHeld(InputCommands::Enum::eUnPause_OrConfirm))
     {
         switch (field_134_index_main)
         {
@@ -1095,14 +1095,14 @@ void PauseMenu::Page_Main_Update()
 
 void PauseMenu::Page_ControlsActions_Update()
 {
-    if (sInputObject_5BD4E0.isHeld(InputCommands::Enum::eBack))
+    if (Input().isHeld(InputCommands::Enum::eBack))
     {
         field_136_unused = 0;
         field_144_active_menu = sPM_Page_Main_5465B0;
         SFX_Play_Pitch(SoundEffect::PossessEffect_17, 40, 2400);
     }
 
-    if (sInputObject_5BD4E0.isHeld(0x100000))
+    if (Input().isHeld(0x100000))
     {
         const s32 prev = ++field_138_control_action_page_index;
         if (prev < 6)
@@ -1122,14 +1122,14 @@ void PauseMenu::Page_ControlsActions_Update()
 
 void PauseMenu::Page_ReallyQuit_Update()
 {
-    if (sInputObject_5BD4E0.isHeld(InputCommands::Enum::eBack))
+    if (Input().isHeld(InputCommands::Enum::eBack))
     {
         field_136_unused = 0;
         field_144_active_menu = sPM_Page_Main_5465B0;
         SFX_Play_Pitch(SoundEffect::PossessEffect_17, 40, 2400);
     }
 
-    if (sInputObject_5BD4E0.isHeld(0x100000))
+    if (Input().isHeld(0x100000))
     {
         word12C_flags &= ~1u;
         SFX_Play_Pitch(SoundEffect::PossessEffect_17, 40, 2400);
@@ -1146,7 +1146,7 @@ void PauseMenu::Page_ReallyQuit_Update()
         pPauseMenu_5C9300 = 0;
         gMap.SetActiveCam(EReliveLevelIds::eMenu, 1, 1, CameraSwapEffects::eInstantChange_0, 0, 0);
         gMap.mFreeAllAnimAndPalts = 1;
-        sCurrentControllerIndex_5C1BBE = 0;
+        sCurrentControllerIndex = 0;
     }
 }
 
@@ -1181,14 +1181,14 @@ void PauseMenu::Page_Save_Update()
     }
     else if (field_13C_save_state == SaveState::SaveConfirmOverwrite_8)
     {
-        if (sInputObject_5BD4E0.isHeld(InputCommands::Enum::eUnPause_OrConfirm))
+        if (Input().isHeld(InputCommands::Enum::eUnPause_OrConfirm))
         {
             // Enter - do the save and don't return to the confirm overwrite
             SFX_Play_Pitch(SoundEffect::PossessEffect_17, 40, 2400);
             field_13C_save_state = SaveState::DoSave_4;
             bWriteSaveFile_5C937C = true;
         }
-        else if (sInputObject_5BD4E0.isHeld(InputCommands::Enum::eBack))
+        else if (Input().isHeld(InputCommands::Enum::eBack))
         {
             // Escape - cancel save
             SfxPlayMono(SoundEffect::IngameTransition_84, 90);
@@ -1330,7 +1330,7 @@ void PauseMenu::Page_Save_Render(PrimHeader** ot, PauseMenuPage* pPage)
 
 void PauseMenu::Page_Status_Update()
 {
-    if (sInputObject_5BD4E0.isHeld(0x300000))
+    if (Input().isHeld(0x300000))
     {
         // Go back to the main page
         field_136_unused = 0;
@@ -1361,7 +1361,7 @@ void PauseMenu::Page_Load_Update()
         word12C_flags &= ~1u;
     }
 
-    const u32 inputHeld = sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_C_held;
+    const u32 inputHeld = Input().mPads[sCurrentControllerIndex].mHeld;
 
     // Up one save
     if (inputHeld & InputCommands::Enum::eUp)
@@ -1564,7 +1564,7 @@ void PauseMenu::VUpdate()
         }
     }
 
-    if (sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_C_held & InputCommands::Enum::ePause)
+    if (Input().mPads[sCurrentControllerIndex].mHeld & InputCommands::Enum::ePause)
     {
         if (pHero->mHealth > FP_FromInteger(0)
             && !(pHero->mBaseAliveGameObjectFlags.Get(Flags_114::e114_Bit7_Electrocuted))
@@ -1682,7 +1682,7 @@ void PauseMenu::VUpdate()
                     PSX_DrawSync_4F6280(0);
                     ResourceManager::Reclaim_Memory_49C470(500000);
                     gPsxDisplay.RenderOrderingTable();
-                    sInputObject_5BD4E0.Update(GetGameAutoPlayer());
+                    Input().Update(GetGameAutoPlayer());
 
                     if (field_130_selected_glow_counter > 0)
                     {
@@ -1711,7 +1711,7 @@ void PauseMenu::VUpdate()
                 }
 
                 // This call seems redundant as the calle will also update input right after this too
-                sInputObject_5BD4E0.Update(GetGameAutoPlayer());
+                Input().Update(GetGameAutoPlayer());
 
                 mBaseGameObjectFlags.Clear(BaseGameObject::eDrawable_Bit4);
             }

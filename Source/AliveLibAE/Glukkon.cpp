@@ -118,7 +118,7 @@ const TintEntry kGlukkonTints_5546B4[18] = {
 s32 Glukkon::CreateFromSaveState(const u8* pData)
 {
     const Glukkon_SaveState* pSaveState = reinterpret_cast<const Glukkon_SaveState*>(pData);
-    auto pTlv = static_cast<Path_Glukkon*>(sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam(pSaveState->field_44_tlvInfo));
+    auto pTlv = static_cast<Path_Glukkon*>(sPathInfo->TLV_From_Offset_Lvl_Cam(pSaveState->field_44_tlvInfo));
 
     switch (gMap.mCurrentLevel)
     {
@@ -423,7 +423,7 @@ void Glukkon::M_Walk_1_442D30()
                         SetAnim(eGlukkonMotions::M_WalkToJump_18_443A00);
                     }
                 }
-                else if (sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed & InputCommands::Enum::eRun)
+                else if (Input().mPads[sCurrentControllerIndex].mPressed & InputCommands::Enum::eRun)
                 {
                     SetAnim(eGlukkonMotions::M_WalkToJump_18_443A00, TRUE);
                 }
@@ -457,7 +457,7 @@ void Glukkon::M_Walk_1_442D30()
                 }
                 else
                 {
-                    if ((mVelX > FP_FromInteger(0) && (sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed & InputCommands::Enum::eLeft)) || (mVelX < FP_FromInteger(0) && (sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed & InputCommands::Enum::eRight)) || !(sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed & (InputCommands::Enum::eLeft | InputCommands::Enum::eRight)))
+                    if ((mVelX > FP_FromInteger(0) && (Input().mPads[sCurrentControllerIndex].mPressed & InputCommands::Enum::eLeft)) || (mVelX < FP_FromInteger(0) && (Input().mPads[sCurrentControllerIndex].mPressed & InputCommands::Enum::eRight)) || !(Input().mPads[sCurrentControllerIndex].mPressed & (InputCommands::Enum::eLeft | InputCommands::Enum::eRight)))
                     {
                         if (mAnim.mCurrentFrame == 8)
                         {
@@ -653,7 +653,7 @@ void Glukkon::JumpHelper()
 
     if (sControlledCharacter == this && mHealth > FP_FromInteger(0))
     {
-        const auto input_pressed = sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed;
+        const auto input_pressed = Input().mPads[sCurrentControllerIndex].mPressed;
 
         if ((mVelX > FP_FromInteger(0) && (input_pressed & InputCommands::Enum::eLeft)) || (mVelX < FP_FromInteger(0) && (input_pressed & InputCommands::Enum::eRight)))
         {
@@ -2131,7 +2131,7 @@ void Glukkon::VUpdate()
 
         if (oldXPos != mXPos || oldYPos != mYPos)
         {
-            Path_TLV* pTlv = sPath_dword_BB47C0->TlvGetAt(
+            Path_TLV* pTlv = sPathInfo->TlvGetAt(
                 nullptr,
                 mXPos,
                 mYPos,
@@ -2243,7 +2243,7 @@ void Glukkon::HandleInput()
 
     if (BrainIs(&Glukkon::Brain_3_PlayerControlled_441A30) && field_210_brain_sub_state == 1 && !(mBaseAliveGameObjectFlags.Get(Flags_114::e114_Bit10_Teleporting)))
     {
-        const auto inputHeld = sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_C_held;
+        const auto inputHeld = Input().mPads[sCurrentControllerIndex].mHeld;
         const auto matchButtons = InputCommands::Enum::eGameSpeak1 | InputCommands::Enum::eGameSpeak2 | InputCommands::Enum::eGameSpeak3 | InputCommands::Enum::eGameSpeak4 | InputCommands::Enum::eGameSpeak5 | InputCommands::Enum::eGameSpeak6 | InputCommands::Enum::eGameSpeak7 | InputCommands::Enum::eGameSpeak8 | InputCommands::Enum::eChant;
 
         if (inputHeld & matchButtons)
@@ -2290,7 +2290,7 @@ void Glukkon::HandleInput()
         }
         else
         {
-            const auto inputPressed = sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed;
+            const auto inputPressed = Input().mPads[sCurrentControllerIndex].mPressed;
             if (inputPressed & InputCommands::Enum::eRight)
             {
                 if (mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
@@ -2456,7 +2456,7 @@ s16 Glukkon::PathBlocked(FP /*a2*/, s16 checkBounds)
         return 1;
     }
 
-    BaseAliveGameObjectPathTLV = sPath_dword_BB47C0->TLV_Get_At_4DB4B0(
+    BaseAliveGameObjectPathTLV = sPathInfo->TLV_Get_At_4DB4B0(
         FP_GetExponent(mXPos),
         FP_GetExponent(mYPos), // TODO Abs() ??
         FP_GetExponent(mXPos + gridSize),
@@ -2470,7 +2470,7 @@ s16 Glukkon::PathBlocked(FP /*a2*/, s16 checkBounds)
         return 1;
     }
 
-    BaseAliveGameObjectPathTLV = sPath_dword_BB47C0->TLV_Get_At_4DB4B0(
+    BaseAliveGameObjectPathTLV = sPathInfo->TLV_Get_At_4DB4B0(
         FP_GetExponent(mXPos),
         FP_GetExponent(mYPos),
         FP_GetExponent(mXPos + gridSize),
@@ -2490,7 +2490,7 @@ s16 Glukkon::PathBlocked(FP /*a2*/, s16 checkBounds)
         return 0;
     }
 
-    if (sPath_dword_BB47C0->TLV_Get_At_4DB4B0(
+    if (sPathInfo->TLV_Get_At_4DB4B0(
             FP_GetExponent(mXPos),
             FP_GetExponent(mYPos), // TODO: Abs() ??
             FP_GetExponent(mXPos + gridSize),
@@ -2845,7 +2845,7 @@ void Glukkon::VOnTlvCollision(Path_TLV* pTlv)
             }
         }
 
-        pTlv = sPath_dword_BB47C0->TlvGetAt(
+        pTlv = sPathInfo->TlvGetAt(
             pTlv,
             mXPos,
             mYPos,

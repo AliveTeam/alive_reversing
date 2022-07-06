@@ -1128,7 +1128,7 @@ void Abe::VUpdate()
                 mVelX = FP_FromRaw(sAbe_xVel_table_4BB118[dir] * 2);
                 mVelY = FP_FromRaw(sAbe_yVel_table_4BB138[dir]);
 
-                if (Input().IsAnyPressed(sInputKey_Run_4C65A8))
+                if (Input().IsAnyPressed(sInputKey_Run))
                 {
                     mVelX += FP_FromRaw(sAbe_xVel_table_4BB118[dir]);
                     mVelY += FP_FromRaw(sAbe_yVel_table_4BB138[dir]);
@@ -1571,7 +1571,7 @@ void Abe::ExitShrykull_42F440(s16 bResetRingTimer)
 
 s16 Abe::RunTryEnterWell_425880()
 {
-    if (!Input().IsAnyPressed(sInputKey_Up_4C6598) || mAnim.mCurrentFrame < 4)
+    if (!Input().IsAnyPressed(sInputKey_Up) || mAnim.mCurrentFrame < 4)
     {
         return 0;
     }
@@ -2054,13 +2054,13 @@ s16 Abe::DoGameSpeak_42F5C0(u16 input)
     const bool leftGameSpeakPressed = (input & eLeftGamespeak);
     const bool rightGameSpeakPressed = (input & eRightGameSpeak);
 #else
-    const bool leftGameSpeakPressed = Input().IsAnyPressed(sInputKey_LeftGameSpeakEnabler_4C65B8);
-    const bool rightGameSpeakPressed = Input().IsAnyPressed(sInputKey_RightGameSpeakEnabler_4C65DC);
+    const bool leftGameSpeakPressed = Input().IsAnyPressed(sInputKey_LeftGameSpeakEnabler);
+    const bool rightGameSpeakPressed = Input().IsAnyPressed(sInputKey_RightGameSpeakEnabler);
 #endif
 
     if (leftGameSpeakPressed)
     {
-        if (input & sInputKey_GameSpeak2_4C65BC)
+        if (input & sInputKey_GameSpeak2)
         {
             pEventSystem_4FF954->VPushEvent(GameSpeakEvents::eFollowMe_10);
             Mudokon_SFX(MudSounds::eFollowMe_4, 0, 0, this);
@@ -2070,7 +2070,7 @@ s16 Abe::DoGameSpeak_42F5C0(u16 input)
             }
             return eAbeMotions::Motion_14_Speak_42FCD0;
         }
-        if (input & sInputKey_GameSpeak4_4C65C4)
+        if (input & sInputKey_GameSpeak4)
         {
             pEventSystem_4FF954->VPushEvent(GameSpeakEvents::eWait_12);
             Mudokon_SFX(MudSounds::eWait_6, 0, 0, this);
@@ -2080,7 +2080,7 @@ s16 Abe::DoGameSpeak_42F5C0(u16 input)
             }
             return eAbeMotions::Motion_13_Speak_42FC50;
         }
-        if (input & sInputKey_GameSpeak1_4C65C8)
+        if (input & sInputKey_GameSpeak1)
         {
             pEventSystem_4FF954->VPushEvent(GameSpeakEvents::eHello_9);
             Mudokon_SFX(MudSounds::eHello_3, 0, 0, this);
@@ -2090,7 +2090,7 @@ s16 Abe::DoGameSpeak_42F5C0(u16 input)
             }
             return eAbeMotions::Motion_9_Speak_42FA50;
         }
-        if (input & sInputKey_GameSpeak3_4C65C0)
+        if (input & sInputKey_GameSpeak3)
         {
             pEventSystem_4FF954->VPushEvent(GameSpeakEvents::eAnger_11);
             Mudokon_SFX(MudSounds::eAngry_5, 0, 0, this);
@@ -2104,7 +2104,7 @@ s16 Abe::DoGameSpeak_42F5C0(u16 input)
 
     if (rightGameSpeakPressed)
     {
-        if (input & sInputKey_GameSpeak6_4C65E8)
+        if (input & sInputKey_GameSpeak6)
         {
             pEventSystem_4FF954->VPushEvent(GameSpeakEvents::eWhistleHigh_1);
             Mudokon_SFX(MudSounds::eWhistleHigh_1, 0, 0, this);
@@ -2114,7 +2114,7 @@ s16 Abe::DoGameSpeak_42F5C0(u16 input)
             }
             return eAbeMotions::Motion_9_Speak_42FA50;
         }
-        if (input & sInputKey_GameSpeak5_4C65EC)
+        if (input & sInputKey_GameSpeak5)
         {
             pEventSystem_4FF954->VPushEvent(GameSpeakEvents::eWhistleLow_2);
             Mudokon_SFX(MudSounds::eWhistleLow_2, 0, 0, this);
@@ -2124,7 +2124,7 @@ s16 Abe::DoGameSpeak_42F5C0(u16 input)
             }
             return eAbeMotions::Motion_8_Speak_42F9D0;
         }
-        if (input & sInputKey_GameSpeak8_4C65E0)
+        if (input & sInputKey_GameSpeak8)
         {
             pEventSystem_4FF954->VPushEvent(GameSpeakEvents::eLaugh_4);
             Mudokon_SFX(MudSounds::eLaugh1_8, 0, 0, this);
@@ -2134,7 +2134,7 @@ s16 Abe::DoGameSpeak_42F5C0(u16 input)
             }
             return eAbeMotions::Motion_12_Speak_42FBD0;
         }
-        if (input & sInputKey_GameSpeak7_4C65E4)
+        if (input & sInputKey_GameSpeak7)
         {
             pEventSystem_4FF954->VPushEvent(GameSpeakEvents::eFart_3);
             Mudokon_SFX(MudSounds::eFart_7, 0, 0, this);
@@ -2423,54 +2423,54 @@ void Abe::CrouchingGameSpeak_427F90()
 {
     field_10C_prev_held |= Input().Held();
 
-    if (Input().IsAnyPressed(sInputKey_LeftGameSpeakEnabler_4C65B8))
+    if (Input().IsAnyPressed(sInputKey_LeftGameSpeakEnabler))
     {
-        if (field_10C_prev_held & sInputKey_GameSpeak2_4C65BC)
+        if (field_10C_prev_held & sInputKey_GameSpeak2)
         {
             pEventSystem_4FF954->VPushEvent(GameSpeakEvents::eFollowMe_10);
             Mudokon_SFX(MudSounds::eFollowMe_4, 0, 0, this);
             mCurrentMotion = eAbeMotions::Motion_22_CrouchSpeak_428A30;
         }
-        else if (field_10C_prev_held & sInputKey_GameSpeak4_4C65C4)
+        else if (field_10C_prev_held & sInputKey_GameSpeak4)
         {
             pEventSystem_4FF954->VPushEvent(GameSpeakEvents::eWait_12);
             Mudokon_SFX(MudSounds::eWait_6, 0, 0, this);
             mCurrentMotion = eAbeMotions::Motion_23_CrouchSpeak_428A90;
         }
-        else if (field_10C_prev_held & sInputKey_GameSpeak1_4C65C8)
+        else if (field_10C_prev_held & sInputKey_GameSpeak1)
         {
             pEventSystem_4FF954->VPushEvent(GameSpeakEvents::eHello_9);
             Mudokon_SFX(MudSounds::eHello_3, 0, 0, this);
             mCurrentMotion = eAbeMotions::Motion_22_CrouchSpeak_428A30;
         }
-        else if (field_10C_prev_held & sInputKey_GameSpeak3_4C65C0)
+        else if (field_10C_prev_held & sInputKey_GameSpeak3)
         {
             pEventSystem_4FF954->VPushEvent(GameSpeakEvents::eAnger_11);
             Mudokon_SFX(MudSounds::eAngry_5, 0, 0, this);
             mCurrentMotion = eAbeMotions::Motion_23_CrouchSpeak_428A90;
         }
     }
-    else if (Input().IsAnyPressed(sInputKey_RightGameSpeakEnabler_4C65DC))
+    else if (Input().IsAnyPressed(sInputKey_RightGameSpeakEnabler))
     {
-        if (field_10C_prev_held & sInputKey_GameSpeak6_4C65E8)
+        if (field_10C_prev_held & sInputKey_GameSpeak6)
         {
             pEventSystem_4FF954->VPushEvent(GameSpeakEvents::eWhistleHigh_1);
             Mudokon_SFX(MudSounds::eWhistleHigh_1, 0, 0, this);
             mCurrentMotion = eAbeMotions::Motion_23_CrouchSpeak_428A90;
         }
-        else if (field_10C_prev_held & sInputKey_GameSpeak5_4C65EC)
+        else if (field_10C_prev_held & sInputKey_GameSpeak5)
         {
             pEventSystem_4FF954->VPushEvent(GameSpeakEvents::eWhistleLow_2);
             Mudokon_SFX(MudSounds::eWhistleLow_2, 0, 0, this);
             mCurrentMotion = eAbeMotions::Motion_22_CrouchSpeak_428A30;
         }
-        else if (field_10C_prev_held & sInputKey_GameSpeak8_4C65E0)
+        else if (field_10C_prev_held & sInputKey_GameSpeak8)
         {
             pEventSystem_4FF954->VPushEvent(GameSpeakEvents::eLaugh_4);
             Mudokon_SFX(MudSounds::eLaugh1_8, 0, 0, this);
             mCurrentMotion = eAbeMotions::Motion_23_CrouchSpeak_428A90;
         }
-        else if (field_10C_prev_held & sInputKey_GameSpeak7_4C65E4)
+        else if (field_10C_prev_held & sInputKey_GameSpeak7)
         {
             pEventSystem_4FF954->VPushEvent(GameSpeakEvents::eFart_3);
             Mudokon_SFX(MudSounds::eFart_7, 0, 0, this);
@@ -2535,22 +2535,22 @@ s16 Abe::ToLeftRightMovement_422AA0()
     const FP gridSize = ScaleToGridSize(mSpriteScale);
     const bool flipX = mAnim.mFlags.Get(AnimFlags::eBit5_FlipX);
 
-    if ((flipX && Input().IsAnyPressed(sInputKey_Right_4C6590)) || (!flipX && Input().IsAnyPressed(sInputKey_Left_4C6594)))
+    if ((flipX && Input().IsAnyPressed(sInputKey_Right)) || (!flipX && Input().IsAnyPressed(sInputKey_Left)))
     {
         mCurrentMotion = eAbeMotions::Motion_2_StandingTurn_426040;
         return 1;
     }
 
-    if (Input().IsAnyPressed(sInputKey_Right_4C6590) || Input().IsAnyPressed(sInputKey_Left_4C6594))
+    if (Input().IsAnyPressed(sInputKey_Right) || Input().IsAnyPressed(sInputKey_Left))
     {
-        const FP directionX = FP_FromInteger(Input().IsAnyPressed(sInputKey_Right_4C6590) ? 1 : -1);
+        const FP directionX = FP_FromInteger(Input().IsAnyPressed(sInputKey_Right) ? 1 : -1);
 
-        if (Input().IsAnyPressed(sInputKey_Run_4C65A8))
+        if (Input().IsAnyPressed(sInputKey_Run))
         {
             mVelX = directionX * (gridSize / FP_FromInteger(4));
             mCurrentMotion = eAbeMotions::Motion_41_StandingToRun_425530;
         }
-        else if (Input().IsAnyPressed(sInputKey_Sneak_4C65AC))
+        else if (Input().IsAnyPressed(sInputKey_Sneak))
         {
             mVelX = directionX * (gridSize / FP_FromInteger(10));
             mCurrentMotion = eAbeMotions::Motion_47_SneakBegin_424ED0;
@@ -2964,7 +2964,7 @@ bool Abe::NearDoorIsOpen()
 
 s16 Abe::RunTryEnterDoor_4259C0()
 {
-    if (!Input().IsAnyPressed(sInputKey_Up_4C6598))
+    if (!Input().IsAnyPressed(sInputKey_Up))
     {
         return 0;
     }
@@ -3026,11 +3026,11 @@ s16 Abe::MoveLiftUpOrDown_42F190(FP yVelocity)
             {
                 return eAbeMotions::Motion_135_LiftGrabIdle_42F000;
             }
-            if (Input().IsAnyPressed(sInputKey_Down_4C659C))
+            if (Input().IsAnyPressed(sInputKey_Down))
             {
                 return eAbeMotions::Motion_132_LiftUseDown_42F170;
             }
-            if (Input().IsAnyPressed(sInputKey_Up_4C6598))
+            if (Input().IsAnyPressed(sInputKey_Up))
             {
                 return eAbeMotions::Motion_131_LiftUseUp_42F150;
             }
@@ -3042,11 +3042,11 @@ s16 Abe::MoveLiftUpOrDown_42F190(FP yVelocity)
         {
             return eAbeMotions::Motion_135_LiftGrabIdle_42F000;
         }
-        if (Input().IsAnyPressed(sInputKey_Up_4C6598))
+        if (Input().IsAnyPressed(sInputKey_Up))
         {
             return eAbeMotions::Motion_131_LiftUseUp_42F150;
         }
-        if (Input().IsAnyPressed(sInputKey_Down_4C659C))
+        if (Input().IsAnyPressed(sInputKey_Down))
         {
             return eAbeMotions::Motion_132_LiftUseDown_42F170;
         }
@@ -3824,7 +3824,7 @@ void Abe::Motion_0_Idle_423520()
         field_110_state.raw = 0;
         return;
     }
-    if (Input().IsAnyPressed(sInputKey_LeftGameSpeakEnabler_4C65B8 | sInputKey_RightGameSpeakEnabler_4C65DC))
+    if (Input().IsAnyPressed(sInputKey_LeftGameSpeakEnabler | sInputKey_RightGameSpeakEnabler))
     {
         const auto held = Input().Held();
         if (held & 0xF0)
@@ -3834,13 +3834,13 @@ void Abe::Motion_0_Idle_423520()
             return;
         }
     }
-    if (Input().IsAnyPressed(sInputKey_Hop_4C65A0))
+    if (Input().IsAnyPressed(sInputKey_Hop))
     {
-        if (Input().IsAnyPressed(sInputKey_Up_4C6598))
+        if (Input().IsAnyPressed(sInputKey_Up))
         {
             TryHoist_423420();
         }
-        else if (!Input().IsAnyPressed(sInputKey_LeftGameSpeakEnabler_4C65B8 | sInputKey_RightGameSpeakEnabler_4C65DC))
+        else if (!Input().IsAnyPressed(sInputKey_LeftGameSpeakEnabler | sInputKey_RightGameSpeakEnabler))
         {
             mCurrentMotion = eAbeMotions::Motion_29_HopBegin_4267B0;
             auto pObj = IntoBirdPortal_402350(2);
@@ -3862,7 +3862,7 @@ void Abe::Motion_0_Idle_423520()
         return;
     }
 
-    if (Input().IsAnyPressed(sInputKey_Down_4C659C))
+    if (Input().IsAnyPressed(sInputKey_Down))
     {
         if (mLiftPoint)
         {
@@ -3916,13 +3916,13 @@ void Abe::Motion_0_Idle_423520()
         }
         return;
     }
-    if (Input().IsAnyPressed(sInputKey_FartRoll_4C65B0))
+    if (Input().IsAnyPressed(sInputKey_FartRoll))
     {
         mCurrentMotion = eAbeMotions::Motion_21_StandToCrouch_427F40;
     }
 
     bool handleDoActionOrThrow = false;
-    if (Input().IsAnyPressed(sInputKey_Up_4C6598))
+    if (Input().IsAnyPressed(sInputKey_Up))
     {
         if (mLiftPoint)
         {
@@ -3974,7 +3974,7 @@ void Abe::Motion_0_Idle_423520()
                     }
                     else
                     {
-                        if (Input().IsAnyHeld(sInputKey_Up_4C6598))
+                        if (Input().IsAnyHeld(sInputKey_Up))
                         {
                             mCurrentMotion = eAbeMotions::Motion_36_DunnoBegin_423260;
                         }
@@ -4052,9 +4052,9 @@ void Abe::Motion_0_Idle_423520()
         handleDoActionOrThrow = true;
     }
 
-    if (!Input().IsAnyPressed(sInputKey_Up_4C6598) || handleDoActionOrThrow)
+    if (!Input().IsAnyPressed(sInputKey_Up) || handleDoActionOrThrow)
     {
-        if (Input().IsAnyHeld(sInputKey_ThrowItem_4C65B4) && mCurrentMotion == eAbeMotions::Motion_0_Idle_423520)
+        if (Input().IsAnyHeld(sInputKey_ThrowItem) && mCurrentMotion == eAbeMotions::Motion_0_Idle_423520)
         {
             if (field_19C_throwable_count > 0 || gInfiniteGrenades_5076EC)
             {
@@ -4088,7 +4088,7 @@ void Abe::Motion_0_Idle_423520()
         }
         else
         {
-            if (Input().IsAnyHeld(sInputKey_DoAction_4C65A4))
+            if (Input().IsAnyHeld(sInputKey_DoAction))
             {
                 mCurrentMotion = HandleDoAction_429A70();
             }
@@ -4174,14 +4174,14 @@ void Abe::Motion_1_WalkLoop_423F90()
         {
             case 2:
             {
-                if ((mVelX > FP_FromInteger(0) && Input().IsAnyPressed(sInputKey_Left_4C6594)) || (mVelX < FP_FromInteger(0) && Input().IsAnyPressed(sInputKey_Right_4C6590)))
+                if ((mVelX > FP_FromInteger(0) && Input().IsAnyPressed(sInputKey_Left)) || (mVelX < FP_FromInteger(0) && Input().IsAnyPressed(sInputKey_Right)))
                 {
                     mCurrentMotion = eAbeMotions::Motion_5_MidWalkToIdle_424490;
                     field_10C_prev_held = 0;
                     return;
                 }
 
-                if (field_10C_prev_held & sInputKey_Hop_4C65A0)
+                if (field_10C_prev_held & sInputKey_Hop)
                 {
                     mNextMotion = eAbeMotions::Motion_30_HopMid_4264D0;
                     mCurrentMotion = eAbeMotions::Motion_5_MidWalkToIdle_424490;
@@ -4189,7 +4189,7 @@ void Abe::Motion_1_WalkLoop_423F90()
                     return;
                 }
 
-                if (!Input().IsAnyPressed(sInputKey_Right_4C6590 | sInputKey_Left_4C6594))
+                if (!Input().IsAnyPressed(sInputKey_Right | sInputKey_Left))
                 {
                     mCurrentMotion = eAbeMotions::Motion_5_MidWalkToIdle_424490;
                     field_10C_prev_held = 0;
@@ -4221,13 +4221,13 @@ void Abe::Motion_1_WalkLoop_423F90()
             }
 
             case 11:
-                if ((mVelX <= FP_FromInteger(0) || !(Input().IsAnyPressed(sInputKey_Left_4C6594))) && (mVelX >= FP_FromInteger(0) || !(Input().IsAnyPressed(sInputKey_Right_4C6590))))
+                if ((mVelX <= FP_FromInteger(0) || !(Input().IsAnyPressed(sInputKey_Left))) && (mVelX >= FP_FromInteger(0) || !(Input().IsAnyPressed(sInputKey_Right))))
                 {
-                    if (field_10C_prev_held & sInputKey_Hop_4C65A0)
+                    if (field_10C_prev_held & sInputKey_Hop)
                     {
                         mNextMotion = eAbeMotions::Motion_30_HopMid_4264D0;
                     }
-                    else if (Input().IsAnyPressed(sInputKey_Right_4C6590 | sInputKey_Left_4C6594))
+                    else if (Input().IsAnyPressed(sInputKey_Right | sInputKey_Left))
                     {
                         FP directedScale = {};
                         if (mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
@@ -4259,11 +4259,11 @@ void Abe::Motion_1_WalkLoop_423F90()
                     MapFollowMe_401D30(1);
                 }
 
-                if (Input().IsAnyPressed(sInputKey_Run_4C65A8))
+                if (Input().IsAnyPressed(sInputKey_Run))
                 {
                     mCurrentMotion = eAbeMotions::Motion_51_MidWalkToRun_424670;
                 }
-                else if (Input().IsAnyPressed(sInputKey_Sneak_4C65AC))
+                else if (Input().IsAnyPressed(sInputKey_Sneak))
                 {
                     mCurrentMotion = eAbeMotions::Motion_43_WalkToSneak_424790;
                 }
@@ -4278,11 +4278,11 @@ void Abe::Motion_1_WalkLoop_423F90()
                     MapFollowMe_401D30(1);
                 }
 
-                if (Input().IsAnyPressed(sInputKey_Run_4C65A8))
+                if (Input().IsAnyPressed(sInputKey_Run))
                 {
                     mCurrentMotion = eAbeMotions::Motion_50_WalkToRun_424560;
                 }
-                else if (Input().IsAnyPressed(sInputKey_Sneak_4C65AC))
+                else if (Input().IsAnyPressed(sInputKey_Sneak))
                 {
                     mCurrentMotion = eAbeMotions::Motion_45_MidWalkToSneak_424890;
                 }
@@ -4301,7 +4301,7 @@ void Abe::Motion_2_StandingTurn_426040()
 
     if (mAnim.mCurrentFrame == 4)
     {
-        if (Input().IsAnyPressed(sInputKey_Run_4C65A8) && Input().IsAnyPressed(sInputKey_Right_4C6590 | sInputKey_Left_4C6594))
+        if (Input().IsAnyPressed(sInputKey_Run) && Input().IsAnyPressed(sInputKey_Right | sInputKey_Left))
         {
 #if ORIGINAL_GAME_FIXES || ORIGINAL_GAME_FIX_AUTO_TURN
             mNextMotion = eAbeMotions::Motion_0_Idle_423520; // OG Change - Fixes "Auto-Turn" bug
@@ -4911,9 +4911,9 @@ void Abe::Motion_18_HoistLand_426EB0()
             Environment_SFX_42A220(EnvironmentSfx::eHitGroundSoft_6, 0, 0x7FFF, this);
         }
 
-        if (Input().IsAnyPressed(sInputKey_Hop_4C65A0))
+        if (Input().IsAnyPressed(sInputKey_Hop))
         {
-            if (Input().IsAnyPressed(sInputKey_Up_4C6598))
+            if (Input().IsAnyPressed(sInputKey_Up))
             {
                 mCurrentMotion = eAbeMotions::Motion_16_HoistBegin_426E40;
             }
@@ -4975,9 +4975,9 @@ void Abe::Motion_19_CrouchIdle_4284C0()
 
 
     // Hit bombs/pick up items ?
-    if (Input().IsAnyHeld(sInputKey_DoAction_4C65A4))
+    if (Input().IsAnyHeld(sInputKey_DoAction))
     {
-        if (!Input().IsAnyPressed(sInputKey_Right_4C6590 | sInputKey_Left_4C6594))
+        if (!Input().IsAnyPressed(sInputKey_Right | sInputKey_Left))
         {
             FP gridSize = {};
             if (mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
@@ -4998,7 +4998,7 @@ void Abe::Motion_19_CrouchIdle_4284C0()
 
 
     // Crouching throw stuff
-    if (Input().IsAnyHeld(sInputKey_ThrowItem_4C65B4))
+    if (Input().IsAnyHeld(sInputKey_ThrowItem))
     {
         if (mCurrentMotion == eAbeMotions::Motion_19_CrouchIdle_4284C0)
         {
@@ -5041,7 +5041,7 @@ void Abe::Motion_19_CrouchIdle_4284C0()
     }
 
     // Try to stand up
-    if (Input().IsAnyHeld(sInputKey_Up_4C6598) || Input().IsAnyHeld(sInputKey_FartRoll_4C65B0))
+    if (Input().IsAnyHeld(sInputKey_Up) || Input().IsAnyHeld(sInputKey_FartRoll))
     {
         PathLine* pLine = nullptr;
         FP hitX = {};
@@ -5062,7 +5062,7 @@ void Abe::Motion_19_CrouchIdle_4284C0()
     }
 
     // Crouching turns
-    if (Input().IsAnyPressed(sInputKey_Right_4C6590))
+    if (Input().IsAnyPressed(sInputKey_Right))
     {
         if (mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
         {
@@ -5075,7 +5075,7 @@ void Abe::Motion_19_CrouchIdle_4284C0()
         }
     }
 
-    if (Input().IsAnyPressed(sInputKey_Left_4C6594))
+    if (Input().IsAnyPressed(sInputKey_Left))
     {
         if (mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
         {
@@ -5213,12 +5213,12 @@ void Abe::Motion_25_RollLoop_427BB0()
         {
             if (mAnim.mCurrentFrame == 1 || mAnim.mCurrentFrame == 5 || mAnim.mCurrentFrame == 9)
             {
-                if (!Input().IsAnyPressed(sInputKey_Run_4C65A8)
-                    || Input().IsAnyPressed(sInputKey_FartRoll_4C65B0)
+                if (!Input().IsAnyPressed(sInputKey_Run)
+                    || Input().IsAnyPressed(sInputKey_FartRoll)
                     || Is_Celling_Above()
                     || field_12C_timer + 9 >= static_cast<s32>(sGnFrame))
                 {
-                    if (field_10E_released_buttons && sInputKey_FartRoll_4C65B0)
+                    if (field_10E_released_buttons && sInputKey_FartRoll)
                     {
                         if (!Is_Celling_Above() && field_12C_timer + 9 < static_cast<s32>(sGnFrame))
                         {
@@ -5237,7 +5237,7 @@ void Abe::Motion_25_RollLoop_427BB0()
             {
                 MapFollowMe_401D30(TRUE);
 
-                if ((mVelX > FP_FromInteger(0) && !Input().IsAnyPressed(sInputKey_Right_4C6590)) || (mVelX < FP_FromInteger(0) && !Input().IsAnyPressed(sInputKey_Left_4C6594)))
+                if ((mVelX > FP_FromInteger(0) && !Input().IsAnyPressed(sInputKey_Right)) || (mVelX < FP_FromInteger(0) && !Input().IsAnyPressed(sInputKey_Left)))
                 {
                     mCurrentMotion = eAbeMotions::Motion_19_CrouchIdle_4284C0;
                     mVelX = FP_FromInteger(0);
@@ -5307,7 +5307,7 @@ void Abe::Motion_27_RunSlideStop_425B60()
                     }
                 }
             }
-            else if ((mAnim.mFlags.Get(AnimFlags::eBit5_FlipX) && Input().IsAnyPressed(sInputKey_Right_4C6590)) || (!mAnim.mFlags.Get(AnimFlags::eBit5_FlipX) && Input().IsAnyPressed(sInputKey_Left_4C6594)))
+            else if ((mAnim.mFlags.Get(AnimFlags::eBit5_FlipX) && Input().IsAnyPressed(sInputKey_Right)) || (!mAnim.mFlags.Get(AnimFlags::eBit5_FlipX) && Input().IsAnyPressed(sInputKey_Left)))
             {
                 field_2A8_flags.Set(Flags_2A8::e2A8_Bit2_return_to_previous_motion);
                 mPreviousMotion = eAbeMotions::Motion_28_RunTurn_425CE0;
@@ -5340,7 +5340,7 @@ void Abe::Motion_28_RunTurn_425CE0()
                 const FP gridSize = ScaleToGridSize(mSpriteScale);
                 if (mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
                 {
-                    if (Input().IsAnyPressed(sInputKey_Run_4C65A8))
+                    if (Input().IsAnyPressed(sInputKey_Run))
                     {
                         mVelX = gridSize / FP_FromInteger(4);
                         mCurrentMotion = eAbeMotions::Motion_54_RunTurnToRun_425EA0;
@@ -5354,7 +5354,7 @@ void Abe::Motion_28_RunTurn_425CE0()
                 else
                 {
                     FP velX = {};
-                    if (Input().IsAnyPressed(sInputKey_Run_4C65A8))
+                    if (Input().IsAnyPressed(sInputKey_Run))
                     {
                         velX = gridSize / FP_FromInteger(4);
                         mCurrentMotion = eAbeMotions::Motion_54_RunTurnToRun_425EA0;
@@ -5602,7 +5602,7 @@ void Abe::Motion_31_HopLand_426940()
 {
     FollowLift_42EE90();
 
-    if (mAnim.mCurrentFrame == 2 && Input().IsAnyPressed(sInputKey_Hop_4C65A0))
+    if (mAnim.mCurrentFrame == 2 && Input().IsAnyPressed(sInputKey_Hop))
     {
         field_2A8_flags.Set(Flags_2A8::e2A8_Bit2_return_to_previous_motion);
         mPreviousMotion = eAbeMotions::Motion_29_HopBegin_4267B0;
@@ -5835,13 +5835,13 @@ void Abe::Motion_34_RunJumpLand_427560()
         Environment_SFX_42A220(EnvironmentSfx::eHitGroundSoft_6, 0, 0x7FFF, this);
         MapFollowMe_401D30(1);
 
-        if (Input().IsAnyPressed(sInputKey_Left_4C6594))
+        if (Input().IsAnyPressed(sInputKey_Left))
         {
-            if (!(sInputKey_Hop_4C65A0 & field_10C_prev_held))
+            if (!(sInputKey_Hop & field_10C_prev_held))
             {
                 if (mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
                 {
-                    if (Input().IsAnyPressed(sInputKey_Run_4C65A8))
+                    if (Input().IsAnyPressed(sInputKey_Run))
                     {
                         mCurrentMotion = eAbeMotions::Motion_56_RunJumpLandRun_4278E0;
                         mVelX = -(ScaleToGridSize(mSpriteScale) / FP_FromInteger(4));
@@ -5887,9 +5887,9 @@ void Abe::Motion_34_RunJumpLand_427560()
             return;
         }
 
-        if (Input().IsAnyPressed(sInputKey_Right_4C6590))
+        if (Input().IsAnyPressed(sInputKey_Right))
         {
-            if (sInputKey_Hop_4C65A0 & field_10C_prev_held)
+            if (sInputKey_Hop & field_10C_prev_held)
             {
                 field_1A0_portal = IntoBirdPortal_402350(3);
                 if (field_1A0_portal)
@@ -5917,7 +5917,7 @@ void Abe::Motion_34_RunJumpLand_427560()
                 return;
             }
 
-            if (Input().IsAnyPressed(sInputKey_Run_4C65A8))
+            if (Input().IsAnyPressed(sInputKey_Run))
             {
                 mVelX = (ScaleToGridSize(mSpriteScale) / FP_FromInteger(4));
                 mCurrentMotion = eAbeMotions::Motion_56_RunJumpLandRun_4278E0;
@@ -5938,7 +5938,7 @@ void Abe::Motion_34_RunJumpLand_427560()
         }
         else
         {
-            if (!(sInputKey_Hop_4C65A0 & field_10C_prev_held))
+            if (!(sInputKey_Hop & field_10C_prev_held))
             {
                 mCurrentMotion = eAbeMotions::Motion_27_RunSlideStop_425B60;
                 if (mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
@@ -5976,7 +5976,7 @@ void Abe::Motion_34_RunJumpLand_427560()
 
 bool Abe::CheckForPortalAndRunJump()
 {
-    if (field_10C_prev_held & sInputKey_Hop_4C65A0)
+    if (field_10C_prev_held & sInputKey_Hop)
     {
         field_1A0_portal = IntoBirdPortal_402350(3);
         if (field_1A0_portal)
@@ -6040,7 +6040,7 @@ void Abe::Motion_35_RunLoop_425060()
         }
 
         // Check turning in middle of run (pressing reverse direction of movement)
-        if ((mVelX > FP_FromInteger(0) && Input().IsAnyPressed(sInputKey_Left_4C6594)) || (mVelX < FP_FromInteger(0) && Input().IsAnyPressed(sInputKey_Right_4C6590)))
+        if ((mVelX > FP_FromInteger(0) && Input().IsAnyPressed(sInputKey_Left)) || (mVelX < FP_FromInteger(0) && Input().IsAnyPressed(sInputKey_Right)))
         {
             mCurrentMotion = eAbeMotions::Motion_28_RunTurn_425CE0;
             Environment_SFX_42A220(EnvironmentSfx::eRunSlide_4, 0, 0x7FFF, this);
@@ -6055,7 +6055,7 @@ void Abe::Motion_35_RunLoop_425060()
         }
 
         // Running to roll
-        if (field_10C_prev_held & sInputKey_FartRoll_4C65B0)
+        if (field_10C_prev_held & sInputKey_FartRoll)
         {
             mCurrentMotion = eAbeMotions::Motion_40_RunToRoll_427AE0;
 
@@ -6069,7 +6069,7 @@ void Abe::Motion_35_RunLoop_425060()
         }
 
         // No longer running
-        if (!Input().IsAnyPressed(sInputKey_Right_4C6590) && !Input().IsAnyPressed(sInputKey_Left_4C6594))
+        if (!Input().IsAnyPressed(sInputKey_Right) && !Input().IsAnyPressed(sInputKey_Left))
         {
             mCurrentMotion = eAbeMotions::Motion_27_RunSlideStop_425B60;
             Environment_SFX_42A220(EnvironmentSfx::eRunSlide_4, 0, 0x7FFF, this);
@@ -6078,7 +6078,7 @@ void Abe::Motion_35_RunLoop_425060()
         }
 
         // Continue running
-        if (Input().IsAnyPressed(sInputKey_Run_4C65A8))
+        if (Input().IsAnyPressed(sInputKey_Run))
         {
             field_10C_prev_held = 0;
             return;
@@ -6127,7 +6127,7 @@ void Abe::Motion_36_DunnoBegin_423260()
     {
         Mudokon_SFX(MudSounds::eDunno_15, 0, 0, this);
 
-        if (Input().IsAnyPressed(sInputKey_DoAction_4C65A4 | sInputKey_ThrowItem_4C65B4))
+        if (Input().IsAnyPressed(sInputKey_DoAction | sInputKey_ThrowItem))
         {
             mCurrentMotion = eAbeMotions::Motion_37_DunnoMid_4232C0;
         }
@@ -6142,7 +6142,7 @@ void Abe::Motion_37_DunnoMid_4232C0()
 {
     FollowLift_42EE90();
 
-    if (!Input().IsAnyPressed(sInputKey_DoAction_4C65A4 | sInputKey_ThrowItem_4C65B4) || mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
+    if (!Input().IsAnyPressed(sInputKey_DoAction | sInputKey_ThrowItem) || mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
     {
         mCurrentMotion = eAbeMotions::Motion_38_DunnoEnd_423310;
     }
@@ -6265,7 +6265,7 @@ void Abe::Motion_42_SneakLoop_424BB0()
                 directedScale = ScaleToGridSize(mSpriteScale);
             }
 
-            if (WallHit_401930(mSpriteScale * FP_FromInteger(50), directedScale) || (mVelX > FP_FromInteger(0) && Input().IsAnyPressed(sInputKey_Left_4C6594)) || (mVelX < FP_FromInteger(0) && Input().IsAnyPressed(sInputKey_Right_4C6590)) || !Input().IsAnyPressed(sInputKey_Right_4C6590 | sInputKey_Left_4C6594))
+            if (WallHit_401930(mSpriteScale * FP_FromInteger(50), directedScale) || (mVelX > FP_FromInteger(0) && Input().IsAnyPressed(sInputKey_Left)) || (mVelX < FP_FromInteger(0) && Input().IsAnyPressed(sInputKey_Right)) || !Input().IsAnyPressed(sInputKey_Right | sInputKey_Left))
             {
                 mCurrentMotion = eAbeMotions::Motion_48_SneakToIdle_424F80;
             }
@@ -6277,7 +6277,7 @@ void Abe::Motion_42_SneakLoop_424BB0()
             Environment_SFX_42A220(EnvironmentSfx::eSneakFootstep_3, 0, 0x7FFF, this);
             MapFollowMe_401D30(1);
 
-            if (Input().IsAnyPressed(sInputKey_Right_4C6590 | sInputKey_Left_4C6594) && !Input().IsAnyPressed(sInputKey_Sneak_4C65AC))
+            if (Input().IsAnyPressed(sInputKey_Right | sInputKey_Left) && !Input().IsAnyPressed(sInputKey_Sneak))
             {
                 mCurrentMotion = eAbeMotions::Motion_44_SneakToWalk_4249A0;
                 field_10C_prev_held = 0;
@@ -6298,9 +6298,9 @@ void Abe::Motion_42_SneakLoop_424BB0()
             Environment_SFX_42A220(EnvironmentSfx::eSneakFootstep_3, 0, 0x7FFF, this);
             MapFollowMe_401D30(1);
 
-            if (Input().IsAnyPressed(sInputKey_Right_4C6590 | sInputKey_Left_4C6594))
+            if (Input().IsAnyPressed(sInputKey_Right | sInputKey_Left))
             {
-                if (!Input().IsAnyPressed(sInputKey_Sneak_4C65AC))
+                if (!Input().IsAnyPressed(sInputKey_Sneak))
                 {
                     mCurrentMotion = eAbeMotions::Motion_46_MidSneakToWalk_424AA0;
                 }
@@ -6319,7 +6319,7 @@ void Abe::Motion_42_SneakLoop_424BB0()
             directedScale = ScaleToGridSize(mSpriteScale);
         }
 
-        if (WallHit_401930(mSpriteScale * FP_FromInteger(50), directedScale) || (mVelX > FP_FromInteger(0) && Input().IsAnyPressed(sInputKey_Left_4C6594)) || (mVelX < FP_FromInteger(0) && Input().IsAnyPressed(sInputKey_Right_4C6590)) || !Input().IsAnyPressed(sInputKey_Right_4C6590 | sInputKey_Left_4C6594))
+        if (WallHit_401930(mSpriteScale * FP_FromInteger(50), directedScale) || (mVelX > FP_FromInteger(0) && Input().IsAnyPressed(sInputKey_Left)) || (mVelX < FP_FromInteger(0) && Input().IsAnyPressed(sInputKey_Right)) || !Input().IsAnyPressed(sInputKey_Right | sInputKey_Left))
         {
             mCurrentMotion = eAbeMotions::Motion_49_MidSneakToIdle_424FF0;
         }
@@ -7384,11 +7384,11 @@ void Abe::Motion_66_LedgeHang_428D90()
 
     mShadow->mFlags.Set(Shadow::eShadowAtBottom);
 
-    if (Input().IsAnyPressed(sInputKey_Up_4C6598))
+    if (Input().IsAnyPressed(sInputKey_Up))
     {
         mCurrentMotion = eAbeMotions::Motion_64_LedgeAscend_428B60;
     }
-    else if (Input().IsAnyPressed(sInputKey_Down_4C659C))
+    else if (Input().IsAnyPressed(sInputKey_Down))
     {
         VOnTrapDoorOpen();
 
@@ -7475,14 +7475,14 @@ void Abe::Motion_68_LedgeHangWobble_428E50()
 
     FollowLift_42EE90();
 
-    if (Input().IsAnyPressed(sInputKey_Up_4C6598))
+    if (Input().IsAnyPressed(sInputKey_Up))
     {
         field_2AA_flags.Clear(Flags_2AA::e2AA_Bit2_bSfxPlaying);
         mCurrentMotion = eAbeMotions::Motion_64_LedgeAscend_428B60;
     }
     else
     {
-        if (Input().IsAnyPressed(sInputKey_Down_4C659C))
+        if (Input().IsAnyPressed(sInputKey_Down))
         {
             field_2AA_flags.Clear(Flags_2AA::e2AA_Bit2_bSfxPlaying);
 
@@ -8579,9 +8579,9 @@ void Abe::Motion_102_ElumWalkLoop_42DCA0()
 
 void Abe::Motion_103_ElumIdle_42DCD0()
 {
-    if (!Input().IsAnyPressed(sInputKey_LeftGameSpeakEnabler_4C65B8 | sInputKey_RightGameSpeakEnabler_4C65DC) || !Input().IsAnyHeld(0xF0))
+    if (!Input().IsAnyPressed(sInputKey_LeftGameSpeakEnabler | sInputKey_RightGameSpeakEnabler) || !Input().IsAnyHeld(0xF0))
     {
-        if (Input().Held() == sInputKey_Down_4C659C && !sDDCheat_FlyingEnabled_50771C)
+        if (Input().Held() == sInputKey_Down && !sDDCheat_FlyingEnabled_50771C)
         {
             ResourceManager::FreeResource_455550(field_1A4_resources.res[46]);
             field_104_pending_resource_count++;
@@ -8593,48 +8593,48 @@ void Abe::Motion_103_ElumIdle_42DCD0()
     else
     {
         mCurrentMotion = eAbeMotions::Motion_115_ElumSpeak_4299F0;
-        if (Input().IsAnyPressed(sInputKey_LeftGameSpeakEnabler_4C65B8))
+        if (Input().IsAnyPressed(sInputKey_LeftGameSpeakEnabler))
         {
-            if (Input().IsAnyHeld(sInputKey_GameSpeak2_4C65BC))
+            if (Input().IsAnyHeld(sInputKey_GameSpeak2))
             {
                 pEventSystem_4FF954->VPushEvent(GameSpeakEvents::eFollowMe_10);
                 Mudokon_SFX(MudSounds::eFollowMe_4, 0, 0, this);
             }
-            else if (Input().IsAnyHeld(sInputKey_GameSpeak4_4C65C4))
+            else if (Input().IsAnyHeld(sInputKey_GameSpeak4))
             {
                 pEventSystem_4FF954->VPushEvent(GameSpeakEvents::eWait_12);
                 Mudokon_SFX(MudSounds::eWait_6, 0, 0, this);
             }
-            else if (Input().IsAnyHeld(sInputKey_GameSpeak1_4C65C8))
+            else if (Input().IsAnyHeld(sInputKey_GameSpeak1))
             {
                 pEventSystem_4FF954->VPushEvent(GameSpeakEvents::eHello_9);
                 Mudokon_SFX(MudSounds::eHello_3, 0, 0, this);
             }
-            else if (Input().IsAnyHeld(sInputKey_GameSpeak3_4C65C0))
+            else if (Input().IsAnyHeld(sInputKey_GameSpeak3))
             {
                 pEventSystem_4FF954->VPushEvent(GameSpeakEvents::eAnger_11);
                 Mudokon_SFX(MudSounds::eAngry_5, 0, 0, this);
             }
         }
 
-        if (Input().IsAnyPressed(sInputKey_RightGameSpeakEnabler_4C65DC))
+        if (Input().IsAnyPressed(sInputKey_RightGameSpeakEnabler))
         {
-            if (Input().IsAnyHeld(sInputKey_GameSpeak6_4C65E8))
+            if (Input().IsAnyHeld(sInputKey_GameSpeak6))
             {
                 pEventSystem_4FF954->VPushEvent(GameSpeakEvents::eWhistleHigh_1);
                 Mudokon_SFX(MudSounds::eWhistleHigh_1, 0, 0, this);
             }
-            else if (Input().IsAnyHeld(sInputKey_GameSpeak5_4C65EC))
+            else if (Input().IsAnyHeld(sInputKey_GameSpeak5))
             {
                 pEventSystem_4FF954->VPushEvent(GameSpeakEvents::eWhistleLow_2);
                 Mudokon_SFX(MudSounds::eWhistleLow_2, 0, 0, this);
             }
-            else if (Input().IsAnyHeld(sInputKey_GameSpeak8_4C65E0))
+            else if (Input().IsAnyHeld(sInputKey_GameSpeak8))
             {
                 pEventSystem_4FF954->VPushEvent(GameSpeakEvents::eLaugh_4);
                 Mudokon_SFX(MudSounds::eLaugh1_8, 0, 0, this);
             }
-            else if (Input().IsAnyHeld(sInputKey_GameSpeak7_4C65E4))
+            else if (Input().IsAnyHeld(sInputKey_GameSpeak7))
             {
                 pEventSystem_4FF954->VPushEvent(GameSpeakEvents::eFart_3);
                 Mudokon_SFX(MudSounds::eFart_7, 0, 0, this);
@@ -8904,7 +8904,7 @@ void Abe::Motion_133_LiftGrabBegin_42EF20()
     mVelY = FP_FromInteger(0);
     if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
     {
-        if (Input().IsAnyPressed(sInputKey_Up_4C6598))
+        if (Input().IsAnyPressed(sInputKey_Up))
         {
             if (!pLiftPoint->OnTopFloor())
             {
@@ -8912,7 +8912,7 @@ void Abe::Motion_133_LiftGrabBegin_42EF20()
                 return;
             }
         }
-        else if (Input().IsAnyPressed(sInputKey_Down_4C659C))
+        else if (Input().IsAnyPressed(sInputKey_Down))
         {
             if (!pLiftPoint->OnBottomFloor())
             {
@@ -8948,14 +8948,14 @@ void Abe::Motion_135_LiftGrabIdle_42F000()
     }
     else
     {
-        if (Input().IsAnyPressed(sInputKey_Up_4C6598))
+        if (Input().IsAnyPressed(sInputKey_Up))
         {
             if (!pLiftPoint->OnTopFloor())
             {
                 mCurrentMotion = eAbeMotions::Motion_131_LiftUseUp_42F150;
             }
         }
-        else if (Input().IsAnyPressed(sInputKey_Down_4C659C))
+        else if (Input().IsAnyPressed(sInputKey_Down))
         {
             if (!pLiftPoint->OnBottomFloor())
             {
@@ -9193,9 +9193,9 @@ void Abe::Motion_142_RockThrowStandingHold_429CE0()
 {
     if (mAnim.mCurrentFrame >= 4)
     {
-        if (Input().IsAnyPressed(sInputKey_Right_4C6590 | sInputKey_Left_4C6594 | sInputKey_Up_4C6598 | sInputKey_Down_4C659C))
+        if (Input().IsAnyPressed(sInputKey_Right | sInputKey_Left | sInputKey_Up | sInputKey_Down))
         {
-            if (Input().IsAnyPressed(sInputKey_Right_4C6590))
+            if (Input().IsAnyPressed(sInputKey_Right))
             {
                 if (mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
                 {
@@ -9206,7 +9206,7 @@ void Abe::Motion_142_RockThrowStandingHold_429CE0()
                     field_19D_throw_direction = 2;
                 }
             }
-            else if (Input().IsAnyPressed(sInputKey_Left_4C6594))
+            else if (Input().IsAnyPressed(sInputKey_Left))
             {
                 if (mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
                 {
@@ -9217,7 +9217,7 @@ void Abe::Motion_142_RockThrowStandingHold_429CE0()
                     field_19D_throw_direction = 0;
                 }
             }
-            else if (Input().IsAnyPressed(sInputKey_Up_4C6598))
+            else if (Input().IsAnyPressed(sInputKey_Up))
             {
                 field_19D_throw_direction = 1;
             }
@@ -9229,7 +9229,7 @@ void Abe::Motion_142_RockThrowStandingHold_429CE0()
         }
     }
 
-    if (Input().IsAnyReleased(sInputKey_ThrowItem_4C65B4))
+    if (Input().IsAnyReleased(sInputKey_ThrowItem))
     {
         field_198_pThrowable->VToDead();
         field_198_pThrowable = nullptr;
@@ -9266,7 +9266,7 @@ void Abe::Motion_145_RockThrowCrouchingHold_428930()
 {
     if (mAnim.mCurrentFrame >= 4)
     {
-        if (Input().IsAnyPressed(sInputKey_Right_4C6590 | sInputKey_Left_4C6594 | sInputKey_Up_4C6598 | sInputKey_Down_4C659C))
+        if (Input().IsAnyPressed(sInputKey_Right | sInputKey_Left | sInputKey_Up | sInputKey_Down))
         {
             field_19D_throw_direction = 4;
             mCurrentMotion = eAbeMotions::Motion_146_RockThrowCrouchingThrow_4289F0;
@@ -9277,7 +9277,7 @@ void Abe::Motion_145_RockThrowCrouchingHold_428930()
         }
     }
 
-    if (Input().IsAnyReleased(sInputKey_ThrowItem_4C65B4))
+    if (Input().IsAnyReleased(sInputKey_ThrowItem))
     {
         field_198_pThrowable->VToDead();
         field_198_pThrowable = nullptr;

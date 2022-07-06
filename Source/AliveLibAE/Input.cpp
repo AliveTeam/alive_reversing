@@ -29,24 +29,24 @@ static SDL_GameController* pSDLController = nullptr;
 
 // -- Variables -- //
 
-const InputCommands::Enum sInputKey_Right_5550D0 = InputCommands::Enum::eRight;
-const InputCommands::Enum sInputKey_Left_5550D4 = InputCommands::Enum::eLeft;
-const InputCommands::Enum sInputKey_Up_5550D8 = InputCommands::Enum::eUp;
-const InputCommands::Enum sInputKey_Down_5550DC = InputCommands::Enum::eDown;
-const InputCommands::Enum sInputKey_Hop_5550E0 = InputCommands::Enum::eHop;
-const InputCommands::Enum sInputKey_DoAction_5550E4 = InputCommands::Enum::eDoAction;
-const InputCommands::Enum sInputKey_Run_5550E8 = InputCommands::Enum::eRun;
-const InputCommands::Enum sInputKey_Sneak_5550EC = InputCommands::Enum::eSneak;
-const InputCommands::Enum sInputKey_FartRoll_5550F0 = InputCommands::Enum::eFartOrRoll;
-const InputCommands::Enum sInputKey_ThrowItem_5550F4 = InputCommands::Enum::eThrowItem;
-const InputCommands::Enum sInputKey_GameSpeak2_5550F8 = InputCommands::Enum::eGameSpeak2;
-const InputCommands::Enum sInputKey_GameSpeak4_5550FC = InputCommands::Enum::eGameSpeak4;
-const InputCommands::Enum sInputKey_GameSpeak3_555100 = InputCommands::Enum::eGameSpeak3;
-const InputCommands::Enum sInputKey_GameSpeak1_555104 = InputCommands::Enum::eGameSpeak1;
-const InputCommands::Enum sInputKey_GameSpeak6_555108 = InputCommands::Enum::eGameSpeak6;
-const InputCommands::Enum sInputKey_GameSpeak5_55510C = InputCommands::Enum::eGameSpeak5;
-const InputCommands::Enum sInputKey_GameSpeak8_555110 = InputCommands::Enum::eGameSpeak8;
-const InputCommands::Enum sInputKey_GameSpeak7_555114 = InputCommands::Enum::eGameSpeak7;
+const InputCommands::Enum sInputKey_Right = InputCommands::Enum::eRight;
+const InputCommands::Enum sInputKey_Left = InputCommands::Enum::eLeft;
+const InputCommands::Enum sInputKey_Up = InputCommands::Enum::eUp;
+const InputCommands::Enum sInputKey_Down = InputCommands::Enum::eDown;
+const InputCommands::Enum sInputKey_Hop = InputCommands::Enum::eHop;
+const InputCommands::Enum sInputKey_DoAction = InputCommands::Enum::eDoAction;
+const InputCommands::Enum sInputKey_Run = InputCommands::Enum::eRun;
+const InputCommands::Enum sInputKey_Sneak = InputCommands::Enum::eSneak;
+const InputCommands::Enum sInputKey_FartRoll = InputCommands::Enum::eFartOrRoll;
+const InputCommands::Enum sInputKey_ThrowItem = InputCommands::Enum::eThrowItem;
+const InputCommands::Enum sInputKey_GameSpeak2 = InputCommands::Enum::eGameSpeak2;
+const InputCommands::Enum sInputKey_GameSpeak4 = InputCommands::Enum::eGameSpeak4;
+const InputCommands::Enum sInputKey_GameSpeak3 = InputCommands::Enum::eGameSpeak3;
+const InputCommands::Enum sInputKey_GameSpeak1 = InputCommands::Enum::eGameSpeak1;
+const InputCommands::Enum sInputKey_GameSpeak6 = InputCommands::Enum::eGameSpeak6;
+const InputCommands::Enum sInputKey_GameSpeak5 = InputCommands::Enum::eGameSpeak5;
+const InputCommands::Enum sInputKey_GameSpeak8 = InputCommands::Enum::eGameSpeak8;
+const InputCommands::Enum sInputKey_GameSpeak7 = InputCommands::Enum::eGameSpeak7;
 
 const InputCommands::Enum sInputKey_Chant = InputCommands::Enum::eChant;
 
@@ -54,10 +54,10 @@ const InputCommands::Enum sInputKey_Chant = InputCommands::Enum::eChant;
 const u32 AllMenuCommandsMask = (InputCommands::Enum::ePause | InputCommands::Enum::eUnPause_OrConfirm | InputCommands::Enum::eBack | InputCommands::Enum::eConfigure);
 
 // Is a joystick plugged in and can be switched to?
-ALIVE_VAR(1, 0x5C2EF4, bool, sJoystickAvailable_5C2EF4, false);
+ALIVE_VAR(1, 0x5C2EF4, bool, sJoystickAvailable, false);
 
 // Is the joystick selected as the active controller device (instead of keyboard)?
-ALIVE_VAR(1, 0x5c9f70, s32, sJoystickEnabled_5C9F70, 0);
+ALIVE_VAR(1, 0x5c9f70, s32, sJoystickEnabled, 0);
 
 ALIVE_VAR(1, 0x5C2EFC, s32, sJoystickNumButtons_5C2EFC, 0);
 ALIVE_VAR(1, 0x5C2F00, s32, sJoystickID_5C2F00, 0);
@@ -72,11 +72,11 @@ ALIVE_VAR(1, 0x5c2ea8, joyinfoex_tag, sJoystickInfo_5C2EA8, {});
 
 ALIVE_ARY(1, 0xBD2F60, u8, 256, sInputKeyStates_BD2F60, {});
 ALIVE_VAR(1, 0xBBB9D0, u8, sInputEnabled_BBB9D0, 0);
-ALIVE_VAR(1, 0x5BD4E0, InputObject, sInputObject_5BD4E0, {});
-ALIVE_VAR(1, 0x5C1BBE, u16, sCurrentControllerIndex_5C1BBE, 0);
-ALIVE_VAR(1, 0x5C1B9A, s16, bLongerTimeoutToNextDemo_5C1B9A, 0);
-ALIVE_VAR(1, 0xbd30a0, u32, sLastPressedKey_BD30A0, 0);
-ALIVE_VAR(1, 0xbd309c, s32, sIsAKeyDown_BD309C, 0);
+ALIVE_VAR(1, 0x5BD4E0, InputObject, sInputObject, {});
+ALIVE_VAR(1, 0x5C1BBE, u16, sCurrentControllerIndex, 0);
+ALIVE_VAR(1, 0x5C1B9A, s16, bLongerTimeoutToNextDemo, 0);
+ALIVE_VAR(1, 0xbd30a0, u32, sLastPressedKey, 0);
+ALIVE_VAR(1, 0xbd309c, s32, sIsAKeyDown, 0);
 ALIVE_ARY(1, 0x5C9D30, s8, 256, sAllowedGameKeys_5C9D30, {});
 ALIVE_ARY(1, 0x5C9394, const char_type*, 256, sKeyNames_5C9394, {});
 ALIVE_ARY(1, 0x5C9908, const char_type*, 10, sJoyButtonNames_5C9908, {});
@@ -283,7 +283,7 @@ void Input_GetJoyState_SDL(f32* pX1, f32* pY1, f32* pX2, f32* pY2, u32* pButtons
 #if !USE_SDL2 && _WIN32
 void Input_GetJoyState_Impl(f32* pX1, f32* pY1, f32* pX2, f32* pY2, u32* pButtons)
 {
-    if (!sJoystickAvailable_5C2EF4)
+    if (!sJoystickAvailable)
     {
         *pY2 = 0.0f;
         *pX2 = 0.0f;
@@ -309,7 +309,7 @@ void Input_GetJoyState_Impl(f32* pX1, f32* pY1, f32* pX2, f32* pY2, u32* pButton
 
         if (joyGetPosEx(sJoystickID_5C2F00, &sJoystickInfo_5C2EA8))
         {
-            sJoystickAvailable_5C2EF4 = false;
+            sJoystickAvailable = false;
             return;
         }
     }
@@ -405,7 +405,7 @@ void Input_XINPUT(f32* pX1, f32* pY1, f32* pX2, f32* pY2, u32* pButtons)
     *pX2 = 0;
     *pY2 = 0;
 
-    if (XInputGetState(sCurrentControllerIndex_5C1BBE, &state) == ERROR_SUCCESS)
+    if (XInputGetState(sCurrentControllerIndex, &state) == ERROR_SUCCESS)
     {
         f32 f_LX = state.Gamepad.sThumbLX / 32767.0f;
         f32 f_LY = state.Gamepad.sThumbLY / 32767.0f;
@@ -650,17 +650,17 @@ const char_type* Input_GetButtonString_492530(const char_type* idx, s32 controll
 
 bool Input_JoyStickEnabled()
 {
-    return sJoystickEnabled_5C9F70 ? true : false;
+    return sJoystickEnabled ? true : false;
 }
 
 bool Input_JoyStickAvailable()
 {
-    return sJoystickAvailable_5C2EF4;
+    return sJoystickAvailable;
 }
 
 void Input_SetJoyStickEnabled(bool enabled)
 {
-    sJoystickEnabled_5C9F70 = enabled;
+    sJoystickEnabled = enabled;
 }
 
 s32 Input_Remap_492680(InputCommands::Enum inputCmd)
@@ -670,7 +670,7 @@ s32 Input_Remap_492680(InputCommands::Enum inputCmd)
         return 0;
     }
 
-    if (sJoystickEnabled_5C9F70)
+    if (sJoystickEnabled)
     {
         f32 y2 = 0.0f;
         f32 x2 = 0.0f;
@@ -737,7 +737,7 @@ s32 Input_Remap_492680(InputCommands::Enum inputCmd)
     // Back can only be used to clear the binding, back it self can't be rebound
     if (bindIdx == VK_BACK)
     {
-        Input_ResetBinding_4925A0(inputCmd, sJoystickEnabled_5C9F70);
+        Input_ResetBinding_4925A0(inputCmd, sJoystickEnabled);
         Input_Init_Names_491870();
         return -1;
     }
@@ -748,7 +748,7 @@ s32 Input_Remap_492680(InputCommands::Enum inputCmd)
         return -2;
     }
 
-    if (sJoystickEnabled_5C9F70 || !sAllowedGameKeys_5C9D30[bindIdx])
+    if (sJoystickEnabled || !sAllowedGameKeys_5C9D30[bindIdx])
     {
         return 0;
     }
@@ -1010,11 +1010,11 @@ void NewParseSettingsIni()
                 {
                     if (param[0] == "controller" && param[1] == "Gamepad")
                     {
-                        sJoystickEnabled_5C9F70 = 1;
+                        sJoystickEnabled = 1;
                     }
                     else if (param[0] == "controller" && param[1] == "Keyboard")
                     {
-                        sJoystickEnabled_5C9F70 = 0;
+                        sJoystickEnabled = 0;
                     }
                 }
                 else if (currentCategory == IniCategory::eKeyboard)
@@ -1051,7 +1051,7 @@ void NewParseSettingsIni()
     }
 
 #if __ANDROID__ //TODO check/add support
-    sJoystickEnabled_5C9F70 = 1;
+    sJoystickEnabled = 1;
 #endif
 }
 
@@ -1062,7 +1062,7 @@ void Input_SaveSettingsIni_Common(bool isAo)
         return;
     }
 
-    s32 prevJoyState = sJoystickEnabled_5C9F70;
+    s32 prevJoyState = sJoystickEnabled;
 
     std::stringstream output;
 
@@ -1070,9 +1070,9 @@ void Input_SaveSettingsIni_Common(bool isAo)
     output << "[" << iniCategories[0] << "]"
            << "\n";
 
-    if (sJoystickEnabled_5C9F70)
+    if (sJoystickEnabled)
     {
-        if (sJoystickEnabled_5C9F70 == 1)
+        if (sJoystickEnabled == 1)
         {
             output << "controller = Gamepad\n";
         }
@@ -1084,7 +1084,7 @@ void Input_SaveSettingsIni_Common(bool isAo)
 
     output << "\n";
 
-    sJoystickEnabled_5C9F70 = 0;
+    sJoystickEnabled = 0;
 
     // Keyboard remap
     output << "[" << iniCategories[1] << "]"
@@ -1130,7 +1130,7 @@ void Input_SaveSettingsIni_Common(bool isAo)
         }
     }
 
-    sJoystickEnabled_5C9F70 = 1;
+    sJoystickEnabled = 1;
 
     output << "\n";
 
@@ -1194,7 +1194,7 @@ void Input_SaveSettingsIni_Common(bool isAo)
         output << "speak2 = " << btnString << "\n";
     }
 
-    sJoystickEnabled_5C9F70 = prevJoyState;
+    sJoystickEnabled = prevJoyState;
 
     output << "\n";
 
@@ -1308,7 +1308,7 @@ s32 Input_Convert_KeyboardGamePadInput_To_Internal_Format_492150()
         }
 
         keys_down = pressed_keyboard_keys;
-        if (!sJoystickEnabled_5C9F70)
+        if (!sJoystickEnabled)
         {
             goto no_joystick;
         }
@@ -1579,7 +1579,7 @@ void Input_InitJoyStick_460080()
     gTouchController->Init();
 #endif
 
-    sJoystickAvailable_5C2EF4 = false;
+    sJoystickAvailable = false;
 #if USE_SDL2
 
     sGamepadCapFlags_5C2EF8 |= eDisableAutoRun;
@@ -1594,7 +1594,7 @@ void Input_InitJoyStick_460080()
             {
                 LOG_INFO("Controller name is " << SDL_GameControllerName(pSDLController));
 
-                sJoystickAvailable_5C2EF4 = true;
+                sJoystickAvailable = true;
 
                 strncpy(sGamePadStr_55E85C, SDL_GameControllerName(pSDLController), 32u);
 
@@ -1619,7 +1619,7 @@ void Input_InitJoyStick_460080()
         LOG_INFO("Calling joyGetDevCapsA for " << i << " of " << count);
         if (!joyGetDevCapsA(i, &sJoystickCaps_5C2D10, sizeof(tagJOYCAPSA)))
         {
-            sJoystickAvailable_5C2EF4 = true;
+            sJoystickAvailable = true;
             sJoystickID_5C2F00 = i;
             break;
         }
@@ -1860,10 +1860,10 @@ u32 Input_GetLastPressedKey_492610()
         return 0;
     }
 
-    const u32 lastVKeyPressed = sLastPressedKey_BD30A0;
+    const u32 lastVKeyPressed = sLastPressedKey;
 
-    sIsAKeyDown_BD309C = false;
-    sLastPressedKey_BD30A0 = 0;
+    sIsAKeyDown = false;
+    sLastPressedKey = 0;
 
     return lastVKeyPressed;
 }
@@ -1876,7 +1876,7 @@ void Input_Reset_492660()
 
 u32 Input_IsChanting_45F260()
 {
-    return (sInputObject_5BD4E0.field_0_pads[0].field_0_pressed & InputCommands::Enum::eChant) == InputCommands::Enum::eChant;
+    return (Input().mPads[0].mPressed & InputCommands::Enum::eChant) == InputCommands::Enum::eChant;
 }
 
 // Zeros the input key state array.
@@ -1934,7 +1934,7 @@ s32 Input_Read_Pad_4FA9C0(s32 padNum)
 
 InputObject& Input()
 {
-    return sInputObject_5BD4E0;
+    return sInputObject;
 }
 
 void Input_Pads_Reset_4FA960()
@@ -1986,15 +1986,15 @@ void InputObject::Update(BaseGameAutoPlayer& autoPlayer)
         0,
         0};
 
-    field_0_pads[0].field_8_previous = field_0_pads[0].field_0_pressed;
-    field_0_pads[0].field_0_pressed = autoPlayer.GetInput(0);
+    mPads[0].mPreviousInput = mPads[0].mPressed;
+    mPads[0].mPressed = autoPlayer.GetInput(0);
 
     if (Is_Demo_Playing_45F220())
     {
         // Stop if any button on any pad is pressed
-        if (field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed)
+        if (mPads[sCurrentControllerIndex].mPressed)
         {
-            bLongerTimeoutToNextDemo_5C1B9A = 0;
+            bLongerTimeoutToNextDemo = 0;
             UnsetDemoPlaying_45F240();
             return;
         }
@@ -2015,19 +2015,19 @@ void InputObject::Update(BaseGameAutoPlayer& autoPlayer)
         // Will do nothing if we hit the end command..
         if (Is_Demo_Playing_45F220())
         {
-            field_0_pads[0].field_0_pressed = PsxButtonsToKeyboardInput_45EE40(field_3C_command);
+            mPads[0].mPressed = PsxButtonsToKeyboardInput_45EE40(field_3C_command);
         }
     }
 
-    field_0_pads[0].field_10_released = field_0_pads[0].field_8_previous & ~field_0_pads[0].field_0_pressed;
-    field_0_pads[0].field_C_held = field_0_pads[0].field_0_pressed & ~field_0_pads[0].field_8_previous;
-    field_0_pads[0].field_4_dir = directionTable_545A4C[field_0_pads[0].field_0_pressed & 0xF];
+    mPads[0].mReleased = mPads[0].mPreviousInput & ~mPads[0].mPressed;
+    mPads[0].mHeld = mPads[0].mPressed & ~mPads[0].mPreviousInput;
+    mPads[0].mDir = directionTable_545A4C[mPads[0].mPressed & 0xF];
 
-    field_0_pads[1].field_8_previous = field_0_pads[1].field_0_pressed;
-    field_0_pads[1].field_0_pressed = autoPlayer.GetInput(1);
-    field_0_pads[1].field_10_released = field_0_pads[1].field_8_previous & ~field_0_pads[1].field_0_pressed;
-    field_0_pads[1].field_C_held = field_0_pads[1].field_0_pressed & ~field_0_pads[1].field_8_previous;
-    field_0_pads[1].field_4_dir = directionTable_545A4C[field_0_pads[1].field_0_pressed & 0xF];
+    mPads[1].mPreviousInput = mPads[1].mPressed;
+    mPads[1].mPressed = autoPlayer.GetInput(1);
+    mPads[1].mReleased = mPads[1].mPreviousInput & ~mPads[1].mPressed;
+    mPads[1].mHeld = mPads[1].mPressed & ~mPads[1].mPreviousInput;
+    mPads[1].mDir = directionTable_545A4C[mPads[1].mPressed & 0xF];
 }
 
 u32 InputObject::PsxButtonsToKeyboardInput_45EE40(u32 cmd)
@@ -2248,15 +2248,15 @@ void InputObject::ShutDown_45F020()
 
 bool InputObject::isPressed(u32 command)
 {
-    return (this->field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed & command) != 0;
+    return (this->mPads[sCurrentControllerIndex].mPressed & command) != 0;
 }
 
 bool InputObject::isHeld(u32 command)
 {
-    return (this->field_0_pads[sCurrentControllerIndex_5C1BBE].field_C_held & command) != 0;
+    return (this->mPads[sCurrentControllerIndex].mHeld & command) != 0;
 }
 
 bool InputObject::IsReleased(u32 keys)
 {
-    return (this->field_0_pads[sCurrentControllerIndex_5C1BBE].field_10_released & keys) != 0;
+    return (this->mPads[sCurrentControllerIndex].mReleased & keys) != 0;
 }

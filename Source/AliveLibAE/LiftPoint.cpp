@@ -66,7 +66,7 @@ LiftPoint::LiftPoint(Path_LiftPoint* pTlv, s32 tlvInfo)
 
     pTlv->mTlvState = 3;
 
-    field_27C_pTlv = sPath_dword_BB47C0->TLVInfo_From_TLVPtr(pTlv);
+    field_27C_pTlv = sPathInfo->TLVInfo_From_TLVPtr(pTlv);
 
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kLiftResID);
     if (pTlv->field_18_scale != Scale_short::eFull_0)
@@ -233,7 +233,7 @@ s32 LiftPoint::CreateFromSaveState(const u8* pData)
 {
     const LiftPoint_State* pState = reinterpret_cast<const LiftPoint_State*>(pData);
 
-    Path_LiftPoint* pTlv = static_cast<Path_LiftPoint*>(sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam(pState->field_C_tlvInfo));
+    Path_LiftPoint* pTlv = static_cast<Path_LiftPoint*>(sPathInfo->TLV_From_Offset_Lvl_Cam(pState->field_C_tlvInfo));
 
     if (!ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kAbeliftResID, FALSE, FALSE))
     {
@@ -330,7 +330,7 @@ s32 LiftPoint::CreateFromSaveState(const u8* pData)
         return sizeof(LiftPoint_State);
     }
 
-    Path_TLV* pTlv2 = sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam(pState->field_10_pTlv);
+    Path_TLV* pTlv2 = sPathInfo->TLV_From_Offset_Lvl_Cam(pState->field_10_pTlv);
     pTlv2->mTlvState = 3;
     return sizeof(LiftPoint_State);
 }
@@ -543,7 +543,7 @@ void LiftPoint::VUpdate()
         {
             field_130_lift_point_stop_type = LiftPointStopType::eStartPointOnly_4;
             const FP lineY = FP_FromInteger(field_124_pCollisionLine->mRect.y);
-            Path_TLV* pTlvIter = sPath_dword_BB47C0->TlvGetAt(
+            Path_TLV* pTlvIter = sPathInfo->TlvGetAt(
                 nullptr,
                 mXPos,
                 lineY,
@@ -554,7 +554,7 @@ void LiftPoint::VUpdate()
             {
                 while (pTlvIter->mTlvType32.mType != TlvTypes::LiftPoint_7)
                 {
-                    pTlvIter = sPath_dword_BB47C0->TlvGetAt(
+                    pTlvIter = sPathInfo->TlvGetAt(
                         pTlvIter,
                         mXPos,
                         lineY,
@@ -626,7 +626,7 @@ void LiftPoint::VUpdate()
 
                             pLiftTlv->mTlvState = 3;
 
-                            field_27C_pTlv = sPath_dword_BB47C0->TLVInfo_From_TLVPtr(pLiftTlv);
+                            field_27C_pTlv = sPathInfo->TLVInfo_From_TLVPtr(pLiftTlv);
                             pLiftTlv->field_10_lift_point_id = field_278_lift_point_id;
                             field_280_flags.Set(LiftFlags::eBit1_bTopFloor);
                         }
@@ -656,7 +656,7 @@ void LiftPoint::VUpdate()
 
                             pLiftTlv->mTlvState = 3;
 
-                            field_27C_pTlv = sPath_dword_BB47C0->TLVInfo_From_TLVPtr(pLiftTlv);
+                            field_27C_pTlv = sPathInfo->TLVInfo_From_TLVPtr(pLiftTlv);
                             pLiftTlv->field_10_lift_point_id = field_278_lift_point_id;
                             field_280_flags.Set(LiftFlags::eBit3_bBottomFloor);
                         }
@@ -690,7 +690,7 @@ void LiftPoint::VUpdate()
                         }
 
                         pLiftTlv->mTlvState = 3;
-                        field_27C_pTlv = sPath_dword_BB47C0->TLVInfo_From_TLVPtr(pLiftTlv);
+                        field_27C_pTlv = sPathInfo->TLVInfo_From_TLVPtr(pLiftTlv);
                         pLiftTlv->field_10_lift_point_id = field_278_lift_point_id;
                         field_280_flags.Set(LiftFlags::eBit2_bMiddleFloor);
                     }
@@ -838,7 +838,7 @@ void LiftPoint::vStayOnFloor(s16 floor, Path_LiftPoint* pTlv)
 
     field_12C_bMoving &= ~1;
     pTlv->mTlvState = 3;
-    field_27C_pTlv = sPath_dword_BB47C0->TLVInfo_From_TLVPtr(pTlv);
+    field_27C_pTlv = sPathInfo->TLVInfo_From_TLVPtr(pTlv);
     pTlv->field_10_lift_point_id = field_278_lift_point_id;
     mVelY = FP_FromInteger(0);
 
@@ -874,14 +874,14 @@ void LiftPoint::CreatePulleyIfExists()
 {
     Path_TLV* pFound = nullptr;
 
-    const PathData* pPathData = sPath_dword_BB47C0->mPathData;
+    const PathData* pPathData = sPathInfo->mPathData;
     s16 yCamIdx = FP_GetExponent(mYPos) / pPathData->field_C_grid_height;
     // If we are in the top row of cameras then there can't be a pulley in the screen above because there are no more screens above!
     while (yCamIdx >= 0)
     {
         const s16 xCamIdx = (FP_GetExponent(mXPos) / pPathData->field_A_grid_width) - gMap.mCamIdxOnX;
         // Keep looking up 1 camera for any camera that has TLVs in it.
-        Path_TLV* pTlvIter = sPath_dword_BB47C0->Get_First_TLV_For_Offsetted_Camera(xCamIdx, yCamIdx - gMap.mCamIdxOnY);
+        Path_TLV* pTlvIter = sPathInfo->Get_First_TLV_For_Offsetted_Camera(xCamIdx, yCamIdx - gMap.mCamIdxOnY);
         while (pTlvIter)
         {
             if (pTlvIter->mTlvType32 == TlvTypes::Pulley_21)
@@ -995,7 +995,7 @@ LiftPoint::~LiftPoint()
 
     Path::TLV_Reset(mPlatformBaseTlvInfo, -1, 0, 0);
 
-    Path_TLV* pTlv = sPath_dword_BB47C0->TLV_Get_At_4DB4B0(
+    Path_TLV* pTlv = sPathInfo->TLV_Get_At_4DB4B0(
         FP_GetExponent(mXPos),
         FP_GetExponent(mSpriteScale * FP_FromInteger(30)),
         FP_GetExponent(mXPos),

@@ -149,24 +149,24 @@ class PullRingRope;
 
 extern const TintEntry sTintTable_Abe_554D20[15];
 
-extern const InputCommands::Enum sInputKey_Right_5550D0;
-extern const InputCommands::Enum sInputKey_Left_5550D4;
-extern const InputCommands::Enum sInputKey_Up_5550D8;
-extern const InputCommands::Enum sInputKey_Down_5550DC;
-extern const InputCommands::Enum sInputKey_Hop_5550E0;
-extern const InputCommands::Enum sInputKey_DoAction_5550E4;
-extern const InputCommands::Enum sInputKey_Run_5550E8;
-extern const InputCommands::Enum sInputKey_Sneak_5550EC;
-extern const InputCommands::Enum sInputKey_FartRoll_5550F0;
-extern const InputCommands::Enum sInputKey_ThrowItem_5550F4;
-extern const InputCommands::Enum sInputKey_GameSpeak2_5550F8;
-extern const InputCommands::Enum sInputKey_GameSpeak4_5550FC;
-extern const InputCommands::Enum sInputKey_GameSpeak3_555100;
-extern const InputCommands::Enum sInputKey_GameSpeak1_555104;
-extern const InputCommands::Enum sInputKey_GameSpeak6_555108;
-extern const InputCommands::Enum sInputKey_GameSpeak5_55510C;
-extern const InputCommands::Enum sInputKey_GameSpeak8_555110;
-extern const InputCommands::Enum sInputKey_GameSpeak7_555114;
+extern const InputCommands::Enum sInputKey_Right;
+extern const InputCommands::Enum sInputKey_Left;
+extern const InputCommands::Enum sInputKey_Up;
+extern const InputCommands::Enum sInputKey_Down;
+extern const InputCommands::Enum sInputKey_Hop;
+extern const InputCommands::Enum sInputKey_DoAction;
+extern const InputCommands::Enum sInputKey_Run;
+extern const InputCommands::Enum sInputKey_Sneak;
+extern const InputCommands::Enum sInputKey_FartRoll;
+extern const InputCommands::Enum sInputKey_ThrowItem;
+extern const InputCommands::Enum sInputKey_GameSpeak2;
+extern const InputCommands::Enum sInputKey_GameSpeak4;
+extern const InputCommands::Enum sInputKey_GameSpeak3;
+extern const InputCommands::Enum sInputKey_GameSpeak1;
+extern const InputCommands::Enum sInputKey_GameSpeak6;
+extern const InputCommands::Enum sInputKey_GameSpeak5;
+extern const InputCommands::Enum sInputKey_GameSpeak8;
+extern const InputCommands::Enum sInputKey_GameSpeak7;
 
 struct Path_ContinuePoint final : public Path_TLV
 {
