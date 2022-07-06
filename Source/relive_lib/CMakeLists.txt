@@ -40,6 +40,12 @@ SET(relive_lib_src
     AnimationUnknown.hpp
     Shadow.hpp
     Shadow.cpp
+    data_conversion/camera_converter.hpp
+    data_conversion/camera_converter.cpp
+    data_conversion/data_conversion.hpp
+    data_conversion/data_conversion.cpp
+    data_conversion/file_system.hpp
+    data_conversion/file_system.cpp
     Layer.hpp
     stdafx.h
 )
