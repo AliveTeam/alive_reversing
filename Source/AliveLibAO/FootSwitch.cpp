@@ -120,12 +120,12 @@ BaseAliveGameObject* FootSwitch::WhoIsStoodOnMe()
     }
     else if (field_EE_trigger_by == FootSwitchTriggerBy::eAbe_0)
     {
-        const PSX_RECT bRect = sActiveHero_507678->VGetBoundingRect();
-        const s32 xpos = FP_GetExponent(sActiveHero_507678->mXPos);
+        const PSX_RECT bRect = sActiveHero->VGetBoundingRect();
+        const s32 xpos = FP_GetExponent(sActiveHero->mXPos);
 
-        if (xpos > bRectSwitch.x && xpos < bRectSwitch.w && bRectSwitch.x <= bRect.w && bRectSwitch.w >= bRect.x && bRectSwitch.h >= bRect.y && bRectSwitch.y <= bRect.h && sActiveHero_507678->mSpriteScale == mSpriteScale)
+        if (xpos > bRectSwitch.x && xpos < bRectSwitch.w && bRectSwitch.x <= bRect.w && bRectSwitch.w >= bRect.x && bRectSwitch.h >= bRect.y && bRectSwitch.y <= bRect.h && sActiveHero->mSpriteScale == mSpriteScale)
         {
-            return sActiveHero_507678;
+            return sActiveHero;
         }
     }
     return nullptr;

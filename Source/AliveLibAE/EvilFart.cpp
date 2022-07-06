@@ -105,7 +105,7 @@ s32 EvilFart::CreateFromSaveState(const u8* pBuffer)
 
     if (pState->field_2C.Get(EvilFart_State::eBit1_bControlled))
     {
-        sControlledCharacter_5C1B8C = pFart;
+        sControlledCharacter = pFart;
     }
 
     pFart->mXPos = pState->field_C_xpos;
@@ -161,7 +161,7 @@ s32 EvilFart::VGetSaveState(u8* pSaveBuffer)
     pState->field_4_g = mRGB.g;
     pState->field_6_b = mRGB.b;
 
-    pState->field_2C.Set(EvilFart_State::eBit1_bControlled, sControlledCharacter_5C1B8C == this);
+    pState->field_2C.Set(EvilFart_State::eBit1_bControlled, sControlledCharacter == this);
     pState->field_20_anim_cur_frame = mAnim.mCurrentFrame;
     pState->field_22_frame_change_counter = mAnim.mFrameChangeCounter;
 
@@ -256,7 +256,7 @@ void EvilFart::VPossessed()
     field_11E_path = gMap.mCurrentPath;
     field_122_camera = gMap.mCurrentCamera;
 
-    sControlledCharacter_5C1B8C = this;
+    sControlledCharacter = this;
 
     field_124_state = FartStates::eFlying_1;
     field_11A_bPossesed = 1;
@@ -316,7 +316,7 @@ void EvilFart::VUpdate()
 
     if (field_118_bBlowUp && static_cast<s32>(sGnFrame) > field_12C_back_to_abe_timer)
     {
-        sControlledCharacter_5C1B8C = sActiveHero;
+        sControlledCharacter = sActiveHero;
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
         gMap.SetActiveCam(field_120_level, field_11E_path, field_122_camera, CameraSwapEffects::eInstantChange_0, 0, 0);
     }

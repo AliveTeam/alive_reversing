@@ -412,7 +412,7 @@ s16 SlingMudokon::Brain_0_GiveCode()
         case Brain_0_GiveCode::eBrain0_PauseABit_2:
             if (static_cast<s32>(sGnFrame) <= field_140_timer)
             {
-                if (VIsObj_GettingNear_On_X(sActiveHero_507678))
+                if (VIsObj_GettingNear_On_X(sActiveHero))
                 {
                     break;
                 }
@@ -423,7 +423,7 @@ s16 SlingMudokon::Brain_0_GiveCode()
 
         case Brain_0_GiveCode::eBrain0_WaitForCode_3:
         {
-            if (VIsObj_GettingNear_On_X(sActiveHero_507678))
+            if (VIsObj_GettingNear_On_X(sActiveHero))
             {
                 break;
             }
@@ -440,7 +440,7 @@ s16 SlingMudokon::Brain_0_GiveCode()
         }
 
         case Brain_0_GiveCode::eBrain0_CheckCodeMatching_4:
-            if (VIsObj_GettingNear_On_X(sActiveHero_507678))
+            if (VIsObj_GettingNear_On_X(sActiveHero))
             {
                 break;
             }
@@ -547,7 +547,7 @@ s16 SlingMudokon::Brain_1_Spawn()
 
                 relive_new Flash(Layer::eLayer_Above_FG1_39, 255u, 0, 255u);
 
-                if (mXPos > sActiveHero_507678->mXPos)
+                if (mXPos > sActiveHero->mXPos)
                 {
                     mAnim.mFlags.Set(AnimFlags::eBit5_FlipX);
                 }
@@ -557,7 +557,7 @@ s16 SlingMudokon::Brain_1_Spawn()
             return field_13A_brain_sub_state;
 
         case Brain_1_Spawn::eBrain1_GetAngry_3:
-            if (VIsObj_GettingNear_On_X(sActiveHero_507678))
+            if (VIsObj_GettingNear_On_X(sActiveHero))
             {
                 SetNextMotion(eSlingMudMotions::Motion_1_Angry);
                 field_140_timer = sGnFrame + 40;
@@ -597,7 +597,7 @@ s16 SlingMudokon::Brain_1_Spawn()
             break;
 
         case Brain_1_Spawn::eBrain1_PrepareToShoot_5:
-            if (VIsObjNearby((ScaleToGridSize(mSpriteScale) * FP_FromInteger(4)), sActiveHero_507678))
+            if (VIsObjNearby((ScaleToGridSize(mSpriteScale) * FP_FromInteger(4)), sActiveHero))
             {
                 field_11E_flags.Set(Flags_11E::eBit1_bDontSetDestroyed);
                 SetNextMotion(eSlingMudMotions::Motion_3_ShootStart);
@@ -605,7 +605,7 @@ s16 SlingMudokon::Brain_1_Spawn()
                 return Brain_1_Spawn::eBrain1_Shoot_6;
             }
 
-            if (VIsObj_GettingNear_On_X(sActiveHero_507678))
+            if (VIsObj_GettingNear_On_X(sActiveHero))
             {
                 field_140_timer = sGnFrame + 40;
             }
@@ -627,7 +627,7 @@ s16 SlingMudokon::Brain_1_Spawn()
                 mBaseGameObjectFlags.Set(BaseGameObject::eDead);
             }
 
-            if (field_140_timer > static_cast<s32>(sGnFrame) || sActiveHero_507678->mHealth <= FP_FromInteger(0))
+            if (field_140_timer > static_cast<s32>(sGnFrame) || sActiveHero->mHealth <= FP_FromInteger(0))
             {
                 return field_13A_brain_sub_state;
             }
@@ -720,7 +720,7 @@ s16 SlingMudokon::Brain_2_AskForPassword()
                 field_140_timer = sGnFrame + 30;
 
                 SetCurrentMotion(eSlingMudMotions::Motion_0_Idle);
-                if (mXPos > sActiveHero_507678->mXPos)
+                if (mXPos > sActiveHero->mXPos)
                 {
                     mAnim.mFlags.Set(AnimFlags::eBit5_FlipX);
                 }
@@ -731,7 +731,7 @@ s16 SlingMudokon::Brain_2_AskForPassword()
             return field_13A_brain_sub_state;
 
         case 3:
-            if (VIsObj_GettingNear_On_X(sActiveHero_507678))
+            if (VIsObj_GettingNear_On_X(sActiveHero))
             {
                 SetNextMotion(eSlingMudMotions::Motion_1_Angry);
                 field_140_timer = sGnFrame + 40;
@@ -748,7 +748,7 @@ s16 SlingMudokon::Brain_2_AskForPassword()
             return 4;
 
         case 4:
-            if (VIsObj_GettingNear_On_X(sActiveHero_507678))
+            if (VIsObj_GettingNear_On_X(sActiveHero))
             {
                 SetNextMotion(eSlingMudMotions::Motion_1_Angry);
                 field_140_timer = sGnFrame + 40;
@@ -787,7 +787,7 @@ s16 SlingMudokon::Brain_2_AskForPassword()
             break;
 
         case 5:
-            if (!VIsObj_GettingNear_On_X(sActiveHero_507678))
+            if (!VIsObj_GettingNear_On_X(sActiveHero))
             {
                 GameSpeakEvents speak = {};
                 if (field_120_last_event_idx == pEventSystem_4FF954->field_18_last_event_index)
@@ -885,7 +885,7 @@ s16 SlingMudokon::Brain_2_AskForPassword()
             break;
 
         case 7:
-            if (VIsObjNearby((ScaleToGridSize(mSpriteScale) * FP_FromInteger(4)), sActiveHero_507678))
+            if (VIsObjNearby((ScaleToGridSize(mSpriteScale) * FP_FromInteger(4)), sActiveHero))
             {
                 field_11E_flags.Set(Flags_11E::eBit1_bDontSetDestroyed);
                 SetNextMotion(eSlingMudMotions::Motion_3_ShootStart);
@@ -908,7 +908,7 @@ s16 SlingMudokon::Brain_2_AskForPassword()
                 mBaseGameObjectFlags.Set(BaseGameObject::eDead);
             }
 
-            if (field_140_timer > static_cast<s32>(sGnFrame) || sActiveHero_507678->mHealth <= FP_FromInteger(0))
+            if (field_140_timer > static_cast<s32>(sGnFrame) || sActiveHero->mHealth <= FP_FromInteger(0))
             {
                 return field_13A_brain_sub_state;
             }

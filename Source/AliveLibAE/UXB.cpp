@@ -477,8 +477,8 @@ void UXB::VScreenChanged()
 {
     BaseGameObject::VScreenChanged();
 
-    const FP x_distance = FP_Abs(sControlledCharacter_5C1B8C->mXPos - mXPos);
-    const FP y_distance = FP_Abs(sControlledCharacter_5C1B8C->mYPos - mYPos);
+    const FP x_distance = FP_Abs(sControlledCharacter->mXPos - mXPos);
+    const FP y_distance = FP_Abs(sControlledCharacter->mYPos - mYPos);
 
     if (y_distance > FP_FromInteger(520) || x_distance > FP_FromInteger(750))
     {

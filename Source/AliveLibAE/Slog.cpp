@@ -103,7 +103,7 @@ Slog::Slog(FP xpos, FP ypos, FP scale, s16 bListenToSligs, s16 chaseDelay)
     BaseAliveGameObject* pTarget = FindTarget(0, 0);
     if (!pTarget)
     {
-        pTarget = sControlledCharacter_5C1B8C;
+        pTarget = sControlledCharacter;
     }
     field_118_target_id = pTarget->field_8_object_id;
 
@@ -226,7 +226,7 @@ s32 Slog::VGetSaveState(u8* pSaveBuffer)
     }
 
     pState->field_3C_id = BaseAliveGameObject_PlatformId;
-    pState->field_74_flags.Set(Slog_State::eBit2_Possessed, sControlledCharacter_5C1B8C == this); // Lol can't be possessed anyway so ??
+    pState->field_74_flags.Set(Slog_State::eBit2_Possessed, sControlledCharacter == this); // Lol can't be possessed anyway so ??
     pState->field_40_tlvInfo = field_12C_tlvInfo;
     pState->field_40_tlvInfo = field_12C_tlvInfo;
     pState->field_44_obj_id = -1;
@@ -279,7 +279,7 @@ s32 Slog::VGetSaveState(u8* pSaveBuffer)
     pState->field_72_slog_random_index = sSlogRandomIdx_BAF7F0;
 
     pState->field_74_flags.Set(Slog_State::eBit1_BitingTarget, field_11C_biting_target & 1);
-    pState->field_74_flags.Set(Slog_State::eBit2_Possessed, sControlledCharacter_5C1B8C == this); // Can never happen so is always 0
+    pState->field_74_flags.Set(Slog_State::eBit2_Possessed, sControlledCharacter == this); // Can never happen so is always 0
     pState->field_74_flags.Set(Slog_State::eBit3_Asleep, field_160_flags.Get(Flags_160::eBit8_Asleep));
     pState->field_74_flags.Set(Slog_State::eBit4_MovedOffScreen, field_160_flags.Get(Flags_160::eBit9_MovedOffScreen));
     pState->field_74_flags.Set(Slog_State::eBit5_StopRunning, field_160_flags.Get(Flags_160::eBit1_StopRunning));
@@ -1602,11 +1602,11 @@ s16 Slog::Brain_1_Idle()
     if (field_134_last_event_index != pEventSystem_5BC11C->field_28_last_event_index)
     {
         field_134_last_event_index = pEventSystem_5BC11C->field_28_last_event_index;
-        if (pEventSystem_5BC11C->field_20_last_event == GameSpeakEvents::Slig_HereBoy_28 && sControlledCharacter_5C1B8C->Type() == ReliveTypes::eSlig)
+        if (pEventSystem_5BC11C->field_20_last_event == GameSpeakEvents::Slig_HereBoy_28 && sControlledCharacter->Type() == ReliveTypes::eSlig)
         {
             field_120_brain_state_idx = 0;
             field_118_target_id = -1;
-            field_138_listening_to_slig_id = sControlledCharacter_5C1B8C->field_8_object_id;
+            field_138_listening_to_slig_id = sControlledCharacter->field_8_object_id;
             return 0;
         }
     }
@@ -1814,11 +1814,11 @@ s16 Slog::Brain_2_ChasingAbe()
         if (field_134_last_event_index != pEventSystem_5BC11C->field_28_last_event_index)
         {
             field_134_last_event_index = pEventSystem_5BC11C->field_28_last_event_index;
-            if (pEventSystem_5BC11C->field_20_last_event == GameSpeakEvents::Slig_HereBoy_28 && sControlledCharacter_5C1B8C->Type() == ReliveTypes::eSlig)
+            if (pEventSystem_5BC11C->field_20_last_event == GameSpeakEvents::Slig_HereBoy_28 && sControlledCharacter->Type() == ReliveTypes::eSlig)
             {
                 field_120_brain_state_idx = 0;
                 field_118_target_id = -1;
-                field_138_listening_to_slig_id = sControlledCharacter_5C1B8C->field_8_object_id;
+                field_138_listening_to_slig_id = sControlledCharacter->field_8_object_id;
                 return 0;
             }
         }
@@ -1848,8 +1848,8 @@ s16 Slog::Brain_2_ChasingAbe()
                 pTarget = FindTarget(0, 1);
                 if (!pTarget)
                 {
-                    pTarget = sControlledCharacter_5C1B8C;
-                    if (sControlledCharacter_5C1B8C->mSpriteScale == FP_FromDouble(0.5))
+                    pTarget = sControlledCharacter;
+                    if (sControlledCharacter->mSpriteScale == FP_FromDouble(0.5))
                     {
                         field_118_target_id = -1;
                         field_142_anger_level = 0;
@@ -2858,7 +2858,7 @@ void Slog::VUpdate()
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 
-    if (FP_Abs(mXPos - sControlledCharacter_5C1B8C->mXPos) > FP_FromInteger(750) || FP_Abs(mYPos - sControlledCharacter_5C1B8C->mYPos) > FP_FromInteger(390))
+    if (FP_Abs(mXPos - sControlledCharacter->mXPos) > FP_FromInteger(750) || FP_Abs(mYPos - sControlledCharacter->mYPos) > FP_FromInteger(390))
     {
         mAnim.mFlags.Clear(AnimFlags::eBit2_Animate);
         mAnim.mFlags.Clear(AnimFlags::eBit3_Render);

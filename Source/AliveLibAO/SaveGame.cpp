@@ -66,21 +66,21 @@ void SaveGame::LoadFromMemory(SaveData* pData, s32 bKillObjects)
 
     bUseAltSaveHeader_5076B4 = pData->field_2AC_bUseAltSaveHeader;
 
-    sControlledCharacter_50767C = sActiveHero_507678;
+    sControlledCharacter = sActiveHero;
 
-    sActiveHero_507678->field_146_zone_number = pData->field_204_zone_number;
-    sActiveHero_507678->field_148_clear_from_id = pData->field_206_clear_from_id;
-    sActiveHero_507678->field_14A_clear_to_id = pData->field_208_clear_to_id;
-    sActiveHero_507678->field_138_zone_top_left = pData->field_20A_zone_top_left;
-    sActiveHero_507678->field_13C_zone_bottom_right = pData->field_20E_zone_bottom_right;
-    sActiveHero_507678->field_144_saved_level = MapWrapper::FromAO(pData->field_212_saved_level);
-    sActiveHero_507678->field_142_saved_path = pData->field_214_saved_path;
-    sActiveHero_507678->field_140_saved_camera = pData->field_216_saved_camera;
-    sActiveHero_507678->field_14C_saved_sprite_scale = pData->field_218_saved_sprite_scale;
-    sActiveHero_507678->field_150_saved_ring_timer = pData->field_21C_saved_ring_timer;
-    sActiveHero_507678->field_154_bSavedHaveShrykull = pData->field_220_bSavedHaveShrykull;
-    sActiveHero_507678->field_168_ring_pulse_timer = pData->field_254_ring_pulse_timer;
-    sActiveHero_507678->field_16C_bHaveShrykull = pData->field_258_bHaveShrykull;
+    sActiveHero->field_146_zone_number = pData->field_204_zone_number;
+    sActiveHero->field_148_clear_from_id = pData->field_206_clear_from_id;
+    sActiveHero->field_14A_clear_to_id = pData->field_208_clear_to_id;
+    sActiveHero->field_138_zone_top_left = pData->field_20A_zone_top_left;
+    sActiveHero->field_13C_zone_bottom_right = pData->field_20E_zone_bottom_right;
+    sActiveHero->field_144_saved_level = MapWrapper::FromAO(pData->field_212_saved_level);
+    sActiveHero->field_142_saved_path = pData->field_214_saved_path;
+    sActiveHero->field_140_saved_camera = pData->field_216_saved_camera;
+    sActiveHero->field_14C_saved_sprite_scale = pData->field_218_saved_sprite_scale;
+    sActiveHero->field_150_saved_ring_timer = pData->field_21C_saved_ring_timer;
+    sActiveHero->field_154_bSavedHaveShrykull = pData->field_220_bSavedHaveShrykull;
+    sActiveHero->field_168_ring_pulse_timer = pData->field_254_ring_pulse_timer;
+    sActiveHero->field_16C_bHaveShrykull = pData->field_258_bHaveShrykull;
 
     sRescuedMudokons_5076C0 = pData->field_2A0_rescued_mudokons;
     sKilledMudokons_5076BC = pData->field_2A2_killed_mudokons;
@@ -88,26 +88,26 @@ void SaveGame::LoadFromMemory(SaveData* pData, s32 bKillObjects)
     gRestartRuptureFarmsSavedMuds_5076C8 = pData->field_2A4_restartRuptureFarmsSavedMudokons;
     gRestartRuptureFarmsKilledMuds_5076C4 = pData->field_2A6_restartRuptureFarmsKilledMudokons;
 
-    sActiveHero_507678->mHealth = FP_FromInteger(1);
-    sActiveHero_507678->field_11C_regen_health_timer = sGnFrame;
-    sActiveHero_507678->mSpriteScale = pData->field_230_ah_sprite_scale;
-    sActiveHero_507678->field_118_timer = pData->field_24C_field_118;
-    sActiveHero_507678->field_19C_throwable_count = static_cast<s8>(pData->field_250_throwable_count); // TODO: Type check when other save func done
-    sActiveHero_507678->field_106_shot = 0;
+    sActiveHero->mHealth = FP_FromInteger(1);
+    sActiveHero->field_11C_regen_health_timer = sGnFrame;
+    sActiveHero->mSpriteScale = pData->field_230_ah_sprite_scale;
+    sActiveHero->field_118_timer = pData->field_24C_field_118;
+    sActiveHero->field_19C_throwable_count = static_cast<s8>(pData->field_250_throwable_count); // TODO: Type check when other save func done
+    sActiveHero->field_106_shot = 0;
 
-    sActiveHero_507678->field_2A8_flags.Clear(Flags_2A8::e2A8_Bit6_bShrivel);
-    sActiveHero_507678->field_2A8_flags.Set(Flags_2A8::e2A8_Bit12_bParamoniaDone, pData->field_252_paramonia_done & 1);
-    sActiveHero_507678->field_2A8_flags.Set(Flags_2A8::e2A8_eBit13_bScrabaniaDone, pData->field_253_scrabania_done & 1);
+    sActiveHero->field_2A8_flags.Clear(Flags_2A8::e2A8_Bit6_bShrivel);
+    sActiveHero->field_2A8_flags.Set(Flags_2A8::e2A8_Bit12_bParamoniaDone, pData->field_252_paramonia_done & 1);
+    sActiveHero->field_2A8_flags.Set(Flags_2A8::e2A8_eBit13_bScrabaniaDone, pData->field_253_scrabania_done & 1);
 
-    sActiveHero_507678->mAnim.mFlags.Set(AnimFlags::eBit5_FlipX, pData->field_23C_ah_flipX & 1);
+    sActiveHero->mAnim.mFlags.Set(AnimFlags::eBit5_FlipX, pData->field_23C_ah_flipX & 1);
 
-    sActiveHero_507678->mAnim.mFlags.Clear(AnimFlags::eBit3_Render);
+    sActiveHero->mAnim.mFlags.Clear(AnimFlags::eBit3_Render);
 
     gMap.field_E0_save_data = pData->field_2B0_pSaveBuffer;
 
-    if (sActiveHero_507678->field_168_ring_pulse_timer)
+    if (sActiveHero->field_168_ring_pulse_timer)
     {
-        if (sActiveHero_507678->field_16C_bHaveShrykull)
+        if (sActiveHero->field_16C_bHaveShrykull)
         {
             if (!ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kAbemorphAOResID, 0, 0))
             {
@@ -134,11 +134,11 @@ void SaveGame::LoadFromMemory(SaveData* pData, s32 bKillObjects)
         sGasTimer_507700 = 0;
     }
 
-    sActiveHero_507678->field_2AC_pSaveData = pData;
-    sActiveHero_507678->mCurrentMotion = eAbeMotions::Motion_62_LoadedSaveSpawn_45ADD0;
-    sActiveHero_507678->field_114_gnFrame = 0;
+    sActiveHero->field_2AC_pSaveData = pData;
+    sActiveHero->mCurrentMotion = eAbeMotions::Motion_62_LoadedSaveSpawn_45ADD0;
+    sActiveHero->field_114_gnFrame = 0;
 
-    MusicController::static_PlayMusic(MusicController::MusicTypes::eType0, sActiveHero_507678, 0, 0);
+    MusicController::static_PlayMusic(MusicController::MusicTypes::eType0, sActiveHero, 0, 0);
 
     gMap.SetActiveCam(
         MapWrapper::FromAO(pData->field_234_current_level),
@@ -346,82 +346,82 @@ void SaveGame::SaveToMemory(SaveData* pSaveData)
         }
     }
     pSaveData->field_234_current_level = MapWrapper::ToAO(gMap.mCurrentLevel);
-    pSaveData->field_206_clear_from_id = sActiveHero_507678->field_148_clear_from_id;
-    pSaveData->field_20A_zone_top_left = sActiveHero_507678->field_138_zone_top_left;
-    pSaveData->field_20E_zone_bottom_right = sActiveHero_507678->field_13C_zone_bottom_right;
-    pSaveData->field_204_zone_number = sActiveHero_507678->field_146_zone_number;
-    pSaveData->field_212_saved_level = MapWrapper::ToAO(sActiveHero_507678->field_144_saved_level);
-    pSaveData->field_208_clear_to_id = sActiveHero_507678->field_14A_clear_to_id;
-    pSaveData->field_216_saved_camera = sActiveHero_507678->field_140_saved_camera;
-    pSaveData->field_21C_saved_ring_timer = sActiveHero_507678->field_150_saved_ring_timer;
-    pSaveData->field_214_saved_path = sActiveHero_507678->field_142_saved_path;
-    pSaveData->field_254_ring_pulse_timer = sActiveHero_507678->field_168_ring_pulse_timer;
-    pSaveData->field_218_saved_sprite_scale = sActiveHero_507678->field_14C_saved_sprite_scale;
+    pSaveData->field_206_clear_from_id = sActiveHero->field_148_clear_from_id;
+    pSaveData->field_20A_zone_top_left = sActiveHero->field_138_zone_top_left;
+    pSaveData->field_20E_zone_bottom_right = sActiveHero->field_13C_zone_bottom_right;
+    pSaveData->field_204_zone_number = sActiveHero->field_146_zone_number;
+    pSaveData->field_212_saved_level = MapWrapper::ToAO(sActiveHero->field_144_saved_level);
+    pSaveData->field_208_clear_to_id = sActiveHero->field_14A_clear_to_id;
+    pSaveData->field_216_saved_camera = sActiveHero->field_140_saved_camera;
+    pSaveData->field_21C_saved_ring_timer = sActiveHero->field_150_saved_ring_timer;
+    pSaveData->field_214_saved_path = sActiveHero->field_142_saved_path;
+    pSaveData->field_254_ring_pulse_timer = sActiveHero->field_168_ring_pulse_timer;
+    pSaveData->field_218_saved_sprite_scale = sActiveHero->field_14C_saved_sprite_scale;
     pSaveData->field_2A0_rescued_mudokons = sRescuedMudokons_5076C0;
-    pSaveData->field_220_bSavedHaveShrykull = sActiveHero_507678->field_154_bSavedHaveShrykull;
+    pSaveData->field_220_bSavedHaveShrykull = sActiveHero->field_154_bSavedHaveShrykull;
     pSaveData->field_2A4_restartRuptureFarmsSavedMudokons = gRestartRuptureFarmsSavedMuds_5076C8;
-    pSaveData->field_258_bHaveShrykull = sActiveHero_507678->field_16C_bHaveShrykull;
+    pSaveData->field_258_bHaveShrykull = sActiveHero->field_16C_bHaveShrykull;
     pSaveData->field_236_current_path = gMap.mCurrentPath;
     pSaveData->field_2A2_killed_mudokons = sKilledMudokons_5076BC;
     pSaveData->field_238_current_camera = gMap.mCurrentCamera;
     pSaveData->field_2A6_restartRuptureFarmsKilledMudokons = gRestartRuptureFarmsKilledMuds_5076C4;
-    pSaveData->field_240_last_anim_frame = sActiveHero_507678->mAnim.mCurrentFrame;
-    pSaveData->field_23E_current_motion = sActiveHero_507678->mCurrentMotion;
-    pSaveData->field_224_xpos = FP_GetExponent(sActiveHero_507678->mXPos);
-    pSaveData->field_228_ypos = FP_GetExponent(sActiveHero_507678->mYPos);
-    if (sActiveHero_507678->BaseAliveGameObjectCollisionLine)
+    pSaveData->field_240_last_anim_frame = sActiveHero->mAnim.mCurrentFrame;
+    pSaveData->field_23E_current_motion = sActiveHero->mCurrentMotion;
+    pSaveData->field_224_xpos = FP_GetExponent(sActiveHero->mXPos);
+    pSaveData->field_228_ypos = FP_GetExponent(sActiveHero->mYPos);
+    if (sActiveHero->BaseAliveGameObjectCollisionLine)
     {
-        pSaveData->field_23A_mode_mask = sActiveHero_507678->BaseAliveGameObjectCollisionLine->mLineType;
+        pSaveData->field_23A_mode_mask = sActiveHero->BaseAliveGameObjectCollisionLine->mLineType;
     }
     else
     {
         pSaveData->field_23A_mode_mask = 0;
     }
-    pSaveData->field_22C_ah_health = sActiveHero_507678->mHealth;
-    pSaveData->field_23C_ah_flipX = sActiveHero_507678->mAnim.mFlags.Get(AnimFlags::eBit5_FlipX);
-    pSaveData->field_230_ah_sprite_scale = sActiveHero_507678->mSpriteScale;
-    pSaveData->field_244_stone_state = static_cast<s32>(sActiveHero_507678->field_110_state.raw);
-    pSaveData->field_248_gnFrame = sActiveHero_507678->field_114_gnFrame;
-    pSaveData->field_24C_field_118 = sActiveHero_507678->field_118_timer;
-    pSaveData->field_250_throwable_count = sActiveHero_507678->field_19C_throwable_count;
-    pSaveData->field_253_scrabania_done = sActiveHero_507678->field_2A8_flags.Get(Flags_2A8::e2A8_eBit13_bScrabaniaDone);
+    pSaveData->field_22C_ah_health = sActiveHero->mHealth;
+    pSaveData->field_23C_ah_flipX = sActiveHero->mAnim.mFlags.Get(AnimFlags::eBit5_FlipX);
+    pSaveData->field_230_ah_sprite_scale = sActiveHero->mSpriteScale;
+    pSaveData->field_244_stone_state = static_cast<s32>(sActiveHero->field_110_state.raw);
+    pSaveData->field_248_gnFrame = sActiveHero->field_114_gnFrame;
+    pSaveData->field_24C_field_118 = sActiveHero->field_118_timer;
+    pSaveData->field_250_throwable_count = sActiveHero->field_19C_throwable_count;
+    pSaveData->field_253_scrabania_done = sActiveHero->field_2A8_flags.Get(Flags_2A8::e2A8_eBit13_bScrabaniaDone);
     pSaveData->field_264_bInfiniteGrenades = gInfiniteGrenades_5076EC ? -1 : 0;
-    pSaveData->field_252_paramonia_done = sActiveHero_507678->field_2A8_flags.Get(Flags_2A8::e2A8_Bit12_bParamoniaDone);
-    pSaveData->field_25A_bElumExists = gElum_507680 != nullptr;
-    if (gElum_507680 != 0)
+    pSaveData->field_252_paramonia_done = sActiveHero->field_2A8_flags.Get(Flags_2A8::e2A8_Bit12_bParamoniaDone);
+    pSaveData->field_25A_bElumExists = gElum != nullptr;
+    if (gElum != 0)
     {
-        pSaveData->field_25C_bControllingElum = sControlledCharacter_50767C == gElum_507680;
-        pSaveData->field_25E_bElumRespawnOnDead = gElum_507680->field_144_bRespawnOnDead;
-        pSaveData->field_28C_elum_continue_rect = gElum_507680->field_138_continue_rect;
-        pSaveData->field_294_continue_zone_number = gElum_507680->field_140_continue_zone_number;
-        pSaveData->field_296_elum_zone_number = gElum_507680->field_142_zone_number;
-        pSaveData->field_298_elum_continue_path = gElum_507680->field_148_continue_path;
-        pSaveData->field_29A_continue_level = MapWrapper::ToAO(gElum_507680->field_14A_continue_level);
-        pSaveData->field_29C_elum_sprite_scale = gElum_507680->field_150_continue_sprite_scale;
-        pSaveData->field_260_elum_lvl_number = MapWrapper::ToAO(gElum_507680->mCurrentLevel);
-        pSaveData->field_262_elum_path_number = gElum_507680->mCurrentPath;
-        pSaveData->field_268_elum_xpos = FP_GetExponent(gElum_507680->mXPos);
-        pSaveData->field_26C_elum_ypos = FP_GetExponent(gElum_507680->mYPos);
-        if (gElum_507680->BaseAliveGameObjectCollisionLine)
+        pSaveData->field_25C_bControllingElum = sControlledCharacter == gElum;
+        pSaveData->field_25E_bElumRespawnOnDead = gElum->field_144_bRespawnOnDead;
+        pSaveData->field_28C_elum_continue_rect = gElum->field_138_continue_rect;
+        pSaveData->field_294_continue_zone_number = gElum->field_140_continue_zone_number;
+        pSaveData->field_296_elum_zone_number = gElum->field_142_zone_number;
+        pSaveData->field_298_elum_continue_path = gElum->field_148_continue_path;
+        pSaveData->field_29A_continue_level = MapWrapper::ToAO(gElum->field_14A_continue_level);
+        pSaveData->field_29C_elum_sprite_scale = gElum->field_150_continue_sprite_scale;
+        pSaveData->field_260_elum_lvl_number = MapWrapper::ToAO(gElum->mCurrentLevel);
+        pSaveData->field_262_elum_path_number = gElum->mCurrentPath;
+        pSaveData->field_268_elum_xpos = FP_GetExponent(gElum->mXPos);
+        pSaveData->field_26C_elum_ypos = FP_GetExponent(gElum->mYPos);
+        if (gElum->BaseAliveGameObjectCollisionLine)
         {
-            pSaveData->field_270_elum_line_type = gElum_507680->BaseAliveGameObjectCollisionLine->mLineType;
+            pSaveData->field_270_elum_line_type = gElum->BaseAliveGameObjectCollisionLine->mLineType;
         }
         else
         {
             pSaveData->field_270_elum_line_type = -1;
         }
-        pSaveData->field_274_elum_current_motion = gElum_507680->mCurrentMotion;
-        pSaveData->field_272_elum_flipX = gElum_507680->mAnim.mFlags.Get(AnimFlags::eBit5_FlipX);
-        pSaveData->field_278_brain_idx = gElum_507680->field_128_brain_idx;
-        pSaveData->field_276_bDontFollowAbe = gElum_507680->field_122_bDontFollowAbe;
-        pSaveData->field_27C_honey_xpos = gElum_507680->field_12C_honey_xpos;
-        pSaveData->field_27A_elum_brain_state = gElum_507680->field_12A_brain_sub_state;
-        pSaveData->field_284_unused = gElum_507680->field_130_unused;
-        pSaveData->field_280_honey_ypos = gElum_507680->field_146_honey_ypos;
-        pSaveData->field_288_elum_StrugglingWithBees = gElum_507680->field_170_flags.Get(Elum::Flags_170::eStrugglingWithBees_Bit1);
-        pSaveData->field_289_elum_StungByBees = gElum_507680->field_170_flags.Get(Elum::Flags_170::eStungByBees_Bit2);
-        pSaveData->field_28A_elum_Falling = gElum_507680->field_170_flags.Get(Elum::Flags_170::eFalling_Bit3);
-        pSaveData->field_28B_elum_FoundHoney = gElum_507680->field_170_flags.Get(Elum::Flags_170::eFoundHoney_Bit4);
+        pSaveData->field_274_elum_current_motion = gElum->mCurrentMotion;
+        pSaveData->field_272_elum_flipX = gElum->mAnim.mFlags.Get(AnimFlags::eBit5_FlipX);
+        pSaveData->field_278_brain_idx = gElum->field_128_brain_idx;
+        pSaveData->field_276_bDontFollowAbe = gElum->field_122_bDontFollowAbe;
+        pSaveData->field_27C_honey_xpos = gElum->field_12C_honey_xpos;
+        pSaveData->field_27A_elum_brain_state = gElum->field_12A_brain_sub_state;
+        pSaveData->field_284_unused = gElum->field_130_unused;
+        pSaveData->field_280_honey_ypos = gElum->field_146_honey_ypos;
+        pSaveData->field_288_elum_StrugglingWithBees = gElum->field_170_flags.Get(Elum::Flags_170::eStrugglingWithBees_Bit1);
+        pSaveData->field_289_elum_StungByBees = gElum->field_170_flags.Get(Elum::Flags_170::eStungByBees_Bit2);
+        pSaveData->field_28A_elum_Falling = gElum->field_170_flags.Get(Elum::Flags_170::eFalling_Bit3);
+        pSaveData->field_28B_elum_FoundHoney = gElum->field_170_flags.Get(Elum::Flags_170::eFoundHoney_Bit4);
     }
     if (sGasTimer_507700)
     {

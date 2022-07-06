@@ -212,7 +212,7 @@ void Bat::VUpdate()
                 mBaseGameObjectFlags.Set(Options::eDead);
             }
 
-            if (!sActiveHero_507678->field_2A8_flags.Get(Flags_2A8::e2A8_Bit6_bShrivel))
+            if (!sActiveHero->field_2A8_flags.Get(Flags_2A8::e2A8_Bit6_bShrivel))
             {
                 for (s32 i = 0; i < gBaseAliveGameObjects_4FC8A0->Size(); i++)
                 {

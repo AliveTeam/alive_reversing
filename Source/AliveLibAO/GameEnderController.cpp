@@ -63,10 +63,10 @@ void GameEnderController::VUpdate()
             if (field_10_timer <= static_cast<s32>(sGnFrame))
             {
                 // Wait for murdering everyone to finish
-                if (sActiveHero_507678->mCurrentMotion != eAbeMotions::Motion_162_ToShrykull_42F410 && sActiveHero_507678->mCurrentMotion != eAbeMotions::Motion_163_ShrykullEnd_42F520)
+                if (sActiveHero->mCurrentMotion != eAbeMotions::Motion_162_ToShrykull_42F410 && sActiveHero->mCurrentMotion != eAbeMotions::Motion_163_ShrykullEnd_42F520)
                 {
                     // Kill certain types of objects to prevent them appearing on the ending screen or crashing the game
-                    // by trying to use the sControlledCharacter_50767C pointer.
+                    // by trying to use the sControlledCharacter pointer.
                     for (s32 i = 0; i < gBaseGameObjects->Size(); i++)
                     {
                         BaseGameObject* pObjIter = gBaseGameObjects->ItemAt(i);
@@ -100,7 +100,7 @@ void GameEnderController::VUpdate()
                         if (sRescuedMudokons_5076C0 >= Path_GetTotalMuds(gMap.mCurrentLevel, gMap.mCurrentPath))
                         {
                             // Perfect ending
-                            sActiveHero_507678->mBaseGameObjectFlags.Set(Options::eDead);
+                            sActiveHero->mBaseGameObjectFlags.Set(Options::eDead);
                             gMap.SetActiveCam(EReliveLevelIds::eBoardRoom, 6, 11, CameraSwapEffects::eUnknown_11, 316, 0);
                             field_14_state = GameEnderController_States::ePerfectEnding_4;
                         }
@@ -160,7 +160,7 @@ void GameEnderController::VUpdate()
 
                             sKilledMudokons_5076BC = gRestartRuptureFarmsKilledMuds_5076C4;
                             sRescuedMudokons_5076C0 = gRestartRuptureFarmsSavedMuds_5076C8;
-                            sActiveHero_507678->mBaseGameObjectFlags.Set(Options::eDead);
+                            sActiveHero->mBaseGameObjectFlags.Set(Options::eDead);
 
                             gMap.SetActiveCam(EReliveLevelIds::eBoardRoom, 6, 9, CameraSwapEffects::eUnknown_11, 304, 0);
 
@@ -169,7 +169,7 @@ void GameEnderController::VUpdate()
                         else
                         {
                             // Bad ending
-                            sActiveHero_507678->mBaseGameObjectFlags.Set(Options::eDead);
+                            sActiveHero->mBaseGameObjectFlags.Set(Options::eDead);
 
                             gInfiniteGrenades_5076EC = FALSE;
 

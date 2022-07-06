@@ -57,14 +57,14 @@ void RockSack::VUpdate()
             mAnim.mFrameChangeCounter = Math_RandomRange(2, 10);
         }
 
-        const PSX_RECT bPlayerRect = sActiveHero_507678->VGetBoundingRect();
+        const PSX_RECT bPlayerRect = sActiveHero->VGetBoundingRect();
         const PSX_RECT bRect = VGetBoundingRect();
 
         if (bRect.x <= bPlayerRect.w
             && bRect.w >= bPlayerRect.x
             && bRect.h >= bPlayerRect.y
             && bRect.y <= bPlayerRect.h
-            && mSpriteScale == sActiveHero_507678->mSpriteScale)
+            && mSpriteScale == sActiveHero->mSpriteScale)
         {
             if (!gpThrowableArray_50E26C || !gpThrowableArray_50E26C->field_10_count)
             {
@@ -88,7 +88,7 @@ void RockSack::VUpdate()
                 Environment_SFX_42A220(EnvironmentSfx::eDeathNoise_7, 0, 0x7FFF, 0);
             }
 
-            if (sActiveHero_507678->mCurrentMotion == eAbeMotions::Motion_33_RunJumpMid_426FA0)
+            if (sActiveHero->mCurrentMotion == eAbeMotions::Motion_33_RunJumpMid_426FA0)
             {
                 mAnim.Set_Animation_Data(AnimId::RockSack_HardHit, nullptr);
             }

@@ -458,22 +458,22 @@ void Map::Handle_PathTransition()
         switch (next_path_scale)
         {
             case Scale_short::eFull_0:
-                sActiveHero_507678->mSpriteScale = FP_FromInteger(1);
-                sActiveHero_507678->mAnim.mRenderLayer = Layer::eLayer_AbeMenu_32;
-                if (gElum_507680)
+                sActiveHero->mSpriteScale = FP_FromInteger(1);
+                sActiveHero->mAnim.mRenderLayer = Layer::eLayer_AbeMenu_32;
+                if (gElum)
                 {
-                    gElum_507680->mSpriteScale = sActiveHero_507678->mSpriteScale;
-                    gElum_507680->mAnim.mRenderLayer = Layer::eLayer_ZapLinesElumMuds_28;
+                    gElum->mSpriteScale = sActiveHero->mSpriteScale;
+                    gElum->mAnim.mRenderLayer = Layer::eLayer_ZapLinesElumMuds_28;
                 }
                 break;
 
             case Scale_short::eHalf_1:
-                sActiveHero_507678->mSpriteScale = FP_FromDouble(0.5);
-                sActiveHero_507678->mAnim.mRenderLayer = Layer::eLayer_AbeMenu_Half_13;
-                if (gElum_507680)
+                sActiveHero->mSpriteScale = FP_FromDouble(0.5);
+                sActiveHero->mAnim.mRenderLayer = Layer::eLayer_AbeMenu_Half_13;
+                if (gElum)
                 {
-                    gElum_507680->mSpriteScale = sActiveHero_507678->mSpriteScale;
-                    gElum_507680->mAnim.mRenderLayer = Layer::eLayer_ZapLinesMudsElum_Half_9;
+                    gElum->mSpriteScale = sActiveHero->mSpriteScale;
+                    gElum->mAnim.mRenderLayer = Layer::eLayer_ZapLinesMudsElum_Half_9;
                 }
                 break;
 
@@ -579,7 +579,7 @@ void Map::RemoveObjectsWithPurpleLight(s16 bMakeInvisible)
             && pObjIter->mBaseAliveGameObjectFlags.Get(Flags_10A::e10A_Bit6)
             && pObjIter->mAnim.mFlags.Get(AnimFlags::eBit3_Render)
             && !pObjIter->mBaseGameObjectFlags.Get(BaseGameObject::eDead)
-            && pObjIter != sControlledCharacter_50767C)
+            && pObjIter != sControlledCharacter)
         {
             bool bAdd = false;
             if (pObjIter->mCurrentLevel == mCurrentLevel
@@ -1521,7 +1521,7 @@ Camera* Map::Create_Camera(s16 xpos, s16 ypos, s32 /*a4*/)
         {
             auto pTemp = field_48_stru_5[i];
             field_48_stru_5[i] = nullptr;
-            if (sActiveHero_507678 && sActiveHero_507678->mCurrentMotion == eAbeMotions::Motion_61_Respawn_42CD20)
+            if (sActiveHero && sActiveHero->mCurrentMotion == eAbeMotions::Motion_61_Respawn_42CD20)
             {
                 pTemp->field_30_flags |= 2u;
             }
@@ -1902,14 +1902,14 @@ void Map::GoTo_Camera()
 
     if (old_current_path != mCurrentPath || old_current_level != mCurrentLevel)
     {
-        if (sActiveHero_507678 && mCurrentPath == sActiveHero_507678->mCurrentPath)
+        if (sActiveHero && mCurrentPath == sActiveHero->mCurrentPath)
         {
-            sActiveHero_507678->VCheckCollisionLineStillValid(10);
+            sActiveHero->VCheckCollisionLineStillValid(10);
         }
 
-        if (gElum_507680 && sControlledCharacter_50767C != gElum_507680 && mCurrentPath == gElum_507680->mCurrentPath)
+        if (gElum && sControlledCharacter != gElum && mCurrentPath == gElum->mCurrentPath)
         {
-            gElum_507680->VCheckCollisionLineStillValid(10);
+            gElum->VCheckCollisionLineStillValid(10);
         }
     }
 
@@ -1933,7 +1933,7 @@ void Map::GoTo_Camera()
         if (field_1E_door)
         {
             Path_Door* pTlvIter = static_cast<Path_Door*>(TLV_First_Of_Type_In_Camera(TlvTypes::Door_6, 0));
-            while (pTlvIter->field_20_door_number != sActiveHero_507678->field_196_door_id)
+            while (pTlvIter->field_20_door_number != sActiveHero->field_196_door_id)
             {
                 pTlvIter = static_cast<Path_Door*>(Path_TLV::TLV_Next_Of_Type_446500(pTlvIter, TlvTypes::Door_6));
             }

@@ -136,15 +136,15 @@ BirdPortal::~BirdPortal()
     gMap.TLV_Reset(field_2C_tlvInfo, -1, 0, 0);
     if (field_14_state >= PortalStates::PortalExit_SetPosition_17)
     {
-        if (sActiveHero_507678)
+        if (sActiveHero)
         {
             if (field_34_scale == FP_FromInteger(1))
             {
-                sActiveHero_507678->mAnim.mRenderLayer = Layer::eLayer_AbeMenu_32;
+                sActiveHero->mAnim.mRenderLayer = Layer::eLayer_AbeMenu_32;
             }
             else
             {
-                sActiveHero_507678->mAnim.mRenderLayer = Layer::eLayer_AbeMenu_Half_13;
+                sActiveHero->mAnim.mRenderLayer = Layer::eLayer_AbeMenu_Half_13;
             }
         }
     }
@@ -516,17 +516,17 @@ void BirdPortal::VUpdate()
                     {
                         SfxPlayMono(SoundEffect::Dove_16, 70, 0);
                         pDoveMem->mSpriteScale = field_34_scale;
-                        pDoveMem->AsJoin(sActiveHero_507678->mXPos,
-                            FP_FromInteger(Math_RandomRange(-36, 4)) + sActiveHero_507678->mYPos);
+                        pDoveMem->AsJoin(sActiveHero->mXPos,
+                            FP_FromInteger(Math_RandomRange(-36, 4)) + sActiveHero->mYPos);
                     }
 
                     field_58_received_doves++;
                     if (field_58_received_doves == 6)
                     {
                         field_60_pOrbWhirlWind->ToSpin(
-                            sActiveHero_507678->mXPos,
-                            sActiveHero_507678->mYPos - (sActiveHero_507678->mSpriteScale * FP_FromInteger(38)),
-                            sActiveHero_507678);
+                            sActiveHero->mXPos,
+                            sActiveHero->mYPos - (sActiveHero->mSpriteScale * FP_FromInteger(38)),
+                            sActiveHero);
                         field_60_pOrbWhirlWind = nullptr;
                     }
                 }
@@ -538,11 +538,11 @@ void BirdPortal::VUpdate()
             {
                 Abe::Get_Shrykull_Resources_42F480();
                 field_14_state = PortalStates::CollapseTerminators_10;
-                sActiveHero_507678->field_168_ring_pulse_timer = sGnFrame + 32000;
-                sActiveHero_507678->field_16C_bHaveShrykull = TRUE;
-                if (sActiveHero_507678->mCurrentMotion == eAbeMotions::Motion_150_Chant_42FD50)
+                sActiveHero->field_168_ring_pulse_timer = sGnFrame + 32000;
+                sActiveHero->field_16C_bHaveShrykull = TRUE;
+                if (sActiveHero->mCurrentMotion == eAbeMotions::Motion_150_Chant_42FD50)
                 {
-                    sActiveHero_507678->ChangeChantState_430510(0);
+                    sActiveHero->ChangeChantState_430510(0);
                 }
             }
             break;
@@ -753,21 +753,21 @@ void BirdPortal::VGiveShrykull(s16 bPlaySound)
         field_58_received_doves = 0;
 
         field_60_pOrbWhirlWind = relive_new OrbWhirlWind(
-            sActiveHero_507678->mXPos,
-            sActiveHero_507678->mYPos - (sActiveHero_507678->mSpriteScale * FP_FromInteger(38)),
-            sActiveHero_507678->mSpriteScale);
+            sActiveHero->mXPos,
+            sActiveHero->mYPos - (sActiveHero->mSpriteScale * FP_FromInteger(38)),
+            sActiveHero->mSpriteScale);
 
-        if (sActiveHero_507678->mCurrentMotion == eAbeMotions::Motion_150_Chant_42FD50)
+        if (sActiveHero->mCurrentMotion == eAbeMotions::Motion_150_Chant_42FD50)
         {
-            sActiveHero_507678->ChangeChantState_430510(1);
+            sActiveHero->ChangeChantState_430510(1);
         }
     }
     else
     {
         field_14_state = PortalStates::CollapseTerminators_10;
-        if ((field_10_portal_type == PortalType::eWorker_1 || field_10_portal_type == PortalType::eShrykull_2) && sActiveHero_507678->mCurrentMotion == eAbeMotions::Motion_150_Chant_42FD50)
+        if ((field_10_portal_type == PortalType::eWorker_1 || field_10_portal_type == PortalType::eShrykull_2) && sActiveHero->mCurrentMotion == eAbeMotions::Motion_150_Chant_42FD50)
         {
-            sActiveHero_507678->ChangeChantState_430510(0);
+            sActiveHero->ChangeChantState_430510(0);
         }
     }
 
@@ -898,18 +898,18 @@ void BirdPortal::VExitPortal()
         if (pPortalExitTlv->field_1A_scale == Scale_short::eHalf_1)
         {
             field_34_scale = FP_FromDouble(0.5);
-            sActiveHero_507678->mAnim.mRenderLayer = Layer::eLayer_InBirdPortal_Half_11;
+            sActiveHero->mAnim.mRenderLayer = Layer::eLayer_InBirdPortal_Half_11;
         }
         else
         {
             field_34_scale = FP_FromInteger(1);
-            sActiveHero_507678->mAnim.mRenderLayer = Layer::eLayer_InBirdPortal_30;
+            sActiveHero->mAnim.mRenderLayer = Layer::eLayer_InBirdPortal_30;
         }
 
-        sActiveHero_507678->mSpriteScale = field_34_scale;
+        sActiveHero->mSpriteScale = field_34_scale;
         field_14_state = PortalStates::PortalExit_SetPosition_17;
-        sActiveHero_507678->mCurrentLevel = gMap.mCurrentLevel;
-        sActiveHero_507678->mCurrentPath = gMap.mCurrentPath;
+        sActiveHero->mCurrentLevel = gMap.mCurrentLevel;
+        sActiveHero->mCurrentPath = gMap.mCurrentPath;
     }
     else
     {
@@ -955,7 +955,7 @@ void BirdPortal::VGetMapChange(EReliveLevelIds* level, u16* path, u16* camera, C
     }
 
     // Negative cases - dead code ??
-    if (sActiveHero_507678->field_2A8_flags.Get(Flags_2A8::e2A8_Bit12_bParamoniaDone) && sActiveHero_507678->field_2A8_flags.Get(Flags_2A8::e2A8_eBit13_bScrabaniaDone))
+    if (sActiveHero->field_2A8_flags.Get(Flags_2A8::e2A8_Bit12_bParamoniaDone) && sActiveHero->field_2A8_flags.Get(Flags_2A8::e2A8_eBit13_bScrabaniaDone))
     {
         *movieId = 1617 - (10000 * field_38_movie_id);
         *screenChangeEffect = CameraSwapEffects::ePlay1FMV_5;

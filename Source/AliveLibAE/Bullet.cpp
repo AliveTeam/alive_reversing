@@ -63,7 +63,7 @@ void Bullet::VUpdate()
             shootRect.y = FP_GetExponent(field_2C_ypos - FP_FromInteger(5));
             shootRect.h = FP_GetExponent(field_2C_ypos + FP_FromInteger(5)); // TODO: Check correct
 
-            if (sControlledCharacter_5C1B8C->Type() == ReliveTypes::eAbe)
+            if (sControlledCharacter->Type() == ReliveTypes::eAbe)
             {
                 shootRect.y = FP_GetExponent(field_2C_ypos - FP_FromInteger(10));
             }
@@ -226,7 +226,7 @@ void Bullet::VUpdate()
 
         case BulletType::ePossessedSligZBullet_1:
         {
-            const s32 xSnapped = SnapToXGrid(FP_FromInteger(1), FP_GetExponent(sControlledCharacter_5C1B8C->mXPos));
+            const s32 xSnapped = SnapToXGrid(FP_FromInteger(1), FP_GetExponent(sControlledCharacter->mXPos));
             PSX_RECT rect = {};
             rect.x = static_cast<s16>(xSnapped - 25);
             rect.w = static_cast<s16>(xSnapped - 25 + 50);
@@ -249,9 +249,9 @@ void Bullet::VUpdate()
             FP hitX = {};
             FP hitY = {};
             if (sCollisions->Raycast(
-                    sControlledCharacter_5C1B8C->mXPos,
+                    sControlledCharacter->mXPos,
                     FP_FromInteger(rect.y),
-                    sControlledCharacter_5C1B8C->mXPos,
+                    sControlledCharacter->mXPos,
                     FP_FromInteger(rect.h),
                     &field_24_pLine, &hitX, &hitY, CollisionMask(eBulletWall_10))
                 == 1)
@@ -268,18 +268,18 @@ void Bullet::VUpdate()
         {
             FP rectXPos = {};
             // TODO: Check field_44_number_of_bullets << 20 is FP_FromInt * 16.
-            if (field_28_xpos >= sControlledCharacter_5C1B8C->mXPos)
+            if (field_28_xpos >= sControlledCharacter->mXPos)
             {
-                const FP doubleVelX = (sControlledCharacter_5C1B8C->mVelX * FP_FromInteger(2));
-                rectXPos = (FP_FromInteger(field_44_number_of_bullets * 16)) + sControlledCharacter_5C1B8C->mXPos - doubleVelX;
+                const FP doubleVelX = (sControlledCharacter->mVelX * FP_FromInteger(2));
+                rectXPos = (FP_FromInteger(field_44_number_of_bullets * 16)) + sControlledCharacter->mXPos - doubleVelX;
             }
             else
             {
-                const FP doubleVelX = (sControlledCharacter_5C1B8C->mVelX * FP_FromInteger(2));
-                rectXPos = sControlledCharacter_5C1B8C->mXPos - doubleVelX - (FP_FromInteger(field_44_number_of_bullets * 16));
+                const FP doubleVelX = (sControlledCharacter->mVelX * FP_FromInteger(2));
+                rectXPos = sControlledCharacter->mXPos - doubleVelX - (FP_FromInteger(field_44_number_of_bullets * 16));
             }
 
-            PSX_RECT rect = sControlledCharacter_5C1B8C->VGetBoundingRect();
+            PSX_RECT rect = sControlledCharacter->VGetBoundingRect();
             rect.x = FP_GetExponent(rectXPos);
             rect.y = rect.h - 10;
             rect.w = rect.x + 2;
@@ -373,7 +373,7 @@ BaseAliveGameObject* Bullet::ShootObject(PSX_RECT* pRect)
                 {
                     if (((field_20_type == BulletType::eSligPossessedOrUnderGlukkonCommand_0 || field_20_type == BulletType::ePossessedSligZBullet_1) && ((pObj->Type() == ReliveTypes::eSlig && pObj->mCurrentMotion != eSligMotions::M_Possess_37_4B72C0) || pObj->Type() == ReliveTypes::eFlyingSlig || pObj->Type() == ReliveTypes::eCrawlingSlig || pObj->Type() == ReliveTypes::eGlukkon || pObj->Type() == ReliveTypes::eMudokon || pObj->Type() == ReliveTypes::eAbe || pObj->Type() == ReliveTypes::eSlog || pObj->Type() == ReliveTypes::eGreeter)) ||
 
-                        pObj->Type() == ReliveTypes::eMudokon || pObj->Type() == ReliveTypes::eAbe || pObj->Type() == ReliveTypes::eMineCar || (pObj->Type() == ReliveTypes::eSlig && sControlledCharacter_5C1B8C == pObj) || (pObj->Type() == ReliveTypes::eFlyingSlig && sControlledCharacter_5C1B8C == pObj) || (pObj->Type() == ReliveTypes::eCrawlingSlig && sControlledCharacter_5C1B8C == pObj) || (pObj->Type() == ReliveTypes::eGlukkon && sControlledCharacter_5C1B8C == pObj))
+                        pObj->Type() == ReliveTypes::eMudokon || pObj->Type() == ReliveTypes::eAbe || pObj->Type() == ReliveTypes::eMineCar || (pObj->Type() == ReliveTypes::eSlig && sControlledCharacter == pObj) || (pObj->Type() == ReliveTypes::eFlyingSlig && sControlledCharacter == pObj) || (pObj->Type() == ReliveTypes::eCrawlingSlig && sControlledCharacter == pObj) || (pObj->Type() == ReliveTypes::eGlukkon && sControlledCharacter == pObj))
                     {
                         const PSX_RECT bRect = pObj->VGetBoundingRect();
 

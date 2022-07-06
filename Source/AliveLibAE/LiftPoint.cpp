@@ -792,7 +792,7 @@ void LiftPoint::MoveObjectsOnLift(FP xVelocity)
         BaseGameObject* pObjectsLiftPoint = sObjectIds.Find_Impl(pObj->BaseAliveGameObject_PlatformId);
         if (pObjectsLiftPoint == this)
         {
-            if (pObj == sControlledCharacter_5C1B8C)
+            if (pObj == sControlledCharacter)
             {
                 // Keep the player in the screen
                 const FP oldVelY = pObj->mVelY;

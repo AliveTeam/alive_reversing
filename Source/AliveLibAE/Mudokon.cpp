@@ -742,7 +742,7 @@ s32 Mudokon::CreateFromSaveState(const u8* pBuffer)
     {
         if (pState->field_3D_bIsPlayer)
         {
-            sControlledCharacter_5C1B8C = pMud;
+            sControlledCharacter = pMud;
         }
 
         pMud->BaseAliveGameObjectPathTLV = nullptr;
@@ -921,7 +921,7 @@ s32 Mudokon::VGetSaveState(u8* pSaveBuffer)
         pState->field_36_line_type = BaseAliveGameObjectCollisionLine->mLineType;
     }
 
-    pState->field_3D_bIsPlayer = this == sControlledCharacter_5C1B8C;
+    pState->field_3D_bIsPlayer = this == sControlledCharacter;
     pState->field_40_tlvInfo = field_118_tlvInfo;
     pState->field_4C_portal_id = -1;
 
@@ -1076,7 +1076,7 @@ void Mudokon::VUpdate()
         return;
     }
 
-    const FP xDistFromPlayer = FP_Abs(mXPos - sControlledCharacter_5C1B8C->mXPos);
+    const FP xDistFromPlayer = FP_Abs(mXPos - sControlledCharacter->mXPos);
     if (xDistFromPlayer > FP_FromInteger(750))
     {
         mAnim.mFlags.Clear(AnimFlags::eBit2_Animate);
@@ -1084,7 +1084,7 @@ void Mudokon::VUpdate()
         return;
     }
 
-    const FP yDistanceFromPlayer = FP_Abs(mYPos - sControlledCharacter_5C1B8C->mYPos);
+    const FP yDistanceFromPlayer = FP_Abs(mYPos - sControlledCharacter->mYPos);
     if (yDistanceFromPlayer > FP_FromInteger(520))
     {
         mAnim.mFlags.Clear(AnimFlags::eBit2_Animate);
@@ -1343,7 +1343,7 @@ void Mudokon::VScreenChanged()
 
 void Mudokon::VPossessed()
 {
-    sControlledCharacter_5C1B8C = sActiveHero;
+    sControlledCharacter = sActiveHero;
     if (field_180_emo_tbl == Mud_Emotion::eSick_7 && !FindObjectOfType(ReliveTypes::eTorturedMud, mXPos, mYPos - FP_FromInteger(50)))
     {
         field_180_emo_tbl = Mud_Emotion::eNormal_0;
@@ -1637,7 +1637,7 @@ s16 Mudokon::VTakeDamage(BaseGameObject* pFrom)
 
             RemoveAlerted();
 
-            if (pFrom == sControlledCharacter_5C1B8C)
+            if (pFrom == sControlledCharacter)
             {
                 mHealth -= FP_FromDouble(0.06);
                 if (mHealth > FP_FromInteger(0))

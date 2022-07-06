@@ -178,7 +178,7 @@ s16 Bone::OnCollision(BaseAnimatedWithPhysicsGameObject* pObj)
         return 1;
     }
 
-    if (pObj->Type() == ReliveTypes::eSecurityOrb && sControlledCharacter_5C1B8C->mScale != pObj->mScale)
+    if (pObj->Type() == ReliveTypes::eSecurityOrb && sControlledCharacter->mScale != pObj->mScale)
     {
         return 1;
     }

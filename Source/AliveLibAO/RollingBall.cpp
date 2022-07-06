@@ -288,7 +288,7 @@ void RollingBall::VUpdate()
                 {
                     if (gMap.mCurrentLevel == EReliveLevelIds::eForestTemple
                         && gMap.mCurrentPath == 2
-                        && !sActiveHero_507678->field_2A8_flags.Get(Flags_2A8::e2A8_Bit6_bShrivel))
+                        && !sActiveHero->field_2A8_flags.Get(Flags_2A8::e2A8_Bit6_bShrivel))
                     {
                         mAnim.mFlags.Clear(AnimFlags::eBit2_Animate);
                         mXPos = FP_FromInteger(2522);

@@ -52,13 +52,13 @@ Shrykull::Shrykull()
     field_118_zap_line = nullptr;
     field_11C_obj_being_zapped = nullptr;
 
-    mXPos = sActiveHero_507678->mXPos;
-    mYPos = sActiveHero_507678->mYPos;
-    mSpriteScale = sActiveHero_507678->mSpriteScale;
-    mScale = sActiveHero_507678->mScale;
+    mXPos = sActiveHero->mXPos;
+    mYPos = sActiveHero->mYPos;
+    mSpriteScale = sActiveHero->mSpriteScale;
+    mScale = sActiveHero->mScale;
     field_10C_state = State::eTransform_0;
 
-    mAnim.mFlags.Set(AnimFlags::eBit5_FlipX, sActiveHero_507678->mAnim.mFlags.Get(AnimFlags::eBit5_FlipX));
+    mAnim.mFlags.Set(AnimFlags::eBit5_FlipX, sActiveHero->mAnim.mFlags.Get(AnimFlags::eBit5_FlipX));
 
     mShadow = relive_new Shadow();
 
@@ -246,7 +246,7 @@ void Shrykull::VUpdate()
 
             if (mAnim.mFlags.Get(AnimFlags::eBit12_ForwardLoopCompleted))
             {
-                sActiveHero_507678->ExitShrykull_42F440(field_122_bResetRingTimer);
+                sActiveHero->ExitShrykull_42F440(field_122_bResetRingTimer);
                 mBaseGameObjectFlags.Set(BaseGameObject::eDead);
             }
             break;

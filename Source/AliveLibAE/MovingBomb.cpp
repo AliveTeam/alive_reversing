@@ -157,14 +157,14 @@ void MovingBomb::VScreenChanged()
         return;
     }
 
-    const FP xDelta = FP_Abs(sControlledCharacter_5C1B8C->mXPos - mXPos);
+    const FP xDelta = FP_Abs(sControlledCharacter->mXPos - mXPos);
     if (xDelta > FP_FromInteger(750))
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
         return;
     }
 
-    const FP yDelta = FP_Abs(sControlledCharacter_5C1B8C->mYPos - mYPos);
+    const FP yDelta = FP_Abs(sControlledCharacter->mYPos - mYPos);
     if (yDelta > FP_FromInteger(520))
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);

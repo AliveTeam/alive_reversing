@@ -311,8 +311,8 @@ void Init_Sound_DynamicArrays_And_Others_41CD20()
     }
 
     pPauseMenu_5080E0 = nullptr;
-    sActiveHero_507678 = nullptr;
-    sControlledCharacter_50767C = nullptr;
+    sActiveHero = nullptr;
+    sControlledCharacter = nullptr;
     sNumCamSwappers_507668 = 0;
     sGnFrame = 0;
 

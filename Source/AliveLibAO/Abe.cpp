@@ -577,8 +577,8 @@ const AnimId sAbeMotionAnimIds[166] = {
     27748,
     0};*/
 
-ALIVE_VAR(1, 0x507678, Abe*, sActiveHero_507678, nullptr);
-ALIVE_VAR(1, 0x50767C, BaseAliveGameObject*, sControlledCharacter_50767C, nullptr);
+ALIVE_VAR(1, 0x507678, Abe*, sActiveHero, nullptr);
+ALIVE_VAR(1, 0x50767C, BaseAliveGameObject*, sControlledCharacter, nullptr);
 
 SfxDefinition sSFXList_4C6638[49] = {
     {0, 3, 69, 60, -1, 1, 0},
@@ -767,7 +767,7 @@ s32 Environment_SFX_42A220(EnvironmentSfx sfxId, s32 volume, s32 pitchMin, BaseA
 s32 Mudokon_SFX(MudSounds idx, s32 volume, s32 pitch, BaseAliveGameObject* pHero)
 {
     if (idx == MudSounds::eLaugh1_8
-        && pHero == sActiveHero_507678
+        && pHero == sActiveHero
         && (gMap.mCurrentLevel == EReliveLevelIds::eRuptureFarmsReturn || gMap.mCurrentLevel == EReliveLevelIds::eBoardRoom))
     {
         idx = MudSounds::eLaugh2_11;
@@ -968,7 +968,7 @@ Abe::Abe(s32 frameTableOffset, s32 /*r*/, s32 /*g*/, s32 /*b*/)
     field_12A_unused = 161;
 
     // Set Abe to be the current player controlled object
-    sControlledCharacter_50767C = this;
+    sControlledCharacter = this;
 
     // Create shadow
     mShadow = relive_new Shadow();
@@ -1088,11 +1088,11 @@ Abe::~Abe()
         field_198_pThrowable = nullptr;
     }
 
-    sActiveHero_507678 = nullptr;
+    sActiveHero = nullptr;
 
     // OG fix for going back to menu with DDCheat on and then it crashes reading a deleted pointer
     // ditto for the ending where MeatSaw/Invisible switch screen change/update funcs read it.
-    sControlledCharacter_50767C = nullptr;
+    sControlledCharacter = nullptr;
 }
 
 const u32 sAbe_xVel_table_4BB118[8] = {262144, 262144, 0, 4294705152, 4294705152, 4294705152, 0, 262144};
@@ -1112,7 +1112,7 @@ void Abe::VUpdate()
             field_2A8_flags.Clear(Flags_2A8::e2A8_Bit7);
         }
 
-        if (sDDCheat_FlyingEnabled_50771C && sControlledCharacter_50767C == this)
+        if (sDDCheat_FlyingEnabled_50771C && sControlledCharacter == this)
         {
             VOnTrapDoorOpen();
 
@@ -1189,7 +1189,7 @@ void Abe::VUpdate()
             if (!field_2A8_flags.Get(Flags_2A8::e2A8_Bit6_bShrivel))
             {
                 // Did position change?
-                if (oldX != mXPos || oldY != mYPos || sControlledCharacter_50767C == gElum_507680)
+                if (oldX != mXPos || oldY != mYPos || sControlledCharacter == gElum)
                 {
                     // Get the TLV we are on
                     BaseAliveGameObjectPathTLV = gMap.TLV_Get_At_446060(
@@ -1322,7 +1322,7 @@ void Abe::VUpdate()
                             }
                             if (field_130_say == 5)
                             {
-                                EventBroadcast(kEventMudokonComfort, sActiveHero_507678);
+                                EventBroadcast(kEventMudokonComfort, sActiveHero);
                             }
                             Mudokon_SFX(static_cast<MudSounds>(field_130_say), 0, 0, this);
                         }
@@ -1437,9 +1437,9 @@ void Abe::FreeElumRes_420F80()
     ResourceManager::FreeResource_455550(field_1A4_resources.res[46]);
 
     field_1A4_resources.res[46] = nullptr;
-    if (gElum_507680)
+    if (gElum)
     {
-        gElum_507680->VFreeMountedResources_411200();
+        gElum->VFreeMountedResources_411200();
     }
 
     if (mCurrentMotion != eAbeMotions::Motion_138_ElumUnmountEnd_42E390)
@@ -1453,9 +1453,9 @@ void Abe::FreeElumRes_420F80()
             ResourceManager::LoadResourceFile("ANEPRMNT.BAN", BaseAliveGameObject::OnResourceLoaded_4019A0, this);
         }
 
-        if (gElum_507680)
+        if (gElum)
         {
-            if (gElum_507680->field_144_bRespawnOnDead)
+            if (gElum->field_144_bRespawnOnDead)
             {
                 field_104_pending_resource_count++;
                 ResourceManager::LoadResourceFile("ELMPRMNT.BAN", BaseAliveGameObject::OnResourceLoaded_4019A0, this);
@@ -1668,7 +1668,7 @@ void Abe::ToDieFinal_42C400()
 
 void Abe::ToKnockback_422D90(s16 bKnockbackSound, s16 bDelayedAnger)
 {
-    if (sControlledCharacter_50767C->mBaseGameObjectTypeId != ReliveTypes::eSlig || mHealth <= FP_FromInteger(0))
+    if (sControlledCharacter->mBaseGameObjectTypeId != ReliveTypes::eSlig || mHealth <= FP_FromInteger(0))
     {
         SND_Seq_Stop_477A60(SeqId::eMudokonChant1_11);
         field_2AA_flags.Clear(Flags_2AA::e2AA_Bit3_ElumMountBegin);
@@ -1704,7 +1704,7 @@ void Abe::ToKnockback_422D90(s16 bKnockbackSound, s16 bDelayedAnger)
 
         if (!field_1A4_resources.res[0] && !field_104_pending_resource_count)
         {
-            sControlledCharacter_50767C = this;
+            sControlledCharacter = this;
             BaseAliveGameObjectLastLineYPos = mYPos;
             BaseAliveGameObjectCollisionLine = nullptr;
             mYPos -= (mSpriteScale * FP_FromInteger(20));
@@ -2013,9 +2013,9 @@ void Abe::ElumFree_4228F0()
         ResourceManager::FreeResource_455550(ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kElumAneMountAOResID_223, 1, 0));
         ResourceManager::FreeResource_455550(ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kElmprmntAOResID__222, 0, 0));
 
-        if (gElum_507680->mCurrentMotion != eElumMotions::Motion_1_Idle_412990)
+        if (gElum->mCurrentMotion != eElumMotions::Motion_1_Idle_412990)
         {
-            gElum_507680->Vsub_416120();
+            gElum->Vsub_416120();
         }
     }
 
@@ -2033,9 +2033,9 @@ void Abe::ElumFree_4228F0()
         ResourceManager::FreeResource_455550(ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kElumANEDSMNTAOResID_224, 1, 0));
         ResourceManager::FreeResource_455550(ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kElumPdmntAOResID_221, 0, 0));
 
-        if (gElum_507680->mCurrentMotion != eElumMotions::Motion_1_Idle_412990)
+        if (gElum->mCurrentMotion != eElumMotions::Motion_1_Idle_412990)
         {
-            gElum_507680->Vsub_416120();
+            gElum->Vsub_416120();
         }
     }
 }
@@ -2176,148 +2176,148 @@ void Abe::SyncToElum_42D850(s16 elumMotion)
         {
             case eElumMotions::Motion_1_Idle_412990:
                 mCurrentMotion = eAbeMotions::Motion_103_ElumIdle_42DCD0;
-                ToNewElumSyncMotion_422520(gElum_507680->mAnim.mCurrentFrame);
-                BaseAliveGameObjectCollisionLine = gElum_507680->BaseAliveGameObjectCollisionLine;
+                ToNewElumSyncMotion_422520(gElum->mAnim.mCurrentFrame);
+                BaseAliveGameObjectCollisionLine = gElum->BaseAliveGameObjectCollisionLine;
                 break;
 
             case eElumMotions::Motion_3_WalkLoop_412C90:
                 mCurrentMotion = eAbeMotions::Motion_102_ElumWalkLoop_42DCA0;
-                ToNewElumSyncMotion_422520(gElum_507680->mAnim.mCurrentFrame);
-                BaseAliveGameObjectCollisionLine = gElum_507680->BaseAliveGameObjectCollisionLine;
+                ToNewElumSyncMotion_422520(gElum->mAnim.mCurrentFrame);
+                BaseAliveGameObjectCollisionLine = gElum->BaseAliveGameObjectCollisionLine;
                 break;
 
             case eElumMotions::Motion_4_Turn_4140F0:
                 mCurrentMotion = eAbeMotions::Motion_113_ElumTurn_42DF90;
-                ToNewElumSyncMotion_422520(gElum_507680->mAnim.mCurrentFrame);
+                ToNewElumSyncMotion_422520(gElum->mAnim.mCurrentFrame);
                 break;
 
             case eElumMotions::Motion_5_WalkToIdle_4132D0:
                 mCurrentMotion = eAbeMotions::Motion_124_ElumWalkEnd_42DCB0;
-                ToNewElumSyncMotion_422520(gElum_507680->mAnim.mCurrentFrame);
+                ToNewElumSyncMotion_422520(gElum->mAnim.mCurrentFrame);
                 break;
 
             case eElumMotions::Motion_6_MidWalkToIdle_4133F0:
                 mCurrentMotion = eAbeMotions::Motion_125_ElumMidWalkEnd_42DCC0;
-                ToNewElumSyncMotion_422520(gElum_507680->mAnim.mCurrentFrame);
+                ToNewElumSyncMotion_422520(gElum->mAnim.mCurrentFrame);
                 break;
 
             case eElumMotions::Motion_7_IdleToWalk1_413200:
                 mCurrentMotion = eAbeMotions::Motion_116_Null_42DFB0;
-                ToNewElumSyncMotion_422520(gElum_507680->mAnim.mCurrentFrame);
+                ToNewElumSyncMotion_422520(gElum->mAnim.mCurrentFrame);
                 break;
 
             case eElumMotions::Motion_8_IdleToWalk2_413270:
                 mCurrentMotion = eAbeMotions::Motion_117_ElumWalkBegin_42DFC0;
-                ToNewElumSyncMotion_422520(gElum_507680->mAnim.mCurrentFrame);
+                ToNewElumSyncMotion_422520(gElum->mAnim.mCurrentFrame);
                 break;
 
             case eElumMotions::Motion_12_RunTurn_414520:
                 mCurrentMotion = eAbeMotions::Motion_105_ElumRunTurn_42DF10;
-                ToNewElumSyncMotion_422520(gElum_507680->mAnim.mCurrentFrame);
+                ToNewElumSyncMotion_422520(gElum->mAnim.mCurrentFrame);
                 break;
 
             case eElumMotions::Motion_13_RunTurnToWalk_4147C0:
                 mCurrentMotion = eAbeMotions::Motion_123_ElumRunTurnToWalk_42E020;
-                ToNewElumSyncMotion_422520(gElum_507680->mAnim.mCurrentFrame);
+                ToNewElumSyncMotion_422520(gElum->mAnim.mCurrentFrame);
                 break;
 
             case eElumMotions::Motion_21_Land_414A20:
                 mCurrentMotion = eAbeMotions::Motion_153_ElumFall_42E040;
-                ToNewElumSyncMotion_422520(gElum_507680->mAnim.mCurrentFrame);
+                ToNewElumSyncMotion_422520(gElum->mAnim.mCurrentFrame);
                 BaseAliveGameObjectCollisionLine = nullptr;
                 break;
 
             case eElumMotions::Motion_22_RunOffEdge_415810:
                 mCurrentMotion = eAbeMotions::Motion_154_ElumLand_42E050;
-                ToNewElumSyncMotion_422520(gElum_507680->mAnim.mCurrentFrame);
-                BaseAliveGameObjectCollisionLine = gElum_507680->BaseAliveGameObjectCollisionLine;
+                ToNewElumSyncMotion_422520(gElum->mAnim.mCurrentFrame);
+                BaseAliveGameObjectCollisionLine = gElum->BaseAliveGameObjectCollisionLine;
                 break;
 
             case eElumMotions::Motion_23_WalkOffEdge_415E90:
                 mCurrentMotion = eAbeMotions::Motion_152_ElumFallOffEdge_42E030;
-                ToNewElumSyncMotion_422520(gElum_507680->mAnim.mCurrentFrame);
+                ToNewElumSyncMotion_422520(gElum->mAnim.mCurrentFrame);
                 BaseAliveGameObjectCollisionLine = nullptr;
                 break;
 
             case eElumMotions::Motion_24_JumpToFall_415ED0:
                 mCurrentMotion = eAbeMotions::Motion_155_ElumJumpToFall_42E060;
-                ToNewElumSyncMotion_422520(gElum_507680->mAnim.mCurrentFrame);
+                ToNewElumSyncMotion_422520(gElum->mAnim.mCurrentFrame);
                 BaseAliveGameObjectCollisionLine = nullptr;
                 break;
 
             case eElumMotions::Motion_30_HopBegin_414E30:
                 mCurrentMotion = eAbeMotions::Motion_107_ElumHopBegin_42DF30;
-                ToNewElumSyncMotion_422520(gElum_507680->mAnim.mCurrentFrame);
+                ToNewElumSyncMotion_422520(gElum->mAnim.mCurrentFrame);
                 BaseAliveGameObjectCollisionLine = nullptr;
                 break;
 
             case eElumMotions::Motion_31_HopMid_414C70:
                 mCurrentMotion = eAbeMotions::Motion_108_ElumHopMid_42DF40;
-                ToNewElumSyncMotion_422520(gElum_507680->mAnim.mCurrentFrame);
+                ToNewElumSyncMotion_422520(gElum->mAnim.mCurrentFrame);
                 break;
 
             case eElumMotions::Motion_32_HopLand_415140:
                 mCurrentMotion = eAbeMotions::Motion_109_ElumHopLand_42DF50;
-                ToNewElumSyncMotion_422520(gElum_507680->mAnim.mCurrentFrame);
-                BaseAliveGameObjectCollisionLine = gElum_507680->BaseAliveGameObjectCollisionLine;
+                ToNewElumSyncMotion_422520(gElum->mAnim.mCurrentFrame);
+                BaseAliveGameObjectCollisionLine = gElum->BaseAliveGameObjectCollisionLine;
                 break;
 
             case eElumMotions::Motion_33_RunJumpBegin_415400:
                 mCurrentMotion = eAbeMotions::Motion_110_ElumRunJumpBegin_42DF60;
-                ToNewElumSyncMotion_422520(gElum_507680->mAnim.mCurrentFrame);
+                ToNewElumSyncMotion_422520(gElum->mAnim.mCurrentFrame);
                 BaseAliveGameObjectCollisionLine = nullptr;
                 break;
 
             case eElumMotions::Motion_34_RunJumpMid_415240:
                 mCurrentMotion = eAbeMotions::Motion_111_ElumRunJumpMid_42DF70;
-                ToNewElumSyncMotion_422520(gElum_507680->mAnim.mCurrentFrame);
+                ToNewElumSyncMotion_422520(gElum->mAnim.mCurrentFrame);
                 break;
 
             case eElumMotions::Motion_35_RunJumpLand_415580:
                 mCurrentMotion = eAbeMotions::Motion_112_ElumRunJumpLand_42DF80;
-                ToNewElumSyncMotion_422520(gElum_507680->mAnim.mCurrentFrame);
-                BaseAliveGameObjectCollisionLine = gElum_507680->BaseAliveGameObjectCollisionLine;
+                ToNewElumSyncMotion_422520(gElum->mAnim.mCurrentFrame);
+                BaseAliveGameObjectCollisionLine = gElum->BaseAliveGameObjectCollisionLine;
                 break;
 
             case eElumMotions::Motion_36_RunLoop_413720:
                 mCurrentMotion = eAbeMotions::Motion_114_ElumRunLoop_42DFA0;
-                ToNewElumSyncMotion_422520(gElum_507680->mAnim.mCurrentFrame);
-                BaseAliveGameObjectCollisionLine = gElum_507680->BaseAliveGameObjectCollisionLine;
+                ToNewElumSyncMotion_422520(gElum->mAnim.mCurrentFrame);
+                BaseAliveGameObjectCollisionLine = gElum->BaseAliveGameObjectCollisionLine;
                 break;
 
             case eElumMotions::Motion_37_RunSlideStop_4142E0:
                 mCurrentMotion = eAbeMotions::Motion_104_ElumRunSlideStop_42DF00;
-                ToNewElumSyncMotion_422520(gElum_507680->mAnim.mCurrentFrame);
+                ToNewElumSyncMotion_422520(gElum->mAnim.mCurrentFrame);
                 break;
 
             case eElumMotions::Motion_38_RunTurnToRun_414810:
                 mCurrentMotion = eAbeMotions::Motion_122_ElumRunTurnToRun_42E010;
-                ToNewElumSyncMotion_422520(gElum_507680->mAnim.mCurrentFrame);
+                ToNewElumSyncMotion_422520(gElum->mAnim.mCurrentFrame);
                 break;
 
             case eElumMotions::Motion_39_IdleToRun_413B00:
                 mCurrentMotion = eAbeMotions::Motion_118_ElumRunBegin_42DFD0;
-                ToNewElumSyncMotion_422520(gElum_507680->mAnim.mCurrentFrame);
+                ToNewElumSyncMotion_422520(gElum->mAnim.mCurrentFrame);
                 break;
 
             case eElumMotions::Motion_40_WalkToRun_4134B0:
                 mCurrentMotion = eAbeMotions::Motion_119_Null_42DFE0;
-                ToNewElumSyncMotion_422520(gElum_507680->mAnim.mCurrentFrame);
+                ToNewElumSyncMotion_422520(gElum->mAnim.mCurrentFrame);
                 break;
 
             case eElumMotions::Motion_41_MidWalkToRun_413560:
                 mCurrentMotion = eAbeMotions::Motion_120_ElumRunToWalk_42DFF0;
-                ToNewElumSyncMotion_422520(gElum_507680->mAnim.mCurrentFrame);
+                ToNewElumSyncMotion_422520(gElum->mAnim.mCurrentFrame);
                 break;
 
             case eElumMotions::Motion_43_MidRunToWalk_413E20:
                 mCurrentMotion = eAbeMotions::Motion_121_ElumMidRunToWalk_42E000;
-                ToNewElumSyncMotion_422520(gElum_507680->mAnim.mCurrentFrame);
+                ToNewElumSyncMotion_422520(gElum->mAnim.mCurrentFrame);
                 break;
 
             case eElumMotions::Motion_50_Knockback_415DC0:
                 mCurrentMotion = eAbeMotions::Motion_158_ElumKnockback_42E070;
-                ToNewElumSyncMotion_422520(gElum_507680->mAnim.mCurrentFrame);
+                ToNewElumSyncMotion_422520(gElum->mAnim.mCurrentFrame);
                 break;
 
             default:
@@ -2527,7 +2527,7 @@ void Abe::FallOnBombs_4231B0()
 s16 Abe::ToLeftRightMovement_422AA0()
 {
     mVelY = FP_FromInteger(0);
-    if (sControlledCharacter_50767C != this)
+    if (sControlledCharacter != this)
     {
         return 0;
     }
@@ -2618,13 +2618,13 @@ void Abe::ToNewElumSyncMotion_422520(s16 elum_frame)
 
     field_12C_timer = sGnFrame;
     mAnim.SetFrame(elum_frame + 1);
-    mAnim.mFlags.Set(AnimFlags::eBit5_FlipX, gElum_507680->mAnim.mFlags.Get(AnimFlags::eBit5_FlipX));
+    mAnim.mFlags.Set(AnimFlags::eBit5_FlipX, gElum->mAnim.mFlags.Get(AnimFlags::eBit5_FlipX));
 }
 
 void Abe::SetActiveControlledCharacter_421480()
 {
     field_2A8_flags.Set(Flags_2A8::e2A8_Bit7);
-    sControlledCharacter_50767C = this;
+    sControlledCharacter = this;
 }
 
 PullRingRope* Abe::GetPullRope_422580()
@@ -2709,25 +2709,25 @@ void Abe::ElumKnockForward_42E780(s32 /*not_used*/)
         sAbeMotionAnimIds[mCurrentMotion],
         StateToAnimResource_4204F0(eAbeMotions::Motion_128_KnockForward_429330));
 
-    sControlledCharacter_50767C = sActiveHero_507678;
-    gElum_507680->field_154_bAbeForcedDownFromElum = 1;
+    sControlledCharacter = sActiveHero;
+    gElum->field_154_bAbeForcedDownFromElum = 1;
 }
 
 s16 Abe::TryMountElum_42E600()
 {
-    if (gElum_507680)
+    if (gElum)
     {
-        if (FP_Abs(mXPos - gElum_507680->mXPos) <= FP_FromInteger(2) && FP_Abs(mYPos - gElum_507680->mYPos) <= FP_FromInteger(2))
+        if (FP_Abs(mXPos - gElum->mXPos) <= FP_FromInteger(2) && FP_Abs(mYPos - gElum->mYPos) <= FP_FromInteger(2))
         {
-            if (gElum_507680->mAnim.mFlags.Get(AnimFlags::eBit5_FlipX) != mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
+            if (gElum->mAnim.mFlags.Get(AnimFlags::eBit5_FlipX) != mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
             {
                 mNextMotion = eAbeMotions::Motion_139_ElumMountBegin_42E090;
                 return eAbeMotions::Motion_2_StandingTurn_426040;
             }
 
-            if (gElum_507680->mCurrentMotion != eElumMotions::Motion_1_Idle_412990
-                || gElum_507680->field_128_brain_idx == 1
-                || gElum_507680->field_170_flags.Get(Elum::Flags_170::eStrugglingWithBees_Bit1))
+            if (gElum->mCurrentMotion != eElumMotions::Motion_1_Idle_412990
+                || gElum->field_128_brain_idx == 1
+                || gElum->field_170_flags.Get(Elum::Flags_170::eStrugglingWithBees_Bit1))
             {
                 return eAbeMotions::Motion_0_Idle_423520;
             }
@@ -3014,7 +3014,7 @@ s16 Abe::MoveLiftUpOrDown_42F190(FP yVelocity)
     {
         return eAbeMotions::Motion_141_BeesStrugglingOnLift_42F390;
     }
-    if (sControlledCharacter_50767C == this && !mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame) && mAnim.mCurrentFrame != 5)
+    if (sControlledCharacter == this && !mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame) && mAnim.mCurrentFrame != 5)
     {
         return mCurrentMotion;
     }
@@ -3063,7 +3063,7 @@ s16 Abe::MoveLiftUpOrDown_42F190(FP yVelocity)
 
 void Abe::VScreenChanged()
 {
-    if (sControlledCharacter_50767C == this || sControlledCharacter_50767C == gElum_507680)
+    if (sControlledCharacter == this || sControlledCharacter == gElum)
     {
         mCurrentLevel = gMap.mNextLevel;
         mCurrentPath = gMap.mNextPath;
@@ -3172,9 +3172,9 @@ void Abe::VOnTlvCollision(Path_TLV* pTlv)
             EventBroadcast(kEventLoudNoise, this);
             EventBroadcast(kEventSpeaking, this);
 
-            if (!field_1A4_resources.res[0] && sControlledCharacter_50767C != this)
+            if (!field_1A4_resources.res[0] && sControlledCharacter != this)
             {
-                sControlledCharacter_50767C = sActiveHero_507678;
+                sControlledCharacter = sActiveHero;
                 FreeElumRes_420F80();
             }
             ToDeathDropFall_42C3D0();
@@ -3676,7 +3676,7 @@ s16 Abe::VTakeDamage(BaseGameObject* pFrom)
                 if (mHealth > FP_FromInteger(0))
                 {
                     const auto rnd_sfx = Math_RandomRange(0, 127) >= 64 ? MudSounds::eBeesStruggle_18 : MudSounds::eKnockbackOuch_10;
-                    const FP v16 = (FP_FromInteger(1) - sActiveHero_507678->mHealth) / FP_FromDouble(0.15);
+                    const FP v16 = (FP_FromInteger(1) - sActiveHero->mHealth) / FP_FromDouble(0.15);
                     const s16 calc_pitch = Math_RandomRange(200 * FP_GetExponent(v16), 200 * FP_GetExponent(v16) + 1);
                     Mudokon_SFX(rnd_sfx, 0, calc_pitch, this);
                 }
@@ -3735,13 +3735,13 @@ s16 Abe::VTakeDamage(BaseGameObject* pFrom)
             break;
     }
 
-    if (sControlledCharacter_50767C->mBaseAliveGameObjectFlags.Get(Flags_10A::e10A_Bit2_bPossesed))
+    if (sControlledCharacter->mBaseAliveGameObjectFlags.Get(Flags_10A::e10A_Bit2_bPossesed))
     {
         if (mHealth == FP_FromInteger(0))
         {
-            sControlledCharacter_50767C->VUnPosses();
+            sControlledCharacter->VUnPosses();
             field_2A8_flags.Set(Flags_2A8::e2A8_Bit7);
-            sControlledCharacter_50767C = this;
+            sControlledCharacter = this;
         }
     }
 
@@ -4360,9 +4360,9 @@ void Abe::Motion_2_StandingTurn_426040()
                 return;
             }
 
-            if (gElum_507680)
+            if (gElum)
             {
-                if (gElum_507680->mCurrentMotion == eElumMotions::Motion_1_Idle_412990 && !(gElum_507680->field_170_flags.Get(Elum::Flags_170::eStrugglingWithBees_Bit1)))
+                if (gElum->mCurrentMotion == eElumMotions::Motion_1_Idle_412990 && !(gElum->field_170_flags.Get(Elum::Flags_170::eStrugglingWithBees_Bit1)))
                 {
                     LoadMountElumResources_42E690();
                     mNextMotion = eAbeMotions::Motion_0_Idle_423520;
@@ -6894,11 +6894,11 @@ void Abe::Motion_60_Dead_42C4C0()
                 {
                     VOnTrapDoorOpen();
                     BaseAliveGameObjectCollisionLine = nullptr;
-                    if (gElum_507680)
+                    if (gElum)
                     {
-                        if (!gElum_507680->field_144_bRespawnOnDead)
+                        if (!gElum->field_144_bRespawnOnDead)
                         {
-                            gElum_507680->mBaseGameObjectFlags.Set(Options::eDead);
+                            gElum->mBaseGameObjectFlags.Set(Options::eDead);
                         }
                     }
                     if (!field_1A4_resources.res[0])
@@ -6908,11 +6908,11 @@ void Abe::Motion_60_Dead_42C4C0()
                         field_1A4_resources.res[38] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kAbeommAOResID, 1, 0);
                         field_1A4_resources.res[9] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kAbesmashAOResID, 1, 0);
                         field_1A4_resources.res[61] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kAneprmntAOResID, 1, 0);
-                        if (gElum_507680)
+                        if (gElum)
                         {
-                            if (gElum_507680->field_144_bRespawnOnDead)
+                            if (gElum->field_144_bRespawnOnDead)
                             {
-                                gElum_507680->VLoadUnmountedResources_411260();
+                                gElum->VLoadUnmountedResources_411260();
                             }
                             else
                             {
@@ -6966,8 +6966,8 @@ void Abe::Motion_61_Respawn_42CD20()
         // by killing abe so the bad save cant get loaded before we return to the menu.
         LOG_WARNING("Destroying abe to prevent game crash, he isnt supposed to die in a demo!");
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
-        sActiveHero_507678 = nullptr;
-        sControlledCharacter_50767C = nullptr;
+        sActiveHero = nullptr;
+        sControlledCharacter = nullptr;
         return;
     }
 
@@ -7039,28 +7039,28 @@ void Abe::Motion_61_Respawn_42CD20()
             mAnim.mFlags.Set(AnimFlags::eBit5_FlipX, field_2A8_flags.Get(Flags_2A8::e2A8_eBit16_AbeSpawnDir));
             MapFollowMe_401D30(TRUE);
             SetTint(sAbeTints_4C6438, gMap.mCurrentLevel);
-            if (gElum_507680)
+            if (gElum)
             {
-                gElum_507680->mSpriteScale = mSpriteScale;
+                gElum->mSpriteScale = mSpriteScale;
             }
             if (mSpriteScale == FP_FromDouble(0.5))
             {
                 mAnim.mRenderLayer = Layer::eLayer_AbeMenu_Half_13;
                 mScale = Scale::Bg;
-                if (gElum_507680)
+                if (gElum)
                 {
-                    gElum_507680->mAnim.mRenderLayer = Layer::eLayer_ZapLinesMudsElum_Half_9;
-                    gElum_507680->mScale = Scale::Bg;
+                    gElum->mAnim.mRenderLayer = Layer::eLayer_ZapLinesMudsElum_Half_9;
+                    gElum->mScale = Scale::Bg;
                 }
             }
             else
             {
                 mAnim.mRenderLayer = Layer::eLayer_AbeMenu_32;
                 mScale = Scale::Fg;
-                if (gElum_507680)
+                if (gElum)
                 {
-                    gElum_507680->mAnim.mRenderLayer = Layer::eLayer_ZapLinesElumMuds_28;
-                    gElum_507680->mScale = Scale::Fg;
+                    gElum->mAnim.mRenderLayer = Layer::eLayer_ZapLinesElumMuds_28;
+                    gElum->mScale = Scale::Fg;
                 }
             }
             mAnim.mFlags.Clear(AnimFlags::eBit3_Render);
@@ -7181,32 +7181,32 @@ void Abe::Motion_62_LoadedSaveSpawn_45ADD0()
         FP hitX2 = {};
         FP hitY2 = {};
         if (sCollisions->Raycast(
-                sActiveHero_507678->mXPos,
-                sActiveHero_507678->mYPos - FP_FromInteger(60),
-                sActiveHero_507678->mXPos,
-                sActiveHero_507678->mYPos + FP_FromInteger(60),
+                sActiveHero->mXPos,
+                sActiveHero->mYPos - FP_FromInteger(60),
+                sActiveHero->mXPos,
+                sActiveHero->mYPos + FP_FromInteger(60),
                 &pLine2,
                 &hitX2,
                 &hitY2,
                 CollisionMask(static_cast<eLineTypes>(pSaveData->field_23A_mode_mask))))
         {
-            sActiveHero_507678->BaseAliveGameObjectCollisionLine = pLine2;
-            sActiveHero_507678->mYPos = hitY2;
-            sActiveHero_507678->mCurrentMotion = eAbeMotions::Motion_0_Idle_423520;
+            sActiveHero->BaseAliveGameObjectCollisionLine = pLine2;
+            sActiveHero->mYPos = hitY2;
+            sActiveHero->mCurrentMotion = eAbeMotions::Motion_0_Idle_423520;
         }
         else
         {
-            sActiveHero_507678->mCurrentMotion = eAbeMotions::Motion_3_Fall_42E7F0;
+            sActiveHero->mCurrentMotion = eAbeMotions::Motion_3_Fall_42E7F0;
         }
-        sActiveHero_507678->field_2A8_flags.Clear(Flags_2A8::e2A8_Bit8_bLandSoft);
-        sActiveHero_507678->BaseAliveGameObjectLastLineYPos = sActiveHero_507678->mYPos;
-        sActiveHero_507678->field_110_state.raw = static_cast<s16>(pSaveData->field_244_stone_state);
-        sActiveHero_507678->field_114_gnFrame = pSaveData->field_248_gnFrame;
-        sActiveHero_507678->mBaseAliveGameObjectLastAnimFrame = pSaveData->field_240_last_anim_frame;
-        sActiveHero_507678->mAnim.mFlags.Set(AnimFlags::eBit5_FlipX, pSaveData->field_23C_ah_flipX & 1);
-        sActiveHero_507678->MapFollowMe_401D30(TRUE);
-        sActiveHero_507678->mAnim.mFlags.Set(AnimFlags::eBit3_Render);
-        if (sActiveHero_507678->field_19C_throwable_count)
+        sActiveHero->field_2A8_flags.Clear(Flags_2A8::e2A8_Bit8_bLandSoft);
+        sActiveHero->BaseAliveGameObjectLastLineYPos = sActiveHero->mYPos;
+        sActiveHero->field_110_state.raw = static_cast<s16>(pSaveData->field_244_stone_state);
+        sActiveHero->field_114_gnFrame = pSaveData->field_248_gnFrame;
+        sActiveHero->mBaseAliveGameObjectLastAnimFrame = pSaveData->field_240_last_anim_frame;
+        sActiveHero->mAnim.mFlags.Set(AnimFlags::eBit5_FlipX, pSaveData->field_23C_ah_flipX & 1);
+        sActiveHero->MapFollowMe_401D30(TRUE);
+        sActiveHero->mAnim.mFlags.Set(AnimFlags::eBit3_Render);
+        if (sActiveHero->field_19C_throwable_count)
         {
             if (!gpThrowableArray_50E26C)
             {
@@ -7214,7 +7214,7 @@ void Abe::Motion_62_LoadedSaveSpawn_45ADD0()
 
                 gpThrowableArray_50E26C = relive_new ThrowableArray();
             }
-            gpThrowableArray_50E26C->Add(sActiveHero_507678->field_19C_throwable_count);
+            gpThrowableArray_50E26C->Add(sActiveHero->field_19C_throwable_count);
         }
         if (pSaveData->field_264_bInfiniteGrenades == -1)
         {
@@ -7232,7 +7232,7 @@ void Abe::Motion_62_LoadedSaveSpawn_45ADD0()
         }
         if (pSaveData->field_25A_bElumExists)
         {
-            if (!gElum_507680)
+            if (!gElum)
             {
                 TlvItemInfoUnion aux;
                 aux.all = (u32) -1;
@@ -7241,33 +7241,33 @@ void Abe::Motion_62_LoadedSaveSpawn_45ADD0()
 
             ResourceManager::LoadResourceFile_455270("ANEPRMNT.BAN", 0);
             ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kAneprmntAOResID, 1, 0);
-            gElum_507680->mBaseGameObjectFlags.Clear(Options::eUpdatable_Bit2);
-            gElum_507680->mAnim.mFlags.Clear(AnimFlags::eBit3_Render);
-            gElum_507680->field_138_continue_rect = pSaveData->field_28C_elum_continue_rect;
-            gElum_507680->field_140_continue_zone_number = pSaveData->field_294_continue_zone_number;
-            gElum_507680->field_142_zone_number = pSaveData->field_296_elum_zone_number;
-            gElum_507680->field_148_continue_path = pSaveData->field_298_elum_continue_path;
-            gElum_507680->field_14A_continue_level = MapWrapper::FromAO(pSaveData->field_29A_continue_level);
-            gElum_507680->field_150_continue_sprite_scale = pSaveData->field_29C_elum_sprite_scale;
-            gElum_507680->field_144_bRespawnOnDead = pSaveData->field_25E_bElumRespawnOnDead;
-            gElum_507680->mCurrentLevel = MapWrapper::FromAO(pSaveData->field_260_elum_lvl_number);
-            gElum_507680->mCurrentPath = pSaveData->field_262_elum_path_number;
-            gElum_507680->mXPos = FP_FromInteger(pSaveData->field_268_elum_xpos);
-            gElum_507680->mYPos = FP_FromInteger(pSaveData->field_26C_elum_ypos);
-            gElum_507680->mAnim.mFlags.Set(AnimFlags::eBit5_FlipX, pSaveData->field_272_elum_flipX & 1);
-            gElum_507680->mBaseAliveGameObjectLastAnimFrame = 0;
-            gElum_507680->field_120_bUnknown = 1;
-            gElum_507680->field_122_bDontFollowAbe = pSaveData->field_276_bDontFollowAbe;
-            gElum_507680->field_128_brain_idx = pSaveData->field_278_brain_idx;
-            gElum_507680->field_12A_brain_sub_state = pSaveData->field_27A_elum_brain_state;
-            gElum_507680->field_12C_honey_xpos = static_cast<s16>(pSaveData->field_27C_honey_xpos);
-            gElum_507680->field_146_honey_ypos = pSaveData->field_280_honey_ypos;
-            gElum_507680->field_130_unused = pSaveData->field_284_unused;
+            gElum->mBaseGameObjectFlags.Clear(Options::eUpdatable_Bit2);
+            gElum->mAnim.mFlags.Clear(AnimFlags::eBit3_Render);
+            gElum->field_138_continue_rect = pSaveData->field_28C_elum_continue_rect;
+            gElum->field_140_continue_zone_number = pSaveData->field_294_continue_zone_number;
+            gElum->field_142_zone_number = pSaveData->field_296_elum_zone_number;
+            gElum->field_148_continue_path = pSaveData->field_298_elum_continue_path;
+            gElum->field_14A_continue_level = MapWrapper::FromAO(pSaveData->field_29A_continue_level);
+            gElum->field_150_continue_sprite_scale = pSaveData->field_29C_elum_sprite_scale;
+            gElum->field_144_bRespawnOnDead = pSaveData->field_25E_bElumRespawnOnDead;
+            gElum->mCurrentLevel = MapWrapper::FromAO(pSaveData->field_260_elum_lvl_number);
+            gElum->mCurrentPath = pSaveData->field_262_elum_path_number;
+            gElum->mXPos = FP_FromInteger(pSaveData->field_268_elum_xpos);
+            gElum->mYPos = FP_FromInteger(pSaveData->field_26C_elum_ypos);
+            gElum->mAnim.mFlags.Set(AnimFlags::eBit5_FlipX, pSaveData->field_272_elum_flipX & 1);
+            gElum->mBaseAliveGameObjectLastAnimFrame = 0;
+            gElum->field_120_bUnknown = 1;
+            gElum->field_122_bDontFollowAbe = pSaveData->field_276_bDontFollowAbe;
+            gElum->field_128_brain_idx = pSaveData->field_278_brain_idx;
+            gElum->field_12A_brain_sub_state = pSaveData->field_27A_elum_brain_state;
+            gElum->field_12C_honey_xpos = static_cast<s16>(pSaveData->field_27C_honey_xpos);
+            gElum->field_146_honey_ypos = pSaveData->field_280_honey_ypos;
+            gElum->field_130_unused = pSaveData->field_284_unused;
 
-            gElum_507680->field_170_flags.Set(Elum::Flags_170::eFoundHoney_Bit4, pSaveData->field_28B_elum_FoundHoney & 1);
-            gElum_507680->field_170_flags.Set(Elum::Flags_170::eFalling_Bit3, pSaveData->field_28A_elum_Falling & 1);
-            gElum_507680->field_170_flags.Set(Elum::Flags_170::eStungByBees_Bit2, pSaveData->field_289_elum_StungByBees & 1);
-            if (gElum_507680->mCurrentPath == sActiveHero_507678->mCurrentPath)
+            gElum->field_170_flags.Set(Elum::Flags_170::eFoundHoney_Bit4, pSaveData->field_28B_elum_FoundHoney & 1);
+            gElum->field_170_flags.Set(Elum::Flags_170::eFalling_Bit3, pSaveData->field_28A_elum_Falling & 1);
+            gElum->field_170_flags.Set(Elum::Flags_170::eStungByBees_Bit2, pSaveData->field_289_elum_StungByBees & 1);
+            if (gElum->mCurrentPath == sActiveHero->mCurrentPath)
             {
                 if (pSaveData->field_270_elum_line_type != -1)
                 {
@@ -7275,43 +7275,43 @@ void Abe::Motion_62_LoadedSaveSpawn_45ADD0()
                     FP hitX = {};
                     FP hitY = {};
                     if (sCollisions->Raycast(
-                            gElum_507680->mXPos,
-                            gElum_507680->mYPos - FP_FromInteger(60),
-                            gElum_507680->mXPos,
-                            gElum_507680->mYPos + FP_FromInteger(60),
+                            gElum->mXPos,
+                            gElum->mYPos - FP_FromInteger(60),
+                            gElum->mXPos,
+                            gElum->mYPos + FP_FromInteger(60),
                             &pLine,
                             &hitX,
                             &hitY,
                             CollisionMask(static_cast<eLineTypes>(pSaveData->field_270_elum_line_type))))
                     {
-                        gElum_507680->BaseAliveGameObjectCollisionLine = pLine;
-                        gElum_507680->mCurrentMotion = eElumMotions::Motion_1_Idle_412990;
-                        gElum_507680->mPreviousMotion = eElumMotions::Motion_1_Idle_412990;
+                        gElum->BaseAliveGameObjectCollisionLine = pLine;
+                        gElum->mCurrentMotion = eElumMotions::Motion_1_Idle_412990;
+                        gElum->mPreviousMotion = eElumMotions::Motion_1_Idle_412990;
                     }
                     else
                     {
-                        gElum_507680->mCurrentMotion = eElumMotions::Motion_21_Land_414A20;
-                        gElum_507680->mPreviousMotion = eElumMotions::Motion_21_Land_414A20;
+                        gElum->mCurrentMotion = eElumMotions::Motion_21_Land_414A20;
+                        gElum->mPreviousMotion = eElumMotions::Motion_21_Land_414A20;
                     }
                 }
             }
             else
             {
                 //TODO fix this madness
-                gElum_507680->BaseAliveGameObjectCollisionLine = reinterpret_cast<PathLine*>(-2);
+                gElum->BaseAliveGameObjectCollisionLine = reinterpret_cast<PathLine*>(-2);
             }
-            if (gElum_507680->field_170_flags.Get(Elum::Flags_170::eFoundHoney_Bit4))
+            if (gElum->field_170_flags.Get(Elum::Flags_170::eFoundHoney_Bit4))
             {
                 if (!ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kElmHoneyAOResID, 0, 0))
                 {
                     ResourceManager::LoadResourceFile_455270("ELMHONEY.BAN", 0);
                 }
-                gElum_507680->mCurrentMotion = eElumMotions::Motion_25_LickingHoney_415B50;
-                gElum_507680->mPreviousMotion = eElumMotions::Motion_25_LickingHoney_415B50;
+                gElum->mCurrentMotion = eElumMotions::Motion_25_LickingHoney_415B50;
+                gElum->mPreviousMotion = eElumMotions::Motion_25_LickingHoney_415B50;
             }
-            gElum_507680->MapFollowMe_401D30(TRUE);
-            gElum_507680->mBaseGameObjectFlags.Set(Options::eUpdatable_Bit2);
-            gElum_507680->mAnim.mFlags.Set(AnimFlags::eBit3_Render);
+            gElum->MapFollowMe_401D30(TRUE);
+            gElum->mBaseGameObjectFlags.Set(Options::eUpdatable_Bit2);
+            gElum->mAnim.mFlags.Set(AnimFlags::eBit3_Render);
         }
     }
     else
@@ -8765,7 +8765,7 @@ void Abe::Motion_126_ElumBeesStruggling_42E080()
 
 void Abe::Motion_127_SlapBomb_429A20()
 {
-    if (sActiveHero_507678->mAnim.mCurrentFrame >= 6)
+    if (sActiveHero->mAnim.mCurrentFrame >= 6)
     {
         if (field_15C_pThrowable)
         {
@@ -9021,9 +9021,9 @@ void Abe::Motion_136_ElumMountEnd_42E110()
             field_1A4_resources.res[46] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kAbeWElmAOResID_100, 1, 0);
             field_1A4_resources.res[58] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kElumUnknownAOResID_112, 1, 0);
             mCurrentMotion = eAbeMotions::Motion_103_ElumIdle_42DCD0;
-            sControlledCharacter_50767C = gElum_507680;
+            sControlledCharacter = gElum;
             MusicController::static_PlayMusic(MusicController::MusicTypes::eAbeOnElum_1, nullptr, 0, 0);
-            sActiveHero_507678->mShadow->mFlags.Clear(Shadow::Flags::eEnabled);
+            sActiveHero->mShadow->mFlags.Clear(Shadow::Flags::eEnabled);
             Environment_SFX_42A220(EnvironmentSfx::eAbeMountedElumNoise_19, 0, 0x7FFF, this);
         }
     }
@@ -9103,7 +9103,7 @@ void Abe::Motion_138_ElumUnmountEnd_42E390()
         field_1A4_resources.res[38] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kAbeommAOResID, 1, 0);
         field_1A4_resources.res[9] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kAbesmashAOResID, 1, 0);
 
-        BaseAliveGameObjectCollisionLine = gElum_507680->BaseAliveGameObjectCollisionLine;
+        BaseAliveGameObjectCollisionLine = gElum->BaseAliveGameObjectCollisionLine;
 
         if (mLiftPoint)
         {
@@ -9131,9 +9131,9 @@ void Abe::Motion_138_ElumUnmountEnd_42E390()
                     (TCollisionCallBack) &BaseAliveGameObject::OnTrapDoorIntersection_401C10);
             }
         }
-        sControlledCharacter_50767C = sActiveHero_507678;
+        sControlledCharacter = sActiveHero;
         MusicController::static_PlayMusic(MusicController::MusicTypes::eType0, this, 0, 0);
-        sActiveHero_507678->mShadow->mFlags.Clear(Shadow::Flags::eEnabled);
+        sActiveHero->mShadow->mFlags.Clear(Shadow::Flags::eEnabled);
         ToIdle_422D50();
     }
 }
@@ -9380,7 +9380,7 @@ void Abe::Motion_149_PickupItem_42A030()
         mCurrentMotion = eAbeMotions::Motion_19_CrouchIdle_4284C0;
     }
 
-    if (sActiveHero_507678->mAnim.mCurrentFrame >= 5)
+    if (sActiveHero->mAnim.mCurrentFrame >= 5)
     {
         if (field_15C_pThrowable)
         {
@@ -9494,7 +9494,7 @@ void Abe::Motion_150_Chant_42FD50()
                         FP_FromInteger((rect.h + rect.y) / 2),
                         pObjToPossess);
 
-                    relive_new PossessionFlicker(sActiveHero_507678, 30, 128, 255, 255);
+                    relive_new PossessionFlicker(sActiveHero, 30, 128, 255, 255);
                 }
             }
             break;
@@ -9550,16 +9550,16 @@ void Abe::Motion_150_Chant_42FD50()
             }
             if (field_18C_pObjToPossess)
             {
-                sControlledCharacter_50767C = field_18C_pObjToPossess;
+                sControlledCharacter = field_18C_pObjToPossess;
                 field_18C_pObjToPossess->VPossessed();
                 field_18C_pObjToPossess->mBaseGameObjectRefCount--;
                 field_18C_pObjToPossess = nullptr;
-                if (sControlledCharacter_50767C->mBaseGameObjectTypeId == ReliveTypes::eSlig)
+                if (sControlledCharacter->mBaseGameObjectTypeId == ReliveTypes::eSlig)
                 {
                     field_2A8_flags.Set(Flags_2A8::e2A8_Bit11_bLaughAtChantEnd);
                 }
 
-                relive_new PossessionFlicker(sControlledCharacter_50767C, 60, 128, 255, 255);
+                relive_new PossessionFlicker(sControlledCharacter, 60, 128, 255, 255);
 
                 SND_Seq_Stop_477A60(SeqId::eMudokonChant1_11);
                 SFX_Play_Pitch(SoundEffect::PossessEffect_21, 70, 400, 0);
@@ -9573,9 +9573,9 @@ void Abe::Motion_150_Chant_42FD50()
         }
         case ChantStates::eWaitForUnpossessing_3:
         {
-            if (sControlledCharacter_50767C == this)
+            if (sControlledCharacter == this)
             {
-                relive_new PossessionFlicker(sControlledCharacter_50767C, 15, 128, 255, 255);
+                relive_new PossessionFlicker(sControlledCharacter, 15, 128, 255, 255);
 
                 field_110_state.chant = ChantStates::eUnpossessing_4;
                 field_114_gnFrame = sGnFrame + 15;

@@ -729,7 +729,7 @@ ALIVE_ASSERT_SIZEOF(Abe, 0x1BC);
 bool IsActiveHero(BaseGameObject* pObj);
 
 ALIVE_VAR_EXTERN(Abe*, sActiveHero);
-ALIVE_VAR_EXTERN(BaseAliveGameObject*, sControlledCharacter_5C1B8C);
+ALIVE_VAR_EXTERN(BaseAliveGameObject*, sControlledCharacter);
 
 ALIVE_VAR_EXTERN(s16, gAbeBulletProof_5C1BDA);
 

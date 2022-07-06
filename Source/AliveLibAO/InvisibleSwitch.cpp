@@ -48,24 +48,24 @@ void InvisibleSwitch::VUpdate()
     {
         case States::eWaitForTrigger_0:
         {
-            // sControlledCharacter_50767C can be nullptr during the game ender
+            // sControlledCharacter can be nullptr during the game ender
             // Within X bounds?
-            const FP charXPos = sControlledCharacter_50767C->mXPos;
-            if (sControlledCharacter_50767C && charXPos >= FP_FromInteger(field_20_top_left.x) && charXPos <= FP_FromInteger(field_24_bottom_right.x))
+            const FP charXPos = sControlledCharacter->mXPos;
+            if (sControlledCharacter && charXPos >= FP_FromInteger(field_20_top_left.x) && charXPos <= FP_FromInteger(field_24_bottom_right.x))
             {
                 // Within Y bounds?
-                const FP charYPos = sControlledCharacter_50767C->mYPos;
+                const FP charYPos = sControlledCharacter->mYPos;
                 if (charYPos >= FP_FromInteger(field_20_top_left.y) && charYPos <= FP_FromInteger(field_24_bottom_right.y))
                 {
                     // TODO: ???
-                    if (sControlledCharacter_50767C != sActiveHero_507678
-                        || (sActiveHero_507678->mCurrentMotion != eAbeMotions::Motion_157_DoorExit_42D780
-                            && sActiveHero_507678->mCurrentMotion != eAbeMotions::Motion_156_DoorEnter_42D370))
+                    if (sControlledCharacter != sActiveHero
+                        || (sActiveHero->mCurrentMotion != eAbeMotions::Motion_157_DoorExit_42D780
+                            && sActiveHero->mCurrentMotion != eAbeMotions::Motion_156_DoorEnter_42D370))
                     {
                         // Scale matches ?
                         if (field_2C_scale == InvisibleSwitchScale::eAny_2
-                            || (field_2C_scale == InvisibleSwitchScale::eHalf_0 && sControlledCharacter_50767C->mSpriteScale == FP_FromDouble(0.5))
-                            || (field_2C_scale == InvisibleSwitchScale::eFull_1 && sControlledCharacter_50767C->mSpriteScale == FP_FromInteger(1)))
+                            || (field_2C_scale == InvisibleSwitchScale::eHalf_0 && sControlledCharacter->mSpriteScale == FP_FromDouble(0.5))
+                            || (field_2C_scale == InvisibleSwitchScale::eFull_1 && sControlledCharacter->mSpriteScale == FP_FromInteger(1)))
                         {
                             field_28_state = States::eWaitForDelayTimer_1;
                             field_18_delay_timer = sGnFrame + field_1C_delay;

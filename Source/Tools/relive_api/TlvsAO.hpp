@@ -894,10 +894,10 @@ struct Path_BellHammer final : public ReliveAPI::TlvObjectBaseAO
 {
     CTOR_AO(Path_BellHammer, "BellHammer", AO::TlvTypes::BellHammer_27)
     {
-        ADD("Switch ID", mTlv.field_18_switch_id);
-        ADD("Action", mTlv.field_1A_action);
-        ADD("Scale", mTlv.field_1C_scale);
-        ADD("Direction", mTlv.field_1E_direction);
+        ADD("Switch ID", mTlv.mSwitchId);
+        ADD("Action", mTlv.mAction);
+        ADD("Scale", mTlv.mScale);
+        ADD("Direction", mTlv.mDirection);
 
         ADD_RESOURCE(AnimId::BellHammer_Idle, ReliveAPI::AddResourceTo::CameraBlock);
         ADD_RESOURCE(AnimId::BellHammer_Smashing, ReliveAPI::AddResourceTo::CameraBlock);

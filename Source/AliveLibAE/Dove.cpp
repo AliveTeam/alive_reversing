@@ -210,11 +210,11 @@ void Dove::VUpdate()
             if (EventGet(kEventNoise))
             {
                 // player getting near
-                if (VIsObjNearby(ScaleToGridSize(mSpriteScale) * FP_FromInteger(2), sControlledCharacter_5C1B8C))
+                if (VIsObjNearby(ScaleToGridSize(mSpriteScale) * FP_FromInteger(2), sControlledCharacter))
                 {
                     Dove::All_FlyAway(1);
                 }
-                if (VIsObjNearby(ScaleToGridSize(mSpriteScale) * FP_FromInteger(4), sControlledCharacter_5C1B8C))
+                if (VIsObjNearby(ScaleToGridSize(mSpriteScale) * FP_FromInteger(4), sControlledCharacter))
                 {
                     // noise is too near, leg it
                     Dove::All_FlyAway(0);

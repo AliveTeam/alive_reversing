@@ -599,7 +599,7 @@ s16 BaseAliveGameObject::MapFollowMe_401D30(s16 snapToGrid)
         // In the left camera void and moving left?
         if (snappedXLocalCoords < 256 && mVelX < FP_FromInteger(0))
         {
-            if (sControlledCharacter_50767C == this && gMap.SetActiveCameraDelayed(Map::MapDirections::eMapLeft_0, this, -1))
+            if (sControlledCharacter == this && gMap.SetActiveCameraDelayed(Map::MapDirections::eMapLeft_0, this, -1))
             {
                 mCurrentPath = gMap.mCurrentPath;
                 mCurrentLevel = gMap.mCurrentLevel;
@@ -626,7 +626,7 @@ s16 BaseAliveGameObject::MapFollowMe_401D30(s16 snapToGrid)
         else if (snappedXLocalCoords > 624 && mVelX > FP_FromInteger(0))
         {
             // Go to the right camera in under player control
-            if (sControlledCharacter_50767C == this && gMap.SetActiveCameraDelayed(Map::MapDirections::eMapRight_1, this, -1))
+            if (sControlledCharacter == this && gMap.SetActiveCameraDelayed(Map::MapDirections::eMapRight_1, this, -1))
             {
                 mCurrentPath = gMap.mCurrentPath;
                 mCurrentLevel = gMap.mCurrentLevel;
@@ -698,7 +698,7 @@ s16 BaseAliveGameObject::MapFollowMe_401D30(s16 snapToGrid)
 
 void BaseAliveGameObject::SetActiveCameraDelayedFromDir_401C90()
 {
-    if (sControlledCharacter_50767C == this)
+    if (sControlledCharacter == this)
     {
         switch (Is_In_Current_Camera())
         {

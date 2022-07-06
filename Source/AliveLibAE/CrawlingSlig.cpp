@@ -254,7 +254,7 @@ s32 CrawlingSlig::CreateFromSaveState(const u8* pBuffer)
 
         if (pState->field_40_bIsControlled)
         {
-            sControlledCharacter_5C1B8C = pCrawlingSlig;
+            sControlledCharacter = pCrawlingSlig;
         }
 
         pCrawlingSlig->BaseAliveGameObjectPathTLV = nullptr;
@@ -366,7 +366,7 @@ s32 CrawlingSlig::VGetSaveState(u8* pSaveBuffer)
         pState->field_3A_line_type = BaseAliveGameObjectCollisionLine->mLineType;
     }
 
-    pState->field_40_bIsControlled = (this == sControlledCharacter_5C1B8C);
+    pState->field_40_bIsControlled = (this == sControlledCharacter);
     pState->field_54_timer = field_1AC_timer;
     pState->field_44_tlvInfo = field_118_tlvInfo;
     pState->field_48_brain_idx = 0;
@@ -714,9 +714,9 @@ bool CrawlingSlig::BrainIs(TCrawlingSligBrainFn fn)
 
 CrawlingSlig::~CrawlingSlig()
 {
-    if (sControlledCharacter_5C1B8C == this)
+    if (sControlledCharacter == this)
     {
-        sControlledCharacter_5C1B8C = sActiveHero;
+        sControlledCharacter = sActiveHero;
         MusicController::static_PlayMusic(MusicController::MusicTypes::eNone_0, this, 0, 0);
         if (gMap.mNextLevel != EReliveLevelIds::eMenu)
         {
@@ -1111,7 +1111,7 @@ s16 CrawlingSlig::Brain_3_Possessed()
                     return field_208_brain_sub_state;
                 }
 
-                sControlledCharacter_5C1B8C = sActiveHero;
+                sControlledCharacter = sActiveHero;
                 mBaseAliveGameObjectFlags.Clear(Flags_114::e114_Bit4_bPossesed);
                 gMap.SetActiveCam(field_1BA_prev_level, field_1BC_prev_path, field_1BE_prev_camera, CameraSwapEffects::eInstantChange_0, 0, 0);
                 SetBrain(&CrawlingSlig::Brain_4_GetKilled);
@@ -1356,7 +1356,7 @@ void CrawlingSlig::Motion_1_UsingButton()
                         pWalkingSlig->field_14A_return_camera = field_1BE_prev_camera;
                         pWalkingSlig->SetBrain(&Slig::Brain_Possessed_2_4BBCF0);
                         pWalkingSlig->field_11C_brain_sub_state = 4;
-                        sControlledCharacter_5C1B8C = pWalkingSlig;
+                        sControlledCharacter = pWalkingSlig;
                     }
                 }
 
@@ -1386,7 +1386,7 @@ void CrawlingSlig::Motion_1_UsingButton()
                         pFlyingSlig->field_2A0_abe_level = field_1BA_prev_level;
                         pFlyingSlig->field_2A2_abe_path = field_1BC_prev_path;
                         pFlyingSlig->field_2A4_abe_camera = field_1BE_prev_camera;
-                        sControlledCharacter_5C1B8C = pFlyingSlig;
+                        sControlledCharacter = pFlyingSlig;
                         pFlyingSlig->field_2A8_max_x_speed = (FP_FromDouble(5.5) * mSpriteScale);
                         pFlyingSlig->field_2AC_up_vel = (-FP_FromDouble(5.5) * mSpriteScale);
                         pFlyingSlig->field_2B0_down_vel = (FP_FromDouble(5.5) * mSpriteScale);
@@ -1457,7 +1457,7 @@ void CrawlingSlig::Motion_3_Crawling()
         }
         else if (mAnim.mCurrentFrame == 11)
         {
-            if (sControlledCharacter_5C1B8C != this || mHealth <= FP_FromInteger(0))
+            if (sControlledCharacter != this || mHealth <= FP_FromInteger(0))
             {
                 if (GetNextMotion() == CrawlingSligMotion::Motion_0_Idle || GetNextMotion() == CrawlingSligMotion::Motion_11_TurnAround || GetNextMotion() == CrawlingSligMotion::Motion_7_ToShakingToIdle || GetNextMotion() == CrawlingSligMotion::Motion_8_Speaking)
                 {
@@ -1864,7 +1864,7 @@ void CrawlingSlig::HandleCommon()
 
             if (WallHit(mSpriteScale * FP_FromInteger(30), gridScale))
             {
-                if (sControlledCharacter_5C1B8C == this)
+                if (sControlledCharacter == this)
                 {
                     SetNextMotion(CrawlingSligMotion::Motion_16_IdleToPushingWall);
                 }
@@ -1908,7 +1908,7 @@ s16 CrawlingSlig::CanCrawl()
 
     mVelX = (mVelX * mSpriteScale);
 
-    if (sControlledCharacter_5C1B8C == this && WallHit(mSpriteScale * FP_FromInteger(30), gridScale))
+    if (sControlledCharacter == this && WallHit(mSpriteScale * FP_FromInteger(30), gridScale))
     {
         field_1B0_velx_scale_factor = FP_FromInteger(0);
         mVelY = FP_FromInteger(0);

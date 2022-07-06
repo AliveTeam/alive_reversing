@@ -182,7 +182,7 @@ void ChimeLock::VUnPosses()
 {
     mBaseAliveGameObjectFlags.Clear(Flags_10A::e10A_Bit2_bPossesed);
     field_110_state = ChimeLockStates::eIdle_0;
-    sActiveHero_507678->SetActiveControlledCharacter_421480();
+    sActiveHero->SetActiveControlledCharacter_421480();
     SFX_Play_Pitch(SoundEffect::PossessEffect_21, 70, 400, 0);
 }
 

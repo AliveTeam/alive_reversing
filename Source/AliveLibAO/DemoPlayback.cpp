@@ -72,8 +72,8 @@ void DemoPlayback::VUpdate()
     switch (field_10_state)
     {
         case States::eState_0_Init:
-            sActiveHero_507678->mBaseGameObjectFlags.Set(Options::eDrawable_Bit4);
-            sActiveHero_507678->mAnim.mFlags.Set(AnimFlags::eBit3_Render);
+            sActiveHero->mBaseGameObjectFlags.Set(Options::eDrawable_Bit4);
+            sActiveHero->mAnim.mFlags.Set(AnimFlags::eBit3_Render);
 
             Input().SetDemoRes(reinterpret_cast<u32**>(field_14_ppDemoRes));
 

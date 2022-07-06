@@ -454,7 +454,7 @@ BaseAliveGameObject* BaseAliveGameObject::GetStackedSlapTarget(s32 idToFind, Rel
 
 void BaseAliveGameObject::SetActiveCameraDelayedFromDir()
 {
-    if (sControlledCharacter_5C1B8C == this)
+    if (sControlledCharacter == this)
     {
         switch (Is_In_Current_Camera())
         {
@@ -510,7 +510,7 @@ s16 BaseAliveGameObject::MapFollowMe(s16 snapToGrid)
     // Gone off the left edge of the current screen
     if (xposSnapped < currentCamXY.x && (mAnim.mFlags.Get(AnimFlags::eBit5_FlipX) || mVelX < FP_FromInteger(0)))
     {
-        if (sControlledCharacter_5C1B8C == this && gMap.SetActiveCameraDelayed(Map::MapDirections::eMapLeft_0, this, -1))
+        if (sControlledCharacter == this && gMap.SetActiveCameraDelayed(Map::MapDirections::eMapLeft_0, this, -1))
         {
             mCurrentLevel = gMap.mCurrentLevel;
             mCurrentPath = gMap.mCurrentPath;
@@ -520,7 +520,7 @@ s16 BaseAliveGameObject::MapFollowMe(s16 snapToGrid)
     // Gone off the right edge of the current screen
     else if (xposSnapped > currentCamXY.x + 368 && (!(mAnim.mFlags.Get(AnimFlags::eBit5_FlipX)) || mVelX > FP_FromInteger(0)))
     {
-        if (sControlledCharacter_5C1B8C == this && gMap.SetActiveCameraDelayed(Map::MapDirections::eMapRight_1, this, -1))
+        if (sControlledCharacter == this && gMap.SetActiveCameraDelayed(Map::MapDirections::eMapRight_1, this, -1))
         {
             mCurrentLevel = gMap.mCurrentLevel;
             mCurrentPath = gMap.mCurrentPath;

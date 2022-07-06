@@ -181,7 +181,7 @@ void DDCheat::VUpdate()
     if (gDDCheatMode_508BF8)
     {
         const InputObject::PadIndex otherController = Input().CurrentController() == InputObject::PadIndex::First ? InputObject::PadIndex::Second : InputObject::PadIndex::First;
-        Abe* pAbe = sActiveHero_507678;
+        Abe* pAbe = sActiveHero;
         s32 cheat_enabled = 0;
 
         if (unused_4FF868)
@@ -201,7 +201,7 @@ void DDCheat::VUpdate()
             {
                 PSX_Point point = {};
                 gMap.GetCurrentCamCoords(&point);
-                pAbe = sActiveHero_507678;
+                pAbe = sActiveHero;
                 cheat_enabled = 1;
                 pAbe->mXPos = FP_FromInteger(point.x + 448);
                 pAbe->mYPos = FP_FromInteger(point.y + 180);
@@ -225,23 +225,23 @@ void DDCheat::VUpdate()
                     {
                         pAbe->field_2A8_flags.Set(Flags_2A8::e2A8_Bit8_bLandSoft);
                         showDebugCreatureInfo_5076E0 = 0;
-                        sControlledCharacter_50767C->BaseAliveGameObjectCollisionLine = nullptr;
-                        sControlledCharacter_50767C->BaseAliveGameObjectLastLineYPos = sControlledCharacter_50767C->mYPos;
-                        switch (sControlledCharacter_50767C->mBaseGameObjectTypeId)
+                        sControlledCharacter->BaseAliveGameObjectCollisionLine = nullptr;
+                        sControlledCharacter->BaseAliveGameObjectLastLineYPos = sControlledCharacter->mYPos;
+                        switch (sControlledCharacter->mBaseGameObjectTypeId)
                         {
                             case ReliveTypes::eElum:
                             {
-                                sControlledCharacter_50767C->mCurrentMotion = eElumMotions::Motion_21_Land_414A20;
+                                sControlledCharacter->mCurrentMotion = eElumMotions::Motion_21_Land_414A20;
                                 break;
                             }
                             case ReliveTypes::eAbe:
                             {
-                                sControlledCharacter_50767C->mCurrentMotion = eAbeMotions::Motion_3_Fall_42E7F0;
+                                sControlledCharacter->mCurrentMotion = eAbeMotions::Motion_3_Fall_42E7F0;
                                 break;
                             }
                             case ReliveTypes::eSlig:
                             {
-                                sControlledCharacter_50767C->mCurrentMotion = eSligMotions::Motion_7_Falling_46A1A0;
+                                sControlledCharacter->mCurrentMotion = eSligMotions::Motion_7_Falling_46A1A0;
                                 break;
                             }
                             default:
@@ -268,10 +268,10 @@ void DDCheat::VUpdate()
                     pAbe->field_2A8_flags.Set(Flags_2A8::e2A8_Bit8_bLandSoft);
                 }
 
-                if (sControlledCharacter_50767C)
+                if (sControlledCharacter)
                 {
-                    sControlledCharacter_50767C->BaseAliveGameObjectCollisionLine = nullptr;
-                    sControlledCharacter_50767C->BaseAliveGameObjectLastLineYPos = sControlledCharacter_50767C->mYPos;
+                    sControlledCharacter->BaseAliveGameObjectCollisionLine = nullptr;
+                    sControlledCharacter->BaseAliveGameObjectLastLineYPos = sControlledCharacter->mYPos;
                 }
             }
 
@@ -304,12 +304,12 @@ void DDCheat::VUpdate()
                     (sPeakedManagedMemUsage_9F0E4C + 999) / 1000);
                 //DebugStr(" Vox %d\n", gVox_4FF864);
 
-                if (sActiveHero_507678)
+                if (sActiveHero)
                 {
                     DebugStr(
                         "\nheroxy=%4d,%4d\n",
-                        FP_GetExponent(sActiveHero_507678->mXPos),
-                        FP_GetExponent(sActiveHero_507678->mYPos));
+                        FP_GetExponent(sActiveHero->mXPos),
+                        FP_GetExponent(sActiveHero->mYPos));
                 }
 
                 cheat_enabled = sDDCheat_FlyingEnabled_50771C;
@@ -482,27 +482,27 @@ void DDCheat::Misc()
     if (field_24_input & InputCommands::eLeft)
     {
         gScale_4C3158 = 100;
-        sControlledCharacter_50767C->mSpriteScale = FP_FromInteger(1);
-        sControlledCharacter_50767C->mScale = Scale::Fg;
-        sControlledCharacter_50767C->mAnim.mRenderLayer = Layer::eLayer_AbeMenu_32;
+        sControlledCharacter->mSpriteScale = FP_FromInteger(1);
+        sControlledCharacter->mScale = Scale::Fg;
+        sControlledCharacter->mAnim.mRenderLayer = Layer::eLayer_AbeMenu_32;
     }
     else if (field_24_input & InputCommands::eRight)
     {
-        sControlledCharacter_50767C = sControlledCharacter_50767C;
+        sControlledCharacter = sControlledCharacter;
         gScale_4C3158 = 50;
-        sControlledCharacter_50767C->mSpriteScale = FP_FromDouble(0.5);
-        sControlledCharacter_50767C->mScale = Scale::Bg;
-        sControlledCharacter_50767C->mAnim.mRenderLayer = Layer::eLayer_AbeMenu_Half_13;
+        sControlledCharacter->mSpriteScale = FP_FromDouble(0.5);
+        sControlledCharacter->mScale = Scale::Bg;
+        sControlledCharacter->mAnim.mRenderLayer = Layer::eLayer_AbeMenu_Half_13;
     }
     else if (field_24_input & InputCommands::eDown)
     {
         gScale_4C3158 -= 5;
-        sControlledCharacter_50767C->mSpriteScale = FP_FromInteger(gScale_4C3158) * FP_FromDouble(0.01);
+        sControlledCharacter->mSpriteScale = FP_FromInteger(gScale_4C3158) * FP_FromDouble(0.01);
     }
     else if (field_24_input & InputCommands::eUp)
     {
         gScale_4C3158 += 5;
-        sControlledCharacter_50767C->mSpriteScale = FP_FromInteger(gScale_4C3158) * FP_FromDouble(0.01);
+        sControlledCharacter->mSpriteScale = FP_FromInteger(gScale_4C3158) * FP_FromDouble(0.01);
     }
     else if (field_24_input & InputCommands::eHop)
     {
@@ -530,24 +530,24 @@ void DDCheat::Misc()
     DebugStr("cross = invisible (%s)\n", invisibleDisplayText);
 
     field_10_bInvalidateRect = 9;
-    if (!gElum_507680)
+    if (!gElum)
     {
-        if (sControlledCharacter_50767C != gElum_507680)
+        if (sControlledCharacter != gElum)
         {
             return;
         }
     }
-    else if (sControlledCharacter_50767C != gElum_507680)
+    else if (sControlledCharacter != gElum)
     {
-        gElum_507680->mSpriteScale = sControlledCharacter_50767C->mSpriteScale;
-        gElum_507680->mScale = sControlledCharacter_50767C->mScale;
-        if (sControlledCharacter_50767C != gElum_507680)
+        gElum->mSpriteScale = sControlledCharacter->mSpriteScale;
+        gElum->mScale = sControlledCharacter->mScale;
+        if (sControlledCharacter != gElum)
         {
             return;
         }
     }
-    sActiveHero_507678->mSpriteScale = sControlledCharacter_50767C->mSpriteScale;
-    sActiveHero_507678->mScale = sControlledCharacter_50767C->mScale;
+    sActiveHero->mSpriteScale = sControlledCharacter->mSpriteScale;
+    sActiveHero->mScale = sControlledCharacter->mScale;
 }
 
 

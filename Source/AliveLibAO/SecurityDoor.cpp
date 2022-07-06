@@ -84,8 +84,8 @@ void SecurityDoor::VScreenChanged()
 
 bool SecurityDoor::IsPlayerNear()
 {
-    const s16 xpos = FP_GetExponent(sControlledCharacter_50767C->mXPos);
-    const s16 ypos = FP_GetExponent(sControlledCharacter_50767C->mYPos);
+    const s16 xpos = FP_GetExponent(sControlledCharacter->mXPos);
+    const s16 ypos = FP_GetExponent(sControlledCharacter->mYPos);
 
     if (xpos < field_10C_top_left.x || xpos > field_110_bottom_right.x)
     {

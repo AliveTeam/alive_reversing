@@ -189,7 +189,7 @@ void FallingItem::VUpdate()
         {
             if (field_122_do_sound_in_state_falling)
             {
-                if (mYPos >= sActiveHero_507678->mYPos - FP_FromInteger(120))
+                if (mYPos >= sActiveHero->mYPos - FP_FromInteger(120))
                 {
                     field_122_do_sound_in_state_falling = 0;
                     SFX_Play_Pitch(SoundEffect::AirStream_28, 127, -1300, 0);

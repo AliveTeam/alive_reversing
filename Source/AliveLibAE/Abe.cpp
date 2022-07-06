@@ -706,7 +706,7 @@ s32 XGrid_Index_To_XPos_4498F0(FP scale, s32 xGridIndex)
     return (374 / 2);
 }
 
-ALIVE_VAR(1, 0x5c1b8c, BaseAliveGameObject*, sControlledCharacter_5C1B8C, nullptr);
+ALIVE_VAR(1, 0x5c1b8c, BaseAliveGameObject*, sControlledCharacter, nullptr);
 
 static constexpr s32 kResourceArraySize = 28;
 
@@ -884,7 +884,7 @@ Abe::Abe(s32 /*frameTableOffset*/, s32 /*r*/, s32 /*g*/, s32 /*b*/)
     field_144_auto_say_timer = 0;
 
     // Set Abe to be the current player controlled object
-    sControlledCharacter_5C1B8C = this;
+    sControlledCharacter = this;
 
     // Create shadow
     mShadow = relive_new Shadow();
@@ -1048,7 +1048,7 @@ s32 Abe::CreateFromSaveState(const u8* pData)
 
     if (pSaveState->field_44_is_abe_controlled)
     {
-        sControlledCharacter_5C1B8C = pAbe;
+        sControlledCharacter = pAbe;
     }
 
     sActiveHero->BaseAliveGameObjectPathTLV = nullptr;
@@ -1350,7 +1350,7 @@ void Abe::VUpdate()
     }
 
     // Handle DDCheat mode
-    if (sDDCheat_FlyingEnabled_5C2C08 && sControlledCharacter_5C1B8C == this)
+    if (sDDCheat_FlyingEnabled_5C2C08 && sControlledCharacter == this)
     {
         VOnTrapDoorOpen();
 
@@ -1704,7 +1704,7 @@ void Abe::ToKnockback_44E700(s16 bKnockbackSound, s16 bDelayedAnger)
     OrbWhirlWind* pfield_150 = static_cast<OrbWhirlWind*>(sObjectIds.Find_Impl(field_150_OrbWhirlWind_id));
     BaseThrowable* pfield_158 = static_cast<BaseThrowable*>(sObjectIds.Find_Impl(field_158_throwable_id));
     WorkWheel* pfield_164 = static_cast<WorkWheel*>(sObjectIds.Find(field_164_wheel_id, ReliveTypes::eWheel));
-    if (sControlledCharacter_5C1B8C == this || mHealth <= FP_FromInteger(0))
+    if (sControlledCharacter == this || mHealth <= FP_FromInteger(0))
     {
         // Chant music/orb kill ?
         SND_SEQ_Stop(SeqId::MudokonChant1_10);
@@ -1777,7 +1777,7 @@ void Abe::VRender(PrimHeader** ppOt)
 
 void Abe::VScreenChanged()
 {
-    if (sControlledCharacter_5C1B8C == this)
+    if (sControlledCharacter == this)
     {
         mCurrentLevel = gMap.mNextLevel;
         mCurrentPath = gMap.mNextPath;
@@ -1940,7 +1940,7 @@ s32 Abe::VGetSaveState(u8* pSaveBuffer)
         }
     }
 
-    pSaveState->field_44_is_abe_controlled = (this == sControlledCharacter_5C1B8C);
+    pSaveState->field_44_is_abe_controlled = (this == sControlledCharacter);
     pSaveState->field_50_state = field_120_state.raw;
     pSaveState->field_54_timer = field_124_timer;
     pSaveState->field_58_abe_timer = field_128.field_0_abe_timer;
@@ -2478,11 +2478,11 @@ s16 Abe::VTakeDamage(BaseGameObject* pFrom)
             break;
     }
 
-    if (sControlledCharacter_5C1B8C->mBaseAliveGameObjectFlags.Get(Flags_114::e114_Bit4_bPossesed))
+    if (sControlledCharacter->mBaseAliveGameObjectFlags.Get(Flags_114::e114_Bit4_bPossesed))
     {
         if (mHealth == FP_FromInteger(0))
         {
-            sControlledCharacter_5C1B8C->VUnPosses();
+            sControlledCharacter->VUnPosses();
             // We are the "active" player again
             GiveControlBackToMe_44BA10();
         }
@@ -2516,7 +2516,7 @@ void Abe::VOnTlvCollision(Path_TLV* pTlv)
         }
         else if (pTlv->mTlvType32 == TlvTypes::DeathDrop_4)
         {
-            if (sControlledCharacter_5C1B8C->Type() != ReliveTypes::eMineCar || gMap.mCurrentLevel != EReliveLevelIds::eMines)
+            if (sControlledCharacter->Type() != ReliveTypes::eMineCar || gMap.mCurrentLevel != EReliveLevelIds::eMines)
             {
                 Mudokon_SFX(MudSounds::eDeathDropScream_15, 0, 0, this);
                 EventBroadcast(kEventNoise, this);
@@ -4012,7 +4012,7 @@ void Abe::Motion_16_LandSoft_45A360()
             Environment_SFX_457A40(EnvironmentSfx::eHitGroundSoft_6, 0, 0x7FFF, this);
         }
 
-        if (sControlledCharacter_5C1B8C != this)
+        if (sControlledCharacter != this)
         {
             // If Abe is controlling something else then must be standing and chanting.
             mCurrentMotion = eAbeMotions::Motion_112_Chant_45B1C0;
@@ -7556,18 +7556,18 @@ void Abe::Motion_112_Chant_45B1C0()
                 return;
             }
 
-            sControlledCharacter_5C1B8C = pPossessTarget;
+            sControlledCharacter = pPossessTarget;
 
             pPossessTarget->VPossessed();
 
             field_154_possessed_object_id = -1;
 
-            if (sControlledCharacter_5C1B8C->Type() == ReliveTypes::eSlig || sControlledCharacter_5C1B8C->Type() == ReliveTypes::eFlyingSlig || sControlledCharacter_5C1B8C->Type() == ReliveTypes::eCrawlingSlig || sControlledCharacter_5C1B8C->Type() == ReliveTypes::eGlukkon)
+            if (sControlledCharacter->Type() == ReliveTypes::eSlig || sControlledCharacter->Type() == ReliveTypes::eFlyingSlig || sControlledCharacter->Type() == ReliveTypes::eCrawlingSlig || sControlledCharacter->Type() == ReliveTypes::eGlukkon)
             {
                 field_1AC_flags.Set(Flags_1AC::e1AC_Bit9_laugh_at_chant_end);
             }
 
-            relive_new PossessionFlicker(sControlledCharacter_5C1B8C, 60, 128, 255, 255);
+            relive_new PossessionFlicker(sControlledCharacter, 60, 128, 255, 255);
 
             SND_SEQ_Stop(SeqId::MudokonChant1_10);
             SFX_Play_Pitch(SoundEffect::PossessEffect_17, 70, 400);
@@ -7577,12 +7577,12 @@ void Abe::Motion_112_Chant_45B1C0()
 
         case ChantStates::eWaitForUnpossessing_3:
         {
-            if (sControlledCharacter_5C1B8C != this)
+            if (sControlledCharacter != this)
             {
                 return;
             }
 
-            relive_new PossessionFlicker(sControlledCharacter_5C1B8C, 15, 128, 255, 255);
+            relive_new PossessionFlicker(sControlledCharacter, 15, 128, 255, 255);
 
             field_120_state.chant = ChantStates::eUnpossessing_4;
             field_124_timer = sGnFrame + 15;
@@ -7939,7 +7939,7 @@ void Abe::Motion_117_InMineCar_4587C0()
 {
     if (Input().isPressed(sInputKey_DoAction_5550E4))
     {
-        auto pMineCar = static_cast<MineCar*>(sControlledCharacter_5C1B8C);
+        auto pMineCar = static_cast<MineCar*>(sControlledCharacter);
         if (pMineCar->field_11C_state == MineCarStates::eParkedWithAbe_1 && pMineCar->field_1BC_turn_direction == MineCarDirs::eUp_3)
         {
             PathLine* pLine = nullptr;
@@ -8345,7 +8345,7 @@ void Abe::Get_Shrykull_Resources_45AA20()
 s16 Abe::ToLeftRightMovement_44E340()
 {
     mVelY = FP_FromInteger(0);
-    if (sControlledCharacter_5C1B8C != this)
+    if (sControlledCharacter != this)
     {
         return 0;
     }
@@ -9334,7 +9334,7 @@ void Abe::BulletDamage_44C980(Bullet* pBullet)
 
 void Abe::GiveControlBackToMe_44BA10()
 {
-    sControlledCharacter_5C1B8C = this;
+    sControlledCharacter = this;
     field_1AC_flags.Set(Flags_1AC::e1AC_Bit6_prevent_chanting);
 }
 
@@ -9547,7 +9547,7 @@ s16 Abe::MoveLiftUpOrDown_45A7E0(FP yVelocity)
     pLiftPoint->vMove_4626A0(FP_FromInteger(0), yVelocity, 0);
     FollowLift_45A500();
 
-    if (sControlledCharacter_5C1B8C == this && !(mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame)) && mAnim.mCurrentFrame != 5)
+    if (sControlledCharacter == this && !(mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame)) && mAnim.mCurrentFrame != 5)
     {
         return mCurrentMotion;
     }
@@ -9654,7 +9654,7 @@ void Abe::ChangeChantState_45BB90(s16 bLaughAtChantEnd)
         field_1AC_flags.Set(Flags_1AC::e1AC_Bit9_laugh_at_chant_end);
         field_120_state.chant = ChantStates::eChantingForBirdPortal_6; // Holds chant, then laughs.
     }
-    else if (sControlledCharacter_5C1B8C == this)
+    else if (sControlledCharacter == this)
     {
         field_120_state.chant = ChantStates::eIdleChanting_0; // Chants briefly, then stops.
     }

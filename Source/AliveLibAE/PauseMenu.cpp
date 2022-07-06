@@ -726,7 +726,7 @@ void DestroyAliveObjects()
         }
     }
 
-    sControlledCharacter_5C1B8C = sActiveHero;
+    sControlledCharacter = sActiveHero;
 }
 
 void DestroyAllObjects()
@@ -745,7 +745,7 @@ void DestroyAllObjects()
         }
     }
 
-    sControlledCharacter_5C1B8C = sActiveHero;
+    sControlledCharacter = sActiveHero;
 }
 
 std::vector<CustomPauseMenuItem> devCheatsMenuItems({
@@ -1515,12 +1515,12 @@ void PauseMenu::VUpdate()
 
     if (sActiveHero->mHealth <= FP_FromInteger(0) || sActiveHero->mBaseAliveGameObjectFlags.Get(Flags_114::e114_Bit7_Electrocuted))
     {
-        pControlledChar = sControlledCharacter_5C1B8C;
+        pControlledChar = sControlledCharacter;
     }
     else
     {
-        pControlledChar = sControlledCharacter_5C1B8C;
-        if (!(sControlledCharacter_5C1B8C->mBaseAliveGameObjectFlags.Get(e114_Bit10_Teleporting)))
+        pControlledChar = sControlledCharacter;
+        if (!(sControlledCharacter->mBaseAliveGameObjectFlags.Get(e114_Bit10_Teleporting)))
         {
             const s16 heroState = sActiveHero->mCurrentMotion;
             if (heroState != eAbeMotions::Motion_86_HandstoneBegin_45BD00
@@ -1535,14 +1535,14 @@ void PauseMenu::VUpdate()
                 && heroState != eAbeMotions::jMotion_81_WellBegin_45C7F0
                 && heroState != eAbeMotions::Motion_82_InsideWellExpress_45CC80
                 && heroState != eAbeMotions::Motion_83_WellExpressShotOut_45CF70
-                && (sControlledCharacter_5C1B8C->Type() != ReliveTypes::eEvilFart || LOWORD(static_cast<Abe*>(sControlledCharacter_5C1B8C)->field_124_timer) != 2) // TODO: Cast seems wrong, missing intermediate base class??
+                && (sControlledCharacter->Type() != ReliveTypes::eEvilFart || LOWORD(static_cast<Abe*>(sControlledCharacter)->field_124_timer) != 2) // TODO: Cast seems wrong, missing intermediate base class??
                 && sActiveHero->field_1A8_portal_id == -1)
             {
                 if (sQuicksave_SaveNextFrame_5CA4D8)
                 {
                     DoQuicksave();
                     pHero = sActiveHero;
-                    pControlledChar = sControlledCharacter_5C1B8C;
+                    pControlledChar = sControlledCharacter;
                     sQuicksave_SaveNextFrame_5CA4D8 = 0;
                     sQuicksave_LoadNextFrame_5CA4D9 = 0;
                 }
@@ -1551,7 +1551,7 @@ void PauseMenu::VUpdate()
                     Quicksave_LoadActive();
                     SND_SEQ_Stop(SeqId::MudokonChant1_10);
                     pHero = sActiveHero;
-                    pControlledChar = sControlledCharacter_5C1B8C;
+                    pControlledChar = sControlledCharacter;
                     sQuicksave_SaveNextFrame_5CA4D8 = 0;
                     sQuicksave_LoadNextFrame_5CA4D9 = 0;
                 }

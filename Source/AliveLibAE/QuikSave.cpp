@@ -702,7 +702,7 @@ void Quicksave_ReadWorldInfo(const Quicksave_WorldInfo* pInfo)
 
 void Quicksave_SaveWorldInfo(Quicksave_WorldInfo* pInfo)
 {
-    const PSX_RECT rect = sControlledCharacter_5C1B8C->VGetBoundingRect();
+    const PSX_RECT rect = sControlledCharacter->VGetBoundingRect();
 
     pInfo->field_0_gnFrame = sGnFrame;
     pInfo->field_4_level = MapWrapper::ToAE(gMap.mCurrentLevel);
@@ -728,9 +728,9 @@ void Quicksave_SaveWorldInfo(Quicksave_WorldInfo* pInfo)
     pInfo->field_34_visited_barracks = sVisitedBarracks_5C1C04;
     pInfo->field_36_visited_feeco_ender = sVisitedFeecoEnder_5C1C06;
     pInfo->field_38_gas_timer = sGasTimer_5C1BE8;
-    pInfo->field_C_controlled_x = FP_GetExponent(sControlledCharacter_5C1B8C->mXPos);
+    pInfo->field_C_controlled_x = FP_GetExponent(sControlledCharacter->mXPos);
     pInfo->field_E_controlled_y = rect.h;
-    pInfo->field_10_controlled_scale = sControlledCharacter_5C1B8C->mSpriteScale == FP_FromDouble(1.0);
+    pInfo->field_10_controlled_scale = sControlledCharacter->mSpriteScale == FP_FromDouble(1.0);
 }
 
 s32 Sort_comparitor_4D42C0(const void* pSaveRecLeft, const void* pSaveRecRight)

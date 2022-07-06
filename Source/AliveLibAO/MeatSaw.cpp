@@ -163,8 +163,8 @@ MeatSaw::MeatSaw(Path_MeatSaw* pTlv, s32 tlvInfo)
 
 void MeatSaw::VScreenChanged()
 {
-    if (gMap.mCurrentLevel != gMap.mNextLevel || gMap.mCurrentPath != gMap.mNextPath || !sControlledCharacter_50767C || // Can be nullptr during the game ender
-        FP_Abs(sControlledCharacter_50767C->mXPos - mXPos) > FP_FromInteger(1024))
+    if (gMap.mCurrentLevel != gMap.mNextLevel || gMap.mCurrentPath != gMap.mNextPath || !sControlledCharacter || // Can be nullptr during the game ender
+        FP_Abs(sControlledCharacter->mXPos - mXPos) > FP_FromInteger(1024))
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }

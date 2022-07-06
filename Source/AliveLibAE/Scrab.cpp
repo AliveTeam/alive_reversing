@@ -214,7 +214,7 @@ void Scrab::VOnTlvCollision(Path_TLV* pTlv)
             {
                 if (SwitchStates_Get(enemyStopperPath->field_12_switch_id))
                 {
-                    if (sControlledCharacter_5C1B8C != this)
+                    if (sControlledCharacter != this)
                     {
                         mXPos = field_198_max_xpos;
                     }
@@ -290,7 +290,7 @@ s32 Scrab::CreateFromSaveState(const u8* pBuffer)
 
         if (pState->field_40_bIsControlled)
         {
-            sControlledCharacter_5C1B8C = pScrab;
+            sControlledCharacter = pScrab;
         }
 
         pScrab->BaseAliveGameObjectPathTLV = nullptr;
@@ -417,7 +417,7 @@ s32 Scrab::VGetSaveState(u8* pSaveBuffer)
         pState->field_3A_line_type = BaseAliveGameObjectCollisionLine->mLineType;
     }
 
-    pState->field_40_bIsControlled = (this == sControlledCharacter_5C1B8C);
+    pState->field_40_bIsControlled = (this == sControlledCharacter);
     pState->field_60_depossession_timer = field_130_depossession_timer;
     pState->field_5C_timer = field_12C_timer;
     pState->field_44_tlvInfo = field_144_tlvInfo;
@@ -502,9 +502,9 @@ Scrab::~Scrab()
 
     MusicController::static_PlayMusic(MusicController::MusicTypes::eNone_0, this, 0, 0);
 
-    if (sControlledCharacter_5C1B8C == this)
+    if (sControlledCharacter == this)
     {
-        sControlledCharacter_5C1B8C = sActiveHero;
+        sControlledCharacter = sActiveHero;
         if (gMap.mNextLevel != EReliveLevelIds::eMenu)
         {
             gMap.SetActiveCam(
@@ -617,10 +617,10 @@ void Scrab::VUpdate()
         return;
     }
 
-    const FP xDelta = FP_Abs(mXPos - sControlledCharacter_5C1B8C->mXPos);
+    const FP xDelta = FP_Abs(mXPos - sControlledCharacter->mXPos);
     if (xDelta <= FP_FromInteger(750))
     {
-        const FP yDelta = FP_Abs(mYPos - sControlledCharacter_5C1B8C->mYPos);
+        const FP yDelta = FP_Abs(mYPos - sControlledCharacter->mYPos);
         if (yDelta <= FP_FromInteger(520))
         {
             if (mHealth > FP_FromInteger(0))
@@ -634,7 +634,7 @@ void Scrab::VUpdate()
                 field_164_prevent_depossession = 0;
             }
 
-            if (sDDCheat_FlyingEnabled_5C2C08 && sControlledCharacter_5C1B8C == this)
+            if (sDDCheat_FlyingEnabled_5C2C08 && sControlledCharacter == this)
             {
                 // Handle DDCheat mode
                 BaseAliveGameObjectCollisionLine = nullptr;
@@ -747,7 +747,7 @@ void Scrab::VUpdate()
 
             if (field_178_shred_power_active)
             {
-                if (sControlledCharacter_5C1B8C != this)
+                if (sControlledCharacter != this)
                 {
                     field_13C_last_ypos = mYPos;
                     return;
@@ -788,7 +788,7 @@ void Scrab::VUpdate()
                 }
             }
 
-            if (sControlledCharacter_5C1B8C == this && BaseAliveGameObject_PlatformId != -1)
+            if (sControlledCharacter == this && BaseAliveGameObject_PlatformId != -1)
             {
                 mVelY = mYPos - field_13C_last_ypos;
                 SetActiveCameraDelayedFromDir();
@@ -1949,7 +1949,7 @@ s16 Scrab::Brain_5_Possessed_4A6180()
     // Abe is dead, go back to patrolling
     if (sActiveHero->mHealth <= FP_FromInteger(0))
     {
-        sControlledCharacter_5C1B8C = sActiveHero;
+        sControlledCharacter = sActiveHero;
         mBaseAliveGameObjectFlags.Clear(Flags_114::e114_Bit4_bPossesed);
         field_1A2_speak_counter = 0;
         MusicController::static_PlayMusic(MusicController::MusicTypes::eNone_0, this, 0, 0);
@@ -2122,7 +2122,7 @@ void Scrab::M_Walk_1_4A84D0()
             {
                 mCurrentMotion = eScrabMotions::M_WalkToStand_11_4A8880;
             }
-            else if (sControlledCharacter_5C1B8C != this || mHealth <= FP_FromInteger(0))
+            else if (sControlledCharacter != this || mHealth <= FP_FromInteger(0))
             {
                 if (mNextMotion == eScrabMotions::M_Stand_0_4A8220 || mNextMotion == eScrabMotions::M_Turn_3_4A91A0 || mNextMotion == eScrabMotions::M_Stamp_21_4A9CC0 || mNextMotion == eScrabMotions::M_Empty_25_4A34D0 || mNextMotion == eScrabMotions::M_Shriek_30_4A9EA0 || mNextMotion == eScrabMotions::M_HowlBegin_26_4A9DA0 || mNextMotion == eScrabMotions::M_HopMidair_6_4A9490 || mNextMotion == eScrabMotions::M_AttackLunge_37_4AA0B0 || mNextMotion == eScrabMotions::M_LegKick_38_4AA120)
                 {
@@ -2141,7 +2141,7 @@ void Scrab::M_Walk_1_4A84D0()
         case 7:
         case 18:
             Scrab_SFX(ScrabSounds::eWalk1_6, Math_RandomRange(40, 50), 0x7FFF, 1);
-            if (sControlledCharacter_5C1B8C != this || mHealth <= FP_FromInteger(0))
+            if (sControlledCharacter != this || mHealth <= FP_FromInteger(0))
             {
                 if (mNextMotion != eScrabMotions::M_Run_2_4A89C0)
                 {
@@ -2245,7 +2245,7 @@ void Scrab::M_Run_2_4A89C0()
 
             case 3:
             case 10:
-                if (sControlledCharacter_5C1B8C != this || mHealth <= FP_FromInteger(0))
+                if (sControlledCharacter != this || mHealth <= FP_FromInteger(0))
                 {
                     if (mNextMotion == eScrabMotions::M_Walk_1_4A84D0)
                     {
@@ -2485,7 +2485,7 @@ void Scrab::M_HopMidair_6_4A9490()
         PathLine* pLine = nullptr;
         const auto bCollision = InAirCollision(&pLine, &hitX, &hitY, FP_FromDouble(1.8));
 
-        if (sControlledCharacter_5C1B8C == this)
+        if (sControlledCharacter == this)
         {
             SetActiveCameraDelayedFromDir();
         }
@@ -2595,7 +2595,7 @@ void Scrab::M_JumpToFall_8_4A9220()
     FP hitX = {};
     FP hitY = {};
     const auto bHit = InAirCollision(&pLine, &hitX, &hitY, FP_FromDouble(1.8));
-    if (sControlledCharacter_5C1B8C == this)
+    if (sControlledCharacter == this)
     {
         SetActiveCameraDelayedFromDir();
     }
@@ -2745,7 +2745,7 @@ void Scrab::M_RunJumpBegin_12_4A99C0()
         FP hitY = {};
         PathLine* pLine = nullptr;
         const auto bHit = InAirCollision(&pLine, &hitX, &hitY, FP_FromDouble(1.8));
-        if (sControlledCharacter_5C1B8C == this)
+        if (sControlledCharacter == this)
         {
             SetActiveCameraDelayedFromDir();
         }
@@ -3047,7 +3047,7 @@ void Scrab::M_GetDepossessedBegin_28_4AA200()
 {
     field_178_shred_power_active = 0;
 
-    if (sControlledCharacter_5C1B8C == this)
+    if (sControlledCharacter == this)
     {
         if (mAnim.mCurrentFrame == 2)
         {
@@ -3073,7 +3073,7 @@ void Scrab::M_GetDepossessedBegin_28_4AA200()
 
         if (static_cast<s32>(sGnFrame) > field_130_depossession_timer || sActiveHero->mHealth <= FP_FromInteger(0))
         {
-            sControlledCharacter_5C1B8C = sActiveHero;
+            sControlledCharacter = sActiveHero;
             mBaseAliveGameObjectFlags.Clear(Flags_114::e114_Bit4_bPossesed);
             field_1A2_speak_counter = 0;
             MusicController::static_PlayMusic(MusicController::MusicTypes::eNone_0, this, 0, 0);
@@ -3147,7 +3147,7 @@ void Scrab::M_AttackSpin_32_4A8DC0()
     }
 
     const FP kGridSize = ScaleToGridSize(mSpriteScale);
-    if (sControlledCharacter_5C1B8C != this)
+    if (sControlledCharacter != this)
     {
         if (pObj)
         {
@@ -3563,7 +3563,7 @@ s16 Scrab::ToNextMotion()
 {
     MapFollowMe(TRUE);
 
-    if (sControlledCharacter_5C1B8C == this && mHealth > FP_FromInteger(0) && field_11C_brain_sub_state != 0)
+    if (sControlledCharacter == this && mHealth > FP_FromInteger(0) && field_11C_brain_sub_state != 0)
     {
         return PlayerControlled();
     }
@@ -3820,7 +3820,7 @@ s16 Scrab::VTakeDamage(BaseGameObject* pFrom)
             mCurrentMotion = eScrabMotions::M_GetEaten_19_4AA3E0;
             field_12C_timer = sGnFrame + 90;
             vUpdateAnim();
-            if (sControlledCharacter_5C1B8C == this)
+            if (sControlledCharacter == this)
             {
                 SND_SEQ_Play(SeqId::DeathDrums_29, 1, 127, 127);
             }
@@ -3847,7 +3847,7 @@ s16 Scrab::VTakeDamage(BaseGameObject* pFrom)
     mCurrentMotion = eScrabMotions::M_DeathBegin_39_4AA190;
     vUpdateAnim();
 
-    if (sControlledCharacter_5C1B8C == this)
+    if (sControlledCharacter == this)
     {
         SND_SEQ_Play(SeqId::DeathDrums_29, 1, 127, 127);
     }

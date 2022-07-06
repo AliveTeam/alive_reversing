@@ -2016,10 +2016,10 @@ void Menu::Loading_Update_47B870()
 
 void Menu::NewGameStart_47B9C0()
 {
-    if (!sActiveHero_507678)
+    if (!sActiveHero)
     {
         const AnimRecord& rec = AO::AnimRec(AnimId::Mudokon_Walk);
-        sActiveHero_507678 = relive_new Abe(rec.mFrameTableOffset, 85, 57, 55);
+        sActiveHero = relive_new Abe(rec.mFrameTableOffset, 85, 57, 55);
     }
 
     if (gAttract_507698)
@@ -2042,8 +2042,8 @@ void Menu::NewGameStart_47B9C0()
         {
             field_20C_bStartInSpecificMap = FALSE;
             gMap.SetActiveCam(field_20E_level, field_210_path, field_212_camera, CameraSwapEffects::eInstantChange_0, 0, 0);
-            sActiveHero_507678->mXPos = FP_FromInteger(field_214_abe_xpos);
-            sActiveHero_507678->mYPos = FP_FromInteger(field_216_abe_ypos);
+            sActiveHero->mXPos = FP_FromInteger(field_214_abe_xpos);
+            sActiveHero->mYPos = FP_FromInteger(field_216_abe_ypos);
         }
         else
         {
@@ -2052,8 +2052,8 @@ void Menu::NewGameStart_47B9C0()
             gMap.SetActiveCam(EReliveLevelIds::eRuptureFarms, 15, 1, CameraSwapEffects::ePlay1FMV_5, 102, 0);
 
             // What if someone made a level editor and wanted to change where abe spawns on the first map? Well... hard luck pal
-            sActiveHero_507678->mXPos = FP_FromInteger(1378);
-            sActiveHero_507678->mYPos = FP_FromInteger(83);
+            sActiveHero->mXPos = FP_FromInteger(1378);
+            sActiveHero->mYPos = FP_FromInteger(83);
         }
     }
     mBaseGameObjectFlags.Set(BaseGameObject::eDead);
@@ -3263,17 +3263,17 @@ void Menu::LoadSave_Update_47DB40()
 
     ResourceManager::Reclaim_Memory_455660(0);
 
-    if (!sActiveHero_507678)
+    if (!sActiveHero)
     {
         const AnimRecord& rec = AO::AnimRec(AnimId::Mudokon_Walk);
-        sActiveHero_507678 = relive_new Abe(rec.mFrameTableOffset, 85, 57, 55);
+        sActiveHero = relive_new Abe(rec.mFrameTableOffset, 85, 57, 55);
     }
 
     if (!SaveGame::LoadFromFile(sSaveNames_9F1DD8[field_1E0_selected_index.raw].field_0_mName))
     {
         field_1CC_fn_update = &Menu::SaveLoadFailed_Update_47DCD0;
         field_1D0_fn_render = &Menu::SaveLoadFailed_Render_47DCF0;
-        sActiveHero_507678->mBaseGameObjectFlags.Set(Options::eDead);
+        sActiveHero->mBaseGameObjectFlags.Set(Options::eDead);
     }
 }
 

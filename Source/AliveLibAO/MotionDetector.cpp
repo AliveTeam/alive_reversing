@@ -179,7 +179,7 @@ void MotionDetector::VUpdate()
 
                     if (laserRect.x <= (objRect.w - 8) && laserRect.w >= (objRect.x + 8) && laserRect.h >= objRect.y && laserRect.y <= objRect.h && pObj->mSpriteScale == mSpriteScale)
                     {
-                        if (pObj == sActiveHero_507678)
+                        if (pObj == sActiveHero)
                         {
                             if (sGnFrame % 2)
                             {
@@ -212,7 +212,7 @@ void MotionDetector::VUpdate()
                                     0,
                                     Layer::eLayer_Above_FG1_39);
 
-                                if (pObj == sActiveHero_507678)
+                                if (pObj == sActiveHero)
                                 {
                                     Mudokon_SFX(MudSounds::eOops_16, 0, 0, nullptr);
                                 }

@@ -412,7 +412,7 @@ void MusicController::VUpdate()
     if (EventGet(kEventDeathReset))
     {
         field_20 = 1;
-        field_1C_pObj = sActiveHero_507678;
+        field_1C_pObj = sActiveHero;
     }
 
     if (field_16_bScreenChanged)
@@ -617,9 +617,9 @@ void MusicController::PlayMusic(MusicTypes musicType, BaseGameObject* pObj, s16 
     {
         if (musicType == MusicTypes::eType0)
         {
-            if (gElum_507680)
+            if (gElum)
             {
-                if (sControlledCharacter_50767C == gElum_507680)
+                if (sControlledCharacter == gElum)
                 {
                     musicType = MusicTypes::eAbeOnElum_1;
                 }

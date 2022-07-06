@@ -412,13 +412,13 @@ Mudokon::~Mudokon()
     {
         if (field_1AA_ring_timeout)
         {
-            sActiveHero_507678->field_168_ring_pulse_timer = field_1AA_ring_timeout + sGnFrame;
+            sActiveHero->field_168_ring_pulse_timer = field_1AA_ring_timeout + sGnFrame;
         }
         else
         {
-            sActiveHero_507678->field_168_ring_pulse_timer = sGnFrame + 200000;
+            sActiveHero->field_168_ring_pulse_timer = sGnFrame + 200000;
         }
-        sActiveHero_507678->field_16C_bHaveShrykull = FALSE;
+        sActiveHero->field_16C_bHaveShrykull = FALSE;
     }
 
     if (mCurrentMotion == eMudMotions::Motion_52_Chant || mCurrentMotion == eMudMotions::Motion_59_CrouchChant)
@@ -500,7 +500,7 @@ void Mudokon::VUpdate()
 
     if (mBaseAliveGameObjectFlags.Get(Flags_10A::e10A_Bit5_Electrocuted))
     {
-        EventBroadcast(kEventMudokonDead, sActiveHero_507678);
+        EventBroadcast(kEventMudokonDead, sActiveHero);
     }
 }
 
@@ -651,7 +651,7 @@ s16 Mudokon::VTakeDamage(BaseGameObject* pFrom)
                     mSpriteScale);
 
                 mBaseGameObjectFlags.Set(BaseGameObject::eDead);
-                EventBroadcast(kEventMudokonDead, sActiveHero_507678);
+                EventBroadcast(kEventMudokonDead, sActiveHero);
             }
             return 1;
 
@@ -681,14 +681,14 @@ s16 Mudokon::VTakeDamage(BaseGameObject* pFrom)
                     mSpriteScale,
                     50);
 
-                EventBroadcast(kEventMudokonDead, sActiveHero_507678);
-                EventBroadcast(kEventMudokonDead, sActiveHero_507678);
+                EventBroadcast(kEventMudokonDead, sActiveHero);
+                EventBroadcast(kEventMudokonDead, sActiveHero);
                 return DoSmashDamage();
             }
             return 1;
 
         case ReliveTypes::eRockSpawner:
-            EventBroadcast(kEventMudokonDead, sActiveHero_507678);
+            EventBroadcast(kEventMudokonDead, sActiveHero);
             return DoSmashDamage();
 
         case ReliveTypes::eScrab:
@@ -869,7 +869,7 @@ void Mudokon::DoPathTrans()
     PSX_Point camCoords = {};
     gMap.GetCurrentCamCoords(&camCoords);
 
-    if (sActiveHero_507678->mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
+    if (sActiveHero->mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
     {
         mXPos = FP_FromInteger((camCoords.x + XGrid_Index_To_XPos(mSpriteScale, MaxGridBlocks_41FA10(mSpriteScale)))) + ScaleToGridSize(mSpriteScale);
     }
@@ -878,9 +878,9 @@ void Mudokon::DoPathTrans()
         mXPos = (FP_FromInteger(camCoords.x + XGrid_Index_To_XPos(mSpriteScale, 0))) - ScaleToGridSize(mSpriteScale);
     }
 
-    if (sActiveHero_507678->BaseAliveGameObjectCollisionLine)
+    if (sActiveHero->BaseAliveGameObjectCollisionLine)
     {
-        mYPos = sActiveHero_507678->mYPos;
+        mYPos = sActiveHero->mYPos;
     }
     else
     {
@@ -954,12 +954,12 @@ void Mudokon::CheckFloorGone()
 
 s16 Mudokon::CanAbeSneak(Mudokon* /*pMud*/)
 {
-    return sActiveHero_507678->mCurrentMotion == eAbeMotions::Motion_42_SneakLoop_424BB0
-        || sActiveHero_507678->mCurrentMotion == eAbeMotions::Motion_47_SneakBegin_424ED0
-        || sActiveHero_507678->mCurrentMotion == eAbeMotions::Motion_43_WalkToSneak_424790
-        || sActiveHero_507678->mCurrentMotion == eAbeMotions::Motion_45_MidWalkToSneak_424890
-        || sActiveHero_507678->mCurrentMotion == eAbeMotions::Motion_44_SneakToWalk_4249A0
-        || sActiveHero_507678->mCurrentMotion == eAbeMotions::Motion_46_MidSneakToWalk_424AA0;
+    return sActiveHero->mCurrentMotion == eAbeMotions::Motion_42_SneakLoop_424BB0
+        || sActiveHero->mCurrentMotion == eAbeMotions::Motion_47_SneakBegin_424ED0
+        || sActiveHero->mCurrentMotion == eAbeMotions::Motion_43_WalkToSneak_424790
+        || sActiveHero->mCurrentMotion == eAbeMotions::Motion_45_MidWalkToSneak_424890
+        || sActiveHero->mCurrentMotion == eAbeMotions::Motion_44_SneakToWalk_4249A0
+        || sActiveHero->mCurrentMotion == eAbeMotions::Motion_46_MidSneakToWalk_424AA0;
 }
 
 void Mudokon::ToKnockback()
@@ -1081,7 +1081,7 @@ s16 Mudokon::FindBirdPortal()
     {
         if (field_1AC_pBirdPortal->field_10_portal_type == PortalType::eWorker_1 || field_1AC_pBirdPortal->field_10_portal_type == PortalType::eShrykull_2)
         {
-            sActiveHero_507678->ChangeChantState_430510(1);
+            sActiveHero->ChangeChantState_430510(1);
             field_1AC_pBirdPortal->mBaseGameObjectRefCount++;
             sMudRunningToPortalCount_507B94++;
             return 1;
@@ -1172,13 +1172,13 @@ s16 Mudokon::IAmNearestToAbe()
             if (pObjIter->mBaseGameObjectTypeId == ReliveTypes::eRingOrLiftMud || pObjIter->mBaseGameObjectTypeId == ReliveTypes::eMudokon) // mud or password mud?
             {
                 if (Math_Distance(
-                        FP_GetExponent(sActiveHero_507678->mXPos),
-                        FP_GetExponent(sActiveHero_507678->mYPos),
+                        FP_GetExponent(sActiveHero->mXPos),
+                        FP_GetExponent(sActiveHero->mYPos),
                         FP_GetExponent(mXPos),
                         FP_GetExponent(mYPos))
                     > Math_Distance(
-                        FP_GetExponent(sActiveHero_507678->mXPos),
-                        FP_GetExponent(sActiveHero_507678->mYPos),
+                        FP_GetExponent(sActiveHero->mXPos),
+                        FP_GetExponent(sActiveHero->mYPos),
                         FP_GetExponent(pObjIter->mXPos),
                         FP_GetExponent(pObjIter->mYPos)))
                 {
@@ -1223,7 +1223,7 @@ void Mudokon::VOnTlvCollision(Path_TLV* pTlv)
                     field_1BA_brain_sub_state = 0;
                     mHealth = FP_FromInteger(0);
                     field_1B8_brain_state = 13;
-                    EventBroadcast(kEventMudokonDead, sActiveHero_507678);
+                    EventBroadcast(kEventMudokonDead, sActiveHero);
                 }
             }
             pTlv = gMap.TLV_Get_At_446060(pTlv, mXPos, mYPos, mXPos, mYPos);
@@ -2742,7 +2742,7 @@ s16 Mudokon::Brain_2_SingSequenceIdle()
 
         case 2:
             if (!field_198_abe_must_face_mud
-                || sActiveHero_507678->mAnim.mFlags.Get(AnimFlags::eBit5_FlipX) != mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
+                || sActiveHero->mAnim.mFlags.Get(AnimFlags::eBit5_FlipX) != mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
             {
                 GameSpeakEvents last_speak = {};
                 if (field_128 == pEventSystem_4FF954->field_18_last_event_index)
@@ -3223,7 +3223,7 @@ s16 Mudokon::Brain_7_GiveRings()
     switch (field_1BA_brain_sub_state)
     {
         case 0:
-            if (sActiveHero_507678->field_168_ring_pulse_timer <= 0)
+            if (sActiveHero->field_168_ring_pulse_timer <= 0)
             {
                 mNextMotion = eMudMotions::Motion_52_Chant;
                 field_1C0_timer = sGnFrame + 30;
@@ -3250,7 +3250,7 @@ s16 Mudokon::Brain_7_GiveRings()
                         FP_FromInteger((ourRect.h + ourRect.y) / 2),
                         RingTypes::eExplosive_Emit_Effect_2);
 
-                const PSX_RECT heroRect = sActiveHero_507678->VGetBoundingRect();
+                const PSX_RECT heroRect = sActiveHero->VGetBoundingRect();
 
                 auto pAbeRing = relive_new AbilityRing(
                     FP_FromInteger((heroRect.w + heroRect.x) / 2),
@@ -3258,7 +3258,7 @@ s16 Mudokon::Brain_7_GiveRings()
                     RingTypes::eExplosive_Give_3);
                 if (pAbeRing)
                 {
-                    pAbeRing->SetTarget(sActiveHero_507678);
+                    pAbeRing->SetTarget(sActiveHero);
                 }
                 field_1C0_timer = sGnFrame + 30;
                 return 3;
@@ -3270,21 +3270,21 @@ s16 Mudokon::Brain_7_GiveRings()
             {
                 if (field_1AA_ring_timeout)
                 {
-                    sActiveHero_507678->field_168_ring_pulse_timer = field_1AA_ring_timeout + sGnFrame;
+                    sActiveHero->field_168_ring_pulse_timer = field_1AA_ring_timeout + sGnFrame;
                 }
                 else
                 {
-                    sActiveHero_507678->field_168_ring_pulse_timer = sGnFrame + 200000;
+                    sActiveHero->field_168_ring_pulse_timer = sGnFrame + 200000;
                 }
 
                 mNextMotion = eMudMotions::Motion_0_Idle;
-                sActiveHero_507678->field_16C_bHaveShrykull = 0;
+                sActiveHero->field_16C_bHaveShrykull = 0;
                 return 4;
             }
             break;
 
         case 4:
-            if (sActiveHero_507678->field_168_ring_pulse_timer <= 0)
+            if (sActiveHero->field_168_ring_pulse_timer <= 0)
             {
                 field_1B8_brain_state = 2;
                 return 0;
@@ -3603,7 +3603,7 @@ s16 Mudokon::Brain_10_ListeningToAbe()
                 return field_1BA_brain_sub_state;
             }
 
-            if (!VIsFacingMe(sActiveHero_507678))
+            if (!VIsFacingMe(sActiveHero))
             {
                 mNextMotion = eMudMotions::Motion_2_StandingTurn;
                 return field_1BA_brain_sub_state;
@@ -3652,13 +3652,13 @@ s16 Mudokon::Brain_10_ListeningToAbe()
 
             if (field_1B4_idle_time <= 150 || BetweenCameras_418500() != BetweenCamPos::None_0)
             {
-                if (!VIsFacingMe(sActiveHero_507678))
+                if (!VIsFacingMe(sActiveHero))
                 {
                     mNextMotion = eMudMotions::Motion_2_StandingTurn;
                     return field_1BA_brain_sub_state;
                 }
 
-                if (VIsObjNearby(ScaleToGridSize(mSpriteScale) * FP_FromInteger(2), sActiveHero_507678)
+                if (VIsObjNearby(ScaleToGridSize(mSpriteScale) * FP_FromInteger(2), sActiveHero)
                     || bHitWall
                     || bEndOfLine)
                 {
@@ -3807,13 +3807,13 @@ s16 Mudokon::Brain_10_ListeningToAbe()
                 return 3;
             }
 
-            if (!VIsFacingMe(sActiveHero_507678))
+            if (!VIsFacingMe(sActiveHero))
             {
                 mNextMotion = eMudMotions::Motion_0_Idle;
                 return 3;
             }
 
-            if (VIsObjNearby(ScaleToGridSize(mSpriteScale) * FP_FromInteger(2), sActiveHero_507678))
+            if (VIsObjNearby(ScaleToGridSize(mSpriteScale) * FP_FromInteger(2), sActiveHero))
             {
                 mNextMotion = eMudMotions::Motion_0_Idle;
                 return 3;
@@ -3844,20 +3844,20 @@ s16 Mudokon::Brain_10_ListeningToAbe()
                 return 8;
             }
 
-            if (sActiveHero_507678->mCurrentMotion == eAbeMotions::Motion_35_RunLoop_425060
-                || sActiveHero_507678->mCurrentMotion == eAbeMotions::Motion_25_RollLoop_427BB0)
+            if (sActiveHero->mCurrentMotion == eAbeMotions::Motion_35_RunLoop_425060
+                || sActiveHero->mCurrentMotion == eAbeMotions::Motion_25_RollLoop_427BB0)
             {
                 mNextMotion = eMudMotions::Motion_29_RunLoop;
                 return 5;
             }
 
-            if (sActiveHero_507678->mCurrentMotion == eAbeMotions::Motion_42_SneakLoop_424BB0
+            if (sActiveHero->mCurrentMotion == eAbeMotions::Motion_42_SneakLoop_424BB0
                 && mCurrentMotion == eMudMotions::Motion_1_WalkLoop)
             {
                 mNextMotion = eMudMotions::Motion_35_SneakLoop;
             }
 
-            if (sActiveHero_507678->mCurrentMotion == eAbeMotions::Motion_1_WalkLoop_423F90 && mCurrentMotion == eMudMotions::Motion_35_SneakLoop)
+            if (sActiveHero->mCurrentMotion == eAbeMotions::Motion_1_WalkLoop_423F90 && mCurrentMotion == eMudMotions::Motion_35_SneakLoop)
             {
                 mNextMotion = eMudMotions::Motion_1_WalkLoop;
             }
@@ -3896,7 +3896,7 @@ s16 Mudokon::Brain_10_ListeningToAbe()
                 return 3;
             }
 
-            switch (sActiveHero_507678->mCurrentMotion)
+            switch (sActiveHero->mCurrentMotion)
             {
                 case eAbeMotions::Motion_1_WalkLoop_423F90:
                     mNextMotion = eMudMotions::Motion_1_WalkLoop;
@@ -3907,12 +3907,12 @@ s16 Mudokon::Brain_10_ListeningToAbe()
                 case eAbeMotions::Motion_0_Idle_423520:
                     //[[fallthrough]];
                 case eAbeMotions::Motion_19_CrouchIdle_4284C0:
-                    if (sActiveHero_507678->mCurrentMotion == eAbeMotions::Motion_70_Knockback_428FB0)
+                    if (sActiveHero->mCurrentMotion == eAbeMotions::Motion_70_Knockback_428FB0)
                     {
                         Mudokon_SFX(MudSounds::eLaugh1_8, 0, field_124_voice_pitch, this);
                     }
 
-                    if (VIsObjNearby(ScaleToGridSize(mSpriteScale) * FP_FromInteger(2), sActiveHero_507678))
+                    if (VIsObjNearby(ScaleToGridSize(mSpriteScale) * FP_FromInteger(2), sActiveHero))
                     {
                         mNextMotion = eMudMotions::Motion_0_Idle;
                         return 3;
@@ -3925,7 +3925,7 @@ s16 Mudokon::Brain_10_ListeningToAbe()
                     break;
 
                 default:
-                    if (!VIsFacingMe(sActiveHero_507678))
+                    if (!VIsFacingMe(sActiveHero))
                     {
                         mNextMotion = eMudMotions::Motion_33_RunSlideTurn;
                         return 7;
@@ -3953,7 +3953,7 @@ s16 Mudokon::Brain_10_ListeningToAbe()
                     1)
                 && sAlertedMudCount_507B90 <= 1)
             {
-                if (!VIsFacingMe(sActiveHero_507678))
+                if (!VIsFacingMe(sActiveHero))
                 {
                     mNextMotion = eMudMotions::Motion_2_StandingTurn;
                     return field_1BA_brain_sub_state;

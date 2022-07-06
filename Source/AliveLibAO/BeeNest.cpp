@@ -88,7 +88,7 @@ void BeeNest::VUpdate()
                 if (field_34_pBeeSwarm)
                 {
                     field_34_pBeeSwarm->mBaseGameObjectRefCount++;
-                    field_34_pBeeSwarm->Chase(sActiveHero_507678);
+                    field_34_pBeeSwarm->Chase(sActiveHero);
                     field_2E_state = BeeNestStates::eResetIfDead_1;
                 }
             }

@@ -267,6 +267,6 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(Elum, 0x1F4);
 
-ALIVE_VAR_EXTERN(Elum*, gElum_507680);
+ALIVE_VAR_EXTERN(Elum*, gElum);
 
 } // namespace AO

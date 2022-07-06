@@ -337,9 +337,9 @@ void MovingBomb::VUpdate()
                 SND_Stop_Channels_Mask(field_124_sound_channels);
             }
 
-            if (VIsObjNearby(FP_FromInteger(700), sActiveHero_507678))
+            if (VIsObjNearby(FP_FromInteger(700), sActiveHero))
             {
-                if (FP_Abs(sActiveHero_507678->mYPos - mYPos) <= FP_FromInteger(700))
+                if (FP_Abs(sActiveHero->mYPos - mYPos) <= FP_FromInteger(700))
                 {
                     if (field_10C_state == States::eWaitABit_4)
                     {

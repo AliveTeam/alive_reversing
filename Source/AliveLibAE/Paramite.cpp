@@ -267,7 +267,7 @@ s32 Paramite::CreateFromSaveState(const u8* pBuffer)
 
     if (pState->field_76_flags.Get(Paramite_State::eBit1_unused))
     {
-        sControlledCharacter_5C1B8C = pParamite;
+        sControlledCharacter = pParamite;
     }
 
     pParamite->BaseAliveGameObjectPathTLV = nullptr;
@@ -402,7 +402,7 @@ s32 Paramite::VGetSaveState(u8* pSaveBuffer)
     }
 
     pState->field_76_flags.Clear();
-    pState->field_76_flags.Set(Paramite_State::eBit1_unused, this == sControlledCharacter_5C1B8C);
+    pState->field_76_flags.Set(Paramite_State::eBit1_unused, this == sControlledCharacter);
 
     pState->field_3C_tlvInfo = field_140_tlvInfo;
     pState->field_40_meat_id = ResolveId(field_118_meat_id);
@@ -737,7 +737,7 @@ s16 Paramite::Brain_Patrol_State_12_Idle(BaseAliveGameObject* pObj)
     const GameSpeakEvents lastSpeak = LastSpeak();
     if (lastSpeak == GameSpeakEvents::Paramite_Howdy_48)
     {
-        if (sControlledCharacter_5C1B8C->Type() == ReliveTypes::eParamite && sControlledCharacter_5C1B8C->mHealth > FP_FromInteger(0) && sControlledCharacter_5C1B8C->mSpriteScale == mSpriteScale)
+        if (sControlledCharacter->Type() == ReliveTypes::eParamite && sControlledCharacter->mHealth > FP_FromInteger(0) && sControlledCharacter->mSpriteScale == mSpriteScale)
         {
             if (CanIAcceptAGameSpeakCommand())
             {
@@ -749,20 +749,20 @@ s16 Paramite::Brain_Patrol_State_12_Idle(BaseAliveGameObject* pObj)
     }
     else if (lastSpeak == GameSpeakEvents::Paramite_AllYa_52)
     {
-        if (sControlledCharacter_5C1B8C->Type() == ReliveTypes::eParamite && sControlledCharacter_5C1B8C->mHealth > FP_FromInteger(0) && sControlledCharacter_5C1B8C->mSpriteScale == mSpriteScale)
+        if (sControlledCharacter->Type() == ReliveTypes::eParamite && sControlledCharacter->mHealth > FP_FromInteger(0) && sControlledCharacter->mSpriteScale == mSpriteScale)
         {
             SetBrain(&Paramite::Brain_8_ControlledByGameSpeak_48DFC0);
             return ParamiteEnums::Brain_8_ControlledByGameSpeak::eBrain8_Inactive_0;
         }
     }
 
-    if (VOnSameYLevel(sControlledCharacter_5C1B8C))
+    if (VOnSameYLevel(sControlledCharacter))
     {
-        if (sControlledCharacter_5C1B8C->Type() == ReliveTypes::eParamite)
+        if (sControlledCharacter->Type() == ReliveTypes::eParamite)
         {
-            if (sControlledCharacter_5C1B8C->mCurrentMotion == eParamiteMotions::M_Attack_43_48DB70 || sControlledCharacter_5C1B8C->mCurrentMotion == eParamiteMotions::M_RunningAttack_31_48C9E0)
+            if (sControlledCharacter->mCurrentMotion == eParamiteMotions::M_Attack_43_48DB70 || sControlledCharacter->mCurrentMotion == eParamiteMotions::M_RunningAttack_31_48C9E0)
             {
-                auto sControlledParamite = static_cast<Paramite*>(sControlledCharacter_5C1B8C);
+                auto sControlledParamite = static_cast<Paramite*>(sControlledCharacter);
                 if (sControlledParamite->FindTarget())
                 {
                     field_120_obj_id = sControlledParamite->field_120_obj_id;
@@ -1308,16 +1308,16 @@ s16 Paramite::Brain_1_Death_484CD0()
         }
     }
 
-    if (sControlledCharacter_5C1B8C == this)
+    if (sControlledCharacter == this)
     {
         if (field_130_timer < static_cast<s32>(sGnFrame))
         {
-            sControlledCharacter_5C1B8C = sActiveHero;
+            sControlledCharacter = sActiveHero;
             gMap.SetActiveCam(field_14E_return_level, field_150_return_path, field_152_return_camera, CameraSwapEffects::eInstantChange_0, 0, 0);
         }
     }
 
-    if (sControlledCharacter_5C1B8C != this)
+    if (sControlledCharacter != this)
     {
         if (!gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0))
         {
@@ -2417,7 +2417,7 @@ s16 Paramite::Brain_6_Possessed_484BC0()
 
         if (EventGet(kEventDeathReset))
         {
-            if (sControlledCharacter_5C1B8C != this)
+            if (sControlledCharacter != this)
             {
                 mBaseGameObjectFlags.Set(BaseGameObject::eDead);
             }
@@ -2473,9 +2473,9 @@ s16 Paramite::Brain_7_DeathDrop_484FF0()
             return field_12C_brain_ret;
         }
 
-        if (sControlledCharacter_5C1B8C == this)
+        if (sControlledCharacter == this)
         {
-            sControlledCharacter_5C1B8C = sActiveHero;
+            sControlledCharacter = sActiveHero;
             gMap.SetActiveCam(field_14E_return_level, field_150_return_path, field_152_return_camera, CameraSwapEffects::eInstantChange_0, 0, 0);
         }
 
@@ -2486,18 +2486,18 @@ s16 Paramite::Brain_7_DeathDrop_484FF0()
 
 s16 Paramite::Brain_8_ControlledByGameSpeak_48DFC0()
 {
-    if (sControlledCharacter_5C1B8C->Type() != ReliveTypes::eParamite || sControlledCharacter_5C1B8C->mHealth <= FP_FromInteger(0) || sControlledCharacter_5C1B8C->mSpriteScale != mSpriteScale)
+    if (sControlledCharacter->Type() != ReliveTypes::eParamite || sControlledCharacter->mHealth <= FP_FromInteger(0) || sControlledCharacter->mSpriteScale != mSpriteScale)
     {
         SetBrain(&Paramite::Brain_0_Patrol_4835B0);
         return ParamiteEnums::Brain_0_Patrol::eBrain0_Inactive_0;
     }
-    if (VOnSameYLevel(sControlledCharacter_5C1B8C))
+    if (VOnSameYLevel(sControlledCharacter))
     {
-        if (sControlledCharacter_5C1B8C->mCurrentMotion == eParamiteMotions::M_Attack_43_48DB70 || sControlledCharacter_5C1B8C->mCurrentMotion == eParamiteMotions::M_RunningAttack_31_48C9E0)
+        if (sControlledCharacter->mCurrentMotion == eParamiteMotions::M_Attack_43_48DB70 || sControlledCharacter->mCurrentMotion == eParamiteMotions::M_RunningAttack_31_48C9E0)
         {
-            if (static_cast<Paramite*>(sControlledCharacter_5C1B8C)->FindTarget())
+            if (static_cast<Paramite*>(sControlledCharacter)->FindTarget())
             {
-                field_120_obj_id = static_cast<Paramite*>(sControlledCharacter_5C1B8C)->field_120_obj_id;
+                field_120_obj_id = static_cast<Paramite*>(sControlledCharacter)->field_120_obj_id;
                 Sound(ParamiteSpeak::Howdy_5, 0);
                 mNextMotion = eParamiteMotions::M_Idle_0_489FB0;
                 SetBrain(&Paramite::Brain_2_ChasingAbe_4859D0);
@@ -2512,7 +2512,7 @@ s16 Paramite::Brain_8_ControlledByGameSpeak_48DFC0()
         case ParamiteEnums::Brain_8_ControlledByGameSpeak::eBrain8_Inactive_0:
         {
             field_178_flags.Clear(Flags_178::eBit7_alerted);
-            s16 result = VIsFacingMe(sControlledCharacter_5C1B8C);
+            s16 result = VIsFacingMe(sControlledCharacter);
             if (result)
             {
                 mNextMotion = eParamiteMotions::M_Empty_24_48C680;
@@ -2534,7 +2534,7 @@ s16 Paramite::Brain_8_ControlledByGameSpeak_48DFC0()
         }
 
         case ParamiteEnums::Brain_8_ControlledByGameSpeak::eBrain8_FollowingIdle_1:
-            if (VIsFacingMe(sControlledCharacter_5C1B8C))
+            if (VIsFacingMe(sControlledCharacter))
             {
                 FP gridBlock = {};
                 if (mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
@@ -2577,7 +2577,7 @@ s16 Paramite::Brain_8_ControlledByGameSpeak_48DFC0()
                         return ParamiteEnums::Brain_8_ControlledByGameSpeak::eBrain8_RecievedCommand_10;
 
                     default:
-                        if (!VIsObjNearby(ScaleToGridSize(mSpriteScale) * FP_FromInteger(3), sControlledCharacter_5C1B8C))
+                        if (!VIsObjNearby(ScaleToGridSize(mSpriteScale) * FP_FromInteger(3), sControlledCharacter))
                         {
                             if (mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
                             {
@@ -2588,7 +2588,7 @@ s16 Paramite::Brain_8_ControlledByGameSpeak_48DFC0()
                                         field_130_timer = sGnFrame + StableDelay();
                                         return ParamiteEnums::Brain_8_ControlledByGameSpeak::eBrain8_FollowingIdleToWalking_4;
                                     }
-                                    if (!Check_IsOnEndOfLine(1, 4) && VOnSameYLevel(sControlledCharacter_5C1B8C))
+                                    if (!Check_IsOnEndOfLine(1, 4) && VOnSameYLevel(sControlledCharacter))
                                     {
                                         mNextMotion = eParamiteMotions::M_Hop_5_48B5B0;
                                         return ParamiteEnums::Brain_8_ControlledByGameSpeak::eBrain8_Jumping_3;
@@ -2606,7 +2606,7 @@ s16 Paramite::Brain_8_ControlledByGameSpeak_48DFC0()
                                     }
                                 }
 
-                                if (!Check_IsOnEndOfLine(0, 4) && VOnSameYLevel(sControlledCharacter_5C1B8C))
+                                if (!Check_IsOnEndOfLine(0, 4) && VOnSameYLevel(sControlledCharacter))
                                 {
                                     mNextMotion = eParamiteMotions::M_Hop_5_48B5B0;
                                     return ParamiteEnums::Brain_8_ControlledByGameSpeak::eBrain8_Jumping_3;
@@ -2621,7 +2621,7 @@ s16 Paramite::Brain_8_ControlledByGameSpeak_48DFC0()
                             field_158_next_brain_ret = 2;
                             return ParamiteEnums::Brain_8_ControlledByGameSpeak::eBrain8_RecievedCommand_10;
                         }
-                        else if (sControlledCharacter_5C1B8C->mCurrentMotion != eParamiteMotions::M_Attack_43_48DB70)
+                        else if (sControlledCharacter->mCurrentMotion != eParamiteMotions::M_Attack_43_48DB70)
                         {
                             return field_12C_brain_ret;
                         }
@@ -2646,7 +2646,7 @@ s16 Paramite::Brain_8_ControlledByGameSpeak_48DFC0()
             break;
 
         case ParamiteEnums::Brain_8_ControlledByGameSpeak::eBrain8_Falling_2:
-            if (!VIsFacingMe(sControlledCharacter_5C1B8C))
+            if (!VIsFacingMe(sControlledCharacter))
             {
                 mNextMotion = eParamiteMotions::M_Idle_0_489FB0;
                 return ParamiteEnums::Brain_8_ControlledByGameSpeak::eBrain8_FollowingIdle_1;
@@ -2668,7 +2668,7 @@ s16 Paramite::Brain_8_ControlledByGameSpeak_48DFC0()
                 mNextMotion = eParamiteMotions::M_Idle_0_489FB0;
                 return ParamiteEnums::Brain_8_ControlledByGameSpeak::eBrain8_FollowingIdle_1;
             }
-            else if (!VIsObjNearby(ScaleToGridSize(mSpriteScale), sControlledCharacter_5C1B8C))
+            else if (!VIsObjNearby(ScaleToGridSize(mSpriteScale), sControlledCharacter))
             {
                 return field_12C_brain_ret;
             }
@@ -2695,7 +2695,7 @@ s16 Paramite::Brain_8_ControlledByGameSpeak_48DFC0()
             return ParamiteEnums::Brain_8_ControlledByGameSpeak::eBrain8_FollowingWalking_5;
 
         case ParamiteEnums::Brain_8_ControlledByGameSpeak::eBrain8_FollowingWalking_5:
-            if (!VIsFacingMe(sControlledCharacter_5C1B8C))
+            if (!VIsFacingMe(sControlledCharacter))
             {
                 mNextMotion = eParamiteMotions::M_Idle_0_489FB0;
                 return ParamiteEnums::Brain_8_ControlledByGameSpeak::eBrain8_FollowingIdle_1;
@@ -2718,13 +2718,13 @@ s16 Paramite::Brain_8_ControlledByGameSpeak_48DFC0()
                 }
             }
 
-            if (VIsObjNearby(ScaleToGridSize(mSpriteScale) * FP_FromInteger(3), sControlledCharacter_5C1B8C))
+            if (VIsObjNearby(ScaleToGridSize(mSpriteScale) * FP_FromInteger(3), sControlledCharacter))
             {
                 mNextMotion = eParamiteMotions::M_Idle_0_489FB0;
                 return ParamiteEnums::Brain_8_ControlledByGameSpeak::eBrain8_FollowingIdle_1;
             }
 
-            if (VIsObjNearby(ScaleToGridSize(mSpriteScale) * FP_FromInteger(5), sControlledCharacter_5C1B8C))
+            if (VIsObjNearby(ScaleToGridSize(mSpriteScale) * FP_FromInteger(5), sControlledCharacter))
             {
                 return field_12C_brain_ret;
             }
@@ -2755,7 +2755,7 @@ s16 Paramite::Brain_8_ControlledByGameSpeak_48DFC0()
             return ParamiteEnums::Brain_8_ControlledByGameSpeak::eBrain8_FollowingRunning_6;
 
         case ParamiteEnums::Brain_8_ControlledByGameSpeak::eBrain8_FollowingRunning_6:
-            if (!VIsFacingMe(sControlledCharacter_5C1B8C))
+            if (!VIsFacingMe(sControlledCharacter))
             {
                 mNextMotion = eParamiteMotions::M_Idle_0_489FB0;
                 return ParamiteEnums::Brain_8_ControlledByGameSpeak::eBrain8_FollowingIdle_1;
@@ -2774,14 +2774,14 @@ s16 Paramite::Brain_8_ControlledByGameSpeak_48DFC0()
                 }
                 else
                 {
-                    if (VIsObjNearby(ScaleToGridSize(mSpriteScale) * FP_FromInteger(3), sControlledCharacter_5C1B8C))
+                    if (VIsObjNearby(ScaleToGridSize(mSpriteScale) * FP_FromInteger(3), sControlledCharacter))
                     {
                         mNextMotion = eParamiteMotions::M_Idle_0_489FB0;
                         return ParamiteEnums::Brain_8_ControlledByGameSpeak::eBrain8_FollowingIdle_1;
                     }
                     else
                     {
-                        if (!VIsObjNearby(ScaleToGridSize(mSpriteScale) * FP_FromInteger(5), sControlledCharacter_5C1B8C))
+                        if (!VIsObjNearby(ScaleToGridSize(mSpriteScale) * FP_FromInteger(5), sControlledCharacter))
                         {
                             return field_12C_brain_ret;
                         }
@@ -2817,7 +2817,7 @@ s16 Paramite::Brain_8_ControlledByGameSpeak_48DFC0()
             break;
 
         case ParamiteEnums::Brain_8_ControlledByGameSpeak::eBrain8_Idle_9:
-            if (VIsFacingMe(sControlledCharacter_5C1B8C))
+            if (VIsFacingMe(sControlledCharacter))
             {
                 const GameSpeakEvents lastSpeak = LastSpeak();
                 switch (lastSpeak)
@@ -3035,7 +3035,7 @@ s16 Paramite::Brain_9_ParamiteSpawn_48ED80()
 
 void Paramite::M_Idle_0_489FB0()
 {
-    if (sControlledCharacter_5C1B8C != this || mHealth <= FP_FromInteger(0))
+    if (sControlledCharacter != this || mHealth <= FP_FromInteger(0))
     {
         ToNextMotion();
         return;
@@ -3182,7 +3182,7 @@ void Paramite::M_Walking_2_48A2D0()
                     return;
                 }
 
-                if (sControlledCharacter_5C1B8C == this && mHealth > FP_FromInteger(0))
+                if (sControlledCharacter == this && mHealth > FP_FromInteger(0))
                 {
                     HandleStopWalking();
                     field_154_input = 0;
@@ -3198,7 +3198,7 @@ void Paramite::M_Walking_2_48A2D0()
 
             case 3:
             case 10:
-                if (sControlledCharacter_5C1B8C == this && mHealth > FP_FromInteger(0))
+                if (sControlledCharacter == this && mHealth > FP_FromInteger(0))
                 {
                     if (sInputObject_5BD4E0.isPressed(sInputKey_Run_5550E8))
                     {
@@ -3315,7 +3315,7 @@ void Paramite::M_Running_3_48AA00()
                 Environment_SFX_457A40(EnvironmentSfx::eHitGroundSoft_6, 50, 600, 0);
             }
 
-            if (sControlledCharacter_5C1B8C != this || mHealth <= FP_FromInteger(0))
+            if (sControlledCharacter != this || mHealth <= FP_FromInteger(0))
             {
                 if (mNextMotion != eParamiteMotions::M_Walking_2_48A2D0)
                 {
@@ -3382,7 +3382,7 @@ void Paramite::M_Running_3_48AA00()
             return;
         }
 
-        if (sControlledCharacter_5C1B8C == this && mHealth > FP_FromInteger(0))
+        if (sControlledCharacter == this && mHealth > FP_FromInteger(0))
         {
             if (field_154_input & sInputKey_Hop_5550E0)
             {
@@ -3477,7 +3477,7 @@ void Paramite::M_Hop_5_48B5B0()
             PathLine* pLine = nullptr;
             const auto bHit = InAirCollision(&pLine, &hitX, &hitY, FP_FromDouble(0.9));
 
-            if (sControlledCharacter_5C1B8C == this)
+            if (sControlledCharacter == this)
             {
                 SetActiveCameraDelayedFromDir();
             }
@@ -3749,7 +3749,7 @@ void Paramite::M_Falling_11_48B200()
         PathLine* pLine = nullptr;
         const auto bCollision = InAirCollision(&pLine, &hitX, &hitY, FP_FromDouble(1.8));
 
-        if (sControlledCharacter_5C1B8C == this)
+        if (sControlledCharacter == this)
         {
             SetActiveCameraDelayedFromDir();
         }
@@ -3830,7 +3830,7 @@ void Paramite::M_JumpUpMidair_13_48BAF0()
     PathLine* ppPathLine = nullptr;
     const auto bHit = InAirCollision(&ppPathLine, &hitX, &hitY, FP_FromDouble(1.8));
 
-    if (sControlledCharacter_5C1B8C == this)
+    if (sControlledCharacter == this)
     {
         SetActiveCameraDelayedFromDir();
     }
@@ -3881,7 +3881,7 @@ void Paramite::M_JumpUpMidair_13_48BAF0()
             field_124_pull_ring_rope_id = -1;
         }
 
-        if (sControlledCharacter_5C1B8C == this)
+        if (sControlledCharacter == this)
         {
             FP gridBlock = {};
             if (mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
@@ -3946,7 +3946,7 @@ void Paramite::M_JumpUpLand_14_48BF00()
 void Paramite::M_RopePull_15_48D930()
 {
     auto pPullRingRope = static_cast<PullRingRope*>(sObjectIds.Find_Impl(field_124_pull_ring_rope_id));
-    if (!pPullRingRope || ((pPullRingRope && pPullRingRope->VIsNotBeingPulled()) && (sControlledCharacter_5C1B8C == this || mNextMotion == eParamiteMotions::M_Falling_11_48B200)))
+    if (!pPullRingRope || ((pPullRingRope && pPullRingRope->VIsNotBeingPulled()) && (sControlledCharacter == this || mNextMotion == eParamiteMotions::M_Falling_11_48B200)))
     {
         if (pPullRingRope)
         {
@@ -3967,7 +3967,7 @@ void Paramite::M_CloseAttack_16_48DDA0()
         Sound(ParamiteSpeak::CMon_or_Attack_0, 0);
 
         BaseAliveGameObject* pObj = nullptr;
-        if (sControlledCharacter_5C1B8C == this)
+        if (sControlledCharacter == this)
         {
             if (FindTarget())
             {
@@ -4134,7 +4134,7 @@ void Paramite::M_PreHiss_21_48C180()
             mNextMotion = -1;
             Sound(ParamiteSpeak::Howdy_5, 0);
 
-            if (sControlledCharacter_5C1B8C == this)
+            if (sControlledCharacter == this)
             {
                 pEventSystem_5BC11C->PushEvent(GameSpeakEvents::Paramite_Howdy_48);
             }
@@ -4156,7 +4156,7 @@ void Paramite::M_PreHiss_21_48C180()
             break;
 
         default:
-            if (mNextMotion != -1 || sControlledCharacter_5C1B8C == this)
+            if (mNextMotion != -1 || sControlledCharacter == this)
             {
                 mCurrentMotion = eParamiteMotions::M_GameSpeakEnd_28_48C8B0;
             }
@@ -4197,7 +4197,7 @@ void Paramite::M_Hiss1_22_48C3E0()
         EventBroadcast(kEventLoudNoise, this);
         Sound(ParamiteSpeak::Stay_1, 0);
 
-        if (sControlledCharacter_5C1B8C == this)
+        if (sControlledCharacter == this)
         {
             pEventSystem_5BC11C->PushEvent(GameSpeakEvents::Paramite_Stay_49);
         }
@@ -4233,7 +4233,7 @@ void Paramite::M_Hiss2_23_48C600()
     {
         field_178_flags.Set(Flags_178::eBit3_hissed_or_left_screen);
         Sound(ParamiteSpeak::CMon_or_Attack_0, 0);
-        if (sControlledCharacter_5C1B8C == this)
+        if (sControlledCharacter == this)
         {
             pEventSystem_5BC11C->PushEvent(GameSpeakEvents::Paramite_CMon_or_Attack_50);
         }
@@ -4255,7 +4255,7 @@ void Paramite::M_AllOYaGameSpeakBegin_25_48C6A0()
     if (mAnim.mCurrentFrame == 7)
     {
         Sound(ParamiteSpeak::AllYa_9, 0);
-        if (sControlledCharacter_5C1B8C == this)
+        if (sControlledCharacter == this)
         {
             pEventSystem_5BC11C->PushEvent(GameSpeakEvents::Paramite_AllYa_52);
         }
@@ -4277,7 +4277,7 @@ void Paramite::M_Hiss3_26_48C6F0()
         field_178_flags.Set(Flags_178::eBit3_hissed_or_left_screen);
         EventBroadcast(kEventLoudNoise, this);
         Sound(ParamiteSpeak::DoIt_2, 0);
-        if (sControlledCharacter_5C1B8C == this)
+        if (sControlledCharacter == this)
         {
             pEventSystem_5BC11C->PushEvent(GameSpeakEvents::Paramite_DoIt_51);
         }
@@ -4352,7 +4352,7 @@ void Paramite::M_GameSpeakEnd_28_48C8B0()
 
 void Paramite::M_GetDepossessedBegin_29_48D9D0()
 {
-    if (sControlledCharacter_5C1B8C == this)
+    if (sControlledCharacter == this)
     {
         if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
         {
@@ -4373,7 +4373,7 @@ void Paramite::M_GetDepossessedBegin_29_48D9D0()
 
         if (static_cast<s32>(sGnFrame) > field_138_depossession_timer)
         {
-            sControlledCharacter_5C1B8C = sActiveHero;
+            sControlledCharacter = sActiveHero;
             mBaseAliveGameObjectFlags.Clear(Flags_114::e114_Bit4_bPossesed);
             mCurrentMotion = eParamiteMotions::M_GetDepossessedEnd_30_48DB50;
             SetBrain(&Paramite::Brain_0_Patrol_4835B0);
@@ -4409,7 +4409,7 @@ void Paramite::M_RunningAttack_31_48C9E0()
         ToKnockBack();
         return;
     }
-    else if (sControlledCharacter_5C1B8C == this)
+    else if (sControlledCharacter == this)
     {
         auto pWebLine = WebCollision(FP_FromInteger(0), mVelX);
         if (pWebLine)
@@ -4425,7 +4425,7 @@ void Paramite::M_RunningAttack_31_48C9E0()
 
     if (mCurrentMotion == eParamiteMotions::M_RunningAttack_31_48C9E0)
     {
-        if (sControlledCharacter_5C1B8C == this)
+        if (sControlledCharacter == this)
         {
             SetActiveCameraDelayedFromDir();
             if (FindTarget())
@@ -4623,7 +4623,7 @@ void Paramite::M_WebGoingUp_36_48D000()
         BaseAliveGameObjectCollisionLine = BaseAliveGameObjectCollisionLine->MoveOnLine(&mXPos, &mYPos, mVelY);
     }
 
-    if (sControlledCharacter_5C1B8C == this)
+    if (sControlledCharacter == this)
     {
         SetActiveCameraDelayedFromDir();
     }
@@ -4729,7 +4729,7 @@ void Paramite::M_WebGoingDown_37_48CC60()
         BaseAliveGameObjectCollisionLine = BaseAliveGameObjectCollisionLine->MoveOnLine(&mXPos, &mYPos, mVelY);
     }
 
-    if (sControlledCharacter_5C1B8C == this)
+    if (sControlledCharacter == this)
     {
         SetActiveCameraDelayedFromDir();
     }
@@ -4841,7 +4841,7 @@ void Paramite::M_Eating_40_48A0F0()
             gridBlock = ScaleToGridSize(mSpriteScale);
         }
 
-        if (sControlledCharacter_5C1B8C == this)
+        if (sControlledCharacter == this)
         {
             auto pFleech = static_cast<BaseAliveGameObject*>(FindObjectOfType(ReliveTypes::eFleech, gridBlock + mXPos, mYPos - FP_FromInteger(5)));
             if (pFleech)
@@ -4869,7 +4869,7 @@ void Paramite::M_Eating_40_48A0F0()
         }
     }
 
-    if (sControlledCharacter_5C1B8C == this && mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
+    if (sControlledCharacter == this && mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
     {
         if (sInputObject_5BD4E0.isPressed(sInputKey_Down_5550DC))
         {
@@ -4911,7 +4911,7 @@ void Paramite::M_Attack_43_48DB70()
         pObj = static_cast<BaseAliveGameObject*>(sObjectIds.Find_Impl(field_120_obj_id));
         Sound(ParamiteSpeak::CMon_or_Attack_0, 0);
 
-        if (sControlledCharacter_5C1B8C == this)
+        if (sControlledCharacter == this)
         {
             if (FindTarget())
             {
@@ -4996,9 +4996,9 @@ Paramite::~Paramite()
     SND_SEQ_Stop(SeqId::ParamiteNearby_25);
     MusicController::static_PlayMusic(MusicController::MusicTypes::eNone_0, this, 0, 0);
 
-    if (sControlledCharacter_5C1B8C == this)
+    if (sControlledCharacter == this)
     {
-        sControlledCharacter_5C1B8C = sActiveHero;
+        sControlledCharacter = sActiveHero;
         if (gMap.mNextLevel != EReliveLevelIds::eMenu)
         {
             gMap.SetActiveCam(
@@ -5073,8 +5073,8 @@ void Paramite::VUpdate()
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 
-    const FP xDelta = FP_Abs(mXPos - sControlledCharacter_5C1B8C->mXPos);
-    const FP yDelta = FP_Abs(mYPos - sControlledCharacter_5C1B8C->mYPos);
+    const FP xDelta = FP_Abs(mXPos - sControlledCharacter->mXPos);
+    const FP yDelta = FP_Abs(mYPos - sControlledCharacter->mYPos);
 
     if (xDelta > FP_FromInteger(750) || yDelta > FP_FromInteger(390))
     {
@@ -5112,7 +5112,7 @@ void Paramite::VUpdate()
         }
 
 
-        if (sDDCheat_FlyingEnabled_5C2C08 && sControlledCharacter_5C1B8C == this)
+        if (sDDCheat_FlyingEnabled_5C2C08 && sControlledCharacter == this)
         {
             // Handle DDCheat mode
 
@@ -5373,7 +5373,7 @@ s16 Paramite::VTakeDamage(BaseGameObject* pFrom)
             mHealth = FP_FromInteger(0);
             mBaseGameObjectFlags.Set(BaseGameObject::eDead);
             mAnim.mFlags.Clear(AnimFlags::eBit3_Render);
-            if (sControlledCharacter_5C1B8C != this)
+            if (sControlledCharacter != this)
             {
                 return 1;
             }
@@ -5388,7 +5388,7 @@ s16 Paramite::VTakeDamage(BaseGameObject* pFrom)
             {
                 mHealth = FP_FromInteger(0);
             }
-            if (sControlledCharacter_5C1B8C != this)
+            if (sControlledCharacter != this)
             {
                 if (field_120_obj_id == -1 || field_120_obj_id == sActiveHero->field_8_object_id)
                 {
@@ -5415,7 +5415,7 @@ s16 Paramite::VTakeDamage(BaseGameObject* pFrom)
 
             relive_new Blood(mXPos, mYPos, FP_FromInteger(0), FP_FromInteger(5), mSpriteScale, 50);
 
-            if (sControlledCharacter_5C1B8C == this)
+            if (sControlledCharacter == this)
             {
                 SND_SEQ_Play(SeqId::DeathDrums_29, 1, 127, 127);
             }
@@ -5438,7 +5438,7 @@ s16 Paramite::VTakeDamage(BaseGameObject* pFrom)
 
             relive_new Blood(mXPos, mYPos, FP_FromInteger(0), FP_FromInteger(5), mSpriteScale, 50);
 
-            if (sControlledCharacter_5C1B8C != this)
+            if (sControlledCharacter != this)
             {
                 return 1;
             }
@@ -5579,14 +5579,14 @@ void Paramite::ToHop()
 
 s16 Paramite::CanIAcceptAGameSpeakCommand()
 {
-    if (sControlledCharacter_5C1B8C->Type() != ReliveTypes::eParamite)
+    if (sControlledCharacter->Type() != ReliveTypes::eParamite)
     {
         return 0;
     }
 
     const s32 distToPlayer = Math_Distance(
-        FP_GetExponent(sControlledCharacter_5C1B8C->mXPos),
-        FP_GetExponent(sControlledCharacter_5C1B8C->mYPos),
+        FP_GetExponent(sControlledCharacter->mXPos),
+        FP_GetExponent(sControlledCharacter->mYPos),
         FP_GetExponent(mXPos),
         FP_GetExponent(mYPos));
 
@@ -5599,7 +5599,7 @@ s16 Paramite::CanIAcceptAGameSpeakCommand()
         }
 
         // Find another paramite on the same layer/scale
-        if (pObj != this && pObj != sControlledCharacter_5C1B8C && pObj->mSpriteScale == sControlledCharacter_5C1B8C->mSpriteScale && pObj->Type() == ReliveTypes::eParamite)
+        if (pObj != this && pObj != sControlledCharacter && pObj->mSpriteScale == sControlledCharacter->mSpriteScale && pObj->Type() == ReliveTypes::eParamite)
         {
             auto pParamite = static_cast<Paramite*>(pObj);
 
@@ -5610,18 +5610,18 @@ s16 Paramite::CanIAcceptAGameSpeakCommand()
 
             if (!pParamite->BrainIs(&Paramite::Brain_8_ControlledByGameSpeak_48DFC0) && gMap.Is_Point_In_Current_Camera(pParamite->mCurrentLevel, pParamite->mCurrentPath, pParamite->mXPos, pParamite->mYPos, 0))
             {
-                if (sControlledCharacter_5C1B8C->VIsFacingMe(pParamite) && !sControlledCharacter_5C1B8C->VIsFacingMe(this))
+                if (sControlledCharacter->VIsFacingMe(pParamite) && !sControlledCharacter->VIsFacingMe(this))
                 {
                     return 0;
                 }
 
                 if (distToPlayer > Math_Distance(
-                        FP_GetExponent(sControlledCharacter_5C1B8C->mXPos),
-                        FP_GetExponent(sControlledCharacter_5C1B8C->mYPos),
+                        FP_GetExponent(sControlledCharacter->mXPos),
+                        FP_GetExponent(sControlledCharacter->mYPos),
                         FP_GetExponent(pParamite->mXPos),
                         FP_GetExponent(pParamite->mYPos)))
                 {
-                    if (sControlledCharacter_5C1B8C->VIsFacingMe(pParamite) == sControlledCharacter_5C1B8C->VIsFacingMe(this))
+                    if (sControlledCharacter->VIsFacingMe(pParamite) == sControlledCharacter->VIsFacingMe(this))
                     {
                         return 0;
                     }
@@ -5819,7 +5819,7 @@ s16 Paramite::NextPlayerInputMotion()
 
 s16 Paramite::FindTarget()
 {
-    if (sControlledCharacter_5C1B8C == this)
+    if (sControlledCharacter == this)
     {
         BaseAliveGameObject* pBestTarget = nullptr;
         for (s32 i = 0; i < gBaseAliveGameObjects_5C1B7C->Size(); i++)
@@ -5879,7 +5879,7 @@ s16 Paramite::FindTarget()
 
 s16 Paramite::ToNextMotion()
 {
-    if (sControlledCharacter_5C1B8C == this && mHealth > FP_FromInteger(0))
+    if (sControlledCharacter == this && mHealth > FP_FromInteger(0))
     {
         return NextPlayerInputMotion();
     }
@@ -6025,7 +6025,7 @@ void Paramite::MoveOnLine()
     {
         // Not on a line so we are falling
 
-        if (sControlledCharacter_5C1B8C == this)
+        if (sControlledCharacter == this)
         {
             // Check if we hit a web while falling and grab it if so
             BaseAliveGameObjectCollisionLine = WebCollision(mSpriteScale * FP_FromInteger(20), mVelX);
@@ -6136,7 +6136,7 @@ void Paramite::Sound(ParamiteSpeak soundId, s16 pitch_min)
     if (soundId == ParamiteSpeak::Howdy_5)
     {
         volRight = paramite_stru_55D7C0[5].field_3_default_volume;
-        if (sControlledCharacter_5C1B8C == this)
+        if (sControlledCharacter == this)
         {
             volRight *= 3;
         }

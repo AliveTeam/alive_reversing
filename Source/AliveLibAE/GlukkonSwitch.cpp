@@ -94,8 +94,8 @@ void GlukkonSwitch::VScreenChanged()
 
 s16 GlukkonSwitch::PlayerNearMe()
 {
-    const s16 playerXPos = FP_GetExponent(sControlledCharacter_5C1B8C->mXPos);
-    const s16 playerYPos = FP_GetExponent(sControlledCharacter_5C1B8C->mYPos);
+    const s16 playerXPos = FP_GetExponent(sControlledCharacter->mXPos);
+    const s16 playerYPos = FP_GetExponent(sControlledCharacter->mYPos);
 
     if ((playerXPos >= field_118_top_left.x && playerXPos <= field_11C_bottom_right.x) && (playerYPos >= field_118_top_left.y && playerYPos <= field_11C_bottom_right.y))
     {

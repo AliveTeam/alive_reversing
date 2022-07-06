@@ -138,7 +138,7 @@ s32 MineCar::CreateFromSaveState(const u8* pBuffer)
     {
         if (pState->field_5A_bAbeInCar)
         {
-            sControlledCharacter_5C1B8C = pMineCar;
+            sControlledCharacter = pMineCar;
         }
 
         pMineCar->BaseAliveGameObjectPathTLV = nullptr;
@@ -797,7 +797,7 @@ s32 MineCar::VGetSaveState(u8* pSaveBuffer)
         pState->field_46_collision_line_type = -1;
     }
 
-    pState->field_5A_bAbeInCar = (this == sControlledCharacter_5C1B8C);
+    pState->field_5A_bAbeInCar = (this == sControlledCharacter);
     pState->field_4C_tlvInfo = field_118_tlvInfo;
     pState->field_50_state = field_11C_state;
 
@@ -936,7 +936,7 @@ void MineCar::State_0_ParkedWithoutAbe()
     {
         mAnim.Set_Animation_Data(AnimId::Mine_Car_Closed, nullptr);
         field_11C_state = MineCarStates::eParkedWithAbe_1;
-        sControlledCharacter_5C1B8C = this;
+        sControlledCharacter = this;
         mAnim.mRenderLayer = Layer::eLayer_RollingBallBombMineCar_35;
         field_124_anim.mRenderLayer = Layer::eLayer_RollingBallBombMineCar_35;
 
@@ -970,7 +970,7 @@ void MineCar::State_1_ParkedWithAbe()
         field_124_anim.Set_Animation_Data(AnimId::Mine_Car_Tread_Idle, nullptr);
         mAnim.Set_Animation_Data(AnimId::Mine_Car_Open, nullptr);
 
-        sControlledCharacter_5C1B8C = sActiveHero;
+        sControlledCharacter = sActiveHero;
         field_1CC_spawned_path = gMap.mCurrentPath;
         field_1CE_spawned_camera = gMap.mCurrentCamera;
 
@@ -1571,8 +1571,8 @@ void MineCar::State_3_Falling()
             mVelX = FP_FromInteger(0);
 
             relive_new ParticleBurst(
-                sControlledCharacter_5C1B8C->mXPos + mineCarHeight + kGridSize,
-                sControlledCharacter_5C1B8C->mYPos - ((mineCarHeight + kGridSize) * FP_FromDouble(0.5)),
+                sControlledCharacter->mXPos + mineCarHeight + kGridSize,
+                sControlledCharacter->mYPos - ((mineCarHeight + kGridSize) * FP_FromDouble(0.5)),
                 4u,
                 mSpriteScale,
                 BurstType::eBigRedSparks_3,
@@ -1593,8 +1593,8 @@ void MineCar::State_3_Falling()
             mVelX = FP_FromInteger(0);
 
             relive_new ParticleBurst(
-                sControlledCharacter_5C1B8C->mXPos - (mineCarHeight + kGridSize),
-                sControlledCharacter_5C1B8C->mYPos - ((mineCarHeight + kGridSize) * FP_FromDouble(0.5)),
+                sControlledCharacter->mXPos - (mineCarHeight + kGridSize),
+                sControlledCharacter->mYPos - ((mineCarHeight + kGridSize) * FP_FromDouble(0.5)),
                 4u,
                 mSpriteScale,
                 BurstType::eBigRedSparks_3,
@@ -1616,8 +1616,8 @@ void MineCar::State_3_Falling()
         mVelY = (-mVelY * FP_FromDouble(0.2));
 
         relive_new ParticleBurst(
-            sControlledCharacter_5C1B8C->mXPos,
-            sControlledCharacter_5C1B8C->mYPos,
+            sControlledCharacter->mXPos,
+            sControlledCharacter->mYPos,
             5u,
             FP_FromInteger(1),
             BurstType::eBigRedSparks_3,

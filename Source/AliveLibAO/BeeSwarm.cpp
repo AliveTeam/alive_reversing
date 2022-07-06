@@ -126,7 +126,7 @@ void BeeSwarm::VScreenChanged()
         }
     }
 
-    if (!sActiveHero_507678 || (field_D98_pChaseTarget == sActiveHero_507678 && sActiveHero_507678->mCurrentMotion == eAbeMotions::Motion_156_DoorEnter_42D370))
+    if (!sActiveHero || (field_D98_pChaseTarget == sActiveHero && sActiveHero->mCurrentMotion == eAbeMotions::Motion_156_DoorEnter_42D370))
     {
         mBaseGameObjectFlags.Set(Options::eDead);
     }
@@ -249,7 +249,7 @@ void BeeSwarm::VUpdate()
                         FP_GetExponent(field_D70_chase_target_x),
                         FP_GetExponent(field_D74_chase_target_y))
                         < 60
-                    && field_D98_pChaseTarget == sActiveHero_507678)
+                    && field_D98_pChaseTarget == sActiveHero)
                 {
                     gBeesNearAbe_5076AC = TRUE;
                 }
@@ -262,7 +262,7 @@ void BeeSwarm::VUpdate()
                 {
                     if (!(sGnFrame % 10) && Math_RandomRange(0, 100) < 70)
                     {
-                        // Check every single object just to see if its sActiveHero_507678 (nice algorithm lads)
+                        // Check every single object just to see if its sActiveHero (nice algorithm lads)
                         // and play pain sounds if so and in the damage rect.
                         for (s32 i = 0; i < gBaseAliveGameObjects_4FC8A0->Size(); i++)
                         {
@@ -275,14 +275,14 @@ void BeeSwarm::VUpdate()
                             const PSX_RECT obj_rect = pObjIter->VGetBoundingRect();
                             if (FP_FromInteger(obj_rect.x) <= field_D90_rect_w && FP_FromInteger(obj_rect.w) >= field_D88_rect_x && FP_FromInteger(obj_rect.h) >= field_D8C_rect_y && FP_FromInteger(obj_rect.y) <= field_D94_rect_h)
                             {
-                                if (pObjIter == sActiveHero_507678 && sActiveHero_507678->mHealth > FP_FromInteger(0))
+                                if (pObjIter == sActiveHero && sActiveHero->mHealth > FP_FromInteger(0))
                                 {
                                     const MudSounds snd = Math_RandomRange(0, 127) >= 64 ? MudSounds::eBeesStruggle_18 : MudSounds::eKnockbackOuch_10;
-                                    const FP pitch_val = (FP_FromInteger(1) - sActiveHero_507678->mHealth) / FP_FromDouble(0.15);
+                                    const FP pitch_val = (FP_FromInteger(1) - sActiveHero->mHealth) / FP_FromDouble(0.15);
                                     const s16 pitch = Math_RandomRange(
                                         200 * FP_GetExponent(pitch_val),
                                         200 * (FP_GetExponent(pitch_val) + 1));
-                                    Mudokon_SFX(snd, 0, pitch, sActiveHero_507678);
+                                    Mudokon_SFX(snd, 0, pitch, sActiveHero);
                                 }
                             }
                         }

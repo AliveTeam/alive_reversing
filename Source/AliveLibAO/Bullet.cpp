@@ -135,28 +135,28 @@ void Bullet::VUpdate()
             FP hitX = {};
             FP hitY = {};
             PSX_RECT shootRect = {};
-            if (sControlledCharacter_50767C == gElum_507680)
+            if (sControlledCharacter == gElum)
             {
-                distX_1 = sActiveHero_507678->mXPos;
-                distX_2 = gElum_507680->mVelX * FP_FromInteger(4);
+                distX_1 = sActiveHero->mXPos;
+                distX_2 = gElum->mVelX * FP_FromInteger(4);
             }
             else
             {
-                if (field_18_xpos >= sActiveHero_507678->mXPos)
+                if (field_18_xpos >= sActiveHero->mXPos)
                 {
-                    distX_1 = sActiveHero_507678->mXPos + FP_FromInteger(field_34_number_of_bullets * 16);
+                    distX_1 = sActiveHero->mXPos + FP_FromInteger(field_34_number_of_bullets * 16);
                 }
                 else
                 {
-                    distX_1 = sActiveHero_507678->mXPos - FP_FromInteger(field_34_number_of_bullets * 16);
+                    distX_1 = sActiveHero->mXPos - FP_FromInteger(field_34_number_of_bullets * 16);
                 }
-                distX_2 = sActiveHero_507678->mVelX * FP_FromInteger(2);
+                distX_2 = sActiveHero->mVelX * FP_FromInteger(2);
             }
 
             shootRect.x = FP_GetExponent(distX_1 - distX_2);
             shootRect.w = shootRect.x + 2;
-            shootRect.y = FP_GetExponent(sActiveHero_507678->mYPos)
-                        + sActiveHero_507678->mAnim.Get_FrameHeader(-1)->field_8_data.points[2].y //or points 3?!
+            shootRect.y = FP_GetExponent(sActiveHero->mYPos)
+                        + sActiveHero->mAnim.Get_FrameHeader(-1)->field_8_data.points[2].y //or points 3?!
                         - 10;
             shootRect.h = shootRect.y + 10;
 
@@ -172,7 +172,7 @@ void Bullet::VUpdate()
                     field_18_xpos,
                     field_1C_ypos,
                     distX_1 - distX_2,
-                    sActiveHero_507678->mYPos + FP_FromInteger(10),
+                    sActiveHero->mYPos + FP_FromInteger(10),
                     &field_14_pLine,
                     &hitX,
                     &hitY,
@@ -253,7 +253,7 @@ BaseAliveGameObject* Bullet::ShootObject(PSX_RECT* pRect)
 
                     || pObjIter->mBaseGameObjectTypeId == ReliveTypes::eMudokon
                     || pObjIter->mBaseGameObjectTypeId == ReliveTypes::eAbe
-                    || (pObjIter->mBaseGameObjectTypeId == ReliveTypes::eSlig && sControlledCharacter_50767C == pObjIter))
+                    || (pObjIter->mBaseGameObjectTypeId == ReliveTypes::eSlig && sControlledCharacter == pObjIter))
                 {
                     const PSX_RECT bRect = pObjIter->VGetBoundingRect();
                     if (pRect->x <= bRect.w && pRect->w >= bRect.x && pRect->h >= bRect.y && pRect->y <= bRect.h)

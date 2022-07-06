@@ -158,7 +158,7 @@ s32 Glukkon::CreateFromSaveState(const u8* pData)
         pGlukkon->mBaseGameObjectTlvInfo = pSaveState->field_4_object_id;
         if (pSaveState->field_40_bIsActiveChar)
         {
-            sControlledCharacter_5C1B8C = pGlukkon;
+            sControlledCharacter = pGlukkon;
         }
 
         pGlukkon->BaseAliveGameObjectPathTLV = nullptr;
@@ -364,7 +364,7 @@ s32 Glukkon::VGetSaveState(u8* pSaveBuffer)
     {
         pSaveState->field_3A_line_type = -1;
     }
-    pSaveState->field_40_bIsActiveChar = this == static_cast<Glukkon*>(sControlledCharacter_5C1B8C);
+    pSaveState->field_40_bIsActiveChar = this == static_cast<Glukkon*>(sControlledCharacter);
     pSaveState->field_44_tlvInfo = field_214_tlv_info;
 
     pSaveState->field_48_brain_state_idx = 0;
@@ -416,7 +416,7 @@ void Glukkon::M_Walk_1_442D30()
         {
             case 0:
             case 9:
-                if (sControlledCharacter_5C1B8C != this || mHealth <= FP_FromInteger(0))
+                if (sControlledCharacter != this || mHealth <= FP_FromInteger(0))
                 {
                     if (mNextMotion == eGlukkonMotions::M_Jump_4_443030)
                     {
@@ -441,7 +441,7 @@ void Glukkon::M_Walk_1_442D30()
 
             case 8:
             case 17:
-                if (sControlledCharacter_5C1B8C != this || mHealth <= FP_FromInteger(0))
+                if (sControlledCharacter != this || mHealth <= FP_FromInteger(0))
                 {
                     if (mNextMotion == eGlukkonMotions::M_Idle_0_442D10 || mNextMotion == eGlukkonMotions::M_Turn_2_442F10 || mNextMotion == eGlukkonMotions::M_Speak1_11_4437D0 || mNextMotion == eGlukkonMotions::M_Speak2_12_4438F0 || mNextMotion == eGlukkonMotions::M_Speak3_23_443910 || mNextMotion == eGlukkonMotions::M_LongLaugh_13_443930)
                     {
@@ -587,7 +587,7 @@ void Glukkon::M_Jump_4_443030()
         return;
     }
 
-    if (sControlledCharacter_5C1B8C == this)
+    if (sControlledCharacter == this)
     {
         SetActiveCameraDelayedFromDir();
     }
@@ -651,7 +651,7 @@ void Glukkon::JumpHelper()
         return;
     }
 
-    if (sControlledCharacter_5C1B8C == this && mHealth > FP_FromInteger(0))
+    if (sControlledCharacter == this && mHealth > FP_FromInteger(0))
     {
         const auto input_pressed = sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed;
 
@@ -2061,9 +2061,9 @@ Glukkon::~Glukkon()
 
     mBaseGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4); // Seems wrong to do this here ??
 
-    if (this == sControlledCharacter_5C1B8C)
+    if (this == sControlledCharacter)
     {
-        sControlledCharacter_5C1B8C = sActiveHero;
+        sControlledCharacter = sActiveHero;
     }
 }
 
@@ -2142,7 +2142,7 @@ void Glukkon::VUpdate()
 
         Update_Slurg_WatchPoints();
 
-        if (sControlledCharacter_5C1B8C == this && BaseAliveGameObject_PlatformId != -1)
+        if (sControlledCharacter == this && BaseAliveGameObject_PlatformId != -1)
         {
             mVelY = mYPos - field_1DC_previous_ypos;
             SetActiveCameraDelayedFromDir();
@@ -2383,9 +2383,9 @@ void Glukkon::HandleInput()
 
 s16 Glukkon::ShouldPanic(s16 panicEvenIfNotFacingMe)
 {
-    if (IsLineOfSightBetween(this, sControlledCharacter_5C1B8C)
-        && !(sControlledCharacter_5C1B8C->mBaseAliveGameObjectFlags.Get(Flags_114::e114_Bit8_bInvisible))
-        && !BaseAliveGameObject::IsInInvisibleZone(sControlledCharacter_5C1B8C)
+    if (IsLineOfSightBetween(this, sControlledCharacter)
+        && !(sControlledCharacter->mBaseAliveGameObjectFlags.Get(Flags_114::e114_Bit8_bInvisible))
+        && !BaseAliveGameObject::IsInInvisibleZone(sControlledCharacter)
         && !EventGet(kEventResetting)
         && gMap.Is_Point_In_Current_Camera(
             mCurrentLevel,
@@ -2394,12 +2394,12 @@ s16 Glukkon::ShouldPanic(s16 panicEvenIfNotFacingMe)
             mYPos,
             0)
         && gMap.Is_Point_In_Current_Camera(
-            sControlledCharacter_5C1B8C->mCurrentLevel,
-            sControlledCharacter_5C1B8C->mCurrentPath,
-            sControlledCharacter_5C1B8C->mXPos,
-            sControlledCharacter_5C1B8C->mYPos,
+            sControlledCharacter->mCurrentLevel,
+            sControlledCharacter->mCurrentPath,
+            sControlledCharacter->mXPos,
+            sControlledCharacter->mYPos,
             0)
-        && (panicEvenIfNotFacingMe || VIsFacingMe(sControlledCharacter_5C1B8C)))
+        && (panicEvenIfNotFacingMe || VIsFacingMe(sControlledCharacter)))
     {
         return 1;
     }
@@ -2426,7 +2426,7 @@ s16 Glukkon::ShouldPanic(s16 panicEvenIfNotFacingMe)
         mXPos,
         mYPos,
         AsEventScale(mScale));
-    return pSpeakEvent && pSpeakEvent == sControlledCharacter_5C1B8C;
+    return pSpeakEvent && pSpeakEvent == sControlledCharacter;
 }
 
 s16 Glukkon::PathBlocked(FP /*a2*/, s16 checkBounds)
@@ -2778,10 +2778,10 @@ void Glukkon::ToDead()
 {
     MusicController::static_PlayMusic(MusicController::MusicTypes::eNone_0, this, 0, 0);
 
-    if (sControlledCharacter_5C1B8C == this)
+    if (sControlledCharacter == this)
     {
         // When its a player controlled gluk go back to the screen the player is in
-        sControlledCharacter_5C1B8C = sActiveHero;
+        sControlledCharacter = sActiveHero;
         MusicController::static_PlayMusic(MusicController::MusicTypes::eNone_0, this, 0, 0);
 
         if (gMap.mNextLevel != EReliveLevelIds::eMenu)

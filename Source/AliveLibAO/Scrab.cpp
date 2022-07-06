@@ -291,8 +291,8 @@ void Scrab::VUpdate()
         }
     }
 
-    const FP hero_xd = FP_Abs(mXPos - sActiveHero_507678->mXPos);
-    const FP hero_yd = FP_Abs(mYPos - sActiveHero_507678->mYPos);
+    const FP hero_xd = FP_Abs(mXPos - sActiveHero->mXPos);
+    const FP hero_yd = FP_Abs(mYPos - sActiveHero->mYPos);
 
     if (hero_xd > FP_FromInteger(2048) || hero_yd > FP_FromInteger(960))
     {
@@ -911,10 +911,10 @@ Scrab* Scrab::FindScrabToFight()
 
 s16 Scrab::FindAbeOrMud()
 {
-    if (CanSeeAbe(sActiveHero_507678) && sActiveHero_507678->mHealth > FP_FromInteger(0) && sActiveHero_507678->mSpriteScale == mSpriteScale && !WallHit_401930(sActiveHero_507678->mXPos - mXPos, mSpriteScale * FP_FromInteger(35)))
+    if (CanSeeAbe(sActiveHero) && sActiveHero->mHealth > FP_FromInteger(0) && sActiveHero->mSpriteScale == mSpriteScale && !WallHit_401930(sActiveHero->mXPos - mXPos, mSpriteScale * FP_FromInteger(35)))
     {
-        field_120_pTarget = sActiveHero_507678;
-        sActiveHero_507678->mBaseGameObjectRefCount++;
+        field_120_pTarget = sActiveHero;
+        sActiveHero->mBaseGameObjectRefCount++;
         return 1;
     }
 
@@ -951,10 +951,10 @@ s16 Scrab::CanSeeAbe(BaseAliveGameObject* pObj)
         return 0;
     }
 
-    if (pObj == sActiveHero_507678)
+    if (pObj == sActiveHero)
     {
-        if (sActiveHero_507678->mCurrentMotion == eAbeMotions::Motion_66_LedgeHang_428D90
-            || sActiveHero_507678->mCurrentMotion == eAbeMotions::Motion_68_LedgeHangWobble_428E50)
+        if (sActiveHero->mCurrentMotion == eAbeMotions::Motion_66_LedgeHang_428D90
+            || sActiveHero->mCurrentMotion == eAbeMotions::Motion_68_LedgeHangWobble_428E50)
         {
             return VOnSameYLevel(pObj);
         }
@@ -966,7 +966,7 @@ void Scrab::Motion_0_Empty_45E3D0()
 {
     if (sNumCamSwappers_507668 <= 0)
     {
-        if (sControlledCharacter_50767C == this)
+        if (sControlledCharacter == this)
         {
             mCurrentMotion = mPreviousMotion;
             if (mLiftPoint)
@@ -1162,7 +1162,7 @@ void Scrab::Motion_3_Run_45EAB0()
 
         if (mCurrentMotion == eScrabMotions::Motion_3_Run_45EAB0)
         {
-            if (field_120_pTarget == sActiveHero_507678)
+            if (field_120_pTarget == sActiveHero)
             {
                 const PSX_RECT objRect = field_120_pTarget->VGetBoundingRect();
                 const PSX_RECT bRect = VGetBoundingRect();

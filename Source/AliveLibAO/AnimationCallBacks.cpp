@@ -166,7 +166,7 @@ s32 Abe_OnFrame(BaseGameObject* pObj, s16* pData)
     const FP yVel = kAbeVelTable_4C6608[pAbe->field_19D_throw_direction].y * pAbe->mSpriteScale;
 
     FP directed_x = {};
-    if (sActiveHero_507678->mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
+    if (sActiveHero->mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
     {
         xVel = -xVel;
         directed_x = -(pAbe->mSpriteScale * FP_FromInteger(pData[0]));
@@ -195,14 +195,14 @@ s32 Abe_OnFrame(BaseGameObject* pObj, s16* pData)
         xVel = -xVel;
     }
 
-    if (sActiveHero_507678->field_198_pThrowable)
+    if (sActiveHero->field_198_pThrowable)
     {
-        sActiveHero_507678->field_198_pThrowable->mXPos = directed_x + sActiveHero_507678->mXPos;
-        BaseThrowable* pThrowable = sActiveHero_507678->field_198_pThrowable;
-        pThrowable->mYPos = (pAbe->mSpriteScale * data_y) + sActiveHero_507678->mYPos;
+        sActiveHero->field_198_pThrowable->mXPos = directed_x + sActiveHero->mXPos;
+        BaseThrowable* pThrowable = sActiveHero->field_198_pThrowable;
+        pThrowable->mYPos = (pAbe->mSpriteScale * data_y) + sActiveHero->mYPos;
         pThrowable->VThrow(xVel, yVel);
         pThrowable->mSpriteScale = pAbe->mSpriteScale;
-        sActiveHero_507678->field_198_pThrowable = nullptr;
+        sActiveHero->field_198_pThrowable = nullptr;
     }
     return 1;
 }

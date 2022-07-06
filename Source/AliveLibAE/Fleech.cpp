@@ -1195,7 +1195,7 @@ void Fleech::VUpdate()
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 
-    if ((FP_Abs(mXPos - sControlledCharacter_5C1B8C->mXPos) <= FP_FromInteger(750) && FP_Abs(mYPos - sControlledCharacter_5C1B8C->mYPos) <= FP_FromInteger(520)) || mFleechFlags.Get(FleechFlags::ePersistant))
+    if ((FP_Abs(mXPos - sControlledCharacter->mXPos) <= FP_FromInteger(750) && FP_Abs(mYPos - sControlledCharacter->mYPos) <= FP_FromInteger(520)) || mFleechFlags.Get(FleechFlags::ePersistant))
     {
         const auto oldMotion = mCurrentMotion;
 
@@ -2849,7 +2849,7 @@ s16 Fleech::Brain_Patrol_State_4(BaseAliveGameObject* pTarget)
     if (IsScrabOrParamiteNear(ScaleToGridSize(mSpriteScale) * FP_FromInteger(8)))
     {
         auto pDangerObj = static_cast<BaseAliveGameObject*>(sObjectIds.Find_Impl(field_170_danger_obj));
-        if (pDangerObj == sControlledCharacter_5C1B8C)
+        if (pDangerObj == sControlledCharacter)
         {
             field_124_brain_state = eFleechBrains::eBrain_2_Scared;
             return 0;
@@ -3433,7 +3433,7 @@ s16 Fleech::Brain_ChasingAbe_State_9(BaseAliveGameObject* pObj)
     }
 
     auto pDangerObj = static_cast<BaseAliveGameObject*>(sObjectIds.Find_Impl(field_170_danger_obj));
-    if (pDangerObj == sControlledCharacter_5C1B8C)
+    if (pDangerObj == sControlledCharacter)
     {
         if (Collision(1) || HandleEnemyStopperOrSlamDoor(1) || WallHit(FP_FromInteger(mSpriteScale >= FP_FromInteger(1) ? 10 : 5), ScaleToGridSize(mSpriteScale) * FP_FromInteger(mAnim.mFlags.Get(AnimFlags::eBit5_FlipX) != 0 ? -1 : 1)))
         {
@@ -3940,7 +3940,7 @@ s16 Fleech::Brain_2_Scared()
     switch (field_126_brain_sub_state)
     {
         case Brain_2_Scared::eScared_0:
-            if (!pDangerObj || pDangerObj != sControlledCharacter_5C1B8C)
+            if (!pDangerObj || pDangerObj != sControlledCharacter)
             {
                 return Brain_2_Scared::ePatrolArea_9;
             }
@@ -3972,7 +3972,7 @@ s16 Fleech::Brain_2_Scared()
 
         case Brain_2_Scared::eReactToDanger_1:
         {
-            if (!pDangerObj || pDangerObj->mHealth <= FP_FromInteger(0) || pDangerObj != sControlledCharacter_5C1B8C)
+            if (!pDangerObj || pDangerObj->mHealth <= FP_FromInteger(0) || pDangerObj != sControlledCharacter)
             {
                 return Brain_2_Scared::ePatrolArea_9;
             }
@@ -4072,7 +4072,7 @@ s16 Fleech::Brain_2_Scared()
 
         case Brain_2_Scared::eCornered_4:
         {
-            if (!pDangerObj || pDangerObj != sControlledCharacter_5C1B8C)
+            if (!pDangerObj || pDangerObj != sControlledCharacter)
             {
                 return Brain_2_Scared::ePatrolArea_9;
             }
@@ -4117,7 +4117,7 @@ s16 Fleech::Brain_2_Scared()
         }
 
         case Brain_2_Scared::eCorneredPrepareAttack_5:
-            if (!pDangerObj || pDangerObj != sControlledCharacter_5C1B8C)
+            if (!pDangerObj || pDangerObj != sControlledCharacter)
             {
                 return Brain_2_Scared::ePatrolArea_9;
             }

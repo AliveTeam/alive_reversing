@@ -478,14 +478,14 @@ void Drill::VScreenChanged()
     }
 
     // More than 1 screen away on X?
-    if (FP_Abs(sControlledCharacter_5C1B8C->mXPos - mXPos) > FP_FromInteger(375))
+    if (FP_Abs(sControlledCharacter->mXPos - mXPos) > FP_FromInteger(375))
     {
         field_6_flags.Set(BaseGameObject::eDead);
         return;
     }
 
     // More than 1 screen away on Y?
-    if (FP_Abs(sControlledCharacter_5C1B8C->mYPos - mYPos) > FP_FromInteger(260))
+    if (FP_Abs(sControlledCharacter->mYPos - mYPos) > FP_FromInteger(260))
     {
         field_6_flags.Set(BaseGameObject::eDead);
         return;

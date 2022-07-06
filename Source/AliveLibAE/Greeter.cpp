@@ -237,16 +237,16 @@ void Greeter::VScreenChanged()
 {
     BaseGameObject::VScreenChanged();
 
-    if (sControlledCharacter_5C1B8C)
+    if (sControlledCharacter)
     {
-        const FP xDistFromPlayer = FP_Abs(sControlledCharacter_5C1B8C->mXPos - mXPos);
+        const FP xDistFromPlayer = FP_Abs(sControlledCharacter->mXPos - mXPos);
         if (xDistFromPlayer > FP_FromInteger(356))
         {
             mBaseGameObjectFlags.Set(BaseGameObject::eDead);
             return;
         }
 
-        const FP yDistFromPlayer = FP_Abs(sControlledCharacter_5C1B8C->mYPos - mYPos);
+        const FP yDistFromPlayer = FP_Abs(sControlledCharacter->mYPos - mYPos);
         if (yDistFromPlayer > FP_FromInteger(240))
         {
             mBaseGameObjectFlags.Set(BaseGameObject::eDead);

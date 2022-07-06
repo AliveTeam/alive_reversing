@@ -10,10 +10,10 @@ namespace AO {
 
 struct Path_BellHammer final : public Path_TLV
 {
-    s16 field_18_switch_id;
-    SwitchOp field_1A_action;
-    Scale_short field_1C_scale;
-    XDirection_short field_1E_direction;
+    s16 mSwitchId;
+    SwitchOp mAction;
+    Scale_short mScale;
+    XDirection_short mDirection;
 };
 ALIVE_ASSERT_SIZEOF(Path_BellHammer, 0x20);
 
@@ -34,11 +34,11 @@ public:
 
     static void OnResLoaded(BellHammer* pThis);
 
-    BellHammerStates field_E4_state = BellHammerStates::eWaitForActivation_0;
-    s16 field_E6_switch_id = 0;
-    s32 field_E8_tlvInfo = 0;
-    s32 field_EC_pending_resource_count = 0;
-    s32 field_F0_bSpawnElum = 0;
+    BellHammerStates mState = BellHammerStates::eWaitForActivation_0;
+    s16 mSwitchId = 0;
+    s32 mTlvInfo = 0;
+    s32 mPendingResourceCount = 0;
+    bool mSpawnElum = false;
 };
 ALIVE_ASSERT_SIZEOF(BellHammer, 0xF4);
 

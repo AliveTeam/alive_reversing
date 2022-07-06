@@ -107,7 +107,7 @@ extern "C"
         &AO::gMap.mCurrentPath,
         &AO::gMap.mCurrentCamera,
         &AO::sGnFrame,
-        &AO::sActiveHero_507678,
+        &AO::sActiveHero,
         offsetof(AO::Abe, mYPos) + sizeof(s16), // +2 for exp only
         &AO::sDisableFontFlicker_5080E4,
         &AO::sSwitchStates_505568.mData[70]};

@@ -90,7 +90,7 @@ void BeeSwarmHole::VUpdate()
                 break;
 
             case Path_BeeSwarmHole::MovementType::eAttack_1:
-                pSwarm->Chase(sActiveHero_507678);
+                pSwarm->Chase(sActiveHero);
                 break;
 
             case Path_BeeSwarmHole::MovementType::eFollowPath_2:

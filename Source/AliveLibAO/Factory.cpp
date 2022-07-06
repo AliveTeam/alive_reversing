@@ -1019,13 +1019,13 @@ void Factory_AbeStart_486050(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion /*t
             pPauseMenu_5080E0 = relive_new PauseMenu();
         }
 
-        if (!sActiveHero_507678)
+        if (!sActiveHero)
         {
-            sActiveHero_507678 = relive_new Abe(55888, 85, 57, 55);
-            if (sActiveHero_507678)
+            sActiveHero = relive_new Abe(55888, 85, 57, 55);
+            if (sActiveHero)
             {
-                sActiveHero_507678->mXPos = FP_FromInteger(pTlv->mTopLeft.x + 12);
-                sActiveHero_507678->mYPos = FP_FromInteger(pTlv->mTopLeft.y);
+                sActiveHero->mXPos = FP_FromInteger(pTlv->mTopLeft.x + 12);
+                sActiveHero->mYPos = FP_FromInteger(pTlv->mTopLeft.y);
             }
         }
     }
@@ -1622,8 +1622,8 @@ void Factory_ElumStart_Unknown_4873D0(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfo
     else
     {
         Elum::Spawn(tlvOffsetLevelIdPathId);
-        gElum_507680->mXPos = FP_FromInteger(pTlv->mTopLeft.x);
-        gElum_507680->mYPos = FP_FromInteger(pTlv->mTopLeft.y);
+        gElum->mXPos = FP_FromInteger(pTlv->mTopLeft.x);
+        gElum->mYPos = FP_FromInteger(pTlv->mTopLeft.y);
     }
 }
 
@@ -2320,20 +2320,20 @@ void Factory_RingCancel_4818D0(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion t
 
         if (bRemovesShrykull)
         {
-            if (sActiveHero_507678->field_168_ring_pulse_timer)
+            if (sActiveHero->field_168_ring_pulse_timer)
             {
-                if (sActiveHero_507678->field_16C_bHaveShrykull)
+                if (sActiveHero->field_16C_bHaveShrykull)
                 {
                     Abe::Free_Shrykull_Resources_42F4C0();
-                    sActiveHero_507678->field_168_ring_pulse_timer = 0;
+                    sActiveHero->field_168_ring_pulse_timer = 0;
                 }
             }
         }
         else
         {
-            if (!sActiveHero_507678->field_16C_bHaveShrykull)
+            if (!sActiveHero->field_16C_bHaveShrykull)
             {
-                sActiveHero_507678->field_168_ring_pulse_timer = 0;
+                sActiveHero->field_168_ring_pulse_timer = 0;
             }
         }
         gMap.TLV_Reset(tlvOffsetLevelIdPathId.all, -1, 0, 0);

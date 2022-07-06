@@ -83,9 +83,9 @@ TestAnimation::TestAnimation()
 
 void TestAnimation::SyncToAbePos()
 {
-    mXPos = AO::sActiveHero_507678->mXPos + FP_FromInteger(30);
-    mYPos = AO::sActiveHero_507678->mYPos - FP_FromInteger(30);
-    mAnim.mRenderLayer = AO::sActiveHero_507678->mAnim.mRenderLayer;
+    mXPos = AO::sActiveHero->mXPos + FP_FromInteger(30);
+    mYPos = AO::sActiveHero->mYPos - FP_FromInteger(30);
+    mAnim.mRenderLayer = AO::sActiveHero->mAnim.mRenderLayer;
 }
 
 void TestAnimation::VUpdate()

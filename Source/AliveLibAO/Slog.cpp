@@ -159,8 +159,8 @@ Slog::Slog(FP xpos, FP ypos, FP scale)
 
     field_116_brain_sub_state = 0;
 
-    field_10C_pTarget = sControlledCharacter_50767C;
-    sControlledCharacter_50767C->mBaseGameObjectRefCount++;
+    field_10C_pTarget = sControlledCharacter;
+    sControlledCharacter->mBaseGameObjectRefCount++;
     field_17E_asleep = Choice_short::eNo_0;
     field_158_wake_up_anger = 0;
 
@@ -775,7 +775,7 @@ void Slog::Sfx(s32 soundId)
 
 s16 Slog::IsPlayerNear()
 {
-    if (FP_Abs(sActiveHero_507678->mXPos - mXPos) >= (FP_FromInteger(100) * mSpriteScale) || FP_Abs(sActiveHero_507678->mYPos - mYPos) >= (FP_FromInteger(25) * mSpriteScale) || sActiveHero_507678->mSpriteScale != mSpriteScale)
+    if (FP_Abs(sActiveHero->mXPos - mXPos) >= (FP_FromInteger(100) * mSpriteScale) || FP_Abs(sActiveHero->mYPos - mYPos) >= (FP_FromInteger(25) * mSpriteScale) || sActiveHero->mSpriteScale != mSpriteScale)
     {
         return 0;
     }
@@ -2161,7 +2161,7 @@ s16 Slog::Brain_1_Idle_4719C0()
     {
         // Listen to slig
         field_114_brain_idx = 0;
-        field_14C_pSlig = sControlledCharacter_50767C;
+        field_14C_pSlig = sControlledCharacter;
         field_14C_pSlig->mBaseGameObjectRefCount++;
 
         if (field_10C_pTarget)
@@ -2397,7 +2397,7 @@ s16 Slog::Brain_2_ChasingAbe_470F50()
     {
         // Listen to slig
         field_114_brain_idx = 0;
-        field_14C_pSlig = sControlledCharacter_50767C;
+        field_14C_pSlig = sControlledCharacter;
         field_14C_pSlig->mBaseGameObjectRefCount++;
 
         if (field_10C_pTarget)
@@ -2424,7 +2424,7 @@ s16 Slog::Brain_2_ChasingAbe_470F50()
         case 0:
             if (!field_10C_pTarget)
             {
-                field_10C_pTarget = sActiveHero_507678;
+                field_10C_pTarget = sActiveHero;
                 field_10C_pTarget->mBaseGameObjectRefCount++;
             }
             field_110 = 0;

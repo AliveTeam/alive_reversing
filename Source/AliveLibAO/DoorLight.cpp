@@ -166,7 +166,7 @@ void DoorLight::VUpdate()
                 {
                     field_EE_switch_value = 1;
 
-                    if (sControlledCharacter_50767C == sActiveHero_507678)
+                    if (sControlledCharacter == sActiveHero)
                     {
                         relive_new MusicTrigger(MusicTriggerMusicType::eSecretAreaShort_6, TriggeredBy::eTouching_1, 0, 15);
                     }

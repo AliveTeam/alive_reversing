@@ -116,7 +116,7 @@ void Command_Test(const std::vector<std::string>& args)
 
 void Command_Die(const std::vector<std::string>& /*args*/)
 {
-    relive_new BaseBomb(sControlledCharacter_5C1B8C->mXPos, sControlledCharacter_5C1B8C->mYPos, 0, sControlledCharacter_5C1B8C->mSpriteScale);
+    relive_new BaseBomb(sControlledCharacter->mXPos, sControlledCharacter->mYPos, 0, sControlledCharacter->mSpriteScale);
 }
 
 void Command_Murder(const std::vector<std::string>& /*args*/)
@@ -193,7 +193,7 @@ void Command_HelperUpdate()
             }
         }
 
-        sControlledCharacter_5C1B8C = sActiveHero;
+        sControlledCharacter = sActiveHero;
     }
 }
 
@@ -246,7 +246,7 @@ void Command_Event(const std::vector<std::string>& args)
         DEV_CONSOLE_MESSAGE_C("Invalid event id", 6, 127, 0, 0);
         return;
     }
-    EventBroadcast(static_cast<Event>(eventId), sControlledCharacter_5C1B8C);
+    EventBroadcast(static_cast<Event>(eventId), sControlledCharacter);
 }
 
 void Command_Menu(const std::vector<std::string>& args)
@@ -317,14 +317,14 @@ void Command_DDV(const std::vector<std::string>& args)
 
 void Command_SetState(const std::vector<std::string>& args)
 {
-    if (sControlledCharacter_5C1B8C->Type() != ReliveTypes::eAbe)
+    if (sControlledCharacter->Type() != ReliveTypes::eAbe)
     {
         DEV_CONSOLE_MESSAGE_C("Setting motion not supported on this object (only allowed for abe)!", 6, 255, 0, 0);
         return;
     }
 
     s16 motion = static_cast<s16>(std::stoi(args[0]));
-    Abe* pAbe = static_cast<Abe*>(sControlledCharacter_5C1B8C);
+    Abe* pAbe = static_cast<Abe*>(sControlledCharacter);
     auto resource = pAbe->MotionToAnimResource_44AAB0(motion);
 
     if (resource != nullptr)
@@ -383,8 +383,8 @@ void Command_Spawn(const std::vector<std::string>& args)
     std::string objName = args[0];
     TlvItemInfoUnion tlvinfo;
     tlvinfo.all = 0;
-    s32 spawnX = FP_GetExponent(sControlledCharacter_5C1B8C->mXPos) + 50;
-    s32 spawnY = FP_GetExponent(sControlledCharacter_5C1B8C->mYPos);
+    s32 spawnX = FP_GetExponent(sControlledCharacter->mXPos) + 50;
+    s32 spawnY = FP_GetExponent(sControlledCharacter->mYPos);
 
     FP hitX;
     FP hitY;

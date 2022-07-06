@@ -392,7 +392,7 @@ void Init_Sound_DynamicArrays_And_Others_43BDB0()
     //Overlays_Init_43BFC0(); // Note: Pointless because never used in PC
     pPauseMenu_5C9300 = nullptr;
     sActiveHero = nullptr;
-    sControlledCharacter_5C1B8C = 0;
+    sControlledCharacter = 0;
     sNum_CamSwappers_5C1B66 = 0;
     sGnFrame = 0;
     sbLoadingInProgress_5C1B96 = 0;

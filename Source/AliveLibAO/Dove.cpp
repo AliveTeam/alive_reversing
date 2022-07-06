@@ -252,7 +252,7 @@ void Dove::VUpdate()
                 }
             }
 
-            if (FP_GetExponent(FP_Abs(mXPos - sControlledCharacter_50767C->mXPos)) < 100)
+            if (FP_GetExponent(FP_Abs(mXPos - sControlledCharacter->mXPos)) < 100)
             {
                 if (EventGet(kEventNoise))
                 {

@@ -633,7 +633,7 @@ s32 Slig::VGetSaveState(u8* pSaveBuffer)
         pState->field_3A_collision_line_type = BaseAliveGameObjectCollisionLine->mLineType;
     }
 
-    pState->field_40_bActiveChar = this == sControlledCharacter_5C1B8C;
+    pState->field_40_bActiveChar = this == sControlledCharacter;
     pState->field_42_brain_sub_state = field_11C_brain_sub_state;
     pState->field_44_pitch_min = field_11E_pitch_min;
     pState->field_48_timer = field_120_timer;
@@ -763,7 +763,7 @@ s32 Slig::CreateFromSaveState(const u8* pBuffer)
     {
         if (pState->field_40_bActiveChar)
         {
-            sControlledCharacter_5C1B8C = pSlig;
+            sControlledCharacter = pSlig;
             pSlig->mBaseAliveGameObjectFlags.Set(Flags_114::e114_Bit4_bPossesed);
         }
 
@@ -909,7 +909,7 @@ void Slig::M_StandIdle_0_4B4EC0()
 
     if (!MainMovement_4B4720())
     {
-        if (sControlledCharacter_5C1B8C == this && mHealth > FP_FromInteger(0))
+        if (sControlledCharacter == this && mHealth > FP_FromInteger(0))
         {
             if (Input_IsChanting_45F260())
             {
@@ -996,7 +996,7 @@ void Slig::M_Walking_2_4B5BC0()
                 MapFollowMe(TRUE);
             }
 
-            if (sControlledCharacter_5C1B8C == this && mHealth > FP_FromInteger(0))
+            if (sControlledCharacter == this && mHealth > FP_FromInteger(0))
             {
                 if (sInputKey_Run_5550E8 & sInputObject_5BD4E0.field_0_pads[sCurrentControllerIndex_5C1BBE].field_0_pressed)
                 {
@@ -1030,7 +1030,7 @@ void Slig::M_Walking_2_4B5BC0()
             {
                 mCurrentMotion = eSligMotions::M_WalkToStand_18_4B5FC0;
             }
-            else if (sControlledCharacter_5C1B8C != this || mHealth <= FP_FromInteger(0))
+            else if (sControlledCharacter != this || mHealth <= FP_FromInteger(0))
             {
                 if (mNextMotion == eSligMotions::M_Shoot_6_4B55A0)
                 {
@@ -1114,7 +1114,7 @@ void Slig::M_Running_4_4B6000()
                     MapFollowMe(TRUE);
                 }
 
-                if (sControlledCharacter_5C1B8C == this && mHealth > FP_FromInteger(0))
+                if (sControlledCharacter == this && mHealth > FP_FromInteger(0))
                 {
                     if (mAnim.mCurrentFrame == 4)
                     {
@@ -1195,7 +1195,7 @@ void Slig::M_Shoot_6_4B55A0()
 {
     if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
     {
-        if (sControlledCharacter_5C1B8C == this && mHealth > FP_FromInteger(0))
+        if (sControlledCharacter == this && mHealth > FP_FromInteger(0))
         {
             if (sInputObject_5BD4E0.isPressed(sInputKey_ThrowItem_5550F4))
             {
@@ -1418,7 +1418,7 @@ void Slig::M_SlidingToStand_8_4B6520()
         SlowDown_4B6450(FP_FromDouble(2.125));
         if (mCurrentMotion == eSligMotions::M_SlidingToStand_8_4B6520)
         {
-            if (mAnim.mCurrentFrame < 6 && sControlledCharacter_5C1B8C == this && mHealth > FP_FromInteger(0))
+            if (mAnim.mCurrentFrame < 6 && sControlledCharacter == this && mHealth > FP_FromInteger(0))
             {
                 if ((mAnim.mFlags.Get(AnimFlags::eBit5_FlipX) && sInputObject_5BD4E0.isPressed(sInputKey_Right_5550D0)) || ((!(mAnim.mFlags.Get(AnimFlags::eBit5_FlipX)) && sInputObject_5BD4E0.isPressed(sInputKey_Left_5550D4))))
                 {
@@ -1455,7 +1455,7 @@ void Slig::M_SlidingTurn_9_4B6680()
             {
                 MapFollowMe(TRUE);
 
-                if (sControlledCharacter_5C1B8C == this && mHealth > FP_FromInteger(0))
+                if (sControlledCharacter == this && mHealth > FP_FromInteger(0))
                 {
                     if (sInputObject_5BD4E0.isPressed(sInputKey_Run_5550E8))
                     {
@@ -1635,7 +1635,7 @@ void Slig::M_Recoil_19_4B8270()
         if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
         {
             MapFollowMe(TRUE);
-            if (sControlledCharacter_5C1B8C == this && mHealth > FP_FromInteger(0))
+            if (sControlledCharacter == this && mHealth > FP_FromInteger(0))
             {
                 if (sInputObject_5BD4E0.isPressed(sInputKey_ThrowItem_5550F4))
                 {
@@ -1992,7 +1992,7 @@ void Slig::M_KnockbackToStand_35_4B6A30()
 
 void Slig::M_Depossessing_36_4B7F30()
 {
-    if (sControlledCharacter_5C1B8C == this)
+    if (sControlledCharacter == this)
     {
         if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
         {
@@ -2168,7 +2168,7 @@ void Slig::M_ShootZ_42_4B7560()
     if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
     {
         // Controlled by player and no longer pressing down or shoot
-        if (sControlledCharacter_5C1B8C == this && (!sInputObject_5BD4E0.isPressed(sInputKey_ThrowItem_5550F4) || !sInputObject_5BD4E0.isPressed(sInputKey_Down_5550DC)))
+        if (sControlledCharacter == this && (!sInputObject_5BD4E0.isPressed(sInputKey_ThrowItem_5550F4) || !sInputObject_5BD4E0.isPressed(sInputKey_Down_5550DC)))
         {
             SND_SEQ_PlaySeq(SeqId::HitBottomOfDeathPit_9, 1, 1);
             mCurrentMotion = eSligMotions::M_ShootZtoStand_43_4B77E0;
@@ -2184,7 +2184,7 @@ void Slig::M_ShootZ_42_4B7560()
     else if (mAnim.mCurrentFrame == 7)
     {
         BulletType bulletType = BulletType::eSligPossessedOrUnderGlukkonCommand_0;
-        if (sControlledCharacter_5C1B8C == this)
+        if (sControlledCharacter == this)
         {
             bulletType = BulletType::ePossessedSligZBullet_1;
         }
@@ -2275,7 +2275,7 @@ void Slig::M_LiftGrip_46_4B3700()
         mVelY = FP_FromInteger(0);
         if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
         {
-            if (sControlledCharacter_5C1B8C == this)
+            if (sControlledCharacter == this)
             {
                 if (sInputObject_5BD4E0.isPressed(sInputKey_Up_5550D8))
                 {
@@ -2489,17 +2489,17 @@ s16 Slig::Brain_Death_0_4BBFB0()
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 
-    if (sControlledCharacter_5C1B8C == this)
+    if (sControlledCharacter == this)
     {
         if (field_120_timer < static_cast<s32>(sGnFrame))
         {
-            sControlledCharacter_5C1B8C = sActiveHero;
+            sControlledCharacter = sActiveHero;
             MusicController::static_PlayMusic(MusicController::MusicTypes::eNone_0, this, 0, 0);
             gMap.SetActiveCam(field_146_return_level, field_148_return_path, field_14A_return_camera, CameraSwapEffects::eInstantChange_0, 0, 0);
         }
     }
 
-    if (sControlledCharacter_5C1B8C != this)
+    if (sControlledCharacter != this)
     {
         if (!gMap.Is_Point_In_Current_Camera(
                 mCurrentLevel,
@@ -2522,9 +2522,9 @@ s16 Slig::Brain_Death_0_4BBFB0()
 
 s16 Slig::Brain_ReturnControlToAbeAndDie_1_4BC410()
 {
-    if (sControlledCharacter_5C1B8C == this)
+    if (sControlledCharacter == this)
     {
-        sControlledCharacter_5C1B8C = sActiveHero;
+        sControlledCharacter = sActiveHero;
         MusicController::static_PlayMusic(MusicController::MusicTypes::eNone_0, this, 0, 0);
         gMap.SetActiveCam(field_146_return_level, field_148_return_path, field_14A_return_camera, CameraSwapEffects::eInstantChange_0, 0, 0);
     }
@@ -2583,7 +2583,7 @@ s16 Slig::Brain_Possessed_2_4BBCF0()
         case Brain_2_Possessed::eBrain2_PossessionSpeak_3:
             if (EventGet(kEventDeathReset))
             {
-                if (sControlledCharacter_5C1B8C != this)
+                if (sControlledCharacter != this)
                 {
                     mBaseGameObjectFlags.Set(BaseGameObject::eDead);
                 }
@@ -2600,7 +2600,7 @@ s16 Slig::Brain_Possessed_2_4BBCF0()
         case Brain_2_Possessed::eBrain2_ControlledByPlayer_4:
             if (EventGet(kEventDeathReset))
             {
-                if (sControlledCharacter_5C1B8C != this)
+                if (sControlledCharacter != this)
                 {
                     mBaseGameObjectFlags.Set(BaseGameObject::eDead);
                 }
@@ -2676,10 +2676,10 @@ s16 Slig::Brain_DeathDropDeath_3_4BC1E0()
         case Brain_3_DeathDropDeath::eBrain3_SwitchCamToAbe_2:
             if (static_cast<s32>(sGnFrame) > field_120_timer)
             {
-                if (sControlledCharacter_5C1B8C == this)
+                if (sControlledCharacter == this)
                 {
                     MusicController::static_PlayMusic(MusicController::MusicTypes::eNone_0, this, 0, 0);
-                    sControlledCharacter_5C1B8C = sActiveHero;
+                    sControlledCharacter = sActiveHero;
                     gMap.SetActiveCam(field_146_return_level, field_148_return_path, field_14A_return_camera, CameraSwapEffects::eInstantChange_0, 0, 0);
                 }
                 mBaseGameObjectFlags.Set(BaseGameObject::eDead);
@@ -3348,12 +3348,12 @@ s16 Slig::Brain_SpottedEnemy_7_4B3240()
 {
     if (gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0) || field_218_tlv_data.field_2A_chase_abe_when_spotted == Choice_short::eNo_0)
     {
-        if (VOnSameYLevel(sControlledCharacter_5C1B8C) && VIsObj_GettingNear_On_X(sControlledCharacter_5C1B8C) && VIsObjNearby(ScaleToGridSize(mSpriteScale) * FP_FromInteger(3), sControlledCharacter_5C1B8C) && !EventGet(kEventResetting) && !sControlledCharacter_5C1B8C->mBaseAliveGameObjectFlags.Get(Flags_114::e114_Bit8_bInvisible))
+        if (VOnSameYLevel(sControlledCharacter) && VIsObj_GettingNear_On_X(sControlledCharacter) && VIsObjNearby(ScaleToGridSize(mSpriteScale) * FP_FromInteger(3), sControlledCharacter) && !EventGet(kEventResetting) && !sControlledCharacter->mBaseAliveGameObjectFlags.Get(Flags_114::e114_Bit8_bInvisible))
         {
             ToShoot_4BF9A0();
         }
         else if (
-            VOnSameYLevel(sControlledCharacter_5C1B8C) && EventGet(kEventAbeOhm) && VIsFacingMe(sControlledCharacter_5C1B8C))
+            VOnSameYLevel(sControlledCharacter) && EventGet(kEventAbeOhm) && VIsFacingMe(sControlledCharacter))
         {
             ToShoot_4BF9A0();
         }
@@ -3368,7 +3368,7 @@ s16 Slig::Brain_SpottedEnemy_7_4B3240()
                 ShouldStillBeAlive_4BBC00();
             }
         }
-        else if (VIsFacingMe(sControlledCharacter_5C1B8C) && !sControlledCharacter_5C1B8C->mBaseAliveGameObjectFlags.Get(Flags_114::e114_Bit8_bInvisible))
+        else if (VIsFacingMe(sControlledCharacter) && !sControlledCharacter->mBaseAliveGameObjectFlags.Get(Flags_114::e114_Bit8_bInvisible))
         {
             ToShoot_4BF9A0();
         }
@@ -3489,7 +3489,7 @@ s16 Slig::Brain_PanicTurning_12_4BC490()
         {
             if (mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
             {
-                if (sControlledCharacter_5C1B8C->mVelX >= FP_FromInteger(0) && (sControlledCharacter_5C1B8C->mVelX != FP_FromInteger(0) || sControlledCharacter_5C1B8C->mXPos >= mXPos))
+                if (sControlledCharacter->mVelX >= FP_FromInteger(0) && (sControlledCharacter->mVelX != FP_FromInteger(0) || sControlledCharacter->mXPos >= mXPos))
                 {
                     ShouldStillBeAlive_4BBC00();
                     return 107;
@@ -3497,7 +3497,7 @@ s16 Slig::Brain_PanicTurning_12_4BC490()
             }
             else
             {
-                if (sControlledCharacter_5C1B8C->mVelX <= FP_FromInteger(0) && (sControlledCharacter_5C1B8C->mVelX != FP_FromInteger(0) || sControlledCharacter_5C1B8C->mXPos <= mXPos))
+                if (sControlledCharacter->mVelX <= FP_FromInteger(0) && (sControlledCharacter->mVelX != FP_FromInteger(0) || sControlledCharacter->mXPos <= mXPos))
                 {
                     ShouldStillBeAlive_4BBC00();
                     return 107;
@@ -3505,9 +3505,9 @@ s16 Slig::Brain_PanicTurning_12_4BC490()
             }
 
             const PSX_RECT bRect = VGetBoundingRect();
-            const PSX_RECT charRect = sControlledCharacter_5C1B8C->VGetBoundingRect();
+            const PSX_RECT charRect = sControlledCharacter->VGetBoundingRect();
 
-            if (sControlledCharacter_5C1B8C->Type() != ReliveTypes::eGlukkon && sControlledCharacter_5C1B8C->Type() != ReliveTypes::eSlig && !IsInInvisibleZone(sControlledCharacter_5C1B8C) && !sControlledCharacter_5C1B8C->mBaseAliveGameObjectFlags.Get(Flags_114::e114_Bit8_bInvisible))
+            if (sControlledCharacter->Type() != ReliveTypes::eGlukkon && sControlledCharacter->Type() != ReliveTypes::eSlig && !IsInInvisibleZone(sControlledCharacter) && !sControlledCharacter->mBaseAliveGameObjectFlags.Get(Flags_114::e114_Bit8_bInvisible))
             {
                 if (charRect.x <= bRect.w && charRect.w >= bRect.x && charRect.h >= bRect.y && charRect.y <= bRect.h)
                 {
@@ -3553,7 +3553,7 @@ s16 Slig::Brain_PanicRunning_13_4BC780()
     {
         ToPanicRunning_4BCA30();
     }
-    else if (VOnSameYLevel(sControlledCharacter_5C1B8C) && sControlledCharacter_5C1B8C->Type() != ReliveTypes::eGlukkon && VIsFacingMe(sControlledCharacter_5C1B8C) && !IsInInvisibleZone(sControlledCharacter_5C1B8C) && !sControlledCharacter_5C1B8C->mBaseAliveGameObjectFlags.Get(Flags_114::e114_Bit8_bInvisible) && !IsWallBetween_4BB8B0(this, sControlledCharacter_5C1B8C) && gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0) && gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0) && !EventGet(kEventResetting))
+    else if (VOnSameYLevel(sControlledCharacter) && sControlledCharacter->Type() != ReliveTypes::eGlukkon && VIsFacingMe(sControlledCharacter) && !IsInInvisibleZone(sControlledCharacter) && !sControlledCharacter->mBaseAliveGameObjectFlags.Get(Flags_114::e114_Bit8_bInvisible) && !IsWallBetween_4BB8B0(this, sControlledCharacter) && gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0) && gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0) && !EventGet(kEventResetting))
     {
         ToShoot_4BF9A0();
     }
@@ -3632,14 +3632,14 @@ s16 Slig::Brain_Idle_15_4BD800()
         return 104;
     }
 
-    if (VOnSameYLevel(sControlledCharacter_5C1B8C) && 
-        VIsFacingMe(sControlledCharacter_5C1B8C) && 
-        !IsInInvisibleZone(sControlledCharacter_5C1B8C) &&
-        !sControlledCharacter_5C1B8C->mBaseAliveGameObjectFlags.Get(Flags_114::e114_Bit8_bInvisible) &&
-        !IsWallBetween_4BB8B0(this, sControlledCharacter_5C1B8C) && (!field_15E_spotted_possessed_slig || sControlledCharacter_5C1B8C->Type() != ReliveTypes::eSlig) &&
-        !IsAbeEnteringDoor_4BB990(sControlledCharacter_5C1B8C) &&
+    if (VOnSameYLevel(sControlledCharacter) && 
+        VIsFacingMe(sControlledCharacter) && 
+        !IsInInvisibleZone(sControlledCharacter) &&
+        !sControlledCharacter->mBaseAliveGameObjectFlags.Get(Flags_114::e114_Bit8_bInvisible) &&
+        !IsWallBetween_4BB8B0(this, sControlledCharacter) && (!field_15E_spotted_possessed_slig || sControlledCharacter->Type() != ReliveTypes::eSlig) &&
+        !IsAbeEnteringDoor_4BB990(sControlledCharacter) &&
         !EventGet(kEventResetting) &&
-        gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0) && sControlledCharacter_5C1B8C->Type() != ReliveTypes::eGlukkon)
+        gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0) && sControlledCharacter->Type() != ReliveTypes::eGlukkon)
     {
         RespondToEnemyOrPatrol_4B3140();
         return 104;
@@ -3652,7 +3652,7 @@ s16 Slig::Brain_Idle_15_4BD800()
     }
 
     auto pShooter = static_cast<BaseAliveGameObject*>(EventGet(kEventShooting));
-    if (pShooter && pShooter->mSpriteScale == mSpriteScale && gMap.Is_Point_In_Current_Camera(pShooter->mCurrentLevel, pShooter->mCurrentPath, pShooter->mXPos, pShooter->mYPos, 0) && pShooter == sControlledCharacter_5C1B8C && gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0) && !EventGet(kEventResetting))
+    if (pShooter && pShooter->mSpriteScale == mSpriteScale && gMap.Is_Point_In_Current_Camera(pShooter->mCurrentLevel, pShooter->mCurrentPath, pShooter->mXPos, pShooter->mYPos, 0) && pShooter == sControlledCharacter && gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0) && !EventGet(kEventResetting))
     {
         if (VIsFacingMe(pShooter))
         {
@@ -3674,7 +3674,7 @@ s16 Slig::Brain_Idle_15_4BD800()
 
     if (pNoiseOrSpeaking && pNoiseOrSpeaking->mSpriteScale == mSpriteScale && gMap.Is_Point_In_Current_Camera(pNoiseOrSpeaking->mCurrentLevel, pNoiseOrSpeaking->mCurrentPath, pNoiseOrSpeaking->mXPos, pNoiseOrSpeaking->mYPos, 0) && pNoiseOrSpeaking != this && gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0) && !EventGet(kEventResetting))
     {
-        if (pNoiseOrSpeaking != sControlledCharacter_5C1B8C)
+        if (pNoiseOrSpeaking != sControlledCharacter)
         {
             if (Math_NextRandom() >= 192u)
             {
@@ -3682,7 +3682,7 @@ s16 Slig::Brain_Idle_15_4BD800()
             }
         }
 
-        if (VIsFacingMe(sControlledCharacter_5C1B8C))
+        if (VIsFacingMe(sControlledCharacter))
         {
             GoAlertedOrSayWhat_4BF140();
         }
@@ -3694,7 +3694,7 @@ s16 Slig::Brain_Idle_15_4BD800()
     }
     else
     {
-        if (sControlledCharacter_5C1B8C->mSpriteScale > mSpriteScale && VIsFacingMe(sControlledCharacter_5C1B8C) && !IsInInvisibleZone(sControlledCharacter_5C1B8C) && !sControlledCharacter_5C1B8C->mBaseAliveGameObjectFlags.Get(Flags_114::e114_Bit8_bInvisible) && gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0) && !InZCover_4BB7C0(sControlledCharacter_5C1B8C) && !InZCover_4BB7C0(this) && !EventGet(kEventResetting))
+        if (sControlledCharacter->mSpriteScale > mSpriteScale && VIsFacingMe(sControlledCharacter) && !IsInInvisibleZone(sControlledCharacter) && !sControlledCharacter->mBaseAliveGameObjectFlags.Get(Flags_114::e114_Bit8_bInvisible) && gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0) && !InZCover_4BB7C0(sControlledCharacter) && !InZCover_4BB7C0(this) && !EventGet(kEventResetting))
         {
             ToZShoot_4BF9E0();
             return 104;
@@ -3734,7 +3734,7 @@ s16 Slig::Brain_StopChasing_16_4BCE30()
 
 s16 Slig::Brain_Chasing_17_4BCBD0()
 {
-    if (gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0) && VOnSameYLevel(sControlledCharacter_5C1B8C) && VIsFacingMe(sControlledCharacter_5C1B8C) && !IsInInvisibleZone(sControlledCharacter_5C1B8C) && !sControlledCharacter_5C1B8C->mBaseAliveGameObjectFlags.Get(Flags_114::e114_Bit8_bInvisible) && !IsWallBetween_4BB8B0(this, sControlledCharacter_5C1B8C) && !RenderLayerIs_4BBBC0(sControlledCharacter_5C1B8C) && !EventGet(kEventResetting) && sControlledCharacter_5C1B8C->Type() != ReliveTypes::eGlukkon)
+    if (gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0) && VOnSameYLevel(sControlledCharacter) && VIsFacingMe(sControlledCharacter) && !IsInInvisibleZone(sControlledCharacter) && !sControlledCharacter->mBaseAliveGameObjectFlags.Get(Flags_114::e114_Bit8_bInvisible) && !IsWallBetween_4BB8B0(this, sControlledCharacter) && !RenderLayerIs_4BBBC0(sControlledCharacter) && !EventGet(kEventResetting) && sControlledCharacter->Type() != ReliveTypes::eGlukkon)
     {
         field_15C_force_alive_state = 0;
         RespondToEnemyOrPatrol_4B3140();
@@ -3772,7 +3772,7 @@ s16 Slig::Brain_StartChasing_18_4BCEB0()
                 mXPos,
                 mYPos,
                 0)
-            && !sControlledCharacter_5C1B8C->mBaseAliveGameObjectFlags.Get(Flags_114::e114_Bit8_bInvisible) && sControlledCharacter_5C1B8C->Type() != ReliveTypes::eGlukkon)
+            && !sControlledCharacter->mBaseAliveGameObjectFlags.Get(Flags_114::e114_Bit8_bInvisible) && sControlledCharacter->Type() != ReliveTypes::eGlukkon)
         {
             field_15C_force_alive_state = 0;
             ToShoot_4BF9A0();
@@ -3785,7 +3785,7 @@ s16 Slig::Brain_StartChasing_18_4BCEB0()
             mBaseGameObjectFlags.Set(BaseGameObject::eDead);
         }
 
-        if (!VIsFacingMe(sControlledCharacter_5C1B8C))
+        if (!VIsFacingMe(sControlledCharacter))
         {
             mAnim.mFlags.Toggle(AnimFlags::eBit5_FlipX);
         }
@@ -3826,7 +3826,7 @@ s16 Slig::Brain_Turning_19_4BDDD0()
 
     if (mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
     {
-        if (sControlledCharacter_5C1B8C->mVelX >= FP_FromInteger(0) && (sControlledCharacter_5C1B8C->mVelX > FP_FromInteger(0) || sControlledCharacter_5C1B8C->mXPos >= mXPos))
+        if (sControlledCharacter->mVelX >= FP_FromInteger(0) && (sControlledCharacter->mVelX > FP_FromInteger(0) || sControlledCharacter->mXPos >= mXPos))
         {
             ShouldStillBeAlive_4BBC00();
             return 106;
@@ -3834,7 +3834,7 @@ s16 Slig::Brain_Turning_19_4BDDD0()
     }
     else
     {
-        if (sControlledCharacter_5C1B8C->mVelX <= FP_FromInteger(0) && (sControlledCharacter_5C1B8C->mVelX != FP_FromInteger(0) || sControlledCharacter_5C1B8C->mXPos <= mXPos))
+        if (sControlledCharacter->mVelX <= FP_FromInteger(0) && (sControlledCharacter->mVelX != FP_FromInteger(0) || sControlledCharacter->mXPos <= mXPos))
         {
             ShouldStillBeAlive_4BBC00();
             return 106;
@@ -3842,10 +3842,10 @@ s16 Slig::Brain_Turning_19_4BDDD0()
     }
 
     const PSX_RECT bRect = VGetBoundingRect();
-    const PSX_RECT charRect = sControlledCharacter_5C1B8C->VGetBoundingRect();
+    const PSX_RECT charRect = sControlledCharacter->VGetBoundingRect();
 
 
-    if (sControlledCharacter_5C1B8C->Type() != ReliveTypes::eGlukkon && sControlledCharacter_5C1B8C->mScale == mScale && !IsInInvisibleZone(sControlledCharacter_5C1B8C) && !sControlledCharacter_5C1B8C->mBaseAliveGameObjectFlags.Get(Flags_114::e114_Bit8_bInvisible) && !IsWallBetween_4BB8B0(this, sControlledCharacter_5C1B8C) && PSX_Rects_overlap_no_adjustment(&charRect, &bRect) && sControlledCharacter_5C1B8C->Type() != ReliveTypes::eSlig)
+    if (sControlledCharacter->Type() != ReliveTypes::eGlukkon && sControlledCharacter->mScale == mScale && !IsInInvisibleZone(sControlledCharacter) && !sControlledCharacter->mBaseAliveGameObjectFlags.Get(Flags_114::e114_Bit8_bInvisible) && !IsWallBetween_4BB8B0(this, sControlledCharacter) && PSX_Rects_overlap_no_adjustment(&charRect, &bRect) && sControlledCharacter->Type() != ReliveTypes::eSlig)
     {
         mAnim.mFlags.Toggle(AnimFlags::eBit5_FlipX);
         return 106;
@@ -3933,21 +3933,21 @@ s16 Slig::Brain_Walking_21_4BE0C0()
     {
         ToUnderGlukkonCommand_4B9660();
     }
-    else if (VOnSameYLevel(sControlledCharacter_5C1B8C) &&
-        VIsFacingMe(sControlledCharacter_5C1B8C) &&
-        !IsInInvisibleZone(sControlledCharacter_5C1B8C) &&
-        !sControlledCharacter_5C1B8C->mBaseAliveGameObjectFlags.Get(Flags_114::e114_Bit8_bInvisible) &&
-        !IsWallBetween_4BB8B0(this, sControlledCharacter_5C1B8C) &&
+    else if (VOnSameYLevel(sControlledCharacter) &&
+        VIsFacingMe(sControlledCharacter) &&
+        !IsInInvisibleZone(sControlledCharacter) &&
+        !sControlledCharacter->mBaseAliveGameObjectFlags.Get(Flags_114::e114_Bit8_bInvisible) &&
+        !IsWallBetween_4BB8B0(this, sControlledCharacter) &&
         gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0) &&
-        gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0) && (!field_15E_spotted_possessed_slig || sControlledCharacter_5C1B8C->Type() != ReliveTypes::eSlig) &&
-        !IsAbeEnteringDoor_4BB990(sControlledCharacter_5C1B8C) && !EventGet(kEventResetting) && sControlledCharacter_5C1B8C->Type() != ReliveTypes::eGlukkon)
+        gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0) && (!field_15E_spotted_possessed_slig || sControlledCharacter->Type() != ReliveTypes::eSlig) &&
+        !IsAbeEnteringDoor_4BB990(sControlledCharacter) && !EventGet(kEventResetting) && sControlledCharacter->Type() != ReliveTypes::eGlukkon)
     {
         RespondToEnemyOrPatrol_4B3140();
     }
     else
     {
         auto pShooter = static_cast<BaseAliveGameObject*>(EventGet(kEventShooting));
-        if (pShooter && pShooter->mSpriteScale == mSpriteScale && gMap.Is_Point_In_Current_Camera(pShooter->mCurrentLevel, pShooter->mCurrentPath, pShooter->mXPos, pShooter->mYPos, 0) && pShooter == sControlledCharacter_5C1B8C && gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0) && !EventGet(kEventResetting))
+        if (pShooter && pShooter->mSpriteScale == mSpriteScale && gMap.Is_Point_In_Current_Camera(pShooter->mCurrentLevel, pShooter->mCurrentPath, pShooter->mXPos, pShooter->mYPos, 0) && pShooter == sControlledCharacter && gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0) && !EventGet(kEventResetting))
         {
             if (VIsFacingMe(pShooter))
             {
@@ -3958,7 +3958,7 @@ s16 Slig::Brain_Walking_21_4BE0C0()
                 ToTurn_4BE090();
             }
         }
-        else if (VOnSameYLevel(sControlledCharacter_5C1B8C) && VIsFacingMe(sControlledCharacter_5C1B8C) && !IsWallBetween_4BB8B0(this, sControlledCharacter_5C1B8C) && EventGet(kEventAbeOhm) && gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0) && gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0) && !EventGet(kEventResetting))
+        else if (VOnSameYLevel(sControlledCharacter) && VIsFacingMe(sControlledCharacter) && !IsWallBetween_4BB8B0(this, sControlledCharacter) && EventGet(kEventAbeOhm) && gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0) && gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0) && !EventGet(kEventResetting))
         {
             ToShoot_4BF9A0();
         }
@@ -3980,7 +3980,7 @@ s16 Slig::Brain_Walking_21_4BE0C0()
 
             if (pNoiseOrSpeaker && pNoiseOrSpeaker->mSpriteScale == mSpriteScale && gMap.Is_Point_In_Current_Camera(pNoiseOrSpeaker->mCurrentLevel, pNoiseOrSpeaker->mCurrentPath, pNoiseOrSpeaker->mXPos, pNoiseOrSpeaker->mYPos, 0) && pNoiseOrSpeaker != this && gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0) && !EventGet(kEventResetting))
             {
-                if (VIsFacingMe(sControlledCharacter_5C1B8C))
+                if (VIsFacingMe(sControlledCharacter))
                 {
                     GoAlertedOrSayWhat_4BF140();
                 }
@@ -3989,7 +3989,7 @@ s16 Slig::Brain_Walking_21_4BE0C0()
                     TurnOrSayWhat_4BEBC0();
                 }
             }
-            else if (sControlledCharacter_5C1B8C->mSpriteScale > mSpriteScale && VIsFacingMe(sControlledCharacter_5C1B8C) && !IsInInvisibleZone(sControlledCharacter_5C1B8C) && !sControlledCharacter_5C1B8C->mBaseAliveGameObjectFlags.Get(Flags_114::e114_Bit8_bInvisible) && gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0) && !InZCover_4BB7C0(sControlledCharacter_5C1B8C) && !InZCover_4BB7C0(this) && !EventGet(kEventResetting))
+            else if (sControlledCharacter->mSpriteScale > mSpriteScale && VIsFacingMe(sControlledCharacter) && !IsInInvisibleZone(sControlledCharacter) && !sControlledCharacter->mBaseAliveGameObjectFlags.Get(Flags_114::e114_Bit8_bInvisible) && gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0) && !InZCover_4BB7C0(sControlledCharacter) && !InZCover_4BB7C0(this) && !EventGet(kEventResetting))
             {
                 ToZShoot_4BF9E0();
             }
@@ -4030,22 +4030,22 @@ s16 Slig::Brain_GetAlertedTurn_22_4BE990()
         bool tryTurningToPlayer = true;
         if (mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
         {
-            if (sControlledCharacter_5C1B8C->mVelX >= FP_FromInteger(0) && (sControlledCharacter_5C1B8C->mVelX > FP_FromInteger(0) || sControlledCharacter_5C1B8C->mXPos >= mXPos))
+            if (sControlledCharacter->mVelX >= FP_FromInteger(0) && (sControlledCharacter->mVelX > FP_FromInteger(0) || sControlledCharacter->mXPos >= mXPos))
             {
                 tryTurningToPlayer = false;
             }
         }
-        else if (sControlledCharacter_5C1B8C->mVelX <= FP_FromInteger(0) && (sControlledCharacter_5C1B8C->mVelX > FP_FromInteger(0) || sControlledCharacter_5C1B8C->mXPos <= mXPos))
+        else if (sControlledCharacter->mVelX <= FP_FromInteger(0) && (sControlledCharacter->mVelX > FP_FromInteger(0) || sControlledCharacter->mXPos <= mXPos))
         {
             tryTurningToPlayer = false;
         }
 
         if (tryTurningToPlayer)
         {
-            if (sControlledCharacter_5C1B8C->Type() != ReliveTypes::eGlukkon && !IsInInvisibleZone(sControlledCharacter_5C1B8C) && !sControlledCharacter_5C1B8C->mBaseAliveGameObjectFlags.Get(Flags_114::e114_Bit8_bInvisible))
+            if (sControlledCharacter->Type() != ReliveTypes::eGlukkon && !IsInInvisibleZone(sControlledCharacter) && !sControlledCharacter->mBaseAliveGameObjectFlags.Get(Flags_114::e114_Bit8_bInvisible))
             {
                 const PSX_RECT bRect = VGetBoundingRect();
-                const PSX_RECT bRectChar = sControlledCharacter_5C1B8C->VGetBoundingRect();
+                const PSX_RECT bRectChar = sControlledCharacter->VGetBoundingRect();
 
                 if (PSX_Rects_overlap_no_adjustment(&bRectChar, &bRect))
                 {
@@ -4082,13 +4082,13 @@ s16 Slig::Brain_GetAlerted_23_4BEC40()
     }
 
     // Check if we should be killing Abe
-    if (VOnSameYLevel(sControlledCharacter_5C1B8C) &&
-        VIsFacingMe(sControlledCharacter_5C1B8C) &&
-        !IsInInvisibleZone(sControlledCharacter_5C1B8C) &&
-        !sControlledCharacter_5C1B8C->mBaseAliveGameObjectFlags.Get(Flags_114::e114_Bit8_bInvisible) &&
-        !IsWallBetween_4BB8B0(this, sControlledCharacter_5C1B8C) &&
-        gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0) && (sControlledCharacter_5C1B8C->Type() != ReliveTypes::eSlig && !field_15E_spotted_possessed_slig) &&
-        !IsAbeEnteringDoor_4BB990(sControlledCharacter_5C1B8C) && !EventGet(kEventResetting) && sControlledCharacter_5C1B8C->Type() != ReliveTypes::eGlukkon)
+    if (VOnSameYLevel(sControlledCharacter) &&
+        VIsFacingMe(sControlledCharacter) &&
+        !IsInInvisibleZone(sControlledCharacter) &&
+        !sControlledCharacter->mBaseAliveGameObjectFlags.Get(Flags_114::e114_Bit8_bInvisible) &&
+        !IsWallBetween_4BB8B0(this, sControlledCharacter) &&
+        gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0) && (sControlledCharacter->Type() != ReliveTypes::eSlig && !field_15E_spotted_possessed_slig) &&
+        !IsAbeEnteringDoor_4BB990(sControlledCharacter) && !EventGet(kEventResetting) && sControlledCharacter->Type() != ReliveTypes::eGlukkon)
     {
         RespondToEnemyOrPatrol_4B3140();
     }
@@ -4101,7 +4101,7 @@ s16 Slig::Brain_GetAlerted_23_4BEC40()
     {
         // If some fool is trying to shoot us then shoot back
         auto pShootingSlig = static_cast<BaseAliveGameObject*>(EventGet(kEventShooting));
-        if (pShootingSlig && pShootingSlig->mSpriteScale == mSpriteScale && gMap.Is_Point_In_Current_Camera(pShootingSlig->mCurrentLevel, pShootingSlig->mCurrentPath, pShootingSlig->mXPos, pShootingSlig->mYPos, 0) && pShootingSlig == sControlledCharacter_5C1B8C && gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0) && !EventGet(kEventResetting))
+        if (pShootingSlig && pShootingSlig->mSpriteScale == mSpriteScale && gMap.Is_Point_In_Current_Camera(pShootingSlig->mCurrentLevel, pShootingSlig->mCurrentPath, pShootingSlig->mXPos, pShootingSlig->mYPos, 0) && pShootingSlig == sControlledCharacter && gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0) && !EventGet(kEventResetting))
         {
             if (VIsFacingMe(pShootingSlig))
             {
@@ -4122,7 +4122,7 @@ s16 Slig::Brain_GetAlerted_23_4BEC40()
             }
 
             // Then kill them
-            if (pNoisyMud && gMap.Is_Point_In_Current_Camera(pNoisyMud->mCurrentLevel, pNoisyMud->mCurrentPath, pNoisyMud->mXPos, pNoisyMud->mYPos, 0) && (pNoisyMud == sControlledCharacter_5C1B8C || pNoisyMud->Type() == ReliveTypes::eMudokon) && VOnSameYLevel(pNoisyMud) && VIsFacingMe(pNoisyMud) && (pNoisyMud != sControlledCharacter_5C1B8C || (!sControlledCharacter_5C1B8C->mBaseAliveGameObjectFlags.Get(Flags_114::e114_Bit8_bInvisible) && gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0) && !EventGet(kEventResetting))))
+            if (pNoisyMud && gMap.Is_Point_In_Current_Camera(pNoisyMud->mCurrentLevel, pNoisyMud->mCurrentPath, pNoisyMud->mXPos, pNoisyMud->mYPos, 0) && (pNoisyMud == sControlledCharacter || pNoisyMud->Type() == ReliveTypes::eMudokon) && VOnSameYLevel(pNoisyMud) && VIsFacingMe(pNoisyMud) && (pNoisyMud != sControlledCharacter || (!sControlledCharacter->mBaseAliveGameObjectFlags.Get(Flags_114::e114_Bit8_bInvisible) && gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0) && !EventGet(kEventResetting))))
             {
                 ToShoot_4BF9A0();
             }
@@ -4136,7 +4136,7 @@ s16 Slig::Brain_GetAlerted_23_4BEC40()
                 }
 
                 // Then say what, stop walking to respond or try to kill them.
-                if (pNoisySlig && gMap.Is_Point_In_Current_Camera(pNoisySlig->mCurrentLevel, pNoisySlig->mCurrentPath, pNoisySlig->mXPos, pNoisySlig->mYPos, 0) && (pNoisySlig == sControlledCharacter_5C1B8C || pNoisySlig->Type() != ReliveTypes::eSlig) && !VIsFacingMe(pNoisySlig) && gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0) && !EventGet(kEventResetting))
+                if (pNoisySlig && gMap.Is_Point_In_Current_Camera(pNoisySlig->mCurrentLevel, pNoisySlig->mCurrentPath, pNoisySlig->mXPos, pNoisySlig->mYPos, 0) && (pNoisySlig == sControlledCharacter || pNoisySlig->Type() != ReliveTypes::eSlig) && !VIsFacingMe(pNoisySlig) && gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0) && !EventGet(kEventResetting))
                 {
                     TurnOrSayWhat_4BEBC0();
                 }
@@ -4241,7 +4241,7 @@ s16 Slig::Brain_ZShooting_28_4BFA70()
     }
     else
     {
-        if (sControlledCharacter_5C1B8C->mHealth > FP_FromInteger(0))
+        if (sControlledCharacter->mHealth > FP_FromInteger(0))
         {
             WaitOrWalk_4BE870();
         }
@@ -4271,18 +4271,18 @@ s16 Slig::Brain_Shooting_29_4BF750()
             return 111;
         }
 
-        if (sControlledCharacter_5C1B8C->mHealth <= FP_FromInteger(0))
+        if (sControlledCharacter->mHealth <= FP_FromInteger(0))
         {
             ToKilledAbe_4B3600();
             return 111;
         }
-        if (!VOnSameYLevel(sControlledCharacter_5C1B8C) || !VIsFacingMe(sControlledCharacter_5C1B8C) || IsInInvisibleZone(sControlledCharacter_5C1B8C) || sControlledCharacter_5C1B8C->mBaseAliveGameObjectFlags.Get(Flags_114::e114_Bit8_bInvisible) || IsWallBetween_4BB8B0(this, sControlledCharacter_5C1B8C) || !gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0) || !gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0) || EventGet(kEventResetting))
+        if (!VOnSameYLevel(sControlledCharacter) || !VIsFacingMe(sControlledCharacter) || IsInInvisibleZone(sControlledCharacter) || sControlledCharacter->mBaseAliveGameObjectFlags.Get(Flags_114::e114_Bit8_bInvisible) || IsWallBetween_4BB8B0(this, sControlledCharacter) || !gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0) || !gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0) || EventGet(kEventResetting))
         {
             PauseALittle_4BDD00();
             return 111;
         }
 
-        if (!VIsFacingMe(sControlledCharacter_5C1B8C))
+        if (!VIsFacingMe(sControlledCharacter))
         {
             ToTurn_4BE090();
             return 111;
@@ -4331,7 +4331,7 @@ s16 Slig::Brain_Inactive_32_4B9430()
         {
             ToAbeDead_4B3580();
         }
-        else if (VOnSameYLevel(sControlledCharacter_5C1B8C) && VIsFacingMe(sControlledCharacter_5C1B8C) && VIsObjNearby(ScaleToGridSize(mSpriteScale) * FP_FromInteger(1), sControlledCharacter_5C1B8C) && !IsInInvisibleZone(sControlledCharacter_5C1B8C) && !sControlledCharacter_5C1B8C->mBaseAliveGameObjectFlags.Get(Flags_114::e114_Bit8_bInvisible) && !IsWallBetween_4BB8B0(this, sControlledCharacter_5C1B8C) && !EventGet(kEventResetting) && sControlledCharacter_5C1B8C->Type() != ReliveTypes::eGlukkon)
+        else if (VOnSameYLevel(sControlledCharacter) && VIsFacingMe(sControlledCharacter) && VIsObjNearby(ScaleToGridSize(mSpriteScale) * FP_FromInteger(1), sControlledCharacter) && !IsInInvisibleZone(sControlledCharacter) && !sControlledCharacter->mBaseAliveGameObjectFlags.Get(Flags_114::e114_Bit8_bInvisible) && !IsWallBetween_4BB8B0(this, sControlledCharacter) && !EventGet(kEventResetting) && sControlledCharacter->Type() != ReliveTypes::eGlukkon)
         {
             ToShoot_4BF9A0();
         }
@@ -4355,13 +4355,13 @@ s16 Slig::Brain_Paused_33_4B8DD0()
         return 101;
     }
 
-    if (VOnSameYLevel(sControlledCharacter_5C1B8C) && VIsFacingMe(sControlledCharacter_5C1B8C) && !IsInInvisibleZone(sControlledCharacter_5C1B8C) && !sControlledCharacter_5C1B8C->mBaseAliveGameObjectFlags.Get(Flags_114::e114_Bit8_bInvisible) && !IsWallBetween_4BB8B0(this, sControlledCharacter_5C1B8C) && gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0) && (!field_15E_spotted_possessed_slig || sControlledCharacter_5C1B8C->Type() != ReliveTypes::eSlig) && !EventGet(kEventResetting) && sControlledCharacter_5C1B8C->Type() != ReliveTypes::eGlukkon)
+    if (VOnSameYLevel(sControlledCharacter) && VIsFacingMe(sControlledCharacter) && !IsInInvisibleZone(sControlledCharacter) && !sControlledCharacter->mBaseAliveGameObjectFlags.Get(Flags_114::e114_Bit8_bInvisible) && !IsWallBetween_4BB8B0(this, sControlledCharacter) && gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0) && (!field_15E_spotted_possessed_slig || sControlledCharacter->Type() != ReliveTypes::eSlig) && !EventGet(kEventResetting) && sControlledCharacter->Type() != ReliveTypes::eGlukkon)
     {
         RespondToEnemyOrPatrol_4B3140();
         return 101;
     }
 
-    if (VOnSameYLevel(sControlledCharacter_5C1B8C) && VIsFacingMe(sControlledCharacter_5C1B8C) && !IsInInvisibleZone(sControlledCharacter_5C1B8C) && !sControlledCharacter_5C1B8C->mBaseAliveGameObjectFlags.Get(Flags_114::e114_Bit8_bInvisible) && !IsWallBetween_4BB8B0(this, sControlledCharacter_5C1B8C) && gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0) && !EventGet(kEventResetting) && sControlledCharacter_5C1B8C->Type() != ReliveTypes::eGlukkon)
+    if (VOnSameYLevel(sControlledCharacter) && VIsFacingMe(sControlledCharacter) && !IsInInvisibleZone(sControlledCharacter) && !sControlledCharacter->mBaseAliveGameObjectFlags.Get(Flags_114::e114_Bit8_bInvisible) && !IsWallBetween_4BB8B0(this, sControlledCharacter) && gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0) && !EventGet(kEventResetting) && sControlledCharacter->Type() != ReliveTypes::eGlukkon)
     {
         ToShoot_4BF9A0();
     }
@@ -4381,7 +4381,7 @@ s16 Slig::Brain_Paused_33_4B8DD0()
         {
             ToTurn_4BE090();
         }
-        else if (sControlledCharacter_5C1B8C->mSpriteScale > mSpriteScale && VIsFacingMe(sControlledCharacter_5C1B8C) && !IsInInvisibleZone(sControlledCharacter_5C1B8C) && !sControlledCharacter_5C1B8C->mBaseAliveGameObjectFlags.Get(Flags_114::e114_Bit8_bInvisible) && gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0) && !InZCover_4BB7C0(sControlledCharacter_5C1B8C) && !InZCover_4BB7C0(this) && !EventGet(kEventResetting))
+        else if (sControlledCharacter->mSpriteScale > mSpriteScale && VIsFacingMe(sControlledCharacter) && !IsInInvisibleZone(sControlledCharacter) && !sControlledCharacter->mBaseAliveGameObjectFlags.Get(Flags_114::e114_Bit8_bInvisible) && gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0) && !InZCover_4BB7C0(sControlledCharacter) && !InZCover_4BB7C0(this) && !EventGet(kEventResetting))
         {
             ToZShoot_4BF9E0();
         }
@@ -4678,9 +4678,9 @@ void Slig::Init()
 
 Slig::~Slig()
 {
-    if (sControlledCharacter_5C1B8C == this)
+    if (sControlledCharacter == this)
     {
-        sControlledCharacter_5C1B8C = sActiveHero;
+        sControlledCharacter = sActiveHero;
 
         MusicController::static_PlayMusic(MusicController::MusicTypes::eNone_0, this, 0, 0);
 
@@ -4794,12 +4794,12 @@ void Slig::VUpdate()
         field_292_prevent_depossession &= ~1u;
     }
 
-    if (sControlledCharacter_5C1B8C == this && mHealth > FP_FromInteger(0))
+    if (sControlledCharacter == this && mHealth > FP_FromInteger(0))
     {
         MusicController::static_PlayMusic(MusicController::MusicTypes::ePossessed_9, this, 0, 0);
     }
 
-    if (sDDCheat_FlyingEnabled_5C2C08 && sControlledCharacter_5C1B8C == this)
+    if (sDDCheat_FlyingEnabled_5C2C08 && sControlledCharacter == this)
     {
         BaseAliveGameObjectCollisionLine = nullptr;
 
@@ -4901,7 +4901,7 @@ void Slig::VUpdate()
 
 void Slig::VScreenChanged()
 {
-    if (gMap.mCurrentLevel != gMap.mNextLevel || gMap.mOverlayId != gMap.GetOverlayId() || (gMap.mCurrentPath != gMap.mNextPath && this != sControlledCharacter_5C1B8C))
+    if (gMap.mCurrentLevel != gMap.mNextLevel || gMap.mOverlayId != gMap.GetOverlayId() || (gMap.mCurrentPath != gMap.mNextPath && this != sControlledCharacter))
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
@@ -5102,7 +5102,7 @@ void Slig::ToTurn_4BE090()
 void Slig::RespondWithWhat_4BF400()
 {
     field_120_timer = sGnFrame + 20;
-    if (VIsFacingMe(sControlledCharacter_5C1B8C))
+    if (VIsFacingMe(sControlledCharacter))
     {
         mNextMotion = eSligMotions::M_StandIdle_0_4B4EC0;
     }
@@ -5217,7 +5217,7 @@ void Slig::BlowToGibs_4B8020()
 
 s16 Slig::MainMovement_4B4720()
 {
-    if (sControlledCharacter_5C1B8C == this && mHealth > FP_FromInteger(0))
+    if (sControlledCharacter == this && mHealth > FP_FromInteger(0))
     {
         return HandlePlayerControlled_4B7800();
     }
@@ -5514,7 +5514,7 @@ s16 Slig::HandlePlayerControlled_4B7800()
 
 s16 Slig::GetNextMotionIncGameSpeak_4B5080(s32 input)
 {
-    if (sControlledCharacter_5C1B8C == this && mHealth > FP_FromInteger(0))
+    if (sControlledCharacter == this && mHealth > FP_FromInteger(0))
     {
         if (Input_IsChanting_45F260())
         {
@@ -5752,7 +5752,7 @@ GameSpeakEvents Slig::LastGlukkonSpeak_4B3090()
 s16 Slig::ListenToGlukkonCommands_4B95D0()
 {
     const GameSpeakEvents glukkonSpeak = LastGlukkonSpeak_4B3090();
-    if (sControlledCharacter_5C1B8C->mSpriteScale != mSpriteScale)
+    if (sControlledCharacter->mSpriteScale != mSpriteScale)
     {
         return 0;
     }
@@ -5771,7 +5771,7 @@ s16 Slig::ListenToGlukkonCommands_4B95D0()
 
     sSligsUnderControlCount_BAF7E8++;
 
-    field_208_glukkon_obj_id = sControlledCharacter_5C1B8C->field_8_object_id;
+    field_208_glukkon_obj_id = sControlledCharacter->field_8_object_id;
 
     if (glukkonSpeak == GameSpeakEvents::Glukkon_AllOYa_40)
     {
@@ -5854,7 +5854,7 @@ void Slig::FallKnockBackOrSmash_4B4A90()
 
 void Slig::TurnOrSayWhat_4BEBC0()
 {
-    if (EventGet(kEventSpeaking) && !IsInInvisibleZone(sControlledCharacter_5C1B8C) && !sControlledCharacter_5C1B8C->mBaseAliveGameObjectFlags.Get(Flags_114::e114_Bit8_bInvisible))
+    if (EventGet(kEventSpeaking) && !IsInInvisibleZone(sControlledCharacter) && !sControlledCharacter->mBaseAliveGameObjectFlags.Get(Flags_114::e114_Bit8_bInvisible))
     {
         GameSpeakResponse_4BF470();
         RespondWithWhat_4BF400();
@@ -5974,8 +5974,8 @@ void Slig::GameSpeakResponse_4BF470()
 void Slig::GoAlertedOrSayWhat_4BF140()
 {
     if (EventGet(kEventSpeaking)
-        && !IsInInvisibleZone(sControlledCharacter_5C1B8C)
-        && !sControlledCharacter_5C1B8C->mBaseAliveGameObjectFlags.Get(Flags_114::e114_Bit8_bInvisible))
+        && !IsInInvisibleZone(sControlledCharacter)
+        && !sControlledCharacter->mBaseAliveGameObjectFlags.Get(Flags_114::e114_Bit8_bInvisible))
     {
         GameSpeakResponse_4BF470();
         RespondWithWhat_4BF400();
@@ -6120,7 +6120,7 @@ s16 Slig::MoveLift_4B3990(FP ySpeed)
             return eSligMotions::M_LiftGripping_48_4B3850;
         }
 
-        if (sControlledCharacter_5C1B8C != this)
+        if (sControlledCharacter != this)
         {
             return mCurrentMotion;
         }
@@ -6142,7 +6142,7 @@ s16 Slig::MoveLift_4B3990(FP ySpeed)
             return eSligMotions::M_LiftGripping_48_4B3850;
         }
 
-        if (sControlledCharacter_5C1B8C != this)
+        if (sControlledCharacter != this)
         {
             return mCurrentMotion;
         }
@@ -6200,7 +6200,7 @@ void Slig::ToChase_4BCFF0()
 {
     field_120_timer = sGnFrame + field_218_tlv_data.field_36_time_to_wait_before_chase;
 
-    if (!VIsFacingMe(sControlledCharacter_5C1B8C))
+    if (!VIsFacingMe(sControlledCharacter))
     {
         mAnim.mFlags.Toggle(AnimFlags::eBit5_FlipX);
     }
@@ -6491,9 +6491,9 @@ void Slig::RespondToEnemyOrPatrol_4B3140()
 {
     field_144_unused = 0;
 
-    if (field_218_tlv_data.field_20_shoot_on_sight_delay || sControlledCharacter_5C1B8C->mBaseAliveGameObjectFlags.Get(Flags_114::e114_Bit8_bInvisible))
+    if (field_218_tlv_data.field_20_shoot_on_sight_delay || sControlledCharacter->mBaseAliveGameObjectFlags.Get(Flags_114::e114_Bit8_bInvisible))
     {
-        if (sControlledCharacter_5C1B8C->Type() != ReliveTypes::eSlig ||
+        if (sControlledCharacter->Type() != ReliveTypes::eSlig ||
             field_218_tlv_data.field_1E_shoot_possessed_sligs != Path_Slig::ShootPossessedSligs::eNo_3) // keeping it this way because OG levels might use a different value like 2 etc
         {
             SetBrain(&Slig::Brain_SpottedEnemy_7_4B3240);
@@ -6506,9 +6506,9 @@ void Slig::RespondToEnemyOrPatrol_4B3140()
             TurnOrWalk_4BD6A0(0);
         }
     }
-    else if (VIsFacingMe(sControlledCharacter_5C1B8C))
+    else if (VIsFacingMe(sControlledCharacter))
     {
-        if (mSpriteScale == sControlledCharacter_5C1B8C->mSpriteScale)
+        if (mSpriteScale == sControlledCharacter->mSpriteScale)
         {
             ToShoot_4BF9A0();
         }
@@ -6557,7 +6557,7 @@ s16 Slig::FindSwitch_4B9A50()
 
 s16 Slig::NearOrFacingActiveChar_4B9930(BaseAliveGameObject* pObj)
 {
-    if (pObj->VIsObjNearby(ScaleToGridSize(mSpriteScale) * FP_FromDouble(0.5), sControlledCharacter_5C1B8C) || sControlledCharacter_5C1B8C->VIsFacingMe(pObj))
+    if (pObj->VIsObjNearby(ScaleToGridSize(mSpriteScale) * FP_FromDouble(0.5), sControlledCharacter) || sControlledCharacter->VIsFacingMe(pObj))
     {
         return 1;
     }
@@ -6605,8 +6605,8 @@ void Slig::NextCommand_4B9A00(s16 speakTableIndex, s16 responseState)
 s16 Slig::HeardGlukkonToListenTo_4B9690(GameSpeakEvents glukkonSpeak)
 {
     const s32 distToPlayer = Math_Distance(
-        FP_GetExponent(sControlledCharacter_5C1B8C->mXPos),
-        FP_GetExponent(sControlledCharacter_5C1B8C->mYPos),
+        FP_GetExponent(sControlledCharacter->mXPos),
+        FP_GetExponent(sControlledCharacter->mYPos),
         FP_GetExponent(mXPos),
         FP_GetExponent(mYPos));
 
@@ -6626,18 +6626,18 @@ s16 Slig::HeardGlukkonToListenTo_4B9690(GameSpeakEvents glukkonSpeak)
         if (pObj != this && pObj->Type() == ReliveTypes::eSlig)
         {
             auto* pOtherSlig = static_cast<Slig*>(pObj);
-            if (pOtherSlig->mSpriteScale == sControlledCharacter_5C1B8C->mSpriteScale && gMap.Is_Point_In_Current_Camera(pOtherSlig->mCurrentLevel, pOtherSlig->mCurrentPath, pOtherSlig->mXPos, pOtherSlig->mYPos, 0) && NearOrFacingActiveChar_4B9930(pOtherSlig) && (glukkonSpeak == GameSpeakEvents::Glukkon_Hey_36 || pOtherSlig->BrainIs(&Slig::Brain_ListeningToGlukkon_4_4B9D20)))
+            if (pOtherSlig->mSpriteScale == sControlledCharacter->mSpriteScale && gMap.Is_Point_In_Current_Camera(pOtherSlig->mCurrentLevel, pOtherSlig->mCurrentPath, pOtherSlig->mXPos, pOtherSlig->mYPos, 0) && NearOrFacingActiveChar_4B9930(pOtherSlig) && (glukkonSpeak == GameSpeakEvents::Glukkon_Hey_36 || pOtherSlig->BrainIs(&Slig::Brain_ListeningToGlukkon_4_4B9D20)))
             {
                 if (VIsObjNearby(ScaleToGridSize(mSpriteScale) * FP_FromDouble(0.5), pOtherSlig))
                 {
-                    if ((pOtherSlig->VIsFacingMe(sControlledCharacter_5C1B8C) && !VIsFacingMe(sControlledCharacter_5C1B8C)) || pOtherSlig->field_216_flags.Get(Flags_216::eBit4_HeardGlukkon))
+                    if ((pOtherSlig->VIsFacingMe(sControlledCharacter) && !VIsFacingMe(sControlledCharacter)) || pOtherSlig->field_216_flags.Get(Flags_216::eBit4_HeardGlukkon))
                     {
                         return 0;
                     }
                 }
                 else if (distToPlayer > Math_Distance(
-                             FP_GetExponent(sControlledCharacter_5C1B8C->mXPos),
-                             FP_GetExponent(sControlledCharacter_5C1B8C->mYPos),
+                             FP_GetExponent(sControlledCharacter->mXPos),
+                             FP_GetExponent(sControlledCharacter->mYPos),
                              FP_GetExponent(pOtherSlig->mXPos),
                              FP_GetExponent(pOtherSlig->mYPos)))
                 {
@@ -6662,7 +6662,7 @@ s16 Slig::VTakeDamage(BaseGameObject* pFrom)
     {
         case ReliveTypes::eBullet:
         {
-            if (mHealth <= FP_FromInteger(0) && sControlledCharacter_5C1B8C != this)
+            if (mHealth <= FP_FromInteger(0) && sControlledCharacter != this)
             {
                 return 0;
             }
@@ -6799,7 +6799,7 @@ s16 Slig::VTakeDamage(BaseGameObject* pFrom)
                 return 1;
             }
 
-            if (!VIsFacingMe(sActiveHero) || IsInInvisibleZone(sActiveHero) || sActiveHero->mBaseAliveGameObjectFlags.Get(Flags_114::e114_Bit8_bInvisible) || IsAbeEnteringDoor_4BB990(sControlledCharacter_5C1B8C))
+            if (!VIsFacingMe(sActiveHero) || IsInInvisibleZone(sActiveHero) || sActiveHero->mBaseAliveGameObjectFlags.Get(Flags_114::e114_Bit8_bInvisible) || IsAbeEnteringDoor_4BB990(sControlledCharacter))
             {
                 GoAlertedOrSayWhat_4BF140();
             }

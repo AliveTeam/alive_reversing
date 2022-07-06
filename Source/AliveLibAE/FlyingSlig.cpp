@@ -368,7 +368,7 @@ s32 FlyingSlig::CreateFromSaveState(const u8* pBuffer)
 
         if (pSaveState->field_3A.Get(FlyingSlig_State::eBit1_bPossessed))
         {
-            sControlledCharacter_5C1B8C = pFlyingSlig;
+            sControlledCharacter = pFlyingSlig;
             pFlyingSlig->field_2A8_max_x_speed = (FP_FromDouble(5.5) * pFlyingSlig->mSpriteScale);
             pFlyingSlig->field_2AC_up_vel = (FP_FromDouble(-5.5) * pFlyingSlig->mSpriteScale);
             pFlyingSlig->field_2B0_down_vel = (FP_FromDouble(5.5) * pFlyingSlig->mSpriteScale);
@@ -473,7 +473,7 @@ s32 FlyingSlig::VGetSaveState(u8* pSaveBuffer)
 
     pState->field_38_launch_switch_id = field_17C_launch_switch_id;
 
-    pState->field_3A.Set(FlyingSlig_State::eBit1_bPossessed, this == sControlledCharacter_5C1B8C);
+    pState->field_3A.Set(FlyingSlig_State::eBit1_bPossessed, this == sControlledCharacter);
     pState->field_3A.Set(FlyingSlig_State::eBit2_Throw, field_17E_flags.Get(Flags_17E::eBit5_Throw));
     pState->field_3A.Set(FlyingSlig_State::eBit3_bAlertedAndNotFacingAbe, field_17E_flags.Get(Flags_17E::eBit6_bAlertedAndNotFacingAbe));
     pState->field_3A.Set(FlyingSlig_State::eBit4_DoAction, field_17E_flags.Get(Flags_17E::eBit7_DoAction));
@@ -546,9 +546,9 @@ s32 FlyingSlig::VGetSaveState(u8* pSaveBuffer)
 
 FlyingSlig::~FlyingSlig()
 {
-    if (sControlledCharacter_5C1B8C == this)
+    if (sControlledCharacter == this)
     {
-        sControlledCharacter_5C1B8C = sActiveHero;
+        sControlledCharacter = sActiveHero;
         MusicController::static_PlayMusic(MusicController::MusicTypes::eNone_0, this, 0, 0);
         if (gMap.mNextLevel != EReliveLevelIds::eMenu)
         {
@@ -581,7 +581,7 @@ FlyingSlig::~FlyingSlig()
 
 void FlyingSlig::VScreenChanged()
 {
-    if (gMap.mCurrentLevel != gMap.mNextLevel || gMap.mOverlayId != gMap.GetOverlayId() || (gMap.mCurrentPath != gMap.mNextPath && (this != sControlledCharacter_5C1B8C || field_17E_flags.Get(Flags_17E::eBit13_Persistant))))
+    if (gMap.mCurrentLevel != gMap.mNextLevel || gMap.mOverlayId != gMap.GetOverlayId() || (gMap.mCurrentPath != gMap.mNextPath && (this != sControlledCharacter || field_17E_flags.Get(Flags_17E::eBit13_Persistant))))
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
@@ -1042,7 +1042,7 @@ void FlyingSlig::Brain_3_GetAlerted()
     {
         field_14C_timer++;
     }
-    else if (VIsFacingMe(sControlledCharacter_5C1B8C))
+    else if (VIsFacingMe(sControlledCharacter))
     {
         if (!sub_436730() && static_cast<s32>(sGnFrame) >= field_14C_timer)
         {
@@ -1066,7 +1066,7 @@ void FlyingSlig::Brain_4_ChasingEnemy()
         return;
     }
 
-    if (EventGet(kEventResetting) || sControlledCharacter_5C1B8C->mSpriteScale != mSpriteScale || IsInInvisibleZone(sControlledCharacter_5C1B8C) || sControlledCharacter_5C1B8C->mBaseAliveGameObjectFlags.Get(Flags_114::e114_Bit8_bInvisible) || (!IsWallBetween_43A550(this, sControlledCharacter_5C1B8C) && (!IsActiveHero(sControlledCharacter_5C1B8C) || sActiveHero->mCurrentMotion != eAbeMotions::Motion_65_LedgeAscend_4548E0) && sControlledCharacter_5C1B8C->Type() != ReliveTypes::eMineCar))
+    if (EventGet(kEventResetting) || sControlledCharacter->mSpriteScale != mSpriteScale || IsInInvisibleZone(sControlledCharacter) || sControlledCharacter->mBaseAliveGameObjectFlags.Get(Flags_114::e114_Bit8_bInvisible) || (!IsWallBetween_43A550(this, sControlledCharacter) && (!IsActiveHero(sControlledCharacter) || sActiveHero->mCurrentMotion != eAbeMotions::Motion_65_LedgeAscend_4548E0) && sControlledCharacter->Type() != ReliveTypes::eMineCar))
     {
         PatrolDelay_435860();
         return;
@@ -1085,7 +1085,7 @@ void FlyingSlig::Brain_4_ChasingEnemy()
 
         if (static_cast<s32>(sGnFrame) > field_150_grenade_delay && CanThrowGrenade_43A490())
         {
-            if (VIsFacingMe(sControlledCharacter_5C1B8C))
+            if (VIsFacingMe(sControlledCharacter))
             {
                 if (!(Math_NextRandom() & 15))
                 {
@@ -1121,7 +1121,7 @@ void FlyingSlig::Brain_6_GameSpeakToMoving()
 
 void FlyingSlig::Brain_7_PanicMoving()
 {
-    if (CanChase_436850(sControlledCharacter_5C1B8C))
+    if (CanChase_436850(sControlledCharacter))
     {
         ToChase_435E10();
         return;
@@ -1147,7 +1147,7 @@ void FlyingSlig::Brain_7_PanicMoving()
 
 void FlyingSlig::Brain_8_PanicIdle()
 {
-    if (CanChase_436850(sControlledCharacter_5C1B8C))
+    if (CanChase_436850(sControlledCharacter))
     {
         ToChase_435E10();
     }
@@ -1174,7 +1174,7 @@ void FlyingSlig::Brain_9_SpottedEnemy()
 
 void FlyingSlig::Brain_10_LaunchingGrenade()
 {
-    if (VIsFacingMe(sControlledCharacter_5C1B8C))
+    if (VIsFacingMe(sControlledCharacter))
     {
         field_17E_flags.Set(Flags_17E::eBit5_Throw);
     }
@@ -1195,7 +1195,7 @@ void FlyingSlig::Brain_11_AbeDead()
 
 void FlyingSlig::Brain_12_Possessed()
 {
-    if (sControlledCharacter_5C1B8C == this && mHealth > FP_FromInteger(0))
+    if (sControlledCharacter == this && mHealth > FP_FromInteger(0))
     {
         MusicController::static_PlayMusic(MusicController::MusicTypes::ePossessed_9, this, 0, 0);
     }
@@ -1254,7 +1254,7 @@ void FlyingSlig::Brain_14_DePossession()
 
 void FlyingSlig::Brain_15_FlyingSligSpawn()
 {
-    if (sControlledCharacter_5C1B8C == this && mHealth > FP_FromInteger(0))
+    if (sControlledCharacter == this && mHealth > FP_FromInteger(0))
     {
         MusicController::static_PlayMusic(MusicController::MusicTypes::ePossessed_9, this, 0, 0);
     }
@@ -2280,7 +2280,7 @@ void FlyingSlig::BlowUp_436510()
 
 s16 FlyingSlig::sub_436730()
 {
-    if (CanChase_436850(sControlledCharacter_5C1B8C))
+    if (CanChase_436850(sControlledCharacter))
     {
         ToSpottedEnemy_435E70();
         return 1;
@@ -2413,7 +2413,7 @@ s16 FlyingSlig::CanThrowGrenade_43A490()
 
 void FlyingSlig::ToLaunchingGrenade_435F50()
 {
-    if (!VIsFacingMe(sControlledCharacter_5C1B8C) && !IsTurning_436AE0())
+    if (!VIsFacingMe(sControlledCharacter) && !IsTurning_436AE0())
     {
         if (field_18C == FP_FromInteger(0))
         {
@@ -2649,8 +2649,8 @@ s16 FlyingSlig::sub_436C60(PSX_RECT* pRect, s16 arg_4)
     {
         const FP k80Scaled = (FP_FromInteger(80) * mSpriteScale);
 
-        const FP rLeft = sControlledCharacter_5C1B8C->mXPos - k80Scaled;
-        const FP rRight = sControlledCharacter_5C1B8C->mXPos + k80Scaled;
+        const FP rLeft = sControlledCharacter->mXPos - k80Scaled;
+        const FP rRight = sControlledCharacter->mXPos + k80Scaled;
 
         const FP r_x = FP_FromInteger(std::min(pRect->x, pRect->w));
         const FP r_w = FP_FromInteger(std::max(pRect->w, pRect->x));
@@ -2659,7 +2659,7 @@ s16 FlyingSlig::sub_436C60(PSX_RECT* pRect, s16 arg_4)
         const FP r_h = FP_FromInteger(std::max(pRect->h, pRect->y) + 150);
 
         s32 bLeftInRect = 0;
-        if (rLeft < r_x || rLeft > r_w || sControlledCharacter_5C1B8C->mYPos < r_y || sControlledCharacter_5C1B8C->mYPos > r_h)
+        if (rLeft < r_x || rLeft > r_w || sControlledCharacter->mYPos < r_y || sControlledCharacter->mYPos > r_h)
         {
             bLeftInRect = 0;
         }
@@ -2669,7 +2669,7 @@ s16 FlyingSlig::sub_436C60(PSX_RECT* pRect, s16 arg_4)
         }
 
         s32 bRightInRect = 0;
-        if (rRight < r_x || rRight > r_w || sControlledCharacter_5C1B8C->mYPos < r_y || sControlledCharacter_5C1B8C->mYPos > r_h)
+        if (rRight < r_x || rRight > r_w || sControlledCharacter->mYPos < r_y || sControlledCharacter->mYPos > r_h)
         {
             bRightInRect = 0;
         }
@@ -2695,16 +2695,16 @@ s16 FlyingSlig::sub_436C60(PSX_RECT* pRect, s16 arg_4)
         if (bRightInRect)
         {
             yOff1 = v3 + (v2 * rRight);
-            if ((sControlledCharacter_5C1B8C->mYPos - (FP_FromInteger(60) * mSpriteScale) - yOff1) > (FP_FromInteger(35) * mSpriteScale))
+            if ((sControlledCharacter->mYPos - (FP_FromInteger(60) * mSpriteScale) - yOff1) > (FP_FromInteger(35) * mSpriteScale))
             {
                 FP hitX = {};
                 FP hitY = {};
                 PathLine* pLine = nullptr;
 
                 if (sCollisions->Raycast(
-                        sControlledCharacter_5C1B8C->mXPos,
+                        sControlledCharacter->mXPos,
                         yOff1,
-                        sControlledCharacter_5C1B8C->mXPos,
+                        sControlledCharacter->mXPos,
                         yOff1 + (FP_FromInteger(35) * mSpriteScale),
                         &pLine,
                         &hitX,
@@ -2726,12 +2726,12 @@ s16 FlyingSlig::sub_436C60(PSX_RECT* pRect, s16 arg_4)
             FP hitY = {};
             PathLine* pLine = nullptr;
 
-            if ((sControlledCharacter_5C1B8C->mYPos - (FP_FromInteger(60) * mSpriteScale) - yOff2) > (FP_FromInteger(35) * mSpriteScale))
+            if ((sControlledCharacter->mYPos - (FP_FromInteger(60) * mSpriteScale) - yOff2) > (FP_FromInteger(35) * mSpriteScale))
             {
                 if (sCollisions->Raycast(
-                        sControlledCharacter_5C1B8C->mXPos,
+                        sControlledCharacter->mXPos,
                         yOff2,
-                        sControlledCharacter_5C1B8C->mXPos,
+                        sControlledCharacter->mXPos,
                         yOff2 + (FP_FromInteger(35) * mSpriteScale),
                         &pLine,
                         &hitX,
@@ -2798,7 +2798,7 @@ s16 FlyingSlig::sub_436C60(PSX_RECT* pRect, s16 arg_4)
     else
     {
         const FP k40Scaled = (FP_FromInteger(40) * mSpriteScale);
-        const FP yTop = sControlledCharacter_5C1B8C->mYPos - k40Scaled;
+        const FP yTop = sControlledCharacter->mYPos - k40Scaled;
         if (pRect->y >= pRect->h)
         {
             if (yTop < FP_FromInteger(pRect->h))
@@ -2824,7 +2824,7 @@ s16 FlyingSlig::sub_436C60(PSX_RECT* pRect, s16 arg_4)
             }
         }
 
-        if (FP_Abs(sControlledCharacter_5C1B8C->mXPos - FP_FromInteger(pRect->x)) > (FP_FromInteger(120) * mSpriteScale))
+        if (FP_Abs(sControlledCharacter->mXPos - FP_FromInteger(pRect->x)) > (FP_FromInteger(120) * mSpriteScale))
         {
             return 0;
         }
@@ -2904,7 +2904,7 @@ bool FlyingSlig::sub_436B20()
 
 void FlyingSlig::sub_4373B0()
 {
-    const FP calc = Math_Tan_496F70(mYPos - sControlledCharacter_5C1B8C->mYPos, sControlledCharacter_5C1B8C->mXPos - mXPos);
+    const FP calc = Math_Tan_496F70(mYPos - sControlledCharacter->mYPos, sControlledCharacter->mXPos - mXPos);
     FP value1 = FP_Abs(field_1BC - calc);
     if (value1 > FP_FromInteger(128))
     {

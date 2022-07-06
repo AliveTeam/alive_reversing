@@ -207,7 +207,7 @@ void HoneySack::VUpdate()
                     field_100_chase_ticks);
                 if (pNewBee)
                 {
-                    pNewBee->Chase(sActiveHero_507678);
+                    pNewBee->Chase(sActiveHero);
                 }
 
                 if (field_F0_pBee)
