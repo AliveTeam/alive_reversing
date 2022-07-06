@@ -9395,7 +9395,7 @@ void Abe::New_RandomizedChant_Particle()
 {
     const auto xpos = mBaseAnimatedWithPhysicsGameObject_XPos + mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(40 * Math_NextRandom() / 256 - 20);
     const auto ypos = mBaseAnimatedWithPhysicsGameObject_YPos - (mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(30 * Math_NextRandom() / 256 + 30));
-    New_Chant_Particle_4198E0(
+    New_Orb_Particle(
         xpos,
         ypos,
         mBaseAnimatedWithPhysicsGameObject_SpriteScale,

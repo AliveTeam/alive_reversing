@@ -3611,7 +3611,7 @@ void Slig::Motion_37_Depossessing_4684D0()
 
         if (!(sGnFrame % 4))
         {
-            New_Chant_Particle_4198E0(
+            New_Orb_Particle(
                 mBaseAnimatedWithPhysicsGameObject_XPos + (mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(Math_RandomRange(-20, 20))),
                 mBaseAnimatedWithPhysicsGameObject_YPos - (mBaseAnimatedWithPhysicsGameObject_SpriteScale * FP_FromInteger(Math_RandomRange(20, 50))),
                 mBaseAnimatedWithPhysicsGameObject_SpriteScale,

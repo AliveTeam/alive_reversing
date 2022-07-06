@@ -11,6 +11,8 @@
 #include "AnimResources.hpp"
 #include "Sfx.hpp"
 #include "Particle.hpp"
+#include "Grid.hpp"
+#include "../relive_lib/GameType.hpp"
 
 BaseAnimatedWithPhysicsGameObject::BaseAnimatedWithPhysicsGameObject(s16 resourceArraySize)
     : IBaseAnimatedWithPhysicsGameObject(resourceArraySize)
@@ -27,8 +29,16 @@ BaseAnimatedWithPhysicsGameObject::BaseAnimatedWithPhysicsGameObject(s16 resourc
     mBaseAnimatedWithPhysicsGameObject_XPos = FP_FromInteger(0);
     mBaseAnimatedWithPhysicsGameObject_YPos = FP_FromInteger(0);
 
-    mBaseAnimatedWithPhysicsGameObject_RGB.SetRGB(127, 127, 127);
-
+	// TODO: This can be removed if everything uses the tint table or passes down the RGB
+	if (GetGameType() == GameType::eAe)
+	{
+    	mBaseAnimatedWithPhysicsGameObject_RGB.SetRGB(127, 127, 127);
+	}
+	else
+	{
+		mBaseAnimatedWithPhysicsGameObject_RGB.SetRGB(105, 105, 105);
+	}
+	
     mBaseGameObjectFlags.Clear(BaseGameObject::eInteractive_Bit8);
     mBaseGameObjectFlags.Clear(BaseGameObject::eCanExplode_Bit7);
 
@@ -40,8 +50,17 @@ BaseAnimatedWithPhysicsGameObject::BaseAnimatedWithPhysicsGameObject(s16 resourc
     mBaseAnimatedWithPhysicsGameObject_Scale = Scale::Fg;
 	
     mBaseAnimatedWithPhysicsGameObject_XOffset = 0;
-    mBaseAnimatedWithPhysicsGameObject_YOffset = 0;
-
+	
+	// TODO: factor this out, not yet known why AO needs an offset of 5
+	if (GetGameType() == GameType::eAe)
+	{
+    	mBaseAnimatedWithPhysicsGameObject_YOffset = 0;
+	}
+	else
+	{
+		mBaseAnimatedWithPhysicsGameObject_YOffset = 5;
+	}
+	
     mShadow = nullptr;
 }
 
@@ -120,10 +139,10 @@ void BaseAnimatedWithPhysicsGameObject::VRender(PrimHeader** ppOt)
     }
 }
 
-void BaseAnimatedWithPhysicsGameObject::Animation_Init(s32 frametableoffset, u16 maxW, u16 maxH, u8** ppAnimData)
+void BaseAnimatedWithPhysicsGameObject::Animation_Init(s32 frameTableOffset, u16 maxW, u16 maxH, u8** ppAnimData)
 {
     if (mBaseAnimatedWithPhysicsGameObject_Anim.Init(
-        frametableoffset,
+        frameTableOffset,
         maxW,
         maxH,
         this,
@@ -161,8 +180,8 @@ void BaseAnimatedWithPhysicsGameObject::Animation_Init(s32 frametableoffset, u16
 
 void BaseAnimatedWithPhysicsGameObject::Animation_Init(AnimId animId, u8** ppAnimData)
 {
-    const AnimRecord& anim = AnimRec(animId);
-    Animation_Init(anim.mFrameTableOffset, anim.mMaxW, anim.mMaxH, ppAnimData);
+    const AnimRecord& rec = PerGameAnimRec(animId);
+    Animation_Init(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppAnimData);
 }
 
 CameraPos BaseAnimatedWithPhysicsGameObject::Is_In_Current_Camera()
@@ -224,6 +243,14 @@ void BaseAnimatedWithPhysicsGameObject::VOnCollisionWith(PSX_Point xy, PSX_Point
 s16 BaseAnimatedWithPhysicsGameObject::VIsObjNearby(FP radius, BaseAnimatedWithPhysicsGameObject* pOtherObj)
 {
     FP distance = FP_Abs(pOtherObj->mBaseAnimatedWithPhysicsGameObject_XPos - mBaseAnimatedWithPhysicsGameObject_XPos);
+	// TODO: Factor out
+	if (GetGameType() == GameType::eAo)
+	{
+ 		if (distance > FP_FromInteger(400))
+    	{
+        	distance += ScaleToGridSize(mBaseAnimatedWithPhysicsGameObject_SpriteScale) - FP_FromInteger(656);
+    	}	
+	}
     return distance <= radius;
 }
 
@@ -295,7 +322,7 @@ s16 BaseAnimatedWithPhysicsGameObject::VOnSameYLevel(BaseAnimatedWithPhysicsGame
 
 void BaseAnimatedWithPhysicsGameObject::VStackOnObjectsOfType(ReliveTypes typeToFind)
 {
-    const s16 offsets[6] = {
+    static const s16 offsets[6] = {
         0, 3, -3, 6, -6, 2};
 
     s32 array_idx = 0;
@@ -317,6 +344,7 @@ void BaseAnimatedWithPhysicsGameObject::VStackOnObjectsOfType(ReliveTypes typeTo
         }
     }
 
+	// NOTE: AO ignored scale here
     mBaseAnimatedWithPhysicsGameObject_XOffset = FP_GetExponent(FP_FromInteger(offsets[array_idx]) * mBaseAnimatedWithPhysicsGameObject_SpriteScale);
 }
 
@@ -386,4 +414,24 @@ void BaseAnimatedWithPhysicsGameObject::SetTint(const TintEntry* pTintArray, ERe
     }
 
     mBaseAnimatedWithPhysicsGameObject_RGB.SetRGB(pTintArray->field_1_r, pTintArray->field_2_g, pTintArray->field_3_b);
+}
+
+// AO only
+BaseAnimatedWithPhysicsGameObject::BetweenCamPos BaseAnimatedWithPhysicsGameObject::BetweenCameras_418500()
+{
+    // TODO: Try to understand how the hell these calcs are supposed to work
+    const s32 xPosMinusHalfCameraSpace = FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos - FP_FromInteger(512 / 2));
+    if (xPosMinusHalfCameraSpace / 512 % 2)
+    {
+        return BetweenCamPos::Left_1;
+    }
+    // TODO :This seems wrong, won't it always be false ??
+    else if (FP_FromInteger(xPosMinusHalfCameraSpace % 512) > FP_FromInteger(640))
+    {
+        return BetweenCamPos::Right_2;
+    }
+    else
+    {
+        return BetweenCamPos::None_0;
+    }
 }

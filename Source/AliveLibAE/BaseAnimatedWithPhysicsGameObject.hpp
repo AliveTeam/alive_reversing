@@ -31,8 +31,6 @@ public:
 
     virtual void VRender(PrimHeader** ppOt) override;
 
-    void Animation_Init(s32 frametableoffset, u16 maxW, u16 maxH, u8** ppAnimData);
-    void Animation_Init(AnimId animId, u8** ppAnimData);
 
     virtual void VOnCollisionWith(PSX_Point xy, PSX_Point wh, DynamicArrayT<BaseGameObject>* pObjList, s32 startingPointIdx, TCollisionCallBack pFn);
     virtual PSX_RECT VGetBoundingRect(s32 pointIdx = 1);
@@ -44,15 +42,25 @@ public:
     virtual void VOnPickUpOrSlapped();
     virtual void VOnThrowableHit(BaseGameObject* pFrom);
 
+    void SetTint(const TintEntry* pTintArray, EReliveLevelIds levelId);
     CameraPos Is_In_Current_Camera();
-    void SetTint(const TintEntry* pTintArray, EReliveLevelIds level_id);
+
+    void Animation_Init(AnimId animId, u8** ppAnimData);
+    void Animation_Init(s32 frameTableOffset, u16 maxW, u16 maxH, u8** ppAnimData);
 
 protected:
     void DeathSmokeEffect(bool bPlaySound);
 
+    enum class BetweenCamPos : s16
+    {
+        None_0 = 0,
+        Left_1 = 1,
+        Right_2 = 2,
+    };
+
+    BetweenCamPos BetweenCameras_418500();
 public:
-    Animation mBaseAnimatedWithPhysicsGameObject_Anim = {};
+    Animation mBaseAnimatedWithPhysicsGameObject_Anim;
 
     Shadow* mShadow = nullptr;
 };
-ALIVE_ASSERT_SIZEOF(BaseAnimatedWithPhysicsGameObject, 0xF4);

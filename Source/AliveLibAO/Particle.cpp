@@ -6,6 +6,36 @@
 #include "Math.hpp"
 
 namespace AO {
+Particle::Particle(FP xpos, FP ypos, AnimId animId, u8** ppAnimData)
+{
+    mBaseAnimatedWithPhysicsGameObject_RGB.SetRGB(128, 128, 128);
+
+    mBaseGameObjectTypeId = ReliveTypes::eParticle;
+
+    Animation_Init(animId, ppAnimData);
+
+    if (mBaseGameObjectFlags.Get(BaseGameObject::eListAddFailed_Bit1))
+    {
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+    }
+
+    mBaseAnimatedWithPhysicsGameObject_XPos = xpos;
+    mBaseAnimatedWithPhysicsGameObject_YPos = ypos;
+    field_E4_scale_amount = FP_FromInteger(0);
+}
+
+void Particle::VUpdate()
+{
+    mBaseAnimatedWithPhysicsGameObject_XPos += mBaseAnimatedWithPhysicsGameObject_VelX;
+    mBaseAnimatedWithPhysicsGameObject_YPos += mBaseAnimatedWithPhysicsGameObject_VelY;
+
+    mBaseAnimatedWithPhysicsGameObject_SpriteScale += field_E4_scale_amount;
+
+    if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
+    {
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+    }
+}
 
 Particle* New_DestroyOrCreateObject_Particle_419D00(FP xpos, FP ypos, FP scale)
 {
@@ -13,6 +43,7 @@ Particle* New_DestroyOrCreateObject_Particle_419D00(FP xpos, FP ypos, FP scale)
     u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
 
     auto pParticle = relive_new Particle(xpos, ypos, AnimId::DeathFlare_2, ppRes);
+
     if (!pParticle)
     {
         return nullptr;
@@ -35,6 +66,7 @@ Particle* New_DestroyOrCreateObject_Particle_419D00(FP xpos, FP ypos, FP scale)
     return pParticle;
 }
 
+// Fart/dust cloud particle spawner
 void New_Smoke_Particles_419A80(FP xpos, FP ypos, FP scale, s16 count, s16 type)
 {
     FP velYCounter = {};
@@ -86,7 +118,7 @@ void New_Smoke_Particles_419A80(FP xpos, FP ypos, FP scale, s16 count, s16 type)
     }
 }
 
-void New_Chant_Particle_4198E0(FP xpos, FP ypos, FP scale, Layer layer)
+void New_Orb_Particle(FP xpos, FP ypos, FP scale, Layer layer)
 {
     const AnimRecord& orbRec = AO::AnimRec(AnimId::ChantOrb_Particle);
     auto pParticle = relive_new Particle(xpos, ypos, AnimId::ChantOrb_Particle, ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, orbRec.mResourceId, 1, 0));
@@ -191,35 +223,7 @@ void New_ShootingFire_Particle_419720(FP xpos, FP ypos, s8 direction, FP scale)
     }
 }
 
-Particle::Particle(FP xpos, FP ypos, AnimId animId, u8** ppAnimData)
-{
-    mBaseAnimatedWithPhysicsGameObject_RGB.SetRGB(128, 128, 128);
 
-    mBaseGameObjectTypeId = ReliveTypes::eParticle;
 
-    Animation_Init(animId, ppAnimData);
-
-    if (mBaseGameObjectFlags.Get(BaseGameObject::eListAddFailed_Bit1))
-    {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
-    }
-
-    mBaseAnimatedWithPhysicsGameObject_XPos = xpos;
-    mBaseAnimatedWithPhysicsGameObject_YPos = ypos;
-    field_E4_scale_amount = FP_FromInteger(0);
-}
-
-void Particle::VUpdate()
-{
-    mBaseAnimatedWithPhysicsGameObject_XPos += mBaseAnimatedWithPhysicsGameObject_VelX;
-    mBaseAnimatedWithPhysicsGameObject_YPos += mBaseAnimatedWithPhysicsGameObject_VelY;
-
-    mBaseAnimatedWithPhysicsGameObject_SpriteScale += field_E4_scale_amount;
-
-    if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
-    {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
-    }
-}
 
 } // namespace AO

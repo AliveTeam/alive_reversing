@@ -106,6 +106,17 @@ void ShadowZone::ShadowZones_Calculate_Colour(s32 xpos, s32 ypos, Scale scale, s
     }
 }
 
+ShadowZone::~ShadowZone()
+{
+    gMap.TLV_Reset(field_10_tlvInfo, -1, 0, 0);
+    sShadowZone_dArray_507B08->Remove_Item(this);
+}
+
+void ShadowZone::VScreenChanged()
+{
+    mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+}
+
 s16 ShadowZone::ApplysToScale(Scale scale)
 {
     if (field_26_scale == ShadowZoneScale::eBoth_0)
@@ -123,23 +134,12 @@ s16 ShadowZone::ApplysToScale(Scale scale)
     return 0;
 }
 
-ShadowZone::~ShadowZone()
-{
-    gMap.TLV_Reset(field_10_tlvInfo, -1, 0, 0);
-    sShadowZone_dArray_507B08->Remove_Item(this);
-}
-
 void ShadowZone::VUpdate()
 {
     if (EventGet(kEventDeathReset))
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
-}
-
-void ShadowZone::VScreenChanged()
-{
-    mBaseGameObjectFlags.Set(BaseGameObject::eDead);
 }
 
 void ShadowZone::GetColourAmount(FP* pOut, s16 xpos, s16 ypos)
@@ -159,6 +159,7 @@ void ShadowZone::GetColourAmount(FP* pOut, s16 xpos, s16 ypos)
             // Partly in range
             const FP midXDistance = FP_FromInteger(field_20_mid_x - field_1C_centre_mid_x);
             const FP value = midXDistance - FP_FromInteger(deltaX - field_1C_centre_mid_x);
+
             *pOut = value / midXDistance;
         }
         else
