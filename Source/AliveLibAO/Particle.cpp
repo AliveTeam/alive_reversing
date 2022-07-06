@@ -8,7 +8,7 @@
 namespace AO {
 Particle::Particle(FP xpos, FP ypos, AnimId animId, u8** ppAnimData)
 {
-    mBaseAnimatedWithPhysicsGameObject_RGB.SetRGB(128, 128, 128);
+    mRGB.SetRGB(128, 128, 128);
 
     mBaseGameObjectTypeId = ReliveTypes::eParticle;
 
@@ -19,19 +19,19 @@ Particle::Particle(FP xpos, FP ypos, AnimId animId, u8** ppAnimData)
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 
-    mBaseAnimatedWithPhysicsGameObject_XPos = xpos;
-    mBaseAnimatedWithPhysicsGameObject_YPos = ypos;
+    mXPos = xpos;
+    mYPos = ypos;
     field_E4_scale_amount = FP_FromInteger(0);
 }
 
 void Particle::VUpdate()
 {
-    mBaseAnimatedWithPhysicsGameObject_XPos += mBaseAnimatedWithPhysicsGameObject_VelX;
-    mBaseAnimatedWithPhysicsGameObject_YPos += mBaseAnimatedWithPhysicsGameObject_VelY;
+    mXPos += mVelX;
+    mYPos += mVelY;
 
-    mBaseAnimatedWithPhysicsGameObject_SpriteScale += field_E4_scale_amount;
+    mSpriteScale += field_E4_scale_amount;
 
-    if (mBaseAnimatedWithPhysicsGameObject_Anim.mAnimFlags.Get(AnimFlags::eBit18_IsLastFrame))
+    if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }

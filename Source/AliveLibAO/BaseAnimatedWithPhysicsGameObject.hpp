@@ -70,13 +70,6 @@ protected:
     };
 
     BetweenCamPos BetweenCameras_418500();
-
-
-    Shadow* mShadow = nullptr;
-
-    Shadow* mShadow = nullptr;
-
-    Shadow* mShadow = nullptr;
 };
 
 } // namespace AO

@@ -59,5 +59,4 @@ protected:
     };
 
     BetweenCamPos BetweenCameras_418500();
-
 };

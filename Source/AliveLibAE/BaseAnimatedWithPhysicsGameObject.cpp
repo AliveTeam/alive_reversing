@@ -49,7 +49,7 @@ BaseAnimatedWithPhysicsGameObject::BaseAnimatedWithPhysicsGameObject(s16 resourc
 
     mScale = Scale::Fg;
 	
-    mBaseAnimatedWithPhysicsGameObject_XOffset = 0;
+    mXOffset = 0;
 	
 	// TODO: factor this out, not yet known why AO needs an offset of 5
 	if (GetGameType() == GameType::eAe)
@@ -420,7 +420,7 @@ void BaseAnimatedWithPhysicsGameObject::SetTint(const TintEntry* pTintArray, ERe
 BaseAnimatedWithPhysicsGameObject::BetweenCamPos BaseAnimatedWithPhysicsGameObject::BetweenCameras_418500()
 {
     // TODO: Try to understand how the hell these calcs are supposed to work
-    const s32 xPosMinusHalfCameraSpace = FP_GetExponent(mBaseAnimatedWithPhysicsGameObject_XPos - FP_FromInteger(512 / 2));
+    const s32 xPosMinusHalfCameraSpace = FP_GetExponent(mXPos - FP_FromInteger(512 / 2));
     if (xPosMinusHalfCameraSpace / 512 % 2)
     {
         return BetweenCamPos::Left_1;
