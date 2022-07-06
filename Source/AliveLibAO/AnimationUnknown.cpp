@@ -102,12 +102,11 @@ void AnimationUnknown::VRender(s32 xpos, s32 ypos, PrimHeader** ppOt, s16 /*widt
             SetRGB0(pPoly, mRed, mGreen, mBlue);
         }
 
-        const s32 w = frameW + polyX - 1;
-        const s32 h = frameH + polyY - 1;
-        SetXY0(pPoly, static_cast<s16>(polyX), static_cast<s16>(polyY));
-        SetXY1(pPoly, static_cast<s16>(w), static_cast<s16>(polyY));
-        SetXY2(pPoly, static_cast<s16>(polyX), static_cast<s16>(h));
-        SetXY3(pPoly, static_cast<s16>(w), static_cast<s16>(h));
+        SetXYWH(pPoly,
+                static_cast<s16>(polyX),
+                static_cast<s16>(polyY),
+                static_cast<s16>(frameW - 1),
+                static_cast<s16>(frameH - 1));
 
         SetPrimExtraPointerHack(pPoly, nullptr);
         OrderingTable_Add(OtLayer(ppOt, mRenderLayer), &pPoly->mBase.header);
