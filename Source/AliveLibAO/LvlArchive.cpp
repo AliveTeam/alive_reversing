@@ -46,14 +46,11 @@ bool LvlArchive::OpenArchive(const char_type* fileName, s32 pos)
     const auto pLvlHeader = reinterpret_cast<const LvlHeader*>(&sector[0]);
 
     // Allocate space for LVL archive header
-    field_0_0x2800_res = ResourceManager::Allocate_New_Block_454FE0(kSectorSize * pLvlHeader->field_10_sub.field_4_header_size_in_sectors, ResourceManager::eFirstMatching);
+    field_0_0x2800_res = relive_new u8[kSectorSize * pLvlHeader->field_10_sub.field_4_header_size_in_sectors];
     if (pLvlHeader->field_10_sub.field_4_header_size_in_sectors != 5)
     {
         LOG_INFO("Header size in sectors is " << pLvlHeader->field_10_sub.field_4_header_size_in_sectors);
     }
-
-    // Header data is populated later by the read, pointing to same buffer here
-    ResourceManager::Header* pHeader = ResourceManager::Get_Header_455620(field_0_0x2800_res);
 
     field_4_cd_pos = pos;
 
@@ -77,7 +74,7 @@ bool LvlArchive::OpenArchive(const char_type* fileName, s32 pos)
         }
         PSX_CD_File_Seek_49B670(2, &loc);
 
-        bOk = PSX_CD_File_Read_49B8B0(pLvlHeader->field_10_sub.field_4_header_size_in_sectors, pHeader);
+        bOk = PSX_CD_File_Read_49B8B0(pLvlHeader->field_10_sub.field_4_header_size_in_sectors, field_0_0x2800_res);
         if (PSX_CD_FileIOWait_49B900(0) == -1)
         {
             bOk = 0;
@@ -85,8 +82,6 @@ bool LvlArchive::OpenArchive(const char_type* fileName, s32 pos)
     }
     while (!bOk);
 
-    // Set ref count to 1 so ResourceManager won't kill it
-    pHeader->field_4_ref_count = 1;
     return true;
 }
 
@@ -97,11 +92,8 @@ void LvlArchive::OpenArchive_41BC60(s32 pos)
 
 s16 LvlArchive::Free_41BEB0()
 {
-    if (field_0_0x2800_res)
-    {
-        ResourceManager::FreeResource_455550(field_0_0x2800_res);
-        field_0_0x2800_res = nullptr;
-    }
+    relive_delete[] field_0_0x2800_res;
+    field_0_0x2800_res = nullptr;
     return 0;
 }
 
@@ -110,24 +102,36 @@ LvlArchive::~LvlArchive()
     Free_41BEB0();
 }
 
+u32 LvlArchive::FileCount() const
+{
+    auto pHeader = reinterpret_cast<const LvlHeader*>(field_0_0x2800_res);
+    return pHeader->field_10_sub.field_0_num_files;
+}
+
+const LvlFileRecord* LvlArchive::FileAt(u32 idx) const
+{
+    auto pHeader = reinterpret_cast<const LvlHeader*>(field_0_0x2800_res);
+    return &pHeader->field_10_sub.field_10_file_recs[idx];
+}
+
 LvlFileRecord* LvlArchive::Find_File_Record(const char_type* pFileName)
 {
     // NOTE: PcOpen branches removed
 
-    auto pHeader = reinterpret_cast<LvlHeader_Sub*>(*field_0_0x2800_res);
-    if (pHeader->field_0_num_files == 0)
+    auto pHeader = reinterpret_cast<LvlHeader*>(field_0_0x2800_res);
+    if (pHeader->field_10_sub.field_0_num_files == 0)
     {
         LOG_ERROR("Couldn't find " << pFileName << " in LVL because the LVL is empty");
         assert(false);
         return nullptr;
     }
 
-    const s32 total = pHeader->field_0_num_files;
+    const s32 total = pHeader->field_10_sub.field_0_num_files;
     for (s32 i = 0; i < total; i++)
     {
-        if (strncmp(pHeader->field_10_file_recs[i].field_0_file_name, pFileName, ALIVE_COUNTOF(LvlFileRecord::field_0_file_name)) == 0)
+        if (strncmp(pHeader->field_10_sub.field_10_file_recs[i].field_0_file_name, pFileName, ALIVE_COUNTOF(LvlFileRecord::field_0_file_name)) == 0)
         {
-            return &pHeader->field_10_file_recs[i];
+            return &pHeader->field_10_sub.field_10_file_recs[i];
         }
     }
 

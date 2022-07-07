@@ -47,8 +47,11 @@ public:
 
     ~LvlArchive();
 
+    u32 FileCount() const;
+    const LvlFileRecord* FileAt(u32 idx) const;
+
 private:
-    u8** field_0_0x2800_res = nullptr;
+    u8* field_0_0x2800_res = nullptr;
 
 public:
     s32 field_4_cd_pos = 0;

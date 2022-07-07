@@ -26,6 +26,7 @@
 #include "../AliveLibAO/GameAutoPlayer.hpp"
 
 #include "../relive_lib/GameType.hpp"
+#include "../relive_lib/data_conversion/data_conversion.hpp"
 
 #include "Io.hpp"
 
@@ -231,6 +232,14 @@ static s32 AEMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine,
     return WinMain_4EE631(hInstance, hPrevInstance, lpCmdLine, nShowCmd);
 }
 
+static void ConvertData()
+{
+    /*
+    DataConversion dataConversion;
+    dataConversion.ConvertData();
+    */
+}
+
 s32 WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, s32 nShowCmd)
 {
     Install_Crash_Handler();
@@ -247,6 +256,8 @@ s32 WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
     // Default to AE but allow switching to AO with a command line, if AO is anywhere in the command line then assume we want to run AO
     GameType gameToRun = strstr(lpCmdLine, "AO") ? GameType::eAo : GameType::eAe;
     ShowCwd();
+
+    ConvertData();
 
     if (gameToRun == GameType::eAo)
     {
