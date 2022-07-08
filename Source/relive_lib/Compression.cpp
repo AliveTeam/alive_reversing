@@ -1,10 +1,6 @@
-#include "stdafx_ao.h"
-#include "stdlib.hpp"
 #include "Compression.hpp"
-#include "Function.hpp"
-#include "PtrStream.hpp"
+#include "../AliveLibCommon/PtrStream.hpp"
 #include "../AliveLibAE/Compression.hpp"
-#include "Sys_common.hpp"
 
 namespace AO {
 
@@ -13,7 +9,6 @@ void Decompress_Type_2(const u8* pInput, u8* pOutput, s32 decompressedLen)
     // Exactly the same as AE
     CompressionType2_Decompress_40AA50(pInput, pOutput, decompressedLen);
 }
-
 
 template <typename T>
 static void ReadNextSource(PtrStream& stream, s32& control_byte, T& workBits)

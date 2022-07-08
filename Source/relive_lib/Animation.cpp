@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "Animation.hpp"
 #include "../AliveLibAE/Compression.hpp"
-#include "../AliveLibAO/Compression.hpp"
+#include "../relive_lib/Compression.hpp"
 #include "VRam.hpp"
 #include "PsxDisplay.hpp"
 #include "../AliveLibCommon/Sys_common.hpp"
@@ -83,7 +83,7 @@ void Animation::UploadTexture(const FrameHeader* pFrameHeader, const PSX_RECT& v
 					}
 					else
 					{
-						 AO::Decompress_Type_3(
+                        AO::Decompress_Type_3(
 		                    (u8*) &pFrameHeader[1],
 		                    *mDbuf,
 		                    *(u32*) &pFrameHeader->field_8_width2,

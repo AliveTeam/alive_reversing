@@ -17,8 +17,6 @@ SET(AliveLibSrcAO
    Io.cpp
    Sound.hpp
    Sound.cpp
-   Compression.hpp
-   Compression.cpp
    DemoPlayback.hpp
    DemoPlayback.cpp
    SaveGame.hpp

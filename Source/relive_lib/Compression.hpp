@@ -4,8 +4,6 @@
 
 namespace AO {
 
-void Decompress_Type_1(const u8* pInput, u8* pOutput, u32 compressedLen, u32 decompressedLen);
-
 void Decompress_Type_2(const u8* pInput, u8* pOutput, s32 decompressedLen);
 
 void Decompress_Type_3(const u8* pInput, u8* pOutput, s32 len, s32 out_len);

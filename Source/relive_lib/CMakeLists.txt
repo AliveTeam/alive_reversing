@@ -17,6 +17,8 @@ SET(relive_lib_src
     MapWrapper.cpp
     PsxDisplay.cpp
     PsxDisplay.hpp
+    Compression.hpp
+    Compression.cpp
     bmp.cpp
     bmp.hpp
     Error.cpp
