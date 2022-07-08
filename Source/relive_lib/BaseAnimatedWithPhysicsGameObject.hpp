@@ -39,7 +39,7 @@ class IBaseAnimatedWithPhysicsGameObject : public BaseGameObject
 {
 public:
     explicit IBaseAnimatedWithPhysicsGameObject(s16 resourceArraySize)
-        : BaseGameObject(TRUE, resourceArraySize)
+        : BaseGameObject(true, resourceArraySize)
     {
 
     }
