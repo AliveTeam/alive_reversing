@@ -154,7 +154,7 @@ public:
 
     static s16 FreeResource_455550(u8** ppRes);
 
-    static void LoadResource_446C90(const char_type* pFileName, u32 type, u32 resourceId, LoadMode loadMode, s16 bDontLoad = FALSE);
+    static void LoadResource_446C90(const char_type* pFileName, u32 type, u32 resourceId, LoadMode loadMode, s16 bDontLoad = false);
 
 
     static u8** GetLoadedResource(u32 type, u32 resourceId, s16 addUseCount, s16 bLock);
