@@ -24,16 +24,29 @@ enum class EAnimGroup
     TrapDoors
 };
 
+static const char* ToString(EAnimGroup animGroup)
+{
+    switch (animGroup)
+    {
+        case EAnimGroup::Abe:
+            return "abe";
+        default:
+            ALIVE_FATAL("unknown group");
+    }
+}
+
 struct AnimRecConversionInfo final
 {
     AnimId mAnimId;         // which anim?
-    EAnimGroup mGroupName;  // abe, doors etc
+    EAnimGroup mGroup;      // abe, doors etc
     EReliveLevelIds mAeLvl; // LVL this anim exists in for AE
     EReliveLevelIds mAoLvl; // LVL this anim exists in for AO
+    bool mConverted;
 };
-constexpr AnimRecConversionInfo kAnimRecConversionInfo[] = {
-    {AnimId::Abe_Arm_Gib, EAnimGroup::Abe, EReliveLevelIds::eMines, EReliveLevelIds::eRuptureFarms},
-    {AnimId::Abe_Body_Gib, EAnimGroup::Abe, EReliveLevelIds::eMines, EReliveLevelIds::eRuptureFarms}};
+
+AnimRecConversionInfo kAnimRecConversionInfo[] = {
+    {AnimId::Abe_Arm_Gib, EAnimGroup::Abe, EReliveLevelIds::eMines, EReliveLevelIds::eRuptureFarms, false},
+    {AnimId::Abe_Body_Gib, EAnimGroup::Abe, EReliveLevelIds::eMines, EReliveLevelIds::eRuptureFarms, false}};
 
 struct AnimRecNames final
 {
@@ -46,6 +59,17 @@ constexpr AnimRecNames kAnimRecNames[] = {
     {AnimId::Abe_Body_Gib, "body_gib"}
 };
 
+const char* AnimRecName(AnimId anim)
+{
+    for (const auto& rec : kAnimRecNames)
+    {
+        if (rec.mAnimId == anim)
+        {
+            return rec.mAnimName;
+        }
+    }
+    ALIVE_FATAL("Unknown anim id");
+}
 
 static const char* ToString(AO::LevelIds lvlId)
 {
@@ -100,21 +124,38 @@ void DataConversion::ConvertData()
     std::vector<u8> fileBuffer;
     for (s32 lvlIdx = 0; lvlIdx < AO::Path_Get_Paths_Count(); lvlIdx++)
     {
-        if (lvlIdx == static_cast<s32>(AO::LevelIds::eRemoved_7) || lvlIdx == static_cast<s32>(AO::LevelIds::eRemoved_11))
+        const AO::LevelIds lvlIdxAsLvl = static_cast<AO::LevelIds>(lvlIdx);
+        if (lvlIdxAsLvl == AO::LevelIds::eRemoved_7 || lvlIdxAsLvl == AO::LevelIds::eRemoved_11)
         {
             continue;
         }
 
         AO::LvlArchive archive;
-        if (archive.OpenArchive(AO::CdLvlName(MapWrapper::FromAO(static_cast<AO::LevelIds>(lvlIdx))), 0))
+        const EReliveLevelIds reliveLvl = MapWrapper::FromAO(lvlIdxAsLvl);
+        if (archive.OpenArchive(AO::CdLvlName(reliveLvl), 0))
         {
             for (auto& rec : kAnimRecConversionInfo)
             {
-                if (rec.mAoLvl != EReliveLevelIds::eNone)
+                // Animation is in this LVL and not yet converted
+                if (!rec.mConverted && rec.mAoLvl == reliveLvl)
                 {
-                    // TODO: If the lvl matches the one we've opened convert + save the anim
+                    FileSystem::Path filePath;
+                    filePath.Append("relive_data").Append("ao").Append(ToString(lvlIdxAsLvl));
+                    fs.CreateDirectory(filePath);
 
-                    // TODO: Track what is converted so we know what is missing
+                    // e.g "abe"
+                    filePath.Append(ToString(rec.mGroup));
+
+                    // e.g "arm_gib"
+                    filePath.Append(AnimRecName(rec.mAnimId));
+
+                    const auto& animDetails = AO::AnimRec(rec.mAnimId);
+                    auto banFile = archive.Find_File_Record(animDetails.mBanName);
+                    // TODO: Load + convert it
+                    LOG_INFO(banFile->field_10_num_sectors);
+
+                    // Track what is converted so we know what is missing at the end
+                    rec.mConverted = true;
                 }
             }
 
@@ -130,7 +171,7 @@ void DataConversion::ConvertData()
                     fileBuffer.resize(pFileRec->field_14_file_size);
 
                     FileSystem::Path filePath;
-                    filePath.Append("relive_data").Append("ao").Append(ToString(static_cast<AO::LevelIds>(lvlIdx)));
+                    filePath.Append("relive_data").Append("ao").Append(ToString(lvlIdxAsLvl));
                     fs.CreateDirectory(filePath);
                     filePath.Append(fileName);
 
