@@ -13,6 +13,40 @@ constexpr u32 kDataVersion = 1;
 extern const CombinedAnimRecord kAnimRecords[915];
 extern const AnimDetails kNullAnimDetails;
 
+enum class EAnimGroup
+{
+    Abe,
+    Elum,
+    Slig,
+    Doors,
+    Lights,
+    Lifts,
+    TrapDoors
+};
+
+struct AnimRecConversionInfo final
+{
+    AnimId mAnimId;         // which anim?
+    EAnimGroup mGroupName;  // abe, doors etc
+    EReliveLevelIds mAeLvl; // LVL this anim exists in for AE
+    EReliveLevelIds mAoLvl; // LVL this anim exists in for AO
+};
+constexpr AnimRecConversionInfo kAnimRecConversionInfo[] = {
+    {AnimId::Abe_Arm_Gib, EAnimGroup::Abe, EReliveLevelIds::eMines, EReliveLevelIds::eRuptureFarms},
+    {AnimId::Abe_Body_Gib, EAnimGroup::Abe, EReliveLevelIds::eMines, EReliveLevelIds::eRuptureFarms}};
+
+struct AnimRecNames final
+{
+    AnimId mAnimId;
+    char_type* mAnimName;
+};
+
+constexpr AnimRecNames kAnimRecNames[] = {
+    {AnimId::Abe_Arm_Gib, "arm_gib"},
+    {AnimId::Abe_Body_Gib, "body_gib"}
+};
+
+
 static const char* ToString(AO::LevelIds lvlId)
 {
     switch (lvlId)
@@ -63,23 +97,6 @@ void DataConversion::ConvertData()
     dataDir.Append("ao");
     fs.CreateDirectory(dataDir);
 
-    for (auto& rec : kAnimRecords)
-    {
-        if (rec.mAEData.mBanName != nullptr && rec.mAOData.mBanName != nullptr)
-        {
-            // Common animation - animation should be the same across both games
-        }
-        else if (rec.mAEData.mBanName != nullptr)
-        {
-            // Ae only
-        }
-        else if (rec.mAOData.mBanName != nullptr)
-        {
-            // Ao only
-        }
-
-    }
-
     std::vector<u8> fileBuffer;
     for (s32 lvlIdx = 0; lvlIdx < AO::Path_Get_Paths_Count(); lvlIdx++)
     {
@@ -91,6 +108,16 @@ void DataConversion::ConvertData()
         AO::LvlArchive archive;
         if (archive.OpenArchive(AO::CdLvlName(MapWrapper::FromAO(static_cast<AO::LevelIds>(lvlIdx))), 0))
         {
+            for (auto& rec : kAnimRecConversionInfo)
+            {
+                if (rec.mAoLvl != EReliveLevelIds::eNone)
+                {
+                    // TODO: If the lvl matches the one we've opened convert + save the anim
+
+                    // TODO: Track what is converted so we know what is missing
+                }
+            }
+
             for (u32 i = 0; i < archive.FileCount(); i++)
             {
                 auto pFileRec = archive.FileAt(i);
