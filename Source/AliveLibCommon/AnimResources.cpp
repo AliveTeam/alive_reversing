@@ -140,7 +140,7 @@ constexpr CombinedBgAnimRecord kBgAnimRecords[] = {
 
 constexpr AnimDetails kNullAnimDetails = {};
 
-constexpr CombinedAnimRecord kAnimRecords[] = {
+constexpr CombinedAnimRecord kAnimRecords[915] = {
     {AnimId::None, kNullAnimDetails, kNullAnimDetails},
     {AnimId::Abe_Head_Gib,
     { "ABEBLOW.BAN", 7732, 50, 25, kAbeblowResID, PalId::Default},

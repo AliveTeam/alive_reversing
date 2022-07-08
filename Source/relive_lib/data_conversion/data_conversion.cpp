@@ -3,10 +3,15 @@
 #include "camera_converter.hpp"
 #include "../../AliveLibAO/PathData.hpp"
 #include "../../AliveLibAO/LvlArchive.hpp"
+#include "../../AliveLibCommon/AnimResources.hpp"
+
 #include "../MapWrapper.hpp"
 #include <vector>
 
 constexpr u32 kDataVersion = 1;
+
+extern const CombinedAnimRecord kAnimRecords[915];
+extern const AnimDetails kNullAnimDetails;
 
 static const char* ToString(AO::LevelIds lvlId)
 {
@@ -57,6 +62,23 @@ void DataConversion::ConvertData()
     fs.CreateDirectory(dataDir);
     dataDir.Append("ao");
     fs.CreateDirectory(dataDir);
+
+    for (auto& rec : kAnimRecords)
+    {
+        if (rec.mAEData.mBanName != nullptr && rec.mAOData.mBanName != nullptr)
+        {
+            // Common animation - animation should be the same across both games
+        }
+        else if (rec.mAEData.mBanName != nullptr)
+        {
+            // Ae only
+        }
+        else if (rec.mAOData.mBanName != nullptr)
+        {
+            // Ao only
+        }
+
+    }
 
     std::vector<u8> fileBuffer;
     for (s32 lvlIdx = 0; lvlIdx < AO::Path_Get_Paths_Count(); lvlIdx++)
