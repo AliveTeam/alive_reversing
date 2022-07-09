@@ -108,6 +108,15 @@ static const char* ToString(AO::LevelIds lvlId)
     }
 }
 
+static void ReadLvlFileInto(AO::LvlArchive& archive, const char_type* fileName, std::vector<u8>& fileBuffer)
+{
+    auto banFile = archive.Find_File_Record(fileName);
+
+    fileBuffer.resize(banFile->field_10_num_sectors * 2048);
+    archive.Read_File(banFile, fileBuffer.data());
+    fileBuffer.resize(banFile->field_14_file_size);
+}
+
 void DataConversion::ConvertData()
 {
     // TODO: Check existing data version, if any
@@ -150,9 +159,8 @@ void DataConversion::ConvertData()
                     filePath.Append(AnimRecName(rec.mAnimId));
 
                     const auto& animDetails = AO::AnimRec(rec.mAnimId);
-                    auto banFile = archive.Find_File_Record(animDetails.mBanName);
-                    // TODO: Load + convert it
-                    LOG_INFO(banFile->field_10_num_sectors);
+
+                    ReadLvlFileInto(archive, animDetails.mBanName, fileBuffer);
 
                     // Track what is converted so we know what is missing at the end
                     rec.mConverted = true;
@@ -166,18 +174,15 @@ void DataConversion::ConvertData()
                 {
                     std::string fileName(pFileRec->field_0_file_name, strnlen(pFileRec->field_0_file_name, 12));
 
-                    fileBuffer.resize(pFileRec->field_10_num_sectors * 2048);
-                    archive.Read_File(pFileRec, fileBuffer.data());
-                    fileBuffer.resize(pFileRec->field_14_file_size);
+                    ReadLvlFileInto(archive, fileName.c_str(), fileBuffer);
 
                     FileSystem::Path filePath;
                     filePath.Append("relive_data").Append("ao").Append(ToString(lvlIdxAsLvl));
                     fs.CreateDirectory(filePath);
                     filePath.Append(fileName);
 
-                    fs.Save(filePath, fileBuffer);
 
-                    //LOG_INFO(name);
+                    fs.Save(filePath, fileBuffer);
                 }
             }
 
