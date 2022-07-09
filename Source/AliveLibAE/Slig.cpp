@@ -774,7 +774,7 @@ s32 Slig::CreateFromSaveState(const u8* pBuffer)
         pSlig->mVelX = pState->field_C_velx;
         pSlig->mVelY = pState->field_10_vely;
         pSlig->mCurrentPath = pState->field_14_path_number;
-        pSlig->mCurrentLevel = MapWrapper::FromAE(pState->field_16_lvl_number);
+        pSlig->mCurrentLevel = MapWrapper::FromAESaveData(pState->field_16_lvl_number);
         pSlig->mSpriteScale = pState->field_18_sprite_scale;
 
         if (pSlig->mSpriteScale == FP_FromInteger(1))
@@ -840,8 +840,7 @@ s32 Slig::CreateFromSaveState(const u8* pBuffer)
         pSlig->field_142_unused = pState->field_6E_unused;
         pSlig->field_144_unused = pState->field_70_unused;
 
-        pSlig->field_146_return_level = pSlig->mCurrentLevel; // always the same but set to junk in OG saves when using path skip cheat
-        //pSlig->field_146_return_level = MapWrapper::FromAE(pState->field_72_return_level);
+        pSlig->field_146_return_level = MapWrapper::FromAESaveData(pState->field_72_return_level);
         pSlig->field_148_return_path = pState->field_74_return_path;
         pSlig->field_14A_return_camera = pState->field_76_return_camera;
 

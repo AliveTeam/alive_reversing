@@ -234,7 +234,7 @@ s32 Fleech::CreateFromSaveState(const u8* pBuffer)
         pFleech->mVelY = pState->mVelY;
 
         pFleech->mCurrentPath = pState->mPathNumber;
-        pFleech->mCurrentLevel = MapWrapper::FromAE(pState->mLvlNumber);
+        pFleech->mCurrentLevel = MapWrapper::FromAESaveData(pState->mLvlNumber);
         pFleech->mSpriteScale = pState->mSpriteScale;
 
         pFleech->mRGB.SetRGB(pState->mRingRed, pState->mRingGreen, pState->mRingBlue);

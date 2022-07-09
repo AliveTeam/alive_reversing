@@ -1060,7 +1060,7 @@ s32 Abe::CreateFromSaveState(const u8* pData)
     sActiveHero->field_128.field_8_x_vel_slow_by = pSaveState->field_48_x_vel_slow_by;
     sActiveHero->field_128.field_C_unused = pSaveState->field_4C_unused;
     sActiveHero->mCurrentPath = pSaveState->mCurrentPath;
-    sActiveHero->mCurrentLevel = MapWrapper::FromAE(pSaveState->mCurrentLevel);
+    sActiveHero->mCurrentLevel = MapWrapper::FromAESaveData(pSaveState->mCurrentLevel);
     sActiveHero->mSpriteScale = pSaveState->mSpriteScale;
     sActiveHero->mScale = pSaveState->mScale;
 
@@ -1176,7 +1176,7 @@ s32 Abe::CreateFromSaveState(const u8* pData)
     sActiveHero->field_196_unused = pSaveState->field_BE_unused;
 
     sActiveHero->mHasEvilFart = pSaveState->mHasEvilFart;
-    sActiveHero->mDstWellLevel = MapWrapper::FromAE(pSaveState->mDstWellLevel);
+    sActiveHero->mDstWellLevel = MapWrapper::FromAESaveData(pSaveState->mDstWellLevel);
     sActiveHero->mDstWellPath = pSaveState->mDstWellPath;
     sActiveHero->mDstWellCamera = pSaveState->mDstWellCamera;
     sActiveHero->field_1A0_door_id = pSaveState->door_id;

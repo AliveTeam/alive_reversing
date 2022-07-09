@@ -757,7 +757,7 @@ s32 Mudokon::CreateFromSaveState(const u8* pBuffer)
         pMud->field_138_unused = pState->field_48_unused;
 
         pMud->mCurrentPath = pState->field_14_path_number;
-        pMud->mCurrentLevel = MapWrapper::FromAE(pState->field_16_lvl_number);
+        pMud->mCurrentLevel = MapWrapper::FromAESaveData(pState->field_16_lvl_number);
         pMud->mSpriteScale = pState->field_18_sprite_scale;
 
         pMud->mRGB.SetRGB(pState->field_1C_r, pState->field_1E_g, pState->field_20_b);

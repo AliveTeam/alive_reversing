@@ -303,7 +303,7 @@ s32 Scrab::CreateFromSaveState(const u8* pBuffer)
 
         pScrab->field_134_falling_velx_scale_factor = pState->field_64_falling_velx_scale_factor;
         pScrab->mCurrentPath = pState->field_18_path_number;
-        pScrab->mCurrentLevel = MapWrapper::FromAE(pState->field_1A_lvl_number);
+        pScrab->mCurrentLevel = MapWrapper::FromAESaveData(pState->field_1A_lvl_number);
         pScrab->mSpriteScale = pState->field_1C_sprite_scale;
         pScrab->mRGB.SetRGB(pState->mRingRed, pState->mRingGreen, pState->mRingBlue);
         pScrab->mCurrentMotion = pState->field_28_current_motion;
@@ -347,8 +347,7 @@ s32 Scrab::CreateFromSaveState(const u8* pBuffer)
         pScrab->field_160_sfx_bitmask = pState->field_78_sfx_bitmask;
         pScrab->field_164_prevent_depossession = pState->field_7C_prevent_depossession;
 
-        pScrab->field_166_return_level = pScrab->mCurrentLevel; // always the same but set to junk in OG saves when using path skip cheat
-        //pScrab->field_166_return_level = MapWrapper::FromAE(pState->field_7E_return_level);
+        pScrab->field_166_return_level = MapWrapper::FromAESaveData(pState->field_7E_return_level);
         pScrab->field_168_return_path = pState->field_80_return_path;
         pScrab->field_16A_return_camera = pState->field_82_return_camera;
         pScrab->field_16C_input = InputObject::PsxButtonsToKeyboardInput_45EE40(pState->field_84_input);

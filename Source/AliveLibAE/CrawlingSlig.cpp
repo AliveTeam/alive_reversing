@@ -268,7 +268,7 @@ s32 CrawlingSlig::CreateFromSaveState(const u8* pBuffer)
         pCrawlingSlig->field_1B0_velx_scale_factor = pState->field_58_velx_scale_factor;
 
         pCrawlingSlig->mCurrentPath = pState->field_18_path_number;
-        pCrawlingSlig->mCurrentLevel = MapWrapper::FromAE(pState->field_1A_lvl_number);
+        pCrawlingSlig->mCurrentLevel = MapWrapper::FromAESaveData(pState->field_1A_lvl_number);
         pCrawlingSlig->mSpriteScale = pState->field_1C_sprite_scale;
 
         pCrawlingSlig->field_1A4_r = pState->mRingRed;
@@ -305,7 +305,7 @@ s32 CrawlingSlig::CreateFromSaveState(const u8* pBuffer)
         pCrawlingSlig->SetBrain(sCrawlingSligBrainTable[pState->field_48_brain_idx]);
         pCrawlingSlig->field_208_brain_sub_state = pState->field_50_brain_sub_state;
         pCrawlingSlig->field_1B8_bChanting = pState->field_5E_bChanting;
-        pCrawlingSlig->field_1BA_prev_level = MapWrapper::FromAE(pState->field_60_prev_leve);
+        pCrawlingSlig->field_1BA_prev_level = MapWrapper::FromAESaveData(pState->field_60_prev_leve);
         pCrawlingSlig->field_1BC_prev_path = pState->field_62_prev_path;
         pCrawlingSlig->field_1BE_prev_camera = pState->field_64_prev_camera;
         pCrawlingSlig->field_1B4_unused = pState->field_68_unused;

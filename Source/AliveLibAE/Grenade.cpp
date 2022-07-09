@@ -62,7 +62,7 @@ s32 Grenade::CreateFromSaveState(const u8* pBuffer)
     pGrenade->mVelX = pState->field_10_velx;
     pGrenade->mVelY = pState->field_14_vely;
     pGrenade->mCurrentPath = pState->field_1C_path_number;
-    pGrenade->mCurrentLevel = MapWrapper::FromAE(pState->field_1E_lvl_number);
+    pGrenade->mCurrentLevel = MapWrapper::FromAESaveData(pState->field_1E_lvl_number);
     pGrenade->mSpriteScale = pState->field_18_sprite_scale;
 
     pGrenade->mAnim.mFlags.Set(AnimFlags::eBit8_Loop, pState->field_20_flags.Get(Grenade_SaveState::eBit3_bLoop));

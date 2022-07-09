@@ -23,7 +23,7 @@ enum class LevelIds : s16
     eFeeCoDepot_Ender_12 = 12,
     eBarracks_Ender_13 = 13,
     eBonewerkz_Ender_14 = 14,
-    eNotUsed_15 = 15, // Probably test level?
+    eTestLevel_15 = 15, // Probably test level?
     eCredits_16 = 16
 };
 

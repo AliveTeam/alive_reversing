@@ -474,7 +474,7 @@ s32 Rock::CreateFromSaveState(const u8* pData)
     pRock->mVelY = pState->field_14_vely;
 
     pRock->mCurrentPath = pState->field_1C_path_number;
-    pRock->mCurrentLevel = MapWrapper::FromAE(pState->field_1E_lvl_number);
+    pRock->mCurrentLevel = MapWrapper::FromAESaveData(pState->field_1E_lvl_number);
 
     pRock->mSpriteScale = pState->field_18_sprite_scale;
     pRock->mScale = pState->field_18_sprite_scale > FP_FromDouble(0.75) ? Scale::Fg : Scale::Bg;

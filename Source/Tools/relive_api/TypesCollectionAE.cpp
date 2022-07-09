@@ -286,7 +286,7 @@ void TypesCollectionAE::AddAETypes()
         {LevelIds::eFeeCoDepot_Ender_12, "FeeCoDepot_Ender"},
         {LevelIds::eBarracks_Ender_13, "Barracks_Ender"},
         {LevelIds::eBonewerkz_Ender_14, "Bonewerkz_Ender"},
-        {LevelIds::eNotUsed_15, "NotUsed"},
+        {LevelIds::eTestLevel_15, "NotUsed"},
         {LevelIds::eCredits_16, "Credits"},
     });
 }

@@ -357,7 +357,7 @@ s32 Slog::CreateFromSaveState(const u8* pBuffer)
     pSlog->mVelY = pState->field_14_vely;
     pSlog->field_128_falling_velx_scale_factor = pState->field_50_falling_velx_scale_factor;
     pSlog->mCurrentPath = pState->field_18_path_number;
-    pSlog->mCurrentLevel = MapWrapper::FromAE(pState->field_1A_lvl_number);
+    pSlog->mCurrentLevel = MapWrapper::FromAESaveData(pState->field_1A_lvl_number);
     pSlog->mSpriteScale = pState->field_1C_sprite_scale;
     pSlog->mRGB.SetRGB(pState->mRingRed, pState->mRingGreen, pState->mRingBlue);
 

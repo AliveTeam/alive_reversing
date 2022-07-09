@@ -281,7 +281,7 @@ s32 Paramite::CreateFromSaveState(const u8* pBuffer)
 
     pParamite->field_13C_velx_offset = pState->field_64_velx_offset;
     pParamite->mCurrentPath = pState->field_14_path_number;
-    pParamite->mCurrentLevel = MapWrapper::FromAE(pState->field_16_lvl_number);
+    pParamite->mCurrentLevel = MapWrapper::FromAESaveData(pState->field_16_lvl_number);
     pParamite->mSpriteScale = pState->field_18_sprite_scale;
 
     pParamite->mRGB.SetRGB(pState->field_1C_r, pState->field_1E_g, pState->field_20_b);
@@ -325,8 +325,7 @@ s32 Paramite::CreateFromSaveState(const u8* pBuffer)
     pParamite->field_140_tlvInfo = pState->field_3C_tlvInfo;
     pParamite->field_148_timer = pState->field_68_timer;
 
-    pParamite->field_14E_return_level = pParamite->mCurrentLevel; // always the same but set to junk in OG saves when using path skip cheat
-    //pParamite->field_14E_return_level = MapWrapper::FromAE(pState->field_6C_return_level);
+    pParamite->field_14E_return_level = MapWrapper::FromAESaveData(pState->field_6C_return_level);
     pParamite->field_150_return_path = pState->field_6E_return_path;
     pParamite->field_152_return_camera = pState->field_70_return_camera;
 

@@ -83,6 +83,17 @@ AO::LevelIds MapWrapper::ToAO(EReliveLevelIds levelId)
     }
 }
 
+// Save data contains random values out side of the valid level range, convert invalid entries to 0
+EReliveLevelIds MapWrapper::FromAESaveData(LevelIds levelId)
+{
+    if (levelId < LevelIds::eNone || levelId > LevelIds::eCredits_16)
+    {
+        LOG_WARNING("converting invalid AE level id " << static_cast<s32>(levelId) << " to 0");
+        levelId = LevelIds::eMenu_0;
+    }
+    return MapWrapper::FromAE(levelId);
+}
+
 EReliveLevelIds MapWrapper::FromAE(LevelIds levelId)
 {
     switch (levelId)

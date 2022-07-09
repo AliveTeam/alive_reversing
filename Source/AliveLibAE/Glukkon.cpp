@@ -172,7 +172,7 @@ s32 Glukkon::CreateFromSaveState(const u8* pData)
 
         pGlukkon->field_1D8_falling_velx_scale_factor = pSaveState->field_58_falling_velx_scale_factor;
         pGlukkon->mCurrentPath = pSaveState->field_18_path;
-        pGlukkon->mCurrentLevel = MapWrapper::FromAE(pSaveState->field_1A_level);
+        pGlukkon->mCurrentLevel = MapWrapper::FromAESaveData(pSaveState->field_1A_level);
         pGlukkon->mSpriteScale = pSaveState->field_1C_sprite_scale;
 
         pGlukkon->mRGB.SetRGB(pSaveState->mRingRed, pSaveState->mRingGreen, pSaveState->mRingBlue);
@@ -213,7 +213,7 @@ s32 Glukkon::CreateFromSaveState(const u8* pData)
         pGlukkon->SetBrain(sGlukkon_brain_table_5544A0[pSaveState->field_48_brain_state_idx]);
         pGlukkon->field_210_brain_sub_state = pSaveState->field_50_brain_sub_state;
         pGlukkon->field_1E2_prevent_depossession = pSaveState->field_5E_prevent_depossession;
-        pGlukkon->field_1E4_level = MapWrapper::FromAE(pSaveState->field_60_level);
+        pGlukkon->field_1E4_level = MapWrapper::FromAESaveData(pSaveState->field_60_level);
         pGlukkon->field_1E6_path = pSaveState->field_62_path;
         pGlukkon->field_1E8_camera = pSaveState->field_64_camera;
         pGlukkon->field_1EA_speak = pSaveState->field_66_speak;

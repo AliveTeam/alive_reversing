@@ -45,7 +45,7 @@ void Path_Set_NewData_FromLvls()
 {
     for (s32 lvlIdx = 0; lvlIdx < Path_Get_Paths_Count(); lvlIdx++)
     {
-        if (lvlIdx == static_cast<s32>(LevelIds::eNotUsed_15))
+        if (lvlIdx == static_cast<s32>(LevelIds::eTestLevel_15))
         {
             continue;
         }

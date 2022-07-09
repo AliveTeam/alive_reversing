@@ -74,7 +74,7 @@ s32 Bone::CreateFromSaveState(const u8* pData)
     pBone->mVelY = pState->mVelY;
 
     pBone->mCurrentPath = pState->mCurrentPath;
-    pBone->mCurrentLevel = MapWrapper::FromAE(pState->mCurrentLevel);
+    pBone->mCurrentLevel = MapWrapper::FromAESaveData(pState->mCurrentLevel);
     pBone->mSpriteScale = pState->mSpriteScale;
 
     pBone->mScale = pState->mSpriteScale > FP_FromDouble(0.75) ? Scale::Fg : Scale::Bg;
