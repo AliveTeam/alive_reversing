@@ -736,6 +736,8 @@ enum class AnimId
     SquibSmoke_Particle,
     Explosion_Rocks,
     Explosion_Sticks,
+    //Explosion_Skull,
+    //Explosion_Bone,
     Mine_Flash,
     OptionChantOrb_Particle,
     ShootingZFire_Particle,
@@ -954,6 +956,7 @@ enum class AnimId
     LiftTopWheel_Forest,
     LiftTopWheel_Desert,
     LiftTopWheel_Desert2,
+    Scoopz,
 
     Anim_Tester, // For animation testing with the TestAnimation.cpp, ignore this.
 };
@@ -1385,6 +1388,7 @@ enum AEResourceID
     kCrawlingSligButtonResID_1057 = 1057,
     kDebrisID00ResID = 1105,
     kTubeResID = 1200,
+    kScoopzResID = 1205,
 
     kTestanimResID = 2000,
     kF2zballResID = 2001, // remove?

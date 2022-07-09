@@ -890,7 +890,7 @@ Abe::Abe(s32 /*frameTableOffset*/, s32 /*r*/, s32 /*g*/, s32 /*b*/)
     mShadow = relive_new Shadow();
 
     // Animation test code
-    //auto testAnim = relive_new TestAnimation(); testAnim->ctor();
+    //relive_new TestAnimation();
 
 }
 
