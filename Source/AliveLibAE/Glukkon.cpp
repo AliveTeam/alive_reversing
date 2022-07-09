@@ -1622,7 +1622,7 @@ s16 Glukkon::Brain_3_PlayerControlled_441A30()
             auto pDeathFadeOutMem = relive_new DeathFadeOut(Layer::eLayer_FadeFlash_40, 1, 0, 8, TPageAbr::eBlend_2);
             if (pDeathFadeOutMem)
             {
-                field_208_obj_id = pDeathFadeOutMem->field_8_object_id;
+                field_208_obj_id = pDeathFadeOutMem->mBaseGameObjectId;
             }
         }
             return 3;

@@ -87,7 +87,7 @@ void ScrabSpawner::VUpdate()
                 if (pObj->Type() == ReliveTypes::eScrab && pObj->mBaseGameObjectTlvInfo == field_3C_spawned_scrab_id)
                 {
                     // Redundant ??
-                    field_3C_spawned_scrab_id = pObj->field_8_object_id;
+                    field_3C_spawned_scrab_id = pObj->mBaseGameObjectId;
                     break;
                 }
             }
@@ -125,7 +125,7 @@ void ScrabSpawner::VUpdate()
                         SfxPlayMono(SoundEffect::ScrabSpawn_111, 0);
 
                         field_38_state = ScrabSpawnerStates::eScrabSpawned_1;
-                        field_3C_spawned_scrab_id = pNewScrab->field_8_object_id;
+                        field_3C_spawned_scrab_id = pNewScrab->mBaseGameObjectId;
                     }
                 }
                 else

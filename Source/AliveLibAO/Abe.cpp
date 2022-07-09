@@ -1350,7 +1350,7 @@ void Abe::VUpdate()
 
                     if (!field_2A8_flags.Get(Flags_2A8::e2A8_eBit14_bGotShrykullFromBigFace) && gMap.mCurrentLevel == EReliveLevelIds::eLines)
                     {
-                        LOG_INFO("Set field_16C_bHaveShrykull TRUE");
+                        LOG_INFO("Set mHaveShrykull TRUE");
                         if (!ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kAbemorphAOResID, 1, 0))
                         {
                             ResourceManager::LoadResourceFile_455270("ABEMORPH.BAN", nullptr);

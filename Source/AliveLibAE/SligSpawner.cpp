@@ -71,7 +71,7 @@ void SligSpawner::VUpdate()
                 if (pObj->Type() == ReliveTypes::eSlig && pObj->mBaseGameObjectTlvInfo == field_3C_spawned_slig_obj_id)
                 {
                     // Seems redundant ?
-                    field_3C_spawned_slig_obj_id = pObj->field_8_object_id;
+                    field_3C_spawned_slig_obj_id = pObj->mBaseGameObjectId;
                     break;
                 }
             }
@@ -103,7 +103,7 @@ void SligSpawner::VUpdate()
                 auto pSligMem = relive_new Slig(static_cast<Path_Slig*>(pSpawnerTlv), field_20_tlv_info);
                 if (pSligMem)
                 {
-                    field_3C_spawned_slig_obj_id = pSligMem->field_8_object_id;
+                    field_3C_spawned_slig_obj_id = pSligMem->mBaseGameObjectId;
                 }
 
                 field_38_state = SpawnerStates::eSligSpawned_1;

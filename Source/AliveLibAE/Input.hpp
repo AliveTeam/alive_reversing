@@ -35,7 +35,7 @@ enum Enum : u32
     eRun = 1u << 4,                // 0x10
     eDoAction = 1u << 5,           // Pick up rock, pull lever etc 0x20
     eSneak = 1u << 6,              // 0x40
-    eThrowItem = 1u << 7,          // Or I say I dunno if no items 0x80
+    eThrowItem = 1u << 7,          // Or I mSay I dunno if no items 0x80
     eHop = 1u << 8,                // 0x100
     eFartOrRoll = 1u << 9,         // (Only roll in AO) 0x200
     eGameSpeak1 = 1u << 10,        // Hello 0x400

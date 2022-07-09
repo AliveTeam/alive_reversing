@@ -775,7 +775,7 @@ std::vector<CustomPauseMenuItem> devCheatsMenuItems({
      }},
     {"Give Rocks", [](CustomPauseMenu*)
      {
-         sActiveHero->field_1A2_throwable_count = 99;
+         sActiveHero->mThrowableCount = 99;
          DEV_CONSOLE_MESSAGE("(CHEAT) Got Bones", 4);
      }},
     {"Open All Doors", [](CustomPauseMenu* pm)
@@ -787,7 +787,7 @@ std::vector<CustomPauseMenuItem> devCheatsMenuItems({
      {
          DEV_CONSOLE_MESSAGE("(CHEAT) Invisibility!", 4);
          pm->ClosePauseMenu();
-         sActiveHero->field_170_invisible_timer = 65535;
+         sActiveHero->mInvisibilityTimer = 65535;
          sActiveHero->field_114_flags.Set(Flags_114::e114_Bit9_RestoredFromQuickSave);
          sActiveHero->field_114_flags.Set(Flags_114::e114_Bit8_bInvisible);
      }},
@@ -795,7 +795,7 @@ std::vector<CustomPauseMenuItem> devCheatsMenuItems({
      {
          DEV_CONSOLE_MESSAGE("(CHEAT) Oh man that stinks.", 4);
          pm->ClosePauseMenu();
-         sActiveHero->field_198_has_evil_fart = true;
+         sActiveHero->mHasEvilFart = true;
          if (!ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kEvilFartResID, FALSE, FALSE))
          {
              ResourceManager::LoadResourceFile_49C170("EVILFART.BAN", nullptr);
@@ -953,7 +953,7 @@ void PauseMenu::RestartPath()
         1);
 
     gMap.mForceLoad = TRUE;
-    if (sActiveHero->field_1A2_throwable_count)
+    if (sActiveHero->mThrowableCount)
     {
         LoadRockTypes_49AB30(
             MapWrapper::FromAE(sActiveQuicksaveData_BAF7F8.field_244_restart_path_world_info.field_4_level),
@@ -964,7 +964,7 @@ void PauseMenu::RestartPath()
             gpThrowableArray = relive_new ThrowableArray();
         }
 
-        gpThrowableArray->Add(sActiveHero->field_1A2_throwable_count);
+        gpThrowableArray->Add(sActiveHero->mThrowableCount);
     }
 
     word12C_flags &= ~1;
@@ -1536,7 +1536,7 @@ void PauseMenu::VUpdate()
                 && heroState != eAbeMotions::Motion_82_InsideWellExpress_45CC80
                 && heroState != eAbeMotions::Motion_83_WellExpressShotOut_45CF70
                 && (sControlledCharacter->Type() != ReliveTypes::eEvilFart || LOWORD(static_cast<Abe*>(sControlledCharacter)->field_124_timer) != 2) // TODO: Cast seems wrong, missing intermediate base class??
-                && sActiveHero->field_1A8_portal_id == -1)
+                && sActiveHero->mBirdPortalId == -1)
             {
                 if (sQuicksave_SaveNextFrame_5CA4D8)
                 {
@@ -1584,7 +1584,7 @@ void PauseMenu::VUpdate()
                 && heroState != eAbeMotions::Motion_82_InsideWellExpress_45CC80
                 && heroState != eAbeMotions::Motion_83_WellExpressShotOut_45CF70
                 && (pControlledChar->Type() != ReliveTypes::eEvilFart || LOWORD(static_cast<Abe*>(pControlledChar)->field_124_timer) != 2) // TODO: Why LOWORD only ?? TODO: Cast seems wrong, missing intermediate base class??
-                && pHero->field_1A8_portal_id == -1)
+                && pHero->mBirdPortalId == -1)
             {
                 SND_StopAll();
                 SFX_Play_Pitch(SoundEffect::PossessEffect_17, 40, 2400);
@@ -1627,17 +1627,17 @@ void PauseMenu::VUpdate()
                 sprintf(sPauseMenu_Of300Mudokons_55E718, "%d OF %d MUDOKONS", sRescuedMudokons_5C1BC2, Path_GetTotalMuds(gMap.mCurrentLevel, gMap.mCurrentPath));
                 sprintf(sHasBeenTerminated_55E738, "%d HA%s BEEN TERMINATED", sKilledMudokons_5C1BC0, (sKilledMudokons_5C1BC0 != 1) ? "VE" : "S");
 
-                if (sActiveHero->field_128.field_12_mood == Mud_Emotion::eNormal_0)
+                if (sActiveHero->field_128.mMood == Mud_Emotion::eNormal_0)
                 {
                     const AnimRecord& normalRec = AnimRec(AnimId::NormalMudIcon);
                     field_158_animation.Set_Animation_Data(AnimId::NormalMudIcon, ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, normalRec.mResourceId, 1u, 0));
                 }
-                else if (sActiveHero->field_128.field_12_mood == Mud_Emotion::eSad_3)
+                else if (sActiveHero->field_128.mMood == Mud_Emotion::eSad_3)
                 {
                     const AnimRecord& angryRec = AnimRec(AnimId::AngryMudIcon);
                     field_158_animation.Set_Animation_Data(AnimId::AngryMudIcon, ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, angryRec.mResourceId, 1u, 0));
                 }
-                else if (sActiveHero->field_128.field_12_mood == Mud_Emotion::eHappy_5)
+                else if (sActiveHero->field_128.mMood == Mud_Emotion::eHappy_5)
                 {
                     const AnimRecord& happyRec = AnimRec(AnimId::HappyMudIcon);
                     field_158_animation.Set_Animation_Data(AnimId::HappyMudIcon, ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, happyRec.mResourceId, 1u, 0));

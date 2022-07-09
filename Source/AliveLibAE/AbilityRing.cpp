@@ -563,7 +563,7 @@ void AbilityRing::CollideWithObjects(s16 bDealDamage)
 
 void AbilityRing::VSetTarget(BaseGameObject* pTarget)
 {
-    mRingTargetObjId = pTarget->field_8_object_id;
+    mRingTargetObjId = pTarget->mBaseGameObjectId;
 }
 
 void AbilityRing::VScreenChanged()

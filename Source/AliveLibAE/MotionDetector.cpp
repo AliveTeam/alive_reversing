@@ -111,7 +111,7 @@ MotionDetector::MotionDetector(Path_MotionDetector* pTlv, s32 tlvInfo, BaseAnima
 
         if (pLaser)
         {
-            field_F8_laser_id = pLaser->field_8_object_id;
+            field_F8_laser_id = pLaser->mBaseGameObjectId;
             field_108_disable_switch_id = pTlv->field_1C_disable_switch_id;
 
             if (SwitchStates_Get(field_108_disable_switch_id) == 0)
@@ -146,11 +146,11 @@ MotionDetector::MotionDetector(Path_MotionDetector* pTlv, s32 tlvInfo, BaseAnima
     auto pLaserMem = relive_new MotionDetectorLaser(pOwner->mXPos, pOwner->mYPos, mSpriteScale, Layer::eLayer_Foreground_36);
     if (pLaserMem)
     {
-        field_F8_laser_id = pLaserMem->field_8_object_id;
+        field_F8_laser_id = pLaserMem->mBaseGameObjectId;
     }
 
     mAnim.mFlags.Set(AnimFlags::eBit3_Render);
-    field_FC_owner_id = pOwner->field_8_object_id;
+    field_FC_owner_id = pOwner->mBaseGameObjectId;
     field_10A_alarm_switch_id = 0;
     field_10C_alarm_duration = 0;
 }

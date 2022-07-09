@@ -892,7 +892,7 @@ s16 Scrab::Brain_0_Patrol_4AA630()
     if (pFighter)
     {
         SetBrain(&Scrab::Brain_2_Fighting_4A5840);
-        field_124_fight_target_obj_id = pFighter->field_8_object_id;
+        field_124_fight_target_obj_id = pFighter->mBaseGameObjectId;
         mNextMotion = eScrabMotions::M_Stand_0_4A8220;
         return Brain_2_Fighting::eBrain2_LookingForOpponent_0;
     }
@@ -1164,7 +1164,7 @@ s16 Scrab::Brain_1_ChasingEnemy_4A6470()
     if (pScrabToFight)
     {
         SetBrain(&Scrab::Brain_2_Fighting_4A5840);
-        field_124_fight_target_obj_id = pScrabToFight->field_8_object_id;
+        field_124_fight_target_obj_id = pScrabToFight->mBaseGameObjectId;
         mNextMotion = eScrabMotions::M_Stand_0_4A8220;
         return Brain_2_Fighting::eBrain2_LookingForOpponent_0;
     }
@@ -1663,7 +1663,7 @@ s16 Scrab::Brain_2_Fighting_4A5840()
 
             field_1AA_flags.Clear(Flags_1AA::eBit1_attacking);
             mNextMotion = -1;
-            if (pTarget->field_124_fight_target_obj_id == -1 || pTarget->field_124_fight_target_obj_id == field_8_object_id)
+            if (pTarget->field_124_fight_target_obj_id == -1 || pTarget->field_124_fight_target_obj_id == mBaseGameObjectId)
             {
                 if (VIsFacingMe(pTarget))
                 {
@@ -1893,7 +1893,7 @@ s16 Scrab::Brain_2_Fighting_4A5840()
                 return field_11C_brain_sub_state;
             }
             mNextMotion = eScrabMotions::M_Stand_0_4A8220;
-            field_124_fight_target_obj_id = pFoundTarget->field_8_object_id;
+            field_124_fight_target_obj_id = pFoundTarget->mBaseGameObjectId;
             return Brain_2_Fighting::eBrain2_LookingForOpponent_0;
         }
 
@@ -4063,7 +4063,7 @@ s16 Scrab::FindAbeOrMud()
     {
         if (!WallHit(mSpriteScale * FP_FromInteger(45), sActiveHero->mXPos - mXPos))
         {
-            field_120_obj_id = sActiveHero->field_8_object_id;
+            field_120_obj_id = sActiveHero->mBaseGameObjectId;
             return TRUE;
         }
     }
@@ -4083,7 +4083,7 @@ s16 Scrab::FindAbeOrMud()
             {
                 if (!WallHit(mSpriteScale * FP_FromInteger(45), pAliveObj->mXPos - mXPos))
                 {
-                    field_120_obj_id = pAliveObj->field_8_object_id;
+                    field_120_obj_id = pAliveObj->mBaseGameObjectId;
                     return TRUE;
                 }
             }
@@ -4185,7 +4185,7 @@ Scrab* Scrab::FindScrabToFight()
                         }
                         else
                         {
-                            if (pScrab->field_124_fight_target_obj_id == field_8_object_id)
+                            if (pScrab->field_124_fight_target_obj_id == mBaseGameObjectId)
                             {
                                 pScrabIAmFightingAlready = pScrab;
                             }

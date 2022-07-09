@@ -453,7 +453,7 @@ public:
     BitField16<Options> mBaseGameObjectFlags = {};
     s32 mBaseGameObjectUpdateDelay = 0;
 
-    s32 field_8_object_id = 0; // AE
+    s32 mBaseGameObjectId = 0; // AE
     s32 mBaseGameObjectTlvInfo = 0; // AE
     DynamicArrayT<u8*> field_10_resources_array; // AE
 

@@ -1342,7 +1342,7 @@ void CrawlingSlig::Motion_1_UsingButton()
                 auto pWalkingSlig = relive_new Slig(static_cast<Path_Slig*>(field_1E4_pPantsOrWingsTlv), sPathInfo->TLVInfo_From_TLVPtr(field_1E4_pPantsOrWingsTlv));
                 if (pWalkingSlig)
                 {
-                    field_1D8_obj_id = pWalkingSlig->field_8_object_id;
+                    field_1D8_obj_id = pWalkingSlig->mBaseGameObjectId;
 
                     pWalkingSlig->mSpriteScale = mSpriteScale;
 
@@ -1371,7 +1371,7 @@ void CrawlingSlig::Motion_1_UsingButton()
                 auto pFlyingSlig = relive_new FlyingSlig(static_cast<Path_FlyingSlig*>(field_1E4_pPantsOrWingsTlv), sPathInfo->TLVInfo_From_TLVPtr(field_1E4_pPantsOrWingsTlv));
                 if (pFlyingSlig)
                 {
-                    field_1D8_obj_id = pFlyingSlig->field_8_object_id;
+                    field_1D8_obj_id = pFlyingSlig->mBaseGameObjectId;
                     pFlyingSlig->mXPos = mXPos;
                     pFlyingSlig->mYPos = mYPos - FP_FromInteger(15);
                     pFlyingSlig->field_294_nextXPos = mXPos;
@@ -1783,7 +1783,7 @@ void CrawlingSlig::HandleCommon()
                 if (pSligButton)
                 {
                     SetNextMotion(CrawlingSligMotion::Motion_1_UsingButton);
-                    field_1D0_slig_button_id = pSligButton->field_8_object_id;
+                    field_1D0_slig_button_id = pSligButton->mBaseGameObjectId;
                 }
                 else
                 {

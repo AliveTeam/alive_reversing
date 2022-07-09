@@ -160,7 +160,7 @@ LiftPoint::LiftPoint(Path_LiftPoint* pTlv, s32 tlvInfo)
                                    mSpriteScale);
         if (pRope1)
         {
-            field_138_rope1_id = pRope1->field_8_object_id;
+            field_138_rope1_id = pRope1->mBaseGameObjectId;
         }
 
         auto pRope2 = relive_new Rope(FP_GetExponent((km10 * mSpriteScale) + mXPos),
@@ -169,7 +169,7 @@ LiftPoint::LiftPoint(Path_LiftPoint* pTlv, s32 tlvInfo)
                                    mSpriteScale);
         if (pRope2)
         {
-            field_134_rope2_id = pRope2->field_8_object_id;
+            field_134_rope2_id = pRope2->mBaseGameObjectId;
         }
 
         pRope2->field_106_bottom = FP_GetExponent((k25 * mSpriteScale) + FP_FromInteger(field_124_pCollisionLine->mRect.y));

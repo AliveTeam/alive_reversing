@@ -134,7 +134,7 @@ void Shrykull::VUpdate()
 
                 if (CanKill(pObj) && !pObj->mBaseAliveGameObjectFlags.Get(Flags_114::e114_Bit5_ZappedByShrykull))
                 {
-                    field_128_obj_being_zapped_id = pObj->field_8_object_id;
+                    field_128_obj_being_zapped_id = pObj->mBaseGameObjectId;
 
                     const PSX_RECT objRect = pObj->VGetBoundingRect();
                     const PSX_RECT ourRect = VGetBoundingRect();
@@ -158,7 +158,7 @@ void Shrykull::VUpdate()
                             Layer::eLayer_ZapLinesElumMuds_28);
                         if (pZapLine)
                         {
-                            field_124_zap_line_id = pZapLine->field_8_object_id;
+                            field_124_zap_line_id = pZapLine->mBaseGameObjectId;
                         }
                     }
 

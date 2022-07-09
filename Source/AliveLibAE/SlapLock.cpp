@@ -140,10 +140,10 @@ void SlapLock::GiveInvisibility()
     field_118_pTlv = static_cast<Path_SlapLock*>(sPathInfo->TLV_From_Offset_Lvl_Cam(field_11C_tlvInfo));
     if (sActiveHero)
     {
-        sActiveHero->field_176_invisibility_duration = field_118_pTlv->field_1C_invisibility_duration;
-        sActiveHero->field_16C_bHaveShrykull = 0;
+        sActiveHero->mInvisibilityDuration = field_118_pTlv->field_1C_invisibility_duration;
+        sActiveHero->mHaveShrykull = 0;
         sActiveHero->field_16E_bHaveInvisiblity = 1;
-        sActiveHero->field_168_ring_pulse_timer = sGnFrame + 200000;
+        sActiveHero->mRingPulseTimer = sGnFrame + 200000;
     }
 }
 
@@ -204,7 +204,7 @@ void SlapLock::VUpdate()
 
                     if (pObj->Type() == ReliveTypes::eAbilityRing && pObj->mBaseGameObjectTlvInfo == field_134_id)
                     {
-                        field_134_id = pObj->field_8_object_id;
+                        field_134_id = pObj->mBaseGameObjectId;
                         break;
                     }
                 }
@@ -319,7 +319,7 @@ void SlapLock::VUpdate()
                             sActiveHero->mXPos,
                             sActiveHero->mYPos,
                             1)
-                        || sActiveHero->field_168_ring_pulse_timer
+                        || sActiveHero->mRingPulseTimer
                         || sActiveHero->mBaseAliveGameObjectFlags.Get(Flags_114::e114_Bit8_bInvisible))
                     {
                         AbilityRing::Factory(
@@ -366,7 +366,7 @@ void SlapLock::VUpdate()
                     auto pFlicker = relive_new PossessionFlicker(sActiveHero, 8, 128, 255, 128);
                     if (pFlicker)
                     {
-                        field_138_possesion_flicker_id = pFlicker->field_8_object_id;
+                        field_138_possesion_flicker_id = pFlicker->mBaseGameObjectId;
                     }
                     field_120_state = SlapLockStates::eGiveInvisibilityFromFlicker_6;
                 }
@@ -415,7 +415,7 @@ void SlapLock::SetInvisibilityTarget()
         sActiveHero->mSpriteScale);
 
     pRing->mBaseGameObjectTlvInfo = mBaseGameObjectTlvInfo;
-    field_134_id = pRing->field_8_object_id;
+    field_134_id = pRing->mBaseGameObjectId;
 
     pRing->VSetTarget(sActiveHero);
 }

@@ -79,7 +79,7 @@ Greeter::Greeter(Path_Greeter* pTlv, s32 tlvInfo)
     auto pMotionDetctor = relive_new MotionDetector(nullptr, 0, this);
     if (pMotionDetctor)
     {
-        field_11C_motionDetectorId = pMotionDetctor->field_8_object_id;
+        field_11C_motionDetectorId = pMotionDetctor->mBaseGameObjectId;
     }
 
     field_140_targetOnRight = 0;

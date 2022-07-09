@@ -169,7 +169,7 @@ Gibs::Gibs(GibType gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scale, bool b
 
     if (gibType == GibType::Abe_0)
     {
-        SetTint(sTintTable_Abe_554D20, gMap.mCurrentLevel);
+        SetTint(sAbeTintTable, gMap.mCurrentLevel);
     }
     else if (gibType == GibType::Mud_3)
     {

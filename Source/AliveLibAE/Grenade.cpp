@@ -237,7 +237,7 @@ void Grenade::BlowUp(s16 bSmallExplosion)
         bSmallExplosion);
     if (pExplosion)
     {
-        field_11C_explosion_id = pExplosion->field_8_object_id;
+        field_11C_explosion_id = pExplosion->mBaseGameObjectId;
     }
 
     mAnim.mFlags.Clear(AnimFlags::eBit3_Render);

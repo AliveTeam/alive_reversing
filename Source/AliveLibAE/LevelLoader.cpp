@@ -37,7 +37,7 @@ void LevelLoader::VUpdate()
                 if (pFade)
                 {
                     field_22_state = States::eFadingOut_1;
-                    field_30_fade_id = pFade->field_8_object_id;
+                    field_30_fade_id = pFade->mBaseGameObjectId;
                 }
             }
         }

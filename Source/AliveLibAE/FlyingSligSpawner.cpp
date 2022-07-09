@@ -72,7 +72,7 @@ void FlyingSligSpawner::VUpdate()
 
                 if (pObj->Type() == ReliveTypes::eFlyingSlig && pObj->mBaseGameObjectTlvInfo == field_24_spawned_slig_id)
                 {
-                    field_24_spawned_slig_id = pObj->field_8_object_id;
+                    field_24_spawned_slig_id = pObj->mBaseGameObjectId;
                     break;
                 }
             }
@@ -113,7 +113,7 @@ void FlyingSligSpawner::VUpdate()
                 return;
             }
 
-            field_24_spawned_slig_id = pNewSlig->field_8_object_id;
+            field_24_spawned_slig_id = pNewSlig->mBaseGameObjectId;
             field_3C_bSpawned = TRUE;
             SfxPlayMono(SoundEffect::FlyingSligSpawn_113, 0);
         }

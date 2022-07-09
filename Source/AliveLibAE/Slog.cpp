@@ -105,7 +105,7 @@ Slog::Slog(FP xpos, FP ypos, FP scale, s16 bListenToSligs, s16 chaseDelay)
     {
         pTarget = sControlledCharacter;
     }
-    field_118_target_id = pTarget->field_8_object_id;
+    field_118_target_id = pTarget->mBaseGameObjectId;
 
     field_160_flags.Clear(Flags_160::eBit2_ListenToSligs);
     field_160_flags.Clear(Flags_160::eBit7_Asleep);
@@ -1126,7 +1126,7 @@ void Slog::Motion_19_JumpUpwards()
 
     if (mAnim.mCurrentFrame == 5)
     {
-        if (field_160_flags.Get(Flags_160::eBit4_Hungry) && field_118_target_id == sActiveHero->field_8_object_id && sActiveHero->mScale == mScale && (sActiveHero->mCurrentMotion == eAbeMotions::Motion_104_RockThrowStandingHold_455DF0 || sActiveHero->mCurrentMotion == eAbeMotions::Motion_107_RockThrowCrouchingHold_454410))
+        if (field_160_flags.Get(Flags_160::eBit4_Hungry) && field_118_target_id == sActiveHero->mBaseGameObjectId && sActiveHero->mScale == mScale && (sActiveHero->mCurrentMotion == eAbeMotions::Motion_104_RockThrowStandingHold_455DF0 || sActiveHero->mCurrentMotion == eAbeMotions::Motion_107_RockThrowCrouchingHold_454410))
         {
             Sfx(SlogSound::HungryYip_13);
         }
@@ -1458,7 +1458,7 @@ s16 Slog::Brain_ListeningToSlig_State_2_Listening(const FP xpos1GridAHead, BaseA
             {
                 field_138_listening_to_slig_id = -1;
                 field_160_flags.Set(Flags_160::eBit5_CommandedToAttack);
-                field_118_target_id = pTarget->field_8_object_id;
+                field_118_target_id = pTarget->mBaseGameObjectId;
                 field_120_brain_state_idx = 2;
                 return 0;
             }
@@ -1606,7 +1606,7 @@ s16 Slog::Brain_1_Idle()
         {
             field_120_brain_state_idx = 0;
             field_118_target_id = -1;
-            field_138_listening_to_slig_id = sControlledCharacter->field_8_object_id;
+            field_138_listening_to_slig_id = sControlledCharacter->mBaseGameObjectId;
             return 0;
         }
     }
@@ -1818,7 +1818,7 @@ s16 Slog::Brain_2_ChasingAbe()
             {
                 field_120_brain_state_idx = 0;
                 field_118_target_id = -1;
-                field_138_listening_to_slig_id = sControlledCharacter->field_8_object_id;
+                field_138_listening_to_slig_id = sControlledCharacter->mBaseGameObjectId;
                 return 0;
             }
         }
@@ -1859,7 +1859,7 @@ s16 Slog::Brain_2_ChasingAbe()
                     }
                 }
             }
-            field_118_target_id = pTarget->field_8_object_id;
+            field_118_target_id = pTarget->mBaseGameObjectId;
         }
     }
 
@@ -2037,7 +2037,7 @@ s16 Slog::Brain_ChasingAbe_State_15_ChasingAfterTarget(BaseAliveGameObject* pTar
         auto pBone = FindBone();
         if (pBone)
         {
-            field_15C_bone_id = pBone->field_8_object_id;
+            field_15C_bone_id = pBone->mBaseGameObjectId;
             return 11;
         }
 
@@ -2314,7 +2314,7 @@ s16 Slog::Brain_ChasingAbe_State_20_Collided(BaseAliveGameObject* pTarget)
     auto pBone = FindBone();
     if (pBone)
     {
-        field_15C_bone_id = pBone->field_8_object_id;
+        field_15C_bone_id = pBone->mBaseGameObjectId;
         return 11;
     }
 
@@ -2369,7 +2369,7 @@ s16 Slog::Brain_ChasingAbe_State_10_HungryForBone()
         if (pBone)
         {
             SetNextMotion(eSlogMotions::Motion_2_Run);
-            field_15C_bone_id = pBone->field_8_object_id;
+            field_15C_bone_id = pBone->mBaseGameObjectId;
             return 11;
         }
 
@@ -2570,7 +2570,7 @@ s16 Slog::Brain_ChasingAbe_State_2_Thinking(BaseAliveGameObject* pTarget)
     auto pBone = FindBone();
     if (pBone)
     {
-        field_15C_bone_id = pBone->field_8_object_id;
+        field_15C_bone_id = pBone->mBaseGameObjectId;
         return 11;
     }
 
@@ -3222,7 +3222,7 @@ BaseAliveGameObject* Slog::FindTarget(s16 bKillSligs, s16 bLookingUp)
                                 if (array_idx)
                                 {
                                     // Something to do with finding who is the last attacker
-                                    while (local_array[array_idx_iter] != pObj->field_8_object_id)
+                                    while (local_array[array_idx_iter] != pObj->mBaseGameObjectId)
                                     {
                                         if (++array_idx_iter >= array_idx)
                                         {

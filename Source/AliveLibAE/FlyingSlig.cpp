@@ -619,7 +619,7 @@ void FlyingSlig::VUpdate()
 
                 if (pObj->mBaseGameObjectTlvInfo == field_158_obj_id)
                 {
-                    field_158_obj_id = pObj->field_8_object_id;
+                    field_158_obj_id = pObj->mBaseGameObjectId;
                     break;
                 }
             }
@@ -3280,7 +3280,7 @@ s16 FlyingSlig::TryPullLever_439DB0()
                 }
 
                 field_1CC_lever_pull_range_ypos = pAliveObj->mYPos - (FP_FromInteger(23) * mSpriteScale);
-                field_158_obj_id = pAliveObj->field_8_object_id;
+                field_158_obj_id = pAliveObj->mBaseGameObjectId;
                 PullLever_436450();
                 return TRUE;
             }

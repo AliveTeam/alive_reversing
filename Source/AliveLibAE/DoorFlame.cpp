@@ -348,7 +348,7 @@ DoorFlame::DoorFlame(Path_DoorFlame* pTlv, s32 tlvInfo)
     auto pFlameSparks = relive_new FlameSparks(mXPos, mYPos);
     if (pFlameSparks)
     {
-        field_10C_flame_sparks_id = pFlameSparks->field_8_object_id;
+        field_10C_flame_sparks_id = pFlameSparks->mBaseGameObjectId;
     }
 }
 
@@ -467,7 +467,7 @@ void DoorFlame::VUpdate()
                                                                  mSpriteScale);
                 if (pFireBackgroundGlow)
                 {
-                    field_108_fire_background_glow_id = pFireBackgroundGlow->field_8_object_id;
+                    field_108_fire_background_glow_id = pFireBackgroundGlow->mBaseGameObjectId;
                 }
             }
             break;

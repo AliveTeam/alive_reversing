@@ -326,8 +326,8 @@ void BirdPortal::VUpdate()
             if (static_cast<s32>(sGnFrame) >= mTimer)
             {
                 sActiveHero->Get_Shrykull_Resources_45AA20();
-                sActiveHero->field_168_ring_pulse_timer = sGnFrame + 32000;
-                sActiveHero->field_16C_bHaveShrykull = TRUE;
+                sActiveHero->mRingPulseTimer = sGnFrame + 32000;
+                sActiveHero->mHaveShrykull = TRUE;
                 sActiveHero->field_16E_bHaveInvisiblity = 0;
                 mState = PortalStates::CollapseTerminators_10;
                 if (sActiveHero->mCurrentMotion == eAbeMotions::Motion_112_Chant_45B1C0)
@@ -697,7 +697,7 @@ s16 BirdPortal::VPortalClipper(s16 bIgnoreClipping)
     auto pClipper1 = relive_new ScreenClipper(xy, wh, Layer::eLayer_0);
     if (pClipper1)
     {
-        mScreenClipperId1 = pClipper1->field_8_object_id;
+        mScreenClipperId1 = pClipper1->mBaseGameObjectId;
         if (mSpriteScale == FP_FromInteger(1))
         {
             pClipper1->field_48_ot_layer = Layer::eLayer_BirdPortal_29;
@@ -712,7 +712,7 @@ s16 BirdPortal::VPortalClipper(s16 bIgnoreClipping)
     auto pClipper2 = relive_new ScreenClipper(PSX_Point{ 0, 0 }, PSX_Point{ 640, 240 }, Layer::eLayer_0);
     if (pClipper2)
     {
-        mScreenClipperId2 = pClipper2->field_8_object_id;
+        mScreenClipperId2 = pClipper2->mBaseGameObjectId;
         if (mSpriteScale == FP_FromInteger(1))
         {
             pClipper2->field_48_ot_layer = Layer::eLayer_FallingItemDoorFlameRollingBallPortalClip_Half_31;
@@ -989,7 +989,7 @@ void BirdPortal::CreateDovesAndShrykullNumber()
     for (u8 i = 0; i < ALIVE_COUNTOF(mDoveIds); i++)
     {
         auto pDove = relive_new Dove(AnimId::Dove_Flying, mXPos, mYPos, mSpriteScale);
-        mDoveIds[i] = pDove->field_8_object_id;
+        mDoveIds[i] = pDove->mBaseGameObjectId;
 
         mDovesExist = 1;
 
@@ -1016,7 +1016,7 @@ void BirdPortal::CreateDovesAndShrykullNumber()
             0);
         if (pIndicator)
         {
-            mThrowableIndicatorId = pIndicator->field_8_object_id;
+            mThrowableIndicatorId = pIndicator->mBaseGameObjectId;
         }
     }
 }
@@ -1043,13 +1043,13 @@ void BirdPortal::CreateTerminators()
     auto pTerminator1 = relive_new BirdPortalTerminator(mXPos, mYPos, mSpriteScale, mPortalType);
     if (pTerminator1)
     {
-        mTerminatorId1 = pTerminator1->field_8_object_id;
+        mTerminatorId1 = pTerminator1->mBaseGameObjectId;
     }
 
     auto pTerminator2 = relive_new BirdPortalTerminator(mXPos, mYPos, mSpriteScale, mPortalType);
     if (pTerminator2)
     {
-        mTerminatorId2 = pTerminator2->field_8_object_id;
+        mTerminatorId2 = pTerminator2->mBaseGameObjectId;
     }
 }
 

@@ -112,7 +112,7 @@ Electrocute::Electrocute(BaseAliveGameObject* pTargetObj, bool bExtraOverwriter,
 {
     SetType(ReliveTypes::eElectrocute);
 
-    field_20_target_obj_id = pTargetObj->field_8_object_id;
+    field_20_target_obj_id = pTargetObj->mBaseGameObjectId;
     field_44_state = States::eSetNewColour_0;
     field_3C_extraOverwriter = bExtraOverwriter;
     field_2C_bKillTarget = bKillTarget;

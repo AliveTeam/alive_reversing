@@ -99,7 +99,7 @@ void FootSwitch::VUpdate()
         pLastStoodOnMe = WhoIsStoodOnMe();
         if (pLastStoodOnMe)
         {
-            field_100_obj_id = pLastStoodOnMe->field_8_object_id;
+            field_100_obj_id = pLastStoodOnMe->mBaseGameObjectId;
             mAnim.Set_Animation_Data(sFootSwitchData_547D60[static_cast<s32>(MapWrapper::ToAE(gMap.mCurrentLevel))][1], nullptr);
             field_F8_state = States::eWaitForGetOffMe_1;
         }
@@ -112,7 +112,7 @@ void FootSwitch::VUpdate()
             auto pStoodOnMeNow = WhoIsStoodOnMe();
             if (pStoodOnMeNow)
             {
-                field_100_obj_id = pStoodOnMeNow->field_8_object_id;
+                field_100_obj_id = pStoodOnMeNow->mBaseGameObjectId;
 
                 SwitchStates_Do_Operation(field_FA_switch_id, field_FC_action);
                 field_F8_state = States::eWaitForGetOffMe_1;

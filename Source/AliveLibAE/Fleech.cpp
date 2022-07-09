@@ -314,7 +314,7 @@ s32 Fleech::CreateFromSaveState(const u8* pBuffer)
 
         if (pState->field_4_obj_id == pState->field_AC_obj_id)
         {
-            current_target_object_id_551840 = pFleech->field_8_object_id;
+            current_target_object_id_551840 = pFleech->mBaseGameObjectId;
         }
 
         pFleech->mFleechFlags.Set(FleechFlags::eHoistDone, pState->mFleechStateFlags.Get(Fleech_State::eHoistDone));
@@ -456,7 +456,7 @@ s32 Fleech::VGetSaveState(u8* pSaveBuffer)
         pState->field_A8 = -1;
     }
 
-    if (current_target_object_id_551840 == field_8_object_id)
+    if (current_target_object_id_551840 == mBaseGameObjectId)
     {
         pState->field_AC_obj_id = mBaseGameObjectTlvInfo;
     }
@@ -1003,7 +1003,7 @@ void Fleech::Motion_13_SettleOnGround()
 
 void Fleech::Motion_14_ExtendTongueFromEnemy()
 {
-    if (field_11C_obj_id == sActiveHero->field_8_object_id && (sActiveHero->CantBeDamaged_44BAB0() || sActiveHero->mBaseAliveGameObjectFlags.Get(Flags_114::e114_Bit8_bInvisible)))
+    if (field_11C_obj_id == sActiveHero->mBaseGameObjectId && (sActiveHero->CantBeDamaged_44BAB0() || sActiveHero->mBaseAliveGameObjectFlags.Get(Flags_114::e114_Bit8_bInvisible)))
     {
         ToIdle();
     }
@@ -1101,7 +1101,7 @@ void Fleech::Motion_18_Consume()
     {
         Sound(FleechSound::Digesting_2);
     }
-    else if (mAnim.mCurrentFrame == 15 && field_11C_obj_id == sActiveHero->field_8_object_id)
+    else if (mAnim.mCurrentFrame == 15 && field_11C_obj_id == sActiveHero->mBaseGameObjectId)
     {
         sActiveHero->SetAsDead_459430();
 
@@ -1149,7 +1149,7 @@ Fleech::~Fleech()
     {
         if (sActiveHero)
         {
-            if (field_11C_obj_id == sActiveHero->field_8_object_id)
+            if (field_11C_obj_id == sActiveHero->mBaseGameObjectId)
             {
                 sActiveHero->SetAsDead_459430();
             }
@@ -1563,7 +1563,7 @@ s16 Fleech::IsScrabOrParamiteNear(FP radius)
 
     if (pNearestScrabOrParamite)
     {
-        field_170_danger_obj = pNearestScrabOrParamite->field_8_object_id;
+        field_170_danger_obj = pNearestScrabOrParamite->mBaseGameObjectId;
         return 1;
     }
 
@@ -1703,7 +1703,7 @@ void Fleech::SetAnim()
 
 void Fleech::ResetTarget()
 {
-    if (current_target_object_id_551840 == field_8_object_id)
+    if (current_target_object_id_551840 == mBaseGameObjectId)
     {
         current_target_object_id_551840 = -1;
     }
@@ -1716,7 +1716,7 @@ s16 Fleech::GotNoTarget()
 
 void Fleech::SetTarget()
 {
-    current_target_object_id_551840 = field_8_object_id;
+    current_target_object_id_551840 = mBaseGameObjectId;
 }
 
 void Fleech::TongueHangingFromWall(s16 target_x, s16 target_y)
@@ -2834,7 +2834,7 @@ s16 Fleech::Brain_Patrol_State_4(BaseAliveGameObject* pTarget)
         pTarget = FindMudOrAbe();
         if (pTarget)
         {
-            field_11C_obj_id = pTarget->field_8_object_id;
+            field_11C_obj_id = pTarget->mBaseGameObjectId;
         }
     }
 
@@ -3232,10 +3232,10 @@ s16 Fleech::Brain_1_ChasingAbe()
             BaseAliveGameObject* pMudOrAbe = FindMudOrAbe();
             if (pMudOrAbe)
             {
-                if (pMudOrAbe->field_8_object_id != field_11C_obj_id)
+                if (pMudOrAbe->mBaseGameObjectId != field_11C_obj_id)
                 {
                     pObj = pMudOrAbe;
-                    field_11C_obj_id = pMudOrAbe->field_8_object_id;
+                    field_11C_obj_id = pMudOrAbe->mBaseGameObjectId;
                 }
             }
 
@@ -3577,7 +3577,7 @@ s16 Fleech::Brain_ChasingAbe_State_0(BaseAliveGameObject* pObj)
         {
             return 13;
         }
-        field_11C_obj_id = pMudOrAbe->field_8_object_id;
+        field_11C_obj_id = pMudOrAbe->mBaseGameObjectId;
     }
     field_120_unused = 0;
     field_15E_lost_target_timer = 0;
@@ -3675,10 +3675,10 @@ s16 Fleech::Brain_ChasingAbe_State_1(BaseAliveGameObject* pObj)
     BaseAliveGameObject* pAbeOrMud = FindMudOrAbe();
     if (pAbeOrMud)
     {
-        if (pAbeOrMud->field_8_object_id != field_11C_obj_id)
+        if (pAbeOrMud->mBaseGameObjectId != field_11C_obj_id)
         {
             pObj = pAbeOrMud;
-            field_11C_obj_id = pAbeOrMud->field_8_object_id;
+            field_11C_obj_id = pAbeOrMud->mBaseGameObjectId;
         }
     }
 

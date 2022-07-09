@@ -10,7 +10,7 @@ PossessionFlicker::PossessionFlicker(BaseAliveGameObject* pToApplyFlicker, s32 d
  : BaseGameObject(TRUE, 0)
 {
     SetType(ReliveTypes::ePossessionFlicker);
-    field_30_obj_id = pToApplyFlicker->field_8_object_id;
+    field_30_obj_id = pToApplyFlicker->mBaseGameObjectId;
 
     // Check if another PossessionFlicker is already applying flicker to pToApplyFlicker
     for (s32 i = 0; i < gBaseGameObjects->Size(); i++)

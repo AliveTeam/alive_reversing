@@ -566,7 +566,7 @@ void MusicController::VUpdate()
     if (EventGet(kEventDeathReset))
     {
         field_58_flags.Set(Flags_58::e58_Dead_Bit3);
-        field_28_object_id = sActiveHero->field_8_object_id;
+        field_28_object_id = sActiveHero->mBaseGameObjectId;
     }
 
     if (field_58_flags.Get(Flags_58::e58_ScreenChanged_Bit2))
@@ -638,7 +638,7 @@ void MusicController::PlayMusic(MusicTypes typeToSet, const BaseGameObject* pObj
                 field_48_last_music_frame = sMusicTime_5C3024;
             }
 
-            if (field_28_object_id != -1 && field_28_object_id == pObj->field_8_object_id)
+            if (field_28_object_id != -1 && field_28_object_id == pObj->mBaseGameObjectId)
             {
                 field_58_flags.Clear(Flags_58::e58_Dead_Bit3);
                 field_58_flags.Set(Flags_58::e58_Dead_Bit3, (bFlag4 & 1));
@@ -669,9 +669,9 @@ void MusicController::PlayMusic(MusicTypes typeToSet, const BaseGameObject* pObj
             field_42_type = typeToSet;
             field_44 = 0;
         }
-        else if (pObj->field_8_object_id == field_28_object_id || field_28_object_id == -1 || (!(field_58_flags.Get(Flags_58::e58_Dead_Bit3)) && (bFlag4 || typeToSet >= field_42_type)))
+        else if (pObj->mBaseGameObjectId == field_28_object_id || field_28_object_id == -1 || (!(field_58_flags.Get(Flags_58::e58_Dead_Bit3)) && (bFlag4 || typeToSet >= field_42_type)))
         {
-            field_28_object_id = pObj->field_8_object_id;
+            field_28_object_id = pObj->mBaseGameObjectId;
             field_58_flags.Clear(Flags_58::e58_Dead_Bit3);
             field_58_flags.Set(Flags_58::e58_Dead_Bit3, (bFlag4 & 1));
             field_58_flags.Set(Flags_58::e58_UnPause_Bit6);
