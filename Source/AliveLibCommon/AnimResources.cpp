@@ -140,7 +140,7 @@ constexpr CombinedBgAnimRecord kBgAnimRecords[] = {
 
 constexpr AnimDetails kNullAnimDetails = {};
 
-constexpr CombinedAnimRecord kAnimRecords[915] = {
+constexpr CombinedAnimRecord kAnimRecords[916] = {
     {AnimId::None, kNullAnimDetails, kNullAnimDetails},
     {AnimId::Abe_Head_Gib,
     { "ABEBLOW.BAN", 7732, 50, 25, kAbeblowResID, PalId::Default},
@@ -1350,6 +1350,8 @@ constexpr CombinedAnimRecord kAnimRecords[915] = {
         {"SQBSMK.BAN", 4108, 61, 44, AO::kSquibSmokeAOResID, PalId::Default}},
     {AnimId::Explosion_Rocks, {"DEBRIS00.BAN", 6484, 71, 36, kDebrisID00ResID, PalId::Default}, kNullAnimDetails},
     {AnimId::Explosion_Sticks, {"STICK.BAN", 1704, 49, 29, kStickGibResID, PalId::Default}, kNullAnimDetails},
+    //{AnimId::Explosion_Skull, {"SKULL.BAN", 1704, 49, 29, kDebrisID00ResID, PalId::Default}, kNullAnimDetails }, // just a copy of stick.ban with a different res id and ban name
+    //{AnimId::Explosion_Bone, {"LEGBONE.BAN", 1976, 45, 25, kStickGibResID, PalId::Default}, kNullAnimDetails }, // unused bone gib anim
     {AnimId::Mine_Flash,
         {"MINE.BND", 400, 36, 8, kMineflshResID, PalId::Default},
         {"MINE.BND", 772, 36, 8, AO::kMineflshAOResID, PalId::Default}},
@@ -1844,10 +1846,13 @@ constexpr CombinedAnimRecord kAnimRecords[915] = {
 
     { AnimId::Elum_Knockback, kNullAnimDetails, {"ELMKNBK.BAN", 21280, 169, 169, AO::kElmnknbkAOResID, PalId::Default} },
 
+    { AnimId::Scoopz, {"SCOOPZ.BAN", 31616, 59, 200, kScoopzResID, PalId::Default}, kNullAnimDetails },
+
     // search for "Animation test code" in Abe.cpp and uncomment the code below to activate the anim tester
     ////////////////////////////////////////////////////////////////////////////////////////////////////
+
     {AnimId::Anim_Tester,
-     {"SLIGZ.BND", 2832, 126, 44, kZflashResID, PalId::Default},
+     {"SCOOPZ.BAN", 31616, 59, 200, kScoopzResID, PalId::Default},
      {"RLIFT.BND", 24240, 124, 37, AO::kLiftWheelsAOResID, PalId::Default}
     },
     ////////////////////////////////////////////////////////////////////////////////////////////////////
