@@ -12,7 +12,7 @@ BackgroundAnimation::BackgroundAnimation(Path_BackgroundAnimation* pTlv, TlvItem
     field_F8_tlvInfo = tlvInfo;
 
     const BgAnimRecord& anim = BgAnimRec(pTlv->field_10_anim_id);
-    field_F4_res = reinterpret_cast<AnimHeader**>(Add_Resource(ResourceManager::Resource_Animation, anim.mBgAnimId));
+    field_F4_res = reinterpret_cast<AnimationFileHeader**>(Add_Resource(ResourceManager::Resource_Animation, anim.mBgAnimId));
     if (!field_F4_res)
     {
         mBaseGameObjectFlags.Clear(BaseGameObject::eDrawable_Bit4);

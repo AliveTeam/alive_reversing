@@ -30,7 +30,7 @@ public:
     ~BackgroundAnimation();
 
 private:
-    AnimHeader** field_F4_res = nullptr;
+    AnimationFileHeader** field_F4_res = nullptr;
     TlvItemInfoUnion field_F8_tlvInfo = {};
     FP field_FC_animXPos = {};
     FP field_100_animYPos = {};

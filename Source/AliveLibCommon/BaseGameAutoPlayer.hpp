@@ -71,11 +71,27 @@ public:
         return mFile;
     }
 
+    bool Write(const u8* pBytes, u32 numBytes)
+    {
+        const bool ret = ::fwrite(pBytes, 1, numBytes, mFile) == 1;
+        Flush();
+        return ret;
+    }
+
     template <typename TypeToWrite>
     bool Write(const TypeToWrite& value)
     {
         static_assert(std::is_pod<TypeToWrite>::value, "TypeToWrite must be pod");
         const bool ret = ::fwrite(&value, sizeof(TypeToWrite), 1, mFile) == 1;
+        Flush();
+        return ret;
+    }
+
+    template <typename TypeToWrite>
+    bool Write(const std::vector<TypeToWrite>& value)
+    {
+        static_assert(std::is_pod<TypeToWrite>::value, "std::vector<TypeToWrite> must be pod");
+        const bool ret = ::fwrite(value.data(), sizeof(TypeToWrite), value.size(), mFile) == 1;
         Flush();
         return ret;
     }

@@ -4,7 +4,9 @@
 #include "../../AliveLibAO/PathData.hpp"
 #include "../../AliveLibAO/LvlArchive.hpp"
 #include "../../AliveLibCommon/AnimResources.hpp"
-
+#include "../../AliveLibCommon/BaseGameAutoPlayer.hpp"
+#include "../Animation.hpp"
+#include "../Compression.hpp"
 #include "../MapWrapper.hpp"
 #include <vector>
 
@@ -12,6 +14,32 @@ constexpr u32 kDataVersion = 1;
 
 extern const CombinedAnimRecord kAnimRecords[915];
 extern const AnimDetails kNullAnimDetails;
+
+struct TgaHeader final
+{
+    // Length of id string
+    u8 mIdLength = 0;
+
+    // Id string - no present since always 0
+
+    // Image storage info
+    u8 mColourMapType = 1;
+    u8 mImageType = 1;
+
+    // Colour Map
+    u16 mFirstEntry = 0;
+    u16 mNumEntries = 256;
+    u8 mBitsPerEntry = 16;
+
+    // Image description
+    u16 mXOrigin = 0;
+    u16 mYOrigin = 0;
+    u16 mWidth = 0;
+    u16 mHeight = 0;
+    u8 mBitsPerPixel = 8;
+    u8 mDescriptor = 0;
+};
+
 
 enum class EAnimGroup
 {
@@ -57,6 +85,206 @@ struct AnimRecNames final
 constexpr AnimRecNames kAnimRecNames[] = {
     {AnimId::Abe_Arm_Gib, "arm_gib"},
     {AnimId::Abe_Body_Gib, "body_gib"}
+};
+
+
+class AnimationConverter final
+{
+public:
+    AnimationConverter(const AnimRecord& rec, const std::vector<u8>& fileData, bool isAoData)
+        : mFileData(fileData)
+        , mIsAoData(isAoData)
+    {
+        const auto pAnimationFileHeader = reinterpret_cast<const AnimationFileHeader*>(&mFileData[kResHeaderSize]);
+
+        // Get the CLUT/pal
+        for (u32 i = 0; i < pAnimationFileHeader->mClutSize; i++)
+        {
+            // pAnimationFileHeader->mClutData[i];
+        }
+
+        const auto pAnimationHeader = reinterpret_cast<const AnimationHeader*>(&mFileData[rec.mFrameTableOffset + kResHeaderSize]);
+
+        // Get the size required to decompres a single frame
+        const u32 decompressionBufferSize = CalcDecompressionBufferSize(rec, pAnimationFileHeader, GetFrame(pAnimationHeader, 0));
+
+        std::vector<u8> decompressionBuffer(decompressionBufferSize);
+
+        // Add each frame
+        for (s32 i = 0; i < pAnimationHeader->field_2_num_frames; i++)
+        {
+            // 36x23 depth 8
+            const FrameHeader* pFrameHeader = GetFrame(pAnimationHeader, i);
+            DecompressAnimFrame(decompressionBuffer, pFrameHeader);
+            /*
+            if (i == 0)
+            {
+                TgaHeader tgaHeader;
+                tgaHeader.mWidth = pFrameHeader->field_4_width;
+                tgaHeader.mHeight = pFrameHeader->field_5_height; // TODO: Use converted
+
+                AutoFILE f;
+                f.Open("test.tga", "wb", false);
+
+                // Write header
+                f.Write(reinterpret_cast<const u8*>(&tgaHeader), sizeof(tgaHeader));
+
+                // Write pal
+                u16 pal[256] = {};
+                for (u32 j = 0; j < pAnimationFileHeader->mClutSize; j++)
+                {
+                    pal[j] = pAnimationFileHeader->mClutData[j];
+                }
+                f.Write(reinterpret_cast<const u8*>(&pal[0]), sizeof(pal));
+
+                // Write pixel data
+                f.Write(decompressionBuffer);
+                f.Close();
+            }*/
+        }
+    }
+
+private:
+    void DecompressAnimFrame(std::vector<u8>& decompressionBuffer, const FrameHeader* pFrameHeader)
+    {
+        switch (pFrameHeader->field_7_compression_type)
+        {
+            case CompressionType::eType_0_NoCompression:
+                // reinterpret_cast<const u8*>(&pFrameHeader->field_8_width2)
+                break;
+
+            case CompressionType::eType_2_ThreeToFourBytes:
+                /*
+                CompressionType2_Decompress_40AA50(
+                    reinterpret_cast<const u8*>(&pFrameHeader[1]),
+                    *mDbuf,
+                    width_bpp_adjusted * pFrameHeader->field_5_height * 2);
+                // AnimFlagsToBitDepth(mFlags)
+                */
+                break;
+
+            case CompressionType::eType_3_RLE_Blocks:
+                if (mIsAoData)
+                {
+                    AO::Decompress_Type_3(
+                        (u8*) &pFrameHeader[1],
+                        decompressionBuffer.data(),
+                        *(u32*) &pFrameHeader->field_8_width2,
+                        2 * pFrameHeader->field_5_height * CalcWidthAdjustedForBPP(pFrameHeader));
+                }
+                else
+                {
+                    //CompressionType_3Ae_Decompress_40A6A0(reinterpret_cast<const u8*>(&pFrameHeader->field_8_width2), *mDbuf);
+                    ALIVE_FATAL("todo");
+                }
+                //renderer.Upload(AnimFlagsToBitDepth(mFlags), *mDbuf);
+               
+                break;
+
+            case CompressionType::eType_4_RLE:
+            case CompressionType::eType_5_RLE:
+                // CompressionType_4Or5_Decompress_4ABAB0(reinterpret_cast<const u8*>(&pFrameHeader->field_8_width2), *mDbuf);
+                // renderer.Upload(AnimFlagsToBitDepth(mFlags), vram_rect, *mDbuf);
+                break;
+
+            case CompressionType::eType_6_RLE:
+                // CompressionType6Ae_Decompress_40A8A0(reinterpret_cast<const u8*>(&pFrameHeader->field_8_width2), *mDbuf);
+                // renderer.Upload(AnimFlagsToBitDepth(mFlags), vram_rect, *mDbuf);
+                break;
+
+            case CompressionType::eType_7_NotUsed:
+            case CompressionType::eType_8_NotUsed:
+                ALIVE_FATAL("Decompression 7 and 8 never expected to be used");
+                break;
+
+            default:
+                LOG_ERROR("Unknown compression type " << static_cast<s32>(pFrameHeader->field_7_compression_type));
+                ALIVE_FATAL("Unknown compression type");
+                break;
+        }
+    }
+
+    static constexpr u32 kResHeaderSize = 16;
+
+    u32 CalcWidthAdjustedForBPP(const FrameHeader* pFrameHeader)
+    {
+        u32 width_bpp_adjusted = 0;
+        switch (pFrameHeader->field_6_colour_depth)
+        {
+            case 4:
+            {
+                // 4 bit divide by quarter
+                width_bpp_adjusted = ((pFrameHeader->field_4_width + 7) / 4) & ~1;
+            }
+            break;
+
+            case 8:
+            {
+                // 8 bit, divided by half
+                width_bpp_adjusted = ((pFrameHeader->field_4_width + 3) / 2) & ~1;
+            }
+            break;
+
+            case 16:
+            {
+                // 16 bit, only multiple of 2 rounding
+                width_bpp_adjusted = (pFrameHeader->field_4_width + 1) & ~1;
+            }
+            break;
+
+            default:
+            {
+                ALIVE_FATAL("Bad colour depth");
+            }
+        }
+        return width_bpp_adjusted;
+    }
+
+    u32 CalcDecompressionBufferSize(const AnimRecord& rec, const AnimationFileHeader* animFileHeader, const FrameHeader* pFrameHeader)
+    {
+        u32 decompression_width = 0;
+        switch (pFrameHeader->field_6_colour_depth)
+        {
+            case 4:
+            {
+                decompression_width = (rec.mMaxW % 2) + (rec.mMaxW / 2);
+            }
+            break;
+
+            case 8:
+            {
+                decompression_width = rec.mMaxW;
+            }
+            break;
+
+            case 16:
+            {
+                decompression_width = rec.mMaxW * 2;
+            }
+            break;
+
+            default:
+            {
+                ALIVE_FATAL("Bad colour depth");
+            }
+        }
+
+        u32 decompressionBufferSize = rec.mMaxH * (decompression_width + 3);
+        decompressionBufferSize += 8; // Add 8 for some reason
+        return decompressionBufferSize;
+    }
+
+    const FrameHeader* GetFrame(const AnimationHeader* pAnimationHeader, u32 idx)
+    {
+        const u32 frameOffset = pAnimationHeader->mFrameOffsets[idx];
+        auto pFrame = reinterpret_cast<const FrameInfoHeader*>(&mFileData[frameOffset + kResHeaderSize]);
+
+        auto pFrameHeader = reinterpret_cast<const FrameHeader*>(&mFileData[pFrame->field_0_frame_header_offset + kResHeaderSize]);
+        return pFrameHeader;
+    }
+
+    const std::vector<u8>& mFileData;
+    bool mIsAoData = false;
 };
 
 const char* AnimRecName(AnimId anim)
@@ -161,6 +389,7 @@ void DataConversion::ConvertData()
                     const auto& animDetails = AO::AnimRec(rec.mAnimId);
 
                     ReadLvlFileInto(archive, animDetails.mBanName, fileBuffer);
+                    AnimationConverter animationConverter(animDetails, fileBuffer, true);
 
                     // Track what is converted so we know what is missing at the end
                     rec.mConverted = true;

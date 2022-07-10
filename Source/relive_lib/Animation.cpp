@@ -50,11 +50,6 @@ void Animation::UploadTexture(const FrameHeader* pFrameHeader, const PSX_RECT& v
             renderer.Upload(AnimFlagsToBitDepth(mFlags), vram_rect, reinterpret_cast<const u8*>(&pFrameHeader->field_8_width2)); // TODO: Refactor structure to get pixel data
             break;
 
-        case CompressionType::eType_1_NotUsed:
-            // This isn't in any of the animation data files on disk, therefore can't ever be used.
-            ALIVE_FATAL("Compression type 1 never expected to be used.");
-            break;
-
         case CompressionType::eType_2_ThreeToFourBytes:
             mFlags.Set(AnimFlags::eBit25_bDecompressDone);
             if (EnsureDecompressionBuffer())

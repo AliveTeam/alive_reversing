@@ -970,23 +970,23 @@ enum class PalId
 struct BgAnimDetails final
 {
     const char_type* mBanName;
-    s32 mFrameTableOffset;
+    u32 mFrameTableOffset;
     s16 mMaxW;
     s16 mMaxH;
 };
 
 struct CombinedBgAnimRecord final
 {
-    s32 mBgAnimId;
+    u32 mBgAnimId;
     BgAnimDetails mAEData;
     BgAnimDetails mAOData;
 };
 
 struct BgAnimRecord final
 {
-    s32 mBgAnimId;
+    u32 mBgAnimId;
     const char_type* mBanName;
-    s32 mFrameTableOffset;
+    u32 mFrameTableOffset;
     s16 mMaxW;
     s16 mMaxH;
 };
@@ -1014,7 +1014,7 @@ struct PalRecord final
 struct AnimDetails final
 {
     const char_type* mBanName;
-    s32 mFrameTableOffset;
+    u32 mFrameTableOffset;
     s16 mMaxW;
     s16 mMaxH;
     s32 mResourceId;
@@ -1025,7 +1025,7 @@ struct AnimRecord final
 {
     AnimId mId;
     const char_type* mBanName;
-    s32 mFrameTableOffset;
+    u32 mFrameTableOffset;
     s16 mMaxW;
     s16 mMaxH;
     s32 mResourceId;
@@ -1042,8 +1042,8 @@ struct CombinedAnimRecord final
 [[nodiscard]] const PalRecord PalRec(PalId toFind);
 [[nodiscard]] const AnimRecord AnimRec(AnimId toFind);
 [[nodiscard]] const BgAnimRecord BgAnimRec(s32 toFind);
-void FrameTableOffsetExists(int frameTableOffset, bool isAe, int maxW, int maxH);
-void FrameTableOffsetExists(int frameTableOffset, bool isAe);
+void FrameTableOffsetExists(u32 frameTableOffset, bool isAe, int maxW, int maxH);
+void FrameTableOffsetExists(u32 frameTableOffset, bool isAe);
 
 namespace AO 
 {

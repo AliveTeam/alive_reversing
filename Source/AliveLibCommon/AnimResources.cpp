@@ -1858,7 +1858,7 @@ constexpr CombinedAnimRecord kAnimRecords[916] = {
     ////////////////////////////////////////////////////////////////////////////////////////////////////
 };
 
-void FrameTableOffsetExists(int frameTableOffset, bool isAe, int maxW, int maxH)
+void FrameTableOffsetExists(u32 frameTableOffset, bool isAe, int maxW, int maxH)
 {
     for (const auto& entry : kBgAnimRecords)
     {
@@ -1912,7 +1912,7 @@ void FrameTableOffsetExists(int frameTableOffset, bool isAe, int maxW, int maxH)
     LOG_INFO("couldn't find AnimId for framtableoffset: " << frameTableOffset << " maxW " << maxW << " maxH " << maxH);
 }
 
-void FrameTableOffsetExists(int frameTableOffset, bool isAe)
+void FrameTableOffsetExists(u32 frameTableOffset, bool isAe)
 {
     for (const auto& entry : kAnimRecords)
     {
@@ -1953,7 +1953,7 @@ const PalRecord PalRec(PalId toFind)
     return PalRec(true, toFind);
 }
 
-static const BgAnimRecord BgAnimRec(bool isAe, s32 toFind)
+static const BgAnimRecord BgAnimRec(bool isAe, u32 toFind)
 {
     for (const CombinedBgAnimRecord& anim : kBgAnimRecords)
     {
