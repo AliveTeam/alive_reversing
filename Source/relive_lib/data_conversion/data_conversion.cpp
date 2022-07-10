@@ -15,31 +15,54 @@ constexpr u32 kDataVersion = 1;
 extern const CombinedAnimRecord kAnimRecords[915];
 extern const AnimDetails kNullAnimDetails;
 
-struct TgaHeader final
+
+
+
+class TgaFile final
 {
-    // Length of id string
-    u8 mIdLength = 0;
+public:
+    void Save(const char_type* pFileName, const u16* pal256, const std::vector<u8>& pixelData, u32 width, u32 height)
+    {
+        // The TGA header uses a var length id string which means we can't just use
+        // a struct to represent it since the alignment is not fixed until after this field.
+        AutoFILE f;
+        f.Open(pFileName, "wb", false);
 
-    // Id string - no present since always 0
+        u8 mIdLength = 0;
+        u8 mColourMapType = 1;  // Pal based TGA
+        u8 mImageType = 1;      // Pal based TGA
+        u8 pad = 0;
+        f.Write(mIdLength);
+        f.Write(mColourMapType);
+        f.Write(mImageType);
 
-    // Image storage info
-    u8 mColourMapType = 1;
-    u8 mImageType = 1;
+        // Colour Map
+        u16 mFirstEntry = 0;
+        u16 mNumEntries = 256;
+        u8 mBitsPerEntry = 16;
+        f.Write(mFirstEntry);
+        f.Write(mNumEntries);
+        f.Write(mBitsPerEntry);
 
-    // Colour Map
-    u16 mFirstEntry = 0;
-    u16 mNumEntries = 256;
-    u8 mBitsPerEntry = 16;
+        u16 mXOrigin = 0;
+        u16 mYOrigin = 0;
+        u16 mWidth = static_cast<u16>(width);
+        u16 mHeight = static_cast<u16>(height);
+        u8 mBitsPerPixel = 8;
+        u8 mDescriptor = 0;
+        f.Write(mXOrigin);
+        f.Write(mYOrigin);
+        f.Write(mWidth);
+        f.Write(mHeight);
+        f.Write(mBitsPerPixel);
+        f.Write(mDescriptor);
 
-    // Image description
-    u16 mXOrigin = 0;
-    u16 mYOrigin = 0;
-    u16 mWidth = 0;
-    u16 mHeight = 0;
-    u8 mBitsPerPixel = 8;
-    u8 mDescriptor = 0;
+        f.Write(reinterpret_cast<const u8*>(&pal256[0]), sizeof(u16) * 256);
+
+        // Write pixel data
+        f.Write(pixelData);
+    }
 };
-
 
 enum class EAnimGroup
 {
@@ -86,7 +109,17 @@ constexpr AnimRecNames kAnimRecNames[] = {
     {AnimId::Abe_Arm_Gib, "arm_gib"},
     {AnimId::Abe_Body_Gib, "body_gib"}
 };
-
+const char_type* AnimBaseName(AnimId id)
+{
+    for (auto& rec : kAnimRecNames)
+    {
+        if (rec.mAnimId == id)
+        {
+            return rec.mAnimName;
+        }
+    }
+    ALIVE_FATAL("No name in mapping table");
+}
 
 class AnimationConverter final
 {
@@ -98,9 +131,11 @@ public:
         const auto pAnimationFileHeader = reinterpret_cast<const AnimationFileHeader*>(&mFileData[kResHeaderSize]);
 
         // Get the CLUT/pal
+        u16 pal[256] = {};
         for (u32 i = 0; i < pAnimationFileHeader->mClutSize; i++)
         {
-            // pAnimationFileHeader->mClutData[i];
+            // TODO: Convert to the RGB format that TGA wants
+            pal[i] = pAnimationFileHeader->mClutData[i];
         }
 
         const auto pAnimationHeader = reinterpret_cast<const AnimationHeader*>(&mFileData[rec.mFrameTableOffset + kResHeaderSize]);
@@ -116,31 +151,10 @@ public:
             // 36x23 depth 8
             const FrameHeader* pFrameHeader = GetFrame(pAnimationHeader, i);
             DecompressAnimFrame(decompressionBuffer, pFrameHeader);
-            /*
-            if (i == 0)
-            {
-                TgaHeader tgaHeader;
-                tgaHeader.mWidth = pFrameHeader->field_4_width;
-                tgaHeader.mHeight = pFrameHeader->field_5_height; // TODO: Use converted
 
-                AutoFILE f;
-                f.Open("test.tga", "wb", false);
-
-                // Write header
-                f.Write(reinterpret_cast<const u8*>(&tgaHeader), sizeof(tgaHeader));
-
-                // Write pal
-                u16 pal[256] = {};
-                for (u32 j = 0; j < pAnimationFileHeader->mClutSize; j++)
-                {
-                    pal[j] = pAnimationFileHeader->mClutData[j];
-                }
-                f.Write(reinterpret_cast<const u8*>(&pal[0]), sizeof(pal));
-
-                // Write pixel data
-                f.Write(decompressionBuffer);
-                f.Close();
-            }*/
+            TgaFile tgaFile;
+            std::string fileName = AnimBaseName(rec.mId) + std::string("_") + std::to_string(i) + ".tga";
+            tgaFile.Save(fileName.c_str(), pal, decompressionBuffer, CalcImageWidth(pFrameHeader), pFrameHeader->field_5_height);
         }
     }
 
@@ -238,6 +252,39 @@ private:
             }
         }
         return width_bpp_adjusted;
+    }
+
+    u32 CalcImageWidth(const FrameHeader* pFrameHeader)
+    {
+        u32 width = CalcWidthAdjustedForBPP(pFrameHeader);
+        switch (pFrameHeader->field_6_colour_depth)
+        {
+            case 4:
+            {
+                // 4 bit divide by quarter
+                width *= 4;
+            }
+            break;
+
+            case 8:
+            {
+                // 8 bit, divided by half
+                width *= 2;
+            }
+            break;
+
+            case 16:
+            {
+                // Nothing to change
+            }
+            break;
+
+            default:
+            {
+                ALIVE_FATAL("Bad colour depth");
+            }
+        }
+        return width;
     }
 
     u32 CalcDecompressionBufferSize(const AnimRecord& rec, const AnimationFileHeader* animFileHeader, const FrameHeader* pFrameHeader)
