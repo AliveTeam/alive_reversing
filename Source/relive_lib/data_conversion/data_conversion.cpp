@@ -9,6 +9,7 @@
 #include "../Compression.hpp"
 #include "../MapWrapper.hpp"
 #include <vector>
+#include <algorithm>
 
 constexpr u32 kDataVersion = 1;
 
@@ -160,7 +161,22 @@ public:
 
             TgaFile tgaFile;
             std::string fileName = AnimBaseName(rec.mId) + std::string("_") + std::to_string(i) + ".tga";
-            tgaFile.Save(fileName.c_str(), pal, decompressionBuffer, CalcImageWidth(pFrameHeader), pFrameHeader->field_5_height);
+            const u32 imageWidth = CalcImageWidth(pFrameHeader);
+            const u32 originalWidth = pFrameHeader->field_4_width;
+            const u32 compressionPadding = std::abs(static_cast<s32>(originalWidth - imageWidth));
+            if (compressionPadding > 0)
+            {
+                // Set pixels to 0 on each row after originalWidth as they contain decompression artifacts
+                for (u32 x = originalWidth; x < imageWidth; x++)
+                {
+                    for (u32 y = 0; y < pFrameHeader->field_5_height; y++)
+                    {
+                        decompressionBuffer[(y * imageWidth) + x] = 0;
+                    }
+                }
+            }
+
+            tgaFile.Save(fileName.c_str(), pal, decompressionBuffer, imageWidth, pFrameHeader->field_5_height);
         }
     }
 
