@@ -34,7 +34,7 @@ BackgroundAnimation::BackgroundAnimation(Path_BackgroundAnimation* pTlv, s32 tlv
         return;
     }
 
-    auto pHeader = reinterpret_cast<AnimHeader*>(*field_E4_res);
+    auto pHeader = reinterpret_cast<AnimationFileHeader*>(*field_E4_res);
 
     // TODO: Refactor to use min/max
     auto xMax = pTlv->mTopLeft.x + pHeader->field_0_max_w;

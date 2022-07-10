@@ -14,13 +14,14 @@ const AnimRecord PerGameAnimRec(AnimId id);
 
 using TFrameCallBackType = s32(CC*)(BaseGameObject*, s16*);
 
-struct AnimHeader final
+struct AnimationFileHeader final
 {
     s16 field_0_max_w;
     s16 field_2_max_h;
-    s32 field_4_frame_table_offset;
+    u32 field_4_frame_table_offset;
+    u32 mClutSize;
+    u16 mClutData[1];
 };
-ALIVE_ASSERT_SIZEOF(AnimHeader, 0x8);
 
 
 struct AnimationHeader final
@@ -47,7 +48,6 @@ struct AnimationHeader final
 enum class CompressionType : u8
 {
     eType_0_NoCompression = 0,
-    eType_1_NotUsed = 1,
     eType_2_ThreeToFourBytes = 2,
     eType_3_RLE_Blocks = 3,
     eType_4_RLE = 4,
