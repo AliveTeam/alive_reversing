@@ -18,11 +18,16 @@ extern const AnimDetails kNullAnimDetails;
 
 
 
+struct AnimationPal final
+{
+    u16 mPal[256] = {};
+};
+
 
 class TgaFile final
 {
 public:
-    void Save(const char_type* pFileName, const u16* pal256, const std::vector<u8>& pixelData, u32 width, u32 height)
+    void Save(const char_type* pFileName, const AnimationPal& pal256, const std::vector<u8>& pixelData, u32 width, u32 height)
     {
         // The TGA header uses a var length id string which means we can't just use
         // a struct to represent it since the alignment is not fixed until after this field.
@@ -58,7 +63,7 @@ public:
         f.Write(mBitsPerPixel);
         f.Write(mDescriptor);
 
-        f.Write(reinterpret_cast<const u8*>(&pal256[0]), sizeof(u16) * 256);
+        f.Write(reinterpret_cast<const u8*>(&pal256.mPal[0]), sizeof(u16) * 256);
 
         // Write pixel data
         f.Write(pixelData);
@@ -98,7 +103,10 @@ struct AnimRecConversionInfo final
 
 AnimRecConversionInfo kAnimRecConversionInfo[] = {
     {AnimId::Abe_Arm_Gib, EAnimGroup::Abe, EReliveLevelIds::eMines, EReliveLevelIds::eRuptureFarms, false},
-    {AnimId::Abe_Body_Gib, EAnimGroup::Abe, EReliveLevelIds::eMines, EReliveLevelIds::eRuptureFarms, false}};
+    {AnimId::Abe_Body_Gib, EAnimGroup::Abe, EReliveLevelIds::eMines, EReliveLevelIds::eRuptureFarms, false},
+    {AnimId::Mudokon_StandingTurn, EAnimGroup::Abe, EReliveLevelIds::eMines, EReliveLevelIds::eRuptureFarms, false}
+
+};
 
 struct AnimRecNames final
 {
@@ -108,8 +116,11 @@ struct AnimRecNames final
 
 constexpr AnimRecNames kAnimRecNames[] = {
     {AnimId::Abe_Arm_Gib, "arm_gib"},
-    {AnimId::Abe_Body_Gib, "body_gib"}
+    {AnimId::Abe_Body_Gib, "body_gib"},
+    {AnimId::Mudokon_StandingTurn, "standing_turn"}
+
 };
+
 const char_type* AnimBaseName(AnimId id)
 {
     for (auto& rec : kAnimRecNames)
@@ -125,6 +136,12 @@ const char_type* AnimBaseName(AnimId id)
 class AnimationConverter final
 {
 public:
+    struct MaxWH final
+    {
+        u32 mMaxW = 0;
+        u32 mMaxH = 0;
+    };
+
     AnimationConverter(const AnimRecord& rec, const std::vector<u8>& fileData, bool isAoData)
         : mFileData(fileData)
         , mIsAoData(isAoData)
@@ -132,19 +149,10 @@ public:
         const auto pAnimationFileHeader = reinterpret_cast<const AnimationFileHeader*>(&mFileData[kResHeaderSize]);
 
         // Get the CLUT/pal
-        u16 pal[256] = {};
-        for (u32 i = 0; i < pAnimationFileHeader->mClutSize; i++)
-        {
-            const u8 r = pAnimationFileHeader->mClutData[i] & 31;
-            const u8 g = (pAnimationFileHeader->mClutData[i] >> 5) & 31;
-            const u8 b = (pAnimationFileHeader->mClutData[i] >> 10) & 31;
-            const u8 semiTrans = pAnimationFileHeader->mClutData[i] >> 15;
+        AnimationPal pal;
+        ConvertPalToTGAFormat(pAnimationFileHeader, pal);
 
-            //  color value: x[RRRRR][GG GGG][BBBBB] 1,5,5,5
-            const u16 pixel = (b) | (g << 5) | (r << 10) | (semiTrans << 15);
-            pal[i] = pixel;
-        }
-
+        // Get the animation for this record (each has its own frame table offset)
         const auto pAnimationHeader = reinterpret_cast<const AnimationHeader*>(&mFileData[rec.mFrameTableOffset + kResHeaderSize]);
 
         // Get the size required to decompres a single frame
@@ -152,41 +160,83 @@ public:
 
         std::vector<u8> decompressionBuffer(decompressionBufferSize);
 
+        // TODO: Handle 16 bit sprites
+        const MaxWH bestMaxSize = CalcMaxWH(pAnimationHeader);
+
+        const u32 sheetWidth = bestMaxSize.mMaxW * pAnimationHeader->field_2_num_frames;
+        std::vector<u8> spriteSheetBuffer(sheetWidth * bestMaxSize.mMaxH);
+
         // Add each frame
         for (s32 i = 0; i < pAnimationHeader->field_2_num_frames; i++)
         {
-            // 36x23 depth 8
             const FrameHeader* pFrameHeader = GetFrame(pAnimationHeader, i);
             DecompressAnimFrame(decompressionBuffer, pFrameHeader);
 
-            TgaFile tgaFile;
-            std::string fileName = AnimBaseName(rec.mId) + std::string("_") + std::to_string(i) + ".tga";
+            // Add frame to the sprite sheet
             const u32 imageWidth = CalcImageWidth(pFrameHeader);
-            const u32 originalWidth = pFrameHeader->field_4_width;
-            const u32 compressionPadding = std::abs(static_cast<s32>(originalWidth - imageWidth));
-            if (compressionPadding > 0)
+            for (u32 x = 0; x < pFrameHeader->field_4_width; x++)
             {
-                // Set pixels to 0 on each row after originalWidth as they contain decompression artifacts
-                for (u32 x = originalWidth; x < imageWidth; x++)
+                for (u32 y = 0; y < pFrameHeader->field_5_height; y++)
                 {
-                    for (u32 y = 0; y < pFrameHeader->field_5_height; y++)
-                    {
-                        decompressionBuffer[(y * imageWidth) + x] = 0;
-                    }
+                    spriteSheetBuffer[(y * sheetWidth) + (x + (bestMaxSize.mMaxW * i))] = decompressionBuffer[(y * imageWidth) + x];
                 }
             }
 
-            tgaFile.Save(fileName.c_str(), pal, decompressionBuffer, imageWidth, pFrameHeader->field_5_height);
+            // Clear because the buffer is re-used to reduce memory allocs
+            memset(decompressionBuffer.data(), 0, decompressionBuffer.size());
         }
+
+        TgaFile tgaFile;
+        std::string fileName = std::string(AnimBaseName(rec.mId)) + ".tga";
+
+        tgaFile.Save(fileName.c_str(), pal, spriteSheetBuffer, sheetWidth, bestMaxSize.mMaxH);
     }
 
 private:
+
+    // Calc the max width and height because the ones in the header are often way too big for some reason
+    // at least for a single animation in a BAN file
+    MaxWH CalcMaxWH(const AnimationHeader* pAnimationHeader)
+    {
+        MaxWH maxSize;
+        for (s32 i = 0; i < pAnimationHeader->field_2_num_frames; i++)
+        {
+            const FrameHeader* pFrameHeader = GetFrame(pAnimationHeader, i);
+            if (pFrameHeader->field_4_width > maxSize.mMaxW)
+            {
+                maxSize.mMaxW = pFrameHeader->field_4_width;
+            }
+
+            if (pFrameHeader->field_5_height > maxSize.mMaxH)
+            {
+                maxSize.mMaxH = pFrameHeader->field_5_height;
+            }
+        }
+        return maxSize;
+    }
+
+    void ConvertPalToTGAFormat(const AnimationFileHeader* pAnimationFileHeader, AnimationPal& pal)
+    {
+        for (u32 i = 0; i < pAnimationFileHeader->mClutSize; i++)
+        {
+            const u8 r = pAnimationFileHeader->mClutData[i] & 31;
+            const u8 g = (pAnimationFileHeader->mClutData[i] >> 5) & 31;
+            const u8 b = (pAnimationFileHeader->mClutData[i] >> 10) & 31;
+            const u8 semiTrans = (pAnimationFileHeader->mClutData[i] >> 15) & 1;
+
+            //  color value: x[RRRRR][GG GGG][BBBBB] 1,5,5,5
+            const u16 pixel = (b) | (g << 5) | (r << 10) | (semiTrans << 15);
+            pal.mPal[i] = pixel;
+        }
+    }
+
     void DecompressAnimFrame(std::vector<u8>& decompressionBuffer, const FrameHeader* pFrameHeader)
     {
         switch (pFrameHeader->field_7_compression_type)
         {
             case CompressionType::eType_0_NoCompression:
                 // reinterpret_cast<const u8*>(&pFrameHeader->field_8_width2)
+                ALIVE_FATAL("todo");
                 break;
 
             case CompressionType::eType_2_ThreeToFourBytes:
@@ -197,6 +247,7 @@ private:
                     width_bpp_adjusted * pFrameHeader->field_5_height * 2);
                 // AnimFlagsToBitDepth(mFlags)
                 */
+                ALIVE_FATAL("todo");
                 break;
 
             case CompressionType::eType_3_RLE_Blocks:
@@ -219,11 +270,13 @@ private:
 
             case CompressionType::eType_4_RLE:
             case CompressionType::eType_5_RLE:
+                ALIVE_FATAL("todo");
                 // CompressionType_4Or5_Decompress_4ABAB0(reinterpret_cast<const u8*>(&pFrameHeader->field_8_width2), *mDbuf);
                 // renderer.Upload(AnimFlagsToBitDepth(mFlags), vram_rect, *mDbuf);
                 break;
 
             case CompressionType::eType_6_RLE:
+                ALIVE_FATAL("todo");
                 // CompressionType6Ae_Decompress_40A8A0(reinterpret_cast<const u8*>(&pFrameHeader->field_8_width2), *mDbuf);
                 // renderer.Upload(AnimFlagsToBitDepth(mFlags), vram_rect, *mDbuf);
                 break;
@@ -237,6 +290,21 @@ private:
                 LOG_ERROR("Unknown compression type " << static_cast<s32>(pFrameHeader->field_7_compression_type));
                 ALIVE_FATAL("Unknown compression type");
                 break;
+        }
+
+        const u32 imageWidth = CalcImageWidth(pFrameHeader);
+        const u32 originalWidth = pFrameHeader->field_4_width;
+        const u32 compressionPadding = std::abs(static_cast<s32>(originalWidth - imageWidth));
+        if (compressionPadding > 0)
+        {
+            // Set pixels to 0 on each row after originalWidth as they contain decompression artifacts
+            for (u32 x = originalWidth; x < imageWidth; x++)
+            {
+                for (u32 y = 0; y < pFrameHeader->field_5_height; y++)
+                {
+                    decompressionBuffer[(y * imageWidth) + x] = 0;
+                }
+            }
         }
     }
 
