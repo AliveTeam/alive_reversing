@@ -61,7 +61,24 @@ public:
 
     void CreateDirectory(const Path& path)
     {
-        // NOTE: Creates the last part of the dir only
+        std::string dirPart;
+
+        std::string fullPath = path.GetPath();
+
+        auto dirPos = fullPath.find_first_of(kDirSeperator);
+        do
+        {
+            if (dirPos != std::string::npos)
+            {
+                dirPart = dirPart + fullPath.substr(0, dirPos);
+                ::CreateDirectoryA(dirPart.c_str(), nullptr);
+                dirPart.append(1, kDirSeperator);
+                fullPath = fullPath.substr(dirPos + 1);
+                dirPos = fullPath.find_first_of(kDirSeperator);
+            }
+        }
+        while (dirPos != std::string::npos);
+
         ::CreateDirectoryA(path.GetPath().c_str(), nullptr);
     }
 

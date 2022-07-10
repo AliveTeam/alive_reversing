@@ -142,7 +142,7 @@ public:
         u32 mMaxH = 0;
     };
 
-    AnimationConverter(const AnimRecord& rec, const std::vector<u8>& fileData, bool isAoData)
+    AnimationConverter(const FileSystem::Path& outputFile, const AnimRecord& rec, const std::vector<u8>& fileData, bool isAoData)
         : mFileData(fileData)
         , mIsAoData(isAoData)
     {
@@ -187,9 +187,7 @@ public:
         }
 
         TgaFile tgaFile;
-        std::string fileName = std::string(AnimBaseName(rec.mId)) + ".tga";
-
-        tgaFile.Save(fileName.c_str(), pal, spriteSheetBuffer, sheetWidth, bestMaxSize.mMaxH);
+        tgaFile.Save(outputFile.GetPath().c_str(), pal, spriteSheetBuffer, sheetWidth, bestMaxSize.mMaxH);
     }
 
 private:
@@ -491,7 +489,6 @@ void DataConversion::ConvertData()
 
     FileSystem::Path dataDir;
     dataDir.Append("relive_data");
-    fs.CreateDirectory(dataDir);
     dataDir.Append("ao");
     fs.CreateDirectory(dataDir);
 
@@ -514,19 +511,21 @@ void DataConversion::ConvertData()
                 if (!rec.mConverted && rec.mAoLvl == reliveLvl)
                 {
                     FileSystem::Path filePath;
-                    filePath.Append("relive_data").Append("ao").Append(ToString(lvlIdxAsLvl));
-                    fs.CreateDirectory(filePath);
+                    filePath.Append("relive_data").Append("ao").Append("animations");
 
                     // e.g "abe"
                     filePath.Append(ToString(rec.mGroup));
 
-                    // e.g "arm_gib"
-                    filePath.Append(AnimRecName(rec.mAnimId));
+                    // Ensure the containing directory exists
+                    fs.CreateDirectory(filePath);
 
                     const auto& animDetails = AO::AnimRec(rec.mAnimId);
 
+                    // e.g "arm_gib" + ".tga"
+                    filePath.Append(std::string(AnimBaseName(rec.mAnimId)) + ".tga");
+
                     ReadLvlFileInto(archive, animDetails.mBanName, fileBuffer);
-                    AnimationConverter animationConverter(animDetails, fileBuffer, true);
+                    AnimationConverter animationConverter(filePath, animDetails, fileBuffer, true);
 
                     // Track what is converted so we know what is missing at the end
                     rec.mConverted = true;
