@@ -225,7 +225,7 @@ void TimedMine::StickToLiftPoint()
                         if (FP_GetExponent(mXPos) > bRect.x && FP_GetExponent(mXPos) < bRect.w && FP_GetExponent(mYPos) < bRect.h)
                         {
                             pLiftPoint->VAdd(this);
-                            BaseAliveGameObject_PlatformId = pObj->field_8_object_id;
+                            BaseAliveGameObject_PlatformId = pObj->mBaseGameObjectId;
                             return;
                         }
                     }

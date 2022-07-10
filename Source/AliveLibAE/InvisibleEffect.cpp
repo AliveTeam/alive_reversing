@@ -16,7 +16,7 @@ InvisibleEffect::InvisibleEffect(BaseAliveGameObject* pTarget)
 {
      SetType(ReliveTypes::eInvisibleEffect);
 
-    field_44_objId = pTarget->field_8_object_id;
+    field_44_objId = pTarget->mBaseGameObjectId;
 
     field_24_pPal1 = relive_new u16[pTarget->mAnim.mPalDepth];
     Pal_Copy(

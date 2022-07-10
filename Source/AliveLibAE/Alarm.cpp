@@ -52,7 +52,7 @@ Alarm::Alarm(s32 durationOffset, s32 switchId, s32 timerOffset, Layer layer)
     }
     else
     {
-        sAlarmObjId_550D70 = field_8_object_id;
+        sAlarmObjId_550D70 = mBaseGameObjectId;
     }
 
     mEffectBaseRed = 0;
@@ -67,7 +67,7 @@ Alarm::~Alarm()
         alarmInstanceCount_5C1BB4--;
     }
 
-    if (sAlarmObjId_550D70 == field_8_object_id)
+    if (sAlarmObjId_550D70 == mBaseGameObjectId)
     {
         sAlarmObjId_550D70 = -1;
     }
@@ -126,7 +126,7 @@ void Alarm::VUpdate()
             }
             else
             {
-                sAlarmObjId_550D70 = field_8_object_id;
+                sAlarmObjId_550D70 = mBaseGameObjectId;
             }
 
             mAlarmState = States::eEnabling_2;

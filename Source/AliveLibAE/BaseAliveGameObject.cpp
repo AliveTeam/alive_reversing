@@ -432,7 +432,7 @@ BaseAliveGameObject* BaseAliveGameObject::GetStackedSlapTarget(s32 idToFind, Rel
 
         if (pObj->Type() == typeToFind && pObj != this)
         {
-            if (pObj->field_8_object_id == idToFind)
+            if (pObj->mBaseGameObjectId == idToFind)
             {
                 // So that we pick the one AFTER this
                 bFound = TRUE;
@@ -659,6 +659,6 @@ s16 BaseAliveGameObject::OnTrapDoorIntersection(PlatformBase* pPlatform)
 
     pPlatform->VAdd(this);
 
-    BaseAliveGameObject_PlatformId = pPlatform->field_8_object_id;
+    BaseAliveGameObject_PlatformId = pPlatform->mBaseGameObjectId;
     return 1;
 }

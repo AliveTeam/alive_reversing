@@ -567,7 +567,7 @@ MainMenuController::MainMenuController(Path_TLV* /*pTlv*/, TlvItemInfoUnion tlvO
 #if DEVELOPER_MODE
         if (gBootToLoadScreen)
         {
-            // So we don't have to wait all year for abe to say hello
+            // So we don't have to wait all year for abe to mSay hello
             field_23C_T80.Clear(Flags::eBit17_bDisableChangingSelection);
         }
 #endif
@@ -995,7 +995,7 @@ MainMenuNextCam MainMenuController::ScrabSpeak_Update_4D3A60(u32 input_held)
                                             Set_Anim_4D05E0(MainMenuGamespeakAnimIds::eScrab_Howl);
                                             break;
                                         case InputCommands::Enum::eGameSpeak3:
-                                            break; // Scrabs don't have much to say.
+                                            break; // Scrabs don't have much to mSay.
                                         case InputCommands::Enum::eGameSpeak4:
                                             break;
                                         case InputCommands::Enum::eGameSpeak5:
@@ -1065,7 +1065,7 @@ MainMenuNextCam MainMenuController::ParamiteSpeak_Update_4D3D60(u32 input_held)
                                             Set_Anim_4D05E0(MainMenuGamespeakAnimIds::eParamite_AllAYa);
                                             break;
                                         case InputCommands::Enum::eGameSpeak7:
-                                            break; // Paramites don't have as much to say.
+                                            break; // Paramites don't have as much to mSay.
                                         case InputCommands::Enum::eGameSpeak8:
                                             break;
                                         case InputCommands::Enum::eBack:

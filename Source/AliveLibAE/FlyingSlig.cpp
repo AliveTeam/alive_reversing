@@ -327,7 +327,7 @@ s32 FlyingSlig::CreateFromSaveState(const u8* pBuffer)
         pFlyingSlig->mVelY = pSaveState->field_10_vely;
 
         pFlyingSlig->mCurrentPath = pSaveState->field_14_path_number;
-        pFlyingSlig->mCurrentLevel = MapWrapper::FromAE(pSaveState->field_16_lvl_number);
+        pFlyingSlig->mCurrentLevel = MapWrapper::FromAESaveData(pSaveState->field_16_lvl_number);
         pFlyingSlig->mSpriteScale = pSaveState->field_18_sprite_scale;
 
         pFlyingSlig->field_27C_r = pSaveState->field_1C_oldr;
@@ -414,8 +414,7 @@ s32 FlyingSlig::CreateFromSaveState(const u8* pBuffer)
         pFlyingSlig->SetBrain(sFlyingSligBrainTable[pSaveState->field_90_fns1_idx]);
         pFlyingSlig->field_1E8_unused = pSaveState->field_98_unused;
 
-        pFlyingSlig->field_2A0_abe_level = pFlyingSlig->mCurrentLevel; // always the same but set to junk in OG saves when using path skip cheat
-        //pFlyingSlig->field_2A0_abe_level = MapWrapper::FromAE(pSaveState->field_9A_abe_level);
+        pFlyingSlig->field_2A0_abe_level = MapWrapper::FromAESaveData(pSaveState->field_9A_abe_level);
         pFlyingSlig->field_2A2_abe_path = pSaveState->field_9C_abe_path;
         pFlyingSlig->field_2A4_abe_camera = pSaveState->field_9E_abe_camera;
 
@@ -619,7 +618,7 @@ void FlyingSlig::VUpdate()
 
                 if (pObj->mBaseGameObjectTlvInfo == field_158_obj_id)
                 {
-                    field_158_obj_id = pObj->field_8_object_id;
+                    field_158_obj_id = pObj->mBaseGameObjectId;
                     break;
                 }
             }
@@ -3280,7 +3279,7 @@ s16 FlyingSlig::TryPullLever_439DB0()
                 }
 
                 field_1CC_lever_pull_range_ypos = pAliveObj->mYPos - (FP_FromInteger(23) * mSpriteScale);
-                field_158_obj_id = pAliveObj->field_8_object_id;
+                field_158_obj_id = pAliveObj->mBaseGameObjectId;
                 PullLever_436450();
                 return TRUE;
             }

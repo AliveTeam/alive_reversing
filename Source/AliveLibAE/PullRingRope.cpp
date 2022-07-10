@@ -78,7 +78,7 @@ PullRingRope::PullRingRope(Path_PullRingRope* pTlv, s32 tlvInfo)
                               mSpriteScale);
     if (pRope)
     {
-        field_F8_rope_id = pRope->field_8_object_id;
+        field_F8_rope_id = pRope->mBaseGameObjectId;
         pRope->mYPos = FP_NoFractional(mYPos - (mSpriteScale * FP_FromInteger(16)));
     }
 
@@ -245,7 +245,7 @@ s16 PullRingRope::VPull(BaseGameObject* pObj)
         return 0;
     }
 
-    field_FC_ring_puller_id = pObj->field_8_object_id;
+    field_FC_ring_puller_id = pObj->mBaseGameObjectId;
     field_100_state = States::eBeingPulled_1;
     mVelY = FP_FromInteger(2) * mSpriteScale;
     field_F4_stay_in_state_ticks = 6;

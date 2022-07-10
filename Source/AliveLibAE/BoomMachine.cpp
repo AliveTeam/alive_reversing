@@ -154,7 +154,7 @@ BoomMachine::BoomMachine(Path_BoomMachine* pTlv, s32 tlvInfo)
     if (pNozzle)
     {
         pNozzle->mAnim.mFlags.Set(AnimFlags::eBit5_FlipX, pTlv->field_12_nozzle_side == Path_BoomMachine::NozzleSide::eLeft_1);
-        field_F8_nozzle_id = pNozzle->field_8_object_id;
+        field_F8_nozzle_id = pNozzle->mBaseGameObjectId;
     }
 
     if (gpThrowableArray && gpThrowableArray->field_20_count)

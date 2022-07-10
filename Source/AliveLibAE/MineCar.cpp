@@ -151,7 +151,7 @@ s32 MineCar::CreateFromSaveState(const u8* pBuffer)
         pMineCar->mVelY = pState->field_10_vely;
 
         pMineCar->mCurrentPath = pState->field_18_path_number;
-        pMineCar->mCurrentLevel = MapWrapper::FromAE(pState->field_1A_lvl_number);
+        pMineCar->mCurrentLevel = MapWrapper::FromAESaveData(pState->field_1A_lvl_number);
 
         pMineCar->mSpriteScale = pState->field_14_sprite_scale;
 

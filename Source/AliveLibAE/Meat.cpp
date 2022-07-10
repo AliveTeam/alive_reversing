@@ -459,7 +459,7 @@ s32 Meat::CreateFromSaveState(const u8* pBuffer)
     pMeat->mVelY = pState->field_14_vely;
 
     pMeat->mCurrentPath = pState->field_1C_path_number;
-    pMeat->mCurrentLevel = MapWrapper::FromAE(pState->field_1E_lvl_number);
+    pMeat->mCurrentLevel = MapWrapper::FromAESaveData(pState->field_1E_lvl_number);
 
     pMeat->mSpriteScale = pState->field_18_sprite_scale;
 

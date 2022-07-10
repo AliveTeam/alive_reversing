@@ -115,7 +115,7 @@ s32 EvilFart::CreateFromSaveState(const u8* pBuffer)
     pFart->mVelY = pState->field_18_vely;
 
     pFart->mCurrentPath = pState->field_8_path_number;
-    pFart->mCurrentLevel = MapWrapper::FromAE(pState->field_A_lvl_number);
+    pFart->mCurrentLevel = MapWrapper::FromAESaveData(pState->field_A_lvl_number);
     pFart->mSpriteScale = pState->field_1C_sprite_scale;
 
     pFart->mRGB.SetRGB(pState->field_2_r, pState->field_4_g, pState->field_6_b);
@@ -131,7 +131,7 @@ s32 EvilFart::CreateFromSaveState(const u8* pBuffer)
         pFart->mAnim.mFlags.Set(AnimFlags::eBit18_IsLastFrame);
     }
 
-    pFart->field_120_level = MapWrapper::FromAE(pState->field_26_level);
+    pFart->field_120_level = MapWrapper::FromAESaveData(pState->field_26_level);
     pFart->field_11E_path = pState->field_28_path;
     pFart->field_122_camera = pState->field_2A_camera;
     pFart->field_118_bBlowUp = pState->field_2C.Get(EvilFart_State::eBit2_bBlowUp);

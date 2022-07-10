@@ -606,7 +606,7 @@ s32 Slig::VGetSaveState(u8* pSaveBuffer)
             if (pObj->Type() == ReliveTypes::eElectrocute)
             {
                 auto pElectrocute = static_cast<Electrocute*>(pObj);
-                if (pElectrocute->field_20_target_obj_id == field_8_object_id)
+                if (pElectrocute->field_20_target_obj_id == mBaseGameObjectId)
                 {
                     pState->field_1E_r = pElectrocute->field_24_r;
                     pState->field_20_g = pElectrocute->field_26_g;
@@ -774,7 +774,7 @@ s32 Slig::CreateFromSaveState(const u8* pBuffer)
         pSlig->mVelX = pState->field_C_velx;
         pSlig->mVelY = pState->field_10_vely;
         pSlig->mCurrentPath = pState->field_14_path_number;
-        pSlig->mCurrentLevel = MapWrapper::FromAE(pState->field_16_lvl_number);
+        pSlig->mCurrentLevel = MapWrapper::FromAESaveData(pState->field_16_lvl_number);
         pSlig->mSpriteScale = pState->field_18_sprite_scale;
 
         if (pSlig->mSpriteScale == FP_FromInteger(1))
@@ -840,8 +840,7 @@ s32 Slig::CreateFromSaveState(const u8* pBuffer)
         pSlig->field_142_unused = pState->field_6E_unused;
         pSlig->field_144_unused = pState->field_70_unused;
 
-        pSlig->field_146_return_level = pSlig->mCurrentLevel; // always the same but set to junk in OG saves when using path skip cheat
-        //pSlig->field_146_return_level = MapWrapper::FromAE(pState->field_72_return_level);
+        pSlig->field_146_return_level = MapWrapper::FromAESaveData(pState->field_72_return_level);
         pSlig->field_148_return_path = pState->field_74_return_path;
         pSlig->field_14A_return_camera = pState->field_76_return_camera;
 
@@ -4135,7 +4134,7 @@ s16 Slig::Brain_GetAlerted_23_4BEC40()
                     pNoisySlig = static_cast<BaseAliveGameObject*>(EventGet(kEventSpeaking));
                 }
 
-                // Then say what, stop walking to respond or try to kill them.
+                // Then mSay what, stop walking to respond or try to kill them.
                 if (pNoisySlig && gMap.Is_Point_In_Current_Camera(pNoisySlig->mCurrentLevel, pNoisySlig->mCurrentPath, pNoisySlig->mXPos, pNoisySlig->mYPos, 0) && (pNoisySlig == sControlledCharacter || pNoisySlig->Type() != ReliveTypes::eSlig) && !VIsFacingMe(pNoisySlig) && gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0) && !EventGet(kEventResetting))
                 {
                     TurnOrSayWhat_4BEBC0();
@@ -4596,7 +4595,7 @@ void Slig::Init()
                             pGlukkon->mYPos,
                             0))
                     {
-                        field_208_glukkon_obj_id = pGlukkon->field_8_object_id;
+                        field_208_glukkon_obj_id = pGlukkon->mBaseGameObjectId;
                         sSligsUnderControlCount_BAF7E8++;
                         field_216_flags.Set(Flags_216::eBit1_FollowGlukkon);
                         SetBrain(&Slig::Brain_ListeningToGlukkon_4_4B9D20);
@@ -5771,7 +5770,7 @@ s16 Slig::ListenToGlukkonCommands_4B95D0()
 
     sSligsUnderControlCount_BAF7E8++;
 
-    field_208_glukkon_obj_id = sControlledCharacter->field_8_object_id;
+    field_208_glukkon_obj_id = sControlledCharacter->mBaseGameObjectId;
 
     if (glukkonSpeak == GameSpeakEvents::Glukkon_AllOYa_40)
     {

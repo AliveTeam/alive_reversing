@@ -757,7 +757,7 @@ s32 Mudokon::CreateFromSaveState(const u8* pBuffer)
         pMud->field_138_unused = pState->field_48_unused;
 
         pMud->mCurrentPath = pState->field_14_path_number;
-        pMud->mCurrentLevel = MapWrapper::FromAE(pState->field_16_lvl_number);
+        pMud->mCurrentLevel = MapWrapper::FromAESaveData(pState->field_16_lvl_number);
         pMud->mSpriteScale = pState->field_18_sprite_scale;
 
         pMud->mRGB.SetRGB(pState->field_1C_r, pState->field_1E_g, pState->field_20_b);
@@ -1037,7 +1037,7 @@ void Mudokon::VUpdate()
 
                 if (pObj->mBaseGameObjectTlvInfo == field_11C_bird_portal_id)
                 {
-                    field_11C_bird_portal_id = pObj->field_8_object_id;
+                    field_11C_bird_portal_id = pObj->mBaseGameObjectId;
                     sGoingToBirdPortalMudCount_5C3012++;
                     field_16C_flags.Set(Flags_16C::eBit3_Unknown);
                     if (field_18E_brain_state == Mud_Brain_State::Brain_6_Escape && field_190_brain_sub_state == 3)
@@ -1062,7 +1062,7 @@ void Mudokon::VUpdate()
 
                 if (pObj->mBaseGameObjectTlvInfo == field_158_wheel_id)
                 {
-                    field_158_wheel_id = pObj->field_8_object_id;
+                    field_158_wheel_id = pObj->mBaseGameObjectId;
                     static_cast<WorkWheel*>(pObj)->VStartTurning();
                     break;
                 }
@@ -1289,14 +1289,14 @@ Mudokon::~Mudokon()
     {
         if (field_164_ring_pulse_interval > 0)
         {
-            sActiveHero->field_168_ring_pulse_timer = sGnFrame + field_164_ring_pulse_interval;
+            sActiveHero->mRingPulseTimer = sGnFrame + field_164_ring_pulse_interval;
         }
         else
         {
-            sActiveHero->field_168_ring_pulse_timer = sGnFrame + 200000;
+            sActiveHero->mRingPulseTimer = sGnFrame + 200000;
         }
 
-        sActiveHero->field_16C_bHaveShrykull = FALSE;
+        sActiveHero->mHaveShrykull = FALSE;
 
         if (field_168_ring_type == RingTypes::eHealing_Emit_Effect_11)
         {
@@ -1824,7 +1824,7 @@ s16 Mudokon::Brain_0_GiveRings()
                 field_194_timer = sGnFrame + 60;
                 mNextMotion = eMudMotions::Motion_0_Idle;
 
-                if (sActiveHero->field_168_ring_pulse_timer)
+                if (sActiveHero->mRingPulseTimer)
                 {
                     field_16C_flags.Set(Flags_16C::eBit1_Unknown);
                     return Brain_0_GiveRings::eBrain0_Idle_2;
@@ -1852,7 +1852,7 @@ s16 Mudokon::Brain_0_GiveRings()
 
         case Brain_0_GiveRings::eBrain0_Idle_2:
             if (field_16A_flags.Get(Flags_16A::eBit16_give_ring_without_password) && gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0) && gMap.Is_Point_In_Current_Camera(sActiveHero->mCurrentLevel, sActiveHero->mCurrentPath, sActiveHero->mXPos, sActiveHero->mYPos, 0)
-                && !sActiveHero->field_168_ring_pulse_timer)
+                && !sActiveHero->mRingPulseTimer)
             {
                 field_194_timer = MudResponseDelay() + sGnFrame + 20;
                 return Brain_0_GiveRings::eBrain0_SaysOkay_6;
@@ -1893,7 +1893,7 @@ s16 Mudokon::Brain_0_GiveRings()
             {
                 if (VIsFacingMe(sActiveHero))
                 {
-                    if (sActiveHero->field_168_ring_pulse_timer > 0)
+                    if (sActiveHero->mRingPulseTimer > 0)
                     {
                         MudEmotionSound(MudSounds::eHelloNeutral_3);
                     }
@@ -1936,7 +1936,7 @@ s16 Mudokon::Brain_0_GiveRings()
         case Brain_0_GiveRings::eBrain0_SaysOkay_6:
             if (mCurrentMotion == eMudMotions::Motion_0_Idle)
             {
-                if (sActiveHero->field_168_ring_pulse_timer <= 0)
+                if (sActiveHero->mRingPulseTimer <= 0)
                 {
                     mNextMotion = eMudMotions::Motion_50_Chant;
                     field_194_timer = sGnFrame + 30;
@@ -2010,14 +2010,14 @@ s16 Mudokon::Brain_0_GiveRings()
             {
                 if (field_164_ring_pulse_interval > 0)
                 {
-                    sActiveHero->field_168_ring_pulse_timer = sGnFrame + field_164_ring_pulse_interval;
+                    sActiveHero->mRingPulseTimer = sGnFrame + field_164_ring_pulse_interval;
                 }
                 else
                 {
-                    sActiveHero->field_168_ring_pulse_timer = sGnFrame + 200000;
+                    sActiveHero->mRingPulseTimer = sGnFrame + 200000;
                 }
 
-                sActiveHero->field_16C_bHaveShrykull = FALSE;
+                sActiveHero->mHaveShrykull = FALSE;
 
                 if (field_168_ring_type == RingTypes::eHealing_Emit_Effect_11)
                 {
@@ -3693,7 +3693,7 @@ s16 Mudokon::Brain_ListeningToAbe_State_4()
 
                                     while (!(v35->field_16A_flags.Get(Flags_16A::eBit7_stopped_at_wheel)) && v35->mCurrentMotion != eMudMotions::Motion_58_TurnWheelLoop)
                                     {
-                                        v35 = static_cast<Mudokon*>(GetStackedSlapTarget(v35->field_8_object_id, ReliveTypes::eMudokon, mXPos, mYPos - FP_FromInteger(5)));
+                                        v35 = static_cast<Mudokon*>(GetStackedSlapTarget(v35->mBaseGameObjectId, ReliveTypes::eMudokon, mXPos, mYPos - FP_FromInteger(5)));
                                         if (!v35)
                                         {
                                             return BrainStartWheelTurning();
@@ -4243,7 +4243,7 @@ s16 Mudokon::Brain_ListeningToAbe_State_7()
 
                     while (!(v35->field_16A_flags.Get(Flags_16A::eBit7_stopped_at_wheel)) && v35->mCurrentMotion != eMudMotions::Motion_58_TurnWheelLoop)
                     {
-                        v35 = static_cast<Mudokon*>(GetStackedSlapTarget(v35->field_8_object_id, ReliveTypes::eMudokon, mXPos, mYPos - FP_FromInteger(5)));
+                        v35 = static_cast<Mudokon*>(GetStackedSlapTarget(v35->mBaseGameObjectId, ReliveTypes::eMudokon, mXPos, mYPos - FP_FromInteger(5)));
                         if (!v35)
                         {
                             return BrainStartWheelTurning();
@@ -5355,10 +5355,10 @@ s16 Mudokon::Brain_9_Sick()
     // Have Abe make a sad noise when he first sees sick Mudokons.
     if (!field_16A_flags.Get(Flags_16A::eBit9_seen_while_sick) && gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0))
     {
-        if (sActiveHero->field_128.field_18_say == MudSounds::eNone)
+        if (sActiveHero->field_128.mSay == MudSounds::eNone)
         {
-            sActiveHero->field_128.field_18_say = MudSounds::eSadUgh_28;
-            sActiveHero->field_144_auto_say_timer = sGnFrame + 10;
+            sActiveHero->field_128.mSay = MudSounds::eSadUgh_28;
+            sActiveHero->mAutoSayTimer = sGnFrame + 10;
         }
         field_16A_flags.Set(Flags_16A::eBit9_seen_while_sick);
     }
@@ -6814,7 +6814,7 @@ void Mudokon::Motion_57_TurnWheelBegin()
         if (pWheel)
         {
             pWheel->VStartTurning();
-            field_158_wheel_id = pWheel->field_8_object_id;
+            field_158_wheel_id = pWheel->mBaseGameObjectId;
         }
         mCurrentMotion = eMudMotions::Motion_58_TurnWheelLoop;
     }
@@ -6889,7 +6889,7 @@ s16 Mudokon::FindBirdPortal()
                     if (pOpenPortal->mPortalType == PortalType::eWorker_1 || pOpenPortal->mPortalType == PortalType::eShrykull_2)
                     {
                         sActiveHero->ChangeChantState_45BB90(1);
-                        field_11C_bird_portal_id = pOpenPortal->field_8_object_id;
+                        field_11C_bird_portal_id = pOpenPortal->mBaseGameObjectId;
                         sGoingToBirdPortalMudCount_5C3012++;
                         field_16C_flags.Set(Flags_16C::eBit3_Unknown);
                         return 1;
@@ -6912,7 +6912,7 @@ s16 Mudokon::FindBirdPortal()
                     if (pPortal20->mPortalType == PortalType::eWorker_1 || pPortal20->mPortalType == PortalType::eShrykull_2)
                     {
                         sActiveHero->ChangeChantState_45BB90(1);
-                        field_11C_bird_portal_id = pPortal20->field_8_object_id;
+                        field_11C_bird_portal_id = pPortal20->mBaseGameObjectId;
 
                         sGoingToBirdPortalMudCount_5C3012++;
                         field_16C_flags.Set(Flags_16C::eBit3_Unknown);

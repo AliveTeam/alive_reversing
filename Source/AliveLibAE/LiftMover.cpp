@@ -82,7 +82,7 @@ void LiftMover::VUpdate()
 
                     if (pLift)
                     {
-                        field_28_lift_id = pLift->field_8_object_id;
+                        field_28_lift_id = pLift->mBaseGameObjectId;
                         field_30_state = LiftMoverStates::eStartMovingDown_1;
                     }
                 }
@@ -226,7 +226,7 @@ LiftPoint* LiftMover::GetLiftPoint()
             LiftPoint* pLift = static_cast<LiftPoint*>(pObj);
             if (field_22_target_lift_point_id == pLift->field_278_lift_point_id)
             {
-                field_28_lift_id = pObj->field_8_object_id;
+                field_28_lift_id = pObj->mBaseGameObjectId;
                 return pLift;
             }
         }

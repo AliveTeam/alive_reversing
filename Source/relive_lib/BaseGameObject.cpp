@@ -45,7 +45,7 @@ BaseGameObject::BaseGameObject(s16 bAddToObjectList, s16 resourceArraySize)
 
     s32 nextId = sObjectIds.EnsureIdIsUnique(sAccumulatedObjectCount_5C1BF4);
     mBaseGameObjectTlvInfo = nextId;
-    field_8_object_id = nextId;
+    mBaseGameObjectId = nextId;
     sObjectIds.Insert(nextId, this);
 
     sAccumulatedObjectCount_5C1BF4 = ++nextId;
@@ -63,7 +63,7 @@ BaseGameObject::~BaseGameObject()
         }
     }
 
-    sObjectIds.Remove(field_8_object_id);
+    sObjectIds.Remove(mBaseGameObjectId);
 }
 
 void BaseGameObject::VUpdate()
@@ -958,7 +958,7 @@ s32 BaseGameObject::RefreshId(s32 objectId)
 
             if (pObj->mBaseGameObjectTlvInfo == objectId)
             {
-                return pObj->field_8_object_id;
+                return pObj->mBaseGameObjectId;
             }
         }
     }

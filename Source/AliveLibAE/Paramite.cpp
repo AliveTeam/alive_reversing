@@ -281,7 +281,7 @@ s32 Paramite::CreateFromSaveState(const u8* pBuffer)
 
     pParamite->field_13C_velx_offset = pState->field_64_velx_offset;
     pParamite->mCurrentPath = pState->field_14_path_number;
-    pParamite->mCurrentLevel = MapWrapper::FromAE(pState->field_16_lvl_number);
+    pParamite->mCurrentLevel = MapWrapper::FromAESaveData(pState->field_16_lvl_number);
     pParamite->mSpriteScale = pState->field_18_sprite_scale;
 
     pParamite->mRGB.SetRGB(pState->field_1C_r, pState->field_1E_g, pState->field_20_b);
@@ -325,8 +325,7 @@ s32 Paramite::CreateFromSaveState(const u8* pBuffer)
     pParamite->field_140_tlvInfo = pState->field_3C_tlvInfo;
     pParamite->field_148_timer = pState->field_68_timer;
 
-    pParamite->field_14E_return_level = pParamite->mCurrentLevel; // always the same but set to junk in OG saves when using path skip cheat
-    //pParamite->field_14E_return_level = MapWrapper::FromAE(pState->field_6C_return_level);
+    pParamite->field_14E_return_level = MapWrapper::FromAESaveData(pState->field_6C_return_level);
     pParamite->field_150_return_path = pState->field_6E_return_path;
     pParamite->field_152_return_camera = pState->field_70_return_camera;
 
@@ -690,7 +689,7 @@ s16 Paramite::Brain_Patrol_State_12_Idle(BaseAliveGameObject* pObj)
     if (pMeat)
     {
         SetBrain(&Paramite::Brain_5_SpottedMeat_486880);
-        field_118_meat_id = pMeat->field_8_object_id;
+        field_118_meat_id = pMeat->mBaseGameObjectId;
         return ParamiteEnums::Brain_5_SpottedMeat::eBrain5_Idle_0;
     }
 
@@ -1018,7 +1017,7 @@ s16 Paramite::Brain_Patrol_State_8_StuckToWall(BaseAliveGameObject* pObj)
     if (pMeat)
     {
         SetBrain(&Paramite::Brain_5_SpottedMeat_486880);
-        field_118_meat_id = pMeat->field_8_object_id;
+        field_118_meat_id = pMeat->mBaseGameObjectId;
         return ParamiteEnums::Brain_5_SpottedMeat::eBrain5_Idle_0;
     }
 
@@ -1077,7 +1076,7 @@ s16 Paramite::Brain_Patrol_State_1_IdleForAbe(BaseAliveGameObject* pObj)
     if (pFoundMeat)
     {
         SetBrain(&Paramite::Brain_5_SpottedMeat_486880);
-        field_118_meat_id = pFoundMeat->field_8_object_id;
+        field_118_meat_id = pFoundMeat->mBaseGameObjectId;
         return ParamiteEnums::Brain_5_SpottedMeat::eBrain5_Idle_0;
     }
 
@@ -1973,7 +1972,7 @@ s16 Paramite::Brain_3_SurpriseWeb_4851B0()
                 auto pNewWeb = relive_new ParamiteWeb(mXPos, FP_GetExponent(mYPos) - 20, FP_GetExponent(mYPos) - 10, mSpriteScale);
                 if (pNewWeb)
                 {
-                    field_11C_web_id = pNewWeb->field_8_object_id;
+                    field_11C_web_id = pNewWeb->mBaseGameObjectId;
                 }
                 return ParamiteEnums::Brain_3_SurpriseWeb::eBrain3_StartAnimation_2;
             }
@@ -2934,7 +2933,7 @@ s16 Paramite::Brain_9_ParamiteSpawn_48ED80()
                                                     mSpriteScale);
                     if (pWeb)
                     {
-                        field_11C_web_id = pWeb->field_8_object_id;
+                        field_11C_web_id = pWeb->mBaseGameObjectId;
                     }
                     field_12C_brain_ret = ParamiteEnums::Brain_9_ParamiteSpawn::eBrain9_DescendLoop1_4;
                 }
@@ -2978,7 +2977,7 @@ s16 Paramite::Brain_9_ParamiteSpawn_48ED80()
                                                     mSpriteScale);
                     if (pWeb)
                     {
-                        field_11C_web_id = pWeb->field_8_object_id;
+                        field_11C_web_id = pWeb->mBaseGameObjectId;
                     }
                     field_12C_brain_ret = ParamiteEnums::Brain_9_ParamiteSpawn::eBrain9_DescendLoop1_4;
                 }
@@ -3874,7 +3873,7 @@ void Paramite::M_JumpUpMidair_13_48BAF0()
             if (pRope->VPull(this))
             {
                 mCurrentMotion = eParamiteMotions::M_RopePull_15_48D930;
-                field_124_pull_ring_rope_id = pRope->field_8_object_id;
+                field_124_pull_ring_rope_id = pRope->mBaseGameObjectId;
                 mNextMotion = eParamiteMotions::M_Idle_0_489FB0;
                 return;
             }
@@ -5047,7 +5046,7 @@ void Paramite::VUpdate()
                                             mSpriteScale);
             if (pWeb)
             {
-                field_11C_web_id = pWeb->field_8_object_id;
+                field_11C_web_id = pWeb->mBaseGameObjectId;
             }
         }
     }
@@ -5390,14 +5389,14 @@ s16 Paramite::VTakeDamage(BaseGameObject* pFrom)
             }
             if (sControlledCharacter != this)
             {
-                if (field_120_obj_id == -1 || field_120_obj_id == sActiveHero->field_8_object_id)
+                if (field_120_obj_id == -1 || field_120_obj_id == sActiveHero->mBaseGameObjectId)
                 {
                     if (BrainIs(&Paramite::Brain_0_Patrol_4835B0) || BrainIs(&Paramite::Brain_8_ControlledByGameSpeak_48DFC0))
                     {
                         SetBrain(&Paramite::Brain_2_ChasingAbe_4859D0);
                         field_12C_brain_ret = 0;
                         field_148_timer = sGnFrame + field_144_group_chase_delay;
-                        field_120_obj_id = pFrom->field_8_object_id;
+                        field_120_obj_id = pFrom->mBaseGameObjectId;
                     }
                 }
             }
@@ -5860,14 +5859,14 @@ s16 Paramite::FindTarget()
 
         if (pBestTarget)
         {
-            field_120_obj_id = pBestTarget->field_8_object_id;
+            field_120_obj_id = pBestTarget->mBaseGameObjectId;
             return 1;
         }
     }
 
     if (VOnSameYLevel(sActiveHero) && !sActiveHero->mBaseAliveGameObjectFlags.Get(Flags_114::e114_Bit8_bInvisible) && mSpriteScale == sActiveHero->mSpriteScale && !WallHit((sActiveHero->mSpriteScale * FP_FromInteger(20)), sActiveHero->mXPos - mXPos))
     {
-        field_120_obj_id = sActiveHero->field_8_object_id;
+        field_120_obj_id = sActiveHero->mBaseGameObjectId;
         return 1;
     }
     else

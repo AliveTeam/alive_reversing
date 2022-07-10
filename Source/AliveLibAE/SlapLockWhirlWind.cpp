@@ -66,7 +66,7 @@ SlapLockWhirlWind::SlapLockWhirlWind(s16 doorNumber, s16 switchId, FP xpos, FP y
         auto pWhirlWind = relive_new OrbWhirlWind(xpos, ypos, scale, 1);
         if (pWhirlWind)
         {
-            field_38_orb_whirlwind_id = pWhirlWind->field_8_object_id;
+            field_38_orb_whirlwind_id = pWhirlWind->mBaseGameObjectId;
         }
         field_3C_state = 0;
         field_40_timer = sGnFrame + 70;

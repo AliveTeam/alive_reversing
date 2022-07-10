@@ -128,7 +128,7 @@ void Teleporter::VUpdate()
             }
 
             field_30_state = TeleporterState::eIntoTeleporter_1;
-            field_50_objId = Teleporter::Create_ElectrocuteEffect()->field_8_object_id;
+            field_50_objId = Teleporter::Create_ElectrocuteEffect()->mBaseGameObjectId;
 
             SFX_Play_Pitch(SoundEffect::Zap1_49, 60, -400);
             sControlledCharacter->mBaseAliveGameObjectFlags.Set(Flags_114::e114_Bit10_Teleporting);

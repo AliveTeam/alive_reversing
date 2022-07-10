@@ -153,7 +153,7 @@ void SecurityOrb::VUpdate()
 
             if (EventGet(kEventAbeOhm))
             {
-                if (!sActiveHero->field_168_ring_pulse_timer || !sActiveHero->field_16C_bHaveShrykull || sActiveHero->mSpriteScale != FP_FromInteger(1))
+                if (!sActiveHero->mRingPulseTimer || !sActiveHero->mHaveShrykull || sActiveHero->mSpriteScale != FP_FromInteger(1))
                 {
                     mState = States::eDoZapEffects_1;
                     mTimer = sGnFrame + 20;

@@ -105,7 +105,7 @@ void GameEnderController::VUpdate()
 
         case GameEnderController_States::eDetermineEnding_1:
         {
-            auto pBirdPortal = static_cast<BirdPortal*>(sObjectIds.Find_Impl(sActiveHero->field_1A8_portal_id));
+            auto pBirdPortal = static_cast<BirdPortal*>(sObjectIds.Find_Impl(sActiveHero->mBirdPortalId));
             if (pBirdPortal)
             {
                 if (pBirdPortal->mState == BirdPortal::PortalStates::CollapseTerminators_10)
