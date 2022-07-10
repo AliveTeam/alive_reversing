@@ -49,7 +49,7 @@ public:
         u16 mWidth = static_cast<u16>(width);
         u16 mHeight = static_cast<u16>(height);
         u8 mBitsPerPixel = 8;
-        u8 mDescriptor = 0;
+        u8 mDescriptor = 0x20; // 0x30
         f.Write(mXOrigin);
         f.Write(mYOrigin);
         f.Write(mWidth);
@@ -134,8 +134,14 @@ public:
         u16 pal[256] = {};
         for (u32 i = 0; i < pAnimationFileHeader->mClutSize; i++)
         {
-            // TODO: Convert to the RGB format that TGA wants
-            pal[i] = pAnimationFileHeader->mClutData[i];
+            const u8 r = pAnimationFileHeader->mClutData[i] & 31;
+            const u8 g = (pAnimationFileHeader->mClutData[i] >> 5) & 31;
+            const u8 b = (pAnimationFileHeader->mClutData[i] >> 10) & 31;
+            const u8 semiTrans = pAnimationFileHeader->mClutData[i] >> 15;
+
+            //  color value: x[RRRRR][GG GGG][BBBBB] 1,5,5,5
+            const u16 pixel = (b) | (g << 5) | (r << 10) | (semiTrans << 15);
+            pal[i] = pixel;
         }
 
         const auto pAnimationHeader = reinterpret_cast<const AnimationHeader*>(&mFileData[rec.mFrameTableOffset + kResHeaderSize]);
