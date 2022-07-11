@@ -7,7 +7,7 @@
 #include "Math.hpp"
 #include "Sfx.hpp"
 #include "Abe.hpp"
-#include "Events.hpp"
+#include "../relive_lib/Events.hpp"
 #include "Game.hpp"
 
 namespace AO {

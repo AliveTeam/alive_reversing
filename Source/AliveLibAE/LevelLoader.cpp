@@ -1,10 +1,10 @@
 #include "stdafx.h"
 #include "LevelLoader.hpp"
 #include "Function.hpp"
-#include "Events.hpp"
+#include "../relive_lib/Events.hpp"
 #include "SwitchStates.hpp"
 #include "DeathFadeOut.hpp"
-#include "ObjectIds.hpp"
+#include "../relive_lib/ObjectIds.hpp"
 #include "Map.hpp"
 #include "stdlib.hpp"
 

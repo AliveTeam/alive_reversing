@@ -2,12 +2,12 @@
 #include "DeathGas.hpp"
 #include "Function.hpp"
 #include "Game.hpp"
-#include "Events.hpp"
+#include "../relive_lib/Events.hpp"
 #include "stdlib.hpp"
 #include "Map.hpp"
 #include "Abe.hpp"
-#include "PsxDisplay.hpp"
-#include "ScreenManager.hpp"
+#include "../relive_lib/PsxDisplay.hpp"
+#include "../relive_lib/ScreenManager.hpp"
 
 struct Data_FP final
 {

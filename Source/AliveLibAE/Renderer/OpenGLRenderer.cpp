@@ -2,8 +2,8 @@
 
 #include "OpenGLRenderer.hpp"
 #include "Compression.hpp"
-#include "VRam.hpp"
-#include "Primitives.hpp"
+#include "../relive_lib/VRam.hpp"
+#include "../relive_lib/Primitives.hpp"
 #include "StbImageImplementation.hpp"
 
 #define GL_TO_IMGUI_TEX(v) *reinterpret_cast<ImTextureID*>(&v)

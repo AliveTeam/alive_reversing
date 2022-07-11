@@ -7,13 +7,13 @@
 #include "stdlib.hpp"
 #include "Abe.hpp"
 #include "Game.hpp"
-#include "PsxDisplay.hpp"
-#include "ScreenManager.hpp"
-#include "Events.hpp"
+#include "../relive_lib/PsxDisplay.hpp"
+#include "../relive_lib/ScreenManager.hpp"
+#include "../relive_lib/Events.hpp"
 #include "Math.hpp"
 #include "CameraSwapper.hpp"
 #include "Sfx.hpp"
-#include "Collisions.hpp"
+#include "../relive_lib/Collisions.hpp"
 #include <algorithm>
 
 #undef max

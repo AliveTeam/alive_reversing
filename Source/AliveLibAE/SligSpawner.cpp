@@ -3,9 +3,9 @@
 #include "Function.hpp"
 #include "Slig.hpp"
 #include "stdlib.hpp"
-#include "Events.hpp"
+#include "../relive_lib/Events.hpp"
 #include "Sfx.hpp"
-#include "ObjectIds.hpp"
+#include "../relive_lib/ObjectIds.hpp"
 #include "SwitchStates.hpp"
 
 SligSpawner::SligSpawner(Path_Slig* pTlv, s32 tlvInfo)

@@ -5,9 +5,9 @@
 #include "Game.hpp"
 #include "stdlib.hpp"
 #include "Map.hpp"
-#include "ScreenManager.hpp"
-#include "PsxDisplay.hpp"
-#include "Primitives.hpp"
+#include "../relive_lib/ScreenManager.hpp"
+#include "../relive_lib/PsxDisplay.hpp"
+#include "../relive_lib/Primitives.hpp"
 #include "Math.hpp"
 
 void Forcelink_ScreenWave()

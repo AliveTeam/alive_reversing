@@ -2,9 +2,9 @@
 
 #include "../AliveLibCommon/Function.hpp"
 #include "../relive_lib/BaseGameObject.hpp"
-#include "Primitives.hpp"
+#include "../relive_lib/Primitives.hpp"
 #include "FixedPoint.hpp"
-#include "Layer.hpp"
+#include "../relive_lib/Layer.hpp"
 
 namespace AO {
 

@@ -2,7 +2,7 @@
 
 #include "Sfx.hpp"
 #include "../relive_lib/BaseGameObject.hpp"
-#include "Primitives.hpp"
+#include "../relive_lib/Primitives.hpp"
 
 struct MainMenuTransition_Polys final
 {

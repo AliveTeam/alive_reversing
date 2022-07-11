@@ -1,10 +1,10 @@
 #pragma once
 
 #include "../AliveLibCommon/Function.hpp"
-#include "Primitives.hpp"
+#include "../relive_lib/Primitives.hpp"
 #include "BaseAnimatedWithPhysicsGameObject.hpp"
 #include "FixedPoint.hpp"
-#include "Layer.hpp"
+#include "../relive_lib/Layer.hpp"
 
 namespace AO {
 

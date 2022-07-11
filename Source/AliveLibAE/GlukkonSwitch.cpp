@@ -4,7 +4,7 @@
 #include "Game.hpp"
 #include "stdlib.hpp"
 #include "Abe.hpp"
-#include "Events.hpp"
+#include "../relive_lib/Events.hpp"
 #include "Sound/Midi.hpp"
 #include "Glukkon.hpp"
 #include "Sfx.hpp"

@@ -4,9 +4,9 @@
 #include "Function.hpp"
 #include "ThrowableArray.hpp"
 #include "stdlib.hpp"
-#include "Shadow.hpp"
+#include "../relive_lib/Shadow.hpp"
 #include "Sfx.hpp"
-#include "Events.hpp"
+#include "../relive_lib/Events.hpp"
 #include "Abe.hpp"
 
 RockSack::RockSack(Path_RockSack* pTlv, s32 tlvInfo)

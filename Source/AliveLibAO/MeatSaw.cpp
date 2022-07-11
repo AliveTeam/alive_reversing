@@ -4,14 +4,14 @@
 #include "ResourceManager.hpp"
 #include "SwitchStates.hpp"
 #include "stdlib.hpp"
-#include "Shadow.hpp"
+#include "../relive_lib/Shadow.hpp"
 #include "Abe.hpp"
 #include "Game.hpp"
 #include "Sfx.hpp"
-#include "Events.hpp"
+#include "../relive_lib/Events.hpp"
 #include "Math.hpp"
 #include "Blood.hpp"
-#include "ScreenManager.hpp"
+#include "../relive_lib/ScreenManager.hpp"
 
 namespace AO {
 

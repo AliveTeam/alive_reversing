@@ -10,7 +10,7 @@
 #include "Spark.hpp"
 #include "Sfx.hpp"
 #include "Particle.hpp"
-#include "ScreenManager.hpp"
+#include "../relive_lib/ScreenManager.hpp"
 #include "Grid.hpp"
 
 Bullet::Bullet(BaseAliveGameObject* pParent, BulletType type, FP xpos, FP ypos, FP xDist, s32 unused, FP scale, s32 numberOfBullets)

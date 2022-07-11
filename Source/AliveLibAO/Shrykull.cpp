@@ -6,7 +6,7 @@
 #include "ResourceManager.hpp"
 #include "Abe.hpp"
 #include "ZapLine.hpp"
-#include "Shadow.hpp"
+#include "../relive_lib/Shadow.hpp"
 #include "Sfx.hpp"
 #include "PossessionFlicker.hpp"
 #include "ParticleBurst.hpp"

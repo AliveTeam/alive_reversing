@@ -1,12 +1,12 @@
 #include "stdafx_ao.h"
 #include "Function.hpp"
 #include "ScreenShake.hpp"
-#include "Events.hpp"
+#include "../relive_lib/Events.hpp"
 #include "Game.hpp"
 #include "stdlib.hpp"
-#include "PsxDisplay.hpp"
+#include "../relive_lib/PsxDisplay.hpp"
 #include "../relive_lib/Primitives.hpp"
-#include "ScreenManager.hpp"
+#include "../relive_lib/ScreenManager.hpp"
 #include "PsxRender.hpp"
 
 namespace AO {

@@ -6,7 +6,7 @@
 #include "Grenade.hpp"
 #include "Rock.hpp"
 #include "Meat.hpp"
-#include "Collisions.hpp"
+#include "../relive_lib/Collisions.hpp"
 #include "Game.hpp"
 #include "PlatformBase.hpp"
 

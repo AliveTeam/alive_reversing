@@ -3,7 +3,7 @@
 #include "Function.hpp"
 #include "stdlib.hpp"
 #include "DebugHelpers.hpp"
-#include "Events.hpp"
+#include "../relive_lib/Events.hpp"
 #include "Game.hpp"
 #include "MainMenu.hpp"
 #include "Map.hpp"

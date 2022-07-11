@@ -6,7 +6,7 @@
 #include "ResourceManager.hpp"
 #include "stdlib.hpp"
 #include "Map.hpp"
-#include "ScreenManager.hpp"
+#include "../relive_lib/ScreenManager.hpp"
 
 const static AnimId HoistRocksAnimIdTable[4] = 
 {AnimId::HoistRock1,

@@ -6,7 +6,7 @@
 #include "BeeSwarm.hpp"
 #include "stdlib.hpp"
 #include "Abe.hpp"
-#include "Collisions.hpp"
+#include "../relive_lib/Collisions.hpp"
 
 namespace AO {
 

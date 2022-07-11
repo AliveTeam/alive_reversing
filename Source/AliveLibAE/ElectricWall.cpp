@@ -2,7 +2,7 @@
 #include "ElectricWall.hpp"
 #include "SwitchStates.hpp"
 #include "stdlib.hpp"
-#include "Events.hpp"
+#include "../relive_lib/Events.hpp"
 #include "Sfx.hpp"
 #include "Game.hpp"
 #include "BaseAliveGameObject.hpp"

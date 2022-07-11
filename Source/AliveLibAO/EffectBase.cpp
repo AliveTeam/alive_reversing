@@ -1,12 +1,12 @@
 #include "stdafx_ao.h"
 #include "EffectBase.hpp"
 #include "Function.hpp"
-#include "DynamicArray.hpp"
+#include "../relive_lib/DynamicArray.hpp"
 #include "Map.hpp"
 #include "Game.hpp"
 #include "stdlib.hpp"
-#include "ScreenManager.hpp"
-#include "PsxDisplay.hpp"
+#include "../relive_lib/ScreenManager.hpp"
+#include "../relive_lib/PsxDisplay.hpp"
 
 namespace AO {
 

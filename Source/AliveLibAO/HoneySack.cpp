@@ -6,10 +6,10 @@
 #include "stdlib.hpp"
 #include "BeeSwarm.hpp"
 #include "HoneyDrip.hpp"
-#include "Events.hpp"
+#include "../relive_lib/Events.hpp"
 #include "Abe.hpp"
 #include "Sfx.hpp"
-#include "Collisions.hpp"
+#include "../relive_lib/Collisions.hpp"
 
 namespace AO {
 

@@ -1,10 +1,10 @@
 #include "stdafx.h"
 #include "Rope.hpp"
 #include "Function.hpp"
-#include "PsxDisplay.hpp"
+#include "../relive_lib/PsxDisplay.hpp"
 #include "../relive_lib/Animation.hpp"
 #include "stdlib.hpp"
-#include "ScreenManager.hpp"
+#include "../relive_lib/ScreenManager.hpp"
 #include "ShadowZone.hpp"
 
 const TintEntry kRopeTints_55FD68[18] = {

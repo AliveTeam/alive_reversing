@@ -8,9 +8,9 @@
 #include "Math.hpp"
 #include "Map.hpp"
 #include "Sfx.hpp"
-#include "ScreenManager.hpp"
+#include "../relive_lib/ScreenManager.hpp"
 #include "CameraSwapper.hpp"
-#include "PsxDisplay.hpp"
+#include "../relive_lib/PsxDisplay.hpp"
 #include "../relive_lib/AnimationUnknown.hpp"
 
 namespace AO {

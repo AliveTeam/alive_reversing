@@ -3,7 +3,7 @@
 #include "SwitchStateBooleanLogic.hpp"
 #include "SwitchStates.hpp"
 #include "stdlib.hpp"
-#include "Events.hpp"
+#include "../relive_lib/Events.hpp"
 
 namespace AO {
 

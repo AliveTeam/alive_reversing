@@ -3,11 +3,11 @@
 #include "TrapDoor.hpp"
 #include "stdlib.hpp"
 #include "ResourceManager.hpp"
-#include "Events.hpp"
+#include "../relive_lib/Events.hpp"
 #include "Sfx.hpp"
 #include "SwitchStates.hpp"
 #include "Game.hpp"
-#include "Collisions.hpp"
+#include "../relive_lib/Collisions.hpp"
 
 namespace AO {
 

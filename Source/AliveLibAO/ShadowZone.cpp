@@ -3,7 +3,7 @@
 #include "ShadowZone.hpp"
 #include "stdlib.hpp"
 #include "FixedPoint.hpp"
-#include "Events.hpp"
+#include "../relive_lib/Events.hpp"
 
 namespace AO {
 

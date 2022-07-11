@@ -5,14 +5,14 @@
 #include "Function.hpp"
 #include "Map.hpp"
 #include "PathData.hpp"
-#include "PsxDisplay.hpp"
-#include "ScreenManager.hpp"
+#include "../relive_lib/PsxDisplay.hpp"
+#include "../relive_lib/ScreenManager.hpp"
 #include "ResourceManager.hpp"
 #include "Font.hpp"
 #include "DDCheat.hpp"
 #include "Resources.hpp"
 #include "SwitchStates.hpp"
-#include "Events.hpp"
+#include "../relive_lib/Events.hpp"
 #include "MainMenu.hpp"
 #include "Sound/Midi.hpp"
 #include "Sfx.hpp"
@@ -1179,8 +1179,8 @@ private:
     Poly_F_Test mPoly_F_Test;
 };
 
-#include "ScreenManager.hpp"
-#include "VRam.hpp"
+#include "../relive_lib/ScreenManager.hpp"
+#include "../relive_lib/VRam.hpp"
 
 static u16 RGB888toRGB565(u32 r, u32 g, u32 b)
 {

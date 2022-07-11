@@ -3,8 +3,8 @@
 #include "Function.hpp"
 #include "Game.hpp"
 #include "Map.hpp"
-#include "ScreenManager.hpp"
-#include "PsxDisplay.hpp"
+#include "../relive_lib/ScreenManager.hpp"
+#include "../relive_lib/PsxDisplay.hpp"
 #include "stdlib.hpp"
 
 EffectBase::EffectBase(Layer layer, TPageAbr abr)

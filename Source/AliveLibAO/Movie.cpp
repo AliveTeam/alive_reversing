@@ -7,7 +7,7 @@
 #include "PSXMDECDecoder.h"
 #include "Masher.hpp"
 #include "../AliveLibAE/Io.hpp"
-#include "bmp.hpp"
+#include "../relive_lib/bmp.hpp"
 #include "Sys.hpp"
 #include "../AliveLibAE/Psx.hpp"
 #include "../AliveLibAE/VGA.hpp"

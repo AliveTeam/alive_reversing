@@ -3,7 +3,7 @@
 #include "ZBall.hpp"
 #include "ResourceManager.hpp"
 #include "stdlib.hpp"
-#include "Events.hpp"
+#include "../relive_lib/Events.hpp"
 #include "Sfx.hpp"
 #include "BaseAliveGameObject.hpp"
 #include "AnimationCallBacks.hpp"

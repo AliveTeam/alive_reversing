@@ -10,6 +10,7 @@
 #include "../MapWrapper.hpp"
 #include <vector>
 #include <algorithm>
+#include "nlohmann/json.hpp"
 
 constexpr u32 kDataVersion = 1;
 
@@ -37,7 +38,7 @@ public:
         u8 mIdLength = 0;
         u8 mColourMapType = 1;  // Pal based TGA
         u8 mImageType = 1;      // Pal based TGA
-        u8 pad = 0;
+
         f.Write(mIdLength);
         f.Write(mColourMapType);
         f.Write(mImageType);
@@ -156,7 +157,7 @@ public:
         const auto pAnimationHeader = reinterpret_cast<const AnimationHeader*>(&mFileData[rec.mFrameTableOffset + kResHeaderSize]);
 
         // Get the size required to decompres a single frame
-        const u32 decompressionBufferSize = CalcDecompressionBufferSize(rec, pAnimationFileHeader, GetFrame(pAnimationHeader, 0));
+        const u32 decompressionBufferSize = CalcDecompressionBufferSize(rec, GetFrame(pAnimationHeader, 0));
 
         std::vector<u8> decompressionBuffer(decompressionBufferSize);
 
@@ -187,7 +188,9 @@ public:
         }
 
         TgaFile tgaFile;
-        tgaFile.Save(outputFile.GetPath().c_str(), pal, spriteSheetBuffer, sheetWidth, bestMaxSize.mMaxH);
+        tgaFile.Save((outputFile.GetPath() + ".tga").c_str(), pal, spriteSheetBuffer, sheetWidth, bestMaxSize.mMaxH);
+
+
     }
 
 private:
@@ -375,7 +378,7 @@ private:
         return width;
     }
 
-    u32 CalcDecompressionBufferSize(const AnimRecord& rec, const AnimationFileHeader* animFileHeader, const FrameHeader* pFrameHeader)
+    u32 CalcDecompressionBufferSize(const AnimRecord& rec, const FrameHeader* pFrameHeader)
     {
         u32 decompression_width = 0;
         switch (pFrameHeader->field_6_colour_depth)
@@ -521,8 +524,8 @@ void DataConversion::ConvertData()
 
                     const auto& animDetails = AO::AnimRec(rec.mAnimId);
 
-                    // e.g "arm_gib" + ".tga"
-                    filePath.Append(std::string(AnimBaseName(rec.mAnimId)) + ".tga");
+                    // e.g "arm_gib"
+                    filePath.Append(AnimBaseName(rec.mAnimId));
 
                     ReadLvlFileInto(archive, animDetails.mBanName, fileBuffer);
                     AnimationConverter animationConverter(filePath, animDetails, fileBuffer, true);
@@ -555,6 +558,7 @@ void DataConversion::ConvertData()
         else
         {
             // Fatal, missing LVL file
+            ALIVE_FATAL("Couldn't open lvl file");
         }
     }
 }

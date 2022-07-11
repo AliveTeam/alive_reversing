@@ -5,10 +5,10 @@
 #include "ResourceManager.hpp"
 #include "Math.hpp"
 #include "Game.hpp"
-#include "Events.hpp"
+#include "../relive_lib/Events.hpp"
 #include "CameraSwapper.hpp"
-#include "PsxDisplay.hpp"
-#include "ScreenManager.hpp"
+#include "../relive_lib/PsxDisplay.hpp"
+#include "../relive_lib/ScreenManager.hpp"
 #include "Sfx.hpp"
 #include "../relive_lib/Primitives.hpp"
 

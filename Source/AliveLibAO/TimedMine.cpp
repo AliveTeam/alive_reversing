@@ -6,10 +6,10 @@
 #include "stdlib.hpp"
 #include "LiftPoint.hpp"
 #include "BaseBomb.hpp"
-#include "ScreenManager.hpp"
-#include "Events.hpp"
+#include "../relive_lib/ScreenManager.hpp"
+#include "../relive_lib/Events.hpp"
 #include "Sfx.hpp"
-#include "Collisions.hpp"
+#include "../relive_lib/Collisions.hpp"
 
 namespace AO {
 

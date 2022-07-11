@@ -3,7 +3,7 @@
 #include "MusicTrigger.hpp"
 #include "SwitchStates.hpp"
 #include "stdlib.hpp"
-#include "Events.hpp"
+#include "../relive_lib/Events.hpp"
 #include "MusicController.hpp"
 #include "Game.hpp"
 

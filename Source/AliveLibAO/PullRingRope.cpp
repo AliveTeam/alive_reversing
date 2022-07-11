@@ -6,7 +6,7 @@
 #include "Sfx.hpp"
 #include "BaseAliveGameObject.hpp"
 #include "Rope.hpp"
-#include "Events.hpp"
+#include "../relive_lib/Events.hpp"
 
 namespace AO {
 

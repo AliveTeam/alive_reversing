@@ -7,7 +7,7 @@
 #include "Spark.hpp"
 #include "Sfx.hpp"
 #include "Particle.hpp"
-#include "Collisions.hpp"
+#include "../relive_lib/Collisions.hpp"
 #include "Elum.hpp"
 #include "Math.hpp"
 #include "ZapSpark.hpp"

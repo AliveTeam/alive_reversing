@@ -54,20 +54,22 @@ SET(relive_lib_src
 
 add_library(relive_lib ${relive_lib_src})
 
-target_include_directories(AliveLibAE PUBLIC
-    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
+target_include_directories(relive_lib PUBLIC
+    $<BUILD_INTERFACE:
+    ${CMAKE_CURRENT_SOURCE_DIR}
+    ${CMAKE_CURRENT_SOURCE_DIR}/../../3rdParty/json/single_include>
     $<INSTALL_INTERFACE:include>
     PRIVATE src ${CMAKE_BINARY_DIR})
 
-target_compile_definitions(AliveLibAE PRIVATE "_CRT_SECURE_NO_WARNINGS")
-target_compile_definitions(AliveLibAE PRIVATE "BEHAVIOUR_CHANGE_FORCE_WINDOW_MODE")
-target_compile_definitions(AliveLibAE PRIVATE "BEHAVIOUR_CHANGE_SUB_DATA_FOLDERS")
+target_compile_definitions(relive_lib PRIVATE "_CRT_SECURE_NO_WARNINGS")
+target_compile_definitions(relive_lib PRIVATE "BEHAVIOUR_CHANGE_FORCE_WINDOW_MODE")
+target_compile_definitions(relive_lib PRIVATE "BEHAVIOUR_CHANGE_SUB_DATA_FOLDERS")
 
 if (MSVC)
-    target_compile_options(AliveLibAE PRIVATE /W4 /wd4996 /WX /MP)
+    target_compile_options(relive_lib PRIVATE /W4 /wd4996 /WX /MP)
 endif()
 
-target_compile_features(AliveLibAE
+target_compile_features(relive_lib
     PRIVATE cxx_strong_enums
     PRIVATE cxx_static_assert
     PRIVATE cxx_lambdas

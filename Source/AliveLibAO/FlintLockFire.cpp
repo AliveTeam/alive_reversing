@@ -5,11 +5,11 @@
 #include "stdlib.hpp"
 #include "SwitchStates.hpp"
 #include "Game.hpp"
-#include "Events.hpp"
+#include "../relive_lib/Events.hpp"
 #include "MusicTrigger.hpp"
 #include "Sfx.hpp"
 #include "Midi.hpp"
-#include "ScreenManager.hpp"
+#include "../relive_lib/ScreenManager.hpp"
 #include "ShadowZone.hpp"
 
 namespace AO {

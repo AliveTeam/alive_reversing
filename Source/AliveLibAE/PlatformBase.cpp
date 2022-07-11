@@ -2,7 +2,7 @@
 #include "PlatformBase.hpp"
 #include "Function.hpp"
 #include "Path.hpp"
-#include "Collisions.hpp"
+#include "../relive_lib/Collisions.hpp"
 #include "Game.hpp"
 #include "stdlib.hpp"
 

@@ -6,7 +6,7 @@
 #include "ParticleBurst.hpp"
 #include "ScreenShake.hpp"
 #include "Midi.hpp"
-#include "Events.hpp"
+#include "../relive_lib/Events.hpp"
 #include "Flash.hpp"
 #include "Particle.hpp"
 #include "BaseAliveGameObject.hpp"

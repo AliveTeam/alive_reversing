@@ -6,8 +6,8 @@
 #include "ResourceManager.hpp"
 #include "SwitchStates.hpp"
 #include "Leaf.hpp"
-#include "Events.hpp"
-#include "PsxDisplay.hpp"
+#include "../relive_lib/Events.hpp"
+#include "../relive_lib/PsxDisplay.hpp"
 #include "DDCheat.hpp"
 
 namespace AO {

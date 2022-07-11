@@ -2,7 +2,7 @@
 #include "Leaf.hpp"
 #include "Function.hpp"
 #include "Sfx.hpp"
-#include "Collisions.hpp"
+#include "../relive_lib/Collisions.hpp"
 #include "stdlib.hpp"
 
 ALIVE_VAR(1, 0x563aa4, u8, sLeafRandIdx_563AA4, 8);

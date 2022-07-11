@@ -5,7 +5,7 @@
 #include "Game.hpp"
 #include "stdlib.hpp"
 #include "Map.hpp"
-#include "Events.hpp"
+#include "../relive_lib/Events.hpp"
 
 TimerTrigger::TimerTrigger(Path_TimerTrigger* pTlv, s32 tlvInfo)
     : BaseGameObject(TRUE, 0)

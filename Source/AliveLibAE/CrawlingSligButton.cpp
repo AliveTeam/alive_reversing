@@ -4,7 +4,7 @@
 #include "Function.hpp"
 #include "stdlib.hpp"
 #include "SwitchStates.hpp"
-#include "Events.hpp"
+#include "../relive_lib/Events.hpp"
 
 // TODO: Check this is correct
 const SfxDefinition buttonSfxInfo_544488[8] = {

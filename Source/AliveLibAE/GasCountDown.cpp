@@ -4,7 +4,7 @@
 #include "Alarm.hpp"
 #include "Map.hpp"
 #include "SwitchStates.hpp"
-#include "Events.hpp"
+#include "../relive_lib/Events.hpp"
 #include "Abe.hpp"
 #include "Sfx.hpp"
 #include "DeathGas.hpp"

@@ -2,9 +2,9 @@
 #include "Well.hpp"
 #include "Function.hpp"
 #include "Leaf.hpp"
-#include "PsxDisplay.hpp"
+#include "../relive_lib/PsxDisplay.hpp"
 #include "Path.hpp"
-#include "Events.hpp"
+#include "../relive_lib/Events.hpp"
 #include "stdlib.hpp"
 #include "SwitchStates.hpp"
 

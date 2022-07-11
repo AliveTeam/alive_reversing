@@ -3,7 +3,7 @@
 #include "Function.hpp"
 #include "Sys.hpp"
 #include "stdlib.hpp"
-#include "Error.hpp"
+#include "../relive_lib/Error.hpp"
 
 #if !USE_SDL2_SOUND
 

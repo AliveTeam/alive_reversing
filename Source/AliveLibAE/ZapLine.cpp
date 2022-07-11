@@ -3,8 +3,8 @@
 #include "Function.hpp"
 #include "ResourceManager.hpp"
 #include "stdlib.hpp"
-#include "ScreenManager.hpp"
-#include "PsxDisplay.hpp"
+#include "../relive_lib/ScreenManager.hpp"
+#include "../relive_lib/PsxDisplay.hpp"
 #include "Game.hpp"
 
 

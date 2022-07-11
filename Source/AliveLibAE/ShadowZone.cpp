@@ -4,7 +4,7 @@
 #include "Game.hpp"
 #include "Map.hpp"
 #include "stdlib.hpp"
-#include "Events.hpp"
+#include "../relive_lib/Events.hpp"
 
 ShadowZone::ShadowZone(Path_ShadowZone* pTlv, Path* /*pPath*/, u32 tlvInfo)
     : BaseGameObject(TRUE, 0)

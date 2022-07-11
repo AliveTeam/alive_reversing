@@ -5,10 +5,10 @@
 #include "ResourceManager.hpp"
 #include "Particle.hpp"
 #include "stdlib.hpp"
-#include "Events.hpp"
+#include "../relive_lib/Events.hpp"
 #include "Abe.hpp"
-#include "PsxDisplay.hpp"
-#include "ScreenManager.hpp"
+#include "../relive_lib/PsxDisplay.hpp"
+#include "../relive_lib/ScreenManager.hpp"
 
 Spark::Spark(FP xpos, FP ypos, FP scale, s32 count, s32 minAngle, s32 maxAngle, SparkType type)
     : BaseGameObject(TRUE, 0)

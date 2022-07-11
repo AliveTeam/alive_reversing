@@ -2,7 +2,7 @@
 
 #include "../AliveLibCommon/Function.hpp"
 #include "EffectBase.hpp"
-#include "Layer.hpp"
+#include "../relive_lib/Layer.hpp"
 
 class DeathFadeOut final : public EffectBase
 {

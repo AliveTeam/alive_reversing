@@ -9,7 +9,7 @@
 #include "MusicTrigger.hpp"
 #include "Abe.hpp"
 #include "Midi.hpp"
-#include "ScreenManager.hpp"
+#include "../relive_lib/ScreenManager.hpp"
 #include "CameraSwapper.hpp"
 
 namespace AO {

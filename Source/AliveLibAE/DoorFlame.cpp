@@ -4,10 +4,10 @@
 #include "SwitchStates.hpp"
 #include "stdlib.hpp"
 #include "SwitchStates.hpp"
-#include "ObjectIds.hpp"
+#include "../relive_lib/ObjectIds.hpp"
 #include "Sound/Midi.hpp"
 #include "Game.hpp"
-#include "ScreenManager.hpp"
+#include "../relive_lib/ScreenManager.hpp"
 #include "Sfx.hpp"
 
 ALIVE_VAR(1, 0x5C2C6C, DoorFlame*, pFlameControllingTheSound_5C2C6C, nullptr);

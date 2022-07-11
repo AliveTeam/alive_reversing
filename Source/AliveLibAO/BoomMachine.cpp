@@ -3,7 +3,7 @@
 #include "BoomMachine.hpp"
 #include "ResourceManager.hpp"
 #include "stdlib.hpp"
-#include "Events.hpp"
+#include "../relive_lib/Events.hpp"
 #include "BaseAliveGameObject.hpp"
 #include "Sfx.hpp"
 #include "ThrowableArray.hpp"

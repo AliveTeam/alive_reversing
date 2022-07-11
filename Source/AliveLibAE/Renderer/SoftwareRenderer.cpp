@@ -2,7 +2,7 @@
 #include "SoftwareRenderer.hpp"
 #include "PsxRender.hpp"
 #include "Psx.hpp"
-#include "VRam.hpp"
+#include "../relive_lib/VRam.hpp"
 
 void SoftwareRenderer::Destroy()
 {

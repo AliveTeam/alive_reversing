@@ -2,7 +2,7 @@
 #include "MultiSwitchController.hpp"
 #include "Function.hpp"
 #include "Map.hpp"
-#include "Events.hpp"
+#include "../relive_lib/Events.hpp"
 #include "SwitchStates.hpp"
 #include "Game.hpp"
 #include "stdlib.hpp"

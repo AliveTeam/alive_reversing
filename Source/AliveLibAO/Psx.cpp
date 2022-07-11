@@ -1,11 +1,11 @@
 #include "stdafx_ao.h"
 #include "Psx.hpp"
 #include "Function.hpp"
-#include "bmp.hpp"
+#include "../relive_lib/bmp.hpp"
 #include "VGA.hpp"
 #include "Sys.hpp"
 #include "PsxRender.hpp"
-#include "Error.hpp"
+#include "../relive_lib/Error.hpp"
 #include "../AliveLibAE/Psx.hpp"
 
 namespace AO {

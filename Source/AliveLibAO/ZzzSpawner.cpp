@@ -3,7 +3,7 @@
 #include "ZzzSpawner.hpp"
 #include "stdlib.hpp"
 #include "SnoozeParticle.hpp"
-#include "Events.hpp"
+#include "../relive_lib/Events.hpp"
 #include "Game.hpp"
 #include "SwitchStates.hpp"
 

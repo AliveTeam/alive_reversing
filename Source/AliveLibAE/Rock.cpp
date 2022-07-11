@@ -4,10 +4,10 @@
 #include "ThrowableArray.hpp"
 #include "Game.hpp"
 #include "stdlib.hpp"
-#include "Shadow.hpp"
+#include "../relive_lib/Shadow.hpp"
 #include "Sfx.hpp"
-#include "ObjectIds.hpp"
-#include "Events.hpp"
+#include "../relive_lib/ObjectIds.hpp"
+#include "../relive_lib/Events.hpp"
 #include "Particle.hpp"
 #include "Grid.hpp"
 #include <assert.h>

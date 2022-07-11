@@ -4,10 +4,10 @@
 #include "ResourceManager.hpp"
 #include "Game.hpp"
 #include "stdlib.hpp"
-#include "Events.hpp"
+#include "../relive_lib/Events.hpp"
 #include "Sfx.hpp"
 #include "BaseBomb.hpp"
-#include "ScreenManager.hpp"
+#include "../relive_lib/ScreenManager.hpp"
 
 namespace AO {
 

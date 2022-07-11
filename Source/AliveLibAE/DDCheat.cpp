@@ -5,8 +5,8 @@
 #include "Map.hpp"
 #include "Movie.hpp"
 #include "PathData.hpp"
-#include "PsxDisplay.hpp"
-#include "ScreenManager.hpp"
+#include "../relive_lib/PsxDisplay.hpp"
+#include "../relive_lib/ScreenManager.hpp"
 #include "ResourceManager.hpp"
 #include "Abe.hpp"
 

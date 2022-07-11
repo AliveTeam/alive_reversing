@@ -2,7 +2,7 @@
 
 #include "../AliveLibCommon/Function.hpp"
 #include "../relive_lib/BaseGameObject.hpp"
-#include "Primitives.hpp"
+#include "../relive_lib/Primitives.hpp"
 
 namespace AO {
 

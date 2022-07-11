@@ -10,8 +10,8 @@
 #include "Sfx.hpp"
 #include "Explosion.hpp"
 #include "Gibs.hpp"
-#include "Events.hpp"
-#include "Collisions.hpp"
+#include "../relive_lib/Events.hpp"
+#include "../relive_lib/Collisions.hpp"
 #include "Game.hpp"
 #include "Grid.hpp"
 

@@ -4,7 +4,7 @@
 #include "stdlib.hpp"
 #include "Gibs.hpp"
 #include "ScreenShake.hpp"
-#include "Events.hpp"
+#include "../relive_lib/Events.hpp"
 #include "Flash.hpp"
 #include "ParticleBurst.hpp"
 #include "Particle.hpp"

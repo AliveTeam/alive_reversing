@@ -4,8 +4,8 @@
 #include "stdlib.hpp"
 #include "ResourceManager.hpp"
 #include "Map.hpp"
-#include "PsxDisplay.hpp"
-#include "ScreenManager.hpp"
+#include "../relive_lib/PsxDisplay.hpp"
+#include "../relive_lib/ScreenManager.hpp"
 #include "Game.hpp"
 #include "Math.hpp"
 

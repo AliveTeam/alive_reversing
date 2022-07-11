@@ -2,8 +2,8 @@
 #include "ScrabSpawner.hpp"
 #include "Function.hpp"
 #include "stdlib.hpp"
-#include "ObjectIds.hpp"
-#include "Events.hpp"
+#include "../relive_lib/ObjectIds.hpp"
+#include "../relive_lib/Events.hpp"
 #include "SwitchStates.hpp"
 #include "Sfx.hpp"
 

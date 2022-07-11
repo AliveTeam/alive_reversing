@@ -7,9 +7,9 @@
 #include "Psx.hpp"
 #include "Function.hpp"
 #include "ResourceManager.hpp"
-#include "PsxDisplay.hpp"
+#include "../relive_lib/PsxDisplay.hpp"
 #include "Input.hpp"
-#include "ScreenManager.hpp"
+#include "../relive_lib/ScreenManager.hpp"
 #include "Map.hpp"
 #include "PathData.hpp"
 #include "QuikSave.hpp"
@@ -18,7 +18,7 @@
 #include "FixedPoint.hpp"
 #include "Sound/Midi.hpp"
 #include "BaseAnimatedWithPhysicsGameObject.hpp"
-#include "Layer.hpp"
+#include "../relive_lib/Layer.hpp"
 
 class PauseMenu;
 struct PauseMenuPage;

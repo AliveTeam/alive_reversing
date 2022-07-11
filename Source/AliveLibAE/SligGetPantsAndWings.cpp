@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "SligGetPantsAndWings.hpp"
 #include "Function.hpp"
-#include "Events.hpp"
+#include "../relive_lib/Events.hpp"
 #include "stdlib.hpp"
 #include "FixedPoint.hpp"
 #include "Game.hpp"

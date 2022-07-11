@@ -5,7 +5,7 @@
 #include "ResourceManager.hpp"
 #include "Game.hpp"
 #include "GameSpeak.hpp"
-#include "Events.hpp"
+#include "../relive_lib/Events.hpp"
 #include "Midi.hpp"
 #include "Slig.hpp"
 #include "Abe.hpp"

@@ -3,7 +3,7 @@
 #include "SligSpawner.hpp"
 #include "Slig.hpp"
 #include "SwitchStates.hpp"
-#include "Events.hpp"
+#include "../relive_lib/Events.hpp"
 #include "stdlib.hpp"
 
 namespace AO {

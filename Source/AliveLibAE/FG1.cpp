@@ -4,8 +4,8 @@
 #include "stdlib.hpp"
 #include "ResourceManager.hpp"
 #include "Map.hpp"
-#include "ScreenManager.hpp"
-#include "PsxDisplay.hpp"
+#include "../relive_lib/ScreenManager.hpp"
+#include "../relive_lib/PsxDisplay.hpp"
 #include "Sys_common.hpp"
 #include "FG1Reader.hpp"
 

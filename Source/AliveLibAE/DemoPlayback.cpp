@@ -2,7 +2,7 @@
 #include "DemoPlayback.hpp"
 #include "Input.hpp"
 #include "ResourceManager.hpp"
-#include "Events.hpp"
+#include "../relive_lib/Events.hpp"
 #include "Map.hpp"
 #include "PathData.hpp"
 #include "stdlib.hpp"

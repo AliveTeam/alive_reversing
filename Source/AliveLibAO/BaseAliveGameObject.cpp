@@ -4,7 +4,7 @@
 #include "Map.hpp"
 #include "Abe.hpp"
 #include "PlatformBase.hpp"
-#include "Collisions.hpp"
+#include "../relive_lib/Collisions.hpp"
 #include "BeeSwarm.hpp"
 #include "stdlib.hpp"
 #include "ResourceManager.hpp"

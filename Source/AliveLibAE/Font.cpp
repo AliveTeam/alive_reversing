@@ -3,7 +3,7 @@
 #include "Function.hpp"
 #include "DebugHelpers.hpp"
 #include "FixedPoint.hpp"
-#include "VRam.hpp"
+#include "../relive_lib/VRam.hpp"
 #include "Resources.hpp"
 #include "Sys_common.hpp"
 #include "Renderer/IRenderer.hpp"

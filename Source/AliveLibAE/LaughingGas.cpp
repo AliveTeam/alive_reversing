@@ -3,11 +3,11 @@
 #include "Function.hpp"
 #include "SwitchStates.hpp"
 #include "Game.hpp"
-#include "ScreenManager.hpp"
+#include "../relive_lib/ScreenManager.hpp"
 #include "stdlib.hpp"
-#include "PsxDisplay.hpp"
+#include "../relive_lib/PsxDisplay.hpp"
 #include "PsxRender.hpp"
-#include "Events.hpp"
+#include "../relive_lib/Events.hpp"
 #include <math.h>
 
 ALIVE_VAR(1, 0x5BC214, s32, gGasInstanceCount_5BC214, 0);

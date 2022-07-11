@@ -1,10 +1,10 @@
 #include "stdafx.h"
 #include "MainMenuTransition.hpp"
 #include "Function.hpp"
-#include "PsxDisplay.hpp"
+#include "../relive_lib/PsxDisplay.hpp"
 #include "FixedPoint.hpp"
 #include "stdlib.hpp"
-#include "ScreenManager.hpp"
+#include "../relive_lib/ScreenManager.hpp"
 #include "Game.hpp"
 #include "Map.hpp"
 

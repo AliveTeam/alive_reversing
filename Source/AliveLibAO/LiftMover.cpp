@@ -2,7 +2,7 @@
 #include "Function.hpp"
 #include "LiftMover.hpp"
 #include "LiftPoint.hpp"
-#include "Events.hpp"
+#include "../relive_lib/Events.hpp"
 #include "SwitchStates.hpp"
 #include "stdlib.hpp"
 

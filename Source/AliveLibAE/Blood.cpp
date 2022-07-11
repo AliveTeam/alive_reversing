@@ -2,10 +2,10 @@
 #include "Blood.hpp"
 #include "Function.hpp"
 #include "stdlib.hpp"
-#include "ScreenManager.hpp"
+#include "../relive_lib/ScreenManager.hpp"
 #include "ResourceManager.hpp"
 #include "Game.hpp"
-#include "PsxDisplay.hpp"
+#include "../relive_lib/PsxDisplay.hpp"
 
 Blood::Blood(FP xpos, FP ypos, FP xOff, FP yOff, FP scale, s32 count)
     : BaseAnimatedWithPhysicsGameObject(0)

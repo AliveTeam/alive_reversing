@@ -3,9 +3,9 @@
 #include "Function.hpp"
 #include "BaseAliveGameObject.hpp"
 #include "LiftPoint.hpp"
-#include "Events.hpp"
+#include "../relive_lib/Events.hpp"
 #include "SwitchStates.hpp"
-#include "ObjectIds.hpp"
+#include "../relive_lib/ObjectIds.hpp"
 #include "stdlib.hpp"
 
 LiftMover::LiftMover(Path_LiftMover* pTlv, s32 tlvInfo)

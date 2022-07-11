@@ -7,7 +7,7 @@
 #include "Map.hpp"
 #include "stdlib.hpp"
 #include "CameraSwapper.hpp"
-#include "ScreenManager.hpp"
+#include "../relive_lib/ScreenManager.hpp"
 
 namespace AO {
 

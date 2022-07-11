@@ -5,14 +5,14 @@
 #include "ResourceManager.hpp"
 #include "SwitchStates.hpp"
 #include "Sfx.hpp"
-#include "Events.hpp"
+#include "../relive_lib/Events.hpp"
 #include "CameraSwapper.hpp"
 #include "Abe.hpp"
 #include "DDCheat.hpp"
 #include "Game.hpp"
 #include "Alarm.hpp"
-#include "ScreenManager.hpp"
-#include "PsxDisplay.hpp"
+#include "../relive_lib/ScreenManager.hpp"
+#include "../relive_lib/PsxDisplay.hpp"
 #include "Sys_common.hpp"
 
 namespace AO {

@@ -2,7 +2,7 @@
 #include "BulletShell.hpp"
 #include "Function.hpp"
 #include "stdlib.hpp"
-#include "Collisions.hpp"
+#include "../relive_lib/Collisions.hpp"
 #include "Sfx.hpp"
 
 ALIVE_VAR(1, 0xBAF7E0, s16, sShellCount_BAF7E0, 0);

@@ -2,11 +2,11 @@
 #include "Function.hpp"
 #include "Blood.hpp"
 #include "ResourceManager.hpp"
-#include "ScreenManager.hpp"
+#include "../relive_lib/ScreenManager.hpp"
 #include "Game.hpp"
 #include "Math.hpp"
 #include "Map.hpp"
-#include "PsxDisplay.hpp"
+#include "../relive_lib/PsxDisplay.hpp"
 #include "stdlib.hpp"
 #include "Primitives_common.hpp"
 #include <algorithm>

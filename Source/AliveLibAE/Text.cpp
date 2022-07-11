@@ -4,7 +4,7 @@
 #include "stdlib.hpp"
 #include "FixedPoint.hpp"
 #include "Psx.hpp"
-#include "PsxDisplay.hpp"
+#include "../relive_lib/PsxDisplay.hpp"
 #include "PsxRender.hpp"
 #include "Input.hpp"
 #include "Sound/Midi.hpp"

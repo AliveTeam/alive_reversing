@@ -3,7 +3,7 @@
 #include "ScreenClipper.hpp"
 #include "stdlib.hpp"
 #include "Game.hpp"
-#include "PsxDisplay.hpp"
+#include "../relive_lib/PsxDisplay.hpp"
 #include "../relive_lib/Primitives.hpp"
 
 #undef min

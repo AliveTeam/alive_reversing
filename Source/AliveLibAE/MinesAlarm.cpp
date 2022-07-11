@@ -4,7 +4,7 @@
 #include "ExplosionSet.hpp"
 #include "stdlib.hpp"
 #include "Map.hpp"
-#include "Events.hpp"
+#include "../relive_lib/Events.hpp"
 #include "Sfx.hpp"
 
 ALIVE_VAR(1, 0x5BC030, s32, bCreated_5BC030, FALSE);

@@ -5,10 +5,10 @@
 #include "Game.hpp"
 #include "stdlib.hpp"
 #include "LvlArchive.hpp"
-#include "ScreenManager.hpp" // Camera
+#include "../relive_lib/ScreenManager.hpp" // Camera
 #include "Particle.hpp"
 #include "PsxRender.hpp"
-#include "PsxDisplay.hpp"
+#include "../relive_lib/PsxDisplay.hpp"
 #include "Sys.hpp"
 
 ALIVE_VAR(1, 0x5C1BB0, ResourceManager*, pResourceManager_5C1BB0, nullptr);

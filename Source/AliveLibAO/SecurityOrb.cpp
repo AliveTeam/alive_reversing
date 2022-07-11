@@ -14,7 +14,7 @@
 #include "ScreenShake.hpp"
 #include "Flash.hpp"
 #include "Game.hpp"
-#include "Events.hpp"
+#include "../relive_lib/Events.hpp"
 
 namespace AO {
 

@@ -6,7 +6,7 @@
 #include "Sys.hpp"
 #include "Sound/Sound.hpp"
 #include "DebugHelpers.hpp"
-#include "Events.hpp"
+#include "../relive_lib/Events.hpp"
 #include "PsxRender.hpp"
 #include "Sys.hpp"
 #include "VGA.hpp"

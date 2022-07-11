@@ -9,7 +9,7 @@
 #include "Spark.hpp"
 #include "ParticleBurst.hpp"
 #include "PathData.hpp"
-#include "ObjectIds.hpp"
+#include "../relive_lib/ObjectIds.hpp"
 
 const TintEntry sFootSwitchTints_5639F4[18] = {
     {EReliveLevelIds::eMines, 127u, 127u, 127u},

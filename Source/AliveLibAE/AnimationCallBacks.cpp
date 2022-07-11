@@ -2,13 +2,13 @@
 #include "Abe.hpp"    // For anim call back table
 #include "Slig.hpp"   // For slig frame call back
 #include "Fleech.hpp" // For fleech frame call back
-#include "Events.hpp"
+#include "../relive_lib/Events.hpp"
 #include "Slurg.hpp"
 #include "Slog.hpp"
 #include "Sfx.hpp"
 #include "Blood.hpp"
 #include "Particle.hpp"
-#include "ObjectIds.hpp"
+#include "../relive_lib/ObjectIds.hpp"
 
 // Frame call backs ??
 s32 Animation_OnFrame_Common_Null_455F40(BaseGameObject*, s16*)

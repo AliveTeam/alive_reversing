@@ -1,6 +1,6 @@
 #include "stdafx_ao.h"
 #include "Abe.hpp"
-#include "Collisions.hpp"
+#include "../relive_lib/Collisions.hpp"
 #include "Elum.hpp"
 #include "Function.hpp"
 #include "Game.hpp"

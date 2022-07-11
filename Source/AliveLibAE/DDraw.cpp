@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "DDraw.hpp"
 #include "Function.hpp"
-#include "Error.hpp"
+#include "../relive_lib/Error.hpp"
 #include "Sys.hpp"
 
 #if _WIN32

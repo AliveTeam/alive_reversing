@@ -2,8 +2,8 @@
 
 #include "../AliveLibCommon/Function.hpp"
 #include "../relive_lib/BaseGameObject.hpp"
-#include "Primitives.hpp"
-#include "Layer.hpp"
+#include "../relive_lib/Primitives.hpp"
+#include "../relive_lib/Layer.hpp"
 #include "../relive_lib/MapWrapper.hpp"
 
 class EffectBase : public BaseGameObject

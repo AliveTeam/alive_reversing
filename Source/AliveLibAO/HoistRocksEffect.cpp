@@ -4,7 +4,7 @@
 #include "ResourceManager.hpp"
 #include "stdlib.hpp"
 #include "Math.hpp"
-#include "Collisions.hpp"
+#include "../relive_lib/Collisions.hpp"
 
 namespace AO {
 

@@ -71,7 +71,7 @@ void BaseGameObject::VUpdate()
 
 }
 
-void BaseGameObject::VRender(PrimHeader** pOrderingTable)
+void BaseGameObject::VRender(PrimHeader** /*pOrderingTable*/)
 {
 
 }
@@ -295,7 +295,6 @@ ReliveTypes BaseGameObject::FromAO(AO::AOTypes aoType)
         default:
             ALIVE_FATAL("Unknown AO type");
     }
-    return ReliveTypes::eNone;
 }
 
 AO::AOTypes BaseGameObject::ToAO(ReliveTypes reliveType)
@@ -483,7 +482,6 @@ AO::AOTypes BaseGameObject::ToAO(ReliveTypes reliveType)
         default:
             ALIVE_FATAL("No AO type for this relive type");
     }
-    return AO::AOTypes::eNone_0;
 }
 
 ReliveTypes BaseGameObject::FromAE(AETypes aeType)
@@ -707,7 +705,6 @@ ReliveTypes BaseGameObject::FromAE(AETypes aeType)
         default:
             ALIVE_FATAL("Unknown AE type");
     }
-    return ReliveTypes::eNone;
 }
 
 AETypes BaseGameObject::ToAE(ReliveTypes reliveType)
@@ -931,7 +928,6 @@ AETypes BaseGameObject::ToAE(ReliveTypes reliveType)
         default:
             ALIVE_FATAL("No AE type for this relive type");
     }
-    return AETypes::eNone_0;
 }
 
 u8** BaseGameObject::Add_Resource(u32 type, s32 resourceID)

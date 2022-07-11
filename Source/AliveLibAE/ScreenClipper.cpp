@@ -3,7 +3,7 @@
 #include "Function.hpp"
 #include "stdlib.hpp"
 #include "Game.hpp"
-#include "PsxDisplay.hpp"
+#include "../relive_lib/PsxDisplay.hpp"
 
 ScreenClipper::ScreenClipper(PSX_Point xy, PSX_Point wh, Layer layer)
     : BaseGameObject(TRUE, 0)

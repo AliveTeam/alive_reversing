@@ -5,7 +5,7 @@
 #include "stdlib.hpp"
 #include "Math.hpp"
 #include "Sfx.hpp"
-#include "Collisions.hpp"
+#include "../relive_lib/Collisions.hpp"
 #include "Map.hpp"
 
 namespace AO {

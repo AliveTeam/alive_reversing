@@ -5,7 +5,7 @@
 #include "Abe.hpp"
 #include "stdlib.hpp"
 #include "Sfx.hpp"
-#include "Events.hpp"
+#include "../relive_lib/Events.hpp"
 #include "GameSpeak.hpp"
 #include "Sound/Midi.hpp"
 #include "SwitchStates.hpp"

@@ -1,6 +1,6 @@
 #include "stdlib.hpp"
 #include "../relive_lib/BaseGameObject.hpp"
-#include "Events.hpp"
+#include "../relive_lib/Events.hpp"
 #include "Math.hpp"
 #include "Rock.hpp"
 #include "RockSack.hpp"
@@ -11,7 +11,7 @@
 #include "FixedPoint_common.hpp"
 #include "Abe.hpp"
 #include "Function.hpp"
-#include "Shadow.hpp"
+#include "../relive_lib/Shadow.hpp"
 
 namespace AO {
 

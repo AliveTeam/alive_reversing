@@ -5,7 +5,7 @@
 #include "BaseAliveGameObject.hpp"
 #include "Game.hpp"
 #include "stdlib.hpp"
-#include "VRam.hpp"
+#include "../relive_lib/VRam.hpp"
 #include "Map.hpp"
 #include "../AliveLibAE/Renderer/IRenderer.hpp"
 

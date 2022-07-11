@@ -4,11 +4,11 @@
 #include "Abe.hpp"
 #include "SwitchStates.hpp"
 #include "ResourceManager.hpp"
-#include "Collisions.hpp"
+#include "../relive_lib/Collisions.hpp"
 #include "stdlib.hpp"
 #include "Midi.hpp"
 #include "Sfx.hpp"
-#include "Events.hpp"
+#include "../relive_lib/Events.hpp"
 #include "MusicTrigger.hpp"
 #include "Grid.hpp"
 

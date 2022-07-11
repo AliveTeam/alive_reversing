@@ -4,7 +4,7 @@
 #include "stdlib.hpp"
 #include "ResourceManager.hpp"
 #include "SwitchStates.hpp"
-#include "Events.hpp"
+#include "../relive_lib/Events.hpp"
 #include "Sfx.hpp"
 
 namespace AO {

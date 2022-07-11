@@ -3,10 +3,10 @@
 #include "ParamiteWeb.hpp"
 #include "Map.hpp"
 #include "stdlib.hpp"
-#include "PsxDisplay.hpp"
+#include "../relive_lib/PsxDisplay.hpp"
 #include "ResourceManager.hpp"
 #include "Rope.hpp"
-#include "ScreenManager.hpp"
+#include "../relive_lib/ScreenManager.hpp"
 #include "ShadowZone.hpp"
 #include "../relive_lib/AnimationUnknown.hpp"
 

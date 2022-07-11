@@ -3,7 +3,7 @@
 #include "Function.hpp"
 #include "SwitchStates.hpp"
 #include "stdlib.hpp"
-#include "Collisions.hpp"
+#include "../relive_lib/Collisions.hpp"
 #include "ResourceManager.hpp"
 #include "FixedPoint.hpp"
 #include "Sfx.hpp"

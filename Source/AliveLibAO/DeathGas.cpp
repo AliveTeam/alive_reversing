@@ -4,12 +4,12 @@
 #include "Map.hpp"
 #include "stdlib.hpp"
 #include "Abe.hpp"
-#include "Events.hpp"
+#include "../relive_lib/Events.hpp"
 #include "Game.hpp"
 #include "Math.hpp"
-#include "Primitives.hpp"
-#include "ScreenManager.hpp"
-#include "PsxDisplay.hpp"
+#include "../relive_lib/Primitives.hpp"
+#include "../relive_lib/ScreenManager.hpp"
+#include "../relive_lib/PsxDisplay.hpp"
 
 namespace AO {
 

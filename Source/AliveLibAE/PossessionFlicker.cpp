@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "PossessionFlicker.hpp"
 #include "BaseAliveGameObject.hpp"
-#include "ObjectIds.hpp"
+#include "../relive_lib/ObjectIds.hpp"
 #include "Game.hpp"
 #include "stdlib.hpp"
 #include "Function.hpp"

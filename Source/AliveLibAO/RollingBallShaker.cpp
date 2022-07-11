@@ -3,9 +3,9 @@
 #include "Function.hpp"
 #include "Game.hpp"
 #include "stdlib.hpp"
-#include "PsxDisplay.hpp"
-#include "ScreenManager.hpp"
-#include "Primitives.hpp"
+#include "../relive_lib/PsxDisplay.hpp"
+#include "../relive_lib/ScreenManager.hpp"
+#include "../relive_lib/Primitives.hpp"
 #include "../relive_lib/Primitives.hpp"
 
 void RollingBallShaker_ForceLink()

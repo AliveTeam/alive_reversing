@@ -6,8 +6,8 @@
 #include "stdlib.hpp"
 #include "Game.hpp"
 #include "BaseBomb.hpp"
-#include "Events.hpp"
-#include "ScreenManager.hpp"
+#include "../relive_lib/Events.hpp"
+#include "../relive_lib/ScreenManager.hpp"
 #include <math.h>
 
 namespace AO {

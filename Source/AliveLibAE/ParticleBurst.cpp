@@ -3,9 +3,9 @@
 #include "Math.hpp"
 #include "Game.hpp"
 #include "Function.hpp"
-#include "Events.hpp"
+#include "../relive_lib/Events.hpp"
 #include "Sfx.hpp"
-#include "ScreenManager.hpp"
+#include "../relive_lib/ScreenManager.hpp"
 #include "Map.hpp"
 #include "stdlib.hpp"
 

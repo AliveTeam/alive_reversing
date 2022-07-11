@@ -3,7 +3,7 @@
 #include "../AliveLibCommon/Function.hpp"
 #include "../relive_lib/BaseGameObject.hpp"
 #include "Psx.hpp"
-#include "Primitives.hpp"
+#include "../relive_lib/Primitives.hpp"
 
 class BaseAliveGameObject;
 

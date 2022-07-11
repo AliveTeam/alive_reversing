@@ -4,7 +4,7 @@
 #include "../relive_lib/BaseGameObject.hpp"
 #include "../relive_lib/MapWrapper.hpp"
 #include "FixedPoint.hpp"
-#include "Layer.hpp"
+#include "../relive_lib/Layer.hpp"
 
 void Forcelink_ScreenWave();
 

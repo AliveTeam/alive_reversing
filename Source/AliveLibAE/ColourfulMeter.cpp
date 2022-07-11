@@ -3,7 +3,7 @@
 #include "Function.hpp"
 #include "SwitchStates.hpp"
 #include "Map.hpp"
-#include "Events.hpp"
+#include "../relive_lib/Events.hpp"
 #include "MinesAlarm.hpp"
 
 const u8 byte_5543D0[32] = {

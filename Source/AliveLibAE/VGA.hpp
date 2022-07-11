@@ -1,7 +1,7 @@
 #pragma once
 
 #include "../AliveLibCommon/Function.hpp"
-#include "bmp.hpp"
+#include "../relive_lib/bmp.hpp"
 
 void VGA_Shutdown_4F3170();
 void VGA_CopyToFront_4F3710(Bitmap* pBmp, RECT* pRect);

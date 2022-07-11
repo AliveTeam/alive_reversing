@@ -14,7 +14,7 @@
 #include "Abe.hpp"
 #include "Game.hpp"
 #include "Flash.hpp"
-#include "Events.hpp"
+#include "../relive_lib/Events.hpp"
 #include "Alarm.hpp"
 #include "ScreenShake.hpp"
 #include "PossessionFlicker.hpp"

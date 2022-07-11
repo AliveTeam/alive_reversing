@@ -3,7 +3,7 @@
 #include "SlingMudokon.hpp"
 #include "GameSpeak.hpp"
 #include "ResourceManager.hpp"
-#include "Collisions.hpp"
+#include "../relive_lib/Collisions.hpp"
 #include "Sfx.hpp"
 #include "Bullet.hpp"
 #include "stdlib.hpp"
@@ -14,7 +14,7 @@
 #include "Flash.hpp"
 #include "Dove.hpp"
 #include "Math.hpp"
-#include "Events.hpp"
+#include "../relive_lib/Events.hpp"
 
 void SlingMud_ForceLink()
 { }

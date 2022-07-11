@@ -9,7 +9,7 @@
 #include "Flash.hpp"
 #include "Sfx.hpp"
 #include "Game.hpp"
-#include "Events.hpp"
+#include "../relive_lib/Events.hpp"
 #include "BaseAliveGameObject.hpp"
 
 namespace AO {

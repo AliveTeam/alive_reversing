@@ -4,9 +4,9 @@
 #include "Psx.hpp"
 #include "Sound/Midi.hpp"
 #include "Sound/PsxSpuApi.hpp"
-#include "Primitives.hpp"
+#include "../relive_lib/Primitives.hpp"
 #include "Game.hpp"
-#include "Error.hpp"
+#include "../relive_lib/Error.hpp"
 #include "Compression.hpp"
 #include "Sys_common.hpp"
 #include <gmock/gmock.h>

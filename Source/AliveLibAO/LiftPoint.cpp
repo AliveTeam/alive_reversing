@@ -3,14 +3,14 @@
 #include "LiftPoint.hpp"
 #include "Map.hpp"
 #include "stdlib.hpp"
-#include "Collisions.hpp"
+#include "../relive_lib/Collisions.hpp"
 #include "ResourceManager.hpp"
 #include "Rope.hpp"
 #include "Game.hpp"
 #include "Sfx.hpp"
-#include "Events.hpp"
+#include "../relive_lib/Events.hpp"
 #include "ShadowZone.hpp"
-#include "ScreenManager.hpp"
+#include "../relive_lib/ScreenManager.hpp"
 
 namespace AO {
 

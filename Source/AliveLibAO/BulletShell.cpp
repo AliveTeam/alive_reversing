@@ -5,7 +5,7 @@
 #include "ResourceManager.hpp"
 #include "stdlib.hpp"
 #include "Map.hpp"
-#include "Collisions.hpp"
+#include "../relive_lib/Collisions.hpp"
 #include "Sfx.hpp"
 
 namespace AO {

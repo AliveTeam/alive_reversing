@@ -7,10 +7,10 @@
 #include "Slog.hpp"
 #include "Blood.hpp"
 #include "Sfx.hpp"
-#include "Events.hpp"
+#include "../relive_lib/Events.hpp"
 #include "Particle.hpp"
 #include "Abe.hpp"
-#include "Primitives.hpp"
+#include "../relive_lib/Primitives.hpp"
 #include "Throwable.hpp"
 #include "../relive_lib/Collisions.hpp"
 

@@ -5,7 +5,7 @@
 #include "Abe.hpp"
 #include "Math.hpp"
 #include "stdlib.hpp"
-#include "ScreenManager.hpp"
+#include "../relive_lib/ScreenManager.hpp"
 #include "AnimResources.hpp"
 
 const TintEntry kGibTints_55C744[] = {

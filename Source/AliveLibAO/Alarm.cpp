@@ -2,12 +2,12 @@
 #include "Alarm.hpp"
 #include "Game.hpp"
 #include "Map.hpp"
-#include "DynamicArray.hpp"
+#include "../relive_lib/DynamicArray.hpp"
 #include "Function.hpp"
 #include "SwitchStates.hpp"
 #include "stdlib.hpp"
 #include "CameraSwapper.hpp"
-#include "Events.hpp"
+#include "../relive_lib/Events.hpp"
 #include "Sfx.hpp"
 
 namespace AO {
