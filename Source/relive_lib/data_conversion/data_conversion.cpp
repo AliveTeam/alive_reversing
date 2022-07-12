@@ -11,6 +11,10 @@
 #include <vector>
 #include <algorithm>
 #include "nlohmann/json.hpp"
+#include "../../Tools/relive_api/LvlReaderWriter.hpp"
+#include "../../Tools/relive_api/file_api.hpp"
+#include "../../Tools/relive_api/CamConverter.hpp"
+
 
 constexpr u32 kDataVersion = 1;
 
@@ -545,13 +549,12 @@ static const char* ToString(AO::LevelIds lvlId)
     }
 }
 
-static void ReadLvlFileInto(AO::LvlArchive& archive, const char_type* fileName, std::vector<u8>& fileBuffer)
+static void ReadLvlFileInto(ReliveAPI::LvlReader& archive, const char_type* fileName, std::vector<u8>& fileBuffer)
 {
-    auto banFile = archive.Find_File_Record(fileName);
-
-    fileBuffer.resize(banFile->field_10_num_sectors * 2048);
-    archive.Read_File(banFile, fileBuffer.data());
-    fileBuffer.resize(banFile->field_14_file_size);
+    if (!archive.ReadFileInto(fileBuffer, fileName))
+    {
+        // TODO
+    }
 }
 
 static bool endsWith(const std::string& str, const std::string& suffix)
@@ -580,9 +583,11 @@ void DataConversion::ConvertData()
             continue;
         }
 
-        AO::LvlArchive archive;
         const EReliveLevelIds reliveLvl = MapWrapper::FromAO(lvlIdxAsLvl);
-        if (archive.OpenArchive(AO::CdLvlName(reliveLvl), 0))
+        ReliveAPI::FileIO fileIo;
+        ReliveAPI::LvlReader lvlReader(fileIo, (std::string(AO::Path_Get_Lvl_Name(reliveLvl)) + ".LVL").c_str());
+
+        if (lvlReader.IsOpen())
         {
             for (auto& rec : kAnimRecConversionInfo)
             {
@@ -603,7 +608,7 @@ void DataConversion::ConvertData()
                     // e.g "arm_gib"
                     filePath.Append(AnimBaseName(rec.mAnimId));
 
-                    ReadLvlFileInto(archive, animDetails.mBanName, fileBuffer);
+                    ReadLvlFileInto(lvlReader, animDetails.mBanName, fileBuffer);
                     AnimationConverter animationConverter(filePath, animDetails, fileBuffer, true);
 
                     // Track what is converted so we know what is missing at the end
@@ -611,22 +616,27 @@ void DataConversion::ConvertData()
                 }
             }
 
-            for (u32 i = 0; i < archive.FileCount(); i++)
+            for (s32 i = 0; i < lvlReader.FileCount(); i++)
             {
-                auto pFileRec = archive.FileAt(i);
-                if (pFileRec->field_0_file_name)
+                auto fileName = lvlReader.FileNameAt(i);
+                if (!fileName.empty())
                 {
-                    std::string fileName(pFileRec->field_0_file_name, strnlen(pFileRec->field_0_file_name, 12));
                     if (endsWith(fileName, ".CAM"))
                     {
+                        ReadLvlFileInto(lvlReader, fileName.c_str(), fileBuffer);
+
+                        ReliveAPI::ChunkedLvlFile camFile(fileBuffer);
+
                         // TODO: Convert camera images and FG layers
+                        //ReliveAPI::CameraImageAndLayers camAndLayers; // TODO: This type is dumb for data conversion, just save them directly
+                        //ReliveAPI::CamConverter cc(camFile, camAndLayers);
 
                         // TODO: Convert any BgAnims in this camera
                     }
                     // TODO: Seek these out instead of converting everything we see since the names are fixed per LVL
                     else if (endsWith(fileName, ".VB") || endsWith(fileName, ".VH") || endsWith(fileName, ".BSQ") || endsWith(fileName, "PATH.BND"))
                     {
-                        ReadLvlFileInto(archive, fileName.c_str(), fileBuffer);
+                        ReadLvlFileInto(lvlReader, fileName.c_str(), fileBuffer);
 
                         FileSystem::Path filePath;
                         filePath.Append("relive_data").Append("ao").Append(ToString(lvlIdxAsLvl));
