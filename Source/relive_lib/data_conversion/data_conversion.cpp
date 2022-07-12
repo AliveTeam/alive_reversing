@@ -190,7 +190,23 @@ public:
         TgaFile tgaFile;
         tgaFile.Save((outputFile.GetPath() + ".tga").c_str(), pal, spriteSheetBuffer, sheetWidth, bestMaxSize.mMaxH);
 
+        // Write json file
+        nlohmann::json animJsonInfo = 
+        {
+            {"frame_rate", pAnimationHeader->field_0_fps},
+            {"flip_x", (pAnimationHeader->field_6_flags & AnimationHeader::eFlipXFlag) ? true : false},
+            {"flip_y", (pAnimationHeader->field_6_flags & AnimationHeader::eFlipYFlag) ? true : false},
+            {"loop", (pAnimationHeader->field_6_flags & AnimationHeader::eLoopFlag) ? true : false},
+            {"loop_start_frame", pAnimationHeader->field_4_loop_start_frame},
+            {"number_of_frames", pAnimationHeader->field_2_num_frames}
+            // TODO: max W/H
+        };
+        // TODO: Per frame info, x/y offset, location in sprite sheet, width, height
 
+        const std::string animJsonInfoString = animJsonInfo.dump(4);
+        AutoFILE jsonFile;
+        jsonFile.Open((outputFile.GetPath() + ".json").c_str(), "wb", false);
+        jsonFile.Write(reinterpret_cast<const u8*>(animJsonInfoString.c_str()), static_cast<u32>(animJsonInfoString.size()));
     }
 
 private:
