@@ -134,6 +134,41 @@ const char_type* AnimBaseName(AnimId id)
     ALIVE_FATAL("No name in mapping table");
 }
 
+
+struct PerFrameInfo final
+{
+    s32 mXOffset = 0;
+    s32 mYOffset = 0;
+    u32 mWidth = 0;
+    u32 mHeight = 0;
+    u32 mSpriteSheetX = 0;
+    u32 mSpriteSheetY = 0;
+};
+
+void to_json(nlohmann::json& j, const PerFrameInfo& p)
+{
+    j = nlohmann::json
+    {
+        {"x_offset", p.mXOffset},
+        {"y_offset", p.mYOffset},
+        {"width", p.mWidth},
+        {"height", p.mHeight},
+        {"sprite_sheet_x", p.mSpriteSheetX},
+        {"sprite_sheet_y", p.mSpriteSheetY},
+
+    };
+}
+
+void from_json(const nlohmann::json& j, PerFrameInfo& p)
+{
+    j.at("x_offset").get_to(p.mXOffset);
+    j.at("y_offset").get_to(p.mYOffset);
+    j.at("width").get_to(p.mWidth);
+    j.at("height").get_to(p.mHeight);
+    j.at("sprite_sheet_x").get_to(p.mSpriteSheetX);
+    j.at("sprite_sheet_y").get_to(p.mSpriteSheetY);
+}
+
 class AnimationConverter final
 {
 public:
@@ -168,6 +203,7 @@ public:
         std::vector<u8> spriteSheetBuffer(sheetWidth * bestMaxSize.mMaxH);
 
         // Add each frame
+        std::vector<PerFrameInfo> perFrameInfos(pAnimationHeader->field_2_num_frames);
         for (s32 i = 0; i < pAnimationHeader->field_2_num_frames; i++)
         {
             const FrameHeader* pFrameHeader = GetFrame(pAnimationHeader, i);
@@ -183,6 +219,16 @@ public:
                 }
             }
 
+            perFrameInfos[i].mWidth = pFrameHeader->field_4_width;
+            perFrameInfos[i].mHeight = pFrameHeader->field_5_height;
+
+            const FrameInfoHeader* pFrameInfoHeader = GetFrameInfoHeader(pAnimationHeader, i);
+            perFrameInfos[i].mXOffset = pFrameInfoHeader->field_8_data.offsetAndRect.mOffset.x;
+            perFrameInfos[i].mYOffset = pFrameInfoHeader->field_8_data.offsetAndRect.mOffset.y;
+
+            perFrameInfos[i].mSpriteSheetX = bestMaxSize.mMaxW * i;
+            perFrameInfos[i].mSpriteSheetY = 0;
+
             // Clear because the buffer is re-used to reduce memory allocs
             memset(decompressionBuffer.data(), 0, decompressionBuffer.size());
         }
@@ -193,15 +239,19 @@ public:
         // Write json file
         nlohmann::json animJsonInfo = 
         {
+            // TODO: Current values are kind of nonsense, map to something sane
             {"frame_rate", pAnimationHeader->field_0_fps},
             {"flip_x", (pAnimationHeader->field_6_flags & AnimationHeader::eFlipXFlag) ? true : false},
             {"flip_y", (pAnimationHeader->field_6_flags & AnimationHeader::eFlipYFlag) ? true : false},
             {"loop", (pAnimationHeader->field_6_flags & AnimationHeader::eLoopFlag) ? true : false},
             {"loop_start_frame", pAnimationHeader->field_4_loop_start_frame},
-            {"number_of_frames", pAnimationHeader->field_2_num_frames}
-            // TODO: max W/H
+            //{"number_of_frames", pAnimationHeader->field_2_num_frames},
+            // TODO: Remove if not really needed (check after loader is impl'd)
+            {"max_width", bestMaxSize.mMaxW},
+            {"max_height", bestMaxSize.mMaxH}
         };
-        // TODO: Per frame info, x/y offset, location in sprite sheet, width, height
+        
+        animJsonInfo["frames"] = perFrameInfos;
 
         const std::string animJsonInfoString = animJsonInfo.dump(4);
         AutoFILE jsonFile;
@@ -428,12 +478,17 @@ private:
         return decompressionBufferSize;
     }
 
-    const FrameHeader* GetFrame(const AnimationHeader* pAnimationHeader, u32 idx)
+    const FrameInfoHeader* GetFrameInfoHeader(const AnimationHeader* pAnimationHeader, u32 idx)
     {
         const u32 frameOffset = pAnimationHeader->mFrameOffsets[idx];
-        auto pFrame = reinterpret_cast<const FrameInfoHeader*>(&mFileData[frameOffset + kResHeaderSize]);
+        auto pFrameInfoHeader = reinterpret_cast<const FrameInfoHeader*>(&mFileData[frameOffset + kResHeaderSize]);
+        return pFrameInfoHeader;
+    }
 
-        auto pFrameHeader = reinterpret_cast<const FrameHeader*>(&mFileData[pFrame->field_0_frame_header_offset + kResHeaderSize]);
+    const FrameHeader* GetFrame(const AnimationHeader* pAnimationHeader, u32 idx)
+    {
+        const FrameInfoHeader* pFrameInfoHeader = GetFrameInfoHeader(pAnimationHeader, idx);
+        auto pFrameHeader = reinterpret_cast<const FrameHeader*>(&mFileData[pFrameInfoHeader->field_0_frame_header_offset + kResHeaderSize]);
         return pFrameHeader;
     }
 
