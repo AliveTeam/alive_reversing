@@ -519,7 +519,7 @@ static const char* ToString(AO::LevelIds lvlId)
         case AO::LevelIds::eLines_2:
             return "monsaic_lines";
         case AO::LevelIds::eForest_3:
-            return "menu";
+            return "paramonia";
         case AO::LevelIds::eForestTemple_4:
             return "paramonia_temple";
         case AO::LevelIds::eStockYards_5:
@@ -552,6 +552,11 @@ static void ReadLvlFileInto(AO::LvlArchive& archive, const char_type* fileName, 
     fileBuffer.resize(banFile->field_10_num_sectors * 2048);
     archive.Read_File(banFile, fileBuffer.data());
     fileBuffer.resize(banFile->field_14_file_size);
+}
+
+static bool endsWith(const std::string& str, const std::string& suffix)
+{
+    return str.size() >= suffix.size() && 0 == str.compare(str.size() - suffix.size(), suffix.size(), suffix);
 }
 
 void DataConversion::ConvertData()
@@ -612,16 +617,26 @@ void DataConversion::ConvertData()
                 if (pFileRec->field_0_file_name)
                 {
                     std::string fileName(pFileRec->field_0_file_name, strnlen(pFileRec->field_0_file_name, 12));
+                    if (endsWith(fileName, ".CAM"))
+                    {
+                        // TODO: Convert camera images and FG layers
 
-                    ReadLvlFileInto(archive, fileName.c_str(), fileBuffer);
+                        // TODO: Convert any BgAnims in this camera
+                    }
+                    // TODO: Seek these out instead of converting everything we see since the names are fixed per LVL
+                    else if (endsWith(fileName, ".VB") || endsWith(fileName, ".VH") || endsWith(fileName, ".BSQ") || endsWith(fileName, "PATH.BND"))
+                    {
+                        ReadLvlFileInto(archive, fileName.c_str(), fileBuffer);
 
-                    FileSystem::Path filePath;
-                    filePath.Append("relive_data").Append("ao").Append(ToString(lvlIdxAsLvl));
-                    fs.CreateDirectory(filePath);
-                    filePath.Append(fileName);
+                        FileSystem::Path filePath;
+                        filePath.Append("relive_data").Append("ao").Append(ToString(lvlIdxAsLvl));
+                        fs.CreateDirectory(filePath);
+                        filePath.Append(fileName);
 
 
-                    fs.Save(filePath, fileBuffer);
+                        fs.Save(filePath, fileBuffer);
+                    }
+                    // TODO: Path conversion
                 }
             }
 
