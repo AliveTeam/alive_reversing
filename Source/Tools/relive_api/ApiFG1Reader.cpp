@@ -10,12 +10,12 @@ ApiFG1Reader::ApiFG1Reader(FG1Format format)
     : BaseFG1Reader(format)
 {
     // Dynamically allocated due to the huge stack space it would consume
-    mFg1Buffers = new FG1Buffers();
+    mFg1Buffers = std::make_unique<FG1Buffers>();
 }
 
 ApiFG1Reader::~ApiFG1Reader()
 {
-    delete mFg1Buffers;
+;
 }
 
 u16 ApiFG1Reader::ConvertPixel(u16 pixel)
@@ -122,6 +122,7 @@ void ApiFG1Reader::LayersToPng(CameraImageAndLayers& outData)
     }
 }
 
+
 void ApiFG1Reader::DebugSave(const std::string& prefix, const CameraImageAndLayers& outData)
 {
     if (!outData.mCameraImage.empty())
@@ -131,7 +132,7 @@ void ApiFG1Reader::DebugSave(const std::string& prefix, const CameraImageAndLaye
 
     if (!outData.mBackgroundLayer.empty())
     {
-        lodepng::save_file(FromBase64(outData.mBackgroundLayer), prefix  + "_bg.png");
+        lodepng::save_file(FromBase64(outData.mBackgroundLayer), prefix + "_bg.png");
     }
 
     if (!outData.mForegroundLayer.empty())
@@ -147,6 +148,19 @@ void ApiFG1Reader::DebugSave(const std::string& prefix, const CameraImageAndLaye
     if (!outData.mForegroundWellLayer.empty())
     {
         lodepng::save_file(FromBase64(outData.mForegroundWellLayer), prefix + "_fg_well.png");
+    }
+}
+
+void ApiFG1Reader::SaveAsPng(const std::string& baseName)
+{
+    std::vector<u8> outPngData;
+    for (u32 i = 0; i < 4; i++)
+    {
+        if (mUsedLayers[i])
+        {
+            RGB565ToPngBuffer(&mFg1Buffers->mFg1[i][0][0], outPngData);
+            lodepng::save_file(outPngData, baseName + NameForLayer(i) + ".png");
+        }
     }
 }
 
@@ -203,4 +217,40 @@ std::string& ApiFG1Reader::BufferForLayer(CameraImageAndLayers& outData, u32 lay
     // Should never get here
     return outData.mBackgroundLayer;
 }
+
+
+std::string ApiFG1Reader::NameForLayer(u32 layer)
+{
+    if (mFormat == FG1Format::AO)
+    {
+        switch (layer)
+        {
+            case 0:
+                return "fg";
+
+            case 1:
+                return "bg";
+        }
+    }
+    else
+    {
+        switch (layer)
+        {
+            case 0:
+                return "bg_well";
+
+            case 1:
+                return "bg";
+
+            case 2:
+                return "fg_well";
+
+            case 3:
+                return "fg";
+        }
+    }
+
+    ALIVE_FATAL("Bad layer");
+}
+
 } // namespace ReliveAPI

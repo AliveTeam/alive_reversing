@@ -626,10 +626,15 @@ void DataConversion::ConvertData()
                         ReadLvlFileInto(lvlReader, fileName.c_str(), fileBuffer);
 
                         ReliveAPI::ChunkedLvlFile camFile(fileBuffer);
+                  
+                        FileSystem::Path pathDir;
+                        std::string camBaseName = fileName.substr(0, fileName.length() - 4); // chop off .CAM
+                        pathDir.Append("relive_data").Append("ao").Append(ToString(lvlIdxAsLvl));
+                        fs.CreateDirectory(pathDir);
+                        pathDir.Append(camBaseName);
 
-                        // TODO: Convert camera images and FG layers
-                        //ReliveAPI::CameraImageAndLayers camAndLayers; // TODO: This type is dumb for data conversion, just save them directly
-                        //ReliveAPI::CamConverter cc(camFile, camAndLayers);
+                        // Convert camera images and FG layers
+                        ReliveAPI::CamConverter cc(camFile, pathDir.GetPath());
 
                         // TODO: Convert any BgAnims in this camera
                     }

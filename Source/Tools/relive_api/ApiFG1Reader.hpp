@@ -27,14 +27,16 @@ public:
     u8** Allocate(u32 len) override;
     void Deallocate(u8** ptr) override;
     void LayersToPng(CameraImageAndLayers& outData);
+    void SaveAsPng(const std::string& baseName);
     static void DebugSave(const std::string& prefix, const CameraImageAndLayers& outData);
     static void DebugRead(const std::string& prefix, CameraImageAndLayers& outData);
 
 private:
     std::string& BufferForLayer(CameraImageAndLayers& outData, u32 layer);
+    std::string NameForLayer(u32 layer);
 
     // 2 layers in AO, 4 layers in AE
     bool mUsedLayers[4] = {};
-    FG1Buffers* mFg1Buffers = nullptr;
+    std::unique_ptr<FG1Buffers> mFg1Buffers;
 };
 } // namespace ReliveAPI

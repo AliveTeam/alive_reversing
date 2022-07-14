@@ -13,8 +13,11 @@ export(TARGETS lodepng_relivelib FILE lodepng_relivelib.cmake)
 
 SET(relive_lib_src
     # temp hack to use these bits of the api for the data conversion
+    ../Tools/relive_api/Base64.cpp
     ../Tools/relive_api/CamConverter.cpp
     ../Tools/relive_api/CamConverter.hpp
+    ../Tools/relive_api/ApiFG1Reader.cpp
+    ../Tools/relive_api/ApiFG1Reader.hpp
     ObjectIds.hpp
     ObjectIds.cpp
     BaseGameObject.hpp
