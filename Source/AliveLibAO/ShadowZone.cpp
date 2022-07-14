@@ -41,7 +41,7 @@ ShadowZone::ShadowZone(Path_ShadowZone* pTlv, Map* /*pMap*/, s32 tlvInfo)
     field_2C_g = FP_FromInteger(pTlv->field_1E_g);
     field_30_b = FP_FromInteger(pTlv->field_20_b);
 
-    field_24_id = pTlv->field_22_id;
+    field_24_id = pTlv->field_22_id; // Lets never read this again for real
     field_26_scale = pTlv->field_24_scale;
 }
 

@@ -131,7 +131,7 @@ void Alarm::VUpdate()
             if (static_cast<s32>(sGnFrame) > mAlarmPauseTimer)
             {
                 mAlarmState = States::eEnabling_1;
-                SfxPlayMono(SoundEffect::Alarm_45, 0, 0);
+                SfxPlayMono(SoundEffect::Alarm_45, 0);
             }
             break;
 
