@@ -368,7 +368,6 @@ enum class AOTypes : s16
 
 struct PrimHeader;
 
-// Temp interface till we have 1 copy of BaseGameObject
 class BaseGameObject
 {
 public:
