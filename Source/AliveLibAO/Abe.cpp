@@ -2987,23 +2987,26 @@ void Abe::BulletDamage_4220B0(Bullet* pBullet)
                     field_106_shot = 0;
                 }
             }
-
-            if (field_FC_current_motion != eAbeMotions::Motion_114_ElumRunLoop_42DFA0 || shootKind != ShootKind::eEverythingElse_0)
+            else
             {
-                auto pBlood = ao_new<Blood>();
-                if (pBlood)
-                {
-                    pBlood->ctor_4072B0(
-                        field_A8_xpos,
-                        field_AC_ypos - FP_FromInteger(45),
-                        FP_FromInteger(0),
-                        FP_FromInteger(0),
-                        FP_FromInteger(1),
-                        50);
-                }
-
-                break;
+                field_106_shot = 0;
+                field_100_health = FP_FromInteger(1);
+                return;
             }
+
+            auto pBlood = ao_new<Blood>();
+            if (pBlood)
+            {
+                pBlood->ctor_4072B0(
+                    field_A8_xpos,
+                    field_AC_ypos - FP_FromInteger(45),
+                    FP_FromInteger(0),
+                    FP_FromInteger(0),
+                    FP_FromInteger(1),
+                    50);
+            }
+
+            break;
         }
         default:
             break;

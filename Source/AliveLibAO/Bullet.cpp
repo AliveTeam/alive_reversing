@@ -247,7 +247,14 @@ bool Bullet::InZBulletCover(FP xpos, FP ypos, const PSX_RECT& objRect)
             continue;
         }
 
-        if (objRect.x >= pZCover->field_10_top_left.field_0_x && objRect.x <= pZCover->field_14_bottom_right.field_0_x && objRect.y >= pZCover->field_10_top_left.field_2_y && objRect.y <= pZCover->field_14_bottom_right.field_2_y && objRect.w >= pZCover->field_10_top_left.field_0_x && objRect.w <= pZCover->field_14_bottom_right.field_0_x && objRect.h >= pZCover->field_10_top_left.field_2_y && objRect.h <= pZCover->field_14_bottom_right.field_2_y)
+        if (objRect.x >= pZCover->field_10_top_left.field_0_x &&
+            objRect.x <= pZCover->field_14_bottom_right.field_0_x &&
+            objRect.y >= pZCover->field_10_top_left.field_2_y &&
+            objRect.y <= pZCover->field_14_bottom_right.field_2_y &&
+            objRect.w >= pZCover->field_10_top_left.field_0_x &&
+            objRect.w <= pZCover->field_14_bottom_right.field_0_x &&
+            objRect.h >= pZCover->field_10_top_left.field_2_y &&
+            objRect.h <= pZCover->field_14_bottom_right.field_2_y)
         {
             return true;
         }
