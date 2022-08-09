@@ -8,10 +8,10 @@ namespace AO {
 
 enum class BooleanOperatorType : s16
 {
-    eAnd_0 = 0,
-    eAndNot_1 = 1,
-    eOr_2 = 2,
-    eOrNot_3 = 3,
+    eAllOn_0 = 0,
+    e1OnAnd2Off_1 = 1,
+    e1Or2On_2 = 2,
+    e1OnOr2Off_3 = 3,
 };
 
 struct Path_SwitchStateBooleanLogic final : public Path_TLV

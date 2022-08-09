@@ -1782,7 +1782,7 @@ EXPORT void Factory_ChimeLock_4870D0(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoU
     }
 }
 
-EXPORT void Factory_ElumStart_Unknown_4873D0(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
+EXPORT void Factory_Elum_4873D0(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
 {
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
@@ -2768,7 +2768,7 @@ const PathFunctionTable kObjectFactory = {
      Factory_ElectricWall_4874E0,
      Factory_LiftMover_487580,
      Factory_ChimeLock_4870D0,
-     Factory_ElumStart_Unknown_4873D0,
+     Factory_Elum_4873D0,
      Factory_MeatSack_483790,
      Factory_Scrab_4863E0,
      Factory_FlintLockFire_487640,

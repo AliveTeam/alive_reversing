@@ -75,7 +75,7 @@ void SwitchStateBooleanLogic::VUpdate_436B60()
     s8 id_value = 0;
     switch (field_16_operator)
     {
-        case BooleanOperatorType::eAnd_0:
+        case BooleanOperatorType::eAllOn_0:
             if (id1_value && id2_value)
             {
                 id_value = 1;
@@ -86,7 +86,7 @@ void SwitchStateBooleanLogic::VUpdate_436B60()
             }
             break;
 
-        case BooleanOperatorType::eAndNot_1:
+        case BooleanOperatorType::e1OnAnd2Off_1:
             if (id1_value && !id2_value)
             {
                 id_value = 1;
@@ -97,7 +97,7 @@ void SwitchStateBooleanLogic::VUpdate_436B60()
             }
             break;
 
-        case BooleanOperatorType::eOr_2:
+        case BooleanOperatorType::e1Or2On_2:
             if (id1_value || id2_value)
             {
                 id_value = 1;
@@ -108,7 +108,7 @@ void SwitchStateBooleanLogic::VUpdate_436B60()
             }
             break;
 
-        case BooleanOperatorType::eOrNot_3:
+        case BooleanOperatorType::e1OnOr2Off_3:
             if (id1_value || !id2_value)
             {
                 id_value = 1;
