@@ -80,6 +80,7 @@ void TypesCollectionAO::AddAOTypes()
     REGISTER_TYPE_AO(AOTlvs::Path_TimerTrigger);
     REGISTER_TYPE_AO(AOTlvs::Path_PullRingRope);
     REGISTER_TYPE_AO(AOTlvs::Path_MusicTrigger);
+    REGISTER_TYPE_AO(AOTlvs::Path_Elum);
     REGISTER_TYPE_AO(AOTlvs::Path_ElumPathTrans);
     REGISTER_TYPE_AO(AOTlvs::Path_ElumStart);
     REGISTER_TYPE_AO(AOTlvs::Path_ElumWall);
@@ -136,6 +137,7 @@ void TypesCollectionAO::AddAOTypes()
     REGISTER_TYPE_AO(AOTlvs::Path_HandStone);
     REGISTER_TYPE_AO(AOTlvs::Path_BellsongStone);
     REGISTER_TYPE_AO(AOTlvs::Path_MovieStone);
+    REGISTER_TYPE_AO(AOTlvs::Path_SwitchStateBooleanLogic);
 
 #undef REGISTER_TYPE_AO
     AddEnum<AO::eLineTypes>("Enum_LineTypes",
