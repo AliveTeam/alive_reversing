@@ -22,6 +22,7 @@
 #include "../../Tools/relive_api/CamConverter.hpp"
 #include "../Collisions.hpp"
 #include "AnimationConverter.hpp"
+#include "relive_tlvs_conversion.hpp"
 
 constexpr u32 kDataVersion = 1;
 
@@ -173,112 +174,6 @@ static void ConvertPathCollisions(const CollisionInfo& info, const std::vector<u
     }
 }
 
-
-void to_json(nlohmann::json& j, const RGB16& p)
-{
-    j = nlohmann::json{
-        {"r", p.r},
-        {"g", p.g},
-        {"b", p.b}};
-}
-
-void from_json(const nlohmann::json& j, RGB16& p)
-{
-    j.at("r").get_to(p.r);
-    j.at("g").get_to(p.g);
-    j.at("b").get_to(p.b);
-}
-
-namespace relive {
-
-class Path_ShadowZone
-{
-public:
-    enum class Scale : s16
-    {
-        eBoth,
-        eHalf,
-        eFull,
-    };
-
-    RGB16 mRGB;
-    Scale mScale = Scale::eFull;
-};
-
-NLOHMANN_JSON_SERIALIZE_ENUM(Path_ShadowZone::Scale, {
-    {Path_ShadowZone::Scale::eBoth, "both"},
-    {Path_ShadowZone::Scale::eFull, "full"},
-    {Path_ShadowZone::Scale::eHalf, "half"},
-})
-
-
-void to_json(nlohmann::json& j, const Path_ShadowZone& p)
-{
-    j = nlohmann::json{
-        {"rgb", p.mRGB},
-        {"scale", p.mScale},
-    };
-}
-
-
-void from_json(const nlohmann::json& j, Path_ShadowZone& p)
-{
-    j.at("rgb").get_to(p.mRGB);
-    j.at("scale").get_to(p.mScale);
-}
-
-
-class Path_ShadowZone_Converter
-{
-public:
-    static Path_ShadowZone From(const AO::Path_ShadowZone& tlv)
-    {
-        Path_ShadowZone r;
-        r.mRGB.SetRGB(tlv.field_1C_r, tlv.field_1E_g, tlv.field_20_b);
-        r.mScale = From(tlv.field_24_scale);
-        return r;
-    }
-
-    static Path_ShadowZone From(const ::Path_ShadowZone& tlv)
-    {
-        Path_ShadowZone r;
-        r.mRGB.SetRGB(tlv.field_14_r, tlv.field_16_g, tlv.field_18_b);
-        r.mScale = From(tlv.field_1C_scale);
-        return r;
-    }
-
-private:
-    static Path_ShadowZone::Scale From(::ShadowZoneScale aeScale)
-    {
-        switch (aeScale)
-        {
-            case ::ShadowZoneScale::eHalf_1:
-                return Path_ShadowZone::Scale::eHalf;
-            case ::ShadowZoneScale::eFull_2:
-                return Path_ShadowZone::Scale::eFull;
-            case ::ShadowZoneScale::eBoth_0:
-                return Path_ShadowZone::Scale::eBoth;
-        }
-        ALIVE_FATAL("Bad AE shadow scale");
-    }
-
-    static Path_ShadowZone::Scale From(AO::ShadowZoneScale aoScale)
-    {
-        switch (aoScale)
-        {
-            case AO::ShadowZoneScale::eHalf_1:
-                return Path_ShadowZone::Scale::eHalf;
-            case AO::ShadowZoneScale::eFull_2:
-                return Path_ShadowZone::Scale::eFull;
-            case AO::ShadowZoneScale::eBoth_0:
-                return Path_ShadowZone::Scale::eBoth;
-        }
-        ALIVE_FATAL("Bad AO shadow scale");
-    }
-};
-
-} // namespace relive
-
 static void ConvertTLV(const AO::Path_TLV& tlv)
 {
     nlohmann::json j;
@@ -334,12 +229,21 @@ static void ConvertPaths(const ReliveAPI::ChunkedLvlFile& pathBnd, EReliveLevelI
     }
 }
 
+static void TestTlvConversion()
+{
+    AO::Path_ShadowZone shadowTlv = {};
+    shadowTlv.mTlvType32.mType = AO::TlvTypes::ShadowZone_7;
+    ConvertTLV(shadowTlv);
+
+    // TODO: Check from AE tlv
+
+
+}
 
 void DataConversion::ConvertData()
 {
     // TODO: Check existing data version, if any
-
-    AO::Path_ShadowZone shadowTlv = {};
+    TestTlvConversion();
 
     FileSystem fs;
     //CameraConverter cc;
