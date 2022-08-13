@@ -67,6 +67,9 @@ SET(relive_lib_src
     data_conversion/file_system.cpp
     data_conversion/AnimationConverter.hpp
     data_conversion/AnimationConverter.cpp
+    data_conversion/relive_tlvs.hpp
+    data_conversion/relive_tlvs_conversion.hpp
+    data_conversion/relive_tlvs_serialization.hpp
     Layer.hpp
     stdafx.h
 )
