@@ -178,7 +178,7 @@ void PullRingRope::VUpdate()
                             case PullRingSwitchSound::eWellExit_1:
                                 SFX_Play_Stereo(SoundEffect::WellExit_20, 60 * leftVol + 10, 60 * rightVol + 10);
                                 break;
-                            case PullRingSwitchSound::eRingUnknownTrigger_2: // ring bell hammer from AO?
+                            case PullRingSwitchSound::eRingBellHammer_2: // ring bell hammer from AO?
                                 SFX_Play_Stereo(SoundEffect::RingUnknownTrigger_8, 60 * leftVol + 10, 60 * rightVol + 10);
                                 break;
                             case PullRingSwitchSound::eDoorEffect_3:
@@ -196,7 +196,7 @@ void PullRingRope::VUpdate()
                             case PullRingSwitchSound::eWellExit_1:
                                 SFX_Play_Stereo(SoundEffect::WellExit_20, 60 * leftVol + 10, 60 * rightVol + 10);
                                 break;
-                            case PullRingSwitchSound::eRingUnknownTrigger_2:
+                            case PullRingSwitchSound::eRingBellHammer_2:
                                 SFX_Play_Stereo(SoundEffect::RingUnknownTrigger_8, 60 * leftVol + 10, 60 * rightVol + 10);
                                 break;
                             case PullRingSwitchSound::eDoorEffect_3:

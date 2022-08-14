@@ -15,7 +15,7 @@ struct Path_TimedMine final : public Path_TLV
     s16 mTicksUntilExplosion;
     s32 mDisabledResources;
 };
-ALIVE_ASSERT_SIZEOF(Path_TimedMine, 0x1C);
+ALIVE_ASSERT_SIZEOF_ALWAYS(Path_TimedMine, 0x1C);
 
 enum TimedMineFlags
 {

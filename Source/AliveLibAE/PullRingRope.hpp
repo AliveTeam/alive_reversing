@@ -9,7 +9,7 @@ enum class PullRingSwitchSound : s16
 {
     eNone_0 = 0,
     eWellExit_1 = 1,
-    eRingUnknownTrigger_2 = 2,
+    eRingBellHammer_2 = 2,
     eDoorEffect_3 = 3,
 };
 

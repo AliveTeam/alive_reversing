@@ -1032,7 +1032,7 @@ struct Path_PullRingRope final : public ReliveAPI::TlvObjectBaseAE
         {
             {::PullRingSwitchSound::eNone_0, "None"},
             {::PullRingSwitchSound::eWellExit_1, "Well Exit"},
-            {::PullRingSwitchSound::eRingUnknownTrigger_2, "Ring Unknown Trigger"},
+            {::PullRingSwitchSound::eRingBellHammer_2, "Ring Unknown Trigger"},
             {::PullRingSwitchSound::eDoorEffect_3, "Door Effect"},
         });
 

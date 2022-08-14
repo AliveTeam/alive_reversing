@@ -12,7 +12,7 @@ struct Path_HoneySack final : public Path_TLV
     s16 field_18_chase_ticks;
     Scale_short field_1A_scale;
 };
-ALIVE_ASSERT_SIZEOF(Path_HoneySack, 0x1C);
+ALIVE_ASSERT_SIZEOF_ALWAYS(Path_HoneySack, 0x1C);
 
 class BeeSwarm;
 

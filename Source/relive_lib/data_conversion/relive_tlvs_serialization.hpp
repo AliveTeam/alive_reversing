@@ -68,6 +68,14 @@ NLOHMANN_JSON_SERIALIZE_ENUM(reliveXDirection, {
     {reliveXDirection::eRight, "right"},
 })
 
+NLOHMANN_JSON_SERIALIZE_ENUM(reliveSwitchOp, {
+    {reliveSwitchOp::eSetTrue, "set_true"},
+    {reliveSwitchOp::eSetFalse, "set_false"},
+    {reliveSwitchOp::eToggle, "toggle"},
+    {reliveSwitchOp::eIncrement, "increment"},
+    {reliveSwitchOp::eDecrement, "decrement"},
+})
+
 // Path_ShadowZone
 NLOHMANN_JSON_SERIALIZE_ENUM(Path_ShadowZone::Scale, {
     {Path_ShadowZone::Scale::eBoth, "both"},
@@ -273,6 +281,69 @@ void from_json(const nlohmann::json& j, Path_FallingItem& p)
     j.at("fall_interval").get_to(p.mFallInterval);
     j.at("max_falling_items").get_to(p.mMaxFallingItems);
     j.at("reset_switch_id_after_use").get_to(p.mResetSwitchIdAfterUse);
+}
+
+// Path_PullRingRope
+NLOHMANN_JSON_SERIALIZE_ENUM(Path_PullRingRope::PullRingSwitchSound, {
+    {Path_PullRingRope::PullRingSwitchSound::eNone, "none"},
+    {Path_PullRingRope::PullRingSwitchSound::eWellExit, "well_exit"},
+    {Path_PullRingRope::PullRingSwitchSound::RingBellHammer, "ring_bell_hammer"},
+    {Path_PullRingRope::PullRingSwitchSound::eDoorEffect, "door_effect"},
+})
+
+NLOHMANN_JSON_SERIALIZE_ENUM(Path_PullRingRope::PullRingSoundDirection, {
+    {Path_PullRingRope::PullRingSoundDirection::eLeftAndRight, "left_and_right"},
+    {Path_PullRingRope::PullRingSoundDirection::eLeft, "left"},
+    {Path_PullRingRope::PullRingSoundDirection::eRight, "right"},
+})
+
+void to_json(nlohmann::json& j, const Path_PullRingRope& p)
+{
+    j = nlohmann::json{
+        {"base", ToBase(p)},
+        {"switch_id", p.mSwitchId},
+        {"action", p.mAction},
+        {"rope_length", p.mRopeLength},
+        {"scale", p.mScale},
+        {"on_sound", p.mOnSound},
+        {"off_sound", p.mOffSound},
+        {"sound_direction", p.mSoundDirection},
+    };
+}
+
+void from_json(const nlohmann::json& j, Path_PullRingRope& p)
+{
+    j.at("base").get_to(ToBase(p));
+    j.at("switch_id").get_to(p.mSwitchId);
+    j.at("action").get_to(p.mAction);
+    j.at("rope_length").get_to(p.mRopeLength);
+    j.at("scale").get_to(p.mScale);
+    j.at("on_sound").get_to(p.mOnSound);
+    j.at("off_sound").get_to(p.mOffSound);
+    j.at("sound_direction").get_to(p.mSoundDirection);
+}
+
+// Path_TimedMine
+void to_json(nlohmann::json& j, const Path_TimedMine& p)
+{
+    j = nlohmann::json{
+        {"base", ToBase(p)},
+        {"switch_id", p.mSwitchId},
+        {"state", p.mState},
+        {"scale", p.mScale},
+        {"ticks_until_explosion", p.mTicksUntilExplosion},
+        {"disabled_resources", p.mDisabledResources},
+    };
+}
+
+void from_json(const nlohmann::json& j, Path_TimedMine& p)
+{
+    j.at("base").get_to(ToBase(p));
+    j.at("switch_id").get_to(p.mSwitchId);
+    j.at("state").get_to(p.mState);
+    j.at("scale").get_to(p.mScale);
+    j.at("ticks_until_explosion").get_to(p.mTicksUntilExplosion);
+    j.at("disabled_resources").get_to(p.mDisabledResources);
 }
 
 } // namespace relive

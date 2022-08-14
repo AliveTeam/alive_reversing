@@ -15,6 +15,10 @@
 #include "../AliveLibAO/ZBall.hpp"
 #include "../AliveLibAE/FallingItem.hpp"
 #include "../AliveLibAO/FallingItem.hpp"
+#include "../AliveLibAO/PullRingRope.hpp"
+#include "../AliveLibAE/PullRingRope.hpp"
+#include "../AliveLibAO/TimedMine.hpp"
+#include "../AliveLibAE/TimedMine.hpp"
 // Convert an AO or AE TLV to a relive TLV
 
 namespace relive {
@@ -66,6 +70,42 @@ namespace relive {
             return reliveXDirection::eRight;
         }
         ALIVE_FATAL("Bad x direction");
+    }
+
+    static reliveSwitchOp From(const AO::SwitchOp op)
+    {
+        switch (op)
+        {
+            case AO::SwitchOp::eSetTrue_0:
+                return reliveSwitchOp::eSetTrue;
+            case AO::SwitchOp::eSetFalse_1:
+                return reliveSwitchOp::eSetFalse;
+            case AO::SwitchOp::eToggle_2:
+                return reliveSwitchOp::eToggle;
+            case AO::SwitchOp::eIncrement_3:
+                return reliveSwitchOp::eIncrement;
+            case AO::SwitchOp::eDecrement_4:
+                return reliveSwitchOp::eDecrement;
+        }
+        ALIVE_FATAL("Bad switch operator");
+    }
+
+    static reliveSwitchOp From(const ::SwitchOp op)
+    {
+        switch (op)
+        {
+        case ::SwitchOp::eSetTrue_0:
+            return reliveSwitchOp::eSetTrue;
+        case ::SwitchOp::eSetFalse_1:
+            return reliveSwitchOp::eSetFalse;
+        case ::SwitchOp::eToggle_2:
+            return reliveSwitchOp::eToggle;
+        case ::SwitchOp::eIncrement_3:
+            return reliveSwitchOp::eIncrement;
+        case ::SwitchOp::eDecrement_4:
+            return reliveSwitchOp::eDecrement;
+        }
+        ALIVE_FATAL("Bad switch operator");
     }
 
 class Path_ShadowZone_Converter
@@ -362,6 +402,123 @@ public:
         r.mFallInterval = tlv.field_14_fall_interval;
         r.mMaxFallingItems = tlv.field_16_max_falling_items;
         r.mResetSwitchIdAfterUse = relive::From(tlv.field_18_reset_switch_id_after_use);
+        return r;
+    }
+};
+
+class Path_PullRingRope_Converter
+{
+public:
+    static Path_PullRingRope From(const AO::Path_PullRingRope& tlv)
+    {
+        Path_PullRingRope r;
+        r.mSwitchId = tlv.field_18_switch_id;
+        r.mAction = relive::From(tlv.field_1A_action);
+        r.mRopeLength = tlv.field_1C_rope_length;
+        r.mScale = relive::From(tlv.field_1E_scale);
+        r.mOnSound = From(tlv.field_20_on_sound);
+        r.mOffSound = From(tlv.field_22_off_sound);
+        r.mSoundDirection = From(tlv.field_24_sound_direction);
+        return r;
+    }
+
+    static Path_PullRingRope From(const ::Path_PullRingRope& tlv)
+    {
+        Path_PullRingRope r;
+        r.mSwitchId = tlv.field_10_switch_id;
+        r.mAction = relive::From(tlv.field_12_action);
+        r.mRopeLength = tlv.field_14_rope_length;
+        r.mScale = relive::From(tlv.field_16_scale);
+        r.mOnSound = From(tlv.field_18_on_sound);
+        r.mOffSound = From(tlv.field_1A_off_sound);
+        r.mSoundDirection = From(tlv.field_1C_sound_direction);
+        return r;
+    }
+
+private:
+    static relive::Path_PullRingRope::PullRingSwitchSound From(AO::PullRingSwitchSound switchSound)
+    {
+        switch (switchSound)
+        {
+            case AO::PullRingSwitchSound::eNone_0:
+                return relive::Path_PullRingRope::PullRingSwitchSound::eNone;
+            case AO::PullRingSwitchSound::eWellExit_1:
+                return relive::Path_PullRingRope::PullRingSwitchSound::eWellExit;
+            case AO::PullRingSwitchSound::RingBellHammer_2:
+                return relive::Path_PullRingRope::PullRingSwitchSound::RingBellHammer;
+            case AO::PullRingSwitchSound::eDoorEffect_3:
+                return relive::Path_PullRingRope::PullRingSwitchSound::eDoorEffect;
+        }
+        ALIVE_FATAL("Bad pull ring switch sound");
+    }
+
+    static relive::Path_PullRingRope::PullRingSoundDirection From(AO::PullRingSoundDirection soundDir)
+    {
+        switch (soundDir)
+        {
+            case AO::PullRingSoundDirection::eLeftAndRight_0:
+                return relive::Path_PullRingRope::PullRingSoundDirection::eLeftAndRight;
+            case AO::PullRingSoundDirection::eLeft_1:
+                return relive::Path_PullRingRope::PullRingSoundDirection::eLeft;
+            case AO::PullRingSoundDirection::eRight_2:
+                return relive::Path_PullRingRope::PullRingSoundDirection::eRight;
+        }
+        ALIVE_FATAL("Bad pull ring sound direction");
+    }
+
+    static relive::Path_PullRingRope::PullRingSwitchSound From(::PullRingSwitchSound switchSound)
+    {
+        switch (switchSound)
+        {
+        case ::PullRingSwitchSound::eNone_0:
+            return relive::Path_PullRingRope::PullRingSwitchSound::eNone;
+        case ::PullRingSwitchSound::eWellExit_1:
+            return relive::Path_PullRingRope::PullRingSwitchSound::eWellExit;
+        case ::PullRingSwitchSound::eRingBellHammer_2:
+            return relive::Path_PullRingRope::PullRingSwitchSound::RingBellHammer;
+        case ::PullRingSwitchSound::eDoorEffect_3:
+            return relive::Path_PullRingRope::PullRingSwitchSound::eDoorEffect;
+        }
+        ALIVE_FATAL("Bad pull ring switch sound");
+    }
+
+    static relive::Path_PullRingRope::PullRingSoundDirection From(::PullRingSoundDirection soundDir)
+    {
+        switch (soundDir)
+        {
+        case ::PullRingSoundDirection::eLeftAndRight_0:
+            return relive::Path_PullRingRope::PullRingSoundDirection::eLeftAndRight;
+        case ::PullRingSoundDirection::eLeft_1:
+            return relive::Path_PullRingRope::PullRingSoundDirection::eLeft;
+        case ::PullRingSoundDirection::eRight_2:
+            return relive::Path_PullRingRope::PullRingSoundDirection::eRight;
+        }
+        ALIVE_FATAL("Bad pull ring sound direction");
+    }
+};
+
+class Path_TimedMine_Converter
+{
+public:
+    static Path_TimedMine From(const AO::Path_TimedMine& tlv)
+    {
+        Path_TimedMine r;
+        r.mSwitchId = tlv.field_18_switch_id;
+        r.mState = tlv.field_1A_state;
+        r.mScale = relive::From(tlv.field_1C_scale);
+        r.mTicksUntilExplosion = tlv.mTicksUntilExplosion;
+        r.mDisabledResources = tlv.mDisabledResources;
+        return r;
+    }
+
+    static Path_TimedMine From(const ::Path_TimedMine& tlv)
+    {
+        Path_TimedMine r;
+        r.mSwitchId = tlv.field_10_switch_id;
+        r.mState = tlv.field_12_state;
+        r.mScale = relive::From(tlv.field_14_scale);
+        r.mTicksUntilExplosion = tlv.mTicksUntilExplosion;
+        r.mDisabledResources = tlv.mDisabledResources;
         return r;
     }
 };

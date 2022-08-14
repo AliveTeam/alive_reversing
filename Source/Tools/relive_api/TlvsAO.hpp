@@ -935,7 +935,7 @@ struct Path_PullRingRope final : public ReliveAPI::TlvObjectBaseAO
 
         types.AddEnum<AO::PullRingSoundDirection>("Enum_PullRingSoundDirection",
         {
-            {AO::PullRingSoundDirection::eBoth_0, "Both"},
+            {AO::PullRingSoundDirection::eLeftAndRight_0, "Both"},
             {AO::PullRingSoundDirection::eLeft_1, "Left"},
             {AO::PullRingSoundDirection::eRight_2, "Right"},
         });

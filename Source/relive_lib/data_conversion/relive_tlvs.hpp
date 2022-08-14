@@ -24,6 +24,15 @@ enum class reliveXDirection : s16
     eRight,
 };
 
+enum class reliveSwitchOp : s16
+{
+    eSetTrue,
+    eSetFalse,
+    eToggle,
+    eIncrement,
+    eDecrement,
+};
+
 // TODO: Base type
 class Path_TLV
 {
@@ -85,8 +94,8 @@ public:
 
 struct Path_LiftPoint final : public Path_TLV
 {
-    s16 field_10_lift_point_id;
-    reliveChoice field_12_bStart_point;
+    s16 field_10_lift_point_id = 0;
+    reliveChoice field_12_bStart_point = reliveChoice::eNo;
     enum class LiftPointStopType : s16
     {
         eTopFloor,
@@ -95,25 +104,25 @@ struct Path_LiftPoint final : public Path_TLV
         eMiddleLockFloor,
         eStartPointOnly,
     };
-    LiftPointStopType field_16_lift_point_stop_type;
-    reliveScale field_18_scale;
-    reliveChoice field_1A_bIgnore_lift_mover;
+    LiftPointStopType field_16_lift_point_stop_type = LiftPointStopType::eTopFloor;
+    reliveScale field_18_scale = reliveScale::eFull;
+    reliveChoice field_1A_bIgnore_lift_mover = reliveChoice::eNo;
 };
 
 struct Path_Dove final : public Path_TLV
 {
-    s16 mDoveCount;
-    reliveChoice mPixelPerfect;
-    reliveScale mScale;
+    s16 mDoveCount = 0;
+    reliveChoice mPixelPerfect = reliveChoice::eNo;
+    reliveScale mScale = reliveScale::eFull;
 };
 
 struct Path_RockSack final : public Path_TLV
 {
-    reliveXDirection field_10_fall_direction;
-    u16 field_12_x_vel;
-    u16 field_14_y_vel;
-    reliveScale field_16_scale;
-    s16 field_18_rock_amount;
+    reliveXDirection field_10_fall_direction = reliveXDirection::eLeft;
+    u16 field_12_x_vel = 0;
+    u16 field_14_y_vel = 0;
+    reliveScale field_16_scale = reliveScale::eFull;
+    s16 field_18_rock_amount = 0;
 };
 
 struct Path_ZBall final : public Path_TLV
@@ -132,18 +141,53 @@ struct Path_ZBall final : public Path_TLV
         eSlow,
     };
 
-    StartPos mStartPos;
-    reliveScale mScale;
-    Speed mSpeed;
+    StartPos mStartPos = StartPos::eCenter;
+    reliveScale mScale = reliveScale::eFull;
+    Speed mSpeed = Speed::eNormal;
 };
 
 struct Path_FallingItem final : public Path_TLV
 {
-    s16 mSwitchId;
-    reliveScale mScale;
-    s16 mFallInterval;
-    s16 mMaxFallingItems;
-    reliveChoice mResetSwitchIdAfterUse;
+    s16 mSwitchId = 0;
+    reliveScale mScale = reliveScale::eFull;
+    s16 mFallInterval = 0;
+    s16 mMaxFallingItems = 0;
+    reliveChoice mResetSwitchIdAfterUse = reliveChoice::eYes;
+};
+
+struct Path_PullRingRope final : public Path_TLV
+{
+    enum class PullRingSwitchSound : s16
+    {
+        eNone,
+        eWellExit,
+        RingBellHammer,
+        eDoorEffect,
+    };
+
+    enum class PullRingSoundDirection : s16
+    {
+        eLeftAndRight,
+        eLeft,
+        eRight,
+    };
+
+    s16 mSwitchId = 0;
+    reliveSwitchOp mAction = reliveSwitchOp::eSetTrue;
+    u16 mRopeLength = 0;
+    reliveScale mScale = reliveScale::eFull;
+    PullRingSwitchSound mOnSound = PullRingSwitchSound::eNone;
+    PullRingSwitchSound mOffSound = PullRingSwitchSound::eNone;
+    PullRingSoundDirection mSoundDirection = PullRingSoundDirection::eLeftAndRight;
+};
+
+struct Path_TimedMine final : public Path_TLV
+{
+    s16 mSwitchId = 0;
+    s16 mState = 0;
+    reliveScale mScale = reliveScale::eFull;
+    s16 mTicksUntilExplosion = 0;
+    s32 mDisabledResources = 0;
 };
 
 } // namespace relive

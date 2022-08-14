@@ -18,7 +18,7 @@ enum class PullRingSwitchSound : s16
 
 enum class PullRingSoundDirection : s16
 {
-    eBoth_0 = 0,
+    eLeftAndRight_0 = 0,
     eLeft_1 = 1,
     eRight_2 = 2
 };
@@ -66,7 +66,7 @@ public:
     Rope* field_F8_pRope = nullptr;
     PullRingSwitchSound field_FC_on_sound = PullRingSwitchSound::eNone_0;
     PullRingSwitchSound field_FE_off_sound = PullRingSwitchSound::eNone_0;
-    PullRingSoundDirection field_100_sound_direction = PullRingSoundDirection::eBoth_0;
+    PullRingSoundDirection field_100_sound_direction = PullRingSoundDirection::eLeftAndRight_0;
 };
 ALIVE_ASSERT_SIZEOF(PullRingRope, 0x104);
 

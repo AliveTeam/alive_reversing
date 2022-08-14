@@ -211,9 +211,13 @@ static void ConvertTLV(const AO::Path_TLV& tlv)
             j.push_back({ "falling_item", relive::Path_FallingItem_Converter::From(static_cast<const AO::Path_FallingItem&>(tlv)) });
             break;
         case AO::TlvTypes::PullRingRope_18:
+            j.push_back({ "pull_ring_rope", relive::Path_PullRingRope_Converter::From(static_cast<const AO::Path_PullRingRope&>(tlv)) });
+            break;
         case AO::TlvTypes::BackgroundAnimation_19:
         case AO::TlvTypes::Honey_20:
         case AO::TlvTypes::TimedMine_22:
+            j.push_back({ "timed_mine", relive::Path_TimedMine_Converter::From(static_cast<const AO::Path_TimedMine&>(tlv)) });
+            break;
         case AO::TlvTypes::Slig_24:
         case AO::TlvTypes::Slog_25:
         case AO::TlvTypes::Lever_26:
