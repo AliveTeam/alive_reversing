@@ -195,11 +195,21 @@ static void ConvertTLV(const AO::Path_TLV& tlv)
             break;
 
         case AO::TlvTypes::LiftPoint_8:
+            j.push_back({ "lift_point", relive::Path_LiftPoint_Converter::From(static_cast<const AO::Path_LiftPoint&>(tlv)) });
+            break;
         case AO::TlvTypes::WellLocal_11:
         case AO::TlvTypes::Dove_12:
+            j.push_back({ "dove", relive::Path_Dove_Converter::From(static_cast<const AO::Path_Dove&>(tlv)) });
+            break;
         case AO::TlvTypes::RockSack_13:
+            j.push_back({ "rock_sack", relive::Path_RockSack_Converter::From(static_cast<const AO::Path_RockSack&>(tlv)) });
+            break;
         case AO::TlvTypes::ZBall_14:
+            j.push_back({ "z_ball", relive::Path_ZBall_Converter::From(static_cast<const AO::Path_ZBall&>(tlv)) });
+            break;
         case AO::TlvTypes::FallingItem_15:
+            j.push_back({ "falling_item", relive::Path_FallingItem_Converter::From(static_cast<const AO::Path_FallingItem&>(tlv)) });
+            break;
         case AO::TlvTypes::PullRingRope_18:
         case AO::TlvTypes::BackgroundAnimation_19:
         case AO::TlvTypes::Honey_20:

@@ -6,6 +6,15 @@
 #include "../AliveLibAE/Path.hpp"
 #include "../AliveLibAE/Abe.hpp"
 #include "../AliveLibAO/Abe.hpp"
+#include "../AliveLibAE/LiftPoint.hpp"
+#include "../AliveLibAO/LiftPoint.hpp"
+#include "../AliveLibAE/Dove.hpp"
+#include "../AliveLibAO/Dove.hpp"
+#include "../AliveLibAE/RockSack.hpp"
+#include "../AliveLibAO/RockSack.hpp"
+#include "../AliveLibAO/ZBall.hpp"
+#include "../AliveLibAE/FallingItem.hpp"
+#include "../AliveLibAO/FallingItem.hpp"
 // Convert an AO or AE TLV to a relive TLV
 
 namespace relive {
@@ -45,6 +54,18 @@ namespace relive {
             return reliveChoice::eYes;
         }
         ALIVE_FATAL("Bad choice");
+    }
+
+    static reliveXDirection From(const ::XDirection_short xdirection)
+    {
+        switch (xdirection)
+        {
+        case XDirection_short::eLeft_0:
+            return reliveXDirection::eLeft;
+        case XDirection_short::eRight_1:
+            return reliveXDirection::eRight;
+        }
+        ALIVE_FATAL("Bad x direction");
     }
 
 class Path_ShadowZone_Converter
@@ -155,14 +176,193 @@ private:
     {
         switch (scale)
         {
-        case ::Path_ContinuePoint::Scale::eNone_0:
-            return relive::Path_ContinuePoint::Scale::eNone;
-        case ::Path_ContinuePoint::Scale::eHalf_1:
-            return relive::Path_ContinuePoint::Scale::eHalf;
-        case ::Path_ContinuePoint::Scale::eFull_2:
-            return relive::Path_ContinuePoint::Scale::eFull;
+            case ::Path_ContinuePoint::Scale::eNone_0:
+                return relive::Path_ContinuePoint::Scale::eNone;
+            case ::Path_ContinuePoint::Scale::eHalf_1:
+                return relive::Path_ContinuePoint::Scale::eHalf;
+            case ::Path_ContinuePoint::Scale::eFull_2:
+                return relive::Path_ContinuePoint::Scale::eFull;
         }
         ALIVE_FATAL("Bad scale");
+    }
+};
+
+class Path_LiftPoint_Converter
+{
+public:
+    static Path_LiftPoint From(const AO::Path_LiftPoint& tlv)
+    {
+        Path_LiftPoint r;
+        r.field_10_lift_point_id = tlv.field_18_lift_point_id;
+        r.field_12_bStart_point = relive::From(tlv.field_1A_bstart_point);
+        r.field_16_lift_point_stop_type = From(tlv.field_1E_lift_point_stop_type);
+        r.field_18_scale = relive::From(tlv.field_20_scale);
+        r.field_1A_bIgnore_lift_mover = relive::From(tlv.field_22_bIgnore_lift_mover);
+        return r;
+    }
+
+    static Path_LiftPoint From(const ::Path_LiftPoint& tlv)
+    {
+        Path_LiftPoint r;
+        r.field_10_lift_point_id = tlv.field_10_lift_point_id;
+        r.field_12_bStart_point = relive::From(tlv.field_12_bStart_point);
+        r.field_16_lift_point_stop_type = From(tlv.field_16_lift_point_stop_type);
+        r.field_18_scale = relive::From(tlv.field_18_scale);
+        r.field_1A_bIgnore_lift_mover = relive::From(tlv.field_1A_bIgnore_lift_mover);
+        return r;
+    }
+
+private:
+    static relive::Path_LiftPoint::LiftPointStopType From(AO::LiftPointStopType stopType)
+    {
+        switch (stopType)
+        {
+            case AO::LiftPointStopType::eTopFloor_0:
+                return relive::Path_LiftPoint::LiftPointStopType::eTopFloor;
+            case AO::LiftPointStopType::eBottomFloor_1:
+                return relive::Path_LiftPoint::LiftPointStopType::eBottomFloor;
+            case AO::LiftPointStopType::eMiddleFloor_2:
+                return relive::Path_LiftPoint::LiftPointStopType::eMiddleFloor;
+            case AO::LiftPointStopType::eMiddleLockFloor_3:
+                return relive::Path_LiftPoint::LiftPointStopType::eMiddleLockFloor;
+            case AO::LiftPointStopType::eStartPointOnly_4:
+                return relive::Path_LiftPoint::LiftPointStopType::eStartPointOnly;
+        }
+        ALIVE_FATAL("Bad lift point stop type");
+    }
+
+    static relive::Path_LiftPoint::LiftPointStopType From(::LiftPointStopType stopType)
+    {
+        switch (stopType)
+        {
+            case ::LiftPointStopType::eTopFloor_0:
+                return relive::Path_LiftPoint::LiftPointStopType::eTopFloor;
+            case ::LiftPointStopType::eBottomFloor_1:
+                return relive::Path_LiftPoint::LiftPointStopType::eBottomFloor;
+            case ::LiftPointStopType::eMiddleFloor_2:
+                return relive::Path_LiftPoint::LiftPointStopType::eMiddleFloor;
+            case ::LiftPointStopType::eMiddleLockFloor_3:
+                return relive::Path_LiftPoint::LiftPointStopType::eMiddleLockFloor;
+            case ::LiftPointStopType::eStartPointOnly_4:
+                return relive::Path_LiftPoint::LiftPointStopType::eStartPointOnly;
+        }
+        ALIVE_FATAL("Bad lift point stop type");
+    }
+};
+
+class Path_Dove_Converter
+{
+public:
+    static Path_Dove From(const AO::Path_Dove& tlv)
+    {
+        Path_Dove r;
+        r.mDoveCount = tlv.mDoveCount;
+        r.mPixelPerfect = relive::From(tlv.mPixelPerfect);
+        r.mScale = relive::From(tlv.mScale);
+        return r;
+    }
+
+    static Path_Dove From(const ::Path_Dove& tlv)
+    {
+        Path_Dove r;
+        r.mDoveCount = tlv.mDoveCount;
+        r.mPixelPerfect = relive::From(tlv.mPixelPerfect);
+        r.mScale = relive::From(tlv.mScale);
+        return r;
+    }
+};
+
+class Path_RockSack_Converter
+{
+public:
+    static Path_RockSack From(const AO::Path_RockSack& tlv)
+    {
+        Path_RockSack r;
+        r.field_10_fall_direction = relive::From(tlv.field_18_fall_direction);
+        r.field_12_x_vel = tlv.field_1A_x_vel;
+        r.field_14_y_vel = tlv.field_1C_y_vel;
+        r.field_16_scale = relive::From(tlv.field_1E_scale);
+        r.field_18_rock_amount = tlv.field_20_rock_amount;
+        return r;
+    }
+
+    static Path_RockSack From(const ::Path_RockSack& tlv)
+    {
+        Path_RockSack r;
+        r.field_10_fall_direction = relive::From(tlv.field_10_fall_direction);
+        r.field_12_x_vel = tlv.field_12_x_vel;
+        r.field_14_y_vel = tlv.field_14_y_vel;
+        r.field_16_scale = relive::From(tlv.field_16_scale);
+        r.field_18_rock_amount = tlv.field_18_rock_amount;
+        return r;
+    }
+};
+
+class Path_ZBall_Converter
+{
+public:
+    static Path_ZBall From(const AO::Path_ZBall& tlv)
+    {
+        Path_ZBall r;
+        r.mStartPos = From(tlv.mStartPos);
+        r.mScale = relive::From(tlv.mScale);
+        r.mSpeed = From(tlv.mSpeed);
+        return r;
+    }
+
+private:
+    static relive::Path_ZBall::StartPos From(AO::Path_ZBall::StartPos startPos)
+    {
+        switch (startPos)
+        {
+            case AO::Path_ZBall::StartPos::eCenter_0:
+                return relive::Path_ZBall::StartPos::eCenter;
+            case AO::Path_ZBall::StartPos::eOut_1:
+                return relive::Path_ZBall::StartPos::eOut;
+            case AO::Path_ZBall::StartPos::eIn_2:
+                return relive::Path_ZBall::StartPos::eIn;
+        }
+        ALIVE_FATAL("Bad start pos");
+    }
+
+    static relive::Path_ZBall::Speed From(AO::Path_ZBall::Speed speed)
+    {
+        switch (speed)
+        {
+            case AO::Path_ZBall::Speed::eNormal_0:
+                return relive::Path_ZBall::Speed::eNormal;
+            case AO::Path_ZBall::Speed::eFast_1:
+                return relive::Path_ZBall::Speed::eFast;
+            case AO::Path_ZBall::Speed::eSlow_2:
+                return relive::Path_ZBall::Speed::eSlow;
+        }
+        ALIVE_FATAL("Bad speed");
+    }
+};
+
+class Path_FallingItem_Converter
+{
+public:
+    static Path_FallingItem From(const AO::Path_FallingItem& tlv)
+    {
+        Path_FallingItem r;
+        r.mSwitchId = tlv.field_18_switch_id;
+        r.mScale = relive::From(tlv.field_1A_scale);
+        r.mFallInterval = tlv.field_1C_fall_interval;
+        r.mMaxFallingItems = tlv.field_1E_max_falling_items;
+        r.mResetSwitchIdAfterUse = relive::From(tlv.field_20_reset_switch_id_after_use);
+        return r;
+    }
+
+    static Path_FallingItem From(const ::Path_FallingItem& tlv)
+    {
+        Path_FallingItem r;
+        r.mSwitchId = tlv.field_10_switch_id;
+        r.mScale = relive::From(tlv.field_12_scale);
+        r.mFallInterval = tlv.field_14_fall_interval;
+        r.mMaxFallingItems = tlv.field_16_max_falling_items;
+        r.mResetSwitchIdAfterUse = relive::From(tlv.field_18_reset_switch_id_after_use);
+        return r;
     }
 };
 

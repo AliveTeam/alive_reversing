@@ -63,6 +63,11 @@ NLOHMANN_JSON_SERIALIZE_ENUM(reliveChoice, {
     {reliveChoice::eYes, "yes"},
 })
 
+NLOHMANN_JSON_SERIALIZE_ENUM(reliveXDirection, {
+    {reliveXDirection::eLeft, "left"},
+    {reliveXDirection::eRight, "right"},
+})
+
 // Path_ShadowZone
 NLOHMANN_JSON_SERIALIZE_ENUM(Path_ShadowZone::Scale, {
     {Path_ShadowZone::Scale::eBoth, "both"},
@@ -141,6 +146,133 @@ void from_json(const nlohmann::json& j, Path_ContinuePoint& p)
 
     j.at("scale").get_to(p.field_10_scale);
     j.at("save_file_id").get_to(p.field_12_save_file_id);
+}
+
+// Path_LiftPoint
+NLOHMANN_JSON_SERIALIZE_ENUM(Path_LiftPoint::LiftPointStopType, {
+    {Path_LiftPoint::LiftPointStopType::eTopFloor, "top_floor"},
+    {Path_LiftPoint::LiftPointStopType::eBottomFloor, "bottom_floor"},
+    {Path_LiftPoint::LiftPointStopType::eMiddleFloor, "middle_floor"},
+    {Path_LiftPoint::LiftPointStopType::eMiddleLockFloor, "middle_lock_floor"},
+    {Path_LiftPoint::LiftPointStopType::eStartPointOnly, "start_point_only"},
+})
+
+void to_json(nlohmann::json& j, const Path_LiftPoint& p)
+{
+    j = nlohmann::json{
+        {"base", ToBase(p)},
+        {"lift_point_id", p.field_10_lift_point_id},
+        {"start_point", p.field_12_bStart_point},
+        {"lift_point_stop_type", p.field_16_lift_point_stop_type},
+        {"scale", p.field_18_scale},
+        {"ignore_lift_mover", p.field_1A_bIgnore_lift_mover},
+    };
+}
+
+void from_json(const nlohmann::json& j, Path_LiftPoint& p)
+{
+    j.at("base").get_to(ToBase(p));
+    j.at("lift_point_id").get_to(p.field_10_lift_point_id);
+    j.at("start_point").get_to(p.field_12_bStart_point);
+    j.at("lift_point_stop_type").get_to(p.field_16_lift_point_stop_type);
+    j.at("scale").get_to(p.field_18_scale);
+    j.at("ignore_lift_mover").get_to(p.field_1A_bIgnore_lift_mover);
+}
+
+// Path_Dove
+void to_json(nlohmann::json& j, const Path_Dove& p)
+{
+    j = nlohmann::json{
+        {"base", ToBase(p)},
+        {"dove_count", p.mDoveCount},
+        {"pixe_perfect", p.mPixelPerfect},
+        {"scale", p.mScale},
+    };
+}
+
+void from_json(const nlohmann::json& j, Path_Dove& p)
+{
+    j.at("base").get_to(ToBase(p));
+    j.at("dove_count").get_to(p.mDoveCount);
+    j.at("pixel_perfect").get_to(p.mPixelPerfect);
+    j.at("scale").get_to(p.mScale);
+}
+
+// Path_RockSack
+void to_json(nlohmann::json& j, const Path_RockSack& p)
+{
+    j = nlohmann::json{
+        {"base", ToBase(p)},
+        {"fall_direction", p.field_10_fall_direction},
+        {"x_vel", p.field_12_x_vel},
+        {"y_vel", p.field_14_y_vel},
+        {"scale", p.field_16_scale},
+        {"rock_amount", p.field_18_rock_amount},
+    };
+}
+
+void from_json(const nlohmann::json& j, Path_RockSack& p)
+{
+    j.at("base").get_to(ToBase(p));
+    j.at("fall_direction").get_to(p.field_10_fall_direction);
+    j.at("x_vel").get_to(p.field_12_x_vel);
+    j.at("y_vel").get_to(p.field_14_y_vel);
+    j.at("scale").get_to(p.field_16_scale);
+    j.at("rock_amount").get_to(p.field_18_rock_amount);
+}
+
+// Path_ZBall
+NLOHMANN_JSON_SERIALIZE_ENUM(Path_ZBall::StartPos, {
+    {Path_ZBall::StartPos::eCenter, "center"},
+    {Path_ZBall::StartPos::eOut, "out"},
+    {Path_ZBall::StartPos::eIn, "in"},
+})
+
+NLOHMANN_JSON_SERIALIZE_ENUM(Path_ZBall::Speed, {
+    {Path_ZBall::Speed::eNormal, "normal"},
+    {Path_ZBall::Speed::eFast, "fast"},
+    {Path_ZBall::Speed::eSlow, "slow"},
+})
+
+void to_json(nlohmann::json& j, const Path_ZBall& p)
+{
+    j = nlohmann::json{
+        {"base", ToBase(p)},
+        {"start_pos", p.mStartPos},
+        {"scale", p.mScale},
+        {"speed", p.mSpeed},
+    };
+}
+
+void from_json(const nlohmann::json& j, Path_ZBall& p)
+{
+    j.at("base").get_to(ToBase(p));
+    j.at("start_pos").get_to(p.mStartPos);
+    j.at("scale").get_to(p.mScale);
+    j.at("speed").get_to(p.mSpeed);
+}
+
+// Path_FallingItem
+void to_json(nlohmann::json& j, const Path_FallingItem& p)
+{
+    j = nlohmann::json{
+        {"base", ToBase(p)},
+        {"switch_id", p.mSwitchId},
+        {"scale", p.mScale},
+        {"fall_interval", p.mFallInterval},
+        {"max_falling_items", p.mMaxFallingItems},
+        {"reset_switch_id_after_use", p.mResetSwitchIdAfterUse},
+    };
+}
+
+void from_json(const nlohmann::json& j, Path_FallingItem& p)
+{
+    j.at("base").get_to(ToBase(p));
+    j.at("switch_id").get_to(p.mSwitchId);
+    j.at("scale").get_to(p.mScale);
+    j.at("fall_interval").get_to(p.mFallInterval);
+    j.at("max_falling_items").get_to(p.mMaxFallingItems);
+    j.at("reset_switch_id_after_use").get_to(p.mResetSwitchIdAfterUse);
 }
 
 } // namespace relive
