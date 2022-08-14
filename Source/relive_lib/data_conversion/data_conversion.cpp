@@ -179,10 +179,115 @@ static void ConvertTLV(const AO::Path_TLV& tlv)
     nlohmann::json j;
     switch (tlv.mTlvType32.mType)
     {
+    case AO::TlvTypes::ContinuePoint_0:
+            j.push_back({ "continue_point", relive::Path_ContinuePoint_Converter::From(static_cast<const AO::Path_ContinuePoint&>(tlv)) });
+            break;
+        case AO::TlvTypes::PathTransition_1:
+        case AO::TlvTypes::ContinueZone_2: // dead tlv
+        case AO::TlvTypes::Hoist_3:
+        case AO::TlvTypes::Edge_4:
+        case AO::TlvTypes::DeathDrop_5:
+        case AO::TlvTypes::Door_6:
+            ALIVE_FATAL("not implemented");
+
         case AO::TlvTypes::ShadowZone_7:
-            j.push_back({"shadow", relive::Path_ShadowZone_Converter::From(static_cast<const AO::Path_ShadowZone&>(tlv))});
+            j.push_back({"shadow_zone", relive::Path_ShadowZone_Converter::From(static_cast<const AO::Path_ShadowZone&>(tlv))});
             break;
 
+        case AO::TlvTypes::LiftPoint_8:
+        case AO::TlvTypes::WellLocal_11:
+        case AO::TlvTypes::Dove_12:
+        case AO::TlvTypes::RockSack_13:
+        case AO::TlvTypes::ZBall_14:
+        case AO::TlvTypes::FallingItem_15:
+        case AO::TlvTypes::PullRingRope_18:
+        case AO::TlvTypes::BackgroundAnimation_19:
+        case AO::TlvTypes::Honey_20:
+        case AO::TlvTypes::TimedMine_22:
+        case AO::TlvTypes::Slig_24:
+        case AO::TlvTypes::Slog_25:
+        case AO::TlvTypes::Lever_26:
+        case AO::TlvTypes::BellHammer_27:
+        case AO::TlvTypes::StartController_28:
+            ALIVE_FATAL("not implemented");
+
+        case AO::TlvTypes::SecurityOrb_29:
+            j.push_back({"security_orb", relive::Path_SecurityOrb_Converter::From(static_cast<const AO::Path_SecurityOrb&>(tlv))});
+            break;
+
+        case AO::TlvTypes::LiftMudokon_32:
+        case AO::TlvTypes::BeeSwarmHole_34:
+        case AO::TlvTypes::Pulley_35:
+        case AO::TlvTypes::HoneySack_36:
+        case AO::TlvTypes::AbeStart_37:
+        case AO::TlvTypes::ElumStart_38:
+        case AO::TlvTypes::ElumWall_40:
+        case AO::TlvTypes::SlingMudokon_41:
+        case AO::TlvTypes::HoneyDripTarget_42:
+        case AO::TlvTypes::Bees_43:
+        case AO::TlvTypes::WellExpress_45:
+        case AO::TlvTypes::Mine_46:
+        case AO::TlvTypes::UXB_47:
+        case AO::TlvTypes::Paramite_48:
+        case AO::TlvTypes::Bat_49:
+        case AO::TlvTypes::RingMudokon_50:
+        case AO::TlvTypes::MovieStone_51:
+        case AO::TlvTypes::BirdPortal_52:
+        case AO::TlvTypes::BirdPortalExit_53:
+        case AO::TlvTypes::BellSongStone_54:
+        case AO::TlvTypes::TrapDoor_55:
+        case AO::TlvTypes::RollingBall_56:
+        case AO::TlvTypes::eSligBoundLeft_57:
+        case AO::TlvTypes::InvisibleZone_58:
+        case AO::TlvTypes::RollingBallStopper_59:
+        case AO::TlvTypes::FootSwitch_60:
+        case AO::TlvTypes::SecurityClaw_61:
+        case AO::TlvTypes::MotionDetector_62:
+        case AO::TlvTypes::SligSpawner_66:
+        case AO::TlvTypes::ElectricWall_67:
+        case AO::TlvTypes::LiftMover_68:
+        case AO::TlvTypes::ChimeLock_69:
+        case AO::TlvTypes::MeatSack_71:
+        case AO::TlvTypes::Scrab_72:
+        case AO::TlvTypes::FlintLockFire_73:
+        case AO::TlvTypes::ScrabLeftBound_74:
+        case AO::TlvTypes::ScrabRightBound_75:
+        case AO::TlvTypes::eSligBoundRight_76:
+        case AO::TlvTypes::eSligPersist_77:
+        case AO::TlvTypes::EnemyStopper_79:
+        case AO::TlvTypes::InvisibleSwitch_81:
+        case AO::TlvTypes::Mudokon_82:
+        case AO::TlvTypes::ZSligCover_83:
+        case AO::TlvTypes::DoorFlame_84:
+        case AO::TlvTypes::MovingBomb_86:
+        case AO::TlvTypes::MovingBombStopper_87:
+        case AO::TlvTypes::MeatSaw_88:
+        case AO::TlvTypes::MudokonPathTrans_89:
+        case AO::TlvTypes::MenuController_90:
+        case AO::TlvTypes::HintFly_92:
+        case AO::TlvTypes::ScrabNoFall_93:
+        case AO::TlvTypes::TimerTrigger_94:
+        case AO::TlvTypes::SecurityDoor_95:
+        case AO::TlvTypes::DemoPlaybackStone_96:
+        case AO::TlvTypes::BoomMachine_97:
+        case AO::TlvTypes::LCDScreen_98:
+        case AO::TlvTypes::ElumPathTrans_99:
+        case AO::TlvTypes::HandStone_100:
+        case AO::TlvTypes::CreditsController_101:
+        case AO::TlvTypes::Preloader_102: // dead tlv
+        case AO::TlvTypes::LCDStatusBoard_103:
+        case AO::TlvTypes::MusicTrigger_105:
+        case AO::TlvTypes::LightEffect_106:
+        case AO::TlvTypes::SlogSpawner_107:
+        case AO::TlvTypes::GasCountDown_108:
+        case AO::TlvTypes::RingCancel_109:
+        case AO::TlvTypes::GasEmitter_110:
+        case AO::TlvTypes::ZzzSpawner_111:
+        case AO::TlvTypes::BackgroundGlukkon_112:
+        case AO::TlvTypes::KillUnsavedMuds_113:
+        case AO::TlvTypes::SoftLanding_114:
+        case AO::TlvTypes::ResetPath_115:
+            ALIVE_FATAL("not implemented");
 
         default:
             ALIVE_FATAL("TLV conversion for this type not implemented");
@@ -232,7 +337,7 @@ static void ConvertPaths(const ReliveAPI::ChunkedLvlFile& pathBnd, EReliveLevelI
 static void TestTlvConversion()
 {
     AO::Path_ShadowZone shadowTlv = {};
-    shadowTlv.mTlvType32.mType = AO::TlvTypes::ShadowZone_7;
+    shadowTlv.mTlvType32.mType = AO::TlvTypes::ContinuePoint_0;
     ConvertTLV(shadowTlv);
 
     // TODO: Check from AE tlv

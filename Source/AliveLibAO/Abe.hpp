@@ -376,7 +376,7 @@ struct Path_ContinuePoint final : public Path_TLV
     spawnDirection field_20_abe_direction;
     s16 field_22_pad;
 };
-ALIVE_ASSERT_SIZEOF(Path_ContinuePoint, 0x24);
+ALIVE_ASSERT_SIZEOF_ALWAYS(Path_ContinuePoint, 0x24);
 
 struct AbeResources final
 {

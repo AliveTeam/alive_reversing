@@ -52,6 +52,17 @@ void from_json(const nlohmann::json& j, Path_TLV& p)
     j.at("height").get_to(p.mHeight);
 }
 
+// Common TLV enums
+NLOHMANN_JSON_SERIALIZE_ENUM(reliveScale, {
+    {reliveScale::eFull, "full"},
+    {reliveScale::eHalf, "half"},
+})
+
+NLOHMANN_JSON_SERIALIZE_ENUM(reliveChoice, {
+    {reliveChoice::eNo, "no"},
+    {reliveChoice::eYes, "yes"},
+})
+
 // Path_ShadowZone
 NLOHMANN_JSON_SERIALIZE_ENUM(Path_ShadowZone::Scale, {
     {Path_ShadowZone::Scale::eBoth, "both"},
@@ -68,7 +79,6 @@ void to_json(nlohmann::json& j, const Path_ShadowZone& p)
     };
 }
 
-
 void from_json(const nlohmann::json& j, Path_ShadowZone& p)
 {
     j.at("base").get_to(ToBase(p));
@@ -76,7 +86,62 @@ void from_json(const nlohmann::json& j, Path_ShadowZone& p)
     j.at("scale").get_to(p.mScale);
 }
 
-
-
+// Path_SecurityOrb
+void to_json(nlohmann::json& j, const Path_SecurityOrb& p)
+{
+    j = nlohmann::json{
+        {"base", ToBase(p)},
+        {"scale", p.mScale},
+        {"disabled_resources", p.mDisabledResources},
+    };
 }
+
+void from_json(const nlohmann::json& j, Path_SecurityOrb& p)
+{
+    j.at("base").get_to(ToBase(p));
+    j.at("scale").get_to(p.mScale);
+    j.at("disabled_resources").get_to(p.mDisabledResources);
+}
+
+// Path_ContinuePoint
+NLOHMANN_JSON_SERIALIZE_ENUM(Path_ContinuePoint::spawnDirection, {
+    {Path_ContinuePoint::spawnDirection::eRight, "right"},
+    {Path_ContinuePoint::spawnDirection::eLeft, "left"},
+})
+
+NLOHMANN_JSON_SERIALIZE_ENUM(Path_ContinuePoint::Scale, {
+    {Path_ContinuePoint::Scale::eNone, "none"},
+    {Path_ContinuePoint::Scale::eHalf, "half"},
+    {Path_ContinuePoint::Scale::eFull, "full"},
+})
+
+void to_json(nlohmann::json& j, const Path_ContinuePoint& p)
+{
+    j = nlohmann::json{
+        {"base", ToBase(p)},
+        {"zone_number", p.field_18_zone_number},
+        {"clear_from_id", p.field_1A_clear_from_id},
+        {"clear_to_id", p.field_1C_clear_to_id},
+        {"elum_restarts", p.field_1E_elum_restarts},
+        {"abe_direction", p.field_20_abe_direction},
+
+        {"scale", p.field_10_scale},
+        {"save_file_id", p.field_12_save_file_id},
+    };
+}
+
+void from_json(const nlohmann::json& j, Path_ContinuePoint& p)
+{
+    j.at("base").get_to(ToBase(p));
+    j.at("zone_number").get_to(p.field_18_zone_number);
+    j.at("clear_from_id").get_to(p.field_1A_clear_from_id);
+    j.at("clear_to_id").get_to(p.field_1C_clear_to_id);
+    j.at("elum_restarts").get_to(p.field_1E_elum_restarts);
+    j.at("abe_direction").get_to(p.field_20_abe_direction);
+
+    j.at("scale").get_to(p.field_10_scale);
+    j.at("save_file_id").get_to(p.field_12_save_file_id);
+}
+
+} // namespace relive
 
