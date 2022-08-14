@@ -185,8 +185,10 @@ static void ConvertTLV(const AO::Path_TLV& tlv)
         case AO::TlvTypes::PathTransition_1:
         case AO::TlvTypes::ContinueZone_2: // dead tlv
         case AO::TlvTypes::Hoist_3:
+            j.push_back({ "hoist", relive::Path_Hoist_Converter::From(static_cast<const AO::Path_Hoist&>(tlv)) });
+            break;
         case AO::TlvTypes::Edge_4:
-        case AO::TlvTypes::DeathDrop_5:
+        case AO::TlvTypes::DeathDrop_5: // no props
         case AO::TlvTypes::Door_6:
             ALIVE_FATAL("not implemented");
 
@@ -250,6 +252,8 @@ static void ConvertTLV(const AO::Path_TLV& tlv)
         case AO::TlvTypes::BirdPortalExit_53:
         case AO::TlvTypes::BellSongStone_54:
         case AO::TlvTypes::TrapDoor_55:
+            j.push_back({ "trap_door", relive::Path_TrapDoor_Converter::From(static_cast<const AO::Path_TrapDoor&>(tlv)) });
+            break;
         case AO::TlvTypes::RollingBall_56:
         case AO::TlvTypes::eSligBoundLeft_57:
         case AO::TlvTypes::InvisibleZone_58:
@@ -285,11 +289,13 @@ static void ConvertTLV(const AO::Path_TLV& tlv)
         case AO::TlvTypes::DemoPlaybackStone_96:
         case AO::TlvTypes::BoomMachine_97:
         case AO::TlvTypes::LCDScreen_98:
+            j.push_back({ "lcd_screen", relive::Path_LCDScreen_Converter::From(static_cast<const AO::Path_LCDScreen&>(tlv)) });
+            break;
         case AO::TlvTypes::ElumPathTrans_99:
         case AO::TlvTypes::HandStone_100:
         case AO::TlvTypes::CreditsController_101:
         case AO::TlvTypes::Preloader_102: // dead tlv
-        case AO::TlvTypes::LCDStatusBoard_103:
+        case AO::TlvTypes::LCDStatusBoard_103: // no props
         case AO::TlvTypes::MusicTrigger_105:
         case AO::TlvTypes::LightEffect_106:
         case AO::TlvTypes::SlogSpawner_107:

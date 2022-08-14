@@ -190,4 +190,52 @@ struct Path_TimedMine final : public Path_TLV
     s32 mDisabledResources = 0;
 };
 
+struct Path_Hoist final : public Path_TLV
+{
+    enum class Type : s16
+    {
+        eNextFloor,
+        eNextEdge,
+        eOffScreen,
+    };
+    Type mHoistType = Type::eNextFloor;
+
+    enum class GrabDirection : s16
+    {
+        eFacingLeft,
+        eFacingRight,
+        eFacingAnyDirection,
+    };
+    GrabDirection mGrabDirection = GrabDirection::eFacingLeft;
+};
+
+struct Path_TrapDoor final : public Path_TLV
+{
+    s16 mSwitchId = 0;
+    enum StartState : s16
+    {
+        eOpen,
+        eClosed,
+    };
+    StartState mStartState = StartState::eClosed;
+    reliveChoice mSelfClosing = reliveChoice::eNo;
+    reliveScale mScale = reliveScale::eFull;
+    reliveXDirection mDirection = reliveXDirection::eLeft;
+    s16 field_1C_xOff = 0;
+
+    // AE only
+    s16 mStayOpenTime = 0;
+};
+
+struct Path_LCDScreen final : public Path_TLV
+{
+    s16 field_10_message_1_id = 0;
+    s16 field_12_message_rand_min_id = 0;
+    s16 field_14_message_rand_max_id = 0;
+
+    // AE only
+    s16 field_16_message_2_id = 0;
+    s32 field_18_toggle_message_switch_id = 0;
+};
+
 } // namespace relive

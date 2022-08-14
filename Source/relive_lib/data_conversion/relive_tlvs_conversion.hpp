@@ -19,6 +19,11 @@
 #include "../AliveLibAE/PullRingRope.hpp"
 #include "../AliveLibAO/TimedMine.hpp"
 #include "../AliveLibAE/TimedMine.hpp"
+#include "../AliveLibAO/HoistRocksEffect.hpp"
+#include "../AliveLibAO/TrapDoor.hpp"
+#include "../AliveLibAE/TrapDoor.hpp"
+#include "../AliveLibAO/LCDScreen.hpp"
+#include "../AliveLibAE/LCDScreen.hpp"
 // Convert an AO or AE TLV to a relive TLV
 
 namespace relive {
@@ -519,6 +524,161 @@ public:
         r.mScale = relive::From(tlv.field_14_scale);
         r.mTicksUntilExplosion = tlv.mTicksUntilExplosion;
         r.mDisabledResources = tlv.mDisabledResources;
+        return r;
+    }
+};
+
+class Path_Hoist_Converter
+{
+public:
+    static Path_Hoist From(const AO::Path_Hoist& tlv)
+    {
+        Path_Hoist r;
+        r.mHoistType = From(tlv.field_18_hoist_type);
+        r.mGrabDirection= From(tlv.field_1A_grab_direction);
+        return r;
+    }
+
+    static Path_Hoist From(const ::Path_Hoist& tlv)
+    {
+        Path_Hoist r;
+        r.mHoistType = From(tlv.field_10_type);
+        r.mGrabDirection = From(tlv.field_12_grab_direction);
+        return r;
+    }
+
+private:
+    static relive::Path_Hoist::Type From(AO::Path_Hoist::Type type)
+    {
+        switch (type)
+        {
+        case AO::Path_Hoist::Type::eNextFloor:
+            return relive::Path_Hoist::Type::eNextFloor;
+        case AO::Path_Hoist::Type::eNextEdge:
+            return relive::Path_Hoist::Type::eNextEdge;
+        case AO::Path_Hoist::Type::eOffScreen:
+            return relive::Path_Hoist::Type::eOffScreen;
+        }
+        ALIVE_FATAL("Bad hoist type");
+    }
+
+    static relive::Path_Hoist::Type From(::Path_Hoist::Type type)
+    {
+        switch (type)
+        {
+        case ::Path_Hoist::Type::eNextFloor:
+            return relive::Path_Hoist::Type::eNextFloor;
+        case ::Path_Hoist::Type::eNextEdge:
+            return relive::Path_Hoist::Type::eNextEdge;
+        case ::Path_Hoist::Type::eOffScreen:
+            return relive::Path_Hoist::Type::eOffScreen;
+        }
+        ALIVE_FATAL("Bad hoist type");
+    }
+
+    static relive::Path_Hoist::GrabDirection From(AO::Path_Hoist::GrabDirection grabDir)
+    {
+        switch (grabDir)
+        {
+        case AO::Path_Hoist::GrabDirection::eFacingLeft:
+            return relive::Path_Hoist::GrabDirection::eFacingLeft;
+        case AO::Path_Hoist::GrabDirection::eFacingRight:
+            return relive::Path_Hoist::GrabDirection::eFacingRight;
+        case AO::Path_Hoist::GrabDirection::eFacingAnyDirection:
+            return relive::Path_Hoist::GrabDirection::eFacingAnyDirection;
+        }
+        ALIVE_FATAL("Bad hoist grab direction");
+    }
+
+    static relive::Path_Hoist::GrabDirection From(::Path_Hoist::GrabDirection grabDir)
+    {
+        switch (grabDir)
+        {
+        case ::Path_Hoist::GrabDirection::eFacingLeft:
+            return relive::Path_Hoist::GrabDirection::eFacingLeft;
+        case ::Path_Hoist::GrabDirection::eFacingRight:
+            return relive::Path_Hoist::GrabDirection::eFacingRight;
+        case ::Path_Hoist::GrabDirection::eFacingAnyDirection:
+            return relive::Path_Hoist::GrabDirection::eFacingAnyDirection;
+        }
+        ALIVE_FATAL("Bad hoist grab direction");
+    }
+};
+
+class Path_TrapDoor_Converter
+{
+public:
+    static Path_TrapDoor From(const AO::Path_TrapDoor& tlv)
+    {
+        Path_TrapDoor r;
+        r.mSwitchId = tlv.mSwitchId;
+        r.mStartState = From(tlv.mStartState);
+        r.mSelfClosing = relive::From(tlv.field_1C_self_closing);
+        r.mScale = relive::From(tlv.field_1E_scale);
+        r.mDirection = relive::From(tlv.field_22_direction);
+        r.field_1C_xOff = tlv.field_24_xOff;
+        return r;
+    }
+
+    static Path_TrapDoor From(const ::Path_TrapDoor& tlv)
+    {
+        Path_TrapDoor r;
+        r.mSwitchId = tlv.mSwitchId;
+        r.mStartState = From(tlv.mStartState);
+        r.mSelfClosing = relive::From(tlv.mSelfClosing);
+        r.mScale = relive::From(tlv.field_16_scale);
+        r.mDirection = relive::From(tlv.mDirection);
+        r.field_1C_xOff = tlv.field_1C_xOff;
+        r.mStayOpenTime = tlv.mStayOpenTime;
+        return r;
+    }
+
+private:
+    static relive::Path_TrapDoor::StartState From(AO::Path_TrapDoor::StartState startState)
+    {
+        switch (startState)
+        {
+            case AO::Path_TrapDoor::StartState::eOpen_0:
+                return relive::Path_TrapDoor::StartState::eOpen;
+            case AO::Path_TrapDoor::StartState::eClosed_1:
+                return relive::Path_TrapDoor::StartState::eClosed;
+        }
+        ALIVE_FATAL("Bad trap door start state");
+    }
+
+    static relive::Path_TrapDoor::StartState From(::Path_TrapDoor::StartState startState)
+    {
+        switch (startState)
+        {
+        case ::Path_TrapDoor::StartState::eOpen_0:
+            return relive::Path_TrapDoor::StartState::eOpen;
+        case ::Path_TrapDoor::StartState::eClosed_1:
+            return relive::Path_TrapDoor::StartState::eClosed;
+        }
+        ALIVE_FATAL("Bad trap door start state");
+    }
+};
+
+class Path_LCDScreen_Converter
+{
+public:
+    static Path_LCDScreen From(const AO::Path_LCDScreen& tlv)
+    {
+        Path_LCDScreen r;
+        r.field_10_message_1_id = tlv.field_18_message_1_id;
+        r.field_12_message_rand_min_id = tlv.field_1A_message_rand_min;
+        r.field_14_message_rand_max_id = tlv.field_1C_message_rand_max;
+        return r;
+    }
+
+    static Path_LCDScreen From(const ::Path_LCDScreen& tlv)
+    {
+        Path_LCDScreen r;
+        r.field_10_message_1_id = tlv.field_10_message_1_id;
+        r.field_12_message_rand_min_id = tlv.field_12_message_rand_min_id;
+        r.field_14_message_rand_max_id = tlv.field_14_message_rand_max_id;
+        r.field_16_message_2_id = tlv.field_16_message_2_id;
+        r.field_18_toggle_message_switch_id = tlv.field_18_toggle_message_switch_id;
         return r;
     }
 };

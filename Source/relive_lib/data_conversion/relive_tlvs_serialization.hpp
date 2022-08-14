@@ -346,5 +346,89 @@ void from_json(const nlohmann::json& j, Path_TimedMine& p)
     j.at("disabled_resources").get_to(p.mDisabledResources);
 }
 
+// Path_Hoist
+NLOHMANN_JSON_SERIALIZE_ENUM(Path_Hoist::Type, {
+    {Path_Hoist::Type::eNextFloor, "next_floor"},
+    {Path_Hoist::Type::eNextEdge, "next_edge"},
+    {Path_Hoist::Type::eOffScreen, "off_screen"},
+})
+
+NLOHMANN_JSON_SERIALIZE_ENUM(Path_Hoist::GrabDirection, {
+    {Path_Hoist::GrabDirection::eFacingLeft, "facing_left"},
+    {Path_Hoist::GrabDirection::eFacingRight, "facing_right"},
+    {Path_Hoist::GrabDirection::eFacingAnyDirection, "facing_any_direction"},
+})
+
+void to_json(nlohmann::json& j, const Path_Hoist& p)
+{
+    j = nlohmann::json{
+        {"base", ToBase(p)},
+        {"hoist_type", p.mHoistType},
+        {"grab_direction", p.mGrabDirection},
+    };
+}
+
+void from_json(const nlohmann::json& j, Path_Hoist& p)
+{
+    j.at("base").get_to(ToBase(p));
+    j.at("hoist_type").get_to(p.mHoistType);
+    j.at("grab_direction").get_to(p.mGrabDirection);
+}
+
+// Path_TrapDoor
+NLOHMANN_JSON_SERIALIZE_ENUM(Path_TrapDoor::StartState, {
+    {Path_TrapDoor::StartState::eOpen, "open"},
+    {Path_TrapDoor::StartState::eClosed, "closed"},
+})
+
+void to_json(nlohmann::json& j, const Path_TrapDoor& p)
+{
+    j = nlohmann::json{
+        {"base", ToBase(p)},
+        {"switch_id", p.mSwitchId},
+        {"start_state", p.mStartState},
+        {"self_closing", p.mSelfClosing},
+        {"scale", p.mScale},
+        {"direction", p.mDirection},
+        {"x_off", p.field_1C_xOff},
+        {"stay_open_time", p.mStayOpenTime},
+    };
+}
+
+void from_json(const nlohmann::json& j, Path_TrapDoor& p)
+{
+    j.at("base").get_to(ToBase(p));
+    j.at("switch_id").get_to(p.mSwitchId);
+    j.at("start_state").get_to(p.mStartState);
+    j.at("self_closing").get_to(p.mSelfClosing);
+    j.at("scale").get_to(p.mScale);
+    j.at("direction").get_to(p.mDirection);
+    j.at("x_off").get_to(p.field_1C_xOff);
+    j.at("stay_open_time").get_to(p.mStayOpenTime);
+}
+
+// Path_LCDScreen
+void to_json(nlohmann::json& j, const Path_LCDScreen& p)
+{
+    j = nlohmann::json{
+        {"base", ToBase(p)},
+        {"message_1_id", p.field_10_message_1_id},
+        {"message_rand_min_id", p.field_12_message_rand_min_id},
+        {"message_rand_max_id", p.field_14_message_rand_max_id},
+        {"message_2_id", p.field_16_message_2_id},
+        {"toggle_message_switch_id", p.field_18_toggle_message_switch_id},
+    };
+}
+
+void from_json(const nlohmann::json& j, Path_LCDScreen& p)
+{
+    j.at("base").get_to(ToBase(p));
+    j.at("message_1_id").get_to(p.field_10_message_1_id);
+    j.at("message_rand_min_id").get_to(p.field_12_message_rand_min_id);
+    j.at("message_rand_max_id").get_to(p.field_14_message_rand_max_id);
+    j.at("message_2_id").get_to(p.field_16_message_2_id);
+    j.at("toggle_message_switch_id").get_to(p.field_18_toggle_message_switch_id);
+}
+
 } // namespace relive
 

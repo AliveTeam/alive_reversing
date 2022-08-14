@@ -331,7 +331,6 @@ struct Path_Hoist final : public Path_TLV
         eFacingAnyDirection = 2,
     };
     GrabDirection field_12_grab_direction;
-
     u8 field_14_switch_id; // never used
     // pad
 

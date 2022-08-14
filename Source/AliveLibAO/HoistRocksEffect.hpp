@@ -23,9 +23,7 @@ struct Path_Hoist final : public Path_TLV
         eFacingAnyDirection = 2,
     };
     GrabDirection field_1A_grab_direction;
-
     s16 field_1C_switch_id;
-
     s16 field_1E_pad;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Hoist, 0x20);
