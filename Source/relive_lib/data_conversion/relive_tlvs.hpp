@@ -238,4 +238,53 @@ struct Path_LCDScreen final : public Path_TLV
     s32 field_18_toggle_message_switch_id = 0;
 };
 
+struct Path_Mine final : public Path_TLV
+{
+    s16 field_10_num_patterns = 0;
+    s16 field_12_pattern = 0;
+    reliveScale field_14_scale = reliveScale::eFull;
+    s16 field_16_disabled_resources = 0;
+    reliveChoice field_18_persist_offscreen = reliveChoice::eYes;
+};
+
+struct Path_InvisibleSwitch final : public Path_TLV
+{
+    s16 field_10_switch_id = 0;
+    reliveSwitchOp field_12_action = reliveSwitchOp::eSetTrue;
+    s16 field_14_delay = 0;
+    reliveChoice field_16_set_off_alarm = reliveChoice::eNo;
+    enum class InvisibleSwitchScale : s16
+    {
+        eHalf,
+        eFull,
+        eAny,
+    };
+    InvisibleSwitchScale field_18_scale = InvisibleSwitchScale::eFull;
+};
+
+struct Path_ElectricWall final : public Path_TLV
+{
+    reliveScale field_10_scale = reliveScale::eFull;
+    s16 field_12_switch_id = 0;
+    enum ElectricWallStartState : s16
+    {
+        eOff,
+        eOn,
+    };
+    ElectricWallStartState field_14_start_state = ElectricWallStartState::eOn;
+};
+
+struct Path_BoomMachine final : public Path_TLV
+{
+    reliveScale field_10_scale = reliveScale::eFull;
+    enum class NozzleSide : s16
+    {
+        eRight,
+        eLeft,
+    };
+    NozzleSide field_12_nozzle_side = NozzleSide::eRight;
+    s16 field_14_disabled_resources = 0;
+    s16 field_16_number_of_grenades = 0;
+};
+
 } // namespace relive

@@ -24,6 +24,15 @@
 #include "../AliveLibAE/TrapDoor.hpp"
 #include "../AliveLibAO/LCDScreen.hpp"
 #include "../AliveLibAE/LCDScreen.hpp"
+#include "../AliveLibAE/Mine.hpp"
+#include "../AliveLibAO/Mine.hpp"
+#include "../AliveLibAE/InvisibleSwitch.hpp"
+#include "../AliveLibAO/InvisibleSwitch.hpp"
+#include "../AliveLibAE/ElectricWall.hpp"
+#include "../AliveLibAO/ElectricWall.hpp"
+#include "../AliveLibAE/BoomMachine.hpp"
+#include "../AliveLibAO/BoomMachine.hpp"
+
 // Convert an AO or AE TLV to a relive TLV
 
 namespace relive {
@@ -680,6 +689,184 @@ public:
         r.field_16_message_2_id = tlv.field_16_message_2_id;
         r.field_18_toggle_message_switch_id = tlv.field_18_toggle_message_switch_id;
         return r;
+    }
+};
+
+class Path_Mine_Converter
+{
+public:
+    static Path_Mine From(const AO::Path_Mine& tlv)
+    {
+        Path_Mine r;
+        r.field_10_num_patterns = tlv.field_18_num_patterns;
+        r.field_12_pattern= tlv.field_1A_pattern;
+        r.field_14_scale = relive::From(tlv.field_1C_scale);
+        r.field_16_disabled_resources = tlv.field_1E_disabled_resources;
+        r.field_18_persist_offscreen = relive::From(tlv.field_20_persists_offscreen);
+        return r;
+    }
+
+    static Path_Mine From(const ::Path_Mine& tlv)
+    {
+        Path_Mine r;
+        r.field_10_num_patterns = tlv.field_10_num_patterns;
+        r.field_12_pattern = tlv.field_12_pattern;
+        r.field_14_scale = relive::From(tlv.field_14_scale);
+        r.field_16_disabled_resources = tlv.field_16_disabled_resources;
+        r.field_18_persist_offscreen = relive::From(tlv.field_18_persist_offscreen);
+        return r;
+    }
+};
+
+class Path_InvisibleSwitch_Converter
+{
+public:
+    static Path_InvisibleSwitch From(const AO::Path_InvisibleSwitch& tlv)
+    {
+        Path_InvisibleSwitch r;
+        r.field_10_switch_id = tlv.field_18_switch_id;
+        r.field_12_action = relive::From(tlv.field_1A_action);
+        r.field_14_delay = tlv.field_1C_delay;
+        r.field_16_set_off_alarm = relive::From(tlv.field_1E_set_off_alarm);
+        r.field_18_scale = From(tlv.field_20_scale);
+        return r;
+    }
+
+    static Path_InvisibleSwitch From(const ::Path_InvisibleSwitch& tlv)
+    {
+        Path_InvisibleSwitch r;
+        r.field_10_switch_id = tlv.field_10_switch_id;
+        r.field_12_action = relive::From(tlv.field_12_action);
+        r.field_14_delay = tlv.field_14_delay;
+        r.field_16_set_off_alarm = relive::From(tlv.field_16_set_off_alarm);
+        r.field_18_scale = From(tlv.field_18_scale);
+        return r;
+    }
+
+private:
+    static relive::Path_InvisibleSwitch::InvisibleSwitchScale From(AO::InvisibleSwitchScale scale)
+    {
+        switch (scale)
+        {
+            case AO::InvisibleSwitchScale::eHalf_0:
+                return relive::Path_InvisibleSwitch::InvisibleSwitchScale::eHalf;
+            case AO::InvisibleSwitchScale::eFull_1:
+                return relive::Path_InvisibleSwitch::InvisibleSwitchScale::eFull;
+            case AO::InvisibleSwitchScale::eAny_2:
+                return relive::Path_InvisibleSwitch::InvisibleSwitchScale::eAny;
+        }
+        ALIVE_FATAL("Bad invisible switch scale");
+    }
+
+    static relive::Path_InvisibleSwitch::InvisibleSwitchScale From(::InvisibleSwitchScale scale)
+    {
+        switch (scale)
+        {
+        case ::InvisibleSwitchScale::eHalf_0:
+            return relive::Path_InvisibleSwitch::InvisibleSwitchScale::eHalf;
+        case ::InvisibleSwitchScale::eFull_1:
+            return relive::Path_InvisibleSwitch::InvisibleSwitchScale::eFull;
+        case ::InvisibleSwitchScale::eAny_2:
+            return relive::Path_InvisibleSwitch::InvisibleSwitchScale::eAny;
+        }
+        ALIVE_FATAL("Bad invisible switch scale");
+    }
+};
+
+
+class Path_ElectricWall_Converter
+{
+public:
+    static Path_ElectricWall From(const AO::Path_ElectricWall& tlv)
+    {
+        Path_ElectricWall r;
+        r.field_10_scale = relive::From(tlv.field_18_scale);
+        r.field_12_switch_id = tlv.field_1A_switch_id;
+        r.field_14_start_state = From(tlv.field_1C_start_state);
+        return r;
+    }
+
+    static Path_ElectricWall From(const ::Path_ElectricWall& tlv)
+    {
+        Path_ElectricWall r;
+        r.field_10_scale = relive::From(tlv.field_10_scale);
+        r.field_12_switch_id = tlv.field_12_switch_id;
+        r.field_14_start_state = From(tlv.field_14_start_state);
+        return r;
+    }
+
+private:
+    static relive::Path_ElectricWall::ElectricWallStartState From(AO::ElectricWallStartState startState)
+    {
+        switch (startState)
+        {
+        case AO::ElectricWallStartState::eOff_0:
+            return relive::Path_ElectricWall::ElectricWallStartState::eOff;
+        case AO::ElectricWallStartState::eOn_1:
+            return relive::Path_ElectricWall::ElectricWallStartState::eOn;
+        }
+        ALIVE_FATAL("Bad electric wall start state");
+    }
+
+    static relive::Path_ElectricWall::ElectricWallStartState From(::ElectricWallStartState startState)
+    {
+        switch (startState)
+        {
+        case ::ElectricWallStartState::eOff_0:
+            return relive::Path_ElectricWall::ElectricWallStartState::eOff;
+        case ::ElectricWallStartState::eOn_1:
+            return relive::Path_ElectricWall::ElectricWallStartState::eOn;
+        }
+        ALIVE_FATAL("Bad electric wall start state");
+    }
+};
+
+class Path_BoomMachine_Converter
+{
+public:
+    static Path_BoomMachine From(const AO::Path_BoomMachine& tlv)
+    {
+        Path_BoomMachine r;
+        r.field_10_scale = relive::From(tlv.field_18_scale);
+        r.field_12_nozzle_side = From(tlv.field_1A_nozzle_side);
+        r.field_14_disabled_resources = tlv.field_1C_disabled_resources;
+        r.field_16_number_of_grenades = tlv.field_1E_number_of_grenades;
+        return r;
+    }
+
+    static Path_BoomMachine From(const ::Path_BoomMachine& tlv)
+    {
+        Path_BoomMachine r;
+        r.field_10_scale = relive::From(tlv.field_10_scale);
+        r.field_12_nozzle_side = From(tlv.field_12_nozzle_side);
+        r.field_14_disabled_resources = tlv.field_14_disabled_resources;
+        r.field_16_number_of_grenades = tlv.field_16_number_of_grenades;
+        return r;
+    }
+
+private:
+    static relive::Path_BoomMachine::NozzleSide From(AO::Path_BoomMachine::NozzleSide nozzleSide)
+    {
+        switch (nozzleSide)
+        {
+        case AO::Path_BoomMachine::NozzleSide::eRight_0:
+            return relive::Path_BoomMachine::NozzleSide::eRight;
+        case AO::Path_BoomMachine::NozzleSide::eLeft_1:
+            return relive::Path_BoomMachine::NozzleSide::eLeft;
+        }
+        ALIVE_FATAL("Bad boom machine nozzle side");
+    }
+
+    static relive::Path_BoomMachine::NozzleSide From(::Path_BoomMachine::NozzleSide nozzleSide)
+    {
+        switch (nozzleSide)
+        {
+        case ::Path_BoomMachine::NozzleSide::eRight_0:
+            return relive::Path_BoomMachine::NozzleSide::eRight;
+        case ::Path_BoomMachine::NozzleSide::eLeft_1:
+            return relive::Path_BoomMachine::NozzleSide::eLeft;
+        }
+        ALIVE_FATAL("Bad boom machine nozzle side");
     }
 };
 

@@ -9,8 +9,8 @@ namespace AO {
 
 struct Path_Mine final : public Path_TLV
 {
-    s16 field_18_num_patterns;
-    s16 field_1A_pattern;
+    s16 field_18_num_patterns; // unused
+    s16 field_1A_pattern; // unused
     Scale_short field_1C_scale;
     s16 field_1E_disabled_resources;
     Choice_short field_20_persists_offscreen;

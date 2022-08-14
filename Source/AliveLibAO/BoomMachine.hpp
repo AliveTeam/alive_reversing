@@ -21,7 +21,7 @@ struct Path_BoomMachine final : public Path_TLV
     s16 field_1C_disabled_resources;
     s16 field_1E_number_of_grenades;
 };
-ALIVE_ASSERT_SIZEOF(Path_BoomMachine, 0x20);
+ALIVE_ASSERT_SIZEOF_ALWAYS(Path_BoomMachine, 0x20);
 
 enum class BoomMachineStates : s16
 {

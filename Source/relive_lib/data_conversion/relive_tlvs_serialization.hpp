@@ -430,5 +430,107 @@ void from_json(const nlohmann::json& j, Path_LCDScreen& p)
     j.at("toggle_message_switch_id").get_to(p.field_18_toggle_message_switch_id);
 }
 
+// Path_Mine
+void to_json(nlohmann::json& j, const Path_Mine& p)
+{
+    j = nlohmann::json{
+        {"base", ToBase(p)},
+        {"num_patterns", p.field_10_num_patterns},
+        {"pattern", p.field_12_pattern},
+        {"scale", p.field_14_scale},
+        {"disabled_resources", p.field_16_disabled_resources},
+        {"persist_offscreen", p.field_18_persist_offscreen},
+    };
+}
+
+void from_json(const nlohmann::json& j, Path_Mine& p)
+{
+    j.at("base").get_to(ToBase(p));
+    j.at("num_patterns").get_to(p.field_10_num_patterns);
+    j.at("pattern").get_to(p.field_12_pattern);
+    j.at("scale").get_to(p.field_14_scale);
+    j.at("disabled_resources").get_to(p.field_16_disabled_resources);
+    j.at("persist_offscreen").get_to(p.field_18_persist_offscreen);
+}
+
+// Path_InvisibleSwitch
+NLOHMANN_JSON_SERIALIZE_ENUM(Path_InvisibleSwitch::InvisibleSwitchScale, {
+    {Path_InvisibleSwitch::InvisibleSwitchScale::eHalf, "half"},
+    {Path_InvisibleSwitch::InvisibleSwitchScale::eFull, "full"},
+    {Path_InvisibleSwitch::InvisibleSwitchScale::eAny, "any"},
+})
+
+void to_json(nlohmann::json& j, const Path_InvisibleSwitch& p)
+{
+    j = nlohmann::json{
+        {"base", ToBase(p)},
+        {"switch_id", p.field_10_switch_id},
+        {"action", p.field_12_action},
+        {"delay", p.field_14_delay},
+        {"set_off_alarm", p.field_16_set_off_alarm},
+        {"scale", p.field_18_scale},
+    };
+}
+
+void from_json(const nlohmann::json& j, Path_InvisibleSwitch& p)
+{
+    j.at("base").get_to(ToBase(p));
+    j.at("switch_id").get_to(p.field_10_switch_id);
+    j.at("action").get_to(p.field_12_action);
+    j.at("delay").get_to(p.field_14_delay);
+    j.at("set_off_alarm").get_to(p.field_16_set_off_alarm);
+    j.at("scale").get_to(p.field_18_scale);
+}
+
+// Path_ElectricWall
+NLOHMANN_JSON_SERIALIZE_ENUM(Path_ElectricWall::ElectricWallStartState, {
+    {Path_ElectricWall::ElectricWallStartState::eOff, "off"},
+    {Path_ElectricWall::ElectricWallStartState::eOn, "on"},
+})
+
+void to_json(nlohmann::json& j, const Path_ElectricWall& p)
+{
+    j = nlohmann::json{
+        {"base", ToBase(p)},
+        {"scale", p.field_10_scale},
+        {"switch_id", p.field_12_switch_id},
+        {"start_state", p.field_14_start_state},
+    };
+}
+
+void from_json(const nlohmann::json& j, Path_ElectricWall& p)
+{
+    j.at("base").get_to(ToBase(p));
+    j.at("scale").get_to(p.field_10_scale);
+    j.at("switch_id").get_to(p.field_12_switch_id);
+    j.at("start_state").get_to(p.field_14_start_state);
+}
+
+// Path_BoomMachine
+NLOHMANN_JSON_SERIALIZE_ENUM(Path_BoomMachine::NozzleSide, {
+    {Path_BoomMachine::NozzleSide::eRight, "right"},
+    {Path_BoomMachine::NozzleSide::eLeft, "left"},
+})
+
+void to_json(nlohmann::json& j, const Path_BoomMachine& p)
+{
+    j = nlohmann::json{
+        {"base", ToBase(p)},
+        {"scale", p.field_10_scale},
+        {"nozzle_side", p.field_12_nozzle_side},
+        {"disabled_resources", p.field_14_disabled_resources},
+        {"number_of_grenades", p.field_16_number_of_grenades},
+    };
+}
+
+void from_json(const nlohmann::json& j, Path_BoomMachine& p)
+{
+    j.at("base").get_to(ToBase(p));
+    j.at("scale").get_to(p.field_10_scale);
+    j.at("nozzle_side").get_to(p.field_12_nozzle_side);
+    j.at("disabled_resources").get_to(p.field_14_disabled_resources);
+    j.at("number_of_grenades").get_to(p.field_16_number_of_grenades);
+}
+
 } // namespace relive
 

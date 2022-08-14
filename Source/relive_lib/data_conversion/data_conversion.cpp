@@ -243,6 +243,8 @@ static void ConvertTLV(const AO::Path_TLV& tlv)
         case AO::TlvTypes::Bees_43:
         case AO::TlvTypes::WellExpress_45:
         case AO::TlvTypes::Mine_46:
+            j.push_back({ "mine", relive::Path_Mine_Converter::From(static_cast<const AO::Path_Mine&>(tlv)) });
+            break;
         case AO::TlvTypes::UXB_47:
         case AO::TlvTypes::Paramite_48:
         case AO::TlvTypes::Bat_49:
@@ -263,6 +265,8 @@ static void ConvertTLV(const AO::Path_TLV& tlv)
         case AO::TlvTypes::MotionDetector_62:
         case AO::TlvTypes::SligSpawner_66:
         case AO::TlvTypes::ElectricWall_67:
+            j.push_back({ "electric_wall", relive::Path_ElectricWall_Converter::From(static_cast<const AO::Path_ElectricWall&>(tlv)) });
+            break;
         case AO::TlvTypes::LiftMover_68:
         case AO::TlvTypes::ChimeLock_69:
         case AO::TlvTypes::MeatSack_71:
@@ -274,6 +278,8 @@ static void ConvertTLV(const AO::Path_TLV& tlv)
         case AO::TlvTypes::eSligPersist_77:
         case AO::TlvTypes::EnemyStopper_79:
         case AO::TlvTypes::InvisibleSwitch_81:
+            j.push_back({ "invisible_switch", relive::Path_InvisibleSwitch_Converter::From(static_cast<const AO::Path_InvisibleSwitch&>(tlv)) });
+            break;
         case AO::TlvTypes::Mudokon_82:
         case AO::TlvTypes::ZSligCover_83:
         case AO::TlvTypes::DoorFlame_84:
@@ -288,6 +294,8 @@ static void ConvertTLV(const AO::Path_TLV& tlv)
         case AO::TlvTypes::SecurityDoor_95:
         case AO::TlvTypes::DemoPlaybackStone_96:
         case AO::TlvTypes::BoomMachine_97:
+            j.push_back({ "boom_machine", relive::Path_BoomMachine_Converter::From(static_cast<const AO::Path_BoomMachine&>(tlv)) });
+            break;
         case AO::TlvTypes::LCDScreen_98:
             j.push_back({ "lcd_screen", relive::Path_LCDScreen_Converter::From(static_cast<const AO::Path_LCDScreen&>(tlv)) });
             break;

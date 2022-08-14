@@ -15,7 +15,7 @@ struct Path_SecurityClaw final : public Path_TLV
     s16 field_1C_alarm_duration;
     s16 field_1E_disabled_resources;
 };
-ALIVE_ASSERT_SIZEOF(Path_SecurityClaw, 0x20);
+ALIVE_ASSERT_SIZEOF_ALWAYS(Path_SecurityClaw, 0x20);
 
 class Claw final : public BaseAnimatedWithPhysicsGameObject
 {
