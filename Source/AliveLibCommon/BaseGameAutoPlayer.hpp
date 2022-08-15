@@ -14,7 +14,7 @@ enum RecordTypes : u32
     SysTicks = 0x19981998,
     SyncPoint = 0xf00df00d,
     InputType = 0x101010,
-    Event = 0x445511,
+    EventPoint = 0x445511,
 };
 
 enum SyncPoints : u32

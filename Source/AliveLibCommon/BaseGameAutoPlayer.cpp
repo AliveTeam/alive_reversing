@@ -92,7 +92,7 @@ void BaseRecorder::SaveSyncPoint(u32 syncPointId)
 
 void BaseRecorder::SaveEvent(const RecordedEvent& event)
 {
-    mFile.Write(RecordTypes::Event);
+    mFile.Write(RecordTypes::EventPoint);
     mFile.Write(event.mType);
     mFile.Write(event.mData);
 }
@@ -157,7 +157,7 @@ RecordTypes BasePlayer::PeekNextType()
 
 RecordedEvent BasePlayer::ReadEvent()
 {
-    ValidateNextTypeIs(RecordTypes::Event);
+    ValidateNextTypeIs(RecordTypes::EventPoint);
 
     RecordedEvent event = {};
     event.mType = mFile.ReadU32();

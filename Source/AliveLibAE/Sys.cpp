@@ -1033,7 +1033,7 @@ s8 Sys_PumpMessages_4EE4F4()
     // Replay any recorded events
     if (isPlaying)
     {
-        while (GetGameAutoPlayer().PeekNextType() == RecordTypes::Event)
+        while (GetGameAutoPlayer().PeekNextType() == RecordTypes::EventPoint)
         {
             const RecordedEvent recordedEvent = GetGameAutoPlayer().GetEvent();
             // TODO: Recording SDL types directly might break across diff platforms/SDL2 versions/ports
