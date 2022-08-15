@@ -405,7 +405,12 @@ struct Path_BirdPortal final : public Path_TLV
     s16 mDeletePortalSwitchId;
 };
 
-//struct Path_BirdPortalExit final : public Path_TLV
+struct Path_MenuController final : public Path_TLV
+{
+    // No fields
+};
+
+    //struct Path_BirdPortalExit final : public Path_TLV
 //{
 //    PortalSide mExitSide;
 //    reliveScale mScale;

@@ -753,6 +753,21 @@ void from_json(const nlohmann::json& j, Path_BirdPortal& p)
     j.at("delete_portal_switch_id").get_to(p.mDeletePortalSwitchId);
 }
 
+
+void to_json(nlohmann::json& j, const Path_MenuController& p)
+{
+    j = nlohmann::json{
+        {"base", ToBase(p)}
+    };
+}
+
+void from_json(const nlohmann::json& j, Path_MenuController& p)
+{
+    j.at("base").get_to(ToBase(p));
+}
+
+
+
 // Path_BirdPortalExit
 //void to_json(nlohmann::json& j, const Path_BirdPortalExit& p)
 //{

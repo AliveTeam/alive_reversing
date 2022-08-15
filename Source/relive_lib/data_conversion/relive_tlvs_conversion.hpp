@@ -42,6 +42,18 @@
 // Convert an AO or AE TLV to a relive TLV
 
 namespace relive {
+    inline void BaseConvert(relive::Path_TLV& r, const AO::Path_TLV& base)
+    {
+        // TODO: Actually convert
+        r.mWidth = base.mTopLeft.x;
+    }
+
+    inline void BaseConvert(relive::Path_TLV& r, const ::Path_TLV& base)
+    {
+        // TODO: Actually convert
+        r.mWidth = base.mTopLeft.x;
+    }
+
 
     // also used for AO
     static reliveScale From(const ::Scale_short scale)
@@ -1235,5 +1247,26 @@ private:
 //        return r;
 //    }
 //};
+
+// TODO: Need to be able to actually get to Path_MenuController and AO::Path_MenuController
+// and then call From in the TLV conversion switch case
+/*
+class Path_MenuController_Converter final
+{
+public:
+    static Path_BirdPortal From(const AO::Path_MenuController& tlv)
+    {
+        Path_BirdPortal r;
+        BaseConvert(r, tlv); // TODO: actually need to call these in every From :annoyingSlug:
+        return r;
+    }
+
+    static Path_BirdPortal From(const ::Path_MenuController& tlv)
+    {
+        Path_BirdPortal r;
+        BaseConvert(r, tlv);
+        return r;
+    }
+*/
 
 } // namespace relive
