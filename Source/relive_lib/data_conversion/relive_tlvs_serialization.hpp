@@ -532,5 +532,149 @@ void from_json(const nlohmann::json& j, Path_BoomMachine& p)
     j.at("number_of_grenades").get_to(p.field_16_number_of_grenades);
 }
 
+// Path_UXB
+NLOHMANN_JSON_SERIALIZE_ENUM(Path_UXB::StartState, {
+    {Path_UXB::StartState::eOn, "on"},
+    {Path_UXB::StartState::eOff, "off"},
+})
+
+void to_json(nlohmann::json& j, const Path_UXB& p)
+{
+    j = nlohmann::json{
+        {"base", ToBase(p)},
+        {"pattern_length", p.mPatternLength},
+        {"pattern", p.mPattern},
+        {"scale", p.mScale},
+        {"start_state", p.mStartState},
+        {"disabled_resources", p.mDisabledResources},
+    };
+}
+
+void from_json(const nlohmann::json& j, Path_UXB& p)
+{
+    j.at("base").get_to(ToBase(p));
+    j.at("pattern_length").get_to(p.mPatternLength);
+    j.at("pattern").get_to(p.mPattern);
+    j.at("scale").get_to(p.mScale);
+    j.at("start_state").get_to(p.mStartState);
+    j.at("disabled_resources").get_to(p.mDisabledResources);
+}
+
+// Path_MeatSaw
+NLOHMANN_JSON_SERIALIZE_ENUM(Path_MeatSaw::Type, {
+    {Path_MeatSaw::Type::eAutomaticPersistOffscreen, "automatic_persist_offscreen"},
+    {Path_MeatSaw::Type::eAutomatic, "automatic"},
+    {Path_MeatSaw::Type::eSwitchId, "switch_id"},
+})
+
+NLOHMANN_JSON_SERIALIZE_ENUM(Path_MeatSaw::StartState, {
+    {Path_MeatSaw::StartState::eOff, "off"},
+    {Path_MeatSaw::StartState::eOn, "on"},
+})
+
+void to_json(nlohmann::json& j, const Path_MeatSaw& p)
+{
+    j = nlohmann::json{
+        {"base", ToBase(p)},
+        {"scale", p.field_18_scale},
+        {"switch_min_time_off", p.field_1A_switch_min_time_off},
+        {"switch_max_time_off", p.field_1C_switch_max_time_off},
+        {"max_rise_time", p.field_1E_max_rise_time},
+        {"switch_id", p.field_20_switch_id},
+        {"type", p.field_22_type},
+        {"speed", p.field_24_speed},
+        {"start_state", p.field_26_start_state},
+        {"off_speed", p.field_28_off_speed},
+        {"automatic_min_time_off", p.field_2A_automatic_min_time_off},
+        {"automatic_max_time_off", p.field_2C_automatic_max_time_off},
+        {"initial_position", p.field_2E_inital_position},
+    };
+}
+
+void from_json(const nlohmann::json& j, Path_MeatSaw& p)
+{
+    j.at("base").get_to(ToBase(p));
+    j.at("scale").get_to(p.field_18_scale);
+    j.at("switch_min_time_off").get_to(p.field_1A_switch_min_time_off);
+    j.at("switch_max_time_off").get_to(p.field_1C_switch_max_time_off);
+    j.at("max_rise_time").get_to(p.field_1E_max_rise_time);
+    j.at("switch_id").get_to(p.field_20_switch_id);
+    j.at("type").get_to(p.field_22_type);
+    j.at("speed").get_to(p.field_24_speed);
+    j.at("start_state").get_to(p.field_26_start_state);
+    j.at("off_speed").get_to(p.field_28_off_speed);
+    j.at("automatic_min_time_off").get_to(p.field_2A_automatic_min_time_off);
+    j.at("automatic_max_time_off").get_to(p.field_2C_automatic_max_time_off);
+    j.at("initial_position").get_to(p.field_2E_inital_position);
+}
+
+// Path_Lever
+NLOHMANN_JSON_SERIALIZE_ENUM(Path_Lever::LeverSoundType, {
+    {Path_Lever::LeverSoundType::eNone, "none"},
+    {Path_Lever::LeverSoundType::eWell, "well"},
+    {Path_Lever::LeverSoundType::eSwitchBellHammer, "switch_bell_hammer"},
+    {Path_Lever::LeverSoundType::eDoor, "door"},
+    {Path_Lever::LeverSoundType::eElectricWall, "electric_wall"},
+    {Path_Lever::LeverSoundType::eSecurityOrb, "security_orb"},
+    {Path_Lever::LeverSoundType::eLift, "lift"},
+})
+
+NLOHMANN_JSON_SERIALIZE_ENUM(Path_Lever::LeverSoundDirection, {
+    {Path_Lever::LeverSoundDirection::eLeftAndRight, "left_and_right"},
+    {Path_Lever::LeverSoundDirection::eLeft, "left"},
+    {Path_Lever::LeverSoundDirection::eRight, "right"},
+})
+
+void to_json(nlohmann::json& j, const Path_Lever& p)
+{
+    j = nlohmann::json{
+        {"base", ToBase(p)},
+        {"action", p.field_10_action},
+        {"scale", p.field_12_scale},
+        {"on_sound", p.field_14_on_sound},
+        {"off_sound", p.field_16_off_sound},
+        {"sound_direction", p.field_18_sound_direction},
+        {"switch_id", p.field_1A_switch_id},
+        {"persist_offscreen", p.field_1C_persist_offscreen},
+    };
+}
+
+void from_json(const nlohmann::json& j, Path_Lever& p)
+{
+    j.at("base").get_to(ToBase(p));
+    j.at("action").get_to(p.field_10_action);
+    j.at("scale").get_to(p.field_12_scale);
+    j.at("on_sound").get_to(p.field_14_on_sound);
+    j.at("off_sound").get_to(p.field_16_off_sound);
+    j.at("sound_direction").get_to(p.field_18_sound_direction);
+    j.at("switch_id").get_to(p.field_1A_switch_id);
+    j.at("persist_offscreen").get_to(p.field_1C_persist_offscreen);
+}
+
+// Path_Edge
+NLOHMANN_JSON_SERIALIZE_ENUM(Path_Edge::GrabDirection, {
+    {Path_Edge::GrabDirection::eFacingLeft, "facing_left"},
+    {Path_Edge::GrabDirection::eFacingRight, "facing_right"},
+    {Path_Edge::GrabDirection::eFacingAnyDirection, "facing_any_direction"},
+})
+
+void to_json(nlohmann::json& j, const Path_Edge& p)
+{
+    j = nlohmann::json{
+        {"base", ToBase(p)},
+        {"grab_direction", p.mGrabDirection},
+        {"can_grab", p.mCanGrab},
+        {"scale", p.mScale},
+    };
+}
+
+void from_json(const nlohmann::json& j, Path_Edge& p)
+{
+    j.at("base").get_to(ToBase(p));
+    j.at("grab_direction").get_to(p.mGrabDirection);
+    j.at("can_grab").get_to(p.mCanGrab);
+    j.at("scale").get_to(p.mScale);
+}
+
 } // namespace relive
 

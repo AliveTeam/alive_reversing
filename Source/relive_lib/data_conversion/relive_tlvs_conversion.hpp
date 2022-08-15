@@ -32,7 +32,11 @@
 #include "../AliveLibAO/ElectricWall.hpp"
 #include "../AliveLibAE/BoomMachine.hpp"
 #include "../AliveLibAO/BoomMachine.hpp"
-
+#include "../AliveLibAE/UXB.hpp"
+#include "../AliveLibAO/UXB.hpp"
+#include "../AliveLibAO/MeatSaw.hpp"
+#include "../AliveLibAO/Lever.hpp"
+#include "../AliveLibAE/Lever.hpp"
 // Convert an AO or AE TLV to a relive TLV
 
 namespace relive {
@@ -50,17 +54,17 @@ namespace relive {
         ALIVE_FATAL("Bad scale");
     }
 
-    //static reliveScale From(const ::Scale_int scale)
-    //{
-    //    switch (scale)
-    //    {
-    //    case Scale_int::eFull_0:
-    //        return reliveScale::eFull;
-    //    case Scale_int::eHalf_1:
-    //        return reliveScale::eHalf;
-    //    }
-    //    ALIVE_FATAL("Bad scale");
-    //}
+    static reliveScale From(const ::Scale_int scale)
+    {
+        switch (scale)
+        {
+        case Scale_int::eFull_0:
+            return reliveScale::eFull;
+        case Scale_int::eHalf_1:
+            return reliveScale::eHalf;
+        }
+        ALIVE_FATAL("Bad scale");
+    }
 
     static reliveChoice From(const ::Choice_short choice)
     {
@@ -762,12 +766,12 @@ private:
     {
         switch (scale)
         {
-        case ::InvisibleSwitchScale::eHalf_0:
-            return relive::Path_InvisibleSwitch::InvisibleSwitchScale::eHalf;
-        case ::InvisibleSwitchScale::eFull_1:
-            return relive::Path_InvisibleSwitch::InvisibleSwitchScale::eFull;
-        case ::InvisibleSwitchScale::eAny_2:
-            return relive::Path_InvisibleSwitch::InvisibleSwitchScale::eAny;
+            case ::InvisibleSwitchScale::eHalf_0:
+                return relive::Path_InvisibleSwitch::InvisibleSwitchScale::eHalf;
+            case ::InvisibleSwitchScale::eFull_1:
+                return relive::Path_InvisibleSwitch::InvisibleSwitchScale::eFull;
+            case ::InvisibleSwitchScale::eAny_2:
+                return relive::Path_InvisibleSwitch::InvisibleSwitchScale::eAny;
         }
         ALIVE_FATAL("Bad invisible switch scale");
     }
@@ -800,10 +804,10 @@ private:
     {
         switch (startState)
         {
-        case AO::ElectricWallStartState::eOff_0:
-            return relive::Path_ElectricWall::ElectricWallStartState::eOff;
-        case AO::ElectricWallStartState::eOn_1:
-            return relive::Path_ElectricWall::ElectricWallStartState::eOn;
+            case AO::ElectricWallStartState::eOff_0:
+                return relive::Path_ElectricWall::ElectricWallStartState::eOff;
+            case AO::ElectricWallStartState::eOn_1:
+                return relive::Path_ElectricWall::ElectricWallStartState::eOn;
         }
         ALIVE_FATAL("Bad electric wall start state");
     }
@@ -812,10 +816,10 @@ private:
     {
         switch (startState)
         {
-        case ::ElectricWallStartState::eOff_0:
-            return relive::Path_ElectricWall::ElectricWallStartState::eOff;
-        case ::ElectricWallStartState::eOn_1:
-            return relive::Path_ElectricWall::ElectricWallStartState::eOn;
+            case ::ElectricWallStartState::eOff_0:
+                return relive::Path_ElectricWall::ElectricWallStartState::eOff;
+            case ::ElectricWallStartState::eOn_1:
+                return relive::Path_ElectricWall::ElectricWallStartState::eOn;
         }
         ALIVE_FATAL("Bad electric wall start state");
     }
@@ -849,10 +853,10 @@ private:
     {
         switch (nozzleSide)
         {
-        case AO::Path_BoomMachine::NozzleSide::eRight_0:
-            return relive::Path_BoomMachine::NozzleSide::eRight;
-        case AO::Path_BoomMachine::NozzleSide::eLeft_1:
-            return relive::Path_BoomMachine::NozzleSide::eLeft;
+            case AO::Path_BoomMachine::NozzleSide::eRight_0:
+                return relive::Path_BoomMachine::NozzleSide::eRight;
+            case AO::Path_BoomMachine::NozzleSide::eLeft_1:
+                return relive::Path_BoomMachine::NozzleSide::eLeft;
         }
         ALIVE_FATAL("Bad boom machine nozzle side");
     }
@@ -861,12 +865,262 @@ private:
     {
         switch (nozzleSide)
         {
-        case ::Path_BoomMachine::NozzleSide::eRight_0:
-            return relive::Path_BoomMachine::NozzleSide::eRight;
-        case ::Path_BoomMachine::NozzleSide::eLeft_1:
-            return relive::Path_BoomMachine::NozzleSide::eLeft;
+            case ::Path_BoomMachine::NozzleSide::eRight_0:
+                return relive::Path_BoomMachine::NozzleSide::eRight;
+            case ::Path_BoomMachine::NozzleSide::eLeft_1:
+                return relive::Path_BoomMachine::NozzleSide::eLeft;
         }
         ALIVE_FATAL("Bad boom machine nozzle side");
+    }
+};
+
+class Path_UXB_Converter
+{
+public:
+    static Path_UXB From(const AO::Path_UXB& tlv)
+    {
+        Path_UXB r;
+        r.mPatternLength = tlv.field_18_pattern_length;
+        r.mPattern = tlv.field_1A_pattern;
+        r.mScale = relive::From(tlv.field_1C_scale);
+        r.mStartState = From(tlv.field_1E_state);
+        r.mDisabledResources = tlv.field_20_disabled_resources;
+        return r;
+    }
+
+    static Path_UXB From(const ::Path_UXB& tlv)
+    {
+        Path_UXB r;
+        r.mPatternLength = tlv.field_10_pattern_length;
+        r.mPattern = tlv.field_12_pattern;
+        r.mScale = relive::From(tlv.field_14_scale);
+        r.mStartState = From(tlv.field_16_start_state);
+        r.mDisabledResources = tlv.field_18_disabled_resources;
+        return r;
+    }
+
+private:
+    static relive::Path_UXB::StartState From(AO::UXBStartState startState)
+    {
+        switch (startState)
+        {
+        case AO::UXBStartState::eOn_0:
+            return relive::Path_UXB::StartState::eOn;
+        case AO::UXBStartState::eOff_1:
+            return relive::Path_UXB::StartState::eOff;
+        }
+        ALIVE_FATAL("Bad uxb start state");
+    }
+
+    static relive::Path_UXB::StartState From(::Path_UXB::StartState startState)
+    {
+        switch (startState)
+        {
+            case ::Path_UXB::StartState::eOn_0:
+                return relive::Path_UXB::StartState::eOn;
+            case ::Path_UXB::StartState::eOff_1:
+                return relive::Path_UXB::StartState::eOff;
+        }
+        ALIVE_FATAL("Bad uxb start state");
+    }
+};
+
+class Path_MeatSaw_Converter
+{
+public:
+    static Path_MeatSaw From(const AO::Path_MeatSaw& tlv)
+    {
+        Path_MeatSaw r;
+        r.field_18_scale = relive::From(tlv.field_18_scale);
+        r.field_1A_switch_min_time_off = tlv.field_1A_switch_min_time_off;
+        r.field_1C_switch_max_time_off = tlv.field_1C_switch_max_time_off;
+        r.field_1E_max_rise_time = tlv.field_1E_max_rise_time;
+        r.field_20_switch_id = tlv.field_20_switch_id;
+        r.field_22_type = From(tlv.field_22_type);
+        r.field_24_speed = tlv.field_24_speed;
+        r.field_26_start_state = From(tlv.field_26_start_state);
+        r.field_28_off_speed = tlv.field_28_off_speed;
+        r.field_2A_automatic_min_time_off = tlv.field_2A_automatic_min_time_off;
+        r.field_2C_automatic_max_time_off = tlv.field_2C_automatic_max_time_off;
+        r.field_2E_inital_position = tlv.field_2E_inital_position;
+        return r;
+    }
+
+private:
+    static relive::Path_MeatSaw::Type From(AO::Path_MeatSaw::Type type)
+    {
+        switch (type)
+        {
+            case AO::Path_MeatSaw::Type::eAutomaticPersistOffscreen_0:
+                return relive::Path_MeatSaw::Type::eAutomaticPersistOffscreen;
+            case AO::Path_MeatSaw::Type::eAutomatic_1:
+                return relive::Path_MeatSaw::Type::eAutomatic;
+            case AO::Path_MeatSaw::Type::eSwitchId_2:
+                return relive::Path_MeatSaw::Type::eSwitchId;
+        }
+        ALIVE_FATAL("Bad meat saw type");
+    }
+
+    static relive::Path_MeatSaw::StartState From(AO::Path_MeatSaw::StartState startState)
+    {
+        switch (startState)
+        {
+            case AO::Path_MeatSaw::StartState::eOff_0:
+                return relive::Path_MeatSaw::StartState::eOff;
+            case AO::Path_MeatSaw::StartState::eOn_1:
+                return relive::Path_MeatSaw::StartState::eOn;
+        }
+        ALIVE_FATAL("Bad meat saw start state");
+    }
+};
+
+class Path_Lever_Converter
+{
+public:
+    static Path_Lever From(const AO::Path_Lever& tlv)
+    {
+        Path_Lever r;
+        r.field_10_action = relive::From(tlv.field_1A_action);
+        r.field_12_scale = relive::From(tlv.field_1C_scale);
+        r.field_14_on_sound = From(tlv.field_1E_on_sound);
+        r.field_16_off_sound = From(tlv.field_20_off_sound);
+        r.field_18_sound_direction = From(tlv.field_22_sound_direction);
+        r.field_1A_switch_id = tlv.field_18_switch_id;
+        return r;
+    }
+
+    static Path_Lever From(const ::Path_Lever& tlv)
+    {
+        Path_Lever r;
+        r.field_10_action = relive::From(tlv.field_10_action);
+        r.field_12_scale = relive::From(tlv.field_12_scale);
+        r.field_14_on_sound = From(tlv.field_14_on_sound);
+        r.field_16_off_sound = From(tlv.field_16_off_sound);
+        r.field_18_sound_direction = From(tlv.field_18_sound_direction);
+        r.field_1A_switch_id = tlv.field_1A_switch_id;
+        r.field_1C_persist_offscreen = relive::From(tlv.field_1C_persist_offscreen);
+        return r;
+    }
+
+private:
+    static relive::Path_Lever::LeverSoundType From(AO::LeverSoundType soundType)
+    {
+        switch (soundType)
+        {
+            case AO::LeverSoundType::eNone:
+                return relive::Path_Lever::LeverSoundType::eNone;
+            case AO::LeverSoundType::eWell_1:
+                return relive::Path_Lever::LeverSoundType::eWell;
+            case AO::LeverSoundType::eSwitchBellHammer_2:
+                return relive::Path_Lever::LeverSoundType::eSwitchBellHammer;
+            case AO::LeverSoundType::eDoor_3:
+                return relive::Path_Lever::LeverSoundType::eDoor;
+            case AO::LeverSoundType::eElectricWall_4:
+                return relive::Path_Lever::LeverSoundType::eElectricWall;
+            case AO::LeverSoundType::eSecurityOrb_5:
+                return relive::Path_Lever::LeverSoundType::eSecurityOrb;
+        }
+        ALIVE_FATAL("Bad lever sound type");
+    }
+
+    static relive::Path_Lever::LeverSoundDirection From(AO::LeverSoundDirection soundDir)
+    {
+        switch (soundDir)
+        {
+            case AO::LeverSoundDirection::eLeftAndRight_0:
+                return relive::Path_Lever::LeverSoundDirection::eLeftAndRight;
+            case AO::LeverSoundDirection::eLeft_1:
+                return relive::Path_Lever::LeverSoundDirection::eLeft;
+            case AO::LeverSoundDirection::eRight_2:
+                return relive::Path_Lever::LeverSoundDirection::eRight;
+        }
+        ALIVE_FATAL("Bad lever sound direction");
+    }
+
+    static relive::Path_Lever::LeverSoundType From(::LeverSoundType soundType)
+    {
+        switch (soundType)
+        {
+            case ::LeverSoundType::eNone:
+                return relive::Path_Lever::LeverSoundType::eNone;
+            case ::LeverSoundType::eWell_1:
+                return relive::Path_Lever::LeverSoundType::eWell;
+            case ::LeverSoundType::eSwitchBellHammer_2:
+                return relive::Path_Lever::LeverSoundType::eSwitchBellHammer;
+            case ::LeverSoundType::eDoor_3:
+                return relive::Path_Lever::LeverSoundType::eDoor;
+            case ::LeverSoundType::eElectricWall_4:
+                return relive::Path_Lever::LeverSoundType::eElectricWall;
+            case ::LeverSoundType::eSecurityOrb_5:
+                return relive::Path_Lever::LeverSoundType::eSecurityOrb;
+            case ::LeverSoundType::eLift_6:
+                return relive::Path_Lever::LeverSoundType::eLift;
+        }
+        ALIVE_FATAL("Bad lever sound type");
+    }
+
+    static relive::Path_Lever::LeverSoundDirection From(::LeverSoundDirection soundDir)
+    {
+        switch (soundDir)
+        {
+            case ::LeverSoundDirection::eLeftAndRight_0:
+                return relive::Path_Lever::LeverSoundDirection::eLeftAndRight;
+            case ::LeverSoundDirection::eLeft_1:
+                return relive::Path_Lever::LeverSoundDirection::eLeft;
+            case ::LeverSoundDirection::eRight_2:
+                return relive::Path_Lever::LeverSoundDirection::eRight;
+        }
+        ALIVE_FATAL("Bad lever sound direction");
+    }
+};
+
+class Path_Edge_Converter
+{
+public:
+    static Path_Edge From(const AO::Path_Edge& tlv)
+    {
+        Path_Edge r;
+        r.mGrabDirection = From(tlv.field_18_grab_direction);
+        r.mCanGrab = relive::From(tlv.field_1A_can_grab);
+        return r;
+    }
+
+    static Path_Edge From(const ::Path_Edge& tlv)
+    {
+        Path_Edge r;
+        r.mGrabDirection = From(tlv.field_10_grab_direction);
+        r.mCanGrab = relive::From(tlv.field_12_bCan_grab);
+        r.mScale = relive::From(tlv.field_14_scale);
+        return r;
+    }
+
+private:
+    static relive::Path_Edge::GrabDirection From(AO::Path_Edge::GrabDirection grabDir)
+    {
+        switch (grabDir)
+        {
+            case AO::Path_Edge::GrabDirection::eFacingLeft:
+                return relive::Path_Edge::GrabDirection::eFacingLeft;
+            case AO::Path_Edge::GrabDirection::eFacingRight:
+                return relive::Path_Edge::GrabDirection::eFacingRight;
+            case AO::Path_Edge::GrabDirection::eFacingAnyDirection:
+                return relive::Path_Edge::GrabDirection::eFacingAnyDirection;
+        }
+        ALIVE_FATAL("Bad edge grab direction");
+    }
+
+    static relive::Path_Edge::GrabDirection From(::Path_Edge::GrabDirection grabDir)
+    {
+        switch (grabDir)
+        {
+        case ::Path_Edge::GrabDirection::eFacingLeft:
+            return relive::Path_Edge::GrabDirection::eFacingLeft;
+        case ::Path_Edge::GrabDirection::eFacingRight:
+            return relive::Path_Edge::GrabDirection::eFacingRight;
+        case ::Path_Edge::GrabDirection::eFacingAnyDirection:
+            return relive::Path_Edge::GrabDirection::eFacingAnyDirection;
+        }
+        ALIVE_FATAL("Bad edge grab direction");
     }
 };
 

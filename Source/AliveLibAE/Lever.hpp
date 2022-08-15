@@ -16,7 +16,7 @@ enum class LeverSoundType : s16
 {
     eNone = 0,
     eWell_1 = 1,
-    eUnknown_2 = 2,
+    eSwitchBellHammer_2 = 2,
     eDoor_3 = 3,
     eElectricWall_4 = 4,
     eSecurityOrb_5 = 5,

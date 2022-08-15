@@ -287,4 +287,91 @@ struct Path_BoomMachine final : public Path_TLV
     s16 field_16_number_of_grenades = 0;
 };
 
+struct Path_UXB final : public Path_TLV
+{
+    enum class StartState : s16
+    {
+        eOn,
+        eOff,
+    };
+    s16 mPatternLength = 0;
+    s16 mPattern = 0;
+    reliveScale mScale = reliveScale::eFull;
+    StartState mStartState = StartState::eOn;
+    s32 mDisabledResources = 0;
+};
+
+struct Path_MeatSaw final : public Path_TLV
+{
+    reliveScale field_18_scale = reliveScale::eFull;
+    s16 field_1A_switch_min_time_off = 0;
+    s16 field_1C_switch_max_time_off = 0;
+    s16 field_1E_max_rise_time = 0;
+    s16 field_20_switch_id = 0;
+    enum class Type : s16
+    {
+        eAutomaticPersistOffscreen,
+        eAutomatic,
+        eSwitchId,
+    };
+    Type field_22_type = Type::eAutomatic;
+    s16 field_24_speed = 0;
+    enum class StartState : s16
+    {
+        eOff,
+        eOn,
+    };
+    StartState field_26_start_state = StartState::eOn;
+    s16 field_28_off_speed = 0;
+    s16 field_2A_automatic_min_time_off = 0;
+    s16 field_2C_automatic_max_time_off = 0;
+    s16 field_2E_inital_position = 0;
+};
+
+struct Path_Lever final : public Path_TLV
+{
+    enum class LeverSoundType : s16
+    {
+        eNone,
+        eWell,
+        eSwitchBellHammer,
+        eDoor,
+        eElectricWall,
+        eSecurityOrb,
+        eLift, // AE only
+    };
+
+    enum class LeverSoundDirection : s16
+    {
+        eLeftAndRight,
+        eLeft,
+        eRight,
+    };
+
+    reliveSwitchOp field_10_action = reliveSwitchOp::eSetTrue;
+    reliveScale field_12_scale = reliveScale::eFull;
+    LeverSoundType field_14_on_sound = LeverSoundType::eNone;
+    LeverSoundType field_16_off_sound = LeverSoundType::eNone;
+    LeverSoundDirection field_18_sound_direction = LeverSoundDirection::eLeftAndRight;
+    s16 field_1A_switch_id = 0;
+
+    // AE only
+    reliveChoice field_1C_persist_offscreen = reliveChoice::eYes;
+};
+
+struct Path_Edge final : public Path_TLV
+{
+    enum class GrabDirection : s16
+    {
+        eFacingLeft,
+        eFacingRight,
+        eFacingAnyDirection,
+    };
+    GrabDirection mGrabDirection = GrabDirection::eFacingRight;
+    reliveChoice mCanGrab = reliveChoice::eYes;
+
+    // AE only
+    reliveScale mScale = reliveScale::eFull;
+};
+
 } // namespace relive

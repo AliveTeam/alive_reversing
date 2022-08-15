@@ -443,7 +443,7 @@ struct Path_Lever final : public ReliveAPI::TlvObjectBaseAE
         {
             {::LeverSoundType::eNone, "None"},
             {::LeverSoundType::eWell_1, "Well"},
-            {::LeverSoundType::eUnknown_2, "Unknown"},
+            {::LeverSoundType::eSwitchBellHammer_2, "Unknown"},
             {::LeverSoundType::eDoor_3, "Door"},
             {::LeverSoundType::eElectricWall_4, "Electric Wall"},
             {::LeverSoundType::eSecurityOrb_5, "Security Orb"},

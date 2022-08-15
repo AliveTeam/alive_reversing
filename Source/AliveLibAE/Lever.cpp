@@ -179,7 +179,7 @@ void Lever::VUpdate()
                             EventBroadcast(kEventSuspiciousNoise, this);
                             break;
 
-                        case LeverSoundType::eUnknown_2:
+                        case LeverSoundType::eSwitchBellHammer_2:
                             SFX_Play_Stereo(SoundEffect::SwitchUnknownTrigger_11, 100 * volLeft + 25, 100 * volRight + 25);
                             EventBroadcast(kEventNoise, this);
                             EventBroadcast(kEventSuspiciousNoise, this);
@@ -221,7 +221,7 @@ void Lever::VUpdate()
                             EventBroadcast(kEventSuspiciousNoise, this);
                             break;
 
-                        case LeverSoundType::eUnknown_2:
+                        case LeverSoundType::eSwitchBellHammer_2:
                             SFX_Play_Stereo(SoundEffect::SwitchUnknownTrigger_11, 110 * volLeft + 25, 110 * volRight + 25);
                             EventBroadcast(kEventNoise, this);
                             EventBroadcast(kEventSuspiciousNoise, this);

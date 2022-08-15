@@ -33,7 +33,7 @@ struct Path_MeatSaw final : public Path_TLV
     s16 field_2C_automatic_max_time_off;
     s16 field_2E_inital_position;
 };
-ALIVE_ASSERT_SIZEOF(Path_MeatSaw, 0x30);
+ALIVE_ASSERT_SIZEOF_ALWAYS(Path_MeatSaw, 0x30);
 
 enum class MeatSawStates : s16
 {

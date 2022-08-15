@@ -44,7 +44,7 @@ struct Path_Lever final : public Path_TLV
     LeverSoundType field_20_off_sound;
     LeverSoundDirection field_22_sound_direction;
 };
-ALIVE_ASSERT_SIZEOF(Path_Lever, 0x24);
+ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Lever, 0x24);
 
 
 class Lever final : public BaseAnimatedWithPhysicsGameObject

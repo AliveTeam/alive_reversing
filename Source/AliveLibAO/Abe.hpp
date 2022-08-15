@@ -358,6 +358,7 @@ struct Path_Edge final : public Path_TLV
     GrabDirection field_18_grab_direction;
     Choice_short field_1A_can_grab;
 };
+// TODO: size
 
 struct Path_SoftLanding final : public Path_TLV
 { };

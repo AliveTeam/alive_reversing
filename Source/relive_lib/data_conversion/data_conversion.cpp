@@ -188,6 +188,8 @@ static void ConvertTLV(const AO::Path_TLV& tlv)
             j.push_back({ "hoist", relive::Path_Hoist_Converter::From(static_cast<const AO::Path_Hoist&>(tlv)) });
             break;
         case AO::TlvTypes::Edge_4:
+            j.push_back({ "edge", relive::Path_Edge_Converter::From(static_cast<const AO::Path_Edge&>(tlv)) });
+            break;
         case AO::TlvTypes::DeathDrop_5: // no props
         case AO::TlvTypes::Door_6:
             ALIVE_FATAL("not implemented");
@@ -195,7 +197,6 @@ static void ConvertTLV(const AO::Path_TLV& tlv)
         case AO::TlvTypes::ShadowZone_7:
             j.push_back({"shadow_zone", relive::Path_ShadowZone_Converter::From(static_cast<const AO::Path_ShadowZone&>(tlv))});
             break;
-
         case AO::TlvTypes::LiftPoint_8:
             j.push_back({ "lift_point", relive::Path_LiftPoint_Converter::From(static_cast<const AO::Path_LiftPoint&>(tlv)) });
             break;
@@ -223,6 +224,8 @@ static void ConvertTLV(const AO::Path_TLV& tlv)
         case AO::TlvTypes::Slig_24:
         case AO::TlvTypes::Slog_25:
         case AO::TlvTypes::Lever_26:
+            j.push_back({ "lever", relive::Path_Lever_Converter::From(static_cast<const AO::Path_Lever&>(tlv)) });
+            break;
         case AO::TlvTypes::BellHammer_27:
         case AO::TlvTypes::StartController_28:
             ALIVE_FATAL("not implemented");
@@ -246,6 +249,8 @@ static void ConvertTLV(const AO::Path_TLV& tlv)
             j.push_back({ "mine", relive::Path_Mine_Converter::From(static_cast<const AO::Path_Mine&>(tlv)) });
             break;
         case AO::TlvTypes::UXB_47:
+            j.push_back({ "uxb", relive::Path_UXB_Converter::From(static_cast<const AO::Path_UXB&>(tlv)) });
+            break;
         case AO::TlvTypes::Paramite_48:
         case AO::TlvTypes::Bat_49:
         case AO::TlvTypes::RingMudokon_50:
@@ -286,6 +291,8 @@ static void ConvertTLV(const AO::Path_TLV& tlv)
         case AO::TlvTypes::MovingBomb_86:
         case AO::TlvTypes::MovingBombStopper_87:
         case AO::TlvTypes::MeatSaw_88:
+            j.push_back({ "meat_saw", relive::Path_MeatSaw_Converter::From(static_cast<const AO::Path_MeatSaw&>(tlv)) });
+            break;
         case AO::TlvTypes::MudokonPathTrans_89:
         case AO::TlvTypes::MenuController_90:
         case AO::TlvTypes::HintFly_92:
