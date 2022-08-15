@@ -37,6 +37,8 @@
 #include "../AliveLibAO/MeatSaw.hpp"
 #include "../AliveLibAO/Lever.hpp"
 #include "../AliveLibAE/Lever.hpp"
+#include "../AliveLibAE/BirdPortal.hpp"
+#include "../AliveLibAO/BirdPortal.hpp"
 // Convert an AO or AE TLV to a relive TLV
 
 namespace relive {
@@ -1123,5 +1125,115 @@ private:
         ALIVE_FATAL("Bad edge grab direction");
     }
 };
+
+class Path_BirdPortal_Converter
+{
+public:
+    static Path_BirdPortal From(const AO::Path_BirdPortal& tlv)
+    {
+        Path_BirdPortal r;
+        r.mEnterSide = From(tlv.mEnterSide);
+        r.mExitLevel = MapWrapper::FromAO(tlv.mExitLevel);
+        r.mExitPath = tlv.mExitPath;
+        r.mExitCamera = tlv.mExitCamera;
+        r.mScale = relive::From(tlv.mScale);
+        r.mMovieId = tlv.mMovieId;
+        r.mPortalType = From(tlv.mPortalType);
+        r.mMudCountForShrykull = tlv.mMudCountForShrykull;
+        return r;
+    }
+
+    static Path_BirdPortal From(const ::Path_BirdPortal& tlv)
+    {
+        Path_BirdPortal r;
+        r.mEnterSide = From(tlv.mEnterSide);
+        r.mExitLevel = MapWrapper::FromAE(tlv.mExitLevel);
+        r.mExitPath = tlv.mExitPath;
+        r.mExitCamera = tlv.mExitCamera;
+        r.mScale = relive::From(tlv.mScale);
+        r.mMovieId = tlv.mMovieId;
+        r.mPortalType = From(tlv.mPortalType);
+        r.mMudCountForShrykull = tlv.mMudCountForShrykull;
+        r.mCreatePortalSwitchId = tlv.mCreatePortalSwitchId;
+        r.mDeletePortalSwitchId = tlv.mDeletePortalSwitchId;
+        return r;
+    }
+
+private:
+    static relive::Path_BirdPortal::PortalSide From(AO::PortalSide portalSide)
+    {
+        switch (portalSide)
+        {
+            case AO::PortalSide::eRight_0:
+                return relive::Path_BirdPortal::PortalSide::eRight;
+            case AO::PortalSide::eLeft_1:
+                return relive::Path_BirdPortal::PortalSide::eLeft;
+        }
+        ALIVE_FATAL("Bad bird portal enter side");
+    }
+
+    static relive::Path_BirdPortal::PortalSide From(::PortalSide portalSide)
+    {
+        switch (portalSide)
+        {
+            case ::PortalSide::eRight_0:
+                return relive::Path_BirdPortal::PortalSide::eRight;
+            case ::PortalSide::eLeft_1:
+                return relive::Path_BirdPortal::PortalSide::eLeft;
+        }
+        ALIVE_FATAL("Bad bird portal enter side");
+    }
+
+private:
+    static relive::Path_BirdPortal::PortalType From(AO::PortalType portalType)
+    {
+        switch (portalType)
+        {
+            case AO::PortalType::eAbe_0:
+                return relive::Path_BirdPortal::PortalType::eAbe;
+            case AO::PortalType::eWorker_1:
+                return relive::Path_BirdPortal::PortalType::eWorker;
+            case AO::PortalType::eShrykull_2:
+                return relive::Path_BirdPortal::PortalType::eShrykull;
+            case AO::PortalType::eMudTeleport_3:
+                return relive::Path_BirdPortal::PortalType::eMudTeleport;
+        }
+        ALIVE_FATAL("Bad bird portal type");
+    }
+
+    static relive::Path_BirdPortal::PortalType From(::PortalType portalType)
+    {
+        switch (portalType)
+        {
+            case ::PortalType::eAbe_0:
+                return relive::Path_BirdPortal::PortalType::eAbe;
+            case ::PortalType::eWorker_1:
+                return relive::Path_BirdPortal::PortalType::eWorker;
+            case ::PortalType::eShrykull_2:
+                return relive::Path_BirdPortal::PortalType::eShrykull;
+        }
+        ALIVE_FATAL("Bad bird portal type");
+    }
+};
+
+//class Path_BirdPortalExit_Converter
+//{
+//public:
+//    static Path_BirdPortalExit From(const AO::Path_BirdPortalExit& tlv)
+//    {
+//        Path_BirdPortalExit r;
+//        r.mExitSide = Path_BirdPortal_Converter::From(tlv.mExitSide);
+//        r.mScale = relive::From(tlv.mScale);
+//        return r;
+//    }
+//
+//    static Path_BirdPortalExit From(const ::Path_BirdPortalExit& tlv)
+//    {
+//        Path_BirdPortalExit r;
+//        r.mExitSide = Path_BirdPortal_Converter::From(tlv.mExitSide);
+//        r.mScale = relive::From(tlv.mScale);
+//        return r;
+//    }
+//};
 
 } // namespace relive

@@ -256,7 +256,11 @@ static void ConvertTLV(const AO::Path_TLV& tlv)
         case AO::TlvTypes::RingMudokon_50:
         case AO::TlvTypes::MovieStone_51:
         case AO::TlvTypes::BirdPortal_52:
+            j.push_back({ "bird_portal", relive::Path_BirdPortal_Converter::From(static_cast<const AO::Path_BirdPortal&>(tlv)) });
+            break;
         case AO::TlvTypes::BirdPortalExit_53:
+            //j.push_back({ "bird_portal_exit", relive::Path_BirdPortalExit_Converter::From(static_cast<const AO::Path_BirdPortalExit&>(tlv)) });
+            //break;
         case AO::TlvTypes::BellSongStone_54:
         case AO::TlvTypes::TrapDoor_55:
             j.push_back({ "trap_door", relive::Path_TrapDoor_Converter::From(static_cast<const AO::Path_TrapDoor&>(tlv)) });

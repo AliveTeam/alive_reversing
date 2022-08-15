@@ -374,4 +374,41 @@ struct Path_Edge final : public Path_TLV
     reliveScale mScale = reliveScale::eFull;
 };
 
+struct Path_BirdPortal final : public Path_TLV
+{
+    enum class PortalType : s16
+    {
+        eAbe,
+        eWorker,
+        eShrykull,
+        eMudTeleport,
+    };
+
+    // used for Path_BirdPortal and Path_BirdPortalExit
+    enum class PortalSide : s16
+    {
+        eRight,
+        eLeft,
+    };
+
+    PortalSide mEnterSide;
+    EReliveLevelIds mExitLevel;
+    s16 mExitPath;
+    s16 mExitCamera;
+    reliveScale mScale;
+    s16 mMovieId;
+    PortalType mPortalType;
+    s16 mMudCountForShrykull;
+
+    // AE only
+    s16 mCreatePortalSwitchId;
+    s16 mDeletePortalSwitchId;
+};
+
+//struct Path_BirdPortalExit final : public Path_TLV
+//{
+//    PortalSide mExitSide;
+//    reliveScale mScale;
+//};
+
 } // namespace relive

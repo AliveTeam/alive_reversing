@@ -53,6 +53,38 @@ void from_json(const nlohmann::json& j, Path_TLV& p)
 }
 
 // Common TLV enums
+//NLOHMANN_JSON_SERIALIZE_ENUM(EReliveLevelIds, {
+//    {EReliveLevelIds::eNone, "none"},
+//    {EReliveLevelIds::eMenu, "menu"},
+//    {EReliveLevelIds::eMines, "mines"},
+//    {EReliveLevelIds::eNecrum, "necrum"},
+//    {EReliveLevelIds::eMudomoVault, "mudomo_vault"},
+//    {EReliveLevelIds::eMudancheeVault, "mudanchee_vault"},
+//    {EReliveLevelIds::eFeeCoDepot, "feeco_depot"},
+//    {EReliveLevelIds::eBarracks, "barracks"},
+//    {EReliveLevelIds::eMudancheeVault_Ender, "mudanchee_vault_ender"},
+//    {EReliveLevelIds::eBonewerkz, "bonewerkz"},
+//    {EReliveLevelIds::eBrewery, "brewery"},
+//    {EReliveLevelIds::eBrewery_Ender, "brewery_ender"},
+//    {EReliveLevelIds::eMudomoVault_Ender, "mudomo_vault_ender"},
+//    {EReliveLevelIds::eFeeCoDepot_Ender, "feeco_depot_ender"},
+//    {EReliveLevelIds::eBarracks_Ender, "barracks_ender"},
+//    {EReliveLevelIds::eBonewerkz_Ender, "bonewerkz_ender"},
+//    {EReliveLevelIds::eCredits, "credits"},
+//    {EReliveLevelIds::eRuptureFarms, "rupture_farms"},
+//    {EReliveLevelIds::eLines, "lines"},
+//    {EReliveLevelIds::eForest, "forest"},
+//    {EReliveLevelIds::eForestTemple, "forest_temple"},
+//    {EReliveLevelIds::eStockYards, "stock_yards"},
+//    {EReliveLevelIds::eStockYardsReturn, "stock_yards_return"},
+//    {EReliveLevelIds::eDesert, "desert"},
+//    {EReliveLevelIds::eDesertTemple, "desert_temple"},
+//    {EReliveLevelIds::eBoardRoom, "board_room"},
+//    {EReliveLevelIds::eRuptureFarmsReturn, "rupture_farms_return"},
+//    {EReliveLevelIds::eForestChase, "forest_chase"},
+//    {EReliveLevelIds::eDesertEscape, "desert_escape"},
+//})
+
 NLOHMANN_JSON_SERIALIZE_ENUM(reliveScale, {
     {reliveScale::eFull, "full"},
     {reliveScale::eHalf, "half"},
@@ -675,6 +707,68 @@ void from_json(const nlohmann::json& j, Path_Edge& p)
     j.at("can_grab").get_to(p.mCanGrab);
     j.at("scale").get_to(p.mScale);
 }
+
+// Path_BirdPortal
+NLOHMANN_JSON_SERIALIZE_ENUM(Path_BirdPortal::PortalType, {
+    {Path_BirdPortal::PortalType::eAbe, "abe"},
+    {Path_BirdPortal::PortalType::eWorker, "worker"},
+    {Path_BirdPortal::PortalType::eShrykull, "shrykull"},
+    {Path_BirdPortal::PortalType::eMudTeleport, "mud_teleport"},
+})
+
+NLOHMANN_JSON_SERIALIZE_ENUM(Path_BirdPortal::PortalSide, {
+    {Path_BirdPortal::PortalSide::eRight, "right"},
+    {Path_BirdPortal::PortalSide::eLeft, "left"},
+})
+
+void to_json(nlohmann::json& j, const Path_BirdPortal& p)
+{
+    j = nlohmann::json{
+        {"base", ToBase(p)},
+        {"enter_side", p.mEnterSide},
+        {"exit_level", p.mExitLevel},
+        {"exit_path", p.mExitPath},
+        {"exit_camera", p.mExitCamera},
+        {"scale", p.mScale},
+        {"movie_id", p.mMovieId},
+        {"portal_type", p.mPortalType},
+        {"mud_count_for_shrykull", p.mMudCountForShrykull},
+        {"create_portal_switch_id", p.mCreatePortalSwitchId},
+        {"delete_portal_switch_id", p.mDeletePortalSwitchId},
+    };
+}
+
+void from_json(const nlohmann::json& j, Path_BirdPortal& p)
+{
+    j.at("base").get_to(ToBase(p));
+    j.at("enter_side").get_to(p.mEnterSide);
+    j.at("exit_level").get_to(p.mExitLevel);
+    j.at("exit_path").get_to(p.mExitPath);
+    j.at("exit_camera").get_to(p.mExitCamera);
+    j.at("scale").get_to(p.mScale);
+    j.at("movie_id").get_to(p.mMovieId);
+    j.at("portal_type").get_to(p.mPortalType);
+    j.at("mud_count_for_shrykull").get_to(p.mMudCountForShrykull);
+    j.at("create_portal_switch_id").get_to(p.mCreatePortalSwitchId);
+    j.at("delete_portal_switch_id").get_to(p.mDeletePortalSwitchId);
+}
+
+// Path_BirdPortalExit
+//void to_json(nlohmann::json& j, const Path_BirdPortalExit& p)
+//{
+//    j = nlohmann::json{
+//        {"base", ToBase(p)},
+//        {"exit_side", p.mExitSide},
+//        {"scale", p.mScale},
+//    };
+//}
+//
+//void from_json(const nlohmann::json& j, Path_BirdPortalExit& p)
+//{
+//    j.at("base").get_to(ToBase(p));
+//    j.at("exit_side").get_to(p.mExitSide);
+//    j.at("scale").get_to(p.mScale);
+//}
 
 } // namespace relive
 
