@@ -13,6 +13,12 @@ enum class LiftPointStopType : s16
     eStartPointOnly_4 = 4,
 };
 
+struct Path_Pulley final : public Path_TLV
+{
+    s16 field_10_unused1;
+    s16 field_12_unused2;
+};
+
 struct Path_LiftPoint final : public Path_TLV
 {
     s16 field_10_lift_point_id;

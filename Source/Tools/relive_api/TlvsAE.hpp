@@ -71,6 +71,10 @@
 #include "../../AliveLibAE/ParamiteWebLine.hpp"
 #include "../../AliveLibAE/Meat.hpp"
 #include "../../AliveLibAE/TorturedMudokon.hpp"
+#include "../../AliveLibAE/SligSpawner.hpp"
+#include "../../AliveLibAE/DemoPlayback.hpp"
+#include "../../AliveLibAE/MainMenu.hpp"
+#include "../../AliveLibAE/CreditsController.hpp"
 
 #define CTOR_AE(className, objectTypeName, tlvEnumType)\
     className() : TlvObjectBaseAE(sizeof(::className), tlvEnumType, objectTypeName, &mTlv)\
@@ -102,167 +106,6 @@ struct Path_Null_63 final : public Path_TLV
     // TODO: check
     s16 padding1;
     s16 padding2;
-};
-
-struct Path_MainMenuController final : public Path_TLV
-{
-    // Empty
-};
-
-struct Path_SligGetWings final : public Path_TLV
-{
-    Scale_short scale;
-    Path_FlyingSlig_Data::SpawnDelayStates state;
-    s16 spawn_move_delay;
-    s16 patrol_pause_min;
-    s16 patrol_pause_max;
-    XDirection_short start_direction;
-    s16 panic_delay;
-    s16 give_up_chase_delay;
-    s16 prechase_delay;
-    s16 slig_bound_id;
-    s16 alerted_listen_time;
-    s16 spawner_switch_id;
-    s16 grenade_delay;
-    s16 max_velocity;
-    s16 launch_switch_id;
-    Choice_short persistant;
-};
-
-struct Path_SligGetPants final : public Path_TLV
-{
-    Scale_short Scale;
-    Path_Slig::StartState start_state;
-    s16 pause_time;
-    s16 pause_left_min;
-    s16 pause_left_max;
-    s16 pause_right_min;
-    s16 pause_right_max;
-    Path_Slig::ShootPossessedSligs shoot_possessed_sligs;
-    s16 shoot_on_sight_delay;
-    s16 num_times_to_shoot;
-    s16 padding;
-    s16 code1;
-    s16 code2;
-    Choice_short chase_abe_when_spotted;
-    XDirection_short start_direction;
-    s16 panic_timeout;
-    s16 amount_of_panic_sounds;
-    s16 panic_sounds_timeout;
-    s16 stop_chase_delay;
-    s16 time_to_wait_before_chase;
-    s16 slig_bound_id;
-    s16 alerted_listen_time;
-    s16 percent_say_what;
-    s16 percent_beat_mud;
-    s16 talk_to_abe;
-    s16 dont_shoot;
-    s16 z_shoot_delay;
-    Choice_short stay_awake;
-    s16 disable_resources;
-    s16 noise_wake_up_distance;
-    s16 slig_spawner_switch_id;
-    Choice_short unlimited_spawns;
-};
-
-struct Path_MovieHandstone final : public Path_TLV
-{
-    s16 padding;
-    Scale_short scale;
-    s16 movie_number;
-    s16 trigger_switch_id;
-};
-
-struct Path_CreditsController final : public Path_TLV
-{
-    // Empty
-};
-
-struct Path_ScrabLeftBound final : public Path_TLV
-{
-    // Empty
-};
-
-struct Path_ScrabRightBound final : public Path_TLV
-{
-    // Empty
-};
-
-struct Path_DemoSpawnPoint final : public Path_TLV
-{
-    // Empty
-};
-
-struct Path_PathTransition final : public Path_TLV
-{
-    s16 level;
-    s16 path;
-    s16 camera;
-    s16 movie;
-    s16 wipe;
-    Scale_short scale;
-};
-
-struct Path_ZSligCover final : public Path_TLV
-{
-    // Empty
-};
-
-struct Path_SligSpawner final : public Path_TLV
-{
-    Scale_short scale;
-    Path_Slig::StartState start_state;
-    s16 pause_time;
-    s16 pause_left_min;
-    s16 pause_left_max;
-    s16 pause_right_min;
-    s16 pause_right_max;
-    Path_Slig::ShootPossessedSligs shoot_possessed_sligs;
-    s16 shoot_on_sight_delay; 
-    s16 number_of_times_to_shoot;
-    s16 unknown; // maybe number of times to shoot after spawning?
-    s16 code_1;
-    s16 code_2;
-    XDirection_short chase_abe_when_spotted;
-    XDirection_short start_direction;
-    s16 panic_timeout;
-    s16 num_panic_sounds;
-    s16 panic_sound_timeout;
-    s16 stop_chase_delay;
-    s16 time_to_wait_before_chase;
-    s16 slig_bound_id;
-    s16 alerted_listen_time;
-    s16 percent_say_what;
-    s16 percent_beat_mud;
-    s16 talk_to_abe;
-    s16 dont_shoot;
-    s16 z_shoot_delay;
-    s16 stay_awake;
-    s16 disable_resources;
-    s16 noise_wake_up_distance;
-    s16 id;
-    Choice_short unlimited_spawns;
-};
-
-struct Path_DeathDrop final : public Path_TLV
-{
-    s16 field_10_animation;
-    s16 field_12_sound;
-    s16 field_14_id;
-    s16 field_16_action;
-    s16 field_18_unknown1;
-    s16 field_1A_unknown2;
-};
-
-struct Path_InvisibleZone final : public Path_TLV
-{
-    // Empty
-};
-
-struct Path_Pulley final : public Path_TLV
-{
-    s16 field_10_unused1;
-    s16 field_12_unused2;
 };
 
 namespace AETlvs {

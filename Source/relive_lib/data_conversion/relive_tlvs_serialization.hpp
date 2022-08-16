@@ -1135,15 +1135,15 @@ void from_json(const nlohmann::json& j, Path_BackgroundAnimation& p)
 
 
 
-// Path_MenuController
-void to_json(nlohmann::json& j, const Path_MenuController& p)
+// Path_MainMenuController
+void to_json(nlohmann::json& j, const Path_MainMenuController& p)
 {
     j = nlohmann::json{
         {"base", ToBase(p)}
     };
 }
 
-void from_json(const nlohmann::json& j, Path_MenuController& p)
+void from_json(const nlohmann::json& j, Path_MainMenuController& p)
 {
     j.at("base").get_to(ToBase(p));
 }

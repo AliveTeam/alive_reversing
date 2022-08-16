@@ -59,6 +59,8 @@
 #include "../AliveLibAE/Slig.hpp"
 #include "../AliveLibAO/BackgroundAnimation.hpp"
 #include "../AliveLibAE/BackgroundAnimation.hpp"
+#include "../AliveLibAE/MainMenu.hpp"
+#include "../AliveLibAO/MainMenu.hpp"
 
 // Convert an AO or AE TLV to a relive TLV
 
@@ -1798,25 +1800,22 @@ private:
     }
 };
 
-// TODO: Need to be able to actually get to Path_MenuController and AO::Path_MenuController
-// and then call From in the TLV conversion switch case
-/*
-class Path_MenuController_Converter final
+class Path_MainMenuController_Converter final
 {
 public:
-    static Path_MenuController From(const AO::Path_MenuController& tlv)
+    static Path_MainMenuController From(const AO::Path_MainMenuController& tlv)
     {
-        Path_BirdPortal r;
-        BaseConvert(r, tlv); // TODO: actually need to call these in every From :annoyingSlug:
-        return r;
-    }
-
-    static Path_MenuController From(const ::Path_MenuController& tlv)
-    {
-        Path_BirdPortal r;
+        Path_MainMenuController r;
         BaseConvert(r, tlv);
         return r;
     }
-*/
+
+    static Path_MainMenuController From(const ::Path_MainMenuController& tlv)
+    {
+        Path_MainMenuController r;
+        BaseConvert(r, tlv);
+        return r;
+    }
+};
 
 } // namespace relive

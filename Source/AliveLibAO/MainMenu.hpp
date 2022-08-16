@@ -10,7 +10,7 @@ enum class EReliveLevelIds : s16;
 
 namespace AO {
 
-struct Path_MenuController final : public Path_TLV
+struct Path_MainMenuController final : public Path_TLV
 {
     // No fields
 };

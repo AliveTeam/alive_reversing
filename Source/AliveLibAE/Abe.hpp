@@ -168,6 +168,39 @@ extern const InputCommands::Enum sInputKey_GameSpeak5;
 extern const InputCommands::Enum sInputKey_GameSpeak8;
 extern const InputCommands::Enum sInputKey_GameSpeak7;
 
+struct Path_MovieHandstone final : public Path_TLV
+{
+    s16 padding;
+    Scale_short scale;
+    s16 movie_number;
+    s16 trigger_switch_id;
+};
+
+struct Path_PathTransition final : public Path_TLV
+{
+    s16 level;
+    s16 path;
+    s16 camera;
+    s16 movie;
+    s16 wipe;
+    Scale_short scale;
+};
+
+struct Path_DeathDrop final : public Path_TLV
+{
+    s16 field_10_animation;
+    s16 field_12_sound;
+    s16 field_14_id;
+    s16 field_16_action;
+    s16 field_18_unknown1;
+    s16 field_1A_unknown2;
+};
+
+struct Path_InvisibleZone final : public Path_TLV
+{
+    // Empty
+};
+
 struct Path_ContinuePoint final : public Path_TLV
 {
     enum class Scale : s16

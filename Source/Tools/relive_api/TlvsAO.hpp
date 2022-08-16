@@ -104,9 +104,9 @@ struct Path_Preloader final : public Path_TLV
 
 namespace AOTlvs {
 
-struct Path_MenuController final : public ReliveAPI::TlvObjectBaseAO
+struct Path_MainMenuController final : public ReliveAPI::TlvObjectBaseAO
 {
-    CTOR_AO(Path_MenuController, "MenuController", AO::TlvTypes::MenuController_90)
+    CTOR_AO(Path_MainMenuController, "MenuController", AO::TlvTypes::MenuController_90)
     {
         EMPTY_CTOR_AO();
     }

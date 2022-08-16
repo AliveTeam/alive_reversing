@@ -405,7 +405,7 @@ struct Path_BirdPortal final : public Path_TLV
     s16 mDeletePortalSwitchId = 0;
 };
 
-struct Path_MenuController final : public Path_TLV
+struct Path_MainMenuController final : public Path_TLV
 {
     // No fields
 };

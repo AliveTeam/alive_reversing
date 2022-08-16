@@ -2,8 +2,12 @@
 
 #include "../AliveLibCommon/Function.hpp"
 #include "../relive_lib/BaseGameObject.hpp"
+#include "Path.hpp"
 
-struct Path_TLV;
+struct Path_CreditsController final : public Path_TLV
+{
+    // Empty
+};
 
 #pragma pack(push)
 #pragma pack(2)

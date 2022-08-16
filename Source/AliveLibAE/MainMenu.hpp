@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../AliveLibCommon/Function.hpp"
+#include "../AliveLibCommon/BitField.hpp"
 #include "../relive_lib/DynamicArray.hpp"
 #include "../relive_lib/BaseGameObject.hpp"
 #include "../relive_lib/Animation.hpp"
@@ -8,9 +9,13 @@
 #include "BaseAnimatedWithPhysicsGameObject.hpp"
 #include "Factory.hpp"
 #include "Input.hpp"
-#include "BitField.hpp"
 
 enum class LevelIds : s16;
+
+struct Path_MainMenuController final : public Path_TLV
+{
+    // Empty
+};
 
 struct MenuFMV final
 {

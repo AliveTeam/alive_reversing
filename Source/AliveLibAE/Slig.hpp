@@ -4,6 +4,7 @@
 #include "BaseAliveGameObject.hpp"
 #include "Path.hpp"
 #include "../relive_lib/MapWrapper.hpp"
+#include "FlyingSligSpawner.hpp"
 
 #define SLIG_MOTIONS_ENUM_AE(ENTRY)         \
     ENTRY(M_StandIdle_0_4B4EC0)          \
@@ -90,6 +91,31 @@ enum class SligSfx : s16
     ePadding_16 = 16
 };
 
+struct Path_ZSligCover final : public Path_TLV
+{
+    // Empty
+};
+
+struct Path_SligGetWings final : public Path_TLV
+{
+    Scale_short scale;
+    Path_FlyingSlig_Data::SpawnDelayStates state;
+    s16 spawn_move_delay;
+    s16 patrol_pause_min;
+    s16 patrol_pause_max;
+    XDirection_short start_direction;
+    s16 panic_delay;
+    s16 give_up_chase_delay;
+    s16 prechase_delay;
+    s16 slig_bound_id;
+    s16 alerted_listen_time;
+    s16 spawner_switch_id;
+    s16 grenade_delay;
+    s16 max_velocity;
+    s16 launch_switch_id;
+    Choice_short persistant;
+};
+
 struct Path_Slig final : public Path_TLV
 {
     Scale_short field_10_scale;
@@ -145,6 +171,42 @@ struct Path_Slig final : public Path_TLV
     Choice_short field_4E_unlimited_spawns;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Slig, 0x50);
+
+struct Path_SligGetPants final : public Path_TLV
+{
+    Scale_short Scale;
+    Path_Slig::StartState start_state;
+    s16 pause_time;
+    s16 pause_left_min;
+    s16 pause_left_max;
+    s16 pause_right_min;
+    s16 pause_right_max;
+    Path_Slig::ShootPossessedSligs shoot_possessed_sligs;
+    s16 shoot_on_sight_delay;
+    s16 num_times_to_shoot;
+    s16 padding;
+    s16 code1;
+    s16 code2;
+    Choice_short chase_abe_when_spotted;
+    XDirection_short start_direction;
+    s16 panic_timeout;
+    s16 amount_of_panic_sounds;
+    s16 panic_sounds_timeout;
+    s16 stop_chase_delay;
+    s16 time_to_wait_before_chase;
+    s16 slig_bound_id;
+    s16 alerted_listen_time;
+    s16 percent_say_what;
+    s16 percent_beat_mud;
+    s16 talk_to_abe;
+    s16 dont_shoot;
+    s16 z_shoot_delay;
+    Choice_short stay_awake;
+    s16 disable_resources;
+    s16 noise_wake_up_distance;
+    s16 slig_spawner_switch_id;
+    Choice_short unlimited_spawns;
+};
 
 // This is a left bound, right bound and a persist.
 struct Path_SligBound final : public Path_TLV
