@@ -65,6 +65,13 @@
 #include "../AliveLibAO/Scrab.hpp"
 #include "../AliveLibAE/Scrab.hpp"
 #include "../AliveLibAO/HoneyDrip.hpp"
+#include "../AliveLibAO/ChimeLock.hpp"
+#include "../AliveLibAO/LCDStatusBoard.hpp"
+#include "../AliveLibAE/LCDStatusBoard.hpp"
+#include "../AliveLibAE/CreditsController.hpp"
+#include "../AliveLibAO/CreditsController.hpp"
+#include "../AliveLibAE/Meat.hpp"
+#include "../AliveLibAO/Meat.hpp"
 
 // Convert an AO or AE TLV to a relive TLV
 
@@ -84,7 +91,6 @@ namespace relive {
         r.mX = base.mTopLeft.x;
         r.mY = base.mTopLeft.y;
     }
-
 
     // also used for AO
     static reliveScale From(const ::Scale_short scale)
@@ -118,6 +124,18 @@ namespace relive {
         case Choice_short::eNo_0:
             return reliveChoice::eNo;
         case Choice_short::eYes_1:
+            return reliveChoice::eYes;
+        }
+        ALIVE_FATAL("Bad choice");
+    }
+
+    static reliveChoice From(const ::Choice_int choice)
+    {
+        switch (choice)
+        {
+        case Choice_int::eNo_0:
+            return reliveChoice::eNo;
+        case Choice_int::eYes_1:
             return reliveChoice::eYes;
         }
         ALIVE_FATAL("Bad choice");
@@ -1974,6 +1992,106 @@ public:
     {
         Path_DeathDrop r;
         BaseConvert(r, tlv);
+        return r;
+    }
+};
+
+class Path_ChimeLock_Converter final
+{
+public:
+    static Path_ChimeLock From(const AO::Path_ChimeLock& tlv)
+    {
+        Path_ChimeLock r;
+        BaseConvert(r, tlv);
+        r.field_18_scale = relive::From(tlv.field_18_scale);
+        r.field_1A_solve_switch_id = tlv.field_1A_solve_switch_id;
+        r.field_1C_code1 = tlv.field_1C_code1;
+        r.field_1E_code2 = tlv.field_1E_code2;
+        r.field_20_password_switch_id = tlv.field_20_password_switch_id;
+        return r;
+    }
+};
+
+class Path_LCDStatusBoard_Converter final
+{
+public:
+    static Path_LCDStatusBoard From(const AO::Path_LCDStatusBoard& tlv)
+    {
+        Path_LCDStatusBoard r;
+        BaseConvert(r, tlv);
+        return r;
+    }
+
+    static Path_LCDStatusBoard From(const ::Path_LCDStatusBoard& tlv)
+    {
+        Path_LCDStatusBoard r;
+        BaseConvert(r, tlv);
+        r.field_10_number_of_muds = tlv.field_10_number_of_muds;
+        r.field_12_zulag_number = tlv.field_12_zulag_number;
+        r.field_14_hidden = relive::From(tlv.field_14_hidden);
+        return r;
+    }
+};
+
+class Path_CreditsController_Converter final
+{
+public:
+    static Path_CreditsController From(const AO::Path_CreditsController& tlv)
+    {
+        Path_CreditsController r;
+        BaseConvert(r, tlv);
+        return r;
+    }
+
+    static Path_CreditsController From(const ::Path_CreditsController& tlv)
+    {
+        Path_CreditsController r;
+        BaseConvert(r, tlv);
+        return r;
+    }
+};
+
+class Path_ResetPath_Converter final
+{
+public:
+    static Path_ResetPath From(const AO::Path_ResetPath& tlv)
+    {
+        Path_ResetPath r;
+        BaseConvert(r, tlv);
+        r.field_18_clearIds = tlv.field_18_clearIds;
+        r.field_1A_from = tlv.field_1A_from;
+        r.field_1C_to = tlv.field_1C_to;
+        r.field_1E_exclude = tlv.field_1E_exclude;
+        r.field_20_clearObjects = tlv.field_20_clearObjects;
+        r.field_22_path = tlv.field_22_path;
+        return r;
+    }
+};
+
+class Path_MeatSack_Converter final
+{
+public:
+    static Path_MeatSack From(const AO::Path_MeatSack& tlv)
+    {
+        Path_MeatSack r;
+        BaseConvert(r, tlv);
+        r.field_10_meat_fall_direction = relive::From(tlv.field_18_meat_fall_direction);
+        r.field_12_xVel = tlv.field_1A_x_vel;
+        r.field_14_yVel = tlv.field_1C_y_vel;
+        r.field_16_scale = relive::From(tlv.field_1E_scale);
+        r.field_18_amount_of_meat = tlv.field_20_amount_of_meat;
+        return r;
+    }
+
+    static Path_MeatSack From(const ::Path_MeatSack& tlv)
+    {
+        Path_MeatSack r;
+        BaseConvert(r, tlv);
+        r.field_10_meat_fall_direction = relive::From(tlv.field_10_meat_fall_direction);
+        r.field_12_xVel = tlv.field_12_xVel;
+        r.field_14_yVel = tlv.field_14_yVel;
+        r.field_16_scale = relive::From(tlv.field_16_scale);
+        r.field_18_amount_of_meat = tlv.field_18_amount_of_meat;
         return r;
     }
 };

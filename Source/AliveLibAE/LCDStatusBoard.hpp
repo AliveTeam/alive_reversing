@@ -11,7 +11,7 @@ struct Path_LCDStatusBoard final : public Path_TLV
     s16 field_12_zulag_number;
     Choice_int field_14_hidden;
 };
-ALIVE_ASSERT_SIZEOF(Path_LCDStatusBoard, 0x18);
+ALIVE_ASSERT_SIZEOF_ALWAYS(Path_LCDStatusBoard, 0x18);
 
 class LCDStatusBoard final : public BaseGameObject
 {

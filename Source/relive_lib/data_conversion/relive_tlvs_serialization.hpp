@@ -1287,5 +1287,108 @@ void from_json(const nlohmann::json& j, Path_DeathDrop& p)
     j.at("base").get_to(ToBase(p));
 }
 
+// Path_ChimeLock
+void to_json(nlohmann::json& j, const Path_ChimeLock& p)
+{
+    j = nlohmann::json{
+        {"base", ToBase(p)},
+        {"scale", p.field_18_scale},
+        {"solve_switch_id", p.field_1A_solve_switch_id},
+        {"code1", p.field_1C_code1},
+        {"code2", p.field_1E_code2},
+        {"password_switch_id", p.field_20_password_switch_id},
+    };
+}
+
+void from_json(const nlohmann::json& j, Path_ChimeLock& p)
+{
+    j.at("base").get_to(ToBase(p));
+    j.at("scale").get_to(p.field_18_scale);
+    j.at("solve_switch_id").get_to(p.field_1A_solve_switch_id);
+    j.at("code1").get_to(p.field_1C_code1);
+    j.at("code2").get_to(p.field_1E_code2);
+    j.at("password_switch_id").get_to(p.field_20_password_switch_id);
+}
+
+// Path_LCDStatusBoard
+void to_json(nlohmann::json& j, const Path_LCDStatusBoard& p)
+{
+    j = nlohmann::json{
+        {"base", ToBase(p)},
+        {"number_of_muds", p.field_10_number_of_muds},
+        {"zulag_number", p.field_12_zulag_number},
+        {"hidden", p.field_14_hidden},
+    };
+}
+
+void from_json(const nlohmann::json& j, Path_LCDStatusBoard& p)
+{
+    j.at("base").get_to(ToBase(p));
+    j.at("number_of_muds").get_to(p.field_10_number_of_muds);
+    j.at("zulag_number").get_to(p.field_12_zulag_number);
+    j.at("hidden").get_to(p.field_14_hidden);
+}
+
+// Path_CreditsController
+void to_json(nlohmann::json& j, const Path_CreditsController& p)
+{
+    j = nlohmann::json{
+        {"base", ToBase(p)}
+    };
+}
+
+void from_json(const nlohmann::json& j, Path_CreditsController& p)
+{
+    j.at("base").get_to(ToBase(p));
+}
+
+// Path_ResetPath
+void to_json(nlohmann::json& j, const Path_ResetPath& p)
+{
+    j = nlohmann::json{
+        {"base", ToBase(p)},
+        {"clear_ids", p.field_18_clearIds},
+        {"from", p.field_1A_from},
+        {"to", p.field_1C_to},
+        {"exclude", p.field_1E_exclude},
+        {"clear_objects", p.field_20_clearObjects},
+        {"path", p.field_22_path},
+    };
+}
+
+void from_json(const nlohmann::json& j, Path_ResetPath& p)
+{
+    j.at("base").get_to(ToBase(p));
+    j.at("clear_ids").get_to(p.field_18_clearIds);
+    j.at("from").get_to(p.field_1A_from);
+    j.at("to").get_to(p.field_1C_to);
+    j.at("exclude").get_to(p.field_1E_exclude);
+    j.at("clear_objects").get_to(p.field_20_clearObjects);
+    j.at("path").get_to(p.field_22_path);
+}
+
+// Path_MeatSack
+void to_json(nlohmann::json& j, const Path_MeatSack& p)
+{
+    j = nlohmann::json{
+        {"base", ToBase(p)},
+        {"meat_fall_direction", p.field_10_meat_fall_direction},
+        {"x_vel", p.field_12_xVel},
+        {"y_vel", p.field_14_yVel},
+        {"scale", p.field_16_scale},
+        {"amount_of_meat", p.field_18_amount_of_meat},
+    };
+}
+
+void from_json(const nlohmann::json& j, Path_MeatSack& p)
+{
+    j.at("base").get_to(ToBase(p));
+    j.at("meat_fall_direction").get_to(p.field_10_meat_fall_direction);
+    j.at("x_vel").get_to(p.field_12_xVel);
+    j.at("y_vel").get_to(p.field_14_yVel);
+    j.at("scale").get_to(p.field_16_scale);
+    j.at("amount_of_meat").get_to(p.field_18_amount_of_meat);
+}
+
 } // namespace relive
 

@@ -651,6 +651,47 @@ struct Path_DeathDrop final : public Path_TLV
     // No fields
 };
 
+struct Path_ChimeLock final : public Path_TLV
+{
+    reliveScale field_18_scale;
+    s16 field_1A_solve_switch_id;
+    s16 field_1C_code1;
+    s16 field_1E_code2;
+    s16 field_20_password_switch_id;
+};
+
+struct Path_LCDStatusBoard final : public Path_TLV
+{
+    // AO has no fields
+    s16 field_10_number_of_muds;
+    s16 field_12_zulag_number;
+    reliveChoice field_14_hidden;
+};
+
+struct Path_CreditsController final : public Path_TLV
+{
+    // Empty
+};
+
+struct Path_ResetPath final : public Path_TLV
+{
+    s16 field_18_clearIds;
+    s16 field_1A_from;
+    s16 field_1C_to;
+    s16 field_1E_exclude;
+    s16 field_20_clearObjects;
+    s16 field_22_path;
+};
+
+struct Path_MeatSack final : public Path_TLV
+{
+    reliveXDirection field_10_meat_fall_direction;
+    u16 field_12_xVel;
+    u16 field_14_yVel;
+    reliveScale field_16_scale;
+    s16 field_18_amount_of_meat;
+};
+
 //struct Path_HandStone final : public Path_TLV
 //{
 //    reliveScale field_10_scale;

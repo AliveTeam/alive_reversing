@@ -344,11 +344,11 @@ static void ConvertTLV(const AO::Path_TLV& tlv)
             j.push_back({ "lift_mover", relive::Path_LiftMover_Converter::From(static_cast<const AO::Path_LiftMover&>(tlv)) });
             break;
         case AO::TlvTypes::ChimeLock_69:
-            LOG_WARNING("tlv of type " << static_cast<s16>(tlv.mTlvType32.mType) << " not implemented");
-            return;
+            j.push_back({ "chime_lock", relive::Path_ChimeLock_Converter::From(static_cast<const AO::Path_ChimeLock&>(tlv)) });
+            break;
         case AO::TlvTypes::MeatSack_71:
-            LOG_WARNING("tlv of type " << static_cast<s16>(tlv.mTlvType32.mType) << " not implemented");
-            return;
+            j.push_back({ "meat_sack", relive::Path_MeatSack_Converter::From(static_cast<const AO::Path_MeatSack&>(tlv)) });
+            break;
         case AO::TlvTypes::Scrab_72:
             LOG_WARNING("tlv of type " << static_cast<s16>(tlv.mTlvType32.mType) << " not implemented");
             return;
@@ -424,14 +424,14 @@ static void ConvertTLV(const AO::Path_TLV& tlv)
         case AO::TlvTypes::HandStone_100:
             LOG_WARNING("tlv of type " << static_cast<s16>(tlv.mTlvType32.mType) << " not implemented");
             return;
-        case AO::TlvTypes::CreditsController_101: // no props
-            LOG_WARNING("tlv of type " << static_cast<s16>(tlv.mTlvType32.mType) << " not implemented");
-            return;
+        case AO::TlvTypes::CreditsController_101:
+            j.push_back({ "credits_controller", relive::Path_CreditsController_Converter::From(static_cast<const AO::Path_CreditsController&>(tlv)) });
+            break;
         case AO::TlvTypes::Preloader_102: // dead tlv
             return;
-        case AO::TlvTypes::LCDStatusBoard_103: // no props
-            LOG_WARNING("tlv of type " << static_cast<s16>(tlv.mTlvType32.mType) << " not implemented");
-            return;
+        case AO::TlvTypes::LCDStatusBoard_103:
+            j.push_back({ "lcd_status_board", relive::Path_LCDStatusBoard_Converter::From(static_cast<const AO::Path_LCDStatusBoard&>(tlv)) });
+            break;
         case AO::TlvTypes::MusicTrigger_105:
             j.push_back({ "music_trigger", relive::Path_MusicTrigger_Converter::From(static_cast<const AO::Path_MusicTrigger&>(tlv)) });
             break;
@@ -463,8 +463,8 @@ static void ConvertTLV(const AO::Path_TLV& tlv)
             j.push_back({ "soft_landing", relive::Path_SoftLanding_Converter::From(static_cast<const AO::Path_SoftLanding&>(tlv)) });
             break;
         case AO::TlvTypes::ResetPath_115:
-            LOG_WARNING("tlv of type " << static_cast<s16>(tlv.mTlvType32.mType) << " not implemented");
-            return;
+            j.push_back({ "reset_path", relive::Path_ResetPath_Converter::From(static_cast<const AO::Path_ResetPath&>(tlv)) });
+            break;
 
         default:
             ALIVE_FATAL("TLV conversion for this type not implemented");

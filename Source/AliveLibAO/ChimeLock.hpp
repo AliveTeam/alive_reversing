@@ -18,7 +18,7 @@ struct Path_ChimeLock final : public Path_TLV
     s16 field_20_password_switch_id;
     s16 field_22_pad;
 };
-ALIVE_ASSERT_SIZEOF(Path_ChimeLock, 0x24);
+ALIVE_ASSERT_SIZEOF_ALWAYS(Path_ChimeLock, 0x24);
 
 
 class ChimeLock final : public BaseAliveGameObject
