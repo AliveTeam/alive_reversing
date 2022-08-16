@@ -15,7 +15,7 @@ struct Path_BellHammer final : public Path_TLV
     Scale_short mScale;
     XDirection_short mDirection;
 };
-ALIVE_ASSERT_SIZEOF(Path_BellHammer, 0x20);
+ALIVE_ASSERT_SIZEOF_ALWAYS(Path_BellHammer, 0x20);
 
 enum class BellHammerStates : u16
 {

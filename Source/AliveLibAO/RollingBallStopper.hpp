@@ -17,7 +17,7 @@ struct Path_RollingBallStopper final : public Path_TLV
     s16 field_1C_ball_switch_id;
     XDirection_short field_1E_direction;
 };
-ALIVE_ASSERT_SIZEOF(Path_RollingBallStopper, 0x20);
+ALIVE_ASSERT_SIZEOF_ALWAYS(Path_RollingBallStopper, 0x20);
 
 class RollingBallStopper final : public BaseAliveGameObject
 {

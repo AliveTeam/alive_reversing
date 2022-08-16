@@ -934,8 +934,144 @@ void from_json(const nlohmann::json& j, Path_FlintLockFire& p)
     j.at("switch_id").get_to(p.mSwitchId);
 }
 
+// Path_HoneySack
+void to_json(nlohmann::json& j, const Path_HoneySack& p)
+{
+    j = nlohmann::json{
+        {"base", ToBase(p)},
+        {"chase_ticks", p.mChaseTicks},
+        {"scale", p.mScale},
+    };
+}
 
+void from_json(const nlohmann::json& j, Path_HoneySack& p)
+{
+    j.at("base").get_to(ToBase(p));
+    j.at("chase_ticks").get_to(p.mChaseTicks);
+    j.at("scale").get_to(p.mScale);
+}
 
+// Path_Bat
+void to_json(nlohmann::json& j, const Path_Bat& p)
+{
+    j = nlohmann::json{
+        {"base", ToBase(p)},
+        {"ticks_before_moving", p.mTicksBeforeMoving},
+        {"speed", p.mSpeed},
+        {"scale", p.mScale},
+        {"attack_duration", p.mAttackDuration},
+    };
+}
+
+void from_json(const nlohmann::json& j, Path_Bat& p)
+{
+    j.at("base").get_to(ToBase(p));
+    j.at("ticks_before_moving").get_to(p.mTicksBeforeMoving);
+    j.at("speed").get_to(p.mSpeed);
+    j.at("scale").get_to(p.mScale);
+    j.at("attack_duration").get_to(p.mAttackDuration);
+}
+
+// Path_RollingBallStopper
+void to_json(nlohmann::json& j, const Path_RollingBallStopper& p)
+{
+    j = nlohmann::json{
+        {"base", ToBase(p)},
+        {"stopper_switch_id", p.field_18_stopper_switch_id},
+        {"scale", p.field_1A_scale},
+        {"ball_switch_id", p.field_1C_ball_switch_id},
+        {"direction", p.field_1E_direction},
+    };
+}
+
+void from_json(const nlohmann::json& j, Path_RollingBallStopper& p)
+{
+    j.at("base").get_to(ToBase(p));
+    j.at("stopper_switch_id").get_to(p.field_18_stopper_switch_id);
+    j.at("scale").get_to(p.field_1A_scale);
+    j.at("ball_switch_id").get_to(p.field_1C_ball_switch_id);
+    j.at("direction").get_to(p.field_1E_direction);
+}
+
+// Path_RollingBall
+void to_json(nlohmann::json& j, const Path_RollingBall& p)
+{
+    j = nlohmann::json{
+        {"base", ToBase(p)},
+        {"scale", p.field_18_scale},
+        {"roll_direction", p.field_1A_roll_direction},
+        {"release_switch_id", p.field_1C_release_switch_id},
+        {"speed", p.field_1E_speed},
+        {"acceleration", p.field_20_acceleration},
+    };
+}
+
+void from_json(const nlohmann::json& j, Path_RollingBall& p)
+{
+    j.at("base").get_to(ToBase(p));
+    j.at("scale").get_to(p.field_18_scale);
+    j.at("roll_direction").get_to(p.field_1A_roll_direction);
+    j.at("release_switch_id").get_to(p.field_1C_release_switch_id);
+    j.at("speed").get_to(p.field_1E_speed);
+    j.at("acceleration").get_to(p.field_20_acceleration);
+}
+
+// Path_MotionDetector
+NLOHMANN_JSON_SERIALIZE_ENUM(Path_MotionDetector::InitialMoveDirection, {
+    {Path_MotionDetector::InitialMoveDirection::eRight, "right"},
+    {Path_MotionDetector::InitialMoveDirection::eLeft, "left"},
+})
+
+void to_json(nlohmann::json& j, const Path_MotionDetector& p)
+{
+    j = nlohmann::json{
+        {"base", ToBase(p)},
+        {"scale", p.mScale},
+        {"device_x", p.mDeviceX},
+        {"device_y", p.mDeviceY},
+        {"speedx256", p.mSpeedx256},
+        {"initial_move_direction", p.mInitialMoveDirection},
+        {"draw_flare", p.mDrawFlare},
+        {"disable_switch_id", p.mDisableSwitchId},
+        {"alarm_switch_id", p.mAlarmSwitchId},
+        {"alarm_duration", p.mAlarmDuration},
+    };
+}
+
+void from_json(const nlohmann::json& j, Path_MotionDetector& p)
+{
+    j.at("base").get_to(ToBase(p));
+    j.at("scale").get_to(p.mScale);
+    j.at("device_x").get_to(p.mDeviceX);
+    j.at("device_y").get_to(p.mDeviceY);
+    j.at("speedx256").get_to(p.mSpeedx256);
+    j.at("initial_move_direction").get_to(p.mInitialMoveDirection);
+    j.at("draw_flare").get_to(p.mDrawFlare);
+    j.at("disable_switch_id").get_to(p.mDisableSwitchId);
+    j.at("alarm_switch_id").get_to(p.mAlarmSwitchId);
+    j.at("alarm_duration").get_to(p.mAlarmDuration);
+}
+
+// Path_BellHammer
+void to_json(nlohmann::json& j, const Path_BellHammer& p)
+{
+    j = nlohmann::json{
+        {"base", ToBase(p)},
+        {"switch_id", p.mSwitchId},
+        {"action", p.mAction},
+        {"scale", p.mScale},
+        {"direction", p.mDirection},
+    };
+}
+
+void from_json(const nlohmann::json& j, Path_BellHammer& p)
+{
+    j.at("base").get_to(ToBase(p));
+    j.at("switch_id").get_to(p.mSwitchId);
+    j.at("action").get_to(p.mAction);
+    j.at("scale").get_to(p.mScale);
+    j.at("direction").get_to(p.mDirection);
+}
 
 
 

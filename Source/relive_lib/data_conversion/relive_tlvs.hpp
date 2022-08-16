@@ -500,6 +500,63 @@ struct Path_FlintLockFire final : public Path_TLV
     s16 mSwitchId;
 };
 
+struct Path_HoneySack final : public Path_TLV
+{
+    s16 mChaseTicks;
+    reliveScale mScale;
+};
+
+struct Path_Bat final : public Path_TLV
+{
+    s16 mTicksBeforeMoving;
+    s16 mSpeed;
+    reliveScale mScale;
+    s16 mAttackDuration;
+};
+
+struct Path_RollingBallStopper final : public Path_TLV
+{
+    s16 field_18_stopper_switch_id;
+    reliveScale field_1A_scale;
+    s16 field_1C_ball_switch_id;
+    reliveXDirection field_1E_direction;
+};
+
+struct Path_RollingBall final : public Path_TLV
+{
+    reliveScale field_18_scale;
+    reliveXDirection field_1A_roll_direction;
+    s16 field_1C_release_switch_id;
+    u16 field_1E_speed;
+    u16 field_20_acceleration;
+};
+
+struct Path_MotionDetector final : public Path_TLV
+{
+    reliveScale mScale;
+    s16 mDeviceX;
+    s16 mDeviceY;
+    s16 mSpeedx256;
+    enum class InitialMoveDirection : s16
+    {
+        eRight,
+        eLeft,
+    };
+    InitialMoveDirection mInitialMoveDirection;
+    reliveChoice mDrawFlare;
+    s16 mDisableSwitchId;
+    s16 mAlarmSwitchId;
+    s16 mAlarmDuration;
+};
+
+struct Path_BellHammer final : public Path_TLV
+{
+    s16 mSwitchId;
+    reliveSwitchOp mAction;
+    reliveScale mScale;
+    reliveXDirection mDirection;
+};
+
 //struct Path_HandStone final : public Path_TLV
 //{
 //    reliveScale field_10_scale;

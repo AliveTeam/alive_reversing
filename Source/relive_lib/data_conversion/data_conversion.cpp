@@ -227,7 +227,9 @@ static void ConvertTLV(const AO::Path_TLV& tlv)
             j.push_back({ "lever", relive::Path_Lever_Converter::From(static_cast<const AO::Path_Lever&>(tlv)) });
             break;
         case AO::TlvTypes::BellHammer_27:
-        case AO::TlvTypes::StartController_28:
+            j.push_back({ "bell_hammer", relive::Path_BellHammer_Converter::From(static_cast<const AO::Path_BellHammer&>(tlv)) });
+            break;
+        case AO::TlvTypes::StartController_28: // no props
             ALIVE_FATAL("not implemented");
 
         case AO::TlvTypes::SecurityOrb_29:
@@ -236,13 +238,15 @@ static void ConvertTLV(const AO::Path_TLV& tlv)
 
         case AO::TlvTypes::LiftMudokon_32:
         case AO::TlvTypes::BeeSwarmHole_34:
-        case AO::TlvTypes::Pulley_35:
+        case AO::TlvTypes::Pulley_35: // no props
         case AO::TlvTypes::HoneySack_36:
+            j.push_back({ "honey_sack", relive::Path_HoneySack_Converter::From(static_cast<const AO::Path_HoneySack&>(tlv)) });
+            break;
         case AO::TlvTypes::AbeStart_37:
         case AO::TlvTypes::ElumStart_38:
         case AO::TlvTypes::ElumWall_40:
         case AO::TlvTypes::SlingMudokon_41:
-        case AO::TlvTypes::HoneyDripTarget_42:
+        case AO::TlvTypes::HoneyDripTarget_42: // no props
         case AO::TlvTypes::Bees_43:
         case AO::TlvTypes::WellExpress_45:
         case AO::TlvTypes::Mine_46:
@@ -253,6 +257,8 @@ static void ConvertTLV(const AO::Path_TLV& tlv)
             break;
         case AO::TlvTypes::Paramite_48:
         case AO::TlvTypes::Bat_49:
+            j.push_back({ "bat", relive::Path_UXB_Converter::From(static_cast<const AO::Path_UXB&>(tlv)) });
+            break;
         case AO::TlvTypes::RingMudokon_50:
         case AO::TlvTypes::MovieStone_51:
         case AO::TlvTypes::BirdPortal_52:
@@ -266,12 +272,18 @@ static void ConvertTLV(const AO::Path_TLV& tlv)
             j.push_back({ "trap_door", relive::Path_TrapDoor_Converter::From(static_cast<const AO::Path_TrapDoor&>(tlv)) });
             break;
         case AO::TlvTypes::RollingBall_56:
+            j.push_back({ "rolling_ball", relive::Path_RollingBall_Converter::From(static_cast<const AO::Path_RollingBall&>(tlv)) });
+            break;
         case AO::TlvTypes::eSligBoundLeft_57:
         case AO::TlvTypes::InvisibleZone_58: // no props
         case AO::TlvTypes::RollingBallStopper_59:
+            j.push_back({ "rolling_ball_stopper", relive::Path_RollingBallStopper_Converter::From(static_cast<const AO::Path_RollingBallStopper&>(tlv)) });
+            break;
         case AO::TlvTypes::FootSwitch_60:
         case AO::TlvTypes::SecurityClaw_61:
         case AO::TlvTypes::MotionDetector_62:
+            j.push_back({ "motion_detector", relive::Path_MotionDetector_Converter::From(static_cast<const AO::Path_MotionDetector&>(tlv)) });
+            break;
         case AO::TlvTypes::SligSpawner_66:
         case AO::TlvTypes::ElectricWall_67:
             j.push_back({ "electric_wall", relive::Path_ElectricWall_Converter::From(static_cast<const AO::Path_ElectricWall&>(tlv)) });

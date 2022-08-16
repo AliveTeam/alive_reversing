@@ -48,6 +48,13 @@
 #include "../AliveLibAO/TimerTrigger.hpp"
 #include "../AliveLibAE/TimerTrigger.hpp"
 #include "../AliveLibAO/FlintLockFire.hpp"
+#include "../AliveLibAO/HoneySack.hpp"
+#include "../AliveLibAO/Bat.hpp"
+#include "../AliveLibAO/RollingBallStopper.hpp"
+#include "../AliveLibAO/RollingBall.hpp"
+#include "../AliveLibAE/MotionDetector.hpp"
+#include "../AliveLibAO/MotionDetector.hpp"
+#include "../AliveLibAO/BellHammer.hpp"
 
 // Convert an AO or AE TLV to a relive TLV
 
@@ -1556,6 +1563,143 @@ public:
         return r;
     }
 };
+
+class Path_HoneySack_Converter final
+{
+public:
+    static Path_HoneySack From(const AO::Path_HoneySack& tlv)
+    {
+        Path_HoneySack r;
+        BaseConvert(r, tlv);
+        r.mChaseTicks = tlv.field_18_chase_ticks;
+        r.mScale = relive::From(tlv.field_1A_scale);
+        return r;
+    }
+};
+
+class Path_Bat_Converter final
+{
+public:
+    static Path_Bat From(const AO::Path_Bat& tlv)
+    {
+        Path_Bat r;
+        BaseConvert(r, tlv);
+        r.mTicksBeforeMoving = tlv.mTicksBeforeMoving;
+        r.mSpeed = tlv.mSpeed;
+        r.mScale = relive::From(tlv.mScale);
+        r.mAttackDuration = tlv.mAttackDuration;
+        return r;
+    }
+};
+
+class Path_RollingBallStopper_Converter final
+{
+public:
+    static Path_RollingBallStopper From(const AO::Path_RollingBallStopper& tlv)
+    {
+        Path_RollingBallStopper r;
+        BaseConvert(r, tlv);
+        r.field_18_stopper_switch_id = tlv.field_18_stopper_switch_id;
+        r.field_1A_scale = relive::From(tlv.field_1A_scale);
+        r.field_1C_ball_switch_id = tlv.field_1C_ball_switch_id;
+        r.field_1E_direction = relive::From(tlv.field_1E_direction);
+        return r;
+    }
+};
+
+class Path_RollingBall_Converter final
+{
+public:
+    static Path_RollingBall From(const AO::Path_RollingBall& tlv)
+    {
+        Path_RollingBall r;
+        BaseConvert(r, tlv);
+        r.field_18_scale = relive::From(tlv.field_18_scale);
+        r.field_1A_roll_direction = relive::From(tlv.field_1A_roll_direction);
+        r.field_1C_release_switch_id = tlv.field_1C_release_switch_id;
+        r.field_1E_speed = tlv.field_1E_speed;
+        r.field_20_acceleration = tlv.field_20_acceleration;
+        return r;
+    }
+};
+
+class Path_MotionDetector_Converter final
+{
+public:
+    static Path_MotionDetector From(const AO::Path_MotionDetector& tlv)
+    {
+        Path_MotionDetector r;
+        BaseConvert(r, tlv);
+        r.mScale = relive::From(tlv.field_18_scale);
+        r.mDeviceX = tlv.field_1A_device_x;
+        r.mDeviceY = tlv.field_1C_device_y;
+        r.mSpeedx256 = tlv.field_1E_speed_x256;
+        r.mInitialMoveDirection = From(tlv.field_20_initial_move_direction);
+        r.mDrawFlare = relive::From(tlv.field_22_draw_flare);
+        r.mDisableSwitchId = tlv.field_24_disable_switch_id;
+        r.mAlarmSwitchId = tlv.field_26_alarm_switch_id;
+        r.mAlarmDuration = tlv.field_28_alarm_duration;
+        return r;
+    }
+
+    static Path_MotionDetector From(const ::Path_MotionDetector& tlv)
+    {
+        Path_MotionDetector r;
+        BaseConvert(r, tlv);
+        r.mScale = relive::From(tlv.field_10_scale);
+        r.mDeviceX = tlv.field_12_device_x;
+        r.mDeviceY = tlv.field_14_device_y;
+        r.mSpeedx256 = tlv.field_16_speed_x256;
+        r.mInitialMoveDirection = From(tlv.field_18_initial_move_direction);
+        r.mDrawFlare = relive::From(tlv.field_1A_draw_flare);
+        r.mDisableSwitchId = tlv.field_1C_disable_switch_id;
+        r.mAlarmSwitchId = tlv.field_1E_alarm_switch_id;
+        r.mAlarmDuration = tlv.field_20_alarm_duration;
+        return r;
+    }
+
+private:
+    static relive::Path_MotionDetector::InitialMoveDirection From(AO::Path_MotionDetector::InitialMoveDirection dir)
+    {
+        switch (dir)
+        {
+            case AO::Path_MotionDetector::InitialMoveDirection::eRight_0:
+                return relive::Path_MotionDetector::InitialMoveDirection::eRight;
+            case AO::Path_MotionDetector::InitialMoveDirection::eLeft_1:
+                return relive::Path_MotionDetector::InitialMoveDirection::eLeft;
+        }
+        ALIVE_FATAL("Bad motion detector initial move direction");
+    }
+
+    static relive::Path_MotionDetector::InitialMoveDirection From(::Path_MotionDetector::InitialMoveDirection dir)
+    {
+        switch (dir)
+        {
+            case ::Path_MotionDetector::InitialMoveDirection::eRight_0:
+                return relive::Path_MotionDetector::InitialMoveDirection::eRight;
+            case ::Path_MotionDetector::InitialMoveDirection::eLeft_1:
+                return relive::Path_MotionDetector::InitialMoveDirection::eLeft;
+        }
+        ALIVE_FATAL("Bad motion detector initial move direction");
+    }
+};
+
+class Path_BellHammer_Converter final
+{
+public:
+    static Path_BellHammer From(const AO::Path_BellHammer& tlv)
+    {
+        Path_BellHammer r;
+        BaseConvert(r, tlv);
+        r.mSwitchId = tlv.mSwitchId;
+        r.mAction = relive::From(tlv.mAction);
+        r.mScale = relive::From(tlv.mScale);
+        r.mDirection = relive::From(tlv.mDirection);
+        return r;
+    }
+};
+
+
 
 // TODO: Need to be able to actually get to Path_MenuController and AO::Path_MenuController
 // and then call From in the TLV conversion switch case
