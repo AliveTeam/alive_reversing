@@ -42,6 +42,13 @@
 #include "../AliveLibAO/DoorLight.hpp"
 #include "../AliveLibAO/MusicTrigger.hpp"
 #include "../AliveLibAE/MusicTrigger.hpp"
+#include "../AliveLibAO/LiftMover.hpp"
+#include "../AliveLibAE/LiftMover.hpp"
+#include "../AliveLibAO/HintFly.hpp"
+#include "../AliveLibAO/TimerTrigger.hpp"
+#include "../AliveLibAE/TimerTrigger.hpp"
+#include "../AliveLibAO/FlintLockFire.hpp"
+
 // Convert an AO or AE TLV to a relive TLV
 
 namespace relive {
@@ -1424,6 +1431,129 @@ private:
                 return relive::Path_MusicTrigger::TriggeredBy::eTouching;
         }
         ALIVE_FATAL("Bad music trigger triggered by value");
+    }
+};
+
+class Path_SoftLanding_Converter final
+{
+public:
+    static Path_SoftLanding From(const AO::Path_SoftLanding& tlv)
+    {
+        Path_SoftLanding r;
+        BaseConvert(r, tlv);
+        return r;
+    }
+
+    static Path_SoftLanding From(const ::Path_SoftLanding& tlv)
+    {
+        Path_SoftLanding r;
+        BaseConvert(r, tlv);
+        r.mSwitchId = tlv.field_10_switch_id;
+        return r;
+    }
+};
+
+class Path_LiftMover_Converter final
+{
+public:
+    static Path_LiftMover From(const AO::Path_LiftMover& tlv)
+    {
+        Path_LiftMover r;
+        BaseConvert(r, tlv);
+        r.mLiftMoverSwitchId = tlv.field_18_lift_mover_switch_id;
+        r.mTargetLiftPointId = tlv.field_1A_target_lift_point_id;
+        r.mMoveDirection = From(tlv.field_1C_direction);
+        return r;
+    }
+
+    static Path_LiftMover From(const ::Path_LiftMover& tlv)
+    {
+        Path_LiftMover r;
+        BaseConvert(r, tlv);
+        r.mLiftMoverSwitchId = tlv.field_10_lift_mover_switch_id;
+        r.mTargetLiftPointId = tlv.field_12_target_lift_point_id;
+        r.mMoveDirection = From(tlv.field_14_move_direction);
+        return r;
+    }
+
+private:
+    static relive::Path_LiftMover::YDirection From(const AO::Path_LiftMover::YDirection yDir)
+    {
+        switch (yDir)
+        {
+            case AO::Path_LiftMover::YDirection::eDown_0:
+                return relive::Path_LiftMover::YDirection::eDown;
+            case AO::Path_LiftMover::YDirection::eUp_1:
+                return relive::Path_LiftMover::YDirection::eUp;
+        }
+        ALIVE_FATAL("Bad lift mover y direction");
+    }
+
+    static relive::Path_LiftMover::YDirection From(const ::Path_LiftMover::YDirection yDir)
+    {
+        switch (yDir)
+        {
+            case ::Path_LiftMover::YDirection::eDown_0:
+                return relive::Path_LiftMover::YDirection::eDown;
+            case ::Path_LiftMover::YDirection::eUp_1:
+                return relive::Path_LiftMover::YDirection::eUp;
+        }
+        ALIVE_FATAL("Bad lift mover y direction");
+    }
+};
+
+class Path_HintFly_Converter final
+{
+public:
+    static Path_HintFly From(const AO::Path_HintFly& tlv)
+    {
+        Path_HintFly r;
+        BaseConvert(r, tlv);
+        r.mMessageId = tlv.field_18_message_id;
+        return r;
+    }
+};
+
+class Path_TimerTrigger_Converter final
+{
+public:
+    static Path_TimerTrigger From(const AO::Path_TimerTrigger& tlv)
+    {
+        Path_TimerTrigger r;
+        BaseConvert(r, tlv);
+        r.field_10_input_switch_id = tlv.field_18_input_switch_id;
+        r.field_12_trigger_interval = tlv.field_1A_trigger_interval;
+        r.field_14_output_switch_id1 = tlv.field_1C_output_switch_id1;
+        r.field_16_output_switch_id2 = tlv.field_1C_output_switch_id2;
+        r.field_18_output_switch_id3 = tlv.field_1C_output_switch_id3;
+        r.field_1A_output_switch_id4 = tlv.field_1C_output_switch_id4;
+        return r;
+    }
+
+    static Path_TimerTrigger From(const ::Path_TimerTrigger& tlv)
+    {
+        Path_TimerTrigger r;
+        BaseConvert(r, tlv);
+        r.field_10_input_switch_id = tlv.field_10_input_switch_id;
+        r.field_12_trigger_interval = tlv.field_12_trigger_interval;
+        r.field_14_output_switch_id1 = tlv.field_14_output_switch_id1;
+        r.field_16_output_switch_id2 = tlv.field_16_output_switch_id2;
+        r.field_18_output_switch_id3 = tlv.field_18_output_switch_id3;
+        r.field_1A_output_switch_id4 = tlv.field_1A_output_switch_id4;
+        return r;
+    }
+};
+
+class Path_FlintLockFire_Converter final
+{
+public:
+    static Path_FlintLockFire From(const AO::Path_FlintLockFire& tlv)
+    {
+        Path_FlintLockFire r;
+        BaseConvert(r, tlv);
+        r.mScale = relive::From(tlv.field_18_scale);
+        r.mSwitchId = tlv.field_1A_switch_id;
+        return r;
     }
 };
 

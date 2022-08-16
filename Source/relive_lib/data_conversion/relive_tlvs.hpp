@@ -461,6 +461,45 @@ struct Path_MusicTrigger final : public Path_TLV
     s16 field_14_music_delay = 0;
 };
 
+struct Path_SoftLanding final : public Path_TLV
+{
+    // AE only
+    s32 mSwitchId;
+};
+
+struct Path_LiftMover final : public Path_TLV
+{
+    s16 mLiftMoverSwitchId;
+    s16 mTargetLiftPointId;
+    enum class YDirection : s16
+    {
+        eDown,
+        eUp,
+    };
+    YDirection mMoveDirection;
+};
+
+struct Path_HintFly final : public Path_TLV
+{
+    s16 mMessageId;
+};
+
+struct Path_TimerTrigger final : public Path_TLV
+{
+    s16 field_10_input_switch_id;
+    u16 field_12_trigger_interval;
+    s16 field_14_output_switch_id1;
+    s16 field_16_output_switch_id2;
+    s16 field_18_output_switch_id3;
+    s16 field_1A_output_switch_id4;
+};
+
+struct Path_FlintLockFire final : public Path_TLV
+{
+    reliveScale mScale;
+    s16 mSwitchId;
+};
+
 //struct Path_HandStone final : public Path_TLV
 //{
 //    reliveScale field_10_scale;

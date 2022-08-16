@@ -267,7 +267,7 @@ static void ConvertTLV(const AO::Path_TLV& tlv)
             break;
         case AO::TlvTypes::RollingBall_56:
         case AO::TlvTypes::eSligBoundLeft_57:
-        case AO::TlvTypes::InvisibleZone_58:
+        case AO::TlvTypes::InvisibleZone_58: // no props
         case AO::TlvTypes::RollingBallStopper_59:
         case AO::TlvTypes::FootSwitch_60:
         case AO::TlvTypes::SecurityClaw_61:
@@ -277,10 +277,14 @@ static void ConvertTLV(const AO::Path_TLV& tlv)
             j.push_back({ "electric_wall", relive::Path_ElectricWall_Converter::From(static_cast<const AO::Path_ElectricWall&>(tlv)) });
             break;
         case AO::TlvTypes::LiftMover_68:
+            j.push_back({ "lift_mover", relive::Path_LiftMover_Converter::From(static_cast<const AO::Path_LiftMover&>(tlv)) });
+            break;
         case AO::TlvTypes::ChimeLock_69:
         case AO::TlvTypes::MeatSack_71:
         case AO::TlvTypes::Scrab_72:
         case AO::TlvTypes::FlintLockFire_73:
+            j.push_back({ "flint_lock_fire", relive::Path_FlintLockFire_Converter::From(static_cast<const AO::Path_FlintLockFire&>(tlv)) });
+            break;
         case AO::TlvTypes::ScrabLeftBound_74:
         case AO::TlvTypes::ScrabRightBound_75:
         case AO::TlvTypes::eSligBoundRight_76:
@@ -290,7 +294,7 @@ static void ConvertTLV(const AO::Path_TLV& tlv)
             j.push_back({ "invisible_switch", relive::Path_InvisibleSwitch_Converter::From(static_cast<const AO::Path_InvisibleSwitch&>(tlv)) });
             break;
         case AO::TlvTypes::Mudokon_82:
-        case AO::TlvTypes::ZSligCover_83:
+        case AO::TlvTypes::ZSligCover_83: // no props
         case AO::TlvTypes::DoorFlame_84:
         case AO::TlvTypes::MovingBomb_86:
         case AO::TlvTypes::MovingBombStopper_87:
@@ -298,10 +302,14 @@ static void ConvertTLV(const AO::Path_TLV& tlv)
             j.push_back({ "meat_saw", relive::Path_MeatSaw_Converter::From(static_cast<const AO::Path_MeatSaw&>(tlv)) });
             break;
         case AO::TlvTypes::MudokonPathTrans_89:
-        case AO::TlvTypes::MenuController_90:
+        case AO::TlvTypes::MenuController_90: // no props
         case AO::TlvTypes::HintFly_92:
+            j.push_back({ "hint_fly", relive::Path_HintFly_Converter::From(static_cast<const AO::Path_HintFly&>(tlv)) });
+            break;
         case AO::TlvTypes::ScrabNoFall_93:
         case AO::TlvTypes::TimerTrigger_94:
+            j.push_back({ "timer_trigger", relive::Path_TimerTrigger_Converter::From(static_cast<const AO::Path_TimerTrigger&>(tlv)) });
+            break;
         case AO::TlvTypes::SecurityDoor_95:
         case AO::TlvTypes::DemoPlaybackStone_96:
         case AO::TlvTypes::BoomMachine_97:
@@ -312,7 +320,7 @@ static void ConvertTLV(const AO::Path_TLV& tlv)
             break;
         case AO::TlvTypes::ElumPathTrans_99:
         case AO::TlvTypes::HandStone_100:
-        case AO::TlvTypes::CreditsController_101:
+        case AO::TlvTypes::CreditsController_101: // no props
         case AO::TlvTypes::Preloader_102: // dead tlv
         case AO::TlvTypes::LCDStatusBoard_103: // no props
         case AO::TlvTypes::MusicTrigger_105:
@@ -327,8 +335,10 @@ static void ConvertTLV(const AO::Path_TLV& tlv)
         case AO::TlvTypes::GasEmitter_110:
         case AO::TlvTypes::ZzzSpawner_111:
         case AO::TlvTypes::BackgroundGlukkon_112:
-        case AO::TlvTypes::KillUnsavedMuds_113:
+        case AO::TlvTypes::KillUnsavedMuds_113: // no props
         case AO::TlvTypes::SoftLanding_114:
+            j.push_back({ "soft_landing", relive::Path_SoftLanding_Converter::From(static_cast<const AO::Path_SoftLanding&>(tlv)) });
+            break;
         case AO::TlvTypes::ResetPath_115:
             ALIVE_FATAL("not implemented");
 

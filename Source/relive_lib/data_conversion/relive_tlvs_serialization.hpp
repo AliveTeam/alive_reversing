@@ -838,12 +838,101 @@ void from_json(const nlohmann::json& j, Path_MusicTrigger& p)
     j.at("music_delay").get_to(p.field_14_music_delay);
 }
 
+// Path_SoftLanding
+void to_json(nlohmann::json& j, const Path_SoftLanding& p)
+{
+    j = nlohmann::json{
+        {"base", ToBase(p)},
+        {"switch_id", p.mSwitchId},
+    };
+}
 
+void from_json(const nlohmann::json& j, Path_SoftLanding& p)
+{
+    j.at("base").get_to(ToBase(p));
+    j.at("switch_id").get_to(p.mSwitchId);
+}
 
+// Path_LiftMover
+NLOHMANN_JSON_SERIALIZE_ENUM(Path_LiftMover::YDirection, {
+    {Path_LiftMover::YDirection::eDown, "down"},
+    {Path_LiftMover::YDirection::eUp, "up"},
+})
 
+void to_json(nlohmann::json& j, const Path_LiftMover& p)
+{
+    j = nlohmann::json{
+        {"base", ToBase(p)},
+        {"lift_mover_switch_id", p.mLiftMoverSwitchId},
+        {"target_lift_point_id", p.mTargetLiftPointId},
+        {"move_direction", p.mMoveDirection},
+    };
+}
 
+void from_json(const nlohmann::json& j, Path_LiftMover& p)
+{
+    j.at("base").get_to(ToBase(p));
+    j.at("lift_mover_switch_id").get_to(p.mLiftMoverSwitchId);
+    j.at("target_lift_point_id").get_to(p.mTargetLiftPointId);
+    j.at("move_direction").get_to(p.mMoveDirection);
+}
 
+// Path_Hintfly
+void to_json(nlohmann::json& j, const Path_HintFly& p)
+{
+    j = nlohmann::json{
+        {"base", ToBase(p)},
+        {"message_id", p.mMessageId},
+    };
+}
 
+void from_json(const nlohmann::json& j, Path_HintFly& p)
+{
+    j.at("base").get_to(ToBase(p));
+    j.at("message_id").get_to(p.mMessageId);
+}
+
+// Path_TimerTrigger
+void to_json(nlohmann::json& j, const Path_TimerTrigger& p)
+{
+    j = nlohmann::json{
+        {"base", ToBase(p)},
+        {"input_switch_id", p.field_10_input_switch_id},
+        {"trigger_interval", p.field_12_trigger_interval},
+        {"output_switch_id1", p.field_14_output_switch_id1},
+        {"output_switch_id2", p.field_16_output_switch_id2},
+        {"output_switch_id3", p.field_18_output_switch_id3},
+        {"output_switch_id4", p.field_1A_output_switch_id4},
+    };
+}
+
+void from_json(const nlohmann::json& j, Path_TimerTrigger& p)
+{
+    j.at("base").get_to(ToBase(p));
+    j.at("input_switch_id").get_to(p.field_10_input_switch_id);
+    j.at("trigger_interval").get_to(p.field_12_trigger_interval);
+    j.at("output_switch_id1").get_to(p.field_14_output_switch_id1);
+    j.at("output_switch_id2").get_to(p.field_16_output_switch_id2);
+    j.at("output_switch_id3").get_to(p.field_18_output_switch_id3);
+    j.at("output_switch_id4").get_to(p.field_1A_output_switch_id4);
+}
+
+// Path_FlintLockFire
+void to_json(nlohmann::json& j, const Path_FlintLockFire& p)
+{
+    j = nlohmann::json{
+        {"base", ToBase(p)},
+        {"scale", p.mScale},
+        {"switch_id", p.mSwitchId},
+    };
+}
+
+void from_json(const nlohmann::json& j, Path_FlintLockFire& p)
+{
+    j.at("base").get_to(ToBase(p));
+    j.at("scale").get_to(p.mScale);
+    j.at("switch_id").get_to(p.mSwitchId);
+}
 
 
 

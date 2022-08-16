@@ -8,12 +8,12 @@ namespace AO {
 
 struct Path_TimerTrigger final : public Path_TLV
 {
-    s16 field_18_source_switch_id;
+    s16 field_18_input_switch_id;
     u16 field_1A_trigger_interval;
-    s16 field_1C_id1;
-    s16 field_1C_id2;
-    s16 field_1C_id3;
-    s16 field_1C_id4;
+    s16 field_1C_output_switch_id1;
+    s16 field_1C_output_switch_id2;
+    s16 field_1C_output_switch_id3;
+    s16 field_1C_output_switch_id4;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_TimerTrigger, 0x24);
 
@@ -28,7 +28,7 @@ public:
 
     void ToggleAllIds();
 
-    u16 field_10_source_switch_id = 0;
+    u16 field_10_input_switch_id = 0;
 
     enum class State : s16
     {

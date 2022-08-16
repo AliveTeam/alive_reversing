@@ -911,12 +911,12 @@ struct Path_TimerTrigger final : public ReliveAPI::TlvObjectBaseAO
 {
     CTOR_AO(Path_TimerTrigger, "TimerTrigger", AO::TlvTypes::TimerTrigger_94)
     {
-        ADD("Source Switch ID", mTlv.field_18_source_switch_id);
+        ADD("Source Switch ID", mTlv.field_18_input_switch_id);
         ADD("Trigger Interval", mTlv.field_1A_trigger_interval);
-        ADD("ID 1", mTlv.field_1C_id1);
-        ADD("ID 2", mTlv.field_1C_id2);
-        ADD("ID 3", mTlv.field_1C_id3);
-        ADD("ID 4", mTlv.field_1C_id4);
+        ADD("ID 1", mTlv.field_1C_output_switch_id1);
+        ADD("ID 2", mTlv.field_1C_output_switch_id2);
+        ADD("ID 3", mTlv.field_1C_output_switch_id3);
+        ADD("ID 4", mTlv.field_1C_output_switch_id4);
     }
 };
 

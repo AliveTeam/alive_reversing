@@ -12,7 +12,7 @@ struct Path_FlintLockFire final : public Path_TLV
     Scale_short field_18_scale;
     s16 field_1A_switch_id;
 };
-ALIVE_ASSERT_SIZEOF(Path_FlintLockFire, 0x1C);
+ALIVE_ASSERT_SIZEOF_ALWAYS(Path_FlintLockFire, 0x1C);
 
 class FlintLockFire final : public BaseAnimatedWithPhysicsGameObject
 {
