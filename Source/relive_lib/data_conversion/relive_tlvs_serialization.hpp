@@ -1131,10 +1131,6 @@ void from_json(const nlohmann::json& j, Path_BackgroundAnimation& p)
     j.at("layer").get_to(p.field_1A_layer);
 }
 
-
-
-
-
 // Path_MainMenuController
 void to_json(nlohmann::json& j, const Path_MainMenuController& p)
 {
@@ -1144,6 +1140,149 @@ void to_json(nlohmann::json& j, const Path_MainMenuController& p)
 }
 
 void from_json(const nlohmann::json& j, Path_MainMenuController& p)
+{
+    j.at("base").get_to(ToBase(p));
+}
+
+// Path_ElumWall
+void to_json(nlohmann::json& j, const Path_ElumWall& p)
+{
+    j = nlohmann::json{
+        {"base", ToBase(p)}
+    };
+}
+
+void from_json(const nlohmann::json& j, Path_ElumWall& p)
+{
+    j.at("base").get_to(ToBase(p));
+}
+
+// Path_ElumStart
+void to_json(nlohmann::json& j, const Path_ElumStart& p)
+{
+    j = nlohmann::json{
+        {"base", ToBase(p)}
+    };
+}
+
+void from_json(const nlohmann::json& j, Path_ElumStart& p)
+{
+    j.at("base").get_to(ToBase(p));
+}
+
+// Path_KillUnsavedMuds
+void to_json(nlohmann::json& j, const Path_KillUnsavedMuds& p)
+{
+    j = nlohmann::json{
+        {"base", ToBase(p)}
+    };
+}
+
+void from_json(const nlohmann::json& j, Path_KillUnsavedMuds& p)
+{
+    j.at("base").get_to(ToBase(p));
+}
+
+// Path_InvisibleZone
+void to_json(nlohmann::json& j, const Path_InvisibleZone& p)
+{
+    j = nlohmann::json{
+        {"base", ToBase(p)}
+    };
+}
+
+void from_json(const nlohmann::json& j, Path_InvisibleZone& p)
+{
+    j.at("base").get_to(ToBase(p));
+}
+
+// Path_StartController
+void to_json(nlohmann::json& j, const Path_StartController& p)
+{
+    j = nlohmann::json{
+        {"base", ToBase(p)}
+    };
+}
+
+void from_json(const nlohmann::json& j, Path_StartController& p)
+{
+    j.at("base").get_to(ToBase(p));
+}
+
+// Path_ScrabNoFall
+void to_json(nlohmann::json& j, const Path_ScrabNoFall& p)
+{
+    j = nlohmann::json{
+        {"base", ToBase(p)}
+    };
+}
+
+void from_json(const nlohmann::json& j, Path_ScrabNoFall& p)
+{
+    j.at("base").get_to(ToBase(p));
+}
+
+// Path_ScrabLeftBound
+void to_json(nlohmann::json& j, const Path_ScrabLeftBound& p)
+{
+    j = nlohmann::json{
+        {"base", ToBase(p)}
+    };
+}
+
+void from_json(const nlohmann::json& j, Path_ScrabLeftBound& p)
+{
+    j.at("base").get_to(ToBase(p));
+}
+
+// Path_ScrabRightBound
+void to_json(nlohmann::json& j, const Path_ScrabRightBound& p)
+{
+    j = nlohmann::json{
+        {"base", ToBase(p)}
+    };
+}
+
+void from_json(const nlohmann::json& j, Path_ScrabRightBound& p)
+{
+    j.at("base").get_to(ToBase(p));
+}
+
+// Path_HoneyDripTarget
+void to_json(nlohmann::json& j, const Path_HoneyDripTarget& p)
+{
+    j = nlohmann::json{
+        {"base", ToBase(p)}
+    };
+}
+
+void from_json(const nlohmann::json& j, Path_HoneyDripTarget& p)
+{
+    j.at("base").get_to(ToBase(p));
+}
+
+// Path_ZSligCover
+void to_json(nlohmann::json& j, const Path_ZSligCover& p)
+{
+    j = nlohmann::json{
+        {"base", ToBase(p)}
+    };
+}
+
+void from_json(const nlohmann::json& j, Path_ZSligCover& p)
+{
+    j.at("base").get_to(ToBase(p));
+}
+
+// Path_DeathDrop
+void to_json(nlohmann::json& j, const Path_DeathDrop& p)
+{
+    j = nlohmann::json{
+        {"base", ToBase(p)}
+    };
+}
+
+void from_json(const nlohmann::json& j, Path_DeathDrop& p)
 {
     j.at("base").get_to(ToBase(p));
 }

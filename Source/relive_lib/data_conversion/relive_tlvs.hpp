@@ -405,11 +405,6 @@ struct Path_BirdPortal final : public Path_TLV
     s16 mDeletePortalSwitchId = 0;
 };
 
-struct Path_MainMenuController final : public Path_TLV
-{
-    // No fields
-};
-
 struct Path_BirdPortalExit final : public Path_TLV
 {
     Path_BirdPortal::PortalSide mExitSide = Path_BirdPortal::PortalSide::eRight;
@@ -596,7 +591,65 @@ struct Path_BackgroundAnimation final : public Path_TLV
     Layer field_1A_layer;
 };
 
+struct Path_MainMenuController final : public Path_TLV
+{
+    // No fields
+};
 
+struct Path_ElumWall final : public Path_TLV
+{
+    // No fields
+};
+
+struct Path_ElumStart final : public Path_TLV
+{
+    // No fields
+};
+
+struct Path_KillUnsavedMuds final : public Path_TLV
+{
+    // No fields
+};
+
+struct Path_InvisibleZone final : public Path_TLV
+{
+    // No fields
+};
+
+struct Path_StartController final : public Path_TLV
+{
+    // No fields
+};
+
+struct Path_ScrabNoFall final : public Path_TLV
+{
+    // No fields
+};
+
+struct Path_ScrabLeftBound final : public Path_TLV
+{
+    // No fields
+};
+
+struct Path_ScrabRightBound final : public Path_TLV
+{
+    // No fields
+};
+
+struct Path_HoneyDripTarget final : public Path_TLV
+{
+    // No fields
+};
+
+struct Path_ZSligCover final : public Path_TLV
+{
+    // No fields
+};
+
+struct Path_DeathDrop final : public Path_TLV
+{
+    // No fields
+};
 
 //struct Path_HandStone final : public Path_TLV
 //{

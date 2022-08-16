@@ -5,7 +5,7 @@
 #include "Path.hpp"
 #include "GameSpeak.hpp"
 
-#define SCRAB_MOTIONS_ENUM(ENTRY)          \
+#define SCRAB_MOTIONS_ENUM_AE(ENTRY)          \
     ENTRY(M_Stand_0_4A8220)                \
     ENTRY(M_Walk_1_4A84D0)                 \
     ENTRY(M_Run_2_4A89C0)                  \
@@ -50,7 +50,7 @@
 #define MAKE_ENUM(VAR) VAR,
 enum eScrabMotions : s32
 {
-    SCRAB_MOTIONS_ENUM(MAKE_ENUM)
+    SCRAB_MOTIONS_ENUM_AE(MAKE_ENUM)
 };
 
 enum class ScrabSounds : u8

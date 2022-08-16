@@ -94,7 +94,7 @@ enum class TlvTypes : s16
     MovingBombStopper_87 = 87,
     MeatSaw_88 = 88,
     MudokonPathTrans_89 = 89,
-    MenuController_90 = 90,
+    MainMenuController_90 = 90,
 
     HintFly_92 = 92,
     ScrabNoFall_93 = 93,

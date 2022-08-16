@@ -61,6 +61,10 @@
 #include "../AliveLibAE/BackgroundAnimation.hpp"
 #include "../AliveLibAE/MainMenu.hpp"
 #include "../AliveLibAO/MainMenu.hpp"
+#include "../AliveLibAO/Elum.hpp"
+#include "../AliveLibAO/Scrab.hpp"
+#include "../AliveLibAE/Scrab.hpp"
+#include "../AliveLibAO/HoneyDrip.hpp"
 
 // Convert an AO or AE TLV to a relive TLV
 
@@ -1813,6 +1817,162 @@ public:
     static Path_MainMenuController From(const ::Path_MainMenuController& tlv)
     {
         Path_MainMenuController r;
+        BaseConvert(r, tlv);
+        return r;
+    }
+};
+
+class Path_ElumWall_Converter final
+{
+public:
+    static Path_ElumWall From(const AO::Path_ElumWall& tlv)
+    {
+        Path_ElumWall r;
+        BaseConvert(r, tlv);
+        return r;
+    }
+};
+
+class Path_ElumStart_Converter final
+{
+public:
+    static Path_ElumStart From(const AO::Path_ElumStart& tlv)
+    {
+        Path_ElumStart r;
+        BaseConvert(r, tlv);
+        return r;
+    }
+};
+
+class Path_KillUnsavedMuds_Converter final
+{
+public:
+    static Path_KillUnsavedMuds From(const AO::Path_KillUnsavedMuds& tlv)
+    {
+        Path_KillUnsavedMuds r;
+        BaseConvert(r, tlv);
+        return r;
+    }
+};
+
+class Path_InvisibleZone_Converter final
+{
+public:
+    static Path_InvisibleZone From(const AO::Path_InvisibleZone& tlv)
+    {
+        Path_InvisibleZone r;
+        BaseConvert(r, tlv);
+        return r;
+    }
+
+    static Path_InvisibleZone From(const ::Path_InvisibleZone& tlv)
+    {
+        Path_InvisibleZone r;
+        BaseConvert(r, tlv);
+        return r;
+    }
+};
+
+class Path_StartController_Converter final
+{
+public:
+    static Path_StartController From(const AO::Path_StartController& tlv)
+    {
+        Path_StartController r;
+        BaseConvert(r, tlv);
+        return r;
+    }
+};
+
+class Path_ScrabNoFall_Converter final
+{
+public:
+    static Path_ScrabNoFall From(const AO::Path_ScrabNoFall& tlv)
+    {
+        Path_ScrabNoFall r;
+        BaseConvert(r, tlv);
+        return r;
+    }
+};
+
+class Path_ScrabLeftBound_Converter final
+{
+public:
+    static Path_ScrabLeftBound From(const AO::Path_ScrabLeftBound& tlv)
+    {
+        Path_ScrabLeftBound r;
+        BaseConvert(r, tlv);
+        return r;
+    }
+
+    static Path_ScrabLeftBound From(const ::Path_ScrabLeftBound& tlv)
+    {
+        Path_ScrabLeftBound r;
+        BaseConvert(r, tlv);
+        return r;
+    }
+};
+
+class Path_ScrabRightBound_Converter final
+{
+public:
+    static Path_ScrabRightBound From(const AO::Path_ScrabRightBound& tlv)
+    {
+        Path_ScrabRightBound r;
+        BaseConvert(r, tlv);
+        return r;
+    }
+
+    static Path_ScrabRightBound From(const ::Path_ScrabRightBound& tlv)
+    {
+        Path_ScrabRightBound r;
+        BaseConvert(r, tlv);
+        return r;
+    }
+};
+
+class Path_HoneyDripTarget_Converter final
+{
+public:
+    static Path_HoneyDripTarget From(const AO::Path_HoneyDripTarget& tlv)
+    {
+        Path_HoneyDripTarget r;
+        BaseConvert(r, tlv);
+        return r;
+    }
+};
+
+class Path_ZSligCover_Converter final
+{
+public:
+    static Path_ZSligCover From(const AO::Path_ZSligCover& tlv)
+    {
+        Path_ZSligCover r;
+        BaseConvert(r, tlv);
+        return r;
+    }
+
+    static Path_ZSligCover From(const ::Path_ZSligCover& tlv)
+    {
+        Path_ZSligCover r;
+        BaseConvert(r, tlv);
+        return r;
+    }
+};
+
+class Path_DeathDrop_Converter final
+{
+public:
+    static Path_DeathDrop From(const AO::Path_DeathDrop& tlv)
+    {
+        Path_DeathDrop r;
+        BaseConvert(r, tlv);
+        return r;
+    }
+
+    static Path_DeathDrop From(const ::Path_DeathDrop& tlv)
+    {
+        Path_DeathDrop r;
         BaseConvert(r, tlv);
         return r;
     }

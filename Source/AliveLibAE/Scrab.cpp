@@ -54,7 +54,7 @@ static const SfxDefinition scrab_sScrabSfx_560330[9] = {
 
 static const TScrabMotionFn sScrab_motion_table_560120[40] = {
 #define MAKE_FN(VAR) &Scrab::VAR,
-    SCRAB_MOTIONS_ENUM(MAKE_FN)
+    SCRAB_MOTIONS_ENUM_AE(MAKE_FN)
 #undef MAKE_FN
 };
 

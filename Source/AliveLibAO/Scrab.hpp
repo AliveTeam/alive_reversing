@@ -10,7 +10,7 @@ void Scrab_ForceLink();
 
 namespace AO {
 
-#define SCRAB_MOTIONS_ENUM(ENTRY)           \
+#define SCRAB_MOTIONS_ENUM_AO(ENTRY)           \
     ENTRY(Motion_0_Empty_45E3D0)            \
     ENTRY(Motion_1_Stand_45E620)            \
     ENTRY(Motion_2_Walk_45E730)             \
@@ -45,7 +45,7 @@ namespace AO {
 #define MAKE_ENUM(VAR) VAR,
 enum eScrabMotions : s32
 {
-    SCRAB_MOTIONS_ENUM(MAKE_ENUM)
+    SCRAB_MOTIONS_ENUM_AO(MAKE_ENUM)
 };
 
 enum class ScrabPatrolType : s16
