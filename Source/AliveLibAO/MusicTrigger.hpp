@@ -33,7 +33,7 @@ struct Path_MusicTrigger final : public Path_TLV
     s16 field_1C_switch_id;
     s16 field_1E_music_delay;
 };
-ALIVE_ASSERT_SIZEOF(Path_MusicTrigger, 0x20);
+ALIVE_ASSERT_SIZEOF_ALWAYS(Path_MusicTrigger, 0x20);
 
 class MusicTrigger final : public BaseGameObject
 {

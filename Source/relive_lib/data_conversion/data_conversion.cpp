@@ -259,8 +259,8 @@ static void ConvertTLV(const AO::Path_TLV& tlv)
             j.push_back({ "bird_portal", relive::Path_BirdPortal_Converter::From(static_cast<const AO::Path_BirdPortal&>(tlv)) });
             break;
         case AO::TlvTypes::BirdPortalExit_53:
-            //j.push_back({ "bird_portal_exit", relive::Path_BirdPortalExit_Converter::From(static_cast<const AO::Path_BirdPortalExit&>(tlv)) });
-            //break;
+            j.push_back({ "bird_portal_exit", relive::Path_BirdPortalExit_Converter::From(static_cast<const AO::Path_BirdPortalExit&>(tlv)) });
+            break;
         case AO::TlvTypes::BellSongStone_54:
         case AO::TlvTypes::TrapDoor_55:
             j.push_back({ "trap_door", relive::Path_TrapDoor_Converter::From(static_cast<const AO::Path_TrapDoor&>(tlv)) });
@@ -316,7 +316,11 @@ static void ConvertTLV(const AO::Path_TLV& tlv)
         case AO::TlvTypes::Preloader_102: // dead tlv
         case AO::TlvTypes::LCDStatusBoard_103: // no props
         case AO::TlvTypes::MusicTrigger_105:
+            j.push_back({ "music_trigger", relive::Path_MusicTrigger_Converter::From(static_cast<const AO::Path_MusicTrigger&>(tlv)) });
+            break;
         case AO::TlvTypes::LightEffect_106:
+            j.push_back({ "light_effect", relive::Path_LightEffect_Converter::From(static_cast<const AO::Path_LightEffect&>(tlv)) });
+            break;
         case AO::TlvTypes::SlogSpawner_107:
         case AO::TlvTypes::GasCountDown_108:
         case AO::TlvTypes::RingCancel_109:

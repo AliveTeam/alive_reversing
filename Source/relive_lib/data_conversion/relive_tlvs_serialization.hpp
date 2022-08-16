@@ -53,37 +53,37 @@ void from_json(const nlohmann::json& j, Path_TLV& p)
 }
 
 // Common TLV enums
-//NLOHMANN_JSON_SERIALIZE_ENUM(EReliveLevelIds, {
-//    {EReliveLevelIds::eNone, "none"},
-//    {EReliveLevelIds::eMenu, "menu"},
-//    {EReliveLevelIds::eMines, "mines"},
-//    {EReliveLevelIds::eNecrum, "necrum"},
-//    {EReliveLevelIds::eMudomoVault, "mudomo_vault"},
-//    {EReliveLevelIds::eMudancheeVault, "mudanchee_vault"},
-//    {EReliveLevelIds::eFeeCoDepot, "feeco_depot"},
-//    {EReliveLevelIds::eBarracks, "barracks"},
-//    {EReliveLevelIds::eMudancheeVault_Ender, "mudanchee_vault_ender"},
-//    {EReliveLevelIds::eBonewerkz, "bonewerkz"},
-//    {EReliveLevelIds::eBrewery, "brewery"},
-//    {EReliveLevelIds::eBrewery_Ender, "brewery_ender"},
-//    {EReliveLevelIds::eMudomoVault_Ender, "mudomo_vault_ender"},
-//    {EReliveLevelIds::eFeeCoDepot_Ender, "feeco_depot_ender"},
-//    {EReliveLevelIds::eBarracks_Ender, "barracks_ender"},
-//    {EReliveLevelIds::eBonewerkz_Ender, "bonewerkz_ender"},
-//    {EReliveLevelIds::eCredits, "credits"},
-//    {EReliveLevelIds::eRuptureFarms, "rupture_farms"},
-//    {EReliveLevelIds::eLines, "lines"},
-//    {EReliveLevelIds::eForest, "forest"},
-//    {EReliveLevelIds::eForestTemple, "forest_temple"},
-//    {EReliveLevelIds::eStockYards, "stock_yards"},
-//    {EReliveLevelIds::eStockYardsReturn, "stock_yards_return"},
-//    {EReliveLevelIds::eDesert, "desert"},
-//    {EReliveLevelIds::eDesertTemple, "desert_temple"},
-//    {EReliveLevelIds::eBoardRoom, "board_room"},
-//    {EReliveLevelIds::eRuptureFarmsReturn, "rupture_farms_return"},
-//    {EReliveLevelIds::eForestChase, "forest_chase"},
-//    {EReliveLevelIds::eDesertEscape, "desert_escape"},
-//})
+NLOHMANN_JSON_SERIALIZE_ENUM(EReliveLevelIds, {
+    {EReliveLevelIds::eNone, "none"},
+    {EReliveLevelIds::eMenu, "menu"},
+    {EReliveLevelIds::eMines, "mines"},
+    {EReliveLevelIds::eNecrum, "necrum"},
+    {EReliveLevelIds::eMudomoVault, "mudomo_vault"},
+    {EReliveLevelIds::eMudancheeVault, "mudanchee_vault"},
+    {EReliveLevelIds::eFeeCoDepot, "feeco_depot"},
+    {EReliveLevelIds::eBarracks, "barracks"},
+    {EReliveLevelIds::eMudancheeVault_Ender, "mudanchee_vault_ender"},
+    {EReliveLevelIds::eBonewerkz, "bonewerkz"},
+    {EReliveLevelIds::eBrewery, "brewery"},
+    {EReliveLevelIds::eBrewery_Ender, "brewery_ender"},
+    {EReliveLevelIds::eMudomoVault_Ender, "mudomo_vault_ender"},
+    {EReliveLevelIds::eFeeCoDepot_Ender, "feeco_depot_ender"},
+    {EReliveLevelIds::eBarracks_Ender, "barracks_ender"},
+    {EReliveLevelIds::eBonewerkz_Ender, "bonewerkz_ender"},
+    {EReliveLevelIds::eCredits, "credits"},
+    {EReliveLevelIds::eRuptureFarms, "rupture_farms"},
+    {EReliveLevelIds::eLines, "lines"},
+    {EReliveLevelIds::eForest, "forest"},
+    {EReliveLevelIds::eForestTemple, "forest_temple"},
+    {EReliveLevelIds::eStockYards, "stock_yards"},
+    {EReliveLevelIds::eStockYardsReturn, "stock_yards_return"},
+    {EReliveLevelIds::eDesert, "desert"},
+    {EReliveLevelIds::eDesertTemple, "desert_temple"},
+    {EReliveLevelIds::eBoardRoom, "board_room"},
+    {EReliveLevelIds::eRuptureFarmsReturn, "rupture_farms_return"},
+    {EReliveLevelIds::eForestChase, "forest_chase"},
+    {EReliveLevelIds::eDesertEscape, "desert_escape"},
+})
 
 NLOHMANN_JSON_SERIALIZE_ENUM(reliveScale, {
     {reliveScale::eFull, "full"},
@@ -753,7 +753,104 @@ void from_json(const nlohmann::json& j, Path_BirdPortal& p)
     j.at("delete_portal_switch_id").get_to(p.mDeletePortalSwitchId);
 }
 
+ // Path_BirdPortalExit
+void to_json(nlohmann::json& j, const Path_BirdPortalExit& p)
+{
+    j = nlohmann::json{
+        {"base", ToBase(p)},
+        {"exit_side", p.mExitSide},
+        {"scale", p.mScale},
+    };
+}
 
+void from_json(const nlohmann::json& j, Path_BirdPortalExit& p)
+{
+    j.at("base").get_to(ToBase(p));
+    j.at("exit_side").get_to(p.mExitSide);
+    j.at("scale").get_to(p.mScale);
+}
+
+// Path_LightEffect
+NLOHMANN_JSON_SERIALIZE_ENUM(Path_LightEffect::Type, {
+    {Path_LightEffect::Type::Star, "star"},
+    {Path_LightEffect::Type::GoldGlow, "gold_glow"},
+    {Path_LightEffect::Type::GreenGlow, "green_glow"},
+    {Path_LightEffect::Type::FlintGlow, "flint_glow"},
+    {Path_LightEffect::Type::Switchable_RedGreenDoorLights, "switchable_red_greendoor_lights"},
+    {Path_LightEffect::Type::Switchable_RedGreenHubLight, "switchable_red_green_hub_light"},
+})
+
+void to_json(nlohmann::json& j, const Path_LightEffect& p)
+{
+    j = nlohmann::json{
+        {"base", ToBase(p)},
+        {"type", p.field_18_type},
+        {"size", p.field_1A_size},
+        {"switch_id", p.field_1C_switch_id},
+        {"direction", p.field_1E_direction},
+    };
+}
+
+void from_json(const nlohmann::json& j, Path_LightEffect& p)
+{
+    j.at("base").get_to(ToBase(p));
+    j.at("type").get_to(p.field_18_type);
+    j.at("size").get_to(p.field_1A_size);
+    j.at("switch_id").get_to(p.field_1C_switch_id);
+    j.at("direction").get_to(p.field_1E_direction);
+}
+
+// Path_MusicTrigger
+NLOHMANN_JSON_SERIALIZE_ENUM(Path_MusicTrigger::MusicTriggerMusicType, {
+    {Path_MusicTrigger::MusicTriggerMusicType::eDrumAmbience, "drum_ambience"},
+    {Path_MusicTrigger::MusicTriggerMusicType::eDeathDrumShort, "death_drum_ambience"},
+    {Path_MusicTrigger::MusicTriggerMusicType::eSecretAreaLong, "secret_area_long"},
+    {Path_MusicTrigger::MusicTriggerMusicType::eSoftChase, "soft_chase"},
+    {Path_MusicTrigger::MusicTriggerMusicType::eIntenseChase, "intense_chase"},
+    {Path_MusicTrigger::MusicTriggerMusicType::eChime, "chime"},
+    {Path_MusicTrigger::MusicTriggerMusicType::eSecretAreaShort, "secret_area_short"},
+})
+
+NLOHMANN_JSON_SERIALIZE_ENUM(Path_MusicTrigger::TriggeredBy, {
+    {Path_MusicTrigger::TriggeredBy::eTimer, "timer"},
+    {Path_MusicTrigger::TriggeredBy::eTouching, "touching"},
+    {Path_MusicTrigger::TriggeredBy::eSwitchId, "switch_id"},
+    {Path_MusicTrigger::TriggeredBy::eUnknown, "unknown"},
+})
+
+void to_json(nlohmann::json& j, const Path_MusicTrigger& p)
+{
+    j = nlohmann::json{
+        {"base", ToBase(p)},
+        {"music_type", p.field_10_music_type},
+        {"triggered_by", p.field_12_triggered_by},
+        {"switch_id", p.mSwitchId},
+        {"music_delay", p.field_14_music_delay},
+    };
+}
+
+void from_json(const nlohmann::json& j, Path_MusicTrigger& p)
+{
+    j.at("base").get_to(ToBase(p));
+    j.at("music_type").get_to(p.field_10_music_type);
+    j.at("triggered_by").get_to(p.field_12_triggered_by);
+    j.at("switch_id").get_to(p.mSwitchId);
+    j.at("music_delay").get_to(p.field_14_music_delay);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+// Path_MenuController
 void to_json(nlohmann::json& j, const Path_MenuController& p)
 {
     j = nlohmann::json{
@@ -765,25 +862,6 @@ void from_json(const nlohmann::json& j, Path_MenuController& p)
 {
     j.at("base").get_to(ToBase(p));
 }
-
-
-
-// Path_BirdPortalExit
-//void to_json(nlohmann::json& j, const Path_BirdPortalExit& p)
-//{
-//    j = nlohmann::json{
-//        {"base", ToBase(p)},
-//        {"exit_side", p.mExitSide},
-//        {"scale", p.mScale},
-//    };
-//}
-//
-//void from_json(const nlohmann::json& j, Path_BirdPortalExit& p)
-//{
-//    j.at("base").get_to(ToBase(p));
-//    j.at("exit_side").get_to(p.mExitSide);
-//    j.at("scale").get_to(p.mScale);
-//}
 
 } // namespace relive
 

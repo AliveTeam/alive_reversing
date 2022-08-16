@@ -391,18 +391,18 @@ struct Path_BirdPortal final : public Path_TLV
         eLeft,
     };
 
-    PortalSide mEnterSide;
-    EReliveLevelIds mExitLevel;
-    s16 mExitPath;
-    s16 mExitCamera;
-    reliveScale mScale;
-    s16 mMovieId;
-    PortalType mPortalType;
-    s16 mMudCountForShrykull;
+    PortalSide mEnterSide = PortalSide::eRight;
+    EReliveLevelIds mExitLevel = EReliveLevelIds::eNone;
+    s16 mExitPath = 0;
+    s16 mExitCamera = 0;
+    reliveScale mScale = reliveScale::eFull;
+    s16 mMovieId = 0;
+    PortalType mPortalType = PortalType::eWorker;
+    s16 mMudCountForShrykull = 0;
 
     // AE only
-    s16 mCreatePortalSwitchId;
-    s16 mDeletePortalSwitchId;
+    s16 mCreatePortalSwitchId = 0;
+    s16 mDeletePortalSwitchId = 0;
 };
 
 struct Path_MenuController final : public Path_TLV
@@ -410,10 +410,64 @@ struct Path_MenuController final : public Path_TLV
     // No fields
 };
 
-    //struct Path_BirdPortalExit final : public Path_TLV
+struct Path_BirdPortalExit final : public Path_TLV
+{
+    Path_BirdPortal::PortalSide mExitSide = Path_BirdPortal::PortalSide::eRight;
+    reliveScale mScale = reliveScale::eFull;
+};
+
+struct Path_LightEffect final : public Path_TLV
+{
+    enum class Type : s16
+    {
+        Star,
+        GoldGlow,
+        GreenGlow,
+        FlintGlow,
+        Switchable_RedGreenDoorLights,
+        Switchable_RedGreenHubLight,
+    };
+    Type field_18_type = Type::GreenGlow;
+    s16 field_1A_size = 0;
+    s16 field_1C_switch_id = 0;
+    reliveXDirection field_1E_direction = reliveXDirection::eRight;
+};
+
+struct Path_MusicTrigger final : public Path_TLV
+{
+    enum class MusicTriggerMusicType : s16
+    {
+        eDrumAmbience,
+        eDeathDrumShort,
+        eSecretAreaLong,
+        eSoftChase,
+        eIntenseChase,
+        eChime,
+        eSecretAreaShort,
+    };
+
+    enum class TriggeredBy : s16
+    {
+        eTimer,
+        eTouching,
+
+        // AO only
+        eSwitchId,
+        eUnknown,
+    };
+    MusicTriggerMusicType field_10_music_type = MusicTriggerMusicType::eSecretAreaLong;
+    TriggeredBy field_12_triggered_by = TriggeredBy::eTouching;
+    s16 mSwitchId = 0; // AO only
+    s16 field_14_music_delay = 0;
+};
+
+//struct Path_HandStone final : public Path_TLV
 //{
-//    PortalSide mExitSide;
-//    reliveScale mScale;
+//    reliveScale field_10_scale;
+//    s16 field_12_camera_id1;
+//    s16 field_12_camera_id2;
+//    s16 field_12_camera_id3;
+//    s32 field_18_trigger_switch_id;
 //};
 
 } // namespace relive

@@ -23,7 +23,7 @@ struct Path_LightEffect final : public Path_TLV
     s16 field_1C_switch_id;
     XDirection_short field_1E_direction;
 };
-ALIVE_ASSERT_SIZEOF(Path_LightEffect, 0x20);
+ALIVE_ASSERT_SIZEOF_ALWAYS(Path_LightEffect, 0x20);
 
 
 class DoorLight final : public BaseAnimatedWithPhysicsGameObject

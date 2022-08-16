@@ -39,6 +39,9 @@
 #include "../AliveLibAE/Lever.hpp"
 #include "../AliveLibAE/BirdPortal.hpp"
 #include "../AliveLibAO/BirdPortal.hpp"
+#include "../AliveLibAO/DoorLight.hpp"
+#include "../AliveLibAO/MusicTrigger.hpp"
+#include "../AliveLibAE/MusicTrigger.hpp"
 // Convert an AO or AE TLV to a relive TLV
 
 namespace relive {
@@ -140,12 +143,13 @@ namespace relive {
         ALIVE_FATAL("Bad switch operator");
     }
 
-class Path_ShadowZone_Converter
+class Path_ShadowZone_Converter final
 {
 public:
     static Path_ShadowZone From(const AO::Path_ShadowZone& tlv)
     {
         Path_ShadowZone r;
+        BaseConvert(r, tlv);
         r.mRGB.SetRGB(tlv.field_1C_r, tlv.field_1E_g, tlv.field_20_b);
         r.mScale = From(tlv.field_24_scale);
         return r;
@@ -154,6 +158,7 @@ public:
     static Path_ShadowZone From(const ::Path_ShadowZone& tlv)
     {
         Path_ShadowZone r;
+        BaseConvert(r, tlv);
         r.mRGB.SetRGB(tlv.field_14_r, tlv.field_16_g, tlv.field_18_b);
         r.mScale = From(tlv.field_1C_scale);
         return r;
@@ -189,12 +194,13 @@ private:
     }
 };
 
-class Path_SecurityOrb_Converter
+class Path_SecurityOrb_Converter final
 {
 public:
     static Path_SecurityOrb From(const AO::Path_SecurityOrb& tlv)
     {
         Path_SecurityOrb r;
+        BaseConvert(r, tlv);
         r.mScale = relive::From(tlv.mScale);
         r.mDisabledResources = tlv.mDisabledResources;
         return r;
@@ -203,18 +209,20 @@ public:
     static Path_SecurityOrb From(const ::Path_SecurityOrb& tlv)
     {
         Path_SecurityOrb r;
+        BaseConvert(r, tlv);
         r.mScale = relive::From(tlv.mScale);
         r.mDisabledResources = tlv.mDisabledResources;
         return r;
     }
 };
 
-class Path_ContinuePoint_Converter
+class Path_ContinuePoint_Converter final
 {
 public:
     static Path_ContinuePoint From(const AO::Path_ContinuePoint& tlv)
     {
         Path_ContinuePoint r;
+        BaseConvert(r, tlv);
         r.field_18_zone_number = tlv.field_18_zone_number;
         r.field_1A_clear_from_id = tlv.field_1A_clear_from_id;
         r.field_1C_clear_to_id = tlv.field_1C_clear_to_id;
@@ -226,6 +234,7 @@ public:
     static Path_ContinuePoint From(const ::Path_ContinuePoint& tlv)
     {
         Path_ContinuePoint r;
+        BaseConvert(r, tlv);
         r.field_10_scale = From(tlv.field_10_scale);
         r.field_12_save_file_id = tlv.field_12_save_file_id;
         return r;
@@ -259,12 +268,13 @@ private:
     }
 };
 
-class Path_LiftPoint_Converter
+class Path_LiftPoint_Converter final
 {
 public:
     static Path_LiftPoint From(const AO::Path_LiftPoint& tlv)
     {
         Path_LiftPoint r;
+        BaseConvert(r, tlv);
         r.field_10_lift_point_id = tlv.field_18_lift_point_id;
         r.field_12_bStart_point = relive::From(tlv.field_1A_bstart_point);
         r.field_16_lift_point_stop_type = From(tlv.field_1E_lift_point_stop_type);
@@ -276,6 +286,7 @@ public:
     static Path_LiftPoint From(const ::Path_LiftPoint& tlv)
     {
         Path_LiftPoint r;
+        BaseConvert(r, tlv);
         r.field_10_lift_point_id = tlv.field_10_lift_point_id;
         r.field_12_bStart_point = relive::From(tlv.field_12_bStart_point);
         r.field_16_lift_point_stop_type = From(tlv.field_16_lift_point_stop_type);
@@ -322,12 +333,13 @@ private:
     }
 };
 
-class Path_Dove_Converter
+class Path_Dove_Converter final
 {
 public:
     static Path_Dove From(const AO::Path_Dove& tlv)
     {
         Path_Dove r;
+        BaseConvert(r, tlv);
         r.mDoveCount = tlv.mDoveCount;
         r.mPixelPerfect = relive::From(tlv.mPixelPerfect);
         r.mScale = relive::From(tlv.mScale);
@@ -337,6 +349,7 @@ public:
     static Path_Dove From(const ::Path_Dove& tlv)
     {
         Path_Dove r;
+        BaseConvert(r, tlv);
         r.mDoveCount = tlv.mDoveCount;
         r.mPixelPerfect = relive::From(tlv.mPixelPerfect);
         r.mScale = relive::From(tlv.mScale);
@@ -344,12 +357,13 @@ public:
     }
 };
 
-class Path_RockSack_Converter
+class Path_RockSack_Converter final
 {
 public:
     static Path_RockSack From(const AO::Path_RockSack& tlv)
     {
         Path_RockSack r;
+        BaseConvert(r, tlv);
         r.field_10_fall_direction = relive::From(tlv.field_18_fall_direction);
         r.field_12_x_vel = tlv.field_1A_x_vel;
         r.field_14_y_vel = tlv.field_1C_y_vel;
@@ -361,6 +375,7 @@ public:
     static Path_RockSack From(const ::Path_RockSack& tlv)
     {
         Path_RockSack r;
+        BaseConvert(r, tlv);
         r.field_10_fall_direction = relive::From(tlv.field_10_fall_direction);
         r.field_12_x_vel = tlv.field_12_x_vel;
         r.field_14_y_vel = tlv.field_14_y_vel;
@@ -370,12 +385,13 @@ public:
     }
 };
 
-class Path_ZBall_Converter
+class Path_ZBall_Converter final
 {
 public:
     static Path_ZBall From(const AO::Path_ZBall& tlv)
     {
         Path_ZBall r;
+        BaseConvert(r, tlv);
         r.mStartPos = From(tlv.mStartPos);
         r.mScale = relive::From(tlv.mScale);
         r.mSpeed = From(tlv.mSpeed);
@@ -412,12 +428,13 @@ private:
     }
 };
 
-class Path_FallingItem_Converter
+class Path_FallingItem_Converter final
 {
 public:
     static Path_FallingItem From(const AO::Path_FallingItem& tlv)
     {
         Path_FallingItem r;
+        BaseConvert(r, tlv);
         r.mSwitchId = tlv.field_18_switch_id;
         r.mScale = relive::From(tlv.field_1A_scale);
         r.mFallInterval = tlv.field_1C_fall_interval;
@@ -429,6 +446,7 @@ public:
     static Path_FallingItem From(const ::Path_FallingItem& tlv)
     {
         Path_FallingItem r;
+        BaseConvert(r, tlv);
         r.mSwitchId = tlv.field_10_switch_id;
         r.mScale = relive::From(tlv.field_12_scale);
         r.mFallInterval = tlv.field_14_fall_interval;
@@ -438,12 +456,13 @@ public:
     }
 };
 
-class Path_PullRingRope_Converter
+class Path_PullRingRope_Converter final
 {
 public:
     static Path_PullRingRope From(const AO::Path_PullRingRope& tlv)
     {
         Path_PullRingRope r;
+        BaseConvert(r, tlv);
         r.mSwitchId = tlv.field_18_switch_id;
         r.mAction = relive::From(tlv.field_1A_action);
         r.mRopeLength = tlv.field_1C_rope_length;
@@ -457,6 +476,7 @@ public:
     static Path_PullRingRope From(const ::Path_PullRingRope& tlv)
     {
         Path_PullRingRope r;
+        BaseConvert(r, tlv);
         r.mSwitchId = tlv.field_10_switch_id;
         r.mAction = relive::From(tlv.field_12_action);
         r.mRopeLength = tlv.field_14_rope_length;
@@ -529,12 +549,13 @@ private:
     }
 };
 
-class Path_TimedMine_Converter
+class Path_TimedMine_Converter final
 {
 public:
     static Path_TimedMine From(const AO::Path_TimedMine& tlv)
     {
         Path_TimedMine r;
+        BaseConvert(r, tlv);
         r.mSwitchId = tlv.field_18_switch_id;
         r.mState = tlv.field_1A_state;
         r.mScale = relive::From(tlv.field_1C_scale);
@@ -546,6 +567,7 @@ public:
     static Path_TimedMine From(const ::Path_TimedMine& tlv)
     {
         Path_TimedMine r;
+        BaseConvert(r, tlv);
         r.mSwitchId = tlv.field_10_switch_id;
         r.mState = tlv.field_12_state;
         r.mScale = relive::From(tlv.field_14_scale);
@@ -555,12 +577,13 @@ public:
     }
 };
 
-class Path_Hoist_Converter
+class Path_Hoist_Converter final
 {
 public:
     static Path_Hoist From(const AO::Path_Hoist& tlv)
     {
         Path_Hoist r;
+        BaseConvert(r, tlv);
         r.mHoistType = From(tlv.field_18_hoist_type);
         r.mGrabDirection= From(tlv.field_1A_grab_direction);
         return r;
@@ -569,6 +592,7 @@ public:
     static Path_Hoist From(const ::Path_Hoist& tlv)
     {
         Path_Hoist r;
+        BaseConvert(r, tlv);
         r.mHoistType = From(tlv.field_10_type);
         r.mGrabDirection = From(tlv.field_12_grab_direction);
         return r;
@@ -632,12 +656,13 @@ private:
     }
 };
 
-class Path_TrapDoor_Converter
+class Path_TrapDoor_Converter final
 {
 public:
     static Path_TrapDoor From(const AO::Path_TrapDoor& tlv)
     {
         Path_TrapDoor r;
+        BaseConvert(r, tlv);
         r.mSwitchId = tlv.mSwitchId;
         r.mStartState = From(tlv.mStartState);
         r.mSelfClosing = relive::From(tlv.field_1C_self_closing);
@@ -650,6 +675,7 @@ public:
     static Path_TrapDoor From(const ::Path_TrapDoor& tlv)
     {
         Path_TrapDoor r;
+        BaseConvert(r, tlv);
         r.mSwitchId = tlv.mSwitchId;
         r.mStartState = From(tlv.mStartState);
         r.mSelfClosing = relive::From(tlv.mSelfClosing);
@@ -686,12 +712,13 @@ private:
     }
 };
 
-class Path_LCDScreen_Converter
+class Path_LCDScreen_Converter final
 {
 public:
     static Path_LCDScreen From(const AO::Path_LCDScreen& tlv)
     {
         Path_LCDScreen r;
+        BaseConvert(r, tlv);
         r.field_10_message_1_id = tlv.field_18_message_1_id;
         r.field_12_message_rand_min_id = tlv.field_1A_message_rand_min;
         r.field_14_message_rand_max_id = tlv.field_1C_message_rand_max;
@@ -701,6 +728,7 @@ public:
     static Path_LCDScreen From(const ::Path_LCDScreen& tlv)
     {
         Path_LCDScreen r;
+        BaseConvert(r, tlv);
         r.field_10_message_1_id = tlv.field_10_message_1_id;
         r.field_12_message_rand_min_id = tlv.field_12_message_rand_min_id;
         r.field_14_message_rand_max_id = tlv.field_14_message_rand_max_id;
@@ -710,12 +738,13 @@ public:
     }
 };
 
-class Path_Mine_Converter
+class Path_Mine_Converter final
 {
 public:
     static Path_Mine From(const AO::Path_Mine& tlv)
     {
         Path_Mine r;
+        BaseConvert(r, tlv);
         r.field_10_num_patterns = tlv.field_18_num_patterns;
         r.field_12_pattern= tlv.field_1A_pattern;
         r.field_14_scale = relive::From(tlv.field_1C_scale);
@@ -727,6 +756,7 @@ public:
     static Path_Mine From(const ::Path_Mine& tlv)
     {
         Path_Mine r;
+        BaseConvert(r, tlv);
         r.field_10_num_patterns = tlv.field_10_num_patterns;
         r.field_12_pattern = tlv.field_12_pattern;
         r.field_14_scale = relive::From(tlv.field_14_scale);
@@ -736,12 +766,13 @@ public:
     }
 };
 
-class Path_InvisibleSwitch_Converter
+class Path_InvisibleSwitch_Converter final
 {
 public:
     static Path_InvisibleSwitch From(const AO::Path_InvisibleSwitch& tlv)
     {
         Path_InvisibleSwitch r;
+        BaseConvert(r, tlv);
         r.field_10_switch_id = tlv.field_18_switch_id;
         r.field_12_action = relive::From(tlv.field_1A_action);
         r.field_14_delay = tlv.field_1C_delay;
@@ -753,6 +784,7 @@ public:
     static Path_InvisibleSwitch From(const ::Path_InvisibleSwitch& tlv)
     {
         Path_InvisibleSwitch r;
+        BaseConvert(r, tlv);
         r.field_10_switch_id = tlv.field_10_switch_id;
         r.field_12_action = relive::From(tlv.field_12_action);
         r.field_14_delay = tlv.field_14_delay;
@@ -791,13 +823,13 @@ private:
     }
 };
 
-
-class Path_ElectricWall_Converter
+class Path_ElectricWall_Converter final
 {
 public:
     static Path_ElectricWall From(const AO::Path_ElectricWall& tlv)
     {
         Path_ElectricWall r;
+        BaseConvert(r, tlv);
         r.field_10_scale = relive::From(tlv.field_18_scale);
         r.field_12_switch_id = tlv.field_1A_switch_id;
         r.field_14_start_state = From(tlv.field_1C_start_state);
@@ -807,6 +839,7 @@ public:
     static Path_ElectricWall From(const ::Path_ElectricWall& tlv)
     {
         Path_ElectricWall r;
+        BaseConvert(r, tlv);
         r.field_10_scale = relive::From(tlv.field_10_scale);
         r.field_12_switch_id = tlv.field_12_switch_id;
         r.field_14_start_state = From(tlv.field_14_start_state);
@@ -839,12 +872,13 @@ private:
     }
 };
 
-class Path_BoomMachine_Converter
+class Path_BoomMachine_Converter final
 {
 public:
     static Path_BoomMachine From(const AO::Path_BoomMachine& tlv)
     {
         Path_BoomMachine r;
+        BaseConvert(r, tlv);
         r.field_10_scale = relive::From(tlv.field_18_scale);
         r.field_12_nozzle_side = From(tlv.field_1A_nozzle_side);
         r.field_14_disabled_resources = tlv.field_1C_disabled_resources;
@@ -855,6 +889,7 @@ public:
     static Path_BoomMachine From(const ::Path_BoomMachine& tlv)
     {
         Path_BoomMachine r;
+        BaseConvert(r, tlv);
         r.field_10_scale = relive::From(tlv.field_10_scale);
         r.field_12_nozzle_side = From(tlv.field_12_nozzle_side);
         r.field_14_disabled_resources = tlv.field_14_disabled_resources;
@@ -888,12 +923,13 @@ private:
     }
 };
 
-class Path_UXB_Converter
+class Path_UXB_Converter final
 {
 public:
     static Path_UXB From(const AO::Path_UXB& tlv)
     {
         Path_UXB r;
+        BaseConvert(r, tlv);
         r.mPatternLength = tlv.field_18_pattern_length;
         r.mPattern = tlv.field_1A_pattern;
         r.mScale = relive::From(tlv.field_1C_scale);
@@ -905,6 +941,7 @@ public:
     static Path_UXB From(const ::Path_UXB& tlv)
     {
         Path_UXB r;
+        BaseConvert(r, tlv);
         r.mPatternLength = tlv.field_10_pattern_length;
         r.mPattern = tlv.field_12_pattern;
         r.mScale = relive::From(tlv.field_14_scale);
@@ -939,12 +976,13 @@ private:
     }
 };
 
-class Path_MeatSaw_Converter
+class Path_MeatSaw_Converter final
 {
 public:
     static Path_MeatSaw From(const AO::Path_MeatSaw& tlv)
     {
         Path_MeatSaw r;
+        BaseConvert(r, tlv);
         r.field_18_scale = relive::From(tlv.field_18_scale);
         r.field_1A_switch_min_time_off = tlv.field_1A_switch_min_time_off;
         r.field_1C_switch_max_time_off = tlv.field_1C_switch_max_time_off;
@@ -988,12 +1026,13 @@ private:
     }
 };
 
-class Path_Lever_Converter
+class Path_Lever_Converter final
 {
 public:
     static Path_Lever From(const AO::Path_Lever& tlv)
     {
         Path_Lever r;
+        BaseConvert(r, tlv);
         r.field_10_action = relive::From(tlv.field_1A_action);
         r.field_12_scale = relive::From(tlv.field_1C_scale);
         r.field_14_on_sound = From(tlv.field_1E_on_sound);
@@ -1006,6 +1045,7 @@ public:
     static Path_Lever From(const ::Path_Lever& tlv)
     {
         Path_Lever r;
+        BaseConvert(r, tlv);
         r.field_10_action = relive::From(tlv.field_10_action);
         r.field_12_scale = relive::From(tlv.field_12_scale);
         r.field_14_on_sound = From(tlv.field_14_on_sound);
@@ -1088,12 +1128,13 @@ private:
     }
 };
 
-class Path_Edge_Converter
+class Path_Edge_Converter final
 {
 public:
     static Path_Edge From(const AO::Path_Edge& tlv)
     {
         Path_Edge r;
+        BaseConvert(r, tlv);
         r.mGrabDirection = From(tlv.field_18_grab_direction);
         r.mCanGrab = relive::From(tlv.field_1A_can_grab);
         return r;
@@ -1102,6 +1143,7 @@ public:
     static Path_Edge From(const ::Path_Edge& tlv)
     {
         Path_Edge r;
+        BaseConvert(r, tlv);
         r.mGrabDirection = From(tlv.field_10_grab_direction);
         r.mCanGrab = relive::From(tlv.field_12_bCan_grab);
         r.mScale = relive::From(tlv.field_14_scale);
@@ -1138,12 +1180,13 @@ private:
     }
 };
 
-class Path_BirdPortal_Converter
+class Path_BirdPortal_Converter final
 {
 public:
     static Path_BirdPortal From(const AO::Path_BirdPortal& tlv)
     {
         Path_BirdPortal r;
+        BaseConvert(r, tlv);
         r.mEnterSide = From(tlv.mEnterSide);
         r.mExitLevel = MapWrapper::FromAO(tlv.mExitLevel);
         r.mExitPath = tlv.mExitPath;
@@ -1158,6 +1201,7 @@ public:
     static Path_BirdPortal From(const ::Path_BirdPortal& tlv)
     {
         Path_BirdPortal r;
+        BaseConvert(r, tlv);
         r.mEnterSide = From(tlv.mEnterSide);
         r.mExitLevel = MapWrapper::FromAE(tlv.mExitLevel);
         r.mExitPath = tlv.mExitPath;
@@ -1171,7 +1215,6 @@ public:
         return r;
     }
 
-private:
     static relive::Path_BirdPortal::PortalSide From(AO::PortalSide portalSide)
     {
         switch (portalSide)
@@ -1228,25 +1271,161 @@ private:
     }
 };
 
-//class Path_BirdPortalExit_Converter
-//{
-//public:
-//    static Path_BirdPortalExit From(const AO::Path_BirdPortalExit& tlv)
-//    {
-//        Path_BirdPortalExit r;
-//        r.mExitSide = Path_BirdPortal_Converter::From(tlv.mExitSide);
-//        r.mScale = relive::From(tlv.mScale);
-//        return r;
-//    }
-//
-//    static Path_BirdPortalExit From(const ::Path_BirdPortalExit& tlv)
-//    {
-//        Path_BirdPortalExit r;
-//        r.mExitSide = Path_BirdPortal_Converter::From(tlv.mExitSide);
-//        r.mScale = relive::From(tlv.mScale);
-//        return r;
-//    }
-//};
+class Path_BirdPortalExit_Converter final
+{
+public:
+    static Path_BirdPortalExit From(const AO::Path_BirdPortalExit& tlv)
+    {
+        Path_BirdPortalExit r;
+        BaseConvert(r, tlv);
+        r.mExitSide = Path_BirdPortal_Converter::From(tlv.mExitSide);
+        r.mScale = relive::From(tlv.mScale);
+        return r;
+    }
+
+    static Path_BirdPortalExit From(const ::Path_BirdPortalExit& tlv)
+    {
+        Path_BirdPortalExit r;
+        BaseConvert(r, tlv);
+        r.mExitSide = Path_BirdPortal_Converter::From(tlv.mExitSide);
+        r.mScale = relive::From(tlv.mScale);
+        return r;
+    }
+};
+
+class Path_LightEffect_Converter final
+{
+public:
+    static Path_LightEffect From(const AO::Path_LightEffect& tlv)
+    {
+        Path_LightEffect r;
+        BaseConvert(r, tlv);
+        r.field_18_type = From(tlv.field_18_type);
+        r.field_1A_size = tlv.field_1A_size;
+        r.field_1C_switch_id = tlv.field_1C_switch_id;
+        r.field_1E_direction = relive::From(tlv.field_1E_direction);
+        return r;
+    }
+
+private:
+    static relive::Path_LightEffect::Type From(const AO::Path_LightEffect::Type type)
+    {
+        switch (type)
+        {
+            case AO::Path_LightEffect::Type::Star_0:
+                return relive::Path_LightEffect::Type::Star;
+            case AO::Path_LightEffect::Type::GoldGlow_1:
+                return relive::Path_LightEffect::Type::GoldGlow;
+            case AO::Path_LightEffect::Type::GreenGlow_2:
+                return relive::Path_LightEffect::Type::GreenGlow;
+            case AO::Path_LightEffect::Type::FlintGlow_3:
+                return relive::Path_LightEffect::Type::FlintGlow;
+            case AO::Path_LightEffect::Type::Switchable_RedGreenDoorLights_4:
+                return relive::Path_LightEffect::Type::Switchable_RedGreenDoorLights;
+            case AO::Path_LightEffect::Type::Switchable_RedGreenHubLight_5:
+                return relive::Path_LightEffect::Type::Switchable_RedGreenHubLight;
+        }
+        ALIVE_FATAL("Bad light effect type");
+    }
+};
+
+class Path_MusicTrigger_Converter final
+{
+public:
+    static Path_MusicTrigger From(const AO::Path_MusicTrigger& tlv)
+    {
+        Path_MusicTrigger r;
+        BaseConvert(r, tlv);
+        r.field_10_music_type = From(tlv.field_18_music_type);
+        r.field_12_triggered_by = From(tlv.field_1A_triggered_by);
+        r.mSwitchId = tlv.field_1C_switch_id;
+        r.field_14_music_delay = tlv.field_1E_music_delay;
+        return r;
+    }
+
+    static Path_MusicTrigger From(const ::Path_MusicTrigger& tlv)
+    {
+        Path_MusicTrigger r;
+        BaseConvert(r, tlv);
+        r.field_10_music_type = From(tlv.field_10_music_type);
+        r.field_12_triggered_by = From(tlv.field_12_triggered_by);
+        r.field_14_music_delay = tlv.field_14_music_delay;
+        return r;
+    }
+
+private:
+    static relive::Path_MusicTrigger::MusicTriggerMusicType From(const AO::MusicTriggerMusicType musicType)
+    {
+        switch (musicType)
+        {
+            case AO::MusicTriggerMusicType::eDrumAmbience_0:
+                return relive::Path_MusicTrigger::MusicTriggerMusicType::eDrumAmbience;
+            case AO::MusicTriggerMusicType::eDeathDrumShort_1:
+                return relive::Path_MusicTrigger::MusicTriggerMusicType::eDeathDrumShort;
+            case AO::MusicTriggerMusicType::eSecretAreaLong_2:
+                return relive::Path_MusicTrigger::MusicTriggerMusicType::eSecretAreaLong;
+            case AO::MusicTriggerMusicType::eSoftChase_3:
+                return relive::Path_MusicTrigger::MusicTriggerMusicType::eSoftChase;
+            case AO::MusicTriggerMusicType::eIntenseChase_4:
+                return relive::Path_MusicTrigger::MusicTriggerMusicType::eIntenseChase;
+            case AO::MusicTriggerMusicType::eChime_5:
+                return relive::Path_MusicTrigger::MusicTriggerMusicType::eChime;
+            case AO::MusicTriggerMusicType::eSecretAreaShort_6:
+                return relive::Path_MusicTrigger::MusicTriggerMusicType::eSecretAreaShort;
+        }
+        ALIVE_FATAL("Bad music trigger music type");
+    }
+
+    static relive::Path_MusicTrigger::TriggeredBy From(const AO::TriggeredBy triggeredBy)
+    {
+        switch (triggeredBy)
+        {
+            case AO::TriggeredBy::eTimer_0:
+                return relive::Path_MusicTrigger::TriggeredBy::eTimer;
+            case AO::TriggeredBy::eTouching_1:
+                return relive::Path_MusicTrigger::TriggeredBy::eTouching;
+            case AO::TriggeredBy::eSwitchID_2:
+                return relive::Path_MusicTrigger::TriggeredBy::eSwitchId;
+            case AO::TriggeredBy::eUnknown_3:
+                return relive::Path_MusicTrigger::TriggeredBy::eUnknown;
+        }
+        ALIVE_FATAL("Bad music trigger triggered by value");
+    }
+
+    static relive::Path_MusicTrigger::MusicTriggerMusicType From(const ::MusicTriggerMusicType musicType)
+    {
+        switch (musicType)
+        {
+            case ::MusicTriggerMusicType::eDrumAmbience_0:
+                return relive::Path_MusicTrigger::MusicTriggerMusicType::eDrumAmbience;
+            case ::MusicTriggerMusicType::eDeathDrumShort_1:
+                return relive::Path_MusicTrigger::MusicTriggerMusicType::eDeathDrumShort;
+            case ::MusicTriggerMusicType::eSecretAreaLong_2:
+                return relive::Path_MusicTrigger::MusicTriggerMusicType::eSecretAreaLong;
+            case ::MusicTriggerMusicType::eSoftChase_3:
+                return relive::Path_MusicTrigger::MusicTriggerMusicType::eSoftChase;
+            case ::MusicTriggerMusicType::eIntenseChase_4:
+                return relive::Path_MusicTrigger::MusicTriggerMusicType::eIntenseChase;
+            case ::MusicTriggerMusicType::eChime_5:
+                return relive::Path_MusicTrigger::MusicTriggerMusicType::eChime;
+            case ::MusicTriggerMusicType::eSecretAreaShort_6:
+                return relive::Path_MusicTrigger::MusicTriggerMusicType::eSecretAreaShort;
+        }
+        ALIVE_FATAL("Bad music trigger music type");
+    }
+
+    static relive::Path_MusicTrigger::TriggeredBy From(const ::TriggeredBy triggeredBy)
+    {
+        switch (triggeredBy)
+        {
+            case ::TriggeredBy::eTimer_0:
+                return relive::Path_MusicTrigger::TriggeredBy::eTimer;
+            case ::TriggeredBy::eTouching_1:
+                return relive::Path_MusicTrigger::TriggeredBy::eTouching;
+        }
+        ALIVE_FATAL("Bad music trigger triggered by value");
+    }
+};
 
 // TODO: Need to be able to actually get to Path_MenuController and AO::Path_MenuController
 // and then call From in the TLV conversion switch case
@@ -1254,14 +1433,14 @@ private:
 class Path_MenuController_Converter final
 {
 public:
-    static Path_BirdPortal From(const AO::Path_MenuController& tlv)
+    static Path_MenuController From(const AO::Path_MenuController& tlv)
     {
         Path_BirdPortal r;
         BaseConvert(r, tlv); // TODO: actually need to call these in every From :annoyingSlug:
         return r;
     }
 
-    static Path_BirdPortal From(const ::Path_MenuController& tlv)
+    static Path_MenuController From(const ::Path_MenuController& tlv)
     {
         Path_BirdPortal r;
         BaseConvert(r, tlv);
