@@ -183,7 +183,10 @@ static void ConvertTLV(const AO::Path_TLV& tlv)
             j.push_back({ "continue_point", relive::Path_ContinuePoint_Converter::From(static_cast<const AO::Path_ContinuePoint&>(tlv)) });
             break;
         case AO::TlvTypes::PathTransition_1:
+            LOG_WARNING("tlv of type " << static_cast<s16>(tlv.mTlvType32.mType) << " not implemented");
+            return;
         case AO::TlvTypes::ContinueZone_2: // dead tlv
+            return;
         case AO::TlvTypes::Hoist_3:
             j.push_back({ "hoist", relive::Path_Hoist_Converter::From(static_cast<const AO::Path_Hoist&>(tlv)) });
             break;
@@ -191,9 +194,11 @@ static void ConvertTLV(const AO::Path_TLV& tlv)
             j.push_back({ "edge", relive::Path_Edge_Converter::From(static_cast<const AO::Path_Edge&>(tlv)) });
             break;
         case AO::TlvTypes::DeathDrop_5: // no props
+            LOG_WARNING("tlv of type " << static_cast<s16>(tlv.mTlvType32.mType) << " not implemented");
+            return;
         case AO::TlvTypes::Door_6:
-            ALIVE_FATAL("not implemented");
-
+            LOG_WARNING("tlv of type " << static_cast<s16>(tlv.mTlvType32.mType) << " not implemented");
+            return;
         case AO::TlvTypes::ShadowZone_7:
             j.push_back({"shadow_zone", relive::Path_ShadowZone_Converter::From(static_cast<const AO::Path_ShadowZone&>(tlv))});
             break;
@@ -201,6 +206,8 @@ static void ConvertTLV(const AO::Path_TLV& tlv)
             j.push_back({ "lift_point", relive::Path_LiftPoint_Converter::From(static_cast<const AO::Path_LiftPoint&>(tlv)) });
             break;
         case AO::TlvTypes::WellLocal_11:
+            LOG_WARNING("tlv of type " << static_cast<s16>(tlv.mTlvType32.mType) << " not implemented");
+            return;
         case AO::TlvTypes::Dove_12:
             j.push_back({ "dove", relive::Path_Dove_Converter::From(static_cast<const AO::Path_Dove&>(tlv)) });
             break;
@@ -220,11 +227,17 @@ static void ConvertTLV(const AO::Path_TLV& tlv)
             j.push_back({ "background_animation", relive::Path_BackgroundAnimation_Converter::From(static_cast<const AO::Path_BackgroundAnimation&>(tlv)) });
             break;
         case AO::TlvTypes::Honey_20:
+            LOG_WARNING("tlv of type " << static_cast<s16>(tlv.mTlvType32.mType) << " not implemented");
+            return;
         case AO::TlvTypes::TimedMine_22:
             j.push_back({ "timed_mine", relive::Path_TimedMine_Converter::From(static_cast<const AO::Path_TimedMine&>(tlv)) });
             break;
         case AO::TlvTypes::Slig_24:
+            LOG_WARNING("tlv of type " << static_cast<s16>(tlv.mTlvType32.mType) << " not implemented");
+            return;
         case AO::TlvTypes::Slog_25:
+            LOG_WARNING("tlv of type " << static_cast<s16>(tlv.mTlvType32.mType) << " not implemented");
+            return;
         case AO::TlvTypes::Lever_26:
             j.push_back({ "lever", relive::Path_Lever_Converter::From(static_cast<const AO::Path_Lever&>(tlv)) });
             break;
@@ -232,25 +245,44 @@ static void ConvertTLV(const AO::Path_TLV& tlv)
             j.push_back({ "bell_hammer", relive::Path_BellHammer_Converter::From(static_cast<const AO::Path_BellHammer&>(tlv)) });
             break;
         case AO::TlvTypes::StartController_28: // no props
-            ALIVE_FATAL("not implemented");
-
+            LOG_WARNING("tlv of type " << static_cast<s16>(tlv.mTlvType32.mType) << " not implemented");
+            return;
         case AO::TlvTypes::SecurityOrb_29:
             j.push_back({"security_orb", relive::Path_SecurityOrb_Converter::From(static_cast<const AO::Path_SecurityOrb&>(tlv))});
             break;
-
         case AO::TlvTypes::LiftMudokon_32:
+            LOG_WARNING("tlv of type " << static_cast<s16>(tlv.mTlvType32.mType) << " not implemented");
+            return;
         case AO::TlvTypes::BeeSwarmHole_34:
+            LOG_WARNING("tlv of type " << static_cast<s16>(tlv.mTlvType32.mType) << " not implemented");
+            return;
         case AO::TlvTypes::Pulley_35: // no props
+            LOG_WARNING("tlv of type " << static_cast<s16>(tlv.mTlvType32.mType) << " not implemented");
+            return;
         case AO::TlvTypes::HoneySack_36:
             j.push_back({ "honey_sack", relive::Path_HoneySack_Converter::From(static_cast<const AO::Path_HoneySack&>(tlv)) });
             break;
         case AO::TlvTypes::AbeStart_37:
+            LOG_WARNING("tlv of type " << static_cast<s16>(tlv.mTlvType32.mType) << " not implemented");
+            return;
         case AO::TlvTypes::ElumStart_38:
+            LOG_WARNING("tlv of type " << static_cast<s16>(tlv.mTlvType32.mType) << " not implemented");
+            return;
         case AO::TlvTypes::ElumWall_40:
+            LOG_WARNING("tlv of type " << static_cast<s16>(tlv.mTlvType32.mType) << " not implemented");
+            return;
         case AO::TlvTypes::SlingMudokon_41:
+            LOG_WARNING("tlv of type " << static_cast<s16>(tlv.mTlvType32.mType) << " not implemented");
+            return;
         case AO::TlvTypes::HoneyDripTarget_42: // no props
+            LOG_WARNING("tlv of type " << static_cast<s16>(tlv.mTlvType32.mType) << " not implemented");
+            return;
         case AO::TlvTypes::Bees_43:
+            LOG_WARNING("tlv of type " << static_cast<s16>(tlv.mTlvType32.mType) << " not implemented");
+            return;
         case AO::TlvTypes::WellExpress_45:
+            LOG_WARNING("tlv of type " << static_cast<s16>(tlv.mTlvType32.mType) << " not implemented");
+            return;
         case AO::TlvTypes::Mine_46:
             j.push_back({ "mine", relive::Path_Mine_Converter::From(static_cast<const AO::Path_Mine&>(tlv)) });
             break;
@@ -258,11 +290,17 @@ static void ConvertTLV(const AO::Path_TLV& tlv)
             j.push_back({ "uxb", relive::Path_UXB_Converter::From(static_cast<const AO::Path_UXB&>(tlv)) });
             break;
         case AO::TlvTypes::Paramite_48:
+            LOG_WARNING("tlv of type " << static_cast<s16>(tlv.mTlvType32.mType) << " not implemented");
+            return;
         case AO::TlvTypes::Bat_49:
-            j.push_back({ "bat", relive::Path_UXB_Converter::From(static_cast<const AO::Path_UXB&>(tlv)) });
+            j.push_back({ "bat", relive::Path_Bat_Converter::From(static_cast<const AO::Path_Bat&>(tlv)) });
             break;
         case AO::TlvTypes::RingMudokon_50:
+            LOG_WARNING("tlv of type " << static_cast<s16>(tlv.mTlvType32.mType) << " not implemented");
+            return;
         case AO::TlvTypes::MovieStone_51:
+            LOG_WARNING("tlv of type " << static_cast<s16>(tlv.mTlvType32.mType) << " not implemented");
+            return;
         case AO::TlvTypes::BirdPortal_52:
             j.push_back({ "bird_portal", relive::Path_BirdPortal_Converter::From(static_cast<const AO::Path_BirdPortal&>(tlv)) });
             break;
@@ -270,6 +308,8 @@ static void ConvertTLV(const AO::Path_TLV& tlv)
             j.push_back({ "bird_portal_exit", relive::Path_BirdPortalExit_Converter::From(static_cast<const AO::Path_BirdPortalExit&>(tlv)) });
             break;
         case AO::TlvTypes::BellSongStone_54:
+            LOG_WARNING("tlv of type " << static_cast<s16>(tlv.mTlvType32.mType) << " not implemented");
+            return;
         case AO::TlvTypes::TrapDoor_55:
             j.push_back({ "trap_door", relive::Path_TrapDoor_Converter::From(static_cast<const AO::Path_TrapDoor&>(tlv)) });
             break;
@@ -280,15 +320,23 @@ static void ConvertTLV(const AO::Path_TLV& tlv)
             j.push_back({ "slig_bound_left", relive::Path_SligBound_Converter::From(static_cast<const AO::Path_SligBound&>(tlv)) });
             break;
         case AO::TlvTypes::InvisibleZone_58: // no props
+            LOG_WARNING("tlv of type " << static_cast<s16>(tlv.mTlvType32.mType) << " not implemented");
+            return;
         case AO::TlvTypes::RollingBallStopper_59:
             j.push_back({ "rolling_ball_stopper", relive::Path_RollingBallStopper_Converter::From(static_cast<const AO::Path_RollingBallStopper&>(tlv)) });
             break;
         case AO::TlvTypes::FootSwitch_60:
+            LOG_WARNING("tlv of type " << static_cast<s16>(tlv.mTlvType32.mType) << " not implemented");
+            return;
         case AO::TlvTypes::SecurityClaw_61:
+            LOG_WARNING("tlv of type " << static_cast<s16>(tlv.mTlvType32.mType) << " not implemented");
+            return;
         case AO::TlvTypes::MotionDetector_62:
             j.push_back({ "motion_detector", relive::Path_MotionDetector_Converter::From(static_cast<const AO::Path_MotionDetector&>(tlv)) });
             break;
         case AO::TlvTypes::SligSpawner_66:
+            LOG_WARNING("tlv of type " << static_cast<s16>(tlv.mTlvType32.mType) << " not implemented");
+            return;
         case AO::TlvTypes::ElectricWall_67:
             j.push_back({ "electric_wall", relive::Path_ElectricWall_Converter::From(static_cast<const AO::Path_ElectricWall&>(tlv)) });
             break;
@@ -296,13 +344,23 @@ static void ConvertTLV(const AO::Path_TLV& tlv)
             j.push_back({ "lift_mover", relive::Path_LiftMover_Converter::From(static_cast<const AO::Path_LiftMover&>(tlv)) });
             break;
         case AO::TlvTypes::ChimeLock_69:
+            LOG_WARNING("tlv of type " << static_cast<s16>(tlv.mTlvType32.mType) << " not implemented");
+            return;
         case AO::TlvTypes::MeatSack_71:
+            LOG_WARNING("tlv of type " << static_cast<s16>(tlv.mTlvType32.mType) << " not implemented");
+            return;
         case AO::TlvTypes::Scrab_72:
+            LOG_WARNING("tlv of type " << static_cast<s16>(tlv.mTlvType32.mType) << " not implemented");
+            return;
         case AO::TlvTypes::FlintLockFire_73:
             j.push_back({ "flint_lock_fire", relive::Path_FlintLockFire_Converter::From(static_cast<const AO::Path_FlintLockFire&>(tlv)) });
             break;
         case AO::TlvTypes::ScrabLeftBound_74:
+            LOG_WARNING("tlv of type " << static_cast<s16>(tlv.mTlvType32.mType) << " not implemented");
+            return;
         case AO::TlvTypes::ScrabRightBound_75:
+            LOG_WARNING("tlv of type " << static_cast<s16>(tlv.mTlvType32.mType) << " not implemented");
+            return;
         case AO::TlvTypes::eSligBoundRight_76:
             j.push_back({ "slig_bound_right", relive::Path_SligBound_Converter::From(static_cast<const AO::Path_SligBound&>(tlv)) });
             break;
@@ -310,28 +368,50 @@ static void ConvertTLV(const AO::Path_TLV& tlv)
             j.push_back({ "slig_persist", relive::Path_SligBound_Converter::From(static_cast<const AO::Path_SligBound&>(tlv)) });
             break;
         case AO::TlvTypes::EnemyStopper_79:
+            LOG_WARNING("tlv of type " << static_cast<s16>(tlv.mTlvType32.mType) << " not implemented");
+            return;
         case AO::TlvTypes::InvisibleSwitch_81:
             j.push_back({ "invisible_switch", relive::Path_InvisibleSwitch_Converter::From(static_cast<const AO::Path_InvisibleSwitch&>(tlv)) });
             break;
         case AO::TlvTypes::Mudokon_82:
+            LOG_WARNING("tlv of type " << static_cast<s16>(tlv.mTlvType32.mType) << " not implemented");
+            return;
         case AO::TlvTypes::ZSligCover_83: // no props
+            LOG_WARNING("tlv of type " << static_cast<s16>(tlv.mTlvType32.mType) << " not implemented");
+            return;
         case AO::TlvTypes::DoorFlame_84:
+            LOG_WARNING("tlv of type " << static_cast<s16>(tlv.mTlvType32.mType) << " not implemented");
+            return;
         case AO::TlvTypes::MovingBomb_86:
+            LOG_WARNING("tlv of type " << static_cast<s16>(tlv.mTlvType32.mType) << " not implemented");
+            return;
         case AO::TlvTypes::MovingBombStopper_87:
+            LOG_WARNING("tlv of type " << static_cast<s16>(tlv.mTlvType32.mType) << " not implemented");
+            return;
         case AO::TlvTypes::MeatSaw_88:
             j.push_back({ "meat_saw", relive::Path_MeatSaw_Converter::From(static_cast<const AO::Path_MeatSaw&>(tlv)) });
             break;
         case AO::TlvTypes::MudokonPathTrans_89:
+            LOG_WARNING("tlv of type " << static_cast<s16>(tlv.mTlvType32.mType) << " not implemented");
+            return;
         case AO::TlvTypes::MenuController_90: // no props
+            LOG_WARNING("tlv of type " << static_cast<s16>(tlv.mTlvType32.mType) << " not implemented");
+            return;
         case AO::TlvTypes::HintFly_92:
             j.push_back({ "hint_fly", relive::Path_HintFly_Converter::From(static_cast<const AO::Path_HintFly&>(tlv)) });
             break;
         case AO::TlvTypes::ScrabNoFall_93:
+            LOG_WARNING("tlv of type " << static_cast<s16>(tlv.mTlvType32.mType) << " not implemented");
+            return;
         case AO::TlvTypes::TimerTrigger_94:
             j.push_back({ "timer_trigger", relive::Path_TimerTrigger_Converter::From(static_cast<const AO::Path_TimerTrigger&>(tlv)) });
             break;
         case AO::TlvTypes::SecurityDoor_95:
+            LOG_WARNING("tlv of type " << static_cast<s16>(tlv.mTlvType32.mType) << " not implemented");
+            return;
         case AO::TlvTypes::DemoPlaybackStone_96:
+            LOG_WARNING("tlv of type " << static_cast<s16>(tlv.mTlvType32.mType) << " not implemented");
+            return;
         case AO::TlvTypes::BoomMachine_97:
             j.push_back({ "boom_machine", relive::Path_BoomMachine_Converter::From(static_cast<const AO::Path_BoomMachine&>(tlv)) });
             break;
@@ -339,10 +419,19 @@ static void ConvertTLV(const AO::Path_TLV& tlv)
             j.push_back({ "lcd_screen", relive::Path_LCDScreen_Converter::From(static_cast<const AO::Path_LCDScreen&>(tlv)) });
             break;
         case AO::TlvTypes::ElumPathTrans_99:
+            LOG_WARNING("tlv of type " << static_cast<s16>(tlv.mTlvType32.mType) << " not implemented");
+            return;
         case AO::TlvTypes::HandStone_100:
+            LOG_WARNING("tlv of type " << static_cast<s16>(tlv.mTlvType32.mType) << " not implemented");
+            return;
         case AO::TlvTypes::CreditsController_101: // no props
+            LOG_WARNING("tlv of type " << static_cast<s16>(tlv.mTlvType32.mType) << " not implemented");
+            return;
         case AO::TlvTypes::Preloader_102: // dead tlv
+            return;
         case AO::TlvTypes::LCDStatusBoard_103: // no props
+            LOG_WARNING("tlv of type " << static_cast<s16>(tlv.mTlvType32.mType) << " not implemented");
+            return;
         case AO::TlvTypes::MusicTrigger_105:
             j.push_back({ "music_trigger", relive::Path_MusicTrigger_Converter::From(static_cast<const AO::Path_MusicTrigger&>(tlv)) });
             break;
@@ -350,22 +439,37 @@ static void ConvertTLV(const AO::Path_TLV& tlv)
             j.push_back({ "light_effect", relive::Path_LightEffect_Converter::From(static_cast<const AO::Path_LightEffect&>(tlv)) });
             break;
         case AO::TlvTypes::SlogSpawner_107:
+            LOG_WARNING("tlv of type " << static_cast<s16>(tlv.mTlvType32.mType) << " not implemented");
+            return;
         case AO::TlvTypes::GasCountDown_108:
+            LOG_WARNING("tlv of type " << static_cast<s16>(tlv.mTlvType32.mType) << " not implemented");
+            return;
         case AO::TlvTypes::RingCancel_109:
+            LOG_WARNING("tlv of type " << static_cast<s16>(tlv.mTlvType32.mType) << " not implemented");
+            return;
         case AO::TlvTypes::GasEmitter_110:
+            LOG_WARNING("tlv of type " << static_cast<s16>(tlv.mTlvType32.mType) << " not implemented");
+            return;
         case AO::TlvTypes::ZzzSpawner_111:
+            LOG_WARNING("tlv of type " << static_cast<s16>(tlv.mTlvType32.mType) << " not implemented");
+            return;
         case AO::TlvTypes::BackgroundGlukkon_112:
+            LOG_WARNING("tlv of type " << static_cast<s16>(tlv.mTlvType32.mType) << " not implemented");
+            return;
         case AO::TlvTypes::KillUnsavedMuds_113: // no props
+            LOG_WARNING("tlv of type " << static_cast<s16>(tlv.mTlvType32.mType) << " not implemented");
+            return;
         case AO::TlvTypes::SoftLanding_114:
             j.push_back({ "soft_landing", relive::Path_SoftLanding_Converter::From(static_cast<const AO::Path_SoftLanding&>(tlv)) });
             break;
         case AO::TlvTypes::ResetPath_115:
-            ALIVE_FATAL("not implemented");
+            LOG_WARNING("tlv of type " << static_cast<s16>(tlv.mTlvType32.mType) << " not implemented");
+            return;
 
         default:
             ALIVE_FATAL("TLV conversion for this type not implemented");
     }
-    LOG_INFO(j.dump(4));
+    //LOG_INFO(j.dump(4));
 }
 
 static void ConvertPathTLVs(const AO::PathData& info, const std::vector<u8>& pathResource)
@@ -407,7 +511,7 @@ static void ConvertPaths(const ReliveAPI::ChunkedLvlFile& pathBnd, EReliveLevelI
     }
 }
 
-static void TestTlvConversion()
+void TestTlvConversion()
 {
     AO::Path_ShadowZone shadowTlv = {};
     shadowTlv.mTlvType32.mType = AO::TlvTypes::ContinuePoint_0;
@@ -421,7 +525,7 @@ static void TestTlvConversion()
 void DataConversion::ConvertData()
 {
     // TODO: Check existing data version, if any
-    TestTlvConversion();
+    //TestTlvConversion(); // test hax to test a specific tlv
 
     FileSystem fs;
     //CameraConverter cc;

@@ -179,6 +179,11 @@ enum class SligSfx : s8
     eBlurgh_17 = 17,
 };
 
+struct Path_ZSligCover final : public Path_TLV
+{
+    // No fields
+};
+
 // This is a left bound, right bound and a persist.
 struct Path_SligBound final : public Path_TLV
 {

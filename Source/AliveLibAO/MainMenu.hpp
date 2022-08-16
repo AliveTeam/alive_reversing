@@ -4,10 +4,16 @@
 #include "BaseAnimatedWithPhysicsGameObject.hpp"
 #include "../relive_lib/Primitives.hpp"
 #include "Font.hpp"
+#include "Path.hpp"
 
 enum class EReliveLevelIds : s16;
 
 namespace AO {
+
+struct Path_MenuController final : public Path_TLV
+{
+    // No fields
+};
 
 enum buttonType : u16
 {

@@ -21,6 +21,21 @@ struct Path_ResetPath final : public Path_TLV
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_ResetPath, 0x24);
 
+struct Path_StartController final : public Path_TLV
+{
+    // No fields
+};
+
+struct Path_InvisibleZone final : public Path_TLV
+{
+    // No fields
+};
+
+struct Path_KillUnsavedMuds final : public Path_TLV
+{
+    // No fields
+};
+
 #define AO_ABE_MOTIONS_ENUM(ENTRY)                   \
     ENTRY(Motion_0_Idle_423520)                      \
     ENTRY(Motion_1_WalkLoop_423F90)                  \
@@ -360,8 +375,88 @@ struct Path_Edge final : public Path_TLV
 };
 // TODO: size
 
+struct Path_Bees final : public Path_TLV
+{
+    s16 switch_id;
+    s16 swarm_size;
+    s16 chase_time;
+    s16 speed;
+    s16 disable_resources;
+    s16 num_bees;
+};
+
+struct Path_AbeStart final : public Path_TLV
+{
+    Scale_int scale;
+};
+
+struct Path_ContinueZone final : public Path_TLV
+{
+    s32 field_10_zone_number;
+};
+
+struct Path_DeathDrop final : public Path_TLV
+{
+    s16 animation;
+    s16 sound;
+    s16 id;
+    s16 action;
+    s32 set_value;
+};
+
+struct Path_Stone_camera final
+{
+    LevelIds level;
+    s16 path;
+    s16 camera;
+};
+
+struct Path_Handstone_data final
+{
+    Scale_short scale;
+    Path_Stone_camera camera1;
+    Path_Stone_camera camera2;
+    Path_Stone_camera camera3;
+};
+ALIVE_ASSERT_SIZEOF(Path_Handstone_data, 0x14);
+
+struct Path_HandStone final : public Path_TLV
+{
+    Path_Handstone_data mData;
+};
+
+struct Path_BellsongStone_data final
+{
+    Scale_short scale;
+    BellsongTypes type;
+    s16 code1;
+    s16 code2;
+    s16 switch_id;
+    s16 pad;
+};
+ALIVE_ASSERT_SIZEOF(Path_BellsongStone_data, 12);
+
+struct Path_BellsongStone final : public Path_TLV
+{
+    Path_BellsongStone_data mData;
+};
+
+struct Path_Moviestone_data final
+{
+    s16 fmvId;
+    Scale_short scale;
+};
+ALIVE_ASSERT_SIZEOF(Path_Moviestone_data, 4);
+
+struct Path_MovieStone final : public Path_TLV
+{
+    Path_Moviestone_data mData;
+};
+
 struct Path_SoftLanding final : public Path_TLV
-{ };
+{
+    // No fields
+};
 
 struct Path_ContinuePoint final : public Path_TLV
 {
@@ -383,40 +478,6 @@ struct AbeResources final
 {
     u8** res[65];
 };
-
-struct Path_Stone_camera final
-{
-    LevelIds level;
-    s16 path;
-    s16 camera;
-};
-
-struct Path_BellsongStone_data final
-{
-    Scale_short scale;
-    BellsongTypes type;
-    s16 code1;
-    s16 code2;
-    s16 switch_id;
-    s16 pad;
-};
-ALIVE_ASSERT_SIZEOF(Path_BellsongStone_data, 12);
-
-struct Path_Handstone_data final
-{
-    Scale_short scale;
-    Path_Stone_camera camera1;
-    Path_Stone_camera camera2;
-    Path_Stone_camera camera3;
-};
-ALIVE_ASSERT_SIZEOF(Path_Handstone_data, 0x14);
-
-struct Path_Moviestone_data final
-{
-    s16 fmvId;
-    Scale_short scale;
-};
-ALIVE_ASSERT_SIZEOF(Path_Moviestone_data, 4);
 
 union AllStone
 {

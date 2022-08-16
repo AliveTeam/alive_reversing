@@ -72,6 +72,21 @@ struct Path_Scrab final : public Path_TLV
 };
 ALIVE_ASSERT_SIZEOF(Path_Scrab, 0x2C);
 
+struct Path_ScrabNoFall final : public Path_TLV
+{
+    // No fields
+};
+
+struct Path_ScrabLeftBound final : public Path_TLV
+{
+    // No fields
+};
+
+struct Path_ScrabRightBound final : public Path_TLV
+{
+    // No fields
+};
+
 enum class ScrabSounds : u8
 {
     eHowl_0 = 0,

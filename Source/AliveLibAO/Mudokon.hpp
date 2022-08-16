@@ -100,6 +100,13 @@ struct Path_Mudokon final : public Path_TLV
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Mudokon, 0x28);
 
+struct Path_MudokonPathTrans final : public Path_TLV
+{
+    LevelIds level;
+    s16 path;
+    s32 camera;
+};
+
 struct Path_RingMudokon final : public Path_TLV
 {
     XDirection_short field_18_direction;

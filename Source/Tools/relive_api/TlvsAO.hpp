@@ -63,6 +63,10 @@
 #include "../../AliveLibAO/BackgroundGlukkon.hpp"
 #include "../../AliveLibAO/CreditsController.hpp"
 #include "../../AliveLibAO/DoorFlame.hpp"
+#include "../../AliveLibAO/MainMenu.hpp"
+#include "../../AliveLibAO/Honey.hpp"
+#include "../../AliveLibAO/SligSpawner.hpp"
+#include "../../AliveLibAO/HoneyDrip.hpp"
 
 #define CTOR_AO(className, objectTypeName, tlvEnumType)\
     className() : TlvObjectBaseAO(sizeof(AO::className), tlvEnumType, objectTypeName, &mTlv)\
@@ -90,163 +94,12 @@
 #define EMPTY_CTOR_AO() (void) globalTypes
 
 namespace AO {
-struct Path_HoneyDripTarget final : public Path_TLV
-{
-    // No fields
-};
-
-struct Path_Honey final : public Path_TLV
-{
-    s16 switch_id;
-    s16 state;
-    Scale_int scale;
-};
-
-struct Path_Bees final : public Path_TLV
-{
-    s16 switch_id;
-    s16 swarm_size;
-    s16 chase_time;
-    s16 speed;
-    s16 disable_resources;
-    s16 num_bees;
-};
-
-struct Path_ScrabNoFall final : public Path_TLV
-{
-    // No fields
-};
-
-struct Path_ScrabLeftBound final : public Path_TLV
-{
-    // No fields
-};
-
-struct Path_ScrabRightBound final : public Path_TLV
-{
-    // No fields
-};
-
-struct Path_ZSligCover final : public Path_TLV
-{
-    // No fields
-};
-
-struct Path_AbeStart final : public Path_TLV
-{
-    Scale_int scale;
-};
-
-struct Path_MudokonPathTrans final : public Path_TLV
-{
-    LevelIds level;
-    s16 path;
-    s32 camera;
-};
-
-struct Path_Pulley final : public Path_TLV
-{
-    Scale_int scale;
-};
 
 struct Path_Preloader final : public Path_TLV
 {
     s32 unload_cams_ASAP;
 };
 
-struct Path_SligSpawner final : public Path_TLV
-{
-    Scale_short field_18_scale;
-    Path_Slig::StartState field_1A_start_state;
-    s16 field_1C_pause_time;
-    s16 field_1E_pause_left_min;
-    s16 field_20_pause_left_max;
-    s16 field_22_pause_right_min;
-    s16 field_24_pause_right_max;
-    Path_Slig::ShootPossessedSligs field_26_shoot_possessed_sligs;
-    s16 field_28_shoot_on_sight_delay;
-    s16 field_2A_num_times_to_shoot;
-    s16 field_2C_unknown; // TODO: Part of above field, check me?
-    s16 field_2E_code1;
-    s16 field_30_code2;
-    Choice_short field_32_chase_abe;
-    XDirection_short field_34_start_direction;
-    s16 field_36_panic_timeout;
-    s16 field_38_num_panic_sounds;
-    s16 field_3A_panic_sound_timeout;
-    s16 field_3C_stop_chase_delay;
-    s16 field_3E_time_to_wait_before_chase;
-    s16 field_40_slig_bound_id;
-    s16 field_42_listen_time;
-    s16 field_44_percent_say_what;
-    s16 field_46_percent_beat_mud;
-    s16 field_48_talk_to_abe;
-    s16 field_4A_dont_shoot;
-    s16 field_4C_z_shoot_delay;
-    Choice_short field_4E_stay_awake;
-    s16 field_50_disable_resources;
-    s16 field_52_noise_wake_up_distance;
-    s32 field_54_slig_spawner_switch_id;
-};
-
-struct Path_ContinueZone final : public Path_TLV
-{
-    s32 field_10_zone_number;
-};
-
-struct Path_StartController final : public Path_TLV
-{
-    // No fields
-};
-
-struct Path_InvisibleZone final : public Path_TLV
-{
-    // No fields
-};
-
-struct Path_KillUnsavedMuds final : public Path_TLV
-{
-    // No fields
-};
-
-struct Path_MenuController final : public Path_TLV
-{
-    // No fields
-};
-
-struct Path_DeathDrop final : public Path_TLV
-{
-    s16 animation;
-    s16 sound;
-    s16 id;
-    s16 action;
-    s32 set_value;
-};
-
-struct Path_ElumStart final : public Path_TLV
-{
-    // No fields
-};
-
-struct Path_ElumWall final : public Path_TLV
-{
-    // No fields
-};
-
-struct Path_HandStone final : public Path_TLV
-{
-    Path_Handstone_data mData;
-};
-
-struct Path_BellsongStone final : public Path_TLV
-{
-    Path_BellsongStone_data mData;
-};
-
-struct Path_MovieStone final : public Path_TLV
-{
-    Path_Moviestone_data mData;
-};
 } // namespace AO
 
 namespace AOTlvs {

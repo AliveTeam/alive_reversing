@@ -88,6 +88,15 @@ struct Path_ElumPathTrans final : public Path_TLV
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_ElumPathTrans, 0x20);
 
+struct Path_ElumStart final : public Path_TLV
+{
+    // No fields
+};
+
+struct Path_ElumWall final : public Path_TLV
+{
+    // No fields
+};
 
 class Elum final : public BaseAliveGameObject
 {

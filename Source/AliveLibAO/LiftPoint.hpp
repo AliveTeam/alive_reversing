@@ -18,6 +18,11 @@ enum class LiftPointStopType : s16
     eStartPointOnly_4 = 4,
 };
 
+struct Path_Pulley final : public Path_TLV
+{
+    Scale_int scale;
+};
+
 struct Path_LiftPoint final : public Path_TLV
 {
     s16 field_18_lift_point_id;

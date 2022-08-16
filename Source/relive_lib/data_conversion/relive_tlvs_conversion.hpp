@@ -65,14 +65,18 @@
 namespace relive {
     inline void BaseConvert(relive::Path_TLV& r, const AO::Path_TLV& base)
     {
-        // TODO: Actually convert
-        r.mWidth = base.mTopLeft.x;
+        r.mWidth = base.mBottomRight.x - base.mTopLeft.x;
+        r.mHeight = base.mBottomRight.y - base.mTopLeft.y;
+        r.mX = base.mTopLeft.x;
+        r.mY = base.mTopLeft.y;
     }
 
     inline void BaseConvert(relive::Path_TLV& r, const ::Path_TLV& base)
     {
-        // TODO: Actually convert
-        r.mWidth = base.mTopLeft.x;
+        r.mWidth = base.mBottomRight.x - base.mTopLeft.x;
+        r.mHeight = base.mBottomRight.y - base.mTopLeft.y;
+        r.mX = base.mTopLeft.x;
+        r.mY = base.mTopLeft.y;
     }
 
 
