@@ -1073,6 +1073,66 @@ void from_json(const nlohmann::json& j, Path_BellHammer& p)
     j.at("direction").get_to(p.mDirection);
 }
 
+// Path_SligBound
+void to_json(nlohmann::json& j, const Path_SligBound& p)
+{
+    j = nlohmann::json{
+        {"base", ToBase(p)},
+        {"slig_bound_id", p.field_10_slig_bound_id},
+        {"disabled_resources", p.field_12_disabled_resources},
+    };
+}
+
+void from_json(const nlohmann::json& j, Path_SligBound& p)
+{
+    j.at("base").get_to(ToBase(p));
+    j.at("slig_bound_id").get_to(p.field_10_slig_bound_id);
+    j.at("disabled_resources").get_to(p.field_12_disabled_resources);
+}
+
+// Path_BackgroundAnimation
+NLOHMANN_JSON_SERIALIZE_ENUM(Path_BackgroundAnimation::TPageAbr, {
+    {Path_BackgroundAnimation::TPageAbr::eBlend_0, "blend_0"},
+    {Path_BackgroundAnimation::TPageAbr::eBlend_1, "blend_1"},
+    {Path_BackgroundAnimation::TPageAbr::eBlend_2, "blend_2"},
+    {Path_BackgroundAnimation::TPageAbr::eBlend_3, "blend_3"},
+})
+
+NLOHMANN_JSON_SERIALIZE_ENUM(Path_BackgroundAnimation::BgAnimSounds, {
+    {Path_BackgroundAnimation::BgAnimSounds::eNone_m1, "none_m1"},
+    {Path_BackgroundAnimation::BgAnimSounds::eNone_0, "none_0"},
+    {Path_BackgroundAnimation::BgAnimSounds::eFire, "fire"},
+    {Path_BackgroundAnimation::BgAnimSounds::eFireIdx, "fire_idx"},
+})
+
+NLOHMANN_JSON_SERIALIZE_ENUM(Path_BackgroundAnimation::Layer, {
+    {Path_BackgroundAnimation::Layer::eLayer0, "layer_0"},
+})
+
+void to_json(nlohmann::json& j, const Path_BackgroundAnimation& p)
+{
+    j = nlohmann::json{
+        {"base", ToBase(p)},
+        {"anim_id", p.field_10_anim_id},
+        {"is_semi_trans", p.field_12_is_semi_trans},
+        {"semi_trans_mode", p.field_14_semi_trans_mode},
+        {"sound_effect", p.field_16_sound_effect},
+        {"layer", p.field_1A_layer},
+    };
+}
+
+void from_json(const nlohmann::json& j, Path_BackgroundAnimation& p)
+{
+    j.at("base").get_to(ToBase(p));
+    j.at("anim_id").get_to(p.field_10_anim_id);
+    j.at("is_semi_trans").get_to(p.field_12_is_semi_trans);
+    j.at("semi_trans_mode").get_to(p.field_14_semi_trans_mode);
+    j.at("sound_effect").get_to(p.field_16_sound_effect);
+    j.at("layer").get_to(p.field_1A_layer);
+}
+
+
+
 
 
 // Path_MenuController

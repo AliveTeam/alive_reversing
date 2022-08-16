@@ -217,6 +217,8 @@ static void ConvertTLV(const AO::Path_TLV& tlv)
             j.push_back({ "pull_ring_rope", relive::Path_PullRingRope_Converter::From(static_cast<const AO::Path_PullRingRope&>(tlv)) });
             break;
         case AO::TlvTypes::BackgroundAnimation_19:
+            j.push_back({ "background_animation", relive::Path_BackgroundAnimation_Converter::From(static_cast<const AO::Path_BackgroundAnimation&>(tlv)) });
+            break;
         case AO::TlvTypes::Honey_20:
         case AO::TlvTypes::TimedMine_22:
             j.push_back({ "timed_mine", relive::Path_TimedMine_Converter::From(static_cast<const AO::Path_TimedMine&>(tlv)) });
@@ -275,6 +277,8 @@ static void ConvertTLV(const AO::Path_TLV& tlv)
             j.push_back({ "rolling_ball", relive::Path_RollingBall_Converter::From(static_cast<const AO::Path_RollingBall&>(tlv)) });
             break;
         case AO::TlvTypes::eSligBoundLeft_57:
+            j.push_back({ "slig_bound_left", relive::Path_SligBound_Converter::From(static_cast<const AO::Path_SligBound&>(tlv)) });
+            break;
         case AO::TlvTypes::InvisibleZone_58: // no props
         case AO::TlvTypes::RollingBallStopper_59:
             j.push_back({ "rolling_ball_stopper", relive::Path_RollingBallStopper_Converter::From(static_cast<const AO::Path_RollingBallStopper&>(tlv)) });
@@ -300,7 +304,11 @@ static void ConvertTLV(const AO::Path_TLV& tlv)
         case AO::TlvTypes::ScrabLeftBound_74:
         case AO::TlvTypes::ScrabRightBound_75:
         case AO::TlvTypes::eSligBoundRight_76:
+            j.push_back({ "slig_bound_right", relive::Path_SligBound_Converter::From(static_cast<const AO::Path_SligBound&>(tlv)) });
+            break;
         case AO::TlvTypes::eSligPersist_77:
+            j.push_back({ "slig_persist", relive::Path_SligBound_Converter::From(static_cast<const AO::Path_SligBound&>(tlv)) });
+            break;
         case AO::TlvTypes::EnemyStopper_79:
         case AO::TlvTypes::InvisibleSwitch_81:
             j.push_back({ "invisible_switch", relive::Path_InvisibleSwitch_Converter::From(static_cast<const AO::Path_InvisibleSwitch&>(tlv)) });

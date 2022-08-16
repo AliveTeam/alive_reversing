@@ -55,6 +55,10 @@
 #include "../AliveLibAE/MotionDetector.hpp"
 #include "../AliveLibAO/MotionDetector.hpp"
 #include "../AliveLibAO/BellHammer.hpp"
+#include "../AliveLibAO/Slig.hpp"
+#include "../AliveLibAE/Slig.hpp"
+#include "../AliveLibAO/BackgroundAnimation.hpp"
+#include "../AliveLibAE/BackgroundAnimation.hpp"
 
 // Convert an AO or AE TLV to a relive TLV
 
@@ -1699,7 +1703,96 @@ public:
     }
 };
 
+class Path_SligBound_Converter final
+{
+public:
+    static Path_SligBound From(const AO::Path_SligBound& tlv)
+    {
+        Path_SligBound r;
+        BaseConvert(r, tlv);
+        r.field_10_slig_bound_id = tlv.field_18_slig_id;
+        r.field_12_disabled_resources = tlv.field_1A_disabled_resources.Raw().all;
+        return r;
+    }
 
+    static Path_SligBound From(const ::Path_SligBound& tlv)
+    {
+        Path_SligBound r;
+        BaseConvert(r, tlv);
+        r.field_10_slig_bound_id = tlv.field_10_slig_bound_id;
+        r.field_12_disabled_resources = tlv.field_12_disabled_resources;
+        return r;
+    }
+};
+
+class Path_BackgroundAnimation_Converter final
+{
+public:
+    static Path_BackgroundAnimation From(const AO::Path_BackgroundAnimation& tlv)
+    {
+        Path_BackgroundAnimation r;
+        BaseConvert(r, tlv);
+        r.field_10_anim_id = tlv.field_18_animation_id;
+        r.field_12_is_semi_trans = relive::From(tlv.field_1A_is_semi_trans);
+        r.field_14_semi_trans_mode = From(tlv.field_1C_semi_trans_mode);
+        r.field_16_sound_effect = From(tlv.field_1E_sound_effect);
+        return r;
+    }
+
+    static Path_BackgroundAnimation From(const ::Path_BackgroundAnimation& tlv)
+    {
+        Path_BackgroundAnimation r;
+        BaseConvert(r, tlv);
+        r.field_10_anim_id = tlv.field_10_anim_id;
+        r.field_12_is_semi_trans = relive::From(tlv.field_12_is_semi_trans);
+        r.field_14_semi_trans_mode = From(tlv.field_14_semi_trans_mode);
+        r.field_1A_layer = From(tlv.field_1A_layer);
+        return r;
+    }
+
+private:
+    static Path_BackgroundAnimation::TPageAbr From(TPageAbr mode)
+    {
+        switch (mode)
+        {
+            case TPageAbr::eBlend_0:
+                return Path_BackgroundAnimation::TPageAbr::eBlend_0;
+            case TPageAbr::eBlend_1:
+                return Path_BackgroundAnimation::TPageAbr::eBlend_1;
+            case TPageAbr::eBlend_2:
+                return Path_BackgroundAnimation::TPageAbr::eBlend_2;
+            case TPageAbr::eBlend_3:
+                return Path_BackgroundAnimation::TPageAbr::eBlend_3;
+        }
+        ALIVE_FATAL("Bad TPageAbr");
+    }
+
+    static Path_BackgroundAnimation::Layer From(Layer layer)
+    {
+        switch (layer)
+        {
+            case Layer::eLayer_0:
+                return Path_BackgroundAnimation::Layer::eLayer0;
+        }
+        ALIVE_FATAL("Bad TPageAbr");
+    }
+
+    static Path_BackgroundAnimation::BgAnimSounds From(AO::BgAnimSounds sound)
+    {
+        switch (sound)
+        {
+            case AO::BgAnimSounds::eNone_m1:
+                return Path_BackgroundAnimation::BgAnimSounds::eNone_m1;
+            case AO::BgAnimSounds::eNone_0:
+                return Path_BackgroundAnimation::BgAnimSounds::eNone_0;
+            case AO::BgAnimSounds::eFire_1:
+                return Path_BackgroundAnimation::BgAnimSounds::eFire;
+            case AO::BgAnimSounds::eFireIdx_40:
+                return Path_BackgroundAnimation::BgAnimSounds::eFireIdx;
+        }
+        ALIVE_FATAL("Bad bg anim sound");
+    }
+};
 
 // TODO: Need to be able to actually get to Path_MenuController and AO::Path_MenuController
 // and then call From in the TLV conversion switch case

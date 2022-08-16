@@ -557,6 +557,47 @@ struct Path_BellHammer final : public Path_TLV
     reliveXDirection mDirection;
 };
 
+struct Path_SligBound final : public Path_TLV
+{
+    s16 field_10_slig_bound_id;
+    s16 field_12_disabled_resources;
+};
+
+struct Path_BackgroundAnimation final : public Path_TLV
+{
+    u16 field_10_anim_id;
+    reliveChoice field_12_is_semi_trans;
+    enum class TPageAbr : s8
+    {
+        eBlend_0 = 0,
+        eBlend_1 = 1,
+        eBlend_2 = 2,
+        eBlend_3 = 3,
+    };
+
+    enum class BgAnimSounds : s16
+    {
+        eNone_m1 = -1,
+        eNone_0 = 0,
+        eFire,
+        eFireIdx,
+    };
+
+    TPageAbr field_14_semi_trans_mode;
+
+    // AO only
+    BgAnimSounds field_16_sound_effect;
+
+    // AE only
+    enum class Layer : s16
+    {
+        eLayer0,
+    };
+    Layer field_1A_layer;
+};
+
+
+
 //struct Path_HandStone final : public Path_TLV
 //{
 //    reliveScale field_10_scale;

@@ -73,7 +73,7 @@ struct Path_Slig final : public Path_TLV
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Slig, 0x58);
 
-#define SLIG_MOTIONS_ENUM(ENTRY)              \
+#define SLIG_MOTIONS_ENUM_AO(ENTRY)              \
     ENTRY(Motion_0_StandIdle_467640)          \
     ENTRY(Motion_1_StandToWalk_4695D0)        \
     ENTRY(Motion_2_Walking_469130)            \
@@ -131,7 +131,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Slig, 0x58);
 #define MAKE_ENUM(VAR) VAR,
 enum eSligMotions : s32
 {
-    SLIG_MOTIONS_ENUM(MAKE_ENUM)
+    SLIG_MOTIONS_ENUM_AO(MAKE_ENUM)
 };
 
 struct SligResources final

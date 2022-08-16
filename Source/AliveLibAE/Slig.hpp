@@ -5,7 +5,7 @@
 #include "Path.hpp"
 #include "../relive_lib/MapWrapper.hpp"
 
-#define SLIG_MOTIONS_ENUM(ENTRY)         \
+#define SLIG_MOTIONS_ENUM_AE(ENTRY)         \
     ENTRY(M_StandIdle_0_4B4EC0)          \
     ENTRY(M_StandToWalk_1_4B5F70)        \
     ENTRY(M_Walking_2_4B5BC0)            \
@@ -62,7 +62,7 @@
 #define MAKE_ENUM(VAR) VAR,
 enum eSligMotions : s32
 {
-    SLIG_MOTIONS_ENUM(MAKE_ENUM)
+    SLIG_MOTIONS_ENUM_AE(MAKE_ENUM)
 };
 
 enum class SligSfx : s16
