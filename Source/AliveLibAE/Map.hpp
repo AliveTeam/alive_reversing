@@ -58,8 +58,7 @@ enum class CameraPos : s16
     eCamNone_5 = 5, // Not "in" the camera
 };
 
-// TODO: Never used in AE path data?
-struct Path_Change final : public Path_TLV
+struct Path_PathTransition final : public Path_TLV
 {
     LevelIds field_10_level;
     s16 field_12_path;
@@ -68,7 +67,7 @@ struct Path_Change final : public Path_TLV
     s16 field_18_wipe;
     Scale_short field_1A_scale;
 };
-ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Change, 0x1C);
+ALIVE_ASSERT_SIZEOF_ALWAYS(Path_PathTransition, 0x1C);
 
 enum class LoadMode : s16;
 

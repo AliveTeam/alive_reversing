@@ -745,6 +745,39 @@ struct Path_HandStone final : public Path_TLV
     s16 mPath3;
 };
 
+struct Path_PathTransition final : public Path_TLV
+{
+    EReliveLevelIds field_10_level;
+    s16 field_12_path;
+    s16 field_14_camera;
+    s16 field_16_movie;
+    s16 field_18_wipe;
+    reliveScale field_1A_scale;
+};
 
+struct Path_Pulley final : public Path_TLV
+{
+    // No fields
+};
+
+struct Path_Honey final : public Path_TLV
+{
+    // No fields
+};
+
+struct Path_BeeSwarmHole final : public Path_TLV
+{
+    enum class MovementType : s16
+    {
+        eHover,
+        eAttack,
+        eFollowPath,
+    };
+    s16 mStartInterval;
+    MovementType mMovementType;
+    s16 mBeesAmount;
+    s16 mChaseTime;
+    s16 mSpeed;
+};
 
 } // namespace relive

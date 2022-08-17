@@ -72,6 +72,8 @@
 #include "../AliveLibAO/CreditsController.hpp"
 #include "../AliveLibAE/Meat.hpp"
 #include "../AliveLibAO/Meat.hpp"
+#include "../AliveLibAO/Honey.hpp"
+#include "../AliveLibAO/BeeSwarmHole.hpp"
 
 // Convert an AO or AE TLV to a relive TLV
 
@@ -2197,6 +2199,95 @@ public:
         return r;
     }
 
+};
+
+class Path_PathTransition_Converter final
+{
+public:
+    static Path_PathTransition From(const AO::Path_PathTransition& tlv)
+    {
+        Path_PathTransition r;
+        BaseConvert(r, tlv);
+        r.field_10_level = MapWrapper::FromAO(tlv.field_18_level);
+        r.field_12_path = tlv.field_1A_path;
+        r.field_14_camera = tlv.field_1C_camera;
+        r.field_16_movie = tlv.field_1E_movie;
+        r.field_18_wipe = tlv.field_20_wipe;
+        r.field_1A_scale = relive::From(tlv.field_22_next_path_scale);
+        return r;
+    }
+
+    static Path_PathTransition From(const ::Path_PathTransition& tlv)
+    {
+        Path_PathTransition r;
+        BaseConvert(r, tlv);
+        r.field_10_level = MapWrapper::FromAE(tlv.field_10_level);
+        r.field_12_path = tlv.field_12_path;
+        r.field_14_camera = tlv.field_14_camera;
+        r.field_16_movie = tlv.field_16_movie;
+        r.field_18_wipe = tlv.field_18_wipe;
+        r.field_1A_scale = relive::From(tlv.field_1A_scale);
+        return r;
+    }
+};
+
+class Path_Pulley_Converter final
+{
+public:
+    static Path_Pulley From(const AO::Path_Pulley& tlv)
+    {
+        Path_Pulley r;
+        BaseConvert(r, tlv);
+        return r;
+    }
+
+    static Path_Pulley From(const ::Path_Pulley& tlv)
+    {
+        Path_Pulley r;
+        BaseConvert(r, tlv);
+        return r;
+    }
+};
+
+class Path_Honey_Converter final
+{
+public:
+    static Path_Honey From(const AO::Path_Honey& tlv)
+    {
+        Path_Honey r;
+        BaseConvert(r, tlv);
+        return r;
+    }
+};
+
+class Path_BeeSwarmHole_Converter final
+{
+public:
+    static Path_BeeSwarmHole From(const AO::Path_BeeSwarmHole& tlv)
+    {
+        Path_BeeSwarmHole r;
+        BaseConvert(r, tlv);
+        r.mStartInterval = tlv.field_1A_interval;
+        r.mMovementType = From(tlv.field_1E_movement_type);
+        r.mBeesAmount = tlv.field_20_bees_amount;
+        r.mChaseTime = tlv.field_22_chase_time;
+        r.mSpeed = tlv.field_24_speed;
+        return r;
+    }
+private:
+    static Path_BeeSwarmHole::MovementType From(AO::Path_BeeSwarmHole::MovementType type)
+    {
+        switch (type)
+        {
+            case AO::Path_BeeSwarmHole::MovementType::eHover_0:
+                return Path_BeeSwarmHole::MovementType::eHover;
+            case AO::Path_BeeSwarmHole::MovementType::eAttack_1:
+                return Path_BeeSwarmHole::MovementType::eAttack;
+            case AO::Path_BeeSwarmHole::MovementType::eFollowPath_2:
+                return Path_BeeSwarmHole::MovementType::eFollowPath;
+        }
+        ALIVE_FATAL("Bad bee swarm hole movement type");
+    }
 };
 
 } // namespace relive

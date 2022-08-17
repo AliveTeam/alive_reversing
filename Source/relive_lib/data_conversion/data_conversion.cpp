@@ -183,8 +183,8 @@ static void ConvertTLV(const AO::Path_TLV& tlv)
             j.push_back({ "continue_point", relive::Path_ContinuePoint_Converter::From(static_cast<const AO::Path_ContinuePoint&>(tlv)) });
             break;
         case AO::TlvTypes::PathTransition_1:
-            LOG_WARNING("tlv of type " << static_cast<s16>(tlv.mTlvType32.mType) << " not implemented");
-            return;
+            j.push_back({ "path_transition", relive::Path_PathTransition_Converter::From(static_cast<const AO::Path_PathTransition&>(tlv)) });
+            break;
         case AO::TlvTypes::ContinueZone_2: // dead tlv
             return;
         case AO::TlvTypes::Hoist_3:
@@ -227,8 +227,8 @@ static void ConvertTLV(const AO::Path_TLV& tlv)
             j.push_back({ "background_animation", relive::Path_BackgroundAnimation_Converter::From(static_cast<const AO::Path_BackgroundAnimation&>(tlv)) });
             break;
         case AO::TlvTypes::Honey_20:
-            LOG_WARNING("tlv of type " << static_cast<s16>(tlv.mTlvType32.mType) << " not implemented");
-            return;
+            j.push_back({ "honey", relive::Path_Honey_Converter::From(static_cast<const AO::Path_Honey&>(tlv)) });
+            break;
         case AO::TlvTypes::TimedMine_22:
             j.push_back({ "timed_mine", relive::Path_TimedMine_Converter::From(static_cast<const AO::Path_TimedMine&>(tlv)) });
             break;
@@ -254,11 +254,11 @@ static void ConvertTLV(const AO::Path_TLV& tlv)
             LOG_WARNING("tlv of type " << static_cast<s16>(tlv.mTlvType32.mType) << " not implemented");
             return;
         case AO::TlvTypes::BeeSwarmHole_34:
-            LOG_WARNING("tlv of type " << static_cast<s16>(tlv.mTlvType32.mType) << " not implemented");
-            return;
-        case AO::TlvTypes::Pulley_35: // no props
-            LOG_WARNING("tlv of type " << static_cast<s16>(tlv.mTlvType32.mType) << " not implemented");
-            return;
+            j.push_back({ "bee_swarm_hole", relive::Path_BeeSwarmHole_Converter::From(static_cast<const AO::Path_BeeSwarmHole&>(tlv)) });
+            break;
+        case AO::TlvTypes::Pulley_35:
+            j.push_back({ "pulley", relive::Path_Pulley_Converter::From(static_cast<const AO::Path_Pulley&>(tlv)) });
+            break;
         case AO::TlvTypes::HoneySack_36:
             j.push_back({ "honey_sack", relive::Path_HoneySack_Converter::From(static_cast<const AO::Path_HoneySack&>(tlv)) });
             break;

@@ -348,10 +348,10 @@ void Map::RemoveObjectsWithPurpleLight(s16 bMakeInvisible)
 
 void Map::Handle_PathTransition()
 {
-    Path_Change* pPathChangeTLV = nullptr;
+    Path_PathTransition* pPathChangeTLV = nullptr;
     if (mAliveObj)
     {
-        pPathChangeTLV = static_cast<Path_Change*>(sPathInfo->TLV_Get_At_4DB4B0(
+        pPathChangeTLV = static_cast<Path_PathTransition*>(sPathInfo->TLV_Get_At_4DB4B0(
             FP_GetExponent(mAliveObj->mXPos),
             FP_GetExponent(mAliveObj->mYPos),
             FP_GetExponent(mAliveObj->mXPos),
@@ -1310,11 +1310,11 @@ void Map::LoadResourcesFromList(const char_type* pFileName, ResourceManager::Res
 
 s16 Map::SetActiveCameraDelayed(MapDirections direction, BaseAliveGameObject* pObj, s16 swapEffect)
 {
-    Path_Change* pPathChangeTLV = nullptr;
+    Path_PathTransition* pPathChangeTLV = nullptr;
     CameraSwapEffects convertedSwapEffect = CameraSwapEffects::eInstantChange_0;
     if (pObj)
     {
-        pPathChangeTLV = reinterpret_cast<Path_Change*>(sPathInfo->TLV_Get_At_4DB4B0(
+        pPathChangeTLV = reinterpret_cast<Path_PathTransition*>(sPathInfo->TLV_Get_At_4DB4B0(
             FP_GetExponent(pObj->mXPos),
             FP_GetExponent(pObj->mYPos),
             FP_GetExponent(pObj->mXPos),

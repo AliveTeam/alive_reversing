@@ -1497,5 +1497,85 @@ void from_json(const nlohmann::json& j, Path_HandStone& p)
     j.at("path_3").get_to(p.mPath3);
 }
 
+// Path_PathTransition
+void to_json(nlohmann::json& j, const Path_PathTransition& p)
+{
+    j = nlohmann::json{
+        {"base", ToBase(p)},
+        {"level", p.field_10_level},
+        {"path", p.field_12_path},
+        {"camera", p.field_14_camera},
+        {"movie", p.field_16_movie},
+        {"wipe", p.field_18_wipe},
+        {"scale", p.field_1A_scale},
+    };
+}
+
+void from_json(const nlohmann::json& j, Path_PathTransition& p)
+{
+    j.at("base").get_to(ToBase(p));
+    j.at("level").get_to(p.field_10_level);
+    j.at("path").get_to(p.field_12_path);
+    j.at("camera").get_to(p.field_14_camera);
+    j.at("movie").get_to(p.field_16_movie);
+    j.at("wipe").get_to(p.field_18_wipe);
+    j.at("scale").get_to(p.field_1A_scale);
+}
+
+// Path_Pulley
+void to_json(nlohmann::json& j, const Path_Pulley& p)
+{
+    j = nlohmann::json{
+        {"base", ToBase(p)},
+    };
+}
+
+void from_json(const nlohmann::json& j, Path_Pulley& p)
+{
+    j.at("base").get_to(ToBase(p));
+}
+
+// Path_Honey
+void to_json(nlohmann::json& j, const Path_Honey& p)
+{
+    j = nlohmann::json{
+        {"base", ToBase(p)},
+    };
+}
+
+void from_json(const nlohmann::json& j, Path_Honey& p)
+{
+    j.at("base").get_to(ToBase(p));
+}
+
+// Path_BeeSwarmHole
+NLOHMANN_JSON_SERIALIZE_ENUM(Path_BeeSwarmHole::MovementType, {
+    {Path_BeeSwarmHole::MovementType::eHover, "hover"},
+    {Path_BeeSwarmHole::MovementType::eAttack, "attack"},
+    {Path_BeeSwarmHole::MovementType::eFollowPath, "follow_path"},
+})
+
+void to_json(nlohmann::json& j, const Path_BeeSwarmHole& p)
+{
+    j = nlohmann::json{
+        {"base", ToBase(p)},
+        {"start_interval", p.mStartInterval},
+        {"movement_type", p.mMovementType},
+        {"bees_amount", p.mBeesAmount},
+        {"chase_time", p.mChaseTime},
+        {"speed", p.mSpeed},
+    };
+}
+
+void from_json(const nlohmann::json& j, Path_BeeSwarmHole& p)
+{
+    j.at("base").get_to(ToBase(p));
+    j.at("start_interval").get_to(p.mStartInterval);
+    j.at("movement_type").get_to(p.mMovementType);
+    j.at("bees_amount").get_to(p.mBeesAmount);
+    j.at("chase_time").get_to(p.mChaseTime);
+    j.at("speed").get_to(p.mSpeed);
+}
+
 } // namespace relive
 

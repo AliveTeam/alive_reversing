@@ -1267,12 +1267,12 @@ struct Path_PathTransition final : public ReliveAPI::TlvObjectBaseAE
 {
     CTOR_AE(Path_PathTransition, "PathTransition", TlvTypes::PathTransition_1)
     {
-        ADD("Level", mTlv.level);
-        ADD("Path", mTlv.path);
-        ADD("Camera", mTlv.camera);
-        ADD("Movie", mTlv.movie);
-        ADD("Wipe", mTlv.wipe);
-        ADD("Scale", mTlv.scale);
+        ADD("Level", mTlv.field_10_level);
+        ADD("Path", mTlv.field_12_path);
+        ADD("Camera", mTlv.field_14_camera);
+        ADD("Movie", mTlv.field_16_movie);
+        ADD("Wipe", mTlv.field_18_wipe);
+        ADD("Scale", mTlv.field_1A_scale);
     }
 };
 

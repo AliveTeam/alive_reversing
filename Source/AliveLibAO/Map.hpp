@@ -94,7 +94,7 @@ struct Path_EnemyStopper final : public Path_TLV
     s16 field_1A_switch_id;
 };
 
-struct Path_Change final : public Path_TLV
+struct Path_PathTransition final : public Path_TLV
 {
     LevelIds field_18_level;
     s16 field_1A_path;
@@ -103,7 +103,7 @@ struct Path_Change final : public Path_TLV
     u16 field_20_wipe;
     Scale_short field_22_next_path_scale;
 };
-ALIVE_ASSERT_SIZEOF(Path_Change, 0x24);
+ALIVE_ASSERT_SIZEOF_ALWAYS(Path_PathTransition, 0x24);
 
 enum class CameraPos : s16
 {

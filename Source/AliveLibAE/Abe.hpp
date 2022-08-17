@@ -175,16 +175,7 @@ struct Path_MovieHandstone final : public Path_TLV
     s16 movie_number;
     s16 trigger_switch_id;
 };
-
-struct Path_PathTransition final : public Path_TLV
-{
-    s16 level;
-    s16 path;
-    s16 camera;
-    s16 movie;
-    s16 wipe;
-    Scale_short scale;
-};
+// TODO: size
 
 struct Path_DeathDrop final : public Path_TLV
 {
@@ -195,6 +186,7 @@ struct Path_DeathDrop final : public Path_TLV
     s16 field_18_unknown1;
     s16 field_1A_unknown2;
 };
+// TODO: size
 
 struct Path_InvisibleZone final : public Path_TLV
 {
@@ -212,7 +204,7 @@ struct Path_ContinuePoint final : public Path_TLV
     Scale field_10_scale;
     s16 field_12_save_file_id;
 };
-
+// TODO: size
 
 struct Path_ResetSwitchRange final : public Path_TLV
 {

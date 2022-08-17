@@ -25,7 +25,7 @@ struct Path_BeeSwarmHole final : public Path_TLV
     s16 field_24_speed;
     Scale_short field_26_scale;
 };
-ALIVE_ASSERT_SIZEOF(Path_BeeSwarmHole, 0x28);
+ALIVE_ASSERT_SIZEOF_ALWAYS(Path_BeeSwarmHole, 0x28);
 
 class BeeSwarmHole final : public BaseGameObject
 {

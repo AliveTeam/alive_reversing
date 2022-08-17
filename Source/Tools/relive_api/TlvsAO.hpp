@@ -341,14 +341,14 @@ struct Path_Hoist final : public ReliveAPI::TlvObjectBaseAO
     }
 };
 
-struct Path_Change final : public ReliveAPI::TlvObjectBaseAO
+struct Path_PathTransition final : public ReliveAPI::TlvObjectBaseAO
 {
-    CTOR_AO(Path_Change, "PathTransition", AO::TlvTypes::PathTransition_1)
+    CTOR_AO(Path_PathTransition, "PathTransition", AO::TlvTypes::PathTransition_1)
     {
         ADD("Level", mTlv.field_18_level);
         ADD("Path", mTlv.field_1A_path);
         ADD("Camera", mTlv.field_1C_camera);
-        ADD("Movie", mTlv.field_1E_movie); // TODO: Enum
+        ADD("Movie", mTlv.field_1E_movie);
         ADD("Wipe", mTlv.field_20_wipe);   // TODO: Enum
         ADD("Next Path Scale", mTlv.field_22_next_path_scale);
     }

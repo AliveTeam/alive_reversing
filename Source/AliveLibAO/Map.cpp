@@ -424,10 +424,10 @@ s16 Map::SetActiveCam(EReliveLevelIds level, s16 path, s16 cam, CameraSwapEffect
 
 void Map::Handle_PathTransition()
 {
-    Path_Change* pTlv = nullptr;
+    Path_PathTransition* pTlv = nullptr;
     if (field_18_pAliveObj)
     {
-        pTlv = static_cast<Path_Change*>(TLV_Get_At_446260(
+        pTlv = static_cast<Path_PathTransition*>(TLV_Get_At_446260(
             FP_GetExponent(field_18_pAliveObj->mXPos),
             FP_GetExponent(field_18_pAliveObj->mYPos),
             FP_GetExponent(field_18_pAliveObj->mXPos),
@@ -1017,11 +1017,11 @@ Camera* Map::GetCamera(CameraPos pos)
 
 s16 Map::SetActiveCameraDelayed(MapDirections direction, BaseAliveGameObject* pObj, s16 swapEffect)
 {
-    Path_Change* pPathChangeTLV = nullptr;
+    Path_PathTransition* pPathChangeTLV = nullptr;
     CameraSwapEffects convertedSwapEffect = CameraSwapEffects::eInstantChange_0;
     if (pObj)
     {
-        pPathChangeTLV = static_cast<Path_Change*>(TLV_Get_At_446260(
+        pPathChangeTLV = static_cast<Path_PathTransition*>(TLV_Get_At_446260(
             FP_GetExponent(pObj->mXPos),
             FP_GetExponent(pObj->mYPos),
             FP_GetExponent(pObj->mXPos),

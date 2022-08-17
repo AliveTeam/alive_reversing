@@ -14,6 +14,7 @@ struct Path_Honey final : public Path_TLV
     s16 state;
     Scale_int scale;
 };
+// TODO: size
 
 class Honey final : public BaseAnimatedWithPhysicsGameObject
 {

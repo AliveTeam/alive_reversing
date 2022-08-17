@@ -786,7 +786,7 @@ void BaseAliveGameObject::OnResourceLoaded_4019A0(BaseAliveGameObject* ppRes)
 
 void BaseAliveGameObject::UsePathTransScale_4020D0()
 {
-    auto pPathTrans = static_cast<Path_Change*>(gMap.TLV_Get_At_446260(
+    auto pPathTrans = static_cast<Path_PathTransition*>(gMap.TLV_Get_At_446260(
         FP_GetExponent(mXPos),
         FP_GetExponent(mYPos),
         FP_GetExponent(mXPos),
