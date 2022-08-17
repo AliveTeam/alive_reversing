@@ -1745,5 +1745,153 @@ void from_json(const nlohmann::json& j, Path_DoorFlame& p)
     j.at("colour").get_to(p.mColour);
 }
 
+// Path_Mudokon
+NLOHMANN_JSON_SERIALIZE_ENUM(Path_Mudokon::MudJobs, {
+    {Path_Mudokon::MudJobs::eChisle, "chisle"},
+    {Path_Mudokon::MudJobs::eSitScrub, "sit_scrub"},
+    {Path_Mudokon::MudJobs::eAngryWorker, "angry_worker"},
+    {Path_Mudokon::MudJobs::eDamageRingGiver, "damage_ring_giver"},
+    {Path_Mudokon::MudJobs::eHealthRingGiver, "health_ring_giver"},
+    {Path_Mudokon::MudJobs::eStandScrub, "stand_scrub"},
+    {Path_Mudokon::MudJobs::eSitChant, "sit_chant"},
+})
+
+NLOHMANN_JSON_SERIALIZE_ENUM(Path_Mudokon::Mud_TLV_Emotion, {
+    {Path_Mudokon::Mud_TLV_Emotion::eNormal, "normal"},
+    {Path_Mudokon::Mud_TLV_Emotion::eAngry, "angry"},
+    {Path_Mudokon::Mud_TLV_Emotion::eSad, "sad"},
+    {Path_Mudokon::Mud_TLV_Emotion::eWired, "wired"},
+    {Path_Mudokon::Mud_TLV_Emotion::eSick, "sick"},
+})
+
+void to_json(nlohmann::json& j, const Path_Mudokon& p)
+{
+    j = nlohmann::json{
+        {"base", ToBase(p)},
+        {"scale", p.field_10_scale},
+        {"job", p.field_12_job},
+        {"direction", p.field_14_direction},
+        {"voice_pitch", p.field_16_voice_pitch},
+        {"rescue_switch_id", p.field_18_rescue_switch_id},
+        {"deaf", p.field_1A_bDeaf},
+        {"disabled_resources", p.field_1C_disabled_resources},
+        {"persist_and_reset_offscreen", p.field_1E_persist_and_reset_offscreen},
+        {"emotion", p.field_20_emotion},
+        {"blind", p.field_22_bBlind},
+        {"angry_switch_id", p.field_24_angry_switch_id},
+        {"work_after_turning_wheel", p.field_26_work_after_turning_wheel},
+        {"gets_depressed", p.field_28_bGets_depressed},
+        {"ring_pulse_interval", p.field_2A_ring_pulse_interval},
+        {"give_ring_without_password", p.field_2C_bGive_ring_without_password},
+    };
+}
+
+void from_json(const nlohmann::json& j, Path_Mudokon& p)
+{
+    j.at("base").get_to(ToBase(p));
+    j.at("scale").get_to(p.field_10_scale);
+    j.at("job").get_to(p.field_12_job);
+    j.at("direction").get_to(p.field_14_direction);
+    j.at("voice_pitch").get_to(p.field_16_voice_pitch);
+    j.at("rescue_switch_id").get_to(p.field_18_rescue_switch_id);
+    j.at("deaf").get_to(p.field_1A_bDeaf);
+    j.at("disabled_resources").get_to(p.field_1C_disabled_resources);
+    j.at("persist_and_reset_offscreen").get_to(p.field_1E_persist_and_reset_offscreen);
+    j.at("emotion").get_to(p.field_20_emotion);
+    j.at("blind").get_to(p.field_22_bBlind);
+    j.at("angry_switch_id").get_to(p.field_24_angry_switch_id);
+    j.at("work_after_turning_wheel").get_to(p.field_26_work_after_turning_wheel);
+    j.at("gets_depressed").get_to(p.field_28_bGets_depressed);
+    j.at("ring_pulse_interval").get_to(p.field_2A_ring_pulse_interval);
+    j.at("give_ring_without_password").get_to(p.field_2C_bGive_ring_without_password);
+
+}
+
+// Path_MovingBomb
+void to_json(nlohmann::json& j, const Path_MovingBomb& p)
+{
+    j = nlohmann::json{
+        {"base", ToBase(p)},
+        {"speed", p.mSpeed},
+        {"start_moving_switch_id", p.mStartMovingSwitchId},
+        {"triggered_by_alarm", p.mTriggeredByAlarm},
+        {"scale", p.mScale},
+        {"disabled_resources", p.mDisabledResources},
+        {"start_speed", p.mStartSpeed},
+        {"persist_offscreen", p.mPersistOffscreen},
+    };
+}
+
+void from_json(const nlohmann::json& j, Path_MovingBomb& p)
+{
+    j.at("base").get_to(ToBase(p));
+    j.at("speed").get_to(p.mSpeed);
+    j.at("start_moving_switch_id").get_to(p.mStartMovingSwitchId);
+    j.at("triggered_by_alarm").get_to(p.mTriggeredByAlarm);
+    j.at("scale").get_to(p.mScale);
+    j.at("disabled_resources").get_to(p.mDisabledResources);
+    j.at("start_speed").get_to(p.mStartSpeed);
+    j.at("persist_offscreen").get_to(p.mPersistOffscreen);
+}
+
+// Path_ElumPathTrans
+void to_json(nlohmann::json& j, const Path_ElumPathTrans& p)
+{
+    j = nlohmann::json{
+        {"base", ToBase(p)},
+        {"level", p.mLevel},
+        {"path", p.mPath},
+        {"camera", p.mCamera},
+    };
+}
+
+void from_json(const nlohmann::json& j, Path_ElumPathTrans& p)
+{
+    j.at("base").get_to(ToBase(p));
+    j.at("level").get_to(p.mLevel);
+    j.at("path").get_to(p.mPath);
+    j.at("camera").get_to(p.mCamera);
+}
+
+// Path_MudokonPathTrans
+void to_json(nlohmann::json& j, const Path_MudokonPathTrans& p)
+{
+    j = nlohmann::json{
+        {"base", ToBase(p)},
+        {"level", p.mLevel},
+        {"path", p.mPath},
+        {"camera", p.mCamera},
+    };
+}
+
+void from_json(const nlohmann::json& j, Path_MudokonPathTrans& p)
+{
+    j.at("base").get_to(ToBase(p));
+    j.at("level").get_to(p.mLevel);
+    j.at("path").get_to(p.mPath);
+    j.at("camera").get_to(p.mCamera);
+}
+
+// Path_SecurityClaw
+void to_json(nlohmann::json& j, const Path_SecurityClaw& p)
+{
+    j = nlohmann::json{
+        {"base", ToBase(p)},
+        {"scale", p.mScale},
+        {"alarm_switch_id", p.mAlarmSwitchId},
+        {"alarm_duration", p.mAlarmDuration},
+        {"disabled_resources", p.mDisabledResources},
+    };
+}
+
+void from_json(const nlohmann::json& j, Path_SecurityClaw& p)
+{
+    j.at("base").get_to(ToBase(p));
+    j.at("scale").get_to(p.mScale);
+    j.at("alarm_switch_id").get_to(p.mAlarmSwitchId);
+    j.at("alarm_duration").get_to(p.mAlarmDuration);
+    j.at("disabled_resources").get_to(p.mDisabledResources);
+}
+
 } // namespace relive
 

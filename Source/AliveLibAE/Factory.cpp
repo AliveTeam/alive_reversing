@@ -1022,7 +1022,7 @@ void Factory_Mudokon(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode l
              {ResourceManager::Resource_Palt, AEResourceID::kMudsickResID}});
 
         gMap.LoadResourcesFromList("MUDPAL.BND", kPalResources.AsList(), loadMode, 0);
-        if (pMudTlv->field_12_state == Mud_State::eChisle_0)
+        if (pMudTlv->field_12_job == MudJobs::eChisle_0)
         {
             gMap.LoadResource("MUDCHSL.BAN", ResourceManager::Resource_Animation, AEResourceID::kMudchslResID, loadMode);
         }

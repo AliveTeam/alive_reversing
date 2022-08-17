@@ -7,10 +7,10 @@
 #include "AbilityRing.hpp"
 #include "Abe.hpp" // MudSounds only
 
-enum class Mud_State : s16
+enum class MudJobs : s16
 {
     eChisle_0 = 0,
-    eScrub_1 = 1,
+    eSitScrub_1 = 1,
     eAngryWorker_2 = 2,
     eDamageRingGiver_3 = 3,
     eHealthRingGiver_4 = 4,
@@ -28,7 +28,7 @@ enum class Mud_TLV_Emotion : s16
 struct Path_Mudokon final : public Path_TLV
 {
     Scale_short field_10_scale;
-    Mud_State field_12_state;
+    MudJobs field_12_job;
     XDirection_short field_14_direction;
     s16 field_16_voice_pitch;
     s16 field_18_rescue_switch_id;

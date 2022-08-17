@@ -442,27 +442,27 @@ Mudokon::Mudokon(Path_Mudokon* pTlv, s32 tlvInfo)
     field_16C_flags.Clear(Flags_16C::eBit3_Unknown);
     field_198_turning_wheel_timer = 0;
 
-    switch (pTlv->field_12_state)
+    switch (pTlv->field_12_job)
     {
-        case Mud_State::eChisle_0:
+        case MudJobs::eChisle_0:
             field_18E_brain_state = Mud_Brain_State::Brain_1_Chisel;
             field_10_resources_array.SetAt(2, ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kMudchslResID, TRUE, FALSE));
             break;
 
-        case Mud_State::eScrub_1:
+        case MudJobs::eSitScrub_1:
             field_18E_brain_state = Mud_Brain_State::Brain_2_CrouchScrub;
             field_10_resources_array.SetAt(3, ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kMudscrubResID, TRUE, FALSE));
             break;
 
-        case Mud_State::eAngryWorker_2:
+        case MudJobs::eAngryWorker_2:
             field_18E_brain_state = Mud_Brain_State::Brain_8_AngryWorker;
             field_180_emo_tbl = Mud_Emotion::eAngry_1;
             field_10_resources_array.SetAt(3, ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kMudscrubResID, TRUE, FALSE));
             break;
 
-        case Mud_State::eDamageRingGiver_3:
-        case Mud_State::eHealthRingGiver_4:
-            if (pTlv->field_12_state == Mud_State::eDamageRingGiver_3)
+        case MudJobs::eDamageRingGiver_3:
+        case MudJobs::eHealthRingGiver_4:
+            if (pTlv->field_12_job == MudJobs::eDamageRingGiver_3)
             {
                 field_168_ring_type = RingTypes::eExplosive_Emit_Effect_2;
             }
@@ -700,7 +700,7 @@ s32 Mudokon::CreateFromSaveState(const u8* pBuffer)
         ResourceManager::LoadResourceFile_49C170("MUDPAL.BND", nullptr);
     }
 
-    if (pTlv->field_12_state != Mud_State::eChisle_0)
+    if (pTlv->field_12_job != MudJobs::eChisle_0)
     {
         if (!ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kMudscrubResID, FALSE, FALSE))
         {

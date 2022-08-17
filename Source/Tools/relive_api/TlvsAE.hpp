@@ -153,20 +153,20 @@ struct Path_Mudokon final : public ReliveAPI::TlvObjectBaseAE
             {::Mud_TLV_Emotion::eSick_4, "Sick"}
         });
 
-        types.AddEnum<::Mud_State>("Enum_Mud_State",
+        types.AddEnum<::MudJobs>("Enum_Mud_State",
         {
-            {::Mud_State::eChisle_0, "Chisle"},
-            {::Mud_State::eScrub_1, "Scrub"},
-            {::Mud_State::eAngryWorker_2, "Angry Worker"},
-            {::Mud_State::eDamageRingGiver_3, "Damage Ring Giver"},
-            {::Mud_State::eHealthRingGiver_4, "Health Ring Giver"},
+            {::MudJobs::eChisle_0, "Chisle"},
+            {::MudJobs::eSitScrub_1, "Scrub"},
+            {::MudJobs::eAngryWorker_2, "Angry Worker"},
+            {::MudJobs::eDamageRingGiver_3, "Damage Ring Giver"},
+            {::MudJobs::eHealthRingGiver_4, "Health Ring Giver"},
         });
     }
 
     CTOR_AE(Path_Mudokon, "Mudokon", TlvTypes::Mudokon_49)
     {
         ADD("Scale", mTlv.field_10_scale);
-        ADD("State", mTlv.field_12_state);
+        ADD("State", mTlv.field_12_job);
         ADD("Start Direction", mTlv.field_14_direction);
         ADD("Voice Pitch", mTlv.field_16_voice_pitch);
         ADD("Rescue Switch ID", mTlv.field_18_rescue_switch_id);

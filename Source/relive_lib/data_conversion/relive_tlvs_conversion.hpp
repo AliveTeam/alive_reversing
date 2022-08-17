@@ -80,6 +80,9 @@
 #include "../AliveLibAE/MovingBomb.hpp"
 #include "../AliveLibAO/DoorFlame.hpp"
 #include "../AliveLibAE/DoorFlame.hpp"
+#include "../AliveLibAE/Mudokon.hpp"
+#include "../AliveLibAO/Mudokon.hpp"
+#include "../AliveLibAO/SecurityClaw.hpp"
 
 // Convert an AO or AE TLV to a relive TLV
 
@@ -2564,6 +2567,171 @@ private:
                 return Path_DoorFlame::Colour::eBlue;
         }
         ALIVE_FATAL("Bad door flame colour");
+    }
+};
+
+class Path_Mudokon_Converter final
+{
+public:
+    static Path_Mudokon From(const AO::Path_Mudokon& tlv)
+    {
+        Path_Mudokon r;
+        BaseConvert(r, tlv);
+        r.field_10_scale = relive::From(tlv.field_18_scale);
+        r.field_12_job = From(tlv.field_1A_job);
+        r.field_14_direction = relive::From(tlv.field_1C_direction);
+        r.field_16_voice_pitch = tlv.field_1E_voice_pitch;
+        r.field_18_rescue_switch_id = tlv.field_20_rescue_switch_id;
+        r.field_1A_bDeaf = relive::From(tlv.field_22_deaf);
+        r.field_1C_disabled_resources = tlv.field_24_disabled_resources;
+        r.field_1E_persist_and_reset_offscreen = static_cast<reliveChoice>(tlv.field_26_persist); // TODO: enum
+        return r;
+    }
+
+    static Path_Mudokon From(const ::Path_Mudokon& tlv)
+    {
+        Path_Mudokon r;
+        BaseConvert(r, tlv);
+        r.field_10_scale = relive::From(tlv.field_10_scale);
+        r.field_12_job = From(tlv.field_12_job);
+        r.field_14_direction = relive::From(tlv.field_14_direction);
+        r.field_16_voice_pitch = tlv.field_16_voice_pitch;
+        r.field_18_rescue_switch_id = tlv.field_18_rescue_switch_id;
+        r.field_1A_bDeaf = relive::From(tlv.field_1A_bDeaf);
+        r.field_1C_disabled_resources = tlv.field_1C_disabled_resources;
+        r.field_1E_persist_and_reset_offscreen = relive::From(tlv.field_1E_persist_and_reset_offscreen);
+        r.field_20_emotion = From(tlv.field_20_emotion);
+        r.field_22_bBlind = relive::From(tlv.field_22_bBlind);
+        r.field_24_angry_switch_id = tlv.field_24_angry_switch_id;
+        r.field_26_work_after_turning_wheel = relive::From(tlv.field_26_work_after_turning_wheel);
+        r.field_28_bGets_depressed = relive::From(tlv.field_28_bGets_depressed);
+        r.field_2A_ring_pulse_interval = tlv.field_2A_ring_pulse_interval;
+        r.field_2C_bGive_ring_without_password = relive::From(tlv.field_2C_bGive_ring_without_password);
+        return r;
+    }
+private:
+    static Path_Mudokon::MudJobs From(AO::Path_Mudokon::MudJobs job)
+    {
+        switch (job)
+        {
+            case AO::Path_Mudokon::MudJobs::eStandScrub_0:
+                return Path_Mudokon::MudJobs::eStandScrub;
+            case AO::Path_Mudokon::MudJobs::eSitScrub_1:
+                return Path_Mudokon::MudJobs::eSitScrub;
+            case AO::Path_Mudokon::MudJobs::eSitChant_2:
+                return Path_Mudokon::MudJobs::eSitChant;
+        }
+        ALIVE_FATAL("Bad mudokon job");
+    }
+
+    static Path_Mudokon::MudJobs From(::MudJobs job)
+    {
+        switch (job)
+        {
+            case ::MudJobs::eChisle_0:
+                return Path_Mudokon::MudJobs::eChisle;
+            case ::MudJobs::eSitScrub_1:
+                return Path_Mudokon::MudJobs::eSitScrub;
+            case ::MudJobs::eAngryWorker_2:
+                return Path_Mudokon::MudJobs::eAngryWorker;
+            case ::MudJobs::eDamageRingGiver_3:
+                return Path_Mudokon::MudJobs::eDamageRingGiver;
+            case ::MudJobs::eHealthRingGiver_4:
+                return Path_Mudokon::MudJobs::eHealthRingGiver;
+        }
+    }
+    
+    static Path_Mudokon::Mud_TLV_Emotion From(::Mud_TLV_Emotion emotion)
+    {
+        switch (emotion)
+        {
+            case ::Mud_TLV_Emotion::eNormal_0:
+                return Path_Mudokon::Mud_TLV_Emotion::eNormal;
+            case ::Mud_TLV_Emotion::eAngry_1:
+                return Path_Mudokon::Mud_TLV_Emotion::eAngry;
+            case ::Mud_TLV_Emotion::eSad_2:
+                return Path_Mudokon::Mud_TLV_Emotion::eSad;
+            case ::Mud_TLV_Emotion::eWired_3:
+                return Path_Mudokon::Mud_TLV_Emotion::eWired;
+            case ::Mud_TLV_Emotion::eSick_4:
+                return Path_Mudokon::Mud_TLV_Emotion::eSick;
+        }
+        ALIVE_FATAL("Bad mudokon emotion");
+    }
+};
+
+class Path_MovingBomb_Converter final
+{
+public:
+    static Path_MovingBomb From(const AO::Path_MovingBomb& tlv)
+    {
+        Path_MovingBomb r;
+        BaseConvert(r, tlv);
+        r.mSpeed = tlv.field_18_speed;
+        r.mStartMovingSwitchId = tlv.field_1A_switch_id;
+        r.mTriggeredByAlarm = relive::From(tlv.field_1C_bTriggered_by_alarm);
+        r.mScale = relive::From(tlv.field_1E_scale);
+        r.mDisabledResources = tlv.field_22_disabled_resources;
+        r.mStartSpeed = tlv.field_24_start_speed;
+        r.mPersistOffscreen = relive::From(tlv.field_26_persist_offscreen);
+        return r;
+    }
+
+    static Path_MovingBomb From(const ::Path_MovingBomb& tlv)
+    {
+        Path_MovingBomb r;
+        BaseConvert(r, tlv);
+        r.mSpeed = tlv.field_10_speed;
+        r.mStartMovingSwitchId = tlv.field_12_start_moving_switch_id;
+        r.mTriggeredByAlarm = relive::From(tlv.field_14_bTriggered_by_alarm);
+        r.mScale = relive::From(tlv.field_16_scale);
+        r.mDisabledResources = tlv.field_1A_disabled_resources;
+        r.mStartSpeed = tlv.field_1C_start_speed;
+        r.mPersistOffscreen = relive::From(tlv.field_1E_persist_offscreen);
+        return r;
+    }
+};
+
+class Path_ElumPathTrans_Converter final
+{
+public:
+    static Path_ElumPathTrans From(const AO::Path_ElumPathTrans& tlv)
+    {
+        Path_ElumPathTrans r;
+        BaseConvert(r, tlv);
+        r.mLevel = MapWrapper::FromAO(tlv.field_18_level);
+        r.mPath = tlv.field_1A_path;
+        r.mCamera = tlv.field_1C_camera;
+        return r;
+    }
+};
+
+class Path_MudokonPathTrans_Converter final
+{
+public:
+    static Path_MudokonPathTrans From(const AO::Path_MudokonPathTrans& tlv)
+    {
+        Path_MudokonPathTrans r;
+        BaseConvert(r, tlv);
+        r.mLevel = MapWrapper::FromAO(tlv.level);
+        r.mPath = tlv.path;
+        r.mCamera = tlv.camera;
+        return r;
+    }
+};
+
+class Path_SecurityClaw_Converter final
+{
+public:
+    static Path_SecurityClaw From(const AO::Path_SecurityClaw& tlv)
+    {
+        Path_SecurityClaw r;
+        BaseConvert(r, tlv);
+        r.mScale = relive::From(tlv.field_18_scale);
+        r.mAlarmSwitchId = tlv.field_1A_alarm_switch_id;
+        r.mAlarmDuration = tlv.field_1C_alarm_duration;
+        r.mDisabledResources = tlv.field_1C_alarm_duration;
+        return r;
     }
 };
 

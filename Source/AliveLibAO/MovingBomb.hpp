@@ -14,12 +14,12 @@ public:
     s16 field_1A_switch_id;
     Choice_short field_1C_bTriggered_by_alarm;
     Scale_short field_1E_scale;
-    s16 field_20_max_rise;
+    s16 field_20_max_rise; // seems unused
     s16 field_22_disabled_resources;
     s16 field_24_start_speed;
     Choice_short field_26_persist_offscreen;
 };
-ALIVE_ASSERT_SIZEOF(Path_MovingBomb, 0x28);
+ALIVE_ASSERT_SIZEOF_ALWAYS(Path_MovingBomb, 0x28);
 
 struct Path_MovingBombStopper final : public Path_TLV
 {

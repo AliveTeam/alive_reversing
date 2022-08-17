@@ -403,7 +403,7 @@ void Command_Spawn(const std::vector<std::string>& args)
 
     Path_Mudokon mudPath = {};
     mudPath.field_10_scale = Scale_short::eFull_0;
-    mudPath.field_12_state = Mud_State::eScrub_1;
+    mudPath.field_12_job = MudJobs::eSitScrub_1;
     mudPath.field_16_voice_pitch = (rand() % 1500) - 600;
     mudPath.mTopLeft = spawnTopLeft;
     mudPath.mBottomRight = spawnBottomRight;
