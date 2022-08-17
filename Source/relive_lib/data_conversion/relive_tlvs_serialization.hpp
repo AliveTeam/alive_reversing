@@ -1390,5 +1390,112 @@ void from_json(const nlohmann::json& j, Path_MeatSack& p)
     j.at("amount_of_meat").get_to(p.field_18_amount_of_meat);
 }
 
+// Path_Bees
+void to_json(nlohmann::json& j, const Path_Bees& p)
+{
+    j = nlohmann::json{
+        {"base", ToBase(p)},
+        {"switch_id", p.switch_id},
+        {"swarm_size", p.swarm_size},
+        {"chase_time", p.chase_time},
+        {"speed", p.speed},
+        {"disable_resources", p.disable_resources},
+        {"num_bees", p.num_bees},
+    };
+}
+
+void from_json(const nlohmann::json& j, Path_Bees& p)
+{
+    j.at("base").get_to(ToBase(p));
+    j.at("switch_id").get_to(p.switch_id);
+    j.at("swarm_size").get_to(p.swarm_size);
+    j.at("chase_time").get_to(p.chase_time);
+    j.at("speed").get_to(p.speed);
+    j.at("disable_resources").get_to(p.disable_resources);
+    j.at("num_bees").get_to(p.num_bees);
+}
+
+// Path_BellsongStone
+NLOHMANN_JSON_SERIALIZE_ENUM(Path_BellsongStone::BellsongTypes, {
+    {Path_BellsongStone::BellsongTypes::eWhistle, "whistle"},
+    {Path_BellsongStone::BellsongTypes::eChimes, "chimes"},
+})
+
+void to_json(nlohmann::json& j, const Path_BellsongStone& p)
+{
+    j = nlohmann::json{
+        {"base", ToBase(p)},
+        {"scale", p.scale},
+        {"type", p.type},
+        {"code1", p.code1},
+        {"code2", p.code2},
+        {"switch_id", p.switch_id},
+    };
+}
+
+void from_json(const nlohmann::json& j, Path_BellsongStone& p)
+{
+    j.at("base").get_to(ToBase(p));
+    j.at("scale").get_to(p.scale);
+    j.at("type").get_to(p.type);
+    j.at("code1").get_to(p.code1);
+    j.at("code2").get_to(p.code2);
+    j.at("switch_id").get_to(p.switch_id);
+}
+
+// Path_MovieStone
+void to_json(nlohmann::json& j, const Path_MovieStone& p)
+{
+    j = nlohmann::json{
+        {"base", ToBase(p)},
+        {"movie_number", p.field_10_movie_number},
+        {"scale", p.field_12_scale},
+        {"trigger_switch_id", p.field_14_trigger_switch_id},
+    };
+}
+
+void from_json(const nlohmann::json& j, Path_MovieStone& p)
+{
+    j.at("base").get_to(ToBase(p));
+    j.at("movie_number").get_to(p.field_10_movie_number);
+    j.at("scale").get_to(p.field_12_scale);
+    j.at("trigger_switch_id").get_to(p.field_14_trigger_switch_id);
+}
+
+// Path_HandStone
+void to_json(nlohmann::json& j, const Path_HandStone& p)
+{
+    j = nlohmann::json{
+        {"base", ToBase(p)},
+        {"scale", p.mScale},
+        {"camera_id_1", p.mCameraId1},
+        {"camera_id_2", p.mCameraId2},
+        {"camera_id_3", p.mCameraId3},
+        {"trigger_switch_id", p.mTriggerSwitchId},
+        {"level_1", p.mLevel1},
+        {"path_1", p.mPath1},
+        {"level_2", p.mLevel2},
+        {"path_2", p.mPath2},
+        {"level_3", p.mLevel3},
+        {"path_3", p.mPath3},
+    };
+}
+
+void from_json(const nlohmann::json& j, Path_HandStone& p)
+{
+    j.at("base").get_to(ToBase(p));
+    j.at("scale").get_to(p.mScale);
+    j.at("camera_id_1").get_to(p.mCameraId1);
+    j.at("camera_id_2").get_to(p.mCameraId2);
+    j.at("camera_id_3").get_to(p.mCameraId3);
+    j.at("trigger_switch_id").get_to(p.mTriggerSwitchId);
+    j.at("level_1").get_to(p.mLevel1);
+    j.at("path_1").get_to(p.mPath1);
+    j.at("level_2").get_to(p.mLevel2);
+    j.at("path_2").get_to(p.mPath2);
+    j.at("level_3").get_to(p.mLevel3);
+    j.at("path_3").get_to(p.mPath3);
+}
+
 } // namespace relive
 

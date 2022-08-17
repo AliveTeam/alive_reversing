@@ -384,6 +384,7 @@ struct Path_Bees final : public Path_TLV
     s16 disable_resources;
     s16 num_bees;
 };
+// TODO: size
 
 struct Path_AbeStart final : public Path_TLV
 {
@@ -418,7 +419,7 @@ struct Path_Handstone_data final
     Path_Stone_camera camera2;
     Path_Stone_camera camera3;
 };
-ALIVE_ASSERT_SIZEOF(Path_Handstone_data, 0x14);
+ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Handstone_data, 0x14);
 
 struct Path_HandStone final : public Path_TLV
 {
@@ -434,7 +435,7 @@ struct Path_BellsongStone_data final
     s16 switch_id;
     s16 pad;
 };
-ALIVE_ASSERT_SIZEOF(Path_BellsongStone_data, 12);
+ALIVE_ASSERT_SIZEOF_ALWAYS(Path_BellsongStone_data, 12);
 
 struct Path_BellsongStone final : public Path_TLV
 {
@@ -446,7 +447,7 @@ struct Path_Moviestone_data final
     s16 fmvId;
     Scale_short scale;
 };
-ALIVE_ASSERT_SIZEOF(Path_Moviestone_data, 4);
+ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Moviestone_data, 4);
 
 struct Path_MovieStone final : public Path_TLV
 {

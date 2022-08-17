@@ -2096,4 +2096,107 @@ public:
     }
 };
 
+class Path_Bees_Converter final
+{
+public:
+    static Path_Bees From(const AO::Path_Bees& tlv)
+    {
+        Path_Bees r;
+        BaseConvert(r, tlv);
+        r.switch_id = tlv.switch_id;
+        r.swarm_size = tlv.swarm_size;
+        r.chase_time = tlv.chase_time;
+        r.speed = tlv.speed;
+        r.disable_resources = tlv.disable_resources;
+        r.num_bees = tlv.num_bees;
+        return r;
+    }
+};
+
+class Path_BellsongStone_Converter final
+{
+public:
+    static Path_BellsongStone From(const AO::Path_BellsongStone& tlv)
+    {
+        Path_BellsongStone r;
+        BaseConvert(r, tlv);
+        r.scale = relive::From(tlv.mData.scale);
+        r.type = From(tlv.mData.type);
+        r.code1 = tlv.mData.code1;
+        r.code2 = tlv.mData.code2;
+        r.switch_id = tlv.mData.switch_id;
+        return r;
+    }
+
+private:
+    static Path_BellsongStone::BellsongTypes From(AO::BellsongTypes type)
+    {
+        switch (type)
+        {
+            case AO::BellsongTypes::eWhistle:
+                return Path_BellsongStone::BellsongTypes::eWhistle;
+            case AO::BellsongTypes::eChimes:
+                return Path_BellsongStone::BellsongTypes::eChimes;
+        }
+        ALIVE_FATAL("Bad bellsong type");
+    }
+};
+
+class Path_MovieStone_Converter final
+{
+public:
+    static Path_MovieStone From(const AO::Path_MovieStone& tlv)
+    {
+        Path_MovieStone r;
+        BaseConvert(r, tlv);
+        r.field_10_movie_number = tlv.mData.fmvId;
+        r.field_12_scale = relive::From(tlv.mData.scale);
+        return r;
+    }
+
+    static Path_MovieStone From(const ::Path_MovieStone& tlv)
+    {
+        Path_MovieStone r;
+        BaseConvert(r, tlv);
+        r.field_10_movie_number = tlv.field_10_movie_number;
+        r.field_12_scale = relive::From(tlv.field_12_scale);
+        r.field_14_trigger_switch_id = tlv.field_14_trigger_switch_id;
+        return r;
+    }
+};
+
+class Path_HandStone_Converter final
+{
+public:
+    static Path_HandStone From(const AO::Path_HandStone& tlv)
+    {
+        Path_HandStone r;
+        BaseConvert(r, tlv);
+        r.mScale = relive::From(tlv.mData.scale);
+        r.mCameraId1 = tlv.mData.camera1.camera;
+        r.mPath1 = tlv.mData.camera1.path;
+        r.mLevel1 = MapWrapper::FromAO(tlv.mData.camera1.level);
+        r.mCameraId2 = tlv.mData.camera2.camera;
+        r.mPath2 = tlv.mData.camera2.path;
+        r.mLevel2 = MapWrapper::FromAO(tlv.mData.camera2.level);
+        r.mCameraId3 = tlv.mData.camera3.camera;
+        r.mPath3 = tlv.mData.camera3.path;
+        r.mLevel3 = MapWrapper::FromAO(tlv.mData.camera3.level);
+        return r;
+    }
+
+    static Path_HandStone From(const ::Path_HandStone& tlv)
+    {
+        Path_HandStone r;
+        BaseConvert(r, tlv);
+        r.mScale = relive::From(tlv.field_10_scale);
+        r.mCameraId1 = tlv.field_12_camera_id1;
+        r.mCameraId2 = tlv.field_12_camera_id2;
+        r.mCameraId3 = tlv.field_12_camera_id3;
+        r.mTriggerSwitchId = tlv.field_18_trigger_switch_id;
+        return r;
+    }
+
+};
+
 } // namespace relive

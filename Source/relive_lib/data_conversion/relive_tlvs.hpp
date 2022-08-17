@@ -692,13 +692,59 @@ struct Path_MeatSack final : public Path_TLV
     s16 field_18_amount_of_meat;
 };
 
-//struct Path_HandStone final : public Path_TLV
-//{
-//    reliveScale field_10_scale;
-//    s16 field_12_camera_id1;
-//    s16 field_12_camera_id2;
-//    s16 field_12_camera_id3;
-//    s32 field_18_trigger_switch_id;
-//};
+struct Path_Bees final : public Path_TLV
+{
+    s16 switch_id;
+    s16 swarm_size;
+    s16 chase_time;
+    s16 speed;
+    s16 disable_resources;
+    s16 num_bees;
+};
+
+
+struct Path_BellsongStone final : public Path_TLV
+{
+    enum class BellsongTypes : s16
+    {
+        eWhistle,
+        eChimes
+    };
+    reliveScale scale;
+    BellsongTypes type;
+    s16 code1;
+    s16 code2;
+    s16 switch_id;
+};
+
+struct Path_MovieStone final : public Path_TLV
+{
+    s16 field_10_movie_number;
+    reliveScale field_12_scale;
+
+    // AE only
+    s32 field_14_trigger_switch_id;
+};
+
+struct Path_HandStone final : public Path_TLV
+{
+    reliveScale mScale;
+    s16 mCameraId1;
+    s16 mCameraId2;
+    s16 mCameraId3;
+
+    // AE only
+    s32 mTriggerSwitchId;
+
+    // Additional path and level data is only required for AO
+    EReliveLevelIds mLevel1;
+    s16 mPath1;
+    EReliveLevelIds mLevel2;
+    s16 mPath2;
+    EReliveLevelIds mLevel3;
+    s16 mPath3;
+};
+
+
 
 } // namespace relive

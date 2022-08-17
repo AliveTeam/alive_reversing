@@ -278,8 +278,8 @@ static void ConvertTLV(const AO::Path_TLV& tlv)
             j.push_back({ "honey_drip_target", relive::Path_HoneyDripTarget_Converter::From(static_cast<const AO::Path_HoneyDripTarget&>(tlv)) });
             break;
         case AO::TlvTypes::Bees_43:
-            LOG_WARNING("tlv of type " << static_cast<s16>(tlv.mTlvType32.mType) << " not implemented");
-            return;
+            j.push_back({ "bees", relive::Path_Bees_Converter::From(static_cast<const AO::Path_Bees&>(tlv)) });
+            break;
         case AO::TlvTypes::WellExpress_45:
             LOG_WARNING("tlv of type " << static_cast<s16>(tlv.mTlvType32.mType) << " not implemented");
             return;
@@ -299,8 +299,8 @@ static void ConvertTLV(const AO::Path_TLV& tlv)
             LOG_WARNING("tlv of type " << static_cast<s16>(tlv.mTlvType32.mType) << " not implemented");
             return;
         case AO::TlvTypes::MovieStone_51:
-            LOG_WARNING("tlv of type " << static_cast<s16>(tlv.mTlvType32.mType) << " not implemented");
-            return;
+            j.push_back({ "movie_stone", relive::Path_MovieStone_Converter::From(static_cast<const AO::Path_MovieStone&>(tlv)) });
+            break;
         case AO::TlvTypes::BirdPortal_52:
             j.push_back({ "bird_portal", relive::Path_BirdPortal_Converter::From(static_cast<const AO::Path_BirdPortal&>(tlv)) });
             break;
@@ -308,8 +308,8 @@ static void ConvertTLV(const AO::Path_TLV& tlv)
             j.push_back({ "bird_portal_exit", relive::Path_BirdPortalExit_Converter::From(static_cast<const AO::Path_BirdPortalExit&>(tlv)) });
             break;
         case AO::TlvTypes::BellSongStone_54:
-            LOG_WARNING("tlv of type " << static_cast<s16>(tlv.mTlvType32.mType) << " not implemented");
-            return;
+            j.push_back({ "bell_song_stone", relive::Path_BellsongStone_Converter::From(static_cast<const AO::Path_BellsongStone&>(tlv)) });
+            break;
         case AO::TlvTypes::TrapDoor_55:
             j.push_back({ "trap_door", relive::Path_TrapDoor_Converter::From(static_cast<const AO::Path_TrapDoor&>(tlv)) });
             break;
@@ -422,8 +422,8 @@ static void ConvertTLV(const AO::Path_TLV& tlv)
             LOG_WARNING("tlv of type " << static_cast<s16>(tlv.mTlvType32.mType) << " not implemented");
             return;
         case AO::TlvTypes::HandStone_100:
-            LOG_WARNING("tlv of type " << static_cast<s16>(tlv.mTlvType32.mType) << " not implemented");
-            return;
+            j.push_back({ "hand_stone", relive::Path_HandStone_Converter::From(static_cast<const AO::Path_HandStone&>(tlv)) });
+            break;
         case AO::TlvTypes::CreditsController_101:
             j.push_back({ "credits_controller", relive::Path_CreditsController_Converter::From(static_cast<const AO::Path_CreditsController&>(tlv)) });
             break;
@@ -509,6 +509,7 @@ static void ConvertPaths(const ReliveAPI::ChunkedLvlFile& pathBnd, EReliveLevelI
             ConvertPath(pathBndChunk, reliveLvl);
         }
     }
+    LOG_INFO("Converted all TLV's for level " << ToString(MapWrapper::ToAO(reliveLvl)));
 }
 
 void TestTlvConversion()
