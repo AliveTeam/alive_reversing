@@ -843,4 +843,41 @@ struct Path_Door final : public Path_TLV
     reliveChoice field_42_clear_throwables;
 };
 
+struct Path_AbeStart final : public Path_TLV
+{
+    // No fields
+};
+
+struct Path_EnemyStopper final : public Path_TLV
+{
+    enum class StopDirection : s16
+    {
+        Left,
+        Right,
+        Both,
+    };
+    StopDirection mStopDirection;
+    s16 mSwitchId;
+};
+
+struct Path_MovingBombStopper final : public Path_TLV
+{
+    s16 field_10_min;
+    s16 field_12_max;
+};
+
+struct Path_DoorFlame final : public Path_TLV
+{
+    enum class Colour : s16
+    {
+        eDefault,
+        eRed,
+        eGreen,
+        eBlue,
+    };
+    s16 mSwitchId;
+    reliveScale mScale;
+    Colour mColour;
+};
+
 } // namespace relive

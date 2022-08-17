@@ -358,7 +358,7 @@ DoorFlame::DoorFlame(Path_DoorFlame* pTlv, s32 tlvInfo)
             mRGB.b = 127;
             break;
         
-        case Path_DoorFlame::Colour::unknown_0:
+        case Path_DoorFlame::Colour::default_0:
         default:
             break;
     }

@@ -262,8 +262,7 @@ static void ConvertTLV(const AO::Path_TLV& tlv)
         case AO::TlvTypes::HoneySack_36:
             j.push_back({ "honey_sack", relive::Path_HoneySack_Converter::From(static_cast<const AO::Path_HoneySack&>(tlv)) });
             break;
-        case AO::TlvTypes::AbeStart_37:
-            LOG_WARNING("tlv of type " << static_cast<s16>(tlv.mTlvType32.mType) << " not implemented");
+        case AO::TlvTypes::AbeStart_37: // dead tlv in AO
             return;
         case AO::TlvTypes::ElumStart_38:
             j.push_back({ "elum_start", relive::Path_ElumStart_Converter::From(static_cast<const AO::Path_ElumStart&>(tlv)) });
@@ -368,8 +367,8 @@ static void ConvertTLV(const AO::Path_TLV& tlv)
             j.push_back({ "slig_persist", relive::Path_SligBound_Converter::From(static_cast<const AO::Path_SligBound&>(tlv)) });
             break;
         case AO::TlvTypes::EnemyStopper_79:
-            LOG_WARNING("tlv of type " << static_cast<s16>(tlv.mTlvType32.mType) << " not implemented");
-            return;
+            j.push_back({ "enemy_stopper", relive::Path_EnemyStopper_Converter::From(static_cast<const AO::Path_EnemyStopper&>(tlv)) });
+            break;
         case AO::TlvTypes::InvisibleSwitch_81:
             j.push_back({ "invisible_switch", relive::Path_InvisibleSwitch_Converter::From(static_cast<const AO::Path_InvisibleSwitch&>(tlv)) });
             break;
@@ -380,14 +379,14 @@ static void ConvertTLV(const AO::Path_TLV& tlv)
             j.push_back({ "zslig_cover", relive::Path_ZSligCover_Converter::From(static_cast<const AO::Path_ZSligCover&>(tlv)) });
             break;
         case AO::TlvTypes::DoorFlame_84:
-            LOG_WARNING("tlv of type " << static_cast<s16>(tlv.mTlvType32.mType) << " not implemented");
-            return;
+            j.push_back({ "door_flame", relive::Path_DoorFlame_Converter::From(static_cast<const AO::Path_DoorFlame&>(tlv)) });
+            break;
         case AO::TlvTypes::MovingBomb_86:
             LOG_WARNING("tlv of type " << static_cast<s16>(tlv.mTlvType32.mType) << " not implemented");
             return;
         case AO::TlvTypes::MovingBombStopper_87:
-            LOG_WARNING("tlv of type " << static_cast<s16>(tlv.mTlvType32.mType) << " not implemented");
-            return;
+            j.push_back({ "moving_bomb_stopper", relive::Path_MovingBombStopper_Converter::From(static_cast<const AO::Path_MovingBombStopper&>(tlv)) });
+            break;
         case AO::TlvTypes::MeatSaw_88:
             j.push_back({ "meat_saw", relive::Path_MeatSaw_Converter::From(static_cast<const AO::Path_MeatSaw&>(tlv)) });
             break;

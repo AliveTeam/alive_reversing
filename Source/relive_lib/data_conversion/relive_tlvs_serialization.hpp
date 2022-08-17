@@ -1666,5 +1666,84 @@ void from_json(const nlohmann::json& j, Path_Door& p)
     j.at("clear_throwables").get_to(p.field_42_clear_throwables);
 }
 
+// Path_AbeStart
+void to_json(nlohmann::json& j, const Path_AbeStart& p)
+{
+    j = nlohmann::json{
+        {"base", ToBase(p)},
+    };
+}
+
+void from_json(const nlohmann::json& j, Path_AbeStart& p)
+{
+    j.at("base").get_to(ToBase(p));
+}
+
+// Path_EnemyStopper
+NLOHMANN_JSON_SERIALIZE_ENUM(Path_EnemyStopper::StopDirection, {
+    {Path_EnemyStopper::StopDirection::Left, "left"},
+    {Path_EnemyStopper::StopDirection::Right, "right"},
+    {Path_EnemyStopper::StopDirection::Both, "both"},
+})
+
+void to_json(nlohmann::json& j, const Path_EnemyStopper& p)
+{
+    j = nlohmann::json{
+        {"base", ToBase(p)},
+        {"stop_direction", p.mStopDirection},
+        {"switch_id", p.mSwitchId},
+    };
+}
+
+void from_json(const nlohmann::json& j, Path_EnemyStopper& p)
+{
+    j.at("base").get_to(ToBase(p));
+    j.at("stop_direction").get_to(p.mStopDirection);
+    j.at("switch_id").get_to(p.mSwitchId);
+}
+
+// Path_MovingBombStopper
+void to_json(nlohmann::json& j, const Path_MovingBombStopper& p)
+{
+    j = nlohmann::json{
+        {"base", ToBase(p)},
+        {"min", p.field_10_min},
+        {"max", p.field_12_max},
+    };
+}
+
+void from_json(const nlohmann::json& j, Path_MovingBombStopper& p)
+{
+    j.at("base").get_to(ToBase(p));
+    j.at("min").get_to(p.field_10_min);
+    j.at("max").get_to(p.field_12_max);
+}
+
+// Path_DoorFlame
+NLOHMANN_JSON_SERIALIZE_ENUM(Path_DoorFlame::Colour, {
+    {Path_DoorFlame::Colour::eDefault, "default"},
+    {Path_DoorFlame::Colour::eRed, "red"},
+    {Path_DoorFlame::Colour::eGreen, "green"},
+    {Path_DoorFlame::Colour::eBlue, "blue"},
+})
+
+void to_json(nlohmann::json& j, const Path_DoorFlame& p)
+{
+    j = nlohmann::json{
+        {"base", ToBase(p)},
+        {"switch_id", p.mSwitchId},
+        {"scale", p.mScale},
+        {"colour", p.mColour},
+    };
+}
+
+void from_json(const nlohmann::json& j, Path_DoorFlame& p)
+{
+    j.at("base").get_to(ToBase(p));
+    j.at("switch_id").get_to(p.mSwitchId);
+    j.at("scale").get_to(p.mScale);
+    j.at("colour").get_to(p.mColour);
+}
+
 } // namespace relive
 

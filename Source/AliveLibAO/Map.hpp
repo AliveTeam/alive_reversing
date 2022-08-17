@@ -93,6 +93,7 @@ struct Path_EnemyStopper final : public Path_TLV
     StopDirection field_18_direction;
     s16 field_1A_switch_id;
 };
+// TODO:: size
 
 struct Path_PathTransition final : public Path_TLV
 {

@@ -133,7 +133,7 @@ struct Path_DoorFlame final : public ReliveAPI::TlvObjectBaseAO
 
         types.AddEnum<AO::Path_DoorFlame::Colour>("Enum_DoorFlame_Colour",
             {
-                {AO::Path_DoorFlame::Colour::unknown_0, "Unknown"},
+                {AO::Path_DoorFlame::Colour::default_0, "Unknown"},
                 {AO::Path_DoorFlame::Colour::red_1, "Red"},
                 {AO::Path_DoorFlame::Colour::green_2, "Green"},
                 {AO::Path_DoorFlame::Colour::blue_3, "Blue"}

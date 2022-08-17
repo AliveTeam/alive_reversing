@@ -23,7 +23,7 @@ struct Path_DoorFlame final : public Path_TLV
 
     enum class Colour : s16
     {
-        unknown_0 = 0,
+        default_0 = 0,
         red_1 = 1,
         green_2 = 2,
         blue_3 = 3

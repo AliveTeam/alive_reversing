@@ -63,8 +63,8 @@ MovingBomb::MovingBomb(Path_MovingBomb* pTlv, s32 tlvInfo)
     field_114_timer = sGnFrame;
     mYOffset = 0;
     field_110_tlvInfo = tlvInfo;
-    field_120_min = 0;
-    field_11E_max = 0;
+    field_120_max = 0;
+    field_11E_min = 0;
     field_12A_persist_offscreen = pTlv->field_26_persist_offscreen;
     field_124_sound_channels = 0;
 
@@ -402,8 +402,8 @@ void MovingBomb::VUpdate()
             if (BaseAliveGameObjectPathTLV)
             {
                 auto pStopper = static_cast<Path_MovingBombStopper*>(BaseAliveGameObjectPathTLV);
-                field_11E_max = pStopper->field_18_min_delay;
-                field_120_min = pStopper->field_1A_max_delay;
+                field_11E_min = pStopper->field_18_min_delay;
+                field_120_max = pStopper->field_1A_max_delay;
                 field_10C_state = States::eStopMoving_3;
             }
             break;
@@ -413,7 +413,7 @@ void MovingBomb::VUpdate()
             if (mVelX < FP_FromInteger(0))
             {
                 field_10C_state = States::eWaitABit_4;
-                field_114_timer = sGnFrame + Math_RandomRange(field_11E_max, field_120_min);
+                field_114_timer = sGnFrame + Math_RandomRange(field_11E_min, field_120_max);
             }
 
             FollowLine();

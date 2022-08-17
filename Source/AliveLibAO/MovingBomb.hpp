@@ -26,6 +26,7 @@ struct Path_MovingBombStopper final : public Path_TLV
     s16 field_18_min_delay;
     s16 field_1A_max_delay;
 };
+// TODO: size
 
 class MovingBomb final : public BaseAliveGameObject
 {
@@ -58,8 +59,8 @@ public:
     s32 field_114_timer = 0;
     FP field_118_speed = {};
     u16 field_11C_switch_id = 0;
-    s16 field_11E_max = 0;
-    s16 field_120_min = 0;
+    s16 field_11E_min = 0;
+    s16 field_120_max = 0;
     s32 field_124_sound_channels = 0;
     s16 field_128_disabled_resources = 0;
     Choice_short field_12A_persist_offscreen = Choice_short::eNo_0;

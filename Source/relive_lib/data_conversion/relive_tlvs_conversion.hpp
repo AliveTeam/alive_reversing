@@ -76,6 +76,10 @@
 #include "../AliveLibAO/BeeSwarmHole.hpp"
 #include "../AliveLibAE/Door.hpp"
 #include "../AliveLibAO/Door.hpp"
+#include "../AliveLibAO/MovingBomb.hpp"
+#include "../AliveLibAE/MovingBomb.hpp"
+#include "../AliveLibAO/DoorFlame.hpp"
+#include "../AliveLibAE/DoorFlame.hpp"
 
 // Convert an AO or AE TLV to a relive TLV
 
@@ -2425,6 +2429,141 @@ private:
                 return Path_Door::ScreenChangeEffects::eInstantChange;
         }
         ALIVE_FATAL("Bad door screen change effect");
+    }
+};
+
+class Path_AbeStart_Converter final
+{
+public:
+    static Path_AbeStart From(const ::Path_AbeStart& tlv)
+    {
+        Path_AbeStart r;
+        BaseConvert(r, tlv);
+        return r;
+    }
+};
+
+class Path_EnemyStopper_Converter final
+{
+public:
+    static Path_EnemyStopper From(const AO::Path_EnemyStopper& tlv)
+    {
+        Path_EnemyStopper r;
+        BaseConvert(r, tlv);
+        r.mStopDirection = From(tlv.field_18_direction);
+        r.mSwitchId = tlv.field_1A_switch_id;
+        return r;
+    }
+
+    static Path_EnemyStopper From(const ::Path_EnemyStopper& tlv)
+    {
+        Path_EnemyStopper r;
+        BaseConvert(r, tlv);
+        r.mStopDirection = From(tlv.field_10_stop_direction);
+        r.mSwitchId = tlv.field_12_switch_id;
+        return r;
+    }
+private:
+    static Path_EnemyStopper::StopDirection From(AO::Path_EnemyStopper::StopDirection stopDir)
+    {
+        switch (stopDir)
+        {
+            case AO::Path_EnemyStopper::StopDirection::Left_0:
+                return Path_EnemyStopper::StopDirection::Left;
+            case AO::Path_EnemyStopper::StopDirection::Right_1:
+                return Path_EnemyStopper::StopDirection::Right;
+            case AO::Path_EnemyStopper::StopDirection::Both_2:
+                return Path_EnemyStopper::StopDirection::Both;
+        }
+        ALIVE_FATAL("Bad enemy stopper stop direction");
+    }
+
+    static Path_EnemyStopper::StopDirection From(::Path_EnemyStopper::StopDirection stopDir)
+    {
+        switch (stopDir)
+        {
+            case ::Path_EnemyStopper::StopDirection::Left_0:
+                return Path_EnemyStopper::StopDirection::Left;
+            case ::Path_EnemyStopper::StopDirection::Right_1:
+                return Path_EnemyStopper::StopDirection::Right;
+            case ::Path_EnemyStopper::StopDirection::Both_2:
+                return Path_EnemyStopper::StopDirection::Both;
+        }
+        ALIVE_FATAL("Bad enemy stopper stop direction");
+    }
+};
+
+class Path_MovingBombStopper_Converter final
+{
+public:
+    static Path_MovingBombStopper From(const AO::Path_MovingBombStopper& tlv)
+    {
+        Path_MovingBombStopper r;
+        BaseConvert(r, tlv);
+        r.field_10_min = tlv.field_18_min_delay;
+        r.field_12_max = tlv.field_1A_max_delay;
+        return r;
+    }
+
+    static Path_MovingBombStopper From(const ::Path_MovingBombStopper& tlv)
+    {
+        Path_MovingBombStopper r;
+        BaseConvert(r, tlv);
+        r.field_10_min = tlv.field_10_min;
+        r.field_12_max = tlv.field_12_max;
+        return r;
+    }
+};
+
+class Path_DoorFlame_Converter final
+{
+public:
+    static Path_DoorFlame From(const AO::Path_DoorFlame& tlv)
+    {
+        Path_DoorFlame r;
+        BaseConvert(r, tlv);
+        r.mSwitchId = tlv.field_18_switch_id;
+        r.mScale = From(tlv.field_1A_scale);
+        r.mColour = From(tlv.field_1C_colour);
+        return r;
+    }
+
+    static Path_DoorFlame From(const ::Path_DoorFlame& tlv)
+    {
+        Path_DoorFlame r;
+        BaseConvert(r, tlv);
+        r.mSwitchId = tlv.field_10_switch_id;
+        r.mScale = relive::From(tlv.field_12_scale);
+        return r;
+    }
+private:
+    static reliveScale From(AO::Path_DoorFlame::Scale scale)
+    {
+        switch (scale)
+        {
+            case AO::Path_DoorFlame::Scale::eFull_0:
+                return reliveScale::eFull;
+            case AO::Path_DoorFlame::Scale::eHalf_1:
+            case AO::Path_DoorFlame::Scale::eHalf_2:
+                return reliveScale::eHalf;
+        }
+        ALIVE_FATAL("Bad door flame scale");
+    }
+
+    static Path_DoorFlame::Colour From(AO::Path_DoorFlame::Colour colour)
+    {
+        switch (colour)
+        {
+            case AO::Path_DoorFlame::Colour::default_0:
+                return Path_DoorFlame::Colour::eDefault;
+            case AO::Path_DoorFlame::Colour::red_1:
+                return Path_DoorFlame::Colour::eRed;
+            case AO::Path_DoorFlame::Colour::green_2:
+                return Path_DoorFlame::Colour::eGreen;
+            case AO::Path_DoorFlame::Colour::blue_3:
+                return Path_DoorFlame::Colour::eBlue;
+        }
+        ALIVE_FATAL("Bad door flame colour");
     }
 };
 
