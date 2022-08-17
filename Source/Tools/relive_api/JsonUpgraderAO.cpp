@@ -51,6 +51,17 @@ public:
     }
 };
 
+class UpgraderAO4 final : public IJsonUpgrader
+{
+public:
+    std::string Upgrade(JsonUpgraderBase& upgrader, nlohmann::basic_json<>& rootObj) override
+    {
+        upgrader.RenameMapObjectProperty(rootObj, "Door", "Start State", "Door Type");
+
+        return rootObj.dump(4);
+    }
+};
+
 void JsonUpgraderAO::AddUpgraders()
 {
     ADD_UPGRADE_STEP_FROM(3, UpgraderAO3);

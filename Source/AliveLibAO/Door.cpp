@@ -73,7 +73,7 @@ Door::Door(Path_Door* pTlv, s32 tlvInfo)
 
     field_E4_tlvInfo = tlvInfo;
 
-    field_E8_start_state = pTlv->field_26_start_state;
+    field_E8_door_type = pTlv->field_26_door_type;
     field_EE_door_closed = pTlv->field_28_door_closed;
     field_F0_switch_id = pTlv->field_22_switch_id;
 
@@ -98,9 +98,9 @@ Door::Door(Path_Door* pTlv, s32 tlvInfo)
     PathLine* pLine = nullptr;
     u8** ppRes = nullptr;
     PSX_Point mapCoords = {};
-    switch (field_E8_start_state)
+    switch (field_E8_door_type)
     {
-        case DoorStates::eOpen_0:
+        case DoorTypes::eBasicDoor_0:
         {
             const AnimRecord& openDoor = AO::AnimRec(sDoorAnimdIdTable[idx][1]);
             ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, openDoor.mResourceId, 1, 0);
@@ -163,7 +163,7 @@ Door::Door(Path_Door* pTlv, s32 tlvInfo)
             return;
         }
 
-        case DoorStates::eClosed_1:
+        case DoorTypes::eTrialDoor_1:
         {
             if (gMap.mCurrentLevel == EReliveLevelIds::eRuptureFarmsReturn)
             {
@@ -216,7 +216,7 @@ Door::Door(Path_Door* pTlv, s32 tlvInfo)
             break;
         }
 
-        case DoorStates::eHubDoorClosed_2:
+        case DoorTypes::eHubDoor_2:
             if (gMap.mCurrentLevel == EReliveLevelIds::eRuptureFarmsReturn || gMap.mCurrentLevel == EReliveLevelIds::eRuptureFarms)
             {
                 ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kF2p3dorAOResID, 1, 0);
@@ -325,7 +325,7 @@ void Door::vOpen()
 {
     if (field_EC_current_state != DoorStates::eOpen_0)
     {
-        field_EC_current_state = DoorStates::eHubDoorClosed_2;
+        field_EC_current_state = DoorStates::eOpening_2;
     }
 }
 
@@ -348,7 +348,7 @@ void Door::PlaySound()
         volume = mSpriteScale != FP_FromDouble(0.5) ? 90 : 127;
         SND_SEQ_Play_477760(SeqId::eHitBottomOfDeathPit_10, 1, 75, 75);
     }
-    else if (field_E8_start_state == DoorStates::eOpen_0 && mSpriteScale == FP_FromInteger(1))
+    else if (field_E8_door_type == DoorTypes::eBasicDoor_0 && mSpriteScale == FP_FromInteger(1))
     {
         volume = 90;
     }
@@ -379,7 +379,7 @@ void Door::VUpdate()
     {
         field_EA_door_number = -1;
 
-        if (field_E8_start_state == DoorStates::eHubDoorClosed_2)
+        if (field_E8_door_type == DoorTypes::eHubDoor_2)
         {
             if (SwitchStates_Get(field_F2_hubs_ids[0]) &&
                 SwitchStates_Get(field_F2_hubs_ids[1]) &&
@@ -415,21 +415,21 @@ void Door::VUpdate()
                 {
                     field_EC_current_state = DoorStates::eClosing_3;
 
-                    switch (field_E8_start_state)
+                    switch (field_E8_door_type)
                     {
-                        case DoorStates::eOpen_0:
+                        case DoorTypes::eBasicDoor_0:
                         {
                             mAnim.Set_Animation_Data(sDoorAnimdIdTable[lvl][1], nullptr);
                             break;
                         }
 
-                        case DoorStates::eClosed_1:
+                        case DoorTypes::eTrialDoor_1:
                         {
                             mAnim.Set_Animation_Data(sDoorAnimdIdTable[lvl][3], nullptr);
                             break;
                         }
 
-                        case DoorStates::eHubDoorClosed_2:
+                        case DoorTypes::eHubDoor_2:
                         {
                         default:
                             mAnim.Set_Animation_Data(sDoorAnimdIdTable[lvl][5], nullptr);
@@ -448,23 +448,23 @@ void Door::VUpdate()
 
                 if ((field_EE_door_closed == Choice_short::eYes_1 && SwitchStates_Get(field_F0_switch_id)) || (field_EE_door_closed == Choice_short::eNo_0 && !SwitchStates_Get(field_F0_switch_id)))
                 {
-                    field_EC_current_state = DoorStates::eHubDoorClosed_2;
+                    field_EC_current_state = DoorStates::eOpening_2;
 
-                    switch (field_E8_start_state)
+                    switch (field_E8_door_type)
                     {
-                        case DoorStates::eOpen_0:
+                        case DoorTypes::eBasicDoor_0:
                         {
                             mAnim.Set_Animation_Data(sDoorAnimdIdTable[lvl][1], nullptr);
                             break;
                         }
 
-                        case DoorStates::eClosed_1:
+                        case DoorTypes::eTrialDoor_1:
                         {
                             mAnim.Set_Animation_Data(sDoorAnimdIdTable[lvl][3], nullptr);
                             break;
                         }
 
-                        case DoorStates::eHubDoorClosed_2:
+                        case DoorTypes::eHubDoor_2:
                         {
                         default:
                             mAnim.Set_Animation_Data(sDoorAnimdIdTable[lvl][5], nullptr);
@@ -479,7 +479,7 @@ void Door::VUpdate()
                 }
                 break;
 
-            case DoorStates::eHubDoorClosed_2:
+            case DoorStates::eOpening_2:
                 mAnim.mFlags.Set(AnimFlags::eBit3_Render);
                 mAnim.mFlags.Set(AnimFlags::eBit2_Animate);
                 if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))

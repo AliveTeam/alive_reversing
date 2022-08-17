@@ -197,8 +197,8 @@ static void ConvertTLV(const AO::Path_TLV& tlv)
             j.push_back({ "death_drop", relive::Path_DeathDrop_Converter::From(static_cast<const AO::Path_DeathDrop&>(tlv)) });
             break;
         case AO::TlvTypes::Door_6:
-            LOG_WARNING("tlv of type " << static_cast<s16>(tlv.mTlvType32.mType) << " not implemented");
-            return;
+            j.push_back({ "door", relive::Path_Door_Converter::From(static_cast<const AO::Path_Door&>(tlv)) });
+            break;
         case AO::TlvTypes::ShadowZone_7:
             j.push_back({"shadow_zone", relive::Path_ShadowZone_Converter::From(static_cast<const AO::Path_ShadowZone&>(tlv))});
             break;

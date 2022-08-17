@@ -74,6 +74,8 @@
 #include "../AliveLibAO/Meat.hpp"
 #include "../AliveLibAO/Honey.hpp"
 #include "../AliveLibAO/BeeSwarmHole.hpp"
+#include "../AliveLibAE/Door.hpp"
+#include "../AliveLibAO/Door.hpp"
 
 // Convert an AO or AE TLV to a relive TLV
 
@@ -2287,6 +2289,142 @@ private:
                 return Path_BeeSwarmHole::MovementType::eFollowPath;
         }
         ALIVE_FATAL("Bad bee swarm hole movement type");
+    }
+};
+
+class Path_Door_Converter final
+{
+public:
+    static Path_Door From(const AO::Path_Door& tlv)
+    {
+        Path_Door r;
+        BaseConvert(r, tlv);
+        r.field_10_level = MapWrapper::FromAO(tlv.field_18_level);
+        r.field_12_path = tlv.field_1A_path;
+        r.field_14_camera = tlv.field_1C_camera;
+        r.field_16_scale = relive::From(tlv.field_1E_scale);
+        r.field_18_door_number = tlv.field_20_door_number;
+        r.field_1A_switch_id = tlv.field_22_switch_id;
+        r.field_1C_target_door_id = tlv.field_24_target_door_number;
+        r.field_1E_type = From(tlv.field_26_door_type);
+        r.field_22_hub1 = tlv.field_2A_hub1;
+        r.field_22_hub2 = tlv.field_2A_hub2;
+        r.field_22_hub3 = tlv.field_2A_hub3;
+        r.field_22_hub4 = tlv.field_2A_hub4;
+        r.field_22_hub5 = tlv.field_2A_hub5;
+        r.field_22_hub6 = tlv.field_2A_hub6;
+        r.field_22_hub7 = tlv.field_2A_hub7;
+        r.field_22_hub8 = tlv.field_2A_hub8;
+        // for the time being until we have an enum for wipe_effect
+        r.field_32_wipe_effect = static_cast<Path_Door::ScreenChangeEffects>(tlv.field_3A_wipe_effect);
+        r.field_34_movie_number = tlv.field_3C_movie_number;
+        r.field_36_x_offset = tlv.field_3E_x_offset;
+        r.field_38_y_offset = tlv.field_40_y_offset;
+        r.field_3E_abe_direction = relive::From(tlv.field_46_abe_direction);
+        return r;
+    }
+
+    static Path_Door From(const ::Path_Door& tlv)
+    {
+        Path_Door r;
+        BaseConvert(r, tlv);
+        r.field_10_level = MapWrapper::FromAE(tlv.field_10_level);
+        r.field_12_path = tlv.field_12_path;
+        r.field_14_camera = tlv.field_14_camera;
+        r.field_16_scale = relive::From(tlv.field_16_scale);
+        r.field_18_door_number = tlv.field_18_door_number;
+        r.field_1A_switch_id = tlv.field_1A_switch_id;
+        r.field_1C_target_door_id = tlv.field_1C_target_door_id;
+        r.field_1E_type = From(tlv.field_1E_type);
+        r.field_20_start_state = From(tlv.field_20_start_state);
+        r.field_22_hub1 = tlv.field_22_hub1;
+        r.field_22_hub2 = tlv.field_22_hub2;
+        r.field_22_hub3 = tlv.field_22_hub3;
+        r.field_22_hub4 = tlv.field_22_hub4;
+        r.field_22_hub5 = tlv.field_22_hub5;
+        r.field_22_hub6 = tlv.field_22_hub6;
+        r.field_22_hub7 = tlv.field_22_hub7;
+        r.field_22_hub8 = tlv.field_22_hub8;
+        r.field_32_wipe_effect = From(tlv.field_32_wipe_effect);
+        r.field_34_movie_number = tlv.field_34_movie_number;
+        r.field_36_x_offset = tlv.field_36_x_offset;
+        r.field_38_y_offset = tlv.field_38_y_offset;
+        r.field_3E_abe_direction = relive::From(tlv.field_3E_abe_direction);
+        r.field_40_close_on_exit = relive::From(tlv.field_40_close_on_exit);
+        r.field_42_clear_throwables = relive::From(tlv.field_42_clear_throwables);
+        return r;
+    }
+private:
+    static Path_Door::DoorStates From(::DoorStates state)
+    {
+        switch (state)
+        {
+            case ::DoorStates::eOpen_0:
+                return Path_Door::DoorStates::eOpen;
+            case ::DoorStates::eClosed_1:
+                return Path_Door::DoorStates::eClosed;
+            case ::DoorStates::eOpening_2:
+                return Path_Door::DoorStates::eOpening;
+            case ::DoorStates::eClosing_3:
+                return Path_Door::DoorStates::eClosing;
+        }
+        ALIVE_FATAL("Bad door state");
+    }
+
+    static Path_Door::DoorTypes From(AO::DoorTypes type)
+    {
+        switch (type)
+        {
+            case AO::DoorTypes::eBasicDoor_0:
+                return Path_Door::DoorTypes::eBasicDoor;
+            case AO::DoorTypes::eTrialDoor_1:
+                return Path_Door::DoorTypes::eTrialDoor;
+            case AO::DoorTypes::eHubDoor_2:
+                return Path_Door::DoorTypes::eHubDoor;
+        }
+        ALIVE_FATAL("Bad door type");
+    }
+
+    static Path_Door::DoorTypes From(::DoorTypes type)
+    {
+        switch (type)
+        {
+            case ::DoorTypes::eBasicDoor_0:
+                return Path_Door::DoorTypes::eBasicDoor;
+            case ::DoorTypes::eTasksDoorWithSecretMusic_2:
+                return Path_Door::DoorTypes::eTasksDoorWithSecretMusic;
+            case ::DoorTypes::eTasksDoor_3:
+                return Path_Door::DoorTypes::eTasksDoor;
+        }
+        ALIVE_FATAL("Bad door type");
+    }
+
+    static Path_Door::ScreenChangeEffects From(::ScreenChangeEffects effect)
+    {
+        switch (effect)
+        {
+            case ::ScreenChangeEffects::ePlay1FMV_0:
+                return Path_Door::ScreenChangeEffects::ePlay1FMV;
+            case ::ScreenChangeEffects::eRightToLeft_1:
+                return Path_Door::ScreenChangeEffects::eRightToLeft;
+            case ::ScreenChangeEffects::eLeftToRight_2:
+                return Path_Door::ScreenChangeEffects::eLeftToRight;
+            case ::ScreenChangeEffects::eBottomToTop_3:
+                return Path_Door::ScreenChangeEffects::eBottomToTop;
+            case ::ScreenChangeEffects::eTopToBottom_4:
+                return Path_Door::ScreenChangeEffects::eTopToBottom;
+            case ::ScreenChangeEffects::eBoxOut_5:
+                return Path_Door::ScreenChangeEffects::eBoxOut;
+            case ::ScreenChangeEffects::eVerticalSplit_6:
+                return Path_Door::ScreenChangeEffects::eVerticalSplit;
+            case ::ScreenChangeEffects::eHorizontalSplit_7:
+                return Path_Door::ScreenChangeEffects::eHorizontalSplit;
+            case ::ScreenChangeEffects::eUnknown_8:
+                return Path_Door::ScreenChangeEffects::eUnknown;
+            case ::ScreenChangeEffects::eInstantChange_9:
+                return Path_Door::ScreenChangeEffects::eInstantChange;
+        }
+        ALIVE_FATAL("Bad door screen change effect");
     }
 };
 

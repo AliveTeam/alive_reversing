@@ -11,12 +11,19 @@ namespace AO {
 
 enum class LevelIds : s16;
 
-enum class DoorStates : s16
+enum DoorStates : s16
 {
     eOpen_0 = 0,
     eClosed_1 = 1,
-    eHubDoorClosed_2 = 2,
+    eOpening_2 = 2,
     eClosing_3 = 3,
+};
+
+enum class DoorTypes : s16
+{
+    eBasicDoor_0 = 0,
+    eTrialDoor_1 = 1,
+    eHubDoor_2 = 2,
 };
 
 struct Path_Door final : public Path_TLV
@@ -28,7 +35,7 @@ struct Path_Door final : public Path_TLV
     u16 field_20_door_number;
     s16 field_22_switch_id;
     s16 field_24_target_door_number;
-    DoorStates field_26_start_state;
+    DoorTypes field_26_door_type;
     Choice_short field_28_door_closed;
     s16 field_2A_hub1;
     s16 field_2A_hub2;
@@ -65,7 +72,7 @@ public:
     void PlaySound();
 
     s32 field_E4_tlvInfo = 0;
-    DoorStates field_E8_start_state = DoorStates::eOpen_0;
+    DoorTypes field_E8_door_type = DoorTypes::eBasicDoor_0;
     s16 field_EA_door_number = 0;
     DoorStates field_EC_current_state = DoorStates::eOpen_0;
     Choice_short field_EE_door_closed = Choice_short::eNo_0;

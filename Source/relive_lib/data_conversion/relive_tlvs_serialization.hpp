@@ -1577,5 +1577,94 @@ void from_json(const nlohmann::json& j, Path_BeeSwarmHole& p)
     j.at("speed").get_to(p.mSpeed);
 }
 
+// Path_Door
+NLOHMANN_JSON_SERIALIZE_ENUM(Path_Door::DoorStates, {
+    {Path_Door::DoorStates::eOpen, "open"},
+    {Path_Door::DoorStates::eClosed, "closed"},
+    {Path_Door::DoorStates::eOpening, "opening"},
+    {Path_Door::DoorStates::eClosing, "closing"},
+})
+
+NLOHMANN_JSON_SERIALIZE_ENUM(Path_Door::DoorTypes, {
+    {Path_Door::DoorTypes::eBasicDoor, "basic_door"},
+    {Path_Door::DoorTypes::eTasksDoorWithSecretMusic, "tasks_door_with_secret_music"},
+    {Path_Door::DoorTypes::eTasksDoor, "tasks_door"},
+    {Path_Door::DoorTypes::eTrialDoor, "trial_door"},
+    {Path_Door::DoorTypes::eHubDoor, "hub_door"},
+})
+
+NLOHMANN_JSON_SERIALIZE_ENUM(Path_Door::ScreenChangeEffects, {
+    {Path_Door::ScreenChangeEffects::ePlay1FMV, "play_1_fmv"},
+    {Path_Door::ScreenChangeEffects::eRightToLeft, "right_to_left"},
+    {Path_Door::ScreenChangeEffects::eLeftToRight, "left_to_right"},
+    {Path_Door::ScreenChangeEffects::eBottomToTop, "bottom_to_top"},
+    {Path_Door::ScreenChangeEffects::eTopToBottom, "top_to_bottom"},
+    {Path_Door::ScreenChangeEffects::eBoxOut, "box_out"},
+    {Path_Door::ScreenChangeEffects::eVerticalSplit, "vertical_split"},
+    {Path_Door::ScreenChangeEffects::eHorizontalSplit, "horizontal_split"},
+    {Path_Door::ScreenChangeEffects::eUnknown, "unknown"},
+    {Path_Door::ScreenChangeEffects::eInstantChange, "instant_change"},
+})
+
+void to_json(nlohmann::json& j, const Path_Door& p)
+{
+    j = nlohmann::json{
+        {"base", ToBase(p)},
+        {"level", p.field_10_level},
+        {"path", p.field_12_path},
+        {"camera", p.field_14_camera},
+        {"scale", p.field_16_scale},
+        {"door_number", p.field_18_door_number},
+        {"switch_id", p.field_1A_switch_id},
+        {"target_door_id", p.field_1C_target_door_id},
+        {"type", p.field_1E_type},
+        {"start_state", p.field_20_start_state},
+        {"hub_1", p.field_22_hub1},
+        {"hub_2", p.field_22_hub2},
+        {"hub_3", p.field_22_hub3},
+        {"hub_4", p.field_22_hub4},
+        {"hub_5", p.field_22_hub5},
+        {"hub_6", p.field_22_hub6},
+        {"hub_7", p.field_22_hub7},
+        {"hub_8", p.field_22_hub8},
+        {"wipe_effect", p.field_32_wipe_effect},
+        {"movie_number", p.field_34_movie_number},
+        {"x_offset", p.field_36_x_offset},
+        {"y_offset", p.field_38_y_offset},
+        {"abe_direction", p.field_3E_abe_direction},
+        {"close_on_exit", p.field_40_close_on_exit},
+        {"clear_throwables", p.field_42_clear_throwables},
+    };
+}
+
+void from_json(const nlohmann::json& j, Path_Door& p)
+{
+    j.at("base").get_to(ToBase(p));
+    j.at("level").get_to(p.field_10_level);
+    j.at("path").get_to(p.field_12_path);
+    j.at("camera").get_to(p.field_14_camera);
+    j.at("scale").get_to(p.field_16_scale);
+    j.at("door_number").get_to(p.field_18_door_number);
+    j.at("switch_id").get_to(p.field_1A_switch_id);
+    j.at("target_door_id").get_to(p.field_1C_target_door_id);
+    j.at("type").get_to(p.field_1E_type);
+    j.at("start_state").get_to(p.field_20_start_state);
+    j.at("hub_1").get_to(p.field_22_hub1);
+    j.at("hub_2").get_to(p.field_22_hub2);
+    j.at("hub_3").get_to(p.field_22_hub3);
+    j.at("hub_4").get_to(p.field_22_hub4);
+    j.at("hub_5").get_to(p.field_22_hub5);
+    j.at("hub_6").get_to(p.field_22_hub6);
+    j.at("hub_7").get_to(p.field_22_hub7);
+    j.at("hub_8").get_to(p.field_22_hub8);
+    j.at("wipe_effect").get_to(p.field_32_wipe_effect);
+    j.at("movie_number").get_to(p.field_34_movie_number);
+    j.at("x_offset").get_to(p.field_36_x_offset);
+    j.at("y_offset").get_to(p.field_38_y_offset);
+    j.at("abe_direction").get_to(p.field_3E_abe_direction);
+    j.at("close_on_exit").get_to(p.field_40_close_on_exit);
+    j.at("clear_throwables").get_to(p.field_42_clear_throwables);
+}
+
 } // namespace relive
 

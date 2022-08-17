@@ -9765,7 +9765,7 @@ void Abe::Motion_156_DoorEnter_42D370()
                 }
             }
 
-            if (pPathDoor->field_26_start_state == DoorStates::eOpen_0)
+            if (pPathDoor->field_26_door_type == DoorTypes::eBasicDoor_0)
             {
                 if (pPathDoor->field_1E_scale == Scale_short::eHalf_1)
                 {
@@ -9780,7 +9780,7 @@ void Abe::Motion_156_DoorEnter_42D370()
                     mScale = Scale::Fg;
                 }
             }
-            else if (pPathDoor->field_26_start_state == DoorStates::eClosed_1 || pPathDoor->field_26_start_state == DoorStates::eHubDoorClosed_2)
+            else if (pPathDoor->field_26_door_type == DoorTypes::eTrialDoor_1 || pPathDoor->field_26_door_type == DoorTypes::eHubDoor_2)
             {
                 if (gMap.mCurrentLevel != EReliveLevelIds::eRuptureFarmsReturn)
                 {

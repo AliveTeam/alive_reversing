@@ -255,12 +255,11 @@ struct Path_Door final : public ReliveAPI::TlvObjectBaseAO
 {
     void AddTypes(ReliveAPI::TypesCollectionBase& types) override
     {
-        types.AddEnum<AO::DoorStates>("Enum_DoorStates",
+        types.AddEnum<AO::DoorTypes>("Enum_DoorTypes",
         {
-            {AO::DoorStates::eOpen_0, "Open"},
-            {AO::DoorStates::eClosed_1, "Closed"},
-            {AO::DoorStates::eHubDoorClosed_2, "Hub Door Closed"},
-            {AO::DoorStates::eClosing_3, "Closing (Internal Only)"},
+            {AO::DoorTypes::eBasicDoor_0, "Basic Door"},
+            {AO::DoorTypes::eTrialDoor_1, "Trial Door"},
+            {AO::DoorTypes::eHubDoor_2, "Hub Door"},
         });
     }
 
@@ -273,7 +272,7 @@ struct Path_Door final : public ReliveAPI::TlvObjectBaseAO
         ADD("Door Number", mTlv.field_20_door_number);
         ADD("Switch ID", mTlv.field_22_switch_id);
         ADD("Target Door Number", mTlv.field_24_target_door_number);
-        ADD("Start State", mTlv.field_26_start_state);
+        ADD("Door Type", mTlv.field_26_door_type);
         ADD("Door Closed", mTlv.field_28_door_closed);
         ADD("Hub 1 ID", mTlv.field_2A_hub1);
         ADD("Hub 2 ID", mTlv.field_2A_hub2);

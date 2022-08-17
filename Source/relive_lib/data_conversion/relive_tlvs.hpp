@@ -780,4 +780,67 @@ struct Path_BeeSwarmHole final : public Path_TLV
     s16 mSpeed;
 };
 
+struct Path_Door final : public Path_TLV
+{
+    enum DoorStates : s16
+    {
+        eOpen,
+        eClosed,
+        eOpening,
+        eClosing,
+    };
+    enum DoorTypes : s16
+    {
+        eBasicDoor,
+        eTasksDoorWithSecretMusic,
+        eTasksDoor,
+
+        // AO only
+        eTrialDoor,
+        eHubDoor,
+    };
+    enum ScreenChangeEffects : s16
+    {
+        ePlay1FMV,
+        eRightToLeft,
+        eLeftToRight,
+        eBottomToTop,
+        eTopToBottom,
+        eBoxOut,
+        eVerticalSplit,
+        eHorizontalSplit,
+        eUnknown,
+        eInstantChange,
+    };
+    EReliveLevelIds field_10_level;
+    s16 field_12_path;
+    s16 field_14_camera;
+    reliveScale field_16_scale;
+    s16 field_18_door_number;
+    s16 field_1A_switch_id;
+    s16 field_1C_target_door_id;
+    DoorTypes field_1E_type;
+
+    // AE only
+    DoorStates field_20_start_state;
+
+    s16 field_22_hub1;
+    s16 field_22_hub2;
+    s16 field_22_hub3;
+    s16 field_22_hub4;
+    s16 field_22_hub5;
+    s16 field_22_hub6;
+    s16 field_22_hub7;
+    s16 field_22_hub8;
+    ScreenChangeEffects field_32_wipe_effect;
+    s16 field_34_movie_number;
+    s16 field_36_x_offset;
+    s16 field_38_y_offset;
+    reliveXDirection field_3E_abe_direction;
+
+    // AE only
+    reliveChoice field_40_close_on_exit;
+    reliveChoice field_42_clear_throwables;
+};
+
 } // namespace relive
