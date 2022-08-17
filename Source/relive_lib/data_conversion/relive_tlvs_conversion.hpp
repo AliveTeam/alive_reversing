@@ -83,6 +83,13 @@
 #include "../AliveLibAE/Mudokon.hpp"
 #include "../AliveLibAO/Mudokon.hpp"
 #include "../AliveLibAO/SecurityClaw.hpp"
+#include "../AliveLibAO/SlingMudokon.hpp"
+#include "../AliveLibAE/FootSwitch.hpp"
+#include "../AliveLibAO/FootSwitch.hpp"
+#include "../AliveLibAO/Paramite.hpp"
+#include "../AliveLibAE/Paramite.hpp"
+#include "../AliveLibAO/ZzzSpawner.hpp"
+#include "../AliveLibAE/ZzzSpawner.hpp"
 
 // Convert an AO or AE TLV to a relive TLV
 
@@ -2731,6 +2738,158 @@ public:
         r.mAlarmSwitchId = tlv.field_1A_alarm_switch_id;
         r.mAlarmDuration = tlv.field_1C_alarm_duration;
         r.mDisabledResources = tlv.field_1C_alarm_duration;
+        return r;
+    }
+};
+
+class Path_SlingMudokon_Converter final
+{
+public:
+    static Path_SlingMudokon From(const AO::Path_SlingMudokon& tlv)
+    {
+        Path_SlingMudokon r;
+        BaseConvert(r, tlv);
+        r.mScale = relive::From(tlv.field_18_scale);
+        r.mDontWhistlePassword = relive::From(tlv.field_1A_bDontWhistlePassword);
+        r.mCode1 = tlv.field_1C_code_1;
+        r.mCode2 = tlv.field_1E_code_2;
+        return r;
+    }
+};
+
+class Path_FootSwitch_Converter final
+{
+public:
+    static Path_FootSwitch From(const AO::Path_FootSwitch& tlv)
+    {
+        Path_FootSwitch r;
+        BaseConvert(r, tlv);
+        r.mSwitchId = tlv.field_18_switch_id;
+        r.mScale = relive::From(tlv.field_1A_scale);
+        r.mAction = relive::From(tlv.field_1C_action);
+        r.mTriggeredBy = From(tlv.field_1E_trigger_by);
+        return r;
+    }
+
+    static Path_FootSwitch From(const ::Path_FootSwitch& tlv)
+    {
+        Path_FootSwitch r;
+        BaseConvert(r, tlv);
+        r.mSwitchId = tlv.field_10_switch_id;
+        r.mScale = relive::From(tlv.field_12_scale);
+        r.mAction = relive::From(tlv.field_14_action);
+        r.mTriggeredBy = From(tlv.field_16_trigger_by);
+        return r;
+    }
+private:
+    static Path_FootSwitch::FootSwitchTriggerBy From(AO::FootSwitchTriggerBy triggerdBy)
+    {
+        switch (triggerdBy)
+        {
+            case AO::FootSwitchTriggerBy::eAbe_0:
+                return Path_FootSwitch::FootSwitchTriggerBy::eAbe;
+            case AO::FootSwitchTriggerBy::eAnyone_1:
+                return Path_FootSwitch::FootSwitchTriggerBy::eAnyone;
+        }
+        ALIVE_FATAL("Bad foot switch triggered by value");
+    }
+
+    static Path_FootSwitch::FootSwitchTriggerBy From(::FootSwitchTriggerBy triggerdBy)
+    {
+        switch (triggerdBy)
+        {
+            case ::FootSwitchTriggerBy::eAbe_0:
+                return Path_FootSwitch::FootSwitchTriggerBy::eAbe;
+            case ::FootSwitchTriggerBy::eAnyone_1:
+                return Path_FootSwitch::FootSwitchTriggerBy::eAnyone;
+        }
+        ALIVE_FATAL("Bad foot switch triggered by value");
+    }
+};
+
+class Path_Paramite_Converter final
+{
+public:
+    static Path_Paramite From(const AO::Path_Paramite& tlv)
+    {
+        Path_Paramite r;
+        BaseConvert(r, tlv);
+        r.mScale = relive::From(tlv.field_18_scale);
+        r.mEntranceType = From(tlv.field_1A_bEnter_from_web);
+        r.mAloneChaseDelay = tlv.field_1C_alone_chase_delay;
+        r.mSurpriseWebDelayTimer = tlv.field_1E_surprise_web_delay_timer;
+        r.mMeatEatingTime = tlv.field_20_meat_eating_time;
+        r.mGroupChaseDelay = tlv.field_22_group_chase_delay;
+        r.mSurpriseWebSwitchId = tlv.field_26_surprise_web_switch_id;
+        r.mHissBeforeAttack = relive::From(tlv.field_28_hiss_before_attack);
+        r.mDeleteWhenOutOfSight = relive::From(tlv.field_2A_delete_when_far_away);
+        return r;
+    }
+
+    static Path_Paramite From(const ::Path_Paramite& tlv)
+    {
+        Path_Paramite r;
+        BaseConvert(r, tlv);
+        r.mScale = relive::From(tlv.field_10_scale);
+        r.mEntranceType = From(tlv.field_12_entrace_type);
+        r.mAloneChaseDelay = tlv.field_14_alone_chase_delay;
+        r.mSurpriseWebDelayTimer = tlv.field_16_surprise_web_delay_timer;
+        r.mMeatEatingTime = tlv.field_18_meat_eating_time;
+        r.mGroupChaseDelay = tlv.field_1A_group_chase_delay;
+        r.mSurpriseWebSwitchId = tlv.field_1E_surprise_web_switch_id;
+        r.mHissBeforeAttack = relive::From(tlv.field_20_hiss_before_attack);
+        r.mDeleteWhenOutOfSight = relive::From(tlv.field_22_delete_when_out_of_sight);
+        r.mAttackFleeches = relive::From(tlv.field_24_bAttack_fleeches);
+        return r;
+    }
+private:
+    static Path_Paramite::EntranceType From(Choice_short choice)
+    {
+        switch (choice)
+        {
+            case Choice_short::eNo_0:
+                return Path_Paramite::EntranceType::ePatrol;
+            case Choice_short::eYes_1:
+                return Path_Paramite::EntranceType::eSurpriseWeb;
+        }
+        ALIVE_FATAL("Can't convert choice to entrance type");
+    }
+
+    static Path_Paramite::EntranceType From(::Path_Paramite::EntranceType entranceType)
+    {
+        switch (entranceType)
+        {
+            case ::Path_Paramite::EntranceType::ePatrol_0:
+                return Path_Paramite::EntranceType::ePatrol;
+            case ::Path_Paramite::EntranceType::eSurpriseWeb_1:
+                return Path_Paramite::EntranceType::eSurpriseWeb;
+            case ::Path_Paramite::EntranceType::eSlightlyHigherSpawnSurpriseWeb_2:
+                return Path_Paramite::EntranceType::eSlightlyHigherSpawnSurpriseWeb;
+        }
+        ALIVE_FATAL("Bad paramite entrance type");
+    }
+};
+
+class Path_ZzzSpawner_Converter final
+{
+public:
+    static Path_ZzzSpawner From(const AO::Path_ZzzSpawner& tlv)
+    {
+        Path_ZzzSpawner r;
+        BaseConvert(r, tlv);
+        r.mScale = relive::From(tlv.mScale);
+        r.mSwitchId = tlv.mSwitchId;
+        r.mZzzInterval = tlv.mZzzInterval;
+        return r;
+    }
+
+    static Path_ZzzSpawner From(const ::Path_ZzzSpawner& tlv)
+    {
+        Path_ZzzSpawner r;
+        BaseConvert(r, tlv);
+        r.mScale = relive::From(tlv.mScale);
+        r.mSwitchId = tlv.mSwitchId;
+        r.mZzzInterval = tlv.mZzzInterval;
         return r;
     }
 };

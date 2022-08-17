@@ -63,8 +63,8 @@ struct Path_Paramite final : public Path_TLV
     Scale_short field_10_scale;
     enum class EntranceType : s16
     {
-        eNormalPatrol_0 = 0,
-        eNormalSurpriseWeb_1 = 1,
+        ePatrol_0 = 0,
+        eSurpriseWeb_1 = 1,
         eSlightlyHigherSpawnSurpriseWeb_2 = 2,
         eUnused_ScaleToLeftGridSize_3 = 3,
         eUnused_ScaleToRightGridSize_4 = 4,
@@ -74,8 +74,8 @@ struct Path_Paramite final : public Path_TLV
     s16 field_16_surprise_web_delay_timer;
     s16 field_18_meat_eating_time;
     u16 field_1A_group_chase_delay;
-    s16 field_1C_disabled_resources;
-    s16 field_1E_id;
+    s16 field_1C_disabled_resources; // // Unused
+    s16 field_1E_surprise_web_switch_id;
     Choice_short field_20_hiss_before_attack;
     Choice_short field_22_delete_when_out_of_sight;
     Choice_short field_24_bAttack_fleeches;
@@ -330,7 +330,7 @@ private:
     s32 field_140_tlvInfo = 0;
     s32 field_144_group_chase_delay = 0;
     s32 field_148_timer = 0;
-    s16 field_14C_id = 0;
+    s16 field_14C_surprise_web_switch_id = 0;
     EReliveLevelIds field_14E_return_level = EReliveLevelIds::eNone;
     s16 field_150_return_path = 0;
     s16 field_152_return_camera = 0;

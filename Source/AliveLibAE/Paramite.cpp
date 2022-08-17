@@ -129,7 +129,7 @@ Paramite::Paramite(Path_Paramite* pTlv, s32 tlvInfo)
 
     switch (pTlv->field_12_entrace_type)
     {
-        case Path_Paramite::EntranceType::eNormalSurpriseWeb_1:
+        case Path_Paramite::EntranceType::eSurpriseWeb_1:
             mBaseAliveGameObjectFlags.Clear(Flags_114::e114_Bit3_Can_Be_Possessed);
             SetBrain(&Paramite::Brain_3_SurpriseWeb_4851B0);
             break;
@@ -166,7 +166,7 @@ Paramite::Paramite(Path_Paramite* pTlv, s32 tlvInfo)
     field_12E_surprise_web_delay_timer = pTlv->field_16_surprise_web_delay_timer;
     field_134_meat_eating_time = pTlv->field_18_meat_eating_time;
     field_144_group_chase_delay = pTlv->field_1A_group_chase_delay;
-    field_14C_id = pTlv->field_1E_id;
+    field_14C_surprise_web_switch_id = pTlv->field_1E_surprise_web_switch_id;
 
     field_178_flags.Set(Flags_178::eBit1_hiss_before_attack, pTlv->field_20_hiss_before_attack == Choice_short::eYes_1);
     field_178_flags.Clear(Flags_178::eBit2_running);
@@ -1964,7 +1964,7 @@ s16 Paramite::Brain_3_SurpriseWeb_4851B0()
             return ParamiteEnums::Brain_3_SurpriseWeb::eBrain3_Appearing_1;
 
         case ParamiteEnums::Brain_3_SurpriseWeb::eBrain3_Appearing_1:
-            if (field_14C_id != 0 && SwitchStates_Get(field_14C_id))
+            if (field_14C_surprise_web_switch_id != 0 && SwitchStates_Get(field_14C_surprise_web_switch_id))
             {
                 mBaseAliveGameObjectFlags.Set(Flags_114::e114_Bit3_Can_Be_Possessed);
                 mAnim.mFlags.Clear(AnimFlags::eBit5_FlipX);
@@ -2899,7 +2899,7 @@ s16 Paramite::Brain_9_ParamiteSpawn_48ED80()
     switch (field_12C_brain_ret)
     {
         case ParamiteEnums::Brain_9_ParamiteSpawn::eBrain9_Inactive_0:
-            if (field_14C_id)
+            if (field_14C_surprise_web_switch_id)
             {
                 field_12C_brain_ret = ParamiteEnums::Brain_9_ParamiteSpawn::eBrain9_PreSpawn_1;
             }
@@ -2917,7 +2917,7 @@ s16 Paramite::Brain_9_ParamiteSpawn_48ED80()
             break;
 
         case ParamiteEnums::Brain_9_ParamiteSpawn::eBrain9_PreSpawn_1:
-            if (SwitchStates_Get(field_14C_id))
+            if (SwitchStates_Get(field_14C_surprise_web_switch_id))
             {
                 field_178_flags.Set(Flags_178::eBit6_spawned);
                 SfxPlayMono(SoundEffect::ParamiteSpawn_110, 0);

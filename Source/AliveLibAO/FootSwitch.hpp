@@ -23,7 +23,7 @@ struct Path_FootSwitch final : public Path_TLV
     SwitchOp field_1C_action;
     FootSwitchTriggerBy field_1E_trigger_by;
 };
-ALIVE_ASSERT_SIZEOF(Path_FootSwitch, 0x20);
+ALIVE_ASSERT_SIZEOF_ALWAYS(Path_FootSwitch, 0x20);
 
 class FootSwitch final : public BaseAnimatedWithPhysicsGameObject
 {

@@ -1893,5 +1893,111 @@ void from_json(const nlohmann::json& j, Path_SecurityClaw& p)
     j.at("disabled_resources").get_to(p.mDisabledResources);
 }
 
+// Path_SlingMudokon
+void to_json(nlohmann::json& j, const Path_SlingMudokon& p)
+{
+    j = nlohmann::json{
+        {"base", ToBase(p)},
+        {"scale", p.mScale},
+        {"dont_whistle_password", p.mDontWhistlePassword},
+        {"code_1", p.mCode1},
+        {"code_2", p.mCode2},
+    };
+}
+
+void from_json(const nlohmann::json& j, Path_SlingMudokon& p)
+{
+    j.at("base").get_to(ToBase(p));
+    j.at("scale").get_to(p.mScale);
+    j.at("dont_whistle_password").get_to(p.mDontWhistlePassword);
+    j.at("code_1").get_to(p.mCode1);
+    j.at("code_2").get_to(p.mCode2);
+}
+
+// Path_FootSwitch
+NLOHMANN_JSON_SERIALIZE_ENUM(Path_FootSwitch::FootSwitchTriggerBy, {
+    {Path_FootSwitch::FootSwitchTriggerBy::eAbe, "abe"},
+    {Path_FootSwitch::FootSwitchTriggerBy::eAnyone, "anyone"},
+})
+
+void to_json(nlohmann::json& j, const Path_FootSwitch& p)
+{
+    j = nlohmann::json{
+        {"base", ToBase(p)},
+        {"switch_id", p.mSwitchId},
+        {"scale", p.mScale},
+        {"action", p.mAction},
+        {"triggered_by", p.mTriggeredBy},
+    };
+}
+
+void from_json(const nlohmann::json& j, Path_FootSwitch& p)
+{
+    j.at("base").get_to(ToBase(p));
+    j.at("switch_id").get_to(p.mSwitchId);
+    j.at("scale").get_to(p.mScale);
+    j.at("action").get_to(p.mAction);
+    j.at("triggered_by").get_to(p.mTriggeredBy);
+}
+
+// Path_Paramite
+NLOHMANN_JSON_SERIALIZE_ENUM(Path_Paramite::EntranceType, {
+    {Path_Paramite::EntranceType::ePatrol, "patrol"},
+    {Path_Paramite::EntranceType::eSurpriseWeb, "surprise_web"},
+    {Path_Paramite::EntranceType::eSlightlyHigherSpawnSurpriseWeb, "slightly_higher_spawn_surprise_web"},
+})
+
+void to_json(nlohmann::json& j, const Path_Paramite& p)
+{
+    j = nlohmann::json{
+        {"base", ToBase(p)},
+        {"scale", p.mScale},
+        {"entrance_type", p.mEntranceType},
+        {"alone_chase_delay", p.mAloneChaseDelay},
+        {"surprise_web_delay_timer", p.mSurpriseWebDelayTimer},
+        {"meat_eating_time", p.mMeatEatingTime},
+        {"group_chase_delay", p.mGroupChaseDelay},
+        {"surprise_web_switch_id", p.mSurpriseWebSwitchId},
+        {"hiss_before_attack", p.mHissBeforeAttack},
+        {"delete_when_out_of_sight", p.mDeleteWhenOutOfSight},
+        {"attack_fleeches", p.mAttackFleeches},
+    };
+}
+
+void from_json(const nlohmann::json& j, Path_Paramite& p)
+{
+    j.at("base").get_to(ToBase(p));
+    j.at("scale").get_to(p.mScale);
+    j.at("entrance_type").get_to(p.mEntranceType);
+    j.at("alone_chase_delay").get_to(p.mAloneChaseDelay);
+    j.at("surprise_web_delay_timer").get_to(p.mSurpriseWebDelayTimer);
+    j.at("meat_eating_time").get_to(p.mMeatEatingTime);
+    j.at("group_chase_delay").get_to(p.mGroupChaseDelay);
+    j.at("surprise_web_switch_id").get_to(p.mSurpriseWebSwitchId);
+    j.at("hiss_before_attack").get_to(p.mHissBeforeAttack);
+    j.at("delete_when_out_of_sight").get_to(p.mDeleteWhenOutOfSight);
+    j.at("attack_fleeches").get_to(p.mAttackFleeches);
+}
+
+// Path_ZzzSpawner
+void to_json(nlohmann::json& j, const Path_ZzzSpawner& p)
+{
+    j = nlohmann::json{
+        {"base", ToBase(p)},
+        {"scale", p.mScale},
+        {"switch_id", p.mSwitchId},
+        {"zzz_interval", p.mZzzInterval},
+    };
+}
+
+void from_json(const nlohmann::json& j, Path_ZzzSpawner& p)
+{
+    j.at("base").get_to(ToBase(p));
+    j.at("scale").get_to(p.mScale);
+    j.at("switch_id").get_to(p.mSwitchId);
+    j.at("zzz_interval").get_to(p.mZzzInterval);
+}
+
+
 } // namespace relive
 

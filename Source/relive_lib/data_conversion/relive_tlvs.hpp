@@ -950,4 +950,54 @@ struct Path_SecurityClaw final : public Path_TLV
     s16 mDisabledResources;
 };
 
+struct Path_SlingMudokon final : public Path_TLV
+{
+    reliveScale mScale;
+    reliveChoice mDontWhistlePassword;
+    s16 mCode1;
+    s16 mCode2;
+};
+
+struct Path_FootSwitch final : public Path_TLV
+{
+    enum class FootSwitchTriggerBy : s16
+    {
+        eAbe,
+        eAnyone,
+    };
+    s16 mSwitchId;
+    reliveScale mScale;
+    reliveSwitchOp mAction;
+    FootSwitchTriggerBy mTriggeredBy;
+};
+
+struct Path_Paramite final : public Path_TLV
+{
+    reliveScale mScale;
+    enum class EntranceType : s16
+    {
+        ePatrol,
+        eSurpriseWeb,
+        eSlightlyHigherSpawnSurpriseWeb,
+    };
+    EntranceType mEntranceType;
+    s16 mAloneChaseDelay;
+    s16 mSurpriseWebDelayTimer;
+    s16 mMeatEatingTime;
+    u16 mGroupChaseDelay;
+    s16 mSurpriseWebSwitchId;
+    reliveChoice mHissBeforeAttack;
+    reliveChoice mDeleteWhenOutOfSight;
+
+    // AE only
+    reliveChoice mAttackFleeches;
+};
+
+struct Path_ZzzSpawner final : public Path_TLV
+{
+    reliveScale mScale;
+    s16 mSwitchId;
+    s16 mZzzInterval;
+};
+
 } // namespace relive

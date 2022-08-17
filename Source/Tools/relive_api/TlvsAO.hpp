@@ -1285,9 +1285,9 @@ struct Path_ZzzSpawner final : public ReliveAPI::TlvObjectBaseAO
 {
     CTOR_AO(Path_ZzzSpawner, "ZzzSpawner", AO::TlvTypes::ZzzSpawner_111)
     {
-        ADD("Scale", mTlv.field_18_scale);
-        ADD("Switch ID", mTlv.field_1A_switch_id);
-        ADD("Zzz Delay", mTlv.field_1C_Zzz_delay);
+        ADD("Scale", mTlv.mScale);
+        ADD("Switch ID", mTlv.mSwitchId);
+        ADD("Zzz Delay", mTlv.mZzzInterval);
     }
 };
 

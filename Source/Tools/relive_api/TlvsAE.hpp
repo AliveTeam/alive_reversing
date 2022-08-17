@@ -1891,9 +1891,9 @@ struct Path_ZzzSpawner final : public ReliveAPI::TlvObjectBaseAE
 {
     CTOR_AE(Path_ZzzSpawner, "ZzzSpawner", TlvTypes::ZzzSpawner_72)
     {
-        ADD("Scale", mTlv.field_10_scale);
-        ADD("Switch ID", mTlv.field_12_switch_id);
-        ADD("Zzz Interval", mTlv.field_14_Zzz_interval);
+        ADD("Scale", mTlv.mScale);
+        ADD("Switch ID", mTlv.mSwitchId);
+        ADD("Zzz Interval", mTlv.mZzzInterval);
     }
 };
 
@@ -2086,8 +2086,8 @@ struct Path_Paramite final : public ReliveAPI::TlvObjectBaseAE
     {
         types.AddEnum<::Path_Paramite::EntranceType>("Enum_ParamiteEntranceType",
         {
-            {::Path_Paramite::EntranceType::eNormalPatrol_0, "Normal Patrol"},
-            {::Path_Paramite::EntranceType::eNormalSurpriseWeb_1, "Normal Surprise Web"},
+            {::Path_Paramite::EntranceType::ePatrol_0, "Normal Patrol"},
+            {::Path_Paramite::EntranceType::eSurpriseWeb_1, "Normal Surprise Web"},
             {::Path_Paramite::EntranceType::eSlightlyHigherSpawnSurpriseWeb_2, "Slightly Higher Spawn Surprise Web"},
             {::Path_Paramite::EntranceType::eUnused_ScaleToLeftGridSize_3, "Unused Scale To Left Grid Size"},
             {::Path_Paramite::EntranceType::eUnused_ScaleToRightGridSize_4, "Unused Scale To Right Grid Size"},
@@ -2103,7 +2103,7 @@ struct Path_Paramite final : public ReliveAPI::TlvObjectBaseAE
         ADD("Meat Eating Time", mTlv.field_18_meat_eating_time);
         ADD("Group - Chase Delay", mTlv.field_1A_group_chase_delay);
         ADD("Disabled Resources", mTlv.field_1C_disabled_resources);
-        ADD("Surprise Web Switch ID", mTlv.field_1E_id);
+        ADD("Surprise Web Switch ID", mTlv.field_1E_surprise_web_switch_id);
         ADD("Hiss Before Attacking", mTlv.field_20_hiss_before_attack);
         ADD("Delete When Out Of Sight", mTlv.field_22_delete_when_out_of_sight);
         ADD("Attack Fleeches", mTlv.field_24_bAttack_fleeches);
