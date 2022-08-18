@@ -97,6 +97,7 @@
 #include "../AliveLibAO/GasCountDown.hpp"
 #include "../AliveLibAE/SecurityDoor.hpp"
 #include "../AliveLibAO/SecurityDoor.hpp"
+#include "../AliveLibAO/Well.hpp"
 
 // Convert an AO or AE TLV to a relive TLV
 
@@ -3079,4 +3080,114 @@ private:
     }
 };
 
+class Path_WellLocal_Converter final
+{
+public:
+    static Path_WellLocal From(const AO::Path_WellLocal& tlv)
+    {
+        Path_WellLocal r;
+        BaseConvert(r, tlv);
+
+        // Well base
+        r.mScale = relive::From(tlv.field_18_scale);
+        r.mSwitchId = tlv.field_1A_switch_id;
+        r.mOtherWellId = tlv.field_1C_other_well_id;
+        r.mAnimId = tlv.field_1E_anim_id;
+        r.mExitX = tlv.field_20_exit_x;
+        r.mExitY = tlv.field_22_exit_y;
+        r.mOffDestX = tlv.field_24_off_level_or_dx.dx;
+
+        // TODO: union
+        r.mOffDestY = tlv.field_26_off_path_or_dy;
+
+        // Local well
+        r.mOnDestX = tlv.field_28_on_dx;
+        r.mOnDestY = tlv.field_2A_on_dy;
+        r.mEmitLeaves = relive::From(tlv.field_2C_bEmit_leaves);
+        r.mLeafX = tlv.field_2E_leaf_x;
+        r.mLeafY = tlv.field_30_leaf_y;
+        return r;
+    }
+
+    static Path_WellLocal From(const ::Path_WellLocal& tlv)
+    {
+        Path_WellLocal r;
+        BaseConvert(r, tlv);
+
+        // Well base
+        r.mScale = relive::From(tlv.field_0_scale);
+        r.mSwitchId = tlv.field_2_switch_id;
+        r.mOtherWellId = tlv.field_4_other_well_id;
+        r.mAnimId = tlv.field_6_anim_id;
+
+        // Local well
+        r.mOnDestX = tlv.field_1C_on_dx;
+        r.mOnDestY = tlv.field_1E_on_dy;
+        r.mEmitLeaves = relive::From(tlv.field_20_bEmit_leaves);
+        r.mLeafX = tlv.field_22_leaf_x;
+        r.mLeafY = tlv.field_24_leaf_y;
+        return r;
+    }
+};
+
+
+class Path_WellExpress_Converter final
+{
+public:
+    static Path_WellExpress From(const AO::Path_WellExpress& tlv)
+    {
+        Path_WellExpress r;
+        BaseConvert(r, tlv);
+
+        // Well base
+        r.mScale = relive::From(tlv.field_18_scale);
+        r.mSwitchId = tlv.field_1A_switch_id;
+        r.mOtherWellId = tlv.field_1C_other_well_id;
+        r.mAnimId = tlv.field_1E_anim_id;
+        r.mExitX = tlv.field_20_exit_x;
+        r.mExitY = tlv.field_22_exit_y;
+        r.mOffDestLevel = MapWrapper::FromAO(tlv.field_24_off_level_or_dx.level);
+
+        // TODO: union
+        r.mOffDestPath = tlv.field_26_off_path_or_dy;
+
+        // Express well
+        r.mOffDestCamera = tlv.field_28_off_camera;
+        r.mOffOtherWellId = tlv.field_2A_off_well_id;
+        r.mOnDestLevel = MapWrapper::FromAO(tlv.field_2C_on_level);
+        r.mOnDestPath = tlv.field_2E_on_path;
+        r.mOnDestCamera = tlv.field_30_on_camera;
+        r.mOnOtherWellId = tlv.field_32_on_well_id;
+        r.mEmitLeaves = relive::From(tlv.field_34_emit_leaves);
+        r.mLeafX = tlv.field_36_leaf_x;
+        r.mLeafY = tlv.field_38_leaf_y;
+        r.mMovieId = tlv.field_3A_movie_id;
+        return r;
+    }
+
+    static Path_WellExpress From(const ::Path_WellExpress& tlv)
+    {
+        Path_WellExpress r;
+        BaseConvert(r, tlv);
+
+        // Well base
+        r.mScale = relive::From(tlv.field_0_scale);
+        r.mSwitchId = tlv.field_2_switch_id;
+        r.mOtherWellId = tlv.field_4_other_well_id;
+        r.mAnimId = tlv.field_6_anim_id;
+
+        // Express well
+        r.mOffDestCamera = tlv.field_20_disabled_well_camera;
+        r.mOffOtherWellId = tlv.field_22_disabled_well_id;
+        r.mOnDestLevel = MapWrapper::FromAE(tlv.field_24_enabled_well_level);
+        r.mOnDestPath = tlv.field_26_enabled_well_path;
+        r.mOnDestCamera = tlv.field_28_enabled_well_camera;
+        r.mOnOtherWellId = tlv.field_2A_enabled_well_id;
+        r.mEmitLeaves = relive::From(tlv.field_2C_bEmit_leaves);
+        r.mLeafX = tlv.field_2E_leaf_x;
+        r.mLeafY = tlv.field_30_leaf_y;
+        r.mMovieId = tlv.field_32_movie_id;
+        return r;
+    }
+};
 } // namespace relive

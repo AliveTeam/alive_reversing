@@ -1065,20 +1065,63 @@ struct Path_LiftMudokon final : public Path_TLV
 
 struct Path_RingMudokon final : public Path_TLV
 {
-    reliveXDirection mDirection;
+    reliveXDirection mDirection = reliveXDirection::eRight;
     enum class MustFaceMud : s16
     {
         eYes,
         eNo
     };
-    MustFaceMud mAbeMustFaceMud;
-    reliveScale mScale;
-    reliveChoice mGivePassword;
-    s16 mCode1;
-    s16 mCode2;
-    reliveSwitchOp mAction;
-    s16 mRingTimeout;
-    reliveChoice mGiveRingWithoutPassword;
+    MustFaceMud mAbeMustFaceMud = MustFaceMud::eYes;
+    reliveScale mScale = reliveScale::eFull;
+    reliveChoice mGivePassword = reliveChoice::eYes;
+    s16 mCode1 = 0;
+    s16 mCode2 = 0;
+    reliveSwitchOp mAction = reliveSwitchOp::eSetTrue;
+    s16 mRingTimeout = 0;
+    reliveChoice mGiveRingWithoutPassword = reliveChoice::eYes;
+};
+
+struct Path_WellBase : public Path_TLV
+{
+    reliveScale mScale = reliveScale::eFull;
+    s16 mSwitchId = 0;
+
+    // Only used in AO
+    s16 mOtherWellId = 0; 
+    s16 mAnimId = 0;
+
+    // AO only, part of WellExpress in AE
+    s16 mExitX = 0;
+    s16 mExitY = 0;
+    EReliveLevelIds mOffDestLevel = EReliveLevelIds::eNone;
+    s16 mOffDestPath = 0;
+
+    // AO only, part of WellLocal in AE
+    s16 mOffDestX = 0;
+    s16 mOffDestY = 0;
+};
+
+struct Path_WellLocal final : public relive::Path_WellBase
+{
+    s16 mOnDestX = 0;
+    s16 mOnDestY = 0;
+    reliveChoice mEmitLeaves = reliveChoice::eNo;
+    s16 mLeafX = 0;
+    s16 mLeafY = 0;
+};
+
+struct Path_WellExpress final : public relive::Path_WellBase
+{
+    s16 mOffDestCamera;
+    s16 mOffOtherWellId;
+    EReliveLevelIds mOnDestLevel;
+    s16 mOnDestPath;
+    s16 mOnDestCamera;
+    s16 mOnOtherWellId;
+    reliveChoice mEmitLeaves;
+    s16 mLeafX;
+    s16 mLeafY;
+    s16 mMovieId;
 };
 
 } // namespace relive

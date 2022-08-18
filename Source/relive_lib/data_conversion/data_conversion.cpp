@@ -206,8 +206,9 @@ static void ConvertTLV(const AO::Path_TLV& tlv)
             j.push_back({ "lift_point", relive::Path_LiftPoint_Converter::From(static_cast<const AO::Path_LiftPoint&>(tlv)) });
             break;
         case AO::TlvTypes::WellLocal_11:
-            LOG_WARNING("tlv of type " << static_cast<s16>(tlv.mTlvType32.mType) << " not implemented");
-            return;
+            j.push_back({ "well_local", relive::Path_WellLocal_Converter::From(static_cast<const AO::Path_WellLocal&>(tlv)) });
+            LOG_INFO(j.dump(4));
+            break;
         case AO::TlvTypes::Dove_12:
             j.push_back({ "dove", relive::Path_Dove_Converter::From(static_cast<const AO::Path_Dove&>(tlv)) });
             break;
@@ -280,8 +281,9 @@ static void ConvertTLV(const AO::Path_TLV& tlv)
             j.push_back({ "bees", relive::Path_Bees_Converter::From(static_cast<const AO::Path_Bees&>(tlv)) });
             break;
         case AO::TlvTypes::WellExpress_45:
-            LOG_WARNING("tlv of type " << static_cast<s16>(tlv.mTlvType32.mType) << " not implemented");
-            return;
+            j.push_back({ "well_express", relive::Path_WellExpress_Converter::From(static_cast<const AO::Path_WellExpress&>(tlv)) });
+            LOG_INFO(j.dump(4));
+            break;
         case AO::TlvTypes::Mine_46:
             j.push_back({ "mine", relive::Path_Mine_Converter::From(static_cast<const AO::Path_Mine&>(tlv)) });
             break;
@@ -393,7 +395,7 @@ static void ConvertTLV(const AO::Path_TLV& tlv)
         case AO::TlvTypes::MudokonPathTrans_89:
             j.push_back({ "mudokon_path_trans", relive::Path_MudokonPathTrans_Converter::From(static_cast<const AO::Path_MudokonPathTrans&>(tlv)) });
             break;
-        case AO::TlvTypes::MainMenuController_90: // no props
+        case AO::TlvTypes::MainMenuController_90:
             j.push_back({ "main_menu_controller", relive::Path_MainMenuController_Converter::From(static_cast<const AO::Path_MainMenuController&>(tlv)) });
             break;
         case AO::TlvTypes::HintFly_92:

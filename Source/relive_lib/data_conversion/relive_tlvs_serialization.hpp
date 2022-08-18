@@ -2169,5 +2169,113 @@ void from_json(const nlohmann::json& j, Path_RingMudokon& p)
     j.at("give_ring_without_password").get_to(p.mGiveRingWithoutPassword);
 }
 
+// Path_WellLocal
+void to_json(nlohmann::json& j, const Path_WellLocal& p)
+{
+    j = nlohmann::json{
+        {"base", ToBase(p)},
+        // Well base
+        {"scale", p.mScale},
+        {"switch_id", p.mSwitchId},
+        {"other_well_id", p.mOtherWellId},
+        {"anim_id", p.mAnimId},
+        {"exit_x", p.mExitX},
+        {"exit_y", p.mExitY},
+        {"off_dest_level", p.mOffDestLevel},
+        {"off_dest_x", p.mOffDestX},
+        {"off_dest_path", p.mOffDestPath},
+        {"off_dest_y", p.mOffDestY},
+
+        // Well local
+        {"on_dest_x", p.mOnDestX},
+        {"on_dest_y", p.mOnDestY},
+        {"emit_leaves", p.mEmitLeaves},
+        {"leaf_x", p.mLeafX},
+        {"leaf_y", p.mLeafY},
+    };
+}
+
+void from_json(const nlohmann::json& j, Path_WellLocal& p)
+{
+    j.at("base").get_to(ToBase(p));
+    // Well base
+    j.at("scale").get_to(p.mScale);
+    j.at("switch_id").get_to(p.mSwitchId);
+    j.at("other_well_id").get_to(p.mOtherWellId);
+    j.at("anim_id").get_to(p.mAnimId);
+    j.at("exit_x").get_to(p.mExitX);
+    j.at("exit_y").get_to(p.mExitY);
+    j.at("off_dest_level").get_to(p.mOffDestLevel);
+    j.at("off_dest_x").get_to(p.mOffDestX);
+    j.at("off_dest_path").get_to(p.mOffDestPath);
+    j.at("off_dest_y").get_to(p.mOffDestY);
+
+    // Well local
+    j.at("on_dest_x").get_to(p.mOnDestX);
+    j.at("on_dest_y").get_to(p.mOnDestY);
+    j.at("emit_leaves").get_to(p.mEmitLeaves);
+    j.at("leaf_x").get_to(p.mLeafX);
+    j.at("leaf_y").get_to(p.mLeafY);
+}
+
+// Path_WellExpress
+void to_json(nlohmann::json& j, const Path_WellExpress& p)
+{
+    j = nlohmann::json{
+        {"base", ToBase(p)},
+        // Well base
+        {"scale", p.mScale},
+        {"switch_id", p.mSwitchId},
+        {"other_well_id", p.mOtherWellId},
+        {"anim_id", p.mAnimId},
+        {"exit_x", p.mExitX},
+        {"exit_y", p.mExitY},
+        {"off_dest_level", p.mOffDestLevel},
+        {"off_dest_x", p.mOffDestX},
+        {"off_dest_path", p.mOffDestPath},
+        {"off_dest_y", p.mOffDestY},
+
+        // Well express
+        {"off_dest_camera", p.mOffDestCamera},
+        {"off_other_well_id", p.mOffOtherWellId},
+        {"on_dest_level", p.mOnDestLevel},
+        {"on_dest_path", p.mOnDestPath},
+        {"on_dest_camera", p.mOnDestCamera},
+        {"on_other_well_id", p.mOnOtherWellId},
+        {"emit_leaves", p.mEmitLeaves},
+        {"leaf_x", p.mLeafX},
+        {"leaf_y", p.mLeafY},
+        {"movie_id", p.mMovieId},
+    };
+}
+
+void from_json(const nlohmann::json& j, Path_WellExpress& p)
+{
+    j.at("base").get_to(ToBase(p));
+    // Well base
+    j.at("scale").get_to(p.mScale);
+    j.at("switch_id").get_to(p.mSwitchId);
+    j.at("other_well_id").get_to(p.mOtherWellId);
+    j.at("anim_id").get_to(p.mAnimId);
+    j.at("exit_x").get_to(p.mExitX);
+    j.at("exit_y").get_to(p.mExitY);
+    j.at("off_dest_level").get_to(p.mOffDestLevel);
+    j.at("off_dest_x").get_to(p.mOffDestX);
+    j.at("off_dest_path").get_to(p.mOffDestPath);
+    j.at("off_dest_y").get_to(p.mOffDestY);
+
+    // Well express
+    j.at("off_dest_camera").get_to(p.mOffDestCamera);
+    j.at("off_other_well_id").get_to(p.mOffOtherWellId);
+    j.at("on_dest_level").get_to(p.mOnDestLevel);
+    j.at("on_dest_path").get_to(p.mOnDestPath);
+    j.at("on_dest_camera").get_to(p.mOnDestCamera);
+    j.at("on_other_well_id").get_to(p.mOnOtherWellId);
+    j.at("emit_leaves").get_to(p.mEmitLeaves);
+    j.at("leaf_x").get_to(p.mLeafX);
+    j.at("leaf_y").get_to(p.mLeafY);
+    j.at("movie_id").get_to(p.mMovieId);
+}
+
 } // namespace relive
 
