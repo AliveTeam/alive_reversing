@@ -163,6 +163,7 @@ NLOHMANN_JSON_SERIALIZE_ENUM(Path_ContinuePoint::Scale, {
 void to_json(nlohmann::json& j, const Path_ContinuePoint& p)
 {
     j = nlohmann::json{
+        {"name", "continue_point"},
         {"base", ToBase(p)},
         {"zone_number", p.field_18_zone_number},
         {"clear_from_id", p.field_1A_clear_from_id},
@@ -1135,6 +1136,7 @@ void from_json(const nlohmann::json& j, Path_BackgroundAnimation& p)
 void to_json(nlohmann::json& j, const Path_MainMenuController& p)
 {
     j = nlohmann::json{
+        {"name", "main_menu_controller"},
         {"base", ToBase(p)}
     };
 }

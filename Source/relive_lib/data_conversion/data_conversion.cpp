@@ -20,6 +20,7 @@
 #include "../../Tools/relive_api/LvlReaderWriter.hpp"
 #include "../../Tools/relive_api/file_api.hpp"
 #include "../../Tools/relive_api/CamConverter.hpp"
+#include "../../Tools/relive_api/PathCamerasEnumerator.hpp"
 #include "../Collisions.hpp"
 #include "AnimationConverter.hpp"
 #include "relive_tlvs_conversion.hpp"
@@ -158,29 +159,47 @@ static bool endsWith(const std::string& str, const std::string& suffix)
     return str.size() >= suffix.size() && 0 == str.compare(str.size() - suffix.size(), suffix.size(), suffix);
 }
 
-static void ConvertPathCollisions(const CollisionInfo& info, const std::vector<u8>& pathResource)
+
+static void to_json(nlohmann::json& j, const PathLineAO& p)
+{
+    j.push_back(nlohmann::json{
+        {"x", p.mRect.x},
+        {"y", p.mRect.y},
+        {"w", p.mRect.w},
+        {"h", p.mRect.h},
+        {"next", p.field_10_next},
+        {"previous", p.field_C_previous},
+        {"type", p.mLineType},
+    });
+}
+
+
+static void ConvertPathCollisions(nlohmann::json& j, const CollisionInfo& info, const std::vector<u8>& pathResource)
 {
     const u8* pData = pathResource.data();
     const u8* pStart = pData + info.field_C_collision_offset;
 
-    auto pCollisionIter = reinterpret_cast<const PathLineAO*>(pStart);
+    auto pCollisions = reinterpret_cast<const PathLineAO*>(pStart);
     for (u32 i = 0; i < info.field_10_num_collision_items; i++)
     {
-        // TODO: Use AE format lines
-        if (pCollisionIter[i].mLineType == eLineTypes::eBackgroundCeiling_7)
-        {
 
-        }
+        // TODO: Use AE format lines
+        to_json(j, pCollisions[i]);
     }
 }
 
-static void ConvertTLV(const AO::Path_TLV& tlv)
+template <typename converter_type, typename tlv_src_type>
+static void convert_tlv(nlohmann::json& j, const AO::Path_TLV& tlv)
 {
-    nlohmann::json j;
+    j.push_back(converter_type::From(static_cast<const tlv_src_type&>(tlv)));
+}
+
+static void ConvertTLV(nlohmann::json& j, const AO::Path_TLV& tlv)
+{
     switch (tlv.mTlvType32.mType)
     {
     case AO::TlvTypes::ContinuePoint_0:
-            j.push_back({ "continue_point", relive::Path_ContinuePoint_Converter::From(static_cast<const AO::Path_ContinuePoint&>(tlv)) });
+            convert_tlv<relive::Path_ContinuePoint_Converter, AO::Path_ContinuePoint>(j, tlv);
             break;
         case AO::TlvTypes::PathTransition_1:
             j.push_back({ "path_transition", relive::Path_PathTransition_Converter::From(static_cast<const AO::Path_PathTransition&>(tlv)) });
@@ -394,7 +413,7 @@ static void ConvertTLV(const AO::Path_TLV& tlv)
             j.push_back({ "mudokon_path_trans", relive::Path_MudokonPathTrans_Converter::From(static_cast<const AO::Path_MudokonPathTrans&>(tlv)) });
             break;
         case AO::TlvTypes::MainMenuController_90:
-            j.push_back({ "main_menu_controller", relive::Path_MainMenuController_Converter::From(static_cast<const AO::Path_MainMenuController&>(tlv)) });
+            convert_tlv<relive::Path_MainMenuController_Converter, AO::Path_MainMenuController>(j, tlv);
             break;
         case AO::TlvTypes::HintFly_92:
             j.push_back({ "hint_fly", relive::Path_HintFly_Converter::From(static_cast<const AO::Path_HintFly&>(tlv)) });
@@ -468,10 +487,9 @@ static void ConvertTLV(const AO::Path_TLV& tlv)
         default:
             ALIVE_FATAL("TLV conversion for this type not implemented");
     }
-    //LOG_INFO(j.dump(4));
 }
 
-static void ConvertPathTLVs(const AO::PathData& info, const std::vector<u8>& pathResource)
+static void ConvertPathTLVs(nlohmann::json& j, const AO::PathData& info, const std::vector<u8>& pathResource)
 {
     const u8* pData = pathResource.data();
     const u8* pStart = pData + info.field_14_object_offset;
@@ -480,8 +498,8 @@ static void ConvertPathTLVs(const AO::PathData& info, const std::vector<u8>& pat
     auto pPathTLV = reinterpret_cast<const AO::Path_TLV*>(pStart);
     while (pPathTLV && reinterpret_cast<const u8*>(pPathTLV) < pEnd)
     {
-        // TODO: Convert TLV to ReliveTLV
-        ConvertTLV(*pPathTLV);
+        // Convert TLV to ReliveTLV
+        ConvertTLV(j, *pPathTLV);
 
         // Skip length bytes to get to the start of the next TLV
         const u8* ptr = reinterpret_cast<const u8*>(pPathTLV);
@@ -490,36 +508,62 @@ static void ConvertPathTLVs(const AO::PathData& info, const std::vector<u8>& pat
     }
 }
 
-static void ConvertPath(const ReliveAPI::LvlFileChunk& pathBndChunk, EReliveLevelIds reliveLvl)
+static void to_json(nlohmann::json& j, const CameraEntry& p)
+{
+    j.push_back(nlohmann::json{
+        {"x", p.mX},
+        {"y", p.mY},
+        {"id", p.mId}, // TODO: Can probably get rid of this in the future
+        {"name", p.mName},
+    });
+}
+
+
+static void ConvertPath(FileSystem& fs, const FileSystem::Path& path, const ReliveAPI::LvlFileChunk& pathBndChunk, EReliveLevelIds reliveLvl)
 {
     const AO::PathBlyRec* pBlyRec = AO::Path_Get_Bly_Record_434650(reliveLvl, static_cast<u16>(pathBndChunk.Id()));
 
-    ConvertPathCollisions(*pBlyRec->field_8_pCollisionData, pathBndChunk.Data());
-    ConvertPathTLVs(*pBlyRec->field_4_pPathData, pathBndChunk.Data());
-    LOG_INFO("converted path " << pathBndChunk.Id() << " level " << ToString(MapWrapper::ToAO(reliveLvl)));
-}
+    // Save cameras
+    const s32 width = (pBlyRec->field_4_pPathData->field_8_bTop - pBlyRec->field_4_pPathData->field_4_bLeft) / pBlyRec->field_4_pPathData->field_C_grid_width;
+    const s32 height = (pBlyRec->field_4_pPathData->field_A_bBottom - pBlyRec->field_4_pPathData->field_6_bRight) / pBlyRec->field_4_pPathData->field_E_grid_height;
 
-static void ConvertPaths(const ReliveAPI::ChunkedLvlFile& pathBnd, EReliveLevelIds reliveLvl)
-{
-    for (u32 i = 0; i < pathBnd.ChunkCount(); i++)
-    {
-        const ReliveAPI::LvlFileChunk& pathBndChunk = pathBnd.ChunkAt(i);
-        if (pathBndChunk.Header().mResourceType == AO::ResourceManager::Resource_Path)
-        {
-            ConvertPath(pathBndChunk, reliveLvl);
-        }
-    }
+    nlohmann::json camerasArray = nlohmann::json::array();
+    PathCamerasEnumerator cameraEnumerator(width, height, pathBndChunk.Data());
+    cameraEnumerator.Enumerate([&](const CameraEntry& tmpCamera) { camerasArray.push_back(tmpCamera); });
+
+    // Save collisions
+    nlohmann::json collisionsArray = nlohmann::json::array();
+    ConvertPathCollisions(collisionsArray, *pBlyRec->field_8_pCollisionData, pathBndChunk.Data());
+
+    // Save map objects
+    nlohmann::json mapObjectsArray = nlohmann::json::array();
+    ConvertPathTLVs(mapObjectsArray, *pBlyRec->field_4_pPathData, pathBndChunk.Data());
+
+    nlohmann::json j = nlohmann::json::array();
+    j.push_back({"cameras", camerasArray});
+    j.push_back({"collisions", collisionsArray});
+    j.push_back({"map_objects", mapObjectsArray});
+    std::string jsonStr = j.dump(4);
+
+    LOG_INFO("converted path " << pathBndChunk.Id() << " level " << ToString(MapWrapper::ToAO(reliveLvl)));
+
+    std::vector<u8> data;
+    data.resize(jsonStr.length());
+    data.assign(jsonStr.begin(), jsonStr.end());
+    fs.Save(path, data);
 }
 
 void TestTlvConversion()
 {
+    nlohmann::json j;
+
     AO::Path_ShadowZone shadowTlv = {};
     shadowTlv.mTlvType32.mType = AO::TlvTypes::ContinuePoint_0;
-    ConvertTLV(shadowTlv);
+    ConvertTLV(j, shadowTlv);
 
     // TODO: Check from AE tlv
 
-
+    LOG_INFO(j.dump(4));
 }
 
 void DataConversion::ConvertData()
@@ -614,10 +658,23 @@ void DataConversion::ConvertData()
                     }
                     else if (endsWith(fileName, "PATH.BND"))
                     {
+                        FileSystem::Path pathDir;
+                        pathDir.Append("relive_data").Append("ao").Append(ToString(lvlIdxAsLvl)).Append("paths");
+                        fs.CreateDirectory(pathDir);
+
                         // TODO: Path conversion
                         ReadLvlFileInto(lvlReader, fileName.c_str(), fileBuffer);
                         ReliveAPI::ChunkedLvlFile pathBndFile(fileBuffer);
-                        ConvertPaths(pathBndFile, reliveLvl);
+                        for (u32 j = 0; j < pathBndFile.ChunkCount(); j++)
+                        {
+                            const ReliveAPI::LvlFileChunk& pathBndChunk = pathBndFile.ChunkAt(j);
+                            if (pathBndChunk.Header().mResourceType == AO::ResourceManager::Resource_Path)
+                            {
+                                FileSystem::Path pathJsonFile = pathDir;
+                                pathJsonFile.Append(std::to_string(j) + ".json");
+                                ConvertPath(fs, pathJsonFile, pathBndChunk, reliveLvl);
+                            }
+                        }
                     }
                 }
             }

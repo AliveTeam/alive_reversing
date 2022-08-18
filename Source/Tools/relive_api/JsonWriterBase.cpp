@@ -138,10 +138,15 @@ void JsonWriterBase::Save(std::vector<u8>& fileDataBuffer, LvlReader& lvlReader,
     const s32* indexTable = reinterpret_cast<const s32*>(pPathData + info.mIndexTableOffset);
 
     jsonxx::Array cameraArray;
-    PathCamerasEnumerator cameraEnumerator(info, pathResource);
-    cameraEnumerator.Enumerate([&](const CameraObject& tmpCamera)
+    PathCamerasEnumerator cameraEnumerator(info.mWidth, info.mHeight, pathResource);
+    cameraEnumerator.Enumerate([&](const CameraEntry& tmpCamera)
         { 
-            ProcessCamera(fileDataBuffer, lvlReader, info, indexTable, tmpCamera, cameraArray, pPathData, context);
+            CameraObject camObj;
+            camObj.mId = tmpCamera.mId;
+            camObj.mName = tmpCamera.mName;
+            camObj.mX = tmpCamera.mX;
+            camObj.mY = tmpCamera.mY;
+            ProcessCamera(fileDataBuffer, lvlReader, info, indexTable, camObj, cameraArray, pPathData, context);
         });
 
     rootMapObject << "cameras" << cameraArray;
@@ -190,33 +195,4 @@ void JsonWriterBase::DebugDumpTlv(IFileIO& fileIo, const std::string& prefix, s3
     ReliveAPI::DebugDumpTlv(fileIo, prefix, idx, tlv);
 }
 
-PathCamerasEnumerator::PathCamerasEnumerator(const PathInfo& pathInfo, const std::vector<u8>& pathResource)
-    : mPathInfo(pathInfo)
-    , mPathResource(pathResource)
-{
-}
-
-void PathCamerasEnumerator::Enumerate(TFnOnCamera onCamera)
-{
-    const u8* pPathData = mPathResource.data();
-    jsonxx::Array cameraArray;
-    for (s32 y = 0; y < mPathInfo.mHeight; y++)
-    {
-        for (s32 x = 0; x < mPathInfo.mWidth; x++)
-        {
-            // AO::CameraName is the same as AE structure
-            auto pCamName = reinterpret_cast<const AO::CameraName*>(&pPathData[To1dIndex(mPathInfo.mWidth, x, y) * sizeof(AO::CameraName)]);
-            CameraObject tmpCamera;
-            tmpCamera.mX = x;
-            tmpCamera.mY = y;
-            if (pCamName->name[0])
-            {
-                tmpCamera.mName = std::string(pCamName->name, 8);
-                tmpCamera.mId = 1 * (pCamName->name[7] - '0') + 10 * (pCamName->name[6] - '0') + 100 * (pCamName->name[4] - '0') + 1000 * (pCamName->name[3] - '0');
-            }
-
-            onCamera(tmpCamera);
-        }
-    }
-}
 } // namespace ReliveAPI
