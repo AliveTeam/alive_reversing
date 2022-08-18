@@ -2277,5 +2277,287 @@ void from_json(const nlohmann::json& j, Path_WellExpress& p)
     j.at("movie_id").get_to(p.mMovieId);
 }
 
+// Path_Slog
+void to_json(nlohmann::json& j, const Path_Slog& p)
+{
+    j = nlohmann::json{
+        {"base", ToBase(p)},
+        {"scale", p.field_10_scale},
+        {"direction", p.field_12_direction},
+        {"asleep", p.field_14_asleep},
+        {"wake_up_anger", p.field_16_wake_up_anger},
+        {"bark_anger", p.field_18_bark_anger},
+        {"chase_anger", p.field_1A_chase_anger},
+        {"chase_delay", p.field_1C_chase_delay},
+        {"disabled_resources", p.field_1E_disabled_resources},
+        {"anger_switch_id", p.field_20_anger_switch_id},
+        {"bone_eating_time", p.field_22_bone_eating_time},
+    };
+}
+
+void from_json(const nlohmann::json& j, Path_Slog& p)
+{
+    j.at("base").get_to(ToBase(p));
+    j.at("scale").get_to(p.field_10_scale);
+    j.at("direction").get_to(p.field_12_direction);
+    j.at("asleep").get_to(p.field_14_asleep);
+    j.at("wake_up_anger").get_to(p.field_16_wake_up_anger);
+    j.at("bark_anger").get_to(p.field_18_bark_anger);
+    j.at("chase_anger").get_to(p.field_1A_chase_anger);
+    j.at("chase_delay").get_to(p.field_1C_chase_delay);
+    j.at("disabled_resources").get_to(p.field_1E_disabled_resources);
+    j.at("anger_switch_id").get_to(p.field_20_anger_switch_id);
+    j.at("bone_eating_time").get_to(p.field_22_bone_eating_time);
+}
+
+// Path_SlogSpawner
+NLOHMANN_JSON_SERIALIZE_ENUM(Path_SlogSpawner::StartDirection, {
+    {Path_SlogSpawner::StartDirection::eRight, "right"},
+    {Path_SlogSpawner::StartDirection::eLeft, "left"},
+})
+
+void to_json(nlohmann::json& j, const Path_SlogSpawner& p)
+{
+    j = nlohmann::json{
+        {"base", ToBase(p)},
+        {"scale", p.mScale},
+        {"max_slogs", p.mMaxSlogs},
+        {"max_slogs_at_a_time", p.mMaxSlogsAtATime},
+        {"start_direction", p.mStartDirection},
+        {"slog_spawn_interval", p.mSlogSpawnInterval},
+        {"spawner_switch_id", p.mSpawnerSwitchId},
+        {"listen_to_sligs", p.mListenToSligs},
+        {"chase_delay", p.mChaseDelay},
+    };
+}
+
+void from_json(const nlohmann::json& j, Path_SlogSpawner& p)
+{
+    j.at("base").get_to(ToBase(p));
+    j.at("scale").get_to(p.mScale);
+    j.at("max_slogs").get_to(p.mMaxSlogs);
+    j.at("max_slogs_at_a_time").get_to(p.mMaxSlogsAtATime);
+    j.at("start_direction").get_to(p.mStartDirection);
+    j.at("slog_spawn_interval").get_to(p.mSlogSpawnInterval);
+    j.at("spawner_switch_id").get_to(p.mSpawnerSwitchId);
+    j.at("listen_to_sligs").get_to(p.mListenToSligs);
+    j.at("chase_delay").get_to(p.mChaseDelay);
+}
+
+// Path_Scrab
+NLOHMANN_JSON_SERIALIZE_ENUM(Path_Scrab::ScrabPatrolType, {
+    {Path_Scrab::ScrabPatrolType::eWalk, "walk"},
+    {Path_Scrab::ScrabPatrolType::eRunOrWalk192, "run_or_walk_192"},
+    {Path_Scrab::ScrabPatrolType::eRunOrWalk128, "run_or_walk_128"},
+    {Path_Scrab::ScrabPatrolType::eRunOrWalk64, "run_or_walk_64"},
+    {Path_Scrab::ScrabPatrolType::eRun, "run"},
+})
+
+void to_json(nlohmann::json& j, const Path_Scrab& p)
+{
+    j = nlohmann::json{
+        {"base", ToBase(p)},
+        {"scale", p.field_10_scale},
+        {"attack_delay", p.field_12_attack_delay},
+        {"patrol_type_run_or_walk_chance", p.field_14_patrol_type_run_or_walk_chance},
+        {"patrol_type", p.field_1C_patrol_type},
+        {"left_min_delay", p.field_16_left_min_delay},
+        {"left_max_delay", p.field_18_left_max_delay},
+        {"right_min_delay", p.field_1A_right_min_delay},
+        {"right_max_delay", p.field_1C_right_max_delay},
+        {"pause_after_chase_delay", p.field_1E_pause_after_chase_delay},
+        {"spotting_abe_delay", p.field_26_spotting_abe_delay},
+        {"disabled_resources", p.field_20_disabled_resources},
+        {"roar_randomly", p.field_22_roar_randomly},
+        {"persistant", p.field_24_persistant},
+        {"possessed_max_whirl_attack_duration", p.field_26_possessed_max_whirl_attack_duration},
+        {"kill_enemy", p.field_2A_bKill_enemy},
+    };
+}
+
+void from_json(const nlohmann::json& j, Path_Scrab& p)
+{
+    j.at("base").get_to(ToBase(p));
+    j.at("scale").get_to(p.field_10_scale);
+    j.at("attack_delay").get_to(p.field_12_attack_delay);
+    j.at("patrol_type_run_or_walk_chance").get_to(p.field_14_patrol_type_run_or_walk_chance);
+    j.at("patrol_type").get_to(p.field_1C_patrol_type);
+    j.at("left_min_delay").get_to(p.field_16_left_min_delay);
+    j.at("left_max_delay").get_to(p.field_18_left_max_delay);
+    j.at("right_min_delay").get_to(p.field_1A_right_min_delay);
+    j.at("right_max_delay").get_to(p.field_1C_right_max_delay);
+    j.at("pause_after_chase_delay").get_to(p.field_1E_pause_after_chase_delay);
+    j.at("spotting_abe_delay").get_to(p.field_26_spotting_abe_delay);
+    j.at("disabled_resources").get_to(p.field_20_disabled_resources);
+    j.at("roar_randomly").get_to(p.field_22_roar_randomly);
+    j.at("persistant").get_to(p.field_24_persistant);
+    j.at("possessed_max_whirl_attack_duration").get_to(p.field_26_possessed_max_whirl_attack_duration);
+    j.at("kil_enemy").get_to(p.field_2A_bKill_enemy);
+}
+
+// Path_Slig
+NLOHMANN_JSON_SERIALIZE_ENUM(Path_Slig::StartState, {
+    {Path_Slig::StartState::Listening, "listening"},
+    {Path_Slig::StartState::Patrol, "patrol"},
+    {Path_Slig::StartState::Sleeping, "sleeping"},
+    {Path_Slig::StartState::Chase, "chase"},
+    {Path_Slig::StartState::ChaseAndDisappear, "chase_and_disappear"},
+    {Path_Slig::StartState::eFallingToChase, "falling_to_chase"},
+    {Path_Slig::StartState::ListeningToGlukkon, "listening_to_glukkon"},
+})
+
+void to_json(nlohmann::json& j, const Path_Slig& p)
+{
+    j = nlohmann::json{
+        {"base", ToBase(p)},
+        {"scale", p.field_10_scale},
+        {"start_state", p.field_12_start_state},
+        {"pause_time", p.field_14_pause_time},
+        {"pause_left_min", p.field_16_pause_left_min},
+        {"pause_left_max", p.field_18_pause_left_max},
+        {"pause_right_min", p.field_1A_pause_right_min},
+        {"pause_right_max", p.field_1C_pause_right_max},
+        {"shoot_possessed_sligs", p.field_1E_shoot_possessed_sligs},
+        {"shoot_on_sight_delay", p.field_20_shoot_on_sight_delay},
+        {"num_times_to_shoot", p.field_22_num_times_to_shoot},
+        {"padding", p.field_24_padding},
+        {"code_1", p.field_26_code1},
+        {"code_2", p.field_28_code2},
+        {"chase_abe_when_spotted", p.field_2A_chase_abe_when_spotted},
+        {"start_Direction", p.field_2C_start_direction},
+        {"panic_timeout", p.field_2E_panic_timeout},
+        {"num_panic_sounds", p.field_30_num_panic_sounds},
+        {"panic_sound_timeout", p.field_32_panic_sound_timeout},
+        {"stop_chase_delay", p.field_34_stop_chase_delay},
+        {"time_to_wait_before_chase", p.field_36_time_to_wait_before_chase},
+        {"slig_bound_id", p.field_38_slig_bound_id},
+        {"alerted_listen_time", p.field_3A_alerted_listen_time},
+        {"percent_say_what", p.field_3C_percent_say_what},
+        {"percent_beat_mud", p.field_3E_percent_beat_mud},
+        {"talk_to_abe", p.field_40_talk_to_abe},
+        {"dont_shoot", p.field_42_dont_shoot},
+        {"z_shoot_delay", p.field_44_Z_shoot_delay},
+        {"stay_awake", p.field_46_stay_awake},
+        {"disabled_resources", p.field_48_disabled_resources},
+        {"noise_wake_up_distance", p.field_4A_noise_wake_up_distance},
+        {"slig_spawner_Switch_id", p.field_4C_slig_spawner_switch_id},
+        {"unlimited_spawns", p.field_4E_unlimited_spawns},
+    };
+}
+
+void from_json(const nlohmann::json& j, Path_Slig& p)
+{
+    j.at("base").get_to(ToBase(p));
+    j.at("scale").get_to(p.field_10_scale);
+    j.at("start_state").get_to(p.field_12_start_state);
+    j.at("pause_time").get_to(p.field_14_pause_time);
+    j.at("pause_left_min").get_to(p.field_16_pause_left_min);
+    j.at("pause_left_max").get_to(p.field_18_pause_left_max);
+    j.at("pause_right_min").get_to(p.field_1A_pause_right_min);
+    j.at("pause_right_max").get_to(p.field_1C_pause_right_max);
+    j.at("shoot_possessed_sligs").get_to(p.field_1E_shoot_possessed_sligs);
+    j.at("shoot_on_sight_delay").get_to(p.field_20_shoot_on_sight_delay);
+    j.at("num_times_to_shoot").get_to(p.field_22_num_times_to_shoot);
+    j.at("padding").get_to(p.field_24_padding);
+    j.at("code_1").get_to(p.field_26_code1);
+    j.at("code_2").get_to(p.field_28_code2);
+    j.at("chase_abe_when_spotted").get_to(p.field_2A_chase_abe_when_spotted);
+    j.at("start_direction").get_to(p.field_2C_start_direction);
+    j.at("panic_timeout").get_to(p.field_2E_panic_timeout);
+    j.at("num_panic_sounds").get_to(p.field_30_num_panic_sounds);
+    j.at("panic_sound_timeout").get_to(p.field_32_panic_sound_timeout);
+    j.at("stop_chase_delay").get_to(p.field_34_stop_chase_delay);
+    j.at("time_to_wait_before_chase").get_to(p.field_36_time_to_wait_before_chase);
+    j.at("slig_bound_id").get_to(p.field_38_slig_bound_id);
+    j.at("alerted_listen_time").get_to(p.field_3A_alerted_listen_time);
+    j.at("percent_say_what").get_to(p.field_3C_percent_say_what);
+    j.at("percent_beat_mud").get_to(p.field_3E_percent_beat_mud);
+    j.at("talk_to_abe").get_to(p.field_40_talk_to_abe);
+    j.at("dont_shoot").get_to(p.field_42_dont_shoot);
+    j.at("z_shoot_delay").get_to(p.field_44_Z_shoot_delay);
+    j.at("stay_awake").get_to(p.field_46_stay_awake);
+    j.at("disabled_resources").get_to(p.field_48_disabled_resources);
+    j.at("noise_wake_up_distance").get_to(p.field_4A_noise_wake_up_distance);
+    j.at("slig_spawner_switch_id").get_to(p.field_4C_slig_spawner_switch_id);
+    j.at("unlimited_spawns").get_to(p.field_4E_unlimited_spawns);
+}
+
+// Path_SligSpawner
+void to_json(nlohmann::json& j, const Path_SligSpawner& p)
+{
+    j = nlohmann::json{
+        {"base", ToBase(p)},
+        {"scale", p.field_10_scale},
+        {"start_state", p.field_12_start_state},
+        {"pause_time", p.field_14_pause_time},
+        {"pause_left_min", p.field_16_pause_left_min},
+        {"pause_left_max", p.field_18_pause_left_max},
+        {"pause_right_min", p.field_1A_pause_right_min},
+        {"pause_right_max", p.field_1C_pause_right_max},
+        {"shoot_possessed_sligs", p.field_1E_shoot_possessed_sligs},
+        {"shoot_on_sight_delay", p.field_20_shoot_on_sight_delay},
+        {"num_times_to_shoot", p.field_22_num_times_to_shoot},
+        {"padding", p.field_24_padding},
+        {"code_1", p.field_26_code1},
+        {"code_2", p.field_28_code2},
+        {"chase_abe_when_spotted", p.field_2A_chase_abe_when_spotted},
+        {"start_Direction", p.field_2C_start_direction},
+        {"panic_timeout", p.field_2E_panic_timeout},
+        {"num_panic_sounds", p.field_30_num_panic_sounds},
+        {"panic_sound_timeout", p.field_32_panic_sound_timeout},
+        {"stop_chase_delay", p.field_34_stop_chase_delay},
+        {"time_to_wait_before_chase", p.field_36_time_to_wait_before_chase},
+        {"slig_bound_id", p.field_38_slig_bound_id},
+        {"alerted_listen_time", p.field_3A_alerted_listen_time},
+        {"percent_say_what", p.field_3C_percent_say_what},
+        {"percent_beat_mud", p.field_3E_percent_beat_mud},
+        {"talk_to_abe", p.field_40_talk_to_abe},
+        {"dont_shoot", p.field_42_dont_shoot},
+        {"z_shoot_delay", p.field_44_Z_shoot_delay},
+        {"stay_awake", p.field_46_stay_awake},
+        {"disabled_resources", p.field_48_disabled_resources},
+        {"noise_wake_up_distance", p.field_4A_noise_wake_up_distance},
+        {"slig_spawner_Switch_id", p.field_4C_slig_spawner_switch_id},
+        {"unlimited_spawns", p.field_4E_unlimited_spawns},
+    };
+}
+
+void from_json(const nlohmann::json& j, Path_SligSpawner& p)
+{
+    j.at("base").get_to(ToBase(p));
+    j.at("scale").get_to(p.field_10_scale);
+    j.at("start_state").get_to(p.field_12_start_state);
+    j.at("pause_time").get_to(p.field_14_pause_time);
+    j.at("pause_left_min").get_to(p.field_16_pause_left_min);
+    j.at("pause_left_max").get_to(p.field_18_pause_left_max);
+    j.at("pause_right_min").get_to(p.field_1A_pause_right_min);
+    j.at("pause_right_max").get_to(p.field_1C_pause_right_max);
+    j.at("shoot_possessed_sligs").get_to(p.field_1E_shoot_possessed_sligs);
+    j.at("shoot_on_sight_delay").get_to(p.field_20_shoot_on_sight_delay);
+    j.at("num_times_to_shoot").get_to(p.field_22_num_times_to_shoot);
+    j.at("padding").get_to(p.field_24_padding);
+    j.at("code_1").get_to(p.field_26_code1);
+    j.at("code_2").get_to(p.field_28_code2);
+    j.at("chase_abe_when_spotted").get_to(p.field_2A_chase_abe_when_spotted);
+    j.at("start_direction").get_to(p.field_2C_start_direction);
+    j.at("panic_timeout").get_to(p.field_2E_panic_timeout);
+    j.at("num_panic_sounds").get_to(p.field_30_num_panic_sounds);
+    j.at("panic_sound_timeout").get_to(p.field_32_panic_sound_timeout);
+    j.at("stop_chase_delay").get_to(p.field_34_stop_chase_delay);
+    j.at("time_to_wait_before_chase").get_to(p.field_36_time_to_wait_before_chase);
+    j.at("slig_bound_id").get_to(p.field_38_slig_bound_id);
+    j.at("alerted_listen_time").get_to(p.field_3A_alerted_listen_time);
+    j.at("percent_say_what").get_to(p.field_3C_percent_say_what);
+    j.at("percent_beat_mud").get_to(p.field_3E_percent_beat_mud);
+    j.at("talk_to_abe").get_to(p.field_40_talk_to_abe);
+    j.at("dont_shoot").get_to(p.field_42_dont_shoot);
+    j.at("z_shoot_delay").get_to(p.field_44_Z_shoot_delay);
+    j.at("stay_awake").get_to(p.field_46_stay_awake);
+    j.at("disabled_resources").get_to(p.field_48_disabled_resources);
+    j.at("noise_wake_up_distance").get_to(p.field_4A_noise_wake_up_distance);
+    j.at("slig_spawner_switch_id").get_to(p.field_4C_slig_spawner_switch_id);
+    j.at("unlimited_spawns").get_to(p.field_4E_unlimited_spawns);
+}
+
 } // namespace relive
 

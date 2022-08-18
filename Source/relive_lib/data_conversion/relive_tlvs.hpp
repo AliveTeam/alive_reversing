@@ -1112,16 +1112,170 @@ struct Path_WellLocal final : public relive::Path_WellBase
 
 struct Path_WellExpress final : public relive::Path_WellBase
 {
-    s16 mOffDestCamera;
-    s16 mOffOtherWellId;
-    EReliveLevelIds mOnDestLevel;
-    s16 mOnDestPath;
-    s16 mOnDestCamera;
-    s16 mOnOtherWellId;
-    reliveChoice mEmitLeaves;
-    s16 mLeafX;
-    s16 mLeafY;
-    s16 mMovieId;
+    s16 mOffDestCamera = 0;
+    s16 mOffOtherWellId = 0;
+    EReliveLevelIds mOnDestLevel = EReliveLevelIds::eNone;
+    s16 mOnDestPath = 0;
+    s16 mOnDestCamera = 0;
+    s16 mOnOtherWellId = 0;
+    reliveChoice mEmitLeaves = reliveChoice::eNo;
+    s16 mLeafX = 0;
+    s16 mLeafY = 0;
+    s16 mMovieId = 0;
+};
+
+struct Path_Slog final : public Path_TLV
+{
+    reliveScale field_10_scale;
+    reliveXDirection field_12_direction;
+    reliveChoice field_14_asleep;
+    s16 field_16_wake_up_anger;
+    s16 field_18_bark_anger;
+    s16 field_1A_chase_anger;
+    s16 field_1C_chase_delay;
+    s16 field_1E_disabled_resources;
+    s16 field_20_anger_switch_id;
+
+    // AE only
+    s16 field_22_bone_eating_time;
+};
+
+struct Path_SlogSpawner final : public Path_TLV
+{
+    enum class StartDirection : s16
+    {
+        eRight,
+        eLeft
+    };
+    reliveScale mScale;
+    s16 mMaxSlogs;
+    s16 mMaxSlogsAtATime;
+    StartDirection mStartDirection;
+    s16 mSlogSpawnInterval;
+    s16 mSpawnerSwitchId;
+
+    // AE only
+    reliveChoice mListenToSligs;
+    s16 mChaseDelay;
+};
+
+struct Path_Scrab : public Path_TLV
+{
+    enum class ScrabPatrolType : s16
+    {
+        eWalk,
+        eRunOrWalk192,
+        eRunOrWalk128,
+        eRunOrWalk64,
+        eRun
+    };
+    reliveScale field_10_scale;
+    s16 field_12_attack_delay;
+    s16 field_14_patrol_type_run_or_walk_chance; // AE only
+    ScrabPatrolType field_1C_patrol_type; // AO only
+    s16 field_16_left_min_delay;
+    s16 field_18_left_max_delay;
+    s16 field_1A_right_min_delay;
+    s16 field_1C_right_max_delay;
+    u16 field_1E_pause_after_chase_delay;
+    s16 field_26_spotting_abe_delay; // TODO: check if the same field as below?
+    s16 field_20_disabled_resources;
+    reliveChoice field_22_roar_randomly;
+
+    // AE only
+    reliveChoice field_24_persistant;
+    s16 field_26_possessed_max_whirl_attack_duration;
+    reliveChoice field_2A_bKill_enemy;
+};
+
+struct Path_Slig final : public Path_TLV
+{
+    reliveScale field_10_scale;
+
+    // TODO: Check these - GameEnder is probably only AO for instance ?
+    enum class StartState : s16
+    {
+        Listening,
+        Patrol,
+        Sleeping,
+        Chase,
+        ChaseAndDisappear,
+        eFallingToChase,
+        ListeningToGlukkon,
+    };
+    StartState field_12_start_state;
+
+    s16 field_14_pause_time;
+    s16 field_16_pause_left_min;
+    s16 field_18_pause_left_max;
+    s16 field_1A_pause_right_min;
+    s16 field_1C_pause_right_max;
+    reliveChoice field_1E_shoot_possessed_sligs;
+    s16 field_20_shoot_on_sight_delay;
+    s16 field_22_num_times_to_shoot;
+    s16 field_24_padding; // TODO: or part of above field like in AO
+    s16 field_26_code1;
+    s16 field_28_code2;
+    reliveChoice field_2A_chase_abe_when_spotted;
+    reliveXDirection field_2C_start_direction;
+    s16 field_2E_panic_timeout;
+    s16 field_30_num_panic_sounds; // unused?
+    s16 field_32_panic_sound_timeout;
+    s16 field_34_stop_chase_delay;
+    s16 field_36_time_to_wait_before_chase;
+    s16 field_38_slig_bound_id;
+    s16 field_3A_alerted_listen_time;
+    s16 field_3C_percent_say_what;
+    s16 field_3E_percent_beat_mud;
+    s16 field_40_talk_to_abe; // unused?
+    s16 field_42_dont_shoot;
+    s16 field_44_Z_shoot_delay;
+    reliveChoice field_46_stay_awake;
+    s16 field_48_disabled_resources;
+    s16 field_4A_noise_wake_up_distance;
+    s16 field_4C_slig_spawner_switch_id;
+
+    // AE only
+    reliveChoice field_4E_unlimited_spawns;
+};
+
+struct Path_SligSpawner final : public Path_TLV
+{
+    reliveScale field_10_scale;
+    Path_Slig::StartState field_12_start_state;
+
+    s16 field_14_pause_time;
+    s16 field_16_pause_left_min;
+    s16 field_18_pause_left_max;
+    s16 field_1A_pause_right_min;
+    s16 field_1C_pause_right_max;
+    reliveChoice field_1E_shoot_possessed_sligs;
+    s16 field_20_shoot_on_sight_delay;
+    s16 field_22_num_times_to_shoot;
+    s16 field_24_padding; // TODO: or part of above field like in AO
+    s16 field_26_code1;
+    s16 field_28_code2;
+    reliveChoice field_2A_chase_abe_when_spotted;
+    reliveXDirection field_2C_start_direction;
+    s16 field_2E_panic_timeout;
+    s16 field_30_num_panic_sounds; // unused?
+    s16 field_32_panic_sound_timeout;
+    s16 field_34_stop_chase_delay;
+    s16 field_36_time_to_wait_before_chase;
+    s16 field_38_slig_bound_id;
+    s16 field_3A_alerted_listen_time;
+    s16 field_3C_percent_say_what;
+    s16 field_3E_percent_beat_mud;
+    s16 field_40_talk_to_abe; // unused?
+    s16 field_42_dont_shoot;
+    s16 field_44_Z_shoot_delay;
+    reliveChoice field_46_stay_awake;
+    s16 field_48_disabled_resources;
+    s16 field_4A_noise_wake_up_distance;
+    s16 field_4C_slig_spawner_switch_id;
+
+    // AE only
+    reliveChoice field_4E_unlimited_spawns;
 };
 
 } // namespace relive

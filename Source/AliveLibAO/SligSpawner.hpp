@@ -22,7 +22,7 @@ struct Path_SligSpawner final : public Path_TLV
     Path_Slig::ShootPossessedSligs field_26_shoot_possessed_sligs;
     s16 field_28_shoot_on_sight_delay;
     s16 field_2A_num_times_to_shoot;
-    s16 field_2C_unknown; // TODO: Part of above field, check me?
+    s16 field_2C_pad; // TODO: Part of above field, check me?
     s16 field_2E_code1;
     s16 field_30_code2;
     Choice_short field_32_chase_abe;
@@ -40,10 +40,11 @@ struct Path_SligSpawner final : public Path_TLV
     s16 field_4A_dont_shoot;
     s16 field_4C_z_shoot_delay;
     Choice_short field_4E_stay_awake;
-    s16 field_50_disable_resources;
+    s16 field_50_disabled_resources;
     s16 field_52_noise_wake_up_distance;
     s32 field_54_slig_spawner_switch_id;
 };
+// TODO: size
 
 class SligSpawner final : public BaseGameObject
 {

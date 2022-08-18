@@ -165,7 +165,7 @@ struct Path_Slig final : public Path_TLV
     s16 field_42_dont_shoot;
     s16 field_44_Z_shoot_delay;
     Choice_short field_46_stay_awake;
-    s16 field_48_disable_resources;
+    s16 field_48_disabled_resources;
     s16 field_4A_noise_wake_up_distance;
     s16 field_4C_slig_spawner_switch_id;
     Choice_short field_4E_unlimited_spawns;

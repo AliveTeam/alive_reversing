@@ -70,7 +70,7 @@ struct Path_Scrab final : public Path_TLV
     s16 field_28_disable_resources;
     Choice_short field_2A_roar_randomly;
 };
-ALIVE_ASSERT_SIZEOF(Path_Scrab, 0x2C);
+ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Scrab, 0x2C);
 
 struct Path_ScrabNoFall final : public Path_TLV
 {

@@ -98,6 +98,12 @@
 #include "../AliveLibAE/SecurityDoor.hpp"
 #include "../AliveLibAO/SecurityDoor.hpp"
 #include "../AliveLibAO/Well.hpp"
+#include "../AliveLibAO/Slog.hpp"
+#include "../AliveLibAE/Slog.hpp"
+#include "../AliveLibAO/SlogSpawner.hpp"
+#include "../AliveLibAE/SlogSpawner.hpp"
+#include "../AliveLibAO/SligSpawner.hpp"
+#include "../AliveLibAE/SligSpawner.hpp"
 
 // Convert an AO or AE TLV to a relive TLV
 
@@ -3190,4 +3196,450 @@ public:
         return r;
     }
 };
+
+class Path_Slog_Converter final
+{
+public:
+    static Path_Slog From(const AO::Path_Slog& tlv)
+    {
+        Path_Slog r;
+        BaseConvert(r, tlv);
+        r.field_10_scale = relive::From(tlv.field_18_scale);
+        r.field_12_direction = relive::From(tlv.field_1A_start_direction);
+        r.field_14_asleep = relive::From(tlv.field_1C_asleep);
+        r.field_16_wake_up_anger = tlv.field_1E_wake_up_anger;
+        r.field_18_bark_anger = tlv.field_20_bark_anger;
+        r.field_1A_chase_anger = tlv.field_22_chase_anger;
+        r.field_1C_chase_delay = tlv.field_24_chase_delay;
+        r.field_1E_disabled_resources = tlv.field_26_disabled_resources;
+        r.field_20_anger_switch_id = tlv.field_28_anger_switch_id;
+        return r;
+    }
+
+    static Path_Slog From(const ::Path_Slog& tlv)
+    {
+        Path_Slog r;
+        BaseConvert(r, tlv);
+        r.field_10_scale = relive::From(tlv.field_10_scale);
+        r.field_12_direction = relive::From(tlv.field_12_direction);
+        r.field_14_asleep = relive::From(tlv.field_14_asleep);
+        r.field_16_wake_up_anger = tlv.field_16_wake_up_anger;
+        r.field_18_bark_anger = tlv.field_18_bark_anger;
+        r.field_1A_chase_anger = tlv.field_1A_chase_anger;
+        r.field_1C_chase_delay = tlv.field_1C_chase_delay;
+        r.field_1E_disabled_resources = tlv.field_1E_disabled_resources;
+        r.field_20_anger_switch_id = tlv.field_20_anger_switch_id;
+        r.field_22_bone_eating_time = tlv.field_22_bone_eating_time;
+        return r;
+    }
+};
+
+class Path_SlogSpawner_Converter final
+{
+public:
+    static Path_SlogSpawner From(const AO::Path_SlogSpawner& tlv)
+    {
+        Path_SlogSpawner r;
+        BaseConvert(r, tlv);
+        r.mScale = relive::From(tlv.field_18_scale);
+        r.mMaxSlogs = tlv.mMaxSlogs;
+        r.mMaxSlogsAtATime = tlv.mMaxSlogsAtATime;
+        r.mStartDirection = From(tlv.mStartDirection);
+        r.mSlogSpawnInterval = tlv.mSlogSpawnInterval;
+        r.mSpawnerSwitchId = tlv.mSpawnerSwitchId;
+        return r;
+    }
+
+    static Path_SlogSpawner From(const ::Path_SlogSpawner& tlv)
+    {
+        Path_SlogSpawner r;
+        BaseConvert(r, tlv);
+        r.mScale = relive::From(tlv.mScale);
+        r.mMaxSlogs = tlv.mMaxSlogs;
+        r.mMaxSlogsAtATime = tlv.mMaxSlogsAtATime;
+        r.mStartDirection = From(tlv.mStartDirection);
+        r.mSlogSpawnInterval = tlv.mSlogSpawnInterval;
+        r.mSpawnerSwitchId = tlv.mSpawnerSwitchId;
+        r.mListenToSligs = relive::From(tlv.mListenToSligs);
+        r.mChaseDelay = tlv.mChaseDelay;
+        return r;
+    }
+private:
+    static Path_SlogSpawner::StartDirection From(AO::StartDirection startDir)
+    {
+        switch (startDir)
+        {
+            case AO::StartDirection::eRight_0:
+                return Path_SlogSpawner::StartDirection::eRight;
+            case AO::StartDirection::eLeft_1:
+                return Path_SlogSpawner::StartDirection::eLeft;
+        }
+        ALIVE_FATAL("Bad slog spawner start direction");
+    }
+
+    static Path_SlogSpawner::StartDirection From(::StartDirection startDir)
+    {
+        switch (startDir)
+        {
+            case ::StartDirection::eRight_0:
+                return Path_SlogSpawner::StartDirection::eRight;
+            case ::StartDirection::eLeft_1:
+                return Path_SlogSpawner::StartDirection::eLeft;
+        }
+        ALIVE_FATAL("Bad slog spawner start direction");
+    }
+};
+
+class Path_Scrab_Converter final
+{
+public:
+    static Path_Scrab From(const AO::Path_Scrab& tlv)
+    {
+        Path_Scrab r;
+        BaseConvert(r, tlv);
+        r.field_10_scale = relive::From(tlv.field_18_scale);
+        r.field_12_attack_delay = tlv.field_1A_attack_delay;
+        r.field_1C_patrol_type = From(tlv.field_1C_patrol_type);
+        r.field_16_left_min_delay = tlv.field_1E_left_min_delay;
+        r.field_18_left_max_delay = tlv.field_20_left_max_delay;
+        r.field_1A_right_min_delay = tlv.field_22_right_min_delay;
+        r.field_1C_right_max_delay = tlv.field_24_right_max_delay;
+        r.field_26_spotting_abe_delay = tlv.field_26_spotting_abe_delay;
+        r.field_20_disabled_resources = tlv.field_28_disable_resources;
+        r.field_22_roar_randomly = relive::From(tlv.field_2A_roar_randomly);
+        return r;
+    }
+
+    static Path_Scrab From(const ::Path_Scrab& tlv)
+    {
+        Path_Scrab r;
+        BaseConvert(r, tlv);
+        r.field_10_scale = relive::From(tlv.field_10_scale);
+        r.field_12_attack_delay = tlv.field_12_attack_delay;
+        r.field_14_patrol_type_run_or_walk_chance = tlv.field_14_patrol_type_run_or_walk_chance;
+        r.field_16_left_min_delay = tlv.field_16_left_min_delay;
+        r.field_18_left_max_delay = tlv.field_18_left_max_delay;
+        r.field_1A_right_min_delay = tlv.field_1A_right_min_delay;
+        r.field_1C_right_max_delay = tlv.field_1C_right_max_delay;
+        r.field_1E_pause_after_chase_delay = tlv.field_1E_pause_after_chase_delay;
+        r.field_20_disabled_resources = tlv.field_20_disabled_resources;
+        r.field_22_roar_randomly = relive::From(tlv.field_22_roar_randomly);
+        r.field_24_persistant = relive::From(tlv.field_24_persistant);
+        r.field_26_possessed_max_whirl_attack_duration = tlv.field_26_possessed_max_whirl_attack_duration;
+        r.field_2A_bKill_enemy = relive::From(tlv.field_2A_bKill_enemy);
+        return r;
+    }
+private:
+    static Path_Scrab::ScrabPatrolType From(AO::ScrabPatrolType type)
+    {
+        switch (type)
+        {
+            case AO::ScrabPatrolType::eWalk_0:
+                return Path_Scrab::ScrabPatrolType::eWalk;
+            case AO::ScrabPatrolType::eRunOrWalk192_1:
+                return Path_Scrab::ScrabPatrolType::eRunOrWalk192;
+            case AO::ScrabPatrolType::eRunOrWalk128_2:
+                return Path_Scrab::ScrabPatrolType::eRunOrWalk128;
+            case AO::ScrabPatrolType::eRunOrWalk64_3:
+                return Path_Scrab::ScrabPatrolType::eRunOrWalk64;
+            case AO::ScrabPatrolType::eRun_4:
+                return Path_Scrab::ScrabPatrolType::eRun;
+        }
+        ALIVE_FATAL("Bad scrab patrol type");
+    }
+};
+
+class Path_Slig_Converter final
+{
+public:
+    static Path_Slig From(const AO::Path_Slig& tlv)
+    {
+        Path_Slig r;
+        BaseConvert(r, tlv);
+        r.field_10_scale = relive::From(tlv.field_18_scale);
+        r.field_12_start_state = From(tlv.field_1A_start_state);
+        r.field_14_pause_time = tlv.field_1C_pause_time;
+        r.field_16_pause_left_min = tlv.field_1E_pause_left_min;
+        r.field_18_pause_left_max = tlv.field_20_pause_left_max;
+        r.field_1A_pause_right_min = tlv.field_22_pause_right_min;
+        r.field_1C_pause_right_max = tlv.field_24_pause_right_max;
+        r.field_1E_shoot_possessed_sligs = From(tlv.field_26_shoot_possessed_sligs);
+        r.field_20_shoot_on_sight_delay = tlv.field_28_shoot_on_sight_delay;
+        r.field_22_num_times_to_shoot = tlv.field_2A_num_times_to_shoot;
+        r.field_24_padding = tlv.field_56_pad;
+        r.field_26_code1 = tlv.field_2E_code1;
+        r.field_28_code2 = tlv.field_30_code2;
+        r.field_2A_chase_abe_when_spotted = relive::From(tlv.field_32_chase_abe);
+        r.field_2C_start_direction = relive::From(tlv.field_34_start_direction);
+        r.field_2E_panic_timeout = tlv.field_36_panic_timeout;
+        r.field_30_num_panic_sounds = tlv.field_38_num_panic_sounds;
+        r.field_32_panic_sound_timeout = tlv.field_3A_panic_sound_timeout;
+        r.field_34_stop_chase_delay = tlv.field_3C_stop_chase_delay;
+        r.field_36_time_to_wait_before_chase = tlv.field_3E_time_to_wait_before_chase;
+        r.field_38_slig_bound_id = tlv.field_40_slig_bound_id;
+        r.field_3A_alerted_listen_time = tlv.field_42_listen_time;
+        r.field_3C_percent_say_what = tlv.field_44_percent_say_what;
+        r.field_3E_percent_beat_mud = tlv.field_46_percent_beat_mud;
+        r.field_40_talk_to_abe = tlv.field_48_talk_to_abe;
+        r.field_42_dont_shoot = tlv.field_4A_dont_shoot;
+        r.field_46_stay_awake = relive::From(tlv.field_4E_stay_awake);
+        r.field_48_disabled_resources = tlv.field_50_disabled_resources.Raw().all;
+        r.field_4A_noise_wake_up_distance = tlv.field_52_noise_wake_up_distance;
+        r.field_4C_slig_spawner_switch_id = tlv.field_54_slig_spawner_switch_id;
+        return r;
+    }
+
+    static Path_Slig From(const ::Path_Slig& tlv)
+    {
+        Path_Slig r;
+        BaseConvert(r, tlv);
+        r.field_10_scale = relive::From(tlv.field_10_scale);
+        r.field_12_start_state = From(tlv.field_12_start_state);
+        r.field_14_pause_time = tlv.field_14_pause_time;
+        r.field_16_pause_left_min = tlv.field_16_pause_left_min;
+        r.field_18_pause_left_max = tlv.field_18_pause_left_max;
+        r.field_1A_pause_right_min = tlv.field_1A_pause_right_min;
+        r.field_1C_pause_right_max = tlv.field_1C_pause_right_max;
+        r.field_1E_shoot_possessed_sligs = From(tlv.field_1E_shoot_possessed_sligs);
+        r.field_20_shoot_on_sight_delay = tlv.field_20_shoot_on_sight_delay;
+        r.field_22_num_times_to_shoot = tlv.field_22_num_times_to_shoot;
+        r.field_24_padding = tlv.field_24_padding;
+        r.field_26_code1 = tlv.field_26_code1;
+        r.field_28_code2 = tlv.field_28_code2;
+        r.field_2A_chase_abe_when_spotted = relive::From(tlv.field_2A_chase_abe_when_spotted);
+        r.field_2C_start_direction = relive::From(tlv.field_2C_start_direction);
+        r.field_2E_panic_timeout = tlv.field_2E_panic_timeout;
+        r.field_30_num_panic_sounds = tlv.field_30_num_panic_sounds;
+        r.field_32_panic_sound_timeout = tlv.field_32_panic_sound_timeout;
+        r.field_34_stop_chase_delay = tlv.field_34_stop_chase_delay;
+        r.field_36_time_to_wait_before_chase = tlv.field_36_time_to_wait_before_chase;
+        r.field_38_slig_bound_id = tlv.field_38_slig_bound_id;
+        r.field_3A_alerted_listen_time = tlv.field_3A_alerted_listen_time;
+        r.field_3C_percent_say_what = tlv.field_3C_percent_say_what;
+        r.field_3E_percent_beat_mud = tlv.field_3E_percent_beat_mud;
+        r.field_40_talk_to_abe = tlv.field_40_talk_to_abe;
+        r.field_42_dont_shoot = tlv.field_42_dont_shoot;
+        r.field_46_stay_awake = relive::From(tlv.field_46_stay_awake);
+        r.field_48_disabled_resources = tlv.field_48_disabled_resources;
+        r.field_4A_noise_wake_up_distance = tlv.field_4A_noise_wake_up_distance;
+        r.field_4C_slig_spawner_switch_id = tlv.field_4C_slig_spawner_switch_id;
+        r.field_4E_unlimited_spawns = relive::From(tlv.field_4E_unlimited_spawns);
+        return r;
+    }
+
+private:
+    static Path_Slig::StartState From(AO::Path_Slig::StartState startState)
+    {
+        switch (startState)
+        {
+            case AO::Path_Slig::StartState::Listening_0:
+                return Path_Slig::StartState::Listening;
+            case AO::Path_Slig::StartState::Patrol_1:
+                return Path_Slig::StartState::Patrol;
+            case AO::Path_Slig::StartState::Sleeping_2:
+                return Path_Slig::StartState::Sleeping;
+            case AO::Path_Slig::StartState::Chase_3:
+                return Path_Slig::StartState::Chase;
+            case AO::Path_Slig::StartState::ChaseAndDisappear_4:
+                return Path_Slig::StartState::ChaseAndDisappear;
+            case AO::Path_Slig::StartState::FallingToChase_5:
+                return Path_Slig::StartState::eFallingToChase;
+        }
+        ALIVE_FATAL("Bad slig start state");
+    }
+
+    static Path_Slig::StartState From(::Path_Slig::StartState startState)
+    {
+        switch (startState)
+        {
+            case ::Path_Slig::StartState::Listening_0:
+                return Path_Slig::StartState::Listening;
+            case ::Path_Slig::StartState::Patrol_1:
+                return Path_Slig::StartState::Patrol;
+            case ::Path_Slig::StartState::Sleeping_2:
+                return Path_Slig::StartState::Sleeping;
+            case ::Path_Slig::StartState::Chase_3:
+                return Path_Slig::StartState::Chase;
+            case ::Path_Slig::StartState::ChaseAndDisappear_4:
+                return Path_Slig::StartState::ChaseAndDisappear;
+            case ::Path_Slig::StartState::ListeningToGlukkon_6:
+                return Path_Slig::StartState::ListeningToGlukkon;
+        }
+        ALIVE_FATAL("Bad slig start state");
+    }
+
+    static reliveChoice From(AO::Path_Slig::ShootPossessedSligs shootPossessedSligs)
+    {
+        switch (shootPossessedSligs)
+        {
+            case AO::Path_Slig::ShootPossessedSligs::eNo_0:
+                return reliveChoice::eNo;
+            case AO::Path_Slig::ShootPossessedSligs::eYes_1:
+            case AO::Path_Slig::ShootPossessedSligs::eYes_2:
+                return reliveChoice::eYes;
+        }
+        ALIVE_FATAL("Bad slig shoot possessed sligs value");
+    }
+
+    static reliveChoice From(::Path_Slig::ShootPossessedSligs shootPossessedSligs)
+    {
+        switch (shootPossessedSligs)
+        {
+            case ::Path_Slig::ShootPossessedSligs::eYes_0:
+            case ::Path_Slig::ShootPossessedSligs::eYes_1:
+                return reliveChoice::eYes;
+            case ::Path_Slig::ShootPossessedSligs::eNo_3:
+                return reliveChoice::eNo;
+        }
+        ALIVE_FATAL("Bad slig shoot possessed sligs value");
+    }
+};
+
+class Path_SligSpawner_Converter final
+{
+public:
+    static Path_SligSpawner From(const AO::Path_SligSpawner& tlv)
+    {
+        Path_SligSpawner r;
+        BaseConvert(r, tlv);
+        r.field_10_scale = relive::From(tlv.field_18_scale);
+        r.field_12_start_state = From(tlv.field_1A_start_state);
+        r.field_14_pause_time = tlv.field_1C_pause_time;
+        r.field_16_pause_left_min = tlv.field_1E_pause_left_min;
+        r.field_18_pause_left_max = tlv.field_20_pause_left_max;
+        r.field_1A_pause_right_min = tlv.field_22_pause_right_min;
+        r.field_1C_pause_right_max = tlv.field_24_pause_right_max;
+        r.field_1E_shoot_possessed_sligs = From(tlv.field_26_shoot_possessed_sligs);
+        r.field_20_shoot_on_sight_delay = tlv.field_28_shoot_on_sight_delay;
+        r.field_22_num_times_to_shoot = tlv.field_2A_num_times_to_shoot;
+        r.field_24_padding = tlv.field_2C_pad;
+        r.field_26_code1 = tlv.field_2E_code1;
+        r.field_28_code2 = tlv.field_30_code2;
+        r.field_2A_chase_abe_when_spotted = relive::From(tlv.field_32_chase_abe);
+        r.field_2C_start_direction = relive::From(tlv.field_34_start_direction);
+        r.field_2E_panic_timeout = tlv.field_36_panic_timeout;
+        r.field_30_num_panic_sounds = tlv.field_38_num_panic_sounds;
+        r.field_32_panic_sound_timeout = tlv.field_3A_panic_sound_timeout;
+        r.field_34_stop_chase_delay = tlv.field_3C_stop_chase_delay;
+        r.field_36_time_to_wait_before_chase = tlv.field_3E_time_to_wait_before_chase;
+        r.field_38_slig_bound_id = tlv.field_40_slig_bound_id;
+        r.field_3A_alerted_listen_time = tlv.field_42_listen_time;
+        r.field_3C_percent_say_what = tlv.field_44_percent_say_what;
+        r.field_3E_percent_beat_mud = tlv.field_46_percent_beat_mud;
+        r.field_40_talk_to_abe = tlv.field_48_talk_to_abe;
+        r.field_42_dont_shoot = tlv.field_4A_dont_shoot;
+        r.field_46_stay_awake = relive::From(tlv.field_4E_stay_awake);
+        r.field_48_disabled_resources = tlv.field_50_disabled_resources;
+        r.field_4A_noise_wake_up_distance = tlv.field_52_noise_wake_up_distance;
+        // TODO: check if slig spawner switch id has the correct type
+        r.field_4C_slig_spawner_switch_id = static_cast<s16>(tlv.field_54_slig_spawner_switch_id);
+        return r;
+    }
+
+    static Path_SligSpawner From(const ::Path_SligSpawner& tlv)
+    {
+        Path_SligSpawner r;
+        BaseConvert(r, tlv);
+        r.field_10_scale = relive::From(tlv.scale);
+        r.field_12_start_state = From(tlv.start_state);
+        r.field_14_pause_time = tlv.pause_time;
+        r.field_16_pause_left_min = tlv.pause_left_min;
+        r.field_18_pause_left_max = tlv.pause_left_max;
+        r.field_1A_pause_right_min = tlv.pause_right_min;
+        r.field_1C_pause_right_max = tlv.pause_right_max;
+        r.field_1E_shoot_possessed_sligs = From(tlv.shoot_possessed_sligs);
+        r.field_20_shoot_on_sight_delay = tlv.shoot_on_sight_delay;
+        r.field_22_num_times_to_shoot = tlv.num_times_to_shoot;
+        r.field_24_padding = tlv.padding;
+        r.field_26_code1 = tlv.code_1;
+        r.field_28_code2 = tlv.code_2;
+        r.field_2A_chase_abe_when_spotted = relive::From(tlv.chase_abe_when_spotted);
+        r.field_2C_start_direction = relive::From(tlv.start_direction);
+        r.field_2E_panic_timeout = tlv.panic_timeout;
+        r.field_30_num_panic_sounds = tlv.num_panic_sounds;
+        r.field_32_panic_sound_timeout = tlv.panic_sound_timeout;
+        r.field_34_stop_chase_delay = tlv.stop_chase_delay;
+        r.field_36_time_to_wait_before_chase = tlv.time_to_wait_before_chase;
+        r.field_38_slig_bound_id = tlv.slig_bound_id;
+        r.field_3A_alerted_listen_time = tlv.alerted_listen_time;
+        r.field_3C_percent_say_what = tlv.percent_say_what;
+        r.field_3E_percent_beat_mud = tlv.percent_beat_mud;
+        r.field_40_talk_to_abe = tlv.talk_to_abe;
+        r.field_42_dont_shoot = tlv.dont_shoot;
+        r.field_46_stay_awake = relive::From(tlv.stay_awake);
+        r.field_48_disabled_resources = tlv.disabled_resources;
+        r.field_4A_noise_wake_up_distance = tlv.noise_wake_up_distance;
+        r.field_4C_slig_spawner_switch_id = tlv.slig_spawner_switch_id;
+        r.field_4E_unlimited_spawns = relive::From(tlv.unlimited_spawns);
+        return r;
+    }
+
+private:
+    static Path_Slig::StartState From(AO::Path_Slig::StartState startState)
+    {
+        switch (startState)
+        {
+        case AO::Path_Slig::StartState::Listening_0:
+            return Path_Slig::StartState::Listening;
+        case AO::Path_Slig::StartState::Patrol_1:
+            return Path_Slig::StartState::Patrol;
+        case AO::Path_Slig::StartState::Sleeping_2:
+            return Path_Slig::StartState::Sleeping;
+        case AO::Path_Slig::StartState::Chase_3:
+            return Path_Slig::StartState::Chase;
+        case AO::Path_Slig::StartState::ChaseAndDisappear_4:
+            return Path_Slig::StartState::ChaseAndDisappear;
+        case AO::Path_Slig::StartState::FallingToChase_5:
+            return Path_Slig::StartState::eFallingToChase;
+        }
+        ALIVE_FATAL("Bad slig start state");
+    }
+
+    static Path_Slig::StartState From(::Path_Slig::StartState startState)
+    {
+        switch (startState)
+        {
+        case ::Path_Slig::StartState::Listening_0:
+            return Path_Slig::StartState::Listening;
+        case ::Path_Slig::StartState::Patrol_1:
+            return Path_Slig::StartState::Patrol;
+        case ::Path_Slig::StartState::Sleeping_2:
+            return Path_Slig::StartState::Sleeping;
+        case ::Path_Slig::StartState::Chase_3:
+            return Path_Slig::StartState::Chase;
+        case ::Path_Slig::StartState::ChaseAndDisappear_4:
+            return Path_Slig::StartState::ChaseAndDisappear;
+        case ::Path_Slig::StartState::ListeningToGlukkon_6:
+            return Path_Slig::StartState::ListeningToGlukkon;
+        }
+        ALIVE_FATAL("Bad slig start state");
+    }
+
+    static reliveChoice From(AO::Path_Slig::ShootPossessedSligs shootPossessedSligs)
+    {
+        switch (shootPossessedSligs)
+        {
+        case AO::Path_Slig::ShootPossessedSligs::eNo_0:
+            return reliveChoice::eNo;
+        case AO::Path_Slig::ShootPossessedSligs::eYes_1:
+        case AO::Path_Slig::ShootPossessedSligs::eYes_2:
+            return reliveChoice::eYes;
+        }
+        ALIVE_FATAL("Bad slig shoot possessed sligs value");
+    }
+
+    static reliveChoice From(::Path_Slig::ShootPossessedSligs shootPossessedSligs)
+    {
+        switch (shootPossessedSligs)
+        {
+        case ::Path_Slig::ShootPossessedSligs::eYes_0:
+        case ::Path_Slig::ShootPossessedSligs::eYes_1:
+            return reliveChoice::eYes;
+        case ::Path_Slig::ShootPossessedSligs::eNo_3:
+            return reliveChoice::eNo;
+        }
+        ALIVE_FATAL("Bad slig shoot possessed sligs value");
+    }
+};
+
 } // namespace relive

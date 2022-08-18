@@ -207,7 +207,6 @@ static void ConvertTLV(const AO::Path_TLV& tlv)
             break;
         case AO::TlvTypes::WellLocal_11:
             j.push_back({ "well_local", relive::Path_WellLocal_Converter::From(static_cast<const AO::Path_WellLocal&>(tlv)) });
-            LOG_INFO(j.dump(4));
             break;
         case AO::TlvTypes::Dove_12:
             j.push_back({ "dove", relive::Path_Dove_Converter::From(static_cast<const AO::Path_Dove&>(tlv)) });
@@ -234,11 +233,11 @@ static void ConvertTLV(const AO::Path_TLV& tlv)
             j.push_back({ "timed_mine", relive::Path_TimedMine_Converter::From(static_cast<const AO::Path_TimedMine&>(tlv)) });
             break;
         case AO::TlvTypes::Slig_24:
-            LOG_WARNING("tlv of type " << static_cast<s16>(tlv.mTlvType32.mType) << " not implemented");
-            return;
+            j.push_back({ "slig", relive::Path_Slig_Converter::From(static_cast<const AO::Path_Slig&>(tlv)) });
+            break;
         case AO::TlvTypes::Slog_25:
-            LOG_WARNING("tlv of type " << static_cast<s16>(tlv.mTlvType32.mType) << " not implemented");
-            return;
+            j.push_back({ "slog", relive::Path_Slog_Converter::From(static_cast<const AO::Path_Slog&>(tlv)) });
+            break;
         case AO::TlvTypes::Lever_26:
             j.push_back({ "lever", relive::Path_Lever_Converter::From(static_cast<const AO::Path_Lever&>(tlv)) });
             break;
@@ -282,7 +281,6 @@ static void ConvertTLV(const AO::Path_TLV& tlv)
             break;
         case AO::TlvTypes::WellExpress_45:
             j.push_back({ "well_express", relive::Path_WellExpress_Converter::From(static_cast<const AO::Path_WellExpress&>(tlv)) });
-            LOG_INFO(j.dump(4));
             break;
         case AO::TlvTypes::Mine_46:
             j.push_back({ "mine", relive::Path_Mine_Converter::From(static_cast<const AO::Path_Mine&>(tlv)) });
@@ -336,8 +334,8 @@ static void ConvertTLV(const AO::Path_TLV& tlv)
             j.push_back({ "motion_detector", relive::Path_MotionDetector_Converter::From(static_cast<const AO::Path_MotionDetector&>(tlv)) });
             break;
         case AO::TlvTypes::SligSpawner_66:
-            LOG_WARNING("tlv of type " << static_cast<s16>(tlv.mTlvType32.mType) << " not implemented");
-            return;
+            j.push_back({ "slig_spawner", relive::Path_SligSpawner_Converter::From(static_cast<const AO::Path_SligSpawner&>(tlv)) });
+            break;
         case AO::TlvTypes::ElectricWall_67:
             j.push_back({ "electric_wall", relive::Path_ElectricWall_Converter::From(static_cast<const AO::Path_ElectricWall&>(tlv)) });
             break;
@@ -351,8 +349,8 @@ static void ConvertTLV(const AO::Path_TLV& tlv)
             j.push_back({ "meat_sack", relive::Path_MeatSack_Converter::From(static_cast<const AO::Path_MeatSack&>(tlv)) });
             break;
         case AO::TlvTypes::Scrab_72:
-            LOG_WARNING("tlv of type " << static_cast<s16>(tlv.mTlvType32.mType) << " not implemented");
-            return;
+            j.push_back({ "scrab", relive::Path_Scrab_Converter::From(static_cast<const AO::Path_Scrab&>(tlv)) });
+            break;
         case AO::TlvTypes::FlintLockFire_73:
             j.push_back({ "flint_lock_fire", relive::Path_FlintLockFire_Converter::From(static_cast<const AO::Path_FlintLockFire&>(tlv)) });
             break;
@@ -440,8 +438,8 @@ static void ConvertTLV(const AO::Path_TLV& tlv)
             j.push_back({ "light_effect", relive::Path_LightEffect_Converter::From(static_cast<const AO::Path_LightEffect&>(tlv)) });
             break;
         case AO::TlvTypes::SlogSpawner_107:
-            LOG_WARNING("tlv of type " << static_cast<s16>(tlv.mTlvType32.mType) << " not implemented");
-            return;
+            j.push_back({ "slog_spawner", relive::Path_SlogSpawner_Converter::From(static_cast<const AO::Path_SlogSpawner&>(tlv)) });
+            break;
         case AO::TlvTypes::GasCountDown_108:
             j.push_back({ "gas_countdown", relive::Path_GasCountDown_Converter::From(static_cast<const AO::Path_GasCountDown&>(tlv)) });
             break;
@@ -498,6 +496,7 @@ static void ConvertPath(const ReliveAPI::LvlFileChunk& pathBndChunk, EReliveLeve
 
     ConvertPathCollisions(*pBlyRec->field_8_pCollisionData, pathBndChunk.Data());
     ConvertPathTLVs(*pBlyRec->field_4_pPathData, pathBndChunk.Data());
+    LOG_INFO("converted path " << pathBndChunk.Id() << " level " << ToString(MapWrapper::ToAO(reliveLvl)));
 }
 
 static void ConvertPaths(const ReliveAPI::ChunkedLvlFile& pathBnd, EReliveLevelIds reliveLvl)
@@ -510,7 +509,6 @@ static void ConvertPaths(const ReliveAPI::ChunkedLvlFile& pathBnd, EReliveLevelI
             ConvertPath(pathBndChunk, reliveLvl);
         }
     }
-    LOG_INFO("Converted all TLV's for level " << ToString(MapWrapper::ToAO(reliveLvl)));
 }
 
 void TestTlvConversion()

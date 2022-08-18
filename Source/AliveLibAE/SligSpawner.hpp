@@ -17,11 +17,11 @@ struct Path_SligSpawner final : public Path_TLV
     s16 pause_right_max;
     Path_Slig::ShootPossessedSligs shoot_possessed_sligs;
     s16 shoot_on_sight_delay;
-    s16 number_of_times_to_shoot;
-    s16 unknown; // maybe number of times to shoot after spawning?
+    s16 num_times_to_shoot;
+    s16 padding; // maybe number of times to shoot after spawning?
     s16 code_1;
     s16 code_2;
-    XDirection_short chase_abe_when_spotted;
+    Choice_short chase_abe_when_spotted;
     XDirection_short start_direction;
     s16 panic_timeout;
     s16 num_panic_sounds;
@@ -35,10 +35,10 @@ struct Path_SligSpawner final : public Path_TLV
     s16 talk_to_abe;
     s16 dont_shoot;
     s16 z_shoot_delay;
-    s16 stay_awake;
-    s16 disable_resources;
+    Choice_short stay_awake;
+    s16 disabled_resources;
     s16 noise_wake_up_distance;
-    s16 id;
+    s16 slig_spawner_switch_id;
     Choice_short unlimited_spawns;
 };
 

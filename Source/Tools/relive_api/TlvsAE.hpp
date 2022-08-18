@@ -408,7 +408,7 @@ struct Path_Slig final : public ReliveAPI::TlvObjectBaseAE
         ADD("Don't Shoot (Unused?)", mTlv.field_42_dont_shoot);
         ADD("Z Shoot Delay", mTlv.field_44_Z_shoot_delay);
         ADD("Stay Awake", mTlv.field_46_stay_awake);
-        ADD("Disable Resources", mTlv.field_48_disable_resources);
+        ADD("Disable Resources", mTlv.field_48_disabled_resources);
         ADD("Noise Wake Up Distance (Grids)", mTlv.field_4A_noise_wake_up_distance);
         ADD("Slig Spawner Switch ID", mTlv.field_4C_slig_spawner_switch_id);
         ADD_HIDDEN("Unlimited Spawns", mTlv.field_4E_unlimited_spawns);
@@ -1070,8 +1070,8 @@ struct Path_SligSpawner final : public ReliveAPI::TlvObjectBaseAE
         ADD("Pause Right Max", mTlv.pause_right_max);
         ADD("Shoot Possessed Sligs", mTlv.shoot_possessed_sligs);
         ADD("Shoot On Sight Delay", mTlv.shoot_on_sight_delay);
-        ADD("Bullet Shoot Count", mTlv.number_of_times_to_shoot);
-        ADD("unknown", mTlv.unknown);
+        ADD("Bullet Shoot Count", mTlv.num_times_to_shoot);
+        ADD("unknown", mTlv.padding);
         ADD("code_1", mTlv.code_1);
         ADD("code_2", mTlv.code_2);
         ADD("Chase Abe When Spotted", mTlv.chase_abe_when_spotted);
@@ -1089,9 +1089,9 @@ struct Path_SligSpawner final : public ReliveAPI::TlvObjectBaseAE
         ADD("Don't Shoot (Unused?)", mTlv.dont_shoot);
         ADD("Z Shoot Delay", mTlv.z_shoot_delay);
         ADD("Stay Awake", mTlv.stay_awake);
-        ADD("Disable Resources", mTlv.disable_resources);
+        ADD("Disable Resources", mTlv.disabled_resources);
         ADD("Noise Wake Up Distance (Grids)", mTlv.noise_wake_up_distance);
-        ADD("ID", mTlv.id);
+        ADD("ID", mTlv.slig_spawner_switch_id);
         ADD("Unlimited Spawns", mTlv.unlimited_spawns);
     }
 };
