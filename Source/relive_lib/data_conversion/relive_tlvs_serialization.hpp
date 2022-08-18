@@ -1998,6 +1998,176 @@ void from_json(const nlohmann::json& j, Path_ZzzSpawner& p)
     j.at("zzz_interval").get_to(p.mZzzInterval);
 }
 
+// Path_BackgroundGlukkon
+void to_json(nlohmann::json& j, const Path_BackgroundGlukkon& p)
+{
+    j = nlohmann::json{
+        {"base", ToBase(p)},
+        {"scale_percent", p.field_18_scale_percent},
+        {"pal_id", p.field_1A_pal_id},
+        {"target_id", p.field_1C_target_id},
+        {"voice_adjust", p.field_1E_voice_adjust},
+    };
+}
+
+void from_json(const nlohmann::json& j, Path_BackgroundGlukkon& p)
+{
+    j.at("base").get_to(ToBase(p));
+    j.at("scale_percent").get_to(p.field_18_scale_percent);
+    j.at("pal_id").get_to(p.field_1A_pal_id);
+    j.at("target_id").get_to(p.field_1C_target_id);
+    j.at("voice_adjust").get_to(p.field_1E_voice_adjust);
+}
+
+// Path_GasEmitter
+NLOHMANN_JSON_SERIALIZE_ENUM(Path_GasEmitter::GasColour, {
+    {Path_GasEmitter::GasColour::eYellow, "yellow"},
+    {Path_GasEmitter::GasColour::eRed, "red"},
+    {Path_GasEmitter::GasColour::eGreen, "green"},
+    {Path_GasEmitter::GasColour::eBlue, "blue"},
+    {Path_GasEmitter::GasColour::eWhite, "white"},
+})
+
+void to_json(nlohmann::json& j, const Path_GasEmitter& p)
+{
+    j = nlohmann::json{
+        {"base", ToBase(p)},
+        {"switch_id", p.mSwitchId},
+        {"colour", p.mColour},
+    };
+}
+
+void from_json(const nlohmann::json& j, Path_GasEmitter& p)
+{
+    j.at("base").get_to(ToBase(p));
+    j.at("switch_id").get_to(p.mSwitchId);
+    j.at("colour").get_to(p.mColour);
+}
+
+// Path_GasCountDown
+void to_json(nlohmann::json& j, const Path_GasCountDown& p)
+{
+    j = nlohmann::json{
+        {"base", ToBase(p)},
+        {"start_timer_switch_id", p.mStartTimerSwitchId},
+        {"gas_countdown_timer", p.mGasCountdownTimer},
+        {"stop_timer_switch_id", p.mStopTimerSwitchId},
+    };
+}
+
+void from_json(const nlohmann::json& j, Path_GasCountDown& p)
+{
+    j.at("base").get_to(ToBase(p));
+    j.at("start_timer_switch_id").get_to(p.mStartTimerSwitchId);
+    j.at("gas_countdown_timer").get_to(p.mGasCountdownTimer);
+    j.at("stop_timer_switch_id").get_to(p.mStopTimerSwitchId);
+}
+
+// Path_RingCancel
+void to_json(nlohmann::json& j, const Path_RingCancel& p)
+{
+    j = nlohmann::json{
+        {"base", ToBase(p)},
+    };
+}
+
+void from_json(const nlohmann::json& j, Path_RingCancel& p)
+{
+    j.at("base").get_to(ToBase(p));
+}
+
+// Path_SecurityDoor
+void to_json(nlohmann::json& j, const Path_SecurityDoor& p)
+{
+    j = nlohmann::json{
+        {"base", ToBase(p)},
+        {"scale", p.mScale},
+        {"switch_id", p.mSwitchId},
+        {"code_1", p.mCode1},
+        {"code_2", p.mCode2},
+        {"xpos", p.mXPos},
+        {"ypos", p.mYPos},
+    };
+}
+
+void from_json(const nlohmann::json& j, Path_SecurityDoor& p)
+{
+    j.at("base").get_to(ToBase(p));
+    j.at("scale").get_to(p.mScale);
+    j.at("switch_id").get_to(p.mSwitchId);
+    j.at("code_1").get_to(p.mCode1);
+    j.at("code_2").get_to(p.mCode2);
+    j.at("xpos").get_to(p.mXPos);
+    j.at("ypos").get_to(p.mYPos);
+}
+
+// Path_LiftMudokon
+NLOHMANN_JSON_SERIALIZE_ENUM(Path_LiftMudokon::Direction, {
+    {Path_LiftMudokon::Direction::eRight, "right"},
+    {Path_LiftMudokon::Direction::eLeft, "left"},
+})
+
+void to_json(nlohmann::json& j, const Path_LiftMudokon& p)
+{
+    j = nlohmann::json{
+        {"base", ToBase(p)},
+        {"how_far_to_walk", p.mHowFarToWalk},
+        {"lift_switch_id", p.mLiftSwitchId},
+        {"direction", p.mDirection},
+        {"give_password", p.mGivePassword},
+        {"scale", p.mScale},
+        {"code_1", p.mCode1},
+        {"code_2", p.mCode2},
+    };
+}
+
+void from_json(const nlohmann::json& j, Path_LiftMudokon& p)
+{
+    j.at("base").get_to(ToBase(p));
+    j.at("how_far_to_walk").get_to(p.mHowFarToWalk);
+    j.at("lift_switch_id").get_to(p.mLiftSwitchId);
+    j.at("direction").get_to(p.mDirection);
+    j.at("give_password").get_to(p.mGivePassword);
+    j.at("scale").get_to(p.mScale);
+    j.at("code_1").get_to(p.mCode1);
+    j.at("code_2").get_to(p.mCode2);
+}
+
+// Path_RingMudokon
+NLOHMANN_JSON_SERIALIZE_ENUM(Path_RingMudokon::MustFaceMud, {
+    {Path_RingMudokon::MustFaceMud::eYes, "yes"},
+    {Path_RingMudokon::MustFaceMud::eNo, "no"},
+})
+
+void to_json(nlohmann::json& j, const Path_RingMudokon& p)
+{
+    j = nlohmann::json{
+        {"base", ToBase(p)},
+        {"direction", p.mDirection},
+        {"abe_must_face_mud", p.mAbeMustFaceMud},
+        {"scale", p.mScale},
+        {"give_password", p.mGivePassword},
+        {"code_1", p.mCode1},
+        {"code_2", p.mCode2},
+        {"action", p.mAction},
+        {"ring_timeout", p.mRingTimeout},
+        {"give_ring_without_password", p.mGiveRingWithoutPassword},
+    };
+}
+
+void from_json(const nlohmann::json& j, Path_RingMudokon& p)
+{
+    j.at("base").get_to(ToBase(p));
+    j.at("direction").get_to(p.mDirection);
+    j.at("abe_must_face_mud").get_to(p.mAbeMustFaceMud);
+    j.at("scale").get_to(p.mScale);
+    j.at("give_password").get_to(p.mGivePassword);
+    j.at("code_1").get_to(p.mCode1);
+    j.at("code_2").get_to(p.mCode2);
+    j.at("action").get_to(p.mAction);
+    j.at("ring_timeout").get_to(p.mRingTimeout);
+    j.at("give_ring_without_password").get_to(p.mGiveRingWithoutPassword);
+}
 
 } // namespace relive
 

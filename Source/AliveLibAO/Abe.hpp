@@ -360,6 +360,7 @@ struct SaveData;
 
 struct Path_RingCancel : public Path_TLV
 {
+    // No fields
 };
 
 struct Path_Edge final : public Path_TLV

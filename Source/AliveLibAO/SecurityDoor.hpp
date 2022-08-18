@@ -16,7 +16,7 @@ struct Path_SecurityDoor final : public Path_TLV
     s16 field_20_xpos;
     s16 field_22_ypos;
 };
-ALIVE_ASSERT_SIZEOF(Path_SecurityDoor, 0x24);
+ALIVE_ASSERT_SIZEOF_ALWAYS(Path_SecurityDoor, 0x24);
 
 enum SecurityDoorStates : s16
 {

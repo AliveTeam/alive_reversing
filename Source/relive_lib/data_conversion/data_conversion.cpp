@@ -251,8 +251,8 @@ static void ConvertTLV(const AO::Path_TLV& tlv)
             j.push_back({"security_orb", relive::Path_SecurityOrb_Converter::From(static_cast<const AO::Path_SecurityOrb&>(tlv))});
             break;
         case AO::TlvTypes::LiftMudokon_32:
-            LOG_WARNING("tlv of type " << static_cast<s16>(tlv.mTlvType32.mType) << " not implemented");
-            return;
+            j.push_back({ "lift_mudokon", relive::Path_LiftMudokon_Converter::From(static_cast<const AO::Path_LiftMudokon&>(tlv)) });
+            break;
         case AO::TlvTypes::BeeSwarmHole_34:
             j.push_back({ "bee_swarm_hole", relive::Path_BeeSwarmHole_Converter::From(static_cast<const AO::Path_BeeSwarmHole&>(tlv)) });
             break;
@@ -295,8 +295,8 @@ static void ConvertTLV(const AO::Path_TLV& tlv)
             j.push_back({ "bat", relive::Path_Bat_Converter::From(static_cast<const AO::Path_Bat&>(tlv)) });
             break;
         case AO::TlvTypes::RingMudokon_50:
-            LOG_WARNING("tlv of type " << static_cast<s16>(tlv.mTlvType32.mType) << " not implemented");
-            return;
+            j.push_back({ "ring_mudokon", relive::Path_RingMudokon_Converter::From(static_cast<const AO::Path_RingMudokon&>(tlv)) });
+            break;
         case AO::TlvTypes::MovieStone_51:
             j.push_back({ "movie_stone", relive::Path_MovieStone_Converter::From(static_cast<const AO::Path_MovieStone&>(tlv)) });
             break;
@@ -406,10 +406,10 @@ static void ConvertTLV(const AO::Path_TLV& tlv)
             j.push_back({ "timer_trigger", relive::Path_TimerTrigger_Converter::From(static_cast<const AO::Path_TimerTrigger&>(tlv)) });
             break;
         case AO::TlvTypes::SecurityDoor_95:
-            LOG_WARNING("tlv of type " << static_cast<s16>(tlv.mTlvType32.mType) << " not implemented");
-            return;
-        case AO::TlvTypes::DemoPlaybackStone_96:
-            LOG_WARNING("tlv of type " << static_cast<s16>(tlv.mTlvType32.mType) << " not implemented");
+            j.push_back({ "security_door", relive::Path_SecurityDoor_Converter::From(static_cast<const AO::Path_SecurityDoor&>(tlv)) });
+            break;
+        case AO::TlvTypes::DemoPlaybackStone_96: // unused?
+            LOG_WARNING("tlv of type " << static_cast<s16>(tlv.mTlvType32.mType) << " unused?");
             return;
         case AO::TlvTypes::BoomMachine_97:
             j.push_back({ "boom_machine", relive::Path_BoomMachine_Converter::From(static_cast<const AO::Path_BoomMachine&>(tlv)) });
@@ -441,20 +441,20 @@ static void ConvertTLV(const AO::Path_TLV& tlv)
             LOG_WARNING("tlv of type " << static_cast<s16>(tlv.mTlvType32.mType) << " not implemented");
             return;
         case AO::TlvTypes::GasCountDown_108:
-            LOG_WARNING("tlv of type " << static_cast<s16>(tlv.mTlvType32.mType) << " not implemented");
-            return;
+            j.push_back({ "gas_countdown", relive::Path_GasCountDown_Converter::From(static_cast<const AO::Path_GasCountDown&>(tlv)) });
+            break;
         case AO::TlvTypes::RingCancel_109:
-            LOG_WARNING("tlv of type " << static_cast<s16>(tlv.mTlvType32.mType) << " not implemented");
-            return;
+            j.push_back({ "ring_cancel", relive::Path_RingCancel_Converter::From(static_cast<const AO::Path_RingCancel&>(tlv)) });
+            break;
         case AO::TlvTypes::GasEmitter_110:
-            LOG_WARNING("tlv of type " << static_cast<s16>(tlv.mTlvType32.mType) << " not implemented");
-            return;
+            j.push_back({ "gas_emitter", relive::Path_GasEmitter_Converter::From(static_cast<const AO::Path_GasEmitter&>(tlv)) });
+            break;
         case AO::TlvTypes::ZzzSpawner_111:
             j.push_back({ "zzz_spawner", relive::Path_ZzzSpawner_Converter::From(static_cast<const AO::Path_ZzzSpawner&>(tlv)) });
             break;
         case AO::TlvTypes::BackgroundGlukkon_112:
-            LOG_WARNING("tlv of type " << static_cast<s16>(tlv.mTlvType32.mType) << " not implemented");
-            return;
+            j.push_back({ "background_glukkon", relive::Path_BackgroundGlukkon_Converter::From(static_cast<const AO::Path_BackgroundGlukkon&>(tlv)) });
+            break;
         case AO::TlvTypes::KillUnsavedMuds_113:
             j.push_back({ "kill_unsaved_muds", relive::Path_KillUnsavedMuds_Converter::From(static_cast<const AO::Path_KillUnsavedMuds&>(tlv)) });
             break;

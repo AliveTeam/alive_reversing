@@ -90,6 +90,13 @@
 #include "../AliveLibAE/Paramite.hpp"
 #include "../AliveLibAO/ZzzSpawner.hpp"
 #include "../AliveLibAE/ZzzSpawner.hpp"
+#include "../AliveLibAO/BackgroundGlukkon.hpp"
+#include "../AliveLibAO/GasEmitter.hpp"
+#include "../AliveLibAE/GasEmitter.hpp"
+#include "../AliveLibAE/GasCountDown.hpp"
+#include "../AliveLibAO/GasCountDown.hpp"
+#include "../AliveLibAE/SecurityDoor.hpp"
+#include "../AliveLibAO/SecurityDoor.hpp"
 
 // Convert an AO or AE TLV to a relive TLV
 
@@ -2891,6 +2898,184 @@ public:
         r.mSwitchId = tlv.mSwitchId;
         r.mZzzInterval = tlv.mZzzInterval;
         return r;
+    }
+};
+
+class Path_BackgroundGlukkon_Converter final
+{
+public:
+    static Path_BackgroundGlukkon From(const AO::Path_BackgroundGlukkon& tlv)
+    {
+        Path_BackgroundGlukkon r;
+        BaseConvert(r, tlv);
+        r.field_18_scale_percent = tlv.field_18_scale_percent;
+        r.field_1A_pal_id = tlv.field_1A_pal_id;
+        r.field_1C_target_id = tlv.field_1C_target_id;
+        r.field_1E_voice_adjust = tlv.field_1E_voice_adjust;
+        return r;
+    }
+};
+
+class Path_GasEmitter_Converter final
+{
+public:
+    static Path_GasEmitter From(const AO::Path_GasEmitter& tlv)
+    {
+        Path_GasEmitter r;
+        BaseConvert(r, tlv);
+        return r;
+    }
+
+    static Path_GasEmitter From(const ::Path_GasEmitter& tlv)
+    {
+        Path_GasEmitter r;
+        BaseConvert(r, tlv);
+        r.mSwitchId = tlv.field_10_switch_id;
+        r.mColour = From(tlv.field_12_colour);
+        return r;
+    }
+private:
+    static Path_GasEmitter::GasColour From(::GasColour colour)
+    {
+        switch (colour)
+        {
+            case ::GasColour::Yellow_0:
+                return Path_GasEmitter::GasColour::eYellow;
+            case ::GasColour::Red_1:
+                return Path_GasEmitter::GasColour::eRed;
+            case ::GasColour::Green_2:
+                return Path_GasEmitter::GasColour::eGreen;
+            case ::GasColour::Blue_3:
+                return Path_GasEmitter::GasColour::eBlue;
+            case ::GasColour::White_4:
+                return Path_GasEmitter::GasColour::eWhite;
+        }
+        ALIVE_FATAL("Bad gas emitter gas colour");
+    }
+};
+
+class Path_GasCountDown_Converter final
+{
+public:
+    static Path_GasCountDown From(const AO::Path_GasCountDown& tlv)
+    {
+        Path_GasCountDown r;
+        BaseConvert(r, tlv);
+        r.mStartTimerSwitchId = tlv.field_18_start_switch_id;
+        return r;
+    }
+
+    static Path_GasCountDown From(const ::Path_GasCountDown& tlv)
+    {
+        Path_GasCountDown r;
+        BaseConvert(r, tlv);
+        r.mStartTimerSwitchId = tlv.field_10_start_timer_switch_id;
+        r.mGasCountdownTimer = tlv.field_12_gas_countdown_timer;
+        r.mStopTimerSwitchId = tlv.field_14_stop_timer_switch_id;
+        return r;
+    }
+};
+
+class Path_RingCancel_Converter final
+{
+public:
+    static Path_RingCancel From(const AO::Path_RingCancel& tlv)
+    {
+        Path_RingCancel r;
+        BaseConvert(r, tlv);
+        return r;
+    }
+};
+
+class Path_SecurityDoor_Converter final
+{
+public:
+    static Path_SecurityDoor From(const AO::Path_SecurityDoor& tlv)
+    {
+        Path_SecurityDoor r;
+        BaseConvert(r, tlv);
+        r.mScale = relive::From(tlv.field_18_scale);
+        r.mSwitchId = tlv.field_1A_switch_id;
+        r.mCode1 = tlv.field_1C_code_1;
+        r.mCode2 = tlv.field_1E_code2;
+        r.mXPos = tlv.field_20_xpos;
+        r.mYPos = tlv.field_22_ypos;
+        return r;
+    }
+
+    static Path_SecurityDoor From(const ::Path_SecurityDoor& tlv)
+    {
+        Path_SecurityDoor r;
+        BaseConvert(r, tlv);
+        r.mScale = relive::From(tlv.field_10_scale);
+        r.mSwitchId = tlv.field_12_switch_id;
+        r.mCode1 = tlv.field_14_code_1;
+        r.mCode2 = tlv.field_16_code_2;
+        r.mXPos = tlv.field_18_xpos;
+        r.mYPos = tlv.field_1A_ypos;
+        return r;
+    }
+};
+
+class Path_LiftMudokon_Converter final
+{
+public:
+    static Path_LiftMudokon From(const AO::Path_LiftMudokon& tlv)
+    {
+        Path_LiftMudokon r;
+        BaseConvert(r, tlv);
+        r.mHowFarToWalk = tlv.field_18_how_far_to_walk;
+        r.mLiftSwitchId = tlv.field_1A_lift_switch_id;
+        r.mDirection = From(tlv.field_1C_direction);
+        r.mGivePassword = relive::From(tlv.field_1E_give_password);
+        r.mScale = relive::From(tlv.field_20_scale);
+        r.mCode1 = tlv.field_22_code1;
+        r.mCode2 = tlv.field_24_code2;
+        return r;
+    }
+private:
+    static Path_LiftMudokon::Direction From(AO::Path_LiftMudokon::Direction dir)
+    {
+        switch (dir)
+        {
+            case AO::Path_LiftMudokon::Direction::eRight_0:
+                return Path_LiftMudokon::Direction::eRight;
+            case AO::Path_LiftMudokon::Direction::eLeft_1:
+                return Path_LiftMudokon::Direction::eLeft;
+        }
+        ALIVE_FATAL("Bad lift mudokon direction");
+    }
+};
+
+class Path_RingMudokon_Converter final
+{
+public:
+    static Path_RingMudokon From(const AO::Path_RingMudokon& tlv)
+    {
+        Path_RingMudokon r;
+        BaseConvert(r, tlv);
+        r.mDirection = relive::From(tlv.field_18_direction);
+        r.mAbeMustFaceMud = From(tlv.field_1A_abe_must_face_mud);
+        r.mScale = relive::From(tlv.field_1C_scale);
+        r.mGivePassword = relive::From(tlv.field_1E_give_password);
+        r.mCode1 = tlv.field_20_code1;
+        r.mCode2 = tlv.field_22_code2;
+        r.mAction = relive::From(tlv.field_24_action);
+        r.mRingTimeout = tlv.field_26_ring_timeout;
+        r.mGiveRingWithoutPassword = relive::From(tlv.field_28_give_ring_without_password);
+        return r;
+    }
+private:
+    static Path_RingMudokon::MustFaceMud From(AO::Path_RingMudokon::MustFaceMud mustFaceMud)
+    {
+        switch (mustFaceMud)
+        {
+            case AO::Path_RingMudokon::MustFaceMud::eYes_0:
+                return Path_RingMudokon::MustFaceMud::eYes;
+            case AO::Path_RingMudokon::MustFaceMud::eNo_1:
+                return Path_RingMudokon::MustFaceMud::eNo;
+        }
+        ALIVE_FATAL("Bad ring mudokon must face mud value");
     }
 };
 

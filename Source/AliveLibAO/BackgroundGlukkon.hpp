@@ -13,7 +13,7 @@ struct Path_BackgroundGlukkon final : public Path_TLV
     s16 field_1C_target_id;
     s16 field_1E_voice_adjust;
 };
-ALIVE_ASSERT_SIZEOF(Path_BackgroundGlukkon, 0x20);
+ALIVE_ASSERT_SIZEOF_ALWAYS(Path_BackgroundGlukkon, 0x20);
 
 class BackgroundGlukkon final : public BaseAliveGameObject
 {

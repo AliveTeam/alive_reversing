@@ -919,43 +919,43 @@ struct Path_Mudokon final : public Path_TLV
 
 struct Path_MovingBomb final : public Path_TLV
 {
-    u16 mSpeed;
-    s16 mStartMovingSwitchId;
-    reliveChoice mTriggeredByAlarm;
-    reliveScale mScale;
-    s16 mDisabledResources;
-    u16 mStartSpeed;
-    reliveChoice mPersistOffscreen;
+    u16 mSpeed = 0;
+    s16 mStartMovingSwitchId = 0;
+    reliveChoice mTriggeredByAlarm = reliveChoice::eNo;
+    reliveScale mScale = reliveScale::eFull;
+    s16 mDisabledResources = 0;
+    u16 mStartSpeed = 0;
+    reliveChoice mPersistOffscreen = reliveChoice::eYes;
 };
 
 struct Path_ElumPathTrans final : public Path_TLV
 {
-    EReliveLevelIds mLevel;
-    s16 mPath;
-    s16 mCamera;
+    EReliveLevelIds mLevel = EReliveLevelIds::eNone;
+    s16 mPath = 0;
+    s16 mCamera = 0;
 };
 
 struct Path_MudokonPathTrans final : public Path_TLV
 {
-    EReliveLevelIds mLevel;
-    s16 mPath;
-    s32 mCamera;
+    EReliveLevelIds mLevel = EReliveLevelIds::eNone;
+    s16 mPath = 0;
+    s32 mCamera = 0;
 };
 
 struct Path_SecurityClaw final : public Path_TLV
 {
-    reliveScale mScale;
-    s16 mAlarmSwitchId;
-    s16 mAlarmDuration;
-    s16 mDisabledResources;
+    reliveScale mScale = reliveScale::eFull;
+    s16 mAlarmSwitchId = 0;
+    s16 mAlarmDuration = 0;
+    s16 mDisabledResources = 0;
 };
 
 struct Path_SlingMudokon final : public Path_TLV
 {
-    reliveScale mScale;
-    reliveChoice mDontWhistlePassword;
-    s16 mCode1;
-    s16 mCode2;
+    reliveScale mScale =  reliveScale::eFull;
+    reliveChoice mDontWhistlePassword = reliveChoice::eYes;
+    s16 mCode1 = 0;
+    s16 mCode2 = 0;
 };
 
 struct Path_FootSwitch final : public Path_TLV
@@ -965,39 +965,120 @@ struct Path_FootSwitch final : public Path_TLV
         eAbe,
         eAnyone,
     };
-    s16 mSwitchId;
-    reliveScale mScale;
-    reliveSwitchOp mAction;
-    FootSwitchTriggerBy mTriggeredBy;
+    s16 mSwitchId = 0;
+    reliveScale mScale = reliveScale::eFull;
+    reliveSwitchOp mAction = reliveSwitchOp::eSetTrue;
+    FootSwitchTriggerBy mTriggeredBy = FootSwitchTriggerBy::eAbe;
 };
 
 struct Path_Paramite final : public Path_TLV
 {
-    reliveScale mScale;
+    reliveScale mScale = reliveScale::eFull;
     enum class EntranceType : s16
     {
         ePatrol,
         eSurpriseWeb,
         eSlightlyHigherSpawnSurpriseWeb,
     };
-    EntranceType mEntranceType;
-    s16 mAloneChaseDelay;
-    s16 mSurpriseWebDelayTimer;
-    s16 mMeatEatingTime;
-    u16 mGroupChaseDelay;
-    s16 mSurpriseWebSwitchId;
-    reliveChoice mHissBeforeAttack;
-    reliveChoice mDeleteWhenOutOfSight;
+    EntranceType mEntranceType = EntranceType::ePatrol;
+    s16 mAloneChaseDelay = 0;
+    s16 mSurpriseWebDelayTimer = 0;
+    s16 mMeatEatingTime = 0;
+    u16 mGroupChaseDelay = 0;
+    s16 mSurpriseWebSwitchId = 0;
+    reliveChoice mHissBeforeAttack = reliveChoice::eYes;
+    reliveChoice mDeleteWhenOutOfSight = reliveChoice::eNo;
 
     // AE only
-    reliveChoice mAttackFleeches;
+    reliveChoice mAttackFleeches = reliveChoice::eYes;
 };
 
 struct Path_ZzzSpawner final : public Path_TLV
 {
+    reliveScale mScale = reliveScale::eFull;
+    s16 mSwitchId = 0;
+    s16 mZzzInterval = 0;
+};
+
+struct Path_BackgroundGlukkon final : public Path_TLV
+{
+    s16 field_18_scale_percent = 0;
+    u16 field_1A_pal_id = 0;
+    s16 field_1C_target_id = 0;
+    s16 field_1E_voice_adjust = 0;
+};
+
+struct Path_GasEmitter final : public Path_TLV
+{
+    // NOTE: AO has no fields
+    enum class GasColour : s16
+    {
+        eYellow,
+        eRed,
+        eGreen,
+        eBlue,
+        eWhite,
+    };
+    s16 mSwitchId = 0;
+    GasColour mColour = GasColour::eYellow;
+};
+
+struct Path_GasCountDown final : public Path_TLV
+{
+    s16 mStartTimerSwitchId = 0;
+
+    // AE only
+    u16 mGasCountdownTimer = 0;
+    s16 mStopTimerSwitchId = 0;
+};
+
+struct Path_RingCancel : public Path_TLV
+{
+    // No fields
+};
+
+struct Path_SecurityDoor final : public Path_TLV
+{
+    reliveScale mScale = reliveScale::eFull;
+    s16 mSwitchId = 0;
+    s16 mCode1 = 0;
+    s16 mCode2 = 0;
+    s16 mXPos = 0;
+    s16 mYPos = 0;
+};
+
+struct Path_LiftMudokon final : public Path_TLV
+{
+    s16 mHowFarToWalk = 0;
+    s16 mLiftSwitchId = 0;
+    enum class Direction : s16
+    {
+        eRight,
+        eLeft
+    };
+    Direction mDirection = Direction::eRight;
+    reliveChoice mGivePassword = reliveChoice::eNo;
+    reliveScale mScale = reliveScale::eFull;
+    s16 mCode1 = 0;
+    s16 mCode2 = 0;
+};
+
+struct Path_RingMudokon final : public Path_TLV
+{
+    reliveXDirection mDirection;
+    enum class MustFaceMud : s16
+    {
+        eYes,
+        eNo
+    };
+    MustFaceMud mAbeMustFaceMud;
     reliveScale mScale;
-    s16 mSwitchId;
-    s16 mZzzInterval;
+    reliveChoice mGivePassword;
+    s16 mCode1;
+    s16 mCode2;
+    reliveSwitchOp mAction;
+    s16 mRingTimeout;
+    reliveChoice mGiveRingWithoutPassword;
 };
 
 } // namespace relive
