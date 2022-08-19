@@ -1,6 +1,7 @@
 #pragma once
 
 #include "JsonModelTypes.hpp"
+#include "PathCamerasEnumerator.hpp"
 #include <functional>
 
 struct Path_TLV;
@@ -10,11 +11,6 @@ namespace AO {
 }
 
 namespace ReliveAPI {
-
-inline s32 To1dIndex(s32 width, s32 x, s32 y)
-{
-    return x + (y * width);
-}
 
 class LvlReader;
 class IFileIO;
@@ -46,16 +42,4 @@ protected:
     TypesCollectionBase& mBaseTypesCollection;
 };
 
-class PathCamerasEnumerator final
-{
-public:
-    PathCamerasEnumerator(const PathInfo& pathInfo, const std::vector<u8>& pathResource);
-
-    using TFnOnCamera = std::function<void(CameraObject& cam)>;
-    void Enumerate(TFnOnCamera onCamera);
-
-private:
-    const PathInfo& mPathInfo;
-    const std::vector<u8>& mPathResource;
-};
 } // namespace ReliveAPI
