@@ -2750,6 +2750,16 @@ public:
         r.mDisabledResources = tlv.mDisabledResources;
         return r;
     }
+
+    // This is just a security orb in AE
+    static Path_SecurityClaw From(const ::Path_SecurityClaw& tlv)
+    {
+        Path_SecurityClaw r;
+        BaseConvert(r, tlv);
+        r.mScale = relive::From(tlv.mScale);
+        r.mDisabledResources = tlv.mDisabledResources;
+        return r;
+    }
 };
 
 class Path_SlingMudokon_Converter final

@@ -6,8 +6,8 @@
 
 struct Path_SecurityClaw final : public Path_TLV
 {
-    Scale_int field_10_scale;
-    s16 field_12_disabled_resources;
+    Scale_int mScale;
+    s16 mDisabledResources;
     s16 field_14_unknown;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_SecurityClaw, 0x18);

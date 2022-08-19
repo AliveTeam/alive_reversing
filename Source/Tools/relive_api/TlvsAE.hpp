@@ -523,7 +523,7 @@ struct Path_UXB final : public ReliveAPI::TlvObjectBaseAE
 
 struct Path_LCDScreen final : public ReliveAPI::TlvObjectBaseAE
 {
-    CTOR_AE(Path_LCDScreen, "LCDScreen", TlvTypes::LCD_60)
+    CTOR_AE(Path_LCDScreen, "LCDScreen", TlvTypes::LCDScreen_60)
     {
         ADD("Message 1 ID", mTlv.mMessageId1);
         ADD("Random Message Min ID", mTlv.mMessageRandMinId);
@@ -1861,8 +1861,8 @@ struct Path_SecurityClaw final : public ReliveAPI::TlvObjectBaseAE
 {
     CTOR_AE(Path_SecurityClaw, "SecurityClaw", TlvTypes::SecurityClaw_35)
     {
-        ADD("Scale", mTlv.field_10_scale);
-        ADD("Disabled Resources", mTlv.field_12_disabled_resources);
+        ADD("Scale", mTlv.mScale);
+        ADD("Disabled Resources", mTlv.mDisabledResources);
         ADD("Unknown", mTlv.field_14_unknown);
     }
 };
