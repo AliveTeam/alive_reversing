@@ -23,10 +23,10 @@ SligSpawner::SligSpawner(Path_Slig* pTlv, s32 tlvInfo)
 
     field_26_flags.Set(SpawnerFlags::eBit1_DontDestroyTLV);
 
-    field_24_slig_spawner_switch_id = pTlv->field_4C_slig_spawner_switch_id;
+    field_24_slig_spawner_switch_id = pTlv->mSligSpawnerSwitchId;
     field_40_bFindSpawnedSlig = 0;
 
-    field_26_flags.Set(SpawnerFlags::eBit2_UnlimitedSpawns, pTlv->field_4E_unlimited_spawns == Choice_short::eYes_1);
+    field_26_flags.Set(SpawnerFlags::eBit2_UnlimitedSpawns, pTlv->mUnlimitedSpawns == Choice_short::eYes_1);
 
     field_38_state = SpawnerStates::eInactive_0;
     field_3C_spawned_slig_obj_id = -1;

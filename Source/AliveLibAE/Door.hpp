@@ -26,7 +26,7 @@ struct Path_Door final : public Path_TLV
     s16 mNextPath;
     s16 mNextCamera;
     Scale_short mScale;
-    s16 mDoorNumber;
+    s16 mDoorId;
     s16 mSwitchId;
     s16 mTargetDoorNumber;
     DoorTypes mDoorType;

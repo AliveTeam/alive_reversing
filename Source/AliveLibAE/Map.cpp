@@ -898,7 +898,7 @@ void Map::GoTo_Camera()
 
             // Door transition
             Path_Door* pDoorTlv = static_cast<Path_Door*>(sPathInfo->TLV_First_Of_Type_In_Camera(TlvTypes::Door_5, 0));
-            while (pDoorTlv->mDoorNumber != sActiveHero->field_1A0_door_id)
+            while (pDoorTlv->mDoorId != sActiveHero->field_1A0_door_id)
             {
                 pDoorTlv = static_cast<Path_Door*>(Path::TLV_Next_Of_Type(pDoorTlv, TlvTypes::Door_5));
             }

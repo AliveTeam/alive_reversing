@@ -152,12 +152,12 @@ struct Path_ResetPath final : public ReliveAPI::TlvObjectBaseAO
 {
     CTOR_AO(Path_ResetPath, "ResetPath", AO::TlvTypes::ResetPath_115)
     {
-        ADD("clear_ids", mTlv.field_18_clearIds);
-        ADD("from", mTlv.field_1A_from);
-        ADD("to", mTlv.field_1C_to);
-        ADD("exclude", mTlv.field_1E_exclude);
-        ADD("clear_objects", mTlv.field_20_clearObjects);
-        ADD("path", mTlv.field_22_path);
+        ADD("clear_ids", mTlv.mClearIds);
+        ADD("from", mTlv.mFrom);
+        ADD("to", mTlv.mTo);
+        ADD("exclude", mTlv.mExclude);
+        ADD("clear_objects", mTlv.mClearObjects);
+        ADD("path", mTlv.mPath);
     }
 };
 
@@ -205,8 +205,8 @@ struct Path_MovieStone final : public ReliveAPI::TlvObjectBaseAO
 {
     CTOR_AO(Path_MovieStone, "MovieStone", AO::TlvTypes::MovieStone_51)
     {
-        ADD("FMV ID", mTlv.mData.fmvId);
-        ADD("Scale", mTlv.mData.scale);
+        ADD("FMV ID", mTlv.mData.mMovieId);
+        ADD("Scale", mTlv.mData.mScale);
     }
 };
 
@@ -223,11 +223,11 @@ struct Path_BellsongStone final : public ReliveAPI::TlvObjectBaseAO
 
     CTOR_AO(Path_BellsongStone, "BellSongStone", AO::TlvTypes::BellSongStone_54)
     {
-        ADD("Scale", mTlv.mData.scale);
-        ADD("Type", mTlv.mData.type);
-        ADD("Code 1", mTlv.mData.code1);
-        ADD("Code 2", mTlv.mData.code2);
-        ADD("Switch ID", mTlv.mData.switch_id);
+        ADD("Scale", mTlv.mData.mScale);
+        ADD("Type", mTlv.mData.mType);
+        ADD("Code 1", mTlv.mData.mCode1);
+        ADD("Code 2", mTlv.mData.mCode2);
+        ADD("Switch ID", mTlv.mData.mSwitchId);
     }
 };
 
@@ -269,9 +269,9 @@ struct Path_Door final : public ReliveAPI::TlvObjectBaseAO
         ADD("Path", mTlv.mNextPath);
         ADD("Camera", mTlv.mNextCamera);
         ADD("Scale", mTlv.mScale);
-        ADD("Door Number", mTlv.mDoorNumber);
+        ADD("Door Number", mTlv.mDoorId);
         ADD("Switch ID", mTlv.mSwitchId);
-        ADD("Target Door Number", mTlv.mTargetDoorNumber);
+        ADD("Target Door Number", mTlv.mTargetDoorId);
         ADD("Door Type", mTlv.mDoorType);
         ADD("Door Closed", mTlv.field_28_door_closed);
         ADD("Hub 1 ID", mTlv.mHub1);
@@ -548,37 +548,37 @@ struct Path_Slig final : public ReliveAPI::TlvObjectBaseAO
 {
     CTOR_AO(Path_Slig, "Slig", AO::TlvTypes::Slig_24)
     {
-        ADD("Scale", mTlv.field_18_scale);
-        ADD("Start State", mTlv.field_1A_start_state);
-        ADD("Pause Time", mTlv.field_1C_pause_time);
-        ADD("Pause Left Min", mTlv.field_1E_pause_left_min);
-        ADD("Pause Left Max", mTlv.field_20_pause_left_max);
-        ADD("Pause Right Min", mTlv.field_22_pause_right_min);
-        ADD("Pause Right Max", mTlv.field_24_pause_right_max);
-        ADD("Shoot Possessed Sligs", mTlv.field_26_shoot_possessed_sligs);
-        ADD("Shoot On Sight Delay", mTlv.field_28_shoot_on_sight_delay);
-        ADD("Bullet Shoot Count", mTlv.field_2A_num_times_to_shoot);
-        ADD("unknown", mTlv.field_2C_unknown);
-        ADD("Code 1", mTlv.field_2E_code1);
-        ADD("Code 2", mTlv.field_30_code2);
-        ADD("Chase Abe When Spotted", mTlv.field_32_chase_abe);
-        ADD("Start Direction", mTlv.field_34_start_direction);
-        ADD("Panic Timeout", mTlv.field_36_panic_timeout);
-        ADD("Amount Of Panic Sounds (Unused?)", mTlv.field_38_num_panic_sounds);
-        ADD("Panic Sound Timeout (Unused?)", mTlv.field_3A_panic_sound_timeout);
-        ADD("Stop Chase Delay", mTlv.field_3C_stop_chase_delay);
-        ADD("Time To Wait Before Chase", mTlv.field_3E_time_to_wait_before_chase);
-        ADD("Slig Bound/Persist ID", mTlv.field_40_slig_bound_id);
-        ADD("Alerted Listen Time", mTlv.field_42_listen_time);
-        ADD("Percent Say What", mTlv.field_44_percent_say_what);
-        ADD("Percent Beat Mudokon", mTlv.field_46_percent_beat_mud);
-        ADD_HIDDEN("Talk To Abe (Unused?)", mTlv.field_48_talk_to_abe);
+        ADD("Scale", mTlv.mScale);
+        ADD("Start State", mTlv.mStartState);
+        ADD("Pause Time", mTlv.mPauseTime);
+        ADD("Pause Left Min", mTlv.mPauseLeftMin);
+        ADD("Pause Left Max", mTlv.mPauseLeftMax);
+        ADD("Pause Right Min", mTlv.mPauseRightMin);
+        ADD("Pause Right Max", mTlv.mPauseRightMax);
+        ADD("Shoot Possessed Sligs", mTlv.mShootPossessedSligs);
+        ADD("Shoot On Sight Delay", mTlv.mShootOnSightDelay);
+        ADD("Bullet Shoot Count", mTlv.mNumTimesToShoot);
+        ADD("unknown", mTlv.field_2C_unused);
+        ADD("Code 1", mTlv.mCode1);
+        ADD("Code 2", mTlv.mCode2);
+        ADD("Chase Abe When Spotted", mTlv.mChaseAbeWhenSpotted);
+        ADD("Start Direction", mTlv.mFacing);
+        ADD("Panic Timeout", mTlv.mPanicTimeout);
+        ADD("Amount Of Panic Sounds (Unused?)", mTlv.mNumPanicSounds);
+        ADD("Panic Sound Timeout (Unused?)", mTlv.mPanicSoundTimeout);
+        ADD("Stop Chase Delay", mTlv.mStopChaseDelay);
+        ADD("Time To Wait Before Chase", mTlv.mTimeToWaitBeforeChase);
+        ADD("Slig Bound/Persist ID", mTlv.mSligBoundId);
+        ADD("Alerted Listen Time", mTlv.mAlertedListenTime);
+        ADD("Percent Say What", mTlv.mPercentSayWhat);
+        ADD("Percent Beat Mudokon", mTlv.mPercentBeatMud);
+        ADD_HIDDEN("Talk To Abe (Unused?)", mTlv.mTalkToAbe);
         ADD("Don't Shoot (Unused?)", mTlv.field_4A_dont_shoot);
-        ADD("Z Shoot Delay", mTlv.field_4C_z_shoot_delay);
-        ADD("Stay Awake", mTlv.field_4E_stay_awake);
-        ADD("Disabled Resources", mTlv.field_50_disabled_resources.Raw().all);
-        ADD("Noise Wake Up Distance (Grids)", mTlv.field_52_noise_wake_up_distance);
-        ADD("Slig Spawner Switch ID", mTlv.field_54_slig_spawner_switch_id);
+        ADD("Z Shoot Delay", mTlv.mZShootDelay);
+        ADD("Stay Awake", mTlv.mStayAwake);
+        ADD("Disabled Resources", mTlv.mDisabledResources.Raw().all);
+        ADD("Noise Wake Up Distance (Grids)", mTlv.mNoiseWakeUpDistance);
+        ADD("Slig Spawner Switch ID", mTlv.mSligSpawnerSwitchId);
     }
 };
 
@@ -1161,11 +1161,11 @@ struct Path_ChimeLock final : public ReliveAPI::TlvObjectBaseAO
 {
     CTOR_AO(Path_ChimeLock, "ChimeLock", AO::TlvTypes::ChimeLock_69)
     {
-        ADD("Scale", mTlv.field_18_scale);
-        ADD("Solve Switch ID", mTlv.field_1A_solve_switch_id);
-        ADD("Code 1", mTlv.field_1C_code1);
-        ADD("Code 2", mTlv.field_1E_code2);
-        ADD("Password Switch ID", mTlv.field_20_password_switch_id);
+        ADD("Scale", mTlv.mScale);
+        ADD("Solve Switch ID", mTlv.mSolveSwitchId);
+        ADD("Code 1", mTlv.mCode1);
+        ADD("Code 2", mTlv.mCode2);
+        ADD("Password Switch ID", mTlv.mPasswordSwitchId);
 
         ADD_RESOURCE(AnimId::Chime_Ball, ReliveAPI::AddResourceTo::CameraBlock);
         ADD_RESOURCE(AnimId::BigChime, ReliveAPI::AddResourceTo::CameraBlock);
@@ -1221,16 +1221,16 @@ struct Path_Scrab final : public ReliveAPI::TlvObjectBaseAO
 
     CTOR_AO(Path_Scrab, "Scrab", AO::TlvTypes::Scrab_72)
     {
-        ADD("Scale", mTlv.field_18_scale);
-        ADD("Attack Delay", mTlv.field_1A_attack_delay);
-        ADD("Patrol Type", mTlv.field_1C_patrol_type);
-        ADD("Left Min Delay", mTlv.field_1E_left_min_delay);
-        ADD("Left Max Delay", mTlv.field_20_left_max_delay);
-        ADD("Right Min Delay", mTlv.field_22_right_min_delay);
-        ADD("Right Max Delay", mTlv.field_24_right_max_delay);
-        ADD("Spotting Abe Delay", mTlv.field_26_spotting_abe_delay);
-        ADD("Disable Resources", mTlv.field_28_disable_resources);
-        ADD("Roar Randomly", mTlv.field_2A_roar_randomly);
+        ADD("Scale", mTlv.mScale);
+        ADD("Attack Delay", mTlv.mAttackDelay);
+        ADD("Patrol Type", mTlv.mPatrolType);
+        ADD("Left Min Delay", mTlv.mPauseLeftMin);
+        ADD("Left Max Delay", mTlv.mPauseLeftMax);
+        ADD("Right Min Delay", mTlv.mPauseRightMin);
+        ADD("Right Max Delay", mTlv.mPauseRightMax);
+        ADD("Spotting Abe Delay", mTlv.mSpottingAbeDelay);
+        ADD("Disable Resources", mTlv.mDisabledResources);
+        ADD("Roar Randomly", mTlv.mRoarRandomly);
 
         ADD_RESOURCE(AnimId::Scrab_AttackLunge, ReliveAPI::AddResourceTo::File);
     }
@@ -1342,37 +1342,37 @@ struct Path_SligSpawner final : public ReliveAPI::TlvObjectBaseAO
 {
     CTOR_AO(Path_SligSpawner, "SligSpawner", AO::TlvTypes::SligSpawner_66)
     {
-        ADD("Scale", mTlv.field_18_scale);
-        ADD("Start State", mTlv.field_1A_start_state);
-        ADD("Pause Time", mTlv.field_1C_pause_time);
-        ADD("Pause Left Min", mTlv.field_1E_pause_left_min);
-        ADD("Pause Left Max", mTlv.field_20_pause_left_max);
-        ADD("Pause Right Min", mTlv.field_22_pause_right_min);
-        ADD("Pause Right Max", mTlv.field_24_pause_right_max);
-        ADD("Shoot Possessed Sligs", mTlv.field_26_shoot_possessed_sligs);
-        ADD("Shoot On Sight Delay", mTlv.field_28_shoot_on_sight_delay);
-        ADD("Bullet Shoot Count", mTlv.field_2A_num_times_to_shoot);
-        ADD("unknown", mTlv.field_2C_pad);
-        ADD("Code 1", mTlv.field_2E_code1);
-        ADD("Code 2", mTlv.field_30_code2);
-        ADD("Chase Abe When Spotted", mTlv.field_32_chase_abe);
-        ADD("Start Direction", mTlv.field_34_start_direction);
-        ADD("Panic Timeout", mTlv.field_36_panic_timeout);
+        ADD("Scale", mTlv.mScale);
+        ADD("Start State", mTlv.mStartState);
+        ADD("Pause Time", mTlv.mPauseTime);
+        ADD("Pause Left Min", mTlv.mPauseLeftMin);
+        ADD("Pause Left Max", mTlv.mPauseLeftMax);
+        ADD("Pause Right Min", mTlv.mPauseRightMin);
+        ADD("Pause Right Max", mTlv.mPauseRightMax);
+        ADD("Shoot Possessed Sligs", mTlv.mShootPossessedSligs);
+        ADD("Shoot On Sight Delay", mTlv.mShootOnSightDelay);
+        ADD("Bullet Shoot Count", mTlv.mNumTimesToShoot);
+        ADD("unknown", mTlv.field_2C_unused);
+        ADD("Code 1", mTlv.mCode1);
+        ADD("Code 2", mTlv.mCode2);
+        ADD("Chase Abe When Spotted", mTlv.mChaseAbeWhenSpotted);
+        ADD("Start Direction", mTlv.mFacing);
+        ADD("Panic Timeout", mTlv.mPanicTimeout);
         ADD("Amount Of Panic Sounds (Unused?)", mTlv.field_38_num_panic_sounds);
         ADD("Panic Sound Timeout (Unused?)", mTlv.field_3A_panic_sound_timeout);
-        ADD("Stop Chase Delay", mTlv.field_3C_stop_chase_delay);
-        ADD("Time To Wait Before Chase", mTlv.field_3E_time_to_wait_before_chase);
-        ADD("Slig Bound/Persist ID", mTlv.field_40_slig_bound_id);
-        ADD("Alerted Listen Time", mTlv.field_42_listen_time);
-        ADD("Percent Say What", mTlv.field_44_percent_say_what);
-        ADD("Percent Beat Mudokon", mTlv.field_46_percent_beat_mud);
+        ADD("Stop Chase Delay", mTlv.mStopChaseDelay);
+        ADD("Time To Wait Before Chase", mTlv.mTimeToWaitBeforeChase);
+        ADD("Slig Bound/Persist ID", mTlv.mSligBoundId);
+        ADD("Alerted Listen Time", mTlv.mAlertedListenTime);
+        ADD("Percent Say What", mTlv.mPercentSayWhat);
+        ADD("Percent Beat Mudokon", mTlv.mPercentBeatMud);
         ADD_HIDDEN("Talk To Abe (Unused?)", mTlv.field_48_talk_to_abe);
         ADD("Don't Shoot (Unused?)", mTlv.field_4A_dont_shoot);
-        ADD("Z Shoot Delay", mTlv.field_4C_z_shoot_delay);
-        ADD("Stay Awake", mTlv.field_4E_stay_awake);
-        ADD("Disabled Resources", mTlv.field_50_disabled_resources);
-        ADD("Noise Wake Up Distance (Grids)", mTlv.field_52_noise_wake_up_distance);
-        ADD("Slig Spawner Switch ID", mTlv.field_54_slig_spawner_switch_id);
+        ADD("Z Shoot Delay", mTlv.mZShootDelay);
+        ADD("Stay Awake", mTlv.mStayAwake);
+        ADD("Disabled Resources", mTlv.mDisabledResources);
+        ADD("Noise Wake Up Distance (Grids)", mTlv.mNoiseWakeUpDistance);
+        ADD("Slig Spawner Switch ID", mTlv.mSligSpawnerSwitchId);
     }
 };
 
@@ -1643,12 +1643,12 @@ struct Path_Bees final : public ReliveAPI::TlvObjectBaseAO
 {
     CTOR_AO(Path_Bees, "Bees", AO::TlvTypes::Bees_43)
     {
-        ADD("Switch ID", mTlv.switch_id);
-        ADD("Swarm Size", mTlv.swarm_size);
-        ADD("Chase Time", mTlv.chase_time);
-        ADD("Speed", mTlv.speed);
-        ADD("Disable Resources", mTlv.disable_resources);
-        ADD("Amount Of Bees", mTlv.num_bees);
+        ADD("Switch ID", mTlv.mSwitchId);
+        ADD("Swarm Size", mTlv.mSwarmSize);
+        ADD("Chase Time", mTlv.mChaseTime);
+        ADD("Speed", mTlv.mSpeed);
+        ADD("Disable Resources", mTlv.mDisabledResources);
+        ADD("Amount Of Bees", mTlv.mBeesAmount);
 
         ADD_RESOURCE(AnimId::Elum_BeesStruggling, ReliveAPI::AddResourceTo::File);
     }

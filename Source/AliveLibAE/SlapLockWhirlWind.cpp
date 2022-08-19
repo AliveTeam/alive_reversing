@@ -37,7 +37,7 @@ SlapLockWhirlWind::SlapLockWhirlWind(s16 doorNumber, s16 switchId, FP xpos, FP y
                 y - gMap.mCamIdxOnY));
             while (pDoorTlv)
             {
-                if (pDoorTlv->mTlvType32 == TlvTypes::Door_5 && pDoorTlv->mDoorNumber == doorNumber)
+                if (pDoorTlv->mTlvType32 == TlvTypes::Door_5 && pDoorTlv->mDoorId == doorNumber)
                 {
                     // For some reason once found we just keep on searching...
                     bFoundTarget = true;

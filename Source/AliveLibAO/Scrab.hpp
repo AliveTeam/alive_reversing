@@ -59,16 +59,16 @@ enum class ScrabPatrolType : s16
 
 struct Path_Scrab final : public Path_TLV
 {
-    Scale_short field_18_scale;
-    s16 field_1A_attack_delay;
-    ScrabPatrolType field_1C_patrol_type;
-    s16 field_1E_left_min_delay;
-    s16 field_20_left_max_delay;
-    s16 field_22_right_min_delay;
-    s16 field_24_right_max_delay;
-    s16 field_26_spotting_abe_delay;
-    s16 field_28_disable_resources;
-    Choice_short field_2A_roar_randomly;
+    Scale_short mScale;
+    s16 mAttackDelay;
+    ScrabPatrolType mPatrolType;
+    s16 mPauseLeftMin;
+    s16 mPauseLeftMax;
+    s16 mPauseRightMin;
+    s16 mPauseRightMax;
+    s16 mSpottingAbeDelay;
+    s16 mDisabledResources;
+    Choice_short mRoarRandomly;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Scrab, 0x2C);
 

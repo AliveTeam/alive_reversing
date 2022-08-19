@@ -2031,11 +2031,11 @@ public:
     {
         Path_ChimeLock r;
         BaseConvert(r, tlv);
-        r.field_18_scale = relive::From(tlv.field_18_scale);
-        r.field_1A_solve_switch_id = tlv.field_1A_solve_switch_id;
-        r.field_1C_code1 = tlv.field_1C_code1;
-        r.field_1E_code2 = tlv.field_1E_code2;
-        r.field_20_password_switch_id = tlv.field_20_password_switch_id;
+        r.mScale = relive::From(tlv.mScale);
+        r.mSolveSwitchId = tlv.mSolveSwitchId;
+        r.mCode1 = tlv.mCode1;
+        r.mCode2 = tlv.mCode2;
+        r.mPasswordSwitchId = tlv.mPasswordSwitchId;
         return r;
     }
 };
@@ -2054,9 +2054,9 @@ public:
     {
         Path_LCDStatusBoard r;
         BaseConvert(r, tlv);
-        r.field_10_number_of_muds = tlv.field_10_number_of_muds;
-        r.field_12_zulag_number = tlv.field_12_zulag_number;
-        r.field_14_hidden = relive::From(tlv.field_14_hidden);
+        r.mNumberOfMuds = tlv.mNumberOfMuds;
+        r.mZulagNumber = tlv.mZulagNumber;
+        r.mHideBoard = relive::From(tlv.mHideBoard);
         return r;
     }
 };
@@ -2086,12 +2086,12 @@ public:
     {
         Path_ResetPath r;
         BaseConvert(r, tlv);
-        r.field_18_clearIds = tlv.field_18_clearIds;
-        r.field_1A_from = tlv.field_1A_from;
-        r.field_1C_to = tlv.field_1C_to;
-        r.field_1E_exclude = tlv.field_1E_exclude;
-        r.field_20_clearObjects = tlv.field_20_clearObjects;
-        r.field_22_path = tlv.field_22_path;
+        r.mClearIds = tlv.mClearIds;
+        r.mFrom = tlv.mFrom;
+        r.mTo = tlv.mTo;
+        r.mExclude = tlv.mExclude;
+        r.mClearObjects = tlv.mClearObjects;
+        r.mPath = tlv.mPath;
         return r;
     }
 };
@@ -2131,12 +2131,12 @@ public:
     {
         Path_Bees r;
         BaseConvert(r, tlv);
-        r.switch_id = tlv.switch_id;
-        r.swarm_size = tlv.swarm_size;
-        r.chase_time = tlv.chase_time;
-        r.speed = tlv.speed;
-        r.disable_resources = tlv.disable_resources;
-        r.num_bees = tlv.num_bees;
+        r.mSwitchId = tlv.mSwitchId;
+        r.mSwarmSize = tlv.mSwarmSize;
+        r.mChaseTime = tlv.mChaseTime;
+        r.mSpeed = tlv.mSpeed;
+        r.mDisabledResources = tlv.mDisabledResources;
+        r.mBeesAmount = tlv.mBeesAmount;
         return r;
     }
 };
@@ -2148,11 +2148,11 @@ public:
     {
         Path_BellsongStone r;
         BaseConvert(r, tlv);
-        r.scale = relive::From(tlv.mData.scale);
-        r.type = From(tlv.mData.type);
-        r.code1 = tlv.mData.code1;
-        r.code2 = tlv.mData.code2;
-        r.switch_id = tlv.mData.switch_id;
+        r.mScale = relive::From(tlv.mData.mScale);
+        r.mType = From(tlv.mData.mType);
+        r.mCode1 = tlv.mData.mCode1;
+        r.mCode2 = tlv.mData.mCode2;
+        r.mSwitchId = tlv.mData.mSwitchId;
         return r;
     }
 
@@ -2177,8 +2177,8 @@ public:
     {
         Path_MovieStone r;
         BaseConvert(r, tlv);
-        r.field_10_movie_number = tlv.mData.fmvId;
-        r.field_12_scale = relive::From(tlv.mData.scale);
+        r.mMovieId = tlv.mData.mMovieId;
+        r.mScale = relive::From(tlv.mData.mScale);
         return r;
     }
 
@@ -2186,9 +2186,9 @@ public:
     {
         Path_MovieStone r;
         BaseConvert(r, tlv);
-        r.field_10_movie_number = tlv.field_10_movie_number;
-        r.field_12_scale = relive::From(tlv.field_12_scale);
-        r.field_14_trigger_switch_id = tlv.field_14_trigger_switch_id;
+        r.mMovieId = tlv.mMovieId;
+        r.mScale = relive::From(tlv.mScale);
+        r.mTriggerSwitchId = tlv.mTriggerSwitchId;
         return r;
     }
 };
@@ -2217,11 +2217,11 @@ public:
     {
         Path_HandStone r;
         BaseConvert(r, tlv);
-        r.mScale = relive::From(tlv.field_10_scale);
-        r.mCameraId1 = tlv.field_12_camera_id1;
-        r.mCameraId2 = tlv.field_12_camera_id2;
-        r.mCameraId3 = tlv.field_12_camera_id3;
-        r.mTriggerSwitchId = tlv.field_18_trigger_switch_id;
+        r.mScale = relive::From(tlv.mScale);
+        r.mCameraId1 = tlv.mCameraId1;
+        r.mCameraId2 = tlv.mCameraId2;
+        r.mCameraId3 = tlv.mCameraId3;
+        r.mTriggerSwitchId = tlv.mTriggerSwitchId;
         return r;
     }
 
@@ -2323,28 +2323,28 @@ public:
     {
         Path_Door r;
         BaseConvert(r, tlv);
-        r.field_10_level = MapWrapper::FromAO(tlv.mNextLevel);
-        r.field_12_path = tlv.mNextPath;
-        r.field_14_camera = tlv.mNextCamera;
-        r.field_16_scale = relive::From(tlv.mScale);
-        r.field_18_door_number = tlv.mDoorNumber;
-        r.field_1A_switch_id = tlv.mSwitchId;
-        r.field_1C_target_door_id = tlv.mTargetDoorNumber;
-        r.field_1E_type = From(tlv.mDoorType);
-        r.field_22_hub1 = tlv.mHub1;
-        r.field_22_hub2 = tlv.mHub2;
-        r.field_22_hub3 = tlv.mHub3;
-        r.field_22_hub4 = tlv.mHub4;
-        r.field_22_hub5 = tlv.mHub5;
-        r.field_22_hub6 = tlv.mHub6;
-        r.field_22_hub7 = tlv.mHub7;
-        r.field_22_hub8 = tlv.mHub8;
+        r.mNextLevel = MapWrapper::FromAO(tlv.mNextLevel);
+        r.mNextPath = tlv.mNextPath;
+        r.mNextCamera = tlv.mNextCamera;
+        r.mScale = relive::From(tlv.mScale);
+        r.mDoorId = tlv.mDoorId;
+        r.mSwitchId = tlv.mSwitchId;
+        r.mTargetDoorId = tlv.mTargetDoorId;
+        r.mDoorType = From(tlv.mDoorType);
+        r.mHub1 = tlv.mHub1;
+        r.mHub2 = tlv.mHub2;
+        r.mHub3 = tlv.mHub3;
+        r.mHub4 = tlv.mHub4;
+        r.mHub5 = tlv.mHub5;
+        r.mHub6 = tlv.mHub6;
+        r.mHub7 = tlv.mHub7;
+        r.mHub8 = tlv.mHub8;
         // for the time being until we have an enum for wipe_effect
-        r.field_32_wipe_effect = static_cast<Path_Door::ScreenChangeEffects>(tlv.mWipeEffect);
-        r.field_34_movie_number = tlv.mMovieId;
-        r.field_36_x_offset = tlv.mDoorOffsetX;
-        r.field_38_y_offset = tlv.mDoorOffsetY;
-        r.field_3E_abe_direction = relive::From(tlv.mExitDirection);
+        r.mWipeEffect = static_cast<Path_Door::ScreenChangeEffects>(tlv.mWipeEffect);
+        r.mMovieId = tlv.mMovieId;
+        r.mDoorOffsetX = tlv.mDoorOffsetX;
+        r.mDoorOffsetY = tlv.mDoorOffsetY;
+        r.mExitDirection = relive::From(tlv.mExitDirection);
         return r;
     }
 
@@ -2352,30 +2352,30 @@ public:
     {
         Path_Door r;
         BaseConvert(r, tlv);
-        r.field_10_level = MapWrapper::FromAE(tlv.mNextLevel);
-        r.field_12_path = tlv.mNextPath;
-        r.field_14_camera = tlv.mNextCamera;
-        r.field_16_scale = relive::From(tlv.mScale);
-        r.field_18_door_number = tlv.mDoorNumber;
-        r.field_1A_switch_id = tlv.mSwitchId;
-        r.field_1C_target_door_id = tlv.mTargetDoorNumber;
-        r.field_1E_type = From(tlv.mDoorType);
-        r.field_20_start_state = From(tlv.mStartState);
-        r.field_22_hub1 = tlv.mHub1;
-        r.field_22_hub2 = tlv.mHub2;
-        r.field_22_hub3 = tlv.mHub3;
-        r.field_22_hub4 = tlv.mHub4;
-        r.field_22_hub5 = tlv.mHub5;
-        r.field_22_hub6 = tlv.mHub6;
-        r.field_22_hub7 = tlv.mHub7;
-        r.field_22_hub8 = tlv.mHub8;
-        r.field_32_wipe_effect = From(tlv.mWipeEffect);
-        r.field_34_movie_number = tlv.mMovieId;
-        r.field_36_x_offset = tlv.mDoorOffsetX;
-        r.field_38_y_offset = tlv.mDoorOffsetY;
-        r.field_3E_abe_direction = relive::From(tlv.mExitDirection);
-        r.field_40_close_on_exit = relive::From(tlv.mCloseOnExit);
-        r.field_42_clear_throwables = relive::From(tlv.mClearThrowables);
+        r.mNextLevel = MapWrapper::FromAE(tlv.mNextLevel);
+        r.mNextPath = tlv.mNextPath;
+        r.mNextCamera = tlv.mNextCamera;
+        r.mScale = relive::From(tlv.mScale);
+        r.mDoorId = tlv.mDoorId;
+        r.mSwitchId = tlv.mSwitchId;
+        r.mTargetDoorId = tlv.mTargetDoorNumber;
+        r.mDoorType = From(tlv.mDoorType);
+        r.mStartState = From(tlv.mStartState);
+        r.mHub1 = tlv.mHub1;
+        r.mHub2 = tlv.mHub2;
+        r.mHub3 = tlv.mHub3;
+        r.mHub4 = tlv.mHub4;
+        r.mHub5 = tlv.mHub5;
+        r.mHub6 = tlv.mHub6;
+        r.mHub7 = tlv.mHub7;
+        r.mHub8 = tlv.mHub8;
+        r.mWipeEffect = From(tlv.mWipeEffect);
+        r.mMovieId = tlv.mMovieId;
+        r.mDoorOffsetX = tlv.mDoorOffsetX;
+        r.mDoorOffsetY = tlv.mDoorOffsetY;
+        r.mExitDirection = relive::From(tlv.mExitDirection);
+        r.mCloseOnExit = relive::From(tlv.mCloseOnExit);
+        r.mClearThrowables = relive::From(tlv.mClearThrowables);
         return r;
     }
 private:
@@ -2520,8 +2520,8 @@ public:
     {
         Path_MovingBombStopper r;
         BaseConvert(r, tlv);
-        r.field_10_min = tlv.mMinDelay;
-        r.field_12_max = tlv.mMaxDelay;
+        r.mMinDelay = tlv.mMinDelay;
+        r.mMaxDelay = tlv.mMaxDelay;
         return r;
     }
 
@@ -2529,8 +2529,8 @@ public:
     {
         Path_MovingBombStopper r;
         BaseConvert(r, tlv);
-        r.field_10_min = tlv.mMinDelay;
-        r.field_12_max = tlv.mMaxDelay;
+        r.mMinDelay = tlv.mMinDelay;
+        r.mMaxDelay = tlv.mMaxDelay;
         return r;
     }
 };
@@ -2594,14 +2594,14 @@ public:
     {
         Path_Mudokon r;
         BaseConvert(r, tlv);
-        r.field_10_scale = relive::From(tlv.mScale);
-        r.field_12_job = From(tlv.mJob);
+        r.mScale = relive::From(tlv.mScale);
+        r.mJob = From(tlv.mJob);
         r.mFacing = relive::From(tlv.mFacing);
-        r.field_16_voice_pitch = tlv.mVoicePitch;
-        r.field_18_rescue_switch_id = tlv.mRescueSwitchId;
-        r.field_1A_bDeaf = relive::From(tlv.mDeaf);
-        r.field_1C_disabled_resources = tlv.mDisabledResources;
-        r.field_1E_persist_and_reset_offscreen = static_cast<reliveChoice>(tlv.mPersistAndResetOffscreen); // TODO: enum
+        r.mVoicePitch = tlv.mVoicePitch;
+        r.mRescueSwitchId = tlv.mRescueSwitchId;
+        r.mDeaf = relive::From(tlv.mDeaf);
+        r.mDisabledResources = tlv.mDisabledResources;
+        r.mPersistAndResetOffscreen = static_cast<reliveChoice>(tlv.mPersistAndResetOffscreen); // TODO: enum
         return r;
     }
 
@@ -2609,21 +2609,21 @@ public:
     {
         Path_Mudokon r;
         BaseConvert(r, tlv);
-        r.field_10_scale = relive::From(tlv.mScale);
-        r.field_12_job = From(tlv.mJob);
+        r.mScale = relive::From(tlv.mScale);
+        r.mJob = From(tlv.mJob);
         r.mFacing = relive::From(tlv.mFacing);
-        r.field_16_voice_pitch = tlv.mVoicePitch;
-        r.field_18_rescue_switch_id = tlv.mRescueSwitchId;
-        r.field_1A_bDeaf = relive::From(tlv.mDeaf);
-        r.field_1C_disabled_resources = tlv.mDisabledResources;
-        r.field_1E_persist_and_reset_offscreen = relive::From(tlv.mPersistAndResetOffscreen);
-        r.field_20_emotion = From(tlv.mEmotion);
-        r.field_22_bBlind = relive::From(tlv.mBlind);
-        r.field_24_angry_switch_id = tlv.mAngrySwitchId;
-        r.field_26_work_after_turning_wheel = relive::From(tlv.mWorkAfterTurningWheel);
-        r.field_28_bGets_depressed = relive::From(tlv.mGetsDepressed);
-        r.field_2A_ring_pulse_interval = tlv.mRingPulseInterval;
-        r.field_2C_bGive_ring_without_password = relive::From(tlv.mGiveRingWithoutPassword);
+        r.mVoicePitch = tlv.mVoicePitch;
+        r.mRescueSwitchId = tlv.mRescueSwitchId;
+        r.mDeaf = relive::From(tlv.mDeaf);
+        r.mDisabledResources = tlv.mDisabledResources;
+        r.mPersistAndResetOffscreen = relive::From(tlv.mPersistAndResetOffscreen);
+        r.mEmotion = From(tlv.mEmotion);
+        r.mBlind = relive::From(tlv.mBlind);
+        r.mAngrySwitchId = tlv.mAngrySwitchId;
+        r.mWorkAfterTurningWheel = relive::From(tlv.mWorkAfterTurningWheel);
+        r.mGetsDepressed = relive::From(tlv.mGetsDepressed);
+        r.mRingPulseInterval = tlv.mRingPulseInterval;
+        r.mGiveRingWithoutPassword = relive::From(tlv.mGiveRingWithoutPassword);
         return r;
     }
 private:
@@ -3198,15 +3198,15 @@ public:
     {
         Path_Slog r;
         BaseConvert(r, tlv);
-        r.field_10_scale = relive::From(tlv.mScale);
+        r.mScale = relive::From(tlv.mScale);
         r.mFacing = relive::From(tlv.mFacing);
-        r.field_14_asleep = relive::From(tlv.mAsleep);
-        r.field_16_wake_up_anger = tlv.mWakeUpAnger;
-        r.field_18_bark_anger = tlv.mBarkAnger;
-        r.field_1A_chase_anger = tlv.mChaseAnger;
-        r.field_1C_chase_delay = tlv.mChaseDelay;
-        r.field_1E_disabled_resources = tlv.mDisabledResources;
-        r.field_20_anger_switch_id = tlv.mAngerSwitchId;
+        r.mAsleep = relive::From(tlv.mAsleep);
+        r.mWakeUpAnger = tlv.mWakeUpAnger;
+        r.mBarkAnger = tlv.mBarkAnger;
+        r.mChaseAnger = tlv.mChaseAnger;
+        r.mChaseDelay = tlv.mChaseDelay;
+        r.mDisabledResources = tlv.mDisabledResources;
+        r.mAngerSwitchId = tlv.mAngerSwitchId;
         return r;
     }
 
@@ -3214,16 +3214,16 @@ public:
     {
         Path_Slog r;
         BaseConvert(r, tlv);
-        r.field_10_scale = relive::From(tlv.mScale);
+        r.mScale = relive::From(tlv.mScale);
         r.mFacing = relive::From(tlv.mFacing);
-        r.field_14_asleep = relive::From(tlv.mAsleep);
-        r.field_16_wake_up_anger = tlv.mWakeUpAnger;
-        r.field_18_bark_anger = tlv.mBarkAnger;
-        r.field_1A_chase_anger = tlv.mChaseAnger;
-        r.field_1C_chase_delay = tlv.mChaseDelay;
-        r.field_1E_disabled_resources = tlv.mDisabledResources;
-        r.field_20_anger_switch_id = tlv.mAngerSwitchId;
-        r.field_22_bone_eating_time = tlv.mBoneEatingTime;
+        r.mAsleep = relive::From(tlv.mAsleep);
+        r.mWakeUpAnger = tlv.mWakeUpAnger;
+        r.mBarkAnger = tlv.mBarkAnger;
+        r.mChaseAnger = tlv.mChaseAnger;
+        r.mChaseDelay = tlv.mChaseDelay;
+        r.mDisabledResources = tlv.mDisabledResources;
+        r.mAngerSwitchId = tlv.mAngerSwitchId;
+        r.mBoneEatingTime = tlv.mBoneEatingTime;
         return r;
     }
 };
@@ -3291,16 +3291,16 @@ public:
     {
         Path_Scrab r;
         BaseConvert(r, tlv);
-        r.field_10_scale = relive::From(tlv.field_18_scale);
-        r.field_12_attack_delay = tlv.field_1A_attack_delay;
-        r.field_1C_patrol_type = From(tlv.field_1C_patrol_type);
-        r.field_16_left_min_delay = tlv.field_1E_left_min_delay;
-        r.field_18_left_max_delay = tlv.field_20_left_max_delay;
-        r.field_1A_right_min_delay = tlv.field_22_right_min_delay;
-        r.field_1C_right_max_delay = tlv.field_24_right_max_delay;
-        r.field_26_spotting_abe_delay = tlv.field_26_spotting_abe_delay;
-        r.field_20_disabled_resources = tlv.field_28_disable_resources;
-        r.field_22_roar_randomly = relive::From(tlv.field_2A_roar_randomly);
+        r.mScale = relive::From(tlv.mScale);
+        r.mAttackDelay = tlv.mAttackDelay;
+        r.mPatrolType = From(tlv.mPatrolType);
+        r.mPauseLeftMin = tlv.mPauseLeftMin;
+        r.mPauseLeftMax = tlv.mPauseLeftMax;
+        r.mPauseRightMin = tlv.mPauseRightMin;
+        r.mPauseRightMax = tlv.mPauseRightMax;
+        r.mSpottingAbeDelay = tlv.mSpottingAbeDelay;
+        r.mDisabledResources = tlv.mDisabledResources;
+        r.mRoarRandomly = relive::From(tlv.mRoarRandomly);
         return r;
     }
 
@@ -3308,19 +3308,19 @@ public:
     {
         Path_Scrab r;
         BaseConvert(r, tlv);
-        r.field_10_scale = relive::From(tlv.field_10_scale);
-        r.field_12_attack_delay = tlv.field_12_attack_delay;
-        r.field_14_patrol_type_run_or_walk_chance = tlv.field_14_patrol_type_run_or_walk_chance;
-        r.field_16_left_min_delay = tlv.field_16_left_min_delay;
-        r.field_18_left_max_delay = tlv.field_18_left_max_delay;
-        r.field_1A_right_min_delay = tlv.field_1A_right_min_delay;
-        r.field_1C_right_max_delay = tlv.field_1C_right_max_delay;
-        r.field_1E_pause_after_chase_delay = tlv.field_1E_pause_after_chase_delay;
-        r.field_20_disabled_resources = tlv.field_20_disabled_resources;
-        r.field_22_roar_randomly = relive::From(tlv.field_22_roar_randomly);
-        r.field_24_persistant = relive::From(tlv.field_24_persistant);
-        r.field_26_possessed_max_whirl_attack_duration = tlv.field_26_possessed_max_whirl_attack_duration;
-        r.field_2A_bKill_enemy = relive::From(tlv.field_2A_bKill_enemy);
+        r.mScale = relive::From(tlv.mScale);
+        r.mAttackDelay = tlv.mAttackDelay;
+        r.mPatrolTypeRunOrWalkChance = tlv.mPatrolTypeRunOrWalkChance;
+        r.mPauseLeftMin = tlv.mPauseLeftMin;
+        r.mPauseLeftMax = tlv.mPauseLeftMax;
+        r.mPauseRightMin = tlv.mPauseRightMin;
+        r.mPauseRightMax = tlv.mPauseRightMax;
+        r.mPauseAfterChaseTime = tlv.mPauseAfterChaseTime;
+        r.mDisabledResources = tlv.mDisabledResources;
+        r.mRoarRandomly = relive::From(tlv.mRoarRandomly);
+        r.mPersistant = relive::From(tlv.mPersistant);
+        r.mPossessedMaxWhirlAttackDuration = tlv.mPossessedMaxWhirlAttackDuration;
+        r.mKillEnemy = relive::From(tlv.mKillEnemy);
         return r;
     }
 private:
@@ -3350,36 +3350,32 @@ public:
     {
         Path_Slig r;
         BaseConvert(r, tlv);
-        r.field_10_scale = relive::From(tlv.field_18_scale);
-        r.field_12_start_state = From(tlv.field_1A_start_state);
-        r.field_14_pause_time = tlv.field_1C_pause_time;
-        r.field_16_pause_left_min = tlv.field_1E_pause_left_min;
-        r.field_18_pause_left_max = tlv.field_20_pause_left_max;
-        r.field_1A_pause_right_min = tlv.field_22_pause_right_min;
-        r.field_1C_pause_right_max = tlv.field_24_pause_right_max;
-        r.field_1E_shoot_possessed_sligs = From(tlv.field_26_shoot_possessed_sligs);
-        r.field_20_shoot_on_sight_delay = tlv.field_28_shoot_on_sight_delay;
-        r.field_22_num_times_to_shoot = tlv.field_2A_num_times_to_shoot;
-        r.field_24_padding = tlv.field_56_pad;
-        r.field_26_code1 = tlv.field_2E_code1;
-        r.field_28_code2 = tlv.field_30_code2;
-        r.field_2A_chase_abe_when_spotted = relive::From(tlv.field_32_chase_abe);
-        r.field_2C_start_direction = relive::From(tlv.field_34_start_direction);
-        r.field_2E_panic_timeout = tlv.field_36_panic_timeout;
-        r.field_30_num_panic_sounds = tlv.field_38_num_panic_sounds;
-        r.field_32_panic_sound_timeout = tlv.field_3A_panic_sound_timeout;
-        r.field_34_stop_chase_delay = tlv.field_3C_stop_chase_delay;
-        r.field_36_time_to_wait_before_chase = tlv.field_3E_time_to_wait_before_chase;
-        r.field_38_slig_bound_id = tlv.field_40_slig_bound_id;
-        r.field_3A_alerted_listen_time = tlv.field_42_listen_time;
-        r.field_3C_percent_say_what = tlv.field_44_percent_say_what;
-        r.field_3E_percent_beat_mud = tlv.field_46_percent_beat_mud;
-        r.field_40_talk_to_abe = tlv.field_48_talk_to_abe;
-        r.field_42_dont_shoot = tlv.field_4A_dont_shoot;
-        r.field_46_stay_awake = relive::From(tlv.field_4E_stay_awake);
-        r.field_48_disabled_resources = tlv.field_50_disabled_resources.Raw().all;
-        r.field_4A_noise_wake_up_distance = tlv.field_52_noise_wake_up_distance;
-        r.field_4C_slig_spawner_switch_id = tlv.field_54_slig_spawner_switch_id;
+        r.mScale = relive::From(tlv.mScale);
+        r.mStartState = From(tlv.mStartState);
+        r.mPauseTime = tlv.mPauseTime;
+        r.mPauseLeftMin = tlv.mPauseLeftMin;
+        r.mPauseLeftMax = tlv.mPauseLeftMax;
+        r.mPauseRightMin = tlv.mPauseRightMin;
+        r.mPauseRightMax = tlv.mPauseRightMax;
+        r.mShootPossessedSligs = From(tlv.mShootPossessedSligs);
+        r.mShootOnSightDelay = tlv.mShootOnSightDelay;
+        r.mNumTimesToShoot = tlv.mNumTimesToShoot;
+        r.mCode1 = tlv.mCode1;
+        r.mCode2 = tlv.mCode2;
+        r.mChaseAbeWhenSpotted = relive::From(tlv.mChaseAbeWhenSpotted);
+        r.mFacing = relive::From(tlv.mFacing);
+        r.mPanicTimeout = tlv.mPanicTimeout;
+        r.mStopChaseDelay = tlv.mStopChaseDelay;
+        r.mTimeToWaitBeforeChase = tlv.mTimeToWaitBeforeChase;
+        r.mSligBoundId = tlv.mSligBoundId;
+        r.mAlertedListenTime = tlv.mAlertedListenTime;
+        r.mPercentSayWhat = tlv.mPercentSayWhat;
+        r.mPercentBeatMud = tlv.mPercentBeatMud;
+        r.mZShootDelay = tlv.mZShootDelay;
+        r.mStayAwake = relive::From(tlv.mStayAwake);
+        r.mDisabledResources = tlv.mDisabledResources.Raw().all;
+        r.mNoiseWakeUpDistance = tlv.mNoiseWakeUpDistance;
+        r.mSligSpawnerSwitchId = tlv.mSligSpawnerSwitchId;
         return r;
     }
 
@@ -3387,37 +3383,33 @@ public:
     {
         Path_Slig r;
         BaseConvert(r, tlv);
-        r.field_10_scale = relive::From(tlv.field_10_scale);
-        r.field_12_start_state = From(tlv.field_12_start_state);
-        r.field_14_pause_time = tlv.field_14_pause_time;
-        r.field_16_pause_left_min = tlv.field_16_pause_left_min;
-        r.field_18_pause_left_max = tlv.field_18_pause_left_max;
-        r.field_1A_pause_right_min = tlv.field_1A_pause_right_min;
-        r.field_1C_pause_right_max = tlv.field_1C_pause_right_max;
-        r.field_1E_shoot_possessed_sligs = From(tlv.field_1E_shoot_possessed_sligs);
-        r.field_20_shoot_on_sight_delay = tlv.field_20_shoot_on_sight_delay;
-        r.field_22_num_times_to_shoot = tlv.field_22_num_times_to_shoot;
-        r.field_24_padding = tlv.field_24_padding;
-        r.field_26_code1 = tlv.field_26_code1;
-        r.field_28_code2 = tlv.field_28_code2;
-        r.field_2A_chase_abe_when_spotted = relive::From(tlv.field_2A_chase_abe_when_spotted);
-        r.field_2C_start_direction = relive::From(tlv.field_2C_start_direction);
-        r.field_2E_panic_timeout = tlv.field_2E_panic_timeout;
-        r.field_30_num_panic_sounds = tlv.field_30_num_panic_sounds;
-        r.field_32_panic_sound_timeout = tlv.field_32_panic_sound_timeout;
-        r.field_34_stop_chase_delay = tlv.field_34_stop_chase_delay;
-        r.field_36_time_to_wait_before_chase = tlv.field_36_time_to_wait_before_chase;
-        r.field_38_slig_bound_id = tlv.field_38_slig_bound_id;
-        r.field_3A_alerted_listen_time = tlv.field_3A_alerted_listen_time;
-        r.field_3C_percent_say_what = tlv.field_3C_percent_say_what;
-        r.field_3E_percent_beat_mud = tlv.field_3E_percent_beat_mud;
-        r.field_40_talk_to_abe = tlv.field_40_talk_to_abe;
-        r.field_42_dont_shoot = tlv.field_42_dont_shoot;
-        r.field_46_stay_awake = relive::From(tlv.field_46_stay_awake);
-        r.field_48_disabled_resources = tlv.field_48_disabled_resources;
-        r.field_4A_noise_wake_up_distance = tlv.field_4A_noise_wake_up_distance;
-        r.field_4C_slig_spawner_switch_id = tlv.field_4C_slig_spawner_switch_id;
-        r.field_4E_unlimited_spawns = relive::From(tlv.field_4E_unlimited_spawns);
+        r.mScale = relive::From(tlv.mScale);
+        r.mStartState = From(tlv.mStartState);
+        r.mPauseTime = tlv.mPauseTime;
+        r.mPauseLeftMin = tlv.mPauseLeftMin;
+        r.mPauseLeftMax = tlv.mPauseLeftMax;
+        r.mPauseRightMin = tlv.mPauseRightMin;
+        r.mPauseRightMax = tlv.mPauseRightMax;
+        r.mShootPossessedSligs = From(tlv.mShootPossessedSligs);
+        r.mShootOnSightDelay = tlv.mShootOnSightDelay;
+        r.mNumTimesToShoot = tlv.mNumTimesToShoot;
+        r.mCode1 = tlv.mCode1;
+        r.mCode2 = tlv.mCode2;
+        r.mChaseAbeWhenSpotted = relive::From(tlv.mChaseAbeWhenSpotted);
+        r.mFacing = relive::From(tlv.mFacing);
+        r.mPanicTimeout = tlv.mPanicTimeout;
+        r.mStopChaseDelay = tlv.mStopChaseDelay;
+        r.mTimeToWaitBeforeChase = tlv.mTimeToWaitBeforeChase;
+        r.mSligBoundId = tlv.mSligBoundId;
+        r.mAlertedListenTime = tlv.mAlertedListenTime;
+        r.mPercentSayWhat = tlv.mPercentSayWhat;
+        r.mPercentBeatMud = tlv.mPercentBeatMud;
+        r.mZShootDelay = tlv.mZShootDelay;
+        r.mStayAwake = relive::From(tlv.mStayAwake);
+        r.mDisabledResources = tlv.mDisabledResources;
+        r.mNoiseWakeUpDistance = tlv.mNoiseWakeUpDistance;
+        r.mSligSpawnerSwitchId = tlv.mSligSpawnerSwitchId;
+        r.mUnlimitedSpawns = relive::From(tlv.mUnlimitedSpawns);
         return r;
     }
 
@@ -3496,37 +3488,32 @@ public:
     {
         Path_SligSpawner r;
         BaseConvert(r, tlv);
-        r.field_10_scale = relive::From(tlv.field_18_scale);
-        r.field_12_start_state = From(tlv.field_1A_start_state);
-        r.field_14_pause_time = tlv.field_1C_pause_time;
-        r.field_16_pause_left_min = tlv.field_1E_pause_left_min;
-        r.field_18_pause_left_max = tlv.field_20_pause_left_max;
-        r.field_1A_pause_right_min = tlv.field_22_pause_right_min;
-        r.field_1C_pause_right_max = tlv.field_24_pause_right_max;
-        r.field_1E_shoot_possessed_sligs = From(tlv.field_26_shoot_possessed_sligs);
-        r.field_20_shoot_on_sight_delay = tlv.field_28_shoot_on_sight_delay;
-        r.field_22_num_times_to_shoot = tlv.field_2A_num_times_to_shoot;
-        r.field_24_padding = tlv.field_2C_pad;
-        r.field_26_code1 = tlv.field_2E_code1;
-        r.field_28_code2 = tlv.field_30_code2;
-        r.field_2A_chase_abe_when_spotted = relive::From(tlv.field_32_chase_abe);
-        r.field_2C_start_direction = relive::From(tlv.field_34_start_direction);
-        r.field_2E_panic_timeout = tlv.field_36_panic_timeout;
-        r.field_30_num_panic_sounds = tlv.field_38_num_panic_sounds;
-        r.field_32_panic_sound_timeout = tlv.field_3A_panic_sound_timeout;
-        r.field_34_stop_chase_delay = tlv.field_3C_stop_chase_delay;
-        r.field_36_time_to_wait_before_chase = tlv.field_3E_time_to_wait_before_chase;
-        r.field_38_slig_bound_id = tlv.field_40_slig_bound_id;
-        r.field_3A_alerted_listen_time = tlv.field_42_listen_time;
-        r.field_3C_percent_say_what = tlv.field_44_percent_say_what;
-        r.field_3E_percent_beat_mud = tlv.field_46_percent_beat_mud;
-        r.field_40_talk_to_abe = tlv.field_48_talk_to_abe;
-        r.field_42_dont_shoot = tlv.field_4A_dont_shoot;
-        r.field_46_stay_awake = relive::From(tlv.field_4E_stay_awake);
-        r.field_48_disabled_resources = tlv.field_50_disabled_resources;
-        r.field_4A_noise_wake_up_distance = tlv.field_52_noise_wake_up_distance;
-        // TODO: check if slig spawner switch id has the correct type
-        r.field_4C_slig_spawner_switch_id = static_cast<s16>(tlv.field_54_slig_spawner_switch_id);
+        r.mScale = relive::From(tlv.mScale);
+        r.mStartState = From(tlv.mStartState);
+        r.mPauseTime = tlv.mPauseTime;
+        r.mPauseLeftMin = tlv.mPauseLeftMin;
+        r.mPauseLeftMax = tlv.mPauseLeftMax;
+        r.mPauseRightMin = tlv.mPauseRightMin;
+        r.mPauseRightMax = tlv.mPauseRightMax;
+        r.mShootPossessedSligs = From(tlv.mShootPossessedSligs);
+        r.mShootOnSightDelay = tlv.mShootOnSightDelay;
+        r.mNumTimesToShoot = tlv.mNumTimesToShoot;
+        r.mCode1 = tlv.mCode1;
+        r.mCode2 = tlv.mCode2;
+        r.mChaseAbeWhenSpotted = relive::From(tlv.mChaseAbeWhenSpotted);
+        r.mFacing = relive::From(tlv.mFacing);
+        r.mPanicTimeout = tlv.mPanicTimeout;
+        r.mStopChaseDelay = tlv.mStopChaseDelay;
+        r.mTimeToWaitBeforeChase = tlv.mTimeToWaitBeforeChase;
+        r.mSligBoundId = tlv.mSligBoundId;
+        r.mAlertedListenTime = tlv.mAlertedListenTime;
+        r.mPercentSayWhat = tlv.mPercentSayWhat;
+        r.mPercentBeatMud = tlv.mPercentBeatMud;
+        r.mZShootDelay = tlv.mZShootDelay;
+        r.mStayAwake = relive::From(tlv.mStayAwake);
+        r.mDisabledResources = tlv.mDisabledResources;
+        r.mNoiseWakeUpDistance = tlv.mNoiseWakeUpDistance;
+        r.mSligSpawnerSwitchId = static_cast<s16>(tlv.mSligSpawnerSwitchId);
         return r;
     }
 
@@ -3534,37 +3521,33 @@ public:
     {
         Path_SligSpawner r;
         BaseConvert(r, tlv);
-        r.field_10_scale = relive::From(tlv.scale);
-        r.field_12_start_state = From(tlv.start_state);
-        r.field_14_pause_time = tlv.pause_time;
-        r.field_16_pause_left_min = tlv.pause_left_min;
-        r.field_18_pause_left_max = tlv.pause_left_max;
-        r.field_1A_pause_right_min = tlv.pause_right_min;
-        r.field_1C_pause_right_max = tlv.pause_right_max;
-        r.field_1E_shoot_possessed_sligs = From(tlv.shoot_possessed_sligs);
-        r.field_20_shoot_on_sight_delay = tlv.shoot_on_sight_delay;
-        r.field_22_num_times_to_shoot = tlv.num_times_to_shoot;
-        r.field_24_padding = tlv.padding;
-        r.field_26_code1 = tlv.code_1;
-        r.field_28_code2 = tlv.code_2;
-        r.field_2A_chase_abe_when_spotted = relive::From(tlv.chase_abe_when_spotted);
-        r.field_2C_start_direction = relive::From(tlv.start_direction);
-        r.field_2E_panic_timeout = tlv.panic_timeout;
-        r.field_30_num_panic_sounds = tlv.num_panic_sounds;
-        r.field_32_panic_sound_timeout = tlv.panic_sound_timeout;
-        r.field_34_stop_chase_delay = tlv.stop_chase_delay;
-        r.field_36_time_to_wait_before_chase = tlv.time_to_wait_before_chase;
-        r.field_38_slig_bound_id = tlv.slig_bound_id;
-        r.field_3A_alerted_listen_time = tlv.alerted_listen_time;
-        r.field_3C_percent_say_what = tlv.percent_say_what;
-        r.field_3E_percent_beat_mud = tlv.percent_beat_mud;
-        r.field_40_talk_to_abe = tlv.talk_to_abe;
-        r.field_42_dont_shoot = tlv.dont_shoot;
-        r.field_46_stay_awake = relive::From(tlv.stay_awake);
-        r.field_48_disabled_resources = tlv.disabled_resources;
-        r.field_4A_noise_wake_up_distance = tlv.noise_wake_up_distance;
-        r.field_4C_slig_spawner_switch_id = tlv.slig_spawner_switch_id;
-        r.field_4E_unlimited_spawns = relive::From(tlv.unlimited_spawns);
+        r.mScale = relive::From(tlv.mScale);
+        r.mStartState = From(tlv.mStartState);
+        r.mPauseTime = tlv.mPauseTime;
+        r.mPauseLeftMin = tlv.mPauseLeftMin;
+        r.mPauseLeftMax = tlv.mPauseLeftMax;
+        r.mPauseRightMin = tlv.mPauseRightMin;
+        r.mPauseRightMax = tlv.mPauseRightMax;
+        r.mShootPossessedSligs = From(tlv.mShootPossessedSligs);
+        r.mShootOnSightDelay = tlv.mShootOnSightDelay;
+        r.mNumTimesToShoot = tlv.mNumTimesToShoot;
+        r.mCode1 = tlv.mCode1;
+        r.mCode2 = tlv.mCode2;
+        r.mChaseAbeWhenSpotted = relive::From(tlv.mChaseAbeWhenSpotted);
+        r.mFacing = relive::From(tlv.mFacing);
+        r.mPanicTimeout = tlv.mPanicTimeout;
+        r.mStopChaseDelay = tlv.mStopChaseDelay;
+        r.mTimeToWaitBeforeChase = tlv.mTimeToWaitBeforeChase;
+        r.mSligBoundId = tlv.mSligBoundId;
+        r.mAlertedListenTime = tlv.mAlertedListenTime;
+        r.mPercentSayWhat = tlv.mPercentSayWhat;
+        r.mPercentBeatMud = tlv.mPercentBeatMud;
+        r.mZShootDelay = tlv.mZShootDelay;
+        r.mStayAwake = relive::From(tlv.mStayAwake);
+        r.mDisabledResources = tlv.mDisabledResources;
+        r.mNoiseWakeUpDistance = tlv.mNoiseWakeUpDistance;
+        r.mSligSpawnerSwitchId = tlv.mSligSpawnerSwitchId;
+        r.mUnlimitedSpawns = relive::From(tlv.mUnlimitedSpawns);
         return r;
     }
 

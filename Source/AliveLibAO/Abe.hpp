@@ -12,12 +12,12 @@ namespace AO {
     
 struct Path_ResetPath final : public Path_TLV
 {
-    s16 field_18_clearIds;
-    s16 field_1A_from;
-    s16 field_1C_to;
-    s16 field_1E_exclude;
-    s16 field_20_clearObjects;
-    s16 field_22_path;
+    s16 mClearIds;
+    s16 mFrom;
+    s16 mTo;
+    s16 mExclude;
+    s16 mClearObjects;
+    s16 mPath;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_ResetPath, 0x24);
 
@@ -378,12 +378,12 @@ struct Path_Edge final : public Path_TLV
 
 struct Path_Bees final : public Path_TLV
 {
-    s16 switch_id;
-    s16 swarm_size;
-    s16 chase_time;
-    s16 speed;
-    s16 disable_resources;
-    s16 num_bees;
+    s16 mSwitchId;
+    s16 mSwarmSize;
+    s16 mChaseTime;
+    s16 mSpeed;
+    s16 mDisabledResources;
+    s16 mBeesAmount;
 };
 // TODO: size
 
@@ -429,11 +429,11 @@ struct Path_HandStone final : public Path_TLV
 
 struct Path_BellsongStone_data final
 {
-    Scale_short scale;
-    BellsongTypes type;
-    s16 code1;
-    s16 code2;
-    s16 switch_id;
+    Scale_short mScale;
+    BellsongTypes mType;
+    s16 mCode1;
+    s16 mCode2;
+    s16 mSwitchId;
     s16 pad;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_BellsongStone_data, 12);
@@ -445,8 +445,8 @@ struct Path_BellsongStone final : public Path_TLV
 
 struct Path_Moviestone_data final
 {
-    s16 fmvId;
-    Scale_short scale;
+    s16 mMovieId;
+    Scale_short mScale;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Moviestone_data, 4);
 

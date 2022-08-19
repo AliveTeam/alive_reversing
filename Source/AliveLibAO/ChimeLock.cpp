@@ -35,7 +35,7 @@ ChimeLock::ChimeLock(Path_ChimeLock* pTlv, s32 tlvInfo)
     mAnim.mRenderLayer = Layer::eLayer_FG1_37;
 
     FP scale = {};
-    if (pTlv->field_18_scale == Scale_short::eHalf_1)
+    if (pTlv->mScale == Scale_short::eHalf_1)
     {
         scale = FP_FromDouble(0.5);
     }
@@ -74,9 +74,9 @@ ChimeLock::ChimeLock(Path_ChimeLock* pTlv, s32 tlvInfo)
         field_11C_right_bell->mBaseGameObjectRefCount++;
     }
 
-    field_124_code1 = pTlv->field_1C_code1;
+    field_124_code1 = pTlv->mCode1;
 
-    s32 code2 = pTlv->field_1E_code2;
+    s32 code2 = pTlv->mCode2;
     if (code2)
     {
         field_120_max_idx = 0;
@@ -109,9 +109,9 @@ ChimeLock::ChimeLock(Path_ChimeLock* pTlv, s32 tlvInfo)
     field_14C_increase_vely_by = FP_FromInteger(1);
 
     field_130_song_matching = 0;
-    if (SwitchStates_Get(pTlv->field_20_password_switch_id))
+    if (SwitchStates_Get(pTlv->mPasswordSwitchId))
     {
-        if (!SwitchStates_Get(pTlv->field_1A_solve_switch_id))
+        if (!SwitchStates_Get(pTlv->mSolveSwitchId))
         {
             field_130_song_matching = 1;
         }
@@ -122,7 +122,7 @@ ChimeLock::ChimeLock(Path_ChimeLock* pTlv, s32 tlvInfo)
     mBaseAliveGameObjectFlags.Clear(Flags_10A::e10A_Bit2_bPossesed);
     mBaseAliveGameObjectFlags.Set(Flags_10A::e10A_Bit1_Can_Be_Possessed);
 
-    field_132_solve_switch_id = pTlv->field_1A_solve_switch_id;
+    field_132_solve_switch_id = pTlv->mSolveSwitchId;
 
     field_15C_ball_state = BallStates::eIdle_0;
     field_128_idx = 0;

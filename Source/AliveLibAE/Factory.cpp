@@ -532,7 +532,7 @@ static void LoadWalkingSligResources(s16 disabledResources, LoadMode loadMode)
 void Factory_Slig(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode loadMode)
 {
     auto pSligTlv = static_cast<Path_Slig*>(pTlv);
-    const auto disabledResources = pSligTlv->field_48_disabled_resources;
+    const auto disabledResources = pSligTlv->mDisabledResources;
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
         LoadWalkingSligResources(disabledResources, loadMode);
@@ -805,7 +805,7 @@ static Path_TLV* FindMatchingSligTLV(Path_TLV* pTlvIter, Path_SligBound* pTlv)
 {
     while (pTlvIter)
     {
-        if (pTlvIter->mTlvType32 == TlvTypes::Slig_15 && pTlv->mSligBoundId == static_cast<Path_Slig*>(pTlvIter)->field_38_slig_bound_id && !pTlvIter->mTlvFlags.Get(TlvFlags::eBit2_Destroyed))
+        if (pTlvIter->mTlvType32 == TlvTypes::Slig_15 && pTlv->mSligBoundId == static_cast<Path_Slig*>(pTlvIter)->mSligBoundId && !pTlvIter->mTlvFlags.Get(TlvFlags::eBit2_Destroyed))
         {
             return pTlvIter;
         }
@@ -894,7 +894,7 @@ void Factory_MotionDetector(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, Loa
 void Factory_SligSpawner(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode loadMode)
 {
     auto pSligTlv = static_cast<Path_Slig*>(pTlv);
-    const auto disabledResources = pSligTlv->field_48_disabled_resources;
+    const auto disabledResources = pSligTlv->mDisabledResources;
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
         LoadWalkingSligResources(disabledResources, loadMode);
@@ -1708,7 +1708,7 @@ void Factory_CrawlingSlig(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadM
 void Factory_SligGetPants(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode loadMode)
 {
     auto pSligTlv = static_cast<Path_Slig*>(pTlv);
-    const auto disabledResources = pSligTlv->field_48_disabled_resources;
+    const auto disabledResources = pSligTlv->mDisabledResources;
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
         LoadWalkingSligResources(disabledResources, loadMode);

@@ -8198,7 +8198,7 @@ void Abe::Motion_88_HandstoneBegin_430590()
                     {
                         auto pFmvInfo = Path_Get_FMV_Record_434680(
                             gMap.mCurrentLevel,
-                            field_174_pathStone.dataMovie.fmvId);
+                            field_174_pathStone.dataMovie.mMovieId);
                         u32 aux = 0;
                         Get_fmvs_sectors_44FEB0(
                             pFmvInfo->field_0_pName, 0, 0, &aux, 0, 0);
@@ -8216,10 +8216,10 @@ void Abe::Motion_88_HandstoneBegin_430590()
                     case TlvTypes::BellSongStone_54:
                     {
                         sBellSong = relive_new BellSong(
-                            field_174_pathStone.dataBellsong.type,
-                            Code_Convert(field_174_pathStone.dataBellsong.code1, field_174_pathStone.dataBellsong.code2));
+                            field_174_pathStone.dataBellsong.mType,
+                            Code_Convert(field_174_pathStone.dataBellsong.mCode1, field_174_pathStone.dataBellsong.mCode2));
 
-                        SwitchStates_Do_Operation(field_174_pathStone.dataBellsong.switch_id, SwitchOp::eSetTrue_0);
+                        SwitchStates_Do_Operation(field_174_pathStone.dataBellsong.mSwitchId, SwitchOp::eSetTrue_0);
                         field_110_state.stone = StoneStates::eBellSongDone_4;
                         break;
                     }
@@ -9701,19 +9701,19 @@ void Abe::Motion_156_DoorEnter_42D370()
                 BaseAliveGameObjectPathTLV = pTlv;
                 if (pTlv)
                 {
-                    if (pTlv->field_18_clearIds)
+                    if (pTlv->mClearIds)
                     {
-                        for (s16 i = pTlv->field_1A_from; i <= pTlv->field_1C_to; i++)
+                        for (s16 i = pTlv->mFrom; i <= pTlv->mTo; i++)
                         {
-                            if (i != pTlv->field_1E_exclude && i > 1)
+                            if (i != pTlv->mExclude && i > 1)
                             {
                                 SwitchStates_Set(i, 0);
                             }
                         }
                     }
-                    if (pTlv->field_20_clearObjects)
+                    if (pTlv->mClearObjects)
                     {
-                        gMap.sub_447430(pTlv->field_22_path);
+                        gMap.sub_447430(pTlv->mPath);
                     }
                 }
             }
@@ -9743,7 +9743,7 @@ void Abe::Motion_156_DoorEnter_42D370()
                 pDoorTlv->mMovieId,
                 flag);
             field_110_state.door = AbeDoorStates::eSetNewAbePosition_5;
-            field_196_door_id = pDoorTlv->mTargetDoorNumber;
+            field_196_door_id = pDoorTlv->mTargetDoorId;
             return;
         }
         case AbeDoorStates::eSetNewAbePosition_5:
@@ -9754,7 +9754,7 @@ void Abe::Motion_156_DoorEnter_42D370()
             auto pPathDoor = static_cast<Path_Door*>(gMap.TLV_First_Of_Type_In_Camera(TlvTypes::Door_6, 0));
             BaseAliveGameObjectPathTLV = pPathDoor;
 
-            while (pPathDoor->mDoorNumber != field_196_door_id)
+            while (pPathDoor->mDoorId != field_196_door_id)
             {
                 pPathDoor = static_cast<Path_Door*>(Path_TLV::TLV_Next_Of_Type_446500(BaseAliveGameObjectPathTLV, TlvTypes::Door_6));
                 BaseAliveGameObjectPathTLV = pPathDoor;

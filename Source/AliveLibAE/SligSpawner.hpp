@@ -8,38 +8,38 @@
 
 struct Path_SligSpawner final : public Path_TLV
 {
-    Scale_short scale;
-    Path_Slig::StartState start_state;
-    s16 pause_time;
-    s16 pause_left_min;
-    s16 pause_left_max;
-    s16 pause_right_min;
-    s16 pause_right_max;
-    Path_Slig::ShootPossessedSligs shoot_possessed_sligs;
-    s16 shoot_on_sight_delay;
-    s16 num_times_to_shoot;
-    s16 padding; // maybe number of times to shoot after spawning?
-    s16 code_1;
-    s16 code_2;
-    Choice_short chase_abe_when_spotted;
-    XDirection_short start_direction;
-    s16 panic_timeout;
-    s16 num_panic_sounds;
-    s16 panic_sound_timeout;
-    s16 stop_chase_delay;
-    s16 time_to_wait_before_chase;
-    s16 slig_bound_id;
-    s16 alerted_listen_time;
-    s16 percent_say_what;
-    s16 percent_beat_mud;
-    s16 talk_to_abe;
-    s16 dont_shoot;
-    s16 z_shoot_delay;
-    Choice_short stay_awake;
-    s16 disabled_resources;
-    s16 noise_wake_up_distance;
-    s16 slig_spawner_switch_id;
-    Choice_short unlimited_spawns;
+    Scale_short mScale;
+    Path_Slig::StartState mStartState;
+    s16 mPauseTime;
+    s16 mPauseLeftMin;
+    s16 mPauseLeftMax;
+    s16 mPauseRightMin;
+    s16 mPauseRightMax;
+    Path_Slig::ShootPossessedSligs mShootPossessedSligs;
+    s16 mShootOnSightDelay;
+    s16 mNumTimesToShoot;
+    s16 padding; // unused
+    s16 mCode1;
+    s16 mCode2;
+    Choice_short mChaseAbeWhenSpotted;
+    XDirection_short mFacing;
+    s16 mPanicTimeout;
+    s16 num_panic_sounds; // unused
+    s16 panic_sound_timeout; // unused
+    s16 mStopChaseDelay;
+    s16 mTimeToWaitBeforeChase;
+    s16 mSligBoundId;
+    s16 mAlertedListenTime;
+    s16 mPercentSayWhat;
+    s16 mPercentBeatMud;
+    s16 talk_to_abe; // unused
+    s16 dont_shoot; // unused
+    s16 mZShootDelay;
+    Choice_short mStayAwake;
+    s16 mDisabledResources;
+    s16 mNoiseWakeUpDistance;
+    s16 mSligSpawnerSwitchId;
+    Choice_short mUnlimitedSpawns;
 };
 
 enum class SpawnerStates : s16

@@ -103,14 +103,14 @@ void Start_Sounds_for_TLV(CameraPos direction, Path_TLV* pTlv)
         case TlvTypes::Slig_15:
         {
             auto pSligTlv = static_cast<Path_Slig*>(pTlv);
-            if (pSligTlv->field_12_start_state == Path_Slig::StartState::Patrol_1)
+            if (pSligTlv->mStartState == Path_Slig::StartState::Patrol_1)
             {
                 if (!pAmbianceTbl->mArray[1].field_8_pScopedSeq)
                 {
                     pAmbianceTbl->mArray[1].field_8_pScopedSeq = relive_new ScopedSeq(1, direction);
                 }
             }
-            else if (pSligTlv->field_12_start_state == Path_Slig::StartState::Sleeping_2)
+            else if (pSligTlv->mStartState == Path_Slig::StartState::Sleeping_2)
             {
                 if (!pAmbianceTbl->mArray[0].field_8_pScopedSeq)
                 {

@@ -136,13 +136,13 @@ Scrab::Scrab(Path_Scrab* pTlv, s32 tlvInfo, ScrabSpawnDirection spawnDirection)
     mXPos = FP_FromInteger(pTlv->mTopLeft.x + 12);
     mYPos = FP_FromInteger(pTlv->mTopLeft.y);
 
-    if (pTlv->field_10_scale == Scale_short::eHalf_1)
+    if (pTlv->mScale == Scale_short::eHalf_1)
     {
         mSpriteScale = FP_FromDouble(0.5);
         mAnim.mRenderLayer = Layer::eLayer_8;
         mScale = Scale::Bg;
     }
-    else if (pTlv->field_10_scale == Scale_short::eFull_0)
+    else if (pTlv->mScale == Scale_short::eFull_0)
     {
         mSpriteScale = FP_FromInteger(1);
         mAnim.mRenderLayer = Layer::eLayer_27;
@@ -158,21 +158,21 @@ Scrab::Scrab(Path_Scrab* pTlv, s32 tlvInfo, ScrabSpawnDirection spawnDirection)
         mXPos += ScaleToGridSize(mSpriteScale);
     }
 
-    field_128_attack_delay = pTlv->field_12_attack_delay;
-    field_12A_patrol_type_run_or_walk_chance = pTlv->field_14_patrol_type_run_or_walk_chance;
-    field_158_left_min_delay = pTlv->field_16_left_min_delay;
-    field_15A_left_max_delay = pTlv->field_18_left_max_delay;
-    field_15C_right_min_delay = pTlv->field_1A_right_min_delay;
-    field_15E_right_max_delay = pTlv->field_1C_right_max_delay;
-    field_148_pause_after_chase_delay = pTlv->field_1E_pause_after_chase_delay;
-    field_174_possessed_max_whirl_attack_duration = pTlv->field_26_possessed_max_whirl_attack_duration;
+    field_128_attack_delay = pTlv->mAttackDelay;
+    field_12A_patrol_type_run_or_walk_chance = pTlv->mPatrolTypeRunOrWalkChance;
+    field_158_left_min_delay = pTlv->mPauseLeftMin;
+    field_15A_left_max_delay = pTlv->mPauseLeftMax;
+    field_15C_right_min_delay = pTlv->mPauseRightMin;
+    field_15E_right_max_delay = pTlv->mPauseRightMax;
+    field_148_pause_after_chase_delay = pTlv->mPauseAfterChaseTime;
+    field_174_possessed_max_whirl_attack_duration = pTlv->mPossessedMaxWhirlAttackDuration;
     field_176_unused = pTlv->field_28_unused;
-    field_1A8_bKill_enemy = pTlv->field_2A_bKill_enemy;
+    field_1A8_bKill_enemy = pTlv->mKillEnemy;
 
     field_1A0_speak_max = 3;
 
-    field_1AA_flags.Set(Flags_1AA::eBit5_roar_randomly, pTlv->field_22_roar_randomly == Choice_short::eYes_1);
-    field_1AA_flags.Set(Flags_1AA::eBit6_persistant, pTlv->field_24_persistant == Choice_short::eYes_1);
+    field_1AA_flags.Set(Flags_1AA::eBit5_roar_randomly, pTlv->mRoarRandomly == Choice_short::eYes_1);
+    field_1AA_flags.Set(Flags_1AA::eBit6_persistant, pTlv->mPersistant == Choice_short::eYes_1);
     field_1AA_flags.Clear(Flags_1AA::eBit3_unused);
 
     if (!OnFloor())

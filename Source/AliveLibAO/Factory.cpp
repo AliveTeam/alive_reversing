@@ -791,7 +791,7 @@ static void LoadWalkingSligResources(LoadMode loadMode, BitField16<SligFlags_Dis
 void Factory_Slig_482EC0(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
 {
     auto pSligTlv = static_cast<Path_Slig*>(pTlv);
-    LoadWalkingSligResources(loadMode, pSligTlv->field_50_disabled_resources);
+    LoadWalkingSligResources(loadMode, pSligTlv->mDisabledResources);
 
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
@@ -1411,7 +1411,7 @@ static Path_TLV* FindMatchingSligTLV(Path_TLV* pTlvIter, Path_SligBound* pTlv)
 {
     while (pTlvIter)
     {
-        if (pTlvIter->mTlvType32 == TlvTypes::Slig_24 && pTlv->mSligBoundId == static_cast<Path_Slig*>(pTlvIter)->field_40_slig_bound_id && !pTlvIter->mTlvFlags.Get(TlvFlags::eBit2_Destroyed))
+        if (pTlvIter->mTlvType32 == TlvTypes::Slig_24 && pTlv->mSligBoundId == static_cast<Path_Slig*>(pTlvIter)->mSligBoundId && !pTlvIter->mTlvFlags.Get(TlvFlags::eBit2_Destroyed))
         {
             return pTlvIter;
         }
@@ -1562,7 +1562,7 @@ void Factory_Null_4870B0(Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUnion /*t
 void Factory_SligSpawner_482A00(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
 {
     auto pSligTlv = static_cast<Path_Slig*>(pTlv);
-    LoadWalkingSligResources(loadMode, pSligTlv->field_50_disabled_resources);
+    LoadWalkingSligResources(loadMode, pSligTlv->mDisabledResources);
 
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {

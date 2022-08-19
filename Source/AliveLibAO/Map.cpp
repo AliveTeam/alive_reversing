@@ -1933,7 +1933,7 @@ void Map::GoTo_Camera()
         if (field_1E_door)
         {
             Path_Door* pTlvIter = static_cast<Path_Door*>(TLV_First_Of_Type_In_Camera(TlvTypes::Door_6, 0));
-            while (pTlvIter->mDoorNumber != sActiveHero->field_196_door_id)
+            while (pTlvIter->mDoorId != sActiveHero->field_196_door_id)
             {
                 pTlvIter = static_cast<Path_Door*>(Path_TLV::TLV_Next_Of_Type_446500(pTlvIter, TlvTypes::Door_6));
             }

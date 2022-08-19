@@ -40,9 +40,9 @@ LCDStatusBoard::LCDStatusBoard(Path_LCDStatusBoard* params, TlvItemInfoUnion a3)
     gObjListDrawables->Push_Back(this);
     field_104_position_x = FP_GetExponent(FP_FromInteger(static_cast<s32>(params->mTopLeft.x)) - pScreenManager->CamXPos());
     field_106_position_y = FP_GetExponent(FP_FromInteger(static_cast<s32>(params->mTopLeft.y)) - pScreenManager->CamYPos());
-    sMudokonsInArea_5C1BC4 = params->field_10_number_of_muds;
-    field_108_is_hidden = static_cast<s16>(params->field_14_hidden);
-    sZulagNumber_5C1A20 = static_cast<s8>(params->field_12_zulag_number);
+    sMudokonsInArea_5C1BC4 = params->mNumberOfMuds;
+    field_108_is_hidden = static_cast<s16>(params->mHideBoard);
+    sZulagNumber_5C1A20 = static_cast<s8>(params->mZulagNumber);
     if (sZulagNumber_5C1A20 > ALIVE_COUNTOF(sSavedKilledMudsPerZulag_5C1B50.mData))
     {
         LOG_ERROR("sZulagNumber_5C1A20 is " << sZulagNumber_5C1A20 << " max is 20");

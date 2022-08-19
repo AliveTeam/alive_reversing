@@ -150,7 +150,7 @@ Scrab::Scrab(Path_Scrab* pTlv, s32 tlvInfo)
     mXPos = FP_FromInteger(pTlv->mTopLeft.x + 12);
     mYPos = FP_FromInteger(pTlv->mTopLeft.y);
 
-    if (pTlv->field_18_scale == Scale_short::eHalf_1)
+    if (pTlv->mScale == Scale_short::eHalf_1)
     {
         mSpriteScale = FP_FromDouble(0.5);
         mAnim.mRenderLayer = Layer::eLayer_8;
@@ -163,17 +163,17 @@ Scrab::Scrab(Path_Scrab* pTlv, s32 tlvInfo)
         mScale = Scale::Fg;
     }
 
-    field_114_attack_delay = pTlv->field_1A_attack_delay;
-    field_116_patrol_type = pTlv->field_1C_patrol_type;
-    field_144_left_min_delay = pTlv->field_1E_left_min_delay;
-    field_146_left_max_delay = pTlv->field_20_left_max_delay;
-    field_148_right_min_delay = pTlv->field_22_right_min_delay;
-    field_14A_right_max_delay = pTlv->field_24_right_max_delay;
+    field_114_attack_delay = pTlv->mAttackDelay;
+    field_116_patrol_type = pTlv->mPatrolType;
+    field_144_left_min_delay = pTlv->mPauseLeftMin;
+    field_146_left_max_delay = pTlv->mPauseLeftMax;
+    field_148_right_min_delay = pTlv->mPauseRightMin;
+    field_14A_right_max_delay = pTlv->mPauseRightMax;
 
-    field_138_spotting_abe_delay = pTlv->field_26_spotting_abe_delay;
+    field_138_spotting_abe_delay = pTlv->mSpottingAbeDelay;
 
     // TODO: flags
-    field_188_flags = 32 * (pTlv->field_2A_roar_randomly == Choice_short::eYes_1) | (((field_188_flags & ~0x11) | 4) & ~0x28);
+    field_188_flags = 32 * (pTlv->mRoarRandomly == Choice_short::eYes_1) | (((field_188_flags & ~0x11) | 4) & ~0x28);
 
     FP hitX = {};
     FP hitY = {};

@@ -12,37 +12,37 @@ struct Path_Slig;
 
 struct Path_SligSpawner final : public Path_TLV
 {
-    Scale_short field_18_scale;
-    Path_Slig::StartState field_1A_start_state;
-    s16 field_1C_pause_time;
-    s16 field_1E_pause_left_min;
-    s16 field_20_pause_left_max;
-    s16 field_22_pause_right_min;
-    s16 field_24_pause_right_max;
-    Path_Slig::ShootPossessedSligs field_26_shoot_possessed_sligs;
-    s16 field_28_shoot_on_sight_delay;
-    s16 field_2A_num_times_to_shoot;
-    s16 field_2C_pad; // TODO: Part of above field, check me?
-    s16 field_2E_code1;
-    s16 field_30_code2;
-    Choice_short field_32_chase_abe;
-    XDirection_short field_34_start_direction;
-    s16 field_36_panic_timeout;
-    s16 field_38_num_panic_sounds;
-    s16 field_3A_panic_sound_timeout;
-    s16 field_3C_stop_chase_delay;
-    s16 field_3E_time_to_wait_before_chase;
-    s16 field_40_slig_bound_id;
-    s16 field_42_listen_time;
-    s16 field_44_percent_say_what;
-    s16 field_46_percent_beat_mud;
-    s16 field_48_talk_to_abe;
-    s16 field_4A_dont_shoot;
-    s16 field_4C_z_shoot_delay;
-    Choice_short field_4E_stay_awake;
-    s16 field_50_disabled_resources;
-    s16 field_52_noise_wake_up_distance;
-    s32 field_54_slig_spawner_switch_id;
+    Scale_short mScale;
+    Path_Slig::StartState mStartState;
+    s16 mPauseTime;
+    s16 mPauseLeftMin;
+    s16 mPauseLeftMax;
+    s16 mPauseRightMin;
+    s16 mPauseRightMax;
+    Path_Slig::ShootPossessedSligs mShootPossessedSligs;
+    s16 mShootOnSightDelay;
+    s16 mNumTimesToShoot;
+    s16 field_2C_unused; // unused
+    s16 mCode1;
+    s16 mCode2;
+    Choice_short mChaseAbeWhenSpotted;
+    XDirection_short mFacing;
+    s16 mPanicTimeout;
+    s16 field_38_num_panic_sounds; // unused
+    s16 field_3A_panic_sound_timeout; // unused
+    s16 mStopChaseDelay;
+    s16 mTimeToWaitBeforeChase;
+    s16 mSligBoundId;
+    s16 mAlertedListenTime;
+    s16 mPercentSayWhat;
+    s16 mPercentBeatMud;
+    s16 field_48_talk_to_abe; // unused
+    s16 field_4A_dont_shoot; // unused
+    s16 mZShootDelay;
+    Choice_short mStayAwake;
+    s16 mDisabledResources;
+    s16 mNoiseWakeUpDistance;
+    s32 mSligSpawnerSwitchId;
 };
 // TODO: size
 

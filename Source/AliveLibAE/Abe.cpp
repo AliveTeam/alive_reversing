@@ -6676,24 +6676,24 @@ void Abe::Motion_86_HandstoneBegin_45BD00()
 
                     if (pHandStoneTlv)
                     {
-                        switch_id = pHandStoneTlv->field_18_trigger_switch_id;
+                        switch_id = pHandStoneTlv->mTriggerSwitchId;
 
-                        mFmvId = static_cast<s16>(pHandStoneTlv->field_10_scale); // TODO: Never used for this type?
+                        mFmvId = static_cast<s16>(pHandStoneTlv->mScale); // TODO: Never used for this type?
 
-                        mHandStoneCams[0] = pHandStoneTlv->field_12_camera_id1;
-                        mHandStoneCams[1] = pHandStoneTlv->field_12_camera_id2;
-                        mHandStoneCams[2] = pHandStoneTlv->field_12_camera_id3;
+                        mHandStoneCams[0] = pHandStoneTlv->mCameraId1;
+                        mHandStoneCams[1] = pHandStoneTlv->mCameraId2;
+                        mHandStoneCams[2] = pHandStoneTlv->mCameraId3;
 
-                        field_18C_unused = static_cast<s16>(pHandStoneTlv->field_18_trigger_switch_id); // TODO: Never used?
+                        field_18C_unused = static_cast<s16>(pHandStoneTlv->mTriggerSwitchId); // TODO: Never used?
                     }
                 }
                 else
                 {
-                    switch_id = pMovieStoneTlv->field_14_trigger_switch_id;
+                    switch_id = pMovieStoneTlv->mTriggerSwitchId;
 
-                    mFmvId = pMovieStoneTlv->field_10_movie_number;
-                    mHandStoneCams[0] = static_cast<s16>(pMovieStoneTlv->field_12_scale); // TODO: Never used?
-                    mHandStoneCams[1] = static_cast<s16>(pMovieStoneTlv->field_14_trigger_switch_id);    // TODO: Never used?
+                    mFmvId = pMovieStoneTlv->mMovieId;
+                    mHandStoneCams[0] = static_cast<s16>(pMovieStoneTlv->mScale); // TODO: Never used?
+                    mHandStoneCams[1] = static_cast<s16>(pMovieStoneTlv->mTriggerSwitchId);    // TODO: Never used?
                 }
 
                 if (BaseAliveGameObjectPathTLV)
@@ -7758,7 +7758,7 @@ void Abe::Motion_114_DoorEnter_459470()
             Path_Door* pDoorTlv2 = static_cast<Path_Door*>(sPathInfo->TLV_First_Of_Type_In_Camera(TlvTypes::Door_5, 0));
             BaseAliveGameObjectPathTLV = pDoorTlv2;
             Path_Door* pTargetDoorTlv = pDoorTlv2;
-            if (pTargetDoorTlv->mDoorNumber != field_1A0_door_id)
+            if (pTargetDoorTlv->mDoorId != field_1A0_door_id)
             {
                 do
                 {
@@ -7771,7 +7771,7 @@ void Abe::Motion_114_DoorEnter_459470()
                         ALIVE_FATAL("Couldn't find target door. If this is a custom level, check if the level, path and camera is correct.");
                     }
                 }
-                while (pTargetDoorTlv->mDoorNumber != field_1A0_door_id);
+                while (pTargetDoorTlv->mDoorId != field_1A0_door_id);
             }
 
             if (pTargetDoorTlv->mScale == Scale_short::eHalf_1)

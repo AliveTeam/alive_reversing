@@ -410,19 +410,19 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Alarm, 0x14);
 
 struct Path_MovieStone final : public Path_TLV
 {
-    s16 field_10_movie_number;
-    Scale_short field_12_scale;
-    s32 field_14_trigger_switch_id;
+    s16 mMovieId;
+    Scale_short mScale;
+    s32 mTriggerSwitchId;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_MovieStone, 0x18);
 
 struct Path_HandStone final : public Path_TLV
 {
-    Scale_short field_10_scale;
-    s16 field_12_camera_id1;
-    s16 field_12_camera_id2;
-    s16 field_12_camera_id3;
-    s32 field_18_trigger_switch_id;
+    Scale_short mScale;
+    s16 mCameraId1;
+    s16 mCameraId2;
+    s16 mCameraId3;
+    s32 mTriggerSwitchId;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_HandStone, 0x1C);
 

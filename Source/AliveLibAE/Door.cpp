@@ -68,7 +68,7 @@ Door::Door(Path_Door* pTlvData, s32 tlvInfo)
         field_100_switch_id = 0;
     }
 
-    field_FA_door_number = pTlvData->mDoorNumber;
+    field_FA_door_number = pTlvData->mDoorId;
     if (gMap.mCurrentLevel == EReliveLevelIds::eFeeCoDepot)
     {
         switch (field_FA_door_number)

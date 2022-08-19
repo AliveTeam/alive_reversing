@@ -220,9 +220,9 @@ struct Path_LCDStatusBoard final : public ReliveAPI::TlvObjectBaseAE
 {
     CTOR_AE(Path_LCDStatusBoard, "LCDStatusBoard", TlvTypes::LCDStatusBoard_64)
     {
-        ADD("Number Of Mudokons", mTlv.field_10_number_of_muds);
-        ADD("Zulag Number", mTlv.field_12_zulag_number);
-        ADD("Hide Board", mTlv.field_14_hidden);
+        ADD("Number Of Mudokons", mTlv.mNumberOfMuds);
+        ADD("Zulag Number", mTlv.mZulagNumber);
+        ADD("Hide Board", mTlv.mHideBoard);
     }
 };
 
@@ -253,7 +253,7 @@ struct Path_Door final : public ReliveAPI::TlvObjectBaseAE
         ADD("Path", mTlv.mNextPath);
         ADD("Camera", mTlv.mNextCamera);
         ADD("Scale", mTlv.mScale);
-        ADD("Door Number", mTlv.mDoorNumber);
+        ADD("Door Number", mTlv.mDoorId);
         ADD("Switch ID", mTlv.mSwitchId);
         ADD("Target Door ID", mTlv.mTargetDoorNumber);
         ADD("Door Type", mTlv.mDoorType);
@@ -378,40 +378,40 @@ struct Path_Slig final : public ReliveAPI::TlvObjectBaseAE
 {
     CTOR_AE(Path_Slig, "Slig", TlvTypes::Slig_15)
     {
-        ADD("Scale", mTlv.field_10_scale);
-        ADD("Start State", mTlv.field_12_start_state);
-        ADD("Pause Time", mTlv.field_14_pause_time);
-        ADD("Pause Left Min", mTlv.field_16_pause_left_min);
-        ADD("Pause Left Max", mTlv.field_18_pause_left_max);
-        ADD("Pause Right Min", mTlv.field_1A_pause_right_min);
-        ADD("Pause Right Max", mTlv.field_1C_pause_right_max);
-        ADD("Shoot Possessed Sligs", mTlv.field_1E_shoot_possessed_sligs);
-        ADD("Shoot On Sight Delay", mTlv.field_20_shoot_on_sight_delay);
-        ADD("Bullet Shoot Count", mTlv.field_22_num_times_to_shoot);
-        ADD("unknown1", mTlv.field_24_padding);
+        ADD("Scale", mTlv.mScale);
+        ADD("Start State", mTlv.mStartState);
+        ADD("Pause Time", mTlv.mPauseTime);
+        ADD("Pause Left Min", mTlv.mPauseLeftMin);
+        ADD("Pause Left Max", mTlv.mPauseLeftMax);
+        ADD("Pause Right Min", mTlv.mPauseRightMin);
+        ADD("Pause Right Max", mTlv.mPauseRightMax);
+        ADD("Shoot Possessed Sligs", mTlv.mShootPossessedSligs);
+        ADD("Shoot On Sight Delay", mTlv.mShootOnSightDelay);
+        ADD("Bullet Shoot Count", mTlv.mNumTimesToShoot);
+        ADD("unknown1", mTlv.field_24_unused);
 
-        ADD("Code 1", mTlv.field_26_code1);
-        ADD("Code 2", mTlv.field_28_code2);
-        ADD("Chase Abe When Spotted", mTlv.field_2A_chase_abe_when_spotted);
-        ADD("Start Direction", mTlv.field_2C_start_direction);
-        ADD("Panic Timeout", mTlv.field_2E_panic_timeout);
+        ADD("Code 1", mTlv.mCode1);
+        ADD("Code 2", mTlv.mCode2);
+        ADD("Chase Abe When Spotted", mTlv.mChaseAbeWhenSpotted);
+        ADD("Start Direction", mTlv.mFacing);
+        ADD("Panic Timeout", mTlv.mPanicTimeout);
         ADD("Amount Of Panic Sounds (Unused?)", mTlv.field_30_num_panic_sounds);
         ADD("Panic Sound Timeout (Unused?)", mTlv.field_32_panic_sound_timeout);
-        ADD("Stop Chase Delay", mTlv.field_34_stop_chase_delay);
-        ADD("Time To Wait Before Chase", mTlv.field_36_time_to_wait_before_chase);
-        ADD("Slig Bound/Persist ID", mTlv.field_38_slig_bound_id);
-        ADD("Alerted Listen Time", mTlv.field_3A_alerted_listen_time);
+        ADD("Stop Chase Delay", mTlv.mStopChaseDelay);
+        ADD("Time To Wait Before Chase", mTlv.mTimeToWaitBeforeChase);
+        ADD("Slig Bound/Persist ID", mTlv.mSligBoundId);
+        ADD("Alerted Listen Time", mTlv.mAlertedListenTime);
 
-        ADD("Percent Say What", mTlv.field_3C_percent_say_what);
-        ADD("Percent Beat Mudokon", mTlv.field_3E_percent_beat_mud);
+        ADD("Percent Say What", mTlv.mPercentSayWhat);
+        ADD("Percent Beat Mudokon", mTlv.mPercentBeatMud);
         ADD_HIDDEN("Talk To Abe (Unused?)", mTlv.field_40_talk_to_abe);
         ADD("Don't Shoot (Unused?)", mTlv.field_42_dont_shoot);
-        ADD("Z Shoot Delay", mTlv.field_44_Z_shoot_delay);
-        ADD("Stay Awake", mTlv.field_46_stay_awake);
-        ADD("Disable Resources", mTlv.field_48_disabled_resources);
-        ADD("Noise Wake Up Distance (Grids)", mTlv.field_4A_noise_wake_up_distance);
-        ADD("Slig Spawner Switch ID", mTlv.field_4C_slig_spawner_switch_id);
-        ADD_HIDDEN("Unlimited Spawns", mTlv.field_4E_unlimited_spawns);
+        ADD("Z Shoot Delay", mTlv.mZShootDelay);
+        ADD("Stay Awake", mTlv.mStayAwake);
+        ADD("Disable Resources", mTlv.mDisabledResources);
+        ADD("Noise Wake Up Distance (Grids)", mTlv.mNoiseWakeUpDistance);
+        ADD("Slig Spawner Switch ID", mTlv.mSligSpawnerSwitchId);
+        ADD_HIDDEN("Unlimited Spawns", mTlv.mUnlimitedSpawns);
     }
 };
 
@@ -695,11 +695,11 @@ struct Path_HandStone final : public ReliveAPI::TlvObjectBaseAE
 {
     CTOR_AE(Path_HandStone, "HandStone", TlvTypes::HandStone_61)
     {
-        ADD("Scale", mTlv.field_10_scale);
-        ADD("Camera ID 1", mTlv.field_12_camera_id1);
-        ADD("Camera ID 2", mTlv.field_12_camera_id2);
-        ADD("Camera ID 3", mTlv.field_12_camera_id3);
-        ADD("Trigger Switch ID", mTlv.field_18_trigger_switch_id);
+        ADD("Scale", mTlv.mScale);
+        ADD("Camera ID 1", mTlv.mCameraId1);
+        ADD("Camera ID 2", mTlv.mCameraId2);
+        ADD("Camera ID 3", mTlv.mCameraId3);
+        ADD("Trigger Switch ID", mTlv.mTriggerSwitchId);
     }
 };
 
@@ -1061,38 +1061,38 @@ struct Path_SligSpawner final : public ReliveAPI::TlvObjectBaseAE
 {
     CTOR_AE(Path_SligSpawner, "SligSpawner", TlvTypes::SligSpawner_37)
     {
-        ADD("Scale", mTlv.scale);
-        ADD("Start State", mTlv.start_state);
-        ADD("Pause Time", mTlv.pause_time);
-        ADD("Pause Left Min", mTlv.pause_left_min);
-        ADD("Pause Left Max", mTlv.pause_left_max);
-        ADD("Pause Right Min", mTlv.pause_right_min);
-        ADD("Pause Right Max", mTlv.pause_right_max);
-        ADD("Shoot Possessed Sligs", mTlv.shoot_possessed_sligs);
-        ADD("Shoot On Sight Delay", mTlv.shoot_on_sight_delay);
-        ADD("Bullet Shoot Count", mTlv.num_times_to_shoot);
+        ADD("Scale", mTlv.mScale);
+        ADD("Start State", mTlv.mStartState);
+        ADD("Pause Time", mTlv.mPauseTime);
+        ADD("Pause Left Min", mTlv.mPauseLeftMin);
+        ADD("Pause Left Max", mTlv.mPauseLeftMax);
+        ADD("Pause Right Min", mTlv.mPauseRightMin);
+        ADD("Pause Right Max", mTlv.mPauseRightMax);
+        ADD("Shoot Possessed Sligs", mTlv.mShootPossessedSligs);
+        ADD("Shoot On Sight Delay", mTlv.mShootOnSightDelay);
+        ADD("Bullet Shoot Count", mTlv.mNumTimesToShoot);
         ADD("unknown", mTlv.padding);
-        ADD("code_1", mTlv.code_1);
-        ADD("code_2", mTlv.code_2);
-        ADD("Chase Abe When Spotted", mTlv.chase_abe_when_spotted);
-        ADD("Start Direction", mTlv.start_direction);
-        ADD("Panic Timeout", mTlv.panic_timeout);
+        ADD("code_1", mTlv.mCode1);
+        ADD("code_2", mTlv.mCode2);
+        ADD("Chase Abe When Spotted", mTlv.mChaseAbeWhenSpotted);
+        ADD("Start Direction", mTlv.mFacing);
+        ADD("Panic Timeout", mTlv.mPanicTimeout);
         ADD("Amount Of Panic Sounds (Unused?)", mTlv.num_panic_sounds);
         ADD("Panic Sound Timeout (Unused?)", mTlv.panic_sound_timeout);
-        ADD("Stop Chase Delay", mTlv.stop_chase_delay);
-        ADD("Time To Wait Before Chase", mTlv.time_to_wait_before_chase);
-        ADD("Slig Bound/Persist ID", mTlv.slig_bound_id);
-        ADD("Alerted Listen Time", mTlv.alerted_listen_time);
-        ADD("Percent Say What", mTlv.percent_say_what);
-        ADD("Percent Beat Mudokon", mTlv.percent_beat_mud);
+        ADD("Stop Chase Delay", mTlv.mStopChaseDelay);
+        ADD("Time To Wait Before Chase", mTlv.mTimeToWaitBeforeChase);
+        ADD("Slig Bound/Persist ID", mTlv.mSligBoundId);
+        ADD("Alerted Listen Time", mTlv.mAlertedListenTime);
+        ADD("Percent Say What", mTlv.mPercentSayWhat);
+        ADD("Percent Beat Mudokon", mTlv.mPercentBeatMud);
         ADD("Talk To Abe (Unused?)", mTlv.talk_to_abe);
         ADD("Don't Shoot (Unused?)", mTlv.dont_shoot);
-        ADD("Z Shoot Delay", mTlv.z_shoot_delay);
-        ADD("Stay Awake", mTlv.stay_awake);
-        ADD("Disable Resources", mTlv.disabled_resources);
-        ADD("Noise Wake Up Distance (Grids)", mTlv.noise_wake_up_distance);
-        ADD("ID", mTlv.slig_spawner_switch_id);
-        ADD("Unlimited Spawns", mTlv.unlimited_spawns);
+        ADD("Z Shoot Delay", mTlv.mZShootDelay);
+        ADD("Stay Awake", mTlv.mStayAwake);
+        ADD("Disable Resources", mTlv.mDisabledResources);
+        ADD("Noise Wake Up Distance (Grids)", mTlv.mNoiseWakeUpDistance);
+        ADD("ID", mTlv.mSligSpawnerSwitchId);
+        ADD("Unlimited Spawns", mTlv.mUnlimitedSpawns);
     }
 };
 
@@ -1942,20 +1942,20 @@ struct Path_Scrab final : public ReliveAPI::TlvObjectBaseAE
 {
     CTOR_AE(Path_Scrab, "Scrab", TlvTypes::Scrab_41)
     {
-        ADD("Scale", mTlv.field_10_scale);
-        ADD("Attack Delay", mTlv.field_12_attack_delay);
-        ADD("Patrol Type Run Or Walk Chance (6 Max)", mTlv.field_14_patrol_type_run_or_walk_chance);
-        ADD("Left Min Delay", mTlv.field_16_left_min_delay);
-        ADD("Left Max Delay", mTlv.field_18_left_max_delay);
-        ADD("Right Min Delay", mTlv.field_1A_right_min_delay);
-        ADD("Right Max Delay", mTlv.field_1C_right_max_delay);
-        ADD("Pause After Chase Delay", mTlv.field_1E_pause_after_chase_delay);
-        ADD("Disabled Resources", mTlv.field_20_disabled_resources);
-        ADD("Roar Randomly", mTlv.field_22_roar_randomly);
-        ADD("Persistant", mTlv.field_24_persistant);
-        ADD("Possessed Max Whirl Attack Duration", mTlv.field_26_possessed_max_whirl_attack_duration);
+        ADD("Scale", mTlv.mScale);
+        ADD("Attack Delay", mTlv.mAttackDelay);
+        ADD("Patrol Type Run Or Walk Chance (6 Max)", mTlv.mPatrolTypeRunOrWalkChance);
+        ADD("Left Min Delay", mTlv.mPauseLeftMin);
+        ADD("Left Max Delay", mTlv.mPauseLeftMax);
+        ADD("Right Min Delay", mTlv.mPauseRightMin);
+        ADD("Right Max Delay", mTlv.mPauseRightMax);
+        ADD("Pause After Chase Delay", mTlv.mPauseAfterChaseTime);
+        ADD("Disabled Resources", mTlv.mDisabledResources);
+        ADD("Roar Randomly", mTlv.mRoarRandomly);
+        ADD("Persistant", mTlv.mPersistant);
+        ADD("Possessed Max Whirl Attack Duration", mTlv.mPossessedMaxWhirlAttackDuration);
         ADD_HIDDEN("Unused", mTlv.field_28_unused);
-        ADD("Kill Enemy", mTlv.field_2A_bKill_enemy);
+        ADD("Kill Enemy", mTlv.mKillEnemy);
 
         ADD_RESOURCE(AnimId::Scrab_AttackLunge, ReliveAPI::AddResourceTo::File);
         ADD_RESOURCE(AnimId::Scrab_AttackSpin, ReliveAPI::AddResourceTo::File);
@@ -2007,20 +2007,20 @@ struct Path_ScrabSpawner final : public ReliveAPI::TlvObjectBaseAE
     CTOR_AE(Path_ScrabSpawner, "ScrabSpawner", TlvTypes::ScrabSpawner_102)
     {
         // Scrab properties
-        ADD("Scrab Scale", mTlv.field_10_scale);
-        ADD("Scrab Attack Delay", mTlv.field_12_attack_delay);
-        ADD("Scrab Patrol Type Run Or Walk Chance (6 Max)", mTlv.field_14_patrol_type_run_or_walk_chance);
-        ADD("Scrab Left Min Delay", mTlv.field_16_left_min_delay);
-        ADD("Scrab Left Max Delay", mTlv.field_18_left_max_delay);
-        ADD("Scrab Right Min Delay", mTlv.field_1A_right_min_delay);
-        ADD("Scrab Right Max Delay", mTlv.field_1C_right_max_delay);
-        ADD("Scrab Pause After Chase Delay", mTlv.field_1E_pause_after_chase_delay);
-        ADD("Scrab Disabled Resources", mTlv.field_20_disabled_resources);
-        ADD("Scrab Roar Randamly", mTlv.field_22_roar_randomly);
-        ADD("Scrab Persistant", mTlv.field_24_persistant);
-        ADD("Scrab Whirl Attack Duration", mTlv.field_26_possessed_max_whirl_attack_duration);
+        ADD("Scrab Scale", mTlv.mScale);
+        ADD("Scrab Attack Delay", mTlv.mAttackDelay);
+        ADD("Scrab Patrol Type Run Or Walk Chance (6 Max)", mTlv.mPatrolTypeRunOrWalkChance);
+        ADD("Scrab Left Min Delay", mTlv.mPauseLeftMin);
+        ADD("Scrab Left Max Delay", mTlv.mPauseLeftMax);
+        ADD("Scrab Right Min Delay", mTlv.mPauseRightMin);
+        ADD("Scrab Right Max Delay", mTlv.mPauseRightMax);
+        ADD("Scrab Pause After Chase Delay", mTlv.mPauseAfterChaseTime);
+        ADD("Scrab Disabled Resources", mTlv.mDisabledResources);
+        ADD("Scrab Roar Randamly", mTlv.mRoarRandomly);
+        ADD("Scrab Persistant", mTlv.mPersistant);
+        ADD("Scrab Whirl Attack Duration", mTlv.mPossessedMaxWhirlAttackDuration);
         ADD("Scrab Unused", mTlv.field_28_unused);
-        ADD("Scrab Kill Enemy", mTlv.field_2A_bKill_enemy);
+        ADD("Scrab Kill Enemy", mTlv.mKillEnemy);
 
         // Spawner properties
         ADD("Spawner Switch ID", mTlv.field_2C_spawner_switch_id);

@@ -73,7 +73,7 @@ void Start_Sounds_for_TLV(CameraPos direction, Path_TLV* pTlv)
         switch (pTlv->mTlvType32.mType)
         {
             case TlvTypes::Slig_24:
-                if (static_cast<Path_Slig*>(pTlv)->field_1A_start_state == Path_Slig::StartState::Patrol_1)
+                if (static_cast<Path_Slig*>(pTlv)->mStartState == Path_Slig::StartState::Patrol_1)
                 {
                     if (!pAmbianceTbl[1].field_8_pScopedSeq)
                     {
@@ -81,7 +81,7 @@ void Start_Sounds_for_TLV(CameraPos direction, Path_TLV* pTlv)
                         bDangerMusic = true;
                     }
                 }
-                else if (static_cast<Path_Slig*>(pTlv)->field_1A_start_state == Path_Slig::StartState::Sleeping_2)
+                else if (static_cast<Path_Slig*>(pTlv)->mStartState == Path_Slig::StartState::Sleeping_2)
                 {
                     if (!pAmbianceTbl->field_8_pScopedSeq)
                     {

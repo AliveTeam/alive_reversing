@@ -11,11 +11,11 @@ class Bells;
 
 struct Path_ChimeLock final : public Path_TLV
 {
-    Scale_short field_18_scale;
-    s16 field_1A_solve_switch_id;
-    s16 field_1C_code1;
-    s16 field_1E_code2;
-    s16 field_20_password_switch_id;
+    Scale_short mScale;
+    s16 mSolveSwitchId;
+    s16 mCode1;
+    s16 mCode2;
+    s16 mPasswordSwitchId;
     s16 field_22_pad;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_ChimeLock, 0x24);

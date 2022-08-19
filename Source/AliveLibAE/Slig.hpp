@@ -118,7 +118,7 @@ struct Path_SligGetWings final : public Path_TLV
 
 struct Path_Slig final : public Path_TLV
 {
-    Scale_short field_10_scale;
+    Scale_short mScale;
 
     // TODO: Check these - GameEnder is probably only AO for instance ?
     enum class StartState : s16
@@ -131,44 +131,44 @@ struct Path_Slig final : public Path_TLV
         Unused_5 = 5,
         ListeningToGlukkon_6 = 6,
     };
-    StartState field_12_start_state;
+    StartState mStartState;
 
-    s16 field_14_pause_time;
-    s16 field_16_pause_left_min;
-    s16 field_18_pause_left_max;
-    s16 field_1A_pause_right_min;
-    s16 field_1C_pause_right_max;
+    s16 mPauseTime;
+    s16 mPauseLeftMin;
+    s16 mPauseLeftMax;
+    s16 mPauseRightMin;
+    s16 mPauseRightMax;
     enum class ShootPossessedSligs : s16
     {
         eYes_0 = 0,
         eYes_1 = 1,
-        eNo_3 = 3, // it really had to be the magic number 3 *sigh*
+        eNo_3 = 3, // used in an OG level, breaks lvl exporting if removed
     };
-    ShootPossessedSligs field_1E_shoot_possessed_sligs;
-    s16 field_20_shoot_on_sight_delay;
-    s16 field_22_num_times_to_shoot;
-    s16 field_24_padding; // TODO: or part of above field like in AO
-    s16 field_26_code1;
-    s16 field_28_code2;
-    Choice_short field_2A_chase_abe_when_spotted;
-    XDirection_short field_2C_start_direction;
-    s16 field_2E_panic_timeout;
-    s16 field_30_num_panic_sounds;
-    s16 field_32_panic_sound_timeout;
-    s16 field_34_stop_chase_delay;
-    s16 field_36_time_to_wait_before_chase;
-    s16 field_38_slig_bound_id;
-    s16 field_3A_alerted_listen_time;
-    s16 field_3C_percent_say_what;
-    s16 field_3E_percent_beat_mud;
-    s16 field_40_talk_to_abe;
-    s16 field_42_dont_shoot;
-    s16 field_44_Z_shoot_delay;
-    Choice_short field_46_stay_awake;
-    s16 field_48_disabled_resources;
-    s16 field_4A_noise_wake_up_distance;
-    s16 field_4C_slig_spawner_switch_id;
-    Choice_short field_4E_unlimited_spawns;
+    ShootPossessedSligs mShootPossessedSligs;
+    s16 mShootOnSightDelay;
+    s16 mNumTimesToShoot;
+    s16 field_24_unused; // unused
+    s16 mCode1;
+    s16 mCode2;
+    Choice_short mChaseAbeWhenSpotted;
+    XDirection_short mFacing;
+    s16 mPanicTimeout;
+    s16 field_30_num_panic_sounds; // unused
+    s16 field_32_panic_sound_timeout; // unused
+    s16 mStopChaseDelay;
+    s16 mTimeToWaitBeforeChase;
+    s16 mSligBoundId;
+    s16 mAlertedListenTime;
+    s16 mPercentSayWhat;
+    s16 mPercentBeatMud;
+    s16 field_40_talk_to_abe; // unused
+    s16 field_42_dont_shoot; // unused
+    s16 mZShootDelay;
+    Choice_short mStayAwake;
+    s16 mDisabledResources;
+    s16 mNoiseWakeUpDistance;
+    s16 mSligSpawnerSwitchId;
+    Choice_short mUnlimitedSpawns;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Slig, 0x50);
 

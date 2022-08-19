@@ -7,9 +7,9 @@
 
 struct Path_LCDStatusBoard final : public Path_TLV
 {
-    s16 field_10_number_of_muds;
-    s16 field_12_zulag_number;
-    Choice_int field_14_hidden;
+    s16 mNumberOfMuds;
+    s16 mZulagNumber;
+    Choice_int mHideBoard;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_LCDStatusBoard, 0x18);
 

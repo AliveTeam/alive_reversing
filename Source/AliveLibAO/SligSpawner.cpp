@@ -18,7 +18,7 @@ SligSpawner::SligSpawner(Path_Slig* pTlv, s32 tlvInfo)
 
     field_16_flags = 1;
 
-    field_14_slig_spawner_switch_id = pTlv->field_54_slig_spawner_switch_id;
+    field_14_slig_spawner_switch_id = pTlv->mSligSpawnerSwitchId;
 }
 
 void SligSpawner::VUpdate()

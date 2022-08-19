@@ -85,20 +85,20 @@ struct Path_ScrabRightBound final : public Path_TLV
 
 struct Path_Scrab : public Path_TLV
 {
-    Scale_short field_10_scale;
-    s16 field_12_attack_delay;
-    s16 field_14_patrol_type_run_or_walk_chance;
-    s16 field_16_left_min_delay;
-    s16 field_18_left_max_delay;
-    s16 field_1A_right_min_delay;
-    s16 field_1C_right_max_delay;
-    u16 field_1E_pause_after_chase_delay;
-    s16 field_20_disabled_resources;
-    Choice_short field_22_roar_randomly;
-    Choice_short field_24_persistant;
-    s16 field_26_possessed_max_whirl_attack_duration;
+    Scale_short mScale;
+    s16 mAttackDelay;
+    s16 mPatrolTypeRunOrWalkChance;
+    s16 mPauseLeftMin;
+    s16 mPauseLeftMax;
+    s16 mPauseRightMin;
+    s16 mPauseRightMax;
+    u16 mPauseAfterChaseTime;
+    s16 mDisabledResources;
+    Choice_short mRoarRandomly;
+    Choice_short mPersistant;
+    s16 mPossessedMaxWhirlAttackDuration;
     s16 field_28_unused;
-    Choice_short field_2A_bKill_enemy;
+    Choice_short mKillEnemy;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Scrab, 0x2C);
 

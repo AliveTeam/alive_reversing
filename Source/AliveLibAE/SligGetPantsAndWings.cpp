@@ -20,13 +20,13 @@ SligGetPantsAndWings::SligGetPantsAndWings(Path_TLV* pTlv, s32 tlvInfo)
 
     // HACK: See header for details
     auto pHack = static_cast<Path_Slig*>(pTlv);
-    if (pHack->field_10_scale == Scale_short::eHalf_1)
+    if (pHack->mScale == Scale_short::eHalf_1)
     {
         mSpriteScale = FP_FromDouble(0.5);
         mScale = Scale::Bg;
         mAnim.mRenderLayer = Layer::eLayer_BeforeShadow_Half_6;
     }
-    else if (pHack->field_10_scale == Scale_short::eFull_0)
+    else if (pHack->mScale == Scale_short::eFull_0)
     {
         mAnim.mRenderLayer = Layer::eLayer_BeforeShadow_25;
     }

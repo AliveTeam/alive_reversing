@@ -82,7 +82,7 @@ Door::Door(Path_Door* pTlv, s32 tlvInfo)
         field_F0_switch_id = 0;
     }
 
-    field_EA_door_number = pTlv->mDoorNumber;
+    field_EA_door_number = pTlv->mDoorId;
 
     field_EC_current_state = (field_EE_door_closed == Choice_short::eNo_0) == SwitchStates_Get(field_F0_switch_id) ? DoorStates::eClosed_1 : DoorStates::eOpen_0;
 

@@ -651,19 +651,19 @@ struct Path_DeathDrop final : public Path_TLV
 
 struct Path_ChimeLock final : public Path_TLV
 {
-    reliveScale field_18_scale = reliveScale::eFull;
-    s16 field_1A_solve_switch_id = 0;
-    s16 field_1C_code1 = 0;
-    s16 field_1E_code2 = 0;
-    s16 field_20_password_switch_id = 0;
+    reliveScale mScale = reliveScale::eFull;
+    s16 mSolveSwitchId = 0;
+    s16 mCode1 = 0;
+    s16 mCode2 = 0;
+    s16 mPasswordSwitchId = 0;
 };
 
 struct Path_LCDStatusBoard final : public Path_TLV
 {
     // AO has no fields
-    s16 field_10_number_of_muds = 0;
-    s16 field_12_zulag_number = 0;
-    reliveChoice field_14_hidden = reliveChoice::eNo;
+    s16 mNumberOfMuds = 0;
+    s16 mZulagNumber = 0;
+    reliveChoice mHideBoard = reliveChoice::eNo;
 };
 
 struct Path_CreditsController final : public Path_TLV
@@ -673,12 +673,12 @@ struct Path_CreditsController final : public Path_TLV
 
 struct Path_ResetPath final : public Path_TLV
 {
-    s16 field_18_clearIds = 0;
-    s16 field_1A_from = 0;
-    s16 field_1C_to = 0;
-    s16 field_1E_exclude = 0;
-    s16 field_20_clearObjects = 0;
-    s16 field_22_path = 0;
+    s16 mClearIds = 0;
+    s16 mFrom = 0;
+    s16 mTo = 0;
+    s16 mExclude = 0;
+    s16 mClearObjects = 0;
+    s16 mPath = 0;
 };
 
 struct Path_MeatSack final : public Path_TLV
@@ -692,12 +692,12 @@ struct Path_MeatSack final : public Path_TLV
 
 struct Path_Bees final : public Path_TLV
 {
-    s16 switch_id = 0;
-    s16 swarm_size = 0;
-    s16 chase_time = 0;
-    s16 speed = 0;
-    s16 disable_resources = 0;
-    s16 num_bees = 0;
+    s16 mSwitchId = 0;
+    s16 mSwarmSize = 0;
+    s16 mChaseTime = 0;
+    s16 mSpeed = 0;
+    s16 mDisabledResources = 0;
+    s16 mBeesAmount = 0;
 };
 
 
@@ -708,20 +708,20 @@ struct Path_BellsongStone final : public Path_TLV
         eWhistle,
         eChimes
     };
-    reliveScale scale = reliveScale::eFull;
-    BellsongTypes type = BellsongTypes::eWhistle;
-    s16 code1 = 0;
-    s16 code2 = 0;
-    s16 switch_id = 0;
+    reliveScale mScale = reliveScale::eFull;
+    BellsongTypes mType = BellsongTypes::eWhistle;
+    s16 mCode1 = 0;
+    s16 mCode2 = 0;
+    s16 mSwitchId = 0;
 };
 
 struct Path_MovieStone final : public Path_TLV
 {
-    s16 field_10_movie_number = 0;
-    reliveScale field_12_scale = reliveScale::eFull;
+    s16 mMovieId = 0;
+    reliveScale mScale = reliveScale::eFull;
 
     // AE only
-    s32 field_14_trigger_switch_id = 0;
+    s32 mTriggerSwitchId = 0;
 };
 
 struct Path_HandStone final : public Path_TLV
@@ -810,35 +810,35 @@ struct Path_Door final : public Path_TLV
         eUnknown,
         eInstantChange,
     };
-    EReliveLevelIds field_10_level = EReliveLevelIds::eNone;
-    s16 field_12_path = 0;
-    s16 field_14_camera = 0;
-    reliveScale field_16_scale = reliveScale::eFull;
-    s16 field_18_door_number = 0;
-    s16 field_1A_switch_id = 0;
-    s16 field_1C_target_door_id = 0;
-    DoorTypes field_1E_type = DoorTypes::eBasicDoor;
+    EReliveLevelIds mNextLevel = EReliveLevelIds::eNone;
+    s16 mNextPath = 0;
+    s16 mNextCamera = 0;
+    reliveScale mScale = reliveScale::eFull;
+    s16 mDoorId = 0;
+    s16 mSwitchId = 0;
+    s16 mTargetDoorId = 0;
+    DoorTypes mDoorType = DoorTypes::eBasicDoor;
 
     // AE only
-    DoorStates field_20_start_state = DoorStates::eOpen;
+    DoorStates mStartState = DoorStates::eOpen;
 
-    s16 field_22_hub1 = 0;
-    s16 field_22_hub2 = 0;
-    s16 field_22_hub3 = 0;
-    s16 field_22_hub4 = 0;
-    s16 field_22_hub5 = 0;
-    s16 field_22_hub6 = 0;
-    s16 field_22_hub7 = 0;
-    s16 field_22_hub8 = 0;
-    ScreenChangeEffects field_32_wipe_effect = ScreenChangeEffects::eBoxOut;
-    s16 field_34_movie_number = 0;
-    s16 field_36_x_offset = 0;
-    s16 field_38_y_offset = 0;
-    reliveXDirection field_3E_abe_direction = reliveXDirection::eRight;
+    s16 mHub1 = 0;
+    s16 mHub2 = 0;
+    s16 mHub3 = 0;
+    s16 mHub4 = 0;
+    s16 mHub5 = 0;
+    s16 mHub6 = 0;
+    s16 mHub7 = 0;
+    s16 mHub8 = 0;
+    ScreenChangeEffects mWipeEffect = ScreenChangeEffects::eBoxOut;
+    s16 mMovieId = 0;
+    s16 mDoorOffsetX = 0;
+    s16 mDoorOffsetY = 0;
+    reliveXDirection mExitDirection = reliveXDirection::eRight;
 
     // AE only
-    reliveChoice field_40_close_on_exit = reliveChoice::eNo;
-    reliveChoice field_42_clear_throwables = reliveChoice::eNo;
+    reliveChoice mCloseOnExit = reliveChoice::eNo;
+    reliveChoice mClearThrowables = reliveChoice::eNo;
 };
 
 struct Path_AbeStart final : public Path_TLV
@@ -860,8 +860,8 @@ struct Path_EnemyStopper final : public Path_TLV
 
 struct Path_MovingBombStopper final : public Path_TLV
 {
-    s16 field_10_min = 0;
-    s16 field_12_max = 0;
+    s16 mMinDelay = 0;
+    s16 mMaxDelay = 0;
 };
 
 struct Path_DoorFlame final : public Path_TLV
@@ -898,21 +898,21 @@ struct Path_Mudokon final : public Path_TLV
         eWired,
         eSick
     };
-    reliveScale field_10_scale = reliveScale::eFull;
-    MudJobs field_12_job = MudJobs::eChisle;
+    reliveScale mScale = reliveScale::eFull;
+    MudJobs mJob = MudJobs::eChisle;
     reliveXDirection mFacing = reliveXDirection::eRight;
-    s16 field_16_voice_pitch = 0;
-    s16 field_18_rescue_switch_id = 0;
-    reliveChoice field_1A_bDeaf = reliveChoice::eNo;
-    s16 field_1C_disabled_resources = 0;
-    reliveChoice field_1E_persist_and_reset_offscreen = reliveChoice::eNo; // check if this is the same in AO and AE
-    Mud_TLV_Emotion field_20_emotion = Mud_TLV_Emotion::eNormal;
-    reliveChoice field_22_bBlind = reliveChoice::eNo;
-    s16 field_24_angry_switch_id = 0;
-    reliveChoice field_26_work_after_turning_wheel = reliveChoice::eYes;
-    reliveChoice field_28_bGets_depressed = reliveChoice::eNo;
-    s16 field_2A_ring_pulse_interval = 0;
-    reliveChoice field_2C_bGive_ring_without_password = reliveChoice::eNo;
+    s16 mVoicePitch = 0;
+    s16 mRescueSwitchId = 0;
+    reliveChoice mDeaf = reliveChoice::eNo;
+    s16 mDisabledResources = 0;
+    reliveChoice mPersistAndResetOffscreen = reliveChoice::eNo; // check if this is the same in AO and AE
+    Mud_TLV_Emotion mEmotion = Mud_TLV_Emotion::eNormal;
+    reliveChoice mBlind = reliveChoice::eNo;
+    s16 mAngrySwitchId = 0;
+    reliveChoice mWorkAfterTurningWheel = reliveChoice::eYes;
+    reliveChoice mGetsDepressed = reliveChoice::eNo;
+    s16 mRingPulseInterval = 0;
+    reliveChoice mGiveRingWithoutPassword = reliveChoice::eNo;
 };
 
 struct Path_MovingBomb final : public Path_TLV
@@ -1122,18 +1122,18 @@ struct Path_WellExpress final : public relive::Path_WellBase
 
 struct Path_Slog final : public Path_TLV
 {
-    reliveScale field_10_scale = reliveScale::eFull;
+    reliveScale mScale = reliveScale::eFull;
     reliveXDirection mFacing = reliveXDirection::eRight;
-    reliveChoice field_14_asleep = reliveChoice::eNo;
-    s16 field_16_wake_up_anger = 0;
-    s16 field_18_bark_anger = 0;
-    s16 field_1A_chase_anger = 0;
-    s16 field_1C_chase_delay = 0;
-    s16 field_1E_disabled_resources = 0;
-    s16 field_20_anger_switch_id = 0;
+    reliveChoice mAsleep = reliveChoice::eNo;
+    s16 mWakeUpAnger = 0;
+    s16 mBarkAnger = 0;
+    s16 mChaseAnger = 0;
+    s16 mChaseDelay = 0;
+    s16 mDisabledResources = 0;
+    s16 mAngerSwitchId = 0;
 
     // AE only
-    s16 field_22_bone_eating_time = 0;
+    s16 mBoneEatingTime = 0;
 };
 
 struct Path_SlogSpawner final : public Path_TLV
@@ -1165,30 +1165,29 @@ struct Path_Scrab : public Path_TLV
         eRunOrWalk64,
         eRun
     };
-    reliveScale field_10_scale = reliveScale::eFull;
-    s16 field_12_attack_delay = 0;
-    s16 field_14_patrol_type_run_or_walk_chance = 0; // AE only
-    ScrabPatrolType field_1C_patrol_type = ScrabPatrolType::eWalk; // AO only
-    s16 field_16_left_min_delay = 0;
-    s16 field_18_left_max_delay = 0;
-    s16 field_1A_right_min_delay = 0;
-    s16 field_1C_right_max_delay = 0;
-    u16 field_1E_pause_after_chase_delay = 0;
-    s16 field_26_spotting_abe_delay = 0; // TODO: check if the same field as below?
-    s16 field_20_disabled_resources = 0;
-    reliveChoice field_22_roar_randomly = reliveChoice::eNo;
+    reliveScale mScale = reliveScale::eFull;
+    s16 mAttackDelay = 0;
+    s16 mPatrolTypeRunOrWalkChance = 0; // AE only
+    ScrabPatrolType mPatrolType = ScrabPatrolType::eWalk; // AO only
+    s16 mPauseLeftMin = 0;
+    s16 mPauseLeftMax = 0;
+    s16 mPauseRightMin = 0;
+    s16 mPauseRightMax = 0;
+    u16 mPauseAfterChaseTime = 0;
+    s16 mSpottingAbeDelay = 0; // TODO: check if the same field as below?
+    s16 mDisabledResources = 0;
+    reliveChoice mRoarRandomly = reliveChoice::eNo;
 
     // AE only
-    reliveChoice field_24_persistant = reliveChoice::eYes;
-    s16 field_26_possessed_max_whirl_attack_duration = 0;
-    reliveChoice field_2A_bKill_enemy = reliveChoice::eYes;
+    reliveChoice mPersistant = reliveChoice::eYes;
+    s16 mPossessedMaxWhirlAttackDuration = 0;
+    reliveChoice mKillEnemy = reliveChoice::eYes;
 };
 
 struct Path_Slig final : public Path_TLV
 {
-    reliveScale field_10_scale = reliveScale::eFull;
+    reliveScale mScale = reliveScale::eFull;
 
-    // TODO: Check these - GameEnder is probably only AO for instance ?
     enum class StartState : s16
     {
         Listening,
@@ -1199,79 +1198,68 @@ struct Path_Slig final : public Path_TLV
         eFallingToChase,
         ListeningToGlukkon,
     };
-    StartState field_12_start_state = StartState::Patrol;
+    StartState mStartState = StartState::Patrol;
 
-    s16 field_14_pause_time = 0;
-    s16 field_16_pause_left_min = 0;
-    s16 field_18_pause_left_max = 0;
-    s16 field_1A_pause_right_min = 0;
-    s16 field_1C_pause_right_max = 0;
-    reliveChoice field_1E_shoot_possessed_sligs = reliveChoice::eYes;
-    s16 field_20_shoot_on_sight_delay = 0;
-    s16 field_22_num_times_to_shoot = 0;
-    s16 field_24_padding = 0; // TODO: or part of above field like in AO
-    s16 field_26_code1 = 0;
-    s16 field_28_code2 = 0;
-    reliveChoice field_2A_chase_abe_when_spotted = reliveChoice::eNo;
-    reliveXDirection field_2C_start_direction = reliveXDirection::eRight;
-    s16 field_2E_panic_timeout = 0;
-    s16 field_30_num_panic_sounds = 0; // unused?
-    s16 field_32_panic_sound_timeout = 0;
-    s16 field_34_stop_chase_delay = 0;
-    s16 field_36_time_to_wait_before_chase = 0;
-    s16 field_38_slig_bound_id = 0;
-    s16 field_3A_alerted_listen_time = 0;
-    s16 field_3C_percent_say_what = 0;
-    s16 field_3E_percent_beat_mud = 0;
-    s16 field_40_talk_to_abe = 0; // unused?
-    s16 field_42_dont_shoot = 0;
-    s16 field_44_Z_shoot_delay = 0;
-    reliveChoice field_46_stay_awake = reliveChoice::eYes;
-    s16 field_48_disabled_resources = 0;
-    s16 field_4A_noise_wake_up_distance = 0;
-    s16 field_4C_slig_spawner_switch_id = 0;
+    s16 mPauseTime = 0;
+    s16 mPauseLeftMin = 0;
+    s16 mPauseLeftMax = 0;
+    s16 mPauseRightMin = 0;
+    s16 mPauseRightMax = 0;
+    reliveChoice mShootPossessedSligs = reliveChoice::eYes;
+    s16 mShootOnSightDelay = 0;
+    s16 mNumTimesToShoot = 0;
+    s16 mCode1 = 0;
+    s16 mCode2 = 0;
+    reliveChoice mChaseAbeWhenSpotted = reliveChoice::eNo;
+    reliveXDirection mFacing = reliveXDirection::eRight;
+    s16 mPanicTimeout = 0;
+    s16 mStopChaseDelay = 0;
+    s16 mTimeToWaitBeforeChase = 0;
+    s16 mSligBoundId = 0;
+    s16 mAlertedListenTime = 0;
+    s16 mPercentSayWhat = 0;
+    s16 mPercentBeatMud = 0;
+    s16 mZShootDelay = 0;
+    reliveChoice mStayAwake = reliveChoice::eYes;
+    s16 mDisabledResources = 0;
+    s16 mNoiseWakeUpDistance = 0;
+    s16 mSligSpawnerSwitchId = 0;
 
     // AE only
-    reliveChoice field_4E_unlimited_spawns = reliveChoice::eNo;
+    reliveChoice mUnlimitedSpawns = reliveChoice::eNo;
 };
 
 struct Path_SligSpawner final : public Path_TLV
 {
-    reliveScale field_10_scale = reliveScale::eFull;
-    Path_Slig::StartState field_12_start_state = Path_Slig::StartState::Patrol;
-
-    s16 field_14_pause_time = 0;
-    s16 field_16_pause_left_min = 0;
-    s16 field_18_pause_left_max = 0;
-    s16 field_1A_pause_right_min = 0;
-    s16 field_1C_pause_right_max = 0;
-    reliveChoice field_1E_shoot_possessed_sligs = reliveChoice::eYes;
-    s16 field_20_shoot_on_sight_delay = 0;
-    s16 field_22_num_times_to_shoot = 0;
-    s16 field_24_padding = 0; // TODO: or part of above field like in AO
-    s16 field_26_code1 = 0;
-    s16 field_28_code2 = 0;
-    reliveChoice field_2A_chase_abe_when_spotted = reliveChoice::eNo;
-    reliveXDirection field_2C_start_direction = reliveXDirection::eRight;
-    s16 field_2E_panic_timeout = 0;
-    s16 field_30_num_panic_sounds = 0; // unused?
-    s16 field_32_panic_sound_timeout = 0;
-    s16 field_34_stop_chase_delay = 0;
-    s16 field_36_time_to_wait_before_chase = 0;
-    s16 field_38_slig_bound_id = 0;
-    s16 field_3A_alerted_listen_time = 0;
-    s16 field_3C_percent_say_what = 0;
-    s16 field_3E_percent_beat_mud = 0;
-    s16 field_40_talk_to_abe = 0; // unused?
-    s16 field_42_dont_shoot = 0;
-    s16 field_44_Z_shoot_delay = 0;
-    reliveChoice field_46_stay_awake = reliveChoice::eYes;
-    s16 field_48_disabled_resources = 0;
-    s16 field_4A_noise_wake_up_distance = 0;
-    s16 field_4C_slig_spawner_switch_id = 0;
+    reliveScale mScale = reliveScale::eFull;
+    Path_Slig::StartState mStartState = Path_Slig::StartState::Patrol;
+    s16 mPauseTime = 0;
+    s16 mPauseLeftMin = 0;
+    s16 mPauseLeftMax = 0;
+    s16 mPauseRightMin = 0;
+    s16 mPauseRightMax = 0;
+    reliveChoice mShootPossessedSligs = reliveChoice::eYes;
+    s16 mShootOnSightDelay = 0;
+    s16 mNumTimesToShoot = 0;
+    s16 mCode1 = 0;
+    s16 mCode2 = 0;
+    reliveChoice mChaseAbeWhenSpotted = reliveChoice::eNo;
+    reliveXDirection mFacing = reliveXDirection::eRight;
+    s16 mPanicTimeout = 0;
+    s16 mStopChaseDelay = 0;
+    s16 mTimeToWaitBeforeChase = 0;
+    s16 mSligBoundId = 0;
+    s16 mAlertedListenTime = 0;
+    s16 mPercentSayWhat = 0;
+    s16 mPercentBeatMud = 0;
+    s16 mZShootDelay = 0;
+    reliveChoice mStayAwake = reliveChoice::eYes;
+    s16 mDisabledResources = 0;
+    s16 mNoiseWakeUpDistance = 0;
+    s16 mSligSpawnerSwitchId = 0;
 
     // AE only
-    reliveChoice field_4E_unlimited_spawns = reliveChoice::eNo;
+    reliveChoice mUnlimitedSpawns = reliveChoice::eNo;
 };
 
 } // namespace relive
