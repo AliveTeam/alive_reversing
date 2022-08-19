@@ -211,8 +211,8 @@ struct Path_SligGetPants final : public Path_TLV
 // This is a left bound, right bound and a persist.
 struct Path_SligBound final : public Path_TLV
 {
-    s16 field_10_slig_bound_id;
-    s16 field_12_disabled_resources;
+    s16 mSligBoundId;
+    s16 mDisabledResources;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_SligBound, 0x14);
 

@@ -147,13 +147,13 @@ BoomMachine::BoomMachine(Path_BoomMachine* pTlv, s32 tlvInfo)
     mYPos = FP_FromInteger(pTlv->mTopLeft.y);
 
     auto pNozzle = relive_new GrenadeMachineNozzle(
-        ((pTlv->field_12_nozzle_side == Path_BoomMachine::NozzleSide::eLeft_1 ? -mSpriteScale : mSpriteScale) * FP_FromInteger(30)) + mXPos,
+        ((pTlv->mNozzleSide == Path_BoomMachine::NozzleSide::eLeft_1 ? -mSpriteScale : mSpriteScale) * FP_FromInteger(30)) + mXPos,
         (mSpriteScale * FP_FromInteger(-30)) + mYPos,
         mSpriteScale,
-        pTlv->field_16_number_of_grenades);
+        pTlv->mGrenadeAmount);
     if (pNozzle)
     {
-        pNozzle->mAnim.mFlags.Set(AnimFlags::eBit5_FlipX, pTlv->field_12_nozzle_side == Path_BoomMachine::NozzleSide::eLeft_1);
+        pNozzle->mAnim.mFlags.Set(AnimFlags::eBit5_FlipX, pTlv->mNozzleSide == Path_BoomMachine::NozzleSide::eLeft_1);
         field_F8_nozzle_id = pNozzle->mBaseGameObjectId;
     }
 

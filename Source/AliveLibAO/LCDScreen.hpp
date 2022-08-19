@@ -14,9 +14,9 @@ void SetLcdMessagesForLvl(const StringTable& msgs, LevelIds lvl, u32 pathId);
 
 struct Path_LCDScreen final : public Path_TLV
 {
-    s16 field_18_message_1_id;
-    s16 field_1A_message_rand_min;
-    s16 field_1C_message_rand_max;
+    s16 mMessageId1;
+    s16 mMessageRandMinId;
+    s16 mMessageRandMaxId;
     s16 field_1E_message_2_id_not_used;
 };
 ALIVE_ASSERT_SIZEOF(Path_LCDScreen, 0x20);

@@ -59,7 +59,7 @@ MotionDetector::MotionDetector(Path_MotionDetector* pTlv, s32 tlvInfo, BaseAnima
         field_F4_tlvInfo = tlvInfo;
         mSpriteScale = FP_FromInteger(1);
 
-        if (pTlv->field_10_scale != Scale_short::eFull_0)
+        if (pTlv->mScale != Scale_short::eFull_0)
         {
             mSpriteScale = FP_FromDouble(0.5);
         }
@@ -71,10 +71,10 @@ MotionDetector::MotionDetector(Path_MotionDetector* pTlv, s32 tlvInfo, BaseAnima
 
         PSX_Point pos = {};
         gMap.Get_Abe_Spawn_Pos(&pos);
-        if (pTlv->field_12_device_x)
+        if (pTlv->mDeviceX)
         {
-            mXPos = FP_FromInteger(pTlv->field_12_device_x - pos.x);
-            mYPos = FP_FromInteger(pTlv->field_14_device_y - pos.y);
+            mXPos = FP_FromInteger(pTlv->mDeviceX - pos.x);
+            mYPos = FP_FromInteger(pTlv->mDeviceY - pos.y);
         }
         else
         {
@@ -82,15 +82,15 @@ MotionDetector::MotionDetector(Path_MotionDetector* pTlv, s32 tlvInfo, BaseAnima
             mYPos = FP_FromInteger(pTlv->mTopLeft.y);
         }
 
-        field_174_speed = FP_FromRaw((u16) pTlv->field_16_speed_x256 << 8);
+        field_174_speed = FP_FromRaw((u16) pTlv->mSpeedx256 << 8);
 
         MotionDetectorLaser* pLaser = nullptr;
-        if (pTlv->field_18_initial_move_direction == Path_MotionDetector::InitialMoveDirection::eLeft_1)
+        if (pTlv->mInitialMoveDirection == Path_MotionDetector::InitialMoveDirection::eLeft_1)
         {
             field_100_state = States::eMoveLeft_2;
             pLaser = relive_new MotionDetectorLaser(field_11C_y1_fp, field_120_y2_fp, mSpriteScale, Layer::eLayer_Foreground_36);
         }
-        else if (pTlv->field_18_initial_move_direction == Path_MotionDetector::InitialMoveDirection::eRight_0)
+        else if (pTlv->mInitialMoveDirection == Path_MotionDetector::InitialMoveDirection::eRight_0)
         {
             field_100_state = States::eMoveRight_0;
             pLaser = relive_new MotionDetectorLaser(field_114_x1_fp, field_120_y2_fp, mSpriteScale, Layer::eLayer_Foreground_36);
@@ -100,7 +100,7 @@ MotionDetector::MotionDetector(Path_MotionDetector* pTlv, s32 tlvInfo, BaseAnima
             ALIVE_FATAL("couldn't find start move direction for motion detector");
         }
 
-        if (pTlv->field_1A_draw_flare == Choice_short::eYes_1)
+        if (pTlv->mDrawFlare == Choice_short::eYes_1)
         {
             mAnim.mFlags.Set(AnimFlags::eBit3_Render);
         }
@@ -112,7 +112,7 @@ MotionDetector::MotionDetector(Path_MotionDetector* pTlv, s32 tlvInfo, BaseAnima
         if (pLaser)
         {
             field_F8_laser_id = pLaser->mBaseGameObjectId;
-            field_108_disable_switch_id = pTlv->field_1C_disable_switch_id;
+            field_108_disable_switch_id = pTlv->mDisableSwitchId;
 
             if (SwitchStates_Get(field_108_disable_switch_id) == 0)
             {
@@ -124,8 +124,8 @@ MotionDetector::MotionDetector(Path_MotionDetector* pTlv, s32 tlvInfo, BaseAnima
             }
         }
 
-        field_10A_alarm_switch_id = pTlv->field_1E_alarm_switch_id;
-        field_10C_alarm_duration = pTlv->field_20_alarm_duration;
+        field_10A_alarm_switch_id = pTlv->mAlarmSwitchId;
+        field_10C_alarm_duration = pTlv->mAlarmDuration;
         return;
     }
 

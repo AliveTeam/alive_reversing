@@ -188,11 +188,11 @@ Lever::Lever(Path_Lever* pTlv, s32 tlvInfo)
                                     + pTlv->mTopLeft.x)
                                    / 2);
 
-    field_E4_switch_id = pTlv->field_18_switch_id;
+    field_E4_switch_id = pTlv->mSwitchId;
     mYPos = FP_FromInteger(pTlv->mTopLeft.y);
-    field_F2_action = pTlv->field_1A_action;
+    field_F2_action = pTlv->mAction;
 
-    if (pTlv->field_1C_scale == Scale_short::eHalf_1)
+    if (pTlv->mScale == Scale_short::eHalf_1)
     {
         mSpriteScale = FP_FromDouble(0.5);
         mAnim.mRenderLayer = Layer::eLayer_BeforeShadow_Half_6;
@@ -205,10 +205,10 @@ Lever::Lever(Path_Lever* pTlv, s32 tlvInfo)
         mScale = Scale::Fg;
     }
 
-    field_F4_on_sound = pTlv->field_1E_on_sound;
-    field_F6_off_sound = pTlv->field_20_off_sound;
+    field_F4_on_sound = pTlv->mOnSound;
+    field_F6_off_sound = pTlv->mOffSound;
     field_EC_tlvInfo = tlvInfo;
-    field_F8_sound_direction = pTlv->field_22_sound_direction;
+    field_F8_sound_direction = pTlv->mSoundDirection;
 
     field_E8_state = LeverState::eWaiting_0;
 }

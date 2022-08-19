@@ -224,7 +224,7 @@ LCDScreen::LCDScreen(Path_LCDScreen* pTlv, s32 tlvInfo)
 
     field_2B8_tlv_item_info = tlvInfo;
 
-    field_2AC_message_1_id = pTlv->field_18_message_1_id;
+    field_2AC_message_1_id = pTlv->mMessageId1;
 
     field_50_font_context.LoadFontType(2);
     field_60_font.Load(60, sLCDScreen_Palette_4C75A8, &field_50_font_context);
@@ -260,10 +260,10 @@ LCDScreen::LCDScreen(Path_LCDScreen* pTlv, s32 tlvInfo)
 
     mBaseGameObjectFlags.Set(Options::eDrawable_Bit4);
 
-    field_2D8_message_rand_min = pTlv->field_1A_message_rand_min;
-    pad_2DA = pTlv->field_1C_message_rand_max;
+    field_2D8_message_rand_min = pTlv->mMessageRandMinId;
+    pad_2DA = pTlv->mMessageRandMaxId;
 
-    field_2DC_message_rand_max = pTlv->field_1C_message_rand_max;
+    field_2DC_message_rand_max = pTlv->mMessageRandMaxId;
 
     sFontDrawScreenSpace_508BF4 = 1;
     field_2B4_character_width = field_60_font.MeasureCharacterWidth(field_AC_message_buffer[0]);

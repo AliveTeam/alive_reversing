@@ -49,9 +49,9 @@ FallingItem::FallingItem(Path_FallingItem* pTlv, s32 tlvInfo)
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
     Animation_Init(sFallingItemData_544DC0[lvlIdx][0], ppRes);
 
-    field_11E_switch_id = pTlv->field_10_switch_id;
+    field_11E_switch_id = pTlv->mSwitchId;
 
-    if (pTlv->field_12_scale == Scale_short::eHalf_1)
+    if (pTlv->mScale == Scale_short::eHalf_1)
     {
         mSpriteScale = FP_FromDouble(0.5);
         mScale = Scale::Bg;
@@ -64,11 +64,11 @@ FallingItem::FallingItem(Path_FallingItem* pTlv, s32 tlvInfo)
         mAnim.mRenderLayer = Layer::eLayer_FallingItemDoorFlameRollingBallPortalClip_Half_31;
     }
 
-    field_124_fall_interval = pTlv->field_14_fall_interval;
-    field_120_max_falling_items = pTlv->field_16_max_falling_items;
-    field_122_remaining_falling_items = pTlv->field_16_max_falling_items;
+    field_124_fall_interval = pTlv->mFallInterval;
+    field_120_max_falling_items = pTlv->mMaxFallingItems;
+    field_122_remaining_falling_items = pTlv->mMaxFallingItems;
     field_134_bHitDrillOrMineCar = FALSE;
-    field_12C_reset_switch_id_after_use = pTlv->field_18_reset_switch_id_after_use;
+    field_12C_reset_switch_id_after_use = pTlv->mResetSwitchIdAfterUse;
     field_12E_do_sound_in_state_falling = TRUE;
 
     mXPos = FP_FromInteger(pTlv->mTopLeft.x);

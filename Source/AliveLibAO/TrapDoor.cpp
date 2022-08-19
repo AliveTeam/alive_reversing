@@ -62,8 +62,8 @@ TrapDoor::TrapDoor(Path_TrapDoor* pTlv, Map* pMap, s32 tlvInfo)
         animId = sTrapDoorData_4BD4A0[cur_lvl].field_4_closed;
     }
 
-    mSelfClosing = pTlv->field_1C_self_closing;
-    if (pTlv->field_1E_scale == Scale_short::eHalf_1)
+    mSelfClosing = pTlv->mSelfClosing;
+    if (pTlv->mScale == Scale_short::eHalf_1)
     {
         mSpriteScale = FP_FromDouble(0.5);
         mScale = Scale::Bg;
@@ -87,14 +87,14 @@ TrapDoor::TrapDoor(Path_TrapDoor* pTlv, Map* pMap, s32 tlvInfo)
     mTrapDoorX = FP_FromInteger(pTlv->mTopLeft.x);
 
     mAnim.Set_Animation_Data(animId, nullptr);
-    if (pTlv->field_22_direction == XDirection_short::eRight_1)
+    if (pTlv->mDirection == XDirection_short::eRight_1)
     {
         mAnim.mFlags.Set(AnimFlags::eBit5_FlipX);
     }
 
     mPlatformBaseXOffset = FP_GetExponent(FP_FromInteger(pTlv->mTopLeft.x) - mXPos);
     mPlatformBaseWidthOffset = FP_GetExponent(FP_FromInteger(pTlv->mBottomRight.x) - mXPos);
-    mTrapDoorXOffset = pTlv->field_24_xOff;
+    mTrapDoorXOffset = pTlv->mXOff;
 
     if (mState == TrapDoorState::eOpen_2)
     {

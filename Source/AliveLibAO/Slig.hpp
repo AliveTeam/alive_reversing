@@ -187,8 +187,8 @@ struct Path_ZSligCover final : public Path_TLV
 // This is a left bound, right bound and a persist.
 struct Path_SligBound final : public Path_TLV
 {
-    s16 field_18_slig_id;
-    BitField16<SligFlags_DisabledRes> field_1A_disabled_resources;
+    s16 mSligBoundId;
+    BitField16<SligFlags_DisabledRes> mDisabledResources;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_SligBound, 0x1C);
 

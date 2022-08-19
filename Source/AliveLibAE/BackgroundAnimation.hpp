@@ -9,13 +9,13 @@
 
 struct Path_BackgroundAnimation final : public Path_TLV
 {
-    u16 field_10_anim_id;
-    Choice_short field_12_is_semi_trans;
-    TPageAbr field_14_semi_trans_mode;
+    u16 mAnimId;
+    Choice_short mIsSemiTrans;
+    TPageAbr mSemiTransMode;
     // pad
     s16 field_16_sound_effect; // unused
     s16 field_18_id; // probably also unused
-    Layer field_1A_layer;
+    Layer mLayer;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_BackgroundAnimation, 0x1C);
 

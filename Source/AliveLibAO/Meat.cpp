@@ -36,17 +36,17 @@ MeatSack::MeatSack(Path_MeatSack* pTlv, s32 tlvInfo)
     mXPos = FP_FromInteger(pTlv->mTopLeft.x);
     mYPos = FP_FromInteger(pTlv->mTopLeft.y);
 
-    field_118_velX = FP_FromRaw(pTlv->field_1A_x_vel << 8);
+    field_118_velX = FP_FromRaw(pTlv->mVelX << 8);
 
     // Throw the meat up into the air as it falls from the sack
-    field_11C_velY = -FP_FromRaw(pTlv->field_1C_y_vel << 8);
+    field_11C_velY = -FP_FromRaw(pTlv->mVelY << 8);
 
-    if (pTlv->field_18_meat_fall_direction == XDirection_short::eLeft_0)
+    if (pTlv->mMeatFallDirection == XDirection_short::eLeft_0)
     {
         field_118_velX = -field_118_velX;
     }
 
-    if (pTlv->field_1E_scale == Scale_short::eHalf_1)
+    if (pTlv->mScale == Scale_short::eHalf_1)
     {
         mSpriteScale = FP_FromDouble(0.5);
         mAnim.mRenderLayer = Layer::eLayer_8;
@@ -59,7 +59,7 @@ MeatSack::MeatSack(Path_MeatSack* pTlv, s32 tlvInfo)
         mScale = Scale::Fg;
     }
 
-    field_112_num_items = pTlv->field_20_amount_of_meat;
+    field_112_num_items = pTlv->mMeatAmount;
 
     mShadow = relive_new Shadow();
 }

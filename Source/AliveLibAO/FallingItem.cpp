@@ -56,8 +56,8 @@ FallingItem::FallingItem(Path_FallingItem* pTlv, s32 tlvInfo)
         mRGB.SetRGB(77, 120, 190);
     }
 
-    field_112_switch_id = pTlv->field_18_switch_id;
-    if (pTlv->field_1A_scale == Scale_short::eHalf_1)
+    field_112_switch_id = pTlv->mSwitchId;
+    if (pTlv->mScale == Scale_short::eHalf_1)
     {
         mSpriteScale = FP_FromDouble(0.5);
         mScale = Scale::Bg;
@@ -69,11 +69,11 @@ FallingItem::FallingItem(Path_FallingItem* pTlv, s32 tlvInfo)
     }
 
 
-    field_118_fall_interval = pTlv->field_1C_fall_interval;
-    field_114_max_falling_items = pTlv->field_1E_max_falling_items;
-    field_116_remaining_falling_items = pTlv->field_1E_max_falling_items;
+    field_118_fall_interval = pTlv->mFallInterval;
+    field_114_max_falling_items = pTlv->mMaxFallingItems;
+    field_116_remaining_falling_items = pTlv->mMaxFallingItems;
 
-    field_120_reset_switch_id_after_use = pTlv->field_20_reset_switch_id_after_use;
+    field_120_reset_switch_id_after_use = pTlv->mResetSwitchIdAfterUse;
     field_122_do_sound_in_state_falling = 1;
 
     mXPos = FP_FromInteger(pTlv->mTopLeft.x);

@@ -322,7 +322,7 @@ struct Path_Hoist final : public Path_TLV
         eNextEdge = 1,
         eOffScreen = 2,
     };
-    Type field_10_type;
+    Type mHoistType;
 
     enum class GrabDirection : s16
     {
@@ -330,7 +330,7 @@ struct Path_Hoist final : public Path_TLV
         eFacingRight = 1,
         eFacingAnyDirection = 2,
     };
-    GrabDirection field_12_grab_direction;
+    GrabDirection mGrabDirection;
     u8 field_14_switch_id; // never used
     // pad
 
@@ -346,16 +346,16 @@ struct Path_Edge final : public Path_TLV
         eFacingRight = 1,
         eFacingAnyDirection = 2,
     };
-    GrabDirection field_10_grab_direction;
-    Choice_short field_12_bCan_grab;
+    GrabDirection mGrabDirection;
+    Choice_short mCanGrab;
 
-    Scale_int field_14_scale;
+    Scale_int mScale;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Edge, 0x18);
 
 struct Path_SoftLanding final : public Path_TLV
 {
-    s32 field_10_switch_id;
+    s32 mSwitchId;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_SoftLanding, 0x14);
 

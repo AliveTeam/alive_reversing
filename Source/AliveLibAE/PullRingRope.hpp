@@ -22,13 +22,13 @@ enum class PullRingSoundDirection : s16
 
 struct Path_PullRingRope final : public Path_TLV
 {
-    s16 field_10_switch_id;
-    SwitchOp field_12_action;
-    s16 field_14_rope_length;
-    Scale_short field_16_scale;
-    PullRingSwitchSound field_18_on_sound;
-    PullRingSwitchSound field_1A_off_sound;
-    PullRingSoundDirection field_1C_sound_direction;
+    s16 mSwitchId;
+    SwitchOp mAction;
+    s16 mRopeLength;
+    Scale_short mScale;
+    PullRingSwitchSound mOnSound;
+    PullRingSwitchSound mOffSound;
+    PullRingSoundDirection mSoundDirection;
     s16 field_1E_pad;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_PullRingRope, 0x20);

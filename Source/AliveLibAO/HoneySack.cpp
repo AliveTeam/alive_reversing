@@ -24,7 +24,7 @@ HoneySack::HoneySack(Path_HoneySack* pTlv, s32 tlvInfo)
     mBaseGameObjectFlags.Set(Options::eCanExplode_Bit7);
     field_E4_tlvInfo = tlvInfo;
 
-    field_100_chase_ticks = pTlv->field_18_chase_ticks;
+    mChaseTime = pTlv->mChaseTime;
     mAnim.mRenderLayer = Layer::eLayer_FallingItemDoorFlameRollingBallPortalClip_Half_31;
 
     mXPos = FP_FromInteger(pTlv->mTopLeft.x);
@@ -33,7 +33,7 @@ HoneySack::HoneySack(Path_HoneySack* pTlv, s32 tlvInfo)
 
     field_EA_bHit_ground = 0;
 
-    if (pTlv->field_1A_scale == Scale_short::eHalf_1)
+    if (pTlv->mScale == Scale_short::eHalf_1)
     {
         mSpriteScale = FP_FromDouble(0.5);
         mScale = Scale::Bg;
@@ -204,7 +204,7 @@ void HoneySack::VUpdate()
                     mYPos,
                     FP_FromInteger(0),
                     24,
-                    field_100_chase_ticks);
+                    mChaseTime);
                 if (pNewBee)
                 {
                     pNewBee->Chase(sActiveHero);

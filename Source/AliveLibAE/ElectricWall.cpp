@@ -38,7 +38,7 @@ ElectricWall::ElectricWall(Path_ElectricWall* pTlv, s32 tlvInfo)
     mXPos = FP_FromInteger(pTlv->mTopLeft.x);
     mYPos = FP_FromInteger(pTlv->mTopLeft.y);
 
-    if (pTlv->field_10_scale == Scale_short::eHalf_1)
+    if (pTlv->mScale == Scale_short::eHalf_1)
     {
         mSpriteScale = FP_FromDouble(0.5);
         mScale = Scale::Bg;
@@ -49,8 +49,8 @@ ElectricWall::ElectricWall(Path_ElectricWall* pTlv, s32 tlvInfo)
         mScale = Scale::Fg;
     }
 
-    field_F8_switch_id = pTlv->field_12_switch_id;
-    field_FA_start_state = pTlv->field_14_start_state;
+    field_F8_switch_id = pTlv->mSwitchId;
+    field_FA_start_state = pTlv->mStartState;
 
     if (SwitchStates_Get(field_F8_switch_id) == field_FA_start_state)
     {

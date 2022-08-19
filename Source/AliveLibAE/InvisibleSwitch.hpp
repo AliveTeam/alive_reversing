@@ -15,11 +15,11 @@ enum class InvisibleSwitchScale : s16
 
 struct Path_InvisibleSwitch final : public Path_TLV
 {
-    s16 field_10_switch_id;
-    SwitchOp field_12_action;
-    s16 field_14_delay;
-    Choice_short field_16_set_off_alarm;
-    InvisibleSwitchScale field_18_scale;
+    s16 mSwitchId;
+    SwitchOp mAction;
+    s16 mActivationDelay;
+    Choice_short mSetOffAlarm;
+    InvisibleSwitchScale mScale;
     s16 field_1A_pad;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_InvisibleSwitch, 0x1C);

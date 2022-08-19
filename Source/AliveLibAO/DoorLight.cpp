@@ -20,16 +20,16 @@ ALIVE_VAR(1, 0x4FC8A4, s32, gDoorLightUpdateTimer_4FC8A4, 0);
 DoorLight::DoorLight(Path_LightEffect* pTlv, s32 tlvInfo)
 {
     field_E4_tlvInfo = tlvInfo;
-    field_E8_width = pTlv->field_1A_size;
-    field_EA_height = pTlv->field_1A_size;
+    field_E8_width = pTlv->mSize;
+    field_EA_height = pTlv->mSize;
 
     mBaseGameObjectTypeId = ReliveTypes::eNone;
     field_EC_bHasID = 0;
-    field_F0_switch_id = pTlv->field_1C_switch_id;
-    field_EE_switch_value = SwitchStates_Get(pTlv->field_1C_switch_id);
+    field_F0_switch_id = pTlv->mSwitchId;
+    field_EE_switch_value = SwitchStates_Get(pTlv->mSwitchId);
 
     s32 xOff = 0;
-    switch (pTlv->field_18_type)
+    switch (pTlv->mType)
     {
         case Path_LightEffect::Type::GoldGlow_1:
         {
@@ -57,7 +57,7 @@ DoorLight::DoorLight(Path_LightEffect* pTlv, s32 tlvInfo)
         {
             field_E8_width = 0;
             field_EA_height = 0;
-            if (SwitchStates_Get(pTlv->field_1C_switch_id))
+            if (SwitchStates_Get(pTlv->mSwitchId))
             {
                 const AnimRecord& greenRec = AO::AnimRec(AnimId::GreenDoorLight);
                 Animation_Init(AnimId::GreenDoorLight, ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, greenRec.mResourceId, 1, 0));
@@ -75,7 +75,7 @@ DoorLight::DoorLight(Path_LightEffect* pTlv, s32 tlvInfo)
         {
             field_E8_width = 0;
             field_EA_height = 0;
-            if (SwitchStates_Get(pTlv->field_1C_switch_id))
+            if (SwitchStates_Get(pTlv->mSwitchId))
             {
                 const AnimRecord& greenRec = AO::AnimRec(AnimId::GreenHubLight);
                 Animation_Init(AnimId::GreenHubLight, ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, greenRec.mResourceId, 1, 0));
@@ -92,7 +92,7 @@ DoorLight::DoorLight(Path_LightEffect* pTlv, s32 tlvInfo)
             break;
     }
 
-    mAnim.mFlags.Set(AnimFlags::eBit5_FlipX, pTlv->field_1E_direction == XDirection_short::eLeft_0);
+    mAnim.mFlags.Set(AnimFlags::eBit5_FlipX, pTlv->mDirection == XDirection_short::eLeft_0);
 
     if (gNextDoorLightUpdate_4C30A8 < 0)
     {

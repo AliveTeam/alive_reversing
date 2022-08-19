@@ -9,29 +9,29 @@ namespace AO {
 
 struct Path_MeatSaw final : public Path_TLV
 {
-    Scale_short field_18_scale;
-    s16 field_1A_switch_min_time_off;
-    s16 field_1C_switch_max_time_off;
-    s16 field_1E_max_rise_time;
-    s16 field_20_switch_id;
+    Scale_short mScale;
+    s16 mSwitchMinTimeOff;
+    s16 mSwitchMaxTimeOff;
+    s16 mMaxRiseTime;
+    s16 mSwitchId;
     enum class Type : s16
     {
         eAutomaticPersistOffscreen_0 = 0,
         eAutomatic_1 = 1,
         eSwitchId_2 = 2
     };
-    Type field_22_type;
-    s16 field_24_speed;
+    Type mType;
+    s16 mSpeed;
     enum class StartState : s16
     {
         eOff_0 = 0,
         eOn_1 = 1
     };
-    StartState field_26_start_state;
-    s16 field_28_off_speed;
-    s16 field_2A_automatic_min_time_off;
-    s16 field_2C_automatic_max_time_off;
-    s16 field_2E_inital_position;
+    StartState mStartState;
+    s16 mOffSpeed;
+    s16 mAutomaticMinTimeOff;
+    s16 mAutomaticMaxTimeOff;
+    s16 mInitialPosition;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_MeatSaw, 0x30);
 

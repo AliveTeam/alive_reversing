@@ -26,11 +26,11 @@ struct Path_TrapDoor final : public Path_TLV
         eClosed_1 = 1,
     };
     StartState mStartState;
-    Choice_short field_1C_self_closing;
-    Scale_short field_1E_scale;
+    Choice_short mSelfClosing;
+    Scale_short mScale;
     s16 field_20_dest_level;
-    XDirection_short field_22_direction;
-    s16 field_24_xOff;
+    XDirection_short mDirection;
+    s16 mXOff;
     s16 field_26_pad;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_TrapDoor, 0x28);

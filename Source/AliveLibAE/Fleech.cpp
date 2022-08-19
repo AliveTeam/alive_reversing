@@ -842,7 +842,7 @@ void Fleech::Motion_11_RaiseHead()
             FP_GetExponent(mYPos - FP_FromInteger((yOff + 20))),
             TlvTypes::Hoist_2));
 
-        if (pHoist->field_10_type == Path_Hoist::Type::eOffScreen)
+        if (pHoist->mHoistType == Path_Hoist::Type::eOffScreen)
         {
             const FP doubleYOff = FP_FromInteger(yOff + 20) * FP_FromInteger(2);
             pHoist = static_cast<Path_Hoist*>(sPathInfo->TLV_Get_At_4DB4B0(
@@ -2573,7 +2573,7 @@ Path_Hoist* Fleech::TryGetHoist(s32 xDistance, s16 bIgnoreDirection)
         return pHoist;
     }
 
-    if (pHoist->field_12_grab_direction == (mAnim.mFlags.Get(AnimFlags::eBit5_FlipX) ? Path_Hoist::GrabDirection::eFacingLeft : Path_Hoist::GrabDirection::eFacingRight) || pHoist->field_12_grab_direction == Path_Hoist::GrabDirection::eFacingAnyDirection)
+    if (pHoist->mGrabDirection == (mAnim.mFlags.Get(AnimFlags::eBit5_FlipX) ? Path_Hoist::GrabDirection::eFacingLeft : Path_Hoist::GrabDirection::eFacingRight) || pHoist->mGrabDirection == Path_Hoist::GrabDirection::eFacingAnyDirection)
     {
         return pHoist;
     }
@@ -3740,7 +3740,7 @@ s16 Fleech::Brain_ChasingAbe_State_1(BaseAliveGameObject* pObj)
         if (mCurrentMotion == eFleechMotions::Motion_3_Idle)
         {
             // TODO: Check left VS flip is correct
-            if ((pHoist->field_12_grab_direction == Path_Hoist::GrabDirection::eFacingLeft && mAnim.mFlags.Get(AnimFlags::eBit5_FlipX)) && pHoist->field_12_grab_direction != Path_Hoist::GrabDirection::eFacingAnyDirection)
+            if ((pHoist->mGrabDirection == Path_Hoist::GrabDirection::eFacingLeft && mAnim.mFlags.Get(AnimFlags::eBit5_FlipX)) && pHoist->mGrabDirection != Path_Hoist::GrabDirection::eFacingAnyDirection)
             {
                 mCurrentMotion = eFleechMotions::Motion_6_Knockback;
             }

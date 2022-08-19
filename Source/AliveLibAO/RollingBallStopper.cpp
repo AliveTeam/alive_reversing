@@ -20,17 +20,17 @@ RollingBallStopper::RollingBallStopper(Path_RollingBallStopper* pTlv, s32 tlvInf
     Animation_Init(AnimId::Stone_Ball_Stopper, ppRes);
     mAnim.mRenderLayer = Layer::eLayer_FG1_37;
 
-    field_114_release_switch_id = pTlv->field_18_stopper_switch_id;
+    mStopperSwitchId = pTlv->mStopperSwitchId;
 
-    if (pTlv->field_1A_scale == Scale_short::eHalf_1)
+    if (pTlv->mScale == Scale_short::eHalf_1)
     {
         mSpriteScale = FP_FromDouble(0.5);
         mScale = Scale::Bg;
     }
 
-    field_116_ball_switch_id = pTlv->field_1C_ball_switch_id;
+    mBallSwitchId = pTlv->mBallSwitchId;
 
-    if (pTlv->field_1E_direction == XDirection_short::eLeft_0)
+    if (pTlv->mStopDirection == XDirection_short::eLeft_0)
     {
         mAnim.mFlags.Set(AnimFlags::eBit5_FlipX);
     }
@@ -61,8 +61,8 @@ RollingBallStopper::RollingBallStopper(Path_RollingBallStopper* pTlv, s32 tlvInf
     else
     {
         field_112_state = States::eWaitForTrigger_0;
-        SwitchStates_Set(pTlv->field_1C_ball_switch_id, 0);
-        SwitchStates_Set(pTlv->field_18_stopper_switch_id, 0);
+        SwitchStates_Set(pTlv->mBallSwitchId, 0);
+        SwitchStates_Set(pTlv->mStopperSwitchId, 0);
     }
 
     const auto oldXPos = mXPos;
@@ -112,7 +112,7 @@ void RollingBallStopper::VScreenChanged()
 {
     if (field_112_state == States::eMoveStopper_1)
     {
-        SwitchStates_Set(field_116_ball_switch_id, 1);
+        SwitchStates_Set(mBallSwitchId, 1);
     }
     mBaseGameObjectFlags.Set(Options::eDead);
 }
@@ -122,7 +122,7 @@ void RollingBallStopper::VUpdate()
     switch (field_112_state)
     {
         case States::eWaitForTrigger_0:
-            if (SwitchStates_Get(field_114_release_switch_id))
+            if (SwitchStates_Get(mStopperSwitchId))
             {
                 Rect_Clear(&field_118_pLine->mRect);
                 field_118_pLine = nullptr;
@@ -142,7 +142,7 @@ void RollingBallStopper::VUpdate()
             else
             {
                 field_112_state = States::eMovingDone_2;
-                SwitchStates_Set(field_116_ball_switch_id, 1);
+                SwitchStates_Set(mBallSwitchId, 1);
             }
             break;
     }

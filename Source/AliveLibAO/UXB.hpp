@@ -23,11 +23,11 @@ enum class UXBStartState : s16
 
 struct Path_UXB final : public Path_TLV
 {
-    s16 field_18_pattern_length;
-    s16 field_1A_pattern;
-    Scale_short field_1C_scale;
-    UXBStartState field_1E_state;
-    s32 field_20_disabled_resources;
+    s16 mPatternLength;
+    s16 mPattern;
+    Scale_short mScale;
+    UXBStartState mStartState;
+    s32 mDisabledResources;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_UXB, 0x24);
 

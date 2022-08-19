@@ -3765,11 +3765,11 @@ static bool IsSameScaleAsHoist(Path_Hoist* pHoist, BaseAliveGameObject* pObj)
 
 static bool IsFacingSameDirectionAsHoist(Path_Hoist* pHoist, BaseAliveGameObject* pObj)
 {
-    if (pHoist->field_1A_grab_direction == Path_Hoist::GrabDirection::eFacingLeft && !pObj->mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
+    if (pHoist->mGrabDirection == Path_Hoist::GrabDirection::eFacingLeft && !pObj->mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
     {
         return false;
     }
-    else if (pHoist->field_1A_grab_direction == Path_Hoist::GrabDirection::eFacingRight && pObj->mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
+    else if (pHoist->mGrabDirection == Path_Hoist::GrabDirection::eFacingRight && pObj->mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
     {
         return false;
     }
@@ -4386,15 +4386,15 @@ void Abe::Motion_2_StandingTurn_426040()
 
 static bool isEdgeGrabbable(Path_Edge* pEdge, BaseAliveGameObject* pObj)
 {
-    if (pEdge->field_18_grab_direction == Path_Edge::GrabDirection::eFacingLeft && pObj->mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
+    if (pEdge->mGrabDirection == Path_Edge::GrabDirection::eFacingLeft && pObj->mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
     {
         return true;
     }
-    else if (pEdge->field_18_grab_direction == Path_Edge::GrabDirection::eFacingRight && !pObj->mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
+    else if (pEdge->mGrabDirection == Path_Edge::GrabDirection::eFacingRight && !pObj->mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
     {
         return true;
     }
-    else if (pEdge->field_18_grab_direction == Path_Edge::GrabDirection::eFacingAnyDirection)
+    else if (pEdge->mGrabDirection == Path_Edge::GrabDirection::eFacingAnyDirection)
     {
         return true;
     }
@@ -4533,7 +4533,7 @@ void Abe::Motion_3_Fall_42E7F0()
 
     if (pEdge)
     {
-        if (pEdge->field_1A_can_grab == Choice_short::eYes_1 && isEdgeGrabbable(pEdge, this))
+        if (pEdge->mCanGrab == Choice_short::eYes_1 && isEdgeGrabbable(pEdge, this))
         {
             tryToHang = true;
         }
@@ -4827,7 +4827,7 @@ void Abe::Motion_17_HoistIdle_4269E0()
         {
             if (IsFacingSameDirectionAsHoist(pHoist, this))
             {
-                if (pHoist->field_18_hoist_type == Path_Hoist::Type::eOffScreen)
+                if (pHoist->mHoistType == Path_Hoist::Type::eOffScreen)
                 {
                     if (gMap.SetActiveCameraDelayed(Map::MapDirections::eMapTop_2, this, -1))
                     {
@@ -5740,7 +5740,7 @@ void Abe::Motion_33_RunJumpMid_426FA0()
         {
             BaseAliveGameObjectPathTLV = pHoist;
 
-            if (IsSameScaleAsHoist(pHoist, this) && (IsFacingSameDirectionAsHoist(pHoist, this)) && pHoist->field_18_hoist_type != Path_Hoist::Type::eOffScreen)
+            if (IsSameScaleAsHoist(pHoist, this) && (IsFacingSameDirectionAsHoist(pHoist, this)) && pHoist->mHoistType != Path_Hoist::Type::eOffScreen)
             {
                 checkCollision = true;
             }
@@ -5754,7 +5754,7 @@ void Abe::Motion_33_RunJumpMid_426FA0()
                 FP_GetExponent(mYPos),
                 TlvTypes::Edge_4));
             BaseAliveGameObjectPathTLV = pEdgeTlv;
-            if (pEdgeTlv && pEdgeTlv->field_1A_can_grab == Choice_short::eYes_1)
+            if (pEdgeTlv && pEdgeTlv->mCanGrab == Choice_short::eYes_1)
             {
                 if (isEdgeGrabbable(pEdgeTlv, this))
                 {

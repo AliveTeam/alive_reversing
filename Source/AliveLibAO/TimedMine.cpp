@@ -32,7 +32,7 @@ TimedMine::TimedMine(Path_TimedMine* pTlv, s32 tlvInfo)
     mTimedMineFlags.Clear(TimedMineFlags::eStickToLiftPoint);
     mSlappedMine = 0;
 
-    if (pTlv->field_1C_scale == Scale_short::eHalf_1)
+    if (pTlv->mScale == Scale_short::eHalf_1)
     {
         mSpriteScale = FP_FromDouble(0.5);
         mScale = Scale::Bg;

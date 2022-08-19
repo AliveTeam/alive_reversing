@@ -1362,12 +1362,12 @@ HintFly::HintFly(Path_HintFly* pTlv, s32 tlvInfo)
         field_124_tlvInfo = tlvInfo;
         field_11E_msg_idx = 0;
 
-        field_11C_message_id = pTlv->field_18_message_id;
+        field_11C_message_id = pTlv->mMessageId;
 
         mXPos = FP_FromInteger(pTlv->mTopLeft.x);
         mYPos = FP_FromInteger(pTlv->mTopLeft.y);
 
-        const char_type* pMsg = gHintFlyMessages.GetMessage(gMap.mCurrentLevel, gMap.mCurrentPath, pTlv->field_18_message_id);
+        const char_type* pMsg = gHintFlyMessages.GetMessage(gMap.mCurrentLevel, gMap.mCurrentPath, pTlv->mMessageId);
 
         field_118_counter = 20;
         field_11A_msg_len = 0;

@@ -8,11 +8,11 @@ namespace AO {
 
 struct Path_RockSack final : public Path_TLV
 {
-    XDirection_short field_18_fall_direction;
-    s16 field_1A_x_vel;
-    s16 field_1C_y_vel;
-    Scale_short field_1E_scale;
-    s16 field_20_rock_amount;
+    XDirection_short mRockFallDirection;
+    s16 mVelX;
+    s16 mVelY;
+    Scale_short mScale;
+    s16 mRockAmount;
     s16 field_22_pad;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_RockSack, 0x24);

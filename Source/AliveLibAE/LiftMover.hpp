@@ -27,14 +27,14 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(LiftMover_State, 0xC);
 
 struct Path_LiftMover final : public Path_TLV
 {
-    s16 field_10_lift_mover_switch_id;
-    s16 field_12_target_lift_point_id;
+    s16 mLiftMoverSwitchId;
+    s16 mTargetLiftPointId;
     enum class YDirection : s16
     {
         eDown_0 = 0,
         eUp_1 = 1,
     };
-    YDirection field_14_move_direction;
+    YDirection mMoveDirection;
     s16 field_16_pad;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_LiftMover, 0x18);

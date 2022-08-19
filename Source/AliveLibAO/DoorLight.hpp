@@ -18,10 +18,10 @@ struct Path_LightEffect final : public Path_TLV
         Switchable_RedGreenDoorLights_4 = 4,
         Switchable_RedGreenHubLight_5 = 5,
     };
-    Type field_18_type;
-    s16 field_1A_size;
-    s16 field_1C_switch_id;
-    XDirection_short field_1E_direction;
+    Type mType;
+    s16 mSize;
+    s16 mSwitchId;
+    XDirection_short mDirection;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_LightEffect, 0x20);
 

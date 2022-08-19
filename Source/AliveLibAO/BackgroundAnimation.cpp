@@ -25,7 +25,7 @@ BackgroundAnimation::BackgroundAnimation(Path_BackgroundAnimation* pTlv, s32 tlv
     mBaseGameObjectTypeId = ReliveTypes::eBackgroundAnimation;
     field_F0_tlvInfo = tlvInfo;
 
-    const BgAnimRecord& anim = AO::BgAnimRec(pTlv->field_18_animation_id);
+    const BgAnimRecord& anim = AO::BgAnimRec(pTlv->mAnimId);
     field_E4_res = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, anim.mBgAnimId, 1, 0);
     if (!field_E4_res)
     {
@@ -76,21 +76,21 @@ BackgroundAnimation::BackgroundAnimation(Path_BackgroundAnimation* pTlv, s32 tlv
         pHeader->field_2_max_h != anim.mMaxH)
     {
         LOG_WARNING("anim id entry data doesn't match OG data!");
-        LOG_WARNING("OG data: anim id " << pTlv->field_18_animation_id << " frametableoffset " << pHeader->field_4_frame_table_offset << " maxW " << pHeader->field_0_max_w << " maxH " << pHeader->field_2_max_h);
+        LOG_WARNING("OG data: anim id " << pTlv->mAnimId << " frametableoffset " << pHeader->field_4_frame_table_offset << " maxW " << pHeader->field_0_max_w << " maxH " << pHeader->field_2_max_h);
         LOG_WARNING("anim id data: anim id " << anim.mBgAnimId << " frametableoffset " << anim.mFrameTableOffset << " maxW " << anim.mMaxW << " maxH " << anim.mMaxH);
     }
 
     Animation_Init(anim.mFrameTableOffset, anim.mMaxW, anim.mMaxH, field_E4_res);
 
-    mAnim.mFlags.Set(AnimFlags::eBit15_bSemiTrans, pTlv->field_1A_is_semi_trans == Choice_short::eYes_1);
+    mAnim.mFlags.Set(AnimFlags::eBit15_bSemiTrans, pTlv->mIsSemiTrans == Choice_short::eYes_1);
     mAnim.mFlags.Set(AnimFlags::eBit16_bBlending);
 
-    mAnim.mRenderMode = pTlv->field_1C_semi_trans_mode;
+    mAnim.mRenderMode = pTlv->mSemiTransMode;
 
     mAnim.mRenderLayer = Layer::eLayer_1;
     mYOffset = 0;
 
-    field_100_sound_effect = pTlv->field_1E_sound_effect;
+    field_100_sound_effect = pTlv->mSoundEffect;
     if (field_100_sound_effect == BgAnimSounds::eFire_1) // Apparently there is only 1 possible sound effect
     {
         field_100_sound_effect = BgAnimSounds::eFireIdx_40;

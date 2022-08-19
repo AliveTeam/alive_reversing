@@ -57,27 +57,27 @@ RollingBall::RollingBall(Path_RollingBall* pTlv, s32 tlvInfo)
 
     mAnim.mRenderLayer = Layer::eLayer_FallingItemDoorFlameRollingBallPortalClip_Half_31;
 
-    if (pTlv->field_18_scale == Scale_short::eHalf_1)
+    if (pTlv->mScale == Scale_short::eHalf_1)
     {
         mSpriteScale = FP_FromDouble(0.5);
         mAnim.mRenderLayer = Layer::eLayer_DoorFlameRollingBallFallingItemPortalClip_Half_12;
         mScale = Scale::Bg;
     }
 
-    if (pTlv->field_1A_roll_direction == XDirection_short::eLeft_0)
+    if (pTlv->mRollDirection == XDirection_short::eLeft_0)
     {
         mAnim.mFlags.Set(AnimFlags::eBit5_FlipX);
     }
 
-    field_110_release_switch_id = pTlv->field_1C_release_switch_id;
-    field_118_speed = FP_FromRaw(pTlv->field_1E_speed << 8);
+    field_110_release_switch_id = pTlv->mReleaseSwitchId;
+    mMaxSpeed = FP_FromRaw(pTlv->mMaxSpeed << 8);
 
     if (mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
     {
-        field_118_speed = -FP_FromRaw(pTlv->field_1E_speed << 8);
+        mMaxSpeed = -FP_FromRaw(pTlv->mMaxSpeed << 8);
     }
 
-    field_11C_acceleration = FP_FromRaw(pTlv->field_20_acceleration << 8);
+    field_11C_acceleration = FP_FromRaw(pTlv->mAcceleration << 8);
 
     mXPos = FP_FromInteger(pTlv->mTopLeft.x);
     mYPos = FP_FromInteger(pTlv->mTopLeft.y);
@@ -359,7 +359,7 @@ void RollingBall::Accelerate()
 {
     if (mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
     {
-        if (mVelX > field_118_speed)
+        if (mVelX > mMaxSpeed)
         {
             mVelX -= field_11C_acceleration;
             mVelY = (-mVelX * FP_FromDouble(0.5));
@@ -367,7 +367,7 @@ void RollingBall::Accelerate()
     }
     else
     {
-        if (mVelX < field_118_speed)
+        if (mVelX < mMaxSpeed)
         {
             mVelX += field_11C_acceleration;
             mVelY = (mVelX * FP_FromDouble(0.5));

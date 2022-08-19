@@ -12,9 +12,9 @@ enum ElectricWallStartState : s16
 
 struct Path_ElectricWall final : public Path_TLV
 {
-    Scale_short field_10_scale;
-    s16 field_12_switch_id;
-    ElectricWallStartState field_14_start_state;
+    Scale_short mScale;
+    s16 mSwitchId;
+    ElectricWallStartState mStartState;
     s16 field_16_pad;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_ElectricWall, 0x18);

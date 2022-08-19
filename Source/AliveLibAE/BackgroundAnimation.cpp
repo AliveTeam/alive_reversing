@@ -11,7 +11,7 @@ BackgroundAnimation::BackgroundAnimation(Path_BackgroundAnimation* pTlv, TlvItem
     SetType(ReliveTypes::eBackgroundAnimation);
     field_F8_tlvInfo = tlvInfo;
 
-    const BgAnimRecord& anim = BgAnimRec(pTlv->field_10_anim_id);
+    const BgAnimRecord& anim = BgAnimRec(pTlv->mAnimId);
     field_F4_res = reinterpret_cast<AnimationFileHeader**>(Add_Resource(ResourceManager::Resource_Animation, anim.mBgAnimId));
     if (!field_F4_res)
     {
@@ -28,14 +28,14 @@ BackgroundAnimation::BackgroundAnimation(Path_BackgroundAnimation* pTlv, TlvItem
 
     Animation_Init(anim.mFrameTableOffset, anim.mMaxW, anim.mMaxH, reinterpret_cast<u8**>(field_F4_res));
 
-    mAnim.mFlags.Set(AnimFlags::eBit15_bSemiTrans, pTlv->field_12_is_semi_trans == Choice_short::eYes_1);
+    mAnim.mFlags.Set(AnimFlags::eBit15_bSemiTrans, pTlv->mIsSemiTrans == Choice_short::eYes_1);
     mAnim.mFlags.Set(AnimFlags::eBit16_bBlending);
 
-    mAnim.mRenderMode = pTlv->field_14_semi_trans_mode;
+    mAnim.mRenderMode = pTlv->mSemiTransMode;
 
-    if (pTlv->field_1A_layer > Layer::eLayer_0)
+    if (pTlv->mLayer > Layer::eLayer_0)
     {
-        const s32 translatedLayer = static_cast<s32>(pTlv->field_1A_layer) - 1;
+        const s32 translatedLayer = static_cast<s32>(pTlv->mLayer) - 1;
         if (!translatedLayer)
         {
             mAnim.mRenderLayer = Layer::eLayer_Above_FG1_Half_20;

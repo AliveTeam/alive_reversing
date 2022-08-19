@@ -143,7 +143,7 @@ void Factory_Hoist(Path_TLV* pTlv, Path* /*pPath*/, TlvItemInfoUnion tlvOffsetLe
         Map::LoadResource("ABEHOIST.BAN", ResourceManager::Resource_Animation, AEResourceID::kAbehoistResID, loadmode, 0);
         Map::LoadResource("DRPROCK.BAN", ResourceManager::Resource_Animation, AEResourceID::kHoistRocks, loadmode, 0);
     }
-    else if (pHoistTlv->field_10_type == Path_Hoist::Type::eOffScreen)
+    else if (pHoistTlv->mHoistType == Path_Hoist::Type::eOffScreen)
     {
         // Its an off screen hoist so create the falling rocks effect
         relive_new HoistRocksEffect(pHoistTlv, tlvOffsetLevelIdPathId.all);
@@ -306,7 +306,7 @@ void Factory_LiftPoint(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvOffsetLevelIdP
                 // Is there already an existing LiftPoint object for this TLV?
                 LiftPoint* pLiftPoint = static_cast<LiftPoint*>(pObj);
                 const s16 xpos = FP_GetExponent(pLiftPoint->mXPos);
-                if (pTlv->mTopLeft.x <= xpos && xpos <= pTlv->mBottomRight.x && pLiftPoint->field_278_lift_point_id == pLiftTlv->field_10_lift_point_id && pLiftPoint->mCurrentLevel == gMap.mCurrentLevel && pLiftPoint->mCurrentPath == gMap.mCurrentPath)
+                if (pTlv->mTopLeft.x <= xpos && xpos <= pTlv->mBottomRight.x && pLiftPoint->field_278_lift_point_id == pLiftTlv->mLiftPointId && pLiftPoint->mCurrentLevel == gMap.mCurrentLevel && pLiftPoint->mCurrentPath == gMap.mCurrentPath)
                 {
                     // Yes so just reset its data
                     Path::TLV_Reset(tlvOffsetLevelIdPathId.all, -1, 0, 0);
@@ -316,7 +316,7 @@ void Factory_LiftPoint(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvOffsetLevelIdP
         }
 
         // TODO: Meaning of the data in field_1_unknown for lift point
-        if (pLiftTlv->mTlvState & 2 || (pLiftTlv->mTlvState == 0 && pLiftTlv->field_12_bStart_point == Choice_short::eYes_1))
+        if (pLiftTlv->mTlvState & 2 || (pLiftTlv->mTlvState == 0 && pLiftTlv->mIsStartPoint == Choice_short::eYes_1))
         {
             relive_new LiftPoint(pLiftTlv, tlvOffsetLevelIdPathId.all);
             return;
@@ -340,7 +340,7 @@ void Factory_LiftPoint(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvOffsetLevelIdP
                         const s32 tlvX = pTlv->mTopLeft.x;
                         const s32 absX = pTlvIter->mTopLeft.x - tlvX >= 0 ? pTlvIter->mTopLeft.x - tlvX : tlvX - pTlvIter->mTopLeft.x;
 
-                        if (absX < 5 && pLiftPointIter->field_10_lift_point_id == pLiftTlv->field_10_lift_point_id && (pLiftPointIter->mTlvState & 2 || pLiftPointIter->mTlvState == 0) && pLiftPointIter->field_12_bStart_point == Choice_short::eYes_1)
+                        if (absX < 5 && pLiftPointIter->mLiftPointId == pLiftTlv->mLiftPointId && (pLiftPointIter->mTlvState & 2 || pLiftPointIter->mTlvState == 0) && pLiftPointIter->mIsStartPoint == Choice_short::eYes_1)
                         {
                             relive_new LiftPoint(pLiftPointIter, tlvOffsetLevelIdPathId.all);
                             return;
@@ -648,8 +648,8 @@ void Factory_Mine(Path_TLV* pTlv, Path* /*pPath*/, TlvItemInfoUnion tlvOffsetLev
 
     if (loadmode == LoadMode::LoadResourceFromList_1 || loadmode == LoadMode::LoadResource_2)
     {
-        Map::LoadResource("ABEBLOW.BAN", ResourceManager::Resource_Animation, AEResourceID::kAbeblowResID, loadmode, mine_tlv->field_16_disabled_resources & 1);
-        Map::LoadResource("DOGBLOW.BAN", ResourceManager::Resource_Animation, AEResourceID::kSlogBlowResID, loadmode, mine_tlv->field_16_disabled_resources & 2);
+        Map::LoadResource("ABEBLOW.BAN", ResourceManager::Resource_Animation, AEResourceID::kAbeblowResID, loadmode, mine_tlv->mDisabledResources & 1);
+        Map::LoadResource("DOGBLOW.BAN", ResourceManager::Resource_Animation, AEResourceID::kSlogBlowResID, loadmode, mine_tlv->mDisabledResources & 2);
 
         static CompileTimeResourceList<2> sMineResourceList_56337C({
             {ResourceManager::Resource_Animation, AEResourceID::kLandmineResID},
@@ -676,8 +676,8 @@ void Factory_UXB(Path_TLV* pTlv, Path* /*pPath*/, TlvItemInfoUnion tlvOffsetLeve
     auto uxb_tlv = static_cast<Path_UXB*>(pTlv);
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
-        Map::LoadResource("ABEBLOW.BAN", ResourceManager::Resource_Animation, AEResourceID::kAbeblowResID, loadMode, uxb_tlv->field_18_disabled_resources & 1);
-        Map::LoadResource("DOGBLOW.BAN", ResourceManager::Resource_Animation, AEResourceID::kSlogBlowResID, loadMode, uxb_tlv->field_18_disabled_resources & 2);
+        Map::LoadResource("ABEBLOW.BAN", ResourceManager::Resource_Animation, AEResourceID::kAbeblowResID, loadMode, uxb_tlv->mDisabledResources & 1);
+        Map::LoadResource("DOGBLOW.BAN", ResourceManager::Resource_Animation, AEResourceID::kSlogBlowResID, loadMode, uxb_tlv->mDisabledResources & 2);
 
         static CompileTimeResourceList<3> sUXBResourceList_563390({
             {ResourceManager::Resource_Animation, AEResourceID::kUXBResID},
@@ -805,7 +805,7 @@ static Path_TLV* FindMatchingSligTLV(Path_TLV* pTlvIter, Path_SligBound* pTlv)
 {
     while (pTlvIter)
     {
-        if (pTlvIter->mTlvType32 == TlvTypes::Slig_15 && pTlv->field_10_slig_bound_id == static_cast<Path_Slig*>(pTlvIter)->field_38_slig_bound_id && !pTlvIter->mTlvFlags.Get(TlvFlags::eBit2_Destroyed))
+        if (pTlvIter->mTlvType32 == TlvTypes::Slig_15 && pTlv->mSligBoundId == static_cast<Path_Slig*>(pTlvIter)->field_38_slig_bound_id && !pTlvIter->mTlvFlags.Get(TlvFlags::eBit2_Destroyed))
         {
             return pTlvIter;
         }
@@ -819,7 +819,7 @@ void Factory_SligBoundLeft(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, Load
     auto pBound = static_cast<Path_SligBound*>(pTlv);
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
-        LoadWalkingSligResources(pBound->field_12_disabled_resources, loadMode);
+        LoadWalkingSligResources(pBound->mDisabledResources, loadMode);
     }
     else
     {
@@ -1126,7 +1126,7 @@ void Factory_BoomMachine(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMo
         gMap.LoadResource("EXPLO2.BAN", ResourceManager::Resource_Animation, AEResourceID::kExplo2ResID, loadMode);
         gMap.LoadResource("ABEBLOW.BAN", ResourceManager::Resource_Animation, AEResourceID::kAbeblowResID, loadMode);
         gMap.LoadResource("METAL.BAN", ResourceManager::Resource_Animation, AEResourceID::kMetalGibResID, loadMode);
-        gMap.LoadResource("DOGBLOW.BAN", ResourceManager::Resource_Animation, AEResourceID::kSlogBlowResID, loadMode, pTlvBooMachine->field_14_disabled_resources & 2);
+        gMap.LoadResource("DOGBLOW.BAN", ResourceManager::Resource_Animation, AEResourceID::kSlogBlowResID, loadMode, pTlvBooMachine->mDisabledResources & 2);
     }
     else
     {

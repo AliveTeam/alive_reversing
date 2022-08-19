@@ -36,11 +36,11 @@ Lever::Lever(Path_Lever* pTlv, u32 tlvInfo)
     Animation_Init(AnimId::Lever_Idle, ppRes);
 
     mAnim.mFlags.Set(AnimFlags::eBit15_bSemiTrans);
-    field_F4_switch_id = pTlv->field_1A_switch_id;
-    field_102_action = pTlv->field_10_action;
+    field_F4_switch_id = pTlv->mSwitchId;
+    field_102_action = pTlv->mAction;
     field_100_flags.Clear(Flags_100::eBit1_lever_anim_left_direction);
 
-    if (pTlv->field_1C_persist_offscreen == Choice_short::eYes_1)
+    if (pTlv->mPersistOffscreen == Choice_short::eYes_1)
     {
         field_100_flags.Set(Flags_100::eBit2_persist_offscreen);
     }
@@ -49,13 +49,13 @@ Lever::Lever(Path_Lever* pTlv, u32 tlvInfo)
         field_100_flags.Clear(Flags_100::eBit2_persist_offscreen);
     }
 
-    if (pTlv->field_12_scale == Scale_short::eHalf_1)
+    if (pTlv->mScale == Scale_short::eHalf_1)
     {
         mSpriteScale = FP_FromDouble(0.5);
         mAnim.mRenderLayer = Layer::eLayer_BeforeShadow_Half_6;
         mScale = Scale::Bg;
     }
-    else if (pTlv->field_12_scale == Scale_short::eFull_0)
+    else if (pTlv->mScale == Scale_short::eFull_0)
     {
         mSpriteScale = FP_FromInteger(1);
         mAnim.mRenderLayer = Layer::eLayer_BeforeShadow_25;
@@ -83,10 +83,10 @@ Lever::Lever(Path_Lever* pTlv, u32 tlvInfo)
         mYPos = hitY;
     }
 
-    field_104_on_sound = pTlv->field_14_on_sound;
-    field_106_off_sound = pTlv->field_16_off_sound;
+    field_104_on_sound = pTlv->mOnSound;
+    field_106_off_sound = pTlv->mOffSound;
     field_FC_tlvInfo = tlvInfo;
-    field_108_sound_direction = pTlv->field_18_sound_direction;
+    field_108_sound_direction = pTlv->mSoundDirection;
 
     field_F8_state = LeverState::eWaiting_0;
     mVisualFlags.Set(VisualFlags::eDoPurpleLightEffect);

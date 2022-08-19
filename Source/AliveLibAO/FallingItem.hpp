@@ -19,11 +19,11 @@ ALIVE_ASSERT_SIZEOF(FallingItem_Data, 0xC);
 
 struct Path_FallingItem final : public Path_TLV
 {
-    s16 field_18_switch_id;
-    Scale_short field_1A_scale;
-    s16 field_1C_fall_interval;
-    s16 field_1E_max_falling_items;
-    Choice_short field_20_reset_switch_id_after_use;
+    s16 mSwitchId;
+    Scale_short mScale;
+    s16 mFallInterval;
+    s16 mMaxFallingItems;
+    Choice_short mResetSwitchIdAfterUse;
     s16 field_22_pad;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_FallingItem, 0x24);

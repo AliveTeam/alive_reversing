@@ -9,8 +9,8 @@ namespace AO {
 
 struct Path_HoneySack final : public Path_TLV
 {
-    s16 field_18_chase_ticks;
-    Scale_short field_1A_scale;
+    s16 mChaseTime;
+    Scale_short mScale;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_HoneySack, 0x1C);
 
@@ -41,7 +41,7 @@ public:
     FP field_F4_drip_target_x = {};
     FP field_F8_drip_target_y = {};
     FP field_FC_ypos2 = {};
-    u16 field_100_chase_ticks = 0;
+    u16 mChaseTime = 0;
 };
 ALIVE_ASSERT_SIZEOF(HoneySack, 0x104);
 

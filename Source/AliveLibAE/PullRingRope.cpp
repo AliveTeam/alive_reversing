@@ -44,15 +44,15 @@ PullRingRope::PullRingRope(Path_PullRingRope* pTlv, s32 tlvInfo)
     mXPos = FP_FromInteger((pTlv->mTopLeft.x + pTlv->mBottomRight.x) / 2);
     mYPos = FP_FromInteger(pTlv->mTopLeft.y + 24);
 
-    field_102_switch_id = pTlv->field_10_switch_id;
-    field_104_action = pTlv->field_12_action;
+    field_102_switch_id = pTlv->mSwitchId;
+    field_104_action = pTlv->mAction;
     field_110_tlvInfo = tlvInfo;
     field_100_state = States::eIdle_0;
     field_F4_stay_in_state_ticks = 0;
 
-    mYPos += FP_FromInteger(pTlv->field_14_rope_length);
+    mYPos += FP_FromInteger(pTlv->mRopeLength);
 
-    if (pTlv->field_16_scale == Scale_short::eHalf_1)
+    if (pTlv->mScale == Scale_short::eHalf_1)
     {
         mSpriteScale = FP_FromDouble(0.5);
         mAnim.mRenderLayer = Layer::eLayer_8;
@@ -67,13 +67,13 @@ PullRingRope::PullRingRope(Path_PullRingRope* pTlv, s32 tlvInfo)
 
     mXPos = FP_FromInteger(SnapToXGrid(mSpriteScale, FP_GetExponent(mXPos)));
 
-    field_106_on_sound = pTlv->field_18_on_sound;
-    field_108_off_sound = pTlv->field_1A_off_sound;
-    field_10A_sound_direction = pTlv->field_1C_sound_direction;
+    field_106_on_sound = pTlv->mOnSound;
+    field_108_off_sound = pTlv->mOffSound;
+    field_10A_sound_direction = pTlv->mSoundDirection;
     field_FC_ring_puller_id = -1;
 
     auto pRope = relive_new Rope(FP_GetExponent(mXPos + FP_FromInteger(2)),
-                              FP_GetExponent(mYPos) - pTlv->field_14_rope_length,
+                              FP_GetExponent(mYPos) - pTlv->mRopeLength,
                               FP_GetExponent(mYPos),
                               mSpriteScale);
     if (pRope)

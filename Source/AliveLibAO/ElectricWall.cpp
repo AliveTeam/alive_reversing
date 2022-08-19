@@ -35,7 +35,7 @@ ElectricWall::ElectricWall(Path_ElectricWall* pTlv, s32 tlvInfo)
     mXPos = FP_FromInteger(pTlv->mTopLeft.x);
     mYPos = FP_FromInteger(pTlv->mTopLeft.y);
 
-    if (pTlv->field_18_scale == Scale_short::eHalf_1)
+    if (pTlv->mScale == Scale_short::eHalf_1)
     {
         mSpriteScale = FP_FromDouble(0.5);
         mScale = Scale::Bg;
@@ -46,10 +46,10 @@ ElectricWall::ElectricWall(Path_ElectricWall* pTlv, s32 tlvInfo)
         mScale = Scale::Fg;
     }
 
-    field_E8_switch_id = pTlv->field_1A_switch_id;
-    field_EA_start_state = pTlv->field_1C_start_state;
+    field_E8_switch_id = pTlv->mSwitchId;
+    field_EA_start_state = pTlv->mStartState;
 
-    if (SwitchStates_Get(pTlv->field_1A_switch_id) == field_EA_start_state)
+    if (SwitchStates_Get(pTlv->mSwitchId) == field_EA_start_state)
     {
         mAnim.mFlags.Clear(AnimFlags::eBit3_Render);
     }

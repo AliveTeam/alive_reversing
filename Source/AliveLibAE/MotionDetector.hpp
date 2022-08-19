@@ -7,20 +7,20 @@
 
 struct Path_MotionDetector final : public Path_TLV
 {
-    Scale_short field_10_scale;
-    s16 field_12_device_x;
-    s16 field_14_device_y;
-    s16 field_16_speed_x256;
+    Scale_short mScale;
+    s16 mDeviceX;
+    s16 mDeviceY;
+    s16 mSpeedx256;
     enum class InitialMoveDirection : s16
     {
         eRight_0 = 0,
         eLeft_1 = 1
     };
-    InitialMoveDirection field_18_initial_move_direction;
-    Choice_short field_1A_draw_flare;
-    s16 field_1C_disable_switch_id;
-    s16 field_1E_alarm_switch_id;
-    s16 field_20_alarm_duration;
+    InitialMoveDirection mInitialMoveDirection;
+    Choice_short mDrawFlare;
+    s16 mDisableSwitchId;
+    s16 mAlarmSwitchId;
+    s16 mAlarmDuration;
     s16 field_22_padding;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_MotionDetector, 0x24);

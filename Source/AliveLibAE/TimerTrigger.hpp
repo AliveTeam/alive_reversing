@@ -6,12 +6,12 @@
 
 struct Path_TimerTrigger final : public Path_TLV
 {
-    s16 field_10_input_switch_id;
-    u16 field_12_trigger_interval;
-    s16 field_14_output_switch_id1;
-    s16 field_16_output_switch_id2;
-    s16 field_18_output_switch_id3;
-    s16 field_1A_output_switch_id4;
+    s16 mInputSwitchId;
+    u16 mActivationDelay;
+    s16 mOutputSwitchId1;
+    s16 mOutputSwitchId2;
+    s16 mOutputSwitchId3;
+    s16 mOutputSwitchId4;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_TimerTrigger, 0x1C);
 
@@ -49,12 +49,12 @@ private:
     void ToggleAllIds();
 
 private:
-    s16 field_20_input_switch_id = 0;
+    s16 mInputSwitchId = 0;
     TimerTriggerStates field_22_state = TimerTriggerStates::eWaitForEnabled_0;
-    s16 field_24_output_switch_ids[4] = {};
+    s16 mOutputSwitchIds[4] = {};
     s32 field_2C_tlvInfo = 0;
-    s32 field_30_trigger_interval_timer = 0;
-    s32 field_34_trigger_interval = 0;
+    s32 mActivationDelayTimer = 0;
+    s32 mActivationDelay = 0;
     s16 field_38_starting_switch_state = 0;
 };
 ALIVE_ASSERT_SIZEOF(TimerTrigger, 0x3C);

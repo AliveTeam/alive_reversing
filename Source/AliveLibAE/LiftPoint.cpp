@@ -69,7 +69,7 @@ LiftPoint::LiftPoint(Path_LiftPoint* pTlv, s32 tlvInfo)
     field_27C_pTlv = sPathInfo->TLVInfo_From_TLVPtr(pTlv);
 
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kLiftResID);
-    if (pTlv->field_18_scale != Scale_short::eFull_0)
+    if (pTlv->mScale != Scale_short::eFull_0)
     {
         mSpriteScale = FP_FromDouble(0.5);
         mScale = Scale::Bg;
@@ -115,7 +115,7 @@ LiftPoint::LiftPoint(Path_LiftPoint* pTlv, s32 tlvInfo)
             this,
             ppLiftWheels))
     {
-        if (pTlv->field_18_scale != Scale_short::eFull_0)
+        if (pTlv->mScale != Scale_short::eFull_0)
         {
             field_13C_lift_wheel.mRenderLayer = Layer::eLayer_BeforeShadow_Half_6;
             field_13C_lift_wheel.field_14_scale = mSpriteScale;
@@ -184,8 +184,8 @@ LiftPoint::LiftPoint(Path_LiftPoint* pTlv, s32 tlvInfo)
         field_280_flags.Clear(LiftFlags::eBit4_bHasPulley);
         CreatePulleyIfExists();
 
-        field_278_lift_point_id = static_cast<s8>(pTlv->field_10_lift_point_id);
-        field_130_lift_point_stop_type = pTlv->field_16_lift_point_stop_type;
+        field_278_lift_point_id = static_cast<s8>(pTlv->mLiftPointId);
+        field_130_lift_point_stop_type = pTlv->mLiftPointStopType;
 
         switch (field_130_lift_point_stop_type)
         {
@@ -572,15 +572,15 @@ void LiftPoint::VUpdate()
             auto pLiftTlv = static_cast<Path_LiftPoint*>(pTlvIter);
             if (pLiftTlv)
             {
-                field_130_lift_point_stop_type = pLiftTlv->field_16_lift_point_stop_type;
+                field_130_lift_point_stop_type = pLiftTlv->mLiftPointStopType;
 
                 field_280_flags.Clear(LiftFlags::eBit8_bIgnoreLiftMover);
-                if (pLiftTlv->field_1A_bIgnore_lift_mover == Choice_short::eYes_1)
+                if (pLiftTlv->mIgnoreLiftMover == Choice_short::eYes_1)
                 {
                     field_280_flags.Set(LiftFlags::eBit8_bIgnoreLiftMover);
                 }
 
-                if (pLiftTlv->mTlvState != static_cast<u8>(pLiftTlv->field_12_bStart_point))
+                if (pLiftTlv->mTlvState != static_cast<u8>(pLiftTlv->mIsStartPoint))
                 {
                     field_280_flags.Set(LiftFlags::eBit6);
                 }
@@ -627,7 +627,7 @@ void LiftPoint::VUpdate()
                             pLiftTlv->mTlvState = 3;
 
                             field_27C_pTlv = sPathInfo->TLVInfo_From_TLVPtr(pLiftTlv);
-                            pLiftTlv->field_10_lift_point_id = field_278_lift_point_id;
+                            pLiftTlv->mLiftPointId = field_278_lift_point_id;
                             field_280_flags.Set(LiftFlags::eBit1_bTopFloor);
                         }
                     }
@@ -657,7 +657,7 @@ void LiftPoint::VUpdate()
                             pLiftTlv->mTlvState = 3;
 
                             field_27C_pTlv = sPathInfo->TLVInfo_From_TLVPtr(pLiftTlv);
-                            pLiftTlv->field_10_lift_point_id = field_278_lift_point_id;
+                            pLiftTlv->mLiftPointId = field_278_lift_point_id;
                             field_280_flags.Set(LiftFlags::eBit3_bBottomFloor);
                         }
                     }
@@ -691,7 +691,7 @@ void LiftPoint::VUpdate()
 
                         pLiftTlv->mTlvState = 3;
                         field_27C_pTlv = sPathInfo->TLVInfo_From_TLVPtr(pLiftTlv);
-                        pLiftTlv->field_10_lift_point_id = field_278_lift_point_id;
+                        pLiftTlv->mLiftPointId = field_278_lift_point_id;
                         field_280_flags.Set(LiftFlags::eBit2_bMiddleFloor);
                     }
                     break;
@@ -839,7 +839,7 @@ void LiftPoint::vStayOnFloor(s16 floor, Path_LiftPoint* pTlv)
     field_12C_bMoving &= ~1;
     pTlv->mTlvState = 3;
     field_27C_pTlv = sPathInfo->TLVInfo_From_TLVPtr(pTlv);
-    pTlv->field_10_lift_point_id = field_278_lift_point_id;
+    pTlv->mLiftPointId = field_278_lift_point_id;
     mVelY = FP_FromInteger(0);
 
     EventBroadcast(kEventNoise, this);

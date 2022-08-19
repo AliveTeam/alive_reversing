@@ -26,19 +26,19 @@ TimerTrigger::TimerTrigger(Path_TimerTrigger* pTlv, s32 tlvInfo)
 {
     field_1C_tlvInfo = tlvInfo;
 
-    field_24_trigger_interval = pTlv->field_1A_trigger_interval;
+    mActivationDelay = pTlv->mActivationDelay;
 
-    field_14_ids[0] = pTlv->field_1C_output_switch_id1;
-    field_14_ids[1] = pTlv->field_1C_output_switch_id2;
-    field_14_ids[2] = pTlv->field_1C_output_switch_id3;
-    field_14_ids[3] = pTlv->field_1C_output_switch_id4;
+    mOutputSwitchIds[0] = pTlv->mOutputSwitchId1;
+    mOutputSwitchIds[1] = pTlv->mOutputSwitchId2;
+    mOutputSwitchIds[2] = pTlv->mOutputSwitchId3;
+    mOutputSwitchIds[3] = pTlv->mOutputSwitchId4;
 
-    field_10_input_switch_id = pTlv->field_18_input_switch_id;
+    mInputSwitchId = pTlv->mInputSwitchId;
     field_12_state = State::eWaitForEnabled_0;
 
-    if (field_10_input_switch_id)
+    if (mInputSwitchId)
     {
-        field_28_starting_switch_state = SwitchStates_Get(field_10_input_switch_id);
+        field_28_starting_switch_state = SwitchStates_Get(mInputSwitchId);
     }
     else
     {
@@ -48,7 +48,7 @@ TimerTrigger::TimerTrigger(Path_TimerTrigger* pTlv, s32 tlvInfo)
 
 void TimerTrigger::ToggleAllIds()
 {
-    for (const auto& id : field_14_ids)
+    for (const auto& id : mOutputSwitchIds)
     {
         if (id > 1)
         {
@@ -63,15 +63,15 @@ void TimerTrigger::VUpdate()
     {
         case State::eWaitForEnabled_0:
             // If the value changes from what we first saw...
-            if (SwitchStates_Get(field_10_input_switch_id) != field_28_starting_switch_state)
+            if (SwitchStates_Get(mInputSwitchId) != field_28_starting_switch_state)
             {
                 field_12_state = State::eWaitForFirstTrigger_1;
-                field_20_trigger_interval_timer = sGnFrame + field_24_trigger_interval;
+                mActivationDelayTimer = sGnFrame + mActivationDelay;
             }
             break;
 
         case State::eWaitForFirstTrigger_1:
-            if (field_20_trigger_interval_timer <= static_cast<s32>(sGnFrame))
+            if (mActivationDelayTimer <= static_cast<s32>(sGnFrame))
             {
                 ToggleAllIds();
                 field_12_state = State::eCheckForStartAgain_2;
@@ -79,15 +79,15 @@ void TimerTrigger::VUpdate()
             break;
 
         case State::eCheckForStartAgain_2:
-            if (SwitchStates_Get(field_10_input_switch_id) == field_28_starting_switch_state)
+            if (SwitchStates_Get(mInputSwitchId) == field_28_starting_switch_state)
             {
                 field_12_state = State::eWaitForSecondTrigger_3;
-                field_20_trigger_interval_timer = sGnFrame + field_24_trigger_interval;
+                mActivationDelayTimer = sGnFrame + mActivationDelay;
             }
             break;
 
         case State::eWaitForSecondTrigger_3:
-            if (field_20_trigger_interval_timer <= static_cast<s32>(sGnFrame))
+            if (mActivationDelayTimer <= static_cast<s32>(sGnFrame))
             {
                 ToggleAllIds();
                 field_12_state = State::eWaitForEnabled_0;

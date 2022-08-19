@@ -18,11 +18,11 @@ enum class BgAnimSounds : s16
 
 struct Path_BackgroundAnimation final : public Path_TLV
 {
-    u16 field_18_animation_id;
-    Choice_short field_1A_is_semi_trans;
-    TPageAbr field_1C_semi_trans_mode;
+    u16 mAnimId;
+    Choice_short mIsSemiTrans;
+    TPageAbr mSemiTransMode;
     // pad
-    BgAnimSounds field_1E_sound_effect;
+    BgAnimSounds mSoundEffect;
 };
 ALIVE_ASSERT_SIZEOF(Path_BackgroundAnimation, 0x20);
 

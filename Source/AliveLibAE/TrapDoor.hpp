@@ -14,10 +14,10 @@ struct Path_TrapDoor final : public Path_TLV
     };
     StartState mStartState;
     Choice_short mSelfClosing;
-    Scale_short field_16_scale;
+    Scale_short mScale;
     s16 field_18_dest_level;
     XDirection_short mDirection;
-    s16 field_1C_xOff;
+    s16 mXOff;
     s16 mStayOpenTime;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_TrapDoor, 0x20);

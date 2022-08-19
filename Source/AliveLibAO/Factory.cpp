@@ -142,7 +142,7 @@ void Factory_Hoist_487230(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOff
     else
     {
         auto pHoistTlv = static_cast<Path_Hoist*>(pTlv);
-        if (pHoistTlv->field_18_hoist_type == Path_Hoist::Type::eOffScreen)
+        if (pHoistTlv->mHoistType == Path_Hoist::Type::eOffScreen)
         {
             relive_new HoistRocksEffect(pHoistTlv, tlvOffsetLevelIdPathId.all);
             // OG issue, no reset on failure ??
@@ -308,7 +308,7 @@ void Factory_LiftPoint_4820F0(Path_TLV* pTlv, Map* pMap, TlvItemInfoUnion tlvOff
             AOResourceID::kRopesAOResID};
         ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, kResourcesToCheck);
 
-        if (pTlv->field_1_unknown & 2 || (pTlv->field_1_unknown == 0 && static_cast<Path_LiftPoint*>(pTlv)->field_1A_bstart_point == Choice_short::eYes_1))
+        if (pTlv->field_1_unknown & 2 || (pTlv->field_1_unknown == 0 && static_cast<Path_LiftPoint*>(pTlv)->mIsStartPoint == Choice_short::eYes_1))
         {
             relive_new LiftPoint(static_cast<Path_LiftPoint*>(pTlv), pMap, tlvOffsetLevelIdPathId.all);
         }
@@ -329,7 +329,7 @@ void Factory_LiftPoint_4820F0(Path_TLV* pTlv, Map* pMap, TlvItemInfoUnion tlvOff
                         const auto absX = pTlvIter->mTopLeft.x - tlv_x >= 0 ? pTlvIter->mTopLeft.x - tlv_x : tlv_x - pTlvIter->mTopLeft.x;
                         if (absX < 5)
                         {
-                            if (pTlvIter->field_1_unknown & 2 || (pTlvIter->field_1_unknown == 0 && static_cast<Path_LiftPoint*>(pTlvIter)->field_1A_bstart_point == Choice_short::eYes_1))
+                            if (pTlvIter->field_1_unknown & 2 || (pTlvIter->field_1_unknown == 0 && static_cast<Path_LiftPoint*>(pTlvIter)->mIsStartPoint == Choice_short::eYes_1))
                             {
                                 relive_new LiftPoint(static_cast<Path_LiftPoint*>(pTlvIter), pMap, tlvOffsetLevelIdPathId.all);
                                 return;
@@ -1111,7 +1111,7 @@ void Factory_Well_4834A0(Path_TLV* pTlv, Map* pMap, TlvItemInfoUnion tlvOffsetLe
 void Factory_Mine_4848D0(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
 {
     auto pMineTlv = static_cast<Path_Mine*>(pTlv);
-    const auto disabledResources = pMineTlv->field_1E_disabled_resources;
+    const auto disabledResources = pMineTlv->mDisabledResources;
 
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
@@ -1168,9 +1168,9 @@ void Factory_Uxb_484B70(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffse
 
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
-        ResourceManager::LoadResource_446C90("ABEBLOW.BAN", ResourceManager::Resource_Animation, AOResourceID::kAbeblowAOResID, loadMode, pUxbTlv->field_20_disabled_resources & 1);
-        ResourceManager::LoadResource_446C90("DOGBLOW.BAN", ResourceManager::Resource_Animation, AOResourceID::kSlogBlowAOResID, loadMode, pUxbTlv->field_20_disabled_resources & 2);
-        ResourceManager::LoadResource_446C90("ELMBLOW.BAN", ResourceManager::Resource_Animation, AOResourceID::kElmblowAOResID_217, loadMode, pUxbTlv->field_20_disabled_resources & 4);
+        ResourceManager::LoadResource_446C90("ABEBLOW.BAN", ResourceManager::Resource_Animation, AOResourceID::kAbeblowAOResID, loadMode, pUxbTlv->mDisabledResources & 1);
+        ResourceManager::LoadResource_446C90("DOGBLOW.BAN", ResourceManager::Resource_Animation, AOResourceID::kSlogBlowAOResID, loadMode, pUxbTlv->mDisabledResources & 2);
+        ResourceManager::LoadResource_446C90("ELMBLOW.BAN", ResourceManager::Resource_Animation, AOResourceID::kElmblowAOResID_217, loadMode, pUxbTlv->mDisabledResources & 4);
         if (gMap.mCurrentLevel == EReliveLevelIds::eStockYards || gMap.mCurrentLevel == EReliveLevelIds::eStockYardsReturn)
         {
             ResourceManager::LoadResource_446C90("TBMBPAL.BAN", ResourceManager::Resource_Palt, AOResourceID::kUXBAOResID, loadMode);
@@ -1200,12 +1200,12 @@ void Factory_Uxb_484B70(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffse
         };
         ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, kResources);
 
-        if (!(pUxbTlv->field_20_disabled_resources & 1))
+        if (!(pUxbTlv->mDisabledResources & 1))
         {
             ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, AOResourceID::kAbeblowAOResID);
         }
 
-        if (!(pUxbTlv->field_20_disabled_resources & 2))
+        if (!(pUxbTlv->mDisabledResources & 2))
         {
             ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, AOResourceID::kSlogBlowAOResID);
         }
@@ -1411,7 +1411,7 @@ static Path_TLV* FindMatchingSligTLV(Path_TLV* pTlvIter, Path_SligBound* pTlv)
 {
     while (pTlvIter)
     {
-        if (pTlvIter->mTlvType32 == TlvTypes::Slig_24 && pTlv->field_18_slig_id == static_cast<Path_Slig*>(pTlvIter)->field_40_slig_bound_id && !pTlvIter->mTlvFlags.Get(TlvFlags::eBit2_Destroyed))
+        if (pTlvIter->mTlvType32 == TlvTypes::Slig_24 && pTlv->mSligBoundId == static_cast<Path_Slig*>(pTlvIter)->field_40_slig_bound_id && !pTlvIter->mTlvFlags.Get(TlvFlags::eBit2_Destroyed))
         {
             return pTlvIter;
         }
@@ -1423,7 +1423,7 @@ static Path_TLV* FindMatchingSligTLV(Path_TLV* pTlvIter, Path_SligBound* pTlv)
 void Factory_SligLeftBound_482520(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
 {
     auto pBound = static_cast<Path_SligBound*>(pTlv);
-    LoadWalkingSligResources(loadMode, pBound->field_1A_disabled_resources);
+    LoadWalkingSligResources(loadMode, pBound->mDisabledResources);
 
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
@@ -2026,7 +2026,7 @@ void Factory_Null_487440(Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUnion /*t
 void Factory_GrenadeMachine_487860(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
 {
     auto pBoomMachineTlv = static_cast<Path_BoomMachine*>(pTlv);
-    const auto disabledResources = pBoomMachineTlv->field_1C_disabled_resources;
+    const auto disabledResources = pBoomMachineTlv->mDisabledResources;
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
         static CompileTimeResourceList<3> kResources = {
@@ -2148,7 +2148,7 @@ void Factory_LightEffect_484170(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion 
     auto pPathLightTlv = static_cast<Path_LightEffect*>(pTlv);
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
-        switch (pPathLightTlv->field_18_type)
+        switch (pPathLightTlv->mType)
         {
             case Path_LightEffect::Type::Star_0:
                 ResourceManager::LoadResource_446C90("STAR.BAN", ResourceManager::Resource_Animation, AOResourceID::kBGStarAOResID, loadMode);
@@ -2182,7 +2182,7 @@ void Factory_LightEffect_484170(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion 
     }
     else
     {
-        switch (pPathLightTlv->field_18_type)
+        switch (pPathLightTlv->mType)
         {
             case Path_LightEffect::Type::Star_0:
             {

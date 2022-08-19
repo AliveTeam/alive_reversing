@@ -163,7 +163,7 @@ BoomMachine::BoomMachine(Path_BoomMachine* pTlv, s32 tlvInfo)
     field_E4_tlvInfo = tlvInfo;
     mAnim.mRenderMode = TPageAbr::eBlend_1;
 
-    if (pTlv->field_18_scale == Scale_short::eHalf_1)
+    if (pTlv->mScale == Scale_short::eHalf_1)
     {
         mSpriteScale = FP_FromDouble(0.5);
     }
@@ -179,7 +179,7 @@ BoomMachine::BoomMachine(Path_BoomMachine* pTlv, s32 tlvInfo)
     if (pNozzle)
     {
         FP directedScale = mSpriteScale;
-        if (pTlv->field_1A_nozzle_side == Path_BoomMachine::NozzleSide::eLeft_1)
+        if (pTlv->mNozzleSide == Path_BoomMachine::NozzleSide::eLeft_1)
         {
             directedScale = -directedScale;
         }
@@ -194,10 +194,10 @@ BoomMachine::BoomMachine(Path_BoomMachine* pTlv, s32 tlvInfo)
         pNozzle->field_E4_state = BoomMachineStates::eInactive_0;
         pNozzle->mXPos = mXPos + (directedScale * FP_FromInteger(30));
         pNozzle->mYPos = mYPos + (mSpriteScale * FP_FromInteger(-30));
-        pNozzle->field_EC_num_grenades = static_cast<s16>(pTlv->field_1E_number_of_grenades);
+        pNozzle->field_EC_num_grenades = static_cast<s16>(pTlv->mGrenadeAmount);
     }
 
-    pNozzle->mAnim.mFlags.Set(AnimFlags::eBit5_FlipX, pTlv->field_1A_nozzle_side == Path_BoomMachine::NozzleSide::eLeft_1);
+    pNozzle->mAnim.mFlags.Set(AnimFlags::eBit5_FlipX, pTlv->mNozzleSide == Path_BoomMachine::NozzleSide::eLeft_1);
 
     pNozzle->mBaseGameObjectRefCount++;
     field_EC_pNozzle = pNozzle;

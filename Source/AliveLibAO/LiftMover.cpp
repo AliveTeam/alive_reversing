@@ -15,10 +15,10 @@ LiftMover::LiftMover(Path_LiftMover* pTlv, s32 tlvInfo)
     field_18_pLiftPoint = nullptr;
     mBaseGameObjectTypeId = ReliveTypes::eLiftMover;
 
-    field_10_lift_mover_switch_id = pTlv->field_18_lift_mover_switch_id;
-    field_12_target_lift_point_id = pTlv->field_1A_target_lift_point_id;
+    field_10_lift_mover_switch_id = pTlv->mLiftMoverSwitchId;
+    field_12_target_lift_point_id = pTlv->mTargetLiftPointId;
 
-    if (pTlv->field_1C_direction == Path_LiftMover::YDirection::eUp_1)
+    if (pTlv->mMoveDirection == Path_LiftMover::YDirection::eUp_1)
     {
         field_1C_speed = FP_FromInteger(-4);
     }

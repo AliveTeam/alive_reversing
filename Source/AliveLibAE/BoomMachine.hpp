@@ -12,9 +12,9 @@ struct Path_BoomMachine final : public Path_TLV
         eRight_0 = 0,
         eLeft_1 = 1
     };
-    NozzleSide field_12_nozzle_side;
-    s16 field_14_disabled_resources;
-    s16 field_16_number_of_grenades;
+    NozzleSide mNozzleSide;
+    s16 mDisabledResources;
+    s16 mGrenadeAmount;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_BoomMachine, 0x18);
 

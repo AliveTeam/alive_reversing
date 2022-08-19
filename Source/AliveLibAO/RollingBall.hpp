@@ -11,11 +11,11 @@ namespace AO {
 
 struct Path_RollingBall final : public Path_TLV
 {
-    Scale_short field_18_scale;
-    XDirection_short field_1A_roll_direction;
-    s16 field_1C_release_switch_id;
-    u16 field_1E_speed;
-    u16 field_20_acceleration;
+    Scale_short mScale;
+    XDirection_short mRollDirection;
+    s16 mReleaseSwitchId;
+    u16 mMaxSpeed;
+    u16 mAcceleration;
     s16 field_22_pad;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_RollingBall, 0x24);
@@ -45,7 +45,7 @@ public:
     };
     States field_112_state = States::eInactive_0;
     RollingBallShaker* field_114_pRollingBallShaker = nullptr;
-    FP field_118_speed = {};
+    FP mMaxSpeed = {};
     FP field_11C_acceleration = {};
     PathLine* field_120_pCollisionLine = nullptr;
 };

@@ -20,13 +20,13 @@ InvisibleSwitch::InvisibleSwitch(Path_InvisibleSwitch* pTlv, s32 tlvInfo)
 {
     field_14_tlvInfo = tlvInfo;
     field_28_state = States::eWaitForTrigger_0;
-    field_10_switch_id = pTlv->field_18_switch_id;
-    field_12_action = pTlv->field_1A_action;
-    field_1C_delay = pTlv->field_1C_delay;
-    field_2C_scale = pTlv->field_20_scale;
+    field_10_switch_id = pTlv->mSwitchId;
+    field_12_action = pTlv->mAction;
+    field_1C_delay = pTlv->mActivationDelay;
+    field_2C_scale = pTlv->mScale;
     field_20_top_left = pTlv->mTopLeft;
     field_24_bottom_right = pTlv->mBottomRight;
-    field_2A_set_off_alarm = pTlv->field_1E_set_off_alarm;
+    field_2A_set_off_alarm = pTlv->mSetOffAlarm;
 }
 
 void InvisibleSwitch::VScreenChanged()

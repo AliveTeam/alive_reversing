@@ -28,14 +28,14 @@ UXB::UXB(Path_UXB* pTlv, s32 tlvInfo)
     field_1BC_flags.Clear(flags_1BC::eUnused_Bit0);
     field_10C_state = UXBState::eDelay_0;
 
-    field_1B4_pattern_length = pTlv->field_18_pattern_length;
-    if (pTlv->field_18_pattern_length < 1u || pTlv->field_18_pattern_length > 4u)
+    field_1B4_pattern_length = pTlv->mPatternLength;
+    if (pTlv->mPatternLength < 1u || pTlv->mPatternLength > 4u)
     {
         field_1B4_pattern_length = 1;
     }
 
-    field_1B8_pattern = pTlv->field_1A_pattern;
-    if (!pTlv->field_1A_pattern) // If no pattern set, go to a default one.
+    field_1B8_pattern = pTlv->mPattern;
+    if (!pTlv->mPattern) // If no pattern set, go to a default one.
     {
         field_1B8_pattern = 11111;
     }
@@ -45,7 +45,7 @@ UXB::UXB(Path_UXB* pTlv, s32 tlvInfo)
     // Single out a single digit, and use that digit as the new amount of red blinks before a green one.
     field_1BA_red_blink_count = (field_1B8_pattern / static_cast<s32>(pow(10, field_1B4_pattern_length - 1))) % 10;
 
-    if (pTlv->field_1C_scale == Scale_short::eHalf_1)
+    if (pTlv->mScale == Scale_short::eHalf_1)
     {
         mSpriteScale = FP_FromDouble(0.5);
         mAnim.mRenderLayer = Layer::eLayer_RollingBallBombMineCar_Half_16;
@@ -62,7 +62,7 @@ UXB::UXB(Path_UXB* pTlv, s32 tlvInfo)
 
     if (pTlv->field_1_unknown) // Stores the activated/deactivated state for UXB
     {
-        if (pTlv->field_1E_state == UXBStartState::eOn_0)
+        if (pTlv->mStartState == UXBStartState::eOn_0)
         {
             u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Palt, AOResourceID::kGrenflshAOResID, 0, 0);
             field_11C_anim.LoadPal(ppRes, 0);
@@ -92,7 +92,7 @@ UXB::UXB(Path_UXB* pTlv, s32 tlvInfo)
     }
     else
     {
-        if (pTlv->field_1E_state == UXBStartState::eOn_0)
+        if (pTlv->mStartState == UXBStartState::eOn_0)
         {
             field_10E_starting_state = UXBState::eDelay_0;
         }
@@ -116,7 +116,7 @@ UXB::UXB(Path_UXB* pTlv, s32 tlvInfo)
 
     field_114_tlvInfo = tlvInfo;
     field_118_next_state_frame = sGnFrame;
-    field_110_disabled_resources = static_cast<s16>(pTlv->field_20_disabled_resources);
+    field_110_disabled_resources = static_cast<s16>(pTlv->mDisabledResources);
 
     ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kAbebombAOResID, 1, 0);
     ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kDebrisID00AOResID, 1, 0);

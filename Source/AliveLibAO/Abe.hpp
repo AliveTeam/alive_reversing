@@ -371,8 +371,8 @@ struct Path_Edge final : public Path_TLV
         eFacingRight = 1,
         eFacingAnyDirection = 2,
     };
-    GrabDirection field_18_grab_direction;
-    Choice_short field_1A_can_grab;
+    GrabDirection mGrabDirection;
+    Choice_short mCanGrab;
 };
 // TODO: size
 

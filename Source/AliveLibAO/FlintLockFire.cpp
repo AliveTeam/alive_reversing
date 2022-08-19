@@ -124,10 +124,10 @@ FlintLockFire::FlintLockFire(Path_FlintLockFire* pTlv, s32 tlvInfo)
     mXPos = FP_FromInteger(pTlv->mTopLeft.x);
     mYPos = FP_FromInteger(pTlv->mTopLeft.y);
     field_E8_tlvInfo = tlvInfo;
-    field_E6_switch_id = pTlv->field_1A_switch_id;
+    field_E6_switch_id = pTlv->mSwitchId;
 
     Layer layer = Layer::eLayer_0;
-    if (pTlv->field_18_scale == Scale_short::eHalf_1)
+    if (pTlv->mScale == Scale_short::eHalf_1)
     {
         mSpriteScale = FP_FromDouble(0.5);
         layer = Layer::eLayer_BeforeShadow_Half_6;
@@ -149,7 +149,7 @@ FlintLockFire::FlintLockFire(Path_FlintLockFire* pTlv, s32 tlvInfo)
         field_220_anim.mRenderLayer = layer;
     }
 
-    if (SwitchStates_Get(pTlv->field_1A_switch_id))
+    if (SwitchStates_Get(pTlv->mSwitchId))
     {
         field_E4_state = States::eActivated_2;
         mAnim.Set_Animation_Data(sFlintLockFireData_4BAC70[cur_lvl].field_18_hammers_activating_anim_id, nullptr);

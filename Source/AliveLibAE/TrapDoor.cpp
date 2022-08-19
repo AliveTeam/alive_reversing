@@ -79,7 +79,7 @@ TrapDoor::TrapDoor(Path_TrapDoor* pTlv, s32 tlvInfo)
     }
 
     mSelfClosing = pTlv->mSelfClosing;
-    if (pTlv->field_16_scale == Scale_short::eHalf_1)
+    if (pTlv->mScale == Scale_short::eHalf_1)
     {
         mSpriteScale = FP_FromDouble(0.5);
         mScale = Scale::Bg;
@@ -122,7 +122,7 @@ TrapDoor::TrapDoor(Path_TrapDoor* pTlv, s32 tlvInfo)
 
     mPlatformBaseXOffset = FP_GetExponent(FP_FromInteger(pTlv->mTopLeft.x) - mXPos);
     mPlatformBaseWidthOffset = FP_GetExponent(FP_FromInteger(pTlv->mBottomRight.x) - mXPos);
-    mTrapDoorXOffset = pTlv->field_1C_xOff;
+    mTrapDoorXOffset = pTlv->mXOff;
 
     if (mState == TrapDoorState::eOpen_2)
     {

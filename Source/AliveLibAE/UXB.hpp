@@ -23,11 +23,11 @@ struct Path_UXB final : public Path_TLV
         eOn_0 = 0,
         eOff_1 = 1,
     };
-    s16 field_10_pattern_length;
+    s16 mPatternLength;
     s16 field_12_pattern;
-    Scale_short field_14_scale;
-    StartState field_16_start_state;
-    s32 field_18_disabled_resources;
+    Scale_short mScale;
+    StartState mStartState;
+    s32 mDisabledResources;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_UXB, 0x1c);
 

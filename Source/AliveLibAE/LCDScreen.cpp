@@ -179,9 +179,9 @@ LCDScreen::LCDScreen(Path_LCDScreen* params, TlvItemInfoUnion itemInfo)
 
     field_2C0_tlv = *params;
 
-    field_2AA_message_1_id = params->field_10_message_1_id;
-    field_2B0_message_2_id = params->field_16_message_2_id;
-    field_2B2_toggle_message_switch_id = static_cast<u16>(params->field_18_toggle_message_switch_id);
+    field_2AA_message_1_id = params->mMessageId1;
+    field_2B0_message_2_id = params->mMessageId2;
+    field_2B2_toggle_message_switch_id = static_cast<u16>(params->mToggleMessageSwitchId);
     field_2BC_tlv_item_info = itemInfo;
 
     if (!sFontType2LoadCount_5BC5E8)
@@ -225,9 +225,9 @@ LCDScreen::LCDScreen(Path_LCDScreen* params, TlvItemInfoUnion itemInfo)
     field_2AE_character_width = static_cast<u16>(field_60_font.MeasureCharacterWidth(*field_A0_message) + 2);
     sFontDrawScreenSpace_5CA4B4 = 0;
     field_2B4_show_random_message = 1;
-    field_2B6_message_rand_min_id = params->field_12_message_rand_min_id;
+    field_2B6_message_rand_min_id = params->mMessageRandMinId;
     mBaseGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4);
-    field_2B8_message_rand_max_id = params->field_14_message_rand_max_id;
+    field_2B8_message_rand_max_id = params->mMessageRandMaxId;
     field_2A8_play_sound_toggle = 0;
     gObjListDrawables->Push_Back(this);
 }

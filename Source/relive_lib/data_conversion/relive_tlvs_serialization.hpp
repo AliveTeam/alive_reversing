@@ -167,28 +167,28 @@ void to_json(nlohmann::json& j, const Path_ContinuePoint& p)
     j = nlohmann::json{
         {"name", "continue_point"},
         {"base", ToBase(p)},
-        {"zone_number", p.field_18_zone_number},
-        {"clear_from_id", p.field_1A_clear_from_id},
-        {"clear_to_id", p.field_1C_clear_to_id},
-        {"elum_restarts", p.field_1E_elum_restarts},
-        {"abe_direction", p.field_20_abe_direction},
+        {"zone_number", p.mZoneNumber},
+        {"clear_from_id", p.mClearFromId},
+        {"clear_to_id", p.mClearToId},
+        {"elum_restarts", p.mElumRestarts},
+        {"abe_direction", p.mAbeSpawnDir},
 
-        {"scale", p.field_10_scale},
-        {"save_file_id", p.field_12_save_file_id},
+        {"scale", p.mScale},
+        {"save_file_id", p.mSaveFileId},
     };
 }
 
 void from_json(const nlohmann::json& j, Path_ContinuePoint& p)
 {
     j.at("base").get_to(ToBase(p));
-    j.at("zone_number").get_to(p.field_18_zone_number);
-    j.at("clear_from_id").get_to(p.field_1A_clear_from_id);
-    j.at("clear_to_id").get_to(p.field_1C_clear_to_id);
-    j.at("elum_restarts").get_to(p.field_1E_elum_restarts);
-    j.at("abe_direction").get_to(p.field_20_abe_direction);
+    j.at("zone_number").get_to(p.mZoneNumber);
+    j.at("clear_from_id").get_to(p.mClearFromId);
+    j.at("clear_to_id").get_to(p.mClearToId);
+    j.at("elum_restarts").get_to(p.mElumRestarts);
+    j.at("abe_direction").get_to(p.mAbeSpawnDir);
 
-    j.at("scale").get_to(p.field_10_scale);
-    j.at("save_file_id").get_to(p.field_12_save_file_id);
+    j.at("scale").get_to(p.mScale);
+    j.at("save_file_id").get_to(p.mSaveFileId);
 }
 
 // Path_LiftPoint
@@ -205,22 +205,22 @@ void to_json(nlohmann::json& j, const Path_LiftPoint& p)
     j = nlohmann::json{
         {"name", "lift_point"},
         {"base", ToBase(p)},
-        {"lift_point_id", p.field_10_lift_point_id},
-        {"start_point", p.field_12_bStart_point},
-        {"lift_point_stop_type", p.field_16_lift_point_stop_type},
-        {"scale", p.field_18_scale},
-        {"ignore_lift_mover", p.field_1A_bIgnore_lift_mover},
+        {"lift_point_id", p.mLiftPointId},
+        {"is_start_point", p.mIsStartPoint},
+        {"lift_point_stop_type", p.mLiftPointStopType},
+        {"scale", p.mScale},
+        {"ignore_lift_mover", p.mIgnoreLiftMover},
     };
 }
 
 void from_json(const nlohmann::json& j, Path_LiftPoint& p)
 {
     j.at("base").get_to(ToBase(p));
-    j.at("lift_point_id").get_to(p.field_10_lift_point_id);
-    j.at("start_point").get_to(p.field_12_bStart_point);
-    j.at("lift_point_stop_type").get_to(p.field_16_lift_point_stop_type);
-    j.at("scale").get_to(p.field_18_scale);
-    j.at("ignore_lift_mover").get_to(p.field_1A_bIgnore_lift_mover);
+    j.at("lift_point_id").get_to(p.mLiftPointId);
+    j.at("is_start_point").get_to(p.mIsStartPoint);
+    j.at("lift_point_stop_type").get_to(p.mLiftPointStopType);
+    j.at("scale").get_to(p.mScale);
+    j.at("ignore_lift_mover").get_to(p.mIgnoreLiftMover);
 }
 
 // Path_Dove
@@ -249,22 +249,22 @@ void to_json(nlohmann::json& j, const Path_RockSack& p)
     j = nlohmann::json{
         {"name", "rock_sack"},
         {"base", ToBase(p)},
-        {"fall_direction", p.field_10_fall_direction},
-        {"x_vel", p.field_12_x_vel},
-        {"y_vel", p.field_14_y_vel},
-        {"scale", p.field_16_scale},
-        {"rock_amount", p.field_18_rock_amount},
+        {"rock_fall_direction", p.mRockFallDirection},
+        {"vel_x", p.mVelX},
+        {"vel_y", p.mVelY},
+        {"scale", p.mScale},
+        {"rock_amount", p.mRockAmount},
     };
 }
 
 void from_json(const nlohmann::json& j, Path_RockSack& p)
 {
     j.at("base").get_to(ToBase(p));
-    j.at("fall_direction").get_to(p.field_10_fall_direction);
-    j.at("x_vel").get_to(p.field_12_x_vel);
-    j.at("y_vel").get_to(p.field_14_y_vel);
-    j.at("scale").get_to(p.field_16_scale);
-    j.at("rock_amount").get_to(p.field_18_rock_amount);
+    j.at("rock_fall_direction").get_to(p.mRockFallDirection);
+    j.at("vel_x").get_to(p.mVelX);
+    j.at("vel_y").get_to(p.mVelY);
+    j.at("scale").get_to(p.mScale);
+    j.at("rock_amount").get_to(p.mRockAmount);
 }
 
 // Path_ZBall
@@ -434,7 +434,7 @@ void to_json(nlohmann::json& j, const Path_TrapDoor& p)
         {"self_closing", p.mSelfClosing},
         {"scale", p.mScale},
         {"direction", p.mDirection},
-        {"x_off", p.field_1C_xOff},
+        {"x_off", p.mXOff},
         {"stay_open_time", p.mStayOpenTime},
     };
 }
@@ -447,7 +447,7 @@ void from_json(const nlohmann::json& j, Path_TrapDoor& p)
     j.at("self_closing").get_to(p.mSelfClosing);
     j.at("scale").get_to(p.mScale);
     j.at("direction").get_to(p.mDirection);
-    j.at("x_off").get_to(p.field_1C_xOff);
+    j.at("x_off").get_to(p.mXOff);
     j.at("stay_open_time").get_to(p.mStayOpenTime);
 }
 
@@ -457,22 +457,22 @@ void to_json(nlohmann::json& j, const Path_LCDScreen& p)
     j = nlohmann::json{
         {"name", "lcd_screen"},
         {"base", ToBase(p)},
-        {"message_1_id", p.field_10_message_1_id},
-        {"message_rand_min_id", p.field_12_message_rand_min_id},
-        {"message_rand_max_id", p.field_14_message_rand_max_id},
-        {"message_2_id", p.field_16_message_2_id},
-        {"toggle_message_switch_id", p.field_18_toggle_message_switch_id},
+        {"message_id_1", p.mMessageId1},
+        {"message_rand_min_id", p.mMessageRandMinId},
+        {"message_rand_max_id", p.mMessageRandMaxId},
+        {"message_id_2", p.mMessageId2},
+        {"toggle_message_switch_id", p.mToggleMessageSwitchId},
     };
 }
 
 void from_json(const nlohmann::json& j, Path_LCDScreen& p)
 {
     j.at("base").get_to(ToBase(p));
-    j.at("message_1_id").get_to(p.field_10_message_1_id);
-    j.at("message_rand_min_id").get_to(p.field_12_message_rand_min_id);
-    j.at("message_rand_max_id").get_to(p.field_14_message_rand_max_id);
-    j.at("message_2_id").get_to(p.field_16_message_2_id);
-    j.at("toggle_message_switch_id").get_to(p.field_18_toggle_message_switch_id);
+    j.at("message_id_1").get_to(p.mMessageId1);
+    j.at("message_rand_min_id").get_to(p.mMessageRandMinId);
+    j.at("message_rand_max_id").get_to(p.mMessageRandMaxId);
+    j.at("message_id_2").get_to(p.mMessageId2);
+    j.at("toggle_message_switch_id").get_to(p.mToggleMessageSwitchId);
 }
 
 // Path_Mine
@@ -481,22 +481,18 @@ void to_json(nlohmann::json& j, const Path_Mine& p)
     j = nlohmann::json{
         {"name", "mine"},
         {"base", ToBase(p)},
-        {"num_patterns", p.field_10_num_patterns},
-        {"pattern", p.field_12_pattern},
-        {"scale", p.field_14_scale},
-        {"disabled_resources", p.field_16_disabled_resources},
-        {"persist_offscreen", p.field_18_persist_offscreen},
+        {"scale", p.mScale},
+        {"disabled_resources", p.mDisabledResources},
+        {"persist_offscreen", p.mPersistOffscreen},
     };
 }
 
 void from_json(const nlohmann::json& j, Path_Mine& p)
 {
     j.at("base").get_to(ToBase(p));
-    j.at("num_patterns").get_to(p.field_10_num_patterns);
-    j.at("pattern").get_to(p.field_12_pattern);
-    j.at("scale").get_to(p.field_14_scale);
-    j.at("disabled_resources").get_to(p.field_16_disabled_resources);
-    j.at("persist_offscreen").get_to(p.field_18_persist_offscreen);
+    j.at("scale").get_to(p.mScale);
+    j.at("disabled_resources").get_to(p.mDisabledResources);
+    j.at("persist_offscreen").get_to(p.mPersistOffscreen);
 }
 
 // Path_InvisibleSwitch
@@ -511,22 +507,22 @@ void to_json(nlohmann::json& j, const Path_InvisibleSwitch& p)
     j = nlohmann::json{
         {"name", "invisible_switch"},
         {"base", ToBase(p)},
-        {"switch_id", p.field_10_switch_id},
-        {"action", p.field_12_action},
-        {"delay", p.field_14_delay},
-        {"set_off_alarm", p.field_16_set_off_alarm},
-        {"scale", p.field_18_scale},
+        {"switch_id", p.mSwitchId},
+        {"action", p.mAction},
+        {"activation_delay", p.mActivationDelay},
+        {"set_off_alarm", p.mSetOffAlarm},
+        {"scale", p.mScale},
     };
 }
 
 void from_json(const nlohmann::json& j, Path_InvisibleSwitch& p)
 {
     j.at("base").get_to(ToBase(p));
-    j.at("switch_id").get_to(p.field_10_switch_id);
-    j.at("action").get_to(p.field_12_action);
-    j.at("delay").get_to(p.field_14_delay);
-    j.at("set_off_alarm").get_to(p.field_16_set_off_alarm);
-    j.at("scale").get_to(p.field_18_scale);
+    j.at("switch_id").get_to(p.mSwitchId);
+    j.at("action").get_to(p.mAction);
+    j.at("activation_delay").get_to(p.mActivationDelay);    
+    j.at("set_off_alarm").get_to(p.mSetOffAlarm);
+    j.at("scale").get_to(p.mScale);
 }
 
 // Path_ElectricWall
@@ -540,18 +536,18 @@ void to_json(nlohmann::json& j, const Path_ElectricWall& p)
     j = nlohmann::json{
         {"name", "electric_wall"},
         {"base", ToBase(p)},
-        {"scale", p.field_10_scale},
-        {"switch_id", p.field_12_switch_id},
-        {"start_state", p.field_14_start_state},
+        {"scale", p.mScale},
+        {"switch_id", p.mSwitchId},
+        {"start_state", p.mStartState},
     };
 }
 
 void from_json(const nlohmann::json& j, Path_ElectricWall& p)
 {
     j.at("base").get_to(ToBase(p));
-    j.at("scale").get_to(p.field_10_scale);
-    j.at("switch_id").get_to(p.field_12_switch_id);
-    j.at("start_state").get_to(p.field_14_start_state);
+    j.at("scale").get_to(p.mScale);
+    j.at("switch_id").get_to(p.mSwitchId);
+    j.at("start_state").get_to(p.mStartState);
 }
 
 // Path_BoomMachine
@@ -565,20 +561,20 @@ void to_json(nlohmann::json& j, const Path_BoomMachine& p)
     j = nlohmann::json{
         {"name", "boom_machine"},
         {"base", ToBase(p)},
-        {"scale", p.field_10_scale},
-        {"nozzle_side", p.field_12_nozzle_side},
-        {"disabled_resources", p.field_14_disabled_resources},
-        {"number_of_grenades", p.field_16_number_of_grenades},
+        {"scale", p.mScale},
+        {"nozzle_side", p.mNozzleSide},
+        {"disabled_resources", p.mDisabledResources},
+        {"grenade_amount", p.mGrenadeAmount},
     };
 }
 
 void from_json(const nlohmann::json& j, Path_BoomMachine& p)
 {
     j.at("base").get_to(ToBase(p));
-    j.at("scale").get_to(p.field_10_scale);
-    j.at("nozzle_side").get_to(p.field_12_nozzle_side);
-    j.at("disabled_resources").get_to(p.field_14_disabled_resources);
-    j.at("number_of_grenades").get_to(p.field_16_number_of_grenades);
+    j.at("scale").get_to(p.mScale);
+    j.at("nozzle_side").get_to(p.mNozzleSide);
+    j.at("disabled_resources").get_to(p.mDisabledResources);
+    j.at("grenade_amount").get_to(p.mGrenadeAmount);
 }
 
 // Path_UXB
@@ -627,36 +623,36 @@ void to_json(nlohmann::json& j, const Path_MeatSaw& p)
     j = nlohmann::json{
         {"name", "meat_saw"},
         {"base", ToBase(p)},
-        {"scale", p.field_18_scale},
-        {"switch_min_time_off", p.field_1A_switch_min_time_off},
-        {"switch_max_time_off", p.field_1C_switch_max_time_off},
-        {"max_rise_time", p.field_1E_max_rise_time},
-        {"switch_id", p.field_20_switch_id},
-        {"type", p.field_22_type},
-        {"speed", p.field_24_speed},
-        {"start_state", p.field_26_start_state},
-        {"off_speed", p.field_28_off_speed},
-        {"automatic_min_time_off", p.field_2A_automatic_min_time_off},
-        {"automatic_max_time_off", p.field_2C_automatic_max_time_off},
-        {"initial_position", p.field_2E_inital_position},
+        {"scale", p.mScale},
+        {"switch_min_time_off", p.mSwitchMinTimeOff},
+        {"switch_max_time_off", p.mSwitchMaxTimeOff},
+        {"max_rise_time", p.mMaxRiseTime},
+        {"switch_id", p.mSwitchId},
+        {"type", p.mType},
+        {"speed", p.mSpeed},
+        {"start_state", p.mStartState},
+        {"off_speed", p.mOffSpeed},
+        {"automatic_min_time_off", p.mAutomaticMinTimeOff},
+        {"automatic_max_time_off", p.mAutomaticMaxTimeOff},
+        {"initial_position", p.mInitialPosition},
     };
 }
 
 void from_json(const nlohmann::json& j, Path_MeatSaw& p)
 {
     j.at("base").get_to(ToBase(p));
-    j.at("scale").get_to(p.field_18_scale);
-    j.at("switch_min_time_off").get_to(p.field_1A_switch_min_time_off);
-    j.at("switch_max_time_off").get_to(p.field_1C_switch_max_time_off);
-    j.at("max_rise_time").get_to(p.field_1E_max_rise_time);
-    j.at("switch_id").get_to(p.field_20_switch_id);
-    j.at("type").get_to(p.field_22_type);
-    j.at("speed").get_to(p.field_24_speed);
-    j.at("start_state").get_to(p.field_26_start_state);
-    j.at("off_speed").get_to(p.field_28_off_speed);
-    j.at("automatic_min_time_off").get_to(p.field_2A_automatic_min_time_off);
-    j.at("automatic_max_time_off").get_to(p.field_2C_automatic_max_time_off);
-    j.at("initial_position").get_to(p.field_2E_inital_position);
+    j.at("scale").get_to(p.mScale);
+    j.at("switch_min_time_off").get_to(p.mSwitchMinTimeOff);
+    j.at("switch_max_time_off").get_to(p.mSwitchMaxTimeOff);
+    j.at("max_rise_time").get_to(p.mMaxRiseTime);
+    j.at("switch_id").get_to(p.mSwitchId);
+    j.at("type").get_to(p.mType);
+    j.at("speed").get_to(p.mSpeed);
+    j.at("start_state").get_to(p.mStartState);
+    j.at("off_speed").get_to(p.mOffSpeed);
+    j.at("automatic_min_time_off").get_to(p.mAutomaticMinTimeOff);
+    j.at("automatic_max_time_off").get_to(p.mAutomaticMaxTimeOff);
+    j.at("initial_position").get_to(p.mInitialPosition);
 }
 
 // Path_Lever
@@ -681,26 +677,26 @@ void to_json(nlohmann::json& j, const Path_Lever& p)
     j = nlohmann::json{
         {"name", "lever"},
         {"base", ToBase(p)},
-        {"action", p.field_10_action},
-        {"scale", p.field_12_scale},
-        {"on_sound", p.field_14_on_sound},
-        {"off_sound", p.field_16_off_sound},
-        {"sound_direction", p.field_18_sound_direction},
-        {"switch_id", p.field_1A_switch_id},
-        {"persist_offscreen", p.field_1C_persist_offscreen},
+        {"action", p.mAction},
+        {"scale", p.mScale},
+        {"on_sound", p.mOnSound},
+        {"off_sound", p.mOffSound},
+        {"sound_direction", p.mSoundDirection},
+        {"switch_id", p.mSwitchId},
+        {"persist_offscreen", p.mPersistOffscreen},
     };
 }
 
 void from_json(const nlohmann::json& j, Path_Lever& p)
 {
     j.at("base").get_to(ToBase(p));
-    j.at("action").get_to(p.field_10_action);
-    j.at("scale").get_to(p.field_12_scale);
-    j.at("on_sound").get_to(p.field_14_on_sound);
-    j.at("off_sound").get_to(p.field_16_off_sound);
-    j.at("sound_direction").get_to(p.field_18_sound_direction);
-    j.at("switch_id").get_to(p.field_1A_switch_id);
-    j.at("persist_offscreen").get_to(p.field_1C_persist_offscreen);
+    j.at("action").get_to(p.mAction);
+    j.at("scale").get_to(p.mScale);
+    j.at("on_sound").get_to(p.mOnSound);
+    j.at("off_sound").get_to(p.mOffSound);
+    j.at("sound_direction").get_to(p.mSoundDirection);
+    j.at("switch_id").get_to(p.mSwitchId);
+    j.at("persist_offscreen").get_to(p.mPersistOffscreen);
 }
 
 // Path_Edge
@@ -808,20 +804,20 @@ void to_json(nlohmann::json& j, const Path_LightEffect& p)
     j = nlohmann::json{
         {"name", "light_effect"},
         {"base", ToBase(p)},
-        {"type", p.field_18_type},
-        {"size", p.field_1A_size},
-        {"switch_id", p.field_1C_switch_id},
-        {"direction", p.field_1E_direction},
+        {"type", p.mType},
+        {"size", p.mSize},
+        {"switch_id", p.mSwitchId},
+        {"direction", p.mDirection},
     };
 }
 
 void from_json(const nlohmann::json& j, Path_LightEffect& p)
 {
     j.at("base").get_to(ToBase(p));
-    j.at("type").get_to(p.field_18_type);
-    j.at("size").get_to(p.field_1A_size);
-    j.at("switch_id").get_to(p.field_1C_switch_id);
-    j.at("direction").get_to(p.field_1E_direction);
+    j.at("type").get_to(p.mType);
+    j.at("size").get_to(p.mSize);
+    j.at("switch_id").get_to(p.mSwitchId);
+    j.at("direction").get_to(p.mDirection);
 }
 
 // Path_MusicTrigger
@@ -847,20 +843,20 @@ void to_json(nlohmann::json& j, const Path_MusicTrigger& p)
     j = nlohmann::json{
         {"name", "music_trigger"},
         {"base", ToBase(p)},
-        {"music_type", p.field_10_music_type},
-        {"triggered_by", p.field_12_triggered_by},
+        {"music_type", p.mMusicType},
+        {"triggered_by", p.mTriggeredBy},
         {"switch_id", p.mSwitchId},
-        {"music_delay", p.field_14_music_delay},
+        {"music_delay", p.mMusicDelay},
     };
 }
 
 void from_json(const nlohmann::json& j, Path_MusicTrigger& p)
 {
     j.at("base").get_to(ToBase(p));
-    j.at("music_type").get_to(p.field_10_music_type);
-    j.at("triggered_by").get_to(p.field_12_triggered_by);
+    j.at("music_type").get_to(p.mMusicType);
+    j.at("triggered_by").get_to(p.mTriggeredBy);
     j.at("switch_id").get_to(p.mSwitchId);
-    j.at("music_delay").get_to(p.field_14_music_delay);
+    j.at("music_delay").get_to(p.mMusicDelay);
 }
 
 // Path_SoftLanding
@@ -926,24 +922,24 @@ void to_json(nlohmann::json& j, const Path_TimerTrigger& p)
     j = nlohmann::json{
         {"name", "timer_trigger"},
         {"base", ToBase(p)},
-        {"input_switch_id", p.field_10_input_switch_id},
-        {"trigger_interval", p.field_12_trigger_interval},
-        {"output_switch_id1", p.field_14_output_switch_id1},
-        {"output_switch_id2", p.field_16_output_switch_id2},
-        {"output_switch_id3", p.field_18_output_switch_id3},
-        {"output_switch_id4", p.field_1A_output_switch_id4},
+        {"input_switch_id", p.mInputSwitchId},
+        {"activation_delay", p.mActivationDelay},
+        {"output_switch_id1", p.mOutputSwitchId1},
+        {"output_switch_id2", p.mOutputSwitchId2},
+        {"output_switch_id3", p.mOutputSwitchId3},
+        {"output_switch_id4", p.mOutputSwitchId4},
     };
 }
 
 void from_json(const nlohmann::json& j, Path_TimerTrigger& p)
 {
     j.at("base").get_to(ToBase(p));
-    j.at("input_switch_id").get_to(p.field_10_input_switch_id);
-    j.at("trigger_interval").get_to(p.field_12_trigger_interval);
-    j.at("output_switch_id1").get_to(p.field_14_output_switch_id1);
-    j.at("output_switch_id2").get_to(p.field_16_output_switch_id2);
-    j.at("output_switch_id3").get_to(p.field_18_output_switch_id3);
-    j.at("output_switch_id4").get_to(p.field_1A_output_switch_id4);
+    j.at("input_switch_id").get_to(p.mInputSwitchId);
+    j.at("activation_delay").get_to(p.mActivationDelay);
+    j.at("output_switch_id1").get_to(p.mOutputSwitchId1);
+    j.at("output_switch_id2").get_to(p.mOutputSwitchId2);
+    j.at("output_switch_id3").get_to(p.mOutputSwitchId3);
+    j.at("output_switch_id4").get_to(p.mOutputSwitchId4);
 }
 
 // Path_FlintLockFire
@@ -970,7 +966,7 @@ void to_json(nlohmann::json& j, const Path_HoneySack& p)
     j = nlohmann::json{
         {"name", "honey_sack"},
         {"base", ToBase(p)},
-        {"chase_ticks", p.mChaseTicks},
+        {"chase_time", p.mChaseTime},
         {"scale", p.mScale},
     };
 }
@@ -978,7 +974,7 @@ void to_json(nlohmann::json& j, const Path_HoneySack& p)
 void from_json(const nlohmann::json& j, Path_HoneySack& p)
 {
     j.at("base").get_to(ToBase(p));
-    j.at("chase_ticks").get_to(p.mChaseTicks);
+    j.at("chase_time").get_to(p.mChaseTime);
     j.at("scale").get_to(p.mScale);
 }
 
@@ -988,7 +984,7 @@ void to_json(nlohmann::json& j, const Path_Bat& p)
     j = nlohmann::json{
         {"name", "bat"},
         {"base", ToBase(p)},
-        {"ticks_before_moving", p.mTicksBeforeMoving},
+        {"time_before_moving", p.mTimeBeforeMoving},
         {"speed", p.mSpeed},
         {"scale", p.mScale},
         {"attack_duration", p.mAttackDuration},
@@ -998,7 +994,7 @@ void to_json(nlohmann::json& j, const Path_Bat& p)
 void from_json(const nlohmann::json& j, Path_Bat& p)
 {
     j.at("base").get_to(ToBase(p));
-    j.at("ticks_before_moving").get_to(p.mTicksBeforeMoving);
+    j.at("time_before_moving").get_to(p.mTimeBeforeMoving);
     j.at("speed").get_to(p.mSpeed);
     j.at("scale").get_to(p.mScale);
     j.at("attack_duration").get_to(p.mAttackDuration);
@@ -1010,20 +1006,20 @@ void to_json(nlohmann::json& j, const Path_RollingBallStopper& p)
     j = nlohmann::json{
         {"name", "rolling_ball_stopper"},
         {"base", ToBase(p)},
-        {"stopper_switch_id", p.field_18_stopper_switch_id},
-        {"scale", p.field_1A_scale},
-        {"ball_switch_id", p.field_1C_ball_switch_id},
-        {"direction", p.field_1E_direction},
+        {"stopper_switch_id", p.mStopperSwitchId},
+        {"scale", p.mScale},
+        {"ball_switch_id", p.mBallSwitchId},
+        {"stop_direction", p.mStopDirection},
     };
 }
 
 void from_json(const nlohmann::json& j, Path_RollingBallStopper& p)
 {
     j.at("base").get_to(ToBase(p));
-    j.at("stopper_switch_id").get_to(p.field_18_stopper_switch_id);
-    j.at("scale").get_to(p.field_1A_scale);
-    j.at("ball_switch_id").get_to(p.field_1C_ball_switch_id);
-    j.at("direction").get_to(p.field_1E_direction);
+    j.at("stopper_switch_id").get_to(p.mStopperSwitchId);
+    j.at("scale").get_to(p.mScale);
+    j.at("ball_switch_id").get_to(p.mBallSwitchId);
+    j.at("stop_direction").get_to(p.mStopDirection);
 }
 
 // Path_RollingBall
@@ -1032,22 +1028,22 @@ void to_json(nlohmann::json& j, const Path_RollingBall& p)
     j = nlohmann::json{
         {"name", "rolling_ball"},
         {"base", ToBase(p)},
-        {"scale", p.field_18_scale},
-        {"roll_direction", p.field_1A_roll_direction},
-        {"release_switch_id", p.field_1C_release_switch_id},
-        {"speed", p.field_1E_speed},
-        {"acceleration", p.field_20_acceleration},
+        {"scale", p.mScale},
+        {"roll_direction", p.mRollDirection},
+        {"release_switch_id", p.mReleaseSwitchId},
+        {"max_speed", p.mMaxSpeed},
+        {"acceleration", p.mAcceleration},
     };
 }
 
 void from_json(const nlohmann::json& j, Path_RollingBall& p)
 {
     j.at("base").get_to(ToBase(p));
-    j.at("scale").get_to(p.field_18_scale);
-    j.at("roll_direction").get_to(p.field_1A_roll_direction);
-    j.at("release_switch_id").get_to(p.field_1C_release_switch_id);
-    j.at("speed").get_to(p.field_1E_speed);
-    j.at("acceleration").get_to(p.field_20_acceleration);
+    j.at("scale").get_to(p.mScale);
+    j.at("roll_direction").get_to(p.mRollDirection);
+    j.at("release_switch_id").get_to(p.mReleaseSwitchId);
+    j.at("max_speed").get_to(p.mMaxSpeed);
+    j.at("acceleration").get_to(p.mAcceleration);
 }
 
 // Path_MotionDetector
@@ -1115,16 +1111,16 @@ void to_json(nlohmann::json& j, const Path_SligBound& p)
     j = nlohmann::json{
         {"name", "slig_bound"},
         {"base", ToBase(p)},
-        {"slig_bound_id", p.field_10_slig_bound_id},
-        {"disabled_resources", p.field_12_disabled_resources},
+        {"slig_bound_id", p.mSligBoundId},
+        {"disabled_resources", p.mDisabledResources},
     };
 }
 
 void from_json(const nlohmann::json& j, Path_SligBound& p)
 {
     j.at("base").get_to(ToBase(p));
-    j.at("slig_bound_id").get_to(p.field_10_slig_bound_id);
-    j.at("disabled_resources").get_to(p.field_12_disabled_resources);
+    j.at("slig_bound_id").get_to(p.mSligBoundId);
+    j.at("disabled_resources").get_to(p.mDisabledResources);
 }
 
 // Path_BackgroundAnimation
@@ -1151,22 +1147,22 @@ void to_json(nlohmann::json& j, const Path_BackgroundAnimation& p)
     j = nlohmann::json{
         {"name", "background_animation"},
         {"base", ToBase(p)},
-        {"anim_id", p.field_10_anim_id},
-        {"is_semi_trans", p.field_12_is_semi_trans},
-        {"semi_trans_mode", p.field_14_semi_trans_mode},
-        {"sound_effect", p.field_16_sound_effect},
-        {"layer", p.field_1A_layer},
+        {"anim_id", p.mAnimId},
+        {"is_semi_trans", p.mIsSemiTrans},
+        {"semi_trans_mode", p.mSemiTransMode},
+        {"sound_effect", p.mSoundEffect},
+        {"layer", p.mLayer},
     };
 }
 
 void from_json(const nlohmann::json& j, Path_BackgroundAnimation& p)
 {
     j.at("base").get_to(ToBase(p));
-    j.at("anim_id").get_to(p.field_10_anim_id);
-    j.at("is_semi_trans").get_to(p.field_12_is_semi_trans);
-    j.at("semi_trans_mode").get_to(p.field_14_semi_trans_mode);
-    j.at("sound_effect").get_to(p.field_16_sound_effect);
-    j.at("layer").get_to(p.field_1A_layer);
+    j.at("anim_id").get_to(p.mAnimId);
+    j.at("is_semi_trans").get_to(p.mIsSemiTrans);
+    j.at("semi_trans_mode").get_to(p.mSemiTransMode);
+    j.at("sound_effect").get_to(p.mSoundEffect);
+    j.at("layer").get_to(p.mLayer);
 }
 
 // Path_MainMenuController
@@ -1427,22 +1423,22 @@ void to_json(nlohmann::json& j, const Path_MeatSack& p)
     j = nlohmann::json{
         {"name", "meat_sack"},
         {"base", ToBase(p)},
-        {"meat_fall_direction", p.field_10_meat_fall_direction},
-        {"x_vel", p.field_12_xVel},
-        {"y_vel", p.field_14_yVel},
-        {"scale", p.field_16_scale},
-        {"amount_of_meat", p.field_18_amount_of_meat},
+        {"meat_fall_direction", p.mMeatFallDirection},
+        {"vel_x", p.mVelX},
+        {"vel_y", p.mVelY},
+        {"scale", p.mScale},
+        {"meat_amount", p.mMeatAmount},
     };
 }
 
 void from_json(const nlohmann::json& j, Path_MeatSack& p)
 {
     j.at("base").get_to(ToBase(p));
-    j.at("meat_fall_direction").get_to(p.field_10_meat_fall_direction);
-    j.at("x_vel").get_to(p.field_12_xVel);
-    j.at("y_vel").get_to(p.field_14_yVel);
-    j.at("scale").get_to(p.field_16_scale);
-    j.at("amount_of_meat").get_to(p.field_18_amount_of_meat);
+    j.at("meat_fall_direction").get_to(p.mMeatFallDirection);
+    j.at("vel_x").get_to(p.mVelX);
+    j.at("vel_y").get_to(p.mVelY);
+    j.at("scale").get_to(p.mScale);
+    j.at("meat_amount").get_to(p.mMeatAmount);
 }
 
 // Path_Bees
@@ -1562,24 +1558,24 @@ void to_json(nlohmann::json& j, const Path_PathTransition& p)
     j = nlohmann::json{
         {"name", "path_transition"},
         {"base", ToBase(p)},
-        {"level", p.field_10_level},
-        {"path", p.field_12_path},
-        {"camera", p.field_14_camera},
-        {"movie", p.field_16_movie},
-        {"wipe", p.field_18_wipe},
-        {"scale", p.field_1A_scale},
+        {"next_level", p.mNextLevel},
+        {"next_path", p.mNextPath},
+        {"next_camera", p.mNextCamera},
+        {"movie_id", p.mMovieId},
+        {"wipe_effect", p.mWipeEffect},
+        {"next_path_scale", p.mNextPathScale},
     };
 }
 
 void from_json(const nlohmann::json& j, Path_PathTransition& p)
 {
     j.at("base").get_to(ToBase(p));
-    j.at("level").get_to(p.field_10_level);
-    j.at("path").get_to(p.field_12_path);
-    j.at("camera").get_to(p.field_14_camera);
-    j.at("movie").get_to(p.field_16_movie);
-    j.at("wipe").get_to(p.field_18_wipe);
-    j.at("scale").get_to(p.field_1A_scale);
+    j.at("next_level").get_to(p.mNextLevel);
+    j.at("next_path").get_to(p.mNextPath);
+    j.at("next_camera").get_to(p.mNextCamera);
+    j.at("movie_id").get_to(p.mMovieId);
+    j.at("wipe_effect").get_to(p.mWipeEffect);
+    j.at("next_path_scale").get_to(p.mNextPathScale);
 }
 
 // Path_Pulley

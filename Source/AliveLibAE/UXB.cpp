@@ -116,8 +116,8 @@ UXB::UXB(Path_UXB* tlv_params, TlvItemInfoUnion itemInfo)
     field_1C8_flags.Clear(UXB_Flags_1C8::eUnused_Bit0);
     field_118_state = UXBState::eDelay_0;
 
-    field_1C0_pattern_length = tlv_params->field_10_pattern_length;
-    if (tlv_params->field_10_pattern_length < 1 || tlv_params->field_10_pattern_length > 4)
+    field_1C0_pattern_length = tlv_params->mPatternLength;
+    if (tlv_params->mPatternLength < 1 || tlv_params->mPatternLength > 4)
     {
         field_1C0_pattern_length = 1;
     }
@@ -133,9 +133,9 @@ UXB::UXB(Path_UXB* tlv_params, TlvItemInfoUnion itemInfo)
     // Single out a single digit, and use that digit as the new amount of red blinks before a green one.
     field_1C6_red_blink_count = (field_1C4_pattern / static_cast<s32>(pow(10, field_1C0_pattern_length - 1))) % 10;
 
-    if (tlv_params->field_14_scale != Scale_short::eFull_0)
+    if (tlv_params->mScale != Scale_short::eFull_0)
     {
-        if (tlv_params->field_14_scale == Scale_short::eHalf_1)
+        if (tlv_params->mScale == Scale_short::eHalf_1)
         {
             mSpriteScale = FP_FromDouble(0.5);
             mAnim.mRenderLayer = Layer::eLayer_RollingBallBombMineCar_Half_16;
@@ -152,7 +152,7 @@ UXB::UXB(Path_UXB* tlv_params, TlvItemInfoUnion itemInfo)
     InitBlinkAnim(&field_128_animation);
     if (tlv_params->mTlvState) // Stores the activated/deactivated state for UXB.
     {
-        if (tlv_params->field_16_start_state == Path_UXB::StartState::eOn_0)
+        if (tlv_params->mStartState == Path_UXB::StartState::eOn_0)
         {
             field_128_animation.LoadPal(ResourceManager::GetLoadedResource(ResourceManager::Resource_Palt, AEResourceID::kGrenflshResID, 0, 0), 0);
             field_1C8_flags.Clear(UXB_Flags_1C8::eIsRed_Bit1);
@@ -170,7 +170,7 @@ UXB::UXB(Path_UXB* tlv_params, TlvItemInfoUnion itemInfo)
     }
     else
     {
-        if (tlv_params->field_16_start_state == Path_UXB::StartState::eOn_0)
+        if (tlv_params->mStartState == Path_UXB::StartState::eOn_0)
         {
             field_11A_starting_state = UXBState::eDelay_0;
         }
@@ -209,7 +209,7 @@ UXB::UXB(Path_UXB* tlv_params, TlvItemInfoUnion itemInfo)
 
     field_120_tlv = itemInfo;
     field_124_next_state_frame = sGnFrame;
-    field_11C_disabled_resources = static_cast<u16>(tlv_params->field_18_disabled_resources);
+    field_11C_disabled_resources = static_cast<u16>(tlv_params->mDisabledResources);
 
     Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kAbebombResID);
     Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kDebrisID00ResID);
@@ -526,11 +526,11 @@ s32 UXB::CreateFromSaveState(const u8* __pSaveState)
 
     Path_UXB* uxbPath = reinterpret_cast<Path_UXB*>(sPathInfo->TLV_From_Offset_Lvl_Cam(pSaveState->field_4_tlv.all));
 
-    if (!(uxbPath->field_18_disabled_resources & 1) && !ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kAbeblowResID, 0, 0))
+    if (!(uxbPath->mDisabledResources & 1) && !ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kAbeblowResID, 0, 0))
     {
         ResourceManager::LoadResourceFile_49C170("ABEBLOW.BAN", 0);
     }
-    if (!(uxbPath->field_18_disabled_resources & 2) && !ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kSlogBlowResID, 0, 0))
+    if (!(uxbPath->mDisabledResources & 2) && !ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kSlogBlowResID, 0, 0))
     {
         ResourceManager::LoadResourceFile_49C170("DOGBLOW.BAN", 0);
     }

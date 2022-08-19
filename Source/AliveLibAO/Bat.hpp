@@ -11,7 +11,7 @@ namespace AO {
 
 struct Path_Bat final : public Path_TLV
 {
-    s16 mTicksBeforeMoving;
+    s16 mTimeBeforeMoving;
     s16 mSpeed;
     Scale_short mScale;
     s16 mAttackDuration;
@@ -32,7 +32,7 @@ public:
 
     PathLine* mBatLine = nullptr;
     FP mBatSpeed = {};
-    s32 mTicksBeforeMoving = 0;
+    s32 mTimeBeforeMoving = 0;
     s32 mTlvInfo = 0;
     enum class BatStates : s16
     {

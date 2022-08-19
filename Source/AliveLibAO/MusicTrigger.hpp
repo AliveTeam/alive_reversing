@@ -28,10 +28,10 @@ enum class MusicTriggerMusicType : s16
 
 struct Path_MusicTrigger final : public Path_TLV
 {
-    MusicTriggerMusicType field_18_music_type;
-    TriggeredBy field_1A_triggered_by;
-    s16 field_1C_switch_id;
-    s16 field_1E_music_delay;
+    MusicTriggerMusicType mMusicType;
+    TriggeredBy mTriggeredBy;
+    s16 mSwitchId;
+    s16 mMusicDelay;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_MusicTrigger, 0x20);
 

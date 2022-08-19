@@ -79,7 +79,7 @@ LiftPoint::LiftPoint(Path_LiftPoint* pTlv, Map* pPath, s32 tlvInfo)
     const s32 lvl_idx = static_cast<s32>(MapWrapper::ToAO(gMap.mCurrentLevel));
     const AnimRecord& platformRec = AO::AnimRec(sLiftPointData_4BB480[lvl_idx].field_0_platform_anim_id);
     u8** ppLiftRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, platformRec.mResourceId, 1, 0);
-    if (pTlv->field_20_scale == Scale_short::eHalf_1)
+    if (pTlv->mScale == Scale_short::eHalf_1)
     {
         mSpriteScale = FP_FromDouble(0.5);
         mScale = Scale::Bg;
@@ -124,7 +124,7 @@ LiftPoint::LiftPoint(Path_LiftPoint* pTlv, Map* pPath, s32 tlvInfo)
             this,
             ppLiftWheelRes))
     {
-        if (pTlv->field_20_scale == Scale_short::eHalf_1)
+        if (pTlv->mScale == Scale_short::eHalf_1)
         {
             field_13C_lift_wheel.mRenderLayer = Layer::eLayer_BeforeShadow_Half_6;
         }
@@ -189,8 +189,8 @@ LiftPoint::LiftPoint(Path_LiftPoint* pTlv, Map* pPath, s32 tlvInfo)
 
         CreatePulleyIfExists(0, 0);
 
-        field_278_lift_point_id = pTlv->field_18_lift_point_id;
-        field_130_lift_point_stop_type = pTlv->field_1E_lift_point_stop_type;
+        field_278_lift_point_id = pTlv->mLiftPointId;
+        field_130_lift_point_stop_type = pTlv->mLiftPointStopType;
 
         switch (field_130_lift_point_stop_type)
         {
@@ -238,7 +238,7 @@ void LiftPoint::StayOnFloor(s16 floor, Path_LiftPoint* pLiftTlv)
 
     field_12C_bMoving &= ~1u;
     pLiftTlv->field_1_unknown = 3;
-    pLiftTlv->field_18_lift_point_id = field_278_lift_point_id;
+    pLiftTlv->mLiftPointId = field_278_lift_point_id;
     mVelY = FP_FromInteger(0);
 
     EventBroadcast(kEventNoise, this);
@@ -338,7 +338,7 @@ void LiftPoint::VUpdate()
                 if (pTlvIter->mTlvType32 == TlvTypes::LiftPoint_8)
                 {
                     pLiftTlv = static_cast<Path_LiftPoint*>(pTlvIter);
-                    field_130_lift_point_stop_type = pLiftTlv->field_1E_lift_point_stop_type;
+                    field_130_lift_point_stop_type = pLiftTlv->mLiftPointStopType;
                     break;
                 }
                 pTlvIter = gMap.TLV_Get_At_446060(
@@ -349,7 +349,7 @@ void LiftPoint::VUpdate()
                     lineY + (mSpriteScale * FP_FromInteger(30)));
             }
 
-            if (pLiftTlv && pLiftTlv->field_1A_bstart_point == Choice_short::eYes_1)
+            if (pLiftTlv && pLiftTlv->mIsStartPoint == Choice_short::eYes_1)
             {
                 field_27A_flags.Set(Flags::eBit7_bIgnoreLiftMover);
             }
@@ -392,7 +392,7 @@ void LiftPoint::VUpdate()
 
                             pLiftTlv->field_1_unknown = 3;
 
-                            pLiftTlv->field_18_lift_point_id = field_278_lift_point_id;
+                            pLiftTlv->mLiftPointId = field_278_lift_point_id;
                             field_27A_flags.Set(Flags::eBit2_bTopFloor);
                         }
                     }
@@ -420,7 +420,7 @@ void LiftPoint::VUpdate()
 
                             pLiftTlv->field_1_unknown = 3;
 
-                            pLiftTlv->field_18_lift_point_id = field_278_lift_point_id;
+                            pLiftTlv->mLiftPointId = field_278_lift_point_id;
                             field_27A_flags.Set(Flags::eBit4_bBottomFloor);
                         }
                     }
@@ -452,7 +452,7 @@ void LiftPoint::VUpdate()
                         }
 
                         pLiftTlv->field_1_unknown = 3;
-                        pLiftTlv->field_18_lift_point_id = field_278_lift_point_id;
+                        pLiftTlv->mLiftPointId = field_278_lift_point_id;
                         field_27A_flags.Set(Flags::eBit3_bMiddleFloor);
                     }
                     break;

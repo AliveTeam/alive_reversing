@@ -24,9 +24,9 @@ enum class TriggeredBy : s16
 
 struct Path_MusicTrigger final : public Path_TLV
 {
-    MusicTriggerMusicType field_10_music_type;
-    TriggeredBy field_12_triggered_by;
-    s16 field_14_music_delay;
+    MusicTriggerMusicType mMusicType;
+    TriggeredBy mTriggeredBy;
+    s16 mMusicDelay;
     s16 field_16_pad;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_MusicTrigger, 0x18);

@@ -53,7 +53,7 @@ Bat::Bat(Path_Bat* pTlv, s32 tlvInfo)
         mYPos = FP_FromInteger(mBatLine->mRect.y);
     }
 
-    mTicksBeforeMoving = pTlv->mTicksBeforeMoving;
+    mTimeBeforeMoving = pTlv->mTimeBeforeMoving;
     mBatSpeed = FP_FromRaw(pTlv->mSpeed << 8);
 
     if (pTlv->mScale == Scale_short::eHalf_1)
@@ -146,7 +146,7 @@ void Bat::VUpdate()
     {
         case BatStates::eSetTimer_0:
             mBatState = BatStates::eInit_1;
-            mTimer = sGnFrame + mTicksBeforeMoving;
+            mTimer = sGnFrame + mTimeBeforeMoving;
             break;
 
         case BatStates::eInit_1:

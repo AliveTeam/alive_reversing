@@ -34,7 +34,7 @@ TimedMine::TimedMine(Path_TimedMine* pPath, TlvItemInfoUnion tlv)
     mTimedMineFlags.Clear(TimedMineFlags::eStickToLiftPoint);
     mSlappedMine = 0;
 
-    if (pPath->field_14_scale == Scale_short::eHalf_1)
+    if (pPath->mScale == Scale_short::eHalf_1)
     {
         mSpriteScale = FP_FromDouble(0.5);
         mScale = Scale::Bg;

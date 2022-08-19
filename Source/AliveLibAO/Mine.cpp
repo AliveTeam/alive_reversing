@@ -27,7 +27,7 @@ Mine::Mine(Path_Mine* pTlv, s32 tlvInfo)
 
     field_10C_detonating = 0;
 
-    if (pTlv->field_1C_scale == Scale_short::eHalf_1)
+    if (pTlv->mScale == Scale_short::eHalf_1)
     {
         mSpriteScale = FP_FromDouble(0.5);
         mAnim.mRenderLayer = Layer::eLayer_RollingBallBombMineCar_Half_16;
@@ -62,26 +62,26 @@ Mine::Mine(Path_Mine* pTlv, s32 tlvInfo)
     field_118_animation.mBlue = 128;
 
     field_118_animation.mRenderMode = TPageAbr::eBlend_0;
-    field_10E_disabled_resources = pTlv->field_1E_disabled_resources;
+    field_10E_disabled_resources = pTlv->mDisabledResources;
 
     // TODO
-    field_1B0_flags = 2 * (pTlv->field_20_persists_offscreen == Choice_short::eYes_1) | (field_1B0_flags & ~2);
+    field_1B0_flags = 2 * (pTlv->mPersistOffscreen == Choice_short::eYes_1) | (field_1B0_flags & ~2);
 
     ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kAbebombAOResID, 1, 0);
     ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kDebrisID00AOResID, 1, 0);
     ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kBgexpldAOResID, 1, 0);
 
-    if (!(pTlv->field_1E_disabled_resources & 1))
+    if (!(pTlv->mDisabledResources & 1))
     {
         ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kAbeblowAOResID, 1, 0);
     }
 
-    if (!(pTlv->field_1E_disabled_resources & 4))
+    if (!(pTlv->mDisabledResources & 4))
     {
         ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kElmblowAOResID_217, 1, 0);
     }
 
-    if (!(pTlv->field_1E_disabled_resources & 2))
+    if (!(pTlv->mDisabledResources & 2))
     {
         ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kSlogBlowAOResID, 1, 0);
     }

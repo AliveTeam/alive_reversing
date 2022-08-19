@@ -10,11 +10,11 @@ namespace AO {
 
 struct Path_MeatSack final : public Path_TLV
 {
-    XDirection_short field_18_meat_fall_direction;
-    u16 field_1A_x_vel;
-    s16 field_1C_y_vel;
-    Scale_short field_1E_scale;
-    s16 field_20_amount_of_meat;
+    XDirection_short mMeatFallDirection;
+    u16 mVelX;
+    s16 mVelY;
+    Scale_short mScale;
+    s16 mMeatAmount;
     s16 field_22_pad;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_MeatSack, 0x24);

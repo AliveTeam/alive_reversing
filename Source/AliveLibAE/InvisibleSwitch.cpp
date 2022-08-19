@@ -12,14 +12,14 @@ InvisibleSwitch::InvisibleSwitch(Path_InvisibleSwitch* pTlv, u32 tlvInfo)
     : BaseGameObject(TRUE, 0)
 {
     field_24_tlvInfo = tlvInfo;
-    field_20_switch_id = pTlv->field_10_switch_id;
-    field_22_action = pTlv->field_12_action;
+    field_20_switch_id = pTlv->mSwitchId;
+    field_22_action = pTlv->mAction;
     field_38_state = States::eWaitForTrigger_0;
-    field_2C_delay = pTlv->field_14_delay;
+    field_2C_delay = pTlv->mActivationDelay;
     field_30_top_left = pTlv->mTopLeft;
     field_34_bottom_right = pTlv->mBottomRight;
-    field_3A_set_off_alarm = pTlv->field_16_set_off_alarm;
-    field_3C_scale = pTlv->field_18_scale;
+    field_3A_set_off_alarm = pTlv->mSetOffAlarm;
+    field_3C_scale = pTlv->mScale;
 }
 
 InvisibleSwitch::~InvisibleSwitch()

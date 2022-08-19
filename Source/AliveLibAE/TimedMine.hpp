@@ -9,9 +9,9 @@
 
 struct Path_TimedMine final : public Path_TLV
 {
-    s16 field_10_switch_id;
-    s16 field_12_state;
-    Scale_short field_14_scale;
+    s16 mSwitchId;
+    s16 mState;
+    Scale_short mScale;
     s16 mTicksUntilExplosion;
     s32 mDisabledResources;
 };

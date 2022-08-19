@@ -31,26 +31,26 @@ RockSack::RockSack(Path_RockSack* pTlv, s32 tlvInfo)
     field_11C_has_been_hit = 0;
     mXPos = FP_FromInteger((pTlv->mTopLeft.x + pTlv->mBottomRight.x) / 2);
     mYPos = FP_FromInteger(pTlv->mBottomRight.y);
-    field_124_x_vel = FP_FromRaw(pTlv->field_12_x_vel << 8);
-    field_128_y_vel = FP_FromRaw(-256 * pTlv->field_14_y_vel);
+    field_124_x_vel = FP_FromRaw(pTlv->mVelX << 8);
+    field_128_y_vel = FP_FromRaw(-256 * pTlv->mVelY);
 
-    if (pTlv->field_10_fall_direction == XDirection_short::eLeft_0)
+    if (pTlv->mRockFallDirection == XDirection_short::eLeft_0)
     {
         field_124_x_vel = -field_124_x_vel;
     }
 
-    if (pTlv->field_16_scale == Scale_short::eHalf_1)
+    if (pTlv->mScale == Scale_short::eHalf_1)
     {
         mSpriteScale = FP_FromDouble(0.5);
         mScale = Scale::Bg;
     }
-    else if (pTlv->field_16_scale == Scale_short::eFull_0)
+    else if (pTlv->mScale == Scale_short::eFull_0)
     {
         mSpriteScale = FP_FromInteger(1);
         mScale = Scale::Fg;
     }
 
-    field_11E_rock_amount = pTlv->field_18_rock_amount;
+    field_11E_rock_amount = pTlv->mRockAmount;
     field_120_can_play_wobble_sound = 1;
     field_122_force_wobble_sound = 1;
 

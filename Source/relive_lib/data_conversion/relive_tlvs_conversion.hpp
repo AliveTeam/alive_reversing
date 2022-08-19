@@ -301,11 +301,11 @@ public:
     {
         Path_ContinuePoint r;
         BaseConvert(r, tlv);
-        r.field_18_zone_number = tlv.mZoneNumber;
-        r.field_1A_clear_from_id = tlv.mClearFromId;
-        r.field_1C_clear_to_id = tlv.mClearToId;
-        r.field_1E_elum_restarts = relive::From(tlv.mElumRestarts);
-        r.field_20_abe_direction = From(tlv.mAbeSpawnDir);
+        r.mZoneNumber = tlv.mZoneNumber;
+        r.mClearFromId = tlv.mClearFromId;
+        r.mClearToId = tlv.mClearToId;
+        r.mElumRestarts = relive::From(tlv.mElumRestarts);
+        r.mAbeSpawnDir = From(tlv.mAbeSpawnDir);
         return r;
     }
 
@@ -313,8 +313,8 @@ public:
     {
         Path_ContinuePoint r;
         BaseConvert(r, tlv);
-        r.field_10_scale = From(tlv.mScale);
-        r.field_12_save_file_id = tlv.mSaveFileId;
+        r.mScale = From(tlv.mScale);
+        r.mSaveFileId = tlv.mSaveFileId;
         return r;
     }
 
@@ -353,11 +353,11 @@ public:
     {
         Path_LiftPoint r;
         BaseConvert(r, tlv);
-        r.field_10_lift_point_id = tlv.field_18_lift_point_id;
-        r.field_12_bStart_point = relive::From(tlv.field_1A_bstart_point);
-        r.field_16_lift_point_stop_type = From(tlv.field_1E_lift_point_stop_type);
-        r.field_18_scale = relive::From(tlv.field_20_scale);
-        r.field_1A_bIgnore_lift_mover = relive::From(tlv.field_22_bIgnore_lift_mover);
+        r.mLiftPointId = tlv.mLiftPointId;
+        r.mIsStartPoint = relive::From(tlv.mIsStartPoint);
+        r.mLiftPointStopType = From(tlv.mLiftPointStopType);
+        r.mScale = relive::From(tlv.mScale);
+        r.mIgnoreLiftMover = relive::From(tlv.mIgnoreLiftMover);
         return r;
     }
 
@@ -365,11 +365,11 @@ public:
     {
         Path_LiftPoint r;
         BaseConvert(r, tlv);
-        r.field_10_lift_point_id = tlv.field_10_lift_point_id;
-        r.field_12_bStart_point = relive::From(tlv.field_12_bStart_point);
-        r.field_16_lift_point_stop_type = From(tlv.field_16_lift_point_stop_type);
-        r.field_18_scale = relive::From(tlv.field_18_scale);
-        r.field_1A_bIgnore_lift_mover = relive::From(tlv.field_1A_bIgnore_lift_mover);
+        r.mLiftPointId = tlv.mLiftPointId;
+        r.mIsStartPoint = relive::From(tlv.mIsStartPoint);
+        r.mLiftPointStopType = From(tlv.mLiftPointStopType);
+        r.mScale = relive::From(tlv.mScale);
+        r.mIgnoreLiftMover = relive::From(tlv.mIgnoreLiftMover);
         return r;
     }
 
@@ -442,11 +442,11 @@ public:
     {
         Path_RockSack r;
         BaseConvert(r, tlv);
-        r.field_10_fall_direction = relive::From(tlv.field_18_fall_direction);
-        r.field_12_x_vel = tlv.field_1A_x_vel;
-        r.field_14_y_vel = tlv.field_1C_y_vel;
-        r.field_16_scale = relive::From(tlv.field_1E_scale);
-        r.field_18_rock_amount = tlv.field_20_rock_amount;
+        r.mRockFallDirection = relive::From(tlv.mRockFallDirection);
+        r.mVelX = tlv.mVelX;
+        r.mVelY = tlv.mVelY;
+        r.mScale = relive::From(tlv.mScale);
+        r.mRockAmount = tlv.mRockAmount;
         return r;
     }
 
@@ -454,11 +454,11 @@ public:
     {
         Path_RockSack r;
         BaseConvert(r, tlv);
-        r.field_10_fall_direction = relive::From(tlv.field_10_fall_direction);
-        r.field_12_x_vel = tlv.field_12_x_vel;
-        r.field_14_y_vel = tlv.field_14_y_vel;
-        r.field_16_scale = relive::From(tlv.field_16_scale);
-        r.field_18_rock_amount = tlv.field_18_rock_amount;
+        r.mRockFallDirection = relive::From(tlv.mRockFallDirection);
+        r.mVelX = tlv.mVelX;
+        r.mVelY = tlv.mVelY;
+        r.mScale = relive::From(tlv.mScale);
+        r.mRockAmount = tlv.mRockAmount;
         return r;
     }
 };
@@ -513,11 +513,11 @@ public:
     {
         Path_FallingItem r;
         BaseConvert(r, tlv);
-        r.mSwitchId = tlv.field_18_switch_id;
-        r.mScale = relive::From(tlv.field_1A_scale);
-        r.mFallInterval = tlv.field_1C_fall_interval;
-        r.mMaxFallingItems = tlv.field_1E_max_falling_items;
-        r.mResetSwitchIdAfterUse = relive::From(tlv.field_20_reset_switch_id_after_use);
+        r.mSwitchId = tlv.mSwitchId;
+        r.mScale = relive::From(tlv.mScale);
+        r.mFallInterval = tlv.mFallInterval;
+        r.mMaxFallingItems = tlv.mMaxFallingItems;
+        r.mResetSwitchIdAfterUse = relive::From(tlv.mResetSwitchIdAfterUse);
         return r;
     }
 
@@ -525,11 +525,11 @@ public:
     {
         Path_FallingItem r;
         BaseConvert(r, tlv);
-        r.mSwitchId = tlv.field_10_switch_id;
-        r.mScale = relive::From(tlv.field_12_scale);
-        r.mFallInterval = tlv.field_14_fall_interval;
-        r.mMaxFallingItems = tlv.field_16_max_falling_items;
-        r.mResetSwitchIdAfterUse = relive::From(tlv.field_18_reset_switch_id_after_use);
+        r.mSwitchId = tlv.mSwitchId;
+        r.mScale = relive::From(tlv.mScale);
+        r.mFallInterval = tlv.mFallInterval;
+        r.mMaxFallingItems = tlv.mMaxFallingItems;
+        r.mResetSwitchIdAfterUse = relive::From(tlv.mResetSwitchIdAfterUse);
         return r;
     }
 };
@@ -541,13 +541,13 @@ public:
     {
         Path_PullRingRope r;
         BaseConvert(r, tlv);
-        r.mSwitchId = tlv.field_18_switch_id;
-        r.mAction = relive::From(tlv.field_1A_action);
-        r.mRopeLength = tlv.field_1C_rope_length;
-        r.mScale = relive::From(tlv.field_1E_scale);
-        r.mOnSound = From(tlv.field_20_on_sound);
-        r.mOffSound = From(tlv.field_22_off_sound);
-        r.mSoundDirection = From(tlv.field_24_sound_direction);
+        r.mSwitchId = tlv.mSwitchId;
+        r.mAction = relive::From(tlv.mAction);
+        r.mRopeLength = tlv.mRopeLength;
+        r.mScale = relive::From(tlv.mScale);
+        r.mOnSound = From(tlv.mOnSound);
+        r.mOffSound = From(tlv.mOffSound);
+        r.mSoundDirection = From(tlv.mSoundDirection);
         return r;
     }
 
@@ -555,13 +555,13 @@ public:
     {
         Path_PullRingRope r;
         BaseConvert(r, tlv);
-        r.mSwitchId = tlv.field_10_switch_id;
-        r.mAction = relive::From(tlv.field_12_action);
-        r.mRopeLength = tlv.field_14_rope_length;
-        r.mScale = relive::From(tlv.field_16_scale);
-        r.mOnSound = From(tlv.field_18_on_sound);
-        r.mOffSound = From(tlv.field_1A_off_sound);
-        r.mSoundDirection = From(tlv.field_1C_sound_direction);
+        r.mSwitchId = tlv.mSwitchId;
+        r.mAction = relive::From(tlv.mAction);
+        r.mRopeLength = tlv.mRopeLength;
+        r.mScale = relive::From(tlv.mScale);
+        r.mOnSound = From(tlv.mOnSound);
+        r.mOffSound = From(tlv.mOffSound);
+        r.mSoundDirection = From(tlv.mSoundDirection);
         return r;
     }
 
@@ -634,9 +634,9 @@ public:
     {
         Path_TimedMine r;
         BaseConvert(r, tlv);
-        r.mSwitchId = tlv.field_18_switch_id;
-        r.mState = tlv.field_1A_state;
-        r.mScale = relive::From(tlv.field_1C_scale);
+        r.mSwitchId = tlv.mSwitchId;
+        r.mState = tlv.mState;
+        r.mScale = relive::From(tlv.mScale);
         r.mTicksUntilExplosion = tlv.mTicksUntilExplosion;
         r.mDisabledResources = tlv.mDisabledResources;
         return r;
@@ -646,9 +646,9 @@ public:
     {
         Path_TimedMine r;
         BaseConvert(r, tlv);
-        r.mSwitchId = tlv.field_10_switch_id;
-        r.mState = tlv.field_12_state;
-        r.mScale = relive::From(tlv.field_14_scale);
+        r.mSwitchId = tlv.mSwitchId;
+        r.mState = tlv.mState;
+        r.mScale = relive::From(tlv.mScale);
         r.mTicksUntilExplosion = tlv.mTicksUntilExplosion;
         r.mDisabledResources = tlv.mDisabledResources;
         return r;
@@ -662,8 +662,8 @@ public:
     {
         Path_Hoist r;
         BaseConvert(r, tlv);
-        r.mHoistType = From(tlv.field_18_hoist_type);
-        r.mGrabDirection= From(tlv.field_1A_grab_direction);
+        r.mHoistType = From(tlv.mHoistType);
+        r.mGrabDirection = From(tlv.mGrabDirection);
         return r;
     }
 
@@ -671,8 +671,8 @@ public:
     {
         Path_Hoist r;
         BaseConvert(r, tlv);
-        r.mHoistType = From(tlv.field_10_type);
-        r.mGrabDirection = From(tlv.field_12_grab_direction);
+        r.mHoistType = From(tlv.mHoistType);
+        r.mGrabDirection = From(tlv.mGrabDirection);
         return r;
     }
 
@@ -743,10 +743,10 @@ public:
         BaseConvert(r, tlv);
         r.mSwitchId = tlv.mSwitchId;
         r.mStartState = From(tlv.mStartState);
-        r.mSelfClosing = relive::From(tlv.field_1C_self_closing);
-        r.mScale = relive::From(tlv.field_1E_scale);
-        r.mDirection = relive::From(tlv.field_22_direction);
-        r.field_1C_xOff = tlv.field_24_xOff;
+        r.mSelfClosing = relive::From(tlv.mSelfClosing);
+        r.mScale = relive::From(tlv.mScale);
+        r.mDirection = relive::From(tlv.mDirection);
+        r.mXOff = tlv.mXOff;
         return r;
     }
 
@@ -757,9 +757,9 @@ public:
         r.mSwitchId = tlv.mSwitchId;
         r.mStartState = From(tlv.mStartState);
         r.mSelfClosing = relive::From(tlv.mSelfClosing);
-        r.mScale = relive::From(tlv.field_16_scale);
+        r.mScale = relive::From(tlv.mScale);
         r.mDirection = relive::From(tlv.mDirection);
-        r.field_1C_xOff = tlv.field_1C_xOff;
+        r.mXOff = tlv.mXOff;
         r.mStayOpenTime = tlv.mStayOpenTime;
         return r;
     }
@@ -797,9 +797,9 @@ public:
     {
         Path_LCDScreen r;
         BaseConvert(r, tlv);
-        r.field_10_message_1_id = tlv.field_18_message_1_id;
-        r.field_12_message_rand_min_id = tlv.field_1A_message_rand_min;
-        r.field_14_message_rand_max_id = tlv.field_1C_message_rand_max;
+        r.mMessageId1 = tlv.mMessageId1;
+        r.mMessageRandMinId = tlv.mMessageRandMinId;
+        r.mMessageRandMaxId = tlv.mMessageRandMaxId;
         return r;
     }
 
@@ -807,11 +807,11 @@ public:
     {
         Path_LCDScreen r;
         BaseConvert(r, tlv);
-        r.field_10_message_1_id = tlv.field_10_message_1_id;
-        r.field_12_message_rand_min_id = tlv.field_12_message_rand_min_id;
-        r.field_14_message_rand_max_id = tlv.field_14_message_rand_max_id;
-        r.field_16_message_2_id = tlv.field_16_message_2_id;
-        r.field_18_toggle_message_switch_id = tlv.field_18_toggle_message_switch_id;
+        r.mMessageId1 = tlv.mMessageId1;
+        r.mMessageRandMinId = tlv.mMessageRandMinId;
+        r.mMessageRandMaxId = tlv.mMessageRandMaxId;
+        r.mMessageId2 = tlv.mMessageId2;
+        r.mToggleMessageSwitchId = tlv.mToggleMessageSwitchId;
         return r;
     }
 };
@@ -823,11 +823,9 @@ public:
     {
         Path_Mine r;
         BaseConvert(r, tlv);
-        r.field_10_num_patterns = tlv.field_18_num_patterns;
-        r.field_12_pattern= tlv.field_1A_pattern;
-        r.field_14_scale = relive::From(tlv.field_1C_scale);
-        r.field_16_disabled_resources = tlv.field_1E_disabled_resources;
-        r.field_18_persist_offscreen = relive::From(tlv.field_20_persists_offscreen);
+        r.mScale = relive::From(tlv.mScale);
+        r.mDisabledResources = tlv.mDisabledResources;
+        r.mPersistOffscreen = relive::From(tlv.mPersistOffscreen);
         return r;
     }
 
@@ -835,11 +833,9 @@ public:
     {
         Path_Mine r;
         BaseConvert(r, tlv);
-        r.field_10_num_patterns = tlv.field_10_num_patterns;
-        r.field_12_pattern = tlv.field_12_pattern;
-        r.field_14_scale = relive::From(tlv.field_14_scale);
-        r.field_16_disabled_resources = tlv.field_16_disabled_resources;
-        r.field_18_persist_offscreen = relive::From(tlv.field_18_persist_offscreen);
+        r.mScale = relive::From(tlv.mScale);
+        r.mDisabledResources = tlv.mDisabledResources;
+        r.mPersistOffscreen = relive::From(tlv.mPersistOffscreen);
         return r;
     }
 };
@@ -851,11 +847,11 @@ public:
     {
         Path_InvisibleSwitch r;
         BaseConvert(r, tlv);
-        r.field_10_switch_id = tlv.field_18_switch_id;
-        r.field_12_action = relive::From(tlv.field_1A_action);
-        r.field_14_delay = tlv.field_1C_delay;
-        r.field_16_set_off_alarm = relive::From(tlv.field_1E_set_off_alarm);
-        r.field_18_scale = From(tlv.field_20_scale);
+        r.mSwitchId = tlv.mSwitchId;
+        r.mAction = relive::From(tlv.mAction);
+        r.mActivationDelay = tlv.mActivationDelay;
+        r.mSetOffAlarm = relive::From(tlv.mSetOffAlarm);
+        r.mScale = From(tlv.mScale);
         return r;
     }
 
@@ -863,11 +859,11 @@ public:
     {
         Path_InvisibleSwitch r;
         BaseConvert(r, tlv);
-        r.field_10_switch_id = tlv.field_10_switch_id;
-        r.field_12_action = relive::From(tlv.field_12_action);
-        r.field_14_delay = tlv.field_14_delay;
-        r.field_16_set_off_alarm = relive::From(tlv.field_16_set_off_alarm);
-        r.field_18_scale = From(tlv.field_18_scale);
+        r.mSwitchId = tlv.mSwitchId;
+        r.mAction = relive::From(tlv.mAction);
+        r.mActivationDelay = tlv.mActivationDelay;
+        r.mSetOffAlarm = relive::From(tlv.mSetOffAlarm);
+        r.mScale = From(tlv.mScale);
         return r;
     }
 
@@ -908,9 +904,9 @@ public:
     {
         Path_ElectricWall r;
         BaseConvert(r, tlv);
-        r.field_10_scale = relive::From(tlv.field_18_scale);
-        r.field_12_switch_id = tlv.field_1A_switch_id;
-        r.field_14_start_state = From(tlv.field_1C_start_state);
+        r.mScale = relive::From(tlv.mScale);
+        r.mSwitchId = tlv.mSwitchId;
+        r.mStartState = From(tlv.mStartState);
         return r;
     }
 
@@ -918,9 +914,9 @@ public:
     {
         Path_ElectricWall r;
         BaseConvert(r, tlv);
-        r.field_10_scale = relive::From(tlv.field_10_scale);
-        r.field_12_switch_id = tlv.field_12_switch_id;
-        r.field_14_start_state = From(tlv.field_14_start_state);
+        r.mScale = relive::From(tlv.mScale);
+        r.mSwitchId = tlv.mSwitchId;
+        r.mStartState = From(tlv.mStartState);
         return r;
     }
 
@@ -957,10 +953,10 @@ public:
     {
         Path_BoomMachine r;
         BaseConvert(r, tlv);
-        r.field_10_scale = relive::From(tlv.field_18_scale);
-        r.field_12_nozzle_side = From(tlv.field_1A_nozzle_side);
-        r.field_14_disabled_resources = tlv.field_1C_disabled_resources;
-        r.field_16_number_of_grenades = tlv.field_1E_number_of_grenades;
+        r.mScale = relive::From(tlv.mScale);
+        r.mNozzleSide = From(tlv.mNozzleSide);
+        r.mDisabledResources = tlv.mDisabledResources;
+        r.mGrenadeAmount = tlv.mGrenadeAmount;
         return r;
     }
 
@@ -968,10 +964,10 @@ public:
     {
         Path_BoomMachine r;
         BaseConvert(r, tlv);
-        r.field_10_scale = relive::From(tlv.field_10_scale);
-        r.field_12_nozzle_side = From(tlv.field_12_nozzle_side);
-        r.field_14_disabled_resources = tlv.field_14_disabled_resources;
-        r.field_16_number_of_grenades = tlv.field_16_number_of_grenades;
+        r.mScale = relive::From(tlv.field_10_scale);
+        r.mNozzleSide = From(tlv.mNozzleSide);
+        r.mDisabledResources = tlv.mDisabledResources;
+        r.mGrenadeAmount = tlv.mGrenadeAmount;
         return r;
     }
 
@@ -1008,11 +1004,11 @@ public:
     {
         Path_UXB r;
         BaseConvert(r, tlv);
-        r.mPatternLength = tlv.field_18_pattern_length;
-        r.mPattern = tlv.field_1A_pattern;
-        r.mScale = relive::From(tlv.field_1C_scale);
-        r.mStartState = From(tlv.field_1E_state);
-        r.mDisabledResources = tlv.field_20_disabled_resources;
+        r.mPatternLength = tlv.mPatternLength;
+        r.mPattern = tlv.mPattern;
+        r.mScale = relive::From(tlv.mScale);
+        r.mStartState = From(tlv.mStartState);
+        r.mDisabledResources = tlv.mDisabledResources;
         return r;
     }
 
@@ -1020,11 +1016,11 @@ public:
     {
         Path_UXB r;
         BaseConvert(r, tlv);
-        r.mPatternLength = tlv.field_10_pattern_length;
+        r.mPatternLength = tlv.mPatternLength;
         r.mPattern = tlv.field_12_pattern;
-        r.mScale = relive::From(tlv.field_14_scale);
-        r.mStartState = From(tlv.field_16_start_state);
-        r.mDisabledResources = tlv.field_18_disabled_resources;
+        r.mScale = relive::From(tlv.mScale);
+        r.mStartState = From(tlv.mStartState);
+        r.mDisabledResources = tlv.mDisabledResources;
         return r;
     }
 
@@ -1061,18 +1057,18 @@ public:
     {
         Path_MeatSaw r;
         BaseConvert(r, tlv);
-        r.field_18_scale = relive::From(tlv.field_18_scale);
-        r.field_1A_switch_min_time_off = tlv.field_1A_switch_min_time_off;
-        r.field_1C_switch_max_time_off = tlv.field_1C_switch_max_time_off;
-        r.field_1E_max_rise_time = tlv.field_1E_max_rise_time;
-        r.field_20_switch_id = tlv.field_20_switch_id;
-        r.field_22_type = From(tlv.field_22_type);
-        r.field_24_speed = tlv.field_24_speed;
-        r.field_26_start_state = From(tlv.field_26_start_state);
-        r.field_28_off_speed = tlv.field_28_off_speed;
-        r.field_2A_automatic_min_time_off = tlv.field_2A_automatic_min_time_off;
-        r.field_2C_automatic_max_time_off = tlv.field_2C_automatic_max_time_off;
-        r.field_2E_inital_position = tlv.field_2E_inital_position;
+        r.mScale = relive::From(tlv.mScale);
+        r.mSwitchMinTimeOff = tlv.mSwitchMinTimeOff;
+        r.mSwitchMaxTimeOff = tlv.mSwitchMaxTimeOff;
+        r.mMaxRiseTime = tlv.mMaxRiseTime;
+        r.mSwitchId = tlv.mSwitchId;
+        r.mType = From(tlv.mType);
+        r.mSpeed = tlv.mSpeed;
+        r.mStartState = From(tlv.mStartState);
+        r.mOffSpeed = tlv.mOffSpeed;
+        r.mAutomaticMinTimeOff = tlv.mAutomaticMinTimeOff;
+        r.mAutomaticMaxTimeOff = tlv.mAutomaticMaxTimeOff;
+        r.mInitialPosition = tlv.mInitialPosition;
         return r;
     }
 
@@ -1111,12 +1107,12 @@ public:
     {
         Path_Lever r;
         BaseConvert(r, tlv);
-        r.field_10_action = relive::From(tlv.field_1A_action);
-        r.field_12_scale = relive::From(tlv.field_1C_scale);
-        r.field_14_on_sound = From(tlv.field_1E_on_sound);
-        r.field_16_off_sound = From(tlv.field_20_off_sound);
-        r.field_18_sound_direction = From(tlv.field_22_sound_direction);
-        r.field_1A_switch_id = tlv.field_18_switch_id;
+        r.mAction = relive::From(tlv.mAction);
+        r.mScale = relive::From(tlv.mScale);
+        r.mOnSound = From(tlv.mOnSound);
+        r.mOffSound = From(tlv.mOffSound);
+        r.mSoundDirection = From(tlv.mSoundDirection);
+        r.mSwitchId = tlv.mSwitchId;
         return r;
     }
 
@@ -1124,13 +1120,13 @@ public:
     {
         Path_Lever r;
         BaseConvert(r, tlv);
-        r.field_10_action = relive::From(tlv.field_10_action);
-        r.field_12_scale = relive::From(tlv.field_12_scale);
-        r.field_14_on_sound = From(tlv.field_14_on_sound);
-        r.field_16_off_sound = From(tlv.field_16_off_sound);
-        r.field_18_sound_direction = From(tlv.field_18_sound_direction);
-        r.field_1A_switch_id = tlv.field_1A_switch_id;
-        r.field_1C_persist_offscreen = relive::From(tlv.field_1C_persist_offscreen);
+        r.mAction = relive::From(tlv.mAction);
+        r.mScale = relive::From(tlv.mScale);
+        r.mOnSound = From(tlv.mOnSound);
+        r.mOffSound = From(tlv.mOffSound);
+        r.mSoundDirection = From(tlv.mSoundDirection);
+        r.mSwitchId = tlv.mSwitchId;
+        r.mPersistOffscreen = relive::From(tlv.mPersistOffscreen);
         return r;
     }
 
@@ -1213,8 +1209,8 @@ public:
     {
         Path_Edge r;
         BaseConvert(r, tlv);
-        r.mGrabDirection = From(tlv.field_18_grab_direction);
-        r.mCanGrab = relive::From(tlv.field_1A_can_grab);
+        r.mGrabDirection = From(tlv.mGrabDirection);
+        r.mCanGrab = relive::From(tlv.mCanGrab);
         return r;
     }
 
@@ -1222,9 +1218,9 @@ public:
     {
         Path_Edge r;
         BaseConvert(r, tlv);
-        r.mGrabDirection = From(tlv.field_10_grab_direction);
-        r.mCanGrab = relive::From(tlv.field_12_bCan_grab);
-        r.mScale = relive::From(tlv.field_14_scale);
+        r.mGrabDirection = From(tlv.mGrabDirection);
+        r.mCanGrab = relive::From(tlv.mCanGrab);
+        r.mScale = relive::From(tlv.mScale);
         return r;
     }
 
@@ -1378,10 +1374,10 @@ public:
     {
         Path_LightEffect r;
         BaseConvert(r, tlv);
-        r.field_18_type = From(tlv.field_18_type);
-        r.field_1A_size = tlv.field_1A_size;
-        r.field_1C_switch_id = tlv.field_1C_switch_id;
-        r.field_1E_direction = relive::From(tlv.field_1E_direction);
+        r.mType = From(tlv.mType);
+        r.mSize = tlv.mSize;
+        r.mSwitchId = tlv.mSwitchId;
+        r.mDirection = relive::From(tlv.mDirection);
         return r;
     }
 
@@ -1414,10 +1410,10 @@ public:
     {
         Path_MusicTrigger r;
         BaseConvert(r, tlv);
-        r.field_10_music_type = From(tlv.field_18_music_type);
-        r.field_12_triggered_by = From(tlv.field_1A_triggered_by);
-        r.mSwitchId = tlv.field_1C_switch_id;
-        r.field_14_music_delay = tlv.field_1E_music_delay;
+        r.mMusicType = From(tlv.mMusicType);
+        r.mTriggeredBy = From(tlv.mTriggeredBy);
+        r.mSwitchId = tlv.mSwitchId;
+        r.mMusicDelay = tlv.mMusicDelay;
         return r;
     }
 
@@ -1425,9 +1421,9 @@ public:
     {
         Path_MusicTrigger r;
         BaseConvert(r, tlv);
-        r.field_10_music_type = From(tlv.field_10_music_type);
-        r.field_12_triggered_by = From(tlv.field_12_triggered_by);
-        r.field_14_music_delay = tlv.field_14_music_delay;
+        r.mMusicType = From(tlv.mMusicType);
+        r.mTriggeredBy = From(tlv.mTriggeredBy);
+        r.mMusicDelay = tlv.mMusicDelay;
         return r;
     }
 
@@ -1519,7 +1515,7 @@ public:
     {
         Path_SoftLanding r;
         BaseConvert(r, tlv);
-        r.mSwitchId = tlv.field_10_switch_id;
+        r.mSwitchId = tlv.mSwitchId;
         return r;
     }
 };
@@ -1531,9 +1527,9 @@ public:
     {
         Path_LiftMover r;
         BaseConvert(r, tlv);
-        r.mLiftMoverSwitchId = tlv.field_18_lift_mover_switch_id;
-        r.mTargetLiftPointId = tlv.field_1A_target_lift_point_id;
-        r.mMoveDirection = From(tlv.field_1C_direction);
+        r.mLiftMoverSwitchId = tlv.mLiftMoverSwitchId;
+        r.mTargetLiftPointId = tlv.mTargetLiftPointId;
+        r.mMoveDirection = From(tlv.mMoveDirection);
         return r;
     }
 
@@ -1541,9 +1537,9 @@ public:
     {
         Path_LiftMover r;
         BaseConvert(r, tlv);
-        r.mLiftMoverSwitchId = tlv.field_10_lift_mover_switch_id;
-        r.mTargetLiftPointId = tlv.field_12_target_lift_point_id;
-        r.mMoveDirection = From(tlv.field_14_move_direction);
+        r.mLiftMoverSwitchId = tlv.mLiftMoverSwitchId;
+        r.mTargetLiftPointId = tlv.mTargetLiftPointId;
+        r.mMoveDirection = From(tlv.mMoveDirection);
         return r;
     }
 
@@ -1580,7 +1576,7 @@ public:
     {
         Path_HintFly r;
         BaseConvert(r, tlv);
-        r.mMessageId = tlv.field_18_message_id;
+        r.mMessageId = tlv.mMessageId;
         return r;
     }
 };
@@ -1592,12 +1588,12 @@ public:
     {
         Path_TimerTrigger r;
         BaseConvert(r, tlv);
-        r.field_10_input_switch_id = tlv.field_18_input_switch_id;
-        r.field_12_trigger_interval = tlv.field_1A_trigger_interval;
-        r.field_14_output_switch_id1 = tlv.field_1C_output_switch_id1;
-        r.field_16_output_switch_id2 = tlv.field_1C_output_switch_id2;
-        r.field_18_output_switch_id3 = tlv.field_1C_output_switch_id3;
-        r.field_1A_output_switch_id4 = tlv.field_1C_output_switch_id4;
+        r.mInputSwitchId = tlv.mInputSwitchId;
+        r.mActivationDelay = tlv.mActivationDelay;
+        r.mOutputSwitchId1 = tlv.mOutputSwitchId1;
+        r.mOutputSwitchId2 = tlv.mOutputSwitchId2;
+        r.mOutputSwitchId3 = tlv.mOutputSwitchId3;
+        r.mOutputSwitchId4 = tlv.mOutputSwitchId4;
         return r;
     }
 
@@ -1605,12 +1601,12 @@ public:
     {
         Path_TimerTrigger r;
         BaseConvert(r, tlv);
-        r.field_10_input_switch_id = tlv.field_10_input_switch_id;
-        r.field_12_trigger_interval = tlv.field_12_trigger_interval;
-        r.field_14_output_switch_id1 = tlv.field_14_output_switch_id1;
-        r.field_16_output_switch_id2 = tlv.field_16_output_switch_id2;
-        r.field_18_output_switch_id3 = tlv.field_18_output_switch_id3;
-        r.field_1A_output_switch_id4 = tlv.field_1A_output_switch_id4;
+        r.mInputSwitchId = tlv.mInputSwitchId;
+        r.mActivationDelay = tlv.mActivationDelay;
+        r.mOutputSwitchId1 = tlv.mOutputSwitchId1;
+        r.mOutputSwitchId2 = tlv.mOutputSwitchId2;
+        r.mOutputSwitchId3 = tlv.mOutputSwitchId3;
+        r.mOutputSwitchId4 = tlv.mOutputSwitchId4;
         return r;
     }
 };
@@ -1622,8 +1618,8 @@ public:
     {
         Path_FlintLockFire r;
         BaseConvert(r, tlv);
-        r.mScale = relive::From(tlv.field_18_scale);
-        r.mSwitchId = tlv.field_1A_switch_id;
+        r.mScale = relive::From(tlv.mScale);
+        r.mSwitchId = tlv.mSwitchId;
         return r;
     }
 };
@@ -1635,8 +1631,8 @@ public:
     {
         Path_HoneySack r;
         BaseConvert(r, tlv);
-        r.mChaseTicks = tlv.field_18_chase_ticks;
-        r.mScale = relive::From(tlv.field_1A_scale);
+        r.mChaseTime = tlv.mChaseTime;
+        r.mScale = relive::From(tlv.mScale);
         return r;
     }
 };
@@ -1648,7 +1644,7 @@ public:
     {
         Path_Bat r;
         BaseConvert(r, tlv);
-        r.mTicksBeforeMoving = tlv.mTicksBeforeMoving;
+        r.mTimeBeforeMoving = tlv.mTimeBeforeMoving;
         r.mSpeed = tlv.mSpeed;
         r.mScale = relive::From(tlv.mScale);
         r.mAttackDuration = tlv.mAttackDuration;
@@ -1663,10 +1659,10 @@ public:
     {
         Path_RollingBallStopper r;
         BaseConvert(r, tlv);
-        r.field_18_stopper_switch_id = tlv.field_18_stopper_switch_id;
-        r.field_1A_scale = relive::From(tlv.field_1A_scale);
-        r.field_1C_ball_switch_id = tlv.field_1C_ball_switch_id;
-        r.field_1E_direction = relive::From(tlv.field_1E_direction);
+        r.mStopperSwitchId = tlv.mStopperSwitchId;
+        r.mScale = relive::From(tlv.mScale);
+        r.mBallSwitchId = tlv.mBallSwitchId;
+        r.mStopDirection = relive::From(tlv.mStopDirection);
         return r;
     }
 };
@@ -1678,11 +1674,11 @@ public:
     {
         Path_RollingBall r;
         BaseConvert(r, tlv);
-        r.field_18_scale = relive::From(tlv.field_18_scale);
-        r.field_1A_roll_direction = relive::From(tlv.field_1A_roll_direction);
-        r.field_1C_release_switch_id = tlv.field_1C_release_switch_id;
-        r.field_1E_speed = tlv.field_1E_speed;
-        r.field_20_acceleration = tlv.field_20_acceleration;
+        r.mScale = relive::From(tlv.mScale);
+        r.mRollDirection = relive::From(tlv.mRollDirection);
+        r.mReleaseSwitchId = tlv.mReleaseSwitchId;
+        r.mMaxSpeed = tlv.mMaxSpeed;
+        r.mAcceleration = tlv.mAcceleration;
         return r;
     }
 };
@@ -1694,15 +1690,15 @@ public:
     {
         Path_MotionDetector r;
         BaseConvert(r, tlv);
-        r.mScale = relive::From(tlv.field_18_scale);
-        r.mDeviceX = tlv.field_1A_device_x;
-        r.mDeviceY = tlv.field_1C_device_y;
-        r.mSpeedx256 = tlv.field_1E_speed_x256;
-        r.mInitialMoveDirection = From(tlv.field_20_initial_move_direction);
-        r.mDrawFlare = relive::From(tlv.field_22_draw_flare);
-        r.mDisableSwitchId = tlv.field_24_disable_switch_id;
-        r.mAlarmSwitchId = tlv.field_26_alarm_switch_id;
-        r.mAlarmDuration = tlv.field_28_alarm_duration;
+        r.mScale = relive::From(tlv.mScale);
+        r.mDeviceX = tlv.mDeviceX;
+        r.mDeviceY = tlv.mDeviceY;
+        r.mSpeedx256 = tlv.mSpeedx256;
+        r.mInitialMoveDirection = From(tlv.mInitialMoveDirection);
+        r.mDrawFlare = relive::From(tlv.mDrawFlare);
+        r.mDisableSwitchId = tlv.mDisableSwitchId;
+        r.mAlarmSwitchId = tlv.mAlarmSwitchId;
+        r.mAlarmDuration = tlv.mAlarmDuration;
         return r;
     }
 
@@ -1710,15 +1706,15 @@ public:
     {
         Path_MotionDetector r;
         BaseConvert(r, tlv);
-        r.mScale = relive::From(tlv.field_10_scale);
-        r.mDeviceX = tlv.field_12_device_x;
-        r.mDeviceY = tlv.field_14_device_y;
-        r.mSpeedx256 = tlv.field_16_speed_x256;
-        r.mInitialMoveDirection = From(tlv.field_18_initial_move_direction);
-        r.mDrawFlare = relive::From(tlv.field_1A_draw_flare);
-        r.mDisableSwitchId = tlv.field_1C_disable_switch_id;
-        r.mAlarmSwitchId = tlv.field_1E_alarm_switch_id;
-        r.mAlarmDuration = tlv.field_20_alarm_duration;
+        r.mScale = relive::From(tlv.mScale);
+        r.mDeviceX = tlv.mDeviceX;
+        r.mDeviceY = tlv.mDeviceY;
+        r.mSpeedx256 = tlv.mSpeedx256;
+        r.mInitialMoveDirection = From(tlv.mInitialMoveDirection);
+        r.mDrawFlare = relive::From(tlv.mDrawFlare);
+        r.mDisableSwitchId = tlv.mDisableSwitchId;
+        r.mAlarmSwitchId = tlv.mAlarmSwitchId;
+        r.mAlarmDuration = tlv.mAlarmDuration;
         return r;
     }
 
@@ -1770,8 +1766,8 @@ public:
     {
         Path_SligBound r;
         BaseConvert(r, tlv);
-        r.field_10_slig_bound_id = tlv.field_18_slig_id;
-        r.field_12_disabled_resources = tlv.field_1A_disabled_resources.Raw().all;
+        r.mSligBoundId = tlv.mSligBoundId;
+        r.mDisabledResources = tlv.mDisabledResources.Raw().all;
         return r;
     }
 
@@ -1779,8 +1775,8 @@ public:
     {
         Path_SligBound r;
         BaseConvert(r, tlv);
-        r.field_10_slig_bound_id = tlv.field_10_slig_bound_id;
-        r.field_12_disabled_resources = tlv.field_12_disabled_resources;
+        r.mSligBoundId = tlv.mSligBoundId;
+        r.mDisabledResources = tlv.mDisabledResources;
         return r;
     }
 };
@@ -1792,10 +1788,10 @@ public:
     {
         Path_BackgroundAnimation r;
         BaseConvert(r, tlv);
-        r.field_10_anim_id = tlv.field_18_animation_id;
-        r.field_12_is_semi_trans = relive::From(tlv.field_1A_is_semi_trans);
-        r.field_14_semi_trans_mode = From(tlv.field_1C_semi_trans_mode);
-        r.field_16_sound_effect = From(tlv.field_1E_sound_effect);
+        r.mAnimId = tlv.mAnimId;
+        r.mIsSemiTrans = relive::From(tlv.mIsSemiTrans);
+        r.mSemiTransMode = From(tlv.mSemiTransMode);
+        r.mSoundEffect = From(tlv.mSoundEffect);
         return r;
     }
 
@@ -1803,10 +1799,10 @@ public:
     {
         Path_BackgroundAnimation r;
         BaseConvert(r, tlv);
-        r.field_10_anim_id = tlv.field_10_anim_id;
-        r.field_12_is_semi_trans = relive::From(tlv.field_12_is_semi_trans);
-        r.field_14_semi_trans_mode = From(tlv.field_14_semi_trans_mode);
-        r.field_1A_layer = From(tlv.field_1A_layer);
+        r.mAnimId = tlv.mAnimId;
+        r.mIsSemiTrans = relive::From(tlv.mIsSemiTrans);
+        r.mSemiTransMode = From(tlv.mSemiTransMode);
+        r.mLayer = From(tlv.mLayer);
         return r;
     }
 
@@ -2107,11 +2103,11 @@ public:
     {
         Path_MeatSack r;
         BaseConvert(r, tlv);
-        r.field_10_meat_fall_direction = relive::From(tlv.field_18_meat_fall_direction);
-        r.field_12_xVel = tlv.field_1A_x_vel;
-        r.field_14_yVel = tlv.field_1C_y_vel;
-        r.field_16_scale = relive::From(tlv.field_1E_scale);
-        r.field_18_amount_of_meat = tlv.field_20_amount_of_meat;
+        r.mMeatFallDirection = relive::From(tlv.mMeatFallDirection);
+        r.mVelX = tlv.mVelX;
+        r.mVelY = tlv.mVelY;
+        r.mScale = relive::From(tlv.mScale);
+        r.mMeatAmount = tlv.mMeatAmount;
         return r;
     }
 
@@ -2119,11 +2115,11 @@ public:
     {
         Path_MeatSack r;
         BaseConvert(r, tlv);
-        r.field_10_meat_fall_direction = relive::From(tlv.field_10_meat_fall_direction);
-        r.field_12_xVel = tlv.field_12_xVel;
-        r.field_14_yVel = tlv.field_14_yVel;
-        r.field_16_scale = relive::From(tlv.field_16_scale);
-        r.field_18_amount_of_meat = tlv.field_18_amount_of_meat;
+        r.mMeatFallDirection = relive::From(tlv.mMeatFallDirection);
+        r.mVelX = tlv.mVelX;
+        r.mVelY = tlv.mVelY;
+        r.mScale = relive::From(tlv.mScale);
+        r.mMeatAmount = tlv.mMeatAmount;
         return r;
     }
 };
@@ -2238,12 +2234,12 @@ public:
     {
         Path_PathTransition r;
         BaseConvert(r, tlv);
-        r.field_10_level = MapWrapper::FromAO(tlv.mNextLevel);
-        r.field_12_path = tlv.mNextPath;
-        r.field_14_camera = tlv.mNextCamera;
-        r.field_16_movie = tlv.mMovieId;
-        r.field_18_wipe = tlv.mWipeEffect;
-        r.field_1A_scale = relive::From(tlv.mNextPathScale);
+        r.mNextLevel = MapWrapper::FromAO(tlv.mNextLevel);
+        r.mNextPath = tlv.mNextPath;
+        r.mNextCamera = tlv.mNextCamera;
+        r.mMovieId = tlv.mMovieId;
+        r.mWipeEffect = tlv.mWipeEffect;
+        r.mNextPathScale = relive::From(tlv.mNextPathScale);
         return r;
     }
 
@@ -2251,12 +2247,12 @@ public:
     {
         Path_PathTransition r;
         BaseConvert(r, tlv);
-        r.field_10_level = MapWrapper::FromAE(tlv.field_10_level);
-        r.field_12_path = tlv.mNextPath;
-        r.field_14_camera = tlv.mNextCamera;
-        r.field_16_movie = tlv.mMovieId;
-        r.field_18_wipe = tlv.mWipeEffect;
-        r.field_1A_scale = relive::From(tlv.mNextPathScale);
+        r.mNextLevel = MapWrapper::FromAE(tlv.field_10_level);
+        r.mNextPath = tlv.mNextPath;
+        r.mNextCamera = tlv.mNextCamera;
+        r.mMovieId = tlv.mMovieId;
+        r.mWipeEffect = tlv.mWipeEffect;
+        r.mNextPathScale = relive::From(tlv.mNextPathScale);
         return r;
     }
 };

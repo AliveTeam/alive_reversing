@@ -32,9 +32,9 @@ Mine::Mine(Path_Mine* pPath, TlvItemInfoUnion tlv)
     mBaseGameObjectFlags.Set(Options::eInteractive_Bit8);
     mBaseGameObjectFlags.Set(Options::eCanExplode_Bit7);
 
-    if (pPath->field_14_scale != Scale_short::eFull_0)
+    if (pPath->mScale != Scale_short::eFull_0)
     {
-        if (pPath->field_14_scale == Scale_short::eHalf_1)
+        if (pPath->mScale == Scale_short::eHalf_1)
         {
             mSpriteScale = FP_FromDouble(0.5);
             mAnim.mRenderLayer = Layer::eLayer_RollingBallBombMineCar_Half_16;
@@ -83,10 +83,10 @@ Mine::Mine(Path_Mine* pPath, TlvItemInfoUnion tlv)
     field_124_animation.mGreen = 128;
     field_124_animation.mBlue = 128;
 
-    field_11A_disabled_resources = pPath->field_16_disabled_resources;
+    field_11A_disabled_resources = pPath->mDisabledResources;
 
     field_1BC_flags.Clear(Mine_Flags_1BC::eBit1_PersistOffscreen);
-    if (pPath->field_18_persist_offscreen == Choice_short::eYes_1)
+    if (pPath->mPersistOffscreen == Choice_short::eYes_1)
     {
         field_1BC_flags.Set(Mine_Flags_1BC::eBit1_PersistOffscreen);
     }

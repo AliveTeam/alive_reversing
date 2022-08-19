@@ -35,7 +35,7 @@ MotionDetector::MotionDetector(Path_MotionDetector* pTlv, s32 tlvInfo)
     field_F6_bDontComeBack = 1;
     field_E4_tlvInfo = tlvInfo;
 
-    if (pTlv->field_18_scale == Scale_short::eHalf_1)
+    if (pTlv->mScale == Scale_short::eHalf_1)
     {
         mSpriteScale = FP_FromDouble(0.5);
     }
@@ -50,14 +50,14 @@ MotionDetector::MotionDetector(Path_MotionDetector* pTlv, s32 tlvInfo)
     field_FC_top_left_y = FP_FromInteger(pTlv->mTopLeft.y);
     field_104_bottom_right_y = FP_FromInteger(pTlv->mBottomRight.y);
 
-    mXPos = FP_FromInteger(pTlv->field_1A_device_x);
-    mYPos = FP_FromInteger(pTlv->field_1C_device_y);
+    mXPos = FP_FromInteger(pTlv->mDeviceX);
+    mYPos = FP_FromInteger(pTlv->mDeviceY);
 
-    field_15C_speed = FP_FromRaw(pTlv->field_1E_speed_x256 << 8);
+    field_15C_speed = FP_FromRaw(pTlv->mSpeedx256 << 8);
 
     const AnimRecord& laserRec = AO::AnimRec(AnimId::MotionDetector_Laser);
     u8** ppResLaser = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, laserRec.mResourceId, 1, 0);
-    if (pTlv->field_20_initial_move_direction == Path_MotionDetector::InitialMoveDirection::eRight_0)
+    if (pTlv->mInitialMoveDirection == Path_MotionDetector::InitialMoveDirection::eRight_0)
     {
         
         field_E8_state = States::eMoveRight_0;
@@ -79,7 +79,7 @@ MotionDetector::MotionDetector(Path_MotionDetector* pTlv, s32 tlvInfo)
             field_108_pLaser = pMotionDetectors;
         }
     }
-    else if (pTlv->field_20_initial_move_direction == Path_MotionDetector::InitialMoveDirection::eLeft_1)
+    else if (pTlv->mInitialMoveDirection == Path_MotionDetector::InitialMoveDirection::eLeft_1)
     {
         field_E8_state = States::eMoveLeft_2;
         auto pMotionDetectors = relive_new MotionDetectorLaser();
@@ -105,15 +105,15 @@ MotionDetector::MotionDetector(Path_MotionDetector* pTlv, s32 tlvInfo)
 
     field_108_pLaser->mBaseGameObjectRefCount++;
 
-    field_F0_disable_switch_id = pTlv->field_24_disable_switch_id;
+    field_F0_disable_switch_id = pTlv->mDisableSwitchId;
 
     field_108_pLaser->mAnim.mFlags.Set(AnimFlags::eBit3_Render, SwitchStates_Get(field_F0_disable_switch_id) == 0);
 
-    mAnim.mFlags.Set(AnimFlags::eBit3_Render, pTlv->field_22_draw_flare == Choice_short::eYes_1);
+    mAnim.mFlags.Set(AnimFlags::eBit3_Render, pTlv->mDrawFlare == Choice_short::eYes_1);
 
-    field_F4_alarm_duration = pTlv->field_28_alarm_duration;
+    field_F4_alarm_duration = pTlv->mAlarmDuration;
 
-    field_F2_alarm_switch_id = pTlv->field_26_alarm_switch_id;
+    field_F2_alarm_switch_id = pTlv->mAlarmSwitchId;
 }
 
 void MotionDetector::SetDontComeBack(s16 bDontComeBack)

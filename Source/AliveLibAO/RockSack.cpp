@@ -128,15 +128,15 @@ RockSack::RockSack(Path_RockSack* pTlv, s32 tlvInfo)
     mVisualFlags.Clear(VisualFlags::eApplyShadowZoneColour);
     mXPos = FP_FromInteger(pTlv->mTopLeft.x);
     mYPos = FP_FromInteger(pTlv->mTopLeft.y);
-    field_118_x_vel = FP_FromRaw(pTlv->field_1A_x_vel << 8);
-    field_11C_y_vel = FP_FromRaw(-256 * pTlv->field_1C_y_vel);
+    field_118_x_vel = FP_FromRaw(pTlv->mVelX << 8);
+    field_11C_y_vel = FP_FromRaw(-256 * pTlv->mVelY);
 
-    if (pTlv->field_18_fall_direction == XDirection_short::eLeft_0)
+    if (pTlv->mRockFallDirection == XDirection_short::eLeft_0)
     {
         field_118_x_vel = -field_118_x_vel;
     }
 
-    if (pTlv->field_1E_scale == Scale_short::eHalf_1)
+    if (pTlv->mScale == Scale_short::eHalf_1)
     {
         mSpriteScale = FP_FromDouble(0.5);
         mScale = Scale::Bg;
@@ -147,7 +147,7 @@ RockSack::RockSack(Path_RockSack* pTlv, s32 tlvInfo)
         mScale = Scale::Fg;
     }
 
-    field_112_rock_amount = pTlv->field_20_rock_amount;
+    field_112_rock_amount = pTlv->mRockAmount;
     field_114_can_play_wobble_sound = 1;
     field_116_force_wobble_sound = 1;
 

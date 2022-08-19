@@ -2834,11 +2834,11 @@ static bool IsSameScaleAsHoist(Path_Hoist* pHoist, BaseAliveGameObject* pObj)
 
 static bool IsSameScaleAsEdge(Path_Edge* pEdge, BaseAliveGameObject* pObj)
 {
-    if (pEdge->field_14_scale == Scale_int::eFull_0 && pObj->mScale == Scale::Bg)
+    if (pEdge->mScale == Scale_int::eFull_0 && pObj->mScale == Scale::Bg)
     {
         return false;
     }
-    else if (pEdge->field_14_scale == Scale_int::eHalf_1 && pObj->mScale == Scale::Fg)
+    else if (pEdge->mScale == Scale_int::eHalf_1 && pObj->mScale == Scale::Fg)
     {
         return false;
     }
@@ -2847,11 +2847,11 @@ static bool IsSameScaleAsEdge(Path_Edge* pEdge, BaseAliveGameObject* pObj)
 
 static bool IsFacingSameDirectionAsHoist(Path_Hoist* pHoist, BaseAliveGameObject* pObj)
 {
-    if (pHoist->field_12_grab_direction == Path_Hoist::GrabDirection::eFacingLeft && !pObj->mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
+    if (pHoist->mGrabDirection == Path_Hoist::GrabDirection::eFacingLeft && !pObj->mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
     {
         return false;
     }
-    else if (pHoist->field_12_grab_direction == Path_Hoist::GrabDirection::eFacingRight && pObj->mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
+    else if (pHoist->mGrabDirection == Path_Hoist::GrabDirection::eFacingRight && pObj->mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
     {
         return false;
     }
@@ -2861,15 +2861,15 @@ static bool IsFacingSameDirectionAsHoist(Path_Hoist* pHoist, BaseAliveGameObject
 
 static bool isEdgeGrabbable(Path_Edge* pEdge, BaseAliveGameObject* pObj)
 {
-    if (pEdge->field_10_grab_direction == Path_Edge::GrabDirection::eFacingLeft && pObj->mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
+    if (pEdge->mGrabDirection == Path_Edge::GrabDirection::eFacingLeft && pObj->mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
     {
         return true;
     }
-    else if (pEdge->field_10_grab_direction == Path_Edge::GrabDirection::eFacingRight && !pObj->mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
+    else if (pEdge->mGrabDirection == Path_Edge::GrabDirection::eFacingRight && !pObj->mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
     {
         return true;
     }
-    else if (pEdge->field_10_grab_direction == Path_Edge::GrabDirection::eFacingAnyDirection)
+    else if (pEdge->mGrabDirection == Path_Edge::GrabDirection::eFacingAnyDirection)
     {
         return true;
     }
@@ -2973,7 +2973,7 @@ void Abe::Motion_0_Idle_44EEB0()
             }
             else
             {
-                if (pHoist->field_12_grab_direction == Path_Hoist::GrabDirection::eFacingAnyDirection)
+                if (pHoist->mGrabDirection == Path_Hoist::GrabDirection::eFacingAnyDirection)
                 {
                     // We can hoist down from any side
                     mCurrentMotion = eAbeMotions::Motion_66_LedgeDescend_454970;
@@ -3535,7 +3535,7 @@ void Abe::Motion_3_Fall_459B60()
 
                 if (pSoftLanding)
                 {
-                    if (!SwitchStates_Get(static_cast<s16>(pSoftLanding->field_10_switch_id)))
+                    if (!SwitchStates_Get(static_cast<s16>(pSoftLanding->mSwitchId)))
                     {
                         pSoftLanding = nullptr;
                     }
@@ -3597,7 +3597,7 @@ void Abe::Motion_3_Fall_459B60()
     bool tryToHang = false;
     if (pEdge)
     {
-        if (pEdge->field_12_bCan_grab == Choice_short::eYes_1 && IsSameScaleAsEdge(pEdge, this) && (isEdgeGrabbable(pEdge, this)))
+        if (pEdge->mCanGrab == Choice_short::eYes_1 && IsSameScaleAsEdge(pEdge, this) && (isEdgeGrabbable(pEdge, this)))
         {
             tryToHang = true;
         }
@@ -3881,9 +3881,9 @@ void Abe::Motion_14_HoistIdle_452440()
 
     if (pHoist)
     {
-        if (IsSameScaleAsHoist(pHoist, this) && (IsFacingSameDirectionAsHoist(pHoist, this) || pHoist->field_12_grab_direction == Path_Hoist::GrabDirection::eFacingAnyDirection))
+        if (IsSameScaleAsHoist(pHoist, this) && (IsFacingSameDirectionAsHoist(pHoist, this) || pHoist->mGrabDirection == Path_Hoist::GrabDirection::eFacingAnyDirection))
         {
-            if (pHoist->field_10_type == Path_Hoist::Type::eOffScreen)
+            if (pHoist->mHoistType == Path_Hoist::Type::eOffScreen)
             {
                 if (gMap.SetActiveCameraDelayed(Map::MapDirections::eMapTop_2, this, -1))
                 {
@@ -4560,7 +4560,7 @@ void Abe::Motion_28_HopMid_451C50()
 
         BaseAliveGameObjectPathTLV = pEdgeTlv;
 
-        if (pEdgeTlv && pEdgeTlv->field_12_bCan_grab == Choice_short::eYes_1 && IsSameScaleAsEdge(pEdgeTlv, this) && ((isEdgeGrabbable(pEdgeTlv, this) && mVelX != FP_FromInteger(0))))
+        if (pEdgeTlv && pEdgeTlv->mCanGrab == Choice_short::eYes_1 && IsSameScaleAsEdge(pEdgeTlv, this) && ((isEdgeGrabbable(pEdgeTlv, this) && mVelX != FP_FromInteger(0))))
         {
             mXPos = FP_FromInteger((pEdgeTlv->mTopLeft.x + pEdgeTlv->mBottomRight.x) / 2);
 
@@ -4733,7 +4733,7 @@ void Abe::Motion_31_RunJumpMid_452C10()
         {
             BaseAliveGameObjectPathTLV = pHoist;
 
-            if (IsSameScaleAsHoist(pHoist, this) && (IsFacingSameDirectionAsHoist(pHoist, this) || pHoist->field_12_grab_direction == Path_Hoist::GrabDirection::eFacingAnyDirection) && pHoist->field_10_type != Path_Hoist::Type::eOffScreen)
+            if (IsSameScaleAsHoist(pHoist, this) && (IsFacingSameDirectionAsHoist(pHoist, this) || pHoist->mGrabDirection == Path_Hoist::GrabDirection::eFacingAnyDirection) && pHoist->mHoistType != Path_Hoist::Type::eOffScreen)
             {
                 checkCollision = true;
             }
@@ -4749,7 +4749,7 @@ void Abe::Motion_31_RunJumpMid_452C10()
 
             BaseAliveGameObjectPathTLV = pEdgeTlv;
 
-            if (pEdgeTlv && pEdgeTlv->field_12_bCan_grab == Choice_short::eYes_1)
+            if (pEdgeTlv && pEdgeTlv->mCanGrab == Choice_short::eYes_1)
             {
                 if (IsSameScaleAsEdge(pEdgeTlv, this) && (isEdgeGrabbable(pEdgeTlv, this)))
                 {
@@ -8422,7 +8422,7 @@ void Abe::TryHoist_44ED30()
     {
         if (IsSameScaleAsHoist(pHoist, this))
         {
-            if (!IsFacingSameDirectionAsHoist(pHoist, this) && pHoist->field_12_grab_direction != Path_Hoist::GrabDirection::eFacingAnyDirection)
+            if (!IsFacingSameDirectionAsHoist(pHoist, this) && pHoist->mGrabDirection != Path_Hoist::GrabDirection::eFacingAnyDirection)
             {
                 // No, so auto turn around to face it.
                 mNextMotion = mCurrentMotion;

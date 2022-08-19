@@ -37,12 +37,12 @@ enum class SwitchOp : s16;
 
 struct Path_Lever final : public Path_TLV
 {
-    s16 field_18_switch_id;
-    SwitchOp field_1A_action;
-    Scale_short field_1C_scale;
-    LeverSoundType field_1E_on_sound;
-    LeverSoundType field_20_off_sound;
-    LeverSoundDirection field_22_sound_direction;
+    s16 mSwitchId;
+    SwitchOp mAction;
+    Scale_short mScale;
+    LeverSoundType mOnSound;
+    LeverSoundType mOffSound;
+    LeverSoundDirection mSoundDirection;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Lever, 0x24);
 

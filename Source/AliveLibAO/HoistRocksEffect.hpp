@@ -14,7 +14,7 @@ struct Path_Hoist final : public Path_TLV
         eNextEdge = 1,
         eOffScreen = 2,
     };
-    Type field_18_hoist_type;
+    Type mHoistType;
 
     enum class GrabDirection : s16
     {
@@ -22,7 +22,7 @@ struct Path_Hoist final : public Path_TLV
         eFacingRight = 1,
         eFacingAnyDirection = 2,
     };
-    GrabDirection field_1A_grab_direction;
+    GrabDirection mGrabDirection;
     s16 field_1C_switch_id;
     s16 field_1E_pad;
 };

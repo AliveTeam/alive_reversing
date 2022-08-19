@@ -25,12 +25,12 @@ struct Path_Pulley final : public Path_TLV
 
 struct Path_LiftPoint final : public Path_TLV
 {
-    s16 field_18_lift_point_id;
-    Choice_short field_1A_bstart_point;
+    s16 mLiftPointId;
+    Choice_short mIsStartPoint;
     s16 field_1C_lift_type;
-    LiftPointStopType field_1E_lift_point_stop_type;
-    Scale_short field_20_scale;
-    Choice_short field_22_bIgnore_lift_mover;
+    LiftPointStopType mLiftPointStopType;
+    Scale_short mScale;
+    Choice_short mIgnoreLiftMover;
 };
 
 class Rope;
