@@ -1411,22 +1411,22 @@ s16 Slig::HandleEnemyStopper_46BF30(s32 gridBlocks)
     }
 
     //TODO different from Exoddus (inverted) - watch out!
-    if (SwitchStates_Get(pStopper->field_1A_switch_id))
+    if (SwitchStates_Get(pStopper->mSwitchId))
     {
         return 0;
     }
 
-    if (pStopper->field_18_direction == Path_EnemyStopper::StopDirection::Both_2)
+    if (pStopper->mStopDirection == Path_EnemyStopper::StopDirection::Both_2)
     {
         return 1;
     }
 
-    if (bFacingLeft && pStopper->field_18_direction == Path_EnemyStopper::StopDirection::Left_0)
+    if (bFacingLeft && pStopper->mStopDirection == Path_EnemyStopper::StopDirection::Left_0)
     {
         return 1;
     }
 
-    if (!bFacingLeft && pStopper->field_18_direction == Path_EnemyStopper::StopDirection::Right_1)
+    if (!bFacingLeft && pStopper->mStopDirection == Path_EnemyStopper::StopDirection::Right_1)
     {
         return 1;
     }

@@ -73,16 +73,16 @@ Door::Door(Path_Door* pTlv, s32 tlvInfo)
 
     field_E4_tlvInfo = tlvInfo;
 
-    field_E8_door_type = pTlv->field_26_door_type;
+    field_E8_door_type = pTlv->mDoorType;
     field_EE_door_closed = pTlv->field_28_door_closed;
-    field_F0_switch_id = pTlv->field_22_switch_id;
+    field_F0_switch_id = pTlv->mSwitchId;
 
     if (field_F0_switch_id == 1)
     {
         field_F0_switch_id = 0;
     }
 
-    field_EA_door_number = pTlv->field_20_door_number;
+    field_EA_door_number = pTlv->mDoorNumber;
 
     field_EC_current_state = (field_EE_door_closed == Choice_short::eNo_0) == SwitchStates_Get(field_F0_switch_id) ? DoorStates::eClosed_1 : DoorStates::eOpen_0;
 
@@ -122,7 +122,7 @@ Door::Door(Path_Door* pTlv, s32 tlvInfo)
                     Animation_Init(sDoorAnimdIdTable[idx][0], ppRes);
                 }
 
-                if (pTlv->field_1E_scale == Scale_short::eHalf_1)
+                if (pTlv->mScale == Scale_short::eHalf_1)
                 {
                     mSpriteScale = FP_FromDouble(0.5);
                     mScale = Scale::Bg;
@@ -272,14 +272,14 @@ Door::Door(Path_Door* pTlv, s32 tlvInfo)
 
                     mSpriteScale = FP_FromInteger(1);
 
-                    field_F2_hubs_ids[0] = pTlv->field_2A_hub1;
-                    field_F2_hubs_ids[1] = pTlv->field_2A_hub2;
-                    field_F2_hubs_ids[2] = pTlv->field_2A_hub3;
-                    field_F2_hubs_ids[3] = pTlv->field_2A_hub4;
-                    field_F2_hubs_ids[4] = pTlv->field_2A_hub5;
-                    field_F2_hubs_ids[5] = pTlv->field_2A_hub6;
-                    field_F2_hubs_ids[6] = pTlv->field_2A_hub7;
-                    field_F2_hubs_ids[7] = pTlv->field_2A_hub8;
+                    field_F2_hubs_ids[0] = pTlv->mHub1;
+                    field_F2_hubs_ids[1] = pTlv->mHub2;
+                    field_F2_hubs_ids[2] = pTlv->mHub3;
+                    field_F2_hubs_ids[3] = pTlv->mHub4;
+                    field_F2_hubs_ids[4] = pTlv->mHub5;
+                    field_F2_hubs_ids[5] = pTlv->mHub6;
+                    field_F2_hubs_ids[6] = pTlv->mHub7;
+                    field_F2_hubs_ids[7] = pTlv->mHub8;
                     break;
                 }
             }
@@ -288,8 +288,8 @@ Door::Door(Path_Door* pTlv, s32 tlvInfo)
             return;
     }
 
-    mXPos += FP_FromInteger(pTlv->field_3E_x_offset);
-    mYPos += FP_FromInteger(pTlv->field_40_y_offset);
+    mXPos += FP_FromInteger(pTlv->mDoorOffsetX);
+    mYPos += FP_FromInteger(pTlv->mDoorOffsetY);
 
     if (field_EC_current_state == DoorStates::eOpen_0)
     {

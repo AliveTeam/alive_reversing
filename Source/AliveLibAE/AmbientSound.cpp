@@ -122,7 +122,7 @@ void Start_Sounds_for_TLV(CameraPos direction, Path_TLV* pTlv)
 
         case TlvTypes::Slog_16:
         {
-            if (static_cast<Path_Slog*>(pTlv)->field_14_asleep == Choice_short::eYes_1)
+            if (static_cast<Path_Slog*>(pTlv)->mAsleep == Choice_short::eYes_1)
             {
                 if (!pAmbianceTbl->mArray[3].field_8_pScopedSeq)
                 {

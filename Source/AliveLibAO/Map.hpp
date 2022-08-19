@@ -90,19 +90,19 @@ struct Path_EnemyStopper final : public Path_TLV
         Right_1 = 1,
         Both_2 = 2,
     };
-    StopDirection field_18_direction;
-    s16 field_1A_switch_id;
+    StopDirection mStopDirection;
+    s16 mSwitchId;
 };
 // TODO:: size
 
 struct Path_PathTransition final : public Path_TLV
 {
-    LevelIds field_18_level;
-    s16 field_1A_path;
-    s16 field_1C_camera;
-    s16 field_1E_movie;
-    u16 field_20_wipe;
-    Scale_short field_22_next_path_scale;
+    LevelIds mNextLevel;
+    s16 mNextPath;
+    s16 mNextCamera;
+    s16 mMovieId;
+    u16 mWipeEffect;
+    Scale_short mNextPathScale;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_PathTransition, 0x24);
 

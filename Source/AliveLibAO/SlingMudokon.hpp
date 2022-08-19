@@ -12,10 +12,10 @@ namespace AO {
 
 struct Path_SlingMudokon final : public Path_TLV
 {
-    Scale_short field_18_scale;
-    Choice_short field_1A_bDontWhistlePassword;
-    s16 field_1C_code_1;
-    s16 field_1E_code_2;
+    Scale_short mScale;
+    Choice_short mDontWhistlePassword;
+    s16 mCode1;
+    s16 mCode2;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_SlingMudokon, 0x20);
 

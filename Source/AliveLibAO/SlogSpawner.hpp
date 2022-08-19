@@ -14,7 +14,7 @@ enum class StartDirection : s16
 
 struct Path_SlogSpawner final : public Path_TLV
 {
-    Scale_short field_18_scale;
+    Scale_short mScale;
     s16 mMaxSlogs;
     s16 mMaxSlogsAtATime;
     StartDirection mStartDirection;

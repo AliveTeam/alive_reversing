@@ -427,8 +427,8 @@ static void ConvertTLV(nlohmann::json& j, const AO::Path_TLV& tlv)
         case AO::TlvTypes::SecurityDoor_95:
             convert_tlv<relive::Path_SecurityDoor_Converter, AO::Path_SecurityDoor>(j, tlv);
             break;
-        case AO::TlvTypes::DemoPlaybackStone_96: // unused?
-            LOG_WARNING("tlv of type " << static_cast<s16>(tlv.mTlvType32.mType) << " unused?");
+        case AO::TlvTypes::DemoPlaybackStone_96:
+            LOG_WARNING("tlv of type " << static_cast<s16>(tlv.mTlvType32.mType) << " is unused");
             return;
         case AO::TlvTypes::BoomMachine_97:
             convert_tlv<relive::Path_BoomMachine_Converter, AO::Path_BoomMachine>(j, tlv);

@@ -226,8 +226,8 @@ struct Path_EnemyStopper final : public Path_TLV
         Right_1 = 1,
         Both_2 = 2,
     };
-    StopDirection field_10_stop_direction;
-    s16 field_12_switch_id;
+    StopDirection mStopDirection;
+    s16 mSwitchId;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_EnemyStopper, 0x14);
 
@@ -362,10 +362,10 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_SoftLanding, 0x14);
 
 struct Path_WellBase : public Path_TLV
 {
-    Scale_short field_0_scale;
-    s16 field_2_switch_id;
-    s16 field_4_other_well_id;
-    s16 field_6_anim_id;
+    Scale_short mScale;
+    s16 mSwitchId;
+    s16 mOtherWellId;
+    s16 mAnimId;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_WellBase, 0x18);
 
@@ -373,11 +373,11 @@ struct Path_WellLocal final : public Path_WellBase
 {
     s16 field_18_off_dx;
     s16 field_1A_off_dy;
-    s16 field_1C_on_dx;
-    s16 field_1E_on_dy;
-    Choice_short field_20_bEmit_leaves;
-    s16 field_22_leaf_x;
-    s16 field_24_leaf_y;
+    s16 mOnDestX;
+    s16 mOnDestY;
+    Choice_short mEmitLeaves;
+    s16 mLeafX;
+    s16 mLeafY;
     s16 field_26_padding;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_WellLocal, 0x28);
@@ -388,16 +388,16 @@ struct Path_WellExpress final : public Path_WellBase
     s16 field_1A_exit_y;
     LevelIds field_1C_disabled_well_level;
     s16 field_1E_disabled_well_path;
-    s16 field_20_disabled_well_camera;
-    s16 field_22_disabled_well_id;
-    LevelIds field_24_enabled_well_level;
-    s16 field_26_enabled_well_path;
-    s16 field_28_enabled_well_camera;
-    s16 field_2A_enabled_well_id;
-    Choice_short field_2C_bEmit_leaves;
-    s16 field_2E_leaf_x;
-    s16 field_30_leaf_y;
-    s16 field_32_movie_id;
+    s16 mOffDestCamera;
+    s16 mOffOtherWellId;
+    LevelIds mOnDestLevel;
+    s16 mOnDestPath;
+    s16 mOnDestCamera;
+    s16 mOnOtherWellId;
+    Choice_short mEmitLeaves;
+    s16 mLeafX;
+    s16 mLeafY;
+    s16 mMovieId;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_WellExpress, 0x34);
 

@@ -6,12 +6,12 @@
 
 struct Path_SecurityDoor final : public Path_TLV
 {
-    Scale_short field_10_scale;
-    s16 field_12_switch_id;
-    s16 field_14_code_1;
-    s16 field_16_code_2;
-    s16 field_18_xpos;
-    s16 field_1A_ypos;
+    Scale_short mScale;
+    s16 mSwitchId;
+    s16 mCode1;
+    s16 mCode2;
+    s16 mXPos;
+    s16 mYPos;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_SecurityDoor, 0x1C);
 

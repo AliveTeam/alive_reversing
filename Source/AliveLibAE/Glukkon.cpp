@@ -2479,8 +2479,8 @@ s16 Glukkon::PathBlocked(FP /*a2*/, s16 checkBounds)
 
     auto pEnemyStopper = static_cast<Path_EnemyStopper*>(BaseAliveGameObjectPathTLV);
     if (pEnemyStopper
-        && (pEnemyStopper->field_10_stop_direction == direction || pEnemyStopper->field_10_stop_direction == Path_EnemyStopper::StopDirection::Both_2)
-        && SwitchStates_Get(pEnemyStopper->field_12_switch_id))
+        && (pEnemyStopper->mStopDirection == direction || pEnemyStopper->mStopDirection == Path_EnemyStopper::StopDirection::Both_2)
+        && SwitchStates_Get(pEnemyStopper->mSwitchId))
     {
         return 1;
     }

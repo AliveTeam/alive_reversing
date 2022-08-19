@@ -22,32 +22,32 @@ enum DoorTypes : s16
 
 struct Path_Door final : public Path_TLV
 {
-    LevelIds field_10_level;
-    s16 field_12_path;
-    s16 field_14_camera;
-    Scale_short field_16_scale;
-    s16 field_18_door_number;
-    s16 field_1A_switch_id;
-    s16 field_1C_target_door_id;
-    DoorTypes field_1E_type;
-    DoorStates field_20_start_state;
-    s16 field_22_hub1;
-    s16 field_22_hub2;
-    s16 field_22_hub3;
-    s16 field_22_hub4;
-    s16 field_22_hub5;
-    s16 field_22_hub6;
-    s16 field_22_hub7;
-    s16 field_22_hub8;
-    ScreenChangeEffects field_32_wipe_effect;
-    s16 field_34_movie_number;
-    s16 field_36_x_offset;
-    s16 field_38_y_offset;
+    LevelIds mNextLevel;
+    s16 mNextPath;
+    s16 mNextCamera;
+    Scale_short mScale;
+    s16 mDoorNumber;
+    s16 mSwitchId;
+    s16 mTargetDoorNumber;
+    DoorTypes mDoorType;
+    DoorStates mStartState;
+    s16 mHub1;
+    s16 mHub2;
+    s16 mHub3;
+    s16 mHub4;
+    s16 mHub5;
+    s16 mHub6;
+    s16 mHub7;
+    s16 mHub8;
+    ScreenChangeEffects mWipeEffect;
+    s16 mMovieId;
+    s16 mDoorOffsetX;
+    s16 mDoorOffsetY;
     s16 field_3A_wipe_x_org;
     s16 field_3C_wipe_y_org;
-    XDirection_short field_3E_abe_direction;
-    Choice_short field_40_close_on_exit;
-    Choice_short field_42_clear_throwables;
+    XDirection_short mExitDirection;
+    Choice_short mCloseOnExit;
+    Choice_short mClearThrowables;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Door, 0x44);
 

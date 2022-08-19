@@ -235,7 +235,7 @@ enum Flags_2A8
     e2A8_eBit13_bScrabaniaDone = 0x1000,
     e2A8_eBit14_bGotShrykullFromBigFace = 0x2000,
     e2A8_eBit15_bGiveShrykullFromBigFace = 0x4000,
-    e2A8_eBit16_AbeSpawnDir = 0x8000,
+    eAbeSpawnDir = 0x8000,
 };
 
 // elum flags?
@@ -462,16 +462,16 @@ struct Path_SoftLanding final : public Path_TLV
 
 struct Path_ContinuePoint final : public Path_TLV
 {
-    s16 field_18_zone_number;
-    s16 field_1A_clear_from_id;
-    s16 field_1C_clear_to_id;
-    Choice_short field_1E_elum_restarts;
+    s16 mZoneNumber;
+    s16 mClearFromId;
+    s16 mClearToId;
+    Choice_short mElumRestarts;
     enum class spawnDirection : s16
     {
         eRight_0 = 0,
         eLeft_1 = 1
     };
-    spawnDirection field_20_abe_direction;
+    spawnDirection mAbeSpawnDir;
     s16 field_22_pad;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_ContinuePoint, 0x24);
@@ -733,15 +733,15 @@ public:
     s32 field_12C_timer = 0;
     s16 field_130_say = 0;
     s32 field_134_auto_say_timer = 0;
-    PSX_Point field_138_zone_top_left = {};
-    PSX_Point field_13C_zone_bottom_right = {};
-    s16 field_140_saved_camera = 0;
-    s16 field_142_saved_path = 0;
-    EReliveLevelIds field_144_saved_level = EReliveLevelIds::eNone;
-    s16 field_146_zone_number = 0;
-    s16 field_148_clear_from_id = 0;
-    s16 field_14A_clear_to_id = 0;
-    FP field_14C_saved_sprite_scale = {};
+    PSX_Point mContinueTopLeft = {};
+    PSX_Point mContinueBottomRight = {};
+    s16 mContinueCamera = 0;
+    s16 mContinuePath = 0;
+    EReliveLevelIds mContinueLevel = EReliveLevelIds::eNone;
+    s16 mContinueZoneNumber = 0;
+    s16 mContinueClearFromId = 0;
+    s16 mContinueClearToId = 0;
+    FP mContinueSpriteScale = {};
     s32 field_150_saved_ring_timer = 0; // todo: check
     s16 field_154_bSavedHaveShrykull = 0;
     DeathFadeOut* field_158_pDeathFadeout = nullptr;

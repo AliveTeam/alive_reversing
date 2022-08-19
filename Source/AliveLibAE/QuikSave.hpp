@@ -21,7 +21,7 @@ struct Quicksave_WorldInfo final
     LevelIds field_4_level;
     s16 field_6_path;
     s16 field_8_cam;
-    s16 field_A_save_num;
+    s16 mSaveFileId;
     s16 field_C_controlled_x;
     s16 field_E_controlled_y;
     s16 field_10_controlled_scale;
@@ -64,7 +64,7 @@ struct SaveFileRec final
 ALIVE_ASSERT_SIZEOF(SaveFileRec, 0x24);
 
 ALIVE_ARY_EXTERN(SaveFileRec, 128, sSaveFileRecords_BB31D8);
-ALIVE_VAR_EXTERN(Quicksave, sActiveQuicksaveData_BAF7F8);
+ALIVE_VAR_EXTERN(Quicksave, sActiveQuicksaveData);
 ALIVE_VAR_EXTERN(s32, sSavedGameToLoadIdx_BB43FC);
 ALIVE_VAR_EXTERN(s32, sTotalSaveFilesCount_BB43E0);
 ALIVE_VAR_EXTERN(u16, sQuickSave_saved_switchResetters_count_BB234C);

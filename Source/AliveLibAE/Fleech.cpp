@@ -2096,7 +2096,7 @@ s16 Fleech::HandleEnemyStopperOrSlamDoor(s32 velX)
         FP_GetExponent(mYPos),
         TlvTypes::EnemyStopper_47));
 
-    if (pStopper && (pStopper->field_10_stop_direction == (nextXPos >= mXPos ? Path_EnemyStopper::StopDirection::Right_1 : Path_EnemyStopper::StopDirection::Left_0)) && SwitchStates_Get(pStopper->field_12_switch_id))
+    if (pStopper && (pStopper->mStopDirection == (nextXPos >= mXPos ? Path_EnemyStopper::StopDirection::Right_1 : Path_EnemyStopper::StopDirection::Left_0)) && SwitchStates_Get(pStopper->mSwitchId))
     {
         return 1;
     }

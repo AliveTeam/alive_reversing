@@ -15,39 +15,39 @@ union OffLevelOrDx
 
 struct Path_WellBase : public Path_TLV
 {
-    Scale_short field_18_scale;
-    s16 field_1A_switch_id;
-    s16 field_1C_other_well_id;
-    s16 field_1E_anim_id;
-    s16 field_20_exit_x;
-    s16 field_22_exit_y;
-    OffLevelOrDx field_24_off_level_or_dx;
-    s16 field_26_off_path_or_dy;
+    Scale_short mScale;
+    s16 mSwitchId;
+    s16 mOtherWellId;
+    s16 mAnimId;
+    s16 mExitX;
+    s16 mExitY;
+    OffLevelOrDx mOffLevelOrDestX;
+    s16 mOffPathOrDestY;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_WellBase, 0x28);
 
 struct Path_WellExpress final : public Path_WellBase
 {
-    s16 field_28_off_camera;
-    s16 field_2A_off_well_id;
-    LevelIds field_2C_on_level;
-    s16 field_2E_on_path;
-    s16 field_30_on_camera;
-    s16 field_32_on_well_id;
-    Choice_short field_34_emit_leaves;
-    s16 field_36_leaf_x;
-    s16 field_38_leaf_y;
-    s16 field_3A_movie_id;
+    s16 mOffDestCamera;
+    s16 mOffOtherWellId;
+    LevelIds mOnDestLevel;
+    s16 mOnDestPath;
+    s16 mOnDestCamera;
+    s16 mOnOtherWellId;
+    Choice_short mEmitLeaves;
+    s16 mLeafX;
+    s16 mLeafY;
+    s16 mMovieId;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_WellExpress, 0x3C);
 
 struct Path_WellLocal final : public Path_WellBase
 {
-    s16 field_28_on_dx;
-    s16 field_2A_on_dy;
-    Choice_short field_2C_bEmit_leaves;
-    s16 field_2E_leaf_x;
-    s16 field_30_leaf_y;
+    s16 mOnDestX;
+    s16 mOnDestY;
+    Choice_short mEmitLeaves;
+    s16 mLeafX;
+    s16 mLeafY;
     s16 field_32_pad;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_WellLocal, 0x34);

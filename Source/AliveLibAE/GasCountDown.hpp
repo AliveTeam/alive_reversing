@@ -7,9 +7,9 @@
 
 struct Path_GasCountDown final : public Path_TLV
 {
-    s16 field_10_start_timer_switch_id;
-    u16 field_12_gas_countdown_timer;
-    s16 field_14_stop_timer_switch_id;
+    s16 mStartTimerSwitchId;
+    u16 mGasCountdownTimer;
+    s16 mStopTimerSwitchId;
     s16 field_16_pad;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_GasCountDown, 0x18);

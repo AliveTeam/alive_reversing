@@ -69,7 +69,7 @@ GasCountDown::GasCountDown(Path_GasCountDown* pTlv, s32 tlvInfo)
 
     field_5E_ypos = FP_GetExponent((FP_FromInteger(pScreenManager->mCamYOff + pTlv->mTopLeft.y)) - pScreenManager->mCamPos->y);
 
-    field_60_start_switch_id = pTlv->field_18_start_switch_id;
+    field_60_start_switch_id = pTlv->mStartTimerSwitchId;
 }
 
 GasCountDown::~GasCountDown()

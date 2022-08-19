@@ -130,7 +130,7 @@ Slog::Slog(Path_Slog* pTlv, s32 tlvInfo)
     mXPos = FP_FromInteger(pTlv->mTopLeft.x);
     mYPos = FP_FromInteger(pTlv->mTopLeft.y);
 
-    if (pTlv->field_10_scale != Scale_short::eFull_0)
+    if (pTlv->mScale != Scale_short::eFull_0)
     {
         mSpriteScale = FP_FromDouble(0.5);
     }
@@ -145,23 +145,23 @@ Slog::Slog(Path_Slog* pTlv, s32 tlvInfo)
 
     field_160_flags.Clear(Flags_160::eBit9_MovedOffScreen);
     field_160_flags.Set(Flags_160::eBit2_ListenToSligs);
-    field_160_flags.Set(Flags_160::eBit7_Asleep, pTlv->field_14_asleep == Choice_short::eYes_1);
+    field_160_flags.Set(Flags_160::eBit7_Asleep, pTlv->mAsleep == Choice_short::eYes_1);
     field_160_flags.Clear(Flags_160::eBit5_CommandedToAttack);
 
     mBaseGameObjectFlags.Set(BaseGameObject::eCanExplode_Bit7);
 
-    mAnim.mFlags.Set(AnimFlags::eBit5_FlipX, pTlv->field_12_direction == XDirection_short::eLeft_0);
+    mAnim.mFlags.Set(AnimFlags::eBit5_FlipX, pTlv->mFacing == XDirection_short::eLeft_0);
 
     field_12C_tlvInfo = tlvInfo;
     mBaseGameObjectTlvInfo = tlvInfo;
     field_120_brain_state_idx = 1;
     field_118_target_id = -1;
-    field_144_wake_up_anger = pTlv->field_16_wake_up_anger;
-    field_146_total_anger = pTlv->field_16_wake_up_anger + pTlv->field_18_bark_anger;
-    field_148_chase_anger = field_146_total_anger + pTlv->field_1A_chase_anger;
-    field_158_chase_delay = pTlv->field_1C_chase_delay;
-    field_154_anger_switch_id = pTlv->field_20_anger_switch_id;
-    field_156_bone_eating_time = pTlv->field_22_bone_eating_time;
+    field_144_wake_up_anger = pTlv->mWakeUpAnger;
+    field_146_total_anger = pTlv->mWakeUpAnger + pTlv->mBarkAnger;
+    field_148_chase_anger = field_146_total_anger + pTlv->mChaseAnger;
+    field_158_chase_delay = pTlv->mChaseDelay;
+    field_154_anger_switch_id = pTlv->mAngerSwitchId;
+    field_156_bone_eating_time = pTlv->mBoneEatingTime;
 
     if (field_160_flags.Get(Flags_160::eBit7_Asleep))
     {
@@ -3467,7 +3467,7 @@ s16 Slog::HandleEnemyStopper()
             FP_GetExponent(xToUse), FP_GetExponent(mYPos),
             FP_GetExponent(width), FP_GetExponent(mYPos), TlvTypes::EnemyStopper_47));
 
-    return stopperPath != nullptr && stopperPath->field_10_stop_direction == (mVelX > FP_FromInteger(0) ? Path_EnemyStopper::StopDirection::Right_1 : Path_EnemyStopper::StopDirection::Left_0) && SwitchStates_Get(stopperPath->field_12_switch_id) > 0;
+    return stopperPath != nullptr && stopperPath->mStopDirection == (mVelX > FP_FromInteger(0) ? Path_EnemyStopper::StopDirection::Right_1 : Path_EnemyStopper::StopDirection::Left_0) && SwitchStates_Get(stopperPath->mSwitchId) > 0;
 }
 
 s16 Slog::Facing(FP xpos)

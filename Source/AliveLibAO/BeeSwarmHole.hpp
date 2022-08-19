@@ -17,12 +17,12 @@ struct Path_BeeSwarmHole final : public Path_TLV
         eFollowPath_2 = 2,
     };
     s16 field_18_what_to_spawn;
-    s16 field_1A_interval;
+    s16 mStartInterval;
     s16 field_1C_fall_switch_id;
-    MovementType field_1E_movement_type;
-    s16 field_20_bees_amount;
-    s16 field_22_chase_time;
-    s16 field_24_speed;
+    MovementType mMovementType;
+    s16 mBeesAmount;
+    s16 mChaseTime;
+    s16 mSpeed;
     Scale_short field_26_scale;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_BeeSwarmHole, 0x28);
@@ -36,8 +36,8 @@ public:
 
     s32 field_10_tlvInfo = 0;
     PSX_RECT field_14_rect = {};
-    s32 field_1C_interval_timer = 0;
-    u16 field_20_interval = 0;
+    s32 mStartIntervalTimer = 0;
+    u16 mStartInterval = 0;
     s16 field_22_fall_switch_id = 0;
     Path_BeeSwarmHole::MovementType field_24_movement_type = Path_BeeSwarmHole::MovementType::eHover_0;
     s16 field_26_bees_amount = 0;

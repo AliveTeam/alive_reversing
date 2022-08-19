@@ -6231,22 +6231,22 @@ s16 Slig::HandleEnemyStopper_4BBA00(s32 gridBlocks)
         return 0;
     }
 
-    if (!SwitchStates_Get(pTlv->field_12_switch_id))
+    if (!SwitchStates_Get(pTlv->mSwitchId))
     {
         return 0;
     }
 
-    if (pTlv->field_10_stop_direction == Path_EnemyStopper::StopDirection::Both_2)
+    if (pTlv->mStopDirection == Path_EnemyStopper::StopDirection::Both_2)
     {
         return 1;
     }
 
-    if (bFacingLeft && pTlv->field_10_stop_direction == Path_EnemyStopper::StopDirection::Left_0)
+    if (bFacingLeft && pTlv->mStopDirection == Path_EnemyStopper::StopDirection::Left_0)
     {
         return 1;
     }
 
-    if (!bFacingLeft && pTlv->field_10_stop_direction == Path_EnemyStopper::StopDirection::Right_1)
+    if (!bFacingLeft && pTlv->mStopDirection == Path_EnemyStopper::StopDirection::Right_1)
     {
         return 1;
     }

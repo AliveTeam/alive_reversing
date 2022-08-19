@@ -83,64 +83,64 @@ enum eMudMotions : s32
 
 struct Path_Mudokon final : public Path_TLV
 {
-    Scale_short field_18_scale;
+    Scale_short mScale;
     enum class MudJobs : s16
     {
         eStandScrub_0 = 0,
         eSitScrub_1 = 1,
         eSitChant_2 = 2,
     };
-    MudJobs field_1A_job;
-    XDirection_short field_1C_direction;
-    s16 field_1E_voice_pitch;
-    s16 field_20_rescue_switch_id;
-    Choice_short field_22_deaf;
-    s16 field_24_disabled_resources;
-    s16 field_26_persist;
+    MudJobs mJob;
+    XDirection_short mFacing;
+    s16 mVoicePitch;
+    s16 mRescueSwitchId;
+    Choice_short mDeaf;
+    s16 mDisabledResources;
+    s16 mPersistAndResetOffscreen;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Mudokon, 0x28);
 
 struct Path_MudokonPathTrans final : public Path_TLV
 {
-    LevelIds level;
-    s16 path;
-    s32 camera;
+    LevelIds mNextLevel;
+    s16 mNextPath;
+    s32 mNextCamera;
 };
 
 struct Path_RingMudokon final : public Path_TLV
 {
-    XDirection_short field_18_direction;
+    XDirection_short mFacing;
     enum class MustFaceMud : s16
     {
         eYes_0 = 0,
         eNo_1 = 1
     };
-    MustFaceMud field_1A_abe_must_face_mud;
-    Scale_short field_1C_scale;
-    Choice_short field_1E_give_password;
-    s16 field_20_code1;
-    s16 field_22_code2;
-    SwitchOp field_24_action;
-    s16 field_26_ring_timeout;
-    Choice_short field_28_give_ring_without_password;
+    MustFaceMud mAbeMustFaceMud;
+    Scale_short mScale;
+    Choice_short mGivePassword;
+    s16 mCode1;
+    s16 mCode2;
+    SwitchOp mAction;
+    s16 mRingTimeout;
+    Choice_short mGiveRingWithoutPassword;
     s16 field_2A_pad;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_RingMudokon, 0x2C);
 
 struct Path_LiftMudokon final : public Path_TLV
 {
-    s16 field_18_how_far_to_walk;
-    s16 field_1A_lift_switch_id;
+    s16 mHowFarToWalk;
+    s16 mLiftSwitchId;
     enum class Direction : s16
     {
         eRight_0 = 0,
         eLeft_1 = 1
     };
-    Direction field_1C_direction;
-    Choice_short field_1E_give_password;
-    Scale_short field_20_scale;
-    s16 field_22_code1;
-    s16 field_24_code2;
+    Direction mFacing;
+    Choice_short mGivePassword;
+    Scale_short mScale;
+    s16 mCode1;
+    s16 mCode2;
     s16 field_26_pad;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_LiftMudokon, 0x28);

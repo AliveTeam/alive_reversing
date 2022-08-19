@@ -68,15 +68,15 @@ void SaveGame::LoadFromMemory(SaveData* pData, s32 bKillObjects)
 
     sControlledCharacter = sActiveHero;
 
-    sActiveHero->field_146_zone_number = pData->field_204_zone_number;
-    sActiveHero->field_148_clear_from_id = pData->field_206_clear_from_id;
-    sActiveHero->field_14A_clear_to_id = pData->field_208_clear_to_id;
-    sActiveHero->field_138_zone_top_left = pData->field_20A_zone_top_left;
-    sActiveHero->field_13C_zone_bottom_right = pData->field_20E_zone_bottom_right;
-    sActiveHero->field_144_saved_level = MapWrapper::FromAO(pData->field_212_saved_level);
-    sActiveHero->field_142_saved_path = pData->field_214_saved_path;
-    sActiveHero->field_140_saved_camera = pData->field_216_saved_camera;
-    sActiveHero->field_14C_saved_sprite_scale = pData->field_218_saved_sprite_scale;
+    sActiveHero->mContinueZoneNumber = pData->field_204_zone_number;
+    sActiveHero->mContinueClearFromId = pData->field_206_clear_from_id;
+    sActiveHero->mContinueClearToId = pData->field_208_clear_to_id;
+    sActiveHero->mContinueTopLeft = pData->field_20A_zone_top_left;
+    sActiveHero->mContinueBottomRight = pData->field_20E_zone_bottom_right;
+    sActiveHero->mContinueLevel = MapWrapper::FromAO(pData->field_212_saved_level);
+    sActiveHero->mContinuePath = pData->field_214_saved_path;
+    sActiveHero->mContinueCamera = pData->field_216_saved_camera;
+    sActiveHero->mContinueSpriteScale = pData->field_218_saved_sprite_scale;
     sActiveHero->field_150_saved_ring_timer = pData->field_21C_saved_ring_timer;
     sActiveHero->field_154_bSavedHaveShrykull = pData->field_220_bSavedHaveShrykull;
     sActiveHero->field_168_ring_pulse_timer = pData->field_254_ring_pulse_timer;
@@ -346,17 +346,17 @@ void SaveGame::SaveToMemory(SaveData* pSaveData)
         }
     }
     pSaveData->field_234_current_level = MapWrapper::ToAO(gMap.mCurrentLevel);
-    pSaveData->field_206_clear_from_id = sActiveHero->field_148_clear_from_id;
-    pSaveData->field_20A_zone_top_left = sActiveHero->field_138_zone_top_left;
-    pSaveData->field_20E_zone_bottom_right = sActiveHero->field_13C_zone_bottom_right;
-    pSaveData->field_204_zone_number = sActiveHero->field_146_zone_number;
-    pSaveData->field_212_saved_level = MapWrapper::ToAO(sActiveHero->field_144_saved_level);
-    pSaveData->field_208_clear_to_id = sActiveHero->field_14A_clear_to_id;
-    pSaveData->field_216_saved_camera = sActiveHero->field_140_saved_camera;
+    pSaveData->field_206_clear_from_id = sActiveHero->mContinueClearFromId;
+    pSaveData->field_20A_zone_top_left = sActiveHero->mContinueTopLeft;
+    pSaveData->field_20E_zone_bottom_right = sActiveHero->mContinueBottomRight;
+    pSaveData->field_204_zone_number = sActiveHero->mContinueZoneNumber;
+    pSaveData->field_212_saved_level = MapWrapper::ToAO(sActiveHero->mContinueLevel);
+    pSaveData->field_208_clear_to_id = sActiveHero->mContinueClearToId;
+    pSaveData->field_216_saved_camera = sActiveHero->mContinueCamera;
     pSaveData->field_21C_saved_ring_timer = sActiveHero->field_150_saved_ring_timer;
-    pSaveData->field_214_saved_path = sActiveHero->field_142_saved_path;
+    pSaveData->field_214_saved_path = sActiveHero->mContinuePath;
     pSaveData->field_254_ring_pulse_timer = sActiveHero->field_168_ring_pulse_timer;
-    pSaveData->field_218_saved_sprite_scale = sActiveHero->field_14C_saved_sprite_scale;
+    pSaveData->field_218_saved_sprite_scale = sActiveHero->mContinueSpriteScale;
     pSaveData->field_2A0_rescued_mudokons = sRescuedMudokons_5076C0;
     pSaveData->field_220_bSavedHaveShrykull = sActiveHero->field_154_bSavedHaveShrykull;
     pSaveData->field_2A4_restartRuptureFarmsSavedMudokons = gRestartRuptureFarmsSavedMuds_5076C8;
@@ -391,13 +391,13 @@ void SaveGame::SaveToMemory(SaveData* pSaveData)
     if (gElum != 0)
     {
         pSaveData->field_25C_bControllingElum = sControlledCharacter == gElum;
-        pSaveData->field_25E_bElumRespawnOnDead = gElum->field_144_bRespawnOnDead;
-        pSaveData->field_28C_elum_continue_rect = gElum->field_138_continue_rect;
-        pSaveData->field_294_continue_zone_number = gElum->field_140_continue_zone_number;
+        pSaveData->field_25E_bElumRespawnOnDead = gElum->mRespawnOnDead;
+        pSaveData->field_28C_elum_continue_rect = gElum->mContinueRect;
+        pSaveData->field_294_continue_zone_number = gElum->mContinueZoneNumber;
         pSaveData->field_296_elum_zone_number = gElum->field_142_zone_number;
-        pSaveData->field_298_elum_continue_path = gElum->field_148_continue_path;
-        pSaveData->field_29A_continue_level = MapWrapper::ToAO(gElum->field_14A_continue_level);
-        pSaveData->field_29C_elum_sprite_scale = gElum->field_150_continue_sprite_scale;
+        pSaveData->field_298_elum_continue_path = gElum->mContinuePath;
+        pSaveData->field_29A_continue_level = MapWrapper::ToAO(gElum->mContinueLevel);
+        pSaveData->field_29C_elum_sprite_scale = gElum->mContinueSpriteScale;
         pSaveData->field_260_elum_lvl_number = MapWrapper::ToAO(gElum->mCurrentLevel);
         pSaveData->field_262_elum_path_number = gElum->mCurrentPath;
         pSaveData->field_268_elum_xpos = FP_GetExponent(gElum->mXPos);
@@ -413,7 +413,7 @@ void SaveGame::SaveToMemory(SaveData* pSaveData)
         pSaveData->field_274_elum_current_motion = gElum->mCurrentMotion;
         pSaveData->field_272_elum_flipX = gElum->mAnim.mFlags.Get(AnimFlags::eBit5_FlipX);
         pSaveData->field_278_brain_idx = gElum->field_128_brain_idx;
-        pSaveData->field_276_bDontFollowAbe = gElum->field_122_bDontFollowAbe;
+        pSaveData->field_276_bDontFollowAbe = gElum->mDontFollowAbe;
         pSaveData->field_27C_honey_xpos = gElum->field_12C_honey_xpos;
         pSaveData->field_27A_elum_brain_state = gElum->field_12A_brain_sub_state;
         pSaveData->field_284_unused = gElum->field_130_unused;

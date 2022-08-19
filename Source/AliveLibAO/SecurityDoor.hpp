@@ -9,12 +9,12 @@ namespace AO {
 
 struct Path_SecurityDoor final : public Path_TLV
 {
-    Scale_short field_18_scale;
-    s16 field_1A_switch_id;
-    s16 field_1C_code_1;
-    s16 field_1E_code2;
-    s16 field_20_xpos;
-    s16 field_22_ypos;
+    Scale_short mScale;
+    s16 mSwitchId;
+    s16 mCode1;
+    s16 mCode2;
+    s16 mXPos;
+    s16 mYPos;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_SecurityDoor, 0x24);
 

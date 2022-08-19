@@ -22,7 +22,7 @@ SlogSpawner::SlogSpawner(Path_SlogSpawner* pTlv, s32 tlvInfo)
     mTlvInfo = tlvInfo;
     mSpawnTimer = 0;
 
-    mScale = pTlv->field_18_scale;
+    mScale = pTlv->mScale;
     mMaxSlogs = pTlv->mMaxSlogs;
     mMaxSlogsAtATime = pTlv->mMaxSlogsAtATime;
     mStartDirection = pTlv->mStartDirection;

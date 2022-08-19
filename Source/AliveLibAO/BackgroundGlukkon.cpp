@@ -38,16 +38,14 @@ BackgroundGlukkon::BackgroundGlukkon(Path_BackgroundGlukkon* pTlv, s32 tlvInfo)
     mXPos = FP_FromInteger(pTlv->mTopLeft.x);
     mYPos = FP_FromInteger(pTlv->mTopLeft.y);
 
-    mSpriteScale = FP_FromInteger(pTlv->field_18_scale_percent) / FP_FromInteger(100);
+    mSpriteScale = FP_FromInteger(pTlv->mScalePercent) / FP_FromInteger(100);
 
-    u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Palt, pTlv->field_1A_pal_id, 0, 0);
+    u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Palt, pTlv->mPalId, 0, 0);
     if (ppRes)
     {
         mAnim.LoadPal(ppRes, 0);
     }
 
-    field_120_target_id = pTlv->field_1C_target_id;
-    field_11C_voice_adjust = pTlv->field_1E_voice_adjust;
     field_110_state = BackgroundGlukkon::State::eToSetSpeakPauseTimer_0;
 }
 

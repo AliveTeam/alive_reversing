@@ -60,7 +60,7 @@ class Meat;
 
 struct Path_Paramite final : public Path_TLV
 {
-    Scale_short field_10_scale;
+    Scale_short mScale;
     enum class EntranceType : s16
     {
         ePatrol_0 = 0,
@@ -69,16 +69,16 @@ struct Path_Paramite final : public Path_TLV
         eUnused_ScaleToLeftGridSize_3 = 3,
         eUnused_ScaleToRightGridSize_4 = 4,
     };
-    EntranceType field_12_entrace_type;
-    s16 field_14_alone_chase_delay;
-    s16 field_16_surprise_web_delay_timer;
-    s16 field_18_meat_eating_time;
-    u16 field_1A_group_chase_delay;
+    EntranceType mEntranceType;
+    s16 mAloneChaseDelay;
+    s16 mSurpriseWebDelayTimer;
+    s16 mMeatEatingTime;
+    u16 mGroupChaseDelay;
     s16 field_1C_disabled_resources; // // Unused
-    s16 field_1E_surprise_web_switch_id;
-    Choice_short field_20_hiss_before_attack;
-    Choice_short field_22_delete_when_out_of_sight;
-    Choice_short field_24_bAttack_fleeches;
+    s16 mSurpriseWebSwitchId;
+    Choice_short mHissBeforeAttack;
+    Choice_short mDeleteWhenOutOfSight;
+    Choice_short mAttackFleeches;
     s16 field_26_padding;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Paramite, 0x28);

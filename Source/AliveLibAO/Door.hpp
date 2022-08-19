@@ -28,30 +28,30 @@ enum class DoorTypes : s16
 
 struct Path_Door final : public Path_TLV
 {
-    LevelIds field_18_level;
-    s16 field_1A_path;
-    s16 field_1C_camera;
-    Scale_short field_1E_scale;
-    u16 field_20_door_number;
-    s16 field_22_switch_id;
-    s16 field_24_target_door_number;
-    DoorTypes field_26_door_type;
+    LevelIds mNextLevel;
+    s16 mNextPath;
+    s16 mNextCamera;
+    Scale_short mScale;
+    u16 mDoorNumber;
+    s16 mSwitchId;
+    s16 mTargetDoorNumber;
+    DoorTypes mDoorType;
     Choice_short field_28_door_closed;
-    s16 field_2A_hub1;
-    s16 field_2A_hub2;
-    s16 field_2A_hub3;
-    s16 field_2A_hub4;
-    s16 field_2A_hub5;
-    s16 field_2A_hub6;
-    s16 field_2A_hub7;
-    s16 field_2A_hub8;
-    s16 field_3A_wipe_effect;
-    s16 field_3C_movie_number;
-    s16 field_3E_x_offset;
-    s16 field_40_y_offset;
+    s16 mHub1;
+    s16 mHub2;
+    s16 mHub3;
+    s16 mHub4;
+    s16 mHub5;
+    s16 mHub6;
+    s16 mHub7;
+    s16 mHub8;
+    s16 mWipeEffect;
+    s16 mMovieId;
+    s16 mDoorOffsetX;
+    s16 mDoorOffsetY;
     s16 field_42_wipe_x_org;
     s16 field_44_wipe_y_org;
-    XDirection_short field_46_abe_direction;
+    XDirection_short mExitDirection;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Door, 0x48);
 

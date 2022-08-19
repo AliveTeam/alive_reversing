@@ -37,7 +37,7 @@ SlapLockWhirlWind::SlapLockWhirlWind(s16 doorNumber, s16 switchId, FP xpos, FP y
                 y - gMap.mCamIdxOnY));
             while (pDoorTlv)
             {
-                if (pDoorTlv->mTlvType32 == TlvTypes::Door_5 && pDoorTlv->field_18_door_number == doorNumber)
+                if (pDoorTlv->mTlvType32 == TlvTypes::Door_5 && pDoorTlv->mDoorNumber == doorNumber)
                 {
                     // For some reason once found we just keep on searching...
                     bFoundTarget = true;
@@ -45,7 +45,7 @@ SlapLockWhirlWind::SlapLockWhirlWind(s16 doorNumber, s16 switchId, FP xpos, FP y
                     field_2C_door_x = FP_FromInteger((pDoorTlv->mTopLeft.x + pDoorTlv->mBottomRight.x) / 2);
                     field_30_door_y = FP_FromInteger((pDoorTlv->mTopLeft.y + pDoorTlv->mBottomRight.y) / 2);
 
-                    if (pDoorTlv->field_16_scale != Scale_short::eFull_0)
+                    if (pDoorTlv->mScale != Scale_short::eFull_0)
                     {
                         field_34_door_scale = FP_FromDouble(0.5);
                     }

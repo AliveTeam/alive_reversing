@@ -64,17 +64,17 @@ FootSwitch::FootSwitch(Path_FootSwitch* pTlv, s32 tlvInfo)
 
     SetTint(sFootSwitchTints_5639F4, gMap.mCurrentLevel);
 
-    field_FA_switch_id = pTlv->field_10_switch_id;
+    field_FA_switch_id = pTlv->mSwitchId;
 
-    if (pTlv->field_12_scale == Scale_short::eHalf_1)
+    if (pTlv->mScale == Scale_short::eHalf_1)
     {
         mSpriteScale = FP_FromDouble(0.5);
         mScale = Scale::Bg;
         mAnim.mRenderLayer = Layer::eLayer_BeforeShadow_Half_6;
     }
 
-    field_FC_action = pTlv->field_14_action;
-    field_FE_trigger_by = pTlv->field_16_trigger_by;
+    field_FC_action = pTlv->mAction;
+    field_FE_trigger_by = pTlv->mTriggeredBy;
     mXPos = FP_FromInteger((pTlv->mTopLeft.x + pTlv->mBottomRight.x) / 2);
     field_F8_state = States::eWaitForStepOnMe_0;
     mVisualFlags.Set(VisualFlags::eDoPurpleLightEffect);

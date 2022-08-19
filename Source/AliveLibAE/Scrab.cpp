@@ -209,10 +209,10 @@ void Scrab::VOnTlvCollision(Path_TLV* pTlv)
         else if (pTlv->mTlvType32 == TlvTypes::EnemyStopper_47)
         {
             const auto enemyStopperPath = static_cast<Path_EnemyStopper*>(BaseAliveGameObjectPathTLV); //TODO it should probably be pTlv, instead - OG bug?
-            const Path_EnemyStopper::StopDirection stopDirection = enemyStopperPath->field_10_stop_direction;
+            const Path_EnemyStopper::StopDirection stopDirection = enemyStopperPath->mStopDirection;
             if ((stopDirection == Path_EnemyStopper::StopDirection::Left_0 && mXPos < field_198_max_xpos) || (stopDirection == Path_EnemyStopper::StopDirection::Right_1 && mXPos > field_198_max_xpos) || stopDirection == Path_EnemyStopper::StopDirection::Both_2)
             {
-                if (SwitchStates_Get(enemyStopperPath->field_12_switch_id))
+                if (SwitchStates_Get(enemyStopperPath->mSwitchId))
                 {
                     if (sControlledCharacter != this)
                     {
@@ -4266,7 +4266,7 @@ s16 Scrab::Handle_SlamDoor_or_EnemyStopper(FP velX, s16 bCheckLeftRightBounds)
         TlvTypes::EnemyStopper_47);
 
     auto pPathEnemyStopper = static_cast<Path_EnemyStopper*>(BaseAliveGameObjectPathTLV);
-    if (pPathEnemyStopper && (pPathEnemyStopper->field_10_stop_direction == stopDirection || pPathEnemyStopper->field_10_stop_direction == Path_EnemyStopper::StopDirection::Both_2) && SwitchStates_Get(pPathEnemyStopper->field_12_switch_id))
+    if (pPathEnemyStopper && (pPathEnemyStopper->mStopDirection == stopDirection || pPathEnemyStopper->mStopDirection == Path_EnemyStopper::StopDirection::Both_2) && SwitchStates_Get(pPathEnemyStopper->mSwitchId))
     {
         return 1;
     }

@@ -61,11 +61,11 @@ enum class CameraPos : s16
 struct Path_PathTransition final : public Path_TLV
 {
     LevelIds field_10_level;
-    s16 field_12_path;
-    s16 field_14_camera;
-    s16 field_16_movie;
-    s16 field_18_wipe;
-    Scale_short field_1A_scale;
+    s16 mNextPath;
+    s16 mNextCamera;
+    s16 mMovieId;
+    s16 mWipeEffect;
+    Scale_short mNextPathScale;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_PathTransition, 0x1C);
 

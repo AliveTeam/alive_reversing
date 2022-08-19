@@ -28,7 +28,7 @@ Well::Well(Path_WellBase* pTlv, FP xpos, FP ypos, s32 tlvInfo)
 
 void Well::WellExpress_Init(Path_WellExpress* pTlv, FP /*xpos*/, FP ypos)
 {
-    if (pTlv->field_0_scale != Scale_short::eFull_0)
+    if (pTlv->mScale != Scale_short::eFull_0)
     {
         field_28_scale = FP_FromDouble(0.5);
     }
@@ -37,19 +37,19 @@ void Well::WellExpress_Init(Path_WellExpress* pTlv, FP /*xpos*/, FP ypos)
         field_28_scale = FP_FromInteger(1);
     }
 
-    field_24_switch_id = pTlv->field_2_switch_id;
+    field_24_switch_id = pTlv->mSwitchId;
 
     field_2C_exit_x = FP_FromInteger(pTlv->field_18_exit_x) / FP_FromInteger(100);
     field_30_exit_y = FP_FromInteger(pTlv->field_1A_exit_y) / FP_FromInteger(100);
 
-    field_3C_bEmitLeaves = pTlv->field_2C_bEmit_leaves;
+    field_3C_bEmitLeaves = pTlv->mEmitLeaves;
     if (field_3C_bEmitLeaves == Choice_short::eYes_1)
     {
         PSX_Point abeSpawnPos = {};
         gMap.Get_Abe_Spawn_Pos(&abeSpawnPos);
 
-        field_34_leaf_xpos = FP_FromInteger(pTlv->field_2E_leaf_x);
-        if (pTlv->field_2E_leaf_x > 0)
+        field_34_leaf_xpos = FP_FromInteger(pTlv->mLeafX);
+        if (pTlv->mLeafX > 0)
         {
             field_34_leaf_xpos += FP_FromInteger(abeSpawnPos.x);
         }
@@ -59,8 +59,8 @@ void Well::WellExpress_Init(Path_WellExpress* pTlv, FP /*xpos*/, FP ypos)
             field_34_leaf_xpos = FP_FromInteger(pos);
         }
 
-        field_38_leaf_ypos = FP_FromInteger(pTlv->field_30_leaf_y);
-        if (pTlv->field_30_leaf_y > 0)
+        field_38_leaf_ypos = FP_FromInteger(pTlv->mLeafY);
+        if (pTlv->mLeafY > 0)
         {
             field_38_leaf_ypos += FP_FromInteger(abeSpawnPos.y);
         }
@@ -73,7 +73,7 @@ void Well::WellExpress_Init(Path_WellExpress* pTlv, FP /*xpos*/, FP ypos)
 
 void Well::WellLocal_Init(Path_WellLocal* pTlv, FP /*xpos*/, FP ypos)
 {
-    if (pTlv->field_0_scale != Scale_short::eFull_0)
+    if (pTlv->mScale != Scale_short::eFull_0)
     {
         field_28_scale = FP_FromDouble(0.5);
     }
@@ -82,16 +82,16 @@ void Well::WellLocal_Init(Path_WellLocal* pTlv, FP /*xpos*/, FP ypos)
         field_28_scale = FP_FromInteger(1);
     }
 
-    field_24_switch_id = pTlv->field_2_switch_id;
+    field_24_switch_id = pTlv->mSwitchId;
 
-    field_3C_bEmitLeaves = pTlv->field_20_bEmit_leaves;
+    field_3C_bEmitLeaves = pTlv->mEmitLeaves;
     if (field_3C_bEmitLeaves == Choice_short::eYes_1)
     {
         PSX_Point abeSpawnPos = {};
         gMap.Get_Abe_Spawn_Pos(&abeSpawnPos);
-        field_34_leaf_xpos = FP_FromInteger(pTlv->field_22_leaf_x);
+        field_34_leaf_xpos = FP_FromInteger(pTlv->mLeafX);
 
-        if (pTlv->field_22_leaf_x > 0)
+        if (pTlv->mLeafX > 0)
         {
             field_34_leaf_xpos += FP_FromInteger(abeSpawnPos.x);
         }
@@ -101,8 +101,8 @@ void Well::WellLocal_Init(Path_WellLocal* pTlv, FP /*xpos*/, FP ypos)
             field_34_leaf_xpos = FP_FromInteger(pos);
         }
 
-        field_38_leaf_ypos = FP_FromInteger(pTlv->field_24_leaf_y);
-        if (pTlv->field_24_leaf_y > 0)
+        field_38_leaf_ypos = FP_FromInteger(pTlv->mLeafY);
+        if (pTlv->mLeafY > 0)
         {
             field_38_leaf_ypos += FP_FromInteger(abeSpawnPos.y);
         }

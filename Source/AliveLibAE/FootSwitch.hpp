@@ -13,10 +13,10 @@ enum class FootSwitchTriggerBy : s16
 
 struct Path_FootSwitch final : public Path_TLV
 {
-    s16 field_10_switch_id;
-    Scale_short field_12_scale;
-    SwitchOp field_14_action;
-    FootSwitchTriggerBy field_16_trigger_by;
+    s16 mSwitchId;
+    Scale_short mScale;
+    SwitchOp mAction;
+    FootSwitchTriggerBy mTriggeredBy;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_FootSwitch, 0x18);
 

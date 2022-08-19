@@ -201,8 +201,8 @@ struct Path_ContinuePoint final : public Path_TLV
         eHalf_1 = 1,
         eFull_2 = 2,
     };
-    Scale field_10_scale;
-    s16 field_12_save_file_id;
+    Scale mScale;
+    s16 mSaveFileId;
 };
 // TODO: size
 
@@ -747,7 +747,7 @@ public:
     };
     BitField16<Flags_1AE> field_1AE_flags = {};
 
-    s16 field_1B0_save_num = 0;
+    s16 mSaveFileId = 0;
 };
 ALIVE_ASSERT_SIZEOF(Abe, 0x1BC);
 

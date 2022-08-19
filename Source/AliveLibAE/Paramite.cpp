@@ -109,13 +109,13 @@ Paramite::Paramite(Path_Paramite* pTlv, s32 tlvInfo)
     mXPos = FP_FromInteger(pTlv->mTopLeft.x + 12);
     mYPos = FP_FromInteger(pTlv->mTopLeft.y);
 
-    if (pTlv->field_10_scale == Scale_short::eHalf_1)
+    if (pTlv->mScale == Scale_short::eHalf_1)
     {
         mSpriteScale = FP_FromDouble(0.5);
         mAnim.mRenderLayer = Layer::eLayer_8;
         mScale = Scale::Bg;
     }
-    else if (pTlv->field_10_scale == Scale_short::eFull_0)
+    else if (pTlv->mScale == Scale_short::eFull_0)
     {
         mSpriteScale = FP_FromInteger(1);
         mAnim.mRenderLayer = Layer::eLayer_27;
@@ -127,7 +127,7 @@ Paramite::Paramite(Path_Paramite* pTlv, s32 tlvInfo)
         mAnim.mFlags.Toggle(AnimFlags::eBit5_FlipX);
     }
 
-    switch (pTlv->field_12_entrace_type)
+    switch (pTlv->mEntranceType)
     {
         case Path_Paramite::EntranceType::eSurpriseWeb_1:
             mBaseAliveGameObjectFlags.Clear(Flags_114::e114_Bit3_Can_Be_Possessed);
@@ -162,17 +162,17 @@ Paramite::Paramite(Path_Paramite* pTlv, s32 tlvInfo)
             break;
     }
 
-    field_136_alone_chase_delay = pTlv->field_14_alone_chase_delay;
-    field_12E_surprise_web_delay_timer = pTlv->field_16_surprise_web_delay_timer;
-    field_134_meat_eating_time = pTlv->field_18_meat_eating_time;
-    field_144_group_chase_delay = pTlv->field_1A_group_chase_delay;
-    field_14C_surprise_web_switch_id = pTlv->field_1E_surprise_web_switch_id;
+    field_136_alone_chase_delay = pTlv->mAloneChaseDelay;
+    field_12E_surprise_web_delay_timer = pTlv->mSurpriseWebDelayTimer;
+    field_134_meat_eating_time = pTlv->mMeatEatingTime;
+    field_144_group_chase_delay = pTlv->mGroupChaseDelay;
+    field_14C_surprise_web_switch_id = pTlv->mSurpriseWebSwitchId;
 
-    field_178_flags.Set(Flags_178::eBit1_hiss_before_attack, pTlv->field_20_hiss_before_attack == Choice_short::eYes_1);
+    field_178_flags.Set(Flags_178::eBit1_hiss_before_attack, pTlv->mHissBeforeAttack == Choice_short::eYes_1);
     field_178_flags.Clear(Flags_178::eBit2_running);
-    field_178_flags.Set(Flags_178::eBit4_out_of_sight, pTlv->field_22_delete_when_out_of_sight == Choice_short::eYes_1);
+    field_178_flags.Set(Flags_178::eBit4_out_of_sight, pTlv->mDeleteWhenOutOfSight == Choice_short::eYes_1);
     field_178_flags.Clear(Flags_178::eBit5_prevent_depossession);
-    field_178_flags.Set(Flags_178::eBit8_bAttack_fleeches, pTlv->field_24_bAttack_fleeches == Choice_short::eYes_1);
+    field_178_flags.Set(Flags_178::eBit8_bAttack_fleeches, pTlv->mAttackFleeches == Choice_short::eYes_1);
     field_178_flags.Clear(Flags_178::eBit6_spawned);
     field_178_flags.Clear(Flags_178::eBit7_alerted);
 
@@ -5641,19 +5641,19 @@ s16 Paramite::HandleEnemyStopper(s16 numGridBlocks)
         TlvTypes::EnemyStopper_47));
 
     // No stopper or its disabled
-    if (!pEnemyStopper || !SwitchStates_Get(pEnemyStopper->field_12_switch_id))
+    if (!pEnemyStopper || !SwitchStates_Get(pEnemyStopper->mSwitchId))
     {
         return 0;
     }
 
     // We have a stopper that applies to any direction
-    if (pEnemyStopper->field_10_stop_direction == Path_EnemyStopper::StopDirection::Both_2)
+    if (pEnemyStopper->mStopDirection == Path_EnemyStopper::StopDirection::Both_2)
     {
         return 1;
     }
 
     // Does the stopper direction match the animation direction?
-    if ((pEnemyStopper->field_10_stop_direction == Path_EnemyStopper::StopDirection::Left_0 && mAnim.mFlags.Get(AnimFlags::eBit5_FlipX)) || (pEnemyStopper->field_10_stop_direction == Path_EnemyStopper::StopDirection::Right_1 && !(mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))))
+    if ((pEnemyStopper->mStopDirection == Path_EnemyStopper::StopDirection::Left_0 && mAnim.mFlags.Get(AnimFlags::eBit5_FlipX)) || (pEnemyStopper->mStopDirection == Path_EnemyStopper::StopDirection::Right_1 && !(mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))))
     {
         return 1;
     }

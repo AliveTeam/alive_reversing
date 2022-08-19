@@ -83,7 +83,7 @@ SlingMudokon::SlingMudokon(Path_SlingMudokon* pTlv, s32 tlvInfo)
         mYPos = hitY;
     }
 
-    if (pTlv->field_18_scale == Scale_short::eHalf_1)
+    if (pTlv->mScale == Scale_short::eHalf_1)
     {
         mSpriteScale = FP_FromDouble(0.5);
         mScale = Scale::Bg;
@@ -94,7 +94,7 @@ SlingMudokon::SlingMudokon(Path_SlingMudokon* pTlv, s32 tlvInfo)
         mScale = Scale::Fg;
     }
 
-    if (pTlv->field_1A_bDontWhistlePassword == Choice_short::eYes_1)
+    if (pTlv->mDontWhistlePassword == Choice_short::eYes_1)
     {
         field_138_brain_state = SlingMudBrainStates::Brain_2_AskForPassword;
     }
@@ -103,7 +103,7 @@ SlingMudokon::SlingMudokon(Path_SlingMudokon* pTlv, s32 tlvInfo)
         field_138_brain_state = SlingMudBrainStates::Brain_1_Spawn;
     }
 
-    field_118_code_converted = Code_Convert(pTlv->field_1C_code_1, pTlv->field_1E_code_2);
+    field_118_code_converted = Code_Convert(pTlv->mCode1, pTlv->mCode2);
     field_11C_code_length = Code_Length(field_118_code_converted);
 
     field_154_previous_brain_state = 99;

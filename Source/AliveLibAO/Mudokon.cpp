@@ -191,24 +191,24 @@ Mudokon::Mudokon(Path_TLV* pTlv, s32 tlvInfo)
             field_148_res_array.res[1] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kAbeliftAOResID, 1, 0);
 
 
-            field_18C_how_far_to_walk = FP_FromInteger(liftMudTlv->field_18_how_far_to_walk);
-            field_110_lift_switch_id = liftMudTlv->field_1A_lift_switch_id;
+            field_18C_how_far_to_walk = FP_FromInteger(liftMudTlv->mHowFarToWalk);
+            field_110_lift_switch_id = liftMudTlv->mLiftSwitchId;
 
-            field_144_flags.Set(Flags_144::e144_Bit5_unused, liftMudTlv->field_1C_direction == Path_LiftMudokon::Direction::eLeft_1);
+            field_144_flags.Set(Flags_144::e144_Bit5_unused, liftMudTlv->mFacing == Path_LiftMudokon::Direction::eLeft_1);
             field_144_flags.Clear(Flags_144::e144_Bit4_bSnapToGrid);
             field_144_flags.Clear(Flags_144::e144_Bit11_bDeaf);
 
-            mAnim.mFlags.Set(AnimFlags::eBit5_FlipX, liftMudTlv->field_1C_direction == Path_LiftMudokon::Direction::eLeft_1);
+            mAnim.mFlags.Set(AnimFlags::eBit5_FlipX, liftMudTlv->mFacing == Path_LiftMudokon::Direction::eLeft_1);
 
-            field_186_give_password = liftMudTlv->field_1E_give_password;
+            field_186_give_password = liftMudTlv->mGivePassword;
             field_184 = 1;
             field_1B8_brain_state = 0;
             field_188 = 5;
 
-            field_1A4_code_converted = Code_Convert(liftMudTlv->field_22_code1, liftMudTlv->field_24_code2);
+            field_1A4_code_converted = Code_Convert(liftMudTlv->mCode1, liftMudTlv->mCode2);
             field_1A8_code_length = Code_Length(field_1A4_code_converted);
 
-            scale = liftMudTlv->field_20_scale;
+            scale = liftMudTlv->mScale;
         }
         break;
 
@@ -218,13 +218,13 @@ Mudokon::Mudokon(Path_TLV* pTlv, s32 tlvInfo)
 
             auto ringMudTlv = static_cast<Path_RingMudokon*>(pTlv);
 
-            mAnim.mFlags.Set(AnimFlags::eBit5_FlipX, ringMudTlv->field_18_direction == XDirection_short::eLeft_0); // TODO: Check
+            mAnim.mFlags.Set(AnimFlags::eBit5_FlipX, ringMudTlv->mFacing == XDirection_short::eLeft_0); // TODO: Check
             field_184 = 0;
-            field_186_give_password = ringMudTlv->field_1E_give_password;
-            field_198_abe_must_face_mud = ringMudTlv->field_1A_abe_must_face_mud == Path_RingMudokon::MustFaceMud::eYes_0;
+            field_186_give_password = ringMudTlv->mGivePassword;
+            field_198_abe_must_face_mud = ringMudTlv->mAbeMustFaceMud == Path_RingMudokon::MustFaceMud::eYes_0;
             field_1B8_brain_state = 2;
 
-            if (ringMudTlv->field_24_action == SwitchOp::eSetTrue_0)
+            if (ringMudTlv->mAction == SwitchOp::eSetTrue_0)
             {
                 // Pull switch
                 field_148_res_array.res[2] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kAbepullAOResID, 1, 0);
@@ -237,16 +237,16 @@ Mudokon::Mudokon(Path_TLV* pTlv, s32 tlvInfo)
                 field_188 = 7;
             }
 
-            field_1AA_ring_timeout = ringMudTlv->field_26_ring_timeout;
-            field_1A4_code_converted = Code_Convert(ringMudTlv->field_20_code1, ringMudTlv->field_22_code2);
+            field_1AA_ring_timeout = ringMudTlv->mRingTimeout;
+            field_1A4_code_converted = Code_Convert(ringMudTlv->mCode1, ringMudTlv->mCode2);
             field_1A8_code_length = Code_Length(field_1A4_code_converted);
 
-            field_144_flags.Set(Flags_144::e144_Bit10_give_ring_without_password, ringMudTlv->field_28_give_ring_without_password == Choice_short::eYes_1);
+            field_144_flags.Set(Flags_144::e144_Bit10_give_ring_without_password, ringMudTlv->mGiveRingWithoutPassword == Choice_short::eYes_1);
             field_144_flags.Clear(Flags_144::e144_Bit4_bSnapToGrid);
             field_144_flags.Clear(Flags_144::e144_Bit11_bDeaf);
 
 
-            scale = ringMudTlv->field_1C_scale;
+            scale = ringMudTlv->mScale;
         }
         break;
 
@@ -256,16 +256,16 @@ Mudokon::Mudokon(Path_TLV* pTlv, s32 tlvInfo)
 
             auto mudTlv = static_cast<Path_Mudokon*>(pTlv);
 
-            if (mudTlv->field_1A_job == Path_Mudokon::MudJobs::eStandScrub_0)
+            if (mudTlv->mJob == Path_Mudokon::MudJobs::eStandScrub_0)
             {
                 field_1B8_brain_state = 8;
                 field_148_res_array.res[3] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kMudchslAOResID, 1, 0);
             }
-            else if (mudTlv->field_1A_job == Path_Mudokon::MudJobs::eSitScrub_1)
+            else if (mudTlv->mJob == Path_Mudokon::MudJobs::eSitScrub_1)
             {
                 field_1B8_brain_state = 9;
             }
-            else if (mudTlv->field_1A_job == Path_Mudokon::MudJobs::eSitChant_2)
+            else if (mudTlv->mJob == Path_Mudokon::MudJobs::eSitChant_2)
             {
                 field_1B8_brain_state = 14;
                 field_148_res_array.res[12] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kMudltusAOResID, 1, 0);
@@ -281,19 +281,19 @@ Mudokon::Mudokon(Path_TLV* pTlv, s32 tlvInfo)
             field_148_res_array.res[14] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kAbegasAOResID, 1, 0);
 
 
-            field_124_voice_pitch = mudTlv->field_1E_voice_pitch;
-            field_1B2_rescue_switch_id = mudTlv->field_20_rescue_switch_id;
+            field_124_voice_pitch = mudTlv->mVoicePitch;
+            field_1B2_rescue_switch_id = mudTlv->mRescueSwitchId;
 
-            mAnim.mFlags.Set(AnimFlags::eBit5_FlipX, mudTlv->field_1C_direction == XDirection_short::eLeft_0);
+            mAnim.mFlags.Set(AnimFlags::eBit5_FlipX, mudTlv->mFacing == XDirection_short::eLeft_0);
 
             // TODO: Check these as well
-            field_144_flags.Set(Flags_144::e144_Bit11_bDeaf, mudTlv->field_22_deaf == Choice_short::eYes_1);
-            field_144_flags.Set(Flags_144::e144_Bit6_bPersist, mudTlv->field_26_persist & 1);
+            field_144_flags.Set(Flags_144::e144_Bit11_bDeaf, mudTlv->mDeaf == Choice_short::eYes_1);
+            field_144_flags.Set(Flags_144::e144_Bit6_bPersist, mudTlv->mPersistAndResetOffscreen & 1);
             field_144_flags.Set(Flags_144::e144_Bit4_bSnapToGrid);
 
             field_1B4_idle_time = 0;
 
-            scale = mudTlv->field_18_scale;
+            scale = mudTlv->mScale;
         }
         break;
         default:

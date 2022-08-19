@@ -437,21 +437,21 @@ void Map::Handle_PathTransition()
 
     if (field_18_pAliveObj && pTlv)
     {
-        mNextLevel = MapWrapper::FromAO(pTlv->field_18_level);
-        mNextPath = pTlv->field_1A_path;
-        mNextCamera = pTlv->field_1C_camera;
-        field_12_fmv_base_id = pTlv->field_1E_movie;
+        mNextLevel = MapWrapper::FromAO(pTlv->mNextLevel);
+        mNextPath = pTlv->mNextPath;
+        mNextCamera = pTlv->mNextCamera;
+        field_12_fmv_base_id = pTlv->mMovieId;
 
-        field_10_screenChangeEffect = kPathChangeEffectToInternalScreenChangeEffect_4CDC78[pTlv->field_20_wipe];
+        field_10_screenChangeEffect = kPathChangeEffectToInternalScreenChangeEffect_4CDC78[pTlv->mWipeEffect];
 
-        field_18_pAliveObj->mCurrentLevel = MapWrapper::FromAO(pTlv->field_18_level);
-        field_18_pAliveObj->mCurrentPath = pTlv->field_1A_path;
+        field_18_pAliveObj->mCurrentLevel = MapWrapper::FromAO(pTlv->mNextLevel);
+        field_18_pAliveObj->mCurrentPath = pTlv->mNextPath;
 
         // TODO: Probably OG bug, when changing camera/path the TLV pointer can become invalid
         // resulting in a corrupted next_path_scale value ?
         // Pointer points to the Path res which is invalid after ResourceManager::GetLoadedResource(ResourceManager::Resource_Path, i, TRUE, FALSE);
         // is called. Happens even if calling real func below.
-        const auto next_path_scale = pTlv->field_22_next_path_scale;
+        const auto next_path_scale = pTlv->mNextPathScale;
 
         GoTo_Camera();
 
@@ -478,7 +478,7 @@ void Map::Handle_PathTransition()
                 break;
 
             default:
-                LOG_ERROR("Invalid scale " << static_cast<s16>(pTlv->field_22_next_path_scale));
+                LOG_ERROR("Invalid scale " << static_cast<s16>(pTlv->mNextPathScale));
                 break;
         }
 
@@ -1031,13 +1031,13 @@ s16 Map::SetActiveCameraDelayed(MapDirections direction, BaseAliveGameObject* pO
 
     if (pObj && pPathChangeTLV)
     {
-        mNextLevel = MapWrapper::FromAO(pPathChangeTLV->field_18_level);
-        mNextPath = pPathChangeTLV->field_1A_path;
-        mNextCamera = pPathChangeTLV->field_1C_camera;
+        mNextLevel = MapWrapper::FromAO(pPathChangeTLV->mNextLevel);
+        mNextPath = pPathChangeTLV->mNextPath;
+        mNextCamera = pPathChangeTLV->mNextCamera;
         if (swapEffect < 0)
         {
             // Map the TLV/editor value of screen change to the internal screen change
-            convertedSwapEffect = kPathChangeEffectToInternalScreenChangeEffect_4CDC78[pPathChangeTLV->field_20_wipe];
+            convertedSwapEffect = kPathChangeEffectToInternalScreenChangeEffect_4CDC78[pPathChangeTLV->mWipeEffect];
         }
         else
         {
@@ -1933,7 +1933,7 @@ void Map::GoTo_Camera()
         if (field_1E_door)
         {
             Path_Door* pTlvIter = static_cast<Path_Door*>(TLV_First_Of_Type_In_Camera(TlvTypes::Door_6, 0));
-            while (pTlvIter->field_20_door_number != sActiveHero->field_196_door_id)
+            while (pTlvIter->mDoorNumber != sActiveHero->field_196_door_id)
             {
                 pTlvIter = static_cast<Path_Door*>(Path_TLV::TLV_Next_Of_Type_446500(pTlvIter, TlvTypes::Door_6));
             }

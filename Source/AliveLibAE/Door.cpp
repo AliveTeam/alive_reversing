@@ -51,10 +51,10 @@ Door::Door(Path_Door* pTlvData, s32 tlvInfo)
     SetType(ReliveTypes::eDoor);
 
     field_F4_tlvInfo = tlvInfo;
-    field_F8_door_type = pTlvData->field_1E_type;
-    field_FE_start_state = pTlvData->field_20_start_state;
+    field_F8_door_type = pTlvData->mDoorType;
+    field_FE_start_state = pTlvData->mStartState;
 
-    if (pTlvData->field_40_close_on_exit == Choice_short::eYes_1)
+    if (pTlvData->mCloseOnExit == Choice_short::eYes_1)
     {
         if (pTlvData->mTlvState)
         {
@@ -62,13 +62,13 @@ Door::Door(Path_Door* pTlvData, s32 tlvInfo)
         }
     }
 
-    field_100_switch_id = pTlvData->field_1A_switch_id;
-    if (pTlvData->field_1A_switch_id == 1)
+    field_100_switch_id = pTlvData->mSwitchId;
+    if (pTlvData->mSwitchId == 1)
     {
         field_100_switch_id = 0;
     }
 
-    field_FA_door_number = pTlvData->field_18_door_number;
+    field_FA_door_number = pTlvData->mDoorNumber;
     if (gMap.mCurrentLevel == EReliveLevelIds::eFeeCoDepot)
     {
         switch (field_FA_door_number)
@@ -138,14 +138,14 @@ Door::Door(Path_Door* pTlvData, s32 tlvInfo)
 
     if (field_F8_door_type == DoorTypes::eTasksDoor_3)
     {
-        field_102_hub_ids[0] = pTlvData->field_22_hub1;
-        field_102_hub_ids[1] = pTlvData->field_22_hub2;
-        field_102_hub_ids[2] = pTlvData->field_22_hub3;
-        field_102_hub_ids[3] = pTlvData->field_22_hub4;
-        field_102_hub_ids[4] = pTlvData->field_22_hub5;
-        field_102_hub_ids[5] = pTlvData->field_22_hub6;
-        field_102_hub_ids[6] = pTlvData->field_22_hub7;
-        field_102_hub_ids[7] = pTlvData->field_22_hub8;
+        field_102_hub_ids[0] = pTlvData->mHub1;
+        field_102_hub_ids[1] = pTlvData->mHub2;
+        field_102_hub_ids[2] = pTlvData->mHub3;
+        field_102_hub_ids[3] = pTlvData->mHub4;
+        field_102_hub_ids[4] = pTlvData->mHub5;
+        field_102_hub_ids[5] = pTlvData->mHub6;
+        field_102_hub_ids[6] = pTlvData->mHub7;
+        field_102_hub_ids[7] = pTlvData->mHub8;
 
         if (SwitchStates_Get(field_102_hub_ids[0]) && SwitchStates_Get(field_102_hub_ids[1]) && SwitchStates_Get(field_102_hub_ids[2]) && SwitchStates_Get(field_102_hub_ids[3]) && SwitchStates_Get(field_102_hub_ids[4]) && SwitchStates_Get(field_102_hub_ids[5]) && SwitchStates_Get(field_102_hub_ids[6]) && SwitchStates_Get(field_102_hub_ids[7]))
         {
@@ -190,14 +190,14 @@ Door::Door(Path_Door* pTlvData, s32 tlvInfo)
 
     if (field_F8_door_type == DoorTypes::eTasksDoorWithSecretMusic_2)
     {
-        field_102_hub_ids[0] = pTlvData->field_22_hub1;
-        field_102_hub_ids[1] = pTlvData->field_22_hub2;
-        field_102_hub_ids[2] = pTlvData->field_22_hub3;
-        field_102_hub_ids[3] = pTlvData->field_22_hub4;
-        field_102_hub_ids[4] = pTlvData->field_22_hub5;
-        field_102_hub_ids[5] = pTlvData->field_22_hub6;
-        field_102_hub_ids[6] = pTlvData->field_22_hub7;
-        field_102_hub_ids[7] = pTlvData->field_22_hub8;
+        field_102_hub_ids[0] = pTlvData->mHub1;
+        field_102_hub_ids[1] = pTlvData->mHub2;
+        field_102_hub_ids[2] = pTlvData->mHub3;
+        field_102_hub_ids[3] = pTlvData->mHub4;
+        field_102_hub_ids[4] = pTlvData->mHub5;
+        field_102_hub_ids[5] = pTlvData->mHub6;
+        field_102_hub_ids[6] = pTlvData->mHub7;
+        field_102_hub_ids[7] = pTlvData->mHub8;
     }
 
     const AnimId closedDoor = sDoorAnimIdTable[static_cast<s32>(MapWrapper::ToAE(gMap.mCurrentLevel))][0];
@@ -235,9 +235,9 @@ Door::Door(Path_Door* pTlvData, s32 tlvInfo)
         }
     }
 
-    if (pTlvData->field_16_scale != Scale_short::eFull_0)
+    if (pTlvData->mScale != Scale_short::eFull_0)
     {
-        if (pTlvData->field_16_scale == Scale_short::eHalf_1)
+        if (pTlvData->mScale == Scale_short::eHalf_1)
         {
             mSpriteScale = FP_FromDouble(0.5);
             mScale = Scale::Bg;
@@ -281,8 +281,8 @@ Door::Door(Path_Door* pTlvData, s32 tlvInfo)
     }
 
     // Add on the TLV offset
-    *xOff += FP_FromInteger(pTlvData->field_36_x_offset);
-    *yOff += FP_FromInteger(pTlvData->field_38_y_offset);
+    *xOff += FP_FromInteger(pTlvData->mDoorOffsetX);
+    *yOff += FP_FromInteger(pTlvData->mDoorOffsetY);
 
     // Another OWI special
     FP yAdjustHack = {};

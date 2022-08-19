@@ -1485,7 +1485,7 @@ void Factory_FootSwitch_486C60(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion t
 void Factory_SecurityClaw_486D50(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
 {
     auto pSecurityClawTlv = static_cast<Path_SecurityClaw*>(pTlv);
-    const auto disabledResources = pSecurityClawTlv->field_1E_disabled_resources;
+    const auto disabledResources = pSecurityClawTlv->mDisabledResources;
 
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
@@ -1780,7 +1780,7 @@ void Factory_WorkerMud_485B20(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tl
         };
         ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, kResources);
 
-        switch (pMudTlv->field_1A_job)
+        switch (pMudTlv->mJob)
         {
             case Path_Mudokon::MudJobs::eStandScrub_0:
                 ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, AOResourceID::kMudchslAOResID);
@@ -1802,7 +1802,7 @@ void Factory_WorkerMud_485B20(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tl
         ResourceManager::LoadResource_446C90("ABEEDGE.BAN", ResourceManager::Resource_Animation, AOResourceID::kAbeedgeAOResID, loadMode);
         ResourceManager::LoadResource_446C90("SHADOW.BAN", ResourceManager::Resource_Animation, AOResourceID::kObjectShadowAOResID, loadMode);
 
-        switch (pMudTlv->field_1A_job)
+        switch (pMudTlv->mJob)
         {
             case Path_Mudokon::MudJobs::eStandScrub_0:
             {
@@ -1884,8 +1884,8 @@ void Factory_MovingBomb_484E00(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion t
         ResourceManager::LoadResource_446C90("D1MBOMB.BAN", ResourceManager::Resource_Animation, AOResourceID::kMovebombAOResID, loadMode, 0);
         ResourceManager::LoadResource_446C90("EXPLO2.BAN", ResourceManager::Resource_Animation, AOResourceID::kExplo2AOResID, loadMode, 0);
         ResourceManager::LoadResource_446C90("METAL.BAN", ResourceManager::Resource_Animation, AOResourceID::kMetalGibAOResID, loadMode, 0);
-        ResourceManager::LoadResource_446C90("ABEBLOW.BAN", ResourceManager::Resource_Animation, AOResourceID::kAbeblowAOResID, loadMode, pMovingBombTlv->field_22_disabled_resources & 1);
-        ResourceManager::LoadResource_446C90("ELMBLOW.BAN", ResourceManager::Resource_Animation, AOResourceID::kElmblowAOResID_217, loadMode, pMovingBombTlv->field_22_disabled_resources & 4);
+        ResourceManager::LoadResource_446C90("ABEBLOW.BAN", ResourceManager::Resource_Animation, AOResourceID::kAbeblowAOResID, loadMode, pMovingBombTlv->mDisabledResources & 1);
+        ResourceManager::LoadResource_446C90("ELMBLOW.BAN", ResourceManager::Resource_Animation, AOResourceID::kElmblowAOResID_217, loadMode, pMovingBombTlv->mDisabledResources & 4);
 
         if (gMap.mCurrentLevel == EReliveLevelIds::eStockYards || gMap.mCurrentLevel == EReliveLevelIds::eStockYardsReturn)
         {
@@ -1902,7 +1902,7 @@ void Factory_MovingBomb_484E00(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion t
         };
         ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, kResources);
 
-        if (!(pMovingBombTlv->field_22_disabled_resources & 1))
+        if (!(pMovingBombTlv->mDisabledResources & 1))
         {
             ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, AOResourceID::kAbeblowAOResID);
         }

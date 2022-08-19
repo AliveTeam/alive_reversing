@@ -6,21 +6,21 @@
 
 struct Path_MovingBomb final : public Path_TLV
 {
-    u16 field_10_speed;
-    s16 field_12_start_moving_switch_id;
-    Choice_short field_14_bTriggered_by_alarm;
-    Scale_short field_16_scale;
+    u16 mSpeed;
+    s16 mStartMovingSwitchId;
+    Choice_short mTriggeredByAlarm;
+    Scale_short mScale;
     s16 field_18_max_rise; // seems unused
-    s16 field_1A_disabled_resources;
-    u16 field_1C_start_speed;
-    Choice_short field_1E_persist_offscreen;
+    s16 mDisabledResources;
+    u16 mStartSpeed;
+    Choice_short mPersistOffscreen;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_MovingBomb, 0x20);
 
 struct Path_MovingBombStopper final : public Path_TLV
 {
-    s16 field_10_min;
-    s16 field_12_max;
+    s16 mMinDelay;
+    s16 mMaxDelay;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_MovingBombStopper, 0x14);
 

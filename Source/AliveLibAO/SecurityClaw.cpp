@@ -64,7 +64,7 @@ SecurityClaw::SecurityClaw(Path_SecurityClaw* pTlv, s32 tlvInfo)
     field_11C_clawX = FP_FromInteger(pTlv->mTopLeft.x);
     field_120_clawY = FP_FromInteger(pTlv->mTopLeft.y);
 
-    if (pTlv->field_18_scale == Scale_short::eHalf_1)
+    if (pTlv->mScale == Scale_short::eHalf_1)
     {
         mSpriteScale = FP_FromDouble(0.5);
         mScale = Scale::Bg;
@@ -84,8 +84,8 @@ SecurityClaw::SecurityClaw(Path_SecurityClaw* pTlv, s32 tlvInfo)
     field_134 = pTlv->mTopLeft;
     field_138 = pTlv->mBottomRight;
 
-    field_118_alarm_switch_id = pTlv->field_1A_alarm_switch_id;
-    field_11A_alarm_duration = pTlv->field_1C_alarm_duration;
+    field_118_alarm_switch_id = pTlv->mAlarmSwitchId;
+    field_11A_alarm_duration = pTlv->mAlarmDuration;
 
     field_110_state = SecurityClawStates::eCamSwap_0;
 

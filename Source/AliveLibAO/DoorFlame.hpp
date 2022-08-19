@@ -12,14 +12,14 @@ class FlameSparks;
 
 struct Path_DoorFlame final : public Path_TLV
 {
-    s16 field_18_switch_id;
+    s16 mSwitchId;
     enum class Scale : s16
     {
         eFull_0 = 0,
         eHalf_1 = 1,
         eHalf_2 = 2
     };
-    Scale field_1A_scale;
+    Scale mScale;
 
     enum class Colour : s16
     {
@@ -28,7 +28,7 @@ struct Path_DoorFlame final : public Path_TLV
         green_2 = 2,
         blue_3 = 3
     };
-    Colour field_1C_colour;
+    Colour mColour;
     s16 field_1E_pad;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_DoorFlame, 0x20);

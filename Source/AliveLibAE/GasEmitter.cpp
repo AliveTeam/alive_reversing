@@ -20,8 +20,8 @@ GasEmitter::GasEmitter(Path_GasEmitter* pTlv, s32 tlvInfo)
 
     field_28_draw_flipper = 1;
 
-    field_2A_switch_id = pTlv->field_10_switch_id;
-    field_2C_gas_colour = pTlv->field_12_colour;
+    field_2A_switch_id = pTlv->mSwitchId;
+    field_2C_gas_colour = pTlv->mColour;
 
     field_20_tlvInfo = tlvInfo;
 

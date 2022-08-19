@@ -10,10 +10,10 @@ namespace AO {
 
 struct Path_SecurityClaw final : public Path_TLV
 {
-    Scale_short field_18_scale;
-    s16 field_1A_alarm_switch_id;
-    s16 field_1C_alarm_duration;
-    s16 field_1E_disabled_resources;
+    Scale_short mScale;
+    s16 mAlarmSwitchId;
+    s16 mAlarmDuration;
+    s16 mDisabledResources;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_SecurityClaw, 0x20);
 

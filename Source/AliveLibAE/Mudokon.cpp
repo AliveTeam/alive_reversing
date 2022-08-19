@@ -423,7 +423,7 @@ Mudokon::Mudokon(Path_Mudokon* pTlv, s32 tlvInfo)
 
     field_16A_flags.Clear(Flags_16A::eBit2_persist_and_reset_offscreen);
     field_16A_flags.Clear(Flags_16A::eBit3_alerted);
-    field_16A_flags.Set(Flags_16A::eBit4_blind, pTlv->field_22_bBlind == Choice_short::eYes_1);
+    field_16A_flags.Set(Flags_16A::eBit4_blind, pTlv->mBlind == Choice_short::eYes_1);
     field_16A_flags.Clear(Flags_16A::eBit5_following);
     field_16A_flags.Clear(Flags_16A::eBit6_standing_for_sad_or_angry);
     field_16A_flags.Clear(Flags_16A::eBit7_stopped_at_wheel);
@@ -434,15 +434,15 @@ Mudokon::Mudokon(Path_Mudokon* pTlv, s32 tlvInfo)
     field_16A_flags.Clear(Flags_16A::eBit13);
     field_16A_flags.Clear(Flags_16A::eBit14_make_sad_noise);
 
-    field_180_emo_tbl = TLV_Emo_To_Internal_Emo(pTlv->field_20_emotion);
+    field_180_emo_tbl = TLV_Emo_To_Internal_Emo(pTlv->mEmotion);
     field_188_pTblEntry = nullptr;
     field_182 = GameSpeakEvents::eNone_m1;
-    field_120_angry_switch_id = pTlv->field_24_angry_switch_id;
+    field_120_angry_switch_id = pTlv->mAngrySwitchId;
     field_16C_flags.Clear(Flags_16C::eBit2_Unknown);
     field_16C_flags.Clear(Flags_16C::eBit3_Unknown);
     field_198_turning_wheel_timer = 0;
 
-    switch (pTlv->field_12_job)
+    switch (pTlv->mJob)
     {
         case MudJobs::eChisle_0:
             field_18E_brain_state = Mud_Brain_State::Brain_1_Chisel;
@@ -462,7 +462,7 @@ Mudokon::Mudokon(Path_Mudokon* pTlv, s32 tlvInfo)
 
         case MudJobs::eDamageRingGiver_3:
         case MudJobs::eHealthRingGiver_4:
-            if (pTlv->field_12_job == MudJobs::eDamageRingGiver_3)
+            if (pTlv->mJob == MudJobs::eDamageRingGiver_3)
             {
                 field_168_ring_type = RingTypes::eExplosive_Emit_Effect_2;
             }
@@ -470,8 +470,8 @@ Mudokon::Mudokon(Path_Mudokon* pTlv, s32 tlvInfo)
             {
                 field_168_ring_type = RingTypes::eHealing_Emit_Effect_11;
             }
-            field_164_ring_pulse_interval = pTlv->field_2A_ring_pulse_interval;
-            field_16A_flags.Set(Flags_16A::eBit16_give_ring_without_password, pTlv->field_2C_bGive_ring_without_password == Choice_short::eYes_1);
+            field_164_ring_pulse_interval = pTlv->mRingPulseInterval;
+            field_16A_flags.Set(Flags_16A::eBit16_give_ring_without_password, pTlv->mGiveRingWithoutPassword == Choice_short::eYes_1);
             field_16C_flags.Clear(Flags_16C::eBit1_Unknown);
             field_18E_brain_state = Mud_Brain_State::Brain_0_GiveRings;
             field_10_resources_array.SetAt(8, ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kAbeommResID, TRUE, FALSE));
@@ -504,17 +504,17 @@ Mudokon::Mudokon(Path_Mudokon* pTlv, s32 tlvInfo)
         SetPal(Mud_Emotion::eNormal_0);
     }
 
-    mAnim.mFlags.Set(AnimFlags::eBit5_FlipX, pTlv->field_14_direction == XDirection_short::eLeft_0);
+    mAnim.mFlags.Set(AnimFlags::eBit5_FlipX, pTlv->mFacing == XDirection_short::eLeft_0);
 
     SetType(ReliveTypes::eMudokon);
 
-    field_13C_voice_pitch = pTlv->field_16_voice_pitch;
-    field_17A_rescue_switch_id = pTlv->field_18_rescue_switch_id;
+    field_13C_voice_pitch = pTlv->mVoicePitch;
+    field_17A_rescue_switch_id = pTlv->mRescueSwitchId;
 
-    field_16A_flags.Set(Flags_16A::eBit2_persist_and_reset_offscreen, pTlv->field_1E_persist_and_reset_offscreen == Choice_short::eYes_1);
-    field_16A_flags.Set(Flags_16A::eBit10_work_after_turning_wheel, pTlv->field_26_work_after_turning_wheel == Choice_short::eYes_1);
-    field_16A_flags.Set(Flags_16A::eBit11_get_depressed, pTlv->field_28_bGets_depressed == Choice_short::eYes_1);
-    field_16A_flags.Set(Flags_16A::eBit15_ring_and_angry_mud_timeout, pTlv->field_2A_ring_pulse_interval & 1);
+    field_16A_flags.Set(Flags_16A::eBit2_persist_and_reset_offscreen, pTlv->mPersistAndResetOffscreen == Choice_short::eYes_1);
+    field_16A_flags.Set(Flags_16A::eBit10_work_after_turning_wheel, pTlv->mWorkAfterTurningWheel == Choice_short::eYes_1);
+    field_16A_flags.Set(Flags_16A::eBit11_get_depressed, pTlv->mGetsDepressed == Choice_short::eYes_1);
+    field_16A_flags.Set(Flags_16A::eBit15_ring_and_angry_mud_timeout, pTlv->mRingPulseInterval & 1);
 
     field_17C_stand_idle_timer = 0;
 
@@ -531,13 +531,13 @@ Mudokon::Mudokon(Path_Mudokon* pTlv, s32 tlvInfo)
         mCurrentMotion = eMudMotions::Motion_0_Idle;
     }
 
-    if (pTlv->field_10_scale == Scale_short::eHalf_1)
+    if (pTlv->mScale == Scale_short::eHalf_1)
     {
         mSpriteScale = FP_FromDouble(0.5);
         mAnim.mRenderLayer = Layer::eLayer_ZapLinesMudsElum_Half_9;
         mScale = Scale::Bg;
     }
-    else if (pTlv->field_10_scale == Scale_short::eFull_0)
+    else if (pTlv->mScale == Scale_short::eFull_0)
     {
         mSpriteScale = FP_FromInteger(1);
         mAnim.mRenderLayer = Layer::eLayer_ZapLinesElumMuds_28;
@@ -700,7 +700,7 @@ s32 Mudokon::CreateFromSaveState(const u8* pBuffer)
         ResourceManager::LoadResourceFile_49C170("MUDPAL.BND", nullptr);
     }
 
-    if (pTlv->field_12_job != MudJobs::eChisle_0)
+    if (pTlv->mJob != MudJobs::eChisle_0)
     {
         if (!ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kMudscrubResID, FALSE, FALSE))
         {

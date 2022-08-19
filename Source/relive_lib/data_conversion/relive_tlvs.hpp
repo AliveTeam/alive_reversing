@@ -902,7 +902,7 @@ struct Path_Mudokon final : public Path_TLV
     };
     reliveScale field_10_scale = reliveScale::eFull;
     MudJobs field_12_job = MudJobs::eChisle;
-    reliveXDirection field_14_direction = reliveXDirection::eRight;
+    reliveXDirection mFacing = reliveXDirection::eRight;
     s16 field_16_voice_pitch = 0;
     s16 field_18_rescue_switch_id = 0;
     reliveChoice field_1A_bDeaf = reliveChoice::eNo;
@@ -930,16 +930,16 @@ struct Path_MovingBomb final : public Path_TLV
 
 struct Path_ElumPathTrans final : public Path_TLV
 {
-    EReliveLevelIds mLevel = EReliveLevelIds::eNone;
-    s16 mPath = 0;
-    s16 mCamera = 0;
+    EReliveLevelIds mNextLevel = EReliveLevelIds::eNone;
+    s16 mNextPath = 0;
+    s16 mNextCamera = 0;
 };
 
 struct Path_MudokonPathTrans final : public Path_TLV
 {
-    EReliveLevelIds mLevel = EReliveLevelIds::eNone;
-    s16 mPath = 0;
-    s32 mCamera = 0;
+    EReliveLevelIds mNextLevel = EReliveLevelIds::eNone;
+    s16 mNextPath = 0;
+    s32 mNextCamera = 0;
 };
 
 struct Path_SecurityClaw final : public Path_TLV
@@ -1002,10 +1002,8 @@ struct Path_ZzzSpawner final : public Path_TLV
 
 struct Path_BackgroundGlukkon final : public Path_TLV
 {
-    s16 field_18_scale_percent = 0;
-    u16 field_1A_pal_id = 0;
-    s16 field_1C_target_id = 0;
-    s16 field_1E_voice_adjust = 0;
+    s16 mScalePercent = 0;
+    u16 mPalId = 0;
 };
 
 struct Path_GasEmitter final : public Path_TLV
@@ -1056,7 +1054,7 @@ struct Path_LiftMudokon final : public Path_TLV
         eRight,
         eLeft
     };
-    Direction mDirection = Direction::eRight;
+    Direction mFacing = Direction::eRight;
     reliveChoice mGivePassword = reliveChoice::eNo;
     reliveScale mScale = reliveScale::eFull;
     s16 mCode1 = 0;
@@ -1065,7 +1063,7 @@ struct Path_LiftMudokon final : public Path_TLV
 
 struct Path_RingMudokon final : public Path_TLV
 {
-    reliveXDirection mDirection = reliveXDirection::eRight;
+    reliveXDirection mFacing = reliveXDirection::eRight;
     enum class MustFaceMud : s16
     {
         eYes,
@@ -1127,7 +1125,7 @@ struct Path_WellExpress final : public relive::Path_WellBase
 struct Path_Slog final : public Path_TLV
 {
     reliveScale field_10_scale = reliveScale::eFull;
-    reliveXDirection field_12_direction = reliveXDirection::eRight;
+    reliveXDirection mFacing = reliveXDirection::eRight;
     reliveChoice field_14_asleep = reliveChoice::eNo;
     s16 field_16_wake_up_anger = 0;
     s16 field_18_bark_anger = 0;

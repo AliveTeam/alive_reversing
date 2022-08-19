@@ -27,21 +27,21 @@ enum class Mud_TLV_Emotion : s16
 
 struct Path_Mudokon final : public Path_TLV
 {
-    Scale_short field_10_scale;
-    MudJobs field_12_job;
-    XDirection_short field_14_direction;
-    s16 field_16_voice_pitch;
-    s16 field_18_rescue_switch_id;
-    Choice_short field_1A_bDeaf;
-    s16 field_1C_disabled_resources;
-    Choice_short field_1E_persist_and_reset_offscreen;
-    Mud_TLV_Emotion field_20_emotion;
-    Choice_short field_22_bBlind;
-    s16 field_24_angry_switch_id;
-    Choice_short field_26_work_after_turning_wheel;
-    Choice_short field_28_bGets_depressed;
-    s16 field_2A_ring_pulse_interval;
-    Choice_short field_2C_bGive_ring_without_password;
+    Scale_short mScale;
+    MudJobs mJob;
+    XDirection_short mFacing;
+    s16 mVoicePitch;
+    s16 mRescueSwitchId;
+    Choice_short mDeaf;
+    s16 mDisabledResources;
+    Choice_short mPersistAndResetOffscreen;
+    Mud_TLV_Emotion mEmotion;
+    Choice_short mBlind;
+    s16 mAngrySwitchId;
+    Choice_short mWorkAfterTurningWheel;
+    Choice_short mGetsDepressed;
+    s16 mRingPulseInterval;
+    Choice_short mGiveRingWithoutPassword;
     s16 field_2E_padding;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Mudokon, 0x30);

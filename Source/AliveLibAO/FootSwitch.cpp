@@ -20,16 +20,16 @@ FootSwitch::FootSwitch(Path_FootSwitch* pTlv, s32 tlvInfo)
 
     mAnim.mRenderLayer = Layer::eLayer_BeforeShadow_25;
 
-    field_EA_switch_id = pTlv->field_18_switch_id;
-    if (pTlv->field_1A_scale == Scale_short::eHalf_1)
+    field_EA_switch_id = pTlv->mSwitchId;
+    if (pTlv->mScale == Scale_short::eHalf_1)
     {
         mSpriteScale = FP_FromDouble(0.5);
         mScale = Scale::Bg;
     }
 
     field_E8_state = States::eWaitForStepOnMe_0;
-    field_EC_action = pTlv->field_1C_action;
-    field_EE_trigger_by = pTlv->field_1E_trigger_by;
+    field_EC_action = pTlv->mAction;
+    field_EE_trigger_by = pTlv->mTriggeredBy;
 
     mXPos = FP_FromInteger(pTlv->mTopLeft.x + 12);
     mYPos = FP_FromInteger(pTlv->mTopLeft.y);

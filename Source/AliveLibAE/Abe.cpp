@@ -1659,10 +1659,10 @@ void Abe::VUpdate()
         if (field_1AE_flags.Get(Flags_1AE::e1AE_Bit2_do_quicksave))
         {
             field_1AE_flags.Clear(Flags_1AE::e1AE_Bit2_do_quicksave);
-            sActiveQuicksaveData_BAF7F8.field_204_world_info.field_A_save_num = field_1B0_save_num;
-            Quicksave_SaveWorldInfo(&sActiveQuicksaveData_BAF7F8.field_244_restart_path_world_info);
-            VGetSaveState(reinterpret_cast<u8*>(&sActiveQuicksaveData_BAF7F8.field_284_restart_path_abe_state));
-            sActiveQuicksaveData_BAF7F8.field_35C_restart_path_switch_states = sSwitchStates_5C1A28;
+            sActiveQuicksaveData.field_204_world_info.mSaveFileId = mSaveFileId;
+            Quicksave_SaveWorldInfo(&sActiveQuicksaveData.field_244_restart_path_world_info);
+            VGetSaveState(reinterpret_cast<u8*>(&sActiveQuicksaveData.field_284_restart_path_abe_state));
+            sActiveQuicksaveData.field_35C_restart_path_switch_states = sSwitchStates_5C1A28;
             DoQuicksave();
         }
     }
@@ -2508,12 +2508,12 @@ void Abe::VOnTlvCollision(Path_TLV* pTlv)
             auto pContinuePoint = static_cast<Path_ContinuePoint*>(pTlv);
             if (pContinuePoint->mTlvState == 0)
             {
-                if ((pContinuePoint->field_10_scale != Path_ContinuePoint::Scale::eHalf_1 || mSpriteScale == FP_FromInteger(1)) && (pContinuePoint->field_10_scale != Path_ContinuePoint::Scale::eFull_2 || mSpriteScale == FP_FromDouble(0.5))
+                if ((pContinuePoint->mScale != Path_ContinuePoint::Scale::eHalf_1 || mSpriteScale == FP_FromInteger(1)) && (pContinuePoint->mScale != Path_ContinuePoint::Scale::eFull_2 || mSpriteScale == FP_FromDouble(0.5))
                     && mHealth > FP_FromInteger(0) && !(mBaseAliveGameObjectFlags.Get(Flags_114::e114_Bit7_Electrocuted)))
                 {
                     pContinuePoint->mTlvState = 1;
                     field_1AE_flags.Set(Flags_1AE::e1AE_Bit2_do_quicksave);
-                    field_1B0_save_num = pContinuePoint->field_12_save_file_id;
+                    mSaveFileId = pContinuePoint->mSaveFileId;
                 }
             }
         }
@@ -3101,7 +3101,7 @@ void Abe::Motion_0_Idle_44EEB0()
 
                     // Bail if scale doesn't match
                     Path_WellLocal* pWell = static_cast<Path_WellLocal*>(pTlv);
-                    if ((pWell->field_0_scale != Scale_short::eFull_0 || mSpriteScale != FP_FromDouble(1.0)) && (pWell->field_0_scale != Scale_short::eHalf_1 || mSpriteScale != FP_FromDouble(0.5)))
+                    if ((pWell->mScale != Scale_short::eFull_0 || mSpriteScale != FP_FromDouble(1.0)) && (pWell->mScale != Scale_short::eHalf_1 || mSpriteScale != FP_FromDouble(0.5)))
                     {
                         break;
                     }
@@ -3121,7 +3121,7 @@ void Abe::Motion_0_Idle_44EEB0()
 
                     // Bail if scale doesn't match
                     Path_WellBase* pWell = static_cast<Path_WellBase*>(pTlv);
-                    if ((pWell->field_0_scale != Scale_short::eFull_0 || mSpriteScale != FP_FromDouble(1.0)) && (pWell->field_0_scale != Scale_short::eHalf_1 || mSpriteScale != FP_FromDouble(0.5)))
+                    if ((pWell->mScale != Scale_short::eFull_0 || mSpriteScale != FP_FromDouble(1.0)) && (pWell->mScale != Scale_short::eHalf_1 || mSpriteScale != FP_FromDouble(0.5)))
                     {
                         break;
                     }
@@ -3499,8 +3499,8 @@ void Abe::Motion_3_Fall_459B60()
             {
                 // The well must be on the same scale/layer
                 Path_WellBase* pWellBase = static_cast<Path_WellBase*>(BaseAliveGameObjectPathTLV);
-                if ((pWellBase->field_0_scale == Scale_short::eFull_0 && mSpriteScale == FP_FromInteger(1))
-                    || (pWellBase->field_0_scale == Scale_short::eHalf_1 && mSpriteScale == FP_FromDouble(0.5)))
+                if ((pWellBase->mScale == Scale_short::eFull_0 && mSpriteScale == FP_FromInteger(1))
+                    || (pWellBase->mScale == Scale_short::eHalf_1 && mSpriteScale == FP_FromDouble(0.5)))
                 {
                     field_1AC_flags.Set(Flags_1AC::e1AC_Bit3_WalkToRun);
                     mCurrentMotion = eAbeMotions::Motion_75_JumpIntoWell_45C7B0;
@@ -5701,9 +5701,9 @@ void Abe::Motion_57_Dead_4589A0()
                 return;
             }
             Make_Circular_Fade_4CE8C0(
-                FP_FromInteger(sActiveQuicksaveData_BAF7F8.field_204_world_info.field_C_controlled_x),
-                FP_FromInteger(sActiveQuicksaveData_BAF7F8.field_204_world_info.field_E_controlled_y),
-                sActiveQuicksaveData_BAF7F8.field_204_world_info.field_10_controlled_scale != 0 ? FP_FromDouble(1.0) : FP_FromDouble(0.5),
+                FP_FromInteger(sActiveQuicksaveData.field_204_world_info.field_C_controlled_x),
+                FP_FromInteger(sActiveQuicksaveData.field_204_world_info.field_E_controlled_y),
+                sActiveQuicksaveData.field_204_world_info.field_10_controlled_scale != 0 ? FP_FromDouble(1.0) : FP_FromDouble(0.5),
                 0,
                 1,
                 1);
@@ -6332,13 +6332,13 @@ void Abe::Motion_79_InsideWellLocal_45CA60()
         if (pBaseWell->mTlvType32 == TlvTypes::LocalWell_8)
         {
             Path_WellLocal* pLocal = static_cast<Path_WellLocal*>(pBaseWell);
-            if (SwitchStates_Get(pBaseWell->field_2_switch_id))
+            if (SwitchStates_Get(pBaseWell->mSwitchId))
             {
                 Calc_Well_Velocity_45C530(
                     FP_GetExponent(mXPos),
                     FP_GetExponent(mYPos),
-                    pLocal->field_1C_on_dx,
-                    pLocal->field_1E_on_dy);
+                    pLocal->mOnDestX,
+                    pLocal->mOnDestY);
             }
             else
             {
@@ -6459,19 +6459,19 @@ void Abe::Motion_82_InsideWellExpress_45CC80()
     }
 
     Path_WellExpress* pExpressWell = static_cast<Path_WellExpress*>(BaseAliveGameObjectPathTLV);
-    if (SwitchStates_Get(pExpressWell->field_2_switch_id))
+    if (SwitchStates_Get(pExpressWell->mSwitchId))
     {
-        mDstWellLevel = MapWrapper::FromAE(pExpressWell->field_24_enabled_well_level);
-        mDstWellPath = pExpressWell->field_26_enabled_well_path;
-        mDstWellCamera = pExpressWell->field_28_enabled_well_camera;
-        field_1A0_door_id = pExpressWell->field_2A_enabled_well_id;
+        mDstWellLevel = MapWrapper::FromAE(pExpressWell->mOnDestLevel);
+        mDstWellPath = pExpressWell->mOnDestPath;
+        mDstWellCamera = pExpressWell->mOnDestCamera;
+        field_1A0_door_id = pExpressWell->mOnOtherWellId;
     }
     else
     {
         mDstWellLevel = MapWrapper::FromAE(pExpressWell->field_1C_disabled_well_level);
         mDstWellPath = pExpressWell->field_1E_disabled_well_path;
-        mDstWellCamera = pExpressWell->field_20_disabled_well_camera;
-        field_1A0_door_id = pExpressWell->field_22_disabled_well_id;
+        mDstWellCamera = pExpressWell->mOffDestCamera;
+        field_1A0_door_id = pExpressWell->mOffOtherWellId;
     }
 
     field_128.field_8_x_vel_slow_by = FP_FromInteger(0);
@@ -6481,9 +6481,9 @@ void Abe::Motion_82_InsideWellExpress_45CC80()
     {
         field_124_timer = 1;
 
-        if (pExpressWell->field_32_movie_id)
+        if (pExpressWell->mMovieId)
         {
-            gMap.SetActiveCam(mDstWellLevel, mDstWellPath, mDstWellCamera, CameraSwapEffects::ePlay1FMV_5, pExpressWell->field_32_movie_id, 0);
+            gMap.SetActiveCam(mDstWellLevel, mDstWellPath, mDstWellCamera, CameraSwapEffects::ePlay1FMV_5, pExpressWell->mMovieId, 0);
         }
         else
         {
@@ -6548,7 +6548,7 @@ void Abe::Motion_83_WellExpressShotOut_45CF70()
         {
             // Is it the target of the previous well?
             Path_WellBase* pWellBase = static_cast<Path_WellBase*>(pTlvIter);
-            if (pWellBase->field_4_other_well_id == field_1A0_door_id)
+            if (pWellBase->mOtherWellId == field_1A0_door_id)
             {
                 pWell = pWellBase;
                 break;
@@ -6561,7 +6561,7 @@ void Abe::Motion_83_WellExpressShotOut_45CF70()
 
     if (pWell)
     {
-        if (pWell->field_0_scale == Scale_short::eHalf_1)
+        if (pWell->mScale == Scale_short::eHalf_1)
         {
             mSpriteScale = FP_FromDouble(0.5);
             mScale = Scale::Bg;
@@ -7684,7 +7684,7 @@ void Abe::Motion_114_DoorEnter_459470()
 
             BaseAliveGameObjectPathTLV = pDoorTlv;
 
-            if (pDoorTlv->field_42_clear_throwables == Choice_short::eYes_1)
+            if (pDoorTlv->mClearThrowables == Choice_short::eYes_1)
             {
                 if (mThrowableCount > 0 && gpThrowableArray)
                 {
@@ -7730,22 +7730,22 @@ void Abe::Motion_114_DoorEnter_459470()
 
             gMap.mDoorTransition = 1;
             s16 bForceChange = 0;
-            const CameraSwapEffects effect = kPathChangeEffectToInternalScreenChangeEffect_55D55C[pDoorTlv->field_32_wipe_effect];
+            const CameraSwapEffects effect = kPathChangeEffectToInternalScreenChangeEffect_55D55C[pDoorTlv->mWipeEffect];
             if (effect == CameraSwapEffects::ePlay1FMV_5 || effect == CameraSwapEffects::eUnknown_11)
             {
                 bForceChange = 1;
             }
 
             gMap.SetActiveCam(
-                MapWrapper::FromAE(pDoorTlv->field_10_level),
-                pDoorTlv->field_12_path,
-                pDoorTlv->field_14_camera,
+                MapWrapper::FromAE(pDoorTlv->mNextLevel),
+                pDoorTlv->mNextPath,
+                pDoorTlv->mNextCamera,
                 effect,
-                pDoorTlv->field_34_movie_number,
+                pDoorTlv->mMovieId,
                 bForceChange);
 
             field_120_state.door = AbeDoorStates::eSetNewAbePosition_5;
-            field_1A0_door_id = pDoorTlv->field_1C_target_door_id;
+            field_1A0_door_id = pDoorTlv->mTargetDoorNumber;
         }
             return;
 
@@ -7758,7 +7758,7 @@ void Abe::Motion_114_DoorEnter_459470()
             Path_Door* pDoorTlv2 = static_cast<Path_Door*>(sPathInfo->TLV_First_Of_Type_In_Camera(TlvTypes::Door_5, 0));
             BaseAliveGameObjectPathTLV = pDoorTlv2;
             Path_Door* pTargetDoorTlv = pDoorTlv2;
-            if (pTargetDoorTlv->field_18_door_number != field_1A0_door_id)
+            if (pTargetDoorTlv->mDoorNumber != field_1A0_door_id)
             {
                 do
                 {
@@ -7771,10 +7771,10 @@ void Abe::Motion_114_DoorEnter_459470()
                         ALIVE_FATAL("Couldn't find target door. If this is a custom level, check if the level, path and camera is correct.");
                     }
                 }
-                while (pTargetDoorTlv->field_18_door_number != field_1A0_door_id);
+                while (pTargetDoorTlv->mDoorNumber != field_1A0_door_id);
             }
 
-            if (pTargetDoorTlv->field_16_scale == Scale_short::eHalf_1)
+            if (pTargetDoorTlv->mScale == Scale_short::eHalf_1)
             {
                 mSpriteScale = FP_FromDouble(0.5);
                 mAnim.mRenderLayer = Layer::eLayer_AbeMenu_Half_13;
@@ -7788,7 +7788,7 @@ void Abe::Motion_114_DoorEnter_459470()
             }
 
             // The door controls which way Abe faces when he exits it.
-            if (pTargetDoorTlv->field_3E_abe_direction == XDirection_short::eRight_1)
+            if (pTargetDoorTlv->mExitDirection == XDirection_short::eRight_1)
             {
                 mAnim.mFlags.Set(AnimFlags::eBit5_FlipX);
             }
@@ -7881,7 +7881,7 @@ void Abe::Motion_115_DoorExit_459A40()
                                         FP_GetExponent(mXPos),
                                         FP_GetExponent(mYPos),
                                         TlvTypes::Door_5))
-                ->field_40_close_on_exit == Choice_short::eYes_1)
+                ->mCloseOnExit == Choice_short::eYes_1)
         {
             // TODO: Ret ignored even in real ??
             FindObjectOfType(
@@ -8862,7 +8862,7 @@ s16 Abe::RunTryEnterWell_451060()
     {
         if (!(mBaseAliveGameObjectFlags.Get(Flags_114::e114_Bit10_Teleporting)))
         {
-            if ((pWellLocal->field_0_scale == Scale_short::eFull_0 && mSpriteScale == FP_FromInteger(1)) || (pWellLocal->field_0_scale == Scale_short::eHalf_1 && mSpriteScale == FP_FromDouble(0.5)))
+            if ((pWellLocal->mScale == Scale_short::eFull_0 && mSpriteScale == FP_FromInteger(1)) || (pWellLocal->mScale == Scale_short::eHalf_1 && mSpriteScale == FP_FromDouble(0.5)))
             {
                 field_1AC_flags.Clear(Flags_1AC::e1AC_Bit3_WalkToRun);
                 BaseAliveGameObjectPathTLV = pWellLocal;
@@ -8882,7 +8882,7 @@ s16 Abe::RunTryEnterWell_451060()
     {
         if (!(mBaseAliveGameObjectFlags.Get(Flags_114::e114_Bit10_Teleporting)))
         {
-            if ((pWellExpress->field_0_scale == Scale_short::eFull_0 && mSpriteScale == FP_FromInteger(1)) || (pWellExpress->field_0_scale == Scale_short::eHalf_1 && mSpriteScale == FP_FromDouble(0.5)))
+            if ((pWellExpress->mScale == Scale_short::eFull_0 && mSpriteScale == FP_FromInteger(1)) || (pWellExpress->mScale == Scale_short::eHalf_1 && mSpriteScale == FP_FromDouble(0.5)))
             {
                 field_1AC_flags.Clear(Flags_1AC::e1AC_Bit3_WalkToRun);
                 BaseAliveGameObjectPathTLV = pWellExpress;

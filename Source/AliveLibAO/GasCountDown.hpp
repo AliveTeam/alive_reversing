@@ -9,7 +9,7 @@ namespace AO {
 
 struct Path_GasCountDown final : public Path_TLV
 {
-    s16 field_18_start_switch_id;
+    s16 mStartTimerSwitchId;
     s16 field_1A_pad;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_GasCountDown, 0x1C);

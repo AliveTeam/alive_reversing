@@ -10,15 +10,15 @@ namespace AO {
 
 struct Path_Slog final : public Path_TLV
 {
-    Scale_short field_18_scale;
-    XDirection_short field_1A_start_direction;
-    Choice_short field_1C_asleep;
-    s16 field_1E_wake_up_anger;
-    s16 field_20_bark_anger;
-    s16 field_22_chase_anger;
-    s16 field_24_chase_delay;
-    s16 field_26_disabled_resources;
-    s16 field_28_anger_switch_id;
+    Scale_short mScale;
+    XDirection_short mFacing;
+    Choice_short mAsleep;
+    s16 mWakeUpAnger;
+    s16 mBarkAnger;
+    s16 mChaseAnger;
+    s16 mChaseDelay;
+    s16 mDisabledResources;
+    s16 mAngerSwitchId;
     s16 field_2A_pad;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Slog, 0x2C);

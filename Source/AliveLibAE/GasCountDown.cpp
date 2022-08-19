@@ -70,9 +70,9 @@ GasCountDown::GasCountDown(Path_GasCountDown* pTlv, s32 tlvInfo)
 
     gGasOn_5C1C00 = 0;
 
-    field_70_start_timer_switch_id = pTlv->field_10_start_timer_switch_id;
-    field_76_gas_countdown_timer = pTlv->field_12_gas_countdown_timer;
-    field_72_stop_timer_switch_id = pTlv->field_14_stop_timer_switch_id;
+    field_70_start_timer_switch_id = pTlv->mStartTimerSwitchId;
+    field_76_gas_countdown_timer = pTlv->mGasCountdownTimer;
+    field_72_stop_timer_switch_id = pTlv->mStopTimerSwitchId;
 
     if (sGasTimer_5C1BE8)
     {

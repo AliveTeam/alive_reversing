@@ -183,26 +183,26 @@ void Elum::VOnTlvCollision(Path_TLV* pTlv)
         if (pTlv->mTlvType32 == TlvTypes::ContinuePoint_0)
         {
             auto pContinueTlv = static_cast<Path_ContinuePoint*>(pTlv);
-            if (field_140_continue_zone_number != pContinueTlv->field_18_zone_number && pContinueTlv->field_18_zone_number > field_142_zone_number && pContinueTlv->field_1E_elum_restarts == Choice_short::eYes_1)
+            if (mContinueZoneNumber != pContinueTlv->mZoneNumber && pContinueTlv->mZoneNumber > field_142_zone_number && pContinueTlv->mElumRestarts == Choice_short::eYes_1)
             {
-                field_140_continue_zone_number = pContinueTlv->field_18_zone_number;
-                field_138_continue_rect.x = pContinueTlv->mTopLeft.x;
-                field_138_continue_rect.y = pContinueTlv->mTopLeft.y;
-                field_138_continue_rect.w = pContinueTlv->mBottomRight.x;
-                field_138_continue_rect.h = pContinueTlv->mBottomRight.y;
+                mContinueZoneNumber = pContinueTlv->mZoneNumber;
+                mContinueRect.x = pContinueTlv->mTopLeft.x;
+                mContinueRect.y = pContinueTlv->mTopLeft.y;
+                mContinueRect.w = pContinueTlv->mBottomRight.x;
+                mContinueRect.h = pContinueTlv->mBottomRight.y;
 
-                field_148_continue_path = gMap.mCurrentPath;
-                field_14C_continue_camera = gMap.mCurrentCamera;
-                field_14A_continue_level = gMap.mCurrentLevel;
-                field_150_continue_sprite_scale = mSpriteScale;
-                field_144_bRespawnOnDead = 1;
+                mContinuePath = gMap.mCurrentPath;
+                mContinueCamera = gMap.mCurrentCamera;
+                mContinueLevel = gMap.mCurrentLevel;
+                mContinueSpriteScale = mSpriteScale;
+                mRespawnOnDead = 1;
             }
         }
         else if (pTlv->mTlvType32 == TlvTypes::DeathDrop_5 && mHealth > FP_FromInteger(0))
         {
             if (sControlledCharacter != this)
             {
-                field_122_bDontFollowAbe = 0;
+                mDontFollowAbe = 0;
             }
             Elum_SFX_416E10(ElumSounds::eHowl_2, this);
             mAnim.mFlags.Clear(AnimFlags::eBit3_Render);
@@ -252,7 +252,7 @@ s16 Elum::VTakeDamage(BaseGameObject* pFrom)
 
                 if (sControlledCharacter != this)
                 {
-                    field_122_bDontFollowAbe = 0;
+                    mDontFollowAbe = 0;
                 }
 
                 mAnim.mFlags.Clear(AnimFlags::eBit3_Render);
@@ -1061,7 +1061,7 @@ s16 Elum::Brain_0_WithoutAbe_416190()
             if (NearHoney_411DA0())
             {
                 field_128_brain_idx = 1;
-                field_122_bDontFollowAbe = 1;
+                mDontFollowAbe = 1;
                 return 0;
             }
 
@@ -1150,7 +1150,7 @@ s16 Elum::Brain_0_WithoutAbe_416190()
                 && gMap.mCurrentPath == mCurrentPath
                 && Is_In_Current_Camera() == CameraPos::eCamCurrent_0)
             {
-                field_122_bDontFollowAbe = 1;
+                mDontFollowAbe = 1;
                 field_114_respond_timer = sGnFrame + 14;
                 return 5;
             }
@@ -1222,7 +1222,7 @@ s16 Elum::Brain_0_WithoutAbe_416190()
             if (NearHoney_411DA0())
             {
                 field_128_brain_idx = 1;
-                field_122_bDontFollowAbe = 1;
+                mDontFollowAbe = 1;
                 return 0;
             }
 
@@ -1248,7 +1248,7 @@ s16 Elum::Brain_0_WithoutAbe_416190()
             {
                 if (Is_In_Current_Camera() == CameraPos::eCamCurrent_0)
                 {
-                    field_122_bDontFollowAbe = 0;
+                    mDontFollowAbe = 0;
                     if (FP_Abs(xd_1) < (kGridSize / FP_FromInteger(2)))
                     {
                         return 2;
@@ -1265,7 +1265,7 @@ s16 Elum::Brain_0_WithoutAbe_416190()
             {
                 if (Is_In_Current_Camera() == CameraPos::eCamCurrent_0)
                 {
-                    field_122_bDontFollowAbe = 1;
+                    mDontFollowAbe = 1;
                     field_114_respond_timer = sGnFrame + 14;
                     return 5;
                 }
@@ -1304,7 +1304,7 @@ s16 Elum::Brain_0_WithoutAbe_416190()
             {
                 return field_12A_brain_sub_state;
             }
-            field_122_bDontFollowAbe = 1;
+            mDontFollowAbe = 1;
             return 6;
 
         case 8:
@@ -1384,7 +1384,7 @@ s16 Elum::Brain_0_WithoutAbe_416190()
         {
             if (last_event_v2 == GameSpeakEvents::eWait_12)
             {
-                field_122_bDontFollowAbe = 1;
+                mDontFollowAbe = 1;
                 mNextMotion = eElumMotions::Motion_1_Idle_412990;
                 field_114_respond_timer = sGnFrame + 14;
                 return 5;
@@ -1455,7 +1455,7 @@ s16 Elum::Brain_0_WithoutAbe_416190()
             if (NearHoney_411DA0())
             {
                 field_128_brain_idx = 1;
-                field_122_bDontFollowAbe = 1;
+                mDontFollowAbe = 1;
                 return 0;
             }
 
@@ -1465,7 +1465,7 @@ s16 Elum::Brain_0_WithoutAbe_416190()
             {
                 return field_12A_brain_sub_state;
             }
-            field_122_bDontFollowAbe = 0;
+            mDontFollowAbe = 0;
             return 2;
 
         default:
@@ -1619,7 +1619,7 @@ s16 Elum::Brain_1_HoneyAddiction_411730()
 
             field_146_honey_ypos = gMap.mCurrentCamera;
 
-            field_122_bDontFollowAbe = 0;
+            mDontFollowAbe = 0;
 
             if (mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
             {
@@ -2377,21 +2377,21 @@ void Elum::Motion_19_Dead_415F90()
     {
         if (!sActiveHero->field_2A8_flags.Get(Flags_2A8::e2A8_Bit6_bShrivel) && sActiveHero->field_2A8_flags.Get(Flags_2A8::e2A8_Bit8_bLandSoft) && field_104_pending_resource_count == 0)
         {
-            mXPos = FP_FromInteger(field_138_continue_rect.x);
-            mYPos = FP_FromInteger(field_138_continue_rect.y);
+            mXPos = FP_FromInteger(mContinueRect.x);
+            mYPos = FP_FromInteger(mContinueRect.y);
 
             mVelY = FP_FromInteger(0);
             mVelX = FP_FromInteger(0);
 
-            mCurrentLevel = field_14A_continue_level;
-            mCurrentPath = field_148_continue_path;
-            mSpriteScale = field_150_continue_sprite_scale;
+            mCurrentLevel = mContinueLevel;
+            mCurrentPath = mContinuePath;
+            mSpriteScale = mContinueSpriteScale;
 
             field_128_brain_idx = 0;
             field_12A_brain_sub_state = 6;
-            field_122_bDontFollowAbe = 1;
+            mDontFollowAbe = 1;
 
-            if (!gMap.Is_Point_In_Current_Camera(field_14A_continue_level, field_148_continue_path, mXPos, mYPos, 0))
+            if (!gMap.Is_Point_In_Current_Camera(mContinueLevel, mContinuePath, mXPos, mYPos, 0))
             {
                 Elum_SFX_416E10(ElumSounds::eHowl_2, this);
             }
@@ -2404,7 +2404,7 @@ void Elum::Motion_19_Dead_415F90()
 
             if (field_170_flags.Get(Elum::Flags_170::eStungByBees_Bit2))
             {
-                if (field_14C_continue_camera < field_146_honey_ypos)
+                if (mContinueCamera < field_146_honey_ypos)
                 {
                     field_170_flags.Clear(Elum::Flags_170::eStungByBees_Bit2);
                 }
@@ -3673,11 +3673,11 @@ void Elum::VUpdate()
             {
                 if (!field_154_bAbeForcedDownFromElum)
                 {
-                    if (sActiveHero->field_146_zone_number != field_140_continue_zone_number)
+                    if (sActiveHero->mContinueZoneNumber != mContinueZoneNumber)
                     {
                         field_128_brain_idx = 0;
                         field_12A_brain_sub_state = 6;
-                        field_122_bDontFollowAbe = 1;
+                        mDontFollowAbe = 1;
 
                         if (sControlledCharacter == this)
                         {
@@ -3744,7 +3744,7 @@ void Elum::VScreenChanged()
 
                 if (pElumPathTrans)
                 {
-                    if (field_122_bDontFollowAbe != 1 && sControlledCharacter != this && MapWrapper::FromAO(pElumPathTrans->field_18_level) == gMap.mNextLevel && pElumPathTrans->field_1A_path == gMap.mNextPath)
+                    if (mDontFollowAbe != 1 && sControlledCharacter != this && MapWrapper::FromAO(pElumPathTrans->mNextLevel) == gMap.mNextLevel && pElumPathTrans->mNextPath == gMap.mNextPath)
                     {
                         field_170_flags.Set(Elum::Flags_170::eChangedPathNotMounted_Bit5);
                     }
@@ -3872,21 +3872,21 @@ Elum::Elum(s32, anythingForTheTimeBeing, anythingForTheTimeBeing, s32, TlvItemIn
     field_12E_honey_ypos = 0;
     field_12C_honey_xpos = 0;
 
-    field_144_bRespawnOnDead = 0;
+    mRespawnOnDead = 0;
     field_110_timer = sGnFrame;
 
     mXPos = sActiveHero->mXPos - (ScaleToGridSize(mSpriteScale) * FP_FromInteger(2));
     mYPos = sActiveHero->mYPos - FP_FromInteger(5);
 
-    field_122_bDontFollowAbe = 0;
+    mDontFollowAbe = 0;
     field_124_bShould_IdleToWalk1 = 1;
     field_10E_pressed = 0;
     field_EC = 2;
     mBaseAliveGameObjectLastAnimFrame = 0;
     field_130_unused = 0;
 
-    field_140_continue_zone_number = 0;
-    field_142_zone_number = sActiveHero->field_146_zone_number;
+    mContinueZoneNumber = 0;
+    field_142_zone_number = sActiveHero->mContinueZoneNumber;
 
     field_154_bAbeForcedDownFromElum = 0;
     field_128_brain_idx = 0;

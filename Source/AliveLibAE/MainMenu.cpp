@@ -2150,12 +2150,12 @@ MainMenuNextCam MainMenuController::LoadDemo_Update_4D1040(u32)
         sprintf(file, "ATTR%04d.SAV", sDemos_5617F0[demoId].field_A_id);
         ResourceManager::LoadResourceFile_49C170(file, nullptr);
         u8** resource = ResourceManager::GetLoadedResource(ResourceManager::ResourceType::Resource_NxtP, AEResourceID::kUnknownResID_0, 1, 0);
-        sActiveQuicksaveData_BAF7F8 = *(reinterpret_cast<Quicksave*>(*resource));
+        sActiveQuicksaveData = *(reinterpret_cast<Quicksave*>(*resource));
         ResourceManager::FreeResource_49C330(resource);
 
         if (gIsDemoStartedManually_5C1B9C)
         {
-            sActiveQuicksaveData_BAF7F8.field_200_accumulated_obj_count = 1024;
+            sActiveQuicksaveData.field_200_accumulated_obj_count = 1024;
         }
         Quicksave_LoadActive();
     }
@@ -2337,7 +2337,7 @@ MainMenuNextCam MainMenuController::tLoadGame_Input_4D3EF0(u32 input)
             return MainMenuNextCam(MainMenuCams::eNoChange);
         }
 
-        IO_Read(hFile, &sActiveQuicksaveData_BAF7F8, sizeof(Quicksave), 1u);
+        IO_Read(hFile, &sActiveQuicksaveData, sizeof(Quicksave), 1u);
         IO_Close(hFile);
 
         field_23C_T80.Set(Flags::eBit21_LoadingSave);

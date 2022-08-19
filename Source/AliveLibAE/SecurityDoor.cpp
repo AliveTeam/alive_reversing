@@ -27,7 +27,7 @@ SecurityDoor::SecurityDoor(Path_SecurityDoor* pTlv, s32 tlvInfo)
 
     mAnim.mRenderLayer = Layer::eLayer_BeforeWell_22;
 
-    if (pTlv->field_10_scale == Scale_short::eHalf_1)
+    if (pTlv->mScale == Scale_short::eHalf_1)
     {
         mSpriteScale = FP_FromDouble(0.5);
         mScale = Scale::Bg;
@@ -38,13 +38,13 @@ SecurityDoor::SecurityDoor(Path_SecurityDoor* pTlv, s32 tlvInfo)
         mScale = Scale::Fg;
     }
 
-    field_FA_switch_id = pTlv->field_12_switch_id;
-    field_FC_code_converted = Code_Convert(pTlv->field_14_code_1, pTlv->field_16_code_2);
+    field_FA_switch_id = pTlv->mSwitchId;
+    field_FC_code_converted = Code_Convert(pTlv->mCode1, pTlv->mCode2);
     field_100_code_len = Code_Length(field_FC_code_converted);
     field_11C_top_left = pTlv->mTopLeft;
     field_120_bottom_right = pTlv->mBottomRight;
-    mXPos = FP_FromInteger(pTlv->field_18_xpos);
-    mYPos = FP_FromInteger(pTlv->field_1A_ypos);
+    mXPos = FP_FromInteger(pTlv->mXPos);
+    mYPos = FP_FromInteger(pTlv->mYPos);
 
     PSX_Point point = {};
     gMap.Get_Abe_Spawn_Pos(&point);

@@ -285,7 +285,7 @@ void Command_LoadSave(const std::vector<std::string>& args)
 
     if (!saveFile.fail())
     {
-        saveFile.read(reinterpret_cast<char_type*>(&sActiveQuicksaveData_BAF7F8), sizeof(sActiveQuicksaveData_BAF7F8));
+        saveFile.read(reinterpret_cast<char_type*>(&sActiveQuicksaveData), sizeof(sActiveQuicksaveData));
         Quicksave_LoadActive();
         saveFile.close();
         DEV_CONSOLE_PRINTF("Loaded Save %s", filePath.c_str());
@@ -402,9 +402,9 @@ void Command_Spawn(const std::vector<std::string>& args)
     Path_TLV* factoryTLV = nullptr;
 
     Path_Mudokon mudPath = {};
-    mudPath.field_10_scale = Scale_short::eFull_0;
-    mudPath.field_12_job = MudJobs::eSitScrub_1;
-    mudPath.field_16_voice_pitch = (rand() % 1500) - 600;
+    mudPath.mScale = Scale_short::eFull_0;
+    mudPath.mJob = MudJobs::eSitScrub_1;
+    mudPath.mVoicePitch = (rand() % 1500) - 600;
     mudPath.mTopLeft = spawnTopLeft;
     mudPath.mBottomRight = spawnBottomRight;
 

@@ -43,7 +43,7 @@ SecurityDoor::SecurityDoor(Path_SecurityDoor* pTlv, s32 tlvInfo)
     mYOffset = 0;
     mAnim.mRenderLayer = Layer::eLayer_BeforeWell_22;
 
-    if (pTlv->field_18_scale == Scale_short::eHalf_1)
+    if (pTlv->mScale == Scale_short::eHalf_1)
     {
         mSpriteScale = FP_FromDouble(0.5);
         mScale = Scale::Bg;
@@ -54,13 +54,13 @@ SecurityDoor::SecurityDoor(Path_SecurityDoor* pTlv, s32 tlvInfo)
         mScale = Scale::Fg;
     }
 
-    field_EA_switch_id = pTlv->field_1A_switch_id;
-    field_EC_code_converted = Code_Convert(pTlv->field_1C_code_1, pTlv->field_1E_code2);
+    field_EA_switch_id = pTlv->mSwitchId;
+    field_EC_code_converted = Code_Convert(pTlv->mCode1, pTlv->mCode2);
     field_F0_code_len = Code_Length(field_EC_code_converted);
     field_10C_top_left = pTlv->mTopLeft;
     field_110_bottom_right = pTlv->mBottomRight;
-    mXPos = FP_FromInteger(pTlv->field_20_xpos);
-    mYPos = FP_FromInteger(pTlv->field_22_ypos);
+    mXPos = FP_FromInteger(pTlv->mXPos);
+    mYPos = FP_FromInteger(pTlv->mYPos);
 
     if (pTlv->field_1_unknown)
     {

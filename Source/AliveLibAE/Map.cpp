@@ -362,17 +362,17 @@ void Map::Handle_PathTransition()
     if (mAliveObj && pPathChangeTLV)
     {
         mNextLevel = MapWrapper::FromAE(pPathChangeTLV->field_10_level);
-        mNextPath = pPathChangeTLV->field_12_path;
-        mNextCamera = pPathChangeTLV->field_14_camera;
-        mFmvBaseId = pPathChangeTLV->field_16_movie;
+        mNextPath = pPathChangeTLV->mNextPath;
+        mNextCamera = pPathChangeTLV->mNextCamera;
+        mFmvBaseId = pPathChangeTLV->mMovieId;
 
-        mCameraSwapEffect = kPathChangeEffectToInternalScreenChangeEffect_55D55C[pPathChangeTLV->field_18_wipe];
+        mCameraSwapEffect = kPathChangeEffectToInternalScreenChangeEffect_55D55C[pPathChangeTLV->mWipeEffect];
 
         mAliveObj->mCurrentLevel = mNextLevel;
         mAliveObj->mCurrentPath = mNextPath;
         GoTo_Camera();
 
-        switch (pPathChangeTLV->field_1A_scale)
+        switch (pPathChangeTLV->mNextPathScale)
         {
             case Scale_short::eFull_0:
                 sActiveHero->mSpriteScale = FP_FromDouble(1.0);
@@ -385,7 +385,7 @@ void Map::Handle_PathTransition()
                 break;
 
             default:
-                LOG_ERROR("Invalid scale " << (s32) pPathChangeTLV->field_1A_scale);
+                LOG_ERROR("Invalid scale " << (s32) pPathChangeTLV->mNextPathScale);
                 break;
         }
 
@@ -898,7 +898,7 @@ void Map::GoTo_Camera()
 
             // Door transition
             Path_Door* pDoorTlv = static_cast<Path_Door*>(sPathInfo->TLV_First_Of_Type_In_Camera(TlvTypes::Door_5, 0));
-            while (pDoorTlv->field_18_door_number != sActiveHero->field_1A0_door_id)
+            while (pDoorTlv->mDoorNumber != sActiveHero->field_1A0_door_id)
             {
                 pDoorTlv = static_cast<Path_Door*>(Path::TLV_Next_Of_Type(pDoorTlv, TlvTypes::Door_5));
             }
@@ -1325,12 +1325,12 @@ s16 Map::SetActiveCameraDelayed(MapDirections direction, BaseAliveGameObject* pO
     if (pObj && pPathChangeTLV)
     {
         mNextLevel = MapWrapper::FromAE(pPathChangeTLV->field_10_level);
-        mNextPath = pPathChangeTLV->field_12_path;
-        mNextCamera = pPathChangeTLV->field_14_camera;
+        mNextPath = pPathChangeTLV->mNextPath;
+        mNextCamera = pPathChangeTLV->mNextCamera;
         if (swapEffect < 0)
         {
             // Map the TLV/editor value of screen change to the internal screen change
-            convertedSwapEffect = kPathChangeEffectToInternalScreenChangeEffect_55D55C[pPathChangeTLV->field_18_wipe];
+            convertedSwapEffect = kPathChangeEffectToInternalScreenChangeEffect_55D55C[pPathChangeTLV->mWipeEffect];
         }
         else
         {

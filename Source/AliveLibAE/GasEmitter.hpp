@@ -15,8 +15,8 @@ enum class GasColour : s16
 
 struct Path_GasEmitter final : public Path_TLV
 {
-    s16 field_10_switch_id;
-    GasColour field_12_colour;
+    s16 mSwitchId;
+    GasColour mColour;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_GasEmitter, 0x14);
 

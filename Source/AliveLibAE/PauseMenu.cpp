@@ -939,15 +939,15 @@ void PauseMenu::RestartPath()
 
     Quicksave_SaveSwitchResetterStates();
 
-    sSwitchStates_5C1A28 = sActiveQuicksaveData_BAF7F8.field_35C_restart_path_switch_states;
+    sSwitchStates_5C1A28 = sActiveQuicksaveData.field_35C_restart_path_switch_states;
 
-    Abe::CreateFromSaveState(sActiveQuicksaveData_BAF7F8.field_284_restart_path_abe_state);
-    Quicksave_ReadWorldInfo(&sActiveQuicksaveData_BAF7F8.field_244_restart_path_world_info);
+    Abe::CreateFromSaveState(sActiveQuicksaveData.field_284_restart_path_abe_state);
+    Quicksave_ReadWorldInfo(&sActiveQuicksaveData.field_244_restart_path_world_info);
 
     gMap.SetActiveCam(
-        MapWrapper::FromAE(sActiveQuicksaveData_BAF7F8.field_244_restart_path_world_info.field_4_level),
-        sActiveQuicksaveData_BAF7F8.field_244_restart_path_world_info.field_6_path,
-        sActiveQuicksaveData_BAF7F8.field_244_restart_path_world_info.field_8_cam,
+        MapWrapper::FromAE(sActiveQuicksaveData.field_244_restart_path_world_info.field_4_level),
+        sActiveQuicksaveData.field_244_restart_path_world_info.field_6_path,
+        sActiveQuicksaveData.field_244_restart_path_world_info.field_8_cam,
         CameraSwapEffects::eInstantChange_0,
         1,
         1);
@@ -956,8 +956,8 @@ void PauseMenu::RestartPath()
     if (sActiveHero->mThrowableCount)
     {
         LoadRockTypes_49AB30(
-            MapWrapper::FromAE(sActiveQuicksaveData_BAF7F8.field_244_restart_path_world_info.field_4_level),
-            sActiveQuicksaveData_BAF7F8.field_244_restart_path_world_info.field_6_path);
+            MapWrapper::FromAE(sActiveQuicksaveData.field_244_restart_path_world_info.field_4_level),
+            sActiveQuicksaveData.field_244_restart_path_world_info.field_6_path);
 
         if (!gpThrowableArray)
         {
@@ -1166,7 +1166,7 @@ void PauseMenu::Page_Save_Update()
             FILE* hFile = fopen(savFileName, "wb");
             if (hFile)
             {
-                fwrite(&sActiveQuicksaveData_BAF7F8, sizeof(Quicksave), 1u, hFile);
+                fwrite(&sActiveQuicksaveData, sizeof(Quicksave), 1u, hFile);
                 fclose(hFile);
                 sSavedGameToLoadIdx_BB43FC = 0;
             }
@@ -1429,7 +1429,7 @@ void PauseMenu::Page_Load_Update()
             FILE* hFile = ::fopen(saveFileName, "rb");
             if (hFile)
             {
-                ::fread(&sActiveQuicksaveData_BAF7F8, sizeof(Quicksave), 1u, hFile);
+                ::fread(&sActiveQuicksaveData, sizeof(Quicksave), 1u, hFile);
                 sActiveHero->mXPos = FP_FromInteger(0);
                 sActiveHero->mYPos = FP_FromInteger(0);
                 Quicksave_LoadActive();

@@ -16,7 +16,7 @@ BeeSwarmHole::BeeSwarmHole(Path_BeeSwarmHole* pTlv, s32 tlvInfo)
     field_10_tlvInfo = tlvInfo;
     mBaseGameObjectTypeId = ReliveTypes::eSligSpawner;
 
-    field_1C_interval_timer = 0;
+    mStartIntervalTimer = 0;
 
     field_14_rect.x = pTlv->mTopLeft.x;
     field_14_rect.y = pTlv->mTopLeft.y;
@@ -24,13 +24,13 @@ BeeSwarmHole::BeeSwarmHole(Path_BeeSwarmHole* pTlv, s32 tlvInfo)
     field_14_rect.w = pTlv->mBottomRight.x;
     field_14_rect.h = pTlv->mBottomRight.y;
 
-    field_20_interval = pTlv->field_1A_interval;
+    mStartInterval = pTlv->mStartInterval;
     field_22_fall_switch_id = pTlv->field_1C_fall_switch_id;
-    field_24_movement_type = pTlv->field_1E_movement_type;
+    field_24_movement_type = pTlv->mMovementType;
 
-    field_26_bees_amount = pTlv->field_20_bees_amount;
-    field_28_chase_time = pTlv->field_22_chase_time;
-    field_2A_speed = pTlv->field_24_speed;
+    field_26_bees_amount = pTlv->mBeesAmount;
+    field_28_chase_time = pTlv->mChaseTime;
+    field_2A_speed = pTlv->mSpeed;
 }
 
 void BeeSwarmHole::VUpdate()
@@ -41,12 +41,12 @@ void BeeSwarmHole::VUpdate()
         Path::TLV_Reset(field_10_tlvInfo, -1, 0, 0);
     }
 
-    if (static_cast<s32>(sGnFrame) < field_1C_interval_timer)
+    if (static_cast<s32>(sGnFrame) < mStartIntervalTimer)
     {
         return;
     }
 
-    field_1C_interval_timer = static_cast<s32>(sGnFrame) + field_20_interval;
+    mStartIntervalTimer = static_cast<s32>(sGnFrame) + mStartInterval;
 
     bool bBallFillingHole = false;
     for (s32 idx = 0; idx < gBaseGameObjects->Size(); idx++)

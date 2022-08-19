@@ -81,9 +81,9 @@ enum class ElumSounds : u8
 
 struct Path_ElumPathTrans final : public Path_TLV
 {
-    LevelIds field_18_level;
-    s16 field_1A_path;
-    s16 field_1C_camera;
+    LevelIds mNextLevel;
+    s16 mNextPath;
+    s16 mNextCamera;
     s16 field_1E_pad;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_ElumPathTrans, 0x20);
@@ -249,7 +249,7 @@ public:
     s32 field_114_respond_timer = 0;
     FP field_118_jump_velx = {};
     s16 field_120_bUnknown = 0;
-    s16 field_122_bDontFollowAbe = 0;
+    s16 mDontFollowAbe = 0;
     s16 field_124_bShould_IdleToWalk1 = 0;
     s16 field_126_res_idx = 0;
     s16 field_128_brain_idx = 0;
@@ -257,15 +257,15 @@ public:
     s16 field_12C_honey_xpos = 0;
     s16 field_12E_honey_ypos = 0;
     s32 field_130_unused = 0;
-    PSX_RECT field_138_continue_rect = {};
-    s16 field_140_continue_zone_number = 0;
+    PSX_RECT mContinueRect = {};
+    s16 mContinueZoneNumber = 0;
     s16 field_142_zone_number = 0;
-    s16 field_144_bRespawnOnDead = 0;
+    s16 mRespawnOnDead = 0;
     s16 field_146_honey_ypos = 0;
-    s16 field_148_continue_path = 0;
-    EReliveLevelIds field_14A_continue_level = EReliveLevelIds::eNone;
-    s16 field_14C_continue_camera = 0;
-    FP field_150_continue_sprite_scale = {};
+    s16 mContinuePath = 0;
+    EReliveLevelIds mContinueLevel = EReliveLevelIds::eNone;
+    s16 mContinueCamera = 0;
+    FP mContinueSpriteScale = {};
     s16 field_154_bAbeForcedDownFromElum = 0;
     s32 field_158_last_event_idx = 0;
     s16 field_16C_never_read = 0;

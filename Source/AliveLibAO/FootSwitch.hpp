@@ -18,10 +18,10 @@ enum class SwitchOp : s16;
 
 struct Path_FootSwitch final : public Path_TLV
 {
-    s16 field_18_switch_id;
-    Scale_short field_1A_scale;
-    SwitchOp field_1C_action;
-    FootSwitchTriggerBy field_1E_trigger_by;
+    s16 mSwitchId;
+    Scale_short mScale;
+    SwitchOp mAction;
+    FootSwitchTriggerBy mTriggeredBy;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_FootSwitch, 0x20);
 

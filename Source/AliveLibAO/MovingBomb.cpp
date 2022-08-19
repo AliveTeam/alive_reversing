@@ -40,7 +40,7 @@ MovingBomb::MovingBomb(Path_MovingBomb* pTlv, s32 tlvInfo)
     mAnim.mRenderMode = TPageAbr::eBlend_0;
     field_10C_state = States::eTriggeredBySwitch_1;
 
-    if (pTlv->field_1E_scale == Scale_short::eHalf_1)
+    if (pTlv->mScale == Scale_short::eHalf_1)
     {
         mSpriteScale = FP_FromDouble(0.5);
         mScale = Scale::Bg;
@@ -57,18 +57,18 @@ MovingBomb::MovingBomb(Path_MovingBomb* pTlv, s32 tlvInfo)
     mYPos = FP_FromInteger(pTlv->mTopLeft.y);
 
 
-    field_118_speed = FP_FromRaw(pTlv->field_18_speed << 8);
-    mVelX = FP_FromRaw(pTlv->field_24_start_speed << 8);
-    field_11C_switch_id = pTlv->field_1A_switch_id;
+    field_118_speed = FP_FromRaw(pTlv->mSpeed << 8);
+    mVelX = FP_FromRaw(pTlv->mStartSpeed << 8);
+    field_11C_switch_id = pTlv->mStartMovingSwitchId;
     field_114_timer = sGnFrame;
     mYOffset = 0;
     field_110_tlvInfo = tlvInfo;
     field_120_max = 0;
     field_11E_min = 0;
-    field_12A_persist_offscreen = pTlv->field_26_persist_offscreen;
+    field_12A_persist_offscreen = pTlv->mPersistOffscreen;
     field_124_sound_channels = 0;
 
-    if (pTlv->field_1C_bTriggered_by_alarm == Choice_short::eYes_1)
+    if (pTlv->mTriggeredByAlarm == Choice_short::eYes_1)
     {
         field_10C_state = States::eTriggeredByAlarm_0;
         mAnim.mFlags.Clear(AnimFlags::eBit3_Render);
@@ -76,7 +76,7 @@ MovingBomb::MovingBomb(Path_MovingBomb* pTlv, s32 tlvInfo)
 
     SetTint(kMovingBombTints_4CD310, gMap.mCurrentLevel);
 
-    field_128_disabled_resources = pTlv->field_22_disabled_resources;
+    field_128_disabled_resources = pTlv->mDisabledResources;
 
     if (!(field_128_disabled_resources & 1))
     {
@@ -402,8 +402,8 @@ void MovingBomb::VUpdate()
             if (BaseAliveGameObjectPathTLV)
             {
                 auto pStopper = static_cast<Path_MovingBombStopper*>(BaseAliveGameObjectPathTLV);
-                field_11E_min = pStopper->field_18_min_delay;
-                field_120_max = pStopper->field_1A_max_delay;
+                field_11E_min = pStopper->mMinDelay;
+                field_120_max = pStopper->mMaxDelay;
                 field_10C_state = States::eStopMoving_3;
             }
             break;

@@ -1839,7 +1839,7 @@ void to_json(nlohmann::json& j, const Path_Mudokon& p)
         {"base", ToBase(p)},
         {"scale", p.field_10_scale},
         {"job", p.field_12_job},
-        {"direction", p.field_14_direction},
+        {"facing", p.mFacing},
         {"voice_pitch", p.field_16_voice_pitch},
         {"rescue_switch_id", p.field_18_rescue_switch_id},
         {"deaf", p.field_1A_bDeaf},
@@ -1860,7 +1860,7 @@ void from_json(const nlohmann::json& j, Path_Mudokon& p)
     j.at("base").get_to(ToBase(p));
     j.at("scale").get_to(p.field_10_scale);
     j.at("job").get_to(p.field_12_job);
-    j.at("direction").get_to(p.field_14_direction);
+    j.at("facing").get_to(p.mFacing);
     j.at("voice_pitch").get_to(p.field_16_voice_pitch);
     j.at("rescue_switch_id").get_to(p.field_18_rescue_switch_id);
     j.at("deaf").get_to(p.field_1A_bDeaf);
@@ -1910,18 +1910,18 @@ void to_json(nlohmann::json& j, const Path_ElumPathTrans& p)
     j = nlohmann::json{
         {"name", "elum_path_trans"},
         {"base", ToBase(p)},
-        {"level", p.mLevel},
-        {"path", p.mPath},
-        {"camera", p.mCamera},
+        {"next_level", p.mNextLevel},
+        {"next_path", p.mNextPath},
+        {"next_camera", p.mNextCamera},
     };
 }
 
 void from_json(const nlohmann::json& j, Path_ElumPathTrans& p)
 {
     j.at("base").get_to(ToBase(p));
-    j.at("level").get_to(p.mLevel);
-    j.at("path").get_to(p.mPath);
-    j.at("camera").get_to(p.mCamera);
+    j.at("next_level").get_to(p.mNextLevel);
+    j.at("next_path").get_to(p.mNextPath);
+    j.at("next_camera").get_to(p.mNextCamera);
 }
 
 // Path_MudokonPathTrans
@@ -1930,18 +1930,18 @@ void to_json(nlohmann::json& j, const Path_MudokonPathTrans& p)
     j = nlohmann::json{
         {"name", "mudokon_path_trans"},
         {"base", ToBase(p)},
-        {"level", p.mLevel},
-        {"path", p.mPath},
-        {"camera", p.mCamera},
+        {"next_level", p.mNextLevel},
+        {"next_path", p.mNextPath},
+        {"next_camera", p.mNextCamera},
     };
 }
 
 void from_json(const nlohmann::json& j, Path_MudokonPathTrans& p)
 {
     j.at("base").get_to(ToBase(p));
-    j.at("level").get_to(p.mLevel);
-    j.at("path").get_to(p.mPath);
-    j.at("camera").get_to(p.mCamera);
+    j.at("next_level").get_to(p.mNextLevel);
+    j.at("next_path").get_to(p.mNextPath);
+    j.at("next_camera").get_to(p.mNextCamera);
 }
 
 // Path_SecurityClaw
@@ -2081,20 +2081,16 @@ void to_json(nlohmann::json& j, const Path_BackgroundGlukkon& p)
     j = nlohmann::json{
         {"name", "background_glukkon"},
         {"base", ToBase(p)},
-        {"scale_percent", p.field_18_scale_percent},
-        {"pal_id", p.field_1A_pal_id},
-        {"target_id", p.field_1C_target_id},
-        {"voice_adjust", p.field_1E_voice_adjust},
+        {"scale_percent", p.mScalePercent},
+        {"pal_id", p.mPalId},
     };
 }
 
 void from_json(const nlohmann::json& j, Path_BackgroundGlukkon& p)
 {
     j.at("base").get_to(ToBase(p));
-    j.at("scale_percent").get_to(p.field_18_scale_percent);
-    j.at("pal_id").get_to(p.field_1A_pal_id);
-    j.at("target_id").get_to(p.field_1C_target_id);
-    j.at("voice_adjust").get_to(p.field_1E_voice_adjust);
+    j.at("scale_percent").get_to(p.mScalePercent);
+    j.at("pal_id").get_to(p.mPalId);
 }
 
 // Path_GasEmitter
@@ -2196,7 +2192,7 @@ void to_json(nlohmann::json& j, const Path_LiftMudokon& p)
         {"base", ToBase(p)},
         {"how_far_to_walk", p.mHowFarToWalk},
         {"lift_switch_id", p.mLiftSwitchId},
-        {"direction", p.mDirection},
+        {"facing", p.mFacing},
         {"give_password", p.mGivePassword},
         {"scale", p.mScale},
         {"code_1", p.mCode1},
@@ -2209,7 +2205,7 @@ void from_json(const nlohmann::json& j, Path_LiftMudokon& p)
     j.at("base").get_to(ToBase(p));
     j.at("how_far_to_walk").get_to(p.mHowFarToWalk);
     j.at("lift_switch_id").get_to(p.mLiftSwitchId);
-    j.at("direction").get_to(p.mDirection);
+    j.at("facing").get_to(p.mFacing);
     j.at("give_password").get_to(p.mGivePassword);
     j.at("scale").get_to(p.mScale);
     j.at("code_1").get_to(p.mCode1);
@@ -2227,7 +2223,7 @@ void to_json(nlohmann::json& j, const Path_RingMudokon& p)
     j = nlohmann::json{
         {"name", "ring_mudokon"},
         {"base", ToBase(p)},
-        {"direction", p.mDirection},
+        {"facing", p.mFacing},
         {"abe_must_face_mud", p.mAbeMustFaceMud},
         {"scale", p.mScale},
         {"give_password", p.mGivePassword},
@@ -2242,7 +2238,7 @@ void to_json(nlohmann::json& j, const Path_RingMudokon& p)
 void from_json(const nlohmann::json& j, Path_RingMudokon& p)
 {
     j.at("base").get_to(ToBase(p));
-    j.at("direction").get_to(p.mDirection);
+    j.at("facing").get_to(p.mFacing);
     j.at("abe_must_face_mud").get_to(p.mAbeMustFaceMud);
     j.at("scale").get_to(p.mScale);
     j.at("give_password").get_to(p.mGivePassword);
@@ -2370,7 +2366,7 @@ void to_json(nlohmann::json& j, const Path_Slog& p)
         {"name", "slog"},
         {"base", ToBase(p)},
         {"scale", p.field_10_scale},
-        {"direction", p.field_12_direction},
+        {"facing", p.mFacing},
         {"asleep", p.field_14_asleep},
         {"wake_up_anger", p.field_16_wake_up_anger},
         {"bark_anger", p.field_18_bark_anger},
@@ -2386,7 +2382,7 @@ void from_json(const nlohmann::json& j, Path_Slog& p)
 {
     j.at("base").get_to(ToBase(p));
     j.at("scale").get_to(p.field_10_scale);
-    j.at("direction").get_to(p.field_12_direction);
+    j.at("facing").get_to(p.mFacing);
     j.at("asleep").get_to(p.field_14_asleep);
     j.at("wake_up_anger").get_to(p.field_16_wake_up_anger);
     j.at("bark_anger").get_to(p.field_18_bark_anger);

@@ -111,7 +111,7 @@ Slog::Slog(Path_Slog* pTlv, s32 tlvInfo)
     mXPos = FP_FromInteger(pTlv->mTopLeft.x);
     mYPos = FP_FromInteger(pTlv->mTopLeft.y);
 
-    if (pTlv->field_18_scale == Scale_short::eFull_0)
+    if (pTlv->mScale == Scale_short::eFull_0)
     {
         mSpriteScale = FP_FromInteger(1);
     }
@@ -126,17 +126,17 @@ Slog::Slog(Path_Slog* pTlv, s32 tlvInfo)
     field_114_brain_idx = 1;
     field_176 = 1;
 
-    field_158_wake_up_anger = pTlv->field_1E_wake_up_anger;
+    field_158_wake_up_anger = pTlv->mWakeUpAnger;
 
-    mAnim.mFlags.Set(AnimFlags::eBit5_FlipX, pTlv->field_1A_start_direction == XDirection_short::eLeft_0);
+    mAnim.mFlags.Set(AnimFlags::eBit5_FlipX, pTlv->mFacing == XDirection_short::eLeft_0);
 
-    field_15A_total_anger = pTlv->field_1E_wake_up_anger + pTlv->field_20_bark_anger;
-    field_15C_chase_anger = field_15A_total_anger + pTlv->field_22_chase_anger;
-    field_17E_asleep = pTlv->field_1C_asleep;
-    field_170 = pTlv->field_24_chase_delay;
-    field_168_anger_switch_id = pTlv->field_28_anger_switch_id;
+    field_15A_total_anger = pTlv->mWakeUpAnger + pTlv->mBarkAnger;
+    field_15C_chase_anger = field_15A_total_anger + pTlv->mChaseAnger;
+    field_17E_asleep = pTlv->mAsleep;
+    field_170 = pTlv->mChaseDelay;
+    field_168_anger_switch_id = pTlv->mAngerSwitchId;
 
-    if (pTlv->field_1C_asleep == Choice_short::eYes_1)
+    if (pTlv->mAsleep == Choice_short::eYes_1)
     {
         mCurrentMotion = eSlogMotions::Motion_16_Sleeping_4752E0;
         field_13C_res_idx = 1;
@@ -895,12 +895,12 @@ s16 Slog::HandleEnemyStopper()
         return 0;
     }
 
-    if (pStopper->field_18_direction != (mVelX > FP_FromInteger(0) ? Path_EnemyStopper::StopDirection::Right_1 : Path_EnemyStopper::StopDirection::Left_0))
+    if (pStopper->mStopDirection != (mVelX > FP_FromInteger(0) ? Path_EnemyStopper::StopDirection::Right_1 : Path_EnemyStopper::StopDirection::Left_0))
     {
         return 0;
     }
 
-    if (!SwitchStates_Get(pStopper->field_1A_switch_id))
+    if (!SwitchStates_Get(pStopper->mSwitchId))
     {
         return 1;
     }

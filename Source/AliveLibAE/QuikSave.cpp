@@ -321,7 +321,7 @@ void QuikSave_RestoreBlyData(const u8* pSaveData)
 }
 
 
-ALIVE_VAR(1, 0xBAF7F8, Quicksave, sActiveQuicksaveData_BAF7F8, {});
+ALIVE_VAR(1, 0xBAF7F8, Quicksave, sActiveQuicksaveData, {});
 ALIVE_ARY(1, 0xBB31D8, SaveFileRec, 128, sSaveFileRecords_BB31D8, {});
 ALIVE_VAR(1, 0xBB43FC, s32, sSavedGameToLoadIdx_BB43FC, 0);
 ALIVE_VAR(1, 0xBB43E0, s32, sTotalSaveFilesCount_BB43E0, 0);
@@ -350,7 +350,7 @@ void Quicksave_LoadFromMemory_4C95A0(Quicksave* quicksaveData)
 void Quicksave_LoadActive()
 {
     Game_ShowLoadingIcon_482D80();
-    Quicksave_LoadFromMemory_4C95A0(&sActiveQuicksaveData_BAF7F8);
+    Quicksave_LoadFromMemory_4C95A0(&sActiveQuicksaveData);
 }
 
 static void WriteChars(char_type*& pDst, u8 v1, u8 v2)
@@ -669,7 +669,7 @@ void DoQuicksave()
     pScreenManager->InvalidateRect(0, 0, 640, 240, 1);
     pScreenManager->InvalidateRect(0, 0, 640, 240, 2);
     Path_Get_Bly_Record(gMap.mCurrentLevel, gMap.mCurrentPath);
-    Quicksave_SaveToMemory_4C91A0(&sActiveQuicksaveData_BAF7F8);
+    Quicksave_SaveToMemory_4C91A0(&sActiveQuicksaveData);
 }
 
 void Quicksave_ReadWorldInfo(const Quicksave_WorldInfo* pInfo)

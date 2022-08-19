@@ -38,13 +38,13 @@ MovingBomb::MovingBomb(Path_MovingBomb* pTlv, s32 tlvInfo)
     mAnim.mRenderMode = TPageAbr::eBlend_0;
     field_118_state = States::eTriggeredBySwitch_1;
 
-    if (pTlv->field_16_scale == Scale_short::eHalf_1)
+    if (pTlv->mScale == Scale_short::eHalf_1)
     {
         mSpriteScale = FP_FromDouble(0.5);
         mScale = Scale::Bg;
         mAnim.mRenderLayer = Layer::eLayer_RollingBallBombMineCar_Half_16;
     }
-    else if (pTlv->field_16_scale == Scale_short::eFull_0)
+    else if (pTlv->mScale == Scale_short::eFull_0)
     {
         mSpriteScale = FP_FromInteger(1);
         mScale = Scale::Fg;
@@ -53,17 +53,17 @@ MovingBomb::MovingBomb(Path_MovingBomb* pTlv, s32 tlvInfo)
 
     mXPos = FP_FromInteger(pTlv->mTopLeft.x);
     mYPos = FP_FromInteger(pTlv->mTopLeft.y);
-    field_124_speed = FP_FromRaw(pTlv->field_10_speed << 8);
-    mVelX = FP_FromRaw(pTlv->field_1C_start_speed << 8);
-    field_128_start_moving_switch_id = pTlv->field_12_start_moving_switch_id;
+    field_124_speed = FP_FromRaw(pTlv->mSpeed << 8);
+    mVelX = FP_FromRaw(pTlv->mStartSpeed << 8);
+    field_128_start_moving_switch_id = pTlv->mStartMovingSwitchId;
     field_120_timer = sGnFrame;
     field_11C_tlvInfo = tlvInfo;
     field_12C_max = 0;
     field_12A_min = 0;
-    field_136_persist_offscreen = pTlv->field_1E_persist_offscreen;
+    field_136_persist_offscreen = pTlv->mPersistOffscreen;
     field_130_sound_channels = 0;
 
-    if (pTlv->field_14_bTriggered_by_alarm == Choice_short::eYes_1)
+    if (pTlv->mTriggeredByAlarm == Choice_short::eYes_1)
     {
         field_118_state = States::eTriggeredByAlarm_0;
         mAnim.mFlags.Clear(AnimFlags::eBit3_Render);
@@ -71,7 +71,7 @@ MovingBomb::MovingBomb(Path_MovingBomb* pTlv, s32 tlvInfo)
 
     SetTint(&kMovingBombTints_55C734[0], gMap.mCurrentLevel);
 
-    field_134_disabled_resources = pTlv->field_1A_disabled_resources;
+    field_134_disabled_resources = pTlv->mDisabledResources;
     if (!(field_134_disabled_resources & 1))
     {
         Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kAbeblowResID);
@@ -349,8 +349,8 @@ void MovingBomb::VUpdate()
             if (BaseAliveGameObjectPathTLV)
             {
                 auto pStopper = static_cast<Path_MovingBombStopper*>(BaseAliveGameObjectPathTLV);
-                field_12A_min = pStopper->field_10_min;
-                field_12C_max = pStopper->field_12_max;
+                field_12A_min = pStopper->mMinDelay;
+                field_12C_max = pStopper->mMaxDelay;
                 field_118_state = States::eStopMoving_3;
             }
             break;

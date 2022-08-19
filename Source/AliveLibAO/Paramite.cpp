@@ -142,7 +142,7 @@ Paramite::Paramite(Path_Paramite* pTlv, s32 tlvInfo)
     mXPos = FP_FromInteger(pTlv->mTopLeft.x);
     mYPos = FP_FromInteger(pTlv->mTopLeft.y);
 
-    if (pTlv->field_18_scale == Scale_short::eHalf_1)
+    if (pTlv->mScale == Scale_short::eHalf_1)
     {
         mSpriteScale = FP_FromDouble(0.5);
         mAnim.mRenderLayer = Layer::eLayer_8;
@@ -155,7 +155,7 @@ Paramite::Paramite(Path_Paramite* pTlv, s32 tlvInfo)
         mScale = Scale::Fg;
     }
 
-    if (pTlv->field_1A_bEnter_from_web == Choice_short::eYes_1)
+    if (pTlv->mEnterFromWeb == Choice_short::eYes_1)
     {
         SetBrain(&Paramite::Brain_1_SurpriseWeb);
     }
@@ -164,13 +164,13 @@ Paramite::Paramite(Path_Paramite* pTlv, s32 tlvInfo)
         SetBrain(&Paramite::Brain_0_Patrol);
     }
 
-    field_11E_alone_chase_delay = pTlv->field_1C_alone_chase_delay;
-    field_112_surprise_web_delay_timer = pTlv->field_1E_surprise_web_delay_timer;
-    field_11C_meat_eating_time = pTlv->field_20_meat_eating_time;
-    field_134_group_chase_delay = pTlv->field_22_group_chase_delay;
-    field_13C_surprise_web_switch_id = pTlv->field_26_surprise_web_switch_id;
-    field_13E_hiss_before_attack = pTlv->field_28_hiss_before_attack;
-    field_144_delete_when_far_away = pTlv->field_2A_delete_when_far_away;
+    field_11E_alone_chase_delay = pTlv->mAloneChaseDelay;
+    field_112_surprise_web_delay_timer = pTlv->mSurpriseWebDelayTimer;
+    field_11C_meat_eating_time = pTlv->mMeatEatingTime;
+    field_134_group_chase_delay = pTlv->mGroupChaseDelay;
+    field_13C_surprise_web_switch_id = pTlv->mSurpriseWebSwitchId;
+    field_13E_hiss_before_attack = pTlv->mHissBeforeAttack;
+    field_144_delete_when_far_away = pTlv->mDeleteWhenOutOfSight;
 
     FP hitX = {};
     FP hitY = {};
@@ -993,9 +993,9 @@ s16 Paramite::Brain_0_Patrol()
             if (BaseAliveGameObjectPathTLV)
             {
                 auto pStopper = static_cast<Path_EnemyStopper*>(BaseAliveGameObjectPathTLV);
-                if ((pStopper->field_18_direction == Path_EnemyStopper::StopDirection::Left_0 && sActiveHero->mXPos < mXPos) || (pStopper->field_18_direction == Path_EnemyStopper::StopDirection::Right_1 && sActiveHero->mXPos > mXPos))
+                if ((pStopper->mStopDirection == Path_EnemyStopper::StopDirection::Left_0 && sActiveHero->mXPos < mXPos) || (pStopper->mStopDirection == Path_EnemyStopper::StopDirection::Right_1 && sActiveHero->mXPos > mXPos))
                 {
-                    if (!SwitchStates_Get(pStopper->field_1A_switch_id))
+                    if (!SwitchStates_Get(pStopper->mSwitchId))
                     {
                         return Brain_0_Patrol::eBrain0_IdleForAbe_1;
                     }
@@ -1975,9 +1975,9 @@ s16 Paramite::Brain_4_ChasingAbe()
             if (BaseAliveGameObjectPathTLV)
             {
                 auto pStopper = static_cast<Path_EnemyStopper*>(BaseAliveGameObjectPathTLV);
-                if ((pStopper->field_18_direction == Path_EnemyStopper::StopDirection::Left_0 && sActiveHero->mXPos < mXPos) || (pStopper->field_18_direction == Path_EnemyStopper::StopDirection::Right_1 && sActiveHero->mXPos > mXPos))
+                if ((pStopper->mStopDirection == Path_EnemyStopper::StopDirection::Left_0 && sActiveHero->mXPos < mXPos) || (pStopper->mStopDirection == Path_EnemyStopper::StopDirection::Right_1 && sActiveHero->mXPos > mXPos))
                 {
-                    if (!SwitchStates_Get(pStopper->field_1A_switch_id))
+                    if (!SwitchStates_Get(pStopper->mSwitchId))
                     {
                         return Brain_4_ChasingAbe::eBrain4_ToChasing_5;
                     }
@@ -2602,13 +2602,13 @@ s16 Paramite::HandleEnemyStopper(s16 numGridBlocks, Path_EnemyStopper::StopDirec
     {
         // No stopper or its disabled
         auto pEnemyStopper = static_cast<Path_EnemyStopper*>(BaseAliveGameObjectPathTLV);
-        if (!pEnemyStopper || !SwitchStates_Get(pEnemyStopper->field_1A_switch_id))
+        if (!pEnemyStopper || !SwitchStates_Get(pEnemyStopper->mSwitchId))
         {
             return 0;
         }
 
         // Matches the direction we want?
-        if (pEnemyStopper->field_18_direction == dir)
+        if (pEnemyStopper->mStopDirection == dir)
         {
             return 1;
         }

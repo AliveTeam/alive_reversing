@@ -330,23 +330,23 @@ DoorFlame::DoorFlame(Path_DoorFlame* pTlv, s32 tlvInfo)
     mVisualFlags.Set(VisualFlags::eApplyShadowZoneColour);
     mAnim.mRenderLayer = Layer::eLayer_Foreground_Half_17;
     field_EA_frame_count = mAnim.Get_Frame_Count();
-    field_E8_switch_id = pTlv->field_18_switch_id;
+    field_E8_switch_id = pTlv->mSwitchId;
 
-    if (pTlv->field_1A_scale == Path_DoorFlame::Scale::eHalf_1 || 
-        pTlv->field_1A_scale == Path_DoorFlame::Scale::eHalf_2)
+    if (pTlv->mScale == Path_DoorFlame::Scale::eHalf_1 || 
+        pTlv->mScale == Path_DoorFlame::Scale::eHalf_2)
     {
         mSpriteScale = FP_FromDouble(0.5);
         mXPos = FP_FromInteger(pTlv->mTopLeft.x + 12);
         mYPos = FP_FromInteger(pTlv->mTopLeft.y + 15);
     }
-    else if (pTlv->field_1A_scale == Path_DoorFlame::Scale::eFull_0)
+    else if (pTlv->mScale == Path_DoorFlame::Scale::eFull_0)
     {
         mSpriteScale = FP_FromInteger(1);
         mXPos = FP_FromInteger(pTlv->mTopLeft.x + 12);
         mYPos = FP_FromInteger(pTlv->mTopLeft.y + 15);
     }
 
-    switch (pTlv->field_1C_colour)
+    switch (pTlv->mColour)
     {
         case Path_DoorFlame::Colour::red_1:
             mRGB.r = 127;
@@ -365,7 +365,7 @@ DoorFlame::DoorFlame(Path_DoorFlame* pTlv, s32 tlvInfo)
 
     field_F8_pFireBackgroundGlow = 0;
 
-    if (SwitchStates_Get(pTlv->field_18_switch_id))
+    if (SwitchStates_Get(pTlv->mSwitchId))
     {
         mAnim.mFlags.Set(AnimFlags::eBit3_Render);
         field_EC_state = States::eEnabled_1;

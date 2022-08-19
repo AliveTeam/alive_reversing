@@ -89,7 +89,7 @@ void Well::WellExpress_Init(Path_WellExpress* pTlv, FP /*xpos*/, FP ypos)
     //auto pHeader = reinterpret_cast<AnimHeader*>(*ppRes);
     //LOG_INFO("frametableoffset: " << pHeader->field_4_frame_table_offset << " anim id: " << pTlv->field_1E_anim_id << " max w: " << pHeader->field_0_max_w << " max h: " << pHeader->field_2_max_h);
 
-    const BgAnimRecord& anim = AO::BgAnimRec(pTlv->field_1E_anim_id);
+    const BgAnimRecord& anim = AO::BgAnimRec(pTlv->mAnimId);
     u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, anim.mBgAnimId, 1, 0);
     if (ppRes)
     {
@@ -103,7 +103,7 @@ void Well::WellExpress_Init(Path_WellExpress* pTlv, FP /*xpos*/, FP ypos)
         mBaseGameObjectFlags.Clear(Options::eDrawable_Bit4);
     }
 
-    if (pTlv->field_18_scale == Scale_short::eHalf_1)
+    if (pTlv->mScale == Scale_short::eHalf_1)
     {
         mAnim.mRenderLayer = Layer::eLayer_Well_Half_4;
         field_EC_scale = FP_FromDouble(0.5);
@@ -114,15 +114,15 @@ void Well::WellExpress_Init(Path_WellExpress* pTlv, FP /*xpos*/, FP ypos)
         field_EC_scale = FP_FromInteger(1);
     }
 
-    field_E8_switch_id = pTlv->field_1A_switch_id;
-    field_F0_exit_x = FP_FromInteger(pTlv->field_20_exit_x) / FP_FromInteger(100);
-    field_F4_exit_y = FP_FromInteger(pTlv->field_22_exit_y) / FP_FromInteger(100);
+    field_E8_switch_id = pTlv->mSwitchId;
+    field_F0_exit_x = FP_FromInteger(pTlv->mExitX) / FP_FromInteger(100);
+    field_F4_exit_y = FP_FromInteger(pTlv->mExitY) / FP_FromInteger(100);
 
-    field_100_emit_leaves = pTlv->field_34_emit_leaves;
+    field_100_emit_leaves = pTlv->mEmitLeaves;
 
     if (field_100_emit_leaves == Choice_short::eYes_1)
     {
-        field_F8_leaf_xpos = FP_FromInteger(pTlv->field_36_leaf_x);
+        field_F8_leaf_xpos = FP_FromInteger(pTlv->mLeafX);
         if (!FP_GetExponent(field_F8_leaf_xpos))
         {
             field_F8_leaf_xpos = FP_FromInteger(pTlv->mTopLeft.x
@@ -130,7 +130,7 @@ void Well::WellExpress_Init(Path_WellExpress* pTlv, FP /*xpos*/, FP ypos)
                                                    / 2));
         }
 
-        field_FC_leaf_ypos = FP_FromInteger(pTlv->field_38_leaf_y);
+        field_FC_leaf_ypos = FP_FromInteger(pTlv->mLeafY);
         if (!FP_GetExponent(field_FC_leaf_ypos))
         {
             field_FC_leaf_ypos = ypos;
@@ -144,7 +144,7 @@ void Well::WellLocal_Init(Path_WellLocal* pTlv, FP /*xpos*/, FP ypos)
     //auto pHeader = reinterpret_cast<AnimHeader*>(*ppRes);
     //LOG_INFO("frametableoffset: " << pHeader->field_4_frame_table_offset << " anim id: " << pTlv->field_1E_anim_id << " max w: " << pHeader->field_0_max_w << " max h: " << pHeader->field_2_max_h);
 
-    const BgAnimRecord& anim = AO::BgAnimRec(pTlv->field_1E_anim_id);
+    const BgAnimRecord& anim = AO::BgAnimRec(pTlv->mAnimId);
     u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, anim.mBgAnimId, 1, 0);
     if (ppRes)
     {
@@ -158,7 +158,7 @@ void Well::WellLocal_Init(Path_WellLocal* pTlv, FP /*xpos*/, FP ypos)
         mBaseGameObjectFlags.Clear(Options::eDrawable_Bit4);
     }
 
-    if (pTlv->field_18_scale == Scale_short::eHalf_1)
+    if (pTlv->mScale == Scale_short::eHalf_1)
     {
         mAnim.mRenderLayer = Layer::eLayer_Well_Half_4;
         field_EC_scale = FP_FromDouble(0.5);
@@ -171,21 +171,21 @@ void Well::WellLocal_Init(Path_WellLocal* pTlv, FP /*xpos*/, FP ypos)
         mScale = Scale::Fg;
     }
 
-    field_E8_switch_id = pTlv->field_1A_switch_id;
-    field_F0_exit_x = FP_FromInteger(pTlv->field_20_exit_x) / FP_FromInteger(100);
-    field_F4_exit_y = FP_FromInteger(pTlv->field_22_exit_y) / FP_FromInteger(100);
+    field_E8_switch_id = pTlv->mSwitchId;
+    field_F0_exit_x = FP_FromInteger(pTlv->mExitX) / FP_FromInteger(100);
+    field_F4_exit_y = FP_FromInteger(pTlv->mExitY) / FP_FromInteger(100);
 
-    field_100_emit_leaves = pTlv->field_2C_bEmit_leaves;
+    field_100_emit_leaves = pTlv->mEmitLeaves;
 
     if (field_100_emit_leaves == Choice_short::eYes_1)
     {
-        field_F8_leaf_xpos = FP_FromInteger(pTlv->field_2E_leaf_x);
+        field_F8_leaf_xpos = FP_FromInteger(pTlv->mLeafX);
         if (!FP_GetExponent(field_F8_leaf_xpos))
         {
             field_F8_leaf_xpos = FP_FromInteger(pTlv->mTopLeft.x + (PsxToPCX(pTlv->mBottomRight.x - pTlv->mTopLeft.x, 11) / 2));
         }
 
-        field_FC_leaf_ypos = FP_FromInteger(pTlv->field_30_leaf_y);
+        field_FC_leaf_ypos = FP_FromInteger(pTlv->mLeafY);
         if (!FP_GetExponent(field_FC_leaf_ypos))
         {
             field_FC_leaf_ypos = ypos;

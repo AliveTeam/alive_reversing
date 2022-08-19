@@ -321,9 +321,9 @@ DoorFlame::DoorFlame(Path_DoorFlame* pTlv, s32 tlvInfo)
     field_FA_frame_count = mAnim.Get_Frame_Count();
     mAnim.SetFrame(Math_RandomRange(0, field_FA_frame_count - 1));
 
-    field_F8_switch_id = pTlv->field_10_switch_id;
+    field_F8_switch_id = pTlv->mSwitchId;
 
-    if (pTlv->field_12_scale != Scale_short::eFull_0)
+    if (pTlv->mScale != Scale_short::eFull_0)
     {
         mSpriteScale = FP_FromDouble(0.5);
     }
