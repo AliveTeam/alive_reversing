@@ -202,286 +202,286 @@ static void ConvertTLV(nlohmann::json& j, const AO::Path_TLV& tlv)
             convert_tlv<relive::Path_ContinuePoint_Converter, AO::Path_ContinuePoint>(j, tlv);
             break;
         case AO::TlvTypes::PathTransition_1:
-            j.push_back({ "path_transition", relive::Path_PathTransition_Converter::From(static_cast<const AO::Path_PathTransition&>(tlv)) });
+            convert_tlv<relive::Path_PathTransition_Converter, AO::Path_PathTransition>(j, tlv);
             break;
         case AO::TlvTypes::ContinueZone_2: // dead tlv
             return;
         case AO::TlvTypes::Hoist_3:
-            j.push_back({ "hoist", relive::Path_Hoist_Converter::From(static_cast<const AO::Path_Hoist&>(tlv)) });
+            convert_tlv<relive::Path_Hoist_Converter, AO::Path_Hoist>(j, tlv);
             break;
         case AO::TlvTypes::Edge_4:
-            j.push_back({ "edge", relive::Path_Edge_Converter::From(static_cast<const AO::Path_Edge&>(tlv)) });
+            convert_tlv<relive::Path_Edge_Converter, AO::Path_Edge>(j, tlv);
             break;
         case AO::TlvTypes::DeathDrop_5:
-            j.push_back({ "death_drop", relive::Path_DeathDrop_Converter::From(static_cast<const AO::Path_DeathDrop&>(tlv)) });
+            convert_tlv<relive::Path_DeathDrop_Converter, AO::Path_DeathDrop>(j, tlv);
             break;
         case AO::TlvTypes::Door_6:
-            j.push_back({ "door", relive::Path_Door_Converter::From(static_cast<const AO::Path_Door&>(tlv)) });
+            convert_tlv<relive::Path_Door_Converter, AO::Path_Door>(j, tlv);
             break;
         case AO::TlvTypes::ShadowZone_7:
-            j.push_back({"shadow_zone", relive::Path_ShadowZone_Converter::From(static_cast<const AO::Path_ShadowZone&>(tlv))});
+            convert_tlv<relive::Path_ShadowZone_Converter, AO::Path_ShadowZone>(j, tlv);
             break;
         case AO::TlvTypes::LiftPoint_8:
-            j.push_back({ "lift_point", relive::Path_LiftPoint_Converter::From(static_cast<const AO::Path_LiftPoint&>(tlv)) });
+            convert_tlv<relive::Path_LiftPoint_Converter, AO::Path_LiftPoint>(j, tlv);
             break;
         case AO::TlvTypes::WellLocal_11:
-            j.push_back({ "well_local", relive::Path_WellLocal_Converter::From(static_cast<const AO::Path_WellLocal&>(tlv)) });
+            convert_tlv<relive::Path_WellLocal_Converter, AO::Path_WellLocal>(j, tlv);
             break;
         case AO::TlvTypes::Dove_12:
-            j.push_back({ "dove", relive::Path_Dove_Converter::From(static_cast<const AO::Path_Dove&>(tlv)) });
+            convert_tlv<relive::Path_Dove_Converter, AO::Path_Dove>(j, tlv);
             break;
         case AO::TlvTypes::RockSack_13:
-            j.push_back({ "rock_sack", relive::Path_RockSack_Converter::From(static_cast<const AO::Path_RockSack&>(tlv)) });
+            convert_tlv<relive::Path_RockSack_Converter, AO::Path_RockSack>(j, tlv);
             break;
         case AO::TlvTypes::ZBall_14:
-            j.push_back({ "z_ball", relive::Path_ZBall_Converter::From(static_cast<const AO::Path_ZBall&>(tlv)) });
+            convert_tlv<relive::Path_ZBall_Converter, AO::Path_ZBall>(j, tlv);
             break;
         case AO::TlvTypes::FallingItem_15:
-            j.push_back({ "falling_item", relive::Path_FallingItem_Converter::From(static_cast<const AO::Path_FallingItem&>(tlv)) });
+            convert_tlv<relive::Path_FallingItem_Converter, AO::Path_FallingItem>(j, tlv);
             break;
         case AO::TlvTypes::PullRingRope_18:
-            j.push_back({ "pull_ring_rope", relive::Path_PullRingRope_Converter::From(static_cast<const AO::Path_PullRingRope&>(tlv)) });
+            convert_tlv<relive::Path_PullRingRope_Converter, AO::Path_PullRingRope>(j, tlv);
             break;
         case AO::TlvTypes::BackgroundAnimation_19:
-            j.push_back({ "background_animation", relive::Path_BackgroundAnimation_Converter::From(static_cast<const AO::Path_BackgroundAnimation&>(tlv)) });
+            convert_tlv<relive::Path_BackgroundAnimation_Converter, AO::Path_BackgroundAnimation>(j, tlv);
             break;
         case AO::TlvTypes::Honey_20:
-            j.push_back({ "honey", relive::Path_Honey_Converter::From(static_cast<const AO::Path_Honey&>(tlv)) });
+            convert_tlv<relive::Path_Honey_Converter, AO::Path_Honey>(j, tlv);
             break;
         case AO::TlvTypes::TimedMine_22:
-            j.push_back({ "timed_mine", relive::Path_TimedMine_Converter::From(static_cast<const AO::Path_TimedMine&>(tlv)) });
+            convert_tlv<relive::Path_TimedMine_Converter, AO::Path_TimedMine>(j, tlv);
             break;
         case AO::TlvTypes::Slig_24:
-            j.push_back({ "slig", relive::Path_Slig_Converter::From(static_cast<const AO::Path_Slig&>(tlv)) });
+            convert_tlv<relive::Path_Slig_Converter, AO::Path_Slig>(j, tlv);
             break;
         case AO::TlvTypes::Slog_25:
-            j.push_back({ "slog", relive::Path_Slog_Converter::From(static_cast<const AO::Path_Slog&>(tlv)) });
+            convert_tlv<relive::Path_Slog_Converter, AO::Path_Slog>(j, tlv);
             break;
         case AO::TlvTypes::Lever_26:
-            j.push_back({ "lever", relive::Path_Lever_Converter::From(static_cast<const AO::Path_Lever&>(tlv)) });
+            convert_tlv<relive::Path_Lever_Converter, AO::Path_Lever>(j, tlv);
             break;
         case AO::TlvTypes::BellHammer_27:
-            j.push_back({ "bell_hammer", relive::Path_BellHammer_Converter::From(static_cast<const AO::Path_BellHammer&>(tlv)) });
+            convert_tlv<relive::Path_BellHammer_Converter, AO::Path_BellHammer>(j, tlv);
             break;
         case AO::TlvTypes::StartController_28:
-            j.push_back({ "start_controller", relive::Path_StartController_Converter::From(static_cast<const AO::Path_StartController&>(tlv)) });
+            convert_tlv<relive::Path_StartController_Converter, AO::Path_StartController>(j, tlv);
             break;
         case AO::TlvTypes::SecurityOrb_29:
-            j.push_back({"security_orb", relive::Path_SecurityOrb_Converter::From(static_cast<const AO::Path_SecurityOrb&>(tlv))});
+            convert_tlv<relive::Path_SecurityOrb_Converter, AO::Path_SecurityOrb>(j, tlv);
             break;
         case AO::TlvTypes::LiftMudokon_32:
-            j.push_back({ "lift_mudokon", relive::Path_LiftMudokon_Converter::From(static_cast<const AO::Path_LiftMudokon&>(tlv)) });
+            convert_tlv<relive::Path_LiftMudokon_Converter, AO::Path_LiftMudokon>(j, tlv);
             break;
         case AO::TlvTypes::BeeSwarmHole_34:
-            j.push_back({ "bee_swarm_hole", relive::Path_BeeSwarmHole_Converter::From(static_cast<const AO::Path_BeeSwarmHole&>(tlv)) });
+            convert_tlv<relive::Path_BeeSwarmHole_Converter, AO::Path_BeeSwarmHole>(j, tlv);
             break;
         case AO::TlvTypes::Pulley_35:
-            j.push_back({ "pulley", relive::Path_Pulley_Converter::From(static_cast<const AO::Path_Pulley&>(tlv)) });
+            convert_tlv<relive::Path_Pulley_Converter, AO::Path_Pulley>(j, tlv);
             break;
         case AO::TlvTypes::HoneySack_36:
-            j.push_back({ "honey_sack", relive::Path_HoneySack_Converter::From(static_cast<const AO::Path_HoneySack&>(tlv)) });
+            convert_tlv<relive::Path_HoneySack_Converter, AO::Path_HoneySack>(j, tlv);
             break;
         case AO::TlvTypes::AbeStart_37: // dead tlv in AO
             return;
         case AO::TlvTypes::ElumStart_38:
-            j.push_back({ "elum_start", relive::Path_ElumStart_Converter::From(static_cast<const AO::Path_ElumStart&>(tlv)) });
+            convert_tlv<relive::Path_ElumStart_Converter, AO::Path_ElumStart>(j, tlv);
             break;
         case AO::TlvTypes::ElumWall_40:
-            j.push_back({ "elum_wall", relive::Path_ElumWall_Converter::From(static_cast<const AO::Path_ElumWall&>(tlv)) });
+            convert_tlv<relive::Path_ElumWall_Converter, AO::Path_ElumWall>(j, tlv);
             break;
         case AO::TlvTypes::SlingMudokon_41:
-            j.push_back({ "sling_mudokon", relive::Path_SlingMudokon_Converter::From(static_cast<const AO::Path_SlingMudokon&>(tlv)) });
+            convert_tlv<relive::Path_SlingMudokon_Converter, AO::Path_SlingMudokon>(j, tlv);
             break;
         case AO::TlvTypes::HoneyDripTarget_42:
-            j.push_back({ "honey_drip_target", relive::Path_HoneyDripTarget_Converter::From(static_cast<const AO::Path_HoneyDripTarget&>(tlv)) });
+            convert_tlv<relive::Path_HoneyDripTarget_Converter, AO::Path_HoneyDripTarget>(j, tlv);
             break;
         case AO::TlvTypes::Bees_43:
-            j.push_back({ "bees", relive::Path_Bees_Converter::From(static_cast<const AO::Path_Bees&>(tlv)) });
+            convert_tlv<relive::Path_Bees_Converter, AO::Path_Bees>(j, tlv);
             break;
         case AO::TlvTypes::WellExpress_45:
-            j.push_back({ "well_express", relive::Path_WellExpress_Converter::From(static_cast<const AO::Path_WellExpress&>(tlv)) });
+            convert_tlv<relive::Path_WellExpress_Converter, AO::Path_WellExpress>(j, tlv);
             break;
         case AO::TlvTypes::Mine_46:
-            j.push_back({ "mine", relive::Path_Mine_Converter::From(static_cast<const AO::Path_Mine&>(tlv)) });
+            convert_tlv<relive::Path_Mine_Converter, AO::Path_Mine>(j, tlv);
             break;
         case AO::TlvTypes::UXB_47:
-            j.push_back({ "uxb", relive::Path_UXB_Converter::From(static_cast<const AO::Path_UXB&>(tlv)) });
+            convert_tlv<relive::Path_UXB_Converter, AO::Path_UXB>(j, tlv);
             break;
         case AO::TlvTypes::Paramite_48:
-            j.push_back({ "paramite", relive::Path_Paramite_Converter::From(static_cast<const AO::Path_Paramite&>(tlv)) });
+            convert_tlv<relive::Path_Paramite_Converter, AO::Path_Paramite>(j, tlv);
             break;
         case AO::TlvTypes::Bat_49:
-            j.push_back({ "bat", relive::Path_Bat_Converter::From(static_cast<const AO::Path_Bat&>(tlv)) });
+            convert_tlv<relive::Path_Bat_Converter, AO::Path_Bat>(j, tlv);
             break;
         case AO::TlvTypes::RingMudokon_50:
-            j.push_back({ "ring_mudokon", relive::Path_RingMudokon_Converter::From(static_cast<const AO::Path_RingMudokon&>(tlv)) });
+            convert_tlv<relive::Path_RingMudokon_Converter, AO::Path_RingMudokon>(j, tlv);
             break;
         case AO::TlvTypes::MovieStone_51:
-            j.push_back({ "movie_stone", relive::Path_MovieStone_Converter::From(static_cast<const AO::Path_MovieStone&>(tlv)) });
+            convert_tlv<relive::Path_MovieStone_Converter, AO::Path_MovieStone>(j, tlv);
             break;
         case AO::TlvTypes::BirdPortal_52:
-            j.push_back({ "bird_portal", relive::Path_BirdPortal_Converter::From(static_cast<const AO::Path_BirdPortal&>(tlv)) });
+            convert_tlv<relive::Path_BirdPortal_Converter, AO::Path_BirdPortal>(j, tlv);
             break;
         case AO::TlvTypes::BirdPortalExit_53:
-            j.push_back({ "bird_portal_exit", relive::Path_BirdPortalExit_Converter::From(static_cast<const AO::Path_BirdPortalExit&>(tlv)) });
+            convert_tlv<relive::Path_BirdPortalExit_Converter, AO::Path_BirdPortalExit>(j, tlv);
             break;
         case AO::TlvTypes::BellSongStone_54:
-            j.push_back({ "bell_song_stone", relive::Path_BellsongStone_Converter::From(static_cast<const AO::Path_BellsongStone&>(tlv)) });
+            convert_tlv<relive::Path_BellsongStone_Converter, AO::Path_BellsongStone>(j, tlv);
             break;
         case AO::TlvTypes::TrapDoor_55:
-            j.push_back({ "trap_door", relive::Path_TrapDoor_Converter::From(static_cast<const AO::Path_TrapDoor&>(tlv)) });
+            convert_tlv<relive::Path_TrapDoor_Converter, AO::Path_TrapDoor>(j, tlv);
             break;
         case AO::TlvTypes::RollingBall_56:
-            j.push_back({ "rolling_ball", relive::Path_RollingBall_Converter::From(static_cast<const AO::Path_RollingBall&>(tlv)) });
+            convert_tlv<relive::Path_RollingBall_Converter, AO::Path_RollingBall>(j, tlv);
             break;
         case AO::TlvTypes::eSligBoundLeft_57:
-            j.push_back({ "slig_bound_left", relive::Path_SligBound_Converter::From(static_cast<const AO::Path_SligBound&>(tlv)) });
+            convert_tlv<relive::Path_SligBound_Converter, AO::Path_SligBound>(j, tlv);
             break;
         case AO::TlvTypes::InvisibleZone_58:
-            j.push_back({ "invisible_zone", relive::Path_InvisibleZone_Converter::From(static_cast<const AO::Path_InvisibleZone&>(tlv)) });
+            convert_tlv<relive::Path_InvisibleZone_Converter, AO::Path_InvisibleZone>(j, tlv);
             break;
         case AO::TlvTypes::RollingBallStopper_59:
-            j.push_back({ "rolling_ball_stopper", relive::Path_RollingBallStopper_Converter::From(static_cast<const AO::Path_RollingBallStopper&>(tlv)) });
+            convert_tlv<relive::Path_RollingBallStopper_Converter, AO::Path_RollingBallStopper>(j, tlv);
             break;
         case AO::TlvTypes::FootSwitch_60:
-            j.push_back({ "foot_switch", relive::Path_FootSwitch_Converter::From(static_cast<const AO::Path_FootSwitch&>(tlv)) });
+            convert_tlv<relive::Path_FootSwitch_Converter, AO::Path_FootSwitch>(j, tlv);
             break;
         case AO::TlvTypes::SecurityClaw_61:
-            j.push_back({ "security_claw", relive::Path_SecurityClaw_Converter::From(static_cast<const AO::Path_SecurityClaw&>(tlv)) });
+            convert_tlv<relive::Path_SecurityClaw_Converter, AO::Path_SecurityClaw>(j, tlv);
             break;
         case AO::TlvTypes::MotionDetector_62:
-            j.push_back({ "motion_detector", relive::Path_MotionDetector_Converter::From(static_cast<const AO::Path_MotionDetector&>(tlv)) });
+            convert_tlv<relive::Path_MotionDetector_Converter, AO::Path_MotionDetector>(j, tlv);
             break;
         case AO::TlvTypes::SligSpawner_66:
-            j.push_back({ "slig_spawner", relive::Path_SligSpawner_Converter::From(static_cast<const AO::Path_SligSpawner&>(tlv)) });
+            convert_tlv<relive::Path_SligSpawner_Converter, AO::Path_SligSpawner>(j, tlv);
             break;
         case AO::TlvTypes::ElectricWall_67:
-            j.push_back({ "electric_wall", relive::Path_ElectricWall_Converter::From(static_cast<const AO::Path_ElectricWall&>(tlv)) });
+            convert_tlv<relive::Path_ElectricWall_Converter, AO::Path_ElectricWall>(j, tlv);
             break;
         case AO::TlvTypes::LiftMover_68:
-            j.push_back({ "lift_mover", relive::Path_LiftMover_Converter::From(static_cast<const AO::Path_LiftMover&>(tlv)) });
+            convert_tlv<relive::Path_LiftMover_Converter, AO::Path_LiftMover>(j, tlv);
             break;
         case AO::TlvTypes::ChimeLock_69:
-            j.push_back({ "chime_lock", relive::Path_ChimeLock_Converter::From(static_cast<const AO::Path_ChimeLock&>(tlv)) });
+            convert_tlv<relive::Path_ChimeLock_Converter, AO::Path_ChimeLock>(j, tlv);
             break;
         case AO::TlvTypes::MeatSack_71:
-            j.push_back({ "meat_sack", relive::Path_MeatSack_Converter::From(static_cast<const AO::Path_MeatSack&>(tlv)) });
+            convert_tlv<relive::Path_MeatSack_Converter, AO::Path_MeatSack>(j, tlv);
             break;
         case AO::TlvTypes::Scrab_72:
-            j.push_back({ "scrab", relive::Path_Scrab_Converter::From(static_cast<const AO::Path_Scrab&>(tlv)) });
+            convert_tlv<relive::Path_Scrab_Converter, AO::Path_Scrab>(j, tlv);
             break;
         case AO::TlvTypes::FlintLockFire_73:
-            j.push_back({ "flint_lock_fire", relive::Path_FlintLockFire_Converter::From(static_cast<const AO::Path_FlintLockFire&>(tlv)) });
+            convert_tlv<relive::Path_FlintLockFire_Converter, AO::Path_FlintLockFire>(j, tlv);
             break;
         case AO::TlvTypes::ScrabLeftBound_74:
-            j.push_back({ "scrab_left_bound", relive::Path_ScrabLeftBound_Converter::From(static_cast<const AO::Path_ScrabLeftBound&>(tlv)) });
+            convert_tlv<relive::Path_ScrabLeftBound_Converter, AO::Path_ScrabLeftBound>(j, tlv);
             break;
         case AO::TlvTypes::ScrabRightBound_75:
-            j.push_back({ "scrab_right_bound", relive::Path_ScrabRightBound_Converter::From(static_cast<const AO::Path_ScrabRightBound&>(tlv)) });
+            convert_tlv<relive::Path_ScrabRightBound_Converter, AO::Path_ScrabRightBound>(j, tlv);
             break;
         case AO::TlvTypes::eSligBoundRight_76:
-            j.push_back({ "slig_bound_right", relive::Path_SligBound_Converter::From(static_cast<const AO::Path_SligBound&>(tlv)) });
+            convert_tlv<relive::Path_SligBound_Converter, AO::Path_SligBound>(j, tlv);
             break;
         case AO::TlvTypes::eSligPersist_77:
-            j.push_back({ "slig_persist", relive::Path_SligBound_Converter::From(static_cast<const AO::Path_SligBound&>(tlv)) });
+            convert_tlv<relive::Path_SligBound_Converter, AO::Path_SligBound>(j, tlv);
             break;
         case AO::TlvTypes::EnemyStopper_79:
-            j.push_back({ "enemy_stopper", relive::Path_EnemyStopper_Converter::From(static_cast<const AO::Path_EnemyStopper&>(tlv)) });
+            convert_tlv<relive::Path_EnemyStopper_Converter, AO::Path_EnemyStopper>(j, tlv);
             break;
         case AO::TlvTypes::InvisibleSwitch_81:
-            j.push_back({ "invisible_switch", relive::Path_InvisibleSwitch_Converter::From(static_cast<const AO::Path_InvisibleSwitch&>(tlv)) });
+            convert_tlv<relive::Path_InvisibleSwitch_Converter, AO::Path_InvisibleSwitch>(j, tlv);
             break;
         case AO::TlvTypes::Mudokon_82:
-            j.push_back({ "mudokon", relive::Path_Mudokon_Converter::From(static_cast<const AO::Path_Mudokon&>(tlv)) });
+            convert_tlv<relive::Path_Mudokon_Converter, AO::Path_Mudokon>(j, tlv);
             break;
         case AO::TlvTypes::ZSligCover_83:
-            j.push_back({ "zslig_cover", relive::Path_ZSligCover_Converter::From(static_cast<const AO::Path_ZSligCover&>(tlv)) });
+            convert_tlv<relive::Path_ZSligCover_Converter, AO::Path_ZSligCover>(j, tlv);
             break;
         case AO::TlvTypes::DoorFlame_84:
-            j.push_back({ "door_flame", relive::Path_DoorFlame_Converter::From(static_cast<const AO::Path_DoorFlame&>(tlv)) });
+            convert_tlv<relive::Path_DoorFlame_Converter, AO::Path_DoorFlame>(j, tlv);
             break;
         case AO::TlvTypes::MovingBomb_86:
-            j.push_back({ "moving_bomb", relive::Path_MovingBomb_Converter::From(static_cast<const AO::Path_MovingBomb&>(tlv)) });
+            convert_tlv<relive::Path_MovingBomb_Converter, AO::Path_MovingBomb>(j, tlv);
             break;
         case AO::TlvTypes::MovingBombStopper_87:
-            j.push_back({ "moving_bomb_stopper", relive::Path_MovingBombStopper_Converter::From(static_cast<const AO::Path_MovingBombStopper&>(tlv)) });
+            convert_tlv<relive::Path_MovingBombStopper_Converter, AO::Path_MovingBombStopper>(j, tlv);
             break;
         case AO::TlvTypes::MeatSaw_88:
-            j.push_back({ "meat_saw", relive::Path_MeatSaw_Converter::From(static_cast<const AO::Path_MeatSaw&>(tlv)) });
+            convert_tlv<relive::Path_MeatSaw_Converter, AO::Path_MeatSaw>(j, tlv);
             break;
         case AO::TlvTypes::MudokonPathTrans_89:
-            j.push_back({ "mudokon_path_trans", relive::Path_MudokonPathTrans_Converter::From(static_cast<const AO::Path_MudokonPathTrans&>(tlv)) });
+            convert_tlv<relive::Path_MudokonPathTrans_Converter, AO::Path_MudokonPathTrans>(j, tlv);
             break;
         case AO::TlvTypes::MainMenuController_90:
             convert_tlv<relive::Path_MainMenuController_Converter, AO::Path_MainMenuController>(j, tlv);
             break;
         case AO::TlvTypes::HintFly_92:
-            j.push_back({ "hint_fly", relive::Path_HintFly_Converter::From(static_cast<const AO::Path_HintFly&>(tlv)) });
+            convert_tlv<relive::Path_HintFly_Converter, AO::Path_HintFly>(j, tlv);
             break;
         case AO::TlvTypes::ScrabNoFall_93:
-            j.push_back({ "scrab_no_fall", relive::Path_ScrabNoFall_Converter::From(static_cast<const AO::Path_ScrabNoFall&>(tlv)) });
+            convert_tlv<relive::Path_ScrabNoFall_Converter, AO::Path_ScrabNoFall>(j, tlv);
             break;
         case AO::TlvTypes::TimerTrigger_94:
-            j.push_back({ "timer_trigger", relive::Path_TimerTrigger_Converter::From(static_cast<const AO::Path_TimerTrigger&>(tlv)) });
+            convert_tlv<relive::Path_TimerTrigger_Converter, AO::Path_TimerTrigger>(j, tlv);
             break;
         case AO::TlvTypes::SecurityDoor_95:
-            j.push_back({ "security_door", relive::Path_SecurityDoor_Converter::From(static_cast<const AO::Path_SecurityDoor&>(tlv)) });
+            convert_tlv<relive::Path_SecurityDoor_Converter, AO::Path_SecurityDoor>(j, tlv);
             break;
         case AO::TlvTypes::DemoPlaybackStone_96: // unused?
             LOG_WARNING("tlv of type " << static_cast<s16>(tlv.mTlvType32.mType) << " unused?");
             return;
         case AO::TlvTypes::BoomMachine_97:
-            j.push_back({ "boom_machine", relive::Path_BoomMachine_Converter::From(static_cast<const AO::Path_BoomMachine&>(tlv)) });
+            convert_tlv<relive::Path_BoomMachine_Converter, AO::Path_BoomMachine>(j, tlv);
             break;
         case AO::TlvTypes::LCDScreen_98:
-            j.push_back({ "lcd_screen", relive::Path_LCDScreen_Converter::From(static_cast<const AO::Path_LCDScreen&>(tlv)) });
+            convert_tlv<relive::Path_LCDScreen_Converter, AO::Path_LCDScreen>(j, tlv);
             break;
         case AO::TlvTypes::ElumPathTrans_99:
-            j.push_back({ "elum_path_trans", relive::Path_ElumPathTrans_Converter::From(static_cast<const AO::Path_ElumPathTrans&>(tlv)) });
+            convert_tlv<relive::Path_ElumPathTrans_Converter, AO::Path_ElumPathTrans>(j, tlv);
             break;
         case AO::TlvTypes::HandStone_100:
-            j.push_back({ "hand_stone", relive::Path_HandStone_Converter::From(static_cast<const AO::Path_HandStone&>(tlv)) });
+            convert_tlv<relive::Path_HandStone_Converter, AO::Path_HandStone>(j, tlv);
             break;
         case AO::TlvTypes::CreditsController_101:
-            j.push_back({ "credits_controller", relive::Path_CreditsController_Converter::From(static_cast<const AO::Path_CreditsController&>(tlv)) });
+            convert_tlv<relive::Path_CreditsController_Converter, AO::Path_CreditsController>(j, tlv);
             break;
         case AO::TlvTypes::Preloader_102: // dead tlv
             return;
         case AO::TlvTypes::LCDStatusBoard_103:
-            j.push_back({ "lcd_status_board", relive::Path_LCDStatusBoard_Converter::From(static_cast<const AO::Path_LCDStatusBoard&>(tlv)) });
+            convert_tlv<relive::Path_LCDStatusBoard_Converter, AO::Path_LCDStatusBoard>(j, tlv);
             break;
         case AO::TlvTypes::MusicTrigger_105:
-            j.push_back({ "music_trigger", relive::Path_MusicTrigger_Converter::From(static_cast<const AO::Path_MusicTrigger&>(tlv)) });
+            convert_tlv<relive::Path_MusicTrigger_Converter, AO::Path_MusicTrigger>(j, tlv);
             break;
         case AO::TlvTypes::LightEffect_106:
-            j.push_back({ "light_effect", relive::Path_LightEffect_Converter::From(static_cast<const AO::Path_LightEffect&>(tlv)) });
+            convert_tlv<relive::Path_LightEffect_Converter, AO::Path_LightEffect>(j, tlv);
             break;
         case AO::TlvTypes::SlogSpawner_107:
-            j.push_back({ "slog_spawner", relive::Path_SlogSpawner_Converter::From(static_cast<const AO::Path_SlogSpawner&>(tlv)) });
+            convert_tlv<relive::Path_SlogSpawner_Converter, AO::Path_SlogSpawner>(j, tlv);
             break;
         case AO::TlvTypes::GasCountDown_108:
-            j.push_back({ "gas_countdown", relive::Path_GasCountDown_Converter::From(static_cast<const AO::Path_GasCountDown&>(tlv)) });
+            convert_tlv<relive::Path_GasCountDown_Converter, AO::Path_GasCountDown>(j, tlv);
             break;
         case AO::TlvTypes::RingCancel_109:
-            j.push_back({ "ring_cancel", relive::Path_RingCancel_Converter::From(static_cast<const AO::Path_RingCancel&>(tlv)) });
+            convert_tlv<relive::Path_RingCancel_Converter, AO::Path_RingCancel>(j, tlv);
             break;
         case AO::TlvTypes::GasEmitter_110:
-            j.push_back({ "gas_emitter", relive::Path_GasEmitter_Converter::From(static_cast<const AO::Path_GasEmitter&>(tlv)) });
+            convert_tlv<relive::Path_GasEmitter_Converter, AO::Path_GasEmitter>(j, tlv);
             break;
         case AO::TlvTypes::ZzzSpawner_111:
-            j.push_back({ "zzz_spawner", relive::Path_ZzzSpawner_Converter::From(static_cast<const AO::Path_ZzzSpawner&>(tlv)) });
+            convert_tlv<relive::Path_ZzzSpawner_Converter, AO::Path_ZzzSpawner>(j, tlv);
             break;
         case AO::TlvTypes::BackgroundGlukkon_112:
-            j.push_back({ "background_glukkon", relive::Path_BackgroundGlukkon_Converter::From(static_cast<const AO::Path_BackgroundGlukkon&>(tlv)) });
+            convert_tlv<relive::Path_BackgroundGlukkon_Converter, AO::Path_BackgroundGlukkon>(j, tlv);
             break;
         case AO::TlvTypes::KillUnsavedMuds_113:
-            j.push_back({ "kill_unsaved_muds", relive::Path_KillUnsavedMuds_Converter::From(static_cast<const AO::Path_KillUnsavedMuds&>(tlv)) });
+            convert_tlv<relive::Path_KillUnsavedMuds_Converter, AO::Path_KillUnsavedMuds>(j, tlv);
             break;
         case AO::TlvTypes::SoftLanding_114:
-            j.push_back({ "soft_landing", relive::Path_SoftLanding_Converter::From(static_cast<const AO::Path_SoftLanding&>(tlv)) });
+            convert_tlv<relive::Path_SoftLanding_Converter, AO::Path_SoftLanding>(j, tlv);
             break;
         case AO::TlvTypes::ResetPath_115:
-            j.push_back({ "reset_path", relive::Path_ResetPath_Converter::From(static_cast<const AO::Path_ResetPath&>(tlv)) });
+            convert_tlv<relive::Path_ResetPath_Converter, AO::Path_ResetPath>(j, tlv);
             break;
 
         default:

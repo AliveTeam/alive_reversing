@@ -118,6 +118,7 @@ NLOHMANN_JSON_SERIALIZE_ENUM(Path_ShadowZone::Scale, {
 void to_json(nlohmann::json& j, const Path_ShadowZone& p)
 {
     j = nlohmann::json{
+        {"name", "shadow_zone"},
         {"base", ToBase(p)},
         {"rgb", p.mRGB},
         {"scale", p.mScale},
@@ -135,6 +136,7 @@ void from_json(const nlohmann::json& j, Path_ShadowZone& p)
 void to_json(nlohmann::json& j, const Path_SecurityOrb& p)
 {
     j = nlohmann::json{
+        {"name", "security_orb"},
         {"base", ToBase(p)},
         {"scale", p.mScale},
         {"disabled_resources", p.mDisabledResources},
@@ -201,6 +203,7 @@ NLOHMANN_JSON_SERIALIZE_ENUM(Path_LiftPoint::LiftPointStopType, {
 void to_json(nlohmann::json& j, const Path_LiftPoint& p)
 {
     j = nlohmann::json{
+        {"name", "lift_point"},
         {"base", ToBase(p)},
         {"lift_point_id", p.field_10_lift_point_id},
         {"start_point", p.field_12_bStart_point},
@@ -224,6 +227,7 @@ void from_json(const nlohmann::json& j, Path_LiftPoint& p)
 void to_json(nlohmann::json& j, const Path_Dove& p)
 {
     j = nlohmann::json{
+        {"name", "dove"},
         {"base", ToBase(p)},
         {"dove_count", p.mDoveCount},
         {"pixe_perfect", p.mPixelPerfect},
@@ -243,6 +247,7 @@ void from_json(const nlohmann::json& j, Path_Dove& p)
 void to_json(nlohmann::json& j, const Path_RockSack& p)
 {
     j = nlohmann::json{
+        {"name", "rock_sack"},
         {"base", ToBase(p)},
         {"fall_direction", p.field_10_fall_direction},
         {"x_vel", p.field_12_x_vel},
@@ -278,6 +283,7 @@ NLOHMANN_JSON_SERIALIZE_ENUM(Path_ZBall::Speed, {
 void to_json(nlohmann::json& j, const Path_ZBall& p)
 {
     j = nlohmann::json{
+        {"name", "z_ball"},
         {"base", ToBase(p)},
         {"start_pos", p.mStartPos},
         {"scale", p.mScale},
@@ -297,6 +303,7 @@ void from_json(const nlohmann::json& j, Path_ZBall& p)
 void to_json(nlohmann::json& j, const Path_FallingItem& p)
 {
     j = nlohmann::json{
+        {"name", "falling_item"},
         {"base", ToBase(p)},
         {"switch_id", p.mSwitchId},
         {"scale", p.mScale},
@@ -333,6 +340,7 @@ NLOHMANN_JSON_SERIALIZE_ENUM(Path_PullRingRope::PullRingSoundDirection, {
 void to_json(nlohmann::json& j, const Path_PullRingRope& p)
 {
     j = nlohmann::json{
+        {"name", "pull_ring_rope"},
         {"base", ToBase(p)},
         {"switch_id", p.mSwitchId},
         {"action", p.mAction},
@@ -360,6 +368,7 @@ void from_json(const nlohmann::json& j, Path_PullRingRope& p)
 void to_json(nlohmann::json& j, const Path_TimedMine& p)
 {
     j = nlohmann::json{
+        {"name", "timed_mine"},
         {"base", ToBase(p)},
         {"switch_id", p.mSwitchId},
         {"state", p.mState},
@@ -395,6 +404,7 @@ NLOHMANN_JSON_SERIALIZE_ENUM(Path_Hoist::GrabDirection, {
 void to_json(nlohmann::json& j, const Path_Hoist& p)
 {
     j = nlohmann::json{
+        {"name", "hoist"},
         {"base", ToBase(p)},
         {"hoist_type", p.mHoistType},
         {"grab_direction", p.mGrabDirection},
@@ -417,6 +427,7 @@ NLOHMANN_JSON_SERIALIZE_ENUM(Path_TrapDoor::StartState, {
 void to_json(nlohmann::json& j, const Path_TrapDoor& p)
 {
     j = nlohmann::json{
+        {"name", "trap_door"},
         {"base", ToBase(p)},
         {"switch_id", p.mSwitchId},
         {"start_state", p.mStartState},
@@ -444,6 +455,7 @@ void from_json(const nlohmann::json& j, Path_TrapDoor& p)
 void to_json(nlohmann::json& j, const Path_LCDScreen& p)
 {
     j = nlohmann::json{
+        {"name", "lcd_screen"},
         {"base", ToBase(p)},
         {"message_1_id", p.field_10_message_1_id},
         {"message_rand_min_id", p.field_12_message_rand_min_id},
@@ -467,6 +479,7 @@ void from_json(const nlohmann::json& j, Path_LCDScreen& p)
 void to_json(nlohmann::json& j, const Path_Mine& p)
 {
     j = nlohmann::json{
+        {"name", "mine"},
         {"base", ToBase(p)},
         {"num_patterns", p.field_10_num_patterns},
         {"pattern", p.field_12_pattern},
@@ -496,6 +509,7 @@ NLOHMANN_JSON_SERIALIZE_ENUM(Path_InvisibleSwitch::InvisibleSwitchScale, {
 void to_json(nlohmann::json& j, const Path_InvisibleSwitch& p)
 {
     j = nlohmann::json{
+        {"name", "invisible_switch"},
         {"base", ToBase(p)},
         {"switch_id", p.field_10_switch_id},
         {"action", p.field_12_action},
@@ -524,6 +538,7 @@ NLOHMANN_JSON_SERIALIZE_ENUM(Path_ElectricWall::ElectricWallStartState, {
 void to_json(nlohmann::json& j, const Path_ElectricWall& p)
 {
     j = nlohmann::json{
+        {"name", "electric_wall"},
         {"base", ToBase(p)},
         {"scale", p.field_10_scale},
         {"switch_id", p.field_12_switch_id},
@@ -548,6 +563,7 @@ NLOHMANN_JSON_SERIALIZE_ENUM(Path_BoomMachine::NozzleSide, {
 void to_json(nlohmann::json& j, const Path_BoomMachine& p)
 {
     j = nlohmann::json{
+        {"name", "boom_machine"},
         {"base", ToBase(p)},
         {"scale", p.field_10_scale},
         {"nozzle_side", p.field_12_nozzle_side},
@@ -574,6 +590,7 @@ NLOHMANN_JSON_SERIALIZE_ENUM(Path_UXB::StartState, {
 void to_json(nlohmann::json& j, const Path_UXB& p)
 {
     j = nlohmann::json{
+        {"name", "uxb"},
         {"base", ToBase(p)},
         {"pattern_length", p.mPatternLength},
         {"pattern", p.mPattern},
@@ -608,6 +625,7 @@ NLOHMANN_JSON_SERIALIZE_ENUM(Path_MeatSaw::StartState, {
 void to_json(nlohmann::json& j, const Path_MeatSaw& p)
 {
     j = nlohmann::json{
+        {"name", "meat_saw"},
         {"base", ToBase(p)},
         {"scale", p.field_18_scale},
         {"switch_min_time_off", p.field_1A_switch_min_time_off},
@@ -661,6 +679,7 @@ NLOHMANN_JSON_SERIALIZE_ENUM(Path_Lever::LeverSoundDirection, {
 void to_json(nlohmann::json& j, const Path_Lever& p)
 {
     j = nlohmann::json{
+        {"name", "lever"},
         {"base", ToBase(p)},
         {"action", p.field_10_action},
         {"scale", p.field_12_scale},
@@ -694,6 +713,7 @@ NLOHMANN_JSON_SERIALIZE_ENUM(Path_Edge::GrabDirection, {
 void to_json(nlohmann::json& j, const Path_Edge& p)
 {
     j = nlohmann::json{
+        {"name", "edge"},
         {"base", ToBase(p)},
         {"grab_direction", p.mGrabDirection},
         {"can_grab", p.mCanGrab},
@@ -725,6 +745,7 @@ NLOHMANN_JSON_SERIALIZE_ENUM(Path_BirdPortal::PortalSide, {
 void to_json(nlohmann::json& j, const Path_BirdPortal& p)
 {
     j = nlohmann::json{
+        {"name", "bird_portal"},
         {"base", ToBase(p)},
         {"enter_side", p.mEnterSide},
         {"exit_level", p.mExitLevel},
@@ -758,6 +779,7 @@ void from_json(const nlohmann::json& j, Path_BirdPortal& p)
 void to_json(nlohmann::json& j, const Path_BirdPortalExit& p)
 {
     j = nlohmann::json{
+        {"name", "bird_portal_exit"},
         {"base", ToBase(p)},
         {"exit_side", p.mExitSide},
         {"scale", p.mScale},
@@ -784,6 +806,7 @@ NLOHMANN_JSON_SERIALIZE_ENUM(Path_LightEffect::Type, {
 void to_json(nlohmann::json& j, const Path_LightEffect& p)
 {
     j = nlohmann::json{
+        {"name", "light_effect"},
         {"base", ToBase(p)},
         {"type", p.field_18_type},
         {"size", p.field_1A_size},
@@ -822,6 +845,7 @@ NLOHMANN_JSON_SERIALIZE_ENUM(Path_MusicTrigger::TriggeredBy, {
 void to_json(nlohmann::json& j, const Path_MusicTrigger& p)
 {
     j = nlohmann::json{
+        {"name", "music_trigger"},
         {"base", ToBase(p)},
         {"music_type", p.field_10_music_type},
         {"triggered_by", p.field_12_triggered_by},
@@ -843,6 +867,7 @@ void from_json(const nlohmann::json& j, Path_MusicTrigger& p)
 void to_json(nlohmann::json& j, const Path_SoftLanding& p)
 {
     j = nlohmann::json{
+        {"name", "soft_landing"},
         {"base", ToBase(p)},
         {"switch_id", p.mSwitchId},
     };
@@ -863,6 +888,7 @@ NLOHMANN_JSON_SERIALIZE_ENUM(Path_LiftMover::YDirection, {
 void to_json(nlohmann::json& j, const Path_LiftMover& p)
 {
     j = nlohmann::json{
+        {"name", "lift_mover"},
         {"base", ToBase(p)},
         {"lift_mover_switch_id", p.mLiftMoverSwitchId},
         {"target_lift_point_id", p.mTargetLiftPointId},
@@ -882,6 +908,7 @@ void from_json(const nlohmann::json& j, Path_LiftMover& p)
 void to_json(nlohmann::json& j, const Path_HintFly& p)
 {
     j = nlohmann::json{
+        {"name", "hint_fly"},
         {"base", ToBase(p)},
         {"message_id", p.mMessageId},
     };
@@ -897,6 +924,7 @@ void from_json(const nlohmann::json& j, Path_HintFly& p)
 void to_json(nlohmann::json& j, const Path_TimerTrigger& p)
 {
     j = nlohmann::json{
+        {"name", "timer_trigger"},
         {"base", ToBase(p)},
         {"input_switch_id", p.field_10_input_switch_id},
         {"trigger_interval", p.field_12_trigger_interval},
@@ -922,6 +950,7 @@ void from_json(const nlohmann::json& j, Path_TimerTrigger& p)
 void to_json(nlohmann::json& j, const Path_FlintLockFire& p)
 {
     j = nlohmann::json{
+        {"name", "flint_lock_fire"},
         {"base", ToBase(p)},
         {"scale", p.mScale},
         {"switch_id", p.mSwitchId},
@@ -939,6 +968,7 @@ void from_json(const nlohmann::json& j, Path_FlintLockFire& p)
 void to_json(nlohmann::json& j, const Path_HoneySack& p)
 {
     j = nlohmann::json{
+        {"name", "honey_sack"},
         {"base", ToBase(p)},
         {"chase_ticks", p.mChaseTicks},
         {"scale", p.mScale},
@@ -956,6 +986,7 @@ void from_json(const nlohmann::json& j, Path_HoneySack& p)
 void to_json(nlohmann::json& j, const Path_Bat& p)
 {
     j = nlohmann::json{
+        {"name", "bat"},
         {"base", ToBase(p)},
         {"ticks_before_moving", p.mTicksBeforeMoving},
         {"speed", p.mSpeed},
@@ -977,6 +1008,7 @@ void from_json(const nlohmann::json& j, Path_Bat& p)
 void to_json(nlohmann::json& j, const Path_RollingBallStopper& p)
 {
     j = nlohmann::json{
+        {"name", "rolling_ball_stopper"},
         {"base", ToBase(p)},
         {"stopper_switch_id", p.field_18_stopper_switch_id},
         {"scale", p.field_1A_scale},
@@ -998,6 +1030,7 @@ void from_json(const nlohmann::json& j, Path_RollingBallStopper& p)
 void to_json(nlohmann::json& j, const Path_RollingBall& p)
 {
     j = nlohmann::json{
+        {"name", "rolling_ball"},
         {"base", ToBase(p)},
         {"scale", p.field_18_scale},
         {"roll_direction", p.field_1A_roll_direction},
@@ -1026,6 +1059,7 @@ NLOHMANN_JSON_SERIALIZE_ENUM(Path_MotionDetector::InitialMoveDirection, {
 void to_json(nlohmann::json& j, const Path_MotionDetector& p)
 {
     j = nlohmann::json{
+        {"name", "motion_detector"},
         {"base", ToBase(p)},
         {"scale", p.mScale},
         {"device_x", p.mDeviceX},
@@ -1057,6 +1091,7 @@ void from_json(const nlohmann::json& j, Path_MotionDetector& p)
 void to_json(nlohmann::json& j, const Path_BellHammer& p)
 {
     j = nlohmann::json{
+        {"name", "bell_hammer"},
         {"base", ToBase(p)},
         {"switch_id", p.mSwitchId},
         {"action", p.mAction},
@@ -1078,6 +1113,7 @@ void from_json(const nlohmann::json& j, Path_BellHammer& p)
 void to_json(nlohmann::json& j, const Path_SligBound& p)
 {
     j = nlohmann::json{
+        {"name", "slig_bound"},
         {"base", ToBase(p)},
         {"slig_bound_id", p.field_10_slig_bound_id},
         {"disabled_resources", p.field_12_disabled_resources},
@@ -1113,6 +1149,7 @@ NLOHMANN_JSON_SERIALIZE_ENUM(Path_BackgroundAnimation::Layer, {
 void to_json(nlohmann::json& j, const Path_BackgroundAnimation& p)
 {
     j = nlohmann::json{
+        {"name", "background_animation"},
         {"base", ToBase(p)},
         {"anim_id", p.field_10_anim_id},
         {"is_semi_trans", p.field_12_is_semi_trans},
@@ -1150,6 +1187,7 @@ void from_json(const nlohmann::json& j, Path_MainMenuController& p)
 void to_json(nlohmann::json& j, const Path_ElumWall& p)
 {
     j = nlohmann::json{
+        {"name", "elum_wall"},
         {"base", ToBase(p)}
     };
 }
@@ -1163,6 +1201,7 @@ void from_json(const nlohmann::json& j, Path_ElumWall& p)
 void to_json(nlohmann::json& j, const Path_ElumStart& p)
 {
     j = nlohmann::json{
+        {"name", "elum_start"},
         {"base", ToBase(p)}
     };
 }
@@ -1176,6 +1215,7 @@ void from_json(const nlohmann::json& j, Path_ElumStart& p)
 void to_json(nlohmann::json& j, const Path_KillUnsavedMuds& p)
 {
     j = nlohmann::json{
+        {"name", "kill_unsaved_muds"},
         {"base", ToBase(p)}
     };
 }
@@ -1189,6 +1229,7 @@ void from_json(const nlohmann::json& j, Path_KillUnsavedMuds& p)
 void to_json(nlohmann::json& j, const Path_InvisibleZone& p)
 {
     j = nlohmann::json{
+        {"name", "invisible_zone"},
         {"base", ToBase(p)}
     };
 }
@@ -1202,6 +1243,7 @@ void from_json(const nlohmann::json& j, Path_InvisibleZone& p)
 void to_json(nlohmann::json& j, const Path_StartController& p)
 {
     j = nlohmann::json{
+        {"name", "start_controller"},
         {"base", ToBase(p)}
     };
 }
@@ -1215,6 +1257,7 @@ void from_json(const nlohmann::json& j, Path_StartController& p)
 void to_json(nlohmann::json& j, const Path_ScrabNoFall& p)
 {
     j = nlohmann::json{
+        {"name", "scrab_no_fall"},
         {"base", ToBase(p)}
     };
 }
@@ -1228,6 +1271,7 @@ void from_json(const nlohmann::json& j, Path_ScrabNoFall& p)
 void to_json(nlohmann::json& j, const Path_ScrabLeftBound& p)
 {
     j = nlohmann::json{
+        {"name", "scrab_left_bound"},
         {"base", ToBase(p)}
     };
 }
@@ -1241,6 +1285,7 @@ void from_json(const nlohmann::json& j, Path_ScrabLeftBound& p)
 void to_json(nlohmann::json& j, const Path_ScrabRightBound& p)
 {
     j = nlohmann::json{
+        {"name", "scrab_right_bound"},
         {"base", ToBase(p)}
     };
 }
@@ -1254,6 +1299,7 @@ void from_json(const nlohmann::json& j, Path_ScrabRightBound& p)
 void to_json(nlohmann::json& j, const Path_HoneyDripTarget& p)
 {
     j = nlohmann::json{
+        {"name", "honey_drip_target"},
         {"base", ToBase(p)}
     };
 }
@@ -1267,6 +1313,7 @@ void from_json(const nlohmann::json& j, Path_HoneyDripTarget& p)
 void to_json(nlohmann::json& j, const Path_ZSligCover& p)
 {
     j = nlohmann::json{
+        {"name", "z_slig_cover"},
         {"base", ToBase(p)}
     };
 }
@@ -1280,6 +1327,7 @@ void from_json(const nlohmann::json& j, Path_ZSligCover& p)
 void to_json(nlohmann::json& j, const Path_DeathDrop& p)
 {
     j = nlohmann::json{
+        {"name", "death_drop"},
         {"base", ToBase(p)}
     };
 }
@@ -1293,6 +1341,7 @@ void from_json(const nlohmann::json& j, Path_DeathDrop& p)
 void to_json(nlohmann::json& j, const Path_ChimeLock& p)
 {
     j = nlohmann::json{
+        {"name", "chime_lock"},
         {"base", ToBase(p)},
         {"scale", p.field_18_scale},
         {"solve_switch_id", p.field_1A_solve_switch_id},
@@ -1316,6 +1365,7 @@ void from_json(const nlohmann::json& j, Path_ChimeLock& p)
 void to_json(nlohmann::json& j, const Path_LCDStatusBoard& p)
 {
     j = nlohmann::json{
+        {"name", "lcd_status_board"},
         {"base", ToBase(p)},
         {"number_of_muds", p.field_10_number_of_muds},
         {"zulag_number", p.field_12_zulag_number},
@@ -1335,6 +1385,7 @@ void from_json(const nlohmann::json& j, Path_LCDStatusBoard& p)
 void to_json(nlohmann::json& j, const Path_CreditsController& p)
 {
     j = nlohmann::json{
+        {"name", "credits_controller"},
         {"base", ToBase(p)}
     };
 }
@@ -1348,6 +1399,7 @@ void from_json(const nlohmann::json& j, Path_CreditsController& p)
 void to_json(nlohmann::json& j, const Path_ResetPath& p)
 {
     j = nlohmann::json{
+        {"name", "reset_path"},
         {"base", ToBase(p)},
         {"clear_ids", p.field_18_clearIds},
         {"from", p.field_1A_from},
@@ -1373,6 +1425,7 @@ void from_json(const nlohmann::json& j, Path_ResetPath& p)
 void to_json(nlohmann::json& j, const Path_MeatSack& p)
 {
     j = nlohmann::json{
+        {"name", "meat_sack"},
         {"base", ToBase(p)},
         {"meat_fall_direction", p.field_10_meat_fall_direction},
         {"x_vel", p.field_12_xVel},
@@ -1396,6 +1449,7 @@ void from_json(const nlohmann::json& j, Path_MeatSack& p)
 void to_json(nlohmann::json& j, const Path_Bees& p)
 {
     j = nlohmann::json{
+        {"name", "bees"},
         {"base", ToBase(p)},
         {"switch_id", p.switch_id},
         {"swarm_size", p.swarm_size},
@@ -1426,6 +1480,7 @@ NLOHMANN_JSON_SERIALIZE_ENUM(Path_BellsongStone::BellsongTypes, {
 void to_json(nlohmann::json& j, const Path_BellsongStone& p)
 {
     j = nlohmann::json{
+        {"name", "bellsong_stone"},
         {"base", ToBase(p)},
         {"scale", p.scale},
         {"type", p.type},
@@ -1449,6 +1504,7 @@ void from_json(const nlohmann::json& j, Path_BellsongStone& p)
 void to_json(nlohmann::json& j, const Path_MovieStone& p)
 {
     j = nlohmann::json{
+        {"name", "movie_stone"},
         {"base", ToBase(p)},
         {"movie_number", p.field_10_movie_number},
         {"scale", p.field_12_scale},
@@ -1468,6 +1524,7 @@ void from_json(const nlohmann::json& j, Path_MovieStone& p)
 void to_json(nlohmann::json& j, const Path_HandStone& p)
 {
     j = nlohmann::json{
+        {"name", "hand_stone"},
         {"base", ToBase(p)},
         {"scale", p.mScale},
         {"camera_id_1", p.mCameraId1},
@@ -1503,6 +1560,7 @@ void from_json(const nlohmann::json& j, Path_HandStone& p)
 void to_json(nlohmann::json& j, const Path_PathTransition& p)
 {
     j = nlohmann::json{
+        {"name", "path_transition"},
         {"base", ToBase(p)},
         {"level", p.field_10_level},
         {"path", p.field_12_path},
@@ -1528,6 +1586,7 @@ void from_json(const nlohmann::json& j, Path_PathTransition& p)
 void to_json(nlohmann::json& j, const Path_Pulley& p)
 {
     j = nlohmann::json{
+        {"name", "pulley"},
         {"base", ToBase(p)},
     };
 }
@@ -1541,6 +1600,7 @@ void from_json(const nlohmann::json& j, Path_Pulley& p)
 void to_json(nlohmann::json& j, const Path_Honey& p)
 {
     j = nlohmann::json{
+        {"name", "honey"},
         {"base", ToBase(p)},
     };
 }
@@ -1560,6 +1620,7 @@ NLOHMANN_JSON_SERIALIZE_ENUM(Path_BeeSwarmHole::MovementType, {
 void to_json(nlohmann::json& j, const Path_BeeSwarmHole& p)
 {
     j = nlohmann::json{
+        {"name", "bee_swarm_hole"},
         {"base", ToBase(p)},
         {"start_interval", p.mStartInterval},
         {"movement_type", p.mMovementType},
@@ -1611,6 +1672,7 @@ NLOHMANN_JSON_SERIALIZE_ENUM(Path_Door::ScreenChangeEffects, {
 void to_json(nlohmann::json& j, const Path_Door& p)
 {
     j = nlohmann::json{
+        {"name", "door"},
         {"base", ToBase(p)},
         {"level", p.field_10_level},
         {"path", p.field_12_path},
@@ -1672,6 +1734,7 @@ void from_json(const nlohmann::json& j, Path_Door& p)
 void to_json(nlohmann::json& j, const Path_AbeStart& p)
 {
     j = nlohmann::json{
+        {"name", "abe_start"},
         {"base", ToBase(p)},
     };
 }
@@ -1691,6 +1754,7 @@ NLOHMANN_JSON_SERIALIZE_ENUM(Path_EnemyStopper::StopDirection, {
 void to_json(nlohmann::json& j, const Path_EnemyStopper& p)
 {
     j = nlohmann::json{
+        {"name", "enemy_stopper"},
         {"base", ToBase(p)},
         {"stop_direction", p.mStopDirection},
         {"switch_id", p.mSwitchId},
@@ -1708,6 +1772,7 @@ void from_json(const nlohmann::json& j, Path_EnemyStopper& p)
 void to_json(nlohmann::json& j, const Path_MovingBombStopper& p)
 {
     j = nlohmann::json{
+        {"name", "moving_bomb_stopper"},
         {"base", ToBase(p)},
         {"min", p.field_10_min},
         {"max", p.field_12_max},
@@ -1732,6 +1797,7 @@ NLOHMANN_JSON_SERIALIZE_ENUM(Path_DoorFlame::Colour, {
 void to_json(nlohmann::json& j, const Path_DoorFlame& p)
 {
     j = nlohmann::json{
+        {"name", "door_flame"},
         {"base", ToBase(p)},
         {"switch_id", p.mSwitchId},
         {"scale", p.mScale},
@@ -1769,6 +1835,7 @@ NLOHMANN_JSON_SERIALIZE_ENUM(Path_Mudokon::Mud_TLV_Emotion, {
 void to_json(nlohmann::json& j, const Path_Mudokon& p)
 {
     j = nlohmann::json{
+        {"name", "mudokon"},
         {"base", ToBase(p)},
         {"scale", p.field_10_scale},
         {"job", p.field_12_job},
@@ -1813,6 +1880,7 @@ void from_json(const nlohmann::json& j, Path_Mudokon& p)
 void to_json(nlohmann::json& j, const Path_MovingBomb& p)
 {
     j = nlohmann::json{
+        {"name", "moving_bomb"},
         {"base", ToBase(p)},
         {"speed", p.mSpeed},
         {"start_moving_switch_id", p.mStartMovingSwitchId},
@@ -1840,6 +1908,7 @@ void from_json(const nlohmann::json& j, Path_MovingBomb& p)
 void to_json(nlohmann::json& j, const Path_ElumPathTrans& p)
 {
     j = nlohmann::json{
+        {"name", "elum_path_trans"},
         {"base", ToBase(p)},
         {"level", p.mLevel},
         {"path", p.mPath},
@@ -1859,6 +1928,7 @@ void from_json(const nlohmann::json& j, Path_ElumPathTrans& p)
 void to_json(nlohmann::json& j, const Path_MudokonPathTrans& p)
 {
     j = nlohmann::json{
+        {"name", "mudokon_path_trans"},
         {"base", ToBase(p)},
         {"level", p.mLevel},
         {"path", p.mPath},
@@ -1878,6 +1948,7 @@ void from_json(const nlohmann::json& j, Path_MudokonPathTrans& p)
 void to_json(nlohmann::json& j, const Path_SecurityClaw& p)
 {
     j = nlohmann::json{
+        {"name", "security_claw"},
         {"base", ToBase(p)},
         {"scale", p.mScale},
         {"alarm_switch_id", p.mAlarmSwitchId},
@@ -1899,6 +1970,7 @@ void from_json(const nlohmann::json& j, Path_SecurityClaw& p)
 void to_json(nlohmann::json& j, const Path_SlingMudokon& p)
 {
     j = nlohmann::json{
+        {"name", "sling_mudokon"},
         {"base", ToBase(p)},
         {"scale", p.mScale},
         {"dont_whistle_password", p.mDontWhistlePassword},
@@ -1925,6 +1997,7 @@ NLOHMANN_JSON_SERIALIZE_ENUM(Path_FootSwitch::FootSwitchTriggerBy, {
 void to_json(nlohmann::json& j, const Path_FootSwitch& p)
 {
     j = nlohmann::json{
+        {"name", "foot_switch"},
         {"base", ToBase(p)},
         {"switch_id", p.mSwitchId},
         {"scale", p.mScale},
@@ -1952,6 +2025,7 @@ NLOHMANN_JSON_SERIALIZE_ENUM(Path_Paramite::EntranceType, {
 void to_json(nlohmann::json& j, const Path_Paramite& p)
 {
     j = nlohmann::json{
+        {"name", "paramite"},
         {"base", ToBase(p)},
         {"scale", p.mScale},
         {"entrance_type", p.mEntranceType},
@@ -1985,6 +2059,7 @@ void from_json(const nlohmann::json& j, Path_Paramite& p)
 void to_json(nlohmann::json& j, const Path_ZzzSpawner& p)
 {
     j = nlohmann::json{
+        {"name", "zzz_spawner"},
         {"base", ToBase(p)},
         {"scale", p.mScale},
         {"switch_id", p.mSwitchId},
@@ -2004,6 +2079,7 @@ void from_json(const nlohmann::json& j, Path_ZzzSpawner& p)
 void to_json(nlohmann::json& j, const Path_BackgroundGlukkon& p)
 {
     j = nlohmann::json{
+        {"name", "background_glukkon"},
         {"base", ToBase(p)},
         {"scale_percent", p.field_18_scale_percent},
         {"pal_id", p.field_1A_pal_id},
@@ -2033,6 +2109,7 @@ NLOHMANN_JSON_SERIALIZE_ENUM(Path_GasEmitter::GasColour, {
 void to_json(nlohmann::json& j, const Path_GasEmitter& p)
 {
     j = nlohmann::json{
+        {"name", "gas_emitter"},
         {"base", ToBase(p)},
         {"switch_id", p.mSwitchId},
         {"colour", p.mColour},
@@ -2050,6 +2127,7 @@ void from_json(const nlohmann::json& j, Path_GasEmitter& p)
 void to_json(nlohmann::json& j, const Path_GasCountDown& p)
 {
     j = nlohmann::json{
+        {"name", "gas_countdown"},
         {"base", ToBase(p)},
         {"start_timer_switch_id", p.mStartTimerSwitchId},
         {"gas_countdown_timer", p.mGasCountdownTimer},
@@ -2069,6 +2147,7 @@ void from_json(const nlohmann::json& j, Path_GasCountDown& p)
 void to_json(nlohmann::json& j, const Path_RingCancel& p)
 {
     j = nlohmann::json{
+        {"name", "ring_cancel"},
         {"base", ToBase(p)},
     };
 }
@@ -2082,6 +2161,7 @@ void from_json(const nlohmann::json& j, Path_RingCancel& p)
 void to_json(nlohmann::json& j, const Path_SecurityDoor& p)
 {
     j = nlohmann::json{
+        {"name", "security_door"},
         {"base", ToBase(p)},
         {"scale", p.mScale},
         {"switch_id", p.mSwitchId},
@@ -2112,6 +2192,7 @@ NLOHMANN_JSON_SERIALIZE_ENUM(Path_LiftMudokon::Direction, {
 void to_json(nlohmann::json& j, const Path_LiftMudokon& p)
 {
     j = nlohmann::json{
+        {"name", "lift_mudokon"},
         {"base", ToBase(p)},
         {"how_far_to_walk", p.mHowFarToWalk},
         {"lift_switch_id", p.mLiftSwitchId},
@@ -2144,6 +2225,7 @@ NLOHMANN_JSON_SERIALIZE_ENUM(Path_RingMudokon::MustFaceMud, {
 void to_json(nlohmann::json& j, const Path_RingMudokon& p)
 {
     j = nlohmann::json{
+        {"name", "ring_mudokon"},
         {"base", ToBase(p)},
         {"direction", p.mDirection},
         {"abe_must_face_mud", p.mAbeMustFaceMud},
@@ -2175,6 +2257,7 @@ void from_json(const nlohmann::json& j, Path_RingMudokon& p)
 void to_json(nlohmann::json& j, const Path_WellLocal& p)
 {
     j = nlohmann::json{
+        {"name", "well_local"},
         {"base", ToBase(p)},
         // Well base
         {"scale", p.mScale},
@@ -2224,6 +2307,7 @@ void from_json(const nlohmann::json& j, Path_WellLocal& p)
 void to_json(nlohmann::json& j, const Path_WellExpress& p)
 {
     j = nlohmann::json{
+        {"name", "well_express"},
         {"base", ToBase(p)},
         // Well base
         {"scale", p.mScale},
@@ -2283,6 +2367,7 @@ void from_json(const nlohmann::json& j, Path_WellExpress& p)
 void to_json(nlohmann::json& j, const Path_Slog& p)
 {
     j = nlohmann::json{
+        {"name", "slog"},
         {"base", ToBase(p)},
         {"scale", p.field_10_scale},
         {"direction", p.field_12_direction},
@@ -2321,6 +2406,7 @@ NLOHMANN_JSON_SERIALIZE_ENUM(Path_SlogSpawner::StartDirection, {
 void to_json(nlohmann::json& j, const Path_SlogSpawner& p)
 {
     j = nlohmann::json{
+        {"name", "slog_spawner"},
         {"base", ToBase(p)},
         {"scale", p.mScale},
         {"max_slogs", p.mMaxSlogs},
@@ -2358,6 +2444,7 @@ NLOHMANN_JSON_SERIALIZE_ENUM(Path_Scrab::ScrabPatrolType, {
 void to_json(nlohmann::json& j, const Path_Scrab& p)
 {
     j = nlohmann::json{
+        {"name", "scrab"},
         {"base", ToBase(p)},
         {"scale", p.field_10_scale},
         {"attack_delay", p.field_12_attack_delay},
@@ -2411,6 +2498,7 @@ NLOHMANN_JSON_SERIALIZE_ENUM(Path_Slig::StartState, {
 void to_json(nlohmann::json& j, const Path_Slig& p)
 {
     j = nlohmann::json{
+        {"name", "slig"},
         {"base", ToBase(p)},
         {"scale", p.field_10_scale},
         {"start_state", p.field_12_start_state},
@@ -2488,6 +2576,7 @@ void from_json(const nlohmann::json& j, Path_Slig& p)
 void to_json(nlohmann::json& j, const Path_SligSpawner& p)
 {
     j = nlohmann::json{
+        {"name", "slig_spawner"},
         {"base", ToBase(p)},
         {"scale", p.field_10_scale},
         {"start_state", p.field_12_start_state},
