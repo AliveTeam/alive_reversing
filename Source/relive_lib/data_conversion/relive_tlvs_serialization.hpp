@@ -20,6 +20,38 @@ void from_json(const nlohmann::json& j, RGB16& p)
     j.at("b").get_to(p.b);
 }
 
+NLOHMANN_JSON_SERIALIZE_ENUM(EReliveLevelIds, {
+    {EReliveLevelIds::eNone, "none"},
+    {EReliveLevelIds::eMenu, "menu"},
+    {EReliveLevelIds::eMines, "mines"},
+    {EReliveLevelIds::eNecrum, "necrum"},
+    {EReliveLevelIds::eMudomoVault, "mudomo_vault"},
+    {EReliveLevelIds::eMudancheeVault, "mudanchee_vault"},
+    {EReliveLevelIds::eFeeCoDepot, "feeco_depot"},
+    {EReliveLevelIds::eBarracks, "barracks"},
+    {EReliveLevelIds::eMudancheeVault_Ender, "mudanchee_vault_ender"},
+    {EReliveLevelIds::eBonewerkz, "bonewerkz"},
+    {EReliveLevelIds::eBrewery, "brewery"},
+    {EReliveLevelIds::eBrewery_Ender, "brewery_ender"},
+    {EReliveLevelIds::eMudomoVault_Ender, "mudomo_vault_ender"},
+    {EReliveLevelIds::eFeeCoDepot_Ender, "feeco_depot_ender"},
+    {EReliveLevelIds::eBarracks_Ender, "barracks_ender"},
+    {EReliveLevelIds::eBonewerkz_Ender, "bonewerkz_ender"},
+    {EReliveLevelIds::eCredits, "credits"},
+    {EReliveLevelIds::eRuptureFarms, "rupture_farms"},
+    {EReliveLevelIds::eLines, "lines"},
+    {EReliveLevelIds::eForest, "forest"},
+    {EReliveLevelIds::eForestTemple, "forest_temple"},
+    {EReliveLevelIds::eStockYards, "stock_yards"},
+    {EReliveLevelIds::eStockYardsReturn, "stock_yards_return"},
+    {EReliveLevelIds::eDesert, "desert"},
+    {EReliveLevelIds::eDesertTemple, "desert_temple"},
+    {EReliveLevelIds::eBoardRoom, "board_room"},
+    {EReliveLevelIds::eRuptureFarmsReturn, "rupture_farms_return"},
+    {EReliveLevelIds::eForestChase, "forest_chase"},
+    {EReliveLevelIds::eDesertEscape, "desert_escape"},
+})
+
 namespace relive {
 template<class T>
 static const relive::Path_TLV& ToBase(const T& derivedType)
@@ -53,37 +85,6 @@ void from_json(const nlohmann::json& j, Path_TLV& p)
 }
 
 // Common TLV enums
-NLOHMANN_JSON_SERIALIZE_ENUM(EReliveLevelIds, {
-    {EReliveLevelIds::eNone, "none"},
-    {EReliveLevelIds::eMenu, "menu"},
-    {EReliveLevelIds::eMines, "mines"},
-    {EReliveLevelIds::eNecrum, "necrum"},
-    {EReliveLevelIds::eMudomoVault, "mudomo_vault"},
-    {EReliveLevelIds::eMudancheeVault, "mudanchee_vault"},
-    {EReliveLevelIds::eFeeCoDepot, "feeco_depot"},
-    {EReliveLevelIds::eBarracks, "barracks"},
-    {EReliveLevelIds::eMudancheeVault_Ender, "mudanchee_vault_ender"},
-    {EReliveLevelIds::eBonewerkz, "bonewerkz"},
-    {EReliveLevelIds::eBrewery, "brewery"},
-    {EReliveLevelIds::eBrewery_Ender, "brewery_ender"},
-    {EReliveLevelIds::eMudomoVault_Ender, "mudomo_vault_ender"},
-    {EReliveLevelIds::eFeeCoDepot_Ender, "feeco_depot_ender"},
-    {EReliveLevelIds::eBarracks_Ender, "barracks_ender"},
-    {EReliveLevelIds::eBonewerkz_Ender, "bonewerkz_ender"},
-    {EReliveLevelIds::eCredits, "credits"},
-    {EReliveLevelIds::eRuptureFarms, "rupture_farms"},
-    {EReliveLevelIds::eLines, "lines"},
-    {EReliveLevelIds::eForest, "forest"},
-    {EReliveLevelIds::eForestTemple, "forest_temple"},
-    {EReliveLevelIds::eStockYards, "stock_yards"},
-    {EReliveLevelIds::eStockYardsReturn, "stock_yards_return"},
-    {EReliveLevelIds::eDesert, "desert"},
-    {EReliveLevelIds::eDesertTemple, "desert_temple"},
-    {EReliveLevelIds::eBoardRoom, "board_room"},
-    {EReliveLevelIds::eRuptureFarmsReturn, "rupture_farms_return"},
-    {EReliveLevelIds::eForestChase, "forest_chase"},
-    {EReliveLevelIds::eDesertEscape, "desert_escape"},
-})
 
 NLOHMANN_JSON_SERIALIZE_ENUM(reliveScale, {
     {reliveScale::eFull, "full"},
