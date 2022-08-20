@@ -2786,13 +2786,13 @@ void Abe::BulletDamage_4220B0(Bullet* pBullet)
     mHealth = FP_FromInteger(0);
     field_106_shot = 1;
 
-    switch (pBullet->field_10_type)
+    switch (pBullet->mBulletType)
     {
         case BulletType::ePossessedSlig_0:
         case BulletType::eNormalBullet_1:
         {
             FP bloodXOff = {};
-            if (pBullet->field_20_x_distance > FP_FromInteger(0))
+            if (pBullet->mXDistance > FP_FromInteger(0))
             {
                 bloodXOff = FP_FromInteger(-24);
             }
@@ -2821,14 +2821,14 @@ void Abe::BulletDamage_4220B0(Bullet* pBullet)
                     {
                         ElumKnockForward_42E780(1);
                     }
-                    if (mAnim.mFlags.Get(AnimFlags::eBit5_FlipX) != (pBullet->field_20_x_distance > FP_FromInteger(0)))
+                    if (mAnim.mFlags.Get(AnimFlags::eBit5_FlipX) != (pBullet->mXDistance > FP_FromInteger(0)))
                     {
                         mCurrentMotion = eAbeMotions::Motion_128_KnockForward_429330;
                     }
                     field_108_bMotionChanged = 1;
                     field_106_shot = 0;
 
-                    if (pBullet->field_20_x_distance >= FP_FromInteger(0))
+                    if (pBullet->mXDistance >= FP_FromInteger(0))
                     {
                         mVelX = mSpriteScale * FP_FromDouble(7.8);
                     }
@@ -2848,7 +2848,7 @@ void Abe::BulletDamage_4220B0(Bullet* pBullet)
                 }
                 case ShootKind::eRolling_2:
                 {
-                    if (mAnim.mFlags.Get(AnimFlags::eBit5_FlipX) == (pBullet->field_20_x_distance > FP_FromInteger(0)))
+                    if (mAnim.mFlags.Get(AnimFlags::eBit5_FlipX) == (pBullet->mXDistance > FP_FromInteger(0)))
                     {
                         mNextMotion = eAbeMotions::Motion_73_RollingKnockback_4291D0;
                     }

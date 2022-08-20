@@ -54,17 +54,12 @@ public:
 
     virtual void VUpdate() override;
     virtual void VScreenChanged() override;
-    
 
 private:
-    void VScreenChanged_402960();
-    void VUpdate_4028A0();
-
-private:
-    s32 field_10_tlvInfo = 0;
-    u16 field_14_slig_spawner_switch_id = 0;
-    s16 field_16_flags = 0;
-    Path_TLV field_18_tlv = {};
+    s32 mTlvInfo = 0;
+    u16 mSligSpawnerSwitchId = 0;
+    s16 mSpawnerFlags = 0;
+    Path_TLV mPathTlv = {};
 };
 ALIVE_ASSERT_SIZEOF(SligSpawner, 0x30);
 

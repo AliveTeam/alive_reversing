@@ -239,7 +239,7 @@ s16 Slog::VTakeDamage(BaseGameObject* pFrom)
         {
             auto pBullet = static_cast<Bullet*>(pFrom);
 
-            if (pBullet->field_20_x_distance <= FP_FromInteger(0))
+            if (pBullet->mXDistance <= FP_FromInteger(0))
             {
                 relive_new Blood(
                     mXPos,

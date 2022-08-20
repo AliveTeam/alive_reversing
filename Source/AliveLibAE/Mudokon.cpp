@@ -1367,7 +1367,7 @@ s16 Mudokon::VTakeDamage(BaseGameObject* pFrom)
             }
 
             auto pBullet = static_cast<Bullet*>(pFrom);
-            switch (pBullet->field_20_type)
+            switch (pBullet->mBulletType)
             {
                 case BulletType::eSligPossessedOrUnderGlukkonCommand_0:
                 case BulletType::eNormalBullet_2:
@@ -1375,7 +1375,7 @@ s16 Mudokon::VTakeDamage(BaseGameObject* pFrom)
                     relive_new Blood(
                         mXPos,
                         mYPos - (FP_FromInteger(30) * mSpriteScale),
-                        pBullet->field_30_x_distance <= FP_FromInteger(0) ? FP_FromInteger(-24) : FP_FromInteger(24),
+                        pBullet->mXDistance <= FP_FromInteger(0) ? FP_FromInteger(-24) : FP_FromInteger(24),
                         FP_FromInteger(0),
                         mSpriteScale,
                         50);
@@ -1387,7 +1387,7 @@ s16 Mudokon::VTakeDamage(BaseGameObject* pFrom)
                     break;
             }
 
-            if (pBullet->field_20_type == BulletType::ePossessedSligZBullet_1 || pBullet->field_20_type == BulletType::eZBullet_3)
+            if (pBullet->mBulletType == BulletType::ePossessedSligZBullet_1 || pBullet->mBulletType == BulletType::eZBullet_3)
             {
                 const PSX_RECT v11 = VGetBoundingRect();
                 const FP tlvYPos = FP_FromInteger(v11.h);
@@ -1671,7 +1671,7 @@ s16 Mudokon::TurningWheelHelloOrAllYaResponse()
         FP_GetExponent(mYPos),
         TlvTypes::WorkWheel_79));
 
-    if (SwitchStates_Get(pWheelTlv->field_12_switch_id))
+    if (SwitchStates_Get(pWheelTlv->mSwitchId))
     {
         if (field_198_turning_wheel_timer == 0)
         {
@@ -1680,7 +1680,7 @@ s16 Mudokon::TurningWheelHelloOrAllYaResponse()
     }
 
     // OG Bug: The second condition can never resolve to true because field_198_turning_wheel_timer will always be reset to zero before it can happen.
-    if (!SwitchStates_Get(pWheelTlv->field_12_switch_id) || field_198_turning_wheel_timer > static_cast<s32>(sGnFrame))
+    if (!SwitchStates_Get(pWheelTlv->mSwitchId) || field_198_turning_wheel_timer > static_cast<s32>(sGnFrame))
     {
         return field_190_brain_sub_state;
     }
@@ -7167,7 +7167,7 @@ s16 Mudokon::FindWheel(FP xpos, FP ypos)
 
     if (pWheelTlv)
     {
-        if (!SwitchStates_Get(pWheelTlv->field_12_switch_id))
+        if (!SwitchStates_Get(pWheelTlv->mSwitchId))
         {
             return FindObjectOfType(ReliveTypes::eWheel, xpos, ypos - (mSpriteScale * FP_FromInteger(50))) != 0;
         }

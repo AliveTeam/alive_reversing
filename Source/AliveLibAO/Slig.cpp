@@ -835,8 +835,8 @@ s16 Slig::VTakeDamage(BaseGameObject* pFrom)
             {
                 {
                     const FP yOff = FP_FromInteger(Math_NextRandom() % 16) - FP_FromInteger(8);
-                    const FP xOff = (pBullet->field_20_x_distance <= FP_FromInteger(0) ? FP_FromInteger(-1) : FP_FromInteger(1) * FP_FromInteger(Math_NextRandom() & 15) + FP_FromInteger(16));
-                    const FP xPos = (mSpriteScale * pBullet->field_20_x_distance <= FP_FromInteger(0) ? FP_FromInteger(-6) : FP_FromInteger(6));
+                    const FP xOff = (pBullet->mXDistance <= FP_FromInteger(0) ? FP_FromInteger(-1) : FP_FromInteger(1) * FP_FromInteger(Math_NextRandom() & 15) + FP_FromInteger(16));
+                    const FP xPos = (mSpriteScale * pBullet->mXDistance <= FP_FromInteger(0) ? FP_FromInteger(-6) : FP_FromInteger(6));
 
                     relive_new Blood(
                         xPos + mXPos,
@@ -848,8 +848,8 @@ s16 Slig::VTakeDamage(BaseGameObject* pFrom)
                 }
 
                 {
-                    const FP xPos = (mSpriteScale * pBullet->field_20_x_distance <= FP_FromInteger(0) ? FP_FromInteger(-12) : FP_FromInteger(12));
-                    const FP xOff = pBullet->field_20_x_distance <= FP_FromInteger(0) ? FP_FromInteger(-6) : FP_FromInteger(6);
+                    const FP xPos = (mSpriteScale * pBullet->mXDistance <= FP_FromInteger(0) ? FP_FromInteger(-12) : FP_FromInteger(12));
+                    const FP xOff = pBullet->mXDistance <= FP_FromInteger(0) ? FP_FromInteger(-6) : FP_FromInteger(6);
 
                     relive_new Blood(
                         xOff + mXPos,
@@ -872,7 +872,7 @@ s16 Slig::VTakeDamage(BaseGameObject* pFrom)
                 field_13A_shot_motion = eSligMotions::Motion_38_Possess_46B050;
                 Vshot();
                 field_108_bMotionChanged = TRUE;
-                if (pBullet->field_20_x_distance >= FP_FromInteger(0))
+                if (pBullet->mXDistance >= FP_FromInteger(0))
                 {
                     mVelX = FP_FromDouble(0.001);
                 }
@@ -3793,7 +3793,6 @@ void Slig::Motion_43_ShootZ_468E30()
             mXPos,
             mYPos - FP_FromInteger(12),
             FP_FromInteger(640),
-            0,
             mSpriteScale,
             field_174_tlv.mNumTimesToShoot - field_200_num_times_to_shoot - 1);
 

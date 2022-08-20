@@ -15,13 +15,13 @@
 
     mBaseGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4);
 
-    field_44_softerShakes = softerShakes;
-    field_40_shakeNumber = 16;
-    field_42_enableShakeEvent = enableShakeEvent;
+    mSofterShakes = softerShakes;
+    mShakeNumber = 16;
+    mEnableShakeEvent = enableShakeEvent;
 
     gObjListDrawables->Push_Back(this);
 
-    if (field_42_enableShakeEvent && !field_44_softerShakes)
+    if (mEnableShakeEvent && !mSofterShakes)
     {
         EventBroadcast(kEventScreenShake, this);
     }
@@ -34,24 +34,24 @@ ScreenShake::~ScreenShake()
 
 void ScreenShake::VUpdate()
 {
-    if (field_42_enableShakeEvent && !field_44_softerShakes)
+    if (mEnableShakeEvent && !mSofterShakes)
     {
         EventBroadcast(kEventScreenShake, this);
     }
 
-    if (field_40_shakeNumber > 0)
+    if (mShakeNumber > 0)
     {
-        field_40_shakeNumber--;
+        mShakeNumber--;
     }
 }
 
 struct ScreenOffset final
 {
     s8 x;
-    s8 field_1_y;
+    s8 y;
 };
 
-const ScreenOffset sShakeOffsets_560388[16] = {
+const ScreenOffset sShakeOffsets[16] = {
     {0, -1},
     {-1, 0},
     {1, -1},
@@ -72,21 +72,21 @@ const ScreenOffset sShakeOffsets_560388[16] = {
 
 void ScreenShake::VRender(PrimHeader** ppOt)
 {
-    Prim_ScreenOffset* pPrim = &field_20_screenOffset[gPsxDisplay.mBufferIndex];
-    if (field_40_shakeNumber < 14)
+    Prim_ScreenOffset* pPrim = &mScreenOffset[gPsxDisplay.mBufferIndex];
+    if (mShakeNumber < 14)
     {
         s16 xoff = 0;
         s16 yoff = 0;
 
-        if (field_44_softerShakes)
+        if (mSofterShakes)
         {
-            xoff = sShakeOffsets_560388[field_40_shakeNumber].x / 2;
-            yoff = sShakeOffsets_560388[field_40_shakeNumber].field_1_y / 2;
+            xoff = sShakeOffsets[mShakeNumber].x / 2;
+            yoff = sShakeOffsets[mShakeNumber].y / 2;
         }
         else
         {
-            xoff = sShakeOffsets_560388[field_40_shakeNumber].x;
-            yoff = sShakeOffsets_560388[field_40_shakeNumber].field_1_y;
+            xoff = sShakeOffsets[mShakeNumber].x;
+            yoff = sShakeOffsets[mShakeNumber].y;
         }
 
         PSX_Pos16 offset = {};
@@ -141,7 +141,7 @@ void ScreenShake::VRender(PrimHeader** ppOt)
             PSX_ClearImage_4F5BD0(&clearRect, 0, 0, 0);
         }
 
-        if (!field_40_shakeNumber)
+        if (!mShakeNumber)
         {
             mBaseGameObjectFlags.Set(BaseGameObject::eDead);
         }

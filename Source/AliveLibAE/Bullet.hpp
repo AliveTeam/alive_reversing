@@ -22,7 +22,7 @@ enum class BulletType : s16
 class Bullet final : public BaseGameObject
 {
 public:
-    Bullet(BaseAliveGameObject* pParent, BulletType type, FP xpos, FP ypos, FP xDist, s32 unused, FP scale, s32 numberOfBullets);
+    Bullet(BaseAliveGameObject* pParent, BulletType type, FP xpos, FP ypos, FP xDist, FP scale, s32 numberOfBullets);
     
     virtual void VUpdate() override;
     static bool InZBulletCover(FP xpos, FP ypos, const PSX_RECT& objRect);
@@ -32,25 +32,21 @@ private:
     void PlayBulletSounds(s16 volume);
 
 public:
-    BulletType field_20_type = BulletType::eSligPossessedOrUnderGlukkonCommand_0;
+    BulletType mBulletType = BulletType::eSligPossessedOrUnderGlukkonCommand_0;
 
 private:
-    s16 field_22_unused = 0;
-    PathLine* field_24_pLine = nullptr;
-    FP field_28_xpos = {};
+    PathLine* mLine = nullptr;
+    FP mXPos = {};
 
 public:
-    FP field_2C_ypos = {};
-
-public:
-    FP field_30_x_distance = {};
+    FP mYPos = {};
+    FP mXDistance = {};
 
 private:
-    s32 field_34_unused = 0;
-    EReliveLevelIds field_38_level = EReliveLevelIds::eNone;
-    s16 field_3A_path = 0;
-    FP field_3C_scale = {};
-    BaseAliveGameObject* field_40_pParent = nullptr;
-    s16 field_44_number_of_bullets = 0;
+    EReliveLevelIds mBulletLevel = EReliveLevelIds::eNone;
+    s16 mBulletPath = 0;
+    FP mSpriteScale = {};
+    BaseAliveGameObject* mBulletParent = nullptr;
+    s16 mNumberOfBullets = 0;
 };
 ALIVE_ASSERT_SIZEOF(Bullet, 0x48);

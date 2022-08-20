@@ -596,11 +596,11 @@ struct Path_WorkWheel final : public ReliveAPI::TlvObjectBaseAE
 {
     CTOR_AE(Path_WorkWheel, "WorkWheel", TlvTypes::WorkWheel_79)
     {
-        ADD("Scale", mTlv.field_10_scale);
-        ADD("Switch ID", mTlv.field_12_switch_id);
-        ADD("Activation Time", mTlv.field_14_activation_time);
-        ADD("Off Time", mTlv.field_16_off_time);
-        ADD("Turn Off When Stopped", mTlv.field_18_turn_off_when_stopped);
+        ADD("Scale", mTlv.mScale);
+        ADD("Switch ID", mTlv.mSwitchId);
+        ADD("Activation Time", mTlv.mActivationTime);
+        ADD("Off Time", mTlv.mTurnOffTime);
+        ADD("Turn Off When Stopped", mTlv.mTurnOffWhenStopped);
     }
 };
 
@@ -966,14 +966,14 @@ struct Path_WheelSyncer final : public ReliveAPI::TlvObjectBaseAE
 
     CTOR_AE(Path_WheelSyncer, "WheelSyncer", TlvTypes::WheelSyncer_65)
     {
-        ADD("Input Switch ID 1", mTlv.field_10_input_switch_id1);
-        ADD("Input Switch ID 2", mTlv.field_12_input_switch_id2);
-        ADD("Output Switch ID", mTlv.field_14_output_switch_id);
-        ADD("Output Requirement", mTlv.field_16_output_requirement);
-        ADD("Input Switch ID 3", mTlv.field_18_input_switch_id3);
-        ADD("Input Switch ID 4", mTlv.field_1A_input_switch_id4);
-        ADD("Input Switch ID 5", mTlv.field_1C_input_switch_id5);
-        ADD("Input Switch ID 6", mTlv.field_1E_input_switch_id6);
+        ADD("Input Switch ID 1", mTlv.mInputSwitchId1);
+        ADD("Input Switch ID 2", mTlv.mInputSwitchId2);
+        ADD("Output Switch ID", mTlv.mOutputSwitchId);
+        ADD("Output Requirement", mTlv.mOutputRequirement);
+        ADD("Input Switch ID 3", mTlv.mInputSwitchId3);
+        ADD("Input Switch ID 4", mTlv.mInputSwitchId4);
+        ADD("Input Switch ID 5", mTlv.mInputSwitchId5);
+        ADD("Input Switch ID 6", mTlv.mInputSwitchId6);
     }
 };
 
@@ -1156,7 +1156,7 @@ struct Path_BrewMachine final : public ReliveAPI::TlvObjectBaseAE
 {
     CTOR_AE(Path_BrewMachine, "BrewMachine", TlvTypes::BrewMachine_101)
     {
-        ADD("Brew Count", mTlv.field_10_brew_count);
+        ADD("Brew Count", mTlv.mBrewCount);
     }
 };
 
@@ -1407,8 +1407,8 @@ struct Path_Alarm final : public ReliveAPI::TlvObjectBaseAE
 {
     CTOR_AE(Path_Alarm, "Alarm", TlvTypes::Alarm_100)
     {
-        ADD("Switch ID", mTlv.field_10_switch_id);
-        ADD("Duration", mTlv.field_12_duration);
+        ADD("Switch ID", mTlv.mSwitchId);
+        ADD("Duration", mTlv.mAlarmDuration);
     }
 };
 

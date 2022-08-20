@@ -65,25 +65,25 @@ SlamDoor::SlamDoor(Path_SlamDoor* pTlv, TlvItemInfoUnion tlvInfo)
     mBaseGameObjectTlvInfo = tlvInfo.all; // todo: check this
     mBaseGameObjectFlags.Set(Options::eCanExplode_Bit7);
 
-    field_128_switch_id = pTlv->field_14_switch_id;
+    mSwitchId = pTlv->field_14_switch_id;
 
-    field_118_flags.Clear(SlamDoor_Flags_118::e118_Bit2_Open);
-    field_118_flags.Clear(SlamDoor_Flags_118::e118_Bit4_Inverted);
-    field_118_flags.Clear(SlamDoor_Flags_118::e118_Bit5_Delete);
+    mSlamDoorFlags.Clear(SlamDoorFlags::eOpen);
+    mSlamDoorFlags.Clear(SlamDoorFlags::eFlipY);
+    mSlamDoorFlags.Clear(SlamDoorFlags::eDelete);
 
     if (pTlv->field_10_bStart_closed == Choice_short::eNo_0)
     {
-        field_118_flags.Set(SlamDoor_Flags_118::e118_Bit2_Open);
+        mSlamDoorFlags.Set(SlamDoorFlags::eOpen);
     }
 
     if (pTlv->field_16_bStart_inverted == Choice_short::eYes_1)
     {
-        field_118_flags.Set(SlamDoor_Flags_118::e118_Bit4_Inverted);
+        mSlamDoorFlags.Set(SlamDoorFlags::eFlipY);
     }
 
     if (pTlv->field_18_bDelete == Choice_short::eYes_1)
     {
-        field_118_flags.Set(SlamDoor_Flags_118::e118_Bit5_Delete);
+        mSlamDoorFlags.Set(SlamDoorFlags::eDelete);
     }
 
     const s32 currentLevelId = static_cast<s32>(MapWrapper::ToAE(gMap.mCurrentLevel));
@@ -98,7 +98,7 @@ SlamDoor::SlamDoor(Path_SlamDoor* pTlv, TlvItemInfoUnion tlvInfo)
                                     / 2));
 
     mYPos = FP_FromInteger(pTlv->mTopLeft.y);
-    field_12C_tlvInfo = tlvInfo;
+    mTlvInfo = tlvInfo;
 
     if (pTlv->field_12_scale == Scale_short::eHalf_1)
     {
@@ -113,22 +113,22 @@ SlamDoor::SlamDoor(Path_SlamDoor* pTlv, TlvItemInfoUnion tlvInfo)
         mScale = Scale::Fg;
     }
 
-    if (field_118_flags.Get(SlamDoor_Flags_118::e118_Bit4_Inverted))
+    if (mSlamDoorFlags.Get(SlamDoorFlags::eFlipY))
     {
         mAnim.mFlags.Set(AnimFlags::eBit6_FlipY);
         mYOffset = FP_GetExponent(mSpriteScale * FP_FromDouble(-68.0));
     }
 
-    s32 switchState = SwitchStates_Get(field_128_switch_id);
-    s32 bitIsOpen = static_cast<s32>(field_118_flags.Get(SlamDoor_Flags_118::e118_Bit2_Open));
+    s32 switchState = SwitchStates_Get(mSwitchId);
+    s32 bitIsOpen = static_cast<s32>(mSlamDoorFlags.Get(SlamDoorFlags::eOpen));
 
     if (switchState == bitIsOpen)
     {
-        field_118_flags.Set(SlamDoor_Flags_118::e118_Bit1_bClosed);
+        mSlamDoorFlags.Set(SlamDoorFlags::eClosed);
     }
     else
     {
-        field_118_flags.Clear(SlamDoor_Flags_118::e118_Bit1_bClosed);
+        mSlamDoorFlags.Clear(SlamDoorFlags::eClosed);
     }
 
     SetTint(sSlamDoorTints_5603B0, gMap.mCurrentLevel);
@@ -152,16 +152,16 @@ SlamDoor::SlamDoor(Path_SlamDoor* pTlv, TlvItemInfoUnion tlvInfo)
 
     if (mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
     {
-        field_124_x1 = FP_GetExponent((ScaleToGridSize(mSpriteScale) / FP_FromDouble(2.0)) + FP_FromInteger(FP_GetExponent(mXPos)));
+        mCollisionX = FP_GetExponent((ScaleToGridSize(mSpriteScale) / FP_FromDouble(2.0)) + FP_FromInteger(FP_GetExponent(mXPos)));
     }
     else
     {
-        field_124_x1 = FP_GetExponent(FP_FromInteger(FP_GetExponent(mXPos)) - (ScaleToGridSize(mSpriteScale) / FP_FromDouble(2.0)));
+        mCollisionX = FP_GetExponent(FP_FromInteger(FP_GetExponent(mXPos)) - (ScaleToGridSize(mSpriteScale) / FP_FromDouble(2.0)));
     }
 
-    field_126_y1 = FP_GetExponent(mYPos);
+    mCollisionY = FP_GetExponent(mYPos);
 
-    if (field_118_flags.Get(SlamDoor_Flags_118::e118_Bit1_bClosed))
+    if (mSlamDoorFlags.Get(SlamDoorFlags::eClosed))
     {
         PathLine* pPathLine = nullptr;
 
@@ -169,73 +169,73 @@ SlamDoor::SlamDoor(Path_SlamDoor* pTlv, TlvItemInfoUnion tlvInfo)
         {
             const FP lineHeight = FP_FromDouble(80.0);
 
-            field_11C_pCollisionLine_6_2 = sCollisions->Add_Dynamic_Collision_Line(
-                field_124_x1,
-                FP_GetExponent(FP_FromInteger(field_126_y1) - lineHeight),
-                field_124_x1,
-                field_126_y1,
+            mCollisionLine1 = sCollisions->Add_Dynamic_Collision_Line(
+                mCollisionX,
+                FP_GetExponent(FP_FromInteger(mCollisionY) - lineHeight),
+                mCollisionX,
+                mCollisionY,
                 eLineTypes::eWallRight_2);
-            const FP x2 = FP_FromInteger(field_124_x1) + ScaleToGridSize(mSpriteScale);
-            const FP y1 = FP_FromInteger(field_126_y1)
+            const FP x2 = FP_FromInteger(mCollisionX) + ScaleToGridSize(mSpriteScale);
+            const FP y1 = FP_FromInteger(mCollisionY)
                         - (mSpriteScale * FP_FromDouble(80.0));
-            const FP x1 = ScaleToGridSize(mSpriteScale) + FP_FromInteger(field_124_x1);
+            const FP x1 = ScaleToGridSize(mSpriteScale) + FP_FromInteger(mCollisionX);
             pPathLine = sCollisions->Add_Dynamic_Collision_Line(
                 FP_GetExponent(x1),
                 FP_GetExponent(y1),
                 FP_GetExponent(x2),
-                field_126_y1,
+                mCollisionY,
                 eLineTypes::eWallLeft_1);
         }
         else
         {
             const FP lineHeight = mSpriteScale * FP_FromDouble(80.0);
 
-            field_11C_pCollisionLine_6_2 = sCollisions->Add_Dynamic_Collision_Line(
-                field_124_x1,
-                FP_GetExponent(FP_FromInteger(field_126_y1) - lineHeight),
-                field_124_x1,
-                field_126_y1,
+            mCollisionLine1 = sCollisions->Add_Dynamic_Collision_Line(
+                mCollisionX,
+                FP_GetExponent(FP_FromInteger(mCollisionY) - lineHeight),
+                mCollisionX,
+                mCollisionY,
                 eLineTypes::eBackgroundWallRight_6);
-            const FP x2 = FP_FromInteger(field_124_x1) + ScaleToGridSize(mSpriteScale);
-            const FP y1 = FP_FromInteger(field_126_y1) - (mSpriteScale * FP_FromDouble(80.0));
-            const FP x1 = ScaleToGridSize(mSpriteScale) + FP_FromInteger(field_124_x1);
+            const FP x2 = FP_FromInteger(mCollisionX) + ScaleToGridSize(mSpriteScale);
+            const FP y1 = FP_FromInteger(mCollisionY) - (mSpriteScale * FP_FromDouble(80.0));
+            const FP x1 = ScaleToGridSize(mSpriteScale) + FP_FromInteger(mCollisionX);
             pPathLine = sCollisions->Add_Dynamic_Collision_Line(
                 FP_GetExponent(x1),
                 FP_GetExponent(y1),
                 FP_GetExponent(x2),
-                field_126_y1,
+                mCollisionY,
                 eLineTypes::eBackgroundWallLeft_5);
         }
-        field_120_pCollisionLine_5_1 = pPathLine;
+        mCollisionLine2 = pPathLine;
 
         mAnim.Set_Animation_Data(sSlamDoorAnimIds[currentLevelId][1], nullptr);
     }
     else
     {
         mAnim.mFlags.Clear(AnimFlags::eBit3_Render);
-        field_11C_pCollisionLine_6_2 = 0;
-        field_120_pCollisionLine_5_1 = 0;
+        mCollisionLine1 = 0;
+        mCollisionLine2 = 0;
     }
 
-    field_118_flags.Set(SlamDoor_Flags_118::e118_Bit3_bLastFrame);
+    mSlamDoorFlags.Set(SlamDoorFlags::eLastFrame);
     mVisualFlags.Set(VisualFlags::eDoPurpleLightEffect);
 }
 
 SlamDoor::~SlamDoor()
 {
-    if (!(field_118_flags.Get(SlamDoor_Flags_118::e118_Bit5_Delete)) || field_118_flags.Get(SlamDoor_Flags_118::e118_Bit1_bClosed))
+    if (!(mSlamDoorFlags.Get(SlamDoorFlags::eDelete)) || mSlamDoorFlags.Get(SlamDoorFlags::eClosed))
     {
-        Path::TLV_Reset(field_12C_tlvInfo.all, -1, 0, 0);
+        Path::TLV_Reset(mTlvInfo.all, -1, 0, 0);
     }
 
-    if (field_11C_pCollisionLine_6_2)
+    if (mCollisionLine1)
     {
-        Rect_Clear(&field_11C_pCollisionLine_6_2->mRect);
+        Rect_Clear(&mCollisionLine1->mRect);
     }
 
-    if (field_120_pCollisionLine_5_1)
+    if (mCollisionLine2)
     {
-        Rect_Clear(&field_120_pCollisionLine_5_1->mRect);
+        Rect_Clear(&mCollisionLine2->mRect);
     }
 }
 
@@ -246,8 +246,8 @@ void SlamDoor::VUpdate()
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 
-    const bool stateUnchanged = SwitchStates_Get(field_128_switch_id) == static_cast<s32>(field_118_flags.Get(SlamDoor_Flags_118::e118_Bit2_Open));
-    if (!field_118_flags.Get(SlamDoor_Flags_118::e118_Bit1_bClosed))
+    const bool stateUnchanged = SwitchStates_Get(mSwitchId) == static_cast<s32>(mSlamDoorFlags.Get(SlamDoorFlags::eOpen));
+    if (!mSlamDoorFlags.Get(SlamDoorFlags::eClosed))
     {
         if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
         {
@@ -255,34 +255,34 @@ void SlamDoor::VUpdate()
             {
                 mAnim.mFlags.Clear(AnimFlags::eBit3_Render);
 
-                if (field_118_flags.Get(SlamDoor_Flags_118::e118_Bit5_Delete))
+                if (mSlamDoorFlags.Get(SlamDoorFlags::eDelete))
                 {
                     mBaseGameObjectFlags.Set(BaseGameObject::eDead);
                 }
                 SFX_Play_Pitch(SoundEffect::DoorEffect_57, 100, 900);
                 SFX_Play_Pitch(SoundEffect::DoorEffect_57, 100, -100);
-                field_118_flags.Set(SlamDoor_Flags_118::e118_Bit3_bLastFrame);
+                mSlamDoorFlags.Set(SlamDoorFlags::eLastFrame);
             }
         }
     }
 
-    if (field_118_flags.Get(SlamDoor_Flags_118::e118_Bit1_bClosed))
+    if (mSlamDoorFlags.Get(SlamDoorFlags::eClosed))
     {
         if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
         {
-            if (!field_118_flags.Get(SlamDoor_Flags_118::e118_Bit3_bLastFrame))
+            if (!mSlamDoorFlags.Get(SlamDoorFlags::eLastFrame))
             {
-                field_118_flags.Set(SlamDoor_Flags_118::e118_Bit3_bLastFrame);
+                mSlamDoorFlags.Set(SlamDoorFlags::eLastFrame);
                 SFX_Play_Pitch(SoundEffect::DoorEffect_57, 100, 900);
                 SFX_Play_Pitch(SoundEffect::DoorEffect_57, 100, -100);
             }
         }
     }
 
-    if (stateUnchanged != field_118_flags.Get(SlamDoor_Flags_118::e118_Bit1_bClosed))
+    if (stateUnchanged != mSlamDoorFlags.Get(SlamDoorFlags::eClosed))
     {
-        field_118_flags.Clear(SlamDoor_Flags_118::e118_Bit3_bLastFrame);
-        field_118_flags.Toggle(SlamDoor_Flags_118::e118_Bit1_bClosed);
+        mSlamDoorFlags.Clear(SlamDoorFlags::eLastFrame);
+        mSlamDoorFlags.Toggle(SlamDoorFlags::eClosed);
 
         if (stateUnchanged)
         {
@@ -292,38 +292,38 @@ void SlamDoor::VUpdate()
 
             if (mSpriteScale == FP_FromInteger(1))
             {
-                field_11C_pCollisionLine_6_2 = sCollisions->Add_Dynamic_Collision_Line(
-                    field_124_x1,
-                    FP_GetExponent(FP_FromInteger(field_126_y1) - (FP_FromInteger(80) * FP_FromInteger(1))),
-                    field_124_x1,
-                    field_126_y1,
+                mCollisionLine1 = sCollisions->Add_Dynamic_Collision_Line(
+                    mCollisionX,
+                    FP_GetExponent(FP_FromInteger(mCollisionY) - (FP_FromInteger(80) * FP_FromInteger(1))),
+                    mCollisionX,
+                    mCollisionY,
                     eLineTypes::eWallLeft_1);
-                field_120_pCollisionLine_5_1 = sCollisions->Add_Dynamic_Collision_Line(
-                    FP_GetExponent(ScaleToGridSize(mSpriteScale) + FP_FromInteger(field_124_x1)),
-                    FP_GetExponent(FP_FromInteger(field_126_y1) - (FP_FromInteger(80) * mSpriteScale)),
-                    FP_GetExponent(FP_FromInteger(field_124_x1) + ScaleToGridSize(mSpriteScale)),
-                    field_126_y1,
+                mCollisionLine2 = sCollisions->Add_Dynamic_Collision_Line(
+                    FP_GetExponent(ScaleToGridSize(mSpriteScale) + FP_FromInteger(mCollisionX)),
+                    FP_GetExponent(FP_FromInteger(mCollisionY) - (FP_FromInteger(80) * mSpriteScale)),
+                    FP_GetExponent(FP_FromInteger(mCollisionX) + ScaleToGridSize(mSpriteScale)),
+                    mCollisionY,
                     eLineTypes::eWallRight_2);
             }
             else
             {
-                field_11C_pCollisionLine_6_2 = sCollisions->Add_Dynamic_Collision_Line(
-                    field_124_x1,
-                    FP_GetExponent(FP_FromInteger(field_126_y1) - (FP_FromInteger(80) * mSpriteScale)),
-                    field_124_x1,
-                    field_126_y1,
+                mCollisionLine1 = sCollisions->Add_Dynamic_Collision_Line(
+                    mCollisionX,
+                    FP_GetExponent(FP_FromInteger(mCollisionY) - (FP_FromInteger(80) * mSpriteScale)),
+                    mCollisionX,
+                    mCollisionY,
                     eLineTypes::eBackgroundWallLeft_5);
-                field_120_pCollisionLine_5_1 = sCollisions->Add_Dynamic_Collision_Line(
-                    FP_GetExponent(ScaleToGridSize(mSpriteScale) + FP_FromInteger(field_124_x1)),
-                    FP_GetExponent(FP_FromInteger(field_126_y1) - (FP_FromInteger(80) * mSpriteScale)),
-                    FP_GetExponent(FP_FromInteger(field_124_x1) + ScaleToGridSize(mSpriteScale)),
-                    field_126_y1,
+                mCollisionLine2 = sCollisions->Add_Dynamic_Collision_Line(
+                    FP_GetExponent(ScaleToGridSize(mSpriteScale) + FP_FromInteger(mCollisionX)),
+                    FP_GetExponent(FP_FromInteger(mCollisionY) - (FP_FromInteger(80) * mSpriteScale)),
+                    FP_GetExponent(FP_FromInteger(mCollisionX) + ScaleToGridSize(mSpriteScale)),
+                    mCollisionY,
                     eLineTypes::eBackgroundWallRight_6);
             }
 
             PSX_RECT bRect = VGetBoundingRect();
 
-            if (field_118_flags.Get(SlamDoor_Flags_118::e118_Bit4_Inverted))
+            if (mSlamDoorFlags.Get(SlamDoorFlags::eFlipY))
             {
                 bRect.y += FP_GetExponent(FP_FromInteger(-110) * mSpriteScale);
                 bRect.h += FP_GetExponent(FP_FromInteger(-110) * mSpriteScale);
@@ -356,19 +356,19 @@ void SlamDoor::VUpdate()
         else
         {
             mAnim.Set_Animation_Data(sSlamDoorAnimIds[static_cast<s32>(MapWrapper::ToAE(gMap.mCurrentLevel))][0], nullptr);
-            Rect_Clear(&field_11C_pCollisionLine_6_2->mRect);
-            field_11C_pCollisionLine_6_2 = nullptr;
+            Rect_Clear(&mCollisionLine1->mRect);
+            mCollisionLine1 = nullptr;
 
-            Rect_Clear(&field_120_pCollisionLine_5_1->mRect);
-            field_120_pCollisionLine_5_1 = nullptr;
+            Rect_Clear(&mCollisionLine2->mRect);
+            mCollisionLine2 = nullptr;
         }
     }
 
-    if (field_118_flags.Get(SlamDoor_Flags_118::e118_Bit1_bClosed))
+    if (mSlamDoorFlags.Get(SlamDoorFlags::eClosed))
     {
         PSX_RECT bRect = VGetBoundingRect();
 
-        if (field_118_flags.Get(SlamDoor_Flags_118::e118_Bit4_Inverted))
+        if (mSlamDoorFlags.Get(SlamDoorFlags::eFlipY))
         {
             bRect.y += FP_GetExponent(FP_FromInteger(-110) * mSpriteScale);
             bRect.h += FP_GetExponent(FP_FromInteger(-110) * mSpriteScale) - FP_GetExponent(FP_FromInteger(20) * mSpriteScale);
@@ -408,7 +408,7 @@ s32 SlamDoor::VGetSaveState(u8* pSaveBuffer)
     Quicksave_Obj_SlamDoor* pSaveState = reinterpret_cast<Quicksave_Obj_SlamDoor*>(pSaveBuffer);
 
     pSaveState->field_0_id = AETypes::eSlamDoor_122;
-    pSaveState->field_4_tlv = field_12C_tlvInfo;
+    pSaveState->field_4_tlv = mTlvInfo;
 
     return sizeof(Quicksave_Obj_SlamDoor);
 }

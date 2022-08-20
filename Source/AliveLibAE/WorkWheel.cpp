@@ -25,9 +25,9 @@ WorkWheel::WorkWheel(Path_WorkWheel* pTlv, s32 tlvInfo)
     mXPos = FP_FromInteger((pTlv->mTopLeft.x + pTlv->mBottomRight.x) / 2);
     mYPos = FP_FromInteger(pTlv->mTopLeft.y);
 
-    if (pTlv->field_10_scale != Scale_short::eFull_0)
+    if (pTlv->mScale != Scale_short::eFull_0)
     {
-        if (pTlv->field_10_scale == Scale_short::eHalf_1)
+        if (pTlv->mScale == Scale_short::eHalf_1)
         {
             mSpriteScale = FP_FromDouble(0.5);
             mAnim.mRenderLayer = Layer::eLayer_BeforeShadow_Half_6;
@@ -41,11 +41,11 @@ WorkWheel::WorkWheel(Path_WorkWheel* pTlv, s32 tlvInfo)
         mScale = Scale::Fg;
     }
 
-    field_F8_switch_id = pTlv->field_12_switch_id;
-    field_FE_activation_time = pTlv->field_14_activation_time;
-    field_102_off_time = pTlv->field_16_off_time;
-    field_100_on_counter = 0;
-    field_104_turn_off_when_stopped = pTlv->field_18_turn_off_when_stopped;
+    mSwitchId = pTlv->mSwitchId;
+    mActivationTime = pTlv->mActivationTime;
+    mTurnOffTime = pTlv->mTurnOffTime;
+    mTurningTime = 0;
+    mTurnOffWhenStopped = pTlv->mTurnOffWhenStopped;
 
     PathLine* pathLine = nullptr;
     FP hitX = {};
@@ -69,13 +69,13 @@ WorkWheel::WorkWheel(Path_WorkWheel* pTlv, s32 tlvInfo)
 
 
     mVisualFlags.Set(VisualFlags::eDoPurpleLightEffect);
-    field_FC_state = WheelStates::eIdle_0;
-    field_F4_tlv_info = tlvInfo;
+    mState = WheelStates::eIdle_0;
+    mTlvInfo = tlvInfo;
 }
 
 WorkWheel::~WorkWheel()
 {
-    Path::TLV_Reset(field_F4_tlv_info, -1, 0, 0);
+    Path::TLV_Reset(mTlvInfo, -1, 0, 0);
 }
 
 s32 WorkWheel::CreateFromSaveState(const u8* pState)
@@ -102,7 +102,7 @@ s32 WorkWheel::CreateFromSaveState(const u8* pState)
             pWheel->VStartTurning();
         }
 
-        pWheel->field_100_on_counter = pData->field_8_snd_counter;
+        pWheel->mTurningTime = pData->field_8_snd_counter;
     }
     return sizeof(WorkWheel_SaveState);
 }
@@ -112,9 +112,9 @@ s32 WorkWheel::VGetSaveState(u8* pSaveBuffer)
     auto pState = reinterpret_cast<WorkWheel_SaveState*>(pSaveBuffer);
 
     pState->field_0_id = AETypes::eWheel_148;
-    pState->field_4_tlvInfo = field_F4_tlv_info;
-    pState->field_8_snd_counter = field_100_on_counter;
-    pState->field_C_state = field_FC_state;
+    pState->field_4_tlvInfo = mTlvInfo;
+    pState->field_8_snd_counter = mTurningTime;
+    pState->field_C_state = mState;
     return sizeof(WorkWheel_SaveState);
 }
 
@@ -125,11 +125,11 @@ void WorkWheel::VUpdate()
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 
-    if (field_FC_state == WheelStates::eTurning_1)
+    if (mState == WheelStates::eTurning_1)
     {
-        ++field_100_on_counter;
+        ++mTurningTime;
 
-        if (!(field_100_on_counter % 10)
+        if (!(mTurningTime % 10)
             && gMap.Is_Point_In_Current_Camera(
                 mCurrentLevel,
                 mCurrentPath,
@@ -141,27 +141,27 @@ void WorkWheel::VUpdate()
             SND_SEQ_Play(SeqId::WheelSqueak_19, 1, randomVol + 127, randomVol + 127);
         }
     }
-    else if (field_FC_state == WheelStates::eIdle_0)
+    else if (mState == WheelStates::eIdle_0)
     {
-        field_100_on_counter = 0;
+        mTurningTime = 0;
     }
 
-    if (field_F8_switch_id)
+    if (mSwitchId)
     {
-        if (field_100_on_counter > field_FE_activation_time)
+        if (mTurningTime > mActivationTime)
         {
-            if (gMap.mCurrentLevel == EReliveLevelIds::eBrewery_Ender && field_F8_switch_id == 100)
+            if (gMap.mCurrentLevel == EReliveLevelIds::eBrewery_Ender && mSwitchId == 100)
             {
                 CreateGameEnderController_43B7A0();
             }
 
-            if (field_102_off_time > 0 && field_100_on_counter > field_102_off_time)
+            if (mTurnOffTime > 0 && mTurningTime > mTurnOffTime)
             {
-                SwitchStates_Set(field_F8_switch_id, 0);
+                SwitchStates_Set(mSwitchId, 0);
             }
             else
             {
-                SwitchStates_Set(field_F8_switch_id, 1);
+                SwitchStates_Set(mSwitchId, 1);
             }
         }
     }
@@ -169,7 +169,7 @@ void WorkWheel::VUpdate()
 
 void WorkWheel::VScreenChanged()
 {
-    if (gMap.mCurrentLevel != gMap.mNextLevel || gMap.mCurrentPath != gMap.mNextPath || field_FC_state == WheelStates::eIdle_0)
+    if (gMap.mCurrentLevel != gMap.mNextLevel || gMap.mCurrentPath != gMap.mNextPath || mState == WheelStates::eIdle_0)
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
@@ -177,27 +177,27 @@ void WorkWheel::VScreenChanged()
 
 void WorkWheel::VStartTurning()
 {
-    if (field_FC_state == WheelStates::eIdle_0)
+    if (mState == WheelStates::eIdle_0)
     {
-        field_FC_state = WheelStates::eTurning_1;
+        mState = WheelStates::eTurning_1;
         mAnim.Set_Animation_Data(AnimId::Work_Wheel_Turning, nullptr);
     }
 }
 
 void WorkWheel::VStopTurning(s16 bResetSwitch)
 {
-    if (field_FC_state == WheelStates::eTurning_1)
+    if (mState == WheelStates::eTurning_1)
     {
-        field_FC_state = WheelStates::eIdle_0;
+        mState = WheelStates::eIdle_0;
 
         // Spin it.
         mAnim.Set_Animation_Data(AnimId::Work_Wheel_Idle, nullptr);
 
-        if (field_104_turn_off_when_stopped == Choice_short::eYes_1)
+        if (mTurnOffWhenStopped == Choice_short::eYes_1)
         {
             if (bResetSwitch)
             {
-                SwitchStates_Set(field_F8_switch_id, 0);
+                SwitchStates_Set(mSwitchId, 0);
             }
         }
     }

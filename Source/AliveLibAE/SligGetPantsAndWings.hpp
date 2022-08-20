@@ -6,9 +6,9 @@
 
 enum class State : s16
 {
-    eWaiting_0 = 0,
-    eActive_1 = 1,
-    eFinished_2 = 2,
+    eWaiting = 0,
+    eActive = 1,
+    eFinished = 2,
 };
 
 // TODO: HACK - pass in the scale directly at 100%.
@@ -24,8 +24,8 @@ public:
     virtual void VScreenChanged() override;
 
 private:
-    State field_F4_state = State::eWaiting_0;
-    s32 field_F8_tlvInfo = 0;
-    s32 field_FC_timer = 0;
+    State mState = State::eWaiting;
+    s32 mTlvInfo = 0;
+    s32 mTransformTimer = 0;
 };
 ALIVE_ASSERT_SIZEOF(SligGetPantsAndWings, 0x100);

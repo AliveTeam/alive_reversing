@@ -24,48 +24,48 @@ Blood::Blood(FP xpos, FP ypos, FP xOff, FP yOff, FP scale, s32 count)
 
     if (mSpriteScale == FP_FromInteger(1))
     {
-        field_12C_render_layer = Layer::eLayer_Foreground_36;
+        mOtLayer = Layer::eLayer_Foreground_36;
     }
     else
     {
-        field_12C_render_layer = Layer::eLayer_Foreground_Half_17;
+        mOtLayer = Layer::eLayer_Foreground_Half_17;
     }
 
-    field_126_total_count = static_cast<s16>(count);
-    field_122_to_render_count = static_cast<s16>(count);
+    mTotalBloodCount = static_cast<s16>(count);
+    mCurrentBloodCount = static_cast<s16>(count);
 
-    field_F4_ppResBuf = ResourceManager::Allocate_New_Locked_Resource(ResourceManager::Resource_Blood, 0, count * sizeof(BloodParticle));
-    if (field_F4_ppResBuf)
+    mResBuf = ResourceManager::Allocate_New_Locked_Resource(ResourceManager::Resource_Blood, 0, count * sizeof(BloodParticle));
+    if (mResBuf)
     {
-        field_F8_pResBuf = reinterpret_cast<BloodParticle*>(*field_F4_ppResBuf);
-        field_128_timer = 0;
+        mBloodParticle = reinterpret_cast<BloodParticle*>(*mResBuf);
+        mUpdateCalls = 0;
 
         mXPos = xpos - FP_FromInteger(12);
         mYPos = ypos - FP_FromInteger(12);
 
-        field_11E_xpos = FP_GetExponent(xpos - FP_FromInteger(12) - pScreenManager->CamXPos());
-        field_120_ypos = FP_GetExponent(ypos - FP_FromInteger(12) - pScreenManager->CamYPos());
+        mBloodXPos = FP_GetExponent(xpos - FP_FromInteger(12) - pScreenManager->CamXPos());
+        mBloodYPos = FP_GetExponent(ypos - FP_FromInteger(12) - pScreenManager->CamYPos());
 
         if (mAnim.mFlags.Get(AnimFlags::eBit13_Is8Bit))
         {
-            field_11C_texture_mode = TPageMode::e8Bit_1;
+            mTextureMode = TPageMode::e8Bit_1;
         }
         else if (mAnim.mFlags.Get(AnimFlags::eBit14_Is16Bit))
         {
-            field_11C_texture_mode = TPageMode::e16Bit_2;
+            mTextureMode = TPageMode::e16Bit_2;
         }
         else
         {
             // 4 bit
-            field_11C_texture_mode = TPageMode::e4Bit_0;
+            mTextureMode = TPageMode::e4Bit_0;
         }
 
         u8 u0 = mAnim.mVramRect.x & 63;
-        if (field_11C_texture_mode == TPageMode::e8Bit_1)
+        if (mTextureMode == TPageMode::e8Bit_1)
         {
             u0 = 2 * u0;
         }
-        else if (field_11C_texture_mode == TPageMode::e4Bit_0)
+        else if (mTextureMode == TPageMode::e4Bit_0)
         {
             u0 = 4 * u0;
         }
@@ -79,11 +79,11 @@ Blood::Blood(FP xpos, FP ypos, FP xOff, FP yOff, FP scale, s32 count)
 
         mAnim.mFlags.Set(AnimFlags::eBit16_bBlending);
 
-        for (s32 i = 0; i < field_126_total_count; i++)
+        for (s32 i = 0; i < mTotalBloodCount; i++)
         {
             for (s32 j = 0; j < 2; j++)
             {
-                BloodParticle* pParticle = &field_F8_pResBuf[i];
+                BloodParticle* pParticle = &mBloodParticle[i];
                 Prim_Sprt* pSprt = &pParticle->field_10_prims[j];
                 Sprt_Init(pSprt);
                 Poly_Set_SemiTrans(&pSprt->mBase.header, 1);
@@ -111,19 +111,19 @@ Blood::Blood(FP xpos, FP ypos, FP xOff, FP yOff, FP scale, s32 count)
         }
 
         // Has its own random seed based on the frame counter.. no idea why
-        field_124_rand_seed = static_cast<u8>(sGnFrame);
-        for (s32 i = 0; i < field_122_to_render_count; i++)
+        mRandSeed = static_cast<u8>(sGnFrame);
+        for (s32 i = 0; i < mCurrentBloodCount; i++)
         {
-            field_F8_pResBuf[i].x = FP_FromInteger(field_11E_xpos);
-            field_F8_pResBuf[i].y = FP_FromInteger(field_120_ypos);
+            mBloodParticle[i].x = FP_FromInteger(mBloodXPos);
+            mBloodParticle[i].y = FP_FromInteger(mBloodYPos);
 
-            const FP randX = FP_FromInteger(sRandomBytes_546744[field_124_rand_seed++]) / FP_FromInteger(16);
+            const FP randX = FP_FromInteger(sRandomBytes_546744[mRandSeed++]) / FP_FromInteger(16);
             const FP adjustedX = FP_FromDouble(1.3) * (randX - FP_FromInteger(8));
-            field_F8_pResBuf[i].field_8_offx = mSpriteScale * (xOff + adjustedX);
+            mBloodParticle[i].mOffX = mSpriteScale * (xOff + adjustedX);
 
-            const FP randY = FP_FromInteger(sRandomBytes_546744[field_124_rand_seed++]) / FP_FromInteger(16);
+            const FP randY = FP_FromInteger(sRandomBytes_546744[mRandSeed++]) / FP_FromInteger(16);
             const FP adjustedY = FP_FromDouble(1.3) * (randY - FP_FromInteger(8));
-            field_F8_pResBuf[i].field_C_offy = mSpriteScale * (yOff + adjustedY);
+            mBloodParticle[i].mOffY = mSpriteScale * (yOff + adjustedY);
         }
     }
     else
@@ -134,41 +134,41 @@ Blood::Blood(FP xpos, FP ypos, FP xOff, FP yOff, FP scale, s32 count)
 
 Blood::~Blood()
 {
-    if (field_F4_ppResBuf)
+    if (mResBuf)
     {
-        ResourceManager::FreeResource_49C330(field_F4_ppResBuf);
+        ResourceManager::FreeResource_49C330(mResBuf);
     }
 }
 
 void Blood::VUpdate()
 {
-    if (field_128_timer > 0)
+    if (mUpdateCalls > 0)
     {
-        if (field_128_timer > 5)
+        if (mUpdateCalls > 5)
         {
-            field_122_to_render_count -= 10;
+            mCurrentBloodCount -= 10;
         }
 
-        if (field_122_to_render_count <= 0)
+        if (mCurrentBloodCount <= 0)
         {
             mBaseGameObjectFlags.Set(BaseGameObject::eDead);
-            field_122_to_render_count = 0;
+            mCurrentBloodCount = 0;
             return;
         }
 
-        for (s32 i = 0; i < field_122_to_render_count; i++)
+        for (s32 i = 0; i < mCurrentBloodCount; i++)
         {
-            field_F8_pResBuf[i].field_C_offy += FP_FromDouble(1.8);
+            mBloodParticle[i].mOffY += FP_FromDouble(1.8);
 
-            field_F8_pResBuf[i].field_8_offx = field_F8_pResBuf[i].field_8_offx * FP_FromDouble(0.9);
-            field_F8_pResBuf[i].field_C_offy = field_F8_pResBuf[i].field_C_offy * FP_FromDouble(0.9);
+            mBloodParticle[i].mOffX = mBloodParticle[i].mOffX * FP_FromDouble(0.9);
+            mBloodParticle[i].mOffY = mBloodParticle[i].mOffY * FP_FromDouble(0.9);
 
-            field_F8_pResBuf[i].x += field_F8_pResBuf[i].field_8_offx;
-            field_F8_pResBuf[i].y += field_F8_pResBuf[i].field_C_offy;
+            mBloodParticle[i].x += mBloodParticle[i].mOffX;
+            mBloodParticle[i].y += mBloodParticle[i].mOffY;
         }
     }
 
-    field_128_timer++;
+    mUpdateCalls++;
 }
 
 void Blood::VRender(PrimHeader** ppOt)
@@ -183,17 +183,17 @@ void Blood::VRender(PrimHeader** ppOt)
         PSX_Point xy = {32767, 32767};
         PSX_Point wh = {-32767, -32767};
 
-        for (s32 i = 0; i < field_122_to_render_count; i++)
+        for (s32 i = 0; i < mCurrentBloodCount; i++)
         {
-            BloodParticle* pParticle = &field_F8_pResBuf[i];
+            BloodParticle* pParticle = &mBloodParticle[i];
             Prim_Sprt* pSprt = &pParticle->field_10_prims[gPsxDisplay.mBufferIndex];
 
             u8 u0 = mAnim.mVramRect.x & 63;
-            if (field_11C_texture_mode == TPageMode::e8Bit_1)
+            if (mTextureMode == TPageMode::e8Bit_1)
             {
                 u0 *= 2;
             }
-            else if (field_11C_texture_mode == TPageMode::e4Bit_0)
+            else if (mTextureMode == TPageMode::e4Bit_0)
             {
                 u0 *= 4;
             }
@@ -216,7 +216,7 @@ void Blood::VRender(PrimHeader** ppOt)
                 SetRGB0(pSprt, mAnim.mRed, mAnim.mGreen, mAnim.mBlue);
             }
 
-            OrderingTable_Add(OtLayer(ppOt, field_12C_render_layer), &pSprt->mBase.header);
+            OrderingTable_Add(OtLayer(ppOt, mOtLayer), &pSprt->mBase.header);
 
             xy.x = std::min(x0, xy.x);
             xy.y = std::min(y0, xy.y);
@@ -226,14 +226,14 @@ void Blood::VRender(PrimHeader** ppOt)
         }
 
         const s32 tpage = PSX_getTPage(
-            field_11C_texture_mode,
+            mTextureMode,
             TPageAbr::eBlend_0,
             mAnim.mVramRect.x,
             mAnim.mVramRect.y);
 
-        Prim_SetTPage* pTPage = &field_FC_tPages[gPsxDisplay.mBufferIndex];
+        Prim_SetTPage* pTPage = &mTPages[gPsxDisplay.mBufferIndex];
         Init_SetTPage(pTPage, 0, 0, static_cast<s16>(tpage));
-        OrderingTable_Add(OtLayer(ppOt, field_12C_render_layer), &pTPage->mBase);
+        OrderingTable_Add(OtLayer(ppOt, mOtLayer), &pTPage->mBase);
 
         pScreenManager->InvalidateRectCurrentIdx(
             (xy.x - 12),

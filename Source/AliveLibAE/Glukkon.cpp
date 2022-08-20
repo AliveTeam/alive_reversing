@@ -2982,7 +2982,7 @@ s16 Glukkon::VTakeDamage(BaseGameObject* pFrom)
         case ReliveTypes::eBullet:
         {
             auto pBullet = static_cast<Bullet*>(pFrom);
-            switch (pBullet->field_20_type)
+            switch (pBullet->mBulletType)
             {
                 case BulletType::eSligPossessedOrUnderGlukkonCommand_0:
                 case BulletType::eNormalBullet_2:
@@ -2991,22 +2991,22 @@ s16 Glukkon::VTakeDamage(BaseGameObject* pFrom)
                         const FP yRand = (FP_FromInteger(Math_NextRandom() % 16)) - FP_FromInteger(8);
                         const FP xRand = FP_FromInteger(Math_NextRandom() & 0xF); // TODO: Might be wrong as was trying to make this abs() but result is unsigned anyway ??
 
-                        const FP xPos = (mSpriteScale * (pBullet->field_30_x_distance <= FP_FromInteger(0) ? -FP_FromInteger(6) : FP_FromInteger(6)));
+                        const FP xPos = (mSpriteScale * (pBullet->mXDistance <= FP_FromInteger(0) ? -FP_FromInteger(6) : FP_FromInteger(6)));
                         relive_new Blood(
                             xPos + mXPos,
                             mYPos - (FP_FromInteger(25) * mSpriteScale),
-                            ((pBullet->field_30_x_distance <= FP_FromInteger(0) ? -FP_FromInteger(1) : FP_FromInteger(1)) * xRand + FP_FromInteger(16)),
+                            ((pBullet->mXDistance <= FP_FromInteger(0) ? -FP_FromInteger(1) : FP_FromInteger(1)) * xRand + FP_FromInteger(16)),
                             yRand,
                             mSpriteScale,
                             12);
                     }
 
                     {
-                        const FP xPos = (mSpriteScale * (pBullet->field_30_x_distance <= FP_FromInteger(0) ? -FP_FromInteger(12) : FP_FromInteger(12)));
+                        const FP xPos = (mSpriteScale * (pBullet->mXDistance <= FP_FromInteger(0) ? -FP_FromInteger(12) : FP_FromInteger(12)));
                         relive_new Blood(
                             xPos + mXPos,
                             mYPos - (FP_FromInteger(25) * mSpriteScale),
-                            pBullet->field_30_x_distance <= FP_FromInteger(0) ? -FP_FromInteger(6) : FP_FromInteger(6),
+                            pBullet->mXDistance <= FP_FromInteger(0) ? -FP_FromInteger(6) : FP_FromInteger(6),
                             FP_FromInteger(0),
                             mSpriteScale,
                             8);
@@ -3058,7 +3058,7 @@ s16 Glukkon::VTakeDamage(BaseGameObject* pFrom)
             SetBrain(&Glukkon::Brain_4_Death_442010);
             field_210_brain_sub_state = 4;
 
-            if (pBullet->field_30_x_distance >= FP_FromInteger(0))
+            if (pBullet->mXDistance >= FP_FromInteger(0))
             {
                 mVelX = FP_FromDouble(0.001);
             }

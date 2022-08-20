@@ -394,7 +394,7 @@ s16 Greeter::VTakeDamage(BaseGameObject* pFrom)
     switch (pFrom->Type())
     {
         case ReliveTypes::eBullet:
-        if (static_cast<Bullet*>(pFrom)->field_30_x_distance <= FP_FromInteger(0))
+        if (static_cast<Bullet*>(pFrom)->mXDistance <= FP_FromInteger(0))
         {
             mAnim.mFlags.Set(AnimFlags::eBit5_FlipX);
         }

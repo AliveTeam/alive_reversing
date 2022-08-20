@@ -7,7 +7,7 @@
 
 struct Path_BrewMachine final : public Path_TLV
 {
-    s16 field_10_brew_count;
+    s16 mBrewCount;
     s16 field_12_pad;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_BrewMachine, 0x14);
@@ -22,18 +22,17 @@ public:
     virtual void VRender(PrimHeader** ppOt) override;
 
 private:
-    Font_Context field_F4_font_context = {};
-    Alive::Font field_104_font = {};
-    s16 field_13C_textX = 0;
-    s16 field_13E_textY = 0;
-    s32 field_140_tlvInfo = 0;
+    Font_Context mFontContext = {};
+    Alive::Font mFont = {};
+    s16 mTextX = 0;
+    s16 mTextY = 0;
+    s32 mTlvInfo = 0;
 
 public:
-    s16 field_144_total_brew_count = 0;
+    s16 mTotalBrewCount = 0;
 
 private:
-    Animation field_14C_anim = {};
-    s16 field_1E4_remaining_brew_count = 0;
-    s16 field_1E6_cam_id = 0;
+    s16 mRemainingBrewCount = 0;
+    s16 mBrewMachineCamera = 0;
 };
 ALIVE_ASSERT_SIZEOF(BrewMachine, 0x1E8);

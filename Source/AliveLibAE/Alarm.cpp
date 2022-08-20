@@ -22,13 +22,13 @@ Alarm::Alarm(Path_Alarm* pTlv, s32 tlvInfo)
     mAlarmState = States::eWaitForSwitchEnable_0;
 
     // This won't count as an alarm instance till this id is enabled
-    mAlarmSwitchId = pTlv->field_10_switch_id;
+    mAlarmSwitchId = pTlv->mSwitchId;
 
     mEffectBaseRed = 0;
     mEffectBaseGreen = 0;
     mEffectBaseBlue = 0;
 
-    mAlarmDuration = pTlv->field_12_duration;
+    mAlarmDuration = pTlv->mAlarmDuration;
 }
 
 Alarm::Alarm(s32 durationOffset, s32 switchId, s32 timerOffset, Layer layer)

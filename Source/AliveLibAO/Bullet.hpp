@@ -20,7 +20,7 @@ enum class BulletType : s16
 class Bullet final : public BaseGameObject
 {
 public:
-    Bullet(BaseAliveGameObject* pParent, BulletType type, FP xpos, FP ypos, FP xDist, s32 unused, FP scale, s32 numberOfBullets);
+    Bullet(BaseAliveGameObject* pParent, BulletType type, FP xpos, FP ypos, FP xDist, FP scale, s32 numberOfBullets);
 
     virtual void VUpdate() override;
 
@@ -31,17 +31,16 @@ private:
     void PlayBulletSounds(s16 volume);
 
 public:
-    BulletType field_10_type = BulletType::ePossessedSlig_0;
+    BulletType mBulletType = BulletType::ePossessedSlig_0;
     PathLine* mLine = nullptr;
     FP mXPos = {};
     FP mYPos = {};
-    FP field_20_x_distance = {};
-    EReliveLevelIds mCurrentLevel = EReliveLevelIds::eNone;
-    s16 mCurrentPath = 0;
-    FP mScale = {};
-    BaseAliveGameObject* field_30_pParent = nullptr;
-    s16 field_34_number_of_bullets = 0;
-    s32 field_24_unused = 0;
+    FP mXDistance = {};
+    EReliveLevelIds mBulletLevel = EReliveLevelIds::eNone;
+    s16 mBulletPath = 0;
+    FP mSpriteScale = {};
+    BaseAliveGameObject* mBulletParent = nullptr;
+    s16 mNumberOfBullets = 0;
 };
 ALIVE_ASSERT_SIZEOF(Bullet, 0x38);
 

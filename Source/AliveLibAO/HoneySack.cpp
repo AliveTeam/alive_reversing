@@ -29,7 +29,7 @@ HoneySack::HoneySack(Path_HoneySack* pTlv, s32 tlvInfo)
 
     mXPos = FP_FromInteger(pTlv->mTopLeft.x);
     mYPos = FP_FromInteger(pTlv->mTopLeft.y);
-    mOldYPos = FP_FromInteger(pTlv->mTopLeft.y);
+    mObjectYPos = FP_FromInteger(pTlv->mTopLeft.y);
 
     mHitGround = 0;
 
@@ -93,7 +93,7 @@ HoneySack::~HoneySack()
     }
     else
     {
-        Path::TLV_Reset(mTlvInfo, FP_GetExponent(mYPos - mOldYPos), 0, 0);
+        Path::TLV_Reset(mTlvInfo, FP_GetExponent(mYPos - mObjectYPos), 0, 0);
     }
 
     if (mBeeSwarm)

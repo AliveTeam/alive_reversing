@@ -10,7 +10,7 @@
 TimerTrigger::TimerTrigger(Path_TimerTrigger* pTlv, s32 tlvInfo)
     : BaseGameObject(TRUE, 0)
 {
-    field_2C_tlvInfo = tlvInfo;
+    mTlvInfo = tlvInfo;
     SetType(ReliveTypes::eTimerTrigger);
     mInputSwitchId = pTlv->mInputSwitchId;
     mActivationDelay = pTlv->mActivationDelay;
@@ -18,8 +18,8 @@ TimerTrigger::TimerTrigger(Path_TimerTrigger* pTlv, s32 tlvInfo)
     mOutputSwitchIds[1] = pTlv->mOutputSwitchId2;
     mOutputSwitchIds[2] = pTlv->mOutputSwitchId3;
     mOutputSwitchIds[3] = pTlv->mOutputSwitchId4;
-    field_38_starting_switch_state = static_cast<s16>(SwitchStates_Get(mInputSwitchId));
-    field_22_state = TimerTriggerStates::eWaitForEnabled_0;
+    mStartingSwitchState = static_cast<s16>(SwitchStates_Get(mInputSwitchId));
+    mState = TimerTriggerStates::eWaitForEnabled_0;
 }
 
 s32 TimerTrigger::CreateFromSaveState(const u8* pData)
@@ -30,26 +30,26 @@ s32 TimerTrigger::CreateFromSaveState(const u8* pData)
     auto pTimerTrigger = relive_new TimerTrigger(pTlv, pState->field_4_tlvInfo);
     if (pTimerTrigger)
     {
-        pTimerTrigger->field_22_state = pState->field_C_state;
+        pTimerTrigger->mState = pState->field_C_state;
         pTimerTrigger->mActivationDelayTimer = sGnFrame + pState->field_8_delay_timer_base;
-        pTimerTrigger->field_38_starting_switch_state = pState->field_E_starting_switch_state;
+        pTimerTrigger->mStartingSwitchState = pState->field_E_starting_switch_state;
     }
     return sizeof(TimerTrigger_State);
 }
 
 TimerTrigger::~TimerTrigger()
 {
-    Path::TLV_Reset(field_2C_tlvInfo, -1, 0, 0);
+    Path::TLV_Reset(mTlvInfo, -1, 0, 0);
 }
 
 void TimerTrigger::VUpdate()
 {
-    switch (field_22_state)
+    switch (mState)
     {
         case TimerTriggerStates::eWaitForEnabled_0:
-            if (SwitchStates_Get(mInputSwitchId) != field_38_starting_switch_state)
+            if (SwitchStates_Get(mInputSwitchId) != mStartingSwitchState)
             {
-                field_22_state = TimerTriggerStates::eWaitForFirstTrigger_1;
+                mState = TimerTriggerStates::eWaitForFirstTrigger_1;
                 mActivationDelayTimer = sGnFrame + mActivationDelay;
             }
             break;
@@ -58,14 +58,14 @@ void TimerTrigger::VUpdate()
             if (mActivationDelayTimer <= static_cast<s32>(sGnFrame))
             {
                 ToggleAllIds();
-                field_22_state = TimerTriggerStates::eCheckForStartAgain_2;
+                mState = TimerTriggerStates::eCheckForStartAgain_2;
             }
             break;
 
         case TimerTriggerStates::eCheckForStartAgain_2:
-            if (SwitchStates_Get(mInputSwitchId) == field_38_starting_switch_state)
+            if (SwitchStates_Get(mInputSwitchId) == mStartingSwitchState)
             {
-                field_22_state = TimerTriggerStates::eWaitForSecondTrigger_3;
+                mState = TimerTriggerStates::eWaitForSecondTrigger_3;
                 mActivationDelayTimer = sGnFrame + mActivationDelay;
             }
             break;
@@ -74,7 +74,7 @@ void TimerTrigger::VUpdate()
             if (mActivationDelayTimer <= (s32) sGnFrame)
             {
                 ToggleAllIds();
-                field_22_state = TimerTriggerStates::eWaitForEnabled_0;
+                mState = TimerTriggerStates::eWaitForEnabled_0;
             }
             break;
     }
@@ -98,7 +98,7 @@ void TimerTrigger::ToggleAllIds()
 
 void TimerTrigger::VScreenChanged()
 {
-    if (field_22_state == TimerTriggerStates::eWaitForEnabled_0 || field_22_state == TimerTriggerStates::eCheckForStartAgain_2 || gMap.mCurrentLevel != gMap.mNextLevel || gMap.mCurrentPath != gMap.mNextPath || gMap.mOverlayId != gMap.GetOverlayId())
+    if (mState == TimerTriggerStates::eWaitForEnabled_0 || mState == TimerTriggerStates::eCheckForStartAgain_2 || gMap.mCurrentLevel != gMap.mNextLevel || gMap.mCurrentPath != gMap.mNextPath || gMap.mOverlayId != gMap.GetOverlayId())
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
@@ -109,9 +109,9 @@ s32 TimerTrigger::VGetSaveState(u8* pSaveBuffer)
     auto pState = reinterpret_cast<TimerTrigger_State*>(pSaveBuffer);
 
     pState->field_0_type = AETypes::eTimerTrigger_136;
-    pState->field_4_tlvInfo = field_2C_tlvInfo;
-    pState->field_C_state = field_22_state;
+    pState->field_4_tlvInfo = mTlvInfo;
+    pState->field_C_state = mState;
     pState->field_8_delay_timer_base = mActivationDelayTimer - sGnFrame;
-    pState->field_E_starting_switch_state = field_38_starting_switch_state;
+    pState->field_E_starting_switch_state = mStartingSwitchState;
     return sizeof(TimerTrigger_State);
 }

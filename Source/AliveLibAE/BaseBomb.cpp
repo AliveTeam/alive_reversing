@@ -30,7 +30,7 @@ BaseBomb::BaseBomb(FP x, FP y, s32 /*unused*/, FP scale)
     mAnim.mGreen = 128;
     mAnim.mRed = 128;
 
-    field_f4_scale = scale;
+    mBombSpriteScale = scale;
 
     if (scale == FP_FromDouble(1.0))
     {
@@ -52,15 +52,15 @@ BaseBomb::BaseBomb(FP x, FP y, s32 /*unused*/, FP scale)
         mXPos,
         mYPos,
         35,
-        field_f4_scale,
+        mBombSpriteScale,
         BurstType::eFallingRocks_0,
         13);
 
     PSX_RECT damageRect = {
-        FP_GetExponent(FP_FromInteger(-10) * field_f4_scale),
-        FP_GetExponent(FP_FromInteger(-10) * field_f4_scale),
-        FP_GetExponent(FP_FromInteger(10) * field_f4_scale),
-        FP_GetExponent(FP_FromInteger(10) * field_f4_scale)};
+        FP_GetExponent(FP_FromInteger(-10) * mBombSpriteScale),
+        FP_GetExponent(FP_FromInteger(-10) * mBombSpriteScale),
+        FP_GetExponent(FP_FromInteger(10) * mBombSpriteScale),
+        FP_GetExponent(FP_FromInteger(10) * mBombSpriteScale)};
     DealDamageRect(&damageRect);
 
     // alternate between Explosion1 and Explosion2 on each call
@@ -81,26 +81,26 @@ void BaseBomb::VUpdate()
     switch (this->mAnim.mCurrentFrame)
     {
         case 0:
-            rect.x = FP_GetExponent(FP_FromInteger(-30) * field_f4_scale);
-            rect.w = FP_GetExponent(FP_FromInteger(30) * field_f4_scale);
-            rect.y = FP_GetExponent(FP_FromInteger(-20) * field_f4_scale);
-            rect.h = FP_GetExponent(FP_FromInteger(20) * field_f4_scale);
+            rect.x = FP_GetExponent(FP_FromInteger(-30) * mBombSpriteScale);
+            rect.w = FP_GetExponent(FP_FromInteger(30) * mBombSpriteScale);
+            rect.y = FP_GetExponent(FP_FromInteger(-20) * mBombSpriteScale);
+            rect.h = FP_GetExponent(FP_FromInteger(20) * mBombSpriteScale);
             DealDamageRect(&rect);
             break;
 
         case 1:
-            rect.x = FP_GetExponent(FP_FromInteger(-50) * field_f4_scale);
-            rect.w = FP_GetExponent(FP_FromInteger(50) * field_f4_scale);
-            rect.y = FP_GetExponent(FP_FromInteger(-30) * field_f4_scale);
-            rect.h = FP_GetExponent(FP_FromInteger(30) * field_f4_scale);
+            rect.x = FP_GetExponent(FP_FromInteger(-50) * mBombSpriteScale);
+            rect.w = FP_GetExponent(FP_FromInteger(50) * mBombSpriteScale);
+            rect.y = FP_GetExponent(FP_FromInteger(-30) * mBombSpriteScale);
+            rect.h = FP_GetExponent(FP_FromInteger(30) * mBombSpriteScale);
             DealDamageRect(&rect);
             break;
 
         case 2:
-            rect.x = FP_GetExponent(FP_FromInteger(-80) * field_f4_scale);
-            rect.w = FP_GetExponent(FP_FromInteger(80) * field_f4_scale);
-            rect.y = FP_GetExponent(FP_FromInteger(-40) * field_f4_scale);
-            rect.h = FP_GetExponent(FP_FromInteger(40) * field_f4_scale);
+            rect.x = FP_GetExponent(FP_FromInteger(-80) * mBombSpriteScale);
+            rect.w = FP_GetExponent(FP_FromInteger(80) * mBombSpriteScale);
+            rect.y = FP_GetExponent(FP_FromInteger(-40) * mBombSpriteScale);
+            rect.h = FP_GetExponent(FP_FromInteger(40) * mBombSpriteScale);
             DealDamageRect(&rect);
             break;
 
@@ -116,10 +116,10 @@ void BaseBomb::VUpdate()
 
             relive_new Flash(Layer::eLayer_Above_FG1_39, 255, 255, 255, TPageAbr::eBlend_3, 1);
 
-            rect.x = FP_GetExponent(FP_FromInteger(-113) * field_f4_scale);
-            rect.w = FP_GetExponent(FP_FromInteger(113) * field_f4_scale);
-            rect.y = FP_GetExponent(FP_FromInteger(-50) * field_f4_scale);
-            rect.h = FP_GetExponent(FP_FromInteger(50) * field_f4_scale);
+            rect.x = FP_GetExponent(FP_FromInteger(-113) * mBombSpriteScale);
+            rect.w = FP_GetExponent(FP_FromInteger(113) * mBombSpriteScale);
+            rect.y = FP_GetExponent(FP_FromInteger(-50) * mBombSpriteScale);
+            rect.h = FP_GetExponent(FP_FromInteger(50) * mBombSpriteScale);
             DealDamageRect(&rect);
             break;
         }

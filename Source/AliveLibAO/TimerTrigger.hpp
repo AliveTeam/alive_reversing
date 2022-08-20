@@ -37,12 +37,12 @@ public:
         eCheckForStartAgain_2 = 2,
         eWaitForSecondTrigger_3 = 3,
     };
-    State field_12_state = State::eWaitForEnabled_0;
+    State mState = State::eWaitForEnabled_0;
     s16 mOutputSwitchIds[4] = {};
-    s32 field_1C_tlvInfo = 0;
+    s32 mTlvInfo = 0;
     s32 mActivationDelayTimer = 0;
     s32 mActivationDelay = 0;
-    s16 field_28_starting_switch_state = 0;
+    s16 mStartingSwitchState = 0;
 };
 ALIVE_ASSERT_SIZEOF(TimerTrigger, 0x2C);
 

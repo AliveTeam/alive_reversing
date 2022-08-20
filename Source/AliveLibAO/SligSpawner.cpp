@@ -13,43 +13,33 @@ SligSpawner::SligSpawner(Path_Slig* pTlv, s32 tlvInfo)
 {
     mBaseGameObjectTypeId = ReliveTypes::eSligSpawner;
 
-    field_10_tlvInfo = tlvInfo;
-    field_18_tlv = *pTlv;
+    mTlvInfo = tlvInfo;
+    mPathTlv = *pTlv;
 
-    field_16_flags = 1;
+    mSpawnerFlags = 1;
 
-    field_14_slig_spawner_switch_id = pTlv->mSligSpawnerSwitchId;
-}
-
-void SligSpawner::VUpdate()
-{
-    VUpdate_4028A0();
+    mSligSpawnerSwitchId = pTlv->mSligSpawnerSwitchId;
 }
 
 void SligSpawner::VScreenChanged()
 {
-    VScreenChanged_402960();
-}
-
-void SligSpawner::VScreenChanged_402960()
-{
     mBaseGameObjectFlags.Set(BaseGameObject::eDead);
 }
 
-void SligSpawner::VUpdate_4028A0()
+void SligSpawner::VUpdate()
 {
     if (EventGet(kEventDeathReset))
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 
-    if (SwitchStates_Get(field_14_slig_spawner_switch_id))
+    if (SwitchStates_Get(mSligSpawnerSwitchId))
     {
         auto pTlv = static_cast<Path_Slig*>(gMap.TLV_Get_At_446260(
-            field_18_tlv.mTopLeft.x,
-            field_18_tlv.mTopLeft.y,
-            field_18_tlv.mTopLeft.x,
-            field_18_tlv.mTopLeft.y,
+            mPathTlv.mTopLeft.x,
+            mPathTlv.mTopLeft.y,
+            mPathTlv.mTopLeft.x,
+            mPathTlv.mTopLeft.y,
             TlvTypes::SligSpawner_66));
 
         if (pTlv)
@@ -58,19 +48,19 @@ void SligSpawner::VUpdate_4028A0()
         }
 
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
-        field_16_flags = 0;
+        mSpawnerFlags = 0;
     }
 }
 
 SligSpawner::~SligSpawner()
 {
-    if (field_16_flags)
+    if (mSpawnerFlags)
     {
-        Path::TLV_Reset(field_10_tlvInfo, -1, 0, 0);
+        Path::TLV_Reset(mTlvInfo, -1, 0, 0);
     }
     else
     {
-        Path::TLV_Reset(field_10_tlvInfo, -1, 0, 1);
+        Path::TLV_Reset(mTlvInfo, -1, 0, 1);
     }
 }
 

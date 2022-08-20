@@ -40,7 +40,7 @@ public:
     BeeSwarm* mBeeSwarm = nullptr;
     FP mDripTargetX = {};
     FP mDripTargetY = {};
-    FP mOldYPos = {};
+    FP mObjectYPos = {};
     u16 mChaseTime = 0;
 };
 ALIVE_ASSERT_SIZEOF(HoneySack, 0x104);

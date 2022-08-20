@@ -21,9 +21,9 @@ static s16 Well_NextRandom()
 
 Well::~Well()
 {
-    if (field_E4_tlvInfo != -1)
+    if (mTlvInfo != -1)
     {
-        Path::TLV_Reset(field_E4_tlvInfo, -1, 0, 0);
+        Path::TLV_Reset(mTlvInfo, -1, 0, 0);
     }
 }
 
@@ -46,29 +46,29 @@ void Well::VUpdate()
     if (EventGet(kEventDeathReset))
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
-        Path::TLV_Reset(field_E4_tlvInfo, -1, 0, 0);
+        Path::TLV_Reset(mTlvInfo, -1, 0, 0);
     }
 
-    if (field_100_emit_leaves == Choice_short::eYes_1)
+    if (mEmitLeaves == Choice_short::eYes_1)
     {
         // Always on or has been enabled?
-        if (!field_E8_switch_id || SwitchStates_Get(field_E8_switch_id))
+        if (!mSwitchId || SwitchStates_Get(mSwitchId))
         {
             // Random chance of leaves emitting
             if (Well_NextRandom() < 10)
             {
                 auto pLeaf = relive_new Leaf(
-                    field_F8_leaf_xpos,
-                    field_FC_leaf_ypos,
-                    field_F0_exit_x,
-                    field_F4_exit_y,
-                    field_EC_scale);
+                    mLeafX,
+                    mLeafY,
+                    mExitX,
+                    mExitY,
+                    mLeafScale);
 
-                if (field_F4_exit_y > FP_FromInteger(0))
+                if (mExitY > FP_FromInteger(0))
                 {
                     if (pLeaf)
                     {
-                        if (field_EC_scale == FP_FromDouble(0.5))
+                        if (mLeafScale == FP_FromDouble(0.5))
                         {
                             pLeaf->mAnim.mRenderLayer = Layer::eLayer_BeforeWell_Half_3;
                         }
@@ -106,34 +106,34 @@ void Well::WellExpress_Init(Path_WellExpress* pTlv, FP /*xpos*/, FP ypos)
     if (pTlv->mScale == Scale_short::eHalf_1)
     {
         mAnim.mRenderLayer = Layer::eLayer_Well_Half_4;
-        field_EC_scale = FP_FromDouble(0.5);
+        mLeafScale = FP_FromDouble(0.5);
     }
     else
     {
         mAnim.mRenderLayer = Layer::eLayer_Well_23;
-        field_EC_scale = FP_FromInteger(1);
+        mLeafScale = FP_FromInteger(1);
     }
 
-    field_E8_switch_id = pTlv->mSwitchId;
-    field_F0_exit_x = FP_FromInteger(pTlv->mExitX) / FP_FromInteger(100);
-    field_F4_exit_y = FP_FromInteger(pTlv->mExitY) / FP_FromInteger(100);
+    mSwitchId = pTlv->mSwitchId;
+    mExitX = FP_FromInteger(pTlv->mExitX) / FP_FromInteger(100);
+    mExitY = FP_FromInteger(pTlv->mExitY) / FP_FromInteger(100);
 
-    field_100_emit_leaves = pTlv->mEmitLeaves;
+    mEmitLeaves = pTlv->mEmitLeaves;
 
-    if (field_100_emit_leaves == Choice_short::eYes_1)
+    if (mEmitLeaves == Choice_short::eYes_1)
     {
-        field_F8_leaf_xpos = FP_FromInteger(pTlv->mLeafX);
-        if (!FP_GetExponent(field_F8_leaf_xpos))
+        mLeafX = FP_FromInteger(pTlv->mLeafX);
+        if (!FP_GetExponent(mLeafX))
         {
-            field_F8_leaf_xpos = FP_FromInteger(pTlv->mTopLeft.x
+            mLeafX = FP_FromInteger(pTlv->mTopLeft.x
                                                 + (PsxToPCX(pTlv->mBottomRight.x - pTlv->mTopLeft.x, +11)
                                                    / 2));
         }
 
-        field_FC_leaf_ypos = FP_FromInteger(pTlv->mLeafY);
-        if (!FP_GetExponent(field_FC_leaf_ypos))
+        mLeafY = FP_FromInteger(pTlv->mLeafY);
+        if (!FP_GetExponent(mLeafY))
         {
-            field_FC_leaf_ypos = ypos;
+            mLeafY = ypos;
         }
     }
 }
@@ -161,41 +161,41 @@ void Well::WellLocal_Init(Path_WellLocal* pTlv, FP /*xpos*/, FP ypos)
     if (pTlv->mScale == Scale_short::eHalf_1)
     {
         mAnim.mRenderLayer = Layer::eLayer_Well_Half_4;
-        field_EC_scale = FP_FromDouble(0.5);
+        mLeafScale = FP_FromDouble(0.5);
         mScale = Scale::Bg;
     }
     else
     {
         mAnim.mRenderLayer = Layer::eLayer_Well_23;
-        field_EC_scale = FP_FromInteger(1);
+        mLeafScale = FP_FromInteger(1);
         mScale = Scale::Fg;
     }
 
-    field_E8_switch_id = pTlv->mSwitchId;
-    field_F0_exit_x = FP_FromInteger(pTlv->mExitX) / FP_FromInteger(100);
-    field_F4_exit_y = FP_FromInteger(pTlv->mExitY) / FP_FromInteger(100);
+    mSwitchId = pTlv->mSwitchId;
+    mExitX = FP_FromInteger(pTlv->mExitX) / FP_FromInteger(100);
+    mExitY = FP_FromInteger(pTlv->mExitY) / FP_FromInteger(100);
 
-    field_100_emit_leaves = pTlv->mEmitLeaves;
+    mEmitLeaves = pTlv->mEmitLeaves;
 
-    if (field_100_emit_leaves == Choice_short::eYes_1)
+    if (mEmitLeaves == Choice_short::eYes_1)
     {
-        field_F8_leaf_xpos = FP_FromInteger(pTlv->mLeafX);
-        if (!FP_GetExponent(field_F8_leaf_xpos))
+        mLeafX = FP_FromInteger(pTlv->mLeafX);
+        if (!FP_GetExponent(mLeafX))
         {
-            field_F8_leaf_xpos = FP_FromInteger(pTlv->mTopLeft.x + (PsxToPCX(pTlv->mBottomRight.x - pTlv->mTopLeft.x, 11) / 2));
+            mLeafX = FP_FromInteger(pTlv->mTopLeft.x + (PsxToPCX(pTlv->mBottomRight.x - pTlv->mTopLeft.x, 11) / 2));
         }
 
-        field_FC_leaf_ypos = FP_FromInteger(pTlv->mLeafY);
-        if (!FP_GetExponent(field_FC_leaf_ypos))
+        mLeafY = FP_FromInteger(pTlv->mLeafY);
+        if (!FP_GetExponent(mLeafY))
         {
-            field_FC_leaf_ypos = ypos;
+            mLeafY = ypos;
         }
     }
 }
 
 Well::Well(Path_WellBase* pTlv, FP xpos, FP ypos, s32 tlvInfo)
 {
-    field_E4_tlvInfo = tlvInfo;
+    mTlvInfo = tlvInfo;
     mBaseGameObjectTypeId = ReliveTypes::eWell;
 
     mRGB.SetRGB(128, 128, 128);

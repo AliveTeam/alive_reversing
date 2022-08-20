@@ -9,29 +9,29 @@
 WheelSyncer::WheelSyncer(Path_WheelSyncer* pTlv, u32 tlvInfo)
     : BaseGameObject(TRUE, 0)
 {
-    field_30_tlvInfo = tlvInfo;
-    field_20_input_switch_id1 = pTlv->field_10_input_switch_id1;
-    field_22_input_switch_id2 = pTlv->field_12_input_switch_id2;
-    field_24_trigger_id = pTlv->field_14_output_switch_id;
-    field_2E_output_requirement = pTlv->field_16_output_requirement;
-    field_26_input_switch_id3 = pTlv->field_18_input_switch_id3;
-    field_28_input_switch_id4 = pTlv->field_1A_input_switch_id4;
-    field_2A_input_switch_id5 = pTlv->field_1C_input_switch_id5;
-    field_2C_input_switch_id6 = pTlv->field_1E_input_switch_id6;
+    mTlvInfo = tlvInfo;
+    mInputSwitchId1 = pTlv->mInputSwitchId1;
+    mInputSwitchId2 = pTlv->mInputSwitchId2;
+    mOutputSwitchId = pTlv->mOutputSwitchId;
+    mOutputRequirement = pTlv->mOutputRequirement;
+    mInputSwitchId3 = pTlv->mInputSwitchId3;
+    mInputSwitchId4 = pTlv->mInputSwitchId4;
+    mInputSwitchId5 = pTlv->mInputSwitchId5;
+    mInputSwitchId6 = pTlv->mInputSwitchId6;
 }
 
 void WheelSyncer::VUpdate()
 {
-    const s32 state1 = SwitchStates_Get(field_20_input_switch_id1);
-    const s32 state2 = SwitchStates_Get(field_22_input_switch_id2);
-    const s32 state3 = SwitchStates_Get(field_26_input_switch_id3);
-    const s32 state4 = SwitchStates_Get(field_28_input_switch_id4);
-    const s32 state5 = SwitchStates_Get(field_2A_input_switch_id5);
-    const s32 state6 = SwitchStates_Get(field_2C_input_switch_id6);
+    const s32 state1 = SwitchStates_Get(mInputSwitchId1);
+    const s32 state2 = SwitchStates_Get(mInputSwitchId2);
+    const s32 state3 = SwitchStates_Get(mInputSwitchId3);
+    const s32 state4 = SwitchStates_Get(mInputSwitchId4);
+    const s32 state5 = SwitchStates_Get(mInputSwitchId5);
+    const s32 state6 = SwitchStates_Get(mInputSwitchId6);
 
     s32 switchValue = 0;
 
-    switch (field_2E_output_requirement)
+    switch (mOutputRequirement)
     {
         case WheelSyncerOutputRequirement::eAllOn_0:
             if (!state1 || !state2 || !state3 || !state4 || !state5 || !state6)
@@ -82,7 +82,7 @@ void WheelSyncer::VUpdate()
             break;
     }
 
-    SwitchStates_Set(field_24_trigger_id, static_cast<s8>(switchValue));
+    SwitchStates_Set(mOutputSwitchId, static_cast<s8>(switchValue));
 
     if (EventGet(kEventDeathReset))
     {
@@ -92,7 +92,7 @@ void WheelSyncer::VUpdate()
 
 WheelSyncer::~WheelSyncer()
 {
-    Path::TLV_Reset(field_30_tlvInfo, -1, 0, 0);
+    Path::TLV_Reset(mTlvInfo, -1, 0, 0);
 }
 
 void WheelSyncer::VScreenChanged()

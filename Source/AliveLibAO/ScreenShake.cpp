@@ -18,12 +18,12 @@ ScreenShake::ScreenShake(bool enableShakeEvent)
 
     mBaseGameObjectFlags.Set(Options::eDrawable_Bit4);
 
-    field_30_shakeNumber = 16;
-    field_32_enableShakeEvent = enableShakeEvent;
+    mShakeNumber = 16;
+    mEnableShakeEvent = enableShakeEvent;
 
     gObjListDrawables->Push_Back(this);
 
-    if (field_32_enableShakeEvent)
+    if (mEnableShakeEvent)
     {
         EventBroadcast(kEventScreenShake, this);
     }
@@ -31,18 +31,18 @@ ScreenShake::ScreenShake(bool enableShakeEvent)
 
 void ScreenShake::VUpdate()
 {
-    if (field_32_enableShakeEvent)
+    if (mEnableShakeEvent)
     {
         EventBroadcast(kEventScreenShake, this);
     }
 
-    if (field_30_shakeNumber > 0)
+    if (mShakeNumber > 0)
     {
-        field_30_shakeNumber--;
+        mShakeNumber--;
     }
 }
 
-const FP_Point stru_4CF850[16] = {
+const FP_Point sShakeOffsets[16] = {
     {FP_FromInteger(0), FP_FromInteger(-1)},
     {FP_FromInteger(-1), FP_FromInteger(0)},
     {FP_FromInteger(1), FP_FromInteger(-1)},
@@ -63,14 +63,14 @@ const FP_Point stru_4CF850[16] = {
 
 void ScreenShake::VRender(PrimHeader** ppOt)
 {
-    if (field_30_shakeNumber < 14)
+    if (mShakeNumber < 14)
     {
-        Prim_ScreenOffset* pPrim = &field_10_screenOffset[gPsxDisplay.mBufferIndex];
+        Prim_ScreenOffset* pPrim = &mScreenOffset[gPsxDisplay.mBufferIndex];
 
         s16 xoff = 0;
         s16 yoff = 0;
-        xoff = FP_GetExponent(stru_4CF850[field_30_shakeNumber].x); // TODO: Div 16 ??
-        yoff = FP_GetExponent(stru_4CF850[field_30_shakeNumber].y);
+        xoff = FP_GetExponent(sShakeOffsets[mShakeNumber].x); // TODO: Div 16 ??
+        yoff = FP_GetExponent(sShakeOffsets[mShakeNumber].y);
 
         if (gPsxDisplay.mBufferIndex)
         {
@@ -129,7 +129,7 @@ void ScreenShake::VRender(PrimHeader** ppOt)
             PSX_ClearImage_496020(&clearRect, 0, 0, 0);
         }
 
-        if (!field_30_shakeNumber)
+        if (!mShakeNumber)
         {
             mBaseGameObjectFlags.Set(BaseGameObject::eDead);
         }

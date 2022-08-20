@@ -311,7 +311,6 @@ void SlingMudokon::Motion_3_ShootStart()
                 bulletXPos,
                 mYPos - FP_FromInteger(24),
                 xDistance,
-                0,
                 mSpriteScale,
                 0);
             SetCurrentMotion(eSlingMudMotions::Motion_4_ShootEnd);

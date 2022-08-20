@@ -700,11 +700,11 @@ s16 BirdPortal::VPortalClipper(s16 bIgnoreClipping)
         mScreenClipperId1 = pClipper1->mBaseGameObjectId;
         if (mSpriteScale == FP_FromInteger(1))
         {
-            pClipper1->field_48_ot_layer = Layer::eLayer_BirdPortal_29;
+            pClipper1->mOtLayer = Layer::eLayer_BirdPortal_29;
         }
         else
         {
-            pClipper1->field_48_ot_layer = Layer::eLayer_BirdPortal_Half_10;
+            pClipper1->mOtLayer = Layer::eLayer_BirdPortal_Half_10;
         }
     }
 
@@ -715,11 +715,11 @@ s16 BirdPortal::VPortalClipper(s16 bIgnoreClipping)
         mScreenClipperId2 = pClipper2->mBaseGameObjectId;
         if (mSpriteScale == FP_FromInteger(1))
         {
-            pClipper2->field_48_ot_layer = Layer::eLayer_FallingItemDoorFlameRollingBallPortalClip_Half_31;
+            pClipper2->mOtLayer = Layer::eLayer_FallingItemDoorFlameRollingBallPortalClip_Half_31;
         }
         else
         {
-            pClipper2->field_48_ot_layer = Layer::eLayer_DoorFlameRollingBallFallingItemPortalClip_Half_12;
+            pClipper2->mOtLayer = Layer::eLayer_DoorFlameRollingBallFallingItemPortalClip_Half_12;
         }
     }
 

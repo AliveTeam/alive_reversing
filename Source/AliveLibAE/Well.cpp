@@ -13,7 +13,7 @@ ALIVE_VAR(1, 0x563aa0, u32, sWellRndSeed_563AA0, 4);
 Well::Well(Path_WellBase* pTlv, FP xpos, FP ypos, s32 tlvInfo)
     : BaseGameObject(TRUE, 0)
 {
-    field_20_tlvInfo = tlvInfo;
+    mTlvInfo = tlvInfo;
     SetType(ReliveTypes::eWell);
 
     if (pTlv->mTlvType32 == TlvTypes::LocalWell_8)
@@ -30,43 +30,43 @@ void Well::WellExpress_Init(Path_WellExpress* pTlv, FP /*xpos*/, FP ypos)
 {
     if (pTlv->mScale != Scale_short::eFull_0)
     {
-        field_28_scale = FP_FromDouble(0.5);
+        mLeafScale = FP_FromDouble(0.5);
     }
     else
     {
-        field_28_scale = FP_FromInteger(1);
+        mLeafScale = FP_FromInteger(1);
     }
 
-    field_24_switch_id = pTlv->mSwitchId;
+    mSwitchId = pTlv->mSwitchId;
 
-    field_2C_exit_x = FP_FromInteger(pTlv->field_18_exit_x) / FP_FromInteger(100);
-    field_30_exit_y = FP_FromInteger(pTlv->field_1A_exit_y) / FP_FromInteger(100);
+    mExitX = FP_FromInteger(pTlv->field_18_exit_x) / FP_FromInteger(100);
+    mExitY = FP_FromInteger(pTlv->field_1A_exit_y) / FP_FromInteger(100);
 
-    field_3C_bEmitLeaves = pTlv->mEmitLeaves;
-    if (field_3C_bEmitLeaves == Choice_short::eYes_1)
+    mEmitLeaves = pTlv->mEmitLeaves;
+    if (mEmitLeaves == Choice_short::eYes_1)
     {
         PSX_Point abeSpawnPos = {};
         gMap.Get_Abe_Spawn_Pos(&abeSpawnPos);
 
-        field_34_leaf_xpos = FP_FromInteger(pTlv->mLeafX);
+        mLeafX = FP_FromInteger(pTlv->mLeafX);
         if (pTlv->mLeafX > 0)
         {
-            field_34_leaf_xpos += FP_FromInteger(abeSpawnPos.x);
+            mLeafX += FP_FromInteger(abeSpawnPos.x);
         }
         else
         {
             const s32 pos = (PsxToPCX(pTlv->mBottomRight.x - pTlv->mTopLeft.x) / 2) + pTlv->mTopLeft.x;
-            field_34_leaf_xpos = FP_FromInteger(pos);
+            mLeafX = FP_FromInteger(pos);
         }
 
-        field_38_leaf_ypos = FP_FromInteger(pTlv->mLeafY);
+        mLeafY = FP_FromInteger(pTlv->mLeafY);
         if (pTlv->mLeafY > 0)
         {
-            field_38_leaf_ypos += FP_FromInteger(abeSpawnPos.y);
+            mLeafY += FP_FromInteger(abeSpawnPos.y);
         }
         else
         {
-            field_38_leaf_ypos = ypos;
+            mLeafY = ypos;
         }
     }
 }
@@ -75,49 +75,49 @@ void Well::WellLocal_Init(Path_WellLocal* pTlv, FP /*xpos*/, FP ypos)
 {
     if (pTlv->mScale != Scale_short::eFull_0)
     {
-        field_28_scale = FP_FromDouble(0.5);
+        mLeafScale = FP_FromDouble(0.5);
     }
     else
     {
-        field_28_scale = FP_FromInteger(1);
+        mLeafScale = FP_FromInteger(1);
     }
 
-    field_24_switch_id = pTlv->mSwitchId;
+    mSwitchId = pTlv->mSwitchId;
 
-    field_3C_bEmitLeaves = pTlv->mEmitLeaves;
-    if (field_3C_bEmitLeaves == Choice_short::eYes_1)
+    mEmitLeaves = pTlv->mEmitLeaves;
+    if (mEmitLeaves == Choice_short::eYes_1)
     {
         PSX_Point abeSpawnPos = {};
         gMap.Get_Abe_Spawn_Pos(&abeSpawnPos);
-        field_34_leaf_xpos = FP_FromInteger(pTlv->mLeafX);
+        mLeafX = FP_FromInteger(pTlv->mLeafX);
 
         if (pTlv->mLeafX > 0)
         {
-            field_34_leaf_xpos += FP_FromInteger(abeSpawnPos.x);
+            mLeafX += FP_FromInteger(abeSpawnPos.x);
         }
         else
         {
             const s32 pos = (PsxToPCX(pTlv->mBottomRight.x - pTlv->mTopLeft.x) / 2) + pTlv->mTopLeft.x;
-            field_34_leaf_xpos = FP_FromInteger(pos);
+            mLeafX = FP_FromInteger(pos);
         }
 
-        field_38_leaf_ypos = FP_FromInteger(pTlv->mLeafY);
+        mLeafY = FP_FromInteger(pTlv->mLeafY);
         if (pTlv->mLeafY > 0)
         {
-            field_38_leaf_ypos += FP_FromInteger(abeSpawnPos.y);
+            mLeafY += FP_FromInteger(abeSpawnPos.y);
         }
         else
         {
-            field_38_leaf_ypos = ypos;
+            mLeafY = ypos;
         }
     }
 }
 
 Well::~Well()
 {
-    if (field_20_tlvInfo != -1)
+    if (mTlvInfo != -1)
     {
-        Path::TLV_Reset(field_20_tlvInfo, -1, 0, 0);
+        Path::TLV_Reset(mTlvInfo, -1, 0, 0);
     }
 }
 
@@ -145,22 +145,22 @@ void Well::VUpdate()
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
         // Reset well state when Abe dies.
-        Path::TLV_Reset(field_20_tlvInfo, -1, 0, 0);
+        Path::TLV_Reset(mTlvInfo, -1, 0, 0);
     }
 
-    if (field_3C_bEmitLeaves == Choice_short::eYes_1)
+    if (mEmitLeaves == Choice_short::eYes_1)
     {
         // Always on or has been enabled?
-        if (field_24_switch_id == 0 || SwitchStates_Get(field_24_switch_id))
+        if (mSwitchId == 0 || SwitchStates_Get(mSwitchId))
         {
             // Random chance of leaves emitting.
             if (Well_NextRandom() < 10)
             {
-                relive_new Leaf(field_34_leaf_xpos,
-                                          field_38_leaf_ypos,
+                relive_new Leaf(mLeafX,
+                                          mLeafY,
                                           FP_FromInteger(2),
                                           FP_FromInteger(-20),
-                                          field_28_scale);
+                                          mLeafScale);
             }
         }
     }

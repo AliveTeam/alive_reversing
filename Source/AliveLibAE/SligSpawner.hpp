@@ -50,12 +50,12 @@ enum class SpawnerStates : s16
 
 struct Slig_Spawner_State final
 {
-    AETypes field_0_type;
+    AETypes mType;
     s16 field_2_padding;
-    s32 field_4_tlvInfo;
-    SpawnerStates field_8_state;
+    s32 mTlvInfo;
+    SpawnerStates mState;
     s16 field_A_padding;
-    s32 field_C_spawned_slig_obj_id;
+    s32 mSpawnedSligId;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Slig_Spawner_State, 0x10);
 
@@ -72,17 +72,17 @@ public:
     virtual s32 VGetSaveState(u8* pSaveBuffer) override;
 
 private:
-    s32 field_20_tlv_info = 0;
-    s16 field_24_slig_spawner_switch_id = 0;
+    s32 mTlvInfo = 0;
+    s16 mSligSpawnerSwitchId = 0;
     enum SpawnerFlags : s16
     {
         eBit1_DontDestroyTLV = 0x1,
         eBit2_UnlimitedSpawns = 0x2,
     };
-    BitField16<SpawnerFlags> field_26_flags = {};
-    Path_TLV field_28_tlv = {};
-    SpawnerStates field_38_state = SpawnerStates::eInactive_0;
-    s32 field_3C_spawned_slig_obj_id = 0;
-    s16 field_40_bFindSpawnedSlig = 0;
+    BitField16<SpawnerFlags> mSpawnerFlags = {};
+    Path_TLV mPathTlv = {};
+    SpawnerStates mState = SpawnerStates::eInactive_0;
+    s32 mSpawnedSligId = 0;
+    s16 mFindSpawnedSlig = 0;
 };
 ALIVE_ASSERT_SIZEOF(SligSpawner, 0x44);

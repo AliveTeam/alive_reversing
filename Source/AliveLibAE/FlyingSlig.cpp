@@ -928,7 +928,7 @@ s16 FlyingSlig::VTakeDamage(BaseGameObject* pFrom)
     {
         case ReliveTypes::eBullet:
         {
-            if (static_cast<Bullet*>(pFrom)->field_20_type == BulletType::eZBullet_3)
+            if (static_cast<Bullet*>(pFrom)->mBulletType == BulletType::eZBullet_3)
             {
                 const PSX_RECT bRect = VGetBoundingRect();
                 Path_TLV* pTlv = nullptr;

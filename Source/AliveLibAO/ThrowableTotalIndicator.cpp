@@ -22,7 +22,7 @@ ThrowableTotalIndicator::~ThrowableTotalIndicator()
         gObjListDrawables->Remove_Item(this);
     }
 
-    if (field_19E_bFade)
+    if (mFade)
     {
         bThrowableIndicatorExists_504C70--;
     }
@@ -45,54 +45,51 @@ void ThrowableTotalIndicator::VUpdate()
         return;
     }
 
-    switch (field_19C_state)
+    switch (mState)
     {
-        case ThrowableTotalIndicatorState::eCreated_0:
+        case ThrowableTotalIndicatorState::eCreated:
         {
-            field_18_cur_xpos = field_10_xpos - (FP_FromInteger(12) * Math_Sine_451110(static_cast<u8>(2 * sGnFrame)));
-            field_1C_cur_ypos = (FP_FromInteger(12) * Math_Cosine_4510A0(static_cast<u8>(2 * sGnFrame))) + field_14_ypos;
+            mXPos = mStartXPos - (FP_FromInteger(12) * Math_Sine_451110(static_cast<u8>(2 * sGnFrame)));
+            mYPos = (FP_FromInteger(12) * Math_Cosine_4510A0(static_cast<u8>(2 * sGnFrame))) + mStartYPos;
 
             const s16 rgb = FP_GetExponent(FP_FromInteger(48) * Math_Sine_451110(static_cast<u8>(3 * sGnFrame))) + 80;
 
-            field_32_r = rgb;
-            field_34_g = rgb;
-            field_36_b = rgb;
+            mRGB.SetRGB(rgb, rgb, rgb);
         }
         break;
 
-        case ThrowableTotalIndicatorState::eFading_1:
-            if (field_1C_cur_ypos >= (field_14_ypos - FP_FromInteger(20)))
+        case ThrowableTotalIndicatorState::eFading:
+            if (mYPos >= (mStartYPos - FP_FromInteger(20)))
             {
-                if (field_32_r < 70 && field_34_g < 90 && field_36_b < 20)
+                if (mRGB.r < 70 && mRGB.g < 90 && mRGB.b < 20)
                 {
-                    field_32_r += 14;
-                    field_34_g += 18;
-                    field_36_b += 4;
+                    mRGB.r += 14;
+                    mRGB.g += 18;
+                    mRGB.b += 4;
                 }
 
-                field_28_scale += field_2C_scale_speed;
-                field_18_cur_xpos += field_20_xspeed;
-                field_1C_cur_ypos += field_24_yspeed;
+                mXPos += mSpeedX;
+                mYPos += mSpeedY;
             }
             else
             {
-                field_19C_state = ThrowableTotalIndicatorState::eVanishing_2;
+                mState = ThrowableTotalIndicatorState::eVanishing;
             }
             break;
 
-        case ThrowableTotalIndicatorState::eVanishing_2:
-            if (field_32_r < 7 && field_34_g < 7 && field_36_b < 7)
+        case ThrowableTotalIndicatorState::eVanishing:
+            if (mRGB.r < 7 && mRGB.g < 7 && mRGB.b < 7)
             {
                 mBaseGameObjectFlags.Set(BaseGameObject::eDead);
                 return;
             }
 
-            field_34_g -= 9;
-            field_36_b -= 2;
-            field_32_r -= 7;
+            mRGB.r -= 7;
+            mRGB.g -= 9;
+            mRGB.b -= 2;
 
-            field_18_cur_xpos += field_20_xspeed;
-            field_1C_cur_ypos += field_24_yspeed;
+            mXPos += mSpeedX;
+            mYPos += mSpeedY;
             break;
     }
 }
@@ -221,7 +218,7 @@ const s16 kCheckpoint[36] = {
     0,
     0};
 
-const s16* kNumbersArray_4C56A8[12] = {
+const s16* kNumbersArray[12] = {
     kNum_0,
     kNum_1,
     kNum_2,
@@ -237,7 +234,7 @@ const s16* kNumbersArray_4C56A8[12] = {
 
 void ThrowableTotalIndicator::VRender(PrimHeader** ppOt)
 {
-    if (*kNumbersArray_4C56A8[field_38_num_to_show] <= 0)
+    if (*kNumbersArray[mNumToShow] <= 0)
     {
         return;
     }
@@ -249,19 +246,19 @@ void ThrowableTotalIndicator::VRender(PrimHeader** ppOt)
     s16 xpos = 0;
     s16 ypos = 0;
 
-    for (s16 counter = 0; counter < kNumbersArray_4C56A8[field_38_num_to_show][0]; counter++)
+    for (s16 counter = 0; counter < kNumbersArray[mNumToShow][0]; counter++)
     {
-        xpos = FP_GetExponent(field_18_cur_xpos - camX);
-        ypos = FP_GetExponent(field_1C_cur_ypos - camY);
+        xpos = FP_GetExponent(mXPos - camX);
+        ypos = FP_GetExponent(mYPos - camY);
 
-        const FP x0 = FP_FromInteger(kNumbersArray_4C56A8[field_38_num_to_show][(4 * counter) + 1]) * field_28_scale;
-        const FP y0 = FP_FromInteger(kNumbersArray_4C56A8[field_38_num_to_show][(4 * counter) + 2]) * field_28_scale;
-        const FP x1 = FP_FromInteger(kNumbersArray_4C56A8[field_38_num_to_show][(4 * counter) + 3]) * field_28_scale;
-        const FP y1 = FP_FromInteger(kNumbersArray_4C56A8[field_38_num_to_show][(4 * counter) + 4]) * field_28_scale;
+        const FP x0 = FP_FromInteger(kNumbersArray[mNumToShow][(4 * counter) + 1]) * mSpriteScale;
+        const FP y0 = FP_FromInteger(kNumbersArray[mNumToShow][(4 * counter) + 2]) * mSpriteScale;
+        const FP x1 = FP_FromInteger(kNumbersArray[mNumToShow][(4 * counter) + 3]) * mSpriteScale;
+        const FP y1 = FP_FromInteger(kNumbersArray[mNumToShow][(4 * counter) + 4]) * mSpriteScale;
 
         s16 primBaseX = 0;
         s16 primVertX = 0;
-        if (field_38_num_to_show == 11)
+        if (mNumToShow == 11)
         {
             primBaseX = PsxToPCX(xpos);
             primVertX = PsxToPCX(xpos);
@@ -272,21 +269,21 @@ void ThrowableTotalIndicator::VRender(PrimHeader** ppOt)
             primVertX = PsxToPCX(xpos, 11);
         }
 
-        Line_F2* pLine = &field_3C_lines[gPsxDisplay.mBufferIndex][counter];
+        Line_F2* pLine = &mLines[gPsxDisplay.mBufferIndex][counter];
         Line_F2_Init(pLine);
 
         SetXY0(pLine, primBaseX + FP_GetExponent(x0), ypos + FP_GetExponent(y0));
         SetXY1(pLine, primVertX + FP_GetExponent(x1), ypos + FP_GetExponent(y1));
         SetRGB0(pLine,
-                static_cast<u8>(field_32_r),
-                static_cast<u8>(field_34_g),
-                static_cast<u8>(field_36_b));
+                static_cast<u8>(mRGB.r),
+                static_cast<u8>(mRGB.g),
+                static_cast<u8>(mRGB.b));
         Poly_Set_SemiTrans(&pLine->mBase.header, 1);
-        OrderingTable_Add(OtLayer(ppOt, field_30_layer), &pLine->mBase.header);
+        OrderingTable_Add(OtLayer(ppOt, mOtLayer), &pLine->mBase.header);
     }
 
-    Init_SetTPage(&field_17C_tPage[gPsxDisplay.mBufferIndex], 1, 0, PSX_getTPage(TPageMode::e4Bit_0, TPageAbr::eBlend_1, 0, 0));
-    OrderingTable_Add(OtLayer(ppOt, field_30_layer), &field_17C_tPage->mBase);
+    Init_SetTPage(&mTPage[gPsxDisplay.mBufferIndex], 1, 0, PSX_getTPage(TPageMode::e4Bit_0, TPageAbr::eBlend_1, 0, 0));
+    OrderingTable_Add(OtLayer(ppOt, mOtLayer), &mTPage->mBase);
 
     pScreenManager->InvalidateRectCurrentIdx(
         PsxToPCX(xpos - 31),
@@ -303,49 +300,46 @@ ThrowableTotalIndicator::ThrowableTotalIndicator(FP xpos, FP ypos, Layer layer, 
 
     gObjListDrawables->Push_Back(this);
 
-    field_10_xpos = xpos;
-    field_14_ypos = ypos;
+    mStartXPos = xpos;
+    mStartYPos = ypos;
 
-    field_18_cur_xpos = xpos;
-    field_1C_cur_ypos = ypos;
+    mXPos = xpos;
+    mYPos = ypos;
 
-    field_20_xspeed = FP_FromInteger(0);
+    mSpeedX = FP_FromInteger(0);
 
-    field_19E_bFade = bFade;
-
-    if (bFade)
-    {
-        field_24_yspeed = FP_FromDouble(-0.7);
-    }
-    else
-    {
-        field_24_yspeed = FP_FromInteger(0);
-    }
-
-    field_28_scale = FP_FromInteger(1); // OG bug - should be using scale ??
-    field_2C_scale_speed = FP_FromInteger(0);
-    field_30_layer = layer;
-
-    field_32_r = 0;
-    field_34_g = 0;
-    field_36_b = 0;
+    mFade = bFade;
 
     if (bFade)
     {
-        field_19C_state = ThrowableTotalIndicatorState::eFading_1;
+        mSpeedY = FP_FromDouble(-0.7);
     }
     else
     {
-        field_19C_state = ThrowableTotalIndicatorState::eCreated_0;
+        mSpeedY = FP_FromInteger(0);
+    }
+
+    mSpriteScale = FP_FromInteger(1); // OG bug - should be using scale ??
+    mOtLayer = layer;
+
+    mRGB.SetRGB(0, 0, 0);
+
+    if (bFade)
+    {
+        mState = ThrowableTotalIndicatorState::eFading;
+    }
+    else
+    {
+        mState = ThrowableTotalIndicatorState::eCreated;
     }
 
     if (count == -1)
     {
-        field_38_num_to_show = 10;
+        mNumToShow = 10;
     }
     else
     {
-        field_38_num_to_show = static_cast<s16>(count);
+        mNumToShow = static_cast<s16>(count);
     }
 
     if (bFade)

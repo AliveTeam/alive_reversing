@@ -9163,7 +9163,7 @@ void Abe::BulletDamage_44C980(Bullet* pBullet)
         FP xOffset = {};
         if (mHealth <= FP_FromDouble(0.5))
         {
-            if (pBullet->field_30_x_distance > FP_FromInteger(0))
+            if (pBullet->mXDistance > FP_FromInteger(0))
             {
                 xOffset = mXPos - ScaleToGridSize(mSpriteScale);
             }
@@ -9174,7 +9174,7 @@ void Abe::BulletDamage_44C980(Bullet* pBullet)
         }
         else
         {
-            if (pBullet->field_30_x_distance > FP_FromInteger(0))
+            if (pBullet->mXDistance > FP_FromInteger(0))
             {
                 xOffset = mXPos - (ScaleToGridSize(mSpriteScale) * FP_FromInteger(2));
             }
@@ -9198,7 +9198,7 @@ void Abe::BulletDamage_44C980(Bullet* pBullet)
                 mScale == Scale::Fg ? kFgFloor : kBgFloor)
             == 1)
         {
-            if (pBullet->field_20_type != BulletType::ePossessedSligZBullet_1 && pBullet->field_20_type != BulletType::eZBullet_3)
+            if (pBullet->mBulletType != BulletType::ePossessedSligZBullet_1 && pBullet->mBulletType != BulletType::eZBullet_3)
             {
                 relive_new Spark(hitX, hitY, mSpriteScale, 9, -31, 159, SparkType::eSmallChantParticle_0);
                 New_Smoke_Particles(hitX, hitY, mSpriteScale, 3, 128u, 128u, 128u);
@@ -9209,13 +9209,13 @@ void Abe::BulletDamage_44C980(Bullet* pBullet)
 
     mBaseAliveGameObjectFlags.Set(Flags_114::e114_Bit1_bShot);
 
-    switch (pBullet->field_20_type)
+    switch (pBullet->mBulletType)
     {
         case BulletType::eSligPossessedOrUnderGlukkonCommand_0:
         case BulletType::eNormalBullet_2:
         {
             FP bloodXOffset = {};
-            if (pBullet->field_30_x_distance <= FP_FromInteger(0))
+            if (pBullet->mXDistance <= FP_FromInteger(0))
             {
                 bloodXOffset = FP_FromInteger(-24);
             }
@@ -9226,7 +9226,7 @@ void Abe::BulletDamage_44C980(Bullet* pBullet)
             
             relive_new Blood(
                 mXPos,
-                pBullet->field_2C_ypos,
+                pBullet->mYPos,
                 bloodXOffset,
                 FP_FromInteger(0),
                 mSpriteScale,
@@ -9237,14 +9237,14 @@ void Abe::BulletDamage_44C980(Bullet* pBullet)
                 case ShootKind::eEverythingElse_0:
                 {
                     ToKnockback_44E700(1, 1);
-                    if (mAnim.mFlags.Get(AnimFlags::eBit5_FlipX) != (pBullet->field_30_x_distance > FP_FromInteger(0)))
+                    if (mAnim.mFlags.Get(AnimFlags::eBit5_FlipX) != (pBullet->mXDistance > FP_FromInteger(0)))
                     {
                         mCurrentMotion = eAbeMotions::Motion_101_KnockForward_455420;
                     }
                     mBaseAliveGameObjectFlags.Set(Flags_114::e114_MotionChanged_Bit2);
                     mBaseAliveGameObjectFlags.Clear(Flags_114::e114_Bit1_bShot);
                     mVelX = mSpriteScale * FP_FromDouble(7.8);
-                    if (pBullet->field_30_x_distance < FP_FromInteger(0))
+                    if (pBullet->mXDistance < FP_FromInteger(0))
                     {
                         mVelX = -mSpriteScale;
                     }
@@ -9260,7 +9260,7 @@ void Abe::BulletDamage_44C980(Bullet* pBullet)
                 }
                 case ShootKind::eRolling_2:
                 {
-                    if (mAnim.mFlags.Get(AnimFlags::eBit5_FlipX) == (pBullet->field_30_x_distance > FP_FromInteger(0)))
+                    if (mAnim.mFlags.Get(AnimFlags::eBit5_FlipX) == (pBullet->mXDistance > FP_FromInteger(0)))
                     {
                         mNextMotion = eAbeMotions::Motion_74_RollingKnockback_455290;
                     }
@@ -9621,7 +9621,7 @@ s16 Abe::GetEvilFart_4585F0(s16 bDontLoad)
 
             const PSX_RECT bRect = pBrewMachine->VGetBoundingRect();
 
-            if (RectsOverlap(abeRect, bRect) && pBrewMachine->mSpriteScale == mSpriteScale && pBrewMachine->field_144_total_brew_count > 0 && mHasEvilFart == FALSE)
+            if (RectsOverlap(abeRect, bRect) && pBrewMachine->mSpriteScale == mSpriteScale && pBrewMachine->mTotalBrewCount > 0 && mHasEvilFart == FALSE)
             {
                 break;
             }
@@ -9643,7 +9643,7 @@ s16 Abe::GetEvilFart_4585F0(s16 bDontLoad)
     field_10_resources_array.SetAt(22, ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kEvilFartResID, TRUE, FALSE));
     field_10_resources_array.SetAt(23, ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kAbeblowResID, TRUE, FALSE));
     field_10_resources_array.SetAt(24, ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kExplo2ResID, TRUE, FALSE));
-    pBrewMachine->field_144_total_brew_count--;
+    pBrewMachine->mTotalBrewCount--;
     mHasEvilFart = TRUE;
 
     return 1;

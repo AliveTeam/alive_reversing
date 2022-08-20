@@ -125,7 +125,7 @@ s32 Animation_OnFrame_Slig_4C0600(BaseGameObject* pObj, s16* pData)
         shellDirection = 1;
     }
 
-    pBullet = relive_new Bullet(pSlig, bulletType, pSlig->mXPos, yOff + pSlig->mYPos, bullet_xDist, 0, pSlig->mSpriteScale, 0);
+    pBullet = relive_new Bullet(pSlig, bulletType, pSlig->mXPos, yOff + pSlig->mYPos, bullet_xDist, pSlig->mSpriteScale, 0);
     if (pBullet)
     {
         pBullet->SetUpdateDelay(1);
@@ -2198,7 +2198,6 @@ void Slig::M_ShootZ_42_4B7560()
             mXPos,
             mYPos - FP_FromInteger(12),
             FP_FromInteger(640),
-            0,
             mSpriteScale,
             field_218_tlv_data.mNumTimesToShoot - field_158_num_times_to_shoot - 1);
 
@@ -6667,23 +6666,23 @@ s16 Slig::VTakeDamage(BaseGameObject* pFrom)
             }
 
             auto pBullet = static_cast<Bullet*>(pFrom);
-            switch (pBullet->field_20_type)
+            switch (pBullet->mBulletType)
             {
                 case BulletType::eSligPossessedOrUnderGlukkonCommand_0:
                 case BulletType::eNormalBullet_2:
                 {
                     {
                         const FP yOff = FP_FromInteger(Math_NextRandom() % 16) - FP_FromInteger(8);
-                        const FP xOff = ((pBullet->field_30_x_distance <= FP_FromInteger(0) ? FP_FromInteger(-1) : FP_FromInteger(1)) * FP_FromInteger(Math_NextRandom() & 15)) + FP_FromInteger(16);
+                        const FP xOff = ((pBullet->mXDistance <= FP_FromInteger(0) ? FP_FromInteger(-1) : FP_FromInteger(1)) * FP_FromInteger(Math_NextRandom() & 15)) + FP_FromInteger(16);
                         const FP yPos = mYPos - (FP_FromInteger(25) * mSpriteScale);
-                        const FP xPos = mSpriteScale * (pBullet->field_30_x_distance <= FP_FromInteger(0) ? FP_FromInteger(-6) : FP_FromInteger(6));
+                        const FP xPos = mSpriteScale * (pBullet->mXDistance <= FP_FromInteger(0) ? FP_FromInteger(-6) : FP_FromInteger(6));
                         relive_new Blood(xPos + mXPos, yPos, xOff, yOff, mSpriteScale, 12);
                     }
 
                     {
-                        const FP xOff = pBullet->field_30_x_distance <= FP_FromInteger(0) ? FP_FromInteger(-6) : FP_FromInteger(6);
+                        const FP xOff = pBullet->mXDistance <= FP_FromInteger(0) ? FP_FromInteger(-6) : FP_FromInteger(6);
                         const FP yPos = mYPos - (FP_FromInteger(25) * mSpriteScale);
-                        const FP xPos = mSpriteScale * (pBullet->field_30_x_distance <= FP_FromInteger(0) ? FP_FromInteger(-12) : FP_FromInteger(12));
+                        const FP xPos = mSpriteScale * (pBullet->mXDistance <= FP_FromInteger(0) ? FP_FromInteger(-12) : FP_FromInteger(12));
                         relive_new Blood(xPos + mXPos, yPos, xOff, FP_FromInteger(0), mSpriteScale, 8);
                     }
                     break;
@@ -6744,7 +6743,7 @@ s16 Slig::VTakeDamage(BaseGameObject* pFrom)
                     field_150_explode_timer = sGnFrame + 20;
                     vShot_4B2EA0();
                     mBaseAliveGameObjectFlags.Set(Flags_114::e114_MotionChanged_Bit2);
-                    if (static_cast<Bullet*>(pFrom)->field_30_x_distance < FP_FromInteger(0))
+                    if (static_cast<Bullet*>(pFrom)->mXDistance < FP_FromInteger(0))
                     {
                         mVelX = FP_FromDouble(-0.001);
                         mHealth = FP_FromInteger(0);

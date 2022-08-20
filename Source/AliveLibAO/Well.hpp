@@ -65,15 +65,14 @@ public:
     virtual void VRender(PrimHeader** ppOt) override;
     virtual void VScreenChanged() override;
 
-    s32 field_D4[4] = {};
-    s32 field_E4_tlvInfo = 0;
-    s16 field_E8_switch_id = 0;
-    FP field_EC_scale = {};
-    FP field_F0_exit_x = {};
-    FP field_F4_exit_y = {};
-    FP field_F8_leaf_xpos = {};
-    FP field_FC_leaf_ypos = {};
-    Choice_short field_100_emit_leaves = Choice_short::eNo_0;
+    s32 mTlvInfo = 0;
+    s16 mSwitchId = 0;
+    FP mLeafScale = {};
+    FP mExitX = {};
+    FP mExitY = {};
+    FP mLeafX = {};
+    FP mLeafY = {};
+    Choice_short mEmitLeaves = Choice_short::eNo_0;
 };
 ALIVE_ASSERT_SIZEOF(Well, 0x104);
 

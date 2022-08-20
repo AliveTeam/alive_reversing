@@ -5,12 +5,13 @@
 #include "FixedPoint.hpp"
 #include "../relive_lib/Primitives.hpp"
 #include "../relive_lib/Layer.hpp"
+#include "../relive_lib/BaseAnimatedWithPhysicsGameObject.hpp"
 
 enum class ThrowableTotalIndicatorState : s16
 {
-    eCreated_0 = 0,
-    eFading_1 = 1,
-    eVanishing_2 = 2
+    eCreated = 0,
+    eFading = 1,
+    eVanishing = 2
 };
 
 class ThrowableTotalIndicator final : public BaseGameObject
@@ -24,23 +25,20 @@ public:
     virtual void VRender(PrimHeader** ppOt) override;
 
 private:
-    FP field_20_xpos = {};
-    FP field_24_ypos = {};
-    FP field_28_cur_xpos = {};
-    FP field_2C_cur_ypos = {};
-    FP field_30_xspeed = {};
-    FP field_34_yspeed = {};
-    FP field_38_scale = {};
-    FP field_3C_scale_speed = {};
-    Layer field_40_layer = Layer::eLayer_0;
-    s16 field_42_r = 0;
-    s16 field_44_g = 0;
-    s16 field_46_b = 0;
-    s16 field_48_num_to_show = 0;
-    Line_G2 field_4C_lines[2][6] = {};
-    Prim_SetTPage field_16C_tPage[2] = {};
-    ThrowableTotalIndicatorState field_18C_state = ThrowableTotalIndicatorState::eCreated_0;
-    s16 field_18E_bFade = 0;
+    FP mStartXPos = {};
+    FP mStartYPos = {};
+    FP mXPos = {};
+    FP mYPos = {};
+    FP mSpeedX = {};
+    FP mSpeedY = {};
+    FP mSpriteScale = {};
+    Layer mOtLayer = Layer::eLayer_0;
+    RGB16 mRGB;
+    s16 mNumToShow = 0;
+    Line_G2 mLines[2][6] = {};
+    Prim_SetTPage mTPage[2] = {};
+    ThrowableTotalIndicatorState mState = ThrowableTotalIndicatorState::eCreated;
+    s16 mFade = 0;
 };
 ALIVE_ASSERT_SIZEOF(ThrowableTotalIndicator, 0x190);
 

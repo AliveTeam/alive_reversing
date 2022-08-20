@@ -13,12 +13,12 @@ ScreenClipper::ScreenClipper(PSX_Point xy, PSX_Point wh, Layer layer)
     mBaseGameObjectFlags.Set(BaseGameObject::eUpdateDuringCamSwap_Bit10);
     mBaseGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4);
 
-    field_40_rect.x = xy.x;
-    field_40_rect.y = xy.y;
-    field_40_rect.w = wh.x;
-    field_40_rect.h = wh.y;
+    mRect.x = xy.x;
+    mRect.y = xy.y;
+    mRect.w = wh.x;
+    mRect.h = wh.y;
 
-    field_48_ot_layer = layer;
+    mOtLayer = layer;
 
     gObjListDrawables->Push_Back(this);
 }
@@ -37,10 +37,10 @@ void ScreenClipper::VRender(PrimHeader** ot)
 {
     PSX_RECT clipRect = {};
 
-    clipRect.x = field_40_rect.x;
-    clipRect.y = field_40_rect.y;
-    clipRect.w = field_40_rect.w - field_40_rect.x;
-    clipRect.h = field_40_rect.h - field_40_rect.y;
+    clipRect.x = mRect.x;
+    clipRect.y = mRect.y;
+    clipRect.w = mRect.w - mRect.x;
+    clipRect.h = mRect.h - mRect.y;
 
     if (gPsxDisplay.mBufferIndex)
     {
@@ -48,9 +48,9 @@ void ScreenClipper::VRender(PrimHeader** ot)
         clipRect.y += 256;
     }
 
-    Prim_PrimClipper* pClipper = &field_20_clippers[gPsxDisplay.mBufferIndex];
+    Prim_PrimClipper* pClipper = &mClippers[gPsxDisplay.mBufferIndex];
     Init_PrimClipper(pClipper, &clipRect);
-    OrderingTable_Add(OtLayer(ot, field_48_ot_layer), &pClipper->mBase);
+    OrderingTable_Add(OtLayer(ot, mOtLayer), &pClipper->mBase);
 }
 
 ScreenClipper::~ScreenClipper()
@@ -60,9 +60,9 @@ ScreenClipper::~ScreenClipper()
 
 void ScreenClipper::Update_Clip_Rect(PSX_Point xy, PSX_Point wh)
 {
-    field_40_rect.x = std::min(xy.x, field_40_rect.x);
-    field_40_rect.y = std::min(xy.y, field_40_rect.y);
+    mRect.x = std::min(xy.x, mRect.x);
+    mRect.y = std::min(xy.y, mRect.y);
 
-    field_40_rect.w = std::max(wh.x, field_40_rect.w);
-    field_40_rect.h = std::max(wh.y, field_40_rect.h);
+    mRect.w = std::max(wh.x, mRect.w);
+    mRect.h = std::max(wh.y, mRect.h);
 }

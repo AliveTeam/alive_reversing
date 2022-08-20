@@ -14,9 +14,9 @@ public:
     virtual void VRender(PrimHeader** ppOt) override;
 
 private:
-    Prim_ScreenOffset field_20_screenOffset[2] = {};
-    s16 field_40_shakeNumber = 0;
-    s16 field_42_enableShakeEvent = 0;
-    s16 field_44_softerShakes = 0;
+    Prim_ScreenOffset mScreenOffset[2] = {};
+    s16 mShakeNumber = 0;
+    bool mEnableShakeEvent = false;
+    bool mSofterShakes = false;
 };
 ALIVE_ASSERT_SIZEOF(ScreenShake, 0x4C);

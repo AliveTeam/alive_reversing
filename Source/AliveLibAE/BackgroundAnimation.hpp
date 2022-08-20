@@ -32,7 +32,7 @@ public:
 private:
     AnimationFileHeader** field_F4_res = nullptr;
     TlvItemInfoUnion field_F8_tlvInfo = {};
-    FP field_FC_animXPos = {};
-    FP field_100_animYPos = {};
+    FP mObjectXPos = {};
+    FP mObjectYPos = {};
 };
 ALIVE_ASSERT_SIZEOF(BackgroundAnimation, 0x104);

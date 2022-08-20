@@ -14,27 +14,26 @@
 
 namespace AO {
 
-Bullet::Bullet(BaseAliveGameObject* pParent, BulletType type, FP xpos, FP ypos, FP xDist, s32 unused, FP scale, s32 numberOfBullets)
+Bullet::Bullet(BaseAliveGameObject* pParent, BulletType type, FP xpos, FP ypos, FP xDist, FP scale, s32 numberOfBullets)
     : BaseGameObject(TRUE, 0)
 {
     mBaseGameObjectTypeId = ReliveTypes::eBullet;
-    field_10_type = type;
+    mBulletType = type;
     mXPos = xpos;
     mYPos = ypos;
-    mCurrentPath = gMap.mCurrentPath;
-    field_30_pParent = pParent;
-    mCurrentLevel = gMap.mCurrentLevel;
-    mScale = scale;
-    field_24_unused = unused;
-    field_34_number_of_bullets = static_cast<s16>(numberOfBullets);
-    field_20_x_distance = xDist;
+    mBulletPath = gMap.mCurrentPath;
+    mBulletParent = pParent;
+    mBulletLevel = gMap.mCurrentLevel;
+    mSpriteScale = scale;
+    mNumberOfBullets = static_cast<s16>(numberOfBullets);
+    mXDistance = xDist;
 }
 
 void Bullet::VUpdate()
 {
     if (!gMap.Is_Point_In_Current_Camera(
-            mCurrentLevel,
-            mCurrentPath,
+            mBulletLevel,
+            mBulletPath,
             mXPos,
             mYPos,
             0))
@@ -42,9 +41,9 @@ void Bullet::VUpdate()
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
         return;
     }
-    const s16 volume = mScale != FP_FromDouble(0.5) ? 75 : 50;
+    const s16 volume = mSpriteScale != FP_FromDouble(0.5) ? 75 : 50;
 
-    switch (field_10_type)
+    switch (mBulletType)
     {
         case BulletType::ePossessedSlig_0:
         case BulletType::eNormalBullet_1:
@@ -52,7 +51,7 @@ void Bullet::VUpdate()
             FP hitX = {};
             FP hitY = {};
             PSX_RECT shootRect = {};
-            if (field_20_x_distance > FP_FromInteger(0))
+            if (mXDistance > FP_FromInteger(0))
             {
                 shootRect.x = FP_GetExponent(mXPos);
                 shootRect.w = FP_GetExponent(mXPos) + 640;
@@ -70,12 +69,12 @@ void Bullet::VUpdate()
             if (sCollisions->Raycast(
                     mXPos,
                     mYPos,
-                    field_20_x_distance + mXPos,
+                    mXDistance + mXPos,
                     mYPos,
                     &mLine,
                     &hitX,
                     &hitY,
-                    mScale != FP_FromDouble(0.5) ? kFgWallsOrFloor : kBgWallsOrFloor))
+                    mSpriteScale != FP_FromDouble(0.5) ? kFgWallsOrFloor : kBgWallsOrFloor))
             {
                 FP distHit = {};
                 FP distShot = {};
@@ -87,15 +86,15 @@ void Bullet::VUpdate()
 
                 if (!pShotObj || (distShot > distHit))
                 {
-                    if (field_20_x_distance <= FP_FromInteger(0))
+                    if (mXDistance <= FP_FromInteger(0))
                     {
-                        relive_new Spark(hitX, hitY, mScale, 6u, -76, 76);
+                        relive_new Spark(hitX, hitY, mSpriteScale, 6u, -76, 76);
                     }
                     else
                     {
-                        relive_new Spark(hitX, hitY, mScale, 6u, 50, 205);
+                        relive_new Spark(hitX, hitY, mSpriteScale, 6u, 50, 205);
                     }
-                    New_Smoke_Particles_419A80(hitX, hitY, mScale, 3, 0);
+                    New_Smoke_Particles_419A80(hitX, hitY, mSpriteScale, 3, 0);
                     if (Math_RandomRange(0, 100) < 90 || Math_RandomRange(0, 128) >= 64)
                     {
                         SfxPlayMono(SoundEffect::Bullet2_2, volume, 0);
@@ -123,7 +122,7 @@ void Bullet::VUpdate()
 
             if (pShotObj->VTakeDamage(this))
             {
-                mScale == FP_FromInteger(1) ? PlayBulletSounds(90) : PlayBulletSounds(60);
+                mSpriteScale == FP_FromInteger(1) ? PlayBulletSounds(90) : PlayBulletSounds(60);
             }
             mBaseGameObjectFlags.Set(BaseGameObject::eDead);
             return;
@@ -144,11 +143,11 @@ void Bullet::VUpdate()
             {
                 if (mXPos >= sActiveHero->mXPos)
                 {
-                    distX_1 = sActiveHero->mXPos + FP_FromInteger(field_34_number_of_bullets * 16);
+                    distX_1 = sActiveHero->mXPos + FP_FromInteger(mNumberOfBullets * 16);
                 }
                 else
                 {
-                    distX_1 = sActiveHero->mXPos - FP_FromInteger(field_34_number_of_bullets * 16);
+                    distX_1 = sActiveHero->mXPos - FP_FromInteger(mNumberOfBullets * 16);
                 }
                 distX_2 = sActiveHero->mVelX * FP_FromInteger(2);
             }
@@ -241,11 +240,11 @@ BaseAliveGameObject* Bullet::ShootObject(PSX_RECT* pRect)
             break;
         }
 
-        if (pObjIter != field_30_pParent)
+        if (pObjIter != mBulletParent)
         {
             if (pObjIter->mAnim.mFlags.Get(AnimFlags::eBit3_Render))
             {
-                if ((field_10_type == BulletType::ePossessedSlig_0
+                if ((mBulletType == BulletType::ePossessedSlig_0
                      && (pObjIter->mBaseGameObjectTypeId == ReliveTypes::eSlig
                          || pObjIter->mBaseGameObjectTypeId == ReliveTypes::eMudokon
                          || pObjIter->mBaseGameObjectTypeId == ReliveTypes::eAbe
@@ -258,7 +257,7 @@ BaseAliveGameObject* Bullet::ShootObject(PSX_RECT* pRect)
                     const PSX_RECT bRect = pObjIter->VGetBoundingRect();
                     if (pRect->x <= bRect.w && pRect->w >= bRect.x && pRect->h >= bRect.y && pRect->y <= bRect.h)
                     {
-                        if (field_10_type == BulletType::eZBullet_2 || field_30_pParent->mSpriteScale == pObjIter->mSpriteScale)
+                        if (mBulletType == BulletType::eZBullet_2 || mBulletParent->mSpriteScale == pObjIter->mSpriteScale)
                         {
                             if (pObjectToShoot)
                             {

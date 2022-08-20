@@ -3297,14 +3297,14 @@ s16 Slog::VTakeDamage(BaseGameObject* pFrom)
         case ReliveTypes::eBullet:
         {
             auto pBullet = static_cast<Bullet*>(pFrom);
-            switch (pBullet->field_20_type)
+            switch (pBullet->mBulletType)
             {
                 case BulletType::eSligPossessedOrUnderGlukkonCommand_0:
                 case BulletType::eNormalBullet_2:
-                    if (pBullet->field_30_x_distance <= FP_FromInteger(0))
+                    if (pBullet->mXDistance <= FP_FromInteger(0))
                     {
                         relive_new Blood(mXPos,
-                                                    pBullet->field_2C_ypos,
+                                                    pBullet->mYPos,
                                                     FP_FromInteger(-24),
                                                     FP_FromInteger(0),
                                                     mSpriteScale, 50);
@@ -3312,7 +3312,7 @@ s16 Slog::VTakeDamage(BaseGameObject* pFrom)
                     else
                     {
                         relive_new Blood(mXPos,
-                                                    pBullet->field_2C_ypos,
+                                                    pBullet->mYPos,
                                                     FP_FromInteger(24),
                                                     FP_FromInteger(0),
                                                     mSpriteScale, 50);

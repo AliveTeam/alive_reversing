@@ -45,7 +45,6 @@ s32 Animation_OnFrame_Slig(BaseGameObject* pObj, s16* pData)
             pSlig->mXPos,
             yOff + pSlig->mYPos,
             FP_FromInteger(-640),
-            0,
             pSlig->mSpriteScale,
             0);
 
@@ -69,7 +68,6 @@ s32 Animation_OnFrame_Slig(BaseGameObject* pObj, s16* pData)
             pSlig->mXPos,
             yOff + pSlig->mYPos,
             FP_FromInteger(640),
-            0,
             pSlig->mSpriteScale,
             0);
 

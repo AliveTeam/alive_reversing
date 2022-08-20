@@ -23,8 +23,8 @@ BackgroundAnimation::BackgroundAnimation(Path_BackgroundAnimation* pTlv, TlvItem
     mXPos = FP_FromInteger(pTlv->mTopLeft.x);
     mYPos = FP_FromInteger(pTlv->mTopLeft.y);
 
-    field_FC_animXPos = FP_FromInteger(pTlv->mTopLeft.x);
-    field_100_animYPos = FP_FromInteger(pTlv->mTopLeft.y);
+    mObjectXPos = FP_FromInteger(pTlv->mTopLeft.x);
+    mObjectYPos = FP_FromInteger(pTlv->mTopLeft.y);
 
     Animation_Init(anim.mFrameTableOffset, anim.mMaxW, anim.mMaxH, reinterpret_cast<u8**>(field_F4_res));
 
@@ -59,8 +59,8 @@ void BackgroundAnimation::VUpdate()
     }
     else
     {
-        mXPos = FP_FromInteger(sTweakX_5C1BD0) + field_FC_animXPos;
-        mYPos = FP_FromInteger(sTweakY_5C1BD4) + field_100_animYPos;
+        mXPos = FP_FromInteger(sTweakX_5C1BD0) + mObjectXPos;
+        mYPos = FP_FromInteger(sTweakY_5C1BD4) + mObjectYPos;
     }
 }
 

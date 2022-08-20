@@ -10,26 +10,25 @@ enum class WheelStates : s16
     eTurning_1 = 1,
 };
 
-// TODO: restore padding fields
 struct WorkWheel_SaveState final
 {
     AETypes field_0_id;
-    // pad
+    s16 padding_1;
     s32 field_4_tlvInfo;
     s16 field_8_snd_counter;
-    // pad
+    s16 padding_2;
     WheelStates field_C_state;
-    s16 field_E_padding;
+    s16 padding_3;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(WorkWheel_SaveState, 0x10);
 
 struct Path_WorkWheel final : public Path_TLV
 {
-    Scale_short field_10_scale;
-    s16 field_12_switch_id;
-    s16 field_14_activation_time;
-    s16 field_16_off_time;
-    Choice_short field_18_turn_off_when_stopped;
+    Scale_short mScale;
+    s16 mSwitchId;
+    s16 mActivationTime;
+    s16 mTurnOffTime;
+    Choice_short mTurnOffWhenStopped;
     s16 field_20_pad;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_WorkWheel, 0x1C);
@@ -51,12 +50,12 @@ public:
     static s32 CreateFromSaveState(const u8* pState);
 
 private:
-    s32 field_F4_tlv_info = 0;
-    s16 field_F8_switch_id = 0;
-    WheelStates field_FC_state = WheelStates::eIdle_0;
-    s16 field_FE_activation_time = 0;
-    u16 field_100_on_counter = 0;
-    s16 field_102_off_time = 0;
-    Choice_short field_104_turn_off_when_stopped = Choice_short::eNo_0;
+    s32 mTlvInfo = 0;
+    s16 mSwitchId = 0;
+    WheelStates mState = WheelStates::eIdle_0;
+    s16 mActivationTime = 0;
+    u16 mTurningTime = 0;
+    s16 mTurnOffTime = 0;
+    Choice_short mTurnOffWhenStopped = Choice_short::eNo_0;
 };
 ALIVE_ASSERT_SIZEOF(WorkWheel, 0x108);

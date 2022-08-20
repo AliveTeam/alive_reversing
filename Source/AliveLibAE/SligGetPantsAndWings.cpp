@@ -12,7 +12,7 @@ SligGetPantsAndWings::SligGetPantsAndWings(Path_TLV* pTlv, s32 tlvInfo)
     : BaseAnimatedWithPhysicsGameObject(0)
 {
     SetType(ReliveTypes::eSligGetPantsOrWings);
-    field_F8_tlvInfo = tlvInfo;
+    mTlvInfo = tlvInfo;
 
     const AnimRecord& rec = AnimRec(AnimId::CrawlingSligLocker_Closed);
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
@@ -37,35 +37,35 @@ SligGetPantsAndWings::SligGetPantsAndWings(Path_TLV* pTlv, s32 tlvInfo)
 
 void SligGetPantsAndWings::VUpdate()
 {
-    Path_TLV* pTlv = sPathInfo->TLV_From_Offset_Lvl_Cam(field_F8_tlvInfo);
+    Path_TLV* pTlv = sPathInfo->TLV_From_Offset_Lvl_Cam(mTlvInfo);
     if (EventGet(kEventDeathReset))
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 
-    switch (field_F4_state)
+    switch (mState)
     {
-        case State::eWaiting_0:
+        case State::eWaiting:
             if (pTlv->mTlvState)
             {
-                field_F4_state = State::eActive_1;
-                field_FC_timer = sGnFrame + 8;
+                mState = State::eActive;
+                mTransformTimer = sGnFrame + 8;
             }
             break;
 
-        case State::eActive_1:
-            if (static_cast<s32>(sGnFrame) > field_FC_timer)
+        case State::eActive:
+            if (static_cast<s32>(sGnFrame) > mTransformTimer)
             {
-                field_F4_state = State::eFinished_2;
+                mState = State::eFinished;
                 SfxPlayMono(SoundEffect::NakedSligTransformEnd_92, 0);
                 mAnim.Set_Animation_Data(AnimId::CrawlingSligLocker_Open, nullptr);
             }
             break;
 
-        case State::eFinished_2:
+        case State::eFinished:
             if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
             {
-                field_F4_state = State::eWaiting_0;
+                mState = State::eWaiting;
                 mAnim.Set_Animation_Data(AnimId::CrawlingSligLocker_Closed, nullptr);
                 pTlv->mTlvState = 0;
             }
@@ -80,5 +80,5 @@ void SligGetPantsAndWings::VScreenChanged()
 
 SligGetPantsAndWings::~SligGetPantsAndWings()
 {
-    Path::TLV_Reset(field_F8_tlvInfo, 0, 0, 0);
+    Path::TLV_Reset(mTlvInfo, 0, 0, 0);
 }

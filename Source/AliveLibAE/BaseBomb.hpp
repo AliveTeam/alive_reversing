@@ -14,6 +14,6 @@ public:
     void DealDamageRect(const PSX_RECT* pRect);
 
 private:
-    FP field_f4_scale = {};
+    FP mBombSpriteScale = {};
 };
 ALIVE_ASSERT_SIZEOF(BaseBomb, 0xF8);

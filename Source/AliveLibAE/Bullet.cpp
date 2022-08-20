@@ -13,110 +13,108 @@
 #include "../relive_lib/ScreenManager.hpp"
 #include "Grid.hpp"
 
-Bullet::Bullet(BaseAliveGameObject* pParent, BulletType type, FP xpos, FP ypos, FP xDist, s32 unused, FP scale, s32 numberOfBullets)
+Bullet::Bullet(BaseAliveGameObject* pParent, BulletType type, FP xpos, FP ypos, FP xDist, FP scale, s32 numberOfBullets)
     : BaseGameObject(TRUE, 0)
 {
     SetType(ReliveTypes::eBullet);
-    field_20_type = type;
-    field_28_xpos = xpos;
-    field_2C_ypos = ypos;
-    field_3A_path = gMap.mCurrentPath;
-    field_40_pParent = pParent;
-    field_38_level = gMap.mCurrentLevel;
-    field_3C_scale = scale;
-    field_34_unused = unused;
-    field_44_number_of_bullets = static_cast<s16>(numberOfBullets);
-    field_30_x_distance = xDist;
-    field_22_unused = 0;
+    mBulletType = type;
+    mXPos = xpos;
+    mYPos = ypos;
+    mBulletPath = gMap.mCurrentPath;
+    mBulletParent = pParent;
+    mBulletLevel = gMap.mCurrentLevel;
+    mSpriteScale = scale;
+    mNumberOfBullets = static_cast<s16>(numberOfBullets);
+    mXDistance = xDist;
 }
 
 void Bullet::VUpdate()
 {
-    if (!gMap.Is_Point_In_Current_Camera(field_38_level, field_3A_path, field_28_xpos, field_2C_ypos, 0) && !gMap.Is_Point_In_Current_Camera(field_38_level, field_3A_path, field_28_xpos + FP_FromInteger(10), field_2C_ypos, 0) && !gMap.Is_Point_In_Current_Camera(field_38_level, field_3A_path, field_28_xpos - FP_FromInteger(10), field_2C_ypos, 0))
+    if (!gMap.Is_Point_In_Current_Camera(mBulletLevel, mBulletPath, mXPos, mYPos, 0) && !gMap.Is_Point_In_Current_Camera(mBulletLevel, mBulletPath, mXPos + FP_FromInteger(10), mYPos, 0) && !gMap.Is_Point_In_Current_Camera(mBulletLevel, mBulletPath, mXPos - FP_FromInteger(10), mYPos, 0))
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
         return;
     }
 
-    const s16 volume = field_3C_scale != FP_FromDouble(0.5) ? 75 : 50;
+    const s16 volume = mSpriteScale != FP_FromDouble(0.5) ? 75 : 50;
 
-    switch (field_20_type)
+    switch (mBulletType)
     {
         case BulletType::eSligPossessedOrUnderGlukkonCommand_0:
         case BulletType::eNormalBullet_2:
         {
-            s32 randomW = FP_GetExponent(FP_FromInteger(Math_RandomRange(1, 5)) * field_3C_scale);
-            const FP randomHeight = FP_FromInteger(Math_RandomRange(1, 5)) * field_3C_scale;
+            s32 randomW = FP_GetExponent(FP_FromInteger(Math_RandomRange(1, 5)) * mSpriteScale);
+            const FP randomHeight = FP_FromInteger(Math_RandomRange(1, 5)) * mSpriteScale;
 
             PSX_RECT shootRect = {};
-            if (field_30_x_distance > FP_FromInteger(0))
+            if (mXDistance > FP_FromInteger(0))
             {
-                shootRect.x = FP_GetExponent(field_28_xpos);
+                shootRect.x = FP_GetExponent(mXPos);
                 shootRect.w = FP_GetExponent(pScreenManager->CamXPos() + FP_FromInteger(640));
             }
             else
             {
                 shootRect.x = FP_GetExponent(pScreenManager->CamXPos());
-                shootRect.w = FP_GetExponent(field_28_xpos);
+                shootRect.w = FP_GetExponent(mXPos);
             }
 
-            shootRect.y = FP_GetExponent(field_2C_ypos - FP_FromInteger(5));
-            shootRect.h = FP_GetExponent(field_2C_ypos + FP_FromInteger(5)); // TODO: Check correct
+            shootRect.y = FP_GetExponent(mYPos - FP_FromInteger(5));
+            shootRect.h = FP_GetExponent(mYPos + FP_FromInteger(5)); // TODO: Check correct
 
             if (sControlledCharacter->Type() == ReliveTypes::eAbe)
             {
-                shootRect.y = FP_GetExponent(field_2C_ypos - FP_FromInteger(10));
+                shootRect.y = FP_GetExponent(mYPos - FP_FromInteger(10));
             }
 
             BaseAliveGameObject* pShotObj = ShootObject(&shootRect);
 
-            const s16 vol = field_3C_scale != FP_FromDouble(0.5) ? 90 : 60;
+            const s16 vol = mSpriteScale != FP_FromDouble(0.5) ? 90 : 60;
 
             FP hitX = {};
             FP hitY = {};
             if (sCollisions->Raycast(
-                    field_28_xpos,
-                    field_2C_ypos - (FP_FromInteger(10) * field_3C_scale),
-                    field_30_x_distance + field_28_xpos,
-                    field_2C_ypos - (FP_FromInteger(10) * field_3C_scale),
-                    &field_24_pLine,
+                    mXPos,
+                    mYPos - (FP_FromInteger(10) * mSpriteScale),
+                    mXDistance + mXPos,
+                    mYPos - (FP_FromInteger(10) * mSpriteScale),
+                    &mLine,
                     &hitX,
                     &hitY,
-                    field_3C_scale > FP_FromDouble(0.5) ? kFgFloorCeilingOrWalls : kBgFloorCeilingOrWalls)
+                    mSpriteScale > FP_FromDouble(0.5) ? kFgFloorCeilingOrWalls : kBgFloorCeilingOrWalls)
                 == 1)
             {
                 if (pShotObj)
                 {
-                    if (FP_Abs(pShotObj->mXPos - field_28_xpos) <= FP_Abs(hitX - field_28_xpos))
+                    if (FP_Abs(pShotObj->mXPos - mXPos) <= FP_Abs(hitX - mXPos))
                     {
                         if (pShotObj->Type() == ReliveTypes::eMineCar || pShotObj->Type() == ReliveTypes::eGreeter)
                         {
                             if (pShotObj->Type() == ReliveTypes::eGreeter)
                             {
-                                randomW = FP_GetExponent(FP_FromInteger(randomW) + (FP_FromInteger(14) * field_3C_scale));
+                                randomW = FP_GetExponent(FP_FromInteger(randomW) + (FP_FromInteger(14) * mSpriteScale));
                             }
 
-                            if (field_30_x_distance <= FP_FromInteger(0))
+                            if (mXDistance <= FP_FromInteger(0))
                             {
                                 relive_new Spark(
-                                    pShotObj->mXPos + (field_3C_scale * FP_FromInteger(30)) - FP_FromInteger(randomW),
-                                    field_2C_ypos + FP_NoFractional(randomHeight),
-                                    field_3C_scale, 6, -76, 76, SparkType::eSmallChantParticle_0);
+                                    pShotObj->mXPos + (mSpriteScale * FP_FromInteger(30)) - FP_FromInteger(randomW),
+                                    mYPos + FP_NoFractional(randomHeight),
+                                    mSpriteScale, 6, -76, 76, SparkType::eSmallChantParticle_0);
                                 New_Smoke_Particles(
-                                    pShotObj->mXPos + (field_3C_scale * FP_FromInteger(30)) - FP_FromInteger(randomW),
-                                    field_2C_ypos + FP_NoFractional(randomHeight),
-                                    field_3C_scale, 3, 128u, 128u, 128u);
+                                    pShotObj->mXPos + (mSpriteScale * FP_FromInteger(30)) - FP_FromInteger(randomW),
+                                    mYPos + FP_NoFractional(randomHeight),
+                                    mSpriteScale, 3, 128u, 128u, 128u);
                             }
                             else
                             {
                                 relive_new Spark(
-                                    pShotObj->mXPos + FP_FromInteger(randomW) - (field_3C_scale * FP_FromInteger(30)),
-                                    field_2C_ypos + FP_NoFractional(randomHeight),
-                                    field_3C_scale, 6, 50, 205, SparkType::eSmallChantParticle_0);
+                                    pShotObj->mXPos + FP_FromInteger(randomW) - (mSpriteScale * FP_FromInteger(30)),
+                                    mYPos + FP_NoFractional(randomHeight),
+                                    mSpriteScale, 6, 50, 205, SparkType::eSmallChantParticle_0);
                                 New_Smoke_Particles(
-                                    pShotObj->mXPos + FP_FromInteger(randomW) - (field_3C_scale * FP_FromInteger(30)),
-                                    field_2C_ypos + FP_NoFractional(randomHeight),
-                                    field_3C_scale, 3, 128u, 128u, 128u);
+                                    pShotObj->mXPos + FP_FromInteger(randomW) - (mSpriteScale * FP_FromInteger(30)),
+                                    mYPos + FP_NoFractional(randomHeight),
+                                    mSpriteScale, 3, 128u, 128u, 128u);
                             }
 
                             if (Math_RandomRange(0, 100) < 90)
@@ -137,21 +135,21 @@ void Bullet::VUpdate()
                     }
                 }
 
-                if (field_30_x_distance <= FP_FromInteger(0))
+                if (mXDistance <= FP_FromInteger(0))
                 {
                     relive_new Spark(
-                        hitX - (field_3C_scale * FP_FromInteger(6)),
-                        (FP_FromInteger(10) * field_3C_scale) + hitY,
-                        field_3C_scale, 6, -76, 76, SparkType::eSmallChantParticle_0);
-                    New_Smoke_Particles(hitX - (field_3C_scale * FP_FromInteger(6)), hitY, field_3C_scale, 3, 128u, 128u, 128u);
+                        hitX - (mSpriteScale * FP_FromInteger(6)),
+                        (FP_FromInteger(10) * mSpriteScale) + hitY,
+                        mSpriteScale, 6, -76, 76, SparkType::eSmallChantParticle_0);
+                    New_Smoke_Particles(hitX - (mSpriteScale * FP_FromInteger(6)), hitY, mSpriteScale, 3, 128u, 128u, 128u);
                 }
                 else
                 {
                     relive_new Spark(
-                        hitX + (field_3C_scale * FP_FromInteger(7)),
-                        (FP_FromInteger(10) * field_3C_scale) + hitY,
-                        field_3C_scale, 6, 50, 205, SparkType::eSmallChantParticle_0);
-                    New_Smoke_Particles(hitX + (field_3C_scale * FP_FromInteger(7)), hitY, field_3C_scale, 3, 128u, 128u, 128u);
+                        hitX + (mSpriteScale * FP_FromInteger(7)),
+                        (FP_FromInteger(10) * mSpriteScale) + hitY,
+                        mSpriteScale, 6, 50, 205, SparkType::eSmallChantParticle_0);
+                    New_Smoke_Particles(hitX + (mSpriteScale * FP_FromInteger(7)), hitY, mSpriteScale, 3, 128u, 128u, 128u);
                 }
 
                 if (Math_RandomRange(0, 100) < 90)
@@ -168,35 +166,35 @@ void Bullet::VUpdate()
                 {
                     if (pShotObj->Type() == ReliveTypes::eGreeter)
                     {
-                        randomW = FP_GetExponent(FP_FromInteger(randomW) + (FP_FromInteger(14) * field_3C_scale));
+                        randomW = FP_GetExponent(FP_FromInteger(randomW) + (FP_FromInteger(14) * mSpriteScale));
                     }
 
-                    if (field_30_x_distance <= FP_FromInteger(0))
+                    if (mXDistance <= FP_FromInteger(0))
                     {
 
                         relive_new Spark(
-                            (field_3C_scale * FP_FromInteger(30)) + pShotObj->mXPos - FP_FromInteger(randomW),
-                            field_2C_ypos + FP_NoFractional(randomHeight),
-                            field_3C_scale, 6, -76, 76, SparkType::eSmallChantParticle_0);
+                            (mSpriteScale * FP_FromInteger(30)) + pShotObj->mXPos - FP_FromInteger(randomW),
+                            mYPos + FP_NoFractional(randomHeight),
+                            mSpriteScale, 6, -76, 76, SparkType::eSmallChantParticle_0);
 
                         New_Smoke_Particles(
-                            (field_3C_scale * FP_FromInteger(30)) + pShotObj->mXPos - FP_FromInteger(randomW),
-                            field_2C_ypos + FP_NoFractional(randomHeight),
-                            field_3C_scale, 3, 128u, 128u, 128u);
+                            (mSpriteScale * FP_FromInteger(30)) + pShotObj->mXPos - FP_FromInteger(randomW),
+                            mYPos + FP_NoFractional(randomHeight),
+                            mSpriteScale, 3, 128u, 128u, 128u);
                     }
                     else
                     {
 
                         relive_new Spark(
-                            FP_FromInteger(randomW) + pShotObj->mXPos - (field_3C_scale * FP_FromInteger(30)),
-                            field_2C_ypos + FP_NoFractional(randomHeight),
-                            field_3C_scale, 6, 50, 205, SparkType::eSmallChantParticle_0);
+                            FP_FromInteger(randomW) + pShotObj->mXPos - (mSpriteScale * FP_FromInteger(30)),
+                            mYPos + FP_NoFractional(randomHeight),
+                            mSpriteScale, 6, 50, 205, SparkType::eSmallChantParticle_0);
 
 
                         New_Smoke_Particles(
-                            FP_FromInteger(randomW) + pShotObj->mXPos - (field_3C_scale * FP_FromInteger(30)),
-                            field_2C_ypos + FP_NoFractional(randomHeight),
-                            field_3C_scale, 3, 128u, 128u, 128u);
+                            FP_FromInteger(randomW) + pShotObj->mXPos - (mSpriteScale * FP_FromInteger(30)),
+                            mYPos + FP_NoFractional(randomHeight),
+                            mSpriteScale, 3, 128u, 128u, 128u);
                     }
 
                     if (Math_RandomRange(0, 100) < 90)
@@ -253,7 +251,7 @@ void Bullet::VUpdate()
                     FP_FromInteger(rect.y),
                     sControlledCharacter->mXPos,
                     FP_FromInteger(rect.h),
-                    &field_24_pLine, &hitX, &hitY, CollisionMask(eBulletWall_10))
+                    &mLine, &hitX, &hitY, CollisionMask(eBulletWall_10))
                 == 1)
             {
                 relive_new Spark(hitX, hitY, FP_FromInteger(1), 9, -31, 159, SparkType::eSmallChantParticle_0);
@@ -268,15 +266,15 @@ void Bullet::VUpdate()
         {
             FP rectXPos = {};
             // TODO: Check field_44_number_of_bullets << 20 is FP_FromInt * 16.
-            if (field_28_xpos >= sControlledCharacter->mXPos)
+            if (mXPos >= sControlledCharacter->mXPos)
             {
                 const FP doubleVelX = (sControlledCharacter->mVelX * FP_FromInteger(2));
-                rectXPos = (FP_FromInteger(field_44_number_of_bullets * 16)) + sControlledCharacter->mXPos - doubleVelX;
+                rectXPos = (FP_FromInteger(mNumberOfBullets * 16)) + sControlledCharacter->mXPos - doubleVelX;
             }
             else
             {
                 const FP doubleVelX = (sControlledCharacter->mVelX * FP_FromInteger(2));
-                rectXPos = sControlledCharacter->mXPos - doubleVelX - (FP_FromInteger(field_44_number_of_bullets * 16));
+                rectXPos = sControlledCharacter->mXPos - doubleVelX - (FP_FromInteger(mNumberOfBullets * 16));
             }
 
             PSX_RECT rect = sControlledCharacter->VGetBoundingRect();
@@ -295,11 +293,11 @@ void Bullet::VUpdate()
                 FP hitX = {};
                 FP hitY = {};
                 if (sCollisions->Raycast(
-                        field_28_xpos,
-                        field_2C_ypos,
+                        mXPos,
+                        mYPos,
                         rectXPos,
                         sActiveHero->mYPos + FP_FromInteger(10),
-                        &field_24_pLine, &hitX, &hitY, CollisionMask(eBulletWall_10))
+                        &mLine, &hitX, &hitY, CollisionMask(eBulletWall_10))
                     == 1)
                 {
                     relive_new Spark(hitX, hitY, FP_FromInteger(1), 9, -31, 159, SparkType::eSmallChantParticle_0);
@@ -365,13 +363,13 @@ BaseAliveGameObject* Bullet::ShootObject(PSX_RECT* pRect)
             break;
         }
 
-        if (pObj != field_40_pParent)
+        if (pObj != mBulletParent)
         {
             if (pObj->mAnim.mFlags.Get(AnimFlags::eBit3_Render))
             {
-                if (gMap.Is_Point_In_Current_Camera(field_38_level, field_3A_path, pObj->mXPos, pObj->mYPos, 1))
+                if (gMap.Is_Point_In_Current_Camera(mBulletLevel, mBulletPath, pObj->mXPos, pObj->mYPos, 1))
                 {
-                    if (((field_20_type == BulletType::eSligPossessedOrUnderGlukkonCommand_0 || field_20_type == BulletType::ePossessedSligZBullet_1) && ((pObj->Type() == ReliveTypes::eSlig && pObj->mCurrentMotion != eSligMotions::M_Possess_37_4B72C0) || pObj->Type() == ReliveTypes::eFlyingSlig || pObj->Type() == ReliveTypes::eCrawlingSlig || pObj->Type() == ReliveTypes::eGlukkon || pObj->Type() == ReliveTypes::eMudokon || pObj->Type() == ReliveTypes::eAbe || pObj->Type() == ReliveTypes::eSlog || pObj->Type() == ReliveTypes::eGreeter)) ||
+                    if (((mBulletType == BulletType::eSligPossessedOrUnderGlukkonCommand_0 || mBulletType == BulletType::ePossessedSligZBullet_1) && ((pObj->Type() == ReliveTypes::eSlig && pObj->mCurrentMotion != eSligMotions::M_Possess_37_4B72C0) || pObj->Type() == ReliveTypes::eFlyingSlig || pObj->Type() == ReliveTypes::eCrawlingSlig || pObj->Type() == ReliveTypes::eGlukkon || pObj->Type() == ReliveTypes::eMudokon || pObj->Type() == ReliveTypes::eAbe || pObj->Type() == ReliveTypes::eSlog || pObj->Type() == ReliveTypes::eGreeter)) ||
 
                         pObj->Type() == ReliveTypes::eMudokon || pObj->Type() == ReliveTypes::eAbe || pObj->Type() == ReliveTypes::eMineCar || (pObj->Type() == ReliveTypes::eSlig && sControlledCharacter == pObj) || (pObj->Type() == ReliveTypes::eFlyingSlig && sControlledCharacter == pObj) || (pObj->Type() == ReliveTypes::eCrawlingSlig && sControlledCharacter == pObj) || (pObj->Type() == ReliveTypes::eGlukkon && sControlledCharacter == pObj))
                     {
@@ -379,15 +377,15 @@ BaseAliveGameObject* Bullet::ShootObject(PSX_RECT* pRect)
 
                         if (pRect->x <= bRect.w && pRect->w >= bRect.x && pRect->h >= bRect.y && pRect->y <= bRect.h)
                         {
-                            if (((field_20_type == BulletType::eZBullet_3 || field_20_type == BulletType::ePossessedSligZBullet_1) && field_40_pParent->mScale < pObj->mScale) || ((field_20_type == BulletType::eNormalBullet_2 || field_20_type == BulletType::eSligPossessedOrUnderGlukkonCommand_0) && field_40_pParent->mScale == pObj->mScale))
+                            if (((mBulletType == BulletType::eZBullet_3 || mBulletType == BulletType::ePossessedSligZBullet_1) && mBulletParent->mScale < pObj->mScale) || ((mBulletType == BulletType::eNormalBullet_2 || mBulletType == BulletType::eSligPossessedOrUnderGlukkonCommand_0) && mBulletParent->mScale == pObj->mScale))
                             {
-                                if (pObj->Type() != ReliveTypes::eGlukkon || FP_Abs(pObj->mXPos - field_28_xpos) >= ScaleToGridSize(field_3C_scale))
+                                if (pObj->Type() != ReliveTypes::eGlukkon || FP_Abs(pObj->mXPos - mXPos) >= ScaleToGridSize(mSpriteScale))
                                 {
                                     if (!pObjectToShoot)
                                     {
                                         pObjectToShoot = pObj;
                                     }
-                                    else if (FP_Abs(pObj->mXPos - field_28_xpos) < FP_Abs(pObjectToShoot->mXPos - field_28_xpos))
+                                    else if (FP_Abs(pObj->mXPos - mXPos) < FP_Abs(pObjectToShoot->mXPos - mXPos))
                                     {
                                         pObjectToShoot = pObj;
                                     }

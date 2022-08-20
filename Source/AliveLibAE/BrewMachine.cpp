@@ -43,8 +43,8 @@ BrewMachine::BrewMachine(Path_BrewMachine* pTlv, s32 tlvInfo)
 {
     SetType(ReliveTypes::eBrewMachine);
 
-    field_F4_font_context.LoadFontType_433400(2);
-    field_104_font.ctor_433590(3, fontPalette_550F08, &field_F4_font_context);
+    mFontContext.LoadFontType_433400(2);
+    mFont.ctor_433590(3, fontPalette_550F08, &mFontContext);
 
     const AnimRecord& rec = AnimRec(AnimId::BrewMachine_Button);
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
@@ -55,45 +55,45 @@ BrewMachine::BrewMachine(Path_BrewMachine* pTlv, s32 tlvInfo)
     Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kAbeblowResID);
 
     mVisualFlags.Clear(VisualFlags::eApplyShadowZoneColour);
-    field_140_tlvInfo = tlvInfo;
+    mTlvInfo = tlvInfo;
     mAnim.mRenderLayer = Layer::eLayer_Well_23;
-    field_1E4_remaining_brew_count = pTlv->field_10_brew_count;
+    mRemainingBrewCount = pTlv->mBrewCount;
 
     const u8 savedBrewCount = pTlv->mTlvState;
     if (savedBrewCount == 0)
     {
-        field_144_total_brew_count = field_1E4_remaining_brew_count;
+        mTotalBrewCount = mRemainingBrewCount;
     }
     else if (savedBrewCount > 30)
     {
-        field_144_total_brew_count = 0;
+        mTotalBrewCount = 0;
     }
     else
     {
-        field_144_total_brew_count = savedBrewCount;
+        mTotalBrewCount = savedBrewCount;
     }
 
-    field_13C_textX = FP_GetExponent((FP_FromInteger(pTlv->mTopLeft.x + 5) - pScreenManager->CamXPos()));
-    field_13E_textY = FP_GetExponent((FP_FromInteger(pTlv->mTopLeft.y + 10) - pScreenManager->CamYPos()));
+    mTextX = FP_GetExponent((FP_FromInteger(pTlv->mTopLeft.x + 5) - pScreenManager->CamXPos()));
+    mTextY = FP_GetExponent((FP_FromInteger(pTlv->mTopLeft.y + 10) - pScreenManager->CamYPos()));
     mXPos = FP_FromInteger((pTlv->mTopLeft.x + pTlv->mBottomRight.x) / 2);
     mYPos = FP_FromInteger(pTlv->mTopLeft.y);
 
-    field_1E6_cam_id = gMap.mCurrentCamera;
+    mBrewMachineCamera = gMap.mCurrentCamera;
 }
 
 BrewMachine::~BrewMachine()
 {
-    Path::TLV_Reset(field_140_tlvInfo, -1, 0, 0);
-    field_104_font.dtor_433540();
-    field_F4_font_context.dtor_433510();
+    Path::TLV_Reset(mTlvInfo, -1, 0, 0);
+    mFont.dtor_433540();
+    mFontContext.dtor_433510();
 }
 
 void BrewMachine::VUpdate()
 {
-    Path_BrewMachine* pTlv = static_cast<Path_BrewMachine*>(sPathInfo->TLV_From_Offset_Lvl_Cam(field_140_tlvInfo));
-    if (field_144_total_brew_count > 0)
+    Path_BrewMachine* pTlv = static_cast<Path_BrewMachine*>(sPathInfo->TLV_From_Offset_Lvl_Cam(mTlvInfo));
+    if (mTotalBrewCount > 0)
     {
-        pTlv->mTlvState = static_cast<u8>(field_144_total_brew_count);
+        pTlv->mTlvState = static_cast<u8>(mTotalBrewCount);
     }
     else
     {
@@ -108,22 +108,22 @@ void BrewMachine::VUpdate()
 
 void BrewMachine::VRender(PrimHeader** ppOt)
 {
-    if (gMap.mCurrentCamera == field_1E6_cam_id)
+    if (gMap.mCurrentCamera == mBrewMachineCamera)
     {
         char_type text[12] = {};
-        sprintf(text, "%02d", field_144_total_brew_count);
-        const s32 textWidth = field_104_font.MeasureTextWidth(text);
+        sprintf(text, "%02d", mTotalBrewCount);
+        const s32 textWidth = mFont.MeasureTextWidth(text);
         s16 flickerAmount = 50;
         if (sDisableFontFlicker_5C9304)
         {
             flickerAmount = 0;
         }
 
-        field_104_font.DrawString_4337D0(
+        mFont.DrawString_4337D0(
             ppOt,
             text,
-            field_13C_textX,
-            field_13E_textY,
+            mTextX,
+            mTextY,
             TPageAbr::eBlend_1,
             1,
             0,
@@ -133,13 +133,13 @@ void BrewMachine::VRender(PrimHeader** ppOt)
             127,
             0,
             FP_FromInteger(1),
-            field_13C_textX + textWidth,
+            mTextX + textWidth,
             flickerAmount);
 
         const s32 v5 = 5 * textWidth;
         pScreenManager->InvalidateRectCurrentIdx(
-            PsxToPCX(field_13C_textX),
-            field_13E_textY,
+            PsxToPCX(mTextX),
+            mTextY,
             PsxToPCX(8 * v5),
             16);
     }

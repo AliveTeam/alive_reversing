@@ -403,8 +403,8 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_WellExpress, 0x34);
 
 struct Path_Alarm final : public Path_TLV
 {
-    s16 field_10_switch_id;
-    u16 field_12_duration;
+    s16 mSwitchId;
+    u16 mAlarmDuration;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Alarm, 0x14);
 

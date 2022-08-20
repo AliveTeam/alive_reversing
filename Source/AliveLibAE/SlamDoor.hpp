@@ -5,13 +5,13 @@
 #include "Factory.hpp"
 #include "Path.hpp"
 
-enum SlamDoor_Flags_118
+enum SlamDoorFlags
 {
-    e118_Bit1_bClosed = 0x1,
-    e118_Bit2_Open = 0x2,
-    e118_Bit3_bLastFrame = 0x4,
-    e118_Bit4_Inverted = 0x8,
-    e118_Bit5_Delete = 0x10,
+    eClosed = 0x1,
+    eOpen = 0x2,
+    eLastFrame = 0x4,
+    eFlipY = 0x8,
+    eDelete = 0x10,
 };
 
 struct Path_SlamDoor final : public Path_TLV
@@ -44,12 +44,12 @@ private:
     void ClearInsideSlamDoor(BaseAliveGameObject* pObj, s16 xPosition, s16 width);
 
 private:
-    BitField16<SlamDoor_Flags_118> field_118_flags = {};
-    PathLine* field_11C_pCollisionLine_6_2 = nullptr;
-    PathLine* field_120_pCollisionLine_5_1 = nullptr;
-    s16 field_124_x1 = 0;
-    s16 field_126_y1 = 0;
-    s16 field_128_switch_id = 0;
-    TlvItemInfoUnion field_12C_tlvInfo = {};
+    BitField16<SlamDoorFlags> mSlamDoorFlags = {};
+    PathLine* mCollisionLine1 = nullptr;
+    PathLine* mCollisionLine2 = nullptr;
+    s16 mCollisionX = 0;
+    s16 mCollisionY = 0;
+    s16 mSwitchId = 0;
+    TlvItemInfoUnion mTlvInfo = {};
 };
 ALIVE_ASSERT_SIZEOF(SlamDoor, 0x134);

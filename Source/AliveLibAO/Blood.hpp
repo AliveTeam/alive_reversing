@@ -14,8 +14,8 @@ struct BloodParticle final
 {
     FP x;
     FP y;
-    FP field_8_offx;
-    FP field_C_offy;
+    FP mOffX;
+    FP mOffY;
     Prim_Sprt field_10_prims[2];
 };
 ALIVE_ASSERT_SIZEOF(BloodParticle, 0x40);
@@ -30,17 +30,17 @@ public:
     virtual void VScreenChanged() override;
     virtual void VRender(PrimHeader** ppOt) override;
 
-    u8** field_E4_ppResBuf = nullptr;
-    BloodParticle* field_E8_pResBuf = nullptr;
-    Prim_SetTPage field_EC_tPages[2] = {};
-    TPageMode field_10C_texture_mode = TPageMode::e4Bit_0;
-    s16 field_10E_xpos = 0;
-    s16 field_110_ypos = 0;
-    s16 field_112_to_render_count = 0;
-    u8 field_114_rand_seed = 0;
-    s16 field_116_total_count = 0;
-    s32 field_118_timer = 0;
-    Layer field_11C_render_layer = Layer::eLayer_0;
+    u8** mResBuf = nullptr;
+    BloodParticle* mBloodParticle = nullptr;
+    Prim_SetTPage mTPages[2] = {};
+    TPageMode mTextureMode = TPageMode::e4Bit_0;
+    s16 mBloodXPos = 0;
+    s16 mBloodYPos = 0;
+    s16 mCurrentBloodCount = 0;
+    u8 mRandSeed = 0;
+    s16 mTotalBloodCount = 0;
+    s32 mUpdateCalls = 0;
+    Layer mOtLayer = Layer::eLayer_0;
 };
 ALIVE_ASSERT_SIZEOF(Blood, 0x120);
 

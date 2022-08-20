@@ -50,11 +50,11 @@ private:
 
 private:
     s16 mInputSwitchId = 0;
-    TimerTriggerStates field_22_state = TimerTriggerStates::eWaitForEnabled_0;
+    TimerTriggerStates mState = TimerTriggerStates::eWaitForEnabled_0;
     s16 mOutputSwitchIds[4] = {};
-    s32 field_2C_tlvInfo = 0;
+    s32 mTlvInfo = 0;
     s32 mActivationDelayTimer = 0;
     s32 mActivationDelay = 0;
-    s16 field_38_starting_switch_state = 0;
+    s16 mStartingSwitchState = 0;
 };
 ALIVE_ASSERT_SIZEOF(TimerTrigger, 0x3C);
