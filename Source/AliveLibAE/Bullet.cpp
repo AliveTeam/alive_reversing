@@ -349,15 +349,15 @@ bool Bullet::InZBulletCover(FP xpos, FP ypos, const PSX_RECT& objRect)
 
 BaseAliveGameObject* Bullet::ShootObject(PSX_RECT* pRect)
 {
-    if (!gBaseAliveGameObjects_5C1B7C)
+    if (!gBaseAliveGameObjects)
     {
         return nullptr;
     }
 
     BaseAliveGameObject* pObjectToShoot = nullptr;
-    for (s32 i = 0; i < gBaseAliveGameObjects_5C1B7C->Size(); i++)
+    for (s32 i = 0; i < gBaseAliveGameObjects->Size(); i++)
     {
-        BaseAliveGameObject* pObj = gBaseAliveGameObjects_5C1B7C->ItemAt(i);
+        BaseAliveGameObject* pObj = gBaseAliveGameObjects->ItemAt(i);
         if (!pObj)
         {
             break;

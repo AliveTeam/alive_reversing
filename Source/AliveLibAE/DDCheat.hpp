@@ -114,4 +114,4 @@ ALIVE_VAR_EXTERN(s32, sTweakY_5C1BD4);
 ALIVE_VAR_EXTERN(s16, sVisitedBonewerks_5C1C02);
 ALIVE_VAR_EXTERN(s16, sVisitedBarracks_5C1C04);
 ALIVE_VAR_EXTERN(s16, sVisitedFeecoEnder_5C1C06);
-ALIVE_VAR_EXTERN(bool, sDDCheat_ShowAI_Info_5C1BD8);
+ALIVE_VAR_EXTERN(bool, sDDCheat_ShowAI_Info);

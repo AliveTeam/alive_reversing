@@ -7033,9 +7033,9 @@ s16 Mudokon::IAmNearestToAbe()
         FP_GetExponent(mXPos),
         FP_GetExponent(mYPos));
 
-    for (s32 i = 0; i < gBaseAliveGameObjects_5C1B7C->Size(); i++)
+    for (s32 i = 0; i < gBaseAliveGameObjects->Size(); i++)
     {
-        BaseAliveGameObject* pObj = gBaseAliveGameObjects_5C1B7C->ItemAt(i);
+        BaseAliveGameObject* pObj = gBaseAliveGameObjects->ItemAt(i);
         if (!pObj)
         {
             break;
@@ -7219,9 +7219,9 @@ s16 Mudokon::StopAtWheel()
         FP_GetExponent(fpRect.h)};
 
 
-    for (s32 i = 0; i < gBaseAliveGameObjects_5C1B7C->Size(); i++)
+    for (s32 i = 0; i < gBaseAliveGameObjects->Size(); i++)
     {
-        auto pObj = gBaseAliveGameObjects_5C1B7C->ItemAt(i);
+        auto pObj = gBaseAliveGameObjects->ItemAt(i);
         if (!pObj)
         {
             break;
@@ -7425,9 +7425,9 @@ void Mudokon::CheckKnockedOntoABomb()
 {
     const PSX_RECT bMudRect = VGetBoundingRect();
 
-    for (s32 i = 0; i < gBaseAliveGameObjects_5C1B7C->Size(); i++)
+    for (s32 i = 0; i < gBaseAliveGameObjects->Size(); i++)
     {
-        BaseAliveGameObject* pObj = gBaseAliveGameObjects_5C1B7C->ItemAt(i);
+        BaseAliveGameObject* pObj = gBaseAliveGameObjects->ItemAt(i);
         if (!pObj)
         {
             break;

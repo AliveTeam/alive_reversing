@@ -25,7 +25,7 @@ ALIVE_VAR(1, 0x550f5e, u16, sTeleport_Path_550F5E, 0);
 ALIVE_VAR(1, 0x550f60, u16, sTeleport_Cam_550F60, 0);
 
 ALIVE_VAR(1, 0x5c2c08, bool, sDDCheat_FlyingEnabled_5C2C08, false);
-ALIVE_VAR(1, 0x5c1bd8, bool, sDDCheat_ShowAI_Info_5C1BD8, false);
+ALIVE_VAR(1, 0x5c1bd8, bool, sDDCheat_ShowAI_Info, false);
 ALIVE_VAR(1, 0x5bc000, bool, sDDCheat_AlwaysShow_5BC000, false);
 ALIVE_VAR(1, 0x5bc004, s32, sDDCheat_Unknown_5BC004, 0);
 ALIVE_VAR(1, 0x5bbff4, u32, sDDCheat_PrevDebugInput_5BBFF4, 0);
@@ -285,7 +285,7 @@ void DDCheat::VUpdate()
                 sControlledCharacter->BaseAliveGameObjectLastLineYPos = sControlledCharacter->mYPos;
             }
 
-            sDDCheat_ShowAI_Info_5C1BD8 = false;
+            sDDCheat_ShowAI_Info = false;
 
             switch (sControlledCharacter->Type())
             {
@@ -315,7 +315,7 @@ void DDCheat::VUpdate()
         //    }
         //}
 
-        if (sDDCheat_FlyingEnabled_5C2C08 || sDDCheat_ShowAI_Info_5C1BD8 || sDDCheat_AlwaysShow_5BC000)
+        if (sDDCheat_FlyingEnabled_5C2C08 || sDDCheat_ShowAI_Info || sDDCheat_AlwaysShow_5BC000)
         {
             DebugStr(
                 "\n%sP%dC%d gnframe=%5d",
@@ -358,7 +358,7 @@ void DDCheat::VUpdate()
             {
                 if (activePadPressed & InputCommands::Enum::eDoAction)
                 {
-                    sDDCheat_ShowAI_Info_5C1BD8 = !sDDCheat_ShowAI_Info_5C1BD8;
+                    sDDCheat_ShowAI_Info = !sDDCheat_ShowAI_Info;
                 }
 
                 if ((activePadPressed & InputCommands::Enum::eThrowItem) != 0)

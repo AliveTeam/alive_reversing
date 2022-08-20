@@ -35,7 +35,7 @@ const AnimId sSlamDoorAnimIds[15][3] = {
     {AnimId::Slam_Door_Industrial_Closing, AnimId::Slam_Door_Industrial_Closed, AnimId::Slam_Door_Industrial_Opening},
 };
 
-TintEntry sSlamDoorTints_5603B0[18] = {
+TintEntry sSlamDoorTints[18] = {
     {EReliveLevelIds::eMines, 102u, 87u, 118u},
     {EReliveLevelIds::eNecrum, 102u, 87u, 118u},
     {EReliveLevelIds::eMudomoVault, 102u, 87u, 118u},
@@ -54,8 +54,8 @@ TintEntry sSlamDoorTints_5603B0[18] = {
 
 struct Quicksave_Obj_SlamDoor final
 {
-    AETypes field_0_id;
-    TlvItemInfoUnion field_4_tlv;
+    AETypes mType;
+    TlvItemInfoUnion mTlvInfo;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Quicksave_Obj_SlamDoor, 8);
 
@@ -65,23 +65,23 @@ SlamDoor::SlamDoor(Path_SlamDoor* pTlv, TlvItemInfoUnion tlvInfo)
     mBaseGameObjectTlvInfo = tlvInfo.all; // todo: check this
     mBaseGameObjectFlags.Set(Options::eCanExplode_Bit7);
 
-    mSwitchId = pTlv->field_14_switch_id;
+    mSwitchId = pTlv->mSwitchId;
 
     mSlamDoorFlags.Clear(SlamDoorFlags::eOpen);
     mSlamDoorFlags.Clear(SlamDoorFlags::eFlipY);
     mSlamDoorFlags.Clear(SlamDoorFlags::eDelete);
 
-    if (pTlv->field_10_bStart_closed == Choice_short::eNo_0)
+    if (pTlv->mStartClosed == Choice_short::eNo_0)
     {
         mSlamDoorFlags.Set(SlamDoorFlags::eOpen);
     }
 
-    if (pTlv->field_16_bStart_inverted == Choice_short::eYes_1)
+    if (pTlv->mFlipY == Choice_short::eYes_1)
     {
         mSlamDoorFlags.Set(SlamDoorFlags::eFlipY);
     }
 
-    if (pTlv->field_18_bDelete == Choice_short::eYes_1)
+    if (pTlv->mDelete == Choice_short::eYes_1)
     {
         mSlamDoorFlags.Set(SlamDoorFlags::eDelete);
     }
@@ -100,7 +100,7 @@ SlamDoor::SlamDoor(Path_SlamDoor* pTlv, TlvItemInfoUnion tlvInfo)
     mYPos = FP_FromInteger(pTlv->mTopLeft.y);
     mTlvInfo = tlvInfo;
 
-    if (pTlv->field_12_scale == Scale_short::eHalf_1)
+    if (pTlv->mScale == Scale_short::eHalf_1)
     {
         mSpriteScale = FP_FromDouble(0.5);
         mAnim.mRenderLayer = Layer::eLayer_BeforeShadow_Half_6;
@@ -131,7 +131,7 @@ SlamDoor::SlamDoor(Path_SlamDoor* pTlv, TlvItemInfoUnion tlvInfo)
         mSlamDoorFlags.Clear(SlamDoorFlags::eClosed);
     }
 
-    SetTint(sSlamDoorTints_5603B0, gMap.mCurrentLevel);
+    SetTint(sSlamDoorTints, gMap.mCurrentLevel);
 
     FP hitX;
     FP hitY;
@@ -329,9 +329,9 @@ void SlamDoor::VUpdate()
                 bRect.h += FP_GetExponent(FP_FromInteger(-110) * mSpriteScale);
             }
 
-            for (s32 i = 0; i < gBaseAliveGameObjects_5C1B7C->Size(); i++)
+            for (s32 i = 0; i < gBaseAliveGameObjects->Size(); i++)
             {
-                auto pObj = gBaseAliveGameObjects_5C1B7C->ItemAt(i);
+                auto pObj = gBaseAliveGameObjects->ItemAt(i);
                 if (!pObj)
                 {
                     break;
@@ -374,9 +374,9 @@ void SlamDoor::VUpdate()
             bRect.h += FP_GetExponent(FP_FromInteger(-110) * mSpriteScale) - FP_GetExponent(FP_FromInteger(20) * mSpriteScale);
         }
 
-        for (s32 i = 0; i < gBaseAliveGameObjects_5C1B7C->Size(); i++)
+        for (s32 i = 0; i < gBaseAliveGameObjects->Size(); i++)
         {
-            auto pObj = gBaseAliveGameObjects_5C1B7C->ItemAt(i);
+            auto pObj = gBaseAliveGameObjects->ItemAt(i);
             if (!pObj)
             {
                 break;
@@ -407,8 +407,8 @@ s32 SlamDoor::VGetSaveState(u8* pSaveBuffer)
 {
     Quicksave_Obj_SlamDoor* pSaveState = reinterpret_cast<Quicksave_Obj_SlamDoor*>(pSaveBuffer);
 
-    pSaveState->field_0_id = AETypes::eSlamDoor_122;
-    pSaveState->field_4_tlv = mTlvInfo;
+    pSaveState->mType = AETypes::eSlamDoor_122;
+    pSaveState->mTlvInfo = mTlvInfo;
 
     return sizeof(Quicksave_Obj_SlamDoor);
 }
@@ -457,7 +457,7 @@ s32 SlamDoor::CreateFromSaveState(const u8* pData)
         }
     }
 
-    relive_new SlamDoor(static_cast<Path_SlamDoor*>(sPathInfo->TLV_From_Offset_Lvl_Cam(pSaveState->field_4_tlv.all)), pSaveState->field_4_tlv);
+    relive_new SlamDoor(static_cast<Path_SlamDoor*>(sPathInfo->TLV_From_Offset_Lvl_Cam(pSaveState->mTlvInfo.all)), pSaveState->mTlvInfo);
 
     return sizeof(Quicksave_Obj_SlamDoor);
 }

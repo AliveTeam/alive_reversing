@@ -1550,7 +1550,7 @@ void Slog::Motion_18_WakeUp_475460()
 
         if (pObj->mBaseGameObjectTypeId == ReliveTypes::eSnoozParticle)
         {
-            static_cast<SnoozeParticle*>(pObj)->field_1D4_state = SnoozeParticle::SnoozeParticleState::eBlowingUp_2;
+            static_cast<SnoozeParticle*>(pObj)->mState = SnoozeParticle::SnoozeParticleState::eBlowingUp_2;
         }
     }
 

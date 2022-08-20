@@ -76,10 +76,9 @@ SnoozeParticle::SnoozeParticle(FP xpos, FP ypos, Layer layer, FP scale)
     mBaseGameObjectTypeId = ReliveTypes::eSnoozParticle;
     gObjListDrawables->Push_Back(this);
 
-    field_10_x_start = xpos;
-    field_14_y_start = ypos;
-    field_18_x = xpos;
-    field_1C_y = ypos;
+    mStartY = ypos;
+    mXPos = xpos;
+    mYPos = ypos;
 
     field_24_dy = FP_FromDouble(0.15);
     field_20_dx = FP_FromInteger(1);
@@ -88,17 +87,15 @@ SnoozeParticle::SnoozeParticle(FP xpos, FP ypos, Layer layer, FP scale)
     field_24_dy += FP_FromDouble(0.35);
     field_24_dy = field_24_dy * FP_FromInteger(-1);
 
-    field_30_layer = layer;
+    mOtLayer = layer;
 
-    field_28_scale = (scale * FP_FromDouble(0.4));
+    mSpriteScale = (scale * FP_FromDouble(0.4));
 
     field_2C_scale_dx = FP_FromDouble(0.30);
     field_2C_scale_dx = field_2C_scale_dx / (FP_FromInteger(20) / -field_24_dy);
 
-    field_32_r = 0;
-    field_34_g = 0;
-    field_36_b = 0;
-    field_1D4_state = SnoozeParticleState::eRising_0;
+    mRGB.SetRGB(0, 0, 0);
+    mState = SnoozeParticleState::eRising_0;
     field_3A_count_down = 1;
     field_38_idx = Math_NextRandom() % 36;
     field_20_dx = FP_FromInteger(xPositionDeltaEntries_4CF8E0[field_38_idx]);
@@ -114,19 +111,19 @@ void SnoozeParticle::VUpdate()
 
     if (!sNumCamSwappers_507668)
     {
-        switch (field_1D4_state)
+        switch (mState)
         {
             case SnoozeParticleState::eRising_0:
-                if (field_1C_y >= field_14_y_start - FP_FromInteger(20))
+                if (mYPos >= mStartY - FP_FromInteger(20))
                 {
-                    if (field_32_r < 70 && field_34_g < 70 && field_36_b < 20)
+                    if (mRGB.r < 70 && mRGB.g < 70 && mRGB.b < 20)
                     {
-                        field_32_r += 14;
-                        field_34_g += 14;
-                        field_36_b += 4;
+                        mRGB.r += 14;
+                        mRGB.g += 14;
+                        mRGB.b += 4;
                     }
 
-                    field_28_scale += field_2C_scale_dx;
+                    mSpriteScale += field_2C_scale_dx;
 
                     if (field_38_idx > 36)
                     {
@@ -136,12 +133,12 @@ void SnoozeParticle::VUpdate()
                     const FP idx_toFP = FP_FromInteger(xPositionDeltaEntries_4CF8E0[field_38_idx]);
                     field_20_dx = idx_toFP;
                     field_38_idx += 1;
-                    field_18_x += idx_toFP;
-                    field_1C_y += field_24_dy;
+                    mXPos += idx_toFP;
+                    mYPos += field_24_dy;
                 }
                 else
                 {
-                    field_1D4_state = SnoozeParticleState::eBlowingUp_2;
+                    mState = SnoozeParticleState::eBlowingUp_2;
                 }
                 break;
 
@@ -149,11 +146,11 @@ void SnoozeParticle::VUpdate()
                 break;
 
             case SnoozeParticleState::eBlowingUp_2:
-                field_32_r /= 2;
-                field_34_g /= 2;
-                field_36_b /= 2;
-                field_18_x += field_20_dx;
-                field_1C_y += field_24_dy;
+                mRGB.r /= 2;
+                mRGB.b /= 2;
+                mRGB.b /= 2;
+                mXPos += field_20_dx;
+                mYPos += field_24_dy;
 
                 if (field_3A_count_down > 0)
                 {
@@ -193,20 +190,20 @@ void SnoozeParticle::VRender(PrimHeader** ppOt)
     FP_Point* pCamPos = pScreenManager->mCamPos;
     const s16 bufIdx = gPsxDisplay.mBufferIndex;
 
-    if (field_1D4_state == SnoozeParticleState::eBlowingUp_2)
+    if (mState == SnoozeParticleState::eBlowingUp_2)
     {
-        const s16 xInScreen = FP_GetExponent(field_18_x - pCamPos->x) + pScreenManager->mCamXOff;
-        const s16 yInScreen = FP_GetExponent(field_1C_y - pCamPos->y) + pScreenManager->mCamYOff;
+        const s16 xInScreen = FP_GetExponent(mXPos - pCamPos->x) + pScreenManager->mCamXOff;
+        const s16 yInScreen = FP_GetExponent(mYPos - pCamPos->y) + pScreenManager->mCamYOff;
 
         for (s32 i = 0; i < ALIVE_COUNTOF(explosionVerts); i++)
         {
             Line_G2* pZExplosionLine = &field_94_lines[bufIdx][i];
             LineG2_Init(pZExplosionLine);
 
-            const s32 scaledLineRelativeStartX = FP_GetExponent(FP_FromInteger(explosionVerts[i][0].x) * field_28_scale);
-            const s32 scaledLineRelativeStartY = FP_GetExponent(FP_FromInteger(explosionVerts[i][0].y) * field_28_scale);
-            const s32 scaledLineRelativeEndX = FP_GetExponent(FP_FromInteger(explosionVerts[i][1].x) * field_28_scale);
-            const s32 scaledLineRelativeEndY = FP_GetExponent(FP_FromInteger(explosionVerts[i][1].y) * field_28_scale);
+            const s32 scaledLineRelativeStartX = FP_GetExponent(FP_FromInteger(explosionVerts[i][0].x) * mSpriteScale);
+            const s32 scaledLineRelativeStartY = FP_GetExponent(FP_FromInteger(explosionVerts[i][0].y) * mSpriteScale);
+            const s32 scaledLineRelativeEndX = FP_GetExponent(FP_FromInteger(explosionVerts[i][1].x) * mSpriteScale);
+            const s32 scaledLineRelativeEndY = FP_GetExponent(FP_FromInteger(explosionVerts[i][1].y) * mSpriteScale);
             SetXY0(pZExplosionLine,
                    static_cast<s16>(PsxToPCX(xInScreen + scaledLineRelativeStartX, 11)),
                    static_cast<s16>(yInScreen + scaledLineRelativeStartY));
@@ -215,16 +212,16 @@ void SnoozeParticle::VRender(PrimHeader** ppOt)
                    static_cast<s16>(yInScreen + scaledLineRelativeEndY));
 
             SetRGB0(pZExplosionLine,
-                    static_cast<u8>(field_32_r / 2),
-                    static_cast<u8>(field_34_g / 2),
-                    static_cast<u8>(field_36_b / 2));
+                    static_cast<u8>(mRGB.r / 2),
+                    static_cast<u8>(mRGB.g / 2),
+                    static_cast<u8>(mRGB.b / 2));
             SetRGB1(pZExplosionLine,
-                    static_cast<u8>(field_32_r),
-                    static_cast<u8>(field_34_g),
-                    static_cast<u8>(field_36_b));
+                    static_cast<u8>(mRGB.r),
+                    static_cast<u8>(mRGB.g),
+                    static_cast<u8>(mRGB.b));
 
             Poly_Set_SemiTrans(&pZExplosionLine->mBase.header, 1);
-            OrderingTable_Add(OtLayer(ppOt, field_30_layer), &pZExplosionLine->mBase.header);
+            OrderingTable_Add(OtLayer(ppOt, mOtLayer), &pZExplosionLine->mBase.header);
         }
         rectToInvalidate.x = static_cast<s16>(PsxToPCX(xInScreen - 8, 0));
         rectToInvalidate.w = static_cast<s16>(PsxToPCX(xInScreen + 8, 0));
@@ -236,49 +233,49 @@ void SnoozeParticle::VRender(PrimHeader** ppOt)
         Line_G4* pZLine = &field_3C_lines[bufIdx];
         LineG4_Init(pZLine);
 
-        const s16 xInScreen = FP_GetExponent(field_18_x - pCamPos->x) + pScreenManager->mCamXOff;
-        const s16 yInScreen = FP_GetExponent(field_1C_y - pCamPos->y) + pScreenManager->mCamYOff;
+        const s16 xInScreen = FP_GetExponent(mXPos - pCamPos->x) + pScreenManager->mCamXOff;
+        const s16 yInScreen = FP_GetExponent(mYPos - pCamPos->y) + pScreenManager->mCamYOff;
 
-        const s16 RectX_v_Psx = xInScreen + FP_GetExponent(FP_FromInteger(zVerts[0]) * field_28_scale);
-        const s16 RectW_v_Psx = xInScreen + FP_GetExponent(FP_FromInteger(zVerts[5]) * field_28_scale);
+        const s16 RectX_v_Psx = xInScreen + FP_GetExponent(FP_FromInteger(zVerts[0]) * mSpriteScale);
+        const s16 RectW_v_Psx = xInScreen + FP_GetExponent(FP_FromInteger(zVerts[5]) * mSpriteScale);
 
         const s16 rectX_v = PsxToPCX(RectX_v_Psx, 11);
-        const s16 rectY_v = FP_GetExponent(FP_FromInteger(zVerts[1]) * field_28_scale) + yInScreen;
+        const s16 rectY_v = FP_GetExponent(FP_FromInteger(zVerts[1]) * mSpriteScale) + yInScreen;
         const s16 rectW_v = PsxToPCX(RectW_v_Psx, 11);
-        const s16 rectH_v = yInScreen + FP_GetExponent(FP_FromInteger(zVerts[7]) * field_28_scale);
+        const s16 rectH_v = yInScreen + FP_GetExponent(FP_FromInteger(zVerts[7]) * mSpriteScale);
 
         SetXY0(pZLine,
                rectX_v,
                rectY_v);
         SetXY1(pZLine,
-               static_cast<s16>(PsxToPCX(xInScreen + FP_GetExponent(FP_FromInteger(zVerts[2]) * field_28_scale), 11)),
-               yInScreen + FP_GetExponent(FP_FromInteger(zVerts[3]) * field_28_scale));
+               static_cast<s16>(PsxToPCX(xInScreen + FP_GetExponent(FP_FromInteger(zVerts[2]) * mSpriteScale), 11)),
+               yInScreen + FP_GetExponent(FP_FromInteger(zVerts[3]) * mSpriteScale));
         SetXY2(pZLine,
-               static_cast<s16>(PsxToPCX(xInScreen + FP_GetExponent(FP_FromInteger(zVerts[4]) * field_28_scale), 11)),
-               yInScreen + FP_GetExponent(FP_FromInteger(zVerts[5]) * field_28_scale));
+               static_cast<s16>(PsxToPCX(xInScreen + FP_GetExponent(FP_FromInteger(zVerts[4]) * mSpriteScale), 11)),
+               yInScreen + FP_GetExponent(FP_FromInteger(zVerts[5]) * mSpriteScale));
         SetXY3(pZLine,
                rectW_v,
                rectH_v);
 
         SetRGB0(pZLine,
-                static_cast<u8>(field_32_r * 8 / 10),
-                static_cast<u8>(field_34_g * 8 / 10),
-                static_cast<u8>(field_36_b * 8 / 10));
+                static_cast<u8>(mRGB.r * 8 / 10),
+                static_cast<u8>(mRGB.g * 8 / 10),
+                static_cast<u8>(mRGB.b * 8 / 10));
         SetRGB1(pZLine,
-                static_cast<u8>(field_32_r),
-                static_cast<u8>(field_34_g),
-                static_cast<u8>(field_36_b));
+                static_cast<u8>(mRGB.r),
+                static_cast<u8>(mRGB.g),
+                static_cast<u8>(mRGB.b));
         SetRGB2(pZLine,
-                static_cast<u8>(field_32_r * 7 / 10),
-                static_cast<u8>(field_34_g * 7 / 10),
-                static_cast<u8>(field_36_b * 7 / 10));
+                static_cast<u8>(mRGB.r * 7 / 10),
+                static_cast<u8>(mRGB.g * 7 / 10),
+                static_cast<u8>(mRGB.b * 7 / 10));
         SetRGB3(pZLine,
-                static_cast<u8>(field_32_r / 2),
-                static_cast<u8>(field_34_g / 2),
-                static_cast<u8>(field_36_b / 2));
+                static_cast<u8>(mRGB.r / 2),
+                static_cast<u8>(mRGB.g / 2),
+                static_cast<u8>(mRGB.b / 2));
 
         Poly_Set_SemiTrans(&pZLine->mBase.header, 1);
-        OrderingTable_Add(OtLayer(ppOt, field_30_layer), &pZLine->mBase.header);
+        OrderingTable_Add(OtLayer(ppOt, mOtLayer), &pZLine->mBase.header);
         rectToInvalidate.x = rectX_v;
         rectToInvalidate.y = rectY_v;
         rectToInvalidate.w = rectW_v;
@@ -287,7 +284,7 @@ void SnoozeParticle::VRender(PrimHeader** ppOt)
     Prim_SetTPage* thisTPage = &field_1B4_tPage[bufIdx];
     const s32 tPage = PSX_getTPage(TPageMode::e4Bit_0, TPageAbr::eBlend_1, 0, 0);
     Init_SetTPage(thisTPage, 1, 0, tPage);
-    OrderingTable_Add(OtLayer(ppOt, field_30_layer), &thisTPage->mBase);
+    OrderingTable_Add(OtLayer(ppOt, mOtLayer), &thisTPage->mBase);
 
     pScreenManager->InvalidateRectCurrentIdx(
         rectToInvalidate.x, rectToInvalidate.y,

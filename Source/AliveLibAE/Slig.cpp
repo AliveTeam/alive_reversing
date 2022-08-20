@@ -1820,7 +1820,7 @@ void Slig::M_SleepingToStand_33_4B8C50()
 
         if (pObj->Type() == ReliveTypes::eSnoozeParticle)
         {
-            static_cast<SnoozeParticle*>(pObj)->field_1E4_state = SnoozeParticle::SnoozeParticleState::eBlowingUp_2;
+            static_cast<SnoozeParticle*>(pObj)->mState = SnoozeParticle::SnoozeParticleState::eBlowingUp_2;
         }
     }
 
@@ -2420,9 +2420,9 @@ void Slig::M_Beat_51_4B6C00()
             mXPos,
             mYPos - k2Scaled);
 
-        for (s32 i = 0; i < gBaseAliveGameObjects_5C1B7C->Size(); i++)
+        for (s32 i = 0; i < gBaseAliveGameObjects->Size(); i++)
         {
-            BaseAliveGameObject* pObj = gBaseAliveGameObjects_5C1B7C->ItemAt(i);
+            BaseAliveGameObject* pObj = gBaseAliveGameObjects->ItemAt(i);
             if (!pObj)
             {
                 break;
@@ -3207,9 +3207,9 @@ s16 Slig::Brain_ListenToGlukkon_IdleListen(BaseAliveGameObject* pGlukkonObj, Lif
                             {
                                 mNextMotion = eSligMotions::M_LiftGrip_46_4B3700;
 
-                                for (s32 i = 0; i < gBaseAliveGameObjects_5C1B7C->Size(); i++)
+                                for (s32 i = 0; i < gBaseAliveGameObjects->Size(); i++)
                                 {
-                                    BaseAliveGameObject* pFoundSlig = gBaseAliveGameObjects_5C1B7C->ItemAt(i);
+                                    BaseAliveGameObject* pFoundSlig = gBaseAliveGameObjects->ItemAt(i);
                                     if (!pFoundSlig)
                                     {
                                         break;
@@ -4861,7 +4861,7 @@ void Slig::VUpdate()
             vShot_4B2EA0();
         }
 
-        if (sDDCheat_ShowAI_Info_5C1BD8)
+        if (sDDCheat_ShowAI_Info)
         {
             DDCheat::DebugStr("Slig %d %d %d %d\n", field_11C_brain_sub_state, field_120_timer, mCurrentMotion, mNextMotion);
         }
@@ -6414,9 +6414,9 @@ BaseAliveGameObject* Slig::FindBeatTarget_4BD070(ReliveTypes /*typeToFind*/, s32
         mYPos - k2Scaled,
         true);
 
-    for (s32 i = 0; i < gBaseAliveGameObjects_5C1B7C->Size(); i++)
+    for (s32 i = 0; i < gBaseAliveGameObjects->Size(); i++)
     {
-        BaseAliveGameObject* pObj = gBaseAliveGameObjects_5C1B7C->ItemAt(i);
+        BaseAliveGameObject* pObj = gBaseAliveGameObjects->ItemAt(i);
         if (!pObj)
         {
             break;
@@ -6613,9 +6613,9 @@ s16 Slig::HeardGlukkonToListenTo_4B9690(GameSpeakEvents glukkonSpeak)
         return 0;
     }
 
-    for (s32 i = 0; i < gBaseAliveGameObjects_5C1B7C->Size(); i++)
+    for (s32 i = 0; i < gBaseAliveGameObjects->Size(); i++)
     {
-        BaseAliveGameObject* pObj = gBaseAliveGameObjects_5C1B7C->ItemAt(i);
+        BaseAliveGameObject* pObj = gBaseAliveGameObjects->ItemAt(i);
         if (!pObj)
         {
             break;

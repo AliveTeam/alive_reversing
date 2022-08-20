@@ -48,8 +48,8 @@ s32 Animation_OnFrame_Common_4561B0(BaseGameObject* pObjPtr, s16* pData)
     if (count < 5)
     {
         Slurg_Step_Watch_Points* pPoints = &sSlurg_Step_Watch_Points_5C1B28[sSlurg_Step_Watch_Points_Idx_5C1C08];
-        pPoints->field_0_points[count].field_0_xPos = FP_GetExponent(xpos);
-        pPoints->field_0_points[count].field_2_yPos = pObj->BaseAliveGameObjectCollisionLine->mRect.y - 5;
+        pPoints->mPoints[count].x = FP_GetExponent(xpos);
+        pPoints->mPoints[count].y = pObj->BaseAliveGameObjectCollisionLine->mRect.y - 5;
         sSlurg_Step_Watch_Points_Count_5BD4DC[sSlurg_Step_Watch_Points_Idx_5C1C08] = count + 1;
     }
 

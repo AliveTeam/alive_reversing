@@ -536,7 +536,7 @@ s16 CrawlingSlig::HandleEnemyStopper(FP /*velX*/)
         TlvTypes::SlamDoor_85));
     BaseAliveGameObjectPathTLV = pSlamDoor;
 
-    if (pSlamDoor && ((pSlamDoor->field_10_bStart_closed == Choice_short::eYes_1 && !SwitchStates_Get(pSlamDoor->field_14_switch_id)) || (pSlamDoor->field_10_bStart_closed == Choice_short::eNo_0 && SwitchStates_Get(pSlamDoor->field_14_switch_id))))
+    if (pSlamDoor && ((pSlamDoor->mStartClosed == Choice_short::eYes_1 && !SwitchStates_Get(pSlamDoor->mSwitchId)) || (pSlamDoor->mStartClosed == Choice_short::eNo_0 && SwitchStates_Get(pSlamDoor->mSwitchId))))
     {
         return 1;
     }
@@ -1437,7 +1437,7 @@ void CrawlingSlig::Motion_2_WakingUp()
 
         if (pObj->Type() == ReliveTypes::eSnoozeParticle)
         {
-            static_cast<SnoozeParticle*>(pObj)->field_1E4_state = SnoozeParticle::SnoozeParticleState::eBlowingUp_2;
+            static_cast<SnoozeParticle*>(pObj)->mState = SnoozeParticle::SnoozeParticleState::eBlowingUp_2;
         }
     }
 

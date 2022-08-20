@@ -5,14 +5,14 @@
 
 struct Path_SlapLock final : public Path_TLV
 {
-    Scale_short field_10_scale;
-    s16 field_12_target_tomb_id1;
-    s16 field_14_target_tomb_id2;
-    Choice_short field_16_bPersistant;
-    Choice_short field_18_has_ghost;
+    Scale_short mScale;
+    s16 mTargetTombSwitchId1;
+    s16 mTargetTombSwitchId2;
+    Choice_short mPersistant; // unused?
+    Choice_short mHasGhost;
     Choice_short mGiveInvisibilityPowerup;
     s16 mInvisibilityDuration;
-    s16 field_1E_toggle_switch_id;
+    s16 mSlapOutputSwitchId;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_SlapLock, 0x20);
 
@@ -30,14 +30,14 @@ enum class SlapLockStates : s16
 
 struct SlapLock_State final
 {
-    AETypes field_0_type;
+    AETypes mType;
     s16 mAnimRender;
     s32 mTlvInfo;
     s8 mTlvState;
-    s8 field_9_padding;
+    s8 padding;
     SlapLockStates mState;
     s32 mTimer1;
-    s32 field_10_obj_id;
+    s32 mAbilityRingId;
     s32 mShinyParticleTimer;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(SlapLock_State, 0x18);

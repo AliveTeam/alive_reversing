@@ -403,7 +403,7 @@ void Init_Sound_DynamicArrays_And_Others_43BDB0()
 
     sShadowZone_dArray_5C1B80 = relive_new DynamicArrayT<ShadowZone>(4);
 
-    gBaseAliveGameObjects_5C1B7C = relive_new DynamicArrayT<BaseAliveGameObject>(20);
+    gBaseAliveGameObjects = relive_new DynamicArrayT<BaseAliveGameObject>(20);
 
     ResourceManager::Init_49BCE0();
     SND_Init();
@@ -543,7 +543,7 @@ void Game_Run_466D40()
     relive_delete ObjList_5C1B78;
     relive_delete ObjList_5BD4D8;
     relive_delete sShadowZone_dArray_5C1B80;
-    relive_delete gBaseAliveGameObjects_5C1B7C;
+    relive_delete gBaseAliveGameObjects;
     relive_delete sCollisions;
 
     pMusicController_5C3020 = nullptr; // Note: OG bug - should have been set to nullptr after shutdown call?

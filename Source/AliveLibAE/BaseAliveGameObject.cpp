@@ -17,7 +17,7 @@
 #include "Sys_common.hpp"
 #include "Grid.hpp"
 
-ALIVE_VAR(1, 0x5C1B7C, DynamicArrayT<BaseAliveGameObject>*, gBaseAliveGameObjects_5C1B7C, nullptr);
+ALIVE_VAR(1, 0x5C1B7C, DynamicArrayT<BaseAliveGameObject>*, gBaseAliveGameObjects, nullptr);
 
 BaseAliveGameObject::BaseAliveGameObject(s16 resourceArraySize)
     : BaseAnimatedWithPhysicsGameObject(resourceArraySize)
@@ -45,7 +45,7 @@ BaseAliveGameObject::BaseAliveGameObject(s16 resourceArraySize)
     BaseAliveGameObjectLastLineYPos = FP_FromInteger(0);
     field_10A_unused = 0;
 
-    gBaseAliveGameObjects_5C1B7C->Push_Back(this);
+    gBaseAliveGameObjects->Push_Back(this);
 
     mBaseGameObjectFlags.Set(BaseGameObject::eIsBaseAliveGameObject_Bit6);
 }
@@ -53,7 +53,7 @@ BaseAliveGameObject::BaseAliveGameObject(s16 resourceArraySize)
 BaseAliveGameObject::~BaseAliveGameObject()
 {
     BaseAliveGameObject* pLiftPoint = static_cast<BaseAliveGameObject*>(sObjectIds.Find_Impl(BaseAliveGameObject_PlatformId));
-    gBaseAliveGameObjects_5C1B7C->Remove_Item(this);
+    gBaseAliveGameObjects->Remove_Item(this);
 
     if (pLiftPoint)
     {

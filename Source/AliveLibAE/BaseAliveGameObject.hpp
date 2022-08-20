@@ -94,4 +94,4 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(BaseAliveGameObject, 0x118);
 
-ALIVE_VAR_EXTERN(DynamicArrayT<BaseAliveGameObject>*, gBaseAliveGameObjects_5C1B7C);
+ALIVE_VAR_EXTERN(DynamicArrayT<BaseAliveGameObject>*, gBaseAliveGameObjects);

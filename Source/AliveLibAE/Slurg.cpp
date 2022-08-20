@@ -19,7 +19,7 @@ void Slurg::Clear_Slurg_Step_Watch_Points()
     sSlurg_Step_Watch_Points_Idx_5C1C08 = !sSlurg_Step_Watch_Points_Idx_5C1C08;
     sSlurg_Step_Watch_Points_Count_5BD4DC[sSlurg_Step_Watch_Points_Idx_5C1C08] = 0;
 
-    for (auto& point : sSlurg_Step_Watch_Points_5C1B28[sSlurg_Step_Watch_Points_Idx_5C1C08].field_0_points)
+    for (auto& point : sSlurg_Step_Watch_Points_5C1B28[sSlurg_Step_Watch_Points_Idx_5C1C08].mPoints)
     {
         point = {};
     }
@@ -60,13 +60,13 @@ Slurg::Slurg(Path_Slurg* pTlv, u32 tlvInfo)
     mYPos = FP_FromInteger(pTlv->mTopLeft.y);
 
     mTlvInfo = tlvInfo;
-    if (pTlv->mSlurgData.field_4_scale == Scale_short::eHalf_1)
+    if (pTlv->mSlurgData.mScale == Scale_short::eHalf_1)
     {
         mSlurgSpriteScale = FP_FromDouble(0.5);
         mAnim.mRenderLayer = Layer::eLayer_SligGreeterFartsBat_Half_14;
         mScale = Scale::Bg;
     }
-    else if (pTlv->mSlurgData.field_4_scale == Scale_short::eFull_0)
+    else if (pTlv->mSlurgData.mScale == Scale_short::eFull_0)
     {
         mSlurgSpriteScale = FP_FromInteger(1);
         mAnim.mRenderLayer = Layer::eLayer_SligGreeterFartsBats_33;
@@ -94,11 +94,11 @@ Slurg::Slurg(Path_Slurg* pTlv, u32 tlvInfo)
         mYPos = hitY;
     }
 
-    mSlurgSwitchId = pTlv->mSlurgData.field_6_switch_id;
+    mSlurgSwitchId = pTlv->mSlurgData.mSwitchId;
 
     mSlurgFlags.Clear();
 
-    if (pTlv->mSlurgData.field_2_start_direction == XDirection_short::eRight_1)
+    if (pTlv->mSlurgData.mFacing == XDirection_short::eRight_1)
     {
         mSlurgFlags.Set(SlurgFlags::eGoingRight);
     }
@@ -196,8 +196,8 @@ void Slurg::VUpdate()
         const s32 max_count = sSlurg_Step_Watch_Points_Count_5BD4DC[idx];
         for (s32 i = 0; i < max_count; i++)
         {
-            const Slurg_Step_Watch_Point* pPoint = &sSlurg_Step_Watch_Points_5C1B28[idx].field_0_points[i];
-            if (pPoint->field_0_xPos > bRect.x - 2 && pPoint->field_0_xPos < bRect.w + 2 && pPoint->field_2_yPos > bRect.y - 4 && pPoint->field_2_yPos < bRect.h + 4)
+            const Slurg_Step_Watch_Point* pPoint = &sSlurg_Step_Watch_Points_5C1B28[idx].mPoints[i];
+            if (pPoint->x > bRect.x - 2 && pPoint->x < bRect.w + 2 && pPoint->y > bRect.y - 4 && pPoint->y < bRect.h + 4)
             {
                 Burst();
                 break;

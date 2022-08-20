@@ -5,23 +5,23 @@
 
 struct Slurg_Step_Watch_Point final
 {
-    u16 field_0_xPos;
-    u16 field_2_yPos;
+    u16 x;
+    u16 y;
 };
 ALIVE_ASSERT_SIZEOF(Slurg_Step_Watch_Point, 0x4);
 
 struct Slurg_Step_Watch_Points final
 {
-    Slurg_Step_Watch_Point field_0_points[5];
+    Slurg_Step_Watch_Point mPoints[5];
 };
 ALIVE_ASSERT_SIZEOF(Slurg_Step_Watch_Points, 0x14);
 
 struct Slurg_Path_Data final
 {
     s16 mMovingTimer;
-    XDirection_short field_2_start_direction;
-    Scale_short field_4_scale;
-    s16 field_6_switch_id;
+    XDirection_short mFacing;
+    Scale_short mScale;
+    s16 mSwitchId;
 };
 
 struct Path_Slurg : public Path_TLV
@@ -46,7 +46,7 @@ enum SlurgFlags
 struct Slurg_State final
 {
     AETypes mType;
-    s16 field_2_padding;
+    s16 padding1;
     FP mXPos;
     FP mYPos;
     FP mVelX;
@@ -57,7 +57,7 @@ struct Slurg_State final
     s16 mFrameChangeCounter;
     s8 mDrawable;
     s8 mRender;
-    s16 field_1E_padding;
+    s16 padding2;
     s32 mFrameTableOffset;
     s32 mTlvInfo;
     SlurgStates mSlurgState;

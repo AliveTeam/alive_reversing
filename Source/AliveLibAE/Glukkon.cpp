@@ -1661,9 +1661,9 @@ s16 Glukkon::Brain_3_PlayerControlled_441A30()
                 return field_210_brain_sub_state;
             }
 
-            for (s32 i = 0; i < gBaseAliveGameObjects_5C1B7C->Size(); i++)
+            for (s32 i = 0; i < gBaseAliveGameObjects->Size(); i++)
             {
-                auto pObj = gBaseAliveGameObjects_5C1B7C->ItemAt(i);
+                auto pObj = gBaseAliveGameObjects->ItemAt(i);
                 if (!pObj)
                 {
                     break;
@@ -2175,8 +2175,8 @@ void Glukkon::Update_Slurg_WatchPoints()
             if (count < 5)
             {
                 Slurg_Step_Watch_Points* pPoints = &sSlurg_Step_Watch_Points_5C1B28[sSlurg_Step_Watch_Points_Idx_5C1C08];
-                pPoints->field_0_points[count].field_0_xPos = FP_GetExponent(mXPos);
-                pPoints->field_0_points[count].field_2_yPos = BaseAliveGameObjectCollisionLine->mRect.y - 5;
+                pPoints->mPoints[count].x = FP_GetExponent(mXPos);
+                pPoints->mPoints[count].y = BaseAliveGameObjectCollisionLine->mRect.y - 5;
                 sSlurg_Step_Watch_Points_Count_5BD4DC[sSlurg_Step_Watch_Points_Idx_5C1C08] = count + 1;
             }
         }
@@ -2465,7 +2465,7 @@ s16 Glukkon::PathBlocked(FP /*a2*/, s16 checkBounds)
 
     auto pSlamDoorTlv = static_cast<Path_SlamDoor*>(BaseAliveGameObjectPathTLV);
 
-    if (pSlamDoorTlv && ((pSlamDoorTlv->field_10_bStart_closed == Choice_short::eYes_1 && !SwitchStates_Get(pSlamDoorTlv->field_14_switch_id)) || (pSlamDoorTlv->field_10_bStart_closed == Choice_short::eNo_0 && SwitchStates_Get(pSlamDoorTlv->field_14_switch_id))))
+    if (pSlamDoorTlv && ((pSlamDoorTlv->mStartClosed == Choice_short::eYes_1 && !SwitchStates_Get(pSlamDoorTlv->mSwitchId)) || (pSlamDoorTlv->mStartClosed == Choice_short::eNo_0 && SwitchStates_Get(pSlamDoorTlv->mSwitchId))))
     {
         return 1;
     }

@@ -16,12 +16,12 @@ enum SlamDoorFlags
 
 struct Path_SlamDoor final : public Path_TLV
 {
-    Choice_short field_10_bStart_closed;
-    Scale_short field_12_scale;
-    s16 field_14_switch_id;
-    Choice_short field_16_bStart_inverted;
-    Choice_short field_18_bDelete;
-    s16 field_1A_padding;
+    Choice_short mStartClosed;
+    Scale_short mScale;
+    s16 mSwitchId;
+    Choice_short mFlipY;
+    Choice_short mDelete;
+    s16 padding;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_SlamDoor, 0x1C);
 

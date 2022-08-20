@@ -178,7 +178,7 @@ void BaseBomb::VUpdate()
 
 void BaseBomb::DealDamageRect(const PSX_RECT* pRect)
 {
-    if (gBaseAliveGameObjects_5C1B7C)
+    if (gBaseAliveGameObjects)
     {
         auto min_x_w = pRect->w;
         if (pRect->x <= pRect->w)
@@ -209,9 +209,9 @@ void BaseBomb::DealDamageRect(const PSX_RECT* pRect)
         const auto top = FP_GetExponent(mYPos) + min_y_h;
         const auto bottom = FP_GetExponent(mYPos) + min_h_y;
 
-        for (s32 i = 0; i < gBaseAliveGameObjects_5C1B7C->Size(); i++)
+        for (s32 i = 0; i < gBaseAliveGameObjects->Size(); i++)
         {
-            auto pObj = gBaseAliveGameObjects_5C1B7C->ItemAt(i);
+            auto pObj = gBaseAliveGameObjects->ItemAt(i);
             if (!pObj)
             {
                 break;

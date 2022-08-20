@@ -627,9 +627,9 @@ s16 Drill::DamageTouchingObjects()
     }
 
     BaseAliveGameObject* pFound = nullptr;
-    for (s32 i = 0; i < gBaseAliveGameObjects_5C1B7C->Size(); i++)
+    for (s32 i = 0; i < gBaseAliveGameObjects->Size(); i++)
     {
-        BaseAliveGameObject* pObj = gBaseAliveGameObjects_5C1B7C->ItemAt(i);
+        BaseAliveGameObject* pObj = gBaseAliveGameObjects->ItemAt(i);
         if (!pObj)
         {
             return 0;

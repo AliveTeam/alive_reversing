@@ -51,10 +51,10 @@ enum class SpawnerStates : s16
 struct Slig_Spawner_State final
 {
     AETypes mType;
-    s16 field_2_padding;
+    s16 padding1;
     s32 mTlvInfo;
     SpawnerStates mState;
-    s16 field_A_padding;
+    s16 padding2;
     s32 mSpawnedSligId;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Slig_Spawner_State, 0x10);

@@ -526,7 +526,7 @@ void Fleech::Motion_1_WakingUp()
 
         if (pObj->Type() == ReliveTypes::eSnoozeParticle)
         {
-            static_cast<SnoozeParticle*>(pObj)->field_1E4_state = SnoozeParticle::SnoozeParticleState::eBlowingUp_2;
+            static_cast<SnoozeParticle*>(pObj)->mState = SnoozeParticle::SnoozeParticleState::eBlowingUp_2;
         }
     }
 
@@ -2119,7 +2119,7 @@ s16 Fleech::HandleEnemyStopperOrSlamDoor(s32 velX)
         FP_GetExponent(mYPos),
         TlvTypes::SlamDoor_85));
 
-    return (pSlamDoor && ((pSlamDoor->field_10_bStart_closed == Choice_short::eYes_1 && !SwitchStates_Get(pSlamDoor->field_14_switch_id)) || (pSlamDoor->field_10_bStart_closed == Choice_short::eNo_0 && SwitchStates_Get(pSlamDoor->field_14_switch_id))));
+    return (pSlamDoor && ((pSlamDoor->mStartClosed == Choice_short::eYes_1 && !SwitchStates_Get(pSlamDoor->mSwitchId)) || (pSlamDoor->mStartClosed == Choice_short::eNo_0 && SwitchStates_Get(pSlamDoor->mSwitchId))));
 }
 
 s32 Fleech::UpdateWakeUpSwitchValue()
@@ -2386,9 +2386,9 @@ BaseAliveGameObject* Fleech::FindMudOrAbe()
 {
     BaseAliveGameObject* pRet = nullptr;
     FP lastDist = FP_FromInteger(gPsxDisplay.mWidth);
-    for (s32 i = 0; i < gBaseAliveGameObjects_5C1B7C->Size(); i++)
+    for (s32 i = 0; i < gBaseAliveGameObjects->Size(); i++)
     {
-        auto pObj = gBaseAliveGameObjects_5C1B7C->ItemAt(i);
+        auto pObj = gBaseAliveGameObjects->ItemAt(i);
         if (!pObj)
         {
             break;

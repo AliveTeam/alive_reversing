@@ -3424,7 +3424,7 @@ void Slig::Motion_34_SleepingToStand_46A5F0()
 
         if (pObj->mBaseGameObjectTypeId == ReliveTypes::eSnoozParticle)
         {
-            static_cast<SnoozeParticle*>(pObj)->field_1D4_state = SnoozeParticle::SnoozeParticleState::eBlowingUp_2;
+            static_cast<SnoozeParticle*>(pObj)->mState = SnoozeParticle::SnoozeParticleState::eBlowingUp_2;
         }
     }
 

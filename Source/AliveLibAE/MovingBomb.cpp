@@ -225,9 +225,9 @@ void MovingBomb::VOnThrowableHit(BaseGameObject* /*pObj*/)
 s16 MovingBomb::HitObject()
 {
     const PSX_RECT bRect = VGetBoundingRect();
-    for (s32 i = 0; i < gBaseAliveGameObjects_5C1B7C->Size(); i++)
+    for (s32 i = 0; i < gBaseAliveGameObjects->Size(); i++)
     {
-        auto pObj = gBaseAliveGameObjects_5C1B7C->ItemAt(i);
+        auto pObj = gBaseAliveGameObjects->ItemAt(i);
         if (!pObj)
         {
             break;

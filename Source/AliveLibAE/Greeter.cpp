@@ -553,9 +553,9 @@ bool Greeter::ZapIsNotBlocked(BaseAliveGameObject* pUs, BaseAliveGameObject* pTh
 
 BaseAliveGameObject* Greeter::GetMudToZap()
 {
-    for (s32 idx = 0; idx < gBaseAliveGameObjects_5C1B7C->Size(); idx++)
+    for (s32 idx = 0; idx < gBaseAliveGameObjects->Size(); idx++)
     {
-        BaseAliveGameObject* pObj = gBaseAliveGameObjects_5C1B7C->ItemAt(idx);
+        BaseAliveGameObject* pObj = gBaseAliveGameObjects->ItemAt(idx);
         if (!pObj)
         {
             break;

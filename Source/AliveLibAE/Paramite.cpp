@@ -5203,7 +5203,7 @@ void Paramite::VUpdate()
             const auto oldMotion = mCurrentMotion;
             field_12C_brain_ret = (this->*field_128_fn_brainState)();
 
-            if (sDDCheat_ShowAI_Info_5C1BD8)
+            if (sDDCheat_ShowAI_Info)
             {
                 DDCheat::DebugStr(
                     "Paramite %d %d %d %d\n",
@@ -5256,9 +5256,9 @@ void Paramite::VUpdate()
 
 s16 Paramite::Find_Paramite()
 {
-    for (s32 i = 0; i < gBaseAliveGameObjects_5C1B7C->Size(); i++)
+    for (s32 i = 0; i < gBaseAliveGameObjects->Size(); i++)
     {
-        BaseAliveGameObject* pObj = gBaseAliveGameObjects_5C1B7C->ItemAt(i);
+        BaseAliveGameObject* pObj = gBaseAliveGameObjects->ItemAt(i);
         if (!pObj)
         {
             break;
@@ -5589,9 +5589,9 @@ s16 Paramite::CanIAcceptAGameSpeakCommand()
         FP_GetExponent(mXPos),
         FP_GetExponent(mYPos));
 
-    for (s32 i = 0; i < gBaseAliveGameObjects_5C1B7C->Size(); i++)
+    for (s32 i = 0; i < gBaseAliveGameObjects->Size(); i++)
     {
-        BaseAliveGameObject* pObj = gBaseAliveGameObjects_5C1B7C->ItemAt(i);
+        BaseAliveGameObject* pObj = gBaseAliveGameObjects->ItemAt(i);
         if (!pObj)
         {
             break;
@@ -5821,9 +5821,9 @@ s16 Paramite::FindTarget()
     if (sControlledCharacter == this)
     {
         BaseAliveGameObject* pBestTarget = nullptr;
-        for (s32 i = 0; i < gBaseAliveGameObjects_5C1B7C->Size(); i++)
+        for (s32 i = 0; i < gBaseAliveGameObjects->Size(); i++)
         {
-            BaseAliveGameObject* pObj = gBaseAliveGameObjects_5C1B7C->ItemAt(i);
+            BaseAliveGameObject* pObj = gBaseAliveGameObjects->ItemAt(i);
             if (!pObj)
             {
                 break;
@@ -6217,8 +6217,8 @@ void Paramite::UpdateSlurgWatchPoints()
         if (BaseAliveGameObjectCollisionLine)
         {
             Slurg_Step_Watch_Points* pPoints = &sSlurg_Step_Watch_Points_5C1B28[sSlurg_Step_Watch_Points_Idx_5C1C08];
-            pPoints->field_0_points[count].field_0_xPos = FP_GetExponent(mXPos);
-            pPoints->field_0_points[count].field_2_yPos = BaseAliveGameObjectCollisionLine->mRect.y - 5;
+            pPoints->mPoints[count].x = FP_GetExponent(mXPos);
+            pPoints->mPoints[count].y = BaseAliveGameObjectCollisionLine->mRect.y - 5;
             sSlurg_Step_Watch_Points_Count_5BD4DC[sSlurg_Step_Watch_Points_Idx_5C1C08] = count + 1;
         }
     }

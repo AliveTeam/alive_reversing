@@ -683,11 +683,11 @@ struct Path_SlamDoor final : public ReliveAPI::TlvObjectBaseAE
 {
     CTOR_AE(Path_SlamDoor, "SlamDoor", TlvTypes::SlamDoor_85)
     {
-        ADD("Start Shut", mTlv.field_10_bStart_closed);
-        ADD("Scale", mTlv.field_12_scale);
-        ADD("Switch ID", mTlv.field_14_switch_id);
-        ADD("Flip On Y Axis", mTlv.field_16_bStart_inverted);
-        ADD("Delete", mTlv.field_18_bDelete);
+        ADD("Start Shut", mTlv.mStartClosed);
+        ADD("Scale", mTlv.mScale);
+        ADD("Switch ID", mTlv.mSwitchId);
+        ADD("Flip On Y Axis", mTlv.mFlipY);
+        ADD("Delete", mTlv.mDelete);
     }
 };
 
@@ -1424,14 +1424,14 @@ struct Path_SlapLock final : public ReliveAPI::TlvObjectBaseAE
 {
     CTOR_AE(Path_SlapLock, "SlapLock", TlvTypes::SlapLock_98)
     {
-        ADD("Scale", mTlv.field_10_scale);
-        ADD("Target Tomb ID 1", mTlv.field_12_target_tomb_id1);
-        ADD("Target Tomb ID 2", mTlv.field_14_target_tomb_id2);
-        ADD("Persistant", mTlv.field_16_bPersistant);
-        ADD("Has Ghost", mTlv.field_18_has_ghost);
+        ADD("Scale", mTlv.mScale);
+        ADD("Target Tomb ID 1", mTlv.mTargetTombSwitchId1);
+        ADD("Target Tomb ID 2", mTlv.mTargetTombSwitchId2);
+        ADD("Persistant", mTlv.mPersistant);
+        ADD("Has Ghost", mTlv.mHasGhost);
         ADD("Give Invisibility Power-up", mTlv.mGiveInvisibilityPowerup);
         ADD("Invisibility Duration", mTlv.mInvisibilityDuration);
-        ADD("Toggle Switch ID", mTlv.field_1E_toggle_switch_id);
+        ADD("Toggle Switch ID", mTlv.mSlapOutputSwitchId);
     }
 };
 
@@ -1440,9 +1440,9 @@ struct Path_Slurg final : public ReliveAPI::TlvObjectBaseAE
     CTOR_AE(Path_Slurg, "Slurg", TlvTypes::Slurg_84)
     {
         ADD("Time Until Turning Around", mTlv.mSlurgData.mMovingTimer);
-        ADD("Start Direction", mTlv.mSlurgData.field_2_start_direction);
-        ADD("Scale", mTlv.mSlurgData.field_4_scale);
-        ADD("Switch ID (increment by 1 on death)", mTlv.mSlurgData.field_6_switch_id);
+        ADD("Start Direction", mTlv.mSlurgData.mFacing);
+        ADD("Scale", mTlv.mSlurgData.mScale);
+        ADD("Switch ID (increment by 1 on death)", mTlv.mSlurgData.mSwitchId);
 
         ADD_RESOURCE(AnimId::Slurg_Burst, ReliveAPI::AddResourceTo::File);
         ADD_RESOURCE(AnimId::Slurg_Move, ReliveAPI::AddResourceTo::File);
@@ -2066,13 +2066,13 @@ struct Path_SlurgSpawner final : public ReliveAPI::TlvObjectBaseAE
     CTOR_AE(Path_SlurgSpawner, "SlurgSpawner", TlvTypes::SlurgSpawner_89)
     {
         ADD("Time Until Turning Around", mTlv.mSlurgData.mMovingTimer);
-        ADD("Start Direction", mTlv.mSlurgData.field_2_start_direction);
-        ADD("Scale", mTlv.mSlurgData.field_4_scale);
-        ADD("Switch ID (increment by 1 on death)", mTlv.mSlurgData.field_6_switch_id);
+        ADD("Start Direction", mTlv.mSlurgData.mFacing);
+        ADD("Scale", mTlv.mSlurgData.mScale);
+        ADD("Switch ID (increment by 1 on death)", mTlv.mSlurgData.mSwitchId);
 
-        ADD("Spawn Interval", mTlv.field_18_spawner_data.field_8_spawn_delay_between_slurgs);
-        ADD("Max Slurgs", mTlv.field_18_spawner_data.field_A_max_slurgs);
-        ADD("Spawner Switch ID", mTlv.field_18_spawner_data.field_C_switch_id);
+        ADD("Spawn Interval", mTlv.mSpawnerData.mSpawnInterval);
+        ADD("Max Slurgs", mTlv.mSpawnerData.mMaxSlurgs);
+        ADD("Spawner Switch ID", mTlv.mSpawnerData.mSwitchId);
 
         ADD_RESOURCE(AnimId::Slurg_Burst, ReliveAPI::AddResourceTo::File);
         ADD_RESOURCE(AnimId::Slurg_Move, ReliveAPI::AddResourceTo::File);

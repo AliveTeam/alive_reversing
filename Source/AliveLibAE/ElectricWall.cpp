@@ -124,9 +124,9 @@ void ElectricWall::VUpdate()
         bRectBigger.w = FP_GetExponent(mXPos + FP_FromInteger(4));
         bRectBigger.h = static_cast<s16>(bRect.h + 5);
 
-        for (s32 i = 0; i < gBaseAliveGameObjects_5C1B7C->Size(); i++)
+        for (s32 i = 0; i < gBaseAliveGameObjects->Size(); i++)
         {
-            BaseAliveGameObject* pObj = gBaseAliveGameObjects_5C1B7C->ItemAt(i);
+            BaseAliveGameObject* pObj = gBaseAliveGameObjects->ItemAt(i);
             if (!pObj)
             {
                 break;

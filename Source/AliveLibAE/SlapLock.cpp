@@ -21,7 +21,7 @@ SlapLock::SlapLock(Path_SlapLock* pTlv, s32 tlvInfo)
     mTlvInfo = tlvInfo;
     mBaseGameObjectTlvInfo = tlvInfo;
 
-    if (pTlv->field_10_scale == Scale_short::eHalf_1)
+    if (pTlv->mScale == Scale_short::eHalf_1)
     {
         mSpriteScale = FP_FromDouble(0.5);
     }
@@ -30,7 +30,7 @@ SlapLock::SlapLock(Path_SlapLock* pTlv, s32 tlvInfo)
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
     Animation_Init(AnimId::SlapLock_Initiate, ppRes);
 
-    if (mSlapLockTlv->field_10_scale != Scale_short::eFull_0)
+    if (mSlapLockTlv->mScale != Scale_short::eFull_0)
     {
         mAnim.mRenderLayer = Layer::eLayer_BeforeShadow_Half_6;
     }
@@ -49,7 +49,7 @@ SlapLock::SlapLock(Path_SlapLock* pTlv, s32 tlvInfo)
     const FP ypos = FP_FromInteger(pTlv->mBottomRight.y);
     mYPos = ypos;
 
-    mHasGhost = mSlapLockTlv->field_18_has_ghost;
+    mHasGhost = mSlapLockTlv->mHasGhost;
 
     for (s32 i = 0; i < gBaseGameObjects->Size(); i++)
     {
@@ -59,13 +59,13 @@ SlapLock::SlapLock(Path_SlapLock* pTlv, s32 tlvInfo)
             break;
         }
 
-        if (pObj->Type() == ReliveTypes::eSlapLock_OrbWhirlWind && static_cast<SlapLockWhirlWind*>(pObj)->SwitchId() == mSlapLockTlv->field_14_target_tomb_id2)
+        if (pObj->Type() == ReliveTypes::eSlapLock_OrbWhirlWind && static_cast<SlapLockWhirlWind*>(pObj)->SwitchId() == mSlapLockTlv->mTargetTombSwitchId2)
         {
             mHasGhost = Choice_short::eNo_0;
         }
     }
 
-    if (SwitchStates_Get(pTlv->field_14_target_tomb_id2))
+    if (SwitchStates_Get(pTlv->mTargetTombSwitchId2))
     {
         mHasGhost = Choice_short::eNo_0;
     }
@@ -149,14 +149,14 @@ s32 SlapLock::VGetSaveState(u8* pSaveBuffer)
 {
     auto pState = reinterpret_cast<SlapLock_State*>(pSaveBuffer);
 
-    pState->field_0_type = AETypes::eLockedSoul_61;
+    pState->mType = AETypes::eLockedSoul_61;
     pState->mAnimRender = mAnim.mFlags.Get(AnimFlags::eBit3_Render) & 1;
     pState->mTlvInfo = mTlvInfo;
     pState->mTlvState = sPathInfo->TLV_From_Offset_Lvl_Cam(mTlvInfo)->mTlvState;
     pState->mState = mState;
     pState->mTimer1 = mTimer1;
     pState->mShinyParticleTimer = mShinyParticleTimer;
-    pState->field_10_obj_id = -1;
+    pState->mAbilityRingId = -1;
 
     if (mAbilityRingId == -1)
     {
@@ -166,7 +166,7 @@ s32 SlapLock::VGetSaveState(u8* pSaveBuffer)
     BaseGameObject* pObj = sObjectIds.Find_Impl(mAbilityRingId);
     if (pObj)
     {
-        pState->field_10_obj_id = pObj->mBaseGameObjectTlvInfo;
+        pState->mAbilityRingId = pObj->mBaseGameObjectTlvInfo;
     }
     return sizeof(SlapLock_State);
 }
@@ -187,7 +187,7 @@ void SlapLock::VUpdate()
 
             if (mSlapLockTlv->mTlvState)
             {
-                SwitchStates_Do_Operation(mSlapLockTlv->field_14_target_tomb_id2, SwitchOp::eSetTrue_0);
+                SwitchStates_Do_Operation(mSlapLockTlv->mTargetTombSwitchId2, SwitchOp::eSetTrue_0);
             }
 
             if (mAbilityRingId != -1)
@@ -450,8 +450,8 @@ s16 SlapLock::VTakeDamage(BaseGameObject* pFrom)
     {
         mHasGhost = Choice_short::eNo_0;
         relive_new SlapLockWhirlWind(
-            mSlapLockTlv->field_12_target_tomb_id1,
-            mSlapLockTlv->field_14_target_tomb_id2,
+            mSlapLockTlv->mTargetTombSwitchId1,
+            mSlapLockTlv->mTargetTombSwitchId2,
             mXPos,
             mYPos - (FP_FromInteger(40) * mSpriteScale),
             mSpriteScale);
@@ -463,7 +463,7 @@ s16 SlapLock::VTakeDamage(BaseGameObject* pFrom)
     }
 
     mState = SlapLockStates::eSlapped_2;
-    SwitchStates_Do_Operation(mSlapLockTlv->field_1E_toggle_switch_id, SwitchOp::eToggle_2);
+    SwitchStates_Do_Operation(mSlapLockTlv->mSlapOutputSwitchId, SwitchOp::eToggle_2);
     SfxPlayMono(SoundEffect::SpiritLockBreak_106, 0, mSpriteScale);
     EventBroadcast(kEventLoudNoise, this);
 

@@ -702,7 +702,7 @@ void Scrab::VUpdate()
 
             field_11C_brain_sub_state = (this->*field_118_brain_state)();
 
-            if (sDDCheat_ShowAI_Info_5C1BD8)
+            if (sDDCheat_ShowAI_Info)
             {
                 DDCheat::DebugStr(
                     "Scrab %d %d %d %d\n",
@@ -818,8 +818,8 @@ void Scrab::Update_Slurg_Step_Watch_Points()
             if (count < 5)
             {
                 Slurg_Step_Watch_Points* pPoints = &sSlurg_Step_Watch_Points_5C1B28[sSlurg_Step_Watch_Points_Idx_5C1C08];
-                pPoints->field_0_points[count].field_0_xPos = FP_GetExponent(mXPos);
-                pPoints->field_0_points[count].field_2_yPos = BaseAliveGameObjectCollisionLine->mRect.y - 5;
+                pPoints->mPoints[count].x = FP_GetExponent(mXPos);
+                pPoints->mPoints[count].y = BaseAliveGameObjectCollisionLine->mRect.y - 5;
                 sSlurg_Step_Watch_Points_Count_5BD4DC[sSlurg_Step_Watch_Points_Idx_5C1C08] = count + 1;
             }
         }
@@ -3977,10 +3977,10 @@ void Scrab::KillTarget(BaseAliveGameObject* pTarget)
                 {
                     bKillSpecific = true;
                 }
-                else if (gBaseAliveGameObjects_5C1B7C->field_4_used_size > 0)
+                else if (gBaseAliveGameObjects->field_4_used_size > 0)
                 {
                     list_idx = 1;
-                    pObj = gBaseAliveGameObjects_5C1B7C->ItemAt(0);
+                    pObj = gBaseAliveGameObjects->ItemAt(0);
                 }
                 else
                 {
@@ -4043,12 +4043,12 @@ void Scrab::KillTarget(BaseAliveGameObject* pTarget)
                         break;
                     }
 
-                    if (list_idx >= gBaseAliveGameObjects_5C1B7C->Size())
+                    if (list_idx >= gBaseAliveGameObjects->Size())
                     {
                         break;
                     }
 
-                    pObj = gBaseAliveGameObjects_5C1B7C->ItemAt(list_idx++);
+                    pObj = gBaseAliveGameObjects->ItemAt(list_idx++);
                 }
                 while (pObj);
             }
@@ -4253,7 +4253,7 @@ s16 Scrab::Handle_SlamDoor_or_EnemyStopper(FP velX, s16 bCheckLeftRightBounds)
         TlvTypes::SlamDoor_85);
 
     auto pSlamDoorTlv = static_cast<Path_SlamDoor*>(BaseAliveGameObjectPathTLV);
-    if (pSlamDoorTlv && ((pSlamDoorTlv->field_10_bStart_closed == Choice_short::eYes_1 && !SwitchStates_Get(pSlamDoorTlv->field_14_switch_id)) || (pSlamDoorTlv->field_10_bStart_closed == Choice_short::eNo_0 && SwitchStates_Get(pSlamDoorTlv->field_14_switch_id))))
+    if (pSlamDoorTlv && ((pSlamDoorTlv->mStartClosed == Choice_short::eYes_1 && !SwitchStates_Get(pSlamDoorTlv->mSwitchId)) || (pSlamDoorTlv->mStartClosed == Choice_short::eNo_0 && SwitchStates_Get(pSlamDoorTlv->mSwitchId))))
     {
         return 1;
     }

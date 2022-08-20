@@ -1012,7 +1012,7 @@ void Slog::Motion_17_WakeUp()
 
         if (pObj->Type() == ReliveTypes::eSnoozeParticle)
         {
-            static_cast<SnoozeParticle*>(pObj)->field_1E4_state = SnoozeParticle::SnoozeParticleState::eBlowingUp_2;
+            static_cast<SnoozeParticle*>(pObj)->mState = SnoozeParticle::SnoozeParticleState::eBlowingUp_2;
         }
     }
 
@@ -2873,7 +2873,7 @@ void Slog::VUpdate()
 
         const auto oldMotion = mCurrentMotion;
         field_122_brain_state_result = (this->*sSlogBrainTable[field_120_brain_state_idx])();
-        if (sDDCheat_ShowAI_Info_5C1BD8)
+        if (sDDCheat_ShowAI_Info)
         {
             DDCheat::DebugStr("Slog:  Motion=%d  BrainState=%d\n", mCurrentMotion, field_122_brain_state_result);
         }
@@ -3180,9 +3180,9 @@ BaseAliveGameObject* Slog::FindTarget(s16 bKillSligs, s16 bLookingUp)
     s32 array_idx = 0;
     s32 local_array[10] = {};
 
-    for (s32 i = 0; i < gBaseAliveGameObjects_5C1B7C->Size(); i++)
+    for (s32 i = 0; i < gBaseAliveGameObjects->Size(); i++)
     {
-        BaseAliveGameObject* pObj = gBaseAliveGameObjects_5C1B7C->ItemAt(i);
+        BaseAliveGameObject* pObj = gBaseAliveGameObjects->ItemAt(i);
         if (!pObj)
         {
             break;
@@ -3417,9 +3417,9 @@ s16 Slog::PlayerOrNakedSligNear()
         return 1;
     }
 
-    for (s32 i = 0; i < gBaseAliveGameObjects_5C1B7C->Size(); i++)
+    for (s32 i = 0; i < gBaseAliveGameObjects->Size(); i++)
     {
-        BaseAliveGameObject* pObj = gBaseAliveGameObjects_5C1B7C->ItemAt(i);
+        BaseAliveGameObject* pObj = gBaseAliveGameObjects->ItemAt(i);
         if (!pObj)
         {
             break;
