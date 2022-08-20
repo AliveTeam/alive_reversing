@@ -152,7 +152,7 @@ void Explosion::VScreenChanged()
 
 void Explosion::DealBlastDamage(PSX_RECT* pRect)
 {
-    if (!gBaseAliveGameObjects_4FC8A0)
+    if (!gBaseAliveGameObjects)
     {
         return;
     }
@@ -187,9 +187,9 @@ void Explosion::DealBlastDamage(PSX_RECT* pRect)
         expandedRect.h += 240;
     }
 
-    for (s32 idx = 0; idx < gBaseAliveGameObjects_4FC8A0->Size(); idx++)
+    for (s32 idx = 0; idx < gBaseAliveGameObjects->Size(); idx++)
     {
-        auto pObj = gBaseAliveGameObjects_4FC8A0->ItemAt(idx);
+        auto pObj = gBaseAliveGameObjects->ItemAt(idx);
         if (!pObj)
         {
             break;

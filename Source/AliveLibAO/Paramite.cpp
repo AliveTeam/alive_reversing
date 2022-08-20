@@ -1619,7 +1619,7 @@ s16 Paramite::IsBeeSwarmChasingMe_4022B0()
 
         if (pObj->mBaseGameObjectTypeId == ReliveTypes::eBeeSwarm)
         {
-            if (static_cast<BeeSwarm*>(pObj)->field_D98_pChaseTarget == this)
+            if (static_cast<BeeSwarm*>(pObj)->mChaseTarget == this)
             {
                 return 1;
             }

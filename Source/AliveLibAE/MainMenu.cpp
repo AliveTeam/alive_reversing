@@ -1273,11 +1273,11 @@ void MainMenuController::Demo_And_FMV_List_Render_4D4F30(PrimHeader** ppOt)
 {
     if (word_BB4418)
     {
-        word_BB4418 = sDoesCreditsControllerExist_5C1B90;
+        word_BB4418 = gCreditsControllerExists;
         return;
     }
 
-    word_BB4418 = sDoesCreditsControllerExist_5C1B90;
+    word_BB4418 = gCreditsControllerExists;
 
     if (field_230_target_entry_index != field_250_selected_entry_index)
     {
@@ -1528,7 +1528,7 @@ MainMenuNextCam MainMenuController::Page_FMV_Level_Update_4D4AB0(u32 input_held)
         }
         else
         {
-            sDoesCreditsControllerExist_5C1B90 = 1;
+            gCreditsControllerExists = 1;
             field_240_credits_current_cam = 1;
             field_1F4_credits_next_frame = sGnFrame + 160;
             gMap.SetActiveCam(EReliveLevelIds::eCredits, 1, 1, CameraSwapEffects::eInstantChange_0, 0, 0);
@@ -2881,7 +2881,7 @@ void MainMenuController::HandleCreditsControllerUpdate()
 {
     if (Input().isPressed(InputCommands::Enum::eBack))
     {
-        sDoesCreditsControllerExist_5C1B90 = 0;
+        gCreditsControllerExists = 0;
         gMap.SetActiveCam(EReliveLevelIds::eMenu, 1, 6, CameraSwapEffects::eInstantChange_0, 0, 0);
         return;
     }
@@ -2907,7 +2907,7 @@ void MainMenuController::HandleCreditsControllerUpdate()
         {
             if (currentCam > 36)
             {
-                sDoesCreditsControllerExist_5C1B90 = 0;
+                gCreditsControllerExists = 0;
                 gMap.SetActiveCam(EReliveLevelIds::eMenu, 1, 6, CameraSwapEffects::eInstantChange_0, 0, 0);
                 return;
             }
@@ -3081,7 +3081,7 @@ void MainMenuController::Unload_Resource(u8**& res)
 
 void MainMenuController::VUpdate()
 {
-    if (sDoesCreditsControllerExist_5C1B90)
+    if (gCreditsControllerExists)
     {
         HandleCreditsControllerUpdate();
     }

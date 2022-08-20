@@ -243,7 +243,7 @@ s16 Slog::VTakeDamage(BaseGameObject* pFrom)
             {
                 relive_new Blood(
                     mXPos,
-                    pBullet->field_1C_ypos,
+                    pBullet->mYPos,
                     -FP_FromInteger(24),
                     FP_FromInteger(0),
                     mSpriteScale,
@@ -253,7 +253,7 @@ s16 Slog::VTakeDamage(BaseGameObject* pFrom)
             {
                 relive_new Blood(
                     mXPos,
-                    pBullet->field_1C_ypos,
+                    pBullet->mYPos,
                     FP_FromInteger(24),
                     FP_FromInteger(0),
                     mSpriteScale,
@@ -798,9 +798,9 @@ BaseAliveGameObject* Slog::FindAbeMudOrSlig()
         bRect.w += gPsxDisplay.mWidth;
     }
 
-    for (s32 i = 0; i < gBaseAliveGameObjects_4FC8A0->Size(); i++)
+    for (s32 i = 0; i < gBaseAliveGameObjects->Size(); i++)
     {
-        BaseAliveGameObject* pObj = gBaseAliveGameObjects_4FC8A0->ItemAt(i);
+        BaseAliveGameObject* pObj = gBaseAliveGameObjects->ItemAt(i);
         if (!pObj)
         {
             break;

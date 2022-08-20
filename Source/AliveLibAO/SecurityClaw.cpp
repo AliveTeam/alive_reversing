@@ -59,10 +59,10 @@ SecurityClaw::SecurityClaw(Path_SecurityClaw* pTlv, s32 tlvInfo)
     u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
     Animation_Init(AnimId::Security_Claw_Upper_Rotating, ppRes);
 
-    field_10C_tlvInfo = tlvInfo;
+    mTlvInfo = tlvInfo;
 
-    field_11C_clawX = FP_FromInteger(pTlv->mTopLeft.x);
-    field_120_clawY = FP_FromInteger(pTlv->mTopLeft.y);
+    mClawX = FP_FromInteger(pTlv->mTopLeft.x);
+    mClawY = FP_FromInteger(pTlv->mTopLeft.y);
 
     if (pTlv->mScale == Scale_short::eHalf_1)
     {
@@ -77,27 +77,27 @@ SecurityClaw::SecurityClaw(Path_SecurityClaw* pTlv, s32 tlvInfo)
 
     field_124 = 0; // LOBYTE
 
-    mXPos = field_11C_clawX + ((Math_Sine_451110(0) * mSpriteScale) * FP_FromInteger(8)) * FP_FromDouble(0.25);
-    mYPos = field_120_clawY + ((Math_Cosine_4510A0(0) * mSpriteScale) * FP_FromInteger(8));
+    mXPos = mClawX + ((Math_Sine_451110(0) * mSpriteScale) * FP_FromInteger(8)) * FP_FromDouble(0.25);
+    mYPos = mClawY + ((Math_Cosine_4510A0(0) * mSpriteScale) * FP_FromInteger(8));
     SetTint(&kSecurityClawTints_4C5488[0], gMap.mCurrentLevel);
 
     field_134 = pTlv->mTopLeft;
     field_138 = pTlv->mBottomRight;
 
-    field_118_alarm_switch_id = pTlv->mAlarmSwitchId;
-    field_11A_alarm_duration = pTlv->mAlarmDuration;
+    mAlarmSwitchId = pTlv->mAlarmSwitchId;
+    mAlarmDuration = pTlv->mAlarmDuration;
 
     field_110_state = SecurityClawStates::eCamSwap_0;
 
-    field_130_pClaw = relive_new Claw();
-    if (field_130_pClaw)
+    mClaw = relive_new Claw();
+    if (mClaw)
     {
-        field_130_pClaw->mSpriteScale = mSpriteScale;
-        field_130_pClaw->mAnim.mRenderLayer = mSpriteScale == FP_FromInteger(1) ? Layer::eLayer_ZapLinesElumMuds_28 : Layer::eLayer_ZapLinesMudsElum_Half_9;
+        mClaw->mSpriteScale = mSpriteScale;
+        mClaw->mAnim.mRenderLayer = mSpriteScale == FP_FromInteger(1) ? Layer::eLayer_ZapLinesElumMuds_28 : Layer::eLayer_ZapLinesMudsElum_Half_9;
 
-        field_130_pClaw->mXPos = field_11C_clawX;
-        field_130_pClaw->mYPos = field_120_clawY;
-        field_130_pClaw->SetTint(&kClawTints_4C5498[0], gMap.mCurrentLevel);
+        mClaw->mXPos = mClawX;
+        mClaw->mYPos = mClawY;
+        mClaw->SetTint(&kClawTints_4C5498[0], gMap.mCurrentLevel);
     }
 
     mBaseGameObjectFlags.Set(Options::eUpdateDuringCamSwap_Bit10);
@@ -109,17 +109,17 @@ SecurityClaw::~SecurityClaw()
 {
     if (field_12C_pDetector)
     {
-        Path::TLV_Reset(field_10C_tlvInfo, -1, 0, 0);
+        Path::TLV_Reset(mTlvInfo, -1, 0, 0);
     }
     else
     {
-        Path::TLV_Reset(field_10C_tlvInfo, -1, 0, 1);
+        Path::TLV_Reset(mTlvInfo, -1, 0, 1);
     }
 
-    if (field_130_pClaw)
+    if (mClaw)
     {
-        field_130_pClaw->mBaseGameObjectFlags.Set(Options::eDead);
-        field_130_pClaw = nullptr;
+        mClaw->mBaseGameObjectFlags.Set(Options::eDead);
+        mClaw = nullptr;
     }
 
     if (field_13C_pArray)
@@ -213,31 +213,31 @@ void SecurityClaw::VUpdate()
 
     if (sActiveHero == sControlledCharacter)
     {
-        if (sActiveHero->mXPos < field_11C_clawX)
+        if (sActiveHero->mXPos < mClawX)
         {
-            if (FP_GetExponent(field_11C_clawX) > field_134.x)
+            if (FP_GetExponent(mClawX) > field_134.x)
             {
-                field_11C_clawX -= FP_FromDouble(0.5);
+                mClawX -= FP_FromDouble(0.5);
             }
         }
 
-        if (sActiveHero->mXPos >= field_11C_clawX)
+        if (sActiveHero->mXPos >= mClawX)
         {
-            if (FP_GetExponent(field_11C_clawX) < field_138.x)
+            if (FP_GetExponent(mClawX) < field_138.x)
             {
-                field_11C_clawX += FP_FromDouble(0.5);
+                mClawX += FP_FromDouble(0.5);
             }
         }
     }
 
-    mXPos = field_11C_clawX + (((Math_Sine_451110(field_124) * mSpriteScale) * FP_FromInteger(8)) * FP_FromDouble(0.25));
+    mXPos = mClawX + (((Math_Sine_451110(field_124) * mSpriteScale) * FP_FromInteger(8)) * FP_FromDouble(0.25));
 
     field_124 += 2;
 
-    mYPos = field_120_clawY + ((Math_Cosine_4510A0(field_124) * mSpriteScale) * FP_FromInteger(8));
+    mYPos = mClawY + ((Math_Cosine_4510A0(field_124) * mSpriteScale) * FP_FromInteger(8));
 
-    field_130_pClaw->mXPos = mXPos;
-    field_130_pClaw->mYPos = mYPos;
+    mClaw->mXPos = mXPos;
+    mClaw->mYPos = mYPos;
 
     if (field_13C_pArray)
     {
@@ -289,7 +289,7 @@ void SecurityClaw::VUpdate()
             {
                 field_114_timer = sGnFrame + 20;
                 field_110_state = SecurityClawStates::eDoZapEffects_2;
-                field_130_pClaw->mAnim.Set_Animation_Data(AnimId::Security_Claw_Lower_Open, nullptr);
+                mClaw->mAnim.Set_Animation_Data(AnimId::Security_Claw_Lower_Open, nullptr);
                 SfxPlayMono(SoundEffect::IndustrialNoise3_95, 60, 0);
                 SFX_Play_Pitch(SoundEffect::IndustrialNoise3_95, 90, -1000, 0);
             }
@@ -298,7 +298,7 @@ void SecurityClaw::VUpdate()
             {
                 if (!alarmInstanceCount_5076A8)
                 {
-                    relive_new Alarm(field_11A_alarm_duration, field_118_alarm_switch_id, 30, Layer::eLayer_Above_FG1_39);
+                    relive_new Alarm(mAlarmDuration, mAlarmSwitchId, 30, Layer::eLayer_Above_FG1_39);
                 }
             }
             break;
@@ -382,7 +382,7 @@ void SecurityClaw::VUpdate()
             if (static_cast<s32>(sGnFrame) > field_114_timer)
             {
                 field_110_state = SecurityClawStates::eIdle_1;
-                field_130_pClaw->mAnim.Set_Animation_Data(AnimId::Security_Claw_Lower_Close, nullptr);
+                mClaw->mAnim.Set_Animation_Data(AnimId::Security_Claw_Lower_Close, nullptr);
                 SfxPlayMono(SoundEffect::IndustrialTrigger_97, 0, 0);
             }
             break;

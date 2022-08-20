@@ -13,7 +13,7 @@ void RollingBallShaker_ForceLink()
 
 namespace AO {
 
-const static PSX_Pos16 sRollingBallShakerScreenOffsets_4BB740[18] = {
+const static PSX_Pos16 sRollingBallShakerScreenOffsets[18] = {
     {1, 0},
     {0, 0},
     {-1, 1},
@@ -39,8 +39,8 @@ RollingBallShaker::RollingBallShaker()
     mBaseGameObjectFlags.Set(Options::eDrawable_Bit4);
 
     mBaseGameObjectTypeId = ReliveTypes::eRollingBallStopperShaker;
-    field_30_shake_table_idx = 0;
-    field_32_bKillMe = 0; // Set externally
+    mShakeTableIdx = 0;
+    mStopShaking = false; // Set externally
     gObjListDrawables->Push_Back(this);
 }
 
@@ -51,18 +51,18 @@ RollingBallShaker::~RollingBallShaker()
 
 void RollingBallShaker::VUpdate()
 {
-    field_30_shake_table_idx++;
+    mShakeTableIdx++;
 
-    if (field_30_shake_table_idx >= ALIVE_COUNTOF(sRollingBallShakerScreenOffsets_4BB740))
+    if (mShakeTableIdx >= ALIVE_COUNTOF(sRollingBallShakerScreenOffsets))
     {
-        field_30_shake_table_idx = 0;
+        mShakeTableIdx = 0;
     }
 }
 
 void RollingBallShaker::VRender(PrimHeader** ppOt)
 {
-    Prim_ScreenOffset* pPrim = &field_10_prim_screen_offset[gPsxDisplay.mBufferIndex + 1];
-    if (field_32_bKillMe != 0)
+    Prim_ScreenOffset* pPrim = &mPrimScreenOffset[gPsxDisplay.mBufferIndex + 1];
+    if (mStopShaking)
     {
         // Unshake the screen
         PSX_Pos16 screenOff = {};
@@ -78,7 +78,7 @@ void RollingBallShaker::VRender(PrimHeader** ppOt)
     }
     else
     {
-        PSX_Pos16 screenOff = sRollingBallShakerScreenOffsets_4BB740[field_30_shake_table_idx];
+        PSX_Pos16 screenOff = sRollingBallShakerScreenOffsets[mShakeTableIdx];
         if (gPsxDisplay.mBufferIndex)
         {
             screenOff.y += gPsxDisplay.mHeight;

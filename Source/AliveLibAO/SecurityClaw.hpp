@@ -46,19 +46,18 @@ public:
     virtual void VUpdate() override;
     virtual void VOnThrowableHit(BaseGameObject* pFrom) override;
 
-    s32 field_10C_tlvInfo = 0;
+    s32 mTlvInfo = 0;
     SecurityClawStates field_110_state = SecurityClawStates::eCamSwap_0;
-    s16 field_112 = 0;
     s32 field_114_timer = 0;
-    s16 field_118_alarm_switch_id = 0;
-    s16 field_11A_alarm_duration = 0;
-    FP field_11C_clawX = {};
-    FP field_120_clawY = {};
+    s16 mAlarmSwitchId = 0;
+    s16 mAlarmDuration = 0;
+    FP mClawX = {};
+    FP mClawY = {};
     u8 field_124 = 0;
     s32 field_128_sound_channels = 0;
     s16 field_12C_pDetector = 0;
     s16 field_12E = 0;
-    Claw* field_130_pClaw = nullptr;
+    Claw* mClaw = nullptr;
     PSX_Point field_134 = {};
     PSX_Point field_138 = {};
     DynamicArrayT<MotionDetector>* field_13C_pArray;

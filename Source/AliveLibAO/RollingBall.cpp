@@ -21,7 +21,7 @@ namespace AO {
 
 RollingBall::~RollingBall()
 {
-    if (field_112_state != States::eInactive_0)
+    if (mState != States::eInactive)
     {
         Path::TLV_Reset(field_10C_tlvInfo, -1, 0, 1);
     }
@@ -30,16 +30,11 @@ RollingBall::~RollingBall()
         Path::TLV_Reset(field_10C_tlvInfo, -1, 0, 0);
     }
 
-    if (field_120_pCollisionLine)
+    if (mRollingBallShaker)
     {
-        Rect_Clear(&field_120_pCollisionLine->mRect);
-    }
-
-    if (field_114_pRollingBallShaker)
-    {
-        field_114_pRollingBallShaker->field_32_bKillMe = TRUE;
-        field_114_pRollingBallShaker->mBaseGameObjectRefCount--;
-        field_114_pRollingBallShaker = nullptr;
+        mRollingBallShaker->mStopShaking = true;
+        mRollingBallShaker->mBaseGameObjectRefCount--;
+        mRollingBallShaker = nullptr;
     }
 
     u8** pRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kDebrisID00AOResID, 0, 0);
@@ -69,7 +64,7 @@ RollingBall::RollingBall(Path_RollingBall* pTlv, s32 tlvInfo)
         mAnim.mFlags.Set(AnimFlags::eBit5_FlipX);
     }
 
-    field_110_release_switch_id = pTlv->mReleaseSwitchId;
+    mReleaseSwitchId = pTlv->mReleaseSwitchId;
     mMaxSpeed = FP_FromRaw(pTlv->mMaxSpeed << 8);
 
     if (mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
@@ -77,7 +72,7 @@ RollingBall::RollingBall(Path_RollingBall* pTlv, s32 tlvInfo)
         mMaxSpeed = -FP_FromRaw(pTlv->mMaxSpeed << 8);
     }
 
-    field_11C_acceleration = FP_FromRaw(pTlv->mAcceleration << 8);
+    mAcceleration = FP_FromRaw(pTlv->mAcceleration << 8);
 
     mXPos = FP_FromInteger(pTlv->mTopLeft.x);
     mYPos = FP_FromInteger(pTlv->mTopLeft.y);
@@ -102,16 +97,15 @@ RollingBall::RollingBall(Path_RollingBall* pTlv, s32 tlvInfo)
 
     MapFollowMe_401D30(TRUE);
     field_10C_tlvInfo = tlvInfo;
-    field_112_state = States::eInactive_0;
-    field_114_pRollingBallShaker = nullptr;
-    field_120_pCollisionLine = nullptr;
+    mState = States::eInactive;
+    mRollingBallShaker = nullptr;
 
     mShadow = relive_new Shadow();
 
     // Looks strange, it just bumps the res ref count
     ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kDebrisID00AOResID, 1, 0);
 
-    if (!SwitchStates_Get(field_110_release_switch_id))
+    if (!SwitchStates_Get(mReleaseSwitchId))
     {
         return;
     }
@@ -122,25 +116,25 @@ RollingBall::RollingBall(Path_RollingBall* pTlv, s32 tlvInfo)
         mXPos = FP_FromInteger(2522);
         mYPos = FP_FromInteger(1300);
         mAnim.mRenderLayer = Layer::eLayer_RollingBallBombMineCar_35;
-        field_112_state = States::eCrushedBees_4;
+        mState = States::eCrushedBees;
     }
 }
 
 void RollingBall::VUpdate()
 {
-    switch (field_112_state)
+    switch (mState)
     {
-        case States::eInactive_0:
-            if (SwitchStates_Get(field_110_release_switch_id))
+        case States::eInactive:
+            if (SwitchStates_Get(mReleaseSwitchId))
             {
                 mVelY = FP_FromDouble(2.5);
-                field_112_state = States::eStartRolling_1;
+                mState = States::eStartRolling;
                 // TODO: missing anim id
                 mAnim.Set_Animation_Data(15608, 0);
-                field_114_pRollingBallShaker = relive_new RollingBallShaker();
-                if (field_114_pRollingBallShaker)
+                mRollingBallShaker = relive_new RollingBallShaker();
+                if (mRollingBallShaker)
                 {
-                    field_114_pRollingBallShaker->mBaseGameObjectRefCount++;
+                    mRollingBallShaker->mBaseGameObjectRefCount++;
                 }
             }
             else if (!gMap.Is_Point_In_Current_Camera(
@@ -154,7 +148,7 @@ void RollingBall::VUpdate()
             }
             return;
 
-        case States::eStartRolling_1:
+        case States::eStartRolling:
         {
             if (!(mAnim.mCurrentFrame % 3))
             {
@@ -178,12 +172,12 @@ void RollingBall::VUpdate()
                 mXPos = hitX;
                 mYPos = hitY;
                 BaseAliveGameObjectCollisionLine = pLine;
-                field_112_state = States::eRolling_2;
+                mState = States::eRolling;
             }
             return;
         }
 
-        case States::eRolling_2:
+        case States::eRolling:
         {
             if (!(mAnim.mCurrentFrame % 3))
             {
@@ -208,18 +202,18 @@ void RollingBall::VUpdate()
 
             if (EventGet(kEventDeathReset))
             {
-                field_114_pRollingBallShaker->mBaseGameObjectRefCount--;
-                field_114_pRollingBallShaker->field_32_bKillMe = 1;
+                mRollingBallShaker->mBaseGameObjectRefCount--;
+                mRollingBallShaker->mStopShaking = true;
                 mBaseGameObjectFlags.Set(BaseGameObject::eDead);
-                field_114_pRollingBallShaker = nullptr;
+                mRollingBallShaker = nullptr;
             }
             else if (!BaseAliveGameObjectCollisionLine)
             {
-                field_112_state = States::eFallingAndHittingWall_3;
+                mState = States::eFallingAndHittingWall;
 
-                field_114_pRollingBallShaker->mBaseGameObjectRefCount--;
-                field_114_pRollingBallShaker->field_32_bKillMe = 1;
-                field_114_pRollingBallShaker = nullptr;
+                mRollingBallShaker->mBaseGameObjectRefCount--;
+                mRollingBallShaker->mStopShaking = true;
+                mRollingBallShaker = nullptr;
 
                 mXPos += mVelX;
                 BaseAliveGameObjectLastLineYPos = mYPos;
@@ -227,7 +221,7 @@ void RollingBall::VUpdate()
             return;
         }
 
-        case States::eFallingAndHittingWall_3:
+        case States::eFallingAndHittingWall:
         {
             if (WallHit_401930(FP_FromInteger(30), mVelX))
             {
@@ -294,7 +288,7 @@ void RollingBall::VUpdate()
                         mXPos = FP_FromInteger(2522);
                         mYPos = FP_FromInteger(1300);
                         mAnim.mRenderLayer = Layer::eLayer_RollingBallBombMineCar_35;
-                        field_112_state = States::eCrushedBees_4;
+                        mState = States::eCrushedBees;
                         CrushThingsInTheWay();
                         return;
                     }
@@ -343,7 +337,7 @@ void RollingBall::VUpdate()
             return;
         }
 
-        case States::eCrushedBees_4:
+        case States::eCrushedBees:
             if (mCurrentLevel != gMap.mCurrentLevel || mCurrentPath != gMap.mCurrentPath || EventGet(kEventDeathReset))
             {
                 mBaseGameObjectFlags.Set(Options::eDead);
@@ -361,7 +355,7 @@ void RollingBall::Accelerate()
     {
         if (mVelX > mMaxSpeed)
         {
-            mVelX -= field_11C_acceleration;
+            mVelX -= mAcceleration;
             mVelY = (-mVelX * FP_FromDouble(0.5));
         }
     }
@@ -369,7 +363,7 @@ void RollingBall::Accelerate()
     {
         if (mVelX < mMaxSpeed)
         {
-            mVelX += field_11C_acceleration;
+            mVelX += mAcceleration;
             mVelY = (mVelX * FP_FromDouble(0.5));
         }
     }

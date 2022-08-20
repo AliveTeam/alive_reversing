@@ -120,7 +120,7 @@ void BaseBomb::VUpdate()
 
 void BaseBomb::DealDamageRect(const PSX_RECT* pRect)
 {
-    if (gBaseAliveGameObjects_4FC8A0)
+    if (gBaseAliveGameObjects)
     {
         s16 min_w_x = pRect->w;
         if (pRect->x <= pRect->w)
@@ -171,9 +171,9 @@ void BaseBomb::DealDamageRect(const PSX_RECT* pRect)
             bottom += 240;
         }
 
-        for (s32 i = 0; i < gBaseAliveGameObjects_4FC8A0->Size(); i++)
+        for (s32 i = 0; i < gBaseAliveGameObjects->Size(); i++)
         {
-            BaseAliveGameObject* pObj = gBaseAliveGameObjects_4FC8A0->ItemAt(i);
+            BaseAliveGameObject* pObj = gBaseAliveGameObjects->ItemAt(i);
             if (!pObj)
             {
                 break;

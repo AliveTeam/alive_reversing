@@ -165,9 +165,9 @@ void MotionDetector::VUpdate()
 
             field_160_bObjectInLaser = FALSE;
 
-            for (s32 i = 0; i < gBaseAliveGameObjects_4FC8A0->Size(); i++)
+            for (s32 i = 0; i < gBaseAliveGameObjects->Size(); i++)
             {
-                BaseAliveGameObject* pObj = gBaseAliveGameObjects_4FC8A0->ItemAt(i);
+                BaseAliveGameObject* pObj = gBaseAliveGameObjects->ItemAt(i);
                 if (!pObj)
                 {
                     break;

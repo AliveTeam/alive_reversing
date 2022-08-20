@@ -1628,9 +1628,9 @@ void Abe::ChangeChantState_430510(s16 bKeepChanting)
 
 BaseAliveGameObject* Abe::FindObjectToPossess_421410()
 {
-    for (s32 i = 0; i < gBaseAliveGameObjects_4FC8A0->Size(); i++)
+    for (s32 i = 0; i < gBaseAliveGameObjects->Size(); i++)
     {
-        BaseAliveGameObject* pObj = gBaseAliveGameObjects_4FC8A0->ItemAt(i);
+        BaseAliveGameObject* pObj = gBaseAliveGameObjects->ItemAt(i);
         if (!pObj)
         {
             break;
@@ -2502,9 +2502,9 @@ void Abe::CrouchingGameSpeak_427F90()
 void Abe::FallOnBombs_4231B0()
 {
     const PSX_RECT bOurRect = VGetBoundingRect();
-    for (s32 i = 0; i < gBaseAliveGameObjects_4FC8A0->Size(); i++)
+    for (s32 i = 0; i < gBaseAliveGameObjects->Size(); i++)
     {
-        BaseAliveGameObject* pObjIter = gBaseAliveGameObjects_4FC8A0->ItemAt(i);
+        BaseAliveGameObject* pObjIter = gBaseAliveGameObjects->ItemAt(i);
         if (!pObjIter)
         {
             break;
@@ -2803,7 +2803,7 @@ void Abe::BulletDamage_4220B0(Bullet* pBullet)
 
             relive_new Blood(
                 mXPos,
-                pBullet->field_1C_ypos,
+                pBullet->mYPos,
                 bloodXOff,
                 FP_FromInteger(0),
                 mSpriteScale,
@@ -3010,7 +3010,7 @@ s16 Abe::MoveLiftUpOrDown_42F190(FP yVelocity)
     pLiftPoint->Move(FP_FromInteger(0), yVelocity, 0);
     FollowLift_42EE90();
 
-    if (gBeeInstanceCount_5076B0 && gBeesNearAbe_5076AC)
+    if (gBeeInstanceCount_5076B0 && gBeesNearAbe)
     {
         return eAbeMotions::Motion_141_BeesStrugglingOnLift_42F390;
     }
@@ -4092,7 +4092,7 @@ void Abe::Motion_0_Idle_423520()
             {
                 mCurrentMotion = HandleDoAction_429A70();
             }
-            else if (gBeeInstanceCount_5076B0 && gBeesNearAbe_5076AC)
+            else if (gBeeInstanceCount_5076B0 && gBeesNearAbe)
             {
                 mCurrentMotion = eAbeMotions::Motion_140_BeesStruggling_423F30;
             }
@@ -8942,7 +8942,7 @@ void Abe::Motion_135_LiftGrabIdle_42F000()
 
     mVelY = FP_FromInteger(0);
 
-    if (gBeeInstanceCount_5076B0 > 0 && gBeesNearAbe_5076AC)
+    if (gBeeInstanceCount_5076B0 > 0 && gBeesNearAbe)
     {
         mCurrentMotion = eAbeMotions::Motion_141_BeesStrugglingOnLift_42F390;
     }
@@ -9159,7 +9159,7 @@ void Abe::Motion_139_ElumMountBegin_42E090()
 void Abe::Motion_140_BeesStruggling_423F30()
 {
     Motion_0_Idle_423520();
-    if ((!gBeeInstanceCount_5076B0 || !gBeesNearAbe_5076AC) && mCurrentMotion == eAbeMotions::Motion_140_BeesStruggling_423F30)
+    if ((!gBeeInstanceCount_5076B0 || !gBeesNearAbe) && mCurrentMotion == eAbeMotions::Motion_140_BeesStruggling_423F30)
     {
         ToIdle_422D50();
     }

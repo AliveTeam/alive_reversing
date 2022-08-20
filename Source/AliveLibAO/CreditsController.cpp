@@ -7,40 +7,40 @@
 
 namespace AO {
 
-ALIVE_VAR(1, 0x507684, s16, gCreditsControllerExists_507684, false);
+ALIVE_VAR(1, 0x507684, s16, gCreditsControllerExists, false);
 
 constexpr s32 kShowCreditScreenForTicks = 60;
 
 CreditsController::CreditsController(Path_CreditsController* /*pTlv*/, s32 /*tlvInfo*/)
     : BaseGameObject(TRUE, 0)
 {
-    field_14_camera_number = gMap.mCurrentCamera;
-    field_10_next_cam_frame = sGnFrame + kShowCreditScreenForTicks;
+    mCurrentCamera = gMap.mCurrentCamera;
+    mNextCameraTimer = sGnFrame + kShowCreditScreenForTicks;
 
-    gCreditsControllerExists_507684 = true;
+    gCreditsControllerExists = true;
 }
 
 CreditsController::~CreditsController()
 {
-    gCreditsControllerExists_507684 = false;
+    gCreditsControllerExists = false;
 }
 
 void CreditsController::VUpdate()
 {
-    if (field_10_next_cam_frame <= static_cast<s32>(sGnFrame))
+    if (mNextCameraTimer <= static_cast<s32>(sGnFrame))
     {
-        field_14_camera_number++;
-        if (field_14_camera_number > 24u)
+        mCurrentCamera++;
+        if (mCurrentCamera > 24u)
         {
-            field_10_next_cam_frame = sGnFrame + 60;
-            field_14_camera_number = 1;
+            mNextCameraTimer = sGnFrame + 60;
+            mCurrentCamera = 1;
             gMap.SetActiveCam(EReliveLevelIds::eCredits, 1, 1, CameraSwapEffects::eTopToBottom_3, 0, 0);
             sBreakGameLoop_507B78 = 1;
         }
         else
         {
-            gMap.SetActiveCam(EReliveLevelIds::eCredits, 1, field_14_camera_number, CameraSwapEffects::eTopToBottom_3, 0, 0);
-            field_10_next_cam_frame = sGnFrame + 60;
+            gMap.SetActiveCam(EReliveLevelIds::eCredits, 1, mCurrentCamera, CameraSwapEffects::eTopToBottom_3, 0, 0);
+            mNextCameraTimer = sGnFrame + 60;
         }
     }
 }

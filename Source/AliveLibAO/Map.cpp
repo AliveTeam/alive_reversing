@@ -567,9 +567,9 @@ void Map::RemoveObjectsWithPurpleLight(s16 bMakeInvisible)
     auto pPurpleLightArray = relive_new DynamicArrayT<Particle>(16);
 
     bool bAddedALight = false;
-    for (s32 i = 0; i < gBaseAliveGameObjects_4FC8A0->Size(); i++)
+    for (s32 i = 0; i < gBaseAliveGameObjects->Size(); i++)
     {
-        auto pObjIter = gBaseAliveGameObjects_4FC8A0->ItemAt(i);
+        auto pObjIter = gBaseAliveGameObjects->ItemAt(i);
         if (!pObjIter)
         {
             break;

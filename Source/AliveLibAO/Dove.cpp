@@ -110,8 +110,6 @@ Dove::Dove(AnimId animId, FP xpos, FP ypos, FP scale)
 
     mXPos = xpos;
     mYPos = ypos;
-    mPrevX_Unused = xpos;
-    mPrevY_Unused = ypos;
 
     mTlvInfo = 0;
 
@@ -322,9 +320,6 @@ void Dove::VUpdate()
             return;
 
         case State::eCircle_3:
-            mPrevX_Unused = mXPos;
-            mPrevY_Unused = mYPos;
-
             mAngle += 4;
 
             // Spin around this point
@@ -347,9 +342,7 @@ void Dove::VUpdate()
                     sAbePortalDirection = -1;
                 }
             }
-            mPrevX_Unused = mXPos;
             mAngle += 4;
-            mPrevY_Unused = mYPos;
             mXPos = ((Math_Sine_451110(mAngle) * FP_FromInteger(sAbePortalWidth)) * mSpriteScale) + mJoinX;
             mYPos = ((Math_Cosine_4510A0(mAngle) * FP_FromInteger(35)) * mSpriteScale) + mJoinY;
             return;

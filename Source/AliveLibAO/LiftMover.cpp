@@ -171,9 +171,9 @@ void LiftMover::VUpdate()
 
 LiftPoint* LiftMover::FindLiftPointWithId(s16 id)
 {
-    for (s32 i = 0; i < gBaseAliveGameObjects_4FC8A0->Size(); i++)
+    for (s32 i = 0; i < gBaseAliveGameObjects->Size(); i++)
     {
-        auto pItem = gBaseAliveGameObjects_4FC8A0->ItemAt(i);
+        auto pItem = gBaseAliveGameObjects->ItemAt(i);
         if (!pItem)
         {
             break;

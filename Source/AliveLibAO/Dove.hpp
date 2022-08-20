@@ -50,8 +50,6 @@ public:
     FP mJoinY = {};
     s32 mJoinDeadTimer = 0;
     s8 mAngle = 0;
-    FP mPrevX_Unused = {};
-    FP mPrevY_Unused = {};
 };
 ALIVE_ASSERT_SIZEOF(Dove, 0x108);
 

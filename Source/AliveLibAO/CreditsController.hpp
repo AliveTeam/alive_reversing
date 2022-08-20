@@ -20,11 +20,11 @@ public:
     CreditsController(Path_CreditsController* pTlv, s32 tlvInfo);
     ~CreditsController();
 
-    s32 field_10_next_cam_frame = 0;
-    s16 field_14_camera_number = 0;
+    s32 mNextCameraTimer = 0;
+    s16 mCurrentCamera = 0;
 };
 ALIVE_ASSERT_SIZEOF(CreditsController, 0x18);
 
-ALIVE_VAR_EXTERN(s16, gCreditsControllerExists_507684);
+ALIVE_VAR_EXTERN(s16, gCreditsControllerExists);
 
 } // namespace AO

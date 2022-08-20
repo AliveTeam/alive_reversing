@@ -214,9 +214,9 @@ void Bat::VUpdate()
 
             if (!sActiveHero->field_2A8_flags.Get(Flags_2A8::e2A8_Bit6_bShrivel))
             {
-                for (s32 i = 0; i < gBaseAliveGameObjects_4FC8A0->Size(); i++)
+                for (s32 i = 0; i < gBaseAliveGameObjects->Size(); i++)
                 {
-                    BaseAliveGameObject* pObjIter = gBaseAliveGameObjects_4FC8A0->ItemAt(i);
+                    BaseAliveGameObject* pObjIter = gBaseAliveGameObjects->ItemAt(i);
                     if (!pObjIter)
                     {
                         break;

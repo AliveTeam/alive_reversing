@@ -41,7 +41,7 @@ RollingBallStopper::RollingBallStopper(Path_RollingBallStopper* pTlv, s32 tlvInf
     mVelX = mAnim.mFlags.Get(AnimFlags::eBit5_FlipX) ? FP_FromInteger(22) : FP_FromInteger(-22);
     mVelY = FP_FromInteger(0);
 
-    field_10C_tlvInfo = tlvInfo;
+    mTlvInfo = tlvInfo;
 
     // Check its enabled ?
     if (pTlv->field_1_unknown)
@@ -49,18 +49,18 @@ RollingBallStopper::RollingBallStopper(Path_RollingBallStopper* pTlv, s32 tlvInf
         mYPos += mSpriteScale * FP_FromInteger(70);
         if (mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
         {
-            field_112_state = States::eMovingDone_2;
+            mState = States::eMovingDone;
             mXPos += mSpriteScale * FP_FromInteger(35);
         }
         else
         {
-            field_112_state = States::eMovingDone_2;
+            mState = States::eMovingDone;
             mXPos -= mSpriteScale * FP_FromInteger(35);
         }
     }
     else
     {
-        field_112_state = States::eWaitForTrigger_0;
+        mState = States::eWaitForTrigger;
         SwitchStates_Set(pTlv->mBallSwitchId, 0);
         SwitchStates_Set(pTlv->mStopperSwitchId, 0);
     }
@@ -83,34 +83,34 @@ RollingBallStopper::RollingBallStopper(Path_RollingBallStopper* pTlv, s32 tlvInf
     const auto y1 = FP_GetExponent(mYPos);
     if (mSpriteScale == FP_FromInteger(1))
     {
-        field_118_pLine = sCollisions->Add_Dynamic_Collision_Line(x1, y1 - 70, x1, y1, eLineTypes::eWallLeft_1);
+        mCollisionLine = sCollisions->Add_Dynamic_Collision_Line(x1, y1 - 70, x1, y1, eLineTypes::eWallLeft_1);
     }
     else
     {
-        field_118_pLine = sCollisions->Add_Dynamic_Collision_Line(x1, y1 - 35, x1, y1, eLineTypes::eBackgroundWallLeft_5);
+        mCollisionLine = sCollisions->Add_Dynamic_Collision_Line(x1, y1 - 35, x1, y1, eLineTypes::eBackgroundWallLeft_5);
     }
 }
 
 RollingBallStopper::~RollingBallStopper()
 {
-    if (field_112_state != States::eWaitForTrigger_0)
+    if (mState != States::eWaitForTrigger)
     {
-        Path::TLV_Reset(field_10C_tlvInfo, 1, 0, 0);
+        Path::TLV_Reset(mTlvInfo, 1, 0, 0);
     }
     else
     {
-        Path::TLV_Reset(field_10C_tlvInfo, 0, 0, 0);
+        Path::TLV_Reset(mTlvInfo, 0, 0, 0);
     }
 
-    if (field_118_pLine)
+    if (mCollisionLine)
     {
-        Rect_Clear(&field_118_pLine->mRect);
+        Rect_Clear(&mCollisionLine->mRect);
     }
 }
 
 void RollingBallStopper::VScreenChanged()
 {
-    if (field_112_state == States::eMoveStopper_1)
+    if (mState == States::eMoveStopper)
     {
         SwitchStates_Set(mBallSwitchId, 1);
     }
@@ -119,20 +119,20 @@ void RollingBallStopper::VScreenChanged()
 
 void RollingBallStopper::VUpdate()
 {
-    switch (field_112_state)
+    switch (mState)
     {
-        case States::eWaitForTrigger_0:
+        case States::eWaitForTrigger:
             if (SwitchStates_Get(mStopperSwitchId))
             {
-                Rect_Clear(&field_118_pLine->mRect);
-                field_118_pLine = nullptr;
-                field_112_state = States::eMoveStopper_1;
+                Rect_Clear(&mCollisionLine->mRect);
+                mCollisionLine = nullptr;
+                mState = States::eMoveStopper;
                 SFX_Play_Pitch(SoundEffect::PickupItem_33, 100, -2400, 0);
                 SFX_Play_Pitch(SoundEffect::LiftStop_35, 80, -800, 0);
             }
             break;
 
-        case States::eMoveStopper_1:
+        case States::eMoveStopper:
             mVelY += (mSpriteScale * FP_FromInteger(25));
             if (mVelY <= (mSpriteScale * FP_FromInteger(70)))
             {
@@ -141,7 +141,7 @@ void RollingBallStopper::VUpdate()
             }
             else
             {
-                field_112_state = States::eMovingDone_2;
+                mState = States::eMovingDone;
                 SwitchStates_Set(mBallSwitchId, 1);
             }
             break;

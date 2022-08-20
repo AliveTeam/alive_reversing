@@ -175,8 +175,8 @@ void HoneySack::VUpdate()
 
             if (field_F0_pBee)
             {
-                field_F0_pBee->field_D70_chase_target_x = mXPos;
-                field_F0_pBee->field_D74_chase_target_y = mYPos;
+                field_F0_pBee->mChaseTargetX = mXPos;
+                field_F0_pBee->mChaseTargetY = mYPos;
             }
 
             PathLine* pLine = nullptr;

@@ -8,9 +8,9 @@ namespace AO {
 
 enum class BellSize : s16
 {
-    eBig_0 = 0,
-    eMedium_1 = 1,
-    eSmall_2 = 2,
+    eBig = 0,
+    eMedium = 1,
+    eSmall = 2,
 };
 
 class Bells final : public BaseAnimatedWithPhysicsGameObject
@@ -24,17 +24,17 @@ public:
     bool CanSmash();
     void Ring();
 
-    u16 field_E8_bSmashing = 0;
-    enum class Sounds : u16
+    bool mSmashing = false;
+    enum class BellPitch : u16
     {
-        eLowPitch_0 = 0,
-        eMediumPitch_1 = 1,
-        eHighPitch_2 = 2
+        eLowPitch = 0,
+        eMediumPitch = 1,
+        eHighPitch = 2
     };
-    Sounds field_EA_sound = Sounds::eLowPitch_0;
-    s32 field_EC_bDoScreenWave = 0;
-    s8 field_F0_sound_pitch_factor = 0;
-    s32 field_F4_sound_cooldown_timer = 0;
+    BellPitch mBellPitch = BellPitch::eLowPitch;
+    bool mDoScreenWave = false;
+    s8 mSoundPitchFactor = 0;
+    s32 mSoundCooldownTimer = 0;
 };
 ALIVE_ASSERT_SIZEOF(Bells, 0xF8);
 

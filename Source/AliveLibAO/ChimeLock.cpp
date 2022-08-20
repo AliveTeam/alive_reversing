@@ -45,7 +45,7 @@ ChimeLock::ChimeLock(Path_ChimeLock* pTlv, s32 tlvInfo)
     }
 
     field_114_left_bell = relive_new Bells(
-        BellSize::eBig_0,
+        BellSize::eBig,
         FP_FromInteger(pTlv->mTopLeft.x),
         FP_FromInteger(pTlv->mTopLeft.y),
         scale);
@@ -55,7 +55,7 @@ ChimeLock::ChimeLock(Path_ChimeLock* pTlv, s32 tlvInfo)
     }
 
     field_118_center_bell = relive_new Bells(
-        BellSize::eMedium_1,
+        BellSize::eMedium,
         FP_FromInteger(pTlv->mTopLeft.x),
         FP_FromInteger(pTlv->mTopLeft.y),
         scale);
@@ -65,7 +65,7 @@ ChimeLock::ChimeLock(Path_ChimeLock* pTlv, s32 tlvInfo)
     }
 
     field_11C_right_bell = relive_new Bells(
-        BellSize::eSmall_2,
+        BellSize::eSmall,
         FP_FromInteger(pTlv->mTopLeft.x),
         FP_FromInteger(pTlv->mTopLeft.y),
         scale);

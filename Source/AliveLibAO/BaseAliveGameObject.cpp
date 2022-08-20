@@ -18,7 +18,7 @@ namespace AO {
 void BaseAliveGameObject_ForceLink()
 { }
 
-ALIVE_VAR(1, 0x4FC8A0, DynamicArrayT<BaseAliveGameObject>*, gBaseAliveGameObjects_4FC8A0, nullptr);
+ALIVE_VAR(1, 0x4FC8A0, DynamicArrayT<BaseAliveGameObject>*, gBaseAliveGameObjects, nullptr);
 
 BaseAliveGameObject::BaseAliveGameObject()
 {
@@ -43,7 +43,7 @@ BaseAliveGameObject::BaseAliveGameObject()
     BaseAliveGameObjectLastLineYPos = FP_FromInteger(0);
     field_104_pending_resource_count = 0;
     
-    gBaseAliveGameObjects_4FC8A0->Push_Back(this);
+    gBaseAliveGameObjects->Push_Back(this);
 
     mBaseGameObjectFlags.Set(Options::eIsBaseAliveGameObject_Bit6);
 }
@@ -51,7 +51,7 @@ BaseAliveGameObject::BaseAliveGameObject()
 
 BaseAliveGameObject::~BaseAliveGameObject()
 {
-    gBaseAliveGameObjects_4FC8A0->Remove_Item(this);
+    gBaseAliveGameObjects->Remove_Item(this);
 
     if (mLiftPoint)
     {

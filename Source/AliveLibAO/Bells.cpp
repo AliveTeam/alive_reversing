@@ -22,17 +22,17 @@ Bells::Bells(BellSize bellType, FP xpos, FP ypos, FP scale)
 
     switch (bellType)
     {
-        case BellSize::eBig_0:
-            field_EA_sound = Sounds::eLowPitch_0;
+        case BellSize::eBig:
+            mBellPitch = BellPitch::eLowPitch;
             Animation_Init(AnimId::BigChime, ppRes);
             break;
 
-        case BellSize::eMedium_1:
-            field_EA_sound = Sounds::eMediumPitch_1;
+        case BellSize::eMedium:
+            mBellPitch = BellPitch::eMediumPitch;
             Animation_Init(AnimId::MediumChime, ppRes);
             break;
-        case BellSize::eSmall_2:
-            field_EA_sound = Sounds::eHighPitch_2;
+        case BellSize::eSmall:
+            mBellPitch = BellPitch::eHighPitch;
             Animation_Init(AnimId::SmallChime, ppRes);
             break;
     }
@@ -45,43 +45,43 @@ Bells::Bells(BellSize bellType, FP xpos, FP ypos, FP scale)
 
     mAnim.mRenderLayer = Layer::eLayer_Foreground_36;
 
-    field_E8_bSmashing = 0;
+    mSmashing = false;
 
-    field_EC_bDoScreenWave = 0;
-    field_F4_sound_cooldown_timer = 0;
-    field_F0_sound_pitch_factor = 0;
+    mDoScreenWave = false;
+    mSoundCooldownTimer = 0;
+    mSoundPitchFactor = 0;
 }
 
 void Bells::VUpdate()
 {
-    if (field_F0_sound_pitch_factor > 0 && static_cast<s32>(sGnFrame) >= field_F4_sound_cooldown_timer)
+    if (mSoundPitchFactor > 0 && static_cast<s32>(sGnFrame) >= mSoundCooldownTimer)
     {
-        field_F4_sound_cooldown_timer = sGnFrame + 4;
-        field_F0_sound_pitch_factor--;
+        mSoundCooldownTimer = sGnFrame + 4;
+        mSoundPitchFactor--;
 
-        if (field_EA_sound == Sounds::eLowPitch_0)
+        if (mBellPitch == BellPitch::eLowPitch)
         {
             SfxPlayMono(SoundEffect::BellChime_LowPitch_52, 0, 0);
         }
-        else if (field_EA_sound == Sounds::eMediumPitch_1)
+        else if (mBellPitch == BellPitch::eMediumPitch)
         {
-            SFX_Play_Pitch(SoundEffect::BellChime_MediumPitch_51, 45 * (field_F0_sound_pitch_factor + 1), 128 - (field_F0_sound_pitch_factor << 7), 0);
+            SFX_Play_Pitch(SoundEffect::BellChime_MediumPitch_51, 45 * (mSoundPitchFactor + 1), 128 - (mSoundPitchFactor << 7), 0);
         }
-        else if (field_EA_sound == Sounds::eHighPitch_2)
+        else if (mBellPitch == BellPitch::eHighPitch)
         {
-            SFX_Play_Pitch(SoundEffect::BellChime_HighPitch_50, 30 * (field_F0_sound_pitch_factor + 1), (2 - field_F0_sound_pitch_factor) << 7, 0);
+            SFX_Play_Pitch(SoundEffect::BellChime_HighPitch_50, 30 * (mSoundPitchFactor + 1), (2 - mSoundPitchFactor) << 7, 0);
         }
     }
 
-    if (field_E8_bSmashing == 1)
+    if (mSmashing)
     {
-        if (field_EC_bDoScreenWave > 0)
+        if (mDoScreenWave)
         {
-            field_EC_bDoScreenWave--;
+            mDoScreenWave = false;
 
             FP xOff = {};
             FP yOff = {};
-            if (field_EA_sound == Sounds::eLowPitch_0)
+            if (mBellPitch == BellPitch::eLowPitch)
             {
                 xOff = FP_FromInteger(-35);
                 yOff = FP_FromInteger(36);
@@ -89,7 +89,7 @@ void Bells::VUpdate()
                 const FP wave_xpos = mXPos - FP_FromInteger(35);
                 relive_new ScreenWave(wave_xpos, wave_ypos, Layer::eLayer_FG1_37, FP_FromInteger(18), FP_FromInteger(12), 0);
             }
-            else if (field_EA_sound == Sounds::eHighPitch_2)
+            else if (mBellPitch == BellPitch::eHighPitch)
             {
                 xOff = FP_FromInteger(37);
                 yOff = FP_FromInteger(32);
@@ -97,7 +97,7 @@ void Bells::VUpdate()
                 const FP wave_xpos = mXPos + FP_FromInteger(37);
                 relive_new ScreenWave(wave_xpos, wave_ypos, Layer::eLayer_FG1_37, FP_FromInteger(12), FP_FromInteger(12), 0);
             }
-            else if (field_EA_sound == Sounds::eMediumPitch_1)
+            else if (mBellPitch == BellPitch::eMediumPitch)
             {
                 xOff = FP_FromInteger(-4);
                 yOff = FP_FromInteger(24);
@@ -122,49 +122,49 @@ void Bells::PlaySounds()
 {
     if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
     {
-        if (field_EA_sound == Sounds::eLowPitch_0)
+        if (mBellPitch == BellPitch::eLowPitch)
         {
             mAnim.Set_Animation_Data(AnimId::BigChime, nullptr);
         }
-        else if (field_EA_sound == Sounds::eMediumPitch_1)
+        else if (mBellPitch == BellPitch::eMediumPitch)
         {
             mAnim.Set_Animation_Data(AnimId::MediumChime, nullptr);
         }
-        else if (field_EA_sound == Sounds::eHighPitch_2)
+        else if (mBellPitch == BellPitch::eHighPitch)
         {
             mAnim.Set_Animation_Data(AnimId::SmallChime, nullptr);
         }
 
-        field_E8_bSmashing = 0;
+        mSmashing = false;
     }
 }
 
 bool Bells::CanSmash()
 {
-    return field_E8_bSmashing == 0;
+    return !mSmashing;
 }
 
 void Bells::Ring()
 {
-    if (field_E8_bSmashing == 0)
+    if (CanSmash())
     {
-        field_E8_bSmashing = 1;
-        field_EC_bDoScreenWave = 1;
-        field_F4_sound_cooldown_timer = 0;
+        mSmashing = true;
+        mDoScreenWave = true;
+        mSoundCooldownTimer = 0;
 
-        if (field_EA_sound == Sounds::eLowPitch_0)
+        if (mBellPitch == BellPitch::eLowPitch)
         {
-            field_F0_sound_pitch_factor = 1;
+            mSoundPitchFactor = 1;
             mAnim.Set_Animation_Data(AnimId::BigChime_Moving, nullptr);
         }
-        else if (field_EA_sound == Sounds::eMediumPitch_1)
+        else if (mBellPitch == BellPitch::eMediumPitch)
         {
-            field_F0_sound_pitch_factor = 2;
+            mSoundPitchFactor = 2;
             mAnim.Set_Animation_Data(AnimId::MediumChime_Moving, nullptr);
         }
-        else if (field_EA_sound == Sounds::eHighPitch_2)
+        else if (mBellPitch == BellPitch::eHighPitch)
         {
-            field_F0_sound_pitch_factor = 3;
+            mSoundPitchFactor = 3;
             mAnim.Set_Animation_Data(AnimId::SmallChime_Moving, nullptr);
         }
     }

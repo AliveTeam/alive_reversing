@@ -200,6 +200,7 @@ static void convert_tlv(nlohmann::json& j, const ::Path_TLV& tlv)
     j.push_back(converter_type::From(static_cast<const tlv_src_type&>(tlv)));
 }
 
+/*
 static void ConvertTLV(nlohmann::json& j, const ::Path_TLV& tlv)
 {
     switch (tlv.mTlvType32.mType)
@@ -534,6 +535,7 @@ static void ConvertTLV(nlohmann::json& j, const ::Path_TLV& tlv)
             ALIVE_FATAL("TLV conversion for this type not implemented");
     }
 }
+*/
 
 static void ConvertTLV(nlohmann::json& j, const AO::Path_TLV& tlv)
 {

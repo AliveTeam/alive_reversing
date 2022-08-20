@@ -675,7 +675,7 @@ s16 Mudokon::VTakeDamage(BaseGameObject* pFrom)
 
                 relive_new Blood(
                     mXPos,
-                    pBullet->field_1C_ypos,
+                    pBullet->mYPos,
                     bloodXOff,
                     FP_FromInteger(0),
                     mSpriteScale,
@@ -1159,9 +1159,9 @@ void Mudokon::RemoveAlerted()
 
 s16 Mudokon::IAmNearestToAbe()
 {
-    for (s32 i = 0; i < gBaseAliveGameObjects_4FC8A0->Size(); i++)
+    for (s32 i = 0; i < gBaseAliveGameObjects->Size(); i++)
     {
-        BaseAliveGameObject* pObjIter = gBaseAliveGameObjects_4FC8A0->ItemAt(i);
+        BaseAliveGameObject* pObjIter = gBaseAliveGameObjects->ItemAt(i);
         if (!pObjIter)
         {
             break;
@@ -3166,9 +3166,9 @@ s16 Mudokon::Brain_5_LiftUse()
         mCurrentMotion = eMudMotions::Motion_13_LiftGrabBegin;
         mNextMotion = eMudMotions::Motion_12_LiftUse;
         field_194_pLiftPoint = nullptr;
-        for (s32 i = 0; i < gBaseAliveGameObjects_4FC8A0->Size(); i++)
+        for (s32 i = 0; i < gBaseAliveGameObjects->Size(); i++)
         {
-            BaseAliveGameObject* pObj = gBaseAliveGameObjects_4FC8A0->ItemAt(i);
+            BaseAliveGameObject* pObj = gBaseAliveGameObjects->ItemAt(i);
             if (!pObj)
             {
                 break;

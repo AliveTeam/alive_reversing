@@ -32,7 +32,7 @@ BulletShell::BulletShell(FP xpos, FP ypos, s32 direction, FP scale)
     mVisualFlags.Clear(VisualFlags::eApplyShadowZoneColour);
     mAnim.mFlags.Set(AnimFlags::eBit5_FlipX, direction & 1);
 
-    field_EC_hitCount = 0;
+    mFloorBounceCount = 0;
 
     mXPos = xpos;
     mYPos = ypos;
@@ -46,7 +46,7 @@ BulletShell::BulletShell(FP xpos, FP ypos, s32 direction, FP scale)
         mVelX = FP_FromInteger(Math_RandomRange(3, 6));
     }
     mVelY = FP_FromInteger(Math_RandomRange(-4, -1));
-    field_F0_speed = FP_FromInteger(1);
+    mSpeed = FP_FromInteger(1);
 }
 
 void BulletShell::VUpdate()
@@ -54,7 +54,7 @@ void BulletShell::VUpdate()
     mXPos += mVelX;
     mYPos += mVelY;
 
-    mVelY += field_F0_speed;
+    mVelY += mSpeed;
 
     FP hitX = {};
     FP hitY = {};
@@ -63,14 +63,14 @@ void BulletShell::VUpdate()
             mYPos - mVelY,
             mXPos,
             mYPos,
-            &field_E4_pLine,
+            &mLine,
             &hitX,
             &hitY,
             mSpriteScale != FP_FromDouble(0.5) ? kFgWallsOrFloor : kBgWallsOrFloor)
         == 1)
     {
-        if (field_E4_pLine->mLineType == eLineTypes ::eFloor_0 ||
-            field_E4_pLine->mLineType == eLineTypes::eBackgroundFloor_4)
+        if (mLine->mLineType == eLineTypes ::eFloor_0 ||
+            mLine->mLineType == eLineTypes::eBackgroundFloor_4)
         {
             mYPos = hitY - FP_FromInteger(1);
             mVelY = -(mVelY * FP_FromDouble(0.3));
@@ -85,13 +85,13 @@ void BulletShell::VUpdate()
                 mVelX = FP_FromInteger(1);
             }
 
-            s16 volume = 19 * (3 - field_EC_hitCount);
+            s16 volume = 19 * (3 - mFloorBounceCount);
             if (volume <= 19)
             {
                 volume = 19;
             }
             SfxPlayMono(SoundEffect::BulletShell_7, volume, 0);
-            field_EC_hitCount++;
+            mFloorBounceCount++;
         }
     }
 
@@ -105,7 +105,7 @@ void BulletShell::VUpdate()
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 
-    if (field_EC_hitCount >= 3)
+    if (mFloorBounceCount >= 3)
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }

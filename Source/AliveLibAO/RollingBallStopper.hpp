@@ -28,17 +28,17 @@ public:
     virtual void VUpdate() override;
     virtual void VScreenChanged() override;
 
-    s32 field_10C_tlvInfo = 0;
+    s32 mTlvInfo = 0;
     enum class States : s16
     {
-        eWaitForTrigger_0,
-        eMoveStopper_1,
-        eMovingDone_2
+        eWaitForTrigger,
+        eMoveStopper,
+        eMovingDone
     };
-    States field_112_state = States::eWaitForTrigger_0;
+    States mState = States::eWaitForTrigger;
     u16 mStopperSwitchId = 0;
     u16 mBallSwitchId = 0;
-    PathLine* field_118_pLine = nullptr;
+    PathLine* mCollisionLine = nullptr;
 };
 ALIVE_ASSERT_SIZEOF(RollingBallStopper, 0x11C);
 

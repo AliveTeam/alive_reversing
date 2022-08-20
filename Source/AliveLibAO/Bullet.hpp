@@ -32,16 +32,15 @@ private:
 
 public:
     BulletType field_10_type = BulletType::ePossessedSlig_0;
-    PathLine* field_14_pLine = nullptr;
-    FP field_18_xpos = {};
-    FP field_1C_ypos = {};
+    PathLine* mLine = nullptr;
+    FP mXPos = {};
+    FP mYPos = {};
     FP field_20_x_distance = {};
-    EReliveLevelIds field_28_level = EReliveLevelIds::eNone;
-    s16 field_2A_path = 0;
-    FP field_2C_scale = {};
+    EReliveLevelIds mCurrentLevel = EReliveLevelIds::eNone;
+    s16 mCurrentPath = 0;
+    FP mScale = {};
     BaseAliveGameObject* field_30_pParent = nullptr;
     s16 field_34_number_of_bullets = 0;
-    s16 field_36 = 0;
     s32 field_24_unused = 0;
 };
 ALIVE_ASSERT_SIZEOF(Bullet, 0x38);

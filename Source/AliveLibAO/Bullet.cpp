@@ -19,12 +19,12 @@ Bullet::Bullet(BaseAliveGameObject* pParent, BulletType type, FP xpos, FP ypos, 
 {
     mBaseGameObjectTypeId = ReliveTypes::eBullet;
     field_10_type = type;
-    field_18_xpos = xpos;
-    field_1C_ypos = ypos;
-    field_2A_path = gMap.mCurrentPath;
+    mXPos = xpos;
+    mYPos = ypos;
+    mCurrentPath = gMap.mCurrentPath;
     field_30_pParent = pParent;
-    field_28_level = gMap.mCurrentLevel;
-    field_2C_scale = scale;
+    mCurrentLevel = gMap.mCurrentLevel;
+    mScale = scale;
     field_24_unused = unused;
     field_34_number_of_bullets = static_cast<s16>(numberOfBullets);
     field_20_x_distance = xDist;
@@ -33,16 +33,16 @@ Bullet::Bullet(BaseAliveGameObject* pParent, BulletType type, FP xpos, FP ypos, 
 void Bullet::VUpdate()
 {
     if (!gMap.Is_Point_In_Current_Camera(
-            field_28_level,
-            field_2A_path,
-            field_18_xpos,
-            field_1C_ypos,
+            mCurrentLevel,
+            mCurrentPath,
+            mXPos,
+            mYPos,
             0))
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
         return;
     }
-    const s16 volume = field_2C_scale != FP_FromDouble(0.5) ? 75 : 50;
+    const s16 volume = mScale != FP_FromDouble(0.5) ? 75 : 50;
 
     switch (field_10_type)
     {
@@ -54,48 +54,48 @@ void Bullet::VUpdate()
             PSX_RECT shootRect = {};
             if (field_20_x_distance > FP_FromInteger(0))
             {
-                shootRect.x = FP_GetExponent(field_18_xpos);
-                shootRect.w = FP_GetExponent(field_18_xpos) + 640;
+                shootRect.x = FP_GetExponent(mXPos);
+                shootRect.w = FP_GetExponent(mXPos) + 640;
             }
             else
             {
-                shootRect.x = FP_GetExponent(field_18_xpos) - 640;
-                shootRect.w = FP_GetExponent(field_18_xpos);
+                shootRect.x = FP_GetExponent(mXPos) - 640;
+                shootRect.w = FP_GetExponent(mXPos);
             }
 
-            shootRect.y = FP_GetExponent(field_1C_ypos - FP_FromInteger(15));
-            shootRect.h = FP_GetExponent(field_1C_ypos + FP_FromInteger(5));
+            shootRect.y = FP_GetExponent(mYPos - FP_FromInteger(15));
+            shootRect.h = FP_GetExponent(mYPos + FP_FromInteger(5));
 
             BaseAliveGameObject* pShotObj = ShootObject(&shootRect);
             if (sCollisions->Raycast(
-                    field_18_xpos,
-                    field_1C_ypos,
-                    field_20_x_distance + field_18_xpos,
-                    field_1C_ypos,
-                    &field_14_pLine,
+                    mXPos,
+                    mYPos,
+                    field_20_x_distance + mXPos,
+                    mYPos,
+                    &mLine,
                     &hitX,
                     &hitY,
-                    field_2C_scale != FP_FromDouble(0.5) ? kFgWallsOrFloor : kBgWallsOrFloor))
+                    mScale != FP_FromDouble(0.5) ? kFgWallsOrFloor : kBgWallsOrFloor))
             {
                 FP distHit = {};
                 FP distShot = {};
                 if (pShotObj)
                 {
-                    distHit = FP_Abs(hitX - field_18_xpos);
-                    distShot = FP_Abs(pShotObj->mXPos - field_18_xpos);
+                    distHit = FP_Abs(hitX - mXPos);
+                    distShot = FP_Abs(pShotObj->mXPos - mXPos);
                 }
 
                 if (!pShotObj || (distShot > distHit))
                 {
                     if (field_20_x_distance <= FP_FromInteger(0))
                     {
-                        relive_new Spark(hitX, hitY, field_2C_scale, 6u, -76, 76);
+                        relive_new Spark(hitX, hitY, mScale, 6u, -76, 76);
                     }
                     else
                     {
-                        relive_new Spark(hitX, hitY, field_2C_scale, 6u, 50, 205);
+                        relive_new Spark(hitX, hitY, mScale, 6u, 50, 205);
                     }
-                    New_Smoke_Particles_419A80(hitX, hitY, field_2C_scale, 3, 0);
+                    New_Smoke_Particles_419A80(hitX, hitY, mScale, 3, 0);
                     if (Math_RandomRange(0, 100) < 90 || Math_RandomRange(0, 128) >= 64)
                     {
                         SfxPlayMono(SoundEffect::Bullet2_2, volume, 0);
@@ -123,7 +123,7 @@ void Bullet::VUpdate()
 
             if (pShotObj->VTakeDamage(this))
             {
-                field_2C_scale == FP_FromInteger(1) ? PlayBulletSounds(90) : PlayBulletSounds(60);
+                mScale == FP_FromInteger(1) ? PlayBulletSounds(90) : PlayBulletSounds(60);
             }
             mBaseGameObjectFlags.Set(BaseGameObject::eDead);
             return;
@@ -142,7 +142,7 @@ void Bullet::VUpdate()
             }
             else
             {
-                if (field_18_xpos >= sActiveHero->mXPos)
+                if (mXPos >= sActiveHero->mXPos)
                 {
                     distX_1 = sActiveHero->mXPos + FP_FromInteger(field_34_number_of_bullets * 16);
                 }
@@ -169,11 +169,11 @@ void Bullet::VUpdate()
             }
 
             if (sCollisions->Raycast(
-                    field_18_xpos,
-                    field_1C_ypos,
+                    mXPos,
+                    mYPos,
                     distX_1 - distX_2,
                     sActiveHero->mYPos + FP_FromInteger(10),
-                    &field_14_pLine,
+                    &mLine,
                     &hitX,
                     &hitY,
                     CollisionMask(eBulletWall_10)))
@@ -227,15 +227,15 @@ bool Bullet::InZBulletCover(FP xpos, FP ypos, const PSX_RECT& objRect)
 
 BaseAliveGameObject* Bullet::ShootObject(PSX_RECT* pRect)
 {
-    if (!gBaseAliveGameObjects_4FC8A0)
+    if (!gBaseAliveGameObjects)
     {
         return nullptr;
     }
 
     BaseAliveGameObject* pObjectToShoot = nullptr;
-    for (s32 idx = 0; idx < gBaseAliveGameObjects_4FC8A0->Size(); idx++)
+    for (s32 idx = 0; idx < gBaseAliveGameObjects->Size(); idx++)
     {
-        BaseAliveGameObject* pObjIter = gBaseAliveGameObjects_4FC8A0->ItemAt(idx);
+        BaseAliveGameObject* pObjIter = gBaseAliveGameObjects->ItemAt(idx);
         if (!pObjIter)
         {
             break;
@@ -262,7 +262,7 @@ BaseAliveGameObject* Bullet::ShootObject(PSX_RECT* pRect)
                         {
                             if (pObjectToShoot)
                             {
-                                if (FP_Abs(pObjIter->mXPos - field_18_xpos) < FP_Abs(pObjectToShoot->mXPos - field_18_xpos))
+                                if (FP_Abs(pObjIter->mXPos - mXPos) < FP_Abs(pObjectToShoot->mXPos - mXPos))
                                 {
                                     pObjectToShoot = pObjIter;
                                 }

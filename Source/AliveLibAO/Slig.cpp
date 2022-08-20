@@ -840,7 +840,7 @@ s16 Slig::VTakeDamage(BaseGameObject* pFrom)
 
                     relive_new Blood(
                         xPos + mXPos,
-                        pBullet->field_1C_ypos,
+                        pBullet->mYPos,
                         xOff,
                         yOff,
                         mSpriteScale,
@@ -853,7 +853,7 @@ s16 Slig::VTakeDamage(BaseGameObject* pFrom)
 
                     relive_new Blood(
                         xOff + mXPos,
-                        pBullet->field_1C_ypos,
+                        pBullet->mYPos,
                         xPos,
                         FP_FromInteger(0),
                         mSpriteScale,
@@ -1369,9 +1369,9 @@ s16 Slig::FindBeatTarget_46D0E0(s32 /*typeToFind*/, s32 gridBlocks)
         mYPos - k2Scaled,
         true);
 
-    for (s32 i = 0; i < gBaseAliveGameObjects_4FC8A0->Size(); i++)
+    for (s32 i = 0; i < gBaseAliveGameObjects->Size(); i++)
     {
-        auto pTargetObj = gBaseAliveGameObjects_4FC8A0->ItemAt(i);
+        auto pTargetObj = gBaseAliveGameObjects->ItemAt(i);
         if (!pTargetObj)
         {
             break;
@@ -3961,9 +3961,9 @@ void Slig::Motion_52_Beat_46AA90()
             mXPos,
             mYPos - k2Scaled);
 
-        for (s32 idx = 0; idx < gBaseAliveGameObjects_4FC8A0->Size(); idx++)
+        for (s32 idx = 0; idx < gBaseAliveGameObjects->Size(); idx++)
         {
-            auto pObjIter = gBaseAliveGameObjects_4FC8A0->ItemAt(idx);
+            auto pObjIter = gBaseAliveGameObjects->ItemAt(idx);
 
             if (!pObjIter)
             {

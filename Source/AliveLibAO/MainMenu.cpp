@@ -1013,7 +1013,7 @@ void Menu::FMV_Select_Update_47E8D0()
                 else
                 {
                     // "Credits" FMV
-                    gCreditsControllerExists_507684 = 1;
+                    gCreditsControllerExists = 1;
 
                     // The credits are re-done in this class rather than using CreditsController... go to the Sherry credit screen
                     field_208_camera = 1;
@@ -3381,7 +3381,7 @@ void Menu::Credits_Update_47F190()
             // Credits done
             gMap.SetActiveCam(EReliveLevelIds::eMenu, 1, CameraIds::Menu::eFmvSelect_30, CameraSwapEffects::eInstantChange_0, 0, 0);
             field_1CC_fn_update = &Menu::CreditsEnd_BackTo_FMV_Or_Level_List_Update_47F170;
-            gCreditsControllerExists_507684 = 0;
+            gCreditsControllerExists = 0;
         }
         else
         {

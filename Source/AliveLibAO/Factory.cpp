@@ -2100,7 +2100,7 @@ void Factory_CreditsController_481A50(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfo
 {
     if (loadMode != LoadMode::LoadResourceFromList_1 && loadMode != LoadMode::LoadResource_2)
     {
-        if (!gCreditsControllerExists_507684)
+        if (!gCreditsControllerExists)
         {
             relive_new CreditsController(static_cast<Path_CreditsController*>(pTlv), tlvOffsetLevelIdPathId.all);
         }

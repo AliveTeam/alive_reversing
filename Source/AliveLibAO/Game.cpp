@@ -325,7 +325,7 @@ void Init_Sound_DynamicArrays_And_Others_41CD20()
 
     sShadowZone_dArray_507B08 = relive_new DynamicArrayT<ShadowZone>(4);
 
-    gBaseAliveGameObjects_4FC8A0 = relive_new DynamicArrayT<BaseAliveGameObject>(20);
+    gBaseAliveGameObjects = relive_new DynamicArrayT<BaseAliveGameObject>(20);
 
     ResourceManager::Init_454DA0();
     SND_Init_476E40();

@@ -17,9 +17,9 @@ public:
     virtual void VUpdate() override;
     virtual void VRender(PrimHeader** ppOt) override;
 
-    Prim_ScreenOffset field_10_prim_screen_offset[2] = {};
-    s16 field_30_shake_table_idx = 0;
-    s16 field_32_bKillMe = 0;
+    Prim_ScreenOffset mPrimScreenOffset[2] = {};
+    s16 mShakeTableIdx = 0;
+    bool mStopShaking = false;
 };
 ALIVE_ASSERT_SIZEOF(RollingBallShaker, 0x34);
 
