@@ -693,7 +693,7 @@ public:
     s32 mWorkWheelId = 0;
     s32 mRingPulseTimer = 0;
     s16 mHaveShrykull = 0;
-    s16 field_16E_bHaveInvisiblity = 0;
+    s16 mHaveInvisibility = 0;
     s32 mInvisibilityTimer = 0;
     s16 field_174_unused = 0;
     s16 mInvisibilityDuration = 0;

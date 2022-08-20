@@ -15,36 +15,36 @@ enum class FartStates : s16
 struct EvilFart_State final
 {
     AETypes field_0_type;
-    s16 field_2_r;
-    s16 field_4_g;
-    s16 field_6_b;
-    s16 field_8_path_number;
-    LevelIds field_A_lvl_number;
-    FP field_C_xpos;
-    FP field_10_ypos;
-    FP field_14_velx;
-    FP field_18_vely;
-    FP field_1C_sprite_scale;
-    s16 field_20_anim_cur_frame;
-    s16 field_22_frame_change_counter;
-    s8 field_24_bAnimRender;
-    s8 field_25_bDrawable;
-    LevelIds field_26_level;
-    s16 field_28_path;
-    s16 field_2A_camera;
+    s16 mRed;
+    s16 mGreen;
+    s16 mBlue;
+    s16 mCurrentPath;
+    LevelIds mCurrentLevel;
+    FP mXPos;
+    FP mYPos;
+    FP mVelX;
+    FP mVelY;
+    FP mSpriteScale;
+    s16 mCurrentFrame;
+    s16 mFrameChangeCounter;
+    s8 mAnimRender;
+    s8 mDrawable;
+    LevelIds mAbeLevel;
+    s16 mAbePath;
+    s16 mAbeCamera;
 
     enum Flags_2C
     {
         eBit1_bControlled = 0x1,
-        eBit2_bBlowUp = 0x2,
+        eBit2_FartExploded = 0x2,
     };
     BitField16<Flags_2C> field_2C;
 
-    s16 field_2E_alive_timer;
-    FartStates field_30_state;
+    s16 mPossessedAliveTimer;
+    FartStates mState;
     s16 field_32_padding;
-    s32 field_34_timer;
-    s32 field_38_timer;
+    s32 mUnpossessionTimer;
+    s32 mBackToAbeTimer;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(EvilFart_State, 60);
 
@@ -67,15 +67,15 @@ private:
     void BlowUp();
 
 private:
-    s16 field_118_bBlowUp = 0;
-    s16 field_11A_bPossesed = 0;
-    s16 field_11C_alive_timer = 0;
-    s16 field_11E_path = 0;
-    EReliveLevelIds field_120_level = EReliveLevelIds::eNone;
-    s16 field_122_camera = 0;
-    FartStates field_124_state = FartStates::eIdle_0;
-    s32 field_128_timer = 0;
-    s32 field_12C_back_to_abe_timer = 0;
-    s32 field_130_sound_channels = 0;
+    s16 mFartExploded = 0;
+    bool mPossessed = false;
+    s16 mPossessedAliveTimer = 0;
+    s16 mAbePath = 0;
+    EReliveLevelIds mAbeLevel = EReliveLevelIds::eNone;
+    s16 mAbeCamera = 0;
+    FartStates mState = FartStates::eIdle_0;
+    s32 mUnpossessionTimer = 0;
+    s32 mBackToAbeTimer = 0;
+    s32 mSoundChannels = 0;
 };
 ALIVE_ASSERT_SIZEOF(EvilFart, 0x134);

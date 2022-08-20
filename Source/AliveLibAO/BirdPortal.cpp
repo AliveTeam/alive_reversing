@@ -601,14 +601,14 @@ void BirdPortal::VUpdate()
 
         case PortalStates::CreateFlash2_13:
         {
-            relive_new Flash(Layer::eLayer_FadeFlash_40, 255u, 255u, 255u, 1, TPageAbr::eBlend_0, 1);
+            relive_new Flash(Layer::eLayer_FadeFlash_40, 255u, 255u, 255u, TPageAbr::eBlend_0, 1);
             mState = PortalStates::CreateFlash3_14;
         }
         break;
 
         case PortalStates::CreateFlash3_14:
         {
-            relive_new Flash(Layer::eLayer_FadeFlash_40, 255u, 255u, 255u, 0, TPageAbr::eBlend_0, 1);
+            relive_new Flash(Layer::eLayer_FadeFlash_40, 255u, 255u, 255u, TPageAbr::eBlend_0, 1);
             mState = PortalStates::KillPortal_15;
             mTimer = sGnFrame + 5;
         }

@@ -9,16 +9,16 @@ namespace AO {
 
 enum class UXBState : u16
 {
-    eDelay_0 = 0,
-    eActive_1 = 1,
-    eExploding_2 = 2,
-    eDeactivated_3 = 3
+    eDelay = 0,
+    eActive = 1,
+    eExploding = 2,
+    eDeactivated = 3
 };
 
 enum class UXBStartState : s16
 {
-    eOn_0 = 0,
-    eOff_1 = 1,
+    eOn = 0,
+    eOff = 1,
 };
 
 struct Path_UXB final : public Path_TLV
@@ -48,22 +48,17 @@ public:
 
     s16 IsColliding();
 
-    UXBState field_10C_state = UXBState::eDelay_0;
-    UXBState field_10E_starting_state = UXBState::eDelay_0;
-    s16 field_110_disabled_resources = 0;
-    s32 field_114_tlvInfo = 0;
-    s32 field_118_next_state_frame = 0;
-    Animation field_11C_anim;
-    s16 field_1B4_pattern_length = 0;
-    s16 field_1B6_pattern_index = 0;
-    s16 field_1B8_pattern = 0;
-    s16 field_1BA_red_blink_count = 0;
-    enum flags_1BC
-    {
-        eUnused_Bit0 = 0x1,
-        eIsRed_Bit1 = 0x2,
-    };
-    BitField16<flags_1BC> field_1BC_flags = {};
+    UXBState mCurrentState = UXBState::eDelay;
+    UXBState mStartingState = UXBState::eDelay;
+    s16 mDisabledResources = 0;
+    s32 mTlvInfo = 0;
+    s32 mNextStateTimer = 0;
+    Animation mFlashAnim;
+    s16 mPatternLength = 0;
+    s16 mPatternIndex = 0;
+    s16 mPattern = 0;
+    s16 mRedBlinkCount = 0;
+    u16 mIsRed = 0;
 };
 ALIVE_ASSERT_SIZEOF(UXB, 0x1C0);
 

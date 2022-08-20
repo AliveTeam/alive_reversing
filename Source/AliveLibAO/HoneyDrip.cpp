@@ -19,7 +19,7 @@ HoneyDrip::HoneyDrip(FP xpos, FP ypos)
 
     mAnim.mRenderLayer = Layer::eLayer_BeforeWell_22;
 
-    field_E4_bSoundPlaying = FALSE;
+    mSoundPlaying = false;
 }
 
 void HoneyDrip::VUpdate()
@@ -27,10 +27,10 @@ void HoneyDrip::VUpdate()
     mXPos += mVelX;
     mYPos += mVelY;
 
-    if (mAnim.mCurrentFrame == 7 && !field_E4_bSoundPlaying)
+    if (mAnim.mCurrentFrame == 7 && !mSoundPlaying)
     {
         SfxPlayMono(SoundEffect::HoneyDrip_26, 0, 0);
-        field_E4_bSoundPlaying = TRUE;
+        mSoundPlaying = true;
     }
 
     if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))

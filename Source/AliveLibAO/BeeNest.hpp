@@ -10,14 +10,14 @@ namespace AO {
 
 struct Path_BeeNest final : public Path_TLV
 {
-    s16 field_18_id;
-    s16 field_1A_swarm_size;
-    s16 field_1C_chase_time;
-    s16 field_1E_speed;
+    s16 mSwitchId;
+    s16 mBeesAmount;
+    s16 mTotalChaseTime;
+    s16 mSpeed;
     s16 field_20_disabled_resources;
     s16 field_22_num_bees;
 };
-ALIVE_ASSERT_SIZEOF(Path_BeeNest, 0x24);
+ALIVE_ASSERT_SIZEOF_ALWAYS(Path_BeeNest, 0x24);
 
 enum class BeeNestStates : u16
 {
@@ -37,19 +37,15 @@ public:
     virtual void VScreenChanged() override;
     virtual void VUpdate() override;
 
-    FP field_10_bee_x = {};
-    FP field_14_bee_y = {};
-    EReliveLevelIds field_18_level = EReliveLevelIds::eNone;
-    s16 field_1A_path = 0;
-    s32 field_1C_tlvInfo = 0;
-    PSX_Point field_20_top_left = {};
-    PSX_Point field_24_bottom_right = {};
-    u16 field_28_switch_id = 0;
-    s16 field_2A_swarm_size = 0;
-    u16 field_2C_chase_ticks = 0;
-    BeeNestStates field_2E_state = BeeNestStates::eWaitForTrigger_0;
-    FP field_30_speed = {};
-    BeeSwarm* field_34_pBeeSwarm = nullptr;
+    FP mBeeSwarmX = {};
+    FP mBeeSwarmY = {};
+    s32 mTlvInfo = 0;
+    u16 mSwitchId = 0;
+    s16 mBeesAmount = 0;
+    u16 mTotalChaseTime = 0;
+    BeeNestStates mState = BeeNestStates::eWaitForTrigger_0;
+    FP mSpeed = {};
+    BeeSwarm* mBeeSwarm = nullptr;
 };
 ALIVE_ASSERT_SIZEOF(BeeNest, 0x38);
 

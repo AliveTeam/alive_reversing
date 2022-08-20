@@ -3010,7 +3010,7 @@ s16 Abe::MoveLiftUpOrDown_42F190(FP yVelocity)
     pLiftPoint->Move(FP_FromInteger(0), yVelocity, 0);
     FollowLift_42EE90();
 
-    if (gBeeInstanceCount_5076B0 && gBeesNearAbe)
+    if (gBeeInstanceCount && gBeesNearAbe)
     {
         return eAbeMotions::Motion_141_BeesStrugglingOnLift_42F390;
     }
@@ -4092,7 +4092,7 @@ void Abe::Motion_0_Idle_423520()
             {
                 mCurrentMotion = HandleDoAction_429A70();
             }
-            else if (gBeeInstanceCount_5076B0 && gBeesNearAbe)
+            else if (gBeeInstanceCount && gBeesNearAbe)
             {
                 mCurrentMotion = eAbeMotions::Motion_140_BeesStruggling_423F30;
             }
@@ -8942,7 +8942,7 @@ void Abe::Motion_135_LiftGrabIdle_42F000()
 
     mVelY = FP_FromInteger(0);
 
-    if (gBeeInstanceCount_5076B0 > 0 && gBeesNearAbe)
+    if (gBeeInstanceCount > 0 && gBeesNearAbe)
     {
         mCurrentMotion = eAbeMotions::Motion_141_BeesStrugglingOnLift_42F390;
     }
@@ -9159,7 +9159,7 @@ void Abe::Motion_139_ElumMountBegin_42E090()
 void Abe::Motion_140_BeesStruggling_423F30()
 {
     Motion_0_Idle_423520();
-    if ((!gBeeInstanceCount_5076B0 || !gBeesNearAbe) && mCurrentMotion == eAbeMotions::Motion_140_BeesStruggling_423F30)
+    if ((!gBeeInstanceCount || !gBeesNearAbe) && mCurrentMotion == eAbeMotions::Motion_140_BeesStruggling_423F30)
     {
         ToIdle_422D50();
     }

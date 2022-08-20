@@ -10,21 +10,21 @@
 
 enum class UXBState : u16
 {
-    eDelay_0 = 0,
-    eActive_1 = 1,
-    eExploding_2 = 2,
-    eDeactivated_3 = 3
+    eDelay = 0,
+    eActive = 1,
+    eExploding = 2,
+    eDeactivated = 3
 };
 
 struct Path_UXB final : public Path_TLV
 {
     enum class StartState : s16
     {
-        eOn_0 = 0,
-        eOff_1 = 1,
+        eOn = 0,
+        eOff = 1,
     };
     s16 mPatternLength;
-    s16 field_12_pattern;
+    s16 mPattern;
     Scale_short mScale;
     StartState mStartState;
     s32 mDisabledResources;
@@ -33,16 +33,16 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_UXB, 0x1c);
 
 struct SaveState_UXB final
 {
-    AETypes field_0_id;
+    AETypes mType;
     s16 field_2_padding;
-    TlvItemInfoUnion field_4_tlv;
-    u32 field_8_next_state_frame;
-    UXBState field_C_state;
-    UXBState field_E_starting_state;
-    u16 field_10_disabled_resources;
-    u16 field_12_pattern_index;
-    u16 field_14_red_blink_count;
-    u16 field_16_is_red;
+    TlvItemInfoUnion mTlvInfo;
+    u32 mNextStateTimer;
+    UXBState mCurrentState;
+    UXBState mStartingState;
+    u16 mDisabledResources;
+    u16 mPatternIndex;
+    u16 mRedBlinkCount;
+    u16 mIsRed;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(SaveState_UXB, 24);
 
@@ -74,16 +74,16 @@ private:
     s32 IsColliding();
 
 private:
-    UXBState field_118_state = UXBState::eDelay_0;
-    UXBState field_11A_starting_state = UXBState::eDelay_0;
-    u16 field_11C_disabled_resources = 0;
-    TlvItemInfoUnion field_120_tlv = {};
-    u32 field_124_next_state_frame = 0;
-    Animation field_128_animation = {};
-    u16 field_1C0_pattern_length = 0;
-    u16 field_1C2_pattern_index = 0;
-    u16 field_1C4_pattern = 0;
-    u16 field_1C6_red_blink_count = 0;
-    BitField16<UXB_Flags_1C8> field_1C8_flags = {};
+    UXBState mCurrentState = UXBState::eDelay;
+    UXBState mStartingState = UXBState::eDelay;
+    u16 mDisabledResources = 0;
+    TlvItemInfoUnion mTlvInfo = {};
+    u32 mNextStateTimer = 0;
+    Animation mFlashAnim = {};
+    u16 mPatternLength = 0;
+    u16 mPatternIndex = 0;
+    u16 mPattern = 0;
+    u16 mRedBlinkCount = 0;
+    u16 mIsRed = 0;
 };
 ALIVE_ASSERT_SIZEOF(UXB, 0x1CC);

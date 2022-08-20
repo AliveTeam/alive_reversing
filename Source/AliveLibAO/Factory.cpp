@@ -621,7 +621,7 @@ void Factory_Honey_4844A0(Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOff
             FP_FromInteger(pTlv->mTopLeft.y + 24));
         if (pHoney)
         {
-            pHoney->field_E4_tlvInfo = tlvOffsetLevelIdPathId.all;
+            pHoney->mTlvInfo = tlvOffsetLevelIdPathId.all;
         }
     }
 }

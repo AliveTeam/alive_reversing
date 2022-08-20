@@ -232,7 +232,7 @@ void RollingBall::VUpdate()
                     mSpriteScale,
                     BurstType::eFallingRocks_0);
 
-                relive_new Flash(Layer::eLayer_Above_FG1_39, 255, 255, 255, 1, TPageAbr::eBlend_1, 1);
+                relive_new Flash(Layer::eLayer_Above_FG1_39, 255, 255, 255, TPageAbr::eBlend_1, 1);
 
                 relive_new ScreenShake(0);
 

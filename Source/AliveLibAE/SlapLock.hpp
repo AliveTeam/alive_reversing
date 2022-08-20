@@ -10,8 +10,8 @@ struct Path_SlapLock final : public Path_TLV
     s16 field_14_target_tomb_id2;
     Choice_short field_16_bPersistant;
     Choice_short field_18_has_ghost;
-    Choice_short field_1A_give_invisibility_powerup;
-    s16 field_1C_invisibility_duration;
+    Choice_short mGiveInvisibilityPowerup;
+    s16 mInvisibilityDuration;
     s16 field_1E_toggle_switch_id;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_SlapLock, 0x20);
@@ -31,14 +31,14 @@ enum class SlapLockStates : s16
 struct SlapLock_State final
 {
     AETypes field_0_type;
-    s16 field_2_render;
-    s32 field_4_tlvInfo;
-    s8 field_8_tlv_state;
+    s16 mAnimRender;
+    s32 mTlvInfo;
+    s8 mTlvState;
     s8 field_9_padding;
-    SlapLockStates field_A_state;
-    s32 field_C_timer1;
+    SlapLockStates mState;
+    s32 mTimer1;
     s32 field_10_obj_id;
-    s32 field_14_timer2;
+    s32 mShinyParticleTimer;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(SlapLock_State, 0x18);
 
@@ -61,15 +61,13 @@ private:
     void SetInvisibilityTarget();
 
 private:
-    Path_SlapLock* field_118_pTlv = nullptr;
-    s32 field_11C_tlvInfo = 0;
-    SlapLockStates field_120_state = SlapLockStates::eShaking_0;
-    s32 field_124_timer1 = 0;
-    FP field_128_midX = {};
-    FP field_12C_midY = {};
-    Choice_short field_130_has_ghost = Choice_short::eNo_0;
-    s32 field_134_id = 0;
-    s32 field_138_possesion_flicker_id = 0;
-    s32 field_13C_timer2 = 0;
+    Path_SlapLock* mSlapLockTlv = nullptr;
+    s32 mTlvInfo = 0;
+    SlapLockStates mState = SlapLockStates::eShaking_0;
+    s32 mTimer1 = 0;
+    Choice_short mHasGhost = Choice_short::eNo_0;
+    s32 mAbilityRingId = 0;
+    s32 mPossessionFlickerId = 0;
+    s32 mShinyParticleTimer = 0;
 };
 ALIVE_ASSERT_SIZEOF(SlapLock, 0x140);

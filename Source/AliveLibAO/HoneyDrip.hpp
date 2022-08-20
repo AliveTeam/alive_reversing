@@ -18,9 +18,7 @@ public:
 
     virtual void VUpdate() override;
 
-    s32 field_D4[4] = {};
-    s16 field_E4_bSoundPlaying = 0;
-    s16 field_E6 = 0;
+    bool mSoundPlaying = false;
 };
 ALIVE_ASSERT_SIZEOF(HoneyDrip, 0xE8);
 

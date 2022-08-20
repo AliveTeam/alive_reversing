@@ -85,7 +85,7 @@ void Explosion::VUpdate()
 
         case 4:
         {
-            relive_new Flash(Layer::eLayer_Above_FG1_39, 255, 255, 255, 1, TPageAbr::eBlend_1, 1);
+            relive_new Flash(Layer::eLayer_Above_FG1_39, 255, 255, 255, TPageAbr::eBlend_1, 1);
             rect.x = FP_GetExponent(FP_FromInteger(-38) * field_FC_explosion_size);
             rect.w = FP_GetExponent(FP_FromInteger(38) * field_FC_explosion_size);
             rect.y = FP_GetExponent(FP_FromInteger(-38) * field_FC_explosion_size);
@@ -106,7 +106,7 @@ void Explosion::VUpdate()
         case 8:
         {
             relive_new ParticleBurst(mXPos, mYPos, field_F4_bSmall ? 6 : 20, field_F8_scale, BurstType::eBigRedSparks_3, field_F4_bSmall ? 11 : 13);
-            relive_new Flash(Layer::eLayer_Above_FG1_39, 255, 255, 255, 1, TPageAbr::eBlend_3, 1);
+            relive_new Flash(Layer::eLayer_Above_FG1_39, 255, 255, 255, TPageAbr::eBlend_3, 1);
             break;
         }
 

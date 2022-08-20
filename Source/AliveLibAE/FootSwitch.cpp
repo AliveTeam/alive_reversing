@@ -52,7 +52,7 @@ FootSwitch::FootSwitch(Path_FootSwitch* pTlv, s32 tlvInfo)
     : BaseAnimatedWithPhysicsGameObject(0)
 {
     SetType(ReliveTypes::eFootSwitch);
-    field_100_obj_id = -1;
+    mStoodOnMeId = -1;
 
     const s32 idx = static_cast<s32>(MapWrapper::ToAE(gMap.mCurrentLevel));
 
@@ -64,7 +64,7 @@ FootSwitch::FootSwitch(Path_FootSwitch* pTlv, s32 tlvInfo)
 
     SetTint(sFootSwitchTints_5639F4, gMap.mCurrentLevel);
 
-    field_FA_switch_id = pTlv->mSwitchId;
+    mSwitchId = pTlv->mSwitchId;
 
     if (pTlv->mScale == Scale_short::eHalf_1)
     {
@@ -73,49 +73,49 @@ FootSwitch::FootSwitch(Path_FootSwitch* pTlv, s32 tlvInfo)
         mAnim.mRenderLayer = Layer::eLayer_BeforeShadow_Half_6;
     }
 
-    field_FC_action = pTlv->mAction;
-    field_FE_trigger_by = pTlv->mTriggeredBy;
+    mAction = pTlv->mAction;
+    mTriggeredBy = pTlv->mTriggeredBy;
     mXPos = FP_FromInteger((pTlv->mTopLeft.x + pTlv->mBottomRight.x) / 2);
-    field_F8_state = States::eWaitForStepOnMe_0;
+    mState = States::eWaitForStepOnMe;
     mVisualFlags.Set(VisualFlags::eDoPurpleLightEffect);
     mYPos = FP_FromInteger(pTlv->mBottomRight.y);
-    field_104_bCreateSparks = 0;
+    mCreateSparks = false;
     field_F4_tlvInfo = tlvInfo;
-    field_106_bFindStander = 1;
+    mFindStander = true;
 }
 
 FootSwitch::~FootSwitch()
 {
-    field_100_obj_id = -1;
+    mStoodOnMeId = -1;
     Path::TLV_Reset(field_F4_tlvInfo, -1, 0, 0);
 }
 
 void FootSwitch::VUpdate()
 {
-    auto pLastStoodOnMe = static_cast<BaseAliveGameObject*>(sObjectIds.Find_Impl(field_100_obj_id));
-    if (field_106_bFindStander)
+    auto pLastStoodOnMe = static_cast<BaseAliveGameObject*>(sObjectIds.Find_Impl(mStoodOnMeId));
+    if (mFindStander)
     {
-        field_106_bFindStander = FALSE;
+        mFindStander = false;
         pLastStoodOnMe = WhoIsStoodOnMe();
         if (pLastStoodOnMe)
         {
-            field_100_obj_id = pLastStoodOnMe->mBaseGameObjectId;
+            mStoodOnMeId = pLastStoodOnMe->mBaseGameObjectId;
             mAnim.Set_Animation_Data(sFootSwitchData_547D60[static_cast<s32>(MapWrapper::ToAE(gMap.mCurrentLevel))][1], nullptr);
-            field_F8_state = States::eWaitForGetOffMe_1;
+            mState = States::eWaitForGetOffMe;
         }
     }
 
-    switch (field_F8_state)
+    switch (mState)
     {
-        case States::eWaitForStepOnMe_0:
+        case States::eWaitForStepOnMe:
         {
             auto pStoodOnMeNow = WhoIsStoodOnMe();
             if (pStoodOnMeNow)
             {
-                field_100_obj_id = pStoodOnMeNow->mBaseGameObjectId;
+                mStoodOnMeId = pStoodOnMeNow->mBaseGameObjectId;
 
-                SwitchStates_Do_Operation(field_FA_switch_id, field_FC_action);
-                field_F8_state = States::eWaitForGetOffMe_1;
+                SwitchStates_Do_Operation(mSwitchId, mAction);
+                mState = States::eWaitForGetOffMe;
 
                 mAnim.Set_Animation_Data(sFootSwitchData_547D60[static_cast<s32>(MapWrapper::ToAE(gMap.mCurrentLevel))][1], nullptr);
 
@@ -139,11 +139,11 @@ void FootSwitch::VUpdate()
 
             if (mAnim.mCurrentFrame == 0)
             {
-                field_104_bCreateSparks = 1;
+                mCreateSparks = true;
                 return;
             }
 
-            if (field_104_bCreateSparks)
+            if (mCreateSparks)
             {
                 relive_new Spark(mXPos,
                                             mYPos + (mSpriteScale * FP_FromInteger(6)),
@@ -160,17 +160,17 @@ void FootSwitch::VUpdate()
                                                             BurstType::eBigRedSparks_3,
                                                             9);
 
-                field_104_bCreateSparks = 0;
+                mCreateSparks = false;
             }
 
             if (mAnim.mCurrentFrame == 0)
             {
-                field_104_bCreateSparks = 1;
+                mCreateSparks = true;
             }
             break;
         }
 
-        case States::eWaitForGetOffMe_1:
+        case States::eWaitForGetOffMe:
         {
             const PSX_RECT bRect = VGetBoundingRect();
 
@@ -178,9 +178,9 @@ void FootSwitch::VUpdate()
             if (!pLastStoodOnMe || // OG bug: If thing on the switch had died this would de-ref null and crash
                 pLastStoodOnMe->mXPos < FP_FromInteger(bRect.x) || pLastStoodOnMe->mXPos > FP_FromInteger(bRect.w) || pLastStoodOnMe->mBaseGameObjectFlags.Get(BaseGameObject::eDead))
             {
-                field_F8_state = States::eWaitForStepOnMe_0;
+                mState = States::eWaitForStepOnMe;
                 mAnim.Set_Animation_Data(sFootSwitchData_547D60[static_cast<s32>(MapWrapper::ToAE(gMap.mCurrentLevel))][0], nullptr);
-                field_100_obj_id = -1;
+                mStoodOnMeId = -1;
             }
             break;
         }
@@ -200,7 +200,7 @@ BaseAliveGameObject* FootSwitch::WhoIsStoodOnMe()
     PSX_RECT bRectSwitch = VGetBoundingRect();
     bRectSwitch.y -= 3;
 
-    if (field_FE_trigger_by == FootSwitchTriggerBy::eAnyone_1)
+    if (mTriggeredBy == FootSwitchTriggerBy::eAnyone_1)
     {
         for (s32 i = 0; i < gBaseGameObjects->Size(); i++)
         {
@@ -225,7 +225,7 @@ BaseAliveGameObject* FootSwitch::WhoIsStoodOnMe()
             }
         }
     }
-    else if (field_FE_trigger_by == FootSwitchTriggerBy::eAbe_0)
+    else if (mTriggeredBy == FootSwitchTriggerBy::eAbe_0)
     {
         const PSX_RECT bRect = sActiveHero->VGetBoundingRect();
 

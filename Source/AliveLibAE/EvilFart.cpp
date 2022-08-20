@@ -81,16 +81,16 @@ EvilFart::EvilFart()
 
     ResetFartColour();
 
-    field_124_state = FartStates::eIdle_0;
-    field_118_bBlowUp = 0;
+    mState = FartStates::eIdle_0;
+    mFartExploded = 0;
 
     mVelX = FP_FromInteger(0);
     mVelY = FP_FromInteger(0);
 
-    field_11A_bPossesed = 0;
+    mPossessed = false;
 
     mAnim.mRenderMode = TPageAbr::eBlend_1;
-    field_11C_alive_timer = 220;
+    mPossessedAliveTimer = 220;
 }
 
 s32 EvilFart::CreateFromSaveState(const u8* pBuffer)
@@ -108,37 +108,37 @@ s32 EvilFart::CreateFromSaveState(const u8* pBuffer)
         sControlledCharacter = pFart;
     }
 
-    pFart->mXPos = pState->field_C_xpos;
-    pFart->mYPos = pState->field_10_ypos;
+    pFart->mXPos = pState->mXPos;
+    pFart->mYPos = pState->mYPos;
 
-    pFart->mVelX = pState->field_14_velx;
-    pFart->mVelY = pState->field_18_vely;
+    pFart->mVelX = pState->mVelX;
+    pFart->mVelY = pState->mVelY;
 
-    pFart->mCurrentPath = pState->field_8_path_number;
-    pFart->mCurrentLevel = MapWrapper::FromAESaveData(pState->field_A_lvl_number);
-    pFart->mSpriteScale = pState->field_1C_sprite_scale;
+    pFart->mCurrentPath = pState->mCurrentPath;
+    pFart->mCurrentLevel = MapWrapper::FromAESaveData(pState->mCurrentLevel);
+    pFart->mSpriteScale = pState->mSpriteScale;
 
-    pFart->mRGB.SetRGB(pState->field_2_r, pState->field_4_g, pState->field_6_b);
+    pFart->mRGB.SetRGB(pState->mRed, pState->mGreen, pState->mBlue);
 
-    pFart->mAnim.mCurrentFrame = pState->field_20_anim_cur_frame;
-    pFart->mAnim.mFrameChangeCounter = pState->field_22_frame_change_counter;
+    pFart->mAnim.mCurrentFrame = pState->mCurrentFrame;
+    pFart->mAnim.mFrameChangeCounter = pState->mFrameChangeCounter;
 
-    pFart->mBaseGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4, pState->field_25_bDrawable & 1);
-    pFart->mAnim.mFlags.Set(AnimFlags::eBit3_Render, pState->field_24_bAnimRender & 1);
+    pFart->mBaseGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4, pState->mDrawable & 1);
+    pFart->mAnim.mFlags.Set(AnimFlags::eBit3_Render, pState->mAnimRender & 1);
 
     if (IsLastFrame(&pFart->mAnim))
     {
         pFart->mAnim.mFlags.Set(AnimFlags::eBit18_IsLastFrame);
     }
 
-    pFart->field_120_level = MapWrapper::FromAESaveData(pState->field_26_level);
-    pFart->field_11E_path = pState->field_28_path;
-    pFart->field_122_camera = pState->field_2A_camera;
-    pFart->field_118_bBlowUp = pState->field_2C.Get(EvilFart_State::eBit2_bBlowUp);
-    pFart->field_11C_alive_timer = pState->field_2E_alive_timer;
-    pFart->field_124_state = pState->field_30_state;
-    pFart->field_128_timer = pState->field_34_timer;
-    pFart->field_12C_back_to_abe_timer = pState->field_38_timer;
+    pFart->mAbeLevel = MapWrapper::FromAESaveData(pState->mAbeLevel);
+    pFart->mAbePath = pState->mAbePath;
+    pFart->mAbeCamera = pState->mAbeCamera;
+    pFart->mFartExploded = pState->field_2C.Get(EvilFart_State::eBit2_FartExploded);
+    pFart->mPossessedAliveTimer = pState->mPossessedAliveTimer;
+    pFart->mState = pState->mState;
+    pFart->mUnpossessionTimer = pState->mUnpossessionTimer;
+    pFart->mBackToAbeTimer = pState->mBackToAbeTimer;
     return sizeof(EvilFart_State);
 }
 
@@ -148,34 +148,34 @@ s32 EvilFart::VGetSaveState(u8* pSaveBuffer)
 
     pState->field_0_type = AETypes::eEvilFart_45;
 
-    pState->field_C_xpos = mXPos;
-    pState->field_10_ypos = mYPos;
-    pState->field_14_velx = mVelX;
-    pState->field_18_vely = mVelY;
+    pState->mXPos = mXPos;
+    pState->mYPos = mYPos;
+    pState->mVelX = mVelX;
+    pState->mVelY = mVelY;
 
-    pState->field_8_path_number = mCurrentPath;
-    pState->field_A_lvl_number = MapWrapper::ToAE(mCurrentLevel);
-    pState->field_1C_sprite_scale = mSpriteScale;
+    pState->mCurrentPath = mCurrentPath;
+    pState->mCurrentLevel = MapWrapper::ToAE(mCurrentLevel);
+    pState->mSpriteScale = mSpriteScale;
 
-    pState->field_2_r = mRGB.r;
-    pState->field_4_g = mRGB.g;
-    pState->field_6_b = mRGB.b;
+    pState->mRed = mRGB.r;
+    pState->mGreen = mRGB.g;
+    pState->mBlue = mRGB.b;
 
     pState->field_2C.Set(EvilFart_State::eBit1_bControlled, sControlledCharacter == this);
-    pState->field_20_anim_cur_frame = mAnim.mCurrentFrame;
-    pState->field_22_frame_change_counter = mAnim.mFrameChangeCounter;
+    pState->mCurrentFrame = mAnim.mCurrentFrame;
+    pState->mFrameChangeCounter = mAnim.mFrameChangeCounter;
 
-    pState->field_25_bDrawable = mBaseGameObjectFlags.Get(BaseGameObject::eDrawable_Bit4);
-    pState->field_24_bAnimRender = mAnim.mFlags.Get(AnimFlags::eBit3_Render);
+    pState->mDrawable = mBaseGameObjectFlags.Get(BaseGameObject::eDrawable_Bit4);
+    pState->mAnimRender = mAnim.mFlags.Get(AnimFlags::eBit3_Render);
 
-    pState->field_26_level = MapWrapper::ToAE(field_120_level);
-    pState->field_28_path = field_11E_path;
-    pState->field_2A_camera = field_122_camera;
-    pState->field_2C.Set(EvilFart_State::eBit2_bBlowUp, field_118_bBlowUp & 1);
-    pState->field_2E_alive_timer = field_11C_alive_timer;
-    pState->field_30_state = field_124_state;
-    pState->field_34_timer = field_128_timer;
-    pState->field_38_timer = field_12C_back_to_abe_timer;
+    pState->mAbeLevel = MapWrapper::ToAE(mAbeLevel);
+    pState->mAbePath = mAbePath;
+    pState->mAbeCamera = mAbeCamera;
+    pState->field_2C.Set(EvilFart_State::eBit2_FartExploded, mFartExploded & 1);
+    pState->mPossessedAliveTimer = mPossessedAliveTimer;
+    pState->mState = mState;
+    pState->mUnpossessionTimer = mUnpossessionTimer;
+    pState->mBackToAbeTimer = mBackToAbeTimer;
     return sizeof(EvilFart_State);
 }
 
@@ -248,18 +248,18 @@ void EvilFart::VPossessed()
     mBaseAliveGameObjectFlags.Set(Flags_114::e114_Bit4_bPossesed);
     mAnim.mFlags.Set(AnimFlags::eBit15_bSemiTrans);
 
-    field_11C_alive_timer = 900;
+    mPossessedAliveTimer = 900;
 
     mAnim.mRenderMode = TPageAbr::eBlend_1;
 
-    field_120_level = gMap.mCurrentLevel;
-    field_11E_path = gMap.mCurrentPath;
-    field_122_camera = gMap.mCurrentCamera;
+    mAbeLevel = gMap.mCurrentLevel;
+    mAbePath = gMap.mCurrentPath;
+    mAbeCamera = gMap.mCurrentCamera;
 
     sControlledCharacter = this;
 
-    field_124_state = FartStates::eFlying_1;
-    field_11A_bPossesed = 1;
+    mState = FartStates::eFlying_1;
+    mPossessed = true;
 
     ResetFartColour();
 }
@@ -278,7 +278,7 @@ s16 EvilFart::VTakeDamage(BaseGameObject* pFrom)
 
     if (pFrom->Type() == ReliveTypes::eElectricWall)
     {
-        field_11C_alive_timer = 0;
+        mPossessedAliveTimer = 0;
     }
 
     return 1;
@@ -293,63 +293,63 @@ void EvilFart::VUpdate()
 
     if (sActiveHero->mCurrentMotion != eAbeMotions::Motion_86_HandstoneBegin_45BD00)
     {
-        field_11C_alive_timer--;
+        mPossessedAliveTimer--;
     }
 
-    if ((sActiveHero->mCurrentMotion != eAbeMotions::Motion_86_HandstoneBegin_45BD00) && field_11C_alive_timer + 1 <= 0)
+    if ((sActiveHero->mCurrentMotion != eAbeMotions::Motion_86_HandstoneBegin_45BD00) && mPossessedAliveTimer + 1 <= 0)
     {
-        if (!field_118_bBlowUp)
+        if (!mFartExploded)
         {
             BlowUp();
-            if (field_124_state == FartStates::eIdle_0)
+            if (mState == FartStates::eIdle_0)
             {
                 mBaseGameObjectFlags.Set(BaseGameObject::eDead);
             }
             else
             {
                 mAnim.mFlags.Clear(AnimFlags::eBit3_Render);
-                field_118_bBlowUp = 1;
-                field_12C_back_to_abe_timer = sGnFrame + 35;
+                mFartExploded = 1;
+                mBackToAbeTimer = sGnFrame + 35;
             }
         }
     }
 
-    if (field_118_bBlowUp && static_cast<s32>(sGnFrame) > field_12C_back_to_abe_timer)
+    if (mFartExploded && static_cast<s32>(sGnFrame) > mBackToAbeTimer)
     {
         sControlledCharacter = sActiveHero;
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
-        gMap.SetActiveCam(field_120_level, field_11E_path, field_122_camera, CameraSwapEffects::eInstantChange_0, 0, 0);
+        gMap.SetActiveCam(mAbeLevel, mAbePath, mAbeCamera, CameraSwapEffects::eInstantChange_0, 0, 0);
     }
 
     // Show the count to the boom
-    if (field_11C_alive_timer < 251 && !(field_11C_alive_timer % 50))
+    if (mPossessedAliveTimer < 251 && !(mPossessedAliveTimer % 50))
     {
-        if (field_11C_alive_timer > 0)
+        if (mPossessedAliveTimer > 0)
         {
-            if (!field_118_bBlowUp)
+            if (!mFartExploded)
             {
                 relive_new ThrowableTotalIndicator(
                     mXPos,
                     mYPos - (mSpriteScale * FP_FromInteger(50)),
                     mAnim.mRenderLayer,
                     mAnim.field_14_scale,
-                    field_11C_alive_timer / 50,
+                    mPossessedAliveTimer / 50,
                     1);
 
                 mYPos = mYPos - (mSpriteScale * FP_FromInteger(50));
-                Mudokon_SFX(MudSounds::eFart_7, 0, 10 * (300 - field_11C_alive_timer), this);
+                Mudokon_SFX(MudSounds::eFart_7, 0, 10 * (300 - mPossessedAliveTimer), this);
                 mYPos += mSpriteScale * FP_FromInteger(50);
             }
         }
     }
 
-    if (field_124_state == FartStates::eIdle_0)
+    if (mState == FartStates::eIdle_0)
     {
         CalculateFartColour();
         return;
     }
 
-    if (field_124_state == FartStates::eFlying_1)
+    if (mState == FartStates::eFlying_1)
     {
         if (FP_GetExponent(mVelX) || FP_GetExponent(mVelY))
         {
@@ -399,21 +399,21 @@ void EvilFart::VUpdate()
                     0x20u);
 
 
-                if (field_130_sound_channels)
+                if (mSoundChannels)
                 {
-                    SND_Stop_Channels_Mask(field_130_sound_channels);
+                    SND_Stop_Channels_Mask(mSoundChannels);
                 }
 
                 Mudokon_SFX(MudSounds::eFart_7, 50, FP_GetExponent(velocityToUse * FP_FromInteger(250)) - 2000, nullptr);
-                field_130_sound_channels = 0; // TODO OG BUG ?? v32;
+                mSoundChannels = 0; // TODO OG BUG ?? v32;
             }
         }
         else
         {
-            if (field_130_sound_channels)
+            if (mSoundChannels)
             {
-                SND_Stop_Channels_Mask(field_130_sound_channels);
-                field_130_sound_channels = 0;
+                SND_Stop_Channels_Mask(mSoundChannels);
+                mSoundChannels = 0;
             }
             if (!(sGnFrame % 30) && !Math_RandomRange(0, 1))
             {
@@ -483,7 +483,7 @@ void EvilFart::VUpdate()
 
         if (!Input_IsChanting_45F260())
         {
-            field_11A_bPossesed = 0;
+            mPossessed = false;
         }
 
         mAnim.mFlags.Set(AnimFlags::eBit15_bSemiTrans);
@@ -493,11 +493,11 @@ void EvilFart::VUpdate()
         {
             if (Input_IsChanting_45F260())
             {
-                if (!field_11A_bPossesed)
+                if (!mPossessed)
                 {
-                    field_124_state = FartStates::eDechanting_2;
-                    field_128_timer = sGnFrame + 15;
-                    field_12C_back_to_abe_timer = sGnFrame + 50;
+                    mState = FartStates::eDechanting_2;
+                    mUnpossessionTimer = sGnFrame + 15;
+                    mBackToAbeTimer = sGnFrame + 50;
                     SfxPlayMono(SoundEffect::PossessEffect_17, 0);
                 }
             }
@@ -507,17 +507,17 @@ void EvilFart::VUpdate()
         return;
     }
 
-    if (field_124_state == FartStates::eDechanting_2)
+    if (mState == FartStates::eDechanting_2)
     {
         if (!Input_IsChanting_45F260())
         {
-            field_124_state = FartStates::eFlying_1;
+            mState = FartStates::eFlying_1;
             return;
         }
 
         if (!(sGnFrame % 4))
         {
-            if (field_118_bBlowUp)
+            if (mFartExploded)
             {
                 return;
             }
@@ -531,12 +531,12 @@ void EvilFart::VUpdate()
                 Layer::eLayer_0);
         }
 
-        if (!field_118_bBlowUp && static_cast<s32>(sGnFrame) > field_128_timer)
+        if (!mFartExploded && static_cast<s32>(sGnFrame) > mUnpossessionTimer)
         {
             BlowUp();
 
             mAnim.mFlags.Clear(AnimFlags::eBit3_Render);
-            field_118_bBlowUp = 1;
+            mFartExploded = 1;
         }
         return;
     }
@@ -553,13 +553,13 @@ void EvilFart::BlowUp()
 void EvilFart::CalculateFartColour()
 {
     FP scaledValue;
-    if (field_124_state == FartStates::eIdle_0)
+    if (mState == FartStates::eIdle_0)
     {
-        scaledValue = FP_FromInteger(field_11C_alive_timer) / FP_FromInteger(220);
+        scaledValue = FP_FromInteger(mPossessedAliveTimer) / FP_FromInteger(220);
     }
     else
     {
-        scaledValue = FP_FromInteger(field_11C_alive_timer) / FP_FromInteger(900);
+        scaledValue = FP_FromInteger(mPossessedAliveTimer) / FP_FromInteger(900);
     }
     // Linear change from greenFart to redFart
     mRGB.r = FP_GetExponent(FP_FromInteger(redFart.r) - (scaledValue * FP_FromInteger(redFart.r - greenFart.r)));

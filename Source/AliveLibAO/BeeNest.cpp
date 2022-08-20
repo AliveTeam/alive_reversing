@@ -14,27 +14,22 @@ BeeNest::BeeNest(Path_BeeNest* pTlv, s32 tlvInfo)
 {
     mBaseGameObjectTypeId = ReliveTypes::eBeeNest;
 
-    field_1C_tlvInfo = tlvInfo;
+    mTlvInfo = tlvInfo;
 
-    field_20_top_left = pTlv->mTopLeft;
-    field_18_level = gMap.mCurrentLevel;
-    field_24_bottom_right = pTlv->mBottomRight;
+    mBeesAmount = pTlv->mBeesAmount;
 
-    field_2A_swarm_size = pTlv->field_1A_swarm_size;
-    field_1A_path = gMap.mCurrentPath;
+    mSwitchId = pTlv->mSwitchId;
 
-    field_28_switch_id = pTlv->field_18_id;
+    mBeeSwarmX = FP_FromInteger(pTlv->mTopLeft.x);
+    mBeeSwarmY = FP_FromInteger(pTlv->mTopLeft.y);
 
-    field_10_bee_x = FP_FromInteger(pTlv->mTopLeft.x);
-    field_14_bee_y = FP_FromInteger(pTlv->mTopLeft.y);
+    mTotalChaseTime = pTlv->mTotalChaseTime;
 
-    field_2C_chase_ticks = pTlv->field_1C_chase_time;
+    mSpeed = FP_FromRaw(pTlv->mSpeed << 8);
 
-    field_30_speed = FP_FromRaw(pTlv->field_1E_speed << 8);
+    mBeeSwarm = nullptr;
 
-    field_34_pBeeSwarm = nullptr;
-
-    field_2E_state = BeeNestStates::eWaitForTrigger_0;
+    mState = BeeNestStates::eWaitForTrigger_0;
 
     if (!ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kWaspAOResID, 0, 0))
     {
@@ -42,14 +37,14 @@ BeeNest::BeeNest(Path_BeeNest* pTlv, s32 tlvInfo)
     }
 
     // The "idle" swarm that hovers around the nest
-    relive_new BeeSwarm(field_10_bee_x, field_14_bee_y, FP_FromInteger(0), pTlv->field_22_num_bees, 0);
+    relive_new BeeSwarm(mBeeSwarmX, mBeeSwarmY, FP_FromInteger(0), pTlv->field_22_num_bees, 0);
 }
 
 BeeNest::~BeeNest()
 {
-    if (field_34_pBeeSwarm)
+    if (mBeeSwarm)
     {
-        field_34_pBeeSwarm->mBaseGameObjectRefCount--;
+        mBeeSwarm->mBaseGameObjectRefCount--;
     }
 }
 
@@ -60,13 +55,13 @@ void BeeNest::VScreenChanged()
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 
-    if (gMap.mCurrentLevel != gMap.mNextLevel || gMap.mCurrentPath != gMap.mNextPath || !field_34_pBeeSwarm)
+    if (gMap.mCurrentLevel != gMap.mNextLevel || gMap.mCurrentPath != gMap.mNextPath || !mBeeSwarm)
     {
-        Path::TLV_Reset(field_1C_tlvInfo, -1, 0, 0);
-        if (field_34_pBeeSwarm)
+        Path::TLV_Reset(mTlvInfo, -1, 0, 0);
+        if (mBeeSwarm)
         {
-            field_34_pBeeSwarm->mBaseGameObjectRefCount--;
-            field_34_pBeeSwarm = nullptr;
+            mBeeSwarm->mBaseGameObjectRefCount--;
+            mBeeSwarm = nullptr;
         }
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
@@ -74,33 +69,33 @@ void BeeNest::VScreenChanged()
 
 void BeeNest::VUpdate()
 {
-    switch (field_2E_state)
+    switch (mState)
     {
         case BeeNestStates::eWaitForTrigger_0:
-            if (SwitchStates_Get(field_28_switch_id))
+            if (SwitchStates_Get(mSwitchId))
             {
-                field_34_pBeeSwarm = relive_new BeeSwarm(
-                    field_10_bee_x,
-                    field_14_bee_y,
-                    field_30_speed,
-                    field_2A_swarm_size,
-                    field_2C_chase_ticks);
-                if (field_34_pBeeSwarm)
+                mBeeSwarm = relive_new BeeSwarm(
+                    mBeeSwarmX,
+                    mBeeSwarmY,
+                    mSpeed,
+                    mBeesAmount,
+                    mTotalChaseTime);
+                if (mBeeSwarm)
                 {
-                    field_34_pBeeSwarm->mBaseGameObjectRefCount++;
-                    field_34_pBeeSwarm->Chase(sActiveHero);
-                    field_2E_state = BeeNestStates::eResetIfDead_1;
+                    mBeeSwarm->mBaseGameObjectRefCount++;
+                    mBeeSwarm->Chase(sActiveHero);
+                    mState = BeeNestStates::eResetIfDead_1;
                 }
             }
             break;
 
         case BeeNestStates::eResetIfDead_1:
-            if (field_34_pBeeSwarm->mBaseGameObjectFlags.Get(BaseGameObject::eDead))
+            if (mBeeSwarm->mBaseGameObjectFlags.Get(BaseGameObject::eDead))
             {
-                field_2E_state = BeeNestStates::eWaitForTrigger_0;
-                field_34_pBeeSwarm->mBaseGameObjectRefCount--;
-                field_34_pBeeSwarm = nullptr;
-                SwitchStates_Set(field_28_switch_id, 0);
+                mState = BeeNestStates::eWaitForTrigger_0;
+                mBeeSwarm->mBaseGameObjectRefCount--;
+                mBeeSwarm = nullptr;
+                SwitchStates_Set(mSwitchId, 0);
             }
             break;
 

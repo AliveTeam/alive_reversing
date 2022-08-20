@@ -4,19 +4,19 @@
 #include "Game.hpp"
 #include "stdlib.hpp"
 
-Flash::Flash(Layer layer, s32 r, s32 g, s32 b, s32 /*not_used*/, TPageAbr abr, s32 time)
+Flash::Flash(Layer layer, s32 r, s32 g, s32 b, TPageAbr abr, s32 time)
     : EffectBase(layer, abr)
 {
     SetType(ReliveTypes::eFlash);
     mEffectBaseRed = static_cast<s16>(r);
     mEffectBaseGreen = static_cast<s16>(g);
     mEffectBaseBlue = static_cast<s16>(b);
-    field_78_flash_time = time + sGnFrame;
+    mFlashTime = time + sGnFrame;
 }
 
 void Flash::VUpdate()
 {
-    if (static_cast<s32>(sGnFrame) >= field_78_flash_time)
+    if (static_cast<s32>(sGnFrame) >= mFlashTime)
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }

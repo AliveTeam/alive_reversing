@@ -309,7 +309,7 @@ DoorFlame::DoorFlame(Path_DoorFlame* pTlv, s32 tlvInfo)
     : BaseAnimatedWithPhysicsGameObject(0)
 {
     SetType(ReliveTypes::eNone);
-    field_F4_tlvInfo = tlvInfo;
+    mTlvInfo = tlvInfo;
 
     const AnimRecord& rec = AnimRec(AnimId::Fire);
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
@@ -318,10 +318,10 @@ DoorFlame::DoorFlame(Path_DoorFlame* pTlv, s32 tlvInfo)
     mAnim.mFlags.Set(AnimFlags::eBit15_bSemiTrans);
     mVisualFlags.Set(VisualFlags::eApplyShadowZoneColour);
     mAnim.mRenderLayer = Layer::eLayer_Foreground_Half_17;
-    field_FA_frame_count = mAnim.Get_Frame_Count();
-    mAnim.SetFrame(Math_RandomRange(0, field_FA_frame_count - 1));
+    mFrameCount = mAnim.Get_Frame_Count();
+    mAnim.SetFrame(Math_RandomRange(0, mFrameCount - 1));
 
-    field_F8_switch_id = pTlv->mSwitchId;
+    mSwitchId = pTlv->mSwitchId;
 
     if (pTlv->mScale != Scale_short::eFull_0)
     {
@@ -329,49 +329,49 @@ DoorFlame::DoorFlame(Path_DoorFlame* pTlv, s32 tlvInfo)
     }
 
     mXPos = FP_FromInteger(pTlv->mTopLeft.x) + (FP_FromInteger(12) * mSpriteScale);
-    field_108_fire_background_glow_id = -1;
+    mFireBackgroundGlowId = -1;
     mYPos = FP_FromInteger(pTlv->mTopLeft.y) + (FP_FromInteger(15) * mSpriteScale);
 
-    if (SwitchStates_Get(field_F8_switch_id))
+    if (SwitchStates_Get(mSwitchId))
     {
         mAnim.mFlags.Set(AnimFlags::eBit3_Render);
-        field_FC_state = States::eEnabled_1;
+        mState = States::eEnabled_1;
     }
     else
     {
         mAnim.mFlags.Clear(AnimFlags::eBit3_Render);
-        field_FC_state = States::eDisabled_0;
+        mState = States::eDisabled_0;
     }
 
-    field_FE_2_random = Math_NextRandom() % 2;
+    mRandom = Math_NextRandom() % 2;
 
     auto pFlameSparks = relive_new FlameSparks(mXPos, mYPos);
     if (pFlameSparks)
     {
-        field_10C_flame_sparks_id = pFlameSparks->mBaseGameObjectId;
+        mFlameSparksId = pFlameSparks->mBaseGameObjectId;
     }
 }
 
 DoorFlame::~DoorFlame()
 {
-    BaseGameObject* pFireBackgroundGlow = sObjectIds.Find_Impl(field_108_fire_background_glow_id);
-    BaseGameObject* pFlameSparks = sObjectIds.Find_Impl(field_10C_flame_sparks_id);
+    BaseGameObject* pFireBackgroundGlow = sObjectIds.Find_Impl(mFireBackgroundGlowId);
+    BaseGameObject* pFlameSparks = sObjectIds.Find_Impl(mFlameSparksId);
 
     if (pFireBackgroundGlow)
     {
         pFireBackgroundGlow->mBaseGameObjectFlags.Set(BaseGameObject::eDead);
-        field_108_fire_background_glow_id = -1;
+        mFireBackgroundGlowId = -1;
     }
 
     if (pFlameSparks)
     {
         pFlameSparks->mBaseGameObjectFlags.Set(BaseGameObject::eDead);
-        field_10C_flame_sparks_id = -1;
+        mFlameSparksId = -1;
     }
 
     VStopAudio();
 
-    Path::TLV_Reset(field_F4_tlvInfo, -1, 0, 0);
+    Path::TLV_Reset(mTlvInfo, -1, 0, 0);
 }
 
 void DoorFlame::VStopAudio()
@@ -379,37 +379,37 @@ void DoorFlame::VStopAudio()
     if (pFlameControllingTheSound_5C2C6C == this)
     {
         pFlameControllingTheSound_5C2C6C = nullptr;
-        SND_Stop_Channels_Mask(field_100_sounds_mask);
-        field_100_sounds_mask = 0;
+        SND_Stop_Channels_Mask(mSoundsMask);
+        mSoundsMask = 0;
     }
 }
 
 void DoorFlame::VScreenChanged()
 {
-    BaseGameObject* pFireBackgroundGlow = sObjectIds.Find_Impl(field_108_fire_background_glow_id);
-    BaseGameObject* pFlameSparks = sObjectIds.Find_Impl(field_10C_flame_sparks_id);
+    BaseGameObject* pFireBackgroundGlow = sObjectIds.Find_Impl(mFireBackgroundGlowId);
+    BaseGameObject* pFlameSparks = sObjectIds.Find_Impl(mFlameSparksId);
 
     mBaseGameObjectFlags.Set(BaseGameObject::eDead);
 
     if (pFireBackgroundGlow)
     {
         pFireBackgroundGlow->mBaseGameObjectFlags.Set(BaseGameObject::eDead);
-        field_108_fire_background_glow_id = -1;
+        mFireBackgroundGlowId = -1;
     }
 
     if (pFlameSparks)
     {
         pFlameSparks->mBaseGameObjectFlags.Set(BaseGameObject::eDead);
-        field_10C_flame_sparks_id = -1;
+        mFlameSparksId = -1;
     }
 }
 
 void DoorFlame::VUpdate()
 {
-    auto pFireBackgroundGlow = static_cast<FireBackgroundGlow*>(sObjectIds.Find_Impl(field_108_fire_background_glow_id));
-    auto pFlameSparks = static_cast<FlameSparks*>(sObjectIds.Find_Impl(field_10C_flame_sparks_id));
+    auto pFireBackgroundGlow = static_cast<FireBackgroundGlow*>(sObjectIds.Find_Impl(mFireBackgroundGlowId));
+    auto pFlameSparks = static_cast<FlameSparks*>(sObjectIds.Find_Impl(mFlameSparksId));
 
-    switch (field_FC_state)
+    switch (mState)
     {
         case States::eDisabled_0:
             mAnim.mFlags.Clear(AnimFlags::eBit3_Render);
@@ -419,16 +419,16 @@ void DoorFlame::VUpdate()
                 pFlameSparks->SetRenderEnabled_45E240(0);
             }
 
-            if (SwitchStates_Get(field_F8_switch_id))
+            if (SwitchStates_Get(mSwitchId))
             {
-                field_FC_state = States::eEnabled_1;
+                mState = States::eEnabled_1;
             }
 
             if (pFireBackgroundGlow)
             {
                 pFireBackgroundGlow->mBaseGameObjectFlags.Set(BaseGameObject::eDead);
                 pFireBackgroundGlow = nullptr;
-                field_108_fire_background_glow_id = -1;
+                mFireBackgroundGlowId = -1;
             }
             break;
 
@@ -436,12 +436,12 @@ void DoorFlame::VUpdate()
             if (!pFlameControllingTheSound_5C2C6C)
             {
                 pFlameControllingTheSound_5C2C6C = this;
-                field_100_sounds_mask = SfxPlayMono(SoundEffect::Fire_59, 40);
+                mSoundsMask = SfxPlayMono(SoundEffect::Fire_59, 40);
             }
 
-            if (--field_FE_2_random <= 0)
+            if (--mRandom <= 0)
             {
-                field_FE_2_random = 2;
+                mRandom = 2;
                 if (pFireBackgroundGlow)
                 {
                     pFireBackgroundGlow->Calc_Rect_45DA00();
@@ -455,9 +455,9 @@ void DoorFlame::VUpdate()
                 pFlameSparks->SetRenderEnabled_45E240(1);
             }
 
-            if (!SwitchStates_Get(field_F8_switch_id))
+            if (!SwitchStates_Get(mSwitchId))
             {
-                field_FC_state = States::eDisabled_0;
+                mState = States::eDisabled_0;
             }
 
             if (!pFireBackgroundGlow)
@@ -467,7 +467,7 @@ void DoorFlame::VUpdate()
                                                                  mSpriteScale);
                 if (pFireBackgroundGlow)
                 {
-                    field_108_fire_background_glow_id = pFireBackgroundGlow->mBaseGameObjectId;
+                    mFireBackgroundGlowId = pFireBackgroundGlow->mBaseGameObjectId;
                 }
             }
             break;
@@ -488,13 +488,13 @@ void DoorFlame::VUpdate()
         if (pFireBackgroundGlow)
         {
             pFireBackgroundGlow->mBaseGameObjectFlags.Set(BaseGameObject::eDead);
-            field_108_fire_background_glow_id = -1;
+            mFireBackgroundGlowId = -1;
         }
 
         if (pFlameSparks)
         {
             pFlameSparks->mBaseGameObjectFlags.Set(BaseGameObject::eDead);
-            field_10C_flame_sparks_id = -1;
+            mFlameSparksId = -1;
         }
     }
 }

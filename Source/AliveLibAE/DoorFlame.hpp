@@ -24,18 +24,18 @@ public:
     virtual void VScreenChanged() override;
 
 private:
-    s32 field_F4_tlvInfo = 0;
-    s16 field_F8_switch_id = 0;
-    s16 field_FA_frame_count = 0;
+    s32 mTlvInfo = 0;
+    s16 mSwitchId = 0;
+    s16 mFrameCount = 0;
     enum class States : s16
     {
         eDisabled_0 = 0,
         eEnabled_1 = 1,
     };
-    States field_FC_state = States::eDisabled_0;
-    s16 field_FE_2_random = 0;
-    s32 field_100_sounds_mask = 0;
-    s32 field_108_fire_background_glow_id = 0;
-    s32 field_10C_flame_sparks_id = 0;
+    States mState = States::eDisabled_0;
+    s16 mRandom = 0;
+    s32 mSoundsMask = 0;
+    s32 mFireBackgroundGlowId = 0;
+    s32 mFlameSparksId = 0;
 };
 ALIVE_ASSERT_SIZEOF(DoorFlame, 0x110);

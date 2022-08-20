@@ -367,7 +367,7 @@ void SecurityClaw::VUpdate()
 
             if (static_cast<s32>(sGnFrame) == field_114_timer - 4)
             {
-                relive_new Flash(Layer::eLayer_Above_FG1_39, 255u, 0, 0, 1, TPageAbr::eBlend_1, 1);
+                relive_new Flash(Layer::eLayer_Above_FG1_39, 255u, 0, 0, TPageAbr::eBlend_1, 1);
             }
 
             if (field_114_timer - sGnFrame == 4)

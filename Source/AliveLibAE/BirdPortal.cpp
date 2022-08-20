@@ -328,7 +328,7 @@ void BirdPortal::VUpdate()
                 sActiveHero->Get_Shrykull_Resources_45AA20();
                 sActiveHero->mRingPulseTimer = sGnFrame + 32000;
                 sActiveHero->mHaveShrykull = TRUE;
-                sActiveHero->field_16E_bHaveInvisiblity = 0;
+                sActiveHero->mHaveInvisibility = 0;
                 mState = PortalStates::CollapseTerminators_10;
                 if (sActiveHero->mCurrentMotion == eAbeMotions::Motion_112_Chant_45B1C0)
                 {
@@ -381,21 +381,21 @@ void BirdPortal::VUpdate()
 
         case PortalStates::CreateFlash1_12:
         {
-            relive_new Flash(Layer::eLayer_FadeFlash_40, 255, 255, 255, 1, TPageAbr::eBlend_3, 1);
+            relive_new Flash(Layer::eLayer_FadeFlash_40, 255, 255, 255, TPageAbr::eBlend_3, 1);
             mState = PortalStates::CreateFlash2_13;
         }
         break;
 
         case PortalStates::CreateFlash2_13:
         {
-            relive_new Flash(Layer::eLayer_FadeFlash_40, 255, 255, 255, 1, TPageAbr::eBlend_0, 1);
+            relive_new Flash(Layer::eLayer_FadeFlash_40, 255, 255, 255, TPageAbr::eBlend_0, 1);
             mState = PortalStates::CreateFlash3_14;
         }
         break;
 
         case PortalStates::CreateFlash3_14:
         {
-            relive_new Flash(Layer::eLayer_FadeFlash_40, 255, 255, 255, 0, TPageAbr::eBlend_0, 1);
+            relive_new Flash(Layer::eLayer_FadeFlash_40, 255, 255, 255, TPageAbr::eBlend_0, 1);
             mState = PortalStates::KillPortal_15;
             mTimer = sGnFrame + 5;
         }

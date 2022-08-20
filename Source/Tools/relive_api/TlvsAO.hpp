@@ -679,8 +679,8 @@ struct Path_UXB final : public ReliveAPI::TlvObjectBaseAO
     {
         types.AddEnum<AO::UXBStartState>("UXBStartState",
         {
-            {AO::UXBStartState::eOn_0, "On"},
-            {AO::UXBStartState::eOff_1, "Off"},
+            {AO::UXBStartState::eOn, "On"},
+            {AO::UXBStartState::eOff, "Off"},
         });
     }
 
@@ -1730,9 +1730,9 @@ struct Path_Honey final : public ReliveAPI::TlvObjectBaseAO
 {
     CTOR_AO(Path_Honey, "Honey", AO::TlvTypes::Honey_20)
     {
-        ADD("Switch ID", mTlv.switch_id);
-        ADD("State", mTlv.state);
-        ADD("Scale", mTlv.scale);
+        ADD("Switch ID", mTlv.mSwitchId);
+        ADD("State", mTlv.mState);
+        ADD("Scale", mTlv.mScale);
     }
 };
 

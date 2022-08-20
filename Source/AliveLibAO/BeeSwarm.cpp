@@ -21,10 +21,10 @@
 
 namespace AO {
 
-ALIVE_VAR(1, 0x5076B0, s16, gBeeInstanceCount_5076B0, 0);
+ALIVE_VAR(1, 0x5076B0, s16, gBeeInstanceCount, 0);
 ALIVE_VAR(1, 0x5076AC, s16, gBeesNearAbe, 0);
 
-BeeSwarm::BeeSwarm(FP xpos, FP ypos, FP speed, s32 numBees, s32 chaseTicks)
+BeeSwarm::BeeSwarm(FP xpos, FP ypos, FP speed, s32 numBees, s32 totalChaseTime)
 {
     mBaseGameObjectTypeId = ReliveTypes::eBeeSwarm;
 
@@ -37,8 +37,8 @@ BeeSwarm::BeeSwarm(FP xpos, FP ypos, FP speed, s32 numBees, s32 chaseTicks)
     }
 
     s32 numBeesToUse = 0;
-    gBeeInstanceCount_5076B0++;
-    if (gBeeInstanceCount_5076B0 < 3)
+    gBeeInstanceCount++;
+    if (gBeeInstanceCount < 3)
     {
         numBeesToUse = numBees;
     }
@@ -63,7 +63,7 @@ BeeSwarm::BeeSwarm(FP xpos, FP ypos, FP speed, s32 numBees, s32 chaseTicks)
     mChaseTargetX = xpos;
     mChaseTargetY = ypos;
 
-    mTotalChaseTime = chaseTicks;
+    mTotalChaseTime = totalChaseTime;
     field_D68_xpos = xpos;
     mXPos = xpos;
     field_D6C_ypos = ypos;
@@ -83,7 +83,7 @@ BeeSwarm::BeeSwarm(FP xpos, FP ypos, FP speed, s32 numBees, s32 chaseTicks)
 
 BeeSwarm::~BeeSwarm()
 {
-    gBeeInstanceCount_5076B0--;
+    gBeeInstanceCount--;
 
     gBeesNearAbe = 0;
 

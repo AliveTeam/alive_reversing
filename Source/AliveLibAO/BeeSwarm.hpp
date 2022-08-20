@@ -30,7 +30,7 @@ struct BeeSwarmParticles final
 class BeeSwarm final : public BaseAnimatedWithPhysicsGameObject
 {
 public:
-    BeeSwarm(FP xpos, FP ypos, FP speed, s32 numBees, s32 chaseTicks);
+    BeeSwarm(FP xpos, FP ypos, FP speed, s32 numBees, s32 totalChaseTime);
     ~BeeSwarm();
 
     virtual void VUpdate() override;
@@ -77,7 +77,7 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(BeeSwarm, 0xDB0);
 
-ALIVE_VAR_EXTERN(s16, gBeeInstanceCount_5076B0);
+ALIVE_VAR_EXTERN(s16, gBeeInstanceCount);
 ALIVE_VAR_EXTERN(s16, gBeesNearAbe);
 
 } // namespace AO

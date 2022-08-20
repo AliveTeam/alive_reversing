@@ -10,9 +10,9 @@ enum class Scale_int : s32;
 
 struct Path_Honey final : public Path_TLV
 {
-    s16 switch_id;
-    s16 state;
-    Scale_int scale;
+    s16 mSwitchId;
+    s16 mState;
+    Scale_int mScale;
 };
 // TODO: size
 
@@ -24,8 +24,7 @@ public:
     virtual void VUpdate() override;
     virtual void VScreenChanged() override;
 
-    s32 field_D4[4] = {};
-    s32 field_E4_tlvInfo = 0;
+    s32 mTlvInfo = 0;
 };
 ALIVE_ASSERT_SIZEOF(Honey, 0xE8);
 

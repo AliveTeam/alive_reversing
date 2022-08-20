@@ -113,25 +113,24 @@ UXB::UXB(Path_UXB* tlv_params, TlvItemInfoUnion itemInfo)
     SetTint(sTintMap_UXB_563A3C, gMap.mCurrentLevel);
 
     mBaseGameObjectFlags.Set(BaseGameObject::Options::eInteractive_Bit8);
-    field_1C8_flags.Clear(UXB_Flags_1C8::eUnused_Bit0);
-    field_118_state = UXBState::eDelay_0;
+    mCurrentState = UXBState::eDelay;
 
-    field_1C0_pattern_length = tlv_params->mPatternLength;
+    mPatternLength = tlv_params->mPatternLength;
     if (tlv_params->mPatternLength < 1 || tlv_params->mPatternLength > 4)
     {
-        field_1C0_pattern_length = 1;
+        mPatternLength = 1;
     }
 
 
-    field_1C4_pattern = tlv_params->field_12_pattern;
-    if (!tlv_params->field_12_pattern) // If no pattern set, go to a default one.
+    mPattern = tlv_params->mPattern;
+    if (!tlv_params->mPattern) // If no pattern set, go to a default one.
     {
-        field_1C4_pattern = 11111;
+        mPattern = 11111;
     }
 
-    field_1C2_pattern_index = 0;
+    mPatternIndex = 0;
     // Single out a single digit, and use that digit as the new amount of red blinks before a green one.
-    field_1C6_red_blink_count = (field_1C4_pattern / static_cast<s32>(pow(10, field_1C0_pattern_length - 1))) % 10;
+    mRedBlinkCount = (mPattern / static_cast<s32>(pow(10, mPatternLength - 1))) % 10;
 
     if (tlv_params->mScale != Scale_short::eFull_0)
     {
@@ -149,40 +148,40 @@ UXB::UXB(Path_UXB* tlv_params, TlvItemInfoUnion itemInfo)
         mScale = Scale::Fg;
     }
 
-    InitBlinkAnim(&field_128_animation);
+    InitBlinkAnim(&mFlashAnim);
     if (tlv_params->mTlvState) // Stores the activated/deactivated state for UXB.
     {
-        if (tlv_params->mStartState == Path_UXB::StartState::eOn_0)
+        if (tlv_params->mStartState == Path_UXB::StartState::eOn)
         {
-            field_128_animation.LoadPal(ResourceManager::GetLoadedResource(ResourceManager::Resource_Palt, AEResourceID::kGrenflshResID, 0, 0), 0);
-            field_1C8_flags.Clear(UXB_Flags_1C8::eIsRed_Bit1);
-            field_128_animation.Set_Animation_Data(AnimId::Bomb_RedGreenTick, nullptr);
+            mFlashAnim.LoadPal(ResourceManager::GetLoadedResource(ResourceManager::Resource_Palt, AEResourceID::kGrenflshResID, 0, 0), 0);
+            mIsRed = 0;
+            mFlashAnim.Set_Animation_Data(AnimId::Bomb_RedGreenTick, nullptr);
             PlaySFX(SoundEffect::GreenTick_2);
 
             mAnim.Set_Animation_Data(AnimId::UXB_Disabled, nullptr);
-            field_118_state = UXBState::eDeactivated_3;
-            field_11A_starting_state = UXBState::eDelay_0;
+            mCurrentState = UXBState::eDeactivated;
+            mStartingState = UXBState::eDelay;
         }
         else
         {
-            field_11A_starting_state = UXBState::eDeactivated_3;
+            mStartingState = UXBState::eDeactivated;
         }
     }
     else
     {
-        if (tlv_params->mStartState == Path_UXB::StartState::eOn_0)
+        if (tlv_params->mStartState == Path_UXB::StartState::eOn)
         {
-            field_11A_starting_state = UXBState::eDelay_0;
+            mStartingState = UXBState::eDelay;
         }
         else
         {
-            field_128_animation.LoadPal(ResourceManager::GetLoadedResource(ResourceManager::Resource_Palt, AEResourceID::kGrenflshResID, 0, 0), 0);
-            field_1C8_flags.Clear(UXB_Flags_1C8::eIsRed_Bit1);
-            field_128_animation.Set_Animation_Data(AnimId::Bomb_RedGreenTick, nullptr);
+            mFlashAnim.LoadPal(ResourceManager::GetLoadedResource(ResourceManager::Resource_Palt, AEResourceID::kGrenflshResID, 0, 0), 0);
+            mIsRed = 0;
+            mFlashAnim.Set_Animation_Data(AnimId::Bomb_RedGreenTick, nullptr);
 
             mAnim.Set_Animation_Data(AnimId::UXB_Disabled, nullptr);
-            field_11A_starting_state = UXBState::eDeactivated_3;
-            field_118_state = UXBState::eDeactivated_3;
+            mStartingState = UXBState::eDeactivated;
+            mCurrentState = UXBState::eDeactivated;
         }
     }
 
@@ -207,20 +206,20 @@ UXB::UXB(Path_UXB* tlv_params, TlvItemInfoUnion itemInfo)
         mYPos = hitY;
     }
 
-    field_120_tlv = itemInfo;
-    field_124_next_state_frame = sGnFrame;
-    field_11C_disabled_resources = static_cast<u16>(tlv_params->mDisabledResources);
+    mTlvInfo = itemInfo;
+    mNextStateTimer = sGnFrame;
+    mDisabledResources = static_cast<u16>(tlv_params->mDisabledResources);
 
     Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kAbebombResID);
     Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kDebrisID00ResID);
     Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kBgexpldResID);
     Add_Resource(ResourceManager::Resource_Palt, AEResourceID::kGrenflshResID);
 
-    if (!(field_11C_disabled_resources & 1))
+    if (!(mDisabledResources & 1))
     {
         Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kAbeblowResID);
     }
-    if (!(field_11C_disabled_resources & 2))
+    if (!(mDisabledResources & 2))
     {
         Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kSlogBlowResID);
     }
@@ -238,29 +237,29 @@ UXB::UXB(Path_UXB* tlv_params, TlvItemInfoUnion itemInfo)
 
 void UXB::VOnPickUpOrSlapped()
 {
-    if (field_118_state != UXBState::eExploding_2)
+    if (mCurrentState != UXBState::eExploding)
     {
-        if (field_118_state != UXBState::eDeactivated_3 || field_124_next_state_frame > sGnFrame)
+        if (mCurrentState != UXBState::eDeactivated || mNextStateTimer > sGnFrame)
         {
-            if (field_1C6_red_blink_count)
+            if (mRedBlinkCount)
             {
-                field_118_state = UXBState::eExploding_2;
-                field_124_next_state_frame = sGnFrame + 2;
+                mCurrentState = UXBState::eExploding;
+                mNextStateTimer = sGnFrame + 2;
             }
             else
             {
-                field_128_animation.Set_Animation_Data(AnimId::Bomb_RedGreenTick, nullptr);
+                mFlashAnim.Set_Animation_Data(AnimId::Bomb_RedGreenTick, nullptr);
                 PlaySFX(SoundEffect::GreenTick_2);
 
                 mAnim.Set_Animation_Data(AnimId::UXB_Toggle, nullptr);
-                field_118_state = UXBState::eDeactivated_3;
+                mCurrentState = UXBState::eDeactivated;
 
-                field_124_next_state_frame = sGnFrame + 10;
+                mNextStateTimer = sGnFrame + 10;
             }
         }
         else
         {
-            field_118_state = UXBState::eDelay_0;
+            mCurrentState = UXBState::eDelay;
             SetUpdateDelay(6);
             mAnim.Set_Animation_Data(AnimId::UXB_Active, nullptr);
             PlaySFX(SoundEffect::RedTick_3);
@@ -274,9 +273,9 @@ void UXB::VOnThrowableHit(BaseGameObject* /*pFrom*/)
                                   mYPos,
                                   0,
                                   mSpriteScale);
-    field_118_state = UXBState::eExploding_2;
+    mCurrentState = UXBState::eExploding;
     mBaseGameObjectFlags.Set(BaseGameObject::eDead);
-    field_124_next_state_frame = sGnFrame;
+    mNextStateTimer = sGnFrame;
 }
 
 s16 UXB::VTakeDamage(BaseGameObject* pFrom)
@@ -290,7 +289,7 @@ s16 UXB::VTakeDamage(BaseGameObject* pFrom)
     {
         case ReliveTypes::eAbe:
         case ReliveTypes::eMudokon:
-            if (field_118_state == UXBState::eDeactivated_3)
+            if (mCurrentState == UXBState::eDeactivated)
             {
                 return 0;
             }
@@ -312,89 +311,89 @@ s16 UXB::VTakeDamage(BaseGameObject* pFrom)
                                  mYPos,
                                  0,
                                  mSpriteScale);
-    field_118_state = UXBState::eExploding_2;
-    field_124_next_state_frame = sGnFrame;
+    mCurrentState = UXBState::eExploding;
+    mNextStateTimer = sGnFrame;
 
     return 1;
 }
 
 UXB::~UXB()
 {
-    if (field_118_state != UXBState::eExploding_2 || sGnFrame < field_124_next_state_frame)
+    if (mCurrentState != UXBState::eExploding || sGnFrame < mNextStateTimer)
     {
-        Path::TLV_Reset(field_120_tlv.all, -1, 0, 0);
+        Path::TLV_Reset(mTlvInfo.all, -1, 0, 0);
     }
     else
     {
-        Path::TLV_Reset(field_120_tlv.all, -1, 0, 1);
+        Path::TLV_Reset(mTlvInfo.all, -1, 0, 1);
     }
 
-    field_128_animation.VCleanUp();
+    mFlashAnim.VCleanUp();
 
     mBaseGameObjectFlags.Clear(Options::eInteractive_Bit8);
 }
 
 void UXB::VUpdate()
 {
-    switch (field_118_state)
+    switch (mCurrentState)
     {
-        case UXBState::eDelay_0:
+        case UXBState::eDelay:
             if (IsColliding())
             {
-                field_118_state = UXBState::eExploding_2;
-                field_124_next_state_frame = sGnFrame + 2;
+                mCurrentState = UXBState::eExploding;
+                mNextStateTimer = sGnFrame + 2;
             }
-            else if (field_124_next_state_frame <= sGnFrame)
+            else if (mNextStateTimer <= sGnFrame)
             {
-                field_118_state = UXBState::eActive_1;
-                field_128_animation.Set_Animation_Data(AnimId::Bomb_Flash, nullptr);
-                field_124_next_state_frame = sGnFrame + 2;
+                mCurrentState = UXBState::eActive;
+                mFlashAnim.Set_Animation_Data(AnimId::Bomb_Flash, nullptr);
+                mNextStateTimer = sGnFrame + 2;
             }
             break;
 
-        case UXBState::eDeactivated_3:
+        case UXBState::eDeactivated:
             // Do nothing
             break;
 
-        case UXBState::eActive_1:
+        case UXBState::eActive:
             if (IsColliding())
             {
-                field_118_state = UXBState::eExploding_2;
-                field_124_next_state_frame = sGnFrame + 2;
+                mCurrentState = UXBState::eExploding;
+                mNextStateTimer = sGnFrame + 2;
             }
-            else if (field_124_next_state_frame <= sGnFrame)
+            else if (mNextStateTimer <= sGnFrame)
             {
-                if (field_1C6_red_blink_count)
+                if (mRedBlinkCount)
                 {
-                    field_1C6_red_blink_count--;
-                    if (field_1C6_red_blink_count == 0)
+                    mRedBlinkCount--;
+                    if (mRedBlinkCount == 0)
                     {
-                        field_128_animation.LoadPal(ResourceManager::GetLoadedResource(ResourceManager::Resource_Palt, AEResourceID::kGrenflshResID, 0, 0), 0);
-                        field_1C8_flags.Clear(UXB_Flags_1C8::eIsRed_Bit1);
+                        mFlashAnim.LoadPal(ResourceManager::GetLoadedResource(ResourceManager::Resource_Palt, AEResourceID::kGrenflshResID, 0, 0), 0);
+                        mIsRed = 0;
                     }
                 }
                 else
                 {
-                    const FrameInfoHeader* pFrameInfo = field_128_animation.Get_FrameHeader(-1);
-                    const FrameHeader* pFrameHeader = reinterpret_cast<const FrameHeader*>(&(*field_128_animation.field_20_ppBlock)[pFrameInfo->field_0_frame_header_offset]);
-                    field_128_animation.LoadPal(field_128_animation.field_20_ppBlock, pFrameHeader->field_0_clut_offset);
+                    const FrameInfoHeader* pFrameInfo = mFlashAnim.Get_FrameHeader(-1);
+                    const FrameHeader* pFrameHeader = reinterpret_cast<const FrameHeader*>(&(*mFlashAnim.field_20_ppBlock)[pFrameInfo->field_0_frame_header_offset]);
+                    mFlashAnim.LoadPal(mFlashAnim.field_20_ppBlock, pFrameHeader->field_0_clut_offset);
 
-                    field_1C8_flags.Set(UXB_Flags_1C8::eIsRed_Bit1);
+                    mIsRed = 1;
 
-                    field_1C2_pattern_index++;
+                    mPatternIndex++;
 
-                    if (field_1C2_pattern_index >= field_1C0_pattern_length)
+                    if (mPatternIndex >= mPatternLength)
                     {
-                        field_1C2_pattern_index = 0;
+                        mPatternIndex = 0;
                     }
 
                     // Single out a single digit, and use that digit as the new amount of red blinks before a green one.
-                    field_1C6_red_blink_count = (field_1C4_pattern / static_cast<s32>(pow(10, field_1C0_pattern_length - field_1C2_pattern_index - 1))) % 10;
+                    mRedBlinkCount = (mPattern / static_cast<s32>(pow(10, mPatternLength - mPatternIndex - 1))) % 10;
                 }
 
-                field_128_animation.Set_Animation_Data(AnimId::Bomb_RedGreenTick, nullptr);
+                mFlashAnim.Set_Animation_Data(AnimId::Bomb_RedGreenTick, nullptr);
 
-                if (field_1C8_flags.Get(UXB_Flags_1C8::eIsRed_Bit1))
+                if (mIsRed)
                 {
                     PlaySFX(SoundEffect::RedTick_3);
                 }
@@ -403,13 +402,13 @@ void UXB::VUpdate()
                     PlaySFX(SoundEffect::GreenTick_2);
                 }
 
-                field_118_state = UXBState::eDelay_0;
-                field_124_next_state_frame = sGnFrame + 10; // UXB change color delay.
+                mCurrentState = UXBState::eDelay;
+                mNextStateTimer = sGnFrame + 10; // UXB change color delay.
             }
             break;
 
-        case UXBState::eExploding_2:
-            if (sGnFrame >= field_124_next_state_frame)
+        case UXBState::eExploding:
+            if (sGnFrame >= mNextStateTimer)
             {
                 relive_new BaseBomb(mXPos, mYPos, 0, mSpriteScale);
                 mBaseGameObjectFlags.Set(Options::eDead);
@@ -417,24 +416,24 @@ void UXB::VUpdate()
             break;
     }
 
-    if (field_118_state != UXBState::eExploding_2)
+    if (mCurrentState != UXBState::eExploding)
     {
         if (EventGet(kEventDeathReset))
         {
-            if (field_11A_starting_state != UXBState::eDeactivated_3 || field_118_state == UXBState::eDeactivated_3)
+            if (mStartingState != UXBState::eDeactivated || mCurrentState == UXBState::eDeactivated)
             {
-                if (field_11A_starting_state != UXBState::eDelay_0 || field_118_state != UXBState::eDeactivated_3)
+                if (mStartingState != UXBState::eDelay || mCurrentState != UXBState::eDeactivated)
                 {
-                    Path::TLV_Reset(field_120_tlv.all, 0, 1, 0);
+                    Path::TLV_Reset(mTlvInfo.all, 0, 1, 0);
                 }
                 else
                 {
-                    Path::TLV_Reset(field_120_tlv.all, 1, 1, 0);
+                    Path::TLV_Reset(mTlvInfo.all, 1, 1, 0);
                 }
             }
             else
             {
-                Path::TLV_Reset(field_120_tlv.all, 1, 1, 0);
+                Path::TLV_Reset(mTlvInfo.all, 1, 1, 0);
             }
             mBaseGameObjectFlags.Set(Options::eDead);
         }
@@ -452,7 +451,7 @@ void UXB::VRender(PrimHeader** ppOt)
                 mYPos,
                 0))
         {
-            field_128_animation.VRender(
+            mFlashAnim.VRender(
                 FP_GetExponent((mXPos - pScreenManager->CamXPos())),
                 FP_GetExponent((mYPos - pScreenManager->CamYPos() - FP_NoFractional(mSpriteScale * FP_FromInteger(17)))),
                 ppOt,
@@ -460,7 +459,7 @@ void UXB::VRender(PrimHeader** ppOt)
                 0);
 
             PSX_RECT frameRect;
-            field_128_animation.Get_Frame_Rect(&frameRect);
+            mFlashAnim.Get_Frame_Rect(&frameRect);
 
             pScreenManager->InvalidateRectCurrentIdx(
                 frameRect.x,
@@ -482,22 +481,22 @@ void UXB::VScreenChanged()
 
     if (y_distance > FP_FromInteger(520) || x_distance > FP_FromInteger(750))
     {
-        if (field_11A_starting_state != UXBState::eDeactivated_3 || field_118_state == UXBState::eDeactivated_3)
+        if (mStartingState != UXBState::eDeactivated || mCurrentState == UXBState::eDeactivated)
         {
-            if (field_11A_starting_state != UXBState::eDelay_0 || field_118_state != UXBState::eDeactivated_3)
+            if (mStartingState != UXBState::eDelay || mCurrentState != UXBState::eDeactivated)
             {
-                Path::TLV_Reset(field_120_tlv.all, 0, 1, 0);
+                Path::TLV_Reset(mTlvInfo.all, 0, 1, 0);
                 mBaseGameObjectFlags.Set(Options::eDead);
             }
             else
             {
-                Path::TLV_Reset(field_120_tlv.all, 1, 1, 0);
+                Path::TLV_Reset(mTlvInfo.all, 1, 1, 0);
                 mBaseGameObjectFlags.Set(Options::eDead);
             }
         }
         else
         {
-            Path::TLV_Reset(field_120_tlv.all, 1, 1, 0);
+            Path::TLV_Reset(mTlvInfo.all, 1, 1, 0);
             mBaseGameObjectFlags.Set(Options::eDead);
         }
     }
@@ -507,15 +506,15 @@ s32 UXB::VGetSaveState(u8* __pSaveBuffer)
 {
     SaveState_UXB* pSaveState = reinterpret_cast<SaveState_UXB*>(__pSaveBuffer);
 
-    pSaveState->field_0_id = AETypes::eUXB_143;
-    pSaveState->field_4_tlv = field_120_tlv;
-    pSaveState->field_8_next_state_frame = field_124_next_state_frame;
-    pSaveState->field_C_state = field_118_state;
-    pSaveState->field_E_starting_state = field_11A_starting_state;
-    pSaveState->field_10_disabled_resources = field_11C_disabled_resources;
-    pSaveState->field_12_pattern_index = field_1C2_pattern_index;
-    pSaveState->field_14_red_blink_count = field_1C6_red_blink_count;
-    pSaveState->field_16_is_red = field_1C8_flags.Get(UXB_Flags_1C8::eIsRed_Bit1);
+    pSaveState->mType = AETypes::eUXB_143;
+    pSaveState->mTlvInfo = mTlvInfo;
+    pSaveState->mNextStateTimer = mNextStateTimer;
+    pSaveState->mCurrentState = mCurrentState;
+    pSaveState->mStartingState = mStartingState;
+    pSaveState->mDisabledResources = mDisabledResources;
+    pSaveState->mPatternIndex = mPatternIndex;
+    pSaveState->mRedBlinkCount = mRedBlinkCount;
+    pSaveState->mIsRed = mIsRed;
 
     return sizeof(SaveState_UXB);
 }
@@ -524,7 +523,7 @@ s32 UXB::CreateFromSaveState(const u8* __pSaveState)
 {
     const SaveState_UXB* pSaveState = reinterpret_cast<const SaveState_UXB*>(__pSaveState);
 
-    Path_UXB* uxbPath = reinterpret_cast<Path_UXB*>(sPathInfo->TLV_From_Offset_Lvl_Cam(pSaveState->field_4_tlv.all));
+    Path_UXB* uxbPath = reinterpret_cast<Path_UXB*>(sPathInfo->TLV_From_Offset_Lvl_Cam(pSaveState->mTlvInfo.all));
 
     if (!(uxbPath->mDisabledResources & 1) && !ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kAbeblowResID, 0, 0))
     {
@@ -543,27 +542,27 @@ s32 UXB::CreateFromSaveState(const u8* __pSaveState)
         ResourceManager::LoadResourceFile_49C170("EXPLODE.BND", 0);
     }
 
-    UXB* pUXB = relive_new UXB(uxbPath, pSaveState->field_4_tlv);
+    UXB* pUXB = relive_new UXB(uxbPath, pSaveState->mTlvInfo);
 
-    if (pSaveState->field_C_state == UXBState::eDeactivated_3)
+    if (pSaveState->mCurrentState == UXBState::eDeactivated)
     {
-        pUXB->field_128_animation.LoadPal(ResourceManager::GetLoadedResource(ResourceManager::Resource_Palt, AEResourceID::kGrenflshResID, 0, 0), 0);
-        pUXB->field_128_animation.Set_Animation_Data(AnimId::Bomb_RedGreenTick, nullptr);
+        pUXB->mFlashAnim.LoadPal(ResourceManager::GetLoadedResource(ResourceManager::Resource_Palt, AEResourceID::kGrenflshResID, 0, 0), 0);
+        pUXB->mFlashAnim.Set_Animation_Data(AnimId::Bomb_RedGreenTick, nullptr);
         pUXB->mAnim.Set_Animation_Data(AnimId::UXB_Disabled, nullptr);
     }
 
-    pUXB->field_124_next_state_frame = pSaveState->field_8_next_state_frame;
-    pUXB->field_118_state = pSaveState->field_C_state;
-    pUXB->field_11A_starting_state = pSaveState->field_E_starting_state;
-    pUXB->field_11C_disabled_resources = pSaveState->field_10_disabled_resources;
-    pUXB->field_1C2_pattern_index = pSaveState->field_12_pattern_index;
-    pUXB->field_1C6_red_blink_count = pSaveState->field_14_red_blink_count;
+    pUXB->mNextStateTimer = pSaveState->mNextStateTimer;
+    pUXB->mCurrentState = pSaveState->mCurrentState;
+    pUXB->mStartingState = pSaveState->mStartingState;
+    pUXB->mDisabledResources = pSaveState->mDisabledResources;
+    pUXB->mPatternIndex = pSaveState->mPatternIndex;
+    pUXB->mRedBlinkCount = pSaveState->mRedBlinkCount;
 
-    pUXB->field_1C8_flags.Clear(UXB_Flags_1C8::eIsRed_Bit1);
+    pUXB->mIsRed = 0;
 
-    if (pSaveState->field_16_is_red)
+    if (pSaveState->mIsRed)
     {
-        pUXB->field_1C8_flags.Set(UXB_Flags_1C8::eIsRed_Bit1);
+        pUXB->mIsRed = 1;
     }
 
     return sizeof(SaveState_UXB);

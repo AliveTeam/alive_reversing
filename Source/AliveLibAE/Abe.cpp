@@ -873,7 +873,7 @@ Abe::Abe(s32 /*frameTableOffset*/, s32 /*r*/, s32 /*g*/, s32 /*b*/)
     mBaseAliveGameObjectLastAnimFrame = 0;
     field_120_state.raw = 0;
     mRingPulseTimer = 0;
-    field_16E_bHaveInvisiblity = 0;
+    mHaveInvisibility = 0;
     mInvisibilityTimer = 0;
     mInvisibilityDuration = 0;
     mInvisibleEffectId = -1;
@@ -1139,7 +1139,7 @@ s32 Abe::CreateFromSaveState(const u8* pData)
         }
     }
 
-    sActiveHero->field_16E_bHaveInvisiblity = pSaveState->bHaveInvisiblity;
+    sActiveHero->mHaveInvisibility = pSaveState->bHaveInvisiblity;
     sActiveHero->BaseAliveGameObjectCollisionLineType = pSaveState->mCollisionLineType;
 
     sActiveHero->mPrevHeld = InputObject::PsxButtonsToKeyboardInput_45EE40(pSaveState->mPrevHeld);
@@ -1578,7 +1578,7 @@ void Abe::VUpdate()
                             {
                                 ringType = RingTypes::eShrykull_Pulse_Small_4;
                             }
-                            else if (field_16E_bHaveInvisiblity)
+                            else if (mHaveInvisibility)
                             {
                                 ringType = RingTypes::eInvisible_Pulse_Small_7;
                             }
@@ -1628,7 +1628,7 @@ void Abe::VUpdate()
                 {
                     mRingPulseTimer = sGnFrame + 200000;
                     mHaveShrykull = 0;
-                    field_16E_bHaveInvisiblity = 0;
+                    mHaveInvisibility = 0;
                     field_1AE_flags.Clear(Flags_1AE::e1AE_Bit1_is_mudomo_vault_ender);
                     field_1AC_flags.Clear(Flags_1AC::e1AC_eBit16_is_mudanchee_vault_ender);
                     field_1AC_flags.Set(Flags_1AC::e1AC_eBit15_have_healing);
@@ -1954,7 +1954,7 @@ s32 Abe::VGetSaveState(u8* pSaveBuffer)
     pSaveState->mRingPulseTimer = mRingPulseTimer;
     pSaveState->mThrowableCount = mThrowableCount;
     pSaveState->mHaveShrykull = static_cast<s8>(mHaveShrykull);
-    pSaveState->bHaveInvisiblity = static_cast<s8>(field_16E_bHaveInvisiblity);
+    pSaveState->bHaveInvisiblity = static_cast<s8>(mHaveInvisibility);
 
     pSaveState->mPrevHeld = InputObject::KeyboardInputToPsxButtons_45EF70(mPrevHeld);
     pSaveState->mReleasedButtons = InputObject::KeyboardInputToPsxButtons_45EF70(mReleasedButtons);
@@ -7347,7 +7347,7 @@ void Abe::Motion_112_Chant_45B1C0()
 
             if (mRingPulseTimer)
             {
-                if (!mHaveShrykull && !field_16E_bHaveInvisiblity && !(field_1AC_flags.Get(Flags_1AC::e1AC_eBit15_have_healing)))
+                if (!mHaveShrykull && !mHaveInvisibility && !(field_1AC_flags.Get(Flags_1AC::e1AC_eBit15_have_healing)))
                 {
                     const PSX_RECT bRect = VGetBoundingRect();
 
@@ -7363,10 +7363,10 @@ void Abe::Motion_112_Chant_45B1C0()
 
             if (mRingPulseTimer)
             {
-                if (field_16E_bHaveInvisiblity)
+                if (mHaveInvisibility)
                 {
                     mRingPulseTimer = 0;
-                    field_16E_bHaveInvisiblity = 0;
+                    mHaveInvisibility = 0;
 
                     if (mInvisibilityTimer)
                     {

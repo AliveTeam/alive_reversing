@@ -7,10 +7,10 @@
 class Flash final : public EffectBase
 {
 public:
-    Flash(Layer layer, s32 r, s32 g, s32 b, s32 /*not_used*/, TPageAbr abr, s32 time);
+    Flash(Layer layer, s32 r, s32 g, s32 b, TPageAbr abr, s32 time);
 
     virtual void VUpdate() override;
 private:
-    s32 field_78_flash_time = 0;
+    s32 mFlashTime = 0;
 };
 ALIVE_ASSERT_SIZEOF(Flash, 0x7C);

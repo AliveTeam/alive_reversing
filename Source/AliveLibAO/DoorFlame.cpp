@@ -293,35 +293,35 @@ void DoorFlame::VStopAudio()
     if (pFlameControllingTheSound_507734 == this)
     {
         pFlameControllingTheSound_507734 = nullptr;
-        SND_Stop_Channels_Mask(field_F0_sounds_mask);
+        SND_Stop_Channels_Mask(mSoundsMask);
     }
 }
 
 DoorFlame::~DoorFlame()
 {
-    if (field_F8_pFireBackgroundGlow)
+    if (mFireBackgroundGlow)
     {
-        field_F8_pFireBackgroundGlow->mBaseGameObjectRefCount--;
-        field_F8_pFireBackgroundGlow->mBaseGameObjectFlags.Set(Options::eDead);
-        field_F8_pFireBackgroundGlow = nullptr;
+        mFireBackgroundGlow->mBaseGameObjectRefCount--;
+        mFireBackgroundGlow->mBaseGameObjectFlags.Set(Options::eDead);
+        mFireBackgroundGlow = nullptr;
     }
 
-    if (field_FC_pFlameSparks)
+    if (mFlameSparks)
     {
-        field_FC_pFlameSparks->mBaseGameObjectRefCount--;
-        field_FC_pFlameSparks->mBaseGameObjectFlags.Set(Options::eDead);
-        field_FC_pFlameSparks = nullptr;
+        mFlameSparks->mBaseGameObjectRefCount--;
+        mFlameSparks->mBaseGameObjectFlags.Set(Options::eDead);
+        mFlameSparks = nullptr;
     }
 
     VStopAudio();
 
-    Path::TLV_Reset(field_E4_tlvInfo, -1, 0, 0);
+    Path::TLV_Reset(mTlvInfo, -1, 0, 0);
 }
 
 DoorFlame::DoorFlame(Path_DoorFlame* pTlv, s32 tlvInfo)
 {
     mBaseGameObjectTypeId = ReliveTypes::eNone;
-    field_E4_tlvInfo = tlvInfo;
+    mTlvInfo = tlvInfo;
     const AnimRecord rec = AO::AnimRec(AnimId::Fire);
     u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
     Animation_Init(AnimId::Fire, ppRes);
@@ -329,8 +329,8 @@ DoorFlame::DoorFlame(Path_DoorFlame* pTlv, s32 tlvInfo)
     mAnim.mFlags.Set(AnimFlags::eBit15_bSemiTrans);
     mVisualFlags.Set(VisualFlags::eApplyShadowZoneColour);
     mAnim.mRenderLayer = Layer::eLayer_Foreground_Half_17;
-    field_EA_frame_count = mAnim.Get_Frame_Count();
-    field_E8_switch_id = pTlv->mSwitchId;
+    mFrameCount = mAnim.Get_Frame_Count();
+    mSwitchId = pTlv->mSwitchId;
 
     if (pTlv->mScale == Path_DoorFlame::Scale::eHalf_1 || 
         pTlv->mScale == Path_DoorFlame::Scale::eHalf_2)
@@ -363,50 +363,50 @@ DoorFlame::DoorFlame(Path_DoorFlame* pTlv, s32 tlvInfo)
             break;
     }
 
-    field_F8_pFireBackgroundGlow = 0;
+    mFireBackgroundGlow = 0;
 
     if (SwitchStates_Get(pTlv->mSwitchId))
     {
         mAnim.mFlags.Set(AnimFlags::eBit3_Render);
-        field_EC_state = States::eEnabled_1;
+        mState = States::eEnabled_1;
     }
     else
     {
         mAnim.mFlags.Clear(AnimFlags::eBit3_Render);
-        field_EC_state = States::eDisabled_0;
+        mState = States::eDisabled_0;
     }
 
     mAnim.mFlags.Set(AnimFlags::eBit2_Animate);
-    field_EE_2_random = Math_NextRandom() & 1;
+    mRandom = Math_NextRandom() & 1;
 
-    field_FC_pFlameSparks = relive_new FlameSparks(mXPos, mYPos);
-    if (field_FC_pFlameSparks)
+    mFlameSparks = relive_new FlameSparks(mXPos, mYPos);
+    if (mFlameSparks)
     {
-        field_FC_pFlameSparks->mBaseGameObjectRefCount++;
+        mFlameSparks->mBaseGameObjectRefCount++;
     }
 }
 
 void DoorFlame::VUpdate()
 {
-    switch (field_EC_state)
+    switch (mState)
     {
         case States::eDisabled_0:
             mAnim.mFlags.Clear(AnimFlags::eBit3_Render);
-            if (field_FC_pFlameSparks)
+            if (mFlameSparks)
             {
-                field_FC_pFlameSparks->field_E4_bRender = 0;
+                mFlameSparks->field_E4_bRender = 0;
             }
 
-            if (SwitchStates_Get(field_E8_switch_id))
+            if (SwitchStates_Get(mSwitchId))
             {
-                field_EC_state = States::eEnabled_1;
+                mState = States::eEnabled_1;
             }
 
-            if (field_F8_pFireBackgroundGlow)
+            if (mFireBackgroundGlow)
             {
-                field_F8_pFireBackgroundGlow->mBaseGameObjectRefCount--;
-                field_F8_pFireBackgroundGlow->mBaseGameObjectFlags.Set(Options::eDead);
-                field_F8_pFireBackgroundGlow = nullptr;
+                mFireBackgroundGlow->mBaseGameObjectRefCount--;
+                mFireBackgroundGlow->mBaseGameObjectFlags.Set(Options::eDead);
+                mFireBackgroundGlow = nullptr;
             }
             break;
 
@@ -414,38 +414,38 @@ void DoorFlame::VUpdate()
             if (!pFlameControllingTheSound_507734)
             {
                 pFlameControllingTheSound_507734 = this;
-                field_F0_sounds_mask = SfxPlayMono(SoundEffect::Fire_69, 40, 0);
+                mSoundsMask = SfxPlayMono(SoundEffect::Fire_69, 40, 0);
             }
 
-            if (--field_EE_2_random <= 0)
+            if (--mRandom <= 0)
             {
-                field_EE_2_random = 2;
-                if (field_F8_pFireBackgroundGlow)
+                mRandom = 2;
+                if (mFireBackgroundGlow)
                 {
-                    field_F8_pFireBackgroundGlow->Calc_Rect();
+                    mFireBackgroundGlow->Calc_Rect();
                 }
             }
 
             mAnim.mFlags.Set(AnimFlags::eBit3_Render);
-            if (field_FC_pFlameSparks)
+            if (mFlameSparks)
             {
-                field_FC_pFlameSparks->field_E4_bRender = 1;
+                mFlameSparks->field_E4_bRender = 1;
             }
 
-            if (!SwitchStates_Get(field_E8_switch_id))
+            if (!SwitchStates_Get(mSwitchId))
             {
-                field_EC_state = States::eDisabled_0;
+                mState = States::eDisabled_0;
             }
 
-            if (!field_F8_pFireBackgroundGlow)
+            if (!mFireBackgroundGlow)
             {
-                field_F8_pFireBackgroundGlow = relive_new FireBackgroundGlow(mXPos,
+                mFireBackgroundGlow = relive_new FireBackgroundGlow(mXPos,
                     mYPos + FP_FromInteger(4),
                     FP_FromDouble(0.5));
-                if (field_F8_pFireBackgroundGlow)
+                if (mFireBackgroundGlow)
                 {
-                    field_F8_pFireBackgroundGlow->mBaseGameObjectRefCount++;
-                    field_F8_pFireBackgroundGlow->mRGB = mRGB;
+                    mFireBackgroundGlow->mBaseGameObjectRefCount++;
+                    mFireBackgroundGlow->mRGB = mRGB;
                 }
             }
             break;

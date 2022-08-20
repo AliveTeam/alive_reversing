@@ -506,15 +506,15 @@ struct Path_UXB final : public ReliveAPI::TlvObjectBaseAE
     {
         types.AddEnum<::Path_UXB::StartState>("Enum_Path_UXB_StartState",
         {
-            {::Path_UXB::StartState::eOn_0, "On"},
-            {::Path_UXB::StartState::eOff_1, "Off"},
+            {::Path_UXB::StartState::eOn, "On"},
+            {::Path_UXB::StartState::eOff, "Off"},
         });
     }
 
     CTOR_AE(Path_UXB, "UXB", TlvTypes::UXB_25)
     {
         ADD("Pattern Length (Max 4)", mTlv.mPatternLength);
-        ADD("Pattern", mTlv.field_12_pattern);
+        ADD("Pattern", mTlv.mPattern);
         ADD("Scale", mTlv.mScale);
         ADD("Start State", mTlv.mStartState);
         ADD("Disabled Resources", mTlv.mDisabledResources);
@@ -1429,8 +1429,8 @@ struct Path_SlapLock final : public ReliveAPI::TlvObjectBaseAE
         ADD("Target Tomb ID 2", mTlv.field_14_target_tomb_id2);
         ADD("Persistant", mTlv.field_16_bPersistant);
         ADD("Has Ghost", mTlv.field_18_has_ghost);
-        ADD("Give Invisibility Power-up", mTlv.field_1A_give_invisibility_powerup);
-        ADD("Invisibility Duration", mTlv.field_1C_invisibility_duration);
+        ADD("Give Invisibility Power-up", mTlv.mGiveInvisibilityPowerup);
+        ADD("Invisibility Duration", mTlv.mInvisibilityDuration);
         ADD("Toggle Switch ID", mTlv.field_1E_toggle_switch_id);
     }
 };

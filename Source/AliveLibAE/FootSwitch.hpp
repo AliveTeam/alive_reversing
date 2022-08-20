@@ -46,15 +46,15 @@ private:
     s32 field_F4_tlvInfo = 0;
     enum class States : s16
     {
-        eWaitForStepOnMe_0 = 0,
-        eWaitForGetOffMe_1 = 1,
+        eWaitForStepOnMe = 0,
+        eWaitForGetOffMe = 1,
     };
-    States field_F8_state = States::eWaitForStepOnMe_0;
-    s16 field_FA_switch_id = 0;
-    SwitchOp field_FC_action = SwitchOp::eSetTrue_0;
-    FootSwitchTriggerBy field_FE_trigger_by = FootSwitchTriggerBy::eAbe_0;
-    s32 field_100_obj_id = 0;
-    s16 field_104_bCreateSparks = 0;
-    s16 field_106_bFindStander = 0;
+    States mState = States::eWaitForStepOnMe;
+    s16 mSwitchId = 0;
+    SwitchOp mAction = SwitchOp::eSetTrue_0;
+    FootSwitchTriggerBy mTriggeredBy = FootSwitchTriggerBy::eAbe_0;
+    s32 mStoodOnMeId = 0;
+    bool mCreateSparks = false;
+    bool mFindStander = false;
 };
 ALIVE_ASSERT_SIZEOF(FootSwitch, 0x108);

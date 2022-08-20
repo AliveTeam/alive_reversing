@@ -1017,7 +1017,7 @@ public:
         Path_UXB r;
         BaseConvert(r, tlv);
         r.mPatternLength = tlv.mPatternLength;
-        r.mPattern = tlv.field_12_pattern;
+        r.mPattern = tlv.mPattern;
         r.mScale = relive::From(tlv.mScale);
         r.mStartState = From(tlv.mStartState);
         r.mDisabledResources = tlv.mDisabledResources;
@@ -1029,9 +1029,9 @@ private:
     {
         switch (startState)
         {
-        case AO::UXBStartState::eOn_0:
+        case AO::UXBStartState::eOn:
             return relive::Path_UXB::StartState::eOn;
-        case AO::UXBStartState::eOff_1:
+        case AO::UXBStartState::eOff:
             return relive::Path_UXB::StartState::eOff;
         }
         ALIVE_FATAL("Bad uxb start state");
@@ -1041,9 +1041,9 @@ private:
     {
         switch (startState)
         {
-            case ::Path_UXB::StartState::eOn_0:
+            case ::Path_UXB::StartState::eOn:
                 return relive::Path_UXB::StartState::eOn;
-            case ::Path_UXB::StartState::eOff_1:
+            case ::Path_UXB::StartState::eOff:
                 return relive::Path_UXB::StartState::eOff;
         }
         ALIVE_FATAL("Bad uxb start state");

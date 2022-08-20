@@ -75,7 +75,7 @@ void Explosion::VUpdate()
 
         case 4:
         {
-            relive_new Flash(Layer::eLayer_Above_FG1_39, 255u, 255u, 255u, 1, TPageAbr::eBlend_1, 1);
+            relive_new Flash(Layer::eLayer_Above_FG1_39, 255u, 255u, 255u, TPageAbr::eBlend_1, 1);
 
             rect.x = FP_GetExponent(FP_FromInteger(-38) * field_E4_explosion_size);
             rect.w = FP_GetExponent(FP_FromInteger(38) * field_E4_explosion_size);
