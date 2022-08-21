@@ -162,7 +162,7 @@ static bool endsWith(const std::string& str, const std::string& suffix)
 
 static void to_json(nlohmann::json& j, const PathLineAO& p)
 {
-    j.push_back(nlohmann::json{
+    j = nlohmann::json{
         {"x", p.mRect.x},
         {"y", p.mRect.y},
         {"w", p.mRect.w},
@@ -170,7 +170,7 @@ static void to_json(nlohmann::json& j, const PathLineAO& p)
         {"next", p.field_10_next},
         {"previous", p.field_C_previous},
         {"type", p.mLineType},
-    });
+    };
 }
 
 
@@ -184,7 +184,7 @@ static void ConvertPathCollisions(nlohmann::json& j, const CollisionInfo& info, 
     {
 
         // TODO: Use AE format lines
-        to_json(j, pCollisions[i]);
+        j.push_back(pCollisions[i]);
     }
 }
 
@@ -853,12 +853,12 @@ static void ConvertPathTLVs(nlohmann::json& j, const AO::PathData& info, const s
 
 static void to_json(nlohmann::json& j, const CameraEntry& p)
 {
-    j.push_back(nlohmann::json{
+    j = nlohmann::json{
         {"x", p.mX},
         {"y", p.mY},
         {"id", p.mId}, // TODO: Can probably get rid of this in the future
         {"name", p.mName},
-    });
+    };
 }
 
 
@@ -882,10 +882,13 @@ static void ConvertPath(FileSystem& fs, const FileSystem::Path& path, const Reli
     nlohmann::json mapObjectsArray = nlohmann::json::array();
     ConvertPathTLVs(mapObjectsArray, *pBlyRec->field_4_pPathData, pathBndChunk.Data());
 
-    nlohmann::json j = nlohmann::json::array();
-    j.push_back({"cameras", camerasArray});
-    j.push_back({"collisions", collisionsArray});
-    j.push_back({"map_objects", mapObjectsArray});
+    nlohmann::json j =
+    { 
+      { "cameras", camerasArray },
+      { "collisions", collisionsArray },
+      { "map_objects", mapObjectsArray }
+    };
+
     std::string jsonStr = j.dump(4);
 
     LOG_INFO("converted path " << pathBndChunk.Id() << " level " << ToString(MapWrapper::ToAO(reliveLvl)));
