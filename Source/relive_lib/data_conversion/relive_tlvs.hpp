@@ -1262,4 +1262,76 @@ struct Path_SligSpawner final : public Path_TLV
     reliveChoice mUnlimitedSpawns = reliveChoice::eNo;
 };
 
+struct Path_TrainDoor final : public Path_TLV
+{
+    reliveXDirection mDirection = reliveXDirection::eRight;
+};
+
+struct Path_TorturedMudokon final : public Path_TLV
+{
+    s16 mKillSwitchId = 0;
+    s16 mReleaseSwitchId = 0;
+};
+
+struct Path_DoorBlocker final : public Path_TLV
+{
+    reliveScale mScale = reliveScale::eFull;
+    s16 mSwitchId = 0;
+};
+
+struct Path_GlukkonSwitch final : public Path_TLV
+{
+    reliveScale field_10_scale = reliveScale::eFull;
+    s16 field_12_ok_switch_id = 0;
+    s16 field_14_fail_switch_id = 0;
+    u16 field_16_xpos = 0;
+    u16 field_18_ypos = 0;
+};
+
+struct Path_Greeter final : public Path_TLV
+{
+    reliveScale mScale = reliveScale::eFull;
+    s16 mMotionDetectorSpeed = 0;
+    reliveXDirection mFacing = reliveXDirection::eRight;
+};
+
+struct Path_BrewMachine final : public Path_TLV
+{
+    s16 mBrewCount = 0;
+};
+
+struct Path_Alarm final : public Path_TLV
+{
+    s16 mSwitchId = 0;
+    u16 mAlarmDuration = 0;
+};
+
+struct Path_ParamiteWebLine final : public Path_TLV
+{
+    reliveScale mScale = reliveScale::eFull;
+};
+
+struct Path_SlapLock final : public Path_TLV
+{
+    reliveScale mScale = reliveScale::eFull;
+    s16 mTargetTombSwitchId1 = 0;
+    s16 mTargetTombSwitchId2 = 0;
+    reliveChoice mHasGhost = reliveChoice::eNo;
+    reliveChoice mGiveInvisibilityPowerup = reliveChoice::eNo;
+    s16 mInvisibilityDuration = 0;
+    s16 mSlapOutputSwitchId = 0;
+};
+
+struct Path_StatusLight final : public Path_TLV
+{
+    s16 mInputSwitchId = 0;
+    reliveScale mScale = reliveScale::eFull;
+    s16 mLinkedStatusLightSwitchId1 = 0;
+    s16 mLinkedStatusLightSwitchId2 = 0;
+    s16 mLinkedStatusLightSwitchId3 = 0;
+    s16 mLinkedStatusLightSwitchId4 = 0;
+    s16 mLinkedStatusLightSwitchId5 = 0;
+    reliveChoice mIgnoreGridSnapping = reliveChoice::eNo;
+};
+
 } // namespace relive

@@ -12,11 +12,11 @@ StatusLight::StatusLight(Path_StatusLight* pTlv, u32 tlvInfo)
     : BaseAnimatedWithPhysicsGameObject(0)
 {
     field_F4_tlvInfo = tlvInfo;
-    field_F8_switch_id = pTlv->field_10_switch_id;
+    mInputSwitchId = pTlv->mInputSwitchId;
 
-    if (pTlv->field_12_scale != Scale_short::eFull_0)
+    if (pTlv->mScale != Scale_short::eFull_0)
     {
-        if (pTlv->field_12_scale == Scale_short::eHalf_1)
+        if (pTlv->mScale == Scale_short::eHalf_1)
         {
             mSpriteScale = FP_FromDouble(0.5);
             mAnim.mRenderLayer = Layer::eLayer_8;
@@ -30,12 +30,12 @@ StatusLight::StatusLight(Path_StatusLight* pTlv, u32 tlvInfo)
         mScale = Scale::Fg;
     }
 
-    field_FA_id1 = pTlv->field_14_id1;
-    field_FC_id2 = pTlv->field_16_id2;
-    field_FE_id3 = pTlv->field_18_id3;
-    field_100_id4 = pTlv->field_1A_id4;
-    field_102_id5 = pTlv->field_1C_id5;
-    field_104_bIgnore_grid_snapping = pTlv->field_1E_bIgnore_grid_snapping;
+    mLinkedStatusLightSwitchId1 = pTlv->mLinkedStatusLightSwitchId1;
+    mLinkedStatusLightSwitchId2 = pTlv->mLinkedStatusLightSwitchId2;
+    mLinkedStatusLightSwitchId3 = pTlv->mLinkedStatusLightSwitchId3;
+    mLinkedStatusLightSwitchId4 = pTlv->mLinkedStatusLightSwitchId4;
+    mLinkedStatusLightSwitchId5 = pTlv->mLinkedStatusLightSwitchId5;
+    mIgnoreGridSnapping = pTlv->mIgnoreGridSnapping;
 
     const AnimRecord& rec = AnimRec(AnimId::Status_Light_Red);
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
@@ -46,7 +46,7 @@ StatusLight::StatusLight(Path_StatusLight* pTlv, u32 tlvInfo)
 
     mXPos = FP_FromInteger((pTlv->mTopLeft.x + pTlv->mBottomRight.x) / 2);
 
-    if (field_104_bIgnore_grid_snapping == Choice_short::eNo_0)
+    if (mIgnoreGridSnapping == Choice_short::eNo_0)
     {
         mXPos = FP_FromInteger(SnapToXGrid(mSpriteScale, FP_GetExponent(mXPos)));
     }
@@ -66,7 +66,7 @@ StatusLight::StatusLight(Path_StatusLight* pTlv, u32 tlvInfo)
         &hitY,
         mScale == Scale::Fg ? kFgFloor : kBgFloor); // TODO: mouze check, 0xF1 : 0x10 seemed like it should be 0x1 : 0x10
 
-    if (field_104_bIgnore_grid_snapping == Choice_short::eNo_0)
+    if (mIgnoreGridSnapping == Choice_short::eNo_0)
     {
         if (bCollision)
         {
@@ -78,6 +78,11 @@ StatusLight::StatusLight(Path_StatusLight* pTlv, u32 tlvInfo)
     field_10C_ypos = mYPos;
 }
 
+bool StatusLight::isLinkedAndDisabled(s16 switchId)
+{
+    return !SwitchStates_Get(switchId) && switchId;
+}
+
 void StatusLight::VUpdate()
 {
     // TODO: Document how this works
@@ -85,10 +90,14 @@ void StatusLight::VUpdate()
     mXPos = FP_FromInteger(sTweakX_5C1BD0) + field_108_xpos;
     mYPos = FP_FromInteger(sTweakY_5C1BD4) + field_10C_ypos;
 
-    if (SwitchStates_Get(field_F8_switch_id))
+    if (SwitchStates_Get(mInputSwitchId))
     {
-        if ((!SwitchStates_Get(field_FA_id1) && field_FA_id1) || (!SwitchStates_Get(field_FC_id2) && field_FC_id2) || (!SwitchStates_Get(field_FE_id3) && field_FE_id3) || (!SwitchStates_Get(field_100_id4) && field_100_id4) || (!SwitchStates_Get(field_102_id5) && field_102_id5)
-            || (sGnFrame % 8) >= 4)
+        if (isLinkedAndDisabled(mLinkedStatusLightSwitchId1) ||
+            isLinkedAndDisabled(mLinkedStatusLightSwitchId2) || 
+            isLinkedAndDisabled(mLinkedStatusLightSwitchId3) || 
+            isLinkedAndDisabled(mLinkedStatusLightSwitchId4) || 
+            isLinkedAndDisabled(mLinkedStatusLightSwitchId5) ||
+            (sGnFrame % 8) >= 4)
         {
             mAnim.mFlags.Set(AnimFlags::eBit3_Render);
         }
@@ -98,7 +107,11 @@ void StatusLight::VUpdate()
         }
         mAnim.Set_Animation_Data(AnimId::Status_Light_Green, nullptr);
     }
-    else if (SwitchStates_Get(field_FA_id1) || SwitchStates_Get(field_FC_id2) || SwitchStates_Get(field_FE_id3) || SwitchStates_Get(field_100_id4) || SwitchStates_Get(field_102_id5))
+    else if (SwitchStates_Get(mLinkedStatusLightSwitchId1) ||
+        SwitchStates_Get(mLinkedStatusLightSwitchId2) ||
+        SwitchStates_Get(mLinkedStatusLightSwitchId3) ||
+        SwitchStates_Get(mLinkedStatusLightSwitchId4) ||
+        SwitchStates_Get(mLinkedStatusLightSwitchId5))
     {
         if ((sGnFrame % 8) >= 4)
         {

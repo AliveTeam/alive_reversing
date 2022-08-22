@@ -234,8 +234,13 @@ static s32 AEMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine,
 
 static void ConvertData()
 {
-    DataConversion dataConversion;
-    dataConversion.ConvertData();
+    if (GetGameType() == GameType::eAo)
+    {
+        LOG_INFO("converting ao data and ignoring ae");
+        DataConversion dataConversion;
+        dataConversion.ConvertData();
+    }
+
 }
 
 s32 WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, s32 nShowCmd)

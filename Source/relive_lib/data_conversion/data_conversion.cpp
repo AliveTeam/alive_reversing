@@ -199,9 +199,11 @@ static void convert_tlv(nlohmann::json& j, const ::Path_TLV& tlv)
     j.push_back(converter_type::From(static_cast<const tlv_src_type&>(tlv)));
 }
 
-/*
+
 static void ConvertTLV(nlohmann::json& j, const ::Path_TLV& tlv)
 {
+    if (0) { ConvertTLV(j, tlv); } // stop annoying me compiler
+
     switch (tlv.mTlvType32.mType)
     {
         case ::TlvTypes::ContinuePoint_0:
@@ -486,19 +488,19 @@ static void ConvertTLV(nlohmann::json& j, const ::Path_TLV& tlv)
             LOG_WARNING("tlv of type " << static_cast<s16>(tlv.mTlvType32.mType) << " not implemented");
             return;
         case ::TlvTypes::StatusLight_97:
-            LOG_WARNING("tlv of type " << static_cast<s16>(tlv.mTlvType32.mType) << " not implemented");
+            convert_tlv<relive::Path_StatusLight_Converter, ::Path_StatusLight>(j, tlv);
             return;
         case ::TlvTypes::SlapLock_98:
-            LOG_WARNING("tlv of type " << static_cast<s16>(tlv.mTlvType32.mType) << " not implemented");
-            return;
+            convert_tlv<relive::Path_SlapLock_Converter, ::Path_SlapLock>(j, tlv);
+            break;
         case ::TlvTypes::ParamiteWebLine_99:
-            LOG_WARNING("tlv of type " << static_cast<s16>(tlv.mTlvType32.mType) << " not implemented");
-            return;
+            convert_tlv<relive::Path_ParamiteWebLine_Converter, ::Path_ParamiteWebLine>(j, tlv);
+            break;
         case ::TlvTypes::Alarm_100:
-            LOG_WARNING("tlv of type " << static_cast<s16>(tlv.mTlvType32.mType) << " not implemented");
-            return;
+            convert_tlv<relive::Path_Alarm_Converter, ::Path_Alarm>(j, tlv);
+            break;
         case ::TlvTypes::BrewMachine_101:
-            LOG_WARNING("tlv of type " << static_cast<s16>(tlv.mTlvType32.mType) << " not implemented");
+            convert_tlv<relive::Path_BrewMachine_Converter, ::Path_BrewMachine>(j, tlv);
             return;
         case ::TlvTypes::ScrabSpawner_102:
             LOG_WARNING("tlv of type " << static_cast<s16>(tlv.mTlvType32.mType) << " not implemented");
@@ -513,28 +515,28 @@ static void ConvertTLV(nlohmann::json& j, const ::Path_TLV& tlv)
             LOG_WARNING("tlv of type " << static_cast<s16>(tlv.mTlvType32.mType) << " not implemented");
             return;
         case ::TlvTypes::Greeter_106:
-            LOG_WARNING("tlv of type " << static_cast<s16>(tlv.mTlvType32.mType) << " not implemented");
-            return;
+            convert_tlv<relive::Path_Greeter_Converter, ::Path_Greeter>(j, tlv);
+            break;
         case ::TlvTypes::CrawlingSligButton_107:
             LOG_WARNING("tlv of type " << static_cast<s16>(tlv.mTlvType32.mType) << " not implemented");
             return;
         case ::TlvTypes::GlukkonSwitch_108:
-            LOG_WARNING("tlv of type " << static_cast<s16>(tlv.mTlvType32.mType) << " not implemented");
-            return;
+            convert_tlv<relive::Path_GlukkonSwitch_Converter, ::Path_GlukkonSwitch>(j, tlv);
+            break;
         case ::TlvTypes::DoorBlocker_109:
-            LOG_WARNING("tlv of type " << static_cast<s16>(tlv.mTlvType32.mType) << " not implemented");
-            return;
+            convert_tlv<relive::Path_DoorBlocker_Converter, ::Path_DoorBlocker>(j, tlv);
+            break;
         case ::TlvTypes::TorturedMudokon_110:
-            LOG_WARNING("tlv of type " << static_cast<s16>(tlv.mTlvType32.mType) << " not implemented");
-            return;
+            convert_tlv<relive::Path_TorturedMudokon_Converter, ::Path_TorturedMudokon>(j, tlv);
+            break;
         case ::TlvTypes::TrainDoor_111:
-            LOG_WARNING("tlv of type " << static_cast<s16>(tlv.mTlvType32.mType) << " not implemented");
-            return;
+            convert_tlv<relive::Path_TrainDoor_Converter, ::Path_TrainDoor>(j, tlv);
+            break;
         default:
             ALIVE_FATAL("TLV conversion for this type not implemented");
     }
 }
-*/
+
 
 static void ConvertTLV(nlohmann::json& j, const AO::Path_TLV& tlv)
 {

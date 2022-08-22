@@ -8,7 +8,7 @@ struct Path_SlapLock final : public Path_TLV
     Scale_short mScale;
     s16 mTargetTombSwitchId1;
     s16 mTargetTombSwitchId2;
-    Choice_short mPersistant; // unused?
+    Choice_short mPersistant; // unused
     Choice_short mHasGhost;
     Choice_short mGiveInvisibilityPowerup;
     s16 mInvisibilityDuration;

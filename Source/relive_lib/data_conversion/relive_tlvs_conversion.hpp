@@ -104,6 +104,15 @@
 #include "../AliveLibAE/SlogSpawner.hpp"
 #include "../AliveLibAO/SligSpawner.hpp"
 #include "../AliveLibAE/SligSpawner.hpp"
+#include "../AliveLibAE/TorturedMudokon.hpp"
+#include "../AliveLibAE/DoorBlocker.hpp"
+#include "../AliveLibAE/GlukkonSwitch.hpp"
+#include "../AliveLibAE/Greeter.hpp"
+#include "../AliveLibAE/BrewMachine.hpp"
+#include "../AliveLibAE/ParamiteWebLine.hpp"
+#include "../AliveLibAE/SlapLock.hpp"
+#include "../AliveLibAE/StatusLight.hpp"
+
 
 // Convert an AO or AE TLV to a relive TLV
 
@@ -180,6 +189,18 @@ namespace relive {
         case XDirection_short::eLeft_0:
             return reliveXDirection::eLeft;
         case XDirection_short::eRight_1:
+            return reliveXDirection::eRight;
+        }
+        ALIVE_FATAL("Bad x direction");
+    }
+
+    static reliveXDirection From(const ::XDirection_int xdirection)
+    {
+        switch (xdirection)
+        {
+        case XDirection_int::eLeft_0:
+            return reliveXDirection::eLeft;
+        case XDirection_int::eRight_1:
             return reliveXDirection::eRight;
         }
         ALIVE_FATAL("Bad x direction");
@@ -3626,6 +3647,160 @@ private:
             return reliveChoice::eNo;
         }
         ALIVE_FATAL("Bad slig shoot possessed sligs value");
+    }
+};
+
+class Path_TrainDoor_Converter final
+{
+public:
+    static Path_TrainDoor From(const ::Path_TrainDoor& tlv)
+    {
+        Path_TrainDoor r;
+        BaseConvert(r, tlv);
+        r.mDirection = relive::From(tlv.field_10_direction);
+        return r;
+    }
+};
+
+class Path_TorturedMudokon_Converter final
+{
+public:
+    static Path_TorturedMudokon From(const ::Path_TorturedMudokon& tlv)
+    {
+        Path_TorturedMudokon r;
+        BaseConvert(r, tlv);
+        r.mKillSwitchId = tlv.mKillSwitchId;
+        r.mReleaseSwitchId = tlv.mReleaseSwitchId;
+        return r;
+    }
+};
+
+class Path_DoorBlocker_Converter final
+{
+public:
+    static Path_DoorBlocker From(const ::Path_DoorBlocker& tlv)
+    {
+        Path_DoorBlocker r;
+        BaseConvert(r, tlv);
+        r.mScale = relive::From(tlv.field_10_scale);
+        r.mSwitchId = tlv.field_12_switch_id;
+        return r;
+    }
+};
+
+class Path_GlukkonSwitch_Converter final
+{
+public:
+    static Path_GlukkonSwitch From(const ::Path_GlukkonSwitch& tlv)
+    {
+        Path_GlukkonSwitch r;
+        BaseConvert(r, tlv);
+        r.field_10_scale = From(tlv.field_10_scale);
+        r.field_12_ok_switch_id = tlv.field_12_ok_switch_id;
+        r.field_14_fail_switch_id = tlv.field_14_fail_switch_id;
+        r.field_16_xpos = tlv.field_16_xpos;
+        r.field_18_ypos = tlv.field_18_ypos;
+        return r;
+    }
+private:
+    static reliveScale From(::Path_GlukkonSwitch::Scale scale)
+    {
+        switch (scale)
+        {
+            case ::Path_GlukkonSwitch::Scale::eHalf_0:
+                return reliveScale::eHalf;
+            case ::Path_GlukkonSwitch::Scale::eFull_1:
+                return reliveScale::eFull;
+        }
+        ALIVE_FATAL("Bad glukkon switch scale");
+    }
+};
+
+class Path_Greeter_Converter final
+{
+public:
+    static Path_Greeter From(const ::Path_Greeter& tlv)
+    {
+        Path_Greeter r;
+        BaseConvert(r, tlv);
+        r.mScale = relive::From(tlv.field_10_scale);
+        r.mMotionDetectorSpeed = tlv.field_12_motion_detector_speed;
+        r.mFacing = relive::From(tlv.field_14_start_direction);
+        return r;
+    }
+};
+
+class Path_BrewMachine_Converter final
+{
+public:
+    static Path_BrewMachine From(const ::Path_BrewMachine& tlv)
+    {
+        Path_BrewMachine r;
+        BaseConvert(r, tlv);
+        r.mBrewCount = tlv.mBrewCount;
+        return r;
+    }
+};
+
+class Path_Alarm_Converter final
+{
+public:
+    static Path_Alarm From(const ::Path_Alarm& tlv)
+    {
+        Path_Alarm r;
+        BaseConvert(r, tlv);
+        r.mSwitchId = tlv.mSwitchId;
+        r.mAlarmDuration = tlv.mAlarmDuration;
+        return r;
+    }
+};
+
+class Path_ParamiteWebLine_Converter final
+{
+public:
+    static Path_ParamiteWebLine From(const ::Path_ParamiteWebLine& tlv)
+    {
+        Path_ParamiteWebLine r;
+        BaseConvert(r, tlv);
+        r.mScale = relive::From(tlv.field_10_scale);
+        return r;
+    }
+};
+
+class Path_SlapLock_Converter final
+{
+public:
+    static Path_SlapLock From(const ::Path_SlapLock& tlv)
+    {
+        Path_SlapLock r;
+        BaseConvert(r, tlv);
+        r.mScale = relive::From(tlv.mScale);
+        r.mTargetTombSwitchId1 = tlv.mTargetTombSwitchId1;
+        r.mTargetTombSwitchId2 = tlv.mTargetTombSwitchId2;
+        r.mHasGhost = relive::From(tlv.mHasGhost);
+        r.mGiveInvisibilityPowerup = relive::From(tlv.mGiveInvisibilityPowerup);
+        r.mInvisibilityDuration = tlv.mInvisibilityDuration;
+        r.mSlapOutputSwitchId = tlv.mSlapOutputSwitchId;
+        return r;
+    }
+};
+
+class Path_StatusLight_Converter final
+{
+public:
+    static Path_StatusLight From(const ::Path_StatusLight& tlv)
+    {
+        Path_StatusLight r;
+        BaseConvert(r, tlv);
+        r.mInputSwitchId = tlv.mInputSwitchId;
+        r.mScale = relive::From(tlv.mScale);
+        r.mLinkedStatusLightSwitchId1 = tlv.mLinkedStatusLightSwitchId1;
+        r.mLinkedStatusLightSwitchId2 = tlv.mLinkedStatusLightSwitchId2;
+        r.mLinkedStatusLightSwitchId3 = tlv.mLinkedStatusLightSwitchId3;
+        r.mLinkedStatusLightSwitchId4 = tlv.mLinkedStatusLightSwitchId4;
+        r.mLinkedStatusLightSwitchId5 = tlv.mLinkedStatusLightSwitchId5;
+        r.mIgnoreGridSnapping = relive::From(tlv.mIgnoreGridSnapping);
+        return r;
     }
 };
 

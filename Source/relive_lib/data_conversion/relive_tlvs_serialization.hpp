@@ -2623,5 +2623,209 @@ void from_json(const nlohmann::json& j, Path_SligSpawner& p)
     j.at("unlimited_spawns").get_to(p.mUnlimitedSpawns);
 }
 
+// Path_TrainDoor
+void to_json(nlohmann::json& j, const Path_TrainDoor& p)
+{
+    j = nlohmann::json{
+        {"name", "train_door"},
+        {"base", ToBase(p)},
+        {"direction", p.mDirection},
+    };
+}
+
+void from_json(const nlohmann::json& j, Path_TrainDoor& p)
+{
+    j.at("base").get_to(ToBase(p));
+    j.at("direction").get_to(p.mDirection);
+}
+
+// Path_TorturedMudokon
+void to_json(nlohmann::json& j, const Path_TorturedMudokon& p)
+{
+    j = nlohmann::json{
+        {"name", "tortured_mudokon"},
+        {"base", ToBase(p)},
+        {"kill_switch_id", p.mKillSwitchId},
+        {"release_switch_id", p.mReleaseSwitchId},
+    };
+}
+
+void from_json(const nlohmann::json& j, Path_TorturedMudokon& p)
+{
+    j.at("base").get_to(ToBase(p));
+    j.at("kill_switch_id").get_to(p.mKillSwitchId);
+    j.at("release_switch_id").get_to(p.mReleaseSwitchId);
+}
+
+// Path_DoorBlocker
+void to_json(nlohmann::json& j, const Path_DoorBlocker& p)
+{
+    j = nlohmann::json{
+        {"name", "door_blocker"},
+        {"base", ToBase(p)},
+        {"scale", p.mScale},
+        {"switch_id", p.mSwitchId},
+    };
+}
+
+void from_json(const nlohmann::json& j, Path_DoorBlocker& p)
+{
+    j.at("base").get_to(ToBase(p));
+    j.at("scale").get_to(p.mScale);
+    j.at("switch_id").get_to(p.mSwitchId);
+}
+
+// Path_GlukkonSwitch
+void to_json(nlohmann::json& j, const Path_GlukkonSwitch& p)
+{
+    j = nlohmann::json{
+        {"name", "glukkon_switch"},
+        {"base", ToBase(p)},
+        {"scale", p.field_10_scale},
+        {"ok_switch_id", p.field_12_ok_switch_id},
+        {"fail_switch_id", p.field_14_fail_switch_id},
+        {"xpos", p.field_16_xpos},
+        {"ypos", p.field_18_ypos},
+    };
+}
+
+void from_json(const nlohmann::json& j, Path_GlukkonSwitch& p)
+{
+    j.at("base").get_to(ToBase(p));
+    j.at("scale").get_to(p.field_10_scale);
+    j.at("ok_switch_id").get_to(p.field_12_ok_switch_id);
+    j.at("fail_switch_id").get_to(p.field_14_fail_switch_id);
+    j.at("xpos").get_to(p.field_16_xpos);
+    j.at("ypos").get_to(p.field_18_ypos);
+}
+
+// Path_Greeter
+void to_json(nlohmann::json& j, const Path_Greeter& p)
+{
+    j = nlohmann::json{
+        {"name", "greeter"},
+        {"base", ToBase(p)},
+        {"scale", p.mScale},
+        {"motion_detector_speed", p.mMotionDetectorSpeed},
+        {"facing", p.mFacing},
+    };
+}
+
+void from_json(const nlohmann::json& j, Path_Greeter& p)
+{
+    j.at("base").get_to(ToBase(p));
+    j.at("scale").get_to(p.mScale);
+    j.at("motion_detector_speed").get_to(p.mMotionDetectorSpeed);
+    j.at("facing").get_to(p.mFacing);
+}
+
+// Path_BrewMachine
+void to_json(nlohmann::json& j, const Path_BrewMachine& p)
+{
+    j = nlohmann::json{
+        {"name", "brew_machine"},
+        {"base", ToBase(p)},
+        {"brew_count", p.mBrewCount},
+    };
+}
+
+void from_json(const nlohmann::json& j, Path_BrewMachine& p)
+{
+    j.at("base").get_to(ToBase(p));
+    j.at("brew_count").get_to(p.mBrewCount);
+}
+
+// Path_Alarm
+void to_json(nlohmann::json& j, const Path_Alarm& p)
+{
+    j = nlohmann::json{
+        {"name", "alarm"},
+        {"base", ToBase(p)},
+        {"switch_id", p.mSwitchId},
+        {"alarm_duration", p.mAlarmDuration},
+    };
+}
+
+void from_json(const nlohmann::json& j, Path_Alarm& p)
+{
+    j.at("base").get_to(ToBase(p));
+    j.at("switch_id").get_to(p.mSwitchId);
+    j.at("alarm_duration").get_to(p.mAlarmDuration);
+}
+
+// Path_ParamiteWebLine
+void to_json(nlohmann::json& j, const Path_ParamiteWebLine& p)
+{
+    j = nlohmann::json{
+        {"name", "paramite_web_line"},
+        {"base", ToBase(p)},
+        {"scale", p.mScale},
+    };
+}
+
+void from_json(const nlohmann::json& j, Path_ParamiteWebLine& p)
+{
+    j.at("base").get_to(ToBase(p));
+    j.at("scale").get_to(p.mScale);
+}
+
+// Path_SlapLock
+void to_json(nlohmann::json& j, const Path_SlapLock& p)
+{
+    j = nlohmann::json{
+        {"name", "slap_lock"},
+        {"base", ToBase(p)},
+        {"scale", p.mScale},
+        {"target_tomb_switch_id_1", p.mTargetTombSwitchId1},
+        {"target_tomb_switch_id_2", p.mTargetTombSwitchId2},
+        {"has_ghost", p.mHasGhost},
+        {"give_invisibility_powerup", p.mGiveInvisibilityPowerup},
+        {"invisibility_duration", p.mInvisibilityDuration},
+        {"slap_output_switch_id", p.mSlapOutputSwitchId},
+    };
+}
+
+void from_json(const nlohmann::json& j, Path_SlapLock& p)
+{
+    j.at("base").get_to(ToBase(p));
+    j.at("scale").get_to(p.mScale);
+    j.at("target_tomb_switch_id_1").get_to(p.mTargetTombSwitchId1);
+    j.at("target_tomb_switch_id_2").get_to(p.mTargetTombSwitchId2);
+    j.at("has_ghost").get_to(p.mHasGhost);
+    j.at("give_invisibility_powerup").get_to(p.mGiveInvisibilityPowerup);
+    j.at("invisibility_duration").get_to(p.mInvisibilityDuration);
+    j.at("slap_output_switch_id").get_to(p.mSlapOutputSwitchId);
+}
+
+// Path_StatusLight
+void to_json(nlohmann::json& j, const Path_StatusLight& p)
+{
+    j = nlohmann::json{
+        {"name", "status_light"},
+        {"base", ToBase(p)},
+        {"input_switch_id", p.mInputSwitchId},
+        {"scale", p.mScale},
+        {"linked_status_light_switch_id_1", p.mLinkedStatusLightSwitchId1},
+        {"linked_status_light_switch_id_2", p.mLinkedStatusLightSwitchId2},
+        {"linked_status_light_switch_id_3", p.mLinkedStatusLightSwitchId3},
+        {"linked_status_light_switch_id_4", p.mLinkedStatusLightSwitchId4},
+        {"linked_status_light_switch_id_5", p.mLinkedStatusLightSwitchId5},
+        {"ignore_grid_snapping", p.mIgnoreGridSnapping},
+    };
+}
+
+void from_json(const nlohmann::json& j, Path_StatusLight& p)
+{
+    j.at("base").get_to(ToBase(p));
+    j.at("input_switch_id").get_to(p.mInputSwitchId);
+    j.at("scale").get_to(p.mScale);
+    j.at("linked_status_light_switch_id_1").get_to(p.mLinkedStatusLightSwitchId1);
+    j.at("linked_status_light_switch_id_2").get_to(p.mLinkedStatusLightSwitchId2);
+    j.at("linked_status_light_switch_id_3").get_to(p.mLinkedStatusLightSwitchId3);
+    j.at("linked_status_light_switch_id_4").get_to(p.mLinkedStatusLightSwitchId4);
+    j.at("linked_status_light_switch_id_5").get_to(p.mLinkedStatusLightSwitchId5);
+    j.at("ignore_grid_snapping").get_to(p.mIgnoreGridSnapping);
+}
+
 } // namespace relive
 

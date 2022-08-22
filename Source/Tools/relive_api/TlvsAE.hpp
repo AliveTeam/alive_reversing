@@ -557,14 +557,14 @@ struct Path_StatusLight final : public ReliveAPI::TlvObjectBaseAE
 {
     CTOR_AE(Path_StatusLight, "StatusLight", TlvTypes::StatusLight_97)
     {
-        ADD("Switch ID", mTlv.field_10_switch_id);
-        ADD("Scale", mTlv.field_12_scale);
-        ADD("ID 1", mTlv.field_14_id1);
-        ADD("ID 2", mTlv.field_16_id2);
-        ADD("ID 3", mTlv.field_18_id3);
-        ADD("ID 4", mTlv.field_1A_id4);
-        ADD("ID 5", mTlv.field_1C_id5);
-        ADD("Ignore Grid Snapping", mTlv.field_1E_bIgnore_grid_snapping);
+        ADD("Switch ID", mTlv.mInputSwitchId);
+        ADD("Scale", mTlv.mScale);
+        ADD("ID 1", mTlv.mLinkedStatusLightSwitchId1);
+        ADD("ID 2", mTlv.mLinkedStatusLightSwitchId2);
+        ADD("ID 3", mTlv.mLinkedStatusLightSwitchId3);
+        ADD("ID 4", mTlv.mLinkedStatusLightSwitchId4);
+        ADD("ID 5", mTlv.mLinkedStatusLightSwitchId5);
+        ADD("Ignore Grid Snapping", mTlv.mIgnoreGridSnapping);
     }
 };
 
