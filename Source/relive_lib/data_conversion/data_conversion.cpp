@@ -850,16 +850,16 @@ static void ConvertPathTLVs(nlohmann::json& j, const AO::PathData& info, const s
         // Convert TLV to ReliveTLV
         ConvertTLV(j, *pPathTLV);
 
-        // Skip length bytes to get to the start of the next TLV
-        const u8* ptr = reinterpret_cast<const u8*>(pPathTLV);
-        const u8* pNext = ptr + pPathTLV->mLength;
-        pPathTLV = reinterpret_cast<const AO::Path_TLV*>(pNext);
-
         // End of TLVs for given camera
         if (pPathTLV->mTlvFlags.Get(AO::TlvFlags::eBit3_End_TLV_List))
         {
             break;
         }
+
+        // Skip length bytes to get to the start of the next TLV
+        const u8* ptr = reinterpret_cast<const u8*>(pPathTLV);
+        const u8* pNext = ptr + pPathTLV->mLength;
+        pPathTLV = reinterpret_cast<const AO::Path_TLV*>(pNext);
     }
 }
 
