@@ -14,7 +14,6 @@
 #include <vector>
 #include <algorithm>
 
-#define JSON_DISABLE_ENUM_SERIALIZATION 1
 
 #include "nlohmann/json.hpp"
 #include "../../Tools/relive_api/LvlReaderWriter.hpp"
@@ -832,14 +831,21 @@ static void ConvertTLV(nlohmann::json& j, const AO::Path_TLV& tlv)
     }
 }
 
-static void ConvertPathTLVs(nlohmann::json& j, const AO::PathData& info, const std::vector<u8>& pathResource)
+static void ConvertPathTLVs(nlohmann::json& j, const AO::PathData& info, const std::vector<u8>& pathResource, u32 indexTableIndex)
 {
     const u8* pData = pathResource.data();
-    const u8* pStart = pData + info.field_14_object_offset;
-    const u8* pEnd = pData + info.field_18_object_index_table_offset;
+    const s32* pIndexTable = reinterpret_cast<const s32*>(pData + info.field_18_object_index_table_offset);
 
+    const s32 indexTableValue = pIndexTable[indexTableIndex];
+    if (indexTableValue == -1)
+    {
+        return;
+    }
+
+    const u8* pStart = pathResource.data() + (indexTableValue + info.field_14_object_offset);
+   
     auto pPathTLV = reinterpret_cast<const AO::Path_TLV*>(pStart);
-    while (pPathTLV && reinterpret_cast<const u8*>(pPathTLV) < pEnd)
+    while (pPathTLV)
     {
         // Convert TLV to ReliveTLV
         ConvertTLV(j, *pPathTLV);
@@ -848,6 +854,12 @@ static void ConvertPathTLVs(nlohmann::json& j, const AO::PathData& info, const s
         const u8* ptr = reinterpret_cast<const u8*>(pPathTLV);
         const u8* pNext = ptr + pPathTLV->mLength;
         pPathTLV = reinterpret_cast<const AO::Path_TLV*>(pNext);
+
+        // End of TLVs for given camera
+        if (pPathTLV->mTlvFlags.Get(AO::TlvFlags::eBit3_End_TLV_List))
+        {
+            break;
+        }
     }
 }
 
@@ -866,27 +878,40 @@ static void ConvertPath(FileSystem& fs, const FileSystem::Path& path, const Reli
 {
     const AO::PathBlyRec* pBlyRec = AO::Path_Get_Bly_Record_434650(reliveLvl, static_cast<u16>(pathBndChunk.Id()));
 
-    // Save cameras
+    // Save cameras and map objects
     const s32 width = (pBlyRec->field_4_pPathData->field_8_bTop - pBlyRec->field_4_pPathData->field_4_bLeft) / pBlyRec->field_4_pPathData->field_C_grid_width;
     const s32 height = (pBlyRec->field_4_pPathData->field_A_bBottom - pBlyRec->field_4_pPathData->field_6_bRight) / pBlyRec->field_4_pPathData->field_E_grid_height;
 
     nlohmann::json camerasArray = nlohmann::json::array();
     PathCamerasEnumerator cameraEnumerator(width, height, pathBndChunk.Data());
-    cameraEnumerator.Enumerate([&](const CameraEntry& tmpCamera) { camerasArray.push_back(tmpCamera); });
+    cameraEnumerator.Enumerate([&](const CameraEntry& tmpCamera) 
+    {
+        // Save map objects
+        nlohmann::json mapObjectsArray = nlohmann::json::array();
+        const u32 indexTableIdx = To1dIndex(width, tmpCamera.mX, tmpCamera.mY);
+        LOG_INFO(indexTableIdx);
+        ConvertPathTLVs(mapObjectsArray, *pBlyRec->field_4_pPathData, pathBndChunk.Data(), indexTableIdx);
+
+        // Its possible to have a camera with no objects (-1 index table)
+        // But its also possible to have a blank camera with objects (blank camera name, non -1 index table)
+        if (!tmpCamera.mName.empty() || !mapObjectsArray.empty())
+        { 
+            nlohmann::json camJson;
+            to_json(camJson, tmpCamera);
+            camJson["map_objects"] = mapObjectsArray;
+            camerasArray.push_back(camJson);
+        }
+    });
 
     // Save collisions
     nlohmann::json collisionsArray = nlohmann::json::array();
     ConvertPathCollisions(collisionsArray, *pBlyRec->field_8_pCollisionData, pathBndChunk.Data());
 
-    // Save map objects
-    nlohmann::json mapObjectsArray = nlohmann::json::array();
-    ConvertPathTLVs(mapObjectsArray, *pBlyRec->field_4_pPathData, pathBndChunk.Data());
-
+   
     nlohmann::json j =
     { 
       { "cameras", camerasArray },
       { "collisions", collisionsArray },
-      { "map_objects", mapObjectsArray }
     };
 
     std::string jsonStr = j.dump(4);
