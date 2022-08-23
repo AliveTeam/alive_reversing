@@ -32,6 +32,7 @@
 
 #include "../relive_lib/data_conversion/file_system.hpp"
 #include "../relive_lib/data_conversion/data_conversion.hpp" // TODO: don't include this in the engine
+#include "nlohmann/json.hpp"
 
 class BaseGameObject;
 
@@ -1752,10 +1753,22 @@ void Map::GoTo_Camera()
 
         FileSystem::Path levelInfo = pathDir;
         levelInfo.Append("level_info.json");
-        //ResourceManager::LoadFile();
+       
+        FileSystem fs;
+        const std::string jsonStr = fs.LoadToString(levelInfo);
+        nlohmann::json j = nlohmann::json::parse(jsonStr);
+        const auto& paths = j["paths"];
+        for (const auto& path : paths)
+        {
+            FileSystem::Path pathJsonFile = pathDir;
+            pathJsonFile.Append(path);
+            const std::string pathJsonStr = fs.LoadToString(pathJsonFile);
 
-        // TODO: there is no manfest of paths, just enumerate and load all jsons? or move the per lvl data to a
-        // json? 
+            // TODO: set the res ptrs to the parsed json data
+            nlohmann::json pathJson = nlohmann::json::parse(pathJsonStr);
+            LOG_INFO("Cam count " << pathJson["cameras"].size());
+        }
+
 
         GetPathResourceBlockPtrs();
 

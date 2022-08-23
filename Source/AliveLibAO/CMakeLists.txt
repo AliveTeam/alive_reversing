@@ -310,7 +310,8 @@ SET(AliveLibSrcAO
 add_library(AliveLibAO ${AliveLibSrcAO})
 
 target_include_directories(AliveLibAO PUBLIC
-    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR},
+    ${CMAKE_CURRENT_SOURCE_DIR}/../../3rdParty/json/single_include>
     $<INSTALL_INTERFACE:include>
     PRIVATE src ${CMAKE_BINARY_DIR})
 

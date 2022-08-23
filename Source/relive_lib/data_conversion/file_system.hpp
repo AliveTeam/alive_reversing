@@ -59,6 +59,23 @@ public:
         }
     }
 
+    std::string LoadToString(const Path& path)
+    {
+        FILE* pFile = ::fopen(path.GetPath().c_str(), "rb");
+        if (pFile)
+        {
+            ::fseek(pFile, 0, SEEK_END);
+            const auto fsize = ftell(pFile);
+            ::fseek(pFile, 0, SEEK_SET);
+            std::string r;
+            r.resize(fsize);
+            ::fread(r.data(), 1, fsize, pFile);
+            ::fclose(pFile);
+            return r;
+        }
+        return {};
+    }
+
     void CreateDirectory(const Path& path)
     {
         std::string dirPart;
