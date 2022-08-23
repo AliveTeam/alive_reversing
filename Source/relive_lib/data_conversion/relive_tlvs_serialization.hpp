@@ -85,7 +85,6 @@ void from_json(const nlohmann::json& j, Path_TLV& p)
 }
 
 // Common TLV enums
-
 NLOHMANN_JSON_SERIALIZE_ENUM(reliveScale, {
     {reliveScale::eFull, "full"},
     {reliveScale::eHalf, "half"},
@@ -107,6 +106,19 @@ NLOHMANN_JSON_SERIALIZE_ENUM(reliveSwitchOp, {
     {reliveSwitchOp::eToggle, "toggle"},
     {reliveSwitchOp::eIncrement, "increment"},
     {reliveSwitchOp::eDecrement, "decrement"},
+})
+
+NLOHMANN_JSON_SERIALIZE_ENUM(reliveScreenChangeEffects, {
+    {reliveScreenChangeEffects::ePlay1FMV, "play_1_fmv"},
+    {reliveScreenChangeEffects::eRightToLeft, "right_to_left"},
+    {reliveScreenChangeEffects::eLeftToRight, "left_to_right"},
+    {reliveScreenChangeEffects::eBottomToTop, "bottom_to_top"},
+    {reliveScreenChangeEffects::eTopToBottom, "top_to_bottom"},
+    {reliveScreenChangeEffects::eBoxOut, "box_out"},
+    {reliveScreenChangeEffects::eVerticalSplit, "vertical_split"},
+    {reliveScreenChangeEffects::eHorizontalSplit, "horizontal_split"},
+    {reliveScreenChangeEffects::eUnknown_8, "unknown_8"},
+    {reliveScreenChangeEffects::eInstantChange, "instant_change"},
 })
 
 // Path_ShadowZone
@@ -1404,6 +1416,7 @@ void to_json(nlohmann::json& j, const Path_ResetPath& p)
         {"exclude", p.mExclude},
         {"clear_objects", p.mClearObjects},
         {"path", p.mPath},
+        {"enabled", p.mEnabled},
     };
 }
 
@@ -1416,6 +1429,7 @@ void from_json(const nlohmann::json& j, Path_ResetPath& p)
     j.at("exclude").get_to(p.mExclude);
     j.at("clear_objects").get_to(p.mClearObjects);
     j.at("path").get_to(p.mPath);
+    j.at("enabled").get_to(p.mEnabled);
 }
 
 // Path_MeatSack
@@ -1651,19 +1665,6 @@ NLOHMANN_JSON_SERIALIZE_ENUM(Path_Door::DoorTypes, {
     {Path_Door::DoorTypes::eTasksDoor, "tasks_door"},
     {Path_Door::DoorTypes::eTrialDoor, "trial_door"},
     {Path_Door::DoorTypes::eHubDoor, "hub_door"},
-})
-
-NLOHMANN_JSON_SERIALIZE_ENUM(Path_Door::ScreenChangeEffects, {
-    {Path_Door::ScreenChangeEffects::ePlay1FMV, "play_1_fmv"},
-    {Path_Door::ScreenChangeEffects::eRightToLeft, "right_to_left"},
-    {Path_Door::ScreenChangeEffects::eLeftToRight, "left_to_right"},
-    {Path_Door::ScreenChangeEffects::eBottomToTop, "bottom_to_top"},
-    {Path_Door::ScreenChangeEffects::eTopToBottom, "top_to_bottom"},
-    {Path_Door::ScreenChangeEffects::eBoxOut, "box_out"},
-    {Path_Door::ScreenChangeEffects::eVerticalSplit, "vertical_split"},
-    {Path_Door::ScreenChangeEffects::eHorizontalSplit, "horizontal_split"},
-    {Path_Door::ScreenChangeEffects::eUnknown, "unknown"},
-    {Path_Door::ScreenChangeEffects::eInstantChange, "instant_change"},
 })
 
 void to_json(nlohmann::json& j, const Path_Door& p)
@@ -3107,6 +3108,286 @@ void from_json(const nlohmann::json& j, Path_Water& p)
     j.at("splash_time").get_to(p.mSplashTime);
     j.at("splash_vel_x").get_to(p.mSplashVelX);
     j.at("water_duration").get_to(p.mWaterDuration);
+}
+// Path_WheelSyncer
+NLOHMANN_JSON_SERIALIZE_ENUM(Path_WheelSyncer::OutputRequirement, {
+    {Path_WheelSyncer::OutputRequirement::eAllOn, "all_on"},
+    {Path_WheelSyncer::OutputRequirement::e1OnAnd2Off, "1_on_and_2_off"},
+    {Path_WheelSyncer::OutputRequirement::e1Or2On, "1_or_2_on"},
+    {Path_WheelSyncer::OutputRequirement::e1OnOr2Off, "1_on_or_2_off"},
+})
+
+void to_json(nlohmann::json& j, const Path_WheelSyncer& p)
+{
+    j = nlohmann::json{
+        {"name", "wheel_syncer"},
+        {"base", ToBase(p)},
+        {"input_switch_id_1", p.mInputSwitchId1},
+        {"input_switch_id_2", p.mInputSwitchId2},
+        {"output_switch_id", p.mOutputSwitchId},
+        {"output_requirement", p.mOutputRequirement},
+        {"input_switch_id_3", p.mInputSwitchId3},
+        {"input_switch_id_4", p.mInputSwitchId4},
+        {"input_switch_id_5", p.mInputSwitchId5},
+        {"input_switch_id_6", p.mInputSwitchId6},
+    };
+}
+
+void from_json(const nlohmann::json& j, Path_WheelSyncer& p)
+{
+    j.at("base").get_to(ToBase(p));
+    j.at("input_switch_id_1").get_to(p.mInputSwitchId1);
+    j.at("input_switch_id_2").get_to(p.mInputSwitchId2);
+    j.at("output_switch_id").get_to(p.mOutputSwitchId);
+    j.at("output_requirement").get_to(p.mOutputRequirement);
+    j.at("input_switch_id_3").get_to(p.mInputSwitchId3);
+    j.at("input_switch_id_4").get_to(p.mInputSwitchId4);
+    j.at("input_switch_id_5").get_to(p.mInputSwitchId5);
+    j.at("input_switch_id_6").get_to(p.mInputSwitchId6);
+}
+
+// Path_Fleech
+void to_json(nlohmann::json& j, const Path_Fleech& p)
+{
+    j = nlohmann::json{
+        {"name", "fleech"},
+        {"base", ToBase(p)},
+        {"scale", p.mScale},
+        {"facing", p.mFacing},
+        {"asleep", p.mAsleep},
+        {"attack_anger_increaser", p.mAttackAngerIncreaser},
+        {"wake_up_switch_id", p.mWakeUpSwitchId},
+        {"hanging", p.mHanging},
+        {"lost_target_timeout", p.mLostTargetTimeout},
+        {"goes_to_sleep", p.mGoesToSleep},
+        {"patrol_range_in_grids", p.mPatrolRangeInGrids},
+        {"wake_up_switch_anger_value", p.mWakeUpSwitchAngerValue},
+        {"can_wake_up_switch_id", p.mCanWakeUpSwitchId},
+        {"persistant", p.mPersistant},
+    };
+}
+
+void from_json(const nlohmann::json& j, Path_Fleech& p)
+{
+    j.at("base").get_to(ToBase(p));
+    j.at("scale").get_to(p.mScale);
+    j.at("facing").get_to(p.mFacing);
+    j.at("asleep").get_to(p.mAsleep);
+    j.at("attack_anger_increaser").get_to(p.mAttackAngerIncreaser);
+    j.at("wake_up_switch_id").get_to(p.mWakeUpSwitchId);
+    j.at("hanging").get_to(p.mHanging);
+    j.at("lost_target_timeout").get_to(p.mLostTargetTimeout);
+    j.at("goes_to_sleep").get_to(p.mGoesToSleep);
+    j.at("patrol_range_in_grids").get_to(p.mPatrolRangeInGrids);
+    j.at("wake_up_switch_anger_value").get_to(p.mWakeUpSwitchAngerValue);
+    j.at("can_wake_up_switch_id").get_to(p.mCanWakeUpSwitchId);
+    j.at("persistant").get_to(p.mPersistant);
+}
+
+// Path_SlurgSpawner
+void to_json(nlohmann::json& j, const Path_SlurgSpawner& p)
+{
+    j = nlohmann::json{
+        {"name", "slurg_spawner"},
+        {"base", ToBase(p)},
+        {"spawn_interval", p.mSpawnInterval},
+        {"max_slurgs", p.mMaxSlurgs},
+        {"switch_id", p.mSwitchId},
+    };
+}
+
+void from_json(const nlohmann::json& j, Path_SlurgSpawner& p)
+{
+    j.at("base").get_to(ToBase(p));
+    j.at("spawn_interval").get_to(p.mSpawnInterval);
+    j.at("max_slurgs").get_to(p.mMaxSlurgs);
+    j.at("switch_id").get_to(p.mSwitchId);
+}
+
+// Path_Drill
+NLOHMANN_JSON_SERIALIZE_ENUM(Path_Drill::DrillDirection, {
+    {Path_Drill::DrillDirection::eDown, "down"},
+    {Path_Drill::DrillDirection::eRight, "right"},
+    {Path_Drill::DrillDirection::eLeft, "left"},
+})
+
+NLOHMANN_JSON_SERIALIZE_ENUM(Path_Drill::DrillBehavior, {
+    {Path_Drill::DrillBehavior::eNotInteractable, "not_interactable"},
+    {Path_Drill::DrillBehavior::eToggle, "toggle"},
+    {Path_Drill::DrillBehavior::eUse, "use"},
+})
+
+void to_json(nlohmann::json& j, const Path_Drill& p)
+{
+    j = nlohmann::json{
+        {"name", "drill"},
+        {"base", ToBase(p)},
+        {"scale", p.mScale},
+        {"on_min_pause_time", p.mOnMinPauseTime},
+        {"on_max_pause_time", p.mOnMaxPauseTime},
+        {"switch_id", p.mSwitchId},
+        {"drill_behavior", p.mDrillBehavior},
+        {"on_speed", p.mOnSpeed},
+        {"start_state_on", p.mStartStateOn},
+        {"off_speed", p.mOffSpeed},
+        {"off_min_pause_time", p.mOffMinPauseTime},
+        {"off_max_pause_time", p.mOffMaxPauseTime},
+        {"start_position_bottom", p.mStartPositionBottom},
+        {"drill_direction", p.mDrillDirection},
+    };
+}
+
+void from_json(const nlohmann::json& j, Path_Drill& p)
+{
+    j.at("base").get_to(ToBase(p));
+    j.at("scale").get_to(p.mScale);
+    j.at("on_min_pause_time").get_to(p.mOnMinPauseTime);
+    j.at("on_max_pause_time").get_to(p.mOnMaxPauseTime);
+    j.at("switch_id").get_to(p.mSwitchId);
+    j.at("drill_behavior").get_to(p.mDrillBehavior);
+    j.at("on_speed").get_to(p.mOnSpeed);
+    j.at("start_state_on").get_to(p.mStartStateOn);
+    j.at("off_speed").get_to(p.mOffSpeed);
+    j.at("off_min_pause_time").get_to(p.mOffMinPauseTime);
+    j.at("off_max_pause_time").get_to(p.mOffMaxPauseTime);
+    j.at("start_position_bottom").get_to(p.mStartPositionBottom);
+    j.at("drill_direction").get_to(p.mDrillDirection);
+}
+
+// Path_Teleporter
+void to_json(nlohmann::json& j, const Path_Teleporter& p)
+{
+    j = nlohmann::json{
+        {"name", "teleporter"},
+        {"base", ToBase(p)},
+        {"teleporter_id", p.mTeleporterId},
+        {"other_teleporter_id", p.mOtherTeleporterId},
+        {"dest_camera", p.mDestCamera},
+        {"dest_path", p.mDestPath},
+        {"dest_level", p.mDestLevel},
+        {"switch_id", p.mSwitchId},
+        {"scale", p.mScale},
+        {"wipe_effect", p.mWipeEffect},
+        {"movie_id", p.mMovieId},
+        {"electric_x", p.mElectricX},
+        {"electric_y", p.mElectricY},
+    };
+}
+
+void from_json(const nlohmann::json& j, Path_Teleporter& p)
+{
+    j.at("base").get_to(ToBase(p));
+    j.at("teleporter_id").get_to(p.mTeleporterId);
+    j.at("other_teleporter_id").get_to(p.mOtherTeleporterId);
+    j.at("dest_camera").get_to(p.mDestCamera);
+    j.at("dest_path").get_to(p.mDestPath);
+    j.at("dest_level").get_to(p.mDestLevel);
+    j.at("switch_id").get_to(p.mSwitchId);
+    j.at("scale").get_to(p.mScale);
+    j.at("wipe_effect").get_to(p.mWipeEffect);
+    j.at("movie_id").get_to(p.mMovieId);
+    j.at("electric_x").get_to(p.mElectricX);
+    j.at("electric_y").get_to(p.mElectricY);
+}
+
+// Path_Glukkon
+NLOHMANN_JSON_SERIALIZE_ENUM(Path_Glukkon::Facing, {
+    {Path_Glukkon::Facing::eRight, "right"},
+    {Path_Glukkon::Facing::eLeft, "left"},
+})
+
+NLOHMANN_JSON_SERIALIZE_ENUM(Path_Glukkon::Behavior, {
+    {Path_Glukkon::Behavior::eIgnoreWalls, "ignore_walls"},
+    {Path_Glukkon::Behavior::eCheckForWalls, "check_for_walls"},
+})
+
+NLOHMANN_JSON_SERIALIZE_ENUM(Path_Glukkon::SpawnType, {
+    {Path_Glukkon::SpawnType::eRegularSpawn, "regular_spawn"},
+    {Path_Glukkon::SpawnType::eFacingLeft, "facing_left"},
+    {Path_Glukkon::SpawnType::eFacingRight, "facing_right"},
+    {Path_Glukkon::SpawnType::eFullSpawnEffects, "full_spawn_effects"},
+})
+
+NLOHMANN_JSON_SERIALIZE_ENUM(Path_Glukkon::GlukkonTypes, {
+    {Path_Glukkon::GlukkonTypes::eNormal, "normal"},
+    {Path_Glukkon::GlukkonTypes::eStoryAslik, "story_aslik"},
+    {Path_Glukkon::GlukkonTypes::eStoryDripik, "story_dripik"},
+    {Path_Glukkon::GlukkonTypes::eStoryPhleg, "story_phleg"},
+})
+
+void to_json(nlohmann::json& j, const Path_Glukkon& p)
+{
+    j = nlohmann::json{
+        {"name", "glukkon"},
+        {"base", ToBase(p)},
+        {"scale", p.mScale},
+        {"facing", p.mFacing},
+        {"behavior", p.mBehavior},
+        {"scream_help_delay", p.mScreamHelpDelay},
+        {"help_switch_id", p.mHelpSwitchId},
+        {"to_calm_delay", p.mToCalmDelay},
+        {"spawn_switch_id", p.mSpawnSwitchId},
+        {"spawn_type", p.mSpawnType},
+        {"spawn_delay", p.mSpawnDelay},
+        {"glukkon_type", p.mGlukkonType},
+        {"death_switch_id", p.mDeathSwitchId},
+        {"play_movie_switch_id", p.mPlayMovieSwitchId},
+        {"movie_id", p.mMovieId},
+    };
+}
+
+void from_json(const nlohmann::json& j, Path_Glukkon& p)
+{
+    j.at("base").get_to(ToBase(p));
+    j.at("scale").get_to(p.mScale);
+    j.at("facing").get_to(p.mFacing);
+    j.at("behavior").get_to(p.mBehavior);
+    j.at("scream_help_delay").get_to(p.mScreamHelpDelay);
+    j.at("help_switch_id").get_to(p.mHelpSwitchId);
+    j.at("to_calm_delay").get_to(p.mToCalmDelay);
+    j.at("spawn_switch_id").get_to(p.mSpawnSwitchId);
+    j.at("spawn_type").get_to(p.mSpawnType);
+    j.at("spawn_delay").get_to(p.mSpawnDelay);
+    j.at("glukkon_type").get_to(p.mGlukkonType);
+    j.at("death_switch_id").get_to(p.mDeathSwitchId);
+    j.at("play_movie_switch_id").get_to(p.mPlayMovieSwitchId);
+    j.at("movie_id").get_to(p.mMovieId);
+}
+
+
+// Path_CrawlingSligButton
+NLOHMANN_JSON_SERIALIZE_ENUM(Path_CrawlingSligButton::ButtonSounds, {
+    {Path_CrawlingSligButton::ButtonSounds::None, "none"},
+    {Path_CrawlingSligButton::ButtonSounds::SackHit, "sack_hit"},
+    {Path_CrawlingSligButton::ButtonSounds::FallingItemPresence2, "falling_item_presence_2"},
+    {Path_CrawlingSligButton::ButtonSounds::SecurityOrb, "security_orb"},
+    {Path_CrawlingSligButton::ButtonSounds::Bullet1, "bullet_1"},
+    {Path_CrawlingSligButton::ButtonSounds::AbeGenericMovement, "abe_generic_movement"},
+})
+
+void to_json(nlohmann::json& j, const Path_CrawlingSligButton& p)
+{
+    j = nlohmann::json{
+        {"name", "glukkon"},
+        {"base", ToBase(p)},
+        {"scale", p.mScale},
+        {"switch_id", p.mSwitchId},
+        {"action", p.mAction},
+        {"on_sound", p.mOnSound},
+        {"off_sound", p.mOffSound},
+        {"sound_direction", p.mSoundDirection},
+    };
+}
+
+void from_json(const nlohmann::json& j, Path_CrawlingSligButton& p)
+{
+    j.at("base").get_to(ToBase(p));
+    j.at("scale").get_to(p.mScale);
+    j.at("switch_id").get_to(p.mSwitchId);
+    j.at("action").get_to(p.mAction);
+    j.at("on_sound").get_to(p.mOnSound);
+    j.at("off_sound").get_to(p.mOffSound);
+    j.at("sound_direction").get_to(p.mSoundDirection);
 }
 
 } // namespace relive

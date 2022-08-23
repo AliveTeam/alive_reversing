@@ -28,22 +28,22 @@ enum class FleechSound : u8
 
 struct Path_Fleech final : public Path_TLV
 {
-    Scale_short field_10_scale;
-    XDirection_short field_12_direction;
-    Choice_short field_14_asleep;
-    s16 field_16_wake_up;
-    s16 field_18_not_used;
-    s16 field_1A_attack_anger_increaser;
-    s16 field_1C_attack_delay;
-    s16 field_1E_wake_up_switch_id;
-    Choice_short field_20_hanging;
-    s16 field_22_lost_target_timeout;
-    Choice_short field_24_goes_to_sleep;
-    s16 field_26_patrol_range_in_grids;
-    s16 field_28_wake_up_switch_anger_value;
-    s16 field_2A_can_wake_up_switch_id;
-    Choice_short field_2C_persistant;
-    s16 field_2E_padding;
+    Scale_short mScale;
+    XDirection_short mFacing;
+    Choice_short mAsleep;
+    s16 padding1;
+    s16 padding2;
+    s16 mAttackAngerIncreaser;
+    s16 padding3;
+    s16 mWakeUpSwitchId;
+    Choice_short mHanging;
+    s16 mLostTargetTimeout;
+    Choice_short mGoesToSleep;
+    s16 mPatrolRangeInGrids;
+    s16 mWakeUpSwitchAngerValue;
+    s16 mCanWakeUpSwitchId;
+    Choice_short mPersistant;
+    s16 padding4;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Fleech, 0x30);
 

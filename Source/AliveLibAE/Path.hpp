@@ -95,7 +95,7 @@ enum class TlvTypes : s16
     Glukkon_73 = 73,
     KillUnsavedMudokons_74 = 74,
     SoftLanding_75 = 75,
-    ResetSwitchRange_76 = 76,
+    ResetPath_76 = 76,
     Water_77 = 77,
     Null_78 = 78,
     WorkWheel_79 = 79,
@@ -293,17 +293,17 @@ void Stop_slig_sounds(CameraPos direction, s8 kZero);
 
 struct Path_Teleporter_Data
 {
-    s16 field_10_teleporter_switch_id;
-    s16 field_12_other_teleporter_switch_id;
-    s16 field_14_camera;
-    s16 field_16_path;
-    LevelIds field_18_level;
-    s16 field_1A_switch_id;
-    Scale_short field_1C_scale;
-    ScreenChangeEffects field_1E_cam_swap_effect;
-    s16 field_20_movie_number;
-    s16 field_22_eletric_x;
-    s16 field_24_electric_y;
+    s16 mTeleporterId;
+    s16 mOtherTeleporterId;
+    s16 mDestCamera;
+    s16 mDestPath;
+    LevelIds mDestLevel;
+    s16 mSwitchId;
+    Scale_short mScale;
+    ScreenChangeEffects mWipeEffect;
+    s16 mMovieId;
+    s16 mElectricX;
+    s16 mElectricY;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Teleporter_Data, 0x16);
 

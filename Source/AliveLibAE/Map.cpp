@@ -918,7 +918,7 @@ void Map::GoTo_Camera()
                 // Teleporter transition
                 Path_Teleporter* pTeleporterTlv = static_cast<Path_Teleporter*>(sPathInfo->TLV_First_Of_Type_In_Camera(TlvTypes::Teleporter_88, 0));
                 Path_Teleporter_Data teleporterData = pTeleporterTlv->field_10_data;
-                while (teleporterData.field_10_teleporter_switch_id != sActiveHero->field_1A0_door_id)
+                while (teleporterData.mTeleporterId != sActiveHero->field_1A0_door_id)
                 {
                     pTeleporterTlv = static_cast<Path_Teleporter*>(Path::TLV_Next_Of_Type(pTeleporterTlv, TlvTypes::Teleporter_88));
                     teleporterData = pTeleporterTlv->field_10_data;

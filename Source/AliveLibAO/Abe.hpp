@@ -12,11 +12,11 @@ namespace AO {
     
 struct Path_ResetPath final : public Path_TLV
 {
-    s16 mClearIds;
+    Choice_short mClearIds;
     s16 mFrom;
     s16 mTo;
     s16 mExclude;
-    s16 mClearObjects;
+    Choice_short mClearObjects;
     s16 mPath;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_ResetPath, 0x24);

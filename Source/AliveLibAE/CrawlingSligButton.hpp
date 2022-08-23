@@ -20,12 +20,12 @@ enum class CrawlingSligButtonSounds : s16
 
 struct Path_CrawlingSligButton final : public Path_TLV
 {
-    Scale_short field_10_scale;
-    s16 field_12_switch_id;
-    SwitchOp field_14_action;
-    CrawlingSligButtonSounds field_16_on_sound;
-    CrawlingSligButtonSounds field_18_off_sound;
-    s16 field_1A_sound_direction;
+    Scale_short mScale;
+    s16 mSwitchId;
+    SwitchOp mAction;
+    CrawlingSligButtonSounds mOnSound;
+    CrawlingSligButtonSounds mOffSound;
+    s16 mSoundDirection;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_CrawlingSligButton, 0x1C);
 

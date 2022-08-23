@@ -43,13 +43,13 @@ Drill::Drill(Path_Drill* pTlv, u32 tlvInfo)
     mAnim.mRenderMode = TPageAbr::eBlend_0;
 
     SetTint(kDrillTints_551548, gMap.mCurrentLevel);
-    Path_Drill_Data tlvData = pTlv->field_10_data;
+    Path_Drill_Data tlvData = pTlv->mDrillData;
 
     field_128_flags.Clear(Flags::eBit2_ToggleStartState_StartOn);
     field_128_flags.Clear(Flags::eBit5_SpeedChanged);
     field_128_flags.Clear(Flags::eBit4_Toggle);
 
-    if (tlvData.field_1C_bStart_state_on == Choice_short::eYes_1)
+    if (tlvData.mStartStateOn == Choice_short::eYes_1)
     {
         field_128_flags.Clear(Flags::eBit1_StartOff);
     }
@@ -65,7 +65,7 @@ Drill::Drill(Path_Drill* pTlv, u32 tlvInfo)
         field_128_flags.Set(Flags::eBit2_ToggleStartState_StartOn);
     }
 
-    if (tlvData.field_10_scale == Scale_short::eFull_0)
+    if (tlvData.mScale == Scale_short::eFull_0)
     {
         mSpriteScale = FP_FromInteger(1);
         mAnim.mRenderLayer = Layer::eLayer_RopeWebDrillMeatSaw_24;
@@ -78,8 +78,8 @@ Drill::Drill(Path_Drill* pTlv, u32 tlvInfo)
         mScale = Scale::Bg;
     }
 
-    mDrillDirection = tlvData.field_26_direction;
-    if (tlvData.field_24_bStart_position_bottom == Choice_short::eYes_1)
+    mDrillDirection = tlvData.mDirection;
+    if (tlvData.mStartPositionBottom == Choice_short::eYes_1)
     {
         field_128_flags.Set(Flags::eBit6_StartPosIsBottom);
     }
@@ -190,9 +190,9 @@ Drill::Drill(Path_Drill* pTlv, u32 tlvInfo)
             break;
     }
 
-    mMaxOffTime = tlvData.field_14_max_off_time;
-    mMinOffTime = tlvData.field_12_min_off_time;
-    switch (tlvData.field_18_behavior)
+    mMaxOffTime = tlvData.mOnMaxPauseTime;
+    mMinOffTime = tlvData.mOnMinPauseTime;
+    switch (tlvData.mDrillBehavior)
     {
         case DrillBehavior::eToggle_1:
             field_128_flags.Set(Flags::eBit3_UseId);
@@ -210,8 +210,8 @@ Drill::Drill(Path_Drill* pTlv, u32 tlvInfo)
             break;
     }
 
-    mInitialSpeed = FP_FromInteger(tlvData.mSpeed);
-    if (tlvData.mSpeed == 250) // juicy OWI hack to allow 0.2 speed by setting the value 250 in the tlv data
+    mInitialSpeed = FP_FromInteger(tlvData.mOnSpeed);
+    if (tlvData.mOnSpeed == 250) // juicy OWI hack to allow 0.2 speed by setting the value 250 in the tlv data
     {
         mInitialSpeed = FP_FromDouble(0.2);
     }
@@ -223,8 +223,8 @@ Drill::Drill(Path_Drill* pTlv, u32 tlvInfo)
         mOffSpeed = FP_FromDouble(0.2);
     }
 
-    field_100_min_off_time_speed_change = tlvData.field_20_min_off_time_speed_change;
-    field_102_max_off_time_speed_change = tlvData.field_22_max_off_time_speed_change;
+    field_100_min_off_time_speed_change = tlvData.mOffMinPauseTime;
+    field_102_max_off_time_speed_change = tlvData.mOffMaxPauseTime;
     mOffTimer = 0;
     mDrillState = DrillStates::State_0_Restart_Cycle;
     mTlvInfo = tlvInfo;

@@ -124,6 +124,12 @@
 #include "../AliveLibAE/LaughingGas.hpp"
 #include "../AliveLibAE/WorkWheel.hpp"
 #include "../AliveLibAE/Water.hpp"
+#include "../AliveLibAE/WheelSyncer.hpp"
+#include "../AliveLibAE/Fleech.hpp"
+#include "../AliveLibAE/SlurgSpawner.hpp"
+#include "../AliveLibAE/Drill.hpp"
+#include "../AliveLibAE/Glukkon.hpp"
+#include "../AliveLibAE/CrawlingSligButton.hpp"
 
 // Convert an AO or AE TLV to a relive TLV
 
@@ -251,6 +257,34 @@ namespace relive {
             return reliveSwitchOp::eDecrement;
         }
         ALIVE_FATAL("Bad switch operator");
+    }
+
+    static reliveScreenChangeEffects From(::ScreenChangeEffects effect)
+    {
+        switch (effect)
+        {
+            case ::ScreenChangeEffects::ePlay1FMV_0:
+                return reliveScreenChangeEffects::ePlay1FMV;
+            case ::ScreenChangeEffects::eRightToLeft_1:
+                return reliveScreenChangeEffects::eRightToLeft;
+            case ::ScreenChangeEffects::eLeftToRight_2:
+                return reliveScreenChangeEffects::eLeftToRight;
+            case ::ScreenChangeEffects::eBottomToTop_3:
+                return reliveScreenChangeEffects::eBottomToTop;
+            case ::ScreenChangeEffects::eTopToBottom_4:
+                return reliveScreenChangeEffects::eTopToBottom;
+            case ::ScreenChangeEffects::eBoxOut_5:
+                return reliveScreenChangeEffects::eBoxOut;
+            case ::ScreenChangeEffects::eVerticalSplit_6:
+                return reliveScreenChangeEffects::eVerticalSplit;
+            case ::ScreenChangeEffects::eHorizontalSplit_7:
+                return reliveScreenChangeEffects::eHorizontalSplit;
+            case ::ScreenChangeEffects::eUnknown_8:
+                return reliveScreenChangeEffects::eUnknown_8;
+            case ::ScreenChangeEffects::eInstantChange_9:
+                return reliveScreenChangeEffects::eInstantChange;
+        }
+        ALIVE_FATAL("Bad screen change effect");
     }
 
 class Path_ShadowZone_Converter final
@@ -2118,12 +2152,26 @@ public:
     {
         Path_ResetPath r;
         BaseConvert(r, tlv);
-        r.mClearIds = tlv.mClearIds;
+        r.mClearIds = relive::From(tlv.mClearIds);
         r.mFrom = tlv.mFrom;
         r.mTo = tlv.mTo;
         r.mExclude = tlv.mExclude;
-        r.mClearObjects = tlv.mClearObjects;
+        r.mClearObjects = relive::From(tlv.mClearObjects);
         r.mPath = tlv.mPath;
+        return r;
+    }
+
+    static Path_ResetPath From(const ::Path_ResetPath& tlv)
+    {
+        Path_ResetPath r;
+        BaseConvert(r, tlv);
+        r.mClearIds = relive::From(tlv.mClearIds);
+        r.mFrom = tlv.mFrom;
+        r.mTo = tlv.mTo;
+        r.mExclude = tlv.mExclude;
+        r.mClearObjects = relive::From(tlv.mClearObjects);
+        r.mPath = tlv.mPath;
+        r.mEnabled = relive::From(tlv.mEnabled);
         return r;
     }
 };
@@ -2372,7 +2420,7 @@ public:
         r.mHub7 = tlv.mHub7;
         r.mHub8 = tlv.mHub8;
         // for the time being until we have an enum for wipe_effect
-        r.mWipeEffect = static_cast<Path_Door::ScreenChangeEffects>(tlv.mWipeEffect);
+        r.mWipeEffect = static_cast<reliveScreenChangeEffects>(tlv.mWipeEffect);
         r.mMovieId = tlv.mMovieId;
         r.mDoorOffsetX = tlv.mDoorOffsetX;
         r.mDoorOffsetY = tlv.mDoorOffsetY;
@@ -2401,7 +2449,7 @@ public:
         r.mHub6 = tlv.mHub6;
         r.mHub7 = tlv.mHub7;
         r.mHub8 = tlv.mHub8;
-        r.mWipeEffect = From(tlv.mWipeEffect);
+        r.mWipeEffect = relive::From(tlv.mWipeEffect);
         r.mMovieId = tlv.mMovieId;
         r.mDoorOffsetX = tlv.mDoorOffsetX;
         r.mDoorOffsetY = tlv.mDoorOffsetY;
@@ -2453,34 +2501,6 @@ private:
                 return Path_Door::DoorTypes::eTasksDoor;
         }
         ALIVE_FATAL("Bad door type");
-    }
-
-    static Path_Door::ScreenChangeEffects From(::ScreenChangeEffects effect)
-    {
-        switch (effect)
-        {
-            case ::ScreenChangeEffects::ePlay1FMV_0:
-                return Path_Door::ScreenChangeEffects::ePlay1FMV;
-            case ::ScreenChangeEffects::eRightToLeft_1:
-                return Path_Door::ScreenChangeEffects::eRightToLeft;
-            case ::ScreenChangeEffects::eLeftToRight_2:
-                return Path_Door::ScreenChangeEffects::eLeftToRight;
-            case ::ScreenChangeEffects::eBottomToTop_3:
-                return Path_Door::ScreenChangeEffects::eBottomToTop;
-            case ::ScreenChangeEffects::eTopToBottom_4:
-                return Path_Door::ScreenChangeEffects::eTopToBottom;
-            case ::ScreenChangeEffects::eBoxOut_5:
-                return Path_Door::ScreenChangeEffects::eBoxOut;
-            case ::ScreenChangeEffects::eVerticalSplit_6:
-                return Path_Door::ScreenChangeEffects::eVerticalSplit;
-            case ::ScreenChangeEffects::eHorizontalSplit_7:
-                return Path_Door::ScreenChangeEffects::eHorizontalSplit;
-            case ::ScreenChangeEffects::eUnknown_8:
-                return Path_Door::ScreenChangeEffects::eUnknown;
-            case ::ScreenChangeEffects::eInstantChange_9:
-                return Path_Door::ScreenChangeEffects::eInstantChange;
-        }
-        ALIVE_FATAL("Bad door screen change effect");
     }
 };
 
@@ -4001,6 +4021,272 @@ public:
         r.mSplashVelX = tlv.mWaterData.mSplashVelX;
         r.mWaterDuration = tlv.mWaterData.mWaterDuration;
         return r;
+    }
+};
+
+class Path_WheelSyncer_Converter final
+{
+public:
+    static Path_WheelSyncer From(const ::Path_WheelSyncer& tlv)
+    {
+        Path_WheelSyncer r;
+        BaseConvert(r, tlv);
+        r.mInputSwitchId1 = tlv.mInputSwitchId1;
+        r.mInputSwitchId2 = tlv.mInputSwitchId2;
+        r.mOutputSwitchId = tlv.mOutputSwitchId;
+        r.mOutputRequirement = From(tlv.mOutputRequirement);
+        r.mInputSwitchId3 = tlv.mInputSwitchId3;
+        r.mInputSwitchId4 = tlv.mInputSwitchId4;
+        r.mInputSwitchId5 = tlv.mInputSwitchId5;
+        r.mInputSwitchId6 = tlv.mInputSwitchId6;
+        return r;
+    }
+private:
+    static Path_WheelSyncer::OutputRequirement From(::WheelSyncerOutputRequirement requirement)
+    {
+        switch (requirement)
+        {
+            case WheelSyncerOutputRequirement::eAllOn_0:
+                return Path_WheelSyncer::OutputRequirement::eAllOn;
+            case WheelSyncerOutputRequirement::e1OnAnd2Off_1:
+                return Path_WheelSyncer::OutputRequirement::e1OnAnd2Off;
+            case WheelSyncerOutputRequirement::e1Or2On_2:
+                return Path_WheelSyncer::OutputRequirement::e1Or2On;
+            case WheelSyncerOutputRequirement::e1OnOr2Off_3:
+                return Path_WheelSyncer::OutputRequirement::e1OnOr2Off;
+        }
+        ALIVE_FATAL("Bad wheel syncer output requirement");
+    }
+};
+
+class Path_Fleech_Converter final
+{
+public:
+    static Path_Fleech From(const ::Path_Fleech& tlv)
+    {
+        Path_Fleech r;
+        BaseConvert(r, tlv);
+        r.mScale = relive::From(tlv.mScale);
+        r.mFacing = relive::From(tlv.mFacing);
+        r.mAsleep = relive::From(tlv.mAsleep);
+        r.mAttackAngerIncreaser = tlv.mAttackAngerIncreaser;
+        r.mWakeUpSwitchId = tlv.mWakeUpSwitchId;
+        r.mHanging = relive::From(tlv.mHanging);
+        r.mLostTargetTimeout = tlv.mLostTargetTimeout;
+        r.mGoesToSleep = relive::From(tlv.mGoesToSleep);
+        r.mPatrolRangeInGrids = tlv.mPatrolRangeInGrids;
+        r.mWakeUpSwitchAngerValue = tlv.mWakeUpSwitchAngerValue;
+        r.mCanWakeUpSwitchId = tlv.mCanWakeUpSwitchId;
+        r.mPersistant = relive::From(tlv.mPersistant);
+        return r;
+    }
+};
+
+class Path_SlurgSpawner_Converter final
+{
+public:
+    static Path_SlurgSpawner From(const ::Path_SlurgSpawner& tlv)
+    {
+        Path_SlurgSpawner r;
+        BaseConvert(r, tlv);
+        r.mSpawnInterval = tlv.mSpawnerData.mSpawnInterval;
+        r.mMaxSlurgs = tlv.mSpawnerData.mMaxSlurgs;
+        r.mSwitchId = tlv.mSpawnerData.mSwitchId;
+        return r;
+    }
+};
+
+class Path_Drill_Converter final
+{
+public:
+    static Path_Drill From(const ::Path_Drill& tlv)
+    {
+        Path_Drill r;
+        BaseConvert(r, tlv);
+        r.mScale = relive::From(tlv.mDrillData.mScale);
+        r.mOnMinPauseTime = tlv.mDrillData.mOnMinPauseTime;
+        r.mOnMaxPauseTime = tlv.mDrillData.mOnMaxPauseTime;
+        r.mSwitchId = tlv.mDrillData.mSwitchId;
+        r.mDrillBehavior = From(tlv.mDrillData.mDrillBehavior);
+        r.mOnSpeed = tlv.mDrillData.mOnSpeed;
+        r.mStartStateOn = relive::From(tlv.mDrillData.mStartStateOn);
+        r.mOffSpeed = tlv.mDrillData.mOffSpeed;
+        r.mOffMinPauseTime = tlv.mDrillData.mOffMinPauseTime;
+        r.mOffMaxPauseTime = tlv.mDrillData.mOffMaxPauseTime;
+        r.mStartPositionBottom = relive::From(tlv.mDrillData.mStartPositionBottom);
+        r.mDrillDirection = From(tlv.mDrillData.mDirection);
+        return r;
+    }
+private:
+    static Path_Drill::DrillDirection From(::DrillDirection direction)
+    {
+        switch (direction)
+        {
+            case ::DrillDirection::eDown_0:
+                return Path_Drill::DrillDirection::eDown;
+            case ::DrillDirection::eRight_1:
+                return Path_Drill::DrillDirection::eRight;
+            case ::DrillDirection::eLeft_2:
+                return Path_Drill::DrillDirection::eLeft;
+        }
+        ALIVE_FATAL("Bad drill direction");
+    }
+
+    static Path_Drill::DrillBehavior From(::DrillBehavior behavior)
+    {
+        switch (behavior)
+        {
+            case ::DrillBehavior::eNotInteractable_0:
+                return Path_Drill::DrillBehavior::eNotInteractable;
+            case ::DrillBehavior::eToggle_1:
+                return Path_Drill::DrillBehavior::eToggle;
+            case ::DrillBehavior::eUse_2:
+                return Path_Drill::DrillBehavior::eUse;
+        }
+        ALIVE_FATAL("Bad drill behavior");
+    }
+};
+
+class Path_Teleporter_Converter final
+{
+public:
+    static Path_Teleporter From(const ::Path_Teleporter& tlv)
+    {
+        Path_Teleporter r;
+        BaseConvert(r, tlv);
+        r.mTeleporterId = tlv.field_10_data.mTeleporterId;
+        r.mOtherTeleporterId = tlv.field_10_data.mOtherTeleporterId;
+        r.mDestCamera = tlv.field_10_data.mDestCamera;
+        r.mDestPath = tlv.field_10_data.mDestPath;
+        r.mDestLevel = MapWrapper::FromAE(tlv.field_10_data.mDestLevel);
+        r.mSwitchId = tlv.field_10_data.mSwitchId;
+        r.mScale = relive::From(tlv.field_10_data.mScale);
+        r.mWipeEffect = relive::From(tlv.field_10_data.mWipeEffect);
+        r.mMovieId = tlv.field_10_data.mMovieId;
+        r.mElectricX = tlv.field_10_data.mElectricX;
+        r.mElectricY = tlv.field_10_data.mElectricY;
+        return r;
+    }
+};
+
+class Path_Glukkon_Converter final
+{
+public:
+    static Path_Glukkon From(const ::Path_Glukkon& tlv)
+    {
+        Path_Glukkon r;
+        BaseConvert(r, tlv);
+        r.mScale = relive::From(tlv.mScale);
+        r.mFacing = From(tlv.mFacing);
+        r.mBehavior = From(tlv.mBehavior);
+        r.mScreamHelpDelay = tlv.mScreamHelpDelay;
+        r.mHelpSwitchId = tlv.mHelpSwitchId;
+        r.mToCalmDelay = tlv.mToCalmDelay;
+        r.mSpawnSwitchId = tlv.mSpawnSwitchId;
+        r.mSpawnType = From(tlv.mSpawnType);
+        r.mSpawnDelay = tlv.mSpawnDelay;
+        r.mGlukkonType = From(tlv.mGlukkonType);
+        r.mDeathSwitchId = tlv.mDeathSwitchId;
+        r.mPlayMovieSwitchId = tlv.mPlayMovieSwitchId;
+        r.mMovieId = tlv.mMovieId;
+        return r;
+    }
+private:
+    static Path_Glukkon::Facing From(::Path_Glukkon::Facing facing)
+    {
+        switch (facing)
+        {
+            case ::Path_Glukkon::Facing::eRight_0:
+                return Path_Glukkon::Facing::eRight;
+            case ::Path_Glukkon::Facing::eLeft_1:
+                return Path_Glukkon::Facing::eLeft;
+        }
+        ALIVE_FATAL("Bad glukkon facing value");
+    }
+
+    static Path_Glukkon::Behavior From(::Path_Glukkon::Behavior behavior)
+    {
+        switch (behavior)
+        {
+            case ::Path_Glukkon::Behavior::eIgnoreWalls_0:
+                return Path_Glukkon::Behavior::eIgnoreWalls;
+            case ::Path_Glukkon::Behavior::eCheckForWalls_1:
+                return Path_Glukkon::Behavior::eCheckForWalls;
+        }
+        ALIVE_FATAL("Bad glukkon behavior");
+    }
+
+    static Path_Glukkon::SpawnType From(::Path_Glukkon::SpawnType spawnType)
+    {
+        switch (spawnType)
+        {
+            case ::Path_Glukkon::SpawnType::eRegularSpawn_0:
+                return Path_Glukkon::SpawnType::eRegularSpawn;
+            case ::Path_Glukkon::SpawnType::eFacingLeft_1:
+                return Path_Glukkon::SpawnType::eFacingLeft;
+            case ::Path_Glukkon::SpawnType::eFacingRight_2:
+                return Path_Glukkon::SpawnType::eFacingRight;
+            case ::Path_Glukkon::SpawnType::eFullSpawnEffects_3:
+                return Path_Glukkon::SpawnType::eFullSpawnEffects;
+        }
+        ALIVE_FATAL("Bad glukkon spawn type");
+    }
+
+    static Path_Glukkon::GlukkonTypes From(::GlukkonTypes spawnType)
+    {
+        switch (spawnType)
+        {
+            case ::GlukkonTypes::eNormal_0:
+            case ::GlukkonTypes::eNormal_4:
+            case ::GlukkonTypes::eNormal_5:
+                return Path_Glukkon::GlukkonTypes::eNormal;
+            case ::GlukkonTypes::eStoryAslik_1:
+                return Path_Glukkon::GlukkonTypes::eStoryAslik;
+            case ::GlukkonTypes::eStoryDripik_2:
+                return Path_Glukkon::GlukkonTypes::eStoryDripik;
+            case ::GlukkonTypes::eStoryPhleg_3:
+                return Path_Glukkon::GlukkonTypes::eStoryPhleg;
+        }
+        ALIVE_FATAL("Bad glukkon spawn type");
+    }
+};
+
+class Path_CrawlingSligButton_Converter final
+{
+public:
+    static Path_CrawlingSligButton From(const ::Path_CrawlingSligButton& tlv)
+    {
+        Path_CrawlingSligButton r;
+        BaseConvert(r, tlv);
+        r.mScale = relive::From(tlv.mScale);
+        r.mSwitchId = tlv.mSwitchId;
+        r.mAction = relive::From(tlv.mAction);
+        r.mOnSound = From(tlv.mOnSound);
+        r.mOffSound = From(tlv.mOffSound);
+        r.mSoundDirection = tlv.mSoundDirection;
+        return r;
+    }
+private:
+    static Path_CrawlingSligButton::ButtonSounds From(::CrawlingSligButtonSounds sound)
+    {
+        switch (sound)
+        {
+            case ::CrawlingSligButtonSounds::None_0:
+                return Path_CrawlingSligButton::ButtonSounds::None;
+            case ::CrawlingSligButtonSounds::SackHit_1:
+                return Path_CrawlingSligButton::ButtonSounds::SackHit;
+            case ::CrawlingSligButtonSounds::FallingItemPresence2_2:
+                return Path_CrawlingSligButton::ButtonSounds::FallingItemPresence2;
+            case ::CrawlingSligButtonSounds::SecurityOrb_3:
+                return Path_CrawlingSligButton::ButtonSounds::SecurityOrb;
+            case ::CrawlingSligButtonSounds::SackHit_4:
+                return Path_CrawlingSligButton::ButtonSounds::SackHit;
+            case ::CrawlingSligButtonSounds::Bullet1_5:
+                return Path_CrawlingSligButton::ButtonSounds::Bullet1;
+            case ::CrawlingSligButtonSounds::AbeGenericMovement_6:
+                return Path_CrawlingSligButton::ButtonSounds::AbeGenericMovement;
+        }
+        ALIVE_FATAL("Bad crawling slig button sound");
     }
 };
 

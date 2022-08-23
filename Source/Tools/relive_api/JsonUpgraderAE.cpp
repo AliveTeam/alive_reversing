@@ -35,6 +35,16 @@ public:
     }
 };
 
+class UpgraderAE4 final : public IJsonUpgrader
+{
+public:
+    std::string Upgrade(JsonUpgraderBase& upgrader, nlohmann::basic_json<>& rootObj) override
+    {
+        upgrader.RenameMapObjectStructure(rootObj, "ResetSwitchRange", "ResetPath");
+        return rootObj.dump(4);
+    }
+};
+
 void JsonUpgraderAE::AddUpgraders()
 {
     ADD_UPGRADE_STEP_FROM(3, UpgraderAE3);

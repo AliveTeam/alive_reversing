@@ -27,7 +27,7 @@ Teleporter::Teleporter(Path_Teleporter* pTlv, u32 tlvInfo)
     field_26_global_x1 = FP_GetExponent((FP_FromInteger(pTlv->mTopLeft.x) - pScreenManager->CamXPos()));
     field_2A_global_x2 = FP_GetExponent((FP_FromInteger(pTlv->mBottomRight.x) - pScreenManager->CamXPos()));
 
-    field_2C_switch_state = SwitchStates_Get(field_34_mTlvData.field_1A_switch_id);
+    field_2C_switch_state = SwitchStates_Get(field_34_mTlvData.mSwitchId);
 
     field_54_effect_created = 0;
 
@@ -70,14 +70,14 @@ void Teleporter::SpawnRingSparks(Path_Teleporter_Data* pTlvData)
     PSX_Point abeSpawnPos = {};
     gMap.Get_Abe_Spawn_Pos(&abeSpawnPos);
 
-    const s16 xOrg = pTlvData->field_22_eletric_x - abeSpawnPos.x;
-    const s16 yOrg = pTlvData->field_24_electric_y - abeSpawnPos.y;
+    const s16 xOrg = pTlvData->mElectricX - abeSpawnPos.x;
+    const s16 yOrg = pTlvData->mElectricY - abeSpawnPos.y;
 
     for (auto& sparkOffs : kSparkOffs_563988)
     {
         s32 sparkX = 0;
         s32 sparkY = 0;
-        if (pTlvData->field_1C_scale != Scale_short::eFull_0)
+        if (pTlvData->mScale != Scale_short::eFull_0)
         {
             sparkX = xOrg + (sparkOffs.x / 2);
             sparkY = yOrg + (sparkOffs.y / 2);
@@ -105,12 +105,12 @@ void Teleporter::VUpdate()
                 mBaseGameObjectFlags.Set(BaseGameObject::eDead);
             }
 
-            if (SwitchStates_Get(field_34_mTlvData.field_1A_switch_id) == field_2C_switch_state)
+            if (SwitchStates_Get(field_34_mTlvData.mSwitchId) == field_2C_switch_state)
             {
                 return;
             }
 
-            field_2C_switch_state = SwitchStates_Get(field_34_mTlvData.field_1A_switch_id);
+            field_2C_switch_state = SwitchStates_Get(field_34_mTlvData.mSwitchId);
 
             if (!sPathInfo->TLV_Get_At_4DB4B0(
                     FP_GetExponent(sControlledCharacter->mXPos),
@@ -153,7 +153,7 @@ void Teleporter::VUpdate()
                 if (!field_54_effect_created)
                 {
                     // Spawn the falling "red" sparks from Abe's feet that appear after you enter the teleporter
-                    if (field_34_mTlvData.field_1C_scale != Scale_short::eFull_0)
+                    if (field_34_mTlvData.mScale != Scale_short::eFull_0)
                     {
                         // Steam/smoke effect at Abe's body
                         New_Smoke_Particles(
@@ -204,7 +204,7 @@ void Teleporter::VUpdate()
 
             gMap.mTeleporterTransition = 1;
 
-            const CameraSwapEffects effect = kPathChangeEffectToInternalScreenChangeEffect_55D55C[field_34_mTlvData.field_1E_cam_swap_effect];
+            const CameraSwapEffects effect = kPathChangeEffectToInternalScreenChangeEffect_55D55C[field_34_mTlvData.mWipeEffect];
             s16 bForceChange = 0;
             if (effect == CameraSwapEffects::ePlay1FMV_5 || effect == CameraSwapEffects::eUnknown_11)
             {
@@ -212,15 +212,15 @@ void Teleporter::VUpdate()
             }
 
             gMap.SetActiveCam(
-                MapWrapper::FromAE(field_34_mTlvData.field_18_level),
-                field_34_mTlvData.field_16_path,
-                field_34_mTlvData.field_14_camera,
+                MapWrapper::FromAE(field_34_mTlvData.mDestLevel),
+                field_34_mTlvData.mDestPath,
+                field_34_mTlvData.mDestCamera,
                 effect,
-                field_34_mTlvData.field_20_movie_number,
+                field_34_mTlvData.mMovieId,
                 bForceChange);
 
             sControlledCharacter->SetUpdateDelay(3);
-            sActiveHero->field_1A0_door_id = field_34_mTlvData.field_12_other_teleporter_switch_id;
+            sActiveHero->field_1A0_door_id = field_34_mTlvData.mOtherTeleporterId;
             field_30_state = TeleporterState::eTeleporting_2;
         }
         break;
@@ -231,24 +231,24 @@ void Teleporter::VUpdate()
 
             Path_Teleporter* pTeleporterTlv = static_cast<Path_Teleporter*>(sPathInfo->TLV_First_Of_Type_In_Camera(TlvTypes::Teleporter_88, 0));
             Path_Teleporter_Data tlvData = pTeleporterTlv->field_10_data;
-            if (tlvData.field_10_teleporter_switch_id != field_34_mTlvData.field_12_other_teleporter_switch_id)
+            if (tlvData.mTeleporterId != field_34_mTlvData.mOtherTeleporterId)
             {
                 while (pTeleporterTlv)
                 {
                     pTeleporterTlv = static_cast<Path_Teleporter*>(sPathInfo->TLV_Next_Of_Type(pTeleporterTlv, TlvTypes::Teleporter_88));
                     tlvData = pTeleporterTlv->field_10_data;
 
-                    if (tlvData.field_10_teleporter_switch_id == field_34_mTlvData.field_12_other_teleporter_switch_id)
+                    if (tlvData.mTeleporterId == field_34_mTlvData.mOtherTeleporterId)
                     {
                         break;
                     }
                 }
             }
 
-            SFX_Play_Pitch(SoundEffect::Zap1_49, 60, -300, tlvData.field_1C_scale != Scale_short::eFull_0 ? FP_FromDouble(0.5) : FP_FromInteger(1));
+            SFX_Play_Pitch(SoundEffect::Zap1_49, 60, -300, tlvData.mScale != Scale_short::eFull_0 ? FP_FromDouble(0.5) : FP_FromInteger(1));
             SpawnRingSparks(&tlvData);
 
-            if (tlvData.field_1C_scale != Scale_short::eFull_0)
+            if (tlvData.mScale != Scale_short::eFull_0)
             {
                 if (sControlledCharacter->mScale == Scale::Fg)
                 {
@@ -336,7 +336,7 @@ void Teleporter::VUpdate()
             field_54_effect_created = 0;
             sControlledCharacter->mAnim.mFlags.Set(AnimFlags::eBit3_Render);
             sControlledCharacter->mBaseAliveGameObjectFlags.Clear(Flags_114::e114_Bit10_Teleporting);
-            field_2C_switch_state = SwitchStates_Get(field_34_mTlvData.field_1A_switch_id);
+            field_2C_switch_state = SwitchStates_Get(field_34_mTlvData.mSwitchId);
             field_30_state = TeleporterState::eWaitForSwitchOn_0;
         }
         break;

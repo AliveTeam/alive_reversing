@@ -2529,25 +2529,25 @@ void Abe::VOnTlvCollision(Path_TLV* pTlv)
                 ToDie_4588D0();
             }
         }
-        else if (pTlv->mTlvType32 == TlvTypes::ResetSwitchRange_76)
+        else if (pTlv->mTlvType32 == TlvTypes::ResetPath_76)
         {
-            auto pResetSwitchRange = static_cast<Path_ResetSwitchRange*>(pTlv);
-            if (pResetSwitchRange->mTlvState == 0 || pResetSwitchRange->field_1C_bEnabled == Choice_short::eYes_1)
+            auto pResetSwitchRange = static_cast<Path_ResetPath*>(pTlv);
+            if (pResetSwitchRange->mTlvState == 0 || pResetSwitchRange->mEnabled == Choice_short::eYes_1)
             {
                 pResetSwitchRange->mTlvState = 1;
-                if (pResetSwitchRange->field_10_reset_switch_ids == Choice_short::eYes_1)
+                if (pResetSwitchRange->mClearIds == Choice_short::eYes_1)
                 {
-                    for (s16 i = pResetSwitchRange->field_12_start_switch_id; i <= pResetSwitchRange->field_14_end_switch_id; i++)
+                    for (s16 i = pResetSwitchRange->mFrom; i <= pResetSwitchRange->mTo; i++)
                     {
-                        if (i != pResetSwitchRange->field_16_skip_switch_id && i > 1)
+                        if (i != pResetSwitchRange->mExclude && i > 1)
                         {
                             SwitchStates_Set(i, 0);
                         }
                     }
                 }
-                if (pResetSwitchRange->field_18_free_path_res == Choice_short::eYes_1)
+                if (pResetSwitchRange->mClearObjects == Choice_short::eYes_1)
                 {
-                    Path::Reset_TLVs(pResetSwitchRange->field_1A_path_to_free_id);
+                    Path::Reset_TLVs(pResetSwitchRange->mPath);
                 }
             }
         }

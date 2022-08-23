@@ -28,23 +28,23 @@ CrawlingSligButton::CrawlingSligButton(Path_CrawlingSligButton* pTlv, s32 tlvInf
     Animation_Init(AnimId::CrawlingSligButton, ppRes);
     field_F4_tlvInfo = tlvInfo;
 
-    if (pTlv->field_10_scale == Scale_short::eHalf_1)
+    if (pTlv->mScale == Scale_short::eHalf_1)
     {
         mSpriteScale = FP_FromDouble(0.5);
         mScale = Scale::Bg;
         mAnim.mRenderLayer = Layer::eLayer_BeforeShadow_Half_6;
     }
-    else if (pTlv->field_10_scale == Scale_short::eFull_0)
+    else if (pTlv->mScale == Scale_short::eFull_0)
     {
         mAnim.mRenderLayer = Layer::eLayer_BeforeShadow_25;
     }
 
-    field_F8_switch_id = pTlv->field_12_switch_id;
-    field_FA_action = pTlv->field_14_action;
-    field_FC_on_sound = pTlv->field_16_on_sound;
-    field_FE_off_sound = pTlv->field_18_off_sound;
+    field_F8_switch_id = pTlv->mSwitchId;
+    field_FA_action = pTlv->mAction;
+    field_FC_on_sound = pTlv->mOnSound;
+    field_FE_off_sound = pTlv->mOffSound;
 
-    field_100_sound_direction = pTlv->field_1A_sound_direction + 1;
+    field_100_sound_direction = pTlv->mSoundDirection + 1;
 
     field_102_in_use = 0;
 

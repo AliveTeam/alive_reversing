@@ -21,18 +21,18 @@ enum class DrillBehavior : s16
 
 struct Path_Drill_Data final
 {
-    Scale_short field_10_scale;
-    s16 field_12_min_off_time;
-    s16 field_14_max_off_time;
+    Scale_short mScale;
+    s16 mOnMinPauseTime;
+    s16 mOnMaxPauseTime;
     s16 mSwitchId;
-    DrillBehavior field_18_behavior;
-    s16 mSpeed;
-    Choice_short field_1C_bStart_state_on;
+    DrillBehavior mDrillBehavior;
+    s16 mOnSpeed;
+    Choice_short mStartStateOn;
     s16 mOffSpeed;
-    s16 field_20_min_off_time_speed_change;
-    s16 field_22_max_off_time_speed_change;
-    Choice_short field_24_bStart_position_bottom;
-    DrillDirection field_26_direction;
+    s16 mOffMinPauseTime;
+    s16 mOffMaxPauseTime;
+    Choice_short mStartPositionBottom;
+    DrillDirection mDirection;
 };
 ALIVE_ASSERT_SIZEOF(Path_Drill_Data, 0x18);
 
@@ -58,7 +58,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Drill_State, 0x14);
 
 struct Path_Drill final : public Path_TLV
 {
-    Path_Drill_Data field_10_data;
+    Path_Drill_Data mDrillData;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Drill, 0x28);
 

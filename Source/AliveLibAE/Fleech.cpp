@@ -122,7 +122,7 @@ Fleech::Fleech(Path_Fleech* pTlv, s32 tlvInfo)
     mYPos = FP_FromInteger(pTlv->mTopLeft.y);
     mBaseGameObjectTlvInfo = tlvInfo;
 
-    if (pTlv->field_10_scale == Scale_short::eHalf_1)
+    if (pTlv->mScale == Scale_short::eHalf_1)
     {
         mSpriteScale = FP_FromDouble(0.5);
     }
@@ -138,28 +138,28 @@ Fleech::Fleech(Path_Fleech* pTlv, s32 tlvInfo)
     field_11C_obj_id = -1;
     field_170_danger_obj = -1;
 
-    mAnim.mFlags.Set(AnimFlags::eBit5_FlipX, pTlv->field_12_direction == XDirection_short::eLeft_0);
+    mAnim.mFlags.Set(AnimFlags::eBit5_FlipX, pTlv->mFacing == XDirection_short::eLeft_0);
 
-    mFleechFlags.Set(FleechFlags::eAsleep, pTlv->field_14_asleep == Choice_short::eYes_1);
-    mFleechFlags.Set(FleechFlags::eGoesToSleep, pTlv->field_24_goes_to_sleep == Choice_short::eYes_1);
-    mFleechFlags.Set(FleechFlags::ePersistant, pTlv->field_2C_persistant == Choice_short::eYes_1);
+    mFleechFlags.Set(FleechFlags::eAsleep, pTlv->mAsleep == Choice_short::eYes_1);
+    mFleechFlags.Set(FleechFlags::eGoesToSleep, pTlv->mGoesToSleep == Choice_short::eYes_1);
+    mFleechFlags.Set(FleechFlags::ePersistant, pTlv->mPersistant == Choice_short::eYes_1);
 
     field_140_max_anger = 2;
     field_158_chase_delay = 10;
 
-    field_142_attack_anger_increaser = pTlv->field_1A_attack_anger_increaser + 2;
-    field_144_wake_up_switch_id = pTlv->field_1E_wake_up_switch_id;
-    field_146_wake_up_switch_anger_value = pTlv->field_28_wake_up_switch_anger_value;
-    field_148_wake_up_switch_value = SwitchStates_Get(pTlv->field_1E_wake_up_switch_id) & 0xFFFF;
-    field_14A_can_wake_up_switch_id = pTlv->field_2A_can_wake_up_switch_id;
-    field_150_patrol_range = FP_GetExponent(FP_FromInteger(pTlv->field_26_patrol_range_in_grids) * ScaleToGridSize(mSpriteScale));
-    field_15C_lost_target_timeout = pTlv->field_22_lost_target_timeout;
+    field_142_attack_anger_increaser = pTlv->mAttackAngerIncreaser + 2;
+    field_144_wake_up_switch_id = pTlv->mWakeUpSwitchId;
+    field_146_wake_up_switch_anger_value = pTlv->mWakeUpSwitchAngerValue;
+    field_148_wake_up_switch_value = SwitchStates_Get(pTlv->mWakeUpSwitchId) & 0xFFFF;
+    field_14A_can_wake_up_switch_id = pTlv->mCanWakeUpSwitchId;
+    field_150_patrol_range = FP_GetExponent(FP_FromInteger(pTlv->mPatrolRangeInGrids) * ScaleToGridSize(mSpriteScale));
+    field_15C_lost_target_timeout = pTlv->mLostTargetTimeout;
 
     InitTonguePolys();
 
     field_13E_current_anger = 0;
 
-    if (pTlv->field_20_hanging == Choice_short::eYes_1)
+    if (pTlv->mHanging == Choice_short::eYes_1)
     {
         field_160_hoistX = (pTlv->mBottomRight.x + pTlv->mTopLeft.x) / 2;
         field_166_angle = Fleech_NextRandom();

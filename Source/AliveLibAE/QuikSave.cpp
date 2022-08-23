@@ -457,7 +457,7 @@ void Quicksave_SaveSwitchResetterStates()
                         Path_TLV* pTlv = reinterpret_cast<Path_TLV*>(ptr);
                         while (pTlv)
                         {
-                            if (pTlv->mTlvType32 == TlvTypes::ResetSwitchRange_76)
+                            if (pTlv->mTlvType32 == TlvTypes::ResetPath_76)
                             {
                                 if (sQuickSave_saved_switchResetters_count_BB234C < 8)
                                 {
@@ -506,7 +506,7 @@ void Quicksave_RestoreSwitchResetterStates()
                         Path_TLV* pTlv = reinterpret_cast<Path_TLV*>(ptr);
                         while (pTlv)
                         {
-                            if (pTlv->mTlvType32 == TlvTypes::ResetSwitchRange_76)
+                            if (pTlv->mTlvType32 == TlvTypes::ResetPath_76)
                             {
                                 if (idx < 8)
                                 {

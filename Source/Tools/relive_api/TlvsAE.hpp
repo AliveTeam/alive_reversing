@@ -419,25 +419,25 @@ struct Path_Fleech final : public ReliveAPI::TlvObjectBaseAE
 {
     CTOR_AE(Path_Fleech, "Fleech", TlvTypes::Fleech_83)
     {
-        ADD("Scale", mTlv.field_10_scale);
-        ADD("Start Direction", mTlv.field_12_direction);
-        ADD("Asleep", mTlv.field_14_asleep);
-        ADD_HIDDEN("Wake Up (Unused?)", mTlv.field_16_wake_up);
-        ADD_HIDDEN("Unused1", mTlv.field_18_not_used);
+        ADD("Scale", mTlv.mScale);
+        ADD("Start Direction", mTlv.mFacing);
+        ADD("Asleep", mTlv.mAsleep);
+        ADD_HIDDEN("Wake Up (Unused?)", mTlv.padding1);
+        ADD_HIDDEN("Unused1", mTlv.padding1);
 
-        ADD("Attack Anger Increaser", mTlv.field_1A_attack_anger_increaser);
-        ADD_HIDDEN("Attack Delay (Unused?)", mTlv.field_1C_attack_delay);
-        ADD("Wake Up Switch ID", mTlv.field_1E_wake_up_switch_id);
-        ADD("Hanging", mTlv.field_20_hanging);
+        ADD("Attack Anger Increaser", mTlv.mAttackAngerIncreaser);
+        ADD_HIDDEN("Attack Delay (Unused?)", mTlv.padding3);
+        ADD("Wake Up Switch ID", mTlv.mWakeUpSwitchId);
+        ADD("Hanging", mTlv.mHanging);
 
-        ADD("Lost Target Timeout", mTlv.field_22_lost_target_timeout);
-        ADD("Goes To Sleep", mTlv.field_24_goes_to_sleep);
-        ADD("Patrol Range (Grids)", mTlv.field_26_patrol_range_in_grids);
-        ADD("Wake Up Switch Anger Value", mTlv.field_28_wake_up_switch_anger_value);
+        ADD("Lost Target Timeout", mTlv.mLostTargetTimeout);
+        ADD("Goes To Sleep", mTlv.mGoesToSleep);
+        ADD("Patrol Range (Grids)", mTlv.mPatrolRangeInGrids);
+        ADD("Wake Up Switch Anger Value", mTlv.mWakeUpSwitchAngerValue);
 
-        ADD("Can Wake Up Switch ID", mTlv.field_2A_can_wake_up_switch_id);
-        ADD("Persistant", mTlv.field_2C_persistant);
-        ADD_HIDDEN("Unused2(?)", mTlv.field_2E_padding);
+        ADD("Can Wake Up Switch ID", mTlv.mCanWakeUpSwitchId);
+        ADD("Persistant", mTlv.mPersistant);
+        ADD_HIDDEN("Unused2(?)", mTlv.padding4);
 
         ADD_RESOURCE(AnimId::Fleech_Body_Gib, ReliveAPI::AddResourceTo::File);
         ADD_RESOURCE(AnimId::Fleech_Climb, ReliveAPI::AddResourceTo::File);
@@ -486,17 +486,17 @@ struct Path_Teleporter final : public ReliveAPI::TlvObjectBaseAE
 {
     CTOR_AE(Path_Teleporter, "Teleporter", TlvTypes::Teleporter_88)
     {
-        ADD("Teleporter Switch ID", mTlv.field_10_data.field_10_teleporter_switch_id);
-        ADD("Other Teleporter Switch ID", mTlv.field_10_data.field_12_other_teleporter_switch_id);
-        ADD("Camera", mTlv.field_10_data.field_14_camera);
-        ADD("Path", mTlv.field_10_data.field_16_path);
-        ADD("Level", mTlv.field_10_data.field_18_level);
-        ADD("Switch ID", mTlv.field_10_data.field_1A_switch_id);
-        ADD("Scale", mTlv.field_10_data.field_1C_scale);
-        ADD("Camera Swap Effect", mTlv.field_10_data.field_1E_cam_swap_effect);
-        ADD("Movie Number", mTlv.field_10_data.field_20_movie_number);
-        ADD("Electric X", mTlv.field_10_data.field_22_eletric_x);
-        ADD("Electric Y", mTlv.field_10_data.field_24_electric_y);
+        ADD("Teleporter Switch ID", mTlv.field_10_data.mTeleporterId);
+        ADD("Other Teleporter Switch ID", mTlv.field_10_data.mOtherTeleporterId);
+        ADD("Camera", mTlv.field_10_data.mDestCamera);
+        ADD("Path", mTlv.field_10_data.mDestPath);
+        ADD("Level", mTlv.field_10_data.mDestLevel);
+        ADD("Switch ID", mTlv.field_10_data.mSwitchId);
+        ADD("Scale", mTlv.field_10_data.mScale);
+        ADD("Camera Swap Effect", mTlv.field_10_data.mWipeEffect);
+        ADD("Movie Number", mTlv.field_10_data.mMovieId);
+        ADD("Electric X", mTlv.field_10_data.mElectricX);
+        ADD("Electric Y", mTlv.field_10_data.mElectricY);
     }
 };
 
@@ -1181,18 +1181,18 @@ struct Path_Drill final : public ReliveAPI::TlvObjectBaseAE
 
     CTOR_AE(Path_Drill, "Drill", TlvTypes::Drill_90)
     {
-        ADD("Scale", mTlv.field_10_data.field_10_scale);
-        ADD("Min Off Time", mTlv.field_10_data.field_12_min_off_time);
-        ADD("Max Off Time", mTlv.field_10_data.field_14_max_off_time);
-        ADD("Switch ID", mTlv.field_10_data.mSwitchId);
-        ADD("Behavior", mTlv.field_10_data.field_18_behavior);
-        ADD("Speed", mTlv.field_10_data.mSpeed);
-        ADD("Start State On", mTlv.field_10_data.field_1C_bStart_state_on);
-        ADD("Off Speed", mTlv.field_10_data.mOffSpeed);
-        ADD("Min Off Time Speed Change", mTlv.field_10_data.field_20_min_off_time_speed_change);
-        ADD("Max Off Time Speed Change", mTlv.field_10_data.field_22_max_off_time_speed_change);
-        ADD("Start Position Bottom", mTlv.field_10_data.field_24_bStart_position_bottom);
-        ADD("Start Direction", mTlv.field_10_data.field_26_direction);
+        ADD("Scale", mTlv.mDrillData.mScale);
+        ADD("Min Off Time", mTlv.mDrillData.mOnMinPauseTime);
+        ADD("Max Off Time", mTlv.mDrillData.mOnMaxPauseTime);
+        ADD("Switch ID", mTlv.mDrillData.mSwitchId);
+        ADD("Behavior", mTlv.mDrillData.mDrillBehavior);
+        ADD("Speed", mTlv.mDrillData.mOnSpeed);
+        ADD("Start State On", mTlv.mDrillData.mStartStateOn);
+        ADD("Off Speed", mTlv.mDrillData.mOffSpeed);
+        ADD("Min Off Time Speed Change", mTlv.mDrillData.mOffMinPauseTime);
+        ADD("Max Off Time Speed Change", mTlv.mDrillData.mOffMaxPauseTime);
+        ADD("Start Position Bottom", mTlv.mDrillData.mStartPositionBottom);
+        ADD("Start Direction", mTlv.mDrillData.mDirection);
     }
 };
 
@@ -1225,17 +1225,17 @@ struct Path_Slog final : public ReliveAPI::TlvObjectBaseAE
     }
 };
 
-struct Path_ResetSwitchRange final : public ReliveAPI::TlvObjectBaseAE
+struct Path_ResetPath final : public ReliveAPI::TlvObjectBaseAE
 {
-    CTOR_AE(Path_ResetSwitchRange, "ResetSwitchRange", TlvTypes::ResetSwitchRange_76)
+    CTOR_AE(Path_ResetPath, "ResetPath", TlvTypes::ResetPath_76)
     {
-        ADD("Reset Switches", mTlv.field_10_reset_switch_ids);
-        ADD("Start Switch ID", mTlv.field_12_start_switch_id);
-        ADD("End Switch ID", mTlv.field_14_end_switch_id);
-        ADD("Skip Switch ID", mTlv.field_16_skip_switch_id);
-        ADD("Free Path Resources", mTlv.field_18_free_path_res);
-        ADD("Path ID To Free Resources", mTlv.field_1A_path_to_free_id);
-        ADD("Enabled", mTlv.field_1C_bEnabled);
+        ADD("Reset Switches", mTlv.mClearIds);
+        ADD("Start Switch ID", mTlv.mFrom);
+        ADD("End Switch ID", mTlv.mTo);
+        ADD("Skip Switch ID", mTlv.mExclude);
+        ADD("Free Path Resources", mTlv.mClearObjects);
+        ADD("Path ID To Free Resources", mTlv.mPath);
+        ADD("Enabled", mTlv.mEnabled);
     }
 };
 
@@ -1723,12 +1723,12 @@ struct Path_CrawlingSligButton final : public ReliveAPI::TlvObjectBaseAE
     }
     CTOR_AE(Path_CrawlingSligButton, "CrawlingSligButton", TlvTypes::CrawlingSligButton_107)
     {
-        ADD("Scale", mTlv.field_10_scale);
-        ADD("Switch ID", mTlv.field_12_switch_id);
-        ADD("Action", mTlv.field_14_action);
-        ADD("On Sound", mTlv.field_16_on_sound);
-        ADD("Off Sound", mTlv.field_18_off_sound);
-        ADD_HIDDEN("Sound Direction", mTlv.field_1A_sound_direction);
+        ADD("Scale", mTlv.mScale);
+        ADD("Switch ID", mTlv.mSwitchId);
+        ADD("Action", mTlv.mAction);
+        ADD("On Sound", mTlv.mOnSound);
+        ADD("Off Sound", mTlv.mOffSound);
+        ADD_HIDDEN("Sound Direction", mTlv.mSoundDirection);
 
         ADD_RESOURCE(AnimId::CrawlingSligButton, ReliveAPI::AddResourceTo::File);
         ADD_RESOURCE(AnimId::CrawlingSligButtonUse, ReliveAPI::AddResourceTo::File);
@@ -1741,18 +1741,18 @@ struct Path_Glukkon final : public ReliveAPI::TlvObjectBaseAE
     {
         types.AddEnum<::GlukkonTypes>("Enum_GlukkonTypes",
         {
-            {::GlukkonTypes::Normal_0, "Normal"},
-            {::GlukkonTypes::StoryAslik_1, "Story Aslik"},
-            {::GlukkonTypes::StoryDripik_2, "Story Dripik"},
-            {::GlukkonTypes::StoryPhleg_3, "Story Phleg"},
-            {::GlukkonTypes::Normal_4, "Normal 4"},
-            {::GlukkonTypes::Normal_5, "Normal 5"},
+            {::GlukkonTypes::eNormal_0, "Normal"},
+            {::GlukkonTypes::eStoryAslik_1, "Story Aslik"},
+            {::GlukkonTypes::eStoryDripik_2, "Story Dripik"},
+            {::GlukkonTypes::eStoryPhleg_3, "Story Phleg"},
+            {::GlukkonTypes::eNormal_4, "Normal 4"},
+            {::GlukkonTypes::eNormal_5, "Normal 5"},
         });
 
-        types.AddEnum<::Path_Glukkon::StartDirection>("Enum_GlukkonStartDirection",
+        types.AddEnum<::Path_Glukkon::Facing>("Enum_GlukkonStartDirection",
         {
-            {::Path_Glukkon::StartDirection::eRight_0, "Right"},
-            {::Path_Glukkon::StartDirection::eLeft_1, "Left"},
+            {::Path_Glukkon::Facing::eRight_0, "Right"},
+            {::Path_Glukkon::Facing::eLeft_1, "Left"},
         });
 
         types.AddEnum<::Path_Glukkon::SpawnType>("Enum_GlukkonSpawnType",
@@ -1772,19 +1772,19 @@ struct Path_Glukkon final : public ReliveAPI::TlvObjectBaseAE
 
     CTOR_AE(Path_Glukkon, "Glukkon", TlvTypes::Glukkon_73)
     {
-        ADD("Scale", mTlv.field_10_scale);
-        ADD("Start Direction", mTlv.field_12_start_direction);
-        ADD("Behavior", mTlv.field_14_behaviour);
-        ADD("Scream Help Delay", mTlv.field_16_scream_help_delay);
-        ADD("Help Switch ID", mTlv.field_18_help_switch_id);
-        ADD("To Calm Delay", mTlv.field_1A_to_calm_delay);
-        ADD("Spawn Switch ID", mTlv.field_1C_spawn_switch_id);
-        ADD("Spawn Type", mTlv.field_1E_spawn_type);
-        ADD("Spawn Delay", mTlv.field_20_spawn_delay);
-        ADD("Glukkon Type", mTlv.field_22_glukkon_type);
-        ADD("Death Switch ID", mTlv.field_24_death_switch_id);
-        ADD("Play Movie Switch ID", mTlv.field_26_play_movie_switch_id);
-        ADD("Movie To Play (fmv ID)", mTlv.field_28_movie_to_play_fmvID);
+        ADD("Scale", mTlv.mScale);
+        ADD("Start Direction", mTlv.mFacing);
+        ADD("Behavior", mTlv.mBehavior);
+        ADD("Scream Help Delay", mTlv.mScreamHelpDelay);
+        ADD("Help Switch ID", mTlv.mHelpSwitchId);
+        ADD("To Calm Delay", mTlv.mToCalmDelay);
+        ADD("Spawn Switch ID", mTlv.mSpawnSwitchId);
+        ADD("Spawn Type", mTlv.mSpawnType);
+        ADD("Spawn Delay", mTlv.mSpawnDelay);
+        ADD("Glukkon Type", mTlv.mGlukkonType);
+        ADD("Death Switch ID", mTlv.mDeathSwitchId);
+        ADD("Play Movie Switch ID", mTlv.mPlayMovieSwitchId);
+        ADD("Movie To Play (fmv ID)", mTlv.mMovieId);
 
         ADD_RESOURCE(AnimId::Glukkon_Normal_Idle, ReliveAPI::AddResourceTo::File);
         ADD_RESOURCE(AnimId::Glukkon_Aslik_Idle, ReliveAPI::AddResourceTo::File);

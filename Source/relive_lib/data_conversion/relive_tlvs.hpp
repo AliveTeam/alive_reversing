@@ -33,6 +33,20 @@ enum class reliveSwitchOp : s16
     eDecrement,
 };
 
+enum reliveScreenChangeEffects : s16
+{
+    ePlay1FMV,
+    eRightToLeft,
+    eLeftToRight,
+    eBottomToTop,
+    eTopToBottom,
+    eBoxOut,
+    eVerticalSplit,
+    eHorizontalSplit,
+    eUnknown_8,
+    eInstantChange,
+};
+
 // TODO: Base type
 class Path_TLV
 {
@@ -673,12 +687,15 @@ struct Path_CreditsController final : public Path_TLV
 
 struct Path_ResetPath final : public Path_TLV
 {
-    s16 mClearIds = 0;
+    reliveChoice mClearIds = reliveChoice::eYes;
     s16 mFrom = 0;
     s16 mTo = 0;
     s16 mExclude = 0;
-    s16 mClearObjects = 0;
+    reliveChoice mClearObjects = reliveChoice::eYes;
     s16 mPath = 0;
+
+    // AE only
+    reliveChoice mEnabled = reliveChoice::eYes;
 };
 
 struct Path_MeatSack final : public Path_TLV
@@ -797,19 +814,6 @@ struct Path_Door final : public Path_TLV
         eTrialDoor,
         eHubDoor,
     };
-    enum ScreenChangeEffects : s16
-    {
-        ePlay1FMV,
-        eRightToLeft,
-        eLeftToRight,
-        eBottomToTop,
-        eTopToBottom,
-        eBoxOut,
-        eVerticalSplit,
-        eHorizontalSplit,
-        eUnknown,
-        eInstantChange,
-    };
     EReliveLevelIds mNextLevel = EReliveLevelIds::eNone;
     s16 mNextPath = 0;
     s16 mNextCamera = 0;
@@ -830,7 +834,7 @@ struct Path_Door final : public Path_TLV
     s16 mHub6 = 0;
     s16 mHub7 = 0;
     s16 mHub8 = 0;
-    ScreenChangeEffects mWipeEffect = ScreenChangeEffects::eBoxOut;
+    reliveScreenChangeEffects mWipeEffect = reliveScreenChangeEffects::eBoxOut;
     s16 mMovieId = 0;
     s16 mDoorOffsetX = 0;
     s16 mDoorOffsetY = 0;
@@ -1438,6 +1442,152 @@ struct Path_Water final : public Path_TLV
     s16 mSplashTime = 0;
     s16 mSplashVelX = 0;
     s16 mWaterDuration = 0;
+};
+
+struct Path_WheelSyncer final : public Path_TLV
+{
+    enum class OutputRequirement : s16
+    {
+        eAllOn,
+        e1OnAnd2Off,
+        e1Or2On,
+        e1OnOr2Off
+    };
+    s16 mInputSwitchId1 = 0;
+    s16 mInputSwitchId2 = 0;
+    s16 mOutputSwitchId = 0;
+    OutputRequirement mOutputRequirement = OutputRequirement::eAllOn;
+    s16 mInputSwitchId3 = 0;
+    s16 mInputSwitchId4 = 0;
+    s16 mInputSwitchId5 = 0;
+    s16 mInputSwitchId6 = 0;
+};
+
+struct Path_Fleech final : public Path_TLV
+{
+    reliveScale mScale = reliveScale::eFull;
+    reliveXDirection mFacing = reliveXDirection::eRight;
+    reliveChoice mAsleep = reliveChoice::eNo;
+    s16 mAttackAngerIncreaser = 0;
+    s16 mWakeUpSwitchId = 0;
+    reliveChoice mHanging = reliveChoice::eNo;
+    s16 mLostTargetTimeout = 0;
+    reliveChoice mGoesToSleep = reliveChoice::eNo;
+    s16 mPatrolRangeInGrids = 0;
+    s16 mWakeUpSwitchAngerValue = 0;
+    s16 mCanWakeUpSwitchId = 0;
+    reliveChoice mPersistant = reliveChoice::eNo;
+};
+
+struct Path_SlurgSpawner final : public Path_Slurg
+{
+    s16 mSpawnInterval = 0;
+    s16 mMaxSlurgs = 0;
+    s16 mSwitchId = 0;
+};
+
+struct Path_Drill final : public Path_TLV
+{
+    enum class DrillDirection : s16
+    {
+        eDown,
+        eRight,
+        eLeft,
+    };
+
+    enum class DrillBehavior : s16
+    {
+        eNotInteractable,
+        eToggle,
+        eUse
+    };
+    reliveScale mScale = reliveScale::eFull;
+    s16 mOnMinPauseTime = 0;
+    s16 mOnMaxPauseTime = 0;
+    s16 mSwitchId = 0;
+    DrillBehavior mDrillBehavior = DrillBehavior::eNotInteractable;
+    s16 mOnSpeed = 0;
+    reliveChoice mStartStateOn = reliveChoice::eNo;
+    s16 mOffSpeed = 0;
+    s16 mOffMinPauseTime = 0;
+    s16 mOffMaxPauseTime = 0;
+    reliveChoice mStartPositionBottom = reliveChoice::eNo;
+    DrillDirection mDrillDirection = DrillDirection::eRight;
+};
+
+struct Path_Teleporter final : public Path_TLV
+{
+    s16 mTeleporterId = 0;
+    s16 mOtherTeleporterId = 0;
+    s16 mDestCamera = 0;
+    s16 mDestPath = 0;
+    EReliveLevelIds mDestLevel = EReliveLevelIds::eNone;
+    s16 mSwitchId = 0;
+    reliveScale mScale = reliveScale::eFull;
+    reliveScreenChangeEffects mWipeEffect = reliveScreenChangeEffects::eBoxOut;
+    s16 mMovieId = 0;
+    s16 mElectricX = 0;
+    s16 mElectricY = 0;
+};
+
+struct Path_Glukkon final : public Path_TLV
+{
+    reliveScale mScale = reliveScale::eFull;
+    enum class Facing : s16
+    {
+        eRight,
+        eLeft,
+    };
+    Facing mFacing = Facing::eRight;
+    enum class Behavior : s16
+    {
+        eIgnoreWalls,
+        eCheckForWalls
+    };
+    Behavior mBehavior = Behavior::eCheckForWalls;
+    s16 mScreamHelpDelay = 0;
+    s16 mHelpSwitchId = 0;
+    s16 mToCalmDelay = 0;
+    s16 mSpawnSwitchId = 0;
+    enum class SpawnType : s16
+    {
+        eRegularSpawn,
+        eFacingLeft,
+        eFacingRight,
+        eFullSpawnEffects
+    };
+    SpawnType mSpawnType = SpawnType::eRegularSpawn;
+    s16 mSpawnDelay = 0;
+    enum class GlukkonTypes : s16
+    {
+        eNormal,
+        eStoryAslik,
+        eStoryDripik,
+        eStoryPhleg,
+    };
+    GlukkonTypes mGlukkonType = GlukkonTypes::eNormal;
+    s16 mDeathSwitchId = 0;
+    s16 mPlayMovieSwitchId = 0;
+    s16 mMovieId = 0;
+};
+
+struct Path_CrawlingSligButton final : public Path_TLV
+{
+    enum class ButtonSounds : s16
+    {
+        None,
+        SackHit,
+        FallingItemPresence2,
+        SecurityOrb,
+        Bullet1,
+        AbeGenericMovement,
+    };
+    reliveScale mScale = reliveScale::eFull;
+    s16 mSwitchId = 0;
+    reliveSwitchOp mAction = reliveSwitchOp::eSetTrue;
+    ButtonSounds mOnSound = ButtonSounds::None;
+    ButtonSounds mOffSound = ButtonSounds::None;
+    s16 mSoundDirection = 0;
 };
 
 } // namespace relive

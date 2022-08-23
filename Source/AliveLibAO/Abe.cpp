@@ -9701,7 +9701,7 @@ void Abe::Motion_156_DoorEnter_42D370()
                 BaseAliveGameObjectPathTLV = pTlv;
                 if (pTlv)
                 {
-                    if (pTlv->mClearIds)
+                    if (pTlv->mClearIds == Choice_short::eYes_1)
                     {
                         for (s16 i = pTlv->mFrom; i <= pTlv->mTo; i++)
                         {
@@ -9711,7 +9711,7 @@ void Abe::Motion_156_DoorEnter_42D370()
                             }
                         }
                     }
-                    if (pTlv->mClearObjects)
+                    if (pTlv->mClearObjects == Choice_short::eYes_1)
                     {
                         gMap.sub_447430(pTlv->mPath);
                     }

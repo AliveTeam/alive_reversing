@@ -91,7 +91,7 @@ void TypesCollectionAE::AddAETypes()
     REGISTER_TYPE_AE(AETlvs::Path_Drill);
     REGISTER_TYPE_AE(AETlvs::Path_Mine);
     REGISTER_TYPE_AE(AETlvs::Path_Slog);
-    REGISTER_TYPE_AE(AETlvs::Path_ResetSwitchRange);
+    REGISTER_TYPE_AE(AETlvs::Path_ResetPath);
     REGISTER_TYPE_AE(AETlvs::Path_TrapDoor);
     REGISTER_TYPE_AE(AETlvs::Path_PathTransition);
     REGISTER_TYPE_AE(AETlvs::Path_LiftMover);
