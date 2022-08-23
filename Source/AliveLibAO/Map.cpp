@@ -30,6 +30,9 @@
 #include "PlatformBase.hpp"
 #include "Camera.hpp"
 
+#include "../relive_lib/data_conversion/file_system.hpp"
+#include "../relive_lib/data_conversion/data_conversion.hpp" // TODO: don't include this in the engine
+
 class BaseGameObject;
 
 namespace AO {
@@ -1742,12 +1745,14 @@ void Map::GoTo_Camera()
         // TODO: Jayson!
         ResourceManager::LoadResourceFile_455270(Path_Get_BndName(mNextLevel), nullptr);
 
-        /*
+
         // TODO: Load level_info.json so we know which path jsons to load for this level
         FileSystem::Path pathDir;
-        pathDir.Append("relive_data").Append("ao").Append(ToString(mNextLevel)).Append("paths");
-        ResourceManager::LoadFile();
-        */
+        pathDir.Append("relive_data").Append("ao").Append(ToString(MapWrapper::ToAO(mNextLevel))).Append("paths");
+
+        FileSystem::Path levelInfo = pathDir;
+        levelInfo.Append("level_info.json");
+        //ResourceManager::LoadFile();
 
         // TODO: there is no manfest of paths, just enumerate and load all jsons? or move the per lvl data to a
         // json? 
