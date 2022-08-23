@@ -29,12 +29,12 @@ LaughingGas::LaughingGas(Layer layer, s32 /*notUsed*/, Path_LaughingGas* pTlv, s
 
     SetType(ReliveTypes::eLaughingGas);
     Path_LaughingGas_Data* pData = &field_48_tlv_data;
-    pData->field_0_bLaughing_gas = pTlv->field_10_bLaughing_gas;
-    pData->field_2_laughing_gas_switch_id = pTlv->field_12_laughing_gas_switch_id;
+    pData->field_0_bLaughing_gas = pTlv->mLaughingGas;
+    pData->field_2_laughing_gas_switch_id = pTlv->mLaughingGasSwitchId;
 
-    pData->field_4_red_percent = pTlv->field_14_red_percent;
-    pData->field_6_blue_percent = pTlv->field_18_blue_percent;
-    pData->field_8_green_percent = pTlv->field_18_blue_percent;
+    pData->field_4_red_percent = pTlv->mRedPercent;
+    pData->field_6_blue_percent = pTlv->mBluePercent;
+    pData->field_8_green_percent = pTlv->mBluePercent;
 
 
     if (field_48_tlv_data.field_0_bLaughing_gas == Choice_short::eYes_1)

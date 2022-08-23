@@ -19,12 +19,12 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_LaughingGas_Data, 0xC);
 
 struct Path_LaughingGas final : public Path_TLV
 {
-    Choice_short field_10_bLaughing_gas;
-    s16 field_12_laughing_gas_switch_id;
-    s16 field_14_red_percent;
-    s16 field_16_green_percent;
-    s16 field_18_blue_percent;
-    s16 field_1A_padding;
+    Choice_short mLaughingGas;
+    s16 mLaughingGasSwitchId;
+    s16 mRedPercent;
+    s16 mGreenPercent;
+    s16 mBluePercent;
+    s16 padding;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_LaughingGas, 0x1C);
 

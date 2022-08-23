@@ -707,11 +707,11 @@ struct Path_LaughingGas final : public ReliveAPI::TlvObjectBaseAE
 {
     CTOR_AE(Path_LaughingGas, "LaughingGas", TlvTypes::LaughingGas_81)
     {
-        ADD("Is Laughing Gas", mTlv.field_10_bLaughing_gas);
-        ADD("Laughing Gas Switch ID", mTlv.field_12_laughing_gas_switch_id);
-        ADD("Red %", mTlv.field_14_red_percent);
-        ADD("Green %", mTlv.field_16_green_percent);
-        ADD("Blue %", mTlv.field_18_blue_percent);
+        ADD("Is Laughing Gas", mTlv.mLaughingGas);
+        ADD("Laughing Gas Switch ID", mTlv.mLaughingGasSwitchId);
+        ADD("Red %", mTlv.mRedPercent);
+        ADD("Green %", mTlv.mGreenPercent);
+        ADD("Blue %", mTlv.mBluePercent);
     }
 };
 
@@ -741,12 +741,12 @@ struct Path_Water final : public ReliveAPI::TlvObjectBaseAE
 {
     CTOR_AE(Path_Water, "Water", TlvTypes::Water_77)
     {
-        ADD("Max Drops", mTlv.field_10_data.field_10_max_drops);
-        ADD("Switch ID", mTlv.field_10_data.field_12_switch_id);
-        ADD("Splash Time", mTlv.field_10_data.field_14_splash_time);
-        ADD("Splash X Velocity", mTlv.field_10_data.field_16_splash_x_velocity);
-        ADD("Splash Y Velocity", mTlv.field_10_data.field_18_splash_y_velocity);
-        ADD("Water Duration", mTlv.field_10_data.field_1A_water_duration);
+        ADD("Max Drops", mTlv.mWaterData.mMaxDrops);
+        ADD("Switch ID", mTlv.mWaterData.mSwitchId);
+        ADD("Splash Time", mTlv.mWaterData.mSplashTime);
+        ADD("Splash X Velocity", mTlv.mWaterData.mSplashVelX);
+        ADD("Splash Y Velocity", mTlv.mWaterData.mSplashVelY);
+        ADD("Water Duration", mTlv.mWaterData.mWaterDuration);
     }
 };
 
@@ -903,15 +903,15 @@ struct Path_MultiSwitchController final : public ReliveAPI::TlvObjectBaseAE
 {
     CTOR_AE(Path_MultiSwitchController, "MultiSwitchController", TlvTypes::MultiSwitchController_96)
     {
-        ADD("Output Switch ID", mTlv.field_10_output_switch_id);
-        ADD("Action", mTlv.field_12_action);
-        ADD("On/Off Delay", mTlv.field_14_on_off_delay);
-        ADD("Input Switch ID 1", mTlv.field_16_input_switch_id1);
-        ADD("Input Switch ID 2", mTlv.field_18_input_switch_id2);
-        ADD("Input Switch ID 3", mTlv.field_1A_input_switch_id3);
-        ADD("Input Switch ID 4", mTlv.field_1C_input_switch_id4);
-        ADD("Input Switch ID 5", mTlv.field_1E_input_switch_id5);
-        ADD("Input Switch ID 6", mTlv.field_20_input_switch_id6);
+        ADD("Output Switch ID", mTlv.mOutputSwitchId);
+        ADD("Action", mTlv.mAction);
+        ADD("On/Off Delay", mTlv.mOnOffDelay);
+        ADD("Input Switch ID 1", mTlv.mInputSwitchId1);
+        ADD("Input Switch ID 2", mTlv.mInputSwitchId2);
+        ADD("Input Switch ID 3", mTlv.mInputSwitchId3);
+        ADD("Input Switch ID 4", mTlv.mInputSwitchId4);
+        ADD("Input Switch ID 5", mTlv.mInputSwitchId5);
+        ADD("Input Switch ID 6", mTlv.mInputSwitchId6);
     }
 };
 
@@ -981,11 +981,11 @@ struct Path_LevelLoader final : public ReliveAPI::TlvObjectBaseAE
 {
     CTOR_AE(Path_LevelLoader, "LevelLoader", TlvTypes::LevelLoader_86)
     {
-        ADD("Switch ID", mTlv.field_10_switch_id);
-        ADD("Destination Level", mTlv.field_12_dest_level);
-        ADD("Destination Path", mTlv.field_14_dest_path);
-        ADD("Destination Camera", mTlv.field_16_dest_camera);
-        ADD("Movie ID", mTlv.field_18_movie_id);
+        ADD("Switch ID", mTlv.mSwitchId);
+        ADD("Destination Level", mTlv.mDestLevel);
+        ADD("Destination Path", mTlv.mDestPath);
+        ADD("Destination Camera", mTlv.mDestCamera);
+        ADD("Movie ID", mTlv.mMovieId);
     }
 };
 
@@ -1360,8 +1360,8 @@ struct Path_MineCar final : public ReliveAPI::TlvObjectBaseAE
 {
     CTOR_AE(Path_MineCar, "MineCar", TlvTypes::MineCar_93)
     {
-        ADD("Scale", mTlv.field_10_scale);
-        ADD("Max Damage (Unused?)", mTlv.field_12_max_damage);
+        ADD("Scale", mTlv.mScale);
+        ADD("Max Damage (Unused?)", mTlv.mMaxDamage);
 
         ADD_RESOURCE(AnimId::Mine_Car_Closed, ReliveAPI::AddResourceTo::File);
         ADD_RESOURCE(AnimId::Mine_Car_Open, ReliveAPI::AddResourceTo::File);
@@ -1377,15 +1377,15 @@ struct Path_ExplosionSet final : public ReliveAPI::TlvObjectBaseAE
 {
     CTOR_AE(Path_ExplosionSet, "ExplosionSet", TlvTypes::ExplosionSet_95)
     {
-        ADD("Start Enabled", mTlv.field_10_bStart_enabled);
-        ADD("Switch ID", mTlv.field_12_switch_id);
-        ADD("Spawn Assets", mTlv.field_14_spawn_assets);
-        ADD("Start Delay", mTlv.field_16_start_delay);
-        ADD("Start Direction", mTlv.field_18_start_direction);
-        ADD("Asset Interval", mTlv.field_1A_asset_interval);
-        ADD("Grid Spacing", mTlv.field_1C_grid_spacing);
-        ADD("Increasing Grid Spacing", mTlv.field_1E_increasing_grid_spacing);
-        ADD("Scale", mTlv.field_20_scale);
+        ADD("Start Enabled", mTlv.mStartEnabled);
+        ADD("Switch ID", mTlv.mSwitchId);
+        ADD("Spawn Assets", mTlv.mSpawnAssets);
+        ADD("Start Delay", mTlv.mStartDelay);
+        ADD("Start Direction", mTlv.mStartDirection);
+        ADD("Asset Interval", mTlv.mAssetInterval);
+        ADD("Grid Spacing", mTlv.mGridSpacing);
+        ADD("Increasing Grid Spacing", mTlv.mIncreasingGridSpacing);
+        ADD("Scale", mTlv.mScale);
 
         ADD_RESOURCE(AnimId::Explosion, ReliveAPI::AddResourceTo::File);
         ADD_RESOURCE(AnimId::Explosion_Small, ReliveAPI::AddResourceTo::File);
@@ -1396,10 +1396,10 @@ struct Path_ColourfulMeter final : public ReliveAPI::TlvObjectBaseAE
 {
     CTOR_AE(Path_ColourfulMeter, "ColourfulMeter", TlvTypes::ColourfulMeter_91)
     {
-        ADD("Switch ID", mTlv.field_10_switch_id);
-        ADD("Number Of Meter Bars", mTlv.field_12_number_of_meter_bars);
-        ADD("Mines Alarm Countdown (Seconds)", mTlv.field_14_mines_alarm_countdown);
-        ADD("Start Filled", mTlv.field_16_bStartFilled);
+        ADD("Switch ID", mTlv.mSwitchId);
+        ADD("Number Of Meter Bars", mTlv.mNumberOfMeterBars);
+        ADD("Mines Alarm Countdown (Seconds)", mTlv.mMinesAlarmCountdown);
+        ADD("Start Filled", mTlv.mStartFilled);
     }
 };
 
@@ -1841,10 +1841,10 @@ struct Path_BoneBag final : public ReliveAPI::TlvObjectBaseAE
     CTOR_AE(Path_BoneBag, "BoneBag", TlvTypes::BoneBag_94)
     {
         ADD("Bone Fall Direction", mTlv.mBoneFallDirection);
-        ADD("X Velocity", mTlv.mBoneVelX);
-        ADD("Y Velocity", mTlv.mBoneVelY);
+        ADD("X Velocity", mTlv.mVelX);
+        ADD("Y Velocity", mTlv.mVelY);
         ADD("Scale", mTlv.mScale);
-        ADD("Bone Amount", mTlv.mBoneCount);
+        ADD("Bone Amount", mTlv.mBoneAmount);
 
         ADD_RESOURCE(AnimId::BoneBag_HardHit, ReliveAPI::AddResourceTo::CameraBlock);
         ADD_RESOURCE(AnimId::BoneBag_Idle, ReliveAPI::AddResourceTo::CameraBlock);

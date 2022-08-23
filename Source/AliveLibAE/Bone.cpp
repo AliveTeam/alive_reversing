@@ -585,12 +585,12 @@ BoneBag::BoneBag(Path_BoneBag* pTlv, s32 tlvInfo)
 
     mVisualFlags.Clear(VisualFlags::eApplyShadowZoneColour);
 
-    mBoneVelX = FP_FromRaw(pTlv->mBoneVelX << 8);
-    mBoneVelY = FP_FromRaw(-256 * pTlv->mBoneVelY); // TODO: << 8 negated ??
+    mVelX = FP_FromRaw(pTlv->mVelX << 8);
+    mVelY = FP_FromRaw(-256 * pTlv->mVelY); // TODO: << 8 negated ??
 
     if (pTlv->mBoneFallDirection == XDirection_short::eLeft_0)
     {
-        mBoneVelX = -mBoneVelX;
+        mVelX = -mVelX;
     }
 
     if (pTlv->mScale == Scale_short::eHalf_1)
@@ -604,7 +604,7 @@ BoneBag::BoneBag(Path_BoneBag* pTlv, s32 tlvInfo)
         mScale = Scale::Fg;
     }
 
-    mBoneCount = pTlv->mBoneCount;
+    mBoneAmount = pTlv->mBoneAmount;
     mAllowSound = true;
     mForcePlayWobbleSound = true;
 
@@ -694,14 +694,14 @@ void BoneBag::VUpdate()
             gpThrowableArray = relive_new ThrowableArray();
         }
 
-        gpThrowableArray->Add(mBoneCount);
+        gpThrowableArray->Add(mBoneAmount);
 
-        auto pBone = relive_new Bone(mXPos, mYPos - FP_FromInteger(30), mBoneCount);
+        auto pBone = relive_new Bone(mXPos, mYPos - FP_FromInteger(30), mBoneAmount);
 
         pBone->mSpriteScale = mSpriteScale;
         pBone->mScale = mScale;
 
-        pBone->VThrow(mBoneVelX, mBoneVelY);
+        pBone->VThrow(mVelX, mVelY);
 
         SfxPlayMono(SoundEffect::SackHit_25, 0);
         Environment_SFX_457A40(EnvironmentSfx::eDeathNoise_7, 0, 0x7FFF, 0);

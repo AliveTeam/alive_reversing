@@ -19,60 +19,60 @@ ColourfulMeter::ColourfulMeter(Path_ColourfulMeter* pTlv, s32 tlvInfo)
     : BaseGameObject(TRUE, 0)
 {
     SetType(ReliveTypes::eColourfulMeter);
-    field_68_tlvInfo = tlvInfo;
+    mTlvInfo = tlvInfo;
 
-    field_74_tlv_x = pTlv->mTopLeft.x;
-    field_76_tlv_y = pTlv->mTopLeft.y;
+    mTlvX = pTlv->mTopLeft.x;
+    mTlvY = pTlv->mTopLeft.y;
 
     field_20_font_context.LoadFontType_433400(2);
     field_30_font.ctor_433590(5, byte_5543D0, &field_20_font_context);
     mBaseGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4);
     gObjListDrawables->Push_Back(this);
 
-    field_6C_text_x = FP_GetExponent((FP_FromInteger(pTlv->mTopLeft.x)) - pScreenManager->CamXPos());
-    field_6E_text_y = FP_GetExponent((FP_FromInteger(pTlv->mTopLeft.y)) - pScreenManager->CamYPos());
+    mTextX = FP_GetExponent((FP_FromInteger(pTlv->mTopLeft.x)) - pScreenManager->CamXPos());
+    mTextY = FP_GetExponent((FP_FromInteger(pTlv->mTopLeft.y)) - pScreenManager->CamYPos());
 
-    field_72_switch_id = pTlv->field_10_switch_id;
+    mSwitchId = pTlv->mSwitchId;
     field_80 = 0;
-    field_7A_number_of_meter_bars = pTlv->field_12_number_of_meter_bars;
-    field_82_bar_count = kMeterBarsXCount / field_7A_number_of_meter_bars + 1;
+    mNumberOfMeterBars = pTlv->mNumberOfMeterBars;
+    field_82_bar_count = kMeterBarsXCount / mNumberOfMeterBars + 1;
 
-    if (field_7A_number_of_meter_bars == 4)
+    if (mNumberOfMeterBars == 4)
     {
         field_82_bar_count = 5;
     }
-    else if (field_7A_number_of_meter_bars == 5)
+    else if (mNumberOfMeterBars == 5)
     {
         field_82_bar_count = 4;
     }
 
     field_78_count = 15;
 
-    field_7E_starting_switch_state = static_cast<s16>(SwitchStates_Get(field_72_switch_id));
-    field_84_bStartFilled = pTlv->field_16_bStartFilled;
-    field_7C_mines_alarm_countdown = pTlv->field_14_mines_alarm_countdown;
+    mStartingSwitchState = static_cast<s16>(SwitchStates_Get(mSwitchId));
+    mStartFilled = pTlv->mStartFilled;
+    mMinesAlarmCountdown = pTlv->mMinesAlarmCountdown;
 
-    if (field_84_bStartFilled == Choice_short::eYes_1)
+    if (mStartFilled == Choice_short::eYes_1)
     {
-        if (field_7E_starting_switch_state)
+        if (mStartingSwitchState)
         {
-            field_70_polys_to_render_count = 0;
+            mPolysToRenderCount = 0;
         }
         else
         {
-            field_70_polys_to_render_count = kMeterBarsXCount;
+            mPolysToRenderCount = kMeterBarsXCount;
         }
     }
     else
     {
-        field_70_polys_to_render_count = field_82_bar_count * gTotalMeterBars_5C1BFA;
+        mPolysToRenderCount = field_82_bar_count * gTotalMeterBars_5C1BFA;
     }
 }
 
 ColourfulMeter::~ColourfulMeter()
 {
     gObjListDrawables->Remove_Item(this);
-    Path::TLV_Reset(field_68_tlvInfo, -1, 0, 0);
+    Path::TLV_Reset(mTlvInfo, -1, 0, 0);
     field_30_font.dtor_433540();
     field_20_font_context.dtor_433510();
 }
@@ -100,18 +100,18 @@ void ColourfulMeter::VUpdate()
         gbDrawMeterCountDown_5C1BF8 = 0;
     }
 
-    if (field_84_bStartFilled == Choice_short::eYes_1)
+    if (mStartFilled == Choice_short::eYes_1)
     {
         gbDrawMeterCountDown_5C1BF8 = 0;
 
-        if (SwitchStates_Get(field_72_switch_id))
+        if (SwitchStates_Get(mSwitchId))
         {
-            if (field_70_polys_to_render_count > 0)
+            if (mPolysToRenderCount > 0)
             {
                 if (field_78_count == 0)
                 {
                     field_78_count = 15;
-                    field_70_polys_to_render_count--;
+                    mPolysToRenderCount--;
                 }
                 field_78_count--;
             }
@@ -119,34 +119,34 @@ void ColourfulMeter::VUpdate()
     }
     else
     {
-        if (!field_7E_starting_switch_state)
+        if (!mStartingSwitchState)
         {
-            if (SwitchStates_Get(field_72_switch_id))
+            if (SwitchStates_Get(mSwitchId))
             {
                 gTotalMeterBars_5C1BFA++;
                 field_80 = 1;
-                field_7E_starting_switch_state = 1;
+                mStartingSwitchState = 1;
             }
         }
 
-        if (field_70_polys_to_render_count < gTotalMeterBars_5C1BFA * field_82_bar_count)
+        if (mPolysToRenderCount < gTotalMeterBars_5C1BFA * field_82_bar_count)
         {
             if (field_78_count == 0)
             {
                 field_78_count = 15;
-                field_70_polys_to_render_count++;
+                mPolysToRenderCount++;
             }
             field_78_count--;
         }
 
-        if (field_7A_number_of_meter_bars > gTotalMeterBars_5C1BFA)
+        if (mNumberOfMeterBars > gTotalMeterBars_5C1BFA)
         {
             gbDrawMeterCountDown_5C1BF8 = 0;
         }
         else if (!gbDrawMeterCountDown_5C1BF8)
         {
             gbDrawMeterCountDown_5C1BF8 = 1;
-            MinesAlarm::Create(30 * field_7C_mines_alarm_countdown);
+            MinesAlarm::Create(30 * mMinesAlarmCountdown);
         }
     }
 }
@@ -179,19 +179,19 @@ void ColourfulMeter::VRender(PrimHeader** ppOt)
     const s16 screenXOff = FP_GetExponent(pScreenManager->CamXPos() + FP_FromInteger(4));
     const s16 screenYOff = FP_GetExponent(pScreenManager->CamYPos() + FP_FromInteger(4));
 
-    for (s16 poly_idx = 0; poly_idx < field_70_polys_to_render_count && poly_idx < kMeterBarsXCount - 1; poly_idx++)
+    for (s16 poly_idx = 0; poly_idx < mPolysToRenderCount && poly_idx < kMeterBarsXCount - 1; poly_idx++)
     {
         Poly_G4* pPolyG4 = &field_88_polyG4s[gPsxDisplay.mBufferIndex][poly_idx];
         PolyG4_Init(pPolyG4);
 
-        const s16 x0 = field_74_tlv_x + (FP_GetExponent(FP_FromInteger(stru_5543F0[poly_idx].x))) - screenXOff;
-        const s16 y0 = FP_GetExponent(FP_FromInteger(stru_5543F0[poly_idx].y)) - screenYOff + field_76_tlv_y - 20;
+        const s16 x0 = mTlvX + (FP_GetExponent(FP_FromInteger(stru_5543F0[poly_idx].x))) - screenXOff;
+        const s16 y0 = FP_GetExponent(FP_FromInteger(stru_5543F0[poly_idx].y)) - screenYOff + mTlvY - 20;
 
-        const s16 x1 = field_74_tlv_x + ((poly_idx + 1) * 2) - screenXOff;
-        const s16 y1 = field_76_tlv_y - screenYOff - 5;
+        const s16 x1 = mTlvX + ((poly_idx + 1) * 2) - screenXOff;
+        const s16 y1 = mTlvY - screenYOff - 5;
 
-        const s16 x2 = field_74_tlv_x + FP_GetExponent(FP_FromInteger(stru_5543F0[poly_idx + 1].x)) - screenXOff;
-        const s16 y2 = FP_GetExponent(FP_FromInteger(stru_5543F0[poly_idx + 1].y)) - screenYOff + field_76_tlv_y - 20;
+        const s16 x2 = mTlvX + FP_GetExponent(FP_FromInteger(stru_5543F0[poly_idx + 1].x)) - screenXOff;
+        const s16 y2 = FP_GetExponent(FP_FromInteger(stru_5543F0[poly_idx + 1].y)) - screenYOff + mTlvY - 20;
 
         SetXY0(pPolyG4, static_cast<s16>(PsxToPCX(x0)), y0);
         SetXY1(pPolyG4, static_cast<s16>(PsxToPCX(x1)), y1);
@@ -234,8 +234,8 @@ void ColourfulMeter::VRender(PrimHeader** ppOt)
         field_30_font.DrawString_4337D0(
             ppOt,
             text,
-            field_6C_text_x + 1,
-            field_6E_text_y - 5,
+            mTextX + 1,
+            mTextY - 5,
             TPageAbr::eBlend_1,
             1,
             0,
@@ -243,13 +243,13 @@ void ColourfulMeter::VRender(PrimHeader** ppOt)
             127, 127, 127,
             0,
             FP_FromInteger(1),
-            field_6C_text_x + textWidth,
+            mTextX + textWidth,
             colourRand);
     }
 
     pScreenManager->InvalidateRectCurrentIdx(
-        PsxToPCX(field_6C_text_x - 50),
-        field_6E_text_y - 30,
-        PsxToPCX(field_6C_text_x + 500),
-        field_6E_text_y);
+        PsxToPCX(mTextX - 50),
+        mTextY - 30,
+        PsxToPCX(mTextX + 500),
+        mTextY);
 }

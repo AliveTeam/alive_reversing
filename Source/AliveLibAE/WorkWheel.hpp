@@ -29,7 +29,7 @@ struct Path_WorkWheel final : public Path_TLV
     s16 mActivationTime;
     s16 mTurnOffTime;
     Choice_short mTurnOffWhenStopped;
-    s16 field_20_pad;
+    s16 padding;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_WorkWheel, 0x1C);
 

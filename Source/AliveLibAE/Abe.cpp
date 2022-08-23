@@ -8100,7 +8100,7 @@ void Abe::Motion_127_TurnWheelLoop_456750()
     if (field_120_state.wheel == WorkWheelStates::eTurningWheel_0 || field_120_state.wheel == WorkWheelStates::eCheckForNoLongerTurningWheel_1) // The state we enter the main state at.
     {
         Path_LevelLoader* pLevelLoader = static_cast<Path_LevelLoader*>(sPathInfo->TLV_First_Of_Type_In_Camera(TlvTypes::LevelLoader_86, 0));
-        if (pLevelLoader && SwitchStates_Get(pLevelLoader->field_10_switch_id))
+        if (pLevelLoader && SwitchStates_Get(pLevelLoader->mSwitchId))
         {
             field_120_state.wheel = WorkWheelStates::eMapChanging_2;
             SND_SEQ_Play(SeqId::SaveTriggerMusic_31, 1, 127, 127);

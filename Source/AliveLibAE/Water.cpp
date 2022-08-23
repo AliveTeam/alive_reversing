@@ -38,22 +38,22 @@ Water::Water(Path_Water* pTlv, s32 tlvInfo)
         field_108_bottom_right.x += -FP_GetExponent(pScreenManager->CamXPos());
         field_108_bottom_right.y += -FP_GetExponent(pScreenManager->CamYPos());
 
-        field_124_tlv_data = pTlv->field_10_data;
+        field_124_tlv_data = pTlv->mWaterData;
 
         // Limit upper bound.
-        if (field_124_tlv_data.field_10_max_drops > 128)
+        if (field_124_tlv_data.mMaxDrops > 128)
         {
-            field_124_tlv_data.field_10_max_drops = 128;
+            field_124_tlv_data.mMaxDrops = 128;
         }
 
-        field_130_splash_x_vel = FP_FromRaw(field_124_tlv_data.field_16_splash_x_velocity << 8);
-        field_134_emit_x_vel = FP_FromRaw(field_124_tlv_data.field_16_splash_x_velocity << 8);
+        field_130_splash_x_vel = FP_FromRaw(field_124_tlv_data.mSplashVelX << 8);
+        field_134_emit_x_vel = FP_FromRaw(field_124_tlv_data.mSplashVelX << 8);
         field_118_radius = FP_FromInteger((field_108_bottom_right.x - field_104_top_left.x) / 2);
         field_11C_centre = FP_FromInteger(field_104_top_left.x) + field_118_radius;
 
         field_138_splash_time = 0;
 
-        field_F4_ppWaterRes = ResourceManager::Allocate_New_Locked_Resource(ResourceManager::Resource_Water, 0, field_124_tlv_data.field_10_max_drops * sizeof(Water_Res));
+        field_F4_ppWaterRes = ResourceManager::Allocate_New_Locked_Resource(ResourceManager::Resource_Water, 0, field_124_tlv_data.mMaxDrops * sizeof(Water_Res));
         if (field_F4_ppWaterRes)
         {
             field_F8_pWaterRes = reinterpret_cast<Water_Res*>(*field_F4_ppWaterRes);
@@ -61,7 +61,7 @@ Water::Water(Path_Water* pTlv, s32 tlvInfo)
 
             if (field_FC_state == WaterState::eFlowing_2)
             {
-                field_140_water_duration = sGnFrame + field_124_tlv_data.field_1A_water_duration;
+                field_140_water_duration = sGnFrame + field_124_tlv_data.mWaterDuration;
             }
 
             field_148_bHitTimeout &= ~1u;
@@ -106,7 +106,7 @@ Water::Water(Path_Water* pTlv, s32 tlvInfo)
                 mAnim.mVramRect.x,
                 mAnim.mVramRect.y);
 
-            for (s32 i = 0; i < field_124_tlv_data.field_10_max_drops; i++)
+            for (s32 i = 0; i < field_124_tlv_data.mMaxDrops; i++)
             {
                 field_F8_pWaterRes[i].field_18_enabled = 0;
                 // HACK/OG BUG: PC only uses first poly ??
@@ -220,7 +220,7 @@ void Water::Disable_Water_Particle(s16 idx)
 
 void Water::Add_Water_Particle()
 {
-    if (field_10C_particle_count != field_124_tlv_data.field_10_max_drops)
+    if (field_10C_particle_count != field_124_tlv_data.mMaxDrops)
     {
         // Find an unused particle.
         Water_Res* pWaterRes = nullptr;
@@ -232,7 +232,7 @@ void Water::Add_Water_Particle()
             if (field_10E_current_particle_idx < 0)
             {
                 // Loop back to the end.
-                field_10E_current_particle_idx = field_124_tlv_data.field_10_max_drops - 1;
+                field_10E_current_particle_idx = field_124_tlv_data.mMaxDrops - 1;
             }
         }
 
@@ -288,14 +288,14 @@ void Water::VUpdate()
         {
             case WaterState::eInit_0:
                 field_138_splash_time = 0;
-                if (!SwitchStates_Get(field_124_tlv_data.field_12_switch_id))
+                if (!SwitchStates_Get(field_124_tlv_data.mSwitchId))
                 {
                     field_FC_state = WaterState::eInactive_4;
                 }
                 else
                 {
                     field_FC_state = WaterState::eFlowing_2;
-                    field_140_water_duration = sGnFrame + field_124_tlv_data.field_1A_water_duration;
+                    field_140_water_duration = sGnFrame + field_124_tlv_data.mWaterDuration;
                     field_144_sound_channels = SFX_Play_Camera(SoundEffect::WaterFall_95, 40, soundDir);
                 }
                 break;
@@ -311,11 +311,11 @@ void Water::VUpdate()
                     field_144_sound_channels = SFX_Play_Camera(SoundEffect::WaterFall_95, 40, soundDir);
                 }
 
-                if (field_110_current_drops < (s16)(field_124_tlv_data.field_10_max_drops >> 5))
+                if (field_110_current_drops < (s16)(field_124_tlv_data.mMaxDrops >> 5))
                 {
                     for (s32 i = 0; i < field_110_current_drops; i++)
                     {
-                        if (field_10C_particle_count == field_124_tlv_data.field_10_max_drops)
+                        if (field_10C_particle_count == field_124_tlv_data.mMaxDrops)
                         {
                             break;
                         }
@@ -325,12 +325,12 @@ void Water::VUpdate()
                 else
                 {
                     field_FC_state = WaterState::eFlowing_2;
-                    field_140_water_duration = sGnFrame + field_124_tlv_data.field_1A_water_duration;
+                    field_140_water_duration = sGnFrame + field_124_tlv_data.mWaterDuration;
                 }
                 break;
 
             case WaterState::eFlowing_2:
-                field_110_current_drops = Math_NextRandom() % (field_124_tlv_data.field_10_max_drops >> 4);
+                field_110_current_drops = Math_NextRandom() % (field_124_tlv_data.mMaxDrops >> 4);
                 if (field_110_current_drops > 3 && !field_144_sound_channels)
                 {
                     field_144_sound_channels = SFX_Play_Camera(SoundEffect::WaterFall_95, 40, soundDir);
@@ -338,23 +338,23 @@ void Water::VUpdate()
 
                 for (s32 i = 0; i < field_110_current_drops; i++)
                 {
-                    if (field_10C_particle_count == field_124_tlv_data.field_10_max_drops)
+                    if (field_10C_particle_count == field_124_tlv_data.mMaxDrops)
                     {
                         break;
                     }
                     Add_Water_Particle();
                 }
 
-                if (!SwitchStates_Get(field_124_tlv_data.field_12_switch_id))
+                if (!SwitchStates_Get(field_124_tlv_data.mSwitchId))
                 {
                     field_FC_state = WaterState::eStopping_3;
-                    field_110_current_drops = field_124_tlv_data.field_10_max_drops >> 5;
+                    field_110_current_drops = field_124_tlv_data.mMaxDrops >> 5;
                 }
 
-                if (field_124_tlv_data.field_1A_water_duration && static_cast<s32>(sGnFrame) >= field_140_water_duration)
+                if (field_124_tlv_data.mWaterDuration && static_cast<s32>(sGnFrame) >= field_140_water_duration)
                 {
                     field_148_bHitTimeout |= 1u;
-                    field_110_current_drops = field_124_tlv_data.field_10_max_drops >> 5;
+                    field_110_current_drops = field_124_tlv_data.mMaxDrops >> 5;
                     field_FC_state = WaterState::eStopping_3;
                 }
                 break;
@@ -368,7 +368,7 @@ void Water::VUpdate()
                 {
                     for (s32 i = 0; i < field_110_current_drops; i++)
                     {
-                        if (field_10C_particle_count == field_124_tlv_data.field_10_max_drops)
+                        if (field_10C_particle_count == field_124_tlv_data.mMaxDrops)
                         {
                             break;
                         }
@@ -387,14 +387,14 @@ void Water::VUpdate()
             case WaterState::eInactive_4:
                 if (field_148_bHitTimeout & 1)
                 {
-                    if (field_124_tlv_data.field_10_max_drops <= 0) // Someone created a water object in the map with no particles.
+                    if (field_124_tlv_data.mMaxDrops <= 0) // Someone created a water object in the map with no particles.
                     {
                         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
                     }
                     else
                     {
                         bool allParticlesDead = true;
-                        for (s32 i = 0; i < field_124_tlv_data.field_10_max_drops; i++)
+                        for (s32 i = 0; i < field_124_tlv_data.mMaxDrops; i++)
                         {
                             if (field_F8_pWaterRes[i].field_18_enabled)
                             {
@@ -409,7 +409,7 @@ void Water::VUpdate()
                         }
                     }
                 }
-                else if (SwitchStates_Get(field_124_tlv_data.field_12_switch_id))
+                else if (SwitchStates_Get(field_124_tlv_data.mSwitchId))
                 {
                     field_110_current_drops = 0;
                     field_FC_state = WaterState::eStarting_1;
@@ -421,7 +421,7 @@ void Water::VUpdate()
                 break;
         }
 
-        for (s16 i = 0; i < field_124_tlv_data.field_10_max_drops; i++)
+        for (s16 i = 0; i < field_124_tlv_data.mMaxDrops; i++)
         {
             Water_Res* pWaterRes = &field_F8_pWaterRes[i];
             if (pWaterRes->field_18_enabled)
@@ -459,7 +459,7 @@ void Water::VUpdate()
                             pWaterRes->field_14_delta_z = FP_FromInteger(2) * dz;
                             pWaterRes->field_4_ypos = FP_FromInteger(field_108_bottom_right.y);
                             pWaterRes->field_1C_state = 1;
-                            pWaterRes->field_1A_splash_time = field_124_tlv_data.field_14_splash_time;
+                            pWaterRes->field_1A_splash_time = field_124_tlv_data.mSplashTime;
                         }
                         else
                         {
@@ -505,7 +505,7 @@ void Water::VRender(PrimHeader** ppOt)
         s16 yMin = 32767;
         s16 hMax = -32767;
 
-        for (s32 i = 0; i < field_124_tlv_data.field_10_max_drops; i++)
+        for (s32 i = 0; i < field_124_tlv_data.mMaxDrops; i++)
         {
             Water_Res* pWaterRes = &field_F8_pWaterRes[i];
             if (pWaterRes->field_18_enabled)

@@ -22,18 +22,18 @@ ALIVE_ASSERT_SIZEOF(Water_Res, 0x78);
 
 struct Path_Water_Data final
 {
-    s16 field_10_max_drops;
-    s16 field_12_switch_id;
-    s16 field_14_splash_time;
-    s16 field_16_splash_x_velocity;
-    s16 field_18_splash_y_velocity;
-    s16 field_1A_water_duration;
+    s16 mMaxDrops;
+    s16 mSwitchId;
+    s16 mSplashTime;
+    s16 mSplashVelX;
+    s16 mSplashVelY; // unused
+    s16 mWaterDuration;
 };
 ALIVE_ASSERT_SIZEOF(Path_Water_Data, 0xC);
 
 struct Path_Water final : public Path_TLV
 {
-    Path_Water_Data field_10_data;
+    Path_Water_Data mWaterData;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Water, 0x1C);
 

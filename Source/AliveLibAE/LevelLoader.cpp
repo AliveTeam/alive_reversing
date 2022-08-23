@@ -12,11 +12,11 @@ LevelLoader::LevelLoader(Path_LevelLoader* pTlv, u32 tlvInfo)
     : BaseGameObject(TRUE, 0)
 {
     mBaseGameObjectTlvInfo = tlvInfo;
-    field_20_switch_id = pTlv->field_10_switch_id;
-    field_24_level = MapWrapper::FromAE(pTlv->field_12_dest_level);
-    field_26_path = pTlv->field_14_dest_path;
-    field_28_camera = pTlv->field_16_dest_camera;
-    field_2A_movie_id = pTlv->field_18_movie_id;
+    field_20_switch_id = pTlv->mSwitchId;
+    field_24_level = MapWrapper::FromAE(pTlv->mDestLevel);
+    field_26_path = pTlv->mDestPath;
+    field_28_camera = pTlv->mDestCamera;
+    field_2A_movie_id = pTlv->mMovieId;
     field_2C_tlvInfo = tlvInfo;
     field_22_state = States::eIdle_0;
 }

@@ -1334,4 +1334,110 @@ struct Path_StatusLight final : public Path_TLV
     reliveChoice mIgnoreGridSnapping = reliveChoice::eNo;
 };
 
+struct Path_MultiSwitchController final : public Path_TLV
+{
+    s16 mOutputSwitchId = 0;
+    reliveSwitchOp mAction = reliveSwitchOp::eSetTrue;
+    u16 mOnOffDelay = 0;
+    u16 mInputSwitchId1 = 0;
+    u16 mInputSwitchId2 = 0;
+    u16 mInputSwitchId3 = 0;
+    u16 mInputSwitchId4 = 0;
+    u16 mInputSwitchId5 = 0;
+    u16 mInputSwitchId6 = 0;
+};
+
+struct Path_ExplosionSet final : public Path_TLV
+{
+    reliveChoice mStartEnabled = reliveChoice::eNo;
+    s16 mSwitchId = 0;
+    reliveChoice mSpawnAssets = reliveChoice::eNo;
+    s16 mStartDelay = 0;
+    reliveXDirection mStartDirection = reliveXDirection::eRight;
+    s16 mAssetInterval = 0;
+    s16 mGridSpacing = 0;
+    s16 mIncreasingGridSpacing = 0;
+    reliveScale mScale = reliveScale::eFull;
+};
+
+struct Path_BoneBag final : public Path_TLV
+{
+    reliveXDirection mBoneFallDirection = reliveXDirection::eRight;
+    u16 mVelX = 0;
+    u16 mVelY = 0;
+    reliveScale mScale = reliveScale::eFull;
+    s16 mBoneAmount = 0;
+};
+
+struct Path_MineCar final : public Path_TLV
+{
+    reliveScale mScale = reliveScale::eFull;
+};
+
+struct Path_ColourfulMeter final : public Path_TLV
+{
+    s16 mSwitchId = 0;
+    s16 mNumberOfMeterBars = 0;
+    s16 mMinesAlarmCountdown = 0;
+    reliveChoice mStartFilled = reliveChoice::eNo;
+};
+
+struct Path_DemoSpawnPoint final : public Path_TLV
+{
+    // Empty
+};
+
+struct Path_LevelLoader final : public Path_TLV
+{
+    s16 mSwitchId = 0;
+    EReliveLevelIds mDestLevel = EReliveLevelIds::eNone;
+    s16 mDestPath = 0;
+    s16 mDestCamera = 0;
+    s16 mMovieId = 0;
+};
+
+struct Path_SlamDoor final : public Path_TLV
+{
+    reliveChoice mStartClosed = reliveChoice::eNo;
+    reliveScale mScale = reliveScale::eFull;
+    s16 mSwitchId = 0;
+    reliveChoice mFlipY = reliveChoice::eNo;
+    reliveChoice mDelete = reliveChoice::eNo;
+};
+
+struct Path_Slurg : public Path_TLV
+{
+    s16 mMovingTimer = 0;
+    reliveXDirection mFacing = reliveXDirection::eRight;
+    reliveScale mScale = reliveScale::eFull;
+    s16 mSwitchId = 0;
+};
+
+struct Path_LaughingGas final : public Path_TLV
+{
+    reliveChoice mLaughingGas = reliveChoice::eYes;
+    s16 mLaughingGasSwitchId = 0;
+    s16 mRedPercent = 0;
+    s16 mGreenPercent = 0;
+    s16 mBluePercent = 0;
+};
+
+struct Path_WorkWheel final : public Path_TLV
+{
+    reliveScale mScale = reliveScale::eFull;
+    s16 mSwitchId = 0;
+    s16 mActivationTime = 0;
+    s16 mTurnOffTime = 0;
+    reliveChoice mTurnOffWhenStopped = reliveChoice::eNo;
+};
+
+struct Path_Water final : public Path_TLV
+{
+    s16 mMaxDrops = 0;
+    s16 mSwitchId = 0;
+    s16 mSplashTime = 0;
+    s16 mSplashVelX = 0;
+    s16 mWaterDuration = 0;
+};
+
 } // namespace relive

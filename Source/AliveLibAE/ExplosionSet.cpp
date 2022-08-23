@@ -51,23 +51,23 @@ void ExplosionSet::Init(Path_ExplosionSet* pTlv)
     field_48_tlv_rect.w = pTlv->mBottomRight.x - pTlv->mTopLeft.x;
     field_48_tlv_rect.h = pTlv->mBottomRight.y - pTlv->mTopLeft.y;
 
-    if (pTlv->field_20_scale != Scale_short::eFull_0)
+    if (pTlv->mScale != Scale_short::eFull_0)
     {
         field_50_scale = FP_FromDouble(0.5);
     }
 
-    field_44_start_delay = pTlv->field_16_start_delay;
+    field_44_start_delay = pTlv->mStartDelay;
 
-    field_5C_flags.Set(Flags_5C::eBit1_spawn_assets, pTlv->field_14_spawn_assets == Choice_short::eYes_1);
-    field_5C_flags.Set(Flags_5C::eBit2_flipX, pTlv->field_18_start_direction == XDirection_short::eRight_1);
-    field_56_asset_interval = pTlv->field_1A_asset_interval;
-    field_58_grid_spacing = FP_GetExponent(FP_FromInteger(pTlv->field_1C_grid_spacing) * ScaleToGridSize(field_50_scale));
-    field_5A_increasing_grid_spacing = FP_GetExponent(FP_FromInteger(pTlv->field_1E_increasing_grid_spacing) * ScaleToGridSize(field_50_scale));
-    field_54_switch_id = pTlv->field_12_switch_id;
+    field_5C_flags.Set(Flags_5C::eBit1_spawn_assets, pTlv->mSpawnAssets == Choice_short::eYes_1);
+    field_5C_flags.Set(Flags_5C::eBit2_flipX, pTlv->mStartDirection == XDirection_short::eRight_1);
+    field_56_asset_interval = pTlv->mAssetInterval;
+    field_58_grid_spacing = FP_GetExponent(FP_FromInteger(pTlv->mGridSpacing) * ScaleToGridSize(field_50_scale));
+    field_5A_increasing_grid_spacing = FP_GetExponent(FP_FromInteger(pTlv->mIncreasingGridSpacing) * ScaleToGridSize(field_50_scale));
+    field_54_switch_id = pTlv->mSwitchId;
 
     if (!bEnabled_5C1BB6)
     {
-        bEnabled_5C1BB6 = static_cast<s16>(pTlv->field_10_bStart_enabled);
+        bEnabled_5C1BB6 = static_cast<s16>(pTlv->mStartEnabled);
     }
 
     field_5C_flags.Set(Flags_5C::eBit3_Active);

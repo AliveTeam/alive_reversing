@@ -2827,5 +2827,287 @@ void from_json(const nlohmann::json& j, Path_StatusLight& p)
     j.at("ignore_grid_snapping").get_to(p.mIgnoreGridSnapping);
 }
 
+// Path_MultiSwitchController
+void to_json(nlohmann::json& j, const Path_MultiSwitchController& p)
+{
+    j = nlohmann::json{
+        {"name", "multi_switch_controller"},
+        {"base", ToBase(p)},
+        {"output_switch_id", p.mOutputSwitchId},
+        {"action", p.mAction},
+        {"on_off_delay", p.mOnOffDelay},
+        {"input_switch_id_1", p.mInputSwitchId1},
+        {"input_switch_id_2", p.mInputSwitchId2},
+        {"input_switch_id_3", p.mInputSwitchId3},
+        {"input_switch_id_4", p.mInputSwitchId4},
+        {"input_switch_id_5", p.mInputSwitchId5},
+        {"input_switch_id_6", p.mInputSwitchId6},
+    };
+}
+
+void from_json(const nlohmann::json& j, Path_MultiSwitchController& p)
+{
+    j.at("base").get_to(ToBase(p));
+    j.at("output_switch_id").get_to(p.mOutputSwitchId);
+    j.at("action").get_to(p.mAction);
+    j.at("on_off_delay").get_to(p.mOnOffDelay);
+    j.at("input_switch_id_1").get_to(p.mInputSwitchId1);
+    j.at("input_switch_id_2").get_to(p.mInputSwitchId2);
+    j.at("input_switch_id_3").get_to(p.mInputSwitchId3);
+    j.at("input_switch_id_4").get_to(p.mInputSwitchId4);
+    j.at("input_switch_id_5").get_to(p.mInputSwitchId5);
+    j.at("input_switch_id_6").get_to(p.mInputSwitchId6);
+}
+
+// Path_ExplosionSet
+void to_json(nlohmann::json& j, const Path_ExplosionSet& p)
+{
+    j = nlohmann::json{
+        {"name", "explosion_set"},
+        {"base", ToBase(p)},
+        {"start_enabled", p.mStartEnabled},
+        {"switch_id", p.mSwitchId},
+        {"spawn_assets", p.mSpawnAssets},
+        {"start_delay", p.mStartDelay},
+        {"start_direction", p.mStartDirection},
+        {"asset_interval", p.mAssetInterval},
+        {"grid_spacing", p.mGridSpacing},
+        {"increasing_grid_spacing", p.mIncreasingGridSpacing},
+        {"scale", p.mScale},
+    };
+}
+
+void from_json(const nlohmann::json& j, Path_ExplosionSet& p)
+{
+    j.at("base").get_to(ToBase(p));
+    j.at("start_enabled").get_to(p.mStartEnabled);
+    j.at("switch_id").get_to(p.mSwitchId);
+    j.at("spawn_assets").get_to(p.mSpawnAssets);
+    j.at("start_delay").get_to(p.mStartDelay);
+    j.at("start_direction").get_to(p.mStartDirection);
+    j.at("asset_interval").get_to(p.mAssetInterval);
+    j.at("grid_spacing").get_to(p.mGridSpacing);
+    j.at("increasing_grid_spacing").get_to(p.mIncreasingGridSpacing);
+    j.at("scale").get_to(p.mScale);
+}
+
+// Path_BoneBag
+void to_json(nlohmann::json& j, const Path_BoneBag& p)
+{
+    j = nlohmann::json{
+        {"name", "bone_bag"},
+        {"base", ToBase(p)},
+        {"bone_fall_direction", p.mBoneFallDirection},
+        {"vel_x", p.mVelX},
+        {"vel_y", p.mVelY},
+        {"scale", p.mScale},
+        {"bone_amount", p.mBoneAmount},
+    };
+}
+
+void from_json(const nlohmann::json& j, Path_BoneBag& p)
+{
+    j.at("base").get_to(ToBase(p));
+    j.at("bone_fall_direction").get_to(p.mBoneFallDirection);
+    j.at("vel_x").get_to(p.mVelX);
+    j.at("vel_y").get_to(p.mVelY);
+    j.at("scale").get_to(p.mScale);
+    j.at("bone_amount").get_to(p.mBoneAmount);
+}
+
+// Path_MineCar
+void to_json(nlohmann::json& j, const Path_MineCar& p)
+{
+    j = nlohmann::json{
+        {"name", "mine_car"},
+        {"base", ToBase(p)},
+        {"scale", p.mScale},
+    };
+}
+
+void from_json(const nlohmann::json& j, Path_MineCar& p)
+{
+    j.at("base").get_to(ToBase(p));
+    j.at("scale").get_to(p.mScale);
+}
+
+// Path_ColourfulMeter
+void to_json(nlohmann::json& j, const Path_ColourfulMeter& p)
+{
+    j = nlohmann::json{
+        {"name", "colourful_meter"},
+        {"base", ToBase(p)},
+        {"switch_id", p.mSwitchId},
+        {"number_of_meter_bars", p.mNumberOfMeterBars},
+        {"mines_alarm_countdown", p.mMinesAlarmCountdown},
+        {"start_filled", p.mStartFilled},
+    };
+}
+
+void from_json(const nlohmann::json& j, Path_ColourfulMeter& p)
+{
+    j.at("base").get_to(ToBase(p));
+    j.at("switch_id").get_to(p.mSwitchId);
+    j.at("number_of_meter_bars").get_to(p.mNumberOfMeterBars);
+    j.at("mines_alarm_countdown").get_to(p.mMinesAlarmCountdown);
+    j.at("start_filled").get_to(p.mStartFilled);
+}
+
+// Path_DemoSpawnPoint
+void to_json(nlohmann::json& j, const Path_DemoSpawnPoint& p)
+{
+    j = nlohmann::json{
+        {"name", "demo_spawn_point"},
+        {"base", ToBase(p)},
+    };
+}
+
+void from_json(const nlohmann::json& j, Path_DemoSpawnPoint& p)
+{
+    j.at("base").get_to(ToBase(p));
+}
+
+// Path_LevelLoader
+void to_json(nlohmann::json& j, const Path_LevelLoader& p)
+{
+    j = nlohmann::json{
+        {"name", "level_loader"},
+        {"base", ToBase(p)},
+        {"switch_id", p.mSwitchId},
+        {"dest_level", p.mDestLevel},
+        {"dest_path", p.mDestPath},
+        {"dest_camera", p.mDestCamera},
+        {"movie_id", p.mMovieId},
+    };
+}
+
+void from_json(const nlohmann::json& j, Path_LevelLoader& p)
+{
+    j.at("base").get_to(ToBase(p));
+    j.at("switch_id").get_to(p.mSwitchId);
+    j.at("dest_level").get_to(p.mDestLevel);
+    j.at("dest_path").get_to(p.mDestPath);
+    j.at("dest_camera").get_to(p.mDestCamera);
+    j.at("movie_id").get_to(p.mMovieId);
+}
+
+// Path_SlamDoor
+void to_json(nlohmann::json& j, const Path_SlamDoor& p)
+{
+    j = nlohmann::json{
+        {"name", "slam_door"},
+        {"base", ToBase(p)},
+        {"start_closed", p.mStartClosed},
+        {"scale", p.mScale},
+        {"switch_id", p.mSwitchId},
+        {"flip_y", p.mFlipY},
+        {"delete", p.mDelete},
+    };
+}
+
+void from_json(const nlohmann::json& j, Path_SlamDoor& p)
+{
+    j.at("base").get_to(ToBase(p));
+    j.at("start_closed").get_to(p.mStartClosed);
+    j.at("scale").get_to(p.mScale);
+    j.at("switch_id").get_to(p.mSwitchId);
+    j.at("flip_y").get_to(p.mFlipY);
+    j.at("delete").get_to(p.mDelete);
+}
+
+// Path_Slurg
+void to_json(nlohmann::json& j, const Path_Slurg& p)
+{
+    j = nlohmann::json{
+        {"name", "annoying_slurg"},
+        {"base", ToBase(p)},
+        {"moving_timer", p.mMovingTimer},
+        {"facing", p.mFacing},
+        {"scale", p.mScale},
+        {"switch_id", p.mSwitchId},
+    };
+}
+
+void from_json(const nlohmann::json& j, Path_Slurg& p)
+{
+    j.at("base").get_to(ToBase(p));
+    j.at("moving_timer").get_to(p.mMovingTimer);
+    j.at("facing").get_to(p.mFacing);
+    j.at("scale").get_to(p.mScale);
+    j.at("switch_id").get_to(p.mSwitchId);
+}
+
+// Path_LaughingGas
+void to_json(nlohmann::json& j, const Path_LaughingGas& p)
+{
+    j = nlohmann::json{
+        {"name", "laughing_gas"},
+        {"base", ToBase(p)},
+        {"laughing_gas", p.mLaughingGas},
+        {"laughing_gas_switch_id", p.mLaughingGasSwitchId},
+        {"red_percent", p.mRedPercent},
+        {"green_percent", p.mGreenPercent},
+        {"blue_percent", p.mBluePercent},
+    };
+}
+
+void from_json(const nlohmann::json& j, Path_LaughingGas& p)
+{
+    j.at("base").get_to(ToBase(p));
+    j.at("laughing_gas").get_to(p.mLaughingGas);
+    j.at("laughing_gas_switch_id").get_to(p.mLaughingGasSwitchId);
+    j.at("red_percent").get_to(p.mRedPercent);
+    j.at("green_percent").get_to(p.mGreenPercent);
+    j.at("blue_percent").get_to(p.mBluePercent);
+}
+
+// Path_WorkWheel
+void to_json(nlohmann::json& j, const Path_WorkWheel& p)
+{
+    j = nlohmann::json{
+        {"name", "work_wheel"},
+        {"base", ToBase(p)},
+        {"scale", p.mScale},
+        {"switch_id", p.mSwitchId},
+        {"activation_time", p.mActivationTime},
+        {"turn_off_time", p.mTurnOffTime},
+        {"turn_off_when_stopped", p.mTurnOffWhenStopped},
+    };
+}
+
+void from_json(const nlohmann::json& j, Path_WorkWheel& p)
+{
+    j.at("base").get_to(ToBase(p));
+    j.at("scale").get_to(p.mScale);
+    j.at("switch_id").get_to(p.mSwitchId);
+    j.at("activation_time").get_to(p.mActivationTime);
+    j.at("turn_off_time").get_to(p.mTurnOffTime);
+    j.at("turn_off_when_stopped").get_to(p.mTurnOffWhenStopped);
+}
+
+// Path_Water
+void to_json(nlohmann::json& j, const Path_Water& p)
+{
+    j = nlohmann::json{
+        {"name", "water"},
+        {"base", ToBase(p)},
+        {"max_drops", p.mMaxDrops},
+        {"switch_id", p.mSwitchId},
+        {"splash_time", p.mSplashTime},
+        {"splash_vel_x", p.mSplashVelX},
+        {"water_duration", p.mWaterDuration},
+    };
+}
+
+void from_json(const nlohmann::json& j, Path_Water& p)
+{
+    j.at("base").get_to(ToBase(p));
+    j.at("max_drops").get_to(p.mMaxDrops);
+    j.at("switch_id").get_to(p.mSwitchId);
+    j.at("splash_time").get_to(p.mSplashTime);
+    j.at("splash_vel_x").get_to(p.mSplashVelX);
+    j.at("water_duration").get_to(p.mWaterDuration);
+}
+
 } // namespace relive
 

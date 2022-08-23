@@ -7,16 +7,16 @@
 
 struct Path_MultiSwitchController final : public Path_TLV
 {
-    s16 field_10_output_switch_id;
-    SwitchOp field_12_action;
-    u16 field_14_on_off_delay;
-    u16 field_16_input_switch_id1;
-    u16 field_18_input_switch_id2;
-    u16 field_1A_input_switch_id3;
-    u16 field_1C_input_switch_id4;
-    u16 field_1E_input_switch_id5;
-    u16 field_20_input_switch_id6;
-    s16 field_22_pad;
+    s16 mOutputSwitchId;
+    SwitchOp mAction;
+    u16 mOnOffDelay;
+    u16 mInputSwitchId1;
+    u16 mInputSwitchId2;
+    u16 mInputSwitchId3;
+    u16 mInputSwitchId4;
+    u16 mInputSwitchId5;
+    u16 mInputSwitchId6;
+    s16 padding;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_MultiSwitchController, 0x24);
 
@@ -34,18 +34,18 @@ private:
     void WaitingForAllOff();
 
 private:
-    u16 field_20_input_switch_id1 = 0;
-    u16 field_22_input_switch_id2 = 0;
-    u16 field_24_input_switch_id3 = 0;
-    u16 field_26_input_switch_id4 = 0;
-    u16 field_28_input_switch_id5 = 0;
-    u16 field_2A_input_switch_id6 = 0;
-    u16 field_2C_output_switch_id = 0;
-    SwitchOp field_2E_action = SwitchOp::eSetTrue_0;
-    s32 field_30_tlvInfo = 0;
+    u16 mInputSwitchId1 = 0;
+    u16 mInputSwitchId2 = 0;
+    u16 mInputSwitchId3 = 0;
+    u16 mInputSwitchId4 = 0;
+    u16 mInputSwitchId5 = 0;
+    u16 mInputSwitchId6 = 0;
+    u16 mOutputSwitchId = 0;
+    SwitchOp mAction = SwitchOp::eSetTrue_0;
+    s32 mTlvInfo = 0;
     s32 field_34_last_switch_on_time = 0;
     s32 field_38_all_switches_on_or_off_time = 0;
-    s32 field_3C_on_off_delay = 0;
+    s32 mOnOffDelay = 0;
     enum Flags_40
     {
         eBit1_is_on = 0x1,

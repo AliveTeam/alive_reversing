@@ -9,12 +9,12 @@ enum class LevelIds : s16;
 
 struct Path_LevelLoader final : public Path_TLV
 {
-    s16 field_10_switch_id;
-    LevelIds field_12_dest_level;
-    s16 field_14_dest_path;
-    s16 field_16_dest_camera;
-    s16 field_18_movie_id;
-    s16 field_1A_pad;
+    s16 mSwitchId;
+    LevelIds mDestLevel;
+    s16 mDestPath;
+    s16 mDestCamera;
+    s16 mMovieId;
+    s16 padding;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_LevelLoader, 0x1C);
 

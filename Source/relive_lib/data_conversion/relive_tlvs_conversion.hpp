@@ -112,7 +112,18 @@
 #include "../AliveLibAE/ParamiteWebLine.hpp"
 #include "../AliveLibAE/SlapLock.hpp"
 #include "../AliveLibAE/StatusLight.hpp"
-
+#include "../AliveLibAE/MultiSwitchController.hpp"
+#include "../AliveLibAE/ExplosionSet.hpp"
+#include "../AliveLibAE/Bone.hpp"
+#include "../AliveLibAE/MineCar.hpp"
+#include "../AliveLibAE/ColourfulMeter.hpp"
+#include "../AliveLibAE/DemoPlayback.hpp"
+#include "../AliveLibAE/LevelLoader.hpp"
+#include "../AliveLibAE/SlamDoor.hpp"
+#include "../AliveLibAE/Slurg.hpp"
+#include "../AliveLibAE/LaughingGas.hpp"
+#include "../AliveLibAE/WorkWheel.hpp"
+#include "../AliveLibAE/Water.hpp"
 
 // Convert an AO or AE TLV to a relive TLV
 
@@ -3800,6 +3811,195 @@ public:
         r.mLinkedStatusLightSwitchId4 = tlv.mLinkedStatusLightSwitchId4;
         r.mLinkedStatusLightSwitchId5 = tlv.mLinkedStatusLightSwitchId5;
         r.mIgnoreGridSnapping = relive::From(tlv.mIgnoreGridSnapping);
+        return r;
+    }
+};
+
+class Path_MultiSwitchController_Converter final
+{
+public:
+    static Path_MultiSwitchController From(const ::Path_MultiSwitchController& tlv)
+    {
+        Path_MultiSwitchController r;
+        BaseConvert(r, tlv);
+        r.mOutputSwitchId = r.mOutputSwitchId;
+        r.mAction = relive::From(tlv.mAction);
+        r.mOnOffDelay = tlv.mOnOffDelay;
+        r.mInputSwitchId1 = tlv.mInputSwitchId1;
+        r.mInputSwitchId2 = tlv.mInputSwitchId2;
+        r.mInputSwitchId3 = tlv.mInputSwitchId3;
+        r.mInputSwitchId4 = tlv.mInputSwitchId4;
+        r.mInputSwitchId5 = tlv.mInputSwitchId5;
+        r.mInputSwitchId6 = tlv.mInputSwitchId6;
+        return r;
+    }
+};
+
+class Path_ExplosionSet_Converter final
+{
+public:
+    static Path_ExplosionSet From(const ::Path_ExplosionSet& tlv)
+    {
+        Path_ExplosionSet r;
+        BaseConvert(r, tlv);
+        r.mStartEnabled = relive::From(tlv.mStartEnabled);
+        r.mSwitchId = tlv.mSwitchId;
+        r.mSpawnAssets = relive::From(tlv.mSpawnAssets);
+        r.mStartDelay = tlv.mStartDelay;
+        r.mStartDirection = relive::From(tlv.mStartDirection);
+        r.mAssetInterval = tlv.mAssetInterval;
+        r.mGridSpacing = tlv.mGridSpacing;
+        r.mIncreasingGridSpacing = tlv.mIncreasingGridSpacing;
+        r.mScale = relive::From(tlv.mScale);
+        return r;
+    }
+};
+
+class Path_BoneBag_Converter final
+{
+public:
+    static Path_BoneBag From(const ::Path_BoneBag& tlv)
+    {
+        Path_BoneBag r;
+        BaseConvert(r, tlv);
+        r.mBoneFallDirection = relive::From(tlv.mBoneFallDirection);
+        r.mVelX = tlv.mVelX;
+        r.mVelY = tlv.mVelY;
+        r.mScale = relive::From(tlv.mScale);
+        r.mBoneAmount = tlv.mBoneAmount;
+        return r;
+    }
+};
+
+class Path_MineCar_Converter final
+{
+public:
+    static Path_MineCar From(const ::Path_MineCar& tlv)
+    {
+        Path_MineCar r;
+        BaseConvert(r, tlv);
+        r.mScale = relive::From(tlv.mScale);
+        return r;
+    }
+};
+
+class Path_ColourfulMeter_Converter final
+{
+public:
+    static Path_ColourfulMeter From(const ::Path_ColourfulMeter& tlv)
+    {
+        Path_ColourfulMeter r;
+        BaseConvert(r, tlv);
+        r.mSwitchId = tlv.mSwitchId;
+        r.mNumberOfMeterBars = tlv.mNumberOfMeterBars;
+        r.mMinesAlarmCountdown = tlv.mMinesAlarmCountdown;
+        r.mStartFilled = relive::From(tlv.mStartFilled);
+        return r;
+    }
+};
+
+class Path_DemoSpawnPoint_Converter final
+{
+public:
+    static Path_DemoSpawnPoint From(const ::Path_DemoSpawnPoint& tlv)
+    {
+        Path_DemoSpawnPoint r;
+        BaseConvert(r, tlv);
+        return r;
+    }
+};
+
+class Path_LevelLoader_Converter final
+{
+public:
+    static Path_LevelLoader From(const ::Path_LevelLoader& tlv)
+    {
+        Path_LevelLoader r;
+        BaseConvert(r, tlv);
+        r.mSwitchId = tlv.mSwitchId;
+        r.mDestLevel = MapWrapper::FromAE(tlv.mDestLevel);
+        r.mDestPath = tlv.mDestPath;
+        r.mDestCamera = tlv.mDestCamera;
+        r.mMovieId = tlv.mMovieId;
+        return r;
+    }
+};
+
+class Path_SlamDoor_Converter final
+{
+public:
+    static Path_SlamDoor From(const ::Path_SlamDoor& tlv)
+    {
+        Path_SlamDoor r;
+        BaseConvert(r, tlv);
+        r.mStartClosed = relive::From(tlv.mStartClosed);
+        r.mScale = relive::From(tlv.mScale);
+        r.mSwitchId = tlv.mSwitchId;
+        r.mFlipY = relive::From(tlv.mFlipY);
+        r.mDelete = relive::From(tlv.mDelete);
+        return r;
+    }
+};
+
+class Path_Slurg_Converter final
+{
+public:
+    static Path_Slurg From(const ::Path_Slurg& tlv)
+    {
+        Path_Slurg r;
+        BaseConvert(r, tlv);
+        r.mMovingTimer = tlv.mSlurgData.mMovingTimer;
+        r.mFacing = relive::From(tlv.mSlurgData.mFacing);
+        r.mScale = relive::From(tlv.mSlurgData.mScale);
+        r.mSwitchId = tlv.mSlurgData.mSwitchId;
+        return r;
+    }
+};
+
+class Path_LaughingGas_Converter final
+{
+public:
+    static Path_LaughingGas From(const ::Path_LaughingGas& tlv)
+    {
+        Path_LaughingGas r;
+        BaseConvert(r, tlv);
+        r.mLaughingGas = relive::From(tlv.mLaughingGas);
+        r.mLaughingGasSwitchId = tlv.mLaughingGasSwitchId;
+        r.mRedPercent = tlv.mRedPercent;
+        r.mGreenPercent = tlv.mGreenPercent;
+        r.mBluePercent = tlv.mBluePercent;
+        return r;
+    }
+};
+
+class Path_WorkWheel_Converter final
+{
+public:
+    static Path_WorkWheel From(const ::Path_WorkWheel& tlv)
+    {
+        Path_WorkWheel r;
+        BaseConvert(r, tlv);
+        r.mScale = relive::From(tlv.mScale);
+        r.mSwitchId = tlv.mSwitchId;
+        r.mActivationTime = tlv.mActivationTime;
+        r.mTurnOffTime = tlv.mTurnOffTime;
+        r.mTurnOffWhenStopped = relive::From(tlv.mTurnOffWhenStopped);
+        return r;
+    }
+};
+
+class Path_Water_Converter final
+{
+public:
+    static Path_Water From(const ::Path_Water& tlv)
+    {
+        Path_Water r;
+        BaseConvert(r, tlv);
+        r.mMaxDrops = tlv.mWaterData.mMaxDrops;
+        r.mSwitchId = tlv.mWaterData.mSwitchId;
+        r.mSplashTime = tlv.mWaterData.mSplashTime;
+        r.mSplashVelX = tlv.mWaterData.mSplashVelX;
+        r.mWaterDuration = tlv.mWaterData.mWaterDuration;
         return r;
     }
 };

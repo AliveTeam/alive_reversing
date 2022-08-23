@@ -27,8 +27,8 @@ MineCar::MineCar(Path_MineCar* pTlv, s32 tlvInfo, s32 /*a4*/, s32 /*a5*/, s32 /*
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
     Animation_Init(AnimId::Mine_Car_Open, ppRes);
 
-    field_11E_scale = pTlv->field_10_scale;
-    field_120_max_damage = pTlv->field_12_max_damage;
+    field_11E_scale = pTlv->mScale;
+    field_120_max_damage = pTlv->mMaxDamage;
 
     mXPos = FP_FromInteger(pTlv->mTopLeft.x);
     mYPos = FP_FromInteger(pTlv->mTopLeft.y);

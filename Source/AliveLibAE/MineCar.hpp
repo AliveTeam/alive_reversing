@@ -8,8 +8,8 @@
 
 struct Path_MineCar final : public Path_TLV
 {
-    Scale_short field_10_scale;
-    s16 field_12_max_damage;
+    Scale_short mScale;
+    s16 mMaxDamage; // unused
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_MineCar, 0x14);
 

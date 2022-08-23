@@ -384,76 +384,76 @@ static void ConvertTLV(nlohmann::json& j, const ::Path_TLV& tlv)
             break;
         case ::TlvTypes::Glukkon_73:
             LOG_WARNING("tlv of type " << static_cast<s16>(tlv.mTlvType32.mType) << " not implemented");
-            return;
+            break;
         case ::TlvTypes::KillUnsavedMudokons_74: // AO only
             return;
         case ::TlvTypes::SoftLanding_75:
             convert_tlv<relive::Path_SoftLanding_Converter, ::Path_SoftLanding>(j, tlv);
             break;
-        case ::TlvTypes::ResetSwitchRange_76: // TODO: is this the same as Path_RestPath in AO?
+        case ::TlvTypes::ResetSwitchRange_76: // TODO: is this the same as Path_ResetPath in AO?
             LOG_WARNING("tlv of type " << static_cast<s16>(tlv.mTlvType32.mType) << " not implemented");
-            return;
+            break;
         case ::TlvTypes::Water_77:
-            LOG_WARNING("tlv of type " << static_cast<s16>(tlv.mTlvType32.mType) << " not implemented");
-            return;
+            convert_tlv<relive::Path_Water_Converter, ::Path_Water>(j, tlv);
+            break;
         case ::TlvTypes::Null_78:
             return;
         case ::TlvTypes::WorkWheel_79:
-            LOG_WARNING("tlv of type " << static_cast<s16>(tlv.mTlvType32.mType) << " not implemented");
-            return;
+            convert_tlv<relive::Path_WorkWheel_Converter, ::Path_WorkWheel>(j, tlv);
+            break;
         case ::TlvTypes::Null_80:
             return;
         case ::TlvTypes::LaughingGas_81:
-            LOG_WARNING("tlv of type " << static_cast<s16>(tlv.mTlvType32.mType) << " not implemented");
-            return;
+            convert_tlv<relive::Path_LaughingGas_Converter, ::Path_LaughingGas>(j, tlv);
+            break;
         case ::TlvTypes::FlyingSlig_82:
             LOG_WARNING("tlv of type " << static_cast<s16>(tlv.mTlvType32.mType) << " not implemented");
-            return;
+            break;
         case ::TlvTypes::Fleech_83:
             LOG_WARNING("tlv of type " << static_cast<s16>(tlv.mTlvType32.mType) << " not implemented");
-            return;
+            break;
         case ::TlvTypes::Slurg_84:
-            LOG_WARNING("tlv of type " << static_cast<s16>(tlv.mTlvType32.mType) << " not implemented");
-            return;
+            convert_tlv<relive::Path_Slurg_Converter, ::Path_Slurg>(j, tlv);
+            break;
         case ::TlvTypes::SlamDoor_85:
-            LOG_WARNING("tlv of type " << static_cast<s16>(tlv.mTlvType32.mType) << " not implemented");
-            return;
+            convert_tlv<relive::Path_SlamDoor_Converter, ::Path_SlamDoor>(j, tlv);
+            break;
         case ::TlvTypes::LevelLoader_86:
-            LOG_WARNING("tlv of type " << static_cast<s16>(tlv.mTlvType32.mType) << " not implemented");
-            return;
+            convert_tlv<relive::Path_LevelLoader_Converter, ::Path_LevelLoader>(j, tlv);
+            break;
         case ::TlvTypes::DemoSpawnPoint_87:
-            LOG_WARNING("tlv of type " << static_cast<s16>(tlv.mTlvType32.mType) << " not implemented");
-            return;
+            convert_tlv<relive::Path_DemoSpawnPoint_Converter, ::Path_DemoSpawnPoint>(j, tlv);
+            break;
         case ::TlvTypes::Teleporter_88:
             LOG_WARNING("tlv of type " << static_cast<s16>(tlv.mTlvType32.mType) << " not implemented");
-            return;
+            break;
         case ::TlvTypes::SlurgSpawner_89:
             LOG_WARNING("tlv of type " << static_cast<s16>(tlv.mTlvType32.mType) << " not implemented");
-            return;
+            break;
         case ::TlvTypes::Drill_90:
             LOG_WARNING("tlv of type " << static_cast<s16>(tlv.mTlvType32.mType) << " not implemented");
-            return;
+            break;
         case ::TlvTypes::ColourfulMeter_91:
-            LOG_WARNING("tlv of type " << static_cast<s16>(tlv.mTlvType32.mType) << " not implemented");
-            return;
+            convert_tlv<relive::Path_ColourfulMeter_Converter, ::Path_ColourfulMeter>(j, tlv);
+            break;
         case ::TlvTypes::FlyingSligSpawner_92:
             LOG_WARNING("tlv of type " << static_cast<s16>(tlv.mTlvType32.mType) << " not implemented");
-            return;
+            break;
         case ::TlvTypes::MineCar_93:
-            LOG_WARNING("tlv of type " << static_cast<s16>(tlv.mTlvType32.mType) << " not implemented");
-            return;
+            convert_tlv<relive::Path_MineCar_Converter, ::Path_MineCar>(j, tlv);
+            break;
         case ::TlvTypes::BoneBag_94:
-            LOG_WARNING("tlv of type " << static_cast<s16>(tlv.mTlvType32.mType) << " not implemented");
-            return;
+            convert_tlv<relive::Path_BoneBag_Converter, ::Path_BoneBag>(j, tlv);
+            break;
         case ::TlvTypes::ExplosionSet_95:
-            LOG_WARNING("tlv of type " << static_cast<s16>(tlv.mTlvType32.mType) << " not implemented");
-            return;
+            convert_tlv<relive::Path_ExplosionSet_Converter, ::Path_ExplosionSet>(j, tlv);
+            break;
         case ::TlvTypes::MultiSwitchController_96:
-            LOG_WARNING("tlv of type " << static_cast<s16>(tlv.mTlvType32.mType) << " not implemented");
-            return;
+            convert_tlv<relive::Path_MultiSwitchController_Converter, ::Path_MultiSwitchController>(j, tlv);
+            break;
         case ::TlvTypes::StatusLight_97:
             convert_tlv<relive::Path_StatusLight_Converter, ::Path_StatusLight>(j, tlv);
-            return;
+            break;
         case ::TlvTypes::SlapLock_98:
             convert_tlv<relive::Path_SlapLock_Converter, ::Path_SlapLock>(j, tlv);
             break;
@@ -465,25 +465,25 @@ static void ConvertTLV(nlohmann::json& j, const ::Path_TLV& tlv)
             break;
         case ::TlvTypes::BrewMachine_101:
             convert_tlv<relive::Path_BrewMachine_Converter, ::Path_BrewMachine>(j, tlv);
-            return;
+            break;
         case ::TlvTypes::ScrabSpawner_102:
             LOG_WARNING("tlv of type " << static_cast<s16>(tlv.mTlvType32.mType) << " not implemented");
-            return;
+            break;
         case ::TlvTypes::CrawlingSlig_103:
             LOG_WARNING("tlv of type " << static_cast<s16>(tlv.mTlvType32.mType) << " not implemented");
-            return;
+            break;
         case ::TlvTypes::SligGetPants_104:
             LOG_WARNING("tlv of type " << static_cast<s16>(tlv.mTlvType32.mType) << " not implemented");
-            return;
+            break;
         case ::TlvTypes::SligGetWings_105:
             LOG_WARNING("tlv of type " << static_cast<s16>(tlv.mTlvType32.mType) << " not implemented");
-            return;
+            break;
         case ::TlvTypes::Greeter_106:
             convert_tlv<relive::Path_Greeter_Converter, ::Path_Greeter>(j, tlv);
             break;
         case ::TlvTypes::CrawlingSligButton_107:
             LOG_WARNING("tlv of type " << static_cast<s16>(tlv.mTlvType32.mType) << " not implemented");
-            return;
+            break;
         case ::TlvTypes::GlukkonSwitch_108:
             convert_tlv<relive::Path_GlukkonSwitch_Converter, ::Path_GlukkonSwitch>(j, tlv);
             break;
