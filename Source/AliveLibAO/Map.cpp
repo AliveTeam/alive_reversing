@@ -1739,7 +1739,18 @@ void Map::GoTo_Camera()
         auto tmp = sOverlayTable_4C5AA8.records[Path_Get_OverlayIdx(mNextLevel)].field_4_pos;
         sLvlArchive_4FFD60.OpenArchive(CdLvlName(mNextLevel), tmp);
 
+        // TODO: Jayson!
         ResourceManager::LoadResourceFile_455270(Path_Get_BndName(mNextLevel), nullptr);
+
+        /*
+        // TODO: Load level_info.json so we know which path jsons to load for this level
+        FileSystem::Path pathDir;
+        pathDir.Append("relive_data").Append("ao").Append(ToString(mNextLevel)).Append("paths");
+        ResourceManager::LoadFile();
+        */
+
+        // TODO: there is no manfest of paths, just enumerate and load all jsons? or move the per lvl data to a
+        // json? 
 
         GetPathResourceBlockPtrs();
 

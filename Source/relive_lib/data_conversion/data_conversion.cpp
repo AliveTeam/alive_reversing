@@ -875,6 +875,15 @@ static void to_json(nlohmann::json& j, const CameraEntry& p)
     };
 }
 
+static void SaveJson(const nlohmann::json& j, FileSystem& fs, const FileSystem::Path& path)
+{
+    std::string jsonStr = j.dump(4);
+
+    std::vector<u8> data;
+    data.resize(jsonStr.length());
+    data.assign(jsonStr.begin(), jsonStr.end());
+    fs.Save(path, data);
+}
 
 static void ConvertPath(FileSystem& fs, const FileSystem::Path& path, const ReliveAPI::LvlFileChunk& pathBndChunk, EReliveLevelIds reliveLvl)
 {
@@ -886,8 +895,8 @@ static void ConvertPath(FileSystem& fs, const FileSystem::Path& path, const Reli
 
     nlohmann::json camerasArray = nlohmann::json::array();
     PathCamerasEnumerator cameraEnumerator(width, height, pathBndChunk.Data());
-    cameraEnumerator.Enumerate([&](const CameraEntry& tmpCamera) 
-    {
+    cameraEnumerator.Enumerate([&](const CameraEntry& tmpCamera)
+                               {
         // Save map objects
         nlohmann::json mapObjectsArray = nlohmann::json::array();
         const u32 indexTableIdx = To1dIndex(width, tmpCamera.mX, tmpCamera.mY);
@@ -902,28 +911,20 @@ static void ConvertPath(FileSystem& fs, const FileSystem::Path& path, const Reli
             to_json(camJson, tmpCamera);
             camJson["map_objects"] = mapObjectsArray;
             camerasArray.push_back(camJson);
-        }
-    });
+        } });
 
     // Save collisions
     nlohmann::json collisionsArray = nlohmann::json::array();
     ConvertPathCollisions(collisionsArray, *pBlyRec->field_8_pCollisionData, pathBndChunk.Data());
 
-   
-    nlohmann::json j =
-    { 
-      { "cameras", camerasArray },
-      { "collisions", collisionsArray },
+
+    nlohmann::json j = {
+        {"cameras", camerasArray},
+        {"collisions", collisionsArray},
     };
 
-    std::string jsonStr = j.dump(4);
-
+    SaveJson(j, fs, path);
     LOG_INFO("converted path " << pathBndChunk.Id() << " level " << ToString(MapWrapper::ToAO(reliveLvl)));
-
-    std::vector<u8> data;
-    data.resize(jsonStr.length());
-    data.assign(jsonStr.begin(), jsonStr.end());
-    fs.Save(path, data);
 }
 
 void TestTlvConversion()
@@ -937,6 +938,44 @@ void TestTlvConversion()
     // TODO: Check from AE tlv
 
     LOG_INFO(j.dump(4));
+}
+
+static void SaveLevelInfoJson(EReliveLevelIds reliveLvl, AO::LevelIds lvlIdxAsLvl, FileSystem& fs, const ReliveAPI::ChunkedLvlFile& pathBndFile)
+{
+    FileSystem::Path pathDir;
+    pathDir.Append("relive_data").Append("ao").Append(ToString(lvlIdxAsLvl)).Append("paths");
+    fs.CreateDirectory(pathDir);
+
+    FileSystem::Path pathJsonFile = pathDir;
+    pathJsonFile.Append("level_info.json");
+
+    nlohmann::json jsonPathFilesArray;
+
+    // Convert hard coded path data json
+    for (u32 j = 0; j < pathBndFile.ChunkCount(); j++)
+    {
+        const ReliveAPI::LvlFileChunk& pathBndChunk = pathBndFile.ChunkAt(j);
+        if (pathBndChunk.Header().mResourceType == AO::ResourceManager::Resource_Path)
+        {
+            // Write out what paths exist so the game knows what files to load
+            jsonPathFilesArray.push_back(std::to_string(pathBndChunk.Header().field_C_id) + ".json");
+        }
+    }
+
+    // TODO: Misc info, back ground music id, reverb etc
+
+    // TODO: Colour tints per object in this lvl
+
+    // TODO: Music info - incl each SEQ name
+    /*
+    AO::SoundBlockInfo* pSoundBlock = AO::Path_Get_MusicInfo(reliveLvl);
+    pSoundBlock->
+    */
+
+    nlohmann::json j;
+    j["paths"] = jsonPathFilesArray;
+
+    SaveJson(j, fs, pathJsonFile);
 }
 
 void DataConversion::ConvertData()
@@ -953,110 +992,115 @@ void DataConversion::ConvertData()
     fs.CreateDirectory(dataDir);
 
     std::vector<u8> fileBuffer;
+    // For each LVL
     for (s32 lvlIdx = 0; lvlIdx < AO::Path_Get_Paths_Count(); lvlIdx++)
     {
+        // Skip entries that have no data
         const AO::LevelIds lvlIdxAsLvl = static_cast<AO::LevelIds>(lvlIdx);
         if (lvlIdxAsLvl == AO::LevelIds::eRemoved_7 || lvlIdxAsLvl == AO::LevelIds::eRemoved_11)
         {
             continue;
         }
 
+        // Open the LVL file
         const EReliveLevelIds reliveLvl = MapWrapper::FromAO(lvlIdxAsLvl);
         ReliveAPI::FileIO fileIo;
         ReliveAPI::LvlReader lvlReader(fileIo, (std::string(AO::Path_Get_Lvl_Name(reliveLvl)) + ".LVL").c_str());
 
-        if (lvlReader.IsOpen())
-        {
-            for (auto& rec : kAnimRecConversionInfo)
-            {
-                // Animation is in this LVL and not yet converted
-                if (!rec.mConverted && rec.mAoLvl == reliveLvl)
-                {
-                    FileSystem::Path filePath;
-                    filePath.Append("relive_data").Append("ao").Append("animations");
-
-                    // e.g "abe"
-                    filePath.Append(ToString(rec.mGroup));
-
-                    // Ensure the containing directory exists
-                    fs.CreateDirectory(filePath);
-
-                    const auto& animDetails = AO::AnimRec(rec.mAnimId);
-
-                    // e.g "arm_gib"
-                    filePath.Append(AnimBaseName(rec.mAnimId));
-
-                    ReadLvlFileInto(lvlReader, animDetails.mBanName, fileBuffer);
-                    AnimationConverter animationConverter(filePath, animDetails, fileBuffer, true);
-
-                    // Track what is converted so we know what is missing at the end
-                    rec.mConverted = true;
-                }
-            }
-
-            for (s32 i = 0; i < lvlReader.FileCount(); i++)
-            {
-                auto fileName = lvlReader.FileNameAt(i);
-                if (!fileName.empty())
-                {
-                    if (endsWith(fileName, ".CAM"))
-                    {
-                        ReadLvlFileInto(lvlReader, fileName.c_str(), fileBuffer);
-
-                        ReliveAPI::ChunkedLvlFile camFile(fileBuffer);
-                  
-                        FileSystem::Path pathDir;
-                        std::string camBaseName = fileName.substr(0, fileName.length() - 4); // chop off .CAM
-                        pathDir.Append("relive_data").Append("ao").Append(ToString(lvlIdxAsLvl));
-                        fs.CreateDirectory(pathDir);
-                        pathDir.Append(camBaseName);
-
-                        // Convert camera images and FG layers
-                        ReliveAPI::CamConverter cc(camFile, pathDir.GetPath());
-
-                        // TODO: Convert any BgAnims in this camera
-                    }
-                    // TODO: Seek these out instead of converting everything we see since the names are fixed per LVL
-                    else if (endsWith(fileName, ".VB") || endsWith(fileName, ".VH") || endsWith(fileName, ".BSQ"))
-                    {
-                        ReadLvlFileInto(lvlReader, fileName.c_str(), fileBuffer);
-
-                        FileSystem::Path filePath;
-                        filePath.Append("relive_data").Append("ao").Append(ToString(lvlIdxAsLvl));
-                        fs.CreateDirectory(filePath);
-                        filePath.Append(fileName);
-
-
-                        fs.Save(filePath, fileBuffer);
-                    }
-                    else if (endsWith(fileName, "PATH.BND"))
-                    {
-                        FileSystem::Path pathDir;
-                        pathDir.Append("relive_data").Append("ao").Append(ToString(lvlIdxAsLvl)).Append("paths");
-                        fs.CreateDirectory(pathDir);
-
-                        // TODO: Path conversion
-                        ReadLvlFileInto(lvlReader, fileName.c_str(), fileBuffer);
-                        ReliveAPI::ChunkedLvlFile pathBndFile(fileBuffer);
-                        for (u32 j = 0; j < pathBndFile.ChunkCount(); j++)
-                        {
-                            const ReliveAPI::LvlFileChunk& pathBndChunk = pathBndFile.ChunkAt(j);
-                            if (pathBndChunk.Header().mResourceType == AO::ResourceManager::Resource_Path)
-                            {
-                                FileSystem::Path pathJsonFile = pathDir;
-                                pathJsonFile.Append(std::to_string(j) + ".json");
-                                ConvertPath(fs, pathJsonFile, pathBndChunk, reliveLvl);
-                            }
-                        }
-                    }
-                }
-            }
-
-        }
-        else
+        if (!lvlReader.IsOpen())
         {
             // Fatal, missing LVL file
             ALIVE_FATAL("Couldn't open lvl file");
+        }
+
+        // Convert animations that exist in this LVL
+        for (auto& rec : kAnimRecConversionInfo)
+        {
+            // Animation is in this LVL and not yet converted
+            if (!rec.mConverted && rec.mAoLvl == reliveLvl)
+            {
+                FileSystem::Path filePath;
+                filePath.Append("relive_data").Append("ao").Append("animations");
+
+                // e.g "abe"
+                filePath.Append(ToString(rec.mGroup));
+
+                // Ensure the containing directory exists
+                fs.CreateDirectory(filePath);
+
+                const auto& animDetails = AO::AnimRec(rec.mAnimId);
+
+                // e.g "arm_gib"
+                filePath.Append(AnimBaseName(rec.mAnimId));
+
+                ReadLvlFileInto(lvlReader, animDetails.mBanName, fileBuffer);
+                AnimationConverter animationConverter(filePath, animDetails, fileBuffer, true);
+
+                // Track what is converted so we know what is missing at the end
+                rec.mConverted = true;
+            }
+        }
+
+        // Iterate and convert spceific file types in the LVL
+        for (s32 i = 0; i < lvlReader.FileCount(); i++)
+        {
+            auto fileName = lvlReader.FileNameAt(i);
+            if (!fileName.empty())
+            {
+                if (endsWith(fileName, ".CAM"))
+                {
+                    ReadLvlFileInto(lvlReader, fileName.c_str(), fileBuffer);
+
+                    ReliveAPI::ChunkedLvlFile camFile(fileBuffer);
+
+                    FileSystem::Path pathDir;
+                    std::string camBaseName = fileName.substr(0, fileName.length() - 4); // chop off .CAM
+                    pathDir.Append("relive_data").Append("ao").Append(ToString(lvlIdxAsLvl));
+                    fs.CreateDirectory(pathDir);
+                    pathDir.Append(camBaseName);
+
+                    // Convert camera images and FG layers
+                    ReliveAPI::CamConverter cc(camFile, pathDir.GetPath());
+
+                    // TODO: Convert any BgAnims in this camera
+                }
+                // TODO: Seek these out instead of converting everything we see since the names are fixed per LVL
+                else if (endsWith(fileName, ".VB") || endsWith(fileName, ".VH") || endsWith(fileName, ".BSQ"))
+                {
+                    // TODO: For BSQ convert back to the original SEQ name for each entry
+
+                    ReadLvlFileInto(lvlReader, fileName.c_str(), fileBuffer);
+
+                    FileSystem::Path filePath;
+                    filePath.Append("relive_data").Append("ao").Append(ToString(lvlIdxAsLvl));
+                    fs.CreateDirectory(filePath);
+                    filePath.Append(fileName);
+
+
+                    fs.Save(filePath, fileBuffer);
+                }
+                else if (endsWith(fileName, "PATH.BND"))
+                {
+                    FileSystem::Path pathDir;
+                    pathDir.Append("relive_data").Append("ao").Append(ToString(lvlIdxAsLvl)).Append("paths");
+                    fs.CreateDirectory(pathDir);
+
+                    ReadLvlFileInto(lvlReader, fileName.c_str(), fileBuffer);
+                    ReliveAPI::ChunkedLvlFile pathBndFile(fileBuffer);
+                    for (u32 j = 0; j < pathBndFile.ChunkCount(); j++)
+                    {
+                        const ReliveAPI::LvlFileChunk& pathBndChunk = pathBndFile.ChunkAt(j);
+                        if (pathBndChunk.Header().mResourceType == AO::ResourceManager::Resource_Path)
+                        {
+                            FileSystem::Path pathJsonFile = pathDir;
+                            pathJsonFile.Append(std::to_string(pathBndChunk.Header().field_C_id) + ".json");
+                            ConvertPath(fs, pathJsonFile, pathBndChunk, reliveLvl);
+                        }
+                    }
+
+                    SaveLevelInfoJson(reliveLvl, lvlIdxAsLvl, fs, pathBndFile);
+                }
+            }
         }
     }
 }
