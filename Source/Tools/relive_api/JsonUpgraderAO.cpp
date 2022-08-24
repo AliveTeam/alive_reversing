@@ -57,6 +57,8 @@ public:
     std::string Upgrade(JsonUpgraderBase& upgrader, nlohmann::basic_json<>& rootObj) override
     {
         upgrader.RenameMapObjectProperty(rootObj, "Door", "Start State", "Door Type");
+        upgrader.RenameMapObjectStructure(rootObj, "SligRightBound", "SligBoundRight");
+        upgrader.RenameMapObjectStructure(rootObj, "SligLeftBound", "SligBoundLeft");
 
         return rootObj.dump(4);
     }

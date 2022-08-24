@@ -192,8 +192,8 @@ struct Path_SligBound final : public Path_TLV
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_SligBound, 0x1C);
 
-using Path_SligLeftBound = Path_SligBound;
-using Path_SligRightBound = Path_SligBound;
+using Path_SligBoundLeft = Path_SligBound;
+using Path_SligBoundRight = Path_SligBound;
 using Path_SligPersist = Path_SligBound;
 
 class Slig final : public BaseAliveGameObject

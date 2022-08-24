@@ -1096,18 +1096,18 @@ struct Path_SligSpawner final : public ReliveAPI::TlvObjectBaseAE
     }
 };
 
-struct Path_SligLeftBound final : public ReliveAPI::TlvObjectBaseAE
+struct Path_SligBoundLeft final : public ReliveAPI::TlvObjectBaseAE
 {
-    CTOR_AE(Path_SligLeftBound, "SligLeftBound", TlvTypes::SligBoundLeft_32)
+    CTOR_AE(Path_SligBoundLeft, "SligBoundLeft", TlvTypes::SligBoundLeft_32)
     {
         ADD("Slig Bound/Persist ID", mTlv.mSligBoundId);
         ADD("Disabled Resources", mTlv.mDisabledResources);
     }
 };
 
-struct Path_SligRightBound final : public ReliveAPI::TlvObjectBaseAE
+struct Path_SligBoundRight final : public ReliveAPI::TlvObjectBaseAE
 {
-    CTOR_AE(Path_SligRightBound, "SligRightBound", TlvTypes::SligBoundRight_45)
+    CTOR_AE(Path_SligBoundRight, "SligBoundRight", TlvTypes::SligBoundRight_45)
     {
         ADD("Slig Bound/Persist ID", mTlv.mSligBoundId);
         ADD("Disabled Resources", mTlv.mDisabledResources);
@@ -1512,17 +1512,17 @@ struct Path_Greeter final : public ReliveAPI::TlvObjectBaseAE
     }
 };
 
-struct Path_ScrabLeftBound final : public ReliveAPI::TlvObjectBaseAE
+struct Path_ScrabBoundLeft final : public ReliveAPI::TlvObjectBaseAE
 {
-    CTOR_AE(Path_ScrabLeftBound, "ScrabLeftBound", TlvTypes::ScrabLeftBound_43)
+    CTOR_AE(Path_ScrabBoundLeft, "ScrabLeftBound", TlvTypes::ScrabBoundLeft_43)
     {
         EMPTY_CTOR_AE();
     }
 };
 
-struct Path_ScrabRightBound final : public ReliveAPI::TlvObjectBaseAE
+struct Path_ScrabBoundRight final : public ReliveAPI::TlvObjectBaseAE
 {
-    CTOR_AE(Path_ScrabRightBound, "ScrabRightBound", TlvTypes::ScrabRightBound_44)
+    CTOR_AE(Path_ScrabBoundRight, "ScrabRightBound", TlvTypes::ScrabBoundRight_44)
     {
         EMPTY_CTOR_AE();
     }

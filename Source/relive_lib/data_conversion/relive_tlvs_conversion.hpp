@@ -1827,21 +1827,65 @@ public:
     }
 };
 
-class Path_SligBound_Converter final
+class Path_SligBoundLeft_Converter final
 {
 public:
-    static Path_SligBound From(const AO::Path_SligBound& tlv)
+    static Path_SligBoundLeft From(const AO::Path_SligBoundLeft& tlv)
     {
-        Path_SligBound r;
+        Path_SligBoundLeft r;
         BaseConvert(r, tlv);
         r.mSligBoundId = tlv.mSligBoundId;
         r.mDisabledResources = tlv.mDisabledResources.Raw().all;
         return r;
     }
 
-    static Path_SligBound From(const ::Path_SligBound& tlv)
+    static Path_SligBoundLeft From(const ::Path_SligBoundLeft& tlv)
     {
-        Path_SligBound r;
+        Path_SligBoundLeft r;
+        BaseConvert(r, tlv);
+        r.mSligBoundId = tlv.mSligBoundId;
+        r.mDisabledResources = tlv.mDisabledResources;
+        return r;
+    }
+};
+
+class Path_SligBoundRight_Converter final
+{
+public:
+    static Path_SligBoundRight From(const AO::Path_SligBoundRight& tlv)
+    {
+        Path_SligBoundRight r;
+        BaseConvert(r, tlv);
+        r.mSligBoundId = tlv.mSligBoundId;
+        r.mDisabledResources = tlv.mDisabledResources.Raw().all;
+        return r;
+    }
+
+    static Path_SligBoundRight From(const ::Path_SligBoundRight& tlv)
+    {
+        Path_SligBoundRight r;
+        BaseConvert(r, tlv);
+        r.mSligBoundId = tlv.mSligBoundId;
+        r.mDisabledResources = tlv.mDisabledResources;
+        return r;
+    }
+};
+
+class Path_SligPersist_Converter final
+{
+public:
+    static Path_SligPersist From(const AO::Path_SligPersist& tlv)
+    {
+        Path_SligPersist r;
+        BaseConvert(r, tlv);
+        r.mSligBoundId = tlv.mSligBoundId;
+        r.mDisabledResources = tlv.mDisabledResources.Raw().all;
+        return r;
+    }
+
+    static Path_SligPersist From(const ::Path_SligPersist& tlv)
+    {
+        Path_SligPersist r;
         BaseConvert(r, tlv);
         r.mSligBoundId = tlv.mSligBoundId;
         r.mDisabledResources = tlv.mDisabledResources;
@@ -2009,37 +2053,37 @@ public:
     }
 };
 
-class Path_ScrabLeftBound_Converter final
+class Path_ScrabBoundLeft_Converter final
 {
 public:
-    static Path_ScrabLeftBound From(const AO::Path_ScrabLeftBound& tlv)
+    static Path_ScrabBoundLeft From(const AO::Path_ScrabBoundLeft& tlv)
     {
-        Path_ScrabLeftBound r;
+        Path_ScrabBoundLeft r;
         BaseConvert(r, tlv);
         return r;
     }
 
-    static Path_ScrabLeftBound From(const ::Path_ScrabLeftBound& tlv)
+    static Path_ScrabBoundLeft From(const ::Path_ScrabBoundLeft& tlv)
     {
-        Path_ScrabLeftBound r;
+        Path_ScrabBoundLeft r;
         BaseConvert(r, tlv);
         return r;
     }
 };
 
-class Path_ScrabRightBound_Converter final
+class Path_ScrabBoundRight_Converter final
 {
 public:
-    static Path_ScrabRightBound From(const AO::Path_ScrabRightBound& tlv)
+    static Path_ScrabBoundRight From(const AO::Path_ScrabBoundRight& tlv)
     {
-        Path_ScrabRightBound r;
+        Path_ScrabBoundRight r;
         BaseConvert(r, tlv);
         return r;
     }
 
-    static Path_ScrabRightBound From(const ::Path_ScrabRightBound& tlv)
+    static Path_ScrabBoundRight From(const ::Path_ScrabBoundRight& tlv)
     {
-        Path_ScrabRightBound r;
+        Path_ScrabBoundRight r;
         BaseConvert(r, tlv);
         return r;
     }

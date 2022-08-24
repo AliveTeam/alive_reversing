@@ -41,6 +41,8 @@ public:
     std::string Upgrade(JsonUpgraderBase& upgrader, nlohmann::basic_json<>& rootObj) override
     {
         upgrader.RenameMapObjectStructure(rootObj, "ResetSwitchRange", "ResetPath");
+        upgrader.RenameMapObjectStructure(rootObj, "SligRightBound", "SligBoundRight");
+        upgrader.RenameMapObjectStructure(rootObj, "SligLeftBound", "SligBoundLeft");
         return rootObj.dump(4);
     }
 };

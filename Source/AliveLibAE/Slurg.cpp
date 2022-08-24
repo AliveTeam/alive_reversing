@@ -278,14 +278,14 @@ void Slurg::VOnTlvCollision(Path_TLV* pTlv)
 {
     while (pTlv)
     {
-        if (pTlv->mTlvType32 == TlvTypes::ScrabLeftBound_43)
+        if (pTlv->mTlvType32 == TlvTypes::ScrabBoundLeft_43)
         {
             if (mSlurgFlags.Get(SlurgFlags::eGoingRight))
             {
                 GoLeft();
             }
         }
-        else if (pTlv->mTlvType32 == TlvTypes::ScrabRightBound_44)
+        else if (pTlv->mTlvType32 == TlvTypes::ScrabBoundRight_44)
         {
             if (!mSlurgFlags.Get(SlurgFlags::eGoingRight))
             {

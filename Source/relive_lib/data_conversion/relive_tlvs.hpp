@@ -564,10 +564,25 @@ struct Path_BellHammer final : public Path_TLV
     reliveXDirection mDirection = reliveXDirection::eRight;
 };
 
-struct Path_SligBound final : public Path_TLV
+struct Path_SligBound : public Path_TLV
 {
     s16 mSligBoundId = 0;
     s16 mDisabledResources = 0;
+};
+
+struct Path_SligBoundLeft final : public Path_SligBound
+{
+    // Empty
+};
+
+struct Path_SligBoundRight final : public Path_SligBound
+{
+    // Empty
+};
+
+struct Path_SligPersist final : public Path_SligBound
+{
+    // Empty
 };
 
 struct Path_BackgroundAnimation final : public Path_TLV
@@ -638,12 +653,12 @@ struct Path_ScrabNoFall final : public Path_TLV
     // No fields
 };
 
-struct Path_ScrabLeftBound final : public Path_TLV
+struct Path_ScrabBoundLeft final : public Path_TLV
 {
     // No fields
 };
 
-struct Path_ScrabRightBound final : public Path_TLV
+struct Path_ScrabBoundRight final : public Path_TLV
 {
     // No fields
 };

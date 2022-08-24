@@ -82,8 +82,8 @@ void TypesCollectionAE::AddAETypes()
     REGISTER_TYPE_AE(AETlvs::Path_FlyingSligSpawner);
     REGISTER_TYPE_AE(AETlvs::Path_DeathDrop);
     REGISTER_TYPE_AE(AETlvs::Path_SligSpawner);
-    REGISTER_TYPE_AE(AETlvs::Path_SligLeftBound);
-    REGISTER_TYPE_AE(AETlvs::Path_SligRightBound);
+    REGISTER_TYPE_AE(AETlvs::Path_SligBoundLeft);
+    REGISTER_TYPE_AE(AETlvs::Path_SligBoundRight);
     REGISTER_TYPE_AE(AETlvs::Path_SligPersist);
     REGISTER_TYPE_AE(AETlvs::Path_ZSligCover);
     REGISTER_TYPE_AE(AETlvs::Path_WellLocal);
@@ -111,8 +111,8 @@ void TypesCollectionAE::AddAETypes()
     REGISTER_TYPE_AE(AETlvs::Path_DoorFlame);
     REGISTER_TYPE_AE(AETlvs::Path_TrainDoor);
     REGISTER_TYPE_AE(AETlvs::Path_Greeter);
-    REGISTER_TYPE_AE(AETlvs::Path_ScrabLeftBound);
-    REGISTER_TYPE_AE(AETlvs::Path_ScrabRightBound);
+    REGISTER_TYPE_AE(AETlvs::Path_ScrabBoundLeft);
+    REGISTER_TYPE_AE(AETlvs::Path_ScrabBoundRight);
     REGISTER_TYPE_AE(AETlvs::Path_CreditsController);
     REGISTER_TYPE_AE(AETlvs::Path_MovieHandstone);
     REGISTER_TYPE_AE(AETlvs::Path_MovingBomb);

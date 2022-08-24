@@ -65,8 +65,8 @@ void TypesCollectionAO::AddAOTypes()
     REGISTER_TYPE_AO(AOTlvs::Path_EnemyStopper);
     REGISTER_TYPE_AO(AOTlvs::Path_Slig);
     REGISTER_TYPE_AO(AOTlvs::Path_DeathDrop);
-    REGISTER_TYPE_AO(AOTlvs::Path_SligLeftBound);
-    REGISTER_TYPE_AO(AOTlvs::Path_SligRightBound);
+    REGISTER_TYPE_AO(AOTlvs::Path_SligBoundLeft);
+    REGISTER_TYPE_AO(AOTlvs::Path_SligBoundRight);
     REGISTER_TYPE_AO(AOTlvs::Path_SligPersist);
     REGISTER_TYPE_AO(AOTlvs::Path_SecurityOrb);
     REGISTER_TYPE_AO(AOTlvs::Path_FallingItem);
@@ -117,8 +117,8 @@ void TypesCollectionAO::AddAOTypes()
     REGISTER_TYPE_AO(AOTlvs::Path_MudokonPathTrans);
     REGISTER_TYPE_AO(AOTlvs::Path_AbeStart);
     REGISTER_TYPE_AO(AOTlvs::Path_ZSligCover);
-    REGISTER_TYPE_AO(AOTlvs::Path_ScrabLeftBound);
-    REGISTER_TYPE_AO(AOTlvs::Path_ScrabRightBound);
+    REGISTER_TYPE_AO(AOTlvs::Path_ScrabBoundLeft);
+    REGISTER_TYPE_AO(AOTlvs::Path_ScrabBoundRight);
     REGISTER_TYPE_AO(AOTlvs::Path_ScrabNoFall);
     REGISTER_TYPE_AO(AOTlvs::Path_LiftMudokon);
     REGISTER_TYPE_AO(AOTlvs::Path_HoneySack);

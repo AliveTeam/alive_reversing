@@ -594,18 +594,18 @@ struct Path_DeathDrop final : public ReliveAPI::TlvObjectBaseAO
     }
 };
 
-struct Path_SligLeftBound final : public ReliveAPI::TlvObjectBaseAO
+struct Path_SligBoundLeft final : public ReliveAPI::TlvObjectBaseAO
 {
-    CTOR_AO(Path_SligLeftBound, "SligLeftBound", AO::TlvTypes::eSligBoundLeft_57)
+    CTOR_AO(Path_SligBoundLeft, "SligBoundLeft", AO::TlvTypes::eSligBoundLeft_57)
     {
         ADD("Slig ID", mTlv.mSligBoundId);
         ADD("Disabled Resources", mTlv.mDisabledResources.Raw().all);
     }
 };
 
-struct Path_SligRightBound final : public ReliveAPI::TlvObjectBaseAO
+struct Path_SligBoundRight final : public ReliveAPI::TlvObjectBaseAO
 {
-    CTOR_AO(Path_SligRightBound, "SligRightBound", AO::TlvTypes::eSligBoundRight_76)
+    CTOR_AO(Path_SligBoundRight, "SligBoundRight", AO::TlvTypes::eSligBoundRight_76)
     {
         ADD("Slig ID", mTlv.mSligBoundId);
         ADD("Disabled Resources", mTlv.mDisabledResources.Raw().all);
@@ -1492,17 +1492,17 @@ struct Path_ZSligCover final : public ReliveAPI::TlvObjectBaseAO
     }
 };
 
-struct Path_ScrabLeftBound final : public ReliveAPI::TlvObjectBaseAO
+struct Path_ScrabBoundLeft final : public ReliveAPI::TlvObjectBaseAO
 {
-    CTOR_AO(Path_ScrabLeftBound, "ScrabLeftBound", AO::TlvTypes::ScrabLeftBound_74)
+    CTOR_AO(Path_ScrabBoundLeft, "ScrabLeftBound", AO::TlvTypes::ScrabLeftBound_74)
     {
         EMPTY_CTOR_AO();
     }
 };
 
-struct Path_ScrabRightBound final : public ReliveAPI::TlvObjectBaseAO
+struct Path_ScrabBoundRight final : public ReliveAPI::TlvObjectBaseAO
 {
-    CTOR_AO(Path_ScrabRightBound, "ScrabRightBound", AO::TlvTypes::ScrabRightBound_75)
+    CTOR_AO(Path_ScrabBoundRight, "ScrabRightBound", AO::TlvTypes::ScrabRightBound_75)
     {
         EMPTY_CTOR_AO();
     }

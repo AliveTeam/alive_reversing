@@ -73,12 +73,12 @@ enum class ScrabSpawnDirection : s16
     eRight_2 = 2,
 };
 
-struct Path_ScrabLeftBound final : public Path_TLV
+struct Path_ScrabBoundLeft final : public Path_TLV
 {
     // Empty
 };
 
-struct Path_ScrabRightBound final : public Path_TLV
+struct Path_ScrabBoundRight final : public Path_TLV
 {
     // Empty
 };

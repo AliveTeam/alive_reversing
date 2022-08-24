@@ -1118,18 +1118,54 @@ void from_json(const nlohmann::json& j, Path_BellHammer& p)
     j.at("direction").get_to(p.mDirection);
 }
 
-// Path_SligBound
-void to_json(nlohmann::json& j, const Path_SligBound& p)
+// Path_SligBoundLeft
+void to_json(nlohmann::json& j, const Path_SligBoundLeft& p)
 {
     j = nlohmann::json{
-        {"tlv_type", "slig_bound"},
+        {"tlv_type", "slig_bound_left"},
         {"base", ToBase(p)},
         {"slig_bound_id", p.mSligBoundId},
         {"disabled_resources", p.mDisabledResources},
     };
 }
 
-void from_json(const nlohmann::json& j, Path_SligBound& p)
+void from_json(const nlohmann::json& j, Path_SligBoundLeft& p)
+{
+    j.at("base").get_to(ToBase(p));
+    j.at("slig_bound_id").get_to(p.mSligBoundId);
+    j.at("disabled_resources").get_to(p.mDisabledResources);
+}
+
+// Path_SligBoundRight
+void to_json(nlohmann::json& j, const Path_SligBoundRight& p)
+{
+    j = nlohmann::json{
+        {"tlv_type", "slig_bound_right"},
+        {"base", ToBase(p)},
+        {"slig_bound_id", p.mSligBoundId},
+        {"disabled_resources", p.mDisabledResources},
+    };
+}
+
+void from_json(const nlohmann::json& j, Path_SligBoundRight& p)
+{
+    j.at("base").get_to(ToBase(p));
+    j.at("slig_bound_id").get_to(p.mSligBoundId);
+    j.at("disabled_resources").get_to(p.mDisabledResources);
+}
+
+// Path_SligPersist
+void to_json(nlohmann::json& j, const Path_SligPersist& p)
+{
+    j = nlohmann::json{
+        {"tlv_type", "slig_persist"},
+        {"base", ToBase(p)},
+        {"slig_bound_id", p.mSligBoundId},
+        {"disabled_resources", p.mDisabledResources},
+    };
+}
+
+void from_json(const nlohmann::json& j, Path_SligPersist& p)
 {
     j.at("base").get_to(ToBase(p));
     j.at("slig_bound_id").get_to(p.mSligBoundId);
@@ -1276,30 +1312,30 @@ void from_json(const nlohmann::json& j, Path_ScrabNoFall& p)
     j.at("base").get_to(ToBase(p));
 }
 
-// Path_ScrabLeftBound
-void to_json(nlohmann::json& j, const Path_ScrabLeftBound& p)
+// Path_ScrabBoundLeft
+void to_json(nlohmann::json& j, const Path_ScrabBoundLeft& p)
 {
     j = nlohmann::json{
-        {"tlv_type", "scrab_left_bound"},
+        {"tlv_type", "scrab_bound_left"},
         {"base", ToBase(p)}
     };
 }
 
-void from_json(const nlohmann::json& j, Path_ScrabLeftBound& p)
+void from_json(const nlohmann::json& j, Path_ScrabBoundLeft& p)
 {
     j.at("base").get_to(ToBase(p));
 }
 
-// Path_ScrabRightBound
-void to_json(nlohmann::json& j, const Path_ScrabRightBound& p)
+// Path_ScrabBoundRight
+void to_json(nlohmann::json& j, const Path_ScrabBoundRight& p)
 {
     j = nlohmann::json{
-        {"tlv_type", "scrab_right_bound"},
+        {"tlv_type", "scrab_bound_right"},
         {"base", ToBase(p)}
     };
 }
 
-void from_json(const nlohmann::json& j, Path_ScrabRightBound& p)
+void from_json(const nlohmann::json& j, Path_ScrabBoundRight& p)
 {
     j.at("base").get_to(ToBase(p));
 }

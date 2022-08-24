@@ -77,12 +77,12 @@ struct Path_ScrabNoFall final : public Path_TLV
     // No fields
 };
 
-struct Path_ScrabLeftBound final : public Path_TLV
+struct Path_ScrabBoundLeft final : public Path_TLV
 {
     // No fields
 };
 
-struct Path_ScrabRightBound final : public Path_TLV
+struct Path_ScrabBoundRight final : public Path_TLV
 {
     // No fields
 };

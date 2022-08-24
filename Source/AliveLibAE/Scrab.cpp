@@ -4230,13 +4230,13 @@ s16 Scrab::Handle_SlamDoor_or_EnemyStopper(FP velX, s16 bCheckLeftRightBounds)
     Path_EnemyStopper::StopDirection stopDirection = Path_EnemyStopper::StopDirection::Both_2;
     if (mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
     {
-        objectType = TlvTypes::ScrabLeftBound_43;
+        objectType = TlvTypes::ScrabBoundLeft_43;
         stopDirection = Path_EnemyStopper::StopDirection::Left_0;
         gridSize = -gridSize;
     }
     else
     {
-        objectType = TlvTypes::ScrabRightBound_44;
+        objectType = TlvTypes::ScrabBoundRight_44;
         stopDirection = Path_EnemyStopper::StopDirection::Right_1;
     }
 

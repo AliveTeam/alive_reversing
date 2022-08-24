@@ -341,14 +341,14 @@ void Greeter::HandleRollingAlong()
                 BlowUp();
                 break;
 
-            case TlvTypes::ScrabLeftBound_43:
+            case TlvTypes::ScrabBoundLeft_43:
                 if (!(mAnim.mFlags.Get(AnimFlags::eBit5_FlipX)) && field_13C_brain_state == GreeterBrainStates::eBrain_0_Patrol)
                 {
                     ChangeDirection();
                 }
                 break;
 
-            case TlvTypes::ScrabRightBound_44:
+            case TlvTypes::ScrabBoundRight_44:
                 if (mAnim.mFlags.Get(AnimFlags::eBit5_FlipX) && field_13C_brain_state == GreeterBrainStates::eBrain_0_Patrol)
                 {
                     ChangeDirection();

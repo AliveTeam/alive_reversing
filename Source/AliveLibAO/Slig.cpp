@@ -581,7 +581,7 @@ void Slig::Init()
                 bool addPoint = false;
                 if (pTlvIter->mTlvType32 == TlvTypes::eSligBoundLeft_57)
                 {
-                    if (static_cast<Path_SligLeftBound*>(pTlvIter)->mSligBoundId == field_174_tlv.mSligBoundId)
+                    if (static_cast<Path_SligBoundLeft*>(pTlvIter)->mSligBoundId == field_174_tlv.mSligBoundId)
                     {
                         field_13C_zone_rect.x = pTlvIter->mTopLeft.x;
                         addPoint = true;
@@ -590,7 +590,7 @@ void Slig::Init()
                 }
                 else if (pTlvIter->mTlvType32 == TlvTypes::eSligBoundRight_76)
                 {
-                    if (static_cast<Path_SligRightBound*>(pTlvIter)->mSligBoundId == field_174_tlv.mSligBoundId)
+                    if (static_cast<Path_SligBoundRight*>(pTlvIter)->mSligBoundId == field_174_tlv.mSligBoundId)
                     {
                         field_13C_zone_rect.w = pTlvIter->mTopLeft.x;
                         addPoint = true;

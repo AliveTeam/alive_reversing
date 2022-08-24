@@ -2438,16 +2438,16 @@ s16 Glukkon::PathBlocked(FP /*a2*/, s16 checkBounds)
     }
 
     Path_EnemyStopper::StopDirection direction = Path_EnemyStopper::StopDirection::Left_0;
-    TlvTypes boundType = TlvTypes::ScrabLeftBound_43;
+    TlvTypes boundType = TlvTypes::ScrabBoundLeft_43;
     if (mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
     {
-        boundType = TlvTypes::ScrabLeftBound_43;
+        boundType = TlvTypes::ScrabBoundLeft_43;
         direction = Path_EnemyStopper::StopDirection::Left_0;
         gridSize = -gridSize;
     }
     else
     {
-        boundType = TlvTypes::ScrabRightBound_44;
+        boundType = TlvTypes::ScrabBoundRight_44;
         direction = Path_EnemyStopper::StopDirection::Right_1;
     }
 

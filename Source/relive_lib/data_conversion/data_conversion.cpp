@@ -264,7 +264,7 @@ static void ConvertTLV(nlohmann::json& j, const ::Path_TLV& tlv)
         case ::TlvTypes::RollingBall_31: // not implemented in relive AE
             return;
         case ::TlvTypes::SligBoundLeft_32:
-            convert_tlv<relive::Path_SligBound_Converter, ::Path_SligBound>(j, tlv);
+            convert_tlv<relive::Path_SligBoundLeft_Converter, ::Path_SligBoundLeft>(j, tlv);
             break;
         case ::TlvTypes::InvisibleZone_33:
             convert_tlv<relive::Path_InvisibleZone_Converter, ::Path_InvisibleZone>(j, tlv);
@@ -295,17 +295,17 @@ static void ConvertTLV(nlohmann::json& j, const ::Path_TLV& tlv)
             break;
         case ::TlvTypes::Null_42:
             return;
-        case ::TlvTypes::ScrabLeftBound_43:
-            convert_tlv<relive::Path_ScrabLeftBound_Converter, ::Path_ScrabLeftBound>(j, tlv);
+        case ::TlvTypes::ScrabBoundLeft_43:
+            convert_tlv<relive::Path_ScrabBoundLeft_Converter, ::Path_ScrabBoundLeft>(j, tlv);
             break;
-        case ::TlvTypes::ScrabRightBound_44:
-            convert_tlv<relive::Path_ScrabRightBound_Converter, ::Path_ScrabRightBound>(j, tlv);
+        case ::TlvTypes::ScrabBoundRight_44:
+            convert_tlv<relive::Path_ScrabBoundRight_Converter, ::Path_ScrabBoundRight>(j, tlv);
             break;
         case ::TlvTypes::SligBoundRight_45:
-            convert_tlv<relive::Path_SligBound_Converter, ::Path_SligBound>(j, tlv);
+            convert_tlv<relive::Path_SligBoundRight_Converter, ::Path_SligBoundRight>(j, tlv);
             break;
         case ::TlvTypes::SligPersist_46:
-            convert_tlv<relive::Path_SligBound_Converter, ::Path_SligBound>(j, tlv);
+            convert_tlv<relive::Path_SligPersist_Converter, ::Path_SligPersist>(j, tlv);
             break;
         case ::TlvTypes::EnemyStopper_47:
             convert_tlv<relive::Path_EnemyStopper_Converter, ::Path_EnemyStopper>(j, tlv);
@@ -643,7 +643,7 @@ static void ConvertTLV(nlohmann::json& j, const AO::Path_TLV& tlv)
             convert_tlv<relive::Path_RollingBall_Converter, AO::Path_RollingBall>(j, tlv);
             break;
         case AO::TlvTypes::eSligBoundLeft_57:
-            convert_tlv<relive::Path_SligBound_Converter, AO::Path_SligBound>(j, tlv);
+            convert_tlv<relive::Path_SligBoundLeft_Converter, AO::Path_SligBoundLeft>(j, tlv);
             break;
         case AO::TlvTypes::InvisibleZone_58:
             convert_tlv<relive::Path_InvisibleZone_Converter, AO::Path_InvisibleZone>(j, tlv);
@@ -682,16 +682,16 @@ static void ConvertTLV(nlohmann::json& j, const AO::Path_TLV& tlv)
             convert_tlv<relive::Path_FlintLockFire_Converter, AO::Path_FlintLockFire>(j, tlv);
             break;
         case AO::TlvTypes::ScrabLeftBound_74:
-            convert_tlv<relive::Path_ScrabLeftBound_Converter, AO::Path_ScrabLeftBound>(j, tlv);
+            convert_tlv<relive::Path_ScrabBoundLeft_Converter, AO::Path_ScrabBoundLeft>(j, tlv);
             break;
         case AO::TlvTypes::ScrabRightBound_75:
-            convert_tlv<relive::Path_ScrabRightBound_Converter, AO::Path_ScrabRightBound>(j, tlv);
+            convert_tlv<relive::Path_ScrabBoundRight_Converter, AO::Path_ScrabBoundRight>(j, tlv);
             break;
         case AO::TlvTypes::eSligBoundRight_76:
-            convert_tlv<relive::Path_SligBound_Converter, AO::Path_SligBound>(j, tlv);
+            convert_tlv<relive::Path_SligBoundRight_Converter, AO::Path_SligBoundRight>(j, tlv);
             break;
         case AO::TlvTypes::eSligPersist_77:
-            convert_tlv<relive::Path_SligBound_Converter, AO::Path_SligBound>(j, tlv);
+            convert_tlv<relive::Path_SligPersist_Converter, AO::Path_SligPersist>(j, tlv);
             break;
         case AO::TlvTypes::EnemyStopper_79:
             convert_tlv<relive::Path_EnemyStopper_Converter, AO::Path_EnemyStopper>(j, tlv);
