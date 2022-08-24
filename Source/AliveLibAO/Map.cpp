@@ -32,6 +32,9 @@
 
 #include "../relive_lib/data_conversion/file_system.hpp"
 #include "../relive_lib/data_conversion/data_conversion.hpp" // TODO: don't include this in the engine
+#include "../relive_lib/data_conversion/relive_tlvs.hpp"
+#include "../relive_lib/data_conversion/relive_tlvs_serialization.hpp"
+
 #include "nlohmann/json.hpp"
 
 class BaseGameObject;
@@ -1767,6 +1770,22 @@ void Map::GoTo_Camera()
             // TODO: set the res ptrs to the parsed json data
             nlohmann::json pathJson = nlohmann::json::parse(pathJsonStr);
             LOG_INFO("Cam count " << pathJson["cameras"].size());
+
+            for (auto& cam : pathJson["cameras"])
+            {
+                auto& mapObjects = cam["map_objects"];
+                for (auto i = 0u; i < mapObjects.size(); i++)
+                {
+                    LOG_INFO(mapObjects.at(i)["name"]);
+                    if (mapObjects.at(i)["name"] == "light_effect")
+                    {
+                        relive::Path_LightEffect tlv;
+                        mapObjects.at(i).get_to(tlv);
+
+                        LOG_INFO("X = " << tlv.mX);
+                    }
+                }
+            }
         }
 
 
