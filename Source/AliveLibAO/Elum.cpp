@@ -180,16 +180,16 @@ void Elum::VOnTlvCollision(relive::Path_TLV* pTlv)
 {
     while (pTlv)
     {
-        if (pTlv->mTlvType == TlvTypes::ContinuePoint_0)
+        if (pTlv->mTlvType == ReliveTypes::eContinuePoint)
         {
             auto pContinueTlv = static_cast<relive::Path_ContinuePoint*>(pTlv);
-            if (mContinueZoneNumber != pContinueTlv->mZoneNumber && pContinueTlv->mZoneNumber > field_142_zone_number && pContinueTlv->mElumRestarts == Choice_short::eYes_1)
+            if (mContinueZoneNumber != pContinueTlv->mZoneNumber && pContinueTlv->mZoneNumber > field_142_zone_number && pContinueTlv->mElumRestarts == relive::reliveChoice::eYes)
             {
                 mContinueZoneNumber = pContinueTlv->mZoneNumber;
-                mContinueRect.x = pContinueTlv->mTopLeft.x;
-                mContinueRect.y = pContinueTlv->mTopLeft.y;
-                mContinueRect.w = pContinueTlv->mBottomRight.x;
-                mContinueRect.h = pContinueTlv->mBottomRight.y;
+                mContinueRect.x = pContinueTlv->mTopLeftX;
+                mContinueRect.y = pContinueTlv->mTopLeftY;
+                mContinueRect.w = pContinueTlv->mBottomRightX;
+                mContinueRect.h = pContinueTlv->mBottomRightY;
 
                 mContinuePath = gMap.mCurrentPath;
                 mContinueCamera = gMap.mCurrentCamera;
@@ -198,7 +198,7 @@ void Elum::VOnTlvCollision(relive::Path_TLV* pTlv)
                 mRespawnOnDead = 1;
             }
         }
-        else if (pTlv->mTlvType == TlvTypes::DeathDrop_5 && mHealth > FP_FromInteger(0))
+        else if (pTlv->mTlvType == ReliveTypes::eDeathDrop && mHealth > FP_FromInteger(0))
         {
             if (sControlledCharacter != this)
             {
@@ -3740,7 +3740,7 @@ void Elum::VScreenChanged()
                     FP_GetExponent(mYPos),
                     FP_GetExponent(mXPos),
                     FP_GetExponent(mYPos),
-                    TlvTypes::ElumPathTrans_99));
+                    ReliveTypes::eElumPathTrans));
 
                 if (pElumPathTrans)
                 {

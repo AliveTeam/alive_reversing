@@ -1,6 +1,7 @@
 #pragma once
 
-#include "../BaseAnimatedWithPhysicsGameObject.hpp"
+#include "../BaseAnimatedWithPhysicsGameObject.hpp" 
+#include "../AliveLibAO/Slig_DisabledResources.hpp"
 
 // all tlv map types
 enum class ReliveTypes : s16;
@@ -63,13 +64,13 @@ class Path_TLV
 public:
     // TODO: not sure if we need to store the type or length
     // if we are using json as the file format
-    s32 mTopLeftX = 0;
-    s32 mTopLeftY = 0;
-    s32 mBottomRightX = 0;
-    s32 mBottomRightY = 0;
-    s32 mWidth = 0;
-    s32 mHeight = 0;
-    s32 mTlvSpecificMeaning = 0; // TODO: remove me and add to the actual tlv's instead
+    s16 mTopLeftX = 0;
+    s16 mTopLeftY = 0;
+    s16 mBottomRightX = 0;
+    s16 mBottomRightY = 0;
+    s16 mWidth = 0;
+    s16 mHeight = 0;
+    s8 mTlvSpecificMeaning = 0; // TODO: remove me and add to the actual tlv's instead
     ReliveTypes mTlvType = {};   // TODO: use shared TlvTypes enum
     BitField8<TlvFlags> mTlvFlags = {};
     s32 mLength = 0;
@@ -583,7 +584,10 @@ struct Path_BellHammer final : public Path_TLV
 struct Path_SligBound : public Path_TLV
 {
     s16 mSligBoundId = 0;
-    s16 mDisabledResources = 0;
+    
+    // TODO: Remove me after disabled resources removed
+    BitField16<AO::SligFlags_DisabledRes> mDisabledResourcesAO;
+
 };
 
 struct Path_SligBoundLeft final : public Path_SligBound
@@ -1259,9 +1263,12 @@ struct Path_Slig final : public Path_TLV
     s16 mPercentBeatMud = 0;
     s16 mZShootDelay = 0;
     reliveChoice mStayAwake = reliveChoice::eYes;
-    s16 mDisabledResources = 0;
     s16 mNoiseWakeUpDistance = 0;
     s16 mSligSpawnerSwitchId = 0;
+
+    // TODO: Remove disabled resources after anim loading fixed
+    BitField16<AO::SligFlags_DisabledRes> mDisabledResourcesAO;
+    s16 mDisabledResourcesAE = 0;
 
     // AE only
     reliveChoice mUnlimitedSpawns = reliveChoice::eNo;

@@ -1846,7 +1846,7 @@ public:
         Path_SligBoundLeft r;
         BaseConvert(r, tlv);
         r.mSligBoundId = tlv.mSligBoundId;
-        r.mDisabledResources = tlv.mDisabledResources.Raw().all;
+        r.mDisabledResourcesAO = tlv.mDisabledResources;
         return r;
     }
 
@@ -1855,7 +1855,7 @@ public:
         Path_SligBoundLeft r;
         BaseConvert(r, tlv);
         r.mSligBoundId = tlv.mSligBoundId;
-        r.mDisabledResources = tlv.mDisabledResources;
+       // r.mDisabledResourcesAE = tlv.mDisabledResources; // todo
         return r;
     }
 };
@@ -1868,7 +1868,7 @@ public:
         Path_SligBoundRight r;
         BaseConvert(r, tlv);
         r.mSligBoundId = tlv.mSligBoundId;
-        r.mDisabledResources = tlv.mDisabledResources.Raw().all;
+        r.mDisabledResourcesAO = tlv.mDisabledResources;
         return r;
     }
 
@@ -1877,7 +1877,7 @@ public:
         Path_SligBoundRight r;
         BaseConvert(r, tlv);
         r.mSligBoundId = tlv.mSligBoundId;
-        r.mDisabledResources = tlv.mDisabledResources;
+       // r.mDisabledResources = tlv.mDisabledResources; // TODO
         return r;
     }
 };
@@ -1890,7 +1890,7 @@ public:
         Path_SligPersist r;
         BaseConvert(r, tlv);
         r.mSligBoundId = tlv.mSligBoundId;
-        r.mDisabledResources = tlv.mDisabledResources.Raw().all;
+        r.mDisabledResourcesAO = tlv.mDisabledResources;
         return r;
     }
 
@@ -1899,7 +1899,7 @@ public:
         Path_SligPersist r;
         BaseConvert(r, tlv);
         r.mSligBoundId = tlv.mSligBoundId;
-        r.mDisabledResources = tlv.mDisabledResources;
+        //r.mDisabledResources = tlv.mDisabledResources; // TODO
         return r;
     }
 };
@@ -3493,7 +3493,7 @@ public:
         r.mPercentBeatMud = tlv.mPercentBeatMud;
         r.mZShootDelay = tlv.mZShootDelay;
         r.mStayAwake = relive::From(tlv.mStayAwake);
-        r.mDisabledResources = tlv.mDisabledResources.Raw().all;
+        r.mDisabledResourcesAO = tlv.mDisabledResources;
         r.mNoiseWakeUpDistance = tlv.mNoiseWakeUpDistance;
         r.mSligSpawnerSwitchId = tlv.mSligSpawnerSwitchId;
         return r;
@@ -3526,7 +3526,7 @@ public:
         r.mPercentBeatMud = tlv.mPercentBeatMud;
         r.mZShootDelay = tlv.mZShootDelay;
         r.mStayAwake = relive::From(tlv.mStayAwake);
-        r.mDisabledResources = tlv.mDisabledResources;
+       // r.mDisabledResources = tlv.mDisabledResources; // TODO
         r.mNoiseWakeUpDistance = tlv.mNoiseWakeUpDistance;
         r.mSligSpawnerSwitchId = tlv.mSligSpawnerSwitchId;
         r.mUnlimitedSpawns = relive::From(tlv.mUnlimitedSpawns);

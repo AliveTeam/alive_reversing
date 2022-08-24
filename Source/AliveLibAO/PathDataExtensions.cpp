@@ -129,7 +129,7 @@ void Path_Set_NewData_FromLvls()
                             SetAndLog<s32>("object offset", rPathData.field_14_object_offset, pExt->mObjectOffset);
                             SetAndLog<s32>("index table offset", rPathData.field_18_object_index_table_offset, pExt->mIndexTableOffset);
 
-                            rPathData.field_1C_object_funcs = kObjectFactory;
+                           // rPathData.field_1C_object_funcs = kObjectFactory;
 
                             rBlyRec.field_8_pCollisionData = &GetCollisions(lvlIdx)[pExt->mPathId];
 

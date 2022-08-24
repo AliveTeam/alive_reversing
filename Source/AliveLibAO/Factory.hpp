@@ -36,15 +36,6 @@ enum class LoadMode : s16
     LoadResource_2 = 2
 };
 
-using TPathFunctionFn = void(CC*)(relive::Path_TLV*, Map*, TlvItemInfoUnion, LoadMode);
-
-struct PathFunctionTable final
-{
-    TPathFunctionFn object_funcs[256];
-};
-
-extern const PathFunctionTable kObjectFactory;
-
 
 void ConstructTLVObject(relive::Path_TLV* pTlv, Map*, TlvItemInfoUnion, LoadMode);
 

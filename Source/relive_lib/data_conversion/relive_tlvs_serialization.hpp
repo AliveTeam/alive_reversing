@@ -1136,7 +1136,7 @@ inline void to_json(nlohmann::json& j, const Path_SligBoundLeft& p)
         {"tlv_type", "slig_bound_left"},
         {"base", ToBase(p)},
         {"slig_bound_id", p.mSligBoundId},
-        {"disabled_resources", p.mDisabledResources},
+        {"disabled_resources", p.mDisabledResourcesAO.Raw().all},
     };
 }
 
@@ -1144,7 +1144,7 @@ inline void from_json(const nlohmann::json& j, Path_SligBoundLeft& p)
 {
     j.at("base").get_to(ToBase(p));
     j.at("slig_bound_id").get_to(p.mSligBoundId);
-    j.at("disabled_resources").get_to(p.mDisabledResources);
+    j.at("disabled_resources").get_to(p.mDisabledResourcesAO.Raw().all); // TODO: prob wrong
 }
 
 // Path_SligBoundRight
@@ -1154,7 +1154,7 @@ inline void to_json(nlohmann::json& j, const Path_SligBoundRight& p)
         {"tlv_type", "slig_bound_right"},
         {"base", ToBase(p)},
         {"slig_bound_id", p.mSligBoundId},
-        {"disabled_resources", p.mDisabledResources},
+        {"disabled_resources", p.mDisabledResourcesAO.Raw().all},
     };
 }
 
@@ -1162,7 +1162,7 @@ inline void from_json(const nlohmann::json& j, Path_SligBoundRight& p)
 {
     j.at("base").get_to(ToBase(p));
     j.at("slig_bound_id").get_to(p.mSligBoundId);
-    j.at("disabled_resources").get_to(p.mDisabledResources);
+    j.at("disabled_resources").get_to(p.mDisabledResourcesAO.Raw().all); // TODO: prob wrong
 }
 
 // Path_SligPersist
@@ -1172,7 +1172,7 @@ inline void to_json(nlohmann::json& j, const Path_SligPersist& p)
         {"tlv_type", "slig_persist"},
         {"base", ToBase(p)},
         {"slig_bound_id", p.mSligBoundId},
-        {"disabled_resources", p.mDisabledResources},
+        {"disabled_resources", p.mDisabledResourcesAO.Raw().all},
     };
 }
 
@@ -1180,7 +1180,7 @@ inline void from_json(const nlohmann::json& j, Path_SligPersist& p)
 {
     j.at("base").get_to(ToBase(p));
     j.at("slig_bound_id").get_to(p.mSligBoundId);
-    j.at("disabled_resources").get_to(p.mDisabledResources);
+    j.at("disabled_resources").get_to(p.mDisabledResourcesAO.Raw().all); // TODO: prob wrong
 }
 
 // Path_BackgroundAnimation
@@ -2566,7 +2566,7 @@ inline void to_json(nlohmann::json& j, const Path_Slig& p)
         {"percent_beat_mud", p.mPercentBeatMud},
         {"z_shoot_delay", p.mZShootDelay},
         {"stay_awake", p.mStayAwake},
-        {"disabled_resources", p.mDisabledResources},
+        {"disabled_resources", p.mDisabledResourcesAO.Raw().all},
         {"noise_wake_up_distance", p.mNoiseWakeUpDistance},
         {"slig_spawner_switch_id", p.mSligSpawnerSwitchId},
         {"unlimited_spawns", p.mUnlimitedSpawns},
@@ -2599,7 +2599,7 @@ inline void from_json(const nlohmann::json& j, Path_Slig& p)
     j.at("percent_beat_mud").get_to(p.mPercentBeatMud);
     j.at("z_shoot_delay").get_to(p.mZShootDelay);
     j.at("stay_awake").get_to(p.mStayAwake);
-    j.at("disabled_resources").get_to(p.mDisabledResources);
+    j.at("disabled_resources").get_to(p.mDisabledResourcesAO.Raw().all); // TODO: prob wrong
     j.at("noise_wake_up_distance").get_to(p.mNoiseWakeUpDistance);
     j.at("slig_spawner_switch_id").get_to(p.mSligSpawnerSwitchId);
     j.at("unlimited_spawns").get_to(p.mUnlimitedSpawns);

@@ -54,8 +54,8 @@ public:
     s32 field_1A_centre_y = 0;
     s16 field_1C_centre_mid_x = 0;
     s16 field_1E_centre_mid_y = 0;
-    s32 field_20_mid_x = 0;
-    s32 field_22_mid_y = 0;
+    s16 field_20_mid_x = 0;
+    s16 field_22_mid_y = 0;
     s16 field_24_id = 0;
     relive::Path_ShadowZone::Scale mScale = relive::Path_ShadowZone::Scale::eBoth;
     FP field_28_r = {};

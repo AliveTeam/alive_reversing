@@ -306,7 +306,7 @@ BirdPortal* BaseAliveGameObject::IntoBirdPortal_402350(s16 distance)
 
         if (pObjIter->mBaseGameObjectTypeId == ReliveTypes::eBirdPortal)
         {
-            auto pPortal = static_cast<BirdPortal*>(pObjIter);
+            auto pPortal = static_cast<relive::BirdPortal*>(pObjIter);
             if (pPortal->mXPos >= mXPos)
             {
                 if (pPortal->mEnterSide == PortalSide::eLeft_1)

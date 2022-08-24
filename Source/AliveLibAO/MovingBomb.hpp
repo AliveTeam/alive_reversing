@@ -63,7 +63,7 @@ public:
     s16 field_120_max = 0;
     s32 field_124_sound_channels = 0;
     s16 field_128_disabled_resources = 0;
-    Choice_short field_12A_persist_offscreen = Choice_short::eNo_0;
+    relive::reliveChoice field_12A_persist_offscreen = relive::reliveChoice::eNo;
 };
 ALIVE_ASSERT_SIZEOF(MovingBomb, 0x12C);
 

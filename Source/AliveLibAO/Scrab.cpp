@@ -2686,7 +2686,7 @@ s16 Scrab::Brain_ChasingEnemy_45CC90()
                     FP_GetExponent(mYPos),
                     FP_GetExponent(mXPos - kGridSize),
                     FP_GetExponent(mYPos),
-                    TlvTypes::EnemyStopper_79);
+                    ReliveTypes::eEnemyStopper);
             }
             else
             {
@@ -2695,7 +2695,7 @@ s16 Scrab::Brain_ChasingEnemy_45CC90()
                     FP_GetExponent(mYPos),
                     FP_GetExponent(mXPos + kGridSize),
                     FP_GetExponent(mYPos),
-                    TlvTypes::EnemyStopper_79);
+                    ReliveTypes::eEnemyStopper);
             }
 
             if (!pTlv)
@@ -2705,7 +2705,7 @@ s16 Scrab::Brain_ChasingEnemy_45CC90()
                     FP_GetExponent(mYPos),
                     FP_GetExponent(mXPos),
                     FP_GetExponent(mYPos),
-                    TlvTypes::EnemyStopper_79);
+                    ReliveTypes::eEnemyStopper);
             }
 
             auto pStopper = static_cast<relive::Path_EnemyStopper*>(pTlv);
@@ -2771,7 +2771,7 @@ s16 Scrab::Brain_ChasingEnemy_45CC90()
                             FP_GetExponent(mYPos + FP_FromInteger(10)),
                             FP_GetExponent(mXPos + kGridSize),
                             FP_GetExponent(mYPos + FP_FromInteger(10)),
-                            TlvTypes::ScrabNoFall_93))
+                            ReliveTypes::eScrabNoFall))
                     {
                         if (!Check_IsOnEndOfLine_4021A0(0, 4))
                         {
@@ -2787,7 +2787,7 @@ s16 Scrab::Brain_ChasingEnemy_45CC90()
                     FP_GetExponent(mYPos),
                     FP_GetExponent(mXPos + (kGridSize * FP_FromInteger(2))),
                     FP_GetExponent(mYPos),
-                    TlvTypes::EnemyStopper_79);
+                    ReliveTypes::eEnemyStopper);
 
                 auto pStopper = static_cast<relive::Path_EnemyStopper*>(BaseAliveGameObjectPathTLV);
                 if (pStopper)
@@ -2814,7 +2814,7 @@ s16 Scrab::Brain_ChasingEnemy_45CC90()
                             FP_GetExponent(mYPos + FP_FromInteger(10)),
                             FP_GetExponent(mXPos - kGridSize),
                             FP_GetExponent(mYPos + FP_FromInteger(10)),
-                            TlvTypes::ScrabNoFall_93))
+                            ReliveTypes::eScrabNoFall))
                     {
                         if (!Check_IsOnEndOfLine_4021A0(1, 4))
                         {
@@ -2830,7 +2830,7 @@ s16 Scrab::Brain_ChasingEnemy_45CC90()
                     FP_GetExponent(mYPos),
                     FP_GetExponent(mXPos - (kGridSize * FP_FromInteger(2))),
                     FP_GetExponent(mYPos),
-                    TlvTypes::EnemyStopper_79);
+                    ReliveTypes::eEnemyStopper);
 
                 auto pStopper = static_cast<relive::Path_EnemyStopper*>(BaseAliveGameObjectPathTLV);
                 if (pStopper)
@@ -2978,7 +2978,7 @@ s16 Scrab::Brain_ChasingEnemy_45CC90()
                 FP_GetExponent(mYPos),
                 FP_GetExponent(mXPos),
                 FP_GetExponent(mYPos),
-                TlvTypes::EnemyStopper_79);
+                ReliveTypes::eEnemyStopper);
 
             auto pStopper = static_cast<relive::Path_EnemyStopper*>(BaseAliveGameObjectPathTLV);
 
@@ -3283,7 +3283,7 @@ s16 Scrab::Brain_Patrol_460020()
                 FP_GetExponent(mYPos),
                 FP_GetExponent(mXPos),
                 FP_GetExponent(mYPos),
-                TlvTypes::EnemyStopper_79));
+                ReliveTypes::eEnemyStopper));
             BaseAliveGameObjectPathTLV = pStopper;
 
             if (pStopper)
@@ -3316,7 +3316,7 @@ s16 Scrab::Brain_Patrol_460020()
                     FP_GetExponent(mYPos),
                     FP_GetExponent(mXPos),
                     FP_GetExponent(mYPos),
-                    TlvTypes::ScrabLeftBound_74);
+                    ReliveTypes::eScrabLeftBound);
                 if (BaseAliveGameObjectPathTLV)
                 {
                     mNextMotion = eScrabMotions::Motion_4_Turn_45EF30;
@@ -3331,7 +3331,7 @@ s16 Scrab::Brain_Patrol_460020()
                     FP_GetExponent(mYPos),
                     FP_GetExponent(mXPos),
                     FP_GetExponent(mYPos),
-                    TlvTypes::ScrabRightBound_75);
+                    ReliveTypes::eScrabRightBound);
                 if (BaseAliveGameObjectPathTLV)
                 {
                     mNextMotion = eScrabMotions::Motion_4_Turn_45EF30;
@@ -3358,7 +3358,7 @@ s16 Scrab::Brain_Patrol_460020()
                     FP_GetExponent(mYPos),
                     FP_GetExponent(mXPos - ScaleToGridSize(mSpriteScale)),
                     FP_GetExponent(mYPos),
-                    TlvTypes::ScrabLeftBound_74))
+                    ReliveTypes::eScrabLeftBound))
             {
                 mNextMotion = eScrabMotions::Motion_4_Turn_45EF30;
                 return 2;
@@ -3426,7 +3426,7 @@ s16 Scrab::Brain_Patrol_460020()
                     FP_GetExponent(mYPos),
                     FP_GetExponent(ScaleToGridSize(mSpriteScale) + mXPos),
                     FP_GetExponent(mYPos),
-                    TlvTypes::ScrabRightBound_75))
+                    ReliveTypes::eScrabRightBound))
             {
                 mNextMotion = eScrabMotions::Motion_4_Turn_45EF30;
                 return 5;
@@ -3601,7 +3601,7 @@ s16 Scrab::Brain_WalkAround_460D80()
                     FP_GetExponent(mYPos),
                     FP_GetExponent(mXPos),
                     FP_GetExponent(mYPos),
-                    TlvTypes::EnemyStopper_79));
+                    ReliveTypes::eEnemyStopper));
 
                 BaseAliveGameObjectPathTLV = pStopper;
 
@@ -3629,7 +3629,7 @@ s16 Scrab::Brain_WalkAround_460D80()
                     FP_GetExponent(mYPos),
                     FP_GetExponent(mXPos),
                     FP_GetExponent(mYPos),
-                    TlvTypes::EnemyStopper_79));
+                    ReliveTypes::eEnemyStopper));
 
                 BaseAliveGameObjectPathTLV = pStopper;
 
@@ -3660,7 +3660,7 @@ s16 Scrab::Brain_WalkAround_460D80()
                 FP_GetExponent(mYPos),
                 FP_GetExponent(mXPos),
                 FP_GetExponent(mYPos),
-                TlvTypes::EnemyStopper_79));
+                ReliveTypes::eEnemyStopper));
 
             BaseAliveGameObjectPathTLV = pStopper;
 
@@ -3715,7 +3715,7 @@ s16 Scrab::Brain_WalkAround_460D80()
                 FP_GetExponent(mYPos),
                 FP_GetExponent(mXPos),
                 FP_GetExponent(mYPos),
-                TlvTypes::EnemyStopper_79));
+                ReliveTypes::eEnemyStopper));
 
             BaseAliveGameObjectPathTLV = pStopper;
 
@@ -3823,7 +3823,7 @@ s16 Scrab::HandleRunning()
         FP_GetExponent(mYPos),
         FP_GetExponent(mXPos),
         FP_GetExponent(mYPos),
-        TlvTypes::EnemyStopper_79);
+        ReliveTypes::eEnemyStopper);
     auto pStopper = static_cast<relive::Path_EnemyStopper*>(BaseAliveGameObjectPathTLV);
 
     if (pStopper)

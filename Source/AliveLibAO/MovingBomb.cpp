@@ -160,7 +160,7 @@ MovingBomb::~MovingBomb()
 
 void MovingBomb::VScreenChanged()
 {
-    if (field_12A_persist_offscreen == Choice_short::eNo_0 || gMap.mCurrentLevel != gMap.mNextLevel || gMap.mCurrentPath != gMap.mNextPath)
+    if (field_12A_persist_offscreen == relive::reliveChoice::eNo || gMap.mCurrentLevel != gMap.mNextLevel || gMap.mCurrentPath != gMap.mNextPath)
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
@@ -397,11 +397,11 @@ void MovingBomb::VUpdate()
                 FP_GetExponent(mYPos),
                 FP_GetExponent(mXPos),
                 FP_GetExponent(mYPos),
-                TlvTypes::MovingBombStopper_87);
+                ReliveTypes::eMovingBombStopper);
 
             if (BaseAliveGameObjectPathTLV)
             {
-                auto pStopper = static_cast<Path_MovingBombStopper*>(BaseAliveGameObjectPathTLV);
+                auto pStopper = static_cast<relive::Path_MovingBombStopper*>(BaseAliveGameObjectPathTLV);
                 field_11E_min = pStopper->mMinDelay;
                 field_120_max = pStopper->mMaxDelay;
                 field_10C_state = States::eStopMoving_3;
@@ -439,7 +439,7 @@ void MovingBomb::VUpdate()
                 FP_GetExponent(mYPos),
                 FP_GetExponent(mXPos),
                 FP_GetExponent(mYPos),
-                TlvTypes::MovingBombStopper_87);
+                ReliveTypes::eMovingBombStopper);
             if (!BaseAliveGameObjectPathTLV)
             {
                 field_10C_state = States::eMoving_2;

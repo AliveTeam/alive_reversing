@@ -161,7 +161,7 @@ Slog::Slog(FP xpos, FP ypos, FP scale)
 
     field_10C_pTarget = sControlledCharacter;
     sControlledCharacter->mBaseGameObjectRefCount++;
-    mAsleep = Choice_short::eNo_0;
+    mAsleep = relive::reliveChoice::eNo;
     field_158_wake_up_anger = 0;
 
     mAngerSwitchId = 0;
@@ -343,7 +343,7 @@ void Slog::VOnTlvCollision(relive::Path_TLV* pTlv)
 {
     while (pTlv)
     {
-        if (pTlv->mTlvType == static_cast<s32>(TlvTypes::DeathDrop_5))
+        if (pTlv->mTlvType == ReliveTypes::eDeathDrop)
         {
             mBaseGameObjectFlags.Set(BaseGameObject::eDead);
             mHealth = FP_FromInteger(0);
@@ -883,19 +883,19 @@ s16 Slog::HandleEnemyStopper()
         xpos = mXPos - (ScaleToGridSize(mSpriteScale) * FP_FromInteger(2));
     }
 
-    auto pStopper = static_cast<Path_EnemyStopper*>(gMap.TLV_Get_At_446260(
+    auto pStopper = static_cast<relive::Path_EnemyStopper*>(gMap.TLV_Get_At_446260(
         FP_GetExponent(xpos),
         FP_GetExponent(mYPos),
         FP_GetExponent(xpos),
         FP_GetExponent(mYPos),
-        TlvTypes::EnemyStopper_79));
+        ReliveTypes::eEnemyStopper));
 
     if (!pStopper)
     {
         return 0;
     }
 
-    if (pStopper->mStopDirection != (mVelX > FP_FromInteger(0) ? Path_EnemyStopper::StopDirection::Right_1 : Path_EnemyStopper::StopDirection::Left_0))
+    if (pStopper->mStopDirection != (mVelX > FP_FromInteger(0) ? relive::Path_EnemyStopper::StopDirection::Right : relive::Path_EnemyStopper::StopDirection::Left))
     {
         return 0;
     }

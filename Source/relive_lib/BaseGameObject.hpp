@@ -10,6 +10,11 @@ enum class ReliveTypes : s16
 {
     eNone = 7000,
     eResetPath,
+    eElumPathTrans,
+    eScrabLeftBound,
+    eScrabRightBound,
+    eScrabNoFall,
+    eMovingBombStopper,
     eElumStart,
     eEdge,
     eSoftLanding,

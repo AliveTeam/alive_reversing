@@ -33,9 +33,6 @@ bool RunningAsInjectedDll()
 }
 
 // items defined to avoid having to link AliveLibAO
-namespace AO {
-    const PathFunctionTable kObjectFactory = {};
-} // namespace AO
 
 // ditto for AliveLibAe
 const PathFunctionTable kObjectFactory = {};

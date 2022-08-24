@@ -49,7 +49,6 @@ struct PathData final
     s16 field_12;
     s32 field_14_object_offset;
     s32 field_18_object_index_table_offset;
-    PathFunctionTable field_1C_object_funcs;
 };
 
 struct PathBlyRec final
