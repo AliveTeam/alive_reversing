@@ -19,7 +19,7 @@ class BeeSwarm;
 class HoneySack final : public BaseAnimatedWithPhysicsGameObject
 {
 public:
-    HoneySack(Path_HoneySack* pTlv, s32 tlvInfo);
+    HoneySack(relive::Path_HoneySack* pTlv, s32 tlvInfo);
     ~HoneySack();
 
     virtual void VScreenChanged() override;

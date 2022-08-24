@@ -151,7 +151,7 @@ BoomMachine::~BoomMachine()
     Path::TLV_Reset(field_E4_tlvInfo, -1, 0, 0);
 }
 
-BoomMachine::BoomMachine(Path_BoomMachine* pTlv, s32 tlvInfo)
+BoomMachine::BoomMachine(relive::Path_BoomMachine* pTlv, s32 tlvInfo)
 {
     mBaseGameObjectTypeId = ReliveTypes::eGrenadeMachine;
 
@@ -163,7 +163,7 @@ BoomMachine::BoomMachine(Path_BoomMachine* pTlv, s32 tlvInfo)
     field_E4_tlvInfo = tlvInfo;
     mAnim.mRenderMode = TPageAbr::eBlend_1;
 
-    if (pTlv->mScale == Scale_short::eHalf_1)
+    if (pTlv->mScale == relive::reliveScale::eHalf)
     {
         mSpriteScale = FP_FromDouble(0.5);
     }
@@ -172,14 +172,14 @@ BoomMachine::BoomMachine(Path_BoomMachine* pTlv, s32 tlvInfo)
         mSpriteScale = FP_FromInteger(1);
     }
 
-    mXPos = FP_FromInteger(pTlv->mTopLeft.x) + (ScaleToGridSize(mSpriteScale) / FP_FromInteger(2));
-    mYPos = FP_FromInteger(pTlv->mTopLeft.y);
+    mXPos = FP_FromInteger(pTlv->mTopLeftX) + (ScaleToGridSize(mSpriteScale) / FP_FromInteger(2));
+    mYPos = FP_FromInteger(pTlv->mTopLeftY);
 
     auto pNozzle = relive_new GrenadeMachineNozzle();
     if (pNozzle)
     {
         FP directedScale = mSpriteScale;
-        if (pTlv->mNozzleSide == Path_BoomMachine::NozzleSide::eLeft_1)
+        if (pTlv->mNozzleSide == relive::Path_BoomMachine::NozzleSide::eLeft)
         {
             directedScale = -directedScale;
         }
@@ -197,7 +197,7 @@ BoomMachine::BoomMachine(Path_BoomMachine* pTlv, s32 tlvInfo)
         pNozzle->field_EC_num_grenades = static_cast<s16>(pTlv->mGrenadeAmount);
     }
 
-    pNozzle->mAnim.mFlags.Set(AnimFlags::eBit5_FlipX, pTlv->mNozzleSide == Path_BoomMachine::NozzleSide::eLeft_1);
+    pNozzle->mAnim.mFlags.Set(AnimFlags::eBit5_FlipX, pTlv->mNozzleSide == relive::Path_BoomMachine::NozzleSide::eLeft);
 
     pNozzle->mBaseGameObjectRefCount++;
     field_EC_pNozzle = pNozzle;

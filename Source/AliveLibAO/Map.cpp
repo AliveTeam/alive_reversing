@@ -818,7 +818,7 @@ s16 Map::GetOverlayId()
     return Path_Get_Bly_Record_434650(mNextLevel, mNextPath)->field_C_overlay_id;
 }
 
-Path_TLV* Map::Get_First_TLV_For_Offsetted_Camera(s16 cam_x_idx, s16 cam_y_idx)
+relive::Path_TLV* Map::Get_First_TLV_For_Offsetted_Camera(s16 cam_x_idx, s16 cam_y_idx)
 {
     const auto camX = cam_x_idx + field_20_camX_idx;
     const auto camY = cam_y_idx + field_22_camY_idx;
@@ -836,8 +836,7 @@ Path_TLV* Map::Get_First_TLV_For_Offsetted_Camera(s16 cam_x_idx, s16 cam_y_idx)
         return nullptr;
     }
 
-    Path_TLV* pTlv = reinterpret_cast<Path_TLV*>(pPathData + indexTableEntry + field_D4_pPathData->field_14_object_offset);
-    pTlv->RangeCheck();
+    relive::Path_TLV* pTlv = reinterpret_cast<relive::Path_TLV*>(pPathData + indexTableEntry + field_D4_pPathData->field_14_object_offset);
     return pTlv;
 }
 
@@ -865,31 +864,29 @@ void Map::SaveBlyData(u8* pSaveBuffer)
                 if (tlvOffset != -1 && tlvOffset < 0x100000)
                 {
                     u8* ptr = &(*ppPathRes)[pPathData->field_14_object_offset + tlvOffset];
-                    Path_TLV* pTlv = reinterpret_cast<Path_TLV*>(ptr);
-                    pTlv->RangeCheck();
+                    relive::Path_TLV* pTlv = reinterpret_cast<relive::Path_TLV*>(ptr);
 
                     for (;;)
                     {
-                        BitField8<TlvFlags> flags = pTlv->mTlvFlags;
-                        if (flags.Get(eBit1_Created))
+                        BitField8<::TlvFlags> flags = pTlv->mTlvFlags;
+                        if (flags.Get(::eBit1_Created))
                         {
-                            flags.Clear(eBit1_Created);
-                            flags.Clear(eBit2_Destroyed);
+                            flags.Clear(::eBit1_Created);
+                            flags.Clear(::eBit2_Destroyed);
                         }
 
                         // Save the flags
                         *pAfterSwitchStates = flags.Raw().all;
                         pAfterSwitchStates++;
-                        *pAfterSwitchStates = pTlv->field_1_unknown;
+                        *pAfterSwitchStates = pTlv->mTlvSpecificMeaning;
                         pAfterSwitchStates++;
 
-                        if (pTlv->mTlvFlags.Get(eBit3_End_TLV_List))
+                        if (pTlv->mTlvFlags.Get(::eBit3_End_TLV_List))
                         {
                             break;
                         }
 
                         pTlv = Path_TLV::Next_446460(pTlv);
-                        pTlv->RangeCheck();
                     }
                 }
             }
@@ -919,22 +916,20 @@ void Map::RestoreBlyData(const u8* pSaveData)
                     const s32 index_table_value = pIndexTable[j];
                     if (index_table_value != -1 && index_table_value < 0x100000)
                     {
-                        auto pTlv = reinterpret_cast<Path_TLV*>(&(*ppPathRes)[pPathData->field_14_object_offset + index_table_value]);
+                        auto pTlv = reinterpret_cast<relive::Path_TLV*>(&(*ppPathRes)[pPathData->field_14_object_offset + index_table_value]);
                         for (;;)
                         {
-                            pTlv->RangeCheck();
                             pTlv->mTlvFlags.Raw().all = *pAfterSwitchStates;
                             pAfterSwitchStates++;
 
-                            pTlv->field_1_unknown = *pAfterSwitchStates;
+                            pTlv->mTlvSpecificMeaning = *pAfterSwitchStates;
                             pAfterSwitchStates++;
-                            if (pTlv->mTlvFlags.Get(eBit3_End_TLV_List))
+                            if (pTlv->mTlvFlags.Get(::eBit3_End_TLV_List))
                             {
                                 break;
                             }
 
                             pTlv = Path_TLV::Next_NoCheck(pTlv);
-                            pTlv->RangeCheck();
                             if (pTlv->mLength == 0)
                             {
                                 break;
@@ -966,27 +961,25 @@ void Map::Start_Sounds_For_Objects_In_Camera(CameraPos direction, s16 cam_x_idx,
         if (index_table_value != -1 && index_table_value < 0x100000)
         {
             // Get the first TLV at this index table entry
-            Path_TLV* pTlv = reinterpret_cast<Path_TLV*>(&pPathData[index_table_value + field_D4_pPathData->field_14_object_offset]);
-            pTlv->RangeCheck();
+            relive::Path_TLV* pTlv = reinterpret_cast<relive::Path_TLV*>(&pPathData[index_table_value + field_D4_pPathData->field_14_object_offset]);
 
             // Enumerate the TLVs
             for (;;)
             {
-                if (pTlv->mTopLeft.x >= cam_global_left && pTlv->mTopLeft.x <= cam_global_right)
+                if (pTlv->mTopLeftX >= cam_global_left && pTlv->mTopLeftX <= cam_global_right)
                 {
-                    if (pTlv->mTopLeft.y >= cam_y_grid_top && pTlv->mTopLeft.y <= cam_y_grid_bottom && (!pTlv->mTlvFlags.Get(eBit1_Created) && !pTlv->mTlvFlags.Get(eBit2_Destroyed)))
+                    if (pTlv->mTopLeftY >= cam_y_grid_top && pTlv->mTopLeftY <= cam_y_grid_bottom && (!pTlv->mTlvFlags.Get(::eBit1_Created) && !pTlv->mTlvFlags.Get(::eBit2_Destroyed)))
                     {
                         Start_Sounds_for_TLV(direction, pTlv);
                     }
                 }
 
-                if (pTlv->mTlvFlags.Get(eBit3_End_TLV_List))
+                if (pTlv->mTlvFlags.Get(::eBit3_End_TLV_List))
                 {
                     break;
                 }
 
                 pTlv = Path_TLV::Next_NoCheck(pTlv);
-                pTlv->RangeCheck();
             }
         }
     }
@@ -1024,11 +1017,11 @@ Camera* Map::GetCamera(CameraPos pos)
 
 s16 Map::SetActiveCameraDelayed(MapDirections direction, BaseAliveGameObject* pObj, s16 swapEffect)
 {
-    Path_PathTransition* pPathChangeTLV = nullptr;
+    relive::Path_PathTransition* pPathChangeTLV = nullptr;
     CameraSwapEffects convertedSwapEffect = CameraSwapEffects::eInstantChange_0;
     if (pObj)
     {
-        pPathChangeTLV = static_cast<Path_PathTransition*>(TLV_Get_At_446260(
+        pPathChangeTLV = static_cast<relive::Path_PathTransition*>(TLV_Get_At_446260(
             FP_GetExponent(pObj->mXPos),
             FP_GetExponent(pObj->mYPos),
             FP_GetExponent(pObj->mXPos),
@@ -1259,7 +1252,7 @@ CameraPos Map::GetDirection(EReliveLevelIds level, s32 path, FP xpos, FP ypos)
     }
 }
 
-Path_TLV* Map::TLV_Get_At_446260(s16 xpos, s16 ypos, s16 width, s16 height, TlvTypes typeToFind)
+relive::Path_TLV* Map::TLV_Get_At_446260(s16 xpos, s16 ypos, s16 width, s16 height, TlvTypes typeToFind)
 {
     s32 right = 0;
     s32 left = 0;
@@ -1310,27 +1303,25 @@ Path_TLV* Map::TLV_Get_At_446260(s16 xpos, s16 ypos, s16 width, s16 height, TlvT
         return nullptr;
     }
 
-    Path_TLV* pTlvIter = reinterpret_cast<Path_TLV*>(*GetPathResourceBlockPtr(mCurrentPath) + indexTableEntry + field_D4_pPathData->field_14_object_offset);
-    pTlvIter->RangeCheck();
+    relive::Path_TLV* pTlvIter = reinterpret_cast<relive::Path_TLV*>(*GetPathResourceBlockPtr(mCurrentPath) + indexTableEntry + field_D4_pPathData->field_14_object_offset);
 
-    while (right > pTlvIter->mBottomRight.x
-           || left < pTlvIter->mTopLeft.x
-           || bottom < pTlvIter->mTopLeft.y
-           || top > pTlvIter->mBottomRight.y
-           || pTlvIter->mTlvType32.mType != typeToFind)
+    while (right > pTlvIter->mBottomRightX
+           || left < pTlvIter->mTopLeftX
+           || bottom < pTlvIter->mTopLeftY
+           || top > pTlvIter->mBottomRightY
+           || pTlvIter->mTlvType != static_cast<s32>(typeToFind))
     {
-        if (pTlvIter->mTlvFlags.Get(eBit3_End_TLV_List))
+        if (pTlvIter->mTlvFlags.Get(::eBit3_End_TLV_List))
         {
             return nullptr;
         }
 
         pTlvIter = Path_TLV::Next_446460(pTlvIter);
-        pTlvIter->RangeCheck();
     }
     return pTlvIter;
 }
 
-Path_TLV* Map::TLV_Get_At_446060(Path_TLV* pTlv, FP xpos, FP ypos, FP width, FP height)
+relive::Path_TLV* Map::TLV_Get_At_446060(relive::Path_TLV* pTlv, FP xpos, FP ypos, FP width, FP height)
 {
     bool bContinue = true;
 
@@ -1376,16 +1367,15 @@ Path_TLV* Map::TLV_Get_At_446060(Path_TLV* pTlv, FP xpos, FP ypos, FP width, FP 
             return nullptr;
         }
 
-        pTlv = reinterpret_cast<Path_TLV*>(&ppPathRes[pPathData->field_14_object_offset + indexTableEntry]);
-        pTlv->RangeCheck();
+        pTlv = reinterpret_cast<relive::Path_TLV*>(&ppPathRes[pPathData->field_14_object_offset + indexTableEntry]);
 
-        if (!bContinue || (xpos_converted <= pTlv->mBottomRight.x && width_converted >= pTlv->mTopLeft.x && height_converted >= pTlv->mTopLeft.y && ypos_converted <= pTlv->mBottomRight.y))
+        if (!bContinue || (xpos_converted <= pTlv->mBottomRightX && width_converted >= pTlv->mTopLeftX && height_converted >= pTlv->mTopLeftY && ypos_converted <= pTlv->mBottomRightY))
         {
             return pTlv;
         }
     }
 
-    if (pTlv->mTlvFlags.Get(eBit3_End_TLV_List))
+    if (pTlv->mTlvFlags.Get(::eBit3_End_TLV_List))
     {
         return nullptr;
     }
@@ -1393,14 +1383,13 @@ Path_TLV* Map::TLV_Get_At_446060(Path_TLV* pTlv, FP xpos, FP ypos, FP width, FP 
     while (1)
     {
         pTlv = Path_TLV::Next_446460(pTlv);
-        pTlv->RangeCheck();
 
-        if (!bContinue || (xpos_converted <= pTlv->mBottomRight.x && width_converted >= pTlv->mTopLeft.x && height_converted >= pTlv->mTopLeft.y && ypos_converted <= pTlv->mBottomRight.y))
+        if (!bContinue || (xpos_converted <= pTlv->mBottomRightX && width_converted >= pTlv->mTopLeftX && height_converted >= pTlv->mTopLeftY && ypos_converted <= pTlv->mBottomRightY))
         {
             break;
         }
 
-        if (pTlv->mTlvFlags.Get(eBit3_End_TLV_List))
+        if (pTlv->mTlvFlags.Get(::eBit3_End_TLV_List))
         {
             return 0;
         }
@@ -1425,39 +1414,36 @@ void Map::sub_447430(u16 pathNum)
         {
             if (pObjectTable[counter] != -1)
             {
-                auto pTlv = reinterpret_cast<Path_TLV*>(&pPathRes[pPathData->field_14_object_offset + pObjectTable[counter]]);
+                auto pTlv = reinterpret_cast<relive::Path_TLV*>(&pPathRes[pPathData->field_14_object_offset + pObjectTable[counter]]);
 
-                pTlv->RangeCheck();
-
-                pTlv->mTlvFlags.Clear(TlvFlags::eBit1_Created);
-                pTlv->mTlvFlags.Clear(TlvFlags::eBit2_Destroyed);
-                while (!pTlv->mTlvFlags.Get(TlvFlags::eBit3_End_TLV_List))
+                pTlv->mTlvFlags.Clear(::TlvFlags::eBit1_Created);
+                pTlv->mTlvFlags.Clear(::TlvFlags::eBit2_Destroyed);
+                while (!pTlv->mTlvFlags.Get(::TlvFlags::eBit3_End_TLV_List))
                 {
                     pTlv = Path_TLV::Next_NoCheck(pTlv);
 
-                    pTlv->RangeCheck();
                     if (pTlv->mLength == 0)
                     {
                         break;
                     }
 
-                    pTlv->mTlvFlags.Clear(TlvFlags::eBit1_Created);
-                    pTlv->mTlvFlags.Clear(TlvFlags::eBit2_Destroyed);
+                    pTlv->mTlvFlags.Clear(::TlvFlags::eBit1_Created);
+                    pTlv->mTlvFlags.Clear(::TlvFlags::eBit2_Destroyed);
                 }
             }
         }
     }
 }
 
-Path_TLV* Map::TLV_First_Of_Type_In_Camera(TlvTypes type, s32 camX)
+relive::Path_TLV* Map::TLV_First_Of_Type_In_Camera(TlvTypes type, s32 camX)
 {
-    Path_TLV* pTlvIter = Get_First_TLV_For_Offsetted_Camera(static_cast<s16>(camX), 0);
+    relive::Path_TLV* pTlvIter = Get_First_TLV_For_Offsetted_Camera(static_cast<s16>(camX), 0);
     if (!pTlvIter)
     {
         return nullptr;
     }
 
-    while (pTlvIter->mTlvType32.mType != type)
+    while (pTlvIter->mTlvType != static_cast<s32>(type))
     {
         pTlvIter = Path_TLV::Next_446460(pTlvIter);
         if (!pTlvIter)
@@ -1782,7 +1768,7 @@ void Map::GoTo_Camera()
                         relive::Path_LightEffect tlv;
                         mapObjects.at(i).get_to(tlv);
 
-                        LOG_INFO("X = " << tlv.mX);
+                        LOG_INFO("X = " << tlv.mTopLeftX);
                     }
                 }
             }
@@ -2019,16 +2005,15 @@ void Map::Loader(s16 camX, s16 camY, LoadMode loadMode, TlvTypes typeToLoad)
     }
 
     u8* ptr = pPathRes + objectTableIdx + field_D4_pPathData->field_14_object_offset;
-    Path_TLV* pPathTLV = reinterpret_cast<Path_TLV*>(ptr);
-    pPathTLV->RangeCheck();
+    relive::Path_TLV* pPathTLV = reinterpret_cast<relive::Path_TLV*>(ptr);
 
-    if (static_cast<s32>(pPathTLV->mTlvType32.mType) <= 0x100000 && pPathTLV->mLength <= 0x2000u && pPathTLV->field_8 <= 0x1000000)
+    if (pPathTLV->mTlvType <= 0x100000 && pPathTLV->mLength <= 0x2000u && pPathTLV->field_8 <= 0x1000000)
     {
         while (1)
         {
-            if (typeToLoad == TlvTypes::None_m1 || typeToLoad == pPathTLV->mTlvType32.mType)
+            if (typeToLoad == TlvTypes::None_m1 || static_cast<s32>(typeToLoad) == pPathTLV->mTlvType)
             {
-                if (loadMode != LoadMode::ConstructObject_0 || !(pPathTLV->mTlvFlags.Get(TlvFlags::eBit1_Created) || pPathTLV->mTlvFlags.Get(TlvFlags::eBit2_Destroyed)))
+                if (loadMode != LoadMode::ConstructObject_0 || !(pPathTLV->mTlvFlags.Get(::TlvFlags::eBit1_Created) || pPathTLV->mTlvFlags.Get(TlvFlags::eBit2_Destroyed)))
                 {
                     TlvItemInfoUnion data;
                     data.parts.tlvOffset = static_cast<u16>(objectTableIdx);
@@ -2036,25 +2021,24 @@ void Map::Loader(s16 camX, s16 camY, LoadMode loadMode, TlvTypes typeToLoad)
                     data.parts.pathId = static_cast<u8>(mCurrentPath);
 
                     // Call the factory to construct the item
-                    field_D4_pPathData->field_1C_object_funcs.object_funcs[static_cast<s16>(pPathTLV->mTlvType32.mType)](pPathTLV, this, data, loadMode);
+                    field_D4_pPathData->field_1C_object_funcs.object_funcs[static_cast<s16>(pPathTLV->mTlvType)](pPathTLV, this, data, loadMode);
 
                     if (loadMode == LoadMode::ConstructObject_0)
                     {
-                        pPathTLV->mTlvFlags.Set(TlvFlags::eBit1_Created);
-                        pPathTLV->mTlvFlags.Set(TlvFlags::eBit2_Destroyed);
+                        pPathTLV->mTlvFlags.Set(::TlvFlags::eBit1_Created);
+                        pPathTLV->mTlvFlags.Set(::TlvFlags::eBit2_Destroyed);
                     }
                 }
             }
 
             // End of TLV list for current camera
-            if (pPathTLV->mTlvFlags.Get(TlvFlags::eBit3_End_TLV_List))
+            if (pPathTLV->mTlvFlags.Get(::TlvFlags::eBit3_End_TLV_List))
             {
                 break;
             }
 
             objectTableIdx += pPathTLV->mLength;
             pPathTLV = Path_TLV::Next_446460(pPathTLV);
-            pPathTLV->RangeCheck();
         }
     }
 }
@@ -2170,26 +2154,22 @@ void Map::Get_map_size(PSX_Point* pPoint)
     pPoint->y = field_D4_pPathData->field_A_bBottom;
 }
 
-Path_TLV* Path_TLV::Next_446460(Path_TLV* pTlv)
+relive::Path_TLV* Path_TLV::Next_446460(relive::Path_TLV* pTlv)
 {
     return Next(pTlv);
 }
 
-Path_TLV* Path_TLV::TLV_Next_Of_Type_446500(Path_TLV* pTlv, TlvTypes type)
+relive::Path_TLV* Path_TLV::TLV_Next_Of_Type_446500(relive::Path_TLV* pTlv, TlvTypes type)
 {
-    pTlv->RangeCheck();
-
     pTlv = Path_TLV::Next_446460(pTlv);
-    pTlv->RangeCheck();
     if (!pTlv)
     {
         return nullptr;
     }
 
-    while (pTlv->mTlvType32.mType != type)
+    while (pTlv->mTlvType != static_cast<s32>(type))
     {
         pTlv = Path_TLV::Next_446460(pTlv);
-        pTlv->RangeCheck();
         if (!pTlv)
         {
             return nullptr;

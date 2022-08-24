@@ -149,7 +149,7 @@ UXB::UXB(Path_UXB* tlv_params, TlvItemInfoUnion itemInfo)
     }
 
     InitBlinkAnim(&mFlashAnim);
-    if (tlv_params->mTlvState) // Stores the activated/deactivated state for UXB.
+    if (tlv_params->mTlvSpecificMeaning) // Stores the activated/deactivated state for UXB.
     {
         if (tlv_params->mStartState == Path_UXB::StartState::eOn)
         {

@@ -10,7 +10,7 @@
 
 namespace AO {
 
-BeeSwarmHole::BeeSwarmHole(Path_BeeSwarmHole* pTlv, s32 tlvInfo)
+BeeSwarmHole::BeeSwarmHole(relive::Path_BeeSwarmHole* pTlv, s32 tlvInfo)
     : BaseGameObject(TRUE, 0)
 {
     field_10_tlvInfo = tlvInfo;
@@ -18,15 +18,14 @@ BeeSwarmHole::BeeSwarmHole(Path_BeeSwarmHole* pTlv, s32 tlvInfo)
 
     mStartIntervalTimer = 0;
 
-    field_14_rect.x = pTlv->mTopLeft.x;
-    field_14_rect.y = pTlv->mTopLeft.y;
+    field_14_rect.x = pTlv->mTopLeftX;
+    field_14_rect.y = pTlv->mTopLeftY;
 
-    field_14_rect.w = pTlv->mBottomRight.x;
-    field_14_rect.h = pTlv->mBottomRight.y;
+    field_14_rect.w = pTlv->mBottomRightX;
+    field_14_rect.h = pTlv->mBottomRightY;
 
     mStartInterval = pTlv->mStartInterval;
-    field_22_fall_switch_id = pTlv->field_1C_fall_switch_id;
-    field_24_movement_type = pTlv->mMovementType;
+    mMovementType = pTlv->mMovementType;
 
     field_26_bees_amount = pTlv->mBeesAmount;
     field_28_chase_time = pTlv->mChaseTime;
@@ -83,17 +82,17 @@ void BeeSwarmHole::VUpdate()
             field_28_chase_time);
         if (pSwarm)
         {
-            switch (field_24_movement_type)
+            switch (mMovementType)
             {
-            case Path_BeeSwarmHole::MovementType::eHover_0:
+            case relive::Path_BeeSwarmHole::MovementType::eHover:
                 // Idle around like a chav near a victim
                 break;
 
-            case Path_BeeSwarmHole::MovementType::eAttack_1:
+            case relive::Path_BeeSwarmHole::MovementType::eAttack:
                 pSwarm->Chase(sActiveHero);
                 break;
 
-            case Path_BeeSwarmHole::MovementType::eFollowPath_2:
+            case relive::Path_BeeSwarmHole::MovementType::eFollowPath:
             {
                 PathLine* pLine = nullptr;
                 FP targetX = {};

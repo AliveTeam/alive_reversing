@@ -105,13 +105,13 @@ static u8 Slog_NextRandom()
     return sRandomBytes_4BBE30[sSlogRndSeed_9F11C4++];
 }
 
-Slog::Slog(Path_Slog* pTlv, s32 tlvInfo)
+Slog::Slog(relive::Path_Slog* pTlv, s32 tlvInfo)
     : BaseAliveGameObject()
 {
-    mXPos = FP_FromInteger(pTlv->mTopLeft.x);
-    mYPos = FP_FromInteger(pTlv->mTopLeft.y);
+    mXPos = FP_FromInteger(pTlv->mTopLeftX);
+    mYPos = FP_FromInteger(pTlv->mTopLeftY);
 
-    if (pTlv->mScale == Scale_short::eFull_0)
+    if (pTlv->mScale == relive::reliveScale::eFull)
     {
         mSpriteScale = FP_FromInteger(1);
     }
@@ -128,15 +128,15 @@ Slog::Slog(Path_Slog* pTlv, s32 tlvInfo)
 
     field_158_wake_up_anger = pTlv->mWakeUpAnger;
 
-    mAnim.mFlags.Set(AnimFlags::eBit5_FlipX, pTlv->mFacing == XDirection_short::eLeft_0);
+    mAnim.mFlags.Set(AnimFlags::eBit5_FlipX, pTlv->mFacing == relive::reliveXDirection::eLeft);
 
     field_15A_total_anger = pTlv->mWakeUpAnger + pTlv->mBarkAnger;
     field_15C_chase_anger = field_15A_total_anger + pTlv->mChaseAnger;
-    field_17E_asleep = pTlv->mAsleep;
+    mAsleep = pTlv->mAsleep;
     field_170 = pTlv->mChaseDelay;
-    field_168_anger_switch_id = pTlv->mAngerSwitchId;
+    mAngerSwitchId = pTlv->mAngerSwitchId;
 
-    if (pTlv->mAsleep == Choice_short::eYes_1)
+    if (pTlv->mAsleep == relive::reliveChoice::eYes)
     {
         mCurrentMotion = eSlogMotions::Motion_16_Sleeping_4752E0;
         field_13C_res_idx = 1;
@@ -161,10 +161,10 @@ Slog::Slog(FP xpos, FP ypos, FP scale)
 
     field_10C_pTarget = sControlledCharacter;
     sControlledCharacter->mBaseGameObjectRefCount++;
-    field_17E_asleep = Choice_short::eNo_0;
+    mAsleep = Choice_short::eNo_0;
     field_158_wake_up_anger = 0;
 
-    field_168_anger_switch_id = 0;
+    mAngerSwitchId = 0;
     mCurrentMotion = 0;
     field_138_tlvInfo = 0xFFFF;
     field_114_brain_idx = 2;
@@ -339,11 +339,11 @@ s16 Slog::VTakeDamage(BaseGameObject* pFrom)
     return 1;
 }
 
-void Slog::VOnTlvCollision(Path_TLV* pTlv)
+void Slog::VOnTlvCollision(relive::Path_TLV* pTlv)
 {
     while (pTlv)
     {
-        if (pTlv->mTlvType32 == TlvTypes::DeathDrop_5)
+        if (pTlv->mTlvType == static_cast<s32>(TlvTypes::DeathDrop_5))
         {
             mBaseGameObjectFlags.Set(BaseGameObject::eDead);
             mHealth = FP_FromInteger(0);
@@ -2172,7 +2172,7 @@ s16 Slog::Brain_1_Idle_4719C0()
         return 0;
     }
 
-    if (SwitchStates_Get(field_168_anger_switch_id))
+    if (SwitchStates_Get(mAngerSwitchId))
     {
         // Slog triggered, not gonna listen to you anymore, you gotta die
         field_114_brain_idx = 2;
@@ -2187,7 +2187,7 @@ s16 Slog::Brain_1_Idle_4719C0()
                 mNextMotion = eSlogMotions::Motion_0_Idle_4742E0;
                 return field_116_brain_sub_state;
             }
-            else if (field_17E_asleep == Choice_short::eYes_1)
+            else if (mAsleep == relive::reliveChoice::eYes)
             {
                 field_156 = 0;
                 return 1;
@@ -2270,7 +2270,7 @@ s16 Slog::Brain_1_Idle_4719C0()
             {
                 if (field_156)
                 {
-                    if (field_17E_asleep == Choice_short::eYes_1)
+                    if (mAsleep == relive::reliveChoice::eYes)
                     {
                         field_156--;
                     }

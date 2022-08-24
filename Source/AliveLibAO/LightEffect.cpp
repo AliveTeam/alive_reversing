@@ -10,7 +10,7 @@
 
 namespace AO {
 
-LightEffect::LightEffect(Path_LightEffect* pTlv, s32 tlvInfo)
+LightEffect::LightEffect(relive::Path_LightEffect* pTlv, s32 tlvInfo)
 {
     mBaseGameObjectTypeId = ReliveTypes::eNone;
     field_E4_tlvInfo = tlvInfo;
@@ -39,8 +39,8 @@ LightEffect::LightEffect(Path_LightEffect* pTlv, s32 tlvInfo)
     field_EA = 0;
 
     mSpriteScale = FP_FromDouble(0.4);
-    mXPos = FP_FromInteger(pTlv->mTopLeft.x);
-    mYPos = FP_FromInteger(pTlv->mTopLeft.y);
+    mXPos = FP_FromInteger(pTlv->mTopLeftX);
+    mYPos = FP_FromInteger(pTlv->mTopLeftY);
 }
 
 LightEffect::~LightEffect()

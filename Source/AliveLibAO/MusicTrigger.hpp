@@ -39,7 +39,7 @@ class MusicTrigger final : public BaseGameObject
 {
 public:
     MusicTrigger(MusicTriggerMusicType type, TriggeredBy triggeredBy, s32 switchId, s32 delay);
-    MusicTrigger(Path_MusicTrigger* pTlv, s32 tlvInfo);
+    MusicTrigger(relive::Path_MusicTrigger* pTlv, s32 tlvInfo);
 
     void Init(MusicTriggerMusicType type, TriggeredBy triggeredBy, u16 switchId, s16 delay);
 

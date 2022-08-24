@@ -70,19 +70,29 @@ static relive::Path_TLV& ToBase(T& derivedType)
 inline void to_json(nlohmann::json& j, const Path_TLV& p)
 {
     j = nlohmann::json{
-        {"x", p.mX},
-        {"y", p.mY},
+        {"top_left_x", p.mTopLeftX},
+        {"top_left_y", p.mTopLeftY},
         {"width", p.mWidth},
         {"height", p.mHeight},
+        {"bottom_right_x", p.mBottomRightX},
+        {"bottom_right_y", p.mBottomRightY},
+        {"tlv_specific_meaning", p.mTlvSpecificMeaning},
+        {"tlv_flags", p.mTlvFlags.Raw().all},
+        {"length", p.mLength},
     };
 }
 
 inline void from_json(const nlohmann::json& j, Path_TLV& p)
 {
-    j.at("x").get_to(p.mX);
-    j.at("y").get_to(p.mY);
+    j.at("top_left_x").get_to(p.mTopLeftX);
+    j.at("top_left_y").get_to(p.mTopLeftY);
     j.at("width").get_to(p.mWidth);
     j.at("height").get_to(p.mHeight);
+    j.at("bottom_right_x").get_to(p.mBottomRightX);
+    j.at("bottom_right_y").get_to(p.mBottomRightY);
+    j.at("tlv_specific_meaning").get_to(p.mTlvSpecificMeaning);
+    j.at("tlv_flags").get_to(p.mTlvFlags.Raw().all);
+    j.at("length").get_to(p.mLength);
 }
 
 // Common TLV enums
@@ -1718,6 +1728,7 @@ inline void to_json(nlohmann::json& j, const Path_Door& p)
         {"target_door_id", p.mTargetDoorId},
         {"door_type", p.mDoorType},
         {"start_state", p.mStartState},
+        {"door_closed", p.mDoorClosed},
         {"hub_1", p.mHub1},
         {"hub_2", p.mHub2},
         {"hub_3", p.mHub3},
@@ -1748,6 +1759,7 @@ inline void from_json(const nlohmann::json& j, Path_Door& p)
     j.at("target_door_id").get_to(p.mTargetDoorId);
     j.at("door_type").get_to(p.mDoorType);
     j.at("start_state").get_to(p.mStartState);
+    j.at("door_closed").get_to(p.mDoorClosed);
     j.at("hub_1").get_to(p.mHub1);
     j.at("hub_2").get_to(p.mHub2);
     j.at("hub_3").get_to(p.mHub3);

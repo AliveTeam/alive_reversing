@@ -31,7 +31,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_FallingItem, 0x24);
 class FallingItem final : public BaseAliveGameObject
 {
 public:
-    FallingItem(Path_FallingItem* pTlv, s32 tlvInfo);
+    FallingItem(relive::Path_FallingItem* pTlv, s32 tlvInfo);
     ~FallingItem();
 
     virtual void VScreenChanged() override;
@@ -54,11 +54,11 @@ public:
     s32 field_10C_tlvInfo = 0;
     State field_110_state = State::eWaitForIdEnable_0;
     u16 field_112_switch_id = 0;
-    s16 field_114_max_falling_items = 0;
-    s16 field_116_remaining_falling_items = 0;
-    s16 field_118_fall_interval = 0;
+    s16 mMaxFallingItems = 0;
+    s16 mMaxFallingItems = 0;
+    s16 mFallInterval = 0;
     s32 field_11C_delay_timer = 0;
-    Choice_short field_120_reset_switch_id_after_use = Choice_short::eNo_0;
+    relive::reliveChoice mResetSwitchIdAfterUse = relive::reliveChoice::eNo;
     s16 field_122_do_sound_in_state_falling = 0;
     FP field_124_yPosStart = {};
     FP field_128_xpos = {};

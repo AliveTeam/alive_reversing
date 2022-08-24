@@ -41,7 +41,7 @@ RollingBall::~RollingBall()
     ResourceManager::FreeResource_455550(pRes);
 }
 
-RollingBall::RollingBall(Path_RollingBall* pTlv, s32 tlvInfo)
+RollingBall::RollingBall(relive::Path_RollingBall* pTlv, s32 tlvInfo)
     : BaseAliveGameObject()
 {
     mBaseGameObjectTypeId = ReliveTypes::eRollingBall;
@@ -52,14 +52,14 @@ RollingBall::RollingBall(Path_RollingBall* pTlv, s32 tlvInfo)
 
     mAnim.mRenderLayer = Layer::eLayer_FallingItemDoorFlameRollingBallPortalClip_Half_31;
 
-    if (pTlv->mScale == Scale_short::eHalf_1)
+    if (pTlv->mScale == relive::reliveScale::eHalf)
     {
         mSpriteScale = FP_FromDouble(0.5);
         mAnim.mRenderLayer = Layer::eLayer_DoorFlameRollingBallFallingItemPortalClip_Half_12;
         mScale = Scale::Bg;
     }
 
-    if (pTlv->mRollDirection == XDirection_short::eLeft_0)
+    if (pTlv->mRollDirection == relive::reliveXDirection::eLeft)
     {
         mAnim.mFlags.Set(AnimFlags::eBit5_FlipX);
     }
@@ -74,8 +74,8 @@ RollingBall::RollingBall(Path_RollingBall* pTlv, s32 tlvInfo)
 
     mAcceleration = FP_FromRaw(pTlv->mAcceleration << 8);
 
-    mXPos = FP_FromInteger(pTlv->mTopLeft.x);
-    mYPos = FP_FromInteger(pTlv->mTopLeft.y);
+    mXPos = FP_FromInteger(pTlv->mTopLeftX);
+    mYPos = FP_FromInteger(pTlv->mTopLeftY);
 
     FP castX = {};
     FP castY = {};

@@ -245,7 +245,7 @@ void TorturedMudokon::VUpdate()
         Path_TLV* pTlv = sPathInfo->TLV_From_Offset_Lvl_Cam(mTlvInfo);
         if (pTlv)
         {
-            pTlv->mTlvState = 1;
+            pTlv->mTlvSpecificMeaning = 1;
         }
     }
 }

@@ -13,7 +13,7 @@
 
 namespace AO {
 
-HoneySack::HoneySack(Path_HoneySack* pTlv, s32 tlvInfo)
+HoneySack::HoneySack(relive::Path_HoneySack* pTlv, s32 tlvInfo)
 {
     mBaseGameObjectTypeId = ReliveTypes::eHoneySack;
 
@@ -27,13 +27,13 @@ HoneySack::HoneySack(Path_HoneySack* pTlv, s32 tlvInfo)
     mChaseTime = pTlv->mChaseTime;
     mAnim.mRenderLayer = Layer::eLayer_FallingItemDoorFlameRollingBallPortalClip_Half_31;
 
-    mXPos = FP_FromInteger(pTlv->mTopLeft.x);
-    mYPos = FP_FromInteger(pTlv->mTopLeft.y);
-    mObjectYPos = FP_FromInteger(pTlv->mTopLeft.y);
+    mXPos = FP_FromInteger(pTlv->mTopLeftX);
+    mYPos = FP_FromInteger(pTlv->mTopLeftY);
+    mObjectYPos = FP_FromInteger(pTlv->mTopLeftY);
 
     mHitGround = 0;
 
-    if (pTlv->mScale == Scale_short::eHalf_1)
+    if (pTlv->mScale == relive::reliveScale::eHalf)
     {
         mSpriteScale = FP_FromDouble(0.5);
         mScale = Scale::Bg;
@@ -44,9 +44,9 @@ HoneySack::HoneySack(Path_HoneySack* pTlv, s32 tlvInfo)
         mScale = Scale::Fg;
     }
 
-    if (pTlv->field_1_unknown)
+    if (pTlv->mTlvSpecificMeaning)
     {
-        mYPos += FP_FromInteger(pTlv->field_1_unknown);
+        mYPos += FP_FromInteger(pTlv->mTlvSpecificMeaning);
 
         mState = State::eUpdateHoneySackOnGround_3;
         mAnim.Set_Animation_Data(AnimId::HoneySack_OnGround, nullptr);

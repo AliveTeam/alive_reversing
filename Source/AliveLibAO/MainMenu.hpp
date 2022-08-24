@@ -157,7 +157,7 @@ union MenuOption
 class Menu final : public BaseAnimatedWithPhysicsGameObject
 {
 public:
-    Menu(Path_TLV* pTlv, s32 tlvInfo);
+    Menu(relive::Path_TLV* pTlv, s32 tlvInfo);
     ~Menu();
 
     virtual void VUpdate() override;

@@ -51,7 +51,7 @@ const u8 byte_4C5080[32] = {
 ALIVE_VAR(1, 0x507700, s32, sGasTimer_507700, 0);
 ALIVE_VAR(1, 0x4FF888, s16, gGasOn_4FF888, 0);
 
-GasCountDown::GasCountDown(Path_GasCountDown* pTlv, s32 tlvInfo)
+GasCountDown::GasCountDown(relive::Path_GasCountDown* pTlv, s32 tlvInfo)
     : BaseGameObject(TRUE, 0)
 {
     mBaseGameObjectTypeId = ReliveTypes::eGasClock;
@@ -65,9 +65,9 @@ GasCountDown::GasCountDown(Path_GasCountDown* pTlv, s32 tlvInfo)
 
     field_62_time_left = 120;
 
-    field_5C_xpos = FP_GetExponent((FP_FromInteger(pScreenManager->mCamXOff + pTlv->mTopLeft.x) - pScreenManager->mCamPos->x));
+    field_5C_xpos = FP_GetExponent((FP_FromInteger(pScreenManager->mCamXOff + pTlv->mTopLeftX) - pScreenManager->mCamPos->x));
 
-    field_5E_ypos = FP_GetExponent((FP_FromInteger(pScreenManager->mCamYOff + pTlv->mTopLeft.y)) - pScreenManager->mCamPos->y);
+    field_5E_ypos = FP_GetExponent((FP_FromInteger(pScreenManager->mCamYOff + pTlv->mTopLeftY)) - pScreenManager->mCamPos->y);
 
     field_60_start_switch_id = pTlv->mStartTimerSwitchId;
 }

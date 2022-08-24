@@ -42,7 +42,7 @@ void Path::TLV_Reset(u32 tlvOffset_levelId_PathId, s16 hiFlags, s8 bSetCreated, 
             if (hiFlags != -1)
             {
                 // Seems to be a blob per TLV specific bits
-                pTlv->field_1_unknown = static_cast<u8>(hiFlags);
+                pTlv->mTlvSpecificMeaning = static_cast<u8>(hiFlags);
             }
 
             ResourceManager::FreeResource_455550(ppPathRes);

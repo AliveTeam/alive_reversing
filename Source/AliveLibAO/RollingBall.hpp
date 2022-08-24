@@ -25,7 +25,7 @@ class RollingBallShaker;
 class RollingBall final : public BaseAliveGameObject
 {
 public:
-    RollingBall(Path_RollingBall* pTlv, s32 tlvInfo);
+    RollingBall(relive::Path_RollingBall* pTlv, s32 tlvInfo);
     ~RollingBall();
 
     virtual void VUpdate() override;

@@ -11,7 +11,7 @@
 
 namespace AO {
 
-BellHammer::BellHammer(Path_BellHammer* pTlv, s32 tlvInfo)
+BellHammer::BellHammer(relive::Path_BellHammer* pTlv, s32 tlvInfo)
 {
     mBaseGameObjectTypeId = ReliveTypes::eBellHammer;
 
@@ -23,13 +23,13 @@ BellHammer::BellHammer(Path_BellHammer* pTlv, s32 tlvInfo)
     mSpawnElum = false;
     mState = BellHammerStates::eWaitForActivation_0;
 
-    mXPos = FP_FromInteger(pTlv->mTopLeft.x + 82);
-    mYPos = FP_FromInteger(pTlv->mTopLeft.y + 94);
+    mXPos = FP_FromInteger(pTlv->mTopLeftX + 82);
+    mYPos = FP_FromInteger(pTlv->mTopLeftY + 94);
 
     mSwitchId = pTlv->mSwitchId;
     mTlvInfo = tlvInfo;
 
-    if (pTlv->mScale == Scale_short::eHalf_1)
+    if (pTlv->mScale == relive::reliveScale::eHalf)
     {
         mSpriteScale = FP_FromDouble(0.5);
         mScale = Scale::Bg;
@@ -42,7 +42,7 @@ BellHammer::BellHammer(Path_BellHammer* pTlv, s32 tlvInfo)
         mAnim.mRenderLayer = Layer::eLayer_BeforeShadow_25;
     }
 
-    if (pTlv->mDirection == XDirection_short::eRight_1)
+    if (pTlv->mDirection == relive::reliveXDirection::eRight)
     {
         mAnim.mFlags.Set(AnimFlags::eBit5_FlipX);
     }

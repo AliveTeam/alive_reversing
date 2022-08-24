@@ -22,7 +22,7 @@ SlogSpawner::SlogSpawner(Path_SlogSpawner* pTlv, s32 tlvInfo)
     mListenToSligs = pTlv->mListenToSligs;
     mChaseDelay = pTlv->mChaseDelay;
 
-    mSpawnedSlogsCount = pTlv->mTlvState;
+    mSpawnedSlogsCount = pTlv->mTlvSpecificMeaning;
 
     mXPos = FP_FromInteger(pTlv->mTopLeft.x);
     mYPos = FP_FromInteger(pTlv->mTopLeft.y);

@@ -318,7 +318,7 @@ DoorFlame::~DoorFlame()
     Path::TLV_Reset(mTlvInfo, -1, 0, 0);
 }
 
-DoorFlame::DoorFlame(Path_DoorFlame* pTlv, s32 tlvInfo)
+DoorFlame::DoorFlame(relive::Path_DoorFlame* pTlv, s32 tlvInfo)
 {
     mBaseGameObjectTypeId = ReliveTypes::eNone;
     mTlvInfo = tlvInfo;
@@ -332,33 +332,32 @@ DoorFlame::DoorFlame(Path_DoorFlame* pTlv, s32 tlvInfo)
     mFrameCount = mAnim.Get_Frame_Count();
     mSwitchId = pTlv->mSwitchId;
 
-    if (pTlv->mScale == Path_DoorFlame::Scale::eHalf_1 || 
-        pTlv->mScale == Path_DoorFlame::Scale::eHalf_2)
+    if (pTlv->mScale == relive::reliveScale::eHalf)
     {
         mSpriteScale = FP_FromDouble(0.5);
-        mXPos = FP_FromInteger(pTlv->mTopLeft.x + 12);
-        mYPos = FP_FromInteger(pTlv->mTopLeft.y + 15);
+        mXPos = FP_FromInteger(pTlv->mTopLeftX + 12);
+        mYPos = FP_FromInteger(pTlv->mTopLeftY + 15);
     }
-    else if (pTlv->mScale == Path_DoorFlame::Scale::eFull_0)
+    else if (pTlv->mScale == relive::reliveScale::eFull)
     {
         mSpriteScale = FP_FromInteger(1);
-        mXPos = FP_FromInteger(pTlv->mTopLeft.x + 12);
-        mYPos = FP_FromInteger(pTlv->mTopLeft.y + 15);
+        mXPos = FP_FromInteger(pTlv->mTopLeftX + 12);
+        mYPos = FP_FromInteger(pTlv->mTopLeftY + 15);
     }
 
     switch (pTlv->mColour)
     {
-        case Path_DoorFlame::Colour::red_1:
+        case relive::Path_DoorFlame::Colour::eRed:
             mRGB.r = 127;
             break;
-        case Path_DoorFlame::Colour::green_2:
+        case relive::Path_DoorFlame::Colour::eGreen:
             mRGB.g = 127;
             break;
-        case Path_DoorFlame::Colour::blue_3:
+        case relive::Path_DoorFlame::Colour::eBlue:
             mRGB.b = 127;
             break;
         
-        case Path_DoorFlame::Colour::default_0:
+        case relive::Path_DoorFlame::Colour::eDefault:
         default:
             break;
     }

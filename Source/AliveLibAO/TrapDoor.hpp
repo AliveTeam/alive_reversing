@@ -39,7 +39,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_TrapDoor, 0x28);
 class TrapDoor final : public PlatformBase
 {
 public:
-    TrapDoor(Path_TrapDoor* pTlv, Map* pMap, s32 tlvInfo);
+    TrapDoor(relive::Path_TrapDoor* pTlv, Map* pMap, s32 tlvInfo);
     ~TrapDoor();
 
     void Open();
@@ -56,7 +56,7 @@ public:
     TrapDoorState mState = TrapDoorState::eClosed_0;
     s16 mStartState = 0;
     s16 mTrapDoorXOffset = 0;
-    Choice_short mSelfClosing = Choice_short::eNo_0;
+    relive::reliveChoice mSelfClosing = relive::reliveChoice::eNo;
     FP mTrapDoorX = {};
     FP mTrapDoorY = {};
     PSX_RECT mBoundingRect = {};

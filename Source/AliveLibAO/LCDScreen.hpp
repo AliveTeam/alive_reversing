@@ -24,7 +24,7 @@ ALIVE_ASSERT_SIZEOF(Path_LCDScreen, 0x20);
 class LCDScreen final : public BaseGameObject
 {
 public:
-    LCDScreen(Path_LCDScreen* pTlv, s32 tlvInfo);
+    LCDScreen(relive::Path_LCDScreen* pTlv, s32 tlvInfo);
     ~LCDScreen();
 
     virtual void VScreenChanged() override;
@@ -44,7 +44,7 @@ public:
     s32 field_2B0_x_offset = 0;
     s32 field_2B4_character_width = 0;
     s32 field_2B8_tlv_item_info = 0;
-    Path_TLV field_2BC_tlv = {};
+    relive::Path_TLV field_2BC_tlv = {};
     s32 field_2D4 = 0;
     s16 field_2D8_message_rand_min = 0;
     s16 pad_2DA = 0;

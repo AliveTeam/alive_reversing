@@ -47,7 +47,7 @@ void Claw::VScreenChanged()
     // Keep alive as the Claw is owned by the SecurityClaw
 }
 
-SecurityClaw::SecurityClaw(Path_SecurityClaw* pTlv, s32 tlvInfo)
+SecurityClaw::SecurityClaw(relive::Path_SecurityClaw* pTlv, s32 tlvInfo)
     : BaseAliveGameObject()
 {
     mBaseGameObjectTypeId = ReliveTypes::eSecurityClaw;
@@ -61,10 +61,10 @@ SecurityClaw::SecurityClaw(Path_SecurityClaw* pTlv, s32 tlvInfo)
 
     mTlvInfo = tlvInfo;
 
-    mClawX = FP_FromInteger(pTlv->mTopLeft.x);
-    mClawY = FP_FromInteger(pTlv->mTopLeft.y);
+    mClawX = FP_FromInteger(pTlv->mTopLeftX);
+    mClawY = FP_FromInteger(pTlv->mTopLeftY);
 
-    if (pTlv->mScale == Scale_short::eHalf_1)
+    if (pTlv->mScale == relive::reliveScale::eHalf)
     {
         mSpriteScale = FP_FromDouble(0.5);
         mScale = Scale::Bg;
@@ -81,8 +81,10 @@ SecurityClaw::SecurityClaw(Path_SecurityClaw* pTlv, s32 tlvInfo)
     mYPos = mClawY + ((Math_Cosine_4510A0(0) * mSpriteScale) * FP_FromInteger(8));
     SetTint(&kSecurityClawTints_4C5488[0], gMap.mCurrentLevel);
 
-    field_134 = pTlv->mTopLeft;
-    field_138 = pTlv->mBottomRight;
+    field_134_top_left.x = pTlv->mTopLeftX;
+    field_134_top_left.y = pTlv->mTopLeftY;
+    field_138_bottom_right.x = pTlv->mBottomRightX;
+    field_138_bottom_right.y = pTlv->mBottomRightY;
 
     mAlarmSwitchId = pTlv->mAlarmSwitchId;
     mAlarmDuration = pTlv->mAlarmDuration;
@@ -215,7 +217,7 @@ void SecurityClaw::VUpdate()
     {
         if (sActiveHero->mXPos < mClawX)
         {
-            if (FP_GetExponent(mClawX) > field_134.x)
+            if (FP_GetExponent(mClawX) > field_134_top_left.x)
             {
                 mClawX -= FP_FromDouble(0.5);
             }
@@ -223,7 +225,7 @@ void SecurityClaw::VUpdate()
 
         if (sActiveHero->mXPos >= mClawX)
         {
-            if (FP_GetExponent(mClawX) < field_138.x)
+            if (FP_GetExponent(mClawX) < field_138_bottom_right.x)
             {
                 mClawX += FP_FromDouble(0.5);
             }

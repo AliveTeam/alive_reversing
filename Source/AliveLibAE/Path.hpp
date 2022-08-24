@@ -209,7 +209,7 @@ enum class Choice_short : s16
 struct Path_TLV
 {
     BitField8<TlvFlags> mTlvFlags;
-    u8 mTlvState;
+    u8 mTlvSpecificMeaning;
     s16 mLength;
     TlvTypes32 mTlvType32;
     PSX_Point mTopLeft;

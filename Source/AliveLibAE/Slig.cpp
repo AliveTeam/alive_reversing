@@ -4550,7 +4550,7 @@ void Slig::Init()
             break;
 
         case Path_Slig::StartState::Sleeping_2:
-            if (field_218_tlv_data.mTlvState && field_218_tlv_data.mStayAwake == Choice_short::eYes_1)
+            if (field_218_tlv_data.mTlvSpecificMeaning && field_218_tlv_data.mStayAwake == Choice_short::eYes_1)
             {
                 SetBrain(&Slig::Brain_Inactive_32_4B9430);
             }
@@ -4996,7 +4996,7 @@ void Slig::WakeUp_4B93B0()
         TlvTypes::Slig_15);
     if (pTlv)
     {
-        pTlv->mTlvState = 1; // TODO: Keep track of these, 1 must keep slig awake ??
+        pTlv->mTlvSpecificMeaning = 1; // TODO: Keep track of these, 1 must keep slig awake ??
     }
 }
 

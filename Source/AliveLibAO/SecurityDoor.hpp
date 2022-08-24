@@ -36,7 +36,7 @@ enum SecurityDoorStates : s16
 class SecurityDoor final : public BaseAnimatedWithPhysicsGameObject
 {
 public:
-    SecurityDoor(Path_SecurityDoor* pTlv, s32 tlvInfo);
+    SecurityDoor(relive::Path_SecurityDoor* pTlv, s32 tlvInfo);
     ~SecurityDoor();
 
     virtual void VUpdate() override;

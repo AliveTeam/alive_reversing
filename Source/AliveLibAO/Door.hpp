@@ -6,6 +6,7 @@
 #include "BaseAnimatedWithPhysicsGameObject.hpp"
 #include "../AliveLibAE/Path.hpp"
 #include "Path.hpp"
+#include "../relive_lib/data_conversion/relive_tlvs.hpp"
 
 namespace AO {
 
@@ -36,7 +37,7 @@ struct Path_Door final : public Path_TLV
     s16 mSwitchId;
     s16 mTargetDoorId;
     DoorTypes mDoorType;
-    Choice_short field_28_door_closed;
+    Choice_short mDoorClosed;
     s16 mHub1;
     s16 mHub2;
     s16 mHub3;
@@ -58,7 +59,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Door, 0x48);
 class Door final : public BaseAnimatedWithPhysicsGameObject
 {
 public:
-    Door(Path_Door* pTlv, s32 tlvInfo);
+    Door(relive::Path_Door* pTlv, s32 tlvInfo);
     ~Door();
 
     virtual void VScreenChanged() override;
@@ -71,12 +72,12 @@ public:
     void vSetClosed();
     void PlaySound();
 
-    s32 field_E4_tlvInfo = 0;
-    DoorTypes field_E8_door_type = DoorTypes::eBasicDoor_0;
-    s16 field_EA_door_number = 0;
+    s32 mTlvInfo = 0;
+    relive::Path_Door::DoorTypes mDoorType = relive::Path_Door::DoorTypes::eBasicDoor;
+    s16 mDoorId = 0;
     DoorStates field_EC_current_state = DoorStates::eOpen_0;
-    Choice_short field_EE_door_closed = Choice_short::eNo_0;
-    s16 field_F0_switch_id = 0;
+    relive::reliveChoice mDoorClosed = relive::reliveChoice::eNo;
+    s16 mSwitchId = 0;
     s16 field_F2_hubs_ids[8] = {};
 };
 ALIVE_ASSERT_SIZEOF(Door, 0x104);

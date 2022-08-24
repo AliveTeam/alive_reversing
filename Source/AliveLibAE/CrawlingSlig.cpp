@@ -947,7 +947,7 @@ s16 CrawlingSlig::Brain_2_PanicGetALocker()
                 field_1E4_pPantsOrWingsTlv = FindPantsOrWings();
             }
 
-            if (GetCurrentMotion() != CrawlingSligMotion::Motion_0_Idle || (field_1E4_pPantsOrWingsTlv && field_1E4_pPantsOrWingsTlv->mTlvState))
+            if (GetCurrentMotion() != CrawlingSligMotion::Motion_0_Idle || (field_1E4_pPantsOrWingsTlv && field_1E4_pPantsOrWingsTlv->mTlvSpecificMeaning))
             {
                 if (Math_NextRandom() & 1)
                 {
@@ -963,8 +963,8 @@ s16 CrawlingSlig::Brain_2_PanicGetALocker()
             }
             else
             {
-                field_1E4_pPantsOrWingsTlv->mTlvState &= 0xFF;
-                field_1E4_pPantsOrWingsTlv->mTlvState |= 1;
+                field_1E4_pPantsOrWingsTlv->mTlvSpecificMeaning &= 0xFF;
+                field_1E4_pPantsOrWingsTlv->mTlvSpecificMeaning |= 1;
 
                 SetNextMotion(CrawlingSligMotion::Motion_1_UsingButton);
                 field_1AC_timer = sGnFrame + 20;
@@ -1769,10 +1769,10 @@ void CrawlingSlig::HandleCommon()
             field_1E4_pPantsOrWingsTlv = FindPantsOrWings();
             if (field_1E4_pPantsOrWingsTlv)
             {
-                if (!field_1E4_pPantsOrWingsTlv->mTlvState)
+                if (!field_1E4_pPantsOrWingsTlv->mTlvSpecificMeaning)
                 {
-                    field_1E4_pPantsOrWingsTlv->mTlvState &= 0xFF;
-                    field_1E4_pPantsOrWingsTlv->mTlvState |= 1;
+                    field_1E4_pPantsOrWingsTlv->mTlvSpecificMeaning &= 0xFF;
+                    field_1E4_pPantsOrWingsTlv->mTlvSpecificMeaning |= 1;
                     SetNextMotion(CrawlingSligMotion::Motion_1_UsingButton);
                     field_1AC_timer = sGnFrame + 20;
                 }

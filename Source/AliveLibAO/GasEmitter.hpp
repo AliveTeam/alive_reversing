@@ -14,7 +14,7 @@ struct Path_GasEmitter final : public Path_TLV
 class GasEmitter final : public BaseGameObject
 {
 public:
-    GasEmitter(Path_GasEmitter* pTlv, s32 tlvInfo);
+    GasEmitter(relive::Path_GasEmitter* pTlv, s32 tlvInfo);
     ~GasEmitter();
 
     virtual void VStopAudio() override;

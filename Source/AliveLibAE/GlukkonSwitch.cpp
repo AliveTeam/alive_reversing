@@ -67,9 +67,9 @@ GlukkonSwitch::GlukkonSwitch(Path_GlukkonSwitch* pTlv, s32 tlvInfo)
         mYPos = FP_FromInteger((pTlv->mTopLeft.y + pTlv->mBottomRight.y) / 2);
     }
 
-    if (pTlv->mTlvState)
+    if (pTlv->mTlvSpecificMeaning)
     {
-        field_F8_state = pTlv->mTlvState - 1;
+        field_F8_state = pTlv->mTlvSpecificMeaning - 1;
     }
     else
     {

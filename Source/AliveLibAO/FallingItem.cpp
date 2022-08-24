@@ -36,7 +36,7 @@ const FallingItem_Data sFallingItemData_4BAB20[16] = {
     {AnimId::AO_FallingRock_Falling, AnimId::AO_FallingRock_Waiting, 76, 38}, // forest chase
     {AnimId::AO_FallingRock_Falling, AnimId::AO_FallingRock_Waiting, 76, 38}};// desert escape
 
-FallingItem::FallingItem(Path_FallingItem* pTlv, s32 tlvInfo)
+FallingItem::FallingItem(relive::Path_FallingItem* pTlv, s32 tlvInfo)
     : BaseAliveGameObject()
 {
     mBaseGameObjectFlags.Set(Options::eCanExplode_Bit7);
@@ -57,7 +57,7 @@ FallingItem::FallingItem(Path_FallingItem* pTlv, s32 tlvInfo)
     }
 
     field_112_switch_id = pTlv->mSwitchId;
-    if (pTlv->mScale == Scale_short::eHalf_1)
+    if (pTlv->mScale == relive::reliveScale::eHalf)
     {
         mSpriteScale = FP_FromDouble(0.5);
         mScale = Scale::Bg;
@@ -69,18 +69,18 @@ FallingItem::FallingItem(Path_FallingItem* pTlv, s32 tlvInfo)
     }
 
 
-    field_118_fall_interval = pTlv->mFallInterval;
-    field_114_max_falling_items = pTlv->mMaxFallingItems;
-    field_116_remaining_falling_items = pTlv->mMaxFallingItems;
+    mFallInterval = pTlv->mFallInterval;
+    mMaxFallingItems = pTlv->mMaxFallingItems;
+    mMaxFallingItems = pTlv->mMaxFallingItems;
 
-    field_120_reset_switch_id_after_use = pTlv->mResetSwitchIdAfterUse;
+    mResetSwitchIdAfterUse = pTlv->mResetSwitchIdAfterUse;
     field_122_do_sound_in_state_falling = 1;
 
-    mXPos = FP_FromInteger(pTlv->mTopLeft.x);
-    mYPos = FP_FromInteger(pTlv->mTopLeft.y);
+    mXPos = FP_FromInteger(pTlv->mTopLeftX);
+    mYPos = FP_FromInteger(pTlv->mTopLeftY);
 
-    field_128_xpos = FP_FromInteger((pTlv->mBottomRight.x + pTlv->mTopLeft.x) / 2);
-    field_12C_ypos = FP_FromInteger(pTlv->mBottomRight.y);
+    field_128_xpos = FP_FromInteger((pTlv->mBottomRightX + pTlv->mTopLeftX) / 2);
+    field_12C_ypos = FP_FromInteger(pTlv->mBottomRightY);
 
     field_124_yPosStart = mYPos;
     field_110_state = State::eWaitForIdEnable_0;
@@ -172,7 +172,7 @@ void FallingItem::VUpdate()
             mVelX = FP_FromInteger(0);
             mVelY = FP_FromInteger(0);
             mAnim.Set_Animation_Data(sFallingItemData_4BAB20[static_cast<s32>(MapWrapper::ToAO(gMap.mCurrentLevel))].field_4_waiting_animId, nullptr);
-            field_11C_delay_timer = sGnFrame + field_118_fall_interval;
+            field_11C_delay_timer = sGnFrame + mFallInterval;
             break;
         }
 
@@ -292,15 +292,15 @@ void FallingItem::VUpdate()
 
             if (field_112_switch_id)
             {
-                if (field_120_reset_switch_id_after_use == Choice_short::eYes_1)
+                if (mResetSwitchIdAfterUse == relive::reliveChoice::eYes)
                 {
                     SwitchStates_Do_Operation(field_112_switch_id, SwitchOp::eSetFalse_1);
                 }
             }
 
-            field_116_remaining_falling_items--;
+            mMaxFallingItems--;
 
-            if ((field_114_max_falling_items && field_116_remaining_falling_items <= 0) || !gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, field_128_xpos, field_12C_ypos, 0))
+            if ((mMaxFallingItems && mMaxFallingItems <= 0) || !gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, field_128_xpos, field_12C_ypos, 0))
             {
                 mBaseGameObjectFlags.Set(BaseGameObject::eDead);
             }

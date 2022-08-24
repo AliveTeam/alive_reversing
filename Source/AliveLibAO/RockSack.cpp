@@ -107,7 +107,7 @@ RockSack::~RockSack()
     Path::TLV_Reset(field_10C_tlvInfo, -1, 0, 0);
 }
 
-RockSack::RockSack(Path_RockSack* pTlv, s32 tlvInfo)
+RockSack::RockSack(relive::Path_RockSack* pTlv, s32 tlvInfo)
     : BaseAliveGameObject()
 {
     mBaseGameObjectTypeId = ReliveTypes::eRockSack;
@@ -126,17 +126,17 @@ RockSack::RockSack(Path_RockSack* pTlv, s32 tlvInfo)
     field_10C_tlvInfo = tlvInfo;
     field_110_has_been_hit = 0;
     mVisualFlags.Clear(VisualFlags::eApplyShadowZoneColour);
-    mXPos = FP_FromInteger(pTlv->mTopLeft.x);
-    mYPos = FP_FromInteger(pTlv->mTopLeft.y);
+    mXPos = FP_FromInteger(pTlv->mTopLeftX);
+    mYPos = FP_FromInteger(pTlv->mTopLeftY);
     field_118_x_vel = FP_FromRaw(pTlv->mVelX << 8);
     field_11C_y_vel = FP_FromRaw(-256 * pTlv->mVelY);
 
-    if (pTlv->mRockFallDirection == XDirection_short::eLeft_0)
+    if (pTlv->mRockFallDirection == relive::reliveXDirection::eLeft)
     {
         field_118_x_vel = -field_118_x_vel;
     }
 
-    if (pTlv->mScale == Scale_short::eHalf_1)
+    if (pTlv->mScale == relive::reliveScale::eHalf)
     {
         mSpriteScale = FP_FromDouble(0.5);
         mScale = Scale::Bg;

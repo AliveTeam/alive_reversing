@@ -10,7 +10,7 @@
 
 namespace AO {
 
-FootSwitch::FootSwitch(Path_FootSwitch* pTlv, s32 tlvInfo)
+FootSwitch::FootSwitch(relive::Path_FootSwitch* pTlv, s32 tlvInfo)
 {
     mBaseGameObjectTypeId = ReliveTypes::eFootSwitch;
 
@@ -21,7 +21,7 @@ FootSwitch::FootSwitch(Path_FootSwitch* pTlv, s32 tlvInfo)
     mAnim.mRenderLayer = Layer::eLayer_BeforeShadow_25;
 
     mSwitchId = pTlv->mSwitchId;
-    if (pTlv->mScale == Scale_short::eHalf_1)
+    if (pTlv->mScale == relive::reliveScale::eHalf)
     {
         mSpriteScale = FP_FromDouble(0.5);
         mScale = Scale::Bg;
@@ -31,8 +31,8 @@ FootSwitch::FootSwitch(Path_FootSwitch* pTlv, s32 tlvInfo)
     mAction = pTlv->mAction;
     mTriggeredBy = pTlv->mTriggeredBy;
 
-    mXPos = FP_FromInteger(pTlv->mTopLeft.x + 12);
-    mYPos = FP_FromInteger(pTlv->mTopLeft.y);
+    mXPos = FP_FromInteger(pTlv->mTopLeftX + 12);
+    mYPos = FP_FromInteger(pTlv->mTopLeftY);
 
     SwitchStates_Set(mSwitchId, 0);
 
@@ -93,7 +93,7 @@ BaseAliveGameObject* FootSwitch::WhoIsStoodOnMe()
     const PSX_RECT bRectSwitch = VGetBoundingRect();
     // NOTE: AE  y -= 3 not done in AO
 
-    if (mTriggeredBy == FootSwitchTriggerBy::eAnyone_1)
+    if (mTriggeredBy == relive::Path_FootSwitch::FootSwitchTriggerBy::eAnyone)
     {
         for (s32 i = 0; i < gBaseGameObjects->Size(); i++)
         {
@@ -118,7 +118,7 @@ BaseAliveGameObject* FootSwitch::WhoIsStoodOnMe()
             }
         }
     }
-    else if (mTriggeredBy == FootSwitchTriggerBy::eAbe_0)
+    else if (mTriggeredBy == relive::Path_FootSwitch::FootSwitchTriggerBy::eAbe)
     {
         const PSX_RECT bRect = sActiveHero->VGetBoundingRect();
         const s32 xpos = FP_GetExponent(sActiveHero->mXPos);

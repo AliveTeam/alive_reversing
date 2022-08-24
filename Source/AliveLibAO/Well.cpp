@@ -49,7 +49,7 @@ void Well::VUpdate()
         Path::TLV_Reset(mTlvInfo, -1, 0, 0);
     }
 
-    if (mEmitLeaves == Choice_short::eYes_1)
+    if (mEmitLeaves == relive::reliveChoice::eYes)
     {
         // Always on or has been enabled?
         if (!mSwitchId || SwitchStates_Get(mSwitchId))
@@ -83,7 +83,7 @@ void Well::VUpdate()
     }
 }
 
-void Well::WellExpress_Init(Path_WellExpress* pTlv, FP /*xpos*/, FP ypos)
+void Well::WellExpress_Init(relive::Path_WellExpress* pTlv, FP /*xpos*/, FP ypos)
 {
     //u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, pTlv->field_1E_anim_id, 1, 0);
     //auto pHeader = reinterpret_cast<AnimHeader*>(*ppRes);
@@ -103,7 +103,7 @@ void Well::WellExpress_Init(Path_WellExpress* pTlv, FP /*xpos*/, FP ypos)
         mBaseGameObjectFlags.Clear(Options::eDrawable_Bit4);
     }
 
-    if (pTlv->mScale == Scale_short::eHalf_1)
+    if (pTlv->mScale == relive::reliveScale::eHalf)
     {
         mAnim.mRenderLayer = Layer::eLayer_Well_Half_4;
         mLeafScale = FP_FromDouble(0.5);
@@ -120,13 +120,13 @@ void Well::WellExpress_Init(Path_WellExpress* pTlv, FP /*xpos*/, FP ypos)
 
     mEmitLeaves = pTlv->mEmitLeaves;
 
-    if (mEmitLeaves == Choice_short::eYes_1)
+    if (mEmitLeaves == relive::reliveChoice::eYes)
     {
         mLeafX = FP_FromInteger(pTlv->mLeafX);
         if (!FP_GetExponent(mLeafX))
         {
-            mLeafX = FP_FromInteger(pTlv->mTopLeft.x
-                                                + (PsxToPCX(pTlv->mBottomRight.x - pTlv->mTopLeft.x, +11)
+            mLeafX = FP_FromInteger(pTlv->mTopLeftX
+                                                + (PsxToPCX(pTlv->mBottomRightX - pTlv->mTopLeftX, +11)
                                                    / 2));
         }
 
@@ -138,7 +138,7 @@ void Well::WellExpress_Init(Path_WellExpress* pTlv, FP /*xpos*/, FP ypos)
     }
 }
 
-void Well::WellLocal_Init(Path_WellLocal* pTlv, FP /*xpos*/, FP ypos)
+void Well::WellLocal_Init(relive::Path_WellLocal* pTlv, FP /*xpos*/, FP ypos)
 {
     //u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, pTlv->field_1E_anim_id, 1, 0);
     //auto pHeader = reinterpret_cast<AnimHeader*>(*ppRes);
@@ -158,7 +158,7 @@ void Well::WellLocal_Init(Path_WellLocal* pTlv, FP /*xpos*/, FP ypos)
         mBaseGameObjectFlags.Clear(Options::eDrawable_Bit4);
     }
 
-    if (pTlv->mScale == Scale_short::eHalf_1)
+    if (pTlv->mScale == relive::reliveScale::eHalf)
     {
         mAnim.mRenderLayer = Layer::eLayer_Well_Half_4;
         mLeafScale = FP_FromDouble(0.5);
@@ -177,12 +177,12 @@ void Well::WellLocal_Init(Path_WellLocal* pTlv, FP /*xpos*/, FP ypos)
 
     mEmitLeaves = pTlv->mEmitLeaves;
 
-    if (mEmitLeaves == Choice_short::eYes_1)
+    if (mEmitLeaves == relive::reliveChoice::eYes)
     {
         mLeafX = FP_FromInteger(pTlv->mLeafX);
         if (!FP_GetExponent(mLeafX))
         {
-            mLeafX = FP_FromInteger(pTlv->mTopLeft.x + (PsxToPCX(pTlv->mBottomRight.x - pTlv->mTopLeft.x, 11) / 2));
+            mLeafX = FP_FromInteger(pTlv->mTopLeftX + (PsxToPCX(pTlv->mBottomRightX - pTlv->mTopLeftX, 11) / 2));
         }
 
         mLeafY = FP_FromInteger(pTlv->mLeafY);
@@ -193,7 +193,7 @@ void Well::WellLocal_Init(Path_WellLocal* pTlv, FP /*xpos*/, FP ypos)
     }
 }
 
-Well::Well(Path_WellBase* pTlv, FP xpos, FP ypos, s32 tlvInfo)
+Well::Well(relive::Path_WellBase* pTlv, FP xpos, FP ypos, s32 tlvInfo)
 {
     mTlvInfo = tlvInfo;
     mBaseGameObjectTypeId = ReliveTypes::eWell;
@@ -203,13 +203,13 @@ Well::Well(Path_WellBase* pTlv, FP xpos, FP ypos, s32 tlvInfo)
     mYPos = ypos;
     mXPos = xpos;
 
-    if (pTlv->mTlvType32 == TlvTypes::WellLocal_11)
+    if (pTlv->mTlvType == static_cast<s32>(TlvTypes::WellLocal_11))
     {
-        WellLocal_Init(static_cast<Path_WellLocal*>(pTlv), xpos, ypos);
+        WellLocal_Init(static_cast<relive::Path_WellLocal*>(pTlv), xpos, ypos);
     }
     else
     {
-        WellExpress_Init(static_cast<Path_WellExpress*>(pTlv), xpos, ypos);
+        WellExpress_Init(static_cast<relive::Path_WellExpress*>(pTlv), xpos, ypos);
     }
 }
 

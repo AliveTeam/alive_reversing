@@ -46,7 +46,7 @@ const TSlingMudBrain gSlingMudBrainTable_4CFCE0[] = {
     &SlingMudokon::Brain_1_Spawn,
     &SlingMudokon::Brain_2_AskForPassword};
 
-SlingMudokon::SlingMudokon(Path_SlingMudokon* pTlv, s32 tlvInfo)
+SlingMudokon::SlingMudokon(relive::Path_SlingMudokon* pTlv, s32 tlvInfo)
     : BaseAliveGameObject()
 {
     mBaseGameObjectTypeId = ReliveTypes::SlingMud;
@@ -69,10 +69,10 @@ SlingMudokon::SlingMudokon(Path_SlingMudokon* pTlv, s32 tlvInfo)
     FP hitX = {};
     FP hitY = {};
     if (sCollisions->Raycast(
-            FP_FromInteger(pTlv->mTopLeft.x),
-            FP_FromInteger(pTlv->mTopLeft.y),
-            FP_FromInteger(pTlv->mBottomRight.x),
-            FP_FromInteger(pTlv->mBottomRight.y),
+            FP_FromInteger(pTlv->mTopLeftX),
+            FP_FromInteger(pTlv->mTopLeftY),
+            FP_FromInteger(pTlv->mBottomRightX),
+            FP_FromInteger(pTlv->mBottomRightY),
             &BaseAliveGameObjectCollisionLine,
             &hitX,
             &hitY,
@@ -83,7 +83,7 @@ SlingMudokon::SlingMudokon(Path_SlingMudokon* pTlv, s32 tlvInfo)
         mYPos = hitY;
     }
 
-    if (pTlv->mScale == Scale_short::eHalf_1)
+    if (pTlv->mScale == relive::reliveScale::eHalf)
     {
         mSpriteScale = FP_FromDouble(0.5);
         mScale = Scale::Bg;
@@ -94,7 +94,7 @@ SlingMudokon::SlingMudokon(Path_SlingMudokon* pTlv, s32 tlvInfo)
         mScale = Scale::Fg;
     }
 
-    if (pTlv->mDontWhistlePassword == Choice_short::eYes_1)
+    if (pTlv->mDontWhistlePassword == relive::reliveChoice::eYes)
     {
         field_138_brain_state = SlingMudBrainStates::Brain_2_AskForPassword;
     }

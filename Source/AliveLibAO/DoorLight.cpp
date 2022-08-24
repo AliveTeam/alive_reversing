@@ -17,7 +17,7 @@ namespace AO {
 ALIVE_VAR(1, 0x4C30A8, s32, gNextDoorLightUpdate_4C30A8, -1);
 ALIVE_VAR(1, 0x4FC8A4, s32, gDoorLightUpdateTimer_4FC8A4, 0);
 
-DoorLight::DoorLight(Path_LightEffect* pTlv, s32 tlvInfo)
+DoorLight::DoorLight(relive::Path_LightEffect* pTlv, s32 tlvInfo)
 {
     field_E4_tlvInfo = tlvInfo;
     field_E8_width = pTlv->mSize;
@@ -31,21 +31,21 @@ DoorLight::DoorLight(Path_LightEffect* pTlv, s32 tlvInfo)
     s32 xOff = 0;
     switch (pTlv->mType)
     {
-        case Path_LightEffect::Type::GoldGlow_1:
+        case relive::Path_LightEffect::Type::GoldGlow:
         {
             const AnimRecord& goldRec = AO::AnimRec(AnimId::GoldGlow);
             Animation_Init(AnimId::GoldGlow, ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, goldRec.mResourceId, 1, 0));
             break;
         }
 
-        case Path_LightEffect::Type::GreenGlow_2:
+        case relive::Path_LightEffect::Type::GreenGlow:
         {
             const AnimRecord& greenRec = AO::AnimRec(AnimId::GreenGlow);
             Animation_Init(AnimId::GreenGlow, ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, greenRec.mResourceId, 1, 0));
             break;
         }
 
-        case Path_LightEffect::Type::FlintGlow_3:
+        case relive::Path_LightEffect::Type::FlintGlow:
         {
             const AnimRecord& flintRec = AO::AnimRec(AnimId::FlintGlow);
             Animation_Init(AnimId::FlintGlow, ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, flintRec.mResourceId, 1, 0));
@@ -53,7 +53,7 @@ DoorLight::DoorLight(Path_LightEffect* pTlv, s32 tlvInfo)
             break;
         }
 
-        case Path_LightEffect::Type::Switchable_RedGreenDoorLights_4:
+        case relive::Path_LightEffect::Type::Switchable_RedGreenDoorLights:
         {
             field_E8_width = 0;
             field_EA_height = 0;
@@ -71,7 +71,7 @@ DoorLight::DoorLight(Path_LightEffect* pTlv, s32 tlvInfo)
             break;
         }
 
-        case Path_LightEffect::Type::Switchable_RedGreenHubLight_5:
+        case relive::Path_LightEffect::Type::Switchable_RedGreenHubLight:
         {
             field_E8_width = 0;
             field_EA_height = 0;
@@ -92,7 +92,7 @@ DoorLight::DoorLight(Path_LightEffect* pTlv, s32 tlvInfo)
             break;
     }
 
-    mAnim.mFlags.Set(AnimFlags::eBit5_FlipX, pTlv->mDirection == XDirection_short::eLeft_0);
+    mAnim.mFlags.Set(AnimFlags::eBit5_FlipX, pTlv->mDirection == relive::reliveXDirection::eLeft);
 
     if (gNextDoorLightUpdate_4C30A8 < 0)
     {
@@ -111,15 +111,15 @@ DoorLight::DoorLight(Path_LightEffect* pTlv, s32 tlvInfo)
 
     if (mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
     {
-        mXPos = FP_FromInteger(pTlv->mTopLeft.x - xOff);
+        mXPos = FP_FromInteger(pTlv->mTopLeftX - xOff);
     }
     else
     {
-        mXPos = FP_FromInteger(xOff + pTlv->mTopLeft.x);
+        mXPos = FP_FromInteger(xOff + pTlv->mTopLeftX);
     }
 
     mSpriteScale = FP_FromInteger(1);
-    mYPos = FP_FromInteger(pTlv->mTopLeft.y);
+    mYPos = FP_FromInteger(pTlv->mTopLeftY);
 }
 
 DoorLight::~DoorLight()

@@ -46,7 +46,7 @@ void SligGetPantsAndWings::VUpdate()
     switch (mState)
     {
         case State::eWaiting:
-            if (pTlv->mTlvState)
+            if (pTlv->mTlvSpecificMeaning)
             {
                 mState = State::eActive;
                 mTransformTimer = sGnFrame + 8;
@@ -67,7 +67,7 @@ void SligGetPantsAndWings::VUpdate()
             {
                 mState = State::eWaiting;
                 mAnim.Set_Animation_Data(AnimId::CrawlingSligLocker_Closed, nullptr);
-                pTlv->mTlvState = 0;
+                pTlv->mTlvSpecificMeaning = 0;
             }
             break;
     }

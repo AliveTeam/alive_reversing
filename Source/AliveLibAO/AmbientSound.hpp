@@ -9,7 +9,7 @@ enum class CameraPos : s16;
 
 void SND_Reset_Ambiance();
 
-void Start_Sounds_for_TLV(CameraPos direction, Path_TLV* pTlv);
+void Start_Sounds_for_TLV(CameraPos direction, relive::Path_TLV* pTlv);
 
 void SND_Init_Ambiance();
 

@@ -52,7 +52,7 @@ public:
     virtual void VSetYSpawn(s32 camWorldY, s16 bLeft);
     virtual void VOnPathTransition(s16 camWorldX, s32 camWorldY, CameraPos direction);
     virtual s16 VTakeDamage(BaseGameObject* pFrom);
-    virtual void VOnTlvCollision(Path_TLV* pTlv);
+    virtual void VOnTlvCollision(relive::Path_TLV* pTlv);
     virtual void VCheckCollisionLineStillValid(s32 distance);
     virtual void VOnTrapDoorOpen();
 
@@ -115,7 +115,7 @@ public:
     FP BaseAliveGameObjectLastLineYPos = {};
     s16 field_EC = 0; // can the bees attack - multiple values so prob more unknown meanings as well
     s16 field_EE_type = 0; // unused??
-    Path_TLV* BaseAliveGameObjectPathTLV = nullptr;
+    relive::Path_TLV* BaseAliveGameObjectPathTLV = nullptr;
     PathLine* BaseAliveGameObjectCollisionLine = nullptr;
     PlatformBase* mLiftPoint = nullptr;
     s16 mCurrentMotion = 0;

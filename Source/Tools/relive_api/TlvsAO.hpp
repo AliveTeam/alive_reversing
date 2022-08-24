@@ -273,7 +273,7 @@ struct Path_Door final : public ReliveAPI::TlvObjectBaseAO
         ADD("Switch ID", mTlv.mSwitchId);
         ADD("Target Door Number", mTlv.mTargetDoorId);
         ADD("Door Type", mTlv.mDoorType);
-        ADD("Door Closed", mTlv.field_28_door_closed);
+        ADD("Door Closed", mTlv.mDoorClosed);
         ADD("Hub 1 ID", mTlv.mHub1);
         ADD("Hub 2 ID", mTlv.mHub2);
         ADD("Hub 3 ID", mTlv.mHub3);
@@ -738,7 +738,7 @@ struct Path_ShadowZone final : public ReliveAPI::TlvObjectBaseAO
         ADD_LINKED("G", mTlv.field_1E_g, "RGB_G_Half_FP");
         ADD_LINKED("B", mTlv.field_20_b, "RGB_B_Half_FP");
         ADD("ID (Unused?)", mTlv.field_22_id);
-        ADD("Scale", mTlv.field_24_scale);
+        ADD("Scale", mTlv.mScale);
     }
 };
 

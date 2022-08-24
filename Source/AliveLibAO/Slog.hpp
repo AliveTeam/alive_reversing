@@ -59,7 +59,7 @@ enum eSlogMotions : s32
 class Slog final : public BaseAliveGameObject
 {
 public:
-    Slog(Path_Slog* pTlv, s32 tlvInfo);
+    Slog(relive::Path_Slog* pTlv, s32 tlvInfo);
     Slog(FP xpos, FP ypos, FP scale);
     ~Slog();
 
@@ -73,7 +73,7 @@ public:
     void ToIdle();
 
     virtual s16 VTakeDamage(BaseGameObject* pFrom) override;
-    virtual void VOnTlvCollision(Path_TLV* pTlv) override;
+    virtual void VOnTlvCollision(relive::Path_TLV* pTlv) override;
     virtual void VScreenChanged() override;
     virtual void VRender(PrimHeader** ppOt) override;
     virtual void VOnThrowableHit(BaseGameObject* pFrom) override;
@@ -156,7 +156,7 @@ public:
     s16 field_15E = 0;
     s32 field_160 = 0;
     s32 field_164_timer = 0;
-    s16 field_168_anger_switch_id = 0;
+    s16 mAngerSwitchId = 0;
     s16 field_16A = 0;
     BaseAliveGameObject* field_16C_pUnknown = nullptr;
     s16 field_170 = 0;
@@ -166,7 +166,7 @@ public:
     s16 field_178_bShot = 0; // flag in AE
     s16 field_17A = 0;
     s16 field_17C_res = 0;
-    Choice_short field_17E_asleep = Choice_short::eNo_0;
+    relive::reliveChoice mAsleep = relive::reliveChoice::eNo;
     s16 field_180 = 0;
     u8** field_184_resources[5] = {};
 };

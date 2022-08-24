@@ -53,10 +53,16 @@ class Path_TLV
 public:
     // TODO: not sure if we need to store the type or length
     // if we are using json as the file format
-    s32 mX = 0;
-    s32 mY = 0;
+    s32 mTopLeftX = 0;
+    s32 mTopLeftY = 0;
+    s32 mBottomRightX = 0;
+    s32 mBottomRightY = 0;
     s32 mWidth = 0;
     s32 mHeight = 0;
+    s32 mTlvSpecificMeaning = 0; // TODO: remove me and add to the actual tlv's instead
+    s32 mTlvType = 0; // TODO: use shared TlvTypes enum
+    BitField8<TlvFlags> mTlvFlags = {};
+    s32 mLength = 0;
 };
 
 class Path_ShadowZone final : public Path_TLV
@@ -837,6 +843,9 @@ struct Path_Door final : public Path_TLV
     s16 mSwitchId = 0;
     s16 mTargetDoorId = 0;
     DoorTypes mDoorType = DoorTypes::eBasicDoor;
+
+    // AO only
+    reliveChoice mDoorClosed = reliveChoice::eNo;
 
     // AE only
     DoorStates mStartState = DoorStates::eOpen;

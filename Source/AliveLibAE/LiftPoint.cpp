@@ -64,7 +64,7 @@ LiftPoint::LiftPoint(Path_LiftPoint* pTlv, s32 tlvInfo)
     mBaseGameObjectTlvInfo = tlvInfo;
     SetType(ReliveTypes::eLiftPoint);
 
-    pTlv->mTlvState = 3;
+    pTlv->mTlvSpecificMeaning = 3;
 
     field_27C_pTlv = sPathInfo->TLVInfo_From_TLVPtr(pTlv);
 
@@ -324,14 +324,14 @@ s32 LiftPoint::CreateFromSaveState(const u8* pData)
         return sizeof(LiftPoint_State);
     }
 
-    pTlv->mTlvState = 1;
+    pTlv->mTlvSpecificMeaning = 1;
     if (pState->field_10_pTlv == -1)
     {
         return sizeof(LiftPoint_State);
     }
 
     Path_TLV* pTlv2 = sPathInfo->TLV_From_Offset_Lvl_Cam(pState->field_10_pTlv);
-    pTlv2->mTlvState = 3;
+    pTlv2->mTlvSpecificMeaning = 3;
     return sizeof(LiftPoint_State);
 }
 
@@ -580,7 +580,7 @@ void LiftPoint::VUpdate()
                     field_280_flags.Set(LiftFlags::eBit8_bIgnoreLiftMover);
                 }
 
-                if (pLiftTlv->mTlvState != static_cast<u8>(pLiftTlv->mIsStartPoint))
+                if (pLiftTlv->mTlvSpecificMeaning != static_cast<u8>(pLiftTlv->mIsStartPoint))
                 {
                     field_280_flags.Set(LiftFlags::eBit6);
                 }
@@ -614,7 +614,7 @@ void LiftPoint::VUpdate()
                     {
                         if (mVelY != FP_FromInteger(0) || distanceToFloor <= kMinus25Scaled || distanceToFloor >= k30Scaled)
                         {
-                            pLiftTlv->mTlvState = 1;
+                            pLiftTlv->mTlvSpecificMeaning = 1;
                             field_280_flags.Clear(LiftFlags::eBit1_bTopFloor);
                             field_27C_pTlv = -1;
                         }
@@ -624,7 +624,7 @@ void LiftPoint::VUpdate()
                             field_12C_bMoving |= 1u;
                             mYPos = field_270_floorYLevel - distanceToFloor;
 
-                            pLiftTlv->mTlvState = 3;
+                            pLiftTlv->mTlvSpecificMeaning = 3;
 
                             field_27C_pTlv = sPathInfo->TLVInfo_From_TLVPtr(pLiftTlv);
                             pLiftTlv->mLiftPointId = field_278_lift_point_id;
@@ -643,7 +643,7 @@ void LiftPoint::VUpdate()
                     {
                         if (mVelY != FP_FromInteger(0) || distanceToFloor <= kMinus25Scaled || distanceToFloor >= k30Scaled)
                         {
-                            pLiftTlv->mTlvState = 1;
+                            pLiftTlv->mTlvSpecificMeaning = 1;
 
                             field_280_flags.Clear(LiftFlags::eBit3_bBottomFloor);
                             field_27C_pTlv = -1;
@@ -654,7 +654,7 @@ void LiftPoint::VUpdate()
                             field_280_flags.Set(LiftFlags::eBit5_bMoveToFloorLevel);
                             mYPos = field_270_floorYLevel - distanceToFloor;
 
-                            pLiftTlv->mTlvState = 3;
+                            pLiftTlv->mTlvSpecificMeaning = 3;
 
                             field_27C_pTlv = sPathInfo->TLVInfo_From_TLVPtr(pLiftTlv);
                             pLiftTlv->mLiftPointId = field_278_lift_point_id;
@@ -671,7 +671,7 @@ void LiftPoint::VUpdate()
                 case LiftPointStopType::eMiddleFloor_2:
                     if (distanceToFloor <= kMinus25Scaled || distanceToFloor >= k30Scaled)
                     {
-                        pLiftTlv->mTlvState = 1;
+                        pLiftTlv->mTlvSpecificMeaning = 1;
                         field_27C_pTlv = -1;
                     }
                     else
@@ -689,7 +689,7 @@ void LiftPoint::VUpdate()
                             mYPos = field_270_floorYLevel - distanceToFloor;
                         }
 
-                        pLiftTlv->mTlvState = 3;
+                        pLiftTlv->mTlvSpecificMeaning = 3;
                         field_27C_pTlv = sPathInfo->TLVInfo_From_TLVPtr(pLiftTlv);
                         pLiftTlv->mLiftPointId = field_278_lift_point_id;
                         field_280_flags.Set(LiftFlags::eBit2_bMiddleFloor);
@@ -699,7 +699,7 @@ void LiftPoint::VUpdate()
                 case LiftPointStopType::eStartPointOnly_4:
                     if (pLiftTlv)
                     {
-                        pLiftTlv->mTlvState = 1;
+                        pLiftTlv->mTlvSpecificMeaning = 1;
                         field_27C_pTlv = -1;
                     }
                     field_280_flags.Clear(LiftFlags::eBit1_bTopFloor);
@@ -824,7 +824,7 @@ void LiftPoint::sub_461000(Path_TLV* pTlv)
 {
     pTlv->mTlvFlags.Clear(eBit1_Created);
     pTlv->mTlvFlags.Clear(eBit2_Destroyed);
-    pTlv->mTlvState |= 1;
+    pTlv->mTlvSpecificMeaning |= 1;
 }
 
 void LiftPoint::vStayOnFloor(s16 floor, Path_LiftPoint* pTlv)
@@ -837,7 +837,7 @@ void LiftPoint::vStayOnFloor(s16 floor, Path_LiftPoint* pTlv)
     }
 
     field_12C_bMoving &= ~1;
-    pTlv->mTlvState = 3;
+    pTlv->mTlvSpecificMeaning = 3;
     field_27C_pTlv = sPathInfo->TLVInfo_From_TLVPtr(pTlv);
     pTlv->mLiftPointId = field_278_lift_point_id;
     mVelY = FP_FromInteger(0);

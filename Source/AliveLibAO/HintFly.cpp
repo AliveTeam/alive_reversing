@@ -1348,7 +1348,7 @@ static u8 HintFly_NextRandom()
     return sRandomBytes_4BBE30[sHintFlyRndSeed_4C6AA4++];
 }
 
-HintFly::HintFly(Path_HintFly* pTlv, s32 tlvInfo)
+HintFly::HintFly(relive::Path_HintFly* pTlv, s32 tlvInfo)
 {
     field_E4_ppRes = nullptr;
 
@@ -1364,8 +1364,8 @@ HintFly::HintFly(Path_HintFly* pTlv, s32 tlvInfo)
 
         field_11C_message_id = pTlv->mMessageId;
 
-        mXPos = FP_FromInteger(pTlv->mTopLeft.x);
-        mYPos = FP_FromInteger(pTlv->mTopLeft.y);
+        mXPos = FP_FromInteger(pTlv->mTopLeftX);
+        mYPos = FP_FromInteger(pTlv->mTopLeftY);
 
         const char_type* pMsg = gHintFlyMessages.GetMessage(gMap.mCurrentLevel, gMap.mCurrentPath, pTlv->mMessageId);
 

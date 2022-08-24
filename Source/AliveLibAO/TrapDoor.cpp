@@ -42,7 +42,7 @@ const TrapDoor_Data sTrapDoorData_4BD4A0[16] = {
     {AnimId::Desert_TrapDoor_Open, AnimId::Desert_TrapDoor_Closed, AnimId::Desert_TrapDoor_Opening, AnimId::Desert_TrapDoor_Closing}}; // desert escape
 
 
-TrapDoor::TrapDoor(Path_TrapDoor* pTlv, Map* pMap, s32 tlvInfo)
+TrapDoor::TrapDoor(relive::Path_TrapDoor* pTlv, Map* pMap, s32 tlvInfo)
 {
     mBaseGameObjectTypeId = ReliveTypes::eTrapDoor;
     mSwitchId = pTlv->mSwitchId;
@@ -63,7 +63,7 @@ TrapDoor::TrapDoor(Path_TrapDoor* pTlv, Map* pMap, s32 tlvInfo)
     }
 
     mSelfClosing = pTlv->mSelfClosing;
-    if (pTlv->mScale == Scale_short::eHalf_1)
+    if (pTlv->mScale == relive::reliveScale::eHalf)
     {
         mSpriteScale = FP_FromDouble(0.5);
         mScale = Scale::Bg;
@@ -83,17 +83,17 @@ TrapDoor::TrapDoor(Path_TrapDoor* pTlv, Map* pMap, s32 tlvInfo)
         pMap,
         tlvInfo);
 
-    mTrapDoorY = FP_FromInteger(pTlv->mTopLeft.y);
-    mTrapDoorX = FP_FromInteger(pTlv->mTopLeft.x);
+    mTrapDoorY = FP_FromInteger(pTlv->mTopLeftY);
+    mTrapDoorX = FP_FromInteger(pTlv->mTopLeftX);
 
     mAnim.Set_Animation_Data(animId, nullptr);
-    if (pTlv->mDirection == XDirection_short::eRight_1)
+    if (pTlv->mDirection == relive::reliveXDirection::eRight)
     {
         mAnim.mFlags.Set(AnimFlags::eBit5_FlipX);
     }
 
-    mPlatformBaseXOffset = FP_GetExponent(FP_FromInteger(pTlv->mTopLeft.x) - mXPos);
-    mPlatformBaseWidthOffset = FP_GetExponent(FP_FromInteger(pTlv->mBottomRight.x) - mXPos);
+    mPlatformBaseXOffset = FP_GetExponent(FP_FromInteger(pTlv->mTopLeftX) - mXPos);
+    mPlatformBaseWidthOffset = FP_GetExponent(FP_FromInteger(pTlv->mBottomRightX) - mXPos);
     mTrapDoorXOffset = pTlv->mXOff;
 
     if (mState == TrapDoorState::eOpen_2)
@@ -102,11 +102,11 @@ TrapDoor::TrapDoor(Path_TrapDoor* pTlv, Map* pMap, s32 tlvInfo)
         Open();
     }
 
-    mBoundingRect.x = pTlv->mTopLeft.x;
-    mBoundingRect.y = pTlv->mTopLeft.y;
+    mBoundingRect.x = pTlv->mTopLeftX;
+    mBoundingRect.y = pTlv->mTopLeftY;
 
-    mBoundingRect.w = pTlv->mBottomRight.x;
-    mBoundingRect.h = pTlv->mBottomRight.y;
+    mBoundingRect.w = pTlv->mBottomRightX;
+    mBoundingRect.h = pTlv->mBottomRightY;
 
     field_10C = 4;
 }
@@ -134,7 +134,7 @@ void TrapDoor::VScreenChanged()
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
 
-        if (mSelfClosing == Choice_short::eYes_1)
+        if (mSelfClosing == relive::reliveChoice::eYes)
         {
             SwitchStates_Set(mSwitchId, mStartState == 0);
         }
@@ -230,7 +230,7 @@ void TrapDoor::VUpdate()
 
         case TrapDoorState::eOpen_2:
             mStayOpenTimeTimer--;
-            if ((mSelfClosing == Choice_short::eYes_1 && !mStayOpenTimeTimer) || SwitchStates_Get(mSwitchId) != SwitchStates_Get(mStartState))
+            if ((mSelfClosing == relive::reliveChoice::eYes && !mStayOpenTimeTimer) || SwitchStates_Get(mSwitchId) != SwitchStates_Get(mStartState))
             {
                 const s32 cur_lvl = static_cast<s32>(MapWrapper::ToAO(gMap.mCurrentLevel));
                 mAnim.Set_Animation_Data(

@@ -70,7 +70,7 @@ SlapLock::SlapLock(Path_SlapLock* pTlv, s32 tlvInfo)
         mHasGhost = Choice_short::eNo_0;
     }
 
-    if (pTlv->mTlvState == 0)
+    if (pTlv->mTlvSpecificMeaning == 0)
     {
         return;
     }
@@ -113,7 +113,7 @@ s32 SlapLock::CreateFromSaveState(const u8* pBuffer)
 
         pSlapLock->mTlvInfo = pState->mTlvInfo;
 
-        pTlv->mTlvState = pState->mTlvState;
+        pTlv->mTlvSpecificMeaning = pState->mTlvState;
 
         pSlapLock->mState = pState->mState;
         pSlapLock->mTimer1 = pState->mTimer1;
@@ -152,7 +152,7 @@ s32 SlapLock::VGetSaveState(u8* pSaveBuffer)
     pState->mType = AETypes::eLockedSoul_61;
     pState->mAnimRender = mAnim.mFlags.Get(AnimFlags::eBit3_Render) & 1;
     pState->mTlvInfo = mTlvInfo;
-    pState->mTlvState = sPathInfo->TLV_From_Offset_Lvl_Cam(mTlvInfo)->mTlvState;
+    pState->mTlvState = sPathInfo->TLV_From_Offset_Lvl_Cam(mTlvInfo)->mTlvSpecificMeaning;
     pState->mState = mState;
     pState->mTimer1 = mTimer1;
     pState->mShinyParticleTimer = mShinyParticleTimer;
@@ -185,7 +185,7 @@ void SlapLock::VUpdate()
         {
             mBaseAliveGameObjectFlags.Clear(Flags_114::e114_Bit9_RestoredFromQuickSave);
 
-            if (mSlapLockTlv->mTlvState)
+            if (mSlapLockTlv->mTlvSpecificMeaning)
             {
                 SwitchStates_Do_Operation(mSlapLockTlv->mTargetTombSwitchId2, SwitchOp::eSetTrue_0);
             }
@@ -477,6 +477,6 @@ s16 SlapLock::VTakeDamage(BaseGameObject* pFrom)
 
     mAnim.Set_Animation_Data(AnimId::SlapLock_Punched, nullptr);
 
-    mSlapLockTlv->mTlvState = 1;
+    mSlapLockTlv->mTlvSpecificMeaning = 1;
     return 1;
 }

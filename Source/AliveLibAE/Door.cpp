@@ -56,7 +56,7 @@ Door::Door(Path_Door* pTlvData, s32 tlvInfo)
 
     if (pTlvData->mCloseOnExit == Choice_short::eYes_1)
     {
-        if (pTlvData->mTlvState)
+        if (pTlvData->mTlvSpecificMeaning)
         {
             field_FE_start_state = eClosed_1;
         }
@@ -328,7 +328,7 @@ void Door::vClose()
         field_FE_start_state = eClosed_1;
         field_FC_current_state = eClosing_3;
         Path_TLV* pTlv = sPathInfo->TLV_From_Offset_Lvl_Cam(field_F4_tlvInfo);
-        pTlv->mTlvState = 1;
+        pTlv->mTlvSpecificMeaning = 1;
     }
 }
 
@@ -502,7 +502,7 @@ TrainDoor::TrainDoor(Path_TrainDoor* pTlv, s32 tlvInfo)
     sTrainDoorXPos_BB4AA0 = mXPos;
     sTrainDoorYPos_BB4AA4 = mYPos;
 
-    if (pTlv->mTlvState)
+    if (pTlv->mTlvSpecificMeaning)
     {
         mAnim.Set_Animation_Data(AnimId::Door_Train_Closed, 0);
         field_FC_current_state = eClosed_1;

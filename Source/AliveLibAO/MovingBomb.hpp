@@ -31,7 +31,7 @@ struct Path_MovingBombStopper final : public Path_TLV
 class MovingBomb final : public BaseAliveGameObject
 {
 public:
-    MovingBomb(Path_MovingBomb* pTlv, s32 tlvInfo);
+    MovingBomb(relive::Path_MovingBomb* pTlv, s32 tlvInfo);
     ~MovingBomb();
 
     virtual void VScreenChanged() override;

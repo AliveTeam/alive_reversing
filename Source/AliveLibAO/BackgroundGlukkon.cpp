@@ -24,7 +24,7 @@ BackgroundGlukkon::~BackgroundGlukkon()
     }
 }
 
-BackgroundGlukkon::BackgroundGlukkon(Path_BackgroundGlukkon* pTlv, s32 tlvInfo)
+BackgroundGlukkon::BackgroundGlukkon(relive::Path_BackgroundGlukkon* pTlv, s32 tlvInfo)
     : BaseAliveGameObject()
 {
     mBaseGameObjectTypeId = ReliveTypes::eBackgroundGlukkon;
@@ -35,8 +35,8 @@ BackgroundGlukkon::BackgroundGlukkon(Path_BackgroundGlukkon* pTlv, s32 tlvInfo)
 
     field_10C_tlvInfo = tlvInfo;
 
-    mXPos = FP_FromInteger(pTlv->mTopLeft.x);
-    mYPos = FP_FromInteger(pTlv->mTopLeft.y);
+    mXPos = FP_FromInteger(pTlv->mTopLeftX);
+    mYPos = FP_FromInteger(pTlv->mTopLeftY);
 
     mSpriteScale = FP_FromInteger(pTlv->mScalePercent) / FP_FromInteger(100);
 

@@ -140,16 +140,26 @@ namespace relive {
     {
         r.mWidth = base.mBottomRight.x - base.mTopLeft.x;
         r.mHeight = base.mBottomRight.y - base.mTopLeft.y;
-        r.mX = base.mTopLeft.x;
-        r.mY = base.mTopLeft.y;
+        r.mTopLeftX = base.mTopLeft.x;
+        r.mTopLeftY = base.mTopLeft.y;
+        r.mBottomRightX = base.mBottomRight.x;
+        r.mBottomRightY = base.mBottomRight.y;
+        r.mTlvSpecificMeaning = base.mTlvSpecificMeaning;
+        r.mTlvType = static_cast<s32>(base.mTlvType32.mType);
+        r.mTlvFlags.Raw().all = base.mTlvFlags.Raw().all;
     }
 
     inline void BaseConvert(relive::Path_TLV& r, const ::Path_TLV& base)
     {
         r.mWidth = base.mBottomRight.x - base.mTopLeft.x;
         r.mHeight = base.mBottomRight.y - base.mTopLeft.y;
-        r.mX = base.mTopLeft.x;
-        r.mY = base.mTopLeft.y;
+        r.mTopLeftX = base.mTopLeft.x;
+        r.mTopLeftY = base.mTopLeft.y;
+        r.mBottomRightX = base.mBottomRight.x;
+        r.mBottomRightY = base.mBottomRight.y;
+        r.mTlvSpecificMeaning = base.mTlvSpecificMeaning;
+        r.mTlvType = static_cast<s32>(base.mTlvType32.mType);
+        r.mTlvFlags.Raw().all = base.mTlvFlags.Raw().all;
     }
 
     // also used for AO
@@ -297,7 +307,7 @@ public:
         Path_ShadowZone r;
         BaseConvert(r, tlv);
         r.mRGB.SetRGB(tlv.field_1C_r, tlv.field_1E_g, tlv.field_20_b);
-        r.mScale = From(tlv.field_24_scale);
+        r.mScale = From(tlv.mScale);
         return r;
     }
 
@@ -2457,6 +2467,7 @@ public:
         r.mSwitchId = tlv.mSwitchId;
         r.mTargetDoorId = tlv.mTargetDoorId;
         r.mDoorType = From(tlv.mDoorType);
+        r.mDoorClosed = relive::From(tlv.mDoorClosed);
         r.mHub1 = tlv.mHub1;
         r.mHub2 = tlv.mHub2;
         r.mHub3 = tlv.mHub3;

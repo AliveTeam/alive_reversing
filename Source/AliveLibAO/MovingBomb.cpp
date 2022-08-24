@@ -27,7 +27,7 @@ const TintEntry kMovingBombTints_4CD310[4] = {
 
 ALIVE_VAR(1, 0x507B8C, MovingBomb*, gMovingBomb_507B8C, nullptr);
 
-MovingBomb::MovingBomb(Path_MovingBomb* pTlv, s32 tlvInfo)
+MovingBomb::MovingBomb(relive::Path_MovingBomb* pTlv, s32 tlvInfo)
     : BaseAliveGameObject()
 {
     mBaseGameObjectFlags.Set(Options::eCanExplode_Bit7);
@@ -40,7 +40,7 @@ MovingBomb::MovingBomb(Path_MovingBomb* pTlv, s32 tlvInfo)
     mAnim.mRenderMode = TPageAbr::eBlend_0;
     field_10C_state = States::eTriggeredBySwitch_1;
 
-    if (pTlv->mScale == Scale_short::eHalf_1)
+    if (pTlv->mScale == relive::reliveScale::eHalf)
     {
         mSpriteScale = FP_FromDouble(0.5);
         mScale = Scale::Bg;
@@ -53,8 +53,8 @@ MovingBomb::MovingBomb(Path_MovingBomb* pTlv, s32 tlvInfo)
         mAnim.mRenderLayer = Layer::eLayer_RollingBallBombMineCar_35;
     }
 
-    mXPos = FP_FromInteger(pTlv->mTopLeft.x);
-    mYPos = FP_FromInteger(pTlv->mTopLeft.y);
+    mXPos = FP_FromInteger(pTlv->mTopLeftX);
+    mYPos = FP_FromInteger(pTlv->mTopLeftY);
 
 
     field_118_speed = FP_FromRaw(pTlv->mSpeed << 8);
@@ -68,7 +68,7 @@ MovingBomb::MovingBomb(Path_MovingBomb* pTlv, s32 tlvInfo)
     field_12A_persist_offscreen = pTlv->mPersistOffscreen;
     field_124_sound_channels = 0;
 
-    if (pTlv->mTriggeredByAlarm == Choice_short::eYes_1)
+    if (pTlv->mTriggeredByAlarm == relive::reliveChoice::eYes)
     {
         field_10C_state = States::eTriggeredByAlarm_0;
         mAnim.mFlags.Clear(AnimFlags::eBit3_Render);

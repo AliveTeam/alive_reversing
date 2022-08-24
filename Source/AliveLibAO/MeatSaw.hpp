@@ -45,7 +45,7 @@ enum class MeatSawStates : s16
 class MeatSaw final : public BaseAnimatedWithPhysicsGameObject
 {
 public:
-    MeatSaw(Path_MeatSaw* pTlv, s32 tlvInfo);
+    MeatSaw(relive::Path_MeatSaw* pTlv, s32 tlvInfo);
     ~MeatSaw();
 
     virtual void VScreenChanged() override;

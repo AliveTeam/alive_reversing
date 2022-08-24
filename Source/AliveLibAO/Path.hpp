@@ -147,7 +147,7 @@ ALIVE_ASSERT_SIZEOF(TlvTypes32, 4);
 struct Path_TLV
 {
     BitField8<TlvFlags> mTlvFlags;
-    s8 field_1_unknown;
+    s8 mTlvSpecificMeaning;
     s16 mLength;
     TlvTypes32 mTlvType32;
     s32 field_8;                 // only ever used as some sort of hacky memory overwrite check, always 0 in the Path data
@@ -156,12 +156,12 @@ struct Path_TLV
     PSX_Point mBottomRight;
 
     // Note: Part of Path object in AE
-    static Path_TLV* Next_446460(Path_TLV* pTlv);
+    static relive::Path_TLV* Next_446460(relive::Path_TLV* pTlv);
 
     // Note: must be inlined as its used by the api
-    static Path_TLV* Next(Path_TLV* pTlv)
+    static relive::Path_TLV* Next(relive::Path_TLV* pTlv)
     {
-        if (pTlv->mTlvFlags.Get(TlvFlags::eBit3_End_TLV_List))
+        if (pTlv->mTlvFlags.Get(::TlvFlags::eBit3_End_TLV_List))
         {
             return nullptr;
         }
@@ -170,15 +170,15 @@ struct Path_TLV
     }
 
     // Note: must be inlined as its used by the api
-    static Path_TLV* Next_NoCheck(Path_TLV* pTlv)
+    static relive::Path_TLV* Next_NoCheck(relive::Path_TLV* pTlv)
     {
         // Skip length bytes to get to the start of the next TLV
         u8* ptr = reinterpret_cast<u8*>(pTlv);
         u8* pNext = ptr + pTlv->mLength;
-        return reinterpret_cast<Path_TLV*>(pNext);
+        return reinterpret_cast<relive::Path_TLV*>(pNext);
     }
 
-    static Path_TLV* TLV_Next_Of_Type_446500(Path_TLV* pTlv, TlvTypes type);
+    static relive::Path_TLV* TLV_Next_Of_Type_446500(relive::Path_TLV* pTlv, TlvTypes type);
 
     // Some strange self terminate check that is inlined everywhere
     void RangeCheck()
@@ -189,7 +189,7 @@ struct Path_TLV
         }
     }
 };
-ALIVE_ASSERT_SIZEOF(Path_TLV, 0x18);
+ALIVE_ASSERT_SIZEOF_ALWAYS(Path_TLV, 0x18);
 
 class Path final
 {

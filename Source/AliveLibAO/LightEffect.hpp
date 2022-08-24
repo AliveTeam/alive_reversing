@@ -8,7 +8,7 @@ namespace AO {
 class LightEffect final : public BaseAnimatedWithPhysicsGameObject
 {
 public:
-    LightEffect(Path_LightEffect* pTlv, s32 tlvInfo);
+    LightEffect(relive::Path_LightEffect* pTlv, s32 tlvInfo);
     ~LightEffect();
 
     virtual void VRender(PrimHeader** ppOt) override;

@@ -19,7 +19,7 @@ const TintEntry kTimedMineTints_4C3140[3] = {
     {EReliveLevelIds::eNone, 127u, 127u, 127u},
 };
 
-TimedMine::TimedMine(Path_TimedMine* pTlv, s32 tlvInfo)
+TimedMine::TimedMine(relive::Path_TimedMine* pTlv, s32 tlvInfo)
     : BaseAliveGameObject()
 {
     mBaseGameObjectTypeId = ReliveTypes::eTimedMine;
@@ -32,7 +32,7 @@ TimedMine::TimedMine(Path_TimedMine* pTlv, s32 tlvInfo)
     mTimedMineFlags.Clear(TimedMineFlags::eStickToLiftPoint);
     mSlappedMine = 0;
 
-    if (pTlv->mScale == Scale_short::eHalf_1)
+    if (pTlv->mScale == relive::reliveScale::eHalf)
     {
         mSpriteScale = FP_FromDouble(0.5);
         mScale = Scale::Bg;
@@ -49,8 +49,8 @@ TimedMine::TimedMine(Path_TimedMine* pTlv, s32 tlvInfo)
 
     mTicksUntilExplosion = pTlv->mTicksUntilExplosion;
 
-    mXPos = FP_FromInteger(pTlv->mTopLeft.x + 12);
-    mYPos = FP_FromInteger(pTlv->mTopLeft.y + 24);
+    mXPos = FP_FromInteger(pTlv->mTopLeftX + 12);
+    mYPos = FP_FromInteger(pTlv->mTopLeftY + 24);
 
     mExplosionTimer = sGnFrame;
     mTlvInfo = tlvInfo;

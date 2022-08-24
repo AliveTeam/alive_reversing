@@ -24,7 +24,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_HintFly, 0x1C);
 class HintFly final : public BaseAnimatedWithPhysicsGameObject
 {
 public:
-    HintFly(Path_HintFly* pTlv, s32 tlvInfo);
+    HintFly(relive::Path_HintFly* pTlv, s32 tlvInfo);
     ~HintFly();
 
     void InitParticle(HintFlyParticle* pParticle);

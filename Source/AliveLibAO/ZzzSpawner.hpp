@@ -20,7 +20,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_ZzzSpawner, 0x20);
 class ZzzSpawner final : public BaseGameObject
 {
 public:
-    ZzzSpawner(Path_ZzzSpawner* pTlv, s32 tlvInfo);
+    ZzzSpawner(relive::Path_ZzzSpawner* pTlv, s32 tlvInfo);
     ~ZzzSpawner();
 
     virtual void VScreenChanged() override;

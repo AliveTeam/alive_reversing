@@ -3,6 +3,7 @@
 #include "../AliveLibCommon/Function.hpp"
 #include "BaseAnimatedWithPhysicsGameObject.hpp"
 #include "Map.hpp"
+#include "../relive_lib/data_conversion/relive_tlvs.hpp"
 
 namespace AO {
 
@@ -44,7 +45,7 @@ ALIVE_ASSERT_SIZEOF(HoistParticle, 0xE8);
 class HoistRocksEffect final : public BaseGameObject
 {
 public:
-    HoistRocksEffect(Path_Hoist* pTlv, s32 tlvInfo);
+    HoistRocksEffect(relive::Path_Hoist* pTlv, s32 tlvInfo);
     ~HoistRocksEffect();
 
     virtual void VScreenChanged() override;

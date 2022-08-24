@@ -14,7 +14,7 @@
 
 namespace AO {
 
-Bat::Bat(Path_Bat* pTlv, s32 tlvInfo)
+Bat::Bat(relive::Path_Bat* pTlv, s32 tlvInfo)
 {
     mBaseGameObjectTypeId = ReliveTypes::eBat;
 
@@ -36,10 +36,10 @@ Bat::Bat(Path_Bat* pTlv, s32 tlvInfo)
     // OG Bug fix, if bat isn't spawned on a line then we crash
     // so mBatLine is checked here and in VUpdate
     sCollisions->Raycast(
-        FP_FromInteger(pTlv->mTopLeft.x),
-        FP_FromInteger(pTlv->mTopLeft.y),
-        FP_FromInteger(pTlv->mBottomRight.x),
-        FP_FromInteger(pTlv->mBottomRight.y),
+        FP_FromInteger(pTlv->mTopLeftX),
+        FP_FromInteger(pTlv->mTopLeftY),
+        FP_FromInteger(pTlv->mBottomRightX),
+        FP_FromInteger(pTlv->mBottomRightY),
         &mBatLine,
         &hitX,
         &hitY,
@@ -56,7 +56,7 @@ Bat::Bat(Path_Bat* pTlv, s32 tlvInfo)
     mTimeBeforeMoving = pTlv->mTimeBeforeMoving;
     mBatSpeed = FP_FromRaw(pTlv->mSpeed << 8);
 
-    if (pTlv->mScale == Scale_short::eHalf_1)
+    if (pTlv->mScale == relive::reliveScale::eHalf)
     {
         mSpriteScale = FP_FromDouble(0.5);
         mScale = Scale::Bg;

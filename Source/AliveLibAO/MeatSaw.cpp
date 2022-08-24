@@ -31,7 +31,7 @@ MeatSaw::~MeatSaw()
     ResourceManager::FreeResource_455550(ppRes);
 }
 
-MeatSaw::MeatSaw(Path_MeatSaw* pTlv, s32 tlvInfo)
+MeatSaw::MeatSaw(relive::Path_MeatSaw* pTlv, s32 tlvInfo)
 {
     mBaseGameObjectTypeId = ReliveTypes::eMeatSaw;
 
@@ -42,7 +42,7 @@ MeatSaw::MeatSaw(Path_MeatSaw* pTlv, s32 tlvInfo)
     mAnim.mFlags.Set(AnimFlags::eBit15_bSemiTrans);
     mAnim.mRenderMode = TPageAbr::eBlend_0;
 
-    if (pTlv->mScale == Scale_short::eHalf_1)
+    if (pTlv->mScale == relive::reliveScale::eHalf)
     {
         mSpriteScale = FP_FromDouble(0.5);
         mAnim.mRenderLayer = Layer::eLayer_RopeWebDrillMeatSaw_Half_5;
@@ -55,8 +55,8 @@ MeatSaw::MeatSaw(Path_MeatSaw* pTlv, s32 tlvInfo)
         mScale = Scale::Fg;
     }
 
-    mXPos = FP_FromInteger(pTlv->mTopLeft.x + 8);
-    mYPos = FP_FromInteger(pTlv->mTopLeft.y);
+    mXPos = FP_FromInteger(pTlv->mTopLeftX + 8);
+    mYPos = FP_FromInteger(pTlv->mTopLeftY);
 
     field_F6_switch_min_time_off = pTlv->mSwitchMinTimeOff;
     field_F8_switch_max_time_off = pTlv->mSwitchMaxTimeOff;
@@ -67,12 +67,12 @@ MeatSaw::MeatSaw(Path_MeatSaw* pTlv, s32 tlvInfo)
     mYOffset = 0;
     field_F4 = 0;
 
-    if (pTlv->mType == Path_MeatSaw::Type::eAutomatic_1)
+    if (pTlv->mType == relive::Path_MeatSaw::Type::eAutomatic)
     {
         field_1A8_flags.Set(flags_1A8::eBit1_ResetOffscreen);
         field_1A8_flags.Clear(flags_1A8::eBit2_SwitchIdMeatSaw);
     }
-    else if (pTlv->mType == Path_MeatSaw::Type::eSwitchId_2)
+    else if (pTlv->mType == relive::Path_MeatSaw::Type::eSwitchId)
     {
         field_1A8_flags.Set(flags_1A8::eBit1_ResetOffscreen);
         field_1A8_flags.Set(flags_1A8::eBit2_SwitchIdMeatSaw);
@@ -85,7 +85,7 @@ MeatSaw::MeatSaw(Path_MeatSaw* pTlv, s32 tlvInfo)
 
     field_EA_speed1 = pTlv->mSpeed;
     field_E8_speed2 = pTlv->mSpeed;
-    if (pTlv->mStartState == Path_MeatSaw::StartState::eOff_0)
+    if (pTlv->mStartState == relive::Path_MeatSaw::StartState::eOff)
     {
         field_F0_switch_value = SwitchStates_Get(pTlv->mSwitchId) == 0;
     }
@@ -115,7 +115,7 @@ MeatSaw::MeatSaw(Path_MeatSaw* pTlv, s32 tlvInfo)
     field_EC_off_speed = pTlv->mOffSpeed;
     field_FC_automatic_max_time_off = pTlv->mAutomaticMaxTimeOff;
 
-    if (pTlv->field_1_unknown)
+    if (pTlv->mTlvSpecificMeaning)
     {
         field_F0_switch_value = field_F0_switch_value == 0;
         field_F2_switch_value = field_F2_switch_value == 0;

@@ -13,7 +13,7 @@ SlurgSpawner::SlurgSpawner(Path_SlurgSpawner* pTlv, s32 tlvInfo)
     mSlurgTlv = pTlv;
     mSlurgPathData = pTlv->mSpawnerData;
     mSpawnCounter = 0;
-    mSpawnedCount = pTlv->mTlvState;
+    mSpawnedCount = pTlv->mTlvSpecificMeaning;
     if ((mSpawnedCount & 0x80u) != 0)
     {
         mSpawnedCount = 0;

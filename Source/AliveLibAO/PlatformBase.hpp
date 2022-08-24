@@ -2,6 +2,7 @@
 
 #include "../AliveLibCommon/Function.hpp"
 #include "BaseAliveGameObject.hpp"
+#include "../relive_lib/data_conversion/relive_tlvs.hpp"
 
 namespace AO {
 
@@ -15,7 +16,7 @@ public:
     virtual void VAdd(BaseAliveGameObject* pObj);
     virtual void VRemove(BaseAliveGameObject* pObj);
 
-    void AddDynamicCollision(AnimId animId, u8** ppAnimData, Path_TLV* pTlv, Map* pMap, s32 tlvInfo);
+    void AddDynamicCollision(AnimId animId, u8** ppAnimData, relive::Path_TLV* pTlv, Map* pMap, s32 tlvInfo);
     void SyncCollisionLinePosition();
     void KeepThingsOnPlatform(FP xpos);
 

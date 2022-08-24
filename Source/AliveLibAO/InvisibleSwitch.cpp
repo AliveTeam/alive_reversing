@@ -15,7 +15,7 @@ InvisibleSwitch::~InvisibleSwitch()
     Path::TLV_Reset(field_14_tlvInfo, -1, 0, 0);
 }
 
-InvisibleSwitch::InvisibleSwitch(Path_InvisibleSwitch* pTlv, s32 tlvInfo)
+InvisibleSwitch::InvisibleSwitch(relive::Path_InvisibleSwitch* pTlv, s32 tlvInfo)
     : BaseGameObject(TRUE, 0)
 {
     field_14_tlvInfo = tlvInfo;
@@ -24,9 +24,11 @@ InvisibleSwitch::InvisibleSwitch(Path_InvisibleSwitch* pTlv, s32 tlvInfo)
     field_12_action = pTlv->mAction;
     field_1C_delay = pTlv->mActivationDelay;
     field_2C_scale = pTlv->mScale;
-    field_20_top_left = pTlv->mTopLeft;
-    field_24_bottom_right = pTlv->mBottomRight;
-    field_2A_set_off_alarm = pTlv->mSetOffAlarm;
+    field_20_top_left.x = pTlv->mTopLeftX;
+    field_20_top_left.y = pTlv->mTopLeftY;
+    field_24_bottom_right.x = pTlv->mBottomRightX;
+    field_24_bottom_right.y = pTlv->mBottomRightY;
+    mSetOffAlarm = pTlv->mSetOffAlarm;
 }
 
 void InvisibleSwitch::VScreenChanged()
@@ -63,9 +65,9 @@ void InvisibleSwitch::VUpdate()
                             && sActiveHero->mCurrentMotion != eAbeMotions::Motion_156_DoorEnter_42D370))
                     {
                         // Scale matches ?
-                        if (field_2C_scale == InvisibleSwitchScale::eAny_2
-                            || (field_2C_scale == InvisibleSwitchScale::eHalf_0 && sControlledCharacter->mSpriteScale == FP_FromDouble(0.5))
-                            || (field_2C_scale == InvisibleSwitchScale::eFull_1 && sControlledCharacter->mSpriteScale == FP_FromInteger(1)))
+                        if (field_2C_scale == relive::Path_InvisibleSwitch::InvisibleSwitchScale::eAny
+                            || (field_2C_scale == relive::Path_InvisibleSwitch::InvisibleSwitchScale::eHalf && sControlledCharacter->mSpriteScale == FP_FromDouble(0.5))
+                            || (field_2C_scale == relive::Path_InvisibleSwitch::InvisibleSwitchScale::eFull && sControlledCharacter->mSpriteScale == FP_FromInteger(1)))
                         {
                             field_28_state = States::eWaitForDelayTimer_1;
                             field_18_delay_timer = sGnFrame + field_1C_delay;
@@ -80,7 +82,7 @@ void InvisibleSwitch::VUpdate()
             if (field_18_delay_timer <= static_cast<s32>(sGnFrame))
             {
                 SwitchStates_Do_Operation(field_10_switch_id, field_12_action);
-                if (field_2A_set_off_alarm == Choice_short::eYes_1)
+                if (mSetOffAlarm == relive::reliveChoice::eYes)
                 {
                     relive_new Alarm(150, 0, 30, Layer::eLayer_Above_FG1_39);
                 }

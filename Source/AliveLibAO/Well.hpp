@@ -4,6 +4,7 @@
 #include "BaseAnimatedWithPhysicsGameObject.hpp"
 #include "Map.hpp"
 #include "../AliveLibAE/Path.hpp"
+#include "../relive_lib/data_conversion/relive_tlvs.hpp"
 
 namespace AO {
 
@@ -55,11 +56,11 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_WellLocal, 0x34);
 class Well final : public BaseAnimatedWithPhysicsGameObject
 {
 public:
-    Well(Path_WellBase* pTlv, FP xpos, FP ypos, s32 tlvInfo);
+    Well(relive::Path_WellBase* pTlv, FP xpos, FP ypos, s32 tlvInfo);
     ~Well();
 
-    void WellLocal_Init(Path_WellLocal* pTlv, FP xpos, FP ypos);
-    void WellExpress_Init(Path_WellExpress* pTlv, FP xpos, FP ypos);
+    void WellLocal_Init(relive::Path_WellLocal* pTlv, FP xpos, FP ypos);
+    void WellExpress_Init(relive::Path_WellExpress* pTlv, FP xpos, FP ypos);
 
     virtual void VUpdate() override;
     virtual void VRender(PrimHeader** ppOt) override;
@@ -72,7 +73,7 @@ public:
     FP mExitY = {};
     FP mLeafX = {};
     FP mLeafY = {};
-    Choice_short mEmitLeaves = Choice_short::eNo_0;
+    relive::reliveChoice mEmitLeaves = relive::reliveChoice::eNo;
 };
 ALIVE_ASSERT_SIZEOF(Well, 0x104);
 

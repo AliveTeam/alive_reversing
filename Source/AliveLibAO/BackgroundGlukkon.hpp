@@ -18,7 +18,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_BackgroundGlukkon, 0x20);
 class BackgroundGlukkon final : public BaseAliveGameObject
 {
 public:
-    BackgroundGlukkon(Path_BackgroundGlukkon* pTlv, s32 tlvInfo);
+    BackgroundGlukkon(relive::Path_BackgroundGlukkon* pTlv, s32 tlvInfo);
     ~BackgroundGlukkon();
 
     virtual void VScreenChanged() override;

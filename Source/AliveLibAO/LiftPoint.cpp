@@ -69,17 +69,17 @@ const LiftPointCoord stru_4BB640[16] = {
 
 
 
-LiftPoint::LiftPoint(Path_LiftPoint* pTlv, Map* pPath, s32 tlvInfo)
+LiftPoint::LiftPoint(relive::Path_LiftPoint* pTlv, Map* pPath, s32 tlvInfo)
     : PlatformBase()
 {
     mBaseGameObjectTypeId = ReliveTypes::eLiftPoint;
 
-    pTlv->field_1_unknown = 3;
+    pTlv->mTlvSpecificMeaning = 3;
 
     const s32 lvl_idx = static_cast<s32>(MapWrapper::ToAO(gMap.mCurrentLevel));
     const AnimRecord& platformRec = AO::AnimRec(sLiftPointData_4BB480[lvl_idx].field_0_platform_anim_id);
     u8** ppLiftRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, platformRec.mResourceId, 1, 0);
-    if (pTlv->mScale == Scale_short::eHalf_1)
+    if (pTlv->mScale == relive::reliveScale::eHalf)
     {
         mSpriteScale = FP_FromDouble(0.5);
         mScale = Scale::Bg;
@@ -124,7 +124,7 @@ LiftPoint::LiftPoint(Path_LiftPoint* pTlv, Map* pPath, s32 tlvInfo)
             this,
             ppLiftWheelRes))
     {
-        if (pTlv->mScale == Scale_short::eHalf_1)
+        if (pTlv->mScale == relive::reliveScale::eHalf)
         {
             field_13C_lift_wheel.mRenderLayer = Layer::eLayer_BeforeShadow_Half_6;
         }
@@ -154,7 +154,7 @@ LiftPoint::LiftPoint(Path_LiftPoint* pTlv, Map* pPath, s32 tlvInfo)
         field_10C = 1;
 
         mVelY = FP_FromInteger(0);
-        field_130_lift_point_stop_type = LiftPointStopType::eStartPointOnly_4;
+        mLiftPointStopType = relive::Path_LiftPoint::LiftPointStopType::eStartPointOnly;
 
         auto pRopeMem = relive_new Rope(
             FP_GetExponent(mXPos + (FP_FromInteger(13) * mSpriteScale) + FP_FromInteger(stru_4BB640[lvl_idx].field_4)),
@@ -190,19 +190,19 @@ LiftPoint::LiftPoint(Path_LiftPoint* pTlv, Map* pPath, s32 tlvInfo)
         CreatePulleyIfExists(0, 0);
 
         field_278_lift_point_id = pTlv->mLiftPointId;
-        field_130_lift_point_stop_type = pTlv->mLiftPointStopType;
+        mLiftPointStopType = pTlv->mLiftPointStopType;
 
-        switch (field_130_lift_point_stop_type)
+        switch (mLiftPointStopType)
         {
-            case LiftPointStopType::eTopFloor_0:
+            case relive::Path_LiftPoint::LiftPointStopType::eTopFloor:
                 field_27A_flags.Set(Flags::eBit2_bTopFloor);
                 break;
 
-            case LiftPointStopType::eBottomFloor_1:
+            case relive::Path_LiftPoint::LiftPointStopType::eBottomFloor:
                 field_27A_flags.Set(Flags::eBit4_bBottomFloor);
                 break;
 
-            case LiftPointStopType::eMiddleFloor_2:
+            case relive::Path_LiftPoint::LiftPointStopType::eMiddleFloor:
                 field_27A_flags.Set(Flags::eBit3_bMiddleFloor);
                 break;
         }
@@ -227,17 +227,17 @@ void LiftPoint::Move(FP xSpeed, FP ySpeed, s32 /*not_used*/)
 }
 
 
-void LiftPoint::StayOnFloor(s16 floor, Path_LiftPoint* pLiftTlv)
+void LiftPoint::StayOnFloor(s16 floor, relive::Path_LiftPoint* pLiftTlv)
 {
     if (!floor)
     {
-        mYPos = FP_FromInteger(pLiftTlv->mTopLeft.y - mPlatformBaseYOffset);
+        mYPos = FP_FromInteger(pLiftTlv->mTopLeftY - mPlatformBaseYOffset);
         SfxPlayMono(SoundEffect::LiftStop_35, 0);
         SFX_Play_Pitch(SoundEffect::LiftStop_35, 80, -2000);
     }
 
     field_12C_bMoving &= ~1u;
-    pLiftTlv->field_1_unknown = 3;
+    pLiftTlv->mTlvSpecificMeaning = 3;
     pLiftTlv->mLiftPointId = field_278_lift_point_id;
     mVelY = FP_FromInteger(0);
 
@@ -246,11 +246,11 @@ void LiftPoint::StayOnFloor(s16 floor, Path_LiftPoint* pLiftTlv)
 }
 
 
-void LiftPoint::Sub_Unknown(Path_TLV* pTlv)
+void LiftPoint::Sub_Unknown(relive::Path_TLV* pTlv)
 {
-    pTlv->mTlvFlags.Clear(eBit1_Created);
-    pTlv->mTlvFlags.Clear(eBit2_Destroyed);
-    pTlv->field_1_unknown |= 1;
+    pTlv->mTlvFlags.Clear(::eBit1_Created);
+    pTlv->mTlvFlags.Clear(::eBit2_Destroyed);
+    pTlv->mTlvSpecificMeaning |= 1;
 }
 
 bool LiftPoint::OnTopFloor() const
@@ -323,11 +323,11 @@ void LiftPoint::VUpdate()
         }
         else
         {
-            field_130_lift_point_stop_type = LiftPointStopType::eStartPointOnly_4;
+            mLiftPointStopType = relive::Path_LiftPoint::LiftPointStopType::eStartPointOnly;
             const FP lineY = FP_FromInteger(mPlatformBaseCollisionLine->mRect.y);
 
-            Path_LiftPoint* pLiftTlv = nullptr;
-            Path_TLV* pTlvIter = gMap.TLV_Get_At_446060(
+            relive::Path_LiftPoint* pLiftTlv = nullptr;
+            relive::Path_TLV* pTlvIter = gMap.TLV_Get_At_446060(
                 nullptr,
                 mXPos,
                 lineY,
@@ -335,10 +335,10 @@ void LiftPoint::VUpdate()
                 (mSpriteScale * FP_FromInteger(30)) + lineY);
             while (pTlvIter)
             {
-                if (pTlvIter->mTlvType32 == TlvTypes::LiftPoint_8)
+                if (pTlvIter->mTlvType == static_cast<s32>(TlvTypes::LiftPoint_8))
                 {
-                    pLiftTlv = static_cast<Path_LiftPoint*>(pTlvIter);
-                    field_130_lift_point_stop_type = pLiftTlv->mLiftPointStopType;
+                    pLiftTlv = static_cast<relive::Path_LiftPoint*>(pTlvIter);
+                    mLiftPointStopType = pLiftTlv->mLiftPointStopType;
                     break;
                 }
                 pTlvIter = gMap.TLV_Get_At_446060(
@@ -349,7 +349,7 @@ void LiftPoint::VUpdate()
                     lineY + (mSpriteScale * FP_FromInteger(30)));
             }
 
-            if (pLiftTlv && pLiftTlv->mIsStartPoint == Choice_short::eYes_1)
+            if (pLiftTlv && pLiftTlv->mIsStartPoint == relive::reliveChoice::eYes)
             {
                 field_27A_flags.Set(Flags::eBit7_bIgnoreLiftMover);
             }
@@ -362,26 +362,26 @@ void LiftPoint::VUpdate()
             {
                 Sub_Unknown(pLiftTlv);
 
-                field_270_floorYLevel = FP_FromInteger(pTlvIter->mTopLeft.y + -mPlatformBaseYOffset);
+                field_270_floorYLevel = FP_FromInteger(pTlvIter->mTopLeftY + -mPlatformBaseYOffset);
             }
             else
             {
                 field_270_floorYLevel = FP_FromInteger(0);
-                field_130_lift_point_stop_type = LiftPointStopType::eStartPointOnly_4;
+                mLiftPointStopType = relive::Path_LiftPoint::LiftPointStopType::eStartPointOnly;
             }
 
             const auto distanceToFloor = field_270_floorYLevel - mYPos;
             const FP kMinus25Scaled = (mSpriteScale * FP_FromInteger(-25));
             const FP k30Scaled = (mSpriteScale * FP_FromInteger(30));
 
-            switch (field_130_lift_point_stop_type)
+            switch (mLiftPointStopType)
             {
-                case LiftPointStopType::eTopFloor_0:
+                case relive::Path_LiftPoint::LiftPointStopType::eTopFloor:
                     if (mVelY >= FP_FromInteger(0))
                     {
                         if (mVelY != FP_FromInteger(0) || (distanceToFloor <= kMinus25Scaled) || distanceToFloor >= k30Scaled)
                         {
-                            pLiftTlv->field_1_unknown = 1;
+                            pLiftTlv->mTlvSpecificMeaning = 1;
                             field_27A_flags.Clear(Flags::eBit2_bTopFloor);
                         }
                         else
@@ -390,13 +390,13 @@ void LiftPoint::VUpdate()
                             field_12C_bMoving |= 1u;
                             mYPos = field_270_floorYLevel - distanceToFloor;
 
-                            pLiftTlv->field_1_unknown = 3;
+                            pLiftTlv->mTlvSpecificMeaning = 3;
 
                             pLiftTlv->mLiftPointId = field_278_lift_point_id;
                             field_27A_flags.Set(Flags::eBit2_bTopFloor);
                         }
                     }
-                    else if (mVelY + lineY <= FP_FromInteger(pTlvIter->mTopLeft.y))
+                    else if (mVelY + lineY <= FP_FromInteger(pTlvIter->mTopLeftY))
                     {
                         StayOnFloor(field_27A_flags.Get(Flags::eBit2_bTopFloor), pLiftTlv);
 
@@ -404,12 +404,12 @@ void LiftPoint::VUpdate()
                     }
                     break;
 
-                case LiftPointStopType::eBottomFloor_1:
+                case relive::Path_LiftPoint::LiftPointStopType::eBottomFloor:
                     if (mVelY <= FP_FromInteger(0))
                     {
                         if (mVelY != FP_FromInteger(0) || (distanceToFloor <= kMinus25Scaled) || distanceToFloor >= k30Scaled)
                         {
-                            pLiftTlv->field_1_unknown = 1;
+                            pLiftTlv->mTlvSpecificMeaning = 1;
                             field_27A_flags.Clear(Flags::eBit4_bBottomFloor);
                         }
                         else
@@ -418,23 +418,23 @@ void LiftPoint::VUpdate()
                             field_27A_flags.Set(Flags::eBit6_bMoveToFloorLevel);
                             mYPos = field_270_floorYLevel - distanceToFloor;
 
-                            pLiftTlv->field_1_unknown = 3;
+                            pLiftTlv->mTlvSpecificMeaning = 3;
 
                             pLiftTlv->mLiftPointId = field_278_lift_point_id;
                             field_27A_flags.Set(Flags::eBit4_bBottomFloor);
                         }
                     }
-                    else if (mVelY + lineY >= FP_FromInteger(pTlvIter->mTopLeft.y))
+                    else if (mVelY + lineY >= FP_FromInteger(pTlvIter->mTopLeftY))
                     {
                         StayOnFloor(field_27A_flags.Get(Flags::eBit4_bBottomFloor), pLiftTlv);
                         field_27A_flags.Set(Flags::eBit4_bBottomFloor);
                     }
                     break;
 
-                case LiftPointStopType::eMiddleFloor_2:
+                case relive::Path_LiftPoint::LiftPointStopType::eMiddleFloor:
                     if (distanceToFloor <= kMinus25Scaled || distanceToFloor >= k30Scaled)
                     {
-                        pLiftTlv->field_1_unknown = 1;
+                        pLiftTlv->mTlvSpecificMeaning = 1;
                     }
                     else
                     {
@@ -451,16 +451,16 @@ void LiftPoint::VUpdate()
                             mYPos = field_270_floorYLevel - distanceToFloor;
                         }
 
-                        pLiftTlv->field_1_unknown = 3;
+                        pLiftTlv->mTlvSpecificMeaning = 3;
                         pLiftTlv->mLiftPointId = field_278_lift_point_id;
                         field_27A_flags.Set(Flags::eBit3_bMiddleFloor);
                     }
                     break;
 
-                case LiftPointStopType::eStartPointOnly_4:
+                case relive::Path_LiftPoint::LiftPointStopType::eStartPointOnly:
                     if (pLiftTlv)
                     {
-                        pLiftTlv->field_1_unknown = 1;
+                        pLiftTlv->mTlvSpecificMeaning = 1;
                     }
 
                     field_27A_flags.Clear(Flags::eBit2_bTopFloor);
@@ -719,12 +719,12 @@ void LiftPoint::CreatePulleyIfExists(s16 camX, s16 camY)
     {
         while (1)
         {
-            field_26E_pulley_ypos = pTlv->mTopLeft.y;
-            field_26C_pulley_xpos = pTlv->mTopLeft.x;
+            field_26E_pulley_ypos = pTlv->mTopLeftY;
+            field_26C_pulley_xpos = pTlv->mTopLeftX;
 
-            if (pTlv->mTlvType32 == TlvTypes::Pulley_35)
+            if (pTlv->mTlvType == static_cast<s32>(TlvTypes::Pulley_35))
             {
-                if (mPlatformBaseCollisionLine->mRect.x <= pTlv->mTopLeft.x && pTlv->mTopLeft.x <= mPlatformBaseCollisionLine->mRect.w)
+                if (mPlatformBaseCollisionLine->mRect.x <= pTlv->mTopLeftX && pTlv->mTopLeftX <= mPlatformBaseCollisionLine->mRect.w)
                 {
                     break;
                 }

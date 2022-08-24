@@ -34,7 +34,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_UXB, 0x24);
 class UXB final : public BaseAliveGameObject
 {
 public:
-    UXB(Path_UXB* pTlv, s32 tlvInfo);
+    UXB(relive::Path_UXB* pTlv, s32 tlvInfo);
     ~UXB();
 
     void InitBlinkAnim();

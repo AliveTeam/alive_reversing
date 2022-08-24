@@ -2506,12 +2506,12 @@ void Abe::VOnTlvCollision(Path_TLV* pTlv)
         if (pTlv->mTlvType32 == TlvTypes::ContinuePoint_0)
         {
             auto pContinuePoint = static_cast<Path_ContinuePoint*>(pTlv);
-            if (pContinuePoint->mTlvState == 0)
+            if (pContinuePoint->mTlvSpecificMeaning == 0)
             {
                 if ((pContinuePoint->mScale != Path_ContinuePoint::Scale::eHalf_1 || mSpriteScale == FP_FromInteger(1)) && (pContinuePoint->mScale != Path_ContinuePoint::Scale::eFull_2 || mSpriteScale == FP_FromDouble(0.5))
                     && mHealth > FP_FromInteger(0) && !(mBaseAliveGameObjectFlags.Get(Flags_114::e114_Bit7_Electrocuted)))
                 {
-                    pContinuePoint->mTlvState = 1;
+                    pContinuePoint->mTlvSpecificMeaning = 1;
                     field_1AE_flags.Set(Flags_1AE::e1AE_Bit2_do_quicksave);
                     mSaveFileId = pContinuePoint->mSaveFileId;
                 }
@@ -2532,9 +2532,9 @@ void Abe::VOnTlvCollision(Path_TLV* pTlv)
         else if (pTlv->mTlvType32 == TlvTypes::ResetPath_76)
         {
             auto pResetSwitchRange = static_cast<Path_ResetPath*>(pTlv);
-            if (pResetSwitchRange->mTlvState == 0 || pResetSwitchRange->mEnabled == Choice_short::eYes_1)
+            if (pResetSwitchRange->mTlvSpecificMeaning == 0 || pResetSwitchRange->mEnabled == Choice_short::eYes_1)
             {
-                pResetSwitchRange->mTlvState = 1;
+                pResetSwitchRange->mTlvSpecificMeaning = 1;
                 if (pResetSwitchRange->mClearIds == Choice_short::eYes_1)
                 {
                     for (s16 i = pResetSwitchRange->mFrom; i <= pResetSwitchRange->mTo; i++)

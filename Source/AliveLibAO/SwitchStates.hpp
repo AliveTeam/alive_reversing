@@ -21,7 +21,7 @@ enum class SwitchOp : s16
     eDecrement_4 = 4,
 };
 
-void SwitchStates_Do_Operation(s16 idx, SwitchOp operation);
+void SwitchStates_Do_Operation(s16 idx, relive::reliveSwitchOp operation);
 
 void SwitchStates_Add(u16 idx, s8 value);
 void SwitchStates_ClearAll();

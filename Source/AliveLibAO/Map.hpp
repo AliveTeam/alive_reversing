@@ -169,11 +169,11 @@ public:
 
     void Load_Path_Items(Camera* pCamera, LoadMode loadMode);
 
-    Path_TLV* TLV_First_Of_Type_In_Camera(TlvTypes type, s32 camX);
+    relive::Path_TLV* TLV_First_Of_Type_In_Camera(TlvTypes type, s32 camX);
 
-    Path_TLV* TLV_Get_At_446260(s16 xpos, s16 ypos, s16 width, s16 height, TlvTypes typeToFind);
+    relive::Path_TLV* TLV_Get_At_446260(s16 xpos, s16 ypos, s16 width, s16 height, TlvTypes typeToFind);
 
-    Path_TLV* TLV_Get_At_446060(Path_TLV* pTlv, FP xpos, FP ypos, FP width, FP height);
+    relive::Path_TLV* TLV_Get_At_446060(relive::Path_TLV* pTlv, FP xpos, FP ypos, FP width, FP height);
 
     void sub_447430(u16 pathNum);
 
@@ -196,7 +196,7 @@ public:
     void Start_Sounds_For_Objects_In_Camera(CameraPos direction, s16 cam_x_idx, s16 cam_y_idx);
 
     // NOTE: Part of Path object in AE
-    Path_TLV* Get_First_TLV_For_Offsetted_Camera(s16 camX, s16 camY);
+    relive::Path_TLV* Get_First_TLV_For_Offsetted_Camera(s16 camX, s16 camY);
 
     void SaveBlyData(u8* pSaveBuffer);
 

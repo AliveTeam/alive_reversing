@@ -30,14 +30,14 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_InvisibleSwitch, 0x24);
 class InvisibleSwitch final : public BaseGameObject
 {
 public:
-    InvisibleSwitch(Path_InvisibleSwitch* pTlv, s32 tlvInfo);
+    InvisibleSwitch(relive::Path_InvisibleSwitch* pTlv, s32 tlvInfo);
     ~InvisibleSwitch();
 
     virtual void VScreenChanged() override;
     virtual void VUpdate() override;
 
     s16 field_10_switch_id = 0;
-    SwitchOp field_12_action = SwitchOp::eSetTrue_0;
+    relive::reliveSwitchOp field_12_action = relive::reliveSwitchOp::eSetTrue;
     s32 field_14_tlvInfo = 0;
     s32 field_18_delay_timer = 0;
     s32 field_1C_delay = 0;
@@ -49,8 +49,8 @@ public:
         eWaitForDelayTimer_1 = 1,
     };
     States field_28_state = States::eWaitForTrigger_0;
-    Choice_short field_2A_set_off_alarm = Choice_short::eNo_0;
-    InvisibleSwitchScale field_2C_scale = InvisibleSwitchScale::eHalf_0;
+    relive::reliveChoice mSetOffAlarm = relive::reliveChoice::eNo;
+    relive::Path_InvisibleSwitch::InvisibleSwitchScale field_2C_scale = relive::Path_InvisibleSwitch::InvisibleSwitchScale::eFull;
 };
 ALIVE_ASSERT_SIZEOF(InvisibleSwitch, 0x30);
 

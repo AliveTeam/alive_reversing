@@ -50,7 +50,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Lever, 0x24);
 class Lever final : public BaseAnimatedWithPhysicsGameObject
 {
 public:
-    Lever(Path_Lever* pTlv, s32 tlvInfo);
+    Lever(relive::Path_Lever* pTlv, s32 tlvInfo);
     ~Lever();
 
     virtual void VScreenChanged() override;
@@ -59,14 +59,14 @@ public:
     // New virtual
     virtual s32 VPull(s16 bLeftDirection);
 
-    s16 field_E4_switch_id = 0;
-    LeverState field_E8_state = LeverState::eWaiting_0;
-    s32 field_EC_tlvInfo = 0;
+    s16 mSwitchId = 0;
+    LeverState mState = LeverState::eWaiting_0;
+    s32 mTlvInfo = 0;
     s16 field_F0_bPulledFromLeft = 0;
-    SwitchOp field_F2_action = SwitchOp::eSetTrue_0;
-    LeverSoundType field_F4_on_sound = LeverSoundType::eNone;
-    LeverSoundType field_F6_off_sound = LeverSoundType::eNone;
-    LeverSoundDirection field_F8_sound_direction = LeverSoundDirection::eLeftAndRight_0;
+    relive::reliveSwitchOp mAction = relive::reliveSwitchOp::eSetTrue;
+    relive::Path_Lever::LeverSoundType mOnSound = relive::Path_Lever::LeverSoundType::eNone;
+    relive::Path_Lever::LeverSoundType mOffSound = relive::Path_Lever::LeverSoundType::eNone;
+    relive::Path_Lever::LeverSoundDirection mSoundDirection = relive::Path_Lever::LeverSoundDirection::eLeftAndRight;
 };
 ALIVE_ASSERT_SIZEOF(Lever, 0xFC);
 

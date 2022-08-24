@@ -38,7 +38,7 @@ enum class SecurityClawStates : s16
 class SecurityClaw final : public BaseAliveGameObject
 {
 public:
-    SecurityClaw(Path_SecurityClaw* pTlv, s32 tlvInfo);
+    SecurityClaw(relive::Path_SecurityClaw* pTlv, s32 tlvInfo);
     ~SecurityClaw();
 
     virtual void VScreenChanged() override;
@@ -58,8 +58,8 @@ public:
     s16 field_12C_pDetector = 0;
     s16 field_12E = 0;
     Claw* mClaw = nullptr;
-    PSX_Point field_134 = {};
-    PSX_Point field_138 = {};
+    PSX_Point field_134_top_left = {};
+    PSX_Point field_138_bottom_right = {};
     DynamicArrayT<MotionDetector>* field_13C_pArray;
 };
 ALIVE_ASSERT_SIZEOF(SecurityClaw, 0x140);

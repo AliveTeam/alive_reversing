@@ -76,7 +76,7 @@ FlintLockFire::~FlintLockFire()
     }
 }
 
-FlintLockFire::FlintLockFire(Path_FlintLockFire* pTlv, s32 tlvInfo)
+FlintLockFire::FlintLockFire(relive::Path_FlintLockFire* pTlv, s32 tlvInfo)
 {
     mBaseGameObjectTypeId = ReliveTypes::eFlintLockFire;
 
@@ -121,13 +121,13 @@ FlintLockFire::FlintLockFire(Path_FlintLockFire* pTlv, s32 tlvInfo)
 
     field_E4_state = States::eDisabled_0;
     field_EC_fire_sound = 0;
-    mXPos = FP_FromInteger(pTlv->mTopLeft.x);
-    mYPos = FP_FromInteger(pTlv->mTopLeft.y);
+    mXPos = FP_FromInteger(pTlv->mTopLeftX);
+    mYPos = FP_FromInteger(pTlv->mTopLeftY);
     field_E8_tlvInfo = tlvInfo;
     field_E6_switch_id = pTlv->mSwitchId;
 
     Layer layer = Layer::eLayer_0;
-    if (pTlv->mScale == Scale_short::eHalf_1)
+    if (pTlv->mScale == relive::reliveScale::eHalf)
     {
         mSpriteScale = FP_FromDouble(0.5);
         layer = Layer::eLayer_BeforeShadow_Half_6;

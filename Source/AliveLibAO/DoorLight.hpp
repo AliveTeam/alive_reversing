@@ -29,7 +29,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_LightEffect, 0x20);
 class DoorLight final : public BaseAnimatedWithPhysicsGameObject
 {
 public:
-    DoorLight(Path_LightEffect* pTlv, s32 tlvInfo);
+    DoorLight(relive::Path_LightEffect* pTlv, s32 tlvInfo);
     ~DoorLight();
     
     virtual void VScreenChanged() override;

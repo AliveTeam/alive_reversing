@@ -663,7 +663,7 @@ void MainMenuTransition::VRender_436610(PrimHeader** ppOt)
     }
 }
 
-Menu::Menu(Path_TLV* /*pTlv*/, s32 tlvInfo)
+Menu::Menu(relive::Path_TLV* /*pTlv*/, s32 tlvInfo)
 {
     gMainMenuInstanceCount_9F2DE0++;
 

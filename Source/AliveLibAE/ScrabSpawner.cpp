@@ -14,7 +14,7 @@ ScrabSpawner::ScrabSpawner(Path_ScrabSpawner* pTlv, s32 tlvInfo)
     SetType(ReliveTypes::eScrabSpawner);
 
     field_28_tlv_data.mTlvFlags = pTlv->mTlvFlags;
-    field_28_tlv_data.mTlvState = pTlv->mTlvState;
+    field_28_tlv_data.mTlvSpecificMeaning = pTlv->mTlvSpecificMeaning;
     field_28_tlv_data.mLength = pTlv->mLength;
     field_28_tlv_data.mTlvType32 = pTlv->mTlvType32;
     field_28_tlv_data.mTopLeft = pTlv->mTopLeft;

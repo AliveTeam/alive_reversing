@@ -22,7 +22,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_RollingBallStopper, 0x20);
 class RollingBallStopper final : public BaseAliveGameObject
 {
 public:
-    RollingBallStopper(Path_RollingBallStopper* pTlv, s32 tlvInfo);
+    RollingBallStopper(relive::Path_RollingBallStopper* pTlv, s32 tlvInfo);
     ~RollingBallStopper();
 
     virtual void VUpdate() override;

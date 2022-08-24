@@ -67,27 +67,27 @@ const AnimId sDoorAnimdIdTable[16][6] = {
     {AnimId::Door_Forest_Closed, AnimId::Door_Forest_Open, AnimId::HubDoor_Forest_Closed, AnimId::HubDoor_Forest_Open, AnimId::FinalTestDoor_Forest_Closed, AnimId::FinalTestDoor_Forest_Open}, // forest chase
     {AnimId::Door_Desert_Closed, AnimId::Door_Desert_Open, AnimId::HubDoor_Desert_Closed, AnimId::HubDoor_Desert_Open, AnimId::FinalTestDoor_Desert_Closed, AnimId::FinalTestDoor_Desert_Open}}; // desert escape
 
-Door::Door(Path_Door* pTlv, s32 tlvInfo)
+Door::Door(relive::Path_Door* pTlv, s32 tlvInfo)
 {
     mBaseGameObjectTypeId = ReliveTypes::eDoor;
 
-    field_E4_tlvInfo = tlvInfo;
+    mTlvInfo = tlvInfo;
 
-    field_E8_door_type = pTlv->mDoorType;
-    field_EE_door_closed = pTlv->field_28_door_closed;
-    field_F0_switch_id = pTlv->mSwitchId;
+    mDoorType = pTlv->mDoorType;
+    mDoorClosed = pTlv->mDoorClosed;
+    mSwitchId = pTlv->mSwitchId;
 
-    if (field_F0_switch_id == 1)
+    if (mSwitchId == 1)
     {
-        field_F0_switch_id = 0;
+        mSwitchId = 0;
     }
 
-    field_EA_door_number = pTlv->mDoorId;
+    mDoorId = pTlv->mDoorId;
 
-    field_EC_current_state = (field_EE_door_closed == Choice_short::eNo_0) == SwitchStates_Get(field_F0_switch_id) ? DoorStates::eClosed_1 : DoorStates::eOpen_0;
+    field_EC_current_state = (mDoorClosed == relive::reliveChoice::eNo) == SwitchStates_Get(mSwitchId) ? DoorStates::eClosed_1 : DoorStates::eOpen_0;
 
     if ((sActiveHero->mCurrentMotion == eAbeMotions::Motion_156_DoorEnter_42D370 || sActiveHero->mCurrentMotion == eAbeMotions::Motion_157_DoorExit_42D780) &&
-        field_EC_current_state == DoorStates::eClosed_1 && field_EA_door_number == sActiveHero->field_196_door_id)
+        field_EC_current_state == DoorStates::eClosed_1 && mDoorId == sActiveHero->field_196_door_id)
     {
         field_EC_current_state = DoorStates::eOpen_0;
     }
@@ -98,9 +98,9 @@ Door::Door(Path_Door* pTlv, s32 tlvInfo)
     PathLine* pLine = nullptr;
     u8** ppRes = nullptr;
     PSX_Point mapCoords = {};
-    switch (field_E8_door_type)
+    switch (mDoorType)
     {
-        case DoorTypes::eBasicDoor_0:
+        case relive::Path_Door::DoorTypes::eBasicDoor:
         {
             const AnimRecord& openDoor = AO::AnimRec(sDoorAnimdIdTable[idx][1]);
             ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, openDoor.mResourceId, 1, 0);
@@ -122,7 +122,7 @@ Door::Door(Path_Door* pTlv, s32 tlvInfo)
                     Animation_Init(sDoorAnimdIdTable[idx][0], ppRes);
                 }
 
-                if (pTlv->mScale == Scale_short::eHalf_1)
+                if (pTlv->mScale == relive::reliveScale::eHalf)
                 {
                     mSpriteScale = FP_FromDouble(0.5);
                     mScale = Scale::Bg;
@@ -136,10 +136,10 @@ Door::Door(Path_Door* pTlv, s32 tlvInfo)
                 }
 
                 if (sCollisions->Raycast(
-                    FP_FromInteger(pTlv->mTopLeft.x + (pTlv->mBottomRight.x - pTlv->mTopLeft.x) / 2),
-                    FP_FromInteger(pTlv->mTopLeft.y),
-                    FP_FromInteger(pTlv->mTopLeft.x + (pTlv->mBottomRight.x - pTlv->mTopLeft.x) / 2),
-                    FP_FromInteger(pTlv->mBottomRight.y),
+                    FP_FromInteger(pTlv->mTopLeftX + (pTlv->mWidth) / 2),
+                    FP_FromInteger(pTlv->mTopLeftY),
+                    FP_FromInteger(pTlv->mTopLeftX + (pTlv->mWidth) / 2),
+                    FP_FromInteger(pTlv->mBottomRightY),
                     &pLine,
                     &mXPos,
                     &mYPos,
@@ -152,8 +152,8 @@ Door::Door(Path_Door* pTlv, s32 tlvInfo)
                 }
                 else
                 {
-                    mXPos = FP_FromInteger(pTlv->mTopLeft.x + 12);
-                    mYPos = FP_FromInteger(pTlv->mTopLeft.y + 24);
+                    mXPos = FP_FromInteger(pTlv->mTopLeftX + 12);
+                    mYPos = FP_FromInteger(pTlv->mTopLeftY + 24);
                 }
                 break;
             }
@@ -163,7 +163,7 @@ Door::Door(Path_Door* pTlv, s32 tlvInfo)
             return;
         }
 
-        case DoorTypes::eTrialDoor_1:
+        case relive::Path_Door::DoorTypes::eTrialDoor:
         {
             if (gMap.mCurrentLevel == EReliveLevelIds::eRuptureFarmsReturn)
             {
@@ -194,10 +194,10 @@ Door::Door(Path_Door* pTlv, s32 tlvInfo)
             }
 
             if (sCollisions->Raycast(
-                FP_FromInteger(pTlv->mTopLeft.x) + FP_FromInteger((pTlv->mBottomRight.x - pTlv->mTopLeft.x) / 2),
-                FP_FromInteger(pTlv->mTopLeft.y),
-                FP_FromInteger(pTlv->mTopLeft.x) + FP_FromInteger((pTlv->mBottomRight.x - pTlv->mTopLeft.x) / 2),
-                FP_FromInteger(pTlv->mBottomRight.y),
+                FP_FromInteger(pTlv->mTopLeftX) + FP_FromInteger((pTlv->mWidth) / 2),
+                FP_FromInteger(pTlv->mTopLeftY),
+                FP_FromInteger(pTlv->mTopLeftX) + FP_FromInteger((pTlv->mWidth) / 2),
+                FP_FromInteger(pTlv->mBottomRightY),
                 &pLine,
                 &mXPos,
                 &mYPos,
@@ -209,14 +209,14 @@ Door::Door(Path_Door* pTlv, s32 tlvInfo)
             }
             else
             {
-                mXPos = FP_FromInteger(pTlv->mTopLeft.x);
-                mYPos = FP_FromInteger(pTlv->mTopLeft.y);
+                mXPos = FP_FromInteger(pTlv->mTopLeftX);
+                mYPos = FP_FromInteger(pTlv->mTopLeftY);
             }
             mSpriteScale = FP_FromInteger(1);
             break;
         }
 
-        case DoorTypes::eHubDoor_2:
+        case relive::Path_Door::DoorTypes::eHubDoor:
             if (gMap.mCurrentLevel == EReliveLevelIds::eRuptureFarmsReturn || gMap.mCurrentLevel == EReliveLevelIds::eRuptureFarms)
             {
                 ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kF2p3dorAOResID, 1, 0);
@@ -245,10 +245,10 @@ Door::Door(Path_Door* pTlv, s32 tlvInfo)
                     if (gMap.mCurrentLevel == EReliveLevelIds::eRuptureFarmsReturn || gMap.mCurrentLevel == EReliveLevelIds::eRuptureFarms)
                     {
                         if (sCollisions->Raycast(
-                                FP_FromInteger(pTlv->mTopLeft.x + (pTlv->mBottomRight.x - pTlv->mTopLeft.x) / 2),
-                                FP_FromInteger(pTlv->mTopLeft.y),
-                                FP_FromInteger(pTlv->mTopLeft.x + (pTlv->mBottomRight.x - pTlv->mTopLeft.x) / 2),
-                                FP_FromInteger(pTlv->mBottomRight.y),
+                                FP_FromInteger(pTlv->mTopLeftX + (pTlv->mWidth) / 2),
+                                FP_FromInteger(pTlv->mTopLeftY),
+                                FP_FromInteger(pTlv->mTopLeftX + (pTlv->mWidth) / 2),
+                                FP_FromInteger(pTlv->mBottomRightY),
                                 &pLine,
                                 &mXPos,
                                 &mYPos,
@@ -260,14 +260,14 @@ Door::Door(Path_Door* pTlv, s32 tlvInfo)
                         }
                         else
                         {
-                            mXPos = FP_FromInteger(pTlv->mTopLeft.x + 12);
-                            mYPos = FP_FromInteger(pTlv->mTopLeft.y + 24);
+                            mXPos = FP_FromInteger(pTlv->mTopLeftX + 12);
+                            mYPos = FP_FromInteger(pTlv->mTopLeftY + 24);
                         }
                     }
                     else
                     {
-                        mXPos = FP_FromInteger(pTlv->mTopLeft.x + 9);
-                        mYPos = FP_FromInteger(pTlv->mTopLeft.y + 20);
+                        mXPos = FP_FromInteger(pTlv->mTopLeftX + 9);
+                        mYPos = FP_FromInteger(pTlv->mTopLeftY + 20);
                     }
 
                     mSpriteScale = FP_FromInteger(1);
@@ -300,7 +300,7 @@ Door::Door(Path_Door* pTlv, s32 tlvInfo)
 
 Door::~Door()
 {
-    Path::TLV_Reset(field_E4_tlvInfo, -1, 0, 0);
+    Path::TLV_Reset(mTlvInfo, -1, 0, 0);
 }
 
 void Door::VScreenChanged()
@@ -348,7 +348,7 @@ void Door::PlaySound()
         volume = mSpriteScale != FP_FromDouble(0.5) ? 90 : 127;
         SND_SEQ_Play_477760(SeqId::eHitBottomOfDeathPit_10, 1, 75, 75);
     }
-    else if (field_E8_door_type == DoorTypes::eBasicDoor_0 && mSpriteScale == FP_FromInteger(1))
+    else if (mDoorType == relive::Path_Door::DoorTypes::eBasicDoor && mSpriteScale == FP_FromInteger(1))
     {
         volume = 90;
     }
@@ -369,7 +369,7 @@ void Door::VUpdate()
 
     if (sActiveHero->mCurrentMotion == eAbeMotions::Motion_156_DoorEnter_42D370 || sActiveHero->mCurrentMotion == eAbeMotions::Motion_157_DoorExit_42D780)
     {
-        if (field_EC_current_state == DoorStates::eClosed_1 && field_EA_door_number == sActiveHero->field_196_door_id)
+        if (field_EC_current_state == DoorStates::eClosed_1 && mDoorId == sActiveHero->field_196_door_id)
         {
             mAnim.mFlags.Clear(AnimFlags::eBit3_Render);
             field_EC_current_state = DoorStates::eOpen_0;
@@ -377,9 +377,9 @@ void Door::VUpdate()
     }
     else
     {
-        field_EA_door_number = -1;
+        mDoorId = -1;
 
-        if (field_E8_door_type == DoorTypes::eHubDoor_2)
+        if (mDoorType == relive::Path_Door::DoorTypes::eHubDoor)
         {
             if (SwitchStates_Get(field_F2_hubs_ids[0]) &&
                 SwitchStates_Get(field_F2_hubs_ids[1]) &&
@@ -391,16 +391,16 @@ void Door::VUpdate()
                 SwitchStates_Get(field_F2_hubs_ids[7]))
 
             {
-                if (!SwitchStates_Get(field_F0_switch_id))
+                if (!SwitchStates_Get(mSwitchId))
                 {
                     SND_SEQ_Play_477760(SeqId::eSecretMusic_46, 1, 127, 127);
                     relive_new MusicTrigger(MusicTriggerMusicType::eChime_5, TriggeredBy::eTimer_0, 0, 300);
                 }
-                SwitchStates_Do_Operation(field_F0_switch_id, SwitchOp::eSetTrue_0);
+                SwitchStates_Do_Operation(mSwitchId, SwitchOp::eSetTrue_0);
             }
             else
             {
-                SwitchStates_Do_Operation(field_F0_switch_id, SwitchOp::eSetFalse_1);
+                SwitchStates_Do_Operation(mSwitchId, SwitchOp::eSetFalse_1);
             }
         }
 
@@ -411,25 +411,25 @@ void Door::VUpdate()
             case DoorStates::eOpen_0:
                 mAnim.mFlags.Clear(AnimFlags::eBit3_Render);
 
-                if ((field_EE_door_closed == Choice_short::eNo_0 && SwitchStates_Get(field_F0_switch_id)) || (field_EE_door_closed == Choice_short::eYes_1 && !SwitchStates_Get(field_F0_switch_id)))
+                if ((mDoorClosed == relive::reliveChoice::eNo && SwitchStates_Get(mSwitchId)) || (mDoorClosed == relive::reliveChoice::eYes && !SwitchStates_Get(mSwitchId)))
                 {
                     field_EC_current_state = DoorStates::eClosing_3;
 
-                    switch (field_E8_door_type)
+                    switch (mDoorType)
                     {
-                        case DoorTypes::eBasicDoor_0:
+                        case relive::Path_Door::DoorTypes::eBasicDoor:
                         {
                             mAnim.Set_Animation_Data(sDoorAnimdIdTable[lvl][1], nullptr);
                             break;
                         }
 
-                        case DoorTypes::eTrialDoor_1:
+                        case relive::Path_Door::DoorTypes::eTrialDoor:
                         {
                             mAnim.Set_Animation_Data(sDoorAnimdIdTable[lvl][3], nullptr);
                             break;
                         }
 
-                        case DoorTypes::eHubDoor_2:
+                        case relive::Path_Door::DoorTypes::eHubDoor:
                         {
                         default:
                             mAnim.Set_Animation_Data(sDoorAnimdIdTable[lvl][5], nullptr);
@@ -446,25 +446,25 @@ void Door::VUpdate()
                 mAnim.mFlags.Set(AnimFlags::eBit3_Render);
                 mAnim.mFlags.Set(AnimFlags::eBit2_Animate);
 
-                if ((field_EE_door_closed == Choice_short::eYes_1 && SwitchStates_Get(field_F0_switch_id)) || (field_EE_door_closed == Choice_short::eNo_0 && !SwitchStates_Get(field_F0_switch_id)))
+                if ((mDoorClosed == relive::reliveChoice::eYes && SwitchStates_Get(mSwitchId)) || (mDoorClosed == relive::reliveChoice::eNo && !SwitchStates_Get(mSwitchId)))
                 {
                     field_EC_current_state = DoorStates::eOpening_2;
 
-                    switch (field_E8_door_type)
+                    switch (mDoorType)
                     {
-                        case DoorTypes::eBasicDoor_0:
+                        case relive::Path_Door::DoorTypes::eBasicDoor:
                         {
                             mAnim.Set_Animation_Data(sDoorAnimdIdTable[lvl][1], nullptr);
                             break;
                         }
 
-                        case DoorTypes::eTrialDoor_1:
+                        case relive::Path_Door::DoorTypes::eTrialDoor:
                         {
                             mAnim.Set_Animation_Data(sDoorAnimdIdTable[lvl][3], nullptr);
                             break;
                         }
 
-                        case DoorTypes::eHubDoor_2:
+                        case relive::Path_Door::DoorTypes::eHubDoor:
                         {
                         default:
                             mAnim.Set_Animation_Data(sDoorAnimdIdTable[lvl][5], nullptr);

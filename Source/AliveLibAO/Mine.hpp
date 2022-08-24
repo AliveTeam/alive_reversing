@@ -21,7 +21,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Mine, 0x24);
 class Mine final : public BaseAliveGameObject
 {
 public:
-    Mine(Path_Mine* pTlv, s32 tlvInfo);
+    Mine(relive::Path_Mine* pTlv, s32 tlvInfo);
     ~Mine();
 
     virtual void VScreenChanged() override;

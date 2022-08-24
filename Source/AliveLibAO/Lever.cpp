@@ -46,7 +46,7 @@ void Lever::VUpdate()
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 
-    if (field_E8_state == LeverState::ePulled_1)
+    if (mState == LeverState::ePulled_1)
     {
         if (mAnim.mCurrentFrame == 3)
         {
@@ -64,7 +64,7 @@ void Lever::VUpdate()
             {
                 SfxPlayMono(SoundEffect::IndustrialTrigger_97, 60, 0);
             }
-            field_E8_state = LeverState::eFinished_2;
+            mState = LeverState::eFinished_2;
 
             AnimId animId = AnimId::None;
             if (field_F0_bPulledFromLeft == 0)
@@ -78,21 +78,21 @@ void Lever::VUpdate()
 
             mAnim.Set_Animation_Data(animId, nullptr);
 
-            const auto oldSwitchState = SwitchStates_Get(field_E4_switch_id);
-            SwitchStates_Do_Operation(field_E4_switch_id, field_F2_action);
-            const auto newSwitchState = SwitchStates_Get(field_E4_switch_id);
+            const auto oldSwitchState = SwitchStates_Get(mSwitchId);
+            SwitchStates_Do_Operation(mSwitchId, mAction);
+            const auto newSwitchState = SwitchStates_Get(mSwitchId);
 
             if (oldSwitchState != newSwitchState)
             {
                 s32 leftVol = 0;
                 s32 rightVol = 0;
 
-                if (field_F8_sound_direction == LeverSoundDirection::eLeft_1)
+                if (mSoundDirection == relive::Path_Lever::LeverSoundDirection::eLeft)
                 {
                     leftVol = 1;
                     rightVol = 0;
                 }
-                else if (field_F8_sound_direction == LeverSoundDirection::eRight_2)
+                else if (mSoundDirection == relive::Path_Lever::LeverSoundDirection::eRight)
                 {
                     leftVol = 0;
                     rightVol = 1;
@@ -103,23 +103,23 @@ void Lever::VUpdate()
                     rightVol = 1;
                 }
 
-                if (SwitchStates_Get(field_E4_switch_id))
+                if (SwitchStates_Get(mSwitchId))
                 {
-                    switch (field_F4_on_sound)
+                    switch (mOnSound)
                     {
-                        case LeverSoundType::eWell_1:
+                        case relive::Path_Lever::LeverSoundType::eWell:
                             SFX_Play_Stereo(SoundEffect::WellExit_24, 50 * leftVol + 10, 50 * rightVol + 10, 0);
                             break;
-                        case LeverSoundType::eSwitchBellHammer_2:
+                        case relive::Path_Lever::LeverSoundType::eSwitchBellHammer:
                             SFX_Play_Stereo(SoundEffect::SwitchBellHammer_12, 100 * leftVol + 25, 100 * rightVol + 25, 0);
                             return;
-                        case LeverSoundType::eDoor_3:
+                        case relive::Path_Lever::LeverSoundType::eDoor:
                             SFX_Play_Stereo(SoundEffect::DoorEffect_66, 75 * leftVol + 15, 75 * rightVol + 15, 0);
                             break;
-                        case LeverSoundType::eElectricWall_4:
+                        case relive::Path_Lever::LeverSoundType::eElectricWall:
                             SFX_Play_Stereo(SoundEffect::Zap1_57, 35 * leftVol + 25, 35 * rightVol + 25, 0);
                             break;
-                        case LeverSoundType::eSecurityOrb_5:
+                        case relive::Path_Lever::LeverSoundType::eSecurityOrb:
                             SFX_Play_Stereo(SoundEffect::SecurityOrb_56, 35 * leftVol + 25, 35 * rightVol + 25, 0);
                             break;
                         default:
@@ -128,21 +128,21 @@ void Lever::VUpdate()
                 }
                 else
                 {
-                    switch (field_F6_off_sound)
+                    switch (mOffSound)
                     {
-                        case LeverSoundType::eWell_1:
+                        case relive::Path_Lever::LeverSoundType::eWell:
                             SFX_Play_Stereo(SoundEffect::WellExit_24, 50 * leftVol + 10, 50 * rightVol + 10, 0);
                             break;
-                        case LeverSoundType::eSwitchBellHammer_2:
+                        case relive::Path_Lever::LeverSoundType::eSwitchBellHammer:
                             SFX_Play_Stereo(SoundEffect::SwitchBellHammer_12, 110 * leftVol + 25, 110 * rightVol + 25, 0);
                             break;
-                        case LeverSoundType::eDoor_3:
+                        case relive::Path_Lever::LeverSoundType::eDoor:
                             SFX_Play_Stereo(SoundEffect::DoorEffect_66, 75 * leftVol + 15, 75 * rightVol + 15, 0);
                             break;
-                        case LeverSoundType::eElectricWall_4:
+                        case relive::Path_Lever::LeverSoundType::eElectricWall:
                             SFX_Play_Stereo(SoundEffect::Zap1_57, 80 * leftVol + 25, 80 * rightVol + 25, 0);
                             break;
-                        case LeverSoundType::eSecurityOrb_5:
+                        case relive::Path_Lever::LeverSoundType::eSecurityOrb:
                             SFX_Play_Stereo(SoundEffect::SecurityOrb_56, 35 * leftVol + 75, 35 * rightVol + 75, 0);
                             break;
                         default:
@@ -152,11 +152,11 @@ void Lever::VUpdate()
             }
         }
     }
-    else if (field_E8_state == LeverState::eFinished_2)
+    else if (mState == LeverState::eFinished_2)
     {
         if (mAnim.mFlags.Get(AnimFlags::eBit12_ForwardLoopCompleted))
         {
-            field_E8_state = LeverState::eWaiting_0;
+            mState = LeverState::eWaiting_0;
             mAnim.Set_Animation_Data(
                 gLeverData_4BCF40[static_cast<s32>(MapWrapper::ToAO(gMap.mCurrentLevel))].field_0_idle_animId,
                 nullptr);
@@ -171,10 +171,10 @@ void Lever::VScreenChanged()
 
 Lever::~Lever()
 {
-    Path::TLV_Reset(field_EC_tlvInfo, -1, 0, 0);
+    Path::TLV_Reset(mTlvInfo, -1, 0, 0);
 }
 
-Lever::Lever(Path_Lever* pTlv, s32 tlvInfo)
+Lever::Lever(relive::Path_Lever* pTlv, s32 tlvInfo)
 {
     mBaseGameObjectTypeId = ReliveTypes::eLever;
     const s32 lvl_idx = static_cast<s32>(MapWrapper::ToAO(gMap.mCurrentLevel));
@@ -184,15 +184,15 @@ Lever::Lever(Path_Lever* pTlv, s32 tlvInfo)
 
     mAnim.mFlags.Set(AnimFlags::eBit15_bSemiTrans);
 
-    mXPos = FP_FromInteger((pTlv->mBottomRight.x
-                                    + pTlv->mTopLeft.x)
+    mXPos = FP_FromInteger((pTlv->mBottomRightX
+                                    + pTlv->mTopLeftX)
                                    / 2);
 
-    field_E4_switch_id = pTlv->mSwitchId;
-    mYPos = FP_FromInteger(pTlv->mTopLeft.y);
-    field_F2_action = pTlv->mAction;
+    mSwitchId = pTlv->mSwitchId;
+    mYPos = FP_FromInteger(pTlv->mTopLeftY);
+    mAction = pTlv->mAction;
 
-    if (pTlv->mScale == Scale_short::eHalf_1)
+    if (pTlv->mScale == relive::reliveScale::eHalf)
     {
         mSpriteScale = FP_FromDouble(0.5);
         mAnim.mRenderLayer = Layer::eLayer_BeforeShadow_Half_6;
@@ -205,20 +205,20 @@ Lever::Lever(Path_Lever* pTlv, s32 tlvInfo)
         mScale = Scale::Fg;
     }
 
-    field_F4_on_sound = pTlv->mOnSound;
-    field_F6_off_sound = pTlv->mOffSound;
-    field_EC_tlvInfo = tlvInfo;
-    field_F8_sound_direction = pTlv->mSoundDirection;
+    mOnSound = pTlv->mOnSound;
+    mOffSound = pTlv->mOffSound;
+    mTlvInfo = tlvInfo;
+    mSoundDirection = pTlv->mSoundDirection;
 
-    field_E8_state = LeverState::eWaiting_0;
+    mState = LeverState::eWaiting_0;
 }
 
 s32 Lever::VPull(s16 bLeftDirection)
 {
-    if (field_E8_state == LeverState::eWaiting_0)
+    if (mState == LeverState::eWaiting_0)
     {
         const s32 lvl_idx = static_cast<s32>(MapWrapper::ToAO(gMap.mCurrentLevel));
-        field_E8_state = LeverState::ePulled_1;
+        mState = LeverState::ePulled_1;
         if (bLeftDirection)
         {
             mAnim.Set_Animation_Data(
@@ -234,7 +234,7 @@ s32 Lever::VPull(s16 bLeftDirection)
             field_F0_bPulledFromLeft = 0;
         }
     }
-    return SwitchStates_Get(field_E4_switch_id);
+    return SwitchStates_Get(mSwitchId);
 }
 
 } // namespace AO

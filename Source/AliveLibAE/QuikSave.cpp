@@ -306,7 +306,7 @@ void QuikSave_RestoreBlyData(const u8* pSaveData)
                                 pTlv->mTlvFlags.Raw().all = *pSrcFlags;
                                 pSrcFlags++;
 
-                                pTlv->mTlvState = *pSrcFlags;
+                                pTlv->mTlvSpecificMeaning = *pSrcFlags;
                                 pSrcFlags++;
                             }
                             pTlv = Path::Next_TLV(pTlv);
@@ -367,7 +367,7 @@ static void WriteFlags(u8*& pSaveBuffer, const Path_TLV* pTlv, const BitField8<T
     *pSaveBuffer = flags.Raw().all;
     pSaveBuffer++;
 
-    *pSaveBuffer = pTlv->mTlvState;
+    *pSaveBuffer = pTlv->mTlvSpecificMeaning;
     pSaveBuffer++;
 }
 
@@ -462,7 +462,7 @@ void Quicksave_SaveSwitchResetterStates()
                                 if (sQuickSave_saved_switchResetters_count_BB234C < 8)
                                 {
                                     sSwitchReset_Saved_States_BB233C[sQuickSave_saved_switchResetters_count_BB234C].flags = pTlv->mTlvFlags;
-                                    sSwitchReset_Saved_States_BB233C[sQuickSave_saved_switchResetters_count_BB234C].data = pTlv->mTlvState;
+                                    sSwitchReset_Saved_States_BB233C[sQuickSave_saved_switchResetters_count_BB234C].data = pTlv->mTlvSpecificMeaning;
 
                                     sQuickSave_saved_switchResetters_count_BB234C++;
                                 }
@@ -511,7 +511,7 @@ void Quicksave_RestoreSwitchResetterStates()
                                 if (idx < 8)
                                 {
                                     pTlv->mTlvFlags = sSwitchReset_Saved_States_BB233C[idx].flags;
-                                    pTlv->mTlvState = sSwitchReset_Saved_States_BB233C[idx].data;
+                                    pTlv->mTlvSpecificMeaning = sSwitchReset_Saved_States_BB233C[idx].data;
 
                                     idx++;
                                 }

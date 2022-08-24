@@ -15,7 +15,7 @@ struct Path_LCDStatusBoard final : public Path_TLV
 class LCDStatusBoard final : public BaseGameObject
 {
 public:
-    LCDStatusBoard(Path_LCDStatusBoard* pTlv, s32 tlvInfo);
+    LCDStatusBoard(relive::Path_LCDStatusBoard* pTlv, s32 tlvInfo);
     ~LCDStatusBoard();
 
     virtual void VScreenChanged() override;

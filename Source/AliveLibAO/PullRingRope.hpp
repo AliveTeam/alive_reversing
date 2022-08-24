@@ -41,7 +41,7 @@ class Rope;
 class PullRingRope final : public BaseAnimatedWithPhysicsGameObject
 {
 public:
-    PullRingRope(Path_PullRingRope* pTlv, s32 tlvInfo);
+    PullRingRope(relive::Path_PullRingRope* pTlv, s32 tlvInfo);
     ~PullRingRope();
 
     virtual void VScreenChanged() override;
@@ -51,7 +51,7 @@ public:
     s16 Pull(BaseAliveGameObject* pFrom);
 
     s32 field_E4_stay_in_state_ticks = 0;
-    s32 field_E8_tlv_info = 0;
+    s32 mTlvInfo = 0;
     enum class States : s16
     {
         eIdle_0 = 0,
@@ -59,14 +59,14 @@ public:
         eTriggerEvent_2 = 2,
         eReturnToIdle_3 = 3
     };
-    States field_EC_state = States::eIdle_0;
-    s16 field_EE_switch_id = 0;
-    SwitchOp field_F0_action = SwitchOp::eSetTrue_0;
+    States mState = States::eIdle_0;
+    s16 mSwitchId = 0;
+    relive::reliveSwitchOp mAction = relive::reliveSwitchOp::eSetTrue;
     BaseAliveGameObject* field_F4_pPuller = nullptr;
     Rope* field_F8_pRope = nullptr;
-    PullRingSwitchSound field_FC_on_sound = PullRingSwitchSound::eNone_0;
-    PullRingSwitchSound field_FE_off_sound = PullRingSwitchSound::eNone_0;
-    PullRingSoundDirection field_100_sound_direction = PullRingSoundDirection::eLeftAndRight_0;
+    relive::Path_PullRingRope::PullRingSwitchSound field_FC_on_sound = relive::Path_PullRingRope::PullRingSwitchSound::eNone;
+    relive::Path_PullRingRope::PullRingSwitchSound field_FE_off_sound = relive::Path_PullRingRope::PullRingSwitchSound::eNone;
+    relive::Path_PullRingRope::PullRingSoundDirection field_100_sound_direction = relive::Path_PullRingRope::PullRingSoundDirection::eLeftAndRight;
 };
 ALIVE_ASSERT_SIZEOF(PullRingRope, 0x104);
 

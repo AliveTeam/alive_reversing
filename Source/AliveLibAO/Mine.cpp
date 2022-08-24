@@ -13,7 +13,7 @@ namespace AO {
 
 ALIVE_VAR(1, 0x507B88, Mine*, sMinePlayingSound_507B88, nullptr);
 
-Mine::Mine(Path_Mine* pTlv, s32 tlvInfo)
+Mine::Mine(relive::Path_Mine* pTlv, s32 tlvInfo)
     : BaseAliveGameObject()
 {
     mBaseGameObjectTypeId = ReliveTypes::eMine;
@@ -27,7 +27,7 @@ Mine::Mine(Path_Mine* pTlv, s32 tlvInfo)
 
     field_10C_detonating = 0;
 
-    if (pTlv->mScale == Scale_short::eHalf_1)
+    if (pTlv->mScale == relive::reliveScale::eHalf)
     {
         mSpriteScale = FP_FromDouble(0.5);
         mAnim.mRenderLayer = Layer::eLayer_RollingBallBombMineCar_Half_16;
@@ -40,8 +40,8 @@ Mine::Mine(Path_Mine* pTlv, s32 tlvInfo)
         mScale = Scale::Fg;
     }
 
-    mXPos = FP_FromInteger(pTlv->mTopLeft.x + 12);
-    mYPos = FP_FromInteger(pTlv->mTopLeft.y + 24);
+    mXPos = FP_FromInteger(pTlv->mTopLeftX + 12);
+    mYPos = FP_FromInteger(pTlv->mTopLeftY + 24);
     field_110_tlv = tlvInfo;
     field_114_gnframe = sGnFrame;
 
@@ -65,7 +65,7 @@ Mine::Mine(Path_Mine* pTlv, s32 tlvInfo)
     field_10E_disabled_resources = pTlv->mDisabledResources;
 
     // TODO
-    field_1B0_flags = 2 * (pTlv->mPersistOffscreen == Choice_short::eYes_1) | (field_1B0_flags & ~2);
+    field_1B0_flags = 2 * (pTlv->mPersistOffscreen == relive::reliveChoice::eYes) | (field_1B0_flags & ~2);
 
     ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kAbebombAOResID, 1, 0);
     ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kDebrisID00AOResID, 1, 0);

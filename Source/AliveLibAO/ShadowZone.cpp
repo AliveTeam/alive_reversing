@@ -9,7 +9,7 @@ namespace AO {
 
 ALIVE_VAR(1, 0x507B08, DynamicArrayT<ShadowZone>*, sShadowZone_dArray_507B08, nullptr);
 
-ShadowZone::ShadowZone(Path_ShadowZone* pTlv, Map* /*pMap*/, s32 tlvInfo)
+ShadowZone::ShadowZone(relive::Path_ShadowZone* pTlv, Map* /*pMap*/, s32 tlvInfo)
     : BaseGameObject(TRUE, 0)
 {
     sShadowZone_dArray_507B08->Push_Back(this);
@@ -19,11 +19,11 @@ ShadowZone::ShadowZone(Path_ShadowZone* pTlv, Map* /*pMap*/, s32 tlvInfo)
 
     field_10_tlvInfo = tlvInfo;
 
-    field_20_mid_x = (pTlv->mBottomRight.x - pTlv->mTopLeft.x) / 2;
-    field_22_mid_y = (pTlv->mBottomRight.y - pTlv->mTopLeft.y) / 2;
+    field_20_mid_x = pTlv->mWidth / 2;
+    field_22_mid_y = pTlv->mHeight / 2;
 
-    field_18_centre_x = field_20_mid_x + pTlv->mTopLeft.x;
-    field_1A_centre_y = field_22_mid_y + pTlv->mTopLeft.y;
+    field_18_centre_x = field_20_mid_x + pTlv->mTopLeftX;
+    field_1A_centre_y = field_22_mid_y + pTlv->mTopLeftY;
 
     field_1C_centre_mid_x = field_20_mid_x - 75;
     if (field_1C_centre_mid_x < 0)
@@ -37,12 +37,11 @@ ShadowZone::ShadowZone(Path_ShadowZone* pTlv, Map* /*pMap*/, s32 tlvInfo)
         field_1E_centre_mid_y = 0;
     }
 
-    field_28_r = FP_FromInteger(pTlv->field_1C_r);
-    field_2C_g = FP_FromInteger(pTlv->field_1E_g);
-    field_30_b = FP_FromInteger(pTlv->field_20_b);
+    field_28_r = FP_FromInteger(pTlv->mRGB.r);
+    field_2C_g = FP_FromInteger(pTlv->mRGB.g);
+    field_30_b = FP_FromInteger(pTlv->mRGB.b);
 
-    field_24_id = pTlv->field_22_id; // Lets never read this again for real
-    field_26_scale = pTlv->field_24_scale;
+    mScale = pTlv->mScale;
 }
 
 void ShadowZone::ShadowZones_Calculate_Colour(s32 xpos, s32 ypos, Scale scale, s16* r, s16* g, s16* b)
@@ -119,15 +118,15 @@ void ShadowZone::VScreenChanged()
 
 s16 ShadowZone::ApplysToScale(Scale scale)
 {
-    if (field_26_scale == ShadowZoneScale::eBoth_0)
+    if (mScale == relive::Path_ShadowZone::Scale::eBoth)
     {
         return 1;
     }
-    else if (field_26_scale == ShadowZoneScale::eFull_2 && scale == Scale::Fg)
+    else if (mScale == relive::Path_ShadowZone::Scale::eFull && scale == Scale::Fg)
     {
         return 1;
     }
-    else if (field_26_scale == ShadowZoneScale::eHalf_1 && scale == Scale::Bg)
+    else if (mScale == relive::Path_ShadowZone::Scale::eHalf && scale == Scale::Bg)
     {
         return 1;
     }

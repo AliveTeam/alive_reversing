@@ -4,6 +4,7 @@
 #include "Map.hpp"
 #include "../relive_lib/BaseGameObject.hpp"
 #include "../relive_lib/BaseAnimatedWithPhysicsGameObject.hpp"
+#include "../relive_lib/data_conversion/relive_tlvs.hpp"
 
 enum class EReliveLevelIds : s16;
 
@@ -24,7 +25,7 @@ struct Path_ShadowZone final : public Path_TLV
     s16 field_1E_g;
     s16 field_20_b;
     s16 field_22_id;
-    ShadowZoneScale field_24_scale;
+    ShadowZoneScale mScale;
     s16 field_26_pad;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_ShadowZone, 0x28);
@@ -34,7 +35,7 @@ class Map;
 class ShadowZone final : public BaseGameObject
 {
 public:
-    ShadowZone(Path_ShadowZone* pTlv, Map* pMap, s32 tlvInfo);
+    ShadowZone(relive::Path_ShadowZone* pTlv, Map* pMap, s32 tlvInfo);
     ~ShadowZone();
 
     virtual void VScreenChanged() override;
@@ -49,14 +50,14 @@ public:
     s32 field_10_tlvInfo = 0;
     EReliveLevelIds field_14_level = EReliveLevelIds::eNone;
     s16 field_16_path = 0;
-    s16 field_18_centre_x = 0;
-    s16 field_1A_centre_y = 0;
+    s32 field_18_centre_x = 0;
+    s32 field_1A_centre_y = 0;
     s16 field_1C_centre_mid_x = 0;
     s16 field_1E_centre_mid_y = 0;
-    s16 field_20_mid_x = 0;
-    s16 field_22_mid_y = 0;
+    s32 field_20_mid_x = 0;
+    s32 field_22_mid_y = 0;
     s16 field_24_id = 0;
-    ShadowZoneScale field_26_scale = ShadowZoneScale::eBoth_0;
+    relive::Path_ShadowZone::Scale mScale = relive::Path_ShadowZone::Scale::eBoth;
     FP field_28_r = {};
     FP field_2C_g = {};
     FP field_30_b = {};

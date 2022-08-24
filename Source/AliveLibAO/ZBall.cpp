@@ -41,7 +41,7 @@ s32 Animation_OnFrame_ZBallSmacker(BaseGameObject* pObj, s16* pData)
     return 2;
 }
 
-ZBall::ZBall(Path_ZBall* pTlv, s32 tlvInfo)
+ZBall::ZBall(relive::Path_ZBall* pTlv, s32 tlvInfo)
 {
     mBaseGameObjectTypeId = ReliveTypes::eZBall;
 
@@ -49,7 +49,7 @@ ZBall::ZBall(Path_ZBall* pTlv, s32 tlvInfo)
 
     switch (pTlv->mSpeed)
     {
-        case Path_ZBall::Speed::eNormal_0:
+        case relive::Path_ZBall::Speed::eNormal:
         {
             const AnimRecord& rec1 = AO::AnimRec(AnimId::Swinging_Ball_Normal);
             u8** ppRes1 = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec1.mResourceId, 1, 0);
@@ -57,7 +57,7 @@ ZBall::ZBall(Path_ZBall* pTlv, s32 tlvInfo)
             break;
         }
 
-        case Path_ZBall::Speed::eFast_1:
+        case relive::Path_ZBall::Speed::eFast:
         {
             const AnimRecord& rec2 = AO::AnimRec(AnimId::Swinging_Ball_Fast);
             u8** ppRes2 = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec2.mResourceId, 1, 0);
@@ -65,7 +65,7 @@ ZBall::ZBall(Path_ZBall* pTlv, s32 tlvInfo)
             break;
         }
 
-        case Path_ZBall::Speed::eSlow_2:
+        case relive::Path_ZBall::Speed::eSlow:
         {
             const AnimRecord& rec3 = AO::AnimRec(AnimId::Swinging_Ball_Slow);
             u8** ppRes3 = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec3.mResourceId, 1, 0);
@@ -75,26 +75,26 @@ ZBall::ZBall(Path_ZBall* pTlv, s32 tlvInfo)
 
     }
 
-    mXPos = FP_FromInteger(pTlv->mTopLeft.x);
-    mYPos = FP_FromInteger(pTlv->mTopLeft.y);
+    mXPos = FP_FromInteger(pTlv->mTopLeftX);
+    mYPos = FP_FromInteger(pTlv->mTopLeftY);
 
     if (gMap.mCurrentLevel == EReliveLevelIds::eForestTemple)
     {
         switch (pTlv->mStartPos)
         {
-            case Path_ZBall::StartPos::eCenter_0:
+            case relive::Path_ZBall::StartPos::eCenter:
                 mAnim.SetFrame(6u);
                 gCenterZBall = this;
                 mSoundPitch = -800;
                 break;
 
-            case Path_ZBall::StartPos::eOut_1:
+            case relive::Path_ZBall::StartPos::eOut:
                 mAnim.SetFrame(0);
                 gOutZBall = this;
                 mSoundPitch = -400;
                 break;
 
-            case Path_ZBall::StartPos::eIn_2:
+            case relive::Path_ZBall::StartPos::eIn:
                 mAnim.SetFrame(13u);
                 mSoundPitch = 0;
                 break;
@@ -103,7 +103,7 @@ ZBall::ZBall(Path_ZBall* pTlv, s32 tlvInfo)
         mAnim.VDecode();
     }
 
-    if (pTlv->mScale != Scale_short::eFull_0)
+    if (pTlv->mScale != relive::reliveScale::eFull)
     {
         mSpriteScale = FP_FromDouble(0.5);
         mScale = Scale::Bg;

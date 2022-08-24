@@ -44,7 +44,7 @@ void SND_Reset_Ambiance()
     }
 }
 
-void Start_Sounds_for_TLV(CameraPos direction, Path_TLV* pTlv)
+void Start_Sounds_for_TLV(CameraPos direction, relive::Path_TLV* pTlv)
 {
     bool bDangerMusic = false;
 
@@ -70,10 +70,11 @@ void Start_Sounds_for_TLV(CameraPos direction, Path_TLV* pTlv)
 
     if (pAmbianceTbl)
     {
-        switch (pTlv->mTlvType32.mType)
+        TlvTypes type = static_cast<TlvTypes>(pTlv->mTlvType);
+        switch (type)
         {
             case TlvTypes::Slig_24:
-                if (static_cast<Path_Slig*>(pTlv)->mStartState == Path_Slig::StartState::Patrol_1)
+                if (static_cast<relive::Path_Slig*>(pTlv)->mStartState == relive::Path_Slig::StartState::Patrol)
                 {
                     if (!pAmbianceTbl[1].field_8_pScopedSeq)
                     {
@@ -81,7 +82,7 @@ void Start_Sounds_for_TLV(CameraPos direction, Path_TLV* pTlv)
                         bDangerMusic = true;
                     }
                 }
-                else if (static_cast<Path_Slig*>(pTlv)->mStartState == Path_Slig::StartState::Sleeping_2)
+                else if (static_cast<relive::Path_Slig*>(pTlv)->mStartState == relive::Path_Slig::StartState::Sleeping)
                 {
                     if (!pAmbianceTbl->field_8_pScopedSeq)
                     {
@@ -92,7 +93,7 @@ void Start_Sounds_for_TLV(CameraPos direction, Path_TLV* pTlv)
                 break;
 
             case TlvTypes::Slog_25:
-                if (static_cast<Path_Slog*>(pTlv)->mAsleep == Choice_short::eYes_1)
+                if (static_cast<relive::Path_Slog*>(pTlv)->mAsleep == relive::reliveChoice::eYes)
                 {
                     if (!pAmbianceTbl[3].field_8_pScopedSeq)
                     {

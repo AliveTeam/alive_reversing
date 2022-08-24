@@ -17,7 +17,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_SecurityOrb, 0x1C);
 class SecurityOrb final : public BaseAliveGameObject
 {
 public:
-    SecurityOrb(Path_SecurityOrb* pTlv, s32 tlvInfo);
+    SecurityOrb(relive::Path_SecurityOrb* pTlv, s32 tlvInfo);
     ~SecurityOrb();
     
     virtual void VScreenChanged() override;

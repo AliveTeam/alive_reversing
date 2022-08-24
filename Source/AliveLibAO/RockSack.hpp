@@ -20,7 +20,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_RockSack, 0x24);
 class RockSack final : public BaseAliveGameObject
 {
 public:
-    RockSack(Path_RockSack* pTlv, s32 tlvInfo);
+    RockSack(relive::Path_RockSack* pTlv, s32 tlvInfo);
     ~RockSack();
 
     virtual void VUpdate() override;

@@ -55,7 +55,7 @@ LCDStatusBoard::~LCDStatusBoard()
     Path::TLV_Reset(field_C8_tlv, -1, 0, 0);
 }
 
-LCDStatusBoard::LCDStatusBoard(Path_LCDStatusBoard* pTlv, s32 tlvInfo)
+LCDStatusBoard::LCDStatusBoard(relive::Path_LCDStatusBoard* pTlv, s32 tlvInfo)
     : BaseGameObject(TRUE, 0)
 {
     field_C8_tlv = tlvInfo;
@@ -67,8 +67,8 @@ LCDStatusBoard::LCDStatusBoard(Path_LCDStatusBoard* pTlv, s32 tlvInfo)
     mBaseGameObjectFlags.Set(Options::eDrawable_Bit4);
     gObjListDrawables->Push_Back(this);
 
-    field_CC_xpos = (pScreenManager->mCamXOff + pTlv->mTopLeft.x) - FP_GetExponent(pScreenManager->mCamPos->x);
-    field_CE_ypos = (pScreenManager->mCamYOff + pTlv->mTopLeft.y) - FP_GetExponent(pScreenManager->mCamPos->y);
+    field_CC_xpos = (pScreenManager->mCamXOff + pTlv->mTopLeftX) - FP_GetExponent(pScreenManager->mCamPos->x);
+    field_CE_ypos = (pScreenManager->mCamYOff + pTlv->mTopLeftY) - FP_GetExponent(pScreenManager->mCamPos->y);
 }
 
 void LCDStatusBoard::VUpdate()

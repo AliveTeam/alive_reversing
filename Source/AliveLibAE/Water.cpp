@@ -57,7 +57,7 @@ Water::Water(Path_Water* pTlv, s32 tlvInfo)
         if (field_F4_ppWaterRes)
         {
             field_F8_pWaterRes = reinterpret_cast<Water_Res*>(*field_F4_ppWaterRes);
-            field_FC_state = static_cast<WaterState>(pTlv->mTlvState);
+            field_FC_state = static_cast<WaterState>(pTlv->mTlvSpecificMeaning);
 
             if (field_FC_state == WaterState::eFlowing_2)
             {

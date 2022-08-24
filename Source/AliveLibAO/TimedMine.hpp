@@ -26,7 +26,7 @@ enum TimedMineFlags
 class TimedMine final : public BaseAliveGameObject
 {
 public:
-    TimedMine(Path_TimedMine* pTlv, s32 tlvInfo);
+    TimedMine(relive::Path_TimedMine* pTlv, s32 tlvInfo);
     ~TimedMine();
     
     virtual void VScreenChanged() override;

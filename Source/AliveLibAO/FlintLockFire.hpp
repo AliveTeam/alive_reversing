@@ -17,7 +17,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_FlintLockFire, 0x1C);
 class FlintLockFire final : public BaseAnimatedWithPhysicsGameObject
 {
 public:
-    FlintLockFire(Path_FlintLockFire* pTlv, s32 tlvInfo);
+    FlintLockFire(relive::Path_FlintLockFire* pTlv, s32 tlvInfo);
     ~FlintLockFire();
 
     virtual void VStopAudio() override;

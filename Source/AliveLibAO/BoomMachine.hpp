@@ -34,7 +34,7 @@ enum class BoomMachineStates : s16
 class BoomMachine final : public BaseAnimatedWithPhysicsGameObject
 {
 public:
-    BoomMachine(Path_BoomMachine* pTlv, s32 tlvInfo);
+    BoomMachine(relive::Path_BoomMachine* pTlv, s32 tlvInfo);
     ~BoomMachine();
 
     virtual void VScreenChanged() override;

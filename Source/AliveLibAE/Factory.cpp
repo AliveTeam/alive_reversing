@@ -315,8 +315,8 @@ void Factory_LiftPoint(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvOffsetLevelIdP
             }
         }
 
-        // TODO: Meaning of the data in field_1_unknown for lift point
-        if (pLiftTlv->mTlvState & 2 || (pLiftTlv->mTlvState == 0 && pLiftTlv->mIsStartPoint == Choice_short::eYes_1))
+        // TODO: Meaning of the data in mTlvSpecificMeaning for lift point
+        if (pLiftTlv->mTlvSpecificMeaning & 2 || (pLiftTlv->mTlvSpecificMeaning == 0 && pLiftTlv->mIsStartPoint == Choice_short::eYes_1))
         {
             relive_new LiftPoint(pLiftTlv, tlvOffsetLevelIdPathId.all);
             return;
@@ -340,7 +340,7 @@ void Factory_LiftPoint(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvOffsetLevelIdP
                         const s32 tlvX = pTlv->mTopLeft.x;
                         const s32 absX = pTlvIter->mTopLeft.x - tlvX >= 0 ? pTlvIter->mTopLeft.x - tlvX : tlvX - pTlvIter->mTopLeft.x;
 
-                        if (absX < 5 && pLiftPointIter->mLiftPointId == pLiftTlv->mLiftPointId && (pLiftPointIter->mTlvState & 2 || pLiftPointIter->mTlvState == 0) && pLiftPointIter->mIsStartPoint == Choice_short::eYes_1)
+                        if (absX < 5 && pLiftPointIter->mLiftPointId == pLiftTlv->mLiftPointId && (pLiftPointIter->mTlvSpecificMeaning & 2 || pLiftPointIter->mTlvSpecificMeaning == 0) && pLiftPointIter->mIsStartPoint == Choice_short::eYes_1)
                         {
                             relive_new LiftPoint(pLiftPointIter, tlvOffsetLevelIdPathId.all);
                             return;
@@ -1789,7 +1789,7 @@ void Factory_DoorBlocker(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMo
 
 void Factory_TorturedMudokon(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode loadMode)
 {
-    if (!pTlv->mTlvState)
+    if (!pTlv->mTlvSpecificMeaning)
     {
         if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
         {

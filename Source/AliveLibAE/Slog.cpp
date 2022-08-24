@@ -1592,7 +1592,7 @@ s16 Slog::Brain_1_Idle()
     BaseGameObject* pTarget = sObjectIds.Find_Impl(field_118_target_id);
 
     // OG dead code - return never used
-    //sObjectIds.Find_449CF0(field_138);
+    //sObjectIds.Find_449CF0(field_138_bottom_right);
 
     if (pTarget && pTarget->mBaseGameObjectFlags.Get(BaseGameObject::eDead))
     {

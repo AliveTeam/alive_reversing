@@ -49,7 +49,7 @@ ALIVE_ASSERT_SIZEOF(Path_BirdPortalExit, 0x1C);
 class BirdPortalTerminator final : public BaseAnimatedWithPhysicsGameObject
 {
 public:
-    BirdPortalTerminator(FP xpos, FP ypos, FP scale, PortalType portalType);
+    BirdPortalTerminator(FP xpos, FP ypos, FP scale, relive::Path_BirdPortal::PortalType portalType);
 
     virtual void VScreenChanged() override;
 
@@ -66,7 +66,7 @@ class Dove;
 class BirdPortal final : public BaseGameObject
 {
 public:
-    BirdPortal(Path_BirdPortal* pTlv, s32 tlvInfo);
+    BirdPortal(relive::Path_BirdPortal* pTlv, s32 tlvInfo);
     ~BirdPortal();
     
     virtual void VUpdate() override;
@@ -90,8 +90,8 @@ private:
     s16 IsScaredAway();
 
 public:
-    PortalType mPortalType = PortalType::eAbe_0;
-    PortalSide mEnterSide = PortalSide::eRight_0;
+    relive::Path_BirdPortal::PortalType mPortalType = relive::Path_BirdPortal::PortalType::eAbe;
+    relive::Path_BirdPortal::PortalSide mEnterSide = relive::Path_BirdPortal::PortalSide::eRight;
     enum class PortalStates : s16
     {
         CreatePortal_0 = 0,

@@ -10,7 +10,7 @@
 
 namespace AO {
 
-RollingBallStopper::RollingBallStopper(Path_RollingBallStopper* pTlv, s32 tlvInfo)
+RollingBallStopper::RollingBallStopper(relive::Path_RollingBallStopper* pTlv, s32 tlvInfo)
     : BaseAliveGameObject()
 {
     mBaseGameObjectTypeId = ReliveTypes::eRollingBallStopper;
@@ -22,7 +22,7 @@ RollingBallStopper::RollingBallStopper(Path_RollingBallStopper* pTlv, s32 tlvInf
 
     mStopperSwitchId = pTlv->mStopperSwitchId;
 
-    if (pTlv->mScale == Scale_short::eHalf_1)
+    if (pTlv->mScale == relive::reliveScale::eHalf)
     {
         mSpriteScale = FP_FromDouble(0.5);
         mScale = Scale::Bg;
@@ -30,13 +30,13 @@ RollingBallStopper::RollingBallStopper(Path_RollingBallStopper* pTlv, s32 tlvInf
 
     mBallSwitchId = pTlv->mBallSwitchId;
 
-    if (pTlv->mStopDirection == XDirection_short::eLeft_0)
+    if (pTlv->mStopDirection == relive::reliveXDirection::eLeft)
     {
         mAnim.mFlags.Set(AnimFlags::eBit5_FlipX);
     }
 
-    mXPos = FP_FromInteger(pTlv->mTopLeft.x);
-    mYPos = FP_FromInteger(pTlv->mTopLeft.y);
+    mXPos = FP_FromInteger(pTlv->mTopLeftX);
+    mYPos = FP_FromInteger(pTlv->mTopLeftY);
 
     mVelX = mAnim.mFlags.Get(AnimFlags::eBit5_FlipX) ? FP_FromInteger(22) : FP_FromInteger(-22);
     mVelY = FP_FromInteger(0);
@@ -44,7 +44,7 @@ RollingBallStopper::RollingBallStopper(Path_RollingBallStopper* pTlv, s32 tlvInf
     mTlvInfo = tlvInfo;
 
     // Check its enabled ?
-    if (pTlv->field_1_unknown)
+    if (pTlv->mTlvSpecificMeaning)
     {
         mYPos += mSpriteScale * FP_FromInteger(70);
         if (mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))

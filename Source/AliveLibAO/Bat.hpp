@@ -22,7 +22,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Bat, 0x20);
 class Bat final : public BaseAnimatedWithPhysicsGameObject
 {
 public:
-    Bat(Path_Bat* pTlv, s32 tlvInfo);
+    Bat(relive::Path_Bat* pTlv, s32 tlvInfo);
     ~Bat();
     
     virtual void VScreenChanged() override;

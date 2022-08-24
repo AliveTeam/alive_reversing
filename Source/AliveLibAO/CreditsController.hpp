@@ -17,7 +17,7 @@ public:
     
     virtual void VUpdate() override;
 
-    CreditsController(Path_CreditsController* pTlv, s32 tlvInfo);
+    CreditsController(relive::Path_CreditsController* pTlv, s32 tlvInfo);
     ~CreditsController();
 
     s32 mNextCameraTimer = 0;

@@ -515,7 +515,7 @@ void Slig::Init()
         }
         case Path_Slig::StartState::Sleeping_2:
         {
-            if (field_174_tlv.field_1_unknown && field_174_tlv.mStayAwake == Choice_short::eYes_1)
+            if (field_174_tlv.mTlvSpecificMeaning && field_174_tlv.mStayAwake == Choice_short::eYes_1)
             {
                 SetBrain(&Slig::Brain_Inactive_46B780);
                 SetBrain2(&Slig::Brain_Inactive_46B780);
@@ -4295,7 +4295,7 @@ void Slig::WakeUp()
         TlvTypes::Slig_24));
     if (pTlv)
     {
-        pTlv->field_1_unknown = 1;
+        pTlv->mTlvSpecificMeaning = 1;
     }
 }
 

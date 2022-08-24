@@ -26,7 +26,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_SlogSpawner, 0x24);
 class SlogSpawner final : public BaseGameObject
 {
 public:
-    SlogSpawner(Path_SlogSpawner* pTlv, s32 tlvInfo);
+    SlogSpawner(relive::Path_SlogSpawner* pTlv, s32 tlvInfo);
 
     virtual void VScreenChanged() override;
     virtual void VUpdate() override;
@@ -36,10 +36,10 @@ public:
     FP mXPos = {};
     FP mYPos = {};
     s32 mSpawnTimer = 0;
-    Scale_short mScale = Scale_short::eFull_0;
+    relive::reliveScale mScale = relive::reliveScale::eFull;
     u16 mMaxSlogs = 0;
     u16 mMaxSlogsAtATime = 0;
-    StartDirection mStartDirection = StartDirection::eRight_0;
+    relive::Path_SlogSpawner::StartDirection mStartDirection = relive::Path_SlogSpawner::StartDirection::eRight;
     u16 mSlogSpawnInterval = 0;
     u16 mSpawnerSwitchId = 0;
 };

@@ -10,7 +10,7 @@
 
 namespace AO {
 
-PullRingRope::PullRingRope(Path_PullRingRope* pTlv, s32 tlvInfo)
+PullRingRope::PullRingRope(relive::Path_PullRingRope* pTlv, s32 tlvInfo)
 {
     mBaseGameObjectTypeId = ReliveTypes::ePullRingRope;
 
@@ -49,16 +49,16 @@ PullRingRope::PullRingRope(Path_PullRingRope* pTlv, s32 tlvInfo)
 
     mAnim.mFlags.Set(AnimFlags::eBit15_bSemiTrans);
 
-    field_EE_switch_id = pTlv->mSwitchId;
-    field_F0_action = pTlv->mAction;
-    field_E8_tlv_info = tlvInfo;
-    field_EC_state = States::eIdle_0;
+    mSwitchId = pTlv->mSwitchId;
+    mAction = pTlv->mAction;
+    mTlvInfo = tlvInfo;
+    mState = States::eIdle_0;
     field_E4_stay_in_state_ticks = 0;
 
-    mYPos += FP_FromInteger(pTlv->mRopeLength + pTlv->mTopLeft.y + 24);
-    mXPos = FP_FromInteger(pTlv->mTopLeft.x + 12);
+    mYPos += FP_FromInteger(pTlv->mRopeLength + pTlv->mTopLeftY + 24);
+    mXPos = FP_FromInteger(pTlv->mTopLeftX + 12);
 
-    if (pTlv->mScale == Scale_short::eHalf_1)
+    if (pTlv->mScale == relive::reliveScale::eHalf)
     {
         mSpriteScale = FP_FromDouble(0.5);
         mAnim.mRenderLayer = Layer::eLayer_8;
@@ -91,7 +91,7 @@ PullRingRope::PullRingRope(Path_PullRingRope* pTlv, s32 tlvInfo)
 
 bool PullRingRope::vIsNotBeingPulled()
 {
-    return field_EC_state != States::eBeingPulled_1;
+    return mState != States::eBeingPulled_1;
 }
 
 void PullRingRope::VScreenChanged()
@@ -104,7 +104,7 @@ void PullRingRope::VScreenChanged()
 
 PullRingRope::~PullRingRope()
 {
-    Path::TLV_Reset(field_E8_tlv_info, -1, 0, 0);
+    Path::TLV_Reset(mTlvInfo, -1, 0, 0);
 
     if (field_F4_pPuller)
     {
@@ -125,7 +125,7 @@ s16 PullRingRope::Pull(BaseAliveGameObject* pFrom)
         return 0;
     }
 
-    if (field_EC_state != States::eIdle_0)
+    if (mState != States::eIdle_0)
     {
         return 0;
     }
@@ -133,11 +133,11 @@ s16 PullRingRope::Pull(BaseAliveGameObject* pFrom)
     field_F4_pPuller = pFrom;
     field_F4_pPuller->mBaseGameObjectRefCount++;
 
-    field_EC_state = States::eBeingPulled_1;
+    mState = States::eBeingPulled_1;
     mVelY = FP_FromInteger(2);
     field_E4_stay_in_state_ticks = 6;
 
-    SwitchStates_Do_Operation(field_EE_switch_id, field_F0_action);
+    SwitchStates_Do_Operation(mSwitchId, mAction);
 
     if (gMap.mCurrentLevel == EReliveLevelIds::eRuptureFarms || gMap.mCurrentLevel == EReliveLevelIds::eBoardRoom || gMap.mCurrentLevel == EReliveLevelIds::eRuptureFarmsReturn)
     {
@@ -167,7 +167,7 @@ void PullRingRope::VUpdate()
         }
     }
 
-    switch (field_EC_state)
+    switch (mState)
     {
         case States::eBeingPulled_1:
             if (mAnim.mCurrentFrame == 2)
@@ -182,16 +182,16 @@ void PullRingRope::VUpdate()
             if (field_E4_stay_in_state_ticks == 0)
             {
                 mVelY = FP_FromInteger(0);
-                field_EC_state = States::eTriggerEvent_2;
+                mState = States::eTriggerEvent_2;
 
                 if (gMap.mCurrentLevel == EReliveLevelIds::eRuptureFarms || gMap.mCurrentLevel == EReliveLevelIds::eBoardRoom || gMap.mCurrentLevel == EReliveLevelIds::eRuptureFarmsReturn)
                 {
                     SfxPlayMono(SoundEffect::IndustrialTrigger_97, 0);
                 }
 
-                const auto oldSwitchValue = SwitchStates_Get(field_EE_switch_id);
+                const auto oldSwitchValue = SwitchStates_Get(mSwitchId);
                 // TODO: OG bug - operation isn't applied to the switch ??
-                const auto switchValAfterOperation = SwitchStates_Get(field_EE_switch_id);
+                const auto switchValAfterOperation = SwitchStates_Get(mSwitchId);
 
                 // Due to seemingly OG bug this can never execute
                 if (oldSwitchValue != switchValAfterOperation)
@@ -214,7 +214,7 @@ void PullRingRope::VUpdate()
                         volRight = 1;
                     }
 
-                    if (SwitchStates_Get(field_EE_switch_id))
+                    if (SwitchStates_Get(mSwitchId))
                     {
                         switch (field_FC_on_sound)
                         {
@@ -250,7 +250,7 @@ void PullRingRope::VUpdate()
 
         case States::eTriggerEvent_2:
             mVelY = FP_FromInteger(4);
-            field_EC_state = States::eReturnToIdle_3;
+            mState = States::eReturnToIdle_3;
             field_F4_pPuller->mBaseGameObjectRefCount--;
             field_F4_pPuller = nullptr;
 
@@ -272,7 +272,7 @@ void PullRingRope::VUpdate()
             if (field_E4_stay_in_state_ticks == 0)
             {
                 mVelY = FP_FromInteger(0);
-                field_EC_state = States::eIdle_0;
+                mState = States::eIdle_0;
 
                 if (gMap.mCurrentLevel == EReliveLevelIds::eRuptureFarms || gMap.mCurrentLevel == EReliveLevelIds::eBoardRoom || gMap.mCurrentLevel == EReliveLevelIds::eRuptureFarmsReturn)
                 {

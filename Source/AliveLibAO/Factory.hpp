@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../AliveLibCommon/Function.hpp"
+#include "../relive_lib/data_conversion/relive_tlvs.hpp"
 
 namespace AO {
 
@@ -35,7 +36,7 @@ enum class LoadMode : s16
     LoadResource_2 = 2
 };
 
-using TPathFunctionFn = void(CC*)(Path_TLV*, Map*, TlvItemInfoUnion, LoadMode);
+using TPathFunctionFn = void(CC*)(relive::Path_TLV*, Map*, TlvItemInfoUnion, LoadMode);
 
 struct PathFunctionTable final
 {

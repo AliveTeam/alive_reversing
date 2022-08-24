@@ -18,7 +18,7 @@
 
 namespace AO {
 
-SecurityOrb::SecurityOrb(Path_SecurityOrb* pTlv, s32 tlvInfo)
+SecurityOrb::SecurityOrb(relive::Path_SecurityOrb* pTlv, s32 tlvInfo)
     : BaseAliveGameObject()
 {
     mBaseGameObjectFlags.Set(Options::eCanExplode_Bit7);
@@ -29,12 +29,12 @@ SecurityOrb::SecurityOrb(Path_SecurityOrb* pTlv, s32 tlvInfo)
     u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
     Animation_Init(AnimId::Security_Orb, ppRes);
 
-    mXPos = FP_FromInteger(pTlv->mTopLeft.x);
-    mYPos = FP_FromInteger(pTlv->mTopLeft.y);
+    mXPos = FP_FromInteger(pTlv->mTopLeftX);
+    mYPos = FP_FromInteger(pTlv->mTopLeftY);
 
     mTlvInfo = tlvInfo;
 
-    if (pTlv->mScale == Scale_short::eHalf_1)
+    if (pTlv->mScale == relive::reliveScale::eHalf)
     {
         mSpriteScale = FP_FromDouble(0.5);
         mScale = Scale::Bg;

@@ -6,6 +6,7 @@
 #include "PlatformBase.hpp"
 #include "Map.hpp"
 #include "../AliveLibAE/Path.hpp"
+#include "../relive_lib/data_conversion/relive_tlvs.hpp"
 
 namespace AO {
 
@@ -50,14 +51,14 @@ public:
         eBit7_bIgnoreLiftMover = 0x40,
         eBit8_KeepOnMiddleFloor = 0x80,
     };
-    LiftPoint(Path_LiftPoint* pTlv, Map* pPath, s32 tlvInfo);
+    LiftPoint(relive::Path_LiftPoint* pTlv, Map* pPath, s32 tlvInfo);
     ~LiftPoint();
 
     void Move(FP xSpeed, FP ySpeed, s32 not_used);
 
-    void StayOnFloor(s16 floor, Path_LiftPoint* pTlv);
+    void StayOnFloor(s16 floor, relive::Path_LiftPoint* pTlv);
 
-    void Sub_Unknown(Path_TLV* pTlv);
+    void Sub_Unknown(relive::Path_TLV* pTlv);
 
     // flags & 0x2 && !flags & 0x20
     bool OnTopFloor() const;
@@ -83,7 +84,7 @@ public:
 
     s16 field_12C_bMoving = 0;
     s16 field_12E = 0;
-    LiftPointStopType field_130_lift_point_stop_type = LiftPointStopType::eTopFloor_0;
+    relive::Path_LiftPoint::LiftPointStopType mLiftPointStopType = relive::Path_LiftPoint::LiftPointStopType::eTopFloor;
     s16 field_132 = 0;
     Rope* field_134_pRope2 = nullptr;
     Rope* field_138_pRope1 = nullptr;

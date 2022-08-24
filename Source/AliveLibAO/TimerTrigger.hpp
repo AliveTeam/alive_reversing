@@ -20,7 +20,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_TimerTrigger, 0x24);
 class TimerTrigger final : public BaseGameObject
 {
 public:
-    TimerTrigger(Path_TimerTrigger* pTlv, s32 tlvInfo);
+    TimerTrigger(relive::Path_TimerTrigger* pTlv, s32 tlvInfo);
     ~TimerTrigger();
 
     virtual void VScreenChanged() override;

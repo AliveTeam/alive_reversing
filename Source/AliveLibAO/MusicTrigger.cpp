@@ -16,7 +16,7 @@ MusicTrigger::MusicTrigger(MusicTriggerMusicType type, TriggeredBy triggeredBy, 
     field_10_tlvInfo = -1;
 }
 
-MusicTrigger::MusicTrigger(Path_MusicTrigger* pTlv, s32 tlvInfo)
+MusicTrigger::MusicTrigger(relive::Path_MusicTrigger* pTlv, s32 tlvInfo)
     : BaseGameObject(TRUE, 0)
 {
     Init(pTlv->mMusicType, pTlv->mTriggeredBy, pTlv->mSwitchId, pTlv->mMusicDelay);

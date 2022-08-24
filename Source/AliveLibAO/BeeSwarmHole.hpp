@@ -30,7 +30,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_BeeSwarmHole, 0x28);
 class BeeSwarmHole final : public BaseGameObject
 {
 public:
-    BeeSwarmHole(Path_BeeSwarmHole* pTlv, s32 tlvInfo);
+    BeeSwarmHole(relive::Path_BeeSwarmHole* pTlv, s32 tlvInfo);
 
     virtual void VUpdate() override;
 
@@ -38,8 +38,7 @@ public:
     PSX_RECT field_14_rect = {};
     s32 mStartIntervalTimer = 0;
     u16 mStartInterval = 0;
-    s16 field_22_fall_switch_id = 0;
-    Path_BeeSwarmHole::MovementType field_24_movement_type = Path_BeeSwarmHole::MovementType::eHover_0;
+    relive::Path_BeeSwarmHole::MovementType mMovementType = relive::Path_BeeSwarmHole::MovementType::eHover;
     s16 field_26_bees_amount = 0;
     u16 field_28_chase_time = 0;
     u16 field_2A_speed = 0;

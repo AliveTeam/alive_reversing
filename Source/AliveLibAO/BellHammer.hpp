@@ -26,7 +26,7 @@ enum class BellHammerStates : u16
 class BellHammer final : public BaseAnimatedWithPhysicsGameObject
 {
 public:
-    BellHammer(Path_BellHammer* pTlv, s32 tlvInfo);
+    BellHammer(relive::Path_BellHammer* pTlv, s32 tlvInfo);
     ~BellHammer();
 
     virtual void VScreenChanged() override;

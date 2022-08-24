@@ -12,7 +12,7 @@
 
 namespace AO {
 
-UXB::UXB(Path_UXB* pTlv, s32 tlvInfo)
+UXB::UXB(relive::Path_UXB* pTlv, s32 tlvInfo)
     : BaseAliveGameObject()
 {
     mBaseGameObjectTypeId = ReliveTypes::eUXB;
@@ -44,7 +44,7 @@ UXB::UXB(Path_UXB* pTlv, s32 tlvInfo)
     // Single out a single digit, and use that digit as the new amount of red blinks before a green one.
     mRedBlinkCount = (mPattern / static_cast<s32>(pow(10, mPatternLength - 1))) % 10;
 
-    if (pTlv->mScale == Scale_short::eHalf_1)
+    if (pTlv->mScale == relive::reliveScale::eHalf)
     {
         mSpriteScale = FP_FromDouble(0.5);
         mAnim.mRenderLayer = Layer::eLayer_RollingBallBombMineCar_Half_16;
@@ -59,9 +59,9 @@ UXB::UXB(Path_UXB* pTlv, s32 tlvInfo)
 
     InitBlinkAnim();
 
-    if (pTlv->field_1_unknown) // Stores the activated/deactivated state for UXB
+    if (pTlv->mTlvSpecificMeaning) // Stores the activated/deactivated state for UXB
     {
-        if (pTlv->mStartState == UXBStartState::eOn)
+        if (pTlv->mStartState == relive::Path_UXB::StartState::eOn)
         {
             u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Palt, AOResourceID::kGrenflshAOResID, 0, 0);
             mFlashAnim.LoadPal(ppRes, 0);
@@ -91,7 +91,7 @@ UXB::UXB(Path_UXB* pTlv, s32 tlvInfo)
     }
     else
     {
-        if (pTlv->mStartState == UXBStartState::eOn)
+        if (pTlv->mStartState == relive::Path_UXB::StartState::eOn)
         {
             mStartingState = UXBState::eDelay;
         }
@@ -110,8 +110,8 @@ UXB::UXB(Path_UXB* pTlv, s32 tlvInfo)
         }
     }
 
-    mXPos = FP_FromInteger(pTlv->mTopLeft.x + 12);
-    mYPos = FP_FromInteger(pTlv->mTopLeft.y + 24);
+    mXPos = FP_FromInteger(pTlv->mTopLeftX + 12);
+    mYPos = FP_FromInteger(pTlv->mTopLeftY + 24);
 
     mTlvInfo = tlvInfo;
     mNextStateTimer = sGnFrame;

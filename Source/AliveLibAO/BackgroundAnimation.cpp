@@ -20,10 +20,10 @@ void BackgroundAnimation::VStopAudio()
     }
 }
 
-BackgroundAnimation::BackgroundAnimation(Path_BackgroundAnimation* pTlv, s32 tlvInfo)
+BackgroundAnimation::BackgroundAnimation(relive::Path_BackgroundAnimation* pTlv, s32 tlvInfo)
 {
     mBaseGameObjectTypeId = ReliveTypes::eBackgroundAnimation;
-    field_F0_tlvInfo = tlvInfo;
+    mTlvInfo = tlvInfo;
 
     const BgAnimRecord& anim = AO::BgAnimRec(pTlv->mAnimId);
     field_E4_res = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, anim.mBgAnimId, 1, 0);
@@ -37,39 +37,39 @@ BackgroundAnimation::BackgroundAnimation(Path_BackgroundAnimation* pTlv, s32 tlv
     auto pHeader = reinterpret_cast<AnimationFileHeader*>(*field_E4_res);
 
     // TODO: Refactor to use min/max
-    auto xMax = pTlv->mTopLeft.x + pHeader->field_0_max_w;
-    if (pTlv->mTopLeft.x <= pTlv->mTopLeft.x + pHeader->field_0_max_w)
+    auto xMax = pTlv->mTopLeftX + pHeader->field_0_max_w;
+    if (pTlv->mTopLeftX <= pTlv->mTopLeftX + pHeader->field_0_max_w)
     {
-        xMax = pTlv->mTopLeft.x;
+        xMax = pTlv->mTopLeftX;
     }
     field_E8_xpos = static_cast<s16>(xMax);
 
-    auto wMax = pTlv->mTopLeft.x + pHeader->field_0_max_w;
-    if (wMax <= pTlv->mTopLeft.x)
+    auto wMax = pTlv->mTopLeftX + pHeader->field_0_max_w;
+    if (wMax <= pTlv->mTopLeftX)
     {
-        wMax = pTlv->mTopLeft.x;
+        wMax = pTlv->mTopLeftX;
     }
     field_EC_w = static_cast<s16>(wMax);
 
-    auto yMax = pTlv->mTopLeft.y + pHeader->field_2_max_h;
-    if (pTlv->mTopLeft.y <= yMax)
+    auto yMax = pTlv->mTopLeftY + pHeader->field_2_max_h;
+    if (pTlv->mTopLeftY <= yMax)
     {
-        yMax = pTlv->mTopLeft.y;
+        yMax = pTlv->mTopLeftY;
     }
     field_EA_ypos = static_cast<s16>(yMax);
 
-    auto hMax = pTlv->mTopLeft.y + pHeader->field_2_max_h;
-    if (pTlv->mTopLeft.y + pHeader->field_2_max_h <= pTlv->mTopLeft.y)
+    auto hMax = pTlv->mTopLeftY + pHeader->field_2_max_h;
+    if (pTlv->mTopLeftY + pHeader->field_2_max_h <= pTlv->mTopLeftY)
     {
-        hMax = pTlv->mTopLeft.y;
+        hMax = pTlv->mTopLeftY;
     }
     field_EE_h = static_cast<s16>(hMax);
 
-    mXPos = FP_FromInteger(pTlv->mTopLeft.x);
-    mYPos = FP_FromInteger(pTlv->mTopLeft.y);
+    mXPos = FP_FromInteger(pTlv->mTopLeftX);
+    mYPos = FP_FromInteger(pTlv->mTopLeftY);
 
-    field_F8_animXPos = FP_FromInteger(pTlv->mTopLeft.x);
-    field_FC_animYPos = FP_FromInteger(pTlv->mTopLeft.y);
+    field_F8_animXPos = FP_FromInteger(pTlv->mTopLeftX);
+    field_FC_animYPos = FP_FromInteger(pTlv->mTopLeftY);
 
     if (pHeader->field_4_frame_table_offset != anim.mFrameTableOffset ||
         pHeader->field_0_max_w != anim.mMaxW ||
@@ -82,7 +82,7 @@ BackgroundAnimation::BackgroundAnimation(Path_BackgroundAnimation* pTlv, s32 tlv
 
     Animation_Init(anim.mFrameTableOffset, anim.mMaxW, anim.mMaxH, field_E4_res);
 
-    mAnim.mFlags.Set(AnimFlags::eBit15_bSemiTrans, pTlv->mIsSemiTrans == Choice_short::eYes_1);
+    mAnim.mFlags.Set(AnimFlags::eBit15_bSemiTrans, pTlv->mIsSemiTrans == relive::reliveChoice::eYes);
     mAnim.mFlags.Set(AnimFlags::eBit16_bBlending);
 
     mAnim.mRenderMode = pTlv->mSemiTransMode;
@@ -90,14 +90,14 @@ BackgroundAnimation::BackgroundAnimation(Path_BackgroundAnimation* pTlv, s32 tlv
     mAnim.mRenderLayer = Layer::eLayer_1;
     mYOffset = 0;
 
-    field_100_sound_effect = pTlv->mSoundEffect;
-    if (field_100_sound_effect == BgAnimSounds::eFire_1) // Apparently there is only 1 possible sound effect
+    mSoundEffect = pTlv->mSoundEffect;
+    if (mSoundEffect == relive::Path_BackgroundAnimation::BgAnimSounds::eFire) // Apparently there is only 1 possible sound effect
     {
-        field_100_sound_effect = BgAnimSounds::eFireIdx_40;
+        mSoundEffect = relive::Path_BackgroundAnimation::BgAnimSounds::eFireIdx;
     }
     else
     {
-        field_100_sound_effect = BgAnimSounds::eNone_m1;
+        mSoundEffect = relive::Path_BackgroundAnimation::BgAnimSounds::eNone_m1;
     }
     field_104_sound_channels_mask = 0;
 }
@@ -110,10 +110,10 @@ void BackgroundAnimation::VUpdate()
     }
     else
     {
-        if (!field_104_sound_channels_mask && field_100_sound_effect >= BgAnimSounds::eNone_0)
+        if (!field_104_sound_channels_mask && mSoundEffect >= relive::Path_BackgroundAnimation::BgAnimSounds::eNone_0)
         {
             // play fire sounds
-            field_104_sound_channels_mask = SfxPlayMono(static_cast<SoundEffect>(field_100_sound_effect), 0, 0);
+            field_104_sound_channels_mask = SfxPlayMono(static_cast<SoundEffect>(mSoundEffect), 0, 0);
         }
         mXPos = field_F8_animXPos + FP_FromInteger(gTweak_X_5076D8);
         mYPos = field_FC_animYPos + FP_FromInteger(gTweak_Y_5076DC);
@@ -127,7 +127,7 @@ void BackgroundAnimation::VScreenChanged()
 
 BackgroundAnimation::~BackgroundAnimation()
 {
-    Path::TLV_Reset(field_F0_tlvInfo, -1, 0, 0);
+    Path::TLV_Reset(mTlvInfo, -1, 0, 0);
     if (field_104_sound_channels_mask)
     {
         SND_Stop_Channels_Mask(field_104_sound_channels_mask);

@@ -59,7 +59,7 @@ BrewMachine::BrewMachine(Path_BrewMachine* pTlv, s32 tlvInfo)
     mAnim.mRenderLayer = Layer::eLayer_Well_23;
     mRemainingBrewCount = pTlv->mBrewCount;
 
-    const u8 savedBrewCount = pTlv->mTlvState;
+    const u8 savedBrewCount = pTlv->mTlvSpecificMeaning;
     if (savedBrewCount == 0)
     {
         mTotalBrewCount = mRemainingBrewCount;
@@ -93,11 +93,11 @@ void BrewMachine::VUpdate()
     Path_BrewMachine* pTlv = static_cast<Path_BrewMachine*>(sPathInfo->TLV_From_Offset_Lvl_Cam(mTlvInfo));
     if (mTotalBrewCount > 0)
     {
-        pTlv->mTlvState = static_cast<u8>(mTotalBrewCount);
+        pTlv->mTlvSpecificMeaning = static_cast<u8>(mTotalBrewCount);
     }
     else
     {
-        pTlv->mTlvState = 50;
+        pTlv->mTlvSpecificMeaning = 50;
     }
 
     if (EventGet(kEventDeathReset))

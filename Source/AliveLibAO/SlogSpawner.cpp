@@ -16,7 +16,7 @@ void SlogSpawner::VScreenChanged()
     mBaseGameObjectFlags.Set(BaseGameObject::eDead);
 }
 
-SlogSpawner::SlogSpawner(Path_SlogSpawner* pTlv, s32 tlvInfo)
+SlogSpawner::SlogSpawner(relive::Path_SlogSpawner* pTlv, s32 tlvInfo)
     : BaseGameObject(TRUE, 0)
 {
     mTlvInfo = tlvInfo;
@@ -29,10 +29,10 @@ SlogSpawner::SlogSpawner(Path_SlogSpawner* pTlv, s32 tlvInfo)
     mSlogSpawnInterval = pTlv->mSlogSpawnInterval;
     mSpawnerSwitchId = pTlv->mSpawnerSwitchId;
 
-    mSpawnedSlogsCount = pTlv->field_1_unknown;
+    mSpawnedSlogsCount = pTlv->mTlvSpecificMeaning;
 
-    mXPos = FP_FromInteger(pTlv->mTopLeft.x);
-    mYPos = FP_FromInteger(pTlv->mTopLeft.y);
+    mXPos = FP_FromInteger(pTlv->mTopLeftX);
+    mYPos = FP_FromInteger(pTlv->mTopLeftY);
 }
 
 void SlogSpawner::VUpdate()
@@ -53,10 +53,10 @@ void SlogSpawner::VUpdate()
             auto pSlog = relive_new Slog(
                     mXPos,
                     mYPos,
-                    mScale != Scale_short::eFull_0 ? FP_FromDouble(0.5) : FP_FromInteger(1));;
+                    mScale != relive::reliveScale::eFull ? FP_FromDouble(0.5) : FP_FromInteger(1));;
             if (pSlog)
             {
-                pSlog->mAnim.mFlags.Set(AnimFlags::eBit5_FlipX, mStartDirection == StartDirection::eLeft_1);
+                pSlog->mAnim.mFlags.Set(AnimFlags::eBit5_FlipX, mStartDirection == relive::Path_SlogSpawner::StartDirection::eLeft);
             }
 
             mSpawnedSlogsCount++;

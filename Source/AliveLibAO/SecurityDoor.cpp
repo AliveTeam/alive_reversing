@@ -26,7 +26,7 @@ SecurityDoor::~SecurityDoor()
     Path::TLV_Reset(field_E4_tlvInfo, field_E8_state + 1, 0, 0);
 }
 
-SecurityDoor::SecurityDoor(Path_SecurityDoor* pTlv, s32 tlvInfo)
+SecurityDoor::SecurityDoor(relive::Path_SecurityDoor* pTlv, s32 tlvInfo)
 {
     field_F4_event_idx = -1;
     field_108_max_idx = 0;
@@ -43,7 +43,7 @@ SecurityDoor::SecurityDoor(Path_SecurityDoor* pTlv, s32 tlvInfo)
     mYOffset = 0;
     mAnim.mRenderLayer = Layer::eLayer_BeforeWell_22;
 
-    if (pTlv->mScale == Scale_short::eHalf_1)
+    if (pTlv->mScale == relive::reliveScale::eHalf)
     {
         mSpriteScale = FP_FromDouble(0.5);
         mScale = Scale::Bg;
@@ -57,14 +57,17 @@ SecurityDoor::SecurityDoor(Path_SecurityDoor* pTlv, s32 tlvInfo)
     field_EA_switch_id = pTlv->mSwitchId;
     field_EC_code_converted = Code_Convert(pTlv->mCode1, pTlv->mCode2);
     field_F0_code_len = Code_Length(field_EC_code_converted);
-    field_10C_top_left = pTlv->mTopLeft;
-    field_110_bottom_right = pTlv->mBottomRight;
+    field_10C_top_left.x = pTlv->mTopLeftX;
+    field_10C_top_left.y = pTlv->mTopLeftY;
+    field_110_bottom_right.x = pTlv->mBottomRightX;
+    field_110_bottom_right.y = pTlv->mBottomRightY;
+
     mXPos = FP_FromInteger(pTlv->mXPos);
     mYPos = FP_FromInteger(pTlv->mYPos);
 
-    if (pTlv->field_1_unknown)
+    if (pTlv->mTlvSpecificMeaning)
     {
-        field_E8_state = pTlv->field_1_unknown - 1;
+        field_E8_state = pTlv->mTlvSpecificMeaning - 1;
     }
     else
     {

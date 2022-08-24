@@ -212,7 +212,7 @@ s16 BaseAliveGameObject::VTakeDamage_401920(BaseGameObject* /*pFrom*/)
     return 0;
 }
 
-void BaseAliveGameObject::VOnTlvCollision(Path_TLV* /*pTlv*/)
+void BaseAliveGameObject::VOnTlvCollision(relive::Path_TLV* /*pTlv*/)
 {
     // Empty
 }
