@@ -145,7 +145,7 @@ namespace relive {
         r.mBottomRightX = base.mBottomRight.x;
         r.mBottomRightY = base.mBottomRight.y;
         r.mTlvSpecificMeaning = base.mTlvSpecificMeaning;
-        r.mTlvType = static_cast<s32>(base.mTlvType32.mType);
+       // r.mTlvType = static_cast<s32>(base.mTlvType32.mType);
         r.mTlvFlags.Raw().all = base.mTlvFlags.Raw().all;
     }
 
@@ -158,7 +158,7 @@ namespace relive {
         r.mBottomRightX = base.mBottomRight.x;
         r.mBottomRightY = base.mBottomRight.y;
         r.mTlvSpecificMeaning = base.mTlvSpecificMeaning;
-        r.mTlvType = static_cast<s32>(base.mTlvType32.mType);
+       // r.mTlvType = static_cast<s32>(base.mTlvType32.mType);
         r.mTlvFlags.Raw().all = base.mTlvFlags.Raw().all;
     }
 

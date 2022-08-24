@@ -439,11 +439,11 @@ s16 Scrab::VTakeDamage(BaseGameObject* pFrom)
     return 1;
 }
 
-void Scrab::VOnTlvCollision(Path_TLV* pTlv)
+void Scrab::VOnTlvCollision(relive::Path_TLV* pTlv)
 {
     while (pTlv)
     {
-        if (pTlv->mTlvType32 == TlvTypes::DeathDrop_5)
+        if (pTlv->mTlvType == ReliveTypes::eDeathDrop)
         {
             Scrab_SFX(ScrabSounds::eYell_8, 127, -1000, 0);
             mBaseGameObjectFlags.Set(Options::eDead);
@@ -2678,7 +2678,7 @@ s16 Scrab::Brain_ChasingEnemy_45CC90()
                 return 10;
             }
 
-            Path_TLV* pTlv = nullptr;
+            relive::Path_TLV* pTlv = nullptr;
             if (mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
             {
                 pTlv = gMap.TLV_Get_At_446260(
@@ -2708,13 +2708,13 @@ s16 Scrab::Brain_ChasingEnemy_45CC90()
                     TlvTypes::EnemyStopper_79);
             }
 
-            auto pStopper = static_cast<Path_EnemyStopper*>(pTlv);
+            auto pStopper = static_cast<relive::Path_EnemyStopper*>(pTlv);
             BaseAliveGameObjectPathTLV = pTlv;
             if (pStopper)
             {
-                const bool bLeft = pStopper->mStopDirection == Path_EnemyStopper::StopDirection::Left_0 && field_120_pTarget->mXPos < mXPos;
-                const bool bRight = pStopper->mStopDirection == Path_EnemyStopper::StopDirection::Right_1 && field_120_pTarget->mXPos > mXPos;
-                const bool bBoth = pStopper->mStopDirection == Path_EnemyStopper::StopDirection::Both_2;
+                const bool bLeft = pStopper->mStopDirection == relive::Path_EnemyStopper::StopDirection::Left && field_120_pTarget->mXPos < mXPos;
+                const bool bRight = pStopper->mStopDirection == relive::Path_EnemyStopper::StopDirection::Right && field_120_pTarget->mXPos > mXPos;
+                const bool bBoth = pStopper->mStopDirection == relive::Path_EnemyStopper::StopDirection::Both;
                 const bool bSwitchOn = SwitchStates_Get(pStopper->mSwitchId) ? true : false;
                 if ((bLeft || bRight || bBoth) && !bSwitchOn)
                 {
@@ -2789,10 +2789,10 @@ s16 Scrab::Brain_ChasingEnemy_45CC90()
                     FP_GetExponent(mYPos),
                     TlvTypes::EnemyStopper_79);
 
-                auto pStopper = static_cast<Path_EnemyStopper*>(BaseAliveGameObjectPathTLV);
+                auto pStopper = static_cast<relive::Path_EnemyStopper*>(BaseAliveGameObjectPathTLV);
                 if (pStopper)
                 {
-                    if (pStopper->mStopDirection == Path_EnemyStopper::StopDirection::Right_1 || pStopper->mStopDirection == Path_EnemyStopper::StopDirection::Both_2)
+                    if (pStopper->mStopDirection == relive::Path_EnemyStopper::StopDirection::Right || pStopper->mStopDirection == relive::Path_EnemyStopper::StopDirection::Both)
                     {
                         if (!SwitchStates_Get(pStopper->mSwitchId))
                         {
@@ -2832,10 +2832,10 @@ s16 Scrab::Brain_ChasingEnemy_45CC90()
                     FP_GetExponent(mYPos),
                     TlvTypes::EnemyStopper_79);
 
-                auto pStopper = static_cast<Path_EnemyStopper*>(BaseAliveGameObjectPathTLV);
+                auto pStopper = static_cast<relive::Path_EnemyStopper*>(BaseAliveGameObjectPathTLV);
                 if (pStopper)
                 {
-                    if (pStopper->mStopDirection == Path_EnemyStopper::StopDirection::Left_0 || pStopper->mStopDirection == Path_EnemyStopper::StopDirection::Both_2)
+                    if (pStopper->mStopDirection == relive::Path_EnemyStopper::StopDirection::Left || pStopper->mStopDirection == relive::Path_EnemyStopper::StopDirection::Both)
                     {
                         if (!SwitchStates_Get(pStopper->mSwitchId))
                         {
@@ -2980,13 +2980,13 @@ s16 Scrab::Brain_ChasingEnemy_45CC90()
                 FP_GetExponent(mYPos),
                 TlvTypes::EnemyStopper_79);
 
-            auto pStopper = static_cast<Path_EnemyStopper*>(BaseAliveGameObjectPathTLV);
+            auto pStopper = static_cast<relive::Path_EnemyStopper*>(BaseAliveGameObjectPathTLV);
 
             if (pStopper)
             {
-                const bool bLeft = pStopper->mStopDirection == Path_EnemyStopper::StopDirection::Left_0 && field_120_pTarget->mXPos < mXPos;
-                const bool bRight = pStopper->mStopDirection == Path_EnemyStopper::StopDirection::Right_1 && field_120_pTarget->mXPos > mXPos;
-                const bool bBoth = pStopper->mStopDirection == Path_EnemyStopper::StopDirection::Both_2;
+                const bool bLeft = pStopper->mStopDirection == relive::Path_EnemyStopper::StopDirection::Left && field_120_pTarget->mXPos < mXPos;
+                const bool bRight = pStopper->mStopDirection == relive::Path_EnemyStopper::StopDirection::Right && field_120_pTarget->mXPos > mXPos;
+                const bool bBoth = pStopper->mStopDirection == relive::Path_EnemyStopper::StopDirection::Both;
                 const bool bSwitchOn = SwitchStates_Get(pStopper->mSwitchId) ? true : false;
                 if ((bLeft || bRight || bBoth) && !bSwitchOn)
                 {
@@ -3278,7 +3278,7 @@ s16 Scrab::Brain_Patrol_460020()
                 }
             }
 
-            auto pStopper = static_cast<Path_EnemyStopper*>(gMap.TLV_Get_At_446260(
+            auto pStopper = static_cast<relive::Path_EnemyStopper*>(gMap.TLV_Get_At_446260(
                 FP_GetExponent(mXPos),
                 FP_GetExponent(mYPos),
                 FP_GetExponent(mXPos),
@@ -3290,17 +3290,17 @@ s16 Scrab::Brain_Patrol_460020()
             {
                 if (!SwitchStates_Get(pStopper->mSwitchId))
                 {
-                    if (pStopper->mStopDirection == Path_EnemyStopper::StopDirection::Right_1 && !mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
+                    if (pStopper->mStopDirection == relive::Path_EnemyStopper::StopDirection::Right && !mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
                     {
                         return 0;
                     }
 
-                    if (pStopper->mStopDirection == Path_EnemyStopper::StopDirection::Left_0 && mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
+                    if (pStopper->mStopDirection == relive::Path_EnemyStopper::StopDirection::Left && mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
                     {
                         return 0;
                     }
 
-                    if (pStopper->mStopDirection == Path_EnemyStopper::StopDirection::Both_2)
+                    if (pStopper->mStopDirection == relive::Path_EnemyStopper::StopDirection::Both)
                     {
                         return 0;
                     }
@@ -3596,7 +3596,7 @@ s16 Scrab::Brain_WalkAround_460D80()
 
             if (mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
             {
-                auto pStopper = static_cast<Path_EnemyStopper*>(gMap.TLV_Get_At_446260(
+                auto pStopper = static_cast<relive::Path_EnemyStopper*>(gMap.TLV_Get_At_446260(
                     FP_GetExponent(mXPos),
                     FP_GetExponent(mYPos),
                     FP_GetExponent(mXPos),
@@ -3607,7 +3607,7 @@ s16 Scrab::Brain_WalkAround_460D80()
 
                 if (pStopper)
                 {
-                    if ((pStopper->mStopDirection == Path_EnemyStopper::StopDirection::Left_0 || pStopper->mStopDirection == Path_EnemyStopper::StopDirection::Both_2) && !SwitchStates_Get(pStopper->mSwitchId))
+                    if ((pStopper->mStopDirection == relive::Path_EnemyStopper::StopDirection::Left || pStopper->mStopDirection == relive::Path_EnemyStopper::StopDirection::Both) && !SwitchStates_Get(pStopper->mSwitchId))
                     {
                         mNextMotion = eScrabMotions::Motion_4_Turn_45EF30;
                         return 4;
@@ -3624,7 +3624,7 @@ s16 Scrab::Brain_WalkAround_460D80()
             }
             else
             {
-                auto pStopper = static_cast<Path_EnemyStopper*>(gMap.TLV_Get_At_446260(
+                auto pStopper = static_cast<relive::Path_EnemyStopper*>(gMap.TLV_Get_At_446260(
                     FP_GetExponent(mXPos),
                     FP_GetExponent(mYPos),
                     FP_GetExponent(mXPos),
@@ -3635,7 +3635,7 @@ s16 Scrab::Brain_WalkAround_460D80()
 
                 if (pStopper)
                 {
-                    if ((pStopper->mStopDirection == Path_EnemyStopper::StopDirection::Right_1 || pStopper->mStopDirection == Path_EnemyStopper::StopDirection::Both_2) && !SwitchStates_Get(pStopper->mSwitchId))
+                    if ((pStopper->mStopDirection == relive::Path_EnemyStopper::StopDirection::Right || pStopper->mStopDirection == relive::Path_EnemyStopper::StopDirection::Both) && !SwitchStates_Get(pStopper->mSwitchId))
                     {
                         mNextMotion = eScrabMotions::Motion_4_Turn_45EF30;
                         return 4;
@@ -3655,7 +3655,7 @@ s16 Scrab::Brain_WalkAround_460D80()
 
         case 2:
         {
-            auto pStopper = static_cast<Path_EnemyStopper*>(gMap.TLV_Get_At_446260(
+            auto pStopper = static_cast<relive::Path_EnemyStopper*>(gMap.TLV_Get_At_446260(
                 FP_GetExponent(mXPos),
                 FP_GetExponent(mYPos),
                 FP_GetExponent(mXPos),
@@ -3666,7 +3666,7 @@ s16 Scrab::Brain_WalkAround_460D80()
 
             if (pStopper)
             {
-                if ((pStopper->mStopDirection == Path_EnemyStopper::StopDirection::Left_0 || pStopper->mStopDirection == Path_EnemyStopper::StopDirection::Both_2) && !SwitchStates_Get(pStopper->mSwitchId))
+                if ((pStopper->mStopDirection == relive::Path_EnemyStopper::StopDirection::Left || pStopper->mStopDirection == relive::Path_EnemyStopper::StopDirection::Both) && !SwitchStates_Get(pStopper->mSwitchId))
                 {
                     mNextMotion = eScrabMotions::Motion_4_Turn_45EF30;
                     return 4;
@@ -3710,7 +3710,7 @@ s16 Scrab::Brain_WalkAround_460D80()
 
         case 3:
         {
-            auto pStopper = static_cast<Path_EnemyStopper*>(gMap.TLV_Get_At_446260(
+            auto pStopper = static_cast<relive::Path_EnemyStopper*>(gMap.TLV_Get_At_446260(
                 FP_GetExponent(mXPos),
                 FP_GetExponent(mYPos),
                 FP_GetExponent(mXPos),
@@ -3721,7 +3721,7 @@ s16 Scrab::Brain_WalkAround_460D80()
 
             if (pStopper)
             {
-                if ((pStopper->mStopDirection == Path_EnemyStopper::StopDirection::Right_1 || pStopper->mStopDirection == Path_EnemyStopper::StopDirection::Both_2) && !SwitchStates_Get(pStopper->mSwitchId))
+                if ((pStopper->mStopDirection == relive::Path_EnemyStopper::StopDirection::Right || pStopper->mStopDirection == relive::Path_EnemyStopper::StopDirection::Both) && !SwitchStates_Get(pStopper->mSwitchId))
                 {
                     mNextMotion = eScrabMotions::Motion_4_Turn_45EF30;
                     return 4;
@@ -3824,11 +3824,11 @@ s16 Scrab::HandleRunning()
         FP_GetExponent(mXPos),
         FP_GetExponent(mYPos),
         TlvTypes::EnemyStopper_79);
-    auto pStopper = static_cast<Path_EnemyStopper*>(BaseAliveGameObjectPathTLV);
+    auto pStopper = static_cast<relive::Path_EnemyStopper*>(BaseAliveGameObjectPathTLV);
 
     if (pStopper)
     {
-        if ((pStopper->mStopDirection == Path_EnemyStopper::StopDirection::Left_0 && field_120_pTarget->mXPos < mXPos) || (pStopper->mStopDirection == Path_EnemyStopper::StopDirection::Right_1 && field_120_pTarget->mXPos > mXPos) || pStopper->mStopDirection == Path_EnemyStopper::StopDirection::Both_2)
+        if ((pStopper->mStopDirection == relive::Path_EnemyStopper::StopDirection::Left && field_120_pTarget->mXPos < mXPos) || (pStopper->mStopDirection == relive::Path_EnemyStopper::StopDirection::Right && field_120_pTarget->mXPos > mXPos) || pStopper->mStopDirection == relive::Path_EnemyStopper::StopDirection::Both)
         {
             if (!SwitchStates_Get(pStopper->mSwitchId))
             {

@@ -9,6 +9,7 @@ extern u32 sGnFrame;
 enum class ReliveTypes : s16
 {
     eNone = 7000,
+    eDeathDrop,
     eAlarm,
     eScreenManager,
     eBackgroundAnimation,

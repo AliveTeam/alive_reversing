@@ -3,6 +3,7 @@
 #include "../BaseAnimatedWithPhysicsGameObject.hpp"
 
 // all tlv map types
+enum class ReliveTypes : s16;
 
 namespace relive {
 
@@ -69,7 +70,7 @@ public:
     s32 mWidth = 0;
     s32 mHeight = 0;
     s32 mTlvSpecificMeaning = 0; // TODO: remove me and add to the actual tlv's instead
-    s32 mTlvType = 0; // TODO: use shared TlvTypes enum
+    ReliveTypes mTlvType = {};   // TODO: use shared TlvTypes enum
     BitField8<TlvFlags> mTlvFlags = {};
     s32 mLength = 0;
 };
