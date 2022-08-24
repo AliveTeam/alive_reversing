@@ -211,7 +211,7 @@ public:
     virtual void VUnPosses() override;
     virtual void VPossessed() override;
     virtual s16 VTakeDamage(BaseGameObject* pFrom) override;
-    virtual void VOnTlvCollision(Path_TLV* pTlv) override;
+    virtual void VOnTlvCollision(relive::Path_TLV* pTlv) override;
     virtual s16 VIsFacingMe(BaseAnimatedWithPhysicsGameObject* pOther) override;
     virtual s16 VOnSameYLevel(BaseAnimatedWithPhysicsGameObject* pOther) override;
 

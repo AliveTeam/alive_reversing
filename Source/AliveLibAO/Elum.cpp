@@ -176,13 +176,13 @@ Elum::~Elum()
 }
 
 
-void Elum::VOnTlvCollision(Path_TLV* pTlv)
+void Elum::VOnTlvCollision(relive::Path_TLV* pTlv)
 {
     while (pTlv)
     {
-        if (pTlv->mTlvType32 == TlvTypes::ContinuePoint_0)
+        if (pTlv->mTlvType == TlvTypes::ContinuePoint_0)
         {
-            auto pContinueTlv = static_cast<Path_ContinuePoint*>(pTlv);
+            auto pContinueTlv = static_cast<relive::Path_ContinuePoint*>(pTlv);
             if (mContinueZoneNumber != pContinueTlv->mZoneNumber && pContinueTlv->mZoneNumber > field_142_zone_number && pContinueTlv->mElumRestarts == Choice_short::eYes_1)
             {
                 mContinueZoneNumber = pContinueTlv->mZoneNumber;
@@ -198,7 +198,7 @@ void Elum::VOnTlvCollision(Path_TLV* pTlv)
                 mRespawnOnDead = 1;
             }
         }
-        else if (pTlv->mTlvType32 == TlvTypes::DeathDrop_5 && mHealth > FP_FromInteger(0))
+        else if (pTlv->mTlvType == TlvTypes::DeathDrop_5 && mHealth > FP_FromInteger(0))
         {
             if (sControlledCharacter != this)
             {
@@ -3735,7 +3735,7 @@ void Elum::VScreenChanged()
             }
             else if (mCurrentPath == gMap.mCurrentPath)
             {
-                auto pElumPathTrans = static_cast<Path_ElumPathTrans*>(gMap.TLV_Get_At_446260(
+                auto pElumPathTrans = static_cast<relive::Path_ElumPathTrans*>(gMap.TLV_Get_At_446260(
                     FP_GetExponent(mXPos),
                     FP_GetExponent(mYPos),
                     FP_GetExponent(mXPos),
@@ -3744,7 +3744,7 @@ void Elum::VScreenChanged()
 
                 if (pElumPathTrans)
                 {
-                    if (mDontFollowAbe != 1 && sControlledCharacter != this && MapWrapper::FromAO(pElumPathTrans->mNextLevel) == gMap.mNextLevel && pElumPathTrans->mNextPath == gMap.mNextPath)
+                    if (mDontFollowAbe != 1 && sControlledCharacter != this && pElumPathTrans->mNextLevel == gMap.mNextLevel && pElumPathTrans->mNextPath == gMap.mNextPath)
                     {
                         field_170_flags.Set(Elum::Flags_170::eChangedPathNotMounted_Bit5);
                     }

@@ -1210,13 +1210,13 @@ void Mudokon::VOnTrapDoorOpen()
     }
 }
 
-void Mudokon::VOnTlvCollision(Path_TLV* pTlv)
+void Mudokon::VOnTlvCollision(relive::Path_TLV* pTlv)
 {
     if (pTlv)
     {
         while (pTlv)
         {
-            if (pTlv->mTlvType32 == TlvTypes::DeathDrop_5)
+            if (pTlv->mTlvType == TlvTypes::DeathDrop_5)
             {
                 if (mHealth > FP_FromInteger(0))
                 {

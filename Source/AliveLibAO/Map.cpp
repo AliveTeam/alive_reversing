@@ -431,10 +431,10 @@ s16 Map::SetActiveCam(EReliveLevelIds level, s16 path, s16 cam, CameraSwapEffect
 
 void Map::Handle_PathTransition()
 {
-    Path_PathTransition* pTlv = nullptr;
+    relive::Path_PathTransition* pTlv = nullptr;
     if (field_18_pAliveObj)
     {
-        pTlv = static_cast<Path_PathTransition*>(TLV_Get_At_446260(
+        pTlv = static_cast<relive::Path_PathTransition*>(TLV_Get_At_446260(
             FP_GetExponent(field_18_pAliveObj->mXPos),
             FP_GetExponent(field_18_pAliveObj->mYPos),
             FP_GetExponent(field_18_pAliveObj->mXPos),
@@ -444,14 +444,14 @@ void Map::Handle_PathTransition()
 
     if (field_18_pAliveObj && pTlv)
     {
-        mNextLevel = MapWrapper::FromAO(pTlv->mNextLevel);
+        mNextLevel = pTlv->mNextLevel;
         mNextPath = pTlv->mNextPath;
         mNextCamera = pTlv->mNextCamera;
         field_12_fmv_base_id = pTlv->mMovieId;
 
         field_10_screenChangeEffect = kPathChangeEffectToInternalScreenChangeEffect_4CDC78[pTlv->mWipeEffect];
 
-        field_18_pAliveObj->mCurrentLevel = MapWrapper::FromAO(pTlv->mNextLevel);
+        field_18_pAliveObj->mCurrentLevel = pTlv->mNextLevel;
         field_18_pAliveObj->mCurrentPath = pTlv->mNextPath;
 
         // TODO: Probably OG bug, when changing camera/path the TLV pointer can become invalid
@@ -868,11 +868,11 @@ void Map::SaveBlyData(u8* pSaveBuffer)
 
                     for (;;)
                     {
-                        BitField8<::TlvFlags> flags = pTlv->mTlvFlags;
-                        if (flags.Get(::eBit1_Created))
+                        BitField8<relive::TlvFlags> flags = pTlv->mTlvFlags;
+                        if (flags.Get(relive::eBit1_Created))
                         {
-                            flags.Clear(::eBit1_Created);
-                            flags.Clear(::eBit2_Destroyed);
+                            flags.Clear(relive::eBit1_Created);
+                            flags.Clear(relive::eBit2_Destroyed);
                         }
 
                         // Save the flags
@@ -881,7 +881,7 @@ void Map::SaveBlyData(u8* pSaveBuffer)
                         *pAfterSwitchStates = pTlv->mTlvSpecificMeaning;
                         pAfterSwitchStates++;
 
-                        if (pTlv->mTlvFlags.Get(::eBit3_End_TLV_List))
+                        if (pTlv->mTlvFlags.Get(relive::eBit3_End_TLV_List))
                         {
                             break;
                         }
@@ -924,7 +924,7 @@ void Map::RestoreBlyData(const u8* pSaveData)
 
                             pTlv->mTlvSpecificMeaning = *pAfterSwitchStates;
                             pAfterSwitchStates++;
-                            if (pTlv->mTlvFlags.Get(::eBit3_End_TLV_List))
+                            if (pTlv->mTlvFlags.Get(relive::eBit3_End_TLV_List))
                             {
                                 break;
                             }
@@ -968,13 +968,13 @@ void Map::Start_Sounds_For_Objects_In_Camera(CameraPos direction, s16 cam_x_idx,
             {
                 if (pTlv->mTopLeftX >= cam_global_left && pTlv->mTopLeftX <= cam_global_right)
                 {
-                    if (pTlv->mTopLeftY >= cam_y_grid_top && pTlv->mTopLeftY <= cam_y_grid_bottom && (!pTlv->mTlvFlags.Get(::eBit1_Created) && !pTlv->mTlvFlags.Get(::eBit2_Destroyed)))
+                    if (pTlv->mTopLeftY >= cam_y_grid_top && pTlv->mTopLeftY <= cam_y_grid_bottom && (!pTlv->mTlvFlags.Get(relive::eBit1_Created) && !pTlv->mTlvFlags.Get(relive::eBit2_Destroyed)))
                     {
                         Start_Sounds_for_TLV(direction, pTlv);
                     }
                 }
 
-                if (pTlv->mTlvFlags.Get(::eBit3_End_TLV_List))
+                if (pTlv->mTlvFlags.Get(relive::eBit3_End_TLV_List))
                 {
                     break;
                 }
@@ -1031,7 +1031,7 @@ s16 Map::SetActiveCameraDelayed(MapDirections direction, BaseAliveGameObject* pO
 
     if (pObj && pPathChangeTLV)
     {
-        mNextLevel = MapWrapper::FromAO(pPathChangeTLV->mNextLevel);
+        mNextLevel = pPathChangeTLV->mNextLevel;
         mNextPath = pPathChangeTLV->mNextPath;
         mNextCamera = pPathChangeTLV->mNextCamera;
         if (swapEffect < 0)
@@ -1311,7 +1311,7 @@ relive::Path_TLV* Map::TLV_Get_At_446260(s16 xpos, s16 ypos, s16 width, s16 heig
            || top > pTlvIter->mBottomRightY
            || pTlvIter->mTlvType != static_cast<s32>(typeToFind))
     {
-        if (pTlvIter->mTlvFlags.Get(::eBit3_End_TLV_List))
+        if (pTlvIter->mTlvFlags.Get(relive::eBit3_End_TLV_List))
         {
             return nullptr;
         }
@@ -1375,7 +1375,7 @@ relive::Path_TLV* Map::TLV_Get_At_446060(relive::Path_TLV* pTlv, FP xpos, FP ypo
         }
     }
 
-    if (pTlv->mTlvFlags.Get(::eBit3_End_TLV_List))
+    if (pTlv->mTlvFlags.Get(relive::eBit3_End_TLV_List))
     {
         return nullptr;
     }
@@ -1389,7 +1389,7 @@ relive::Path_TLV* Map::TLV_Get_At_446060(relive::Path_TLV* pTlv, FP xpos, FP ypo
             break;
         }
 
-        if (pTlv->mTlvFlags.Get(::eBit3_End_TLV_List))
+        if (pTlv->mTlvFlags.Get(relive::eBit3_End_TLV_List))
         {
             return 0;
         }
@@ -1416,9 +1416,9 @@ void Map::sub_447430(u16 pathNum)
             {
                 auto pTlv = reinterpret_cast<relive::Path_TLV*>(&pPathRes[pPathData->field_14_object_offset + pObjectTable[counter]]);
 
-                pTlv->mTlvFlags.Clear(::TlvFlags::eBit1_Created);
-                pTlv->mTlvFlags.Clear(::TlvFlags::eBit2_Destroyed);
-                while (!pTlv->mTlvFlags.Get(::TlvFlags::eBit3_End_TLV_List))
+                pTlv->mTlvFlags.Clear(relive::TlvFlags::eBit1_Created);
+                pTlv->mTlvFlags.Clear(relive::TlvFlags::eBit2_Destroyed);
+                while (!pTlv->mTlvFlags.Get(relive::TlvFlags::eBit3_End_TLV_List))
                 {
                     pTlv = Path_TLV::Next_NoCheck(pTlv);
 
@@ -1966,10 +1966,10 @@ void Map::GoTo_Camera()
     {
         if (field_1E_door)
         {
-            Path_Door* pTlvIter = static_cast<Path_Door*>(TLV_First_Of_Type_In_Camera(TlvTypes::Door_6, 0));
+            relive::Path_Door* pTlvIter = static_cast<relive::Path_Door*>(TLV_First_Of_Type_In_Camera(TlvTypes::Door_6, 0));
             while (pTlvIter->mDoorId != sActiveHero->field_196_door_id)
             {
-                pTlvIter = static_cast<Path_Door*>(Path_TLV::TLV_Next_Of_Type_446500(pTlvIter, TlvTypes::Door_6));
+                pTlvIter = static_cast<relive::Path_Door*>(Path_TLV::TLV_Next_Of_Type_446500(pTlvIter, TlvTypes::Door_6));
             }
 
             const auto pCamPos = pScreenManager->mCamPos;
@@ -2007,13 +2007,13 @@ void Map::Loader(s16 camX, s16 camY, LoadMode loadMode, TlvTypes typeToLoad)
     u8* ptr = pPathRes + objectTableIdx + field_D4_pPathData->field_14_object_offset;
     relive::Path_TLV* pPathTLV = reinterpret_cast<relive::Path_TLV*>(ptr);
 
-    if (pPathTLV->mTlvType <= 0x100000 && pPathTLV->mLength <= 0x2000u && pPathTLV->field_8 <= 0x1000000)
+    if (pPathTLV->mTlvType <= 0x100000 && pPathTLV->mLength <= 0x2000u /*&& pPathTLV->field_8 <= 0x1000000*/)
     {
         while (1)
         {
             if (typeToLoad == TlvTypes::None_m1 || static_cast<s32>(typeToLoad) == pPathTLV->mTlvType)
             {
-                if (loadMode != LoadMode::ConstructObject_0 || !(pPathTLV->mTlvFlags.Get(::TlvFlags::eBit1_Created) || pPathTLV->mTlvFlags.Get(TlvFlags::eBit2_Destroyed)))
+                if (loadMode != LoadMode::ConstructObject_0 || !(pPathTLV->mTlvFlags.Get(relive::TlvFlags::eBit1_Created) || pPathTLV->mTlvFlags.Get(relive::TlvFlags::eBit2_Destroyed)))
                 {
                     TlvItemInfoUnion data;
                     data.parts.tlvOffset = static_cast<u16>(objectTableIdx);
@@ -2028,14 +2028,14 @@ void Map::Loader(s16 camX, s16 camY, LoadMode loadMode, TlvTypes typeToLoad)
 
                     if (loadMode == LoadMode::ConstructObject_0)
                     {
-                        pPathTLV->mTlvFlags.Set(::TlvFlags::eBit1_Created);
-                        pPathTLV->mTlvFlags.Set(::TlvFlags::eBit2_Destroyed);
+                        pPathTLV->mTlvFlags.Set(relive::TlvFlags::eBit1_Created);
+                        pPathTLV->mTlvFlags.Set(relive::TlvFlags::eBit2_Destroyed);
                     }
                 }
             }
 
             // End of TLV list for current camera
-            if (pPathTLV->mTlvFlags.Get(::TlvFlags::eBit3_End_TLV_List))
+            if (pPathTLV->mTlvFlags.Get(relive::TlvFlags::eBit3_End_TLV_List))
             {
                 break;
             }

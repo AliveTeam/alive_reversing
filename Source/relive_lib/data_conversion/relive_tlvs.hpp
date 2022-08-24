@@ -47,6 +47,15 @@ enum reliveScreenChangeEffects : s16
     eInstantChange,
 };
 
+
+// TODO: A copy for now, should prob be bools or removed if possible
+enum TlvFlags
+{
+    eBit1_Created = 0x1,
+    eBit2_Destroyed = 0x2,
+    eBit3_End_TLV_List = 0x4,
+};
+
 // TODO: Base type
 class Path_TLV
 {

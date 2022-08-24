@@ -417,14 +417,14 @@ Slig::~Slig()
     {
         if (pTlv)
         {
-            pTlv->mTlvFlags.Clear(TlvFlags::eBit1_Created);
-            pTlv->mTlvFlags.Set(TlvFlags::eBit2_Destroyed);
+            pTlv->mTlvFlags.Clear(relive::TlvFlags::eBit1_Created);
+            pTlv->mTlvFlags.Set(relive::TlvFlags::eBit2_Destroyed);
         }
     }
     else if (pTlv)
     {
-        pTlv->mTlvFlags.Clear(TlvFlags::eBit1_Created);
-        pTlv->mTlvFlags.Clear(TlvFlags::eBit2_Destroyed);
+        pTlv->mTlvFlags.Clear(relive::TlvFlags::eBit1_Created);
+        pTlv->mTlvFlags.Clear(relive::TlvFlags::eBit2_Destroyed);
     }
 
     for (u8**& ppRes : field_210_resources.res)

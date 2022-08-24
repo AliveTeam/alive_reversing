@@ -2,6 +2,7 @@
 
 #include "../AliveLibCommon/BitField.hpp"
 #include "../AliveLibCommon/Psx_common.hpp"
+#include "../relive_lib/data_conversion/relive_tlvs.hpp"
 
 namespace AO {
 
@@ -161,7 +162,7 @@ struct Path_TLV
     // Note: must be inlined as its used by the api
     static relive::Path_TLV* Next(relive::Path_TLV* pTlv)
     {
-        if (pTlv->mTlvFlags.Get(::TlvFlags::eBit3_End_TLV_List))
+        if (pTlv->mTlvFlags.Get(relive::TlvFlags::eBit3_End_TLV_List))
         {
             return nullptr;
         }

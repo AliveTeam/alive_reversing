@@ -74,7 +74,7 @@ HoneySack::HoneySack(relive::Path_HoneySack* pTlv, s32 tlvInfo)
         mDripTargetX = FP_FromInteger(0);
         mDripTargetY = FP_FromInteger(0);
 
-        Path_TLV* pHoneyDripTarget = gMap.TLV_First_Of_Type_In_Camera(TlvTypes::HoneyDripTarget_42, 0);
+        relive::Path_TLV* pHoneyDripTarget = gMap.TLV_First_Of_Type_In_Camera(TlvTypes::HoneyDripTarget_42, 0);
         if (pHoneyDripTarget)
         {
             mDripTargetX = FP_FromInteger(pHoneyDripTarget->mTopLeft.x);

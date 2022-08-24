@@ -55,7 +55,7 @@ public:
     State field_110_state = State::eWaitForIdEnable_0;
     u16 field_112_switch_id = 0;
     s16 mMaxFallingItems = 0;
-    s16 mMaxFallingItems = 0;
+  //  s16 mMaxFallingItems = 0; // TODO: Why was it here twice
     s16 mFallInterval = 0;
     s32 field_11C_delay_timer = 0;
     relive::reliveChoice mResetSwitchIdAfterUse = relive::reliveChoice::eNo;
