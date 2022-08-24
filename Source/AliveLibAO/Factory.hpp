@@ -45,4 +45,7 @@ struct PathFunctionTable final
 
 extern const PathFunctionTable kObjectFactory;
 
+
+void ConstructTLVObject(relive::Path_TLV* pTlv, Map*, TlvItemInfoUnion, LoadMode);
+
 } // namespace AO

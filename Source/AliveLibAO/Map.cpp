@@ -2021,7 +2021,10 @@ void Map::Loader(s16 camX, s16 camY, LoadMode loadMode, TlvTypes typeToLoad)
                     data.parts.pathId = static_cast<u8>(mCurrentPath);
 
                     // Call the factory to construct the item
-                    field_D4_pPathData->field_1C_object_funcs.object_funcs[static_cast<s16>(pPathTLV->mTlvType)](pPathTLV, this, data, loadMode);
+                    ConstructTLVObject(pPathTLV, this, data, loadMode);
+
+                    // TODO: Send field_1C_object_funcs to oblivion
+                    //field_D4_pPathData->field_1C_object_funcs.object_funcs[static_cast<s16>(pPathTLV->mTlvType)](pPathTLV, this, data, loadMode);
 
                     if (loadMode == LoadMode::ConstructObject_0)
                     {

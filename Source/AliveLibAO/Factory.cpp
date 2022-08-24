@@ -2412,6 +2412,19 @@ void Factory_ResetPath_Null_4818A0(relive::Path_TLV* /*pTlv*/, Map* /*pMap*/, Tl
     // Empty
 }
 
+
+void ConstructTLVObject(relive::Path_TLV* pTlv, Map* pMap, TlvItemInfoUnion tlvInfo, LoadMode loadMode)
+{
+    switch (pTlv->mTlvType)
+    {
+        case TlvTypes::KillUnsavedMuds_113:
+            Factory_KillUnsavedMuds_487DA0(pTlv, pMap, tlvInfo, loadMode);
+            break;
+
+        // TODO: All the others
+    }
+}
+
 const PathFunctionTable kObjectFactory = {
     {Factory_ContinuePoint_Null_4817D0,
      Factory_PathTransition_Null_481720,
