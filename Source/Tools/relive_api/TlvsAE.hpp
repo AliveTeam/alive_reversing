@@ -1002,22 +1002,22 @@ struct Path_FlyingSlig final : public ReliveAPI::TlvObjectBaseAE
 {
     CTOR_AE(Path_FlyingSlig, "FlyingSlig", TlvTypes::FlyingSlig_82)
     {
-        ADD("Scale", mTlv.field_10_data.field_0_scale);
-        ADD("Spawn Delay State", mTlv.field_10_data.field_2_state);
-        ADD("Spawn Move Delay", mTlv.field_10_data.field_4_spawn_move_delay);
-        ADD("Patrol Pause Min", mTlv.field_10_data.field_6_patrol_pause_min);
-        ADD("Patrol Pause Max", mTlv.field_10_data.field_8_patrol_pause_max);
-        ADD("Start Direction", mTlv.field_10_data.field_A_direction);
-        ADD("Panic Delay", mTlv.field_10_data.field_C_panic_delay);
-        ADD("Give Up Chase Delay", mTlv.field_10_data.field_E_give_up_chase_delay);
-        ADD("Pre-chase Delay", mTlv.field_10_data.field_10_prechase_delay);
-        ADD("Slig Bound/Persist ID", mTlv.field_10_data.field_12_slig_bound_id);
-        ADD("Alerted Listen Time", mTlv.field_10_data.field_14_alerted_listen_time);
-        ADD("Spawner Switch ID", mTlv.field_10_data.field_16_spawner_switch_id);
-        ADD("Grenade Delay", mTlv.field_10_data.field_18_grenade_delay);
-        ADD("Max Velocity", mTlv.field_10_data.field_1A_max_velocity);
-        ADD("Launch Grenade Switch ID", mTlv.field_10_data.field_1C_launch_switch_id);
-        ADD("Persistant", mTlv.field_10_data.field_1E_persistant);
+        ADD("Scale", mTlv.mFlyingSligData.mScale);
+        ADD("Spawn Delay State", mTlv.mFlyingSligData.mSpawnDelayState);
+        ADD("Spawn Move Delay", mTlv.mFlyingSligData.mSpawnMoveDelay);
+        ADD("Patrol Pause Min", mTlv.mFlyingSligData.mPatrolPauseMin);
+        ADD("Patrol Pause Max", mTlv.mFlyingSligData.mPatrolPauseMax);
+        ADD("Start Direction", mTlv.mFlyingSligData.mFacing);
+        ADD("Panic Delay", mTlv.mFlyingSligData.mPanicDelay);
+        ADD("Give Up Chase Delay", mTlv.mFlyingSligData.mGiveUpChaseDelay);
+        ADD("Pre-chase Delay", mTlv.mFlyingSligData.mPrechaseDelay);
+        ADD("Slig Bound/Persist ID", mTlv.mFlyingSligData.mSligBoundId);
+        ADD("Alerted Listen Time", mTlv.mFlyingSligData.mAlertedListenTime);
+        ADD("Spawner Switch ID", mTlv.mFlyingSligData.mSpawnerSwitchId);
+        ADD("Grenade Delay", mTlv.mFlyingSligData.mGrenadeDelay);
+        ADD("Max Velocity", mTlv.mFlyingSligData.mMaxVelocity);
+        ADD("Launch Grenade Switch ID", mTlv.mFlyingSligData.mLaunchGrenadeSwitchId);
+        ADD("Persistant", mTlv.mFlyingSligData.mPersistant);
     }
 };
 
@@ -1025,22 +1025,22 @@ struct Path_FlyingSligSpawner final : public ReliveAPI::TlvObjectBaseAE
 {
     CTOR_AE(Path_FlyingSligSpawner, "FlyingSligSpawner", TlvTypes::FlyingSligSpawner_92)
     {
-        ADD("Scale", mTlv.field_10.field_0_scale);
-        ADD("Spawn Delay State", mTlv.field_10.field_2_state);
-        ADD("Spawn Move Delay", mTlv.field_10.field_4_spawn_move_delay);
-        ADD("Patrol Pause Min", mTlv.field_10.field_6_patrol_pause_min);
-        ADD("Patrol Pause Max", mTlv.field_10.field_8_patrol_pause_max);
-        ADD("Start Direction", mTlv.field_10.field_A_direction);
-        ADD("Panic Delay", mTlv.field_10.field_C_panic_delay);
-        ADD("Give Up Chase Delay", mTlv.field_10.field_E_give_up_chase_delay);
-        ADD("Pre-Chase Delay", mTlv.field_10.field_10_prechase_delay);
-        ADD("Slig Bound/Persist ID", mTlv.field_10.field_12_slig_bound_id);
-        ADD("Listen Time", mTlv.field_10.field_14_alerted_listen_time);
-        ADD("Spawner Switch ID", mTlv.field_10.field_16_spawner_switch_id);
-        ADD("Grenade Delay", mTlv.field_10.field_18_grenade_delay);
-        ADD("Max Velocity", mTlv.field_10.field_1A_max_velocity);
-        ADD("Launch Grenade Switch ID", mTlv.field_10.field_1C_launch_switch_id);
-        ADD("Persistant", mTlv.field_10.field_1E_persistant);
+        ADD("Scale", mTlv.mFlyingSligSpawnerData.mScale);
+        ADD("Spawn Delay State", mTlv.mFlyingSligSpawnerData.mSpawnDelayState);
+        ADD("Spawn Move Delay", mTlv.mFlyingSligSpawnerData.mSpawnMoveDelay);
+        ADD("Patrol Pause Min", mTlv.mFlyingSligSpawnerData.mPatrolPauseMin);
+        ADD("Patrol Pause Max", mTlv.mFlyingSligSpawnerData.mPatrolPauseMax);
+        ADD("Start Direction", mTlv.mFlyingSligSpawnerData.mFacing);
+        ADD("Panic Delay", mTlv.mFlyingSligSpawnerData.mPanicDelay);
+        ADD("Give Up Chase Delay", mTlv.mFlyingSligSpawnerData.mGiveUpChaseDelay);
+        ADD("Pre-Chase Delay", mTlv.mFlyingSligSpawnerData.mPrechaseDelay);
+        ADD("Slig Bound/Persist ID", mTlv.mFlyingSligSpawnerData.mSligBoundId);
+        ADD("Listen Time", mTlv.mFlyingSligSpawnerData.mAlertedListenTime);
+        ADD("Spawner Switch ID", mTlv.mFlyingSligSpawnerData.mSpawnerSwitchId);
+        ADD("Grenade Delay", mTlv.mFlyingSligSpawnerData.mGrenadeDelay);
+        ADD("Max Velocity", mTlv.mFlyingSligSpawnerData.mMaxVelocity);
+        ADD("Launch Grenade Switch ID", mTlv.mFlyingSligSpawnerData.mLaunchGrenadeSwitchId);
+        ADD("Persistant", mTlv.mFlyingSligSpawnerData.mPersistant);
     }
 };
 
@@ -1591,11 +1591,11 @@ struct Path_CrawlingSlig final : public ReliveAPI::TlvObjectBaseAE
 {
     void AddTypes(ReliveAPI::TypesCollectionBase& types) override
     {
-        types.AddEnum<::Path_CrawlingSlig::State>("Enum_CrawlingSligState",
+        types.AddEnum<::Path_CrawlingSlig::StartState>("Enum_CrawlingSligState",
         {
-            {::Path_CrawlingSlig::State::eSleeping_0, "Sleeping"},
-            {::Path_CrawlingSlig::State::eSleeping_1, "Sleeping2 (Duplicate)"},
-            {::Path_CrawlingSlig::State::eAwake_2, "Awake"},
+            {::Path_CrawlingSlig::StartState::eSleeping_0, "Sleeping"},
+            {::Path_CrawlingSlig::StartState::eSleeping_1, "Sleeping2 (Duplicate)"},
+            {::Path_CrawlingSlig::StartState::eAwake_2, "Awake"},
         });
 
         types.AddEnum<::Path_CrawlingSlig::CrawlDirection>("Enum_CrawlDirection",
@@ -1608,12 +1608,12 @@ struct Path_CrawlingSlig final : public ReliveAPI::TlvObjectBaseAE
 
     CTOR_AE(Path_CrawlingSlig, "CrawlingSlig", TlvTypes::CrawlingSlig_103)
     {
-        ADD("Scale", mTlv.field_10_scale);
-        ADD("Start Direction", mTlv.field_12_direction);
-        ADD("State", mTlv.field_14_state);
-        ADD("Crawl Direction", mTlv.field_16_crawl_direction);
-        ADD("Panic Switch ID", mTlv.field_18_panic_switch_id);
-        ADD("Respawn On Death", mTlv.field_1A_respawn_on_death);
+        ADD("Scale", mTlv.mScale);
+        ADD("Start Direction", mTlv.mFacing);
+        ADD("State", mTlv.mStartState);
+        ADD("Crawl Direction", mTlv.mCrawlDirection);
+        ADD("Panic Switch ID", mTlv.mPanicSwitchId);
+        ADD("Respawn On Death", mTlv.mRespawnOnDeath);
 
         ADD_RESOURCE(AnimId::CrawlingSlig_Crawling, ReliveAPI::AddResourceTo::File);
         ADD_RESOURCE(AnimId::CrawlingSlig_Empty, ReliveAPI::AddResourceTo::File);
@@ -1682,22 +1682,22 @@ struct Path_SligGetWings final : public ReliveAPI::TlvObjectBaseAE
 {
     CTOR_AE(Path_SligGetWings, "SligGetWings", TlvTypes::SligGetWings_105)
     {
-        ADD("Scale", mTlv.scale);
-        ADD("Spawn Delay State", mTlv.state);
-        ADD("Spawn Move Delay", mTlv.spawn_move_delay);
-        ADD("Patrol Pause Min", mTlv.patrol_pause_min);
-        ADD("Patrol Pause Max", mTlv.patrol_pause_max);
-        ADD("Start Direction", mTlv.start_direction);
-        ADD("Panic Delay", mTlv.panic_delay);
-        ADD("Give Up Chase Delay", mTlv.give_up_chase_delay);
-        ADD("Pre-chase Delay", mTlv.prechase_delay);
-        ADD("Slig Bound/Persist ID", mTlv.slig_bound_id);
-        ADD("Alerted Listen Time", mTlv.alerted_listen_time);
-        ADD("Spawner Switch ID", mTlv.spawner_switch_id);
-        ADD("Grenade Delay", mTlv.grenade_delay);
-        ADD("Max Velocity", mTlv.max_velocity);
-        ADD("Launch Grenade Switch ID", mTlv.launch_switch_id);
-        ADD("Persistant", mTlv.persistant);
+        ADD("Scale", mTlv.mScale);
+        ADD("Spawn Delay State", mTlv.mSpawnDelayState);
+        ADD("Spawn Move Delay", mTlv.mSpawnMoveDelay);
+        ADD("Patrol Pause Min", mTlv.mPatrolPauseMin);
+        ADD("Patrol Pause Max", mTlv.mPatrolPauseMax);
+        ADD("Start Direction", mTlv.mFacing);
+        ADD("Panic Delay", mTlv.mPanicDelay);
+        ADD("Give Up Chase Delay", mTlv.mGiveUpChaseDelay);
+        ADD("Pre-chase Delay", mTlv.mPrechaseDelay);
+        ADD("Slig Bound/Persist ID", mTlv.mSligBoundId);
+        ADD("Alerted Listen Time", mTlv.mAlertedListenTime);
+        ADD("Spawner Switch ID", mTlv.mSpawnerSwitchId);
+        ADD("Grenade Delay", mTlv.mGrenadeDelay);
+        ADD("Max Velocity", mTlv.mMaxVelocity);
+        ADD("Launch Grenade Switch ID", mTlv.mLaunchGrenadeSwitchId);
+        ADD("Persistant", mTlv.mPersistant);
 
         ADD_RESOURCE(AnimId::CrawlingSligLocker_Closed, ReliveAPI::AddResourceTo::File);
         ADD_RESOURCE(AnimId::CrawlingSligLocker_Open, ReliveAPI::AddResourceTo::File);
@@ -2023,8 +2023,8 @@ struct Path_ScrabSpawner final : public ReliveAPI::TlvObjectBaseAE
         ADD("Scrab Kill Enemy", mTlv.mKillEnemy);
 
         // Spawner properties
-        ADD("Spawner Switch ID", mTlv.field_2C_spawner_switch_id);
-        ADD("Scrab Spawn Direction", mTlv.field_2E_spawn_direction);
+        ADD("Spawner Switch ID", mTlv.mSpawnerSwitchId);
+        ADD("Scrab Spawn Direction", mTlv.mFacing);
 
         ADD_RESOURCE(AnimId::Scrab_AttackLunge, ReliveAPI::AddResourceTo::File);
         ADD_RESOURCE(AnimId::Scrab_AttackSpin, ReliveAPI::AddResourceTo::File);

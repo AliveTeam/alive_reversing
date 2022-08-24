@@ -27,7 +27,7 @@ FlyingSligSpawner::FlyingSligSpawner(Path_FlyingSligSpawner* pTlv, s32 tlvInfo)
     field_2C_tlv_header = *pTlv;
 
     field_40_bFirstUpdate &= ~2u;
-    field_28_spawner_switch_id = pTlv->field_10.field_16_spawner_switch_id;
+    field_28_spawner_switch_id = pTlv->mFlyingSligSpawnerData.mSpawnerSwitchId;
     field_3C_bSpawned = 0;
     field_24_spawned_slig_id = -1;
 }

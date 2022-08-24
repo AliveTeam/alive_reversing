@@ -98,23 +98,24 @@ struct Path_ZSligCover final : public Path_TLV
 
 struct Path_SligGetWings final : public Path_TLV
 {
-    Scale_short scale;
-    Path_FlyingSlig_Data::SpawnDelayStates state;
-    s16 spawn_move_delay;
-    s16 patrol_pause_min;
-    s16 patrol_pause_max;
-    XDirection_short start_direction;
-    s16 panic_delay;
-    s16 give_up_chase_delay;
-    s16 prechase_delay;
-    s16 slig_bound_id;
-    s16 alerted_listen_time;
-    s16 spawner_switch_id;
-    s16 grenade_delay;
-    s16 max_velocity;
-    s16 launch_switch_id;
-    Choice_short persistant;
+    Scale_short mScale;
+    Path_FlyingSlig_Data::SpawnDelayStates mSpawnDelayState;
+    s16 mSpawnMoveDelay;
+    s16 mPatrolPauseMin;
+    s16 mPatrolPauseMax;
+    XDirection_short mFacing;
+    s16 mPanicDelay;
+    s16 mGiveUpChaseDelay;
+    s16 mPrechaseDelay;
+    s16 mSligBoundId;
+    s16 mAlertedListenTime;
+    s16 mSpawnerSwitchId;
+    s16 mGrenadeDelay;
+    s16 mMaxVelocity;
+    s16 mLaunchGrenadeSwitchId;
+    Choice_short mPersistant;
 };
+// TODO: size
 
 struct Path_Slig final : public Path_TLV
 {
@@ -207,6 +208,7 @@ struct Path_SligGetPants final : public Path_TLV
     s16 slig_spawner_switch_id;
     Choice_short unlimited_spawns;
 };
+// TODO: size
 
 // This is a left bound, right bound and a persist.
 struct Path_SligBound final : public Path_TLV

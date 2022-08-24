@@ -170,24 +170,24 @@ FlyingSlig::FlyingSlig(Path_FlyingSlig* pTlv, s32 tlvInfo)
 
     mCurrentMotion = eFlyingSligMotions::M_Idle_0_4385E0;
 
-    if (field_118_data.field_10_data.field_2_state == Path_FlyingSlig_Data::SpawnDelayStates::eUseCustomSpawnMoveDelay_1)
+    if (field_118_data.mFlyingSligData.mSpawnDelayState == Path_FlyingSlig_Data::SpawnDelayStates::eUseCustomSpawnMoveDelay_1)
     {
-        field_14C_timer = sGnFrame + field_118_data.field_10_data.field_4_spawn_move_delay;
+        field_14C_timer = sGnFrame + field_118_data.mFlyingSligData.mSpawnMoveDelay;
     }
-    else if (field_118_data.field_10_data.field_2_state == Path_FlyingSlig_Data::SpawnDelayStates::eMoveImmediately_0)
+    else if (field_118_data.mFlyingSligData.mSpawnDelayState == Path_FlyingSlig_Data::SpawnDelayStates::eMoveImmediately_0)
     {
         field_14C_timer = sGnFrame + 1;
     }
 
-    field_2A8_max_x_speed = FP_FromInteger(field_118_data.field_10_data.field_1A_max_velocity) * mSpriteScale;
-    field_2AC_up_vel = FP_FromInteger(-field_118_data.field_10_data.field_1A_max_velocity) * mSpriteScale;
-    field_2B0_down_vel = FP_FromInteger(field_118_data.field_10_data.field_1A_max_velocity) * mSpriteScale;
+    field_2A8_max_x_speed = FP_FromInteger(field_118_data.mFlyingSligData.mMaxVelocity) * mSpriteScale;
+    field_2AC_up_vel = FP_FromInteger(-field_118_data.mFlyingSligData.mMaxVelocity) * mSpriteScale;
+    field_2B0_down_vel = FP_FromInteger(field_118_data.mFlyingSligData.mMaxVelocity) * mSpriteScale;
     field_2B4_max_slow_down = FP_FromDouble(0.4) * mSpriteScale;
     field_2B8_max_speed_up = FP_FromDouble(0.4) * mSpriteScale;
 
-    mAnim.mFlags.Set(AnimFlags::eBit5_FlipX, field_118_data.field_10_data.field_A_direction == XDirection_short::eLeft_0);
+    mAnim.mFlags.Set(AnimFlags::eBit5_FlipX, field_118_data.mFlyingSligData.mFacing == XDirection_short::eLeft_0);
 
-    if (field_118_data.field_10_data.field_0_scale == Scale_short::eHalf_1)
+    if (field_118_data.mFlyingSligData.mScale == Scale_short::eHalf_1)
     {
         mSpriteScale = FP_FromDouble(0.5);
         mAnim.mRenderLayer = Layer::eLayer_SligGreeterFartsBat_Half_14;
@@ -200,9 +200,9 @@ FlyingSlig::FlyingSlig(Path_FlyingSlig* pTlv, s32 tlvInfo)
         mScale = Scale::Fg;
     }
 
-    field_17E_flags.Set(Flags_17E::eBit13_Persistant, field_118_data.field_10_data.field_1E_persistant == Choice_short::eYes_1);
+    field_17E_flags.Set(Flags_17E::eBit13_Persistant, field_118_data.mFlyingSligData.mPersistant == Choice_short::eYes_1);
 
-    field_17C_launch_switch_id |= field_118_data.field_10_data.field_1C_launch_switch_id;
+    field_17C_launch_switch_id |= field_118_data.mFlyingSligData.mLaunchGrenadeSwitchId;
 
     mXPos = FP_FromInteger((pTlv->mTopLeft.x + pTlv->mBottomRight.x) / 2);
     mYPos = FP_FromInteger(pTlv->mTopLeft.y);
@@ -661,7 +661,7 @@ void FlyingSlig::sub_4348A0()
     const s16 v5 = FP_GetExponent(mYPos - field_1A4_rect.y);
     const s16 v6 = FP_GetExponent(mXPos - field_1A4_rect.x);
     field_194 = FP_FromInteger(Math_SquareRoot_Int_496E70(v5 * v5 + v6 * v6));
-    field_17E_flags.Set(Flags_17E::eBit4, field_118_data.field_10_data.field_A_direction == XDirection_short::eLeft_0);
+    field_17E_flags.Set(Flags_17E::eBit4, field_118_data.mFlyingSligData.mFacing == XDirection_short::eLeft_0);
 }
 
 const s32 sBobbingValuesHorizontalMovement_552500[9] = {
@@ -1974,7 +1974,7 @@ void FlyingSlig::ToMoving_435720()
 void FlyingSlig::ToPanicIdle_435B50()
 {
     Say_436A50(SligSpeak::eHelp_10, 0);
-    field_14C_timer = (Math_NextRandom() & 7) + sGnFrame + field_118_data.field_10_data.field_C_panic_delay;
+    field_14C_timer = (Math_NextRandom() & 7) + sGnFrame + field_118_data.mFlyingSligData.mPanicDelay;
     SetBrain(&FlyingSlig::Brain_8_PanicIdle);
 }
 
@@ -2238,7 +2238,7 @@ void FlyingSlig::ThrowGrenade_43A1E0()
 
     Dove::All_FlyAway(0);
 
-    s32 randomisedGrenadeDelay = field_118_data.field_10_data.field_18_grenade_delay + (Math_NextRandom() & 7);
+    s32 randomisedGrenadeDelay = field_118_data.mFlyingSligData.mGrenadeDelay + (Math_NextRandom() & 7);
     if (randomisedGrenadeDelay < 20)
     {
         randomisedGrenadeDelay = 20;
@@ -2312,10 +2312,10 @@ s16 FlyingSlig::CanHearAbe_4369C0()
 
 void FlyingSlig::ToSpottedEnemy_435E70()
 {
-    if (field_118_data.field_10_data.field_10_prechase_delay)
+    if (field_118_data.mFlyingSligData.mPrechaseDelay)
     {
         Say_436A50(SligSpeak ::eFreeze_8, 0);
-        field_14C_timer = (Math_NextRandom() & 7) + sGnFrame + field_118_data.field_10_data.field_10_prechase_delay;
+        field_14C_timer = (Math_NextRandom() & 7) + sGnFrame + field_118_data.mFlyingSligData.mPrechaseDelay;
         SetBrain(&FlyingSlig::Brain_9_SpottedEnemy);
     }
     else
@@ -2335,7 +2335,7 @@ void FlyingSlig::ToAlerted_4357E0()
 {
     Say_436A50(SligSpeak ::eWhat_9, 0);
     SetBrain(&FlyingSlig::Brain_3_GetAlerted);
-    field_14C_timer = sGnFrame + field_118_data.field_10_data.field_14_alerted_listen_time;
+    field_14C_timer = sGnFrame + field_118_data.mFlyingSligData.mAlertedListenTime;
 }
 
 void FlyingSlig::ToPanicMoving_435A50()
@@ -2389,19 +2389,19 @@ void FlyingSlig::PatrolDelay_435860()
 {
     if (BrainIs(&FlyingSlig::Brain_4_ChasingEnemy))
     {
-        field_14C_timer = (Math_NextRandom() & 7) + sGnFrame + field_118_data.field_10_data.field_E_give_up_chase_delay;
+        field_14C_timer = (Math_NextRandom() & 7) + sGnFrame + field_118_data.mFlyingSligData.mGiveUpChaseDelay;
         SetBrain(&FlyingSlig::Brain_5_Idle);
         return;
     }
 
-    field_14C_timer = field_118_data.field_10_data.field_6_patrol_pause_min + sGnFrame;
-    if (field_118_data.field_10_data.field_6_patrol_pause_min <= field_118_data.field_10_data.field_8_patrol_pause_max)
+    field_14C_timer = field_118_data.mFlyingSligData.mPatrolPauseMin + sGnFrame;
+    if (field_118_data.mFlyingSligData.mPatrolPauseMin <= field_118_data.mFlyingSligData.mPatrolPauseMax)
     {
         SetBrain(&FlyingSlig::Brain_5_Idle);
         return;
     }
 
-    field_14C_timer += Math_NextRandom() % (field_118_data.field_10_data.field_6_patrol_pause_min - field_118_data.field_10_data.field_8_patrol_pause_max);
+    field_14C_timer += Math_NextRandom() % (field_118_data.mFlyingSligData.mPatrolPauseMin - field_118_data.mFlyingSligData.mPatrolPauseMax);
     SetBrain(&FlyingSlig::Brain_5_Idle);
 }
 

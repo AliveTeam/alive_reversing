@@ -161,13 +161,13 @@ CrawlingSlig::CrawlingSlig(Path_CrawlingSlig* pTlv, s32 tlvInfo)
     field_118_tlvInfo = tlvInfo;
     field_1E8_tlv = *pTlv;
 
-    if (field_1E8_tlv.field_10_scale == Scale_short::eHalf_1)
+    if (field_1E8_tlv.mScale == Scale_short::eHalf_1)
     {
         mSpriteScale = FP_FromDouble(0.5);
         mAnim.mRenderLayer = Layer::eLayer_8;
         mScale = Scale::Bg;
     }
-    else if (field_1E8_tlv.field_10_scale == Scale_short::eFull_0)
+    else if (field_1E8_tlv.mScale == Scale_short::eFull_0)
     {
         mSpriteScale = FP_FromInteger(1);
         mAnim.mRenderLayer = Layer::eLayer_27;
@@ -177,7 +177,7 @@ CrawlingSlig::CrawlingSlig(Path_CrawlingSlig* pTlv, s32 tlvInfo)
     mXPos = FP_FromInteger((pTlv->mTopLeft.x + pTlv->mBottomRight.x) / 2);
     mYPos = FP_FromInteger(pTlv->mTopLeft.y);
 
-    if (field_1E8_tlv.field_14_state == Path_CrawlingSlig::State::eAwake_2)
+    if (field_1E8_tlv.mStartState == Path_CrawlingSlig::StartState::eAwake_2)
     {
         Set_AnimAndMotion(CrawlingSligMotion::Motion_0_Idle, TRUE);
         SetBrain(&CrawlingSlig::Brain_1_Idle);
@@ -197,16 +197,16 @@ CrawlingSlig::CrawlingSlig(Path_CrawlingSlig* pTlv, s32 tlvInfo)
     }
 
     field_208_brain_sub_state = 0;
-    if (field_1E8_tlv.field_16_crawl_direction == Path_CrawlingSlig::CrawlDirection::eRandom_2)
+    if (field_1E8_tlv.mCrawlDirection == Path_CrawlingSlig::CrawlDirection::eRandom_2)
     {
         field_1E0_crawl_direction = NextRandom() ? Path_CrawlingSlig::CrawlDirection::eRight_1 : Path_CrawlingSlig::CrawlDirection::eLeft_0;
     }
     else
     {
-        field_1E0_crawl_direction = field_1E8_tlv.field_16_crawl_direction;
+        field_1E0_crawl_direction = field_1E8_tlv.mCrawlDirection;
     }
 
-    field_1C6_unused = field_1E8_tlv.field_18_panic_switch_id;
+    field_1C6_unused = field_1E8_tlv.mPanicSwitchId;
 
     FP hitX = {};
     FP hitY = {};
@@ -729,7 +729,7 @@ CrawlingSlig::~CrawlingSlig()
                 0);
         }
     }
-    if (mHealth > FP_FromInteger(0) || field_1E8_tlv.field_1A_respawn_on_death == Choice_short::eYes_1)
+    if (mHealth > FP_FromInteger(0) || field_1E8_tlv.mRespawnOnDeath == Choice_short::eYes_1)
     {
         Path::TLV_Reset(field_118_tlvInfo, -1, 0, 0);
     }
@@ -741,7 +741,7 @@ CrawlingSlig::~CrawlingSlig()
 
 bool CrawlingSlig::PanicOn()
 {
-    return SwitchStates_Get(field_1E8_tlv.field_18_panic_switch_id) != 0;
+    return SwitchStates_Get(field_1E8_tlv.mPanicSwitchId) != 0;
 }
 
 void CrawlingSlig::ToIdle()

@@ -7,8 +7,8 @@
 
 struct Path_ScrabSpawner final : public Path_Scrab
 {
-    s16 field_2C_spawner_switch_id;
-    ScrabSpawnDirection field_2E_spawn_direction;
+    s16 mSpawnerSwitchId;
+    ScrabSpawnDirection mFacing;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_ScrabSpawner, 0x30);
 

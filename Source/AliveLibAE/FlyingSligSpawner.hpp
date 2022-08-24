@@ -6,39 +6,39 @@
 
 struct Path_FlyingSlig_Data final
 {
-    Scale_short field_0_scale;
+    Scale_short mScale;
     enum class SpawnDelayStates : s16
     {
         eMoveImmediately_0 = 0,
         eUseCustomSpawnMoveDelay_1 = 1,
     };
-    SpawnDelayStates field_2_state;
-    s16 field_4_spawn_move_delay;
-    s16 field_6_patrol_pause_min;
-    s16 field_8_patrol_pause_max;
-    XDirection_short field_A_direction;
-    s16 field_C_panic_delay;
-    s16 field_E_give_up_chase_delay;
-    s16 field_10_prechase_delay;
-    s16 field_12_slig_bound_id;
-    s16 field_14_alerted_listen_time;
-    s16 field_16_spawner_switch_id;
-    s16 field_18_grenade_delay;
-    s16 field_1A_max_velocity;
-    s16 field_1C_launch_switch_id;
-    Choice_short field_1E_persistant;
+    SpawnDelayStates mSpawnDelayState;
+    s16 mSpawnMoveDelay;
+    s16 mPatrolPauseMin;
+    s16 mPatrolPauseMax;
+    XDirection_short mFacing;
+    s16 mPanicDelay;
+    s16 mGiveUpChaseDelay;
+    s16 mPrechaseDelay;
+    s16 mSligBoundId;
+    s16 mAlertedListenTime;
+    s16 mSpawnerSwitchId;
+    s16 mGrenadeDelay;
+    s16 mMaxVelocity;
+    s16 mLaunchGrenadeSwitchId;
+    Choice_short mPersistant;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_FlyingSlig_Data, 0x20);
 
 struct Path_FlyingSlig final : public Path_TLV
 {
-    Path_FlyingSlig_Data field_10_data;
+    Path_FlyingSlig_Data mFlyingSligData;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_FlyingSlig, 0x30);
 
 struct Path_FlyingSligSpawner final : public Path_TLV
 {
-    Path_FlyingSlig_Data field_10;
+    Path_FlyingSlig_Data mFlyingSligSpawnerData;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_FlyingSligSpawner, 0x30);
 

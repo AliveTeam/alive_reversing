@@ -20,8 +20,8 @@ ScrabSpawner::ScrabSpawner(Path_ScrabSpawner* pTlv, s32 tlvInfo)
     field_28_tlv_data.mTopLeft = pTlv->mTopLeft;
     field_28_tlv_data.mBottomRight = pTlv->mBottomRight;
 
-    field_24_spawner_switch_id = pTlv->field_2C_spawner_switch_id;
-    field_26_spawn_direction = pTlv->field_2E_spawn_direction;
+    field_24_spawner_switch_id = pTlv->mSpawnerSwitchId;
+    field_26_spawn_direction = pTlv->mFacing;
 
     field_38_state = ScrabSpawnerStates::eInactive_0;
 

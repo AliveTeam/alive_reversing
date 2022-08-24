@@ -1590,4 +1590,147 @@ struct Path_CrawlingSligButton final : public Path_TLV
     s16 mSoundDirection = 0;
 };
 
+struct Path_FlyingSlig final : public Path_TLV
+{
+    reliveScale mScale = reliveScale::eFull;
+    enum class SpawnDelayStates : s16
+    {
+        eMoveImmediately,
+        eUseCustomSpawnMoveDelay,
+    };
+    SpawnDelayStates mSpawnDelayState = SpawnDelayStates::eMoveImmediately;
+    s16 mSpawnMoveDelay = 0;
+    s16 mPatrolPauseMin = 0;
+    s16 mPatrolPauseMax = 0;
+    reliveXDirection mFacing = reliveXDirection::eRight;
+    s16 mPanicDelay = 0;
+    s16 mGiveUpChaseDelay = 0;
+    s16 mPrechaseDelay = 0;
+    s16 mSligBoundId = 0;
+    s16 mAlertedListenTime = 0;
+    s16 mSpawnerSwitchId = 0;
+    s16 mGrenadeDelay = 0;
+    s16 mMaxVelocity = 0;
+    s16 mLaunchGrenadeSwitchId = 0;
+    reliveChoice mPersistant = reliveChoice::eNo;
+};
+
+struct Path_FlyingSligSpawner final : public Path_TLV
+{
+    reliveScale mScale = reliveScale::eFull;
+    Path_FlyingSlig::SpawnDelayStates mSpawnDelayState = Path_FlyingSlig::SpawnDelayStates::eMoveImmediately;
+    s16 mSpawnMoveDelay = 0;
+    s16 mPatrolPauseMin = 0;
+    s16 mPatrolPauseMax = 0;
+    reliveXDirection mFacing = reliveXDirection::eRight;
+    s16 mPanicDelay = 0;
+    s16 mGiveUpChaseDelay = 0;
+    s16 mPrechaseDelay = 0;
+    s16 mSligBoundId = 0;
+    s16 mAlertedListenTime = 0;
+    s16 mSpawnerSwitchId = 0;
+    s16 mGrenadeDelay = 0;
+    s16 mMaxVelocity = 0;
+    s16 mLaunchGrenadeSwitchId = 0;
+    reliveChoice mPersistant = reliveChoice::eNo;
+};
+
+struct Path_ScrabSpawner : public Path_TLV
+{
+    enum class SpawnDirection : s16
+    {
+        eNone,
+        eLeft,
+        eRight,
+    };
+    reliveScale mScale = reliveScale::eFull;
+    s16 mAttackDelay = 0;
+    s16 mPatrolTypeRunOrWalkChance = 0;
+    s16 mPauseLeftMin = 0;
+    s16 mPauseLeftMax = 0;
+    s16 mPauseRightMin = 0;
+    s16 mPauseRightMax = 0;
+    u16 mPauseAfterChaseTime = 0;
+    s16 mDisabledResources = 0;
+    reliveChoice mRoarRandomly = reliveChoice::eNo;
+    reliveChoice mPersistant = reliveChoice::eYes;
+    s16 mPossessedMaxWhirlAttackDuration = 0;
+    reliveChoice mKillEnemy = reliveChoice::eYes;
+    s16 mSpawnerSwitchId = 0;
+    SpawnDirection mFacing = SpawnDirection::eNone;
+
+};
+
+struct Path_CrawlingSlig final : public Path_TLV
+{
+    reliveScale mScale = reliveScale::eFull;
+    enum class StartState : s16
+    {
+        eSleeping,
+        eAwake,
+    };
+    StartState mStartState = StartState::eSleeping;
+
+    enum class CrawlDirection : s16
+    {
+        eLeft,
+        eRight,
+        eRandom,
+    };
+    CrawlDirection mCrawlDirection = CrawlDirection::eRight;
+    s16 mPanicSwitchId = 0;
+    reliveChoice mRespawnOnDeath = reliveChoice::eNo;
+};
+
+struct Path_SligGetWings final : public Path_TLV
+{
+    reliveScale mScale = reliveScale::eFull;
+    Path_FlyingSlig::SpawnDelayStates mSpawnDelayState = Path_FlyingSlig::SpawnDelayStates::eMoveImmediately;
+    s16 mSpawnMoveDelay = 0;
+    s16 mPatrolPauseMin = 0;
+    s16 mPatrolPauseMax = 0;
+    reliveXDirection mFacing = reliveXDirection::eRight;
+    s16 mPanicDelay = 0;
+    s16 mGiveUpChaseDelay = 0;
+    s16 mPrechaseDelay = 0;
+    s16 mSligBoundId = 0;
+    s16 mAlertedListenTime = 0;
+    s16 mSpawnerSwitchId = 0;
+    s16 mGrenadeDelay = 0;
+    s16 mMaxVelocity = 0;
+    s16 mLaunchGrenadeSwitchId = 0;
+    reliveChoice mPersistant = reliveChoice::eNo;
+};
+
+struct Path_SligGetPants final : public Path_TLV
+{
+    reliveScale mScale = reliveScale::eFull;
+    Path_Slig::StartState mStartState = Path_Slig::StartState::Patrol;
+    s16 mPauseTime = 0;
+    s16 mPauseLeftMin = 0;
+    s16 mPauseLeftMax = 0;
+    s16 mPauseRightMin = 0;
+    s16 mPauseRightMax = 0;
+    reliveChoice mShootPossessedSligs = reliveChoice::eYes;
+    s16 mShootOnSightDelay = 0;
+    s16 mNumTimesToShoot = 0;
+    s16 mCode1 = 0;
+    s16 mCode2 = 0;
+    reliveChoice mChaseAbeWhenSpotted = reliveChoice::eNo;
+    reliveXDirection mFacing = reliveXDirection::eRight;
+    s16 mPanicTimeout = 0;
+    s16 mStopChaseDelay = 0;
+    s16 mTimeToWaitBeforeChase = 0;
+    s16 mSligBoundId = 0;
+    s16 mAlertedListenTime = 0;
+    s16 mPercentSayWhat = 0;
+    s16 mPercentBeatMud = 0;
+    s16 mZShootDelay = 0;
+    reliveChoice mStayAwake = reliveChoice::eYes;
+    s16 mDisabledResources = 0;
+    s16 mNoiseWakeUpDistance = 0;
+    s16 mSligSpawnerSwitchId = 0;
+    reliveChoice mUnlimitedSpawns = reliveChoice::eNo;
+};
+
 } // namespace relive

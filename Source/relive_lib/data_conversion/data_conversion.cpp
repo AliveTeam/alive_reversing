@@ -374,7 +374,7 @@ static void ConvertTLV(nlohmann::json& j, const ::Path_TLV& tlv)
             convert_tlv<relive::Path_GasCountDown_Converter, ::Path_GasCountDown>(j, tlv);
             break;
         case ::TlvTypes::Unknown_70:
-            LOG_INFO("unknwon tlv 70");
+            ALIVE_FATAL("unknown tlv type 70 unused?");
             return;
         case ::TlvTypes::GasEmitter_71:
             convert_tlv<relive::Path_GasEmitter_Converter, ::Path_GasEmitter>(j, tlv);
@@ -407,7 +407,7 @@ static void ConvertTLV(nlohmann::json& j, const ::Path_TLV& tlv)
             convert_tlv<relive::Path_LaughingGas_Converter, ::Path_LaughingGas>(j, tlv);
             break;
         case ::TlvTypes::FlyingSlig_82:
-            LOG_WARNING("tlv of type " << static_cast<s16>(tlv.mTlvType32.mType) << " not implemented");
+            convert_tlv<relive::Path_FlyingSlig_Converter, ::Path_FlyingSlig>(j, tlv);
             break;
         case ::TlvTypes::Fleech_83:
             convert_tlv<relive::Path_Fleech_Converter, ::Path_Fleech>(j, tlv);
@@ -437,7 +437,7 @@ static void ConvertTLV(nlohmann::json& j, const ::Path_TLV& tlv)
             convert_tlv<relive::Path_ColourfulMeter_Converter, ::Path_ColourfulMeter>(j, tlv);
             break;
         case ::TlvTypes::FlyingSligSpawner_92:
-            LOG_WARNING("tlv of type " << static_cast<s16>(tlv.mTlvType32.mType) << " not implemented");
+            convert_tlv<relive::Path_FlyingSligSpawner_Converter, ::Path_FlyingSligSpawner>(j, tlv);
             break;
         case ::TlvTypes::MineCar_93:
             convert_tlv<relive::Path_MineCar_Converter, ::Path_MineCar>(j, tlv);
@@ -467,16 +467,16 @@ static void ConvertTLV(nlohmann::json& j, const ::Path_TLV& tlv)
             convert_tlv<relive::Path_BrewMachine_Converter, ::Path_BrewMachine>(j, tlv);
             break;
         case ::TlvTypes::ScrabSpawner_102:
-            LOG_WARNING("tlv of type " << static_cast<s16>(tlv.mTlvType32.mType) << " not implemented");
+            convert_tlv<relive::Path_ScrabSpawner_Converter, ::Path_ScrabSpawner>(j, tlv);
             break;
         case ::TlvTypes::CrawlingSlig_103:
-            LOG_WARNING("tlv of type " << static_cast<s16>(tlv.mTlvType32.mType) << " not implemented");
+            convert_tlv<relive::Path_CrawlingSlig_Converter, ::Path_CrawlingSlig>(j, tlv);
             break;
         case ::TlvTypes::SligGetPants_104:
-            LOG_WARNING("tlv of type " << static_cast<s16>(tlv.mTlvType32.mType) << " not implemented");
+            convert_tlv<relive::Path_SligGetPants_Converter, ::Path_SligGetPants>(j, tlv);
             break;
         case ::TlvTypes::SligGetWings_105:
-            LOG_WARNING("tlv of type " << static_cast<s16>(tlv.mTlvType32.mType) << " not implemented");
+            convert_tlv<relive::Path_SligGetWings_Converter, ::Path_SligGetWings>(j, tlv);
             break;
         case ::TlvTypes::Greeter_106:
             convert_tlv<relive::Path_Greeter_Converter, ::Path_Greeter>(j, tlv);

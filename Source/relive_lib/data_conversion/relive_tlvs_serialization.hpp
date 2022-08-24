@@ -131,7 +131,7 @@ NLOHMANN_JSON_SERIALIZE_ENUM(Path_ShadowZone::Scale, {
 void to_json(nlohmann::json& j, const Path_ShadowZone& p)
 {
     j = nlohmann::json{
-        {"name", "shadow_zone"},
+        {"tlv_type", "shadow_zone"},
         {"base", ToBase(p)},
         {"rgb", p.mRGB},
         {"scale", p.mScale},
@@ -149,7 +149,7 @@ void from_json(const nlohmann::json& j, Path_ShadowZone& p)
 void to_json(nlohmann::json& j, const Path_SecurityOrb& p)
 {
     j = nlohmann::json{
-        {"name", "security_orb"},
+        {"tlv_type", "security_orb"},
         {"base", ToBase(p)},
         {"scale", p.mScale},
         {"disabled_resources", p.mDisabledResources},
@@ -178,7 +178,7 @@ NLOHMANN_JSON_SERIALIZE_ENUM(Path_ContinuePoint::Scale, {
 void to_json(nlohmann::json& j, const Path_ContinuePoint& p)
 {
     j = nlohmann::json{
-        {"name", "continue_point"},
+        {"tlv_type", "continue_point"},
         {"base", ToBase(p)},
         {"zone_number", p.mZoneNumber},
         {"clear_from_id", p.mClearFromId},
@@ -216,7 +216,7 @@ NLOHMANN_JSON_SERIALIZE_ENUM(Path_LiftPoint::LiftPointStopType, {
 void to_json(nlohmann::json& j, const Path_LiftPoint& p)
 {
     j = nlohmann::json{
-        {"name", "lift_point"},
+        {"tlv_type", "lift_point"},
         {"base", ToBase(p)},
         {"lift_point_id", p.mLiftPointId},
         {"is_start_point", p.mIsStartPoint},
@@ -240,7 +240,7 @@ void from_json(const nlohmann::json& j, Path_LiftPoint& p)
 void to_json(nlohmann::json& j, const Path_Dove& p)
 {
     j = nlohmann::json{
-        {"name", "dove"},
+        {"tlv_type", "dove"},
         {"base", ToBase(p)},
         {"dove_count", p.mDoveCount},
         {"pixe_perfect", p.mPixelPerfect},
@@ -260,7 +260,7 @@ void from_json(const nlohmann::json& j, Path_Dove& p)
 void to_json(nlohmann::json& j, const Path_RockSack& p)
 {
     j = nlohmann::json{
-        {"name", "rock_sack"},
+        {"tlv_type", "rock_sack"},
         {"base", ToBase(p)},
         {"rock_fall_direction", p.mRockFallDirection},
         {"vel_x", p.mVelX},
@@ -296,7 +296,7 @@ NLOHMANN_JSON_SERIALIZE_ENUM(Path_ZBall::Speed, {
 void to_json(nlohmann::json& j, const Path_ZBall& p)
 {
     j = nlohmann::json{
-        {"name", "z_ball"},
+        {"tlv_type", "z_ball"},
         {"base", ToBase(p)},
         {"start_pos", p.mStartPos},
         {"scale", p.mScale},
@@ -316,7 +316,7 @@ void from_json(const nlohmann::json& j, Path_ZBall& p)
 void to_json(nlohmann::json& j, const Path_FallingItem& p)
 {
     j = nlohmann::json{
-        {"name", "falling_item"},
+        {"tlv_type", "falling_item"},
         {"base", ToBase(p)},
         {"switch_id", p.mSwitchId},
         {"scale", p.mScale},
@@ -353,7 +353,7 @@ NLOHMANN_JSON_SERIALIZE_ENUM(Path_PullRingRope::PullRingSoundDirection, {
 void to_json(nlohmann::json& j, const Path_PullRingRope& p)
 {
     j = nlohmann::json{
-        {"name", "pull_ring_rope"},
+        {"tlv_type", "pull_ring_rope"},
         {"base", ToBase(p)},
         {"switch_id", p.mSwitchId},
         {"action", p.mAction},
@@ -381,7 +381,7 @@ void from_json(const nlohmann::json& j, Path_PullRingRope& p)
 void to_json(nlohmann::json& j, const Path_TimedMine& p)
 {
     j = nlohmann::json{
-        {"name", "timed_mine"},
+        {"tlv_type", "timed_mine"},
         {"base", ToBase(p)},
         {"switch_id", p.mSwitchId},
         {"state", p.mState},
@@ -417,7 +417,7 @@ NLOHMANN_JSON_SERIALIZE_ENUM(Path_Hoist::GrabDirection, {
 void to_json(nlohmann::json& j, const Path_Hoist& p)
 {
     j = nlohmann::json{
-        {"name", "hoist"},
+        {"tlv_type", "hoist"},
         {"base", ToBase(p)},
         {"hoist_type", p.mHoistType},
         {"grab_direction", p.mGrabDirection},
@@ -440,7 +440,7 @@ NLOHMANN_JSON_SERIALIZE_ENUM(Path_TrapDoor::StartState, {
 void to_json(nlohmann::json& j, const Path_TrapDoor& p)
 {
     j = nlohmann::json{
-        {"name", "trap_door"},
+        {"tlv_type", "trap_door"},
         {"base", ToBase(p)},
         {"switch_id", p.mSwitchId},
         {"start_state", p.mStartState},
@@ -468,7 +468,7 @@ void from_json(const nlohmann::json& j, Path_TrapDoor& p)
 void to_json(nlohmann::json& j, const Path_LCDScreen& p)
 {
     j = nlohmann::json{
-        {"name", "lcd_screen"},
+        {"tlv_type", "lcd_screen"},
         {"base", ToBase(p)},
         {"message_id_1", p.mMessageId1},
         {"message_rand_min_id", p.mMessageRandMinId},
@@ -492,7 +492,7 @@ void from_json(const nlohmann::json& j, Path_LCDScreen& p)
 void to_json(nlohmann::json& j, const Path_Mine& p)
 {
     j = nlohmann::json{
-        {"name", "mine"},
+        {"tlv_type", "mine"},
         {"base", ToBase(p)},
         {"scale", p.mScale},
         {"disabled_resources", p.mDisabledResources},
@@ -518,7 +518,7 @@ NLOHMANN_JSON_SERIALIZE_ENUM(Path_InvisibleSwitch::InvisibleSwitchScale, {
 void to_json(nlohmann::json& j, const Path_InvisibleSwitch& p)
 {
     j = nlohmann::json{
-        {"name", "invisible_switch"},
+        {"tlv_type", "invisible_switch"},
         {"base", ToBase(p)},
         {"switch_id", p.mSwitchId},
         {"action", p.mAction},
@@ -547,7 +547,7 @@ NLOHMANN_JSON_SERIALIZE_ENUM(Path_ElectricWall::ElectricWallStartState, {
 void to_json(nlohmann::json& j, const Path_ElectricWall& p)
 {
     j = nlohmann::json{
-        {"name", "electric_wall"},
+        {"tlv_type", "electric_wall"},
         {"base", ToBase(p)},
         {"scale", p.mScale},
         {"switch_id", p.mSwitchId},
@@ -572,7 +572,7 @@ NLOHMANN_JSON_SERIALIZE_ENUM(Path_BoomMachine::NozzleSide, {
 void to_json(nlohmann::json& j, const Path_BoomMachine& p)
 {
     j = nlohmann::json{
-        {"name", "boom_machine"},
+        {"tlv_type", "boom_machine"},
         {"base", ToBase(p)},
         {"scale", p.mScale},
         {"nozzle_side", p.mNozzleSide},
@@ -599,7 +599,7 @@ NLOHMANN_JSON_SERIALIZE_ENUM(Path_UXB::StartState, {
 void to_json(nlohmann::json& j, const Path_UXB& p)
 {
     j = nlohmann::json{
-        {"name", "uxb"},
+        {"tlv_type", "uxb"},
         {"base", ToBase(p)},
         {"pattern_length", p.mPatternLength},
         {"pattern", p.mPattern},
@@ -634,7 +634,7 @@ NLOHMANN_JSON_SERIALIZE_ENUM(Path_MeatSaw::StartState, {
 void to_json(nlohmann::json& j, const Path_MeatSaw& p)
 {
     j = nlohmann::json{
-        {"name", "meat_saw"},
+        {"tlv_type", "meat_saw"},
         {"base", ToBase(p)},
         {"scale", p.mScale},
         {"switch_min_time_off", p.mSwitchMinTimeOff},
@@ -688,7 +688,7 @@ NLOHMANN_JSON_SERIALIZE_ENUM(Path_Lever::LeverSoundDirection, {
 void to_json(nlohmann::json& j, const Path_Lever& p)
 {
     j = nlohmann::json{
-        {"name", "lever"},
+        {"tlv_type", "lever"},
         {"base", ToBase(p)},
         {"action", p.mAction},
         {"scale", p.mScale},
@@ -722,7 +722,7 @@ NLOHMANN_JSON_SERIALIZE_ENUM(Path_Edge::GrabDirection, {
 void to_json(nlohmann::json& j, const Path_Edge& p)
 {
     j = nlohmann::json{
-        {"name", "edge"},
+        {"tlv_type", "edge"},
         {"base", ToBase(p)},
         {"grab_direction", p.mGrabDirection},
         {"can_grab", p.mCanGrab},
@@ -754,7 +754,7 @@ NLOHMANN_JSON_SERIALIZE_ENUM(Path_BirdPortal::PortalSide, {
 void to_json(nlohmann::json& j, const Path_BirdPortal& p)
 {
     j = nlohmann::json{
-        {"name", "bird_portal"},
+        {"tlv_type", "bird_portal"},
         {"base", ToBase(p)},
         {"enter_side", p.mEnterSide},
         {"exit_level", p.mExitLevel},
@@ -788,7 +788,7 @@ void from_json(const nlohmann::json& j, Path_BirdPortal& p)
 void to_json(nlohmann::json& j, const Path_BirdPortalExit& p)
 {
     j = nlohmann::json{
-        {"name", "bird_portal_exit"},
+        {"tlv_type", "bird_portal_exit"},
         {"base", ToBase(p)},
         {"exit_side", p.mExitSide},
         {"scale", p.mScale},
@@ -815,7 +815,7 @@ NLOHMANN_JSON_SERIALIZE_ENUM(Path_LightEffect::Type, {
 void to_json(nlohmann::json& j, const Path_LightEffect& p)
 {
     j = nlohmann::json{
-        {"name", "light_effect"},
+        {"tlv_type", "light_effect"},
         {"base", ToBase(p)},
         {"type", p.mType},
         {"size", p.mSize},
@@ -854,7 +854,7 @@ NLOHMANN_JSON_SERIALIZE_ENUM(Path_MusicTrigger::TriggeredBy, {
 void to_json(nlohmann::json& j, const Path_MusicTrigger& p)
 {
     j = nlohmann::json{
-        {"name", "music_trigger"},
+        {"tlv_type", "music_trigger"},
         {"base", ToBase(p)},
         {"music_type", p.mMusicType},
         {"triggered_by", p.mTriggeredBy},
@@ -876,7 +876,7 @@ void from_json(const nlohmann::json& j, Path_MusicTrigger& p)
 void to_json(nlohmann::json& j, const Path_SoftLanding& p)
 {
     j = nlohmann::json{
-        {"name", "soft_landing"},
+        {"tlv_type", "soft_landing"},
         {"base", ToBase(p)},
         {"switch_id", p.mSwitchId},
     };
@@ -897,7 +897,7 @@ NLOHMANN_JSON_SERIALIZE_ENUM(Path_LiftMover::YDirection, {
 void to_json(nlohmann::json& j, const Path_LiftMover& p)
 {
     j = nlohmann::json{
-        {"name", "lift_mover"},
+        {"tlv_type", "lift_mover"},
         {"base", ToBase(p)},
         {"lift_mover_switch_id", p.mLiftMoverSwitchId},
         {"target_lift_point_id", p.mTargetLiftPointId},
@@ -917,7 +917,7 @@ void from_json(const nlohmann::json& j, Path_LiftMover& p)
 void to_json(nlohmann::json& j, const Path_HintFly& p)
 {
     j = nlohmann::json{
-        {"name", "hint_fly"},
+        {"tlv_type", "hint_fly"},
         {"base", ToBase(p)},
         {"message_id", p.mMessageId},
     };
@@ -933,7 +933,7 @@ void from_json(const nlohmann::json& j, Path_HintFly& p)
 void to_json(nlohmann::json& j, const Path_TimerTrigger& p)
 {
     j = nlohmann::json{
-        {"name", "timer_trigger"},
+        {"tlv_type", "timer_trigger"},
         {"base", ToBase(p)},
         {"input_switch_id", p.mInputSwitchId},
         {"activation_delay", p.mActivationDelay},
@@ -959,7 +959,7 @@ void from_json(const nlohmann::json& j, Path_TimerTrigger& p)
 void to_json(nlohmann::json& j, const Path_FlintLockFire& p)
 {
     j = nlohmann::json{
-        {"name", "flint_lock_fire"},
+        {"tlv_type", "flint_lock_fire"},
         {"base", ToBase(p)},
         {"scale", p.mScale},
         {"switch_id", p.mSwitchId},
@@ -977,7 +977,7 @@ void from_json(const nlohmann::json& j, Path_FlintLockFire& p)
 void to_json(nlohmann::json& j, const Path_HoneySack& p)
 {
     j = nlohmann::json{
-        {"name", "honey_sack"},
+        {"tlv_type", "honey_sack"},
         {"base", ToBase(p)},
         {"chase_time", p.mChaseTime},
         {"scale", p.mScale},
@@ -995,7 +995,7 @@ void from_json(const nlohmann::json& j, Path_HoneySack& p)
 void to_json(nlohmann::json& j, const Path_Bat& p)
 {
     j = nlohmann::json{
-        {"name", "bat"},
+        {"tlv_type", "bat"},
         {"base", ToBase(p)},
         {"time_before_moving", p.mTimeBeforeMoving},
         {"speed", p.mSpeed},
@@ -1017,7 +1017,7 @@ void from_json(const nlohmann::json& j, Path_Bat& p)
 void to_json(nlohmann::json& j, const Path_RollingBallStopper& p)
 {
     j = nlohmann::json{
-        {"name", "rolling_ball_stopper"},
+        {"tlv_type", "rolling_ball_stopper"},
         {"base", ToBase(p)},
         {"stopper_switch_id", p.mStopperSwitchId},
         {"scale", p.mScale},
@@ -1039,7 +1039,7 @@ void from_json(const nlohmann::json& j, Path_RollingBallStopper& p)
 void to_json(nlohmann::json& j, const Path_RollingBall& p)
 {
     j = nlohmann::json{
-        {"name", "rolling_ball"},
+        {"tlv_type", "rolling_ball"},
         {"base", ToBase(p)},
         {"scale", p.mScale},
         {"roll_direction", p.mRollDirection},
@@ -1068,7 +1068,7 @@ NLOHMANN_JSON_SERIALIZE_ENUM(Path_MotionDetector::InitialMoveDirection, {
 void to_json(nlohmann::json& j, const Path_MotionDetector& p)
 {
     j = nlohmann::json{
-        {"name", "motion_detector"},
+        {"tlv_type", "motion_detector"},
         {"base", ToBase(p)},
         {"scale", p.mScale},
         {"device_x", p.mDeviceX},
@@ -1100,7 +1100,7 @@ void from_json(const nlohmann::json& j, Path_MotionDetector& p)
 void to_json(nlohmann::json& j, const Path_BellHammer& p)
 {
     j = nlohmann::json{
-        {"name", "bell_hammer"},
+        {"tlv_type", "bell_hammer"},
         {"base", ToBase(p)},
         {"switch_id", p.mSwitchId},
         {"action", p.mAction},
@@ -1122,7 +1122,7 @@ void from_json(const nlohmann::json& j, Path_BellHammer& p)
 void to_json(nlohmann::json& j, const Path_SligBound& p)
 {
     j = nlohmann::json{
-        {"name", "slig_bound"},
+        {"tlv_type", "slig_bound"},
         {"base", ToBase(p)},
         {"slig_bound_id", p.mSligBoundId},
         {"disabled_resources", p.mDisabledResources},
@@ -1158,7 +1158,7 @@ NLOHMANN_JSON_SERIALIZE_ENUM(Path_BackgroundAnimation::Layer, {
 void to_json(nlohmann::json& j, const Path_BackgroundAnimation& p)
 {
     j = nlohmann::json{
-        {"name", "background_animation"},
+        {"tlv_type", "background_animation"},
         {"base", ToBase(p)},
         {"anim_id", p.mAnimId},
         {"is_semi_trans", p.mIsSemiTrans},
@@ -1182,7 +1182,7 @@ void from_json(const nlohmann::json& j, Path_BackgroundAnimation& p)
 void to_json(nlohmann::json& j, const Path_MainMenuController& p)
 {
     j = nlohmann::json{
-        {"name", "main_menu_controller"},
+        {"tlv_type", "main_menu_controller"},
         {"base", ToBase(p)}
     };
 }
@@ -1196,7 +1196,7 @@ void from_json(const nlohmann::json& j, Path_MainMenuController& p)
 void to_json(nlohmann::json& j, const Path_ElumWall& p)
 {
     j = nlohmann::json{
-        {"name", "elum_wall"},
+        {"tlv_type", "elum_wall"},
         {"base", ToBase(p)}
     };
 }
@@ -1210,7 +1210,7 @@ void from_json(const nlohmann::json& j, Path_ElumWall& p)
 void to_json(nlohmann::json& j, const Path_ElumStart& p)
 {
     j = nlohmann::json{
-        {"name", "elum_start"},
+        {"tlv_type", "elum_start"},
         {"base", ToBase(p)}
     };
 }
@@ -1224,7 +1224,7 @@ void from_json(const nlohmann::json& j, Path_ElumStart& p)
 void to_json(nlohmann::json& j, const Path_KillUnsavedMuds& p)
 {
     j = nlohmann::json{
-        {"name", "kill_unsaved_muds"},
+        {"tlv_type", "kill_unsaved_muds"},
         {"base", ToBase(p)}
     };
 }
@@ -1238,7 +1238,7 @@ void from_json(const nlohmann::json& j, Path_KillUnsavedMuds& p)
 void to_json(nlohmann::json& j, const Path_InvisibleZone& p)
 {
     j = nlohmann::json{
-        {"name", "invisible_zone"},
+        {"tlv_type", "invisible_zone"},
         {"base", ToBase(p)}
     };
 }
@@ -1252,7 +1252,7 @@ void from_json(const nlohmann::json& j, Path_InvisibleZone& p)
 void to_json(nlohmann::json& j, const Path_StartController& p)
 {
     j = nlohmann::json{
-        {"name", "start_controller"},
+        {"tlv_type", "start_controller"},
         {"base", ToBase(p)}
     };
 }
@@ -1266,7 +1266,7 @@ void from_json(const nlohmann::json& j, Path_StartController& p)
 void to_json(nlohmann::json& j, const Path_ScrabNoFall& p)
 {
     j = nlohmann::json{
-        {"name", "scrab_no_fall"},
+        {"tlv_type", "scrab_no_fall"},
         {"base", ToBase(p)}
     };
 }
@@ -1280,7 +1280,7 @@ void from_json(const nlohmann::json& j, Path_ScrabNoFall& p)
 void to_json(nlohmann::json& j, const Path_ScrabLeftBound& p)
 {
     j = nlohmann::json{
-        {"name", "scrab_left_bound"},
+        {"tlv_type", "scrab_left_bound"},
         {"base", ToBase(p)}
     };
 }
@@ -1294,7 +1294,7 @@ void from_json(const nlohmann::json& j, Path_ScrabLeftBound& p)
 void to_json(nlohmann::json& j, const Path_ScrabRightBound& p)
 {
     j = nlohmann::json{
-        {"name", "scrab_right_bound"},
+        {"tlv_type", "scrab_right_bound"},
         {"base", ToBase(p)}
     };
 }
@@ -1308,7 +1308,7 @@ void from_json(const nlohmann::json& j, Path_ScrabRightBound& p)
 void to_json(nlohmann::json& j, const Path_HoneyDripTarget& p)
 {
     j = nlohmann::json{
-        {"name", "honey_drip_target"},
+        {"tlv_type", "honey_drip_target"},
         {"base", ToBase(p)}
     };
 }
@@ -1322,7 +1322,7 @@ void from_json(const nlohmann::json& j, Path_HoneyDripTarget& p)
 void to_json(nlohmann::json& j, const Path_ZSligCover& p)
 {
     j = nlohmann::json{
-        {"name", "z_slig_cover"},
+        {"tlv_type", "z_slig_cover"},
         {"base", ToBase(p)}
     };
 }
@@ -1336,7 +1336,7 @@ void from_json(const nlohmann::json& j, Path_ZSligCover& p)
 void to_json(nlohmann::json& j, const Path_DeathDrop& p)
 {
     j = nlohmann::json{
-        {"name", "death_drop"},
+        {"tlv_type", "death_drop"},
         {"base", ToBase(p)}
     };
 }
@@ -1350,7 +1350,7 @@ void from_json(const nlohmann::json& j, Path_DeathDrop& p)
 void to_json(nlohmann::json& j, const Path_ChimeLock& p)
 {
     j = nlohmann::json{
-        {"name", "chime_lock"},
+        {"tlv_type", "chime_lock"},
         {"base", ToBase(p)},
         {"scale", p.mScale},
         {"solve_switch_id", p.mSolveSwitchId},
@@ -1374,7 +1374,7 @@ void from_json(const nlohmann::json& j, Path_ChimeLock& p)
 void to_json(nlohmann::json& j, const Path_LCDStatusBoard& p)
 {
     j = nlohmann::json{
-        {"name", "lcd_status_board"},
+        {"tlv_type", "lcd_status_board"},
         {"base", ToBase(p)},
         {"number_of_muds", p.mNumberOfMuds},
         {"zulag_number", p.mZulagNumber},
@@ -1394,7 +1394,7 @@ void from_json(const nlohmann::json& j, Path_LCDStatusBoard& p)
 void to_json(nlohmann::json& j, const Path_CreditsController& p)
 {
     j = nlohmann::json{
-        {"name", "credits_controller"},
+        {"tlv_type", "credits_controller"},
         {"base", ToBase(p)}
     };
 }
@@ -1408,7 +1408,7 @@ void from_json(const nlohmann::json& j, Path_CreditsController& p)
 void to_json(nlohmann::json& j, const Path_ResetPath& p)
 {
     j = nlohmann::json{
-        {"name", "reset_path"},
+        {"tlv_type", "reset_path"},
         {"base", ToBase(p)},
         {"clear_ids", p.mClearIds},
         {"from", p.mFrom},
@@ -1436,7 +1436,7 @@ void from_json(const nlohmann::json& j, Path_ResetPath& p)
 void to_json(nlohmann::json& j, const Path_MeatSack& p)
 {
     j = nlohmann::json{
-        {"name", "meat_sack"},
+        {"tlv_type", "meat_sack"},
         {"base", ToBase(p)},
         {"meat_fall_direction", p.mMeatFallDirection},
         {"vel_x", p.mVelX},
@@ -1460,7 +1460,7 @@ void from_json(const nlohmann::json& j, Path_MeatSack& p)
 void to_json(nlohmann::json& j, const Path_Bees& p)
 {
     j = nlohmann::json{
-        {"name", "bees"},
+        {"tlv_type", "bees"},
         {"base", ToBase(p)},
         {"switch_id", p.mSwitchId},
         {"swarm_size", p.mSwarmSize},
@@ -1491,7 +1491,7 @@ NLOHMANN_JSON_SERIALIZE_ENUM(Path_BellsongStone::BellsongTypes, {
 void to_json(nlohmann::json& j, const Path_BellsongStone& p)
 {
     j = nlohmann::json{
-        {"name", "bellsong_stone"},
+        {"tlv_type", "bellsong_stone"},
         {"base", ToBase(p)},
         {"scale", p.mScale},
         {"type", p.mType},
@@ -1515,7 +1515,7 @@ void from_json(const nlohmann::json& j, Path_BellsongStone& p)
 void to_json(nlohmann::json& j, const Path_MovieStone& p)
 {
     j = nlohmann::json{
-        {"name", "movie_stone"},
+        {"tlv_type", "movie_stone"},
         {"base", ToBase(p)},
         {"movie_id", p.mMovieId},
         {"scale", p.mScale},
@@ -1535,7 +1535,7 @@ void from_json(const nlohmann::json& j, Path_MovieStone& p)
 void to_json(nlohmann::json& j, const Path_HandStone& p)
 {
     j = nlohmann::json{
-        {"name", "hand_stone"},
+        {"tlv_type", "hand_stone"},
         {"base", ToBase(p)},
         {"scale", p.mScale},
         {"camera_id_1", p.mCameraId1},
@@ -1571,7 +1571,7 @@ void from_json(const nlohmann::json& j, Path_HandStone& p)
 void to_json(nlohmann::json& j, const Path_PathTransition& p)
 {
     j = nlohmann::json{
-        {"name", "path_transition"},
+        {"tlv_type", "path_transition"},
         {"base", ToBase(p)},
         {"next_level", p.mNextLevel},
         {"next_path", p.mNextPath},
@@ -1597,7 +1597,7 @@ void from_json(const nlohmann::json& j, Path_PathTransition& p)
 void to_json(nlohmann::json& j, const Path_Pulley& p)
 {
     j = nlohmann::json{
-        {"name", "pulley"},
+        {"tlv_type", "pulley"},
         {"base", ToBase(p)},
     };
 }
@@ -1611,7 +1611,7 @@ void from_json(const nlohmann::json& j, Path_Pulley& p)
 void to_json(nlohmann::json& j, const Path_Honey& p)
 {
     j = nlohmann::json{
-        {"name", "honey"},
+        {"tlv_type", "honey"},
         {"base", ToBase(p)},
     };
 }
@@ -1631,7 +1631,7 @@ NLOHMANN_JSON_SERIALIZE_ENUM(Path_BeeSwarmHole::MovementType, {
 void to_json(nlohmann::json& j, const Path_BeeSwarmHole& p)
 {
     j = nlohmann::json{
-        {"name", "bee_swarm_hole"},
+        {"tlv_type", "bee_swarm_hole"},
         {"base", ToBase(p)},
         {"start_interval", p.mStartInterval},
         {"movement_type", p.mMovementType},
@@ -1670,7 +1670,7 @@ NLOHMANN_JSON_SERIALIZE_ENUM(Path_Door::DoorTypes, {
 void to_json(nlohmann::json& j, const Path_Door& p)
 {
     j = nlohmann::json{
-        {"name", "door"},
+        {"tlv_type", "door"},
         {"base", ToBase(p)},
         {"next_level", p.mNextLevel},
         {"next_path", p.mNextPath},
@@ -1732,7 +1732,7 @@ void from_json(const nlohmann::json& j, Path_Door& p)
 void to_json(nlohmann::json& j, const Path_AbeStart& p)
 {
     j = nlohmann::json{
-        {"name", "abe_start"},
+        {"tlv_type", "abe_start"},
         {"base", ToBase(p)},
     };
 }
@@ -1752,7 +1752,7 @@ NLOHMANN_JSON_SERIALIZE_ENUM(Path_EnemyStopper::StopDirection, {
 void to_json(nlohmann::json& j, const Path_EnemyStopper& p)
 {
     j = nlohmann::json{
-        {"name", "enemy_stopper"},
+        {"tlv_type", "enemy_stopper"},
         {"base", ToBase(p)},
         {"stop_direction", p.mStopDirection},
         {"switch_id", p.mSwitchId},
@@ -1770,7 +1770,7 @@ void from_json(const nlohmann::json& j, Path_EnemyStopper& p)
 void to_json(nlohmann::json& j, const Path_MovingBombStopper& p)
 {
     j = nlohmann::json{
-        {"name", "moving_bomb_stopper"},
+        {"tlv_type", "moving_bomb_stopper"},
         {"base", ToBase(p)},
         {"min", p.mMinDelay},
         {"max", p.mMaxDelay},
@@ -1795,7 +1795,7 @@ NLOHMANN_JSON_SERIALIZE_ENUM(Path_DoorFlame::Colour, {
 void to_json(nlohmann::json& j, const Path_DoorFlame& p)
 {
     j = nlohmann::json{
-        {"name", "door_flame"},
+        {"tlv_type", "door_flame"},
         {"base", ToBase(p)},
         {"switch_id", p.mSwitchId},
         {"scale", p.mScale},
@@ -1833,7 +1833,7 @@ NLOHMANN_JSON_SERIALIZE_ENUM(Path_Mudokon::Mud_TLV_Emotion, {
 void to_json(nlohmann::json& j, const Path_Mudokon& p)
 {
     j = nlohmann::json{
-        {"name", "mudokon"},
+        {"tlv_type", "mudokon"},
         {"base", ToBase(p)},
         {"scale", p.mScale},
         {"job", p.mJob},
@@ -1878,7 +1878,7 @@ void from_json(const nlohmann::json& j, Path_Mudokon& p)
 void to_json(nlohmann::json& j, const Path_MovingBomb& p)
 {
     j = nlohmann::json{
-        {"name", "moving_bomb"},
+        {"tlv_type", "moving_bomb"},
         {"base", ToBase(p)},
         {"speed", p.mSpeed},
         {"start_moving_switch_id", p.mStartMovingSwitchId},
@@ -1906,7 +1906,7 @@ void from_json(const nlohmann::json& j, Path_MovingBomb& p)
 void to_json(nlohmann::json& j, const Path_ElumPathTrans& p)
 {
     j = nlohmann::json{
-        {"name", "elum_path_trans"},
+        {"tlv_type", "elum_path_trans"},
         {"base", ToBase(p)},
         {"next_level", p.mNextLevel},
         {"next_path", p.mNextPath},
@@ -1926,7 +1926,7 @@ void from_json(const nlohmann::json& j, Path_ElumPathTrans& p)
 void to_json(nlohmann::json& j, const Path_MudokonPathTrans& p)
 {
     j = nlohmann::json{
-        {"name", "mudokon_path_trans"},
+        {"tlv_type", "mudokon_path_trans"},
         {"base", ToBase(p)},
         {"next_level", p.mNextLevel},
         {"next_path", p.mNextPath},
@@ -1946,7 +1946,7 @@ void from_json(const nlohmann::json& j, Path_MudokonPathTrans& p)
 void to_json(nlohmann::json& j, const Path_SecurityClaw& p)
 {
     j = nlohmann::json{
-        {"name", "security_claw"},
+        {"tlv_type", "security_claw"},
         {"base", ToBase(p)},
         {"scale", p.mScale},
         {"alarm_switch_id", p.mAlarmSwitchId},
@@ -1968,7 +1968,7 @@ void from_json(const nlohmann::json& j, Path_SecurityClaw& p)
 void to_json(nlohmann::json& j, const Path_SlingMudokon& p)
 {
     j = nlohmann::json{
-        {"name", "sling_mudokon"},
+        {"tlv_type", "sling_mudokon"},
         {"base", ToBase(p)},
         {"scale", p.mScale},
         {"dont_whistle_password", p.mDontWhistlePassword},
@@ -1995,7 +1995,7 @@ NLOHMANN_JSON_SERIALIZE_ENUM(Path_FootSwitch::FootSwitchTriggerBy, {
 void to_json(nlohmann::json& j, const Path_FootSwitch& p)
 {
     j = nlohmann::json{
-        {"name", "foot_switch"},
+        {"tlv_type", "foot_switch"},
         {"base", ToBase(p)},
         {"switch_id", p.mSwitchId},
         {"scale", p.mScale},
@@ -2023,7 +2023,7 @@ NLOHMANN_JSON_SERIALIZE_ENUM(Path_Paramite::EntranceType, {
 void to_json(nlohmann::json& j, const Path_Paramite& p)
 {
     j = nlohmann::json{
-        {"name", "paramite"},
+        {"tlv_type", "paramite"},
         {"base", ToBase(p)},
         {"scale", p.mScale},
         {"entrance_type", p.mEntranceType},
@@ -2057,7 +2057,7 @@ void from_json(const nlohmann::json& j, Path_Paramite& p)
 void to_json(nlohmann::json& j, const Path_ZzzSpawner& p)
 {
     j = nlohmann::json{
-        {"name", "zzz_spawner"},
+        {"tlv_type", "zzz_spawner"},
         {"base", ToBase(p)},
         {"scale", p.mScale},
         {"switch_id", p.mSwitchId},
@@ -2077,7 +2077,7 @@ void from_json(const nlohmann::json& j, Path_ZzzSpawner& p)
 void to_json(nlohmann::json& j, const Path_BackgroundGlukkon& p)
 {
     j = nlohmann::json{
-        {"name", "background_glukkon"},
+        {"tlv_type", "background_glukkon"},
         {"base", ToBase(p)},
         {"scale_percent", p.mScalePercent},
         {"pal_id", p.mPalId},
@@ -2103,7 +2103,7 @@ NLOHMANN_JSON_SERIALIZE_ENUM(Path_GasEmitter::GasColour, {
 void to_json(nlohmann::json& j, const Path_GasEmitter& p)
 {
     j = nlohmann::json{
-        {"name", "gas_emitter"},
+        {"tlv_type", "gas_emitter"},
         {"base", ToBase(p)},
         {"switch_id", p.mSwitchId},
         {"colour", p.mColour},
@@ -2121,7 +2121,7 @@ void from_json(const nlohmann::json& j, Path_GasEmitter& p)
 void to_json(nlohmann::json& j, const Path_GasCountDown& p)
 {
     j = nlohmann::json{
-        {"name", "gas_countdown"},
+        {"tlv_type", "gas_countdown"},
         {"base", ToBase(p)},
         {"start_timer_switch_id", p.mStartTimerSwitchId},
         {"gas_countdown_timer", p.mGasCountdownTimer},
@@ -2141,7 +2141,7 @@ void from_json(const nlohmann::json& j, Path_GasCountDown& p)
 void to_json(nlohmann::json& j, const Path_RingCancel& p)
 {
     j = nlohmann::json{
-        {"name", "ring_cancel"},
+        {"tlv_type", "ring_cancel"},
         {"base", ToBase(p)},
     };
 }
@@ -2155,7 +2155,7 @@ void from_json(const nlohmann::json& j, Path_RingCancel& p)
 void to_json(nlohmann::json& j, const Path_SecurityDoor& p)
 {
     j = nlohmann::json{
-        {"name", "security_door"},
+        {"tlv_type", "security_door"},
         {"base", ToBase(p)},
         {"scale", p.mScale},
         {"switch_id", p.mSwitchId},
@@ -2186,7 +2186,7 @@ NLOHMANN_JSON_SERIALIZE_ENUM(Path_LiftMudokon::Direction, {
 void to_json(nlohmann::json& j, const Path_LiftMudokon& p)
 {
     j = nlohmann::json{
-        {"name", "lift_mudokon"},
+        {"tlv_type", "lift_mudokon"},
         {"base", ToBase(p)},
         {"how_far_to_walk", p.mHowFarToWalk},
         {"lift_switch_id", p.mLiftSwitchId},
@@ -2219,7 +2219,7 @@ NLOHMANN_JSON_SERIALIZE_ENUM(Path_RingMudokon::MustFaceMud, {
 void to_json(nlohmann::json& j, const Path_RingMudokon& p)
 {
     j = nlohmann::json{
-        {"name", "ring_mudokon"},
+        {"tlv_type", "ring_mudokon"},
         {"base", ToBase(p)},
         {"facing", p.mFacing},
         {"abe_must_face_mud", p.mAbeMustFaceMud},
@@ -2251,7 +2251,7 @@ void from_json(const nlohmann::json& j, Path_RingMudokon& p)
 void to_json(nlohmann::json& j, const Path_WellLocal& p)
 {
     j = nlohmann::json{
-        {"name", "well_local"},
+        {"tlv_type", "well_local"},
         {"base", ToBase(p)},
         // Well base
         {"scale", p.mScale},
@@ -2301,7 +2301,7 @@ void from_json(const nlohmann::json& j, Path_WellLocal& p)
 void to_json(nlohmann::json& j, const Path_WellExpress& p)
 {
     j = nlohmann::json{
-        {"name", "well_express"},
+        {"tlv_type", "well_express"},
         {"base", ToBase(p)},
         // Well base
         {"scale", p.mScale},
@@ -2361,7 +2361,7 @@ void from_json(const nlohmann::json& j, Path_WellExpress& p)
 void to_json(nlohmann::json& j, const Path_Slog& p)
 {
     j = nlohmann::json{
-        {"name", "slog"},
+        {"tlv_type", "slog"},
         {"base", ToBase(p)},
         {"scale", p.mScale},
         {"facing", p.mFacing},
@@ -2400,7 +2400,7 @@ NLOHMANN_JSON_SERIALIZE_ENUM(Path_SlogSpawner::StartDirection, {
 void to_json(nlohmann::json& j, const Path_SlogSpawner& p)
 {
     j = nlohmann::json{
-        {"name", "slog_spawner"},
+        {"tlv_type", "slog_spawner"},
         {"base", ToBase(p)},
         {"scale", p.mScale},
         {"max_slogs", p.mMaxSlogs},
@@ -2438,7 +2438,7 @@ NLOHMANN_JSON_SERIALIZE_ENUM(Path_Scrab::ScrabPatrolType, {
 void to_json(nlohmann::json& j, const Path_Scrab& p)
 {
     j = nlohmann::json{
-        {"name", "scrab"},
+        {"tlv_type", "scrab"},
         {"base", ToBase(p)},
         {"scale", p.mScale},
         {"attack_delay", p.mAttackDelay},
@@ -2475,7 +2475,7 @@ void from_json(const nlohmann::json& j, Path_Scrab& p)
     j.at("roar_randomly").get_to(p.mRoarRandomly);
     j.at("persistant").get_to(p.mPersistant);
     j.at("possessed_max_whirl_attack_duration").get_to(p.mPossessedMaxWhirlAttackDuration);
-    j.at("kil_enemy").get_to(p.mKillEnemy);
+    j.at("kill_enemy").get_to(p.mKillEnemy);
 }
 
 // Path_Slig
@@ -2492,7 +2492,7 @@ NLOHMANN_JSON_SERIALIZE_ENUM(Path_Slig::StartState, {
 void to_json(nlohmann::json& j, const Path_Slig& p)
 {
     j = nlohmann::json{
-        {"name", "slig"},
+        {"tlv_type", "slig"},
         {"base", ToBase(p)},
         {"scale", p.mScale},
         {"start_state", p.mStartState},
@@ -2560,7 +2560,7 @@ void from_json(const nlohmann::json& j, Path_Slig& p)
 void to_json(nlohmann::json& j, const Path_SligSpawner& p)
 {
     j = nlohmann::json{
-        {"name", "slig"},
+        {"tlv_type", "slig"},
         {"base", ToBase(p)},
         {"scale", p.mScale},
         {"start_state", p.mStartState},
@@ -2628,7 +2628,7 @@ void from_json(const nlohmann::json& j, Path_SligSpawner& p)
 void to_json(nlohmann::json& j, const Path_TrainDoor& p)
 {
     j = nlohmann::json{
-        {"name", "train_door"},
+        {"tlv_type", "train_door"},
         {"base", ToBase(p)},
         {"direction", p.mDirection},
     };
@@ -2644,7 +2644,7 @@ void from_json(const nlohmann::json& j, Path_TrainDoor& p)
 void to_json(nlohmann::json& j, const Path_TorturedMudokon& p)
 {
     j = nlohmann::json{
-        {"name", "tortured_mudokon"},
+        {"tlv_type", "tortured_mudokon"},
         {"base", ToBase(p)},
         {"kill_switch_id", p.mKillSwitchId},
         {"release_switch_id", p.mReleaseSwitchId},
@@ -2662,7 +2662,7 @@ void from_json(const nlohmann::json& j, Path_TorturedMudokon& p)
 void to_json(nlohmann::json& j, const Path_DoorBlocker& p)
 {
     j = nlohmann::json{
-        {"name", "door_blocker"},
+        {"tlv_type", "door_blocker"},
         {"base", ToBase(p)},
         {"scale", p.mScale},
         {"switch_id", p.mSwitchId},
@@ -2680,7 +2680,7 @@ void from_json(const nlohmann::json& j, Path_DoorBlocker& p)
 void to_json(nlohmann::json& j, const Path_GlukkonSwitch& p)
 {
     j = nlohmann::json{
-        {"name", "glukkon_switch"},
+        {"tlv_type", "glukkon_switch"},
         {"base", ToBase(p)},
         {"scale", p.field_10_scale},
         {"ok_switch_id", p.field_12_ok_switch_id},
@@ -2704,7 +2704,7 @@ void from_json(const nlohmann::json& j, Path_GlukkonSwitch& p)
 void to_json(nlohmann::json& j, const Path_Greeter& p)
 {
     j = nlohmann::json{
-        {"name", "greeter"},
+        {"tlv_type", "greeter"},
         {"base", ToBase(p)},
         {"scale", p.mScale},
         {"motion_detector_speed", p.mMotionDetectorSpeed},
@@ -2724,7 +2724,7 @@ void from_json(const nlohmann::json& j, Path_Greeter& p)
 void to_json(nlohmann::json& j, const Path_BrewMachine& p)
 {
     j = nlohmann::json{
-        {"name", "brew_machine"},
+        {"tlv_type", "brew_machine"},
         {"base", ToBase(p)},
         {"brew_count", p.mBrewCount},
     };
@@ -2740,7 +2740,7 @@ void from_json(const nlohmann::json& j, Path_BrewMachine& p)
 void to_json(nlohmann::json& j, const Path_Alarm& p)
 {
     j = nlohmann::json{
-        {"name", "alarm"},
+        {"tlv_type", "alarm"},
         {"base", ToBase(p)},
         {"switch_id", p.mSwitchId},
         {"alarm_duration", p.mAlarmDuration},
@@ -2758,7 +2758,7 @@ void from_json(const nlohmann::json& j, Path_Alarm& p)
 void to_json(nlohmann::json& j, const Path_ParamiteWebLine& p)
 {
     j = nlohmann::json{
-        {"name", "paramite_web_line"},
+        {"tlv_type", "paramite_web_line"},
         {"base", ToBase(p)},
         {"scale", p.mScale},
     };
@@ -2774,7 +2774,7 @@ void from_json(const nlohmann::json& j, Path_ParamiteWebLine& p)
 void to_json(nlohmann::json& j, const Path_SlapLock& p)
 {
     j = nlohmann::json{
-        {"name", "slap_lock"},
+        {"tlv_type", "slap_lock"},
         {"base", ToBase(p)},
         {"scale", p.mScale},
         {"target_tomb_switch_id_1", p.mTargetTombSwitchId1},
@@ -2802,7 +2802,7 @@ void from_json(const nlohmann::json& j, Path_SlapLock& p)
 void to_json(nlohmann::json& j, const Path_StatusLight& p)
 {
     j = nlohmann::json{
-        {"name", "status_light"},
+        {"tlv_type", "status_light"},
         {"base", ToBase(p)},
         {"input_switch_id", p.mInputSwitchId},
         {"scale", p.mScale},
@@ -2832,7 +2832,7 @@ void from_json(const nlohmann::json& j, Path_StatusLight& p)
 void to_json(nlohmann::json& j, const Path_MultiSwitchController& p)
 {
     j = nlohmann::json{
-        {"name", "multi_switch_controller"},
+        {"tlv_type", "multi_switch_controller"},
         {"base", ToBase(p)},
         {"output_switch_id", p.mOutputSwitchId},
         {"action", p.mAction},
@@ -2864,7 +2864,7 @@ void from_json(const nlohmann::json& j, Path_MultiSwitchController& p)
 void to_json(nlohmann::json& j, const Path_ExplosionSet& p)
 {
     j = nlohmann::json{
-        {"name", "explosion_set"},
+        {"tlv_type", "explosion_set"},
         {"base", ToBase(p)},
         {"start_enabled", p.mStartEnabled},
         {"switch_id", p.mSwitchId},
@@ -2896,7 +2896,7 @@ void from_json(const nlohmann::json& j, Path_ExplosionSet& p)
 void to_json(nlohmann::json& j, const Path_BoneBag& p)
 {
     j = nlohmann::json{
-        {"name", "bone_bag"},
+        {"tlv_type", "bone_bag"},
         {"base", ToBase(p)},
         {"bone_fall_direction", p.mBoneFallDirection},
         {"vel_x", p.mVelX},
@@ -2920,7 +2920,7 @@ void from_json(const nlohmann::json& j, Path_BoneBag& p)
 void to_json(nlohmann::json& j, const Path_MineCar& p)
 {
     j = nlohmann::json{
-        {"name", "mine_car"},
+        {"tlv_type", "mine_car"},
         {"base", ToBase(p)},
         {"scale", p.mScale},
     };
@@ -2936,7 +2936,7 @@ void from_json(const nlohmann::json& j, Path_MineCar& p)
 void to_json(nlohmann::json& j, const Path_ColourfulMeter& p)
 {
     j = nlohmann::json{
-        {"name", "colourful_meter"},
+        {"tlv_type", "colourful_meter"},
         {"base", ToBase(p)},
         {"switch_id", p.mSwitchId},
         {"number_of_meter_bars", p.mNumberOfMeterBars},
@@ -2958,7 +2958,7 @@ void from_json(const nlohmann::json& j, Path_ColourfulMeter& p)
 void to_json(nlohmann::json& j, const Path_DemoSpawnPoint& p)
 {
     j = nlohmann::json{
-        {"name", "demo_spawn_point"},
+        {"tlv_type", "demo_spawn_point"},
         {"base", ToBase(p)},
     };
 }
@@ -2972,7 +2972,7 @@ void from_json(const nlohmann::json& j, Path_DemoSpawnPoint& p)
 void to_json(nlohmann::json& j, const Path_LevelLoader& p)
 {
     j = nlohmann::json{
-        {"name", "level_loader"},
+        {"tlv_type", "level_loader"},
         {"base", ToBase(p)},
         {"switch_id", p.mSwitchId},
         {"dest_level", p.mDestLevel},
@@ -2996,7 +2996,7 @@ void from_json(const nlohmann::json& j, Path_LevelLoader& p)
 void to_json(nlohmann::json& j, const Path_SlamDoor& p)
 {
     j = nlohmann::json{
-        {"name", "slam_door"},
+        {"tlv_type", "slam_door"},
         {"base", ToBase(p)},
         {"start_closed", p.mStartClosed},
         {"scale", p.mScale},
@@ -3020,7 +3020,7 @@ void from_json(const nlohmann::json& j, Path_SlamDoor& p)
 void to_json(nlohmann::json& j, const Path_Slurg& p)
 {
     j = nlohmann::json{
-        {"name", "annoying_slurg"},
+        {"tlv_type", "annoying_slurg"},
         {"base", ToBase(p)},
         {"moving_timer", p.mMovingTimer},
         {"facing", p.mFacing},
@@ -3042,7 +3042,7 @@ void from_json(const nlohmann::json& j, Path_Slurg& p)
 void to_json(nlohmann::json& j, const Path_LaughingGas& p)
 {
     j = nlohmann::json{
-        {"name", "laughing_gas"},
+        {"tlv_type", "laughing_gas"},
         {"base", ToBase(p)},
         {"laughing_gas", p.mLaughingGas},
         {"laughing_gas_switch_id", p.mLaughingGasSwitchId},
@@ -3066,7 +3066,7 @@ void from_json(const nlohmann::json& j, Path_LaughingGas& p)
 void to_json(nlohmann::json& j, const Path_WorkWheel& p)
 {
     j = nlohmann::json{
-        {"name", "work_wheel"},
+        {"tlv_type", "work_wheel"},
         {"base", ToBase(p)},
         {"scale", p.mScale},
         {"switch_id", p.mSwitchId},
@@ -3090,7 +3090,7 @@ void from_json(const nlohmann::json& j, Path_WorkWheel& p)
 void to_json(nlohmann::json& j, const Path_Water& p)
 {
     j = nlohmann::json{
-        {"name", "water"},
+        {"tlv_type", "water"},
         {"base", ToBase(p)},
         {"max_drops", p.mMaxDrops},
         {"switch_id", p.mSwitchId},
@@ -3120,7 +3120,7 @@ NLOHMANN_JSON_SERIALIZE_ENUM(Path_WheelSyncer::OutputRequirement, {
 void to_json(nlohmann::json& j, const Path_WheelSyncer& p)
 {
     j = nlohmann::json{
-        {"name", "wheel_syncer"},
+        {"tlv_type", "wheel_syncer"},
         {"base", ToBase(p)},
         {"input_switch_id_1", p.mInputSwitchId1},
         {"input_switch_id_2", p.mInputSwitchId2},
@@ -3150,7 +3150,7 @@ void from_json(const nlohmann::json& j, Path_WheelSyncer& p)
 void to_json(nlohmann::json& j, const Path_Fleech& p)
 {
     j = nlohmann::json{
-        {"name", "fleech"},
+        {"tlv_type", "fleech"},
         {"base", ToBase(p)},
         {"scale", p.mScale},
         {"facing", p.mFacing},
@@ -3188,7 +3188,7 @@ void from_json(const nlohmann::json& j, Path_Fleech& p)
 void to_json(nlohmann::json& j, const Path_SlurgSpawner& p)
 {
     j = nlohmann::json{
-        {"name", "slurg_spawner"},
+        {"tlv_type", "slurg_spawner"},
         {"base", ToBase(p)},
         {"spawn_interval", p.mSpawnInterval},
         {"max_slurgs", p.mMaxSlurgs},
@@ -3220,7 +3220,7 @@ NLOHMANN_JSON_SERIALIZE_ENUM(Path_Drill::DrillBehavior, {
 void to_json(nlohmann::json& j, const Path_Drill& p)
 {
     j = nlohmann::json{
-        {"name", "drill"},
+        {"tlv_type", "drill"},
         {"base", ToBase(p)},
         {"scale", p.mScale},
         {"on_min_pause_time", p.mOnMinPauseTime},
@@ -3258,7 +3258,7 @@ void from_json(const nlohmann::json& j, Path_Drill& p)
 void to_json(nlohmann::json& j, const Path_Teleporter& p)
 {
     j = nlohmann::json{
-        {"name", "teleporter"},
+        {"tlv_type", "teleporter"},
         {"base", ToBase(p)},
         {"teleporter_id", p.mTeleporterId},
         {"other_teleporter_id", p.mOtherTeleporterId},
@@ -3318,7 +3318,7 @@ NLOHMANN_JSON_SERIALIZE_ENUM(Path_Glukkon::GlukkonTypes, {
 void to_json(nlohmann::json& j, const Path_Glukkon& p)
 {
     j = nlohmann::json{
-        {"name", "glukkon"},
+        {"tlv_type", "glukkon"},
         {"base", ToBase(p)},
         {"scale", p.mScale},
         {"facing", p.mFacing},
@@ -3368,7 +3368,7 @@ NLOHMANN_JSON_SERIALIZE_ENUM(Path_CrawlingSligButton::ButtonSounds, {
 void to_json(nlohmann::json& j, const Path_CrawlingSligButton& p)
 {
     j = nlohmann::json{
-        {"name", "glukkon"},
+        {"tlv_type", "crawling_slig_button"},
         {"base", ToBase(p)},
         {"scale", p.mScale},
         {"switch_id", p.mSwitchId},
@@ -3388,6 +3388,301 @@ void from_json(const nlohmann::json& j, Path_CrawlingSligButton& p)
     j.at("on_sound").get_to(p.mOnSound);
     j.at("off_sound").get_to(p.mOffSound);
     j.at("sound_direction").get_to(p.mSoundDirection);
+}
+
+// Path_FlyingSlig
+NLOHMANN_JSON_SERIALIZE_ENUM(Path_FlyingSlig::SpawnDelayStates, {
+    {Path_FlyingSlig::SpawnDelayStates::eMoveImmediately, "move_immediately"},
+    {Path_FlyingSlig::SpawnDelayStates::eUseCustomSpawnMoveDelay, "use_custom_spawn_move_delay"},
+})
+
+void to_json(nlohmann::json& j, const Path_FlyingSlig& p)
+{
+    j = nlohmann::json{
+        {"tlv_type", "flying_slig"},
+        {"base", ToBase(p)},
+        {"scale", p.mScale},
+        {"spawn_delay_state", p.mSpawnDelayState},
+        {"spawn_move_delay", p.mSpawnMoveDelay},
+        {"patrol_pause_min", p.mPatrolPauseMin},
+        {"patrol_pause_max", p.mPatrolPauseMax},
+        {"facing", p.mFacing},
+        {"panic_delay", p.mPanicDelay},
+        {"give_up_chase_delay", p.mGiveUpChaseDelay},
+        {"prechase_delay", p.mPrechaseDelay},
+        {"slig_bound_id", p.mSligBoundId},
+        {"alerted_listen_time", p.mAlertedListenTime},
+        {"spawner_switch_id", p.mSpawnerSwitchId},
+        {"grenade_delay", p.mGrenadeDelay},
+        {"max_velocity", p.mMaxVelocity},
+        {"launch_grenade_switch_id", p.mLaunchGrenadeSwitchId},
+        {"persistant", p.mPersistant},
+    };
+}
+
+void from_json(const nlohmann::json& j, Path_FlyingSlig& p)
+{
+    j.at("base").get_to(ToBase(p));
+    j.at("scale").get_to(p.mScale);
+    j.at("spawn_delay_state").get_to(p.mSpawnDelayState);
+    j.at("spawn_move_delay").get_to(p.mSpawnMoveDelay);
+    j.at("patrol_pause_min").get_to(p.mPatrolPauseMin);
+    j.at("patrol_pause_max").get_to(p.mPatrolPauseMax);
+    j.at("facing").get_to(p.mFacing);
+    j.at("panic_deay").get_to(p.mPanicDelay);
+    j.at("give_up_chase_delay").get_to(p.mGiveUpChaseDelay);
+    j.at("prechase_delay").get_to(p.mPrechaseDelay);
+    j.at("slig_bound_id").get_to(p.mSligBoundId);
+    j.at("alerted_listen_time").get_to(p.mAlertedListenTime);
+    j.at("spawner_switch_id").get_to(p.mSpawnerSwitchId);
+    j.at("grenade_delay").get_to(p.mGrenadeDelay);
+    j.at("max_velocity").get_to(p.mMaxVelocity);
+    j.at("launch_grenade_switch_id").get_to(p.mLaunchGrenadeSwitchId);
+    j.at("persistant").get_to(p.mPersistant);
+}
+
+// Path_FlyingSligSpawner
+void to_json(nlohmann::json& j, const Path_FlyingSligSpawner& p)
+{
+    j = nlohmann::json{
+        {"tlv_type", "flying_slig_spawner"},
+        {"base", ToBase(p)},
+        {"scale", p.mScale},
+        {"spawn_delay_state", p.mSpawnDelayState},
+        {"spawn_move_delay", p.mSpawnMoveDelay},
+        {"patrol_pause_min", p.mPatrolPauseMin},
+        {"patrol_pause_max", p.mPatrolPauseMax},
+        {"facing", p.mFacing},
+        {"panic_delay", p.mPanicDelay},
+        {"give_up_chase_delay", p.mGiveUpChaseDelay},
+        {"prechase_delay", p.mPrechaseDelay},
+        {"slig_bound_id", p.mSligBoundId},
+        {"alerted_listen_time", p.mAlertedListenTime},
+        {"spawner_switch_id", p.mSpawnerSwitchId},
+        {"grenade_delay", p.mGrenadeDelay},
+        {"max_velocity", p.mMaxVelocity},
+        {"launch_grenade_switch_id", p.mLaunchGrenadeSwitchId},
+        {"persistant", p.mPersistant},
+    };
+}
+
+void from_json(const nlohmann::json& j, Path_FlyingSligSpawner& p)
+{
+    j.at("base").get_to(ToBase(p));
+    j.at("scale").get_to(p.mScale);
+    j.at("spawn_delay_state").get_to(p.mSpawnDelayState);
+    j.at("spawn_move_delay").get_to(p.mSpawnMoveDelay);
+    j.at("patrol_pause_min").get_to(p.mPatrolPauseMin);
+    j.at("patrol_pause_max").get_to(p.mPatrolPauseMax);
+    j.at("facing").get_to(p.mFacing);
+    j.at("panic_deay").get_to(p.mPanicDelay);
+    j.at("give_up_chase_delay").get_to(p.mGiveUpChaseDelay);
+    j.at("prechase_delay").get_to(p.mPrechaseDelay);
+    j.at("slig_bound_id").get_to(p.mSligBoundId);
+    j.at("alerted_listen_time").get_to(p.mAlertedListenTime);
+    j.at("spawner_switch_id").get_to(p.mSpawnerSwitchId);
+    j.at("grenade_delay").get_to(p.mGrenadeDelay);
+    j.at("max_velocity").get_to(p.mMaxVelocity);
+    j.at("launch_grenade_switch_id").get_to(p.mLaunchGrenadeSwitchId);
+    j.at("persistant").get_to(p.mPersistant);
+}
+
+// Path_ScrabSpawner
+NLOHMANN_JSON_SERIALIZE_ENUM(Path_ScrabSpawner::SpawnDirection, {
+    {Path_ScrabSpawner::SpawnDirection::eNone, "none"},
+    {Path_ScrabSpawner::SpawnDirection::eLeft, "left"},
+    {Path_ScrabSpawner::SpawnDirection::eRight, "right"},
+})
+
+void to_json(nlohmann::json& j, const Path_ScrabSpawner& p)
+{
+    j = nlohmann::json{
+        {"tlv_type", "scrab_spawner"},
+        {"base", ToBase(p)},
+        {"scale", p.mScale},
+        {"attack_delay", p.mAttackDelay},
+        {"patrol_type_run_or_walk_chance", p.mPatrolTypeRunOrWalkChance},
+        {"left_min_delay", p.mPauseLeftMin},
+        {"left_max_delay", p.mPauseLeftMax},
+        {"right_min_delay", p.mPauseRightMin},
+        {"right_max_delay", p.mPauseRightMax},
+        {"pause_after_chase_delay", p.mPauseAfterChaseTime},
+        {"disabled_resources", p.mDisabledResources},
+        {"roar_randomly", p.mRoarRandomly},
+        {"persistant", p.mPersistant},
+        {"possessed_max_whirl_attack_duration", p.mPossessedMaxWhirlAttackDuration},
+        {"kill_enemy", p.mKillEnemy},
+        {"spawner_switch_id", p.mSpawnerSwitchId},
+        {"facing", p.mFacing},
+    };
+}
+
+void from_json(const nlohmann::json& j, Path_ScrabSpawner& p)
+{
+    j.at("base").get_to(ToBase(p));
+    j.at("scale").get_to(p.mScale);
+    j.at("attack_delay").get_to(p.mAttackDelay);
+    j.at("patrol_type_run_or_walk_chance").get_to(p.mPatrolTypeRunOrWalkChance);
+    j.at("left_min_delay").get_to(p.mPauseLeftMin);
+    j.at("left_max_delay").get_to(p.mPauseLeftMax);
+    j.at("right_min_delay").get_to(p.mPauseRightMin);
+    j.at("right_max_delay").get_to(p.mPauseRightMax);
+    j.at("pause_after_chase_delay").get_to(p.mPauseAfterChaseTime);
+    j.at("disabled_resources").get_to(p.mDisabledResources);
+    j.at("roar_randomly").get_to(p.mRoarRandomly);
+    j.at("persistant").get_to(p.mPersistant);
+    j.at("possessed_max_whirl_attack_duration").get_to(p.mPossessedMaxWhirlAttackDuration);
+    j.at("kill_enemy").get_to(p.mKillEnemy);
+    j.at("spawner_switch_id").get_to(p.mSpawnerSwitchId);
+    j.at("facing").get_to(p.mFacing);
+}
+
+// Path_CrawlingSlig
+NLOHMANN_JSON_SERIALIZE_ENUM(Path_CrawlingSlig::CrawlDirection, {
+    {Path_CrawlingSlig::CrawlDirection::eLeft, "left"},
+    {Path_CrawlingSlig::CrawlDirection::eRight, "right"},
+    {Path_CrawlingSlig::CrawlDirection::eRandom, "random"},
+})
+
+NLOHMANN_JSON_SERIALIZE_ENUM(Path_CrawlingSlig::StartState, {
+    {Path_CrawlingSlig::StartState::eSleeping, ""},
+})
+
+void to_json(nlohmann::json& j, const Path_CrawlingSlig& p)
+{
+    j = nlohmann::json{
+        {"tlv_type", "crawling_slig"},
+        {"base", ToBase(p)},
+        {"scale", p.mScale},
+        {"start_state", p.mStartState},
+        {"crawl_direction", p.mCrawlDirection},
+        {"panic_switch_id", p.mPanicSwitchId},
+        {"respawn_on_death", p.mRespawnOnDeath},
+    };
+}
+
+void from_json(const nlohmann::json& j, Path_CrawlingSlig& p)
+{
+    j.at("base").get_to(ToBase(p));
+    j.at("scale").get_to(p.mScale);
+    j.at("start_state").get_to(p.mStartState);
+    j.at("crawl_direction").get_to(p.mCrawlDirection);
+    j.at("panic_switch_id").get_to(p.mPanicSwitchId);
+    j.at("respawn_on_death").get_to(p.mRespawnOnDeath);
+}
+
+// Path_SligGetWings
+void to_json(nlohmann::json& j, const Path_SligGetWings& p)
+{
+    j = nlohmann::json{
+        {"tlv_type", "slig_get_wings"},
+        {"base", ToBase(p)},
+        {"scale", p.mScale},
+        {"spawn_delay_state", p.mSpawnDelayState},
+        {"spawn_move_delay", p.mSpawnMoveDelay},
+        {"patrol_pause_min", p.mPatrolPauseMin},
+        {"patrol_pause_max", p.mPatrolPauseMax},
+        {"facing", p.mFacing},
+        {"panic_delay", p.mPanicDelay},
+        {"give_up_chase_delay", p.mGiveUpChaseDelay},
+        {"prechase_delay", p.mPrechaseDelay},
+        {"slig_bound_id", p.mSligBoundId},
+        {"alerted_listen_time", p.mAlertedListenTime},
+        {"spawner_switch_id", p.mSpawnerSwitchId},
+        {"grenade_delay", p.mGrenadeDelay},
+        {"max_velocity", p.mMaxVelocity},
+        {"launch_grenade_switch_id", p.mLaunchGrenadeSwitchId},
+        {"persistant", p.mPersistant},
+    };
+}
+
+void from_json(const nlohmann::json& j, Path_SligGetWings& p)
+{
+    j.at("base").get_to(ToBase(p));
+    j.at("scale").get_to(p.mScale);
+    j.at("spawn_delay_state").get_to(p.mSpawnDelayState);
+    j.at("spawn_move_delay").get_to(p.mSpawnMoveDelay);
+    j.at("patrol_pause_min").get_to(p.mPatrolPauseMin);
+    j.at("patrol_pause_max").get_to(p.mPatrolPauseMax);
+    j.at("facing").get_to(p.mFacing);
+    j.at("panic_deay").get_to(p.mPanicDelay);
+    j.at("give_up_chase_delay").get_to(p.mGiveUpChaseDelay);
+    j.at("prechase_delay").get_to(p.mPrechaseDelay);
+    j.at("slig_bound_id").get_to(p.mSligBoundId);
+    j.at("alerted_listen_time").get_to(p.mAlertedListenTime);
+    j.at("spawner_switch_id").get_to(p.mSpawnerSwitchId);
+    j.at("grenade_delay").get_to(p.mGrenadeDelay);
+    j.at("max_velocity").get_to(p.mMaxVelocity);
+    j.at("launch_grenade_switch_id").get_to(p.mLaunchGrenadeSwitchId);
+    j.at("persistant").get_to(p.mPersistant);
+}
+
+// Path_SligGetPants
+void to_json(nlohmann::json& j, const Path_SligGetPants& p)
+{
+    j = nlohmann::json{
+        {"tlv_type", "slig_get_pants"},
+        {"base", ToBase(p)},
+        {"scale", p.mScale},
+        {"start_state", p.mStartState},
+        {"pause_time", p.mPauseTime},
+        {"pause_left_min", p.mPauseLeftMin},
+        {"pause_left_max", p.mPauseLeftMax},
+        {"pause_right_min", p.mPauseRightMin},
+        {"pause_right_max", p.mPauseRightMax},
+        {"shoot_possessed_sligs", p.mShootPossessedSligs},
+        {"shoot_on_sight_delay", p.mShootOnSightDelay},
+        {"num_times_to_shoot", p.mNumTimesToShoot},
+        {"code_1", p.mCode1},
+        {"code_2", p.mCode2},
+        {"chase_abe_when_spotted", p.mChaseAbeWhenSpotted},
+        {"facing", p.mFacing},
+        {"panic_timeout", p.mPanicTimeout},
+        {"stop_chase_delay", p.mStopChaseDelay},
+        {"time_to_wait_before_chase", p.mTimeToWaitBeforeChase},
+        {"slig_bound_id", p.mSligBoundId},
+        {"alerted_listen_time", p.mAlertedListenTime},
+        {"percent_say_what", p.mPercentSayWhat},
+        {"percent_beat_mud", p.mPercentBeatMud},
+        {"z_shoot_delay", p.mZShootDelay},
+        {"stay_awake", p.mStayAwake},
+        {"disabled_resources", p.mDisabledResources},
+        {"noise_wake_up_distance", p.mNoiseWakeUpDistance},
+        {"slig_spawner_switch_id", p.mSligSpawnerSwitchId},
+        {"unlimited_spawns", p.mUnlimitedSpawns},
+    };
+}
+
+void from_json(const nlohmann::json& j, Path_SligGetPants& p)
+{
+    j.at("base").get_to(ToBase(p));
+    j.at("scale").get_to(p.mScale);
+    j.at("start_state").get_to(p.mStartState);
+    j.at("pause_time").get_to(p.mPauseTime);
+    j.at("pause_left_min").get_to(p.mPauseLeftMin);
+    j.at("pause_left_max").get_to(p.mPauseLeftMax);
+    j.at("pause_right_min").get_to(p.mPauseRightMin);
+    j.at("pause_right_max").get_to(p.mPauseRightMax);
+    j.at("shoot_possessed_sligs").get_to(p.mShootPossessedSligs);
+    j.at("shoot_on_sight_delay").get_to(p.mShootOnSightDelay);
+    j.at("num_times_to_shoot").get_to(p.mNumTimesToShoot);
+    j.at("code_1").get_to(p.mCode1);
+    j.at("code_2").get_to(p.mCode2);
+    j.at("chase_abe_when_spotted").get_to(p.mChaseAbeWhenSpotted);
+    j.at("facing").get_to(p.mFacing);
+    j.at("panic_timeout").get_to(p.mPanicTimeout);
+    j.at("stop_chase_delay").get_to(p.mStopChaseDelay);
+    j.at("time_to_wait_before_chase").get_to(p.mTimeToWaitBeforeChase);
+    j.at("slig_bound_id").get_to(p.mSligBoundId);
+    j.at("alerted_listen_time").get_to(p.mAlertedListenTime);
+    j.at("percent_say_what").get_to(p.mPercentSayWhat);
+    j.at("percent_beat_mud").get_to(p.mPercentBeatMud);
+    j.at("z_shoot_delay").get_to(p.mZShootDelay);
+    j.at("stay_awake").get_to(p.mStayAwake);
+    j.at("disabled_resources").get_to(p.mDisabledResources);
+    j.at("noise_wake_up_distance").get_to(p.mNoiseWakeUpDistance);
+    j.at("slig_spawner_switch_id").get_to(p.mSligSpawnerSwitchId);
+    j.at("unlimited_spawns").get_to(p.mUnlimitedSpawns);
 }
 
 } // namespace relive

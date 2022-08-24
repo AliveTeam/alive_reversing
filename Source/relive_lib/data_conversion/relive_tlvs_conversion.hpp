@@ -130,6 +130,8 @@
 #include "../AliveLibAE/Drill.hpp"
 #include "../AliveLibAE/Glukkon.hpp"
 #include "../AliveLibAE/CrawlingSligButton.hpp"
+#include "../AliveLibAE/ScrabSpawner.hpp"
+#include "../AliveLibAE/CrawlingSlig.hpp"
 
 // Convert an AO or AE TLV to a relive TLV
 
@@ -3475,7 +3477,6 @@ public:
         return r;
     }
 
-private:
     static Path_Slig::StartState From(AO::Path_Slig::StartState startState)
     {
         switch (startState)
@@ -4287,6 +4288,220 @@ private:
                 return Path_CrawlingSligButton::ButtonSounds::AbeGenericMovement;
         }
         ALIVE_FATAL("Bad crawling slig button sound");
+    }
+};
+
+class Path_FlyingSlig_Converter final
+{
+public:
+    static Path_FlyingSlig From(const ::Path_FlyingSlig& tlv)
+    {
+        Path_FlyingSlig r;
+        BaseConvert(r, tlv);
+        r.mScale = relive::From(tlv.mFlyingSligData.mScale);
+        r.mSpawnDelayState = From(tlv.mFlyingSligData.mSpawnDelayState);
+        r.mSpawnMoveDelay = tlv.mFlyingSligData.mSpawnMoveDelay;
+        r.mPatrolPauseMin = tlv.mFlyingSligData.mPatrolPauseMin;
+        r.mPatrolPauseMax = tlv.mFlyingSligData.mPatrolPauseMax;
+        r.mFacing = relive::From(tlv.mFlyingSligData.mFacing);
+        r.mPanicDelay = tlv.mFlyingSligData.mPanicDelay;
+        r.mGiveUpChaseDelay = tlv.mFlyingSligData.mGiveUpChaseDelay;
+        r.mPrechaseDelay = tlv.mFlyingSligData.mPrechaseDelay;
+        r.mSligBoundId = tlv.mFlyingSligData.mSligBoundId;
+        r.mAlertedListenTime = tlv.mFlyingSligData.mAlertedListenTime;
+        r.mSpawnerSwitchId = tlv.mFlyingSligData.mSpawnerSwitchId;
+        r.mGrenadeDelay = tlv.mFlyingSligData.mGrenadeDelay;
+        r.mMaxVelocity = tlv.mFlyingSligData.mMaxVelocity;
+        r.mLaunchGrenadeSwitchId = tlv.mFlyingSligData.mLaunchGrenadeSwitchId;
+        r.mPersistant = relive::From(tlv.mFlyingSligData.mPersistant);
+        return r;
+    }
+
+    static Path_FlyingSlig::SpawnDelayStates From(::Path_FlyingSlig_Data::SpawnDelayStates state)
+    {
+        switch (state)
+        {
+            case ::Path_FlyingSlig_Data::SpawnDelayStates::eMoveImmediately_0:
+                return Path_FlyingSlig::SpawnDelayStates::eMoveImmediately;
+            case ::Path_FlyingSlig_Data::SpawnDelayStates::eUseCustomSpawnMoveDelay_1:
+                return Path_FlyingSlig::SpawnDelayStates::eUseCustomSpawnMoveDelay;
+        }
+        ALIVE_FATAL("Bad flying slig spawn delay state");
+    }
+};
+
+class Path_FlyingSligSpawner_Converter final
+{
+public:
+    static Path_FlyingSligSpawner From(const ::Path_FlyingSligSpawner& tlv)
+    {
+        Path_FlyingSligSpawner r;
+        BaseConvert(r, tlv);
+        r.mScale = relive::From(tlv.mFlyingSligSpawnerData.mScale);
+        r.mSpawnDelayState = Path_FlyingSlig_Converter::From(tlv.mFlyingSligSpawnerData.mSpawnDelayState);
+        r.mSpawnMoveDelay = tlv.mFlyingSligSpawnerData.mSpawnMoveDelay;
+        r.mPatrolPauseMin = tlv.mFlyingSligSpawnerData.mPatrolPauseMin;
+        r.mPatrolPauseMax = tlv.mFlyingSligSpawnerData.mPatrolPauseMax;
+        r.mFacing = relive::From(tlv.mFlyingSligSpawnerData.mFacing);
+        r.mPanicDelay = tlv.mFlyingSligSpawnerData.mPanicDelay;
+        r.mGiveUpChaseDelay = tlv.mFlyingSligSpawnerData.mGiveUpChaseDelay;
+        r.mPrechaseDelay = tlv.mFlyingSligSpawnerData.mPrechaseDelay;
+        r.mSligBoundId = tlv.mFlyingSligSpawnerData.mSligBoundId;
+        r.mAlertedListenTime = tlv.mFlyingSligSpawnerData.mAlertedListenTime;
+        r.mSpawnerSwitchId = tlv.mFlyingSligSpawnerData.mSpawnerSwitchId;
+        r.mGrenadeDelay = tlv.mFlyingSligSpawnerData.mGrenadeDelay;
+        r.mMaxVelocity = tlv.mFlyingSligSpawnerData.mMaxVelocity;
+        r.mLaunchGrenadeSwitchId = tlv.mFlyingSligSpawnerData.mLaunchGrenadeSwitchId;
+        r.mPersistant = relive::From(tlv.mFlyingSligSpawnerData.mPersistant);
+        return r;
+    }
+};
+
+class Path_ScrabSpawner_Converter final
+{
+public:
+    static Path_ScrabSpawner From(const ::Path_ScrabSpawner& tlv)
+    {
+        Path_ScrabSpawner r;
+        BaseConvert(r, tlv);
+        r.mScale = relive::From(tlv.mScale);
+        r.mAttackDelay = tlv.mAttackDelay;
+        r.mPatrolTypeRunOrWalkChance = tlv.mPatrolTypeRunOrWalkChance;
+        r.mPauseLeftMin = tlv.mPauseLeftMin;
+        r.mPauseLeftMax = tlv.mPauseLeftMax;
+        r.mPauseRightMin = tlv.mPauseRightMin;
+        r.mPauseRightMax = tlv.mPauseRightMax;
+        r.mPauseAfterChaseTime = tlv.mPauseAfterChaseTime;
+        r.mDisabledResources = tlv.mDisabledResources;
+        r.mRoarRandomly = relive::From(tlv.mRoarRandomly);
+        r.mPersistant = relive::From(tlv.mPersistant);
+        r.mPossessedMaxWhirlAttackDuration = tlv.mPossessedMaxWhirlAttackDuration;
+        r.mKillEnemy = relive::From(tlv.mKillEnemy);
+
+        r.mSpawnerSwitchId = tlv.mSpawnerSwitchId;
+        r.mFacing = From(tlv.mFacing);
+        return r;
+    }
+private:
+    static Path_ScrabSpawner::SpawnDirection From(::ScrabSpawnDirection spawnDirection)
+    {
+        switch (spawnDirection)
+        {
+            case ::ScrabSpawnDirection::eNone_0:
+                return Path_ScrabSpawner::SpawnDirection::eNone;
+            case ::ScrabSpawnDirection::eLeft_1:
+                return Path_ScrabSpawner::SpawnDirection::eLeft;
+            case ::ScrabSpawnDirection::eRight_2:
+                return Path_ScrabSpawner::SpawnDirection::eRight;
+        }
+        ALIVE_FATAL("Bad scrab spawner spawn direction");
+    }
+};
+
+class Path_CrawlingSlig_Converter final
+{
+public:
+    static Path_CrawlingSlig From(const ::Path_CrawlingSlig& tlv)
+    {
+        Path_CrawlingSlig r;
+        BaseConvert(r, tlv);
+        r.mScale = relive::From(tlv.mScale);
+        r.mStartState = From(tlv.mStartState);
+        r.mCrawlDirection = From(tlv.mCrawlDirection);
+        r.mPanicSwitchId = tlv.mPanicSwitchId;
+        r.mRespawnOnDeath = relive::From(tlv.mRespawnOnDeath);
+        return r;
+    }
+private:
+    static Path_CrawlingSlig::StartState From(::Path_CrawlingSlig::StartState startState)
+    {
+        switch (startState)
+        {
+            case ::Path_CrawlingSlig::StartState::eSleeping_0:
+            case ::Path_CrawlingSlig::StartState::eSleeping_1:
+                return Path_CrawlingSlig::StartState::eSleeping;
+            case ::Path_CrawlingSlig::StartState::eAwake_2:
+                return Path_CrawlingSlig::StartState::eAwake;
+        }
+        ALIVE_FATAL("Bad crawling slig start state");
+    }
+
+    static Path_CrawlingSlig::CrawlDirection From(::Path_CrawlingSlig::CrawlDirection startState)
+    {
+        switch (startState)
+        {
+            case ::Path_CrawlingSlig::CrawlDirection::eLeft_0:
+                return Path_CrawlingSlig::CrawlDirection::eLeft;
+            case ::Path_CrawlingSlig::CrawlDirection::eRight_1:
+                return Path_CrawlingSlig::CrawlDirection::eRight;
+            case ::Path_CrawlingSlig::CrawlDirection::eRandom_2:
+                return Path_CrawlingSlig::CrawlDirection::eRandom;
+        }
+        ALIVE_FATAL("Bad crawling slig crawl direction");
+    }
+};
+
+class Path_SligGetWings_Converter final
+{
+public:
+    static Path_SligGetWings From(const ::Path_SligGetWings& tlv)
+    {
+        Path_SligGetWings r;
+        BaseConvert(r, tlv);
+        r.mScale = relive::From(tlv.mScale);
+        r.mSpawnDelayState = Path_FlyingSlig_Converter::From(tlv.mSpawnDelayState);
+        r.mSpawnMoveDelay = tlv.mSpawnMoveDelay;
+        r.mPatrolPauseMin = tlv.mPatrolPauseMin;
+        r.mPatrolPauseMax = tlv.mPatrolPauseMax;
+        r.mFacing = relive::From(tlv.mFacing);
+        r.mPanicDelay = tlv.mPanicDelay;
+        r.mGiveUpChaseDelay = tlv.mGiveUpChaseDelay;
+        r.mPrechaseDelay = tlv.mPrechaseDelay;
+        r.mSligBoundId = tlv.mSligBoundId;
+        r.mAlertedListenTime = tlv.mAlertedListenTime;
+        r.mSpawnerSwitchId = tlv.mSpawnerSwitchId;
+        r.mGrenadeDelay = tlv.mGrenadeDelay;
+        r.mMaxVelocity = tlv.mMaxVelocity;
+        r.mLaunchGrenadeSwitchId = tlv.mLaunchGrenadeSwitchId;
+        r.mPersistant = relive::From(tlv.mPersistant);
+        return r;
+    }
+};
+
+class Path_SligGetPants_Converter final
+{
+public:
+    static Path_SligGetPants From(const ::Path_SligGetPants& tlv)
+    {
+        Path_SligGetPants r;
+        BaseConvert(r, tlv);
+        r.mScale = relive::From(tlv.Scale);
+        r.mStartState = Path_Slig_Converter::From(tlv.start_state);
+        r.mPauseTime = tlv.pause_time;
+        r.mPauseLeftMin = tlv.pause_left_min;
+        r.mPauseLeftMax = tlv.pause_left_max;
+        r.mPauseRightMin = tlv.pause_right_min;
+        r.mPauseRightMax = tlv.pause_right_max;
+        r.mShootPossessedSligs = Path_Slig_Converter::From(tlv.shoot_possessed_sligs);
+        r.mShootOnSightDelay = tlv.shoot_on_sight_delay;
+        r.mNumTimesToShoot = tlv.num_times_to_shoot;
+        r.mCode1 = tlv.code1;
+        r.mCode2 = tlv.code2;
+        r.mChaseAbeWhenSpotted = relive::From(tlv.chase_abe_when_spotted);
+        r.mFacing = relive::From(tlv.start_direction);
+        r.mPanicTimeout = tlv.panic_timeout;
+        r.mStopChaseDelay = tlv.stop_chase_delay;
+        r.mTimeToWaitBeforeChase = tlv.time_to_wait_before_chase;
+        r.mSligBoundId = tlv.slig_bound_id;
+        r.mAlertedListenTime = tlv.alerted_listen_time;
+        r.mPercentSayWhat = tlv.percent_say_what;
+        r.mPercentBeatMud = tlv.percent_beat_mud;
+        r.mZShootDelay = tlv.z_shoot_delay;
+        r.mStayAwake = relive::From(tlv.stay_awake);
+        r.mDisabledResources = tlv.disable_resources;
+        r.mNoiseWakeUpDistance = tlv.noise_wake_up_distance;
+        r.mSligSpawnerSwitchId = tlv.slig_spawner_switch_id;
+        return r;
     }
 };
 

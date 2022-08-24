@@ -7,16 +7,16 @@
 
 struct Path_CrawlingSlig final : public Path_TLV
 {
-    Scale_short field_10_scale;
-    XDirection_short field_12_direction;
+    Scale_short mScale;
+    XDirection_short mFacing; // unused
 
-    enum class State : s16
+    enum class StartState : s16
     {
         eSleeping_0 = 0,
         eSleeping_1 = 1,
         eAwake_2 = 2,
     };
-    State field_14_state;
+    StartState mStartState;
 
     enum class CrawlDirection : s16
     {
@@ -24,9 +24,9 @@ struct Path_CrawlingSlig final : public Path_TLV
         eRight_1 = 1,
         eRandom_2 = 2,
     };
-    CrawlDirection field_16_crawl_direction;
-    s16 field_18_panic_switch_id;
-    Choice_short field_1A_respawn_on_death;
+    CrawlDirection mCrawlDirection;
+    s16 mPanicSwitchId;
+    Choice_short mRespawnOnDeath;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_CrawlingSlig, 0x1C);
 
