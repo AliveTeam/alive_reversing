@@ -1252,7 +1252,7 @@ CameraPos Map::GetDirection(EReliveLevelIds level, s32 path, FP xpos, FP ypos)
     }
 }
 
-relive::Path_TLV* Map::TLV_Get_At_446260(s16 xpos, s16 ypos, s16 width, s16 height, TlvTypes typeToFind)
+relive::Path_TLV* Map::TLV_Get_At_446260(s16 xpos, s16 ypos, s16 width, s16 height, ReliveTypes typeToFind)
 {
     s32 right = 0;
     s32 left = 0;
@@ -1309,7 +1309,7 @@ relive::Path_TLV* Map::TLV_Get_At_446260(s16 xpos, s16 ypos, s16 width, s16 heig
            || left < pTlvIter->mTopLeftX
            || bottom < pTlvIter->mTopLeftY
            || top > pTlvIter->mBottomRightY
-           || pTlvIter->mTlvType != static_cast<s32>(typeToFind))
+           || pTlvIter->mTlvType != typeToFind)
     {
         if (pTlvIter->mTlvFlags.Get(relive::eBit3_End_TLV_List))
         {

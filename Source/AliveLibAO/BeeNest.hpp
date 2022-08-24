@@ -11,11 +11,11 @@ namespace AO {
 struct Path_BeeNest final : public Path_TLV
 {
     s16 mSwitchId;
-    s16 mBeesAmount;
-    s16 mTotalChaseTime;
+    s16 mSwarmSize;
+    s16 mChaseTime;
     s16 mSpeed;
-    s16 field_20_disabled_resources;
-    s16 field_22_num_bees;
+    s16 mDisabledResources;
+    s16 mBeesAmount;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_BeeNest, 0x24);
 
@@ -31,7 +31,7 @@ class BeeSwarm;
 class BeeNest final : public BaseGameObject
 {
 public:
-    BeeNest(Path_BeeNest* pTlv, s32 tlvInfo);
+    BeeNest(relive::Path_BeeNest* pTlv, s32 tlvInfo);
     ~BeeNest();
 
     virtual void VScreenChanged() override;
@@ -41,7 +41,7 @@ public:
     FP mBeeSwarmY = {};
     s32 mTlvInfo = 0;
     u16 mSwitchId = 0;
-    s16 mBeesAmount = 0;
+    s16 mSwarmSize = 0;
     u16 mTotalChaseTime = 0;
     BeeNestStates mState = BeeNestStates::eWaitForTrigger_0;
     FP mSpeed = {};

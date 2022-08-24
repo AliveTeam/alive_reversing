@@ -9,21 +9,21 @@
 
 namespace AO {
 
-BeeNest::BeeNest(Path_BeeNest* pTlv, s32 tlvInfo)
+BeeNest::BeeNest(relive::Path_BeeNest* pTlv, s32 tlvInfo)
     : BaseGameObject(TRUE, 0)
 {
     mBaseGameObjectTypeId = ReliveTypes::eBeeNest;
 
     mTlvInfo = tlvInfo;
 
-    mBeesAmount = pTlv->mBeesAmount;
+    mSwarmSize = pTlv->mSwarmSize;
 
     mSwitchId = pTlv->mSwitchId;
 
-    mBeeSwarmX = FP_FromInteger(pTlv->mTopLeft.x);
-    mBeeSwarmY = FP_FromInteger(pTlv->mTopLeft.y);
+    mBeeSwarmX = FP_FromInteger(pTlv->mTopLeftX);
+    mBeeSwarmY = FP_FromInteger(pTlv->mTopLeftY);
 
-    mTotalChaseTime = pTlv->mTotalChaseTime;
+    mTotalChaseTime = pTlv->mChaseTime;
 
     mSpeed = FP_FromRaw(pTlv->mSpeed << 8);
 
@@ -37,7 +37,7 @@ BeeNest::BeeNest(Path_BeeNest* pTlv, s32 tlvInfo)
     }
 
     // The "idle" swarm that hovers around the nest
-    relive_new BeeSwarm(mBeeSwarmX, mBeeSwarmY, FP_FromInteger(0), pTlv->field_22_num_bees, 0);
+    relive_new BeeSwarm(mBeeSwarmX, mBeeSwarmY, FP_FromInteger(0), pTlv->mBeesAmount, 0);
 }
 
 BeeNest::~BeeNest()
@@ -78,7 +78,7 @@ void BeeNest::VUpdate()
                     mBeeSwarmX,
                     mBeeSwarmY,
                     mSpeed,
-                    mBeesAmount,
+                    mSwarmSize,
                     mTotalChaseTime);
                 if (mBeeSwarm)
                 {

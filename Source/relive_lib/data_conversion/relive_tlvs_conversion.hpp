@@ -132,6 +132,7 @@
 #include "../AliveLibAE/CrawlingSligButton.hpp"
 #include "../AliveLibAE/ScrabSpawner.hpp"
 #include "../AliveLibAE/CrawlingSlig.hpp"
+#include "../AliveLibAO/BeeNest.hpp"
 
 // Convert an AO or AE TLV to a relive TLV
 
@@ -2260,12 +2261,12 @@ public:
     }
 };
 
-class Path_Bees_Converter final
+class Path_BeeNest_Converter final
 {
 public:
-    static Path_Bees From(const AO::Path_Bees& tlv)
+    static Path_BeeNest From(const AO::Path_BeeNest& tlv)
     {
-        Path_Bees r;
+        Path_BeeNest r;
         BaseConvert(r, tlv);
         r.mSwitchId = tlv.mSwitchId;
         r.mSwarmSize = tlv.mSwarmSize;

@@ -32,7 +32,7 @@ const TintEntry sPullRingRopeTints_55FD1C[18] = {
 PullRingRope::PullRingRope(Path_PullRingRope* pTlv, s32 tlvInfo)
     : BaseAnimatedWithPhysicsGameObject(0)
 {
-    SetType(ReliveTypes::ePullRope);
+    SetType(ReliveTypes::ePullRingRope);
 
     const AnimRecord& rec = AnimRec(AnimId::PullRingRope_Idle);
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);

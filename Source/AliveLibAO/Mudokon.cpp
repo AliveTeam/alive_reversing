@@ -141,7 +141,7 @@ static const TintEntry sMudTints_4CD320[] = {
 ALIVE_VAR(1, 0x507B90, s16, sAlertedMudCount_507B90, 0);
 ALIVE_VAR(1, 0x507B94, s16, sMudRunningToPortalCount_507B94, 0);
 
-Mudokon::Mudokon(Path_TLV* pTlv, s32 tlvInfo)
+Mudokon::Mudokon(relive::Path_TLV* pTlv, s32 tlvInfo)
     : BaseAliveGameObject()
 {
     field_128 = -1;
@@ -176,17 +176,17 @@ Mudokon::Mudokon(Path_TLV* pTlv, s32 tlvInfo)
 
     SetTint(sMudTints_4CD320, mCurrentLevel);
 
-    Scale_short scale = Scale_short::eFull_0;
-    switch (pTlv->mTlvType32.mType)
+    relive::reliveScale scale = relive::reliveScale::eFull;
+    switch (pTlv->mTlvType)
     {
-        case TlvTypes::None_m1:
+        case ReliveTypes::eNone:
             ALIVE_FATAL("Mudokon ctor pTlv->mTlvType32.mType was None_m1. This shouldn't happen.");
             break;
-        case TlvTypes::LiftMudokon_32:
+        case ReliveTypes::eLiftMudokon:
         {
             mBaseGameObjectTypeId = ReliveTypes::eRingOrLiftMud;
 
-            auto liftMudTlv = static_cast<Path_LiftMudokon*>(pTlv);
+            auto liftMudTlv = static_cast<relive::Path_LiftMudokon*>(pTlv);
 
             field_148_res_array.res[1] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kAbeliftAOResID, 1, 0);
 
@@ -194,13 +194,13 @@ Mudokon::Mudokon(Path_TLV* pTlv, s32 tlvInfo)
             field_18C_how_far_to_walk = FP_FromInteger(liftMudTlv->mHowFarToWalk);
             field_110_lift_switch_id = liftMudTlv->mLiftSwitchId;
 
-            field_144_flags.Set(Flags_144::e144_Bit5_unused, liftMudTlv->mFacing == Path_LiftMudokon::Direction::eLeft_1);
+            field_144_flags.Set(Flags_144::e144_Bit5_unused, liftMudTlv->mFacing == relive::Path_LiftMudokon::Direction::eLeft);
             field_144_flags.Clear(Flags_144::e144_Bit4_bSnapToGrid);
             field_144_flags.Clear(Flags_144::e144_Bit11_bDeaf);
 
-            mAnim.mFlags.Set(AnimFlags::eBit5_FlipX, liftMudTlv->mFacing == Path_LiftMudokon::Direction::eLeft_1);
+            mAnim.mFlags.Set(AnimFlags::eBit5_FlipX, liftMudTlv->mFacing == relive::Path_LiftMudokon::Direction::eLeft);
 
-            field_186_give_password = liftMudTlv->mGivePassword;
+            mGivePassword = liftMudTlv->mGivePassword;
             field_184 = 1;
             field_1B8_brain_state = 0;
             field_188 = 5;
@@ -212,19 +212,19 @@ Mudokon::Mudokon(Path_TLV* pTlv, s32 tlvInfo)
         }
         break;
 
-        case TlvTypes::RingMudokon_50:
+        case ReliveTypes::eRingMudokon:
         {
             mBaseGameObjectTypeId = ReliveTypes::eRingOrLiftMud;
 
-            auto ringMudTlv = static_cast<Path_RingMudokon*>(pTlv);
+            auto ringMudTlv = static_cast<relive::Path_RingMudokon*>(pTlv);
 
-            mAnim.mFlags.Set(AnimFlags::eBit5_FlipX, ringMudTlv->mFacing == XDirection_short::eLeft_0); // TODO: Check
+            mAnim.mFlags.Set(AnimFlags::eBit5_FlipX, ringMudTlv->mFacing == relive::reliveXDirection::eLeft); // TODO: Check
             field_184 = 0;
-            field_186_give_password = ringMudTlv->mGivePassword;
-            field_198_abe_must_face_mud = ringMudTlv->mAbeMustFaceMud == Path_RingMudokon::MustFaceMud::eYes_0;
+            mGivePassword = ringMudTlv->mGivePassword;
+            field_198_abe_must_face_mud = ringMudTlv->mAbeMustFaceMud == relive::Path_RingMudokon::MustFaceMud::eYes;
             field_1B8_brain_state = 2;
 
-            if (ringMudTlv->mAction == SwitchOp::eSetTrue_0)
+            if (ringMudTlv->mAction == relive::reliveSwitchOp::eSetTrue)
             {
                 // Pull switch
                 field_148_res_array.res[2] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kAbepullAOResID, 1, 0);
@@ -241,7 +241,7 @@ Mudokon::Mudokon(Path_TLV* pTlv, s32 tlvInfo)
             field_1A4_code_converted = Code_Convert(ringMudTlv->mCode1, ringMudTlv->mCode2);
             field_1A8_code_length = Code_Length(field_1A4_code_converted);
 
-            field_144_flags.Set(Flags_144::e144_Bit10_give_ring_without_password, ringMudTlv->mGiveRingWithoutPassword == Choice_short::eYes_1);
+            field_144_flags.Set(Flags_144::e144_Bit10_give_ring_without_password, ringMudTlv->mGiveRingWithoutPassword == relive::reliveChoice::eYes);
             field_144_flags.Clear(Flags_144::e144_Bit4_bSnapToGrid);
             field_144_flags.Clear(Flags_144::e144_Bit11_bDeaf);
 
@@ -250,22 +250,22 @@ Mudokon::Mudokon(Path_TLV* pTlv, s32 tlvInfo)
         }
         break;
 
-        case TlvTypes::Mudokon_82:
+        case ReliveTypes::eMudokon:
         {
             mBaseGameObjectTypeId = ReliveTypes::eMudokon;
 
-            auto mudTlv = static_cast<Path_Mudokon*>(pTlv);
+            auto mudTlv = static_cast<relive::Path_Mudokon*>(pTlv);
 
-            if (mudTlv->mJob == Path_Mudokon::MudJobs::eStandScrub_0)
+            if (mudTlv->mJob == relive::Path_Mudokon::MudJobs::eStandScrub)
             {
                 field_1B8_brain_state = 8;
                 field_148_res_array.res[3] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kMudchslAOResID, 1, 0);
             }
-            else if (mudTlv->mJob == Path_Mudokon::MudJobs::eSitScrub_1)
+            else if (mudTlv->mJob == relive::Path_Mudokon::MudJobs::eSitScrub)
             {
                 field_1B8_brain_state = 9;
             }
-            else if (mudTlv->mJob == Path_Mudokon::MudJobs::eSitChant_2)
+            else if (mudTlv->mJob == relive::Path_Mudokon::MudJobs::eSitChant)
             {
                 field_1B8_brain_state = 14;
                 field_148_res_array.res[12] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kMudltusAOResID, 1, 0);
@@ -284,11 +284,11 @@ Mudokon::Mudokon(Path_TLV* pTlv, s32 tlvInfo)
             field_124_voice_pitch = mudTlv->mVoicePitch;
             field_1B2_rescue_switch_id = mudTlv->mRescueSwitchId;
 
-            mAnim.mFlags.Set(AnimFlags::eBit5_FlipX, mudTlv->mFacing == XDirection_short::eLeft_0);
+            mAnim.mFlags.Set(AnimFlags::eBit5_FlipX, mudTlv->mFacing == relive::reliveXDirection::eLeft);
 
             // TODO: Check these as well
-            field_144_flags.Set(Flags_144::e144_Bit11_bDeaf, mudTlv->mDeaf == Choice_short::eYes_1);
-            field_144_flags.Set(Flags_144::e144_Bit6_bPersist, mudTlv->mPersistAndResetOffscreen & 1);
+            field_144_flags.Set(Flags_144::e144_Bit11_bDeaf, mudTlv->mDeaf == relive::reliveChoice::eYes);
+            field_144_flags.Set(Flags_144::e144_Bit6_bPersist, mudTlv->mPersistAndResetOffscreen == relive::reliveChoice::eYes);
             field_144_flags.Set(Flags_144::e144_Bit4_bSnapToGrid);
 
             field_1B4_idle_time = 0;
@@ -297,13 +297,13 @@ Mudokon::Mudokon(Path_TLV* pTlv, s32 tlvInfo)
         }
         break;
         default:
-            LOG_WARNING("Mudokon ctor pTlv->mTlvType32.mType was " << magic_enum::enum_name(pTlv->mTlvType32.mType) << ". This is unhandled.");
+            LOG_WARNING("Mudokon ctor pTlv->mTlvType32.mType was " << magic_enum::enum_name(pTlv->mTlvType) << ". This is unhandled.");
             break;
     }
 
     mCurrentMotion = eMudMotions::Motion_0_Idle;
 
-    if (scale == Scale_short::eHalf_1)
+    if (scale == relive::reliveScale::eHalf)
     {
         mSpriteScale = FP_FromDouble(0.5);
         mAnim.mRenderLayer = Layer::eLayer_AbeMenu_Half_13;
@@ -319,16 +319,16 @@ Mudokon::Mudokon(Path_TLV* pTlv, s32 tlvInfo)
     FP hitX = {};
     FP hitY = {};
     const s16 bHit = sCollisions->Raycast(
-        FP_FromInteger(pTlv->mTopLeft.x),
-        FP_FromInteger(pTlv->mTopLeft.y),
-        FP_FromInteger(pTlv->mBottomRight.x),
-        FP_FromInteger(pTlv->mBottomRight.y),
+        FP_FromInteger(pTlv->mTopLeftX),
+        FP_FromInteger(pTlv->mTopLeftY),
+        FP_FromInteger(pTlv->mBottomRightX),
+        FP_FromInteger(pTlv->mBottomRightY),
         &BaseAliveGameObjectCollisionLine,
         &hitX,
         &hitY,
         mSpriteScale != FP_FromDouble(0.5) ? kFgWallsOrFloor : kBgWallsOrFloor) ? 1 : 0;
 
-    mXPos = FP_FromInteger((pTlv->mTopLeft.x + pTlv->mBottomRight.x) / 2);
+    mXPos = FP_FromInteger((pTlv->mTopLeftX + pTlv->mBottomRightX) / 2);
 
     if (bHit)
     {
@@ -595,7 +595,7 @@ void Mudokon::VScreenChanged()
         auto pTlv = gMap.TLV_Get_At_446060(nullptr, mXPos, mYPos, mXPos, mYPos);
         while (pTlv)
         {
-            if (pTlv->mTlvType32 == TlvTypes::MudokonPathTrans_89)
+            if (pTlv->mTlvType == ReliveTypes::eMudokonPathTrans)
             {
                 // Gonna go to the next path
                 field_1C4_bDoPathTrans = TRUE;
@@ -615,7 +615,7 @@ s16 Mudokon::VTakeDamage(BaseGameObject* pFrom)
 {
     switch (pFrom->mBaseGameObjectTypeId)
     {
-        case ReliveTypes::eGasClock:
+        case ReliveTypes::eGasCountDown:
             if (mHealth > FP_FromInteger(0))
             {
                 field_1B8_brain_state = 15;
@@ -1079,7 +1079,7 @@ s16 Mudokon::FindBirdPortal()
 
     if (FP_Abs(field_1AC_pBirdPortal->mXPos - mXPos) < FP_FromInteger(gPsxDisplay.mWidth) && FP_Abs(field_1AC_pBirdPortal->mHitY - mYPos) < FP_FromInteger(10))
     {
-        if (field_1AC_pBirdPortal->mPortalType == PortalType::eWorker_1 || field_1AC_pBirdPortal->mPortalType == PortalType::eShrykull_2)
+        if (field_1AC_pBirdPortal->mPortalType == relive::Path_BirdPortal::PortalType::eWorker || field_1AC_pBirdPortal->mPortalType == relive::Path_BirdPortal::PortalType::eShrykull)
         {
             sActiveHero->ChangeChantState_430510(1);
             field_1AC_pBirdPortal->mBaseGameObjectRefCount++;
@@ -1216,7 +1216,7 @@ void Mudokon::VOnTlvCollision(relive::Path_TLV* pTlv)
     {
         while (pTlv)
         {
-            if (pTlv->mTlvType == TlvTypes::DeathDrop_5)
+            if (pTlv->mTlvType == ReliveTypes::eDeathDrop)
             {
                 if (mHealth > FP_FromInteger(0))
                 {
@@ -2773,7 +2773,7 @@ s16 Mudokon::Brain_2_SingSequenceIdle()
         case 3:
             if (field_1C0_timer <= static_cast<s32>(sGnFrame))
             {
-                if (field_186_give_password == Choice_short::eYes_1)
+                if (mGivePassword == relive::reliveChoice::eYes)
                 {
                     field_1B8_brain_state = 4;
                 }
@@ -4307,7 +4307,7 @@ s16 Mudokon::Brain_12_Escape()
 
             if (mCurrentMotion == eMudMotions::Motion_0_Idle || mCurrentMotion == eMudMotions::Motion_1_WalkLoop)
             {
-                if ((pPortal->mEnterSide == PortalSide::eRight_0) == mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
+                if ((pPortal->mEnterSide == relive::Path_BirdPortal::PortalSide::eRight) == mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
                 {
                     mNextMotion = eMudMotions::Motion_2_StandingTurn;
                 }

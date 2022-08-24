@@ -1641,7 +1641,7 @@ struct Path_RollingBallStopper final : public ReliveAPI::TlvObjectBaseAO
 
 struct Path_Bees final : public ReliveAPI::TlvObjectBaseAO
 {
-    CTOR_AO(Path_Bees, "Bees", AO::TlvTypes::Bees_43)
+    CTOR_AO(Path_Bees, "Bees", AO::TlvTypes::BeeNest_43)
     {
         ADD("Switch ID", mTlv.mSwitchId);
         ADD("Swarm Size", mTlv.mSwarmSize);

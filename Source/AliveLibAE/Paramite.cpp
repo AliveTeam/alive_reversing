@@ -5671,7 +5671,7 @@ PullRingRope* Paramite::FindPullRope()
             break;
         }
 
-        if (pObj->Type() == ReliveTypes::ePullRope)
+        if (pObj->Type() == ReliveTypes::ePullRingRope)
         {
             auto pRope = static_cast<PullRingRope*>(pObj);
 

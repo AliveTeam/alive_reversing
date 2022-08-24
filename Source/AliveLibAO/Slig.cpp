@@ -283,7 +283,7 @@ void Slig::Slig_SoundEffect_46F310(SligSfx sfxIdx)
     SFX_SfxDefinition_Play_477330(&sSligSounds_4CFB30[sfxIdxInt], static_cast<s16>(volLeft), static_cast<s16>(volRight), pitch, pitch);
 }
 
-Slig::Slig(Path_Slig* pTlv, s32 tlvInfo)
+Slig::Slig(relive::Path_Slig* pTlv, s32 tlvInfo)
     : BaseAliveGameObject()
 {
     field_15C_last_event_index = -1;
@@ -321,8 +321,8 @@ Slig::Slig(Path_Slig* pTlv, s32 tlvInfo)
 
     BaseAliveGameObjectPathTLV = pTlv;
     field_174_tlv = *pTlv;
-    mXPos = FP_FromInteger(pTlv->mTopLeft.x);
-    mYPos = FP_FromInteger(pTlv->mTopLeft.y);
+    mXPos = FP_FromInteger(pTlv->mTopLeftX);
+    mYPos = FP_FromInteger(pTlv->mTopLeftY);
     field_134_tlvInfo = tlvInfo;
     field_254_prevent_depossession &= ~7u;
     field_126_input = 0;
@@ -338,7 +338,7 @@ Slig::Slig(Path_Slig* pTlv, s32 tlvInfo)
 
     mAnim.mFnPtrArray = kSlig_Anim_Frame_Fns_4CEBF0;
 
-    if (pTlv->mScale == Scale_short::eFull_0)
+    if (pTlv->mScale == relive::reliveScale::eFull)
     {
         mSpriteScale = FP_FromInteger(1);
         mAnim.mRenderLayer = Layer::eLayer_SligGreeterFartsBats_33;
@@ -407,11 +407,11 @@ Slig::~Slig()
     }
 
     auto pTlv = gMap.TLV_Get_At_446260(
-        field_174_tlv.mTopLeft.x,
-        field_174_tlv.mTopLeft.y,
-        field_174_tlv.mTopLeft.x,
-        field_174_tlv.mTopLeft.y,
-        field_174_tlv.mTlvType32.mType);
+        field_174_tlv.mTopLeftX,
+        field_174_tlv.mTopLeftY,
+        field_174_tlv.mTopLeftX,
+        field_174_tlv.mTopLeftY,
+        field_174_tlv.mTlvType);
 
     if (mHealth <= FP_FromInteger(0))
     {
@@ -507,15 +507,15 @@ void Slig::Init()
 
     switch (field_174_tlv.mStartState)
     {
-        case Path_Slig::StartState::Patrol_1:
+        case relive::Path_Slig::StartState::Patrol:
         {
             SetBrain(&Slig::Brain_Inactive_46B780);
             SetBrain2(&Slig::Brain_Inactive_46B780);
             break;
         }
-        case Path_Slig::StartState::Sleeping_2:
+        case relive::Path_Slig::StartState::Sleeping:
         {
-            if (field_174_tlv.mTlvSpecificMeaning && field_174_tlv.mStayAwake == Choice_short::eYes_1)
+            if (field_174_tlv.mTlvSpecificMeaning && field_174_tlv.mStayAwake == relive::reliveChoice::eYes)
             {
                 SetBrain(&Slig::Brain_Inactive_46B780);
                 SetBrain2(&Slig::Brain_Inactive_46B780);
@@ -529,14 +529,14 @@ void Slig::Init()
             }
             break;
         }
-        case Path_Slig::StartState::Chase_3:
+        case relive::Path_Slig::StartState::Chase:
         {
             SetBrain(&Slig::Brain_StartChasing_46CF90);
             SetBrain2(&Slig::Brain_StartChasing_46CF90);
             field_114_timer = sGnFrame + field_174_tlv.mTimeToWaitBeforeChase;
             break;
         }
-        case Path_Slig::StartState::ChaseAndDisappear_4:
+        case relive::Path_Slig::StartState::ChaseAndDisappear:
         {
             field_114_timer = sGnFrame + field_174_tlv.mPauseTime;
             SetBrain(&Slig::Brain_ChaseAndDisappear_46EEE0);
@@ -544,7 +544,7 @@ void Slig::Init()
             field_130_game_ender_pause_time = field_174_tlv.mPauseTime;
             break;
         }
-        case Path_Slig::StartState::FallingToChase_5:
+        case relive::Path_Slig::StartState::eFallingToChase:
         {
             SetBrain(&Slig::Brain_Paused_466030);
             SetBrain2(&Slig::Brain_Paused_466030);
@@ -558,7 +558,7 @@ void Slig::Init()
         }
     }
 
-    if (field_174_tlv.mFacing == XDirection_short::eLeft_0)
+    if (field_174_tlv.mFacing == relive::reliveXDirection::eLeft)
     {
         mAnim.mFlags.Set(AnimFlags::eBit5_FlipX);
     }
@@ -579,27 +579,27 @@ void Slig::Init()
             while (pTlvIter)
             {
                 bool addPoint = false;
-                if (pTlvIter->mTlvType32 == TlvTypes::eSligBoundLeft_57)
+                if (pTlvIter->mTlvType == ReliveTypes::eSligBoundLeft)
                 {
-                    if (static_cast<Path_SligBoundLeft*>(pTlvIter)->mSligBoundId == field_174_tlv.mSligBoundId)
+                    if (static_cast<relive::Path_SligBoundLeft*>(pTlvIter)->mSligBoundId == field_174_tlv.mSligBoundId)
                     {
-                        field_13C_zone_rect.x = pTlvIter->mTopLeft.x;
+                        field_13C_zone_rect.x = pTlvIter->mTopLeftX;
                         addPoint = true;
                         zoneRectSet = true;
                     }
                 }
-                else if (pTlvIter->mTlvType32 == TlvTypes::eSligBoundRight_76)
+                else if (pTlvIter->mTlvType == ReliveTypes::eSligBoundRight)
                 {
-                    if (static_cast<Path_SligBoundRight*>(pTlvIter)->mSligBoundId == field_174_tlv.mSligBoundId)
+                    if (static_cast<relive::Path_SligBoundRight*>(pTlvIter)->mSligBoundId == field_174_tlv.mSligBoundId)
                     {
-                        field_13C_zone_rect.w = pTlvIter->mTopLeft.x;
+                        field_13C_zone_rect.w = pTlvIter->mTopLeftX;
                         addPoint = true;
                         zoneRectSet = true;
                     }
                 }
-                else if (pTlvIter->mTlvType32 == TlvTypes::eSligPersist_77)
+                else if (pTlvIter->mTlvType == ReliveTypes::eSligPersist)
                 {
-                    if (static_cast<Path_SligPersist*>(pTlvIter)->mSligBoundId == field_174_tlv.mSligBoundId)
+                    if (static_cast<relive::Path_SligPersist*>(pTlvIter)->mSligBoundId == field_174_tlv.mSligBoundId)
                     {
                         addPoint = true;
                     }
@@ -609,8 +609,8 @@ void Slig::Init()
                 {
                     if (field_1F4_points_count < ALIVE_COUNTOF(field_1CC_points))
                     {
-                        field_1CC_points[field_1F4_points_count].x = pTlvIter->mTopLeft.x;
-                        field_1CC_points[field_1F4_points_count].y = pTlvIter->mTopLeft.y;
+                        field_1CC_points[field_1F4_points_count].x = pTlvIter->mTopLeftX;
+                        field_1CC_points[field_1F4_points_count].y = pTlvIter->mTopLeftY;
                         field_1F4_points_count++;
                     }
                 }
@@ -1015,11 +1015,11 @@ enum Brain_DeathDropDeath
     eSwitchCamToAbe_2 = 2
 };
 
-void Slig::VOnTlvCollision(Path_TLV* pTlv)
+void Slig::VOnTlvCollision(relive::Path_TLV* pTlv)
 {
     while (pTlv)
     {
-        if (pTlv->mTlvType32 == TlvTypes::DeathDrop_5)
+        if (pTlv->mTlvType == ReliveTypes::eDeathDrop)
         {
             if (mHealth > FP_FromInteger(0))
             {
@@ -1398,12 +1398,12 @@ s16 Slig::HandleEnemyStopper_46BF30(s32 gridBlocks)
     }
 
     const auto dirScaled = ScaleToGridSize(mSpriteScale) * FP_FromInteger(directedGirdBlocks) + mXPos;
-    auto pStopper = static_cast<Path_EnemyStopper*>(gMap.TLV_Get_At_446260(
+    auto pStopper = static_cast<relive::Path_EnemyStopper*>(gMap.TLV_Get_At_446260(
         FP_GetExponent(mXPos),
         FP_GetExponent(mYPos),
         FP_GetExponent(dirScaled),
         FP_GetExponent(mYPos),
-        TlvTypes::EnemyStopper_79));
+        ReliveTypes::eEnemyStopper));
 
     if (!pStopper)
     {
@@ -1416,17 +1416,17 @@ s16 Slig::HandleEnemyStopper_46BF30(s32 gridBlocks)
         return 0;
     }
 
-    if (pStopper->mStopDirection == Path_EnemyStopper::StopDirection::Both_2)
+    if (pStopper->mStopDirection == relive::Path_EnemyStopper::StopDirection::Both)
     {
         return 1;
     }
 
-    if (bFacingLeft && pStopper->mStopDirection == Path_EnemyStopper::StopDirection::Left_0)
+    if (bFacingLeft && pStopper->mStopDirection == relive::Path_EnemyStopper::StopDirection::Left)
     {
         return 1;
     }
 
-    if (!bFacingLeft && pStopper->mStopDirection == Path_EnemyStopper::StopDirection::Right_1)
+    if (!bFacingLeft && pStopper->mStopDirection == relive::Path_EnemyStopper::StopDirection::Right)
     {
         return 1;
     }
@@ -1441,7 +1441,7 @@ void Slig::RespondToEnemyOrPatrol_465DF0()
     if (field_174_tlv.mShootOnSightDelay)
     {
         if (sControlledCharacter->mBaseGameObjectTypeId != ReliveTypes::eSlig
-            || field_174_tlv.mShootPossessedSligs != Path_Slig::ShootPossessedSligs::eNo_0)
+            || field_174_tlv.mShootPossessedSligs != relive::reliveChoice::eNo)
         {
             SetBrain(&Slig::Brain_SpottedEnemy_465EB0);
             mNextMotion = eSligMotions::Motion_31_SpeakAIFreeze_468350;
@@ -1728,12 +1728,12 @@ s16 Slig::IsInInvisibleZone_418870(BaseAnimatedWithPhysicsGameObject* pObj)
 
     const PSX_RECT rect = pObj->VGetBoundingRect();
 
-    Path_TLV* pTlv = gMap.TLV_Get_At_446260(rect.x, rect.y, rect.w, rect.h, TlvTypes::InvisibleZone_58);
+    relive::Path_TLV* pTlv = gMap.TLV_Get_At_446260(rect.x, rect.y, rect.w, rect.h, ReliveTypes::eInvisibleZone);
     if (pTlv)
     {
-        if (rect.x >= pTlv->mTopLeft.x && rect.x <= pTlv->mBottomRight.x && rect.y >= pTlv->mTopLeft.y)
+        if (rect.x >= pTlv->mTopLeftX && rect.x <= pTlv->mBottomRightX && rect.y >= pTlv->mTopLeftY)
         {
-            if (rect.y <= pTlv->mBottomRight.y && rect.w >= pTlv->mTopLeft.x && rect.w <= pTlv->mBottomRight.x && rect.h >= pTlv->mTopLeft.y && rect.h <= pTlv->mBottomRight.y)
+            if (rect.y <= pTlv->mBottomRightY && rect.w >= pTlv->mTopLeftX && rect.w <= pTlv->mBottomRightX && rect.h >= pTlv->mTopLeftY && rect.h <= pTlv->mBottomRightY)
             {
                 return TRUE;
             }
@@ -2109,16 +2109,16 @@ s16 Slig::HandlePlayerControlled()
     {
         if (!Input_IsChanting())
         {
-            Path_Lever* pTlv = static_cast<Path_Lever*>(gMap.TLV_Get_At_446260(
+            relive::Path_Lever* pTlv = static_cast<relive::Path_Lever*>(gMap.TLV_Get_At_446260(
                 FP_GetExponent(mXPos),
                 FP_GetExponent(mYPos),
                 FP_GetExponent(mXPos),
                 FP_GetExponent(mYPos),
-                TlvTypes::Lever_26));
+                ReliveTypes::eLever));
             BaseAliveGameObjectPathTLV = pTlv;
             if (pTlv)
             {
-                if (FP_FromInteger(FP_GetExponent(mXPos) - pTlv->mTopLeft.x) < kScaleGrid)
+                if (FP_FromInteger(FP_GetExponent(mXPos) - pTlv->mTopLeftX) < kScaleGrid)
                 {
                     if (!(mAnim.mFlags.Get(AnimFlags::eBit5_FlipX)))
                     {
@@ -2140,7 +2140,7 @@ s16 Slig::HandlePlayerControlled()
                     mCurrentMotion = eSligMotions::Motion_5_TurnAroundStanding_469C80;
                     return 1;
                 }
-                if (FP_FromInteger(pTlv->mBottomRight.x - FP_GetExponent(mXPos)) < kScaleGrid)
+                if (FP_FromInteger(pTlv->mBottomRightX - FP_GetExponent(mXPos)) < kScaleGrid)
                 {
                     if (mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
                     {
@@ -3998,7 +3998,7 @@ s16 Slig::Brain_SpottedEnemy_465EB0()
             mXPos,
             mYPos,
             0)
-        || field_174_tlv.mChaseAbeWhenSpotted == Choice_short::eNo_0)
+        || field_174_tlv.mChaseAbeWhenSpotted == relive::reliveChoice::eNo)
     {
         if (VOnSameYLevel(sControlledCharacter)
             && VIsObj_GettingNear_On_X(sControlledCharacter)
@@ -4287,12 +4287,12 @@ void Slig::WakeUp()
     mNextMotion = eSligMotions::Motion_34_SleepingToStand_46A5F0;
     SetBrain(&Slig::Brain_WakingUp_46B700);
     MusicController::static_PlayMusic(MusicController::MusicTypes::eChase_4, this, 0, 0);
-    auto pTlv = static_cast<Path_Slig*>(gMap.TLV_Get_At_446260(
-        field_174_tlv.mTopLeft.x,
-        field_174_tlv.mTopLeft.y,
-        field_174_tlv.mTopLeft.x,
-        field_174_tlv.mTopLeft.y,
-        TlvTypes::Slig_24));
+    auto pTlv = static_cast<relive::Path_Slig*>(gMap.TLV_Get_At_446260(
+        field_174_tlv.mTopLeftX,
+        field_174_tlv.mTopLeftY,
+        field_174_tlv.mTopLeftX,
+        field_174_tlv.mTopLeftY,
+        ReliveTypes::eSlig));
     if (pTlv)
     {
         pTlv->mTlvSpecificMeaning = 1;
@@ -4940,16 +4940,16 @@ s16 Slig::Brain_Idle_46D6E0()
             }
             if (pEventSystem_4FF954->field_10_last_event == GameSpeakEvents::eUnknown_29)
             {
-                auto pTlv = static_cast<Path_Lever*>(gMap.TLV_Get_At_446260(
+                auto pTlv = static_cast<relive::Path_Lever*>(gMap.TLV_Get_At_446260(
                     FP_GetExponent(mXPos),
                     FP_GetExponent(mYPos),
                     FP_GetExponent(mXPos),
                     FP_GetExponent(mYPos),
-                    TlvTypes::Lever_26));
+                    ReliveTypes::eLever));
                 if (pTlv)
                 {
                     FP kScaleGrid = ScaleToGridSize(mSpriteScale);
-                    if ((FP_FromInteger(FP_GetExponent(mXPos) - pTlv->mTopLeft.x) < kScaleGrid && !(mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))) || (FP_FromInteger(pTlv->mBottomRight.x - FP_GetExponent(mXPos)) < kScaleGrid && mAnim.mFlags.Get(AnimFlags::eBit5_FlipX)))
+                    if ((FP_FromInteger(FP_GetExponent(mXPos) - pTlv->mTopLeftX) < kScaleGrid && !(mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))) || (FP_FromInteger(pTlv->mBottomRightX - FP_GetExponent(mXPos)) < kScaleGrid && mAnim.mFlags.Get(AnimFlags::eBit5_FlipX)))
                     {
                         auto pSwitch = static_cast<Lever*>(FindObjectOfType_418280(
                             ReliveTypes::eLever,
@@ -5566,7 +5566,7 @@ s16 Slig::Brain_Shooting_46EFD0()
                 mXPos,
                 mYPos,
                 0)
-            && field_174_tlv.mChaseAbeWhenSpotted == Choice_short::eYes_1)
+            && field_174_tlv.mChaseAbeWhenSpotted == relive::reliveChoice::eYes)
         {
             ToChase_46D080();
             return 111;

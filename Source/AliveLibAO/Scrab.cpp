@@ -104,7 +104,7 @@ const static Scrab::TBrainType sScrabAITable[]{
     &Scrab::Brain_WalkAround_460D80,
 };
 
-Scrab::Scrab(Path_Scrab* pTlv, s32 tlvInfo)
+Scrab::Scrab(relive::Path_Scrab* pTlv, s32 tlvInfo)
     : BaseAliveGameObject()
 {
     mBaseGameObjectTypeId = ReliveTypes::eScrab;
@@ -147,10 +147,10 @@ Scrab::Scrab(Path_Scrab* pTlv, s32 tlvInfo)
 
     field_140_last_shriek_timer = 0;
 
-    mXPos = FP_FromInteger(pTlv->mTopLeft.x + 12);
-    mYPos = FP_FromInteger(pTlv->mTopLeft.y);
+    mXPos = FP_FromInteger(pTlv->mTopLeftX + 12);
+    mYPos = FP_FromInteger(pTlv->mTopLeftY);
 
-    if (pTlv->mScale == Scale_short::eHalf_1)
+    if (pTlv->mScale == relive::reliveScale::eHalf)
     {
         mSpriteScale = FP_FromDouble(0.5);
         mAnim.mRenderLayer = Layer::eLayer_8;
@@ -173,7 +173,7 @@ Scrab::Scrab(Path_Scrab* pTlv, s32 tlvInfo)
     field_138_spotting_abe_delay = pTlv->mSpottingAbeDelay;
 
     // TODO: flags
-    field_188_flags = 32 * (pTlv->mRoarRandomly == Choice_short::eYes_1) | (((field_188_flags & ~0x11) | 4) & ~0x28);
+    field_188_flags = 32 * (pTlv->mRoarRandomly == relive::reliveChoice::eYes) | (((field_188_flags & ~0x11) | 4) & ~0x28);
 
     FP hitX = {};
     FP hitY = {};
@@ -3858,11 +3858,11 @@ s16 Scrab::HandleRunning()
     return 3;
 }
 
-s16 Scrab::GetMotionForPatrolType(ScrabPatrolType ScrabPatrolType)
+s16 Scrab::GetMotionForPatrolType(relive::Path_Scrab::ScrabPatrolType ScrabPatrolType)
 {
     switch (ScrabPatrolType)
     {
-        case ScrabPatrolType::eRunOrWalk192_1:
+        case relive::Path_Scrab::ScrabPatrolType::eRunOrWalk192:
             if (Math_NextRandom() < 192u)
             {
                 return eScrabMotions::Motion_2_Walk_45E730;
@@ -3873,7 +3873,7 @@ s16 Scrab::GetMotionForPatrolType(ScrabPatrolType ScrabPatrolType)
             }
             break;
 
-        case ScrabPatrolType::eRunOrWalk128_2:
+        case relive::Path_Scrab::ScrabPatrolType::eRunOrWalk128:
             if (Math_NextRandom() < 128u)
             {
                 return eScrabMotions::Motion_2_Walk_45E730;
@@ -3884,7 +3884,7 @@ s16 Scrab::GetMotionForPatrolType(ScrabPatrolType ScrabPatrolType)
             }
             break;
 
-        case ScrabPatrolType::eRunOrWalk64_3:
+        case relive::Path_Scrab::ScrabPatrolType::eRunOrWalk64:
             if (Math_NextRandom() < 64u)
             {
                 return eScrabMotions::Motion_2_Walk_45E730;
@@ -3895,7 +3895,7 @@ s16 Scrab::GetMotionForPatrolType(ScrabPatrolType ScrabPatrolType)
             }
             break;
 
-        case ScrabPatrolType::eRun_4:
+        case relive::Path_Scrab::ScrabPatrolType::eRun:
             return eScrabMotions::Motion_3_Run_45EAB0;
 
         default:

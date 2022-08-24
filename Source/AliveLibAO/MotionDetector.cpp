@@ -20,7 +20,7 @@ namespace AO {
 #undef min
 #undef max
 
-MotionDetector::MotionDetector(Path_MotionDetector* pTlv, s32 tlvInfo)
+MotionDetector::MotionDetector(relive::Path_MotionDetector* pTlv, s32 tlvInfo)
 {
     mBaseGameObjectTypeId = ReliveTypes::eMotionDetector;
     const AnimRecord rec = AO::AnimRec(AnimId::MotionDetector_Flare);
@@ -35,7 +35,7 @@ MotionDetector::MotionDetector(Path_MotionDetector* pTlv, s32 tlvInfo)
     field_F6_bDontComeBack = 1;
     field_E4_tlvInfo = tlvInfo;
 
-    if (pTlv->mScale == Scale_short::eHalf_1)
+    if (pTlv->mScale == relive::reliveScale::eHalf)
     {
         mSpriteScale = FP_FromDouble(0.5);
     }
@@ -44,11 +44,11 @@ MotionDetector::MotionDetector(Path_MotionDetector* pTlv, s32 tlvInfo)
         mSpriteScale = FP_FromInteger(1);
     }
 
-    field_F8_top_left_x = FP_FromInteger(pTlv->mTopLeft.x);
-    field_100_bottom_right_x = FP_FromInteger(pTlv->mBottomRight.x);
+    field_F8_top_left_x = FP_FromInteger(pTlv->mTopLeftX);
+    field_100_bottom_right_x = FP_FromInteger(pTlv->mBottomRightX);
 
-    field_FC_top_left_y = FP_FromInteger(pTlv->mTopLeft.y);
-    field_104_bottom_right_y = FP_FromInteger(pTlv->mBottomRight.y);
+    field_FC_top_left_y = FP_FromInteger(pTlv->mTopLeftY);
+    field_104_bottom_right_y = FP_FromInteger(pTlv->mBottomRightY);
 
     mXPos = FP_FromInteger(pTlv->mDeviceX);
     mYPos = FP_FromInteger(pTlv->mDeviceY);
@@ -57,7 +57,7 @@ MotionDetector::MotionDetector(Path_MotionDetector* pTlv, s32 tlvInfo)
 
     const AnimRecord& laserRec = AO::AnimRec(AnimId::MotionDetector_Laser);
     u8** ppResLaser = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, laserRec.mResourceId, 1, 0);
-    if (pTlv->mInitialMoveDirection == Path_MotionDetector::InitialMoveDirection::eRight_0)
+    if (pTlv->mInitialMoveDirection == relive::Path_MotionDetector::InitialMoveDirection::eRight)
     {
         
         field_E8_state = States::eMoveRight_0;
@@ -79,7 +79,7 @@ MotionDetector::MotionDetector(Path_MotionDetector* pTlv, s32 tlvInfo)
             field_108_pLaser = pMotionDetectors;
         }
     }
-    else if (pTlv->mInitialMoveDirection == Path_MotionDetector::InitialMoveDirection::eLeft_1)
+    else if (pTlv->mInitialMoveDirection == relive::Path_MotionDetector::InitialMoveDirection::eLeft)
     {
         field_E8_state = States::eMoveLeft_2;
         auto pMotionDetectors = relive_new MotionDetectorLaser();
@@ -109,7 +109,7 @@ MotionDetector::MotionDetector(Path_MotionDetector* pTlv, s32 tlvInfo)
 
     field_108_pLaser->mAnim.mFlags.Set(AnimFlags::eBit3_Render, SwitchStates_Get(field_F0_disable_switch_id) == 0);
 
-    mAnim.mFlags.Set(AnimFlags::eBit3_Render, pTlv->mDrawFlare == Choice_short::eYes_1);
+    mAnim.mFlags.Set(AnimFlags::eBit3_Render, pTlv->mDrawFlare == relive::reliveChoice::eYes);
 
     field_F4_alarm_duration = pTlv->mAlarmDuration;
 

@@ -1503,11 +1503,11 @@ inline void from_json(const nlohmann::json& j, Path_MeatSack& p)
     j.at("meat_amount").get_to(p.mMeatAmount);
 }
 
-// Path_Bees
-inline void to_json(nlohmann::json& j, const Path_Bees& p)
+// Path_BeeNest
+inline void to_json(nlohmann::json& j, const Path_BeeNest& p)
 {
     j = nlohmann::json{
-        {"tlv_type", "bees"},
+        {"tlv_type", "bee_nest"},
         {"base", ToBase(p)},
         {"switch_id", p.mSwitchId},
         {"swarm_size", p.mSwarmSize},
@@ -1518,7 +1518,7 @@ inline void to_json(nlohmann::json& j, const Path_Bees& p)
     };
 }
 
-inline void from_json(const nlohmann::json& j, Path_Bees& p)
+inline void from_json(const nlohmann::json& j, Path_BeeNest& p)
 {
     j.at("base").get_to(ToBase(p));
     j.at("switch_id").get_to(p.mSwitchId);

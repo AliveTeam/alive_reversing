@@ -77,7 +77,7 @@ ALIVE_ASSERT_SIZEOF(Path_Paramite, 0x2C);
 class Paramite final : public BaseAliveGameObject
 {
 public:
-    Paramite(Path_Paramite* pTlv, s32 tlvInfo);
+    Paramite(relive::Path_Paramite* pTlv, s32 tlvInfo);
     ~Paramite();
 
     eParamiteMotions GetNextMotion() const
@@ -132,7 +132,7 @@ public:
         Right,
     };
 
-    s16 HandleEnemyStopper(s16 numGridBlocks, Path_EnemyStopper::StopDirection dir);
+    s16 HandleEnemyStopper(s16 numGridBlocks, relive::Path_EnemyStopper::StopDirection dir);
 
     // Motions
     void Motion_0_Idle();
@@ -179,10 +179,10 @@ public:
     s32 field_134_group_chase_delay = 0;
     s32 field_138_attack_timer = 0;
     s16 field_13C_surprise_web_switch_id = 0;
-    Choice_short field_13E_hiss_before_attack = Choice_short::eNo_0;
+    relive::reliveChoice mHissBeforeAttack = relive::reliveChoice::eNo;
     s16 field_140_use_prev_motion = 0;
     s16 field_142_bSnapped = 0;
-    Choice_short field_144_delete_when_far_away = Choice_short::eNo_0;
+    relive::reliveChoice mDeleteWhenOutOfSight = relive::reliveChoice::eNo;
     s16 field_146_not_used = 0;
     Meat* field_148_pMeat = 0;
     ParamiteWeb* field_14C_pWeb = nullptr;

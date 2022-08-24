@@ -25,16 +25,16 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_ElectricWall, 0x20);
 class ElectricWall final : public BaseAnimatedWithPhysicsGameObject
 {
 public:
-    ElectricWall(Path_ElectricWall* pTlv, s32 tlvInfo);
+    ElectricWall(relive::Path_ElectricWall* pTlv, s32 tlvInfo);
     ~ElectricWall();
 
     virtual void VScreenChanged() override;
     virtual void VUpdate() override;
 
-    s32 field_E4_tlv = 0;
-    s16 field_E8_switch_id = 0;
-    ElectricWallStartState field_EA_start_state = ElectricWallStartState::eOff_0;
-    s32 field_EC_sound_timer = 0;
+    s32 mTlvInfo = 0;
+    s16 mSwitchId = 0;
+    relive::Path_ElectricWall::ElectricWallStartState mStartState = relive::Path_ElectricWall::ElectricWallStartState::eOff;
+    s32 mSoundTimer = 0;
 };
 ALIVE_ASSERT_SIZEOF(ElectricWall, 0xF0);
 

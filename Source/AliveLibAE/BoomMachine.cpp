@@ -124,7 +124,7 @@ ALIVE_ASSERT_SIZEOF(GrenadeMachineNozzle, 0x100);
 BoomMachine::BoomMachine(Path_BoomMachine* pTlv, s32 tlvInfo)
     : BaseAnimatedWithPhysicsGameObject(0)
 {
-    SetType(ReliveTypes::eGrenadeMachine);
+    SetType(ReliveTypes::eBoomMachine);
 
     const AnimRecord& rec = AnimRec(AnimId::BoomMachine_Button_Off);
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);

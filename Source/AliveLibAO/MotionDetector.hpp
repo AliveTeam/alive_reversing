@@ -46,7 +46,7 @@ ALIVE_ASSERT_SIZEOF(MotionDetectorLaser, 0xE4);
 class MotionDetector final : public BaseAnimatedWithPhysicsGameObject
 {
 public:
-    MotionDetector(Path_MotionDetector* pTlv, s32 tlvInfo);
+    MotionDetector(relive::Path_MotionDetector* pTlv, s32 tlvInfo);
     ~MotionDetector();
 
     virtual void VScreenChanged() override;

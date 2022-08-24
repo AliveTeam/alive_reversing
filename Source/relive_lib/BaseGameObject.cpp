@@ -139,7 +139,7 @@ ReliveTypes BaseGameObject::FromAO(AO::AOTypes aoType)
         case AO::AOTypes::eZapSpark_15:
             return ReliveTypes::eZapSpark;
         case AO::AOTypes::eGasClock_16:
-            return ReliveTypes::eGasClock;
+            return ReliveTypes::eGasCountDown;
         case AO::AOTypes::eParticleBurst_19:
             return ReliveTypes::eParticleBurst;
         case AO::AOTypes::eDoor_21:
@@ -177,7 +177,7 @@ ReliveTypes BaseGameObject::FromAO(AO::AOTypes aoType)
         case AO::AOTypes::eGrenade_40:
             return ReliveTypes::eGrenade;
         case AO::AOTypes::eGrenadeMachine_41:
-            return ReliveTypes::eGrenadeMachine;
+            return ReliveTypes::eBoomMachine;
         case AO::AOTypes::eBackgroundGlukkon_42:
             return ReliveTypes::eBackgroundGlukkon;
         case AO::AOTypes::eAbe_43:
@@ -199,7 +199,7 @@ ReliveTypes BaseGameObject::FromAO(AO::AOTypes aoType)
         case AO::AOTypes::eMeat_54:
             return ReliveTypes::eMeat;
         case AO::AOTypes::eMeatStack_55:
-            return ReliveTypes::eMeatStack;
+            return ReliveTypes::eMeatSack;
         case AO::AOTypes::eMeatSaw_56:
             return ReliveTypes::eMeatSaw;
         case AO::AOTypes::eMine_57:
@@ -325,7 +325,7 @@ AO::AOTypes BaseGameObject::ToAO(ReliveTypes reliveType)
             return AO::AOTypes::eChimeLock_14;
         case ReliveTypes::eZapSpark:
             return AO::AOTypes::eZapSpark_15;
-        case ReliveTypes::eGasClock:
+        case ReliveTypes::eGasCountDown:
             return AO::AOTypes::eGasClock_16;
         case ReliveTypes::eParticleBurst:
             return AO::AOTypes::eParticleBurst_19;
@@ -363,7 +363,7 @@ AO::AOTypes BaseGameObject::ToAO(ReliveTypes reliveType)
             return AO::AOTypes::eLoadingFile_39;
         case ReliveTypes::eGrenade:
             return AO::AOTypes::eGrenade_40;
-        case ReliveTypes::eGrenadeMachine:
+        case ReliveTypes::eBoomMachine:
             return AO::AOTypes::eGrenadeMachine_41;
         case ReliveTypes::eBackgroundGlukkon:
             return AO::AOTypes::eBackgroundGlukkon_42;
@@ -385,7 +385,7 @@ AO::AOTypes BaseGameObject::ToAO(ReliveTypes reliveType)
             return AO::AOTypes::SecurityOrb_53;
         case ReliveTypes::eMeat:
             return AO::AOTypes::eMeat_54;
-        case ReliveTypes::eMeatStack:
+        case ReliveTypes::eMeatSack:
             return AO::AOTypes::eMeatStack_55;
         case ReliveTypes::eMeatSaw:
             return AO::AOTypes::eMeatSaw_56;
@@ -519,7 +519,7 @@ ReliveTypes BaseGameObject::FromAE(AETypes aeType)
         case AETypes::eZapSpark_22:
             return ReliveTypes::eZapSpark;
         case AETypes::eGasClock_23:
-            return ReliveTypes::eGasClock;
+            return ReliveTypes::eGasCountDown;
         case AETypes::eMetal_24:
             return ReliveTypes::eMetal;
         case AETypes::eMinesAlarm_25:
@@ -579,7 +579,7 @@ ReliveTypes BaseGameObject::FromAE(AETypes aeType)
         case AETypes::eGrenade_65:
             return ReliveTypes::eGrenade;
         case AETypes::eGrenadeMachine_66:
-            return ReliveTypes::eGrenadeMachine;
+            return ReliveTypes::eBoomMachine;
         case AETypes::eGlukkon_67:
             return ReliveTypes::eGlukkon;
         case AETypes::eHelpPhone_68:
@@ -633,7 +633,7 @@ ReliveTypes BaseGameObject::FromAE(AETypes aeType)
         case AETypes::eFG1_101:
             return ReliveTypes::eFG1;
         case AETypes::ePullRope_103:
-            return ReliveTypes::ePullRope;
+            return ReliveTypes::ePullRingRope;
         case AETypes::eAbilityRing_104:
             return ReliveTypes::eAbilityRing;
         case AETypes::eRock_105:
@@ -741,7 +741,7 @@ AETypes BaseGameObject::ToAE(ReliveTypes reliveType)
             return AETypes::eDDCheat_19;
         case ReliveTypes::eZapSpark:
             return AETypes::eZapSpark_22;
-        case ReliveTypes::eGasClock:
+        case ReliveTypes::eGasCountDown:
             return AETypes::eGasClock_23;
         case ReliveTypes::eMetal:
             return AETypes::eMetal_24;
@@ -801,7 +801,7 @@ AETypes BaseGameObject::ToAE(ReliveTypes reliveType)
             return AETypes::eGreeter_64;
         case ReliveTypes::eGrenade:
             return AETypes::eGrenade_65;
-        case ReliveTypes::eGrenadeMachine:
+        case ReliveTypes::eBoomMachine:
             return AETypes::eGrenadeMachine_66;
         case ReliveTypes::eGlukkon:
             return AETypes::eGlukkon_67;
@@ -855,7 +855,7 @@ AETypes BaseGameObject::ToAE(ReliveTypes reliveType)
             return AETypes::eBirdPortalTerminator_100;
         case ReliveTypes::eFG1:
             return AETypes::eFG1_101;
-        case ReliveTypes::ePullRope:
+        case ReliveTypes::ePullRingRope:
             return AETypes::ePullRope_103;
         case ReliveTypes::eAbilityRing:
             return AETypes::eAbilityRing_104;

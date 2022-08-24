@@ -19,10 +19,10 @@
 
 namespace AO {
 
-MeatSack::MeatSack(Path_MeatSack* pTlv, s32 tlvInfo)
+MeatSack::MeatSack(relive::Path_MeatSack* pTlv, s32 tlvInfo)
     : BaseAliveGameObject()
 {
-    mBaseGameObjectTypeId = ReliveTypes::eMeatStack;
+    mBaseGameObjectTypeId = ReliveTypes::eMeatSack;
 
     const AnimRecord rec = AO::AnimRec(AnimId::MeatSack_Idle);
     u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
@@ -33,20 +33,20 @@ MeatSack::MeatSack(Path_MeatSack* pTlv, s32 tlvInfo)
 
     field_110_bDoMeatSackIdleAnim = 0;
 
-    mXPos = FP_FromInteger(pTlv->mTopLeft.x);
-    mYPos = FP_FromInteger(pTlv->mTopLeft.y);
+    mXPos = FP_FromInteger(pTlv->mTopLeftX);
+    mYPos = FP_FromInteger(pTlv->mTopLeftY);
 
     field_118_velX = FP_FromRaw(pTlv->mVelX << 8);
 
     // Throw the meat up into the air as it falls from the sack
     field_11C_velY = -FP_FromRaw(pTlv->mVelY << 8);
 
-    if (pTlv->mMeatFallDirection == XDirection_short::eLeft_0)
+    if (pTlv->mMeatFallDirection == relive::reliveXDirection::eLeft)
     {
         field_118_velX = -field_118_velX;
     }
 
-    if (pTlv->mScale == Scale_short::eHalf_1)
+    if (pTlv->mScale == relive::reliveScale::eHalf)
     {
         mSpriteScale = FP_FromDouble(0.5);
         mAnim.mRenderLayer = Layer::eLayer_8;

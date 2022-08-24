@@ -98,25 +98,25 @@ struct CompileTimeResourceList final
     }
 };
 
-void Factory_ContinuePoint_Null_4817D0(relive::Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUnion /*tlvOffsetLevelIdPathId*/, LoadMode /*loadMode*/)
+static void Factory_ContinuePoint_Null_4817D0(relive::Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUnion /*tlvOffsetLevelIdPathId*/, LoadMode /*loadMode*/)
 {
     // Empty
 }
 
 
-void Factory_PathTransition_Null_481720(relive::Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUnion /*tlvOffsetLevelIdPathId*/, LoadMode /*loadMode*/)
+static void Factory_PathTransition_Null_481720(relive::Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUnion /*tlvOffsetLevelIdPathId*/, LoadMode /*loadMode*/)
 {
     // Empty
 }
 
 
-void Factory_ContinueZone_Null_481830(relive::Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUnion /*tlvOffsetLevelIdPathId*/, LoadMode /*loadMode*/)
+static void Factory_ContinueZone_Null_481830(relive::Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUnion /*tlvOffsetLevelIdPathId*/, LoadMode /*loadMode*/)
 {
     // Empty
 }
 
 
-void Factory_Hoist_487230(relive::Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
+static void Factory_Hoist_487230(relive::Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
 {
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
@@ -155,7 +155,7 @@ void Factory_Hoist_487230(relive::Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnio
 }
 
 
-void Factory_Edge_481730(relive::Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
+static void Factory_Edge_481730(relive::Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
 {
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
@@ -173,13 +173,13 @@ void Factory_Edge_481730(relive::Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoU
 }
 
 
-void Factory_DeathDrop_Null_4817B0(relive::Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUnion /*tlvOffsetLevelIdPathId*/, LoadMode /*loadMode*/)
+static void Factory_DeathDrop_Null_4817B0(relive::Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUnion /*tlvOffsetLevelIdPathId*/, LoadMode /*loadMode*/)
 {
     // Empty
 }
 
 
-void Factory_Door_481C80(relive::Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
+static void Factory_Door_481C80(relive::Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
 {
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
@@ -225,7 +225,7 @@ void Factory_Door_481C80(relive::Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion
 }
 
 
-void Factory_ShadowZone_482080(relive::Path_TLV* pTlv, Map* pMap, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
+static void Factory_ShadowZone_482080(relive::Path_TLV* pTlv, Map* pMap, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
 {
     if (loadMode != LoadMode::LoadResourceFromList_1 && loadMode != LoadMode::LoadResource_2)
     {
@@ -235,7 +235,7 @@ void Factory_ShadowZone_482080(relive::Path_TLV* pTlv, Map* pMap, TlvItemInfoUni
 
 
 
-void Factory_LiftPoint_4820F0(relive::Path_TLV* pTlv, Map* pMap, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
+static void Factory_LiftPoint_4820F0(relive::Path_TLV* pTlv, Map* pMap, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
 {
     static CompileTimeResourceList<3> kResources = {
         {ResourceManager::Resource_Animation, AOResourceID::kAbeliftAOResID},
@@ -323,7 +323,7 @@ void Factory_LiftPoint_4820F0(relive::Path_TLV* pTlv, Map* pMap, TlvItemInfoUnio
                     pointNumber / 2 * (pointNumber % 2 != 0 ? -1 : 1));
                 while (pTlvIter)
                 {
-                    if (pTlvIter->mTlvType == static_cast<s32>(TlvTypes::LiftPoint_8))
+                    if (pTlvIter->mTlvType == ReliveTypes::eLiftPoint)
                     {
                         const auto tlv_x = pTlv->mTopLeftX;
                         const auto absX = pTlvIter->mTopLeftX - tlv_x >= 0 ? pTlvIter->mTopLeftX - tlv_x : tlv_x - pTlvIter->mTopLeftX;
@@ -347,19 +347,19 @@ void Factory_LiftPoint_4820F0(relive::Path_TLV* pTlv, Map* pMap, TlvItemInfoUnio
 }
 
 
-void Factory_Null_482E70(relive::Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUnion /*tlvOffsetLevelIdPathId*/, LoadMode /*loadMode*/)
+static void Factory_Null_482E70(relive::Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUnion /*tlvOffsetLevelIdPathId*/, LoadMode /*loadMode*/)
 {
     // Empty
 }
 
 
-void Factory_Null_483D90(relive::Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUnion /*tlvOffsetLevelIdPathId*/, LoadMode /*loadMode*/)
+static void Factory_Null_483D90(relive::Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUnion /*tlvOffsetLevelIdPathId*/, LoadMode /*loadMode*/)
 {
     // Empty
 }
 
 
-void Factory_WellExpress_483340(relive::Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
+static void Factory_WellExpress_483340(relive::Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
 {
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
@@ -381,7 +381,7 @@ void Factory_WellExpress_483340(relive::Path_TLV* pTlv, Map* /*pMap*/, TlvItemIn
 }
 
 
-void Factory_Dove_4834C0(relive::Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
+static void Factory_Dove_4834C0(relive::Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
 {
     if (loadMode != LoadMode::LoadResourceFromList_1 && loadMode != LoadMode::LoadResource_2)
     {
@@ -420,7 +420,7 @@ void Factory_Dove_4834C0(relive::Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion
 }
 
 
-void Factory_RockSack_483680(relive::Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
+static void Factory_RockSack_483680(relive::Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
 {
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
@@ -444,7 +444,7 @@ void Factory_RockSack_483680(relive::Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoU
 }
 
 
-void Factory_ZBall_483890(relive::Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
+static void Factory_ZBall_483890(relive::Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
 {
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
@@ -461,7 +461,7 @@ void Factory_ZBall_483890(relive::Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnio
 }
 
 
-void Factory_FallingItem_483940(relive::Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
+static void Factory_FallingItem_483940(relive::Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
 {
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
@@ -542,19 +542,19 @@ void Factory_FallingItem_483940(relive::Path_TLV* pTlv, Map* /*pMap*/, TlvItemIn
 }
 
 
-void Factory_Null_482E90(relive::Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUnion /*tlvOffsetLevelIdPathId*/, LoadMode /*loadMode*/)
+static void Factory_Null_482E90(relive::Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUnion /*tlvOffsetLevelIdPathId*/, LoadMode /*loadMode*/)
 {
     // Empty
 }
 
 
-void Factory_Null_482E80(relive::Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUnion /*tlvOffsetLevelIdPathId*/, LoadMode /*loadMode*/)
+static void Factory_Null_482E80(relive::Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUnion /*tlvOffsetLevelIdPathId*/, LoadMode /*loadMode*/)
 {
     // Empty
 }
 
 
-void Factory_PullRingRope_483DA0(relive::Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
+static void Factory_PullRingRope_483DA0(relive::Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
 {
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
@@ -591,7 +591,7 @@ void Factory_PullRingRope_483DA0(relive::Path_TLV* pTlv, Map* /*pMap*/, TlvItemI
     }
 }
 
-void Factory_BackgroundAnimation_4840A0(relive::Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
+static void Factory_BackgroundAnimation_4840A0(relive::Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
 {
     if (loadMode != LoadMode::LoadResourceFromList_1 && loadMode != LoadMode::LoadResource_2)
     {
@@ -599,7 +599,7 @@ void Factory_BackgroundAnimation_4840A0(relive::Path_TLV* pTlv, Map* /*pMap*/, T
     }
 }
 
-void Factory_Honey_4844A0(relive::Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
+static void Factory_Honey_4844A0(relive::Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
 {
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
@@ -627,13 +627,13 @@ void Factory_Honey_4844A0(relive::Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnio
 }
 
 
-void Factory_Null_484640(relive::Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUnion /*tlvOffsetLevelIdPathId*/, LoadMode /*loadMode*/)
+static void Factory_Null_484640(relive::Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUnion /*tlvOffsetLevelIdPathId*/, LoadMode /*loadMode*/)
 {
     // Empty
 }
 
 
-void Factory_TimedMine_484650(relive::Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
+static void Factory_TimedMine_484650(relive::Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
 {
     auto pTimedMineTlv = static_cast<relive::Path_TimedMine*>(pTlv);
     const auto disabledResource = pTimedMineTlv->mDisabledResources;
@@ -686,7 +686,7 @@ void Factory_TimedMine_484650(relive::Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfo
 }
 
 
-void Factory_Null_482EA0(relive::Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUnion /*tlvOffsetLevelIdPathId*/, LoadMode /*loadMode*/)
+static void Factory_Null_482EA0(relive::Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUnion /*tlvOffsetLevelIdPathId*/, LoadMode /*loadMode*/)
 {
     // Empty
 }
@@ -788,7 +788,7 @@ static void LoadWalkingSligResources(LoadMode loadMode, BitField16<SligFlags_Dis
     }
 }
 
-void Factory_Slig_482EC0(relive::Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
+static void Factory_Slig_482EC0(relive::Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
 {
     auto pSligTlv = static_cast<relive::Path_Slig*>(pTlv);
     LoadWalkingSligResources(loadMode, pSligTlv->mDisabledResources);
@@ -804,7 +804,7 @@ void Factory_Slig_482EC0(relive::Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion
 }
 
 
-void Factory_Slog_485030(relive::Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
+static void Factory_Slog_485030(relive::Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
 {
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
@@ -831,7 +831,7 @@ void Factory_Slog_485030(relive::Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion
     }
 }
 
-void Factory_Switch_485370(relive::Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
+static void Factory_Lever(relive::Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
 {
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
@@ -868,7 +868,7 @@ void Factory_Switch_485370(relive::Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUni
 }
 
 
-void Factory_BellHammer_4854B0(relive::Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
+static void Factory_BellHammer_4854B0(relive::Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
 {
     if (loadMode != LoadMode::LoadResourceFromList_1 && loadMode != LoadMode::LoadResource_2)
     {
@@ -878,13 +878,13 @@ void Factory_BellHammer_4854B0(relive::Path_TLV* pTlv, Map* /*pMap*/, TlvItemInf
 }
 
 
-void Factory_StartController_Null_4817E0(relive::Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUnion /*tlvOffsetLevelIdPathId*/, LoadMode /*loadMode*/)
+static void Factory_StartController_Null_4817E0(relive::Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUnion /*tlvOffsetLevelIdPathId*/, LoadMode /*loadMode*/)
 {
     // Empty
 }
 
 
-void Factory_SecurityOrb_485550(relive::Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
+static void Factory_SecurityOrb_485550(relive::Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
 {
     auto pSecurityOrbTlv = static_cast<relive::Path_SecurityOrb*>(pTlv);
     const auto disabledResources = pSecurityOrbTlv->mDisabledResources;
@@ -928,19 +928,19 @@ void Factory_SecurityOrb_485550(relive::Path_TLV* pTlv, Map* /*pMap*/, TlvItemIn
     }
 }
 
-void Factory_Null_4817F0(relive::Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUnion /*tlvOffsetLevelIdPathId*/, LoadMode /*loadMode*/)
+static void Factory_Null_4817F0(relive::Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUnion /*tlvOffsetLevelIdPathId*/, LoadMode /*loadMode*/)
 {
     // Empty
 }
 
 
-void Factory_Null_487070(relive::Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUnion /*tlvOffsetLevelIdPathId*/, LoadMode /*loadMode*/)
+static void Factory_Null_487070(relive::Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUnion /*tlvOffsetLevelIdPathId*/, LoadMode /*loadMode*/)
 {
     // Empty
 }
 
 
-void Factory_LiftMud_4857D0(relive::Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
+static void Factory_LiftMud_4857D0(relive::Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
 {
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
@@ -960,13 +960,13 @@ void Factory_LiftMud_4857D0(relive::Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUn
 }
 
 
-void Factory_Null_482EB0(relive::Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUnion /*tlvOffsetLevelIdPathId*/, LoadMode /*loadMode*/)
+static void Factory_Null_482EB0(relive::Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUnion /*tlvOffsetLevelIdPathId*/, LoadMode /*loadMode*/)
 {
     // Empty
 }
 
 
-void Factory_BeeSwarmHole_485E20(relive::Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
+static void Factory_BeeSwarmHole_485E20(relive::Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
 {
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
@@ -984,13 +984,13 @@ void Factory_BeeSwarmHole_485E20(relive::Path_TLV* pTlv, Map* /*pMap*/, TlvItemI
 }
 
 
-void Factory_Pulley_Null_481800(relive::Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUnion /*tlvOffsetLevelIdPathId*/, LoadMode /*loadMode*/)
+static void Factory_Pulley_Null_481800(relive::Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUnion /*tlvOffsetLevelIdPathId*/, LoadMode /*loadMode*/)
 {
     // Empty
 }
 
 
-void Factory_HoneySack_485EF0(relive::Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
+static void Factory_HoneySack_485EF0(relive::Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
 {
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
@@ -1010,7 +1010,7 @@ void Factory_HoneySack_485EF0(relive::Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfo
     }
 }
 
-void Factory_AbeStart_486050(relive::Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion /*tlvOffsetLevelIdPathId*/, LoadMode loadMode)
+static void Factory_AbeStart_486050(relive::Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion /*tlvOffsetLevelIdPathId*/, LoadMode loadMode)
 {
     if (loadMode != LoadMode::LoadResourceFromList_1 && loadMode != LoadMode::LoadResource_2 && !gAttract_507698)
     {
@@ -1032,19 +1032,19 @@ void Factory_AbeStart_486050(relive::Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoU
 }
 
 
-void Factory_ElumStart_Null_481810(relive::Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUnion /*tlvOffsetLevelIdPathId*/, LoadMode /*loadMode*/)
+static void Factory_ElumStart_Null_481810(relive::Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUnion /*tlvOffsetLevelIdPathId*/, LoadMode /*loadMode*/)
 {
     // Empty
 }
 
 
-void Factory_Null_486140(relive::Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUnion /*tlvOffsetLevelIdPathId*/, LoadMode /*loadMode*/)
+static void Factory_Null_486140(relive::Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUnion /*tlvOffsetLevelIdPathId*/, LoadMode /*loadMode*/)
 {
     // Empty
 }
 
 
-void Factory_ElumWall_487370(relive::Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
+static void Factory_ElumWall_487370(relive::Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
 {
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
@@ -1058,7 +1058,7 @@ void Factory_ElumWall_487370(relive::Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemI
 }
 
 
-void Factory_SlingMud_485A30(relive::Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
+static void Factory_SlingMud_485A30(relive::Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
 {
     if (loadMode != LoadMode::LoadResourceFromList_1 && loadMode != LoadMode::LoadResource_2)
     {
@@ -1073,12 +1073,12 @@ void Factory_SlingMud_485A30(relive::Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoU
 }
 
 
-void Factory_HoneyDrip_Null_481820(relive::Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUnion /*tlvOffsetLevelIdPathId*/, LoadMode /*loadMode*/)
+static void Factory_HoneyDrip_Null_481820(relive::Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUnion /*tlvOffsetLevelIdPathId*/, LoadMode /*loadMode*/)
 {
     // Empty
 }
 
-void Factory_BeeNest_486150(relive::Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
+static void Factory_BeeNest_486150(relive::Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
 {
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
@@ -1091,24 +1091,24 @@ void Factory_BeeNest_486150(relive::Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUn
     }
     else
     {
-        relive_new BeeNest(static_cast<Path_BeeNest*>(pTlv), tlvOffsetLevelIdPathId.all); // missing converter or different name??
+        relive_new BeeNest(static_cast<relive::Path_BeeNest*>(pTlv), tlvOffsetLevelIdPathId.all);
     }
 }
 
 
-void Factory_Null_487080(relive::Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUnion /*tlvOffsetLevelIdPathId*/, LoadMode /*loadMode*/)
+static void Factory_Null_487080(relive::Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUnion /*tlvOffsetLevelIdPathId*/, LoadMode /*loadMode*/)
 {
     // Empty
 }
 
 
-void Factory_Well_4834A0(relive::Path_TLV* pTlv, Map* pMap, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
+static void Factory_Well_4834A0(relive::Path_TLV* pTlv, Map* pMap, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
 {
     Factory_WellExpress_483340(pTlv, pMap, tlvOffsetLevelIdPathId, loadMode);
 }
 
 
-void Factory_Mine_4848D0(relive::Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
+static void Factory_Mine_4848D0(relive::Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
 {
     auto pMineTlv = static_cast<relive::Path_Mine*>(pTlv);
     const auto disabledResources = pMineTlv->mDisabledResources;
@@ -1162,7 +1162,7 @@ void Factory_Mine_4848D0(relive::Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion
 }
 
 
-void Factory_Uxb_484B70(relive::Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
+static void Factory_Uxb_484B70(relive::Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
 {
     auto pUxbTlv = static_cast<relive::Path_UXB*>(pTlv);
 
@@ -1214,7 +1214,7 @@ void Factory_Uxb_484B70(relive::Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion 
     }
 }
 
-void Factory_Paramite_4861F0(relive::Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
+static void Factory_Paramite_4861F0(relive::Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
 {
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
@@ -1249,7 +1249,7 @@ void Factory_Paramite_4861F0(relive::Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoU
 }
 
 
-void Factory_Bat_486630(relive::Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
+static void Factory_Bat_486630(relive::Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
 {
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
@@ -1264,7 +1264,7 @@ void Factory_Bat_486630(relive::Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion 
 }
 
 
-void Factory_RingMud_4858F0(relive::Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
+static void Factory_RingMud_4858F0(relive::Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
 {
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
@@ -1285,13 +1285,13 @@ void Factory_RingMud_4858F0(relive::Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUn
 }
 
 
-void Factory_MovieStone_Null_487430(relive::Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUnion /*tlvOffsetLevelIdPathId*/, LoadMode /*loadMode*/)
+static void Factory_MovieStone_Null_487430(relive::Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUnion /*tlvOffsetLevelIdPathId*/, LoadMode /*loadMode*/)
 {
     // Empty
 }
 
 
-void Factory_BirdPortal_486710(relive::Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
+static void Factory_BirdPortal_486710(relive::Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
 {
     auto pBirdPortalTlv = static_cast<relive::Path_BirdPortal*>(pTlv);
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
@@ -1337,13 +1337,13 @@ void Factory_BirdPortal_486710(relive::Path_TLV* pTlv, Map* /*pMap*/, TlvItemInf
 }
 
 
-void Factory_BirdPortalExit_null_486700(relive::Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUnion /*tlvOffsetLevelIdPathId*/, LoadMode /*loadMode*/)
+static void Factory_BirdPortalExit_null_486700(relive::Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUnion /*tlvOffsetLevelIdPathId*/, LoadMode /*loadMode*/)
 {
     // Empty
 }
 
 
-void Factory_BellSong_487450(relive::Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
+static void Factory_BellSong_487450(relive::Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
 {
     if (loadMode != LoadMode::LoadResourceFromList_1 && loadMode != LoadMode::LoadResource_2)
     {
@@ -1352,7 +1352,7 @@ void Factory_BellSong_487450(relive::Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemI
 }
 
 
-void Factory_TrapDoor_4868E0(relive::Path_TLV* pTlv, Map* pMap, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
+static void Factory_TrapDoor_4868E0(relive::Path_TLV* pTlv, Map* pMap, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
 {
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
@@ -1388,7 +1388,7 @@ void Factory_TrapDoor_4868E0(relive::Path_TLV* pTlv, Map* pMap, TlvItemInfoUnion
 }
 
 
-void Factory_RollingBall_486A60(relive::Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
+static void Factory_RollingBall_486A60(relive::Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
 {
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
@@ -1411,7 +1411,7 @@ static relive::Path_TLV* FindMatchingSligTLV(relive::Path_TLV* pTlvIter, relive:
 {
     while (pTlvIter)
     {
-        if (pTlvIter->mTlvType == static_cast<s32>(TlvTypes::Slig_24) && pTlv->mSligBoundId == static_cast<relive::Path_Slig*>(pTlvIter)->mSligBoundId && !pTlvIter->mTlvFlags.Get(::TlvFlags::eBit2_Destroyed))
+        if (pTlvIter->mTlvType == ReliveTypes::eSlig && pTlv->mSligBoundId == static_cast<relive::Path_Slig*>(pTlvIter)->mSligBoundId && !pTlvIter->mTlvFlags.Get(relive::TlvFlags::eBit2_Destroyed))
         {
             return pTlvIter;
         }
@@ -1420,7 +1420,7 @@ static relive::Path_TLV* FindMatchingSligTLV(relive::Path_TLV* pTlvIter, relive:
     return nullptr;
 }
 
-void Factory_SligLeftBound_482520(relive::Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
+static void Factory_SligLeftBound_482520(relive::Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
 {
     auto pBound = static_cast<relive::Path_SligBound*>(pTlv);
     LoadWalkingSligResources(loadMode, pBound->mDisabledResources);
@@ -1431,8 +1431,8 @@ void Factory_SligLeftBound_482520(relive::Path_TLV* pTlv, Map* /*pMap*/, TlvItem
     }
     else
     {
-        pBound->mTlvFlags.Clear(::TlvFlags::eBit1_Created);
-        pBound->mTlvFlags.Clear(::TlvFlags::eBit2_Destroyed);
+        pBound->mTlvFlags.Clear(relive::TlvFlags::eBit1_Created);
+        pBound->mTlvFlags.Clear(relive::TlvFlags::eBit2_Destroyed);
 
         for (s16 camX_idx = -2; camX_idx < 3; camX_idx++)
         {
@@ -1440,8 +1440,8 @@ void Factory_SligLeftBound_482520(relive::Path_TLV* pTlv, Map* /*pMap*/, TlvItem
             pTlvIter = FindMatchingSligTLV(pTlvIter, pBound);
             if (pTlvIter)
             {
-                pTlvIter->mTlvFlags.Set(::TlvFlags::eBit1_Created);
-                pTlvIter->mTlvFlags.Set(::TlvFlags::eBit2_Destroyed);
+                pTlvIter->mTlvFlags.Set(relive::TlvFlags::eBit1_Created);
+                pTlvIter->mTlvFlags.Set(relive::TlvFlags::eBit2_Destroyed);
                 // AO OG bug tlvOffsetLevelIdPathId not recalculated??
                 relive_new Slig(static_cast<relive::Path_Slig*>(pTlvIter), tlvOffsetLevelIdPathId.all);
                 return;
@@ -1450,12 +1450,12 @@ void Factory_SligLeftBound_482520(relive::Path_TLV* pTlv, Map* /*pMap*/, TlvItem
     }
 }
 
-void Factory_InvisibleZone_Null_481840(relive::Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUnion /*tlvOffsetLevelIdPathId*/, LoadMode /*loadMode*/)
+static void Factory_InvisibleZone_Null_481840(relive::Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUnion /*tlvOffsetLevelIdPathId*/, LoadMode /*loadMode*/)
 {
     // Empty
 }
 
-void Factory_RollingBallStopper_486B90(relive::Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
+static void Factory_RollingBallStopper_486B90(relive::Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
 {
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
@@ -1468,7 +1468,7 @@ void Factory_RollingBallStopper_486B90(relive::Path_TLV* pTlv, Map* /*pMap*/, Tl
     }
 }
 
-void Factory_FootSwitch_486C60(relive::Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
+static void Factory_FootSwitch_486C60(relive::Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
 {
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
@@ -1482,7 +1482,7 @@ void Factory_FootSwitch_486C60(relive::Path_TLV* pTlv, Map* /*pMap*/, TlvItemInf
     }
 }
 
-void Factory_SecurityClaw_486D50(relive::Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
+static void Factory_SecurityClaw_486D50(relive::Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
 {
     auto pSecurityClawTlv = static_cast<relive::Path_SecurityClaw*>(pTlv);
     const auto disabledResources = pSecurityClawTlv->mDisabledResources;
@@ -1530,7 +1530,7 @@ void Factory_SecurityClaw_486D50(relive::Path_TLV* pTlv, Map* /*pMap*/, TlvItemI
 }
 
 
-void Factory_MotionDector_486FD0(relive::Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
+static void Factory_MotionDector_486FD0(relive::Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
 {
     if (loadMode != LoadMode::LoadResourceFromList_1 && loadMode != LoadMode::LoadResource_2)
     {
@@ -1541,25 +1541,25 @@ void Factory_MotionDector_486FD0(relive::Path_TLV* pTlv, Map* /*pMap*/, TlvItemI
 }
 
 
-void Factory_Null_4870A0(relive::Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUnion /*tlvOffsetLevelIdPathId*/, LoadMode /*loadMode*/)
+static void Factory_Null_4870A0(relive::Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUnion /*tlvOffsetLevelIdPathId*/, LoadMode /*loadMode*/)
 {
     // Empty
 }
 
 
-void Factory_Null_481C70(relive::Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUnion /*tlvOffsetLevelIdPathId*/, LoadMode /*loadMode*/)
+static void Factory_Null_481C70(relive::Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUnion /*tlvOffsetLevelIdPathId*/, LoadMode /*loadMode*/)
 {
     // Empty
 }
 
 
-void Factory_Null_4870B0(relive::Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUnion /*tlvOffsetLevelIdPathId*/, LoadMode /*loadMode*/)
+static void Factory_Null_4870B0(relive::Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUnion /*tlvOffsetLevelIdPathId*/, LoadMode /*loadMode*/)
 {
     // Empty
 }
 
 
-void Factory_SligSpawner_482A00(relive::Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
+static void Factory_SligSpawner_482A00(relive::Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
 {
     auto pSligTlv = static_cast<relive::Path_Slig*>(pTlv);
     LoadWalkingSligResources(loadMode, pSligTlv->mDisabledResources);
@@ -1574,7 +1574,7 @@ void Factory_SligSpawner_482A00(relive::Path_TLV* pTlv, Map* /*pMap*/, TlvItemIn
     }
 }
 
-void Factory_ElectricWall_4874E0(relive::Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
+static void Factory_ElectricWall_4874E0(relive::Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
 {
     if (loadMode != LoadMode::LoadResourceFromList_1 && loadMode != LoadMode::LoadResource_2)
     {
@@ -1585,7 +1585,7 @@ void Factory_ElectricWall_4874E0(relive::Path_TLV* pTlv, Map* /*pMap*/, TlvItemI
 }
 
 
-void Factory_LiftMover_487580(relive::Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
+static void Factory_LiftMover_487580(relive::Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
 {
     if (loadMode != LoadMode::LoadResourceFromList_1 && loadMode != LoadMode::LoadResource_2)
     {
@@ -1594,7 +1594,7 @@ void Factory_LiftMover_487580(relive::Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfo
 }
 
 
-void Factory_ChimeLock_4870D0(relive::Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
+static void Factory_ChimeLock_4870D0(relive::Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
 {
     if (loadMode != LoadMode::LoadResourceFromList_1 && loadMode != LoadMode::LoadResource_2)
     {
@@ -1608,7 +1608,7 @@ void Factory_ChimeLock_4870D0(relive::Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfo
     }
 }
 
-void Factory_ElumStart_Unknown_4873D0(relive::Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
+static void Factory_ElumStart_Unknown_4873D0(relive::Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
 {
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
@@ -1628,7 +1628,7 @@ void Factory_ElumStart_Unknown_4873D0(relive::Path_TLV* pTlv, Map* /*pMap*/, Tlv
 }
 
 
-void Factory_MeatSack_483790(relive::Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
+static void Factory_MeatSack_483790(relive::Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
 {
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
@@ -1652,7 +1652,7 @@ void Factory_MeatSack_483790(relive::Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoU
 }
 
 
-void Factory_Scrab_4863E0(relive::Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
+static void Factory_Scrab_4863E0(relive::Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
 {
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
@@ -1693,7 +1693,7 @@ void Factory_Scrab_4863E0(relive::Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnio
 }
 
 
-void Factory_FlintLockFire_487640(relive::Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
+static void Factory_FlintLockFire_487640(relive::Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
 {
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
@@ -1713,49 +1713,49 @@ void Factory_FlintLockFire_487640(relive::Path_TLV* pTlv, Map* /*pMap*/, TlvItem
 }
 
 
-void Factory_ScrabLeftBound_Null_481860(relive::Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUnion /*tlvOffsetLevelIdPathId*/, LoadMode /*loadMode*/)
+static void Factory_ScrabLeftBound_Null_481860(relive::Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUnion /*tlvOffsetLevelIdPathId*/, LoadMode /*loadMode*/)
 {
     // Empty
 }
 
 
-void Factory_ScrabRightBound_Null_481870(relive::Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUnion /*tlvOffsetLevelIdPathId*/, LoadMode /*loadMode*/)
+static void Factory_ScrabRightBound_Null_481870(relive::Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUnion /*tlvOffsetLevelIdPathId*/, LoadMode /*loadMode*/)
 {
     // Empty
 }
 
 
-void Factory_SligRightBound_4829D0(relive::Path_TLV* pTlv, Map* pMap, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
+static void Factory_SligRightBound_4829D0(relive::Path_TLV* pTlv, Map* pMap, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
 {
     Factory_SligLeftBound_482520(pTlv, pMap, tlvOffsetLevelIdPathId, loadMode);
 }
 
 
-void Factory_SligPersist_Null_4829F0(relive::Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUnion /*tlvOffsetLevelIdPathId*/, LoadMode /*loadMode*/)
+static void Factory_SligPersist_Null_4829F0(relive::Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUnion /*tlvOffsetLevelIdPathId*/, LoadMode /*loadMode*/)
 {
     // Empty
 }
 
 
-void Factory_Null_4870C0(relive::Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUnion /*tlvOffsetLevelIdPathId*/, LoadMode /*loadMode*/)
+static void Factory_Null_4870C0(relive::Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUnion /*tlvOffsetLevelIdPathId*/, LoadMode /*loadMode*/)
 {
     // Empty
 }
 
 
-void Factory_EnemyStopper_Null_481880(relive::Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUnion /*tlvOffsetLevelIdPathId*/, LoadMode /*loadMode*/)
+static void Factory_EnemyStopper_Null_481880(relive::Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUnion /*tlvOffsetLevelIdPathId*/, LoadMode /*loadMode*/)
 {
     // Empty
 }
 
 
-void Factory_Null_4871C0(relive::Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUnion /*tlvOffsetLevelIdPathId*/, LoadMode /*loadMode*/)
+static void Factory_Null_4871C0(relive::Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUnion /*tlvOffsetLevelIdPathId*/, LoadMode /*loadMode*/)
 {
     // Empty
 }
 
 
-void Factory_InvisibleSwitch_481C10(relive::Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
+static void Factory_InvisibleSwitch_481C10(relive::Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
 {
     if (loadMode != LoadMode::LoadResourceFromList_1 && loadMode != LoadMode::LoadResource_2)
     {
@@ -1763,7 +1763,7 @@ void Factory_InvisibleSwitch_481C10(relive::Path_TLV* pTlv, Map* /*pMap*/, TlvIt
     }
 }
 
-void Factory_WorkerMud_485B20(relive::Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
+static void Factory_WorkerMud_485B20(relive::Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
 {
     auto pMudTlv = static_cast<relive::Path_Mudokon*>(pTlv);
     if (loadMode != LoadMode::LoadResourceFromList_1 && loadMode != LoadMode::LoadResource_2)
@@ -1840,13 +1840,13 @@ void Factory_WorkerMud_485B20(relive::Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfo
 }
 
 
-void Factory_SligZCover_Null_481850(relive::Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUnion /*tlvOffsetLevelIdPathId*/, LoadMode /*loadMode*/)
+static void Factory_SligZCover_Null_481850(relive::Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUnion /*tlvOffsetLevelIdPathId*/, LoadMode /*loadMode*/)
 {
     // Empty
 }
 
 
-void Factory_DoorFlame_481E80(relive::Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
+static void Factory_DoorFlame_481E80(relive::Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
 {
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
@@ -1866,7 +1866,7 @@ void Factory_DoorFlame_481E80(relive::Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfo
 }
 
 
-void Factory_OneShotSwitchIdSetter_4871D0(relive::Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
+static void Factory_OneShotSwitchIdSetter_4871D0(relive::Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
 {
     if (loadMode != LoadMode::LoadResourceFromList_1 && loadMode != LoadMode::LoadResource_2)
     {
@@ -1876,7 +1876,7 @@ void Factory_OneShotSwitchIdSetter_4871D0(relive::Path_TLV* pTlv, Map* /*pMap*/,
 }
 
 
-void Factory_MovingBomb_484E00(relive::Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
+static void Factory_MovingBomb_484E00(relive::Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
 {
     auto pMovingBombTlv = static_cast<relive::Path_MovingBomb*>(pTlv);
 
@@ -1913,13 +1913,13 @@ void Factory_MovingBomb_484E00(relive::Path_TLV* pTlv, Map* /*pMap*/, TlvItemInf
 }
 
 
-void Factory_MovingBombStopper_Null_484DF0(relive::Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUnion /*tlvOffsetLevelIdPathId*/, LoadMode /*loadMode*/)
+static void Factory_MovingBombStopper_Null_484DF0(relive::Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUnion /*tlvOffsetLevelIdPathId*/, LoadMode /*loadMode*/)
 {
     // Empty
 }
 
 
-void Factory_MeatSaw_483F70(relive::Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
+static void Factory_MeatSaw_483F70(relive::Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
 {
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
@@ -1938,13 +1938,13 @@ void Factory_MeatSaw_483F70(relive::Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUn
     }
 }
 
-void Factory_MudPathTrans_Null_4818B0(relive::Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUnion /*tlvOffsetLevelIdPathId*/, LoadMode /*loadMode*/)
+static void Factory_MudPathTrans_Null_4818B0(relive::Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUnion /*tlvOffsetLevelIdPathId*/, LoadMode /*loadMode*/)
 {
     // Empty
 }
 
 
-void Factory_MenuController_481AC0(relive::Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
+static void Factory_MenuController_481AC0(relive::Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
 {
     if (gMainMenuInstanceCount_9F2DE0 == 0)
     {
@@ -1972,14 +1972,14 @@ void Factory_MenuController_481AC0(relive::Path_TLV* pTlv, Map* /*pMap*/, TlvIte
 }
 
 
-void Factory_481FB0(relive::Path_TLV* /*pTlv*/, Map* pMap, TlvItemInfoUnion /*tlvOffsetLevelIdPathId*/, LoadMode /*loadMode*/)
+static void Factory_481FB0(relive::Path_TLV* /*pTlv*/, Map* pMap, TlvItemInfoUnion /*tlvOffsetLevelIdPathId*/, LoadMode /*loadMode*/)
 {
     LOG_ERROR("lvl = " << static_cast<s32>(pMap->mCurrentLevel) << " path = " << pMap->mCurrentPath << " camera = " << pMap->mCurrentCamera);
     ALIVE_FATAL("Didn't expect Factory_481FB0 to ever be used, please post the log in #oddworld_dev on discord");
 }
 
 
-void Factory_HintFly_4819E0(relive::Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
+static void Factory_HintFly_4819E0(relive::Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
 {
     if (loadMode != LoadMode::LoadResourceFromList_1 && loadMode != LoadMode::LoadResource_2)
     {
@@ -1988,13 +1988,13 @@ void Factory_HintFly_4819E0(relive::Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUn
 }
 
 
-void Factory_ScrabNoFall_Null_481890(relive::Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUnion /*tlvOffsetLevelIdPathId*/, LoadMode /*loadMode*/)
+static void Factory_ScrabNoFall_Null_481890(relive::Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUnion /*tlvOffsetLevelIdPathId*/, LoadMode /*loadMode*/)
 {
     // Empty
 }
 
 
-void Factory_IdSplitter_4875E0(relive::Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
+static void Factory_IdSplitter_4875E0(relive::Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
 {
     if (loadMode != LoadMode::LoadResourceFromList_1 && loadMode != LoadMode::LoadResource_2)
     {
@@ -2003,7 +2003,7 @@ void Factory_IdSplitter_4875E0(relive::Path_TLV* pTlv, Map* /*pMap*/, TlvItemInf
 }
 
 
-void Factory_SecurityDoor_487790(relive::Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
+static void Factory_SecurityDoor_487790(relive::Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
 {
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
@@ -2018,13 +2018,13 @@ void Factory_SecurityDoor_487790(relive::Path_TLV* pTlv, Map* /*pMap*/, TlvItemI
 }
 
 
-void Factory_Null_487440(relive::Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUnion /*tlvOffsetLevelIdPathId*/, LoadMode /*loadMode*/)
+static void Factory_Null_487440(relive::Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUnion /*tlvOffsetLevelIdPathId*/, LoadMode /*loadMode*/)
 {
     // Empty
 }
 
 
-void Factory_GrenadeMachine_487860(relive::Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
+static void Factory_BoomMachine(relive::Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
 {
     auto pBoomMachineTlv = static_cast<relive::Path_BoomMachine*>(pTlv);
     const auto disabledResources = pBoomMachineTlv->mDisabledResources;
@@ -2064,7 +2064,7 @@ void Factory_GrenadeMachine_487860(relive::Path_TLV* pTlv, Map* /*pMap*/, TlvIte
 }
 
 
-void Factory_LCD_481950(relive::Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
+static void Factory_LCD_481950(relive::Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
 {
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
@@ -2077,13 +2077,13 @@ void Factory_LCD_481950(relive::Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion 
 }
 
 
-void Factory_ElumPathTrans_Null_4818C0(relive::Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUnion /*tlvOffsetLevelIdPathId*/, LoadMode /*loadMode*/)
+static void Factory_ElumPathTrans_Null_4818C0(relive::Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUnion /*tlvOffsetLevelIdPathId*/, LoadMode /*loadMode*/)
 {
     // Empty
 }
 
 
-void Factory_HandStone_487480(relive::Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
+static void Factory_HandStone_487480(relive::Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
 {
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
@@ -2097,7 +2097,7 @@ void Factory_HandStone_487480(relive::Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItem
 }
 
 
-void Factory_CreditsController_481A50(relive::Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
+static void Factory_CreditsController_481A50(relive::Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
 {
     if (loadMode != LoadMode::LoadResourceFromList_1 && loadMode != LoadMode::LoadResource_2)
     {
@@ -2109,13 +2109,13 @@ void Factory_CreditsController_481A50(relive::Path_TLV* pTlv, Map* /*pMap*/, Tlv
 }
 
 
-void Factory_Preloader_Null_4817A0(relive::Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUnion /*tlvOffsetLevelIdPathId*/, LoadMode /*loadMode*/)
+static void Factory_Preloader_Null_4817A0(relive::Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUnion /*tlvOffsetLevelIdPathId*/, LoadMode /*loadMode*/)
 {
     // Empty
 }
 
 
-void Factory_StatusBoard_487AF0(relive::Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
+static void Factory_LCDStatusBoard_487AF0(relive::Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
 {
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
@@ -2128,16 +2128,16 @@ void Factory_StatusBoard_487AF0(relive::Path_TLV* pTlv, Map* /*pMap*/, TlvItemIn
 }
 
 
-void Factory_SwitchStateBooleanLogic_487B80(relive::Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
+static void Factory_SwitchStateBooleanLogic_487B80(relive::Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
 {
     if (loadMode != LoadMode::LoadResourceFromList_1 && loadMode != LoadMode::LoadResource_2)
     {
-        // does the converter have a different name?
-        relive_new SwitchStateBooleanLogic(static_cast<relive::Path_SwitchStateBooleanLogic*>(pTlv), tlvOffsetLevelIdPathId.all);
+        LOG_WARNING("Factory_SwitchStateBooleanLogic_487B80 tlv converted not implemented");
+        //relive_new SwitchStateBooleanLogic(static_cast<relive::Path_SwitchStateBooleanLogic*>(pTlv), tlvOffsetLevelIdPathId.all);
     }
 }
 
-void Factory_MusicTrigger_482020(relive::Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
+static void Factory_MusicTrigger_482020(relive::Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
 {
     if (loadMode != LoadMode::LoadResourceFromList_1 && loadMode != LoadMode::LoadResource_2)
     {
@@ -2145,7 +2145,7 @@ void Factory_MusicTrigger_482020(relive::Path_TLV* pTlv, Map* /*pMap*/, TlvItemI
     }
 }
 
-void Factory_LightEffect_484170(relive::Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
+static void Factory_LightEffect_484170(relive::Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
 {
     auto pPathLightTlv = static_cast<relive::Path_LightEffect*>(pTlv);
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
@@ -2234,7 +2234,7 @@ void Factory_LightEffect_484170(relive::Path_TLV* pTlv, Map* /*pMap*/, TlvItemIn
 }
 
 
-void Factory_SlogSpawner_4851D0(relive::Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
+static void Factory_SlogSpawner_4851D0(relive::Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
 {
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
@@ -2264,7 +2264,7 @@ void Factory_SlogSpawner_4851D0(relive::Path_TLV* pTlv, Map* /*pMap*/, TlvItemIn
 }
 
 
-void Factory_GasCountDown_487BE0(relive::Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
+static void Factory_GasCountDown_487BE0(relive::Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
 {
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
@@ -2279,7 +2279,7 @@ void Factory_GasCountDown_487BE0(relive::Path_TLV* pTlv, Map* /*pMap*/, TlvItemI
 
 
 
-void Factory_RingCancel_4818D0(relive::Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
+static void Factory_RingCancel_4818D0(relive::Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
 {
     if (loadMode != LoadMode::LoadResourceFromList_1 && loadMode != LoadMode::LoadResource_2)
     {
@@ -2343,7 +2343,7 @@ void Factory_RingCancel_4818D0(relive::Path_TLV* pTlv, Map* /*pMap*/, TlvItemInf
 }
 
 
-void Factory_GasEmitter_484110(relive::Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
+static void Factory_GasEmitter_484110(relive::Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
 {
     if (loadMode != LoadMode::LoadResourceFromList_1 && loadMode != LoadMode::LoadResource_2)
     {
@@ -2352,7 +2352,7 @@ void Factory_GasEmitter_484110(relive::Path_TLV* pTlv, Map* /*pMap*/, TlvItemInf
 }
 
 
-void Factory_ZzzSpawner_487C80(relive::Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
+static void Factory_ZzzSpawner_487C80(relive::Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
 {
     if (loadMode != LoadMode::LoadResourceFromList_1 && loadMode != LoadMode::LoadResource_2)
     {
@@ -2361,7 +2361,7 @@ void Factory_ZzzSpawner_487C80(relive::Path_TLV* pTlv, Map* /*pMap*/, TlvItemInf
 }
 
 
-void Factory_BackgroundGlukkon_487CE0(relive::Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
+static void Factory_BackgroundGlukkon_487CE0(relive::Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
 {
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
@@ -2384,7 +2384,7 @@ void Factory_BackgroundGlukkon_487CE0(relive::Path_TLV* pTlv, Map* /*pMap*/, Tlv
 }
 
 
-void Factory_KillUnsavedMuds_487DA0(relive::Path_TLV* /*pTlv*/, Map* pMap, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
+static void Factory_KillUnsavedMuds_487DA0(relive::Path_TLV* /*pTlv*/, Map* pMap, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
 {
     if (loadMode != LoadMode::LoadResourceFromList_1 && loadMode != LoadMode::LoadResource_2)
     {
@@ -2401,26 +2401,148 @@ void Factory_KillUnsavedMuds_487DA0(relive::Path_TLV* /*pTlv*/, Map* pMap, TlvIt
 }
 
 
-void Factory_SoftLanding_Null_4817C0(relive::Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUnion /*tlvOffsetLevelIdPathId*/, LoadMode /*loadMode*/)
+static void Factory_SoftLanding_Null_4817C0(relive::Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUnion /*tlvOffsetLevelIdPathId*/, LoadMode /*loadMode*/)
 {
     // Empty
 }
 
 
-void Factory_ResetPath_Null_4818A0(relive::Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUnion /*tlvOffsetLevelIdPathId*/, LoadMode /*loadMode*/)
+static void Factory_ResetPath_Null_4818A0(relive::Path_TLV* /*pTlv*/, Map* /*pMap*/, TlvItemInfoUnion /*tlvOffsetLevelIdPathId*/, LoadMode /*loadMode*/)
 {
     // Empty
 }
 
 
-void ConstructTLVObject(relive::Path_TLV* pTlv, Map* pMap, TlvItemInfoUnion tlvInfo, LoadMode loadMode)
+static void ConstructTLVObject(relive::Path_TLV* pTlv, Map* pMap, TlvItemInfoUnion tlvInfo, LoadMode loadMode)
 {
     switch (pTlv->mTlvType)
     {
-        case TlvTypes::KillUnsavedMuds_113:
+        case ReliveTypes::eKillUnsavedMuds:
             Factory_KillUnsavedMuds_487DA0(pTlv, pMap, tlvInfo, loadMode);
             break;
-
+        case ReliveTypes::eBackgroundAnimation:
+            Factory_BackgroundAnimation_4840A0(pTlv, pMap, tlvInfo, loadMode);
+            break;
+        case ReliveTypes::eBat:
+            Factory_Bat_486630(pTlv, pMap, tlvInfo, loadMode);
+            break;
+        case ReliveTypes::eLiftMover:
+            Factory_LiftMover_487580(pTlv, pMap, tlvInfo, loadMode);
+            break;
+        case ReliveTypes::eTimedMine:
+            Factory_TimedMine_484650(pTlv, pMap, tlvInfo, loadMode);
+            break;
+        case ReliveTypes::eChimeLock:
+            Factory_ChimeLock_4870D0(pTlv, pMap, tlvInfo, loadMode);
+            break;
+        case ReliveTypes::eGasCountDown:
+            Factory_GasCountDown_487BE0(pTlv, pMap, tlvInfo, loadMode);
+            break;
+        case ReliveTypes::eDoor:
+            Factory_Door_481C80(pTlv, pMap, tlvInfo, loadMode);
+            break;
+        case ReliveTypes::eElectricWall:
+            Factory_ElectricWall_4874E0(pTlv, pMap, tlvInfo, loadMode);
+            break;
+        case ReliveTypes::eElum:
+            Factory_ElumStart_Unknown_4873D0(pTlv, pMap, tlvInfo, loadMode);
+            break;
+        case ReliveTypes::eBellHammer:
+            Factory_BellHammer_4854B0(pTlv, pMap, tlvInfo, loadMode);
+            break;
+        case ReliveTypes::eSecurityClaw:
+            Factory_SecurityClaw_486D50(pTlv, pMap, tlvInfo, loadMode);
+            break;
+        case ReliveTypes::eFlintLockFire:
+            Factory_FlintLockFire_487640(pTlv, pMap, tlvInfo, loadMode);
+            break;
+        case ReliveTypes::eBoomMachine:
+            Factory_BoomMachine(pTlv, pMap, tlvInfo, loadMode);
+            break;
+        case ReliveTypes::eBackgroundGlukkon:
+            Factory_BackgroundGlukkon_487CE0(pTlv, pMap, tlvInfo, loadMode);
+            break;
+        case ReliveTypes::eHoneySack:
+            Factory_HoneySack_485EF0(pTlv, pMap, tlvInfo, loadMode);
+            break;
+        case ReliveTypes::eHoney:
+            Factory_Honey_4844A0(pTlv, pMap, tlvInfo, loadMode);
+            break;
+        case ReliveTypes::eMudokon:
+            Factory_WorkerMud_485B20(pTlv, pMap, tlvInfo, loadMode);
+            break;
+        case ReliveTypes::eLiftPoint:
+            Factory_LiftPoint_4820F0(pTlv, pMap, tlvInfo, loadMode);
+            break;
+        case ReliveTypes::SecurityOrb:
+            Factory_SecurityOrb_485550(pTlv, pMap, tlvInfo, loadMode);
+            break;
+        case ReliveTypes::eMeatSack:
+            Factory_MeatSack_483790(pTlv, pMap, tlvInfo, loadMode);
+            break;
+        case ReliveTypes::eMeatSaw:
+            Factory_MeatSaw_483F70(pTlv, pMap, tlvInfo, loadMode);
+            break;
+        case ReliveTypes::eMine:
+            Factory_Mine_4848D0(pTlv, pMap, tlvInfo, loadMode);
+            break;
+        case ReliveTypes::eMotionDetector:
+            Factory_MotionDector_486FD0(pTlv, pMap, tlvInfo, loadMode);
+            break;
+        case ReliveTypes::eRollingBallStopper:
+            Factory_RollingBallStopper_486B90(pTlv, pMap, tlvInfo, loadMode);
+            break;
+        case ReliveTypes::eParamite:
+            Factory_Paramite_4861F0(pTlv, pMap, tlvInfo, loadMode);
+            break;
+        case ReliveTypes::eBirdPortal:
+            Factory_BirdPortal_486710(pTlv, pMap, tlvInfo, loadMode);
+            break;
+        case ReliveTypes::ePullRingRope:
+            Factory_PullRingRope_483DA0(pTlv, pMap, tlvInfo, loadMode);
+            break;
+        case ReliveTypes::eRockSack:
+            Factory_RockSack_483680(pTlv, pMap, tlvInfo, loadMode);
+            break;
+        case ReliveTypes::eRollingBall:
+            Factory_RollingBall_486A60(pTlv, pMap, tlvInfo, loadMode);
+            break;
+        case ReliveTypes::eScrab:
+            Factory_Scrab_4863E0(pTlv, pMap, tlvInfo, loadMode);
+            break;
+        case ReliveTypes::eSlig:
+            Factory_Slig_482EC0(pTlv, pMap, tlvInfo, loadMode);
+            break;
+        case ReliveTypes::eSlog:
+            Factory_Slog_485030(pTlv, pMap, tlvInfo, loadMode);
+            break;
+        case ReliveTypes::SlingMud:
+            Factory_SlingMud_485A30(pTlv, pMap, tlvInfo, loadMode);
+            break;
+        case ReliveTypes::eSligSpawner:
+            Factory_SligSpawner_482A00(pTlv, pMap, tlvInfo, loadMode);
+            break;
+        case ReliveTypes::eZBall:
+            Factory_ZBall_483890(pTlv, pMap, tlvInfo, loadMode);
+            break;
+        case ReliveTypes::eLever:
+            Factory_Lever(pTlv, pMap, tlvInfo, loadMode);
+            break;
+        case ReliveTypes::eTrapDoor:
+            Factory_TrapDoor_4868E0(pTlv, pMap, tlvInfo, loadMode);
+            break;
+        case ReliveTypes::eUXB:
+            Factory_Uxb_484B70(pTlv, pMap, tlvInfo, loadMode);
+            break;
+        case ReliveTypes::eMusicTrigger:
+            Factory_MusicTrigger_482020(pTlv, pMap, tlvInfo, loadMode);
+            break;
+        case ReliveTypes::eWell:
+            Factory_Well_4834A0(pTlv, pMap, tlvInfo, loadMode);
+            break;
+        case ReliveTypes::eZzzSpawner:
+            Factory_ZzzSpawner_487C80(pTlv, pMap, tlvInfo, loadMode);
+            break;
         // TODO: All the others
     }
 }
@@ -2452,7 +2574,7 @@ const PathFunctionTable kObjectFactory = {
      Factory_Null_482EA0,
      Factory_Slig_482EC0,
      Factory_Slog_485030,
-     Factory_Switch_485370,
+     Factory_Lever,
      Factory_BellHammer_4854B0,
      Factory_StartController_Null_4817E0,
      Factory_SecurityOrb_485550,
@@ -2523,13 +2645,13 @@ const PathFunctionTable kObjectFactory = {
      Factory_IdSplitter_4875E0,
      Factory_SecurityDoor_487790,
      Factory_Null_487440,
-     Factory_GrenadeMachine_487860,
+     Factory_BoomMachine,
      Factory_LCD_481950,
      Factory_ElumPathTrans_Null_4818C0,
      Factory_HandStone_487480,
      Factory_CreditsController_481A50,
      Factory_Preloader_Null_4817A0,
-     Factory_StatusBoard_487AF0,
+     Factory_LCDStatusBoard_487AF0,
      Factory_SwitchStateBooleanLogic_487B80,
      Factory_MusicTrigger_482020,
      Factory_LightEffect_484170,

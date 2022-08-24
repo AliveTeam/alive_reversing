@@ -103,7 +103,7 @@ enum class ScrabSounds : u8
 class Scrab final : public BaseAliveGameObject
 {
 public:
-    Scrab(Path_Scrab* pTlv, s32 tlvInfo);
+    Scrab(relive::Path_Scrab* pTlv, s32 tlvInfo);
     ~Scrab();
 
     virtual void VRender(PrimHeader** ppOt) override;
@@ -128,7 +128,7 @@ public:
     Scrab* FindScrabToFight();
     s16 FindAbeOrMud();
     s16 HandleRunning();
-    s16 GetMotionForPatrolType(ScrabPatrolType ScrabPatrolType);
+    s16 GetMotionForPatrolType(relive::Path_Scrab::ScrabPatrolType ScrabPatrolType);
 
     // Motions
     void Motion_0_Empty_45E3D0();
@@ -182,7 +182,7 @@ public:
     s16 field_110_brain_sub_state = 0;
     s16 field_112 = 0;
     s16 field_114_attack_delay = 0;
-    ScrabPatrolType field_116_patrol_type = ScrabPatrolType::eWalk_0;
+    relive::Path_Scrab::ScrabPatrolType field_116_patrol_type = relive::Path_Scrab::ScrabPatrolType::eWalk;
     s32 field_118_timer = 0;
     Scrab* field_11C_pFight_target = nullptr;
     BaseAliveGameObject* field_120_pTarget = nullptr;

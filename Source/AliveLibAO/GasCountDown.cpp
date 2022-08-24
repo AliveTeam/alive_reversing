@@ -54,7 +54,7 @@ ALIVE_VAR(1, 0x4FF888, s16, gGasOn_4FF888, 0);
 GasCountDown::GasCountDown(relive::Path_GasCountDown* pTlv, s32 tlvInfo)
     : BaseGameObject(TRUE, 0)
 {
-    mBaseGameObjectTypeId = ReliveTypes::eGasClock;
+    mBaseGameObjectTypeId = ReliveTypes::eGasCountDown;
     field_58_tlvInfo = tlvInfo;
     field_10_font_context.LoadFontType(2);
     field_20_font.Load(5, byte_4C5080, &field_10_font_context);

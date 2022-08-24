@@ -8,7 +8,7 @@
 
 namespace AO {
 
-LiftMover::LiftMover(Path_LiftMover* pTlv, s32 tlvInfo)
+LiftMover::LiftMover(relive::Path_LiftMover* pTlv, s32 tlvInfo)
     : BaseGameObject(TRUE, 0)
 {
     field_14_tlvInfo = tlvInfo;
@@ -18,7 +18,7 @@ LiftMover::LiftMover(Path_LiftMover* pTlv, s32 tlvInfo)
     field_10_lift_mover_switch_id = pTlv->mLiftMoverSwitchId;
     field_12_target_lift_point_id = pTlv->mTargetLiftPointId;
 
-    if (pTlv->mMoveDirection == Path_LiftMover::YDirection::eUp_1)
+    if (pTlv->mMoveDirection == relive::Path_LiftMover::YDirection::eUp)
     {
         field_1C_speed = FP_FromInteger(-4);
     }

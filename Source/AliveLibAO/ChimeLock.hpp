@@ -24,7 +24,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_ChimeLock, 0x24);
 class ChimeLock final : public BaseAliveGameObject
 {
 public:
-    ChimeLock(Path_ChimeLock* pTlv, s32 tlvInfo);
+    ChimeLock(relive::Path_ChimeLock* pTlv, s32 tlvInfo);
     ~ChimeLock();
 
     virtual void VUpdate() override;

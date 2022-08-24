@@ -376,17 +376,6 @@ struct Path_Edge final : public Path_TLV
 };
 // TODO: size
 
-struct Path_Bees final : public Path_TLV
-{
-    s16 mSwitchId;
-    s16 mSwarmSize;
-    s16 mChaseTime;
-    s16 mSpeed;
-    s16 mDisabledResources;
-    s16 mBeesAmount;
-};
-// TODO: size
-
 struct Path_AbeStart final : public Path_TLV
 {
     Scale_int scale;

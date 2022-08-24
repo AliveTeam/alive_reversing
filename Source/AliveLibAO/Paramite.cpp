@@ -100,7 +100,7 @@ const static Paramite::TParamiteBrain sParamiteBrainTable[]{
     &Paramite::Brain_5_SpottedMeat,
 };
 
-Paramite::Paramite(Path_Paramite* pTlv, s32 tlvInfo)
+Paramite::Paramite(relive::Path_Paramite* pTlv, s32 tlvInfo)
     : BaseAliveGameObject()
 {
     mBaseGameObjectTypeId = ReliveTypes::eParamite;
@@ -139,10 +139,10 @@ Paramite::Paramite(Path_Paramite* pTlv, s32 tlvInfo)
 
     field_14C_pWeb = nullptr;
 
-    mXPos = FP_FromInteger(pTlv->mTopLeft.x);
-    mYPos = FP_FromInteger(pTlv->mTopLeft.y);
+    mXPos = FP_FromInteger(pTlv->mTopLeftX);
+    mYPos = FP_FromInteger(pTlv->mTopLeftY);
 
-    if (pTlv->mScale == Scale_short::eHalf_1)
+    if (pTlv->mScale == relive::reliveScale::eHalf)
     {
         mSpriteScale = FP_FromDouble(0.5);
         mAnim.mRenderLayer = Layer::eLayer_8;
@@ -155,7 +155,7 @@ Paramite::Paramite(Path_Paramite* pTlv, s32 tlvInfo)
         mScale = Scale::Fg;
     }
 
-    if (pTlv->mEnterFromWeb == Choice_short::eYes_1)
+    if (pTlv->mEntranceType == relive::Path_Paramite::EntranceType::eSurpriseWeb)
     {
         SetBrain(&Paramite::Brain_1_SurpriseWeb);
     }
@@ -169,8 +169,8 @@ Paramite::Paramite(Path_Paramite* pTlv, s32 tlvInfo)
     field_11C_meat_eating_time = pTlv->mMeatEatingTime;
     field_134_group_chase_delay = pTlv->mGroupChaseDelay;
     field_13C_surprise_web_switch_id = pTlv->mSurpriseWebSwitchId;
-    field_13E_hiss_before_attack = pTlv->mHissBeforeAttack;
-    field_144_delete_when_far_away = pTlv->mDeleteWhenOutOfSight;
+    mHissBeforeAttack = pTlv->mHissBeforeAttack;
+    mDeleteWhenOutOfSight = pTlv->mDeleteWhenOutOfSight;
 
     FP hitX = {};
     FP hitY = {};
@@ -376,11 +376,11 @@ s16 Paramite::VTakeDamage(BaseGameObject* pFrom)
     return 1;
 }
 
-void Paramite::VOnTlvCollision(Path_TLV* pTlv)
+void Paramite::VOnTlvCollision(relive::Path_TLV* pTlv)
 {
     while (pTlv)
     {
-        if (pTlv->mTlvType32 == TlvTypes::DeathDrop_5)
+        if (pTlv->mTlvType == ReliveTypes::eDeathDrop)
         {
             mBaseGameObjectFlags.Set(BaseGameObject::eDead);
             mHealth = FP_FromInteger(0);
@@ -468,7 +468,7 @@ void Paramite::VUpdate()
 
     if (FP_Abs(mXPos - sActiveHero->mXPos) > FP_FromInteger(1536) || FP_Abs(mYPos - sActiveHero->mYPos) > FP_FromInteger(480))
     {
-        if (field_144_delete_when_far_away == Choice_short::eYes_1)
+        if (mDeleteWhenOutOfSight == relive::reliveChoice::eYes)
         {
             mBaseGameObjectFlags.Set(Options::eDead);
         }
@@ -989,11 +989,11 @@ s16 Paramite::Brain_0_Patrol()
                 FP_GetExponent(mYPos),
                 FP_GetExponent(mXPos),
                 FP_GetExponent(mYPos),
-                TlvTypes::EnemyStopper_79);
+                ReliveTypes::eEnemyStopper);
             if (BaseAliveGameObjectPathTLV)
             {
-                auto pStopper = static_cast<Path_EnemyStopper*>(BaseAliveGameObjectPathTLV);
-                if ((pStopper->mStopDirection == Path_EnemyStopper::StopDirection::Left_0 && sActiveHero->mXPos < mXPos) || (pStopper->mStopDirection == Path_EnemyStopper::StopDirection::Right_1 && sActiveHero->mXPos > mXPos))
+                auto pStopper = static_cast<relive::Path_EnemyStopper*>(BaseAliveGameObjectPathTLV);
+                if ((pStopper->mStopDirection == relive::Path_EnemyStopper::StopDirection::Left && sActiveHero->mXPos < mXPos) || (pStopper->mStopDirection == relive::Path_EnemyStopper::StopDirection::Right && sActiveHero->mXPos > mXPos))
                 {
                     if (!SwitchStates_Get(pStopper->mSwitchId))
                     {
@@ -1197,7 +1197,7 @@ s16 Paramite::Brain_0_Patrol()
 
             if (mVelX < FP_FromInteger(0))
             {
-                if (HandleEnemyStopper(-2, Path_EnemyStopper::StopDirection::Left_0))
+                if (HandleEnemyStopper(-2, relive::Path_EnemyStopper::StopDirection::Left))
                 {
                     SetNextMotion(eParamiteMotions::Motion_0_Idle);
                     return Brain_0_Patrol::eBrain0_IdleForAbe_1;
@@ -1212,7 +1212,7 @@ s16 Paramite::Brain_0_Patrol()
 
             if (mVelX > FP_FromInteger(0))
             {
-                if (HandleEnemyStopper(2, Path_EnemyStopper::StopDirection::Right_1))
+                if (HandleEnemyStopper(2, relive::Path_EnemyStopper::StopDirection::Right))
                 {
                     SetNextMotion(eParamiteMotions::Motion_0_Idle);
                     return Brain_0_Patrol::eBrain0_IdleForAbe_1;
@@ -1260,7 +1260,7 @@ s16 Paramite::Brain_0_Patrol()
 
             if (mVelX < FP_FromInteger(0))
             {
-                if (HandleEnemyStopper(-2, Path_EnemyStopper::StopDirection::Left_0))
+                if (HandleEnemyStopper(-2, relive::Path_EnemyStopper::StopDirection::Left))
                 {
                     SetNextMotion(eParamiteMotions::Motion_0_Idle);
                     return Brain_0_Patrol::eBrain0_IdleForAbe_1;
@@ -1275,7 +1275,7 @@ s16 Paramite::Brain_0_Patrol()
 
             if (mVelX > FP_FromInteger(0))
             {
-                if (HandleEnemyStopper(2, Path_EnemyStopper::StopDirection::Right_1))
+                if (HandleEnemyStopper(2, relive::Path_EnemyStopper::StopDirection::Right))
                 {
                     SetNextMotion(eParamiteMotions::Motion_0_Idle);
                     return Brain_0_Patrol::eBrain0_IdleForAbe_1;
@@ -1774,7 +1774,7 @@ s16 Paramite::Brain_4_ChasingAbe()
             {
                 if (VIsFacingMe(sActiveHero))
                 {
-                    if (field_13E_hiss_before_attack == Choice_short::eYes_1)
+                    if (mHissBeforeAttack == relive::reliveChoice::eYes)
                     {
                         field_114_timer = sGnFrame + Math_RandomRange(0, 6);
                         return Brain_4_ChasingAbe::eBrain4_ToWarning_2;
@@ -1940,7 +1940,7 @@ s16 Paramite::Brain_4_ChasingAbe()
                 return field_110_brain_sub_state;
             }
 
-            if (field_13E_hiss_before_attack == Choice_short::eYes_1)
+            if (mHissBeforeAttack == relive::reliveChoice::eYes)
             {
                 field_114_timer = sGnFrame + Math_RandomRange(0, 6);
                 return Brain_4_ChasingAbe::eBrain4_ToWarning_2;
@@ -1971,11 +1971,11 @@ s16 Paramite::Brain_4_ChasingAbe()
                 FP_GetExponent(mYPos),
                 FP_GetExponent(mXPos),
                 FP_GetExponent(mYPos),
-                TlvTypes::EnemyStopper_79);
+                ReliveTypes::eEnemyStopper);
             if (BaseAliveGameObjectPathTLV)
             {
-                auto pStopper = static_cast<Path_EnemyStopper*>(BaseAliveGameObjectPathTLV);
-                if ((pStopper->mStopDirection == Path_EnemyStopper::StopDirection::Left_0 && sActiveHero->mXPos < mXPos) || (pStopper->mStopDirection == Path_EnemyStopper::StopDirection::Right_1 && sActiveHero->mXPos > mXPos))
+                auto pStopper = static_cast<relive::Path_EnemyStopper*>(BaseAliveGameObjectPathTLV);
+                if ((pStopper->mStopDirection == relive::Path_EnemyStopper::StopDirection::Left && sActiveHero->mXPos < mXPos) || (pStopper->mStopDirection == relive::Path_EnemyStopper::StopDirection::Right && sActiveHero->mXPos > mXPos))
                 {
                     if (!SwitchStates_Get(pStopper->mSwitchId))
                     {
@@ -1998,7 +1998,7 @@ s16 Paramite::Brain_4_ChasingAbe()
                 }
             }
 
-            if (field_114_timer > static_cast<s32>(sGnFrame) && field_13E_hiss_before_attack == Choice_short::eYes_1)
+            if (field_114_timer > static_cast<s32>(sGnFrame) && mHissBeforeAttack == relive::reliveChoice::eYes)
             {
                 return field_110_brain_sub_state;
             }
@@ -2030,7 +2030,7 @@ s16 Paramite::Brain_4_ChasingAbe()
                 return field_110_brain_sub_state;
             }
 
-            if (field_13E_hiss_before_attack == Choice_short::eYes_1)
+            if (mHissBeforeAttack == relive::reliveChoice::eYes)
             {
                 SetNextMotion(eParamiteMotions::Motion_15_Hiss);
             }
@@ -2054,7 +2054,7 @@ s16 Paramite::Brain_4_ChasingAbe()
             const s32 xSnapped = (x_exp & 0xFC00) + SnapToXGrid(mSpriteScale, x_exp & 0x3FF);
             if (mVelX < FP_FromInteger(0))
             {
-                if (HandleEnemyStopper(-2, Path_EnemyStopper::StopDirection::Left_0))
+                if (HandleEnemyStopper(-2, relive::Path_EnemyStopper::StopDirection::Left))
                 {
                     SetNextMotion(eParamiteMotions::Motion_0_Idle);
                     return Brain_4_ChasingAbe::eBrain4_ToChasing_5;
@@ -2072,7 +2072,7 @@ s16 Paramite::Brain_4_ChasingAbe()
             }
             else if (mVelX > FP_FromInteger(0))
             {
-                if (HandleEnemyStopper(2, Path_EnemyStopper::StopDirection::Right_1))
+                if (HandleEnemyStopper(2, relive::Path_EnemyStopper::StopDirection::Right))
                 {
                     SetNextMotion(eParamiteMotions::Motion_0_Idle);
                     return Brain_4_ChasingAbe::eBrain4_ToChasing_5;
@@ -2587,7 +2587,7 @@ bool Paramite::BrainIs(Paramite::TParamiteBrain fn)
     return field_10C_fn == fn;
 }
 
-s16 Paramite::HandleEnemyStopper(s16 numGridBlocks, Path_EnemyStopper::StopDirection dir)
+s16 Paramite::HandleEnemyStopper(s16 numGridBlocks, relive::Path_EnemyStopper::StopDirection dir)
 {
     const FP kGridSize = ScaleToGridSize(mSpriteScale);
     const FP numGridBlocksScaled = (kGridSize * FP_FromInteger(numGridBlocks));
@@ -2596,12 +2596,12 @@ s16 Paramite::HandleEnemyStopper(s16 numGridBlocks, Path_EnemyStopper::StopDirec
         FP_GetExponent(mYPos),
         FP_GetExponent(mXPos + numGridBlocksScaled),
         FP_GetExponent(mYPos),
-        TlvTypes::EnemyStopper_79);
+        ReliveTypes::eEnemyStopper);
 
     if (BaseAliveGameObjectPathTLV)
     {
         // No stopper or its disabled
-        auto pEnemyStopper = static_cast<Path_EnemyStopper*>(BaseAliveGameObjectPathTLV);
+        auto pEnemyStopper = static_cast<relive::Path_EnemyStopper*>(BaseAliveGameObjectPathTLV);
         if (!pEnemyStopper || !SwitchStates_Get(pEnemyStopper->mSwitchId))
         {
             return 0;

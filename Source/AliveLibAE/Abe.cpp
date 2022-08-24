@@ -2146,7 +2146,7 @@ s16 Abe::VTakeDamage(BaseGameObject* pFrom)
 
     switch (pFrom->Type())
     {
-        case ReliveTypes::eGasClock:
+        case ReliveTypes::eGasCountDown:
             if (mHealth > FP_FromInteger(0))
             {
                 if (ForceDownIfHoisting_44BA30())
@@ -3142,7 +3142,7 @@ void Abe::Motion_0_Idle_44EEB0()
                 case TlvTypes::BoomMachine_59:
                 {
                     auto pMachineButton = static_cast<BoomMachine*>(FindObjectOfType(
-                        ReliveTypes::eGrenadeMachine,
+                        ReliveTypes::eBoomMachine,
                         mXPos,
                         mYPos - mSpriteScale * FP_FromInteger(25)));
                     if (pMachineButton)
@@ -8553,7 +8553,7 @@ s16 Abe::HandleDoAction_455BD0()
 
             case TlvTypes::BoomMachine_59:
             {
-                auto pGrenadeMachine = static_cast<BoomMachine*>(FindObjectOfType(ReliveTypes::eGrenadeMachine, mXPos, mYPos - (mSpriteScale * FP_FromInteger(25))));
+                auto pGrenadeMachine = static_cast<BoomMachine*>(FindObjectOfType(ReliveTypes::eBoomMachine, mXPos, mYPos - (mSpriteScale * FP_FromInteger(25))));
                 if (!pGrenadeMachine || !(pGrenadeMachine->VIsButtonOn()))
                 {
                     return eAbeMotions::Motion_34_DunnoBegin_44ECF0;
@@ -9351,7 +9351,7 @@ PullRingRope* Abe::GetPullRope_44D120()
         }
 
         // Find a rope.
-        if (pObj->Type() == ReliveTypes::ePullRope)
+        if (pObj->Type() == ReliveTypes::ePullRingRope)
         {
             // Is it on the same scale as us?
             PullRingRope* pRope = static_cast<PullRingRope*>(pObj);

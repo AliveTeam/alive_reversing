@@ -26,7 +26,7 @@ class LiftPoint;
 class LiftMover final : public BaseGameObject
 {
 public:
-    LiftMover(Path_LiftMover* pTlv, s32 tlvInfo);
+    LiftMover(relive::Path_LiftMover* pTlv, s32 tlvInfo);
     ~LiftMover();
     
     virtual void VUpdate() override;

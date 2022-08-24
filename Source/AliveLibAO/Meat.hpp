@@ -23,7 +23,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_MeatSack, 0x24);
 class MeatSack final : public BaseAliveGameObject
 {
 public:
-    MeatSack(Path_MeatSack* pTlv, s32 tlvInfo);
+    MeatSack(relive::Path_MeatSack* pTlv, s32 tlvInfo);
     ~MeatSack();
     
     virtual void VScreenChanged() override;

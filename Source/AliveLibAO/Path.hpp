@@ -51,7 +51,7 @@ enum class TlvTypes : s16
     ElumWall_40 = 40,
     SlingMudokon_41 = 41,
     HoneyDripTarget_42 = 42,
-    Bees_43 = 43,
+    BeeNest_43 = 43,
 
     WellExpress_45 = 45, // TODO: check if WellLocal and WellExpress are not swapped
     Mine_46 = 46,
@@ -109,7 +109,7 @@ enum class TlvTypes : s16
     CreditsController_101 = 101,
     Preloader_102 = 102,
     LCDStatusBoard_103 = 103,
-
+    SwitchStateBooleanLogic = 104,
     MusicTrigger_105 = 105,
     LightEffect_106 = 106,
     SlogSpawner_107 = 107,

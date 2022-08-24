@@ -22,7 +22,7 @@ namespace AO {
 // TODO: Index is always >=1 so first entry is redundant ??
 const s32 dword_4C5054[11] = {0, 1, 10, 100, 1000, 10000, 100000, 1000000, 10000000, 100000000, 1000000000};
 
-ChimeLock::ChimeLock(Path_ChimeLock* pTlv, s32 tlvInfo)
+ChimeLock::ChimeLock(relive::Path_ChimeLock* pTlv, s32 tlvInfo)
     : BaseAliveGameObject()
 {
     mBaseGameObjectTypeId = ReliveTypes::eChimeLock;
@@ -35,7 +35,7 @@ ChimeLock::ChimeLock(Path_ChimeLock* pTlv, s32 tlvInfo)
     mAnim.mRenderLayer = Layer::eLayer_FG1_37;
 
     FP scale = {};
-    if (pTlv->mScale == Scale_short::eHalf_1)
+    if (pTlv->mScale == relive::reliveScale::eHalf)
     {
         scale = FP_FromDouble(0.5);
     }
@@ -46,8 +46,8 @@ ChimeLock::ChimeLock(Path_ChimeLock* pTlv, s32 tlvInfo)
 
     field_114_left_bell = relive_new Bells(
         BellSize::eBig,
-        FP_FromInteger(pTlv->mTopLeft.x),
-        FP_FromInteger(pTlv->mTopLeft.y),
+        FP_FromInteger(pTlv->mTopLeftX),
+        FP_FromInteger(pTlv->mTopLeftY),
         scale);
     if (field_114_left_bell)
     {
@@ -56,8 +56,8 @@ ChimeLock::ChimeLock(Path_ChimeLock* pTlv, s32 tlvInfo)
 
     field_118_center_bell = relive_new Bells(
         BellSize::eMedium,
-        FP_FromInteger(pTlv->mTopLeft.x),
-        FP_FromInteger(pTlv->mTopLeft.y),
+        FP_FromInteger(pTlv->mTopLeftX),
+        FP_FromInteger(pTlv->mTopLeftY),
         scale);
     if (field_118_center_bell)
     {
@@ -66,8 +66,8 @@ ChimeLock::ChimeLock(Path_ChimeLock* pTlv, s32 tlvInfo)
 
     field_11C_right_bell = relive_new Bells(
         BellSize::eSmall,
-        FP_FromInteger(pTlv->mTopLeft.x),
-        FP_FromInteger(pTlv->mTopLeft.y),
+        FP_FromInteger(pTlv->mTopLeftX),
+        FP_FromInteger(pTlv->mTopLeftY),
         scale);
     if (field_11C_right_bell)
     {
@@ -99,13 +99,13 @@ ChimeLock::ChimeLock(Path_ChimeLock* pTlv, s32 tlvInfo)
 
     field_15E_ball_angle = 0;
 
-    field_140_targetY = FP_FromInteger(pTlv->mTopLeft.y + 40);
-    mYPos = FP_FromInteger(pTlv->mTopLeft.y + 40);
+    field_140_targetY = FP_FromInteger(pTlv->mTopLeftY + 40);
+    mYPos = FP_FromInteger(pTlv->mTopLeftY + 40);
 
     mVelY = FP_FromInteger(0);
 
-    field_13C_targetX = FP_FromInteger(pTlv->mTopLeft.x);
-    mXPos = FP_FromInteger(pTlv->mTopLeft.x);
+    field_13C_targetX = FP_FromInteger(pTlv->mTopLeftX);
+    mXPos = FP_FromInteger(pTlv->mTopLeftX);
     field_14C_increase_vely_by = FP_FromInteger(1);
 
     field_130_song_matching = 0;
@@ -386,7 +386,7 @@ void ChimeLock::VUpdate()
                 if (DoNote(static_cast<s16>(Bell)))
                 {
                     field_110_state = ChimeLockStates::eNeverRead_6;
-                    SwitchStates_Do_Operation(field_132_solve_switch_id, SwitchOp::eSetTrue_0);
+                    SwitchStates_Do_Operation(field_132_solve_switch_id, relive::reliveSwitchOp::eSetTrue);
                     VUnPosses();
                     relive_new MusicTrigger(MusicTriggerMusicType::eSecretAreaShort_6, TriggeredBy::eTouching_1, 0, 15);
                     return;

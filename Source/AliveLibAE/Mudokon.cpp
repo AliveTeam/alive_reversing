@@ -1416,7 +1416,7 @@ s16 Mudokon::VTakeDamage(BaseGameObject* pFrom)
             [[fallthrough]];
         }
 
-        case ReliveTypes::eGasClock:
+        case ReliveTypes::eGasCountDown:
         case ReliveTypes::eRockSpawner:
         case ReliveTypes::eMineCar:
         case ReliveTypes::eParamite:
@@ -1433,7 +1433,7 @@ s16 Mudokon::VTakeDamage(BaseGameObject* pFrom)
             field_194_timer = sGnFrame + 90;
             VUpdateResBlock();
             EventBroadcast(kEventMudokonDied, this);
-            if (pFrom->Type() == ReliveTypes::eGasClock)
+            if (pFrom->Type() == ReliveTypes::eGasCountDown)
             {
                 SFX_Play_Pitch(SoundEffect::Choke_81, 127, 128);
             }

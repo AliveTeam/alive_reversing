@@ -14,7 +14,7 @@
 
 namespace AO {
 
-ElectricWall::ElectricWall(Path_ElectricWall* pTlv, s32 tlvInfo)
+ElectricWall::ElectricWall(relive::Path_ElectricWall* pTlv, s32 tlvInfo)
 {
     mBaseGameObjectTypeId = ReliveTypes::eElectricWall;
 
@@ -31,11 +31,11 @@ ElectricWall::ElectricWall(Path_ElectricWall* pTlv, s32 tlvInfo)
     }
 
     mRGB.SetRGB(80, 80, 80);
-    field_E4_tlv = tlvInfo;
-    mXPos = FP_FromInteger(pTlv->mTopLeft.x);
-    mYPos = FP_FromInteger(pTlv->mTopLeft.y);
+    mTlvInfo = tlvInfo;
+    mXPos = FP_FromInteger(pTlv->mTopLeftX);
+    mYPos = FP_FromInteger(pTlv->mTopLeftY);
 
-    if (pTlv->mScale == Scale_short::eHalf_1)
+    if (pTlv->mScale == relive::reliveScale::eHalf)
     {
         mSpriteScale = FP_FromDouble(0.5);
         mScale = Scale::Bg;
@@ -46,20 +46,20 @@ ElectricWall::ElectricWall(Path_ElectricWall* pTlv, s32 tlvInfo)
         mScale = Scale::Fg;
     }
 
-    field_E8_switch_id = pTlv->mSwitchId;
-    field_EA_start_state = pTlv->mStartState;
+    mSwitchId = pTlv->mSwitchId;
+    mStartState = pTlv->mStartState;
 
-    if (SwitchStates_Get(pTlv->mSwitchId) == field_EA_start_state)
+    if (SwitchStates_Get(pTlv->mSwitchId) == mStartState)
     {
         mAnim.mFlags.Clear(AnimFlags::eBit3_Render);
     }
 
-    field_EC_sound_timer = 0;
+    mSoundTimer = 0;
 }
 
 ElectricWall::~ElectricWall()
 {
-    Path::TLV_Reset(field_E4_tlv, -1, 0, 0);
+    Path::TLV_Reset(mTlvInfo, -1, 0, 0);
 }
 
 void ElectricWall::VScreenChanged()
@@ -83,7 +83,7 @@ void ElectricWall::VUpdate()
         mBaseGameObjectFlags.Set(Options::eDead);
     }
 
-    if (SwitchStates_Get(field_E8_switch_id) == field_EA_start_state)
+    if (SwitchStates_Get(mSwitchId) == mStartState)
     {
         mAnim.mFlags.Clear(AnimFlags::eBit3_Render);
     }
@@ -98,11 +98,11 @@ void ElectricWall::VUpdate()
         }
 
         // Play sound every so often
-        if (static_cast<s32>(sGnFrame) >= field_EC_sound_timer)
+        if (static_cast<s32>(sGnFrame) >= mSoundTimer)
         {
             // set a random starting frame
             SFX_Play_Camera(SoundEffect::BirdPortalSpark_48, 45, soundDirection);
-            field_EC_sound_timer = sGnFrame + Math_RandomRange(24, 40);
+            mSoundTimer = sGnFrame + Math_RandomRange(24, 40);
         }
 
 

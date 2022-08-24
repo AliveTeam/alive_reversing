@@ -158,7 +158,7 @@ enum class GameSpeakEvents : s16;
 class Mudokon final : public BaseAliveGameObject
 {
 public:
-    Mudokon(Path_TLV* pTlv, s32 tlvInfo);
+    Mudokon(relive::Path_TLV* pTlv, s32 tlvInfo);
     ~Mudokon();
 
     void KillLiftPoint_194();
@@ -314,7 +314,7 @@ public:
     s16 field_146 = 0;
     Mudokon_Resources field_148_res_array = {};
     s16 field_184 = 0;
-    Choice_short field_186_give_password = Choice_short::eNo_0;
+    relive::reliveChoice mGivePassword = relive::reliveChoice::eNo;
     s16 field_188 = 0;
     s16 field_18A = 0;
     FP field_18C_how_far_to_walk = {};

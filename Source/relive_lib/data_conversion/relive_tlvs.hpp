@@ -738,7 +738,7 @@ struct Path_MeatSack final : public Path_TLV
     s16 mMeatAmount = 0;
 };
 
-struct Path_Bees final : public Path_TLV
+struct Path_BeeNest final : public Path_TLV
 {
     s16 mSwitchId = 0;
     s16 mSwarmSize = 0;

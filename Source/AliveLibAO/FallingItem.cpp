@@ -71,7 +71,7 @@ FallingItem::FallingItem(relive::Path_FallingItem* pTlv, s32 tlvInfo)
 
     mFallInterval = pTlv->mFallInterval;
     mMaxFallingItems = pTlv->mMaxFallingItems;
-    mMaxFallingItems = pTlv->mMaxFallingItems;
+    mRemainingFallingItems = pTlv->mMaxFallingItems;
 
     mResetSwitchIdAfterUse = pTlv->mResetSwitchIdAfterUse;
     field_122_do_sound_in_state_falling = 1;
@@ -294,13 +294,13 @@ void FallingItem::VUpdate()
             {
                 if (mResetSwitchIdAfterUse == relive::reliveChoice::eYes)
                 {
-                    SwitchStates_Do_Operation(field_112_switch_id, SwitchOp::eSetFalse_1);
+                    SwitchStates_Do_Operation(field_112_switch_id, relive::reliveSwitchOp::eSetFalse);
                 }
             }
 
-            mMaxFallingItems--;
+            mRemainingFallingItems--;
 
-            if ((mMaxFallingItems && mMaxFallingItems <= 0) || !gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, field_128_xpos, field_12C_ypos, 0))
+            if ((mMaxFallingItems && mRemainingFallingItems <= 0) || !gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, field_128_xpos, field_12C_ypos, 0))
             {
                 mBaseGameObjectFlags.Set(BaseGameObject::eDead);
             }

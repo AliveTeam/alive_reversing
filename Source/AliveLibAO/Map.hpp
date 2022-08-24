@@ -171,7 +171,7 @@ public:
 
     relive::Path_TLV* TLV_First_Of_Type_In_Camera(TlvTypes type, s32 camX);
 
-    relive::Path_TLV* TLV_Get_At_446260(s16 xpos, s16 ypos, s16 width, s16 height, TlvTypes typeToFind);
+    relive::Path_TLV* TLV_Get_At_446260(s16 xpos, s16 ypos, s16 width, s16 height, ReliveTypes typeToFind);
 
     relive::Path_TLV* TLV_Get_At_446060(relive::Path_TLV* pTlv, FP xpos, FP ypos, FP width, FP height);
 

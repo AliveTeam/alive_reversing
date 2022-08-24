@@ -603,8 +603,8 @@ static void ConvertTLV(nlohmann::json& j, const AO::Path_TLV& tlv)
         case AO::TlvTypes::HoneyDripTarget_42:
             convert_tlv<relive::Path_HoneyDripTarget_Converter, AO::Path_HoneyDripTarget>(j, tlv);
             break;
-        case AO::TlvTypes::Bees_43:
-            convert_tlv<relive::Path_Bees_Converter, AO::Path_Bees>(j, tlv);
+        case AO::TlvTypes::BeeNest_43:
+            convert_tlv<relive::Path_BeeNest_Converter, AO::Path_BeeNest>(j, tlv);
             break;
         case AO::TlvTypes::WellExpress_45:
             convert_tlv<relive::Path_WellExpress_Converter, AO::Path_WellExpress>(j, tlv);
