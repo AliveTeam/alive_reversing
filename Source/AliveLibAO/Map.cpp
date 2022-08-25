@@ -2085,5 +2085,6 @@ void BinaryPath::CreateFromJson(nlohmann::json& pathJson)
             {
             }
         }
+        mCameras.emplace_back(std::move(camEntry));
     }
 }
