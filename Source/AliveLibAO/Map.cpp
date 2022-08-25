@@ -1643,6 +1643,48 @@ void Map::ClearPathResourceBlocks()
     }
 }
 
+class BinaryPath final
+{
+public:
+    void CreateFromJson(nlohmann::json& pathJson)
+    {
+        // TODO: Do a pass to collect the total required buffer size
+
+        for (auto& cam : pathJson["cameras"])
+        {
+            auto& mapObjects = cam["map_objects"];
+            for (auto i = 0u; i < mapObjects.size(); i++)
+            {
+                const auto& type = mapObjects.at(i)["type"];
+                LOG_INFO(type);
+
+                if (type == "light_effect")
+                {
+                    mapObjects.at(i).get_to(AllocTLV<relive::Path_LightEffect>());
+                }
+                // TODO: all the others
+                else if (type == "other")
+                {
+
+                }
+            }
+        }
+    }
+
+private:
+    template<typename TlvType>
+    TlvType& AllocTLV()
+    {
+        mBuffer.push_back(sizeof(TlvType));
+        return *reinterpret_cast<TlvType*>(mBuffer.data() - sizeof(sizeof(TlvType)));
+    }
+
+    // TODO : might be able to have a camera object with child map
+    // objects depending on how OG iterates TLVs
+
+    std::vector<u8> mBuffer;
+};
+
 void Map::GoTo_Camera()
 {
     s16 bShowLoadingIcon = FALSE;
@@ -1757,21 +1799,9 @@ void Map::GoTo_Camera()
             nlohmann::json pathJson = nlohmann::json::parse(pathJsonStr);
             LOG_INFO("Cam count " << pathJson["cameras"].size());
 
-            for (auto& cam : pathJson["cameras"])
-            {
-                auto& mapObjects = cam["map_objects"];
-                for (auto i = 0u; i < mapObjects.size(); i++)
-                {
-                    LOG_INFO(mapObjects.at(i)["name"]);
-                    if (mapObjects.at(i)["name"] == "light_effect")
-                    {
-                        relive::Path_LightEffect tlv;
-                        mapObjects.at(i).get_to(tlv);
-
-                        LOG_INFO("X = " << tlv.mTopLeftX);
-                    }
-                }
-            }
+            BinaryPath pathBuffer;
+            pathBuffer.CreateFromJson(pathJson);
+            // TODO: Keep all binaryPaths in scope via sPathsArrayExtended or otherwise
         }
 
 
