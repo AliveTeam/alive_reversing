@@ -2071,16 +2071,16 @@ void BinaryPath::CreateFromJson(nlohmann::json& pathJson)
         auto& mapObjects = cam["map_objects"];
         for (auto i = 0u; i < mapObjects.size(); i++)
         {
-            const auto& type = mapObjects.at(i)["type"];
+            const auto& type = mapObjects.at(i)["tlv_type"];
             LOG_INFO(type);
 
             if (type == "light_effect")
             {
                 mapObjects.at(i).get_to(camEntry->AllocTLV<relive::Path_LightEffect>());
             }
-            // TODO: all the others
-            else if (type == "other")
+            else if (type == "main_menu_controller")
             {
+                mapObjects.at(i).get_to(camEntry->AllocTLV<relive::Path_MainMenuController>());
             }
         }
         mCameras.emplace_back(std::move(camEntry));
