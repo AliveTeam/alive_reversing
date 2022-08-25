@@ -4,6 +4,8 @@
 #include "../AliveLibAE/FixedPoint.hpp"
 #include "../AliveLibCommon/Psx_common.hpp"
 
+#include <vector> // TODO: Consider if STL should be in here
+
 enum eLineTypes : u8
 {
     eFloor_0 = 0,
@@ -178,6 +180,7 @@ public:
         Ao,
         Ae
     };
+    explicit Collisions(std::vector<PathLineAO>& collisions);
     Collisions(LineFormat lineFormat, const CollisionInfo* pCollisionInfo, const u8* pPathRes);
 
     PathLine* Add_Dynamic_Collision_Line(s16 x1, s16 y1, s16 x2, s16 y2, eLineTypes mode);

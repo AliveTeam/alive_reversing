@@ -35,7 +35,6 @@
 #include "../relive_lib/data_conversion/relive_tlvs.hpp"
 #include "../relive_lib/data_conversion/relive_tlvs_serialization.hpp"
 
-#include "nlohmann/json.hpp"
 
 class BaseGameObject;
 
@@ -556,12 +555,11 @@ void Map::Handle_PathTransition()
                 break;
         }
 
-        const u32 pCamNameOffset = (sizeof(CameraName) * (field_20_camX_idx + field_22_camY_idx * field_24_max_cams_x));
-        const u8* pPathRes = *GetPathResourceBlockPtr(mCurrentPath);
-        auto pCameraName = reinterpret_cast<const CameraName*>(pPathRes + pCamNameOffset);
+        const BinaryPath* pPathRes = GetPathResourceBlockPtr(mCurrentPath);
+        auto pCameraName = pPathRes->CameraName(field_20_camX_idx, field_22_camY_idx);
 
         // Convert the 2 digit camera number string to an integer
-        mNextCamera = 1 * (pCameraName->name[7] - '0') + 10 * (pCameraName->name[6] - '0');
+        mNextCamera = 1 * (pCameraName[7] - '0') + 10 * (pCameraName[6] - '0');
 
         GoTo_Camera();
     }
@@ -828,16 +826,8 @@ relive::Path_TLV* Map::Get_First_TLV_For_Offsetted_Camera(s16 cam_x_idx, s16 cam
         return nullptr;
     }
 
-    u8* pPathData = *GetPathResourceBlockPtr(mCurrentPath);
-    const s32* indexTable = reinterpret_cast<const s32*>(pPathData + field_D4_pPathData->field_18_object_index_table_offset);
-    const s32 indexTableEntry = indexTable[(camX + (camY * field_24_max_cams_x))];
-    if (indexTableEntry == -1 || indexTableEntry >= 0x100000)
-    {
-        return nullptr;
-    }
-
-    relive::Path_TLV* pTlv = reinterpret_cast<relive::Path_TLV*>(pPathData + indexTableEntry + field_D4_pPathData->field_14_object_offset);
-    return pTlv;
+    BinaryPath* pPathData = GetPathResourceBlockPtr(mCurrentPath);
+    return pPathData->TlvsForCamera(cam_x_idx, cam_y_idx);
 }
 
 void Map::SaveBlyData(u8* pSaveBuffer)
@@ -850,44 +840,32 @@ void Map::SaveBlyData(u8* pSaveBuffer)
         const PathBlyRec* pPathRec = Path_Get_Bly_Record_434650(mCurrentLevel, i);
         if (pPathRec->field_0_blyName)
         {
-            auto ppPathRes = GetPathResourceBlockPtr(i);
-            const PathData* pPathData = pPathRec->field_4_pPathData;
+            BinaryPath* ppPathRes = GetPathResourceBlockPtr(i); // TODO: Is this actually the id ??
 
-            const s32 widthCount = (pPathData->field_8_bTop - pPathData->field_4_bLeft) / pPathData->field_C_grid_width;
-            const s32 heightCount = (pPathData->field_A_bBottom - pPathData->field_6_bRight) / pPathData->field_E_grid_height;
-            const s32 totalCameraCount = widthCount * heightCount;
-            const s32* pIndexTable = reinterpret_cast<const s32*>(&(*ppPathRes)[pPathData->field_18_object_index_table_offset]);
-
-            for (s32 j = 0; j < totalCameraCount; j++)
+            for (auto& cam : ppPathRes->GetCameras())
             {
-                const s32 tlvOffset = pIndexTable[j];
-                if (tlvOffset != -1 && tlvOffset < 0x100000)
+                relive::Path_TLV* pTlv = reinterpret_cast<relive::Path_TLV*>(cam->mBuffer.data());
+                for (;;)
                 {
-                    u8* ptr = &(*ppPathRes)[pPathData->field_14_object_offset + tlvOffset];
-                    relive::Path_TLV* pTlv = reinterpret_cast<relive::Path_TLV*>(ptr);
-
-                    for (;;)
+                    BitField8<relive::TlvFlags> flags = pTlv->mTlvFlags;
+                    if (flags.Get(relive::eBit1_Created))
                     {
-                        BitField8<relive::TlvFlags> flags = pTlv->mTlvFlags;
-                        if (flags.Get(relive::eBit1_Created))
-                        {
-                            flags.Clear(relive::eBit1_Created);
-                            flags.Clear(relive::eBit2_Destroyed);
-                        }
-
-                        // Save the flags
-                        *pAfterSwitchStates = flags.Raw().all;
-                        pAfterSwitchStates++;
-                        *pAfterSwitchStates = pTlv->mTlvSpecificMeaning;
-                        pAfterSwitchStates++;
-
-                        if (pTlv->mTlvFlags.Get(relive::eBit3_End_TLV_List))
-                        {
-                            break;
-                        }
-
-                        pTlv = Path_TLV::Next_446460(pTlv);
+                        flags.Clear(relive::eBit1_Created);
+                        flags.Clear(relive::eBit2_Destroyed);
                     }
+
+                    // Save the flags
+                    *pAfterSwitchStates = flags.Raw().all;
+                    pAfterSwitchStates++;
+                    *pAfterSwitchStates = pTlv->mTlvSpecificMeaning;
+                    pAfterSwitchStates++;
+
+                    if (pTlv->mTlvFlags.Get(relive::eBit3_End_TLV_List))
+                    {
+                        break;
+                    }
+
+                    pTlv = Path_TLV::Next_446460(pTlv);
                 }
             }
         }
@@ -901,39 +879,31 @@ void Map::RestoreBlyData(const u8* pSaveData)
 
     for (s16 i = 1; i < Path_Get_Num_Paths(mCurrentLevel); i++)
     {
-        auto ppPathRes = GetPathResourceBlockPtr(i);
+        BinaryPath* ppPathRes = GetPathResourceBlockPtr(i);
         if (ppPathRes)
         {
             const PathBlyRec* pPathRec = Path_Get_Bly_Record_434650(mCurrentLevel, i);
             if (pPathRec->field_0_blyName)
             {
-                const PathData* pPathData = pPathRec->field_4_pPathData;
-                const s32* pIndexTable = reinterpret_cast<const s32*>(&(*ppPathRes)[pPathData->field_18_object_index_table_offset]);
-                const s32 totalCameraCount = (pPathData->field_8_bTop - pPathData->field_4_bLeft) / pPathData->field_C_grid_width * ((pPathData->field_A_bBottom - pPathData->field_6_bRight) / pPathData->field_E_grid_height);
-
-                for (s32 j = 0; j < totalCameraCount; j++)
+                for (auto& cam : ppPathRes->GetCameras())
                 {
-                    const s32 index_table_value = pIndexTable[j];
-                    if (index_table_value != -1 && index_table_value < 0x100000)
+                    relive::Path_TLV* pTlv = reinterpret_cast<relive::Path_TLV*>(cam->mBuffer.data());
+                    for (;;)
                     {
-                        auto pTlv = reinterpret_cast<relive::Path_TLV*>(&(*ppPathRes)[pPathData->field_14_object_offset + index_table_value]);
-                        for (;;)
+                        pTlv->mTlvFlags.Raw().all = *pAfterSwitchStates;
+                        pAfterSwitchStates++;
+
+                        pTlv->mTlvSpecificMeaning = *pAfterSwitchStates;
+                        pAfterSwitchStates++;
+                        if (pTlv->mTlvFlags.Get(relive::eBit3_End_TLV_List))
                         {
-                            pTlv->mTlvFlags.Raw().all = *pAfterSwitchStates;
-                            pAfterSwitchStates++;
+                            break;
+                        }
 
-                            pTlv->mTlvSpecificMeaning = *pAfterSwitchStates;
-                            pAfterSwitchStates++;
-                            if (pTlv->mTlvFlags.Get(relive::eBit3_End_TLV_List))
-                            {
-                                break;
-                            }
-
-                            pTlv = Path_TLV::Next_NoCheck(pTlv);
-                            if (pTlv->mLength == 0)
-                            {
-                                break;
-                            }
+                        pTlv = Path_TLV::Next_NoCheck(pTlv);
+                        if (pTlv->mLength == 0)
+                        {
+                            break;
                         }
                     }
                 }
@@ -944,43 +914,35 @@ void Map::RestoreBlyData(const u8* pSaveData)
 
 void Map::Start_Sounds_For_Objects_In_Camera(CameraPos direction, s16 cam_x_idx, s16 cam_y_idx)
 {
-    u8* pPathData = *GetPathResourceBlockPtr(mCurrentPath);
-    u32* pIndexTableStart = reinterpret_cast<u32*>(pPathData + field_D4_pPathData->field_18_object_index_table_offset);
+    BinaryPath* pPathData = GetPathResourceBlockPtr(mCurrentPath);
 
-    const s32 totalCams = field_26_max_cams_y * field_24_max_cams_x;
-
+    // TODO: Shouldn't really need to depend on these
     const s32 cam_global_left = field_D4_pPathData->field_C_grid_width * cam_x_idx;
     const s32 cam_global_right = cam_global_left + field_D4_pPathData->field_C_grid_width;
 
     const s32 cam_y_grid_top = field_D4_pPathData->field_E_grid_height * cam_y_idx;
     const s32 cam_y_grid_bottom = cam_y_grid_top + field_D4_pPathData->field_E_grid_height;
 
-    for (s32 camNum = 0; camNum < totalCams; camNum++)
+    for (auto& cam : pPathData->GetCameras())
     {
-        const s32 index_table_value = pIndexTableStart[camNum];
-        if (index_table_value != -1 && index_table_value < 0x100000)
+        relive::Path_TLV* pTlv = reinterpret_cast<relive::Path_TLV*>(cam->mBuffer.data());
+        // Enumerate the TLVs
+        for (;;)
         {
-            // Get the first TLV at this index table entry
-            relive::Path_TLV* pTlv = reinterpret_cast<relive::Path_TLV*>(&pPathData[index_table_value + field_D4_pPathData->field_14_object_offset]);
-
-            // Enumerate the TLVs
-            for (;;)
+            if (pTlv->mTopLeftX >= cam_global_left && pTlv->mTopLeftX <= cam_global_right)
             {
-                if (pTlv->mTopLeftX >= cam_global_left && pTlv->mTopLeftX <= cam_global_right)
+                if (pTlv->mTopLeftY >= cam_y_grid_top && pTlv->mTopLeftY <= cam_y_grid_bottom && (!pTlv->mTlvFlags.Get(relive::eBit1_Created) && !pTlv->mTlvFlags.Get(relive::eBit2_Destroyed)))
                 {
-                    if (pTlv->mTopLeftY >= cam_y_grid_top && pTlv->mTopLeftY <= cam_y_grid_bottom && (!pTlv->mTlvFlags.Get(relive::eBit1_Created) && !pTlv->mTlvFlags.Get(relive::eBit2_Destroyed)))
-                    {
-                        Start_Sounds_for_TLV(direction, pTlv);
-                    }
+                    Start_Sounds_for_TLV(direction, pTlv);
                 }
-
-                if (pTlv->mTlvFlags.Get(relive::eBit3_End_TLV_List))
-                {
-                    break;
-                }
-
-                pTlv = Path_TLV::Next_NoCheck(pTlv);
             }
+
+            if (pTlv->mTlvFlags.Get(relive::eBit3_End_TLV_List))
+            {
+                break;
+            }
+
+            pTlv = Path_TLV::Next_NoCheck(pTlv);
         }
     }
 }
@@ -1295,15 +1257,12 @@ relive::Path_TLV* Map::TLV_Get_At_446260(s16 xpos, s16 ypos, s16 width, s16 heig
     }
 
     // Get the offset to where the TLV list starts for this camera cell
-    const s32* indexTable = reinterpret_cast<const s32*>(*GetPathResourceBlockPtr(mCurrentPath) + field_D4_pPathData->field_18_object_index_table_offset);
-
-    s32 indexTableEntry = indexTable[(grid_cell_x + (grid_cell_y * field_24_max_cams_x))];
-    if (indexTableEntry == -1 || indexTableEntry >= 0x100000)
+    BinaryPath* pBinPath = GetPathResourceBlockPtr(mCurrentPath);
+    relive::Path_TLV* pTlvIter = pBinPath->TlvsForCamera(grid_cell_x, grid_cell_y);
+    if (!pTlvIter)
     {
         return nullptr;
     }
-
-    relive::Path_TLV* pTlvIter = reinterpret_cast<relive::Path_TLV*>(*GetPathResourceBlockPtr(mCurrentPath) + indexTableEntry + field_D4_pPathData->field_14_object_offset);
 
     while (right > pTlvIter->mBottomRightX
            || left < pTlvIter->mTopLeftX
@@ -1358,16 +1317,12 @@ relive::Path_TLV* Map::TLV_Get_At_446060(relive::Path_TLV* pTlv, FP xpos, FP ypo
             return nullptr;
         }
 
-        u8* ppPathRes = *GetPathResourceBlockPtr(mCurrentPath);
-        const s32* pIndexTable = reinterpret_cast<const s32*>(ppPathRes + pPathData->field_18_object_index_table_offset);
-        const s32 indexTableEntry = pIndexTable[camX + (field_24_max_cams_x * camY)];
-
-        if (indexTableEntry == -1 || indexTableEntry >= 0x100000)
+        BinaryPath* pBinPath = GetPathResourceBlockPtr(mCurrentPath);
+        relive::Path_TLV* pTlvIter = pBinPath->TlvsForCamera(camX, camY);
+        if (!pTlvIter)
         {
             return nullptr;
         }
-
-        pTlv = reinterpret_cast<relive::Path_TLV*>(&ppPathRes[pPathData->field_14_object_offset + indexTableEntry]);
 
         if (!bContinue || (xpos_converted <= pTlv->mBottomRightX && width_converted >= pTlv->mTopLeftX && height_converted >= pTlv->mTopLeftY && ypos_converted <= pTlv->mBottomRightY))
         {
@@ -1399,38 +1354,23 @@ relive::Path_TLV* Map::TLV_Get_At_446060(relive::Path_TLV* pTlv, FP xpos, FP ypo
 
 void Map::sub_447430(u16 pathNum)
 {
-    const auto pPathData = Path_Get_Bly_Record_434650(mCurrentLevel, pathNum)->field_4_pPathData;
-    const auto pPathRes = *GetPathResourceBlockPtr(pathNum);
-
-    const auto counterInit = (pPathData->field_A_bBottom - pPathData->field_6_bRight)
-                           / pPathData->field_E_grid_height
-                           * ((pPathData->field_8_bTop - pPathData->field_4_bLeft) / pPathData->field_C_grid_width);
-
-    if (counterInit > 0)
+    BinaryPath* pPathRes = GetPathResourceBlockPtr(pathNum);
+    for (auto& cam : pPathRes->GetCameras())
     {
-        u32* pObjectTable = reinterpret_cast<u32*>(&pPathRes[pPathData->field_18_object_index_table_offset]);
-
-        for (auto counter = 0; counter < counterInit; counter++)
+        auto pTlv = reinterpret_cast<relive::Path_TLV*>(cam->mBuffer.data());
+        pTlv->mTlvFlags.Clear(relive::TlvFlags::eBit1_Created);
+        pTlv->mTlvFlags.Clear(relive::TlvFlags::eBit2_Destroyed);
+        while (!pTlv->mTlvFlags.Get(relive::TlvFlags::eBit3_End_TLV_List))
         {
-            if (pObjectTable[counter] != -1)
+            pTlv = Path_TLV::Next_NoCheck(pTlv);
+
+            if (pTlv->mLength == 0)
             {
-                auto pTlv = reinterpret_cast<relive::Path_TLV*>(&pPathRes[pPathData->field_14_object_offset + pObjectTable[counter]]);
-
-                pTlv->mTlvFlags.Clear(relive::TlvFlags::eBit1_Created);
-                pTlv->mTlvFlags.Clear(relive::TlvFlags::eBit2_Destroyed);
-                while (!pTlv->mTlvFlags.Get(relive::TlvFlags::eBit3_End_TLV_List))
-                {
-                    pTlv = Path_TLV::Next_NoCheck(pTlv);
-
-                    if (pTlv->mLength == 0)
-                    {
-                        break;
-                    }
-
-                    pTlv->mTlvFlags.Clear(relive::TlvFlags::eBit1_Created);
-                    pTlv->mTlvFlags.Clear(relive::TlvFlags::eBit2_Destroyed);
-                }
+                break;
             }
+
+            pTlv->mTlvFlags.Clear(relive::TlvFlags::eBit1_Created);
+            pTlv->mTlvFlags.Clear(relive::TlvFlags::eBit2_Destroyed);
         }
     }
 }
@@ -1523,11 +1463,11 @@ Camera* Map::Create_Camera(s16 xpos, s16 ypos, s32 /*a4*/)
     }
 
     // Get a pointer to the camera name from the Path resource
-    const u8* pPathData = *GetPathResourceBlockPtr(mCurrentPath);
-    auto pCamName = reinterpret_cast<const CameraName*>(&pPathData[(sizeof(CameraName) * (xpos + field_24_max_cams_x * ypos))]);
+    BinaryPath* pPathData = GetPathResourceBlockPtr(mCurrentPath);
+    auto pCamName = pPathData->CameraName(xpos, ypos);
 
     // Empty/blank camera in the map array
-    if (!pCamName->name[0])
+    if (!pCamName[0])
     {
         return nullptr;
     }
@@ -1536,7 +1476,7 @@ Camera* Map::Create_Camera(s16 xpos, s16 ypos, s32 /*a4*/)
 
     // Copy in the camera name from the Path resource and append .CAM
     memset(newCamera->field_1E_fileName, 0, sizeof(newCamera->field_1E_fileName));
-    strncpy(newCamera->field_1E_fileName, pCamName->name, ALIVE_COUNTOF(CameraName::name));
+    strncpy(newCamera->field_1E_fileName, pCamName, ALIVE_COUNTOF(CameraName::name));
     strcat(newCamera->field_1E_fileName, ".CAM");
 
     newCamera->field_14_cam_x = xpos;
@@ -1548,7 +1488,7 @@ Camera* Map::Create_Camera(s16 xpos, s16 ypos, s32 /*a4*/)
     newCamera->field_18_path = mCurrentPath;
 
     // Calculate hash/resource ID of the camera
-    newCamera->field_10_resId = 1 * (pCamName->name[7] - '0') + 10 * (pCamName->name[6] - '0') + 100 * (pCamName->name[4] - '0') + 1000 * (pCamName->name[3] - '0');
+    newCamera->field_10_resId = 1 * (pCamName[7] - '0') + 10 * (pCamName[6] - '0') + 100 * (pCamName[4] - '0') + 1000 * (pCamName[3] - '0');
 
     newCamera->field_1C = mCurrentCamera;
 
@@ -1579,111 +1519,27 @@ void Map::Create_FG1s()
     }
 }
 
-// OG only allows for 30 paths, given the editor allows for the full 99 we have to use a bigger array in a non ABI breaking way
-// Note that currently there is only ever 1 Map object instance thus this global workaround is OK for now.
-struct Map_PathsArrayExtended final
-{
-    u8** field_0_pPathRecs[99];
-};
-static Map_PathsArrayExtended sPathsArrayExtended = {};
-
 void Map::FreePathResourceBlocks()
 {
-    for (s32 i = 0; i < Path_Get_Num_Paths(mCurrentLevel); ++i)
-    {
-        if (sPathsArrayExtended.field_0_pPathRecs[i])
-        {
-            ResourceManager::FreeResource_455550(sPathsArrayExtended.field_0_pPathRecs[i]);
-            sPathsArrayExtended.field_0_pPathRecs[i] = nullptr;
-        }
-
-        if (i < ALIVE_COUNTOF(field_5C_path_res_array.field_0_pPathRecs))
-        {
-            if (field_5C_path_res_array.field_0_pPathRecs[i])
-            {
-                field_5C_path_res_array.field_0_pPathRecs[i] = nullptr;
-            }
-        }
-    }
+    mLoadedPaths.clear();
 }
 
-void Map::GetPathResourceBlockPtrs()
+BinaryPath* Map::GetPathResourceBlockPtr(u32 pathId)
 {
-    // Get pointer to each PATH
-    for (s32 i = 1; i < Path_Get_Num_Paths(mNextLevel); ++i)
+    for (auto& loadedPath : mLoadedPaths)
     {
-        sPathsArrayExtended.field_0_pPathRecs[i] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Path, i, TRUE, FALSE);
-
-        if (i < ALIVE_COUNTOF(field_5C_path_res_array.field_0_pPathRecs))
+        if (loadedPath->GetPathId() == pathId)
         {
-            field_5C_path_res_array.field_0_pPathRecs[i] = sPathsArrayExtended.field_0_pPathRecs[i];
+            return loadedPath.get();
         }
     }
-}
-
-u8** Map::GetPathResourceBlockPtr(u32 pathId)
-{
-    if (pathId < ALIVE_COUNTOF(field_5C_path_res_array.field_0_pPathRecs))
-    {
-        return field_5C_path_res_array.field_0_pPathRecs[pathId];
-    }
-    return sPathsArrayExtended.field_0_pPathRecs[pathId];
+    return nullptr;
 }
 
 void Map::ClearPathResourceBlocks()
 {
-    for (s32 i = 0; i < ALIVE_COUNTOF(field_5C_path_res_array.field_0_pPathRecs); i++)
-    {
-        field_5C_path_res_array.field_0_pPathRecs[i] = nullptr;
-    }
-
-    for (s32 i = 0; i < ALIVE_COUNTOF(sPathsArrayExtended.field_0_pPathRecs); i++)
-    {
-         sPathsArrayExtended.field_0_pPathRecs[i] = nullptr;
-    }
+    mLoadedPaths.clear();
 }
-
-class BinaryPath final
-{
-public:
-    void CreateFromJson(nlohmann::json& pathJson)
-    {
-        // TODO: Do a pass to collect the total required buffer size
-
-        for (auto& cam : pathJson["cameras"])
-        {
-            auto& mapObjects = cam["map_objects"];
-            for (auto i = 0u; i < mapObjects.size(); i++)
-            {
-                const auto& type = mapObjects.at(i)["type"];
-                LOG_INFO(type);
-
-                if (type == "light_effect")
-                {
-                    mapObjects.at(i).get_to(AllocTLV<relive::Path_LightEffect>());
-                }
-                // TODO: all the others
-                else if (type == "other")
-                {
-
-                }
-            }
-        }
-    }
-
-private:
-    template<typename TlvType>
-    TlvType& AllocTLV()
-    {
-        mBuffer.push_back(sizeof(TlvType));
-        return *reinterpret_cast<TlvType*>(mBuffer.data() - sizeof(sizeof(TlvType)));
-    }
-
-    // TODO : might be able to have a camera object with child map
-    // objects depending on how OG iterates TLVs
-
-    std::vector<u8> mBuffer;
-};
 
 void Map::GoTo_Camera()
 {
@@ -1775,7 +1631,7 @@ void Map::GoTo_Camera()
         sLvlArchive_4FFD60.OpenArchive(CdLvlName(mNextLevel), tmp);
 
         // TODO: Jayson!
-        ResourceManager::LoadResourceFile_455270(Path_Get_BndName(mNextLevel), nullptr);
+        //ResourceManager::LoadResourceFile_455270(Path_Get_BndName(mNextLevel), nullptr);
 
 
         // TODO: Load level_info.json so we know which path jsons to load for this level
@@ -1784,7 +1640,7 @@ void Map::GoTo_Camera()
 
         FileSystem::Path levelInfo = pathDir;
         levelInfo.Append("level_info.json");
-       
+
         FileSystem fs;
         const std::string jsonStr = fs.LoadToString(levelInfo);
         nlohmann::json j = nlohmann::json::parse(jsonStr);
@@ -1799,13 +1655,10 @@ void Map::GoTo_Camera()
             nlohmann::json pathJson = nlohmann::json::parse(pathJsonStr);
             LOG_INFO("Cam count " << pathJson["cameras"].size());
 
-            BinaryPath pathBuffer;
-            pathBuffer.CreateFromJson(pathJson);
-            // TODO: Keep all binaryPaths in scope via sPathsArrayExtended or otherwise
+            auto pathBuffer = std::make_unique<BinaryPath>(pathJson["id"]);
+            pathBuffer->CreateFromJson(pathJson);
+            mLoadedPaths.emplace_back(std::move(pathBuffer));
         }
-
-
-        GetPathResourceBlockPtrs();
 
         SND_Load_VABS_477040(Path_Get_MusicInfo(mNextLevel), Path_Get_Reverb(mNextLevel));
 
@@ -1852,21 +1705,15 @@ void Map::GoTo_Camera()
     char_type camNameBuffer[20] = {};
     Path_Format_CameraName_4346B0(camNameBuffer, mNextLevel, mNextPath, mNextCamera);
 
-    const auto totalCams = field_26_max_cams_y * field_24_max_cams_x;
-
     s32 camIdx = 0;
-    if (totalCams > 0)
+    BinaryPath* pNextPath = GetPathResourceBlockPtr(mNextPath);
+    for (auto& cam : pNextPath->GetCameras())
     {
-        auto ppPathRes = GetPathResourceBlockPtr(mNextPath);
-        auto pName = reinterpret_cast<CameraName*>(&(*ppPathRes)[0]);
-        for (camIdx = 0; camIdx < totalCams; camIdx++)
+        if (!strncmp(cam->mName.c_str(), camNameBuffer, sizeof(CameraName)))
         {
-            if (!strncmp(pName->name, camNameBuffer, sizeof(CameraName)))
-            {
-                break;
-            }
-            pName++;
+            break;
         }
+        camIdx++;
     }
 
     const auto camX_idx = static_cast<s16>(camIdx % field_24_max_cams_x);
@@ -1907,7 +1754,7 @@ void Map::GoTo_Camera()
             relive_delete sCollisions;
         }
 
-        sCollisions = relive_new Collisions(Collisions::LineFormat::Ao, pPathRecord->field_8_pCollisionData, *GetPathResourceBlockPtr(mCurrentPath));
+        sCollisions = relive_new Collisions(GetPathResourceBlockPtr(mCurrentPath)->GetCollisions());
     }
 
     if (field_E0_save_data)
@@ -2022,57 +1869,45 @@ void Map::GoTo_Camera()
 
 void Map::Loader(s16 camX, s16 camY, LoadMode loadMode, ReliveTypes typeToLoad)
 {
-    // Get a pointer to the array of index table offsets
-    u8* pPathRes = *GetPathResourceBlockPtr(mCurrentPath);
-    const s32* indexTable = reinterpret_cast<const s32*>(pPathRes + field_D4_pPathData->field_18_object_index_table_offset);
-
-    // Calculate the index of the offset we want for the given camera at x/y
-    s32 objectTableIdx = indexTable[camX + (camY * field_24_max_cams_x)];
-    if (objectTableIdx == -1 || objectTableIdx >= 0x100000)
+    // Get TLVs for this cam
+    BinaryPath* pPathRes = GetPathResourceBlockPtr(mCurrentPath);
+    relive::Path_TLV* pPathTLV = pPathRes->TlvsForCamera(camX, camY);
+    if (!pPathTLV)
     {
-        // -1 means there are no objects for the given camera
         return;
     }
 
-    u8* ptr = pPathRes + objectTableIdx + field_D4_pPathData->field_14_object_offset;
-    relive::Path_TLV* pPathTLV = reinterpret_cast<relive::Path_TLV*>(ptr);
-
-    if (/*pPathTLV->mTlvType <= 0x100000 &&*/ pPathTLV->mLength <= 0x2000u /*&& pPathTLV->field_8 <= 0x1000000*/)
+    s32 tlvIdx = 0;
+    while (1)
     {
-        while (1)
+        if (typeToLoad == ReliveTypes::eNone || typeToLoad == pPathTLV->mTlvType)
         {
-            if (typeToLoad == ReliveTypes::eNone || typeToLoad == pPathTLV->mTlvType)
+            if (loadMode != LoadMode::ConstructObject_0 || !(pPathTLV->mTlvFlags.Get(relive::TlvFlags::eBit1_Created) || pPathTLV->mTlvFlags.Get(relive::TlvFlags::eBit2_Destroyed)))
             {
-                if (loadMode != LoadMode::ConstructObject_0 || !(pPathTLV->mTlvFlags.Get(relive::TlvFlags::eBit1_Created) || pPathTLV->mTlvFlags.Get(relive::TlvFlags::eBit2_Destroyed)))
+                TlvItemInfoUnion data;
+                data.parts.tlvOffset = static_cast<u16>(tlvIdx);
+                data.parts.levelId = static_cast<u8>(MapWrapper::ToAO(mCurrentLevel));
+                data.parts.pathId = static_cast<u8>(mCurrentPath);
+
+                // Call the factory to construct the item
+                ConstructTLVObject(pPathTLV, this, data, loadMode);
+
+                if (loadMode == LoadMode::ConstructObject_0)
                 {
-                    TlvItemInfoUnion data;
-                    data.parts.tlvOffset = static_cast<u16>(objectTableIdx);
-                    data.parts.levelId = static_cast<u8>(MapWrapper::ToAO(mCurrentLevel));
-                    data.parts.pathId = static_cast<u8>(mCurrentPath);
-
-                    // Call the factory to construct the item
-                    ConstructTLVObject(pPathTLV, this, data, loadMode);
-
-                    // TODO: Send field_1C_object_funcs to oblivion
-                    //field_D4_pPathData->field_1C_object_funcs.object_funcs[static_cast<s16>(pPathTLV->mTlvType)](pPathTLV, this, data, loadMode);
-
-                    if (loadMode == LoadMode::ConstructObject_0)
-                    {
-                        pPathTLV->mTlvFlags.Set(relive::TlvFlags::eBit1_Created);
-                        pPathTLV->mTlvFlags.Set(relive::TlvFlags::eBit2_Destroyed);
-                    }
+                    pPathTLV->mTlvFlags.Set(relive::TlvFlags::eBit1_Created);
+                    pPathTLV->mTlvFlags.Set(relive::TlvFlags::eBit2_Destroyed);
                 }
             }
-
-            // End of TLV list for current camera
-            if (pPathTLV->mTlvFlags.Get(relive::TlvFlags::eBit3_End_TLV_List))
-            {
-                break;
-            }
-
-            objectTableIdx += pPathTLV->mLength;
-            pPathTLV = Path_TLV::Next_446460(pPathTLV);
         }
+
+        // End of TLV list for current camera
+        if (pPathTLV->mTlvFlags.Get(relive::TlvFlags::eBit3_End_TLV_List))
+        {
+            break;
+        }
+
+        tlvIdx++;
+        pPathTLV = Path_TLV::Next_446460(pPathTLV);
     }
 }
 
@@ -2213,3 +2048,42 @@ relive::Path_TLV* Path_TLV::TLV_Next_Of_Type_446500(relive::Path_TLV* pTlv, Reli
 }
 
 } // namespace AO
+
+void BinaryPath::CreateFromJson(nlohmann::json& pathJson)
+{
+    // TODO: Do a pass to collect the total required buffer size
+
+    nlohmann::json& collisions = pathJson["collisions"];
+    mCollisions.resize(collisions.size());
+    s32 idx = 0;
+    for (auto& collision : collisions)
+    {
+        collision.get_to(mCollisions[idx]);
+        idx++;
+    }
+
+    for (auto& cam : pathJson["cameras"])
+    {
+        auto camEntry = std::make_unique<CamEntry>();
+        camEntry->mX = cam["x"];
+        camEntry->mY = cam["y"];
+        camEntry->mId = cam["id"];
+        camEntry->mName = cam["name"];
+
+        auto& mapObjects = cam["map_objects"];
+        for (auto i = 0u; i < mapObjects.size(); i++)
+        {
+            const auto& type = mapObjects.at(i)["type"];
+            LOG_INFO(type);
+
+            if (type == "light_effect")
+            {
+                mapObjects.at(i).get_to(camEntry->AllocTLV<relive::Path_LightEffect>());
+            }
+            // TODO: all the others
+            else if (type == "other")
+            {
+            }
+        }
+    }
+}

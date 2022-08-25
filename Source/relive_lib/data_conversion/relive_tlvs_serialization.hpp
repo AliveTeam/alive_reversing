@@ -5,6 +5,31 @@
 
 // serialization support for each relive tlv type and any supporting nested types
 
+inline void to_json(nlohmann::json& j, const PathLineAO& p)
+{
+    j = nlohmann::json{
+        {"x", p.mRect.x},
+        {"y", p.mRect.y},
+        {"w", p.mRect.w},
+        {"h", p.mRect.h},
+        {"next", p.field_10_next},
+        {"previous", p.field_C_previous},
+        {"type", p.mLineType},
+    };
+}
+
+
+inline void from_json(const nlohmann::json& j, PathLineAO& p)
+{
+    j.at("x").get_to(p.mRect.x);
+    j.at("y").get_to(p.mRect.y);
+    j.at("w").get_to(p.mRect.w);
+    j.at("h").get_to(p.mRect.h);
+    j.at("next").get_to(p.field_10_next);
+    j.at("previous").get_to(p.field_C_previous);
+    j.at("type").get_to(p.mLineType);
+}
+
 // RGB16
 inline void to_json(nlohmann::json& j, const RGB16& p)
 {

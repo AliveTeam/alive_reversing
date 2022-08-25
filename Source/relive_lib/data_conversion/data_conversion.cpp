@@ -122,21 +122,6 @@ static bool endsWith(const std::string& str, const std::string& suffix)
     return str.size() >= suffix.size() && 0 == str.compare(str.size() - suffix.size(), suffix.size(), suffix);
 }
 
-
-static void to_json(nlohmann::json& j, const PathLineAO& p)
-{
-    j = nlohmann::json{
-        {"x", p.mRect.x},
-        {"y", p.mRect.y},
-        {"w", p.mRect.w},
-        {"h", p.mRect.h},
-        {"next", p.field_10_next},
-        {"previous", p.field_C_previous},
-        {"type", p.mLineType},
-    };
-}
-
-
 static void ConvertPathCollisions(nlohmann::json& j, const CollisionInfo& info, const std::vector<u8>& pathResource)
 {
     const u8* pData = pathResource.data();
@@ -883,6 +868,7 @@ static void ConvertPath(FileSystem& fs, const FileSystem::Path& path, const Reli
 
 
     nlohmann::json j = {
+        {"id", pathBndChunk.Id()}, // TODO: shouldn't be required once everything is converted and not using path id numbers
         {"cameras", camerasArray},
         {"collisions", collisionsArray},
     };

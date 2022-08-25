@@ -10,6 +10,32 @@ Collisions::~Collisions()
     relive_delete[] field_0_pArray;
 }
 
+// TODO: Should be only the only ctor in the end
+Collisions::Collisions(std::vector<PathLineAO>& collisions)
+{
+    field_8_item_count = static_cast<s16>(collisions.size());
+    field_4_current_item_count = static_cast<u16>(field_8_item_count);
+
+    // Up to 40 dynamic collisions, slam doors, trap doors, lift platforms etc.
+    field_C_max_count = field_8_item_count + 40;
+
+    // Allocate memory for collisions array
+    field_0_pArray = relive_new PathLine[field_C_max_count];
+
+    for (s32 i = 0; i < field_C_max_count; i++)
+    {
+        if (i < field_4_current_item_count)
+        {
+            ToPathLine(field_0_pArray[i], collisions[i]);
+        }
+        else
+        {
+            // Zero init the "free" dynamic items
+            field_0_pArray[i] = {};
+        }
+    }
+}
+
 Collisions::Collisions(LineFormat lineFormat, const CollisionInfo* pCollisionInfo, const u8* pPathRes)
 {
     field_8_item_count = pCollisionInfo->field_10_num_collision_items;

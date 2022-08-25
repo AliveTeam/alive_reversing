@@ -10,7 +10,7 @@ class Map;
 
 struct TlvOffsetLevelIdPathId final
 {
-    u16 tlvOffset;
+    u16 tlvOffset; // TODO: actually tlv idx now
     u8 levelId;
     u8 pathId;
 };

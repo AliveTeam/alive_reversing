@@ -8,7 +8,90 @@
 #include "../relive_lib/BaseGameObject.hpp"
 #include "../AliveLibAE/Map.hpp"
 #include "../relive_lib/MapWrapper.hpp"
+#include "../relive_lib/Collisions.hpp"
 #include "Path.hpp"
+
+// TODO: consider not using STL in here
+#include <vector>
+#include <memory>
+#include "nlohmann/json.hpp"
+
+// TODO: move to own file
+class BinaryPath final
+{
+public:
+    struct CamEntry final
+    {
+        s32 mX = 0;
+        s32 mY = 0;
+        s32 mId = 0;
+        std::string mName;
+
+        template <typename TlvType>
+        TlvType& AllocTLV()
+        {
+            mBuffer.push_back(sizeof(TlvType));
+            TlvType* pTlv = reinterpret_cast<TlvType*>(mBuffer.data() - sizeof(sizeof(TlvType)));
+            new (pTlv) TlvType(); // placement new
+            pTlv->mLength = sizeof(TlvType);
+            return *pTlv;
+        }
+
+        std::vector<u8> mBuffer;
+    };
+
+    explicit BinaryPath(u32 pathId)
+        : mPathId(pathId)
+    {
+    }
+
+    void CreateFromJson(nlohmann::json& pathJson);
+
+    u32 GetPathId() const
+    {
+        return mPathId;
+    }
+
+    const char* CameraName(s32 x, s32 y) const
+    {
+        for (auto& cam : mCameras)
+        {
+            if (cam->mX == x && cam->mY == y)
+            {
+                return cam->mName.c_str();
+            }
+        }
+        return nullptr;
+    }
+
+    relive::Path_TLV* TlvsForCamera(s32 x, s32 y)
+    {
+        for (auto& cam : mCameras)
+        {
+            if (cam->mX == x && cam->mY == y)
+            {
+                return reinterpret_cast<relive::Path_TLV*>(cam->mBuffer.data());
+            }
+        }
+        return nullptr;
+    }
+
+    std::vector<std::unique_ptr<CamEntry>>& GetCameras()
+    {
+        return mCameras;
+    }
+
+    std::vector<PathLineAO>& GetCollisions()
+    {
+        return mCollisions;
+    }
+
+private:
+    std::vector<std::unique_ptr<CamEntry>> mCameras;
+    std::vector<PathLineAO> mCollisions;
+    u32 mPathId = 0;
+};
+
 
 namespace AO {
 
@@ -36,12 +119,6 @@ struct OverlayRecords final
 {
     OverlayRecord records[54];
 };
-
-struct Map_PathsArray final
-{
-    u8** field_0_pPathRecs[30];
-};
-ALIVE_ASSERT_SIZEOF(Map_PathsArray, 120);
 
 namespace CameraIds::Menu
 {
@@ -140,8 +217,7 @@ public:
     void ScreenChange();
 
     void FreePathResourceBlocks();
-    void GetPathResourceBlockPtrs();
-    u8** GetPathResourceBlockPtr(u32 pathId);
+    BinaryPath* GetPathResourceBlockPtr(u32 pathId);
     void ClearPathResourceBlocks();
 
     void GoTo_Camera();
@@ -231,6 +307,8 @@ public:
     s16 field_DC_free_all_anim_and_palts = 0;
     s16 field_DE = 0;
     u8* field_E0_save_data = nullptr;
+
+    std::vector<std::unique_ptr<class BinaryPath>> mLoadedPaths;
 };
 
 ALIVE_ASSERT_SIZEOF(Map, 0xE4);

@@ -8152,6 +8152,7 @@ void Abe::Motion_88_HandstoneBegin_430590()
                             ReliveTypes::eHandStone);
                 }
 
+                /*
                 auto ptlv = static_cast<Path_Stone*>(BaseAliveGameObjectPathTLV);
                 if (ptlv)
                 {
@@ -8185,7 +8186,7 @@ void Abe::Motion_88_HandstoneBegin_430590()
                 else
                 {
                     mCurrentMotion = eAbeMotions::Motion_89_HandstoneEnd_430E80;
-                }
+                }*/
             }
             break;
         }
