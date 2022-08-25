@@ -21,6 +21,13 @@ inline void from_json(const nlohmann::json& j, RGB16& p)
     j.at("b").get_to(p.b);
 }
 
+NLOHMANN_JSON_SERIALIZE_ENUM(TPageAbr, {
+    {TPageAbr::eBlend_0, "blend_0"},
+    {TPageAbr::eBlend_1, "blend_1"},
+    {TPageAbr::eBlend_2, "blend_2"},
+    {TPageAbr::eBlend_3, "blend_3"},
+})
+
 NLOHMANN_JSON_SERIALIZE_ENUM(EReliveLevelIds, {
     {EReliveLevelIds::eNone, "none"},
     {EReliveLevelIds::eMenu, "menu"},
@@ -1184,13 +1191,6 @@ inline void from_json(const nlohmann::json& j, Path_SligPersist& p)
 }
 
 // Path_BackgroundAnimation
-NLOHMANN_JSON_SERIALIZE_ENUM(Path_BackgroundAnimation::TPageAbr, {
-    {Path_BackgroundAnimation::TPageAbr::eBlend_0, "blend_0"},
-    {Path_BackgroundAnimation::TPageAbr::eBlend_1, "blend_1"},
-    {Path_BackgroundAnimation::TPageAbr::eBlend_2, "blend_2"},
-    {Path_BackgroundAnimation::TPageAbr::eBlend_3, "blend_3"},
-})
-
 NLOHMANN_JSON_SERIALIZE_ENUM(Path_BackgroundAnimation::BgAnimSounds, {
     {Path_BackgroundAnimation::BgAnimSounds::eNone_m1, "none_m1"},
     {Path_BackgroundAnimation::BgAnimSounds::eNone_0, "none_0"},

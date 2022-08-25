@@ -609,14 +609,6 @@ struct Path_BackgroundAnimation final : public Path_TLV
 {
     u16 mAnimId = 0;
     reliveChoice mIsSemiTrans = reliveChoice::eNo;
-    enum class TPageAbr : s8
-    {
-        eBlend_0 = 0,
-        eBlend_1 = 1,
-        eBlend_2 = 2,
-        eBlend_3 = 3,
-    };
-
     enum class BgAnimSounds : s16
     {
         eNone_m1 = -1,

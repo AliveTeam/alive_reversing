@@ -1913,7 +1913,7 @@ public:
         BaseConvert(r, tlv);
         r.mAnimId = tlv.mAnimId;
         r.mIsSemiTrans = relive::From(tlv.mIsSemiTrans);
-        r.mSemiTransMode = From(tlv.mSemiTransMode);
+        r.mSemiTransMode = tlv.mSemiTransMode;
         r.mSoundEffect = From(tlv.mSoundEffect);
         return r;
     }
@@ -1924,28 +1924,12 @@ public:
         BaseConvert(r, tlv);
         r.mAnimId = tlv.mAnimId;
         r.mIsSemiTrans = relive::From(tlv.mIsSemiTrans);
-        r.mSemiTransMode = From(tlv.mSemiTransMode);
+        r.mSemiTransMode = tlv.mSemiTransMode;
         r.mLayer = From(tlv.mLayer);
         return r;
     }
 
 private:
-    static Path_BackgroundAnimation::TPageAbr From(TPageAbr mode)
-    {
-        switch (mode)
-        {
-            case TPageAbr::eBlend_0:
-                return Path_BackgroundAnimation::TPageAbr::eBlend_0;
-            case TPageAbr::eBlend_1:
-                return Path_BackgroundAnimation::TPageAbr::eBlend_1;
-            case TPageAbr::eBlend_2:
-                return Path_BackgroundAnimation::TPageAbr::eBlend_2;
-            case TPageAbr::eBlend_3:
-                return Path_BackgroundAnimation::TPageAbr::eBlend_3;
-        }
-        ALIVE_FATAL("Bad TPageAbr");
-    }
-
     static Path_BackgroundAnimation::Layer From(Layer layer)
     {
         switch (layer)

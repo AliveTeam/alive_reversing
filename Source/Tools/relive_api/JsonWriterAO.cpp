@@ -19,8 +19,9 @@ JsonWriterAO::JsonWriterAO(s32 pathId, const std::string& pathBndName, const Pat
 }
 
 
-[[nodiscard]] jsonxx::Array JsonWriterAO::ReadTlvStream(u8* ptr, Context& context)
+[[nodiscard]] jsonxx::Array JsonWriterAO::ReadTlvStream(u8* /*ptr*/, Context& /*context*/)
 {
+    /*
     jsonxx::Array mapObjects;
 
     AO::Path_TLV* pPathTLV = reinterpret_cast<AO::Path_TLV*>(ptr);
@@ -55,7 +56,8 @@ JsonWriterAO::JsonWriterAO(s32 pathId, const std::string& pathBndName, const Pat
         }
     }
 
-    return mapObjects;
+    return mapObjects;*/
+    return nullptr;
 }
 
 [[nodiscard]] jsonxx::Array JsonWriterAO::AddCollisionLineStructureJson()
@@ -87,9 +89,9 @@ void JsonWriterAO::ResetTypeCounterMap()
     return collisionsArray;
 }
 
-void JsonWriterAO::DebugDumpTlvs(IFileIO& fileIo, const std::string& prefix, const PathInfo& info, std::vector<u8>& pathResource)
+void JsonWriterAO::DebugDumpTlvs(IFileIO& /*fileIo*/, const std::string& /*prefix*/, const PathInfo& /*info*/, std::vector<u8>& /*pathResource*/)
 {
-    u8* pStart = pathResource.data() + info.mObjectOffset;
+    /*u8* pStart = pathResource.data() + info.mObjectOffset;
     u8* pEnd = pathResource.data() + info.mIndexTableOffset;
 
     AO::Path_TLV* pPathTLV = reinterpret_cast<AO::Path_TLV*>(pStart);
@@ -117,7 +119,7 @@ void JsonWriterAO::DebugDumpTlvs(IFileIO& fileIo, const std::string& prefix, con
                 }
             }
         }
-    }
+    }*/
 }
 
 JsonWriterAO::~JsonWriterAO() = default;
