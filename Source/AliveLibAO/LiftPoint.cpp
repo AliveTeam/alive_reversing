@@ -248,8 +248,8 @@ void LiftPoint::StayOnFloor(s16 floor, relive::Path_LiftPoint* pLiftTlv)
 
 void LiftPoint::Sub_Unknown(relive::Path_TLV* pTlv)
 {
-    pTlv->mTlvFlags.Clear(::eBit1_Created);
-    pTlv->mTlvFlags.Clear(::eBit2_Destroyed);
+    pTlv->mTlvFlags.Clear(relive::eBit1_Created);
+    pTlv->mTlvFlags.Clear(relive::eBit2_Destroyed);
     pTlv->mTlvSpecificMeaning |= 1;
 }
 
@@ -335,7 +335,7 @@ void LiftPoint::VUpdate()
                 (mSpriteScale * FP_FromInteger(30)) + lineY);
             while (pTlvIter)
             {
-                if (pTlvIter->mTlvType == static_cast<s32>(TlvTypes::LiftPoint_8))
+                if (pTlvIter->mTlvType == ReliveTypes::eLiftPoint)
                 {
                     pLiftTlv = static_cast<relive::Path_LiftPoint*>(pTlvIter);
                     mLiftPointStopType = pLiftTlv->mLiftPointStopType;
@@ -694,12 +694,12 @@ LiftPoint::~LiftPoint()
         FP_GetExponent(FP_FromInteger(mPlatformBaseCollisionLine->mRect.y)),
         FP_GetExponent(mXPos),
         FP_GetExponent((mSpriteScale * FP_FromInteger(30)) + FP_FromInteger(mPlatformBaseCollisionLine->mRect.y)),
-        TlvTypes::LiftPoint_8);
+        ReliveTypes::eLiftPoint);
 
     if (pLiftPointTlv)
     {
-        pLiftPointTlv->mTlvFlags.Clear(eBit1_Created);
-        pLiftPointTlv->mTlvFlags.Clear(eBit2_Destroyed);
+        pLiftPointTlv->mTlvFlags.Clear(relive::eBit1_Created);
+        pLiftPointTlv->mTlvFlags.Clear(relive::eBit2_Destroyed);
     }
 
     field_13C_lift_wheel.VCleanUp();
@@ -722,7 +722,7 @@ void LiftPoint::CreatePulleyIfExists(s16 camX, s16 camY)
             field_26E_pulley_ypos = pTlv->mTopLeftY;
             field_26C_pulley_xpos = pTlv->mTopLeftX;
 
-            if (pTlv->mTlvType == static_cast<s32>(TlvTypes::Pulley_35))
+            if (pTlv->mTlvType == ReliveTypes::ePulley)
             {
                 if (mPlatformBaseCollisionLine->mRect.x <= pTlv->mTopLeftX && pTlv->mTopLeftX <= mPlatformBaseCollisionLine->mRect.w)
                 {

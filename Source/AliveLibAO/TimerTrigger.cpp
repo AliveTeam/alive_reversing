@@ -52,7 +52,7 @@ void TimerTrigger::ToggleAllIds()
     {
         if (id > 1)
         {
-            SwitchStates_Do_Operation(id, SwitchOp::eToggle_2);
+            SwitchStates_Do_Operation(id, relive::reliveSwitchOp::eToggle);
         }
     }
 }

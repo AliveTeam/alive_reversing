@@ -439,7 +439,7 @@ void Map::Handle_PathTransition()
             FP_GetExponent(field_18_pAliveObj->mYPos),
             FP_GetExponent(field_18_pAliveObj->mXPos),
             FP_GetExponent(field_18_pAliveObj->mYPos),
-            TlvTypes::PathTransition_1));
+            ReliveTypes::ePathTransition));
     }
 
     if (field_18_pAliveObj && pTlv)
@@ -464,7 +464,7 @@ void Map::Handle_PathTransition()
 
         switch (next_path_scale)
         {
-            case Scale_short::eFull_0:
+            case relive::reliveScale::eFull:
                 sActiveHero->mSpriteScale = FP_FromInteger(1);
                 sActiveHero->mAnim.mRenderLayer = Layer::eLayer_AbeMenu_32;
                 if (gElum)
@@ -474,7 +474,7 @@ void Map::Handle_PathTransition()
                 }
                 break;
 
-            case Scale_short::eHalf_1:
+            case relive::reliveScale::eHalf:
                 sActiveHero->mSpriteScale = FP_FromDouble(0.5);
                 sActiveHero->mAnim.mRenderLayer = Layer::eLayer_AbeMenu_Half_13;
                 if (gElum)
@@ -1026,7 +1026,7 @@ s16 Map::SetActiveCameraDelayed(MapDirections direction, BaseAliveGameObject* pO
             FP_GetExponent(pObj->mYPos),
             FP_GetExponent(pObj->mXPos),
             FP_GetExponent(pObj->mYPos),
-            TlvTypes::PathTransition_1));
+            ReliveTypes::ePathTransition));
     }
 
     if (pObj && pPathChangeTLV)
@@ -1427,15 +1427,15 @@ void Map::sub_447430(u16 pathNum)
                         break;
                     }
 
-                    pTlv->mTlvFlags.Clear(::TlvFlags::eBit1_Created);
-                    pTlv->mTlvFlags.Clear(::TlvFlags::eBit2_Destroyed);
+                    pTlv->mTlvFlags.Clear(relive::TlvFlags::eBit1_Created);
+                    pTlv->mTlvFlags.Clear(relive::TlvFlags::eBit2_Destroyed);
                 }
             }
         }
     }
 }
 
-relive::Path_TLV* Map::TLV_First_Of_Type_In_Camera(TlvTypes type, s32 camX)
+relive::Path_TLV* Map::TLV_First_Of_Type_In_Camera(ReliveTypes type, s32 camX)
 {
     relive::Path_TLV* pTlvIter = Get_First_TLV_For_Offsetted_Camera(static_cast<s16>(camX), 0);
     if (!pTlvIter)
@@ -1443,7 +1443,7 @@ relive::Path_TLV* Map::TLV_First_Of_Type_In_Camera(TlvTypes type, s32 camX)
         return nullptr;
     }
 
-    while (pTlvIter->mTlvType != static_cast<s32>(type))
+    while (pTlvIter->mTlvType != type)
     {
         pTlvIter = Path_TLV::Next_446460(pTlvIter);
         if (!pTlvIter)
@@ -1474,7 +1474,7 @@ void Map::Load_Path_Items(Camera* pCamera, LoadMode loadMode)
                 pCamera,
                 pCamera);
             sCameraBeingLoaded_507C98 = pCamera;
-            Loader(pCamera->field_14_cam_x, pCamera->field_16_cam_y, LoadMode::LoadResourceFromList_1, TlvTypes::None_m1); // none = load all
+            Loader(pCamera->field_14_cam_x, pCamera->field_16_cam_y, LoadMode::LoadResourceFromList_1, ReliveTypes::eNone); // none = load all
         }
         else
         {
@@ -1483,7 +1483,7 @@ void Map::Load_Path_Items(Camera* pCamera, LoadMode loadMode)
             pCamera->field_30_flags |= 1u;
             pCamera->field_C_ppBits = ResourceManager::GetLoadedResource(ResourceManager::Resource_Bits, pCamera->field_10_resId, 1, 0);
             sCameraBeingLoaded_507C98 = pCamera;
-            Loader(pCamera->field_14_cam_x, pCamera->field_16_cam_y, LoadMode::LoadResource_2, TlvTypes::None_m1); // none = load all
+            Loader(pCamera->field_14_cam_x, pCamera->field_16_cam_y, LoadMode::LoadResource_2, ReliveTypes::eNone); // none = load all
         }
         sCameraBeingLoaded_507C98 = nullptr;
     }
@@ -1932,7 +1932,7 @@ void Map::GoTo_Camera()
         pScreenManager = relive_new ScreenManager(field_34_camera_array[0]->field_C_ppBits, &field_2C_camera_offset);
     }
 
-    Loader(field_20_camX_idx, field_22_camY_idx, LoadMode::ConstructObject_0, TlvTypes::None_m1); // none = load all
+    Loader(field_20_camX_idx, field_22_camY_idx, LoadMode::ConstructObject_0, ReliveTypes::eNone); // none = load all
 
     if (old_current_path != mCurrentPath || old_current_level != mCurrentLevel)
     {
@@ -1966,15 +1966,15 @@ void Map::GoTo_Camera()
     {
         if (field_1E_door)
         {
-            relive::Path_Door* pTlvIter = static_cast<relive::Path_Door*>(TLV_First_Of_Type_In_Camera(TlvTypes::Door_6, 0));
+            relive::Path_Door* pTlvIter = static_cast<relive::Path_Door*>(TLV_First_Of_Type_In_Camera(ReliveTypes::eDoor, 0));
             while (pTlvIter->mDoorId != sActiveHero->field_196_door_id)
             {
-                pTlvIter = static_cast<relive::Path_Door*>(Path_TLV::TLV_Next_Of_Type_446500(pTlvIter, TlvTypes::Door_6));
+                pTlvIter = static_cast<relive::Path_Door*>(Path_TLV::TLV_Next_Of_Type_446500(pTlvIter, ReliveTypes::eDoor));
             }
 
             const auto pCamPos = pScreenManager->mCamPos;
-            const auto xpos = pScreenManager->mCamXOff + ((pTlvIter->mTopLeft.x + pTlvIter->mBottomRight.x) / 2) - FP_GetExponent(pCamPos->x);
-            const auto ypos = pScreenManager->mCamYOff + pTlvIter->mTopLeft.y - FP_GetExponent(pCamPos->y);
+            const auto xpos = pScreenManager->mCamXOff + ((pTlvIter->mTopLeftX + pTlvIter->mBottomRightX) / 2) - FP_GetExponent(pCamPos->x);
+            const auto ypos = pScreenManager->mCamYOff + pTlvIter->mTopLeftY - FP_GetExponent(pCamPos->y);
             relive_new CameraSwapper(
                 field_34_camera_array[0]->field_C_ppBits,
                 field_10_screenChangeEffect,
@@ -1990,7 +1990,7 @@ void Map::GoTo_Camera()
     loading_ticks_5076A4 = 0;
 }
 
-void Map::Loader(s16 camX, s16 camY, LoadMode loadMode, TlvTypes typeToLoad)
+void Map::Loader(s16 camX, s16 camY, LoadMode loadMode, ReliveTypes typeToLoad)
 {
     // Get a pointer to the array of index table offsets
     u8* pPathRes = *GetPathResourceBlockPtr(mCurrentPath);
@@ -2007,11 +2007,11 @@ void Map::Loader(s16 camX, s16 camY, LoadMode loadMode, TlvTypes typeToLoad)
     u8* ptr = pPathRes + objectTableIdx + field_D4_pPathData->field_14_object_offset;
     relive::Path_TLV* pPathTLV = reinterpret_cast<relive::Path_TLV*>(ptr);
 
-    if (pPathTLV->mTlvType <= 0x100000 && pPathTLV->mLength <= 0x2000u /*&& pPathTLV->field_8 <= 0x1000000*/)
+    if (/*pPathTLV->mTlvType <= 0x100000 &&*/ pPathTLV->mLength <= 0x2000u /*&& pPathTLV->field_8 <= 0x1000000*/)
     {
         while (1)
         {
-            if (typeToLoad == TlvTypes::None_m1 || static_cast<s32>(typeToLoad) == pPathTLV->mTlvType)
+            if (typeToLoad == ReliveTypes::eNone || typeToLoad == pPathTLV->mTlvType)
             {
                 if (loadMode != LoadMode::ConstructObject_0 || !(pPathTLV->mTlvFlags.Get(relive::TlvFlags::eBit1_Created) || pPathTLV->mTlvFlags.Get(relive::TlvFlags::eBit2_Destroyed)))
                 {
@@ -2162,7 +2162,7 @@ relive::Path_TLV* Path_TLV::Next_446460(relive::Path_TLV* pTlv)
     return Next(pTlv);
 }
 
-relive::Path_TLV* Path_TLV::TLV_Next_Of_Type_446500(relive::Path_TLV* pTlv, TlvTypes type)
+relive::Path_TLV* Path_TLV::TLV_Next_Of_Type_446500(relive::Path_TLV* pTlv, ReliveTypes type)
 {
     pTlv = Path_TLV::Next_446460(pTlv);
     if (!pTlv)
@@ -2170,7 +2170,7 @@ relive::Path_TLV* Path_TLV::TLV_Next_Of_Type_446500(relive::Path_TLV* pTlv, TlvT
         return nullptr;
     }
 
-    while (pTlv->mTlvType != static_cast<s32>(type))
+    while (pTlv->mTlvType != type)
     {
         pTlv = Path_TLV::Next_446460(pTlv);
         if (!pTlv)

@@ -146,7 +146,7 @@ public:
 
     void GoTo_Camera();
 
-    void Loader(s16 camX, s16 camY, LoadMode loadMode, TlvTypes typeToLoad);
+    void Loader(s16 camX, s16 camY, LoadMode loadMode, ReliveTypes typeToLoad);
 
     void RemoveObjectsWithPurpleLight(s16 bMakeInvisible);
 
@@ -169,7 +169,7 @@ public:
 
     void Load_Path_Items(Camera* pCamera, LoadMode loadMode);
 
-    relive::Path_TLV* TLV_First_Of_Type_In_Camera(TlvTypes type, s32 camX);
+    relive::Path_TLV* TLV_First_Of_Type_In_Camera(ReliveTypes type, s32 camX);
 
     relive::Path_TLV* TLV_Get_At_446260(s16 xpos, s16 ypos, s16 width, s16 height, ReliveTypes typeToFind);
 

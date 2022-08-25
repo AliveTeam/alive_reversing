@@ -196,7 +196,7 @@ void Bullet::VUpdate()
 
 bool Bullet::InZBulletCover(FP xpos, FP ypos, const PSX_RECT& objRect)
 {
-    Path_TLV* pZCover = nullptr;
+    relive::Path_TLV* pZCover = nullptr;
     while (1)
     {
         pZCover = gMap.TLV_Get_At_446060(
@@ -211,12 +211,12 @@ bool Bullet::InZBulletCover(FP xpos, FP ypos, const PSX_RECT& objRect)
             break;
         }
 
-        if (pZCover->mTlvType32.mType != TlvTypes::ZSligCover_83)
+        if (pZCover->mTlvType != ReliveTypes::eZSligCover)
         {
             continue;
         }
 
-        if (objRect.x >= pZCover->mTopLeft.x && objRect.x <= pZCover->mBottomRight.x && objRect.y >= pZCover->mTopLeft.y && objRect.y <= pZCover->mBottomRight.y && objRect.w >= pZCover->mTopLeft.x && objRect.w <= pZCover->mBottomRight.x && objRect.h >= pZCover->mTopLeft.y && objRect.h <= pZCover->mBottomRight.y)
+        if (objRect.x >= pZCover->mTopLeftX && objRect.x <= pZCover->mBottomRightX && objRect.y >= pZCover->mTopLeftY && objRect.y <= pZCover->mBottomRightY && objRect.w >= pZCover->mTopLeftX && objRect.w <= pZCover->mBottomRightX && objRect.h >= pZCover->mTopLeftY && objRect.h <= pZCover->mBottomRightY)
         {
             return true;
         }

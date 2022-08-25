@@ -203,7 +203,7 @@ Well::Well(relive::Path_WellBase* pTlv, FP xpos, FP ypos, s32 tlvInfo)
     mYPos = ypos;
     mXPos = xpos;
 
-    if (pTlv->mTlvType == static_cast<s32>(TlvTypes::WellLocal_11))
+    if (pTlv->mTlvType == ReliveTypes::eWellLocal)
     {
         WellLocal_Init(static_cast<relive::Path_WellLocal*>(pTlv), xpos, ypos);
     }

@@ -75,7 +75,7 @@ void LiftMover::VUpdate()
                         {
                             for (s16 x = 0; x < gMap.field_24_max_cams_x; x++)
                             {
-                                gMap.Loader(x, y, LoadMode::ConstructObject_0, TlvTypes::LiftPoint_8);
+                                gMap.Loader(x, y, LoadMode::ConstructObject_0, ReliveTypes::eLiftPoint);
                             }
                         }
 

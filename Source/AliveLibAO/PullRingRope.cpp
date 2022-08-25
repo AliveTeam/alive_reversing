@@ -198,12 +198,12 @@ void PullRingRope::VUpdate()
                 {
                     s32 volLeft = 0;
                     s32 volRight = 0;
-                    if (field_100_sound_direction == PullRingSoundDirection::eLeft_1)
+                    if (field_100_sound_direction == relive::Path_PullRingRope::PullRingSoundDirection::eLeft)
                     {
                         volLeft = 1;
                         volRight = 0;
                     }
-                    else if (field_100_sound_direction == PullRingSoundDirection::eRight_2)
+                    else if (field_100_sound_direction == relive::Path_PullRingRope::PullRingSoundDirection::eRight)
                     {
                         volLeft =  0;
                         volRight = 1;
@@ -218,13 +218,13 @@ void PullRingRope::VUpdate()
                     {
                         switch (field_FC_on_sound)
                         {
-                            case PullRingSwitchSound::eWellExit_1:
+                            case relive::Path_PullRingRope::PullRingSwitchSound::eWellExit:
                                 SFX_Play_Stereo(SoundEffect::WellExit_24, 60 * volLeft + 10, 60 * volRight + 10, nullptr);
                                 break;
-                            case PullRingSwitchSound::RingBellHammer_2:
+                            case relive::Path_PullRingRope::PullRingSwitchSound::RingBellHammer:
                                 SFX_Play_Stereo(SoundEffect::RingBellHammer_9, 60 * volLeft + 10, 60 * volRight + 10, nullptr);
                                 break;
-                            case PullRingSwitchSound::eDoorEffect_3:
+                            case relive::Path_PullRingRope::PullRingSwitchSound::eDoorEffect:
                                 SFX_Play_Stereo(SoundEffect::DoorEffect_66, 75 * volLeft + 15, 75 * volRight + 15, nullptr);
                                 break;
                         }
@@ -233,13 +233,13 @@ void PullRingRope::VUpdate()
                     {
                         switch (field_FE_off_sound)
                         {
-                            case PullRingSwitchSound::eWellExit_1:
+                            case relive::Path_PullRingRope::PullRingSwitchSound::eWellExit:
                                 SFX_Play_Stereo(SoundEffect::WellExit_24, 60 * volLeft + 10, 60 * volRight + 10, nullptr);
                                 break;
-                            case PullRingSwitchSound::RingBellHammer_2:
+                            case relive::Path_PullRingRope::PullRingSwitchSound::RingBellHammer:
                                 SFX_Play_Stereo(SoundEffect::RingBellHammer_9, 60 * volLeft + 10, 60 * volRight + 10, nullptr);
                                 break;
-                            case PullRingSwitchSound::eDoorEffect_3:
+                            case relive::Path_PullRingRope::PullRingSwitchSound::eDoorEffect:
                                 SFX_Play_Stereo(SoundEffect::DoorEffect_66, 75 * volLeft + 15, 75 * volRight + 15, nullptr);
                                 break;
                         }

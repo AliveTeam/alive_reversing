@@ -59,7 +59,7 @@ private:
     s32 mTlvInfo = 0;
     u16 mSligSpawnerSwitchId = 0;
     s16 mSpawnerFlags = 0;
-    Path_TLV mPathTlv = {};
+    relive::Path_TLV mPathTlv = {};
 };
 ALIVE_ASSERT_SIZEOF(SligSpawner, 0x30);
 

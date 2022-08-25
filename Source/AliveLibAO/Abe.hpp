@@ -740,7 +740,7 @@ public:
     s32 field_168_ring_pulse_timer = 0;
     s16 field_16C_bHaveShrykull = 0;
     s16 field_16E_cameraIdx = 0;
-    TlvTypes32 field_170_hand_stone_type = {};
+    ReliveTypes mHandStoneType = {};
     AllStone field_174_pathStone = {};
     OrbWhirlWind* field_188_pOrbWhirlWind = nullptr;
     BaseAliveGameObject* field_18C_pObjToPossess = nullptr;

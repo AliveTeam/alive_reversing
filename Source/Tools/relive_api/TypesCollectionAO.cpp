@@ -127,7 +127,7 @@ void TypesCollectionAO::AddAOTypes()
     REGISTER_TYPE_AO(AOTlvs::Path_MeatSack);
     REGISTER_TYPE_AO(AOTlvs::Path_RollingBall);
     REGISTER_TYPE_AO(AOTlvs::Path_RollingBallStopper);
-    REGISTER_TYPE_AO(AOTlvs::Path_Bees);
+    REGISTER_TYPE_AO(AOTlvs::Path_BeeNest);
     REGISTER_TYPE_AO(AOTlvs::Path_ZBall);
     REGISTER_TYPE_AO(AOTlvs::Path_FootSwitch);
     REGISTER_TYPE_AO(AOTlvs::Path_Paramite);

@@ -140,7 +140,7 @@ void Start_Sounds_for_TLV(CameraPos direction, relive::Path_TLV* pTlv)
 
         if (bDangerMusic)
         {
-            relive_new MusicTrigger(MusicTriggerMusicType::eDrumAmbience_0, TriggeredBy::eTouching_1, 0, 40);
+            relive_new MusicTrigger(relive::Path_MusicTrigger::MusicTriggerMusicType::eDrumAmbience, relive::Path_MusicTrigger::TriggeredBy::eTouching, 0, 40);
         }
     }
 }

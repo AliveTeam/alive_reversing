@@ -9,7 +9,7 @@
 
 namespace AO {
 
-MusicTrigger::MusicTrigger(MusicTriggerMusicType type, TriggeredBy triggeredBy, s32 switchId, s32 delay)
+MusicTrigger::MusicTrigger(relive::Path_MusicTrigger::MusicTriggerMusicType type, relive::Path_MusicTrigger::TriggeredBy triggeredBy, s32 switchId, s32 delay)
     : BaseGameObject(TRUE, 0)
 {
     Init(type, triggeredBy, static_cast<s16>(switchId), static_cast<s16>(delay));
@@ -23,44 +23,44 @@ MusicTrigger::MusicTrigger(relive::Path_MusicTrigger* pTlv, s32 tlvInfo)
     field_10_tlvInfo = tlvInfo;
 }
 
-void MusicTrigger::Init(MusicTriggerMusicType type, TriggeredBy triggeredBy, u16 switchId, s16 delay)
+void MusicTrigger::Init(relive::Path_MusicTrigger::MusicTriggerMusicType type, relive::Path_MusicTrigger::TriggeredBy triggeredBy, u16 switchId, s16 delay)
 {
     field_14_flags &= ~7u;
     mBaseGameObjectTypeId = ReliveTypes::eNone;
 
     switch (type)
     {
-        case MusicTriggerMusicType::eDrumAmbience_0:
+        case relive::Path_MusicTrigger::MusicTriggerMusicType::eDrumAmbience:
             field_1C_music_type = MusicController::MusicTypes::eDrumAmbience_3;
             field_18_counter = 400;
             break;
 
-        case MusicTriggerMusicType::eDeathDrumShort_1:
+        case relive::Path_MusicTrigger::MusicTriggerMusicType::eDeathDrumShort:
             field_1C_music_type = MusicController::MusicTypes::eDeathDrumShort_13;
             field_18_counter = 30;
             break;
 
-        case MusicTriggerMusicType::eSecretAreaLong_2:
+        case relive::Path_MusicTrigger::MusicTriggerMusicType::eSecretAreaLong:
             field_1C_music_type = MusicController::MusicTypes::eSecretAreaLong_16;
             field_18_counter = 30;
             break;
 
-        case MusicTriggerMusicType::eSoftChase_3:
+        case relive::Path_MusicTrigger::MusicTriggerMusicType::eSoftChase:
             field_1C_music_type = MusicController::MusicTypes::eSlogChase_5;
             field_14_flags |= 4;
             break;
 
-        case MusicTriggerMusicType::eIntenseChase_4:
+        case relive::Path_MusicTrigger::MusicTriggerMusicType::eIntenseChase:
             field_1C_music_type = MusicController::MusicTypes::eIntenseChase_8;
             field_14_flags |= 4;
             break;
 
-        case MusicTriggerMusicType::eChime_5:
+        case relive::Path_MusicTrigger::MusicTriggerMusicType::eChime:
             field_1C_music_type = MusicController::MusicTypes::eChime_2;
             field_18_counter = delay;
             break;
 
-        case MusicTriggerMusicType::eSecretAreaShort_6:
+        case relive::Path_MusicTrigger::MusicTriggerMusicType::eSecretAreaShort:
             field_1C_music_type = MusicController::MusicTypes::eSecretAreaShort_15;
             field_18_counter = 30;
             break;
@@ -71,15 +71,15 @@ void MusicTrigger::Init(MusicTriggerMusicType type, TriggeredBy triggeredBy, u16
 
     switch (triggeredBy)
     {
-        case TriggeredBy::eTimer_0:
+        case relive::Path_MusicTrigger::TriggeredBy::eTimer:
             mBaseGameObjectUpdateDelay = 0;
             break;
 
-        case TriggeredBy::eTouching_1:
+        case relive::Path_MusicTrigger::TriggeredBy::eTouching:
             mBaseGameObjectUpdateDelay = delay;
             break;
 
-        case TriggeredBy::eSwitchID_2: // removed in AE
+        case relive::Path_MusicTrigger::TriggeredBy::eSwitchId: // removed in AE
             field_14_flags |= 1u;
             field_1E_switch_id = switchId;
             mBaseGameObjectUpdateDelay = 0;
@@ -93,7 +93,7 @@ void MusicTrigger::Init(MusicTriggerMusicType type, TriggeredBy triggeredBy, u16
             }
             break;
 
-        case TriggeredBy::eUnknown_3: // removed in AE
+        case relive::Path_MusicTrigger::TriggeredBy::eUnknown: // removed in AE
             field_14_flags |= 1u;
             field_1E_switch_id = switchId;
             mBaseGameObjectUpdateDelay = 0;

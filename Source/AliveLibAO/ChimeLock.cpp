@@ -388,7 +388,7 @@ void ChimeLock::VUpdate()
                     field_110_state = ChimeLockStates::eNeverRead_6;
                     SwitchStates_Do_Operation(field_132_solve_switch_id, relive::reliveSwitchOp::eSetTrue);
                     VUnPosses();
-                    relive_new MusicTrigger(MusicTriggerMusicType::eSecretAreaShort_6, TriggeredBy::eTouching_1, 0, 15);
+                    relive_new MusicTrigger(relive::Path_MusicTrigger::MusicTriggerMusicType::eSecretAreaShort, relive::Path_MusicTrigger::TriggeredBy::eTouching, 0, 15);
                     return;
                 }
             }

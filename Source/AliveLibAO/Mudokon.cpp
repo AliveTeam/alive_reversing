@@ -297,7 +297,7 @@ Mudokon::Mudokon(relive::Path_TLV* pTlv, s32 tlvInfo)
         }
         break;
         default:
-            LOG_WARNING("Mudokon ctor pTlv->mTlvType32.mType was " << magic_enum::enum_name(pTlv->mTlvType) << ". This is unhandled.");
+            LOG_WARNING("Mudokon ctor pTlv->mTlvType32.mType was " << static_cast<s32>(pTlv->mTlvType) << ". This is unhandled.");
             break;
     }
 
@@ -2252,7 +2252,7 @@ void Mudokon::Motion_44_RunJumpMid()
         SND_SEQ_Play_477760(SeqId::eSaveTriggerMusic_45, 1, 127, 127);
 
 
-        relive_new MusicTrigger(MusicTriggerMusicType::eChime_5, TriggeredBy::eTimer_0, 0, 300);
+        relive_new MusicTrigger(relive::Path_MusicTrigger::MusicTriggerMusicType::eChime, relive::Path_MusicTrigger::TriggeredBy::eTimer, 0, 300);
 
         sRescuedMudokons_5076C0++;
 

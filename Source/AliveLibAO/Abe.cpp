@@ -1286,7 +1286,7 @@ void Abe::VUpdate()
                 {
                     field_130_say = 16;
                     field_134_auto_say_timer = sGnFrame + Math_RandomRange(22, 30);
-                    relive_new MusicTrigger(MusicTriggerMusicType::eDeathDrumShort_1, TriggeredBy::eTouching_1, 0, 90);
+                    relive_new MusicTrigger(relive::Path_MusicTrigger::MusicTriggerMusicType::eDeathDrumShort, relive::Path_MusicTrigger::TriggeredBy::eTouching, 0, 90);
                 }
 
                 if (field_130_say >= 0 && static_cast<s32>(sGnFrame) >= field_134_auto_say_timer)
@@ -7806,8 +7806,8 @@ void Abe::Motion_78_InsideWellLocal_4310A0()
             }
             else
             {
-                mVelX = (mSpriteScale * FP_FromInteger(pWellBase->mOffLevelOrDestX.dx) / FP_FromInteger(100));
-                mVelY = (mSpriteScale * FP_FromInteger(pWellBase->mOffPathOrDestY) / FP_FromInteger(100));
+                mVelX = (mSpriteScale * FP_FromInteger(pWellBase->mOffDestX) / FP_FromInteger(100));
+                mVelY = (mSpriteScale * FP_FromInteger(pWellBase->mOffDestY) / FP_FromInteger(100));
             }
         }
 
@@ -7929,8 +7929,8 @@ void Abe::Motion_81_InsideWellExpress_431320()
     }
     else
     {
-        field_190_level = pExpressWell->mOffLevelOrDestX.level;
-        field_192_path = pExpressWell->mOffPathOrDestY;
+        field_190_level = pExpressWell->mOffDestLevel;
+        field_192_path = pExpressWell->mOffDestPath;
         field_194_camera = pExpressWell->mOffDestCamera;
         field_196_door_id = pExpressWell->mOffOtherWellId;
     }
@@ -8155,25 +8155,25 @@ void Abe::Motion_88_HandstoneBegin_430590()
                 auto ptlv = static_cast<Path_Stone*>(BaseAliveGameObjectPathTLV);
                 if (ptlv)
                 {
-                    field_170_hand_stone_type = BaseAliveGameObjectPathTLV->mTlvType32;
-                    switch (field_170_hand_stone_type.mType)
+                    mHandStoneType = BaseAliveGameObjectPathTLV->mTlvType;
+                    switch (mHandStoneType)
                     {
-                        case TlvTypes::MovieStone_51:
+                        case ReliveTypes::eMovieStone:
                         {
                             field_174_pathStone.dataMovie = ptlv->field_18_data.dataMovie;
                             break;
                         }
-                        case TlvTypes::BellSongStone_54:
+                        case ReliveTypes::eBellSongStone:
                         {
                             field_174_pathStone.dataBellsong = ptlv->field_18_data.dataBellsong;
                             break;
                         }
-                        case TlvTypes::DemoPlaybackStone_96:
+                        case ReliveTypes::eDemoPlaybackStone:
                         {
                             field_174_pathStone.demoId = ptlv->field_18_data.demoId;
                             break;
                         }
-                        case TlvTypes::HandStone_100:
+                        case ReliveTypes::eHandStone:
                         {
                             field_174_pathStone.dataHandstone = ptlv->field_18_data.dataHandstone;
                             break;
@@ -8193,9 +8193,9 @@ void Abe::Motion_88_HandstoneBegin_430590()
         {
             if (field_164_pCircularFade->VDone())
             {
-                switch (field_170_hand_stone_type.mType)
+                switch (mHandStoneType)
                 {
-                    case TlvTypes::MovieStone_51:
+                    case ReliveTypes::eMovieStone:
                     {
                         auto pFmvInfo = Path_Get_FMV_Record_434680(
                             gMap.mCurrentLevel,
@@ -8214,7 +8214,7 @@ void Abe::Motion_88_HandstoneBegin_430590()
                         field_110_state.stone = StoneStates::eHandstoneMovieDone_2;
                         break;
                     }
-                    case TlvTypes::BellSongStone_54:
+                    case ReliveTypes::eBellSongStone:
                     {
                         sBellSong = relive_new BellSong(
                             field_174_pathStone.dataBellsong.mType,
@@ -8224,7 +8224,7 @@ void Abe::Motion_88_HandstoneBegin_430590()
                         field_110_state.stone = StoneStates::eBellSongDone_4;
                         break;
                     }
-                    case TlvTypes::DemoPlaybackStone_96:
+                    case ReliveTypes::eDemoPlaybackStone:
                         field_164_pCircularFade->mBaseGameObjectFlags.Set(Options::eDead);
                         field_164_pCircularFade = nullptr;
                         field_110_state.stone = StoneStates::eFreeDemoPlaybackResources_3;
@@ -8235,7 +8235,7 @@ void Abe::Motion_88_HandstoneBegin_430590()
                             relive_new DemoPlayback(gpDemoPlaybackRes_50772C, 1);
                         }
                         break;
-                    case TlvTypes::HandStone_100:
+                    case ReliveTypes::eHandStone:
                     {
                         mAnim.mFlags.Clear(AnimFlags::eBit3_Render);
                         field_110_state.stone = StoneStates::eWaitForInput_6;
@@ -9752,12 +9752,12 @@ void Abe::Motion_156_DoorEnter_42D370()
             mCurrentLevel = gMap.mCurrentLevel;
             mCurrentPath = gMap.mCurrentPath;
             gMap.field_1E_door = 0;
-            auto pPathDoor = static_cast<relive::Path_Door*>(gMap.TLV_First_Of_Type_In_Camera(TlvTypes::Door_6, 0));
+            auto pPathDoor = static_cast<relive::Path_Door*>(gMap.TLV_First_Of_Type_In_Camera(ReliveTypes::eDoor, 0));
             BaseAliveGameObjectPathTLV = pPathDoor;
 
             while (pPathDoor->mDoorId != field_196_door_id)
             {
-                pPathDoor = static_cast<relive::Path_Door*>(Path_TLV::TLV_Next_Of_Type_446500(BaseAliveGameObjectPathTLV, TlvTypes::Door_6));
+                pPathDoor = static_cast<relive::Path_Door*>(Path_TLV::TLV_Next_Of_Type_446500(BaseAliveGameObjectPathTLV, ReliveTypes::eDoor));
                 BaseAliveGameObjectPathTLV = pPathDoor;
                 
                 if (!BaseAliveGameObjectPathTLV)

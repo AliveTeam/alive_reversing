@@ -122,13 +122,13 @@ void BaseAliveGameObject::VSetXSpawn(s16 camWorldX, s32 screenXPos)
             }
             else
             {
-                BaseAliveGameObjectPathTLV = gMap.TLV_First_Of_Type_In_Camera(TlvTypes::StartController_28, 0);
+                BaseAliveGameObjectPathTLV = gMap.TLV_First_Of_Type_In_Camera(ReliveTypes::eStartController, 0);
                 if (BaseAliveGameObjectPathTLV
                     && sCollisions->Raycast(
                         mXPos,
-                        FP_FromInteger(BaseAliveGameObjectPathTLV->mTopLeft.y),
+                        FP_FromInteger(BaseAliveGameObjectPathTLV->mTopLeftY),
                         mXPos,
-                        FP_FromInteger(BaseAliveGameObjectPathTLV->mBottomRight.y),
+                        FP_FromInteger(BaseAliveGameObjectPathTLV->mBottomRightY),
                         &pLine,
                         &hitX,
                         &hitY,
@@ -273,14 +273,14 @@ void BaseAliveGameObject::VCheckCollisionLineStillValid_401A90(s32 distance)
         }
         else
         {
-            BaseAliveGameObjectPathTLV = gMap.TLV_First_Of_Type_In_Camera(TlvTypes::StartController_28, 0);
+            BaseAliveGameObjectPathTLV = gMap.TLV_First_Of_Type_In_Camera(ReliveTypes::eStartController, 0);
             if (BaseAliveGameObjectPathTLV)
             {
                 if (sCollisions->Raycast(
                         mXPos,
-                        FP_FromInteger(BaseAliveGameObjectPathTLV->mTopLeft.y),
+                        FP_FromInteger(BaseAliveGameObjectPathTLV->mTopLeftY),
                         mXPos,
-                        FP_FromInteger(BaseAliveGameObjectPathTLV->mBottomRight.y),
+                        FP_FromInteger(BaseAliveGameObjectPathTLV->mBottomRightY),
                         &pLine,
                         &hitX,
                         &hitY,
@@ -306,10 +306,10 @@ BirdPortal* BaseAliveGameObject::IntoBirdPortal_402350(s16 distance)
 
         if (pObjIter->mBaseGameObjectTypeId == ReliveTypes::eBirdPortal)
         {
-            auto pPortal = static_cast<relive::BirdPortal*>(pObjIter);
+            auto pPortal = static_cast<BirdPortal*>(pObjIter);
             if (pPortal->mXPos >= mXPos)
             {
-                if (pPortal->mEnterSide == PortalSide::eLeft_1)
+                if (pPortal->mEnterSide == relive::Path_BirdPortal::PortalSide::eLeft)
                 {
                     if (pPortal->mXPos - mXPos <= (ScaleToGridSize(mSpriteScale) * FP_FromInteger(distance)))
                     {
@@ -329,7 +329,7 @@ BirdPortal* BaseAliveGameObject::IntoBirdPortal_402350(s16 distance)
             }
             else
             {
-                if (pPortal->mEnterSide == PortalSide::eRight_0)
+                if (pPortal->mEnterSide == relive::Path_BirdPortal::PortalSide::eRight)
                 {
                     if (mXPos - pPortal->mXPos <= (ScaleToGridSize(mSpriteScale) * FP_FromInteger(distance)))
                     {
@@ -475,11 +475,11 @@ void BaseAliveGameObject::VOnPathTransition_401470(s16 camWorldX, s32 camWorldY,
     }
 
     // Find the start controller at the position we will be at in the new map
-    BaseAliveGameObjectPathTLV = gMap.TLV_Get_At_446260(static_cast<s16>(xpos), static_cast<s16>(ypos), static_cast<s16>(width), static_cast<s16>(height), TlvTypes::StartController_28);
+    BaseAliveGameObjectPathTLV = gMap.TLV_Get_At_446260(static_cast<s16>(xpos), static_cast<s16>(ypos), static_cast<s16>(width), static_cast<s16>(height), ReliveTypes::eStartController);
 
     if (!BaseAliveGameObjectPathTLV)
     {
-        BaseAliveGameObjectPathTLV = gMap.TLV_First_Of_Type_In_Camera(TlvTypes::StartController_28, 0);
+        BaseAliveGameObjectPathTLV = gMap.TLV_First_Of_Type_In_Camera(ReliveTypes::eStartController, 0);
         LOG_INFO("Flip direction after the path trans as we are not touching the start controller");
         mVelX = -mVelX;
         mAnim.mFlags.Toggle(AnimFlags::eBit5_FlipX);
@@ -498,8 +498,8 @@ void BaseAliveGameObject::VOnPathTransition_401470(s16 camWorldX, s32 camWorldY,
     PSX_Point camLoc = {};
     gMap.GetCurrentCamCoords(&camLoc);
 
-    mXPos = FP_FromInteger((BaseAliveGameObjectPathTLV->mBottomRight.x + BaseAliveGameObjectPathTLV->mTopLeft.x) / 2);
-    mYPos = FP_FromInteger(BaseAliveGameObjectPathTLV->mTopLeft.y);
+    mXPos = FP_FromInteger((BaseAliveGameObjectPathTLV->mBottomRightX + BaseAliveGameObjectPathTLV->mTopLeftX) / 2);
+    mYPos = FP_FromInteger(BaseAliveGameObjectPathTLV->mTopLeftY);
 
     mXPos = FP_FromInteger(camLoc.x + SnapToXGrid(mSpriteScale, FP_GetExponent(mXPos - FP_FromInteger(camLoc.x))));
 
@@ -548,7 +548,7 @@ void BaseAliveGameObject::VOnPathTransition_401470(s16 camWorldX, s32 camWorldY,
         // If we still didn't get a line then look for a start controller
         if (!BaseAliveGameObjectCollisionLine)
         {
-            if (BaseAliveGameObjectPathTLV->mTlvType32 == TlvTypes::StartController_28)
+            if (BaseAliveGameObjectPathTLV->mTlvType == ReliveTypes::eStartController)
             {
                 BaseAliveGameObjectLastLineYPos += mYPos - oldy;
             }
@@ -786,16 +786,16 @@ void BaseAliveGameObject::OnResourceLoaded_4019A0(BaseAliveGameObject* ppRes)
 
 void BaseAliveGameObject::UsePathTransScale_4020D0()
 {
-    auto pPathTrans = static_cast<Path_PathTransition*>(gMap.TLV_Get_At_446260(
+    auto pPathTrans = static_cast<relive::Path_PathTransition*>(gMap.TLV_Get_At_446260(
         FP_GetExponent(mXPos),
         FP_GetExponent(mYPos),
         FP_GetExponent(mXPos),
         FP_GetExponent(mYPos),
-        TlvTypes::PathTransition_1));
+        ReliveTypes::ePathTransition));
 
     if (pPathTrans)
     {
-        if (pPathTrans->mNextPathScale == Scale_short::eHalf_1)
+        if (pPathTrans->mNextPathScale == relive::reliveScale::eHalf)
         {
             if (mSpriteScale != FP_FromDouble(0.5))
             {
@@ -804,7 +804,7 @@ void BaseAliveGameObject::UsePathTransScale_4020D0()
                 mVelX = (mVelX * FP_FromDouble(0.5));
             }
         }
-        else if (pPathTrans->mNextPathScale == Scale_short::eFull_0)
+        else if (pPathTrans->mNextPathScale == relive::reliveScale::eFull)
         {
             if (mSpriteScale != FP_FromInteger(1))
             {

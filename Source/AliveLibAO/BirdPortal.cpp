@@ -869,7 +869,7 @@ void BirdPortal::VExitPortal()
     mCurrentPath = gMap.mCurrentPath;
     mCurrentLevel = gMap.mCurrentLevel;
 
-    auto pPortalExitTlv = static_cast<relive::Path_BirdPortalExit*>(gMap.TLV_First_Of_Type_In_Camera(TlvTypes::BirdPortalExit_53, 0));
+    auto pPortalExitTlv = static_cast<relive::Path_BirdPortalExit*>(gMap.TLV_First_Of_Type_In_Camera(ReliveTypes::eBirdPortalExit, 0));
 
     if (pPortalExitTlv)
     {
@@ -879,10 +879,10 @@ void BirdPortal::VExitPortal()
 
         PathLine* pLine = nullptr;
         sCollisions->Raycast(
-            FP_FromInteger(pPortalExitTlv->mTopLeft.x),
-            FP_FromInteger(pPortalExitTlv->mTopLeft.y),
-            FP_FromInteger(pPortalExitTlv->mBottomRight.x),
-            FP_FromInteger(pPortalExitTlv->mBottomRight.y),
+            FP_FromInteger(pPortalExitTlv->mTopLeftX),
+            FP_FromInteger(pPortalExitTlv->mTopLeftY),
+            FP_FromInteger(pPortalExitTlv->mBottomRightX),
+            FP_FromInteger(pPortalExitTlv->mBottomRightY),
             &pLine,
             &mExitX,
             &mExitY,
@@ -890,11 +890,11 @@ void BirdPortal::VExitPortal()
 
         mYPos = mExitY - FP_FromInteger(55);
 
-        mExitX = FP_FromInteger(pPortalExitTlv->mTopLeft.x);
+        mExitX = FP_FromInteger(pPortalExitTlv->mTopLeftX);
         mXPos = mExitX;
         mEnterSide = pPortalExitTlv->mExitSide;
 
-        if (pPortalExitTlv->mScale == Scale_short::eHalf_1)
+        if (pPortalExitTlv->mScale == relive::reliveScale::eHalf)
         {
             mSpriteScale = FP_FromDouble(0.5);
             sActiveHero->mAnim.mRenderLayer = Layer::eLayer_InBirdPortal_Half_11;

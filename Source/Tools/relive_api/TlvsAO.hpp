@@ -67,6 +67,7 @@
 #include "../../AliveLibAO/Honey.hpp"
 #include "../../AliveLibAO/SligSpawner.hpp"
 #include "../../AliveLibAO/HoneyDrip.hpp"
+#include "../../AliveLibAO/BeeNest.hpp"
 
 #define CTOR_AO(className, objectTypeName, tlvEnumType)\
     className() : TlvObjectBaseAO(sizeof(AO::className), tlvEnumType, objectTypeName, &mTlv)\
@@ -1641,7 +1642,7 @@ struct Path_RollingBallStopper final : public ReliveAPI::TlvObjectBaseAO
 
 struct Path_BeeNest final : public ReliveAPI::TlvObjectBaseAO
 {
-    CTOR_AO(Path_BeeNest, "Bees", AO::TlvTypes::BeeNest_43)
+    CTOR_AO(Path_BeeNest, "BeeNest", AO::TlvTypes::BeeNest_43)
     {
         ADD("Switch ID", mTlv.mSwitchId);
         ADD("Swarm Size", mTlv.mSwarmSize);
