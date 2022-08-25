@@ -927,7 +927,7 @@ void Map::Start_Sounds_For_Objects_In_Camera(CameraPos direction, s16 cam_x_idx,
     {
         relive::Path_TLV* pTlv = reinterpret_cast<relive::Path_TLV*>(cam->mBuffer.data());
         // Enumerate the TLVs
-        for (;;)
+        while (pTlv)
         {
             if (pTlv->mTopLeftX >= cam_global_left && pTlv->mTopLeftX <= cam_global_right)
             {
@@ -1467,7 +1467,7 @@ Camera* Map::Create_Camera(s16 xpos, s16 ypos, s32 /*a4*/)
     auto pCamName = pPathData->CameraName(xpos, ypos);
 
     // Empty/blank camera in the map array
-    if (!pCamName[0])
+    if (!pCamName || !pCamName[0])
     {
         return nullptr;
     }
@@ -1705,25 +1705,23 @@ void Map::GoTo_Camera()
     char_type camNameBuffer[20] = {};
     Path_Format_CameraName_4346B0(camNameBuffer, mNextLevel, mNextPath, mNextCamera);
 
-    s32 camIdx = 0;
+    field_20_camX_idx = 0;
+    field_22_camY_idx = 0;
+
     BinaryPath* pNextPath = GetPathResourceBlockPtr(mNextPath);
     for (auto& cam : pNextPath->GetCameras())
     {
         if (!strncmp(cam->mName.c_str(), camNameBuffer, sizeof(CameraName)))
         {
+            field_20_camX_idx = static_cast<s16>(cam->mX);
+            field_22_camY_idx = static_cast<s16>(cam->mY);
             break;
         }
-        camIdx++;
     }
 
-    const auto camX_idx = static_cast<s16>(camIdx % field_24_max_cams_x);
-    const auto camY_idx = static_cast<s16>(camIdx / field_24_max_cams_x);
 
-    field_20_camX_idx = camX_idx;
-    field_22_camY_idx = camY_idx;
-
-    field_2C_camera_offset.x = FP_FromInteger(camX_idx * field_D4_pPathData->field_C_grid_width + 440);
-    field_2C_camera_offset.y = FP_FromInteger(camY_idx * field_D4_pPathData->field_E_grid_height + 240);
+    field_2C_camera_offset.x = FP_FromInteger(field_20_camX_idx * field_D4_pPathData->field_C_grid_width + 440);
+    field_2C_camera_offset.y = FP_FromInteger(field_22_camY_idx * field_D4_pPathData->field_E_grid_height + 240);
 
     if (old_current_path != mCurrentPath || old_current_level != mCurrentLevel)
     {
