@@ -30,14 +30,17 @@ public:
         template <typename TlvType>
         TlvType& AllocTLV()
         {
-            mBuffer.push_back(sizeof(TlvType));
+            mBuffer.resize(mBuffer.size() + sizeof(TlvType));
             TlvType* pTlv = reinterpret_cast<TlvType*>(mBuffer.data() - sizeof(sizeof(TlvType)));
             new (pTlv) TlvType(); // placement new
-            pTlv->mLength = sizeof(TlvType);
+            mLastAllocated = pTlv;
+            mLastAllocatedSize = sizeof(TlvType);
             return *pTlv;
         }
 
         std::vector<u8> mBuffer;
+        relive::Path_TLV* mLastAllocated = nullptr;
+        u32 mLastAllocatedSize = 0;
     };
 
     explicit BinaryPath(u32 pathId)

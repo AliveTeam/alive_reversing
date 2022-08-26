@@ -2438,6 +2438,15 @@ void BinaryPath::CreateFromJson(nlohmann::json& pathJson)
             {
                 mapObjects.at(i).get_to(camEntry->AllocTLV<relive::Path_SligSpawner>());
             }
+            else
+            {
+                ALIVE_FATAL("Unknown TLV");
+            }
+
+            if (i == mapObjects.size() - 1)
+            {
+                camEntry->mLastAllocated->mTlvFlags.Set(relive::TlvFlags::eBit3_End_TLV_List);
+            }
         }
         mCameras.emplace_back(std::move(camEntry));
     }
