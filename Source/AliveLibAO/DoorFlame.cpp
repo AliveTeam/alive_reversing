@@ -318,10 +318,10 @@ DoorFlame::~DoorFlame()
     Path::TLV_Reset(mTlvInfo, -1, 0, 0);
 }
 
-DoorFlame::DoorFlame(relive::Path_DoorFlame* pTlv, s32 tlvInfo)
+DoorFlame::DoorFlame(relive::Path_DoorFlame* pTlv, const TLVUniqueId& tlvId)
 {
     mBaseGameObjectTypeId = ReliveTypes::eNone;
-    mTlvInfo = tlvInfo;
+    mTlvInfo = tlvId;
     const AnimRecord rec = AO::AnimRec(AnimId::Fire);
     u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
     Animation_Init(AnimId::Fire, ppRes);

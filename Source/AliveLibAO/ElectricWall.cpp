@@ -14,7 +14,7 @@
 
 namespace AO {
 
-ElectricWall::ElectricWall(relive::Path_ElectricWall* pTlv, s32 tlvInfo)
+ElectricWall::ElectricWall(relive::Path_ElectricWall* pTlv, const TLVUniqueId& tlvId)
 {
     mBaseGameObjectTypeId = ReliveTypes::eElectricWall;
 
@@ -31,7 +31,7 @@ ElectricWall::ElectricWall(relive::Path_ElectricWall* pTlv, s32 tlvInfo)
     }
 
     mRGB.SetRGB(80, 80, 80);
-    mTlvInfo = tlvInfo;
+    mTlvInfo = tlvId;
     mXPos = FP_FromInteger(pTlv->mTopLeftX);
     mYPos = FP_FromInteger(pTlv->mTopLeftY);
 

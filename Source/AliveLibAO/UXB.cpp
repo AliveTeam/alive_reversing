@@ -12,7 +12,7 @@
 
 namespace AO {
 
-UXB::UXB(relive::Path_UXB* pTlv, s32 tlvInfo)
+UXB::UXB(relive::Path_UXB* pTlv, const TLVUniqueId& tlvId)
     : BaseAliveGameObject()
 {
     mBaseGameObjectTypeId = ReliveTypes::eUXB;
@@ -113,7 +113,7 @@ UXB::UXB(relive::Path_UXB* pTlv, s32 tlvInfo)
     mXPos = FP_FromInteger(pTlv->mTopLeftX + 12);
     mYPos = FP_FromInteger(pTlv->mTopLeftY + 24);
 
-    mTlvInfo = tlvInfo;
+    mTlvInfo = tlvId;
     mNextStateTimer = sGnFrame;
     mDisabledResources = static_cast<s16>(pTlv->mDisabledResources);
 

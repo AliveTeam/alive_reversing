@@ -10,7 +10,7 @@
 
 namespace AO {
 
-RollingBallStopper::RollingBallStopper(relive::Path_RollingBallStopper* pTlv, s32 tlvInfo)
+RollingBallStopper::RollingBallStopper(relive::Path_RollingBallStopper* pTlv, const TLVUniqueId& tlvId)
     : BaseAliveGameObject()
 {
     mBaseGameObjectTypeId = ReliveTypes::eRollingBallStopper;
@@ -41,7 +41,7 @@ RollingBallStopper::RollingBallStopper(relive::Path_RollingBallStopper* pTlv, s3
     mVelX = mAnim.mFlags.Get(AnimFlags::eBit5_FlipX) ? FP_FromInteger(22) : FP_FromInteger(-22);
     mVelY = FP_FromInteger(0);
 
-    mTlvInfo = tlvInfo;
+    mTlvInfo = tlvId;
 
     // Check its enabled ?
     if (pTlv->mTlvSpecificMeaning)

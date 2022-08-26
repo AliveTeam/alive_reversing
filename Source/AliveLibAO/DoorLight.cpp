@@ -17,9 +17,9 @@ namespace AO {
 ALIVE_VAR(1, 0x4C30A8, s32, gNextDoorLightUpdate_4C30A8, -1);
 ALIVE_VAR(1, 0x4FC8A4, s32, gDoorLightUpdateTimer_4FC8A4, 0);
 
-DoorLight::DoorLight(relive::Path_LightEffect* pTlv, s32 tlvInfo)
+DoorLight::DoorLight(relive::Path_LightEffect* pTlv, const TLVUniqueId& tlvId)
 {
-    field_E4_tlvInfo = tlvInfo;
+    field_E4_tlvInfo = tlvId;
     field_E8_width = pTlv->mSize;
     field_EA_height = pTlv->mSize;
 

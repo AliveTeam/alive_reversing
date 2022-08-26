@@ -11,7 +11,7 @@
 
 namespace AO {
 
-BellHammer::BellHammer(relive::Path_BellHammer* pTlv, s32 tlvInfo)
+BellHammer::BellHammer(relive::Path_BellHammer* pTlv, const TLVUniqueId& tlvId)
 {
     mBaseGameObjectTypeId = ReliveTypes::eBellHammer;
 
@@ -27,7 +27,7 @@ BellHammer::BellHammer(relive::Path_BellHammer* pTlv, s32 tlvInfo)
     mYPos = FP_FromInteger(pTlv->mTopLeftY + 94);
 
     mSwitchId = pTlv->mSwitchId;
-    mTlvInfo = tlvInfo;
+    mTlvInfo = tlvId;
 
     if (pTlv->mScale == relive::reliveScale::eHalf)
     {

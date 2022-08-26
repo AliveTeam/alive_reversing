@@ -10,7 +10,7 @@
 
 namespace AO {
 
-FootSwitch::FootSwitch(relive::Path_FootSwitch* pTlv, s32 tlvInfo)
+FootSwitch::FootSwitch(relive::Path_FootSwitch* pTlv, const TLVUniqueId& tlvId)
 {
     mBaseGameObjectTypeId = ReliveTypes::eFootSwitch;
 
@@ -36,7 +36,7 @@ FootSwitch::FootSwitch(relive::Path_FootSwitch* pTlv, s32 tlvInfo)
 
     SwitchStates_Set(mSwitchId, 0);
 
-    mTlvInfo = tlvInfo;
+    mTlvInfo = tlvId;
 }
 
 FootSwitch::~FootSwitch()

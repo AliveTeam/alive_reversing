@@ -26,7 +26,7 @@ ALIVE_ASSERT_SIZEOF(Path_SwitchStateBooleanLogic, 0x20);
 class SwitchStateBooleanLogic final : public BaseGameObject
 {
 public:
-    SwitchStateBooleanLogic(Path_SwitchStateBooleanLogic* pTlv, s32 tlvInfo);
+    SwitchStateBooleanLogic(Path_SwitchStateBooleanLogic* pTlv, const TLVUniqueId& tlvId);
     ~SwitchStateBooleanLogic();
 
     virtual void VScreenChanged() override;
@@ -36,7 +36,7 @@ public:
     u16 field_12_input_2 = 0;
     u16 field_14_output = 0;
     BooleanOperatorType field_16_operator = BooleanOperatorType::eAnd_0;
-    s32 field_18_tlvInfo = 0;
+    TLVUniqueId field_18_tlvInfo = {};
 };
 ALIVE_ASSERT_SIZEOF(SwitchStateBooleanLogic, 0x1C);
 

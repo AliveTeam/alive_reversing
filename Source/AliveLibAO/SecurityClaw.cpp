@@ -47,7 +47,7 @@ void Claw::VScreenChanged()
     // Keep alive as the Claw is owned by the SecurityClaw
 }
 
-SecurityClaw::SecurityClaw(relive::Path_SecurityClaw* pTlv, s32 tlvInfo)
+SecurityClaw::SecurityClaw(relive::Path_SecurityClaw* pTlv, const TLVUniqueId& tlvId)
     : BaseAliveGameObject()
 {
     mBaseGameObjectTypeId = ReliveTypes::eSecurityClaw;
@@ -59,7 +59,7 @@ SecurityClaw::SecurityClaw(relive::Path_SecurityClaw* pTlv, s32 tlvInfo)
     u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
     Animation_Init(AnimId::Security_Claw_Upper_Rotating, ppRes);
 
-    mTlvInfo = tlvInfo;
+    mTlvInfo = tlvId;
 
     mClawX = FP_FromInteger(pTlv->mTopLeftX);
     mClawY = FP_FromInteger(pTlv->mTopLeftY);

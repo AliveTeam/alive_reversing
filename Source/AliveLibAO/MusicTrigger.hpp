@@ -39,7 +39,7 @@ class MusicTrigger final : public BaseGameObject
 {
 public:
     MusicTrigger(relive::Path_MusicTrigger::MusicTriggerMusicType type, relive::Path_MusicTrigger::TriggeredBy triggeredBy, s32 switchId, s32 delay);
-    MusicTrigger(relive::Path_MusicTrigger* pTlv, s32 tlvInfo);
+    MusicTrigger(relive::Path_MusicTrigger* pTlv, const TLVUniqueId& tlvId);
 
     void Init(relive::Path_MusicTrigger::MusicTriggerMusicType type, relive::Path_MusicTrigger::TriggeredBy triggeredBy, u16 switchId, s16 delay);
 
@@ -48,7 +48,7 @@ public:
     virtual void VScreenChanged() override;
     virtual void VUpdate() override;
 
-    s32 field_10_tlvInfo = 0;
+    TLVUniqueId field_10_tlvInfo = {};
     /* enum Flags_14
     {
         eBit1_Unknown = 0x1,

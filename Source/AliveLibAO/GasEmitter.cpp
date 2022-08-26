@@ -41,12 +41,12 @@ GasEmitter::~GasEmitter()
     }
 }
 
-GasEmitter::GasEmitter(relive::Path_GasEmitter* pTlv, s32 tlvInfo)
+GasEmitter::GasEmitter(relive::Path_GasEmitter* pTlv, const TLVUniqueId& tlvId)
     : BaseGameObject(TRUE, 0)
 {
     mBaseGameObjectTypeId = ReliveTypes::eNone;
 
-    field_10_tlvInfo = tlvInfo;
+    field_10_tlvInfo = tlvId;
 
     field_18_xpos = FP_FromInteger(pTlv->mTopLeftX);
     field_1C_ypos = FP_FromInteger(pTlv->mTopLeftY);

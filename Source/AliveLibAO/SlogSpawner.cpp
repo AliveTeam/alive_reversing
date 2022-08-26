@@ -16,10 +16,10 @@ void SlogSpawner::VScreenChanged()
     mBaseGameObjectFlags.Set(BaseGameObject::eDead);
 }
 
-SlogSpawner::SlogSpawner(relive::Path_SlogSpawner* pTlv, s32 tlvInfo)
+SlogSpawner::SlogSpawner(relive::Path_SlogSpawner* pTlv, const TLVUniqueId& tlvId)
     : BaseGameObject(TRUE, 0)
 {
-    mTlvInfo = tlvInfo;
+    mTlvInfo = tlvId;
     mSpawnTimer = 0;
 
     mScale = pTlv->mScale;

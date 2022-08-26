@@ -19,7 +19,7 @@ const TintEntry kTimedMineTints_4C3140[3] = {
     {EReliveLevelIds::eNone, 127u, 127u, 127u},
 };
 
-TimedMine::TimedMine(relive::Path_TimedMine* pTlv, s32 tlvInfo)
+TimedMine::TimedMine(relive::Path_TimedMine* pTlv, const TLVUniqueId& tlvId)
     : BaseAliveGameObject()
 {
     mBaseGameObjectTypeId = ReliveTypes::eTimedMine;
@@ -53,7 +53,7 @@ TimedMine::TimedMine(relive::Path_TimedMine* pTlv, s32 tlvInfo)
     mYPos = FP_FromInteger(pTlv->mTopLeftY + 24);
 
     mExplosionTimer = sGnFrame;
-    mTlvInfo = tlvInfo;
+    mTlvInfo = tlvId;
 
     SetBaseAnimPaletteTint(kTimedMineTints_4C3140, gMap.mCurrentLevel, 1005);
     mCollectionRect.x = mXPos - (ScaleToGridSize(mSpriteScale) / FP_FromInteger(2));

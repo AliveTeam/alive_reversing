@@ -10,10 +10,10 @@
 
 namespace AO {
 
-LightEffect::LightEffect(relive::Path_LightEffect* pTlv, s32 tlvInfo)
+LightEffect::LightEffect(relive::Path_LightEffect* pTlv, const TLVUniqueId& tlvId)
 {
     mBaseGameObjectTypeId = ReliveTypes::eNone;
-    field_E4_tlvInfo = tlvInfo;
+    field_E4_tlvInfo = tlvId;
 
     const AnimRecord rec = AO::AnimRec(AnimId::Star);
     u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);

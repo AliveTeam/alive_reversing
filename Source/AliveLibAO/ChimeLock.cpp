@@ -22,12 +22,12 @@ namespace AO {
 // TODO: Index is always >=1 so first entry is redundant ??
 const s32 dword_4C5054[11] = {0, 1, 10, 100, 1000, 10000, 100000, 1000000, 10000000, 100000000, 1000000000};
 
-ChimeLock::ChimeLock(relive::Path_ChimeLock* pTlv, s32 tlvInfo)
+ChimeLock::ChimeLock(relive::Path_ChimeLock* pTlv, const TLVUniqueId& tlvId)
     : BaseAliveGameObject()
 {
     mBaseGameObjectTypeId = ReliveTypes::eChimeLock;
 
-    field_10C_tlvInfo = tlvInfo;
+    field_10C_tlvInfo = tlvId;
 
     const AnimRecord rec = AO::AnimRec(AnimId::Chime_Ball);
     u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);

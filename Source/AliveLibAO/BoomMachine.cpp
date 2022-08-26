@@ -151,7 +151,7 @@ BoomMachine::~BoomMachine()
     Path::TLV_Reset(field_E4_tlvInfo, -1, 0, 0);
 }
 
-BoomMachine::BoomMachine(relive::Path_BoomMachine* pTlv, s32 tlvInfo)
+BoomMachine::BoomMachine(relive::Path_BoomMachine* pTlv, const TLVUniqueId& tlvId)
 {
     mBaseGameObjectTypeId = ReliveTypes::eBoomMachine;
 
@@ -160,7 +160,7 @@ BoomMachine::BoomMachine(relive::Path_BoomMachine* pTlv, s32 tlvInfo)
     Animation_Init(AnimId::BoomMachine_Button_On, ppRes);
 
     mVisualFlags.Clear(VisualFlags::eApplyShadowZoneColour);
-    field_E4_tlvInfo = tlvInfo;
+    field_E4_tlvInfo = tlvId;
     mAnim.mRenderMode = TPageAbr::eBlend_1;
 
     if (pTlv->mScale == relive::reliveScale::eHalf)

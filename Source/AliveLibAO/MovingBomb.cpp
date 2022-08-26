@@ -27,7 +27,7 @@ const TintEntry kMovingBombTints_4CD310[4] = {
 
 ALIVE_VAR(1, 0x507B8C, MovingBomb*, gMovingBomb_507B8C, nullptr);
 
-MovingBomb::MovingBomb(relive::Path_MovingBomb* pTlv, s32 tlvInfo)
+MovingBomb::MovingBomb(relive::Path_MovingBomb* pTlv, const TLVUniqueId& tlvId)
     : BaseAliveGameObject()
 {
     mBaseGameObjectFlags.Set(Options::eCanExplode_Bit7);
@@ -62,7 +62,7 @@ MovingBomb::MovingBomb(relive::Path_MovingBomb* pTlv, s32 tlvInfo)
     field_11C_switch_id = pTlv->mStartMovingSwitchId;
     field_114_timer = sGnFrame;
     mYOffset = 0;
-    field_110_tlvInfo = tlvInfo;
+    field_110_tlvInfo = tlvId;
     field_120_max = 0;
     field_11E_min = 0;
     field_12A_persist_offscreen = pTlv->mPersistOffscreen;

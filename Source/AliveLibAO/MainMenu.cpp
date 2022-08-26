@@ -663,7 +663,7 @@ void MainMenuTransition::VRender_436610(PrimHeader** ppOt)
     }
 }
 
-Menu::Menu(relive::Path_TLV* /*pTlv*/, s32 tlvInfo)
+Menu::Menu(relive::Path_TLV* /*pTlv*/, const TLVUniqueId& tlvId)
 {
     gMainMenuInstanceCount_9F2DE0++;
 
@@ -716,7 +716,7 @@ Menu::Menu(relive::Path_TLV* /*pTlv*/, s32 tlvInfo)
     field_204_flags &= ~6u;
     field_1E2_rgb = 40;
     field_1E4_colour_counter = -8;
-    field_1D4_tlvInfo = tlvInfo;
+    field_1D4_tlvInfo = tlvId;
     field_1D8_timer = sGnFrame + 150;
 
     // copy right boot screen

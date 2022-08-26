@@ -1348,7 +1348,7 @@ static u8 HintFly_NextRandom()
     return sRandomBytes_4BBE30[sHintFlyRndSeed_4C6AA4++];
 }
 
-HintFly::HintFly(relive::Path_HintFly* pTlv, s32 tlvInfo)
+HintFly::HintFly(relive::Path_HintFly* pTlv, const TLVUniqueId& tlvId)
 {
     field_E4_ppRes = nullptr;
 
@@ -1359,7 +1359,7 @@ HintFly::HintFly(relive::Path_HintFly* pTlv, s32 tlvInfo)
         Animation_Init(AnimId::HintFly, ppRes);
 
         mAnim.mFlags.Clear(AnimFlags::eBit15_bSemiTrans);
-        field_124_tlvInfo = tlvInfo;
+        field_124_tlvInfo = tlvId;
         field_11E_msg_idx = 0;
 
         field_11C_message_id = pTlv->mMessageId;

@@ -19,7 +19,7 @@
 
 namespace AO {
 
-MeatSack::MeatSack(relive::Path_MeatSack* pTlv, s32 tlvInfo)
+MeatSack::MeatSack(relive::Path_MeatSack* pTlv, const TLVUniqueId& tlvId)
     : BaseAliveGameObject()
 {
     mBaseGameObjectTypeId = ReliveTypes::eMeatSack;
@@ -28,7 +28,7 @@ MeatSack::MeatSack(relive::Path_MeatSack* pTlv, s32 tlvInfo)
     u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
     Animation_Init(AnimId::MeatSack_Idle, ppRes);
 
-    field_10C_tlvInfo = tlvInfo;
+    field_10C_tlvInfo = tlvId;
     mVisualFlags.Clear(VisualFlags::eApplyShadowZoneColour);
 
     field_110_bDoMeatSackIdleAnim = 0;

@@ -105,7 +105,7 @@ static u8 Slog_NextRandom()
     return sRandomBytes_4BBE30[sSlogRndSeed_9F11C4++];
 }
 
-Slog::Slog(relive::Path_Slog* pTlv, s32 tlvInfo)
+Slog::Slog(relive::Path_Slog* pTlv, const TLVUniqueId& tlvId)
     : BaseAliveGameObject()
 {
     mXPos = FP_FromInteger(pTlv->mTopLeftX);
@@ -122,7 +122,7 @@ Slog::Slog(relive::Path_Slog* pTlv, s32 tlvInfo)
 
     Init();
 
-    field_138_tlvInfo = tlvInfo;
+    field_138_tlvInfo = tlvId;
     field_114_brain_idx = 1;
     field_176 = 1;
 

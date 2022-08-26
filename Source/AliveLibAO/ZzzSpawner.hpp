@@ -20,7 +20,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_ZzzSpawner, 0x20);
 class ZzzSpawner final : public BaseGameObject
 {
 public:
-    ZzzSpawner(relive::Path_ZzzSpawner* pTlv, s32 tlvInfo);
+    ZzzSpawner(relive::Path_ZzzSpawner* pTlv, const TLVUniqueId& tlvId);
     ~ZzzSpawner();
 
     virtual void VScreenChanged() override;
@@ -29,7 +29,7 @@ public:
     FP mXPos = {};
     FP mYPos = {};
     FP mSpriteScale = {};
-    s32 mTlvInfo = 0;
+    TLVUniqueId mTlvInfo = {};
     s16 mSwitchId = 0;
     s32 mTimer = 0;
     s16 mZzzInterval = 0;

@@ -16,11 +16,11 @@ MusicTrigger::MusicTrigger(relive::Path_MusicTrigger::MusicTriggerMusicType type
     field_10_tlvInfo = -1;
 }
 
-MusicTrigger::MusicTrigger(relive::Path_MusicTrigger* pTlv, s32 tlvInfo)
+MusicTrigger::MusicTrigger(relive::Path_MusicTrigger* pTlv, const TLVUniqueId& tlvId)
     : BaseGameObject(TRUE, 0)
 {
     Init(pTlv->mMusicType, pTlv->mTriggeredBy, pTlv->mSwitchId, pTlv->mMusicDelay);
-    field_10_tlvInfo = tlvInfo;
+    field_10_tlvInfo = tlvId;
 }
 
 void MusicTrigger::Init(relive::Path_MusicTrigger::MusicTriggerMusicType type, relive::Path_MusicTrigger::TriggeredBy triggeredBy, u16 switchId, s16 delay)

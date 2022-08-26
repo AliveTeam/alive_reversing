@@ -31,7 +31,7 @@ MeatSaw::~MeatSaw()
     ResourceManager::FreeResource_455550(ppRes);
 }
 
-MeatSaw::MeatSaw(relive::Path_MeatSaw* pTlv, s32 tlvInfo)
+MeatSaw::MeatSaw(relive::Path_MeatSaw* pTlv, const TLVUniqueId& tlvId)
 {
     mBaseGameObjectTypeId = ReliveTypes::eMeatSaw;
 
@@ -125,7 +125,7 @@ MeatSaw::MeatSaw(relive::Path_MeatSaw* pTlv, s32 tlvInfo)
     field_E4_state = MeatSawStates::eIdle_0;
     field_10C_FrameCount = 0;
     mYPos -= FP_FromInteger(pTlv->mMaxRiseTime);
-    field_100_tlvInfo = tlvInfo;
+    field_100_tlvInfo = tlvId;
 
     if (pTlv->mInitialPosition != 0)
     {

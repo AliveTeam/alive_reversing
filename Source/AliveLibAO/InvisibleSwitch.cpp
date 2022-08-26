@@ -15,10 +15,10 @@ InvisibleSwitch::~InvisibleSwitch()
     Path::TLV_Reset(field_14_tlvInfo, -1, 0, 0);
 }
 
-InvisibleSwitch::InvisibleSwitch(relive::Path_InvisibleSwitch* pTlv, s32 tlvInfo)
+InvisibleSwitch::InvisibleSwitch(relive::Path_InvisibleSwitch* pTlv, const TLVUniqueId& tlvId)
     : BaseGameObject(TRUE, 0)
 {
-    field_14_tlvInfo = tlvInfo;
+    field_14_tlvInfo = tlvId;
     field_28_state = States::eWaitForTrigger_0;
     field_10_switch_id = pTlv->mSwitchId;
     field_12_action = pTlv->mAction;

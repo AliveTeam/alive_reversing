@@ -14,14 +14,14 @@ struct Path_GasEmitter final : public Path_TLV
 class GasEmitter final : public BaseGameObject
 {
 public:
-    GasEmitter(relive::Path_GasEmitter* pTlv, s32 tlvInfo);
+    GasEmitter(relive::Path_GasEmitter* pTlv, const TLVUniqueId& tlvId);
     ~GasEmitter();
 
     virtual void VStopAudio() override;
     virtual void VScreenChanged() override;
     virtual void VUpdate() override;
 
-    s32 field_10_tlvInfo = 0;
+    TLVUniqueId field_10_tlvInfo = {};
     s32 field_14_emit_power = 0;
     FP field_18_xpos = {};
     FP field_1C_ypos = {};

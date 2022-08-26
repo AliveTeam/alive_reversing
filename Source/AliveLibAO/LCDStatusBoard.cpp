@@ -55,10 +55,10 @@ LCDStatusBoard::~LCDStatusBoard()
     Path::TLV_Reset(field_C8_tlv, -1, 0, 0);
 }
 
-LCDStatusBoard::LCDStatusBoard(relive::Path_LCDStatusBoard* pTlv, s32 tlvInfo)
+LCDStatusBoard::LCDStatusBoard(relive::Path_LCDStatusBoard* pTlv, const TLVUniqueId& tlvId)
     : BaseGameObject(TRUE, 0)
 {
-    field_C8_tlv = tlvInfo;
+    field_C8_tlv = tlvId;
     field_10_fontContext.LoadFontType(2);
     field_20_font1.Load(3, sStatsSignFontPalette_4CD570, &field_10_fontContext);
     field_58_font2.Load(3, sStatsSignFontPalette_4CD570, &field_10_fontContext);

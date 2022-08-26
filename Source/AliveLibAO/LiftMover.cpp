@@ -8,10 +8,10 @@
 
 namespace AO {
 
-LiftMover::LiftMover(relive::Path_LiftMover* pTlv, s32 tlvInfo)
+LiftMover::LiftMover(relive::Path_LiftMover* pTlv, const TLVUniqueId& tlvId)
     : BaseGameObject(TRUE, 0)
 {
-    field_14_tlvInfo = tlvInfo;
+    field_14_tlvInfo = tlvId;
     field_18_pLiftPoint = nullptr;
     mBaseGameObjectTypeId = ReliveTypes::eLiftMover;
 

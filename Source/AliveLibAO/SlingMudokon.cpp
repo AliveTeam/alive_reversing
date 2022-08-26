@@ -46,7 +46,7 @@ const TSlingMudBrain gSlingMudBrainTable_4CFCE0[] = {
     &SlingMudokon::Brain_1_Spawn,
     &SlingMudokon::Brain_2_AskForPassword};
 
-SlingMudokon::SlingMudokon(relive::Path_SlingMudokon* pTlv, s32 tlvInfo)
+SlingMudokon::SlingMudokon(relive::Path_SlingMudokon* pTlv, const TLVUniqueId& tlvId)
     : BaseAliveGameObject()
 {
     mBaseGameObjectTypeId = ReliveTypes::SlingMud;
@@ -109,7 +109,7 @@ SlingMudokon::SlingMudokon(relive::Path_SlingMudokon* pTlv, s32 tlvInfo)
     field_154_previous_brain_state = 99;
     field_156_always_4 = 99;
 
-    field_110_tlvInfo = tlvInfo;
+    field_110_tlvInfo = tlvId;
     mLiftPoint = nullptr;
     field_13A_brain_sub_state = 0;
     field_15A_bCodeMatches = 0;

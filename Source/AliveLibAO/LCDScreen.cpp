@@ -217,12 +217,12 @@ public:
 };
 static LCDMessages gLCDMessages;
 
-LCDScreen::LCDScreen(relive::Path_LCDScreen* pTlv, s32 tlvInfo)
+LCDScreen::LCDScreen(relive::Path_LCDScreen* pTlv, const TLVUniqueId& tlvId)
     : BaseGameObject(TRUE, 0)
 {
     field_2BC_tlv = *pTlv;
 
-    field_2B8_tlv_item_info = tlvInfo;
+    field_2B8_tlv_item_info = tlvId;
 
     field_2AC_message_1_id = pTlv->mMessageId1;
 

@@ -10,10 +10,10 @@
 
 namespace AO {
 
-BeeSwarmHole::BeeSwarmHole(relive::Path_BeeSwarmHole* pTlv, s32 tlvInfo)
+BeeSwarmHole::BeeSwarmHole(relive::Path_BeeSwarmHole* pTlv, const TLVUniqueId& tlvId)
     : BaseGameObject(TRUE, 0)
 {
-    field_10_tlvInfo = tlvInfo;
+    field_10_tlvInfo = tlvId;
     mBaseGameObjectTypeId = ReliveTypes::eSligSpawner;
 
     mStartIntervalTimer = 0;

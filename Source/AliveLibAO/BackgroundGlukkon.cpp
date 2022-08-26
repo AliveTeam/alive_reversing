@@ -24,7 +24,7 @@ BackgroundGlukkon::~BackgroundGlukkon()
     }
 }
 
-BackgroundGlukkon::BackgroundGlukkon(relive::Path_BackgroundGlukkon* pTlv, s32 tlvInfo)
+BackgroundGlukkon::BackgroundGlukkon(relive::Path_BackgroundGlukkon* pTlv, const TLVUniqueId& tlvId)
     : BaseAliveGameObject()
 {
     mBaseGameObjectTypeId = ReliveTypes::eBackgroundGlukkon;
@@ -33,7 +33,7 @@ BackgroundGlukkon::BackgroundGlukkon(relive::Path_BackgroundGlukkon* pTlv, s32 t
     u8** ppRes2 = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
     Animation_Init(AnimId::Background_Glukkon_Idle, ppRes2);
 
-    field_10C_tlvInfo = tlvInfo;
+    field_10C_tlvInfo = tlvId;
 
     mXPos = FP_FromInteger(pTlv->mTopLeftX);
     mYPos = FP_FromInteger(pTlv->mTopLeftY);

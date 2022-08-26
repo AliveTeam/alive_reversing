@@ -150,7 +150,7 @@ BirdPortal::~BirdPortal()
     }
 }
 
-BirdPortal::BirdPortal(relive::Path_BirdPortal* pTlv, s32 tlvInfo)
+BirdPortal::BirdPortal(relive::Path_BirdPortal* pTlv, const TLVUniqueId& tlvId)
     : BaseGameObject(TRUE, 0)
 {
     mBaseGameObjectTypeId = ReliveTypes::eBirdPortal;
@@ -160,7 +160,7 @@ BirdPortal::BirdPortal(relive::Path_BirdPortal* pTlv, s32 tlvInfo)
     ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kPortliteAOResID, 1, 0);
     ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kPortlitAOResID, 1, 0);
 
-    mTlvInfo = tlvInfo;
+    mTlvInfo = tlvId;
 
     mExitLevel = pTlv->mExitLevel;
     mEnterSide = pTlv->mEnterSide;

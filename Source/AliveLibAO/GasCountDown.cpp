@@ -51,11 +51,11 @@ const u8 byte_4C5080[32] = {
 ALIVE_VAR(1, 0x507700, s32, sGasTimer_507700, 0);
 ALIVE_VAR(1, 0x4FF888, s16, gGasOn_4FF888, 0);
 
-GasCountDown::GasCountDown(relive::Path_GasCountDown* pTlv, s32 tlvInfo)
+GasCountDown::GasCountDown(relive::Path_GasCountDown* pTlv, const TLVUniqueId& tlvId)
     : BaseGameObject(TRUE, 0)
 {
     mBaseGameObjectTypeId = ReliveTypes::eGasCountDown;
-    field_58_tlvInfo = tlvInfo;
+    field_58_tlvInfo = tlvId;
     field_10_font_context.LoadFontType(2);
     field_20_font.Load(5, byte_4C5080, &field_10_font_context);
     mBaseGameObjectFlags.Set(Options::eDrawable_Bit4);

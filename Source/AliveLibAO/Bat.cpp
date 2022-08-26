@@ -14,7 +14,7 @@
 
 namespace AO {
 
-Bat::Bat(relive::Path_Bat* pTlv, s32 tlvInfo)
+Bat::Bat(relive::Path_Bat* pTlv, const TLVUniqueId& tlvId)
 {
     mBaseGameObjectTypeId = ReliveTypes::eBat;
 
@@ -45,7 +45,7 @@ Bat::Bat(relive::Path_Bat* pTlv, s32 tlvInfo)
         &hitY,
         CollisionMask(eTrackLine_8));
 
-    mTlvInfo = tlvInfo;
+    mTlvInfo = tlvId;
 
     if (mBatLine)
     {

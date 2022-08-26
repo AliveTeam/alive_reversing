@@ -11,10 +11,10 @@ OneShotSwitchIdSetter::~OneShotSwitchIdSetter()
     Path::TLV_Reset(field_10_tlvInfo, -1, 0, 0);
 }
 
-OneShotSwitchIdSetter::OneShotSwitchIdSetter(Path_OneShotSwitchIdSetter* pTlv, s32 tlvInfo)
+OneShotSwitchIdSetter::OneShotSwitchIdSetter(Path_OneShotSwitchIdSetter* pTlv, const TLVUniqueId& tlvId)
     : BaseGameObject(TRUE, 0)
 {
-    field_10_tlvInfo = tlvInfo;
+    field_10_tlvInfo = tlvId;
 
     if (!SwitchStates_Get(236))
     {

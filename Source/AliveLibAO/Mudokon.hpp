@@ -275,7 +275,7 @@ public:
     s16 Brain_14_Chant();
     s16 Brain_15_Choke();
 
-    s32 field_10C = 0;
+    TLVUniqueId field_10C = {};
     s16 field_110_lift_switch_id = 0;
     s16 field_112 = 0;
     s32 field_114 = 0;

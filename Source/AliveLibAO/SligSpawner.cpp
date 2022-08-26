@@ -8,12 +8,12 @@
 
 namespace AO {
 
-SligSpawner::SligSpawner(relive::Path_Slig* pTlv, s32 tlvInfo)
+SligSpawner::SligSpawner(relive::Path_Slig* pTlv, const TLVUniqueId& tlvId)
     : BaseGameObject(TRUE, 0)
 {
     mBaseGameObjectTypeId = ReliveTypes::eSligSpawner;
 
-    mTlvInfo = tlvInfo;
+    mTlvInfo = tlvId;
     mPathTlv = *pTlv;
 
     mSpawnerFlags = 1;

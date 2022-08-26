@@ -174,7 +174,7 @@ Lever::~Lever()
     Path::TLV_Reset(mTlvInfo, -1, 0, 0);
 }
 
-Lever::Lever(relive::Path_Lever* pTlv, s32 tlvInfo)
+Lever::Lever(relive::Path_Lever* pTlv, const TLVUniqueId& tlvId)
 {
     mBaseGameObjectTypeId = ReliveTypes::eLever;
     const s32 lvl_idx = static_cast<s32>(MapWrapper::ToAO(gMap.mCurrentLevel));
@@ -207,7 +207,7 @@ Lever::Lever(relive::Path_Lever* pTlv, s32 tlvInfo)
 
     mOnSound = pTlv->mOnSound;
     mOffSound = pTlv->mOffSound;
-    mTlvInfo = tlvInfo;
+    mTlvInfo = tlvId;
     mSoundDirection = pTlv->mSoundDirection;
 
     mState = LeverState::eWaiting_0;

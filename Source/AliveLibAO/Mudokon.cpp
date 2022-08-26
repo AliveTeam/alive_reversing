@@ -141,7 +141,7 @@ static const TintEntry sMudTints_4CD320[] = {
 ALIVE_VAR(1, 0x507B90, s16, sAlertedMudCount_507B90, 0);
 ALIVE_VAR(1, 0x507B94, s16, sMudRunningToPortalCount_507B94, 0);
 
-Mudokon::Mudokon(relive::Path_TLV* pTlv, s32 tlvInfo)
+Mudokon::Mudokon(relive::Path_TLV* pTlv, const TLVUniqueId& tlvId)
     : BaseAliveGameObject()
 {
     field_128 = -1;
@@ -363,7 +363,7 @@ Mudokon::Mudokon(relive::Path_TLV* pTlv, s32 tlvInfo)
     field_19C = 99;
     field_1BA_brain_sub_state = 0;
     field_1A0 = 0;
-    field_10C = tlvInfo;
+    field_10C = tlvId;
     field_1C4_bDoPathTrans = FALSE;
 
     if (field_188 == 6)

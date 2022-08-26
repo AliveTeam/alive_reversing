@@ -15,12 +15,12 @@ ALIVE_ASSERT_SIZEOF(Path_OneShotSwitchIdSetter, 0x28);
 class OneShotSwitchIdSetter final : public BaseGameObject
 {
 public:
-    OneShotSwitchIdSetter(Path_OneShotSwitchIdSetter* pTlv, s32 tlvInfo);
+    OneShotSwitchIdSetter(Path_OneShotSwitchIdSetter* pTlv, const TLVUniqueId& tlvId);
     ~OneShotSwitchIdSetter();
 
     virtual void VScreenChanged() override;
 
-    s32 field_10_tlvInfo = 0;
+    TLVUniqueId field_10_tlvInfo = {};
 };
 ALIVE_ASSERT_SIZEOF(OneShotSwitchIdSetter, 0x14);
 

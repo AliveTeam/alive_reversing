@@ -41,7 +41,7 @@ RollingBall::~RollingBall()
     ResourceManager::FreeResource_455550(pRes);
 }
 
-RollingBall::RollingBall(relive::Path_RollingBall* pTlv, s32 tlvInfo)
+RollingBall::RollingBall(relive::Path_RollingBall* pTlv, const TLVUniqueId& tlvId)
     : BaseAliveGameObject()
 {
     mBaseGameObjectTypeId = ReliveTypes::eRollingBall;
@@ -96,7 +96,7 @@ RollingBall::RollingBall(relive::Path_RollingBall* pTlv, s32 tlvInfo)
     }
 
     MapFollowMe_401D30(TRUE);
-    field_10C_tlvInfo = tlvInfo;
+    field_10C_tlvInfo = tlvId;
     mState = States::eInactive;
     mRollingBallShaker = nullptr;
 

@@ -18,7 +18,7 @@
 
 namespace AO {
 
-SecurityOrb::SecurityOrb(relive::Path_SecurityOrb* pTlv, s32 tlvInfo)
+SecurityOrb::SecurityOrb(relive::Path_SecurityOrb* pTlv, const TLVUniqueId& tlvId)
     : BaseAliveGameObject()
 {
     mBaseGameObjectFlags.Set(Options::eCanExplode_Bit7);
@@ -32,7 +32,7 @@ SecurityOrb::SecurityOrb(relive::Path_SecurityOrb* pTlv, s32 tlvInfo)
     mXPos = FP_FromInteger(pTlv->mTopLeftX);
     mYPos = FP_FromInteger(pTlv->mTopLeftY);
 
-    mTlvInfo = tlvInfo;
+    mTlvInfo = tlvId;
 
     if (pTlv->mScale == relive::reliveScale::eHalf)
     {

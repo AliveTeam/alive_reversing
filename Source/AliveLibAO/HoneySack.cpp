@@ -13,7 +13,7 @@
 
 namespace AO {
 
-HoneySack::HoneySack(relive::Path_HoneySack* pTlv, s32 tlvInfo)
+HoneySack::HoneySack(relive::Path_HoneySack* pTlv, const TLVUniqueId& tlvId)
 {
     mBaseGameObjectTypeId = ReliveTypes::eHoneySack;
 
@@ -22,7 +22,7 @@ HoneySack::HoneySack(relive::Path_HoneySack* pTlv, s32 tlvInfo)
     Animation_Init(AnimId::HoneySack_Hanging, ppRes);
 
     mBaseGameObjectFlags.Set(Options::eCanExplode_Bit7);
-    mTlvInfo = tlvInfo;
+    mTlvInfo = tlvId;
 
     mChaseTime = pTlv->mChaseTime;
     mAnim.mRenderLayer = Layer::eLayer_FallingItemDoorFlameRollingBallPortalClip_Half_31;

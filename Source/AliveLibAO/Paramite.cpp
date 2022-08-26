@@ -100,7 +100,7 @@ const static Paramite::TParamiteBrain sParamiteBrainTable[]{
     &Paramite::Brain_5_SpottedMeat,
 };
 
-Paramite::Paramite(relive::Path_Paramite* pTlv, s32 tlvInfo)
+Paramite::Paramite(relive::Path_Paramite* pTlv, const TLVUniqueId& tlvId)
     : BaseAliveGameObject()
 {
     mBaseGameObjectTypeId = ReliveTypes::eParamite;
@@ -192,7 +192,7 @@ Paramite::Paramite(relive::Path_Paramite* pTlv, s32 tlvInfo)
     mRGB.SetRGB(105, 105, 105);
 
     field_128_never_read = 0;
-    field_12C_tlvInfo = tlvInfo;
+    field_12C_tlvInfo = tlvId;
 
     if (!VIsFacingMe(sActiveHero))
     {

@@ -9,12 +9,12 @@
 
 namespace AO {
 
-BeeNest::BeeNest(relive::Path_BeeNest* pTlv, s32 tlvInfo)
+BeeNest::BeeNest(relive::Path_BeeNest* pTlv, const TLVUniqueId& tlvId)
     : BaseGameObject(TRUE, 0)
 {
     mBaseGameObjectTypeId = ReliveTypes::eBeeNest;
 
-    mTlvInfo = tlvInfo;
+    mTlvInfo = tlvId;
 
     mSwarmSize = pTlv->mSwarmSize;
 

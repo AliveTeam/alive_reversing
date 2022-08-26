@@ -104,7 +104,7 @@ const static Scrab::TBrainType sScrabAITable[]{
     &Scrab::Brain_WalkAround_460D80,
 };
 
-Scrab::Scrab(relive::Path_Scrab* pTlv, s32 tlvInfo)
+Scrab::Scrab(relive::Path_Scrab* pTlv, const TLVUniqueId& tlvId)
     : BaseAliveGameObject()
 {
     mBaseGameObjectTypeId = ReliveTypes::eScrab;
@@ -205,7 +205,7 @@ Scrab::Scrab(relive::Path_Scrab* pTlv, s32 tlvInfo)
 
     field_130_unused = 0;
 
-    field_134_tlvInfo = tlvInfo;
+    field_134_tlvInfo = tlvId;
 
     mShadow = relive_new Shadow();
 }

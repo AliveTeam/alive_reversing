@@ -81,7 +81,7 @@ TrapDoor::TrapDoor(relive::Path_TrapDoor* pTlv, Map* pMap, const TLVUniqueId& tl
         ppRes,
         pTlv,
         pMap,
-        tlvInfo);
+        tlvId);
 
     mTrapDoorY = FP_FromInteger(pTlv->mTopLeftY);
     mTrapDoorX = FP_FromInteger(pTlv->mTopLeftX);

@@ -283,7 +283,7 @@ void Slig::Slig_SoundEffect_46F310(SligSfx sfxIdx)
     SFX_SfxDefinition_Play_477330(&sSligSounds_4CFB30[sfxIdxInt], static_cast<s16>(volLeft), static_cast<s16>(volRight), pitch, pitch);
 }
 
-Slig::Slig(relive::Path_Slig* pTlv, s32 tlvInfo)
+Slig::Slig(relive::Path_Slig* pTlv, const TLVUniqueId& tlvId)
     : BaseAliveGameObject()
 {
     field_15C_last_event_index = -1;
@@ -323,7 +323,7 @@ Slig::Slig(relive::Path_Slig* pTlv, s32 tlvInfo)
     field_174_tlv = *pTlv;
     mXPos = FP_FromInteger(pTlv->mTopLeftX);
     mYPos = FP_FromInteger(pTlv->mTopLeftY);
-    field_134_tlvInfo = tlvInfo;
+    field_134_tlvInfo = tlvId;
     field_254_prevent_depossession &= ~7u;
     field_126_input = 0;
     field_130_game_ender_pause_time = 100;

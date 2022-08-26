@@ -20,7 +20,7 @@ namespace AO {
 #undef min
 #undef max
 
-MotionDetector::MotionDetector(relive::Path_MotionDetector* pTlv, s32 tlvInfo)
+MotionDetector::MotionDetector(relive::Path_MotionDetector* pTlv, const TLVUniqueId& tlvId)
 {
     mBaseGameObjectTypeId = ReliveTypes::eMotionDetector;
     const AnimRecord rec = AO::AnimRec(AnimId::MotionDetector_Flare);
@@ -33,7 +33,7 @@ MotionDetector::MotionDetector(relive::Path_MotionDetector* pTlv, s32 tlvInfo)
     mRGB.SetRGB(64, 0, 0);
     field_160_bObjectInLaser = 0;
     field_F6_bDontComeBack = 1;
-    field_E4_tlvInfo = tlvInfo;
+    field_E4_tlvInfo = tlvId;
 
     if (pTlv->mScale == relive::reliveScale::eHalf)
     {

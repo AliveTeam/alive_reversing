@@ -20,10 +20,10 @@ SwitchStateBooleanLogic::~SwitchStateBooleanLogic()
     Path::TLV_Reset(field_18_tlvInfo, -1, 0, 0);
 }
 
-SwitchStateBooleanLogic::SwitchStateBooleanLogic(Path_SwitchStateBooleanLogic* pTlv, s32 tlvInfo)
+SwitchStateBooleanLogic::SwitchStateBooleanLogic(Path_SwitchStateBooleanLogic* pTlv, const TLVUniqueId& tlvId)
     : BaseGameObject(TRUE, 0)
 {
-    field_18_tlvInfo = tlvInfo;
+    field_18_tlvInfo = tlvId;
 
     field_10_input_1 = pTlv->field_18_input1;
     field_12_input_2 = pTlv->field_1A_input2;

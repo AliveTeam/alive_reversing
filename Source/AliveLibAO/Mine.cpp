@@ -13,7 +13,7 @@ namespace AO {
 
 ALIVE_VAR(1, 0x507B88, Mine*, sMinePlayingSound_507B88, nullptr);
 
-Mine::Mine(relive::Path_Mine* pTlv, s32 tlvInfo)
+Mine::Mine(relive::Path_Mine* pTlv, const TLVUniqueId& tlvId)
     : BaseAliveGameObject()
 {
     mBaseGameObjectTypeId = ReliveTypes::eMine;
@@ -42,7 +42,7 @@ Mine::Mine(relive::Path_Mine* pTlv, s32 tlvInfo)
 
     mXPos = FP_FromInteger(pTlv->mTopLeftX + 12);
     mYPos = FP_FromInteger(pTlv->mTopLeftY + 24);
-    field_110_tlv = tlvInfo;
+    field_110_tlv = tlvId;
     field_114_gnframe = sGnFrame;
 
     const AnimRecord& flashRec = AO::AnimRec(AnimId::Mine_Flash);
