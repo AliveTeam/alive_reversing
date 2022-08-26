@@ -2634,7 +2634,7 @@ inline void from_json(const nlohmann::json& j, Path_Slig& p)
 inline void to_json(nlohmann::json& j, const Path_SligSpawner& p)
 {
     j = nlohmann::json{
-        {"tlv_type", "slig"},
+        {"tlv_type", "slig_spawner"},
         {"base", ToBase(p)},
         {"scale", p.mScale},
         {"start_state", p.mStartState},
