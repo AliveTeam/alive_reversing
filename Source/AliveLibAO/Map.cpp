@@ -2081,7 +2081,6 @@ void BinaryPath::CreateFromJson(nlohmann::json& pathJson)
             else if (type == "main_menu_controller")
             {
                 mapObjects.at(i).get_to(*camEntry->AllocTLV<relive::Path_MainMenuController>());
-                camEntry->mLastAllocated->mTlvType = ReliveTypes::eMenuController;
             }
             else if (type == "shadow_zone")
             {
@@ -2434,6 +2433,10 @@ void BinaryPath::CreateFromJson(nlohmann::json& pathJson)
             else if (type == "scrab")
             {
                 mapObjects.at(i).get_to(*camEntry->AllocTLV<relive::Path_Scrab>());
+            }
+            else if (type == "slig")
+            {
+                mapObjects.at(i).get_to(*camEntry->AllocTLV<relive::Path_Slig>());
             }
             else if (type == "slig_spawner")
             {

@@ -13,7 +13,7 @@ enum class ReliveTypes : s16
     eInvisibleSwitch,
     eDoorFlame,
     eMovingBomb,
-    eMenuController,
+    eMainMenuController,
     eHintFly,
     eSecurityDoor,
     eCreditsController,

@@ -1700,7 +1700,7 @@ static void Factory_MeatSaw(relive::Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUn
     }
 }
 
-static void Factory_MenuController(relive::Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
+static void Factory_MainMenuController(relive::Path_TLV* pTlv, Map* /*pMap*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadMode)
 {
     if (gMainMenuInstanceCount_9F2DE0 == 0)
     {
@@ -2322,8 +2322,8 @@ void ConstructTLVObject(relive::Path_TLV* pTlv, Map* pMap, TlvItemInfoUnion tlvI
         case ReliveTypes::eHintFly:
             Factory_HintFly(pTlv, pMap, tlvInfo, loadMode);
             break;
-        case ReliveTypes::eMenuController:
-            Factory_MenuController(pTlv, pMap, tlvInfo, loadMode);
+        case ReliveTypes::eMainMenuController:
+            Factory_MainMenuController(pTlv, pMap, tlvInfo, loadMode);
             break;
         case ReliveTypes::eMovingBomb:
             Factory_MovingBomb(pTlv, pMap, tlvInfo, loadMode);
