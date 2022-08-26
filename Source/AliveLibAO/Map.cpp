@@ -845,7 +845,7 @@ void Map::SaveBlyData(u8* pSaveBuffer)
             for (auto& cam : ppPathRes->GetCameras())
             {
                 relive::Path_TLV* pTlv = reinterpret_cast<relive::Path_TLV*>(cam->mBuffer.data());
-                for (;;)
+                while (pTlv)
                 {
                     BitField8<relive::TlvFlags> flags = pTlv->mTlvFlags;
                     if (flags.Get(relive::eBit1_Created))
@@ -888,7 +888,7 @@ void Map::RestoreBlyData(const u8* pSaveData)
                 for (auto& cam : ppPathRes->GetCameras())
                 {
                     relive::Path_TLV* pTlv = reinterpret_cast<relive::Path_TLV*>(cam->mBuffer.data());
-                    for (;;)
+                    while (pTlv)
                     {
                         pTlv->mTlvFlags.Raw().all = *pAfterSwitchStates;
                         pAfterSwitchStates++;
@@ -1318,8 +1318,8 @@ relive::Path_TLV* Map::TLV_Get_At_446060(relive::Path_TLV* pTlv, FP xpos, FP ypo
         }
 
         BinaryPath* pBinPath = GetPathResourceBlockPtr(mCurrentPath);
-        relive::Path_TLV* pTlvIter = pBinPath->TlvsForCamera(camX, camY);
-        if (!pTlvIter)
+        pTlv = pBinPath->TlvsForCamera(camX, camY);
+        if (!pTlv)
         {
             return nullptr;
         }
@@ -2446,6 +2446,8 @@ void BinaryPath::CreateFromJson(nlohmann::json& pathJson)
             {
                 ALIVE_FATAL("Unknown TLV");
             }
+
+            camEntry->mLastAllocated->mLength = camEntry->mLastAllocatedSize;
 
             if (i == mapObjects.size() - 1)
             {
