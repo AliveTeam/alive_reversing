@@ -17,7 +17,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_SecurityOrb, 0x1C);
 class SecurityOrb final : public BaseAliveGameObject
 {
 public:
-    SecurityOrb(relive::Path_SecurityOrb* pTlv, s32 tlvInfo);
+    SecurityOrb(relive::Path_SecurityOrb* pTlv, const TLVUniqueId& tlvId);
     ~SecurityOrb();
     
     virtual void VScreenChanged() override;
@@ -25,7 +25,7 @@ public:
     virtual void VUpdate() override;
 
 private:
-    s32 mTlvInfo = 0;
+    TLVUniqueId mTlvInfo = {};
     enum class States : s16
     {
         eIdle_0,

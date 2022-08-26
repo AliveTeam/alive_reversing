@@ -46,7 +46,7 @@ ALIVE_ASSERT_SIZEOF(MotionDetectorLaser, 0xE4);
 class MotionDetector final : public BaseAnimatedWithPhysicsGameObject
 {
 public:
-    MotionDetector(relive::Path_MotionDetector* pTlv, s32 tlvInfo);
+    MotionDetector(relive::Path_MotionDetector* pTlv, const TLVUniqueId& tlvId);
     ~MotionDetector();
 
     virtual void VScreenChanged() override;
@@ -55,7 +55,7 @@ public:
 
     void SetDontComeBack(s16 bDontComeBack);
 
-    s32 field_E4_tlvInfo = 0;
+    TLVUniqueId field_E4_tlvInfo = {};
     enum class States : s16
     {
         eMoveRight_0 = 0,

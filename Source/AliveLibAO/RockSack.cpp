@@ -107,7 +107,7 @@ RockSack::~RockSack()
     Path::TLV_Reset(field_10C_tlvInfo, -1, 0, 0);
 }
 
-RockSack::RockSack(relive::Path_RockSack* pTlv, s32 tlvInfo)
+RockSack::RockSack(relive::Path_RockSack* pTlv, const TLVUniqueId& tlvId)
     : BaseAliveGameObject()
 {
     mBaseGameObjectTypeId = ReliveTypes::eRockSack;
@@ -123,7 +123,7 @@ RockSack::RockSack(relive::Path_RockSack* pTlv, s32 tlvInfo)
 
     mAnim.mFlags.Clear(AnimFlags::eBit15_bSemiTrans);
 
-    field_10C_tlvInfo = tlvInfo;
+    field_10C_tlvInfo = tlvId;
     field_110_has_been_hit = 0;
     mVisualFlags.Clear(VisualFlags::eApplyShadowZoneColour);
     mXPos = FP_FromInteger(pTlv->mTopLeftX);

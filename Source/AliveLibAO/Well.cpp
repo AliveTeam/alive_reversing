@@ -21,7 +21,7 @@ static s16 Well_NextRandom()
 
 Well::~Well()
 {
-    if (mTlvInfo != -1)
+    if (mTlvInfo.IsValid())
     {
         Path::TLV_Reset(mTlvInfo, -1, 0, 0);
     }
@@ -193,9 +193,9 @@ void Well::WellLocal_Init(relive::Path_WellLocal* pTlv, FP /*xpos*/, FP ypos)
     }
 }
 
-Well::Well(relive::Path_WellBase* pTlv, FP xpos, FP ypos, s32 tlvInfo)
+Well::Well(relive::Path_WellBase* pTlv, FP xpos, FP ypos, const TLVUniqueId& tlvId)
 {
-    mTlvInfo = tlvInfo;
+    mTlvInfo = tlvId;
     mBaseGameObjectTypeId = ReliveTypes::eWell;
 
     mRGB.SetRGB(128, 128, 128);

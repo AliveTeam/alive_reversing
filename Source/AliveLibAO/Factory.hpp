@@ -8,26 +8,19 @@ namespace AO {
 struct Path_TLV;
 class Map;
 
-struct TlvOffsetLevelIdPathId final
+struct TLVUniqueId final
 {
-    u16 tlvOffset; // TODO: actually tlv idx now
-    u8 levelId;
+    EReliveLevelIds levelId;
     u8 pathId;
-};
+    u16 camX;
+    u16 camY;
+    u32 tlvOffset;
 
-struct TlvOffsetCombinedLevelIdPathId final
-{
-    u16 tlvOffset;
-    u16 levelIdPathId;
+    bool IsValid() const
+    {
+        return tlvOffset != 0;
+    }
 };
-
-union TlvItemInfoUnion
-{
-    u32 all;
-    TlvOffsetCombinedLevelIdPathId combined;
-    TlvOffsetLevelIdPathId parts;
-};
-ALIVE_ASSERT_SIZEOF(TlvItemInfoUnion, 4);
 
 enum class LoadMode : s16
 {
@@ -37,6 +30,6 @@ enum class LoadMode : s16
 };
 
 
-void ConstructTLVObject(relive::Path_TLV* pTlv, Map*, TlvItemInfoUnion, LoadMode);
+void ConstructTLVObject(relive::Path_TLV* pTlv, Map*, const TLVUniqueId& tlvId, LoadMode);
 
 } // namespace AO

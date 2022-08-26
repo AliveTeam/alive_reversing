@@ -6,46 +6,23 @@
 #include "ResourceManager.hpp"
 
 namespace AO {
-void Path::TLV_Reset(u32 tlvOffset_levelId_PathId, s16 hiFlags, s8 bSetCreated, s8 bSetDestroyed)
+void Path::TLV_Reset(const TLVUniqueId& tlvId, s16 hiFlags, s8 bSetCreated, s8 bSetDestroyed)
 {
-    TlvItemInfoUnion data;
-    data.all = tlvOffset_levelId_PathId;
-
-    if (data.parts.levelId == static_cast<s32>(MapWrapper::ToAO(gMap.mCurrentLevel)))
+    if (tlvId.levelId == gMap.mCurrentLevel)
     {
-        const auto pBlyRec = Path_Get_Bly_Record_434650(MapWrapper::FromAO(static_cast<LevelIds>(data.parts.levelId)), data.parts.pathId);
-
-        u8** ppPathRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Path, data.parts.pathId, TRUE, FALSE);
-        if (ppPathRes)
+        BinaryPath* pBinPath = gMap.GetPathResourceBlockPtr(tlvId.pathId);
+        if (pBinPath)
         {
-            const s32 tlvOffset = data.parts.tlvOffset + pBlyRec->field_4_pPathData->field_14_object_offset;
-            Path_TLV* pTlv = reinterpret_cast<Path_TLV*>(&(*ppPathRes)[tlvOffset]);
+            relive::Path_TLV* pTlv = pBinPath->TlvsForCamera(tlvId.camX, tlvId.camY, tlvId.tlvOffset);
 
-            if (bSetDestroyed & 1)
-            {
-                pTlv->mTlvFlags.Set(TlvFlags::eBit2_Destroyed);
-            }
-            else
-            {
-                pTlv->mTlvFlags.Clear(TlvFlags::eBit2_Destroyed);
-            }
-
-            if (bSetCreated & 1)
-            {
-                pTlv->mTlvFlags.Set(TlvFlags::eBit1_Created);
-            }
-            else
-            {
-                pTlv->mTlvFlags.Clear(TlvFlags::eBit1_Created);
-            }
+            pTlv->mTlvFlags.Set(relive::TlvFlags::eBit2_Destroyed, bSetDestroyed & 1);
+            pTlv->mTlvFlags.Set(relive::TlvFlags::eBit1_Created, bSetCreated & 1);
 
             if (hiFlags != -1)
             {
                 // Seems to be a blob per TLV specific bits
                 pTlv->mTlvSpecificMeaning = static_cast<u8>(hiFlags);
             }
-
-            ResourceManager::FreeResource_455550(ppPathRes);
         }
     }
 }

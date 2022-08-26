@@ -41,7 +41,7 @@ s32 Animation_OnFrame_ZBallSmacker(BaseGameObject* pObj, s16* pData)
     return 2;
 }
 
-ZBall::ZBall(relive::Path_ZBall* pTlv, s32 tlvInfo)
+ZBall::ZBall(relive::Path_ZBall* pTlv, const TLVUniqueId& tlvId)
 {
     mBaseGameObjectTypeId = ReliveTypes::eZBall;
 
@@ -109,7 +109,7 @@ ZBall::ZBall(relive::Path_ZBall* pTlv, s32 tlvInfo)
         mScale = Scale::Bg;
     }
 
-    mTlvInfo = tlvInfo;
+    mTlvInfo = tlvId;
     mAnim.mFnPtrArray = kZBall_Anim_Frame_Fns_4CEBF8;
 }
 
@@ -166,7 +166,7 @@ void ZBall::VUpdate()
             0))
     {
         mBaseGameObjectFlags.Set(Options::eDead);
-        if (mTlvInfo != -1)
+        if (mTlvInfo.IsValid())
         {
             Path::TLV_Reset(mTlvInfo, -1, 0, 0);
         }

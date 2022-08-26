@@ -56,7 +56,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_WellLocal, 0x34);
 class Well final : public BaseAnimatedWithPhysicsGameObject
 {
 public:
-    Well(relive::Path_WellBase* pTlv, FP xpos, FP ypos, s32 tlvInfo);
+    Well(relive::Path_WellBase* pTlv, FP xpos, FP ypos, const TLVUniqueId& tlvId);
     ~Well();
 
     void WellLocal_Init(relive::Path_WellLocal* pTlv, FP xpos, FP ypos);
@@ -66,7 +66,7 @@ public:
     virtual void VRender(PrimHeader** ppOt) override;
     virtual void VScreenChanged() override;
 
-    s32 mTlvInfo = 0;
+    TLVUniqueId mTlvInfo = {};
     s16 mSwitchId = 0;
     FP mLeafScale = {};
     FP mExitX = {};

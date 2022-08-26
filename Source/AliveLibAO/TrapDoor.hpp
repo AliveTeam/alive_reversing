@@ -39,7 +39,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_TrapDoor, 0x28);
 class TrapDoor final : public PlatformBase
 {
 public:
-    TrapDoor(relive::Path_TrapDoor* pTlv, Map* pMap, s32 tlvInfo);
+    TrapDoor(relive::Path_TrapDoor* pTlv, Map* pMap, const TLVUniqueId& tlvId);
     ~TrapDoor();
 
     void Open();

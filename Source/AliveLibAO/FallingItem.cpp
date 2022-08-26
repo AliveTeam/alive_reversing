@@ -36,14 +36,14 @@ const FallingItem_Data sFallingItemData_4BAB20[16] = {
     {AnimId::AO_FallingRock_Falling, AnimId::AO_FallingRock_Waiting, 76, 38}, // forest chase
     {AnimId::AO_FallingRock_Falling, AnimId::AO_FallingRock_Waiting, 76, 38}};// desert escape
 
-FallingItem::FallingItem(relive::Path_FallingItem* pTlv, s32 tlvInfo)
+FallingItem::FallingItem(relive::Path_FallingItem* pTlv, const TLVUniqueId& tlvId)
     : BaseAliveGameObject()
 {
     mBaseGameObjectFlags.Set(Options::eCanExplode_Bit7);
 
     mBaseGameObjectTypeId = ReliveTypes::eRockSpawner;
 
-    field_10C_tlvInfo = tlvInfo;
+    field_10C_tlvInfo = tlvId;
 
     const s32 lvlIdx = static_cast<s32>(MapWrapper::ToAO(gMap.mCurrentLevel));
     const AnimRecord& rec = AO::AnimRec(sFallingItemData_4BAB20[lvlIdx].field_0_falling_animId);

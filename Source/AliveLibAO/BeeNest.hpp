@@ -31,7 +31,7 @@ class BeeSwarm;
 class BeeNest final : public BaseGameObject
 {
 public:
-    BeeNest(relive::Path_BeeNest* pTlv, s32 tlvInfo);
+    BeeNest(relive::Path_BeeNest* pTlv, const TLVUniqueId& tlvId);
     ~BeeNest();
 
     virtual void VScreenChanged() override;
@@ -39,7 +39,7 @@ public:
 
     FP mBeeSwarmX = {};
     FP mBeeSwarmY = {};
-    s32 mTlvInfo = 0;
+    TLVUniqueId mTlvInfo = {};
     u16 mSwitchId = 0;
     s16 mSwarmSize = 0;
     u16 mTotalChaseTime = 0;

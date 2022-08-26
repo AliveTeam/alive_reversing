@@ -24,7 +24,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_ChimeLock, 0x24);
 class ChimeLock final : public BaseAliveGameObject
 {
 public:
-    ChimeLock(relive::Path_ChimeLock* pTlv, s32 tlvInfo);
+    ChimeLock(relive::Path_ChimeLock* pTlv, const TLVUniqueId& tlvId);
     ~ChimeLock();
 
     virtual void VUpdate() override;
@@ -37,7 +37,7 @@ public:
     s16 UpdateBall();
     void SetTargetBellIfSpace(s16 targetNum);
 
-    s32 field_10C_tlvInfo = 0;
+    TLVUniqueId field_10C_tlvInfo = {};
     enum class ChimeLockStates : s16
     {
         eIdle_0 = 0,

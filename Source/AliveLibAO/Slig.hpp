@@ -185,7 +185,7 @@ using Path_SligPersist = Path_SligBound;
 class Slig final : public BaseAliveGameObject
 {
 public:
-    Slig(relive::Path_Slig* pTlv, s32 tlvInfo);
+    Slig(relive::Path_Slig* pTlv, const TLVUniqueId& tlvId);
     ~Slig();
 
     void Init();
@@ -355,7 +355,7 @@ public:
     s32 field_128_timer = 0;
     FP field_12C_falling_velx_scale_factor = {};
     s16 field_130_game_ender_pause_time = 0;
-    s32 field_134_tlvInfo = 0;
+    TLVUniqueId field_134_tlvInfo = {};
     s16 field_138_res_idx = 0;
     s16 field_13A_shot_motion = 0;
     PSX_RECT field_13C_zone_rect = {};

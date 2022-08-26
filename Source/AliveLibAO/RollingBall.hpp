@@ -25,7 +25,7 @@ class RollingBallShaker;
 class RollingBall final : public BaseAliveGameObject
 {
 public:
-    RollingBall(relive::Path_RollingBall* pTlv, s32 tlvInfo);
+    RollingBall(relive::Path_RollingBall* pTlv, const TLVUniqueId& tlvId);
     ~RollingBall();
 
     virtual void VUpdate() override;
@@ -33,7 +33,7 @@ public:
     void Accelerate();
     void CrushThingsInTheWay();
 
-    s32 field_10C_tlvInfo = 0;
+    TLVUniqueId field_10C_tlvInfo = {};
     u16 mReleaseSwitchId = 0;
     enum class States : s16
     {

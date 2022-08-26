@@ -26,7 +26,7 @@ enum class BellHammerStates : u16
 class BellHammer final : public BaseAnimatedWithPhysicsGameObject
 {
 public:
-    BellHammer(relive::Path_BellHammer* pTlv, s32 tlvInfo);
+    BellHammer(relive::Path_BellHammer* pTlv, const TLVUniqueId& tlvId);
     ~BellHammer();
 
     virtual void VScreenChanged() override;
@@ -36,7 +36,7 @@ public:
 
     BellHammerStates mState = BellHammerStates::eWaitForActivation_0;
     s16 mSwitchId = 0;
-    s32 mTlvInfo = 0;
+    TLVUniqueId mTlvInfo = {};
     s32 mPendingResourceCount = 0;
     bool mSpawnElum = false;
 };

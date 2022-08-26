@@ -35,7 +35,7 @@ class Map;
 class ShadowZone final : public BaseGameObject
 {
 public:
-    ShadowZone(relive::Path_ShadowZone* pTlv, Map* pMap, s32 tlvInfo);
+    ShadowZone(relive::Path_ShadowZone* pTlv, Map* pMap, const TLVUniqueId& tlvId);
     ~ShadowZone();
 
     virtual void VScreenChanged() override;
@@ -47,7 +47,7 @@ public:
     // Note: Completely inlined in AO
     s16 ApplysToScale(Scale scale);
 
-    s32 field_10_tlvInfo = 0;
+    TLVUniqueId field_10_tlvInfo = {};
     EReliveLevelIds field_14_level = EReliveLevelIds::eNone;
     s16 field_16_path = 0;
     s32 field_18_centre_x = 0;

@@ -34,7 +34,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_UXB, 0x24);
 class UXB final : public BaseAliveGameObject
 {
 public:
-    UXB(relive::Path_UXB* pTlv, s32 tlvInfo);
+    UXB(relive::Path_UXB* pTlv, const TLVUniqueId& tlvId);
     ~UXB();
 
     void InitBlinkAnim();
@@ -51,7 +51,7 @@ public:
     UXBState mCurrentState = UXBState::eDelay;
     UXBState mStartingState = UXBState::eDelay;
     s16 mDisabledResources = 0;
-    s32 mTlvInfo = 0;
+    TLVUniqueId mTlvInfo = {};
     s32 mNextStateTimer = 0;
     Animation mFlashAnim;
     s16 mPatternLength = 0;

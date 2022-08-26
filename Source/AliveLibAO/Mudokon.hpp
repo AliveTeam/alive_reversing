@@ -158,7 +158,7 @@ enum class GameSpeakEvents : s16;
 class Mudokon final : public BaseAliveGameObject
 {
 public:
-    Mudokon(relive::Path_TLV* pTlv, s32 tlvInfo);
+    Mudokon(relive::Path_TLV* pTlv, const TLVUniqueId& tlvId);
     ~Mudokon();
 
     void KillLiftPoint_194();

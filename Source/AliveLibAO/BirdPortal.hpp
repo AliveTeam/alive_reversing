@@ -66,7 +66,7 @@ class Dove;
 class BirdPortal final : public BaseGameObject
 {
 public:
-    BirdPortal(relive::Path_BirdPortal* pTlv, s32 tlvInfo);
+    BirdPortal(relive::Path_BirdPortal* pTlv, const TLVUniqueId& tlvId);
     ~BirdPortal();
     
     virtual void VUpdate() override;
@@ -124,7 +124,7 @@ public:
     FP mExitX = {};
     FP mExitY = {};
     FP mHitY = {};
-    s32 mTlvInfo = 0;
+    TLVUniqueId mTlvInfo = {};
     s32 mTimer = 0;
     FP mSpriteScale = {};
     s16 mMovieId = 0;

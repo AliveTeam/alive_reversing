@@ -30,11 +30,11 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_BeeSwarmHole, 0x28);
 class BeeSwarmHole final : public BaseGameObject
 {
 public:
-    BeeSwarmHole(relive::Path_BeeSwarmHole* pTlv, s32 tlvInfo);
+    BeeSwarmHole(relive::Path_BeeSwarmHole* pTlv, const TLVUniqueId& tlvId);
 
     virtual void VUpdate() override;
 
-    s32 field_10_tlvInfo = 0;
+    TLVUniqueId field_10_tlvInfo = {};
     PSX_RECT field_14_rect = {};
     s32 mStartIntervalTimer = 0;
     u16 mStartInterval = 0;

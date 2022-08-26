@@ -31,7 +31,7 @@ struct Path_MovingBombStopper final : public Path_TLV
 class MovingBomb final : public BaseAliveGameObject
 {
 public:
-    MovingBomb(relive::Path_MovingBomb* pTlv, s32 tlvInfo);
+    MovingBomb(relive::Path_MovingBomb* pTlv, const TLVUniqueId& tlvId);
     ~MovingBomb();
 
     virtual void VScreenChanged() override;
@@ -55,7 +55,7 @@ public:
         eKillMovingBomb_7 = 7
     };
     States field_10C_state = States::eTriggeredByAlarm_0;
-    s32 field_110_tlvInfo = 0;
+    TLVUniqueId field_110_tlvInfo = {};
     s32 field_114_timer = 0;
     FP field_118_speed = {};
     u16 field_11C_switch_id = 0;

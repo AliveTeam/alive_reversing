@@ -20,10 +20,10 @@ void BackgroundAnimation::VStopAudio()
     }
 }
 
-BackgroundAnimation::BackgroundAnimation(relive::Path_BackgroundAnimation* pTlv, s32 tlvInfo)
+BackgroundAnimation::BackgroundAnimation(relive::Path_BackgroundAnimation* pTlv, const TLVUniqueId& tlvId)
 {
     mBaseGameObjectTypeId = ReliveTypes::eBackgroundAnimation;
-    mTlvInfo = tlvInfo;
+    mTlvInfo = tlvId;
 
     const BgAnimRecord& anim = AO::BgAnimRec(pTlv->mAnimId);
     field_E4_res = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, anim.mBgAnimId, 1, 0);

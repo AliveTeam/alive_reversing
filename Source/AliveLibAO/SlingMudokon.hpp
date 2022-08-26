@@ -39,7 +39,7 @@ enum SlingMudBrainStates : u16
 class SlingMudokon final : public BaseAliveGameObject
 {
 public:
-    SlingMudokon(relive::Path_SlingMudokon* pTlv, s32 tlvInfo);
+    SlingMudokon(relive::Path_SlingMudokon* pTlv, const TLVUniqueId& tlvId);
     ~SlingMudokon();
 
     virtual void VScreenChanged() override;
@@ -70,7 +70,7 @@ public:
     s16 Brain_1_Spawn();
     s16 Brain_2_AskForPassword();
 
-    s32 field_110_tlvInfo = 0;
+    TLVUniqueId field_110_tlvInfo = {};
     s32 field_118_code_converted = 0;
     s16 field_11C_code_length = 0;
 

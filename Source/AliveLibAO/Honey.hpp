@@ -24,7 +24,7 @@ public:
     virtual void VUpdate() override;
     virtual void VScreenChanged() override;
 
-    s32 mTlvInfo = 0;
+    TLVUniqueId mTlvInfo = {};
 };
 ALIVE_ASSERT_SIZEOF(Honey, 0xE8);
 

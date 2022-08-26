@@ -3772,13 +3772,13 @@ ALIVE_VAR(1, 0x4C52F4, u32, dword_4C52F4, 0x1C92C);
 ALIVE_VAR(1, 0x4C52F8, u32, dword_4C52F8, 0xC8);
 ALIVE_VAR(1, 0x4C52FA, s16, word_4C52FA, 0);
 
-void Elum::Spawn(TlvItemInfoUnion tlvInfo)
+void Elum::Spawn(const TLVUniqueId& tlvInfo)
 {
     anythingForTheTimeBeing struct1;
     anythingForTheTimeBeing struct2;
 
     struct1.field_0 = word_4C52F2;
-    struct1.field_2 = tlvInfo.parts.tlvOffset; //todo check it (if it's ever used)
+    struct1.field_2 = 0; //todo check it (if it's ever used)
 
     struct2.field_0 = word_4C52F0;
     struct2.field_2 = word_4C52FA;
@@ -3786,7 +3786,7 @@ void Elum::Spawn(TlvItemInfoUnion tlvInfo)
     relive_new Elum(dword_4C52F4, struct2, struct1, dword_4C52F8, tlvInfo);
 }
 
-Elum::Elum(s32, anythingForTheTimeBeing, anythingForTheTimeBeing, s32, TlvItemInfoUnion tlvInfo)
+Elum::Elum(s32, anythingForTheTimeBeing, anythingForTheTimeBeing, s32, const TLVUniqueId& tlvInfo)
     : BaseAliveGameObject()
 {
     mBaseGameObjectTypeId = ReliveTypes::eElum;
@@ -3794,7 +3794,7 @@ Elum::Elum(s32, anythingForTheTimeBeing, anythingForTheTimeBeing, s32, TlvItemIn
     field_158_last_event_idx = -1;
     field_16C_never_read = 0;
     field_16E_never_read = -1;
-    field_1F0_tlvInfo = tlvInfo.all;
+    field_1F0_tlvInfo = tlvInfo;
     field_174_resources = {};
 
     field_174_resources.res[16] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kElmfallAOResID_216, 1, 0);

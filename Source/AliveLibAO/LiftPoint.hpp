@@ -51,7 +51,7 @@ public:
         eBit7_bIgnoreLiftMover = 0x40,
         eBit8_KeepOnMiddleFloor = 0x80,
     };
-    LiftPoint(relive::Path_LiftPoint* pTlv, Map* pPath, s32 tlvInfo);
+    LiftPoint(relive::Path_LiftPoint* pTlv, Map* pPath, const TLVUniqueId& tlvId);
     ~LiftPoint();
 
     void Move(FP xSpeed, FP ySpeed, s32 not_used);

@@ -30,7 +30,7 @@ ALIVE_ASSERT_SIZEOF(Path_BackgroundAnimation, 0x20);
 class BackgroundAnimation final : public BaseAnimatedWithPhysicsGameObject
 {
 public:
-    BackgroundAnimation(relive::Path_BackgroundAnimation* pTlv, s32 tlvInfo);
+    BackgroundAnimation(relive::Path_BackgroundAnimation* pTlv, const TLVUniqueId& tlvId);
     ~BackgroundAnimation();
 
     virtual void VScreenChanged() override;
@@ -42,7 +42,7 @@ public:
     s16 field_EA_ypos = 0;
     s16 field_EC_w = 0;
     s16 field_EE_h = 0;
-    s32 mTlvInfo = 0;
+    TLVUniqueId mTlvInfo = {};
     FP field_F8_animXPos = {};
     FP field_FC_animYPos = {};
     relive::Path_BackgroundAnimation::BgAnimSounds mSoundEffect = relive::Path_BackgroundAnimation::BgAnimSounds::eNone_0;

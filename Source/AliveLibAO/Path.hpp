@@ -6,8 +6,7 @@
 
 namespace AO {
 
-
-
+struct TLVUniqueId;
 
 enum class TlvTypes : s16
 {
@@ -195,6 +194,6 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_TLV, 0x18);
 class Path final
 {
 public:
-    static void TLV_Reset(u32 tlvOffset_levelId_PathId, s16 hiFlags, s8 bSetCreated, s8 bSetDestroyed);
+    static void TLV_Reset(const TLVUniqueId&, s16 hiFlags, s8 bSetCreated, s8 bSetDestroyed);
 };
 } // namespace AO

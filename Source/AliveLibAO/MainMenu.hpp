@@ -157,7 +157,7 @@ union MenuOption
 class Menu final : public BaseAnimatedWithPhysicsGameObject
 {
 public:
-    Menu(relive::Path_TLV* pTlv, s32 tlvInfo);
+    Menu(relive::Path_TLV* pTlv, const TLVUniqueId& tlvId);
     ~Menu();
 
     virtual void VUpdate() override;
@@ -276,7 +276,7 @@ public:
 
     TRenderFn field_1D0_fn_render = nullptr;
 
-    s32 field_1D4_tlvInfo = 0;
+    TLVUniqueId field_1D4_tlvInfo = {};
     s32 field_1D8_timer = 0;
     s32 field_1DC_idle_input_counter = 0;
     MenuOption field_1E0_selected_index;

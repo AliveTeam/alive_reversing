@@ -33,11 +33,11 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_ZBall, 0x20);
 class ZBall final : public BaseAnimatedWithPhysicsGameObject
 {
 public:
-    ZBall(relive::Path_ZBall* pTlv, s32 tlvInfo);
+    ZBall(relive::Path_ZBall* pTlv, const TLVUniqueId& tlvId);
 
     virtual void VUpdate() override;
 
-    s32 mTlvInfo = 0;
+    TLVUniqueId mTlvInfo = {};
     s16 mFrameAbove12 = 0;
     s16 mSoundPitch = 0;
 };

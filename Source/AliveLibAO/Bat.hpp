@@ -22,7 +22,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Bat, 0x20);
 class Bat final : public BaseAnimatedWithPhysicsGameObject
 {
 public:
-    Bat(relive::Path_Bat* pTlv, s32 tlvInfo);
+    Bat(relive::Path_Bat* pTlv, const TLVUniqueId& tlvId);
     ~Bat();
     
     virtual void VScreenChanged() override;
@@ -33,7 +33,7 @@ public:
     PathLine* mBatLine = nullptr;
     FP mBatSpeed = {};
     s32 mTimeBeforeMoving = 0;
-    s32 mTlvInfo = 0;
+    TLVUniqueId mTlvInfo = {};
     enum class BatStates : s16
     {
         eSetTimer_0 = 0,

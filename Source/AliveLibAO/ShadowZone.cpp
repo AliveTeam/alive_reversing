@@ -9,7 +9,7 @@ namespace AO {
 
 ALIVE_VAR(1, 0x507B08, DynamicArrayT<ShadowZone>*, sShadowZone_dArray_507B08, nullptr);
 
-ShadowZone::ShadowZone(relive::Path_ShadowZone* pTlv, Map* /*pMap*/, s32 tlvInfo)
+ShadowZone::ShadowZone(relive::Path_ShadowZone* pTlv, Map* /*pMap*/, const TLVUniqueId& tlvId)
     : BaseGameObject(TRUE, 0)
 {
     sShadowZone_dArray_507B08->Push_Back(this);
@@ -17,7 +17,7 @@ ShadowZone::ShadowZone(relive::Path_ShadowZone* pTlv, Map* /*pMap*/, s32 tlvInfo
     field_16_path = gMap.mCurrentPath;
     field_14_level = gMap.mCurrentLevel;
 
-    field_10_tlvInfo = tlvInfo;
+    field_10_tlvInfo = tlvId;
 
     field_20_mid_x = pTlv->mWidth / 2;
     field_22_mid_y = pTlv->mHeight / 2;

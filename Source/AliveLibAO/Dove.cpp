@@ -20,7 +20,7 @@ static s32 sAbePortalTimer = 0;
 static s16 sAbePortalWidth = 30;
 static s16 sAbePortalDirection = -1;
 
-Dove::Dove(AnimId animId, s32 tlvInfo, FP scale)
+Dove::Dove(AnimId animId, const TLVUniqueId& tlvId, FP scale)
 {
     mBaseGameObjectTypeId = ReliveTypes::eBird;
     u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AO::AnimRec(animId).mResourceId, 1, 0);
@@ -57,7 +57,7 @@ Dove::Dove(AnimId animId, s32 tlvInfo, FP scale)
     mVelY = FP_FromInteger(-4 - (Math_NextRandom() & 3));
     mAnim.SetFrame(Math_NextRandom() & 7);
     mKeepInGlobalArray = FALSE;
-    mTlvInfo = tlvInfo;
+    mTlvInfo = tlvId;
 
     if (gMap.mCurrentLevel == EReliveLevelIds::eStockYards || gMap.mCurrentLevel == EReliveLevelIds::eStockYardsReturn)
     {
@@ -111,7 +111,7 @@ Dove::Dove(AnimId animId, FP xpos, FP ypos, FP scale)
     mXPos = xpos;
     mYPos = ypos;
 
-    mTlvInfo = 0;
+    mTlvInfo = {};
 
     mAnim.SetFrame((Math_NextRandom() & 6) + 1);
 
@@ -133,7 +133,7 @@ Dove::~Dove()
     if (!mKeepInGlobalArray)
     {
         gDovesArray.Remove_Item(this);
-        if (mTlvInfo)
+        if (mTlvInfo.IsValid())
         {
             Path::TLV_Reset(mTlvInfo, -1, 0, 0);
         }

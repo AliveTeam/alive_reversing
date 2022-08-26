@@ -93,10 +93,9 @@ HoistRocksEffect::~HoistRocksEffect()
     Path::TLV_Reset(field_18_tlvInfo, -1, 0, 0);
 }
 
-HoistRocksEffect::HoistRocksEffect(relive::Path_Hoist* pTlv, s32 tlvInfo)
-    : BaseGameObject(TRUE, 0)
+HoistRocksEffect::HoistRocksEffect(relive::Path_Hoist* pTlv, const TLVUniqueId& tlvInfo)
+    : BaseGameObject(TRUE, 0), field_18_tlvInfo(tlvInfo)
 {
-    field_18_tlvInfo = tlvInfo;
     field_10_xpos = FP_FromInteger(pTlv->mTopLeftX + 12);
     field_14_ypos = FP_FromInteger(pTlv->mTopLeftY);
 }

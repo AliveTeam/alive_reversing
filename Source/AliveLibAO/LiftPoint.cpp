@@ -69,7 +69,7 @@ const LiftPointCoord stru_4BB640[16] = {
 
 
 
-LiftPoint::LiftPoint(relive::Path_LiftPoint* pTlv, Map* pPath, s32 tlvInfo)
+LiftPoint::LiftPoint(relive::Path_LiftPoint* pTlv, Map* pPath, const TLVUniqueId& tlvId)
     : PlatformBase()
 {
     mBaseGameObjectTypeId = ReliveTypes::eLiftPoint;
@@ -95,7 +95,7 @@ LiftPoint::LiftPoint(relive::Path_LiftPoint* pTlv, Map* pPath, s32 tlvInfo)
         ppLiftRes,
         pTlv,
         pPath,
-        tlvInfo);
+        tlvId);
 
     if (mSpriteScale == FP_FromInteger(1))
     {

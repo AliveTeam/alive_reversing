@@ -67,13 +67,13 @@ public:
         return nullptr;
     }
 
-    relive::Path_TLV* TlvsForCamera(s32 x, s32 y)
+    relive::Path_TLV* TlvsForCamera(s32 x, s32 y, u32 tlvOffset = 0)
     {
         for (auto& cam : mCameras)
         {
             if (cam->mX == x && cam->mY == y)
             {
-                return reinterpret_cast<relive::Path_TLV*>(cam->mBuffer.data());
+                return reinterpret_cast<relive::Path_TLV*>(cam->mBuffer.data() + tlvOffset);
             }
         }
         return nullptr;

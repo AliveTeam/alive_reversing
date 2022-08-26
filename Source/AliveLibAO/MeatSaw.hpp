@@ -45,7 +45,7 @@ enum class MeatSawStates : s16
 class MeatSaw final : public BaseAnimatedWithPhysicsGameObject
 {
 public:
-    MeatSaw(relive::Path_MeatSaw* pTlv, s32 tlvInfo);
+    MeatSaw(relive::Path_MeatSaw* pTlv, const TLVUniqueId& tlvId);
     ~MeatSaw();
 
     virtual void VScreenChanged() override;
@@ -67,7 +67,7 @@ public:
     s16 field_F8_switch_max_time_off = 0;
     s16 field_FA_automatic_min_time_off = 0;
     s16 field_FC_automatic_max_time_off = 0;
-    s32 field_100_tlvInfo = 0;
+    TLVUniqueId field_100_tlvInfo = {};
     s32 field_104_idle_timer = 0;
     s32 field_108_SFX_timer = 0;
     s32 field_10C_FrameCount = 0;

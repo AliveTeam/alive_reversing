@@ -59,7 +59,7 @@ enum eSlogMotions : s32
 class Slog final : public BaseAliveGameObject
 {
 public:
-    Slog(relive::Path_Slog* pTlv, s32 tlvInfo);
+    Slog(relive::Path_Slog* pTlv, const TLVUniqueId& tlvId);
     Slog(FP xpos, FP ypos, FP scale);
     ~Slog();
 
@@ -139,7 +139,7 @@ public:
     s32 field_130 = 0;
     s16 field_134 = 0;
     s16 field_136 = 0;
-    s32 field_138_tlvInfo = 0;
+    TLVUniqueId field_138_tlvInfo = {};
     s16 field_13C_res_idx = 0;
     s16 field_13E = 0;
     s32 field_140 = 0;

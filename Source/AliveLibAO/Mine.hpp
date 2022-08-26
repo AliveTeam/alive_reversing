@@ -21,7 +21,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Mine, 0x24);
 class Mine final : public BaseAliveGameObject
 {
 public:
-    Mine(relive::Path_Mine* pTlv, s32 tlvInfo);
+    Mine(relive::Path_Mine* pTlv, const TLVUniqueId& tlvId);
     ~Mine();
 
     virtual void VScreenChanged() override;
@@ -35,7 +35,7 @@ public:
 
     u16 field_10C_detonating = 0;
     s16 field_10E_disabled_resources = 0;
-    s32 field_110_tlv = 0;
+    TLVUniqueId field_110_tlv = {};
     s32 field_114_gnframe = 0;
     Animation field_118_animation;
     s32 field_1B0_flags = 0;

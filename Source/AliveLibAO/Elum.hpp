@@ -117,13 +117,13 @@ public:
         s16 field_2;
     };
 
-    static void Spawn(TlvItemInfoUnion tlvInfo);
+    static void Spawn(const TLVUniqueId& tlvInfo);
 
     virtual void VUpdate() override;
     virtual void VRender(PrimHeader** ppOt) override;
     virtual void VScreenChanged() override;
 
-    Elum(s32 a2, anythingForTheTimeBeing a3, anythingForTheTimeBeing a4, s32 a5, TlvItemInfoUnion a6);
+    Elum(s32 a2, anythingForTheTimeBeing a3, anythingForTheTimeBeing a4, s32 a5, const TLVUniqueId& a6);
     ~Elum();
 
     virtual void VOnTlvCollision(relive::Path_TLV* pTlv) override;
@@ -272,7 +272,7 @@ public:
     s16 field_16E_never_read = 0;
     BitField16<Flags_170> field_170_flags = {};
     ElumResources field_174_resources {};
-    s32 field_1F0_tlvInfo = 0;
+    TLVUniqueId field_1F0_tlvInfo = {};
 };
 ALIVE_ASSERT_SIZEOF(Elum, 0x1F4);
 

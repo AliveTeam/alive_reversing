@@ -41,7 +41,7 @@ class Rope;
 class PullRingRope final : public BaseAnimatedWithPhysicsGameObject
 {
 public:
-    PullRingRope(relive::Path_PullRingRope* pTlv, s32 tlvInfo);
+    PullRingRope(relive::Path_PullRingRope* pTlv, const TLVUniqueId& tlvId);
     ~PullRingRope();
 
     virtual void VScreenChanged() override;
@@ -51,7 +51,7 @@ public:
     s16 Pull(BaseAliveGameObject* pFrom);
 
     s32 field_E4_stay_in_state_ticks = 0;
-    s32 mTlvInfo = 0;
+    TLVUniqueId mTlvInfo = {};
     enum class States : s16
     {
         eIdle_0 = 0,

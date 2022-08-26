@@ -38,7 +38,7 @@ enum class SecurityClawStates : s16
 class SecurityClaw final : public BaseAliveGameObject
 {
 public:
-    SecurityClaw(relive::Path_SecurityClaw* pTlv, s32 tlvInfo);
+    SecurityClaw(relive::Path_SecurityClaw* pTlv, const TLVUniqueId& tlvId);
     ~SecurityClaw();
 
     virtual void VScreenChanged() override;
@@ -46,7 +46,7 @@ public:
     virtual void VUpdate() override;
     virtual void VOnThrowableHit(BaseGameObject* pFrom) override;
 
-    s32 mTlvInfo = 0;
+    TLVUniqueId mTlvInfo = {};
     SecurityClawStates field_110_state = SecurityClawStates::eCamSwap_0;
     s32 field_114_timer = 0;
     s16 mAlarmSwitchId = 0;

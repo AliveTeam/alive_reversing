@@ -10,7 +10,7 @@
 
 namespace AO {
 
-PullRingRope::PullRingRope(relive::Path_PullRingRope* pTlv, s32 tlvInfo)
+PullRingRope::PullRingRope(relive::Path_PullRingRope* pTlv, const TLVUniqueId& tlvId)
 {
     mBaseGameObjectTypeId = ReliveTypes::ePullRingRope;
 
@@ -51,7 +51,7 @@ PullRingRope::PullRingRope(relive::Path_PullRingRope* pTlv, s32 tlvInfo)
 
     mSwitchId = pTlv->mSwitchId;
     mAction = pTlv->mAction;
-    mTlvInfo = tlvInfo;
+    mTlvInfo = tlvId;
     mState = States::eIdle_0;
     field_E4_stay_in_state_ticks = 0;
 
