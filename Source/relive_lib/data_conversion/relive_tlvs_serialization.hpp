@@ -286,7 +286,7 @@ inline void to_json(nlohmann::json& j, const Path_Dove& p)
         {"tlv_type", "dove"},
         {"base", ToBase(p)},
         {"dove_count", p.mDoveCount},
-        {"pixe_perfect", p.mPixelPerfect},
+        {"pixel_perfect", p.mPixelPerfect},
         {"scale", p.mScale},
     };
 }
