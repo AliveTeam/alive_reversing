@@ -827,7 +827,7 @@ relive::Path_TLV* Map::Get_First_TLV_For_Offsetted_Camera(s16 cam_x_idx, s16 cam
     }
 
     BinaryPath* pPathData = GetPathResourceBlockPtr(mCurrentPath);
-    return pPathData->TlvsForCamera(cam_x_idx, cam_y_idx);
+    return pPathData->TlvsForCamera(camX, camY);
 }
 
 void Map::SaveBlyData(u8* pSaveBuffer)
