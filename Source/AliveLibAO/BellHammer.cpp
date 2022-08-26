@@ -166,8 +166,8 @@ void BellHammer::VUpdate()
         if (mPendingResourceCount == 0)
         {
             mSpawnElum = false;
-            TlvItemInfoUnion info;
-            info.all = mTlvInfo;
+            TLVUniqueId info;
+            info = mTlvInfo;
             Elum::Spawn(info);
 
             PSX_Point mapCoords = {};

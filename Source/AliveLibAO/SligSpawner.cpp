@@ -44,7 +44,7 @@ void SligSpawner::VUpdate()
 
         if (pTlv)
         {
-            relive_new Slig(pTlv, 0xFFFF);
+            relive_new Slig(pTlv, {});
         }
 
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);

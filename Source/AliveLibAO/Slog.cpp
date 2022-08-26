@@ -166,7 +166,7 @@ Slog::Slog(FP xpos, FP ypos, FP scale)
 
     mAngerSwitchId = 0;
     mCurrentMotion = 0;
-    field_138_tlvInfo = 0xFFFF;
+    field_138_tlvInfo = {};
     field_114_brain_idx = 2;
     field_15A_total_anger = 10;
     field_15C_chase_anger = 20;
@@ -192,7 +192,7 @@ Slog::~Slog()
         field_16C_pUnknown = nullptr;
     }
 
-    if (field_138_tlvInfo != 0xFFFF)
+    if (field_138_tlvInfo.IsValid())
     {
         if (mHealth <= FP_FromInteger(0))
         {

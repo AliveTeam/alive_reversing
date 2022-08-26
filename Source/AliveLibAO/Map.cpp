@@ -1875,17 +1875,19 @@ void Map::Loader(s16 camX, s16 camY, LoadMode loadMode, ReliveTypes typeToLoad)
         return;
     }
 
-    s32 tlvIdx = 0;
+    s32 tlvOffset = 0;
     while (1)
     {
         if (typeToLoad == ReliveTypes::eNone || typeToLoad == pPathTLV->mTlvType)
         {
             if (loadMode != LoadMode::ConstructObject_0 || !(pPathTLV->mTlvFlags.Get(relive::TlvFlags::eBit1_Created) || pPathTLV->mTlvFlags.Get(relive::TlvFlags::eBit2_Destroyed)))
             {
-                TlvItemInfoUnion data;
-                data.parts.tlvOffset = static_cast<u16>(tlvIdx);
-                data.parts.levelId = static_cast<u8>(MapWrapper::ToAO(mCurrentLevel));
-                data.parts.pathId = static_cast<u8>(mCurrentPath);
+                TLVUniqueId data;
+                data.tlvOffset = tlvOffset;
+                data.levelId = mCurrentLevel;
+                data.pathId = mCurrentPath;
+                data.camX = camX;
+                data.camY = camY;
 
                 // Call the factory to construct the item
                 ConstructTLVObject(pPathTLV, this, data, loadMode);
@@ -1904,7 +1906,7 @@ void Map::Loader(s16 camX, s16 camY, LoadMode loadMode, ReliveTypes typeToLoad)
             break;
         }
 
-        tlvIdx++;
+        tlvOffset += pPathTLV->mLength;
         pPathTLV = Path_TLV::Next_446460(pPathTLV);
     }
 }

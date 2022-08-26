@@ -7235,8 +7235,7 @@ void Abe::Motion_62_LoadedSaveSpawn_45ADD0()
         {
             if (!gElum)
             {
-                TlvItemInfoUnion aux;
-                aux.all = (u32) -1;
+                TLVUniqueId aux = {};
                 dword_4CF550[static_cast<s32>(MapWrapper::ToAO(gMap.mCurrentLevel))](aux);
             }
 

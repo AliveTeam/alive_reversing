@@ -11,7 +11,7 @@ class Map;
 struct TLVUniqueId final
 {
     EReliveLevelIds levelId;
-    u8 pathId;
+    s16 pathId;
     u16 camX;
     u16 camY;
     u32 tlvOffset;

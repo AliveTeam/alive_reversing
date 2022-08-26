@@ -2120,7 +2120,7 @@ static void Factory_KillUnsavedMuds(relive::Path_TLV* /*pTlv*/, Map* pMap, const
     }
 }
 
-void ConstructTLVObject(relive::Path_TLV* pTlv, Map* pMap, TLVUniqueId tlvInfo, LoadMode loadMode)
+void ConstructTLVObject(relive::Path_TLV* pTlv, Map* pMap, const TLVUniqueId& tlvInfo, LoadMode loadMode)
 {
     switch (pTlv->mTlvType)
     {

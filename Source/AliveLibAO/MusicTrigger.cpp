@@ -13,7 +13,7 @@ MusicTrigger::MusicTrigger(relive::Path_MusicTrigger::MusicTriggerMusicType type
     : BaseGameObject(TRUE, 0)
 {
     Init(type, triggeredBy, static_cast<s16>(switchId), static_cast<s16>(delay));
-    field_10_tlvInfo = -1;
+    field_10_tlvInfo = {};
 }
 
 MusicTrigger::MusicTrigger(relive::Path_MusicTrigger* pTlv, const TLVUniqueId& tlvId)
@@ -127,7 +127,7 @@ void MusicTrigger::VUpdate()
     if (EventGet(kEventHeroDying))
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
-        if (field_10_tlvInfo >= 0)
+        if (field_10_tlvInfo.IsValid())
         {
             Path::TLV_Reset(field_10_tlvInfo, -1, 0, 0);
         }
