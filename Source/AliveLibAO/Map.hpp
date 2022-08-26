@@ -28,14 +28,14 @@ public:
         std::string mName;
 
         template <typename TlvType>
-        TlvType& AllocTLV()
+        TlvType* AllocTLV()
         {
             mBuffer.resize(mBuffer.size() + sizeof(TlvType));
-            TlvType* pTlv = reinterpret_cast<TlvType*>(mBuffer.data() - sizeof(sizeof(TlvType)));
+            TlvType* pTlv = reinterpret_cast<TlvType*>(mBuffer.data() + mBuffer.size() - sizeof(TlvType));
             new (pTlv) TlvType(); // placement new
             mLastAllocated = pTlv;
             mLastAllocatedSize = sizeof(TlvType);
-            return *pTlv;
+            return pTlv;
         }
 
         std::vector<u8> mBuffer;
