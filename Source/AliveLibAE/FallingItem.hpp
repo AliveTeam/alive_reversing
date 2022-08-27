@@ -27,7 +27,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_FallingItem, 0x1C);
 class FallingItem final : public BaseAliveGameObject
 {
 public:
-    FallingItem(Path_FallingItem* pTlv, s32 tlvInfo);
+    FallingItem(relive::Path_FallingItem* pTlv, s32 tlvInfo);
     FallingItem(s32 xpos, s32 ypos, s32 scale, s32 id, s32 fallInterval, s32 numItems, s32 bResetIdAfterUse);
     ~FallingItem();
 

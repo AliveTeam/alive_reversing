@@ -43,7 +43,7 @@ public:
     virtual void VStartTurning();
     virtual void VStopTurning(s16 bResetSwitch);
 
-    WorkWheel(Path_WorkWheel* pTlv, s32 tlvInfo);
+    WorkWheel(relive::Path_WorkWheel* pTlv, s32 tlvInfo);
     ~WorkWheel();
 
 public:
@@ -56,6 +56,6 @@ private:
     s16 mActivationTime = 0;
     u16 mTurningTime = 0;
     s16 mTurnOffTime = 0;
-    Choice_short mTurnOffWhenStopped = Choice_short::eNo_0;
+    relive::reliveChoice mTurnOffWhenStopped = relive::reliveChoice::eNo;
 };
 ALIVE_ASSERT_SIZEOF(WorkWheel, 0x108);

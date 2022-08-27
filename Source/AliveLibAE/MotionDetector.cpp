@@ -31,7 +31,7 @@ MotionDetectorLaser::MotionDetectorLaser(FP xpos, FP ypos, FP scale, Layer layer
 
 // =====================================================================================
 
-MotionDetector::MotionDetector(Path_MotionDetector* pTlv, s32 tlvInfo, BaseAnimatedWithPhysicsGameObject* pOwner)
+MotionDetector::MotionDetector(relive::Path_MotionDetector* pTlv, s32 tlvInfo, BaseAnimatedWithPhysicsGameObject* pOwner)
     : BaseAnimatedWithPhysicsGameObject(0)
 {
     SetType(ReliveTypes::eGreeterBody);

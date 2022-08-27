@@ -147,7 +147,7 @@ class Slog final : public BaseAliveGameObject
 {
 public:
     Slog(FP xpos, FP ypos, FP scale, s16 bListenToSligs, s16 jumpDelay);
-    Slog(Path_Slog* pTlv, s32 tlvInfo);
+    Slog(relive::Path_Slog* pTlv, s32 tlvInfo);
     ~Slog();
 
     virtual void VUpdate() override;

@@ -130,7 +130,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(FlyingSlig_State, 0xAC);
 class FlyingSlig final : public BaseAliveGameObject
 {
 public:
-    FlyingSlig(Path_FlyingSlig* pTlv, s32 tlvInfo);
+    FlyingSlig(relive::Path_FlyingSlig* pTlv, s32 tlvInfo);
     ~FlyingSlig();
 
     virtual void VUpdate() override;

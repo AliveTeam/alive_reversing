@@ -95,7 +95,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_BoneBag, 0x1C);
 class BoneBag final : public BaseAliveGameObject
 {
 public:
-    BoneBag(Path_BoneBag* pTlv, s32 tlvInfo);
+    BoneBag(relive::Path_BoneBag* pTlv, s32 tlvInfo);
     ~BoneBag();
 
     virtual void VUpdate() override;

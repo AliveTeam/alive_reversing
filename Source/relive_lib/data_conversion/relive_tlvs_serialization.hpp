@@ -1164,7 +1164,8 @@ inline void to_json(nlohmann::json& j, const Path_SligBoundLeft& p)
         {"tlv_type", "slig_bound_left"},
         {"base", ToBase(p)},
         {"slig_bound_id", p.mSligBoundId},
-        {"disabled_resources", p.mDisabledResourcesAO.Raw().all},
+        {"disabled_resources_ao", p.mDisabledResourcesAO.Raw().all},
+        {"disabled_resources_ae", p.mDisabledResourcesAE},
     };
 }
 
@@ -1172,7 +1173,8 @@ inline void from_json(const nlohmann::json& j, Path_SligBoundLeft& p)
 {
     j.at("base").get_to(ToBase(p));
     j.at("slig_bound_id").get_to(p.mSligBoundId);
-    j.at("disabled_resources").get_to(p.mDisabledResourcesAO.Raw().all); // TODO: prob wrong
+    j.at("disabled_resources_ao").get_to(p.mDisabledResourcesAO.Raw().all); // TODO: prob wrong
+    j.at("disabled_resources_ae").get_to(p.mDisabledResourcesAE);
 }
 
 // Path_SligBoundRight
@@ -1182,7 +1184,8 @@ inline void to_json(nlohmann::json& j, const Path_SligBoundRight& p)
         {"tlv_type", "slig_bound_right"},
         {"base", ToBase(p)},
         {"slig_bound_id", p.mSligBoundId},
-        {"disabled_resources", p.mDisabledResourcesAO.Raw().all},
+        {"disabled_resources_ao", p.mDisabledResourcesAO.Raw().all},
+        {"disabled_resources_ae", p.mDisabledResourcesAE},
     };
 }
 
@@ -1190,7 +1193,8 @@ inline void from_json(const nlohmann::json& j, Path_SligBoundRight& p)
 {
     j.at("base").get_to(ToBase(p));
     j.at("slig_bound_id").get_to(p.mSligBoundId);
-    j.at("disabled_resources").get_to(p.mDisabledResourcesAO.Raw().all); // TODO: prob wrong
+    j.at("disabled_resources_ao").get_to(p.mDisabledResourcesAO.Raw().all); // TODO: prob wrong
+    j.at("disabled_resources_ae").get_to(p.mDisabledResourcesAE);
 }
 
 // Path_SligPersist
@@ -1200,7 +1204,8 @@ inline void to_json(nlohmann::json& j, const Path_SligPersist& p)
         {"tlv_type", "slig_persist"},
         {"base", ToBase(p)},
         {"slig_bound_id", p.mSligBoundId},
-        {"disabled_resources", p.mDisabledResourcesAO.Raw().all},
+        {"disabled_resources_ao", p.mDisabledResourcesAO.Raw().all},
+        {"disabled_resources_ae", p.mDisabledResourcesAE},
     };
 }
 
@@ -1208,7 +1213,8 @@ inline void from_json(const nlohmann::json& j, Path_SligPersist& p)
 {
     j.at("base").get_to(ToBase(p));
     j.at("slig_bound_id").get_to(p.mSligBoundId);
-    j.at("disabled_resources").get_to(p.mDisabledResourcesAO.Raw().all); // TODO: prob wrong
+    j.at("disabled_resources_ao").get_to(p.mDisabledResourcesAO.Raw().all); // TODO: prob wrong
+    j.at("disabled_resources_ae").get_to(p.mDisabledResourcesAE);
 }
 
 // Path_BackgroundAnimation
@@ -2712,22 +2718,22 @@ inline void to_json(nlohmann::json& j, const Path_GlukkonSwitch& p)
     j = nlohmann::json{
         {"tlv_type", "glukkon_switch"},
         {"base", ToBase(p)},
-        {"scale", p.field_10_scale},
-        {"ok_switch_id", p.field_12_ok_switch_id},
-        {"fail_switch_id", p.field_14_fail_switch_id},
-        {"xpos", p.field_16_xpos},
-        {"ypos", p.field_18_ypos},
+        {"scale", p.mScale},
+        {"ok_switch_id", p.mOkSwitchId},
+        {"fail_switch_id", p.mFailSwitchId},
+        {"xpos", p.mXPos},
+        {"ypos", p.mYPos},
     };
 }
 
 inline void from_json(const nlohmann::json& j, Path_GlukkonSwitch& p)
 {
     j.at("base").get_to(ToBase(p));
-    j.at("scale").get_to(p.field_10_scale);
-    j.at("ok_switch_id").get_to(p.field_12_ok_switch_id);
-    j.at("fail_switch_id").get_to(p.field_14_fail_switch_id);
-    j.at("xpos").get_to(p.field_16_xpos);
-    j.at("ypos").get_to(p.field_18_ypos);
+    j.at("scale").get_to(p.mScale);
+    j.at("ok_switch_id").get_to(p.mOkSwitchId);
+    j.at("fail_switch_id").get_to(p.mFailSwitchId);
+    j.at("xpos").get_to(p.mXPos);
+    j.at("ypos").get_to(p.mYPos);
 }
 
 // Path_Greeter

@@ -44,7 +44,7 @@ void ExplosionSet::Start()
     bEnabled_5C1BB6 = 1;
 }
 
-void ExplosionSet::Init(Path_ExplosionSet* pTlv)
+void ExplosionSet::Init(relive::Path_ExplosionSet* pTlv)
 {
     field_48_tlv_rect.x = pTlv->mTopLeft.x;
     field_48_tlv_rect.y = pTlv->mTopLeft.y;

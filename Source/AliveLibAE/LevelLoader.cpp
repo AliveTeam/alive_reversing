@@ -8,7 +8,7 @@
 #include "Map.hpp"
 #include "stdlib.hpp"
 
-LevelLoader::LevelLoader(Path_LevelLoader* pTlv, u32 tlvInfo)
+LevelLoader::LevelLoader(relive::Path_LevelLoader* pTlv, u32 tlvInfo)
     : BaseGameObject(TRUE, 0)
 {
     mBaseGameObjectTlvInfo = tlvInfo;

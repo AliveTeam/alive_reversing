@@ -67,7 +67,7 @@ enum Event : s16;
 class BirdPortal final : public BaseGameObject
 {
 public:
-    BirdPortal(Path_BirdPortal* pTlv, s32 tlvInfo);
+    BirdPortal(relive::Path_BirdPortal* pTlv, s32 tlvInfo);
     ~BirdPortal();
     
     virtual void VUpdate() override;

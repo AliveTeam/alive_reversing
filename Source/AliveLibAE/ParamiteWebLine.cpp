@@ -10,7 +10,7 @@
 #include "ShadowZone.hpp"
 #include "Rope.hpp"
 
-ParamiteWebLine::ParamiteWebLine(Path_ParamiteWebLine* pTlv, s32 tlvInfo)
+ParamiteWebLine::ParamiteWebLine(relive::Path_ParamiteWebLine* pTlv, s32 tlvInfo)
     : BaseAnimatedWithPhysicsGameObject(0)
 {
     SetType(ReliveTypes::eWebLine);

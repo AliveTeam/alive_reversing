@@ -11,7 +11,7 @@
 #include "SwitchStates.hpp"
 #include "GameSpeak.hpp"
 
-GlukkonSwitch::GlukkonSwitch(Path_GlukkonSwitch* pTlv, s32 tlvInfo)
+GlukkonSwitch::GlukkonSwitch(relive::Path_GlukkonSwitch* pTlv, s32 tlvInfo)
     : BaseAnimatedWithPhysicsGameObject(0)
 {
     field_100_last_event_idx = -1;
@@ -28,24 +28,24 @@ GlukkonSwitch::GlukkonSwitch(Path_GlukkonSwitch* pTlv, s32 tlvInfo)
     field_F4_tlvInfo = tlvInfo;
     mAnim.mRenderLayer = Layer::eLayer_BeforeWell_22;
 
-    if (pTlv->field_10_scale == Path_GlukkonSwitch::Scale::eFull_1)
+    if (pTlv->mScale == Path_GlukkonSwitch::Scale::eFull_1)
     {
         mSpriteScale = FP_FromInteger(1);
         mScale = Scale::Fg;
     }
-    else if (pTlv->field_10_scale == Path_GlukkonSwitch::Scale::eHalf_0)
+    else if (pTlv->mScale == Path_GlukkonSwitch::Scale::eHalf_0)
     {
         mSpriteScale = FP_FromDouble(0.5);
         mScale = Scale::Bg;
     }
 
-    field_FA_ok_switch_id = pTlv->field_12_ok_switch_id;
-    field_FC_fail_switch_id = pTlv->field_14_fail_switch_id;
+    field_FA_ok_switch_id = pTlv->mOkSwitchId;
+    field_FC_fail_switch_id = pTlv->mFailSwitchId;
     field_118_top_left = pTlv->mTopLeft;
     field_11C_bottom_right = pTlv->mBottomRight;
 
-    mXPos = FP_FromInteger(pTlv->field_16_xpos);
-    mYPos = FP_FromInteger(pTlv->field_18_ypos);
+    mXPos = FP_FromInteger(pTlv->mXPos);
+    mYPos = FP_FromInteger(pTlv->mYPos);
 
     PSX_Point pos = {};
     gMap.Get_Abe_Spawn_Pos(&pos);

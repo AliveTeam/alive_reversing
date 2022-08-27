@@ -42,7 +42,7 @@ public:
     virtual void VSetMotion(s16 state);
     virtual void VOnPathTransition(s16 cameraWorldXPos, s16 cameraWorldYPos, CameraPos direction);
     virtual s16 VTakeDamage(BaseGameObject* pFrom);
-    virtual void VOnTlvCollision(Path_TLV* pTlv);
+    virtual void VOnTlvCollision(relive::Path_TLV* pTlv);
     virtual void VCheckCollisionLineStillValid(s16 distance);
     virtual BirdPortal* VIntoBirdPortal(s16 gridBlocks);
     virtual void VOnTrapDoorOpen();
@@ -81,7 +81,7 @@ public:
     s16 mPreviousMotion = 0;
     s16 mBaseAliveGameObjectLastAnimFrame = 0;
     FP BaseAliveGameObjectLastLineYPos = {};
-    Path_TLV* BaseAliveGameObjectPathTLV = nullptr;
+    relive::Path_TLV* BaseAliveGameObjectPathTLV = nullptr;
     PathLine* BaseAliveGameObjectCollisionLine = nullptr;
     s16 BaseAliveGameObjectCollisionLineType = 0;
     s16 mCurrentMotion = 0;

@@ -26,7 +26,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_SlogSpawner, 0x20);
 class SlogSpawner final : public BaseGameObject
 {
 public:
-    SlogSpawner(Path_SlogSpawner* pTlv, s32 tlvInfo);
+    SlogSpawner(relive::Path_SlogSpawner* pTlv, s32 tlvInfo);
 
     virtual void VUpdate() override;
     virtual void VScreenChanged() override;

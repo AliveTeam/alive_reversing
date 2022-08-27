@@ -24,7 +24,7 @@
 #include "Sys_common.hpp"
 #include "AbilityRing.hpp"
 
-BirdPortal::BirdPortal(Path_BirdPortal* pTlv, s32 tlvInfo)
+BirdPortal::BirdPortal(relive::Path_BirdPortal* pTlv, s32 tlvInfo)
     : BaseGameObject(TRUE, 0)
 {
     mDovesExist = 0;

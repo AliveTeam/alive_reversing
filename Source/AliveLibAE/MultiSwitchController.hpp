@@ -23,7 +23,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_MultiSwitchController, 0x24);
 class MultiSwitchController final : public BaseGameObject
 {
 public:
-    MultiSwitchController(Path_MultiSwitchController* pTlv, u32 tlvInfo);
+    MultiSwitchController(relive::Path_MultiSwitchController* pTlv, u32 tlvInfo);
     ~MultiSwitchController();
 
     virtual void VUpdate() override;

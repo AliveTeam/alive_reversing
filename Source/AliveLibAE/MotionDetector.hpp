@@ -37,7 +37,7 @@ ALIVE_ASSERT_SIZEOF(MotionDetectorLaser, 0xF4);
 class MotionDetector final : public ::BaseAnimatedWithPhysicsGameObject
 {
 public:
-    MotionDetector(Path_MotionDetector* pTlv, s32 tlvInfo, BaseAnimatedWithPhysicsGameObject* pOwner);
+    MotionDetector(relive::Path_MotionDetector* pTlv, s32 tlvInfo, BaseAnimatedWithPhysicsGameObject* pOwner);
     ~MotionDetector();
 
     virtual void VUpdate() override;

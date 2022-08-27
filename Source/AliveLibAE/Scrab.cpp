@@ -76,7 +76,7 @@ bool Scrab::BrainIs(TScrabBrainFn fn)
     return field_118_brain_state == fn;
 }
 
-Scrab::Scrab(Path_Scrab* pTlv, s32 tlvInfo, ScrabSpawnDirection spawnDirection)
+Scrab::Scrab(relive::Path_Scrab* pTlv, s32 tlvInfo, ScrabSpawnDirection spawnDirection)
     : BaseAliveGameObject(14)
 {
     field_190_unused = 0;

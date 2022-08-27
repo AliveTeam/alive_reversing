@@ -12,15 +12,15 @@ struct Path_WellExpress;
 class Well final : public BaseGameObject
 {
 public:
-    Well(Path_WellBase* pTlv, FP xpos, FP ypos, s32 tlvInfo);
+    Well(relive::Path_WellBase* pTlv, FP xpos, FP ypos, s32 tlvInfo);
     ~Well();
 
     virtual void VUpdate() override;
     virtual void VScreenChanged() override;
 
 private:
-    void WellExpress_Init(Path_WellExpress* pTlv, FP /*xpos*/, FP ypos);
-    void WellLocal_Init(Path_WellLocal* pTlv, FP /*xpos*/, FP ypos);
+    void WellExpress_Init(relive::Path_WellExpress* pTlv, FP /*xpos*/, FP ypos);
+    void WellLocal_Init(relive::Path_WellLocal* pTlv, FP /*xpos*/, FP ypos);
 
 private:
     s32 mTlvInfo = 0;

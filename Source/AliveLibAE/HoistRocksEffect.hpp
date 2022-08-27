@@ -21,7 +21,7 @@ struct Path_Hoist;
 class HoistRocksEffect final : public BaseGameObject
 {
 public:
-    HoistRocksEffect(Path_Hoist* pTlv, s32 tlvInfo);
+    HoistRocksEffect(relive::Path_Hoist* pTlv, s32 tlvInfo);
     ~HoistRocksEffect();
 
     virtual void VUpdate() override;

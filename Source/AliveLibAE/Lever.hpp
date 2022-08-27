@@ -46,7 +46,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Lever, 0x20);
 class Lever final : public ::BaseAnimatedWithPhysicsGameObject
 {
 public:
-    Lever(Path_Lever* pTlv, u32 tlvInfo);
+    Lever(relive::Path_Lever* pTlv, u32 tlvInfo);
     ~Lever();
 
     virtual void VUpdate() override;

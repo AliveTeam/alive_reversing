@@ -10,7 +10,7 @@
 #include "Sound/Midi.hpp"
 #include "SwitchStates.hpp"
 
-SecurityDoor::SecurityDoor(Path_SecurityDoor* pTlv, s32 tlvInfo)
+SecurityDoor::SecurityDoor(relive::Path_SecurityDoor* pTlv, s32 tlvInfo)
     : BaseAnimatedWithPhysicsGameObject(0)
 {
     field_104_event_idx = -1;

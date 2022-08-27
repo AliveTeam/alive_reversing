@@ -97,20 +97,20 @@ s16 BaseAliveGameObject::IsInInvisibleZone(BaseAliveGameObject* pObj)
 
     const PSX_RECT bRect = pObj->VGetBoundingRect();
 
-    Path_TLV* pTlv = sPathInfo->TLV_Get_At_4DB4B0(
+    relive::Path_TLV* pTlv = sPathInfo->TLV_Get_At_4DB4B0(
         bRect.x,
         bRect.y,
         bRect.w,
         bRect.h,
-        TlvTypes::InvisibleZone_33);
+        ReliveTypes::eInvisibleZone);
 
     while (pTlv)
     {
-        if (pTlv->mTlvType32 == TlvTypes::InvisibleZone_33)
+        if (pTlv->mTlvType == ReliveTypes::eInvisibleZone)
         {
-            if (bRect.x >= pTlv->mTopLeft.x && bRect.x <= pTlv->mBottomRight.x && bRect.y >= pTlv->mTopLeft.y)
+            if (bRect.x >= pTlv->mTopLeftX && bRect.x <= pTlv->mBottomRightX && bRect.y >= pTlv->mTopLeftY)
             {
-                if (bRect.y <= pTlv->mBottomRight.y && bRect.w >= pTlv->mTopLeft.x && bRect.w <= pTlv->mBottomRight.x && bRect.h >= pTlv->mTopLeft.y && bRect.h <= pTlv->mBottomRight.y)
+                if (bRect.y <= pTlv->mBottomRightY && bRect.w >= pTlv->mTopLeftX && bRect.w <= pTlv->mBottomRightX && bRect.h >= pTlv->mTopLeftY && bRect.h <= pTlv->mBottomRightY)
                 {
                     return TRUE;
                 }
@@ -257,7 +257,7 @@ s16 BaseAliveGameObject::VTakeDamage(BaseGameObject* /*pFrom*/)
     return 0;
 }
 
-void BaseAliveGameObject::VOnTlvCollision(Path_TLV* /*pTlv*/)
+void BaseAliveGameObject::VOnTlvCollision(relive::Path_TLV* /*pTlv*/)
 {
     // Empty
 }

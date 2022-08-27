@@ -95,7 +95,7 @@ bool FlyingSlig::BrainIs(TFlyingSligBrainFn fn)
     return field_29C_brain_state == fn;
 }
 
-FlyingSlig::FlyingSlig(Path_FlyingSlig* pTlv, s32 tlvInfo)
+FlyingSlig::FlyingSlig(relive::Path_FlyingSlig* pTlv, s32 tlvInfo)
     : BaseAliveGameObject(9)
 {
     field_178_unused = 0;

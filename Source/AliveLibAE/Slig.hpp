@@ -205,7 +205,7 @@ struct Path_SligGetPants final : public Path_TLV
     Choice_short stay_awake;
     s16 disable_resources;
     s16 noise_wake_up_distance;
-    s16 slig_spawner_switch_id;
+    s16 mSligSpawnerSwitchId;
     Choice_short unlimited_spawns;
 };
 // TODO: size
@@ -314,7 +314,7 @@ class LiftPoint;
 class Slig final : public BaseAliveGameObject
 {
 public:
-    Slig(Path_Slig* pTlv, s32 tlvInfo);
+    Slig(relive::Path_Slig* pTlv, s32 tlvInfo);
     ~Slig();
 
     virtual void VUpdate() override;

@@ -735,9 +735,9 @@ struct Path_ShadowZone final : public ReliveAPI::TlvObjectBaseAO
     {
         ADD("Centre W", mTlv.field_18_centre_w);
         ADD("Centre H", mTlv.field_1A_centre_h);
-        ADD_LINKED("R", mTlv.field_1C_r, "RGB_R_Half_FP");
-        ADD_LINKED("G", mTlv.field_1E_g, "RGB_G_Half_FP");
-        ADD_LINKED("B", mTlv.field_20_b, "RGB_B_Half_FP");
+        ADD_LINKED("R", mTlv.mRed, "RGB_R_Half_FP");
+        ADD_LINKED("G", mTlv.mGreen, "RGB_G_Half_FP");
+        ADD_LINKED("B", mTlv.mBlue, "RGB_B_Half_FP");
         ADD("ID (Unused?)", mTlv.field_22_id);
         ADD("Scale", mTlv.mScale);
     }

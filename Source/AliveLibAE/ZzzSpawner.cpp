@@ -7,18 +7,18 @@
 #include "Game.hpp"
 #include "SwitchStates.hpp"
 
-ZzzSpawner::ZzzSpawner(Path_ZzzSpawner* pTlv, s32 tlvInfo)
+ZzzSpawner::ZzzSpawner(relive::Path_ZzzSpawner* pTlv, s32 tlvInfo)
     : BaseGameObject(TRUE, 0)
 {
-    mXPos = FP_FromInteger(pTlv->mTopLeft.x);
-    mYPos = FP_FromInteger(pTlv->mTopLeft.y);
+    mXPos = FP_FromInteger(pTlv->mTopLeftX);
+    mYPos = FP_FromInteger(pTlv->mTopLeftY);
     mTlvInfo = tlvInfo;
 
-    if (pTlv->mScale == Scale_short::eHalf_1)
+    if (pTlv->mScale == relive::reliveScale::eHalf)
     {
         mSpriteScale = FP_FromDouble(0.5);
     }
-    else if (pTlv->mScale == Scale_short::eFull_0)
+    else if (pTlv->mScale == relive::reliveScale::eFull)
     {
         mSpriteScale = FP_FromInteger(1);
     }

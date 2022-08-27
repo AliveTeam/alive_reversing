@@ -8,7 +8,7 @@
 #include "../relive_lib/ObjectIds.hpp"
 #include "stdlib.hpp"
 
-LiftMover::LiftMover(Path_LiftMover* pTlv, s32 tlvInfo)
+LiftMover::LiftMover(relive::Path_LiftMover* pTlv, s32 tlvInfo)
     : BaseGameObject(TRUE, 0)
 {
     field_24_tlvInfo = tlvInfo;

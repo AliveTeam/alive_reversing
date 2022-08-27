@@ -9,7 +9,7 @@ class Electrocute;
 class Teleporter final : public BaseGameObject
 {
 public:
-    Teleporter(Path_Teleporter* pTlv, u32 tlvInfo);
+    Teleporter(relive::Path_Teleporter* pTlv, u32 tlvInfo);
     ~Teleporter();
 
     virtual void VUpdate() override;

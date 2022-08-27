@@ -31,7 +31,7 @@ public:
     virtual void VRender(PrimHeader** ppOt) override;
     virtual void VUpdate() override;
 
-    void Init(Path_ExplosionSet* pTlv);
+    void Init(relive::Path_ExplosionSet* pTlv);
     void Start();
 
 private:

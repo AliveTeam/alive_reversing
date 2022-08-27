@@ -27,7 +27,7 @@ const TintEntry kLeverTints_563228[18] = {
     {EReliveLevelIds::eBonewerkz_Ender, 127u, 127u, 127u},
     {EReliveLevelIds::eNone, 127u, 127u, 127u}};
 
-Lever::Lever(Path_Lever* pTlv, u32 tlvInfo)
+Lever::Lever(relive::Path_Lever* pTlv, u32 tlvInfo)
     : BaseAnimatedWithPhysicsGameObject(0)
 {
     SetType(ReliveTypes::eLever);

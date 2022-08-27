@@ -20,7 +20,7 @@ constexpr s16 kMeterBarsXCount = 20;
 class ColourfulMeter final : public BaseGameObject
 {
 public:
-    ColourfulMeter(Path_ColourfulMeter* pTlv, s32 tlvInfo);
+    ColourfulMeter(relive::Path_ColourfulMeter* pTlv, s32 tlvInfo);
     ~ColourfulMeter();
 
     virtual void VScreenChanged() override;

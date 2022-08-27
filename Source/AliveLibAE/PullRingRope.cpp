@@ -29,7 +29,7 @@ const TintEntry sPullRingRopeTints_55FD1C[18] = {
     {EReliveLevelIds::eNone, 127u, 127u, 127u}};
 
 
-PullRingRope::PullRingRope(Path_PullRingRope* pTlv, s32 tlvInfo)
+PullRingRope::PullRingRope(relive::Path_PullRingRope* pTlv, s32 tlvInfo)
     : BaseAnimatedWithPhysicsGameObject(0)
 {
     SetType(ReliveTypes::ePullRingRope);

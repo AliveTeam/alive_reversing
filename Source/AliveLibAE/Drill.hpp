@@ -65,7 +65,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Drill, 0x28);
 class Drill final : public ::BaseAnimatedWithPhysicsGameObject
 {
 public:
-    Drill(Path_Drill* pTlv, u32 tlvInfo);
+    Drill(relive::Path_Drill* pTlv, u32 tlvInfo);
     ~Drill();
 
     virtual void VUpdate() override;

@@ -162,7 +162,7 @@ const s16 NO_SELECTABLE_BUTTONS = -1;
 class MainMenuController final : public ::BaseAnimatedWithPhysicsGameObject
 {
 public:
-    MainMenuController(Path_TLV* pTlv, TlvItemInfoUnion tlvOffsetLevelIdPathId);
+    MainMenuController(relive::Path_TLV* pTlv, TlvItemInfoUnion tlvOffsetLevelIdPathId);
     ~MainMenuController();
 
     virtual void VUpdate() override;

@@ -563,7 +563,7 @@ const TintEntry kBoneTints_550EC0[18] = {
     {EReliveLevelIds::eNone, 127u, 127u, 127u}};
 
 
-BoneBag::BoneBag(Path_BoneBag* pTlv, s32 tlvInfo)
+BoneBag::BoneBag(relive::Path_BoneBag* pTlv, s32 tlvInfo)
     : BaseAliveGameObject(0)
 {
     SetType(ReliveTypes::eBoneBag);

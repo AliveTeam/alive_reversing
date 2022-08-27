@@ -19,7 +19,7 @@
 
 ALIVE_VAR(0, 0x5C3008, Mine*, sMineSFXOwner_5C3008, nullptr);
 
-Mine::Mine(Path_Mine* pPath, TlvItemInfoUnion tlv)
+Mine::Mine(relive::Path_Mine* pPath, TlvItemInfoUnion tlv)
     : BaseAliveGameObject(0)
 {
     SetType(ReliveTypes::eMine);

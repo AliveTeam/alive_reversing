@@ -9,7 +9,7 @@
 #include "../relive_lib/Events.hpp"
 #include "Abe.hpp"
 
-RockSack::RockSack(Path_RockSack* pTlv, s32 tlvInfo)
+RockSack::RockSack(relive::Path_RockSack* pTlv, s32 tlvInfo)
     : BaseAliveGameObject(0)
 {
     SetType(ReliveTypes::eRockSack);

@@ -122,7 +122,7 @@ Slog::Slog(FP xpos, FP ypos, FP scale, s16 bListenToSligs, s16 chaseDelay)
     field_156_bone_eating_time = 60;
 }
 
-Slog::Slog(Path_Slog* pTlv, s32 tlvInfo)
+Slog::Slog(relive::Path_Slog* pTlv, s32 tlvInfo)
     : BaseAliveGameObject(5)
 {
     field_134_last_event_index = -1;
@@ -3462,12 +3462,12 @@ s16 Slog::HandleEnemyStopper()
         xToUse = mXPos;
     }
 
-    const auto stopperPath = static_cast<Path_EnemyStopper*>(
+    const auto stopperPath = static_cast<relive::Path_EnemyStopper*>(
         sPathInfo->TLV_Get_At_4DB4B0(
             FP_GetExponent(xToUse), FP_GetExponent(mYPos),
-            FP_GetExponent(width), FP_GetExponent(mYPos), TlvTypes::EnemyStopper_47));
+            FP_GetExponent(width), FP_GetExponent(mYPos), ReliveTypes::eEnemyStopper));
 
-    return stopperPath != nullptr && stopperPath->mStopDirection == (mVelX > FP_FromInteger(0) ? Path_EnemyStopper::StopDirection::Right_1 : Path_EnemyStopper::StopDirection::Left_0) && SwitchStates_Get(stopperPath->mSwitchId) > 0;
+    return stopperPath != nullptr && stopperPath->mStopDirection == (mVelX > FP_FromInteger(0) ? relive::Path_EnemyStopper::StopDirection::Right : relive::Path_EnemyStopper::StopDirection::Left) && SwitchStates_Get(stopperPath->mSwitchId) > 0;
 }
 
 s16 Slog::Facing(FP xpos)

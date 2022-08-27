@@ -55,7 +55,7 @@ const TintEntry sTrapDoorTints_5639AC[18] = {
     {EReliveLevelIds::eBonewerkz_Ender, 127u, 127u, 127u},
     {EReliveLevelIds::eNone, 127u, 127u, 127u}};
 
-TrapDoor::TrapDoor(Path_TrapDoor* pTlv, s32 tlvInfo)
+TrapDoor::TrapDoor(relive::Path_TrapDoor* pTlv, s32 tlvInfo)
 {
     SetType(ReliveTypes::eTrapDoor);
     mBaseGameObjectTlvInfo = tlvInfo;

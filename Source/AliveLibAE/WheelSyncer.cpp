@@ -6,7 +6,7 @@
 #include "Map.hpp"
 #include "stdlib.hpp"
 
-WheelSyncer::WheelSyncer(Path_WheelSyncer* pTlv, u32 tlvInfo)
+WheelSyncer::WheelSyncer(relive::Path_WheelSyncer* pTlv, u32 tlvInfo)
     : BaseGameObject(TRUE, 0)
 {
     mTlvInfo = tlvInfo;
@@ -33,7 +33,7 @@ void WheelSyncer::VUpdate()
 
     switch (mOutputRequirement)
     {
-        case WheelSyncerOutputRequirement::eAllOn_0:
+        case relive::Path_WheelSyncer::OutputRequirement::eAllOn:
             if (!state1 || !state2 || !state3 || !state4 || !state5 || !state6)
             {
                 switchValue = 0;
@@ -44,7 +44,7 @@ void WheelSyncer::VUpdate()
             }
             break;
 
-        case WheelSyncerOutputRequirement::e1OnAnd2Off_1:
+        case relive::Path_WheelSyncer::OutputRequirement::e1OnAnd2Off:
             if (!state1 || state2)
             {
                 switchValue = 0;
@@ -55,7 +55,7 @@ void WheelSyncer::VUpdate()
             }
             break;
 
-        case WheelSyncerOutputRequirement::e1Or2On_2:
+        case relive::Path_WheelSyncer::OutputRequirement::e1Or2On:
             if (state1 || state2)
             {
                 switchValue = 1;
@@ -66,7 +66,7 @@ void WheelSyncer::VUpdate()
             }
             break;
 
-        case WheelSyncerOutputRequirement::e1OnOr2Off_3:
+        case relive::Path_WheelSyncer::OutputRequirement::e1OnOr2Off:
             if (state1 || !state2)
             {
                 switchValue = 1;

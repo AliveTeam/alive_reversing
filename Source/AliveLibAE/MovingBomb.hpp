@@ -27,7 +27,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_MovingBombStopper, 0x14);
 class MovingBomb final : public BaseAliveGameObject
 {
 public:
-    MovingBomb(Path_MovingBomb* pTlv, s32 tlvInfo);
+    MovingBomb(relive::Path_MovingBomb* pTlv, s32 tlvInfo);
     ~MovingBomb();
     
     virtual void VUpdate() override;

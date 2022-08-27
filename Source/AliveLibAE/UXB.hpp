@@ -55,7 +55,7 @@ enum UXB_Flags_1C8
 class UXB final : public BaseAliveGameObject
 {
 public:
-    UXB(Path_UXB* params, TlvItemInfoUnion itemInfo);
+    UXB(relive::Path_UXB* params, TlvItemInfoUnion itemInfo);
     ~UXB();
 
     virtual void VUpdate() override;

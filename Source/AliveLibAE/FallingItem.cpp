@@ -33,7 +33,7 @@ const AnimId sFallingItemData_544DC0[15][2] = {
 
 ALIVE_VAR(1, 0x5BC208, FallingItem*, pPrimaryFallingItem_5BC208, nullptr);
 
-FallingItem::FallingItem(Path_FallingItem* pTlv, s32 tlvInfo)
+FallingItem::FallingItem(relive::Path_FallingItem* pTlv, s32 tlvInfo)
     : BaseAliveGameObject(0)
 {
     SetType(ReliveTypes::eRockSpawner);

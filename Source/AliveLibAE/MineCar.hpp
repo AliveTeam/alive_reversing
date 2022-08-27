@@ -81,7 +81,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(MineCar_SaveState, 0x68);
 class MineCar final : public BaseAliveGameObject
 {
 public:
-    MineCar(Path_MineCar* pTlv, s32 tlvInfo, s32 a4, s32 a5, s32 a6);
+    MineCar(relive::Path_MineCar* pTlv, s32 tlvInfo, s32 a4, s32 a5, s32 a6);
     ~MineCar();
     
     virtual void VUpdate() override;

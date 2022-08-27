@@ -18,7 +18,7 @@
 #include "Function.hpp"
 #include "Bullet.hpp"
 
-Greeter::Greeter(Path_Greeter* pTlv, s32 tlvInfo)
+Greeter::Greeter(relive::Path_Greeter* pTlv, s32 tlvInfo)
     : BaseAliveGameObject(0)
 {
     SetType(ReliveTypes::eGreeter);

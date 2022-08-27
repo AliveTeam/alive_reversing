@@ -15,7 +15,7 @@ const u8 byte_5543D0[32] = {
 ALIVE_VAR(1, 0x5c1bfa, u8, gTotalMeterBars_5C1BFA, 0);
 ALIVE_VAR(1, 0x5c1bf8, u16, gbDrawMeterCountDown_5C1BF8, 0);
 
-ColourfulMeter::ColourfulMeter(Path_ColourfulMeter* pTlv, s32 tlvInfo)
+ColourfulMeter::ColourfulMeter(relive::Path_ColourfulMeter* pTlv, s32 tlvInfo)
     : BaseGameObject(TRUE, 0)
 {
     SetType(ReliveTypes::eColourfulMeter);

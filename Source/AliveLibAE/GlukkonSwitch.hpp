@@ -11,11 +11,11 @@ struct Path_GlukkonSwitch final : public Path_TLV
         eHalf_0 = 0,
         eFull_1 = 1,
     };
-    Scale field_10_scale;
-    s16 field_12_ok_switch_id;
-    s16 field_14_fail_switch_id;
-    u16 field_16_xpos;
-    u16 field_18_ypos;
+    Scale mScale;
+    s16 mOkSwitchId;
+    s16 mFailSwitchId;
+    u16 mXPos;
+    u16 mYPos;
     s16 field_1A_pad;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_GlukkonSwitch, 0x1C);
@@ -23,7 +23,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_GlukkonSwitch, 0x1C);
 class GlukkonSwitch final : public ::BaseAnimatedWithPhysicsGameObject
 {
 public:
-    GlukkonSwitch(Path_GlukkonSwitch* pTlv, s32 tlvInfo);
+    GlukkonSwitch(relive::Path_GlukkonSwitch* pTlv, s32 tlvInfo);
     ~GlukkonSwitch();
 
     virtual void VUpdate() override;

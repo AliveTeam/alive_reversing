@@ -21,9 +21,9 @@ struct Path_ShadowZone final : public Path_TLV
 {
     s16 field_18_centre_w;
     s16 field_1A_centre_h;
-    s16 field_1C_r;
-    s16 field_1E_g;
-    s16 field_20_b;
+    s16 mRed;
+    s16 mGreen;
+    s16 mBlue;
     s16 field_22_id;
     ShadowZoneScale mScale;
     s16 field_26_pad;

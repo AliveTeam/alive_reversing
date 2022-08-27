@@ -16,7 +16,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_LCDStatusBoard, 0x18);
 class LCDStatusBoard final : public BaseGameObject
 {
 public:
-    LCDStatusBoard(Path_LCDStatusBoard* params, TlvItemInfoUnion a3);
+    LCDStatusBoard(relive::Path_LCDStatusBoard* params, TlvItemInfoUnion a3);
     ~LCDStatusBoard();
 
     virtual void VUpdate() override;

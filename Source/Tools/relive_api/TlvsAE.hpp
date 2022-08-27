@@ -354,7 +354,7 @@ struct Path_BoomMachine final : public ReliveAPI::TlvObjectBaseAE
 
     CTOR_AE(Path_BoomMachine, "BoomMachine", TlvTypes::BoomMachine_59)
     {
-        ADD("Scale", mTlv.field_10_scale);
+        ADD("Scale", mTlv.mScale);
         ADD("Nozzle Side", mTlv.mNozzleSide);
         ADD("Disabled Resources", mTlv.mDisabledResources);
         ADD("Number Of Grenades", mTlv.mGrenadeAmount);
@@ -486,17 +486,17 @@ struct Path_Teleporter final : public ReliveAPI::TlvObjectBaseAE
 {
     CTOR_AE(Path_Teleporter, "Teleporter", TlvTypes::Teleporter_88)
     {
-        ADD("Teleporter Switch ID", mTlv.field_10_data.mTeleporterId);
-        ADD("Other Teleporter Switch ID", mTlv.field_10_data.mOtherTeleporterId);
-        ADD("Camera", mTlv.field_10_data.mDestCamera);
-        ADD("Path", mTlv.field_10_data.mDestPath);
-        ADD("Level", mTlv.field_10_data.mDestLevel);
-        ADD("Switch ID", mTlv.field_10_data.mSwitchId);
-        ADD("Scale", mTlv.field_10_data.mScale);
-        ADD("Camera Swap Effect", mTlv.field_10_data.mWipeEffect);
-        ADD("Movie Number", mTlv.field_10_data.mMovieId);
-        ADD("Electric X", mTlv.field_10_data.mElectricX);
-        ADD("Electric Y", mTlv.field_10_data.mElectricY);
+        ADD("Teleporter Switch ID", mTlv.mData.mTeleporterId);
+        ADD("Other Teleporter Switch ID", mTlv.mData.mOtherTeleporterId);
+        ADD("Camera", mTlv.mData.mDestCamera);
+        ADD("Path", mTlv.mData.mDestPath);
+        ADD("Level", mTlv.mData.mDestLevel);
+        ADD("Switch ID", mTlv.mData.mSwitchId);
+        ADD("Scale", mTlv.mData.mScale);
+        ADD("Camera Swap Effect", mTlv.mData.mWipeEffect);
+        ADD("Movie Number", mTlv.mData.mMovieId);
+        ADD("Electric X", mTlv.mData.mElectricX);
+        ADD("Electric Y", mTlv.mData.mElectricY);
     }
 };
 
@@ -584,11 +584,11 @@ struct Path_ShadowZone final : public ReliveAPI::TlvObjectBaseAE
     {
         ADD_HIDDEN("Center W (Unused?)", mTlv.field_10_center_w);
         ADD_HIDDEN("Center H (Unused?)", mTlv.field_12_center_h);
-        ADD_LINKED("R", mTlv.field_14_r, "RGB_R_Half_FP");
-        ADD_LINKED("G", mTlv.field_16_g, "RGB_G_Half_FP");
-        ADD_LINKED("B", mTlv.field_18_b, "RGB_B_Half_FP");
+        ADD_LINKED("R", mTlv.mRed, "RGB_R_Half_FP");
+        ADD_LINKED("G", mTlv.mGreen, "RGB_G_Half_FP");
+        ADD_LINKED("B", mTlv.mBlue, "RGB_B_Half_FP");
         ADD("Switch ID (Unused?)", mTlv.field_1A_switch_id);
-        ADD("Scale", mTlv.field_1C_scale);
+        ADD("Scale", mTlv.mScale);
     }
 };
 
@@ -1267,7 +1267,7 @@ struct Path_PathTransition final : public ReliveAPI::TlvObjectBaseAE
 {
     CTOR_AE(Path_PathTransition, "PathTransition", TlvTypes::PathTransition_1)
     {
-        ADD("Level", mTlv.field_10_level);
+        ADD("Level", mTlv.mNextLevel);
         ADD("Path", mTlv.mNextPath);
         ADD("Camera", mTlv.mNextCamera);
         ADD("Movie", mTlv.mMovieId);
@@ -1454,8 +1454,8 @@ struct Path_DoorBlocker final : public ReliveAPI::TlvObjectBaseAE
 {
     CTOR_AE(Path_DoorBlocker, "DoorBlocker", TlvTypes::DoorBlocker_109)
     {
-        ADD("Scale", mTlv.field_10_scale);
-        ADD("Switch ID", mTlv.field_12_switch_id);
+        ADD("Scale", mTlv.mScale);
+        ADD("Switch ID", mTlv.mSwitchId);
 
         ADD_RESOURCE(AnimId::Door_Lock_Idle, ReliveAPI::AddResourceTo::File);
         ADD_RESOURCE(AnimId::Door_Lock_Open, ReliveAPI::AddResourceTo::File);
@@ -1495,7 +1495,7 @@ struct Path_TrainDoor final : public ReliveAPI::TlvObjectBaseAE
 {
     CTOR_AE(Path_TrainDoor, "TrainDoor", TlvTypes::TrainDoor_111)
     {
-        ADD("Direction", mTlv.field_10_direction);
+        ADD("Direction", mTlv.mDirection);
 
         ADD_RESOURCE(AnimId::Door_Train_Closed, ReliveAPI::AddResourceTo::File);
         ADD_RESOURCE(AnimId::Door_Train_Closing, ReliveAPI::AddResourceTo::File);
@@ -1506,9 +1506,9 @@ struct Path_Greeter final : public ReliveAPI::TlvObjectBaseAE
 {
     CTOR_AE(Path_Greeter, "Greeter", TlvTypes::Greeter_106)
     {
-        ADD("Scale", mTlv.field_10_scale);
-        ADD("Motion Detector Speed", mTlv.field_12_motion_detector_speed);
-        ADD("Start Direction", mTlv.field_14_start_direction);
+        ADD("Scale", mTlv.mScale);
+        ADD("Motion Detector Speed", mTlv.mMotionDetectorSpeed);
+        ADD("Start Direction", mTlv.mFacing);
     }
 };
 
@@ -1670,7 +1670,7 @@ struct Path_SligGetPants final : public ReliveAPI::TlvObjectBaseAE
         ADD("Stay Awake", mTlv.stay_awake);
         ADD("Disable Resources", mTlv.disable_resources);
         ADD("Noise Wake Up Distance (Grids)", mTlv.noise_wake_up_distance);
-        ADD("Slig Spawner Switch ID", mTlv.slig_spawner_switch_id);
+        ADD("Slig Spawner Switch ID", mTlv.mSligSpawnerSwitchId);
         ADD("Unlimited Spawns", mTlv.unlimited_spawns);
 
         ADD_RESOURCE(AnimId::CrawlingSligLocker_Closed, ReliveAPI::AddResourceTo::File);
@@ -1806,11 +1806,11 @@ struct Path_GlukkonSwitch final : public ReliveAPI::TlvObjectBaseAE
 
     CTOR_AE(Path_GlukkonSwitch, "GlukkonSwitch", TlvTypes::GlukkonSwitch_108)
     {
-        ADD("Scale", mTlv.field_10_scale);
-        ADD("OK Switch ID", mTlv.field_12_ok_switch_id);
-        ADD("Fail Switch ID", mTlv.field_14_fail_switch_id);
-        ADD("X Position", mTlv.field_16_xpos);
-        ADD("Y Position", mTlv.field_18_ypos);
+        ADD("Scale", mTlv.mScale);
+        ADD("OK Switch ID", mTlv.mOkSwitchId);
+        ADD("Fail Switch ID", mTlv.mFailSwitchId);
+        ADD("X Position", mTlv.mXPos);
+        ADD("Y Position", mTlv.mYPos);
     }
 };
 
@@ -2155,7 +2155,7 @@ struct Path_ParamiteWebLine final : public ReliveAPI::TlvObjectBaseAE
 {
     CTOR_AE(Path_ParamiteWebLine, "ParamiteWebLine", TlvTypes::ParamiteWebLine_99)
     {
-        ADD("Scale", mTlv.field_10_scale);
+        ADD("Scale", mTlv.mScale);
     }
 };
 

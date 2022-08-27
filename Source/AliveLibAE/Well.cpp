@@ -10,25 +10,25 @@
 
 ALIVE_VAR(1, 0x563aa0, u32, sWellRndSeed_563AA0, 4);
 
-Well::Well(Path_WellBase* pTlv, FP xpos, FP ypos, s32 tlvInfo)
+Well::Well(relive::Path_WellBase* pTlv, FP xpos, FP ypos, s32 tlvInfo)
     : BaseGameObject(TRUE, 0)
 {
     mTlvInfo = tlvInfo;
     SetType(ReliveTypes::eWell);
 
-    if (pTlv->mTlvType32 == TlvTypes::LocalWell_8)
+    if (pTlv->mTlvType == ReliveTypes::eWellLocal)
     {
-        WellLocal_Init(static_cast<Path_WellLocal*>(pTlv), xpos, ypos);
+        WellLocal_Init(static_cast<relive::Path_WellLocal*>(pTlv), xpos, ypos);
     }
     else
     {
-        WellExpress_Init(static_cast<Path_WellExpress*>(pTlv), xpos, ypos);
+        WellExpress_Init(static_cast<relive::Path_WellExpress*>(pTlv), xpos, ypos);
     }
 }
 
-void Well::WellExpress_Init(Path_WellExpress* pTlv, FP /*xpos*/, FP ypos)
+void Well::WellExpress_Init(relive::Path_WellExpress* pTlv, FP /*xpos*/, FP ypos)
 {
-    if (pTlv->mScale != Scale_short::eFull_0)
+    if (pTlv->mScale != relive::reliveScale::eFull)
     {
         mLeafScale = FP_FromDouble(0.5);
     }
@@ -71,7 +71,7 @@ void Well::WellExpress_Init(Path_WellExpress* pTlv, FP /*xpos*/, FP ypos)
     }
 }
 
-void Well::WellLocal_Init(Path_WellLocal* pTlv, FP /*xpos*/, FP ypos)
+void Well::WellLocal_Init(relive::Path_WellLocal* pTlv, FP /*xpos*/, FP ypos)
 {
     if (pTlv->mScale != Scale_short::eFull_0)
     {

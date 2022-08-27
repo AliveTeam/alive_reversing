@@ -5,7 +5,7 @@
 #include "stdlib.hpp"
 #include "SwitchStates.hpp"
 
-SlurgSpawner::SlurgSpawner(Path_SlurgSpawner* pTlv, s32 tlvInfo)
+SlurgSpawner::SlurgSpawner(relive::Path_SlurgSpawner* pTlv, s32 tlvInfo)
     : BaseGameObject(TRUE, 0)
 {
     SetType(ReliveTypes::eSlurgSpawner);

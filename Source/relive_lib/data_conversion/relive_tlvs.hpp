@@ -69,7 +69,7 @@ public:
     s16 mBottomRightX = 0;
     s16 mBottomRightY = 0;
     s8 mTlvSpecificMeaning = 0; // TODO: remove me and add to the actual tlv's instead
-    ReliveTypes mTlvType = {};   // TODO: use shared TlvTypes enum
+    ReliveTypes mTlvType = {};
     BitField8<TlvFlags> mTlvFlags = {};
     s32 mLength = 0;
 
@@ -739,6 +739,7 @@ struct Path_SligBound : public Path_TLV
     
     // TODO: Remove me after disabled resources removed
     BitField16<AO::SligFlags_DisabledRes> mDisabledResourcesAO;
+    s16 mDisabledResourcesAE = 0;
 
 };
 
@@ -1676,11 +1677,11 @@ struct Path_DoorBlocker final : public Path_TLV
 
 struct Path_GlukkonSwitch final : public Path_TLV
 {
-    reliveScale field_10_scale = reliveScale::eFull;
-    s16 field_12_ok_switch_id = 0;
-    s16 field_14_fail_switch_id = 0;
-    u16 field_16_xpos = 0;
-    u16 field_18_ypos = 0;
+    reliveScale mScale = reliveScale::eFull;
+    s16 mOkSwitchId = 0;
+    s16 mFailSwitchId = 0;
+    u16 mXPos = 0;
+    u16 mYPos = 0;
 };
 
 struct Path_Greeter final : public Path_TLV

@@ -54,7 +54,7 @@ const u8 byte_5513D4[40] = {
 ALIVE_VAR(1, 0x5c1be8, s32, sGasTimer_5C1BE8, 0);
 ALIVE_VAR(1, 0x5C1C00, s16, gGasOn_5C1C00, 0);
 
-GasCountDown::GasCountDown(Path_GasCountDown* pTlv, s32 tlvInfo)
+GasCountDown::GasCountDown(relive::Path_GasCountDown* pTlv, s32 tlvInfo)
     : BaseGameObject(TRUE, 0)
 {
     SetType(ReliveTypes::eGasCountDown);

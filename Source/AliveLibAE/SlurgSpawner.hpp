@@ -25,7 +25,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_SlurgSpawner, 0x20);
 class SlurgSpawner final : public BaseGameObject
 {
 public:
-    SlurgSpawner(Path_SlurgSpawner* pTlv, s32 tlvInfo);
+    SlurgSpawner(relive::Path_SlurgSpawner* pTlv, s32 tlvInfo);
     
     virtual void VUpdate() override;
     virtual void VScreenChanged() override;

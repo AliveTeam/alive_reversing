@@ -59,7 +59,7 @@ struct Quicksave_Obj_SlamDoor final
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Quicksave_Obj_SlamDoor, 8);
 
-SlamDoor::SlamDoor(Path_SlamDoor* pTlv, TlvItemInfoUnion tlvInfo)
+SlamDoor::SlamDoor(relive::Path_SlamDoor* pTlv, TlvItemInfoUnion tlvInfo)
     : BaseAliveGameObject(0)
 {
     mBaseGameObjectTlvInfo = tlvInfo.all; // todo: check this

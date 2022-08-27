@@ -305,7 +305,7 @@ private:
 };
 ALIVE_ASSERT_SIZEOF(FlameSparks, 0x418);
 
-DoorFlame::DoorFlame(Path_DoorFlame* pTlv, s32 tlvInfo)
+DoorFlame::DoorFlame(relive::Path_DoorFlame* pTlv, s32 tlvInfo)
     : BaseAnimatedWithPhysicsGameObject(0)
 {
     SetType(ReliveTypes::eNone);

@@ -15,7 +15,7 @@
 #include "ParticleBurst.hpp"
 #include "Electrocute.hpp"
 
-Teleporter::Teleporter(Path_Teleporter* pTlv, u32 tlvInfo)
+Teleporter::Teleporter(relive::Path_Teleporter* pTlv, u32 tlvInfo)
     : BaseGameObject(TRUE, 0)
 {
     field_4C_pTlv = pTlv; // TODO: Don't think this is used, and it can become a dangling ptr?
@@ -230,13 +230,13 @@ void Teleporter::VUpdate()
             gMap.mTeleporterTransition = 0;
 
             Path_Teleporter* pTeleporterTlv = static_cast<Path_Teleporter*>(sPathInfo->TLV_First_Of_Type_In_Camera(TlvTypes::Teleporter_88, 0));
-            Path_Teleporter_Data tlvData = pTeleporterTlv->field_10_data;
+            Path_Teleporter_Data tlvData = pTeleporterTlv->mData;
             if (tlvData.mTeleporterId != field_34_mTlvData.mOtherTeleporterId)
             {
                 while (pTeleporterTlv)
                 {
                     pTeleporterTlv = static_cast<Path_Teleporter*>(sPathInfo->TLV_Next_Of_Type(pTeleporterTlv, TlvTypes::Teleporter_88));
-                    tlvData = pTeleporterTlv->field_10_data;
+                    tlvData = pTeleporterTlv->mData;
 
                     if (tlvData.mTeleporterId == field_34_mTlvData.mOtherTeleporterId)
                     {

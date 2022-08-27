@@ -121,7 +121,7 @@ private:
 };
 ALIVE_ASSERT_SIZEOF(GrenadeMachineNozzle, 0x100);
 
-BoomMachine::BoomMachine(Path_BoomMachine* pTlv, s32 tlvInfo)
+BoomMachine::BoomMachine(relive::Path_BoomMachine* pTlv, s32 tlvInfo)
     : BaseAnimatedWithPhysicsGameObject(0)
 {
     SetType(ReliveTypes::eBoomMachine);

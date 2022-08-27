@@ -3,6 +3,7 @@
 #include "Function.hpp"
 #include "EffectBase.hpp"
 #include "../relive_lib/Layer.hpp"
+#include "../relive_lib/data_conversion/relive_tlvs.hpp"
 
 struct Path_Alarm;
 
@@ -13,7 +14,7 @@ public:
     virtual void VUpdate() override;
     virtual void VRender(PrimHeader** ppOt) override;
 
-    Alarm(Path_Alarm* pTlv, s32 tlvInfo);
+    Alarm(relive::Path_Alarm* pTlv, s32 tlvInfo);
     Alarm(s32 durationOffset, s32 switchId, s32 timerOffset, Layer layer);
     ~Alarm();
 

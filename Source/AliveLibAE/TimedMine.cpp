@@ -21,7 +21,7 @@
 static TintEntry sTimedMineTint_550EB8[1] = {{EReliveLevelIds::eNone, 127u, 127u, 127u}};
 
 
-TimedMine::TimedMine(Path_TimedMine* pPath, TlvItemInfoUnion tlv)
+TimedMine::TimedMine(relive::Path_TimedMine* pPath, TlvItemInfoUnion tlv)
     : BaseAliveGameObject(0)
 {
     SetType(ReliveTypes::eTimedMine_or_MovingBomb);

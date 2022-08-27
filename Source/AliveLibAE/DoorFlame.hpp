@@ -16,7 +16,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_DoorFlame, 0x18);
 class DoorFlame final : public ::BaseAnimatedWithPhysicsGameObject
 {
 public:
-    DoorFlame(Path_DoorFlame* pTlv, s32 tlvInfo);
+    DoorFlame(relive::Path_DoorFlame* pTlv, s32 tlvInfo);
     ~DoorFlame();
 
     virtual void VUpdate() override;

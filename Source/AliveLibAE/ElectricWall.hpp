@@ -22,7 +22,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_ElectricWall, 0x18);
 class ElectricWall final : public ::BaseAnimatedWithPhysicsGameObject
 {
 public:
-    ElectricWall(Path_ElectricWall* pTlv, s32 tlvInfo);
+    ElectricWall(relive::Path_ElectricWall* pTlv, s32 tlvInfo);
     ~ElectricWall();
 
     virtual void VUpdate() override;

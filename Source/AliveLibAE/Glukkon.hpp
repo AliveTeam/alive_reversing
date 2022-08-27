@@ -172,7 +172,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Glukkon_SaveState, 144);
 class Glukkon final : public BaseAliveGameObject
 {
 public:
-    Glukkon(Path_Glukkon* pTlv, s32 tlvInfo);
+    Glukkon(relive::Path_Glukkon* pTlv, s32 tlvInfo);
     ~Glukkon();
 
     static s32 CreateFromSaveState(const u8* pBuffer);

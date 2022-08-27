@@ -48,7 +48,7 @@ const AnimId sFootSwitchData_547D60[15][2] = {
 };
 
 
-FootSwitch::FootSwitch(Path_FootSwitch* pTlv, s32 tlvInfo)
+FootSwitch::FootSwitch(relive::Path_FootSwitch* pTlv, s32 tlvInfo)
     : BaseAnimatedWithPhysicsGameObject(0)
 {
     SetType(ReliveTypes::eFootSwitch);

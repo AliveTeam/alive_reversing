@@ -130,7 +130,7 @@ enum Brain_4_GetKilled
     eBrain4_DeathDrop_5 = 5
 };
 
-CrawlingSlig::CrawlingSlig(Path_CrawlingSlig* pTlv, s32 tlvInfo)
+CrawlingSlig::CrawlingSlig(relive::Path_CrawlingSlig* pTlv, s32 tlvInfo)
     : BaseAliveGameObject(2)
 {
     field_1DC_unused = -1;
@@ -582,7 +582,7 @@ void CrawlingSlig::VOnTrapDoorOpen()
     }
 }
 
-void CrawlingSlig::VOnTlvCollision(Path_TLV* pTlv)
+void CrawlingSlig::VOnTlvCollision(relive::Path_TLV* pTlv)
 {
     while (pTlv)
     {

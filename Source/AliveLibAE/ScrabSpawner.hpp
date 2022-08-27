@@ -31,7 +31,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(ScrabSpawner_State, 0x10);
 class ScrabSpawner final : public BaseGameObject
 {
 public:
-    ScrabSpawner(Path_ScrabSpawner* pTlv, s32 tlvInfo);
+    ScrabSpawner(relive::Path_ScrabSpawner* pTlv, s32 tlvInfo);
     ~ScrabSpawner();
 
     static s32 CreateFromSaveState(const u8* pBuffer);

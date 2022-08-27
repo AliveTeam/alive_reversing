@@ -482,7 +482,7 @@ public:
     virtual void VScreenChanged() override;
     virtual s32 VGetSaveState(u8* pSaveBuffer) override;
     virtual s16 VTakeDamage(BaseGameObject* pFrom) override;
-    virtual void VOnTlvCollision(Path_TLV* pTlv) override;
+    virtual void VOnTlvCollision(relive::Path_TLV* pTlv) override;
     virtual BirdPortal* VIntoBirdPortal(s16 gridBlocks) override;
     virtual void VOnTrapDoorOpen() override;
 

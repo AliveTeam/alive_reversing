@@ -45,7 +45,7 @@ Door::Door()
 {
 }
 
-Door::Door(Path_Door* pTlvData, s32 tlvInfo)
+Door::Door(relive::Path_Door* pTlvData, s32 tlvInfo)
     : BaseAnimatedWithPhysicsGameObject(0)
 {
     SetType(ReliveTypes::eDoor);
@@ -487,7 +487,7 @@ void Door::VScreenChanged()
 ALIVE_VAR(1, 0xBB4AA0, FP, sTrainDoorXPos_BB4AA0, {});
 ALIVE_VAR(1, 0xBB4AA4, FP, sTrainDoorYPos_BB4AA4, {});
 
-TrainDoor::TrainDoor(Path_TrainDoor* pTlv, s32 tlvInfo)
+TrainDoor::TrainDoor(relive::Path_TrainDoor* pTlv, s32 tlvInfo)
 {
     SetType(ReliveTypes::eDoor);
     field_F4_tlvInfo = tlvInfo;

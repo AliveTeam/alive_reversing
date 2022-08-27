@@ -63,7 +63,7 @@ bool Paramite::BrainIs(TParamiteBrainFn fn)
     return field_128_fn_brainState == fn;
 }
 
-Paramite::Paramite(Path_Paramite* pTlv, s32 tlvInfo)
+Paramite::Paramite(relive::Path_Paramite* pTlv, s32 tlvInfo)
     : BaseAliveGameObject(16)
 {
     field_160_last_event_index = -1;

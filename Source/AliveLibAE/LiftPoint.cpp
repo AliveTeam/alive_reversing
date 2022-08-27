@@ -59,7 +59,7 @@ const TintEntry sLiftTints_55BF50[18] = {
     {EReliveLevelIds::eBonewerkz_Ender, 127u, 127u, 127u},
     {EReliveLevelIds::eNone, 127u, 127u, 127u}};
 
-LiftPoint::LiftPoint(Path_LiftPoint* pTlv, s32 tlvInfo)
+LiftPoint::LiftPoint(relive::Path_LiftPoint* pTlv, s32 tlvInfo)
 {
     mBaseGameObjectTlvInfo = tlvInfo;
     SetType(ReliveTypes::eLiftPoint);

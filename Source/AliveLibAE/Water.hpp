@@ -40,7 +40,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Water, 0x1C);
 class Water final : public ::BaseAnimatedWithPhysicsGameObject
 {
 public:
-    Water(Path_Water* pTlv, s32 tlvInfo);
+    Water(relive::Path_Water* pTlv, s32 tlvInfo);
     ~Water();
 
     virtual void VUpdate() override;

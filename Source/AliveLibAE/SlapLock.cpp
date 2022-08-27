@@ -13,7 +13,7 @@
 #include "Particle.hpp"
 #include "ParticleBurst.hpp"
 
-SlapLock::SlapLock(Path_SlapLock* pTlv, s32 tlvInfo)
+SlapLock::SlapLock(relive::Path_SlapLock* pTlv, s32 tlvInfo)
     : BaseAliveGameObject(0)
 {
     SetType(ReliveTypes::eLockedSoul);

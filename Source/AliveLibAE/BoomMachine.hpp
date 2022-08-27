@@ -6,7 +6,7 @@
 
 struct Path_BoomMachine final : public Path_TLV
 {
-    Scale_short field_10_scale;
+    Scale_short mScale;
     enum class NozzleSide : s16
     {
         eRight_0 = 0,
@@ -29,7 +29,7 @@ enum class BoomMachineStates : s16
 class BoomMachine final : public ::BaseAnimatedWithPhysicsGameObject
 {
 public:
-    BoomMachine(Path_BoomMachine* pTlv, s32 tlvInfo);
+    BoomMachine(relive::Path_BoomMachine* pTlv, s32 tlvInfo);
     ~BoomMachine();
 
     virtual void VUpdate() override;

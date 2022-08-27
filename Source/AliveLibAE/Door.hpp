@@ -55,7 +55,7 @@ class Door : public ::BaseAnimatedWithPhysicsGameObject
 {
 public:
     Door();
-    Door(Path_Door* pTlvData, s32 tlvInfo);
+    Door(relive::Path_Door* pTlvData, s32 tlvInfo);
     ~Door();
 
     bool vIsOpen();
@@ -86,14 +86,14 @@ ALIVE_ASSERT_SIZEOF(Door, 0x114);
 
 struct Path_TrainDoor final : public Path_TLV
 {
-    XDirection_int field_10_direction;
+    XDirection_int mDirection;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_TrainDoor, 0x14);
 
 class TrainDoor final : public Door
 {
 public:
-    TrainDoor(Path_TrainDoor* pTlv, s32 tlvInfo);
+    TrainDoor(relive::Path_TrainDoor* pTlv, s32 tlvInfo);
     ~TrainDoor();
 
     virtual void VUpdate() override;

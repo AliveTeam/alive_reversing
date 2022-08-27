@@ -326,7 +326,7 @@ bool Slig::BrainIs(TSligBrainFn fn)
     return field_154_brain_state == fn;
 }
 
-Slig::Slig(Path_Slig* pTlv, s32 tlvInfo)
+Slig::Slig(relive::Path_Slig* pTlv, s32 tlvInfo)
     : BaseAliveGameObject(17)
 {
     field_160_last_event_index = -1;

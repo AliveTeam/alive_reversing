@@ -6,9 +6,9 @@
 
 struct Path_Greeter final : public Path_TLV
 {
-    Scale_short field_10_scale;
-    s16 field_12_motion_detector_speed;
-    XDirection_short field_14_start_direction;
+    Scale_short mScale;
+    s16 mMotionDetectorSpeed;
+    XDirection_short mFacing;
     s16 field_16_pad;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Greeter, 0x18);
@@ -76,7 +76,7 @@ enum class GreeterSpeak : s16
 class Greeter final : public BaseAliveGameObject
 {
 public:
-    Greeter(Path_Greeter* pTlv, s32 tlvInfo);
+    Greeter(relive::Path_Greeter* pTlv, s32 tlvInfo);
     ~Greeter();
     
     virtual void VUpdate() override;

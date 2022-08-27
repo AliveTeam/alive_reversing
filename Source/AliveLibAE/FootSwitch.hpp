@@ -33,7 +33,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(FootSwitch_Data, 0xC);
 class FootSwitch final : public ::BaseAnimatedWithPhysicsGameObject
 {
 public:
-    FootSwitch(Path_FootSwitch* pTlv, s32 tlvInfo);
+    FootSwitch(relive::Path_FootSwitch* pTlv, s32 tlvInfo);
     ~FootSwitch();
     
     virtual void VUpdate() override;

@@ -6,7 +6,7 @@
 #include "Sfx.hpp"
 #include "stdlib.hpp"
 
-DoorBlocker::DoorBlocker(Path_DoorBlocker* pTlv, s32 tlvInfo)
+DoorBlocker::DoorBlocker(relive::Path_DoorBlocker* pTlv, s32 tlvInfo)
     : BaseAliveGameObject(0)
 {
     mBaseGameObjectFlags.Set(BaseGameObject::eCanExplode_Bit7);

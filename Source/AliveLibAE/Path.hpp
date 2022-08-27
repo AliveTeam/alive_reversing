@@ -6,6 +6,7 @@
 #include "FixedPoint.hpp"
 #include <type_traits>
 #include "../relive_lib/MapWrapper.hpp"
+#include "../relive_lib/data_conversion/relive_tlvs.hpp"
 
 struct PathData;
 
@@ -245,15 +246,15 @@ public:
     void Init(const PathData* pPathData, EReliveLevelIds level, s16 path, s16 cameraId, u8** ppPathRes);
 
 
-    void Loader_4DB800(s16 xpos, s16 ypos, LoadMode loadMode, TlvTypes typeToLoad);
+    void Loader_4DB800(s16 xpos, s16 ypos, LoadMode loadMode, ReliveTypes typeToLoad);
 
-    Path_TLV* Get_First_TLV_For_Offsetted_Camera(s16 cam_x_idx, s16 cam_y_idx);
-    static Path_TLV* Next_TLV(Path_TLV* pTlv);
+    relive::Path_TLV* Get_First_TLV_For_Offsetted_Camera(s16 cam_x_idx, s16 cam_y_idx);
+    static relive::Path_TLV* Next_TLV(relive::Path_TLV* pTlv);
 
     // note: inline as used by the API
-    static Path_TLV* Next_TLV_Impl(Path_TLV* pTlv)
+    static relive::Path_TLV* Next_TLV_Impl(relive::Path_TLV* pTlv)
     {
-        if (pTlv->mTlvFlags.Get(TlvFlags::eBit3_End_TLV_List))
+        if (pTlv->mTlvFlags.Get(relive::TlvFlags::eBit3_End_TLV_List))
         {
             return nullptr;
         }
@@ -261,17 +262,17 @@ public:
         // Skip length bytes to get to the start of the next TLV
         u8* ptr = reinterpret_cast<u8*>(pTlv);
         u8* pNext = ptr + pTlv->mLength;
-        return reinterpret_cast<Path_TLV*>(pNext);
+        return reinterpret_cast<relive::Path_TLV*>(pNext);
     }
 
-    Path_TLV* TLV_First_Of_Type_In_Camera(TlvTypes objectType, s16 camX);
-    Path_TLV* TLV_Get_At_4DB4B0(s16 xpos, s16 ypos, s16 width, s16 height, TlvTypes objectType);
-    Path_TLV* TlvGetAt(Path_TLV* pTlv, FP xpos, FP ypos, FP w, FP h);
-    Path_TLV* TLV_From_Offset_Lvl_Cam(u32 tlvOffset_levelId_PathId);
+    relive::Path_TLV* TLV_First_Of_Type_In_Camera(ReliveTypes objectType, s16 camX);
+    relive::Path_TLV* TLV_Get_At_4DB4B0(s16 xpos, s16 ypos, s16 width, s16 height, ReliveTypes objectType);
+    relive::Path_TLV* TlvGetAt(relive::Path_TLV* pTlv, FP xpos, FP ypos, FP w, FP h);
+    relive::Path_TLV* TLV_From_Offset_Lvl_Cam(u32 tlvOffset_levelId_PathId);
 
     u32 TLVInfo_From_TLVPtr(Path_TLV* pTlv);
 
-    static Path_TLV* TLV_Next_Of_Type(Path_TLV* pTlv, TlvTypes type);
+    static relive::Path_TLV* TLV_Next_Of_Type(relive::Path_TLV* pTlv, ReliveTypes type);
     static void TLV_Reset(u32 tlvOffset_levelId_PathId, s16 hiFlags, s8 bSetCreated, s8 bSetDestroyed);
     static void Start_Sounds_For_Objects_In_Camera(CameraPos direction, s16 cam_x_idx, s16 cam_y_idx);
 
@@ -309,7 +310,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Teleporter_Data, 0x16);
 
 struct Path_Teleporter final : public Path_TLV
 {
-    Path_Teleporter_Data field_10_data;
+    Path_Teleporter_Data mData;
     s16 field_26_padding; // Actually padding here as the game won't copy these 2 bytes, but its included in the TLV length
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Teleporter, 0x28); // 0x10 for base

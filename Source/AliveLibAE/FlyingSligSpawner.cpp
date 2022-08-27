@@ -12,7 +12,7 @@
 #include "Sfx.hpp"
 #include "FlyingSlig.hpp"
 
-FlyingSligSpawner::FlyingSligSpawner(Path_FlyingSligSpawner* pTlv, s32 tlvInfo)
+FlyingSligSpawner::FlyingSligSpawner(relive::Path_FlyingSligSpawner* pTlv, s32 tlvInfo)
     : BaseGameObject(TRUE, 0)
 {
     SetType(ReliveTypes::eFlyingSligSpawner);

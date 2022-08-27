@@ -7,7 +7,7 @@
 #include "SwitchStates.hpp"
 #include "Sfx.hpp"
 
-ScrabSpawner::ScrabSpawner(Path_ScrabSpawner* pTlv, s32 tlvInfo)
+ScrabSpawner::ScrabSpawner(relive::Path_ScrabSpawner* pTlv, s32 tlvInfo)
     : BaseGameObject(TRUE, 0)
 {
     field_20_tlvInfo = tlvInfo;

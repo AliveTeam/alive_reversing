@@ -2494,7 +2494,7 @@ s16 Abe::VTakeDamage(BaseGameObject* pFrom)
     return ret;
 }
 
-void Abe::VOnTlvCollision(Path_TLV* pTlv)
+void Abe::VOnTlvCollision(relive::Path_TLV* pTlv)
 {
     for (; pTlv; pTlv = sPathInfo->TlvGetAt(
                      pTlv,
@@ -2503,12 +2503,12 @@ void Abe::VOnTlvCollision(Path_TLV* pTlv)
                      mXPos,
                      mYPos))
     {
-        if (pTlv->mTlvType32 == TlvTypes::ContinuePoint_0)
+        if (pTlv->mTlvType == ReliveTypes::eContinuePoint)
         {
-            auto pContinuePoint = static_cast<Path_ContinuePoint*>(pTlv);
+            auto pContinuePoint = static_cast<relive::Path_ContinuePoint*>(pTlv);
             if (pContinuePoint->mTlvSpecificMeaning == 0)
             {
-                if ((pContinuePoint->mScale != Path_ContinuePoint::Scale::eHalf_1 || mSpriteScale == FP_FromInteger(1)) && (pContinuePoint->mScale != Path_ContinuePoint::Scale::eFull_2 || mSpriteScale == FP_FromDouble(0.5))
+                if ((pContinuePoint->mScale != relive::Path_ContinuePoint::Scale::eHalf || mSpriteScale == FP_FromInteger(1)) && (pContinuePoint->mScale != relive::Path_ContinuePoint::Scale::eFull || mSpriteScale == FP_FromDouble(0.5))
                     && mHealth > FP_FromInteger(0) && !(mBaseAliveGameObjectFlags.Get(Flags_114::e114_Bit7_Electrocuted)))
                 {
                     pContinuePoint->mTlvSpecificMeaning = 1;
@@ -2517,7 +2517,7 @@ void Abe::VOnTlvCollision(Path_TLV* pTlv)
                 }
             }
         }
-        else if (pTlv->mTlvType32 == TlvTypes::DeathDrop_4)
+        else if (pTlv->mTlvType == ReliveTypes::eDeathDrop)
         {
             if (sControlledCharacter->Type() != ReliveTypes::eMineCar || gMap.mCurrentLevel != EReliveLevelIds::eMines)
             {
@@ -2529,13 +2529,13 @@ void Abe::VOnTlvCollision(Path_TLV* pTlv)
                 ToDie_4588D0();
             }
         }
-        else if (pTlv->mTlvType32 == TlvTypes::ResetPath_76)
+        else if (pTlv->mTlvType == ReliveTypes::eResetPath)
         {
-            auto pResetSwitchRange = static_cast<Path_ResetPath*>(pTlv);
-            if (pResetSwitchRange->mTlvSpecificMeaning == 0 || pResetSwitchRange->mEnabled == Choice_short::eYes_1)
+            auto pResetSwitchRange = static_cast<relive::Path_ResetPath*>(pTlv);
+            if (pResetSwitchRange->mTlvSpecificMeaning == 0 || pResetSwitchRange->mEnabled == relive::reliveChoice::eYes)
             {
                 pResetSwitchRange->mTlvSpecificMeaning = 1;
-                if (pResetSwitchRange->mClearIds == Choice_short::eYes_1)
+                if (pResetSwitchRange->mClearIds == relive::reliveChoice::eYes)
                 {
                     for (s16 i = pResetSwitchRange->mFrom; i <= pResetSwitchRange->mTo; i++)
                     {
@@ -2545,7 +2545,7 @@ void Abe::VOnTlvCollision(Path_TLV* pTlv)
                         }
                     }
                 }
-                if (pResetSwitchRange->mClearObjects == Choice_short::eYes_1)
+                if (pResetSwitchRange->mClearObjects == relive::reliveChoice::eYes)
                 {
                     Path::Reset_TLVs(pResetSwitchRange->mPath);
                 }
@@ -2845,13 +2845,13 @@ static bool IsSameScaleAsEdge(Path_Edge* pEdge, BaseAliveGameObject* pObj)
     return true;
 }
 
-static bool IsFacingSameDirectionAsHoist(Path_Hoist* pHoist, BaseAliveGameObject* pObj)
+static bool IsFacingSameDirectionAsHoist(relive::Path_Hoist* pHoist, BaseAliveGameObject* pObj)
 {
-    if (pHoist->mGrabDirection == Path_Hoist::GrabDirection::eFacingLeft && !pObj->mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
+    if (pHoist->mGrabDirection == relive::Path_Hoist::GrabDirection::eFacingLeft && !pObj->mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
     {
         return false;
     }
-    else if (pHoist->mGrabDirection == Path_Hoist::GrabDirection::eFacingRight && pObj->mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
+    else if (pHoist->mGrabDirection == relive::Path_Hoist::GrabDirection::eFacingRight && pObj->mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
     {
         return false;
     }
@@ -3606,12 +3606,12 @@ void Abe::Motion_3_Fall_459B60()
     else // Didn't find and edge to grab so check if falling onto a hoist
     {
         // Look down 20 for a hoist
-        Path_Hoist* pHoist = static_cast<Path_Hoist*>(sPathInfo->TLV_Get_At_4DB4B0(
+        relive::Path_Hoist* pHoist = static_cast<relive::Path_Hoist*>(sPathInfo->TLV_Get_At_4DB4B0(
             FP_GetExponent(mXPos),
             FP_GetExponent(mYPos - mSpriteScale * FP_FromInteger(20)),
             FP_GetExponent(mXPos),
             FP_GetExponent(mYPos - mSpriteScale * FP_FromInteger(20)),
-            TlvTypes::Hoist_2));
+            ReliveTypes::eHoist));
 
         if (pHoist)
         {

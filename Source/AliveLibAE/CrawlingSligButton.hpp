@@ -32,7 +32,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_CrawlingSligButton, 0x1C);
 class CrawlingSligButton final : public ::BaseAnimatedWithPhysicsGameObject
 {
 public:
-    CrawlingSligButton(Path_CrawlingSligButton* pTlv, s32 tlvInfo);
+    CrawlingSligButton(relive::Path_CrawlingSligButton* pTlv, s32 tlvInfo);
     ~CrawlingSligButton();
 
     virtual void VUpdate() override;

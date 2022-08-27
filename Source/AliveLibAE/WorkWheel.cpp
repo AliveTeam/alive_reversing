@@ -9,7 +9,7 @@
 #include "PathData.hpp"
 #include "GameEnderController.hpp"
 
-WorkWheel::WorkWheel(Path_WorkWheel* pTlv, s32 tlvInfo)
+WorkWheel::WorkWheel(relive::Path_WorkWheel* pTlv, s32 tlvInfo)
     : BaseAnimatedWithPhysicsGameObject(0)
 {
     SetType(ReliveTypes::eWheel);
@@ -22,12 +22,12 @@ WorkWheel::WorkWheel(Path_WorkWheel* pTlv, s32 tlvInfo)
 
     mAnim.mFlags.Set(eBit15_bSemiTrans);
 
-    mXPos = FP_FromInteger((pTlv->mTopLeft.x + pTlv->mBottomRight.x) / 2);
-    mYPos = FP_FromInteger(pTlv->mTopLeft.y);
+    mXPos = FP_FromInteger((pTlv->mTopLeftX + pTlv->mBottomRightX) / 2);
+    mYPos = FP_FromInteger(pTlv->mTopLeftY);
 
-    if (pTlv->mScale != Scale_short::eFull_0)
+    if (pTlv->mScale != relive::reliveScale::eFull)
     {
-        if (pTlv->mScale == Scale_short::eHalf_1)
+        if (pTlv->mScale == relive::reliveScale::eHalf)
         {
             mSpriteScale = FP_FromDouble(0.5);
             mAnim.mRenderLayer = Layer::eLayer_BeforeShadow_Half_6;
@@ -82,7 +82,7 @@ s32 WorkWheel::CreateFromSaveState(const u8* pState)
 {
     const WorkWheel_SaveState* pData = reinterpret_cast<const WorkWheel_SaveState*>(pState);
 
-    Path_WorkWheel* pTlv = static_cast<Path_WorkWheel*>(sPathInfo->TLV_From_Offset_Lvl_Cam(pData->field_4_tlvInfo));
+    relive::Path_WorkWheel* pTlv = static_cast<relive::Path_WorkWheel*>(sPathInfo->TLV_From_Offset_Lvl_Cam(pData->field_4_tlvInfo));
 
     if (!ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kAbeworkResID, FALSE, FALSE))
     {
@@ -193,7 +193,7 @@ void WorkWheel::VStopTurning(s16 bResetSwitch)
         // Spin it.
         mAnim.Set_Animation_Data(AnimId::Work_Wheel_Idle, nullptr);
 
-        if (mTurnOffWhenStopped == Choice_short::eYes_1)
+        if (mTurnOffWhenStopped == relive::reliveChoice::eYes)
         {
             if (bResetSwitch)
             {

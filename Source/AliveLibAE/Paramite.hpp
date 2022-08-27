@@ -174,7 +174,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Paramite_State, 0x78);
 class Paramite final : public BaseAliveGameObject
 {
 public:
-    Paramite(Path_Paramite* pTlv, s32 tlvInfo);
+    Paramite(relive::Path_Paramite* pTlv, s32 tlvInfo);
     ~Paramite();
 
     virtual void VUpdate() override;

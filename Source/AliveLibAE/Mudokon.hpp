@@ -271,7 +271,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Mudokon_State, 0x88);
 class Mudokon final : public BaseAliveGameObject
 {
 public:
-    Mudokon(Path_Mudokon* pTlv, s32 tlvInfo);
+    Mudokon(relive::Path_Mudokon* pTlv, s32 tlvInfo);
     ~Mudokon();
     
     virtual void VUpdate() override;
@@ -282,7 +282,7 @@ public:
 
     virtual void VPossessed() override;
     virtual s16 VTakeDamage(BaseGameObject* pFrom) override;
-    virtual void VOnTlvCollision(Path_TLV* pTlv) override;
+    virtual void VOnTlvCollision(relive::Path_TLV* pTlv) override;
     virtual void VOnTrapDoorOpen() override;
 
     // New virtuals

@@ -38,7 +38,7 @@ u8 fontPalette_550F08[32] = {
     24u,
     216u};
 
-BrewMachine::BrewMachine(Path_BrewMachine* pTlv, s32 tlvInfo)
+BrewMachine::BrewMachine(relive::Path_BrewMachine* pTlv, s32 tlvInfo)
     : BaseAnimatedWithPhysicsGameObject(0)
 {
     SetType(ReliveTypes::eBrewMachine);

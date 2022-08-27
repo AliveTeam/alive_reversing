@@ -21,7 +21,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_TorturedMudokon, 0x14);
 class TorturedMudokon final : public ::BaseAnimatedWithPhysicsGameObject
 {
 public:
-    TorturedMudokon(Path_TorturedMudokon* pTlv, s32 tlvInfo);
+    TorturedMudokon(relive::Path_TorturedMudokon* pTlv, s32 tlvInfo);
     ~TorturedMudokon();
 
     virtual void VRender(PrimHeader** ppOt) override;

@@ -70,7 +70,7 @@ class Slurg final : public BaseAliveGameObject
 public:
     static void Clear_Slurg_Step_Watch_Points();
 
-    Slurg(Path_Slurg* pTlv, u32 tlvInfo);
+    Slurg(relive::Path_Slurg* pTlv, u32 tlvInfo);
     ~Slurg();
 
     virtual void VUpdate() override;

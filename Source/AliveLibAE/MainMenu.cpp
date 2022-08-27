@@ -483,7 +483,7 @@ MainMenuFrameTable sMainMenuFrameTable_561CC8[49] = {
 bool gBootToLoadScreen = false;
 #endif
 
-MainMenuController::MainMenuController(Path_TLV* /*pTlv*/, TlvItemInfoUnion tlvOffsetLevelIdPathId)
+MainMenuController::MainMenuController(relive::Path_TLV* /*pTlv*/, TlvItemInfoUnion tlvOffsetLevelIdPathId)
     : BaseAnimatedWithPhysicsGameObject(0)
 {
     sMainMenuObjectCounter_BB4400++;

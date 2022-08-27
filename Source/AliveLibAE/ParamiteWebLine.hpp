@@ -6,7 +6,7 @@
 
 struct Path_ParamiteWebLine final : public Path_TLV
 {
-    Scale_short field_10_scale;
+    Scale_short mScale;
     s16 field_12_pad;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_ParamiteWebLine, 0x14);
@@ -14,7 +14,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_ParamiteWebLine, 0x14);
 class ParamiteWebLine final : public ::BaseAnimatedWithPhysicsGameObject
 {
 public:
-    ParamiteWebLine(Path_ParamiteWebLine* pTlv, s32 tlvInfo);
+    ParamiteWebLine(relive::Path_ParamiteWebLine* pTlv, s32 tlvInfo);
     ~ParamiteWebLine();
 
     void Wobble(s16 ypos);

@@ -57,7 +57,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(LiftPoint_State, 0x1C);
 class LiftPoint final : public PlatformBase
 {
 public:
-    LiftPoint(Path_LiftPoint* pTlv, s32 tlvInfo);
+    LiftPoint(relive::Path_LiftPoint* pTlv, s32 tlvInfo);
     ~LiftPoint();
     
     virtual void VRender(PrimHeader** ppOt) override;

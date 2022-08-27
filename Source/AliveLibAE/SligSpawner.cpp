@@ -8,7 +8,7 @@
 #include "../relive_lib/ObjectIds.hpp"
 #include "SwitchStates.hpp"
 
-SligSpawner::SligSpawner(Path_Slig* pTlv, s32 tlvInfo)
+SligSpawner::SligSpawner(relive::Path_Slig* pTlv, s32 tlvInfo)
     : BaseGameObject(TRUE, 0)
 {
     SetType(ReliveTypes::eSligSpawner);

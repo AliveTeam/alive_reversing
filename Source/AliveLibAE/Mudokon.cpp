@@ -359,23 +359,23 @@ const TMudStateFunction sMudokon_motion_states_55CE18[60] = {
 
 
 // This is used rather than the un-typesafe word_55CF08 array
-static Mud_Emotion TLV_Emo_To_Internal_Emo(Mud_TLV_Emotion emo)
+static Mud_Emotion TLV_Emo_To_Internal_Emo(relive::Path_Mudokon::Mud_TLV_Emotion emo)
 {
     switch (emo)
     {
-        case Mud_TLV_Emotion::eNormal_0:
+        case relive::Path_Mudokon::Mud_TLV_Emotion::eNormal:
             return Mud_Emotion::eNormal_0;
 
-        case Mud_TLV_Emotion::eAngry_1:
+        case relive::Path_Mudokon::Mud_TLV_Emotion::eAngry:
             return Mud_Emotion::eAngry_1;
 
-        case Mud_TLV_Emotion::eSad_2:
+        case relive::Path_Mudokon::Mud_TLV_Emotion::eSad:
             return Mud_Emotion::eSad_3;
 
-        case Mud_TLV_Emotion::eWired_3:
+        case relive::Path_Mudokon::Mud_TLV_Emotion::eWired:
             return Mud_Emotion::eWired_6;
 
-        case Mud_TLV_Emotion::eSick_4:
+        case relive::Path_Mudokon::Mud_TLV_Emotion::eSick:
             return Mud_Emotion::eSick_7;
 
         default:
@@ -384,7 +384,7 @@ static Mud_Emotion TLV_Emo_To_Internal_Emo(Mud_TLV_Emotion emo)
     }
 }
 
-Mudokon::Mudokon(Path_Mudokon* pTlv, s32 tlvInfo)
+Mudokon::Mudokon(relive::Path_Mudokon* pTlv, s32 tlvInfo)
     : BaseAliveGameObject(18)
 {
     field_154_unused = 0;
@@ -423,7 +423,7 @@ Mudokon::Mudokon(Path_Mudokon* pTlv, s32 tlvInfo)
 
     field_16A_flags.Clear(Flags_16A::eBit2_persist_and_reset_offscreen);
     field_16A_flags.Clear(Flags_16A::eBit3_alerted);
-    field_16A_flags.Set(Flags_16A::eBit4_blind, pTlv->mBlind == Choice_short::eYes_1);
+    field_16A_flags.Set(Flags_16A::eBit4_blind, pTlv->mBlind == relive::reliveChoice::eYes);
     field_16A_flags.Clear(Flags_16A::eBit5_following);
     field_16A_flags.Clear(Flags_16A::eBit6_standing_for_sad_or_angry);
     field_16A_flags.Clear(Flags_16A::eBit7_stopped_at_wheel);
@@ -444,25 +444,25 @@ Mudokon::Mudokon(Path_Mudokon* pTlv, s32 tlvInfo)
 
     switch (pTlv->mJob)
     {
-        case MudJobs::eChisle_0:
+        case relive::Path_Mudokon::MudJobs::eChisle:
             field_18E_brain_state = Mud_Brain_State::Brain_1_Chisel;
             field_10_resources_array.SetAt(2, ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kMudchslResID, TRUE, FALSE));
             break;
 
-        case MudJobs::eSitScrub_1:
+        case relive::Path_Mudokon::MudJobs::eSitScrub:
             field_18E_brain_state = Mud_Brain_State::Brain_2_CrouchScrub;
             field_10_resources_array.SetAt(3, ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kMudscrubResID, TRUE, FALSE));
             break;
 
-        case MudJobs::eAngryWorker_2:
+        case relive::Path_Mudokon::MudJobs::eAngryWorker:
             field_18E_brain_state = Mud_Brain_State::Brain_8_AngryWorker;
             field_180_emo_tbl = Mud_Emotion::eAngry_1;
             field_10_resources_array.SetAt(3, ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kMudscrubResID, TRUE, FALSE));
             break;
 
-        case MudJobs::eDamageRingGiver_3:
-        case MudJobs::eHealthRingGiver_4:
-            if (pTlv->mJob == MudJobs::eDamageRingGiver_3)
+        case relive::Path_Mudokon::MudJobs::eDamageRingGiver:
+        case relive::Path_Mudokon::MudJobs::eHealthRingGiver:
+            if (pTlv->mJob == relive::Path_Mudokon::MudJobs::eDamageRingGiver)
             {
                 field_168_ring_type = RingTypes::eExplosive_Emit_Effect_2;
             }
@@ -471,7 +471,7 @@ Mudokon::Mudokon(Path_Mudokon* pTlv, s32 tlvInfo)
                 field_168_ring_type = RingTypes::eHealing_Emit_Effect_11;
             }
             field_164_ring_pulse_interval = pTlv->mRingPulseInterval;
-            field_16A_flags.Set(Flags_16A::eBit16_give_ring_without_password, pTlv->mGiveRingWithoutPassword == Choice_short::eYes_1);
+            field_16A_flags.Set(Flags_16A::eBit16_give_ring_without_password, pTlv->mGiveRingWithoutPassword == relive::reliveChoice::eYes);
             field_16C_flags.Clear(Flags_16C::eBit1_Unknown);
             field_18E_brain_state = Mud_Brain_State::Brain_0_GiveRings;
             field_10_resources_array.SetAt(8, ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kAbeommResID, TRUE, FALSE));
@@ -504,16 +504,16 @@ Mudokon::Mudokon(Path_Mudokon* pTlv, s32 tlvInfo)
         SetPal(Mud_Emotion::eNormal_0);
     }
 
-    mAnim.mFlags.Set(AnimFlags::eBit5_FlipX, pTlv->mFacing == XDirection_short::eLeft_0);
+    mAnim.mFlags.Set(AnimFlags::eBit5_FlipX, pTlv->mFacing == relive::reliveXDirection::eLeft);
 
     SetType(ReliveTypes::eMudokon);
 
     field_13C_voice_pitch = pTlv->mVoicePitch;
     field_17A_rescue_switch_id = pTlv->mRescueSwitchId;
 
-    field_16A_flags.Set(Flags_16A::eBit2_persist_and_reset_offscreen, pTlv->mPersistAndResetOffscreen == Choice_short::eYes_1);
-    field_16A_flags.Set(Flags_16A::eBit10_work_after_turning_wheel, pTlv->mWorkAfterTurningWheel == Choice_short::eYes_1);
-    field_16A_flags.Set(Flags_16A::eBit11_get_depressed, pTlv->mGetsDepressed == Choice_short::eYes_1);
+    field_16A_flags.Set(Flags_16A::eBit2_persist_and_reset_offscreen, pTlv->mPersistAndResetOffscreen == relive::reliveChoice::eYes);
+    field_16A_flags.Set(Flags_16A::eBit10_work_after_turning_wheel, pTlv->mWorkAfterTurningWheel == relive::reliveChoice::eYes);
+    field_16A_flags.Set(Flags_16A::eBit11_get_depressed, pTlv->mGetsDepressed == relive::reliveChoice::eYes);
     field_16A_flags.Set(Flags_16A::eBit15_ring_and_angry_mud_timeout, pTlv->mRingPulseInterval & 1);
 
     field_17C_stand_idle_timer = 0;
@@ -531,13 +531,13 @@ Mudokon::Mudokon(Path_Mudokon* pTlv, s32 tlvInfo)
         mCurrentMotion = eMudMotions::Motion_0_Idle;
     }
 
-    if (pTlv->mScale == Scale_short::eHalf_1)
+    if (pTlv->mScale == relive::reliveScale::eHalf)
     {
         mSpriteScale = FP_FromDouble(0.5);
         mAnim.mRenderLayer = Layer::eLayer_ZapLinesMudsElum_Half_9;
         mScale = Scale::Bg;
     }
-    else if (pTlv->mScale == Scale_short::eFull_0)
+    else if (pTlv->mScale == relive::reliveScale::eFull)
     {
         mSpriteScale = FP_FromInteger(1);
         mAnim.mRenderLayer = Layer::eLayer_ZapLinesElumMuds_28;
@@ -547,16 +547,16 @@ Mudokon::Mudokon(Path_Mudokon* pTlv, s32 tlvInfo)
     FP hitX = {};
     FP hitY = {};
     const auto bCollision = sCollisions->Raycast(
-        FP_FromInteger(pTlv->mTopLeft.x),
-        FP_FromInteger(pTlv->mTopLeft.y),
-        FP_FromInteger(pTlv->mBottomRight.x),
-        FP_FromInteger(pTlv->mBottomRight.y),
+        FP_FromInteger(pTlv->mTopLeftX),
+        FP_FromInteger(pTlv->mTopLeftY),
+        FP_FromInteger(pTlv->mBottomRightX),
+        FP_FromInteger(pTlv->mBottomRightY),
         &BaseAliveGameObjectCollisionLine,
         &hitX,
         &hitY,
         mScale == Scale::Fg ? kFgFloor : kBgFloor);
 
-    mXPos = FP_FromInteger((pTlv->mTopLeft.x + pTlv->mBottomRight.x) / 2);
+    mXPos = FP_FromInteger((pTlv->mTopLeftX + pTlv->mBottomRightX) / 2);
     if (bCollision)
     {
         mYPos = hitY;
@@ -664,7 +664,7 @@ s32 Mudokon::CreateFromSaveState(const u8* pBuffer)
 {
     auto pState = reinterpret_cast<const Mudokon_State*>(pBuffer);
 
-    auto pTlv = static_cast<Path_Mudokon*>(sPathInfo->TLV_From_Offset_Lvl_Cam(pState->field_40_tlvInfo));
+    auto pTlv = static_cast<relive::Path_Mudokon*>(sPathInfo->TLV_From_Offset_Lvl_Cam(pState->field_40_tlvInfo));
     if (!ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kAbebsic1ResID, FALSE, FALSE))
     {
         ResourceManager::LoadResourceFile_49C170("ABEBSIC1.BAN", nullptr);
@@ -700,7 +700,7 @@ s32 Mudokon::CreateFromSaveState(const u8* pBuffer)
         ResourceManager::LoadResourceFile_49C170("MUDPAL.BND", nullptr);
     }
 
-    if (pTlv->mJob != MudJobs::eChisle_0)
+    if (pTlv->mJob != relive::Path_Mudokon::MudJobs::eChisle)
     {
         if (!ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kMudscrubResID, FALSE, FALSE))
         {
@@ -1196,12 +1196,12 @@ void Mudokon::VOnTrapDoorOpen()
     }
 }
 
-void Mudokon::VOnTlvCollision(Path_TLV* pTlv)
+void Mudokon::VOnTlvCollision(relive::Path_TLV* pTlv)
 {
-    Path_TLV* pTlvIter = pTlv;
+    relive::Path_TLV* pTlvIter = pTlv;
     while (pTlvIter)
     {
-        if (pTlvIter->mTlvType32 == TlvTypes::DeathDrop_4)
+        if (pTlvIter->mTlvType == ReliveTypes::eDeathDrop)
         {
             if (mHealth > FP_FromInteger(0))
             {
@@ -1664,12 +1664,12 @@ s16 Mudokon::TurningWheelHelloOrAllYaResponse()
         return field_190_brain_sub_state;
     }
 
-    auto pWheelTlv = static_cast<Path_WorkWheel*>(sPathInfo->TLV_Get_At_4DB4B0(
+    auto pWheelTlv = static_cast<relive::Path_WorkWheel*>(sPathInfo->TLV_Get_At_4DB4B0(
         FP_GetExponent(mXPos),
         FP_GetExponent(mYPos),
         FP_GetExponent(mXPos),
         FP_GetExponent(mYPos),
-        TlvTypes::WorkWheel_79));
+        ReliveTypes::eWorkWheel));
 
     if (SwitchStates_Get(pWheelTlv->mSwitchId))
     {
@@ -3274,7 +3274,7 @@ s16 Mudokon::Brain_4_ListeningToAbe()
                         FP_GetExponent(mYPos - FP_FromInteger(5)),
                         FP_GetExponent(mXPos),
                         FP_GetExponent(mYPos - FP_FromInteger(5)),
-                        TlvTypes::Water_77))
+                        ReliveTypes::eWater))
                 {
                     field_180_emo_tbl = Mud_Emotion::eAngry_1;
                     field_188_pTblEntry = ResponseTo_471730(Mud_Emotion::eAngry_1, MudAction::eSlapOrWater_7);
@@ -5127,7 +5127,7 @@ s16 Mudokon::Brain_8_AngryWorker()
                        FP_GetExponent(mYPos),
                        FP_GetExponent(mXPos),
                        FP_GetExponent(mYPos),
-                       TlvTypes::WorkWheel_79)
+                       ReliveTypes::eWorkWheel)
                         != 0
                      ? 4
                      : 1;
@@ -5220,7 +5220,7 @@ s16 Mudokon::Brain_8_AngryWorker()
                            FP_GetExponent(mYPos),
                            FP_GetExponent(mXPos),
                            FP_GetExponent(mYPos),
-                           TlvTypes::WorkWheel_79)
+                           ReliveTypes::eWorkWheel)
                             != 0
                          ? 4
                          : 1;
@@ -6657,7 +6657,7 @@ void Mudokon::Motion_49_Fall()
                          FP_GetExponent(mYPos),
                          FP_GetExponent(mXPos),
                          FP_GetExponent(mYPos),
-                         TlvTypes::SoftLanding_75)
+                         ReliveTypes::eSoftLanding)
                      && mHealth > FP_FromInteger(0))
                     || (mYPos - BaseAliveGameObjectLastLineYPos < (mSpriteScale * FP_FromInteger(180)) && (mHealth > FP_FromInteger(0) || gAbeBulletProof_5C1BDA)))
                 {
@@ -7161,9 +7161,9 @@ void Mudokon::ToStand()
 
 s16 Mudokon::FindWheel(FP xpos, FP ypos)
 {
-    auto* pWheelTlv = static_cast<Path_WorkWheel*>(
+    auto* pWheelTlv = static_cast<relive::Path_WorkWheel*>(
         sPathInfo->TLV_Get_At_4DB4B0(
-            FP_GetExponent(xpos), FP_GetExponent(ypos), FP_GetExponent(xpos), FP_GetExponent(ypos), TlvTypes::WorkWheel_79));
+            FP_GetExponent(xpos), FP_GetExponent(ypos), FP_GetExponent(xpos), FP_GetExponent(ypos), ReliveTypes::eWorkWheel));
 
     if (pWheelTlv)
     {
@@ -7237,7 +7237,7 @@ s16 Mudokon::StopAtWheel()
             // Check if the other mud has already take the spot of this work wheel
             if (bRect.x <= ourRect.w && bRect.w >= ourRect.x && bRect.h >= ourRect.y && bRect.y <= ourRect.h)
             {
-                if (pOtherMud->field_16A_flags.Get(Flags_16A::eBit7_stopped_at_wheel) || (sPathInfo->TLV_Get_At_4DB4B0(FP_GetExponent(pObj->mXPos), FP_GetExponent(pObj->mYPos), FP_GetExponent(pObj->mXPos), FP_GetExponent(pObj->mYPos), TlvTypes::WorkWheel_79) && pOtherMud->mVelX == FP_FromInteger(0)))
+                if (pOtherMud->field_16A_flags.Get(Flags_16A::eBit7_stopped_at_wheel) || (sPathInfo->TLV_Get_At_4DB4B0(FP_GetExponent(pObj->mXPos), FP_GetExponent(pObj->mYPos), FP_GetExponent(pObj->mXPos), FP_GetExponent(pObj->mYPos), ReliveTypes::eWorkWheel) && pOtherMud->mVelX == FP_FromInteger(0)))
                 {
                     // Another mud has stolen this wheel so don't stop
                     return 0;

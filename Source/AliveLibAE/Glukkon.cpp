@@ -252,7 +252,7 @@ bool Glukkon::BrainIs(TGlukkonBrainFn fn)
     return field_20C_brain_state_fn == fn;
 }
 
-Glukkon::Glukkon(Path_Glukkon* pTlv, s32 tlvInfo)
+Glukkon::Glukkon(relive::Path_Glukkon* pTlv, s32 tlvInfo)
     : BaseAliveGameObject(0)
 {
     ;

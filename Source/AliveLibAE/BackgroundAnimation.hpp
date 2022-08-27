@@ -26,7 +26,7 @@ public:
     virtual void VUpdate() override;
     virtual void VScreenChanged() override;
 
-    BackgroundAnimation(Path_BackgroundAnimation* pPathParams, TlvItemInfoUnion tlvInfo);
+    BackgroundAnimation(relive::Path_BackgroundAnimation* pPathParams, TlvItemInfoUnion tlvInfo);
     ~BackgroundAnimation();
 
 private:

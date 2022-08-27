@@ -115,7 +115,7 @@ static u8 Fleech_NextRandom()
     return sRandomBytes_546744[sFleechRandomIdx_5BC20C++];
 }
 
-Fleech::Fleech(Path_Fleech* pTlv, s32 tlvInfo)
+Fleech::Fleech(relive::Path_Fleech* pTlv, s32 tlvInfo)
     : BaseAliveGameObject(2)
 {
     mXPos = FP_FromInteger(pTlv->mTopLeft.x);

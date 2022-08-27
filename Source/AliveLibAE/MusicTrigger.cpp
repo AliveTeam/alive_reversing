@@ -8,7 +8,7 @@
 #include "Abe.hpp"
 #include "Game.hpp"
 
-MusicTrigger::MusicTrigger(Path_MusicTrigger* pTlv, u32 tlvInfo)
+MusicTrigger::MusicTrigger(relive::Path_MusicTrigger* pTlv, u32 tlvInfo)
     : BaseGameObject(TRUE, 0)
 {
     Init(pTlv->mMusicType, pTlv->mTriggeredBy, pTlv->mMusicDelay);

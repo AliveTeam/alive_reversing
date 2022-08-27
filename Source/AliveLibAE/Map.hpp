@@ -6,6 +6,7 @@
 #include "ResourceManager.hpp"
 #include "Path.hpp"
 #include "../relive_lib/MapWrapper.hpp"
+#include "../relive_lib/data_conversion/relive_tlvs.hpp"
 
 struct Map_PathsArray_Extended final
 {
@@ -60,7 +61,7 @@ enum class CameraPos : s16
 
 struct Path_PathTransition final : public Path_TLV
 {
-    LevelIds field_10_level;
+    LevelIds mNextLevel;
     s16 mNextPath;
     s16 mNextCamera;
     s16 mMovieId;
@@ -158,7 +159,7 @@ public:
 private:
     Camera* GetCamera(CameraPos pos);
 
-    void CreateScreenTransistionForTLV(Path_TLV* pTlv);
+    void CreateScreenTransistionForTLV(relive::Path_TLV* pTlv);
     void ScreenChange_Common();
 };
 ALIVE_ASSERT_SIZEOF(Map, 0xDC);

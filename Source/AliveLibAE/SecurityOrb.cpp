@@ -35,7 +35,7 @@ const TintEntry sSecurityOrbTints_55C1EC[18] = {
     {EReliveLevelIds::eNone, 127u, 127u, 127u}};
 
 
-SecurityOrb::SecurityOrb(Path_SecurityOrb* pTlv, s32 tlvInfo)
+SecurityOrb::SecurityOrb(relive::Path_SecurityOrb* pTlv, s32 tlvInfo)
     : BaseAliveGameObject(0)
 {
     SetType(ReliveTypes::eSecurityOrb);

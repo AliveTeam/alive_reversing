@@ -15,7 +15,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_BrewMachine, 0x14);
 class BrewMachine final : public ::BaseAnimatedWithPhysicsGameObject
 {
 public:
-    BrewMachine(Path_BrewMachine* pTlv, s32 tlvInfo);
+    BrewMachine(relive::Path_BrewMachine* pTlv, s32 tlvInfo);
     ~BrewMachine();
     
     virtual void VUpdate() override;

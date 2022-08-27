@@ -8,7 +8,7 @@
 #include "stdlib.hpp"
 #include "Grid.hpp"
 
-StatusLight::StatusLight(Path_StatusLight* pTlv, u32 tlvInfo)
+StatusLight::StatusLight(relive::Path_StatusLight* pTlv, u32 tlvInfo)
     : BaseAnimatedWithPhysicsGameObject(0)
 {
     field_F4_tlvInfo = tlvInfo;

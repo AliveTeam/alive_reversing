@@ -57,7 +57,7 @@ class FlyingSligSpawner final : public BaseGameObject
 public:
     static s32 CreateFromSaveState(const u8* pBuffer);
 
-    FlyingSligSpawner(Path_FlyingSligSpawner* pTlv, s32 tlvInfo);
+    FlyingSligSpawner(relive::Path_FlyingSligSpawner* pTlv, s32 tlvInfo);
     ~FlyingSligSpawner();
     
     virtual void VUpdate() override;

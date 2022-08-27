@@ -16,7 +16,7 @@ AnimId::HoistRock1};
 
 const static s16 word_5556F0[12] = {5, 0, 10, 0, 30, 0, 5, 0, 0, 0, 0, 0};
 
-HoistRocksEffect::HoistRocksEffect(Path_Hoist* pTlv, s32 tlvInfo)
+HoistRocksEffect::HoistRocksEffect(relive::Path_Hoist* pTlv, s32 tlvInfo)
     : BaseGameObject(TRUE, 0)
 {
     field_24_tlvInfo = tlvInfo;

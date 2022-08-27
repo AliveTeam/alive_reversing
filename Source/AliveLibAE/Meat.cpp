@@ -393,7 +393,7 @@ const TintEntry kMeatTints_55C254[] = {
 };
 
 
-MeatSack::MeatSack(Path_MeatSack* pTlv, s32 tlvInfo)
+MeatSack::MeatSack(relive::Path_MeatSack* pTlv, s32 tlvInfo)
     : BaseAliveGameObject(0)
 {
     SetType(ReliveTypes::eMeatSack);

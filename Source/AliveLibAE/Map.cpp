@@ -361,7 +361,7 @@ void Map::Handle_PathTransition()
 
     if (mAliveObj && pPathChangeTLV)
     {
-        mNextLevel = MapWrapper::FromAE(pPathChangeTLV->field_10_level);
+        mNextLevel = MapWrapper::FromAE(pPathChangeTLV->mNextLevel);
         mNextPath = pPathChangeTLV->mNextPath;
         mNextCamera = pPathChangeTLV->mNextCamera;
         mFmvBaseId = pPathChangeTLV->mMovieId;
@@ -917,11 +917,11 @@ void Map::GoTo_Camera()
 
                 // Teleporter transition
                 Path_Teleporter* pTeleporterTlv = static_cast<Path_Teleporter*>(sPathInfo->TLV_First_Of_Type_In_Camera(TlvTypes::Teleporter_88, 0));
-                Path_Teleporter_Data teleporterData = pTeleporterTlv->field_10_data;
+                Path_Teleporter_Data teleporterData = pTeleporterTlv->mData;
                 while (teleporterData.mTeleporterId != sActiveHero->field_1A0_door_id)
                 {
                     pTeleporterTlv = static_cast<Path_Teleporter*>(Path::TLV_Next_Of_Type(pTeleporterTlv, TlvTypes::Teleporter_88));
-                    teleporterData = pTeleporterTlv->field_10_data;
+                    teleporterData = pTeleporterTlv->mData;
                 }
 
                 CreateScreenTransistionForTLV(pTeleporterTlv);
@@ -946,7 +946,7 @@ Camera* Map::GetCamera(CameraPos pos)
     return field_2C_camera_array[static_cast<s32>(pos)];
 }
 
-void Map::CreateScreenTransistionForTLV(Path_TLV* pTlv)
+void Map::CreateScreenTransistionForTLV(relive::Path_TLV* pTlv)
 {
     // TODO: Refactor
     const s16 doorYDiff = static_cast<s16>(pTlv->mTopLeft.y - FP_GetExponent(pScreenManager->CamYPos()));
@@ -1324,7 +1324,7 @@ s16 Map::SetActiveCameraDelayed(MapDirections direction, BaseAliveGameObject* pO
 
     if (pObj && pPathChangeTLV)
     {
-        mNextLevel = MapWrapper::FromAE(pPathChangeTLV->field_10_level);
+        mNextLevel = MapWrapper::FromAE(pPathChangeTLV->mNextLevel);
         mNextPath = pPathChangeTLV->mNextPath;
         mNextCamera = pPathChangeTLV->mNextCamera;
         if (swapEffect < 0)

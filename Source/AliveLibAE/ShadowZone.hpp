@@ -17,11 +17,11 @@ struct Path_ShadowZone final : public Path_TLV
 {
     s16 field_10_center_w;
     s16 field_12_center_h;
-    u16 field_14_r;
-    u16 field_16_g;
-    u16 field_18_b;
+    u16 mRed;
+    u16 mGreen;
+    u16 mBlue;
     s16 field_1A_switch_id;
-    ShadowZoneScale field_1C_scale;
+    ShadowZoneScale mScale;
     s16 field_1E_pad;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_ShadowZone, 0x20);
@@ -31,7 +31,7 @@ enum class LevelIds : s16;
 class ShadowZone final : public BaseGameObject
 {
 public:
-    ShadowZone(Path_ShadowZone* pTlv, Path* pPath, u32 tlvInfo);
+    ShadowZone(relive::Path_ShadowZone* pTlv, Path* pPath, u32 tlvInfo);
     ~ShadowZone();
 
     virtual void VUpdate() override;
