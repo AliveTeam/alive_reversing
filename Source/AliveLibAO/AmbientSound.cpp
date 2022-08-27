@@ -70,10 +70,9 @@ void Start_Sounds_for_TLV(CameraPos direction, relive::Path_TLV* pTlv)
 
     if (pAmbianceTbl)
     {
-        TlvTypes type = static_cast<TlvTypes>(pTlv->mTlvType);
-        switch (type)
+        switch (pTlv->mTlvType)
         {
-            case TlvTypes::Slig_24:
+            case ReliveTypes::eSlig:
                 if (static_cast<relive::Path_Slig*>(pTlv)->mData.mStartState == relive::Path_Slig_Data::StartState::Patrol)
                 {
                     if (!pAmbianceTbl[1].field_8_pScopedSeq)
@@ -92,7 +91,7 @@ void Start_Sounds_for_TLV(CameraPos direction, relive::Path_TLV* pTlv)
                 }
                 break;
 
-            case TlvTypes::Slog_25:
+            case ReliveTypes::eSlog:
                 if (static_cast<relive::Path_Slog*>(pTlv)->mAsleep == relive::reliveChoice::eYes)
                 {
                     if (!pAmbianceTbl[3].field_8_pScopedSeq)
@@ -111,7 +110,7 @@ void Start_Sounds_for_TLV(CameraPos direction, relive::Path_TLV* pTlv)
                 }
                 break;
 
-            case TlvTypes::Paramite_48:
+            case ReliveTypes::eParamite:
                 if (!pAmbianceTbl[4].field_8_pScopedSeq)
                 {
                     pAmbianceTbl[4].field_8_pScopedSeq = relive_new ScopedSeq(4, direction);
@@ -119,7 +118,7 @@ void Start_Sounds_for_TLV(CameraPos direction, relive::Path_TLV* pTlv)
                 }
                 break;
 
-            case TlvTypes::Scrab_72:
+            case ReliveTypes::eScrab:
                 if (!pAmbianceTbl[5].field_8_pScopedSeq)
                 {
                     pAmbianceTbl[5].field_8_pScopedSeq = relive_new ScopedSeq(5, direction);
@@ -127,7 +126,7 @@ void Start_Sounds_for_TLV(CameraPos direction, relive::Path_TLV* pTlv)
                 }
                 break;
 
-            case TlvTypes::MeatSaw_88:
+            case ReliveTypes::eMeatSaw:
                 if (!pAmbianceTbl[6].field_8_pScopedSeq)
                 {
                     pAmbianceTbl[6].field_8_pScopedSeq = relive_new ScopedSeq(6, direction);
