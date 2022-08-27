@@ -1550,7 +1550,7 @@ inline void from_json(const nlohmann::json& j, Path_BeeNest& p)
     j.at("swarm_size").get_to(p.mSwarmSize);
     j.at("chase_time").get_to(p.mChaseTime);
     j.at("speed").get_to(p.mSpeed);
-    j.at("disable_resources").get_to(p.mDisabledResources);
+    j.at("disabled_resources").get_to(p.mDisabledResources);
     j.at("bees_amount").get_to(p.mBeesAmount);
 }
 
