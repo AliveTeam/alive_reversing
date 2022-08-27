@@ -346,8 +346,8 @@ static void Factory_Dove(relive::Path_TLV* pTlv, Map* /*pMap*/, const TLVUniqueI
 
         auto pDoveTlv = static_cast<relive::Path_Dove*>(pTlv);
 
-        const s16 width = pDoveTlv->mWidth;
-        const s16 height = pDoveTlv->mHeight;
+        const s16 width = pDoveTlv->Width();
+        const s16 height = pDoveTlv->Height();
 
         for (s32 i = 0; i < pDoveTlv->mDoveCount; i++)
         {
@@ -556,7 +556,7 @@ static void Factory_Honey(relive::Path_TLV* pTlv, Map* /*pMap*/, const TLVUnique
         };
         ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, kResourcesToCheck);
 
-        const auto midPoint = pTlv->mWidth / 2;
+        const auto midPoint = pTlv->Width() / 2;
         auto pHoney = relive_new Honey(
             FP_FromInteger(midPoint + pTlv->mTopLeftX),
             FP_FromInteger(pTlv->mTopLeftY + 24));

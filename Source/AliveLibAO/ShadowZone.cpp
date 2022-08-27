@@ -19,8 +19,8 @@ ShadowZone::ShadowZone(relive::Path_ShadowZone* pTlv, Map* /*pMap*/, const TLVUn
 
     field_10_tlvInfo = tlvId;
 
-    field_20_mid_x = pTlv->mWidth / 2;
-    field_22_mid_y = pTlv->mHeight / 2;
+    field_20_mid_x = pTlv->Width() / 2;
+    field_22_mid_y = pTlv->Height() / 2;
 
     field_18_centre_x = field_20_mid_x + pTlv->mTopLeftX;
     field_1A_centre_y = field_22_mid_y + pTlv->mTopLeftY;

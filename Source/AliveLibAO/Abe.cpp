@@ -3751,7 +3751,7 @@ s16 Abe::VTakeDamage(BaseGameObject* pFrom)
 
 static bool IsSameScaleAsHoist(relive::Path_Hoist* pHoist, BaseAliveGameObject* pObj)
 {
-    auto width = pHoist->mWidth;
+    auto width = pHoist->Width();
 
     //The width is used to determine the layer as there is no layer property in the TLV
     if (pObj->mSpriteScale == FP_FromInteger(1))
@@ -3790,7 +3790,7 @@ void Abe::TryHoist_423420()
 
     if (pHoist && IsSameScaleAsHoist(pHoist, this))
     {
-        if (FP_FromInteger(pHoist->mHeight) <= mSpriteScale * FP_FromInteger(95))
+        if (FP_FromInteger(pHoist->Height()) <= mSpriteScale * FP_FromInteger(95))
         {
             mCurrentMotion = eAbeMotions::Motion_16_HoistBegin_426E40;
         }
@@ -9801,7 +9801,7 @@ void Abe::Motion_156_DoorEnter_42D370()
                 }
             }
             mAnim.mFlags.Set(AnimFlags::eBit5_FlipX, pPathDoor->mExitDirection == relive::reliveXDirection::eRight);
-            mXPos = FP_FromInteger((BaseAliveGameObjectPathTLV->mWidth) / 2)
+            mXPos = FP_FromInteger((BaseAliveGameObjectPathTLV->Width()) / 2)
                           + FP_FromInteger(BaseAliveGameObjectPathTLV->mTopLeftX);
             MapFollowMe_401D30(TRUE);
 

@@ -104,8 +104,6 @@ inline void to_json(nlohmann::json& j, const Path_TLV& p)
     j = nlohmann::json{
         {"top_left_x", p.mTopLeftX},
         {"top_left_y", p.mTopLeftY},
-        {"width", p.mWidth},
-        {"height", p.mHeight},
         {"bottom_right_x", p.mBottomRightX},
         {"bottom_right_y", p.mBottomRightY},
         {"tlv_specific_meaning", p.mTlvSpecificMeaning},
@@ -118,8 +116,6 @@ inline void from_json(const nlohmann::json& j, Path_TLV& p)
 {
     j.at("top_left_x").get_to(p.mTopLeftX);
     j.at("top_left_y").get_to(p.mTopLeftY);
-    j.at("width").get_to(p.mWidth);
-    j.at("height").get_to(p.mHeight);
     j.at("bottom_right_x").get_to(p.mBottomRightX);
     j.at("bottom_right_y").get_to(p.mBottomRightY);
     j.at("tlv_specific_meaning").get_to(p.mTlvSpecificMeaning);

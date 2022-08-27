@@ -68,12 +68,20 @@ public:
     s16 mTopLeftY = 0;
     s16 mBottomRightX = 0;
     s16 mBottomRightY = 0;
-    s16 mWidth = 0;
-    s16 mHeight = 0;
     s8 mTlvSpecificMeaning = 0; // TODO: remove me and add to the actual tlv's instead
     ReliveTypes mTlvType = {};   // TODO: use shared TlvTypes enum
     BitField8<TlvFlags> mTlvFlags = {};
     s32 mLength = 0;
+
+    s16 Width() const
+    {
+        return mBottomRightX - mTopLeftX;
+    }
+
+    s16 Height() const
+    {
+        return mBottomRightY - mTopLeftY;
+    }
 };
 
 class Path_ShadowZone final : public Path_TLV

@@ -136,9 +136,9 @@ Door::Door(relive::Path_Door* pTlv, const TLVUniqueId& tlvId)
                 }
 
                 if (sCollisions->Raycast(
-                    FP_FromInteger(pTlv->mTopLeftX + (pTlv->mWidth) / 2),
+                    FP_FromInteger(pTlv->mTopLeftX + (pTlv->Width()) / 2),
                     FP_FromInteger(pTlv->mTopLeftY),
-                    FP_FromInteger(pTlv->mTopLeftX + (pTlv->mWidth) / 2),
+                    FP_FromInteger(pTlv->mTopLeftX + (pTlv->Width()) / 2),
                     FP_FromInteger(pTlv->mBottomRightY),
                     &pLine,
                     &mXPos,
@@ -194,9 +194,9 @@ Door::Door(relive::Path_Door* pTlv, const TLVUniqueId& tlvId)
             }
 
             if (sCollisions->Raycast(
-                FP_FromInteger(pTlv->mTopLeftX) + FP_FromInteger((pTlv->mWidth) / 2),
+                FP_FromInteger(pTlv->mTopLeftX) + FP_FromInteger((pTlv->Width()) / 2),
                 FP_FromInteger(pTlv->mTopLeftY),
-                FP_FromInteger(pTlv->mTopLeftX) + FP_FromInteger((pTlv->mWidth) / 2),
+                FP_FromInteger(pTlv->mTopLeftX) + FP_FromInteger((pTlv->Width()) / 2),
                 FP_FromInteger(pTlv->mBottomRightY),
                 &pLine,
                 &mXPos,
@@ -245,9 +245,9 @@ Door::Door(relive::Path_Door* pTlv, const TLVUniqueId& tlvId)
                     if (gMap.mCurrentLevel == EReliveLevelIds::eRuptureFarmsReturn || gMap.mCurrentLevel == EReliveLevelIds::eRuptureFarms)
                     {
                         if (sCollisions->Raycast(
-                                FP_FromInteger(pTlv->mTopLeftX + (pTlv->mWidth) / 2),
+                                FP_FromInteger(pTlv->mTopLeftX + (pTlv->Width()) / 2),
                                 FP_FromInteger(pTlv->mTopLeftY),
-                                FP_FromInteger(pTlv->mTopLeftX + (pTlv->mWidth) / 2),
+                                FP_FromInteger(pTlv->mTopLeftX + (pTlv->Width()) / 2),
                                 FP_FromInteger(pTlv->mBottomRightY),
                                 &pLine,
                                 &mXPos,
