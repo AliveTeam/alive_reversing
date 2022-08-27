@@ -9720,7 +9720,7 @@ void Abe::Motion_156_DoorEnter_42D370()
                     }
                     if (pTlv->mClearObjects == relive::reliveChoice::eYes)
                     {
-                        gMap.sub_447430(pTlv->mPath);
+                        gMap.ResetPathObjects(pTlv->mPath);
                     }
                 }
             }

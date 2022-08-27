@@ -1352,25 +1352,28 @@ relive::Path_TLV* Map::TLV_Get_At_446060(relive::Path_TLV* pTlv, FP xpos, FP ypo
     return pTlv;
 }
 
-void Map::sub_447430(u16 pathNum)
+void Map::ResetPathObjects(u16 pathNum)
 {
     BinaryPath* pPathRes = GetPathResourceBlockPtr(pathNum);
     for (auto& cam : pPathRes->GetCameras())
     {
         auto pTlv = reinterpret_cast<relive::Path_TLV*>(cam->mBuffer.data());
-        pTlv->mTlvFlags.Clear(relive::TlvFlags::eBit1_Created);
-        pTlv->mTlvFlags.Clear(relive::TlvFlags::eBit2_Destroyed);
-        while (!pTlv->mTlvFlags.Get(relive::TlvFlags::eBit3_End_TLV_List))
+        if (pTlv)
         {
-            pTlv = Path_TLV::Next_NoCheck(pTlv);
-
-            if (pTlv->mLength == 0)
-            {
-                break;
-            }
-
             pTlv->mTlvFlags.Clear(relive::TlvFlags::eBit1_Created);
             pTlv->mTlvFlags.Clear(relive::TlvFlags::eBit2_Destroyed);
+            while (!pTlv->mTlvFlags.Get(relive::TlvFlags::eBit3_End_TLV_List))
+            {
+                pTlv = Path_TLV::Next_NoCheck(pTlv);
+
+                if (pTlv->mLength == 0)
+                {
+                    break;
+                }
+
+                pTlv->mTlvFlags.Clear(relive::TlvFlags::eBit1_Created);
+                pTlv->mTlvFlags.Clear(relive::TlvFlags::eBit2_Destroyed);
+            }
         }
     }
 }

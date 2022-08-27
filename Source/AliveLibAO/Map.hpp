@@ -254,7 +254,7 @@ public:
 
     relive::Path_TLV* TLV_Get_At_446060(relive::Path_TLV* pTlv, FP xpos, FP ypos, FP width, FP height);
 
-    void sub_447430(u16 pathNum);
+    void ResetPathObjects(u16 pathNum);
 
     CameraPos GetDirection(EReliveLevelIds level, s32 path, FP xpos, FP ypos);
 
