@@ -317,7 +317,7 @@ static void Factory_LiftPoint(relive::Path_TLV* pTlv, Map* pMap, const TLVUnique
     }
 }
 
-static void Factory_WellExpress_483340(relive::Path_TLV* pTlv, Map* /*pMap*/, const TLVUniqueId& tlvId, LoadMode loadMode)
+static void Factory_Well(relive::Path_TLV* pTlv, Map* /*pMap*/, const TLVUniqueId& tlvId, LoadMode loadMode)
 {
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
@@ -967,11 +967,6 @@ static void Factory_BeeNest(relive::Path_TLV* pTlv, Map* /*pMap*/, const TLVUniq
     {
         relive_new BeeNest(static_cast<relive::Path_BeeNest*>(pTlv), tlvId);
     }
-}
-
-static void Factory_Well(relive::Path_TLV* pTlv, Map* pMap, const TLVUniqueId& tlvId, LoadMode loadMode)
-{
-    Factory_WellExpress_483340(pTlv, pMap, tlvId, loadMode);
 }
 
 static void Factory_Mine(relive::Path_TLV* pTlv, Map* /*pMap*/, const TLVUniqueId& tlvId, LoadMode loadMode)
@@ -2244,7 +2239,8 @@ void ConstructTLVObject(relive::Path_TLV* pTlv, Map* pMap, const TLVUniqueId& tl
         case ReliveTypes::eMusicTrigger:
             Factory_MusicTrigger(pTlv, pMap, tlvInfo, loadMode);
             break;
-        case ReliveTypes::eWell:
+        case ReliveTypes::eWellLocal:
+        case ReliveTypes::eWellExpress:
             Factory_Well(pTlv, pMap, tlvInfo, loadMode);
             break;
         case ReliveTypes::eZzzSpawner:
@@ -2265,7 +2261,7 @@ void ConstructTLVObject(relive::Path_TLV* pTlv, Map* pMap, const TLVUniqueId& tl
         case ReliveTypes::eFallingItem:
             Factory_FallingItem(pTlv, pMap, tlvInfo, loadMode);
             break;
-        case ReliveTypes::eRingOrLiftMud: // new tlv type just for lift mud?
+        case ReliveTypes::eLiftMudokon:
             Factory_LiftMud(pTlv, pMap, tlvInfo, loadMode);
             break;
         case ReliveTypes::eBeeSwarmHole:
