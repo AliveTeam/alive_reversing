@@ -741,7 +741,9 @@ public:
     s16 field_16C_bHaveShrykull = 0;
     s16 field_16E_cameraIdx = 0;
     ReliveTypes mHandStoneType = {};
-    AllStone field_174_pathStone = {};
+    relive::Path_HandStone* mHandStone = nullptr;
+    relive::Path_MovieStone* mMovieStone = nullptr;
+    relive::Path_BellsongStone* mBellsongStone = nullptr;
     OrbWhirlWind* field_188_pOrbWhirlWind = nullptr;
     BaseAliveGameObject* field_18C_pObjToPossess = nullptr;
     EReliveLevelIds field_190_level = EReliveLevelIds::eNone;

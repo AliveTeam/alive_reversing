@@ -2,6 +2,7 @@
 
 #include "../AliveLibCommon/Function.hpp"
 #include "../relive_lib/BaseGameObject.hpp"
+#include "../relive_lib/data_conversion/relive_tlvs.hpp"
 
 namespace AO {
 
@@ -14,13 +15,13 @@ enum class BellsongTypes : s16
 class BellSong final : public BaseGameObject
 {
 public:
-    BellSong(BellsongTypes type, u32 code);
+    BellSong(relive::Path_BellsongStone::BellsongTypes type, u32 code);
 
     virtual void VUpdate() override;
 
     s32 mCodeIdx = 0;
     bool mDone = false;
-    BellsongTypes mType = BellsongTypes::eWhistle;
+    relive::Path_BellsongStone::BellsongTypes mType = relive::Path_BellsongStone::BellsongTypes::eWhistle;
     s32 mCode = 0;
     s16 mCodeLength = 0;
 };

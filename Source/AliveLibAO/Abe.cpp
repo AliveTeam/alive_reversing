@@ -8151,31 +8151,30 @@ void Abe::Motion_88_HandstoneBegin_430590()
                             ReliveTypes::eHandStone);
                 }
 
-                /*
-                auto ptlv = static_cast<Path_Stone*>(BaseAliveGameObjectPathTLV);
-                if (ptlv)
+                if (BaseAliveGameObjectPathTLV)
                 {
                     mHandStoneType = BaseAliveGameObjectPathTLV->mTlvType;
                     switch (mHandStoneType)
                     {
                         case ReliveTypes::eMovieStone:
                         {
-                            field_174_pathStone.dataMovie = ptlv->field_18_data.dataMovie;
+                            mMovieStone = static_cast<relive::Path_MovieStone*>(BaseAliveGameObjectPathTLV);
                             break;
                         }
                         case ReliveTypes::eBellSongStone:
                         {
-                            field_174_pathStone.dataBellsong = ptlv->field_18_data.dataBellsong;
+                            mBellsongStone = static_cast<relive::Path_BellsongStone*>(BaseAliveGameObjectPathTLV);
                             break;
                         }
                         case ReliveTypes::eDemoPlaybackStone:
                         {
-                            field_174_pathStone.demoId = ptlv->field_18_data.demoId;
+                            ALIVE_FATAL("never expected eDemoPlaybackStone to be used");
+                            //field_174_pathStone.demoId = ptlv->field_18_data.demoId;
                             break;
                         }
                         case ReliveTypes::eHandStone:
                         {
-                            field_174_pathStone.dataHandstone = ptlv->field_18_data.dataHandstone;
+                            mHandStone = static_cast<relive::Path_HandStone*>(BaseAliveGameObjectPathTLV);
                             break;
                         }
                         default:
@@ -8185,7 +8184,7 @@ void Abe::Motion_88_HandstoneBegin_430590()
                 else
                 {
                     mCurrentMotion = eAbeMotions::Motion_89_HandstoneEnd_430E80;
-                }*/
+                }
             }
             break;
         }
@@ -8199,7 +8198,7 @@ void Abe::Motion_88_HandstoneBegin_430590()
                     {
                         auto pFmvInfo = Path_Get_FMV_Record_434680(
                             gMap.mCurrentLevel,
-                            field_174_pathStone.dataMovie.mMovieId);
+                            mMovieStone->mMovieId);
                         u32 aux = 0;
                         Get_fmvs_sectors_44FEB0(
                             pFmvInfo->field_0_pName, 0, 0, &aux, 0, 0);
@@ -8217,15 +8216,16 @@ void Abe::Motion_88_HandstoneBegin_430590()
                     case ReliveTypes::eBellSongStone:
                     {
                         sBellSong = relive_new BellSong(
-                            field_174_pathStone.dataBellsong.mType,
-                            Code_Convert(field_174_pathStone.dataBellsong.mCode1, field_174_pathStone.dataBellsong.mCode2));
+                            mBellsongStone->mType,
+                            Code_Convert(mBellsongStone->mCode1, mBellsongStone->mCode2));
 
-                        SwitchStates_Do_Operation(field_174_pathStone.dataBellsong.mSwitchId, relive::reliveSwitchOp::eSetTrue);
+                        SwitchStates_Do_Operation(mBellsongStone->mSwitchId, relive::reliveSwitchOp::eSetTrue);
                         field_110_state.stone = StoneStates::eBellSongDone_4;
                         break;
                     }
                     case ReliveTypes::eDemoPlaybackStone:
-                        field_164_pCircularFade->mBaseGameObjectFlags.Set(Options::eDead);
+                        ALIVE_FATAL("never expected eDemoPlaybackStone to be used");
+                        /*field_164_pCircularFade->mBaseGameObjectFlags.Set(Options::eDead);
                         field_164_pCircularFade = nullptr;
                         field_110_state.stone = StoneStates::eFreeDemoPlaybackResources_3;
                         gCounter_507728 = 2;
@@ -8234,7 +8234,7 @@ void Abe::Motion_88_HandstoneBegin_430590()
                         {
                             relive_new DemoPlayback(gpDemoPlaybackRes_50772C, 1);
                         }
-                        break;
+                        break;*/
                     case ReliveTypes::eHandStone:
                     {
                         mAnim.mFlags.Clear(AnimFlags::eBit3_Render);
@@ -8247,9 +8247,9 @@ void Abe::Motion_88_HandstoneBegin_430590()
                         field_192_path = gMap.mCurrentPath;
                         field_194_camera = gMap.mCurrentCamera;
                         gMap.SetActiveCam(
-                            MapWrapper::FromAO(field_174_pathStone.dataHandstone.camera1.level),
-                            field_174_pathStone.dataHandstone.camera1.path,
-                            field_174_pathStone.dataHandstone.camera1.camera,
+                            mHandStone->mLevel1,
+                            mHandStone->mPath1,
+                            mHandStone->mCameraId1,
                             CameraSwapEffects::eInstantChange_0, 0, 0);
                         break;
                     }
@@ -8341,15 +8341,21 @@ void Abe::Motion_88_HandstoneBegin_430590()
                 switch (field_16E_cameraIdx)
                 {
                     case 0:
-                        camera = field_174_pathStone.dataHandstone.camera1;
+                        camera.level = MapWrapper::ToAO(mHandStone->mLevel1);
+                        camera.path = mHandStone->mPath1;
+                        camera.camera = mHandStone->mCameraId1;
                         break;
 
                     case 1:
-                        camera = field_174_pathStone.dataHandstone.camera2;
+                        camera.level = MapWrapper::ToAO(mHandStone->mLevel2);
+                        camera.path = mHandStone->mPath2;
+                        camera.camera = mHandStone->mCameraId2;
                         break;
 
                     case 2:
-                        camera = field_174_pathStone.dataHandstone.camera3;
+                        camera.level = MapWrapper::ToAO(mHandStone->mLevel3);
+                        camera.path = mHandStone->mPath3;
+                        camera.camera = mHandStone->mCameraId3;
                         break;
 
                     default:

@@ -20,7 +20,7 @@ void BellSong::VUpdate()
         const GameSpeakEvents code_looked_up = Code_LookUp(mCode, static_cast<u16>(mCodeIdx), mCodeLength);
         switch (mType)
         {
-            case BellsongTypes::eChimes:
+            case relive::Path_BellsongStone::BellsongTypes::eChimes:
             {
                 switch (code_looked_up)
                 {
@@ -36,7 +36,7 @@ void BellSong::VUpdate()
                 mBaseGameObjectUpdateDelay = 15;
                 break;
             }
-            case BellsongTypes::eWhistle:
+            case relive::Path_BellsongStone::BellsongTypes::eWhistle:
             {
                 switch (code_looked_up)
                 {
@@ -63,7 +63,7 @@ void BellSong::VUpdate()
     }
 }
 
-BellSong::BellSong(BellsongTypes type, u32 code)
+BellSong::BellSong(relive::Path_BellsongStone::BellsongTypes type, u32 code)
     : BaseGameObject(TRUE, 0)
 {
     mType = type;
