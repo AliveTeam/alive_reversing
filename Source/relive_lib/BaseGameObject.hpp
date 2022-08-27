@@ -99,7 +99,6 @@ enum class ReliveTypes : s16
     eClawOrBirdPortalTerminator,
     eMudokon,
     eLiftPoint,
-    SecurityOrb,
     eMeat,
     eMeatSack,
     eMeatSaw,

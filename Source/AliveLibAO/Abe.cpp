@@ -3441,7 +3441,7 @@ s16 Abe::VTakeDamage(BaseGameObject* pFrom)
             break;
 
         case ReliveTypes::eSecurityClaw:
-        case ReliveTypes::SecurityOrb:
+        case ReliveTypes::eSecurityOrb:
             field_130_say = 5;
             field_134_auto_say_timer = sGnFrame + 27;
             // The zap makes Abe drop his stuff everywhere

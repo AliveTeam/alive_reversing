@@ -23,7 +23,7 @@ SecurityOrb::SecurityOrb(relive::Path_SecurityOrb* pTlv, const TLVUniqueId& tlvI
 {
     mBaseGameObjectFlags.Set(Options::eCanExplode_Bit7);
 
-    mBaseGameObjectTypeId = ReliveTypes::SecurityOrb;
+    mBaseGameObjectTypeId = ReliveTypes::eSecurityOrb;
 
     const AnimRecord rec = AO::AnimRec(AnimId::Security_Orb);
     u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);

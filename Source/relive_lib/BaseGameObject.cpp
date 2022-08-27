@@ -195,7 +195,7 @@ ReliveTypes BaseGameObject::FromAO(AO::AOTypes aoType)
         case AO::AOTypes::eLiftPoint_51:
             return ReliveTypes::eLiftPoint;
         case AO::AOTypes::SecurityOrb_53:
-            return ReliveTypes::SecurityOrb;
+            return ReliveTypes::eSecurityOrb;
         case AO::AOTypes::eMeat_54:
             return ReliveTypes::eMeat;
         case AO::AOTypes::eMeatStack_55:
@@ -381,7 +381,7 @@ AO::AOTypes BaseGameObject::ToAO(ReliveTypes reliveType)
             return AO::AOTypes::eRingOrLiftMud_52;
         case ReliveTypes::eLiftPoint:
             return AO::AOTypes::eLiftPoint_51;
-        case ReliveTypes::SecurityOrb:
+        case ReliveTypes::eSecurityOrb:
             return AO::AOTypes::SecurityOrb_53;
         case ReliveTypes::eMeat:
             return AO::AOTypes::eMeat_54;

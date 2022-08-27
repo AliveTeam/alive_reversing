@@ -222,7 +222,7 @@ void Bat::VUpdate()
                         break;
                     }
 
-                    if (pObjIter->mBaseGameObjectTypeId != ReliveTypes::SecurityOrb && pObjIter->mBaseGameObjectTypeId != ReliveTypes::eSlig && pObjIter->mBaseGameObjectTypeId != ReliveTypes::eSlog)
+                    if (pObjIter->mBaseGameObjectTypeId != ReliveTypes::eSecurityOrb && pObjIter->mBaseGameObjectTypeId != ReliveTypes::eSlig && pObjIter->mBaseGameObjectTypeId != ReliveTypes::eSlog)
                     {
                         const PSX_RECT bObjRect = pObjIter->VGetBoundingRect();
                         if (FP_GetExponent(mXPos) >= bObjRect.x && FP_GetExponent(mXPos) <= bObjRect.w && FP_GetExponent(mYPos) >= bObjRect.y && FP_GetExponent(mYPos) <= bObjRect.h && pObjIter->mSpriteScale == mSpriteScale)

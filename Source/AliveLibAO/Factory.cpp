@@ -2176,7 +2176,7 @@ void ConstructTLVObject(relive::Path_TLV* pTlv, Map* pMap, const TLVUniqueId& tl
         case ReliveTypes::eLiftPoint:
             Factory_LiftPoint(pTlv, pMap, tlvInfo, loadMode);
             break;
-        case ReliveTypes::SecurityOrb:
+        case ReliveTypes::eSecurityOrb:
             Factory_SecurityOrb(pTlv, pMap, tlvInfo, loadMode);
             break;
         case ReliveTypes::eMeatSack:

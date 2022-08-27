@@ -782,7 +782,7 @@ struct Path_BackgroundAnimation final : public Path_TLV
         eNone_m1 = -1,
         eNone_0 = 0,
         eFire,
-        eFireIdx,
+        eFireIdx = 40, // needs to be 40 or it will play a different sound
     };
 
     TPageAbr mSemiTransMode = TPageAbr::eBlend_0;
