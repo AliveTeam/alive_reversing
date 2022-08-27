@@ -71,17 +71,17 @@ SlamDoor::SlamDoor(relive::Path_SlamDoor* pTlv, TlvItemInfoUnion tlvInfo)
     mSlamDoorFlags.Clear(SlamDoorFlags::eFlipY);
     mSlamDoorFlags.Clear(SlamDoorFlags::eDelete);
 
-    if (pTlv->mStartClosed == Choice_short::eNo_0)
+    if (pTlv->mStartClosed == relive::reliveChoice::eNo)
     {
         mSlamDoorFlags.Set(SlamDoorFlags::eOpen);
     }
 
-    if (pTlv->mFlipY == Choice_short::eYes_1)
+    if (pTlv->mFlipY == relive::reliveChoice::eYes)
     {
         mSlamDoorFlags.Set(SlamDoorFlags::eFlipY);
     }
 
-    if (pTlv->mDelete == Choice_short::eYes_1)
+    if (pTlv->mDelete == relive::reliveChoice::eYes)
     {
         mSlamDoorFlags.Set(SlamDoorFlags::eDelete);
     }
@@ -93,14 +93,14 @@ SlamDoor::SlamDoor(relive::Path_SlamDoor* pTlv, TlvItemInfoUnion tlvInfo)
 
     SetType(ReliveTypes::eSlamDoor);
 
-    mXPos = FP_FromInteger(((pTlv->mTopLeft.x
-                                     + pTlv->mBottomRight.x)
+    mXPos = FP_FromInteger(((pTlv->mTopLeftX
+                                     + pTlv->mBottomRightX)
                                     / 2));
 
-    mYPos = FP_FromInteger(pTlv->mTopLeft.y);
+    mYPos = FP_FromInteger(pTlv->mTopLeftY);
     mTlvInfo = tlvInfo;
 
-    if (pTlv->mScale == Scale_short::eHalf_1)
+    if (pTlv->mScale == relive::reliveScale::eHalf)
     {
         mSpriteScale = FP_FromDouble(0.5);
         mAnim.mRenderLayer = Layer::eLayer_BeforeShadow_Half_6;
@@ -457,7 +457,7 @@ s32 SlamDoor::CreateFromSaveState(const u8* pData)
         }
     }
 
-    relive_new SlamDoor(static_cast<Path_SlamDoor*>(sPathInfo->TLV_From_Offset_Lvl_Cam(pSaveState->mTlvInfo.all)), pSaveState->mTlvInfo);
+    relive_new SlamDoor(static_cast<relive::Path_SlamDoor*>(sPathInfo->TLV_From_Offset_Lvl_Cam(pSaveState->mTlvInfo.all)), pSaveState->mTlvInfo);
 
     return sizeof(Quicksave_Obj_SlamDoor);
 }

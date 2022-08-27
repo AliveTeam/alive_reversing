@@ -27,7 +27,7 @@ SecurityDoor::SecurityDoor(relive::Path_SecurityDoor* pTlv, s32 tlvInfo)
 
     mAnim.mRenderLayer = Layer::eLayer_BeforeWell_22;
 
-    if (pTlv->mScale == Scale_short::eHalf_1)
+    if (pTlv->mScale == relive::reliveScale::eHalf)
     {
         mSpriteScale = FP_FromDouble(0.5);
         mScale = Scale::Bg;
@@ -41,8 +41,10 @@ SecurityDoor::SecurityDoor(relive::Path_SecurityDoor* pTlv, s32 tlvInfo)
     field_FA_switch_id = pTlv->mSwitchId;
     field_FC_code_converted = Code_Convert(pTlv->mCode1, pTlv->mCode2);
     field_100_code_len = Code_Length(field_FC_code_converted);
-    field_11C_top_left = pTlv->mTopLeft;
-    field_120_bottom_right = pTlv->mBottomRight;
+    field_11C_top_left.x = pTlv->mTopLeftX;
+    field_11C_top_left.y = pTlv->mTopLeftY;
+    field_120_bottom_right.x = pTlv->mBottomRightX;
+    field_120_bottom_right.y = pTlv->mBottomRightY;
     mXPos = FP_FromInteger(pTlv->mXPos);
     mYPos = FP_FromInteger(pTlv->mYPos);
 
@@ -55,7 +57,7 @@ SecurityDoor::SecurityDoor(relive::Path_SecurityDoor* pTlv, s32 tlvInfo)
     }
     else
     {
-        mXPos = FP_FromInteger((pTlv->mTopLeft.x + pTlv->mBottomRight.x) / 2);
+        mXPos = FP_FromInteger((pTlv->mTopLeftX + pTlv->mBottomRightX) / 2);
     }
 
     if (mYPos > FP_FromInteger(0))
@@ -64,7 +66,7 @@ SecurityDoor::SecurityDoor(relive::Path_SecurityDoor* pTlv, s32 tlvInfo)
     }
     else
     {
-        mYPos = FP_FromInteger((pTlv->mTopLeft.y + pTlv->mBottomRight.y) / 2);
+        mYPos = FP_FromInteger((pTlv->mTopLeftY + pTlv->mBottomRightY) / 2);
     }
 
     if (pTlv->mTlvSpecificMeaning)

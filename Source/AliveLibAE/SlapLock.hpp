@@ -61,11 +61,11 @@ private:
     void SetInvisibilityTarget();
 
 private:
-    Path_SlapLock* mSlapLockTlv = nullptr;
+    relive::Path_SlapLock* mSlapLockTlv = nullptr;
     s32 mTlvInfo = 0;
     SlapLockStates mState = SlapLockStates::eShaking_0;
     s32 mTimer1 = 0;
-    Choice_short mHasGhost = Choice_short::eNo_0;
+    relive::reliveChoice mHasGhost = relive::reliveChoice::eNo;
     s32 mAbilityRingId = 0;
     s32 mPossessionFlickerId = 0;
     s32 mShinyParticleTimer = 0;

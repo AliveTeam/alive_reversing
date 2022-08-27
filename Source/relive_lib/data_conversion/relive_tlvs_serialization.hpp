@@ -379,7 +379,7 @@ inline void from_json(const nlohmann::json& j, Path_FallingItem& p)
 NLOHMANN_JSON_SERIALIZE_ENUM(Path_PullRingRope::PullRingSwitchSound, {
     {Path_PullRingRope::PullRingSwitchSound::eNone, "none"},
     {Path_PullRingRope::PullRingSwitchSound::eWellExit, "well_exit"},
-    {Path_PullRingRope::PullRingSwitchSound::RingBellHammer, "ring_bell_hammer"},
+    {Path_PullRingRope::PullRingSwitchSound::eRingBellHammer, "ring_bell_hammer"},
     {Path_PullRingRope::PullRingSwitchSound::eDoorEffect, "door_effect"},
 })
 
@@ -460,6 +460,7 @@ inline void to_json(nlohmann::json& j, const Path_Hoist& p)
         {"base", ToBase(p)},
         {"hoist_type", p.mHoistType},
         {"grab_direction", p.mGrabDirection},
+        {"scale", p.mScale},
     };
 }
 
@@ -468,6 +469,7 @@ inline void from_json(const nlohmann::json& j, Path_Hoist& p)
     j.at("base").get_to(ToBase(p));
     j.at("hoist_type").get_to(p.mHoistType);
     j.at("grab_direction").get_to(p.mGrabDirection);
+    j.at("scale").get_to(p.mScale);
 }
 
 // Path_TrapDoor

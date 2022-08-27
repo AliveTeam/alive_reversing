@@ -221,7 +221,7 @@ void PullRingRope::VUpdate()
                             case relive::Path_PullRingRope::PullRingSwitchSound::eWellExit:
                                 SFX_Play_Stereo(SoundEffect::WellExit_24, 60 * volLeft + 10, 60 * volRight + 10, nullptr);
                                 break;
-                            case relive::Path_PullRingRope::PullRingSwitchSound::RingBellHammer:
+                            case relive::Path_PullRingRope::PullRingSwitchSound::eRingBellHammer:
                                 SFX_Play_Stereo(SoundEffect::RingBellHammer_9, 60 * volLeft + 10, 60 * volRight + 10, nullptr);
                                 break;
                             case relive::Path_PullRingRope::PullRingSwitchSound::eDoorEffect:
@@ -236,7 +236,7 @@ void PullRingRope::VUpdate()
                             case relive::Path_PullRingRope::PullRingSwitchSound::eWellExit:
                                 SFX_Play_Stereo(SoundEffect::WellExit_24, 60 * volLeft + 10, 60 * volRight + 10, nullptr);
                                 break;
-                            case relive::Path_PullRingRope::PullRingSwitchSound::RingBellHammer:
+                            case relive::Path_PullRingRope::PullRingSwitchSound::eRingBellHammer:
                                 SFX_Play_Stereo(SoundEffect::RingBellHammer_9, 60 * volLeft + 10, 60 * volRight + 10, nullptr);
                                 break;
                             case relive::Path_PullRingRope::PullRingSwitchSound::eDoorEffect:

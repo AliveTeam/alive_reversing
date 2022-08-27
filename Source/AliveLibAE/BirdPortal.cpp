@@ -40,7 +40,7 @@ BirdPortal::BirdPortal(relive::Path_BirdPortal* pTlv, s32 tlvInfo)
     mTlvInfo = tlvInfo;
 
     mEnterSide = pTlv->mEnterSide;
-    mExitLevel = MapWrapper::FromAE(pTlv->mExitLevel);
+    mExitLevel = pTlv->mExitLevel;
     mExitPath = pTlv->mExitPath;
     mExitCamera = pTlv->mExitCamera;
     mMovieId = pTlv->mMovieId;
@@ -48,7 +48,7 @@ BirdPortal::BirdPortal(relive::Path_BirdPortal* pTlv, s32 tlvInfo)
     mMudCountForShrykull = pTlv->mMudCountForShrykull;
     mDeletePortalSwitchId = pTlv->mDeletePortalSwitchId;
 
-    if (pTlv->mScale == Scale_short::eHalf_1)
+    if (pTlv->mScale == relive::reliveScale::eHalf)
     {
         mSpriteScale = FP_FromDouble(0.5);
     }
@@ -70,16 +70,16 @@ BirdPortal::BirdPortal(relive::Path_BirdPortal* pTlv, s32 tlvInfo)
     FP hitX = {};
     PathLine* pLine = nullptr;
     sCollisions->Raycast(
-        FP_FromInteger(pTlv->mTopLeft.x),
-        FP_FromInteger(pTlv->mTopLeft.y),
-        FP_FromInteger(pTlv->mBottomRight.x),
-        FP_FromInteger(pTlv->mBottomRight.y),
+        FP_FromInteger(pTlv->mTopLeftX),
+        FP_FromInteger(pTlv->mTopLeftY),
+        FP_FromInteger(pTlv->mBottomRightX),
+        FP_FromInteger(pTlv->mBottomRightY),
         &pLine,
         &hitX,
         &mHitY,
         mSpriteScale > FP_FromDouble(0.5) ? kFgFloor : kBgFloor);
 
-    mXPos = FP_FromInteger((pTlv->mBottomRight.x + pTlv->mTopLeft.x) / 2);
+    mXPos = FP_FromInteger((pTlv->mBottomRightX + pTlv->mTopLeftX) / 2);
     mSfxPlaying = 0;
     mYPos = mHitY - (FP_FromInteger(55) * mSpriteScale);
 }
@@ -215,7 +215,7 @@ void BirdPortal::VUpdate()
 
         case PortalStates::ActivePortal_6:
             EventBroadcast(GetEvent(), this);
-            if ((mPortalType != PortalType::eWorker_1 && mPortalType != PortalType::eShrykull_2) || EventGet(kEventAbeOhm))
+            if ((mPortalType != relive::Path_BirdPortal::PortalType::eWorker && mPortalType != relive::Path_BirdPortal::PortalType::eShrykull) || EventGet(kEventAbeOhm))
             {
                 if ((Math_NextRandom() % 8) == 0)
                 {
@@ -285,7 +285,7 @@ void BirdPortal::VUpdate()
             else
             {
                 FP xOff = {};
-                if (mEnterSide == PortalSide::eLeft_1)
+                if (mEnterSide == relive::Path_BirdPortal::PortalSide::eLeft)
                 {
                     xOff = mSpriteScale * FP_FromInteger(16);
                 }
@@ -404,7 +404,7 @@ void BirdPortal::VUpdate()
         case PortalStates::KillPortal_15:
             if (static_cast<s32>(sGnFrame) > mTimer)
             {
-                if (mPortalType == PortalType::eWorker_1 || mPortalType == PortalType::eShrykull_2)
+                if (mPortalType == relive::Path_BirdPortal::PortalType::eWorker || mPortalType == relive::Path_BirdPortal::PortalType::eShrykull)
                 {
                     mBaseGameObjectFlags.Set(BaseGameObject::eDead);
                 }
@@ -513,7 +513,7 @@ void BirdPortal::VScreenChanged()
 {
     if (mState <= PortalStates::IdlePortal_1 || mState >= PortalStates::KillPortalClipper_21 || ((gMap.mCurrentLevel != gMap.mNextLevel || gMap.mCurrentPath != gMap.mNextPath) &&
 
-                                                                                                                 (mState != PortalStates::AbeInsidePortal_16 || mPortalType != PortalType::eAbe_0 || gMap.mNextLevel != mExitLevel || gMap.mNextPath != mExitPath)))
+                                                                                                                 (mState != PortalStates::AbeInsidePortal_16 || mPortalType != relive::Path_BirdPortal::PortalType::eAbe || gMap.mNextLevel != mExitLevel || gMap.mNextPath != mExitPath)))
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
@@ -568,7 +568,7 @@ void BirdPortal::VStopAudio()
 s32 BirdPortal::VGetSaveState(u8* pBuffer)
 {
     auto pState = reinterpret_cast<BirdPortal_State*>(pBuffer);
-    auto pTlv = static_cast<Path_BirdPortal*>(sPathInfo->TLV_From_Offset_Lvl_Cam(mTlvInfo));
+    auto pTlv = static_cast<relive::Path_BirdPortal*>(sPathInfo->TLV_From_Offset_Lvl_Cam(mTlvInfo));
 
     s16 numMudsForShrykull = 0;
     if (pTlv)
@@ -592,7 +592,7 @@ void BirdPortal::VRender(PrimHeader** /*ppOt*/)
 s32 BirdPortal::CreateFromSaveState(const u8* pBuffer)
 {
     auto pSaveState = reinterpret_cast<const BirdPortal_State*>(pBuffer);
-    auto pTlv = static_cast<Path_BirdPortal*>(sPathInfo->TLV_From_Offset_Lvl_Cam(pSaveState->mTlvInfo));
+    auto pTlv = static_cast<relive::Path_BirdPortal*>(sPathInfo->TLV_From_Offset_Lvl_Cam(pSaveState->mTlvInfo));
     if (!pTlv)
     {
         return sizeof(BirdPortal_State);
@@ -603,7 +603,7 @@ s32 BirdPortal::CreateFromSaveState(const u8* pBuffer)
         ResourceManager::LoadResourceFile_49C170("PORTAL.BND", nullptr);
     }
 
-    if (pTlv->mPortalType == PortalType::eShrykull_2)
+    if (pTlv->mPortalType == relive::Path_BirdPortal::PortalType::eShrykull)
     {
         if (!ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kSplineResID, FALSE, FALSE))
         {
@@ -676,7 +676,7 @@ s16 BirdPortal::VPortalClipper(s16 bIgnoreClipping)
 
     PSX_Point xy = {};
     PSX_Point wh = {};
-    if (mEnterSide == PortalSide::eLeft_1)
+    if (mEnterSide == relive::Path_BirdPortal::PortalSide::eLeft)
     {
         xy.x = 0;
         xy.y = 0;
@@ -758,7 +758,7 @@ void BirdPortal::VGiveShrykull(s16 bPlaySound)
 {
     if (sActiveHero)
     {
-        if (mPortalType == PortalType::eShrykull_2 && mMudCountForShrykull <= 0)
+        if (mPortalType == relive::Path_BirdPortal::PortalType::eShrykull && mMudCountForShrykull <= 0)
         {
             SND_SEQ_Play(SeqId::SecretMusic_32, 1, 127, 127);
             mState = PortalStates::ShrykullGetDoves_7;
@@ -779,7 +779,7 @@ void BirdPortal::VGiveShrykull(s16 bPlaySound)
         else
         {
             mState = PortalStates::CollapseTerminators_10;
-            if ((mPortalType == PortalType::eWorker_1 || mPortalType == PortalType::eShrykull_2) && sActiveHero->mCurrentMotion == eAbeMotions::Motion_112_Chant_45B1C0)
+            if ((mPortalType == relive::Path_BirdPortal::PortalType::eWorker || mPortalType == relive::Path_BirdPortal::PortalType::eShrykull) && sActiveHero->mCurrentMotion == eAbeMotions::Motion_112_Chant_45B1C0)
             {
                 sActiveHero->ChangeChantState_45BB90(0);
             }
@@ -802,7 +802,7 @@ void BirdPortal::VExitPortal()
     mCurrentPath = gMap.mCurrentPath;
     mCurrentLevel = gMap.mCurrentLevel;
 
-    auto pPortalExitTlv = static_cast<Path_BirdPortalExit*>(sPathInfo->TLV_First_Of_Type_In_Camera(TlvTypes::BirdPortalExit_29, 0));
+    auto pPortalExitTlv = static_cast<relive::Path_BirdPortalExit*>(sPathInfo->TLV_First_Of_Type_In_Camera(ReliveTypes::eBirdPortalExit, 0));
     if (pPortalExitTlv)
     {
         // TODO: Clean up this hack by having a better way to match "any" type of line
@@ -811,21 +811,21 @@ void BirdPortal::VExitPortal()
 
         PathLine* pLine = nullptr;
         sCollisions->Raycast(
-            FP_FromInteger(pPortalExitTlv->mTopLeft.x),
-            FP_FromInteger(pPortalExitTlv->mTopLeft.y),
-            FP_FromInteger(pPortalExitTlv->mBottomRight.x),
-            FP_FromInteger(pPortalExitTlv->mBottomRight.y),
+            FP_FromInteger(pPortalExitTlv->mTopLeftX),
+            FP_FromInteger(pPortalExitTlv->mTopLeftY),
+            FP_FromInteger(pPortalExitTlv->mBottomRightX),
+            FP_FromInteger(pPortalExitTlv->mBottomRightY),
             &pLine,
             &mExitX,
             &mExitY,
             allLinesHack);
 
-        mExitX = FP_FromInteger((pPortalExitTlv->mTopLeft.x + pPortalExitTlv->mBottomRight.x) / 2);
+        mExitX = FP_FromInteger((pPortalExitTlv->mTopLeftX + pPortalExitTlv->mBottomRightX) / 2);
         mXPos = mExitX;
         mYPos = mExitY - FP_FromInteger(55);
         mEnterSide = pPortalExitTlv->mExitSide;
 
-        if (pPortalExitTlv->mScale == Scale_short::eHalf_1)
+        if (pPortalExitTlv->mScale == relive::reliveScale::eHalf)
         {
             mSpriteScale = FP_FromDouble(0.5);
             sActiveHero->mAnim.mRenderLayer = Layer::eLayer_InBirdPortal_Half_11;
@@ -993,7 +993,7 @@ void BirdPortal::CreateDovesAndShrykullNumber()
 
         mDovesExist = 1;
 
-        if (mPortalType == PortalType::eAbe_0)
+        if (mPortalType == relive::Path_BirdPortal::PortalType::eAbe)
         {
             pDove->AsAlmostACircle(mXPos, (mSpriteScale * FP_FromInteger(30)) + mYPos, 42 * i);
         }
@@ -1004,7 +1004,7 @@ void BirdPortal::CreateDovesAndShrykullNumber()
         pDove->mSpriteScale = mSpriteScale;
     }
 
-    if (mPortalType == PortalType::eShrykull_2)
+    if (mPortalType == relive::Path_BirdPortal::PortalType::eShrykull)
     {
         const Layer indicatorLayer = mSpriteScale != FP_FromDouble(0.5) ? Layer::eLayer_27 : Layer::eLayer_8;
         auto pIndicator = relive_new ThrowableTotalIndicator(
@@ -1078,7 +1078,7 @@ Event BirdPortal::GetEvent()
     return kEventPortalOpen;
 }
 
-BirdPortalTerminator::BirdPortalTerminator(FP xpos, FP ypos, FP scale, PortalType /*portalType*/)
+BirdPortalTerminator::BirdPortalTerminator(FP xpos, FP ypos, FP scale, relive::Path_BirdPortal::PortalType /*portalType*/)
     : BaseAnimatedWithPhysicsGameObject(0)
 {
     SetType(ReliveTypes::eEyeOrbPart);

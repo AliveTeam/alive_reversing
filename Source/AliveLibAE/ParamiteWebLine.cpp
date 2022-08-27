@@ -20,7 +20,7 @@ ParamiteWebLine::ParamiteWebLine(relive::Path_ParamiteWebLine* pTlv, s32 tlvInfo
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
     Animation_Init(AnimId::ParamiteWeb, ppRes);
 
-    if (pTlv->field_10_scale != Scale_short::eFull_0)
+    if (pTlv->mScale != relive::reliveScale::eFull)
     {
         mAnim.mRenderLayer = Layer::eLayer_RopeWebDrillMeatSaw_Half_5;
         mAnim.field_14_scale = FP_FromDouble(0.7);
@@ -41,8 +41,8 @@ ParamiteWebLine::ParamiteWebLine(relive::Path_ParamiteWebLine* pTlv, s32 tlvInfo
         mRGB.SetRGB(10, 10, 10);
     }
 
-    mXPos = FP_FromInteger(pTlv->mTopLeft.x);
-    mYPos = FP_FromInteger(pTlv->mTopLeft.y);
+    mXPos = FP_FromInteger(pTlv->mTopLeftX);
+    mYPos = FP_FromInteger(pTlv->mTopLeftY);
 
     PathLine* pLine = nullptr;
     FP hitX = {};

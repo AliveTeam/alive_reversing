@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../AliveLibCommon/Function.hpp"
+#include "../relive_lib/data_conversion/relive_tlvs.hpp"
 
 void SwitchStates_SetRange(u16 start, u16 end);
 void SwitchStates_Set(u16 idx, s8 value);
@@ -16,7 +17,7 @@ enum class SwitchOp : s16
     eDecrement_4 = 4,
 };
 
-void SwitchStates_Do_Operation(s16 idx, SwitchOp operation);
+void SwitchStates_Do_Operation(s16 idx, relive::reliveSwitchOp operation);
 
 struct SwitchStates final
 {

@@ -46,20 +46,20 @@ void ExplosionSet::Start()
 
 void ExplosionSet::Init(relive::Path_ExplosionSet* pTlv)
 {
-    field_48_tlv_rect.x = pTlv->mTopLeft.x;
-    field_48_tlv_rect.y = pTlv->mTopLeft.y;
-    field_48_tlv_rect.w = pTlv->mBottomRight.x - pTlv->mTopLeft.x;
-    field_48_tlv_rect.h = pTlv->mBottomRight.y - pTlv->mTopLeft.y;
+    field_48_tlv_rect.x = pTlv->mTopLeftX;
+    field_48_tlv_rect.y = pTlv->mTopLeftY;
+    field_48_tlv_rect.w = pTlv->Width();
+    field_48_tlv_rect.h = pTlv->Height();
 
-    if (pTlv->mScale != Scale_short::eFull_0)
+    if (pTlv->mScale != relive::reliveScale::eFull)
     {
         field_50_scale = FP_FromDouble(0.5);
     }
 
     field_44_start_delay = pTlv->mStartDelay;
 
-    field_5C_flags.Set(Flags_5C::eBit1_spawn_assets, pTlv->mSpawnAssets == Choice_short::eYes_1);
-    field_5C_flags.Set(Flags_5C::eBit2_flipX, pTlv->mStartDirection == XDirection_short::eRight_1);
+    field_5C_flags.Set(Flags_5C::eBit1_spawn_assets, pTlv->mSpawnAssets == relive::reliveChoice::eYes);
+    field_5C_flags.Set(Flags_5C::eBit2_flipX, pTlv->mStartDirection == relive::reliveXDirection::eRight);
     field_56_asset_interval = pTlv->mAssetInterval;
     field_58_grid_spacing = FP_GetExponent(FP_FromInteger(pTlv->mGridSpacing) * ScaleToGridSize(field_50_scale));
     field_5A_increasing_grid_spacing = FP_GetExponent(FP_FromInteger(pTlv->mIncreasingGridSpacing) * ScaleToGridSize(field_50_scale));

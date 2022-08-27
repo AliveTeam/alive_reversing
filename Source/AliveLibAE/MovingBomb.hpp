@@ -62,6 +62,6 @@ private:
     s16 field_12C_max = 0;
     s32 field_130_sound_channels = 0;
     s16 field_134_disabled_resources = 0;
-    Choice_short field_136_persist_offscreen = Choice_short::eNo_0;
+    relive::reliveChoice field_136_persist_offscreen = relive::reliveChoice::eNo;
 };
 ALIVE_ASSERT_SIZEOF(MovingBomb, 0x138);

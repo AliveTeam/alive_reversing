@@ -42,8 +42,8 @@ public:
 private:
     s32 field_20_tlvInfo = 0;
     s16 field_24_spawner_switch_id = 0;
-    ScrabSpawnDirection field_26_spawn_direction = ScrabSpawnDirection::eNone_0;
-    Path_TLV field_28_tlv_data = {};
+    relive::Path_ScrabSpawner::SpawnDirection field_26_spawn_direction = relive::Path_ScrabSpawner::SpawnDirection::eNone;
+    relive::Path_TLV field_28_tlv_data = {};
     ScrabSpawnerStates field_38_state = ScrabSpawnerStates::eInactive_0;
     s32 field_3C_spawned_scrab_id = 0;
     s16 field_40_bFindSpawnedScrab = 0;

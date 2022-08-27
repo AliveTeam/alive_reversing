@@ -134,26 +134,26 @@ BoomMachine::BoomMachine(relive::Path_BoomMachine* pTlv, s32 tlvInfo)
     field_F4_tlvInfo = tlvInfo;
     mAnim.mRenderMode = TPageAbr::eBlend_1;
 
-    if (pTlv->field_10_scale == Scale_short::eHalf_1)
+    if (pTlv->mScale == relive::reliveScale::eHalf)
     {
         mSpriteScale = FP_FromDouble(0.5);
     }
-    else if (pTlv->field_10_scale == Scale_short::eFull_0)
+    else if (pTlv->mScale == relive::reliveScale::eFull)
     {
         mSpriteScale = FP_FromInteger(1);
     }
 
-    mXPos = (ScaleToGridSize(mSpriteScale) / FP_FromInteger(2)) + FP_FromInteger(pTlv->mTopLeft.x);
-    mYPos = FP_FromInteger(pTlv->mTopLeft.y);
+    mXPos = (ScaleToGridSize(mSpriteScale) / FP_FromInteger(2)) + FP_FromInteger(pTlv->mTopLeftX);
+    mYPos = FP_FromInteger(pTlv->mTopLeftY);
 
     auto pNozzle = relive_new GrenadeMachineNozzle(
-        ((pTlv->mNozzleSide == Path_BoomMachine::NozzleSide::eLeft_1 ? -mSpriteScale : mSpriteScale) * FP_FromInteger(30)) + mXPos,
+        ((pTlv->mNozzleSide == relive::Path_BoomMachine::NozzleSide::eLeft ? -mSpriteScale : mSpriteScale) * FP_FromInteger(30)) + mXPos,
         (mSpriteScale * FP_FromInteger(-30)) + mYPos,
         mSpriteScale,
         pTlv->mGrenadeAmount);
     if (pNozzle)
     {
-        pNozzle->mAnim.mFlags.Set(AnimFlags::eBit5_FlipX, pTlv->mNozzleSide == Path_BoomMachine::NozzleSide::eLeft_1);
+        pNozzle->mAnim.mFlags.Set(AnimFlags::eBit5_FlipX, pTlv->mNozzleSide == relive::Path_BoomMachine::NozzleSide::eLeft);
         field_F8_nozzle_id = pNozzle->mBaseGameObjectId;
     }
 

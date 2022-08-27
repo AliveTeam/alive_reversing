@@ -76,7 +76,7 @@ public:
     virtual void VUpdate() override;
     virtual s32 VGetSaveState(u8* pSaveBuffer) override;
     virtual s16 VTakeDamage(BaseGameObject* pFrom) override;
-    virtual void VOnTlvCollision(Path_TLV* pTlv) override;
+    virtual void VOnTlvCollision(relive::Path_TLV* pTlv) override;
 
     static s32 CreateFromSaveState(const u8* pData);
 
@@ -91,7 +91,7 @@ private:
     s16 mMovingTimer = 0;
     s16 mRngForMovingTimer = 0;
     PathLine* mSlurgLine = nullptr; // why not use the BaseAliveGameObject line?
-    Path_TLV* mSlurgTlv = nullptr; // dito
+    relive::Path_TLV* mSlurgTlv = nullptr; // dito
     s32 mTlvInfo = 0;
     FP mSlurgSpriteScale = {}; // just use BaseAnimatedWithPhysicsGameObject sprite scale?
 };

@@ -34,7 +34,7 @@ TimedMine::TimedMine(relive::Path_TimedMine* pPath, TlvItemInfoUnion tlv)
     mTimedMineFlags.Clear(TimedMineFlags::eStickToLiftPoint);
     mSlappedMine = 0;
 
-    if (pPath->mScale == Scale_short::eHalf_1)
+    if (pPath->mScale == relive::reliveScale::eHalf)
     {
         mSpriteScale = FP_FromDouble(0.5);
         mScale = Scale::Bg;
@@ -51,8 +51,8 @@ TimedMine::TimedMine(relive::Path_TimedMine* pPath, TlvItemInfoUnion tlv)
 
     mTicksUntilExplosion = pPath->mTicksUntilExplosion;
 
-    mXPos = FP_FromInteger((pPath->mTopLeft.x + pPath->mBottomRight.x) / 2);
-    mYPos = FP_FromInteger(pPath->mTopLeft.y);
+    mXPos = FP_FromInteger((pPath->mTopLeftX + pPath->mBottomRightX) / 2);
+    mYPos = FP_FromInteger(pPath->mTopLeftY);
 
     FP hitY = {};
     FP hitX = {};

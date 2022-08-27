@@ -4008,7 +4008,7 @@ void Abe::Motion_0_Idle_423520()
                     mCurrentMotion = eAbeMotions::Motion_80_430EF0;
                     return;
                 }
-                case ReliveTypes::eMovieStone:
+                case ReliveTypes::eMovieHandStone:
                 case ReliveTypes::eBellSongStone:
                 case ReliveTypes::eDemoPlaybackStone:
                 case ReliveTypes::eHandStone:
@@ -8140,7 +8140,7 @@ void Abe::Motion_88_HandstoneBegin_430590()
                         FP_GetExponent(mYPos),
                         FP_GetExponent(mXPos),
                         FP_GetExponent(mYPos),
-                        ReliveTypes::eMovieStone);
+                        ReliveTypes::eMovieHandStone);
                     sAbeSound_507730 = SFX_Play_Pitch(SoundEffect::HandstoneTransition_13, 127, -300, 0);
                     if (!BaseAliveGameObjectPathTLV)
                         BaseAliveGameObjectPathTLV = gMap.TLV_Get_At_446260(
@@ -8156,7 +8156,7 @@ void Abe::Motion_88_HandstoneBegin_430590()
                     mHandStoneType = BaseAliveGameObjectPathTLV->mTlvType;
                     switch (mHandStoneType)
                     {
-                        case ReliveTypes::eMovieStone:
+                        case ReliveTypes::eMovieHandStone:
                         {
                             mMovieStone = static_cast<relive::Path_MovieStone*>(BaseAliveGameObjectPathTLV);
                             break;
@@ -8194,7 +8194,7 @@ void Abe::Motion_88_HandstoneBegin_430590()
             {
                 switch (mHandStoneType)
                 {
-                    case ReliveTypes::eMovieStone:
+                    case ReliveTypes::eMovieHandStone:
                     {
                         auto pFmvInfo = Path_Get_FMV_Record_434680(
                             gMap.mCurrentLevel,

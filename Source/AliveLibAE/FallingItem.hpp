@@ -57,7 +57,7 @@ private:
     s16 field_122_remaining_falling_items = 0;
     s16 field_124_fall_interval = 0;
     s32 field_128_fall_interval_timer = 0;
-    Choice_short field_12C_reset_switch_id_after_use = Choice_short::eNo_0;
+    relive::reliveChoice field_12C_reset_switch_id_after_use = relive::reliveChoice::eNo;
     s16 field_12E_do_sound_in_state_falling = 0;
     FP field_130_yPosStart = {};
     s16 field_134_bHitDrillOrMineCar = 0;

@@ -408,26 +408,26 @@ MeatSack::MeatSack(relive::Path_MeatSack* pTlv, s32 tlvInfo)
 
     field_11C_bDoMeatSackIdleAnim = 0;
 
-    mXPos = FP_FromInteger(pTlv->mTopLeft.x);
-    mYPos = FP_FromInteger(pTlv->mTopLeft.y);
+    mXPos = FP_FromInteger(pTlv->mTopLeftX);
+    mYPos = FP_FromInteger(pTlv->mTopLeftY);
 
     field_124_velX = FP_FromRaw(pTlv->mVelX << 8);
 
     // Throw the meat up into the air as it falls from the sack
     field_128_velY = -FP_FromRaw(pTlv->mVelY << 8);
 
-    if (pTlv->mMeatFallDirection == XDirection_short::eLeft_0)
+    if (pTlv->mMeatFallDirection == relive::reliveXDirection::eLeft)
     {
         field_124_velX = -field_124_velX;
     }
 
-    if (pTlv->mScale == Scale_short::eHalf_1)
+    if (pTlv->mScale == relive::reliveScale::eHalf)
     {
         mSpriteScale = FP_FromDouble(0.5);
         mAnim.mRenderLayer = Layer::eLayer_8;
         mScale = Scale::Bg;
     }
-    else if (pTlv->mScale == Scale_short::eFull_0)
+    else if (pTlv->mScale == relive::reliveScale::eFull)
     {
         mSpriteScale = FP_FromInteger(1);
         mAnim.mRenderLayer = Layer::eLayer_27;

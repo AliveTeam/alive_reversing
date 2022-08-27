@@ -22,10 +22,10 @@ Teleporter::Teleporter(relive::Path_Teleporter* pTlv, u32 tlvInfo)
     field_34_mTlvData = pTlv->field_10_data;
     field_20_tlvInfo = tlvInfo;
 
-    field_24_global_y1 = FP_GetExponent((FP_FromInteger(pTlv->mTopLeft.y) - pScreenManager->CamYPos()));
-    field_28_global_y2 = FP_GetExponent((FP_FromInteger(pTlv->mBottomRight.y) - pScreenManager->CamYPos()));
-    field_26_global_x1 = FP_GetExponent((FP_FromInteger(pTlv->mTopLeft.x) - pScreenManager->CamXPos()));
-    field_2A_global_x2 = FP_GetExponent((FP_FromInteger(pTlv->mBottomRight.x) - pScreenManager->CamXPos()));
+    field_24_global_y1 = FP_GetExponent((FP_FromInteger(pTlv->mTopLeftY) - pScreenManager->CamYPos()));
+    field_28_global_y2 = FP_GetExponent((FP_FromInteger(pTlv->mBottomRightY) - pScreenManager->CamYPos()));
+    field_26_global_x1 = FP_GetExponent((FP_FromInteger(pTlv->mTopLeftX) - pScreenManager->CamXPos()));
+    field_2A_global_x2 = FP_GetExponent((FP_FromInteger(pTlv->mBottomRightX) - pScreenManager->CamXPos()));
 
     field_2C_switch_state = SwitchStates_Get(field_34_mTlvData.mSwitchId);
 
@@ -117,7 +117,7 @@ void Teleporter::VUpdate()
                     FP_GetExponent(sControlledCharacter->mYPos),
                     FP_GetExponent(sControlledCharacter->mXPos),
                     FP_GetExponent(sControlledCharacter->mYPos),
-                    TlvTypes::Teleporter_88))
+                    ReliveTypes::eTeleporter))
             {
                 return;
             }
@@ -229,13 +229,13 @@ void Teleporter::VUpdate()
         {
             gMap.mTeleporterTransition = 0;
 
-            Path_Teleporter* pTeleporterTlv = static_cast<Path_Teleporter*>(sPathInfo->TLV_First_Of_Type_In_Camera(TlvTypes::Teleporter_88, 0));
+            relive::Path_Teleporter* pTeleporterTlv = static_cast<relive::Path_Teleporter*>(sPathInfo->TLV_First_Of_Type_In_Camera(ReliveTypes::eTeleporter, 0));
             Path_Teleporter_Data tlvData = pTeleporterTlv->mData;
             if (tlvData.mTeleporterId != field_34_mTlvData.mOtherTeleporterId)
             {
                 while (pTeleporterTlv)
                 {
-                    pTeleporterTlv = static_cast<Path_Teleporter*>(sPathInfo->TLV_Next_Of_Type(pTeleporterTlv, TlvTypes::Teleporter_88));
+                    pTeleporterTlv = static_cast<relive::Path_Teleporter*>(sPathInfo->TLV_Next_Of_Type(pTeleporterTlv, ReliveTypes::eTeleporter));
                     tlvData = pTeleporterTlv->mData;
 
                     if (tlvData.mTeleporterId == field_34_mTlvData.mOtherTeleporterId)
@@ -272,7 +272,7 @@ void Teleporter::VUpdate()
             }
 
             // XPos = TLV xpos + TLV middle point
-            sControlledCharacter->mXPos = FP_FromInteger(pTeleporterTlv->mTopLeft.x) + FP_FromInteger((pTeleporterTlv->mBottomRight.x - pTeleporterTlv->mTopLeft.x) / 2);
+            sControlledCharacter->mXPos = FP_FromInteger(pTeleporterTlv->mTopLeftX) + FP_FromInteger((pTeleporterTlv->Width()) / 2);
 
             sControlledCharacter->MapFollowMe(TRUE);
 
@@ -281,9 +281,9 @@ void Teleporter::VUpdate()
             FP hitY = {};
             if (sCollisions->Raycast(
                     sControlledCharacter->mXPos,
-                    FP_FromInteger(pTeleporterTlv->mTopLeft.y),
+                    FP_FromInteger(pTeleporterTlv->mTopLeftY),
                     sControlledCharacter->mXPos,
-                    FP_FromInteger(pTeleporterTlv->mBottomRight.y),
+                    FP_FromInteger(pTeleporterTlv->mBottomRightY),
                     &pPathLine,
                     &hitX,
                     &hitY,
@@ -295,7 +295,7 @@ void Teleporter::VUpdate()
             else
             {
                 sControlledCharacter->BaseAliveGameObjectCollisionLine = nullptr;
-                sControlledCharacter->mYPos = FP_FromInteger(pTeleporterTlv->mTopLeft.y);
+                sControlledCharacter->mYPos = FP_FromInteger(pTeleporterTlv->mTopLeftY);
                 sControlledCharacter->BaseAliveGameObjectLastLineYPos = sControlledCharacter->mYPos;
             }
             field_30_state = TeleporterState::eOutOfTeleporter_4;

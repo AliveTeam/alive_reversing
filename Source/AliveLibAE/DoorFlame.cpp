@@ -323,14 +323,14 @@ DoorFlame::DoorFlame(relive::Path_DoorFlame* pTlv, s32 tlvInfo)
 
     mSwitchId = pTlv->mSwitchId;
 
-    if (pTlv->mScale != Scale_short::eFull_0)
+    if (pTlv->mScale != relive::reliveScale::eFull)
     {
         mSpriteScale = FP_FromDouble(0.5);
     }
 
-    mXPos = FP_FromInteger(pTlv->mTopLeft.x) + (FP_FromInteger(12) * mSpriteScale);
+    mXPos = FP_FromInteger(pTlv->mTopLeftX) + (FP_FromInteger(12) * mSpriteScale);
     mFireBackgroundGlowId = -1;
-    mYPos = FP_FromInteger(pTlv->mTopLeft.y) + (FP_FromInteger(15) * mSpriteScale);
+    mYPos = FP_FromInteger(pTlv->mTopLeftY) + (FP_FromInteger(15) * mSpriteScale);
 
     if (SwitchStates_Get(mSwitchId))
     {

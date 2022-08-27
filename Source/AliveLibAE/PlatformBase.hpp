@@ -15,7 +15,7 @@ public:
     // TODO: New virtuals
 
 protected:
-    void AddDynamicCollision(AnimId animId, u8** ppAnimData, Path_TLV* pTlv, s32 tlvInfo);
+    void AddDynamicCollision(AnimId animId, u8** ppAnimData, relive::Path_TLV* pTlv, s32 tlvInfo);
 
     void SyncCollisionLinePosition();
     void vRemoveCount(BaseAliveGameObject* pObj);

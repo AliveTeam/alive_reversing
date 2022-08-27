@@ -148,7 +148,7 @@ private:
     u8** GetAnimBlock(s32 currentMotion);
     static s16 NextRandom();
     s16 HandleEnemyStopper(FP velX);
-    Path_TLV* FindPantsOrWings();
+    relive::Path_TLV* FindPantsOrWings();
     BaseGameObject* FindSligButton();
 
     void SetBrain(TCrawlingSligBrainFn fn);
@@ -217,9 +217,9 @@ private:
     s32 field_1D4_obj_id = 0;
     s32 field_1D8_obj_id = 0;
     s32 field_1DC_unused = 0;
-    Path_CrawlingSlig::CrawlDirection field_1E0_crawl_direction = Path_CrawlingSlig::CrawlDirection::eLeft_0;
-    Path_TLV* field_1E4_pPantsOrWingsTlv = nullptr;
-    Path_CrawlingSlig field_1E8_tlv = {};
+    relive::Path_CrawlingSlig::CrawlDirection field_1E0_crawl_direction = relive::Path_CrawlingSlig::CrawlDirection::eLeft;
+    relive::Path_TLV* field_1E4_pPantsOrWingsTlv = nullptr;
+    relive::Path_CrawlingSlig field_1E8_tlv = {};
     TCrawlingSligBrainFn field_204_brain_state = nullptr;
     s16 field_208_brain_sub_state = 0;
 };

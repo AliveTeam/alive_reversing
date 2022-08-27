@@ -56,25 +56,25 @@ Slurg::Slurg(relive::Path_Slurg* pTlv, u32 tlvInfo)
     mBaseGameObjectFlags.Set(BaseGameObject::eCanExplode_Bit7);
     SetType(ReliveTypes::eSlurg);
 
-    mXPos = FP_FromInteger((pTlv->mTopLeft.x + pTlv->mBottomRight.x) / 2);
-    mYPos = FP_FromInteger(pTlv->mTopLeft.y);
+    mXPos = FP_FromInteger((pTlv->mTopLeftX + pTlv->mBottomRightX) / 2);
+    mYPos = FP_FromInteger(pTlv->mTopLeftY);
 
     mTlvInfo = tlvInfo;
-    if (pTlv->mSlurgData.mScale == Scale_short::eHalf_1)
+    if (pTlv->mScale == relive::reliveScale::eHalf)
     {
         mSlurgSpriteScale = FP_FromDouble(0.5);
         mAnim.mRenderLayer = Layer::eLayer_SligGreeterFartsBat_Half_14;
         mScale = Scale::Bg;
     }
-    else if (pTlv->mSlurgData.mScale == Scale_short::eFull_0)
+    else if (pTlv->mScale == relive::reliveScale::eFull)
     {
         mSlurgSpriteScale = FP_FromInteger(1);
         mAnim.mRenderLayer = Layer::eLayer_SligGreeterFartsBats_33;
         mScale = Scale::Fg;
     }
 
-    mMovingTimer = pTlv->mSlurgData.mMovingTimer;
-    mRngForMovingTimer = pTlv->mSlurgData.mMovingTimer;
+    mMovingTimer = pTlv->mMovingTimer;
+    mRngForMovingTimer = pTlv->mMovingTimer;
 
     SetTint(&sSlurgTints_560BCC[0], gMap.mCurrentLevel);
 
@@ -94,11 +94,11 @@ Slurg::Slurg(relive::Path_Slurg* pTlv, u32 tlvInfo)
         mYPos = hitY;
     }
 
-    mSlurgSwitchId = pTlv->mSlurgData.mSwitchId;
+    mSlurgSwitchId = pTlv->mSwitchId;
 
     mSlurgFlags.Clear();
 
-    if (pTlv->mSlurgData.mFacing == XDirection_short::eRight_1)
+    if (pTlv->mFacing == relive::reliveXDirection::eRight)
     {
         mSlurgFlags.Set(SlurgFlags::eGoingRight);
     }
@@ -111,7 +111,7 @@ Slurg::Slurg(relive::Path_Slurg* pTlv, u32 tlvInfo)
 s32 Slurg::CreateFromSaveState(const u8* pData)
 {
     auto pState = reinterpret_cast<const Slurg_State*>(pData);
-    auto pTlv = static_cast<Path_Slurg*>(sPathInfo->TLV_From_Offset_Lvl_Cam(pState->mTlvInfo));
+    auto pTlv = static_cast<relive::Path_Slurg*>(sPathInfo->TLV_From_Offset_Lvl_Cam(pState->mTlvInfo));
 
     if (!ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kSlurgResID, FALSE, FALSE))
     {
@@ -274,18 +274,18 @@ s16 Slurg::VTakeDamage(BaseGameObject* pFrom)
     return 0;
 }
 
-void Slurg::VOnTlvCollision(Path_TLV* pTlv)
+void Slurg::VOnTlvCollision(relive::Path_TLV* pTlv)
 {
     while (pTlv)
     {
-        if (pTlv->mTlvType32 == TlvTypes::ScrabBoundLeft_43)
+        if (pTlv->mTlvType == ReliveTypes::eScrabLeftBound)
         {
             if (mSlurgFlags.Get(SlurgFlags::eGoingRight))
             {
                 GoLeft();
             }
         }
-        else if (pTlv->mTlvType32 == TlvTypes::ScrabBoundRight_44)
+        else if (pTlv->mTlvType == ReliveTypes::eScrabRightBound)
         {
             if (!mSlurgFlags.Get(SlurgFlags::eGoingRight))
             {

@@ -36,7 +36,7 @@ private:
     s16 mLinkedStatusLightSwitchId3 = 0;
     s16 mLinkedStatusLightSwitchId4 = 0;
     s16 mLinkedStatusLightSwitchId5 = 0;
-    Choice_short mIgnoreGridSnapping = Choice_short::eNo_0;
+    relive::reliveChoice mIgnoreGridSnapping = relive::reliveChoice::eNo;
     FP field_108_xpos = {};
     FP field_10C_ypos = {};
 };

@@ -29,22 +29,22 @@ RockSack::RockSack(relive::Path_RockSack* pTlv, s32 tlvInfo)
 
     field_118_tlvInfo = tlvInfo;
     field_11C_has_been_hit = 0;
-    mXPos = FP_FromInteger((pTlv->mTopLeft.x + pTlv->mBottomRight.x) / 2);
-    mYPos = FP_FromInteger(pTlv->mBottomRight.y);
+    mXPos = FP_FromInteger((pTlv->mTopLeftX + pTlv->mBottomRightX) / 2);
+    mYPos = FP_FromInteger(pTlv->mBottomRightY);
     field_124_x_vel = FP_FromRaw(pTlv->mVelX << 8);
     field_128_y_vel = FP_FromRaw(-256 * pTlv->mVelY);
 
-    if (pTlv->mRockFallDirection == XDirection_short::eLeft_0)
+    if (pTlv->mRockFallDirection == relive::reliveXDirection::eLeft)
     {
         field_124_x_vel = -field_124_x_vel;
     }
 
-    if (pTlv->mScale == Scale_short::eHalf_1)
+    if (pTlv->mScale == relive::reliveScale::eHalf)
     {
         mSpriteScale = FP_FromDouble(0.5);
         mScale = Scale::Bg;
     }
-    else if (pTlv->mScale == Scale_short::eFull_0)
+    else if (pTlv->mScale == relive::reliveScale::eFull)
     {
         mSpriteScale = FP_FromInteger(1);
         mScale = Scale::Fg;

@@ -21,16 +21,16 @@ ColourfulMeter::ColourfulMeter(relive::Path_ColourfulMeter* pTlv, s32 tlvInfo)
     SetType(ReliveTypes::eColourfulMeter);
     mTlvInfo = tlvInfo;
 
-    mTlvX = pTlv->mTopLeft.x;
-    mTlvY = pTlv->mTopLeft.y;
+    mTlvX = pTlv->mTopLeftX;
+    mTlvY = pTlv->mTopLeftY;
 
     field_20_font_context.LoadFontType_433400(2);
     field_30_font.ctor_433590(5, byte_5543D0, &field_20_font_context);
     mBaseGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4);
     gObjListDrawables->Push_Back(this);
 
-    mTextX = FP_GetExponent((FP_FromInteger(pTlv->mTopLeft.x)) - pScreenManager->CamXPos());
-    mTextY = FP_GetExponent((FP_FromInteger(pTlv->mTopLeft.y)) - pScreenManager->CamYPos());
+    mTextX = FP_GetExponent((FP_FromInteger(pTlv->mTopLeftX)) - pScreenManager->CamXPos());
+    mTextY = FP_GetExponent((FP_FromInteger(pTlv->mTopLeftY)) - pScreenManager->CamYPos());
 
     mSwitchId = pTlv->mSwitchId;
     field_80 = 0;
@@ -52,7 +52,7 @@ ColourfulMeter::ColourfulMeter(relive::Path_ColourfulMeter* pTlv, s32 tlvInfo)
     mStartFilled = pTlv->mStartFilled;
     mMinesAlarmCountdown = pTlv->mMinesAlarmCountdown;
 
-    if (mStartFilled == Choice_short::eYes_1)
+    if (mStartFilled == relive::reliveChoice::eYes)
     {
         if (mStartingSwitchState)
         {
@@ -100,7 +100,7 @@ void ColourfulMeter::VUpdate()
         gbDrawMeterCountDown_5C1BF8 = 0;
     }
 
-    if (mStartFilled == Choice_short::eYes_1)
+    if (mStartFilled == relive::reliveChoice::eYes)
     {
         gbDrawMeterCountDown_5C1BF8 = 0;
 

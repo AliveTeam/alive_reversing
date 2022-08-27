@@ -51,7 +51,7 @@ FallingItem::FallingItem(relive::Path_FallingItem* pTlv, s32 tlvInfo)
 
     field_11E_switch_id = pTlv->mSwitchId;
 
-    if (pTlv->mScale == Scale_short::eHalf_1)
+    if (pTlv->mScale == relive::reliveScale::eHalf)
     {
         mSpriteScale = FP_FromDouble(0.5);
         mScale = Scale::Bg;
@@ -71,16 +71,16 @@ FallingItem::FallingItem(relive::Path_FallingItem* pTlv, s32 tlvInfo)
     field_12C_reset_switch_id_after_use = pTlv->mResetSwitchIdAfterUse;
     field_12E_do_sound_in_state_falling = TRUE;
 
-    mXPos = FP_FromInteger(pTlv->mTopLeft.x);
-    mYPos = FP_FromInteger(pTlv->mTopLeft.y);
+    mXPos = FP_FromInteger(pTlv->mTopLeftX);
+    mYPos = FP_FromInteger(pTlv->mTopLeftY);
 
     if (mYPos > pScreenManager->CamYPos())
     {
         mYPos = pScreenManager->CamYPos();
     }
 
-    field_138_xpos = FP_FromInteger((pTlv->mTopLeft.x + pTlv->mBottomRight.x) / 2);
-    field_13C_ypos = FP_FromInteger(pTlv->mBottomRight.y);
+    field_138_xpos = FP_FromInteger((pTlv->mTopLeftX + pTlv->mBottomRightX) / 2);
+    field_13C_ypos = FP_FromInteger(pTlv->mBottomRightY);
     field_130_yPosStart = mYPos;
     field_11C_state = State::eWaitForIdEnable_0;
     field_140_sound_channels = 0;
@@ -138,7 +138,7 @@ FallingItem::FallingItem(relive::Path_FallingItem* pTlv, s32 tlvInfo)
     const FP xFixed = FP_FromInteger(xpos);
     const FP yFixed = FP_FromInteger(ypos);
 
-    field_12C_reset_switch_id_after_use = static_cast<Choice_short>(bResetIdAfterUse);
+    field_12C_reset_switch_id_after_use = static_cast<relive::reliveChoice>(bResetIdAfterUse);
     field_134_bHitDrillOrMineCar = FALSE;
     field_12E_do_sound_in_state_falling = TRUE;
     mXPos = xFixed;
@@ -365,9 +365,9 @@ void FallingItem::VUpdate()
 
             if (field_11E_switch_id)
             {
-                if (field_12C_reset_switch_id_after_use == Choice_short::eYes_1)
+                if (field_12C_reset_switch_id_after_use == relive::reliveChoice::eYes)
                 {
-                    SwitchStates_Do_Operation(field_11E_switch_id, SwitchOp::eSetFalse_1);
+                    SwitchStates_Do_Operation(field_11E_switch_id, relive::reliveSwitchOp::eSetFalse);
                 }
             }
 

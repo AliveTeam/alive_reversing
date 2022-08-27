@@ -21,7 +21,7 @@ SlapLock::SlapLock(relive::Path_SlapLock* pTlv, s32 tlvInfo)
     mTlvInfo = tlvInfo;
     mBaseGameObjectTlvInfo = tlvInfo;
 
-    if (pTlv->mScale == Scale_short::eHalf_1)
+    if (pTlv->mScale == relive::reliveScale::eHalf)
     {
         mSpriteScale = FP_FromDouble(0.5);
     }
@@ -30,7 +30,7 @@ SlapLock::SlapLock(relive::Path_SlapLock* pTlv, s32 tlvInfo)
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
     Animation_Init(AnimId::SlapLock_Initiate, ppRes);
 
-    if (mSlapLockTlv->mScale != Scale_short::eFull_0)
+    if (mSlapLockTlv->mScale != relive::reliveScale::eFull)
     {
         mAnim.mRenderLayer = Layer::eLayer_BeforeShadow_Half_6;
     }
@@ -43,10 +43,10 @@ SlapLock::SlapLock(relive::Path_SlapLock* pTlv, s32 tlvInfo)
     mTimer1 = (Math_NextRandom() & 7) + sGnFrame + 25;
     mAbilityRingId = -1;
     mPossessionFlickerId = -1;
-    const FP midX = FP_FromInteger((pTlv->mTopLeft.x + pTlv->mBottomRight.x) / 2);
+    const FP midX = FP_FromInteger((pTlv->mTopLeftX + pTlv->mBottomRightX) / 2);
     mXPos = midX;
 
-    const FP ypos = FP_FromInteger(pTlv->mBottomRight.y);
+    const FP ypos = FP_FromInteger(pTlv->mBottomRightY);
     mYPos = ypos;
 
     mHasGhost = mSlapLockTlv->mHasGhost;
@@ -61,13 +61,13 @@ SlapLock::SlapLock(relive::Path_SlapLock* pTlv, s32 tlvInfo)
 
         if (pObj->Type() == ReliveTypes::eSlapLock_OrbWhirlWind && static_cast<SlapLockWhirlWind*>(pObj)->SwitchId() == mSlapLockTlv->mTargetTombSwitchId2)
         {
-            mHasGhost = Choice_short::eNo_0;
+            mHasGhost = relive::reliveChoice::eNo;
         }
     }
 
     if (SwitchStates_Get(pTlv->mTargetTombSwitchId2))
     {
-        mHasGhost = Choice_short::eNo_0;
+        mHasGhost = relive::reliveChoice::eNo;
     }
 
     if (pTlv->mTlvSpecificMeaning == 0)
@@ -80,7 +80,7 @@ SlapLock::SlapLock(relive::Path_SlapLock* pTlv, s32 tlvInfo)
     mTimer1 = sGnFrame + 60;
     mShinyParticleTimer = sGnFrame + 30;
 
-    if (mSlapLockTlv->mGiveInvisibilityPowerup == Choice_short::eYes_1)
+    if (mSlapLockTlv->mGiveInvisibilityPowerup == relive::reliveChoice::eYes)
     {
         mState = SlapLockStates::eEmitInvisibilityPowerupRing_4;
     }
@@ -99,7 +99,7 @@ s32 SlapLock::CreateFromSaveState(const u8* pBuffer)
 {
     auto pState = reinterpret_cast<const SlapLock_State*>(pBuffer);
 
-    auto pTlv = static_cast<Path_SlapLock*>(sPathInfo->TLV_From_Offset_Lvl_Cam(pState->mTlvInfo));
+    auto pTlv = static_cast<relive::Path_SlapLock*>(sPathInfo->TLV_From_Offset_Lvl_Cam(pState->mTlvInfo));
 
     if (!ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kGhostTrpResID_1053, FALSE, FALSE))
     {
@@ -135,7 +135,7 @@ void SlapLock::VScreenChanged()
 
 void SlapLock::GiveInvisibility()
 {
-    mSlapLockTlv = static_cast<Path_SlapLock*>(sPathInfo->TLV_From_Offset_Lvl_Cam(mTlvInfo));
+    mSlapLockTlv = static_cast<relive::Path_SlapLock*>(sPathInfo->TLV_From_Offset_Lvl_Cam(mTlvInfo));
     if (sActiveHero)
     {
         sActiveHero->mInvisibilityDuration = mSlapLockTlv->mInvisibilityDuration;
@@ -173,7 +173,7 @@ s32 SlapLock::VGetSaveState(u8* pSaveBuffer)
 
 void SlapLock::VUpdate()
 {
-    mSlapLockTlv = static_cast<Path_SlapLock*>(sPathInfo->TLV_From_Offset_Lvl_Cam(mTlvInfo));
+    mSlapLockTlv = static_cast<relive::Path_SlapLock*>(sPathInfo->TLV_From_Offset_Lvl_Cam(mTlvInfo));
 
     if (EventGet(kEventDeathReset))
     {
@@ -187,7 +187,7 @@ void SlapLock::VUpdate()
 
             if (mSlapLockTlv->mTlvSpecificMeaning)
             {
-                SwitchStates_Do_Operation(mSlapLockTlv->mTargetTombSwitchId2, SwitchOp::eSetTrue_0);
+                SwitchStates_Do_Operation(mSlapLockTlv->mTargetTombSwitchId2, relive::reliveSwitchOp::eSetTrue);
             }
 
             if (mAbilityRingId != -1)
@@ -216,7 +216,7 @@ void SlapLock::VUpdate()
         {
             case SlapLockStates::eShaking_0:
             {
-                if (mSlapLockTlv->mGiveInvisibilityPowerup == Choice_short::eYes_1)
+                if (mSlapLockTlv->mGiveInvisibilityPowerup == relive::reliveChoice::eYes)
                 {
                     if (!(sGnFrame & 63))
                     {
@@ -233,7 +233,7 @@ void SlapLock::VUpdate()
                     return;
                 }
 
-                if (mHasGhost == Choice_short::eNo_0)
+                if (mHasGhost == relive::reliveChoice::eNo)
                 {
                     return;
                 }
@@ -246,7 +246,7 @@ void SlapLock::VUpdate()
             }
             case SlapLockStates::eIdle_1:
             {
-                if (mSlapLockTlv->mGiveInvisibilityPowerup == Choice_short::eYes_1)
+                if (mSlapLockTlv->mGiveInvisibilityPowerup == relive::reliveChoice::eYes)
                 {
                     if (!(sGnFrame & 63))
                     {
@@ -278,7 +278,7 @@ void SlapLock::VUpdate()
 
                 mAnim.mFlags.Clear(AnimFlags::eBit3_Render);
 
-                if (mSlapLockTlv->mGiveInvisibilityPowerup == Choice_short::eNo_0)
+                if (mSlapLockTlv->mGiveInvisibilityPowerup == relive::reliveChoice::eNo)
                 {
                     mShinyParticleTimer = sGnFrame + 60;
                     mState = SlapLockStates::eBroken_3;
@@ -420,7 +420,7 @@ void SlapLock::SetInvisibilityTarget()
 
 s16 SlapLock::VTakeDamage(BaseGameObject* pFrom)
 {
-    mSlapLockTlv = static_cast<Path_SlapLock*>(sPathInfo->TLV_From_Offset_Lvl_Cam(mTlvInfo));
+    mSlapLockTlv = static_cast<relive::Path_SlapLock*>(sPathInfo->TLV_From_Offset_Lvl_Cam(mTlvInfo));
 
     if (pFrom->Type() != ReliveTypes::eAbe)
     {
@@ -446,9 +446,9 @@ s16 SlapLock::VTakeDamage(BaseGameObject* pFrom)
 
     sActiveHero->ToKnockback_44E700(1, 0);
 
-    if (mHasGhost == Choice_short::eYes_1)
+    if (mHasGhost == relive::reliveChoice::eYes)
     {
-        mHasGhost = Choice_short::eNo_0;
+        mHasGhost = relive::reliveChoice::eNo;
         relive_new SlapLockWhirlWind(
             mSlapLockTlv->mTargetTombSwitchId1,
             mSlapLockTlv->mTargetTombSwitchId2,
@@ -457,13 +457,13 @@ s16 SlapLock::VTakeDamage(BaseGameObject* pFrom)
             mSpriteScale);
     }
 
-    if (mSlapLockTlv->mGiveInvisibilityPowerup == Choice_short::eYes_1)
+    if (mSlapLockTlv->mGiveInvisibilityPowerup == relive::reliveChoice::eYes)
     {
         SetInvisibilityTarget();
     }
 
     mState = SlapLockStates::eSlapped_2;
-    SwitchStates_Do_Operation(mSlapLockTlv->mSlapOutputSwitchId, SwitchOp::eToggle_2);
+    SwitchStates_Do_Operation(mSlapLockTlv->mSlapOutputSwitchId, relive::reliveSwitchOp::eToggle);
     SfxPlayMono(SoundEffect::SpiritLockBreak_106, 0, mSpriteScale);
     EventBroadcast(kEventLoudNoise, this);
 

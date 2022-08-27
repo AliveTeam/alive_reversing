@@ -58,9 +58,7 @@ private:
     s16 field_30_mid_x = 0;
     s16 field_32_mid_y = 0;
 
-    s16 field_34_switch_id = 0;
-
-    ShadowZoneScale field_36_scale = ShadowZoneScale::eBoth_0;
+    relive::Path_ShadowZone::Scale field_36_scale = relive::Path_ShadowZone::Scale::eBoth;
 
     FP field_38_r = {};
     FP field_3C_g = {};

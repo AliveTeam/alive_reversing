@@ -118,7 +118,7 @@ const TintEntry kGlukkonTints_5546B4[18] = {
 s32 Glukkon::CreateFromSaveState(const u8* pData)
 {
     const Glukkon_SaveState* pSaveState = reinterpret_cast<const Glukkon_SaveState*>(pData);
-    auto pTlv = static_cast<Path_Glukkon*>(sPathInfo->TLV_From_Offset_Lvl_Cam(pSaveState->field_44_tlvInfo));
+    auto pTlv = static_cast<relive::Path_Glukkon*>(sPathInfo->TLV_From_Offset_Lvl_Cam(pSaveState->field_44_tlvInfo));
 
     switch (gMap.mCurrentLevel)
     {
@@ -266,9 +266,7 @@ Glukkon::Glukkon(relive::Path_Glukkon* pTlv, s32 tlvInfo)
 
     switch (field_1A8_tlvData.mGlukkonType)
     {
-        case GlukkonTypes::eNormal_0:
-        case GlukkonTypes::eNormal_4:
-        case GlukkonTypes::eNormal_5:
+        case relive::Path_Glukkon::GlukkonTypes::eNormal:
         {
             Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kGlukkonResID_801);
             const AnimRecord& rec = AnimRec(AnimId::Glukkon_Normal_Idle);
@@ -277,7 +275,7 @@ Glukkon::Glukkon(relive::Path_Glukkon* pTlv, s32 tlvInfo)
             break;
         }
 
-        case GlukkonTypes::eStoryAslik_1:
+        case relive::Path_Glukkon::GlukkonTypes::eStoryAslik:
         {
             Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kAslikResID_803);
             const AnimRecord& rec = AnimRec(AnimId::Glukkon_Aslik_Idle);
@@ -286,7 +284,7 @@ Glukkon::Glukkon(relive::Path_Glukkon* pTlv, s32 tlvInfo)
             break;
         }
 
-        case GlukkonTypes::eStoryDripik_2:
+        case relive::Path_Glukkon::GlukkonTypes::eStoryDripik:
         {
             Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kDripikResID_805);
             const AnimRecord& rec = AnimRec(AnimId::Glukkon_Dripik_Idle);
@@ -295,7 +293,7 @@ Glukkon::Glukkon(relive::Path_Glukkon* pTlv, s32 tlvInfo)
             break;
         }
 
-        case GlukkonTypes::eStoryPhleg_3:
+        case relive::Path_Glukkon::GlukkonTypes::eStoryPhleg:
         {
             Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kPhlegResID_807);
             const AnimRecord& rec = AnimRec(AnimId::Glukkon_Phleg_Idle);
@@ -314,7 +312,7 @@ Glukkon::Glukkon(relive::Path_Glukkon* pTlv, s32 tlvInfo)
 void Glukkon::VRender(PrimHeader** ot)
 {
     s16 eyeIndices[1];
-    if (field_1A8_tlvData.mGlukkonType == GlukkonTypes::eStoryAslik_1 || field_1A8_tlvData.mGlukkonType == GlukkonTypes::eStoryPhleg_3)
+    if (field_1A8_tlvData.mGlukkonType == relive::Path_Glukkon::GlukkonTypes::eStoryAslik || field_1A8_tlvData.mGlukkonType == relive::Path_Glukkon::GlukkonTypes::eStoryPhleg)
     {
         eyeIndices[0] = 63;
     }
@@ -879,7 +877,7 @@ void Glukkon::M_Speak1_11_4437D0()
 
             if (field_1EA_speak == GlukkonSpeak::Help_6)
             {
-                SwitchStates_Do_Operation(field_1A8_tlvData.mHelpSwitchId, SwitchOp::eSetTrue_0);
+                SwitchStates_Do_Operation(field_1A8_tlvData.mHelpSwitchId, relive::reliveSwitchOp::eSetTrue);
             }
         }
         field_1EA_speak = GlukkonSpeak::None;
@@ -1082,7 +1080,7 @@ s16 Glukkon::Brain_0_Calm_WalkAround_440B40()
                 return 9;
             }
 
-            if (field_1A8_tlvData.mBehavior == Path_Glukkon::Behavior::eCheckForWalls_1)
+            if (field_1A8_tlvData.mBehavior == relive::Path_Glukkon::Behavior::eCheckForWalls)
             {
                 if (Check_IsOnEndOfLine(mAnim.mFlags.Get(AnimFlags::eBit5_FlipX), 1) || PathBlocked(mVelX, 1))
                 {
@@ -1132,7 +1130,7 @@ s16 Glukkon::Brain_0_Calm_WalkAround_440B40()
                     return 9;
                 }
 
-                if (field_1A8_tlvData.mBehavior == Path_Glukkon::Behavior::eCheckForWalls_1)
+                if (field_1A8_tlvData.mBehavior == relive::Path_Glukkon::Behavior::eCheckForWalls)
                 {
                     if (Check_IsOnEndOfLine(mAnim.mFlags.Get(AnimFlags::eBit5_FlipX), 1) || PathBlocked(mVelX, 1))
                     {
@@ -1362,12 +1360,12 @@ s16 Glukkon::Brain_1_Panic_4412F0()
             }
             else if (static_cast<s32>(sGnFrame) - field_1F8_panic_timer > field_1A8_tlvData.mToCalmDelay)
             {
-                SwitchStates_Do_Operation(field_1A8_tlvData.mHelpSwitchId, SwitchOp::eSetFalse_1);
+                SwitchStates_Do_Operation(field_1A8_tlvData.mHelpSwitchId, relive::reliveSwitchOp::eSetFalse);
                 SetBrain(&Glukkon::Brain_0_Calm_WalkAround_440B40);
                 return 0;
             }
 
-            if (field_1A8_tlvData.mBehavior != Path_Glukkon::Behavior::eIgnoreWalls_0)
+            if (field_1A8_tlvData.mBehavior != relive::Path_Glukkon::Behavior::eIgnoreWalls)
             {
                 if (Check_IsOnEndOfLine(mAnim.mFlags.Get(AnimFlags::eBit5_FlipX), 1) || PathBlocked(mVelX, 1))
                 {
@@ -1383,7 +1381,7 @@ s16 Glukkon::Brain_1_Panic_4412F0()
             return 2;
 
         case 2:
-            if (field_1A8_tlvData.mBehavior == Path_Glukkon::Behavior::eCheckForWalls_1)
+            if (field_1A8_tlvData.mBehavior == relive::Path_Glukkon::Behavior::eCheckForWalls)
             {
                 if (Check_IsOnEndOfLine(mAnim.mFlags.Get(AnimFlags::eBit5_FlipX), 1) || PathBlocked(mVelX, 1))
                 {
@@ -1494,16 +1492,16 @@ s16 Glukkon::Brain_2_Slapped_441720()
             }
             else if ((s32)(sGnFrame - field_1F8_panic_timer) > field_1A8_tlvData.mToCalmDelay)
             {
-                SwitchStates_Do_Operation(field_1A8_tlvData.mHelpSwitchId, SwitchOp::eSetFalse_1);
+                SwitchStates_Do_Operation(field_1A8_tlvData.mHelpSwitchId, relive::reliveSwitchOp::eSetFalse);
                 SetBrain(&Glukkon::Brain_0_Calm_WalkAround_440B40);
 
-                if (FP_FromInteger(field_1A8_tlvData.mTopLeft.x) >= mXPos)
+                if (FP_FromInteger(field_1A8_tlvData.mTopLeftX) >= mXPos)
                 {
                     if (!(mAnim.mFlags.Get(AnimFlags::eBit5_FlipX)))
                     {
                         return 2;
                     }
-                    if (FP_FromInteger(field_1A8_tlvData.mTopLeft.x) >= mXPos)
+                    if (FP_FromInteger(field_1A8_tlvData.mTopLeftX) >= mXPos)
                     {
                         return 0;
                     }
@@ -1591,9 +1589,9 @@ s16 Glukkon::Brain_3_PlayerControlled_441A30()
 
         case 1:
         {
-            if ((field_1A8_tlvData.mGlukkonType != GlukkonTypes::eStoryAslik_1 &&
-                field_1A8_tlvData.mGlukkonType != GlukkonTypes::eStoryDripik_2 &&
-                field_1A8_tlvData.mGlukkonType != GlukkonTypes::eStoryPhleg_3) ||
+            if ((field_1A8_tlvData.mGlukkonType != relive::Path_Glukkon::GlukkonTypes::eStoryAslik &&
+                field_1A8_tlvData.mGlukkonType != relive::Path_Glukkon::GlukkonTypes::eStoryDripik &&
+                field_1A8_tlvData.mGlukkonType != relive::Path_Glukkon::GlukkonTypes::eStoryPhleg) ||
                 !SwitchStates_Get(field_1A8_tlvData.mPlayMovieSwitchId))
             {
                 if (Input_IsChanting_45F260() && mCurrentMotion != eGlukkonMotions::M_Jump_4_443030 && !field_1E2_prevent_depossession)
@@ -1606,11 +1604,11 @@ s16 Glukkon::Brain_3_PlayerControlled_441A30()
                 return field_210_brain_sub_state;
             }
 
-            if (field_1A8_tlvData.mGlukkonType == GlukkonTypes::eStoryAslik_1)
+            if (field_1A8_tlvData.mGlukkonType == relive::Path_Glukkon::GlukkonTypes::eStoryAslik)
             {
                 sVisitedFeecoEnder_5C1C06 = 1;
             }
-            else if (field_1A8_tlvData.mGlukkonType == GlukkonTypes::eStoryDripik_2)
+            else if (field_1A8_tlvData.mGlukkonType == relive::Path_Glukkon::GlukkonTypes::eStoryDripik)
             {
                 sVisitedBarracks_5C1C04 = 1;
             }
@@ -1629,7 +1627,7 @@ s16 Glukkon::Brain_3_PlayerControlled_441A30()
 
         case 2:
             if (Input_IsChanting_45F260()
-                || ((field_1A8_tlvData.mGlukkonType == GlukkonTypes::eStoryAslik_1 || field_1A8_tlvData.mGlukkonType == GlukkonTypes::eStoryDripik_2 || field_1A8_tlvData.mGlukkonType == GlukkonTypes::eStoryPhleg_3)
+                || ((field_1A8_tlvData.mGlukkonType == relive::Path_Glukkon::GlukkonTypes::eStoryAslik || field_1A8_tlvData.mGlukkonType == relive::Path_Glukkon::GlukkonTypes::eStoryDripik || field_1A8_tlvData.mGlukkonType == relive::Path_Glukkon::GlukkonTypes::eStoryPhleg)
                     && SwitchStates_Get(field_1A8_tlvData.mPlayMovieSwitchId)))
             {
                 if (!(static_cast<s32>(sGnFrame) % 4))
@@ -1718,30 +1716,21 @@ s16 Glukkon::Brain_3_PlayerControlled_441A30()
     }
 }
 
-static GibType AsGibType(GlukkonTypes glukkonType)
+static GibType AsGibType(relive::Path_Glukkon::GlukkonTypes glukkonType)
 {
     switch (glukkonType)
     {
-        case GlukkonTypes::eNormal_0:
+        case relive::Path_Glukkon::GlukkonTypes::eNormal:
             return GibType::Glukkon_6;
 
-        case GlukkonTypes::eStoryAslik_1:
+        case relive::Path_Glukkon::GlukkonTypes::eStoryAslik:
             return GibType::Aslik_7;
 
-        case GlukkonTypes::eStoryDripik_2:
+        case relive::Path_Glukkon::GlukkonTypes::eStoryDripik:
             return GibType::Dripik_8;
 
-        case GlukkonTypes::eStoryPhleg_3:
+        case relive::Path_Glukkon::GlukkonTypes::eStoryPhleg:
             return GibType::Phleg_9;
-
-        case GlukkonTypes::eNormal_4:
-            ALIVE_FATAL("Didn't expect glukkon type 4 for gibs!");
-            //return GibType::Fleech_10; // TODO: This can't be correct
-
-        case GlukkonTypes::eNormal_5:
-            ALIVE_FATAL("Didn't expect glukkon type 5 for gibs!");
-            //return GibType::Glukkon_6; // TODO: Was out of range
-
         default:
             return GibType::Glukkon_6;
     }
@@ -1916,7 +1905,7 @@ s16 Glukkon::Brain_5_WaitToSpawn_442490()
 
         SetType(ReliveTypes::eGlukkon);
 
-        if (field_1A8_tlvData.mSpawnType == Path_Glukkon::SpawnType::eFullSpawnEffects_3)
+        if (field_1A8_tlvData.mSpawnType == relive::Path_Glukkon::SpawnType::eFullSpawnEffects)
         {
             SFX_Play_Pitch(SoundEffect::Zap1_49, 60, -300);
 
@@ -1963,22 +1952,22 @@ void Glukkon::Init()
     mBaseGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4);
 
     SetTint(&kGlukkonTints_5546B4[0], gMap.mCurrentLevel);
-    mXPos = FP_FromInteger((field_1A8_tlvData.mTopLeft.x + field_1A8_tlvData.mBottomRight.x) / 2);
-    mYPos = FP_FromInteger(field_1A8_tlvData.mTopLeft.y);
+    mXPos = FP_FromInteger((field_1A8_tlvData.mTopLeftX + field_1A8_tlvData.mBottomRightX) / 2);
+    mYPos = FP_FromInteger(field_1A8_tlvData.mTopLeftY);
 
-    if (field_1A8_tlvData.mFacing == Path_Glukkon::Facing::eLeft_1)
+    if (field_1A8_tlvData.mFacing == relive::Path_Glukkon::Facing::eLeft)
     {
         mAnim.mFlags.Set(AnimFlags::eBit5_FlipX);
     }
 
     if (field_1A8_tlvData.mSpawnSwitchId)
     {
-        if (field_1A8_tlvData.mSpawnType == Path_Glukkon::SpawnType::eFacingLeft_1)
+        if (field_1A8_tlvData.mSpawnType == relive::Path_Glukkon::SpawnType::eFacingLeft)
         {
             mXPos -= ScaleToGridSize(mSpriteScale);
             mAnim.mFlags.Clear(AnimFlags::eBit5_FlipX);
         }
-        else if (field_1A8_tlvData.mSpawnType == Path_Glukkon::SpawnType::eFacingRight_2)
+        else if (field_1A8_tlvData.mSpawnType == relive::Path_Glukkon::SpawnType::eFacingRight)
         {
             mXPos += ScaleToGridSize(mSpriteScale);
             mAnim.mFlags.Set(AnimFlags::eBit5_FlipX);
@@ -1997,13 +1986,13 @@ void Glukkon::Init()
         field_210_brain_sub_state = 0;
     }
 
-    if (field_1A8_tlvData.mScale == Scale_short::eHalf_1)
+    if (field_1A8_tlvData.mScale == relive::reliveScale::eHalf)
     {
         mSpriteScale = FP_FromDouble(0.5);
         mScale = Scale::Bg;
         mAnim.mRenderLayer = Layer::eLayer_8;
     }
-    else if (field_1A8_tlvData.mScale == Scale_short::eFull_0)
+    else if (field_1A8_tlvData.mScale == relive::reliveScale::eFull)
     {
         mSpriteScale = FP_FromInteger(1);
         mScale = Scale::Fg;
@@ -2131,7 +2120,7 @@ void Glukkon::VUpdate()
 
         if (oldXPos != mXPos || oldYPos != mYPos)
         {
-            Path_TLV* pTlv = sPathInfo->TlvGetAt(
+            relive::Path_TLV* pTlv = sPathInfo->TlvGetAt(
                 nullptr,
                 mXPos,
                 mYPos,
@@ -2153,7 +2142,7 @@ void Glukkon::VUpdate()
 
 void Glukkon::VPossessed()
 {
-    SwitchStates_Do_Operation(field_1A8_tlvData.mHelpSwitchId, SwitchOp::eSetFalse_1);
+    SwitchStates_Do_Operation(field_1A8_tlvData.mHelpSwitchId, relive::reliveSwitchOp::eSetFalse);
     mBaseAliveGameObjectFlags.Set(Flags_114::e114_Bit4_bPossesed);
     field_1E2_prevent_depossession = 1;
     SetAnim(eGlukkonMotions::M_ChantShake_10_443B50, TRUE);
@@ -2437,18 +2426,18 @@ s16 Glukkon::PathBlocked(FP /*a2*/, s16 checkBounds)
         gridSize = (gridSize * FP_FromInteger(4));
     }
 
-    Path_EnemyStopper::StopDirection direction = Path_EnemyStopper::StopDirection::Left_0;
-    TlvTypes boundType = TlvTypes::ScrabBoundLeft_43;
+    relive::Path_EnemyStopper::StopDirection direction = relive::Path_EnemyStopper::StopDirection::Left;
+    ReliveTypes boundType = ReliveTypes::eScrabLeftBound;
     if (mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
     {
-        boundType = TlvTypes::ScrabBoundLeft_43;
-        direction = Path_EnemyStopper::StopDirection::Left_0;
+        boundType = ReliveTypes::eScrabLeftBound;
+        direction = relive::Path_EnemyStopper::StopDirection::Left;
         gridSize = -gridSize;
     }
     else
     {
-        boundType = TlvTypes::ScrabBoundRight_44;
-        direction = Path_EnemyStopper::StopDirection::Right_1;
+        boundType = ReliveTypes::eScrabRightBound;
+        direction = relive::Path_EnemyStopper::StopDirection::Right;
     }
 
     if (WallHit(mSpriteScale * FP_FromInteger(50), gridSize * FP_FromInteger(1)))
@@ -2461,11 +2450,11 @@ s16 Glukkon::PathBlocked(FP /*a2*/, s16 checkBounds)
         FP_GetExponent(mYPos), // TODO Abs() ??
         FP_GetExponent(mXPos + gridSize),
         FP_GetExponent(mYPos - ScaleToGridSize(mSpriteScale)),
-        TlvTypes::SlamDoor_85);
+        ReliveTypes::eSlamDoor);
 
-    auto pSlamDoorTlv = static_cast<Path_SlamDoor*>(BaseAliveGameObjectPathTLV);
+    auto pSlamDoorTlv = static_cast<relive::Path_SlamDoor*>(BaseAliveGameObjectPathTLV);
 
-    if (pSlamDoorTlv && ((pSlamDoorTlv->mStartClosed == Choice_short::eYes_1 && !SwitchStates_Get(pSlamDoorTlv->mSwitchId)) || (pSlamDoorTlv->mStartClosed == Choice_short::eNo_0 && SwitchStates_Get(pSlamDoorTlv->mSwitchId))))
+    if (pSlamDoorTlv && ((pSlamDoorTlv->mStartClosed == relive::reliveChoice::eYes && !SwitchStates_Get(pSlamDoorTlv->mSwitchId)) || (pSlamDoorTlv->mStartClosed == relive::reliveChoice::eNo && SwitchStates_Get(pSlamDoorTlv->mSwitchId))))
     {
         return 1;
     }
@@ -2475,11 +2464,11 @@ s16 Glukkon::PathBlocked(FP /*a2*/, s16 checkBounds)
         FP_GetExponent(mYPos),
         FP_GetExponent(mXPos + gridSize),
         FP_GetExponent(mYPos - ScaleToGridSize(mSpriteScale)),
-        TlvTypes::EnemyStopper_47);
+        ReliveTypes::eEnemyStopper);
 
-    auto pEnemyStopper = static_cast<Path_EnemyStopper*>(BaseAliveGameObjectPathTLV);
+    auto pEnemyStopper = static_cast<relive::Path_EnemyStopper*>(BaseAliveGameObjectPathTLV);
     if (pEnemyStopper
-        && (pEnemyStopper->mStopDirection == direction || pEnemyStopper->mStopDirection == Path_EnemyStopper::StopDirection::Both_2)
+        && (pEnemyStopper->mStopDirection == direction || pEnemyStopper->mStopDirection == relive::Path_EnemyStopper::StopDirection::Both)
         && SwitchStates_Get(pEnemyStopper->mSwitchId))
     {
         return 1;
@@ -2796,15 +2785,15 @@ void Glukkon::ToDead()
         }
     }
 
-    SwitchStates_Do_Operation(field_1A8_tlvData.mHelpSwitchId, SwitchOp::eSetFalse_1);
+    SwitchStates_Do_Operation(field_1A8_tlvData.mHelpSwitchId, relive::reliveSwitchOp::eSetFalse);
 
-    if ((field_1A8_tlvData.mGlukkonType == GlukkonTypes::eStoryAslik_1 ||
-        field_1A8_tlvData.mGlukkonType == GlukkonTypes::eStoryDripik_2 ||
-        field_1A8_tlvData.mGlukkonType == GlukkonTypes::eStoryPhleg_3) &&
+    if ((field_1A8_tlvData.mGlukkonType == relive::Path_Glukkon::GlukkonTypes::eStoryAslik ||
+        field_1A8_tlvData.mGlukkonType == relive::Path_Glukkon::GlukkonTypes::eStoryDripik ||
+        field_1A8_tlvData.mGlukkonType == relive::Path_Glukkon::GlukkonTypes::eStoryPhleg) &&
         !SwitchStates_Get(field_1A8_tlvData.mPlayMovieSwitchId))
     {
         // If an exec is dead trigger ze gas
-        SwitchStates_Do_Operation(field_1A8_tlvData.mDeathSwitchId, SwitchOp::eSetTrue_0);
+        SwitchStates_Do_Operation(field_1A8_tlvData.mDeathSwitchId, relive::reliveSwitchOp::eSetTrue);
     }
 
     if (field_1A8_tlvData.mSpawnSwitchId == 0)
@@ -2817,7 +2806,7 @@ void Glukkon::ToDead()
         if (field_1A8_tlvData.mSpawnSwitchId > 1)
         {
             // If above 1 then its an actual switch id
-            SwitchStates_Do_Operation(field_1A8_tlvData.mSpawnSwitchId, SwitchOp::eSetFalse_1);
+            SwitchStates_Do_Operation(field_1A8_tlvData.mSpawnSwitchId, relive::reliveSwitchOp::eSetFalse);
         }
 
         // Spawn again if id is 1 or above
@@ -2825,11 +2814,11 @@ void Glukkon::ToDead()
     }
 }
 
-void Glukkon::VOnTlvCollision(Path_TLV* pTlv)
+void Glukkon::VOnTlvCollision(relive::Path_TLV* pTlv)
 {
     while (pTlv)
     {
-        if (pTlv->mTlvType32 == TlvTypes::DeathDrop_4)
+        if (pTlv->mTlvType == ReliveTypes::eDeathDrop)
         {
             if (mHealth > FP_FromInteger(0))
             {
@@ -2951,7 +2940,7 @@ void Glukkon::SlowDown(FP speed)
 void Glukkon::VScreenChanged()
 {
     BaseGameObject::VScreenChanged();
-    SwitchStates_Do_Operation(field_1A8_tlvData.mHelpSwitchId, SwitchOp::eSetFalse_1);
+    SwitchStates_Do_Operation(field_1A8_tlvData.mHelpSwitchId, relive::reliveSwitchOp::eSetFalse);
     if (BrainIs(&Glukkon::Brain_5_WaitToSpawn_442490) && !field_210_brain_sub_state)
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);

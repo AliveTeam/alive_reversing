@@ -270,7 +270,7 @@ public:
     relive::Path_TLV* TlvGetAt(relive::Path_TLV* pTlv, FP xpos, FP ypos, FP w, FP h);
     relive::Path_TLV* TLV_From_Offset_Lvl_Cam(u32 tlvOffset_levelId_PathId);
 
-    u32 TLVInfo_From_TLVPtr(Path_TLV* pTlv);
+    u32 TLVInfo_From_TLVPtr(relive::Path_TLV* pTlv);
 
     static relive::Path_TLV* TLV_Next_Of_Type(relive::Path_TLV* pTlv, ReliveTypes type);
     static void TLV_Reset(u32 tlvOffset_levelId_PathId, s16 hiFlags, s8 bSetCreated, s8 bSetDestroyed);

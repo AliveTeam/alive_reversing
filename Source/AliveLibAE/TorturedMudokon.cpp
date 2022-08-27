@@ -20,8 +20,8 @@ TorturedMudokon::TorturedMudokon(relive::Path_TorturedMudokon* pTlv, s32 tlvInfo
     mTorturedMudRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
     if (mTorturedMudRes)
     {
-        mXPos = FP_FromInteger(pTlv->mTopLeft.x);
-        mYPos = FP_FromInteger(pTlv->mTopLeft.y);
+        mXPos = FP_FromInteger(pTlv->mTopLeftX);
+        mYPos = FP_FromInteger(pTlv->mTopLeftY);
         Animation_Init(AnimId::Tortured_Mudokon, mTorturedMudRes);
         mAnim.SetFrame(Math_RandomRange(0, mAnim.Get_Frame_Count() - 1));
         mKillSwitchId = pTlv->mKillSwitchId;
@@ -242,7 +242,7 @@ void TorturedMudokon::VUpdate()
         mAnim.Set_Animation_Data(AnimId::Tortured_Mudokon_Released, nullptr);
         mTearsAnim.mFlags.Clear(AnimFlags::eBit3_Render);
         mZapAnim.mFlags.Clear(AnimFlags::eBit3_Render);
-        Path_TLV* pTlv = sPathInfo->TLV_From_Offset_Lvl_Cam(mTlvInfo);
+        relive::Path_TLV* pTlv = sPathInfo->TLV_From_Offset_Lvl_Cam(mTlvInfo);
         if (pTlv)
         {
             pTlv->mTlvSpecificMeaning = 1;

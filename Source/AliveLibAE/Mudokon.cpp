@@ -5024,7 +5024,7 @@ s16 Mudokon::Brain_6_Escape()
 
                     if (mCurrentMotion == eMudMotions::Motion_0_Idle || mCurrentMotion == eMudMotions::Motion_1_WalkLoop)
                     {
-                        if ((pBirdPortal->mEnterSide == PortalSide::eRight_0 && mAnim.mFlags.Get(AnimFlags::eBit5_FlipX)) || (pBirdPortal->mEnterSide == PortalSide::eLeft_1 && !mAnim.mFlags.Get(AnimFlags::eBit5_FlipX)))
+                        if ((pBirdPortal->mEnterSide == relive::Path_BirdPortal::PortalSide::eRight && mAnim.mFlags.Get(AnimFlags::eBit5_FlipX)) || (pBirdPortal->mEnterSide == relive::Path_BirdPortal::PortalSide::eLeft && !mAnim.mFlags.Get(AnimFlags::eBit5_FlipX)))
                         {
                             mNextMotion = eMudMotions::Motion_2_StandingTurn;
                         }
@@ -6886,7 +6886,7 @@ s16 Mudokon::FindBirdPortal()
             {
                 if (!WallHit(mSpriteScale * FP_FromInteger(50), xDist))
                 {
-                    if (pOpenPortal->mPortalType == PortalType::eWorker_1 || pOpenPortal->mPortalType == PortalType::eShrykull_2)
+                    if (pOpenPortal->mPortalType == relive::Path_BirdPortal::PortalType::eWorker || pOpenPortal->mPortalType == relive::Path_BirdPortal::PortalType::eShrykull)
                     {
                         sActiveHero->ChangeChantState_45BB90(1);
                         field_11C_bird_portal_id = pOpenPortal->mBaseGameObjectId;
@@ -6909,7 +6909,7 @@ s16 Mudokon::FindBirdPortal()
             {
                 if (!WallHit(mSpriteScale * FP_FromInteger(50), xDist))
                 {
-                    if (pPortal20->mPortalType == PortalType::eWorker_1 || pPortal20->mPortalType == PortalType::eShrykull_2)
+                    if (pPortal20->mPortalType == relive::Path_BirdPortal::PortalType::eWorker || pPortal20->mPortalType == relive::Path_BirdPortal::PortalType::eShrykull)
                     {
                         sActiveHero->ChangeChantState_45BB90(1);
                         field_11C_bird_portal_id = pPortal20->mBaseGameObjectId;

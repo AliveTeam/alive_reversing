@@ -71,7 +71,7 @@ void Path::Loader_4DB800(s16 xpos, s16 ypos, LoadMode loadMode, ReliveTypes type
     {
         if (typeToLoad == ReliveTypes::eNone || typeToLoad == pPathTLV->mTlvType)
         {
-            if (loadMode != LoadMode::ConstructObject_0 || !(pPathTLV->mTlvFlags.Get(relive::TlvFlags::eBit1_Created) || pPathTLV->mTlvFlags.Get(TlvFlags::eBit2_Destroyed)))
+            if (loadMode != LoadMode::ConstructObject_0 || !(pPathTLV->mTlvFlags.Get(relive::TlvFlags::eBit1_Created) || pPathTLV->mTlvFlags.Get(relive::TlvFlags::eBit2_Destroyed)))
             {
                 if (loadMode == LoadMode::ConstructObject_0)
                 {
@@ -200,11 +200,11 @@ relive::Path_TLV* Path::TLV_Get_At_4DB4B0(s16 xpos, s16 ypos, s16 width, s16 hei
     relive::Path_TLV* pTlvIter = reinterpret_cast<relive::Path_TLV*>(&(*field_10_ppRes)[mPathData->field_12_object_offset + indexTableEntry]);
     while (pTlvIter)
     {
-        if (pTlvIter->mTlvType32 == objectType
-            && right <= pTlvIter->mBottomRight.x
-            && left >= pTlvIter->mTopLeft.x
-            && bottom >= pTlvIter->mTopLeft.y
-            && top <= pTlvIter->mBottomRight.y)
+        if (pTlvIter->mTlvType == objectType
+            && right <= pTlvIter->mBottomRightX
+            && left >= pTlvIter->mTopLeftX
+            && bottom >= pTlvIter->mTopLeftY
+            && top <= pTlvIter->mBottomRightY)
         {
             return pTlvIter;
         }
@@ -214,7 +214,7 @@ relive::Path_TLV* Path::TLV_Get_At_4DB4B0(s16 xpos, s16 ypos, s16 width, s16 hei
     return pTlvIter;
 }
 
-Path_TLV* Path::TlvGetAt(Path_TLV* pTlv, FP xpos, FP ypos, FP w, FP h)
+relive::Path_TLV* Path::TlvGetAt(relive::Path_TLV* pTlv, FP xpos, FP ypos, FP w, FP h)
 {
     const s32 xpos_converted = FP_GetExponent(xpos);
     const s32 ypos_converted = FP_GetExponent(ypos);
@@ -258,14 +258,14 @@ Path_TLV* Path::TlvGetAt(Path_TLV* pTlv, FP xpos, FP ypos, FP w, FP h)
             return nullptr;
         }
 
-        pTlv = reinterpret_cast<Path_TLV*>(&pPathRes[pPathData->field_12_object_offset + indexTableEntry]);
-        if (!xyPosValid || (xpos_converted <= pTlv->mBottomRight.x && width_converted >= pTlv->mTopLeft.x && height_converted >= pTlv->mTopLeft.y && ypos_converted <= pTlv->mBottomRight.y))
+        pTlv = reinterpret_cast<relive::Path_TLV*>(&pPathRes[pPathData->field_12_object_offset + indexTableEntry]);
+        if (!xyPosValid || (xpos_converted <= pTlv->mBottomRightX && width_converted >= pTlv->mTopLeftX && height_converted >= pTlv->mTopLeftY && ypos_converted <= pTlv->mBottomRightY))
         {
             return pTlv;
         }
     }
 
-    if (pTlv->mTlvFlags.Get(TlvFlags::eBit3_End_TLV_List))
+    if (pTlv->mTlvFlags.Get(relive::TlvFlags::eBit3_End_TLV_List))
     {
         return nullptr;
     }
@@ -273,12 +273,12 @@ Path_TLV* Path::TlvGetAt(Path_TLV* pTlv, FP xpos, FP ypos, FP w, FP h)
     while (1)
     {
         pTlv = Path::Next_TLV(pTlv);
-        if (!xyPosValid || (xpos_converted <= pTlv->mBottomRight.x && width_converted >= pTlv->mTopLeft.x && height_converted >= pTlv->mTopLeft.y && ypos_converted <= pTlv->mBottomRight.y))
+        if (!xyPosValid || (xpos_converted <= pTlv->mBottomRightX && width_converted >= pTlv->mTopLeftX && height_converted >= pTlv->mTopLeftY && ypos_converted <= pTlv->mBottomRightY))
         {
             break;
         }
 
-        if (pTlv->mTlvFlags.Get(TlvFlags::eBit3_End_TLV_List))
+        if (pTlv->mTlvFlags.Get(relive::TlvFlags::eBit3_End_TLV_List))
         {
             return nullptr;
         }
@@ -324,7 +324,7 @@ relive::Path_TLV* Path::TLV_Next_Of_Type(relive::Path_TLV* pTlv, ReliveTypes typ
         return nullptr;
     }
 
-    while (pTlv->mTlvType32.mType != type)
+    while (pTlv->mTlvType != type)
     {
         pTlv = Path::Next_TLV(pTlv);
         if (!pTlv)
@@ -405,11 +405,11 @@ void Path::Reset_TLVs(u16 pathId)
         {
             if (pIdx[i] != -1)
             {
-                Path_TLV* pTlv = reinterpret_cast<Path_TLV*>(&(*ppPath[pIdx[i] + pPathData->field_12_object_offset]));
+                relive::Path_TLV* pTlv = reinterpret_cast<relive::Path_TLV*>(&(*ppPath[pIdx[i] + pPathData->field_12_object_offset]));
                 while (pTlv)
                 {
-                    pTlv->mTlvFlags.Clear(TlvFlags::eBit1_Created);
-                    pTlv->mTlvFlags.Clear(TlvFlags::eBit2_Destroyed);
+                    pTlv->mTlvFlags.Clear(relive::TlvFlags::eBit1_Created);
+                    pTlv->mTlvFlags.Clear(relive::TlvFlags::eBit2_Destroyed);
                     pTlv = Path::Next_TLV(pTlv);
                 }
             }

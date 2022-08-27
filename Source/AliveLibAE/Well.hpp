@@ -30,6 +30,6 @@ private:
     FP mExitY = {};
     FP mLeafX = {};
     FP mLeafY = {};
-    Choice_short mEmitLeaves = Choice_short::eNo_0;
+    relive::reliveChoice mEmitLeaves = relive::reliveChoice::eNo;
 };
 ALIVE_ASSERT_SIZEOF(Well, 0x40);

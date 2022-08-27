@@ -59,15 +59,15 @@ MotionDetector::MotionDetector(relive::Path_MotionDetector* pTlv, s32 tlvInfo, B
         field_F4_tlvInfo = tlvInfo;
         mSpriteScale = FP_FromInteger(1);
 
-        if (pTlv->mScale != Scale_short::eFull_0)
+        if (pTlv->mScale != relive::reliveScale::eFull)
         {
             mSpriteScale = FP_FromDouble(0.5);
         }
 
-        field_114_x1_fp = FP_FromInteger(pTlv->mTopLeft.x);
-        field_11C_y1_fp = FP_FromInteger(pTlv->mBottomRight.x);
-        field_118_x2_fp = FP_FromInteger(pTlv->mTopLeft.y);
-        field_120_y2_fp = FP_FromInteger(pTlv->mBottomRight.y);
+        field_114_x1_fp = FP_FromInteger(pTlv->mTopLeftX);
+        field_11C_y1_fp = FP_FromInteger(pTlv->mBottomRightX);
+        field_118_x2_fp = FP_FromInteger(pTlv->mTopLeftY);
+        field_120_y2_fp = FP_FromInteger(pTlv->mBottomRightY);
 
         PSX_Point pos = {};
         gMap.Get_Abe_Spawn_Pos(&pos);
@@ -78,19 +78,19 @@ MotionDetector::MotionDetector(relive::Path_MotionDetector* pTlv, s32 tlvInfo, B
         }
         else
         {
-            mXPos = FP_FromInteger(pTlv->mTopLeft.x);
-            mYPos = FP_FromInteger(pTlv->mTopLeft.y);
+            mXPos = FP_FromInteger(pTlv->mTopLeftX);
+            mYPos = FP_FromInteger(pTlv->mTopLeftY);
         }
 
         field_174_speed = FP_FromRaw((u16) pTlv->mSpeedx256 << 8);
 
         MotionDetectorLaser* pLaser = nullptr;
-        if (pTlv->mInitialMoveDirection == Path_MotionDetector::InitialMoveDirection::eLeft_1)
+        if (pTlv->mInitialMoveDirection == relive::Path_MotionDetector::InitialMoveDirection::eLeft)
         {
             field_100_state = States::eMoveLeft_2;
             pLaser = relive_new MotionDetectorLaser(field_11C_y1_fp, field_120_y2_fp, mSpriteScale, Layer::eLayer_Foreground_36);
         }
-        else if (pTlv->mInitialMoveDirection == Path_MotionDetector::InitialMoveDirection::eRight_0)
+        else if (pTlv->mInitialMoveDirection == relive::Path_MotionDetector::InitialMoveDirection::eRight)
         {
             field_100_state = States::eMoveRight_0;
             pLaser = relive_new MotionDetectorLaser(field_114_x1_fp, field_120_y2_fp, mSpriteScale, Layer::eLayer_Foreground_36);
@@ -100,7 +100,7 @@ MotionDetector::MotionDetector(relive::Path_MotionDetector* pTlv, s32 tlvInfo, B
             ALIVE_FATAL("couldn't find start move direction for motion detector");
         }
 
-        if (pTlv->mDrawFlare == Choice_short::eYes_1)
+        if (pTlv->mDrawFlare == relive::reliveChoice::eYes)
         {
             mAnim.mFlags.Set(AnimFlags::eBit3_Render);
         }

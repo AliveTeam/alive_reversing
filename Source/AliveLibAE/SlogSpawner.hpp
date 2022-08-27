@@ -37,13 +37,13 @@ private:
     FP mXPos = {};
     FP mYPos = {};
     s32 mSpawnTimer = 0;
-    Scale_short mScale = Scale_short::eFull_0;
+    relive::reliveScale mScale = relive::reliveScale::eFull;
     s16 mMaxSlogs = 0;
     s16 mMaxSlogsAtATime = 0;
-    StartDirection mStartDirection = StartDirection::eRight_0;
+    relive::Path_SlogSpawner::StartDirection mStartDirection = relive::Path_SlogSpawner::StartDirection::eRight;
     s16 mSlogSpawnInterval = 0;
     s16 mSpawnerSwitchId = 0;
-    Choice_short mListenToSligs = Choice_short::eNo_0; // AE only
+    relive::reliveChoice mListenToSligs = relive::reliveChoice::eNo; // AE only
     s16 mChaseDelay = 0; // AE only
 };
 ALIVE_ASSERT_SIZEOF(SlogSpawner, 0x44);

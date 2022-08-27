@@ -43,21 +43,21 @@ void SwitchStates_Add(u16 idx, s8 value)
     sSwitchStates_5C1A28.mData[idx] += value;
 }
 
-void SwitchStates_Do_Operation(s16 idx, SwitchOp operation)
+void SwitchStates_Do_Operation(s16 idx, relive::reliveSwitchOp operation)
 {
     if (idx >= 2)
     {
         switch (operation)
         {
-            case SwitchOp::eSetTrue_0:
+            case relive::reliveSwitchOp::eSetTrue:
                 SwitchStates_Set(idx, 1);
                 break;
 
-            case SwitchOp::eSetFalse_1:
+            case relive::reliveSwitchOp::eSetFalse:
                 SwitchStates_Set(idx, 0);
                 break;
 
-            case SwitchOp::eToggle_2:
+            case relive::reliveSwitchOp::eToggle:
                 if (SwitchStates_Get(idx))
                 {
                     // Its on, so turn off
@@ -70,11 +70,11 @@ void SwitchStates_Do_Operation(s16 idx, SwitchOp operation)
                 }
                 break;
 
-            case SwitchOp::eIncrement_3:
+            case relive::reliveSwitchOp::eIncrement:
                 SwitchStates_Add(idx, 1);
                 break;
 
-            case SwitchOp::eDecrement_4:
+            case relive::reliveSwitchOp::eDecrement:
                 SwitchStates_Add(idx, -1);
                 break;
         }

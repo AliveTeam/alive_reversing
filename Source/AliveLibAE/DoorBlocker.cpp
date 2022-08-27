@@ -11,7 +11,7 @@ DoorBlocker::DoorBlocker(relive::Path_DoorBlocker* pTlv, s32 tlvInfo)
 {
     mBaseGameObjectFlags.Set(BaseGameObject::eCanExplode_Bit7);
 
-    field_11A_switch_id = pTlv->field_12_switch_id;
+    field_11A_switch_id = pTlv->mSwitchId;
 
     const AnimRecord& rec = AnimRec(AnimId::Door_Lock_Idle);
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
@@ -20,11 +20,11 @@ DoorBlocker::DoorBlocker(relive::Path_DoorBlocker* pTlv, s32 tlvInfo)
     field_118_bDone &= ~1u;
 
     SetType(ReliveTypes::eDoorLock);
-    mXPos = FP_FromInteger((pTlv->mTopLeft.x + pTlv->mBottomRight.x) / 2);
-    mYPos = FP_FromInteger(pTlv->mTopLeft.y);
+    mXPos = FP_FromInteger((pTlv->mTopLeftX + pTlv->mBottomRightX) / 2);
+    mYPos = FP_FromInteger(pTlv->mTopLeftY);
     field_11C_tlvInfo = tlvInfo;
 
-    if (pTlv->field_10_scale == Scale_short::eHalf_1)
+    if (pTlv->mScale == relive::reliveScale::eHalf)
     {
         mSpriteScale = FP_FromDouble(0.5);
         mAnim.mRenderLayer = Layer::eLayer_Shadow_Half_7;

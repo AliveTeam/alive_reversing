@@ -182,7 +182,7 @@ public:
     virtual s32 VGetSaveState(u8* pSaveBuffer) override;
     virtual void VScreenChanged() override;
     virtual void VPossessed() override;
-    virtual void VOnTlvCollision(Path_TLV* pTlv) override;
+    virtual void VOnTlvCollision(relive::Path_TLV* pTlv) override;
     virtual void VOnTrapDoorOpen() override;
     virtual s16 VTakeDamage(BaseGameObject* pFrom) override;
 
@@ -253,7 +253,7 @@ private:
     s16 field_1A0_red = 0;
     s16 field_1A2_green = 0;
     s16 field_1A4_blue = 0;
-    Path_Glukkon field_1A8_tlvData;
+    relive::Path_Glukkon field_1A8_tlvData;
     s32 field_1D4_timer = 0;
     FP field_1D8_falling_velx_scale_factor = {};
     FP field_1DC_previous_ypos = {};

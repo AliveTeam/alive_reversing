@@ -16,9 +16,11 @@ ScrabSpawner::ScrabSpawner(relive::Path_ScrabSpawner* pTlv, s32 tlvInfo)
     field_28_tlv_data.mTlvFlags = pTlv->mTlvFlags;
     field_28_tlv_data.mTlvSpecificMeaning = pTlv->mTlvSpecificMeaning;
     field_28_tlv_data.mLength = pTlv->mLength;
-    field_28_tlv_data.mTlvType32 = pTlv->mTlvType32;
-    field_28_tlv_data.mTopLeft = pTlv->mTopLeft;
-    field_28_tlv_data.mBottomRight = pTlv->mBottomRight;
+    field_28_tlv_data.mTlvType = pTlv->mTlvType;
+    field_28_tlv_data.mTopLeftX = pTlv->mTopLeftX;
+    field_28_tlv_data.mTopLeftY = pTlv->mTopLeftY;
+    field_28_tlv_data.mBottomRightX = pTlv->mBottomRightX;
+    field_28_tlv_data.mBottomRightY = pTlv->mBottomRightY;
 
     field_24_spawner_switch_id = pTlv->mSpawnerSwitchId;
     field_26_spawn_direction = pTlv->mFacing;
@@ -32,7 +34,7 @@ ScrabSpawner::ScrabSpawner(relive::Path_ScrabSpawner* pTlv, s32 tlvInfo)
 s32 ScrabSpawner::CreateFromSaveState(const u8* pBuffer)
 {
     const auto pState = reinterpret_cast<const ScrabSpawner_State*>(pBuffer);
-    auto pTlv = static_cast<Path_ScrabSpawner*>(sPathInfo->TLV_From_Offset_Lvl_Cam(pState->field_4_tlvInfo));
+    auto pTlv = static_cast<relive::Path_ScrabSpawner*>(sPathInfo->TLV_From_Offset_Lvl_Cam(pState->field_4_tlvInfo));
     auto pScrabSpawner = relive_new ScrabSpawner(pTlv, pState->field_4_tlvInfo);
     if (pScrabSpawner)
     {
@@ -101,7 +103,7 @@ void ScrabSpawner::VUpdate()
         {
             if (!pExistingSpawnedScrab || pExistingSpawnedScrab->mBaseGameObjectFlags.Get(BaseGameObject::eDead))
             {
-                SwitchStates_Do_Operation(field_24_spawner_switch_id, SwitchOp::eSetFalse_1);
+                SwitchStates_Do_Operation(field_24_spawner_switch_id, relive::reliveSwitchOp::eSetFalse);
                 field_3C_spawned_scrab_id = -1;
                 field_38_state = ScrabSpawnerStates::eInactive_0;
             }
@@ -110,12 +112,12 @@ void ScrabSpawner::VUpdate()
         {
             if (SwitchStates_Get(field_24_spawner_switch_id))
             {
-                auto pTlv = static_cast<Path_ScrabSpawner*>(sPathInfo->TLV_Get_At_4DB4B0(
-                    field_28_tlv_data.mTopLeft.x,
-                    field_28_tlv_data.mTopLeft.y,
-                    field_28_tlv_data.mTopLeft.x,
-                    field_28_tlv_data.mTopLeft.y,
-                    TlvTypes::ScrabSpawner_102));
+                auto pTlv = static_cast<relive::Path_ScrabSpawner*>(sPathInfo->TLV_Get_At_4DB4B0(
+                    field_28_tlv_data.mTopLeftX,
+                    field_28_tlv_data.mTopLeftY,
+                    field_28_tlv_data.mTopLeftX,
+                    field_28_tlv_data.mTopLeftY,
+                    ReliveTypes::eScrabSpawner));
 
                 if (pTlv)
                 {

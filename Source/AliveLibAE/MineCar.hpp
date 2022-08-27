@@ -121,8 +121,7 @@ public:
     MineCarStates field_11C_state = MineCarStates::eParkedWithoutAbe_0;
 
 private:
-    Scale_short field_11E_scale = Scale_short::eFull_0;
-    s16 field_120_max_damage = 0;
+    relive::reliveScale field_11E_scale = relive::reliveScale::eFull;
     Animation field_124_anim = {};
 
 public:

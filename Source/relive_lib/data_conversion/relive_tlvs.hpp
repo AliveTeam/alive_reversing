@@ -236,7 +236,7 @@ struct Path_PullRingRope final : public Path_TLV
     {
         eNone,
         eWellExit,
-        RingBellHammer,
+        eRingBellHammer,
         eDoorEffect,
     };
 
@@ -290,6 +290,9 @@ struct Path_Hoist final : public Path_TLV
         eFacingAnyDirection,
     };
     GrabDirection mGrabDirection = GrabDirection::eFacingLeft;
+
+    // AE only
+    reliveScale mScale = reliveScale::eFull;
 };
 
 struct Path_TrapDoor final : public Path_TLV
@@ -1008,7 +1011,7 @@ struct Path_MovieStone final : public Path_TLV
 {
     Path_MovieStone()
     {
-        mTlvType = ReliveTypes::eMovieStone;
+        mTlvType = ReliveTypes::eMovieHandStone;
     }
     s16 mMovieId = 0;
     reliveScale mScale = reliveScale::eFull;

@@ -28,10 +28,9 @@ MineCar::MineCar(relive::Path_MineCar* pTlv, s32 tlvInfo, s32 /*a4*/, s32 /*a5*/
     Animation_Init(AnimId::Mine_Car_Open, ppRes);
 
     field_11E_scale = pTlv->mScale;
-    field_120_max_damage = pTlv->mMaxDamage;
 
-    mXPos = FP_FromInteger(pTlv->mTopLeft.x);
-    mYPos = FP_FromInteger(pTlv->mTopLeft.y);
+    mXPos = FP_FromInteger(pTlv->mTopLeftX);
+    mYPos = FP_FromInteger(pTlv->mTopLeftY);
 
     mVisualFlags.Set(VisualFlags::eDoPurpleLightEffect);
     field_1BE_unused = 0;
@@ -39,7 +38,7 @@ MineCar::MineCar(relive::Path_MineCar* pTlv, s32 tlvInfo, s32 /*a4*/, s32 /*a5*/
     mSpriteScale = FP_FromInteger(1);
     mScale = Scale::Fg;
 
-    if (field_11E_scale != Scale_short::eFull_0)
+    if (field_11E_scale != relive::reliveScale::eFull)
     {
         mSpriteScale = FP_FromDouble(0.5);
         mAnim.mRenderLayer = Layer::eLayer_Shadow_Half_7;
@@ -106,7 +105,7 @@ const AnimId sMineCarAnimIdTable[7] = {
 s32 MineCar::CreateFromSaveState(const u8* pBuffer)
 {
     auto pState = reinterpret_cast<const MineCar_SaveState*>(pBuffer);
-    auto pTlv = static_cast<Path_MineCar*>(sPathInfo->TLV_From_Offset_Lvl_Cam(pState->field_4C_tlvInfo));
+    auto pTlv = static_cast<relive::Path_MineCar*>(sPathInfo->TLV_From_Offset_Lvl_Cam(pState->field_4C_tlvInfo));
 
     if (!ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kBayrollResID_6013, FALSE, FALSE))
     {

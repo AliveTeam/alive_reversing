@@ -24,10 +24,10 @@ void PlatformBase::VRemove(BaseAliveGameObject* pObj)
     vRemoveCount(pObj);
 }
 
-void PlatformBase::AddDynamicCollision(AnimId animId, u8** ppAnimData, Path_TLV* pTlv, s32 tlvInfo)
+void PlatformBase::AddDynamicCollision(AnimId animId, u8** ppAnimData, relive::Path_TLV* pTlv, s32 tlvInfo)
 {
-    mXPos = FP_FromInteger(pTlv->mTopLeft.x);
-    mYPos = FP_FromInteger(pTlv->mTopLeft.y);
+    mXPos = FP_FromInteger(pTlv->mTopLeftX);
+    mYPos = FP_FromInteger(pTlv->mTopLeftY);
 
     mPlatformBaseTlvInfo = tlvInfo;
 
@@ -50,19 +50,19 @@ void PlatformBase::AddDynamicCollision(AnimId animId, u8** ppAnimData, Path_TLV*
 
     FrameInfoHeader* pFrameHeader = mAnim.Get_FrameHeader(0);
     mYPos += FP_NoFractional(FP_FromInteger(-pFrameHeader->field_8_data.points[1].y) * mSpriteScale);
-    mXPos = FP_FromInteger((pTlv->mTopLeft.x + pTlv->mBottomRight.x) / 2);
+    mXPos = FP_FromInteger((pTlv->mTopLeftX + pTlv->mBottomRightX) / 2);
 
     field_124_pCollisionLine = sCollisions->Add_Dynamic_Collision_Line(
-        pTlv->mTopLeft.x,
-        pTlv->mTopLeft.y,
-        pTlv->mBottomRight.x,
-        pTlv->mTopLeft.y,
+        pTlv->mTopLeftX,
+        pTlv->mTopLeftY,
+        pTlv->mBottomRightX,
+        pTlv->mTopLeftY,
         eLineTypes::eDynamicCollision_32);
 
-    mPlatformBaseXOffset = FP_GetExponent(FP_FromInteger(pTlv->mTopLeft.x) - mXPos);
-    mPlatformBaseWidthOffset = FP_GetExponent(FP_FromInteger(pTlv->mBottomRight.x) - mXPos);
-    mPlatformBaseYOffset = FP_GetExponent(FP_FromInteger(pTlv->mTopLeft.y) - mYPos);
-    mPlatformBaseHeightOffset = FP_GetExponent(FP_FromInteger(pTlv->mTopLeft.y) - mYPos);
+    mPlatformBaseXOffset = FP_GetExponent(FP_FromInteger(pTlv->mTopLeftX) - mXPos);
+    mPlatformBaseWidthOffset = FP_GetExponent(FP_FromInteger(pTlv->mBottomRightX) - mXPos);
+    mPlatformBaseYOffset = FP_GetExponent(FP_FromInteger(pTlv->mTopLeftY) - mYPos);
+    mPlatformBaseHeightOffset = FP_GetExponent(FP_FromInteger(pTlv->mTopLeftY) - mYPos);
 
     if (!ObjList_5C1B78->Push_Back(this))
     {

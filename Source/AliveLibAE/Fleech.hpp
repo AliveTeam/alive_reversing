@@ -155,7 +155,7 @@ public:
     virtual void VUpdate() override;
     virtual void VRender(PrimHeader** ppOt) override;
     virtual void VScreenChanged() override;
-    virtual void VOnTlvCollision(Path_TLV* pTlv) override;
+    virtual void VOnTlvCollision(relive::Path_TLV* pTlv) override;
     virtual s16 VTakeDamage(BaseGameObject* pFrom) override;
     virtual void VOnTrapDoorOpen() override;
     virtual void VOnThrowableHit(BaseGameObject* pFrom) override;
@@ -237,7 +237,7 @@ private:
     void MoveAlongFloor(); // MoveOnLine?
     s16 IsNear(BaseAliveGameObject* pObj);
     bool Collision(s16 alwaysOne);
-    Path_Hoist* TryGetHoist(s32 xDistance, s16 bIgnoreDirection);
+    relive::Path_Hoist* TryGetHoist(s32 xDistance, s16 bIgnoreDirection);
 
 public:
     void VOnFrame(s16* pData);

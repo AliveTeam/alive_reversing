@@ -133,16 +133,16 @@ Scrab::Scrab(relive::Path_Scrab* pTlv, s32 tlvInfo, ScrabSpawnDirection spawnDir
     field_178_shred_power_active = 0;
     field_154_movement_timer = 0;
 
-    mXPos = FP_FromInteger(pTlv->mTopLeft.x + 12);
-    mYPos = FP_FromInteger(pTlv->mTopLeft.y);
+    mXPos = FP_FromInteger(pTlv->mTopLeftX + 12);
+    mYPos = FP_FromInteger(pTlv->mTopLeftY);
 
-    if (pTlv->mScale == Scale_short::eHalf_1)
+    if (pTlv->mScale == relive::reliveScale::eHalf)
     {
         mSpriteScale = FP_FromDouble(0.5);
         mAnim.mRenderLayer = Layer::eLayer_8;
         mScale = Scale::Bg;
     }
-    else if (pTlv->mScale == Scale_short::eFull_0)
+    else if (pTlv->mScale == relive::reliveScale::eFull)
     {
         mSpriteScale = FP_FromInteger(1);
         mAnim.mRenderLayer = Layer::eLayer_27;
@@ -166,13 +166,13 @@ Scrab::Scrab(relive::Path_Scrab* pTlv, s32 tlvInfo, ScrabSpawnDirection spawnDir
     field_15E_right_max_delay = pTlv->mPauseRightMax;
     field_148_pause_after_chase_delay = pTlv->mPauseAfterChaseTime;
     field_174_possessed_max_whirl_attack_duration = pTlv->mPossessedMaxWhirlAttackDuration;
-    field_176_unused = pTlv->field_28_unused;
-    field_1A8_bKill_enemy = pTlv->mKillEnemy;
+    //field_176_unused = pTlv->field_28_unused;
+    field_1A8_bKill_enemy = pTlv->mKillEnemy == relive::reliveChoice::eYes ? Choice_short::eYes_1 : Choice_short::eNo_0;
 
     field_1A0_speak_max = 3;
 
-    field_1AA_flags.Set(Flags_1AA::eBit5_roar_randomly, pTlv->mRoarRandomly == Choice_short::eYes_1);
-    field_1AA_flags.Set(Flags_1AA::eBit6_persistant, pTlv->mPersistant == Choice_short::eYes_1);
+    field_1AA_flags.Set(Flags_1AA::eBit5_roar_randomly, pTlv->mRoarRandomly == relive::reliveChoice::eYes);
+    field_1AA_flags.Set(Flags_1AA::eBit6_persistant, pTlv->mPersistant == relive::reliveChoice::eYes);
     field_1AA_flags.Clear(Flags_1AA::eBit3_unused);
 
     if (!OnFloor())
@@ -196,21 +196,21 @@ Scrab::Scrab(relive::Path_Scrab* pTlv, s32 tlvInfo, ScrabSpawnDirection spawnDir
     mShadow = relive_new Shadow();
 }
 
-void Scrab::VOnTlvCollision(Path_TLV* pTlv)
+void Scrab::VOnTlvCollision(relive::Path_TLV* pTlv)
 {
     while (pTlv != nullptr)
     {
-        if (pTlv->mTlvType32 == TlvTypes::DeathDrop_4)
+        if (pTlv->mTlvType == ReliveTypes::eDeathDrop)
         {
             Scrab_SFX(ScrabSounds::eYell_8, 127, -1000, 0);
             mBaseGameObjectFlags.Set(Options::eDead);
             mHealth = FP_FromInteger(0);
         }
-        else if (pTlv->mTlvType32 == TlvTypes::EnemyStopper_47)
+        else if (pTlv->mTlvType == ReliveTypes::eEnemyStopper)
         {
-            const auto enemyStopperPath = static_cast<Path_EnemyStopper*>(BaseAliveGameObjectPathTLV); //TODO it should probably be pTlv, instead - OG bug?
-            const Path_EnemyStopper::StopDirection stopDirection = enemyStopperPath->mStopDirection;
-            if ((stopDirection == Path_EnemyStopper::StopDirection::Left_0 && mXPos < field_198_max_xpos) || (stopDirection == Path_EnemyStopper::StopDirection::Right_1 && mXPos > field_198_max_xpos) || stopDirection == Path_EnemyStopper::StopDirection::Both_2)
+            const auto enemyStopperPath = static_cast<relive::Path_EnemyStopper*>(BaseAliveGameObjectPathTLV); //TODO it should probably be pTlv, instead - OG bug?
+            const relive::Path_EnemyStopper::StopDirection stopDirection = enemyStopperPath->mStopDirection;
+            if ((stopDirection == relive::Path_EnemyStopper::StopDirection::Left && mXPos < field_198_max_xpos) || (stopDirection == relive::Path_EnemyStopper::StopDirection::Right && mXPos > field_198_max_xpos) || stopDirection == relive::Path_EnemyStopper::StopDirection::Both)
             {
                 if (SwitchStates_Get(enemyStopperPath->mSwitchId))
                 {
@@ -276,7 +276,7 @@ s32 Scrab::CreateFromSaveState(const u8* pBuffer)
 {
     auto pState = reinterpret_cast<const Scrab_State*>(pBuffer);
 
-    auto pTlv = static_cast<Path_Scrab*>(sPathInfo->TLV_From_Offset_Lvl_Cam(pState->field_44_tlvInfo));
+    auto pTlv = static_cast<relive::Path_Scrab*>(sPathInfo->TLV_From_Offset_Lvl_Cam(pState->field_44_tlvInfo));
 
     if (!ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kArsbasicResID, FALSE, FALSE))
     {
@@ -1533,7 +1533,7 @@ s16 Scrab::Brain_ChasingEnemy_State_2_Running(BaseAliveGameObject* pObj)
                 FP_GetExponent(mYPos + FP_FromInteger(10)),
                 FP_GetExponent(mXPos + xOffset),
                 FP_GetExponent(mYPos + FP_FromInteger(10)),
-                TlvTypes::ElectricWall_38))
+                ReliveTypes::eElectricWall))
         && !Check_IsOnEndOfLine(mVelX < FP_FromInteger(0), 3))
     {
         ToJump();
@@ -4226,18 +4226,18 @@ s16 Scrab::Handle_SlamDoor_or_EnemyStopper(FP velX, s16 bCheckLeftRightBounds)
         gridSize = (gridSize * FP_FromInteger(2));
     }
 
-    TlvTypes objectType = {};
-    Path_EnemyStopper::StopDirection stopDirection = Path_EnemyStopper::StopDirection::Both_2;
+    ReliveTypes objectType = {};
+    relive::Path_EnemyStopper::StopDirection stopDirection = relive::Path_EnemyStopper::StopDirection::Both;
     if (mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
     {
-        objectType = TlvTypes::ScrabBoundLeft_43;
-        stopDirection = Path_EnemyStopper::StopDirection::Left_0;
+        objectType = ReliveTypes::eScrabLeftBound;
+        stopDirection = relive::Path_EnemyStopper::StopDirection::Left;
         gridSize = -gridSize;
     }
     else
     {
-        objectType = TlvTypes::ScrabBoundRight_44;
-        stopDirection = Path_EnemyStopper::StopDirection::Right_1;
+        objectType = ReliveTypes::eScrabRightBound;
+        stopDirection = relive::Path_EnemyStopper::StopDirection::Right;
     }
 
     if (WallHit(mSpriteScale * FP_FromInteger(45), gridSize * FP_FromInteger(1)))
@@ -4250,10 +4250,10 @@ s16 Scrab::Handle_SlamDoor_or_EnemyStopper(FP velX, s16 bCheckLeftRightBounds)
         FP_GetExponent(FP_Abs(mYPos)),
         FP_GetExponent(mXPos + gridSize),
         FP_GetExponent(mYPos - ScaleToGridSize(mSpriteScale)),
-        TlvTypes::SlamDoor_85);
+        ReliveTypes::eSlamDoor);
 
-    auto pSlamDoorTlv = static_cast<Path_SlamDoor*>(BaseAliveGameObjectPathTLV);
-    if (pSlamDoorTlv && ((pSlamDoorTlv->mStartClosed == Choice_short::eYes_1 && !SwitchStates_Get(pSlamDoorTlv->mSwitchId)) || (pSlamDoorTlv->mStartClosed == Choice_short::eNo_0 && SwitchStates_Get(pSlamDoorTlv->mSwitchId))))
+    auto pSlamDoorTlv = static_cast<relive::Path_SlamDoor*>(BaseAliveGameObjectPathTLV);
+    if (pSlamDoorTlv && ((pSlamDoorTlv->mStartClosed == relive::reliveChoice::eYes && !SwitchStates_Get(pSlamDoorTlv->mSwitchId)) || (pSlamDoorTlv->mStartClosed == relive::reliveChoice::eNo && SwitchStates_Get(pSlamDoorTlv->mSwitchId))))
     {
         return 1;
     }
@@ -4263,10 +4263,10 @@ s16 Scrab::Handle_SlamDoor_or_EnemyStopper(FP velX, s16 bCheckLeftRightBounds)
         FP_GetExponent(mYPos),
         FP_GetExponent(mXPos + gridSize),
         FP_GetExponent(mYPos - ScaleToGridSize(mSpriteScale)),
-        TlvTypes::EnemyStopper_47);
+        ReliveTypes::eEnemyStopper);
 
-    auto pPathEnemyStopper = static_cast<Path_EnemyStopper*>(BaseAliveGameObjectPathTLV);
-    if (pPathEnemyStopper && (pPathEnemyStopper->mStopDirection == stopDirection || pPathEnemyStopper->mStopDirection == Path_EnemyStopper::StopDirection::Both_2) && SwitchStates_Get(pPathEnemyStopper->mSwitchId))
+    auto pPathEnemyStopper = static_cast<relive::Path_EnemyStopper*>(BaseAliveGameObjectPathTLV);
+    if (pPathEnemyStopper && (pPathEnemyStopper->mStopDirection == stopDirection || pPathEnemyStopper->mStopDirection == relive::Path_EnemyStopper::StopDirection::Both) && SwitchStates_Get(pPathEnemyStopper->mSwitchId))
     {
         return 1;
     }

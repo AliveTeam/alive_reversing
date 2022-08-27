@@ -58,10 +58,10 @@ private:
     };
     States field_100_state = States::eIdle_0;
     s16 field_102_switch_id = 0;
-    SwitchOp field_104_action = SwitchOp::eSetTrue_0;
-    PullRingSwitchSound field_106_on_sound = PullRingSwitchSound::eNone_0;
-    PullRingSwitchSound field_108_off_sound = PullRingSwitchSound::eNone_0;
-    PullRingSoundDirection field_10A_sound_direction = PullRingSoundDirection::eLeftAndRight_0;
+    relive::reliveSwitchOp field_104_action = relive::reliveSwitchOp::eSetTrue;
+    relive::Path_PullRingRope::PullRingSwitchSound field_106_on_sound = relive::Path_PullRingRope::PullRingSwitchSound::eNone;
+    relive::Path_PullRingRope::PullRingSwitchSound field_108_off_sound = relive::Path_PullRingRope::PullRingSwitchSound::eNone;
+    relive::Path_PullRingRope::PullRingSoundDirection field_10A_sound_direction = relive::Path_PullRingRope::PullRingSoundDirection::eLeftAndRight;
     s32 field_10C_is_pulled = 0;
     s32 field_110_tlvInfo = 0;
 };

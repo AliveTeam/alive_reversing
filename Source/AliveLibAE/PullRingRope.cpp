@@ -41,8 +41,8 @@ PullRingRope::PullRingRope(relive::Path_PullRingRope* pTlv, s32 tlvInfo)
     SetTint(sPullRingRopeTints_55FD1C, gMap.mCurrentLevel);
 
     mAnim.mFlags.Set(AnimFlags::eBit15_bSemiTrans);
-    mXPos = FP_FromInteger((pTlv->mTopLeft.x + pTlv->mBottomRight.x) / 2);
-    mYPos = FP_FromInteger(pTlv->mTopLeft.y + 24);
+    mXPos = FP_FromInteger((pTlv->mTopLeftX + pTlv->mBottomRightX) / 2);
+    mYPos = FP_FromInteger(pTlv->mTopLeftY + 24);
 
     field_102_switch_id = pTlv->mSwitchId;
     field_104_action = pTlv->mAction;
@@ -52,7 +52,7 @@ PullRingRope::PullRingRope(relive::Path_PullRingRope* pTlv, s32 tlvInfo)
 
     mYPos += FP_FromInteger(pTlv->mRopeLength);
 
-    if (pTlv->mScale == Scale_short::eHalf_1)
+    if (pTlv->mScale == relive::reliveScale::eHalf)
     {
         mSpriteScale = FP_FromDouble(0.5);
         mAnim.mRenderLayer = Layer::eLayer_8;
@@ -152,12 +152,12 @@ void PullRingRope::VUpdate()
                 {
                     s32 leftVol = 0;
                     s32 rightVol = 0;
-                    if (field_10A_sound_direction == PullRingSoundDirection::eLeft_1)
+                    if (field_10A_sound_direction == relive::Path_PullRingRope::PullRingSoundDirection::eLeft)
                     {
                         leftVol = 1;
                         rightVol = 0;
                     }
-                    else if (field_10A_sound_direction == PullRingSoundDirection::eRight_2)
+                    else if (field_10A_sound_direction == relive::Path_PullRingRope::PullRingSoundDirection::eRight)
                     {
                         leftVol = 0;
                         rightVol = 1;
@@ -172,16 +172,16 @@ void PullRingRope::VUpdate()
                     {
                         switch (field_106_on_sound)
                         {
-                            case PullRingSwitchSound::eNone_0:
+                            case relive::Path_PullRingRope::PullRingSwitchSound::eNone:
                                 // don't play additional sound effects
                                 break;
-                            case PullRingSwitchSound::eWellExit_1:
+                            case relive::Path_PullRingRope::PullRingSwitchSound::eWellExit:
                                 SFX_Play_Stereo(SoundEffect::WellExit_20, 60 * leftVol + 10, 60 * rightVol + 10);
                                 break;
-                            case PullRingSwitchSound::eRingBellHammer_2: // ring bell hammer from AO?
+                            case relive::Path_PullRingRope::PullRingSwitchSound::eRingBellHammer: // ring bell hammer from AO?
                                 SFX_Play_Stereo(SoundEffect::RingUnknownTrigger_8, 60 * leftVol + 10, 60 * rightVol + 10);
                                 break;
-                            case PullRingSwitchSound::eDoorEffect_3:
+                            case relive::Path_PullRingRope::PullRingSwitchSound::eDoorEffect:
                                 SFX_Play_Stereo(SoundEffect::DoorEffect_57, 75 * leftVol + 15, 75 * rightVol + 15);
                                 break;
                         }
@@ -190,16 +190,16 @@ void PullRingRope::VUpdate()
                     {
                         switch (field_108_off_sound)
                         {
-                            case PullRingSwitchSound::eNone_0:
+                            case relive::Path_PullRingRope::PullRingSwitchSound::eNone:
                                 // don't play additional sound effects
                                 break;
-                            case PullRingSwitchSound::eWellExit_1:
+                            case relive::Path_PullRingRope::PullRingSwitchSound::eWellExit:
                                 SFX_Play_Stereo(SoundEffect::WellExit_20, 60 * leftVol + 10, 60 * rightVol + 10);
                                 break;
-                            case PullRingSwitchSound::eRingBellHammer_2:
+                            case relive::Path_PullRingRope::PullRingSwitchSound::eRingBellHammer:
                                 SFX_Play_Stereo(SoundEffect::RingUnknownTrigger_8, 60 * leftVol + 10, 60 * rightVol + 10);
                                 break;
-                            case PullRingSwitchSound::eDoorEffect_3:
+                            case relive::Path_PullRingRope::PullRingSwitchSound::eDoorEffect:
                                 SFX_Play_Stereo(SoundEffect::DoorEffect_57, 75 * leftVol + 15, 75 * rightVol + 15);
                                 break;
                         }

@@ -20,20 +20,20 @@ BackgroundAnimation::BackgroundAnimation(relive::Path_BackgroundAnimation* pTlv,
         return;
     }
 
-    mXPos = FP_FromInteger(pTlv->mTopLeft.x);
-    mYPos = FP_FromInteger(pTlv->mTopLeft.y);
+    mXPos = FP_FromInteger(pTlv->mTopLeftX);
+    mYPos = FP_FromInteger(pTlv->mTopLeftY);
 
-    mObjectXPos = FP_FromInteger(pTlv->mTopLeft.x);
-    mObjectYPos = FP_FromInteger(pTlv->mTopLeft.y);
+    mObjectXPos = FP_FromInteger(pTlv->mTopLeftX);
+    mObjectYPos = FP_FromInteger(pTlv->mTopLeftY);
 
     Animation_Init(anim.mFrameTableOffset, anim.mMaxW, anim.mMaxH, reinterpret_cast<u8**>(field_F4_res));
 
-    mAnim.mFlags.Set(AnimFlags::eBit15_bSemiTrans, pTlv->mIsSemiTrans == Choice_short::eYes_1);
+    mAnim.mFlags.Set(AnimFlags::eBit15_bSemiTrans, pTlv->mIsSemiTrans == relive::reliveChoice::eYes);
     mAnim.mFlags.Set(AnimFlags::eBit16_bBlending);
 
     mAnim.mRenderMode = pTlv->mSemiTransMode;
 
-    if (pTlv->mLayer > Layer::eLayer_0)
+    if (pTlv->mLayer > relive::Path_BackgroundAnimation::Layer::eLayer0)
     {
         const s32 translatedLayer = static_cast<s32>(pTlv->mLayer) - 1;
         if (!translatedLayer)

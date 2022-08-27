@@ -66,7 +66,7 @@ private:
     s16 mStartState = 0;
     s16 mTrapDoorXOffset = 0;
     s16 mStayOpenTime = 0;
-    Choice_short mSelfClosing = Choice_short::eNo_0;
+    relive::reliveChoice mSelfClosing = relive::reliveChoice::eNo;
     FP mTrapDoorX = {};
     FP mTrapDoorY = {};
     PSX_RECT mBoundingRect = {};

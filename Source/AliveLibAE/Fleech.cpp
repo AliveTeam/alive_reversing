@@ -118,11 +118,11 @@ static u8 Fleech_NextRandom()
 Fleech::Fleech(relive::Path_Fleech* pTlv, s32 tlvInfo)
     : BaseAliveGameObject(2)
 {
-    mXPos = FP_FromInteger(pTlv->mTopLeft.x);
-    mYPos = FP_FromInteger(pTlv->mTopLeft.y);
+    mXPos = FP_FromInteger(pTlv->mTopLeftX);
+    mYPos = FP_FromInteger(pTlv->mTopLeftY);
     mBaseGameObjectTlvInfo = tlvInfo;
 
-    if (pTlv->mScale == Scale_short::eHalf_1)
+    if (pTlv->mScale == relive::reliveScale::eHalf)
     {
         mSpriteScale = FP_FromDouble(0.5);
     }
@@ -138,11 +138,11 @@ Fleech::Fleech(relive::Path_Fleech* pTlv, s32 tlvInfo)
     field_11C_obj_id = -1;
     field_170_danger_obj = -1;
 
-    mAnim.mFlags.Set(AnimFlags::eBit5_FlipX, pTlv->mFacing == XDirection_short::eLeft_0);
+    mAnim.mFlags.Set(AnimFlags::eBit5_FlipX, pTlv->mFacing == relive::reliveXDirection::eLeft);
 
-    mFleechFlags.Set(FleechFlags::eAsleep, pTlv->mAsleep == Choice_short::eYes_1);
-    mFleechFlags.Set(FleechFlags::eGoesToSleep, pTlv->mGoesToSleep == Choice_short::eYes_1);
-    mFleechFlags.Set(FleechFlags::ePersistant, pTlv->mPersistant == Choice_short::eYes_1);
+    mFleechFlags.Set(FleechFlags::eAsleep, pTlv->mAsleep == relive::reliveChoice::eYes);
+    mFleechFlags.Set(FleechFlags::eGoesToSleep, pTlv->mGoesToSleep == relive::reliveChoice::eYes);
+    mFleechFlags.Set(FleechFlags::ePersistant, pTlv->mPersistant == relive::reliveChoice::eYes);
 
     field_140_max_anger = 2;
     field_158_chase_delay = 10;
@@ -159,12 +159,12 @@ Fleech::Fleech(relive::Path_Fleech* pTlv, s32 tlvInfo)
 
     field_13E_current_anger = 0;
 
-    if (pTlv->mHanging == Choice_short::eYes_1)
+    if (pTlv->mHanging == relive::reliveChoice::eYes)
     {
-        field_160_hoistX = (pTlv->mBottomRight.x + pTlv->mTopLeft.x) / 2;
+        field_160_hoistX = (pTlv->mBottomRightX + pTlv->mTopLeftX) / 2;
         field_166_angle = Fleech_NextRandom();
-        mYPos -= FP_FromInteger(pTlv->mTopLeft.y - pTlv->mBottomRight.y);
-        TongueHangingFromWall((pTlv->mBottomRight.x + pTlv->mTopLeft.x) / 2, pTlv->mTopLeft.y);
+        mYPos -= FP_FromInteger(pTlv->mTopLeftY - pTlv->mBottomRightY);
+        TongueHangingFromWall((pTlv->mBottomRightX + pTlv->mTopLeftX) / 2, pTlv->mTopLeftY);
         mCurrentMotion = eFleechMotions::Motion_17_SleepingWithTongue;
         SetAnim();
     }
@@ -207,7 +207,7 @@ s32 Fleech::CreateFromSaveState(const u8* pBuffer)
 {
     auto pState = reinterpret_cast<const Fleech_State*>(pBuffer);
 
-    auto pTlv = static_cast<Path_Fleech*>(sPathInfo->TLV_From_Offset_Lvl_Cam(pState->mTlvInfo));
+    auto pTlv = static_cast<relive::Path_Fleech*>(sPathInfo->TLV_From_Offset_Lvl_Cam(pState->mTlvInfo));
     if (!ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kFleechResID, FALSE, FALSE))
     {
         ResourceManager::LoadResourceFile_49C170("FLEECH.BAN", nullptr);
@@ -835,24 +835,24 @@ void Fleech::Motion_11_RaiseHead()
         mVelY = FP_FromInteger(-1);
 
         const s16 yOff = mSpriteScale >= FP_FromInteger(1) ? 0 : -10;
-        auto pHoist = static_cast<Path_Hoist*>(sPathInfo->TLV_Get_At_4DB4B0(
+        auto pHoist = static_cast<relive::Path_Hoist*>(sPathInfo->TLV_Get_At_4DB4B0(
             field_160_hoistX,
             FP_GetExponent(mYPos - FP_FromInteger((yOff + 20))),
             field_160_hoistX,
             FP_GetExponent(mYPos - FP_FromInteger((yOff + 20))),
-            TlvTypes::Hoist_2));
+            ReliveTypes::eHoist));
 
-        if (pHoist->mHoistType == Path_Hoist::Type::eOffScreen)
+        if (pHoist->mHoistType == relive::Path_Hoist::Type::eOffScreen)
         {
             const FP doubleYOff = FP_FromInteger(yOff + 20) * FP_FromInteger(2);
-            pHoist = static_cast<Path_Hoist*>(sPathInfo->TLV_Get_At_4DB4B0(
+            pHoist = static_cast<relive::Path_Hoist*>(sPathInfo->TLV_Get_At_4DB4B0(
                 field_160_hoistX,
-                FP_GetExponent(FP_FromInteger(pHoist->mTopLeft.y) - doubleYOff),
+                FP_GetExponent(FP_FromInteger(pHoist->mTopLeftY) - doubleYOff),
                 field_160_hoistX,
-                FP_GetExponent(FP_FromInteger(pHoist->mTopLeft.y) - doubleYOff),
-                TlvTypes::Hoist_2));
+                FP_GetExponent(FP_FromInteger(pHoist->mTopLeftY) - doubleYOff),
+                ReliveTypes::eHoist));
 
-            field_162_hoistY = pHoist->mTopLeft.y;
+            field_162_hoistY = pHoist->mTopLeftY;
         }
         BaseAliveGameObjectLastLineYPos = mYPos;
         field_168_hoistY_distance = mYPos - FP_FromInteger(field_162_hoistY);
@@ -1482,11 +1482,11 @@ void Fleech::VScreenChanged()
     }
 }
 
-void Fleech::VOnTlvCollision(Path_TLV* pTlv)
+void Fleech::VOnTlvCollision(relive::Path_TLV* pTlv)
 {
     while (pTlv)
     {
-        if (pTlv->mTlvType32 == TlvTypes::DeathDrop_4)
+        if (pTlv->mTlvType == ReliveTypes::eDeathDrop)
         {
             mHealth = FP_FromInteger(0);
             mBaseGameObjectFlags.Set(BaseGameObject::eDead);
@@ -2089,14 +2089,14 @@ s16 Fleech::HandleEnemyStopperOrSlamDoor(s32 velX)
         stopperXPos = mXPos;
     }
 
-    auto pStopper = static_cast<Path_EnemyStopper*>(sPathInfo->TLV_Get_At_4DB4B0(
+    auto pStopper = static_cast<relive::Path_EnemyStopper*>(sPathInfo->TLV_Get_At_4DB4B0(
         FP_GetExponent(stopperXPos),
         FP_GetExponent(mYPos),
         FP_GetExponent(stopperXPos),
         FP_GetExponent(mYPos),
-        TlvTypes::EnemyStopper_47));
+        ReliveTypes::eEnemyStopper));
 
-    if (pStopper && (pStopper->mStopDirection == (nextXPos >= mXPos ? Path_EnemyStopper::StopDirection::Right_1 : Path_EnemyStopper::StopDirection::Left_0)) && SwitchStates_Get(pStopper->mSwitchId))
+    if (pStopper && (pStopper->mStopDirection == (nextXPos >= mXPos ? relive::Path_EnemyStopper::StopDirection::Right : relive::Path_EnemyStopper::StopDirection::Left)) && SwitchStates_Get(pStopper->mSwitchId))
     {
         return 1;
     }
@@ -2112,14 +2112,14 @@ s16 Fleech::HandleEnemyStopperOrSlamDoor(s32 velX)
         slamDoorXPos = nextXPos;
     }
 
-    auto pSlamDoor = static_cast<Path_SlamDoor*>(sPathInfo->TLV_Get_At_4DB4B0(
+    auto pSlamDoor = static_cast<relive::Path_SlamDoor*>(sPathInfo->TLV_Get_At_4DB4B0(
         FP_GetExponent(slamDoorXPos),
         FP_GetExponent(mYPos),
         FP_GetExponent(slamDoorXPos),
         FP_GetExponent(mYPos),
-        TlvTypes::SlamDoor_85));
+        ReliveTypes::eSlamDoor));
 
-    return (pSlamDoor && ((pSlamDoor->mStartClosed == Choice_short::eYes_1 && !SwitchStates_Get(pSlamDoor->mSwitchId)) || (pSlamDoor->mStartClosed == Choice_short::eNo_0 && SwitchStates_Get(pSlamDoor->mSwitchId))));
+    return (pSlamDoor && ((pSlamDoor->mStartClosed == relive::reliveChoice::eYes && !SwitchStates_Get(pSlamDoor->mSwitchId)) || (pSlamDoor->mStartClosed == relive::reliveChoice::eNo && SwitchStates_Get(pSlamDoor->mSwitchId))));
 }
 
 s32 Fleech::UpdateWakeUpSwitchValue()
@@ -2517,7 +2517,7 @@ bool Fleech::Collision(s16 alwaysOne)
     return sCollisions->Raycast(x1, y1, x2, y2, &pLine, &hitX, &hitY, mScale == Scale::Fg ? kFgFloor : kBgFloor) == 0;
 }
 
-Path_Hoist* Fleech::TryGetHoist(s32 xDistance, s16 bIgnoreDirection)
+relive::Path_Hoist* Fleech::TryGetHoist(s32 xDistance, s16 bIgnoreDirection)
 {
     if (mCurrentMotion == eFleechMotions::Motion_9_Fall)
     {
@@ -2539,12 +2539,12 @@ Path_Hoist* Fleech::TryGetHoist(s32 xDistance, s16 bIgnoreDirection)
         xCheck = (ScaleToGridSize(mSpriteScale) * FP_FromInteger(xDistance)) + xSnapped;
     }
 
-    auto pHoist = static_cast<Path_Hoist*>(sPathInfo->TLV_Get_At_4DB4B0(
+    auto pHoist = static_cast<relive::Path_Hoist*>(sPathInfo->TLV_Get_At_4DB4B0(
         FP_GetExponent(std::min(xCheck, mXPos)),
         FP_GetExponent(y2),
         FP_GetExponent(std::max(xCheck, mXPos)),
         FP_GetExponent(y1),
-        TlvTypes::Hoist_2));
+        ReliveTypes::eHoist));
 
     if (!pHoist)
     {
@@ -2553,7 +2553,7 @@ Path_Hoist* Fleech::TryGetHoist(s32 xDistance, s16 bIgnoreDirection)
 
     if (WallHit(
             FP_FromInteger(mSpriteScale < FP_FromInteger(1) ? 5 : 10),
-            FP_FromInteger(pHoist->mTopLeft.x + (mSpriteScale < FP_FromInteger(1) ? 6 : 12)) - mXPos))
+            FP_FromInteger(pHoist->mTopLeftX + (mSpriteScale < FP_FromInteger(1) ? 6 : 12)) - mXPos))
     {
         return nullptr;
     }
@@ -2563,7 +2563,7 @@ Path_Hoist* Fleech::TryGetHoist(s32 xDistance, s16 bIgnoreDirection)
         return nullptr;
     }
 
-    if (pHoist->field_16_scale != (mSpriteScale < FP_FromInteger(1) ? Scale_short::eHalf_1 : Scale_short::eFull_0) || mYPos - FP_FromInteger(pHoist->mTopLeft.y) > FP_FromInteger(mSpriteScale >= FP_FromInteger(1) ? 20 : 10) * FP_FromDouble(5.5))
+    if (pHoist->mScale != (mSpriteScale < FP_FromInteger(1) ? relive::reliveScale::eHalf : relive::reliveScale::eFull) || mYPos - FP_FromInteger(pHoist->mTopLeftY) > FP_FromInteger(mSpriteScale >= FP_FromInteger(1) ? 20 : 10) * FP_FromDouble(5.5))
     {
         return nullptr;
     }
@@ -2573,7 +2573,7 @@ Path_Hoist* Fleech::TryGetHoist(s32 xDistance, s16 bIgnoreDirection)
         return pHoist;
     }
 
-    if (pHoist->mGrabDirection == (mAnim.mFlags.Get(AnimFlags::eBit5_FlipX) ? Path_Hoist::GrabDirection::eFacingLeft : Path_Hoist::GrabDirection::eFacingRight) || pHoist->mGrabDirection == Path_Hoist::GrabDirection::eFacingAnyDirection)
+    if (pHoist->mGrabDirection == (mAnim.mFlags.Get(AnimFlags::eBit5_FlipX) ? relive::Path_Hoist::GrabDirection::eFacingLeft : relive::Path_Hoist::GrabDirection::eFacingRight) || pHoist->mGrabDirection == relive::Path_Hoist::GrabDirection::eFacingAnyDirection)
     {
         return pHoist;
     }
@@ -2910,7 +2910,7 @@ s16 Fleech::Brain_Patrol_State_4(BaseAliveGameObject* pTarget)
     }
 
     field_15A_chase_timer = 0;
-    Path_Hoist* pHoist = TryGetHoist(0, 0);
+    relive::Path_Hoist* pHoist = TryGetHoist(0, 0);
     if (pHoist)
     {
         if (mCurrentMotion == eFleechMotions::Motion_4_Crawl)
@@ -2921,8 +2921,8 @@ s16 Fleech::Brain_Patrol_State_4(BaseAliveGameObject* pTarget)
         {
             mNextMotion = eFleechMotions::Motion_3_Idle;
         }
-        field_160_hoistX = pHoist->mTopLeft.x + (mSpriteScale >= FP_FromInteger(1) ? 12 : 6);
-        field_162_hoistY = pHoist->mTopLeft.y;
+        field_160_hoistX = pHoist->mTopLeftX + (mSpriteScale >= FP_FromInteger(1) ? 12 : 6);
+        field_162_hoistY = pHoist->mTopLeftY;
         return 9;
     }
 
@@ -3245,12 +3245,12 @@ s16 Fleech::Brain_1_ChasingAbe()
                 return Brain_1_ChasingAbe::eChasingAbe_1;
             }
 
-            Path_Hoist* pHoist = TryGetHoist(0, FALSE);
+            relive::Path_Hoist* pHoist = TryGetHoist(0, FALSE);
             if (pHoist)
             {
                 mNextMotion = eFleechMotions::Motion_3_Idle;
-                field_160_hoistX = pHoist->mTopLeft.x + (mSpriteScale < FP_FromInteger(1) ? 6 : 12);
-                field_162_hoistY = pHoist->mTopLeft.y;
+                field_160_hoistX = pHoist->mTopLeftX + (mSpriteScale < FP_FromInteger(1) ? 6 : 12);
+                field_162_hoistY = pHoist->mTopLeftY;
                 return Brain_1_ChasingAbe::ePrepareToHoist_14;
             }
             [[fallthrough]];
@@ -3532,12 +3532,12 @@ s16 Fleech::Brain_ChasingAbe_State_2(BaseAliveGameObject* pObj)
         if (field_15E_lost_target_timer < field_15C_lost_target_timeout)
         {
             field_15E_lost_target_timer++;
-            Path_Hoist* pHoist = TryGetHoist(1, FALSE);
+            relive::Path_Hoist* pHoist = TryGetHoist(1, FALSE);
             if (pHoist)
             {
                 mNextMotion = eFleechMotions::Motion_3_Idle;
-                field_160_hoistX = pHoist->mTopLeft.x + (mSpriteScale < FP_FromInteger(1) ? 6 : 12);
-                field_162_hoistY = pHoist->mTopLeft.y;
+                field_160_hoistX = pHoist->mTopLeftX + (mSpriteScale < FP_FromInteger(1) ? 6 : 12);
+                field_162_hoistY = pHoist->mTopLeftY;
                 return 14;
             }
 
@@ -3633,12 +3633,12 @@ s16 Fleech::Brain_ChasingAbe_State_1(BaseAliveGameObject* pObj)
                 slamDoorW = xOffset;
             }
 
-            Path_TLV* pSlamDoor = sPathInfo->TLV_Get_At_4DB4B0(
+            relive::Path_TLV* pSlamDoor = sPathInfo->TLV_Get_At_4DB4B0(
                 FP_GetExponent(slamDoorX),
                 FP_GetExponent(mYPos),
                 FP_GetExponent(slamDoorW),
                 FP_GetExponent(mYPos),
-                TlvTypes::SlamDoor_85);
+                ReliveTypes::eSlamDoor);
 
             if (pSlamDoor)
             {
@@ -3724,12 +3724,12 @@ s16 Fleech::Brain_ChasingAbe_State_1(BaseAliveGameObject* pObj)
     }
 
     // Find hoist in front us?
-    Path_Hoist* pHoist = TryGetHoist(1, FALSE);
+    relive::Path_Hoist* pHoist = TryGetHoist(1, FALSE);
     if (pHoist)
     {
         mNextMotion = eFleechMotions::Motion_3_Idle;
-        field_160_hoistX = pHoist->mTopLeft.x + (mSpriteScale >= FP_FromInteger(1) ? 12 : 6);
-        field_162_hoistY = pHoist->mTopLeft.y;
+        field_160_hoistX = pHoist->mTopLeftX + (mSpriteScale >= FP_FromInteger(1) ? 12 : 6);
+        field_162_hoistY = pHoist->mTopLeftY;
         return Brain_1_ChasingAbe::ePrepareToHoist_14;
     }
 
@@ -3740,14 +3740,14 @@ s16 Fleech::Brain_ChasingAbe_State_1(BaseAliveGameObject* pObj)
         if (mCurrentMotion == eFleechMotions::Motion_3_Idle)
         {
             // TODO: Check left VS flip is correct
-            if ((pHoist->mGrabDirection == Path_Hoist::GrabDirection::eFacingLeft && mAnim.mFlags.Get(AnimFlags::eBit5_FlipX)) && pHoist->mGrabDirection != Path_Hoist::GrabDirection::eFacingAnyDirection)
+            if ((pHoist->mGrabDirection == relive::Path_Hoist::GrabDirection::eFacingLeft && mAnim.mFlags.Get(AnimFlags::eBit5_FlipX)) && pHoist->mGrabDirection != relive::Path_Hoist::GrabDirection::eFacingAnyDirection)
             {
                 mCurrentMotion = eFleechMotions::Motion_6_Knockback;
             }
 
             mNextMotion = eFleechMotions::Motion_3_Idle;
-            field_160_hoistX = pHoist->mTopLeft.x + (mSpriteScale >= FP_FromInteger(1) ? 12 : 6);
-            field_162_hoistY = pHoist->mTopLeft.y;
+            field_160_hoistX = pHoist->mTopLeftX + (mSpriteScale >= FP_FromInteger(1) ? 12 : 6);
+            field_162_hoistY = pHoist->mTopLeftY;
             return Brain_1_ChasingAbe::ePrepareToHoist_14;
         }
         else
@@ -3765,8 +3765,8 @@ s16 Fleech::Brain_ChasingAbe_State_1(BaseAliveGameObject* pObj)
         if (pHoist)
         {
             mNextMotion = eFleechMotions::Motion_4_Crawl;
-            field_160_hoistX = pHoist->mTopLeft.x + (mSpriteScale >= FP_FromInteger(1) ? 12 : 6);
-            field_162_hoistY = pHoist->mTopLeft.y;
+            field_160_hoistX = pHoist->mTopLeftX + (mSpriteScale >= FP_FromInteger(1) ? 12 : 6);
+            field_162_hoistY = pHoist->mTopLeftY;
             return field_126_brain_sub_state;
         }
 
@@ -3797,8 +3797,8 @@ s16 Fleech::Brain_ChasingAbe_State_1(BaseAliveGameObject* pObj)
                     break;
             }
 
-            field_160_hoistX = pHoist->mTopLeft.x + (mSpriteScale >= FP_FromInteger(1) ? 12 : 6);
-            field_162_hoistY = pHoist->mTopLeft.y;
+            field_160_hoistX = pHoist->mTopLeftX + (mSpriteScale >= FP_FromInteger(1) ? 12 : 6);
+            field_162_hoistY = pHoist->mTopLeftY;
             return field_126_brain_sub_state;
         }
 
@@ -3995,12 +3995,12 @@ s16 Fleech::Brain_2_Scared()
                 }
             }
 
-            Path_Hoist* pHoist = TryGetHoist(1, 0);
+            relive::Path_Hoist* pHoist = TryGetHoist(1, 0);
             if (pHoist)
             {
                 mNextMotion = eFleechMotions::Motion_8_StopMidCrawlCycle;
-                field_160_hoistX = pHoist->mTopLeft.x + 12;
-                field_162_hoistY = pHoist->mTopLeft.y;
+                field_160_hoistX = pHoist->mTopLeftX + 12;
+                field_162_hoistY = pHoist->mTopLeftY;
                 return Brain_2_Scared::ePrepareToHoist_10;
             }
 
@@ -4055,7 +4055,7 @@ s16 Fleech::Brain_2_Scared()
                 return Brain_2_Scared::eReactToDanger_1;
             }
 
-            Path_Hoist* pHoist = TryGetHoist(0, 0);
+            relive::Path_Hoist* pHoist = TryGetHoist(0, 0);
             if (pHoist)
             {
                 if (mCurrentMotion != eFleechMotions::Motion_3_Idle)
@@ -4063,8 +4063,8 @@ s16 Fleech::Brain_2_Scared()
                     mNextMotion = eFleechMotions::Motion_3_Idle;
                 }
 
-                field_160_hoistX = pHoist->mTopLeft.x + (mSpriteScale >= FP_FromInteger(1) ? 12 : 6);
-                field_162_hoistY = pHoist->mTopLeft.y;
+                field_160_hoistX = pHoist->mTopLeftX + (mSpriteScale >= FP_FromInteger(1) ? 12 : 6);
+                field_162_hoistY = pHoist->mTopLeftY;
                 return Brain_2_Scared::ePrepareToHoist_10;
             }
             [[fallthrough]];

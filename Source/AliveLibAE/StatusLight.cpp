@@ -14,9 +14,9 @@ StatusLight::StatusLight(relive::Path_StatusLight* pTlv, u32 tlvInfo)
     field_F4_tlvInfo = tlvInfo;
     mInputSwitchId = pTlv->mInputSwitchId;
 
-    if (pTlv->mScale != Scale_short::eFull_0)
+    if (pTlv->mScale != relive::reliveScale::eFull)
     {
-        if (pTlv->mScale == Scale_short::eHalf_1)
+        if (pTlv->mScale == relive::reliveScale::eHalf)
         {
             mSpriteScale = FP_FromDouble(0.5);
             mAnim.mRenderLayer = Layer::eLayer_8;
@@ -44,14 +44,14 @@ StatusLight::StatusLight(relive::Path_StatusLight* pTlv, u32 tlvInfo)
     mVisualFlags.Clear(VisualFlags::eApplyShadowZoneColour);
     mAnim.mFlags.Clear(AnimFlags::eBit3_Render);
 
-    mXPos = FP_FromInteger((pTlv->mTopLeft.x + pTlv->mBottomRight.x) / 2);
+    mXPos = FP_FromInteger((pTlv->mTopLeftX + pTlv->mBottomRightX) / 2);
 
-    if (mIgnoreGridSnapping == Choice_short::eNo_0)
+    if (mIgnoreGridSnapping == relive::reliveChoice::eNo)
     {
         mXPos = FP_FromInteger(SnapToXGrid(mSpriteScale, FP_GetExponent(mXPos)));
     }
 
-    mYPos = FP_FromInteger((pTlv->mTopLeft.y + pTlv->mBottomRight.y) / 2);
+    mYPos = FP_FromInteger((pTlv->mTopLeftY + pTlv->mBottomRightY) / 2);
 
     PathLine* pPathLine = nullptr;
     FP hitX = {};
@@ -66,7 +66,7 @@ StatusLight::StatusLight(relive::Path_StatusLight* pTlv, u32 tlvInfo)
         &hitY,
         mScale == Scale::Fg ? kFgFloor : kBgFloor); // TODO: mouze check, 0xF1 : 0x10 seemed like it should be 0x1 : 0x10
 
-    if (mIgnoreGridSnapping == Choice_short::eNo_0)
+    if (mIgnoreGridSnapping == relive::reliveChoice::eNo)
     {
         if (bCollision)
         {

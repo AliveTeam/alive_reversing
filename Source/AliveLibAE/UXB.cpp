@@ -132,9 +132,9 @@ UXB::UXB(relive::Path_UXB* tlv_params, TlvItemInfoUnion itemInfo)
     // Single out a single digit, and use that digit as the new amount of red blinks before a green one.
     mRedBlinkCount = (mPattern / static_cast<s32>(pow(10, mPatternLength - 1))) % 10;
 
-    if (tlv_params->mScale != Scale_short::eFull_0)
+    if (tlv_params->mScale != relive::reliveScale::eFull)
     {
-        if (tlv_params->mScale == Scale_short::eHalf_1)
+        if (tlv_params->mScale == relive::reliveScale::eHalf)
         {
             mSpriteScale = FP_FromDouble(0.5);
             mAnim.mRenderLayer = Layer::eLayer_RollingBallBombMineCar_Half_16;
@@ -151,7 +151,7 @@ UXB::UXB(relive::Path_UXB* tlv_params, TlvItemInfoUnion itemInfo)
     InitBlinkAnim(&mFlashAnim);
     if (tlv_params->mTlvSpecificMeaning) // Stores the activated/deactivated state for UXB.
     {
-        if (tlv_params->mStartState == Path_UXB::StartState::eOn)
+        if (tlv_params->mStartState == relive::Path_UXB::StartState::eOn)
         {
             mFlashAnim.LoadPal(ResourceManager::GetLoadedResource(ResourceManager::Resource_Palt, AEResourceID::kGrenflshResID, 0, 0), 0);
             mIsRed = 0;
@@ -169,7 +169,7 @@ UXB::UXB(relive::Path_UXB* tlv_params, TlvItemInfoUnion itemInfo)
     }
     else
     {
-        if (tlv_params->mStartState == Path_UXB::StartState::eOn)
+        if (tlv_params->mStartState == relive::Path_UXB::StartState::eOn)
         {
             mStartingState = UXBState::eDelay;
         }
@@ -188,15 +188,15 @@ UXB::UXB(relive::Path_UXB* tlv_params, TlvItemInfoUnion itemInfo)
     FP hitX = {};
     FP hitY = {};
 
-    mXPos = FP_FromInteger((tlv_params->mTopLeft.x + tlv_params->mBottomRight.x) / 2);
-    mYPos = FP_FromInteger(tlv_params->mTopLeft.y);
+    mXPos = FP_FromInteger((tlv_params->mTopLeftX + tlv_params->mBottomRightX) / 2);
+    mYPos = FP_FromInteger(tlv_params->mTopLeftY);
 
     // Raycasts on ctor to place perfectly on the floor.
     if (sCollisions->Raycast(
             mXPos,
-            FP_FromInteger(tlv_params->mTopLeft.y),
+            FP_FromInteger(tlv_params->mTopLeftY),
             mXPos,
-            FP_FromInteger(tlv_params->mTopLeft.y + 24),
+            FP_FromInteger(tlv_params->mTopLeftY + 24),
             &BaseAliveGameObjectCollisionLine,
             &hitX,
             &hitY,
@@ -523,7 +523,7 @@ s32 UXB::CreateFromSaveState(const u8* __pSaveState)
 {
     const SaveState_UXB* pSaveState = reinterpret_cast<const SaveState_UXB*>(__pSaveState);
 
-    Path_UXB* uxbPath = reinterpret_cast<Path_UXB*>(sPathInfo->TLV_From_Offset_Lvl_Cam(pSaveState->mTlvInfo.all));
+    relive::Path_UXB* uxbPath = reinterpret_cast<relive::Path_UXB*>(sPathInfo->TLV_From_Offset_Lvl_Cam(pSaveState->mTlvInfo.all));
 
     if (!(uxbPath->mDisabledResources & 1) && !ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kAbeblowResID, 0, 0))
     {

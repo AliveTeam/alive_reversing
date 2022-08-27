@@ -41,7 +41,7 @@ private:
     u16 mInputSwitchId5 = 0;
     u16 mInputSwitchId6 = 0;
     u16 mOutputSwitchId = 0;
-    SwitchOp mAction = SwitchOp::eSetTrue_0;
+    relive::reliveSwitchOp mAction = relive::reliveSwitchOp::eSetTrue;
     s32 mTlvInfo = 0;
     s32 field_34_last_switch_on_time = 0;
     s32 field_38_all_switches_on_or_off_time = 0;

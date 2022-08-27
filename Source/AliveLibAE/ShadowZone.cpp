@@ -16,11 +16,11 @@ ShadowZone::ShadowZone(relive::Path_ShadowZone* pTlv, Path* /*pPath*/, u32 tlvIn
 
     field_20_tlvInfo = tlvInfo;
 
-    field_30_mid_x = (pTlv->mBottomRight.x - pTlv->mTopLeft.x) / 2;
-    field_32_mid_y = (pTlv->mBottomRight.y - pTlv->mTopLeft.y) / 2;
+    field_30_mid_x = (pTlv->Width()) / 2;
+    field_32_mid_y = (pTlv->Height()) / 2;
 
-    field_28_centre_x = field_30_mid_x + pTlv->mTopLeft.x;
-    field_2A_center_y = field_32_mid_y + pTlv->mTopLeft.y;
+    field_28_centre_x = field_30_mid_x + pTlv->mTopLeftX;
+    field_2A_center_y = field_32_mid_y + pTlv->mTopLeftY;
 
     field_2C_centre_mid_x = field_30_mid_x - 75;
     if (field_2C_centre_mid_x < 0)
@@ -34,12 +34,11 @@ ShadowZone::ShadowZone(relive::Path_ShadowZone* pTlv, Path* /*pPath*/, u32 tlvIn
         field_2E_centre_mid_y = 0;
     }
 
-    field_38_r = FP_FromInteger(pTlv->field_14_r);
-    field_3C_g = FP_FromInteger(pTlv->field_16_g);
-    field_40_b = FP_FromInteger(pTlv->field_18_b);
+    field_38_r = FP_FromInteger(pTlv->mRGB.r);
+    field_3C_g = FP_FromInteger(pTlv->mRGB.g);
+    field_40_b = FP_FromInteger(pTlv->mRGB.b);
 
-    field_34_switch_id = pTlv->field_1A_switch_id;
-    field_36_scale = pTlv->field_1C_scale;
+    field_36_scale = pTlv->mScale;
 }
 
 void ShadowZone::ShadowZones_Calculate_Colour(s32 xpos, s32 ypos, Scale scale, s16* r, s16* g, s16* b)
@@ -115,15 +114,15 @@ void ShadowZone::VScreenChanged()
 
 s16 ShadowZone::ApplysToScale(Scale scale)
 {
-    if (field_36_scale == ShadowZoneScale::eBoth_0)
+    if (field_36_scale == relive::Path_ShadowZone::Scale::eBoth)
     {
         return 1;
     }
-    else if (field_36_scale == ShadowZoneScale::eFull_2 && scale == Scale::Fg)
+    else if (field_36_scale == relive::Path_ShadowZone::Scale::eFull && scale == Scale::Fg)
     {
         return 1;
     }
-    else if (field_36_scale == ShadowZoneScale::eHalf_1 && scale == Scale::Bg)
+    else if (field_36_scale == relive::Path_ShadowZone::Scale::eHalf && scale == Scale::Bg)
     {
         return 1;
     }

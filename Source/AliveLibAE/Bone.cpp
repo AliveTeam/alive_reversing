@@ -580,25 +580,25 @@ BoneBag::BoneBag(relive::Path_BoneBag* pTlv, s32 tlvInfo)
     mIsBagHit = false;
     mTlvInfo = tlvInfo;
 
-    mXPos = FP_FromInteger((pTlv->mTopLeft.x + pTlv->mBottomRight.x) / 2);
-    mYPos = FP_FromInteger(pTlv->mBottomRight.y);
+    mXPos = FP_FromInteger((pTlv->mTopLeftX + pTlv->mBottomRightX) / 2);
+    mYPos = FP_FromInteger(pTlv->mBottomRightY);
 
     mVisualFlags.Clear(VisualFlags::eApplyShadowZoneColour);
 
     mVelX = FP_FromRaw(pTlv->mVelX << 8);
     mVelY = FP_FromRaw(-256 * pTlv->mVelY); // TODO: << 8 negated ??
 
-    if (pTlv->mBoneFallDirection == XDirection_short::eLeft_0)
+    if (pTlv->mBoneFallDirection == relive::reliveXDirection::eLeft)
     {
         mVelX = -mVelX;
     }
 
-    if (pTlv->mScale == Scale_short::eHalf_1)
+    if (pTlv->mScale == relive::reliveScale::eHalf)
     {
         mSpriteScale = FP_FromDouble(0.5);
         mScale = Scale::Bg;
     }
-    else if (pTlv->mScale == Scale_short::eFull_0)
+    else if (pTlv->mScale == relive::reliveScale::eFull)
     {
         mSpriteScale = FP_FromInteger(1);
         mScale = Scale::Fg;

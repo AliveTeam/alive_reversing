@@ -215,24 +215,24 @@ void Explosion::DealBlastDamage(PSX_RECT* pRect)
         }
     }
 
-    auto pTlv = static_cast<Path_Slig*>(sPathInfo->TLV_Get_At_4DB4B0(
+    auto pTlv = static_cast<relive::Path_Slig*>(sPathInfo->TLV_Get_At_4DB4B0(
         expandedRect.x,
         expandedRect.y,
         expandedRect.w,
         expandedRect.h,
-        TlvTypes::Slig_15));
+        ReliveTypes::eSlig));
 
     if (pTlv)
     {
-        if (!pTlv->mTlvFlags.Get(TlvFlags::eBit2_Destroyed) && pTlv->mStartState == Path_Slig::StartState::Sleeping_2)
+        if (!pTlv->mTlvFlags.Get(relive::TlvFlags::eBit2_Destroyed) && pTlv->mData.mStartState == relive::Path_Slig_Data::StartState::Sleeping)
         {
-            pTlv->mTlvFlags.Set(TlvFlags::eBit2_Destroyed);
+            pTlv->mTlvFlags.Set(relive::TlvFlags::eBit2_Destroyed);
 
             const CameraPos dir = gMap.GetDirection(
                 gMap.mCurrentLevel,
                 gMap.mCurrentPath,
-                FP_FromInteger(pTlv->mTopLeft.x),
-                FP_FromInteger(pTlv->mTopLeft.y));
+                FP_FromInteger(pTlv->mTopLeftX),
+                FP_FromInteger(pTlv->mTopLeftY));
 
             if (dir == CameraPos::eCamLeft_3)
             {

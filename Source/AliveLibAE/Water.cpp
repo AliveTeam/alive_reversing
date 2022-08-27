@@ -26,11 +26,13 @@ Water::Water(relive::Path_Water* pTlv, s32 tlvInfo)
         Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kSplashResID);
 
         field_114_tlvInfo = tlvInfo;
-        mXPos = FP_FromInteger(pTlv->mTopLeft.x);
-        mYPos = FP_FromInteger(pTlv->mTopLeft.y);
+        mXPos = FP_FromInteger(pTlv->mTopLeftX);
+        mYPos = FP_FromInteger(pTlv->mTopLeftY);
 
-        field_104_top_left = pTlv->mTopLeft;
-        field_108_bottom_right = pTlv->mBottomRight;
+        field_104_top_left.x = pTlv->mTopLeftX;
+        field_104_top_left.y = pTlv->mTopLeftY;
+        field_108_bottom_right.x = pTlv->mBottomRightX;
+        field_108_bottom_right.y = pTlv->mBottomRightY;
 
         field_104_top_left.x += -FP_GetExponent(pScreenManager->CamXPos());
         field_104_top_left.y += -FP_GetExponent(pScreenManager->CamYPos());

@@ -32,9 +32,9 @@ Mine::Mine(relive::Path_Mine* pPath, TlvItemInfoUnion tlv)
     mBaseGameObjectFlags.Set(Options::eInteractive_Bit8);
     mBaseGameObjectFlags.Set(Options::eCanExplode_Bit7);
 
-    if (pPath->mScale != Scale_short::eFull_0)
+    if (pPath->mScale != relive::reliveScale::eFull)
     {
-        if (pPath->mScale == Scale_short::eHalf_1)
+        if (pPath->mScale == relive::reliveScale::eHalf)
         {
             mSpriteScale = FP_FromDouble(0.5);
             mAnim.mRenderLayer = Layer::eLayer_RollingBallBombMineCar_Half_16;
@@ -48,9 +48,9 @@ Mine::Mine(relive::Path_Mine* pPath, TlvItemInfoUnion tlv)
         mScale = Scale::Fg;
     }
 
-    const s32 v7 = pPath->mTopLeft.x + pPath->mBottomRight.x;
+    const s32 v7 = pPath->mTopLeftX + pPath->mBottomRightX;
     mXPos = FP_FromInteger(v7 / 2);
-    const FP v8 = FP_FromInteger(pPath->mTopLeft.y);
+    const FP v8 = FP_FromInteger(pPath->mTopLeftY);
     mYPos = v8;
 
     FP hitY;
@@ -86,7 +86,7 @@ Mine::Mine(relive::Path_Mine* pPath, TlvItemInfoUnion tlv)
     field_11A_disabled_resources = pPath->mDisabledResources;
 
     field_1BC_flags.Clear(Mine_Flags_1BC::eBit1_PersistOffscreen);
-    if (pPath->mPersistOffscreen == Choice_short::eYes_1)
+    if (pPath->mPersistOffscreen == relive::reliveChoice::eYes)
     {
         field_1BC_flags.Set(Mine_Flags_1BC::eBit1_PersistOffscreen);
     }

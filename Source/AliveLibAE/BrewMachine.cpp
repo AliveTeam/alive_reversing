@@ -73,10 +73,10 @@ BrewMachine::BrewMachine(relive::Path_BrewMachine* pTlv, s32 tlvInfo)
         mTotalBrewCount = savedBrewCount;
     }
 
-    mTextX = FP_GetExponent((FP_FromInteger(pTlv->mTopLeft.x + 5) - pScreenManager->CamXPos()));
-    mTextY = FP_GetExponent((FP_FromInteger(pTlv->mTopLeft.y + 10) - pScreenManager->CamYPos()));
-    mXPos = FP_FromInteger((pTlv->mTopLeft.x + pTlv->mBottomRight.x) / 2);
-    mYPos = FP_FromInteger(pTlv->mTopLeft.y);
+    mTextX = FP_GetExponent((FP_FromInteger(pTlv->mTopLeftX + 5) - pScreenManager->CamXPos()));
+    mTextY = FP_GetExponent((FP_FromInteger(pTlv->mTopLeftY + 10) - pScreenManager->CamYPos()));
+    mXPos = FP_FromInteger((pTlv->mTopLeftX + pTlv->mBottomRightX) / 2);
+    mYPos = FP_FromInteger(pTlv->mTopLeftY);
 
     mBrewMachineCamera = gMap.mCurrentCamera;
 }
@@ -90,7 +90,7 @@ BrewMachine::~BrewMachine()
 
 void BrewMachine::VUpdate()
 {
-    Path_BrewMachine* pTlv = static_cast<Path_BrewMachine*>(sPathInfo->TLV_From_Offset_Lvl_Cam(mTlvInfo));
+    relive::Path_BrewMachine* pTlv = static_cast<relive::Path_BrewMachine*>(sPathInfo->TLV_From_Offset_Lvl_Cam(mTlvInfo));
     if (mTotalBrewCount > 0)
     {
         pTlv->mTlvSpecificMeaning = static_cast<u8>(mTotalBrewCount);

@@ -161,23 +161,23 @@ CrawlingSlig::CrawlingSlig(relive::Path_CrawlingSlig* pTlv, s32 tlvInfo)
     field_118_tlvInfo = tlvInfo;
     field_1E8_tlv = *pTlv;
 
-    if (field_1E8_tlv.mScale == Scale_short::eHalf_1)
+    if (field_1E8_tlv.mScale == relive::reliveScale::eHalf)
     {
         mSpriteScale = FP_FromDouble(0.5);
         mAnim.mRenderLayer = Layer::eLayer_8;
         mScale = Scale::Bg;
     }
-    else if (field_1E8_tlv.mScale == Scale_short::eFull_0)
+    else if (field_1E8_tlv.mScale == relive::reliveScale::eFull)
     {
         mSpriteScale = FP_FromInteger(1);
         mAnim.mRenderLayer = Layer::eLayer_27;
         mScale = Scale::Fg;
     }
 
-    mXPos = FP_FromInteger((pTlv->mTopLeft.x + pTlv->mBottomRight.x) / 2);
-    mYPos = FP_FromInteger(pTlv->mTopLeft.y);
+    mXPos = FP_FromInteger((pTlv->mTopLeftX + pTlv->mBottomRightX) / 2);
+    mYPos = FP_FromInteger(pTlv->mTopLeftY);
 
-    if (field_1E8_tlv.mStartState == Path_CrawlingSlig::StartState::eAwake_2)
+    if (field_1E8_tlv.mStartState == relive::Path_CrawlingSlig::StartState::eAwake)
     {
         Set_AnimAndMotion(CrawlingSligMotion::Motion_0_Idle, TRUE);
         SetBrain(&CrawlingSlig::Brain_1_Idle);
@@ -197,9 +197,9 @@ CrawlingSlig::CrawlingSlig(relive::Path_CrawlingSlig* pTlv, s32 tlvInfo)
     }
 
     field_208_brain_sub_state = 0;
-    if (field_1E8_tlv.mCrawlDirection == Path_CrawlingSlig::CrawlDirection::eRandom_2)
+    if (field_1E8_tlv.mCrawlDirection == relive::Path_CrawlingSlig::CrawlDirection::eRandom)
     {
-        field_1E0_crawl_direction = NextRandom() ? Path_CrawlingSlig::CrawlDirection::eRight_1 : Path_CrawlingSlig::CrawlDirection::eLeft_0;
+        field_1E0_crawl_direction = NextRandom() ? relive::Path_CrawlingSlig::CrawlDirection::eRight : relive::Path_CrawlingSlig::CrawlDirection::eLeft;
     }
     else
     {
@@ -236,7 +236,7 @@ s32 CrawlingSlig::CreateFromSaveState(const u8* pBuffer)
 {
     auto pState = reinterpret_cast<const CrawlingSlig_State*>(pBuffer);
 
-    auto pTlv = static_cast<Path_CrawlingSlig*>(sPathInfo->TLV_From_Offset_Lvl_Cam(pState->field_44_tlvInfo));
+    auto pTlv = static_cast<relive::Path_CrawlingSlig*>(sPathInfo->TLV_From_Offset_Lvl_Cam(pState->field_44_tlvInfo));
     if (!ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kCrawlingSligResID_449, FALSE, FALSE))
     {
         ResourceManager::LoadResourceFile_49C170("CRAWLSLG.BND", nullptr);
@@ -511,15 +511,15 @@ void CrawlingSlig::VUpdate()
 s16 CrawlingSlig::HandleEnemyStopper(FP /*velX*/)
 {
     FP gridSizeDirected = ScaleToGridSize(mSpriteScale);
-    Path_EnemyStopper::StopDirection direction = Path_EnemyStopper::StopDirection::Both_2;
+    relive::Path_EnemyStopper::StopDirection direction = relive::Path_EnemyStopper::StopDirection::Both;
     if (mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
     {
-        direction = Path_EnemyStopper::StopDirection::Left_0;
+        direction = relive::Path_EnemyStopper::StopDirection::Left;
         gridSizeDirected = -gridSizeDirected;
     }
     else
     {
-        direction = Path_EnemyStopper::StopDirection::Right_1;
+        direction = relive::Path_EnemyStopper::StopDirection::Right;
     }
 
     if (WallHit(mSpriteScale * FP_FromInteger(30), gridSizeDirected * FP_FromDouble(1.5)))
@@ -528,36 +528,36 @@ s16 CrawlingSlig::HandleEnemyStopper(FP /*velX*/)
     }
 
     const FP gridSize = ScaleToGridSize(mSpriteScale);
-    auto pSlamDoor = static_cast<Path_SlamDoor*>(sPathInfo->TLV_Get_At_4DB4B0(
+    auto pSlamDoor = static_cast<relive::Path_SlamDoor*>(sPathInfo->TLV_Get_At_4DB4B0(
         FP_GetExponent(mXPos),
         FP_GetExponent(mYPos),
         FP_GetExponent(mXPos + gridSizeDirected),
         FP_GetExponent(mYPos - gridSize),
-        TlvTypes::SlamDoor_85));
+        ReliveTypes::eSlamDoor));
     BaseAliveGameObjectPathTLV = pSlamDoor;
 
-    if (pSlamDoor && ((pSlamDoor->mStartClosed == Choice_short::eYes_1 && !SwitchStates_Get(pSlamDoor->mSwitchId)) || (pSlamDoor->mStartClosed == Choice_short::eNo_0 && SwitchStates_Get(pSlamDoor->mSwitchId))))
+    if (pSlamDoor && ((pSlamDoor->mStartClosed == relive::reliveChoice::eYes && !SwitchStates_Get(pSlamDoor->mSwitchId)) || (pSlamDoor->mStartClosed == relive::reliveChoice::eNo && SwitchStates_Get(pSlamDoor->mSwitchId))))
     {
         return 1;
     }
 
-    auto pStopper = static_cast<Path_EnemyStopper*>(sPathInfo->TLV_Get_At_4DB4B0(
+    auto pStopper = static_cast<relive::Path_EnemyStopper*>(sPathInfo->TLV_Get_At_4DB4B0(
         FP_GetExponent(mXPos),
         FP_GetExponent(mYPos),
         FP_GetExponent(mXPos + gridSizeDirected),
         FP_GetExponent(mYPos - gridSize),
-        TlvTypes::EnemyStopper_47));
+        ReliveTypes::eEnemyStopper));
     BaseAliveGameObjectPathTLV = pStopper;
 
-    return pStopper && (pStopper->mStopDirection == direction || pStopper->mStopDirection == Path_EnemyStopper::StopDirection::Both_2) && SwitchStates_Get(pStopper->mSwitchId);
+    return pStopper && (pStopper->mStopDirection == direction || pStopper->mStopDirection == relive::Path_EnemyStopper::StopDirection::Both) && SwitchStates_Get(pStopper->mSwitchId);
 }
 
-Path_TLV* CrawlingSlig::FindPantsOrWings()
+relive::Path_TLV* CrawlingSlig::FindPantsOrWings()
 {
-    Path_TLV* pTlvIter = sPathInfo->TlvGetAt(nullptr, mXPos, mYPos, mXPos, mYPos);
+    relive::Path_TLV* pTlvIter = sPathInfo->TlvGetAt(nullptr, mXPos, mYPos, mXPos, mYPos);
     while (pTlvIter)
     {
-        if (pTlvIter->mTlvType32 == TlvTypes::SligGetPants_104 || pTlvIter->mTlvType32 == TlvTypes::SligGetWings_105)
+        if (pTlvIter->mTlvType == ReliveTypes::eSligGetPants || pTlvIter->mTlvType == ReliveTypes::eSligGetWings)
         {
             return pTlvIter;
         }
@@ -586,7 +586,7 @@ void CrawlingSlig::VOnTlvCollision(relive::Path_TLV* pTlv)
 {
     while (pTlv)
     {
-        if (pTlv->mTlvType32 == TlvTypes::DeathDrop_4)
+        if (pTlv->mTlvType == ReliveTypes::eDeathDrop)
         {
             if (mHealth > FP_FromInteger(0))
             {
@@ -729,7 +729,7 @@ CrawlingSlig::~CrawlingSlig()
                 0);
         }
     }
-    if (mHealth > FP_FromInteger(0) || field_1E8_tlv.mRespawnOnDeath == Choice_short::eYes_1)
+    if (mHealth > FP_FromInteger(0) || field_1E8_tlv.mRespawnOnDeath == relive::reliveChoice::eYes)
     {
         Path::TLV_Reset(field_118_tlvInfo, -1, 0, 0);
     }
@@ -864,7 +864,7 @@ s16 CrawlingSlig::Brain_2_PanicGetALocker()
     switch (field_208_brain_sub_state)
     {
         case Brain_2_PanicGetALocker::eBrain2_DetermineCrawlDirection_0:
-            if ((field_1E0_crawl_direction != Path_CrawlingSlig::CrawlDirection::eRight_1 || !(mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))) && (field_1E0_crawl_direction != Path_CrawlingSlig::CrawlDirection::eLeft_0 || mAnim.mFlags.Get(AnimFlags::eBit5_FlipX)))
+            if ((field_1E0_crawl_direction != relive::Path_CrawlingSlig::CrawlDirection::eRight || !(mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))) && (field_1E0_crawl_direction != relive::Path_CrawlingSlig::CrawlDirection::eLeft || mAnim.mFlags.Get(AnimFlags::eBit5_FlipX)))
             {
                 SetNextMotion(CrawlingSligMotion::Motion_3_Crawling);
                 return Brain_2_PanicGetALocker::eBrain2_SearchLocker_2;
@@ -1333,13 +1333,13 @@ void CrawlingSlig::Motion_1_UsingButton()
         }
         else if (static_cast<s32>(sGnFrame) > field_1AC_timer)
         {
-            if (field_1E4_pPantsOrWingsTlv->mTlvType32 == TlvTypes::SligGetPants_104 && ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kSlgbasicResID, 0, 0))
+            if (field_1E4_pPantsOrWingsTlv->mTlvType == ReliveTypes::eSligGetPants && ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kSlgbasicResID, 0, 0))
             {
                 // Transform to a walking slig
 
                 SfxPlayMono(SoundEffect::SligSpawn_114, 0);
 
-                auto pWalkingSlig = relive_new Slig(static_cast<Path_Slig*>(field_1E4_pPantsOrWingsTlv), sPathInfo->TLVInfo_From_TLVPtr(field_1E4_pPantsOrWingsTlv));
+                auto pWalkingSlig = relive_new Slig(static_cast<relive::Path_Slig*>(field_1E4_pPantsOrWingsTlv), sPathInfo->TLVInfo_From_TLVPtr(field_1E4_pPantsOrWingsTlv));
                 if (pWalkingSlig)
                 {
                     field_1D8_obj_id = pWalkingSlig->mBaseGameObjectId;
@@ -1362,13 +1362,13 @@ void CrawlingSlig::Motion_1_UsingButton()
 
                 mHealth = FP_FromInteger(0);
             }
-            else if (field_1E4_pPantsOrWingsTlv->mTlvType32 == TlvTypes::SligGetWings_105 && ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kFlySligResID, 0, 0))
+            else if (field_1E4_pPantsOrWingsTlv->mTlvType == ReliveTypes::eSligGetWings && ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kFlySligResID, 0, 0))
             {
                 // Transform to a flying slig
 
                 SfxPlayMono(SoundEffect::FlyingSligSpawn_113, 0);
 
-                auto pFlyingSlig = relive_new FlyingSlig(static_cast<Path_FlyingSlig*>(field_1E4_pPantsOrWingsTlv), sPathInfo->TLVInfo_From_TLVPtr(field_1E4_pPantsOrWingsTlv));
+                auto pFlyingSlig = relive_new FlyingSlig(static_cast<relive::Path_FlyingSlig*>(field_1E4_pPantsOrWingsTlv), sPathInfo->TLVInfo_From_TLVPtr(field_1E4_pPantsOrWingsTlv));
                 if (pFlyingSlig)
                 {
                     field_1D8_obj_id = pFlyingSlig->mBaseGameObjectId;

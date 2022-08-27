@@ -98,19 +98,19 @@ void Start_Sounds_for_TLV(CameraPos direction, relive::Path_TLV* pTlv)
             return;
     }
 
-    switch (pTlv->mTlvType32.mType)
+    switch (pTlv->mTlvType)
     {
-        case TlvTypes::Slig_15:
+        case ReliveTypes::eSlig:
         {
             auto pSligTlv = static_cast<relive::Path_Slig*>(pTlv);
-            if (pSligTlv->mStartState == relive::Path_Slig::StartState::Patrol_1)
+            if (pSligTlv->mData.mStartState == relive::Path_Slig_Data::StartState::Patrol)
             {
                 if (!pAmbianceTbl->mArray[1].field_8_pScopedSeq)
                 {
                     pAmbianceTbl->mArray[1].field_8_pScopedSeq = relive_new ScopedSeq(1, direction);
                 }
             }
-            else if (pSligTlv->mStartState == relive::Path_Slig::StartState::Sleeping_2)
+            else if (pSligTlv->mData.mStartState == relive::Path_Slig_Data::StartState::Sleeping)
             {
                 if (!pAmbianceTbl->mArray[0].field_8_pScopedSeq)
                 {
@@ -120,9 +120,9 @@ void Start_Sounds_for_TLV(CameraPos direction, relive::Path_TLV* pTlv)
             break;
         }
 
-        case TlvTypes::Slog_16:
+        case ReliveTypes::eSlog:
         {
-            if (static_cast<relive::Path_Slog*>(pTlv)->mAsleep == Choice_short::eYes_1)
+            if (static_cast<relive::Path_Slog*>(pTlv)->mAsleep == relive::reliveChoice::eYes)
             {
                 if (!pAmbianceTbl->mArray[3].field_8_pScopedSeq)
                 {
@@ -139,24 +139,24 @@ void Start_Sounds_for_TLV(CameraPos direction, relive::Path_TLV* pTlv)
             break;
         }
 
-        case TlvTypes::Paramite_26:
+        case ReliveTypes::eParamite:
             if (!pAmbianceTbl->mArray[5].field_8_pScopedSeq)
             {
                 pAmbianceTbl->mArray[5].field_8_pScopedSeq = relive_new ScopedSeq(5, direction);
             }
             break;
 
-        case TlvTypes::Scrab_41:
+        case ReliveTypes::eScrab:
             if (!pAmbianceTbl->mArray[6].field_8_pScopedSeq)
             {
                 pAmbianceTbl->mArray[6].field_8_pScopedSeq = relive_new ScopedSeq(6, direction);
             }
             break;
 
-        case TlvTypes::Fleech_83:
+        case ReliveTypes::eFleech:
         {
             auto pFleechTlv = static_cast<relive::Path_Fleech*>(pTlv);
-            if ((pFleechTlv->mAsleep == Choice_short::eYes_1 || pFleechTlv->mHanging == Choice_short::eYes_1))
+            if ((pFleechTlv->mAsleep == relive::reliveChoice::eYes || pFleechTlv->mHanging == relive::reliveChoice::eYes))
             {
                 if (!pAmbianceTbl->mArray[4].field_8_pScopedSeq)
                 {

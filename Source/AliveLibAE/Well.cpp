@@ -39,11 +39,11 @@ void Well::WellExpress_Init(relive::Path_WellExpress* pTlv, FP /*xpos*/, FP ypos
 
     mSwitchId = pTlv->mSwitchId;
 
-    mExitX = FP_FromInteger(pTlv->field_18_exit_x) / FP_FromInteger(100);
-    mExitY = FP_FromInteger(pTlv->field_1A_exit_y) / FP_FromInteger(100);
+    mExitX = FP_FromInteger(pTlv->mExitX) / FP_FromInteger(100);
+    mExitY = FP_FromInteger(pTlv->mExitY) / FP_FromInteger(100);
 
     mEmitLeaves = pTlv->mEmitLeaves;
-    if (mEmitLeaves == Choice_short::eYes_1)
+    if (mEmitLeaves == relive::reliveChoice::eYes)
     {
         PSX_Point abeSpawnPos = {};
         gMap.Get_Abe_Spawn_Pos(&abeSpawnPos);
@@ -55,7 +55,7 @@ void Well::WellExpress_Init(relive::Path_WellExpress* pTlv, FP /*xpos*/, FP ypos
         }
         else
         {
-            const s32 pos = (PsxToPCX(pTlv->mBottomRight.x - pTlv->mTopLeft.x) / 2) + pTlv->mTopLeft.x;
+            const s32 pos = (PsxToPCX(pTlv->Width()) / 2) + pTlv->mTopLeftX;
             mLeafX = FP_FromInteger(pos);
         }
 
@@ -73,7 +73,7 @@ void Well::WellExpress_Init(relive::Path_WellExpress* pTlv, FP /*xpos*/, FP ypos
 
 void Well::WellLocal_Init(relive::Path_WellLocal* pTlv, FP /*xpos*/, FP ypos)
 {
-    if (pTlv->mScale != Scale_short::eFull_0)
+    if (pTlv->mScale != relive::reliveScale::eFull)
     {
         mLeafScale = FP_FromDouble(0.5);
     }
@@ -85,7 +85,7 @@ void Well::WellLocal_Init(relive::Path_WellLocal* pTlv, FP /*xpos*/, FP ypos)
     mSwitchId = pTlv->mSwitchId;
 
     mEmitLeaves = pTlv->mEmitLeaves;
-    if (mEmitLeaves == Choice_short::eYes_1)
+    if (mEmitLeaves == relive::reliveChoice::eYes)
     {
         PSX_Point abeSpawnPos = {};
         gMap.Get_Abe_Spawn_Pos(&abeSpawnPos);
@@ -97,7 +97,7 @@ void Well::WellLocal_Init(relive::Path_WellLocal* pTlv, FP /*xpos*/, FP ypos)
         }
         else
         {
-            const s32 pos = (PsxToPCX(pTlv->mBottomRight.x - pTlv->mTopLeft.x) / 2) + pTlv->mTopLeft.x;
+            const s32 pos = (PsxToPCX(pTlv->Width()) / 2) + pTlv->mTopLeftX;
             mLeafX = FP_FromInteger(pos);
         }
 
@@ -148,7 +148,7 @@ void Well::VUpdate()
         Path::TLV_Reset(mTlvInfo, -1, 0, 0);
     }
 
-    if (mEmitLeaves == Choice_short::eYes_1)
+    if (mEmitLeaves == relive::reliveChoice::eYes)
     {
         // Always on or has been enabled?
         if (mSwitchId == 0 || SwitchStates_Get(mSwitchId))

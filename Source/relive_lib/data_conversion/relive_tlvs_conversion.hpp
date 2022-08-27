@@ -650,7 +650,7 @@ private:
             case AO::PullRingSwitchSound::eWellExit_1:
                 return relive::Path_PullRingRope::PullRingSwitchSound::eWellExit;
             case AO::PullRingSwitchSound::RingBellHammer_2:
-                return relive::Path_PullRingRope::PullRingSwitchSound::RingBellHammer;
+                return relive::Path_PullRingRope::PullRingSwitchSound::eRingBellHammer;
             case AO::PullRingSwitchSound::eDoorEffect_3:
                 return relive::Path_PullRingRope::PullRingSwitchSound::eDoorEffect;
         }
@@ -680,7 +680,7 @@ private:
         case ::PullRingSwitchSound::eWellExit_1:
             return relive::Path_PullRingRope::PullRingSwitchSound::eWellExit;
         case ::PullRingSwitchSound::eRingBellHammer_2:
-            return relive::Path_PullRingRope::PullRingSwitchSound::RingBellHammer;
+            return relive::Path_PullRingRope::PullRingSwitchSound::eRingBellHammer;
         case ::PullRingSwitchSound::eDoorEffect_3:
             return relive::Path_PullRingRope::PullRingSwitchSound::eDoorEffect;
         }
@@ -748,6 +748,7 @@ public:
         BaseConvert(r, tlv);
         r.mHoistType = From(tlv.mHoistType);
         r.mGrabDirection = From(tlv.mGrabDirection);
+        r.mScale = relive::From(tlv.field_16_scale);
         return r;
     }
 

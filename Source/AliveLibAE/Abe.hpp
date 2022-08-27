@@ -699,7 +699,7 @@ public:
     s16 mInvisibilityDuration = 0;
     s32 mInvisibleEffectId = 0;
     s8 mHandStoneCamIdx = 0;
-    TlvTypes32 mHandStoneType = {};
+    ReliveTypes mHandStoneType = {};
     s16 mFmvId = 0;
     s16 mHandStoneCams[3] = {};
     s16 field_18C_unused = 0;

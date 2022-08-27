@@ -54,7 +54,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(BirdPortal_State, 8);
 class BirdPortalTerminator final : public ::BaseAnimatedWithPhysicsGameObject
 {
 public:
-    BirdPortalTerminator(FP xpos, FP ypos, FP scale, PortalType portalType);
+    BirdPortalTerminator(FP xpos, FP ypos, FP scale, relive::Path_BirdPortal::PortalType portalType);
     virtual void VScreenChanged() override;
     
     void Fadeout();
@@ -102,8 +102,8 @@ private:
     s32 mTlvInfo = 0;
 
 public:
-    PortalType mPortalType = PortalType::eAbe_0;
-    PortalSide mEnterSide = PortalSide::eRight_0;
+    relive::Path_BirdPortal::PortalType mPortalType = relive::Path_BirdPortal::PortalType::eAbe;
+    relive::Path_BirdPortal::PortalSide mEnterSide = relive::Path_BirdPortal::PortalSide::eRight;
 
 public:
     enum class PortalStates : s16

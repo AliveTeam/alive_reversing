@@ -38,21 +38,21 @@ MovingBomb::MovingBomb(relive::Path_MovingBomb* pTlv, s32 tlvInfo)
     mAnim.mRenderMode = TPageAbr::eBlend_0;
     field_118_state = States::eTriggeredBySwitch_1;
 
-    if (pTlv->mScale == Scale_short::eHalf_1)
+    if (pTlv->mScale == relive::reliveScale::eHalf)
     {
         mSpriteScale = FP_FromDouble(0.5);
         mScale = Scale::Bg;
         mAnim.mRenderLayer = Layer::eLayer_RollingBallBombMineCar_Half_16;
     }
-    else if (pTlv->mScale == Scale_short::eFull_0)
+    else if (pTlv->mScale == relive::reliveScale::eFull)
     {
         mSpriteScale = FP_FromInteger(1);
         mScale = Scale::Fg;
         mAnim.mRenderLayer = Layer::eLayer_RollingBallBombMineCar_35;
     }
 
-    mXPos = FP_FromInteger(pTlv->mTopLeft.x);
-    mYPos = FP_FromInteger(pTlv->mTopLeft.y);
+    mXPos = FP_FromInteger(pTlv->mTopLeftX);
+    mYPos = FP_FromInteger(pTlv->mTopLeftY);
     field_124_speed = FP_FromRaw(pTlv->mSpeed << 8);
     mVelX = FP_FromRaw(pTlv->mStartSpeed << 8);
     field_128_start_moving_switch_id = pTlv->mStartMovingSwitchId;
@@ -63,7 +63,7 @@ MovingBomb::MovingBomb(relive::Path_MovingBomb* pTlv, s32 tlvInfo)
     field_136_persist_offscreen = pTlv->mPersistOffscreen;
     field_130_sound_channels = 0;
 
-    if (pTlv->mTriggeredByAlarm == Choice_short::eYes_1)
+    if (pTlv->mTriggeredByAlarm == relive::reliveChoice::eYes)
     {
         field_118_state = States::eTriggeredByAlarm_0;
         mAnim.mFlags.Clear(AnimFlags::eBit3_Render);
@@ -151,7 +151,7 @@ void MovingBomb::VScreenChanged()
 {
     BaseGameObject::VScreenChanged();
 
-    if (field_136_persist_offscreen == Choice_short::eNo_0)
+    if (field_136_persist_offscreen == relive::reliveChoice::eNo)
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
         return;
@@ -344,11 +344,11 @@ void MovingBomb::VUpdate()
                 FP_GetExponent(mYPos),
                 FP_GetExponent(mXPos),
                 FP_GetExponent(mYPos),
-                TlvTypes::MovingBombStopper_53);
+                ReliveTypes::eMovingBombStopper);
 
             if (BaseAliveGameObjectPathTLV)
             {
-                auto pStopper = static_cast<Path_MovingBombStopper*>(BaseAliveGameObjectPathTLV);
+                auto pStopper = static_cast<relive::Path_MovingBombStopper*>(BaseAliveGameObjectPathTLV);
                 field_12A_min = pStopper->mMinDelay;
                 field_12C_max = pStopper->mMaxDelay;
                 field_118_state = States::eStopMoving_3;
@@ -386,7 +386,7 @@ void MovingBomb::VUpdate()
                 FP_GetExponent(mYPos),
                 FP_GetExponent(mXPos),
                 FP_GetExponent(mYPos),
-                TlvTypes::MovingBombStopper_53);
+                ReliveTypes::eMovingBombStopper);
 
             if (!BaseAliveGameObjectPathTLV)
             {

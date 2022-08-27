@@ -330,7 +330,7 @@ BirdPortal* BaseAliveGameObject::VIntoBirdPortal(s16 numGridBlocks)
             auto pBirdPortal = static_cast<BirdPortal*>(pObj);
             if (pBirdPortal->mXPos >= mXPos)
             {
-                if (pBirdPortal->mEnterSide == PortalSide::eLeft_1)
+                if (pBirdPortal->mEnterSide == relive::Path_BirdPortal::PortalSide::eLeft)
                 {
                     if (pBirdPortal->mXPos - mXPos <= (ScaleToGridSize(mSpriteScale) * FP_FromInteger(numGridBlocks)) && !(mAnim.mFlags.Get(AnimFlags::eBit5_FlipX)))
                     {
@@ -342,7 +342,7 @@ BirdPortal* BaseAliveGameObject::VIntoBirdPortal(s16 numGridBlocks)
                     }
                 }
             }
-            else if (pBirdPortal->mEnterSide == PortalSide::eRight_0)
+            else if (pBirdPortal->mEnterSide == relive::Path_BirdPortal::PortalSide::eRight)
             {
                 if (mXPos - pBirdPortal->mXPos <= ScaleToGridSize(mSpriteScale) * FP_FromInteger(numGridBlocks))
                 {

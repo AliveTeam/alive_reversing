@@ -9,6 +9,10 @@ extern u32 sGnFrame;
 enum class ReliveTypes : s16
 {
     eNone = 7000,
+    eLevelLoader,
+    eSligGetWings,
+    eSligGetPants,
+    eTeleporter,
     eWater,
     eWorkWheel,
     eLCDScreen,
@@ -44,7 +48,7 @@ enum class ReliveTypes : s16
     eElumStart,
     eEdge,
     eSoftLanding,
-    eMovieStone,
+    eMovieHandStone,
     eBellSongStone,
     eDemoPlaybackStone,
     eHandStone,

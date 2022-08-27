@@ -28,13 +28,13 @@ CrawlingSligButton::CrawlingSligButton(relive::Path_CrawlingSligButton* pTlv, s3
     Animation_Init(AnimId::CrawlingSligButton, ppRes);
     field_F4_tlvInfo = tlvInfo;
 
-    if (pTlv->mScale == Scale_short::eHalf_1)
+    if (pTlv->mScale == relive::reliveScale::eHalf)
     {
         mSpriteScale = FP_FromDouble(0.5);
         mScale = Scale::Bg;
         mAnim.mRenderLayer = Layer::eLayer_BeforeShadow_Half_6;
     }
-    else if (pTlv->mScale == Scale_short::eFull_0)
+    else if (pTlv->mScale == relive::reliveScale::eFull)
     {
         mAnim.mRenderLayer = Layer::eLayer_BeforeShadow_25;
     }
@@ -48,8 +48,8 @@ CrawlingSligButton::CrawlingSligButton(relive::Path_CrawlingSligButton* pTlv, s3
 
     field_102_in_use = 0;
 
-    mXPos = FP_FromInteger((pTlv->mTopLeft.x + pTlv->mBottomRight.x) / 2);
-    mYPos = FP_FromInteger(pTlv->mBottomRight.y);
+    mXPos = FP_FromInteger((pTlv->mTopLeftX + pTlv->mBottomRightX) / 2);
+    mYPos = FP_FromInteger(pTlv->mBottomRightY);
 }
 
 void CrawlingSligButton::UseButton()
@@ -86,7 +86,7 @@ void CrawlingSligButton::VUpdate()
         if (old_switch_state != new_switch_state)
         {
             const auto sound_id = new_switch_state ? field_FC_on_sound : field_FE_off_sound;
-            if (sound_id != CrawlingSligButtonSounds::None_0)
+            if (sound_id != relive::Path_CrawlingSligButton::ButtonSounds::None)
             {
                 SFX_Play_Stereo(
                     static_cast<SoundEffect>(buttonSfxInfo_544488[static_cast<u16>(sound_id)].field_0_block_idx),
