@@ -2598,6 +2598,7 @@ inline void to_json(nlohmann::json& j, const Path_Slig_Data& p)
 
 inline void from_json(const nlohmann::json& j, Path_Slig_Data& p)
 {
+    j.at("scale").get_to(p.mScale);
     j.at("start_state").get_to(p.mStartState);
     j.at("pause_time").get_to(p.mPauseTime);
     j.at("pause_left_min").get_to(p.mPauseLeftMin);
