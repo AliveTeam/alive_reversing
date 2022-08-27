@@ -2998,7 +2998,7 @@ s16 Abe::RunTryEnterDoor_4259C0()
     BaseAliveGameObjectPathTLV = pDoorTlv;
     field_110_state.raw = 0;
     mCurrentMotion = eAbeMotions::Motion_156_DoorEnter_42D370;
-    mXPos = FP_FromInteger((pDoorTlv->mBottomRightX + pDoorTlv->mTopLeftY) / 2);
+    mXPos = FP_FromInteger((pDoorTlv->mBottomRightX + pDoorTlv->mTopLeftX) / 2);
     MapFollowMe_401D30(TRUE);
     return 1;
 }
