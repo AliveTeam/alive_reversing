@@ -49,7 +49,7 @@ struct Path_SligSpawner final : public Path_TLV
 class SligSpawner final : public BaseGameObject
 {
 public:
-    SligSpawner(relive::Path_Slig* pTlv, const TLVUniqueId& tlvId);
+    SligSpawner(relive::Path_TLV* pTlv, relive::Path_Slig_Data* pTlvData, const TLVUniqueId& tlvId);
     ~SligSpawner();
 
     virtual void VUpdate() override;

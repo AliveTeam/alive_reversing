@@ -719,7 +719,7 @@ static void LoadWalkingSligResources(LoadMode loadMode, BitField16<SligFlags_Dis
 static void Factory_Slig(relive::Path_TLV* pTlv, Map* /*pMap*/, const TLVUniqueId& tlvId, LoadMode loadMode)
 {
     auto pSligTlv = static_cast<relive::Path_Slig*>(pTlv);
-    LoadWalkingSligResources(loadMode, pSligTlv->mDisabledResourcesAO);
+    LoadWalkingSligResources(loadMode, pSligTlv->mData.mDisabledResourcesAO);
 
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
@@ -1260,7 +1260,7 @@ static relive::Path_TLV* FindMatchingSligTLV(relive::Path_TLV* pTlvIter, relive:
 {
     while (pTlvIter)
     {
-        if (pTlvIter->mTlvType == ReliveTypes::eSlig && pTlv->mSligBoundId == static_cast<relive::Path_Slig*>(pTlvIter)->mSligBoundId && !pTlvIter->mTlvFlags.Get(relive::TlvFlags::eBit2_Destroyed))
+        if (pTlvIter->mTlvType == ReliveTypes::eSlig && pTlv->mSligBoundId == static_cast<relive::Path_Slig*>(pTlvIter)->mData.mSligBoundId && !pTlvIter->mTlvFlags.Get(relive::TlvFlags::eBit2_Destroyed))
         {
             return pTlvIter;
         }
@@ -1386,8 +1386,8 @@ static void Factory_MotionDector(relive::Path_TLV* pTlv, Map* /*pMap*/, const TL
 
 static void Factory_SligSpawner(relive::Path_TLV* pTlv, Map* /*pMap*/, const TLVUniqueId& tlvId, LoadMode loadMode)
 {
-    auto pSligTlv = static_cast<relive::Path_Slig*>(pTlv);
-    LoadWalkingSligResources(loadMode, pSligTlv->mDisabledResourcesAO);
+    auto pSligTlv = static_cast<relive::Path_SligSpawner*>(pTlv);
+    LoadWalkingSligResources(loadMode, pSligTlv->mData.mDisabledResourcesAO);
 
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
@@ -1395,7 +1395,7 @@ static void Factory_SligSpawner(relive::Path_TLV* pTlv, Map* /*pMap*/, const TLV
     }
     else
     {
-        relive_new SligSpawner(pSligTlv, tlvId);
+        relive_new SligSpawner(pTlv, &pSligTlv->mData, tlvId);
     }
 }
 

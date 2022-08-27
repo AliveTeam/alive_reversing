@@ -2074,7 +2074,6 @@ void BinaryPath::CreateFromJson(nlohmann::json& pathJson)
         for (auto i = 0u; i < mapObjects.size(); i++)
         {
             const auto& type = mapObjects.at(i)["tlv_type"];
-            LOG_INFO(type);
 
             if (type == "light_effect")
             {
@@ -2454,11 +2453,6 @@ void BinaryPath::CreateFromJson(nlohmann::json& pathJson)
             if (i == mapObjects.size() - 1)
             {
                 camEntry->mLastAllocated->mTlvFlags.Set(relive::TlvFlags::eBit3_End_TLV_List);
-                LOG_INFO("end flags = " << static_cast<u32>(camEntry->mLastAllocated->mTlvFlags.Raw().all));
-            }
-            else
-            {
-                LOG_INFO("non end flags = " << static_cast<u32>(camEntry->mLastAllocated->mTlvFlags.Raw().all));
             }
         }
         mCameras.emplace_back(std::move(camEntry));

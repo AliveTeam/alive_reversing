@@ -8,7 +8,7 @@
 
 namespace AO {
 
-SligSpawner::SligSpawner(relive::Path_Slig* pTlv, const TLVUniqueId& tlvId)
+SligSpawner::SligSpawner(relive::Path_TLV* pTlv, relive::Path_Slig_Data* pTlvData, const TLVUniqueId& tlvId)
     : BaseGameObject(TRUE, 0)
 {
     mBaseGameObjectTypeId = ReliveTypes::eSligSpawner;
@@ -18,7 +18,7 @@ SligSpawner::SligSpawner(relive::Path_Slig* pTlv, const TLVUniqueId& tlvId)
 
     mSpawnerFlags = 1;
 
-    mSligSpawnerSwitchId = pTlv->mSligSpawnerSwitchId;
+    mSligSpawnerSwitchId = pTlvData->mSligSpawnerSwitchId;
 }
 
 void SligSpawner::VScreenChanged()

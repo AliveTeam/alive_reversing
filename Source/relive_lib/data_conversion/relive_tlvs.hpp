@@ -1582,12 +1582,8 @@ struct Path_Scrab : public Path_TLV
     reliveChoice mKillEnemy = reliveChoice::eYes;
 };
 
-struct Path_Slig final : public Path_TLV
+struct Path_Slig_Data final
 {
-    Path_Slig()
-    {
-        mTlvType = ReliveTypes::eSlig;
-    }
     reliveScale mScale = reliveScale::eFull;
 
     enum class StartState : s16
@@ -1634,41 +1630,23 @@ struct Path_Slig final : public Path_TLV
     reliveChoice mUnlimitedSpawns = reliveChoice::eNo;
 };
 
+struct Path_Slig final : public Path_TLV
+{
+    Path_Slig()
+    {
+        mTlvType = ReliveTypes::eSlig;
+    }
+    Path_Slig_Data mData;
+};
+
 struct Path_SligSpawner final : public Path_TLV
 {
     Path_SligSpawner()
     {
         mTlvType = ReliveTypes::eSligSpawner;
     }
-    reliveScale mScale = reliveScale::eFull;
-    Path_Slig::StartState mStartState = Path_Slig::StartState::Patrol;
-    s16 mPauseTime = 0;
-    s16 mPauseLeftMin = 0;
-    s16 mPauseLeftMax = 0;
-    s16 mPauseRightMin = 0;
-    s16 mPauseRightMax = 0;
-    reliveChoice mShootPossessedSligs = reliveChoice::eYes;
-    s16 mShootOnSightDelay = 0;
-    s16 mNumTimesToShoot = 0;
-    s16 mCode1 = 0;
-    s16 mCode2 = 0;
-    reliveChoice mChaseAbeWhenSpotted = reliveChoice::eNo;
-    reliveXDirection mFacing = reliveXDirection::eRight;
-    s16 mPanicTimeout = 0;
-    s16 mStopChaseDelay = 0;
-    s16 mTimeToWaitBeforeChase = 0;
-    s16 mSligBoundId = 0;
-    s16 mAlertedListenTime = 0;
-    s16 mPercentSayWhat = 0;
-    s16 mPercentBeatMud = 0;
-    s16 mZShootDelay = 0;
-    reliveChoice mStayAwake = reliveChoice::eYes;
-    s16 mDisabledResources = 0;
-    s16 mNoiseWakeUpDistance = 0;
-    s16 mSligSpawnerSwitchId = 0;
 
-    // AE only
-    reliveChoice mUnlimitedSpawns = reliveChoice::eNo;
+    Path_Slig_Data mData;
 };
 
 struct Path_TrainDoor final : public Path_TLV
@@ -2110,7 +2088,7 @@ struct Path_SligGetWings final : public Path_TLV
 struct Path_SligGetPants final : public Path_TLV
 {
     reliveScale mScale = reliveScale::eFull;
-    Path_Slig::StartState mStartState = Path_Slig::StartState::Patrol;
+    Path_Slig_Data::StartState mStartState = Path_Slig_Data::StartState::Patrol;
     s16 mPauseTime = 0;
     s16 mPauseLeftMin = 0;
     s16 mPauseLeftMax = 0;
