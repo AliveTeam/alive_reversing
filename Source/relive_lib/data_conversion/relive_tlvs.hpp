@@ -2160,6 +2160,7 @@ struct Path_ScrabSpawner : public Path_TLV
     {
         mTlvType = ReliveTypes::eScrabSpawner;
     }
+
     enum class SpawnDirection : s16
     {
         eNone,

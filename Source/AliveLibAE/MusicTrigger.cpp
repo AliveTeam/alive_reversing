@@ -19,7 +19,7 @@ MusicTrigger::MusicTrigger(relive::Path_MusicTrigger* pTlv, u32 tlvInfo)
     field_20_tlvInfo = tlvInfo;
 }
 
-MusicTrigger::MusicTrigger(MusicTriggerMusicType musicType, TriggeredBy triggeredBy, s32 /*not_used*/, s32 musicDelay)
+MusicTrigger::MusicTrigger(relive::Path_MusicTrigger::MusicTriggerMusicType musicType, relive::Path_MusicTrigger::TriggeredBy triggeredBy, s32 /*not_used*/, s32 musicDelay)
     : BaseGameObject(TRUE, 0)
 {
     Init(musicType, triggeredBy, static_cast<s16>(musicDelay));
@@ -28,7 +28,7 @@ MusicTrigger::MusicTrigger(MusicTriggerMusicType musicType, TriggeredBy triggere
     field_20_tlvInfo = -1;
 }
 
-void MusicTrigger::Init(MusicTriggerMusicType musicType, TriggeredBy triggeredBy, s16 musicDelay)
+void MusicTrigger::Init(relive::Path_MusicTrigger::MusicTriggerMusicType musicType, relive::Path_MusicTrigger::TriggeredBy triggeredBy, s16 musicDelay)
 {
     field_24_flags.Clear(Flags_24::e24_Bit1_TriggeredByTouching);
     field_24_flags.Clear(Flags_24::e24_Bit2_TriggeredByTimer);
@@ -39,31 +39,31 @@ void MusicTrigger::Init(MusicTriggerMusicType musicType, TriggeredBy triggeredBy
 
     switch (musicType)
     {
-        case MusicTriggerMusicType::eDrumAmbience_0:
+        case relive::Path_MusicTrigger::MusicTriggerMusicType::eDrumAmbience:
             field_26_music_type = MusicController::MusicTypes::eDrumAmbience_3;
             field_28_counter = 400;
             break;
-        case MusicTriggerMusicType::eDeathDrumShort_1:
+        case relive::Path_MusicTrigger::MusicTriggerMusicType::eDeathDrumShort:
             field_26_music_type = MusicController::MusicTypes::eDeathDrumShort_10;
             field_28_counter = 30;
             break;
-        case MusicTriggerMusicType::eSecretAreaLong_2:
+        case relive::Path_MusicTrigger::MusicTriggerMusicType::eSecretAreaLong:
             field_26_music_type = MusicController::MusicTypes::eSecretAreaLong_13;
             field_28_counter = 30;
             break;
-        case MusicTriggerMusicType::eSoftChase_3:
+        case relive::Path_MusicTrigger::MusicTriggerMusicType::eSoftChase:
             field_26_music_type = MusicController::MusicTypes::eSoftChase_8;
             field_24_flags.Set(Flags_24::e24_Bit3_SetMusicToNoneOnDtor);
             break;
-        case MusicTriggerMusicType::eIntenseChase_4:
+        case relive::Path_MusicTrigger::MusicTriggerMusicType::eIntenseChase:
             field_26_music_type = MusicController::MusicTypes::eIntenseChase_7;
             field_24_flags.Set(Flags_24::e24_Bit3_SetMusicToNoneOnDtor);
             break;
-        case MusicTriggerMusicType::eChime_5:
+        case relive::Path_MusicTrigger::MusicTriggerMusicType::eChime:
             field_26_music_type = MusicController::MusicTypes::eChime_2;
             field_28_counter = musicDelay;
             break;
-        case MusicTriggerMusicType::eSecretAreaShort_6:
+        case relive::Path_MusicTrigger::MusicTriggerMusicType::eSecretAreaShort:
             field_26_music_type = MusicController::MusicTypes::eSecretAreaShort_12;
             field_28_counter = 30;
             break;
@@ -71,11 +71,11 @@ void MusicTrigger::Init(MusicTriggerMusicType musicType, TriggeredBy triggeredBy
             break;
     }
 
-    if (triggeredBy == TriggeredBy::eTimer_0)
+    if (triggeredBy == relive::Path_MusicTrigger::TriggeredBy::eTimer)
     {
         SetUpdateDelay(musicDelay); // OG bug? mBaseGameObjectUpdateDelay should've been field_28_counter?
     }
-    else if (triggeredBy == TriggeredBy::eTouching_1)
+    else if (triggeredBy == relive::Path_MusicTrigger::TriggeredBy::eTouching)
     {
         field_24_flags.Set(Flags_24::e24_Bit1_TriggeredByTouching);
     }

@@ -63,6 +63,20 @@ void JsonWriterAE::ResetTypeCounterMap()
     return collisionsArray;
 }
 
+// TODO: Not sure if we have a func to iterate OG TLVs somewhere, this is a local copy for now
+inline Path_TLV* Next_TLV_Impl(Path_TLV* pTlv)
+{
+    if (pTlv->mTlvFlags.Get(TlvFlags::eBit3_End_TLV_List))
+    {
+        return nullptr;
+    }
+
+    // Skip length bytes to get to the start of the next TLV
+    u8* ptr = reinterpret_cast<u8*>(pTlv);
+    u8* pNext = ptr + pTlv->mLength;
+    return reinterpret_cast<Path_TLV*>(pNext);
+}
+
 [[nodiscard]] jsonxx::Array JsonWriterAE::ReadTlvStream(u8* ptr, Context& context)
 {
     jsonxx::Array mapObjects;
@@ -87,7 +101,7 @@ void JsonWriterAE::ResetTypeCounterMap()
             LOG_WARNING("Ignoring type: " << pPathTLV->mTlvType32.mType);
         }
 
-        pPathTLV = Path::Next_TLV_Impl(pPathTLV); // TODO: Will skip the last entry ??
+        pPathTLV = Next_TLV_Impl(pPathTLV); // TODO: Will skip the last entry ??
     }
 
     return mapObjects;

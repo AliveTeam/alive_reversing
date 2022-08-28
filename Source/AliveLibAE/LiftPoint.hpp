@@ -39,7 +39,7 @@ struct LiftPoint_State final
     s32 field_C_tlvInfo;
     s32 field_10_pTlv;
     FP field_14_floorYLevel;
-    LiftPointStopType field_18_lift_point_stop_type;
+    relive::Path_LiftPoint::LiftPointStopType field_18_lift_point_stop_type;
     enum Flags
     {
         eBit1_bMoving = 0x1,

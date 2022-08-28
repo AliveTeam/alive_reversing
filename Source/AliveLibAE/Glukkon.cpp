@@ -183,10 +183,11 @@ s32 Glukkon::CreateFromSaveState(const u8* pData)
 
         pGlukkon->mCurrentMotion = pSaveState->field_28_current_motion;
 
-        GlukkonTypes glukType = pGlukkon->field_1A8_tlvData.mGlukkonType;
-        if (glukType > GlukkonTypes::eStoryPhleg_3)
+        relive::Path_Glukkon::GlukkonTypes glukType = pGlukkon->field_1A8_tlvData.mGlukkonType;
+        // TODO: This should really be a switch rather than comparing values
+        if (glukType > relive::Path_Glukkon::GlukkonTypes::eStoryPhleg)
         {
-            glukType = GlukkonTypes::eNormal_0;
+            glukType = relive::Path_Glukkon::GlukkonTypes::eNormal;
         }
 
         pGlukkon->mAnim.Set_Animation_Data(sGlukkonsAnimIdTable[static_cast<s32>(glukType)][pSaveState->field_28_current_motion], nullptr);

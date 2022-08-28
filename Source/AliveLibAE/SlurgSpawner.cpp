@@ -5,13 +5,21 @@
 #include "stdlib.hpp"
 #include "SwitchStates.hpp"
 
+static void SetData(const relive::Path_SlurgSpawner& tlv, Slurg_Spawner_Path_Data& data)
+{
+    data.mSpawnInterval = tlv.mSpawnInterval;
+    data.mMaxSlurgs = tlv.mMaxSlurgs;
+    data.mSwitchId = tlv.mSwitchId;
+    data.padding = 0;
+}
+
 SlurgSpawner::SlurgSpawner(relive::Path_SlurgSpawner* pTlv, s32 tlvInfo)
     : BaseGameObject(TRUE, 0)
 {
     SetType(ReliveTypes::eSlurgSpawner);
     mTlvInfo = tlvInfo;
     mSlurgTlv = pTlv;
-    mSlurgPathData = pTlv->mSpawnerData;
+    SetData(*pTlv, mSlurgPathData);
     mSpawnCounter = 0;
     mSpawnedCount = pTlv->mTlvSpecificMeaning;
     if ((mSpawnedCount & 0x80u) != 0)

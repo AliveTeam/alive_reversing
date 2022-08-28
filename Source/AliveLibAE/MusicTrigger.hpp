@@ -35,10 +35,10 @@ class MusicTrigger final : public BaseGameObject
 {
 public:
     MusicTrigger(relive::Path_MusicTrigger* pTlv, u32 tlvInfo);
-    MusicTrigger(MusicTriggerMusicType musicType, TriggeredBy triggeredBy, s32 /*not_used*/, s32 delay);
+    MusicTrigger(relive::Path_MusicTrigger::MusicTriggerMusicType musicType, relive::Path_MusicTrigger::TriggeredBy triggeredBy, s32 /*not_used*/, s32 delay);
     ~MusicTrigger();
 
-    void Init(MusicTriggerMusicType musicType, TriggeredBy triggeredBy, s16 delay);
+    void Init(relive::Path_MusicTrigger::MusicTriggerMusicType musicType, relive::Path_MusicTrigger::TriggeredBy triggeredBy, s16 delay);
     
     virtual void VUpdate() override;
     virtual void VScreenChanged() override;

@@ -32,7 +32,7 @@ public:
 
 private:
     s32 mTlvInfo = 0;
-    Path_SlurgSpawner* mSlurgTlv = nullptr;
+    relive::Path_SlurgSpawner* mSlurgTlv = nullptr;
     Slurg_Spawner_Path_Data mSlurgPathData = {};
     s16 mSpawnCounter = 0;
     u8 mSpawnedCount = 0;

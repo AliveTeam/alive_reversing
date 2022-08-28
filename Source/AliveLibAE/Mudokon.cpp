@@ -6348,7 +6348,7 @@ void Mudokon::Motion_36_RunJumpMid()
 
         SND_SEQ_Play(SeqId::SaveTriggerMusic_31, 1, 127, 127);
 
-        relive_new MusicTrigger(MusicTriggerMusicType::eChime_5, TriggeredBy::eTimer_0, 0, 0);
+        relive_new MusicTrigger(relive::Path_MusicTrigger::MusicTriggerMusicType::eChime, relive::Path_MusicTrigger::TriggeredBy::eTimer, 0, 0);
 
         sRescuedMudokons_5C1BC2++;
 
