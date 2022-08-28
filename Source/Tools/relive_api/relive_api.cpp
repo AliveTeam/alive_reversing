@@ -32,14 +32,7 @@ bool RunningAsInjectedDll()
     return false;
 }
 
-// items defined to avoid having to link AliveLibAO
-
-// ditto for AliveLibAe
-const PathFunctionTable kObjectFactory = {};
-
-
 static ReliveAPI::TAliveFatalCb fnAliveFatalCb = nullptr;
-
 
 // ditto for AliveLibCommon
 [[noreturn]] void ALIVE_FATAL(const char_type* errMsg)

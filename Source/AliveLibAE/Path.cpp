@@ -84,8 +84,9 @@ void Path::Loader_4DB800(s16 xpos, s16 ypos, LoadMode loadMode, ReliveTypes type
                 data.parts.levelId = static_cast<u8>(MapWrapper::ToAE(mLevelId));
                 data.parts.pathId = static_cast<u8>(mPathId);
 
+                // TODO: update to work the same as AO
                 // Call the factory to construct the item
-                mPathData->field_1E_object_funcs.object_funcs[static_cast<s32>(pPathTLV->mTlvType)](pPathTLV, this, data, loadMode);
+                //mPathData->field_1E_object_funcs.object_funcs[static_cast<s32>(pPathTLV->mTlvType)](pPathTLV, this, data, loadMode);
             }
         }
 

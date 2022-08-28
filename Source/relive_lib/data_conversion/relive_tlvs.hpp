@@ -1561,13 +1561,15 @@ struct Path_SlogSpawner final : public Path_TLV
     s16 mChaseDelay = 0;
 };
 
+
 struct Path_Scrab : public Path_TLV
 {
     Path_Scrab()
     {
         mTlvType = ReliveTypes::eScrab;
     }
-    enum class ScrabPatrolType : s16
+
+        enum class ScrabPatrolType : s16
     {
         eWalk,
         eRunOrWalk192,
@@ -1577,7 +1579,7 @@ struct Path_Scrab : public Path_TLV
     };
     reliveScale mScale = reliveScale::eFull;
     s16 mAttackDelay = 0;
-    s16 mPatrolTypeRunOrWalkChance = 0; // AE only
+    s16 mPatrolTypeRunOrWalkChance = 0;                   // AE only
     ScrabPatrolType mPatrolType = ScrabPatrolType::eWalk; // AO only
     s16 mPauseLeftMin = 0;
     s16 mPauseLeftMax = 0;
@@ -1592,6 +1594,26 @@ struct Path_Scrab : public Path_TLV
     reliveChoice mPersistant = reliveChoice::eYes;
     s16 mPossessedMaxWhirlAttackDuration = 0;
     reliveChoice mKillEnemy = reliveChoice::eYes;
+
+};
+
+
+struct Path_ScrabSpawner : public Path_Scrab
+{
+    Path_ScrabSpawner()
+    {
+        mTlvType = ReliveTypes::eScrabSpawner;
+    }
+
+
+    enum class SpawnDirection : s16
+    {
+        eNone,
+        eLeft,
+        eRight,
+    };
+    s16 mSpawnerSwitchId = 0;
+    SpawnDirection mFacing = SpawnDirection::eNone;
 };
 
 struct Path_Slig_Data final
@@ -2152,37 +2174,6 @@ struct Path_FlyingSligSpawner final : public Path_TLV
     s16 mMaxVelocity = 0;
     s16 mLaunchGrenadeSwitchId = 0;
     reliveChoice mPersistant = reliveChoice::eNo;
-};
-
-struct Path_ScrabSpawner : public Path_TLV
-{
-    Path_ScrabSpawner()
-    {
-        mTlvType = ReliveTypes::eScrabSpawner;
-    }
-
-    enum class SpawnDirection : s16
-    {
-        eNone,
-        eLeft,
-        eRight,
-    };
-    reliveScale mScale = reliveScale::eFull;
-    s16 mAttackDelay = 0;
-    s16 mPatrolTypeRunOrWalkChance = 0;
-    s16 mPauseLeftMin = 0;
-    s16 mPauseLeftMax = 0;
-    s16 mPauseRightMin = 0;
-    s16 mPauseRightMax = 0;
-    u16 mPauseAfterChaseTime = 0;
-    s16 mDisabledResources = 0;
-    reliveChoice mRoarRandomly = reliveChoice::eNo;
-    reliveChoice mPersistant = reliveChoice::eYes;
-    s16 mPossessedMaxWhirlAttackDuration = 0;
-    reliveChoice mKillEnemy = reliveChoice::eYes;
-    s16 mSpawnerSwitchId = 0;
-    SpawnDirection mFacing = SpawnDirection::eNone;
-
 };
 
 struct Path_CrawlingSlig final : public Path_TLV

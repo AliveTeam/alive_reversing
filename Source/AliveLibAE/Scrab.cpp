@@ -76,7 +76,7 @@ bool Scrab::BrainIs(TScrabBrainFn fn)
     return field_118_brain_state == fn;
 }
 
-Scrab::Scrab(relive::Path_Scrab* pTlv, s32 tlvInfo, ScrabSpawnDirection spawnDirection)
+Scrab::Scrab(relive::Path_Scrab* pTlv, s32 tlvInfo, relive::Path_ScrabSpawner::SpawnDirection spawnDirection)
     : BaseAliveGameObject(14)
 {
     field_190_unused = 0;
@@ -149,11 +149,11 @@ Scrab::Scrab(relive::Path_Scrab* pTlv, s32 tlvInfo, ScrabSpawnDirection spawnDir
         mScale = Scale::Fg;
     }
 
-    if (spawnDirection == ScrabSpawnDirection::eLeft_1)
+    if (spawnDirection == relive::Path_ScrabSpawner::SpawnDirection::eLeft)
     {
         mXPos -= ScaleToGridSize(mSpriteScale);
     }
-    else if (spawnDirection == ScrabSpawnDirection::eRight_2)
+    else if (spawnDirection == relive::Path_ScrabSpawner::SpawnDirection::eRight)
     {
         mXPos += ScaleToGridSize(mSpriteScale);
     }
@@ -283,7 +283,7 @@ s32 Scrab::CreateFromSaveState(const u8* pBuffer)
         ResourceManager::LoadResourceFile_49C170("SCRAB.BND", nullptr);
     }
 
-    auto pScrab = relive_new Scrab(pTlv, pState->field_44_tlvInfo, ScrabSpawnDirection::eNone_0);
+    auto pScrab = relive_new Scrab(pTlv, pState->field_44_tlvInfo, relive::Path_ScrabSpawner::SpawnDirection::eNone);
     if (pScrab)
     {
         pScrab->mBaseGameObjectTlvInfo = pState->field_4_obj_id;

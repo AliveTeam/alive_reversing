@@ -51,7 +51,6 @@ struct PathData final
     u32 field_16_object_indextable_offset;
     s16 field_1A_abe_start_xpos;
     s16 field_1C_abe_start_ypos;
-    PathFunctionTable field_1E_object_funcs;
 };
 ALIVE_ASSERT_SIZEOF(PathData, 0x41C);
 

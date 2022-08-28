@@ -124,8 +124,6 @@ void Path_Set_NewData_FromLvls()
                             SetAndLog("abe start xpos", rPathData.field_1A_abe_start_xpos, static_cast<s16>(pExt->mAbeStartXPos));
                             SetAndLog("abe start ypos", rPathData.field_1C_abe_start_ypos, static_cast<s16>(pExt->mAbeStartYPos));
 
-                            rPathData.field_1E_object_funcs = kObjectFactory;
-
                             rBlyRec.field_8_pCollisionData = &GetCollisions(lvlIdx)[pExt->mPathId];
 
                             CollisionInfo& rColInfo = *rBlyRec.field_8_pCollisionData;

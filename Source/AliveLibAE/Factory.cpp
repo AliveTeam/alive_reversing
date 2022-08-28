@@ -914,7 +914,7 @@ void Factory_Scrab(relive::Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, Load
     }
     else
     {
-        relive_new Scrab(static_cast<relive::Path_Scrab*>(pTlv), tlvInfo.all, ScrabSpawnDirection::eNone_0);
+        relive_new Scrab(static_cast<relive::Path_Scrab*>(pTlv), tlvInfo.all, relive::Path_ScrabSpawner::SpawnDirection::eNone);
     }
 }
 
