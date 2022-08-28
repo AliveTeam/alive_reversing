@@ -9,6 +9,16 @@ extern u32 sGnFrame;
 enum class ReliveTypes : s16
 {
     eNone = 7000,
+    eCrawlingSligButton,
+    eWheelSyncer,
+    eDemoSpawnPoint,
+    eMultiSwitchController,
+    eStatusLight,
+    eSlapLock,
+    eParamiteWebLine,
+    eGlukkonSwitch,
+    eDoorBlocker,
+    eTrainDoor,
     eLevelLoader,
     eSligGetWings,
     eSligGetPants,

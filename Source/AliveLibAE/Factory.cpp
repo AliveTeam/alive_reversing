@@ -126,15 +126,6 @@ void Factory_MainMenuController(relive::Path_TLV* pTlv, Path* /*pPath*/, TlvItem
     }
 }
 
-void Factory_ContinuePoint(relive::Path_TLV*, Path*, TlvItemInfoUnion, LoadMode)
-{
-    
-}
-void Factory_PathTransition(relive::Path_TLV*, Path*, TlvItemInfoUnion, LoadMode)
-{
-    
-}
-
 void Factory_Hoist(relive::Path_TLV* pTlv, Path* /*pPath*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadmode)
 {
     relive::Path_Hoist* pHoistTlv = static_cast<relive::Path_Hoist*>(pTlv);
@@ -164,11 +155,6 @@ void Factory_Edge(relive::Path_TLV* /*pTlv*/, Path* /*pPath*/, TlvItemInfoUnion 
     {
         Path::TLV_Reset(tlvOffsetLevelIdPathId.all, -1, 0, 0);
     }
-}
-
-void Factory_DeathDrop(relive::Path_TLV*, Path*, TlvItemInfoUnion, LoadMode)
-{
-    
 }
 
 void Factory_Door(relive::Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadmode)
@@ -224,7 +210,7 @@ void Factory_Door(relive::Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvOffsetLevel
     }
 }
 
-void Factory_Shadow(relive::Path_TLV* pTlv, Path* pPath, TlvItemInfoUnion tlvInfo, LoadMode loadmode)
+void Factory_ShadowZone(relive::Path_TLV* pTlv, Path* pPath, TlvItemInfoUnion tlvInfo, LoadMode loadmode)
 {
     if (loadmode != LoadMode::LoadResourceFromList_1 && loadmode != LoadMode::LoadResource_2)
     {
@@ -358,7 +344,7 @@ void Factory_LiftPoint(relive::Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvOffset
     }
 }
 
-void Factory_ExpressWell(relive::Path_TLV* pTlv, Path* /*pPath*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadmode)
+void Factory_Well(relive::Path_TLV* pTlv, Path* /*pPath*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadmode)
 {
     if (loadmode == LoadMode::LoadResourceFromList_1 || loadmode == LoadMode::LoadResource_2)
     {
@@ -567,7 +553,7 @@ void Factory_Slog(relive::Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadM
     }
 }
 
-void Factory_Switch(relive::Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode loadmode)
+void Factory_Lever(relive::Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode loadmode)
 {
     if (loadmode == LoadMode::LoadResourceFromList_1 || loadmode == LoadMode::LoadResource_2)
     {
@@ -578,11 +564,6 @@ void Factory_Switch(relive::Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, Loa
     {
         relive_new Lever(static_cast<relive::Path_Lever*>(pTlv), tlvInfo.all);
     }
-}
-
-void Factory_Null_4D69E0(relive::Path_TLV*, Path*, TlvItemInfoUnion, LoadMode)
-{
-    
 }
 
 void Factory_SecurityOrb(relive::Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode loadMode)
@@ -605,16 +586,6 @@ void Factory_SecurityOrb(relive::Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo
     }
 }
 
-void Factory_Null_4D6A00(relive::Path_TLV*, Path*, TlvItemInfoUnion, LoadMode)
-{
-    
-}
-
-void Factory_Pulley(relive::Path_TLV*, Path*, TlvItemInfoUnion, LoadMode)
-{
-    // Nothing to do.
-}
-
 void Factory_AbeStart(relive::Path_TLV* pTlv, Path*, TlvItemInfoUnion, LoadMode loadmode)
 {
     if (loadmode != LoadMode::LoadResourceFromList_1 && loadmode != LoadMode::LoadResource_2 && !gAttract_5C1BA0)
@@ -635,11 +606,6 @@ void Factory_AbeStart(relive::Path_TLV* pTlv, Path*, TlvItemInfoUnion, LoadMode 
             }
         }
     }
-}
-
-void Factory_WellExpress(relive::Path_TLV* pTlv, Path* pPath, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadmode)
-{
-    Factory_ExpressWell(pTlv, pPath, tlvOffsetLevelIdPathId, loadmode);
 }
 
 void Factory_Mine(relive::Path_TLV* pTlv, Path* /*pPath*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadmode)
@@ -767,11 +733,6 @@ void Factory_BirdPortal(relive::Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo,
     }
 }
 
-void Factory_PortalExit(relive::Path_TLV*, Path*, TlvItemInfoUnion, LoadMode)
-{
-    
-}
-
 void Factory_TrapDoor(relive::Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode loadmode)
 {
     if (loadmode == LoadMode::LoadResourceFromList_1 || loadmode == LoadMode::LoadResource_2)
@@ -794,11 +755,6 @@ void Factory_TrapDoor(relive::Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, L
     {
         relive_new TrapDoor(static_cast<relive::Path_TrapDoor*>(pTlv), tlvInfo.all);
     }
-}
-
-void Factory_RollingRock(relive::Path_TLV*, Path*, TlvItemInfoUnion, LoadMode)
-{
-    
 }
 
 static relive::Path_TLV* FindMatchingSligTLV(relive::Path_TLV* pTlvIter, relive::Path_SligBound* pTlv)
@@ -843,11 +799,6 @@ void Factory_SligBoundLeft(relive::Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvIn
             }
         }
     }
-}
-
-void Factory_InvisibleZone(relive::Path_TLV*, Path*, TlvItemInfoUnion, LoadMode)
-{
-    
 }
 
 void Factory_FootSwitch(relive::Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode loadmode)
@@ -967,31 +918,9 @@ void Factory_Scrab(relive::Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, Load
     }
 }
 
-void Factory_Null_4DA130(relive::Path_TLV*, Path*, TlvItemInfoUnion, LoadMode)
-{
-    
-}
-void Factory_ScrabLeftBound(relive::Path_TLV*, Path*, TlvItemInfoUnion, LoadMode)
-{
-    
-}
-void Factory_ScrabRightBound(relive::Path_TLV*, Path*, TlvItemInfoUnion, LoadMode)
-{
-    
-}
-
 void Factory_SligBoundRight(relive::Path_TLV* pTlv, Path* pPath, TlvItemInfoUnion tlvInfo, LoadMode loadMode)
 {
     Factory_SligBoundLeft(pTlv, pPath, tlvInfo, loadMode);
-}
-
-void Factory_SligPersist(relive::Path_TLV*, Path*, TlvItemInfoUnion, LoadMode)
-{
-    
-}
-void Factory_EnemyStopper(relive::Path_TLV*, Path*, TlvItemInfoUnion, LoadMode)
-{
-    
 }
 
 void Factory_InvisibleSwitch(relive::Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode loadMode)
@@ -1045,11 +974,6 @@ void Factory_Mudokon(relive::Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, Lo
     }
 }
 
-void Factory_ZSligCover(relive::Path_TLV*, Path*, TlvItemInfoUnion, LoadMode)
-{
-    
-}
-
 void Factory_DoorFlame(relive::Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode loadMode)
 {
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
@@ -1077,19 +1001,6 @@ void Factory_MovingBomb(relive::Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo,
     {
         relive_new MovingBomb(pMovingBombTlv, tlvInfo.all);
     }
-}
-
-void Factory_Null_4D8A30(relive::Path_TLV*, Path*, TlvItemInfoUnion, LoadMode)
-{
-    
-}
-void Factory_4D7160(relive::Path_TLV*, Path*, TlvItemInfoUnion, LoadMode)
-{
-    
-}
-void Factory_Null_4D6AE0(relive::Path_TLV*, Path*, TlvItemInfoUnion, LoadMode)
-{
-    
 }
 
 void Factory_TimerTrigger(relive::Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode loadmode)
@@ -1174,11 +1085,6 @@ void Factory_CreditsController(relive::Path_TLV* pTlv, Path*, TlvItemInfoUnion t
     }
 }
 
-void Factory_Null_4D6910(relive::Path_TLV*, Path*, TlvItemInfoUnion, LoadMode)
-{
-    
-}
-
 void Factory_LCDStatusBoard(relive::Path_TLV* pTlv, Path* /*pPath*/, TlvItemInfoUnion tlvOffsetLevelIdPathId, LoadMode loadmode)
 {
     if (loadmode == LoadMode::LoadResourceFromList_1 || loadmode == LoadMode::LoadResource_2)
@@ -1206,11 +1112,6 @@ void Factory_MusicTrigger(relive::Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvOff
     }
 }
 
-void Factory_Light(relive::Path_TLV*, Path*, TlvItemInfoUnion, LoadMode)
-{
-    
-}
-
 void Factory_SlogSpawner(relive::Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode loadMode)
 {
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
@@ -1234,11 +1135,6 @@ void Factory_GasCountdown(relive::Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInf
     {
         relive_new GasCountDown(static_cast<relive::Path_GasCountDown*>(pTlv), tlvInfo.all);
     }
-}
-
-void Factory_4D6C50(relive::Path_TLV*, Path*, TlvItemInfoUnion, LoadMode)
-{
-    
 }
 
 void Factory_GasEmitter(relive::Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode loadMode)
@@ -1301,19 +1197,6 @@ void Factory_Glukkon(relive::Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, Lo
     }
 }
 
-void Factory_KillUnsavedMudokons(relive::Path_TLV*, Path*, TlvItemInfoUnion, LoadMode)
-{
-    
-}
-void Factory_SoftLanding(relive::Path_TLV*, Path*, TlvItemInfoUnion, LoadMode)
-{
-    
-}
-void Factory_Null_4D6B00(relive::Path_TLV*, Path*, TlvItemInfoUnion, LoadMode)
-{
-    
-}
-
 void Factory_Water(relive::Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode loadmode)
 {
     if (loadmode == LoadMode::LoadResourceFromList_1 || loadmode == LoadMode::LoadResource_2)
@@ -1327,11 +1210,6 @@ void Factory_Water(relive::Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, Load
     }
 }
 
-void Factory_Null_4DA7C0(relive::Path_TLV*, Path*, TlvItemInfoUnion, LoadMode)
-{
-    
-}
-
 void Factory_WorkWheel(relive::Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode loadmode)
 {
     if (loadmode == LoadMode::LoadResourceFromList_1 || loadmode == LoadMode::LoadResource_2)
@@ -1343,11 +1221,6 @@ void Factory_WorkWheel(relive::Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, 
     {
         relive_new WorkWheel(static_cast<relive::Path_WorkWheel*>(pTlv), tlvInfo.all);
     }
-}
-
-void Factory_Null_4DA850(relive::Path_TLV*, Path*, TlvItemInfoUnion, LoadMode)
-{
-    
 }
 
 void Create_Gas_4DA8B0(Layer layer, s32 neverUsed, relive::Path_TLV* pTlv, s32 tlvInfo)
@@ -1409,7 +1282,7 @@ void Factory_Fleech(relive::Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, Loa
     }
 }
 
-void Factory_Slurgs(relive::Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode loadMode)
+void Factory_Slurg(relive::Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode loadMode)
 {
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
@@ -1501,7 +1374,7 @@ void Factory_Drill(relive::Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, Load
     }
 }
 
-void Factory_ColorfulMeter(relive::Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode loadMode)
+void Factory_ColourfulMeter(relive::Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode loadMode)
 {
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
@@ -1816,127 +1689,265 @@ void Factory_TrainDoor(relive::Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, 
     }
 }
 
-const PathFunctionTable kObjectFactory = {
-    {Factory_ContinuePoint,
-     Factory_PathTransition,
-     Factory_Hoist,
-     Factory_Edge,
-     Factory_DeathDrop,
-     Factory_Door,
-     Factory_Shadow,
-     Factory_LiftPoint,
-     Factory_ExpressWell,
-     Factory_Dove,
-     Factory_RockSack,
-     Factory_FallingItem,
-     Factory_PullRingRope,
-     Factory_BackgroundAnimation,
-     Factory_TimedMine,
-     Factory_Slig,
-     Factory_Slog,
-     Factory_Switch,
-     Factory_Null_4D69E0,
-     Factory_SecurityOrb,
-     Factory_Null_4D6A00,
-     Factory_Pulley,
-     Factory_AbeStart,
-     Factory_WellExpress,
-     Factory_Mine,
-     Factory_UXB,
-     Factory_Paramite,
-     Factory_MovieHandStone,
-     Factory_BirdPortal,
-     Factory_PortalExit,
-     Factory_TrapDoor,
-     Factory_RollingRock,
-     Factory_SligBoundLeft,
-     Factory_InvisibleZone,
-     Factory_FootSwitch,
-     Factory_ChantSuppressor_WithArms,
-     Factory_MotionDetector,
-     Factory_SligSpawner,
-     Factory_ElectricWall,
-     Factory_LiftMover,
-     Factory_MeatSack,
-     Factory_Scrab,
-     Factory_Null_4DA130,
-     Factory_ScrabLeftBound,
-     Factory_ScrabRightBound,
-     Factory_SligBoundRight,
-     Factory_SligPersist,
-     Factory_EnemyStopper,
-     Factory_InvisibleSwitch,
-     Factory_Mudokon,
-     Factory_ZSligCover,
-     Factory_DoorFlame,
-     Factory_MovingBomb,
-     Factory_Null_4D8A30,
-     Factory_MainMenuController,
-     Factory_4D7160, // switch state related ??
-     Factory_Null_4D6AE0,
-     Factory_TimerTrigger,
-     Factory_SecurityDoor,
-     Factory_BoomMachine,
-     Factory_LCDScreen,
-     Factory_HandStone,
-     Factory_CreditsController,
-     Factory_Null_4D6910,
-     Factory_LCDStatusBoard,
-     Factory_WheelSyncer,
-     Factory_MusicTrigger,
-     Factory_Light,
-     Factory_SlogSpawner,
-     Factory_GasCountdown,
-     Factory_4D6C50, // Remove Shrykull ??
-     Factory_GasEmitter,
-     Factory_ZzzSpawner,
-     Factory_Glukkon,
-     Factory_KillUnsavedMudokons,
-     Factory_SoftLanding,
-     Factory_Null_4D6B00,
-     Factory_Water,
-     Factory_Null_4DA7C0,
-     Factory_WorkWheel,
-     Factory_Null_4DA850,
-     Factory_LaughingGas,
-     Factory_FlyingSlig,
-     Factory_Fleech,
-     Factory_Slurgs,
-     Factory_SlamDoor,
-     Factory_LevelLoader,
-     Factory_DemoSpawnPoint,
-     Factory_Teleporter,
-     Factory_SlurgSpawner,
-     Factory_Drill,
-     Factory_ColorfulMeter,
-     Factory_FlyingSligSpawner,
-     Factory_MineCar,
-     Factory_BoneBag,
-     Factory_ExplosionSet,
-     Factory_MultiSwitchController,
-     Factory_StatusLight,
-     Factory_SlapLock,
-     Factory_ParamiteWebLine,
-     Factory_Alarm,
-     Factory_BrewMachine,
-     Factory_ScrabSpawner,
-     Factory_CrawlingSlig,
-     Factory_SligGetPants,
-     Factory_SligGetWings,
-     Factory_Greeter,
-     Factory_CrawlingSligButton,
-     Factory_GlukkonSwitch,
-     Factory_DoorBlocker,
-     Factory_TorturedMudokon,
-     Factory_TrainDoor,
-     nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr,
-     nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr,
-     nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr,
-     nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr,
-     nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr,
-     nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr,
-     nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr,
-     nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr,
-     nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr,
-     nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr,
-     nullptr, nullptr, nullptr, nullptr}};
+void ConstructTLVObject(relive::Path_TLV* pTlv, Path* pPath, TlvItemInfoUnion tlvInfo, LoadMode loadMode)
+{
+    switch (pTlv->mTlvType)
+    {
+        case ReliveTypes::eBackgroundAnimation:
+            Factory_BackgroundAnimation(pTlv, pPath, tlvInfo, loadMode);
+            break;
+        case ReliveTypes::eLiftMover:
+            Factory_LiftMover(pTlv, pPath, tlvInfo, loadMode);
+            break;
+        case ReliveTypes::eTimedMine:
+            Factory_TimedMine(pTlv, pPath, tlvInfo, loadMode);
+            break;
+        case ReliveTypes::eGasCountDown:
+            Factory_GasCountdown(pTlv, pPath, tlvInfo, loadMode);
+            break;
+        case ReliveTypes::eDoor:
+            Factory_Door(pTlv, pPath, tlvInfo, loadMode);
+            break;
+        case ReliveTypes::eElectricWall:
+            Factory_ElectricWall(pTlv, pPath, tlvInfo, loadMode);
+            break;
+        case ReliveTypes::eSecurityClaw:
+            Factory_ChantSuppressor_WithArms(pTlv, pPath, tlvInfo, loadMode);
+            break;
+        case ReliveTypes::eBoomMachine:
+            Factory_BoomMachine(pTlv, pPath, tlvInfo, loadMode);
+            break;
+        case ReliveTypes::eMudokon:
+            Factory_Mudokon(pTlv, pPath, tlvInfo, loadMode);
+            break;
+        case ReliveTypes::eLiftPoint:
+            Factory_LiftPoint(pTlv, pPath, tlvInfo, loadMode);
+            break;
+        case ReliveTypes::eSecurityOrb:
+            Factory_SecurityOrb(pTlv, pPath, tlvInfo, loadMode);
+            break;
+        case ReliveTypes::eMeatSack:
+            Factory_MeatSack(pTlv, pPath, tlvInfo, loadMode);
+            break;
+        case ReliveTypes::eMine:
+            Factory_Mine(pTlv, pPath, tlvInfo, loadMode);
+            break;
+        case ReliveTypes::eMotionDetector:
+            Factory_MotionDetector(pTlv, pPath, tlvInfo, loadMode);
+            break;
+        case ReliveTypes::eParamite:
+            Factory_Paramite(pTlv, pPath, tlvInfo, loadMode);
+            break;
+        case ReliveTypes::eBirdPortal:
+            Factory_BirdPortal(pTlv, pPath, tlvInfo, loadMode);
+            break;
+        case ReliveTypes::ePullRingRope:
+            Factory_PullRingRope(pTlv, pPath, tlvInfo, loadMode);
+            break;
+        case ReliveTypes::eRockSack:
+            Factory_RockSack(pTlv, pPath, tlvInfo, loadMode);
+            break;
+        case ReliveTypes::eScrab:
+            Factory_Scrab(pTlv, pPath, tlvInfo, loadMode);
+            break;
+        case ReliveTypes::eSlig:
+            Factory_Slig(pTlv, pPath, tlvInfo, loadMode);
+            break;
+        case ReliveTypes::eSlog:
+            Factory_Slog(pTlv, pPath, tlvInfo, loadMode);
+            break;
+        case ReliveTypes::eSligSpawner:
+            Factory_SligSpawner(pTlv, pPath, tlvInfo, loadMode);
+            break;
+        case ReliveTypes::eLever:
+            Factory_Lever(pTlv, pPath, tlvInfo, loadMode);
+            break;
+        case ReliveTypes::eTrapDoor:
+            Factory_TrapDoor(pTlv, pPath, tlvInfo, loadMode);
+            break;
+        case ReliveTypes::eUXB:
+            Factory_UXB(pTlv, pPath, tlvInfo, loadMode);
+            break;
+        case ReliveTypes::eMusicTrigger:
+            Factory_MusicTrigger(pTlv, pPath, tlvInfo, loadMode);
+            break;
+        case ReliveTypes::eWellLocal:
+        case ReliveTypes::eWellExpress:
+            Factory_Well(pTlv, pPath, tlvInfo, loadMode);
+            break;
+        case ReliveTypes::eZzzSpawner:
+            Factory_ZzzSpawner(pTlv, pPath, tlvInfo, loadMode);
+            break;
+        case ReliveTypes::eHoist:
+            Factory_Hoist(pTlv, pPath, tlvInfo, loadMode);
+            break;
+        case ReliveTypes::eEdge:
+            Factory_Edge(pTlv, pPath, tlvInfo, loadMode);
+            break;
+        case ReliveTypes::eShadowZone:
+            Factory_ShadowZone(pTlv, pPath, tlvInfo, loadMode);
+            break;
+        case ReliveTypes::eDove:
+            Factory_Dove(pTlv, pPath, tlvInfo, loadMode);
+            break;
+        case ReliveTypes::eFallingItem:
+            Factory_FallingItem(pTlv, pPath, tlvInfo, loadMode);
+            break;
+        case ReliveTypes::eAbeStart:
+            Factory_AbeStart(pTlv, pPath, tlvInfo, loadMode);
+            break;
+        case ReliveTypes::eFootSwitch:
+            Factory_FootSwitch(pTlv, pPath, tlvInfo, loadMode);
+            break;
+        case ReliveTypes::eSligBoundRight:
+            Factory_SligBoundRight(pTlv, pPath, tlvInfo, loadMode);
+            break;
+        case ReliveTypes::eSligBoundLeft:
+            Factory_SligBoundLeft(pTlv, pPath, tlvInfo, loadMode);
+            break;
+        case ReliveTypes::eGasEmitter:
+            Factory_GasEmitter(pTlv, pPath, tlvInfo, loadMode);
+            break;
+        case ReliveTypes::eSlogSpawner:
+            Factory_SlogSpawner(pTlv, pPath, tlvInfo, loadMode);
+            break;
+        case ReliveTypes::eLCDStatusBoard:
+            Factory_LCDStatusBoard(pTlv, pPath, tlvInfo, loadMode);
+            break;
+        case ReliveTypes::eCreditsController:
+            Factory_CreditsController(pTlv, pPath, tlvInfo, loadMode);
+            break;
+        case ReliveTypes::eHandStone:
+            Factory_HandStone(pTlv, pPath, tlvInfo, loadMode);
+            break;
+        case ReliveTypes::eSecurityDoor:
+            Factory_SecurityDoor(pTlv, pPath, tlvInfo, loadMode);
+            break;
+        case ReliveTypes::eMainMenuController:
+            Factory_MainMenuController(pTlv, pPath, tlvInfo, loadMode);
+            break;
+        case ReliveTypes::eMovingBomb:
+            Factory_MovingBomb(pTlv, pPath, tlvInfo, loadMode);
+            break;
+        case ReliveTypes::eDoorFlame:
+            Factory_DoorFlame(pTlv, pPath, tlvInfo, loadMode);
+            break;
+        case ReliveTypes::eInvisibleSwitch:
+            Factory_InvisibleSwitch(pTlv, pPath, tlvInfo, loadMode);
+            break;
+        case ReliveTypes::eTimerTrigger:
+            Factory_TimerTrigger(pTlv, pPath, tlvInfo, loadMode);
+            break;
+        case ReliveTypes::eLCDScreen:
+            Factory_LCDScreen(pTlv, pPath, tlvInfo, loadMode);
+            break;
+        case ReliveTypes::eMovieHandStone:
+            Factory_MovieHandStone(pTlv, pPath, tlvInfo, loadMode);
+            break;
+        case ReliveTypes::eWheelSyncer:
+            Factory_WheelSyncer(pTlv, pPath, tlvInfo, loadMode);
+            break;
+        case ReliveTypes::eGlukkon:
+            Factory_Glukkon(pTlv, pPath, tlvInfo, loadMode);
+            break;
+        case ReliveTypes::eWater:
+            Factory_Water(pTlv, pPath, tlvInfo, loadMode);
+            break;
+        case ReliveTypes::eWorkWheel:
+            Factory_WorkWheel(pTlv, pPath, tlvInfo, loadMode);
+            break;
+        case ReliveTypes::eLaughingGas:
+            Factory_LaughingGas(pTlv, pPath, tlvInfo, loadMode);
+            break;
+        case ReliveTypes::eFlyingSlig:
+            Factory_FlyingSlig(pTlv, pPath, tlvInfo, loadMode);
+            break;
+        case ReliveTypes::eFleech:
+            Factory_Fleech(pTlv, pPath, tlvInfo, loadMode);
+            break;
+        case ReliveTypes::eSlurg:
+            Factory_Slurg(pTlv, pPath, tlvInfo, loadMode);
+            break;
+        case ReliveTypes::eSlamDoor:
+            Factory_SlamDoor(pTlv, pPath, tlvInfo, loadMode);
+            break;
+        case ReliveTypes::eLevelLoader:
+            Factory_LevelLoader(pTlv, pPath, tlvInfo, loadMode);
+            break;
+        case ReliveTypes::eDemoSpawnPoint:
+            Factory_DemoSpawnPoint(pTlv, pPath, tlvInfo, loadMode);
+            break;
+        case ReliveTypes::eTeleporter:
+            Factory_Teleporter(pTlv, pPath, tlvInfo, loadMode);
+            break;
+        case ReliveTypes::eSlurgSpawner:
+            Factory_SlurgSpawner(pTlv, pPath, tlvInfo, loadMode);
+            break;
+        case ReliveTypes::eDrill:
+            Factory_Drill(pTlv, pPath, tlvInfo, loadMode);
+            break;
+        case ReliveTypes::eColourfulMeter:
+            Factory_ColourfulMeter(pTlv, pPath, tlvInfo, loadMode);
+            break;
+        case ReliveTypes::eFlyingSligSpawner:
+            Factory_FlyingSligSpawner(pTlv, pPath, tlvInfo, loadMode);
+            break;
+        case ReliveTypes::eMineCar:
+            Factory_MineCar(pTlv, pPath, tlvInfo, loadMode);
+            break;
+        case ReliveTypes::eBoneBag:
+            Factory_BoneBag(pTlv, pPath, tlvInfo, loadMode);
+            break;
+        case ReliveTypes::eExplosionSet:
+            Factory_ExplosionSet(pTlv, pPath, tlvInfo, loadMode);
+            break;
+        case ReliveTypes::eMultiSwitchController:
+            Factory_MultiSwitchController(pTlv, pPath, tlvInfo, loadMode);
+            break;
+        case ReliveTypes::eStatusLight:
+            Factory_StatusLight(pTlv, pPath, tlvInfo, loadMode);
+            break;
+        case ReliveTypes::eSlapLock:
+            Factory_SlapLock(pTlv, pPath, tlvInfo, loadMode);
+            break;
+        case ReliveTypes::eParamiteWebLine:
+            Factory_ParamiteWebLine(pTlv, pPath, tlvInfo, loadMode);
+            break;
+        case ReliveTypes::eAlarm:
+            Factory_Alarm(pTlv, pPath, tlvInfo, loadMode);
+            break;
+        case ReliveTypes::eBrewMachine:
+            Factory_BrewMachine(pTlv, pPath, tlvInfo, loadMode);
+            break;
+        case ReliveTypes::eScrabSpawner:
+            Factory_ScrabSpawner(pTlv, pPath, tlvInfo, loadMode);
+            break;
+        case ReliveTypes::eCrawlingSlig:
+            Factory_CrawlingSlig(pTlv, pPath, tlvInfo, loadMode);
+            break;
+        case ReliveTypes::eSligGetPants:
+            Factory_SligGetPants(pTlv, pPath, tlvInfo, loadMode);
+            break;
+        case ReliveTypes::eSligGetWings:
+            Factory_SligGetWings(pTlv, pPath, tlvInfo, loadMode);
+            break;
+        case ReliveTypes::eGreeter:
+            Factory_Greeter(pTlv, pPath, tlvInfo, loadMode);
+            break;
+        case ReliveTypes::eCrawlingSligButton:
+            Factory_CrawlingSligButton(pTlv, pPath, tlvInfo, loadMode);
+            break;
+        case ReliveTypes::eGlukkonSwitch:
+            Factory_GlukkonSwitch(pTlv, pPath, tlvInfo, loadMode);
+            break;
+        case ReliveTypes::eDoorBlocker:
+            Factory_DoorBlocker(pTlv, pPath, tlvInfo, loadMode);
+            break;
+        case ReliveTypes::eTorturedMud:
+            Factory_TorturedMudokon(pTlv, pPath, tlvInfo, loadMode);
+            break;
+        case ReliveTypes::eTrainDoor:
+            Factory_TrainDoor(pTlv, pPath, tlvInfo, loadMode);
+            break;
+    }
+}
