@@ -28,7 +28,7 @@ Greeter::Greeter(relive::Path_Greeter* pTlv, s32 tlvInfo)
 
     mVisualFlags.Set(VisualFlags::eDoPurpleLightEffect);
 
-    if (pTlv->field_10_scale != Scale_short::eFull_0)
+    if (pTlv->mScale != relive::reliveScale::eFull)
     {
         mAnim.mRenderLayer = Layer::eLayer_SligGreeterFartsBat_Half_14;
         mSpriteScale = FP_FromDouble(0.5);
@@ -44,7 +44,7 @@ Greeter::Greeter(relive::Path_Greeter* pTlv, s32 tlvInfo)
 
     mBaseGameObjectFlags.Set(BaseGameObject::eCanExplode_Bit7);
 
-    if (pTlv->field_14_start_direction == XDirection_short::eLeft_0)
+    if (pTlv->mFacing == relive::reliveXDirection::eLeft)
     {
         mAnim.mFlags.Set(AnimFlags::eBit5_FlipX);
     }
@@ -53,13 +53,13 @@ Greeter::Greeter(relive::Path_Greeter* pTlv, s32 tlvInfo)
         mAnim.mFlags.Clear(AnimFlags::eBit5_FlipX);
     }
 
-    field_134_speed = FP_FromInteger(pTlv->field_12_motion_detector_speed);
+    field_134_speed = FP_FromInteger(pTlv->mMotionDetectorSpeed);
     field_13C_brain_state = GreeterBrainStates::eBrain_0_Patrol;
     field_12E_bDontSetDestroyed = 1;
     field_118_tlvInfo = tlvInfo;
 
-    mXPos = FP_FromInteger((pTlv->mTopLeft.x + pTlv->mBottomRight.x) / 2);
-    mYPos = FP_FromInteger(pTlv->mTopLeft.y);
+    mXPos = FP_FromInteger((pTlv->mTopLeftX + pTlv->mBottomRightX) / 2);
+    mYPos = FP_FromInteger(pTlv->mTopLeftY);
 
     FP hitX = {};
     FP hitY = {};
@@ -102,7 +102,7 @@ Greeter::Greeter(relive::Path_Greeter* pTlv, s32 tlvInfo)
 s32 Greeter::CreateFromSaveState(const u8* pBuffer)
 {
     auto pState = reinterpret_cast<const Greeter_State*>(pBuffer);
-    auto pTlv = static_cast<Path_Greeter*>(sPathInfo->TLV_From_Offset_Lvl_Cam(pState->field_28_tlvInfo));
+    auto pTlv = static_cast<relive::Path_Greeter*>(sPathInfo->TLV_From_Offset_Lvl_Cam(pState->field_28_tlvInfo));
 
     if (!ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kMflareResID, FALSE, FALSE))
     {
@@ -328,34 +328,34 @@ void Greeter::BounceBackFromShot()
 
 void Greeter::HandleRollingAlong()
 {
-    for (Path_TLV* pTlv = field_138_pTlv; pTlv;
+    for (relive::Path_TLV* pTlv = field_138_pTlv; pTlv;
          pTlv = sPathInfo->TlvGetAt(pTlv,
                                                       mVelX + mXPos + mVelX,
                                                       mVelY + mYPos + mVelY,
                                                       mVelX + mXPos + mVelX,
                                                       mVelY + mYPos + mVelY))
     {
-        switch (pTlv->mTlvType32.mType)
+        switch (pTlv->mTlvType)
         {
-            case TlvTypes::DeathDrop_4:
+            case ReliveTypes::eDeathDrop:
                 BlowUp();
                 break;
 
-            case TlvTypes::ScrabBoundLeft_43:
+            case ReliveTypes::eScrabLeftBound:
                 if (!(mAnim.mFlags.Get(AnimFlags::eBit5_FlipX)) && field_13C_brain_state == GreeterBrainStates::eBrain_0_Patrol)
                 {
                     ChangeDirection();
                 }
                 break;
 
-            case TlvTypes::ScrabBoundRight_44:
+            case ReliveTypes::eScrabRightBound:
                 if (mAnim.mFlags.Get(AnimFlags::eBit5_FlipX) && field_13C_brain_state == GreeterBrainStates::eBrain_0_Patrol)
                 {
                     ChangeDirection();
                 }
                 break;
 
-            case TlvTypes::EnemyStopper_47:
+            case ReliveTypes::eEnemyStopper:
                 if (field_13C_brain_state != GreeterBrainStates::eBrain_7_Fall)
                 {
                     ChangeDirection();

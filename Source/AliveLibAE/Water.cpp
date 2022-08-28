@@ -40,7 +40,7 @@ Water::Water(relive::Path_Water* pTlv, s32 tlvInfo)
         field_108_bottom_right.x += -FP_GetExponent(pScreenManager->CamXPos());
         field_108_bottom_right.y += -FP_GetExponent(pScreenManager->CamYPos());
 
-        field_124_tlv_data = pTlv->mWaterData;
+        field_124_tlv_data = *pTlv;
 
         // Limit upper bound.
         if (field_124_tlv_data.mMaxDrops > 128)

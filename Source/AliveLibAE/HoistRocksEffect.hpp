@@ -4,6 +4,7 @@
 #include "../relive_lib/BaseGameObject.hpp"
 #include "FixedPoint.hpp"
 #include "../relive_lib/Animation.hpp"
+#include "../relive_lib/data_conversion/relive_tlvs.hpp"
 
 struct HoistRockParticle final
 {

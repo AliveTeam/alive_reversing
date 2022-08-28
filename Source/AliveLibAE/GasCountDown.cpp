@@ -65,8 +65,8 @@ GasCountDown::GasCountDown(relive::Path_GasCountDown* pTlv, s32 tlvInfo)
     mBaseGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4);
     gObjListDrawables->Push_Back(this);
 
-    field_6C_xpos = FP_GetExponent(FP_FromInteger(pTlv->mTopLeft.x) - pScreenManager->CamXPos());
-    field_6E_ypos = FP_GetExponent(FP_FromInteger(pTlv->mTopLeft.y) - pScreenManager->CamYPos());
+    field_6C_xpos = FP_GetExponent(FP_FromInteger(pTlv->mTopLeftX) - pScreenManager->CamXPos());
+    field_6E_ypos = FP_GetExponent(FP_FromInteger(pTlv->mTopLeftY) - pScreenManager->CamYPos());
 
     gGasOn_5C1C00 = 0;
 

@@ -27,7 +27,7 @@ FlyingSligSpawner::FlyingSligSpawner(relive::Path_FlyingSligSpawner* pTlv, s32 t
     field_2C_tlv_header = *pTlv;
 
     field_40_bFirstUpdate &= ~2u;
-    field_28_spawner_switch_id = pTlv->mFlyingSligSpawnerData.mSpawnerSwitchId;
+    field_28_spawner_switch_id = pTlv->mSpawnerSwitchId;
     field_3C_bSpawned = 0;
     field_24_spawned_slig_id = -1;
 }
@@ -36,7 +36,7 @@ s32 FlyingSligSpawner::CreateFromSaveState(const u8* pBuffer)
 {
     const auto pState = reinterpret_cast<const FlyingSligSpawner_State*>(pBuffer);
 
-    auto pTlv = static_cast<Path_FlyingSligSpawner*>(sPathInfo->TLV_From_Offset_Lvl_Cam(pState->field_4_tlvInfo));
+    auto pTlv = static_cast<relive::Path_FlyingSligSpawner*>(sPathInfo->TLV_From_Offset_Lvl_Cam(pState->field_4_tlvInfo));
 
     auto pFlyingSligSpawner = relive_new FlyingSligSpawner(pTlv, pState->field_4_tlvInfo);
     if (pFlyingSligSpawner)
@@ -86,19 +86,19 @@ void FlyingSligSpawner::VUpdate()
         {
             if (!pCurrentSlig || pCurrentSlig->mBaseGameObjectFlags.Get(BaseGameObject::eDead))
             {
-                SwitchStates_Do_Operation(field_28_spawner_switch_id, SwitchOp::eSetFalse_1);
+                SwitchStates_Do_Operation(field_28_spawner_switch_id, relive::reliveSwitchOp::eSetFalse);
                 field_24_spawned_slig_id = -1;
                 field_3C_bSpawned = FALSE;
             }
         }
         else if (SwitchStates_Get(field_28_spawner_switch_id))
         {
-            auto pFlyingSligTlv = static_cast<Path_FlyingSlig*>(sPathInfo->TLV_Get_At_4DB4B0(
-                field_2C_tlv_header.mTopLeft.x,
-                field_2C_tlv_header.mTopLeft.y,
-                field_2C_tlv_header.mTopLeft.x + 25,
-                field_2C_tlv_header.mTopLeft.y + 25,
-                TlvTypes::FlyingSligSpawner_92));
+            auto pFlyingSligTlv = static_cast<relive::Path_FlyingSlig*>(sPathInfo->TLV_Get_At_4DB4B0(
+                field_2C_tlv_header.mTopLeftX,
+                field_2C_tlv_header.mTopLeftY,
+                field_2C_tlv_header.mTopLeftX + 25,
+                field_2C_tlv_header.mTopLeftY + 25,
+                ReliveTypes::eFlyingSligSpawner));
 
             if (!pFlyingSligTlv)
             {

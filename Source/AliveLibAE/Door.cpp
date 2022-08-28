@@ -54,11 +54,11 @@ Door::Door(relive::Path_Door* pTlvData, s32 tlvInfo)
     field_F8_door_type = pTlvData->mDoorType;
     field_FE_start_state = pTlvData->mStartState;
 
-    if (pTlvData->mCloseOnExit == Choice_short::eYes_1)
+    if (pTlvData->mCloseOnExit == relive::reliveChoice::eYes)
     {
         if (pTlvData->mTlvSpecificMeaning)
         {
-            field_FE_start_state = eClosed_1;
+            field_FE_start_state = relive::Path_Door::DoorStates::eClosed;
         }
     }
 
@@ -76,7 +76,7 @@ Door::Door(relive::Path_Door* pTlvData, s32 tlvInfo)
             case 30000:
                 if (sVisitedBonewerks_5C1C02)
                 {
-                    field_FE_start_state = eClosed_1;
+                    field_FE_start_state = relive::Path_Door::DoorStates::eClosed;
                 }
                 break;
 
@@ -84,7 +84,7 @@ Door::Door(relive::Path_Door* pTlvData, s32 tlvInfo)
             case 30004:
                 if (sVisitedBarracks_5C1C04)
                 {
-                    field_FE_start_state = eClosed_1;
+                    field_FE_start_state = relive::Path_Door::DoorStates::eClosed;
                 }
                 break;
 
@@ -113,7 +113,7 @@ Door::Door(relive::Path_Door* pTlvData, s32 tlvInfo)
                     {
                         if (sVisitedFeecoEnder_5C1C06)
                         {
-                            field_FE_start_state = eOpen_0;
+                            field_FE_start_state = relive::Path_Door::DoorStates::eOpen;
                         }
                     }
                     if (sVisitedBonewerks_5C1C02)
@@ -149,11 +149,11 @@ Door::Door(relive::Path_Door* pTlvData, s32 tlvInfo)
 
         if (SwitchStates_Get(field_102_hub_ids[0]) && SwitchStates_Get(field_102_hub_ids[1]) && SwitchStates_Get(field_102_hub_ids[2]) && SwitchStates_Get(field_102_hub_ids[3]) && SwitchStates_Get(field_102_hub_ids[4]) && SwitchStates_Get(field_102_hub_ids[5]) && SwitchStates_Get(field_102_hub_ids[6]) && SwitchStates_Get(field_102_hub_ids[7]))
         {
-            SwitchStates_Do_Operation(field_100_switch_id, SwitchOp::eSetTrue_0);
+            SwitchStates_Do_Operation(field_100_switch_id, relive::reliveSwitchOp::eSetTrue);
         }
         else
         {
-            SwitchStates_Do_Operation(field_100_switch_id, SwitchOp::eSetFalse_1);
+            SwitchStates_Do_Operation(field_100_switch_id, relive::reliveSwitchOp::eSetFalse);
         }
     }
 
@@ -235,9 +235,9 @@ Door::Door(relive::Path_Door* pTlvData, s32 tlvInfo)
         }
     }
 
-    if (pTlvData->mScale != Scale_short::eFull_0)
+    if (pTlvData->mScale != relive::reliveScale::eFull)
     {
-        if (pTlvData->mScale == Scale_short::eHalf_1)
+        if (pTlvData->mScale == relive::reliveScale::eHalf)
         {
             mSpriteScale = FP_FromDouble(0.5);
             mScale = Scale::Bg;
@@ -254,14 +254,14 @@ Door::Door(relive::Path_Door* pTlvData, s32 tlvInfo)
     FP* xOff = &mXPos;
     FP* yOff = &mYPos;
 
-    FP tlvXMid = FP_FromInteger((pTlvData->mTopLeft.x + pTlvData->mBottomRight.x) / 2);
+    FP tlvXMid = FP_FromInteger((pTlvData->mTopLeftX + pTlvData->mBottomRightX) / 2);
     PathLine* pathLine = nullptr;
 
     if (sCollisions->Raycast(
             tlvXMid,
-            FP_FromInteger(pTlvData->mTopLeft.y),
+            FP_FromInteger(pTlvData->mTopLeftY),
             tlvXMid,
-            FP_FromInteger(pTlvData->mBottomRight.y),
+            FP_FromInteger(pTlvData->mBottomRightY),
             &pathLine,
             xOff,
             yOff,
@@ -276,8 +276,8 @@ Door::Door(relive::Path_Door* pTlvData, s32 tlvInfo)
     else
     {
         // Couldn't glue to the floor.. just use the TLV pos
-        *xOff = FP_FromInteger(pTlvData->mTopLeft.x + 12);
-        *yOff = FP_FromInteger(pTlvData->mTopLeft.y + 24);
+        *xOff = FP_FromInteger(pTlvData->mTopLeftX + 12);
+        *yOff = FP_FromInteger(pTlvData->mTopLeftY + 24);
     }
 
     // Add on the TLV offset
@@ -325,9 +325,9 @@ void Door::vClose()
 {
     if (field_FC_current_state != eClosed_1)
     {
-        field_FE_start_state = eClosed_1;
+        field_FE_start_state = relive::Path_Door::DoorStates::eClosed;
         field_FC_current_state = eClosing_3;
-        Path_TLV* pTlv = sPathInfo->TLV_From_Offset_Lvl_Cam(field_F4_tlvInfo);
+        relive::Path_TLV* pTlv = sPathInfo->TLV_From_Offset_Lvl_Cam(field_F4_tlvInfo);
         pTlv->mTlvSpecificMeaning = 1;
     }
 }
@@ -397,11 +397,11 @@ void Door::VUpdate()
                     SND_SEQ_Play(SeqId::SecretMusic_32, 1, 127, 127);
                     relive_new MusicTrigger(MusicTriggerMusicType::eChime_5, TriggeredBy::eTimer_0, 0, 0);
                 }
-                SwitchStates_Do_Operation(field_100_switch_id, SwitchOp::eSetTrue_0);
+                SwitchStates_Do_Operation(field_100_switch_id, relive::reliveSwitchOp::eSetTrue);
             }
             else
             {
-                SwitchStates_Do_Operation(field_100_switch_id, SwitchOp::eSetFalse_1);
+                SwitchStates_Do_Operation(field_100_switch_id, relive::reliveSwitchOp::eSetFalse);
             }
         }
         switch (field_FC_current_state)
@@ -496,8 +496,8 @@ TrainDoor::TrainDoor(relive::Path_TrainDoor* pTlv, s32 tlvInfo)
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
     Animation_Init(AnimId::Door_Train_Closing, ppRes);
 
-    mXPos = FP_FromInteger(pTlv->mTopLeft.x + 12);
-    mYPos = FP_FromInteger(pTlv->mTopLeft.y + 24);
+    mXPos = FP_FromInteger(pTlv->mTopLeftX + 12);
+    mYPos = FP_FromInteger(pTlv->mTopLeftY + 24);
 
     sTrainDoorXPos_BB4AA0 = mXPos;
     sTrainDoorYPos_BB4AA4 = mYPos;
@@ -513,7 +513,7 @@ TrainDoor::TrainDoor(relive::Path_TrainDoor* pTlv, s32 tlvInfo)
         mAnim.mFlags.Clear(AnimFlags::eBit3_Render);
         field_FC_current_state = eOpen_0;
     }
-    mAnim.mFlags.Set(AnimFlags::eBit5_FlipX, pTlv->field_10_direction == XDirection_int::eRight_1);
+    mAnim.mFlags.Set(AnimFlags::eBit5_FlipX, pTlv->mDirection == relive::reliveXDirection::eRight);
 }
 
 TrainDoor::~TrainDoor()

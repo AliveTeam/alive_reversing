@@ -79,7 +79,7 @@ private:
     FP field_11C_centre = {};
     s16 field_120_frame_width = 0;
     s16 field_122_frame_height = 0;
-    Path_Water_Data field_124_tlv_data = {};
+    relive::Path_Water field_124_tlv_data = {};
     FP field_130_splash_x_vel = {};
     FP field_134_emit_x_vel = {};
     s16 field_138_splash_time = 0;

@@ -40,7 +40,7 @@ Lever::Lever(relive::Path_Lever* pTlv, u32 tlvInfo)
     field_102_action = pTlv->mAction;
     field_100_flags.Clear(Flags_100::eBit1_lever_anim_left_direction);
 
-    if (pTlv->mPersistOffscreen == Choice_short::eYes_1)
+    if (pTlv->mPersistOffscreen == relive::reliveChoice::eYes)
     {
         field_100_flags.Set(Flags_100::eBit2_persist_offscreen);
     }
@@ -49,13 +49,13 @@ Lever::Lever(relive::Path_Lever* pTlv, u32 tlvInfo)
         field_100_flags.Clear(Flags_100::eBit2_persist_offscreen);
     }
 
-    if (pTlv->mScale == Scale_short::eHalf_1)
+    if (pTlv->mScale == relive::reliveScale::eHalf)
     {
         mSpriteScale = FP_FromDouble(0.5);
         mAnim.mRenderLayer = Layer::eLayer_BeforeShadow_Half_6;
         mScale = Scale::Bg;
     }
-    else if (pTlv->mScale == Scale_short::eFull_0)
+    else if (pTlv->mScale == relive::reliveScale::eFull)
     {
         mSpriteScale = FP_FromInteger(1);
         mAnim.mRenderLayer = Layer::eLayer_BeforeShadow_25;
@@ -63,9 +63,9 @@ Lever::Lever(relive::Path_Lever* pTlv, u32 tlvInfo)
     }
 
     SetTint(&kLeverTints_563228[0], gMap.mCurrentLevel);
-    mXPos = FP_FromInteger((pTlv->mTopLeft.x + pTlv->mBottomRight.x) / 2);
+    mXPos = FP_FromInteger((pTlv->mTopLeftX + pTlv->mBottomRightX) / 2);
     mXPos = FP_FromInteger(SnapToXGrid(mSpriteScale, FP_GetExponent(mXPos)));
-    mYPos = FP_FromInteger(pTlv->mTopLeft.y);
+    mYPos = FP_FromInteger(pTlv->mTopLeftY);
 
     PathLine* pPathLine = nullptr;
     FP hitX = {};
@@ -153,12 +153,12 @@ void Lever::VUpdate()
                 s32 volLeft = 0;
                 s32 volRight = 0;
 
-                if (field_108_sound_direction == LeverSoundDirection::eLeft_1)
+                if (field_108_sound_direction == relive::Path_Lever::LeverSoundDirection::eLeft)
                 {
                     volLeft = 1;
                     volRight = 0;
                 }
-                else if (field_108_sound_direction == LeverSoundDirection::eRight_2)
+                else if (field_108_sound_direction == relive::Path_Lever::LeverSoundDirection::eRight)
                 {
                     volLeft = 0;
                     volRight = 1;
@@ -173,35 +173,35 @@ void Lever::VUpdate()
                 {
                     switch (field_104_on_sound)
                     {
-                        case LeverSoundType::eWell_1:
+                        case relive::Path_Lever::LeverSoundType::eWell:
                             SFX_Play_Stereo(SoundEffect::WellExit_20, 80 * volLeft + 25, 80 * volRight + 25);
                             EventBroadcast(kEventNoise, this);
                             EventBroadcast(kEventSuspiciousNoise, this);
                             break;
 
-                        case LeverSoundType::eSwitchBellHammer_2:
+                        case relive::Path_Lever::LeverSoundType::eSwitchBellHammer:
                             SFX_Play_Stereo(SoundEffect::SwitchUnknownTrigger_11, 100 * volLeft + 25, 100 * volRight + 25);
                             EventBroadcast(kEventNoise, this);
                             EventBroadcast(kEventSuspiciousNoise, this);
                             break;
 
-                        case LeverSoundType::eDoor_3:
+                        case relive::Path_Lever::LeverSoundType::eDoor:
                             SFX_Play_Stereo(SoundEffect::DoorEffect_57, 75 * volLeft + 15, 75 * volRight + 15);
                             EventBroadcast(kEventNoise, this);
                             EventBroadcast(kEventSuspiciousNoise, this);
                             break;
 
-                        case LeverSoundType::eElectricWall_4:
+                        case relive::Path_Lever::LeverSoundType::eElectricWall:
                             SFX_Play_Stereo(SoundEffect::Zap1_49, 35 * volLeft + 25, 35 * volRight + 25);
                             EventBroadcast(kEventNoise, this);
                             EventBroadcast(kEventSuspiciousNoise, this);
                             break;
 
-                        case LeverSoundType::eSecurityOrb_5:
+                        case relive::Path_Lever::LeverSoundType::eSecurityOrb:
                             SFX_Play_Stereo(SoundEffect::SecurityOrb_48, 35 * volLeft + 25, 35 * volRight + 25);
                             return;
 
-                        case LeverSoundType::eLift_6:
+                        case relive::Path_Lever::LeverSoundType::eLift:
                             SFX_Play_Stereo(SoundEffect::LiftStop_30, 35 * volLeft + 25, 35 * volRight + 25);
                             EventBroadcast(kEventNoise, this);
                             EventBroadcast(kEventSuspiciousNoise, this);
@@ -215,35 +215,35 @@ void Lever::VUpdate()
                 {
                     switch (field_106_off_sound)
                     {
-                        case LeverSoundType::eWell_1:
+                        case relive::Path_Lever::LeverSoundType::eWell:
                             SFX_Play_Stereo(SoundEffect::WellExit_20, 80 * volLeft + 25, 80 * volRight + 25);
                             EventBroadcast(kEventNoise, this);
                             EventBroadcast(kEventSuspiciousNoise, this);
                             break;
 
-                        case LeverSoundType::eSwitchBellHammer_2:
+                        case relive::Path_Lever::LeverSoundType::eSwitchBellHammer:
                             SFX_Play_Stereo(SoundEffect::SwitchUnknownTrigger_11, 110 * volLeft + 25, 110 * volRight + 25);
                             EventBroadcast(kEventNoise, this);
                             EventBroadcast(kEventSuspiciousNoise, this);
                             break;
 
-                        case LeverSoundType::eDoor_3:
+                        case relive::Path_Lever::LeverSoundType::eDoor:
                             SFX_Play_Stereo(SoundEffect::DoorEffect_57, 75 * volLeft + 15, 75 * volRight + 15);
                             EventBroadcast(kEventNoise, this);
                             EventBroadcast(kEventSuspiciousNoise, this);
                             break;
 
-                        case LeverSoundType::eElectricWall_4:
+                        case relive::Path_Lever::LeverSoundType::eElectricWall:
                             SFX_Play_Stereo(SoundEffect::Zap1_49, 80 * volLeft + 25, 80 * volRight + 25);
                             EventBroadcast(kEventNoise, this);
                             EventBroadcast(kEventSuspiciousNoise, this);
                             break;
 
-                        case LeverSoundType::eSecurityOrb_5:
+                        case relive::Path_Lever::LeverSoundType::eSecurityOrb:
                             SFX_Play_Stereo(SoundEffect::SecurityOrb_48, 35 * volLeft + 75, 35 * volRight + 75);
                             break;
 
-                        case LeverSoundType::eLift_6:
+                        case relive::Path_Lever::LeverSoundType::eLift:
                             SFX_Play_Stereo(SoundEffect::LiftStop_30, 35 * volLeft + 25, 35 * volRight + 25);
                             EventBroadcast(kEventNoise, this);
                             EventBroadcast(kEventSuspiciousNoise, this);

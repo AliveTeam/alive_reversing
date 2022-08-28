@@ -16,8 +16,10 @@ InvisibleSwitch::InvisibleSwitch(relive::Path_InvisibleSwitch* pTlv, u32 tlvInfo
     field_22_action = pTlv->mAction;
     field_38_state = States::eWaitForTrigger_0;
     field_2C_delay = pTlv->mActivationDelay;
-    field_30_top_left = pTlv->mTopLeft;
-    field_34_bottom_right = pTlv->mBottomRight;
+    field_30_top_left.x = pTlv->mTopLeftX;
+    field_30_top_left.y = pTlv->mTopLeftY;
+    field_34_bottom_right.x = pTlv->mBottomRightX;
+    field_34_bottom_right.y = pTlv->mBottomRightY;
     field_3A_set_off_alarm = pTlv->mSetOffAlarm;
     field_3C_scale = pTlv->mScale;
 }
@@ -37,7 +39,7 @@ void InvisibleSwitch::VUpdate()
             SwitchStates_Do_Operation(field_20_switch_id, field_22_action);
 
             // Fire alarm if set
-            if (field_3A_set_off_alarm == Choice_short::eYes_1)
+            if (field_3A_set_off_alarm == relive::reliveChoice::eYes)
             {
                 relive_new Alarm(150, 0, 30, Layer::eLayer_Above_FG1_39);
             }
@@ -49,7 +51,7 @@ void InvisibleSwitch::VUpdate()
     else if (field_38_state == States::eWaitForTrigger_0)
     {
         // If not trying to turn off the target and the state is set
-        if (field_22_action != SwitchOp::eSetFalse_1 || SwitchStates_Get(field_20_switch_id))
+        if (field_22_action != relive::reliveSwitchOp::eSetFalse || SwitchStates_Get(field_20_switch_id))
         {
             // Within X bounds?
             const FP charXPos = sControlledCharacter->mXPos;
@@ -65,9 +67,9 @@ void InvisibleSwitch::VUpdate()
                             && sActiveHero->mCurrentMotion != eAbeMotions::Motion_114_DoorEnter_459470))
                     {
                         // Scale matches ?
-                        if (field_3C_scale == InvisibleSwitchScale::eAny_2
-                            || (field_3C_scale == InvisibleSwitchScale::eHalf_0 && sControlledCharacter->mSpriteScale == FP_FromDouble(0.5))
-                            || (field_3C_scale == InvisibleSwitchScale::eFull_1 && sControlledCharacter->mSpriteScale == FP_FromDouble(1.0)))
+                        if (field_3C_scale == relive::Path_InvisibleSwitch::InvisibleSwitchScale::eAny
+                            || (field_3C_scale == relive::Path_InvisibleSwitch::InvisibleSwitchScale::eHalf && sControlledCharacter->mSpriteScale == FP_FromDouble(0.5))
+                            || (field_3C_scale == relive::Path_InvisibleSwitch::InvisibleSwitchScale::eFull && sControlledCharacter->mSpriteScale == FP_FromDouble(1.0)))
                         {
                             field_38_state = States::eWaitForDelayTimer_1;
                             field_28_delay_timer = sGnFrame + field_2C_delay;

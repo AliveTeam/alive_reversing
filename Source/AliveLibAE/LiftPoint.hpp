@@ -79,8 +79,8 @@ public:
 
 private:
     void MoveObjectsOnLift(FP xVelocity);
-    static void sub_461000(Path_TLV* pTlv);
-    void vStayOnFloor(s16 floor, Path_LiftPoint* pTlv);
+    static void sub_461000(relive::Path_TLV* pTlv);
+    void vStayOnFloor(s16 floor, relive::Path_LiftPoint* pTlv);
 
     void CreatePulleyIfExists();
 
@@ -88,7 +88,7 @@ public:
     s16 field_12C_bMoving = 0;
 
 private:
-    LiftPointStopType field_130_lift_point_stop_type = LiftPointStopType::eTopFloor_0;
+    relive::Path_LiftPoint::LiftPointStopType field_130_lift_point_stop_type = relive::Path_LiftPoint::LiftPointStopType::eTopFloor;
     s32 field_134_rope2_id = 0;
     s32 field_138_rope1_id = 0;
     Animation field_13C_lift_wheel = {};

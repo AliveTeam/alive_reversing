@@ -80,7 +80,7 @@ private:
         eBit2_UnlimitedSpawns = 0x2,
     };
     BitField16<SpawnerFlags> mSpawnerFlags = {};
-    Path_TLV mPathTlv = {};
+    relive::Path_TLV mPathTlv = {};
     SpawnerStates mState = SpawnerStates::eInactive_0;
     s32 mSpawnedSligId = 0;
     s16 mFindSpawnedSlig = 0;

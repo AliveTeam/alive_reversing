@@ -18,7 +18,7 @@ LiftMover::LiftMover(relive::Path_LiftMover* pTlv, s32 tlvInfo)
     field_20_lift_mover_switch_id = pTlv->mLiftMoverSwitchId;
     field_22_target_lift_point_id = pTlv->mTargetLiftPointId;
 
-    if (pTlv->mMoveDirection == Path_LiftMover::YDirection::eUp_1)
+    if (pTlv->mMoveDirection == relive::Path_LiftMover::YDirection::eUp)
     {
         field_2C_speed = FP_FromInteger(-4);
     }
@@ -35,7 +35,7 @@ s32 LiftMover::CreateFromSaveState(const u8* pData)
 {
     auto pState = reinterpret_cast<const LiftMover_State*>(pData);
 
-    Path_LiftMover* pTlv = static_cast<Path_LiftMover*>(sPathInfo->TLV_From_Offset_Lvl_Cam(pState->field_4_tlvInfo));
+    relive::Path_LiftMover* pTlv = static_cast<relive::Path_LiftMover*>(sPathInfo->TLV_From_Offset_Lvl_Cam(pState->field_4_tlvInfo));
     auto pLiftMover = relive_new LiftMover(pTlv, pState->field_4_tlvInfo);
     if (pLiftMover)
     {

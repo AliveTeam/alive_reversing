@@ -106,16 +106,16 @@ Paramite::Paramite(relive::Path_Paramite* pTlv, s32 tlvInfo)
     mNextMotion = 0;
     mCurrentMotion = 0;
     field_154_input = 0;
-    mXPos = FP_FromInteger(pTlv->mTopLeft.x + 12);
-    mYPos = FP_FromInteger(pTlv->mTopLeft.y);
+    mXPos = FP_FromInteger(pTlv->mTopLeftX + 12);
+    mYPos = FP_FromInteger(pTlv->mTopLeftY);
 
-    if (pTlv->mScale == Scale_short::eHalf_1)
+    if (pTlv->mScale == relive::reliveScale::eHalf)
     {
         mSpriteScale = FP_FromDouble(0.5);
         mAnim.mRenderLayer = Layer::eLayer_8;
         mScale = Scale::Bg;
     }
-    else if (pTlv->mScale == Scale_short::eFull_0)
+    else if (pTlv->mScale == relive::reliveScale::eFull)
     {
         mSpriteScale = FP_FromInteger(1);
         mAnim.mRenderLayer = Layer::eLayer_27;
@@ -129,19 +129,19 @@ Paramite::Paramite(relive::Path_Paramite* pTlv, s32 tlvInfo)
 
     switch (pTlv->mEntranceType)
     {
-        case Path_Paramite::EntranceType::eSurpriseWeb_1:
+        case relive::Path_Paramite::EntranceType::eSurpriseWeb:
             mBaseAliveGameObjectFlags.Clear(Flags_114::e114_Bit3_Can_Be_Possessed);
             SetBrain(&Paramite::Brain_3_SurpriseWeb_4851B0);
             break;
 
-        case Path_Paramite::EntranceType::eSlightlyHigherSpawnSurpriseWeb_2:
+        case relive::Path_Paramite::EntranceType::eSlightlyHigherSpawnSurpriseWeb:
             SetBrain(&Paramite::Brain_9_ParamiteSpawn_48ED80);
             mYPos -= FP_FromInteger(20);
             mAnim.mFlags.Clear(AnimFlags::eBit3_Render);
             mBaseAliveGameObjectFlags.Clear(Flags_114::e114_Bit3_Can_Be_Possessed);
             break;
 
-        case Path_Paramite::EntranceType::eUnused_ScaleToLeftGridSize_3:
+        /*case relive::Path_Paramite::EntranceType::eUnused_ScaleToLeftGridSize:
             SetBrain(&Paramite::Brain_9_ParamiteSpawn_48ED80);
             mXPos -= ScaleToGridSize(mSpriteScale);
             mAnim.mFlags.Clear(AnimFlags::eBit5_FlipX);
@@ -149,13 +149,13 @@ Paramite::Paramite(relive::Path_Paramite* pTlv, s32 tlvInfo)
             mBaseAliveGameObjectFlags.Clear(Flags_114::e114_Bit3_Can_Be_Possessed);
             break;
 
-        case Path_Paramite::EntranceType::eUnused_ScaleToRightGridSize_4:
+        case relive::Path_Paramite::EntranceType::eUnused_ScaleToRightGridSize:
             SetBrain(&Paramite::Brain_9_ParamiteSpawn_48ED80);
             mXPos += ScaleToGridSize(mSpriteScale);
             mAnim.mFlags.Clear(AnimFlags::eBit3_Render);
             mAnim.mFlags.Set(AnimFlags::eBit5_FlipX);
             mBaseAliveGameObjectFlags.Clear(Flags_114::e114_Bit3_Can_Be_Possessed);
-            break;
+            break;*/
 
         default:
             SetBrain(&Paramite::Brain_0_Patrol_4835B0);
@@ -168,11 +168,11 @@ Paramite::Paramite(relive::Path_Paramite* pTlv, s32 tlvInfo)
     field_144_group_chase_delay = pTlv->mGroupChaseDelay;
     field_14C_surprise_web_switch_id = pTlv->mSurpriseWebSwitchId;
 
-    field_178_flags.Set(Flags_178::eBit1_hiss_before_attack, pTlv->mHissBeforeAttack == Choice_short::eYes_1);
+    field_178_flags.Set(Flags_178::eBit1_hiss_before_attack, pTlv->mHissBeforeAttack == relive::reliveChoice::eYes);
     field_178_flags.Clear(Flags_178::eBit2_running);
-    field_178_flags.Set(Flags_178::eBit4_out_of_sight, pTlv->mDeleteWhenOutOfSight == Choice_short::eYes_1);
+    field_178_flags.Set(Flags_178::eBit4_out_of_sight, pTlv->mDeleteWhenOutOfSight == relive::reliveChoice::eYes);
     field_178_flags.Clear(Flags_178::eBit5_prevent_depossession);
-    field_178_flags.Set(Flags_178::eBit8_bAttack_fleeches, pTlv->mAttackFleeches == Choice_short::eYes_1);
+    field_178_flags.Set(Flags_178::eBit8_bAttack_fleeches, pTlv->mAttackFleeches == relive::reliveChoice::eYes);
     field_178_flags.Clear(Flags_178::eBit6_spawned);
     field_178_flags.Clear(Flags_178::eBit7_alerted);
 
@@ -256,7 +256,7 @@ const AnimId sParamiteMotionAnimIds[44] = {
 s32 Paramite::CreateFromSaveState(const u8* pBuffer)
 {
     auto pState = reinterpret_cast<const Paramite_State*>(pBuffer);
-    auto pTlv = static_cast<Path_Paramite*>(sPathInfo->TLV_From_Offset_Lvl_Cam(pState->field_3C_tlvInfo));
+    auto pTlv = static_cast<relive::Path_Paramite*>(sPathInfo->TLV_From_Offset_Lvl_Cam(pState->field_3C_tlvInfo));
 
     if (!ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kArjbasicResID, 0, 0))
     {
@@ -5481,11 +5481,11 @@ u8** Paramite::ResBlockForMotion(s16 motion)
     return field_10_resources_array.ItemAt(10);
 }
 
-void Paramite::VOnTlvCollision(Path_TLV* pTlv)
+void Paramite::VOnTlvCollision(relive::Path_TLV* pTlv)
 {
     while (pTlv)
     {
-        if (pTlv->mTlvType32 == TlvTypes::DeathDrop_4)
+        if (pTlv->mTlvType == ReliveTypes::eDeathDrop)
         {
             if (mHealth > FP_FromInteger(0))
             {
@@ -5633,12 +5633,12 @@ s16 Paramite::CanIAcceptAGameSpeakCommand()
 
 s16 Paramite::HandleEnemyStopper(s16 numGridBlocks)
 {
-    auto pEnemyStopper = static_cast<Path_EnemyStopper*>(sPathInfo->TLV_Get_At_4DB4B0(
+    auto pEnemyStopper = static_cast<relive::Path_EnemyStopper*>(sPathInfo->TLV_Get_At_4DB4B0(
         FP_GetExponent(mXPos),
         FP_GetExponent(mYPos),
         FP_GetExponent(mXPos + (ScaleToGridSize(mSpriteScale) * FP_FromInteger(numGridBlocks))),
         FP_GetExponent(mYPos),
-        TlvTypes::EnemyStopper_47));
+        ReliveTypes::eEnemyStopper));
 
     // No stopper or its disabled
     if (!pEnemyStopper || !SwitchStates_Get(pEnemyStopper->mSwitchId))
@@ -5647,13 +5647,13 @@ s16 Paramite::HandleEnemyStopper(s16 numGridBlocks)
     }
 
     // We have a stopper that applies to any direction
-    if (pEnemyStopper->mStopDirection == Path_EnemyStopper::StopDirection::Both_2)
+    if (pEnemyStopper->mStopDirection == relive::Path_EnemyStopper::StopDirection::Both)
     {
         return 1;
     }
 
     // Does the stopper direction match the animation direction?
-    if ((pEnemyStopper->mStopDirection == Path_EnemyStopper::StopDirection::Left_0 && mAnim.mFlags.Get(AnimFlags::eBit5_FlipX)) || (pEnemyStopper->mStopDirection == Path_EnemyStopper::StopDirection::Right_1 && !(mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))))
+    if ((pEnemyStopper->mStopDirection == relive::Path_EnemyStopper::StopDirection::Left && mAnim.mFlags.Get(AnimFlags::eBit5_FlipX)) || (pEnemyStopper->mStopDirection == relive::Path_EnemyStopper::StopDirection::Right && !(mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))))
     {
         return 1;
     }

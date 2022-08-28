@@ -127,10 +127,10 @@ Slog::Slog(relive::Path_Slog* pTlv, s32 tlvInfo)
 {
     field_134_last_event_index = -1;
 
-    mXPos = FP_FromInteger(pTlv->mTopLeft.x);
-    mYPos = FP_FromInteger(pTlv->mTopLeft.y);
+    mXPos = FP_FromInteger(pTlv->mTopLeftX);
+    mYPos = FP_FromInteger(pTlv->mTopLeftY);
 
-    if (pTlv->mScale != Scale_short::eFull_0)
+    if (pTlv->mScale != relive::reliveScale::eFull)
     {
         mSpriteScale = FP_FromDouble(0.5);
     }
@@ -145,12 +145,12 @@ Slog::Slog(relive::Path_Slog* pTlv, s32 tlvInfo)
 
     field_160_flags.Clear(Flags_160::eBit9_MovedOffScreen);
     field_160_flags.Set(Flags_160::eBit2_ListenToSligs);
-    field_160_flags.Set(Flags_160::eBit7_Asleep, pTlv->mAsleep == Choice_short::eYes_1);
+    field_160_flags.Set(Flags_160::eBit7_Asleep, pTlv->mAsleep == relive::reliveChoice::eYes);
     field_160_flags.Clear(Flags_160::eBit5_CommandedToAttack);
 
     mBaseGameObjectFlags.Set(BaseGameObject::eCanExplode_Bit7);
 
-    mAnim.mFlags.Set(AnimFlags::eBit5_FlipX, pTlv->mFacing == XDirection_short::eLeft_0);
+    mAnim.mFlags.Set(AnimFlags::eBit5_FlipX, pTlv->mFacing == relive::reliveXDirection::eLeft);
 
     field_12C_tlvInfo = tlvInfo;
     mBaseGameObjectTlvInfo = tlvInfo;
@@ -323,7 +323,7 @@ const AnimId sSlogAnimIdTable[24] = {
 s32 Slog::CreateFromSaveState(const u8* pBuffer)
 {
     auto pState = reinterpret_cast<const Slog_State*>(pBuffer);
-    auto pTlv = static_cast<Path_Slog*>(sPathInfo->TLV_From_Offset_Lvl_Cam(pState->field_40_tlvInfo));
+    auto pTlv = static_cast<relive::Path_Slog*>(sPathInfo->TLV_From_Offset_Lvl_Cam(pState->field_40_tlvInfo));
     if (!ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kDogbasicResID, FALSE, FALSE))
     {
         ResourceManager::LoadResourceFile_49C170("SLOG.BND", nullptr);
@@ -3272,11 +3272,11 @@ void Slog::VOnTrapDoorOpen()
     }
 }
 
-void Slog::VOnTlvCollision(Path_TLV* pTlv)
+void Slog::VOnTlvCollision(relive::Path_TLV* pTlv)
 {
     while (pTlv)
     {
-        if (pTlv->mTlvType32 == TlvTypes::DeathDrop_4)
+        if (pTlv->mTlvType == ReliveTypes::eDeathDrop)
         {
             mHealth = FP_FromInteger(0);
             mBaseGameObjectFlags.Set(BaseGameObject::eDead);

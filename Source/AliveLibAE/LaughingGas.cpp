@@ -29,7 +29,7 @@ LaughingGas::LaughingGas(Layer layer, s32 /*notUsed*/, relive::Path_LaughingGas*
 
     SetType(ReliveTypes::eLaughingGas);
     Path_LaughingGas_Data* pData = &field_48_tlv_data;
-    pData->field_0_bLaughing_gas = pTlv->mLaughingGas;
+    pData->field_0_bLaughing_gas = pTlv->mLaughingGas == relive::reliveChoice::eYes ? Choice_short::eYes_1 : Choice_short::eNo_0;
     pData->field_2_laughing_gas_switch_id = pTlv->mLaughingGasSwitchId;
 
     pData->field_4_red_percent = pTlv->mRedPercent;
@@ -63,11 +63,11 @@ LaughingGas::LaughingGas(Layer layer, s32 /*notUsed*/, relive::Path_LaughingGas*
     gObjListDrawables->Push_Back(this);
     mBaseGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4);
 
-    field_28_y = FP_GetExponent(FP_FromInteger(pTlv->mTopLeft.y) - pScreenManager->CamYPos());
-    field_2A_x = FP_GetExponent(PsxToPCX(FP_FromInteger(pTlv->mTopLeft.x) - pScreenManager->CamXPos()));
+    field_28_y = FP_GetExponent(FP_FromInteger(pTlv->mTopLeftY) - pScreenManager->CamYPos());
+    field_2A_x = FP_GetExponent(PsxToPCX(FP_FromInteger(pTlv->mTopLeftX) - pScreenManager->CamXPos()));
 
-    field_2C_h = FP_GetExponent(FP_FromInteger(pTlv->mBottomRight.y) - pScreenManager->CamYPos());
-    field_2E_w = FP_GetExponent(PsxToPCX(FP_FromInteger(pTlv->mBottomRight.x) - pScreenManager->CamXPos()));
+    field_2C_h = FP_GetExponent(FP_FromInteger(pTlv->mBottomRightY) - pScreenManager->CamYPos());
+    field_2E_w = FP_GetExponent(PsxToPCX(FP_FromInteger(pTlv->mBottomRightX) - pScreenManager->CamXPos()));
 
     field_31F8_w_count = (field_2E_w - field_2A_x) / 4;
     field_31FC_h_count = (field_2C_h - field_28_y + 2) / 2;

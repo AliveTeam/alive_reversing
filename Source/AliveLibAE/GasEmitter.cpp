@@ -25,8 +25,8 @@ GasEmitter::GasEmitter(relive::Path_GasEmitter* pTlv, s32 tlvInfo)
 
     field_20_tlvInfo = tlvInfo;
 
-    field_30_xpos = FP_FromInteger(pTlv->mTopLeft.x);
-    field_34_ypos = FP_FromInteger(pTlv->mTopLeft.y);
+    field_30_xpos = FP_FromInteger(pTlv->mTopLeftX);
+    field_34_ypos = FP_FromInteger(pTlv->mTopLeftY);
 
     // Probably scale ?
     field_38_fp_not_used = FP_FromInteger(1);
@@ -66,23 +66,23 @@ void GasEmitter::VUpdate()
     {
         switch (field_2C_gas_colour)
         {
-            case GasColour::Yellow_0:
+            case relive::Path_GasEmitter::GasColour::eYellow:
                 New_Smoke_Particles(field_30_xpos, field_34_ypos, FP_FromDouble(0.5), 1, 128, 128, 32);
                 break;
 
-            case GasColour::Red_1:
+            case relive::Path_GasEmitter::GasColour::eRed:
                 New_Smoke_Particles(field_30_xpos, field_34_ypos, FP_FromDouble(0.5), 1, 128, 32, 32);
                 break;
 
-            case GasColour::Green_2:
+            case relive::Path_GasEmitter::GasColour::eGreen:
                 New_Smoke_Particles(field_30_xpos, field_34_ypos, FP_FromDouble(0.5), 1, 32, 128, 32);
                 break;
 
-            case GasColour::Blue_3:
+            case relive::Path_GasEmitter::GasColour::eBlue:
                 New_Smoke_Particles(field_30_xpos, field_34_ypos, FP_FromDouble(0.5), 1, 32, 32, 128);
                 break;
 
-            case GasColour::White_4:
+            case relive::Path_GasEmitter::GasColour::eWhite:
                 New_Smoke_Particles(field_30_xpos, field_34_ypos, FP_FromDouble(0.5), 1, 128, 128, 128);
                 break;
 

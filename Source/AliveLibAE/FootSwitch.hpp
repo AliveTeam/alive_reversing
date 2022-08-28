@@ -51,8 +51,8 @@ private:
     };
     States mState = States::eWaitForStepOnMe;
     s16 mSwitchId = 0;
-    SwitchOp mAction = SwitchOp::eSetTrue_0;
-    FootSwitchTriggerBy mTriggeredBy = FootSwitchTriggerBy::eAbe_0;
+    relive::reliveSwitchOp mAction = relive::reliveSwitchOp::eSetTrue;
+    relive::Path_FootSwitch::FootSwitchTriggerBy mTriggeredBy = relive::Path_FootSwitch::FootSwitchTriggerBy::eAbe;
     s32 mStoodOnMeId = 0;
     bool mCreateSparks = false;
     bool mFindStander = false;

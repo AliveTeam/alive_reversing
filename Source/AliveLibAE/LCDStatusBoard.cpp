@@ -38,8 +38,8 @@ LCDStatusBoard::LCDStatusBoard(relive::Path_LCDStatusBoard* params, TlvItemInfoU
 
     mBaseGameObjectFlags.Set(eDrawable_Bit4);
     gObjListDrawables->Push_Back(this);
-    field_104_position_x = FP_GetExponent(FP_FromInteger(static_cast<s32>(params->mTopLeft.x)) - pScreenManager->CamXPos());
-    field_106_position_y = FP_GetExponent(FP_FromInteger(static_cast<s32>(params->mTopLeft.y)) - pScreenManager->CamYPos());
+    field_104_position_x = FP_GetExponent(FP_FromInteger(static_cast<s32>(params->mTopLeftX)) - pScreenManager->CamXPos());
+    field_106_position_y = FP_GetExponent(FP_FromInteger(static_cast<s32>(params->mTopLeftY)) - pScreenManager->CamYPos());
     sMudokonsInArea_5C1BC4 = params->mNumberOfMuds;
     field_108_is_hidden = static_cast<s16>(params->mHideBoard);
     sZulagNumber_5C1A20 = static_cast<s8>(params->mZulagNumber);

@@ -12,7 +12,7 @@
 s32 SlapLockWhirlWind::CreateFromSaveState(const u8* pBuffer)
 {
     auto pSaveState = reinterpret_cast<const SlapLockWhirlWind_State*>(pBuffer);
-    SwitchStates_Do_Operation(pSaveState->mSwitchId, SwitchOp::eSetTrue_0);
+    SwitchStates_Do_Operation(pSaveState->mSwitchId, relive::reliveSwitchOp::eSetTrue);
     return sizeof(SlapLockWhirlWind_State);
 }
 
@@ -28,20 +28,20 @@ SlapLockWhirlWind::SlapLockWhirlWind(s16 doorNumber, s16 switchId, FP xpos, FP y
     {
         for (s16 x = 0; x < sPathInfo->mCamsOnX; x++)
         {
-            Path_Door* pDoorTlv = static_cast<Path_Door*>(sPathInfo->Get_First_TLV_For_Offsetted_Camera(
+            relive::Path_Door* pDoorTlv = static_cast<relive::Path_Door*>(sPathInfo->Get_First_TLV_For_Offsetted_Camera(
                 x - gMap.mCamIdxOnX,
                 y - gMap.mCamIdxOnY));
             while (pDoorTlv)
             {
-                if (pDoorTlv->mTlvType32 == TlvTypes::Door_5 && pDoorTlv->mDoorId == doorNumber)
+                if (pDoorTlv->mTlvType == ReliveTypes::eDoor && pDoorTlv->mDoorId == doorNumber)
                 {
                     // For some reason once found we just keep on searching...
                     bFoundTarget = true;
 
-                    mDoorX = FP_FromInteger((pDoorTlv->mTopLeft.x + pDoorTlv->mBottomRight.x) / 2);
-                    mDoorY = FP_FromInteger((pDoorTlv->mTopLeft.y + pDoorTlv->mBottomRight.y) / 2);
+                    mDoorX = FP_FromInteger((pDoorTlv->mTopLeftX + pDoorTlv->mBottomRightX) / 2);
+                    mDoorY = FP_FromInteger((pDoorTlv->mTopLeftY + pDoorTlv->mBottomRightY) / 2);
 
-                    if (pDoorTlv->mScale != Scale_short::eFull_0)
+                    if (pDoorTlv->mScale != relive::reliveScale::eFull)
                     {
                         mDoorSpriteScale = FP_FromDouble(0.5);
                     }
@@ -52,7 +52,7 @@ SlapLockWhirlWind::SlapLockWhirlWind(s16 doorNumber, s16 switchId, FP xpos, FP y
 
                     mDoorY -= (FP_FromInteger(40) * mDoorSpriteScale);
                 }
-                pDoorTlv = static_cast<Path_Door*>(sPathInfo->Next_TLV(pDoorTlv));
+                pDoorTlv = static_cast<relive::Path_Door*>(sPathInfo->Next_TLV(pDoorTlv));
             }
         }
     }
@@ -102,7 +102,7 @@ void SlapLockWhirlWind::VUpdate()
 
             if (!pWhirlWind || pWhirlWind->mBaseGameObjectFlags.Get(BaseGameObject::eDead))
             {
-                SwitchStates_Do_Operation(mSwitchId, SwitchOp::eSetTrue_0);
+                SwitchStates_Do_Operation(mSwitchId, relive::reliveSwitchOp::eSetTrue);
                 mBaseGameObjectFlags.Set(BaseGameObject::eDead);
             }
         }

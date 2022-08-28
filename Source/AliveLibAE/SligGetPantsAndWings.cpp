@@ -19,25 +19,25 @@ SligGetPantsAndWings::SligGetPantsAndWings(relive::Path_TLV* pTlv, s32 tlvInfo)
     Animation_Init(AnimId::CrawlingSligLocker_Closed, ppRes);
 
     // HACK: See header for details
-    auto pHack = static_cast<Path_Slig*>(pTlv);
-    if (pHack->mScale == Scale_short::eHalf_1)
+    auto pHack = static_cast<relive::Path_Slig*>(pTlv);
+    if (pHack->mData.mScale == relive::reliveScale::eHalf)
     {
         mSpriteScale = FP_FromDouble(0.5);
         mScale = Scale::Bg;
         mAnim.mRenderLayer = Layer::eLayer_BeforeShadow_Half_6;
     }
-    else if (pHack->mScale == Scale_short::eFull_0)
+    else if (pHack->mData.mScale == relive::reliveScale::eFull)
     {
         mAnim.mRenderLayer = Layer::eLayer_BeforeShadow_25;
     }
 
-    mXPos = FP_FromInteger((pTlv->mTopLeft.x + pTlv->mBottomRight.x) / 2);
-    mYPos = FP_FromInteger(pTlv->mBottomRight.y);
+    mXPos = FP_FromInteger((pTlv->mTopLeftX + pTlv->mBottomRightX) / 2);
+    mYPos = FP_FromInteger(pTlv->mBottomRightY);
 }
 
 void SligGetPantsAndWings::VUpdate()
 {
-    Path_TLV* pTlv = sPathInfo->TLV_From_Offset_Lvl_Cam(mTlvInfo);
+    relive::Path_TLV* pTlv = sPathInfo->TLV_From_Offset_Lvl_Cam(mTlvInfo);
     if (EventGet(kEventDeathReset))
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);

@@ -45,6 +45,6 @@ public:
     u16 field_2B6_message_rand_min_id = 0;
     u16 field_2B8_message_rand_max_id = 0;
     TlvItemInfoUnion field_2BC_tlv_item_info = {};
-    Path_TLV field_2C0_tlv = {};
+    relive::Path_TLV field_2C0_tlv = {};
 };
 ALIVE_ASSERT_SIZEOF(LCDScreen, 0x2D0);

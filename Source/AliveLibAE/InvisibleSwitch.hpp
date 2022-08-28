@@ -35,7 +35,7 @@ public:
 
 private:
     s16 field_20_switch_id = 0;
-    SwitchOp field_22_action = SwitchOp::eSetTrue_0;
+    relive::reliveSwitchOp field_22_action = relive::reliveSwitchOp::eSetTrue;
     s32 field_24_tlvInfo = 0;
     s32 field_28_delay_timer = 0;
     s32 field_2C_delay = 0;
@@ -47,7 +47,7 @@ private:
         eWaitForDelayTimer_1 = 1,
     };
     States field_38_state = States::eWaitForTrigger_0;
-    Choice_short field_3A_set_off_alarm = Choice_short::eNo_0;
-    InvisibleSwitchScale field_3C_scale = InvisibleSwitchScale::eHalf_0;
+    relive::reliveChoice field_3A_set_off_alarm = relive::reliveChoice::eNo;
+    relive::Path_InvisibleSwitch::InvisibleSwitchScale field_3C_scale = relive::Path_InvisibleSwitch::InvisibleSwitchScale::eHalf;
 };
 ALIVE_ASSERT_SIZEOF(InvisibleSwitch, 0x40);

@@ -35,7 +35,7 @@ private:
     s32 field_24_emit_power = 0;
     s16 field_28_draw_flipper = 0;
     s16 field_2A_switch_id = 0;
-    GasColour field_2C_gas_colour = GasColour::Yellow_0;
+    relive::Path_GasEmitter::GasColour field_2C_gas_colour = relive::Path_GasEmitter::GasColour::eYellow;
     FP field_30_xpos = {};
     FP field_34_ypos = {};
     FP field_38_fp_not_used = {};

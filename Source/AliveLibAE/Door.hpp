@@ -70,14 +70,14 @@ public:
 
 protected:
     s32 field_F4_tlvInfo = 0;
-    DoorTypes field_F8_door_type = DoorTypes::eBasicDoor_0;
+    relive::Path_Door::DoorTypes field_F8_door_type = relive::Path_Door::DoorTypes::eBasicDoor;
 
 public:
     s16 field_FA_door_number = 0;
 
 protected:
     DoorStates field_FC_current_state = DoorStates::eOpen_0;
-    DoorStates field_FE_start_state = DoorStates::eOpen_0;
+    relive::Path_Door::DoorStates field_FE_start_state = relive::Path_Door::DoorStates::eOpen;
 
     s16 field_100_switch_id = 0;
     s16 field_102_hub_ids[8] = {};

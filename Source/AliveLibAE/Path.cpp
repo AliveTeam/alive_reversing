@@ -85,7 +85,7 @@ void Path::Loader_4DB800(s16 xpos, s16 ypos, LoadMode loadMode, ReliveTypes type
                 data.parts.pathId = static_cast<u8>(mPathId);
 
                 // Call the factory to construct the item
-                mPathData->field_1E_object_funcs.object_funcs[static_cast<s32>(pPathTLV->mTlvType32.mType)](pPathTLV, this, data, loadMode);
+                mPathData->field_1E_object_funcs.object_funcs[static_cast<s32>(pPathTLV->mTlvType)](pPathTLV, this, data, loadMode);
             }
         }
 

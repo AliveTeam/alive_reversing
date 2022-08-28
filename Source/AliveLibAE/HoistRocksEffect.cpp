@@ -21,11 +21,11 @@ HoistRocksEffect::HoistRocksEffect(relive::Path_Hoist* pTlv, s32 tlvInfo)
 {
     field_24_tlvInfo = tlvInfo;
 
-    field_20_xpos = (pTlv->mTopLeft.x + pTlv->mBottomRight.x) / 2;
-    field_22_ypos = pTlv->mTopLeft.y;
+    field_20_xpos = (pTlv->mTopLeftX + pTlv->mBottomRightX) / 2;
+    field_22_ypos = pTlv->mTopLeftY;
     field_28_timer = 0;
 
-    if (pTlv->field_16_scale == Scale_short::eHalf_1)
+    if (pTlv->mScale == relive::reliveScale::eHalf)
     {
         field_2C_scale = FP_FromDouble(0.5);
     }
@@ -51,7 +51,7 @@ HoistRocksEffect::HoistRocksEffect(relive::Path_Hoist* pTlv, s32 tlvInfo)
         particle.field_10_mAnim.mGreen = 255;
         particle.field_10_mAnim.mBlue = 255;
 
-        if (pTlv->field_16_scale == Scale_short::eHalf_1)
+        if (pTlv->mScale == relive::reliveScale::eHalf)
         {
             particle.field_10_mAnim.mRenderLayer = Layer::eLayer_BeforeShadow_Half_6;
         }

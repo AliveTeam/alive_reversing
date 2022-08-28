@@ -84,7 +84,7 @@ private:
     DrillStates mDrillState = DrillStates::State_0_Restart_Cycle;
     s16 mDrillDistance = 0;
     s16 mDrillSwitchId = 0;
-    DrillDirection mDrillDirection = DrillDirection::eDown_0;
+    relive::Path_Drill::DrillDirection mDrillDirection = relive::Path_Drill::DrillDirection::eDown;
     s16 mMinOffTime = 0;
     s16 mMaxOffTime = 0;
     s16 field_100_min_off_time_speed_change = 0;

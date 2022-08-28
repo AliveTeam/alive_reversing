@@ -23,10 +23,10 @@ SligSpawner::SligSpawner(relive::Path_Slig* pTlv, s32 tlvInfo)
 
     mSpawnerFlags.Set(SpawnerFlags::eBit1_DontDestroyTLV);
 
-    mSligSpawnerSwitchId = pTlv->mSligSpawnerSwitchId;
+    mSligSpawnerSwitchId = pTlv->mData.mSligSpawnerSwitchId;
     mFindSpawnedSlig = 0;
 
-    mSpawnerFlags.Set(SpawnerFlags::eBit2_UnlimitedSpawns, pTlv->mUnlimitedSpawns == Choice_short::eYes_1);
+    mSpawnerFlags.Set(SpawnerFlags::eBit2_UnlimitedSpawns, pTlv->mData.mUnlimitedSpawns == relive::reliveChoice::eYes);
 
     mState = SpawnerStates::eInactive_0;
     mSpawnedSligId = -1;
@@ -97,10 +97,10 @@ void SligSpawner::VUpdate()
     {
         if (SwitchStates_Get(mSligSpawnerSwitchId))
         {
-            Path_TLV* pSpawnerTlv = sPathInfo->TLV_Get_At_4DB4B0(mPathTlv.mTopLeft.x, mPathTlv.mTopLeft.y, mPathTlv.mTopLeft.x, mPathTlv.mTopLeft.y, TlvTypes::SligSpawner_37);
+            relive::Path_TLV* pSpawnerTlv = sPathInfo->TLV_Get_At_4DB4B0(mPathTlv.mTopLeftX, mPathTlv.mTopLeftY, mPathTlv.mTopLeftX, mPathTlv.mTopLeftY, ReliveTypes::eSligSpawner);
             if (pSpawnerTlv)
             {
-                auto pSligMem = relive_new Slig(static_cast<Path_Slig*>(pSpawnerTlv), mTlvInfo);
+                auto pSligMem = relive_new Slig(static_cast<relive::Path_Slig*>(pSpawnerTlv), mTlvInfo);
                 if (pSligMem)
                 {
                     mSpawnedSligId = pSligMem->mBaseGameObjectId;
@@ -143,7 +143,7 @@ s32 SligSpawner::VGetSaveState(u8* pSaveBuffer)
 s32 SligSpawner::CreateFromSaveState(const u8* pBuffer)
 {
     auto pState = reinterpret_cast<const Slig_Spawner_State*>(pBuffer);
-    auto pTlv = static_cast<Path_Slig*>(sPathInfo->TLV_From_Offset_Lvl_Cam(pState->mTlvInfo));
+    auto pTlv = static_cast<relive::Path_Slig*>(sPathInfo->TLV_From_Offset_Lvl_Cam(pState->mTlvInfo));
     auto pSpawner = relive_new SligSpawner(pTlv, pState->mTlvInfo);
     if (pSpawner)
     {

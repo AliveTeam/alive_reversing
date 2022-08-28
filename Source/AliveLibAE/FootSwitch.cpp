@@ -66,7 +66,7 @@ FootSwitch::FootSwitch(relive::Path_FootSwitch* pTlv, s32 tlvInfo)
 
     mSwitchId = pTlv->mSwitchId;
 
-    if (pTlv->mScale == Scale_short::eHalf_1)
+    if (pTlv->mScale == relive::reliveScale::eHalf)
     {
         mSpriteScale = FP_FromDouble(0.5);
         mScale = Scale::Bg;
@@ -75,10 +75,10 @@ FootSwitch::FootSwitch(relive::Path_FootSwitch* pTlv, s32 tlvInfo)
 
     mAction = pTlv->mAction;
     mTriggeredBy = pTlv->mTriggeredBy;
-    mXPos = FP_FromInteger((pTlv->mTopLeft.x + pTlv->mBottomRight.x) / 2);
+    mXPos = FP_FromInteger((pTlv->mTopLeftX + pTlv->mBottomRightX) / 2);
     mState = States::eWaitForStepOnMe;
     mVisualFlags.Set(VisualFlags::eDoPurpleLightEffect);
-    mYPos = FP_FromInteger(pTlv->mBottomRight.y);
+    mYPos = FP_FromInteger(pTlv->mBottomRightY);
     mCreateSparks = false;
     field_F4_tlvInfo = tlvInfo;
     mFindStander = true;
@@ -200,7 +200,7 @@ BaseAliveGameObject* FootSwitch::WhoIsStoodOnMe()
     PSX_RECT bRectSwitch = VGetBoundingRect();
     bRectSwitch.y -= 3;
 
-    if (mTriggeredBy == FootSwitchTriggerBy::eAnyone_1)
+    if (mTriggeredBy == relive::Path_FootSwitch::FootSwitchTriggerBy::eAnyone)
     {
         for (s32 i = 0; i < gBaseGameObjects->Size(); i++)
         {
@@ -225,7 +225,7 @@ BaseAliveGameObject* FootSwitch::WhoIsStoodOnMe()
             }
         }
     }
-    else if (mTriggeredBy == FootSwitchTriggerBy::eAbe_0)
+    else if (mTriggeredBy == relive::Path_FootSwitch::FootSwitchTriggerBy::eAbe)
     {
         const PSX_RECT bRect = sActiveHero->VGetBoundingRect();
 

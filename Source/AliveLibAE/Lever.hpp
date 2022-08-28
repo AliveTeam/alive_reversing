@@ -63,9 +63,9 @@ private:
         eBit2_persist_offscreen = 0x2,
     };
     BitField16<Flags_100> field_100_flags = {};
-    SwitchOp field_102_action = SwitchOp::eSetTrue_0;
-    LeverSoundType field_104_on_sound = LeverSoundType::eNone;
-    LeverSoundType field_106_off_sound = LeverSoundType::eNone;
-    LeverSoundDirection field_108_sound_direction = LeverSoundDirection::eLeftAndRight_0;
+    relive::reliveSwitchOp field_102_action = relive::reliveSwitchOp::eSetTrue;
+    relive::Path_Lever::LeverSoundType field_104_on_sound = relive::Path_Lever::LeverSoundType::eNone;
+    relive::Path_Lever::LeverSoundType field_106_off_sound = relive::Path_Lever::LeverSoundType::eNone;
+    relive::Path_Lever::LeverSoundDirection field_108_sound_direction = relive::Path_Lever::LeverSoundDirection::eLeftAndRight;
 };
 ALIVE_ASSERT_SIZEOF(Lever, 0x10C);

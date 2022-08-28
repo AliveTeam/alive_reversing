@@ -12,8 +12,10 @@ MusicTrigger::MusicTrigger(relive::Path_MusicTrigger* pTlv, u32 tlvInfo)
     : BaseGameObject(TRUE, 0)
 {
     Init(pTlv->mMusicType, pTlv->mTriggeredBy, pTlv->mMusicDelay);
-    field_2C_tl = pTlv->mTopLeft;
-    field_30_br = pTlv->mBottomRight;
+    field_2C_tl.x = pTlv->mTopLeftX;
+    field_2C_tl.y = pTlv->mTopLeftY;
+    field_30_br.x = pTlv->mBottomRightX;
+    field_30_br.y = pTlv->mBottomRightY;
     field_20_tlvInfo = tlvInfo;
 }
 

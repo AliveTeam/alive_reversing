@@ -324,7 +324,7 @@ public:
     virtual void VScreenChanged() override;
     virtual void VPossessed() override;
     virtual void VUnPosses() override;
-    virtual void VOnTlvCollision(Path_TLV* pTlv) override;
+    virtual void VOnTlvCollision(relive::Path_TLV* pTlv) override;
     virtual void VOnTrapDoorOpen() override;
     virtual s16 VTakeDamage(BaseGameObject* pFrom) override;
 
@@ -628,7 +628,7 @@ private:
     };
     BitField16<Flags_216> field_216_flags = {};
 
-    Path_Slig field_218_tlv_data = {};
+    relive::Path_Slig field_218_tlv_data = {};
     PSX_Point field_268_points[10] = {};
     s16 field_290_points_count = 0;
     s16 field_292_prevent_depossession = 0;

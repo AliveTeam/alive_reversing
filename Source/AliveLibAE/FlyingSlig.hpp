@@ -225,7 +225,7 @@ public:
     void ToLaunchingGrenade_435F50();
     void HandlePlayerControls_439340();
     s16 sub_437C70(PathLine* pLine);
-    TlvTypes FindLeftOrRightBound_43B0A0(FP xOrY, FP wOrH);
+    ReliveTypes FindLeftOrRightBound_43B0A0(FP xOrY, FP wOrH);
     s16 sub_436C60(PSX_RECT* pRect, s16 op1);
     bool sub_436B20();
     void sub_4373B0();
@@ -241,7 +241,7 @@ public:
     bool BrainIs(TFlyingSligBrainFn fn);
 
 private:
-    Path_FlyingSlig field_118_data = {};
+    relive::Path_FlyingSlig field_118_data = {};
     s32 field_148_tlvInfo = 0;
     s32 field_14C_timer = 0;
     s32 field_150_grenade_delay = 0;
@@ -273,8 +273,8 @@ private:
         eBit13_Persistant = 0x1000,
     };
     BitField16<Flags_17E> field_17E_flags = {};
-    TlvTypes field_180_bound2 = TlvTypes::None_m1;
-    TlvTypes field_182_bound1 = TlvTypes::None_m1;
+    ReliveTypes field_180_bound2 = ReliveTypes::eNone;
+    ReliveTypes field_182_bound1 = ReliveTypes::eNone;
     FP field_184_xSpeed = {};
     FP field_188_ySpeed = {};
     FP field_18C = {};

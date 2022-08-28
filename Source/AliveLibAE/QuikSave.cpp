@@ -296,11 +296,11 @@ void QuikSave_RestoreBlyData(const u8* pSaveData)
                     if (tlvOffset != -1)
                     {
                         u8* ptr = &(*ppPathRes)[pPathData->field_12_object_offset + tlvOffset];
-                        Path_TLV* pTlv = reinterpret_cast<Path_TLV*>(ptr);
+                        relive::Path_TLV* pTlv = reinterpret_cast<relive::Path_TLV*>(ptr);
                         while (pTlv)
                         {
                             // TODO: Convert table to strongly typed flags
-                            const u8 tableValue = kObjectTypeAttributesTable_byte_547794.mTypes[static_cast<s16>(pTlv->mTlvType32.mType)];
+                            const u8 tableValue = kObjectTypeAttributesTable_byte_547794.mTypes[static_cast<s16>(pTlv->mTlvType)];
                             if (tableValue == 1 || tableValue == 2) // Type 0 ignored - actually it should never be written here anyway
                             {
                                 pTlv->mTlvFlags.Raw().all = *pSrcFlags;
@@ -362,7 +362,7 @@ static void WriteChars(char_type*& pDst, u8 v1, u8 v2)
     pDst++;
 }
 
-static void WriteFlags(u8*& pSaveBuffer, const Path_TLV* pTlv, const BitField8<TlvFlags>& flags)
+static void WriteFlags(u8*& pSaveBuffer, const relive::Path_TLV* pTlv, const BitField8<relive::TlvFlags>& flags)
 {
     *pSaveBuffer = flags.Raw().all;
     pSaveBuffer++;
@@ -392,20 +392,20 @@ void Quicksave_SaveBlyData_4C9660(u8* pSaveBuffer)
                     if (tlvOffset != -1)
                     {
                         u8* ptr = &(*ppPathRes)[pPathData->field_12_object_offset + tlvOffset];
-                        Path_TLV* pTlv = reinterpret_cast<Path_TLV*>(ptr);
+                        relive::Path_TLV* pTlv = reinterpret_cast<relive::Path_TLV*>(ptr);
                         while (pTlv)
                         {
-                            if (kObjectTypeAttributesTable_byte_547794.mTypes[static_cast<s16>(pTlv->mTlvType32.mType)] == 1)
+                            if (kObjectTypeAttributesTable_byte_547794.mTypes[static_cast<s16>(pTlv->mTlvType)] == 1)
                             {
-                                BitField8<TlvFlags> flags = pTlv->mTlvFlags;
-                                if (flags.Get(TlvFlags::eBit1_Created))
+                                BitField8<relive::TlvFlags> flags = pTlv->mTlvFlags;
+                                if (flags.Get(relive::TlvFlags::eBit1_Created))
                                 {
-                                    flags.Clear(TlvFlags::eBit1_Created);
-                                    flags.Clear(TlvFlags::eBit2_Destroyed);
+                                    flags.Clear(relive::TlvFlags::eBit1_Created);
+                                    flags.Clear(relive::TlvFlags::eBit2_Destroyed);
                                 }
                                 WriteFlags(pSaveBuffer, pTlv, flags);
                             }
-                            else if (kObjectTypeAttributesTable_byte_547794.mTypes[static_cast<s16>(pTlv->mTlvType32.mType)] == 2)
+                            else if (kObjectTypeAttributesTable_byte_547794.mTypes[static_cast<s16>(pTlv->mTlvType)] == 2)
                             {
                                 WriteFlags(pSaveBuffer, pTlv, pTlv->mTlvFlags);
                             }
@@ -427,7 +427,7 @@ void Quicksave_SaveBlyData_4C9660(u8* pSaveBuffer)
 
 struct SaveFlagsAndData final
 {
-    BitField8<TlvFlags> flags;
+    BitField8<relive::TlvFlags> flags;
     u8 data;
 };
 ALIVE_ARY(1, 0xBB233C, SaveFlagsAndData, 8, sSwitchReset_Saved_States_BB233C, {});
@@ -454,10 +454,10 @@ void Quicksave_SaveSwitchResetterStates()
                     if (tlvOffset != -1)
                     {
                         u8* ptr = &(*ppPathRes)[pPathData->field_12_object_offset + tlvOffset];
-                        Path_TLV* pTlv = reinterpret_cast<Path_TLV*>(ptr);
+                        relive::Path_TLV* pTlv = reinterpret_cast<relive::Path_TLV*>(ptr);
                         while (pTlv)
                         {
-                            if (pTlv->mTlvType32 == TlvTypes::ResetPath_76)
+                            if (pTlv->mTlvType == ReliveTypes::eResetPath)
                             {
                                 if (sQuickSave_saved_switchResetters_count_BB234C < 8)
                                 {
@@ -503,10 +503,10 @@ void Quicksave_RestoreSwitchResetterStates()
                     if (tlvOffset != -1)
                     {
                         u8* ptr = &(*ppPathRes)[pPathData->field_12_object_offset + tlvOffset];
-                        Path_TLV* pTlv = reinterpret_cast<Path_TLV*>(ptr);
+                        relive::Path_TLV* pTlv = reinterpret_cast<relive::Path_TLV*>(ptr);
                         while (pTlv)
                         {
-                            if (pTlv->mTlvType32 == TlvTypes::ResetPath_76)
+                            if (pTlv->mTlvType == ReliveTypes::eResetPath)
                             {
                                 if (idx < 8)
                                 {

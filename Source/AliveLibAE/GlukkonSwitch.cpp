@@ -28,12 +28,12 @@ GlukkonSwitch::GlukkonSwitch(relive::Path_GlukkonSwitch* pTlv, s32 tlvInfo)
     field_F4_tlvInfo = tlvInfo;
     mAnim.mRenderLayer = Layer::eLayer_BeforeWell_22;
 
-    if (pTlv->mScale == Path_GlukkonSwitch::Scale::eFull_1)
+    if (pTlv->mScale == relive::reliveScale::eFull)
     {
         mSpriteScale = FP_FromInteger(1);
         mScale = Scale::Fg;
     }
-    else if (pTlv->mScale == Path_GlukkonSwitch::Scale::eHalf_0)
+    else if (pTlv->mScale == relive::reliveScale::eHalf)
     {
         mSpriteScale = FP_FromDouble(0.5);
         mScale = Scale::Bg;
@@ -41,8 +41,10 @@ GlukkonSwitch::GlukkonSwitch(relive::Path_GlukkonSwitch* pTlv, s32 tlvInfo)
 
     field_FA_ok_switch_id = pTlv->mOkSwitchId;
     field_FC_fail_switch_id = pTlv->mFailSwitchId;
-    field_118_top_left = pTlv->mTopLeft;
-    field_11C_bottom_right = pTlv->mBottomRight;
+    field_118_top_left.x = pTlv->mTopLeftX;
+    field_118_top_left.y = pTlv->mTopLeftY;
+    field_11C_bottom_right.x = pTlv->mBottomRightX;
+    field_11C_bottom_right.y = pTlv->mBottomRightY;
 
     mXPos = FP_FromInteger(pTlv->mXPos);
     mYPos = FP_FromInteger(pTlv->mYPos);
@@ -55,7 +57,7 @@ GlukkonSwitch::GlukkonSwitch(relive::Path_GlukkonSwitch* pTlv, s32 tlvInfo)
     }
     else
     {
-        mXPos = FP_FromInteger((pTlv->mTopLeft.x + pTlv->mBottomRight.x) / 2);
+        mXPos = FP_FromInteger((pTlv->mTopLeftX + pTlv->mBottomRightX) / 2);
     }
 
     if (mYPos > FP_FromInteger(0))
@@ -64,7 +66,7 @@ GlukkonSwitch::GlukkonSwitch(relive::Path_GlukkonSwitch* pTlv, s32 tlvInfo)
     }
     else
     {
-        mYPos = FP_FromInteger((pTlv->mTopLeft.y + pTlv->mBottomRight.y) / 2);
+        mYPos = FP_FromInteger((pTlv->mTopLeftY + pTlv->mBottomRightY) / 2);
     }
 
     if (pTlv->mTlvSpecificMeaning)
@@ -262,7 +264,7 @@ void GlukkonSwitch::VUpdate()
             SFX_Play_Pitch(SoundEffect::GlukkonSwitchBleh_88, 127, -700); //Bleh!
             Glukkon::PlaySound_GameSpeak(GlukkonSpeak::Laugh_7, 127, -200, 0);
             mAnim.Set_Animation_Data(AnimId::Security_Door_Speak, nullptr);
-            SwitchStates_Do_Operation(field_FA_ok_switch_id, SwitchOp::eToggle_2);
+            SwitchStates_Do_Operation(field_FA_ok_switch_id, relive::reliveSwitchOp::eToggle);
             field_F8_state = 1;
             field_120_timer = sGnFrame + 15;
             return;
@@ -287,7 +289,7 @@ void GlukkonSwitch::VUpdate()
             }
             Glukkon::PlaySound_GameSpeak(GlukkonSpeak::Heh_5, 127, -200, 0);
             mAnim.Set_Animation_Data(AnimId::Security_Door_Speak, nullptr);
-            SwitchStates_Do_Operation(field_FC_fail_switch_id, SwitchOp::eSetTrue_0);
+            SwitchStates_Do_Operation(field_FC_fail_switch_id, relive::reliveSwitchOp::eSetTrue);
             field_F8_state = 0;
             field_120_timer = sGnFrame + 90;
             return;

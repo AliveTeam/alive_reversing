@@ -348,20 +348,20 @@ void Map::RemoveObjectsWithPurpleLight(s16 bMakeInvisible)
 
 void Map::Handle_PathTransition()
 {
-    Path_PathTransition* pPathChangeTLV = nullptr;
+    relive::Path_PathTransition* pPathChangeTLV = nullptr;
     if (mAliveObj)
     {
-        pPathChangeTLV = static_cast<Path_PathTransition*>(sPathInfo->TLV_Get_At_4DB4B0(
+        pPathChangeTLV = static_cast<relive::Path_PathTransition*>(sPathInfo->TLV_Get_At_4DB4B0(
             FP_GetExponent(mAliveObj->mXPos),
             FP_GetExponent(mAliveObj->mYPos),
             FP_GetExponent(mAliveObj->mXPos),
             FP_GetExponent(mAliveObj->mYPos),
-            TlvTypes::PathTransition_1));
+            ReliveTypes::ePathTransition));
     }
 
     if (mAliveObj && pPathChangeTLV)
     {
-        mNextLevel = MapWrapper::FromAE(pPathChangeTLV->mNextLevel);
+        mNextLevel = pPathChangeTLV->mNextLevel;
         mNextPath = pPathChangeTLV->mNextPath;
         mNextCamera = pPathChangeTLV->mNextCamera;
         mFmvBaseId = pPathChangeTLV->mMovieId;
@@ -374,12 +374,12 @@ void Map::Handle_PathTransition()
 
         switch (pPathChangeTLV->mNextPathScale)
         {
-            case Scale_short::eFull_0:
+            case relive::reliveScale::eFull:
                 sActiveHero->mSpriteScale = FP_FromDouble(1.0);
                 sActiveHero->mAnim.mRenderLayer = Layer::eLayer_AbeMenu_32;
                 break;
 
-            case Scale_short::eHalf_1:
+            case relive::reliveScale::eHalf:
                 sActiveHero->mSpriteScale = FP_FromDouble(0.5);
                 sActiveHero->mAnim.mRenderLayer = Layer::eLayer_AbeMenu_Half_13;
                 break;
@@ -858,7 +858,7 @@ void Map::GoTo_Camera()
         pScreenManager = relive_new ScreenManager(field_2C_camera_array[0]->field_C_pCamRes, &field_24_camera_offset);
     }
 
-    sPathInfo->Loader_4DB800(mCamIdxOnX, mCamIdxOnY, LoadMode::ConstructObject_0, TlvTypes::None_m1); // none = load all
+    sPathInfo->Loader_4DB800(mCamIdxOnX, mCamIdxOnY, LoadMode::ConstructObject_0, ReliveTypes::eNone); // none = load all
     if (prevPathId != mCurrentPath || prevLevelId != mCurrentLevel)
     {
         if (sActiveHero)
@@ -897,10 +897,10 @@ void Map::GoTo_Camera()
             // TODO: Add template helpers
 
             // Door transition
-            Path_Door* pDoorTlv = static_cast<Path_Door*>(sPathInfo->TLV_First_Of_Type_In_Camera(TlvTypes::Door_5, 0));
+            relive::Path_Door* pDoorTlv = static_cast<relive::Path_Door*>(sPathInfo->TLV_First_Of_Type_In_Camera(ReliveTypes::eDoor, 0));
             while (pDoorTlv->mDoorId != sActiveHero->field_1A0_door_id)
             {
-                pDoorTlv = static_cast<Path_Door*>(Path::TLV_Next_Of_Type(pDoorTlv, TlvTypes::Door_5));
+                pDoorTlv = static_cast<relive::Path_Door*>(Path::TLV_Next_Of_Type(pDoorTlv, ReliveTypes::eDoor));
             }
 
             CreateScreenTransistionForTLV(pDoorTlv);
@@ -916,11 +916,11 @@ void Map::GoTo_Camera()
                 // TODO: Add template helpers
 
                 // Teleporter transition
-                Path_Teleporter* pTeleporterTlv = static_cast<Path_Teleporter*>(sPathInfo->TLV_First_Of_Type_In_Camera(TlvTypes::Teleporter_88, 0));
+                relive::Path_Teleporter* pTeleporterTlv = static_cast<relive::Path_Teleporter*>(sPathInfo->TLV_First_Of_Type_In_Camera(ReliveTypes::eTeleporter, 0));
                 Path_Teleporter_Data teleporterData = pTeleporterTlv->mData;
                 while (teleporterData.mTeleporterId != sActiveHero->field_1A0_door_id)
                 {
-                    pTeleporterTlv = static_cast<Path_Teleporter*>(Path::TLV_Next_Of_Type(pTeleporterTlv, TlvTypes::Teleporter_88));
+                    pTeleporterTlv = static_cast<relive::Path_Teleporter*>(Path::TLV_Next_Of_Type(pTeleporterTlv, ReliveTypes::eTeleporter));
                     teleporterData = pTeleporterTlv->mData;
                 }
 
@@ -949,8 +949,8 @@ Camera* Map::GetCamera(CameraPos pos)
 void Map::CreateScreenTransistionForTLV(relive::Path_TLV* pTlv)
 {
     // TODO: Refactor
-    const s16 doorYDiff = static_cast<s16>(pTlv->mTopLeft.y - FP_GetExponent(pScreenManager->CamYPos()));
-    const s16 midX = (pTlv->mTopLeft.x + pTlv->mBottomRight.x) / 2;
+    const s16 doorYDiff = static_cast<s16>(pTlv->mTopLeftY - FP_GetExponent(pScreenManager->CamYPos()));
+    const s16 midX = (pTlv->mTopLeftX + pTlv->mBottomRightX) / 2;
     const s16 rightPos = static_cast<s16>(midX - FP_GetExponent(pScreenManager->CamXPos()));
     relive_new CameraSwapper(field_2C_camera_array[0]->field_C_pCamRes, mCameraSwapEffect, rightPos, doorYDiff);
 }
@@ -1268,7 +1268,7 @@ void Map::Load_Path_Items(Camera* pCamera, LoadMode loadMode)
             ResourceManager::LoadResourceFile_49C130(pCamera->field_1E_cam_name, Camera::On_Loaded, pCamera, pCamera);
 
             sCameraBeingLoaded_5C3118 = pCamera;
-            sPathInfo->Loader_4DB800(pCamera->mCamXOff, pCamera->mCamYOff, LoadMode::LoadResourceFromList_1, TlvTypes::None_m1); // none = load all
+            sPathInfo->Loader_4DB800(pCamera->mCamXOff, pCamera->mCamYOff, LoadMode::LoadResourceFromList_1, ReliveTypes::eNone); // none = load all
         }
         else
         {
@@ -1278,7 +1278,7 @@ void Map::Load_Path_Items(Camera* pCamera, LoadMode loadMode)
             pCamera->field_C_pCamRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Bits, pCamera->field_10_camera_resource_id, 1, 0);
 
             sCameraBeingLoaded_5C3118 = pCamera;
-            sPathInfo->Loader_4DB800(pCamera->mCamXOff, pCamera->mCamYOff, LoadMode::LoadResource_2, TlvTypes::None_m1); // none = load all
+            sPathInfo->Loader_4DB800(pCamera->mCamXOff, pCamera->mCamYOff, LoadMode::LoadResource_2, ReliveTypes::eNone); // none = load all
         }
         sCameraBeingLoaded_5C3118 = nullptr;
     }
@@ -1319,7 +1319,7 @@ s16 Map::SetActiveCameraDelayed(MapDirections direction, BaseAliveGameObject* pO
             FP_GetExponent(pObj->mYPos),
             FP_GetExponent(pObj->mXPos),
             FP_GetExponent(pObj->mYPos),
-            TlvTypes::PathTransition_1));
+            ReliveTypes::ePathTransition));
     }
 
     if (pObj && pPathChangeTLV)

@@ -43,13 +43,13 @@ Drill::Drill(relive::Path_Drill* pTlv, u32 tlvInfo)
     mAnim.mRenderMode = TPageAbr::eBlend_0;
 
     SetTint(kDrillTints_551548, gMap.mCurrentLevel);
-    Path_Drill_Data tlvData = pTlv->mDrillData;
+    relive::Path_Drill tlvData = *pTlv;
 
     field_128_flags.Clear(Flags::eBit2_ToggleStartState_StartOn);
     field_128_flags.Clear(Flags::eBit5_SpeedChanged);
     field_128_flags.Clear(Flags::eBit4_Toggle);
 
-    if (tlvData.mStartStateOn == Choice_short::eYes_1)
+    if (tlvData.mStartStateOn == relive::reliveChoice::eYes)
     {
         field_128_flags.Clear(Flags::eBit1_StartOff);
     }
@@ -65,7 +65,7 @@ Drill::Drill(relive::Path_Drill* pTlv, u32 tlvInfo)
         field_128_flags.Set(Flags::eBit2_ToggleStartState_StartOn);
     }
 
-    if (tlvData.mScale == Scale_short::eFull_0)
+    if (tlvData.mScale == relive::reliveScale::eFull)
     {
         mSpriteScale = FP_FromInteger(1);
         mAnim.mRenderLayer = Layer::eLayer_RopeWebDrillMeatSaw_24;
@@ -78,8 +78,8 @@ Drill::Drill(relive::Path_Drill* pTlv, u32 tlvInfo)
         mScale = Scale::Bg;
     }
 
-    mDrillDirection = tlvData.mDirection;
-    if (tlvData.mStartPositionBottom == Choice_short::eYes_1)
+    mDrillDirection = tlvData.mDrillDirection;
+    if (tlvData.mStartPositionBottom == relive::reliveChoice::eYes)
     {
         field_128_flags.Set(Flags::eBit6_StartPosIsBottom);
     }
@@ -109,10 +109,10 @@ Drill::Drill(relive::Path_Drill* pTlv, u32 tlvInfo)
 
     switch (mDrillDirection)
     {
-        case DrillDirection::eDown_0:
-            mAdjustedXPos = FP_FromInteger(pTlv->mTopLeft.x + 12);
+        case relive::Path_Drill::DrillDirection::eDown:
+            mAdjustedXPos = FP_FromInteger(pTlv->mTopLeftX + 12);
             mXPos = mAdjustedXPos;
-            mAdjustedYPos = FP_FromInteger(pTlv->mBottomRight.y);
+            mAdjustedYPos = FP_FromInteger(pTlv->mBottomRightY);
 
             if (field_128_flags.Get(Flags::eBit2_ToggleStartState_StartOn))
             {
@@ -123,7 +123,7 @@ Drill::Drill(relive::Path_Drill* pTlv, u32 tlvInfo)
                 mAnim.Set_Animation_Data(AnimId::Drill_Vertical_Off, nullptr);
             }
 
-            mDrillDistance = pTlv->mBottomRight.y - pTlv->mTopLeft.y;
+            mDrillDistance = pTlv->mBottomRightY - pTlv->mTopLeftY;
             if (field_128_flags.Get(Flags::eBit6_StartPosIsBottom))
             {
                 field_124_xyoff = FP_FromInteger(0);
@@ -135,9 +135,9 @@ Drill::Drill(relive::Path_Drill* pTlv, u32 tlvInfo)
             mYPos = mAdjustedYPos - field_124_xyoff;
             break;
 
-        case DrillDirection::eRight_1:
-            mAdjustedXPos = FP_FromInteger(pTlv->mTopLeft.x + 12);
-            mAdjustedYPos = FP_FromInteger(pTlv->mBottomRight.y);
+        case relive::Path_Drill::DrillDirection::eRight:
+            mAdjustedXPos = FP_FromInteger(pTlv->mTopLeftX + 12);
+            mAdjustedYPos = FP_FromInteger(pTlv->mBottomRightY);
             mYPos = mAdjustedYPos;
 
             if (field_128_flags.Get(Flags::eBit2_ToggleStartState_StartOn))
@@ -149,7 +149,7 @@ Drill::Drill(relive::Path_Drill* pTlv, u32 tlvInfo)
                 mAnim.Set_Animation_Data(AnimId::Drill_Horizontal_Off, nullptr);
             }
 
-            mDrillDistance = pTlv->mBottomRight.x - pTlv->mTopLeft.x;
+            mDrillDistance = pTlv->mBottomRightX - pTlv->mTopLeftX;
             if (field_128_flags.Get(Flags::eBit6_StartPosIsBottom))
             {
                 field_124_xyoff = FP_FromInteger(0);
@@ -161,11 +161,11 @@ Drill::Drill(relive::Path_Drill* pTlv, u32 tlvInfo)
             mXPos = field_124_xyoff + mAdjustedXPos;
             break;
 
-        case DrillDirection::eLeft_2:
+        case relive::Path_Drill::DrillDirection::eLeft:
             mAnim.mFlags.Set(AnimFlags::eBit5_FlipX);
 
-            mAdjustedXPos = FP_FromInteger(pTlv->mBottomRight.x - 12);
-            mAdjustedYPos = FP_FromInteger(pTlv->mBottomRight.y);
+            mAdjustedXPos = FP_FromInteger(pTlv->mBottomRightX - 12);
+            mAdjustedYPos = FP_FromInteger(pTlv->mBottomRightY);
             mYPos = mAdjustedYPos;
 
             if (field_128_flags.Get(Flags::eBit2_ToggleStartState_StartOn))
@@ -177,7 +177,7 @@ Drill::Drill(relive::Path_Drill* pTlv, u32 tlvInfo)
                 mAnim.Set_Animation_Data(AnimId::Drill_Horizontal_Off, nullptr);
             }
 
-            mDrillDistance = pTlv->mBottomRight.x - pTlv->mTopLeft.x;
+            mDrillDistance = pTlv->mBottomRightX - pTlv->mTopLeftX;
             if (field_128_flags.Get(Flags::eBit6_StartPosIsBottom))
             {
                 field_124_xyoff = FP_FromInteger(0);
@@ -194,12 +194,12 @@ Drill::Drill(relive::Path_Drill* pTlv, u32 tlvInfo)
     mMinOffTime = tlvData.mOnMinPauseTime;
     switch (tlvData.mDrillBehavior)
     {
-        case DrillBehavior::eToggle_1:
+        case relive::Path_Drill::DrillBehavior::eToggle:
             field_128_flags.Set(Flags::eBit3_UseId);
             field_128_flags.Clear(Flags::eBit4_Toggle);
             break;
 
-        case DrillBehavior::eUse_2:
+        case relive::Path_Drill::DrillBehavior::eUse:
             field_128_flags.Set(Flags::eBit3_UseId);
             field_128_flags.Set(Flags::eBit4_Toggle);
             break;
@@ -239,7 +239,7 @@ s32 Drill::CreateFromSaveState(const u8* pData)
 {
     const Drill_State* pState = reinterpret_cast<const Drill_State*>(pData);
 
-    Path_Drill* pTlv = static_cast<Path_Drill*>(sPathInfo->TLV_From_Offset_Lvl_Cam(pState->field_8_tlvInfo));
+    auto pTlv = static_cast<relive::Path_Drill*>(sPathInfo->TLV_From_Offset_Lvl_Cam(pState->field_8_tlvInfo));
 
     if (!ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kAbeblowResID, 0, 0))
     {
@@ -263,13 +263,13 @@ s32 Drill::CreateFromSaveState(const u8* pData)
     {
         switch (pDrill->mDrillDirection)
         {
-            case DrillDirection::eDown_0:
+            case relive::Path_Drill::DrillDirection::eDown:
             {
                 pDrill->mAnim.Set_Animation_Data(AnimId::Drill_Vertical_On, nullptr);
                 break;
             }
-            case DrillDirection::eRight_1:
-            case DrillDirection::eLeft_2:
+            case relive::Path_Drill::DrillDirection::eRight:
+            case relive::Path_Drill::DrillDirection::eLeft:
             {
                 pDrill->mAnim.Set_Animation_Data(AnimId::Drill_Horizontal_On, nullptr);
                 break;
@@ -303,13 +303,13 @@ void Drill::VUpdate()
 
                     switch (mDrillDirection)
                     {
-                        case DrillDirection::eDown_0:
+                        case relive::Path_Drill::DrillDirection::eDown:
                         {
                             mAnim.Set_Animation_Data(AnimId::Drill_Vertical_On, nullptr);
                             break;
                         }
-                        case DrillDirection::eRight_1:
-                        case DrillDirection::eLeft_2:
+                        case relive::Path_Drill::DrillDirection::eRight:
+                        case relive::Path_Drill::DrillDirection::eLeft:
                         {
                             mAnim.Set_Animation_Data(AnimId::Drill_Horizontal_On, nullptr);
                             break;
@@ -329,19 +329,19 @@ void Drill::VUpdate()
 
                 switch (mDrillDirection)
                 {
-                    case DrillDirection::eDown_0:
+                    case relive::Path_Drill::DrillDirection::eDown:
                     {
                         mAnim.Set_Animation_Data(AnimId::Drill_Vertical_On, nullptr);
                         break;
                     }
 
-                    case DrillDirection::eRight_1:
+                    case relive::Path_Drill::DrillDirection::eRight:
                     {
                         mAnim.Set_Animation_Data(AnimId::Drill_Horizontal_On, nullptr);
                         break;
                     }
 
-                    case DrillDirection::eLeft_2:
+                    case relive::Path_Drill::DrillDirection::eLeft:
                     {
                         mAnim.Set_Animation_Data(AnimId::Drill_Horizontal_On, nullptr);
                         mAnim.mFlags.Set(AnimFlags::eBit5_FlipX);
@@ -407,7 +407,7 @@ void Drill::VUpdate()
 
                 mOffTimer = MakeTimer(Math_RandomRange(min_off, max_off));
 
-                if (mDrillDirection == DrillDirection::eDown_0)
+                if (mDrillDirection == relive::Path_Drill::DrillDirection::eDown)
                 {
                     mAnim.Set_Animation_Data(AnimId::Drill_Vertical_Off, nullptr);
                 }
@@ -504,17 +504,17 @@ void Drill::VRender(PrimHeader** ppOt)
             mYPos,
             0))
     {
-        if (mDrillDirection == DrillDirection::eDown_0)
+        if (mDrillDirection == relive::Path_Drill::DrillDirection::eDown)
         {
             mYPos = mAdjustedYPos - field_124_xyoff;
             BaseAnimatedWithPhysicsGameObject::VRender(ppOt);
         }
-        else if (mDrillDirection == DrillDirection::eRight_1)
+        else if (mDrillDirection == relive::Path_Drill::DrillDirection::eRight)
         {
             mXPos = mAdjustedXPos + field_124_xyoff;
             BaseAnimatedWithPhysicsGameObject::VRender(ppOt);
         }
-        else if (mDrillDirection == DrillDirection::eLeft_2)
+        else if (mDrillDirection == relive::Path_Drill::DrillDirection::eLeft)
         {
             mXPos = mAdjustedXPos - field_124_xyoff;
             BaseAnimatedWithPhysicsGameObject::VRender(ppOt);
@@ -559,7 +559,7 @@ void Drill::EmitSparks()
         // 1 in 6 chance of sparks
         if (Math_RandomRange(0, 6) == 0)
         {
-            if (mDrillDirection == DrillDirection::eRight_1)
+            if (mDrillDirection == relive::Path_Drill::DrillDirection::eRight)
             {
                 relive_new Spark(mXPos - (mSpriteScale * FP_FromInteger(17)) + FP_FromInteger(speed),
                                              mYPos - (mSpriteScale * FP_FromInteger(12)),
@@ -577,7 +577,7 @@ void Drill::EmitSparks()
                                              205,
                                              SparkType::eSmallChantParticle_0);
             }
-            else if (mDrillDirection == DrillDirection::eLeft_2)
+            else if (mDrillDirection == relive::Path_Drill::DrillDirection::eLeft)
             {
                 relive_new Spark(mXPos + (mSpriteScale * FP_FromInteger(17)) - FP_FromInteger(speed),
                                              mYPos - (mSpriteScale * FP_FromInteger(12)),
@@ -595,7 +595,7 @@ void Drill::EmitSparks()
                                              205,
                                              SparkType::eSmallChantParticle_0);
             }
-            else if (mDrillDirection == DrillDirection::eDown_0)
+            else if (mDrillDirection == relive::Path_Drill::DrillDirection::eDown)
             {
                 relive_new Spark(mXPos,
                                              mYPos - (mSpriteScale * FP_FromInteger(22)) - FP_FromInteger(speed),
@@ -621,7 +621,7 @@ s16 Drill::DamageTouchingObjects()
 {
     PSX_RECT drillRect = VGetBoundingRect();
 
-    if (mDrillDirection == DrillDirection::eDown_0)
+    if (mDrillDirection == relive::Path_Drill::DrillDirection::eDown)
     {
         drillRect.y += 16;
     }

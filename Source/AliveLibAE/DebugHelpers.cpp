@@ -399,20 +399,24 @@ void Command_Spawn(const std::vector<std::string>& args)
     PSX_Point spawnBottomRight = {static_cast<s16>(spawnX + 50), static_cast<s16>(spawnY + 30)};
 
     TPathFunctionFn factoryFunc = nullptr;
-    Path_TLV* factoryTLV = nullptr;
+    relive::Path_TLV* factoryTLV = nullptr;
 
-    Path_Mudokon mudPath = {};
-    mudPath.mScale = Scale_short::eFull_0;
-    mudPath.mJob = MudJobs::eSitScrub_1;
+    relive::Path_Mudokon mudPath = {};
+    mudPath.mScale = relive::reliveScale::eFull;
+    mudPath.mJob = relive::Path_Mudokon::MudJobs::eSitScrub;
     mudPath.mVoicePitch = (rand() % 1500) - 600;
-    mudPath.mTopLeft = spawnTopLeft;
-    mudPath.mBottomRight = spawnBottomRight;
+    mudPath.mTopLeftX = spawnTopLeft.x;
+    mudPath.mTopLeftY = spawnTopLeft.y;
+    mudPath.mBottomRightX = spawnBottomRight.x;
+    mudPath.mBottomRightY = spawnBottomRight.y;
 
     s8 blankMemory[512];
     memset(blankMemory, 0, sizeof(blankMemory));
-    Path_TLV* basicTlvPath = reinterpret_cast<Path_TLV*>(&blankMemory);
-    basicTlvPath->mTopLeft = spawnTopLeft;
-    basicTlvPath->mBottomRight = spawnBottomRight;
+    relive::Path_TLV* basicTlvPath = reinterpret_cast<relive::Path_TLV*>(&blankMemory);
+    basicTlvPath->mTopLeftX = spawnTopLeft.x;
+    basicTlvPath->mTopLeftY = spawnTopLeft.y;
+    basicTlvPath->mBottomRightX = spawnBottomRight.x;
+    basicTlvPath->mBottomRightY = spawnBottomRight.y;
 
     factoryTLV = basicTlvPath;
 
