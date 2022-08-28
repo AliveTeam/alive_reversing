@@ -43,7 +43,7 @@ private:
 public:
     u16 field_118_detonating = 0;
     u16 field_11A_disabled_resources = 0;
-    TlvItemInfoUnion field_11C_tlv = {};
+    TLVUniqueId field_11C_tlv;
     u32 field_120_gnframe = 0;
     Animation field_124_animation = {};
     BitField32<Mine_Flags_1BC> field_1BC_flags = {};

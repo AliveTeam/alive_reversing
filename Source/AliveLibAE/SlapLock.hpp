@@ -62,7 +62,7 @@ private:
 
 private:
     relive::Path_SlapLock* mSlapLockTlv = nullptr;
-    s32 mTlvInfo = 0;
+    TLVUniqueId mTlvInfo;
     SlapLockStates mState = SlapLockStates::eShaking_0;
     s32 mTimer1 = 0;
     relive::reliveChoice mHasGhost = relive::reliveChoice::eNo;

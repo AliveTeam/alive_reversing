@@ -92,7 +92,7 @@ struct CrawlingSlig_State final
     s16 field_7A_unused_counter;
     s32 field_7C_say_help_timer;
 };
-ALIVE_ASSERT_SIZEOF_ALWAYS(CrawlingSlig_State, 0x80);
+//ALIVE_ASSERT_SIZEOF_ALWAYS(CrawlingSlig_State, 0x80);
 
 enum class CrawlingSligMotion : s16
 {

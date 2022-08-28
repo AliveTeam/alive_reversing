@@ -19,7 +19,7 @@
 
 ALIVE_VAR(0, 0x5C3008, Mine*, sMineSFXOwner_5C3008, nullptr);
 
-Mine::Mine(relive::Path_Mine* pPath, TlvItemInfoUnion tlv)
+Mine::Mine(relive::Path_Mine* pPath, const TLVUniqueId& tlv)
     : BaseAliveGameObject(0)
 {
     SetType(ReliveTypes::eMine);
@@ -119,11 +119,11 @@ Mine::~Mine()
 {
     if (field_118_detonating == 1)
     {
-        Path::TLV_Reset(field_11C_tlv.all, -1, 0, 1);
+        Path::TLV_Reset(field_11C_tlv, -1, 0, 1);
     }
     else
     {
-        Path::TLV_Reset(field_11C_tlv.all, -1, 0, 0);
+        Path::TLV_Reset(field_11C_tlv, -1, 0, 0);
     }
 
     field_124_animation.VCleanUp();

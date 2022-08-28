@@ -6,8 +6,6 @@
 
 namespace AO {
 
-struct TLVUniqueId;
-
 enum class TlvTypes : s16
 {
     None_m1 = -1,

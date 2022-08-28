@@ -50,7 +50,7 @@ public:
     static s32 CreateFromSaveState(const u8* pState);
 
 private:
-    TLVUniqueId mTlvInfo = 0;
+    TLVUniqueId mTlvInfo;
     s16 mSwitchId = 0;
     WheelStates mState = WheelStates::eIdle_0;
     s16 mActivationTime = 0;

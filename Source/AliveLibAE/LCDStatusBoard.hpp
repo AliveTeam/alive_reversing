@@ -28,7 +28,7 @@ public:
     Alive::Font field_58_font2 = {};
     Alive::Font field_90_font3 = {};
     Alive::Font field_C8_font4 = {};
-    TLVUniqueId field_100_objectId = 0;
+    TLVUniqueId field_100_objectId;
     s16 field_104_position_x = 0;
     s16 field_106_position_y = 0;
     s16 field_108_is_hidden = 0;

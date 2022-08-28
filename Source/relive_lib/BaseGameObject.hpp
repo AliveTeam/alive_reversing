@@ -3,6 +3,7 @@
 #include "../AliveLibCommon/Types.hpp"
 #include "../AliveLibCommon/BitField.hpp"
 #include "DynamicArray.hpp"
+#include "../relive_lib/data_conversion/tlv_unique_id.hpp"
 
 extern u32 sGnFrame;
 
@@ -518,7 +519,7 @@ public:
     s32 mBaseGameObjectUpdateDelay = 0;
 
     s32 mBaseGameObjectId = 0; // AE
-    s32 mBaseGameObjectTlvInfo = 0; // AE
+    TLVUniqueId mBaseGameObjectTlvInfo;      // AE
     DynamicArrayT<u8*> field_10_resources_array; // AE
 
     s8 mBaseGameObjectRefCount = 0; // AO
