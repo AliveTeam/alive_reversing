@@ -917,11 +917,9 @@ void Map::GoTo_Camera()
 
                 // Teleporter transition
                 relive::Path_Teleporter* pTeleporterTlv = static_cast<relive::Path_Teleporter*>(sPathInfo->TLV_First_Of_Type_In_Camera(ReliveTypes::eTeleporter, 0));
-                Path_Teleporter_Data teleporterData = pTeleporterTlv->mData;
-                while (teleporterData.mTeleporterId != sActiveHero->field_1A0_door_id)
+                while (pTeleporterTlv->mTeleporterId != sActiveHero->field_1A0_door_id)
                 {
                     pTeleporterTlv = static_cast<relive::Path_Teleporter*>(Path::TLV_Next_Of_Type(pTeleporterTlv, ReliveTypes::eTeleporter));
-                    teleporterData = pTeleporterTlv->mData;
                 }
 
                 CreateScreenTransistionForTLV(pTeleporterTlv);

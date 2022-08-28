@@ -1641,7 +1641,7 @@ void Abe::VUpdate()
             field_128.mSay = MudSounds::eOops_14;
             mAutoSayTimer = sGnFrame + Math_RandomRange(22, 30);
 
-            relive_new MusicTrigger(MusicTriggerMusicType::eDeathDrumShort_1, TriggeredBy::eTimer_0, 90, 0);
+            relive_new MusicTrigger(relive::Path_MusicTrigger::MusicTriggerMusicType::eDeathDrumShort, relive::Path_MusicTrigger::TriggeredBy::eTimer, 90, 0);
         }
 
         if (EventGet(kEventMudokonComfort))
@@ -6703,7 +6703,7 @@ void Abe::Motion_86_HandstoneBegin_45BD00()
                         SwitchStates_Set(static_cast<s16>(switch_id), 1);
                     }
 
-                    mHandStoneType = BaseAliveGameObjectPathTLV->mTlvType32.mType;
+                    mHandStoneType = BaseAliveGameObjectPathTLV->mTlvType;
                 }
                 else
                 {
@@ -8104,7 +8104,7 @@ void Abe::Motion_127_TurnWheelLoop_456750()
         {
             field_120_state.wheel = WorkWheelStates::eMapChanging_2;
             SND_SEQ_Play(SeqId::SaveTriggerMusic_31, 1, 127, 127);
-            relive_new MusicTrigger(MusicTriggerMusicType::eChime_5, TriggeredBy::eTimer_0, 0, 0);
+            relive_new MusicTrigger(relive::Path_MusicTrigger::MusicTriggerMusicType::eChime, relive::Path_MusicTrigger::TriggeredBy::eTimer, 0, 0);
             return;
         }
         else

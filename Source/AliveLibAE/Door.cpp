@@ -395,7 +395,7 @@ void Door::VUpdate()
                 if (!SwitchStates_Get(field_100_switch_id) && field_F8_door_type == DoorTypes::eTasksDoorWithSecretMusic_2)
                 {
                     SND_SEQ_Play(SeqId::SecretMusic_32, 1, 127, 127);
-                    relive_new MusicTrigger(MusicTriggerMusicType::eChime_5, TriggeredBy::eTimer_0, 0, 0);
+                    relive_new MusicTrigger(relive::Path_MusicTrigger::MusicTriggerMusicType::eChime, relive::Path_MusicTrigger::TriggeredBy::eTimer, 0, 0);
                 }
                 SwitchStates_Do_Operation(field_100_switch_id, relive::reliveSwitchOp::eSetTrue);
             }

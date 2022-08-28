@@ -417,7 +417,7 @@ struct Abe_SaveState final
     s8 mHandStoneCamIdx;
     s8 field_A5_padding;
     s16 field_A6_padding;
-    TlvTypes32 mHandStoneType;
+    ReliveTypes mHandStoneType;
     u16 mFmvId;
     u16 mHandStoneCam1;
     u16 mHandStoneCam2;

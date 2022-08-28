@@ -15,11 +15,27 @@
 #include "ParticleBurst.hpp"
 #include "Electrocute.hpp"
 
+
+void SetData(Relive_Path_Teleporter_Data& tlvData, const relive::Path_Teleporter& tlv)
+{
+    tlvData.mTeleporterId = tlv.mTeleporterId;
+    tlvData.mOtherTeleporterId = tlv.mOtherTeleporterId;
+    tlvData.mDestCamera = tlv.mDestCamera;
+    tlvData.mDestPath = tlv.mDestPath;
+    tlvData.mDestLevel = tlv.mDestLevel;
+    tlvData.mSwitchId = tlv.mSwitchId;
+    tlvData.mScale = tlv.mScale;
+    tlvData.mWipeEffect = tlv.mWipeEffect;
+    tlvData.mMovieId = tlv.mMovieId;
+    tlvData.mElectricX = tlv.mElectricX;
+    tlvData.mElectricY = tlv.mElectricY;
+}
+
 Teleporter::Teleporter(relive::Path_Teleporter* pTlv, u32 tlvInfo)
     : BaseGameObject(TRUE, 0)
 {
     field_4C_pTlv = pTlv; // TODO: Don't think this is used, and it can become a dangling ptr?
-    field_34_mTlvData = pTlv->field_10_data;
+    SetData(field_34_mTlvData, *pTlv);
     field_20_tlvInfo = tlvInfo;
 
     field_24_global_y1 = FP_GetExponent((FP_FromInteger(pTlv->mTopLeftY) - pScreenManager->CamYPos()));
@@ -65,7 +81,7 @@ const PSX_Point kSparkOffs_563988[8] = {
     {15, 45},
     {0, 0}};
 
-void Teleporter::SpawnRingSparks(Path_Teleporter_Data* pTlvData)
+void Teleporter::SpawnRingSparks(Relive_Path_Teleporter_Data* pTlvData)
 {
     PSX_Point abeSpawnPos = {};
     gMap.Get_Abe_Spawn_Pos(&abeSpawnPos);
@@ -77,7 +93,7 @@ void Teleporter::SpawnRingSparks(Path_Teleporter_Data* pTlvData)
     {
         s32 sparkX = 0;
         s32 sparkY = 0;
-        if (pTlvData->mScale != Scale_short::eFull_0)
+        if (pTlvData->mScale != relive::reliveScale::eFull)
         {
             sparkX = xOrg + (sparkOffs.x / 2);
             sparkY = yOrg + (sparkOffs.y / 2);
@@ -153,7 +169,7 @@ void Teleporter::VUpdate()
                 if (!field_54_effect_created)
                 {
                     // Spawn the falling "red" sparks from Abe's feet that appear after you enter the teleporter
-                    if (field_34_mTlvData.mScale != Scale_short::eFull_0)
+                    if (field_34_mTlvData.mScale != relive::reliveScale::eFull)
                     {
                         // Steam/smoke effect at Abe's body
                         New_Smoke_Particles(
@@ -212,7 +228,7 @@ void Teleporter::VUpdate()
             }
 
             gMap.SetActiveCam(
-                MapWrapper::FromAE(field_34_mTlvData.mDestLevel),
+                field_34_mTlvData.mDestLevel,
                 field_34_mTlvData.mDestPath,
                 field_34_mTlvData.mDestCamera,
                 effect,
@@ -230,13 +246,14 @@ void Teleporter::VUpdate()
             gMap.mTeleporterTransition = 0;
 
             relive::Path_Teleporter* pTeleporterTlv = static_cast<relive::Path_Teleporter*>(sPathInfo->TLV_First_Of_Type_In_Camera(ReliveTypes::eTeleporter, 0));
-            Path_Teleporter_Data tlvData = pTeleporterTlv->mData;
+            Relive_Path_Teleporter_Data tlvData = {};
+            SetData(tlvData, *pTeleporterTlv);
             if (tlvData.mTeleporterId != field_34_mTlvData.mOtherTeleporterId)
             {
                 while (pTeleporterTlv)
                 {
                     pTeleporterTlv = static_cast<relive::Path_Teleporter*>(sPathInfo->TLV_Next_Of_Type(pTeleporterTlv, ReliveTypes::eTeleporter));
-                    tlvData = pTeleporterTlv->mData;
+                    SetData(tlvData, *pTeleporterTlv);
 
                     if (tlvData.mTeleporterId == field_34_mTlvData.mOtherTeleporterId)
                     {
@@ -245,10 +262,10 @@ void Teleporter::VUpdate()
                 }
             }
 
-            SFX_Play_Pitch(SoundEffect::Zap1_49, 60, -300, tlvData.mScale != Scale_short::eFull_0 ? FP_FromDouble(0.5) : FP_FromInteger(1));
+            SFX_Play_Pitch(SoundEffect::Zap1_49, 60, -300, tlvData.mScale != relive::reliveScale::eFull ? FP_FromDouble(0.5) : FP_FromInteger(1));
             SpawnRingSparks(&tlvData);
 
-            if (tlvData.mScale != Scale_short::eFull_0)
+            if (tlvData.mScale != relive::reliveScale::eFull)
             {
                 if (sControlledCharacter->mScale == Scale::Fg)
                 {

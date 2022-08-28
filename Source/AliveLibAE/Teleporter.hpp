@@ -6,6 +6,21 @@
 
 class Electrocute;
 
+struct Relive_Path_Teleporter_Data
+{
+    s16 mTeleporterId;
+    s16 mOtherTeleporterId;
+    s16 mDestCamera;
+    s16 mDestPath;
+    EReliveLevelIds mDestLevel;
+    s16 mSwitchId;
+    relive::reliveScale mScale;
+    relive::reliveScreenChangeEffects mWipeEffect;
+    s16 mMovieId;
+    s16 mElectricX;
+    s16 mElectricY;
+};
+
 class Teleporter final : public BaseGameObject
 {
 public:
@@ -17,7 +32,7 @@ public:
 
 private:
     static Electrocute* Create_ElectrocuteEffect();
-    void SpawnRingSparks(Path_Teleporter_Data* pTlvData);
+    void SpawnRingSparks(Relive_Path_Teleporter_Data* pTlvData);
 
     s32 field_20_tlvInfo = 0;
     s16 field_24_global_y1 = 0;
@@ -35,8 +50,8 @@ private:
     };
     TeleporterState field_30_state = TeleporterState::eWaitForSwitchOn_0;
     s16 field_32_bDestroySelf = 0;
-    Path_Teleporter_Data field_34_mTlvData = {};
-    Path_Teleporter* field_4C_pTlv = nullptr;
+    Relive_Path_Teleporter_Data field_34_mTlvData = {};
+    relive::Path_Teleporter* field_4C_pTlv = nullptr;
     s32 field_50_objId = 0;
     s16 field_54_effect_created = 0;
 };
