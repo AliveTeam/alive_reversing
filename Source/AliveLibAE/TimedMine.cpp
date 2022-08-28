@@ -21,7 +21,7 @@
 static TintEntry sTimedMineTint_550EB8[1] = {{EReliveLevelIds::eNone, 127u, 127u, 127u}};
 
 
-TimedMine::TimedMine(relive::Path_TimedMine* pPath, TlvItemInfoUnion tlv)
+TimedMine::TimedMine(relive::Path_TimedMine* pPath, const TLVUniqueId& tlvId)
     : BaseAliveGameObject(0)
 {
     SetType(ReliveTypes::eTimedMine_or_MovingBomb);
@@ -70,7 +70,7 @@ TimedMine::TimedMine(relive::Path_TimedMine* pPath, TlvItemInfoUnion tlv)
         mYPos = hitY;
     }
 
-    mTlvInfo = tlv.all;
+    mTlvInfo = tlvId;
     mExplosionTimer = sGnFrame;
     SetBaseAnimPaletteTint(sTimedMineTint_550EB8, gMap.mCurrentLevel, kBombResID);
 

@@ -121,7 +121,7 @@ private:
 };
 ALIVE_ASSERT_SIZEOF(GrenadeMachineNozzle, 0x100);
 
-BoomMachine::BoomMachine(relive::Path_BoomMachine* pTlv, s32 tlvInfo)
+BoomMachine::BoomMachine(relive::Path_BoomMachine* pTlv, const TLVUniqueId& tlvId)
     : BaseAnimatedWithPhysicsGameObject(0)
 {
     SetType(ReliveTypes::eBoomMachine);
@@ -131,7 +131,7 @@ BoomMachine::BoomMachine(relive::Path_BoomMachine* pTlv, s32 tlvInfo)
     Animation_Init(AnimId::BoomMachine_Button_Off, ppRes);
 
     mVisualFlags.Clear(VisualFlags::eApplyShadowZoneColour);
-    field_F4_tlvInfo = tlvInfo;
+    field_F4_tlvInfo = tlvId;
     mAnim.mRenderMode = TPageAbr::eBlend_1;
 
     if (pTlv->mScale == relive::reliveScale::eHalf)

@@ -28,7 +28,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_SlamDoor, 0x1C);
 class SlamDoor final : public BaseAliveGameObject
 {
 public:
-    SlamDoor(relive::Path_SlamDoor* tlv_params, TlvItemInfoUnion tlvInfo);
+    SlamDoor(relive::Path_SlamDoor* tlv_params, const TLVUniqueId& tlvId);
     ~SlamDoor();
 
     virtual s32 VGetSaveState(u8* pSaveBuffer) override;

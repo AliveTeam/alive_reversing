@@ -27,7 +27,7 @@ const TintEntry kLeverTints_563228[18] = {
     {EReliveLevelIds::eBonewerkz_Ender, 127u, 127u, 127u},
     {EReliveLevelIds::eNone, 127u, 127u, 127u}};
 
-Lever::Lever(relive::Path_Lever* pTlv, u32 tlvInfo)
+Lever::Lever(relive::Path_Lever* pTlv, const TLVUniqueId& tlvId)
     : BaseAnimatedWithPhysicsGameObject(0)
 {
     SetType(ReliveTypes::eLever);
@@ -85,7 +85,7 @@ Lever::Lever(relive::Path_Lever* pTlv, u32 tlvInfo)
 
     field_104_on_sound = pTlv->mOnSound;
     field_106_off_sound = pTlv->mOffSound;
-    field_FC_tlvInfo = tlvInfo;
+    field_FC_tlvInfo = tlvId;
     field_108_sound_direction = pTlv->mSoundDirection;
 
     field_F8_state = LeverState::eWaiting_0;

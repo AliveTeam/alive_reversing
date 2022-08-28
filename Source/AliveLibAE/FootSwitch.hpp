@@ -33,7 +33,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(FootSwitch_Data, 0xC);
 class FootSwitch final : public ::BaseAnimatedWithPhysicsGameObject
 {
 public:
-    FootSwitch(relive::Path_FootSwitch* pTlv, s32 tlvInfo);
+    FootSwitch(relive::Path_FootSwitch* pTlv, const TLVUniqueId& tlvId);
     ~FootSwitch();
     
     virtual void VUpdate() override;
@@ -43,7 +43,7 @@ private:
     BaseAliveGameObject* WhoIsStoodOnMe();
 
 private:
-    s32 field_F4_tlvInfo = 0;
+    TLVUniqueId field_F4_tlvInfo;
     enum class States : s16
     {
         eWaitForStepOnMe = 0,

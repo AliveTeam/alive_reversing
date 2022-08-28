@@ -7,12 +7,12 @@
 #include "Game.hpp"
 #include "SwitchStates.hpp"
 
-ZzzSpawner::ZzzSpawner(relive::Path_ZzzSpawner* pTlv, s32 tlvInfo)
+ZzzSpawner::ZzzSpawner(relive::Path_ZzzSpawner* pTlv, const TLVUniqueId& tlvId)
     : BaseGameObject(TRUE, 0)
 {
     mXPos = FP_FromInteger(pTlv->mTopLeftX);
     mYPos = FP_FromInteger(pTlv->mTopLeftY);
-    mTlvInfo = tlvInfo;
+    mTlvInfo = tlvId;
 
     if (pTlv->mScale == relive::reliveScale::eHalf)
     {

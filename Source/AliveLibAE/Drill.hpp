@@ -48,12 +48,12 @@ struct Drill_State final
     s16 field_0;
     s16 field_2_padding;
     s32 field_4;
-    s32 field_8_tlvInfo;
+    TLVUniqueId field_8_tlvInfo;
     s32 field_C_off_timer;
     DrillStates field_10_state;
     s16 field_12_xyoff;
 };
-ALIVE_ASSERT_SIZEOF_ALWAYS(Drill_State, 0x14);
+//ALIVE_ASSERT_SIZEOF_ALWAYS(Drill_State, 0x14);
 
 
 struct Path_Drill final : public Path_TLV
@@ -65,7 +65,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Drill, 0x28);
 class Drill final : public ::BaseAnimatedWithPhysicsGameObject
 {
 public:
-    Drill(relive::Path_Drill* pTlv, u32 tlvInfo);
+    Drill(relive::Path_Drill* pTlv, const TLVUniqueId& tlvId);
     ~Drill();
 
     virtual void VUpdate() override;
@@ -89,7 +89,7 @@ private:
     s16 mMaxOffTime = 0;
     s16 field_100_min_off_time_speed_change = 0;
     s16 field_102_max_off_time_speed_change = 0;
-    u32 mTlvInfo = 0;
+    TLVUniqueId mTlvInfo;
     s32 mOffTimer = 0;
     s32 mAudioChannelsMask = 0;
     FP mAdjustedXPos = {};

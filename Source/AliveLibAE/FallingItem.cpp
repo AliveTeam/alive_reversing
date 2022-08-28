@@ -33,13 +33,13 @@ const AnimId sFallingItemData_544DC0[15][2] = {
 
 ALIVE_VAR(1, 0x5BC208, FallingItem*, pPrimaryFallingItem_5BC208, nullptr);
 
-FallingItem::FallingItem(relive::Path_FallingItem* pTlv, s32 tlvInfo)
+FallingItem::FallingItem(relive::Path_FallingItem* pTlv, const TLVUniqueId& tlvId)
     : BaseAliveGameObject(0)
 {
     SetType(ReliveTypes::eRockSpawner);
 
     mBaseGameObjectFlags.Set(BaseGameObject::eCanExplode_Bit7);
-    field_118_tlvInfo = tlvInfo;
+    field_118_tlvInfo = tlvId;
 
     Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kExplo2ResID);
 

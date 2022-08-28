@@ -45,12 +45,12 @@ Door::Door()
 {
 }
 
-Door::Door(relive::Path_Door* pTlvData, s32 tlvInfo)
+Door::Door(relive::Path_Door* pTlvData, const TLVUniqueId& tlvId)
     : BaseAnimatedWithPhysicsGameObject(0)
 {
     SetType(ReliveTypes::eDoor);
 
-    field_F4_tlvInfo = tlvInfo;
+    field_F4_tlvInfo = tlvId;
     field_F8_door_type = pTlvData->mDoorType;
     field_FE_start_state = pTlvData->mStartState;
 
@@ -487,10 +487,10 @@ void Door::VScreenChanged()
 ALIVE_VAR(1, 0xBB4AA0, FP, sTrainDoorXPos_BB4AA0, {});
 ALIVE_VAR(1, 0xBB4AA4, FP, sTrainDoorYPos_BB4AA4, {});
 
-TrainDoor::TrainDoor(relive::Path_TrainDoor* pTlv, s32 tlvInfo)
+TrainDoor::TrainDoor(relive::Path_TrainDoor* pTlv, const TLVUniqueId& tlvId)
 {
     SetType(ReliveTypes::eDoor);
-    field_F4_tlvInfo = tlvInfo;
+    field_F4_tlvInfo = tlvId;
 
     const AnimRecord& rec = AnimRec(AnimId::Door_Train_Closing);
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);

@@ -8,10 +8,10 @@
 #include "SwitchStates.hpp"
 #include "Abe.hpp"
 
-InvisibleSwitch::InvisibleSwitch(relive::Path_InvisibleSwitch* pTlv, u32 tlvInfo)
+InvisibleSwitch::InvisibleSwitch(relive::Path_InvisibleSwitch* pTlv, const TLVUniqueId& tlvId)
     : BaseGameObject(TRUE, 0)
 {
-    field_24_tlvInfo = tlvInfo;
+    field_24_tlvInfo = tlvId;
     field_20_switch_id = pTlv->mSwitchId;
     field_22_action = pTlv->mAction;
     field_38_state = States::eWaitForTrigger_0;

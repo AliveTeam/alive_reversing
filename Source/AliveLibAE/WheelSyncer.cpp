@@ -6,10 +6,10 @@
 #include "Map.hpp"
 #include "stdlib.hpp"
 
-WheelSyncer::WheelSyncer(relive::Path_WheelSyncer* pTlv, u32 tlvInfo)
+WheelSyncer::WheelSyncer(relive::Path_WheelSyncer* pTlv, const TLVUniqueId& tlvId)
     : BaseGameObject(TRUE, 0)
 {
-    mTlvInfo = tlvInfo;
+    mTlvInfo = tlvId;
     mInputSwitchId1 = pTlv->mInputSwitchId1;
     mInputSwitchId2 = pTlv->mInputSwitchId2;
     mOutputSwitchId = pTlv->mOutputSwitchId;

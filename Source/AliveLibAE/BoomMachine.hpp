@@ -29,7 +29,7 @@ enum class BoomMachineStates : s16
 class BoomMachine final : public ::BaseAnimatedWithPhysicsGameObject
 {
 public:
-    BoomMachine(relive::Path_BoomMachine* pTlv, s32 tlvInfo);
+    BoomMachine(relive::Path_BoomMachine* pTlv, const TLVUniqueId& tlvId);
     ~BoomMachine();
 
     virtual void VUpdate() override;
@@ -38,7 +38,7 @@ public:
     virtual void VHandleButton();
 
 private:
-    s32 field_F4_tlvInfo = 0;
+    TLVUniqueId field_F4_tlvInfo;
     s32 field_F8_nozzle_id = 0;
     s32 field_FC_bIsButtonOn = 0;
 };

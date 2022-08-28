@@ -22,7 +22,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_SecurityOrb, 0x14);
 class SecurityOrb final : public BaseAliveGameObject
 {
 public:
-    SecurityOrb(relive::Path_SecurityOrb* pTlv, s32 tlvInfo);
+    SecurityOrb(relive::Path_SecurityOrb* pTlv, const TLVUniqueId& tlvId);
     ~SecurityOrb();
 
     virtual void VUpdate() override;

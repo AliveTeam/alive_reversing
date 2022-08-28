@@ -188,7 +188,7 @@ using TScrabMotionFn = void (Scrab::*)();
 class Scrab final : public BaseAliveGameObject
 {
 public:
-    Scrab(relive::Path_Scrab* pTlv, s32 tlvInfo, relive::Path_ScrabSpawner::SpawnDirection spawnDirection);
+    Scrab(relive::Path_Scrab* pTlv, const TLVUniqueId& tlvId, relive::Path_ScrabSpawner::SpawnDirection spawnDirection);
     ~Scrab();
 
     virtual void VUpdate() override;

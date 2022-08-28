@@ -9,7 +9,7 @@ ALIVE_VAR(1, 0x5c1b90, s16, gCreditsControllerExists, false);
 
 constexpr s32 kShowCreditScreenForTicks = 160;
 
-CreditsController::CreditsController(relive::Path_TLV* /*pTlv*/, s32 /*tlvInfo*/)
+CreditsController::CreditsController(relive::Path_TLV* /*pTlv*/, const TLVUniqueId& /*tlvId*/)
    : BaseGameObject(TRUE, 0)
 {
     mCurrentCamera = gMap.mCurrentCamera;

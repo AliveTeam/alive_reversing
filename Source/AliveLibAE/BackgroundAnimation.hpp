@@ -26,12 +26,12 @@ public:
     virtual void VUpdate() override;
     virtual void VScreenChanged() override;
 
-    BackgroundAnimation(relive::Path_BackgroundAnimation* pPathParams, TlvItemInfoUnion tlvInfo);
+    BackgroundAnimation(relive::Path_BackgroundAnimation* pPathParams, const TLVUniqueId& tlvId);
     ~BackgroundAnimation();
 
 private:
     AnimationFileHeader** field_F4_res = nullptr;
-    TlvItemInfoUnion field_F8_tlvInfo = {};
+    TLVUniqueId field_F8_tlvInfo;
     FP mObjectXPos = {};
     FP mObjectYPos = {};
 };

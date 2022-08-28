@@ -23,7 +23,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_GasEmitter, 0x14);
 class GasEmitter final : public BaseGameObject
 {
 public:
-    GasEmitter(relive::Path_GasEmitter* pTlv, s32 tlvInfo);
+    GasEmitter(relive::Path_GasEmitter* pTlv, const TLVUniqueId& tlvId);
     ~GasEmitter();
     
     virtual void VUpdate() override;
@@ -31,7 +31,7 @@ public:
     virtual void VStopAudio() override;
 
 private:
-    s32 field_20_tlvInfo = 0;
+    TLVUniqueId field_20_tlvInfo;
     s32 field_24_emit_power = 0;
     s16 field_28_draw_flipper = 0;
     s16 field_2A_switch_id = 0;

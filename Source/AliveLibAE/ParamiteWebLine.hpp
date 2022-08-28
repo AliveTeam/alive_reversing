@@ -14,7 +14,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_ParamiteWebLine, 0x14);
 class ParamiteWebLine final : public ::BaseAnimatedWithPhysicsGameObject
 {
 public:
-    ParamiteWebLine(relive::Path_ParamiteWebLine* pTlv, s32 tlvInfo);
+    ParamiteWebLine(relive::Path_ParamiteWebLine* pTlv, const TLVUniqueId& tlvId);
     ~ParamiteWebLine();
 
     void Wobble(s16 ypos);

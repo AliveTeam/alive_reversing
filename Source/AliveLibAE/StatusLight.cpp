@@ -8,10 +8,10 @@
 #include "stdlib.hpp"
 #include "Grid.hpp"
 
-StatusLight::StatusLight(relive::Path_StatusLight* pTlv, u32 tlvInfo)
+StatusLight::StatusLight(relive::Path_StatusLight* pTlv, const TLVUniqueId& tlvId)
     : BaseAnimatedWithPhysicsGameObject(0)
 {
-    field_F4_tlvInfo = tlvInfo;
+    field_F4_tlvInfo = tlvId;
     mInputSwitchId = pTlv->mInputSwitchId;
 
     if (pTlv->mScale != relive::reliveScale::eFull)

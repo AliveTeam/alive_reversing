@@ -16,7 +16,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_LCDStatusBoard, 0x18);
 class LCDStatusBoard final : public BaseGameObject
 {
 public:
-    LCDStatusBoard(relive::Path_LCDStatusBoard* params, TlvItemInfoUnion a3);
+    LCDStatusBoard(relive::Path_LCDStatusBoard* params, const TLVUniqueId& tlvId);
     ~LCDStatusBoard();
 
     virtual void VUpdate() override;
@@ -28,7 +28,7 @@ public:
     Alive::Font field_58_font2 = {};
     Alive::Font field_90_font3 = {};
     Alive::Font field_C8_font4 = {};
-    s32 field_100_objectId = 0;
+    TLVUniqueId field_100_objectId = 0;
     s16 field_104_position_x = 0;
     s16 field_106_position_y = 0;
     s16 field_108_is_hidden = 0;

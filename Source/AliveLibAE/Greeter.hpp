@@ -44,7 +44,7 @@ struct Greeter_State final
     s8 field_25_bDrawable;
     s8 field_26_padding;
     s8 field_27_padding;
-    s32 field_28_tlvInfo;
+    TLVUniqueId field_28_tlvInfo;
     s32 field_2C_unused;
     s32 field_30_last_turn_time;
     s32 field_34_timer;
@@ -59,7 +59,7 @@ struct Greeter_State final
     s16 field_4A_padding;
     FP field_4C_motion_laser_xpos;
 };
-ALIVE_ASSERT_SIZEOF_ALWAYS(Greeter_State, 0x50);
+//ALIVE_ASSERT_SIZEOF_ALWAYS(Greeter_State, 0x50);
 
 class PathLine;
 
@@ -76,7 +76,7 @@ enum class GreeterSpeak : s16
 class Greeter final : public BaseAliveGameObject
 {
 public:
-    Greeter(relive::Path_Greeter* pTlv, s32 tlvInfo);
+    Greeter(relive::Path_Greeter* pTlv, const TLVUniqueId& tlvId);
     ~Greeter();
     
     virtual void VUpdate() override;
@@ -98,7 +98,7 @@ private:
     BaseAliveGameObject* GetMudToZap();
 
 private:
-    s32 field_118_tlvInfo = 0;
+    TLVUniqueId field_118_tlvInfo;
     s32 field_11C_motionDetectorId = 0;
     s32 field_120_unused = 0;
     s32 field_124_last_turn_time = 0;

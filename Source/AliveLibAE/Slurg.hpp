@@ -59,18 +59,18 @@ struct Slurg_State final
     s8 mRender;
     s16 padding2;
     s32 mFrameTableOffset;
-    s32 mTlvInfo;
+    TLVUniqueId mTlvInfo;
     SlurgStates mSlurgState;
     BitField16<SlurgFlags> mSlurgFlags;
 };
-ALIVE_ASSERT_SIZEOF_ALWAYS(Slurg_State, 0x2C);
+//ALIVE_ASSERT_SIZEOF_ALWAYS(Slurg_State, 0x2C);
 
 class Slurg final : public BaseAliveGameObject
 {
 public:
     static void Clear_Slurg_Step_Watch_Points();
 
-    Slurg(relive::Path_Slurg* pTlv, u32 tlvInfo);
+    Slurg(relive::Path_Slurg* pTlv, const TLVUniqueId& tlvId);
     ~Slurg();
 
     virtual void VUpdate() override;
@@ -92,7 +92,7 @@ private:
     s16 mRngForMovingTimer = 0;
     PathLine* mSlurgLine = nullptr; // why not use the BaseAliveGameObject line?
     relive::Path_TLV* mSlurgTlv = nullptr; // dito
-    s32 mTlvInfo = 0;
+    TLVUniqueId mTlvInfo;
     FP mSlurgSpriteScale = {}; // just use BaseAnimatedWithPhysicsGameObject sprite scale?
 };
 ALIVE_ASSERT_SIZEOF(Slurg, 0x134);

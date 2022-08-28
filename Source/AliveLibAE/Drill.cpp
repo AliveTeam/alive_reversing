@@ -30,7 +30,7 @@ const TintEntry kDrillTints_551548[18] = {
     {EReliveLevelIds::eNone, 127u, 127u, 127u}};
 
 
-Drill::Drill(relive::Path_Drill* pTlv, u32 tlvInfo)
+Drill::Drill(relive::Path_Drill* pTlv, const TLVUniqueId& tlvId)
     : BaseAnimatedWithPhysicsGameObject(0)
 {
     SetType(ReliveTypes::eDrill);
@@ -227,7 +227,7 @@ Drill::Drill(relive::Path_Drill* pTlv, u32 tlvInfo)
     field_102_max_off_time_speed_change = tlvData.mOffMaxPauseTime;
     mOffTimer = 0;
     mDrillState = DrillStates::State_0_Restart_Cycle;
-    mTlvInfo = tlvInfo;
+    mTlvInfo = tlvId;
     mAudioChannelsMask = 0;
 
     mShadow = relive_new Shadow();

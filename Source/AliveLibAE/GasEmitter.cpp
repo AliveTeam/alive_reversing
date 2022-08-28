@@ -13,7 +13,7 @@
 ALIVE_VAR(1, 0x5BD4C8, GasEmitter*, sMainGasEmitter_5BD4C8, nullptr);
 ALIVE_VAR(1, 0x5BD4CC, u32, sGasEmiterAudioMask_5BD4CC, 0);
 
-GasEmitter::GasEmitter(relive::Path_GasEmitter* pTlv, s32 tlvInfo)
+GasEmitter::GasEmitter(relive::Path_GasEmitter* pTlv, const TLVUniqueId& tlvId)
     : BaseGameObject(TRUE, 0)
 {
     SetType(ReliveTypes::eNone);
@@ -23,7 +23,7 @@ GasEmitter::GasEmitter(relive::Path_GasEmitter* pTlv, s32 tlvInfo)
     field_2A_switch_id = pTlv->mSwitchId;
     field_2C_gas_colour = pTlv->mColour;
 
-    field_20_tlvInfo = tlvInfo;
+    field_20_tlvInfo = tlvId;
 
     field_30_xpos = FP_FromInteger(pTlv->mTopLeftX);
     field_34_ypos = FP_FromInteger(pTlv->mTopLeftY);

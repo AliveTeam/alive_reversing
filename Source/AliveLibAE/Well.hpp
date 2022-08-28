@@ -12,7 +12,7 @@ struct Path_WellExpress;
 class Well final : public BaseGameObject
 {
 public:
-    Well(relive::Path_WellBase* pTlv, FP xpos, FP ypos, s32 tlvInfo);
+    Well(relive::Path_WellBase* pTlv, FP xpos, FP ypos, const TLVUniqueId& tlvId);
     ~Well();
 
     virtual void VUpdate() override;

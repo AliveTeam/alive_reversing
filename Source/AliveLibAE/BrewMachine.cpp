@@ -38,7 +38,7 @@ u8 fontPalette_550F08[32] = {
     24u,
     216u};
 
-BrewMachine::BrewMachine(relive::Path_BrewMachine* pTlv, s32 tlvInfo)
+BrewMachine::BrewMachine(relive::Path_BrewMachine* pTlv, const TLVUniqueId& tlvId)
     : BaseAnimatedWithPhysicsGameObject(0)
 {
     SetType(ReliveTypes::eBrewMachine);
@@ -55,7 +55,7 @@ BrewMachine::BrewMachine(relive::Path_BrewMachine* pTlv, s32 tlvInfo)
     Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kAbeblowResID);
 
     mVisualFlags.Clear(VisualFlags::eApplyShadowZoneColour);
-    mTlvInfo = tlvInfo;
+    mTlvInfo = tlvId;
     mAnim.mRenderLayer = Layer::eLayer_Well_23;
     mRemainingBrewCount = pTlv->mBrewCount;
 

@@ -24,12 +24,12 @@
 #include "Sys_common.hpp"
 #include "AbilityRing.hpp"
 
-BirdPortal::BirdPortal(relive::Path_BirdPortal* pTlv, s32 tlvInfo)
+BirdPortal::BirdPortal(relive::Path_BirdPortal* pTlv, const TLVUniqueId& tlvId)
     : BaseGameObject(TRUE, 0)
 {
     mDovesExist = 0;
     SetType(ReliveTypes::eBirdPortal);
-    mBaseGameObjectTlvInfo = tlvInfo;
+    mBaseGameObjectTlvInfo = tlvId;
     mThrowableIndicatorId = -1;
 
     Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kPortalTerminatorResID);
@@ -37,7 +37,7 @@ BirdPortal::BirdPortal(relive::Path_BirdPortal* pTlv, s32 tlvInfo)
     Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kPortliteResID);
     Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kSplineResID);
 
-    mTlvInfo = tlvInfo;
+    mTlvInfo = tlvId;
 
     mEnterSide = pTlv->mEnterSide;
     mExitLevel = pTlv->mExitLevel;

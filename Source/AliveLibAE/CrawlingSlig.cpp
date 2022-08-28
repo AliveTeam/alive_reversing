@@ -130,7 +130,7 @@ enum Brain_4_GetKilled
     eBrain4_DeathDrop_5 = 5
 };
 
-CrawlingSlig::CrawlingSlig(relive::Path_CrawlingSlig* pTlv, s32 tlvInfo)
+CrawlingSlig::CrawlingSlig(relive::Path_CrawlingSlig* pTlv, const TLVUniqueId& tlvId)
     : BaseAliveGameObject(2)
 {
     field_1DC_unused = -1;
@@ -158,7 +158,7 @@ CrawlingSlig::CrawlingSlig(relive::Path_CrawlingSlig* pTlv, s32 tlvInfo)
 
     mShadow = relive_new Shadow();
 
-    field_118_tlvInfo = tlvInfo;
+    field_118_tlvInfo = tlvId;
     field_1E8_tlv = *pTlv;
 
     if (field_1E8_tlv.mScale == relive::reliveScale::eHalf)

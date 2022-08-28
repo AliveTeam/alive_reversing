@@ -17,7 +17,7 @@ enum class State : s16
 class SligGetPantsAndWings final : public ::BaseAnimatedWithPhysicsGameObject
 {
 public:
-    SligGetPantsAndWings(relive::Path_TLV* pTlv, s32 tlvInfo);
+    SligGetPantsAndWings(relive::Path_TLV* pTlv, const TLVUniqueId& tlvId);
     ~SligGetPantsAndWings();
 
     virtual void VUpdate() override;
@@ -25,7 +25,7 @@ public:
 
 private:
     State mState = State::eWaiting;
-    s32 mTlvInfo = 0;
+    TLVUniqueId mTlvInfo;
     s32 mTransformTimer = 0;
 };
 ALIVE_ASSERT_SIZEOF(SligGetPantsAndWings, 0x100);

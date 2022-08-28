@@ -42,7 +42,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_LiftMover, 0x18);
 class LiftMover final : public BaseGameObject
 {
 public:
-    LiftMover(relive::Path_LiftMover* pTlv, s32 tlvInfo);
+    LiftMover(relive::Path_LiftMover* pTlv, const TLVUniqueId& tlvId);
     ~LiftMover();
 
     static s32 CreateFromSaveState(const u8* pData);

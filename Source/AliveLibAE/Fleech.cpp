@@ -115,12 +115,12 @@ static u8 Fleech_NextRandom()
     return sRandomBytes_546744[sFleechRandomIdx_5BC20C++];
 }
 
-Fleech::Fleech(relive::Path_Fleech* pTlv, s32 tlvInfo)
+Fleech::Fleech(relive::Path_Fleech* pTlv, const TLVUniqueId& tlvId)
     : BaseAliveGameObject(2)
 {
     mXPos = FP_FromInteger(pTlv->mTopLeftX);
     mYPos = FP_FromInteger(pTlv->mTopLeftY);
-    mBaseGameObjectTlvInfo = tlvInfo;
+    mBaseGameObjectTlvInfo = tlvId;
 
     if (pTlv->mScale == relive::reliveScale::eHalf)
     {

@@ -148,7 +148,7 @@ using TFleechMotionFn = void (Fleech::*)();
 class Fleech final : public BaseAliveGameObject
 {
 public:
-    Fleech(relive::Path_Fleech* pTlv, s32 tlvInfo);
+    Fleech(relive::Path_Fleech* pTlv, const TLVUniqueId& tlvId);
     ~Fleech();
     
 

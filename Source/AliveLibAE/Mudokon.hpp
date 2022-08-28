@@ -271,7 +271,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Mudokon_State, 0x88);
 class Mudokon final : public BaseAliveGameObject
 {
 public:
-    Mudokon(relive::Path_Mudokon* pTlv, s32 tlvInfo);
+    Mudokon(relive::Path_Mudokon* pTlv, const TLVUniqueId& tlvId);
     ~Mudokon();
     
     virtual void VUpdate() override;

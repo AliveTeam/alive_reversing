@@ -10,11 +10,11 @@
 #include "Function.hpp"
 #include "Abe.hpp"
 
-TorturedMudokon::TorturedMudokon(relive::Path_TorturedMudokon* pTlv, s32 tlvInfo)
+TorturedMudokon::TorturedMudokon(relive::Path_TorturedMudokon* pTlv, const TLVUniqueId& tlvId)
     : BaseAnimatedWithPhysicsGameObject(0)
 {
     SetType(ReliveTypes::eTorturedMud);
-    mTlvInfo = tlvInfo;
+    mTlvInfo = tlvId;
 
     const AnimRecord& rec = AnimRec(AnimId::Tortured_Mudokon);
     mTorturedMudRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);

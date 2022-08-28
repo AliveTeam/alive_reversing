@@ -16,7 +16,7 @@ struct Bone_SaveState final
 {
     AETypes mAEType;
     s16 field_2_padding;
-    s32 field_4_obj_id;
+    TLVUniqueId field_4_obj_id;
     FP mXPos;
     FP mYPos;
     FP mVelX;
@@ -45,7 +45,7 @@ struct Bone_SaveState final
     FP mInitialYPos;
     s32 mTimeToLiveTimer;
 };
-ALIVE_ASSERT_SIZEOF_ALWAYS(Bone_SaveState, 0x3C);
+//ALIVE_ASSERT_SIZEOF_ALWAYS(Bone_SaveState, 0x3C);
 
 class Bone final : public BaseThrowable
 {
@@ -95,14 +95,14 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_BoneBag, 0x1C);
 class BoneBag final : public BaseAliveGameObject
 {
 public:
-    BoneBag(relive::Path_BoneBag* pTlv, s32 tlvInfo);
+    BoneBag(relive::Path_BoneBag* pTlv, const TLVUniqueId& tlvId);
     ~BoneBag();
 
     virtual void VUpdate() override;
     virtual void VScreenChanged() override;
  
 private:
-    s32 mTlvInfo = 0;
+    TLVUniqueId mTlvInfo;
     bool mIsBagHit = false;
     s16 mBoneAmount = 0;
     bool mAllowSound = false;

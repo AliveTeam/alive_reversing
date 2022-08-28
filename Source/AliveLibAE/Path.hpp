@@ -7,6 +7,7 @@
 #include <type_traits>
 #include "../relive_lib/MapWrapper.hpp"
 #include "../relive_lib/data_conversion/relive_tlvs.hpp"
+#include "Factory.hpp"
 
 struct PathData;
 
@@ -268,12 +269,12 @@ public:
     relive::Path_TLV* TLV_First_Of_Type_In_Camera(ReliveTypes objectType, s16 camX);
     relive::Path_TLV* TLV_Get_At_4DB4B0(s16 xpos, s16 ypos, s16 width, s16 height, ReliveTypes objectType);
     relive::Path_TLV* TlvGetAt(relive::Path_TLV* pTlv, FP xpos, FP ypos, FP w, FP h);
-    relive::Path_TLV* TLV_From_Offset_Lvl_Cam(u32 tlvOffset_levelId_PathId);
+    relive::Path_TLV* TLV_From_Offset_Lvl_Cam(const TLVUniqueId& tlvId);
 
     u32 TLVInfo_From_TLVPtr(relive::Path_TLV* pTlv);
 
     static relive::Path_TLV* TLV_Next_Of_Type(relive::Path_TLV* pTlv, ReliveTypes type);
-    static void TLV_Reset(u32 tlvOffset_levelId_PathId, s16 hiFlags, s8 bSetCreated, s8 bSetDestroyed);
+    static void TLV_Reset(const TLVUniqueId& tlvId, s16 hiFlags, s8 bSetCreated, s8 bSetDestroyed);
     static void Start_Sounds_For_Objects_In_Camera(CameraPos direction, s16 cam_x_idx, s16 cam_y_idx);
 
     static void Reset_TLVs(u16 pathId);

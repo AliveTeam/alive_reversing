@@ -18,7 +18,7 @@
 #include "Function.hpp"
 #include "Bullet.hpp"
 
-Greeter::Greeter(relive::Path_Greeter* pTlv, s32 tlvInfo)
+Greeter::Greeter(relive::Path_Greeter* pTlv, const TLVUniqueId& tlvId)
     : BaseAliveGameObject(0)
 {
     SetType(ReliveTypes::eGreeter);
@@ -56,7 +56,7 @@ Greeter::Greeter(relive::Path_Greeter* pTlv, s32 tlvInfo)
     field_134_speed = FP_FromInteger(pTlv->mMotionDetectorSpeed);
     field_13C_brain_state = GreeterBrainStates::eBrain_0_Patrol;
     field_12E_bDontSetDestroyed = 1;
-    field_118_tlvInfo = tlvInfo;
+    field_118_tlvInfo = tlvId;
 
     mXPos = FP_FromInteger((pTlv->mTopLeftX + pTlv->mBottomRightX) / 2);
     mYPos = FP_FromInteger(pTlv->mTopLeftY);

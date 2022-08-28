@@ -16,10 +16,10 @@ AnimId::HoistRock1};
 
 const static s16 word_5556F0[12] = {5, 0, 10, 0, 30, 0, 5, 0, 0, 0, 0, 0};
 
-HoistRocksEffect::HoistRocksEffect(relive::Path_Hoist* pTlv, s32 tlvInfo)
+HoistRocksEffect::HoistRocksEffect(relive::Path_Hoist* pTlv, const TLVUniqueId& tlvId)
     : BaseGameObject(TRUE, 0)
 {
-    field_24_tlvInfo = tlvInfo;
+    field_24_tlvInfo = tlvId;
 
     field_20_xpos = (pTlv->mTopLeftX + pTlv->mBottomRightX) / 2;
     field_22_ypos = pTlv->mTopLeftY;

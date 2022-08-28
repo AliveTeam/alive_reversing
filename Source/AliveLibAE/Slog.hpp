@@ -147,7 +147,7 @@ class Slog final : public BaseAliveGameObject
 {
 public:
     Slog(FP xpos, FP ypos, FP scale, s16 bListenToSligs, s16 jumpDelay);
-    Slog(relive::Path_Slog* pTlv, s32 tlvInfo);
+    Slog(relive::Path_Slog* pTlv, const TLVUniqueId& tlvId);
     ~Slog();
 
     virtual void VUpdate() override;
@@ -261,7 +261,7 @@ private:
     s16 field_122_brain_state_result = 0;
     s32 field_124_timer = 0;
     FP field_128_falling_velx_scale_factor = {};
-    s32 field_12C_tlvInfo = 0;
+    TLVUniqueId field_12C_tlvInfo;
     s16 field_130_motion_resource_block_index = 0;
     s16 field_132_has_woofed = 0;
     s32 field_134_last_event_index = 0;

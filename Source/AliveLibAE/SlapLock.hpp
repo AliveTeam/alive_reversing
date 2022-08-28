@@ -45,7 +45,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(SlapLock_State, 0x18);
 class SlapLock final : public BaseAliveGameObject
 {
 public:
-    SlapLock(relive::Path_SlapLock* pTlv, s32 tlvInfo);
+    SlapLock(relive::Path_SlapLock* pTlv, const TLVUniqueId& tlvId);
     ~SlapLock();
 
     virtual void VUpdate() override;

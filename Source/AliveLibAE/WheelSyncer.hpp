@@ -2,6 +2,7 @@
 
 #include "../relive_lib/BaseGameObject.hpp"
 #include "Path.hpp"
+#include "Factory.hpp"
 
 enum class WheelSyncerOutputRequirement : s16
 {
@@ -27,7 +28,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_WheelSyncer, 0x20);
 class WheelSyncer final : public BaseGameObject
 {
 public:
-    WheelSyncer(relive::Path_WheelSyncer* pTlv, u32 tlvInfo);
+    WheelSyncer(relive::Path_WheelSyncer* pTlv, const TLVUniqueId& tlvId);
     ~WheelSyncer();
 
     virtual void VUpdate() override;
@@ -42,6 +43,6 @@ private:
     s16 mInputSwitchId5 = 0;
     s16 mInputSwitchId6 = 0;
     relive::Path_WheelSyncer::OutputRequirement mOutputRequirement = relive::Path_WheelSyncer::OutputRequirement::eAllOn;
-    u32 mTlvInfo = 0;
+    TLVUniqueId mTlvInfo;
 };
 ALIVE_ASSERT_SIZEOF(WheelSyncer, 0x34);

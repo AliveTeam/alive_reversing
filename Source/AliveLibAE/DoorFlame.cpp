@@ -305,11 +305,11 @@ private:
 };
 ALIVE_ASSERT_SIZEOF(FlameSparks, 0x418);
 
-DoorFlame::DoorFlame(relive::Path_DoorFlame* pTlv, s32 tlvInfo)
+DoorFlame::DoorFlame(relive::Path_DoorFlame* pTlv, const TLVUniqueId& tlvId)
     : BaseAnimatedWithPhysicsGameObject(0)
 {
     SetType(ReliveTypes::eNone);
-    mTlvInfo = tlvInfo;
+    mTlvInfo = tlvId;
 
     const AnimRecord& rec = AnimRec(AnimId::Fire);
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);

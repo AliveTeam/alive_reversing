@@ -9,12 +9,12 @@
 #include "PathData.hpp"
 #include "GameEnderController.hpp"
 
-WorkWheel::WorkWheel(relive::Path_WorkWheel* pTlv, s32 tlvInfo)
+WorkWheel::WorkWheel(relive::Path_WorkWheel* pTlv, const TLVUniqueId& tlvId)
     : BaseAnimatedWithPhysicsGameObject(0)
 {
     SetType(ReliveTypes::eWheel);
 
-    mBaseGameObjectTlvInfo = tlvInfo;
+    mBaseGameObjectTlvInfo = tlvId;
 
     const AnimRecord& rec = AnimRec(AnimId::Work_Wheel_Idle);
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
@@ -70,7 +70,7 @@ WorkWheel::WorkWheel(relive::Path_WorkWheel* pTlv, s32 tlvInfo)
 
     mVisualFlags.Set(VisualFlags::eDoPurpleLightEffect);
     mState = WheelStates::eIdle_0;
-    mTlvInfo = tlvInfo;
+    mTlvInfo = tlvId;
 }
 
 WorkWheel::~WorkWheel()

@@ -114,7 +114,7 @@ struct Glukkon_SaveState final
 {
     AETypes field_0_id;
     s16 field_2_padding;
-    s32 field_4_object_id;
+    TLVUniqueId field_4_object_id;
     FP field_8_xpos;
     FP field_C_ypos;
     FP field_10_xvel;
@@ -140,7 +140,7 @@ struct Glukkon_SaveState final
     s32 field_3C_padding;
     u16 field_40_bIsActiveChar;
     s16 field_42_padding;
-    s32 field_44_tlvInfo;
+    TLVUniqueId field_44_tlvInfo;
     s32 field_48_brain_state_idx;
     s32 field_4C_padding;
     s16 field_50_brain_sub_state;
@@ -167,12 +167,12 @@ struct Glukkon_SaveState final
     s16 field_8C_can_be_possessed;
     AETypes field_8E_type_id;
 };
-ALIVE_ASSERT_SIZEOF_ALWAYS(Glukkon_SaveState, 144);
+//ALIVE_ASSERT_SIZEOF_ALWAYS(Glukkon_SaveState, 144);
 
 class Glukkon final : public BaseAliveGameObject
 {
 public:
-    Glukkon(relive::Path_Glukkon* pTlv, s32 tlvInfo);
+    Glukkon(relive::Path_Glukkon* pTlv, const TLVUniqueId& tlvId);
     ~Glukkon();
 
     static s32 CreateFromSaveState(const u8* pBuffer);
@@ -274,6 +274,6 @@ private:
     TGlukkonBrainFn field_20C_brain_state_fn = nullptr;
     s16 field_210_brain_sub_state = 0;
     s16 field_212_currentWalkPitch = 0;
-    s32 field_214_tlv_info = 0;
+    TLVUniqueId field_214_tlv_info;
 };
 ALIVE_ASSERT_SIZEOF(Glukkon, 0x218);

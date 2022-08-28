@@ -59,9 +59,9 @@ const TintEntry sLiftTints_55BF50[18] = {
     {EReliveLevelIds::eBonewerkz_Ender, 127u, 127u, 127u},
     {EReliveLevelIds::eNone, 127u, 127u, 127u}};
 
-LiftPoint::LiftPoint(relive::Path_LiftPoint* pTlv, s32 tlvInfo)
+LiftPoint::LiftPoint(relive::Path_LiftPoint* pTlv, const TLVUniqueId& tlvId)
 {
-    mBaseGameObjectTlvInfo = tlvInfo;
+    mBaseGameObjectTlvInfo = tlvId;
     SetType(ReliveTypes::eLiftPoint);
 
     pTlv->mTlvSpecificMeaning = 3;
@@ -85,7 +85,7 @@ LiftPoint::LiftPoint(relive::Path_LiftPoint* pTlv, s32 tlvInfo)
         rPlatformData.field_0_platform_anim_id,
         ppRes,
         pTlv,
-        tlvInfo);
+        tlvId);
 
     if (mSpriteScale == FP_FromInteger(1))
     {

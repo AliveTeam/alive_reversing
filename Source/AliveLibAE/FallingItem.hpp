@@ -27,7 +27,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_FallingItem, 0x1C);
 class FallingItem final : public BaseAliveGameObject
 {
 public:
-    FallingItem(relive::Path_FallingItem* pTlv, s32 tlvInfo);
+    FallingItem(relive::Path_FallingItem* pTlv, const TLVUniqueId& tlvId);
     FallingItem(s32 xpos, s32 ypos, s32 scale, s32 id, s32 fallInterval, s32 numItems, s32 bResetIdAfterUse);
     ~FallingItem();
 
@@ -42,7 +42,7 @@ private:
     void DamageHitItems();
 
 private:
-    s32 field_118_tlvInfo = 0;
+    TLVUniqueId field_118_tlvInfo;
     enum class State : s16
     {
         eWaitForIdEnable_0 = 0,

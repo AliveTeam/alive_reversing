@@ -8,16 +8,16 @@
 #include "Map.hpp"
 #include "stdlib.hpp"
 
-LevelLoader::LevelLoader(relive::Path_LevelLoader* pTlv, u32 tlvInfo)
+LevelLoader::LevelLoader(relive::Path_LevelLoader* pTlv, const TLVUniqueId& tlvId)
     : BaseGameObject(TRUE, 0)
 {
-    mBaseGameObjectTlvInfo = tlvInfo;
+    mBaseGameObjectTlvInfo = tlvId;
     field_20_switch_id = pTlv->mSwitchId;
     field_24_level = pTlv->mDestLevel;
     field_26_path = pTlv->mDestPath;
     field_28_camera = pTlv->mDestCamera;
     field_2A_movie_id = pTlv->mMovieId;
-    field_2C_tlvInfo = tlvInfo;
+    field_2C_tlvInfo = tlvId;
     field_22_state = States::eIdle_0;
 }
 

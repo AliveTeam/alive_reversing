@@ -563,7 +563,7 @@ const TintEntry kBoneTints_550EC0[18] = {
     {EReliveLevelIds::eNone, 127u, 127u, 127u}};
 
 
-BoneBag::BoneBag(relive::Path_BoneBag* pTlv, s32 tlvInfo)
+BoneBag::BoneBag(relive::Path_BoneBag* pTlv, const TLVUniqueId& tlvId)
     : BaseAliveGameObject(0)
 {
     SetType(ReliveTypes::eBoneBag);
@@ -578,7 +578,7 @@ BoneBag::BoneBag(relive::Path_BoneBag* pTlv, s32 tlvInfo)
     SetTint(&kBoneTints_550EC0[0], gMap.mCurrentLevel);
 
     mIsBagHit = false;
-    mTlvInfo = tlvInfo;
+    mTlvInfo = tlvId;
 
     mXPos = FP_FromInteger((pTlv->mTopLeftX + pTlv->mBottomRightX) / 2);
     mYPos = FP_FromInteger(pTlv->mBottomRightY);

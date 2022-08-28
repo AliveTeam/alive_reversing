@@ -16,7 +16,7 @@ struct Meat_SaveState final
 {
     AETypes field_0_type;
     s16 field_2_pad;
-    s32 field_4_obj_id;
+    TLVUniqueId field_4_obj_id;
     FP field_8_xpos;
     FP field_C_ypos;
     FP field_10_velx;
@@ -42,7 +42,7 @@ struct Meat_SaveState final
     FP field_34_ypos;
     s32 field_38_savedfield12C; // TODO: Figure out what field_12C is. -- Nemin (5/7/2020)
 };
-ALIVE_ASSERT_SIZEOF_ALWAYS(Meat_SaveState, 60);
+//ALIVE_ASSERT_SIZEOF_ALWAYS(Meat_SaveState, 60);
 
 class Meat final : public BaseThrowable
 {
@@ -96,14 +96,14 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_MeatSack, 0x1C);
 class MeatSack final : public BaseAliveGameObject
 {
 public:
-    MeatSack(relive::Path_MeatSack* pTlv, s32 tlvInfo);
+    MeatSack(relive::Path_MeatSack* pTlv, const TLVUniqueId& tlvId);
     ~MeatSack();
 
     virtual void VScreenChanged() override;
     virtual void VUpdate() override;
 
 private:
-    s32 field_118_tlvInfo = 0;
+    TLVUniqueId field_118_tlvInfo;
     s16 field_11C_bDoMeatSackIdleAnim = 0;
     s16 field_11E_amount_of_meat = 0;
     s16 field_120_bPlayWobbleSound = 0;

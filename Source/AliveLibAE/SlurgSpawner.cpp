@@ -13,11 +13,11 @@ static void SetData(const relive::Path_SlurgSpawner& tlv, Slurg_Spawner_Path_Dat
     data.padding = 0;
 }
 
-SlurgSpawner::SlurgSpawner(relive::Path_SlurgSpawner* pTlv, s32 tlvInfo)
+SlurgSpawner::SlurgSpawner(relive::Path_SlurgSpawner* pTlv, const TLVUniqueId& tlvId)
     : BaseGameObject(TRUE, 0)
 {
     SetType(ReliveTypes::eSlurgSpawner);
-    mTlvInfo = tlvInfo;
+    mTlvInfo = tlvId;
     mSlurgTlv = pTlv;
     SetData(*pTlv, mSlurgPathData);
     mSpawnCounter = 0;

@@ -98,7 +98,7 @@ s32 UXB::IsColliding()
 
 
 
-UXB::UXB(relive::Path_UXB* tlv_params, TlvItemInfoUnion itemInfo)
+UXB::UXB(relive::Path_UXB* tlv_params, const TLVUniqueId& tlvId)
     : BaseAliveGameObject(0)
 {
     SetType(ReliveTypes::eUXB);
@@ -206,7 +206,7 @@ UXB::UXB(relive::Path_UXB* tlv_params, TlvItemInfoUnion itemInfo)
         mYPos = hitY;
     }
 
-    mTlvInfo = itemInfo;
+    mTlvInfo = tlvId;
     mNextStateTimer = sGnFrame;
     mDisabledResources = static_cast<u16>(tlv_params->mDisabledResources);
 
@@ -321,11 +321,11 @@ UXB::~UXB()
 {
     if (mCurrentState != UXBState::eExploding || sGnFrame < mNextStateTimer)
     {
-        Path::TLV_Reset(mTlvInfo.all, -1, 0, 0);
+        Path::TLV_Reset(mTlvInfo, -1, 0, 0);
     }
     else
     {
-        Path::TLV_Reset(mTlvInfo.all, -1, 0, 1);
+        Path::TLV_Reset(mTlvInfo, -1, 0, 1);
     }
 
     mFlashAnim.VCleanUp();
@@ -424,16 +424,16 @@ void UXB::VUpdate()
             {
                 if (mStartingState != UXBState::eDelay || mCurrentState != UXBState::eDeactivated)
                 {
-                    Path::TLV_Reset(mTlvInfo.all, 0, 1, 0);
+                    Path::TLV_Reset(mTlvInfo, 0, 1, 0);
                 }
                 else
                 {
-                    Path::TLV_Reset(mTlvInfo.all, 1, 1, 0);
+                    Path::TLV_Reset(mTlvInfo, 1, 1, 0);
                 }
             }
             else
             {
-                Path::TLV_Reset(mTlvInfo.all, 1, 1, 0);
+                Path::TLV_Reset(mTlvInfo, 1, 1, 0);
             }
             mBaseGameObjectFlags.Set(Options::eDead);
         }
@@ -485,18 +485,18 @@ void UXB::VScreenChanged()
         {
             if (mStartingState != UXBState::eDelay || mCurrentState != UXBState::eDeactivated)
             {
-                Path::TLV_Reset(mTlvInfo.all, 0, 1, 0);
+                Path::TLV_Reset(mTlvInfo, 0, 1, 0);
                 mBaseGameObjectFlags.Set(Options::eDead);
             }
             else
             {
-                Path::TLV_Reset(mTlvInfo.all, 1, 1, 0);
+                Path::TLV_Reset(mTlvInfo, 1, 1, 0);
                 mBaseGameObjectFlags.Set(Options::eDead);
             }
         }
         else
         {
-            Path::TLV_Reset(mTlvInfo.all, 1, 1, 0);
+            Path::TLV_Reset(mTlvInfo, 1, 1, 0);
             mBaseGameObjectFlags.Set(Options::eDead);
         }
     }
@@ -523,7 +523,7 @@ s32 UXB::CreateFromSaveState(const u8* __pSaveState)
 {
     const SaveState_UXB* pSaveState = reinterpret_cast<const SaveState_UXB*>(__pSaveState);
 
-    relive::Path_UXB* uxbPath = reinterpret_cast<relive::Path_UXB*>(sPathInfo->TLV_From_Offset_Lvl_Cam(pSaveState->mTlvInfo.all));
+    relive::Path_UXB* uxbPath = reinterpret_cast<relive::Path_UXB*>(sPathInfo->TLV_From_Offset_Lvl_Cam(pSaveState->mTlvInfo));
 
     if (!(uxbPath->mDisabledResources & 1) && !ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kAbeblowResID, 0, 0))
     {

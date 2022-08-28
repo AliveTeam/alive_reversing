@@ -36,8 +36,8 @@ struct LiftPoint_State final
     s16 field_2_pad;
     FP field_4_xpos;
     FP field_8_ypos;
-    s32 field_C_tlvInfo;
-    s32 field_10_pTlv;
+    TLVUniqueId field_C_tlvInfo;
+    TLVUniqueId field_10_pTlv;
     FP field_14_floorYLevel;
     relive::Path_LiftPoint::LiftPointStopType field_18_lift_point_stop_type;
     enum Flags
@@ -52,12 +52,12 @@ struct LiftPoint_State final
     };
     BitField16<Flags> field_1A;
 };
-ALIVE_ASSERT_SIZEOF_ALWAYS(LiftPoint_State, 0x1C);
+//ALIVE_ASSERT_SIZEOF_ALWAYS(LiftPoint_State, 0x1C);
 
 class LiftPoint final : public PlatformBase
 {
 public:
-    LiftPoint(relive::Path_LiftPoint* pTlv, s32 tlvInfo);
+    LiftPoint(relive::Path_LiftPoint* pTlv, const TLVUniqueId& tlvId);
     ~LiftPoint();
     
     virtual void VRender(PrimHeader** ppOt) override;
@@ -102,7 +102,7 @@ public:
     u8 field_278_lift_point_id = 0;
 
 private:
-    s32 field_27C_pTlv = 0;
+    TLVUniqueId field_27C_pTlv;
     enum LiftFlags
     {
         eBit1_bTopFloor = 0x1,

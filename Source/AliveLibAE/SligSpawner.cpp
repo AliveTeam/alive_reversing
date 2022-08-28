@@ -8,17 +8,17 @@
 #include "../relive_lib/ObjectIds.hpp"
 #include "SwitchStates.hpp"
 
-SligSpawner::SligSpawner(relive::Path_Slig* pTlv, s32 tlvInfo)
+SligSpawner::SligSpawner(relive::Path_Slig* pTlv, const TLVUniqueId& tlvId)
     : BaseGameObject(TRUE, 0)
 {
     SetType(ReliveTypes::eSligSpawner);
 
-    if (tlvInfo != 0xFFFF)
+    if (tlvId.IsValid())
     {
-        mBaseGameObjectTlvInfo = tlvInfo;
+        mBaseGameObjectTlvInfo = tlvId;
     }
 
-    mTlvInfo = tlvInfo;
+    mTlvInfo = tlvId;
     mPathTlv = *pTlv;
 
     mSpawnerFlags.Set(SpawnerFlags::eBit1_DontDestroyTLV);

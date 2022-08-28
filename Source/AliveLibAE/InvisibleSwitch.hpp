@@ -27,7 +27,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_InvisibleSwitch, 0x1C);
 class InvisibleSwitch final : public BaseGameObject
 {
 public:
-    InvisibleSwitch(relive::Path_InvisibleSwitch* pTlv, u32 tlvInfo);
+    InvisibleSwitch(relive::Path_InvisibleSwitch* pTlv, const TLVUniqueId& tlvId);
     ~InvisibleSwitch();
 
     virtual void VUpdate() override;
@@ -36,7 +36,7 @@ public:
 private:
     s16 field_20_switch_id = 0;
     relive::reliveSwitchOp field_22_action = relive::reliveSwitchOp::eSetTrue;
-    s32 field_24_tlvInfo = 0;
+    TLVUniqueId field_24_tlvInfo;
     s32 field_28_delay_timer = 0;
     s32 field_2C_delay = 0;
     PSX_Point field_30_top_left = {};

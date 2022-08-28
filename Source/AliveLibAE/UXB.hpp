@@ -35,7 +35,7 @@ struct SaveState_UXB final
 {
     AETypes mType;
     s16 field_2_padding;
-    TlvItemInfoUnion mTlvInfo;
+    TLVUniqueId mTlvInfo;
     u32 mNextStateTimer;
     UXBState mCurrentState;
     UXBState mStartingState;
@@ -44,7 +44,7 @@ struct SaveState_UXB final
     u16 mRedBlinkCount;
     u16 mIsRed;
 };
-ALIVE_ASSERT_SIZEOF_ALWAYS(SaveState_UXB, 24);
+//ALIVE_ASSERT_SIZEOF_ALWAYS(SaveState_UXB, 24);
 
 enum UXB_Flags_1C8
 {
@@ -55,7 +55,7 @@ enum UXB_Flags_1C8
 class UXB final : public BaseAliveGameObject
 {
 public:
-    UXB(relive::Path_UXB* params, TlvItemInfoUnion itemInfo);
+    UXB(relive::Path_UXB* params, const TLVUniqueId& tlvId);
     ~UXB();
 
     virtual void VUpdate() override;
@@ -77,7 +77,7 @@ private:
     UXBState mCurrentState = UXBState::eDelay;
     UXBState mStartingState = UXBState::eDelay;
     u16 mDisabledResources = 0;
-    TlvItemInfoUnion mTlvInfo = {};
+    TLVUniqueId mTlvInfo = {};
     u32 mNextStateTimer = 0;
     Animation mFlashAnim = {};
     u16 mPatternLength = 0;

@@ -122,7 +122,7 @@ Slog::Slog(FP xpos, FP ypos, FP scale, s16 bListenToSligs, s16 chaseDelay)
     field_156_bone_eating_time = 60;
 }
 
-Slog::Slog(relive::Path_Slog* pTlv, s32 tlvInfo)
+Slog::Slog(relive::Path_Slog* pTlv, const TLVUniqueId& tlvId)
     : BaseAliveGameObject(5)
 {
     field_134_last_event_index = -1;
@@ -139,7 +139,7 @@ Slog::Slog(relive::Path_Slog* pTlv, s32 tlvInfo)
         mSpriteScale = FP_FromDouble(1);
     }
 
-    mBaseGameObjectTlvInfo = tlvInfo;
+    mBaseGameObjectTlvInfo = tlvId;
 
     Init();
 
@@ -152,8 +152,8 @@ Slog::Slog(relive::Path_Slog* pTlv, s32 tlvInfo)
 
     mAnim.mFlags.Set(AnimFlags::eBit5_FlipX, pTlv->mFacing == relive::reliveXDirection::eLeft);
 
-    field_12C_tlvInfo = tlvInfo;
-    mBaseGameObjectTlvInfo = tlvInfo;
+    field_12C_tlvInfo = tlvId;
+    mBaseGameObjectTlvInfo = tlvId;
     field_120_brain_state_idx = 1;
     field_118_target_id = -1;
     field_144_wake_up_anger = pTlv->mWakeUpAnger;

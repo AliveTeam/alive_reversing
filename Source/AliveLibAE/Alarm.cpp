@@ -11,10 +11,10 @@
 ALIVE_VAR(1, 0x5c1bb4, s16, alarmInstanceCount_5C1BB4, 0);
 ALIVE_VAR(1, 0x550d70, s32, sAlarmObjId_550D70, -1);
 
-Alarm::Alarm(relive::Path_Alarm* pTlv, s32 tlvInfo)
+Alarm::Alarm(relive::Path_Alarm* pTlv, const TLVUniqueId& tlvId)
     : EffectBase(Layer::eLayer_Above_FG1_39, TPageAbr::eBlend_3)
 {
-    mAlarmTlvInfo = tlvInfo;
+    mAlarmTlvInfo = tlvId;
 
     SetType(ReliveTypes::eAlarm);
 

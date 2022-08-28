@@ -253,7 +253,7 @@ bool Glukkon::BrainIs(TGlukkonBrainFn fn)
     return field_20C_brain_state_fn == fn;
 }
 
-Glukkon::Glukkon(relive::Path_Glukkon* pTlv, s32 tlvInfo)
+Glukkon::Glukkon(relive::Path_Glukkon* pTlv, const TLVUniqueId& tlvId)
     : BaseAliveGameObject(0)
 {
     ;
@@ -263,7 +263,7 @@ Glukkon::Glukkon(relive::Path_Glukkon* pTlv, s32 tlvInfo)
 
     mBaseAliveGameObjectFlags.Set(Flags_114::e114_Bit6_SetOffExplosives);
 
-    field_214_tlv_info = tlvInfo;
+    field_214_tlv_info = tlvId;
 
     switch (field_1A8_tlvData.mGlukkonType)
     {

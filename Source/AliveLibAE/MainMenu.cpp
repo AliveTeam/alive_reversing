@@ -483,7 +483,7 @@ MainMenuFrameTable sMainMenuFrameTable_561CC8[49] = {
 bool gBootToLoadScreen = false;
 #endif
 
-MainMenuController::MainMenuController(relive::Path_TLV* /*pTlv*/, TlvItemInfoUnion tlvOffsetLevelIdPathId)
+MainMenuController::MainMenuController(relive::Path_TLV* /*pTlv*/, const TLVUniqueId& tlvId)
     : BaseAnimatedWithPhysicsGameObject(0)
 {
     sMainMenuObjectCounter_BB4400++;
@@ -539,7 +539,7 @@ MainMenuController::MainMenuController(relive::Path_TLV* /*pTlv*/, TlvItemInfoUn
 
     field_1FE_highlite_alpha = 40;
     field_200_highlite_glow_speed = -8;
-    field_1F0_tlvOffsetLevelIdPathId = tlvOffsetLevelIdPathId.all; // TODO: Should probably be using the same types here, depending on how it gets used
+    mTlvId = tlvId;
 
     field_214_page_index = static_cast<s16>(GetPageIndexFromCam_4D05A0(gMap.mCurrentCamera));
     field_21C_camSwapEffectState = camTransEffectState::eConstructed_1;
@@ -635,7 +635,7 @@ MainMenuController::MainMenuController(relive::Path_TLV* /*pTlv*/, TlvItemInfoUn
 
 MainMenuController::~MainMenuController()
 {
-    Path::TLV_Reset(field_1F0_tlvOffsetLevelIdPathId, -1, 0, 0);
+    Path::TLV_Reset(mTlvId, -1, 0, 0);
     field_158_animation.VCleanUp();
 
     for (auto& res : field_F4_resources.field_0_resources)

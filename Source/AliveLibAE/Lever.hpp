@@ -46,7 +46,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Lever, 0x20);
 class Lever final : public ::BaseAnimatedWithPhysicsGameObject
 {
 public:
-    Lever(relive::Path_Lever* pTlv, u32 tlvInfo);
+    Lever(relive::Path_Lever* pTlv, const TLVUniqueId& tlvId);
     ~Lever();
 
     virtual void VUpdate() override;
@@ -56,7 +56,7 @@ public:
 private:
     s16 field_F4_switch_id = 0;
     LeverState field_F8_state = LeverState::eWaiting_0;
-    s32 field_FC_tlvInfo = 0;
+    TLVUniqueId field_FC_tlvInfo;
     enum Flags_100
     {
         eBit1_lever_anim_left_direction = 0x1,

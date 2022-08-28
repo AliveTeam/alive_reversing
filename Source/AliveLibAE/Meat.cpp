@@ -393,7 +393,7 @@ const TintEntry kMeatTints_55C254[] = {
 };
 
 
-MeatSack::MeatSack(relive::Path_MeatSack* pTlv, s32 tlvInfo)
+MeatSack::MeatSack(relive::Path_MeatSack* pTlv, const TLVUniqueId& tlvId)
     : BaseAliveGameObject(0)
 {
     SetType(ReliveTypes::eMeatSack);
@@ -404,7 +404,7 @@ MeatSack::MeatSack(relive::Path_MeatSack* pTlv, s32 tlvInfo)
     SetTint(&kMeatTints_55C254[0], gMap.mCurrentLevel);
 
     mVisualFlags.Clear(VisualFlags::eApplyShadowZoneColour);
-    field_118_tlvInfo = tlvInfo;
+    field_118_tlvInfo = tlvId;
 
     field_11C_bDoMeatSackIdleAnim = 0;
 

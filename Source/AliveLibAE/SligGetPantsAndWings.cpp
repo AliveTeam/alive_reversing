@@ -8,11 +8,11 @@
 #include "Sfx.hpp"
 #include "Slig.hpp"
 
-SligGetPantsAndWings::SligGetPantsAndWings(relive::Path_TLV* pTlv, s32 tlvInfo)
+SligGetPantsAndWings::SligGetPantsAndWings(relive::Path_TLV* pTlv, const TLVUniqueId& tlvId)
     : BaseAnimatedWithPhysicsGameObject(0)
 {
     SetType(ReliveTypes::eSligGetPantsOrWings);
-    mTlvInfo = tlvInfo;
+    mTlvInfo = tlvId;
 
     const AnimRecord& rec = AnimRec(AnimId::CrawlingSligLocker_Closed);
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);

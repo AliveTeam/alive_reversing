@@ -17,7 +17,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_GasCountDown, 0x18);
 class GasCountDown final : public BaseGameObject
 {
 public:
-    GasCountDown(relive::Path_GasCountDown* pTlv, s32 tlvInfo);
+    GasCountDown(relive::Path_GasCountDown* pTlv, const TLVUniqueId& tlvId);
     ~GasCountDown();
     
     virtual void VScreenChanged() override;

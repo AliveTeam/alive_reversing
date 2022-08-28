@@ -13,7 +13,7 @@
 
 const s16 sElecticWallFrames_55165C[6] = {0, 6, 10, 18, 22, 0};
 
-ElectricWall::ElectricWall(relive::Path_ElectricWall* pTlv, s32 tlvInfo)
+ElectricWall::ElectricWall(relive::Path_ElectricWall* pTlv, const TLVUniqueId& tlvId)
     : BaseAnimatedWithPhysicsGameObject(0)
 {
     SetType(ReliveTypes::eElectricWall);
@@ -33,7 +33,7 @@ ElectricWall::ElectricWall(relive::Path_ElectricWall* pTlv, s32 tlvInfo)
     mVisualFlags.Clear(VisualFlags::eApplyShadowZoneColour);
     mRGB.SetRGB(80, 80, 80);
 
-    field_F4_tlvInfo = tlvInfo;
+    field_F4_tlvInfo = tlvId;
 
     mXPos = FP_FromInteger(pTlv->mTopLeftX);
     mYPos = FP_FromInteger(pTlv->mTopLeftY);

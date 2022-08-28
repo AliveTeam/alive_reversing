@@ -48,7 +48,7 @@ const AnimId sFootSwitchData_547D60[15][2] = {
 };
 
 
-FootSwitch::FootSwitch(relive::Path_FootSwitch* pTlv, s32 tlvInfo)
+FootSwitch::FootSwitch(relive::Path_FootSwitch* pTlv, const TLVUniqueId& tlvId)
     : BaseAnimatedWithPhysicsGameObject(0)
 {
     SetType(ReliveTypes::eFootSwitch);
@@ -80,7 +80,7 @@ FootSwitch::FootSwitch(relive::Path_FootSwitch* pTlv, s32 tlvInfo)
     mVisualFlags.Set(VisualFlags::eDoPurpleLightEffect);
     mYPos = FP_FromInteger(pTlv->mBottomRightY);
     mCreateSparks = false;
-    field_F4_tlvInfo = tlvInfo;
+    field_F4_tlvInfo = tlvId;
     mFindStander = true;
 }
 

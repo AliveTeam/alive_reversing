@@ -55,10 +55,10 @@ const TintEntry sTrapDoorTints_5639AC[18] = {
     {EReliveLevelIds::eBonewerkz_Ender, 127u, 127u, 127u},
     {EReliveLevelIds::eNone, 127u, 127u, 127u}};
 
-TrapDoor::TrapDoor(relive::Path_TrapDoor* pTlv, s32 tlvInfo)
+TrapDoor::TrapDoor(relive::Path_TrapDoor* pTlv, const TLVUniqueId& tlvId)
 {
     SetType(ReliveTypes::eTrapDoor);
-    mBaseGameObjectTlvInfo = tlvInfo;
+    mBaseGameObjectTlvInfo = tlvId;
 
     mStayOpenTimeTimer = mStayOpenTime;
     mSwitchId = pTlv->mSwitchId;
@@ -96,7 +96,7 @@ TrapDoor::TrapDoor(relive::Path_TrapDoor* pTlv, s32 tlvInfo)
         sTrapDoorData_547B78[levelIdx].field_4_closed,
         ppRes,
         pTlv,
-        tlvInfo);
+        tlvId);
 
     if (mSpriteScale == FP_FromInteger(1))
     {

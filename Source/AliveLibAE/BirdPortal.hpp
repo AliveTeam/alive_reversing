@@ -47,9 +47,9 @@ struct BirdPortal_State final
     AETypes mAEType;
     u8 mState;
     u8 mMudCountForShrykull;
-    s32 mTlvInfo;
+    TLVUniqueId mTlvInfo;
 };
-ALIVE_ASSERT_SIZEOF_ALWAYS(BirdPortal_State, 8);
+//ALIVE_ASSERT_SIZEOF_ALWAYS(BirdPortal_State, 8);
 
 class BirdPortalTerminator final : public ::BaseAnimatedWithPhysicsGameObject
 {
@@ -67,7 +67,7 @@ enum Event : s16;
 class BirdPortal final : public BaseGameObject
 {
 public:
-    BirdPortal(relive::Path_BirdPortal* pTlv, s32 tlvInfo);
+    BirdPortal(relive::Path_BirdPortal* pTlv, const TLVUniqueId& tlvId);
     ~BirdPortal();
     
     virtual void VUpdate() override;
@@ -99,7 +99,7 @@ private:
     Event GetEvent();
 
 private:
-    s32 mTlvInfo = 0;
+    TLVUniqueId mTlvInfo;
 
 public:
     relive::Path_BirdPortal::PortalType mPortalType = relive::Path_BirdPortal::PortalType::eAbe;

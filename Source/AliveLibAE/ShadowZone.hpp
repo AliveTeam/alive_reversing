@@ -31,7 +31,7 @@ enum class LevelIds : s16;
 class ShadowZone final : public BaseGameObject
 {
 public:
-    ShadowZone(relive::Path_ShadowZone* pTlv, Path* pPath, u32 tlvInfo);
+    ShadowZone(relive::Path_ShadowZone* pTlv, Path* pPath, const TLVUniqueId& tlvId);
     ~ShadowZone();
 
     virtual void VUpdate() override;

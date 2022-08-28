@@ -42,7 +42,7 @@ struct CrawlingSlig_State final
 {
     AETypes field_0_type;
     s16 field_2_padding;
-    s32 field_4_obj_id;
+    TLVUniqueId field_4_obj_id;
     FP field_8_xpos;
     FP field_C_ypos;
     FP field_10_velx;
@@ -69,7 +69,7 @@ struct CrawlingSlig_State final
     s8 field_40_bIsControlled;
     s8 field_41_padding;
     s16 field_42_padding;
-    s32 field_44_tlvInfo;
+    TLVUniqueId field_44_tlvInfo;
     s32 field_48_brain_idx;
     s16 field_4C_padding;
     s16 field_4E_padding;
@@ -120,7 +120,7 @@ enum class CrawlingSligMotion : s16
 class CrawlingSlig final : public BaseAliveGameObject
 {
 public:
-    CrawlingSlig(relive::Path_CrawlingSlig* pTlv, s32 tlvInfo);
+    CrawlingSlig(relive::Path_CrawlingSlig* pTlv, const TLVUniqueId& tlvId);
     ~CrawlingSlig();
 
     virtual void VUpdate() override;
@@ -190,7 +190,7 @@ public:
     void Motion_17_EndPushingWall();
 
 private:
-    s32 field_118_tlvInfo = 0;
+    TLVUniqueId field_118_tlvInfo;
     s16 field_11C_pPalAlloc[64] = {};
     PSX_RECT field_19C_pal_rect = {};
     s16 field_1A4_r = 0;

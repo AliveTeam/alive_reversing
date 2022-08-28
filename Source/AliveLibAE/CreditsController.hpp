@@ -17,7 +17,7 @@ public:
     
     virtual void VUpdate() override;
 
-    CreditsController(relive::Path_TLV* pTlv, s32 tlvInfo);
+    CreditsController(relive::Path_TLV* pTlv, const TLVUniqueId& tlvId);
     ~CreditsController();
 
 public:

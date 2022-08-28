@@ -16,7 +16,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Dove, 0x18);
 class Dove final : public ::BaseAnimatedWithPhysicsGameObject
 {
 public:
-    Dove(AnimId animId, s32 tlvInfo, FP scale);
+    Dove(AnimId animId, const TLVUniqueId& tlvId, FP scale);
     Dove(AnimId animId, FP xpos, FP ypos, FP scale);
     ~Dove();
 
@@ -36,7 +36,7 @@ public:
 
 private:
     s16 mFlyAwayCounter = 0;
-    s32 mTlvInfo = 0;
+    TLVUniqueId mTlvInfo;
     s16 mKeepInGlobalArray = 0;
     enum class State : s16
     {

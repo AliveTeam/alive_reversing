@@ -6,7 +6,7 @@
 #include "Sfx.hpp"
 #include "stdlib.hpp"
 
-DoorBlocker::DoorBlocker(relive::Path_DoorBlocker* pTlv, s32 tlvInfo)
+DoorBlocker::DoorBlocker(relive::Path_DoorBlocker* pTlv, const TLVUniqueId& tlvId)
     : BaseAliveGameObject(0)
 {
     mBaseGameObjectFlags.Set(BaseGameObject::eCanExplode_Bit7);
@@ -22,7 +22,7 @@ DoorBlocker::DoorBlocker(relive::Path_DoorBlocker* pTlv, s32 tlvInfo)
     SetType(ReliveTypes::eDoorLock);
     mXPos = FP_FromInteger((pTlv->mTopLeftX + pTlv->mBottomRightX) / 2);
     mYPos = FP_FromInteger(pTlv->mTopLeftY);
-    field_11C_tlvInfo = tlvInfo;
+    field_11C_tlvInfo = tlvId;
 
     if (pTlv->mScale == relive::reliveScale::eHalf)
     {

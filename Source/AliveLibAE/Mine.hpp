@@ -27,7 +27,7 @@ enum Mine_Flags_1BC
 class Mine final : public BaseAliveGameObject
 {
 public:
-    Mine(relive::Path_Mine* pPath, TlvItemInfoUnion tlv);
+    Mine(relive::Path_Mine* pPath, const TLVUniqueId& tlvId);
     ~Mine();
 
     virtual void VUpdate() override;

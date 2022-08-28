@@ -31,12 +31,12 @@ void SetData(Relive_Path_Teleporter_Data& tlvData, const relive::Path_Teleporter
     tlvData.mElectricY = tlv.mElectricY;
 }
 
-Teleporter::Teleporter(relive::Path_Teleporter* pTlv, u32 tlvInfo)
+Teleporter::Teleporter(relive::Path_Teleporter* pTlv, const TLVUniqueId& tlvId)
     : BaseGameObject(TRUE, 0)
 {
     field_4C_pTlv = pTlv; // TODO: Don't think this is used, and it can become a dangling ptr?
     SetData(field_34_mTlvData, *pTlv);
-    field_20_tlvInfo = tlvInfo;
+    field_20_tlvInfo = tlvId;
 
     field_24_global_y1 = FP_GetExponent((FP_FromInteger(pTlv->mTopLeftY) - pScreenManager->CamYPos()));
     field_28_global_y2 = FP_GetExponent((FP_FromInteger(pTlv->mBottomRightY) - pScreenManager->CamYPos()));

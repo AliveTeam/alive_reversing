@@ -17,7 +17,7 @@ static s32 sAbePortalTimer = 0;
 static s16 sAbePortalDirection = 0;
 static s16 sAbePortalWidth = 0;
 
-Dove::Dove(AnimId animId, s32 tlvInfo, FP scale)
+Dove::Dove(AnimId animId, const TLVUniqueId& tlvId, FP scale)
     : BaseAnimatedWithPhysicsGameObject(0)
 {
     SetType(ReliveTypes::eDove);
@@ -57,7 +57,7 @@ Dove::Dove(AnimId animId, s32 tlvInfo, FP scale)
     mDoveState = State::eOnGround_0;
     mAnim.SetFrame(Math_NextRandom() % 8);
     mKeepInGlobalArray = FALSE;
-    mTlvInfo = tlvInfo;
+    mTlvInfo = tlvId;
 
     if (bTheOneControllingTheMusic)
     {
@@ -108,7 +108,7 @@ Dove::Dove(AnimId animId, FP xpos, FP ypos, FP scale)
     mXPos = xpos;
     mYPos = ypos;
 
-    mTlvInfo = 0;
+    mTlvInfo = {};
 
     mAnim.SetFrame(Math_NextRandom() & 6);
 
@@ -126,7 +126,7 @@ Dove::~Dove()
     if (!mKeepInGlobalArray)
     {
         gDovesArray.Remove_Item(this);
-        if (mTlvInfo)
+        if (mTlvInfo.IsValid())
         {
             Path::TLV_Reset(mTlvInfo, -1, 0, 0);
         }

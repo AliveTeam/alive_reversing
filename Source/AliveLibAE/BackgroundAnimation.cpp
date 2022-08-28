@@ -5,11 +5,11 @@
 #include "../relive_lib/Events.hpp"
 #include "DDCheat.hpp"
 
-BackgroundAnimation::BackgroundAnimation(relive::Path_BackgroundAnimation* pTlv, TlvItemInfoUnion tlvInfo)
+BackgroundAnimation::BackgroundAnimation(relive::Path_BackgroundAnimation* pTlv, const TLVUniqueId& tlvId)
     : BaseAnimatedWithPhysicsGameObject(0)
 {
     SetType(ReliveTypes::eBackgroundAnimation);
-    field_F8_tlvInfo = tlvInfo;
+    field_F8_tlvInfo = tlvId;
 
     const BgAnimRecord& anim = BgAnimRec(pTlv->mAnimId);
     field_F4_res = reinterpret_cast<AnimationFileHeader**>(Add_Resource(ResourceManager::Resource_Animation, anim.mBgAnimId));
@@ -71,5 +71,5 @@ void BackgroundAnimation::VScreenChanged()
 
 BackgroundAnimation::~BackgroundAnimation()
 {
-    Path::TLV_Reset(field_F8_tlvInfo.all, -1, 0, 0);
+    Path::TLV_Reset(field_F8_tlvInfo, -1, 0, 0);
 }

@@ -11,7 +11,7 @@
 #include "SwitchStates.hpp"
 #include "GameSpeak.hpp"
 
-GlukkonSwitch::GlukkonSwitch(relive::Path_GlukkonSwitch* pTlv, s32 tlvInfo)
+GlukkonSwitch::GlukkonSwitch(relive::Path_GlukkonSwitch* pTlv, const TLVUniqueId& tlvId)
     : BaseAnimatedWithPhysicsGameObject(0)
 {
     field_100_last_event_idx = -1;
@@ -25,7 +25,7 @@ GlukkonSwitch::GlukkonSwitch(relive::Path_GlukkonSwitch* pTlv, s32 tlvInfo)
     Animation_Init(AnimId::Security_Door_Idle, ppRes);
 
     mAnim.mFlags.Clear(AnimFlags::eBit3_Render);
-    field_F4_tlvInfo = tlvInfo;
+    field_F4_tlvInfo = tlvId;
     mAnim.mRenderLayer = Layer::eLayer_BeforeWell_22;
 
     if (pTlv->mScale == relive::reliveScale::eFull)

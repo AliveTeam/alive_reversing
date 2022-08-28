@@ -95,16 +95,16 @@ bool FlyingSlig::BrainIs(TFlyingSligBrainFn fn)
     return field_29C_brain_state == fn;
 }
 
-FlyingSlig::FlyingSlig(relive::Path_FlyingSlig* pTlv, s32 tlvInfo)
+FlyingSlig::FlyingSlig(relive::Path_FlyingSlig* pTlv, const TLVUniqueId& tlvId)
     : BaseAliveGameObject(9)
 {
     field_178_unused = 0;
     field_164_unused = -1;
     field_17A_unused = -1;
 
-    if (tlvInfo != -1)
+    if (tlvId != -1)
     {
-        mBaseGameObjectTlvInfo = tlvInfo;
+        mBaseGameObjectTlvInfo = tlvId;
     }
 
     SetType(ReliveTypes::eFlyingSlig);
@@ -164,7 +164,7 @@ FlyingSlig::FlyingSlig(relive::Path_FlyingSlig* pTlv, s32 tlvInfo)
 
     field_118_data = *pTlv;
 
-    field_148_tlvInfo = tlvInfo;
+    field_148_tlvInfo = tlvId;
 
     SetBrain(&FlyingSlig::Brain_0_Inactive);
 

@@ -21,7 +21,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_LevelLoader, 0x1C);
 class LevelLoader final : public BaseGameObject
 {
 public:
-    LevelLoader(relive::Path_LevelLoader* pTlv, u32 tlvInfo);
+    LevelLoader(relive::Path_LevelLoader* pTlv, const TLVUniqueId& tlvId);
 
     virtual void VUpdate() override;
 
@@ -38,7 +38,7 @@ private:
     s16 field_26_path = 0;
     s16 field_28_camera = 0;
     s16 field_2A_movie_id = 0;
-    u32 field_2C_tlvInfo = 0;
+    TLVUniqueId field_2C_tlvInfo;
     s32 field_30_fade_id = 0;
 };
 ALIVE_ASSERT_SIZEOF(LevelLoader, 0x34);

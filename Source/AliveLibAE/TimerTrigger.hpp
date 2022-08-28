@@ -36,7 +36,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(TimerTrigger_State, 0x10);
 class TimerTrigger final : public BaseGameObject
 {
 public:
-    TimerTrigger(relive::Path_TimerTrigger* pTlv, s32 tlvInfo);
+    TimerTrigger(relive::Path_TimerTrigger* pTlv, const TLVUniqueId& tlvId);
     ~TimerTrigger();
     
     virtual void VUpdate() override;

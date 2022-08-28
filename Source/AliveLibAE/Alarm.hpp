@@ -14,7 +14,7 @@ public:
     virtual void VUpdate() override;
     virtual void VRender(PrimHeader** ppOt) override;
 
-    Alarm(relive::Path_Alarm* pTlv, s32 tlvInfo);
+    Alarm(relive::Path_Alarm* pTlv, const TLVUniqueId& tlvId);
     Alarm(s32 durationOffset, s32 switchId, s32 timerOffset, Layer layer);
     ~Alarm();
 
@@ -22,7 +22,7 @@ private:
     s16 mAlarmRed = 0;
     s32 mAlarmPauseTimer = 0;
     s32 mAlarmDurationTimer = 0;
-    s32 mAlarmTlvInfo = 0;
+    TLVUniqueId mAlarmTlvInfo;
     s16 mAlarmSwitchId = 0;
     u16 mAlarmDuration = 0;
     enum class States : s16

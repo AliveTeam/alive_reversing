@@ -14,13 +14,13 @@ struct WorkWheel_SaveState final
 {
     AETypes field_0_id;
     s16 padding_1;
-    s32 field_4_tlvInfo;
+    TLVUniqueId field_4_tlvInfo;
     s16 field_8_snd_counter;
     s16 padding_2;
     WheelStates field_C_state;
     s16 padding_3;
 };
-ALIVE_ASSERT_SIZEOF_ALWAYS(WorkWheel_SaveState, 0x10);
+//ALIVE_ASSERT_SIZEOF_ALWAYS(WorkWheel_SaveState, 0x10);
 
 struct Path_WorkWheel final : public Path_TLV
 {
@@ -43,14 +43,14 @@ public:
     virtual void VStartTurning();
     virtual void VStopTurning(s16 bResetSwitch);
 
-    WorkWheel(relive::Path_WorkWheel* pTlv, s32 tlvInfo);
+    WorkWheel(relive::Path_WorkWheel* pTlv, const TLVUniqueId& tlvId);
     ~WorkWheel();
 
 public:
     static s32 CreateFromSaveState(const u8* pState);
 
 private:
-    s32 mTlvInfo = 0;
+    TLVUniqueId mTlvInfo = 0;
     s16 mSwitchId = 0;
     WheelStates mState = WheelStates::eIdle_0;
     s16 mActivationTime = 0;

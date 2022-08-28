@@ -18,7 +18,7 @@ const SfxDefinition buttonSfxInfo_544488[8] = {
     // { (s8)160u, (s8)192u, 77u, 0u, (s16)49392, 77 }
 };
 
-CrawlingSligButton::CrawlingSligButton(relive::Path_CrawlingSligButton* pTlv, s32 tlvInfo)
+CrawlingSligButton::CrawlingSligButton(relive::Path_CrawlingSligButton* pTlv, const TLVUniqueId& tlvId)
     : BaseAnimatedWithPhysicsGameObject(0)
 {
     SetType(ReliveTypes::eSligButton);
@@ -26,7 +26,7 @@ CrawlingSligButton::CrawlingSligButton(relive::Path_CrawlingSligButton* pTlv, s3
     const AnimRecord& rec = AnimRec(AnimId::CrawlingSligButton);
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
     Animation_Init(AnimId::CrawlingSligButton, ppRes);
-    field_F4_tlvInfo = tlvInfo;
+    field_F4_tlvInfo = tlvId;
 
     if (pTlv->mScale == relive::reliveScale::eHalf)
     {

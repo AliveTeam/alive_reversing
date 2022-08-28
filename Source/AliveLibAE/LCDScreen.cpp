@@ -172,17 +172,17 @@ public:
 };
 static LCDMessages gLCDMessages;
 
-LCDScreen::LCDScreen(relive::Path_LCDScreen* params, TlvItemInfoUnion itemInfo)
+LCDScreen::LCDScreen(relive::Path_LCDScreen* params, const TLVUniqueId& tlvId)
     : BaseGameObject(TRUE, 0)
 {
-    mBaseGameObjectTlvInfo = itemInfo.all;
+    mBaseGameObjectTlvInfo = tlvId;
 
     field_2C0_tlv = *params;
 
     field_2AA_message_1_id = params->mMessageId1;
     field_2B0_message_2_id = params->mMessageId2;
     field_2B2_toggle_message_switch_id = static_cast<u16>(params->mToggleMessageSwitchId);
-    field_2BC_tlv_item_info = itemInfo;
+    field_2BC_tlv_item_info = tlvId;
 
     if (!sFontType2LoadCount_5BC5E8)
     {
@@ -373,7 +373,7 @@ LCDScreen::~LCDScreen()
     IRenderer::GetRenderer()->PalFree(IRenderer::PalRecord{field_98_pal_rect.x, field_98_pal_rect.y, field_98_pal_rect.w});
 
     gObjListDrawables->Remove_Item(this);
-    Path::TLV_Reset(field_2BC_tlv_item_info.all, -1, 0, 0);
+    Path::TLV_Reset(field_2BC_tlv_item_info, -1, 0, 0);
 
     if (!--sFontType2LoadCount_5BC5E8)
     {

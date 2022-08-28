@@ -17,7 +17,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_RockSack, 0x1C);
 class RockSack final : public BaseAliveGameObject
 {
 public:
-    RockSack(relive::Path_RockSack* pTlv, s32 tlvInfo);
+    RockSack(relive::Path_RockSack* pTlv, const TLVUniqueId& tlvId);
     ~RockSack();
     
     virtual void VScreenChanged() override;

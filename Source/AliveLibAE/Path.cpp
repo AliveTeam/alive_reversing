@@ -79,10 +79,8 @@ void Path::Loader_4DB800(s16 xpos, s16 ypos, LoadMode loadMode, ReliveTypes type
                     pPathTLV->mTlvFlags.Set(relive::TlvFlags::eBit2_Destroyed);
                 }
 
-                TlvItemInfoUnion data;
-                data.parts.tlvOffset = static_cast<u16>(objectTableIdx);
-                data.parts.levelId = static_cast<u8>(MapWrapper::ToAE(mLevelId));
-                data.parts.pathId = static_cast<u8>(mPathId);
+                TLVUniqueId data;
+                // TODO: data
 
                 // Call the factory to construct the item
                 ConstructTLVObject(pPathTLV, this, data, loadMode);
@@ -287,14 +285,11 @@ relive::Path_TLV* Path::TlvGetAt(relive::Path_TLV* pTlv, FP xpos, FP ypos, FP w,
     return pTlv;
 }
 
-relive::Path_TLV* Path::TLV_From_Offset_Lvl_Cam(u32 tlvOffset_levelId_PathId)
+relive::Path_TLV* Path::TLV_From_Offset_Lvl_Cam(const TLVUniqueId& tlvId)
 {
-    TlvItemInfoUnion data;
-    data.all = tlvOffset_levelId_PathId;
-
-    if (data.parts.levelId == static_cast<s32>(MapWrapper::ToAE(mLevelId)) && data.parts.pathId == mPathId)
+    if (tlvId.levelId == mLevelId && tlvId.pathId == mPathId)
     {
-        return reinterpret_cast<relive::Path_TLV*>(&(*field_10_ppRes)[mPathData->field_12_object_offset + data.parts.tlvOffset]);
+        return reinterpret_cast<relive::Path_TLV*>(&(*field_10_ppRes)[mPathData->field_12_object_offset + tlvId.tlvOffset]);
     }
     else
     {
@@ -336,18 +331,15 @@ relive::Path_TLV* Path::TLV_Next_Of_Type(relive::Path_TLV* pTlv, ReliveTypes typ
     return pTlv;
 }
 
-void Path::TLV_Reset(u32 tlvOffset_levelId_PathId, s16 hiFlags, s8 bSetCreated, s8 bSetDestroyed)
+void Path::TLV_Reset(const TLVUniqueId& tlvId, s16 hiFlags, s8 bSetCreated, s8 bSetDestroyed)
 {
-    TlvItemInfoUnion data;
-    data.all = tlvOffset_levelId_PathId;
-
-    if (data.parts.levelId == static_cast<s32>(MapWrapper::ToAE(gMap.mCurrentLevel)))
+    if (tlvId.levelId == gMap.mCurrentLevel)
     {
-        const PathBlyRec* pBlyRec = Path_Get_Bly_Record(MapWrapper::FromAE(static_cast<LevelIds>(data.parts.levelId)), data.parts.pathId);
-        u8** ppPathRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Path, data.parts.pathId, TRUE, FALSE);
+        const PathBlyRec* pBlyRec = Path_Get_Bly_Record(MapWrapper::FromAE(static_cast<LevelIds>(tlvId.levelId)), tlvId.pathId);
+        u8** ppPathRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Path, tlvId.pathId, TRUE, FALSE);
         if (ppPathRes)
         {
-            const s32 tlvOffset = data.parts.tlvOffset + pBlyRec->field_4_pPathData->field_12_object_offset;
+            const s32 tlvOffset = tlvId.tlvOffset + pBlyRec->field_4_pPathData->field_12_object_offset;
             Path_TLV* pTlv = reinterpret_cast<Path_TLV*>(&(*ppPathRes)[tlvOffset]);
 
             if (bSetDestroyed & 1)

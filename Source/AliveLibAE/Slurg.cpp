@@ -42,7 +42,7 @@ TintEntry sSlurgTints_560BCC[18] = {
     {EReliveLevelIds::eBonewerkz_Ender, 102u, 127u, 118u},
     {EReliveLevelIds::eNone, 102u, 127u, 118u}};
 
-Slurg::Slurg(relive::Path_Slurg* pTlv, u32 tlvInfo)
+Slurg::Slurg(relive::Path_Slurg* pTlv, const TLVUniqueId& tlvId)
     : BaseAliveGameObject(0)
 {
     mSlurgTlv = pTlv;
@@ -59,7 +59,7 @@ Slurg::Slurg(relive::Path_Slurg* pTlv, u32 tlvInfo)
     mXPos = FP_FromInteger((pTlv->mTopLeftX + pTlv->mBottomRightX) / 2);
     mYPos = FP_FromInteger(pTlv->mTopLeftY);
 
-    mTlvInfo = tlvInfo;
+    mTlvInfo = tlvId;
     if (pTlv->mScale == relive::reliveScale::eHalf)
     {
         mSlurgSpriteScale = FP_FromDouble(0.5);
@@ -146,9 +146,9 @@ s32 Slurg::CreateFromSaveState(const u8* pData)
 
 Slurg::~Slurg()
 {
-    if (mTlvInfo == -1)
+    if (mTlvInfo.IsValid())
     {
-        Path::TLV_Reset(0xFFFFFFFF, -1, 0, mSlurgState == SlurgStates::eBurst_2);
+        Path::TLV_Reset({}, -1, 0, mSlurgState == SlurgStates::eBurst_2);
     }
 }
 

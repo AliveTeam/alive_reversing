@@ -8,10 +8,10 @@
 #include "Slog.hpp"
 #include "Sfx.hpp"
 
-SlogSpawner::SlogSpawner(relive::Path_SlogSpawner* pTlv, s32 tlvInfo)
+SlogSpawner::SlogSpawner(relive::Path_SlogSpawner* pTlv, const TLVUniqueId& tlvId)
     : BaseGameObject(TRUE, 0)
 {
-    mTlvInfo = tlvInfo;
+    mTlvInfo = tlvId;
 
     mScale = pTlv->mScale;
     mMaxSlogs = pTlv->mMaxSlogs;
