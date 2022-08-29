@@ -8,7 +8,7 @@
 #include "Function.hpp"
 #include "LCDScreen.hpp"
 #include "../relive_lib/VRam.hpp"
-#include "stdlib.hpp"
+#include "../AliveLibAE/stdlib.hpp"
 #include "Game.hpp"
 #include "StringFormatters.hpp"
 #include "Primitives_common.hpp"

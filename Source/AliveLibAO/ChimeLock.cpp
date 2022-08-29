@@ -3,7 +3,7 @@
 #include "ChimeLock.hpp"
 #include "ResourceManager.hpp"
 #include "Bells.hpp"
-#include "stdlib.hpp"
+#include "../AliveLibAE/stdlib.hpp"
 #include "SwitchStates.hpp"
 #include "Game.hpp"
 #include "Abe.hpp"

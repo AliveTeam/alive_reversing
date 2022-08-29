@@ -1,7 +1,7 @@
 #include "stdafx_ao.h"
 #include "Function.hpp"
 #include "PullRingRope.hpp"
-#include "stdlib.hpp"
+#include "../AliveLibAE/stdlib.hpp"
 #include "ResourceManager.hpp"
 #include "Sfx.hpp"
 #include "BaseAliveGameObject.hpp"

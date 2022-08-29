@@ -1,7 +1,7 @@
 #include "stdafx_ao.h"
 #include "Function.hpp"
 #include "PossessionFlicker.hpp"
-#include "stdlib.hpp"
+#include "../AliveLibAE/stdlib.hpp"
 #include "Game.hpp"
 #include "BaseAliveGameObject.hpp"
 

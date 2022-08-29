@@ -4,7 +4,7 @@
 #include "Map.hpp"
 #include "../relive_lib/Collisions.hpp"
 #include "Game.hpp"
-#include "stdlib.hpp"
+#include "../AliveLibAE/stdlib.hpp"
 
 namespace AO {
 

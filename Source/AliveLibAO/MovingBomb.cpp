@@ -2,7 +2,7 @@
 #include "Function.hpp"
 #include "MovingBomb.hpp"
 #include "ResourceManager.hpp"
-#include "stdlib.hpp"
+#include "../AliveLibAE/stdlib.hpp"
 #include "Map.hpp"
 #include "Game.hpp"
 #include "../relive_lib/Shadow.hpp"

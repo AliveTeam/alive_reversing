@@ -1,7 +1,7 @@
 #include "stdafx_ao.h"
 #include "Function.hpp"
 #include "MotionDetector.hpp"
-#include "stdlib.hpp"
+#include "../AliveLibAE/stdlib.hpp"
 #include "ResourceManager.hpp"
 #include "SwitchStates.hpp"
 #include "Sfx.hpp"

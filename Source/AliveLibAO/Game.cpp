@@ -11,7 +11,7 @@
 #include "Sys.hpp"
 #include "../relive_lib/DynamicArray.hpp"
 #include "BaseAliveGameObject.hpp"
-#include "stdlib.hpp"
+#include "../AliveLibAE/stdlib.hpp"
 #include "ResourceManager.hpp"
 #include "../relive_lib/PsxDisplay.hpp"
 #include "Map.hpp"

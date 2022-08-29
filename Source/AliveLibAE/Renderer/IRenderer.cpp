@@ -1,4 +1,4 @@
-#include "stdafx.h"
+#include "../stdafx.h"
 #include "IRenderer.hpp"
 #include "SoftwareRenderer.hpp"
 #include "DirectX9Renderer.hpp"

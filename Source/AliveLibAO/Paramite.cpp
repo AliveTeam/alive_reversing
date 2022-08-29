@@ -5,7 +5,7 @@
 #include "Sfx.hpp"
 #include "ResourceManager.hpp"
 #include "../relive_lib/Shadow.hpp"
-#include "stdlib.hpp"
+#include "../AliveLibAE/stdlib.hpp"
 #include "Abe.hpp"
 #include "../relive_lib/Collisions.hpp"
 #include "ParamiteWeb.hpp"

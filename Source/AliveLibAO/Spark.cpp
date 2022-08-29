@@ -6,7 +6,7 @@
 #include "Game.hpp"
 #include "ResourceManager.hpp"
 #include "Math.hpp"
-#include "stdlib.hpp"
+#include "../AliveLibAE/stdlib.hpp"
 #include "../relive_lib/Animation.hpp"
 #include "Particle.hpp"
 #include "../relive_lib/ScreenManager.hpp"

@@ -4,7 +4,7 @@
 #include "Slig.hpp"
 #include "SwitchStates.hpp"
 #include "../relive_lib/Events.hpp"
-#include "stdlib.hpp"
+#include "../AliveLibAE/stdlib.hpp"
 
 namespace AO {
 

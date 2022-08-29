@@ -2,7 +2,7 @@
 #include "GameSpeak.hpp"
 #include "Function.hpp"
 #include "Game.hpp"
-#include "stdlib.hpp"
+#include "../AliveLibAE/stdlib.hpp"
 
 namespace AO {
 

@@ -1,13 +1,12 @@
-#include "stdafx.h"
+#include "../stdafx.h"
 #include "PsxSpuApi.hpp"
 #include "Function.hpp"
-#include "Io.hpp"
-#include "stdlib.hpp"
-#include "ResourceManager.hpp"
+#include "../Io.hpp"
+#include "../stdlib.hpp"
+#include "../ResourceManager.hpp"
 #include "Sound.hpp"    // SoundEntry structure
-#include "Sys.hpp"      // SYS_GetTicks
-#include "PathData.hpp" // SoundBlockInfo, SeqPathDataRecord
-#include "../AliveLibAE/Io.hpp"
+#include "../Sys.hpp"      // SYS_GetTicks
+#include "../PathData.hpp" // SoundBlockInfo, SeqPathDataRecord
 #include <assert.h>
 
 // TODO: Refactor + remove these

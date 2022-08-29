@@ -3,7 +3,7 @@
 #include "SecurityOrb.hpp"
 #include "ResourceManager.hpp"
 #include "Midi.hpp"
-#include "stdlib.hpp"
+#include "../AliveLibAE/stdlib.hpp"
 #include "Explosion.hpp"
 #include "Gibs.hpp"
 #include "ZapLine.hpp"

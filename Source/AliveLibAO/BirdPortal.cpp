@@ -2,7 +2,7 @@
 #include "Function.hpp"
 #include "BirdPortal.hpp"
 #include "ResourceManager.hpp"
-#include "stdlib.hpp"
+#include "../AliveLibAE/stdlib.hpp"
 #include "../relive_lib/Collisions.hpp"
 #include "Abe.hpp"
 #include "ScreenClipper.hpp"

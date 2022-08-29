@@ -2,7 +2,7 @@
 #include "Function.hpp"
 #include "SwitchStateBooleanLogic.hpp"
 #include "SwitchStates.hpp"
-#include "stdlib.hpp"
+#include "../AliveLibAE/stdlib.hpp"
 #include "../relive_lib/Events.hpp"
 
 namespace AO {

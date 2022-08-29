@@ -3,7 +3,7 @@
 #include "ScreenWave.hpp"
 #include "ResourceManager.hpp"
 #include "Game.hpp"
-#include "stdlib.hpp"
+#include "../AliveLibAE/stdlib.hpp"
 #include "Map.hpp"
 #include "../relive_lib/ScreenManager.hpp"
 #include "../relive_lib/PsxDisplay.hpp"

@@ -3,7 +3,7 @@
 #include "Honey.hpp"
 #include "ResourceManager.hpp"
 #include "Map.hpp"
-#include "stdlib.hpp"
+#include "../AliveLibAE/stdlib.hpp"
 
 namespace AO {
 

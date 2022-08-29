@@ -2,15 +2,15 @@
 #include "logger.hpp"
 #include "../../AliveLibCommon/Function.hpp"
 #include "SDL_main.h"
-#include "Io.hpp"
-#include "Sys.hpp"
+#include "../../AliveLibAE/Io.hpp"
+#include "../../AliveLibAE/Sys.hpp"
 #include "../../AliveLibAE/Sound/PsxSpuApi.hpp"
 #include "../../AliveLibAE/LvlArchive.hpp"
 #include "imgui.h"
 #include "imgui_impl_sdl.h"
 #include "imgui_impl_opengl3.h"
 #include "GL/glew.h"
-#include "GameAutoPlayer.hpp"
+#include "../../AliveLibAE/GameAutoPlayer.hpp"
 
 #include <string>
 

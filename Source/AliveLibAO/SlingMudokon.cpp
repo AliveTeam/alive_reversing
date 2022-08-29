@@ -6,7 +6,7 @@
 #include "../relive_lib/Collisions.hpp"
 #include "Sfx.hpp"
 #include "Bullet.hpp"
-#include "stdlib.hpp"
+#include "../AliveLibAE/stdlib.hpp"
 #include "Abe.hpp"
 #include "Game.hpp"
 #include "CheatController.hpp"

@@ -2,7 +2,7 @@
 #include "Function.hpp"
 #include "Grenade.hpp"
 #include "ResourceManager.hpp"
-#include "stdlib.hpp"
+#include "../AliveLibAE/stdlib.hpp"
 #include "ThrowableArray.hpp"
 #include "LiftPoint.hpp"
 #include "Map.hpp"

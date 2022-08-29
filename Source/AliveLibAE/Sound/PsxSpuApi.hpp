@@ -2,7 +2,7 @@
 
 #include "../AliveLibCommon/Function.hpp"
 #include "../AliveLibAE/Sound/Sound.hpp"
-#include "Io.hpp"
+#include "../AliveLibAE/Io.hpp"
 
 struct ProgAtr final
 {

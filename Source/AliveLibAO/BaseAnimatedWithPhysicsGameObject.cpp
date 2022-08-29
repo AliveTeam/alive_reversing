@@ -2,7 +2,7 @@
 #include "BaseAnimatedWithPhysicsGameObject.hpp"
 #include "Function.hpp"
 #include "Map.hpp"
-#include "stdlib.hpp"
+#include "../AliveLibAE/stdlib.hpp"
 #include "../relive_lib/Shadow.hpp"
 #include "Game.hpp"
 #include "../relive_lib/ScreenManager.hpp"

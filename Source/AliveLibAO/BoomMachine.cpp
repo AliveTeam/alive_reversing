@@ -2,7 +2,7 @@
 #include "Function.hpp"
 #include "BoomMachine.hpp"
 #include "ResourceManager.hpp"
-#include "stdlib.hpp"
+#include "../AliveLibAE/stdlib.hpp"
 #include "../relive_lib/Events.hpp"
 #include "BaseAliveGameObject.hpp"
 #include "Sfx.hpp"

@@ -3,7 +3,7 @@
 #include "Function.hpp"
 #include "GasCountDown.hpp"
 #include "ResourceManager.hpp"
-#include "stdlib.hpp"
+#include "../AliveLibAE/stdlib.hpp"
 #include "RollingBallStopper.hpp"
 #include "Game.hpp"
 #include "Abe.hpp"

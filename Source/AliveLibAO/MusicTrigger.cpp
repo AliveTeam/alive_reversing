@@ -2,7 +2,7 @@
 #include "Function.hpp"
 #include "MusicTrigger.hpp"
 #include "SwitchStates.hpp"
-#include "stdlib.hpp"
+#include "../AliveLibAE/stdlib.hpp"
 #include "../relive_lib/Events.hpp"
 #include "MusicController.hpp"
 #include "Game.hpp"

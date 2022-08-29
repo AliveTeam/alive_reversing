@@ -8,13 +8,12 @@
 namespace AO {
 void Path::TLV_Reset(const Guid& tlvId, s16 hiFlags, s8 bSetCreated, s8 bSetDestroyed)
 {
-    if (tlvId.levelId == gMap.mCurrentLevel)
+    BinaryPath* pBinPath = gMap.GetPathResourceBlockPtr(gMap.mCurrentPath);
+    if (pBinPath)
     {
-        BinaryPath* pBinPath = gMap.GetPathResourceBlockPtr(tlvId.pathId);
-        if (pBinPath)
+        relive::Path_TLV* pTlv = pBinPath->TlvsById(tlvId);
+        if (pTlv)
         {
-            relive::Path_TLV* pTlv = pBinPath->TlvsForCamera(tlvId.camX, tlvId.camY, tlvId.tlvOffset);
-
             pTlv->mTlvFlags.Set(relive::TlvFlags::eBit2_Destroyed, bSetDestroyed & 1);
             pTlv->mTlvFlags.Set(relive::TlvFlags::eBit1_Created, bSetCreated & 1);
 

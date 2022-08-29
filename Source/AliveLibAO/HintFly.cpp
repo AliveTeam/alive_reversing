@@ -5,7 +5,7 @@
 #include "Sfx.hpp"
 #include "ResourceManager.hpp"
 #include "Map.hpp"
-#include "stdlib.hpp"
+#include "../AliveLibAE/stdlib.hpp"
 #include "../relive_lib/ScreenManager.hpp"
 #include "Game.hpp"
 #include "../relive_lib/Events.hpp"

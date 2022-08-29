@@ -3,7 +3,7 @@
 #include "OrbWhirlWindParticle.hpp"
 #include "../relive_lib/BaseGameObject.hpp"
 #include "Game.hpp"
-#include "stdlib.hpp"
+#include "../AliveLibAE/stdlib.hpp"
 #include "../relive_lib/ScreenManager.hpp"
 #include "Math.hpp"
 #include "ResourceManager.hpp"

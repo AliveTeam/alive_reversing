@@ -3,7 +3,7 @@
 #include "Mine.hpp"
 #include "ResourceManager.hpp"
 #include "Game.hpp"
-#include "stdlib.hpp"
+#include "../AliveLibAE/stdlib.hpp"
 #include "../relive_lib/Events.hpp"
 #include "Sfx.hpp"
 #include "BaseBomb.hpp"

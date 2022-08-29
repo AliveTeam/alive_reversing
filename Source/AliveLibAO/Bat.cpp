@@ -9,7 +9,7 @@
 #include "Sfx.hpp"
 #include "Abe.hpp"
 #include "CameraSwapper.hpp"
-#include "stdlib.hpp"
+#include "../AliveLibAE/stdlib.hpp"
 #include "Midi.hpp"
 
 namespace AO {

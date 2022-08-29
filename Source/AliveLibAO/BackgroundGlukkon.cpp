@@ -2,7 +2,7 @@
 #include "Function.hpp"
 #include "BackgroundGlukkon.hpp"
 #include "ResourceManager.hpp"
-#include "stdlib.hpp"
+#include "../AliveLibAE/stdlib.hpp"
 #include "Explosion.hpp"
 #include "Math.hpp"
 #include "Sfx.hpp"

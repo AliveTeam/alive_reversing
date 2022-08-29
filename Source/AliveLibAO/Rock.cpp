@@ -1,7 +1,7 @@
 #include "stdafx_ao.h"
 #include "Function.hpp"
 #include "Rock.hpp"
-#include "stdlib.hpp"
+#include "../AliveLibAE/stdlib.hpp"
 #include "ResourceManager.hpp"
 #include "../relive_lib/Shadow.hpp"
 #include "Grenade.hpp"

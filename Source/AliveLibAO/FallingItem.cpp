@@ -2,7 +2,7 @@
 #include "Function.hpp"
 #include "FallingItem.hpp"
 #include "ResourceManager.hpp"
-#include "stdlib.hpp"
+#include "../AliveLibAE/stdlib.hpp"
 #include "../relive_lib/Shadow.hpp"
 #include "Game.hpp"
 #include "../relive_lib/Events.hpp"

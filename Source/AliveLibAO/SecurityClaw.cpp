@@ -3,7 +3,7 @@
 #include "SecurityClaw.hpp"
 #include "Math.hpp"
 #include "ResourceManager.hpp"
-#include "stdlib.hpp"
+#include "../AliveLibAE/stdlib.hpp"
 #include "Midi.hpp"
 #include "MotionDetector.hpp"
 #include "Gibs.hpp"

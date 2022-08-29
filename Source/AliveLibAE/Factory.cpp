@@ -770,7 +770,7 @@ static relive::Path_TLV* FindMatchingSligTLV(relive::Path_TLV* pTlvIter, relive:
     return nullptr;
 }
 
-static void Factory_SligBoundLeft(relive::Path_TLV* pTlv, Path*, const Guid& tlvId, LoadMode loadMode)
+static void Factory_SligBoundLeft(relive::Path_TLV* pTlv, Path*, const Guid& /*tlvId*/, LoadMode loadMode)
 {
     auto pBound = static_cast<relive::Path_SligBound*>(pTlv);
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
@@ -791,9 +791,7 @@ static void Factory_SligBoundLeft(relive::Path_TLV* pTlv, Path*, const Guid& tlv
                 pTlvIter->mTlvFlags.Set(relive::TlvFlags::eBit1_Created);
                 pTlvIter->mTlvFlags.Set(relive::TlvFlags::eBit2_Destroyed);
 
-                tlvId.tlvOffset += static_cast<u16>(
-                    reinterpret_cast<const u8*>(pTlvIter) - reinterpret_cast<const u8*>(pBound));
-                relive_new Slig(static_cast<relive::Path_Slig*>(pTlvIter), tlvId);
+                relive_new Slig(static_cast<relive::Path_Slig*>(pTlvIter), pTlvIter->mId); // id of the slig to spawn at the bound, not the bound itself
 
                 return;
             }
@@ -1326,7 +1324,7 @@ static void Factory_LevelLoader(relive::Path_TLV* pTlv, Path*, const Guid& tlvId
     }
 }
 
-static void Factory_DemoSpawnPoint(relive::Path_TLV*, Path*, const Guid& tlvId, LoadMode loadMode)
+static void Factory_DemoSpawnPoint(relive::Path_TLV*, Path*, const Guid& /*tlvId*/, LoadMode loadMode)
 {
     if (loadMode != LoadMode::LoadResourceFromList_1 && loadMode != LoadMode::LoadResource_2)
     {

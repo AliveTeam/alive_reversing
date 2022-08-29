@@ -2,7 +2,7 @@
 #include "Function.hpp"
 #include "DeathGas.hpp"
 #include "Map.hpp"
-#include "stdlib.hpp"
+#include "../AliveLibAE/stdlib.hpp"
 #include "Abe.hpp"
 #include "../relive_lib/Events.hpp"
 #include "Game.hpp"

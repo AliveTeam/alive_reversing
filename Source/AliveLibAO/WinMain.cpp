@@ -3,7 +3,7 @@
 #include "Function.hpp"
 #include "../relive_lib/bmp.hpp"
 #include "Psx_common.hpp"
-#include "stdlib.hpp"
+#include "../AliveLibAE/stdlib.hpp"
 #include "../relive_lib/BaseGameObject.hpp"
 #include "../relive_lib/DynamicArray.hpp"
 #include "Game.hpp"

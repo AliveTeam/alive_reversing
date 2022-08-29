@@ -28,7 +28,7 @@
 #include "../relive_lib/GameType.hpp"
 #include "../relive_lib/data_conversion/data_conversion.hpp"
 
-#include "Io.hpp"
+#include "../AliveLibAE/Io.hpp"
 
 namespace AutoSplitterData {
 struct GuidStr

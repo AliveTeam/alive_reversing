@@ -1,4 +1,4 @@
-#include "stdafx.h"
+#include "../stdafx.h"
 #include "Reverb.hpp"
 
 #if USE_SDL2_SOUND

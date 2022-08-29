@@ -1,7 +1,7 @@
 #include "stdafx_ao.h"
 #include "CheatController.hpp"
 #include "Function.hpp"
-#include "stdlib.hpp"
+#include "../AliveLibAE/stdlib.hpp"
 #include "Map.hpp"
 #include "Input.hpp"
 

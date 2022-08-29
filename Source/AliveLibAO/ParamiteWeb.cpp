@@ -2,7 +2,7 @@
 #include "Function.hpp"
 #include "ParamiteWeb.hpp"
 #include "Map.hpp"
-#include "stdlib.hpp"
+#include "../AliveLibAE/stdlib.hpp"
 #include "../relive_lib/PsxDisplay.hpp"
 #include "ResourceManager.hpp"
 #include "Rope.hpp"

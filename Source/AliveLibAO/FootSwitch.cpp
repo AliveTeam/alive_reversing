@@ -3,7 +3,7 @@
 #include "FootSwitch.hpp"
 #include "ResourceManager.hpp"
 #include "SwitchStates.hpp"
-#include "stdlib.hpp"
+#include "../AliveLibAE/stdlib.hpp"
 #include "BaseAliveGameObject.hpp"
 #include "Sfx.hpp"
 #include "Abe.hpp"

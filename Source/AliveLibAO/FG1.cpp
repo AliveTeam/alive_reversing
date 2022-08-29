@@ -9,9 +9,9 @@
 #include "Game.hpp"
 #include "Sys_common.hpp"
 #include "../relive_lib/VRam.hpp"
-#include "stdlib.hpp"
+#include "../AliveLibAE/stdlib.hpp"
 #include "../relive_lib/PsxDisplay.hpp"
-#include "Compression.hpp"
+#include "../AliveLibAE/Compression.hpp"
 #include "../AliveLibAE/Renderer/IRenderer.hpp"
 #include "FG1Reader.hpp"
 

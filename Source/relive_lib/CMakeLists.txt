@@ -18,6 +18,8 @@ SET(relive_lib_src
     ../Tools/relive_api/CamConverter.hpp
     ../Tools/relive_api/ApiFG1Reader.cpp
     ../Tools/relive_api/ApiFG1Reader.hpp
+    BinaryPath.hpp
+    BinaryPath.cpp
     ObjectIds.hpp
     ObjectIds.cpp
     BaseGameObject.hpp
@@ -77,6 +79,11 @@ SET(relive_lib_src
 )
 
 add_library(relive_lib ${relive_lib_src})
+
+if (MSVC)
+# for UuidCreate()
+target_link_libraries(relive_lib Rpcrt4)
+endif()
 
 target_include_directories(relive_lib PUBLIC
     $<BUILD_INTERFACE:

@@ -12,7 +12,7 @@
 #include "StringFormatters.hpp"
 #include "../relive_lib/ScreenManager.hpp"
 #include "Sound.hpp"
-#include "stdlib.hpp"
+#include "../AliveLibAE/stdlib.hpp"
 #include "Sfx.hpp"
 #include "Sys.hpp"
 #include "Map.hpp"

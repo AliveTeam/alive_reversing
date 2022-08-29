@@ -7,17 +7,8 @@
 #include "Path.hpp"
 #include "../relive_lib/MapWrapper.hpp"
 #include "../relive_lib/data_conversion/relive_tlvs.hpp"
+#include "../relive_lib/BinaryPath.hpp"
 
-struct Map_PathsArray_Extended final
-{
-    u8** field_0_pPathRecs[99];
-};
-
-struct Map_PathsArray final
-{
-    u8** mPathRecs[30];
-};
-ALIVE_ASSERT_SIZEOF(Map_PathsArray, 120);
 
 class BaseAliveGameObject;
 class Camera;
@@ -107,7 +98,6 @@ public:
 
     Camera* field_2C_camera_array[5] = {};
     Camera* field_40_stru_5[5] = {};
-    Map_PathsArray mPathResArray = {};
 
     s16 field_CC_unused = 0;
     s16 mFreeAllAnimAndPalts = 0;
@@ -122,8 +112,7 @@ public:
     void ScreenChange();
 
     void FreePathResourceBlocks();
-    void GetPathResourceBlockPtrs();
-    u8** GetPathResourceBlockPtr(u32 pathId);
+    BinaryPath* GetPathResourceBlockPtr(u32 pathId);
     void ClearPathResourceBlocks();
 
     void RemoveObjectsWithPurpleLight(s16 a2);
@@ -161,6 +150,8 @@ private:
 
     void CreateScreenTransistionForTLV(relive::Path_TLV* pTlv);
     void ScreenChange_Common();
+
+    std::vector<std::unique_ptr<class BinaryPath>> mLoadedPaths;
 };
 ALIVE_ASSERT_SIZEOF(Map, 0xDC);
 

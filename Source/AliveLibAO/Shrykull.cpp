@@ -2,7 +2,7 @@
 #include "Function.hpp"
 #include "Shrykull.hpp"
 #include "Map.hpp"
-#include "stdlib.hpp"
+#include "../AliveLibAE/stdlib.hpp"
 #include "ResourceManager.hpp"
 #include "Abe.hpp"
 #include "ZapLine.hpp"

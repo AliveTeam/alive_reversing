@@ -9,7 +9,7 @@
 #include "../relive_lib/Events.hpp"
 #include "ParticleBurst.hpp"
 #include "Midi.hpp"
-#include "stdlib.hpp"
+#include "../AliveLibAE/stdlib.hpp"
 #include "AmbientSound.hpp"
 #include "Slig.hpp"
 #include "ResourceManager.hpp"

@@ -1,7 +1,7 @@
 #pragma once
 
 #include "../AliveLibCommon/Function.hpp"
-#include "Sound/Sound.hpp"
+#include "Sound.hpp"
 
 #if !USE_SDL2_SOUND
 s32 SND_CreateDS_DSound(u32 sampleRate, s32 bitsPerSample, s32 isStereo);

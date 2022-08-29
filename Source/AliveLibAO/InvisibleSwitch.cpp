@@ -1,7 +1,7 @@
 #include "stdafx_ao.h"
 #include "Function.hpp"
 #include "InvisibleSwitch.hpp"
-#include "stdlib.hpp"
+#include "../AliveLibAE/stdlib.hpp"
 #include "Abe.hpp"
 #include "SwitchStates.hpp"
 #include "Alarm.hpp"

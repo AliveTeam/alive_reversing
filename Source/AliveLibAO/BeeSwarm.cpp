@@ -4,7 +4,7 @@
 #include "ResourceManager.hpp"
 #include "Map.hpp"
 #include "BaseAliveGameObject.hpp"
-#include "stdlib.hpp"
+#include "../AliveLibAE/stdlib.hpp"
 #include "Abe.hpp"
 #include "Game.hpp"
 #include "../relive_lib/PsxDisplay.hpp"

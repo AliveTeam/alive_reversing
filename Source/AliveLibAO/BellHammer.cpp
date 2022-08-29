@@ -2,7 +2,7 @@
 #include "Function.hpp"
 #include "BellHammer.hpp"
 #include "ResourceManager.hpp"
-#include "stdlib.hpp"
+#include "../AliveLibAE/stdlib.hpp"
 #include "Elum.hpp"
 #include "Abe.hpp"
 #include "SwitchStates.hpp"

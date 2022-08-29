@@ -1,7 +1,7 @@
 #include "stdafx_ao.h"
 #include "Movie.hpp"
 #include "Function.hpp"
-#include "stdlib.hpp"
+#include "../AliveLibAE/stdlib.hpp"
 #include "ResourceManager.hpp"
 #include "PSXADPCMDecoder.h"
 #include "PSXMDECDecoder.h"

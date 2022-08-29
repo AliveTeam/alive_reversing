@@ -4,7 +4,7 @@
 #include "ResourceManager.hpp"
 #include "SwitchStates.hpp"
 #include "Math.hpp"
-#include "stdlib.hpp"
+#include "../AliveLibAE/stdlib.hpp"
 #include "Electrocute.hpp"
 #include "Flash.hpp"
 #include "Sfx.hpp"

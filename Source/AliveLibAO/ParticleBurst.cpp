@@ -2,7 +2,7 @@
 #include "Function.hpp"
 #include "ParticleBurst.hpp"
 #include "Math.hpp"
-#include "stdlib.hpp"
+#include "../AliveLibAE/stdlib.hpp"
 #include "ResourceManager.hpp"
 #include "Map.hpp"
 #include "Game.hpp"

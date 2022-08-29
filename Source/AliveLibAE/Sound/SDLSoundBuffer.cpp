@@ -1,4 +1,4 @@
-#include "stdafx.h"
+#include "../stdafx.h"
 #include "SDLSoundBuffer.hpp"
 
 #define MAX_VOICE_COUNT 1024

@@ -1,4 +1,4 @@
-#include "stdlib.hpp"
+#include "../AliveLibAE/stdlib.hpp"
 #include "../relive_lib/BaseGameObject.hpp"
 #include "../relive_lib/Events.hpp"
 #include "Math.hpp"

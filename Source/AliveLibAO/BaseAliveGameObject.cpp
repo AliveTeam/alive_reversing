@@ -6,7 +6,7 @@
 #include "PlatformBase.hpp"
 #include "../relive_lib/Collisions.hpp"
 #include "BeeSwarm.hpp"
-#include "stdlib.hpp"
+#include "../AliveLibAE/stdlib.hpp"
 #include "ResourceManager.hpp"
 #include "Game.hpp"
 #include "BirdPortal.hpp"

@@ -1,7 +1,7 @@
 #include "stdafx_ao.h"
 #include "Function.hpp"
 #include "Elum.hpp"
-#include "stdlib.hpp"
+#include "../AliveLibAE/stdlib.hpp"
 #include "Map.hpp"
 #include "ResourceManager.hpp"
 #include "LiftPoint.hpp"

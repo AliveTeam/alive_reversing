@@ -1,7 +1,7 @@
 #include "stdafx_ao.h"
 #include "Function.hpp"
 #include "ZzzSpawner.hpp"
-#include "stdlib.hpp"
+#include "../AliveLibAE/stdlib.hpp"
 #include "SnoozeParticle.hpp"
 #include "../relive_lib/Events.hpp"
 #include "Game.hpp"

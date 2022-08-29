@@ -3,7 +3,7 @@
 #include "MeatSaw.hpp"
 #include "ResourceManager.hpp"
 #include "SwitchStates.hpp"
-#include "stdlib.hpp"
+#include "../AliveLibAE/stdlib.hpp"
 #include "../relive_lib/Shadow.hpp"
 #include "Abe.hpp"
 #include "Game.hpp"

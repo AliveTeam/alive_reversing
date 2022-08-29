@@ -3,7 +3,7 @@
 #include "TimedMine.hpp"
 #include "ResourceManager.hpp"
 #include "Game.hpp"
-#include "stdlib.hpp"
+#include "../AliveLibAE/stdlib.hpp"
 #include "LiftPoint.hpp"
 #include "BaseBomb.hpp"
 #include "../relive_lib/ScreenManager.hpp"

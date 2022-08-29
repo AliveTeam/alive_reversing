@@ -2,7 +2,7 @@
 #include "Function.hpp"
 #include "Leaf.hpp"
 #include "ResourceManager.hpp"
-#include "stdlib.hpp"
+#include "../AliveLibAE/stdlib.hpp"
 #include "Math.hpp"
 #include "Sfx.hpp"
 #include "../relive_lib/Collisions.hpp"

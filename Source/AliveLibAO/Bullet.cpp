@@ -3,7 +3,7 @@
 #include "Bullet.hpp"
 #include "Function.hpp"
 #include "Map.hpp"
-#include "stdlib.hpp"
+#include "../AliveLibAE/stdlib.hpp"
 #include "Spark.hpp"
 #include "Sfx.hpp"
 #include "Particle.hpp"

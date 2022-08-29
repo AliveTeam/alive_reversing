@@ -4,7 +4,7 @@
 #include "ResourceManager.hpp"
 #include "Math.hpp"
 #include "Game.hpp"
-#include "stdlib.hpp"
+#include "../AliveLibAE/stdlib.hpp"
 #include "CameraSwapper.hpp"
 #include "../relive_lib/ScreenManager.hpp"
 

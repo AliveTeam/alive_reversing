@@ -4,7 +4,7 @@
 #include "Abe.hpp"
 #include "GameSpeak.hpp"
 #include "Sfx.hpp"
-#include "stdlib.hpp"
+#include "../AliveLibAE/stdlib.hpp"
 
 namespace AO {
 

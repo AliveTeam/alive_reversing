@@ -3,7 +3,7 @@
 #include "UXB.hpp"
 #include "Sfx.hpp"
 #include "ResourceManager.hpp"
-#include "stdlib.hpp"
+#include "../AliveLibAE/stdlib.hpp"
 #include "Game.hpp"
 #include "BaseBomb.hpp"
 #include "../relive_lib/Events.hpp"

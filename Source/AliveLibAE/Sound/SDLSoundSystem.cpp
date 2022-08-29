@@ -1,8 +1,8 @@
-#include "stdafx.h"
+#include "../stdafx.h"
 #include "SDLSoundSystem.hpp"
 #include "SDLSoundBuffer.hpp"
 #include "Reverb.hpp"
-#include "Sys.hpp"
+#include "../Sys.hpp"
 
 extern bool gLatencyHack;
 

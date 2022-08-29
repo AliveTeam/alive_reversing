@@ -363,7 +363,8 @@ SET(AliveLibAESrc
 add_library(AliveLibAE ${AliveLibAESrc})
 
 target_include_directories(AliveLibAE PUBLIC
-    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR},
+    ${CMAKE_CURRENT_SOURCE_DIR}/../../3rdParty/json/single_include>
     $<INSTALL_INTERFACE:include>
     PRIVATE src ${CMAKE_BINARY_DIR})
 

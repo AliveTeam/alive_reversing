@@ -1,7 +1,7 @@
 #include "stdafx_ao.h"
 #include "Function.hpp"
 #include "DoorFlame.hpp"
-#include "stdlib.hpp"
+#include "../AliveLibAE/stdlib.hpp"
 #include "SwitchStates.hpp"
 #include "ResourceManager.hpp"
 #include "Midi.hpp"

@@ -1,7 +1,7 @@
 #include "stdafx_ao.h"
 #include "AmbientSound.hpp"
 #include "Function.hpp"
-#include "stdlib.hpp"
+#include "../AliveLibAE/stdlib.hpp"
 #include "ScopedSeq.hpp"
 #include "MusicTrigger.hpp"
 #include "PathData.hpp"

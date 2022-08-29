@@ -1,7 +1,7 @@
 #include "stdafx_ao.h"
 #include "Function.hpp"
 #include "SlogSpawner.hpp"
-#include "stdlib.hpp"
+#include "../AliveLibAE/stdlib.hpp"
 #include "Game.hpp"
 #include "SwitchStates.hpp"
 #include "Slog.hpp"

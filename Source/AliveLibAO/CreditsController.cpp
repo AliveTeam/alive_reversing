@@ -3,7 +3,7 @@
 #include "CreditsController.hpp"
 #include "Map.hpp"
 #include "Game.hpp"
-#include "stdlib.hpp"
+#include "../AliveLibAE/stdlib.hpp"
 
 namespace AO {
 

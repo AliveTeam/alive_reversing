@@ -4,7 +4,7 @@
 #include "../relive_lib/PsxDisplay.hpp"
 #include "Movie.hpp"
 #include "Map.hpp"
-#include "stdlib.hpp"
+#include "../AliveLibAE/stdlib.hpp"
 #include "Psx.hpp"
 #include "ScreenClipper.hpp"
 #include "MusicController.hpp"

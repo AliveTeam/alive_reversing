@@ -2,7 +2,7 @@
 #include "Function.hpp"
 #include "MainMenu.hpp"
 #include "ResourceManager.hpp"
-#include "stdlib.hpp"
+#include "../AliveLibAE/stdlib.hpp"
 #include "../relive_lib/ScreenManager.hpp"
 #include "Map.hpp"
 #include "Game.hpp"

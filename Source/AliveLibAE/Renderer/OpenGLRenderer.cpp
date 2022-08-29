@@ -1,7 +1,7 @@
-#include "stdafx.h"
+#include "../stdafx.h"
 
 #include "OpenGLRenderer.hpp"
-#include "Compression.hpp"
+#include "../Compression.hpp"
 #include "../relive_lib/VRam.hpp"
 #include "../relive_lib/Primitives.hpp"
 #include "StbImageImplementation.hpp"

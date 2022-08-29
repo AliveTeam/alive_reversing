@@ -2,7 +2,7 @@
 #include "Function.hpp"
 #include "Throwable.hpp"
 #include "Map.hpp"
-#include "stdlib.hpp"
+#include "../AliveLibAE/stdlib.hpp"
 #include "Grenade.hpp"
 #include "Rock.hpp"
 #include "Meat.hpp"

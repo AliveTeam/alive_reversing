@@ -3,7 +3,7 @@
 #include "BeeNest.hpp"
 #include "ResourceManager.hpp"
 #include "BeeSwarm.hpp"
-#include "stdlib.hpp"
+#include "../AliveLibAE/stdlib.hpp"
 #include "SwitchStates.hpp"
 #include "Abe.hpp"
 

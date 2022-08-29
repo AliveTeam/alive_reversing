@@ -1,4 +1,4 @@
-#include "stdafx.h"
+#include "../stdafx.h"
 #include "DirectX9Renderer.hpp"
 
 #ifdef _WIN32

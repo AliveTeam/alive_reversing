@@ -5,7 +5,7 @@
 
 #if USE_SDL2_SOUND
     #include "../AliveLibCommon/Function.hpp"
-    #include "stdlib.hpp"
+    #include "../AliveLibAE/stdlib.hpp"
     #include "SDL.h"
     #include <atomic>
 

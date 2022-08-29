@@ -11,7 +11,7 @@
 #include "BaseAliveGameObject.hpp"
 #include "PossessionFlicker.hpp"
 #include "Math.hpp"
-#include "stdlib.hpp"
+#include "../AliveLibAE/stdlib.hpp"
 #undef min
 #undef max
 

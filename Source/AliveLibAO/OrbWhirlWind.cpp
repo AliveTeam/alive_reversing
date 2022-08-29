@@ -2,7 +2,7 @@
 #include "Function.hpp"
 #include "OrbWhirlWind.hpp"
 #include "OrbWhirlWindParticle.hpp"
-#include "stdlib.hpp"
+#include "../AliveLibAE/stdlib.hpp"
 #include "Game.hpp"
 
 namespace AO {

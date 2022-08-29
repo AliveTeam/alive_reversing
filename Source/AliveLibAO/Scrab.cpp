@@ -8,7 +8,7 @@
 #include "DDCheat.hpp"
 #include "../relive_lib/Shadow.hpp"
 #include "ResourceManager.hpp"
-#include "stdlib.hpp"
+#include "../AliveLibAE/stdlib.hpp"
 #include "MusicController.hpp"
 #include "PlatformBase.hpp"
 #include "Math.hpp"

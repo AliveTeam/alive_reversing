@@ -2,7 +2,7 @@
 #include "Function.hpp"
 #include "BaseBomb.hpp"
 #include "ResourceManager.hpp"
-#include "stdlib.hpp"
+#include "../AliveLibAE/stdlib.hpp"
 #include "ParticleBurst.hpp"
 #include "ScreenShake.hpp"
 #include "Midi.hpp"

@@ -3,7 +3,7 @@
 #include "HoneySack.hpp"
 #include "ResourceManager.hpp"
 #include "Game.hpp"
-#include "stdlib.hpp"
+#include "../AliveLibAE/stdlib.hpp"
 #include "BeeSwarm.hpp"
 #include "HoneyDrip.hpp"
 #include "../relive_lib/Events.hpp"

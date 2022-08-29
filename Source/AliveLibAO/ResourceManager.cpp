@@ -2,7 +2,7 @@
 #include "ResourceManager.hpp"
 #include "Function.hpp"
 #include "Particle.hpp"
-#include "stdlib.hpp"
+#include "../AliveLibAE/stdlib.hpp"
 #include "../relive_lib/PsxDisplay.hpp"
 #include "Psx.hpp"
 #include "PsxRender.hpp"

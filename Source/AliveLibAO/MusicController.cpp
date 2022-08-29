@@ -2,7 +2,7 @@
 #include "Function.hpp"
 #include "MusicController.hpp"
 #include "Midi.hpp"
-#include "stdlib.hpp"
+#include "../AliveLibAE/stdlib.hpp"
 #include "Abe.hpp"
 #include "../relive_lib/Events.hpp"
 #include "Elum.hpp"

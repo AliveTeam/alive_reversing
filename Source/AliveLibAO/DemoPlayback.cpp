@@ -5,7 +5,7 @@
 #include "Game.hpp"
 #include "ResourceManager.hpp"
 #include "SaveGame.hpp"
-#include "stdlib.hpp"
+#include "../AliveLibAE/stdlib.hpp"
 #include "Input.hpp"
 #include "Abe.hpp"
 #include "MainMenu.hpp"

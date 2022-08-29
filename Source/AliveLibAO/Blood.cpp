@@ -7,7 +7,7 @@
 #include "Math.hpp"
 #include "Map.hpp"
 #include "../relive_lib/PsxDisplay.hpp"
-#include "stdlib.hpp"
+#include "../AliveLibAE/stdlib.hpp"
 #include "Primitives_common.hpp"
 #include <algorithm>
 

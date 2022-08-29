@@ -18,7 +18,7 @@
 #include "ResourceManager.hpp"
 #include "../relive_lib/Shadow.hpp"
 #include "Game.hpp"
-#include "stdlib.hpp"
+#include "../AliveLibAE/stdlib.hpp"
 #include "Midi.hpp"
 #include "Movie.hpp"
 #include "CircularFade.hpp"

@@ -2,7 +2,7 @@
 #include "Function.hpp"
 #include "ScopedSeq.hpp"
 #include "Midi.hpp"
-#include "stdlib.hpp"
+#include "../AliveLibAE/stdlib.hpp"
 #include "Midi.hpp"
 #include "Map.hpp"
 

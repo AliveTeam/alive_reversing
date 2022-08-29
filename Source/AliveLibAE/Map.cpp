@@ -149,58 +149,24 @@ static Map_PathsArrayExtended sPathsArrayExtended = {};
 
 void Map::FreePathResourceBlocks()
 {
-    for (s32 i = 0; i < Path_Get_Num_Paths(mCurrentLevel); ++i)
-    {
-        if (sPathsArrayExtended.mPathRecs[i])
-        {
-            ResourceManager::FreeResource_49C330(sPathsArrayExtended.mPathRecs[i]);
-            sPathsArrayExtended.mPathRecs[i] = nullptr;
-        }
-
-        if (i < ALIVE_COUNTOF(mPathResArray.mPathRecs))
-        {
-            if (mPathResArray.mPathRecs[i])
-            {
-                mPathResArray.mPathRecs[i] = nullptr;
-            }
-        }
-    }
+    mLoadedPaths.clear();
 }
 
-void Map::GetPathResourceBlockPtrs()
+BinaryPath* Map::GetPathResourceBlockPtr(u32 pathId)
 {
-    // Get pointer to each PATH
-    for (s32 i = 1; i < Path_Get_Num_Paths(mNextLevel); ++i)
+    for (auto& loadedPath : mLoadedPaths)
     {
-        sPathsArrayExtended.mPathRecs[i] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Path, i, TRUE, FALSE);
-
-        if (i < ALIVE_COUNTOF(mPathResArray.mPathRecs))
+        if (loadedPath->GetPathId() == pathId)
         {
-            mPathResArray.mPathRecs[i] = sPathsArrayExtended.mPathRecs[i];
+            return loadedPath.get();
         }
     }
-}
-
-u8** Map::GetPathResourceBlockPtr(u32 pathId)
-{
-    if (pathId < ALIVE_COUNTOF(mPathResArray.mPathRecs))
-    {
-        return mPathResArray.mPathRecs[pathId];
-    }
-    return sPathsArrayExtended.mPathRecs[pathId];
+    return nullptr;
 }
 
 void Map::ClearPathResourceBlocks()
 {
-    for (s32 i = 0; i < ALIVE_COUNTOF(mPathResArray.mPathRecs); i++)
-    {
-        mPathResArray.mPathRecs[i] = nullptr;
-    }
-
-    for (s32 i = 0; i < ALIVE_COUNTOF(sPathsArrayExtended.mPathRecs); i++)
-    {
-        sPathsArrayExtended.mPathRecs[i] = nullptr;
-    }
+    mLoadedPaths.clear();
 }
 
 void Map::RemoveObjectsWithPurpleLight(s16 bMakeInvisible)
@@ -435,12 +401,11 @@ void Map::Handle_PathTransition()
                 break;
         }
 
-        const u32 pCamNameOffset = sizeof(CameraName) * (mCamIdxOnX + (mCamIdxOnY * sPathInfo->mCamsOnX));
-        const u8* pPathRes = *GetPathResourceBlockPtr(mCurrentPath);
-        auto pCameraName = reinterpret_cast<const CameraName*>(pPathRes + pCamNameOffset);
+        const BinaryPath* pPathRes = GetPathResourceBlockPtr(mCurrentPath);
+        auto pCameraName = pPathRes->CameraName(mCamIdxOnX, mCamIdxOnY);
 
         // Convert the 2 digit camera number string to an integer
-        mNextCamera = 1 * (pCameraName->name[7] - '0') + 10 * (pCameraName->name[6] - '0');
+        mNextCamera = 1 * (pCameraName[7] - '0') + 10 * (pCameraName[6] - '0');
 
         GoTo_Camera();
     }
@@ -710,10 +675,9 @@ void Map::GoTo_Camera()
         }
 
         // Open Path BND
-        ResourceManager::LoadResourceFile_49C170(Path_Get_BndName(mNextLevel), nullptr);
+        //ResourceManager::LoadResourceFile_49C170(Path_Get_BndName(mNextLevel), nullptr);
 
-        // Get pointer to each PATH
-        GetPathResourceBlockPtrs();
+        // TODO: Load json
 
         if (mNextLevel == mCurrentLevel)
         {
@@ -770,31 +734,17 @@ void Map::GoTo_Camera()
     char_type pStrBuffer[13] = {};
     Path_Format_CameraName(pStrBuffer, mNextLevel, mNextPath, mNextCamera);
 
-    u32 pCamNameOffset = 0;
-    if (sizeof(CameraName) * sPathInfo->mCamsOnX * sPathInfo->mCamsOnY > 0)
+    BinaryPath* pNextPath = GetPathResourceBlockPtr(mNextPath);
+    for (auto& cam : pNextPath->GetCameras())
     {
-        for (;;)
+        if (!strncmp(cam->mName.c_str(), pStrBuffer, sizeof(CameraName)))
         {
-            u8* pPathRes = *GetPathResourceBlockPtr(mNextPath);
-            CameraName* pCameraNameIter = reinterpret_cast<CameraName*>(pPathRes + pCamNameOffset);
-
-            if (strncmp(pCameraNameIter->name, pStrBuffer, sizeof(CameraName)) == 0)
-            {
-                // Matched
-                break;
-            }
-
-            pCamNameOffset += sizeof(CameraName);
-            if (pCamNameOffset >= sizeof(CameraName) * sPathInfo->mCamsOnX * sPathInfo->mCamsOnY)
-            {
-                // Out of bounds
-                break;
-            }
+            mCamIdxOnX = static_cast<s16>(cam->mX);
+            mCamIdxOnY = static_cast<s16>(cam->mY);
+            break;
         }
     }
 
-    mCamIdxOnX = static_cast<s16>((pCamNameOffset / sizeof(CameraName)) % sPathInfo->mCamsOnX);
-    mCamIdxOnY = static_cast<s16>((pCamNameOffset / sizeof(CameraName)) / sPathInfo->mCamsOnX);
     field_24_camera_offset.x = FP_FromInteger(mCamIdxOnX * mPathData->field_A_grid_width);
     field_24_camera_offset.y = FP_FromInteger(mCamIdxOnY * mPathData->field_C_grid_height);
 
@@ -802,7 +752,7 @@ void Map::GoTo_Camera()
     if (prevPathId != mCurrentPath || prevLevelId != mCurrentLevel)
     {
         relive_delete sCollisions;
-        sCollisions = relive_new Collisions(Collisions::LineFormat::Ae, pPathRec_1->field_8_pCollisionData, *GetPathResourceBlockPtr(mCurrentPath));
+        sCollisions = relive_new Collisions(GetPathResourceBlockPtr(mCurrentPath)->GetCollisions());
     }
 
     if (mRestoreQuickSaveData)
@@ -1217,11 +1167,11 @@ Camera* Map::Create_Camera(s16 xpos, s16 ypos, s32 /*a4*/)
     }
 
     // Get a pointer to the camera name from the Path resource
-    const u8* pPathData = *GetPathResourceBlockPtr(mCurrentPath);
-    auto pCamName = reinterpret_cast<const CameraName*>(&pPathData[(xpos + (ypos * sPathInfo->mCamsOnX)) * sizeof(CameraName)]);
+    const BinaryPath* pPathData = GetPathResourceBlockPtr(mCurrentPath);
+    auto pCamName = pPathData->CameraName(xpos, ypos);
 
     // Empty/blank camera in the map array
-    if (!pCamName->name[0])
+    if (!pCamName || !pCamName[0])
     {
         return nullptr;
     }
@@ -1230,7 +1180,7 @@ Camera* Map::Create_Camera(s16 xpos, s16 ypos, s32 /*a4*/)
 
     // Copy in the camera name from the Path resource and append .CAM
     memset(newCamera->field_1E_cam_name, 0, sizeof(newCamera->field_1E_cam_name));
-    strncpy(newCamera->field_1E_cam_name, pCamName->name, ALIVE_COUNTOF(CameraName::name));
+    strncpy(newCamera->field_1E_cam_name, pCamName, ALIVE_COUNTOF(CameraName::name));
     strcat(newCamera->field_1E_cam_name, ".CAM");
 
     newCamera->mCamXOff = xpos;
@@ -1242,10 +1192,10 @@ Camera* Map::Create_Camera(s16 xpos, s16 ypos, s32 /*a4*/)
     newCamera->field_18_path = mCurrentPath;
 
     // Calculate hash/resource ID of the camera
-    newCamera->field_10_camera_resource_id = 1 * (pCamName->name[7] - '0') + 10 * (pCamName->name[6] - '0') + 100 * (pCamName->name[4] - '0') + 1000 * (pCamName->name[3] - '0');
+    newCamera->field_10_camera_resource_id = 1 * (pCamName[7] - '0') + 10 * (pCamName[6] - '0') + 100 * (pCamName[4] - '0') + 1000 * (pCamName[3] - '0');
 
     // Convert the 2 digit camera number string to an integer
-    newCamera->field_1C_camera_number = 1 * (pCamName->name[7] - '0') + 10 * (pCamName->name[6] - '0');
+    newCamera->field_1C_camera_number = 1 * (pCamName[7] - '0') + 10 * (pCamName[6] - '0');
 
     return newCamera;
 }

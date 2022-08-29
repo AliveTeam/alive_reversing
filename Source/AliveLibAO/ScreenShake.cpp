@@ -3,7 +3,7 @@
 #include "ScreenShake.hpp"
 #include "../relive_lib/Events.hpp"
 #include "Game.hpp"
-#include "stdlib.hpp"
+#include "../AliveLibAE/stdlib.hpp"
 #include "../relive_lib/PsxDisplay.hpp"
 #include "../relive_lib/Primitives.hpp"
 #include "../relive_lib/ScreenManager.hpp"

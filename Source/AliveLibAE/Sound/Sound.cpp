@@ -1,15 +1,15 @@
-#include "stdafx.h"
+#include "../stdafx.h"
 #include "Sound.hpp"
 #include "Function.hpp"
-#include "stdlib.hpp"
+#include "../stdlib.hpp"
 #include "../relive_lib/Error.hpp"
-#include "Sys.hpp"
+#include "../Sys.hpp"
 #include <mutex>
-#include "Sound/SoundSDL.hpp"
-#include "Sound/SoundDSound.hpp"
-#include "Sound/SDLSoundBuffer.hpp"
-#include "Sound/SDLSoundSystem.hpp"
-#include "Sound/PsxSpuApi.hpp"
+#include "SoundSDL.hpp"
+#include "SoundDSound.hpp"
+#include "SDLSoundBuffer.hpp"
+#include "SDLSoundSystem.hpp"
+#include "PsxSpuApi.hpp"
 
 ALIVE_VAR(1, 0xBBC394, s32, sLoadedSoundsCount_BBC394, 0);
 ALIVE_VAR(1, 0xbbc33c, s32, sLastNotePlayTime_BBC33C, 0);

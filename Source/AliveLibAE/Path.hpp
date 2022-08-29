@@ -7,6 +7,7 @@
 #include <type_traits>
 #include "../relive_lib/MapWrapper.hpp"
 #include "../relive_lib/data_conversion/relive_tlvs.hpp"
+#include "../relive_lib/BinaryPath.hpp"
 #include "Factory.hpp"
 
 struct PathData;
@@ -244,7 +245,7 @@ public:
     Path();
     ~Path();
     void Free();
-    void Init(const PathData* pPathData, EReliveLevelIds level, s16 path, s16 cameraId, u8** ppPathRes);
+    void Init(const PathData* pPathData, EReliveLevelIds level, s16 path, s16 cameraId, BinaryPath* ppPathRes);
 
 
     void Loader_4DB800(s16 xpos, s16 ypos, LoadMode loadMode, ReliveTypes typeToLoad);
@@ -285,7 +286,7 @@ public:
     u16 mCamsOnX = 0;
     u16 mCamsOnY = 0;
     const PathData* mPathData = nullptr;
-    u8** field_10_ppRes = nullptr;
+    BinaryPath* field_10_ppRes = nullptr; // Non owning ptr
 };
 ALIVE_ASSERT_SIZEOF(Path, 0x14);
 

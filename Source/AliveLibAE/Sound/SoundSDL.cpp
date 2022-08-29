@@ -1,4 +1,4 @@
-#include "stdafx.h"
+#include "../stdafx.h"
 #include "SoundSDL.hpp"
 #include "SDLSoundBuffer.hpp"
 #include "SDLSoundSystem.hpp"

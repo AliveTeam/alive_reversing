@@ -4,7 +4,7 @@
 #include "ResourceManager.hpp"
 #include "Math.hpp"
 #include "Map.hpp"
-#include "stdlib.hpp"
+#include "../AliveLibAE/stdlib.hpp"
 
 namespace AO {
 

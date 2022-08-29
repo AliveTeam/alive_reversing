@@ -4,7 +4,7 @@
 #include "Map.hpp"
 #include "Game.hpp"
 #include "BeeSwarm.hpp"
-#include "stdlib.hpp"
+#include "../AliveLibAE/stdlib.hpp"
 #include "Abe.hpp"
 #include "../relive_lib/Collisions.hpp"
 

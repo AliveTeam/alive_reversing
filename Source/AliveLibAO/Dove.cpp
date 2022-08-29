@@ -2,7 +2,7 @@
 #include "Function.hpp"
 #include "Dove.hpp"
 #include "../relive_lib/DynamicArray.hpp"
-#include "stdlib.hpp"
+#include "../AliveLibAE/stdlib.hpp"
 #include "ResourceManager.hpp"
 #include "Math.hpp"
 #include "Midi.hpp"

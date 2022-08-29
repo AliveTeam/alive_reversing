@@ -5,7 +5,7 @@
 #include "ResourceManager.hpp"
 #include "Math.hpp"
 #include "Game.hpp"
-#include "stdlib.hpp"
+#include "../AliveLibAE/stdlib.hpp"
 #include "MusicTrigger.hpp"
 #include "Abe.hpp"
 #include "Midi.hpp"

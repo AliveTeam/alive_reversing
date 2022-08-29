@@ -5,7 +5,7 @@
 #include "SwitchStates.hpp"
 #include "ResourceManager.hpp"
 #include "../relive_lib/Collisions.hpp"
-#include "stdlib.hpp"
+#include "../AliveLibAE/stdlib.hpp"
 #include "Midi.hpp"
 #include "Sfx.hpp"
 #include "../relive_lib/Events.hpp"

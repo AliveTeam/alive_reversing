@@ -1,7 +1,7 @@
-#include "stdafx.h"
+#include "../stdafx.h"
 #include "SoftwareRenderer.hpp"
-#include "PsxRender.hpp"
-#include "Psx.hpp"
+#include "../PsxRender.hpp"
+#include "../Psx.hpp"
 #include "../relive_lib/VRam.hpp"
 
 void SoftwareRenderer::Destroy()
