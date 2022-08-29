@@ -8,11 +8,11 @@
 #include "../relive_lib/ObjectIds.hpp"
 #include "stdlib.hpp"
 
-LiftMover::LiftMover(relive::Path_LiftMover* pTlv, s32 tlvInfo)
+LiftMover::LiftMover(relive::Path_LiftMover* pTlv, const Guid& tlvId)
     : BaseGameObject(TRUE, 0)
 {
-    field_24_tlvInfo = tlvInfo;
-    field_28_lift_id = -1;
+    field_24_tlvInfo = tlvId;
+    field_28_lift_id = Guid{};
     SetType(ReliveTypes::eLiftMover);
 
     field_20_lift_mover_switch_id = pTlv->mLiftMoverSwitchId;
@@ -66,7 +66,7 @@ void LiftMover::VUpdate()
     {
         // Set extra dead for good measure
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
-        field_28_lift_id = -1;
+        field_28_lift_id = Guid{};
     }
     else
     {

@@ -151,7 +151,7 @@ Electrocute::~Electrocute()
         relive_delete pPalOverwriter;
     }
 
-    field_20_target_obj_id = -1;
+    field_20_target_obj_id = Guid{};
 
     relive_delete[] field_40_pPalData;
 }
@@ -252,7 +252,7 @@ void Electrocute::VUpdate()
                     pTargetObj->mRGB.SetRGB(field_24_r, field_26_g, field_28_b);
                     pTargetObj->mBaseAliveGameObjectFlags.Clear(Flags_114::e114_Bit11_Electrocuting);
 
-                    field_20_target_obj_id = -1;
+                    field_20_target_obj_id = Guid{};
                     field_44_state = States::eKillElectrocute_3;
                 }
             }
@@ -302,7 +302,7 @@ void Electrocute::VStop()
         }
 
         pTarget->VTakeDamage(this);
-        field_20_target_obj_id = -1;
+        field_20_target_obj_id = Guid{};
     }
 }
 

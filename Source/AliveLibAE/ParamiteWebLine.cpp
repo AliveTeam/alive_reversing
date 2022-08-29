@@ -10,11 +10,11 @@
 #include "ShadowZone.hpp"
 #include "Rope.hpp"
 
-ParamiteWebLine::ParamiteWebLine(relive::Path_ParamiteWebLine* pTlv, s32 tlvInfo)
+ParamiteWebLine::ParamiteWebLine(relive::Path_ParamiteWebLine* pTlv, const Guid& tlvId)
     : BaseAnimatedWithPhysicsGameObject(0)
 {
     SetType(ReliveTypes::eWebLine);
-    field_100_tlv_info = tlvInfo;
+    field_100_tlv_info = tlvId;
 
     const AnimRecord& rec = AnimRec(AnimId::ParamiteWeb);
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);

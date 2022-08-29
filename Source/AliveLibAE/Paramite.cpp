@@ -63,7 +63,7 @@ bool Paramite::BrainIs(TParamiteBrainFn fn)
     return field_128_fn_brainState == fn;
 }
 
-Paramite::Paramite(relive::Path_Paramite* pTlv, s32 tlvInfo)
+Paramite::Paramite(relive::Path_Paramite* pTlv, const Guid& tlvId)
     : BaseAliveGameObject(16)
 {
     field_160_last_event_index = -1;
@@ -72,7 +72,7 @@ Paramite::Paramite(relive::Path_Paramite* pTlv, s32 tlvInfo)
 
     SetType(ReliveTypes::eParamite);
 
-    mBaseGameObjectTlvInfo = tlvInfo;
+    mBaseGameObjectTlvInfo = tlvId;
 
     field_10_resources_array.SetAt(0, ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kArjbasicResID, 1, 0));
     field_10_resources_array.SetAt(5, ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kArjpumpResID, 1, 0));
@@ -94,13 +94,13 @@ Paramite::Paramite(relive::Path_Paramite* pTlv, s32 tlvInfo)
     mBaseAliveGameObjectFlags.Set(Flags_114::e114_Bit3_Can_Be_Possessed);
     mBaseAliveGameObjectFlags.Set(Flags_114::e114_Bit6_SetOffExplosives);
 
-    BaseAliveGameObject_PlatformId = -1;
+    BaseAliveGameObject_PlatformId = Guid{};
     field_158_next_brain_ret = -1;
     field_15A_paramite_next_motion = -1;
-    field_11C_web_id = -1;
-    field_118_meat_id = -1;
-    field_120_obj_id = -1;
-    field_124_pull_ring_rope_id = -1;
+    field_11C_web_id = Guid{};
+    field_118_meat_id = Guid{};
+    field_120_obj_id = Guid{};
+    field_124_pull_ring_rope_id = Guid{};
     field_130_timer = 0;
     field_12C_brain_ret = 0;
     mNextMotion = 0;
@@ -196,7 +196,7 @@ Paramite::Paramite(relive::Path_Paramite* pTlv, s32 tlvInfo)
     }
 
     BaseAliveGameObjectLastLineYPos = mYPos;
-    field_140_tlvInfo = tlvInfo;
+    field_140_tlvInfo = tlvId;
     MapFollowMe(TRUE);
 
     VStackOnObjectsOfType(ReliveTypes::eParamite);
@@ -342,9 +342,9 @@ s32 Paramite::CreateFromSaveState(const u8* pBuffer)
     return sizeof(Paramite_State);
 }
 
-static s32 ResolveId(s32 objId)
+static Guid ResolveId(Guid objId)
 {
-    if (objId != -1)
+    if (objId != Guid{})
     {
         BaseGameObject* pObj = sObjectIds.Find_Impl(objId);
         if (pObj)
@@ -352,7 +352,7 @@ static s32 ResolveId(s32 objId)
             return pObj->mBaseGameObjectTlvInfo;
         }
     }
-    return -1;
+    return Guid{};
 }
 
 s32 Paramite::VGetSaveState(u8* pSaveBuffer)
@@ -557,7 +557,7 @@ s16 Paramite::Brain_0_Patrol_4835B0()
 
     if (!pObj)
     {
-        field_120_obj_id = -1;
+        field_120_obj_id = Guid{};
     }
 
     if (gMap.GetDirection(mCurrentLevel, mCurrentPath, mXPos, mYPos) >= CameraPos::eCamCurrent_0)
@@ -812,7 +812,7 @@ s16 Paramite::Brain_Patrol_State_5_StopApproachingAbe(BaseAliveGameObject* pObj)
 
     if (pObj->mBaseAliveGameObjectFlags.Get(Flags_114::e114_Bit8_bInvisible))
     {
-        field_120_obj_id = -1;
+        field_120_obj_id = Guid{};
         mNextMotion = eParamiteMotions::M_Turn_4_48B180;
         field_130_timer = sGnFrame + Math_RandomRange(45, 60);
         return ParamiteEnums::Brain_0_Patrol::eBrain0_LostInvisibleAbeSight_10;
@@ -887,7 +887,7 @@ s16 Paramite::Brain_Patrol_State_4_ApproachingAbe(BaseAliveGameObject* pObj)
 
     if (pObj->mBaseAliveGameObjectFlags.Get(Flags_114::e114_Bit8_bInvisible))
     {
-        field_120_obj_id = -1;
+        field_120_obj_id = Guid{};
         mNextMotion = eParamiteMotions::M_Turn_4_48B180;
         field_130_timer = sGnFrame + Math_RandomRange(45, 60);
         return ParamiteEnums::Brain_0_Patrol::eBrain0_LostInvisibleAbeSight_10;
@@ -962,7 +962,7 @@ s16 Paramite::Brain_Patrol_State_3_RunningFromAbe(BaseAliveGameObject* pObj)
 
     if (pObj->mBaseAliveGameObjectFlags.Get(Flags_114::e114_Bit8_bInvisible))
     {
-        field_120_obj_id = -1;
+        field_120_obj_id = Guid{};
         mNextMotion = eParamiteMotions::M_Turn_4_48B180;
         field_130_timer = sGnFrame + Math_RandomRange(45, 60);
         return ParamiteEnums::Brain_0_Patrol::eBrain0_LostInvisibleAbeSight_10;
@@ -1029,7 +1029,7 @@ s16 Paramite::Brain_Patrol_State_8_StuckToWall(BaseAliveGameObject* pObj)
 
     if (pObj->mBaseAliveGameObjectFlags.Get(Flags_114::e114_Bit8_bInvisible))
     {
-        field_120_obj_id = -1;
+        field_120_obj_id = Guid{};
         mNextMotion = eParamiteMotions::M_Turn_4_48B180;
         field_130_timer = sGnFrame + Math_RandomRange(45, 60);
         return ParamiteEnums::Brain_0_Patrol::eBrain0_LostInvisibleAbeSight_10;
@@ -1092,7 +1092,7 @@ s16 Paramite::Brain_Patrol_State_1_IdleForAbe(BaseAliveGameObject* pObj)
 
     if (pObj && pObj->mBaseAliveGameObjectFlags.Get(Flags_114::e114_Bit8_bInvisible))
     {
-        field_120_obj_id = -1;
+        field_120_obj_id = Guid{};
         mNextMotion = eParamiteMotions::M_Turn_4_48B180;
         field_130_timer = sGnFrame + Math_RandomRange(45, 60);
         return ParamiteEnums::Brain_0_Patrol::eBrain0_LostInvisibleAbeSight_10;
@@ -1205,7 +1205,7 @@ s16 Paramite::Brain_Patrol_State_2_FearingAbe(BaseAliveGameObject* pObj)
 
     if (pObj->mBaseAliveGameObjectFlags.Get(Flags_114::e114_Bit8_bInvisible))
     {
-        field_120_obj_id = -1;
+        field_120_obj_id = Guid{};
         mNextMotion = eParamiteMotions::M_Turn_4_48B180;
         field_130_timer = sGnFrame + Math_RandomRange(45, 60);
         return ParamiteEnums::Brain_0_Patrol::eBrain0_LostInvisibleAbeSight_10;
@@ -1397,7 +1397,7 @@ s16 Paramite::Brain_2_ChasingAbe_4859D0()
     }
     else
     {
-        field_120_obj_id = -1;
+        field_120_obj_id = Guid{};
     }
 
     mNextMotion = eParamiteMotions::M_Idle_0_489FB0;
@@ -1994,7 +1994,7 @@ s16 Paramite::Brain_3_SurpriseWeb_4851B0()
             {
                 auto pWeb = static_cast<ParamiteWeb*>(sObjectIds.Find_Impl(field_11C_web_id));
                 pWeb->field_104_bEnabled = TRUE;
-                field_11C_web_id = -1;
+                field_11C_web_id = Guid{};
                 SetBrain(&Paramite::Brain_0_Patrol_4835B0);
                 return ParamiteEnums::Brain_0_Patrol::eBrain0_Inactive_0;
             }
@@ -2025,7 +2025,7 @@ s16 Paramite::Brain_3_SurpriseWeb_4851B0()
             {
                 auto pWeb = static_cast<ParamiteWeb*>(sObjectIds.Find_Impl(field_11C_web_id));
                 pWeb->field_104_bEnabled = TRUE;
-                field_11C_web_id = -1;
+                field_11C_web_id = Guid{};
                 SetBrain(&Paramite::Brain_0_Patrol_4835B0);
                 return ParamiteEnums::Brain_0_Patrol::eBrain0_Inactive_0;
             }
@@ -2074,7 +2074,7 @@ s16 Paramite::Brain_5_SpottedMeat_486880()
     if (!pMeat || pMeat->VIsFalling())
     {
         Sound(ParamiteSpeak::DetectedMeat_7, 0);
-        field_118_meat_id = -1;
+        field_118_meat_id = Guid{};
         mNextMotion = eParamiteMotions::M_Idle_0_489FB0;
         SetBrain(&Paramite::Brain_0_Patrol_4835B0);
         return ParamiteEnums::Brain_0_Patrol::eBrain0_Inactive_0;
@@ -2084,7 +2084,7 @@ s16 Paramite::Brain_5_SpottedMeat_486880()
     {
         if (FP_Abs(pMeat->mYPos - mYPos) > FP_FromInteger(20))
         {
-            field_118_meat_id = -1;
+            field_118_meat_id = Guid{};
             mNextMotion = eParamiteMotions::M_Idle_0_489FB0;
             SetBrain(&Paramite::Brain_0_Patrol_4835B0);
             return ParamiteEnums::Brain_0_Patrol::eBrain0_Inactive_0;
@@ -2141,7 +2141,7 @@ s16 Paramite::Brain_SpottedMeat_State_6_Eating(Meat* pMeat)
     }
 
     pMeat->mBaseGameObjectFlags.Set(BaseGameObject::eDead);
-    field_118_meat_id = -1;
+    field_118_meat_id = Guid{};
     mNextMotion = eParamiteMotions::M_Idle_0_489FB0;
     SetBrain(&Paramite::Brain_0_Patrol_4835B0);
     return ParamiteEnums::Brain_0_Patrol::eBrain0_Inactive_0;
@@ -2991,7 +2991,7 @@ s16 Paramite::Brain_9_ParamiteSpawn_48ED80()
             {
                 field_12C_brain_ret = ParamiteEnums::Brain_8_ControlledByGameSpeak::eBrain8_FollowingIdle_1;
                 pExistingWeb->field_104_bEnabled = 1;
-                field_11C_web_id = -1;
+                field_11C_web_id = Guid{};
                 SetBrain(&Paramite::Brain_8_ControlledByGameSpeak_48DFC0);
             }
             else
@@ -3012,7 +3012,7 @@ s16 Paramite::Brain_9_ParamiteSpawn_48ED80()
             {
                 field_12C_brain_ret = ParamiteEnums::Brain_8_ControlledByGameSpeak::eBrain8_FollowingIdle_1;
                 pExistingWeb->field_104_bEnabled = 1;
-                field_11C_web_id = -1;
+                field_11C_web_id = Guid{};
                 SetBrain(&Paramite::Brain_8_ControlledByGameSpeak_48DFC0);
             }
             else
@@ -3877,7 +3877,7 @@ void Paramite::M_JumpUpMidair_13_48BAF0()
                 mNextMotion = eParamiteMotions::M_Idle_0_489FB0;
                 return;
             }
-            field_124_pull_ring_rope_id = -1;
+            field_124_pull_ring_rope_id = Guid{};
         }
 
         if (sControlledCharacter == this)
@@ -3951,7 +3951,7 @@ void Paramite::M_RopePull_15_48D930()
         {
             pPullRingRope->VMarkAsPulled();
         }
-        field_124_pull_ring_rope_id = -1;
+        field_124_pull_ring_rope_id = Guid{};
         mVelY = FP_FromInteger(0);
         mCurrentMotion = eParamiteMotions::M_JumpUpMidair_13_48BAF0;
         mNextMotion = -1;
@@ -3971,7 +3971,7 @@ void Paramite::M_CloseAttack_16_48DDA0()
             if (FindTarget())
             {
                 pObj = static_cast<BaseAliveGameObject*>(sObjectIds.Find_Impl(field_120_obj_id));
-                field_120_obj_id = -1;
+                field_120_obj_id = Guid{};
             }
         }
         else
@@ -4430,7 +4430,7 @@ void Paramite::M_RunningAttack_31_48C9E0()
             if (FindTarget())
             {
                 pObj = static_cast<BaseAliveGameObject*>(sObjectIds.Find_Impl(field_120_obj_id));
-                field_120_obj_id = -1;
+                field_120_obj_id = Guid{};
             }
         }
 
@@ -4915,7 +4915,7 @@ void Paramite::M_Attack_43_48DB70()
             if (FindTarget())
             {
                 pObj = static_cast<BaseAliveGameObject*>(sObjectIds.Find_Impl(field_120_obj_id));
-                field_120_obj_id = -1;
+                field_120_obj_id = Guid{};
             }
         }
         else if (field_178_flags.Get(Flags_178::eBit8_bAttack_fleeches))
@@ -4977,10 +4977,10 @@ Paramite::~Paramite()
     if (pObj)
     {
         pObj->mBaseGameObjectFlags.Set(BaseGameObject::eDead);
-        field_11C_web_id = -1;
+        field_11C_web_id = Guid{};
     }
 
-    field_118_meat_id = -1;
+    field_118_meat_id = Guid{};
     VOnTrapDoorOpen();
 
     if (mHealth > FP_FromInteger(0) || field_178_flags.Get(Flags_178::eBit6_spawned))
@@ -5038,7 +5038,7 @@ void Paramite::VUpdate()
         field_120_obj_id = BaseGameObject::RefreshId(field_120_obj_id);
         field_124_pull_ring_rope_id = BaseGameObject::RefreshId(field_124_pull_ring_rope_id);
 
-        if (field_11C_web_id != -1)
+        if (field_11C_web_id != Guid{})
         {
             auto pWeb = relive_new ParamiteWeb(mXPos,
                                             FP_GetExponent(mYPos) - 20,
@@ -5085,7 +5085,7 @@ void Paramite::VUpdate()
         {
             if (pMeat->VIsFalling() || pMeat->mBaseGameObjectFlags.Get(BaseGameObject::eDead))
             {
-                field_118_meat_id = -1;
+                field_118_meat_id = Guid{};
                 mNextMotion = 0;
                 SetBrain(&Paramite::Brain_0_Patrol_4835B0);
                 field_12C_brain_ret = 0;
@@ -5359,7 +5359,7 @@ s16 Paramite::VTakeDamage(BaseGameObject* pFrom)
         return 1;
     }
 
-    field_118_meat_id = -1;
+    field_118_meat_id = Guid{};
 
     switch (pFrom->Type())
     {
@@ -5389,7 +5389,7 @@ s16 Paramite::VTakeDamage(BaseGameObject* pFrom)
             }
             if (sControlledCharacter != this)
             {
-                if (field_120_obj_id == -1 || field_120_obj_id == sActiveHero->mBaseGameObjectId)
+                if (field_120_obj_id == Guid{} || field_120_obj_id == sActiveHero->mBaseGameObjectId)
                 {
                     if (BrainIs(&Paramite::Brain_0_Patrol_4835B0) || BrainIs(&Paramite::Brain_8_ControlledByGameSpeak_48DFC0))
                     {
@@ -5560,7 +5560,7 @@ void Paramite::VOnTrapDoorOpen()
     if (pPlatform)
     {
         pPlatform->VRemove(this);
-        BaseAliveGameObject_PlatformId = -1;
+        BaseAliveGameObject_PlatformId = Guid{};
         mCurrentMotion = eParamiteMotions::M_Falling_11_48B200;
     }
 }
@@ -5788,7 +5788,7 @@ s16 Paramite::NextPlayerInputMotion()
                     auto pTarget = static_cast<BaseAliveGameObject*>(sObjectIds.Find_Impl(field_120_obj_id));
                     if (pTarget)
                     {
-                        field_120_obj_id = -1;
+                        field_120_obj_id = Guid{};
                         if (VIsObjNearby(kGridSize * FP_FromDouble(0.5), pTarget))
                         {
                             mCurrentMotion = eParamiteMotions::M_CloseAttack_16_48DDA0;
@@ -5871,7 +5871,7 @@ s16 Paramite::FindTarget()
     }
     else
     {
-        field_120_obj_id = -1;
+        field_120_obj_id = Guid{};
         return 0;
     }
 }

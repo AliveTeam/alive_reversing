@@ -28,7 +28,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_WheelSyncer, 0x20);
 class WheelSyncer final : public BaseGameObject
 {
 public:
-    WheelSyncer(relive::Path_WheelSyncer* pTlv, const TLVUniqueId& tlvId);
+    WheelSyncer(relive::Path_WheelSyncer* pTlv, const Guid& tlvId);
     ~WheelSyncer();
 
     virtual void VUpdate() override;
@@ -43,6 +43,6 @@ private:
     s16 mInputSwitchId5 = 0;
     s16 mInputSwitchId6 = 0;
     relive::Path_WheelSyncer::OutputRequirement mOutputRequirement = relive::Path_WheelSyncer::OutputRequirement::eAllOn;
-    TLVUniqueId mTlvInfo;
+    Guid mTlvInfo;
 };
 ALIVE_ASSERT_SIZEOF(WheelSyncer, 0x34);

@@ -63,7 +63,7 @@ struct MineCar_SaveState final
     s16 field_46_collision_line_type;
     s16 field_48_padding;
     s16 field_4A_padding;
-    s32 field_4C_tlvInfo;
+    Guid field_4C_tlvInfo;
     MineCarStates field_50_state;
     MineCarDirs field_52_turn_direction;
     s16 field_54_unused;
@@ -76,7 +76,7 @@ struct MineCar_SaveState final
     s16 field_64_throw_item_key1;
     s16 field_66_continue_move_input;
 };
-ALIVE_ASSERT_SIZEOF_ALWAYS(MineCar_SaveState, 0x68);
+//ALIVE_ASSERT_SIZEOF_ALWAYS(MineCar_SaveState, 0x68);
 
 class MineCar final : public BaseAliveGameObject
 {
@@ -115,7 +115,7 @@ private:
     bool HandleState1Move(const mineCarFPFunc func, const FP mineCarFPFuncArg1, const FP mineCarFPFuncArg2, const FP mineCarFPFuncArg3, AnimId animId, MineCarDirs mineCarDir, const s8 changeDir, FP rayCast1, FP rayCast2, FP rayCast3, FP rayCast4, const CollisionMask ModelMask1, const CollisionMask ModelMask2, FP moveX, FP moveY, InputCommands::Enum key, bool isVertical, bool verticalFlipXCond);
 
 private:
-    s32 field_118_tlvInfo = 0;
+    Guid field_118_tlvInfo;
 
 public:
     MineCarStates field_11C_state = MineCarStates::eParkedWithoutAbe_0;

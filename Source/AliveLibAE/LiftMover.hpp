@@ -20,10 +20,10 @@ struct LiftMover_State final
 {
     AETypes field_0_type_id; // never read?
     s16 field_2_padding;
-    s32 field_4_tlvInfo;
+    Guid field_4_tlvInfo;
     LiftMoverStates field_8_state;
 };
-ALIVE_ASSERT_SIZEOF_ALWAYS(LiftMover_State, 0xC);
+//ALIVE_ASSERT_SIZEOF_ALWAYS(LiftMover_State, 0xC);
 
 struct Path_LiftMover final : public Path_TLV
 {
@@ -42,7 +42,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_LiftMover, 0x18);
 class LiftMover final : public BaseGameObject
 {
 public:
-    LiftMover(relive::Path_LiftMover* pTlv, const TLVUniqueId& tlvId);
+    LiftMover(relive::Path_LiftMover* pTlv, const Guid& tlvId);
     ~LiftMover();
 
     static s32 CreateFromSaveState(const u8* pData);
@@ -56,8 +56,8 @@ private:
 private:
     s16 field_20_lift_mover_switch_id = 0;
     s16 field_22_target_lift_point_id = 0;
-    s32 field_24_tlvInfo = 0;
-    s32 field_28_lift_id = 0;
+    Guid field_24_tlvInfo;
+    Guid field_28_lift_id;
     FP field_2C_speed = {};
     LiftMoverStates field_30_state = LiftMoverStates::eInactive_0;
     s16 field_32_bMoveInProgress = 0;

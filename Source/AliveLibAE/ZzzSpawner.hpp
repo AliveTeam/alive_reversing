@@ -16,7 +16,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_ZzzSpawner, 0x18);
 class ZzzSpawner final : public BaseGameObject
 {
 public:
-    ZzzSpawner(relive::Path_ZzzSpawner* pTlv, const TLVUniqueId& tlvId);
+    ZzzSpawner(relive::Path_ZzzSpawner* pTlv, const Guid& tlvId);
     ~ZzzSpawner();
     
     virtual void VUpdate() override;
@@ -26,7 +26,7 @@ private:
     FP mXPos = {};
     FP mYPos = {};
     FP mSpriteScale = {};
-    TLVUniqueId mTlvInfo;
+    Guid mTlvInfo;
     s16 mSwitchId = 0;
     s32 mTimer = 0;
     s16 mZzzInterval = 0;

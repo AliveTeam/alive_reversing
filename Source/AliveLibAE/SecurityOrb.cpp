@@ -35,7 +35,7 @@ const TintEntry sSecurityOrbTints_55C1EC[18] = {
     {EReliveLevelIds::eNone, 127u, 127u, 127u}};
 
 
-SecurityOrb::SecurityOrb(relive::Path_SecurityOrb* pTlv, s32 tlvInfo)
+SecurityOrb::SecurityOrb(relive::Path_SecurityOrb* pTlv, const Guid& tlvId)
     : BaseAliveGameObject(0)
 {
     SetType(ReliveTypes::eSecurityOrb);
@@ -51,7 +51,7 @@ SecurityOrb::SecurityOrb(relive::Path_SecurityOrb* pTlv, s32 tlvInfo)
     mXPos = FP_FromInteger(pTlv->mTopLeftX);
     mYPos = FP_FromInteger(pTlv->mTopLeftY);
 
-    mTlvInfo = tlvInfo;
+    mTlvInfo = tlvId;
 
     if (pTlv->mScale == relive::reliveScale::eHalf)
     {

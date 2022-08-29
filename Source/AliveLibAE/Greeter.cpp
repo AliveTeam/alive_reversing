@@ -18,7 +18,7 @@
 #include "Function.hpp"
 #include "Bullet.hpp"
 
-Greeter::Greeter(relive::Path_Greeter* pTlv, const TLVUniqueId& tlvId)
+Greeter::Greeter(relive::Path_Greeter* pTlv, const Guid& tlvId)
     : BaseAliveGameObject(0)
 {
     SetType(ReliveTypes::eGreeter);
@@ -76,7 +76,7 @@ Greeter::Greeter(relive::Path_Greeter* pTlv, const TLVUniqueId& tlvId)
         mYPos = hitY;
     }
 
-    auto pMotionDetctor = relive_new MotionDetector(nullptr, 0, this);
+    auto pMotionDetctor = relive_new MotionDetector(nullptr, Guid{}, this);
     if (pMotionDetctor)
     {
         field_11C_motionDetectorId = pMotionDetctor->mBaseGameObjectId;

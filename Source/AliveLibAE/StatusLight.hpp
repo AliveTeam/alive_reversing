@@ -20,7 +20,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_StatusLight, 0x20);
 class StatusLight final : public ::BaseAnimatedWithPhysicsGameObject
 {
 public:
-    StatusLight(relive::Path_StatusLight* pTlv, const TLVUniqueId& tlvId);
+    StatusLight(relive::Path_StatusLight* pTlv, const Guid& tlvId);
     ~StatusLight();
 
     virtual void VUpdate() override;
@@ -29,7 +29,7 @@ public:
     bool isLinkedAndDisabled(s16 switchId);
 
 private:
-    TLVUniqueId field_F4_tlvInfo;
+    Guid field_F4_tlvInfo;
     s16 mInputSwitchId = 0;
     s16 mLinkedStatusLightSwitchId1 = 0;
     s16 mLinkedStatusLightSwitchId2 = 0;

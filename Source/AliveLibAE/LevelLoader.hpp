@@ -39,6 +39,6 @@ private:
     s16 field_28_camera = 0;
     s16 field_2A_movie_id = 0;
     Guid field_2C_tlvInfo;
-    s32 field_30_fade_id = 0;
+    Guid field_30_fade_id;
 };
 ALIVE_ASSERT_SIZEOF(LevelLoader, 0x34);

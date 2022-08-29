@@ -76,7 +76,7 @@ bool Scrab::BrainIs(TScrabBrainFn fn)
     return field_118_brain_state == fn;
 }
 
-Scrab::Scrab(relive::Path_Scrab* pTlv, s32 tlvInfo, relive::Path_ScrabSpawner::SpawnDirection spawnDirection)
+Scrab::Scrab(relive::Path_Scrab* pTlv, const Guid& tlvId, relive::Path_ScrabSpawner::SpawnDirection spawnDirection)
     : BaseAliveGameObject(14)
 {
     field_190_unused = 0;
@@ -85,13 +85,13 @@ Scrab::Scrab(relive::Path_Scrab* pTlv, s32 tlvInfo, relive::Path_ScrabSpawner::S
 
     SetType(ReliveTypes::eScrab);
 
-    if (tlvInfo != 0xFFFF)
+    if (tlvId != Guid{})
     {
-        mBaseGameObjectTlvInfo = tlvInfo;
+        mBaseGameObjectTlvInfo = tlvId;
     }
 
-    field_124_fight_target_obj_id = -1;
-    field_120_obj_id = -1;
+    field_124_fight_target_obj_id = Guid{};
+    field_120_obj_id = Guid{};
 
     field_10_resources_array.SetAt(0, ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kArsbasicResID, 1, 0));
     field_10_resources_array.SetAt(11, ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kArschewResID, 1, 0));
@@ -113,7 +113,7 @@ Scrab::Scrab(relive::Path_Scrab* pTlv, s32 tlvInfo, relive::Path_ScrabSpawner::S
     field_140_motion_resource_block_index = 0;
     field_12C_timer = 0;
     mNextMotion = eScrabMotions::M_Stand_0_4A8220;
-    BaseAliveGameObject_PlatformId = -1;
+    BaseAliveGameObject_PlatformId = Guid{};
     mCurrentMotion = eScrabMotions::M_Stand_0_4A8220;
     field_11E_return_to_previous_motion = 0;
 
@@ -188,7 +188,7 @@ Scrab::Scrab(relive::Path_Scrab* pTlv, s32 tlvInfo, relive::Path_ScrabSpawner::S
 
     field_14C_pause_after_chase_timer = 0;
     field_150_attack_delay_timer = 0;
-    field_144_tlvInfo = tlvInfo;
+    field_144_tlvInfo = tlvId;
     field_11C_brain_sub_state = 0;
 
     ToPatrol();
@@ -432,10 +432,10 @@ s32 Scrab::VGetSaveState(u8* pSaveBuffer)
         idx++;
     }
 
-    pState->field_54_obj_id = -1;
+    pState->field_54_obj_id = Guid{};
     pState->field_50_sub_state = field_11C_brain_sub_state;
 
-    if (field_120_obj_id != -1)
+    if (field_120_obj_id != Guid{})
     {
         BaseGameObject* pObj = sObjectIds.Find_Impl(field_120_obj_id);
         if (pObj)
@@ -444,8 +444,8 @@ s32 Scrab::VGetSaveState(u8* pSaveBuffer)
         }
     }
 
-    pState->field_58_target_obj_id = -1;
-    if (field_124_fight_target_obj_id != -1)
+    pState->field_58_target_obj_id = Guid{};
+    if (field_124_fight_target_obj_id != Guid{})
     {
         BaseGameObject* pObj = sObjectIds.Find_Impl(field_124_fight_target_obj_id);
         if (pObj)
@@ -485,8 +485,8 @@ s32 Scrab::VGetSaveState(u8* pSaveBuffer)
 
 Scrab::~Scrab()
 {
-    field_120_obj_id = -1;
-    field_124_fight_target_obj_id = -1;
+    field_120_obj_id = Guid{};
+    field_124_fight_target_obj_id = Guid{};
 
     VOnTrapDoorOpen();
 
@@ -524,7 +524,7 @@ void Scrab::VOnTrapDoorOpen()
     {
         pPlatform->VRemove(this);
         field_1AA_flags.Set(Flags_1AA::eBit4_force_update_animation);
-        BaseAliveGameObject_PlatformId = -1;
+        BaseAliveGameObject_PlatformId = Guid{};
         mCurrentMotion = eScrabMotions::M_RunToFall_15_4A9430;
     }
 }
@@ -787,7 +787,7 @@ void Scrab::VUpdate()
                 }
             }
 
-            if (sControlledCharacter == this && BaseAliveGameObject_PlatformId != -1)
+            if (sControlledCharacter == this && BaseAliveGameObject_PlatformId != Guid{})
             {
                 mVelY = mYPos - field_13C_last_ypos;
                 SetActiveCameraDelayedFromDir();
@@ -1089,7 +1089,7 @@ s16 Scrab::Brain_0_Patrol_4AA630()
             }
             else
             {
-                BaseAliveGameObject_PlatformId = -1;
+                BaseAliveGameObject_PlatformId = Guid{};
                 return Brain_0_Patrol::eBrain0_ToMoving_0;
             }
             break;
@@ -1171,7 +1171,7 @@ s16 Scrab::Brain_1_ChasingEnemy_4A6470()
     auto pObj = static_cast<BaseAliveGameObject*>(sObjectIds.Find_Impl(field_120_obj_id));
     if (!pObj || mBaseGameObjectFlags.Get(BaseGameObject::eDead) || (static_cast<s32>(sGnFrame) > field_14C_pause_after_chase_timer && !CanSeeAbe(pObj)))
     {
-        field_120_obj_id = -1;
+        field_120_obj_id = Guid{};
         mNextMotion = eScrabMotions::M_Stand_0_4A8220;
         ToPatrol();
         return Brain_0_Patrol::eBrain0_ToMoving_0;
@@ -1179,7 +1179,7 @@ s16 Scrab::Brain_1_ChasingEnemy_4A6470()
 
     if (pObj->mBaseAliveGameObjectFlags.Get(Flags_114::e114_Bit8_bInvisible))
     {
-        field_120_obj_id = -1;
+        field_120_obj_id = Guid{};
         mNextMotion = eScrabMotions::M_HowlBegin_26_4A9DA0;
         ToPatrol();
         return Brain_0_Patrol::eBrain0_UsingInvisibility_9;
@@ -1331,7 +1331,7 @@ s16 Scrab::Brain_1_ChasingEnemy_4A6470()
             }
             else
             {
-                BaseAliveGameObject_PlatformId = -1;
+                BaseAliveGameObject_PlatformId = Guid{};
             }
             return Brain_1_ChasingEnemy::eBrain1_Idle_1;
 
@@ -1617,7 +1617,7 @@ s16 Scrab::Brain_2_Fighting_4A5840()
     if (pTarget && pTarget->mBaseAliveGameObjectFlags.Get(Flags_114::e114_Bit4_bPossesed) && mHealth > FP_FromInteger(0) && pTarget->mHealth > FP_FromInteger(0))
     {
         field_120_obj_id = field_124_fight_target_obj_id;
-        field_124_fight_target_obj_id = -1;
+        field_124_fight_target_obj_id = Guid{};
         SetBrain(&Scrab::Brain_1_ChasingEnemy_4A6470);
         field_150_attack_delay_timer = sGnFrame + 90;
         mNextMotion = eScrabMotions::M_HowlBegin_26_4A9DA0;
@@ -1662,7 +1662,7 @@ s16 Scrab::Brain_2_Fighting_4A5840()
 
             field_1AA_flags.Clear(Flags_1AA::eBit1_attacking);
             mNextMotion = -1;
-            if (pTarget->field_124_fight_target_obj_id == -1 || pTarget->field_124_fight_target_obj_id == mBaseGameObjectId)
+            if (pTarget->field_124_fight_target_obj_id == Guid{} || pTarget->field_124_fight_target_obj_id == mBaseGameObjectId)
             {
                 if (VIsFacingMe(pTarget))
                 {
@@ -1686,7 +1686,7 @@ s16 Scrab::Brain_2_Fighting_4A5840()
             }
             else
             {
-                field_124_fight_target_obj_id = -1;
+                field_124_fight_target_obj_id = Guid{};
                 mNextMotion = eScrabMotions::M_HowlBegin_26_4A9DA0;
                 return Brain_2_Fighting::eBrain2_WaitingForBattle_15;
             }
@@ -1862,7 +1862,7 @@ s16 Scrab::Brain_2_Fighting_4A5840()
             {
                 return field_11C_brain_sub_state;
             }
-            field_124_fight_target_obj_id = -1;
+            field_124_fight_target_obj_id = Guid{};
             mNextMotion = eScrabMotions::M_Stand_0_4A8220;
             ToPatrol();
             return Brain_0_Patrol::eBrain0_ToMoving_0;
@@ -3461,8 +3461,8 @@ void Scrab::VPossessed()
     vUpdateAnim();
     SetBrain(&Scrab::Brain_5_Possessed_4A6180);
     field_11C_brain_sub_state = 0;
-    field_120_obj_id = -1;
-    field_124_fight_target_obj_id = -1;
+    field_120_obj_id = Guid{};
+    field_124_fight_target_obj_id = Guid{};
     field_12C_timer = sGnFrame + 35;
     field_166_return_level = gMap.mCurrentLevel;
     field_168_return_path = gMap.mCurrentPath;
@@ -3534,7 +3534,7 @@ void Scrab::VScreenChanged()
     {
         if (pChaseTarget->mBaseGameObjectFlags.Get(BaseGameObject::eDead))
         {
-            field_120_obj_id = -1;
+            field_120_obj_id = Guid{};
             mNextMotion = eScrabMotions::M_Stand_0_4A8220;
             ToPatrol();
             field_11C_brain_sub_state = Brain_0_Patrol::eBrain0_ToMoving_0;
@@ -4178,7 +4178,7 @@ Scrab* Scrab::FindScrabToFight()
                 {
                     if (!WallHit(mSpriteScale * FP_FromInteger(45), pScrab->mXPos - mXPos) && gMap.Is_Point_In_Current_Camera(pScrab->mCurrentLevel, pScrab->mCurrentPath, pScrab->mXPos, pScrab->mYPos, 0) && gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0))
                     {
-                        if (pScrab->field_124_fight_target_obj_id == -1)
+                        if (pScrab->field_124_fight_target_obj_id == Guid{})
                         {
                             pScrabNotInAFight = pScrab;
                         }

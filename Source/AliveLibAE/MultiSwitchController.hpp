@@ -23,7 +23,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_MultiSwitchController, 0x24);
 class MultiSwitchController final : public BaseGameObject
 {
 public:
-    MultiSwitchController(relive::Path_MultiSwitchController* pTlv, const TLVUniqueId& tlvId);
+    MultiSwitchController(relive::Path_MultiSwitchController* pTlv, const Guid& tlvId);
     ~MultiSwitchController();
 
     virtual void VUpdate() override;
@@ -42,7 +42,7 @@ private:
     u16 mInputSwitchId6 = 0;
     u16 mOutputSwitchId = 0;
     relive::reliveSwitchOp mAction = relive::reliveSwitchOp::eSetTrue;
-    s32 mTlvInfo = 0;
+    Guid mTlvInfo;
     s32 field_34_last_switch_on_time = 0;
     s32 field_38_all_switches_on_or_off_time = 0;
     s32 mOnOffDelay = 0;

@@ -10,7 +10,7 @@
 #include "Function.hpp"
 #include "Abe.hpp"
 
-TorturedMudokon::TorturedMudokon(relive::Path_TorturedMudokon* pTlv, const TLVUniqueId& tlvId)
+TorturedMudokon::TorturedMudokon(relive::Path_TorturedMudokon* pTlv, const Guid& tlvId)
     : BaseAnimatedWithPhysicsGameObject(0)
 {
     SetType(ReliveTypes::eTorturedMud);

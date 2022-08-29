@@ -35,7 +35,7 @@ enum class SecurityDoorStates : s16
 class SecurityDoor final : public ::BaseAnimatedWithPhysicsGameObject
 {
 public:
-    SecurityDoor(relive::Path_SecurityDoor* pTlv, const TLVUniqueId& tlvId);
+    SecurityDoor(relive::Path_SecurityDoor* pTlv, const Guid& tlvId);
     ~SecurityDoor();
 
     virtual void VScreenChanged() override;
@@ -45,7 +45,7 @@ private:
     s16 IsPlayerNear();
 
 private:
-    s32 field_F4_tlvInfo = 0;
+    Guid field_F4_tlvInfo;
     SecurityDoorStates field_F8_state = SecurityDoorStates::eInactive_0;
     s16 field_FA_switch_id = 0;
     s32 field_FC_code_converted = 0;

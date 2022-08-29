@@ -27,7 +27,7 @@ enum Mine_Flags_1BC
 class Mine final : public BaseAliveGameObject
 {
 public:
-    Mine(relive::Path_Mine* pPath, const TLVUniqueId& tlvId);
+    Mine(relive::Path_Mine* pPath, const Guid& tlvId);
     ~Mine();
 
     virtual void VUpdate() override;
@@ -43,7 +43,7 @@ private:
 public:
     u16 field_118_detonating = 0;
     u16 field_11A_disabled_resources = 0;
-    TLVUniqueId field_11C_tlv;
+    Guid field_11C_tlv;
     u32 field_120_gnframe = 0;
     Animation field_124_animation = {};
     BitField32<Mine_Flags_1BC> field_1BC_flags = {};

@@ -40,7 +40,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Water, 0x1C);
 class Water final : public ::BaseAnimatedWithPhysicsGameObject
 {
 public:
-    Water(relive::Path_Water* pTlv, const TLVUniqueId& tlvId);
+    Water(relive::Path_Water* pTlv, const Guid& tlvId);
     ~Water();
 
     virtual void VUpdate() override;
@@ -74,7 +74,7 @@ private:
     s16 field_10C_particle_count = 0;
     s16 field_10E_current_particle_idx = 0;
     s16 field_110_current_drops = 0;
-    TLVUniqueId field_114_tlvInfo;
+    Guid field_114_tlvInfo;
     FP field_118_radius = {};
     FP field_11C_centre = {};
     s16 field_120_frame_width = 0;

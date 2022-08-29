@@ -12,7 +12,7 @@
 #include "../relive_lib/PsxDisplay.hpp"
 #include "stdlib.hpp"
 
-Water::Water(relive::Path_Water* pTlv, const TLVUniqueId& tlvId)
+Water::Water(relive::Path_Water* pTlv, const Guid& tlvId)
     : BaseAnimatedWithPhysicsGameObject(0)
 {
     const AnimRecord& waterDropRec = AnimRec(AnimId::WaterDrop);

@@ -17,14 +17,14 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_RockSack, 0x1C);
 class RockSack final : public BaseAliveGameObject
 {
 public:
-    RockSack(relive::Path_RockSack* pTlv, const TLVUniqueId& tlvId);
+    RockSack(relive::Path_RockSack* pTlv, const Guid& tlvId);
     ~RockSack();
     
     virtual void VScreenChanged() override;
     virtual void VUpdate() override;
 
 private:
-    s32 field_118_tlvInfo = 0;
+    Guid field_118_tlvInfo;
     s16 field_11C_has_been_hit = 0;
     s16 field_11E_rock_amount = 0;
     s16 field_120_can_play_wobble_sound = 0;

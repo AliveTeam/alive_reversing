@@ -50,6 +50,6 @@ private:
     s16 mCollisionX = 0;
     s16 mCollisionY = 0;
     s16 mSwitchId = 0;
-    TlvItemInfoUnion mTlvInfo = {};
+    Guid mTlvInfo;
 };
 ALIVE_ASSERT_SIZEOF(SlamDoor, 0x134);

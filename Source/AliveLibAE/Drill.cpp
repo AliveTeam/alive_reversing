@@ -30,7 +30,7 @@ const TintEntry kDrillTints_551548[18] = {
     {EReliveLevelIds::eNone, 127u, 127u, 127u}};
 
 
-Drill::Drill(relive::Path_Drill* pTlv, const TLVUniqueId& tlvId)
+Drill::Drill(relive::Path_Drill* pTlv, const Guid& tlvId)
     : BaseAnimatedWithPhysicsGameObject(0)
 {
     SetType(ReliveTypes::eDrill);

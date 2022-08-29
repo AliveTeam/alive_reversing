@@ -10,10 +10,10 @@
 
 ALIVE_VAR(1, 0x563aa0, u32, sWellRndSeed_563AA0, 4);
 
-Well::Well(relive::Path_WellBase* pTlv, FP xpos, FP ypos, s32 tlvInfo)
+Well::Well(relive::Path_WellBase* pTlv, FP xpos, FP ypos, const Guid& tlvId)
     : BaseGameObject(TRUE, 0)
 {
-    mTlvInfo = tlvInfo;
+    mTlvInfo = tlvId;
     SetType(ReliveTypes::eWell);
 
     if (pTlv->mTlvType == ReliveTypes::eWellLocal)
@@ -115,7 +115,7 @@ void Well::WellLocal_Init(relive::Path_WellLocal* pTlv, FP /*xpos*/, FP ypos)
 
 Well::~Well()
 {
-    if (mTlvInfo != -1)
+    if (mTlvInfo != Guid{})
     {
         Path::TLV_Reset(mTlvInfo, -1, 0, 0);
     }

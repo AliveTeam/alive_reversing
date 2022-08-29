@@ -29,7 +29,7 @@ const TintEntry sPullRingRopeTints_55FD1C[18] = {
     {EReliveLevelIds::eNone, 127u, 127u, 127u}};
 
 
-PullRingRope::PullRingRope(relive::Path_PullRingRope* pTlv, s32 tlvInfo)
+PullRingRope::PullRingRope(relive::Path_PullRingRope* pTlv, const Guid& tlvId)
     : BaseAnimatedWithPhysicsGameObject(0)
 {
     SetType(ReliveTypes::ePullRingRope);
@@ -46,7 +46,7 @@ PullRingRope::PullRingRope(relive::Path_PullRingRope* pTlv, s32 tlvInfo)
 
     field_102_switch_id = pTlv->mSwitchId;
     field_104_action = pTlv->mAction;
-    field_110_tlvInfo = tlvInfo;
+    field_110_tlvInfo = tlvId;
     field_100_state = States::eIdle_0;
     field_F4_stay_in_state_ticks = 0;
 
@@ -70,7 +70,7 @@ PullRingRope::PullRingRope(relive::Path_PullRingRope* pTlv, s32 tlvInfo)
     field_106_on_sound = pTlv->mOnSound;
     field_108_off_sound = pTlv->mOffSound;
     field_10A_sound_direction = pTlv->mSoundDirection;
-    field_FC_ring_puller_id = -1;
+    field_FC_ring_puller_id = Guid{};
 
     auto pRope = relive_new Rope(FP_GetExponent(mXPos + FP_FromInteger(2)),
                               FP_GetExponent(mYPos) - pTlv->mRopeLength,
@@ -109,7 +109,7 @@ void PullRingRope::VUpdate()
     // Invalidate ring puller if they've died
     if (pRingPuller && pRingPuller->mBaseGameObjectFlags.Get(BaseGameObject::eDead))
     {
-        field_FC_ring_puller_id = -1;
+        field_FC_ring_puller_id = Guid{};
     }
 
     switch (field_100_state)
@@ -141,7 +141,7 @@ void PullRingRope::VUpdate()
             if (field_10C_is_pulled & 1)
             {
                 mVelY = FP_FromInteger(4) * mSpriteScale;
-                field_FC_ring_puller_id = -1;
+                field_FC_ring_puller_id = Guid{};
                 field_100_state = States::eReturnToIdle_3;
                 field_F4_stay_in_state_ticks = 3;
                 mAnim.Set_Animation_Data(AnimId::PullRingRope_UseEnd, nullptr);

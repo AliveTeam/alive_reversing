@@ -22,7 +22,7 @@ static s32 gas_rand()
     return (random_seed >> 16) & 0x7FFF;
 }
 
-LaughingGas::LaughingGas(Layer layer, s32 /*notUsed*/, relive::Path_LaughingGas* pTlv, const TLVUniqueId& tlvId)
+LaughingGas::LaughingGas(Layer layer, s32 /*notUsed*/, relive::Path_LaughingGas* pTlv, const Guid& tlvId)
     : BaseGameObject(TRUE, 0)
 {
     gGasInstanceCount_5BC214++;

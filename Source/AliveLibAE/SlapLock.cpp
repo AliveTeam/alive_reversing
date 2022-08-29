@@ -13,13 +13,13 @@
 #include "Particle.hpp"
 #include "ParticleBurst.hpp"
 
-SlapLock::SlapLock(relive::Path_SlapLock* pTlv, s32 tlvInfo)
+SlapLock::SlapLock(relive::Path_SlapLock* pTlv, const Guid& tlvId)
     : BaseAliveGameObject(0)
 {
     SetType(ReliveTypes::eLockedSoul);
     mSlapLockTlv = pTlv;
-    mTlvInfo = tlvInfo;
-    mBaseGameObjectTlvInfo = tlvInfo;
+    mTlvInfo = tlvId;
+    mBaseGameObjectTlvInfo = tlvId;
 
     if (pTlv->mScale == relive::reliveScale::eHalf)
     {
@@ -41,8 +41,8 @@ SlapLock::SlapLock(relive::Path_SlapLock* pTlv, s32 tlvInfo)
 
     mState = SlapLockStates::eShaking_0;
     mTimer1 = (Math_NextRandom() & 7) + sGnFrame + 25;
-    mAbilityRingId = -1;
-    mPossessionFlickerId = -1;
+    mAbilityRingId = Guid{};
+    mPossessionFlickerId = Guid{};
     const FP midX = FP_FromInteger((pTlv->mTopLeftX + pTlv->mBottomRightX) / 2);
     mXPos = midX;
 
@@ -156,9 +156,9 @@ s32 SlapLock::VGetSaveState(u8* pSaveBuffer)
     pState->mState = mState;
     pState->mTimer1 = mTimer1;
     pState->mShinyParticleTimer = mShinyParticleTimer;
-    pState->mAbilityRingId = -1;
+    pState->mAbilityRingId = Guid{};
 
-    if (mAbilityRingId == -1)
+    if (mAbilityRingId == Guid{})
     {
         return sizeof(SlapLock_State);
     }
@@ -190,7 +190,7 @@ void SlapLock::VUpdate()
                 SwitchStates_Do_Operation(mSlapLockTlv->mTargetTombSwitchId2, relive::reliveSwitchOp::eSetTrue);
             }
 
-            if (mAbilityRingId != -1)
+            if (mAbilityRingId != Guid{})
             {
                 for (s32 i = 0; i < gBaseGameObjects->Size(); i++)
                 {

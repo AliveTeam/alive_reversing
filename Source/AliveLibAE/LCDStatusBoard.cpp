@@ -19,7 +19,7 @@ u8 sStatsSignFontPalette_55CF8C[] = {
 ALIVE_VAR(1, 0x5C1BC4, s16, sMudokonsInArea_5C1BC4, 0);
 ALIVE_VAR(1, 0x5C1A20, s8, sZulagNumber_5C1A20, 0);
 
-LCDStatusBoard::LCDStatusBoard(relive::Path_LCDStatusBoard* params, const TLVUniqueId& tlvId)
+LCDStatusBoard::LCDStatusBoard(relive::Path_LCDStatusBoard* params, const Guid& tlvId)
     : BaseGameObject(TRUE, 0)
 {
     field_100_objectId = tlvId;

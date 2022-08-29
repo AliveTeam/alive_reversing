@@ -7,12 +7,12 @@
 #include "Game.hpp"
 #include "stdlib.hpp"
 
-MultiSwitchController::MultiSwitchController(relive::Path_MultiSwitchController* pTlv, u32 tlvInfo)
+MultiSwitchController::MultiSwitchController(relive::Path_MultiSwitchController* pTlv, const Guid& tlvId)
     : BaseGameObject(TRUE, 0)
 {
     field_40_flags.Clear(Flags_40::eBit1_is_on);
-    mBaseGameObjectTlvInfo = tlvInfo;
-    mTlvInfo = tlvInfo;
+    mBaseGameObjectTlvInfo = tlvId;
+    mTlvInfo = tlvId;
 
     field_34_last_switch_on_time = 0;
     field_38_all_switches_on_or_off_time = 0;

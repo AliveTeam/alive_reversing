@@ -9,7 +9,7 @@
 #include "PathData.hpp"
 #include "GameEnderController.hpp"
 
-WorkWheel::WorkWheel(relive::Path_WorkWheel* pTlv, const TLVUniqueId& tlvId)
+WorkWheel::WorkWheel(relive::Path_WorkWheel* pTlv, const Guid& tlvId)
     : BaseAnimatedWithPhysicsGameObject(0)
 {
     SetType(ReliveTypes::eWheel);

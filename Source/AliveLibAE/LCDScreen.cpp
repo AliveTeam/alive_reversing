@@ -172,7 +172,7 @@ public:
 };
 static LCDMessages gLCDMessages;
 
-LCDScreen::LCDScreen(relive::Path_LCDScreen* params, const TLVUniqueId& tlvId)
+LCDScreen::LCDScreen(relive::Path_LCDScreen* params, const Guid& tlvId)
     : BaseGameObject(TRUE, 0)
 {
     mBaseGameObjectTlvInfo = tlvId;

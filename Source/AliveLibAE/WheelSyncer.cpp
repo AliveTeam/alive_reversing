@@ -6,7 +6,7 @@
 #include "Map.hpp"
 #include "stdlib.hpp"
 
-WheelSyncer::WheelSyncer(relive::Path_WheelSyncer* pTlv, const TLVUniqueId& tlvId)
+WheelSyncer::WheelSyncer(relive::Path_WheelSyncer* pTlv, const Guid& tlvId)
     : BaseGameObject(TRUE, 0)
 {
     mTlvInfo = tlvId;

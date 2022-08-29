@@ -16,7 +16,7 @@ struct Meat_SaveState final
 {
     AETypes field_0_type;
     s16 field_2_pad;
-    TLVUniqueId field_4_obj_id;
+    Guid field_4_obj_id;
     FP field_8_xpos;
     FP field_C_ypos;
     FP field_10_velx;
@@ -33,7 +33,7 @@ struct Meat_SaveState final
     };
     BitField16<MeatStateFlags> field_20_flags;
     s16 field_22_pad;
-    s32 field_24_base_id;
+    Guid field_24_base_id;
     s16 field_28_line_type;
     s16 field_2A_count;
     MeatStates field_2C_state;
@@ -96,14 +96,14 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_MeatSack, 0x1C);
 class MeatSack final : public BaseAliveGameObject
 {
 public:
-    MeatSack(relive::Path_MeatSack* pTlv, const TLVUniqueId& tlvId);
+    MeatSack(relive::Path_MeatSack* pTlv, const Guid& tlvId);
     ~MeatSack();
 
     virtual void VScreenChanged() override;
     virtual void VUpdate() override;
 
 private:
-    TLVUniqueId field_118_tlvInfo;
+    Guid field_118_tlvInfo;
     s16 field_11C_bDoMeatSackIdleAnim = 0;
     s16 field_11E_amount_of_meat = 0;
     s16 field_120_bPlayWobbleSound = 0;

@@ -42,7 +42,7 @@ TintEntry sSlurgTints_560BCC[18] = {
     {EReliveLevelIds::eBonewerkz_Ender, 102u, 127u, 118u},
     {EReliveLevelIds::eNone, 102u, 127u, 118u}};
 
-Slurg::Slurg(relive::Path_Slurg* pTlv, const TLVUniqueId& tlvId)
+Slurg::Slurg(relive::Path_Slurg* pTlv, const Guid& tlvId)
     : BaseAliveGameObject(0)
 {
     mSlurgTlv = pTlv;

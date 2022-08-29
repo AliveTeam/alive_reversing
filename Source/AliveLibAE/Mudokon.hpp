@@ -207,17 +207,17 @@ struct Mudokon_State final
     s8 field_3C_can_be_possessed;
     s8 field_3D_bIsPlayer;
     s16 field_3E_padding;
-    s32 field_40_tlvInfo;
+    Guid field_40_tlvInfo;
     FP field_44_velx_slow_by;
     s32 field_48_unused;
-    s32 field_4C_portal_id;
+    Guid field_4C_portal_id;
     s16 field_50_angry_trigger;
     s16 field_52_padding;
     s32 field_54_savedfield124; //TODO: Find out what field_124 is. It appears to be some sort of timer. -- Nemin (5/7/2020)
     s32 field_58_angry_timer;
     s16 field_5C_unused;
     s16 field_5E_voice_pitch;
-    s32 field_60_wheel_id;
+    Guid field_60_wheel_id;
     s32 field_64_unused;
     MudSounds field_68;
     s16 field_6A_maxXOffset;
@@ -266,7 +266,7 @@ struct Mudokon_State final
     s32 field_80_timer;
     s32 field_84_response_entry_idx;
 };
-ALIVE_ASSERT_SIZEOF_ALWAYS(Mudokon_State, 0x88);
+//ALIVE_ASSERT_SIZEOF_ALWAYS(Mudokon_State, 0x88);
 
 class Mudokon final : public BaseAliveGameObject
 {
@@ -426,8 +426,8 @@ private:
     static const MudEmotionTableEntry* GetResponseEntry(s32 idx);
 
 private:
-    s32 field_118_tlvInfo = 0;
-    s32 field_11C_bird_portal_id = 0;
+    Guid field_118_tlvInfo;
+    Guid field_11C_bird_portal_id;
     s16 field_120_angry_switch_id = 0;
     s32 field_124 = 0;
     s32 field_128_angry_timer = 0;
@@ -439,7 +439,7 @@ private:
     s32 field_140_last_event_index = 0;
     s16 field_154_unused = 0;
     s16 field_156_unused = 0;
-    s32 field_158_wheel_id = 0;
+    Guid field_158_wheel_id;
     s32 field_15C_unused = 0;
     MudSounds field_160_delayed_speak = MudSounds::eEmpty_0;
     s16 field_162_maxXOffset = 0;

@@ -37,7 +37,7 @@ ALIVE_ASSERT_SIZEOF(MotionDetectorLaser, 0xF4);
 class MotionDetector final : public ::BaseAnimatedWithPhysicsGameObject
 {
 public:
-    MotionDetector(relive::Path_MotionDetector* pTlv, const TLVUniqueId& tlvId, BaseAnimatedWithPhysicsGameObject* pOwner);
+    MotionDetector(relive::Path_MotionDetector* pTlv, const Guid& tlvId, BaseAnimatedWithPhysicsGameObject* pOwner);
     ~MotionDetector();
 
     virtual void VUpdate() override;
@@ -48,13 +48,13 @@ private:
     s16 IsInLaser(BaseAliveGameObject* pWho, BaseGameObject* pOwner);
 
 private:
-    TLVUniqueId field_F4_tlvInfo;
+    Guid field_F4_tlvInfo;
 
 public:
-    s32 field_F8_laser_id = 0;
+    Guid field_F8_laser_id;
 
 private:
-    s32 field_FC_owner_id = 0;
+    Guid field_FC_owner_id;
 
     enum class States : s16
     {

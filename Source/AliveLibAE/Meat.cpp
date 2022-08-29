@@ -78,7 +78,7 @@ void Meat::VOnTrapDoorOpen()
     if (pPlatform)
     {
         pPlatform->VRemove(this);
-        BaseAliveGameObject_PlatformId = -1;
+        BaseAliveGameObject_PlatformId = Guid{};
         if (field_11C_state == MeatStates::eBecomeAPickUp_3 || field_11C_state == MeatStates::eWaitForPickUp_4)
         {
             field_11C_state = MeatStates::eIdle_1;
@@ -393,7 +393,7 @@ const TintEntry kMeatTints_55C254[] = {
 };
 
 
-MeatSack::MeatSack(relive::Path_MeatSack* pTlv, const TLVUniqueId& tlvId)
+MeatSack::MeatSack(relive::Path_MeatSack* pTlv, const Guid& tlvId)
     : BaseAliveGameObject(0)
 {
     SetType(ReliveTypes::eMeatSack);

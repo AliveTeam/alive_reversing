@@ -21,8 +21,8 @@ Shrykull::Shrykull()
 
     mBaseGameObjectFlags.Set(BaseGameObject::eCanExplode_Bit7);
 
-    field_128_obj_being_zapped_id = -1;
-    field_124_zap_line_id = -1;
+    field_128_obj_being_zapped_id = Guid{};
+    field_124_zap_line_id = Guid{};
 
     const AnimRecord& shrykullRec = AnimRec(AnimId::ShrykullStart);
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, shrykullRec.mResourceId);
@@ -48,10 +48,10 @@ Shrykull::~Shrykull()
     if (pZapLine)
     {
         pZapLine->mBaseGameObjectFlags.Set(BaseGameObject::eDead);
-        field_124_zap_line_id = -1;
+        field_124_zap_line_id = Guid{};
     }
 
-    field_128_obj_being_zapped_id = -1;
+    field_128_obj_being_zapped_id = Guid{};
 }
 
 
@@ -201,7 +201,7 @@ void Shrykull::VUpdate()
             if (pExistingZapLine)
             {
                 pExistingZapLine->mBaseGameObjectFlags.Set(BaseGameObject::eDead);
-                field_124_zap_line_id = -1;
+                field_124_zap_line_id = Guid{};
             }
             field_118_state = State::eDetransform_2;
             break;
@@ -256,7 +256,7 @@ void Shrykull::VUpdate()
             {
                 if (pExistingBeingZappedObj->mBaseGameObjectFlags.Get(BaseGameObject::eDead))
                 {
-                    field_128_obj_being_zapped_id = -1;
+                    field_128_obj_being_zapped_id = Guid{};
                 }
                 else
                 {
@@ -289,7 +289,7 @@ void Shrykull::VUpdate()
                     {
                         pExistingBeingZappedObj->VTakeDamage(this);
                     }
-                    field_128_obj_being_zapped_id = -1;
+                    field_128_obj_being_zapped_id = Guid{};
                 }
             }
             break;

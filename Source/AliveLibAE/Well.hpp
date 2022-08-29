@@ -12,7 +12,7 @@ struct Path_WellExpress;
 class Well final : public BaseGameObject
 {
 public:
-    Well(relive::Path_WellBase* pTlv, FP xpos, FP ypos, const TLVUniqueId& tlvId);
+    Well(relive::Path_WellBase* pTlv, FP xpos, FP ypos, const Guid& tlvId);
     ~Well();
 
     virtual void VUpdate() override;
@@ -23,7 +23,7 @@ private:
     void WellLocal_Init(relive::Path_WellLocal* pTlv, FP /*xpos*/, FP ypos);
 
 private:
-    s32 mTlvInfo = 0;
+    Guid mTlvInfo;
     s16 mSwitchId = 0;
     FP mLeafScale = {};
     FP mExitX = {};

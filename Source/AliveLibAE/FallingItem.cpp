@@ -33,7 +33,7 @@ const AnimId sFallingItemData_544DC0[15][2] = {
 
 ALIVE_VAR(1, 0x5BC208, FallingItem*, pPrimaryFallingItem_5BC208, nullptr);
 
-FallingItem::FallingItem(relive::Path_FallingItem* pTlv, const TLVUniqueId& tlvId)
+FallingItem::FallingItem(relive::Path_FallingItem* pTlv, const Guid& tlvId)
     : BaseAliveGameObject(0)
 {
     SetType(ReliveTypes::eRockSpawner);
@@ -100,7 +100,7 @@ FallingItem::FallingItem(relive::Path_FallingItem* pTlv, const TLVUniqueId& tlvI
     SetType(ReliveTypes::eRockSpawner);
 
     mBaseGameObjectFlags.Set(BaseGameObject::eCanExplode_Bit7);
-    field_118_tlvInfo = -1;
+    field_118_tlvInfo = Guid{};
 
     const s32 lvlIdx = static_cast<s32>(MapWrapper::ToAE(gMap.mCurrentLevel));
 

@@ -12,12 +12,12 @@
 #include "Sfx.hpp"
 #include "FlyingSlig.hpp"
 
-FlyingSligSpawner::FlyingSligSpawner(relive::Path_FlyingSligSpawner* pTlv, s32 tlvInfo)
+FlyingSligSpawner::FlyingSligSpawner(relive::Path_FlyingSligSpawner* pTlv, const Guid& tlvInfo)
     : BaseGameObject(TRUE, 0)
 {
     SetType(ReliveTypes::eFlyingSligSpawner);
 
-    if (tlvInfo != -1)
+    if (tlvInfo != Guid{})
     {
         mBaseGameObjectTlvInfo = tlvInfo;
     }
@@ -29,7 +29,7 @@ FlyingSligSpawner::FlyingSligSpawner(relive::Path_FlyingSligSpawner* pTlv, s32 t
     field_40_bFirstUpdate &= ~2u;
     field_28_spawner_switch_id = pTlv->mSpawnerSwitchId;
     field_3C_bSpawned = 0;
-    field_24_spawned_slig_id = -1;
+    field_24_spawned_slig_id = Guid{};
 }
 
 s32 FlyingSligSpawner::CreateFromSaveState(const u8* pBuffer)
@@ -60,7 +60,7 @@ void FlyingSligSpawner::VUpdate()
     {
         // Try to see if we already spawned a Slig on the first update
         field_40_bFirstUpdate &= ~2;
-        if (field_24_spawned_slig_id != -1)
+        if (field_24_spawned_slig_id != Guid{})
         {
             for (s32 i = 0; i < gBaseGameObjects->Size(); i++)
             {
@@ -87,7 +87,7 @@ void FlyingSligSpawner::VUpdate()
             if (!pCurrentSlig || pCurrentSlig->mBaseGameObjectFlags.Get(BaseGameObject::eDead))
             {
                 SwitchStates_Do_Operation(field_28_spawner_switch_id, relive::reliveSwitchOp::eSetFalse);
-                field_24_spawned_slig_id = -1;
+                field_24_spawned_slig_id = Guid{};
                 field_3C_bSpawned = FALSE;
             }
         }
@@ -127,8 +127,8 @@ s32 FlyingSligSpawner::VGetSaveState(u8* pSaveBuffer)
     pSaveState->field_0_type = AETypes::eFlyingSligSpawner_55;
     pSaveState->field_4_tlvInfo = field_20_tlvInfo;
     pSaveState->field_8_bSpawned = field_3C_bSpawned;
-    pSaveState->field_C_spawned_slig_obj_id = -1;
-    if (field_24_spawned_slig_id == -1)
+    pSaveState->field_C_spawned_slig_obj_id = Guid{};
+    if (field_24_spawned_slig_id == Guid{})
     {
         return sizeof(FlyingSligSpawner_State);
     }

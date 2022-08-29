@@ -27,7 +27,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_MovingBombStopper, 0x14);
 class MovingBomb final : public BaseAliveGameObject
 {
 public:
-    MovingBomb(relive::Path_MovingBomb* pTlv, const TLVUniqueId& tlvId);
+    MovingBomb(relive::Path_MovingBomb* pTlv, const Guid& tlvId);
     ~MovingBomb();
     
     virtual void VUpdate() override;
@@ -54,7 +54,7 @@ private:
         eKillMovingBomb_7 = 7
     };
     States field_118_state = States::eTriggeredByAlarm_0;
-    s32 field_11C_tlvInfo = 0;
+    Guid field_11C_tlvInfo;
     s32 field_120_timer = 0;
     FP field_124_speed = {};
     s16 field_128_start_moving_switch_id = 0;

@@ -109,7 +109,7 @@ struct Scrab_State final
 {
     AETypes field_0_type;
     s16 field_2_padding;
-    s32 field_4_obj_id;
+    Guid field_4_obj_id;
     FP field_8_xpos;
     FP field_C_ypos;
     FP field_10_velx;
@@ -136,14 +136,14 @@ struct Scrab_State final
     s8 field_40_bIsControlled;
     s8 field_41_padding;
     s16 field_42_padding;
-    s32 field_44_tlvInfo;
+    Guid field_44_tlvInfo;
     s32 field_48_brain_idx;
     s16 field_4C_padding;
     s16 field_4E_padding;
     s16 field_50_sub_state;
     s16 field_52_padding;
-    s32 field_54_obj_id;
-    s32 field_58_target_obj_id;
+    Guid field_54_obj_id;
+    Guid field_58_target_obj_id;
     s32 field_5C_timer;
     s32 field_60_depossession_timer;
     FP field_64_falling_velx_scale_factor;
@@ -179,7 +179,7 @@ struct Scrab_State final
     };
     BitField16<Flags_9E> field_9E_flags;
 };
-ALIVE_ASSERT_SIZEOF_ALWAYS(Scrab_State, 0xA0);
+//ALIVE_ASSERT_SIZEOF_ALWAYS(Scrab_State, 0xA0);
 
 class Scrab;
 using TScrabBrainFn = s16 (Scrab::*)();
@@ -188,7 +188,7 @@ using TScrabMotionFn = void (Scrab::*)();
 class Scrab final : public BaseAliveGameObject
 {
 public:
-    Scrab(relive::Path_Scrab* pTlv, const TLVUniqueId& tlvId, relive::Path_ScrabSpawner::SpawnDirection spawnDirection);
+    Scrab(relive::Path_Scrab* pTlv, const Guid& tlvId, relive::Path_ScrabSpawner::SpawnDirection spawnDirection);
     ~Scrab();
 
     virtual void VUpdate() override;
@@ -291,8 +291,8 @@ private:
     TScrabBrainFn field_118_brain_state = nullptr;
     s16 field_11C_brain_sub_state = 0;
     s16 field_11E_return_to_previous_motion = 0;
-    s32 field_120_obj_id = 0;
-    s32 field_124_fight_target_obj_id = 0;
+    Guid field_120_obj_id;
+    Guid field_124_fight_target_obj_id;
     s16 field_128_attack_delay = 0;
     s16 field_12A_patrol_type_run_or_walk_chance = 0;
     s32 field_12C_timer = 0;
@@ -301,7 +301,7 @@ private:
     FP field_138_unused = {};
     FP field_13C_last_ypos = {};
     s16 field_140_motion_resource_block_index = 0;
-    s32 field_144_tlvInfo = 0;
+    Guid field_144_tlvInfo;
     s32 field_148_pause_after_chase_delay = 0;
     s32 field_14C_pause_after_chase_timer = 0;
     s32 field_150_attack_delay_timer = 0;

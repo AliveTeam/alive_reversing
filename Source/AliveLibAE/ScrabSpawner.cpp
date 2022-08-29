@@ -7,10 +7,10 @@
 #include "SwitchStates.hpp"
 #include "Sfx.hpp"
 
-ScrabSpawner::ScrabSpawner(relive::Path_ScrabSpawner* pTlv, s32 tlvInfo)
+ScrabSpawner::ScrabSpawner(relive::Path_ScrabSpawner* pTlv, const Guid& tlvId)
     : BaseGameObject(TRUE, 0)
 {
-    field_20_tlvInfo = tlvInfo;
+    field_20_tlvInfo = tlvId;
     SetType(ReliveTypes::eScrabSpawner);
 
     field_28_tlv_data.mTlvFlags = pTlv->mTlvFlags;
@@ -27,7 +27,7 @@ ScrabSpawner::ScrabSpawner(relive::Path_ScrabSpawner* pTlv, s32 tlvInfo)
 
     field_38_state = ScrabSpawnerStates::eInactive_0;
 
-    field_3C_spawned_scrab_id = -1;
+    field_3C_spawned_scrab_id = Guid{};
     field_40_bFindSpawnedScrab = 0;
 }
 
@@ -58,9 +58,9 @@ s32 ScrabSpawner::VGetSaveState(u8* pSaveBuffer)
     pSaveState->field_0_type = AETypes::eScrabSpawner_113;
     pSaveState->field_4_tlvInfo = field_20_tlvInfo;
     pSaveState->field_8_state = field_38_state;
-    pSaveState->field_C_spawned_scrab_id = -1;
+    pSaveState->field_C_spawned_scrab_id = Guid{};
 
-    if (field_3C_spawned_scrab_id != -1)
+    if (field_3C_spawned_scrab_id != Guid{})
     {
         BaseGameObject* pSpawnedScrab = sObjectIds.Find_Impl(field_3C_spawned_scrab_id);
         if (pSpawnedScrab)
@@ -76,7 +76,7 @@ void ScrabSpawner::VUpdate()
     if (field_40_bFindSpawnedScrab)
     {
         field_40_bFindSpawnedScrab = FALSE;
-        if (field_3C_spawned_scrab_id != -1)
+        if (field_3C_spawned_scrab_id != Guid{})
         {
             for (s32 i = 0; i < gBaseGameObjects->Size(); i++)
             {
@@ -104,7 +104,7 @@ void ScrabSpawner::VUpdate()
             if (!pExistingSpawnedScrab || pExistingSpawnedScrab->mBaseGameObjectFlags.Get(BaseGameObject::eDead))
             {
                 SwitchStates_Do_Operation(field_24_spawner_switch_id, relive::reliveSwitchOp::eSetFalse);
-                field_3C_spawned_scrab_id = -1;
+                field_3C_spawned_scrab_id = Guid{};
                 field_38_state = ScrabSpawnerStates::eInactive_0;
             }
         }

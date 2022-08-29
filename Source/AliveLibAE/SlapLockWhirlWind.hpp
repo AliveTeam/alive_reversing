@@ -25,7 +25,7 @@ private:
     FP mDoorX = {};
     FP mDoorY = {};
     FP mDoorSpriteScale = {};
-    s32 mOrbWhirlWindId = 0;
+    Guid mOrbWhirlWindId;
     s16 mState = 0;
     s32 mTimer = 0;
     s16 mSwitchId = 0;

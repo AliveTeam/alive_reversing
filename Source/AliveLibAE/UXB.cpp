@@ -98,7 +98,7 @@ s32 UXB::IsColliding()
 
 
 
-UXB::UXB(relive::Path_UXB* tlv_params, const TLVUniqueId& tlvId)
+UXB::UXB(relive::Path_UXB* tlv_params, const Guid& tlvId)
     : BaseAliveGameObject(0)
 {
     SetType(ReliveTypes::eUXB);

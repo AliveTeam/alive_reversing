@@ -21,7 +21,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_TorturedMudokon, 0x14);
 class TorturedMudokon final : public ::BaseAnimatedWithPhysicsGameObject
 {
 public:
-    TorturedMudokon(relive::Path_TorturedMudokon* pTlv, const TLVUniqueId& tlvId);
+    TorturedMudokon(relive::Path_TorturedMudokon* pTlv, const Guid& tlvId);
     ~TorturedMudokon();
 
     virtual void VRender(PrimHeader** ppOt) override;
@@ -37,7 +37,7 @@ private:
     Animation mTearsAnim = {};
     Animation mZapAnim = {};
     u8** mTorturedMudRes = nullptr;
-    TLVUniqueId mTlvInfo;
+    Guid mTlvInfo;
     s32 mFlashColourTimer = 0;
     s16 mFlashColourCounter = 0;
     s16 mKillSwitchId = 0;

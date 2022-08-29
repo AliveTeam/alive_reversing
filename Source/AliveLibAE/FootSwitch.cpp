@@ -48,11 +48,11 @@ const AnimId sFootSwitchData_547D60[15][2] = {
 };
 
 
-FootSwitch::FootSwitch(relive::Path_FootSwitch* pTlv, const TLVUniqueId& tlvId)
+FootSwitch::FootSwitch(relive::Path_FootSwitch* pTlv, const Guid& tlvId)
     : BaseAnimatedWithPhysicsGameObject(0)
 {
     SetType(ReliveTypes::eFootSwitch);
-    mStoodOnMeId = -1;
+    mStoodOnMeId = Guid{};
 
     const s32 idx = static_cast<s32>(MapWrapper::ToAE(gMap.mCurrentLevel));
 
@@ -86,7 +86,7 @@ FootSwitch::FootSwitch(relive::Path_FootSwitch* pTlv, const TLVUniqueId& tlvId)
 
 FootSwitch::~FootSwitch()
 {
-    mStoodOnMeId = -1;
+    mStoodOnMeId = Guid{};
     Path::TLV_Reset(field_F4_tlvInfo, -1, 0, 0);
 }
 
@@ -180,7 +180,7 @@ void FootSwitch::VUpdate()
             {
                 mState = States::eWaitForStepOnMe;
                 mAnim.Set_Animation_Data(sFootSwitchData_547D60[static_cast<s32>(MapWrapper::ToAE(gMap.mCurrentLevel))][0], nullptr);
-                mStoodOnMeId = -1;
+                mStoodOnMeId = Guid{};
             }
             break;
         }

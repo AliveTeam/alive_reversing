@@ -32,20 +32,20 @@ struct SlapLock_State final
 {
     AETypes mType;
     s16 mAnimRender;
-    s32 mTlvInfo;
+    Guid mTlvInfo;
     s8 mTlvState;
     s8 padding;
     SlapLockStates mState;
     s32 mTimer1;
-    s32 mAbilityRingId;
+    Guid mAbilityRingId;
     s32 mShinyParticleTimer;
 };
-ALIVE_ASSERT_SIZEOF_ALWAYS(SlapLock_State, 0x18);
+//ALIVE_ASSERT_SIZEOF_ALWAYS(SlapLock_State, 0x18);
 
 class SlapLock final : public BaseAliveGameObject
 {
 public:
-    SlapLock(relive::Path_SlapLock* pTlv, const TLVUniqueId& tlvId);
+    SlapLock(relive::Path_SlapLock* pTlv, const Guid& tlvId);
     ~SlapLock();
 
     virtual void VUpdate() override;
@@ -62,12 +62,12 @@ private:
 
 private:
     relive::Path_SlapLock* mSlapLockTlv = nullptr;
-    TLVUniqueId mTlvInfo;
+    Guid mTlvInfo;
     SlapLockStates mState = SlapLockStates::eShaking_0;
     s32 mTimer1 = 0;
     relive::reliveChoice mHasGhost = relive::reliveChoice::eNo;
-    s32 mAbilityRingId = 0;
-    s32 mPossessionFlickerId = 0;
+    Guid mAbilityRingId;
+    Guid mPossessionFlickerId;
     s32 mShinyParticleTimer = 0;
 };
 ALIVE_ASSERT_SIZEOF(SlapLock, 0x140);

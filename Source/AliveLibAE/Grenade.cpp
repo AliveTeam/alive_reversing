@@ -141,7 +141,7 @@ void Grenade::VScreenChanged()
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
-    field_11C_explosion_id = -1;
+    field_11C_explosion_id = Guid{};
 }
 
 void Grenade::Init(FP xpos, FP ypos)
@@ -163,7 +163,7 @@ void Grenade::Init(FP xpos, FP ypos)
 
     mAnim.mRenderMode = TPageAbr::eBlend_0;
 
-    field_11C_explosion_id = -1;
+    field_11C_explosion_id = Guid{};
     mXPos = xpos;
     mYPos = ypos;
     field_128_xpos = xpos;
@@ -181,7 +181,7 @@ void Grenade::VOnTrapDoorOpen()
     if (pPlatform)
     {
         pPlatform->VRemove(this);
-        BaseAliveGameObject_PlatformId = -1;
+        BaseAliveGameObject_PlatformId = Guid{};
         if (field_120_state == GrenadeStates::eWaitToBeCollected_1 || field_120_state == GrenadeStates::eDoesNothing_2)
         {
             field_120_state = GrenadeStates::eFallingToBeCollected_0;
@@ -337,7 +337,7 @@ void Grenade::VUpdate()
 
                 auto oldLine = BaseAliveGameObjectCollisionLine;
                 BaseAliveGameObjectCollisionLine = BaseAliveGameObjectCollisionLine->MoveOnLine(&mXPos, &mYPos, mVelX);
-                if (BaseAliveGameObject_PlatformId != -1 && BaseAliveGameObjectCollisionLine != oldLine)
+                if (BaseAliveGameObject_PlatformId != Guid{} && BaseAliveGameObjectCollisionLine != oldLine)
                 {
                     VOnTrapDoorOpen();
                 }
@@ -352,7 +352,7 @@ void Grenade::VUpdate()
             {
                 auto oldLine = BaseAliveGameObjectCollisionLine;
                 BaseAliveGameObjectCollisionLine = BaseAliveGameObjectCollisionLine->MoveOnLine(&mXPos, &mYPos, mVelX);
-                if (BaseAliveGameObject_PlatformId != -1 && BaseAliveGameObjectCollisionLine != oldLine)
+                if (BaseAliveGameObject_PlatformId != Guid{} && BaseAliveGameObjectCollisionLine != oldLine)
                 {
                     VOnTrapDoorOpen();
                 }
@@ -419,7 +419,7 @@ void Grenade::VUpdate()
             if (!pExplosion || pExplosion->mBaseGameObjectFlags.Get(BaseGameObject::eDead))
             {
                 field_120_state = GrenadeStates::eExploded_7;
-                field_11C_explosion_id = -1;
+                field_11C_explosion_id = Guid{};
             }
             break;
 
@@ -515,7 +515,7 @@ s16 Grenade::InTheAir(s16 blowUpOnFloorTouch)
         {
             if (mVelY < FP_FromInteger(1))
             {
-                if (BaseAliveGameObject_PlatformId == -1)
+                if (BaseAliveGameObject_PlatformId == Guid{})
                 {
                     AddToPlatform();
                 }

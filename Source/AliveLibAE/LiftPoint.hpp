@@ -89,8 +89,8 @@ public:
 
 private:
     relive::Path_LiftPoint::LiftPointStopType field_130_lift_point_stop_type = relive::Path_LiftPoint::LiftPointStopType::eTopFloor;
-    s32 field_134_rope2_id = 0;
-    s32 field_138_rope1_id = 0;
+    Guid field_134_rope2_id;
+    Guid field_138_rope1_id;
     Animation field_13C_lift_wheel = {};
     Animation field_1D4_pulley_anim = {};
     s16 field_26C_pulley_xpos = 0;

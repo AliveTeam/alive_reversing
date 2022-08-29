@@ -18,7 +18,7 @@ const SfxDefinition buttonSfxInfo_544488[8] = {
     // { (s8)160u, (s8)192u, 77u, 0u, (s16)49392, 77 }
 };
 
-CrawlingSligButton::CrawlingSligButton(relive::Path_CrawlingSligButton* pTlv, const TLVUniqueId& tlvId)
+CrawlingSligButton::CrawlingSligButton(relive::Path_CrawlingSligButton* pTlv, const Guid& tlvId)
     : BaseAnimatedWithPhysicsGameObject(0)
 {
     SetType(ReliveTypes::eSligButton);

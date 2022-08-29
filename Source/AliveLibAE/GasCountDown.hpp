@@ -17,7 +17,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_GasCountDown, 0x18);
 class GasCountDown final : public BaseGameObject
 {
 public:
-    GasCountDown(relive::Path_GasCountDown* pTlv, const TLVUniqueId& tlvId);
+    GasCountDown(relive::Path_GasCountDown* pTlv, const Guid& tlvId);
     ~GasCountDown();
     
     virtual void VScreenChanged() override;
@@ -30,7 +30,7 @@ private:
 private:
     Font_Context field_20_font_context = {};
     Alive::Font field_30_font = {};
-    s32 field_68_tlvInfo = 0;
+    Guid field_68_tlvInfo;
     s16 field_6C_xpos = 0;
     s16 field_6E_ypos = 0;
     s16 field_70_start_timer_switch_id = 0;

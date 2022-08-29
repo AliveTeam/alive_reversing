@@ -13,7 +13,7 @@
 
 const s16 sElecticWallFrames_55165C[6] = {0, 6, 10, 18, 22, 0};
 
-ElectricWall::ElectricWall(relive::Path_ElectricWall* pTlv, const TLVUniqueId& tlvId)
+ElectricWall::ElectricWall(relive::Path_ElectricWall* pTlv, const Guid& tlvId)
     : BaseAnimatedWithPhysicsGameObject(0)
 {
     SetType(ReliveTypes::eElectricWall);

@@ -52,17 +52,17 @@ struct Slig_Spawner_State final
 {
     AETypes mType;
     s16 padding1;
-    TLVUniqueId mTlvInfo;
+    Guid mTlvInfo;
     SpawnerStates mState;
     s16 padding2;
-    s32 mSpawnedSligId;
+    Guid mSpawnedSligId;
 };
 //ALIVE_ASSERT_SIZEOF_ALWAYS(Slig_Spawner_State, 0x10);
 
 class SligSpawner final : public BaseGameObject
 {
 public:
-    SligSpawner(relive::Path_Slig* pTlv, const TLVUniqueId& tlvId);
+    SligSpawner(relive::Path_Slig* pTlv, const Guid& tlvId);
     ~SligSpawner();
 
     static s32 CreateFromSaveState(const u8* pBuffer);
@@ -72,7 +72,7 @@ public:
     virtual s32 VGetSaveState(u8* pSaveBuffer) override;
 
 private:
-    TLVUniqueId mTlvInfo;
+    Guid mTlvInfo;
     s16 mSligSpawnerSwitchId = 0;
     enum SpawnerFlags : s16
     {
@@ -82,7 +82,7 @@ private:
     BitField16<SpawnerFlags> mSpawnerFlags = {};
     relive::Path_TLV mPathTlv = {};
     SpawnerStates mState = SpawnerStates::eInactive_0;
-    s32 mSpawnedSligId = 0;
+    Guid mSpawnedSligId;
     s16 mFindSpawnedSlig = 0;
 };
 ALIVE_ASSERT_SIZEOF(SligSpawner, 0x44);

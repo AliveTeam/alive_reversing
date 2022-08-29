@@ -17,7 +17,7 @@ static s32 sAbePortalTimer = 0;
 static s16 sAbePortalDirection = 0;
 static s16 sAbePortalWidth = 0;
 
-Dove::Dove(AnimId animId, const TLVUniqueId& tlvId, FP scale)
+Dove::Dove(AnimId animId, const Guid& tlvId, FP scale)
     : BaseAnimatedWithPhysicsGameObject(0)
 {
     SetType(ReliveTypes::eDove);

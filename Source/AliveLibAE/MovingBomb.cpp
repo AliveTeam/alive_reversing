@@ -23,7 +23,7 @@ const TintEntry kMovingBombTints_55C734[4] = {
 
 ALIVE_VAR(1, 0x5C300C, MovingBomb*, gMovingBomb_5C300C, nullptr);
 
-MovingBomb::MovingBomb(relive::Path_MovingBomb* pTlv, s32 tlvInfo)
+MovingBomb::MovingBomb(relive::Path_MovingBomb* pTlv, const Guid& tlvId)
     : BaseAliveGameObject(0)
 {
     mBaseGameObjectFlags.Set(BaseGameObject::eCanExplode_Bit7);
@@ -57,7 +57,7 @@ MovingBomb::MovingBomb(relive::Path_MovingBomb* pTlv, s32 tlvInfo)
     mVelX = FP_FromRaw(pTlv->mStartSpeed << 8);
     field_128_start_moving_switch_id = pTlv->mStartMovingSwitchId;
     field_120_timer = sGnFrame;
-    field_11C_tlvInfo = tlvInfo;
+    field_11C_tlvInfo = tlvId;
     field_12C_max = 0;
     field_12A_min = 0;
     field_136_persist_offscreen = pTlv->mPersistOffscreen;
@@ -107,7 +107,7 @@ MovingBomb::~MovingBomb()
     if (pPlatform)
     {
         pPlatform->VRemove(this);
-        BaseAliveGameObject_PlatformId = -1;
+        BaseAliveGameObject_PlatformId = Guid{};
     }
 
     if (field_118_state >= States::eBlowingUp_6)

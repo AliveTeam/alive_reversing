@@ -326,16 +326,16 @@ bool Slig::BrainIs(TSligBrainFn fn)
     return field_154_brain_state == fn;
 }
 
-Slig::Slig(relive::Path_Slig* pTlv, s32 tlvInfo)
+Slig::Slig(relive::Path_Slig* pTlv, const Guid& tlvId)
     : BaseAliveGameObject(17)
 {
     field_160_last_event_index = -1;
     field_176_unused = -1;
     field_174_unused = 0;
 
-    if (tlvInfo != 0xFFFF)
+    if (tlvId != Guid{})
     {
-        mBaseGameObjectTlvInfo = tlvInfo;
+        mBaseGameObjectTlvInfo = tlvId;
     }
 
     field_10_resources_array.SetAt(0, ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kSlgbasicResID, 1, 0));
@@ -370,7 +370,7 @@ Slig::Slig(relive::Path_Slig* pTlv, s32 tlvInfo)
 
     field_218_tlv_data = *pTlv;
 
-    BaseAliveGameObject_PlatformId = -1;
+    BaseAliveGameObject_PlatformId = Guid{};
 
     mCurrentMotion = eSligMotions::M_Falling_7_4B42D0;
 
@@ -378,13 +378,13 @@ Slig::Slig(relive::Path_Slig* pTlv, s32 tlvInfo)
     mXPos = FP_FromInteger(pTlv->mTopLeftX);
     mYPos = FP_FromInteger(pTlv->mTopLeftY);
     field_130_falling_velx_scale_factor = FP_FromInteger(0);
-    field_118_tlvInfo = tlvInfo;
+    field_118_tlvInfo = tlvId;
     mInput = 0;
     field_158_num_times_to_shoot = 0;
     field_15A_unused = 0;
     field_15C_force_alive_state = 0;
     field_136_shot_motion = -1;
-    field_208_glukkon_obj_id = 0;
+    field_208_glukkon_obj_id = Guid{};
     field_20C_state_after_speak = -1;
     field_20E_attention_timeout = 0;
     field_210_unused = 0;
@@ -670,9 +670,9 @@ s32 Slig::VGetSaveState(u8* pSaveBuffer)
     pState->field_8C_num_times_to_shoot = field_158_num_times_to_shoot;
     pState->field_90_force_alive_state = field_15C_force_alive_state;
     pState->field_92_spotted_possessed_slig = field_15E_spotted_possessed_slig;
-    pState->field_94_glukkon_id = -1;
+    pState->field_94_glukkon_id = Guid{};
 
-    if (field_208_glukkon_obj_id != -1)
+    if (field_208_glukkon_obj_id != Guid{})
     {
         BaseGameObject* pGlukkon = sObjectIds.Find_Impl(field_208_glukkon_obj_id);
         if (pGlukkon)
@@ -4601,7 +4601,7 @@ void Slig::Init()
                 }
             }
 
-            if (!field_208_glukkon_obj_id)
+            if (field_208_glukkon_obj_id != Guid{})
             {
                 SetBrain(&Slig::Brain_Inactive_32_4B9430);
             }
@@ -6085,7 +6085,7 @@ void Slig::VOnTrapDoorOpen()
     if (pPlatform)
     {
         pPlatform->VRemove(this);
-        BaseAliveGameObject_PlatformId = -1;
+        BaseAliveGameObject_PlatformId = Guid{};
         BaseAliveGameObjectLastLineYPos = mYPos;
         VSetMotion(eSligMotions::M_OutToFall_38_4B4570);
     }

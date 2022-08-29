@@ -114,7 +114,7 @@ struct Glukkon_SaveState final
 {
     AETypes field_0_id;
     s16 field_2_padding;
-    TLVUniqueId field_4_object_id;
+    Guid field_4_object_id;
     FP field_8_xpos;
     FP field_C_ypos;
     FP field_10_xvel;
@@ -140,7 +140,7 @@ struct Glukkon_SaveState final
     s32 field_3C_padding;
     u16 field_40_bIsActiveChar;
     s16 field_42_padding;
-    TLVUniqueId field_44_tlvInfo;
+    Guid field_44_tlvInfo;
     s32 field_48_brain_state_idx;
     s32 field_4C_padding;
     s16 field_50_brain_sub_state;
@@ -163,7 +163,7 @@ struct Glukkon_SaveState final
     s16 field_7E_padding;
     s32 field_80_knockback_delay_after_getting_shot_timer;
     s32 field_84_getting_shot_timer;
-    s32 field_88_obj_id;
+    Guid field_88_obj_id;
     s16 field_8C_can_be_possessed;
     AETypes field_8E_type_id;
 };
@@ -172,7 +172,7 @@ struct Glukkon_SaveState final
 class Glukkon final : public BaseAliveGameObject
 {
 public:
-    Glukkon(relive::Path_Glukkon* pTlv, const TLVUniqueId& tlvId);
+    Glukkon(relive::Path_Glukkon* pTlv, const Guid& tlvId);
     ~Glukkon();
 
     static s32 CreateFromSaveState(const u8* pBuffer);
@@ -270,10 +270,10 @@ private:
     s16 field_1FC = 0; // When set to true, broadcasts event kEventGlukkonUnknown.
     s32 field_200_knockback_delay_after_getting_shot_timer = 0;
     s32 field_204_getting_shot_timer = 0;
-    s32 field_208_obj_id = 0;
+    Guid field_208_obj_id;
     TGlukkonBrainFn field_20C_brain_state_fn = nullptr;
     s16 field_210_brain_sub_state = 0;
     s16 field_212_currentWalkPitch = 0;
-    TLVUniqueId field_214_tlv_info;
+    Guid field_214_tlv_info;
 };
 ALIVE_ASSERT_SIZEOF(Glukkon, 0x218);

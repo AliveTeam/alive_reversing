@@ -18,7 +18,7 @@
 const FP mineCarHeightUnscaled = FP_FromInteger(60);
 const FP mineCarWidthUnscaled = FP_FromInteger(12);
 
-MineCar::MineCar(relive::Path_MineCar* pTlv, s32 tlvInfo, s32 /*a4*/, s32 /*a5*/, s32 /*a6*/)
+MineCar::MineCar(relive::Path_MineCar* pTlv, const Guid& tlvId, s32 /*a4*/, s32 /*a5*/, s32 /*a6*/)
     : BaseAliveGameObject(0)
 {
     SetType(ReliveTypes::eMineCar);
@@ -63,7 +63,7 @@ MineCar::MineCar(relive::Path_MineCar* pTlv, s32 tlvInfo, s32 /*a4*/, s32 /*a5*/
         mYPos = hitY;
     }
 
-    field_118_tlvInfo = tlvInfo;
+    field_118_tlvInfo = tlvId;
     field_11C_state = MineCarStates::eParkedWithoutAbe_0;
 
     LoadAnimation(&field_124_anim);

@@ -115,7 +115,7 @@ static u8 Fleech_NextRandom()
     return sRandomBytes_546744[sFleechRandomIdx_5BC20C++];
 }
 
-Fleech::Fleech(relive::Path_Fleech* pTlv, const TLVUniqueId& tlvId)
+Fleech::Fleech(relive::Path_Fleech* pTlv, const Guid& tlvId)
     : BaseAliveGameObject(2)
 {
     mXPos = FP_FromInteger(pTlv->mTopLeftX);
@@ -133,10 +133,10 @@ Fleech::Fleech(relive::Path_Fleech* pTlv, const TLVUniqueId& tlvId)
 
     Init();
 
-    mTlvInfo = tlvInfo;
+    mTlvInfo = tlvId;
     field_124_brain_state = eFleechBrains::eBrain_0_Patrol;
-    field_11C_obj_id = -1;
-    field_170_danger_obj = -1;
+    field_11C_obj_id = Guid{};
+    field_170_danger_obj = Guid{};
 
     mAnim.mFlags.Set(AnimFlags::eBit5_FlipX, pTlv->mFacing == relive::reliveXDirection::eLeft);
 
@@ -201,7 +201,7 @@ const static AnimId sFleechAnimFromMotion[19] = {
     AnimId::Fleech_SleepingWithTongue,
     AnimId::Fleech_Consume};
 
-ALIVE_VAR(1, 0x551840, s32, current_target_object_id_551840, -1);
+ALIVE_VAR(1, 0x551840, Guid, current_target_object_id_551840, {});
 
 s32 Fleech::CreateFromSaveState(const u8* pBuffer)
 {
@@ -371,7 +371,7 @@ s32 Fleech::VGetSaveState(u8* pSaveBuffer)
         pState->mCollisionLineType = -1;
     }
 
-    if (BaseAliveGameObject_PlatformId != -1)
+    if (BaseAliveGameObject_PlatformId != Guid{})
     {
         BaseGameObject* pObj = sObjectIds.Find_Impl(BaseAliveGameObject_PlatformId);
         if (pObj)
@@ -381,10 +381,10 @@ s32 Fleech::VGetSaveState(u8* pSaveBuffer)
     }
     else
     {
-        pState->mPlatformId = -1;
+        pState->mPlatformId = Guid{};
     }
 
-    if (field_11C_obj_id != -1)
+    if (field_11C_obj_id != Guid{})
     {
         BaseGameObject* pObj = sObjectIds.Find_Impl(field_11C_obj_id);
         if (pObj)
@@ -394,7 +394,7 @@ s32 Fleech::VGetSaveState(u8* pSaveBuffer)
     }
     else
     {
-        pState->field_44_obj_id = -1;
+        pState->field_44_obj_id = Guid{};
     }
 
     pState->mTlvInfo = mTlvInfo;
@@ -443,7 +443,7 @@ s32 Fleech::VGetSaveState(u8* pSaveBuffer)
     pState->field_A0_hoistY_distance = field_168_hoistY_distance;
     pState->field_A4_hoistX_distance = field_16C_hoistX_distance;
 
-    if (field_170_danger_obj != -1)
+    if (field_170_danger_obj != Guid{})
     {
         BaseGameObject* pObj = sObjectIds.Find_Impl(field_170_danger_obj);
         if (pObj)
@@ -453,7 +453,7 @@ s32 Fleech::VGetSaveState(u8* pSaveBuffer)
     }
     else
     {
-        pState->field_A8 = -1;
+        pState->field_A8 = Guid{};
     }
 
     if (current_target_object_id_551840 == mBaseGameObjectId)
@@ -462,7 +462,7 @@ s32 Fleech::VGetSaveState(u8* pSaveBuffer)
     }
     else
     {
-        pState->field_AC_obj_id = -1;
+        pState->field_AC_obj_id = Guid{};
     }
 
     pState->mFleechStateFlags.Set(Fleech_State::eHoistDone, mFleechFlags.Get(FleechFlags::eHoistDone));
@@ -1136,8 +1136,8 @@ void Fleech::Motion_18_Consume()
 
 Fleech::~Fleech()
 {
-    field_170_danger_obj = -1;
-    if (mTlvInfo != 0xFFFF)
+    field_170_danger_obj = Guid{};
+    if (mTlvInfo != Guid{})
     {
         Path::TLV_Reset(mTlvInfo, -1, 0, mHealth <= FP_FromInteger(0));
     }
@@ -1155,7 +1155,7 @@ Fleech::~Fleech()
             }
         }
     }
-    field_11C_obj_id = -1;
+    field_11C_obj_id = Guid{};
 
     if (!mFleechFlags.Get(FleechFlags::eShrivelDeath))
     {
@@ -1477,8 +1477,8 @@ void Fleech::VScreenChanged()
     if (gMap.mCurrentLevel != gMap.mNextLevel || gMap.mCurrentPath != gMap.mNextPath || gMap.mOverlayId != gMap.GetOverlayId())
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
-        field_11C_obj_id = -1;
-        field_170_danger_obj = -1;
+        field_11C_obj_id = Guid{};
+        field_170_danger_obj = Guid{};
     }
 }
 
@@ -1567,7 +1567,7 @@ s16 Fleech::IsScrabOrParamiteNear(FP radius)
         return 1;
     }
 
-    field_170_danger_obj = -1;
+    field_170_danger_obj = Guid{};
     return 0;
 }
 
@@ -1617,10 +1617,10 @@ void Fleech::Init()
     field_12C_shrivel_timer = 0;
     field_126_brain_sub_state = 0;
     mNextMotion = -1;
-    BaseAliveGameObject_PlatformId = -1;
+    BaseAliveGameObject_PlatformId = Guid{};
     field_128 = 0;
-    field_11C_obj_id = -1;
-    field_170_danger_obj = -1;
+    field_11C_obj_id = Guid{};
+    field_170_danger_obj = Guid{};
     field_15E_lost_target_timer = 0;
 
     SetTint(&kFleechTints_551844[0], gMap.mCurrentLevel);
@@ -1705,13 +1705,13 @@ void Fleech::ResetTarget()
 {
     if (current_target_object_id_551840 == mBaseGameObjectId)
     {
-        current_target_object_id_551840 = -1;
+        current_target_object_id_551840 = Guid{};
     }
 }
 
 s16 Fleech::GotNoTarget()
 {
-    return current_target_object_id_551840 == -1 && !mBaseAliveGameObjectFlags.Get(Flags_114::e114_Bit7_Electrocuted);
+    return current_target_object_id_551840 == Guid{} && !mBaseAliveGameObjectFlags.Get(Flags_114::e114_Bit7_Electrocuted);
 }
 
 void Fleech::SetTarget()
@@ -2248,7 +2248,7 @@ void Fleech::VOnTrapDoorOpen()
     if (pPlatform)
     {
         pPlatform->VRemove(this);
-        BaseAliveGameObject_PlatformId = -1;
+        BaseAliveGameObject_PlatformId = Guid{};
     }
 }
 
@@ -2431,7 +2431,7 @@ void Fleech::MoveAlongFloor()
                 if (BaseAliveGameObjectCollisionLine->mLineType != eLineTypes::eDynamicCollision_32 && BaseAliveGameObjectCollisionLine->mLineType != eLineTypes::eBackgroundDynamicCollision_36)
                 {
                     pPlatform->VRemove(this);
-                    BaseAliveGameObject_PlatformId = -1;
+                    BaseAliveGameObject_PlatformId = Guid{};
                 }
             }
             else if (BaseAliveGameObjectCollisionLine->mLineType == eLineTypes::eDynamicCollision_32 || BaseAliveGameObjectCollisionLine->mLineType == eLineTypes::eBackgroundDynamicCollision_36)
@@ -2635,7 +2635,7 @@ s16 Fleech::Brain_0_Patrol()
     auto pTarget = static_cast<BaseAliveGameObject*>(sObjectIds.Find_Impl(field_11C_obj_id));
     if (!pTarget || pTarget->mBaseGameObjectFlags.Get(BaseGameObject::eDead) || pTarget->mHealth <= FP_FromInteger(0) || pTarget->mBaseAliveGameObjectFlags.Get(Flags_114::e114_Bit8_bInvisible))
     {
-        field_11C_obj_id = -1;
+        field_11C_obj_id = Guid{};
         pTarget = nullptr;
     }
 
@@ -2773,7 +2773,7 @@ s16 Fleech::Brain_Patrol_State_1()
         }
         else
         {
-            field_170_danger_obj = -1;
+            field_170_danger_obj = Guid{};
             if (field_13E_current_anger <= field_140_max_anger)
             {
                 return field_126_brain_sub_state;
@@ -2829,7 +2829,7 @@ s16 Fleech::Brain_Patrol_State_3()
 
 s16 Fleech::Brain_Patrol_State_4(BaseAliveGameObject* pTarget)
 {
-    if (field_11C_obj_id == -1)
+    if (field_11C_obj_id == Guid{})
     {
         pTarget = FindMudOrAbe();
         if (pTarget)
@@ -2903,7 +2903,7 @@ s16 Fleech::Brain_Patrol_State_4(BaseAliveGameObject* pTarget)
             return Brain_0_Patrol::eAlertedByAbe_8;
         }
 
-        if (field_13E_current_anger > field_142_attack_anger_increaser && !pTarget->mBaseAliveGameObjectFlags.Get(Flags_114::e114_Bit8_bInvisible) && field_170_danger_obj == -1)
+        if (field_13E_current_anger > field_142_attack_anger_increaser && !pTarget->mBaseAliveGameObjectFlags.Get(Flags_114::e114_Bit8_bInvisible) && field_170_danger_obj == Guid{})
         {
             return Brain_0_Patrol::eAlertedByAbe_8;
         }
@@ -3192,7 +3192,7 @@ s16 Fleech::Brain_1_ChasingAbe()
     {
         if (pObj->mBaseGameObjectFlags.Get(BaseGameObject::eDead) || (IsActiveHero(pObj) && sActiveHero->mBaseAliveGameObjectFlags.Get(Flags_114::e114_Bit8_bInvisible)))
         {
-            field_11C_obj_id = -1;
+            field_11C_obj_id = Guid{};
             pObj = nullptr;
         }
     }
@@ -3571,7 +3571,7 @@ s16 Fleech::Brain_ChasingAbe_State_0(BaseAliveGameObject* pObj)
 {
     if (!pObj)
     {
-        field_11C_obj_id = -1;
+        field_11C_obj_id = Guid{};
         BaseAliveGameObject* pMudOrAbe = FindMudOrAbe();
         if (!pMudOrAbe)
         {
@@ -3923,7 +3923,7 @@ s16 Fleech::Brain_2_Scared()
     {
         if (pDangerObj->mBaseGameObjectFlags.Get(BaseGameObject::eDead))
         {
-            field_170_danger_obj = -1;
+            field_170_danger_obj = Guid{};
             pDangerObj = 0;
         }
     }
@@ -4229,8 +4229,8 @@ s16 Fleech::Brain_2_Scared()
 
         case Brain_2_Scared::ePatrolArea_9:
             mNextMotion = eFleechMotions::Motion_3_Idle;
-            field_170_danger_obj = -1;
-            field_11C_obj_id = -1;
+            field_170_danger_obj = Guid{};
+            field_11C_obj_id = Guid{};
             field_124_brain_state = eFleechBrains::eBrain_0_Patrol;
             return Brain_2_Scared::eScared_0;
 
@@ -4266,7 +4266,7 @@ s16 Fleech::Brain_2_Scared()
 
 s16 Fleech::Brain_3_Death()
 {
-    field_11C_obj_id = -1;
+    field_11C_obj_id = Guid{};
     MusicController::static_PlayMusic(MusicController::MusicTypes::eNone_0, this, 0, 0);
 
     if (field_12C_shrivel_timer < static_cast<s32>(sGnFrame + 80))

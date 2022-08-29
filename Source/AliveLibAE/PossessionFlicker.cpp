@@ -24,7 +24,7 @@ PossessionFlicker::PossessionFlicker(BaseAliveGameObject* pToApplyFlicker, s32 d
         if (pObj != this && pObj->Type() == ReliveTypes::ePossessionFlicker && static_cast<PossessionFlicker*>(pObj)->ObjectId() == field_30_obj_id)
         {
             // It is to don't store the id, first update will destroy this object
-            field_30_obj_id = -1;
+            field_30_obj_id = Guid{};
             return;
         }
     }
@@ -53,7 +53,7 @@ PossessionFlicker::~PossessionFlicker()
     }
 }
 
-s32 PossessionFlicker::ObjectId() const
+Guid PossessionFlicker::ObjectId() const
 {
     return field_30_obj_id;
 }

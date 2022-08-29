@@ -270,7 +270,7 @@ struct Slig_State final
     s16 field_52_padding;
     s32 field_54_timer;
     FP field_58_falling_velx_scale_factor;
-    s32 field_5C_tlvInfo;
+    Guid field_5C_tlvInfo;
     s16 field_60_res_idx;
     s16 field_62_shot_motion;
     PSX_RECT field_64_zone_rect;
@@ -289,7 +289,7 @@ struct Slig_State final
     s32 field_8C_num_times_to_shoot;
     s16 field_90_force_alive_state;
     s16 field_92_spotted_possessed_slig;
-    s32 field_94_glukkon_id;
+    Guid field_94_glukkon_id;
     s16 field_98_state_after_speak;
     s16 field_9A_attention_timeout;
     s16 field_9C_unused;
@@ -305,7 +305,7 @@ struct Slig_State final
     };
     BitField16<Flags_A2> field_A2_flags;
 };
-ALIVE_ASSERT_SIZEOF_ALWAYS(Slig_State, 0xA4);
+//ALIVE_ASSERT_SIZEOF_ALWAYS(Slig_State, 0xA4);
 
 enum class GameSpeakEvents : s16;
 
@@ -570,7 +570,7 @@ public:
     bool BrainIs(TSligBrainFn fn);
 
 private:
-    s32 field_118_tlvInfo = 0;
+    Guid field_118_tlvInfo;
 
 public:
     s16 field_11C_brain_sub_state = 0;
@@ -611,7 +611,7 @@ private:
     s16 field_200_red = 0;
     s16 field_202_green = 0;
     s16 field_204_blue = 0;
-    s32 field_208_glukkon_obj_id = 0;
+    Guid field_208_glukkon_obj_id;
     s16 field_20C_state_after_speak = 0;
     s16 field_20E_attention_timeout = 0;
     s16 field_210_unused = 0;

@@ -20,7 +20,7 @@ struct Grenade_SaveState final
 {
     AETypes field_0_type;
     s16 field_2_pad;
-    s32 field_4_obj_id;
+    Guid field_4_obj_id;
     FP field_8_xpos;
     FP field_C_ypos;
     FP field_10_velx;
@@ -41,7 +41,7 @@ struct Grenade_SaveState final
     };
     BitField16<Flags_20> field_20_flags;
     s16 field_22_padding;
-    s32 field_24_base_id;
+    Guid field_24_base_id;
     s16 field_28_line_type;
     s16 field_2A_savedcount;
     GrenadeStates field_2C_state;
@@ -51,7 +51,7 @@ struct Grenade_SaveState final
     FP field_34_xpos;
     FP field_38_ypos;
 };
-ALIVE_ASSERT_SIZEOF_ALWAYS(Grenade_SaveState, 0x3C);
+//ALIVE_ASSERT_SIZEOF_ALWAYS(Grenade_SaveState, 0x3C);
 
 class Grenade final : public BaseThrowable
 {
@@ -84,7 +84,7 @@ private:
 
 
 private:
-    s32 field_11C_explosion_id = 0;
+    Guid field_11C_explosion_id;
     GrenadeStates field_120_state = GrenadeStates::eFallingToBeCollected_0;
     s16 field_122_explode_timer = 0;
     s16 field_124 = 0;

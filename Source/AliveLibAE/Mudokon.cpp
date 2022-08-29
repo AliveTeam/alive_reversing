@@ -384,17 +384,17 @@ static Mud_Emotion TLV_Emo_To_Internal_Emo(relive::Path_Mudokon::Mud_TLV_Emotion
     }
 }
 
-Mudokon::Mudokon(relive::Path_Mudokon* pTlv, s32 tlvInfo)
+Mudokon::Mudokon(relive::Path_Mudokon* pTlv, const Guid& tlvId)
     : BaseAliveGameObject(18)
 {
     field_154_unused = 0;
     field_140_last_event_index = -1;
     field_156_unused = -1;
 
-    field_11C_bird_portal_id = -1;
+    field_11C_bird_portal_id = Guid{};
     field_12C_unused = -1;
-    field_158_wheel_id = -1;
-    mBaseGameObjectTlvInfo = tlvInfo;
+    field_158_wheel_id = Guid{};
+    mBaseGameObjectTlvInfo = tlvId;
     field_194_timer = 0;
     field_18E_brain_state = Mud_Brain_State::Brain_0_GiveRings;
     field_190_brain_sub_state = 0;
@@ -923,9 +923,9 @@ s32 Mudokon::VGetSaveState(u8* pSaveBuffer)
 
     pState->field_3D_bIsPlayer = this == sControlledCharacter;
     pState->field_40_tlvInfo = field_118_tlvInfo;
-    pState->field_4C_portal_id = -1;
+    pState->field_4C_portal_id = Guid{};
 
-    if (field_11C_bird_portal_id != -1)
+    if (field_11C_bird_portal_id != Guid{})
     {
         BaseGameObject* pBirdPortal = sObjectIds.Find_Impl(field_11C_bird_portal_id);
         if (pBirdPortal)
@@ -939,9 +939,9 @@ s32 Mudokon::VGetSaveState(u8* pSaveBuffer)
     pState->field_58_angry_timer = field_128_angry_timer;
     pState->field_5C_unused = field_130_unused;
     pState->field_5E_voice_pitch = field_13C_voice_pitch;
-    pState->field_60_wheel_id = -1;
+    pState->field_60_wheel_id = Guid{};
 
-    if (field_158_wheel_id != -1)
+    if (field_158_wheel_id != Guid{})
     {
         BaseGameObject* pWheel = sObjectIds.Find_Impl(field_158_wheel_id);
         if (pWheel)
@@ -1025,7 +1025,7 @@ void Mudokon::VUpdate()
 
         BaseAliveGameObjectCollisionLineType = 0;
 
-        if (field_11C_bird_portal_id != -1)
+        if (field_11C_bird_portal_id != Guid{})
         {
             for (s32 i = 0; i < gBaseGameObjects->Size(); i++)
             {
@@ -1050,7 +1050,7 @@ void Mudokon::VUpdate()
             }
         }
 
-        if (field_158_wheel_id != -1)
+        if (field_158_wheel_id != Guid{})
         {
             for (s32 i = 0; i < gBaseGameObjects->Size(); i++)
             {
@@ -1192,7 +1192,7 @@ void Mudokon::VOnTrapDoorOpen()
         }
 
         pPlatform->VRemove(this);
-        BaseAliveGameObject_PlatformId = -1;
+        BaseAliveGameObject_PlatformId = Guid{};
     }
 }
 
@@ -1256,7 +1256,7 @@ Mudokon::~Mudokon()
     if (pWheel)
     {
         pWheel->VStopTurning(TRUE);
-        field_158_wheel_id = -1;
+        field_158_wheel_id = Guid{};
     }
 
     RemoveAlerted();
@@ -1273,7 +1273,7 @@ Mudokon::~Mudokon()
                 pBirdPortal->VGiveShrykull(TRUE);
             }
         }
-        field_11C_bird_portal_id = -1;
+        field_11C_bird_portal_id = Guid{};
     }
 
     if (!(field_16A_flags.Get(Flags_16A::eBit1_not_rescued)) || mHealth <= FP_FromInteger(0) || mBaseAliveGameObjectFlags.Get(Flags_114::e114_Bit7_Electrocuted))
@@ -1336,7 +1336,7 @@ void Mudokon::VScreenChanged()
                     pBirdPortal->VGiveShrykull(TRUE);
                 }
             }
-            field_11C_bird_portal_id = -1;
+            field_11C_bird_portal_id = Guid{};
         }
     }
 }
@@ -4936,7 +4936,7 @@ s16 Mudokon::Brain_6_Escape()
                     pBirdPortal->VKillPortalClipper();
                     pBirdPortal->VGiveShrykull(TRUE);
                 }
-                field_11C_bird_portal_id = -1;
+                field_11C_bird_portal_id = Guid{};
             }
 
             mNextMotion = eMudMotions::Motion_0_Idle;
@@ -5525,7 +5525,7 @@ void Mudokon::Motion_0_Idle()
 
     if (BaseAliveGameObjectCollisionLine)
     {
-        if ((BaseAliveGameObjectCollisionLine->mLineType == eLineTypes::eDynamicCollision_32 || BaseAliveGameObjectCollisionLine->mLineType == eLineTypes::eBackgroundDynamicCollision_36) && BaseAliveGameObject_PlatformId == -1)
+        if ((BaseAliveGameObjectCollisionLine->mLineType == eLineTypes::eDynamicCollision_32 || BaseAliveGameObjectCollisionLine->mLineType == eLineTypes::eBackgroundDynamicCollision_36) && BaseAliveGameObject_PlatformId == Guid{})
         {
             const PSX_RECT bRect = VGetBoundingRect();
             VOnCollisionWith(
@@ -6828,7 +6828,7 @@ void Mudokon::Motion_58_TurnWheelLoop()
         if (pWheel)
         {
             pWheel->VStopTurning(TRUE);
-            field_158_wheel_id = -1;
+            field_158_wheel_id = Guid{};
         }
         mCurrentMotion = eMudMotions::Motion_59_TurnWheelEnd;
         mNextMotion = -1;
@@ -7254,7 +7254,7 @@ void Mudokon::ToKnockback()
     if (pWheel)
     {
         pWheel->VStopTurning(TRUE);
-        field_158_wheel_id = -1;
+        field_158_wheel_id = Guid{};
     }
 
     Environment_SFX_457A40(EnvironmentSfx::eKnockback_13, 0, 32767, this);
@@ -7309,7 +7309,7 @@ void Mudokon::MoveOnLine()
     if (pPlatform)
     {
         pPlatform->VRemove(this);
-        BaseAliveGameObject_PlatformId = -1;
+        BaseAliveGameObject_PlatformId = Guid{};
     }
 
     if (BaseAliveGameObjectCollisionLine)

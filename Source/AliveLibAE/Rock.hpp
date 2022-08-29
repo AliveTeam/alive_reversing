@@ -19,7 +19,7 @@ struct RockSaveState final
 {
     AETypes field_0_type;
     s16 field_2_padding;
-    s32 field_4_obj_id;
+    Guid field_4_obj_id;
     FP field_8_xpos;
     FP field_C_ypos;
     FP field_10_velx;
@@ -36,7 +36,7 @@ struct RockSaveState final
     };
     BitField16<RockStateFlags> field_20_flags;
     s16 field_22_padding;
-    s32 field_24_id;
+    Guid field_24_id;
     s16 field_28_line_type;
     s16 field_2A_count;
     RockStates field_2C_state;
@@ -44,7 +44,7 @@ struct RockSaveState final
     FP field_30_xpos;
     FP field_34_ypos;
 };
-ALIVE_ASSERT_SIZEOF_ALWAYS(RockSaveState, 0x38);
+//ALIVE_ASSERT_SIZEOF_ALWAYS(RockSaveState, 0x38);
 
 class Rock final : public BaseThrowable
 {

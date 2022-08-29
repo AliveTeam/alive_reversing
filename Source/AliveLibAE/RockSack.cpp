@@ -9,7 +9,7 @@
 #include "../relive_lib/Events.hpp"
 #include "Abe.hpp"
 
-RockSack::RockSack(relive::Path_RockSack* pTlv, s32 tlvInfo)
+RockSack::RockSack(relive::Path_RockSack* pTlv, const Guid& tlvId)
     : BaseAliveGameObject(0)
 {
     SetType(ReliveTypes::eRockSack);
@@ -27,7 +27,7 @@ RockSack::RockSack(relive::Path_RockSack* pTlv, s32 tlvInfo)
 
     mVisualFlags.Clear(VisualFlags::eApplyShadowZoneColour);
 
-    field_118_tlvInfo = tlvInfo;
+    field_118_tlvInfo = tlvId;
     field_11C_has_been_hit = 0;
     mXPos = FP_FromInteger((pTlv->mTopLeftX + pTlv->mBottomRightX) / 2);
     mYPos = FP_FromInteger(pTlv->mBottomRightY);

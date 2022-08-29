@@ -11,7 +11,7 @@
 #include "SwitchStates.hpp"
 #include "GameSpeak.hpp"
 
-GlukkonSwitch::GlukkonSwitch(relive::Path_GlukkonSwitch* pTlv, const TLVUniqueId& tlvId)
+GlukkonSwitch::GlukkonSwitch(relive::Path_GlukkonSwitch* pTlv, const Guid& tlvId)
     : BaseAnimatedWithPhysicsGameObject(0)
 {
     field_100_last_event_idx = -1;

@@ -21,7 +21,7 @@
 static TintEntry sTimedMineTint_550EB8[1] = {{EReliveLevelIds::eNone, 127u, 127u, 127u}};
 
 
-TimedMine::TimedMine(relive::Path_TimedMine* pPath, const TLVUniqueId& tlvId)
+TimedMine::TimedMine(relive::Path_TimedMine* pPath, const Guid& tlvId)
     : BaseAliveGameObject(0)
 {
     SetType(ReliveTypes::eTimedMine_or_MovingBomb);
@@ -83,7 +83,7 @@ TimedMine::TimedMine(relive::Path_TimedMine* pPath, const TLVUniqueId& tlvId)
     mCollectionRect.w = (gridSnap / FP_FromDouble(2.0)) + mXPos;
     mCollectionRect.h = mYPos;
 
-    BaseAliveGameObject_PlatformId = -1;
+    BaseAliveGameObject_PlatformId = Guid{};
 }
 
 void TimedMine::VUpdate()
@@ -252,7 +252,7 @@ TimedMine::~TimedMine()
     if (pPlatform)
     {
         pPlatform->VRemove(this);
-        BaseAliveGameObject_PlatformId = -1;
+        BaseAliveGameObject_PlatformId = Guid{};
     }
 
     mBaseGameObjectFlags.Clear(BaseGameObject::eInteractive_Bit8);

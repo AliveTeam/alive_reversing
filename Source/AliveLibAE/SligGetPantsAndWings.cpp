@@ -8,7 +8,7 @@
 #include "Sfx.hpp"
 #include "Slig.hpp"
 
-SligGetPantsAndWings::SligGetPantsAndWings(relive::Path_TLV* pTlv, const TLVUniqueId& tlvId)
+SligGetPantsAndWings::SligGetPantsAndWings(relive::Path_TLV* pTlv, const Guid& tlvId)
     : BaseAnimatedWithPhysicsGameObject(0)
 {
     SetType(ReliveTypes::eSligGetPantsOrWings);

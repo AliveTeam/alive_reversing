@@ -6,7 +6,7 @@
 #include "stdlib.hpp"
 #include "../relive_lib/Events.hpp"
 
-ShadowZone::ShadowZone(relive::Path_ShadowZone* pTlv, Path* /*pPath*/, const TLVUniqueId& tlvInfo)
+ShadowZone::ShadowZone(relive::Path_ShadowZone* pTlv, Path* /*pPath*/, const Guid& tlvId)
     : BaseGameObject(TRUE, 0)
 {
     sShadowZone_dArray_5C1B80->Push_Back(this);
@@ -14,7 +14,7 @@ ShadowZone::ShadowZone(relive::Path_ShadowZone* pTlv, Path* /*pPath*/, const TLV
     field_26_path = gMap.mCurrentPath;
     field_24_level = gMap.mCurrentLevel;
 
-    field_20_tlvInfo = tlvInfo;
+    field_20_tlvInfo = tlvId;
 
     field_30_mid_x = (pTlv->Width()) / 2;
     field_32_mid_y = (pTlv->Height()) / 2;

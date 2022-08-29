@@ -44,7 +44,7 @@ public:
     virtual void VScreenChanged() override;
 
 private:
-    s32 field_20_tlvInfo = 0;
+    Guid field_20_tlvInfo;
     enum Flags_24
     {
         e24_Bit1_TriggeredByTouching = 0x1,

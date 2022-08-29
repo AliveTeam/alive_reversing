@@ -35,7 +35,7 @@ struct SaveState_UXB final
 {
     AETypes mType;
     s16 field_2_padding;
-    TLVUniqueId mTlvInfo;
+    Guid mTlvInfo;
     u32 mNextStateTimer;
     UXBState mCurrentState;
     UXBState mStartingState;
@@ -55,7 +55,7 @@ enum UXB_Flags_1C8
 class UXB final : public BaseAliveGameObject
 {
 public:
-    UXB(relive::Path_UXB* params, const TLVUniqueId& tlvId);
+    UXB(relive::Path_UXB* params, const Guid& tlvId);
     ~UXB();
 
     virtual void VUpdate() override;
@@ -77,7 +77,7 @@ private:
     UXBState mCurrentState = UXBState::eDelay;
     UXBState mStartingState = UXBState::eDelay;
     u16 mDisabledResources = 0;
-    TLVUniqueId mTlvInfo = {};
+    Guid mTlvInfo;
     u32 mNextStateTimer = 0;
     Animation mFlashAnim = {};
     u16 mPatternLength = 0;

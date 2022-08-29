@@ -7,10 +7,10 @@
 #include "Map.hpp"
 #include "../relive_lib/Events.hpp"
 
-TimerTrigger::TimerTrigger(relive::Path_TimerTrigger* pTlv, s32 tlvInfo)
+TimerTrigger::TimerTrigger(relive::Path_TimerTrigger* pTlv, const Guid& tlvId)
     : BaseGameObject(TRUE, 0)
 {
-    mTlvInfo = tlvInfo;
+    mTlvInfo = tlvId;
     SetType(ReliveTypes::eTimerTrigger);
     mInputSwitchId = pTlv->mInputSwitchId;
     mActivationDelay = pTlv->mActivationDelay;

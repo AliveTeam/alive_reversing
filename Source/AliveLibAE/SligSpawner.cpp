@@ -8,7 +8,7 @@
 #include "../relive_lib/ObjectIds.hpp"
 #include "SwitchStates.hpp"
 
-SligSpawner::SligSpawner(relive::Path_Slig* pTlv, const TLVUniqueId& tlvId)
+SligSpawner::SligSpawner(relive::Path_Slig* pTlv, const Guid& tlvId)
     : BaseGameObject(TRUE, 0)
 {
     SetType(ReliveTypes::eSligSpawner);
@@ -29,7 +29,7 @@ SligSpawner::SligSpawner(relive::Path_Slig* pTlv, const TLVUniqueId& tlvId)
     mSpawnerFlags.Set(SpawnerFlags::eBit2_UnlimitedSpawns, pTlv->mData.mUnlimitedSpawns == relive::reliveChoice::eYes);
 
     mState = SpawnerStates::eInactive_0;
-    mSpawnedSligId = -1;
+    mSpawnedSligId = Guid{};
 }
 
 SligSpawner::~SligSpawner()
@@ -58,7 +58,7 @@ void SligSpawner::VUpdate()
     {
         mFindSpawnedSlig = FALSE;
 
-        if (mSpawnedSligId != -1)
+        if (mSpawnedSligId != Guid{})
         {
             for (s32 i = 0; i < gBaseGameObjects->Size(); i++)
             {
@@ -126,8 +126,8 @@ s32 SligSpawner::VGetSaveState(u8* pSaveBuffer)
     pState->mType = AETypes::eSligSpawner_2;
     pState->mTlvInfo = mTlvInfo;
     pState->mState = mState;
-    pState->mSpawnedSligId = -1;
-    if (mSpawnedSligId == -1)
+    pState->mSpawnedSligId = Guid{};
+    if (mSpawnedSligId == Guid{})
     {
         return sizeof(Slig_Spawner_State);
     }

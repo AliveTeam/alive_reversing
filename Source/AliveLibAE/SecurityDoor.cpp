@@ -10,7 +10,7 @@
 #include "Sound/Midi.hpp"
 #include "SwitchStates.hpp"
 
-SecurityDoor::SecurityDoor(relive::Path_SecurityDoor* pTlv, s32 tlvInfo)
+SecurityDoor::SecurityDoor(relive::Path_SecurityDoor* pTlv, const Guid& tlvId)
     : BaseAnimatedWithPhysicsGameObject(0)
 {
     field_104_event_idx = -1;
@@ -23,7 +23,7 @@ SecurityDoor::SecurityDoor(relive::Path_SecurityDoor* pTlv, s32 tlvInfo)
 
     mAnim.mFlags.Clear(AnimFlags::eBit3_Render);
 
-    field_F4_tlvInfo = tlvInfo;
+    field_F4_tlvInfo = tlvId;
 
     mAnim.mRenderLayer = Layer::eLayer_BeforeWell_22;
 

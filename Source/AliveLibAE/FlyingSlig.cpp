@@ -95,14 +95,14 @@ bool FlyingSlig::BrainIs(TFlyingSligBrainFn fn)
     return field_29C_brain_state == fn;
 }
 
-FlyingSlig::FlyingSlig(relive::Path_FlyingSlig* pTlv, const TLVUniqueId& tlvId)
+FlyingSlig::FlyingSlig(relive::Path_FlyingSlig* pTlv, const Guid& tlvId)
     : BaseAliveGameObject(9)
 {
     field_178_unused = 0;
     field_164_unused = -1;
     field_17A_unused = -1;
 
-    if (tlvId != -1)
+    if (tlvId != Guid{})
     {
         mBaseGameObjectTlvInfo = tlvId;
     }
@@ -148,7 +148,7 @@ FlyingSlig::FlyingSlig(relive::Path_FlyingSlig* pTlv, const TLVUniqueId& tlvId)
     field_17E_flags.Clear(Flags_17E::eBit9_Chanting);
     field_17E_flags.Clear(Flags_17E::eBit10_Speaking_flag2);
 
-    field_158_obj_id = -1;
+    field_158_obj_id = Guid{};
 
     field_288_unused = 0;
     field_290_bobbing_values_index = 0;
@@ -494,8 +494,8 @@ s32 FlyingSlig::VGetSaveState(u8* pSaveBuffer)
     pState->field_54_next_speak = field_17D_next_speak;
     pState->field_56_voice_pitch_min = field_160_voice_pitch_min;
 
-    pState->field_58_obj_id = -1;
-    if (field_158_obj_id != -1)
+    pState->field_58_obj_id = Guid{};
+    if (field_158_obj_id != Guid{})
     {
         auto pObj = sObjectIds.Find_Impl(field_158_obj_id);
         if (pObj)
@@ -606,7 +606,7 @@ void FlyingSlig::VUpdate()
             }
         }
 
-        if (field_158_obj_id != -1)
+        if (field_158_obj_id != Guid{})
         {
             for (s32 i = 0; i < gBaseGameObjects->Size(); i++)
             {
@@ -1563,7 +1563,7 @@ void FlyingSlig::M_LeverPull_7_439150()
         {
             pSwitch->VPull(mXPos < pSwitch->mXPos);
         }
-        field_158_obj_id = -1;
+        field_158_obj_id = Guid{};
     }
 }
 

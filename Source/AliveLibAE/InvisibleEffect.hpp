@@ -48,7 +48,7 @@ private:
     PSX_RECT field_34_pal_rect2 = {};
     s32 field_3C = 0;
     s32 field_40 = 0;
-    s32 field_44_objId = 0;
+    Guid field_44_objId;
     TPageAbr field_48_old_render_mode = TPageAbr::eBlend_0;
     s8 field_49 = 0;
     BitField16<Flags_4A> field_4A_flags = {};

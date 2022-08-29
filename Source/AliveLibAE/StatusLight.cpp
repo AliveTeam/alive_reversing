@@ -8,7 +8,7 @@
 #include "stdlib.hpp"
 #include "Grid.hpp"
 
-StatusLight::StatusLight(relive::Path_StatusLight* pTlv, const TLVUniqueId& tlvId)
+StatusLight::StatusLight(relive::Path_StatusLight* pTlv, const Guid& tlvId)
     : BaseAnimatedWithPhysicsGameObject(0)
 {
     field_F4_tlvInfo = tlvId;

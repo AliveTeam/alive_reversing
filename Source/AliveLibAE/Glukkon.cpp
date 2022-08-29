@@ -253,7 +253,7 @@ bool Glukkon::BrainIs(TGlukkonBrainFn fn)
     return field_20C_brain_state_fn == fn;
 }
 
-Glukkon::Glukkon(relive::Path_Glukkon* pTlv, const TLVUniqueId& tlvId)
+Glukkon::Glukkon(relive::Path_Glukkon* pTlv, const Guid& tlvId)
     : BaseAliveGameObject(0)
 {
     ;
@@ -550,7 +550,7 @@ void Glukkon::M_Jump_4_443030()
         if (pPlatform)
         {
             pPlatform->VRemove(this);
-            BaseAliveGameObject_PlatformId = -1;
+            BaseAliveGameObject_PlatformId = Guid{};
         }
         BaseAliveGameObjectCollisionLine = nullptr;
     }
@@ -1288,7 +1288,7 @@ s16 Glukkon::Brain_0_Calm_WalkAround_440B40()
             }
             else
             {
-                BaseAliveGameObject_PlatformId = -1;
+                BaseAliveGameObject_PlatformId = Guid{};
                 return 0;
             }
             break;
@@ -1439,7 +1439,7 @@ s16 Glukkon::Brain_1_Panic_4412F0()
             }
             else
             {
-                BaseAliveGameObject_PlatformId = -1;
+                BaseAliveGameObject_PlatformId = Guid{};
             }
             return 1;
 
@@ -2018,8 +2018,8 @@ void Glukkon::Init()
 
     SetAnim(0, TRUE);
 
-    field_208_obj_id = -1;
-    BaseAliveGameObject_PlatformId = -1;
+    field_208_obj_id = Guid{};
+    BaseAliveGameObject_PlatformId = Guid{};
     field_1D4_timer = 0;
     mHealth = FP_FromInteger(1);
     field_1F0_randomish_speak_timer = 0;
@@ -2132,7 +2132,7 @@ void Glukkon::VUpdate()
 
         Update_Slurg_WatchPoints();
 
-        if (sControlledCharacter == this && BaseAliveGameObject_PlatformId != -1)
+        if (sControlledCharacter == this && BaseAliveGameObject_PlatformId != Guid{})
         {
             mVelY = mYPos - field_1DC_previous_ypos;
             SetActiveCameraDelayedFromDir();
@@ -2628,7 +2628,7 @@ void Glukkon::FollowLine()
                 if (BaseAliveGameObjectCollisionLine->mLineType != eLineTypes::eDynamicCollision_32 && BaseAliveGameObjectCollisionLine->mLineType != eLineTypes::eBackgroundDynamicCollision_36)
                 {
                     pPlatform->VRemove(this);
-                    BaseAliveGameObject_PlatformId = -1;
+                    BaseAliveGameObject_PlatformId = Guid{};
                     field_1D8_falling_velx_scale_factor = FP_FromDouble(0.35);
                 }
             }
@@ -2955,7 +2955,7 @@ void Glukkon::VOnTrapDoorOpen()
     {
         BaseAliveGameObjectLastLineYPos = mYPos;
         pPlatform->VRemove(this);
-        BaseAliveGameObject_PlatformId = -1;
+        BaseAliveGameObject_PlatformId = Guid{};
         SetAnim(eGlukkonMotions::M_WalkToFall_6_4434E0, TRUE);
     }
 }

@@ -51,7 +51,7 @@ struct Fleech_State final
 {
     AETypes field_0_type;
     s16 field_2;
-    s32 field_4_obj_id;
+    Guid field_4_obj_id;
     FP mXPos;
     FP mYPos;
     FP mVelX;
@@ -73,9 +73,9 @@ struct Fleech_State final
     s16 mNextMotion;
     s16 mLastLineYPos;
     s16 mCollisionLineType;
-    s32 mPlatformId;
-    s32 mTlvInfo;
-    s32 field_44_obj_id;
+    Guid mPlatformId;
+    Guid mTlvInfo;
+    Guid field_44_obj_id;
     s16 field_48_unused; //TODO: Saves and sets another unused field, field_120 -- Nemin (7/5/2020)
     s16 mTongueState;
     s16 mTongueSubState;
@@ -122,8 +122,8 @@ struct Fleech_State final
     s8 field_9F;
     FP field_A0_hoistY_distance;
     FP field_A4_hoistX_distance;
-    s32 field_A8;
-    s32 field_AC_obj_id;
+    Guid field_A8;
+    Guid field_AC_obj_id;
 
     enum FleechStateFlags
     {
@@ -139,7 +139,7 @@ struct Fleech_State final
     BitField16<FleechStateFlags> mFleechStateFlags;
     s16 field_B2;
 };
-ALIVE_ASSERT_SIZEOF_ALWAYS(Fleech_State, 0xB4);
+//ALIVE_ASSERT_SIZEOF_ALWAYS(Fleech_State, 0xB4);
 
 class Fleech;
 using TFleechBrainFn = s16 (Fleech::*)();
@@ -243,8 +243,8 @@ public:
     void VOnFrame(s16* pData);
 
 private:
-    s32 mTlvInfo = 0;
-    s32 field_11C_obj_id = 0;
+    Guid mTlvInfo;
+    Guid field_11C_obj_id;
     s16 field_120_unused = 0;
     s16 field_122 = 0;
     s16 field_124_brain_state = 0;
@@ -281,7 +281,7 @@ private:
     s8 field_167 = 0;
     FP field_168_hoistY_distance = {};
     FP field_16C_hoistX_distance = {};
-    s32 field_170_danger_obj = 0;
+    Guid field_170_danger_obj;
     enum FleechFlags : s16
     {
         eHoistDone = 0x1,

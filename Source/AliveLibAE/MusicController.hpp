@@ -80,7 +80,7 @@ private:
     u16 field_20_vol = 0;
     u16 field_22_vol = 0;
     EReliveLevelIds field_24_currentLevelID = EReliveLevelIds::eNone;
-    s32 field_28_object_id = 0;
+    Guid field_28_object_id;
     s16 field_2C_flags_and_seq_idx = 0;
     u32 field_30_music_time = 0;
     u32 field_34_music_start_time = 0;

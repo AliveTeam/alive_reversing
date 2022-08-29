@@ -55,14 +55,14 @@ TintEntry sSlamDoorTints[18] = {
 struct Quicksave_Obj_SlamDoor final
 {
     AETypes mType;
-    TlvItemInfoUnion mTlvInfo;
+    Guid mTlvInfo;
 };
-ALIVE_ASSERT_SIZEOF_ALWAYS(Quicksave_Obj_SlamDoor, 8);
+//ALIVE_ASSERT_SIZEOF_ALWAYS(Quicksave_Obj_SlamDoor, 8);
 
-SlamDoor::SlamDoor(relive::Path_SlamDoor* pTlv, TlvItemInfoUnion tlvInfo)
+SlamDoor::SlamDoor(relive::Path_SlamDoor* pTlv, const Guid& tlvId)
     : BaseAliveGameObject(0)
 {
-    mBaseGameObjectTlvInfo = tlvInfo.all; // todo: check this
+    mBaseGameObjectTlvInfo = tlvId; // todo: check this
     mBaseGameObjectFlags.Set(Options::eCanExplode_Bit7);
 
     mSwitchId = pTlv->mSwitchId;
@@ -98,7 +98,7 @@ SlamDoor::SlamDoor(relive::Path_SlamDoor* pTlv, TlvItemInfoUnion tlvInfo)
                                     / 2));
 
     mYPos = FP_FromInteger(pTlv->mTopLeftY);
-    mTlvInfo = tlvInfo;
+    mTlvInfo = tlvId;
 
     if (pTlv->mScale == relive::reliveScale::eHalf)
     {
@@ -225,7 +225,7 @@ SlamDoor::~SlamDoor()
 {
     if (!(mSlamDoorFlags.Get(SlamDoorFlags::eDelete)) || mSlamDoorFlags.Get(SlamDoorFlags::eClosed))
     {
-        Path::TLV_Reset(mTlvInfo.all, -1, 0, 0);
+        Path::TLV_Reset(mTlvInfo, -1, 0, 0);
     }
 
     if (mCollisionLine1)
@@ -457,7 +457,7 @@ s32 SlamDoor::CreateFromSaveState(const u8* pData)
         }
     }
 
-    relive_new SlamDoor(static_cast<relive::Path_SlamDoor*>(sPathInfo->TLV_From_Offset_Lvl_Cam(pSaveState->mTlvInfo.all)), pSaveState->mTlvInfo);
+    relive_new SlamDoor(static_cast<relive::Path_SlamDoor*>(sPathInfo->TLV_From_Offset_Lvl_Cam(pSaveState->mTlvInfo)), pSaveState->mTlvInfo);
 
     return sizeof(Quicksave_Obj_SlamDoor);
 }

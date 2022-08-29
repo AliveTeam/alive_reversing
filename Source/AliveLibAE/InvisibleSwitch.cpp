@@ -8,7 +8,7 @@
 #include "SwitchStates.hpp"
 #include "Abe.hpp"
 
-InvisibleSwitch::InvisibleSwitch(relive::Path_InvisibleSwitch* pTlv, const TLVUniqueId& tlvId)
+InvisibleSwitch::InvisibleSwitch(relive::Path_InvisibleSwitch* pTlv, const Guid& tlvId)
     : BaseGameObject(TRUE, 0)
 {
     field_24_tlvInfo = tlvId;

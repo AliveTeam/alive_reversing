@@ -31,7 +31,7 @@ MotionDetectorLaser::MotionDetectorLaser(FP xpos, FP ypos, FP scale, Layer layer
 
 // =====================================================================================
 
-MotionDetector::MotionDetector(relive::Path_MotionDetector* pTlv, const TLVUniqueId& tlvId, BaseAnimatedWithPhysicsGameObject* pOwner)
+MotionDetector::MotionDetector(relive::Path_MotionDetector* pTlv, const Guid& tlvId, BaseAnimatedWithPhysicsGameObject* pOwner)
     : BaseAnimatedWithPhysicsGameObject(0)
 {
     SetType(ReliveTypes::eGreeterBody);
@@ -54,7 +54,7 @@ MotionDetector::MotionDetector(relive::Path_MotionDetector* pTlv, const TLVUniqu
     {
         field_110_bDontComeBack = 1;
         field_10E_bUnknown = 0;
-        field_FC_owner_id = -1;
+        field_FC_owner_id = Guid{};
 
         field_F4_tlvInfo = tlvId;
         mSpriteScale = FP_FromInteger(1);

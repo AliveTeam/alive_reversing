@@ -7,7 +7,7 @@
 #include "Game.hpp"
 #include "SwitchStates.hpp"
 
-ZzzSpawner::ZzzSpawner(relive::Path_ZzzSpawner* pTlv, const TLVUniqueId& tlvId)
+ZzzSpawner::ZzzSpawner(relive::Path_ZzzSpawner* pTlv, const Guid& tlvId)
     : BaseGameObject(TRUE, 0)
 {
     mXPos = FP_FromInteger(pTlv->mTopLeftX);

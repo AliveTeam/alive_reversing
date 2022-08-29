@@ -31,7 +31,7 @@ void SetData(Relive_Path_Teleporter_Data& tlvData, const relive::Path_Teleporter
     tlvData.mElectricY = tlv.mElectricY;
 }
 
-Teleporter::Teleporter(relive::Path_Teleporter* pTlv, const TLVUniqueId& tlvId)
+Teleporter::Teleporter(relive::Path_Teleporter* pTlv, const Guid& tlvId)
     : BaseGameObject(TRUE, 0)
 {
     field_4C_pTlv = pTlv; // TODO: Don't think this is used, and it can become a dangling ptr?
@@ -49,7 +49,7 @@ Teleporter::Teleporter(relive::Path_Teleporter* pTlv, const TLVUniqueId& tlvId)
 
     field_32_bDestroySelf = 0;
     field_30_state = TeleporterState::eWaitForSwitchOn_0;
-    field_50_objId = -1;
+    field_50_objId = Guid{};
 }
 
 Teleporter::~Teleporter()

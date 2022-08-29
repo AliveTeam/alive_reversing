@@ -1536,7 +1536,7 @@ void PauseMenu::VUpdate()
                 && heroState != eAbeMotions::Motion_82_InsideWellExpress_45CC80
                 && heroState != eAbeMotions::Motion_83_WellExpressShotOut_45CF70
                 && (sControlledCharacter->Type() != ReliveTypes::eEvilFart || LOWORD(static_cast<Abe*>(sControlledCharacter)->field_124_timer) != 2) // TODO: Cast seems wrong, missing intermediate base class??
-                && sActiveHero->mBirdPortalId == -1)
+                && sActiveHero->mBirdPortalId == Guid{})
             {
                 if (sQuicksave_SaveNextFrame_5CA4D8)
                 {
@@ -1584,7 +1584,7 @@ void PauseMenu::VUpdate()
                 && heroState != eAbeMotions::Motion_82_InsideWellExpress_45CC80
                 && heroState != eAbeMotions::Motion_83_WellExpressShotOut_45CF70
                 && (pControlledChar->Type() != ReliveTypes::eEvilFart || LOWORD(static_cast<Abe*>(pControlledChar)->field_124_timer) != 2) // TODO: Why LOWORD only ?? TODO: Cast seems wrong, missing intermediate base class??
-                && pHero->mBirdPortalId == -1)
+                && pHero->mBirdPortalId == Guid{})
             {
                 SND_StopAll();
                 SFX_Play_Pitch(SoundEffect::PossessEffect_17, 40, 2400);

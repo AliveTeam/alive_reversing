@@ -24,7 +24,7 @@ struct Relive_Path_Teleporter_Data
 class Teleporter final : public BaseGameObject
 {
 public:
-    Teleporter(relive::Path_Teleporter* pTlv, const TLVUniqueId& tlvId);
+    Teleporter(relive::Path_Teleporter* pTlv, const Guid& tlvId);
     ~Teleporter();
 
     virtual void VUpdate() override;
@@ -34,7 +34,7 @@ private:
     static Electrocute* Create_ElectrocuteEffect();
     void SpawnRingSparks(Relive_Path_Teleporter_Data* pTlvData);
 
-    TLVUniqueId field_20_tlvInfo;
+    Guid field_20_tlvInfo;
     s16 field_24_global_y1 = 0;
     s16 field_26_global_x1 = 0;
     s16 field_28_global_y2 = 0;
@@ -52,7 +52,7 @@ private:
     s16 field_32_bDestroySelf = 0;
     Relive_Path_Teleporter_Data field_34_mTlvData = {};
     relive::Path_Teleporter* field_4C_pTlv = nullptr;
-    s32 field_50_objId = 0;
+    Guid field_50_objId;
     s16 field_54_effect_created = 0;
 };
 ALIVE_ASSERT_SIZEOF(Teleporter, 0x58);

@@ -90,7 +90,7 @@ struct FlyingSlig_State final
         eBit11_padding = 0x400,
     };
     BitField16<Flags_3A> field_3A;
-    s32 field_3C_tlvInfo;
+    Guid field_3C_tlvInfo;
     s32 field_40_timer;
     s32 field_44_grenade_delay;
     s32 field_48_collision_reaction_timer;
@@ -99,7 +99,7 @@ struct FlyingSlig_State final
     SligSpeak field_54_next_speak;
     s8 field_55_padding;
     s16 field_56_voice_pitch_min;
-    s32 field_58_obj_id;
+    Guid field_58_obj_id;
     FP field_5C;
     FP field_60;
     FP field_64;
@@ -125,7 +125,7 @@ struct FlyingSlig_State final
     s32 field_A4_bobbing_values_index;
     FP field_A8_bobbing_value;
 };
-ALIVE_ASSERT_SIZEOF_ALWAYS(FlyingSlig_State, 0xAC);
+//ALIVE_ASSERT_SIZEOF_ALWAYS(FlyingSlig_State, 0xAC);
 
 class FlyingSlig final : public BaseAliveGameObject
 {
@@ -246,7 +246,7 @@ private:
     s32 field_14C_timer = 0;
     s32 field_150_grenade_delay = 0;
     s32 field_154_collision_reaction_timer = 0;
-    s32 field_158_obj_id = 0;
+    Guid field_158_obj_id;
     s16 field_15C_voice_pitch_min = 0;
     s16 field_15E_useless = 0;
     s16 field_160_voice_pitch_min = 0;

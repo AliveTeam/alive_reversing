@@ -23,12 +23,12 @@ struct GameEnderController_State final
 {
     AETypes field_0_type;
     s16 field_2_padding;
-    s32 field_4_obj_id;
+    Guid field_4_obj_id;
     s32 field_8_timer;
     GameEnderController_States field_C_state;
     s16 field_E_padding;
 };
-ALIVE_ASSERT_SIZEOF_ALWAYS(GameEnderController_State, 0x10);
+//ALIVE_ASSERT_SIZEOF_ALWAYS(GameEnderController_State, 0x10);
 
 class GameEnderController final : public BaseGameObject
 {

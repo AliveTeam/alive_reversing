@@ -59,7 +59,7 @@ const TintEntry sLiftTints_55BF50[18] = {
     {EReliveLevelIds::eBonewerkz_Ender, 127u, 127u, 127u},
     {EReliveLevelIds::eNone, 127u, 127u, 127u}};
 
-LiftPoint::LiftPoint(relive::Path_LiftPoint* pTlv, const TLVUniqueId& tlvId)
+LiftPoint::LiftPoint(relive::Path_LiftPoint* pTlv, const Guid& tlvId)
 {
     mBaseGameObjectTlvInfo = tlvId;
     SetType(ReliveTypes::eLiftPoint);
@@ -325,7 +325,7 @@ s32 LiftPoint::CreateFromSaveState(const u8* pData)
     }
 
     pTlv->mTlvSpecificMeaning = 1;
-    if (pState->field_10_pTlv == -1)
+    if (pState->field_10_pTlv == Guid{})
     {
         return sizeof(LiftPoint_State);
     }
@@ -616,7 +616,7 @@ void LiftPoint::VUpdate()
                         {
                             pLiftTlv->mTlvSpecificMeaning = 1;
                             field_280_flags.Clear(LiftFlags::eBit1_bTopFloor);
-                            field_27C_pTlv = -1;
+                            field_27C_pTlv = Guid{};
                         }
                         else
                         {
@@ -646,7 +646,7 @@ void LiftPoint::VUpdate()
                             pLiftTlv->mTlvSpecificMeaning = 1;
 
                             field_280_flags.Clear(LiftFlags::eBit3_bBottomFloor);
-                            field_27C_pTlv = -1;
+                            field_27C_pTlv = Guid{};
                         }
                         else
                         {
@@ -672,7 +672,7 @@ void LiftPoint::VUpdate()
                     if (distanceToFloor <= kMinus25Scaled || distanceToFloor >= k30Scaled)
                     {
                         pLiftTlv->mTlvSpecificMeaning = 1;
-                        field_27C_pTlv = -1;
+                        field_27C_pTlv = Guid{};
                     }
                     else
                     {
@@ -700,7 +700,7 @@ void LiftPoint::VUpdate()
                     if (pLiftTlv)
                     {
                         pLiftTlv->mTlvSpecificMeaning = 1;
-                        field_27C_pTlv = -1;
+                        field_27C_pTlv = Guid{};
                     }
                     field_280_flags.Clear(LiftFlags::eBit1_bTopFloor);
                     field_280_flags.Clear(LiftFlags::eBit2_bMiddleFloor);
@@ -984,13 +984,13 @@ LiftPoint::~LiftPoint()
     if (pRope2)
     {
         pRope2->mBaseGameObjectFlags.Set(BaseGameObject::eDead);
-        field_134_rope2_id = -1;
+        field_134_rope2_id = Guid{};
     }
 
     if (pRope1)
     {
         pRope1->mBaseGameObjectFlags.Set(BaseGameObject::eDead);
-        field_138_rope1_id = -1;
+        field_138_rope1_id = Guid{};
     }
 
     Path::TLV_Reset(mPlatformBaseTlvInfo, -1, 0, 0);

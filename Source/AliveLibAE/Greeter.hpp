@@ -44,7 +44,7 @@ struct Greeter_State final
     s8 field_25_bDrawable;
     s8 field_26_padding;
     s8 field_27_padding;
-    TLVUniqueId field_28_tlvInfo;
+    Guid field_28_tlvInfo;
     s32 field_2C_unused;
     s32 field_30_last_turn_time;
     s32 field_34_timer;
@@ -76,7 +76,7 @@ enum class GreeterSpeak : s16
 class Greeter final : public BaseAliveGameObject
 {
 public:
-    Greeter(relive::Path_Greeter* pTlv, const TLVUniqueId& tlvId);
+    Greeter(relive::Path_Greeter* pTlv, const Guid& tlvId);
     ~Greeter();
     
     virtual void VUpdate() override;
@@ -98,8 +98,8 @@ private:
     BaseAliveGameObject* GetMudToZap();
 
 private:
-    TLVUniqueId field_118_tlvInfo;
-    s32 field_11C_motionDetectorId = 0;
+    Guid field_118_tlvInfo;
+    Guid field_11C_motionDetectorId;
     s32 field_120_unused = 0;
     s32 field_124_last_turn_time = 0;
     s32 field_128_timer = 0;

@@ -21,7 +21,7 @@ void SetLcdMessagesForLvl(const StringTable& msgs, LevelIds lvl, u32 pathId);
 class LCDScreen final : public BaseGameObject
 {
 public:
-    LCDScreen(relive::Path_LCDScreen* params, const TLVUniqueId& tlvId);
+    LCDScreen(relive::Path_LCDScreen* params, const Guid& tlvId);
     ~LCDScreen();
 
     virtual void VUpdate() override;
@@ -44,7 +44,7 @@ public:
     u16 field_2B4_show_random_message = 0;
     u16 field_2B6_message_rand_min_id = 0;
     u16 field_2B8_message_rand_max_id = 0;
-    TLVUniqueId field_2BC_tlv_item_info;
+    Guid field_2BC_tlv_item_info;
     relive::Path_TLV field_2C0_tlv = {};
 };
 ALIVE_ASSERT_SIZEOF(LCDScreen, 0x2D0);

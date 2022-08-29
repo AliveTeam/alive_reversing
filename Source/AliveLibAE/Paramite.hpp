@@ -136,11 +136,11 @@ struct Paramite_State final
     s16 field_36_line_type;
     s16 field_38_padding;
     s16 field_3A_padding;
-    s32 field_3C_tlvInfo;
-    s32 field_40_meat_id;
-    s32 field_44_web_id;
-    s32 field_48_obj_id;
-    s32 field_4C_pull_ring_rope_id;
+    Guid field_3C_tlvInfo;
+    Guid field_40_meat_id;
+    Guid field_44_web_id;
+    Guid field_48_obj_id;
+    Guid field_4C_pull_ring_rope_id;
     s32 field_50_brain_idx;
     s16 field_54_padding;
     s16 field_56_padding;
@@ -169,12 +169,12 @@ struct Paramite_State final
 
     BitField16<Flags_76> field_76_flags;
 };
-ALIVE_ASSERT_SIZEOF_ALWAYS(Paramite_State, 0x78);
+//ALIVE_ASSERT_SIZEOF_ALWAYS(Paramite_State, 0x78);
 
 class Paramite final : public BaseAliveGameObject
 {
 public:
-    Paramite(relive::Path_Paramite* pTlv, const TLVUniqueId& tlvId);
+    Paramite(relive::Path_Paramite* pTlv, const Guid& tlvId);
     ~Paramite();
 
     virtual void VUpdate() override;
@@ -315,10 +315,10 @@ private:
 
 
 private:
-    s32 field_118_meat_id = 0;
-    s32 field_11C_web_id = 0;
-    s32 field_120_obj_id = 0;
-    s32 field_124_pull_ring_rope_id = 0;
+    Guid field_118_meat_id;
+    Guid field_11C_web_id;
+    Guid field_120_obj_id;
+    Guid field_124_pull_ring_rope_id;
     TParamiteBrainFn field_128_fn_brainState = nullptr;
     s16 field_12C_brain_ret = 0;
     s16 field_12E_surprise_web_delay_timer = 0;
@@ -327,7 +327,7 @@ private:
     s16 field_136_alone_chase_delay = 0;
     s32 field_138_depossession_timer = 0;
     FP field_13C_velx_offset = {};
-    s32 field_140_tlvInfo = 0;
+    Guid field_140_tlvInfo;
     s32 field_144_group_chase_delay = 0;
     s32 field_148_timer = 0;
     s16 field_14C_surprise_web_switch_id = 0;

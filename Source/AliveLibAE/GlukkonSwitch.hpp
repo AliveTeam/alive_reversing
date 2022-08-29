@@ -23,7 +23,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_GlukkonSwitch, 0x1C);
 class GlukkonSwitch final : public ::BaseAnimatedWithPhysicsGameObject
 {
 public:
-    GlukkonSwitch(relive::Path_GlukkonSwitch* pTlv, const TLVUniqueId& tlvId);
+    GlukkonSwitch(relive::Path_GlukkonSwitch* pTlv, const Guid& tlvId);
     ~GlukkonSwitch();
 
     virtual void VUpdate() override;
@@ -33,7 +33,7 @@ private:
     s16 PlayerNearMe();
 
 private:
-    TLVUniqueId field_F4_tlvInfo;
+    Guid field_F4_tlvInfo;
     s16 field_F8_state = 0;
     s16 field_FA_ok_switch_id = 0;
     s16 field_FC_fail_switch_id = 0;

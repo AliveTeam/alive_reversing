@@ -26,17 +26,17 @@ enum class TimerTriggerStates : s16
 struct TimerTrigger_State final
 {
     AETypes field_0_type;
-    s32 field_4_tlvInfo;
+    Guid field_4_tlvInfo;
     s32 field_8_delay_timer_base;
     TimerTriggerStates field_C_state;
     s16 field_E_starting_switch_state;
 };
-ALIVE_ASSERT_SIZEOF_ALWAYS(TimerTrigger_State, 0x10);
+//ALIVE_ASSERT_SIZEOF_ALWAYS(TimerTrigger_State, 0x10);
 
 class TimerTrigger final : public BaseGameObject
 {
 public:
-    TimerTrigger(relive::Path_TimerTrigger* pTlv, const TLVUniqueId& tlvId);
+    TimerTrigger(relive::Path_TimerTrigger* pTlv, const Guid& tlvId);
     ~TimerTrigger();
     
     virtual void VUpdate() override;
@@ -52,7 +52,7 @@ private:
     s16 mInputSwitchId = 0;
     TimerTriggerStates mState = TimerTriggerStates::eWaitForEnabled_0;
     s16 mOutputSwitchIds[4] = {};
-    s32 mTlvInfo = 0;
+    Guid mTlvInfo;
     s32 mActivationDelayTimer = 0;
     s32 mActivationDelay = 0;
     s16 mStartingSwitchState = 0;

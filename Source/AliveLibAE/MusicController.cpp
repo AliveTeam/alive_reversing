@@ -408,7 +408,7 @@ MusicController::MusicController()
     mBaseGameObjectFlags.Set(BaseGameObject::eSurviveDeathReset_Bit9);
     field_40_flags_and_idx = -1;
     field_24_currentLevelID = EReliveLevelIds::eNone;
-    field_28_object_id = -1;
+    field_28_object_id = Guid{};
     field_2C_flags_and_seq_idx = -1;
     field_42_type = MusicTypes::eNone_0;
     field_30_music_time = 0;
@@ -581,7 +581,7 @@ void MusicController::VUpdate()
             field_58_flags.Clear(Flags_58::e58_Dead_Bit3);
             field_58_flags.Set(Flags_58::e58_Bit4);
             field_48_last_music_frame = sMusicTime_5C3024;
-            field_28_object_id = -1;
+            field_28_object_id = Guid{};
 
             if (field_2C_flags_and_seq_idx > 0)
             {
@@ -628,7 +628,7 @@ void MusicController::PlayMusic(MusicTypes typeToSet, const BaseGameObject* pObj
     {
         if (!sObjectIds.Find_Impl(field_28_object_id))
         {
-            field_28_object_id = -1;
+            field_28_object_id = Guid{};
         }
 
         if (field_42_type == typeToSet)
@@ -638,7 +638,7 @@ void MusicController::PlayMusic(MusicTypes typeToSet, const BaseGameObject* pObj
                 field_48_last_music_frame = sMusicTime_5C3024;
             }
 
-            if (field_28_object_id != -1 && field_28_object_id == pObj->mBaseGameObjectId)
+            if (field_28_object_id != Guid{} && field_28_object_id == pObj->mBaseGameObjectId)
             {
                 field_58_flags.Clear(Flags_58::e58_Dead_Bit3);
                 field_58_flags.Set(Flags_58::e58_Dead_Bit3, (bFlag4 & 1));
@@ -661,7 +661,7 @@ void MusicController::PlayMusic(MusicTypes typeToSet, const BaseGameObject* pObj
 
             if (bFlag4)
             {
-                field_28_object_id = -1;
+                field_28_object_id = Guid{};
             }
 
             field_58_flags.Set(Flags_58::e58_UnPause_Bit6);
@@ -669,7 +669,7 @@ void MusicController::PlayMusic(MusicTypes typeToSet, const BaseGameObject* pObj
             field_42_type = typeToSet;
             field_44 = 0;
         }
-        else if (pObj->mBaseGameObjectId == field_28_object_id || field_28_object_id == -1 || (!(field_58_flags.Get(Flags_58::e58_Dead_Bit3)) && (bFlag4 || typeToSet >= field_42_type)))
+        else if (pObj->mBaseGameObjectId == field_28_object_id || field_28_object_id == Guid{} || (!(field_58_flags.Get(Flags_58::e58_Dead_Bit3)) && (bFlag4 || typeToSet >= field_42_type)))
         {
             field_28_object_id = pObj->mBaseGameObjectId;
             field_58_flags.Clear(Flags_58::e58_Dead_Bit3);

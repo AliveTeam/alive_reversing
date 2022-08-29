@@ -305,7 +305,7 @@ private:
 };
 ALIVE_ASSERT_SIZEOF(FlameSparks, 0x418);
 
-DoorFlame::DoorFlame(relive::Path_DoorFlame* pTlv, const TLVUniqueId& tlvId)
+DoorFlame::DoorFlame(relive::Path_DoorFlame* pTlv, const Guid& tlvId)
     : BaseAnimatedWithPhysicsGameObject(0)
 {
     SetType(ReliveTypes::eNone);
@@ -329,7 +329,7 @@ DoorFlame::DoorFlame(relive::Path_DoorFlame* pTlv, const TLVUniqueId& tlvId)
     }
 
     mXPos = FP_FromInteger(pTlv->mTopLeftX) + (FP_FromInteger(12) * mSpriteScale);
-    mFireBackgroundGlowId = -1;
+    mFireBackgroundGlowId = Guid{};
     mYPos = FP_FromInteger(pTlv->mTopLeftY) + (FP_FromInteger(15) * mSpriteScale);
 
     if (SwitchStates_Get(mSwitchId))
@@ -360,13 +360,13 @@ DoorFlame::~DoorFlame()
     if (pFireBackgroundGlow)
     {
         pFireBackgroundGlow->mBaseGameObjectFlags.Set(BaseGameObject::eDead);
-        mFireBackgroundGlowId = -1;
+        mFireBackgroundGlowId = Guid{};
     }
 
     if (pFlameSparks)
     {
         pFlameSparks->mBaseGameObjectFlags.Set(BaseGameObject::eDead);
-        mFlameSparksId = -1;
+        mFlameSparksId = Guid{};
     }
 
     VStopAudio();
@@ -394,13 +394,13 @@ void DoorFlame::VScreenChanged()
     if (pFireBackgroundGlow)
     {
         pFireBackgroundGlow->mBaseGameObjectFlags.Set(BaseGameObject::eDead);
-        mFireBackgroundGlowId = -1;
+        mFireBackgroundGlowId = Guid{};
     }
 
     if (pFlameSparks)
     {
         pFlameSparks->mBaseGameObjectFlags.Set(BaseGameObject::eDead);
-        mFlameSparksId = -1;
+        mFlameSparksId = Guid{};
     }
 }
 
@@ -428,7 +428,7 @@ void DoorFlame::VUpdate()
             {
                 pFireBackgroundGlow->mBaseGameObjectFlags.Set(BaseGameObject::eDead);
                 pFireBackgroundGlow = nullptr;
-                mFireBackgroundGlowId = -1;
+                mFireBackgroundGlowId = Guid{};
             }
             break;
 
@@ -488,13 +488,13 @@ void DoorFlame::VUpdate()
         if (pFireBackgroundGlow)
         {
             pFireBackgroundGlow->mBaseGameObjectFlags.Set(BaseGameObject::eDead);
-            mFireBackgroundGlowId = -1;
+            mFireBackgroundGlowId = Guid{};
         }
 
         if (pFlameSparks)
         {
             pFlameSparks->mBaseGameObjectFlags.Set(BaseGameObject::eDead);
-            mFlameSparksId = -1;
+            mFlameSparksId = Guid{};
         }
     }
 }

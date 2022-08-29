@@ -8,7 +8,7 @@
 #include "Slog.hpp"
 #include "Sfx.hpp"
 
-SlogSpawner::SlogSpawner(relive::Path_SlogSpawner* pTlv, const TLVUniqueId& tlvId)
+SlogSpawner::SlogSpawner(relive::Path_SlogSpawner* pTlv, const Guid& tlvId)
     : BaseGameObject(TRUE, 0)
 {
     mTlvInfo = tlvId;

@@ -47,8 +47,8 @@ public:
 
 private:
     s32 field_F4_stay_in_state_ticks = 0;
-    s32 field_F8_rope_id = 0;
-    s32 field_FC_ring_puller_id = 0;
+    Guid field_F8_rope_id;
+    Guid field_FC_ring_puller_id;
     enum class States : s16
     {
         eIdle_0 = 0,
@@ -63,6 +63,6 @@ private:
     relive::Path_PullRingRope::PullRingSwitchSound field_108_off_sound = relive::Path_PullRingRope::PullRingSwitchSound::eNone;
     relive::Path_PullRingRope::PullRingSoundDirection field_10A_sound_direction = relive::Path_PullRingRope::PullRingSoundDirection::eLeftAndRight;
     s32 field_10C_is_pulled = 0;
-    s32 field_110_tlvInfo = 0;
+    Guid field_110_tlvInfo;
 };
 ALIVE_ASSERT_SIZEOF(PullRingRope, 0x114);
