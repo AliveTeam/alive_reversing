@@ -1410,7 +1410,7 @@ struct Path_RingCancel : public Path_TLV
     {
         mTlvType = ReliveTypes::eRingCancel;
     }
-    // No fields
+    bool mRemovesShrykull = false;
 };
 
 struct Path_SecurityDoor final : public Path_TLV

@@ -835,7 +835,7 @@ void Map::SaveBlyData(u8* pSaveBuffer)
     memcpy(pSaveBuffer, sSwitchStates_505568.mData, sizeof(sSwitchStates_505568.mData));
 
     u8* pAfterSwitchStates = pSaveBuffer + sizeof(sSwitchStates_505568.mData);
-    for (s16 i = 1; i < Path_Get_Num_Paths(mCurrentLevel); i++)
+    for (s16 i = 1; i < AO::Path_Get_Num_Paths(mCurrentLevel); i++)
     {
         const PathBlyRec* pPathRec = Path_Get_Bly_Record_434650(mCurrentLevel, i);
         if (pPathRec->field_0_blyName)
@@ -877,7 +877,7 @@ void Map::RestoreBlyData(const u8* pSaveData)
     memcpy(sSwitchStates_505568.mData, pSaveData, sizeof(sSwitchStates_505568.mData));
     const u8* pAfterSwitchStates = pSaveData + sizeof(sSwitchStates_505568.mData);
 
-    for (s16 i = 1; i < Path_Get_Num_Paths(mCurrentLevel); i++)
+    for (s16 i = 1; i < AO::Path_Get_Num_Paths(mCurrentLevel); i++)
     {
         BinaryPath* ppPathRes = GetPathResourceBlockPtr(i);
         if (ppPathRes)
@@ -1631,7 +1631,7 @@ void Map::GoTo_Camera()
 
         // Open Path BND
         auto tmp = sOverlayTable_4C5AA8.records[Path_Get_OverlayIdx(mNextLevel)].field_4_pos;
-        sLvlArchive_4FFD60.OpenArchive(CdLvlName(mNextLevel), tmp);
+        sLvlArchive_4FFD60.OpenArchive(AO::CdLvlName(mNextLevel), tmp);
 
         // TODO: Jayson!
         //ResourceManager::LoadResourceFile_455270(Path_Get_BndName(mNextLevel), nullptr);
@@ -1663,13 +1663,13 @@ void Map::GoTo_Camera()
             mLoadedPaths.emplace_back(std::move(pathBuffer));
         }
 
-        SND_Load_VABS_477040(Path_Get_MusicInfo(mNextLevel), Path_Get_Reverb(mNextLevel));
+        SND_Load_VABS_477040(AO::Path_Get_MusicInfo(mNextLevel), AO::Path_Get_Reverb(mNextLevel));
 
         // Struct is using AE format so pass address of seq table in the exe to avoid a crash
         //SND_Load_Seqs_477AB0(reinterpret_cast<OpenSeqHandleAE*>(0x4C9E70), rPathRoot.field_C_bsq_file_name);
 
-        SND_Load_Seqs_477AB0(g_SeqTable_4C9E70, Path_Get_BsqFileName(mNextLevel));
-        relive_new BackgroundMusic(Path_Get_BackGroundMusicId(mNextLevel));
+        SND_Load_Seqs_477AB0(g_SeqTable_4C9E70, AO::Path_Get_BsqFileName(mNextLevel));
+        relive_new BackgroundMusic(AO::Path_Get_BackGroundMusicId(mNextLevel));
 
         // TODO: Re-add function
         for (s32 i = 0; i < 236; i++)

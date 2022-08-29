@@ -1,6 +1,8 @@
 #pragma once
 
 #include "../AliveLibAO/PathData.hpp" // For AO::LevelIds
+#include "../AliveLibAE/PathData.hpp"
+
 #include "../MapWrapper.hpp"
 
 inline const char* ToString(AO::LevelIds lvlId)
@@ -41,9 +43,53 @@ inline const char* ToString(AO::LevelIds lvlId)
 }
 
 
+inline const char* ToString(::LevelIds lvlId)
+{
+    switch (lvlId)
+    {
+        case ::LevelIds::eMenu_0:
+            return "menu";
+        case ::LevelIds::eMines_1:
+            return "mines";
+        case ::LevelIds::eNecrum_2:
+            return "necrum";
+        case ::LevelIds::eMudomoVault_3:
+            return "mudomo_vault";
+        case ::LevelIds::eMudancheeVault_4:
+            return "mundanchee_vault";
+        case ::LevelIds::eFeeCoDepot_5:
+            return "feeco_depot";
+        case ::LevelIds::eBarracks_6:
+            return "barracks";
+        case ::LevelIds::eMudancheeVault_Ender_7:
+            return "mudanchee_valt_ender";
+        case ::LevelIds::eBonewerkz_8:
+            return "bonewerkz";
+        case ::LevelIds::eBrewery_9:
+            return "brewery";
+        case ::LevelIds::eBrewery_Ender_10:
+            return "brewery_ender";
+        case ::LevelIds::eMudomoVault_Ender_11:
+            return "mudomo_vault_ender";
+        case ::LevelIds::eFeeCoDepot_Ender_12:
+            return "feeco_depot_ender";
+        case ::LevelIds::eBarracks_Ender_13:
+            return "barracks_ender";
+        case ::LevelIds::eBonewerkz_Ender_14:
+            return "bonewerkz_ender";
+        case ::LevelIds::eTestLevel_15:
+            return "test_level";
+        case ::LevelIds::eCredits_16:
+            return "credits";
+        default:
+            return "unknown";
+    }
+}
+
 
 class DataConversion final
 {
 public:
-    void ConvertData();
+    void ConvertDataAO();
+    void ConvertDataAE();
 };

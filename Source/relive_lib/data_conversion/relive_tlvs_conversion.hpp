@@ -2747,6 +2747,7 @@ private:
             case ::MudJobs::eHealthRingGiver_4:
                 return Path_Mudokon::MudJobs::eHealthRingGiver;
         }
+        ALIVE_FATAL("Bad mudokon job");
     }
     
     static Path_Mudokon::Mud_TLV_Emotion From(::Mud_TLV_Emotion emotion)
@@ -3081,10 +3082,34 @@ public:
 class Path_RingCancel_Converter final
 {
 public:
-    static Path_RingCancel From(const AO::Path_RingCancel& tlv, const Guid& tlvId)
+    static Path_RingCancel From(const AO::Path_RingCancel& tlv, const Guid& tlvId, AO::LevelIds lvlId, u32 path)
     {
         Path_RingCancel r;
         BaseConvert(r, tlv, tlvId);
+
+        // The field field_18_bShrykull_remove was removed from the Path_RingCancel TLV because it doesnt
+        // actually exist in any path data. The actual value for this field was the 2 bytes after the TLV ended
+        // which is always 0 apart from in the cases below.
+        // However any level saved with the legacy level editor will have this field added which is handled by checking the size.
+        switch (lvlId)
+        {
+            case AO::LevelIds::eDesert_8: // d1.lvl
+                if (path == 4)
+                {
+                    // original TLV data is -1 part of collision line
+                    r.mRemovesShrykull = true;
+                }
+                break;
+
+            case AO::LevelIds::eForestTemple_4: // f2.lvl
+                if (path == 6)
+                {
+                    // original TLV data is 4 part of the flags of the next object
+                    r.mRemovesShrykull = true;
+                }
+                break;
+        }
+
         return r;
     }
 };

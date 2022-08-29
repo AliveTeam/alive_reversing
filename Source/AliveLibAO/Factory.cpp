@@ -1998,44 +1998,8 @@ static void Factory_RingCancel(relive::Path_TLV* pTlv, Map* /*pMap*/, const Guid
 {
     if (loadMode != LoadMode::LoadResourceFromList_1 && loadMode != LoadMode::LoadResource_2)
     {
-        // The field field_18_bShrykull_remove was removed from the Path_RingCancel TLV because it doesnt
-        // actually exist in any path data. The actual value for this field was the 2 bytes after the TLV ended
-        // which is always 0 apart from in the cases below.
-        // However any level saved with the legacy level editor will have this field added which is handled by checking the size.
-        bool bRemovesShrykull = false;
-
-        struct Path_RingCancel_Corrected final : public relive::Path_RingCancel
-        {
-            s16 field_18_bShrykull_remove;
-        };
-
-        if (pTlv->mLength == sizeof(Path_RingCancel_Corrected))
-        {
-            bRemovesShrykull = static_cast<Path_RingCancel_Corrected*>(pTlv)->field_18_bShrykull_remove;
-        }
-        else
-        {
-            switch (gMap.mCurrentLevel)
-            {
-                case EReliveLevelIds::eDesert: // d1.lvl
-                    if (gMap.mCurrentPath == 4)
-                    {
-                        // original TLV data is -1 part of collision line
-                        bRemovesShrykull = true;
-                    }
-                    break;
-
-                case EReliveLevelIds::eForestTemple: // f2.lvl
-                    if (gMap.mCurrentPath == 6)
-                    {
-                        // original TLV data is 4 part of the flags of the next object
-                        bRemovesShrykull = true;
-                    }
-                    break;
-            }
-        }
-
-        if (bRemovesShrykull)
+        auto pRingCancel = static_cast<relive::Path_RingCancel*>(pTlv);
+        if (pRingCancel->mRemovesShrykull)
         {
             if (sActiveHero->field_168_ring_pulse_timer)
             {
