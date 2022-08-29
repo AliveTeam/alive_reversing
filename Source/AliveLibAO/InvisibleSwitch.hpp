@@ -30,7 +30,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_InvisibleSwitch, 0x24);
 class InvisibleSwitch final : public BaseGameObject
 {
 public:
-    InvisibleSwitch(relive::Path_InvisibleSwitch* pTlv, const TLVUniqueId& tlvId);
+    InvisibleSwitch(relive::Path_InvisibleSwitch* pTlv, const Guid& tlvId);
     ~InvisibleSwitch();
 
     virtual void VScreenChanged() override;
@@ -38,7 +38,7 @@ public:
 
     s16 field_10_switch_id = 0;
     relive::reliveSwitchOp field_12_action = relive::reliveSwitchOp::eSetTrue;
-    TLVUniqueId field_14_tlvInfo = {};
+    Guid field_14_tlvInfo;
     s32 field_18_delay_timer = 0;
     s32 field_1C_delay = 0;
     PSX_Point field_20_top_left = {};

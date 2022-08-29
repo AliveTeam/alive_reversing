@@ -34,7 +34,7 @@ enum class BoomMachineStates : s16
 class BoomMachine final : public BaseAnimatedWithPhysicsGameObject
 {
 public:
-    BoomMachine(relive::Path_BoomMachine* pTlv, const TLVUniqueId& tlvId);
+    BoomMachine(relive::Path_BoomMachine* pTlv, const Guid& tlvId);
     ~BoomMachine();
 
     virtual void VScreenChanged() override;
@@ -44,7 +44,7 @@ public:
 
 
 public:
-    TLVUniqueId field_E4_tlvInfo = {};
+    Guid field_E4_tlvInfo;
     s16 field_E8_bIsButtonOn = 0;
     GrenadeMachineNozzle* field_EC_pNozzle = nullptr;
 };

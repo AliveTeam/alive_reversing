@@ -26,7 +26,7 @@ SecurityDoor::~SecurityDoor()
     Path::TLV_Reset(field_E4_tlvInfo, field_E8_state + 1, 0, 0);
 }
 
-SecurityDoor::SecurityDoor(relive::Path_SecurityDoor* pTlv, const TLVUniqueId& tlvId)
+SecurityDoor::SecurityDoor(relive::Path_SecurityDoor* pTlv, const Guid& tlvId)
 {
     field_F4_event_idx = -1;
     field_108_max_idx = 0;

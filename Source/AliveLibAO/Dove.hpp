@@ -20,7 +20,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Dove, 0x20);
 class Dove final : public BaseAnimatedWithPhysicsGameObject
 {
 public:
-    Dove(AnimId animId, const TLVUniqueId& tlvId, FP scale);
+    Dove(AnimId animId, const Guid& tlvId, FP scale);
     Dove(AnimId animId, FP xpos, FP ypos, FP scale);
     ~Dove();
 
@@ -35,7 +35,7 @@ public:
     void FlyAway(bool spookedInstantly);
 
     s16 mFlyAwayCounter = 0;
-    TLVUniqueId mTlvInfo = {};
+    Guid mTlvInfo;
     s16 mKeepInGlobalArray = 0;
     enum class State : s16
     {

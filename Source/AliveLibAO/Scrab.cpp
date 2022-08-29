@@ -104,7 +104,7 @@ const static Scrab::TBrainType sScrabAITable[]{
     &Scrab::Brain_WalkAround_460D80,
 };
 
-Scrab::Scrab(relive::Path_Scrab* pTlv, const TLVUniqueId& tlvId)
+Scrab::Scrab(relive::Path_Scrab* pTlv, const Guid& tlvId)
     : BaseAliveGameObject()
 {
     mBaseGameObjectTypeId = ReliveTypes::eScrab;

@@ -286,7 +286,7 @@ relive::Path_TLV* Path::TlvGetAt(relive::Path_TLV* pTlv, FP xpos, FP ypos, FP w,
     return pTlv;
 }
 
-relive::Path_TLV* Path::TLV_From_Offset_Lvl_Cam(const Guid& tlvId)
+relive::Path_TLV* Path::TLV_From_Offset_Lvl_Cam(const Guid& /*tlvId*/)
 {
     /*
     if (tlvId.levelId == mLevelId && tlvId.pathId == mPathId)
@@ -340,9 +340,9 @@ relive::Path_TLV* Path::TLV_Next_Of_Type(relive::Path_TLV* pTlv, ReliveTypes typ
     return pTlv;
 }
 
-void Path::TLV_Reset(const Guid& tlvId, s16 hiFlags, s8 bSetCreated, s8 bSetDestroyed)
+void Path::TLV_Reset(const Guid& /*tlvId*/, s16 /*hiFlags*/, s8 /*bSetCreated*/, s8 /*bSetDestroyed*/)
 {
-    if (tlvId.levelId == gMap.mCurrentLevel)
+    /*if (tlvId.levelId == gMap.mCurrentLevel)
     {
         const PathBlyRec* pBlyRec = Path_Get_Bly_Record(MapWrapper::FromAE(static_cast<LevelIds>(tlvId.levelId)), tlvId.pathId);
         u8** ppPathRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Path, tlvId.pathId, TRUE, FALSE);
@@ -376,7 +376,8 @@ void Path::TLV_Reset(const Guid& tlvId, s16 hiFlags, s8 bSetCreated, s8 bSetDest
             }
             ResourceManager::FreeResource_49C330(ppPathRes);
         }
-    }
+    }*/
+    ALIVE_FATAL("TODO");
 }
 
 void Path::Start_Sounds_For_Objects_In_Camera(CameraPos direction, s16 cam_x_idx, s16 cam_y_idx)

@@ -18,14 +18,14 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_BackgroundGlukkon, 0x20);
 class BackgroundGlukkon final : public BaseAliveGameObject
 {
 public:
-    BackgroundGlukkon(relive::Path_BackgroundGlukkon* pTlv, const TLVUniqueId& tlvId);
+    BackgroundGlukkon(relive::Path_BackgroundGlukkon* pTlv, const Guid& tlvId);
     ~BackgroundGlukkon();
 
     virtual void VScreenChanged() override;
     virtual s16 VTakeDamage(BaseGameObject* pFrom) override;
     virtual void VUpdate() override;
 
-    TLVUniqueId field_10C_tlvInfo = {};
+    Guid field_10C_tlvInfo;
     enum class State : s16
     {
         eToSetSpeakPauseTimer_0 = 0,

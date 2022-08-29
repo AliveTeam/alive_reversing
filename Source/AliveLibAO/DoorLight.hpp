@@ -29,7 +29,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_LightEffect, 0x20);
 class DoorLight final : public BaseAnimatedWithPhysicsGameObject
 {
 public:
-    DoorLight(relive::Path_LightEffect* pTlv, const TLVUniqueId& tlvId);
+    DoorLight(relive::Path_LightEffect* pTlv, const Guid& tlvId);
     ~DoorLight();
     
     virtual void VScreenChanged() override;
@@ -37,7 +37,7 @@ public:
     virtual void VRender(PrimHeader** ppOt) override;
 
 public:
-    TLVUniqueId field_E4_tlvInfo = {};
+    Guid field_E4_tlvInfo;
     s16 field_E8_width = 0;
     s16 field_EA_height = 0;
     s16 field_EC_bHasID = 0;

@@ -15,7 +15,7 @@ InvisibleSwitch::~InvisibleSwitch()
     Path::TLV_Reset(field_14_tlvInfo, -1, 0, 0);
 }
 
-InvisibleSwitch::InvisibleSwitch(relive::Path_InvisibleSwitch* pTlv, const TLVUniqueId& tlvId)
+InvisibleSwitch::InvisibleSwitch(relive::Path_InvisibleSwitch* pTlv, const Guid& tlvId)
     : BaseGameObject(TRUE, 0)
 {
     field_14_tlvInfo = tlvId;

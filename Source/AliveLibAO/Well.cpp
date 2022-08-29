@@ -193,7 +193,7 @@ void Well::WellLocal_Init(relive::Path_WellLocal* pTlv, FP /*xpos*/, FP ypos)
     }
 }
 
-Well::Well(relive::Path_WellBase* pTlv, FP xpos, FP ypos, const TLVUniqueId& tlvId)
+Well::Well(relive::Path_WellBase* pTlv, FP xpos, FP ypos, const Guid& tlvId)
 {
     mTlvInfo = tlvId;
     mBaseGameObjectTypeId = ReliveTypes::eWell;

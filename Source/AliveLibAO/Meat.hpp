@@ -23,13 +23,13 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_MeatSack, 0x24);
 class MeatSack final : public BaseAliveGameObject
 {
 public:
-    MeatSack(relive::Path_MeatSack* pTlv, const TLVUniqueId& tlvId);
+    MeatSack(relive::Path_MeatSack* pTlv, const Guid& tlvId);
     ~MeatSack();
     
     virtual void VScreenChanged() override;
     virtual void VUpdate() override;
 
-    TLVUniqueId field_10C_tlvInfo = {};
+    Guid field_10C_tlvInfo;
     s16 field_110_bDoMeatSackIdleAnim = 0;
     s16 field_112_num_items = 0;
     s16 field_114_bPlayWobbleSound = 0;

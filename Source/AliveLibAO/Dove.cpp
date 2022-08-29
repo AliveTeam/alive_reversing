@@ -20,7 +20,7 @@ static s32 sAbePortalTimer = 0;
 static s16 sAbePortalWidth = 30;
 static s16 sAbePortalDirection = -1;
 
-Dove::Dove(AnimId animId, const TLVUniqueId& tlvId, FP scale)
+Dove::Dove(AnimId animId, const Guid& tlvId, FP scale)
 {
     mBaseGameObjectTypeId = ReliveTypes::eBird;
     u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AO::AnimRec(animId).mResourceId, 1, 0);

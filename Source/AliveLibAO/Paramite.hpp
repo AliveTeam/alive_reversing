@@ -77,7 +77,7 @@ ALIVE_ASSERT_SIZEOF(Path_Paramite, 0x2C);
 class Paramite final : public BaseAliveGameObject
 {
 public:
-    Paramite(relive::Path_Paramite* pTlv, const TLVUniqueId& tlvId);
+    Paramite(relive::Path_Paramite* pTlv, const Guid& tlvId);
     ~Paramite();
 
     eParamiteMotions GetNextMotion() const
@@ -174,7 +174,7 @@ public:
     FP field_124_XSpeed = {};
     s16 field_128_never_read = 0;
     s16 field_12A_res_idx = 0;
-    TLVUniqueId field_12C_tlvInfo = {};
+    Guid field_12C_tlvInfo;
     s32 field_130_not_used = 0;
     s32 field_134_group_chase_delay = 0;
     s32 field_138_attack_timer = 0;

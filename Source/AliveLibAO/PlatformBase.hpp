@@ -16,7 +16,7 @@ public:
     virtual void VAdd(BaseAliveGameObject* pObj);
     virtual void VRemove(BaseAliveGameObject* pObj);
 
-    void AddDynamicCollision(AnimId animId, u8** ppAnimData, relive::Path_TLV* pTlv, Map* pMap, const TLVUniqueId& tlvId);
+    void AddDynamicCollision(AnimId animId, u8** ppAnimData, relive::Path_TLV* pTlv, Map* pMap, const Guid& tlvId);
     void SyncCollisionLinePosition();
     void KeepThingsOnPlatform(FP xpos);
 
@@ -29,7 +29,7 @@ public:
     s16 mPlatformBaseHeightOffset = 0;
     PathLine* mPlatformBaseCollisionLine = nullptr;
     Map* mPlatformBaseMap = nullptr;
-    TLVUniqueId mPlatformBaseTlvInfo = {};
+    Guid mPlatformBaseTlvInfo;
 };
 ALIVE_ASSERT_SIZEOF(PlatformBase, 0x12C);
 

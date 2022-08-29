@@ -17,7 +17,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_FlintLockFire, 0x1C);
 class FlintLockFire final : public BaseAnimatedWithPhysicsGameObject
 {
 public:
-    FlintLockFire(relive::Path_FlintLockFire* pTlv, const TLVUniqueId& tlvId);
+    FlintLockFire(relive::Path_FlintLockFire* pTlv, const Guid& tlvId);
     ~FlintLockFire();
 
     virtual void VStopAudio() override;
@@ -33,7 +33,7 @@ public:
     };
     States field_E4_state = States::eDisabled_0;
     s16 field_E6_switch_id = 0;
-    TLVUniqueId field_E8_tlvInfo = {};
+    Guid field_E8_tlvInfo;
     s32 field_EC_fire_sound = 0;
     Animation field_F0_anim;
     Animation field_188_anim;

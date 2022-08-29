@@ -24,7 +24,7 @@ BackgroundGlukkon::~BackgroundGlukkon()
     }
 }
 
-BackgroundGlukkon::BackgroundGlukkon(relive::Path_BackgroundGlukkon* pTlv, const TLVUniqueId& tlvId)
+BackgroundGlukkon::BackgroundGlukkon(relive::Path_BackgroundGlukkon* pTlv, const Guid& tlvId)
     : BaseAliveGameObject()
 {
     mBaseGameObjectTypeId = ReliveTypes::eBackgroundGlukkon;

@@ -15,7 +15,7 @@ struct Path_LCDStatusBoard final : public Path_TLV
 class LCDStatusBoard final : public BaseGameObject
 {
 public:
-    LCDStatusBoard(relive::Path_LCDStatusBoard* pTlv, const TLVUniqueId& tlvId);
+    LCDStatusBoard(relive::Path_LCDStatusBoard* pTlv, const Guid& tlvId);
     ~LCDStatusBoard();
 
     virtual void VScreenChanged() override;
@@ -26,7 +26,7 @@ public:
     AliveFont field_20_font1;
     AliveFont field_58_font2;
     AliveFont field_90_font3;
-    TLVUniqueId field_C8_tlv = {};
+    Guid field_C8_tlv;
     s16 field_CC_xpos = 0;
     s16 field_CE_ypos = 0;
 };

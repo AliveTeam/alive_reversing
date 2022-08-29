@@ -3772,7 +3772,7 @@ ALIVE_VAR(1, 0x4C52F4, u32, dword_4C52F4, 0x1C92C);
 ALIVE_VAR(1, 0x4C52F8, u32, dword_4C52F8, 0xC8);
 ALIVE_VAR(1, 0x4C52FA, s16, word_4C52FA, 0);
 
-void Elum::Spawn(const TLVUniqueId& tlvInfo)
+void Elum::Spawn(const Guid& tlvInfo)
 {
     anythingForTheTimeBeing struct1;
     anythingForTheTimeBeing struct2;
@@ -3786,7 +3786,7 @@ void Elum::Spawn(const TLVUniqueId& tlvInfo)
     relive_new Elum(dword_4C52F4, struct2, struct1, dword_4C52F8, tlvInfo);
 }
 
-Elum::Elum(s32, anythingForTheTimeBeing, anythingForTheTimeBeing, s32, const TLVUniqueId& tlvInfo)
+Elum::Elum(s32, anythingForTheTimeBeing, anythingForTheTimeBeing, s32, const Guid& tlvInfo)
     : BaseAliveGameObject()
 {
     mBaseGameObjectTypeId = ReliveTypes::eElum;

@@ -18,7 +18,7 @@
 
 namespace AO {
 
-SecurityOrb::SecurityOrb(relive::Path_SecurityOrb* pTlv, const TLVUniqueId& tlvId)
+SecurityOrb::SecurityOrb(relive::Path_SecurityOrb* pTlv, const Guid& tlvId)
     : BaseAliveGameObject()
 {
     mBaseGameObjectFlags.Set(Options::eCanExplode_Bit7);

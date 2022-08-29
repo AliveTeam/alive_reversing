@@ -36,7 +36,7 @@ const FallingItem_Data sFallingItemData_4BAB20[16] = {
     {AnimId::AO_FallingRock_Falling, AnimId::AO_FallingRock_Waiting, 76, 38}, // forest chase
     {AnimId::AO_FallingRock_Falling, AnimId::AO_FallingRock_Waiting, 76, 38}};// desert escape
 
-FallingItem::FallingItem(relive::Path_FallingItem* pTlv, const TLVUniqueId& tlvId)
+FallingItem::FallingItem(relive::Path_FallingItem* pTlv, const Guid& tlvId)
     : BaseAliveGameObject()
 {
     mBaseGameObjectFlags.Set(Options::eCanExplode_Bit7);

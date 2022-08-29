@@ -12,7 +12,7 @@
 
 namespace AO {
 
-UXB::UXB(relive::Path_UXB* pTlv, const TLVUniqueId& tlvId)
+UXB::UXB(relive::Path_UXB* pTlv, const Guid& tlvId)
     : BaseAliveGameObject()
 {
     mBaseGameObjectTypeId = ReliveTypes::eUXB;

@@ -19,7 +19,7 @@
 
 namespace AO {
 
-MeatSack::MeatSack(relive::Path_MeatSack* pTlv, const TLVUniqueId& tlvId)
+MeatSack::MeatSack(relive::Path_MeatSack* pTlv, const Guid& tlvId)
     : BaseAliveGameObject()
 {
     mBaseGameObjectTypeId = ReliveTypes::eMeatSack;

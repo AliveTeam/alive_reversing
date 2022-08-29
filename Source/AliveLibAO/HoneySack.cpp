@@ -13,7 +13,7 @@
 
 namespace AO {
 
-HoneySack::HoneySack(relive::Path_HoneySack* pTlv, const TLVUniqueId& tlvId)
+HoneySack::HoneySack(relive::Path_HoneySack* pTlv, const Guid& tlvId)
 {
     mBaseGameObjectTypeId = ReliveTypes::eHoneySack;
 

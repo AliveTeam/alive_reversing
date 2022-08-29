@@ -36,7 +36,7 @@ enum SecurityDoorStates : s16
 class SecurityDoor final : public BaseAnimatedWithPhysicsGameObject
 {
 public:
-    SecurityDoor(relive::Path_SecurityDoor* pTlv, const TLVUniqueId& tlvId);
+    SecurityDoor(relive::Path_SecurityDoor* pTlv, const Guid& tlvId);
     ~SecurityDoor();
 
     virtual void VUpdate() override;
@@ -44,7 +44,7 @@ public:
 
     bool IsPlayerNear();
 
-    TLVUniqueId field_E4_tlvInfo = {};
+    Guid field_E4_tlvInfo;
     s16 field_E8_state = 0;
     s16 field_EA_switch_id = 0;
     s32 field_EC_code_converted = 0;

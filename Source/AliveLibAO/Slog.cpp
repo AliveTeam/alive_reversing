@@ -105,7 +105,7 @@ static u8 Slog_NextRandom()
     return sRandomBytes_4BBE30[sSlogRndSeed_9F11C4++];
 }
 
-Slog::Slog(relive::Path_Slog* pTlv, const TLVUniqueId& tlvId)
+Slog::Slog(relive::Path_Slog* pTlv, const Guid& tlvId)
     : BaseAliveGameObject()
 {
     mXPos = FP_FromInteger(pTlv->mTopLeftX);

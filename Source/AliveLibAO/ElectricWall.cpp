@@ -14,7 +14,7 @@
 
 namespace AO {
 
-ElectricWall::ElectricWall(relive::Path_ElectricWall* pTlv, const TLVUniqueId& tlvId)
+ElectricWall::ElectricWall(relive::Path_ElectricWall* pTlv, const Guid& tlvId)
 {
     mBaseGameObjectTypeId = ReliveTypes::eElectricWall;
 

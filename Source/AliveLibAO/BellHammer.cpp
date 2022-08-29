@@ -11,7 +11,7 @@
 
 namespace AO {
 
-BellHammer::BellHammer(relive::Path_BellHammer* pTlv, const TLVUniqueId& tlvId)
+BellHammer::BellHammer(relive::Path_BellHammer* pTlv, const Guid& tlvId)
 {
     mBaseGameObjectTypeId = ReliveTypes::eBellHammer;
 
@@ -166,9 +166,7 @@ void BellHammer::VUpdate()
         if (mPendingResourceCount == 0)
         {
             mSpawnElum = false;
-            TLVUniqueId info;
-            info = mTlvInfo;
-            Elum::Spawn(info);
+            Elum::Spawn(mTlvInfo);
 
             PSX_Point mapCoords = {};
             gMap.GetCurrentCamCoords(&mapCoords);

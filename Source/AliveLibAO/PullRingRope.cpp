@@ -10,7 +10,7 @@
 
 namespace AO {
 
-PullRingRope::PullRingRope(relive::Path_PullRingRope* pTlv, const TLVUniqueId& tlvId)
+PullRingRope::PullRingRope(relive::Path_PullRingRope* pTlv, const Guid& tlvId)
 {
     mBaseGameObjectTypeId = ReliveTypes::ePullRingRope;
 

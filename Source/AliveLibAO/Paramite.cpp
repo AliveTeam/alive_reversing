@@ -100,7 +100,7 @@ const static Paramite::TParamiteBrain sParamiteBrainTable[]{
     &Paramite::Brain_5_SpottedMeat,
 };
 
-Paramite::Paramite(relive::Path_Paramite* pTlv, const TLVUniqueId& tlvId)
+Paramite::Paramite(relive::Path_Paramite* pTlv, const Guid& tlvId)
     : BaseAliveGameObject()
 {
     mBaseGameObjectTypeId = ReliveTypes::eParamite;

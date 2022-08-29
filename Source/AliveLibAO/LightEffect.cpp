@@ -10,7 +10,7 @@
 
 namespace AO {
 
-LightEffect::LightEffect(relive::Path_LightEffect* pTlv, const TLVUniqueId& tlvId)
+LightEffect::LightEffect(relive::Path_LightEffect* pTlv, const Guid& tlvId)
 {
     mBaseGameObjectTypeId = ReliveTypes::eNone;
     field_E4_tlvInfo = tlvId;

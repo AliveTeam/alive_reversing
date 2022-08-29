@@ -50,7 +50,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Lever, 0x24);
 class Lever final : public BaseAnimatedWithPhysicsGameObject
 {
 public:
-    Lever(relive::Path_Lever* pTlv, const TLVUniqueId& tlvId);
+    Lever(relive::Path_Lever* pTlv, const Guid& tlvId);
     ~Lever();
 
     virtual void VScreenChanged() override;
@@ -61,7 +61,7 @@ public:
 
     s16 mSwitchId = 0;
     LeverState mState = LeverState::eWaiting_0;
-    TLVUniqueId mTlvInfo = {};
+    Guid mTlvInfo;
     s16 field_F0_bPulledFromLeft = 0;
     relive::reliveSwitchOp mAction = relive::reliveSwitchOp::eSetTrue;
     relive::Path_Lever::LeverSoundType mOnSound = relive::Path_Lever::LeverSoundType::eNone;

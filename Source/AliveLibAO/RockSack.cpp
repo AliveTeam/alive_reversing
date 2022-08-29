@@ -107,7 +107,7 @@ RockSack::~RockSack()
     Path::TLV_Reset(field_10C_tlvInfo, -1, 0, 0);
 }
 
-RockSack::RockSack(relive::Path_RockSack* pTlv, const TLVUniqueId& tlvId)
+RockSack::RockSack(relive::Path_RockSack* pTlv, const Guid& tlvId)
     : BaseAliveGameObject()
 {
     mBaseGameObjectTypeId = ReliveTypes::eRockSack;

@@ -27,7 +27,7 @@ const TintEntry kMovingBombTints_4CD310[4] = {
 
 ALIVE_VAR(1, 0x507B8C, MovingBomb*, gMovingBomb_507B8C, nullptr);
 
-MovingBomb::MovingBomb(relive::Path_MovingBomb* pTlv, const TLVUniqueId& tlvId)
+MovingBomb::MovingBomb(relive::Path_MovingBomb* pTlv, const Guid& tlvId)
     : BaseAliveGameObject()
 {
     mBaseGameObjectFlags.Set(Options::eCanExplode_Bit7);

@@ -22,13 +22,13 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_RollingBallStopper, 0x20);
 class RollingBallStopper final : public BaseAliveGameObject
 {
 public:
-    RollingBallStopper(relive::Path_RollingBallStopper* pTlv, const TLVUniqueId& tlvId);
+    RollingBallStopper(relive::Path_RollingBallStopper* pTlv, const Guid& tlvId);
     ~RollingBallStopper();
 
     virtual void VUpdate() override;
     virtual void VScreenChanged() override;
 
-    TLVUniqueId mTlvInfo = {};
+    Guid mTlvInfo;
     enum class States : s16
     {
         eWaitForTrigger,

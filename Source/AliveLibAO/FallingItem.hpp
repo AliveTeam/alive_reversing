@@ -31,7 +31,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_FallingItem, 0x24);
 class FallingItem final : public BaseAliveGameObject
 {
 public:
-    FallingItem(relive::Path_FallingItem* pTlv, const TLVUniqueId& tlvId);
+    FallingItem(relive::Path_FallingItem* pTlv, const Guid& tlvId);
     ~FallingItem();
 
     virtual void VScreenChanged() override;
@@ -51,7 +51,7 @@ private:
     };
 
 public:
-    TLVUniqueId field_10C_tlvInfo = {};
+    Guid field_10C_tlvInfo;
     State field_110_state = State::eWaitForIdEnable_0;
     u16 field_112_switch_id = 0;
     s16 mMaxFallingItems = 0;

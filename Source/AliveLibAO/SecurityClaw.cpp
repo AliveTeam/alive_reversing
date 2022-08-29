@@ -47,7 +47,7 @@ void Claw::VScreenChanged()
     // Keep alive as the Claw is owned by the SecurityClaw
 }
 
-SecurityClaw::SecurityClaw(relive::Path_SecurityClaw* pTlv, const TLVUniqueId& tlvId)
+SecurityClaw::SecurityClaw(relive::Path_SecurityClaw* pTlv, const Guid& tlvId)
     : BaseAliveGameObject()
 {
     mBaseGameObjectTypeId = ReliveTypes::eSecurityClaw;

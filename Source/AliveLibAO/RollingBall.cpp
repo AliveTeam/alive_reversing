@@ -41,7 +41,7 @@ RollingBall::~RollingBall()
     ResourceManager::FreeResource_455550(pRes);
 }
 
-RollingBall::RollingBall(relive::Path_RollingBall* pTlv, const TLVUniqueId& tlvId)
+RollingBall::RollingBall(relive::Path_RollingBall* pTlv, const Guid& tlvId)
     : BaseAliveGameObject()
 {
     mBaseGameObjectTypeId = ReliveTypes::eRollingBall;

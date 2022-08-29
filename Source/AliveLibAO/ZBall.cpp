@@ -41,7 +41,7 @@ s32 Animation_OnFrame_ZBallSmacker(BaseGameObject* pObj, s16* pData)
     return 2;
 }
 
-ZBall::ZBall(relive::Path_ZBall* pTlv, const TLVUniqueId& tlvId)
+ZBall::ZBall(relive::Path_ZBall* pTlv, const Guid& tlvId)
 {
     mBaseGameObjectTypeId = ReliveTypes::eZBall;
 

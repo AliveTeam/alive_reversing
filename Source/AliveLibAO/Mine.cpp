@@ -13,7 +13,7 @@ namespace AO {
 
 ALIVE_VAR(1, 0x507B88, Mine*, sMinePlayingSound_507B88, nullptr);
 
-Mine::Mine(relive::Path_Mine* pTlv, const TLVUniqueId& tlvId)
+Mine::Mine(relive::Path_Mine* pTlv, const Guid& tlvId)
     : BaseAliveGameObject()
 {
     mBaseGameObjectTypeId = ReliveTypes::eMine;

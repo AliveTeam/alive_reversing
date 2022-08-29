@@ -19,7 +19,7 @@ const TintEntry kTimedMineTints_4C3140[3] = {
     {EReliveLevelIds::eNone, 127u, 127u, 127u},
 };
 
-TimedMine::TimedMine(relive::Path_TimedMine* pTlv, const TLVUniqueId& tlvId)
+TimedMine::TimedMine(relive::Path_TimedMine* pTlv, const Guid& tlvId)
     : BaseAliveGameObject()
 {
     mBaseGameObjectTypeId = ReliveTypes::eTimedMine;

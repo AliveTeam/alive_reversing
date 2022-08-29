@@ -10,7 +10,7 @@
 
 namespace AO {
 
-RollingBallStopper::RollingBallStopper(relive::Path_RollingBallStopper* pTlv, const TLVUniqueId& tlvId)
+RollingBallStopper::RollingBallStopper(relive::Path_RollingBallStopper* pTlv, const Guid& tlvId)
     : BaseAliveGameObject()
 {
     mBaseGameObjectTypeId = ReliveTypes::eRollingBallStopper;

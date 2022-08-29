@@ -10,7 +10,7 @@
 
 namespace AO {
 
-FootSwitch::FootSwitch(relive::Path_FootSwitch* pTlv, const TLVUniqueId& tlvId)
+FootSwitch::FootSwitch(relive::Path_FootSwitch* pTlv, const Guid& tlvId)
 {
     mBaseGameObjectTypeId = ReliveTypes::eFootSwitch;
 

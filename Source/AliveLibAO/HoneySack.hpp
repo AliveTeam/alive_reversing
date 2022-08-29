@@ -19,14 +19,14 @@ class BeeSwarm;
 class HoneySack final : public BaseAnimatedWithPhysicsGameObject
 {
 public:
-    HoneySack(relive::Path_HoneySack* pTlv, const TLVUniqueId& tlvId);
+    HoneySack(relive::Path_HoneySack* pTlv, const Guid& tlvId);
     ~HoneySack();
 
     virtual void VScreenChanged() override;
     virtual void VOnThrowableHit(BaseGameObject* pFrom) override;
     virtual void VUpdate() override;
 
-    TLVUniqueId mTlvInfo = {};
+    Guid mTlvInfo;
     enum class State : s16
     {
         eDripHoney_0 = 0,

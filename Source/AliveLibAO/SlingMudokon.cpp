@@ -46,7 +46,7 @@ const TSlingMudBrain gSlingMudBrainTable_4CFCE0[] = {
     &SlingMudokon::Brain_1_Spawn,
     &SlingMudokon::Brain_2_AskForPassword};
 
-SlingMudokon::SlingMudokon(relive::Path_SlingMudokon* pTlv, const TLVUniqueId& tlvId)
+SlingMudokon::SlingMudokon(relive::Path_SlingMudokon* pTlv, const Guid& tlvId)
     : BaseAliveGameObject()
 {
     mBaseGameObjectTypeId = ReliveTypes::SlingMud;

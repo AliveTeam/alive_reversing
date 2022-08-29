@@ -76,7 +76,7 @@ FlintLockFire::~FlintLockFire()
     }
 }
 
-FlintLockFire::FlintLockFire(relive::Path_FlintLockFire* pTlv, const TLVUniqueId& tlvId)
+FlintLockFire::FlintLockFire(relive::Path_FlintLockFire* pTlv, const Guid& tlvId)
 {
     mBaseGameObjectTypeId = ReliveTypes::eFlintLockFire;
 

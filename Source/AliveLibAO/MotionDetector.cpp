@@ -20,7 +20,7 @@ namespace AO {
 #undef min
 #undef max
 
-MotionDetector::MotionDetector(relive::Path_MotionDetector* pTlv, const TLVUniqueId& tlvId)
+MotionDetector::MotionDetector(relive::Path_MotionDetector* pTlv, const Guid& tlvId)
 {
     mBaseGameObjectTypeId = ReliveTypes::eMotionDetector;
     const AnimRecord rec = AO::AnimRec(AnimId::MotionDetector_Flare);

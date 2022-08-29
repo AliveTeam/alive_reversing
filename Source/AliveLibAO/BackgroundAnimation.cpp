@@ -20,7 +20,7 @@ void BackgroundAnimation::VStopAudio()
     }
 }
 
-BackgroundAnimation::BackgroundAnimation(relive::Path_BackgroundAnimation* pTlv, const TLVUniqueId& tlvId)
+BackgroundAnimation::BackgroundAnimation(relive::Path_BackgroundAnimation* pTlv, const Guid& tlvId)
 {
     mBaseGameObjectTypeId = ReliveTypes::eBackgroundAnimation;
     mTlvInfo = tlvId;

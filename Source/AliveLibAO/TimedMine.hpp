@@ -26,7 +26,7 @@ enum TimedMineFlags
 class TimedMine final : public BaseAliveGameObject
 {
 public:
-    TimedMine(relive::Path_TimedMine* pTlv, const TLVUniqueId& tlvId);
+    TimedMine(relive::Path_TimedMine* pTlv, const Guid& tlvId);
     ~TimedMine();
     
     virtual void VScreenChanged() override;
@@ -41,7 +41,7 @@ public:
 public:
     s16 mSlappedMine = 0;
     u16 mTicksUntilExplosion = 0;
-    TLVUniqueId mTlvInfo = {};
+    Guid mTlvInfo;
     s32 mExplosionTimer = 0;
     Animation mTickAnim = {};
     s32 mOldGnFrame = 0;

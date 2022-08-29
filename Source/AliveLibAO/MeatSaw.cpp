@@ -31,7 +31,7 @@ MeatSaw::~MeatSaw()
     ResourceManager::FreeResource_455550(ppRes);
 }
 
-MeatSaw::MeatSaw(relive::Path_MeatSaw* pTlv, const TLVUniqueId& tlvId)
+MeatSaw::MeatSaw(relive::Path_MeatSaw* pTlv, const Guid& tlvId)
 {
     mBaseGameObjectTypeId = ReliveTypes::eMeatSaw;
 

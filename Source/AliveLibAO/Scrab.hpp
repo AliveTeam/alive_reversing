@@ -103,7 +103,7 @@ enum class ScrabSounds : u8
 class Scrab final : public BaseAliveGameObject
 {
 public:
-    Scrab(relive::Path_Scrab* pTlv, const TLVUniqueId& tlvId);
+    Scrab(relive::Path_Scrab* pTlv, const Guid& tlvId);
     ~Scrab();
 
     virtual void VRender(PrimHeader** ppOt) override;
@@ -191,7 +191,7 @@ public:
     FP field_12C = {};
     s16 field_130_unused = 0;
     s16 field_132_res_block_idx = 0;
-    TLVUniqueId field_134_tlvInfo = {};
+    Guid field_134_tlvInfo;
     s32 field_138_spotting_abe_delay = 0;
     s32 field_13C_spotting_timer = 0;
     s32 field_140_last_shriek_timer = 0;

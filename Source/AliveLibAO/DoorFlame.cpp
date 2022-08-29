@@ -318,7 +318,7 @@ DoorFlame::~DoorFlame()
     Path::TLV_Reset(mTlvInfo, -1, 0, 0);
 }
 
-DoorFlame::DoorFlame(relive::Path_DoorFlame* pTlv, const TLVUniqueId& tlvId)
+DoorFlame::DoorFlame(relive::Path_DoorFlame* pTlv, const Guid& tlvId)
 {
     mBaseGameObjectTypeId = ReliveTypes::eNone;
     mTlvInfo = tlvId;

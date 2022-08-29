@@ -42,7 +42,7 @@ const TrapDoor_Data sTrapDoorData_4BD4A0[16] = {
     {AnimId::Desert_TrapDoor_Open, AnimId::Desert_TrapDoor_Closed, AnimId::Desert_TrapDoor_Opening, AnimId::Desert_TrapDoor_Closing}}; // desert escape
 
 
-TrapDoor::TrapDoor(relive::Path_TrapDoor* pTlv, Map* pMap, const TLVUniqueId& tlvId)
+TrapDoor::TrapDoor(relive::Path_TrapDoor* pTlv, Map* pMap, const Guid& tlvId)
 {
     mBaseGameObjectTypeId = ReliveTypes::eTrapDoor;
     mSwitchId = pTlv->mSwitchId;

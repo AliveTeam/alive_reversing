@@ -59,7 +59,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Door, 0x48);
 class Door final : public BaseAnimatedWithPhysicsGameObject
 {
 public:
-    Door(relive::Path_Door* pTlv, const TLVUniqueId& tlvId);
+    Door(relive::Path_Door* pTlv, const Guid& tlvId);
     ~Door();
 
     virtual void VScreenChanged() override;
@@ -72,7 +72,7 @@ public:
     void vSetClosed();
     void PlaySound();
 
-    TLVUniqueId mTlvInfo = {};
+    Guid mTlvInfo;
     relive::Path_Door::DoorTypes mDoorType = relive::Path_Door::DoorTypes::eBasicDoor;
     s16 mDoorId = 0;
     DoorStates field_EC_current_state = DoorStates::eOpen_0;

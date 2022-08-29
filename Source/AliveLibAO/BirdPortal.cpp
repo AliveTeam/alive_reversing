@@ -150,7 +150,7 @@ BirdPortal::~BirdPortal()
     }
 }
 
-BirdPortal::BirdPortal(relive::Path_BirdPortal* pTlv, const TLVUniqueId& tlvId)
+BirdPortal::BirdPortal(relive::Path_BirdPortal* pTlv, const Guid& tlvId)
     : BaseGameObject(TRUE, 0)
 {
     mBaseGameObjectTypeId = ReliveTypes::eBirdPortal;

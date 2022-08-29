@@ -21,7 +21,7 @@ TimerTrigger::~TimerTrigger()
     Path::TLV_Reset(mTlvInfo, -1, 0, 0);
 }
 
-TimerTrigger::TimerTrigger(relive::Path_TimerTrigger* pTlv, const TLVUniqueId& tlvId)
+TimerTrigger::TimerTrigger(relive::Path_TimerTrigger* pTlv, const Guid& tlvId)
     : BaseGameObject(TRUE, 0)
 {
     mTlvInfo = tlvId;

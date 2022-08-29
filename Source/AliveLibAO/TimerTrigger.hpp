@@ -20,7 +20,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_TimerTrigger, 0x24);
 class TimerTrigger final : public BaseGameObject
 {
 public:
-    TimerTrigger(relive::Path_TimerTrigger* pTlv, const TLVUniqueId& tlvId);
+    TimerTrigger(relive::Path_TimerTrigger* pTlv, const Guid& tlvId);
     ~TimerTrigger();
 
     virtual void VScreenChanged() override;
@@ -39,7 +39,7 @@ public:
     };
     State mState = State::eWaitForEnabled_0;
     s16 mOutputSwitchIds[4] = {};
-    TLVUniqueId mTlvInfo = {};
+    Guid mTlvInfo;
     s32 mActivationDelayTimer = 0;
     s32 mActivationDelay = 0;
     s16 mStartingSwitchState = 0;

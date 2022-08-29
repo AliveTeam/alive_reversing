@@ -14,7 +14,7 @@ void PlatformBase::VRemove(BaseAliveGameObject* pObj)
     LOG_INFO("Remove " << (u64) pObj << " count " << mPlatformBaseCount << " gnFrame " << sGnFrame);
 }
 
-void PlatformBase::AddDynamicCollision(AnimId animId, u8** ppAnimData, relive::Path_TLV* pTlv, Map* pMap, const TLVUniqueId& tlvId)
+void PlatformBase::AddDynamicCollision(AnimId animId, u8** ppAnimData, relive::Path_TLV* pTlv, Map* pMap, const Guid& tlvId)
 {
     mXPos = FP_FromInteger(pTlv->mTopLeftX);
     mYPos = FP_FromInteger(pTlv->mTopLeftY);

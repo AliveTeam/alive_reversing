@@ -36,13 +36,13 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_DoorFlame, 0x20);
 class DoorFlame final : public BaseAnimatedWithPhysicsGameObject
 {
 public:
-    DoorFlame(relive::Path_DoorFlame* pTlv, const TLVUniqueId& tlvId);
+    DoorFlame(relive::Path_DoorFlame* pTlv, const Guid& tlvId);
     ~DoorFlame();
 
     virtual void VStopAudio() override;
     virtual void VUpdate() override;
 
-    TLVUniqueId mTlvInfo = {};
+    Guid mTlvInfo;
     s16 mSwitchId = 0;
     s16 mFrameCount = 0;
     enum class States : u16

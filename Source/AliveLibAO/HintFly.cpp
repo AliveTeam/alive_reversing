@@ -1348,7 +1348,7 @@ static u8 HintFly_NextRandom()
     return sRandomBytes_4BBE30[sHintFlyRndSeed_4C6AA4++];
 }
 
-HintFly::HintFly(relive::Path_HintFly* pTlv, const TLVUniqueId& tlvId)
+HintFly::HintFly(relive::Path_HintFly* pTlv, const Guid& tlvId)
 {
     field_E4_ppRes = nullptr;
 

@@ -283,7 +283,7 @@ void Slig::Slig_SoundEffect_46F310(SligSfx sfxIdx)
     SFX_SfxDefinition_Play_477330(&sSligSounds_4CFB30[sfxIdxInt], static_cast<s16>(volLeft), static_cast<s16>(volRight), pitch, pitch);
 }
 
-Slig::Slig(relive::Path_Slig* pTlv, const TLVUniqueId& tlvId)
+Slig::Slig(relive::Path_Slig* pTlv, const Guid& tlvId)
     : BaseAliveGameObject()
 {
     field_15C_last_event_index = -1;

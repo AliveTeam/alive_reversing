@@ -67,7 +67,7 @@ const AnimId sDoorAnimdIdTable[16][6] = {
     {AnimId::Door_Forest_Closed, AnimId::Door_Forest_Open, AnimId::HubDoor_Forest_Closed, AnimId::HubDoor_Forest_Open, AnimId::FinalTestDoor_Forest_Closed, AnimId::FinalTestDoor_Forest_Open}, // forest chase
     {AnimId::Door_Desert_Closed, AnimId::Door_Desert_Open, AnimId::HubDoor_Desert_Closed, AnimId::HubDoor_Desert_Open, AnimId::FinalTestDoor_Desert_Closed, AnimId::FinalTestDoor_Desert_Open}}; // desert escape
 
-Door::Door(relive::Path_Door* pTlv, const TLVUniqueId& tlvId)
+Door::Door(relive::Path_Door* pTlv, const Guid& tlvId)
 {
     mBaseGameObjectTypeId = ReliveTypes::eDoor;
 

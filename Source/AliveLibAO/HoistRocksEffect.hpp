@@ -45,7 +45,7 @@ ALIVE_ASSERT_SIZEOF(HoistParticle, 0xE8);
 class HoistRocksEffect final : public BaseGameObject
 {
 public:
-    HoistRocksEffect(relive::Path_Hoist* pTlv, const TLVUniqueId& tlvInfo);
+    HoistRocksEffect(relive::Path_Hoist* pTlv, const Guid& tlvInfo);
     ~HoistRocksEffect();
 
     virtual void VScreenChanged() override;
@@ -53,7 +53,7 @@ public:
 
     FP field_10_xpos = {};
     FP field_14_ypos = {};
-    TLVUniqueId field_18_tlvInfo = {};
+    Guid field_18_tlvInfo;
     s32 field_1C_never_used[4] = {};
 };
 ALIVE_ASSERT_SIZEOF(HoistRocksEffect, 0x2C);

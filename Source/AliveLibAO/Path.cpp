@@ -6,7 +6,7 @@
 #include "ResourceManager.hpp"
 
 namespace AO {
-void Path::TLV_Reset(const TLVUniqueId& tlvId, s16 hiFlags, s8 bSetCreated, s8 bSetDestroyed)
+void Path::TLV_Reset(const Guid& tlvId, s16 hiFlags, s8 bSetCreated, s8 bSetDestroyed)
 {
     if (tlvId.levelId == gMap.mCurrentLevel)
     {

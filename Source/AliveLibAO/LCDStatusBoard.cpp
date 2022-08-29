@@ -55,7 +55,7 @@ LCDStatusBoard::~LCDStatusBoard()
     Path::TLV_Reset(field_C8_tlv, -1, 0, 0);
 }
 
-LCDStatusBoard::LCDStatusBoard(relive::Path_LCDStatusBoard* pTlv, const TLVUniqueId& tlvId)
+LCDStatusBoard::LCDStatusBoard(relive::Path_LCDStatusBoard* pTlv, const Guid& tlvId)
     : BaseGameObject(TRUE, 0)
 {
     field_C8_tlv = tlvId;

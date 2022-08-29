@@ -151,7 +151,7 @@ BoomMachine::~BoomMachine()
     Path::TLV_Reset(field_E4_tlvInfo, -1, 0, 0);
 }
 
-BoomMachine::BoomMachine(relive::Path_BoomMachine* pTlv, const TLVUniqueId& tlvId)
+BoomMachine::BoomMachine(relive::Path_BoomMachine* pTlv, const Guid& tlvId)
 {
     mBaseGameObjectTypeId = ReliveTypes::eBoomMachine;
 

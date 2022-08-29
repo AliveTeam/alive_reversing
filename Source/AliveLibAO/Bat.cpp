@@ -14,7 +14,7 @@
 
 namespace AO {
 
-Bat::Bat(relive::Path_Bat* pTlv, const TLVUniqueId& tlvId)
+Bat::Bat(relive::Path_Bat* pTlv, const Guid& tlvId)
 {
     mBaseGameObjectTypeId = ReliveTypes::eBat;
 
