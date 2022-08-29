@@ -9,6 +9,8 @@
 #include "../../AliveLibCommon/stdafx_common.h"
 #include "../../AliveLibCommon/logger.hpp"
 
+#include "../../relive_lib/data_conversion/guid.hpp"
+
 #include "LvlReaderWriter.hpp"
 #include "CamConverter.hpp"
 #include "JsonModelTypes.hpp"
@@ -96,6 +98,64 @@ TEST(json_upgrade, upgrade_rename_structure)
     newJson << upgradedJson;
 }
 */
+
+TEST(guid, guid)
+{
+    {
+        const Guid guid;
+        ASSERT_FALSE(guid.IsValid());
+    }
+
+    {
+        const Guid guid = Guid::NewGuid();
+        ASSERT_TRUE(guid.IsValid());
+    }
+
+    {
+        const Guid default1;
+        const Guid default2;
+
+        ASSERT_TRUE(default1 == default2);
+        ASSERT_FALSE(default1 != default2);
+
+        const Guid guid1 = Guid::NewGuid();
+        const Guid guid2 = Guid::NewGuid();
+        ASSERT_FALSE(guid1 == guid2);
+        ASSERT_TRUE(guid1 != guid2);
+
+    }
+
+    {
+        union TlvInfo
+        {
+            // When converted from an OG lvl we keep the original TLV info in the first 32 bits
+            // as this allows us to convert saves as they containing TLV info records
+            Guid::TlvOffsetLevelIdPathId mTlvInfo;
+            u32 mData;
+        };
+
+        TlvInfo info;
+        info.mData = 0;
+        info.mTlvInfo.tlvOffset = 0xAABB;
+        info.mTlvInfo.pathId = 0xCC;
+        info.mTlvInfo.levelId = 0xDD;
+        const Guid guid = Guid::NewGuidFromTlvInfo(info.mData);
+        ASSERT_TRUE(guid.IsValid());
+
+        ASSERT_STREQ("{CCDDAABB-00000000-00000000-00000000}", guid.ToString().c_str());
+
+        Guid fromStringGuid = Guid::FromString(guid.ToString());
+        ASSERT_STREQ("{CCDDAABB-00000000-00000000-00000000}", fromStringGuid.ToString().c_str());
+
+     
+    }
+
+    {
+        Guid guid = Guid::FromString("{DEADBEEF-CAFEBABE-12345678-ABCDEF99}");
+        ASSERT_STREQ("{DEADBEEF-CAFEBABE-12345678-ABCDEF99}", guid.ToString().c_str());
+
+    }
+}
 
 class ArgsAdapter
 {

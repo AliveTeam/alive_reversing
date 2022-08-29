@@ -137,25 +137,25 @@
 // Convert an AO or AE TLV to a relive TLV
 
 namespace relive {
-    inline void BaseConvert(relive::Path_TLV& r, const AO::Path_TLV& base)
+inline void BaseConvert(relive::Path_TLV& r, const AO::Path_TLV& base, const Guid& tlvId)
     {
+        r.mId = tlvId;
         r.mTopLeftX = base.mTopLeft.x;
         r.mTopLeftY = base.mTopLeft.y;
         r.mBottomRightX = base.mBottomRight.x;
         r.mBottomRightY = base.mBottomRight.y;
         r.mTlvSpecificMeaning = base.mTlvSpecificMeaning;
-       // r.mTlvType = static_cast<s32>(base.mTlvType32.mType);
         r.mTlvFlags.Raw().all = base.mTlvFlags.Raw().all;
     }
 
-    inline void BaseConvert(relive::Path_TLV& r, const ::Path_TLV& base)
+    inline void BaseConvert(relive::Path_TLV& r, const ::Path_TLV& base, const Guid& tlvId)
     {
+        r.mId = tlvId;
         r.mTopLeftX = base.mTopLeft.x;
         r.mTopLeftY = base.mTopLeft.y;
         r.mBottomRightX = base.mBottomRight.x;
         r.mBottomRightY = base.mBottomRight.y;
         r.mTlvSpecificMeaning = base.mTlvSpecificMeaning;
-       // r.mTlvType = static_cast<s32>(base.mTlvType32.mType);
         r.mTlvFlags.Raw().all = base.mTlvFlags.Raw().all;
     }
 
@@ -299,19 +299,19 @@ namespace relive {
 class Path_ShadowZone_Converter final
 {
 public:
-    static Path_ShadowZone From(const AO::Path_ShadowZone& tlv)
+    static Path_ShadowZone From(const AO::Path_ShadowZone& tlv, const Guid& tlvId)
     {
         Path_ShadowZone r;
-        BaseConvert(r, tlv);
+        BaseConvert(r, tlv, tlvId);
         r.mRGB.SetRGB(tlv.mRed, tlv.mGreen, tlv.mBlue);
         r.mScale = From(tlv.mScale);
         return r;
     }
 
-    static Path_ShadowZone From(const ::Path_ShadowZone& tlv)
+    static Path_ShadowZone From(const ::Path_ShadowZone& tlv, const Guid& tlvId)
     {
         Path_ShadowZone r;
-        BaseConvert(r, tlv);
+        BaseConvert(r, tlv, tlvId);
         r.mRGB.SetRGB(tlv.mRed, tlv.mGreen, tlv.mBlue);
         r.mScale = From(tlv.mScale);
         return r;
@@ -350,19 +350,19 @@ private:
 class Path_SecurityOrb_Converter final
 {
 public:
-    static Path_SecurityOrb From(const AO::Path_SecurityOrb& tlv)
+    static Path_SecurityOrb From(const AO::Path_SecurityOrb& tlv, const Guid& tlvId)
     {
         Path_SecurityOrb r;
-        BaseConvert(r, tlv);
+        BaseConvert(r, tlv, tlvId);
         r.mScale = relive::From(tlv.mScale);
         r.mDisabledResources = tlv.mDisabledResources;
         return r;
     }
 
-    static Path_SecurityOrb From(const ::Path_SecurityOrb& tlv)
+    static Path_SecurityOrb From(const ::Path_SecurityOrb& tlv, const Guid& tlvId)
     {
         Path_SecurityOrb r;
-        BaseConvert(r, tlv);
+        BaseConvert(r, tlv, tlvId);
         r.mScale = relive::From(tlv.mScale);
         r.mDisabledResources = tlv.mDisabledResources;
         return r;
@@ -372,10 +372,10 @@ public:
 class Path_ContinuePoint_Converter final
 {
 public:
-    static Path_ContinuePoint From(const AO::Path_ContinuePoint& tlv)
+    static Path_ContinuePoint From(const AO::Path_ContinuePoint& tlv, const Guid& tlvId)
     {
         Path_ContinuePoint r;
-        BaseConvert(r, tlv);
+        BaseConvert(r, tlv, tlvId);
         r.mZoneNumber = tlv.mZoneNumber;
         r.mClearFromId = tlv.mClearFromId;
         r.mClearToId = tlv.mClearToId;
@@ -384,10 +384,10 @@ public:
         return r;
     }
 
-    static Path_ContinuePoint From(const ::Path_ContinuePoint& tlv)
+    static Path_ContinuePoint From(const ::Path_ContinuePoint& tlv, const Guid& tlvId)
     {
         Path_ContinuePoint r;
-        BaseConvert(r, tlv);
+        BaseConvert(r, tlv, tlvId);
         r.mScale = From(tlv.mScale);
         r.mSaveFileId = tlv.mSaveFileId;
         return r;
@@ -424,10 +424,10 @@ private:
 class Path_LiftPoint_Converter final
 {
 public:
-    static Path_LiftPoint From(const AO::Path_LiftPoint& tlv)
+    static Path_LiftPoint From(const AO::Path_LiftPoint& tlv, const Guid& tlvId)
     {
         Path_LiftPoint r;
-        BaseConvert(r, tlv);
+        BaseConvert(r, tlv, tlvId);
         r.mLiftPointId = tlv.mLiftPointId;
         r.mIsStartPoint = relive::From(tlv.mIsStartPoint);
         r.mLiftPointStopType = From(tlv.mLiftPointStopType);
@@ -436,10 +436,10 @@ public:
         return r;
     }
 
-    static Path_LiftPoint From(const ::Path_LiftPoint& tlv)
+    static Path_LiftPoint From(const ::Path_LiftPoint& tlv, const Guid& tlvId)
     {
         Path_LiftPoint r;
-        BaseConvert(r, tlv);
+        BaseConvert(r, tlv, tlvId);
         r.mLiftPointId = tlv.mLiftPointId;
         r.mIsStartPoint = relive::From(tlv.mIsStartPoint);
         r.mLiftPointStopType = From(tlv.mLiftPointStopType);
@@ -489,20 +489,20 @@ private:
 class Path_Dove_Converter final
 {
 public:
-    static Path_Dove From(const AO::Path_Dove& tlv)
+    static Path_Dove From(const AO::Path_Dove& tlv, const Guid& tlvId)
     {
         Path_Dove r;
-        BaseConvert(r, tlv);
+        BaseConvert(r, tlv, tlvId);
         r.mDoveCount = tlv.mDoveCount;
         r.mPixelPerfect = relive::From(tlv.mPixelPerfect);
         r.mScale = relive::From(tlv.mScale);
         return r;
     }
 
-    static Path_Dove From(const ::Path_Dove& tlv)
+    static Path_Dove From(const ::Path_Dove& tlv, const Guid& tlvId)
     {
         Path_Dove r;
-        BaseConvert(r, tlv);
+        BaseConvert(r, tlv, tlvId);
         r.mDoveCount = tlv.mDoveCount;
         r.mPixelPerfect = relive::From(tlv.mPixelPerfect);
         r.mScale = relive::From(tlv.mScale);
@@ -513,10 +513,10 @@ public:
 class Path_RockSack_Converter final
 {
 public:
-    static Path_RockSack From(const AO::Path_RockSack& tlv)
+    static Path_RockSack From(const AO::Path_RockSack& tlv, const Guid& tlvId)
     {
         Path_RockSack r;
-        BaseConvert(r, tlv);
+        BaseConvert(r, tlv, tlvId);
         r.mRockFallDirection = relive::From(tlv.mRockFallDirection);
         r.mVelX = tlv.mVelX;
         r.mVelY = tlv.mVelY;
@@ -525,10 +525,10 @@ public:
         return r;
     }
 
-    static Path_RockSack From(const ::Path_RockSack& tlv)
+    static Path_RockSack From(const ::Path_RockSack& tlv, const Guid& tlvId)
     {
         Path_RockSack r;
-        BaseConvert(r, tlv);
+        BaseConvert(r, tlv, tlvId);
         r.mRockFallDirection = relive::From(tlv.mRockFallDirection);
         r.mVelX = tlv.mVelX;
         r.mVelY = tlv.mVelY;
@@ -541,10 +541,10 @@ public:
 class Path_ZBall_Converter final
 {
 public:
-    static Path_ZBall From(const AO::Path_ZBall& tlv)
+    static Path_ZBall From(const AO::Path_ZBall& tlv, const Guid& tlvId)
     {
         Path_ZBall r;
-        BaseConvert(r, tlv);
+        BaseConvert(r, tlv, tlvId);
         r.mStartPos = From(tlv.mStartPos);
         r.mScale = relive::From(tlv.mScale);
         r.mSpeed = From(tlv.mSpeed);
@@ -584,10 +584,10 @@ private:
 class Path_FallingItem_Converter final
 {
 public:
-    static Path_FallingItem From(const AO::Path_FallingItem& tlv)
+    static Path_FallingItem From(const AO::Path_FallingItem& tlv, const Guid& tlvId)
     {
         Path_FallingItem r;
-        BaseConvert(r, tlv);
+        BaseConvert(r, tlv, tlvId);
         r.mSwitchId = tlv.mSwitchId;
         r.mScale = relive::From(tlv.mScale);
         r.mFallInterval = tlv.mFallInterval;
@@ -596,10 +596,10 @@ public:
         return r;
     }
 
-    static Path_FallingItem From(const ::Path_FallingItem& tlv)
+    static Path_FallingItem From(const ::Path_FallingItem& tlv, const Guid& tlvId)
     {
         Path_FallingItem r;
-        BaseConvert(r, tlv);
+        BaseConvert(r, tlv, tlvId);
         r.mSwitchId = tlv.mSwitchId;
         r.mScale = relive::From(tlv.mScale);
         r.mFallInterval = tlv.mFallInterval;
@@ -612,10 +612,10 @@ public:
 class Path_PullRingRope_Converter final
 {
 public:
-    static Path_PullRingRope From(const AO::Path_PullRingRope& tlv)
+    static Path_PullRingRope From(const AO::Path_PullRingRope& tlv, const Guid& tlvId)
     {
         Path_PullRingRope r;
-        BaseConvert(r, tlv);
+        BaseConvert(r, tlv, tlvId);
         r.mSwitchId = tlv.mSwitchId;
         r.mAction = relive::From(tlv.mAction);
         r.mRopeLength = tlv.mRopeLength;
@@ -626,10 +626,10 @@ public:
         return r;
     }
 
-    static Path_PullRingRope From(const ::Path_PullRingRope& tlv)
+    static Path_PullRingRope From(const ::Path_PullRingRope& tlv, const Guid& tlvId)
     {
         Path_PullRingRope r;
-        BaseConvert(r, tlv);
+        BaseConvert(r, tlv, tlvId);
         r.mSwitchId = tlv.mSwitchId;
         r.mAction = relive::From(tlv.mAction);
         r.mRopeLength = tlv.mRopeLength;
@@ -705,10 +705,10 @@ private:
 class Path_TimedMine_Converter final
 {
 public:
-    static Path_TimedMine From(const AO::Path_TimedMine& tlv)
+    static Path_TimedMine From(const AO::Path_TimedMine& tlv, const Guid& tlvId)
     {
         Path_TimedMine r;
-        BaseConvert(r, tlv);
+        BaseConvert(r, tlv, tlvId);
         r.mSwitchId = tlv.mSwitchId;
         r.mState = tlv.mState;
         r.mScale = relive::From(tlv.mScale);
@@ -717,10 +717,10 @@ public:
         return r;
     }
 
-    static Path_TimedMine From(const ::Path_TimedMine& tlv)
+    static Path_TimedMine From(const ::Path_TimedMine& tlv, const Guid& tlvId)
     {
         Path_TimedMine r;
-        BaseConvert(r, tlv);
+        BaseConvert(r, tlv, tlvId);
         r.mSwitchId = tlv.mSwitchId;
         r.mState = tlv.mState;
         r.mScale = relive::From(tlv.mScale);
@@ -733,19 +733,19 @@ public:
 class Path_Hoist_Converter final
 {
 public:
-    static Path_Hoist From(const AO::Path_Hoist& tlv)
+    static Path_Hoist From(const AO::Path_Hoist& tlv, const Guid& tlvId)
     {
         Path_Hoist r;
-        BaseConvert(r, tlv);
+        BaseConvert(r, tlv, tlvId);
         r.mHoistType = From(tlv.mHoistType);
         r.mGrabDirection = From(tlv.mGrabDirection);
         return r;
     }
 
-    static Path_Hoist From(const ::Path_Hoist& tlv)
+    static Path_Hoist From(const ::Path_Hoist& tlv, const Guid& tlvId)
     {
         Path_Hoist r;
-        BaseConvert(r, tlv);
+        BaseConvert(r, tlv, tlvId);
         r.mHoistType = From(tlv.mHoistType);
         r.mGrabDirection = From(tlv.mGrabDirection);
         r.mScale = relive::From(tlv.field_16_scale);
@@ -813,10 +813,10 @@ private:
 class Path_TrapDoor_Converter final
 {
 public:
-    static Path_TrapDoor From(const AO::Path_TrapDoor& tlv)
+    static Path_TrapDoor From(const AO::Path_TrapDoor& tlv, const Guid& tlvId)
     {
         Path_TrapDoor r;
-        BaseConvert(r, tlv);
+        BaseConvert(r, tlv, tlvId);
         r.mSwitchId = tlv.mSwitchId;
         r.mStartState = From(tlv.mStartState);
         r.mSelfClosing = relive::From(tlv.mSelfClosing);
@@ -826,10 +826,10 @@ public:
         return r;
     }
 
-    static Path_TrapDoor From(const ::Path_TrapDoor& tlv)
+    static Path_TrapDoor From(const ::Path_TrapDoor& tlv, const Guid& tlvId)
     {
         Path_TrapDoor r;
-        BaseConvert(r, tlv);
+        BaseConvert(r, tlv, tlvId);
         r.mSwitchId = tlv.mSwitchId;
         r.mStartState = From(tlv.mStartState);
         r.mSelfClosing = relive::From(tlv.mSelfClosing);
@@ -869,20 +869,20 @@ private:
 class Path_LCDScreen_Converter final
 {
 public:
-    static Path_LCDScreen From(const AO::Path_LCDScreen& tlv)
+    static Path_LCDScreen From(const AO::Path_LCDScreen& tlv, const Guid& tlvId)
     {
         Path_LCDScreen r;
-        BaseConvert(r, tlv);
+        BaseConvert(r, tlv, tlvId);
         r.mMessageId1 = tlv.mMessageId1;
         r.mMessageRandMinId = tlv.mMessageRandMinId;
         r.mMessageRandMaxId = tlv.mMessageRandMaxId;
         return r;
     }
 
-    static Path_LCDScreen From(const ::Path_LCDScreen& tlv)
+    static Path_LCDScreen From(const ::Path_LCDScreen& tlv, const Guid& tlvId)
     {
         Path_LCDScreen r;
-        BaseConvert(r, tlv);
+        BaseConvert(r, tlv, tlvId);
         r.mMessageId1 = tlv.mMessageId1;
         r.mMessageRandMinId = tlv.mMessageRandMinId;
         r.mMessageRandMaxId = tlv.mMessageRandMaxId;
@@ -895,20 +895,20 @@ public:
 class Path_Mine_Converter final
 {
 public:
-    static Path_Mine From(const AO::Path_Mine& tlv)
+    static Path_Mine From(const AO::Path_Mine& tlv, const Guid& tlvId)
     {
         Path_Mine r;
-        BaseConvert(r, tlv);
+        BaseConvert(r, tlv, tlvId);
         r.mScale = relive::From(tlv.mScale);
         r.mDisabledResources = tlv.mDisabledResources;
         r.mPersistOffscreen = relive::From(tlv.mPersistOffscreen);
         return r;
     }
 
-    static Path_Mine From(const ::Path_Mine& tlv)
+    static Path_Mine From(const ::Path_Mine& tlv, const Guid& tlvId)
     {
         Path_Mine r;
-        BaseConvert(r, tlv);
+        BaseConvert(r, tlv, tlvId);
         r.mScale = relive::From(tlv.mScale);
         r.mDisabledResources = tlv.mDisabledResources;
         r.mPersistOffscreen = relive::From(tlv.mPersistOffscreen);
@@ -919,10 +919,10 @@ public:
 class Path_InvisibleSwitch_Converter final
 {
 public:
-    static Path_InvisibleSwitch From(const AO::Path_InvisibleSwitch& tlv)
+    static Path_InvisibleSwitch From(const AO::Path_InvisibleSwitch& tlv, const Guid& tlvId)
     {
         Path_InvisibleSwitch r;
-        BaseConvert(r, tlv);
+        BaseConvert(r, tlv, tlvId);
         r.mSwitchId = tlv.mSwitchId;
         r.mAction = relive::From(tlv.mAction);
         r.mActivationDelay = tlv.mActivationDelay;
@@ -931,10 +931,10 @@ public:
         return r;
     }
 
-    static Path_InvisibleSwitch From(const ::Path_InvisibleSwitch& tlv)
+    static Path_InvisibleSwitch From(const ::Path_InvisibleSwitch& tlv, const Guid& tlvId)
     {
         Path_InvisibleSwitch r;
-        BaseConvert(r, tlv);
+        BaseConvert(r, tlv, tlvId);
         r.mSwitchId = tlv.mSwitchId;
         r.mAction = relive::From(tlv.mAction);
         r.mActivationDelay = tlv.mActivationDelay;
@@ -976,20 +976,20 @@ private:
 class Path_ElectricWall_Converter final
 {
 public:
-    static Path_ElectricWall From(const AO::Path_ElectricWall& tlv)
+    static Path_ElectricWall From(const AO::Path_ElectricWall& tlv, const Guid& tlvId)
     {
         Path_ElectricWall r;
-        BaseConvert(r, tlv);
+        BaseConvert(r, tlv, tlvId);
         r.mScale = relive::From(tlv.mScale);
         r.mSwitchId = tlv.mSwitchId;
         r.mStartState = From(tlv.mStartState);
         return r;
     }
 
-    static Path_ElectricWall From(const ::Path_ElectricWall& tlv)
+    static Path_ElectricWall From(const ::Path_ElectricWall& tlv, const Guid& tlvId)
     {
         Path_ElectricWall r;
-        BaseConvert(r, tlv);
+        BaseConvert(r, tlv, tlvId);
         r.mScale = relive::From(tlv.mScale);
         r.mSwitchId = tlv.mSwitchId;
         r.mStartState = From(tlv.mStartState);
@@ -1025,10 +1025,10 @@ private:
 class Path_BoomMachine_Converter final
 {
 public:
-    static Path_BoomMachine From(const AO::Path_BoomMachine& tlv)
+    static Path_BoomMachine From(const AO::Path_BoomMachine& tlv, const Guid& tlvId)
     {
         Path_BoomMachine r;
-        BaseConvert(r, tlv);
+        BaseConvert(r, tlv, tlvId);
         r.mScale = relive::From(tlv.mScale);
         r.mNozzleSide = From(tlv.mNozzleSide);
         r.mDisabledResources = tlv.mDisabledResources;
@@ -1036,10 +1036,10 @@ public:
         return r;
     }
 
-    static Path_BoomMachine From(const ::Path_BoomMachine& tlv)
+    static Path_BoomMachine From(const ::Path_BoomMachine& tlv, const Guid& tlvId)
     {
         Path_BoomMachine r;
-        BaseConvert(r, tlv);
+        BaseConvert(r, tlv, tlvId);
         r.mScale = relive::From(tlv.mScale);
         r.mNozzleSide = From(tlv.mNozzleSide);
         r.mDisabledResources = tlv.mDisabledResources;
@@ -1076,10 +1076,10 @@ private:
 class Path_UXB_Converter final
 {
 public:
-    static Path_UXB From(const AO::Path_UXB& tlv)
+    static Path_UXB From(const AO::Path_UXB& tlv, const Guid& tlvId)
     {
         Path_UXB r;
-        BaseConvert(r, tlv);
+        BaseConvert(r, tlv, tlvId);
         r.mPatternLength = tlv.mPatternLength;
         r.mPattern = tlv.mPattern;
         r.mScale = relive::From(tlv.mScale);
@@ -1088,10 +1088,10 @@ public:
         return r;
     }
 
-    static Path_UXB From(const ::Path_UXB& tlv)
+    static Path_UXB From(const ::Path_UXB& tlv, const Guid& tlvId)
     {
         Path_UXB r;
-        BaseConvert(r, tlv);
+        BaseConvert(r, tlv, tlvId);
         r.mPatternLength = tlv.mPatternLength;
         r.mPattern = tlv.mPattern;
         r.mScale = relive::From(tlv.mScale);
@@ -1129,10 +1129,10 @@ private:
 class Path_MeatSaw_Converter final
 {
 public:
-    static Path_MeatSaw From(const AO::Path_MeatSaw& tlv)
+    static Path_MeatSaw From(const AO::Path_MeatSaw& tlv, const Guid& tlvId)
     {
         Path_MeatSaw r;
-        BaseConvert(r, tlv);
+        BaseConvert(r, tlv, tlvId);
         r.mScale = relive::From(tlv.mScale);
         r.mSwitchMinTimeOff = tlv.mSwitchMinTimeOff;
         r.mSwitchMaxTimeOff = tlv.mSwitchMaxTimeOff;
@@ -1179,10 +1179,10 @@ private:
 class Path_Lever_Converter final
 {
 public:
-    static Path_Lever From(const AO::Path_Lever& tlv)
+    static Path_Lever From(const AO::Path_Lever& tlv, const Guid& tlvId)
     {
         Path_Lever r;
-        BaseConvert(r, tlv);
+        BaseConvert(r, tlv, tlvId);
         r.mAction = relive::From(tlv.mAction);
         r.mScale = relive::From(tlv.mScale);
         r.mOnSound = From(tlv.mOnSound);
@@ -1192,10 +1192,10 @@ public:
         return r;
     }
 
-    static Path_Lever From(const ::Path_Lever& tlv)
+    static Path_Lever From(const ::Path_Lever& tlv, const Guid& tlvId)
     {
         Path_Lever r;
-        BaseConvert(r, tlv);
+        BaseConvert(r, tlv, tlvId);
         r.mAction = relive::From(tlv.mAction);
         r.mScale = relive::From(tlv.mScale);
         r.mOnSound = From(tlv.mOnSound);
@@ -1281,19 +1281,19 @@ private:
 class Path_Edge_Converter final
 {
 public:
-    static Path_Edge From(const AO::Path_Edge& tlv)
+    static Path_Edge From(const AO::Path_Edge& tlv, const Guid& tlvId)
     {
         Path_Edge r;
-        BaseConvert(r, tlv);
+        BaseConvert(r, tlv, tlvId);
         r.mGrabDirection = From(tlv.mGrabDirection);
         r.mCanGrab = relive::From(tlv.mCanGrab);
         return r;
     }
 
-    static Path_Edge From(const ::Path_Edge& tlv)
+    static Path_Edge From(const ::Path_Edge& tlv, const Guid& tlvId)
     {
         Path_Edge r;
-        BaseConvert(r, tlv);
+        BaseConvert(r, tlv, tlvId);
         r.mGrabDirection = From(tlv.mGrabDirection);
         r.mCanGrab = relive::From(tlv.mCanGrab);
         r.mScale = relive::From(tlv.mScale);
@@ -1333,10 +1333,10 @@ private:
 class Path_BirdPortal_Converter final
 {
 public:
-    static Path_BirdPortal From(const AO::Path_BirdPortal& tlv)
+    static Path_BirdPortal From(const AO::Path_BirdPortal& tlv, const Guid& tlvId)
     {
         Path_BirdPortal r;
-        BaseConvert(r, tlv);
+        BaseConvert(r, tlv, tlvId);
         r.mEnterSide = From(tlv.mEnterSide);
         r.mExitLevel = MapWrapper::FromAO(tlv.mExitLevel);
         r.mExitPath = tlv.mExitPath;
@@ -1348,10 +1348,10 @@ public:
         return r;
     }
 
-    static Path_BirdPortal From(const ::Path_BirdPortal& tlv)
+    static Path_BirdPortal From(const ::Path_BirdPortal& tlv, const Guid& tlvId)
     {
         Path_BirdPortal r;
-        BaseConvert(r, tlv);
+        BaseConvert(r, tlv, tlvId);
         r.mEnterSide = From(tlv.mEnterSide);
         r.mExitLevel = MapWrapper::FromAE(tlv.mExitLevel);
         r.mExitPath = tlv.mExitPath;
@@ -1424,19 +1424,19 @@ private:
 class Path_BirdPortalExit_Converter final
 {
 public:
-    static Path_BirdPortalExit From(const AO::Path_BirdPortalExit& tlv)
+    static Path_BirdPortalExit From(const AO::Path_BirdPortalExit& tlv, const Guid& tlvId)
     {
         Path_BirdPortalExit r;
-        BaseConvert(r, tlv);
+        BaseConvert(r, tlv, tlvId);
         r.mExitSide = Path_BirdPortal_Converter::From(tlv.mExitSide);
         r.mScale = relive::From(tlv.mScale);
         return r;
     }
 
-    static Path_BirdPortalExit From(const ::Path_BirdPortalExit& tlv)
+    static Path_BirdPortalExit From(const ::Path_BirdPortalExit& tlv, const Guid& tlvId)
     {
         Path_BirdPortalExit r;
-        BaseConvert(r, tlv);
+        BaseConvert(r, tlv, tlvId);
         r.mExitSide = Path_BirdPortal_Converter::From(tlv.mExitSide);
         r.mScale = relive::From(tlv.mScale);
         return r;
@@ -1446,10 +1446,10 @@ public:
 class Path_LightEffect_Converter final
 {
 public:
-    static Path_LightEffect From(const AO::Path_LightEffect& tlv)
+    static Path_LightEffect From(const AO::Path_LightEffect& tlv, const Guid& tlvId)
     {
         Path_LightEffect r;
-        BaseConvert(r, tlv);
+        BaseConvert(r, tlv, tlvId);
         r.mType = From(tlv.mType);
         r.mSize = tlv.mSize;
         r.mSwitchId = tlv.mSwitchId;
@@ -1482,10 +1482,10 @@ private:
 class Path_MusicTrigger_Converter final
 {
 public:
-    static Path_MusicTrigger From(const AO::Path_MusicTrigger& tlv)
+    static Path_MusicTrigger From(const AO::Path_MusicTrigger& tlv, const Guid& tlvId)
     {
         Path_MusicTrigger r;
-        BaseConvert(r, tlv);
+        BaseConvert(r, tlv, tlvId);
         r.mMusicType = From(tlv.mMusicType);
         r.mTriggeredBy = From(tlv.mTriggeredBy);
         r.mSwitchId = tlv.mSwitchId;
@@ -1493,10 +1493,10 @@ public:
         return r;
     }
 
-    static Path_MusicTrigger From(const ::Path_MusicTrigger& tlv)
+    static Path_MusicTrigger From(const ::Path_MusicTrigger& tlv, const Guid& tlvId)
     {
         Path_MusicTrigger r;
-        BaseConvert(r, tlv);
+        BaseConvert(r, tlv, tlvId);
         r.mMusicType = From(tlv.mMusicType);
         r.mTriggeredBy = From(tlv.mTriggeredBy);
         r.mMusicDelay = tlv.mMusicDelay;
@@ -1580,17 +1580,17 @@ private:
 class Path_SoftLanding_Converter final
 {
 public:
-    static Path_SoftLanding From(const AO::Path_SoftLanding& tlv)
+    static Path_SoftLanding From(const AO::Path_SoftLanding& tlv, const Guid& tlvId)
     {
         Path_SoftLanding r;
-        BaseConvert(r, tlv);
+        BaseConvert(r, tlv, tlvId);
         return r;
     }
 
-    static Path_SoftLanding From(const ::Path_SoftLanding& tlv)
+    static Path_SoftLanding From(const ::Path_SoftLanding& tlv, const Guid& tlvId)
     {
         Path_SoftLanding r;
-        BaseConvert(r, tlv);
+        BaseConvert(r, tlv, tlvId);
         r.mSwitchId = tlv.mSwitchId;
         return r;
     }
@@ -1599,20 +1599,20 @@ public:
 class Path_LiftMover_Converter final
 {
 public:
-    static Path_LiftMover From(const AO::Path_LiftMover& tlv)
+    static Path_LiftMover From(const AO::Path_LiftMover& tlv, const Guid& tlvId)
     {
         Path_LiftMover r;
-        BaseConvert(r, tlv);
+        BaseConvert(r, tlv, tlvId);
         r.mLiftMoverSwitchId = tlv.mLiftMoverSwitchId;
         r.mTargetLiftPointId = tlv.mTargetLiftPointId;
         r.mMoveDirection = From(tlv.mMoveDirection);
         return r;
     }
 
-    static Path_LiftMover From(const ::Path_LiftMover& tlv)
+    static Path_LiftMover From(const ::Path_LiftMover& tlv, const Guid& tlvId)
     {
         Path_LiftMover r;
-        BaseConvert(r, tlv);
+        BaseConvert(r, tlv, tlvId);
         r.mLiftMoverSwitchId = tlv.mLiftMoverSwitchId;
         r.mTargetLiftPointId = tlv.mTargetLiftPointId;
         r.mMoveDirection = From(tlv.mMoveDirection);
@@ -1648,10 +1648,10 @@ private:
 class Path_HintFly_Converter final
 {
 public:
-    static Path_HintFly From(const AO::Path_HintFly& tlv)
+    static Path_HintFly From(const AO::Path_HintFly& tlv, const Guid& tlvId)
     {
         Path_HintFly r;
-        BaseConvert(r, tlv);
+        BaseConvert(r, tlv, tlvId);
         r.mMessageId = tlv.mMessageId;
         return r;
     }
@@ -1660,10 +1660,10 @@ public:
 class Path_TimerTrigger_Converter final
 {
 public:
-    static Path_TimerTrigger From(const AO::Path_TimerTrigger& tlv)
+    static Path_TimerTrigger From(const AO::Path_TimerTrigger& tlv, const Guid& tlvId)
     {
         Path_TimerTrigger r;
-        BaseConvert(r, tlv);
+        BaseConvert(r, tlv, tlvId);
         r.mInputSwitchId = tlv.mInputSwitchId;
         r.mActivationDelay = tlv.mActivationDelay;
         r.mOutputSwitchId1 = tlv.mOutputSwitchId1;
@@ -1673,10 +1673,10 @@ public:
         return r;
     }
 
-    static Path_TimerTrigger From(const ::Path_TimerTrigger& tlv)
+    static Path_TimerTrigger From(const ::Path_TimerTrigger& tlv, const Guid& tlvId)
     {
         Path_TimerTrigger r;
-        BaseConvert(r, tlv);
+        BaseConvert(r, tlv, tlvId);
         r.mInputSwitchId = tlv.mInputSwitchId;
         r.mActivationDelay = tlv.mActivationDelay;
         r.mOutputSwitchId1 = tlv.mOutputSwitchId1;
@@ -1690,10 +1690,10 @@ public:
 class Path_FlintLockFire_Converter final
 {
 public:
-    static Path_FlintLockFire From(const AO::Path_FlintLockFire& tlv)
+    static Path_FlintLockFire From(const AO::Path_FlintLockFire& tlv, const Guid& tlvId)
     {
         Path_FlintLockFire r;
-        BaseConvert(r, tlv);
+        BaseConvert(r, tlv, tlvId);
         r.mScale = relive::From(tlv.mScale);
         r.mSwitchId = tlv.mSwitchId;
         return r;
@@ -1703,10 +1703,10 @@ public:
 class Path_HoneySack_Converter final
 {
 public:
-    static Path_HoneySack From(const AO::Path_HoneySack& tlv)
+    static Path_HoneySack From(const AO::Path_HoneySack& tlv, const Guid& tlvId)
     {
         Path_HoneySack r;
-        BaseConvert(r, tlv);
+        BaseConvert(r, tlv, tlvId);
         r.mChaseTime = tlv.mChaseTime;
         r.mScale = relive::From(tlv.mScale);
         return r;
@@ -1716,10 +1716,10 @@ public:
 class Path_Bat_Converter final
 {
 public:
-    static Path_Bat From(const AO::Path_Bat& tlv)
+    static Path_Bat From(const AO::Path_Bat& tlv, const Guid& tlvId)
     {
         Path_Bat r;
-        BaseConvert(r, tlv);
+        BaseConvert(r, tlv, tlvId);
         r.mTimeBeforeMoving = tlv.mTimeBeforeMoving;
         r.mSpeed = tlv.mSpeed;
         r.mScale = relive::From(tlv.mScale);
@@ -1731,10 +1731,10 @@ public:
 class Path_RollingBallStopper_Converter final
 {
 public:
-    static Path_RollingBallStopper From(const AO::Path_RollingBallStopper& tlv)
+    static Path_RollingBallStopper From(const AO::Path_RollingBallStopper& tlv, const Guid& tlvId)
     {
         Path_RollingBallStopper r;
-        BaseConvert(r, tlv);
+        BaseConvert(r, tlv, tlvId);
         r.mStopperSwitchId = tlv.mStopperSwitchId;
         r.mScale = relive::From(tlv.mScale);
         r.mBallSwitchId = tlv.mBallSwitchId;
@@ -1746,10 +1746,10 @@ public:
 class Path_RollingBall_Converter final
 {
 public:
-    static Path_RollingBall From(const AO::Path_RollingBall& tlv)
+    static Path_RollingBall From(const AO::Path_RollingBall& tlv, const Guid& tlvId)
     {
         Path_RollingBall r;
-        BaseConvert(r, tlv);
+        BaseConvert(r, tlv, tlvId);
         r.mScale = relive::From(tlv.mScale);
         r.mRollDirection = relive::From(tlv.mRollDirection);
         r.mReleaseSwitchId = tlv.mReleaseSwitchId;
@@ -1762,10 +1762,10 @@ public:
 class Path_MotionDetector_Converter final
 {
 public:
-    static Path_MotionDetector From(const AO::Path_MotionDetector& tlv)
+    static Path_MotionDetector From(const AO::Path_MotionDetector& tlv, const Guid& tlvId)
     {
         Path_MotionDetector r;
-        BaseConvert(r, tlv);
+        BaseConvert(r, tlv, tlvId);
         r.mScale = relive::From(tlv.mScale);
         r.mDeviceX = tlv.mDeviceX;
         r.mDeviceY = tlv.mDeviceY;
@@ -1778,10 +1778,10 @@ public:
         return r;
     }
 
-    static Path_MotionDetector From(const ::Path_MotionDetector& tlv)
+    static Path_MotionDetector From(const ::Path_MotionDetector& tlv, const Guid& tlvId)
     {
         Path_MotionDetector r;
-        BaseConvert(r, tlv);
+        BaseConvert(r, tlv, tlvId);
         r.mScale = relive::From(tlv.mScale);
         r.mDeviceX = tlv.mDeviceX;
         r.mDeviceY = tlv.mDeviceY;
@@ -1823,10 +1823,10 @@ private:
 class Path_BellHammer_Converter final
 {
 public:
-    static Path_BellHammer From(const AO::Path_BellHammer& tlv)
+    static Path_BellHammer From(const AO::Path_BellHammer& tlv, const Guid& tlvId)
     {
         Path_BellHammer r;
-        BaseConvert(r, tlv);
+        BaseConvert(r, tlv, tlvId);
         r.mSwitchId = tlv.mSwitchId;
         r.mAction = relive::From(tlv.mAction);
         r.mScale = relive::From(tlv.mScale);
@@ -1838,19 +1838,19 @@ public:
 class Path_SligBoundLeft_Converter final
 {
 public:
-    static Path_SligBoundLeft From(const AO::Path_SligBoundLeft& tlv)
+    static Path_SligBoundLeft From(const AO::Path_SligBoundLeft& tlv, const Guid& tlvId)
     {
         Path_SligBoundLeft r;
-        BaseConvert(r, tlv);
+        BaseConvert(r, tlv, tlvId);
         r.mSligBoundId = tlv.mSligBoundId;
         r.mDisabledResourcesAO = tlv.mDisabledResources;
         return r;
     }
 
-    static Path_SligBoundLeft From(const ::Path_SligBoundLeft& tlv)
+    static Path_SligBoundLeft From(const ::Path_SligBoundLeft& tlv, const Guid& tlvId)
     {
         Path_SligBoundLeft r;
-        BaseConvert(r, tlv);
+        BaseConvert(r, tlv, tlvId);
         r.mSligBoundId = tlv.mSligBoundId;
         r.mDisabledResourcesAE = tlv.mDisabledResources;
         return r;
@@ -1860,19 +1860,19 @@ public:
 class Path_SligBoundRight_Converter final
 {
 public:
-    static Path_SligBoundRight From(const AO::Path_SligBoundRight& tlv)
+    static Path_SligBoundRight From(const AO::Path_SligBoundRight& tlv, const Guid& tlvId)
     {
         Path_SligBoundRight r;
-        BaseConvert(r, tlv);
+        BaseConvert(r, tlv, tlvId);
         r.mSligBoundId = tlv.mSligBoundId;
         r.mDisabledResourcesAO = tlv.mDisabledResources;
         return r;
     }
 
-    static Path_SligBoundRight From(const ::Path_SligBoundRight& tlv)
+    static Path_SligBoundRight From(const ::Path_SligBoundRight& tlv, const Guid& tlvId)
     {
         Path_SligBoundRight r;
-        BaseConvert(r, tlv);
+        BaseConvert(r, tlv, tlvId);
         r.mSligBoundId = tlv.mSligBoundId;
         r.mDisabledResourcesAE = tlv.mDisabledResources;
         return r;
@@ -1882,19 +1882,19 @@ public:
 class Path_SligPersist_Converter final
 {
 public:
-    static Path_SligPersist From(const AO::Path_SligPersist& tlv)
+    static Path_SligPersist From(const AO::Path_SligPersist& tlv, const Guid& tlvId)
     {
         Path_SligPersist r;
-        BaseConvert(r, tlv);
+        BaseConvert(r, tlv, tlvId);
         r.mSligBoundId = tlv.mSligBoundId;
         r.mDisabledResourcesAO = tlv.mDisabledResources;
         return r;
     }
 
-    static Path_SligPersist From(const ::Path_SligPersist& tlv)
+    static Path_SligPersist From(const ::Path_SligPersist& tlv, const Guid& tlvId)
     {
         Path_SligPersist r;
-        BaseConvert(r, tlv);
+        BaseConvert(r, tlv, tlvId);
         r.mSligBoundId = tlv.mSligBoundId;
         r.mDisabledResourcesAE = tlv.mDisabledResources;
         return r;
@@ -1904,10 +1904,10 @@ public:
 class Path_BackgroundAnimation_Converter final
 {
 public:
-    static Path_BackgroundAnimation From(const AO::Path_BackgroundAnimation& tlv)
+    static Path_BackgroundAnimation From(const AO::Path_BackgroundAnimation& tlv, const Guid& tlvId)
     {
         Path_BackgroundAnimation r;
-        BaseConvert(r, tlv);
+        BaseConvert(r, tlv, tlvId);
         r.mAnimId = tlv.mAnimId;
         r.mIsSemiTrans = relive::From(tlv.mIsSemiTrans);
         r.mSemiTransMode = tlv.mSemiTransMode;
@@ -1915,10 +1915,10 @@ public:
         return r;
     }
 
-    static Path_BackgroundAnimation From(const ::Path_BackgroundAnimation& tlv)
+    static Path_BackgroundAnimation From(const ::Path_BackgroundAnimation& tlv, const Guid& tlvId)
     {
         Path_BackgroundAnimation r;
-        BaseConvert(r, tlv);
+        BaseConvert(r, tlv, tlvId);
         r.mAnimId = tlv.mAnimId;
         r.mIsSemiTrans = relive::From(tlv.mIsSemiTrans);
         r.mSemiTransMode = tlv.mSemiTransMode;
@@ -1957,17 +1957,17 @@ private:
 class Path_MainMenuController_Converter final
 {
 public:
-    static Path_MainMenuController From(const AO::Path_MainMenuController& tlv)
+    static Path_MainMenuController From(const AO::Path_MainMenuController& tlv, const Guid& tlvId)
     {
         Path_MainMenuController r;
-        BaseConvert(r, tlv);
+        BaseConvert(r, tlv, tlvId);
         return r;
     }
 
-    static Path_MainMenuController From(const ::Path_MainMenuController& tlv)
+    static Path_MainMenuController From(const ::Path_MainMenuController& tlv, const Guid& tlvId)
     {
         Path_MainMenuController r;
-        BaseConvert(r, tlv);
+        BaseConvert(r, tlv, tlvId);
         return r;
     }
 };
@@ -1975,10 +1975,10 @@ public:
 class Path_ElumWall_Converter final
 {
 public:
-    static Path_ElumWall From(const AO::Path_ElumWall& tlv)
+    static Path_ElumWall From(const AO::Path_ElumWall& tlv, const Guid& tlvId)
     {
         Path_ElumWall r;
-        BaseConvert(r, tlv);
+        BaseConvert(r, tlv, tlvId);
         return r;
     }
 };
@@ -1986,10 +1986,10 @@ public:
 class Path_ElumStart_Converter final
 {
 public:
-    static Path_ElumStart From(const AO::Path_ElumStart& tlv)
+    static Path_ElumStart From(const AO::Path_ElumStart& tlv, const Guid& tlvId)
     {
         Path_ElumStart r;
-        BaseConvert(r, tlv);
+        BaseConvert(r, tlv, tlvId);
         return r;
     }
 };
@@ -1997,10 +1997,10 @@ public:
 class Path_KillUnsavedMuds_Converter final
 {
 public:
-    static Path_KillUnsavedMuds From(const AO::Path_KillUnsavedMuds& tlv)
+    static Path_KillUnsavedMuds From(const AO::Path_KillUnsavedMuds& tlv, const Guid& tlvId)
     {
         Path_KillUnsavedMuds r;
-        BaseConvert(r, tlv);
+        BaseConvert(r, tlv, tlvId);
         return r;
     }
 };
@@ -2008,17 +2008,17 @@ public:
 class Path_InvisibleZone_Converter final
 {
 public:
-    static Path_InvisibleZone From(const AO::Path_InvisibleZone& tlv)
+    static Path_InvisibleZone From(const AO::Path_InvisibleZone& tlv, const Guid& tlvId)
     {
         Path_InvisibleZone r;
-        BaseConvert(r, tlv);
+        BaseConvert(r, tlv, tlvId);
         return r;
     }
 
-    static Path_InvisibleZone From(const ::Path_InvisibleZone& tlv)
+    static Path_InvisibleZone From(const ::Path_InvisibleZone& tlv, const Guid& tlvId)
     {
         Path_InvisibleZone r;
-        BaseConvert(r, tlv);
+        BaseConvert(r, tlv, tlvId);
         return r;
     }
 };
@@ -2026,10 +2026,10 @@ public:
 class Path_StartController_Converter final
 {
 public:
-    static Path_StartController From(const AO::Path_StartController& tlv)
+    static Path_StartController From(const AO::Path_StartController& tlv, const Guid& tlvId)
     {
         Path_StartController r;
-        BaseConvert(r, tlv);
+        BaseConvert(r, tlv, tlvId);
         return r;
     }
 };
@@ -2037,10 +2037,10 @@ public:
 class Path_ScrabNoFall_Converter final
 {
 public:
-    static Path_ScrabNoFall From(const AO::Path_ScrabNoFall& tlv)
+    static Path_ScrabNoFall From(const AO::Path_ScrabNoFall& tlv, const Guid& tlvId)
     {
         Path_ScrabNoFall r;
-        BaseConvert(r, tlv);
+        BaseConvert(r, tlv, tlvId);
         return r;
     }
 };
@@ -2048,17 +2048,17 @@ public:
 class Path_ScrabBoundLeft_Converter final
 {
 public:
-    static Path_ScrabBoundLeft From(const AO::Path_ScrabBoundLeft& tlv)
+    static Path_ScrabBoundLeft From(const AO::Path_ScrabBoundLeft& tlv, const Guid& tlvId)
     {
         Path_ScrabBoundLeft r;
-        BaseConvert(r, tlv);
+        BaseConvert(r, tlv, tlvId);
         return r;
     }
 
-    static Path_ScrabBoundLeft From(const ::Path_ScrabBoundLeft& tlv)
+    static Path_ScrabBoundLeft From(const ::Path_ScrabBoundLeft& tlv, const Guid& tlvId)
     {
         Path_ScrabBoundLeft r;
-        BaseConvert(r, tlv);
+        BaseConvert(r, tlv, tlvId);
         return r;
     }
 };
@@ -2066,17 +2066,17 @@ public:
 class Path_ScrabBoundRight_Converter final
 {
 public:
-    static Path_ScrabBoundRight From(const AO::Path_ScrabBoundRight& tlv)
+    static Path_ScrabBoundRight From(const AO::Path_ScrabBoundRight& tlv, const Guid& tlvId)
     {
         Path_ScrabBoundRight r;
-        BaseConvert(r, tlv);
+        BaseConvert(r, tlv, tlvId);
         return r;
     }
 
-    static Path_ScrabBoundRight From(const ::Path_ScrabBoundRight& tlv)
+    static Path_ScrabBoundRight From(const ::Path_ScrabBoundRight& tlv, const Guid& tlvId)
     {
         Path_ScrabBoundRight r;
-        BaseConvert(r, tlv);
+        BaseConvert(r, tlv, tlvId);
         return r;
     }
 };
@@ -2084,10 +2084,10 @@ public:
 class Path_HoneyDripTarget_Converter final
 {
 public:
-    static Path_HoneyDripTarget From(const AO::Path_HoneyDripTarget& tlv)
+    static Path_HoneyDripTarget From(const AO::Path_HoneyDripTarget& tlv, const Guid& tlvId)
     {
         Path_HoneyDripTarget r;
-        BaseConvert(r, tlv);
+        BaseConvert(r, tlv, tlvId);
         return r;
     }
 };
@@ -2095,17 +2095,17 @@ public:
 class Path_ZSligCover_Converter final
 {
 public:
-    static Path_ZSligCover From(const AO::Path_ZSligCover& tlv)
+    static Path_ZSligCover From(const AO::Path_ZSligCover& tlv, const Guid& tlvId)
     {
         Path_ZSligCover r;
-        BaseConvert(r, tlv);
+        BaseConvert(r, tlv, tlvId);
         return r;
     }
 
-    static Path_ZSligCover From(const ::Path_ZSligCover& tlv)
+    static Path_ZSligCover From(const ::Path_ZSligCover& tlv, const Guid& tlvId)
     {
         Path_ZSligCover r;
-        BaseConvert(r, tlv);
+        BaseConvert(r, tlv, tlvId);
         return r;
     }
 };
@@ -2113,17 +2113,17 @@ public:
 class Path_DeathDrop_Converter final
 {
 public:
-    static Path_DeathDrop From(const AO::Path_DeathDrop& tlv)
+    static Path_DeathDrop From(const AO::Path_DeathDrop& tlv, const Guid& tlvId)
     {
         Path_DeathDrop r;
-        BaseConvert(r, tlv);
+        BaseConvert(r, tlv, tlvId);
         return r;
     }
 
-    static Path_DeathDrop From(const ::Path_DeathDrop& tlv)
+    static Path_DeathDrop From(const ::Path_DeathDrop& tlv, const Guid& tlvId)
     {
         Path_DeathDrop r;
-        BaseConvert(r, tlv);
+        BaseConvert(r, tlv, tlvId);
         return r;
     }
 };
@@ -2131,10 +2131,10 @@ public:
 class Path_ChimeLock_Converter final
 {
 public:
-    static Path_ChimeLock From(const AO::Path_ChimeLock& tlv)
+    static Path_ChimeLock From(const AO::Path_ChimeLock& tlv, const Guid& tlvId)
     {
         Path_ChimeLock r;
-        BaseConvert(r, tlv);
+        BaseConvert(r, tlv, tlvId);
         r.mScale = relive::From(tlv.mScale);
         r.mSolveSwitchId = tlv.mSolveSwitchId;
         r.mCode1 = tlv.mCode1;
@@ -2147,17 +2147,17 @@ public:
 class Path_LCDStatusBoard_Converter final
 {
 public:
-    static Path_LCDStatusBoard From(const AO::Path_LCDStatusBoard& tlv)
+    static Path_LCDStatusBoard From(const AO::Path_LCDStatusBoard& tlv, const Guid& tlvId)
     {
         Path_LCDStatusBoard r;
-        BaseConvert(r, tlv);
+        BaseConvert(r, tlv, tlvId);
         return r;
     }
 
-    static Path_LCDStatusBoard From(const ::Path_LCDStatusBoard& tlv)
+    static Path_LCDStatusBoard From(const ::Path_LCDStatusBoard& tlv, const Guid& tlvId)
     {
         Path_LCDStatusBoard r;
-        BaseConvert(r, tlv);
+        BaseConvert(r, tlv, tlvId);
         r.mNumberOfMuds = tlv.mNumberOfMuds;
         r.mZulagNumber = tlv.mZulagNumber;
         r.mHideBoard = relive::From(tlv.mHideBoard);
@@ -2168,17 +2168,17 @@ public:
 class Path_CreditsController_Converter final
 {
 public:
-    static Path_CreditsController From(const AO::Path_CreditsController& tlv)
+    static Path_CreditsController From(const AO::Path_CreditsController& tlv, const Guid& tlvId)
     {
         Path_CreditsController r;
-        BaseConvert(r, tlv);
+        BaseConvert(r, tlv, tlvId);
         return r;
     }
 
-    static Path_CreditsController From(const ::Path_CreditsController& tlv)
+    static Path_CreditsController From(const ::Path_CreditsController& tlv, const Guid& tlvId)
     {
         Path_CreditsController r;
-        BaseConvert(r, tlv);
+        BaseConvert(r, tlv, tlvId);
         return r;
     }
 };
@@ -2186,10 +2186,10 @@ public:
 class Path_ResetPath_Converter final
 {
 public:
-    static Path_ResetPath From(const AO::Path_ResetPath& tlv)
+    static Path_ResetPath From(const AO::Path_ResetPath& tlv, const Guid& tlvId)
     {
         Path_ResetPath r;
-        BaseConvert(r, tlv);
+        BaseConvert(r, tlv, tlvId);
         r.mClearIds = relive::From(tlv.mClearIds);
         r.mFrom = tlv.mFrom;
         r.mTo = tlv.mTo;
@@ -2199,10 +2199,10 @@ public:
         return r;
     }
 
-    static Path_ResetPath From(const ::Path_ResetPath& tlv)
+    static Path_ResetPath From(const ::Path_ResetPath& tlv, const Guid& tlvId)
     {
         Path_ResetPath r;
-        BaseConvert(r, tlv);
+        BaseConvert(r, tlv, tlvId);
         r.mClearIds = relive::From(tlv.mClearIds);
         r.mFrom = tlv.mFrom;
         r.mTo = tlv.mTo;
@@ -2217,10 +2217,10 @@ public:
 class Path_MeatSack_Converter final
 {
 public:
-    static Path_MeatSack From(const AO::Path_MeatSack& tlv)
+    static Path_MeatSack From(const AO::Path_MeatSack& tlv, const Guid& tlvId)
     {
         Path_MeatSack r;
-        BaseConvert(r, tlv);
+        BaseConvert(r, tlv, tlvId);
         r.mMeatFallDirection = relive::From(tlv.mMeatFallDirection);
         r.mVelX = tlv.mVelX;
         r.mVelY = tlv.mVelY;
@@ -2229,10 +2229,10 @@ public:
         return r;
     }
 
-    static Path_MeatSack From(const ::Path_MeatSack& tlv)
+    static Path_MeatSack From(const ::Path_MeatSack& tlv, const Guid& tlvId)
     {
         Path_MeatSack r;
-        BaseConvert(r, tlv);
+        BaseConvert(r, tlv, tlvId);
         r.mMeatFallDirection = relive::From(tlv.mMeatFallDirection);
         r.mVelX = tlv.mVelX;
         r.mVelY = tlv.mVelY;
@@ -2245,10 +2245,10 @@ public:
 class Path_BeeNest_Converter final
 {
 public:
-    static Path_BeeNest From(const AO::Path_BeeNest& tlv)
+    static Path_BeeNest From(const AO::Path_BeeNest& tlv, const Guid& tlvId)
     {
         Path_BeeNest r;
-        BaseConvert(r, tlv);
+        BaseConvert(r, tlv, tlvId);
         r.mSwitchId = tlv.mSwitchId;
         r.mSwarmSize = tlv.mSwarmSize;
         r.mChaseTime = tlv.mChaseTime;
@@ -2262,10 +2262,10 @@ public:
 class Path_BellsongStone_Converter final
 {
 public:
-    static Path_BellsongStone From(const AO::Path_BellsongStone& tlv)
+    static Path_BellsongStone From(const AO::Path_BellsongStone& tlv, const Guid& tlvId)
     {
         Path_BellsongStone r;
-        BaseConvert(r, tlv);
+        BaseConvert(r, tlv, tlvId);
         r.mScale = relive::From(tlv.mData.mScale);
         r.mType = From(tlv.mData.mType);
         r.mCode1 = tlv.mData.mCode1;
@@ -2291,19 +2291,19 @@ private:
 class Path_MovieStone_Converter final
 {
 public:
-    static Path_MovieStone From(const AO::Path_MovieStone& tlv)
+    static Path_MovieStone From(const AO::Path_MovieStone& tlv, const Guid& tlvId)
     {
         Path_MovieStone r;
-        BaseConvert(r, tlv);
+        BaseConvert(r, tlv, tlvId);
         r.mMovieId = tlv.mData.mMovieId;
         r.mScale = relive::From(tlv.mData.mScale);
         return r;
     }
 
-    static Path_MovieStone From(const ::Path_MovieStone& tlv)
+    static Path_MovieStone From(const ::Path_MovieStone& tlv, const Guid& tlvId)
     {
         Path_MovieStone r;
-        BaseConvert(r, tlv);
+        BaseConvert(r, tlv, tlvId);
         r.mMovieId = tlv.mMovieId;
         r.mScale = relive::From(tlv.mScale);
         r.mTriggerSwitchId = tlv.mTriggerSwitchId;
@@ -2314,10 +2314,10 @@ public:
 class Path_HandStone_Converter final
 {
 public:
-    static Path_HandStone From(const AO::Path_HandStone& tlv)
+    static Path_HandStone From(const AO::Path_HandStone& tlv, const Guid& tlvId)
     {
         Path_HandStone r;
-        BaseConvert(r, tlv);
+        BaseConvert(r, tlv, tlvId);
         r.mScale = relive::From(tlv.mData.scale);
         r.mCameraId1 = tlv.mData.camera1.camera;
         r.mPath1 = tlv.mData.camera1.path;
@@ -2331,10 +2331,10 @@ public:
         return r;
     }
 
-    static Path_HandStone From(const ::Path_HandStone& tlv)
+    static Path_HandStone From(const ::Path_HandStone& tlv, const Guid& tlvId)
     {
         Path_HandStone r;
-        BaseConvert(r, tlv);
+        BaseConvert(r, tlv, tlvId);
         r.mScale = relive::From(tlv.mScale);
         r.mCameraId1 = tlv.mCameraId1;
         r.mCameraId2 = tlv.mCameraId2;
@@ -2348,10 +2348,10 @@ public:
 class Path_PathTransition_Converter final
 {
 public:
-    static Path_PathTransition From(const AO::Path_PathTransition& tlv)
+    static Path_PathTransition From(const AO::Path_PathTransition& tlv, const Guid& tlvId)
     {
         Path_PathTransition r;
-        BaseConvert(r, tlv);
+        BaseConvert(r, tlv, tlvId);
         r.mNextLevel = MapWrapper::FromAO(tlv.mNextLevel);
         r.mNextPath = tlv.mNextPath;
         r.mNextCamera = tlv.mNextCamera;
@@ -2361,10 +2361,10 @@ public:
         return r;
     }
 
-    static Path_PathTransition From(const ::Path_PathTransition& tlv)
+    static Path_PathTransition From(const ::Path_PathTransition& tlv, const Guid& tlvId)
     {
         Path_PathTransition r;
-        BaseConvert(r, tlv);
+        BaseConvert(r, tlv, tlvId);
         r.mNextLevel = MapWrapper::FromAE(tlv.mNextLevel);
         r.mNextPath = tlv.mNextPath;
         r.mNextCamera = tlv.mNextCamera;
@@ -2378,17 +2378,17 @@ public:
 class Path_Pulley_Converter final
 {
 public:
-    static Path_Pulley From(const AO::Path_Pulley& tlv)
+    static Path_Pulley From(const AO::Path_Pulley& tlv, const Guid& tlvId)
     {
         Path_Pulley r;
-        BaseConvert(r, tlv);
+        BaseConvert(r, tlv, tlvId);
         return r;
     }
 
-    static Path_Pulley From(const ::Path_Pulley& tlv)
+    static Path_Pulley From(const ::Path_Pulley& tlv, const Guid& tlvId)
     {
         Path_Pulley r;
-        BaseConvert(r, tlv);
+        BaseConvert(r, tlv, tlvId);
         return r;
     }
 };
@@ -2396,10 +2396,10 @@ public:
 class Path_Honey_Converter final
 {
 public:
-    static Path_Honey From(const AO::Path_Honey& tlv)
+    static Path_Honey From(const AO::Path_Honey& tlv, const Guid& tlvId)
     {
         Path_Honey r;
-        BaseConvert(r, tlv);
+        BaseConvert(r, tlv, tlvId);
         return r;
     }
 };
@@ -2407,10 +2407,10 @@ public:
 class Path_BeeSwarmHole_Converter final
 {
 public:
-    static Path_BeeSwarmHole From(const AO::Path_BeeSwarmHole& tlv)
+    static Path_BeeSwarmHole From(const AO::Path_BeeSwarmHole& tlv, const Guid& tlvId)
     {
         Path_BeeSwarmHole r;
-        BaseConvert(r, tlv);
+        BaseConvert(r, tlv, tlvId);
         r.mStartInterval = tlv.mStartInterval;
         r.mMovementType = From(tlv.mMovementType);
         r.mBeesAmount = tlv.mBeesAmount;
@@ -2437,10 +2437,10 @@ private:
 class Path_Door_Converter final
 {
 public:
-    static Path_Door From(const AO::Path_Door& tlv)
+    static Path_Door From(const AO::Path_Door& tlv, const Guid& tlvId)
     {
         Path_Door r;
-        BaseConvert(r, tlv);
+        BaseConvert(r, tlv, tlvId);
         r.mNextLevel = MapWrapper::FromAO(tlv.mNextLevel);
         r.mNextPath = tlv.mNextPath;
         r.mNextCamera = tlv.mNextCamera;
@@ -2467,10 +2467,10 @@ public:
         return r;
     }
 
-    static Path_Door From(const ::Path_Door& tlv)
+    static Path_Door From(const ::Path_Door& tlv, const Guid& tlvId)
     {
         Path_Door r;
-        BaseConvert(r, tlv);
+        BaseConvert(r, tlv, tlvId);
         r.mNextLevel = MapWrapper::FromAE(tlv.mNextLevel);
         r.mNextPath = tlv.mNextPath;
         r.mNextCamera = tlv.mNextCamera;
@@ -2546,10 +2546,10 @@ private:
 class Path_AbeStart_Converter final
 {
 public:
-    static Path_AbeStart From(const ::Path_AbeStart& tlv)
+    static Path_AbeStart From(const ::Path_AbeStart& tlv, const Guid& tlvId)
     {
         Path_AbeStart r;
-        BaseConvert(r, tlv);
+        BaseConvert(r, tlv, tlvId);
         return r;
     }
 };
@@ -2557,19 +2557,19 @@ public:
 class Path_EnemyStopper_Converter final
 {
 public:
-    static Path_EnemyStopper From(const AO::Path_EnemyStopper& tlv)
+    static Path_EnemyStopper From(const AO::Path_EnemyStopper& tlv, const Guid& tlvId)
     {
         Path_EnemyStopper r;
-        BaseConvert(r, tlv);
+        BaseConvert(r, tlv, tlvId);
         r.mStopDirection = From(tlv.mStopDirection);
         r.mSwitchId = tlv.mSwitchId;
         return r;
     }
 
-    static Path_EnemyStopper From(const ::Path_EnemyStopper& tlv)
+    static Path_EnemyStopper From(const ::Path_EnemyStopper& tlv, const Guid& tlvId)
     {
         Path_EnemyStopper r;
-        BaseConvert(r, tlv);
+        BaseConvert(r, tlv, tlvId);
         r.mStopDirection = From(tlv.mStopDirection);
         r.mSwitchId = tlv.mSwitchId;
         return r;
@@ -2607,19 +2607,19 @@ private:
 class Path_MovingBombStopper_Converter final
 {
 public:
-    static Path_MovingBombStopper From(const AO::Path_MovingBombStopper& tlv)
+    static Path_MovingBombStopper From(const AO::Path_MovingBombStopper& tlv, const Guid& tlvId)
     {
         Path_MovingBombStopper r;
-        BaseConvert(r, tlv);
+        BaseConvert(r, tlv, tlvId);
         r.mMinDelay = tlv.mMinDelay;
         r.mMaxDelay = tlv.mMaxDelay;
         return r;
     }
 
-    static Path_MovingBombStopper From(const ::Path_MovingBombStopper& tlv)
+    static Path_MovingBombStopper From(const ::Path_MovingBombStopper& tlv, const Guid& tlvId)
     {
         Path_MovingBombStopper r;
-        BaseConvert(r, tlv);
+        BaseConvert(r, tlv, tlvId);
         r.mMinDelay = tlv.mMinDelay;
         r.mMaxDelay = tlv.mMaxDelay;
         return r;
@@ -2629,20 +2629,20 @@ public:
 class Path_DoorFlame_Converter final
 {
 public:
-    static Path_DoorFlame From(const AO::Path_DoorFlame& tlv)
+    static Path_DoorFlame From(const AO::Path_DoorFlame& tlv, const Guid& tlvId)
     {
         Path_DoorFlame r;
-        BaseConvert(r, tlv);
+        BaseConvert(r, tlv, tlvId);
         r.mSwitchId = tlv.mSwitchId;
         r.mScale = From(tlv.mScale);
         r.mColour = From(tlv.mColour);
         return r;
     }
 
-    static Path_DoorFlame From(const ::Path_DoorFlame& tlv)
+    static Path_DoorFlame From(const ::Path_DoorFlame& tlv, const Guid& tlvId)
     {
         Path_DoorFlame r;
-        BaseConvert(r, tlv);
+        BaseConvert(r, tlv, tlvId);
         r.mSwitchId = tlv.mSwitchId;
         r.mScale = relive::From(tlv.mScale);
         return r;
@@ -2681,10 +2681,10 @@ private:
 class Path_Mudokon_Converter final
 {
 public:
-    static Path_Mudokon From(const AO::Path_Mudokon& tlv)
+    static Path_Mudokon From(const AO::Path_Mudokon& tlv, const Guid& tlvId)
     {
         Path_Mudokon r;
-        BaseConvert(r, tlv);
+        BaseConvert(r, tlv, tlvId);
         r.mScale = relive::From(tlv.mScale);
         r.mJob = From(tlv.mJob);
         r.mFacing = relive::From(tlv.mFacing);
@@ -2696,10 +2696,10 @@ public:
         return r;
     }
 
-    static Path_Mudokon From(const ::Path_Mudokon& tlv)
+    static Path_Mudokon From(const ::Path_Mudokon& tlv, const Guid& tlvId)
     {
         Path_Mudokon r;
-        BaseConvert(r, tlv);
+        BaseConvert(r, tlv, tlvId);
         r.mScale = relive::From(tlv.mScale);
         r.mJob = From(tlv.mJob);
         r.mFacing = relive::From(tlv.mFacing);
@@ -2771,10 +2771,10 @@ private:
 class Path_MovingBomb_Converter final
 {
 public:
-    static Path_MovingBomb From(const AO::Path_MovingBomb& tlv)
+    static Path_MovingBomb From(const AO::Path_MovingBomb& tlv, const Guid& tlvId)
     {
         Path_MovingBomb r;
-        BaseConvert(r, tlv);
+        BaseConvert(r, tlv, tlvId);
         r.mSpeed = tlv.mSpeed;
         r.mStartMovingSwitchId = tlv.mStartMovingSwitchId;
         r.mTriggeredByAlarm = relive::From(tlv.mTriggeredByAlarm);
@@ -2785,10 +2785,10 @@ public:
         return r;
     }
 
-    static Path_MovingBomb From(const ::Path_MovingBomb& tlv)
+    static Path_MovingBomb From(const ::Path_MovingBomb& tlv, const Guid& tlvId)
     {
         Path_MovingBomb r;
-        BaseConvert(r, tlv);
+        BaseConvert(r, tlv, tlvId);
         r.mSpeed = tlv.mSpeed;
         r.mStartMovingSwitchId = tlv.mStartMovingSwitchId;
         r.mTriggeredByAlarm = relive::From(tlv.mTriggeredByAlarm);
@@ -2803,10 +2803,10 @@ public:
 class Path_ElumPathTrans_Converter final
 {
 public:
-    static Path_ElumPathTrans From(const AO::Path_ElumPathTrans& tlv)
+    static Path_ElumPathTrans From(const AO::Path_ElumPathTrans& tlv, const Guid& tlvId)
     {
         Path_ElumPathTrans r;
-        BaseConvert(r, tlv);
+        BaseConvert(r, tlv, tlvId);
         r.mNextLevel = MapWrapper::FromAO(tlv.mNextLevel);
         r.mNextPath = tlv.mNextPath;
         r.mNextCamera = tlv.mNextCamera;
@@ -2817,10 +2817,10 @@ public:
 class Path_MudokonPathTrans_Converter final
 {
 public:
-    static Path_MudokonPathTrans From(const AO::Path_MudokonPathTrans& tlv)
+    static Path_MudokonPathTrans From(const AO::Path_MudokonPathTrans& tlv, const Guid& tlvId)
     {
         Path_MudokonPathTrans r;
-        BaseConvert(r, tlv);
+        BaseConvert(r, tlv, tlvId);
         r.mNextLevel = MapWrapper::FromAO(tlv.mNextLevel);
         r.mNextPath = tlv.mNextPath;
         r.mNextCamera = tlv.mNextCamera;
@@ -2831,10 +2831,10 @@ public:
 class Path_SecurityClaw_Converter final
 {
 public:
-    static Path_SecurityClaw From(const AO::Path_SecurityClaw& tlv)
+    static Path_SecurityClaw From(const AO::Path_SecurityClaw& tlv, const Guid& tlvId)
     {
         Path_SecurityClaw r;
-        BaseConvert(r, tlv);
+        BaseConvert(r, tlv, tlvId);
         r.mScale = relive::From(tlv.mScale);
         r.mAlarmSwitchId = tlv.mAlarmSwitchId;
         r.mAlarmDuration = tlv.mAlarmDuration;
@@ -2843,10 +2843,10 @@ public:
     }
 
     // This is just a security orb in AE
-    static Path_SecurityClaw From(const ::Path_SecurityClaw& tlv)
+    static Path_SecurityClaw From(const ::Path_SecurityClaw& tlv, const Guid& tlvId)
     {
         Path_SecurityClaw r;
-        BaseConvert(r, tlv);
+        BaseConvert(r, tlv, tlvId);
         r.mScale = relive::From(tlv.mScale);
         r.mDisabledResources = tlv.mDisabledResources;
         return r;
@@ -2856,10 +2856,10 @@ public:
 class Path_SlingMudokon_Converter final
 {
 public:
-    static Path_SlingMudokon From(const AO::Path_SlingMudokon& tlv)
+    static Path_SlingMudokon From(const AO::Path_SlingMudokon& tlv, const Guid& tlvId)
     {
         Path_SlingMudokon r;
-        BaseConvert(r, tlv);
+        BaseConvert(r, tlv, tlvId);
         r.mScale = relive::From(tlv.mScale);
         r.mDontWhistlePassword = relive::From(tlv.mDontWhistlePassword);
         r.mCode1 = tlv.mCode1;
@@ -2871,10 +2871,10 @@ public:
 class Path_FootSwitch_Converter final
 {
 public:
-    static Path_FootSwitch From(const AO::Path_FootSwitch& tlv)
+    static Path_FootSwitch From(const AO::Path_FootSwitch& tlv, const Guid& tlvId)
     {
         Path_FootSwitch r;
-        BaseConvert(r, tlv);
+        BaseConvert(r, tlv, tlvId);
         r.mSwitchId = tlv.mSwitchId;
         r.mScale = relive::From(tlv.mScale);
         r.mAction = relive::From(tlv.mAction);
@@ -2882,10 +2882,10 @@ public:
         return r;
     }
 
-    static Path_FootSwitch From(const ::Path_FootSwitch& tlv)
+    static Path_FootSwitch From(const ::Path_FootSwitch& tlv, const Guid& tlvId)
     {
         Path_FootSwitch r;
-        BaseConvert(r, tlv);
+        BaseConvert(r, tlv, tlvId);
         r.mSwitchId = tlv.mSwitchId;
         r.mScale = relive::From(tlv.mScale);
         r.mAction = relive::From(tlv.mAction);
@@ -2921,10 +2921,10 @@ private:
 class Path_Paramite_Converter final
 {
 public:
-    static Path_Paramite From(const AO::Path_Paramite& tlv)
+    static Path_Paramite From(const AO::Path_Paramite& tlv, const Guid& tlvId)
     {
         Path_Paramite r;
-        BaseConvert(r, tlv);
+        BaseConvert(r, tlv, tlvId);
         r.mScale = relive::From(tlv.mScale);
         r.mEntranceType = From(tlv.mEnterFromWeb);
         r.mAloneChaseDelay = tlv.mAloneChaseDelay;
@@ -2937,10 +2937,10 @@ public:
         return r;
     }
 
-    static Path_Paramite From(const ::Path_Paramite& tlv)
+    static Path_Paramite From(const ::Path_Paramite& tlv, const Guid& tlvId)
     {
         Path_Paramite r;
-        BaseConvert(r, tlv);
+        BaseConvert(r, tlv, tlvId);
         r.mScale = relive::From(tlv.mScale);
         r.mEntranceType = From(tlv.mEntranceType);
         r.mAloneChaseDelay = tlv.mAloneChaseDelay;
@@ -2984,20 +2984,20 @@ private:
 class Path_ZzzSpawner_Converter final
 {
 public:
-    static Path_ZzzSpawner From(const AO::Path_ZzzSpawner& tlv)
+    static Path_ZzzSpawner From(const AO::Path_ZzzSpawner& tlv, const Guid& tlvId)
     {
         Path_ZzzSpawner r;
-        BaseConvert(r, tlv);
+        BaseConvert(r, tlv, tlvId);
         r.mScale = relive::From(tlv.mScale);
         r.mSwitchId = tlv.mSwitchId;
         r.mZzzInterval = tlv.mZzzInterval;
         return r;
     }
 
-    static Path_ZzzSpawner From(const ::Path_ZzzSpawner& tlv)
+    static Path_ZzzSpawner From(const ::Path_ZzzSpawner& tlv, const Guid& tlvId)
     {
         Path_ZzzSpawner r;
-        BaseConvert(r, tlv);
+        BaseConvert(r, tlv, tlvId);
         r.mScale = relive::From(tlv.mScale);
         r.mSwitchId = tlv.mSwitchId;
         r.mZzzInterval = tlv.mZzzInterval;
@@ -3008,10 +3008,10 @@ public:
 class Path_BackgroundGlukkon_Converter final
 {
 public:
-    static Path_BackgroundGlukkon From(const AO::Path_BackgroundGlukkon& tlv)
+    static Path_BackgroundGlukkon From(const AO::Path_BackgroundGlukkon& tlv, const Guid& tlvId)
     {
         Path_BackgroundGlukkon r;
-        BaseConvert(r, tlv);
+        BaseConvert(r, tlv, tlvId);
         r.mScalePercent = tlv.mScalePercent;
         r.mPalId = tlv.mPalId;
         return r;
@@ -3021,17 +3021,17 @@ public:
 class Path_GasEmitter_Converter final
 {
 public:
-    static Path_GasEmitter From(const AO::Path_GasEmitter& tlv)
+    static Path_GasEmitter From(const AO::Path_GasEmitter& tlv, const Guid& tlvId)
     {
         Path_GasEmitter r;
-        BaseConvert(r, tlv);
+        BaseConvert(r, tlv, tlvId);
         return r;
     }
 
-    static Path_GasEmitter From(const ::Path_GasEmitter& tlv)
+    static Path_GasEmitter From(const ::Path_GasEmitter& tlv, const Guid& tlvId)
     {
         Path_GasEmitter r;
-        BaseConvert(r, tlv);
+        BaseConvert(r, tlv, tlvId);
         r.mSwitchId = tlv.mSwitchId;
         r.mColour = From(tlv.mColour);
         return r;
@@ -3059,18 +3059,18 @@ private:
 class Path_GasCountDown_Converter final
 {
 public:
-    static Path_GasCountDown From(const AO::Path_GasCountDown& tlv)
+    static Path_GasCountDown From(const AO::Path_GasCountDown& tlv, const Guid& tlvId)
     {
         Path_GasCountDown r;
-        BaseConvert(r, tlv);
+        BaseConvert(r, tlv, tlvId);
         r.mStartTimerSwitchId = tlv.mStartTimerSwitchId;
         return r;
     }
 
-    static Path_GasCountDown From(const ::Path_GasCountDown& tlv)
+    static Path_GasCountDown From(const ::Path_GasCountDown& tlv, const Guid& tlvId)
     {
         Path_GasCountDown r;
-        BaseConvert(r, tlv);
+        BaseConvert(r, tlv, tlvId);
         r.mStartTimerSwitchId = tlv.mStartTimerSwitchId;
         r.mGasCountdownTimer = tlv.mGasCountdownTimer;
         r.mStopTimerSwitchId = tlv.mStopTimerSwitchId;
@@ -3081,10 +3081,10 @@ public:
 class Path_RingCancel_Converter final
 {
 public:
-    static Path_RingCancel From(const AO::Path_RingCancel& tlv)
+    static Path_RingCancel From(const AO::Path_RingCancel& tlv, const Guid& tlvId)
     {
         Path_RingCancel r;
-        BaseConvert(r, tlv);
+        BaseConvert(r, tlv, tlvId);
         return r;
     }
 };
@@ -3092,10 +3092,10 @@ public:
 class Path_SecurityDoor_Converter final
 {
 public:
-    static Path_SecurityDoor From(const AO::Path_SecurityDoor& tlv)
+    static Path_SecurityDoor From(const AO::Path_SecurityDoor& tlv, const Guid& tlvId)
     {
         Path_SecurityDoor r;
-        BaseConvert(r, tlv);
+        BaseConvert(r, tlv, tlvId);
         r.mScale = relive::From(tlv.mScale);
         r.mSwitchId = tlv.mSwitchId;
         r.mCode1 = tlv.mCode1;
@@ -3105,10 +3105,10 @@ public:
         return r;
     }
 
-    static Path_SecurityDoor From(const ::Path_SecurityDoor& tlv)
+    static Path_SecurityDoor From(const ::Path_SecurityDoor& tlv, const Guid& tlvId)
     {
         Path_SecurityDoor r;
-        BaseConvert(r, tlv);
+        BaseConvert(r, tlv, tlvId);
         r.mScale = relive::From(tlv.mScale);
         r.mSwitchId = tlv.mSwitchId;
         r.mCode1 = tlv.mCode1;
@@ -3122,10 +3122,10 @@ public:
 class Path_LiftMudokon_Converter final
 {
 public:
-    static Path_LiftMudokon From(const AO::Path_LiftMudokon& tlv)
+    static Path_LiftMudokon From(const AO::Path_LiftMudokon& tlv, const Guid& tlvId)
     {
         Path_LiftMudokon r;
-        BaseConvert(r, tlv);
+        BaseConvert(r, tlv, tlvId);
         r.mHowFarToWalk = tlv.mHowFarToWalk;
         r.mLiftSwitchId = tlv.mLiftSwitchId;
         r.mFacing = From(tlv.mFacing);
@@ -3152,10 +3152,10 @@ private:
 class Path_RingMudokon_Converter final
 {
 public:
-    static Path_RingMudokon From(const AO::Path_RingMudokon& tlv)
+    static Path_RingMudokon From(const AO::Path_RingMudokon& tlv, const Guid& tlvId)
     {
         Path_RingMudokon r;
-        BaseConvert(r, tlv);
+        BaseConvert(r, tlv, tlvId);
         r.mFacing = relive::From(tlv.mFacing);
         r.mAbeMustFaceMud = From(tlv.mAbeMustFaceMud);
         r.mScale = relive::From(tlv.mScale);
@@ -3184,10 +3184,10 @@ private:
 class Path_WellLocal_Converter final
 {
 public:
-    static Path_WellLocal From(const AO::Path_WellLocal& tlv)
+    static Path_WellLocal From(const AO::Path_WellLocal& tlv, const Guid& tlvId)
     {
         Path_WellLocal r;
-        BaseConvert(r, tlv);
+        BaseConvert(r, tlv, tlvId);
 
         // Well base
         r.mScale = relive::From(tlv.mScale);
@@ -3210,10 +3210,10 @@ public:
         return r;
     }
 
-    static Path_WellLocal From(const ::Path_WellLocal& tlv)
+    static Path_WellLocal From(const ::Path_WellLocal& tlv, const Guid& tlvId)
     {
         Path_WellLocal r;
-        BaseConvert(r, tlv);
+        BaseConvert(r, tlv, tlvId);
 
         // Well base
         r.mScale = relive::From(tlv.mScale);
@@ -3235,10 +3235,10 @@ public:
 class Path_WellExpress_Converter final
 {
 public:
-    static Path_WellExpress From(const AO::Path_WellExpress& tlv)
+    static Path_WellExpress From(const AO::Path_WellExpress& tlv, const Guid& tlvId)
     {
         Path_WellExpress r;
-        BaseConvert(r, tlv);
+        BaseConvert(r, tlv, tlvId);
 
         // Well base
         r.mScale = relive::From(tlv.mScale);
@@ -3266,10 +3266,10 @@ public:
         return r;
     }
 
-    static Path_WellExpress From(const ::Path_WellExpress& tlv)
+    static Path_WellExpress From(const ::Path_WellExpress& tlv, const Guid& tlvId)
     {
         Path_WellExpress r;
-        BaseConvert(r, tlv);
+        BaseConvert(r, tlv, tlvId);
 
         // Well base
         r.mScale = relive::From(tlv.mScale);
@@ -3295,10 +3295,10 @@ public:
 class Path_Slog_Converter final
 {
 public:
-    static Path_Slog From(const AO::Path_Slog& tlv)
+    static Path_Slog From(const AO::Path_Slog& tlv, const Guid& tlvId)
     {
         Path_Slog r;
-        BaseConvert(r, tlv);
+        BaseConvert(r, tlv, tlvId);
         r.mScale = relive::From(tlv.mScale);
         r.mFacing = relive::From(tlv.mFacing);
         r.mAsleep = relive::From(tlv.mAsleep);
@@ -3311,10 +3311,10 @@ public:
         return r;
     }
 
-    static Path_Slog From(const ::Path_Slog& tlv)
+    static Path_Slog From(const ::Path_Slog& tlv, const Guid& tlvId)
     {
         Path_Slog r;
-        BaseConvert(r, tlv);
+        BaseConvert(r, tlv, tlvId);
         r.mScale = relive::From(tlv.mScale);
         r.mFacing = relive::From(tlv.mFacing);
         r.mAsleep = relive::From(tlv.mAsleep);
@@ -3332,10 +3332,10 @@ public:
 class Path_SlogSpawner_Converter final
 {
 public:
-    static Path_SlogSpawner From(const AO::Path_SlogSpawner& tlv)
+    static Path_SlogSpawner From(const AO::Path_SlogSpawner& tlv, const Guid& tlvId)
     {
         Path_SlogSpawner r;
-        BaseConvert(r, tlv);
+        BaseConvert(r, tlv, tlvId);
         r.mScale = relive::From(tlv.mScale);
         r.mMaxSlogs = tlv.mMaxSlogs;
         r.mMaxSlogsAtATime = tlv.mMaxSlogsAtATime;
@@ -3345,10 +3345,10 @@ public:
         return r;
     }
 
-    static Path_SlogSpawner From(const ::Path_SlogSpawner& tlv)
+    static Path_SlogSpawner From(const ::Path_SlogSpawner& tlv, const Guid& tlvId)
     {
         Path_SlogSpawner r;
-        BaseConvert(r, tlv);
+        BaseConvert(r, tlv, tlvId);
         r.mScale = relive::From(tlv.mScale);
         r.mMaxSlogs = tlv.mMaxSlogs;
         r.mMaxSlogsAtATime = tlv.mMaxSlogsAtATime;
@@ -3388,10 +3388,10 @@ private:
 class Path_Scrab_Converter final
 {
 public:
-    static Path_Scrab From(const AO::Path_Scrab& tlv)
+    static Path_Scrab From(const AO::Path_Scrab& tlv, const Guid& tlvId)
     {
         Path_Scrab r;
-        BaseConvert(r, tlv);
+        BaseConvert(r, tlv, tlvId);
         r.mScale = relive::From(tlv.mScale);
         r.mAttackDelay = tlv.mAttackDelay;
         r.mPatrolType = From(tlv.mPatrolType);
@@ -3405,10 +3405,10 @@ public:
         return r;
     }
 
-    static Path_Scrab From(const ::Path_Scrab& tlv)
+    static Path_Scrab From(const ::Path_Scrab& tlv, const Guid& tlvId)
     {
         Path_Scrab r;
-        BaseConvert(r, tlv);
+        BaseConvert(r, tlv, tlvId);
         r.mScale = relive::From(tlv.mScale);
         r.mAttackDelay = tlv.mAttackDelay;
         r.mPatrolTypeRunOrWalkChance = tlv.mPatrolTypeRunOrWalkChance;
@@ -3447,10 +3447,10 @@ private:
 class Path_Slig_Converter final
 {
 public:
-    static Path_Slig From(const AO::Path_Slig& tlv)
+    static Path_Slig From(const AO::Path_Slig& tlv, const Guid& tlvId)
     {
         Path_Slig r;
-        BaseConvert(r, tlv);
+        BaseConvert(r, tlv, tlvId);
         r.mData.mScale = relive::From(tlv.mScale);
         r.mData.mStartState = From(tlv.mStartState);
         r.mData.mPauseTime = tlv.mPauseTime;
@@ -3480,10 +3480,10 @@ public:
         return r;
     }
 
-    static Path_Slig From(const ::Path_Slig& tlv)
+    static Path_Slig From(const ::Path_Slig& tlv, const Guid& tlvId)
     {
         Path_Slig r;
-        BaseConvert(r, tlv);
+        BaseConvert(r, tlv, tlvId);
         r.mData.mScale = relive::From(tlv.mScale);
         r.mData.mStartState = From(tlv.mStartState);
         r.mData.mPauseTime = tlv.mPauseTime;
@@ -3584,10 +3584,10 @@ public:
 class Path_SligSpawner_Converter final
 {
 public:
-    static Path_SligSpawner From(const AO::Path_SligSpawner& tlv)
+    static Path_SligSpawner From(const AO::Path_SligSpawner& tlv, const Guid& tlvId)
     {
         Path_SligSpawner r;
-        BaseConvert(r, tlv);
+        BaseConvert(r, tlv, tlvId);
         r.mData.mScale = relive::From(tlv.mScale);
         r.mData.mStartState = From(tlv.mStartState);
         r.mData.mPauseTime = tlv.mPauseTime;
@@ -3617,10 +3617,10 @@ public:
         return r;
     }
 
-    static Path_SligSpawner From(const ::Path_SligSpawner& tlv)
+    static Path_SligSpawner From(const ::Path_SligSpawner& tlv, const Guid& tlvId)
     {
         Path_SligSpawner r;
-        BaseConvert(r, tlv);
+        BaseConvert(r, tlv, tlvId);
         r.mData.mScale = relive::From(tlv.mScale);
         r.mData.mStartState = From(tlv.mStartState);
         r.mData.mPauseTime = tlv.mPauseTime;
@@ -3722,10 +3722,10 @@ private:
 class Path_TrainDoor_Converter final
 {
 public:
-    static Path_TrainDoor From(const ::Path_TrainDoor& tlv)
+    static Path_TrainDoor From(const ::Path_TrainDoor& tlv, const Guid& tlvId)
     {
         Path_TrainDoor r;
-        BaseConvert(r, tlv);
+        BaseConvert(r, tlv, tlvId);
         r.mDirection = relive::From(tlv.mDirection);
         return r;
     }
@@ -3734,10 +3734,10 @@ public:
 class Path_TorturedMudokon_Converter final
 {
 public:
-    static Path_TorturedMudokon From(const ::Path_TorturedMudokon& tlv)
+    static Path_TorturedMudokon From(const ::Path_TorturedMudokon& tlv, const Guid& tlvId)
     {
         Path_TorturedMudokon r;
-        BaseConvert(r, tlv);
+        BaseConvert(r, tlv, tlvId);
         r.mKillSwitchId = tlv.mKillSwitchId;
         r.mReleaseSwitchId = tlv.mReleaseSwitchId;
         return r;
@@ -3747,10 +3747,10 @@ public:
 class Path_DoorBlocker_Converter final
 {
 public:
-    static Path_DoorBlocker From(const ::Path_DoorBlocker& tlv)
+    static Path_DoorBlocker From(const ::Path_DoorBlocker& tlv, const Guid& tlvId)
     {
         Path_DoorBlocker r;
-        BaseConvert(r, tlv);
+        BaseConvert(r, tlv, tlvId);
         r.mScale = relive::From(tlv.mScale);
         r.mSwitchId = tlv.mSwitchId;
         return r;
@@ -3760,10 +3760,10 @@ public:
 class Path_GlukkonSwitch_Converter final
 {
 public:
-    static Path_GlukkonSwitch From(const ::Path_GlukkonSwitch& tlv)
+    static Path_GlukkonSwitch From(const ::Path_GlukkonSwitch& tlv, const Guid& tlvId)
     {
         Path_GlukkonSwitch r;
-        BaseConvert(r, tlv);
+        BaseConvert(r, tlv, tlvId);
         r.mScale = From(tlv.mScale);
         r.mOkSwitchId = tlv.mOkSwitchId;
         r.mFailSwitchId = tlv.mFailSwitchId;
@@ -3788,10 +3788,10 @@ private:
 class Path_Greeter_Converter final
 {
 public:
-    static Path_Greeter From(const ::Path_Greeter& tlv)
+    static Path_Greeter From(const ::Path_Greeter& tlv, const Guid& tlvId)
     {
         Path_Greeter r;
-        BaseConvert(r, tlv);
+        BaseConvert(r, tlv, tlvId);
         r.mScale = relive::From(tlv.mScale);
         r.mMotionDetectorSpeed = tlv.mMotionDetectorSpeed;
         r.mFacing = relive::From(tlv.mFacing);
@@ -3802,10 +3802,10 @@ public:
 class Path_BrewMachine_Converter final
 {
 public:
-    static Path_BrewMachine From(const ::Path_BrewMachine& tlv)
+    static Path_BrewMachine From(const ::Path_BrewMachine& tlv, const Guid& tlvId)
     {
         Path_BrewMachine r;
-        BaseConvert(r, tlv);
+        BaseConvert(r, tlv, tlvId);
         r.mBrewCount = tlv.mBrewCount;
         return r;
     }
@@ -3814,10 +3814,10 @@ public:
 class Path_Alarm_Converter final
 {
 public:
-    static Path_Alarm From(const ::Path_Alarm& tlv)
+    static Path_Alarm From(const ::Path_Alarm& tlv, const Guid& tlvId)
     {
         Path_Alarm r;
-        BaseConvert(r, tlv);
+        BaseConvert(r, tlv, tlvId);
         r.mSwitchId = tlv.mSwitchId;
         r.mAlarmDuration = tlv.mAlarmDuration;
         return r;
@@ -3827,10 +3827,10 @@ public:
 class Path_ParamiteWebLine_Converter final
 {
 public:
-    static Path_ParamiteWebLine From(const ::Path_ParamiteWebLine& tlv)
+    static Path_ParamiteWebLine From(const ::Path_ParamiteWebLine& tlv, const Guid& tlvId)
     {
         Path_ParamiteWebLine r;
-        BaseConvert(r, tlv);
+        BaseConvert(r, tlv, tlvId);
         r.mScale = relive::From(tlv.mScale);
         return r;
     }
@@ -3839,10 +3839,10 @@ public:
 class Path_SlapLock_Converter final
 {
 public:
-    static Path_SlapLock From(const ::Path_SlapLock& tlv)
+    static Path_SlapLock From(const ::Path_SlapLock& tlv, const Guid& tlvId)
     {
         Path_SlapLock r;
-        BaseConvert(r, tlv);
+        BaseConvert(r, tlv, tlvId);
         r.mScale = relive::From(tlv.mScale);
         r.mTargetTombSwitchId1 = tlv.mTargetTombSwitchId1;
         r.mTargetTombSwitchId2 = tlv.mTargetTombSwitchId2;
@@ -3857,10 +3857,10 @@ public:
 class Path_StatusLight_Converter final
 {
 public:
-    static Path_StatusLight From(const ::Path_StatusLight& tlv)
+    static Path_StatusLight From(const ::Path_StatusLight& tlv, const Guid& tlvId)
     {
         Path_StatusLight r;
-        BaseConvert(r, tlv);
+        BaseConvert(r, tlv, tlvId);
         r.mInputSwitchId = tlv.mInputSwitchId;
         r.mScale = relive::From(tlv.mScale);
         r.mLinkedStatusLightSwitchId1 = tlv.mLinkedStatusLightSwitchId1;
@@ -3876,10 +3876,10 @@ public:
 class Path_MultiSwitchController_Converter final
 {
 public:
-    static Path_MultiSwitchController From(const ::Path_MultiSwitchController& tlv)
+    static Path_MultiSwitchController From(const ::Path_MultiSwitchController& tlv, const Guid& tlvId)
     {
         Path_MultiSwitchController r;
-        BaseConvert(r, tlv);
+        BaseConvert(r, tlv, tlvId);
         r.mOutputSwitchId = r.mOutputSwitchId;
         r.mAction = relive::From(tlv.mAction);
         r.mOnOffDelay = tlv.mOnOffDelay;
@@ -3896,10 +3896,10 @@ public:
 class Path_ExplosionSet_Converter final
 {
 public:
-    static Path_ExplosionSet From(const ::Path_ExplosionSet& tlv)
+    static Path_ExplosionSet From(const ::Path_ExplosionSet& tlv, const Guid& tlvId)
     {
         Path_ExplosionSet r;
-        BaseConvert(r, tlv);
+        BaseConvert(r, tlv, tlvId);
         r.mStartEnabled = relive::From(tlv.mStartEnabled);
         r.mSwitchId = tlv.mSwitchId;
         r.mSpawnAssets = relive::From(tlv.mSpawnAssets);
@@ -3916,10 +3916,10 @@ public:
 class Path_BoneBag_Converter final
 {
 public:
-    static Path_BoneBag From(const ::Path_BoneBag& tlv)
+    static Path_BoneBag From(const ::Path_BoneBag& tlv, const Guid& tlvId)
     {
         Path_BoneBag r;
-        BaseConvert(r, tlv);
+        BaseConvert(r, tlv, tlvId);
         r.mBoneFallDirection = relive::From(tlv.mBoneFallDirection);
         r.mVelX = tlv.mVelX;
         r.mVelY = tlv.mVelY;
@@ -3932,10 +3932,10 @@ public:
 class Path_MineCar_Converter final
 {
 public:
-    static Path_MineCar From(const ::Path_MineCar& tlv)
+    static Path_MineCar From(const ::Path_MineCar& tlv, const Guid& tlvId)
     {
         Path_MineCar r;
-        BaseConvert(r, tlv);
+        BaseConvert(r, tlv, tlvId);
         r.mScale = relive::From(tlv.mScale);
         return r;
     }
@@ -3944,10 +3944,10 @@ public:
 class Path_ColourfulMeter_Converter final
 {
 public:
-    static Path_ColourfulMeter From(const ::Path_ColourfulMeter& tlv)
+    static Path_ColourfulMeter From(const ::Path_ColourfulMeter& tlv, const Guid& tlvId)
     {
         Path_ColourfulMeter r;
-        BaseConvert(r, tlv);
+        BaseConvert(r, tlv, tlvId);
         r.mSwitchId = tlv.mSwitchId;
         r.mNumberOfMeterBars = tlv.mNumberOfMeterBars;
         r.mMinesAlarmCountdown = tlv.mMinesAlarmCountdown;
@@ -3959,10 +3959,10 @@ public:
 class Path_DemoSpawnPoint_Converter final
 {
 public:
-    static Path_DemoSpawnPoint From(const ::Path_DemoSpawnPoint& tlv)
+    static Path_DemoSpawnPoint From(const ::Path_DemoSpawnPoint& tlv, const Guid& tlvId)
     {
         Path_DemoSpawnPoint r;
-        BaseConvert(r, tlv);
+        BaseConvert(r, tlv, tlvId);
         return r;
     }
 };
@@ -3970,10 +3970,10 @@ public:
 class Path_LevelLoader_Converter final
 {
 public:
-    static Path_LevelLoader From(const ::Path_LevelLoader& tlv)
+    static Path_LevelLoader From(const ::Path_LevelLoader& tlv, const Guid& tlvId)
     {
         Path_LevelLoader r;
-        BaseConvert(r, tlv);
+        BaseConvert(r, tlv, tlvId);
         r.mSwitchId = tlv.mSwitchId;
         r.mDestLevel = MapWrapper::FromAE(tlv.mDestLevel);
         r.mDestPath = tlv.mDestPath;
@@ -3986,10 +3986,10 @@ public:
 class Path_SlamDoor_Converter final
 {
 public:
-    static Path_SlamDoor From(const ::Path_SlamDoor& tlv)
+    static Path_SlamDoor From(const ::Path_SlamDoor& tlv, const Guid& tlvId)
     {
         Path_SlamDoor r;
-        BaseConvert(r, tlv);
+        BaseConvert(r, tlv, tlvId);
         r.mStartClosed = relive::From(tlv.mStartClosed);
         r.mScale = relive::From(tlv.mScale);
         r.mSwitchId = tlv.mSwitchId;
@@ -4002,10 +4002,10 @@ public:
 class Path_Slurg_Converter final
 {
 public:
-    static Path_Slurg From(const ::Path_Slurg& tlv)
+    static Path_Slurg From(const ::Path_Slurg& tlv, const Guid& tlvId)
     {
         Path_Slurg r;
-        BaseConvert(r, tlv);
+        BaseConvert(r, tlv, tlvId);
         r.mMovingTimer = tlv.mSlurgData.mMovingTimer;
         r.mFacing = relive::From(tlv.mSlurgData.mFacing);
         r.mScale = relive::From(tlv.mSlurgData.mScale);
@@ -4017,10 +4017,10 @@ public:
 class Path_LaughingGas_Converter final
 {
 public:
-    static Path_LaughingGas From(const ::Path_LaughingGas& tlv)
+    static Path_LaughingGas From(const ::Path_LaughingGas& tlv, const Guid& tlvId)
     {
         Path_LaughingGas r;
-        BaseConvert(r, tlv);
+        BaseConvert(r, tlv, tlvId);
         r.mLaughingGas = relive::From(tlv.mLaughingGas);
         r.mLaughingGasSwitchId = tlv.mLaughingGasSwitchId;
         r.mRedPercent = tlv.mRedPercent;
@@ -4033,10 +4033,10 @@ public:
 class Path_WorkWheel_Converter final
 {
 public:
-    static Path_WorkWheel From(const ::Path_WorkWheel& tlv)
+    static Path_WorkWheel From(const ::Path_WorkWheel& tlv, const Guid& tlvId)
     {
         Path_WorkWheel r;
-        BaseConvert(r, tlv);
+        BaseConvert(r, tlv, tlvId);
         r.mScale = relive::From(tlv.mScale);
         r.mSwitchId = tlv.mSwitchId;
         r.mActivationTime = tlv.mActivationTime;
@@ -4049,10 +4049,10 @@ public:
 class Path_Water_Converter final
 {
 public:
-    static Path_Water From(const ::Path_Water& tlv)
+    static Path_Water From(const ::Path_Water& tlv, const Guid& tlvId)
     {
         Path_Water r;
-        BaseConvert(r, tlv);
+        BaseConvert(r, tlv, tlvId);
         r.mMaxDrops = tlv.mWaterData.mMaxDrops;
         r.mSwitchId = tlv.mWaterData.mSwitchId;
         r.mSplashTime = tlv.mWaterData.mSplashTime;
@@ -4065,10 +4065,10 @@ public:
 class Path_WheelSyncer_Converter final
 {
 public:
-    static Path_WheelSyncer From(const ::Path_WheelSyncer& tlv)
+    static Path_WheelSyncer From(const ::Path_WheelSyncer& tlv, const Guid& tlvId)
     {
         Path_WheelSyncer r;
-        BaseConvert(r, tlv);
+        BaseConvert(r, tlv, tlvId);
         r.mInputSwitchId1 = tlv.mInputSwitchId1;
         r.mInputSwitchId2 = tlv.mInputSwitchId2;
         r.mOutputSwitchId = tlv.mOutputSwitchId;
@@ -4100,10 +4100,10 @@ private:
 class Path_Fleech_Converter final
 {
 public:
-    static Path_Fleech From(const ::Path_Fleech& tlv)
+    static Path_Fleech From(const ::Path_Fleech& tlv, const Guid& tlvId)
     {
         Path_Fleech r;
-        BaseConvert(r, tlv);
+        BaseConvert(r, tlv, tlvId);
         r.mScale = relive::From(tlv.mScale);
         r.mFacing = relive::From(tlv.mFacing);
         r.mAsleep = relive::From(tlv.mAsleep);
@@ -4123,10 +4123,10 @@ public:
 class Path_SlurgSpawner_Converter final
 {
 public:
-    static Path_SlurgSpawner From(const ::Path_SlurgSpawner& tlv)
+    static Path_SlurgSpawner From(const ::Path_SlurgSpawner& tlv, const Guid& tlvId)
     {
         Path_SlurgSpawner r;
-        BaseConvert(r, tlv);
+        BaseConvert(r, tlv, tlvId);
         r.mSpawnInterval = tlv.mSpawnerData.mSpawnInterval;
         r.mMaxSlurgs = tlv.mSpawnerData.mMaxSlurgs;
         r.mSwitchId = tlv.mSpawnerData.mSwitchId;
@@ -4137,10 +4137,10 @@ public:
 class Path_Drill_Converter final
 {
 public:
-    static Path_Drill From(const ::Path_Drill& tlv)
+    static Path_Drill From(const ::Path_Drill& tlv, const Guid& tlvId)
     {
         Path_Drill r;
-        BaseConvert(r, tlv);
+        BaseConvert(r, tlv, tlvId);
         r.mScale = relive::From(tlv.mDrillData.mScale);
         r.mOnMinPauseTime = tlv.mDrillData.mOnMinPauseTime;
         r.mOnMaxPauseTime = tlv.mDrillData.mOnMaxPauseTime;
@@ -4188,10 +4188,10 @@ private:
 class Path_Teleporter_Converter final
 {
 public:
-    static Path_Teleporter From(const ::Path_Teleporter& tlv)
+    static Path_Teleporter From(const ::Path_Teleporter& tlv, const Guid& tlvId)
     {
         Path_Teleporter r;
-        BaseConvert(r, tlv);
+        BaseConvert(r, tlv, tlvId);
         r.mTeleporterId = tlv.mData.mTeleporterId;
         r.mOtherTeleporterId = tlv.mData.mOtherTeleporterId;
         r.mDestCamera = tlv.mData.mDestCamera;
@@ -4210,10 +4210,10 @@ public:
 class Path_Glukkon_Converter final
 {
 public:
-    static Path_Glukkon From(const ::Path_Glukkon& tlv)
+    static Path_Glukkon From(const ::Path_Glukkon& tlv, const Guid& tlvId)
     {
         Path_Glukkon r;
-        BaseConvert(r, tlv);
+        BaseConvert(r, tlv, tlvId);
         r.mScale = relive::From(tlv.mScale);
         r.mFacing = From(tlv.mFacing);
         r.mBehavior = From(tlv.mBehavior);
@@ -4292,10 +4292,10 @@ private:
 class Path_CrawlingSligButton_Converter final
 {
 public:
-    static Path_CrawlingSligButton From(const ::Path_CrawlingSligButton& tlv)
+    static Path_CrawlingSligButton From(const ::Path_CrawlingSligButton& tlv, const Guid& tlvId)
     {
         Path_CrawlingSligButton r;
-        BaseConvert(r, tlv);
+        BaseConvert(r, tlv, tlvId);
         r.mScale = relive::From(tlv.mScale);
         r.mSwitchId = tlv.mSwitchId;
         r.mAction = relive::From(tlv.mAction);
@@ -4331,10 +4331,10 @@ private:
 class Path_FlyingSlig_Converter final
 {
 public:
-    static Path_FlyingSlig From(const ::Path_FlyingSlig& tlv)
+    static Path_FlyingSlig From(const ::Path_FlyingSlig& tlv, const Guid& tlvId)
     {
         Path_FlyingSlig r;
-        BaseConvert(r, tlv);
+        BaseConvert(r, tlv, tlvId);
         r.mScale = relive::From(tlv.mFlyingSligData.mScale);
         r.mSpawnDelayState = From(tlv.mFlyingSligData.mSpawnDelayState);
         r.mSpawnMoveDelay = tlv.mFlyingSligData.mSpawnMoveDelay;
@@ -4370,10 +4370,10 @@ public:
 class Path_FlyingSligSpawner_Converter final
 {
 public:
-    static Path_FlyingSligSpawner From(const ::Path_FlyingSligSpawner& tlv)
+    static Path_FlyingSligSpawner From(const ::Path_FlyingSligSpawner& tlv, const Guid& tlvId)
     {
         Path_FlyingSligSpawner r;
-        BaseConvert(r, tlv);
+        BaseConvert(r, tlv, tlvId);
         r.mScale = relive::From(tlv.mFlyingSligSpawnerData.mScale);
         r.mSpawnDelayState = Path_FlyingSlig_Converter::From(tlv.mFlyingSligSpawnerData.mSpawnDelayState);
         r.mSpawnMoveDelay = tlv.mFlyingSligSpawnerData.mSpawnMoveDelay;
@@ -4397,10 +4397,10 @@ public:
 class Path_ScrabSpawner_Converter final
 {
 public:
-    static Path_ScrabSpawner From(const ::Path_ScrabSpawner& tlv)
+    static Path_ScrabSpawner From(const ::Path_ScrabSpawner& tlv, const Guid& tlvId)
     {
         Path_ScrabSpawner r;
-        BaseConvert(r, tlv);
+        BaseConvert(r, tlv, tlvId);
         r.mScale = relive::From(tlv.mScale);
         r.mAttackDelay = tlv.mAttackDelay;
         r.mPatrolTypeRunOrWalkChance = tlv.mPatrolTypeRunOrWalkChance;
@@ -4438,10 +4438,10 @@ private:
 class Path_CrawlingSlig_Converter final
 {
 public:
-    static Path_CrawlingSlig From(const ::Path_CrawlingSlig& tlv)
+    static Path_CrawlingSlig From(const ::Path_CrawlingSlig& tlv, const Guid& tlvId)
     {
         Path_CrawlingSlig r;
-        BaseConvert(r, tlv);
+        BaseConvert(r, tlv, tlvId);
         r.mScale = relive::From(tlv.mScale);
         r.mStartState = From(tlv.mStartState);
         r.mCrawlDirection = From(tlv.mCrawlDirection);
@@ -4481,10 +4481,10 @@ private:
 class Path_SligGetWings_Converter final
 {
 public:
-    static Path_SligGetWings From(const ::Path_SligGetWings& tlv)
+    static Path_SligGetWings From(const ::Path_SligGetWings& tlv, const Guid& tlvId)
     {
         Path_SligGetWings r;
-        BaseConvert(r, tlv);
+        BaseConvert(r, tlv, tlvId);
         r.mScale = relive::From(tlv.mScale);
         r.mSpawnDelayState = Path_FlyingSlig_Converter::From(tlv.mSpawnDelayState);
         r.mSpawnMoveDelay = tlv.mSpawnMoveDelay;
@@ -4508,10 +4508,10 @@ public:
 class Path_SligGetPants_Converter final
 {
 public:
-    static Path_SligGetPants From(const ::Path_SligGetPants& tlv)
+    static Path_SligGetPants From(const ::Path_SligGetPants& tlv, const Guid& tlvId)
     {
         Path_SligGetPants r;
-        BaseConvert(r, tlv);
+        BaseConvert(r, tlv, tlvId);
         r.mScale = relive::From(tlv.Scale);
         r.mStartState = Path_Slig_Converter::From(tlv.start_state);
         r.mPauseTime = tlv.pause_time;
