@@ -16,6 +16,6 @@ enum class LoadMode : s16
 };
 
 
-void ConstructTLVObject(relive::Path_TLV* pTlv, Map*, const TLVUniqueId& tlvId, LoadMode);
+void ConstructTLVObject(relive::Path_TLV* pTlv, Map*, const Guid& tlvId, LoadMode);
 
 } // namespace AO

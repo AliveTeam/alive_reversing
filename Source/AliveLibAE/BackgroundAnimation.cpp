@@ -5,7 +5,7 @@
 #include "../relive_lib/Events.hpp"
 #include "DDCheat.hpp"
 
-BackgroundAnimation::BackgroundAnimation(relive::Path_BackgroundAnimation* pTlv, const TLVUniqueId& tlvId)
+BackgroundAnimation::BackgroundAnimation(relive::Path_BackgroundAnimation* pTlv, const Guid& tlvId)
     : BaseAnimatedWithPhysicsGameObject(0)
 {
     SetType(ReliveTypes::eBackgroundAnimation);

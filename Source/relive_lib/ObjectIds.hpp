@@ -1,17 +1,13 @@
 #pragma once
 
 #include "../AliveLibCommon/Function.hpp"
+#include "../../relive_lib/data_conversion/guid.hpp"
+#include <map> // TODO: consider our own lib
 
 class BaseGameObject;
 
-using TObjectId_KeyType = s32;
+using TObjectId_KeyType = Guid;
 
-struct ObjectId_Record final
-{
-    TObjectId_KeyType field_0_id = 0;
-    BaseGameObject* field_4_obj_ptr = nullptr;
-    struct ObjectId_Record* field_8_pNext = nullptr;
-};
 
 class BaseGameObject;
 enum class ReliveTypes : s16;
@@ -20,9 +16,7 @@ class ObjectIds final
 {
 public:
     ~ObjectIds();
-    explicit ObjectIds(u32 size);
-    u32 Id_To_Buffer_Size_Range(TObjectId_KeyType id);
-    ObjectId_Record* Find_By_Id(TObjectId_KeyType idToFind, ObjectId_Record** ppLastMatch);
+    ObjectIds();
     void Insert(TObjectId_KeyType objCount, BaseGameObject* pGameObj);
     s16 Remove(TObjectId_KeyType idToRemove);
 
@@ -31,12 +25,9 @@ public:
 
 public:
     BaseGameObject* Find(TObjectId_KeyType idToFind, ReliveTypes type);
-    s32 EnsureIdIsUnique(s32 nextId);
-    s32 GetHighestUsedId();
 
 private:
-    u32 field_0_buffer_size = 0;
-    ObjectId_Record** field_4_pBuffer = nullptr;
+    std::map<TObjectId_KeyType, BaseGameObject*> mMap;
 };
 
 extern ObjectIds sObjectIds;

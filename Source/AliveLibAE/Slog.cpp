@@ -96,7 +96,7 @@ Slog::Slog(FP xpos, FP ypos, FP scale, s16 bListenToSligs, s16 chaseDelay)
     Init();
 
     field_160_flags.Clear(Flags_160::eBit5_CommandedToAttack);
-    field_12C_tlvInfo = 0xFFFF;
+    field_12C_tlvInfo = Guid{};
     field_120_brain_state_idx = 2;
     field_122_brain_state_result = 0;
 
@@ -122,7 +122,7 @@ Slog::Slog(FP xpos, FP ypos, FP scale, s16 bListenToSligs, s16 chaseDelay)
     field_156_bone_eating_time = 60;
 }
 
-Slog::Slog(relive::Path_Slog* pTlv, const TLVUniqueId& tlvId)
+Slog::Slog(relive::Path_Slog* pTlv, const Guid& tlvId)
     : BaseAliveGameObject(5)
 {
     field_134_last_event_index = -1;
@@ -155,7 +155,7 @@ Slog::Slog(relive::Path_Slog* pTlv, const TLVUniqueId& tlvId)
     field_12C_tlvInfo = tlvId;
     mBaseGameObjectTlvInfo = tlvId;
     field_120_brain_state_idx = 1;
-    field_118_target_id = -1;
+    field_118_target_id = Guid{};
     field_144_wake_up_anger = pTlv->mWakeUpAnger;
     field_146_total_anger = pTlv->mWakeUpAnger + pTlv->mBarkAnger;
     field_148_chase_anger = field_146_total_anger + pTlv->mChaseAnger;
@@ -228,10 +228,9 @@ s32 Slog::VGetSaveState(u8* pSaveBuffer)
     pState->field_3C_id = BaseAliveGameObject_PlatformId;
     pState->field_74_flags.Set(Slog_State::eBit2_Possessed, sControlledCharacter == this); // Lol can't be possessed anyway so ??
     pState->field_40_tlvInfo = field_12C_tlvInfo;
-    pState->field_40_tlvInfo = field_12C_tlvInfo;
-    pState->field_44_obj_id = -1;
+    pState->field_44_obj_id = Guid{};
 
-    if (field_118_target_id != -1)
+    if (field_118_target_id != Guid{})
     {
         BaseGameObject* pObj = sObjectIds.Find_Impl(field_118_target_id);
         if (pObj)
@@ -245,9 +244,9 @@ s32 Slog::VGetSaveState(u8* pSaveBuffer)
     pState->field_4C_timer = field_124_timer;
     pState->field_50_falling_velx_scale_factor = field_128_falling_velx_scale_factor;
     pState->field_40_tlvInfo = field_12C_tlvInfo;
-    pState->field_54_obj_id = -1;
+    pState->field_54_obj_id = Guid{};
 
-    if (field_138_listening_to_slig_id != -1)
+    if (field_138_listening_to_slig_id != Guid{})
     {
         BaseGameObject* pObj = sObjectIds.Find_Impl(field_138_listening_to_slig_id);
         if (pObj)
@@ -264,9 +263,9 @@ s32 Slog::VGetSaveState(u8* pSaveBuffer)
     pState->field_62_jump_counter = field_15A_jump_counter;
     pState->field_64_scratch_timer = field_14C_scratch_timer;
     pState->field_68_growl_timer = field_150_growl_timer;
-    pState->field_6C_bone_id = -1;
+    pState->field_6C_bone_id = Guid{};
 
-    if (field_15C_bone_id != -1)
+    if (field_15C_bone_id != Guid{})
     {
         BaseGameObject* pObj = sObjectIds.Find_Impl(field_15C_bone_id);
         if (pObj)
@@ -335,7 +334,7 @@ s32 Slog::CreateFromSaveState(const u8* pBuffer)
     }
 
     Slog* pSlog = nullptr;
-    if (pState->field_40_tlvInfo == 0xFFFF)
+    if (pState->field_40_tlvInfo == Guid{})
     {
         pSlog = relive_new Slog(pState->field_8_xpos,
                                   pState->field_C_ypos,
@@ -1280,8 +1279,8 @@ s16 Slog::Brain_0_ListeningToSlig()
     if (!pObj || pObj->mBaseGameObjectFlags.Get(BaseGameObject::eDead))
     {
         field_142_anger_level = 0;
-        field_138_listening_to_slig_id = -1;
-        field_118_target_id = -1;
+        field_138_listening_to_slig_id = Guid{};
+        field_118_target_id = Guid{};
         field_120_brain_state_idx = 1;
         return 0;
     }
@@ -1456,7 +1455,7 @@ s16 Slog::Brain_ListeningToSlig_State_2_Listening(const FP xpos1GridAHead, BaseA
             auto pTarget = FindTarget(1, 0);
             if (pTarget)
             {
-                field_138_listening_to_slig_id = -1;
+                field_138_listening_to_slig_id = Guid{};
                 field_160_flags.Set(Flags_160::eBit5_CommandedToAttack);
                 field_118_target_id = pTarget->mBaseGameObjectId;
                 field_120_brain_state_idx = 2;
@@ -1596,7 +1595,7 @@ s16 Slog::Brain_1_Idle()
 
     if (pTarget && pTarget->mBaseGameObjectFlags.Get(BaseGameObject::eDead))
     {
-        field_118_target_id = -1;
+        field_118_target_id = Guid{};
     }
 
     if (field_134_last_event_index != pEventSystem_5BC11C->field_28_last_event_index)
@@ -1605,7 +1604,7 @@ s16 Slog::Brain_1_Idle()
         if (pEventSystem_5BC11C->field_20_last_event == GameSpeakEvents::Slig_HereBoy_28 && sControlledCharacter->Type() == ReliveTypes::eSlig)
         {
             field_120_brain_state_idx = 0;
-            field_118_target_id = -1;
+            field_118_target_id = Guid{};
             field_138_listening_to_slig_id = sControlledCharacter->mBaseGameObjectId;
             return 0;
         }
@@ -1817,7 +1816,7 @@ s16 Slog::Brain_2_ChasingAbe()
             if (pEventSystem_5BC11C->field_20_last_event == GameSpeakEvents::Slig_HereBoy_28 && sControlledCharacter->Type() == ReliveTypes::eSlig)
             {
                 field_120_brain_state_idx = 0;
-                field_118_target_id = -1;
+                field_118_target_id = Guid{};
                 field_138_listening_to_slig_id = sControlledCharacter->mBaseGameObjectId;
                 return 0;
             }
@@ -1827,9 +1826,9 @@ s16 Slog::Brain_2_ChasingAbe()
     bool updateTarget = false;
     if (!pTarget)
     {
-        if (field_118_target_id != -1)
+        if (field_118_target_id != Guid{})
         {
-            field_118_target_id = -1;
+            field_118_target_id = Guid{};
             field_142_anger_level = 0;
             field_120_brain_state_idx = 1;
             SetNextMotion(eSlogMotions::Motion_0_Idle);
@@ -1851,7 +1850,7 @@ s16 Slog::Brain_2_ChasingAbe()
                     pTarget = sControlledCharacter;
                     if (sControlledCharacter->mSpriteScale == FP_FromDouble(0.5))
                     {
-                        field_118_target_id = -1;
+                        field_118_target_id = Guid{};
                         field_142_anger_level = 0;
                         field_120_brain_state_idx = 1;
                         SetNextMotion(eSlogMotions::Motion_0_Idle);
@@ -2088,7 +2087,7 @@ s16 Slog::Brain_ChasingAbe_State_14_CheckingIfBoneNearby()
     {
         if (pBone->VIsFalling())
         {
-            field_15C_bone_id = -1;
+            field_15C_bone_id = Guid{};
             SetNextMotion(eSlogMotions::Motion_0_Idle);
             return 2;
         }
@@ -2122,7 +2121,7 @@ s16 Slog::Brain_ChasingAbe_State_14_CheckingIfBoneNearby()
         return 12;
     }
 
-    field_15C_bone_id = -1;
+    field_15C_bone_id = Guid{};
     return 2;
 }
 
@@ -2131,7 +2130,7 @@ s16 Slog::Brain_ChasingAbe_State_13_EatingBone()
     auto pBone = static_cast<Bone*>(sObjectIds.Find_Impl(field_15C_bone_id));
     if (!pBone || pBone->VIsFalling())
     {
-        field_15C_bone_id = -1;
+        field_15C_bone_id = Guid{};
         SetNextMotion(eSlogMotions::Motion_0_Idle);
         return 2;
     }
@@ -2152,7 +2151,7 @@ s16 Slog::Brain_ChasingAbe_State_13_EatingBone()
 
             pBone->mBaseGameObjectFlags.Set(BaseGameObject::eDead);
             SetNextMotion(eSlogMotions::Motion_0_Idle);
-            field_15C_bone_id = -1;
+            field_15C_bone_id = Guid{};
             return 2;
         }
 
@@ -2160,7 +2159,7 @@ s16 Slog::Brain_ChasingAbe_State_13_EatingBone()
         return 12;
     }
 
-    field_15C_bone_id = -1;
+    field_15C_bone_id = Guid{};
     return 2;
 }
 
@@ -2174,7 +2173,7 @@ s16 Slog::Brain_ChasingAbe_State_12_WalkingToBone()
     auto pBone = static_cast<Bone*>(sObjectIds.Find_Impl(field_15C_bone_id));
     if (!pBone || pBone->VIsFalling())
     {
-        field_15C_bone_id = -1;
+        field_15C_bone_id = Guid{};
         SetNextMotion(eSlogMotions::Motion_0_Idle);
         return 2;
     }
@@ -2207,7 +2206,7 @@ s16 Slog::Brain_ChasingAbe_State_12_WalkingToBone()
         return field_122_brain_state_result;
     }
 
-    field_15C_bone_id = -1;
+    field_15C_bone_id = Guid{};
     return 2;
 }
 
@@ -2216,7 +2215,7 @@ s16 Slog::Brain_ChasingAbe_State_11_ChasingAfterBone()
     auto pBone = static_cast<Bone*>(sObjectIds.Find_Impl(field_15C_bone_id));
     if (!pBone || pBone->VIsFalling())
     {
-        field_15C_bone_id = -1;
+        field_15C_bone_id = Guid{};
         SetNextMotion(eSlogMotions::Motion_0_Idle);
         return 2;
     }
@@ -2249,7 +2248,7 @@ s16 Slog::Brain_ChasingAbe_State_11_ChasingAfterBone()
 
         if (GetCurrentMotion() == eSlogMotions::Motion_4_Fall)
         {
-            field_15C_bone_id = -1;
+            field_15C_bone_id = Guid{};
             return 9;
         }
 
@@ -2305,7 +2304,7 @@ s16 Slog::Brain_ChasingAbe_State_11_ChasingAfterBone()
         return field_122_brain_state_result;
     }
 
-    field_15C_bone_id = -1;
+    field_15C_bone_id = Guid{};
     return 2;
 }
 
@@ -2665,7 +2664,7 @@ s16 Slog::Brain_ChasingAbe_State_0_Init()
 {
     field_11C_biting_target = 0;
     field_15A_jump_counter = 0;
-    field_15C_bone_id = -1;
+    field_15C_bone_id = Guid{};
     field_124_timer = Math_RandomRange(1, 3) + sGnFrame + field_158_chase_delay;
     Sfx(SlogSound::AttackGrowl_8);
     return 1;
@@ -2673,8 +2672,8 @@ s16 Slog::Brain_ChasingAbe_State_0_Init()
 
 s16 Slog::Brain_3_Death()
 {
-    field_138_listening_to_slig_id = -1;
-    field_118_target_id = -1;
+    field_138_listening_to_slig_id = Guid{};
+    field_118_target_id = Guid{};
 
     if (field_124_timer < static_cast<s32>(sGnFrame + 80))
     {
@@ -2782,10 +2781,10 @@ void Slog::Init()
     field_122_brain_state_result = 0;
     SetNextMotion(eSlogMotions::m1);
     field_130_motion_resource_block_index = 0;
-    BaseAliveGameObject_PlatformId = -1;
-    field_138_listening_to_slig_id = -1;
-    field_118_target_id = -1;
-    field_15C_bone_id = -1;
+    BaseAliveGameObject_PlatformId = Guid{};
+    field_138_listening_to_slig_id = Guid{};
+    field_118_target_id = Guid{};
+    field_15C_bone_id = Guid{};
     SetTint(&sSlogTints_560A48[0], gMap.mCurrentLevel);
     mAnim.mRenderLayer = Layer::eLayer_SlogFleech_34;
 
@@ -2903,11 +2902,11 @@ void Slog::VUpdate()
 
 Slog::~Slog()
 {
-    field_118_target_id = -1;
-    field_138_listening_to_slig_id = -1;
-    field_15C_bone_id = -1;
+    field_118_target_id = Guid{};
+    field_138_listening_to_slig_id = Guid{};
+    field_15C_bone_id = Guid{};
 
-    if (field_12C_tlvInfo != 0xFFFF)
+    if (field_12C_tlvInfo != Guid{})
     {
         Path::TLV_Reset(field_12C_tlvInfo, -1, 0, mHealth <= FP_FromInteger(0));
     }
@@ -3095,7 +3094,7 @@ void Slog::MoveOnLine()
                 if (BaseAliveGameObjectCollisionLine->mLineType != eLineTypes::eDynamicCollision_32 && BaseAliveGameObjectCollisionLine->mLineType != eLineTypes::eBackgroundDynamicCollision_36)
                 {
                     pPlatform->VRemove(this);
-                    BaseAliveGameObject_PlatformId = -1;
+                    BaseAliveGameObject_PlatformId = Guid{};
                 }
             }
             else if (BaseAliveGameObjectCollisionLine->mLineType == eLineTypes::eDynamicCollision_32 || BaseAliveGameObjectCollisionLine->mLineType == eLineTypes::eBackgroundDynamicCollision_36)
@@ -3178,7 +3177,7 @@ BaseAliveGameObject* Slog::FindTarget(s16 bKillSligs, s16 bLookingUp)
     BaseAliveGameObject* pLastFoundObj = nullptr;
 
     s32 array_idx = 0;
-    s32 local_array[10] = {};
+    Guid local_array[10] = {};
 
     for (s32 i = 0; i < gBaseAliveGameObjects->Size(); i++)
     {
@@ -3191,7 +3190,7 @@ BaseAliveGameObject* Slog::FindTarget(s16 bKillSligs, s16 bLookingUp)
         if (pObj->Type() == ReliveTypes::eSlog)
         {
             auto pSlog = static_cast<Slog*>(pObj);
-            if (pSlog->field_118_target_id != -1 && array_idx < ALIVE_COUNTOF(local_array))
+            if (pSlog->field_118_target_id != Guid{} && array_idx < ALIVE_COUNTOF(local_array))
             {
                 local_array[array_idx++] = pSlog->field_118_target_id;
             }
@@ -3267,7 +3266,7 @@ void Slog::VOnTrapDoorOpen()
     if (pPlatform)
     {
         pPlatform->VRemove(this);
-        BaseAliveGameObject_PlatformId = -1;
+        BaseAliveGameObject_PlatformId = Guid{};
         SetCurrentMotion(eSlogMotions::Motion_4_Fall);
     }
 }

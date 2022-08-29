@@ -378,7 +378,7 @@ struct Abe_SaveState final
     u16 mNextMotion;
     u16 mLastLineYPos;
     s16 mCollisionLineType;
-    u32 mPlatformId;
+    Guid mPlatformId;
     u16 mIsElectrocuted;
     u16 mIsInvisible;
     s8 mIsAbeControlled;
@@ -403,14 +403,14 @@ struct Abe_SaveState final
     u16 mKnockdownMotion;
     s16 field_76_padding;
     u32 mRollingMotionTimer;
-    u32 mDeathFadeOutId;
-    u32 mCircularFadeId;
-    u32 mOrbWhirlWindId;
-    u32 mPossessedObjectId;
-    u32 mThrowableId;
-    u32 mPullRingRopeId;
-    u32 mSlappableOrPickupId;
-    u32 mWorkWheelId;
+    Guid mDeathFadeOutId;
+    Guid mCircularFadeId;
+    Guid mOrbWhirlWindId;
+    Guid mPossessedObjectId;
+    Guid mThrowableId;
+    Guid mPullRingRopeId;
+    Guid mSlappableOrPickupId;
+    Guid mWorkWheelId;
     u32 mInvisibilityTimer;
     u16 field_A0_unused;
     u16 mInvisibilityDuration;
@@ -437,7 +437,7 @@ struct Abe_SaveState final
     s8 field_CB_padding;
     u16 mBirdPortalSubState;
     s16 field_CE_padding;
-    u32 mBirdPortalId;
+    Guid mBirdPortalId;
     enum Flags_D4
     {
         eD4_Bit1_lift_point_dead_while_using_lift = 0x1,
@@ -465,7 +465,7 @@ struct Abe_SaveState final
     };
     BitField16<Flags_D6> field_D6_flags;
 };
-ALIVE_ASSERT_SIZEOF_ALWAYS(Abe_SaveState, 216);
+//ALIVE_ASSERT_SIZEOF_ALWAYS(Abe_SaveState, 216);
 
 class Bullet;
 
@@ -683,21 +683,21 @@ public:
     s32 field_124_timer = 0;
     Abe_1BC_20_sub_object field_128 = {};
     s32 mAutoSayTimer = 0;
-    s32 mDeathFadeOutId = 0;
-    s32 mCircularFadeId = 0;
-    s32 mOrbWhirlWindId = 0;
-    s32 mPossessedObjectId = 0;
-    s32 mThrowableId = 0;
-    s32 mPullRingRopeId = 0;
-    s32 mSlappableOrPickupId = 0;
-    s32 mWorkWheelId = 0;
+    Guid mDeathFadeOutId;
+    Guid mCircularFadeId;
+    Guid mOrbWhirlWindId;
+    Guid mPossessedObjectId;
+    Guid mThrowableId;
+    Guid mPullRingRopeId;
+    Guid mSlappableOrPickupId;
+    Guid mWorkWheelId;
     s32 mRingPulseTimer = 0;
     s16 mHaveShrykull = 0;
     s16 mHaveInvisibility = 0;
     s32 mInvisibilityTimer = 0;
     s16 field_174_unused = 0;
     s16 mInvisibilityDuration = 0;
-    s32 mInvisibleEffectId = 0;
+    Guid mInvisibleEffectId;
     s8 mHandStoneCamIdx = 0;
     ReliveTypes mHandStoneType = {};
     s16 mFmvId = 0;
@@ -717,7 +717,7 @@ public:
     s8 mThrowDirection = 0;
     PortalSubStates mBirdPortalSubState = PortalSubStates::eJumpingInsidePortal_0;
     s16 field_1A6_padding = 0;
-    s32 mBirdPortalId = 0;
+    Guid mBirdPortalId;
 
     enum Flags_1AC
     {

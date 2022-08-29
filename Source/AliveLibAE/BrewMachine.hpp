@@ -15,7 +15,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_BrewMachine, 0x14);
 class BrewMachine final : public ::BaseAnimatedWithPhysicsGameObject
 {
 public:
-    BrewMachine(relive::Path_BrewMachine* pTlv, const TLVUniqueId& tlvId);
+    BrewMachine(relive::Path_BrewMachine* pTlv, const Guid& tlvId);
     ~BrewMachine();
     
     virtual void VUpdate() override;
@@ -26,7 +26,7 @@ private:
     Alive::Font mFont = {};
     s16 mTextX = 0;
     s16 mTextY = 0;
-    TLVUniqueId mTlvInfo;
+    Guid mTlvInfo;
 
 public:
     s16 mTotalBrewCount = 0;

@@ -32,14 +32,14 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_CrawlingSligButton, 0x1C);
 class CrawlingSligButton final : public ::BaseAnimatedWithPhysicsGameObject
 {
 public:
-    CrawlingSligButton(relive::Path_CrawlingSligButton* pTlv, const TLVUniqueId& tlvId);
+    CrawlingSligButton(relive::Path_CrawlingSligButton* pTlv, const Guid& tlvId);
     ~CrawlingSligButton();
 
     virtual void VUpdate() override;
     void UseButton();
 
 private:
-    TLVUniqueId field_F4_tlvInfo;
+    Guid field_F4_tlvInfo;
     s16 field_F8_switch_id = 0;
     relive::reliveSwitchOp field_FA_action = relive::reliveSwitchOp::eSetTrue;
     relive::Path_CrawlingSligButton::ButtonSounds field_FC_on_sound = relive::Path_CrawlingSligButton::ButtonSounds::None;

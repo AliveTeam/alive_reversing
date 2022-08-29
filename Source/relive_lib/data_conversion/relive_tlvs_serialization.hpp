@@ -4,6 +4,23 @@
 #include "nlohmann/json.hpp"
 
 // serialization support for each relive tlv type and any supporting nested types
+static void to_json(nlohmann::json& j, const Guid& p)
+{
+    j = nlohmann::json{
+        {"guid", p.ToString()},
+    };
+}
+
+static void from_json(const nlohmann::json& j, Guid& p)
+{
+    // Pull the json value into the string
+    std::string tmp;
+    j.at("guid").get_to(tmp);
+
+    // Make the guid from the string
+    p = Guid::FromString(tmp);
+}
+
 
 inline void to_json(nlohmann::json& j, const PathLineAO& p)
 {
@@ -109,6 +126,7 @@ inline void to_json(nlohmann::json& j, const Path_TLV& p)
         {"tlv_specific_meaning", p.mTlvSpecificMeaning},
         {"tlv_flags", p.mTlvFlags.Raw().all},
         {"length", p.mLength},
+        {"id", p.mId},
     };
 }
 
@@ -121,6 +139,7 @@ inline void from_json(const nlohmann::json& j, Path_TLV& p)
     j.at("tlv_specific_meaning").get_to(p.mTlvSpecificMeaning);
     j.at("tlv_flags").get_to(p.mTlvFlags.Raw().all);
     j.at("length").get_to(p.mLength);
+    j.at("id").get_to(p.mId);
 }
 
 // Common TLV enums

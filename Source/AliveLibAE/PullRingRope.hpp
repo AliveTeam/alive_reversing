@@ -36,7 +36,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_PullRingRope, 0x20);
 class PullRingRope final : public ::BaseAnimatedWithPhysicsGameObject
 {
 public:
-    PullRingRope(relive::Path_PullRingRope* pTlv, const TLVUniqueId& tlvId);
+    PullRingRope(relive::Path_PullRingRope* pTlv, const Guid& tlvId);
     ~PullRingRope();
     
     virtual void VUpdate() override;

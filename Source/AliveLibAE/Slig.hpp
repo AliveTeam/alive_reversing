@@ -314,7 +314,7 @@ class LiftPoint;
 class Slig final : public BaseAliveGameObject
 {
 public:
-    Slig(relive::Path_Slig* pTlv, const TLVUniqueId& tlvId);
+    Slig(relive::Path_Slig* pTlv, const Guid& tlvId);
     ~Slig();
 
     virtual void VUpdate() override;

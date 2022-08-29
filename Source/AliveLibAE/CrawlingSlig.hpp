@@ -42,7 +42,7 @@ struct CrawlingSlig_State final
 {
     AETypes field_0_type;
     s16 field_2_padding;
-    TLVUniqueId field_4_obj_id;
+    Guid field_4_obj_id;
     FP field_8_xpos;
     FP field_C_ypos;
     FP field_10_velx;
@@ -69,7 +69,7 @@ struct CrawlingSlig_State final
     s8 field_40_bIsControlled;
     s8 field_41_padding;
     s16 field_42_padding;
-    TLVUniqueId field_44_tlvInfo;
+    Guid field_44_tlvInfo;
     s32 field_48_brain_idx;
     s16 field_4C_padding;
     s16 field_4E_padding;
@@ -84,9 +84,9 @@ struct CrawlingSlig_State final
     s16 field_64_prev_camera;
     s16 field_66_pitch;
     s32 field_68_unused;
-    s32 field_6C_slig_button_id;
-    s32 field_70_obj_id;
-    s32 field_74_obj_id;
+    Guid field_6C_slig_button_id;
+    Guid field_70_obj_id;
+    Guid field_74_obj_id;
     SligSpeak field_78_speak;
     s8 field_79_padding;
     s16 field_7A_unused_counter;
@@ -120,7 +120,7 @@ enum class CrawlingSligMotion : s16
 class CrawlingSlig final : public BaseAliveGameObject
 {
 public:
-    CrawlingSlig(relive::Path_CrawlingSlig* pTlv, const TLVUniqueId& tlvId);
+    CrawlingSlig(relive::Path_CrawlingSlig* pTlv, const Guid& tlvId);
     ~CrawlingSlig();
 
     virtual void VUpdate() override;
@@ -190,7 +190,7 @@ public:
     void Motion_17_EndPushingWall();
 
 private:
-    TLVUniqueId field_118_tlvInfo;
+    Guid field_118_tlvInfo;
     s16 field_11C_pPalAlloc[64] = {};
     PSX_RECT field_19C_pal_rect = {};
     s16 field_1A4_r = 0;
@@ -213,9 +213,9 @@ private:
     s16 field_1C6_unused = 0;
     s32 field_1C8_say_help_timer = 0;
     s16 field_1CC_unused = 0;
-    s32 field_1D0_slig_button_id = 0;
-    s32 field_1D4_obj_id = 0;
-    s32 field_1D8_obj_id = 0;
+    Guid field_1D0_slig_button_id;
+    Guid field_1D4_obj_id;
+    Guid field_1D8_obj_id;
     s32 field_1DC_unused = 0;
     relive::Path_CrawlingSlig::CrawlDirection field_1E0_crawl_direction = relive::Path_CrawlingSlig::CrawlDirection::eLeft;
     relive::Path_TLV* field_1E4_pPantsOrWingsTlv = nullptr;

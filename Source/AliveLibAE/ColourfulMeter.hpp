@@ -20,7 +20,7 @@ constexpr s16 kMeterBarsXCount = 20;
 class ColourfulMeter final : public BaseGameObject
 {
 public:
-    ColourfulMeter(relive::Path_ColourfulMeter* pTlv, const TLVUniqueId& tlvId);
+    ColourfulMeter(relive::Path_ColourfulMeter* pTlv, const Guid& tlvId);
     ~ColourfulMeter();
 
     virtual void VScreenChanged() override;
@@ -30,7 +30,7 @@ public:
 private:
     Font_Context field_20_font_context = {};
     Alive::Font field_30_font = {};
-    TLVUniqueId mTlvInfo;
+    Guid mTlvInfo;
     s16 mTextX = 0;
     s16 mTextY = 0;
     s16 mPolysToRenderCount = 0;

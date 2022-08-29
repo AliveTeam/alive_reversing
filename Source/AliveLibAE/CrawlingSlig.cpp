@@ -130,7 +130,7 @@ enum Brain_4_GetKilled
     eBrain4_DeathDrop_5 = 5
 };
 
-CrawlingSlig::CrawlingSlig(relive::Path_CrawlingSlig* pTlv, const TLVUniqueId& tlvId)
+CrawlingSlig::CrawlingSlig(relive::Path_CrawlingSlig* pTlv, const Guid& tlvId)
     : BaseAliveGameObject(2)
 {
     field_1DC_unused = -1;
@@ -151,9 +151,9 @@ CrawlingSlig::CrawlingSlig(relive::Path_CrawlingSlig* pTlv, const TLVUniqueId& t
     field_1B8_bChanting = 0;
     field_1C4_unused_counter = 0;
     field_1C0_speak = SligSpeak::eNone;
-    field_1D0_slig_button_id = -1;
-    field_1D4_obj_id = -1;
-    field_1D8_obj_id = -1;
+    field_1D0_slig_button_id = Guid{};
+    field_1D4_obj_id = Guid{};
+    field_1D8_obj_id = Guid{};
     field_1E4_pPantsOrWingsTlv = 0;
 
     mShadow = relive_new Shadow();
@@ -577,7 +577,7 @@ void CrawlingSlig::VOnTrapDoorOpen()
     if (pPlatform)
     {
         pPlatform->VRemove(this);
-        BaseAliveGameObject_PlatformId = -1;
+        BaseAliveGameObject_PlatformId = Guid{};
         Set_AnimAndMotion(CrawlingSligMotion::Motion_4_StartFalling, TRUE);
     }
 }
@@ -1314,7 +1314,7 @@ void CrawlingSlig::Motion_1_UsingButton()
     if (pSligButton && mAnim.mCurrentFrame == 8)
     {
         pSligButton->UseButton();
-        field_1D0_slig_button_id = -1;
+        field_1D0_slig_button_id = Guid{};
     }
     // If not using a button check if we are on a locker to get pants or wings
     else if (field_1E4_pPantsOrWingsTlv)
@@ -1938,7 +1938,7 @@ void CrawlingSlig::MoveOnLine()
                 if (BaseAliveGameObjectCollisionLine->mLineType != eLineTypes::eDynamicCollision_32 && BaseAliveGameObjectCollisionLine->mLineType != eLineTypes::eBackgroundDynamicCollision_36)
                 {
                     pPlatform->VRemove(this);
-                    BaseAliveGameObject_PlatformId = -1;
+                    BaseAliveGameObject_PlatformId = Guid{};
                 }
             }
             else if (BaseAliveGameObjectCollisionLine->mLineType == eLineTypes::eDynamicCollision_32 || BaseAliveGameObjectCollisionLine->mLineType == eLineTypes::eBackgroundDynamicCollision_36)

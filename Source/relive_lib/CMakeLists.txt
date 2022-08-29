@@ -59,6 +59,8 @@ SET(relive_lib_src
     AnimationUnknown.hpp
     Shadow.hpp
     Shadow.cpp
+    data_conversion/guid.cpp
+    data_conversion/guid.hpp
     data_conversion/camera_converter.hpp
     data_conversion/camera_converter.cpp
     data_conversion/data_conversion.hpp

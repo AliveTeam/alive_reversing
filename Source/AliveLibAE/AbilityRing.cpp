@@ -41,7 +41,7 @@ AbilityRing::AbilityRing(FP xpos, FP ypos, RingTypes ringType, FP scale)
     : BaseGameObject(TRUE, 0)
 {
     SetType(ReliveTypes::eAbilityRing);
-    mRingTargetObjId = -1;
+    mRingTargetObjId = Guid{};
     gObjListDrawables->Push_Back(this);
     mBaseGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4);
 
@@ -356,7 +356,7 @@ void AbilityRing::VUpdate()
     {
         if (pTarget->mBaseGameObjectFlags.Get(BaseGameObject::eDead))
         {
-            mRingTargetObjId = -1;
+            mRingTargetObjId = Guid{};
         }
         else
         {
@@ -478,8 +478,8 @@ s32 AbilityRing::VGetSaveState(u8* pSaveBuffer)
     pSaveState->mRingGreen = mRingGreen;
     pSaveState->mRingBlue = mRingBlue;
 
-    pSaveState->mRingTlvInfo = -1;
-    if (mRingTargetObjId == -1)
+    pSaveState->mRingTlvInfo = Guid{};
+    if (mRingTargetObjId == Guid{})
     {
         return sizeof(AbilityRing_State);
     }

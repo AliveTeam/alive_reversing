@@ -162,7 +162,7 @@ const s16 NO_SELECTABLE_BUTTONS = -1;
 class MainMenuController final : public ::BaseAnimatedWithPhysicsGameObject
 {
 public:
-    MainMenuController(relive::Path_TLV* pTlv, const TLVUniqueId& tlvId);
+    MainMenuController(relive::Path_TLV* pTlv, const Guid& tlvId);
     ~MainMenuController();
 
     virtual void VUpdate() override;
@@ -368,7 +368,7 @@ public:
     MainMenuControllerResources field_F4_resources = {};
     Alive::Font field_120_font = {};
     Animation field_158_animation = {};
-    TLVUniqueId mTlvId;
+    Guid mTlvId;
     s32 field_1F4_credits_next_frame = 0;
     s32 field_1F8_page_timeout = 0; // Timer for starting demos automatically / backing out of menus
     s16 field_1FC_button_index = 0;

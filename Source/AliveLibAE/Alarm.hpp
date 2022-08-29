@@ -14,7 +14,7 @@ public:
     virtual void VUpdate() override;
     virtual void VRender(PrimHeader** ppOt) override;
 
-    Alarm(relive::Path_Alarm* pTlv, const TLVUniqueId& tlvId);
+    Alarm(relive::Path_Alarm* pTlv, const Guid& tlvId);
     Alarm(s32 durationOffset, s32 switchId, s32 timerOffset, Layer layer);
     ~Alarm();
 
@@ -22,7 +22,7 @@ private:
     s16 mAlarmRed = 0;
     s32 mAlarmPauseTimer = 0;
     s32 mAlarmDurationTimer = 0;
-    TLVUniqueId mAlarmTlvInfo;
+    Guid mAlarmTlvInfo;
     s16 mAlarmSwitchId = 0;
     u16 mAlarmDuration = 0;
     enum class States : s16
@@ -39,4 +39,4 @@ private:
 ALIVE_ASSERT_SIZEOF(Alarm, 0x94);
 
 ALIVE_VAR_EXTERN(s16, alarmInstanceCount_5C1BB4);
-ALIVE_VAR_EXTERN(s32, sAlarmObjId_550D70);
+ALIVE_VAR_EXTERN(Guid, sAlarmObjId_550D70);

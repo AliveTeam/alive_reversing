@@ -78,7 +78,7 @@ struct Slog_State final
 {
     AETypes field_0_type;
     s16 field_2_padding;
-    s32 field_4_objectId;
+    Guid field_4_objectId;
     FP field_8_xpos;
     FP field_C_ypos;
     FP field_10_velx;
@@ -100,14 +100,14 @@ struct Slog_State final
     s16 field_36_next_motion;
     s16 field_38_last_line_ypos;
     s16 field_3A_line_type;
-    s32 field_3C_id;
-    s32 field_40_tlvInfo;
-    s32 field_44_obj_id;
+    Guid field_3C_id;
+    Guid field_40_tlvInfo;
+    Guid field_44_obj_id;
     s16 field_48_state_idx;
     s16 field_4A_brain_state_result;
     s32 field_4C_timer;
     FP field_50_falling_velx_scale_factor;
-    s32 field_54_obj_id;
+    Guid field_54_obj_id;
     s16 field_58_has_woofed;
     s16 field_5A_waiting_counter;
     s16 field_5C_response_index;
@@ -116,7 +116,7 @@ struct Slog_State final
     s16 field_62_jump_counter;
     s32 field_64_scratch_timer;
     s32 field_68_growl_timer;
-    s32 field_6C_bone_id;
+    Guid field_6C_bone_id;
     s16 field_70_jump_delay;
     u8 field_72_slog_random_index;
     u8 field_73_padding;
@@ -137,7 +137,7 @@ struct Slog_State final
     BitField16<Flags_74> field_74_flags;
     s16 field_76_padding;
 };
-ALIVE_ASSERT_SIZEOF_ALWAYS(Slog_State, 0x78);
+//ALIVE_ASSERT_SIZEOF_ALWAYS(Slog_State, 0x78);
 
 class Slog;
 using TSlogBrainFn = s16 (Slog::*)();
@@ -147,7 +147,7 @@ class Slog final : public BaseAliveGameObject
 {
 public:
     Slog(FP xpos, FP ypos, FP scale, s16 bListenToSligs, s16 jumpDelay);
-    Slog(relive::Path_Slog* pTlv, const TLVUniqueId& tlvId);
+    Slog(relive::Path_Slog* pTlv, const Guid& tlvId);
     ~Slog();
 
     virtual void VUpdate() override;
@@ -253,7 +253,7 @@ private:
     s16 Facing(FP xpos);
 
 public:
-    s32 field_118_target_id = 0;
+    Guid field_118_target_id;
     s16 field_11C_biting_target = 0;
 
 private:
@@ -261,11 +261,11 @@ private:
     s16 field_122_brain_state_result = 0;
     s32 field_124_timer = 0;
     FP field_128_falling_velx_scale_factor = {};
-    TLVUniqueId field_12C_tlvInfo;
+    Guid field_12C_tlvInfo;
     s16 field_130_motion_resource_block_index = 0;
     s16 field_132_has_woofed = 0;
     s32 field_134_last_event_index = 0;
-    s32 field_138_listening_to_slig_id = 0;
+    Guid field_138_listening_to_slig_id;
     s16 field_13C_waiting_counter = 0;
     s16 field_13E_response_index = 0;
     s16 field_140_response_part = 0;
@@ -279,7 +279,7 @@ private:
     s16 field_156_bone_eating_time = 0;
     s16 field_158_chase_delay = 0;
     s16 field_15A_jump_counter = 0;
-    s32 field_15C_bone_id = 0;
+    Guid field_15C_bone_id;
     enum Flags_160 : s16
     {
         eBit1_StopRunning = 0x1,

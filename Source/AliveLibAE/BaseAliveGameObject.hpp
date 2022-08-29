@@ -71,7 +71,7 @@ protected:
 
     s16 SetBaseAnimPaletteTint(TintEntry* pTintArray, EReliveLevelIds level_id, s32 resourceID);
     bool Check_IsOnEndOfLine(s16 direction, s16 distance);
-    BaseAliveGameObject* GetStackedSlapTarget(s32 idToFind, ReliveTypes typeToFind, FP xpos, FP ypos);
+    BaseAliveGameObject* GetStackedSlapTarget(const Guid& idToFind, ReliveTypes typeToFind, FP xpos, FP ypos);
     bool WallHit(FP offY, FP offX);
     bool InAirCollision(PathLine** ppPathLine, FP* hitX, FP* hitY, FP velY);
     BaseGameObject* FindObjectOfType(ReliveTypes typeToFind, FP xpos, FP ypos);
@@ -88,7 +88,7 @@ public:
     s16 mNextMotion = 0;
     s16 field_10A_unused = 0;
     FP mHealth = {};
-    s32 BaseAliveGameObject_PlatformId = 0;
+    Guid BaseAliveGameObject_PlatformId;
     BitField16<Flags_114> mBaseAliveGameObjectFlags = {};
     s16 field_116_padding = 0;
 };

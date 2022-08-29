@@ -40,14 +40,14 @@ struct AbilityRing_State final
     FP mRingYPos;
     RingTypes mRingType;
     FP mRingScale;
-    s32 mRingTlvInfo;
+    Guid mRingTlvInfo;
     FP mRingRight;
     s32 mRingCount;
     s16 mRingRed;
     s16 mRingGreen;
     s16 mRingBlue;
 };
-ALIVE_ASSERT_SIZEOF_ALWAYS(AbilityRing_State, 0x28);
+//ALIVE_ASSERT_SIZEOF_ALWAYS(AbilityRing_State, 0x28);
 
 struct AbilityRing_PolyBuffer;
 enum class LevelIds : s16;
@@ -99,7 +99,7 @@ private:
     EReliveLevelIds mRingLevel = EReliveLevelIds::eNone;
     s16 mRingPath = 0;
     RingTypes mRingType = RingTypes::eExplosive_Pulse_0;
-    s32 mRingTargetObjId = 0;
+    Guid mRingTargetObjId;
     s32 mRingCount = 0;
     s16 mRingFoundTarget = 0;
 };

@@ -5,6 +5,7 @@
 #include "PathData.hpp"
 #include "Map.hpp"
 #include "AmbientSound.hpp"
+#include "Sys.hpp"
 #include <assert.h>
 
 ALIVE_VAR(1, 0xbb47c0, Path*, sPathInfo, nullptr);
@@ -79,7 +80,7 @@ void Path::Loader_4DB800(s16 xpos, s16 ypos, LoadMode loadMode, ReliveTypes type
                     pPathTLV->mTlvFlags.Set(relive::TlvFlags::eBit2_Destroyed);
                 }
 
-                TLVUniqueId data;
+                Guid data; // TODO: Get from bin path
                 // TODO: data
 
                 // Call the factory to construct the item
@@ -285,8 +286,9 @@ relive::Path_TLV* Path::TlvGetAt(relive::Path_TLV* pTlv, FP xpos, FP ypos, FP w,
     return pTlv;
 }
 
-relive::Path_TLV* Path::TLV_From_Offset_Lvl_Cam(const TLVUniqueId& tlvId)
+relive::Path_TLV* Path::TLV_From_Offset_Lvl_Cam(const Guid& tlvId)
 {
+    /*
     if (tlvId.levelId == mLevelId && tlvId.pathId == mPathId)
     {
         return reinterpret_cast<relive::Path_TLV*>(&(*field_10_ppRes)[mPathData->field_12_object_offset + tlvId.tlvOffset]);
@@ -294,11 +296,14 @@ relive::Path_TLV* Path::TLV_From_Offset_Lvl_Cam(const TLVUniqueId& tlvId)
     else
     {
         return nullptr;
-    }
+    }*/
+    ALIVE_FATAL("TODO");
+    return nullptr;
 }
 
-u32 Path::TLVInfo_From_TLVPtr(relive::Path_TLV* pTlv)
+Guid Path::TLVInfo_From_TLVPtr(relive::Path_TLV* /*pTlv*/)
 {
+    /*
     TlvItemInfoUnion data;
     data.parts.levelId = static_cast<u8>(MapWrapper::ToAE(mLevelId));
     data.parts.pathId = static_cast<u8>(mPathId);
@@ -309,6 +314,10 @@ u32 Path::TLVInfo_From_TLVPtr(relive::Path_TLV* pTlv)
     // Sub off the offset from the start of the path block to TLV data
     data.parts.tlvOffset = static_cast<u16>(diff - mPathData->field_12_object_offset);
     return data.all;
+    */
+
+    ALIVE_FATAL("TODO get guid from ptr");
+    return {};
 }
 
 relive::Path_TLV* Path::TLV_Next_Of_Type(relive::Path_TLV* pTlv, ReliveTypes type)
@@ -331,7 +340,7 @@ relive::Path_TLV* Path::TLV_Next_Of_Type(relive::Path_TLV* pTlv, ReliveTypes typ
     return pTlv;
 }
 
-void Path::TLV_Reset(const TLVUniqueId& tlvId, s16 hiFlags, s8 bSetCreated, s8 bSetDestroyed)
+void Path::TLV_Reset(const Guid& tlvId, s16 hiFlags, s8 bSetCreated, s8 bSetDestroyed)
 {
     if (tlvId.levelId == gMap.mCurrentLevel)
     {

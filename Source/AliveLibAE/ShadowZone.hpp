@@ -31,7 +31,7 @@ enum class LevelIds : s16;
 class ShadowZone final : public BaseGameObject
 {
 public:
-    ShadowZone(relive::Path_ShadowZone* pTlv, Path* pPath, const TLVUniqueId& tlvId);
+    ShadowZone(relive::Path_ShadowZone* pTlv, Path* pPath, const Guid& tlvId);
     ~ShadowZone();
 
     virtual void VUpdate() override;
@@ -44,7 +44,7 @@ private:
     FP* GetColourAmount(FP* pOut, s16 xpos, s16 ypos);
 
 private:
-    s32 field_20_tlvInfo = 0;
+    Guid field_20_tlvInfo;
 
     EReliveLevelIds field_24_level = EReliveLevelIds::eNone;
     s16 field_26_path = 0;

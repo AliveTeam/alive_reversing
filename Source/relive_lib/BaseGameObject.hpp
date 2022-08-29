@@ -3,7 +3,7 @@
 #include "../AliveLibCommon/Types.hpp"
 #include "../AliveLibCommon/BitField.hpp"
 #include "DynamicArray.hpp"
-#include "../relive_lib/data_conversion/tlv_unique_id.hpp"
+#include "../relive_lib/data_conversion/guid.hpp"
 
 extern u32 sGnFrame;
 
@@ -487,7 +487,7 @@ public:
 protected:
     u8** Add_Resource(u32 type, s32 resourceID);
 
-    static s32 RefreshId(s32 objectId);
+    static Guid RefreshId(const Guid& objectId);
 
     // Helper to check if a timer has expired
     template <class T>
@@ -518,8 +518,8 @@ public:
     BitField16<Options> mBaseGameObjectFlags = {};
     s32 mBaseGameObjectUpdateDelay = 0;
 
-    s32 mBaseGameObjectId = 0; // AE
-    TLVUniqueId mBaseGameObjectTlvInfo;      // AE
+    Guid mBaseGameObjectId;                  // AE
+    Guid mBaseGameObjectTlvInfo;                 // AE
     DynamicArrayT<u8*> field_10_resources_array; // AE
 
     s8 mBaseGameObjectRefCount = 0; // AO

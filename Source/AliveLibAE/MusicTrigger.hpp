@@ -34,7 +34,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_MusicTrigger, 0x18);
 class MusicTrigger final : public BaseGameObject
 {
 public:
-    MusicTrigger(relive::Path_MusicTrigger* pTlv, const TLVUniqueId& tlvId);
+    MusicTrigger(relive::Path_MusicTrigger* pTlv, const Guid& tlvId);
     MusicTrigger(relive::Path_MusicTrigger::MusicTriggerMusicType musicType, relive::Path_MusicTrigger::TriggeredBy triggeredBy, s32 /*not_used*/, s32 delay);
     ~MusicTrigger();
 

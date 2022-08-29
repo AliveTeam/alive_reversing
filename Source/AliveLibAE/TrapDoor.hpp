@@ -35,14 +35,14 @@ struct TrapDoor_State final
     AETypes field_0_type;
     TrapDoorState field_2_state;
     s32 field_4_open_time;
-    TLVUniqueId field_8_tlvInfo;
+    Guid field_8_tlvInfo;
 };
 //ALIVE_ASSERT_SIZEOF_ALWAYS(TrapDoor_State, 0xC);
 
 class TrapDoor final : public PlatformBase
 {
 public:
-    TrapDoor(relive::Path_TrapDoor* pTlv, const TLVUniqueId& tlvId);
+    TrapDoor(relive::Path_TrapDoor* pTlv, const Guid& tlvId);
     ~TrapDoor();
 
     virtual void VUpdate() override;

@@ -43,12 +43,12 @@ BaseGameObject::BaseGameObject(s16 bAddToObjectList, s16 resourceArraySize)
         }
     }
 
-    s32 nextId = sObjectIds.EnsureIdIsUnique(sAccumulatedObjectCount_5C1BF4);
+    Guid nextId = Guid::NewGuid();
     mBaseGameObjectTlvInfo = nextId;
     mBaseGameObjectId = nextId;
     sObjectIds.Insert(nextId, this);
 
-    sAccumulatedObjectCount_5C1BF4 = ++nextId;
+    sAccumulatedObjectCount_5C1BF4++; // TODO: probably no longer needed
 }
 
 BaseGameObject::~BaseGameObject()
@@ -940,9 +940,10 @@ u8** BaseGameObject::Add_Resource(u32 type, s32 resourceID)
     return ppRes;
 }
 
-s32 BaseGameObject::RefreshId(s32 objectId)
+Guid BaseGameObject::RefreshId(const Guid& objectId)
 {
-    if (objectId != -1)
+    static Guid nullGuid;
+    if (objectId != nullGuid)
     {
         for (s32 i = 0; i < gBaseGameObjects->Size(); i++)
         {
@@ -958,5 +959,5 @@ s32 BaseGameObject::RefreshId(s32 objectId)
             }
         }
     }
-    return -1;
+    return nullGuid;
 }

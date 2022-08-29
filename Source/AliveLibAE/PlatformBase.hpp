@@ -15,7 +15,7 @@ public:
     // TODO: New virtuals
 
 protected:
-    void AddDynamicCollision(AnimId animId, u8** ppAnimData, relive::Path_TLV* pTlv, const TLVUniqueId& tlvId);
+    void AddDynamicCollision(AnimId animId, u8** ppAnimData, relive::Path_TLV* pTlv, const Guid& tlvId);
 
     void SyncCollisionLinePosition();
     void vRemoveCount(BaseAliveGameObject* pObj);
@@ -29,6 +29,6 @@ protected:
     s16 mPlatformBaseYOffset = 0;
     s16 mPlatformBaseHeightOffset = 0;
     PathLine* field_124_pCollisionLine = nullptr;
-    TLVUniqueId mPlatformBaseTlvInfo;
+    Guid mPlatformBaseTlvInfo;
 };
 ALIVE_ASSERT_SIZEOF(PlatformBase, 0x12C);

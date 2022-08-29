@@ -9,9 +9,9 @@
 #include "Sfx.hpp"
 
 ALIVE_VAR(1, 0x5c1bb4, s16, alarmInstanceCount_5C1BB4, 0);
-ALIVE_VAR(1, 0x550d70, s32, sAlarmObjId_550D70, -1);
+ALIVE_VAR(1, 0x550d70, Guid, sAlarmObjId_550D70, Guid{});
 
-Alarm::Alarm(relive::Path_Alarm* pTlv, const TLVUniqueId& tlvId)
+Alarm::Alarm(relive::Path_Alarm* pTlv, const Guid& tlvId)
     : EffectBase(Layer::eLayer_Above_FG1_39, TPageAbr::eBlend_3)
 {
     mAlarmTlvInfo = tlvId;
@@ -38,7 +38,7 @@ Alarm::Alarm(s32 durationOffset, s32 switchId, s32 timerOffset, Layer layer)
 
     mAlarmRed = 0;
     mAlarmState = States::eAfterConstructed_1;
-    mAlarmTlvInfo = 0xFFFF;
+    mAlarmTlvInfo = Guid{};
     mAlarmPauseTimer = sGnFrame + timerOffset;
     mAlarmDurationTimer = mAlarmPauseTimer + durationOffset;
     mAlarmSwitchId = static_cast<s16>(switchId);
@@ -69,10 +69,10 @@ Alarm::~Alarm()
 
     if (sAlarmObjId_550D70 == mBaseGameObjectId)
     {
-        sAlarmObjId_550D70 = -1;
+        sAlarmObjId_550D70 = Guid{};
     }
 
-    if (mAlarmTlvInfo == 0xFFFF)
+    if (mAlarmTlvInfo == Guid{})
     {
         if (mAlarmSwitchId)
         {

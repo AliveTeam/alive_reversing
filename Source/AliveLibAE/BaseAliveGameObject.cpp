@@ -35,7 +35,7 @@ BaseAliveGameObject::BaseAliveGameObject(s16 resourceArraySize)
     BaseAliveGameObjectPathTLV = nullptr;
     BaseAliveGameObjectCollisionLine = nullptr;
     mHealth = FP_FromInteger(1);
-    BaseAliveGameObject_PlatformId = -1;
+    BaseAliveGameObject_PlatformId = Guid{};
     mBaseAliveGameObjectFlags.Clear(Flags_114::e114_Bit1_bShot);
     mBaseAliveGameObjectFlags.Clear(Flags_114::e114_MotionChanged_Bit2);
     mCurrentMotion = 0;
@@ -58,7 +58,7 @@ BaseAliveGameObject::~BaseAliveGameObject()
     if (pLiftPoint)
     {
         pLiftPoint->VOnTrapDoorOpen();
-        BaseAliveGameObject_PlatformId = -1;
+        BaseAliveGameObject_PlatformId = Guid{};
     }
 
     if (field_10A_unused)
@@ -272,7 +272,7 @@ void BaseAliveGameObject::VCheckCollisionLineStillValid(s16 distance)
 
     if (pPlatform)
     {
-        BaseAliveGameObject_PlatformId = -1;
+        BaseAliveGameObject_PlatformId = Guid{};
         pPlatform->VRemove(this);
     }
 
@@ -416,7 +416,7 @@ bool BaseAliveGameObject::Check_IsOnEndOfLine(s16 direction, s16 distance)
         == 0;
 }
 
-BaseAliveGameObject* BaseAliveGameObject::GetStackedSlapTarget(s32 idToFind, ReliveTypes typeToFind, FP xpos, FP ypos)
+BaseAliveGameObject* BaseAliveGameObject::GetStackedSlapTarget(const Guid& idToFind, ReliveTypes typeToFind, FP xpos, FP ypos)
 {
     const s16 xposD = FP_GetExponent(xpos);
     const s16 yposD = FP_GetExponent(ypos);

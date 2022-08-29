@@ -130,7 +130,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(FlyingSlig_State, 0xAC);
 class FlyingSlig final : public BaseAliveGameObject
 {
 public:
-    FlyingSlig(relive::Path_FlyingSlig* pTlv, const TLVUniqueId& tlvId);
+    FlyingSlig(relive::Path_FlyingSlig* pTlv, const Guid& tlvId);
     ~FlyingSlig();
 
     virtual void VUpdate() override;
@@ -242,7 +242,7 @@ public:
 
 private:
     relive::Path_FlyingSlig field_118_data = {};
-    TLVUniqueId field_148_tlvInfo;
+    Guid field_148_tlvInfo;
     s32 field_14C_timer = 0;
     s32 field_150_grenade_delay = 0;
     s32 field_154_collision_reaction_timer = 0;

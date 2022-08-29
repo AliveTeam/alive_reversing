@@ -148,7 +148,7 @@ void Bone::VOnTrapDoorOpen()
     if (pPlatform)
     {
         pPlatform->VRemove(this);
-        BaseAliveGameObject_PlatformId = -1;
+        BaseAliveGameObject_PlatformId = Guid{};
         if (mState == BoneStates::eCollided_2 || mState == BoneStates::eOnGround_3)
         {
             mState = BoneStates::eAirborne_1;
@@ -563,7 +563,7 @@ const TintEntry kBoneTints_550EC0[18] = {
     {EReliveLevelIds::eNone, 127u, 127u, 127u}};
 
 
-BoneBag::BoneBag(relive::Path_BoneBag* pTlv, const TLVUniqueId& tlvId)
+BoneBag::BoneBag(relive::Path_BoneBag* pTlv, const Guid& tlvId)
     : BaseAliveGameObject(0)
 {
     SetType(ReliveTypes::eBoneBag);

@@ -2,6 +2,7 @@
 
 #include "../BaseAnimatedWithPhysicsGameObject.hpp" 
 #include "../AliveLibAO/Slig_DisabledResources.hpp"
+#include "guid.hpp"
 
 // all tlv map types
 enum class ReliveTypes : s16;
@@ -72,6 +73,7 @@ public:
     ReliveTypes mTlvType = {};
     BitField8<TlvFlags> mTlvFlags = {};
     s32 mLength = 0;
+    Guid mId;
 
     s16 Width() const
     {

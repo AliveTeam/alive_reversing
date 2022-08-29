@@ -24,13 +24,13 @@
 #include "Sys_common.hpp"
 #include "AbilityRing.hpp"
 
-BirdPortal::BirdPortal(relive::Path_BirdPortal* pTlv, const TLVUniqueId& tlvId)
+BirdPortal::BirdPortal(relive::Path_BirdPortal* pTlv, const Guid& tlvId)
     : BaseGameObject(TRUE, 0)
 {
     mDovesExist = 0;
     SetType(ReliveTypes::eBirdPortal);
     mBaseGameObjectTlvInfo = tlvId;
-    mThrowableIndicatorId = -1;
+    mThrowableIndicatorId = Guid{};
 
     Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kPortalTerminatorResID);
     Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kDovbasicResID);
@@ -61,10 +61,10 @@ BirdPortal::BirdPortal(relive::Path_BirdPortal* pTlv, const TLVUniqueId& tlvId)
     mCurrentLevel = gMap.mCurrentLevel;
     mState = PortalStates::CreatePortal_0;
     mTimer = 0;
-    mTerminatorId1 = -1;
-    mTerminatorId2 = -1;
-    mScreenClipperId1 = -1;
-    mScreenClipperId2 = -1;
+    mTerminatorId1 = Guid{};
+    mTerminatorId2 = Guid{};
+    mScreenClipperId1 = Guid{};
+    mScreenClipperId2 = Guid{};
     mOrbWhirlWind = nullptr;
 
     FP hitX = {};
@@ -361,8 +361,8 @@ void BirdPortal::VUpdate()
                 mTimer = sGnFrame + 5;
                 pTerminator1->mBaseGameObjectFlags.Set(BaseGameObject::eDead);
                 pTerminator2->mBaseGameObjectFlags.Set(BaseGameObject::eDead);
-                mTerminatorId1 = -1;
-                mTerminatorId2 = -1;
+                mTerminatorId1 = Guid{};
+                mTerminatorId2 = Guid{};
                 SFX_Play_Pitch(SoundEffect::MenuNavigation_52, 100, -1800, mSpriteScale);
             }
             break;
@@ -467,8 +467,8 @@ void BirdPortal::VUpdate()
                 {
                     pClipper2->mBaseGameObjectFlags.Set(BaseGameObject::eDead);
                 }
-                mScreenClipperId1 = -1;
-                mScreenClipperId2 = -1;
+                mScreenClipperId1 = Guid{};
+                mScreenClipperId2 = Guid{};
 
                 if (mSpriteScale == FP_FromInteger(1))
                 {
@@ -544,10 +544,10 @@ void BirdPortal::VScreenChanged()
             pClipper2->mBaseGameObjectFlags.Set(BaseGameObject::eDead);
         }
 
-        mTerminatorId1 = -1;
-        mTerminatorId2 = -1;
-        mScreenClipperId1 = -1;
-        mScreenClipperId2 = -1;
+        mTerminatorId1 = Guid{};
+        mTerminatorId2 = Guid{};
+        mScreenClipperId1 = Guid{};
+        mScreenClipperId2 = Guid{};
     }
     else if (mSfxPlaying)
     {
@@ -669,7 +669,7 @@ s16 BirdPortal::VPortalClipper(s16 bIgnoreClipping)
         return 0;
     }
 
-    if (mScreenClipperId1 != -1)
+    if (mScreenClipperId1 != Guid{})
     {
         return 1;
     }
@@ -731,8 +731,8 @@ void BirdPortal::VKillPortalClipper()
     BaseGameObject* pClipper1 = sObjectIds.Find_Impl(mScreenClipperId1);
     BaseGameObject* pClipper2 = sObjectIds.Find_Impl(mScreenClipperId2);
 
-    mScreenClipperId1 = -1;
-    mScreenClipperId2 = -1;
+    mScreenClipperId1 = Guid{};
+    mScreenClipperId2 = Guid{};
 
     if (pClipper1)
     {

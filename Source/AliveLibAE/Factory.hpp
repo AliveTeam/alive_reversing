@@ -33,4 +33,4 @@ enum class LoadMode : s16
     LoadResource_2 = 2
 };
 
-void ConstructTLVObject(relive::Path_TLV* pTlv, Path* pPath, const TLVUniqueId& tlvId, LoadMode loadMode);
+void ConstructTLVObject(relive::Path_TLV* pTlv, Path* pPath, const Guid& tlvId, LoadMode loadMode);

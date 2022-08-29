@@ -47,7 +47,7 @@ struct BirdPortal_State final
     AETypes mAEType;
     u8 mState;
     u8 mMudCountForShrykull;
-    TLVUniqueId mTlvInfo;
+    Guid mTlvInfo;
 };
 //ALIVE_ASSERT_SIZEOF_ALWAYS(BirdPortal_State, 8);
 
@@ -67,7 +67,7 @@ enum Event : s16;
 class BirdPortal final : public BaseGameObject
 {
 public:
-    BirdPortal(relive::Path_BirdPortal* pTlv, const TLVUniqueId& tlvId);
+    BirdPortal(relive::Path_BirdPortal* pTlv, const Guid& tlvId);
     ~BirdPortal();
     
     virtual void VUpdate() override;
@@ -99,7 +99,7 @@ private:
     Event GetEvent();
 
 private:
-    TLVUniqueId mTlvInfo;
+    Guid mTlvInfo;
 
 public:
     relive::Path_BirdPortal::PortalType mPortalType = relive::Path_BirdPortal::PortalType::eAbe;
@@ -144,17 +144,17 @@ public:
     FP mHitY = {};
 
 private:
-    s32 mThrowableIndicatorId = 0; // AE only
-    s32 mDoveIds[6] = {}; // AE only
+    Guid mThrowableIndicatorId; // AE only
+    Guid mDoveIds[6] = {}; // AE only
     s32 mTimer = 0;
     FP mSpriteScale = {};
     s16 mMovieId = 0;
     s16 mDeletePortalSwitchId = 0; // AE only
     s16 mDovesExist = 0;
-    s32 mTerminatorId1 = 0; // object pointer in AO
-    s32 mTerminatorId2 = 0; // object pointer in AO
-    s32 mScreenClipperId1 = 0; // object pointer in AO
-    s32 mScreenClipperId2 = 0; // object pointer in AO
+    Guid mTerminatorId1;   // object pointer in AO
+    Guid mTerminatorId2;   // object pointer in AO
+    Guid mScreenClipperId1; // object pointer in AO
+    Guid mScreenClipperId2; // object pointer in AO
     EReliveLevelIds mExitLevel = EReliveLevelIds::eNone;
     s16 mExitPath = 0;
     s16 mExitCamera = 0;

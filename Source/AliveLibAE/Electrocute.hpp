@@ -24,7 +24,7 @@ private:
     s32 vSub_4E6630();
 
 public:
-    s32 field_20_target_obj_id = 0;
+    Guid field_20_target_obj_id;
     s16 field_24_r = 0;
     s16 field_26_g = 0;
     s16 field_28_b = 0;

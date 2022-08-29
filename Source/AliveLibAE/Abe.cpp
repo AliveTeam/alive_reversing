@@ -674,7 +674,7 @@ s32 Animation_OnFrame_Abe_455F80(BaseGameObject* pPtr, s16* pData)
         pThrowable->VThrow(tableX, tableY);
         pThrowable->mSpriteScale = pAbe->mSpriteScale;
         pThrowable->mScale = pAbe->mScale;
-        sActiveHero->mThrowableId = -1;
+        sActiveHero->mThrowableId = Guid{};
     }
 
     return 1;
@@ -716,7 +716,7 @@ Abe::Abe(s32 /*frameTableOffset*/, s32 /*r*/, s32 /*g*/, s32 /*b*/)
     SetType(ReliveTypes::eAbe);
 
     mBaseGameObjectFlags.Set(BaseGameObject::eSurviveDeathReset_Bit9);
-    mBaseGameObjectTlvInfo = -65536;
+    mBaseGameObjectTlvInfo = Guid{};
 
     // Set the well level to the current level for the path start quick save
     mDstWellLevel = gMap.mCurrentLevel;
@@ -838,15 +838,6 @@ Abe::Abe(s32 /*frameTableOffset*/, s32 /*r*/, s32 /*g*/, s32 /*b*/)
     mAnim.mRenderLayer = Layer::eLayer_AbeMenu_32;
     mHasEvilFart = 0;
     mThrowableCount = 0;
-    mThrowableId = -1;
-    mPossessedObjectId = -1;
-    mOrbWhirlWindId = -1;
-    mCircularFadeId = -1;
-    mDeathFadeOutId = -1;
-    mBirdPortalId = -1;
-    mWorkWheelId = -1;
-    mSlappableOrPickupId = -1;
-    mPullRingRopeId = -1;
 
     field_1AE_flags.Clear(Flags_1AE::e1AE_Bit1_is_mudomo_vault_ender);
     field_1AE_flags.Clear(Flags_1AE::e1AE_Bit2_do_quicksave);
@@ -876,7 +867,6 @@ Abe::Abe(s32 /*frameTableOffset*/, s32 /*r*/, s32 /*g*/, s32 /*b*/)
     mHaveInvisibility = 0;
     mInvisibilityTimer = 0;
     mInvisibilityDuration = 0;
-    mInvisibleEffectId = -1;
     field_124_timer = sGnFrame;
     BaseAliveGameObjectPathTLV = nullptr;
     field_128.mMood = Mud_Emotion::eNormal_0;
@@ -910,50 +900,50 @@ Abe::~Abe()
     if (pFadeObject)
     {
         pFadeObject->mBaseGameObjectFlags.Set(BaseGameObject::eDead);
-        mDeathFadeOutId = -1;
+        mDeathFadeOutId = Guid{};
     }
 
     if (pItem)
     {
-        mSlappableOrPickupId = -1;
+        mSlappableOrPickupId = Guid{};
     }
 
     if (pPullRope)
     {
         pPullRope->mBaseGameObjectFlags.Set(BaseGameObject::eDead);
-        mPullRingRopeId = -1;
+        mPullRingRopeId = Guid{};
     }
 
     if (pCircularFade)
     {
         pCircularFade->mBaseGameObjectFlags.Set(BaseGameObject::eDead);
-        mCircularFadeId = -1;
+        mCircularFadeId = Guid{};
     }
 
     if (pOrbWhirlWind)
     {
         pOrbWhirlWind->mBaseGameObjectFlags.Set(BaseGameObject::eDead);
-        mOrbWhirlWindId = -1;
+        mOrbWhirlWindId = Guid{};
     }
 
     if (pPossessedObject)
     {
-        mPossessedObjectId = -1;
+        mPossessedObjectId = Guid{};
     }
 
     if (pThrowable)
     {
         pThrowable->mBaseGameObjectFlags.Set(BaseGameObject::eDead);
-        mThrowableId = -1;
+        mThrowableId = Guid{};
     }
 
     if (pInvisibleEffect)
     {
         pInvisibleEffect->mBaseGameObjectFlags.Set(BaseGameObject::eDead);
-        mInvisibleEffectId = -1;
+        mInvisibleEffectId = Guid{};
     }
 
-    mWorkWheelId = -1;
+    mWorkWheelId = Guid{};
 
     sActiveHero = nullptr;
 }
@@ -1155,7 +1145,7 @@ s32 Abe::CreateFromSaveState(const u8* pData)
     sActiveHero->mPullRingRopeId = pSaveState->mPullRingRopeId;
     sActiveHero->mSlappableOrPickupId = pSaveState->mSlappableOrPickupId;
     sActiveHero->mWorkWheelId = pSaveState->mWorkWheelId;
-    sActiveHero->mInvisibleEffectId = -1;
+    sActiveHero->mInvisibleEffectId = Guid{};
 
     sActiveHero->mInvisibilityTimer = pSaveState->mInvisibilityTimer;
     sActiveHero->field_174_unused = pSaveState->field_A0_unused;
@@ -1692,7 +1682,7 @@ void Abe::VOnTrapDoorOpen()
 
         pPlatform->VRemove(this);
 
-        BaseAliveGameObject_PlatformId = -1;
+        BaseAliveGameObject_PlatformId = Guid{};
         BaseAliveGameObjectLastLineYPos = mYPos;
 
         if (pWheel)
@@ -1714,13 +1704,13 @@ void Abe::ToKnockback_44E700(s16 bKnockbackSound, s16 bDelayedAnger)
         if (pfield_150)
         {
             pfield_150->ToStop();
-            mOrbWhirlWindId = -1;
+            mOrbWhirlWindId = Guid{};
         }
 
         if (pfield_164)
         {
             pfield_164->VStopTurning(1);
-            mWorkWheelId = -1;
+            mWorkWheelId = Guid{};
         }
 
         if (mVelX != FP_FromInteger(0))
@@ -1755,7 +1745,7 @@ void Abe::ToKnockback_44E700(s16 bKnockbackSound, s16 bDelayedAnger)
         if (pfield_158)
         {
             pfield_158->VToDead();
-            mThrowableId = -1;
+            mThrowableId = Guid{};
             if (!gInfiniteThrowables)
             {
                 mThrowableCount++;
@@ -1934,7 +1924,7 @@ s32 Abe::VGetSaveState(u8* pSaveBuffer)
 
     pSaveState->mPlatformId = BaseAliveGameObject_PlatformId;
 
-    if (BaseAliveGameObject_PlatformId != -1)
+    if (BaseAliveGameObject_PlatformId != Guid{})
     {
         auto pObj = sObjectIds.Find_Impl(BaseAliveGameObject_PlatformId);
         if (pObj)
@@ -1963,7 +1953,7 @@ s32 Abe::VGetSaveState(u8* pSaveBuffer)
     pSaveState->mRollingMotionTimer = sGnFrame - field_128.mRollingMotionTimer;
     pSaveState->mDeathFadeOutId = mDeathFadeOutId;
 
-    if (mDeathFadeOutId != -1)
+    if (mDeathFadeOutId != Guid{})
     {
         auto pObj = sObjectIds.Find_Impl(mDeathFadeOutId);
         if (pObj)
@@ -1974,7 +1964,7 @@ s32 Abe::VGetSaveState(u8* pSaveBuffer)
 
     pSaveState->mCircularFadeId = mCircularFadeId;
 
-    if (mCircularFadeId != -1)
+    if (mCircularFadeId != Guid{})
     {
         auto pObj = sObjectIds.Find_Impl(mCircularFadeId);
         if (pObj)
@@ -1984,7 +1974,7 @@ s32 Abe::VGetSaveState(u8* pSaveBuffer)
     }
     pSaveState->mOrbWhirlWindId = mOrbWhirlWindId;
 
-    if (mOrbWhirlWindId != -1)
+    if (mOrbWhirlWindId != Guid{})
     {
         auto pObj = sObjectIds.Find_Impl(mOrbWhirlWindId);
         if (pObj)
@@ -1995,7 +1985,7 @@ s32 Abe::VGetSaveState(u8* pSaveBuffer)
 
     pSaveState->mPossessedObjectId = mPossessedObjectId;
 
-    if (mPossessedObjectId != -1)
+    if (mPossessedObjectId != Guid{})
     {
         auto pObj = sObjectIds.Find_Impl(mPossessedObjectId);
         if (pObj)
@@ -2006,7 +1996,7 @@ s32 Abe::VGetSaveState(u8* pSaveBuffer)
 
     pSaveState->mThrowableId = mThrowableId;
 
-    if (mThrowableId != -1)
+    if (mThrowableId != Guid{})
     {
         auto pObj = sObjectIds.Find_Impl(mThrowableId);
         if (pObj)
@@ -2017,7 +2007,7 @@ s32 Abe::VGetSaveState(u8* pSaveBuffer)
 
     pSaveState->mPullRingRopeId = mPullRingRopeId;
 
-    if (mPullRingRopeId != -1)
+    if (mPullRingRopeId != Guid{})
     {
         auto pObj = sObjectIds.Find_Impl(mPullRingRopeId);
         if (pObj)
@@ -2028,7 +2018,7 @@ s32 Abe::VGetSaveState(u8* pSaveBuffer)
 
     pSaveState->mSlappableOrPickupId = mSlappableOrPickupId;
 
-    if (mSlappableOrPickupId != -1)
+    if (mSlappableOrPickupId != Guid{})
     {
         auto pObj = sObjectIds.Find_Impl(mSlappableOrPickupId);
         if (pObj)
@@ -2039,7 +2029,7 @@ s32 Abe::VGetSaveState(u8* pSaveBuffer)
 
     pSaveState->mWorkWheelId = mWorkWheelId;
 
-    if (mWorkWheelId != -1)
+    if (mWorkWheelId != Guid{})
     {
         auto pObj = sObjectIds.Find_Impl(mWorkWheelId);
         if (pObj)
@@ -2050,7 +2040,7 @@ s32 Abe::VGetSaveState(u8* pSaveBuffer)
 
     pSaveState->mBirdPortalId = mBirdPortalId;
 
-    if (mBirdPortalId != -1)
+    if (mBirdPortalId != Guid{})
     {
         auto pObj = sObjectIds.Find_Impl(mBirdPortalId);
         if (pObj)
@@ -2123,7 +2113,7 @@ s16 Abe::VTakeDamage(BaseGameObject* pFrom)
     if (pWhirlWind)
     {
         pWhirlWind->ToStop();
-        mOrbWhirlWindId = -1;
+        mOrbWhirlWindId = Guid{};
     }
 
     if (CantBeDamaged_44BAB0())
@@ -3853,7 +3843,7 @@ void Abe::Motion_14_HoistIdle_452440()
             mPullRingRopeId = pPullRope->mBaseGameObjectId;
             return;
         }
-        mPullRingRopeId = -1;
+        mPullRingRopeId = Guid{};
     }
 
     relive::Path_Hoist* pHoist = static_cast<relive::Path_Hoist*>(sPathInfo->TLV_Get_At_4DB4B0(
@@ -4442,7 +4432,7 @@ void Abe::Motion_27_HopBegin_4521C0()
 
         mVelX = velX;
 
-        if (mBirdPortalId == -1)
+        if (mBirdPortalId == Guid{})
         {
             // Check for hopping into a wall
             if (WallHit(mSpriteScale * FP_FromInteger(50), mVelX) || WallHit(mSpriteScale * FP_FromInteger(20), mVelX))
@@ -4474,7 +4464,7 @@ void Abe::Motion_27_HopBegin_4521C0()
         mCurrentMotion = eAbeMotions::Motion_28_HopMid_451C50;
         BaseAliveGameObjectCollisionLine = nullptr;
 
-        if (mBirdPortalId == -1)
+        if (mBirdPortalId == Guid{})
         {
             BaseGameObject* pObj = VIntoBirdPortal(2);
             if (pObj)
@@ -4488,7 +4478,7 @@ void Abe::Motion_27_HopBegin_4521C0()
 
 void Abe::Motion_28_HopMid_451C50()
 {
-    if (mBirdPortalId != -1)
+    if (mBirdPortalId != Guid{})
     {
         IntoPortalStates_451990();
         return;
@@ -4672,7 +4662,7 @@ void Abe::Motion_31_RunJumpMid_452C10()
     BaseGameObject* pLiftPoint = sObjectIds.Find_Impl(BaseAliveGameObject_PlatformId);
     EventBroadcast(kEventNoise, this);
     EventBroadcast(kEventSuspiciousNoise, this);
-    if (mBirdPortalId != -1)
+    if (mBirdPortalId != Guid{})
     {
         IntoPortalStates_451990();
         return;
@@ -5546,12 +5536,12 @@ void Abe::Motion_57_Dead_4589A0()
 
     mAnim.mFlags.Clear(AnimFlags::eBit2_Animate);
 
-    if (BaseAliveGameObject_PlatformId != -1)
+    if (BaseAliveGameObject_PlatformId != Guid{})
     {
         BaseGameObject* pLiftPoint = sObjectIds.Find_Impl(BaseAliveGameObject_PlatformId);
         if (!pLiftPoint)
         {
-            BaseAliveGameObject_PlatformId = -1;
+            BaseAliveGameObject_PlatformId = Guid{};
         }
         else if (pLiftPoint->Type() == ReliveTypes::eLiftPoint)
         {
@@ -5657,7 +5647,7 @@ void Abe::Motion_57_Dead_4589A0()
             if (pDeathFade_1)
             {
                 pDeathFade_1->mBaseGameObjectFlags.Set(BaseGameObject::eDead);
-                mDeathFadeOutId = -1;
+                mDeathFadeOutId = Guid{};
             }
             auto pDeathFade = relive_new DeathFadeOut(Layer::eLayer_FadeFlash_40, 1, 0, 8, TPageAbr::eBlend_2);
             if (pDeathFade)
@@ -6078,7 +6068,7 @@ void Abe::Motion_70_RingRopePullHang_455AF0()
         pPullRing->VMarkAsPulled();
     }
 
-    mPullRingRopeId = -1;
+    mPullRingRopeId = Guid{};
     mVelY = FP_FromInteger(0);
     mCurrentMotion = eAbeMotions::Motion_91_FallingFromGrab_4557B0;
 }
@@ -6734,7 +6724,7 @@ void Abe::Motion_86_HandstoneBegin_45BD00()
                     mHandStoneCamIdx = 1;
                     field_120_state.stone = StoneStates::eWaitForInput_4;
                     pCircularFade->mBaseGameObjectFlags.Set(BaseGameObject::eDead);
-                    mCircularFadeId = -1;
+                    mCircularFadeId = Guid{};
                     DeathFadeOut* pFade33 = relive_new DeathFadeOut(Layer::eLayer_FadeFlash_40, 0, 0, 8, TPageAbr::eBlend_2);
                     if (pFade33)
                     {
@@ -6762,7 +6752,7 @@ void Abe::Motion_86_HandstoneBegin_45BD00()
             if (pCircularFade->VDone())
             {
                 pCircularFade->mBaseGameObjectFlags.Set(BaseGameObject::eDead);
-                mCircularFadeId = -1;
+                mCircularFadeId = Guid{};
 
                 mCurrentMotion = eAbeMotions::Motion_87_HandstoneEnd_45C4F0;
 
@@ -6836,7 +6826,7 @@ void Abe::Motion_86_HandstoneBegin_45BD00()
         case StoneStates::eCircularFadeExit_7:
         {
             pFade->mBaseGameObjectFlags.Set(BaseGameObject::eDead);
-            mDeathFadeOutId = -1;
+            mDeathFadeOutId = Guid{};
 
             CircularFade* pCircularFade2 = Make_Circular_Fade_4CE8C0(mXPos, mYPos, mSpriteScale, 0, 0, 0);
             if (mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
@@ -7050,7 +7040,7 @@ void Abe::Motion_100_SlapBomb_455B60()
         if (pItem)
         {
             pItem->VOnPickUpOrSlapped();
-            mSlappableOrPickupId = -1;
+            mSlappableOrPickupId = Guid{};
         }
     }
 
@@ -7165,7 +7155,7 @@ void Abe::Motion_104_RockThrowStandingHold_455DF0()
     if (!Input().isPressed(sInputKey_ThrowItem)) // ?? isn't released like in the crouching motion ??
     {
         pRock->VToDead();
-        mThrowableId = -1;
+        mThrowableId = Guid{};
         mCurrentMotion = eAbeMotions::Motion_106_RockThrowStandingEnd_455F20;
         if (!gInfiniteThrowables)
         {
@@ -7214,7 +7204,7 @@ void Abe::Motion_107_RockThrowCrouchingHold_454410()
     if (Input().IsReleased(sInputKey_ThrowItem))
     {
         pRock->VToDead();
-        mThrowableId = -1;
+        mThrowableId = Guid{};
         mCurrentMotion = eAbeMotions::Motion_17_CrouchIdle_456BC0;
         if (!gInfiniteThrowables)
         {
@@ -7244,7 +7234,7 @@ void Abe::Motion_109_ZShotRolling_455550()
 
     if (mCurrentMotion != eAbeMotions::Motion_109_ZShotRolling_455550 && !gAbeBulletProof_5C1BDA)
     {
-        if (BaseAliveGameObject_PlatformId != -1)
+        if (BaseAliveGameObject_PlatformId != Guid{})
         {
             VOnTrapDoorOpen();
         }
@@ -7275,7 +7265,7 @@ void Abe::Motion_110_ZShot_455670()
 
     if (mCurrentMotion != eAbeMotions::Motion_110_ZShot_455670 && !gAbeBulletProof_5C1BDA)
     {
-        if (BaseAliveGameObject_PlatformId != -1)
+        if (BaseAliveGameObject_PlatformId != Guid{})
         {
             BaseGameObject* pLiftPoint = sObjectIds.Find_Impl(BaseAliveGameObject_PlatformId);
             if (pLiftPoint->Type() == ReliveTypes::eLiftPoint)
@@ -7316,7 +7306,7 @@ void Abe::Motion_111_PickupItem_4564A0()
         if (pRock)
         {
             pRock->VOnPickUpOrSlapped();
-            mSlappableOrPickupId = -1;
+            mSlappableOrPickupId = Guid{};
         }
     }
 }
@@ -7333,7 +7323,7 @@ void Abe::Motion_112_Chant_45B1C0()
 
     if (!pOrbWhirlWind)
     {
-        mOrbWhirlWindId = -1;
+        mOrbWhirlWindId = Guid{};
     }
 
     switch (field_120_state.chant)
@@ -7434,11 +7424,11 @@ void Abe::Motion_112_Chant_45B1C0()
             if ((mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame) || mAnim.mCurrentFrame == 3) && !Input_IsChanting_45F260())
             {
                 mCurrentMotion = eAbeMotions::Motion_113_ChantEnd_45BBE0;
-                mPossessedObjectId = -1;
+                mPossessedObjectId = Guid{};
                 if (pOrbWhirlWind)
                 {
                     pOrbWhirlWind->ToStop();
-                    mOrbWhirlWindId = -1;
+                    mOrbWhirlWindId = Guid{};
                 }
                 return;
             }
@@ -7472,7 +7462,7 @@ void Abe::Motion_112_Chant_45B1C0()
                     {
                         pOrbWhirlWind->ToStop();
                         pOrbWhirlWind = nullptr;
-                        mOrbWhirlWindId = -1;
+                        mOrbWhirlWindId = Guid{};
                     }
                 }
             }
@@ -7514,11 +7504,11 @@ void Abe::Motion_112_Chant_45B1C0()
                 if (!pPossessTarget || pPossessTarget->mBaseGameObjectFlags.Get(BaseGameObject::eDead) || pPossessTarget->mHealth <= FP_FromInteger(0) || pPossessTarget->Is_In_Current_Camera() != CameraPos::eCamCurrent_0)
                 {
                     mCurrentMotion = eAbeMotions::Motion_113_ChantEnd_45BBE0;
-                    mPossessedObjectId = -1;
+                    mPossessedObjectId = Guid{};
                     if (pOrbWhirlWind)
                     {
                         pOrbWhirlWind->ToStop();
-                        mOrbWhirlWindId = -1;
+                        mOrbWhirlWindId = Guid{};
                     }
                 }
             }
@@ -7533,7 +7523,7 @@ void Abe::Motion_112_Chant_45B1C0()
         {
             EventBroadcast(kEventSpeaking, this);
             EventBroadcast(kEventAbeOhm, this);
-            mOrbWhirlWindId = -1;
+            mOrbWhirlWindId = Guid{};
 
             if (!pPossessTarget)
             {
@@ -7546,7 +7536,7 @@ void Abe::Motion_112_Chant_45B1C0()
 
             if (pPossessTarget->mBaseGameObjectFlags.Get(BaseGameObject::eDead))
             {
-                mPossessedObjectId = -1;
+                mPossessedObjectId = Guid{};
             }
 
             if (pPossessTarget->mHealth <= FP_FromInteger(0))
@@ -7562,7 +7552,7 @@ void Abe::Motion_112_Chant_45B1C0()
 
             pPossessTarget->VPossessed();
 
-            mPossessedObjectId = -1;
+            mPossessedObjectId = Guid{};
 
             if (sControlledCharacter->Type() == ReliveTypes::eSlig || sControlledCharacter->Type() == ReliveTypes::eFlyingSlig || sControlledCharacter->Type() == ReliveTypes::eCrawlingSlig || sControlledCharacter->Type() == ReliveTypes::eGlukkon)
             {
@@ -7834,7 +7824,7 @@ void Abe::Motion_114_DoorEnter_459470()
                 {
                     pInvisibleEffect->ClearInvisibility();
                     mBaseAliveGameObjectFlags.Clear(Flags_114::e114_Bit8_bInvisible);
-                    mInvisibleEffectId = -1;
+                    mInvisibleEffectId = Guid{};
                     mInvisibilityTimer = 0;
                 }
             }
@@ -8124,7 +8114,7 @@ void Abe::Motion_127_TurnWheelLoop_456750()
             {
                 pWheel->VStopTurning(1);
             }
-            mWorkWheelId = -1;
+            mWorkWheelId = Guid{};
             mCurrentMotion = eAbeMotions::Motion_128_TurnWheelEnd_4569A0;
         }
     }
@@ -8145,7 +8135,7 @@ void Abe::Motion_127_TurnWheelLoop_456750()
             {
                 pWorkWheel->VStopTurning(1);
             }
-            mWorkWheelId = -1;
+            mWorkWheelId = Guid{};
 
             auto pPathAbeStart = static_cast<relive::Path_AbeStart*>(sPathInfo->TLV_First_Of_Type_In_Camera(ReliveTypes::eAbeStart, 0));
             mXPos = FP_FromInteger((pPathAbeStart->mTopLeftX + pPathAbeStart->mBottomRightX) / 2);
@@ -8219,7 +8209,7 @@ void Abe::FleechDeath_459350()
         if (!pInvisibleEffect->mBaseGameObjectFlags.Get(BaseGameObject::eDead))
         {
             static_cast<InvisibleEffect*>(pInvisibleEffect)->ClearInvisibility();
-            mInvisibleEffectId = -1;
+            mInvisibleEffectId = Guid{};
         }
     }
     field_1AC_flags.Set(Flags_1AC::e1AC_Bit5_shrivel);
@@ -8287,7 +8277,7 @@ void Abe::PickUpThrowabe_Or_PressBomb_454090(FP fpX, s32 fpY, s32 bStandToCrouch
                 mCurrentMotion = eAbeMotions::Motion_100_SlapBomb_455B60;
                 if (bStandToCrouch)
                 {
-                    mSlappableOrPickupId = -1;
+                    mSlappableOrPickupId = Guid{};
                 }
                 trySlapOrCollect = true;
                 break;
@@ -8314,7 +8304,7 @@ void Abe::PickUpThrowabe_Or_PressBomb_454090(FP fpX, s32 fpY, s32 bStandToCrouch
                 break;
 
             case ReliveTypes::eMine:
-                mSlappableOrPickupId = -1;
+                mSlappableOrPickupId = Guid{};
                 trySlapOrCollect = true;
                 break;
             default:
@@ -8329,7 +8319,7 @@ void Abe::PickUpThrowabe_Or_PressBomb_454090(FP fpX, s32 fpY, s32 bStandToCrouch
                 {
                     SfxPlayMono(SoundEffect::PickupItem_28, 0, mSpriteScale);
                     pSlappableOrCollectable->VOnPickUpOrSlapped();
-                    mSlappableOrPickupId = -1;
+                    mSlappableOrPickupId = Guid{};
                     mCurrentMotion = eAbeMotions::Motion_17_CrouchIdle_456BC0;
                 }
             }
@@ -8608,7 +8598,7 @@ void Abe::MoveForward_44E9A0()
             if (pTrapdoor)
             {
                 pTrapdoor->VRemove(this);
-                BaseAliveGameObject_PlatformId = -1;
+                BaseAliveGameObject_PlatformId = Guid{};
             }
 
             const PSX_RECT bRect = VGetBoundingRect();
@@ -8623,7 +8613,7 @@ void Abe::MoveForward_44E9A0()
         else if (pTrapdoor)
         {
             pTrapdoor->VRemove(this);
-            BaseAliveGameObject_PlatformId = -1;
+            BaseAliveGameObject_PlatformId = Guid{};
         }
     }
     else
@@ -8632,7 +8622,7 @@ void Abe::MoveForward_44E9A0()
         if (pTrapdoor)
         {
             pTrapdoor->VRemove(this);
-            BaseAliveGameObject_PlatformId = -1;
+            BaseAliveGameObject_PlatformId = Guid{};
         }
 
         mPrevHeld = 0;
@@ -8903,7 +8893,7 @@ void Abe::ToDieFinal_458910()
         if (!(pInvisibleEffect->mBaseGameObjectFlags.Get(BaseGameObject::eDead)))
         {
             pInvisibleEffect->ClearInvisibility();
-            mInvisibleEffectId = -1;
+            mInvisibleEffectId = Guid{};
         }
     }
 
@@ -9422,7 +9412,7 @@ void Abe::IntoPortalStates_451990()
                     mAnim.mFlags.Set(AnimFlags::eBit3_Render);
                     mCurrentMotion = eAbeMotions::Motion_27_HopBegin_4521C0;
                     pBirdPortal->VIncreaseTimerAndKillPortalClipper();
-                    mBirdPortalId = -1;
+                    mBirdPortalId = Guid{};
                 }
                 break;
 
