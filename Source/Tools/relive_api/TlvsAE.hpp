@@ -423,7 +423,7 @@ struct Path_Fleech final : public ReliveAPI::TlvObjectBaseAE
         ADD("Start Direction", mTlv.mFacing);
         ADD("Asleep", mTlv.mAsleep);
         ADD_HIDDEN("Wake Up (Unused?)", mTlv.padding1);
-        ADD_HIDDEN("Unused1", mTlv.padding1);
+      //  ADD_HIDDEN("Unused1", mTlv.padding1);
 
         ADD("Attack Anger Increaser", mTlv.mAttackAngerIncreaser);
         ADD_HIDDEN("Attack Delay (Unused?)", mTlv.padding3);

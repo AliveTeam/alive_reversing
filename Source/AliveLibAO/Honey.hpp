@@ -4,9 +4,9 @@
 #include "BaseAnimatedWithPhysicsGameObject.hpp"
 #include "Path.hpp"
 
-namespace AO {
-
 enum class Scale_int : s32;
+
+namespace AO {
 
 struct Path_Honey final : public Path_TLV
 {
