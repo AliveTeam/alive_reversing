@@ -2,6 +2,7 @@
 #include "nlohmann/json.hpp"
 #include "../../AliveLibCommon/BaseGameAutoPlayer.hpp"
 #include "../Compression.hpp"
+#include "../../AliveLibAE/Compression.hpp" // TODO: combine with common compression files
 
 struct PerFrameInfo final
 {
@@ -230,8 +231,7 @@ void AnimationConverter::DecompressAnimFrame(std::vector<u8>& decompressionBuffe
             }
             else
             {
-                // CompressionType_3Ae_Decompress_40A6A0(reinterpret_cast<const u8*>(&pFrameHeader->field_8_width2), *mDbuf);
-                ALIVE_FATAL("todo");
+                CompressionType_3Ae_Decompress_40A6A0(reinterpret_cast<const u8*>(&pFrameHeader->field_8_width2), decompressionBuffer.data());
             }
             // renderer.Upload(AnimFlagsToBitDepth(mFlags), *mDbuf);
 

@@ -1248,6 +1248,7 @@ NLOHMANN_JSON_SERIALIZE_ENUM(Path_BackgroundAnimation::BgAnimSounds, {
 
 NLOHMANN_JSON_SERIALIZE_ENUM(Path_BackgroundAnimation::Layer, {
     {Path_BackgroundAnimation::Layer::eLayer0, "layer_0"},
+    {Path_BackgroundAnimation::Layer::eLayer2, "layer_2"},
 })
 
 inline void to_json(nlohmann::json& j, const Path_BackgroundAnimation& p)

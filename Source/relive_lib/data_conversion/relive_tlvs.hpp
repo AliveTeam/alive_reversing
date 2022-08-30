@@ -800,6 +800,7 @@ struct Path_BackgroundAnimation final : public Path_TLV
     enum class Layer : s16
     {
         eLayer0,
+        eLayer2,
     };
     Layer mLayer = Layer::eLayer0;
 };

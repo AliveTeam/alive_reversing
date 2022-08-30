@@ -1933,8 +1933,12 @@ private:
         {
             case Layer::eLayer_0:
                 return Path_BackgroundAnimation::Layer::eLayer0;
+
+            case Layer::eLayer_NotUsed_2:
+                return Path_BackgroundAnimation::Layer::eLayer2;
+
         }
-        ALIVE_FATAL("Bad TPageAbr");
+        ALIVE_FATAL("Bad BG Anim layer");
     }
 
     static Path_BackgroundAnimation::BgAnimSounds From(AO::BgAnimSounds sound)

@@ -792,10 +792,10 @@ static bool IsTlvEnd(const ::Path_TLV* Tlv)
 }
 
 template <typename TlvType, typename LevelIdType>
-static void ConvertPathTLVs(nlohmann::json& j, u32 pathId, LevelIdType levelId, const AO::PathData& info, const std::vector<u8>& pathResource, u32 indexTableIndex)
+static void ConvertPathTLVs(nlohmann::json& j, u32 pathId, LevelIdType levelId, s32 indexTableOffset, s32 objectOffset, const std::vector<u8>& pathResource, u32 indexTableIndex)
 {
     const u8* pData = pathResource.data();
-    const s32* pIndexTable = reinterpret_cast<const s32*>(pData + info.field_18_object_index_table_offset);
+    const s32* pIndexTable = reinterpret_cast<const s32*>(pData + indexTableOffset);
 
     const s32 indexTableValue = pIndexTable[indexTableIndex];
     if (indexTableValue == -1)
@@ -803,10 +803,10 @@ static void ConvertPathTLVs(nlohmann::json& j, u32 pathId, LevelIdType levelId, 
         return;
     }
 
-    const u8* pStart = pathResource.data() + (indexTableValue + info.field_14_object_offset);
+    const u8* pStart = pathResource.data() + (indexTableValue + objectOffset);
    
     auto pPathTLV = reinterpret_cast<const TlvType*>(pStart);
-    u32 tlvOffset = indexTableValue + info.field_14_object_offset;
+    u32 tlvOffset = indexTableValue + objectOffset;
     while (pPathTLV)
     {
         union TlvInfo
@@ -857,13 +857,36 @@ static void SaveJson(const nlohmann::json& j, FileSystem& fs, const FileSystem::
 }
 
 template <typename TlvType, typename LevelIdType>
-static void ConvertPath(FileSystem& fs, const FileSystem::Path& path, const ReliveAPI::LvlFileChunk& pathBndChunk, EReliveLevelIds reliveLvl, LevelIdType lvlIdx)
+static void ConvertPath(FileSystem& fs, const FileSystem::Path& path, const ReliveAPI::LvlFileChunk& pathBndChunk, EReliveLevelIds reliveLvl, LevelIdType lvlIdx, bool isAo)
 {
-    const AO::PathBlyRec* pBlyRec = AO::Path_Get_Bly_Record_434650(reliveLvl, static_cast<u16>(pathBndChunk.Id()));
+    s32 width = 0;
+    s32 height = 0;
+    CollisionInfo* pCollisionInfo = nullptr;
+    s32 indexTableOffset = 0;
+    s32 objectOffset = 0;
 
-    // Save cameras and map objects
-    const s32 width = (pBlyRec->field_4_pPathData->field_8_bTop - pBlyRec->field_4_pPathData->field_4_bLeft) / pBlyRec->field_4_pPathData->field_C_grid_width;
-    const s32 height = (pBlyRec->field_4_pPathData->field_A_bBottom - pBlyRec->field_4_pPathData->field_6_bRight) / pBlyRec->field_4_pPathData->field_E_grid_height;
+    if (isAo)
+    {
+        const AO::PathBlyRec* pBlyRec = AO::Path_Get_Bly_Record_434650(reliveLvl, static_cast<u16>(pathBndChunk.Id()));
+
+        // Save cameras and map objects
+        width = (pBlyRec->field_4_pPathData->field_8_bTop - pBlyRec->field_4_pPathData->field_4_bLeft) / pBlyRec->field_4_pPathData->field_C_grid_width;
+        height = (pBlyRec->field_4_pPathData->field_A_bBottom - pBlyRec->field_4_pPathData->field_6_bRight) / pBlyRec->field_4_pPathData->field_E_grid_height;
+        pCollisionInfo = pBlyRec->field_8_pCollisionData;
+        indexTableOffset = pBlyRec->field_4_pPathData->field_18_object_index_table_offset;
+        objectOffset = pBlyRec->field_4_pPathData->field_14_object_offset;
+    }
+    else
+    {
+        const ::PathBlyRec* pBlyRec = ::Path_Get_Bly_Record(reliveLvl, static_cast<u16>(pathBndChunk.Id()));
+
+        // Save cameras and map objects
+        width = (pBlyRec->field_4_pPathData->field_4_bTop - pBlyRec->field_4_pPathData->field_0_bLeft) / pBlyRec->field_4_pPathData->field_A_grid_width;
+        height = (pBlyRec->field_4_pPathData->field_6_bBottom - pBlyRec->field_4_pPathData->field_2_bRight) / pBlyRec->field_4_pPathData->field_C_grid_height;
+        pCollisionInfo = pBlyRec->field_8_pCollisionData;
+        indexTableOffset = pBlyRec->field_4_pPathData->field_16_object_indextable_offset;
+        objectOffset = pBlyRec->field_4_pPathData->field_12_object_offset;
+    }
 
     nlohmann::json camerasArray = nlohmann::json::array();
     PathCamerasEnumerator cameraEnumerator(width, height, pathBndChunk.Data());
@@ -873,7 +896,7 @@ static void ConvertPath(FileSystem& fs, const FileSystem::Path& path, const Reli
         nlohmann::json mapObjectsArray = nlohmann::json::array();
         const u32 indexTableIdx = To1dIndex(width, tmpCamera.mX, tmpCamera.mY);
         LOG_INFO(indexTableIdx);
-        ConvertPathTLVs<TlvType>(mapObjectsArray, pathBndChunk.Id(), lvlIdx, *pBlyRec->field_4_pPathData, pathBndChunk.Data(), indexTableIdx);
+        ConvertPathTLVs<TlvType>(mapObjectsArray, pathBndChunk.Id(), lvlIdx, indexTableOffset, objectOffset, pathBndChunk.Data(), indexTableIdx);
 
         // Its possible to have a camera with no objects (-1 index table)
         // But its also possible to have a blank camera with objects (blank camera name, non -1 index table)
@@ -887,7 +910,7 @@ static void ConvertPath(FileSystem& fs, const FileSystem::Path& path, const Reli
 
     // Save collisions
     nlohmann::json collisionsArray = nlohmann::json::array();
-    ConvertPathCollisions(collisionsArray, *pBlyRec->field_8_pCollisionData, pathBndChunk.Data());
+    ConvertPathCollisions(collisionsArray, *pCollisionInfo, pathBndChunk.Data());
 
 
     nlohmann::json j = {
@@ -897,7 +920,7 @@ static void ConvertPath(FileSystem& fs, const FileSystem::Path& path, const Reli
     };
 
     SaveJson(j, fs, path);
-    LOG_INFO("converted path " << pathBndChunk.Id() << " level " << ToString(MapWrapper::ToAO(reliveLvl)));
+    LOG_INFO("converted path " << pathBndChunk.Id() << " level " << (isAo ? ToString(MapWrapper::ToAO(reliveLvl)) : ToString(MapWrapper::ToAE(reliveLvl))));
 }
 
 
@@ -940,39 +963,42 @@ static void SaveLevelInfoJson(const FileSystem::Path& dataDir, EReliveLevelIds /
     SaveJson(j, fs, pathJsonFile);
 }
 
-static void ConvertAnimations(FileSystem& fs, std::vector<u8>& fileBuffer, ReliveAPI::LvlReader& lvlReader, EReliveLevelIds reliveLvl)
+static void ConvertAnimations(const FileSystem::Path& dataDir, FileSystem& fs, std::vector<u8>& fileBuffer, ReliveAPI::LvlReader& lvlReader, EReliveLevelIds reliveLvl, bool isAo)
 {
     // Convert animations that exist in this LVL
     for (auto& rec : kAnimRecConversionInfo)
     {
         // Animation is in this LVL and not yet converted
-        if (!rec.mConverted && rec.mAoLvl == reliveLvl)
+        if (!rec.mConverted)
         {
-            FileSystem::Path filePath;
-            filePath.Append("relive_data").Append("ao").Append("animations");
+            if ((isAo && rec.mAoLvl == reliveLvl) || (!isAo && rec.mAeLvl == reliveLvl))
+            {
+                FileSystem::Path filePath = dataDir;
+                filePath.Append("animations");
 
-            // e.g "abe"
-            filePath.Append(ToString(rec.mGroup));
+                // e.g "abe"
+                filePath.Append(ToString(rec.mGroup));
 
-            // Ensure the containing directory exists
-            fs.CreateDirectory(filePath);
+                // Ensure the containing directory exists
+                fs.CreateDirectory(filePath);
 
-            const auto& animDetails = AO::AnimRec(rec.mAnimId);
+                const auto& animDetails = isAo ? AO::AnimRec(rec.mAnimId) : AnimRec(rec.mAnimId);
 
-            // e.g "arm_gib"
-            filePath.Append(AnimBaseName(rec.mAnimId));
+                // e.g "arm_gib"
+                filePath.Append(AnimBaseName(rec.mAnimId));
 
-            ReadLvlFileInto(lvlReader, animDetails.mBanName, fileBuffer);
-            AnimationConverter animationConverter(filePath, animDetails, fileBuffer, true);
+                ReadLvlFileInto(lvlReader, animDetails.mBanName, fileBuffer);
+                AnimationConverter animationConverter(filePath, animDetails, fileBuffer, isAo);
 
-            // Track what is converted so we know what is missing at the end
-            rec.mConverted = true;
+                // Track what is converted so we know what is missing at the end
+                rec.mConverted = true;
+            }
         }
     }
 }
 
 template <typename LevelIdType, typename TlvType>
-static void ConvertPathBND(const FileSystem::Path& dataDir, const std::string& fileName, FileSystem& fs, std::vector<u8>& fileBuffer, ReliveAPI::LvlReader& lvlReader, LevelIdType lvlIdxAsLvl, EReliveLevelIds reliveLvl)
+static void ConvertPathBND(const FileSystem::Path& dataDir, const std::string& fileName, FileSystem& fs, std::vector<u8>& fileBuffer, ReliveAPI::LvlReader& lvlReader, LevelIdType lvlIdxAsLvl, EReliveLevelIds reliveLvl, bool isAo)
 {
     FileSystem::Path pathDir = dataDir;
     pathDir.Append(ToString(lvlIdxAsLvl)).Append("paths");
@@ -987,7 +1013,7 @@ static void ConvertPathBND(const FileSystem::Path& dataDir, const std::string& f
         {
             FileSystem::Path pathJsonFile = pathDir;
             pathJsonFile.Append(std::to_string(pathBndChunk.Header().field_C_id) + ".json");
-            ConvertPath<TlvType, LevelIdType>(fs, pathJsonFile, pathBndChunk, reliveLvl, lvlIdxAsLvl);
+            ConvertPath<TlvType, LevelIdType>(fs, pathJsonFile, pathBndChunk, reliveLvl, lvlIdxAsLvl, isAo);
         }
     }
 
@@ -1030,7 +1056,7 @@ static void ConvertSound(const FileSystem::Path& dataDir, const std::string& fil
 }
 
 template<typename LevelIdType, typename TlvType>
-static void ConvertFilesInLvl(const FileSystem::Path& dataDir, FileSystem& fs, ReliveAPI::LvlReader& lvlReader, std::vector<u8>& fileBuffer, LevelIdType lvlIdxAsLvl, EReliveLevelIds reliveLvl)
+static void ConvertFilesInLvl(const FileSystem::Path& dataDir, FileSystem& fs, ReliveAPI::LvlReader& lvlReader, std::vector<u8>& fileBuffer, LevelIdType lvlIdxAsLvl, EReliveLevelIds reliveLvl, bool isAo)
 {
     // Iterate and convert specific file types in the LVL
     for (s32 i = 0; i < lvlReader.FileCount(); i++)
@@ -1049,7 +1075,7 @@ static void ConvertFilesInLvl(const FileSystem::Path& dataDir, FileSystem& fs, R
             }
             else if (endsWith(fileName, "PATH.BND"))
             {
-                ConvertPathBND<LevelIdType, TlvType>(dataDir, fileName, fs, fileBuffer, lvlReader, lvlIdxAsLvl, reliveLvl);
+                ConvertPathBND<LevelIdType, TlvType>(dataDir, fileName, fs, fileBuffer, lvlReader, lvlIdxAsLvl, reliveLvl, isAo);
             }
         }
     }
@@ -1087,9 +1113,9 @@ void DataConversion::ConvertDataAO()
             ALIVE_FATAL("Couldn't open lvl file");
         }
 
-        ConvertAnimations(fs, fileBuffer, lvlReader, reliveLvl);
+        ConvertAnimations(dataDir, fs, fileBuffer, lvlReader, reliveLvl, true);
 
-        ConvertFilesInLvl<AO::LevelIds, AO::Path_TLV>(dataDir, fs, lvlReader, fileBuffer, lvlIdxAsLvl, reliveLvl);
+        ConvertFilesInLvl<AO::LevelIds, AO::Path_TLV>(dataDir, fs, lvlReader, fileBuffer, lvlIdxAsLvl, reliveLvl, true);
     }
 }
 
@@ -1119,8 +1145,8 @@ void DataConversion::ConvertDataAE()
             ALIVE_FATAL("Couldn't open lvl file");
         }
 
-        ConvertAnimations(fs, fileBuffer, lvlReader, reliveLvl);
+        ConvertAnimations(dataDir, fs, fileBuffer, lvlReader, reliveLvl, false);
 
-        ConvertFilesInLvl<::LevelIds, ::Path_TLV>(dataDir, fs, lvlReader, fileBuffer, lvlIdxAsLvl, reliveLvl);
+        ConvertFilesInLvl<::LevelIds, ::Path_TLV>(dataDir, fs, lvlReader, fileBuffer, lvlIdxAsLvl, reliveLvl, false);
     }
 }
