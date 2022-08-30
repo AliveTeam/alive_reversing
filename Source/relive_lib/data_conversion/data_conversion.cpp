@@ -1133,6 +1133,10 @@ void DataConversion::ConvertDataAE()
     {
         // Skip entries that have no data
         const ::LevelIds lvlIdxAsLvl = static_cast<::LevelIds>(lvlIdx);
+        if (lvlIdxAsLvl == ::LevelIds::eTestLevel_15)
+        {
+            continue;
+        }
 
         // Open the LVL file
         const EReliveLevelIds reliveLvl = MapWrapper::FromAE(lvlIdxAsLvl);
