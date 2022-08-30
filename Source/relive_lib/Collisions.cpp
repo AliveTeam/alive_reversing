@@ -10,8 +10,7 @@ Collisions::~Collisions()
     relive_delete[] field_0_pArray;
 }
 
-// TODO: Should be only the only ctor in the end
-Collisions::Collisions(std::vector<PathLineAO>& collisions)
+Collisions::Collisions(std::vector<PathLine>& collisions)
 {
     field_8_item_count = static_cast<s16>(collisions.size());
     field_4_current_item_count = static_cast<u16>(field_8_item_count);
@@ -21,39 +20,22 @@ Collisions::Collisions(std::vector<PathLineAO>& collisions)
 
     // Allocate memory for collisions array
     field_0_pArray = relive_new PathLine[field_C_max_count];
+    if (!field_0_pArray)
+    {
+        ALIVE_FATAL("Collision buffer allocation failed");
+    }
 
     for (s32 i = 0; i < field_C_max_count; i++)
     {
         if (i < field_4_current_item_count)
         {
-            ToPathLine(field_0_pArray[i], collisions[i]);
+            field_0_pArray[i] = collisions[i];
         }
         else
         {
             // Zero init the "free" dynamic items
             field_0_pArray[i] = {};
         }
-    }
-}
-
-Collisions::Collisions(LineFormat lineFormat, const CollisionInfo* pCollisionInfo, const u8* pPathRes)
-{
-    field_8_item_count = pCollisionInfo->field_10_num_collision_items;
-    field_4_current_item_count = static_cast<u16>(pCollisionInfo->field_10_num_collision_items);
-
-    // Up to 40 dynamic collisions, slam doors, trap doors, lift platforms etc.
-    field_C_max_count = pCollisionInfo->field_10_num_collision_items + (lineFormat == LineFormat::Ao ? 20 : 40);
-
-    // Allocate memory for collisions array
-    field_0_pArray = relive_new PathLine[field_C_max_count];
-
-    if (lineFormat == LineFormat::Ao)
-    {
-        ConvertLineTypes<const PathLineAO*>(pCollisionInfo, pPathRes);
-    }
-    else
-    {
-        ConvertLineTypes<const PathLineAE*>(pCollisionInfo, pPathRes);
     }
 }
 

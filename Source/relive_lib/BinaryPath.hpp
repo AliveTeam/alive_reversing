@@ -82,13 +82,13 @@ public:
         return mCameras;
     }
 
-    std::vector<PathLineAO>& GetCollisions()
+    std::vector<PathLine>& GetCollisions()
     {
         return mCollisions;
     }
 
 private:
     std::vector<std::unique_ptr<CamEntry>> mCameras;
-    std::vector<PathLineAO> mCollisions;
+    std::vector<PathLine> mCollisions;
     u32 mPathId = 0;
 };

@@ -21,30 +21,54 @@ static void from_json(const nlohmann::json& j, Guid& p)
     p = Guid::FromString(tmp);
 }
 
+NLOHMANN_JSON_SERIALIZE_ENUM(eLineTypes, {
+    {eLineTypes::eFloor_0, "floor"},
+    {eLineTypes::eWallLeft_1, "wall_left"},
+    {eLineTypes::eWallRight_2, "wall_right"},
+    {eLineTypes::eCeiling_3, "ceiling"},
+    {eLineTypes::eBackgroundFloor_4, "background_floor"},
+    {eLineTypes::eBackgroundWallLeft_5, "background_wall_left"},
+    {eLineTypes::eBackgroundWallRight_6, "background_wall_right"},
+    {eLineTypes::eBackgroundCeiling_7, "background_ceiling"},
+    {eLineTypes::eTrackLine_8, "trackline"},
+    {eLineTypes::eArt_9, "art"},
+    {eLineTypes::eBulletWall_10, "bullet_wall"},
+    {eLineTypes::eMineCarFloor_11, "minecar_floor"},
+    {eLineTypes::eMineCarWall_12, "minecar_wall"},
+    {eLineTypes::eMineCarCeiling_13, "minecar_ceiling"},
+    {eLineTypes::eBackgroundMineCarFloor_14, "background_minecar_floor"},
+    {eLineTypes::eBackgroundMineCarWall_15, "background_minecar_wall"},
+    {eLineTypes::eBackgroundMineCarCeiling_16, "background_minecar_ceiling"},
+    {eLineTypes::eFlyingSligCeiling_17, "flying_slig_ceiling"},
+    {eLineTypes::eBackgroundFlyingSligCeiling_18, "background_flying_slig_ceiling"},
+    {eLineTypes::eDynamicCollision_32, "dynamic_collision"},
+    {eLineTypes::eBackgroundDynamicCollision_36, "background_dynamic_collision"},
+})
 
-inline void to_json(nlohmann::json& j, const PathLineAO& p)
+inline void to_json(nlohmann::json& j, const PathLine& p)
 {
     j = nlohmann::json{
         {"x", p.mRect.x},
         {"y", p.mRect.y},
         {"w", p.mRect.w},
         {"h", p.mRect.h},
-        {"next", p.field_10_next},
-        {"previous", p.field_C_previous},
-        {"type", p.mLineType},
+        {"line_type", p.mLineType},
+        {"previous", p.field_A_previous},
+        {"next", p.field_C_next},
+        {"line_length", p.field_12_line_length},
     };
 }
 
-
-inline void from_json(const nlohmann::json& j, PathLineAO& p)
+inline void from_json(const nlohmann::json& j, PathLine& p)
 {
     j.at("x").get_to(p.mRect.x);
     j.at("y").get_to(p.mRect.y);
     j.at("w").get_to(p.mRect.w);
     j.at("h").get_to(p.mRect.h);
-    j.at("next").get_to(p.field_10_next);
-    j.at("previous").get_to(p.field_C_previous);
-    j.at("type").get_to(p.mLineType);
+    j.at("line_type").get_to(p.mLineType);
+    j.at("previous").get_to(p.field_A_previous);
+    j.at("next").get_to(p.field_C_next);
+    j.at("line_length").get_to(p.field_12_line_length);
 }
 
 // RGB16

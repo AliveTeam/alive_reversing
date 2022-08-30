@@ -175,13 +175,7 @@ class Collisions final
 {
 public:
     ~Collisions();
-    enum class LineFormat
-    {
-        Ao,
-        Ae
-    };
-    explicit Collisions(std::vector<PathLineAO>& collisions);
-    Collisions(LineFormat lineFormat, const CollisionInfo* pCollisionInfo, const u8* pPathRes);
+    explicit Collisions(std::vector<PathLine>& collisions);
 
     PathLine* Add_Dynamic_Collision_Line(s16 x1, s16 y1, s16 x2, s16 y2, eLineTypes mode);
     PathLine* Get_Line_At_Idx(s16 idx);
@@ -189,25 +183,8 @@ public:
     PathLine* PreviousLine(PathLine* pLine);
     PathLine* NextLine(PathLine* pLine);
 
+
 private:
-    static void ToPathLine(PathLine& dst, const PathLineAO& src)
-    {
-        dst.mRect = src.mRect;
-        dst.mLineType = src.mLineType;
-        dst.field_A_previous = static_cast<s16>(src.field_C_previous);
-        dst.field_C_next = static_cast<s16>(src.field_10_next);
-        dst.field_12_line_length = 0; // TODO: Calculate for AO in the future
-    }
-
-    static void ToPathLine(PathLine& dst, const PathLineAE& src)
-    {
-        dst.mRect = src.mRect;
-        dst.mLineType = src.mLineType;
-        dst.field_A_previous = src.field_A_previous;
-        dst.field_C_next = src.field_C_next;
-        dst.field_12_line_length = src.field_12_line_length;
-    }
-
     template <typename LineClassType>
     void ConvertLineTypes(const CollisionInfo* pCollisionInfo, const u8* pPathRes)
     {
