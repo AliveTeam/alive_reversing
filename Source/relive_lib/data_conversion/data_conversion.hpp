@@ -56,7 +56,7 @@ inline const char* ToString(::LevelIds lvlId)
         case ::LevelIds::eMudomoVault_3:
             return "mudomo_vault";
         case ::LevelIds::eMudancheeVault_4:
-            return "mundanchee_vault";
+            return "mudanchee_vault";
         case ::LevelIds::eFeeCoDepot_5:
             return "feeco_depot";
         case ::LevelIds::eBarracks_6:

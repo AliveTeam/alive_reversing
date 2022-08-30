@@ -147,8 +147,14 @@ relive::Path_TLV* Path::TLV_Get_At_4DB4B0(s16 xpos, s16 ypos, s16 width, s16 hei
     const s32 grid_cell_y = (top + bottom) / (2 * mPathData->field_C_grid_height);
     const s32 grid_cell_x = (right + left) / (2 * mPathData->field_A_grid_width);
 
-    // Iterate all TLVs for this cell till we find one that matches the type and is within the TLV bounding rect
-    relive::Path_TLV* pTlvIter = field_10_ppRes->TlvsForCamera(grid_cell_x, grid_cell_y);
+    // Get the offset to where the TLV list starts for this camera cell
+    BinaryPath* pBinPath = gMap.GetPathResourceBlockPtr(gMap.mCurrentPath);
+    relive::Path_TLV* pTlvIter = pBinPath->TlvsForCamera(grid_cell_x, grid_cell_y);
+    if (!pTlvIter)
+    {
+        return nullptr;
+    }
+
     while (pTlvIter)
     {
         if (pTlvIter->mTlvType == objectType
@@ -200,7 +206,13 @@ relive::Path_TLV* Path::TlvGetAt(relive::Path_TLV* pTlv, FP xpos, FP ypos, FP w,
             return nullptr;
         }
 
-        pTlv = field_10_ppRes->TlvsForCamera(camX, camY);
+        BinaryPath* pBinPath = gMap.GetPathResourceBlockPtr(gMap.mCurrentPath);
+        pTlv = pBinPath->TlvsForCamera(camX, camY);
+        if (!pTlv)
+        {
+            return nullptr;
+        }
+
         if (!xyPosValid || (xpos_converted <= pTlv->mBottomRightX && width_converted >= pTlv->mTopLeftX && height_converted >= pTlv->mTopLeftY && ypos_converted <= pTlv->mBottomRightY))
         {
             return pTlv;

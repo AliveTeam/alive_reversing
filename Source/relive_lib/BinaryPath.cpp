@@ -33,374 +33,511 @@ void BinaryPath::CreateFromJson(nlohmann::json& pathJson)
             {
                 mapObjects.at(i).get_to(*camEntry->AllocTLV<relive::Path_LightEffect>());
             }
-            else if (type == "main_menu_controller")
+            if (type == "main_menu_controller")
             {
                 mapObjects.at(i).get_to(*camEntry->AllocTLV<relive::Path_MainMenuController>());
             }
-            else if (type == "shadow_zone")
+            if (type == "shadow_zone")
             {
                 mapObjects.at(i).get_to(*camEntry->AllocTLV<relive::Path_ShadowZone>());
             }
-            else if (type == "security_orb")
+            if (type == "security_orb")
             {
                 mapObjects.at(i).get_to(*camEntry->AllocTLV<relive::Path_SecurityOrb>());
             }
-            else if (type == "continue_point")
+            if (type == "continue_point")
             {
                 mapObjects.at(i).get_to(*camEntry->AllocTLV<relive::Path_ContinuePoint>());
             }
-            else if (type == "lift_point")
+            if (type == "lift_point")
             {
                 mapObjects.at(i).get_to(*camEntry->AllocTLV<relive::Path_LiftPoint>());
             }
-            else if (type == "dove")
+            if (type == "dove")
             {
                 mapObjects.at(i).get_to(*camEntry->AllocTLV<relive::Path_Dove>());
             }
-            else if (type == "rock_sack")
+            if (type == "rock_sack")
             {
                 mapObjects.at(i).get_to(*camEntry->AllocTLV<relive::Path_RockSack>());
             }
-            else if (type == "z_ball")
+            if (type == "z_ball")
             {
                 mapObjects.at(i).get_to(*camEntry->AllocTLV<relive::Path_ZBall>());
             }
-            else if (type == "falling_item")
+            if (type == "falling_item")
             {
                 mapObjects.at(i).get_to(*camEntry->AllocTLV<relive::Path_FallingItem>());
             }
-            else if (type == "pull_ring_rope")
+            if (type == "pull_ring_rope")
             {
                 mapObjects.at(i).get_to(*camEntry->AllocTLV<relive::Path_PullRingRope>());
             }
-            else if (type == "timed_mine")
+            if (type == "timed_mine")
             {
                 mapObjects.at(i).get_to(*camEntry->AllocTLV<relive::Path_TimedMine>());
             }
-            else if (type == "hoist")
+            if (type == "hoist")
             {
                 mapObjects.at(i).get_to(*camEntry->AllocTLV<relive::Path_Hoist>());
             }
-            else if (type == "trap_door")
+            if (type == "trap_door")
             {
                 mapObjects.at(i).get_to(*camEntry->AllocTLV<relive::Path_TrapDoor>());
             }
-            else if (type == "lcd_screen")
+            if (type == "lcd_screen")
             {
                 mapObjects.at(i).get_to(*camEntry->AllocTLV<relive::Path_LCDScreen>());
             }
-            else if (type == "mine")
+            if (type == "mine")
             {
                 mapObjects.at(i).get_to(*camEntry->AllocTLV<relive::Path_Mine>());
             }
-            else if (type == "invisible_switch")
+            if (type == "invisible_switch")
             {
                 mapObjects.at(i).get_to(*camEntry->AllocTLV<relive::Path_InvisibleSwitch>());
             }
-            else if (type == "electric_wall")
+            if (type == "electric_wall")
             {
                 mapObjects.at(i).get_to(*camEntry->AllocTLV<relive::Path_ElectricWall>());
             }
-            else if (type == "boom_machine")
+            if (type == "boom_machine")
             {
                 mapObjects.at(i).get_to(*camEntry->AllocTLV<relive::Path_BoomMachine>());
             }
-            else if (type == "uxb")
+            if (type == "uxb")
             {
                 mapObjects.at(i).get_to(*camEntry->AllocTLV<relive::Path_UXB>());
             }
-            else if (type == "meat_saw")
+            if (type == "meat_saw")
             {
                 mapObjects.at(i).get_to(*camEntry->AllocTLV<relive::Path_MeatSaw>());
             }
-            else if (type == "lever")
+            if (type == "lever")
             {
                 mapObjects.at(i).get_to(*camEntry->AllocTLV<relive::Path_Lever>());
             }
-            else if (type == "edge")
+            if (type == "edge")
             {
                 mapObjects.at(i).get_to(*camEntry->AllocTLV<relive::Path_Edge>());
             }
-            else if (type == "bird_portal")
+            if (type == "bird_portal")
             {
                 mapObjects.at(i).get_to(*camEntry->AllocTLV<relive::Path_BirdPortal>());
             }
-            else if (type == "bird_portal_exit")
+            if (type == "bird_portal_exit")
             {
                 mapObjects.at(i).get_to(*camEntry->AllocTLV<relive::Path_BirdPortalExit>());
             }
-            else if (type == "music_trigger")
+            if (type == "music_trigger")
             {
                 mapObjects.at(i).get_to(*camEntry->AllocTLV<relive::Path_MusicTrigger>());
             }
-            else if (type == "soft_landing")
+            if (type == "soft_landing")
             {
                 mapObjects.at(i).get_to(*camEntry->AllocTLV<relive::Path_SoftLanding>());
             }
-            else if (type == "lift_mover")
+            if (type == "lift_mover")
             {
                 mapObjects.at(i).get_to(*camEntry->AllocTLV<relive::Path_LiftMover>());
             }
-            else if (type == "hint_fly")
+            if (type == "hint_fly")
             {
                 mapObjects.at(i).get_to(*camEntry->AllocTLV<relive::Path_HintFly>());
             }
-            else if (type == "timer_trigger")
+            if (type == "timer_trigger")
             {
                 mapObjects.at(i).get_to(*camEntry->AllocTLV<relive::Path_TimerTrigger>());
             }
-            else if (type == "flint_lock_fire")
+            if (type == "flint_lock_fire")
             {
                 mapObjects.at(i).get_to(*camEntry->AllocTLV<relive::Path_FlintLockFire>());
             }
-            else if (type == "honey_sack")
+            if (type == "honey_sack")
             {
                 mapObjects.at(i).get_to(*camEntry->AllocTLV<relive::Path_HoneySack>());
             }
-            else if (type == "bat")
+            if (type == "bat")
             {
                 mapObjects.at(i).get_to(*camEntry->AllocTLV<relive::Path_Bat>());
             }
-            else if (type == "rolling_ball_stopper")
+            if (type == "rolling_ball_stopper")
             {
                 mapObjects.at(i).get_to(*camEntry->AllocTLV<relive::Path_RollingBallStopper>());
             }
-            else if (type == "rolling_ball")
+            if (type == "rolling_ball")
             {
                 mapObjects.at(i).get_to(*camEntry->AllocTLV<relive::Path_RollingBall>());
             }
-            else if (type == "motion_detector")
+            if (type == "motion_detector")
             {
                 mapObjects.at(i).get_to(*camEntry->AllocTLV<relive::Path_MotionDetector>());
             }
-            else if (type == "bell_hammer")
+            if (type == "bell_hammer")
             {
                 mapObjects.at(i).get_to(*camEntry->AllocTLV<relive::Path_BellHammer>());
             }
-            else if (type == "slig_bound_left")
+            if (type == "slig_bound_left")
             {
                 mapObjects.at(i).get_to(*camEntry->AllocTLV<relive::Path_SligBoundLeft>());
             }
-            else if (type == "slig_bound_right")
+            if (type == "slig_bound_right")
             {
                 mapObjects.at(i).get_to(*camEntry->AllocTLV<relive::Path_SligBoundRight>());
             }
-            else if (type == "slig_persist")
+            if (type == "slig_persist")
             {
                 mapObjects.at(i).get_to(*camEntry->AllocTLV<relive::Path_SligPersist>());
             }
-            else if (type == "background_animation")
+            if (type == "background_animation")
             {
                 mapObjects.at(i).get_to(*camEntry->AllocTLV<relive::Path_BackgroundAnimation>());
             }
-            else if (type == "elum_wall")
+            if (type == "elum_wall")
             {
                 mapObjects.at(i).get_to(*camEntry->AllocTLV<relive::Path_ElumWall>());
             }
-            else if (type == "elum_start")
+            if (type == "elum_start")
             {
                 mapObjects.at(i).get_to(*camEntry->AllocTLV<relive::Path_ElumStart>());
             }
-            else if (type == "kill_unsaved_muds")
+            if (type == "kill_unsaved_muds")
             {
                 mapObjects.at(i).get_to(*camEntry->AllocTLV<relive::Path_KillUnsavedMuds>());
             }
-            else if (type == "invisible_zone")
+            if (type == "invisible_zone")
             {
                 mapObjects.at(i).get_to(*camEntry->AllocTLV<relive::Path_InvisibleZone>());
             }
-            else if (type == "start_controller")
+            if (type == "start_controller")
             {
                 mapObjects.at(i).get_to(*camEntry->AllocTLV<relive::Path_StartController>());
             }
-            else if (type == "scrab_no_fall")
+            if (type == "scrab_no_fall")
             {
                 mapObjects.at(i).get_to(*camEntry->AllocTLV<relive::Path_ScrabNoFall>());
             }
-            else if (type == "scrab_bound_left")
+            if (type == "scrab_bound_left")
             {
                 mapObjects.at(i).get_to(*camEntry->AllocTLV<relive::Path_ScrabBoundLeft>());
             }
-            else if (type == "scrab_bound_right")
+            if (type == "scrab_bound_right")
             {
                 mapObjects.at(i).get_to(*camEntry->AllocTLV<relive::Path_ScrabBoundRight>());
             }
-            else if (type == "honey_drip_target")
+            if (type == "honey_drip_target")
             {
                 mapObjects.at(i).get_to(*camEntry->AllocTLV<relive::Path_HoneyDripTarget>());
             }
-            else if (type == "z_slig_cover")
+            if (type == "z_slig_cover")
             {
                 mapObjects.at(i).get_to(*camEntry->AllocTLV<relive::Path_ZSligCover>());
             }
-            else if (type == "death_drop")
+            if (type == "death_drop")
             {
                 mapObjects.at(i).get_to(*camEntry->AllocTLV<relive::Path_DeathDrop>());
             }
-            else if (type == "chime_lock")
+            if (type == "chime_lock")
             {
                 mapObjects.at(i).get_to(*camEntry->AllocTLV<relive::Path_ChimeLock>());
             }
-            else if (type == "lcd_status_board")
+            if (type == "lcd_status_board")
             {
                 mapObjects.at(i).get_to(*camEntry->AllocTLV<relive::Path_LCDStatusBoard>());
             }
-            else if (type == "credits_controller")
+            if (type == "credits_controller")
             {
                 mapObjects.at(i).get_to(*camEntry->AllocTLV<relive::Path_CreditsController>());
             }
-            else if (type == "reset_path")
+            if (type == "reset_path")
             {
                 mapObjects.at(i).get_to(*camEntry->AllocTLV<relive::Path_ResetPath>());
             }
-            else if (type == "meat_sack")
+            if (type == "meat_sack")
             {
                 mapObjects.at(i).get_to(*camEntry->AllocTLV<relive::Path_MeatSack>());
             }
-            else if (type == "bee_nest")
+            if (type == "bee_nest")
             {
                 mapObjects.at(i).get_to(*camEntry->AllocTLV<relive::Path_BeeNest>());
             }
-            else if (type == "bellsong_stone")
+            if (type == "bellsong_stone")
             {
                 mapObjects.at(i).get_to(*camEntry->AllocTLV<relive::Path_BellsongStone>());
             }
-            else if (type == "movie_stone")
+            if (type == "movie_stone")
             {
                 mapObjects.at(i).get_to(*camEntry->AllocTLV<relive::Path_MovieStone>());
             }
-            else if (type == "hand_stone")
+            if (type == "hand_stone")
             {
                 mapObjects.at(i).get_to(*camEntry->AllocTLV<relive::Path_HandStone>());
             }
-            else if (type == "path_transition")
+            if (type == "path_transition")
             {
                 mapObjects.at(i).get_to(*camEntry->AllocTLV<relive::Path_PathTransition>());
             }
-            else if (type == "pulley")
+            if (type == "pulley")
             {
                 mapObjects.at(i).get_to(*camEntry->AllocTLV<relive::Path_Pulley>());
             }
-            else if (type == "honey")
+            if (type == "honey")
             {
                 mapObjects.at(i).get_to(*camEntry->AllocTLV<relive::Path_Honey>());
             }
-            else if (type == "bee_swarm_hole")
+            if (type == "bee_swarm_hole")
             {
                 mapObjects.at(i).get_to(*camEntry->AllocTLV<relive::Path_BeeSwarmHole>());
             }
-            else if (type == "door")
+            if (type == "door")
             {
                 mapObjects.at(i).get_to(*camEntry->AllocTLV<relive::Path_Door>());
             }
-            else if (type == "enemy_stopper")
+            if (type == "enemy_stopper")
             {
                 mapObjects.at(i).get_to(*camEntry->AllocTLV<relive::Path_EnemyStopper>());
             }
-            else if (type == "moving_bomb_stopper")
+            if (type == "moving_bomb_stopper")
             {
                 mapObjects.at(i).get_to(*camEntry->AllocTLV<relive::Path_MovingBombStopper>());
             }
-            else if (type == "door_flame")
+            if (type == "door_flame")
             {
                 mapObjects.at(i).get_to(*camEntry->AllocTLV<relive::Path_DoorFlame>());
             }
-            else if (type == "mudokon")
+            if (type == "mudokon")
             {
                 mapObjects.at(i).get_to(*camEntry->AllocTLV<relive::Path_Mudokon>());
             }
-            else if (type == "moving_bomb")
+            if (type == "moving_bomb")
             {
                 mapObjects.at(i).get_to(*camEntry->AllocTLV<relive::Path_MovingBomb>());
             }
-            else if (type == "elum_path_trans")
+            if (type == "elum_path_trans")
             {
                 mapObjects.at(i).get_to(*camEntry->AllocTLV<relive::Path_ElumPathTrans>());
             }
-            else if (type == "mudokon_path_trans")
+            if (type == "mudokon_path_trans")
             {
                 mapObjects.at(i).get_to(*camEntry->AllocTLV<relive::Path_MudokonPathTrans>());
             }
-            else if (type == "security_claw")
+            if (type == "security_claw")
             {
                 mapObjects.at(i).get_to(*camEntry->AllocTLV<relive::Path_SecurityClaw>());
             }
-            else if (type == "sling_mudokon")
+            if (type == "sling_mudokon")
             {
                 mapObjects.at(i).get_to(*camEntry->AllocTLV<relive::Path_SlingMudokon>());
             }
-            else if (type == "foot_switch")
+            if (type == "foot_switch")
             {
                 mapObjects.at(i).get_to(*camEntry->AllocTLV<relive::Path_FootSwitch>());
             }
-            else if (type == "paramite")
+            if (type == "paramite")
             {
                 mapObjects.at(i).get_to(*camEntry->AllocTLV<relive::Path_Paramite>());
             }
-            else if (type == "zzz_spawner")
+            if (type == "zzz_spawner")
             {
                 mapObjects.at(i).get_to(*camEntry->AllocTLV<relive::Path_ZzzSpawner>());
             }
-            else if (type == "background_glukkon")
+            if (type == "background_glukkon")
             {
                 mapObjects.at(i).get_to(*camEntry->AllocTLV<relive::Path_BackgroundGlukkon>());
             }
-            else if (type == "gas_emitter")
+            if (type == "gas_emitter")
             {
                 mapObjects.at(i).get_to(*camEntry->AllocTLV<relive::Path_GasEmitter>());
             }
-            else if (type == "gas_countdown")
+            if (type == "gas_countdown")
             {
                 mapObjects.at(i).get_to(*camEntry->AllocTLV<relive::Path_GasCountDown>());
             }
-            else if (type == "ring_cancel")
+            if (type == "ring_cancel")
             {
                 mapObjects.at(i).get_to(*camEntry->AllocTLV<relive::Path_RingCancel>());
             }
-            else if (type == "security_door")
+            if (type == "security_door")
             {
                 mapObjects.at(i).get_to(*camEntry->AllocTLV<relive::Path_SecurityDoor>());
             }
-            else if (type == "lift_mudokon")
+            if (type == "lift_mudokon")
             {
                 mapObjects.at(i).get_to(*camEntry->AllocTLV<relive::Path_LiftMudokon>());
             }
-            else if (type == "ring_mudokon")
+            if (type == "ring_mudokon")
             {
                 mapObjects.at(i).get_to(*camEntry->AllocTLV<relive::Path_RingMudokon>());
             }
-            else if (type == "well_local")
+            if (type == "well_local")
             {
                 mapObjects.at(i).get_to(*camEntry->AllocTLV<relive::Path_WellLocal>());
             }
-            else if (type == "well_express")
+            if (type == "well_express")
             {
                 mapObjects.at(i).get_to(*camEntry->AllocTLV<relive::Path_WellExpress>());
             }
-            else if (type == "slog")
+            if (type == "slog")
             {
                 mapObjects.at(i).get_to(*camEntry->AllocTLV<relive::Path_Slog>());
             }
-            else if (type == "slog_spawner")
+            if (type == "slog_spawner")
             {
                 mapObjects.at(i).get_to(*camEntry->AllocTLV<relive::Path_SlogSpawner>());
             }
-            else if (type == "scrab")
+            if (type == "scrab")
             {
                 mapObjects.at(i).get_to(*camEntry->AllocTLV<relive::Path_Scrab>());
             }
-            else if (type == "slig")
+            if (type == "slig")
             {
                 mapObjects.at(i).get_to(*camEntry->AllocTLV<relive::Path_Slig>());
             }
-            else if (type == "slig_spawner")
+            if (type == "slig_spawner")
             {
                 mapObjects.at(i).get_to(*camEntry->AllocTLV<relive::Path_SligSpawner>());
             }
-            else
+            if (type == "train_door")
             {
-                ALIVE_FATAL("Unknown TLV");
+                mapObjects.at(i).get_to(*camEntry->AllocTLV<relive::Path_TrainDoor>());
             }
+            if (type == "tortured_mudokon")
+            {
+                mapObjects.at(i).get_to(*camEntry->AllocTLV<relive::Path_TorturedMudokon>());
+            }
+            if (type == "door_blocker")
+            {
+                mapObjects.at(i).get_to(*camEntry->AllocTLV<relive::Path_DoorBlocker>());
+            }
+            if (type == "glukkon_switch")
+            {
+                mapObjects.at(i).get_to(*camEntry->AllocTLV<relive::Path_GlukkonSwitch>());
+            }
+            if (type == "greeter")
+            {
+                mapObjects.at(i).get_to(*camEntry->AllocTLV<relive::Path_Greeter>());
+            }
+            if (type == "brew_machine")
+            {
+                mapObjects.at(i).get_to(*camEntry->AllocTLV<relive::Path_BrewMachine>());
+            }
+            if (type == "alarm")
+            {
+                mapObjects.at(i).get_to(*camEntry->AllocTLV<relive::Path_Alarm>());
+            }
+            if (type == "paramite_web_line")
+            {
+                mapObjects.at(i).get_to(*camEntry->AllocTLV<relive::Path_ParamiteWebLine>());
+            }
+            if (type == "slap_lock")
+            {
+                mapObjects.at(i).get_to(*camEntry->AllocTLV<relive::Path_SlapLock>());
+            }
+            if (type == "status_light")
+            {
+                mapObjects.at(i).get_to(*camEntry->AllocTLV<relive::Path_StatusLight>());
+            }
+            if (type == "multi_switch_controller")
+            {
+                mapObjects.at(i).get_to(*camEntry->AllocTLV<relive::Path_MultiSwitchController>());
+            }
+            if (type == "explosion_set")
+            {
+                mapObjects.at(i).get_to(*camEntry->AllocTLV<relive::Path_ExplosionSet>());
+            }
+            if (type == "bone_bag")
+            {
+                mapObjects.at(i).get_to(*camEntry->AllocTLV<relive::Path_BoneBag>());
+            }
+            if (type == "mine_car")
+            {
+                mapObjects.at(i).get_to(*camEntry->AllocTLV<relive::Path_MineCar>());
+            }
+            if (type == "colourful_meter")
+            {
+                mapObjects.at(i).get_to(*camEntry->AllocTLV<relive::Path_ColourfulMeter>());
+            }
+            if (type == "demo_spawn_point")
+            {
+                mapObjects.at(i).get_to(*camEntry->AllocTLV<relive::Path_DemoSpawnPoint>());
+            }
+            if (type == "level_loader")
+            {
+                mapObjects.at(i).get_to(*camEntry->AllocTLV<relive::Path_LevelLoader>());
+            }
+            if (type == "slam_door")
+            {
+                mapObjects.at(i).get_to(*camEntry->AllocTLV<relive::Path_SlamDoor>());
+            }
+            if (type == "annoying_slurg")
+            {
+                mapObjects.at(i).get_to(*camEntry->AllocTLV<relive::Path_Slurg>());
+            }
+            if (type == "laughing_gas")
+            {
+                mapObjects.at(i).get_to(*camEntry->AllocTLV<relive::Path_LaughingGas>());
+            }
+            if (type == "work_wheel")
+            {
+                mapObjects.at(i).get_to(*camEntry->AllocTLV<relive::Path_WorkWheel>());
+            }
+            if (type == "water")
+            {
+                mapObjects.at(i).get_to(*camEntry->AllocTLV<relive::Path_Water>());
+            }
+            if (type == "wheel_syncer")
+            {
+                mapObjects.at(i).get_to(*camEntry->AllocTLV<relive::Path_WheelSyncer>());
+            }
+            if (type == "fleech")
+            {
+                mapObjects.at(i).get_to(*camEntry->AllocTLV<relive::Path_Fleech>());
+            }
+            if (type == "slurg_spawner")
+            {
+                mapObjects.at(i).get_to(*camEntry->AllocTLV<relive::Path_SlurgSpawner>());
+            }
+            if (type == "drill")
+            {
+                mapObjects.at(i).get_to(*camEntry->AllocTLV<relive::Path_Drill>());
+            }
+            if (type == "teleporter")
+            {
+                mapObjects.at(i).get_to(*camEntry->AllocTLV<relive::Path_Teleporter>());
+            }
+            if (type == "glukkon")
+            {
+                mapObjects.at(i).get_to(*camEntry->AllocTLV<relive::Path_Glukkon>());
+            }
+            if (type == "crawling_slig_button")
+            {
+                mapObjects.at(i).get_to(*camEntry->AllocTLV<relive::Path_CrawlingSligButton>());
+            }
+            if (type == "flying_slig")
+            {
+                mapObjects.at(i).get_to(*camEntry->AllocTLV<relive::Path_FlyingSlig>());
+            }
+            if (type == "flying_slig_spawner")
+            {
+                mapObjects.at(i).get_to(*camEntry->AllocTLV<relive::Path_FlyingSligSpawner>());
+            }
+            if (type == "scrab_spawner")
+            {
+                mapObjects.at(i).get_to(*camEntry->AllocTLV<relive::Path_ScrabSpawner>());
+            }
+            if (type == "crawling_slig")
+            {
+                mapObjects.at(i).get_to(*camEntry->AllocTLV<relive::Path_CrawlingSlig>());
+            }
+            if (type == "slig_get_wings")
+            {
+                mapObjects.at(i).get_to(*camEntry->AllocTLV<relive::Path_SligGetWings>());
+            }
+            if (type == "slig_get_pants")
+            {
+                mapObjects.at(i).get_to(*camEntry->AllocTLV<relive::Path_SligGetPants>());
+            }
+
 
             camEntry->mLastAllocated->mLength = camEntry->mLastAllocatedSize;
 

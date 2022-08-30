@@ -27,6 +27,11 @@
 #include "Sys.hpp"
 #include <assert.h>
 
+#include "../relive_lib/data_conversion/file_system.hpp"
+#include "../relive_lib/data_conversion/data_conversion.hpp" // TODO: don't include this in the engine
+#include "../relive_lib/data_conversion/relive_tlvs.hpp"
+#include "../relive_lib/data_conversion/relive_tlvs_serialization.hpp"
+
 ALIVE_VAR(1, 0x5c311c, s16, sMap_bDoPurpleLightEffect_5C311C, 0);
 ALIVE_VAR(1, 0x5c3118, Camera*, sCameraBeingLoaded_5C3118, nullptr);
 ALIVE_VAR(1, 0x5c3120, u32, sSoundChannelsMask_5C3120, 0);
@@ -622,6 +627,9 @@ void Map::GoTo_Camera()
         mOverlayId = GetOverlayId();
     }
 
+
+
+
     if (mNextLevel != mCurrentLevel || mForceLoad)
     {
         pResourceManager_5C1BB0->LoadingLoop_465590(bShowLoadingIcon);
@@ -675,9 +683,39 @@ void Map::GoTo_Camera()
         }
 
         // Open Path BND
-        //ResourceManager::LoadResourceFile_49C170(Path_Get_BndName(mNextLevel), nullptr);
+        ResourceManager::LoadResourceFile_49C170(Path_Get_BndName(mNextLevel), nullptr);
 
-        // TODO: Load json
+
+        // TODO: Jayson!
+        //ResourceManager::LoadResourceFile_455270(Path_Get_BndName(mNextLevel), nullptr);
+
+
+        // TODO: Load level_info.json so we know which path jsons to load for this level
+        FileSystem::Path pathDir;
+        pathDir.Append("relive_data").Append("ae").Append(ToString(MapWrapper::ToAE(mNextLevel))).Append("paths");
+
+        FileSystem::Path levelInfo = pathDir;
+        levelInfo.Append("level_info.json");
+
+        FileSystem fs;
+        const std::string jsonStr = fs.LoadToString(levelInfo);
+        nlohmann::json j = nlohmann::json::parse(jsonStr);
+        const auto& paths = j["paths"];
+        for (const auto& path : paths)
+        {
+            FileSystem::Path pathJsonFile = pathDir;
+            pathJsonFile.Append(path);
+            const std::string pathJsonStr = fs.LoadToString(pathJsonFile);
+
+            // TODO: set the res ptrs to the parsed json data
+            nlohmann::json pathJson = nlohmann::json::parse(pathJsonStr);
+            LOG_INFO("Cam count " << pathJson["cameras"].size());
+
+            auto pathBuffer = std::make_unique<BinaryPath>(pathJson["id"]);
+            pathBuffer->CreateFromJson(pathJson);
+            mLoadedPaths.emplace_back(std::move(pathBuffer));
+        }
+
 
         if (mNextLevel == mCurrentLevel)
         {

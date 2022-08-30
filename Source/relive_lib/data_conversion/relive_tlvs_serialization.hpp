@@ -3487,7 +3487,7 @@ inline void from_json(const nlohmann::json& j, Path_FlyingSlig& p)
     j.at("patrol_pause_min").get_to(p.mPatrolPauseMin);
     j.at("patrol_pause_max").get_to(p.mPatrolPauseMax);
     j.at("facing").get_to(p.mFacing);
-    j.at("panic_deay").get_to(p.mPanicDelay);
+    j.at("panic_delay").get_to(p.mPanicDelay);
     j.at("give_up_chase_delay").get_to(p.mGiveUpChaseDelay);
     j.at("prechase_delay").get_to(p.mPrechaseDelay);
     j.at("slig_bound_id").get_to(p.mSligBoundId);
@@ -3533,7 +3533,7 @@ inline void from_json(const nlohmann::json& j, Path_FlyingSligSpawner& p)
     j.at("patrol_pause_min").get_to(p.mPatrolPauseMin);
     j.at("patrol_pause_max").get_to(p.mPatrolPauseMax);
     j.at("facing").get_to(p.mFacing);
-    j.at("panic_deay").get_to(p.mPanicDelay);
+    j.at("panic_delay").get_to(p.mPanicDelay);
     j.at("give_up_chase_delay").get_to(p.mGiveUpChaseDelay);
     j.at("prechase_delay").get_to(p.mPrechaseDelay);
     j.at("slig_bound_id").get_to(p.mSligBoundId);
@@ -3663,7 +3663,7 @@ inline void from_json(const nlohmann::json& j, Path_SligGetWings& p)
     j.at("patrol_pause_min").get_to(p.mPatrolPauseMin);
     j.at("patrol_pause_max").get_to(p.mPatrolPauseMax);
     j.at("facing").get_to(p.mFacing);
-    j.at("panic_deay").get_to(p.mPanicDelay);
+    j.at("panic_delay").get_to(p.mPanicDelay);
     j.at("give_up_chase_delay").get_to(p.mGiveUpChaseDelay);
     j.at("prechase_delay").get_to(p.mPrechaseDelay);
     j.at("slig_bound_id").get_to(p.mSligBoundId);
