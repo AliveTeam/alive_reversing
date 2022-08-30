@@ -299,9 +299,8 @@ void QuikSave_RestoreBlyData(const u8* pSaveData)
                         relive::Path_TLV* pTlv = reinterpret_cast<relive::Path_TLV*>(ptr);
                         while (pTlv)
                         {
-                            // TODO: Convert table to strongly typed flags
-                            const u8 tableValue = kObjectTypeAttributesTable_byte_547794.mTypes[static_cast<s16>(pTlv->mTlvType)];
-                            if (tableValue == 1 || tableValue == 2) // Type 0 ignored - actually it should never be written here anyway
+                            if (pTlv->mAttribute == relive::QuiksaveAttribute::eClearTlvFlags_1 ||
+                                pTlv->mAttribute == relive::QuiksaveAttribute::eKeepTlvFlags_2) // Type 0 ignored - actually it should never be written here anyway
                             {
                                 pTlv->mTlvFlags.Raw().all = *pSrcFlags;
                                 pSrcFlags++;
@@ -395,7 +394,7 @@ void Quicksave_SaveBlyData_4C9660(u8* pSaveBuffer)
                         relive::Path_TLV* pTlv = reinterpret_cast<relive::Path_TLV*>(ptr);
                         while (pTlv)
                         {
-                            if (kObjectTypeAttributesTable_byte_547794.mTypes[static_cast<s16>(pTlv->mTlvType)] == 1)
+                            if (pTlv->mAttribute == relive::QuiksaveAttribute::eClearTlvFlags_1)
                             {
                                 BitField8<relive::TlvFlags> flags = pTlv->mTlvFlags;
                                 if (flags.Get(relive::TlvFlags::eBit1_Created))
@@ -405,7 +404,7 @@ void Quicksave_SaveBlyData_4C9660(u8* pSaveBuffer)
                                 }
                                 WriteFlags(pSaveBuffer, pTlv, flags);
                             }
-                            else if (kObjectTypeAttributesTable_byte_547794.mTypes[static_cast<s16>(pTlv->mTlvType)] == 2)
+                            else if (pTlv->mAttribute == relive::QuiksaveAttribute::eKeepTlvFlags_2)
                             {
                                 WriteFlags(pSaveBuffer, pTlv, pTlv->mTlvFlags);
                             }

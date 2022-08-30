@@ -59,6 +59,13 @@ enum TlvFlags
     eBit3_End_TLV_List = 0x4,
 };
 
+enum class QuiksaveAttribute
+{
+    eDoNothing_0 = 0,
+    eClearTlvFlags_1 = 1,
+    eKeepTlvFlags_2 = 2,
+};
+
 // TODO: Base type
 class Path_TLV
 {
@@ -74,6 +81,7 @@ public:
     BitField8<TlvFlags> mTlvFlags = {};
     s32 mLength = 0;
     Guid mId;
+    QuiksaveAttribute mAttribute = QuiksaveAttribute::eDoNothing_0;
 
     s16 Width() const
     {
@@ -92,6 +100,7 @@ public:
     Path_ShadowZone()
     {
         mTlvType = ReliveTypes::eShadowZone;
+        mAttribute = QuiksaveAttribute::eDoNothing_0;
     }
     enum class Scale : s16
     {
@@ -110,6 +119,7 @@ public:
     Path_SecurityOrb()
     {
         mTlvType = ReliveTypes::eSecurityOrb;
+        mAttribute = QuiksaveAttribute::eClearTlvFlags_1;
     }
     reliveScale mScale = reliveScale::eFull;
     s16 mDisabledResources = 0;
@@ -121,6 +131,7 @@ public:
     Path_ContinuePoint()
     {
         mTlvType = ReliveTypes::eContinuePoint;
+        mAttribute = QuiksaveAttribute::eKeepTlvFlags_2;
     }
     // AO fields
     s16 mZoneNumber = 0;
@@ -150,6 +161,7 @@ struct Path_LiftPoint final : public Path_TLV
     Path_LiftPoint()
     {
         mTlvType = ReliveTypes::eLiftPoint;
+        mAttribute = QuiksaveAttribute::eKeepTlvFlags_2;
     }
     s16 mLiftPointId = 0;
     reliveChoice mIsStartPoint = reliveChoice::eNo;
@@ -171,6 +183,7 @@ struct Path_Dove final : public Path_TLV
     Path_Dove()
     {
         mTlvType = ReliveTypes::eDove;
+        mAttribute = QuiksaveAttribute::eClearTlvFlags_1;
     }
     s16 mDoveCount = 0;
     reliveChoice mPixelPerfect = reliveChoice::eNo;
@@ -182,6 +195,7 @@ struct Path_RockSack final : public Path_TLV
     Path_RockSack()
     {
         mTlvType = ReliveTypes::eRockSack;
+        mAttribute = QuiksaveAttribute::eDoNothing_0;
     }
     reliveXDirection mRockFallDirection = reliveXDirection::eLeft;
     u16 mVelX = 0;
@@ -220,6 +234,7 @@ struct Path_FallingItem final : public Path_TLV
     Path_FallingItem()
     {
         mTlvType = ReliveTypes::eFallingItem;
+        mAttribute = QuiksaveAttribute::eClearTlvFlags_1;
     }
     s16 mSwitchId = 0;
     reliveScale mScale = reliveScale::eFull;
@@ -233,6 +248,7 @@ struct Path_PullRingRope final : public Path_TLV
     Path_PullRingRope()
     {
         mTlvType = ReliveTypes::ePullRingRope;
+        mAttribute = QuiksaveAttribute::eDoNothing_0;
     }
     enum class PullRingSwitchSound : s16
     {
@@ -263,6 +279,7 @@ struct Path_TimedMine final : public Path_TLV
     Path_TimedMine()
     {
         mTlvType = ReliveTypes::eTimedMine;
+        mAttribute = QuiksaveAttribute::eClearTlvFlags_1;
     }
     s16 mSwitchId = 0;
     s16 mState = 0;
@@ -276,6 +293,7 @@ struct Path_Hoist final : public Path_TLV
     Path_Hoist()
     {
         mTlvType = ReliveTypes::eHoist;
+        mAttribute = QuiksaveAttribute::eDoNothing_0;
     }
     enum class Type : s16
     {
@@ -302,6 +320,7 @@ struct Path_TrapDoor final : public Path_TLV
     Path_TrapDoor()
     {
         mTlvType = ReliveTypes::eTrapDoor;
+        mAttribute = QuiksaveAttribute::eKeepTlvFlags_2;
     }
     s16 mSwitchId = 0;
     enum StartState : s16
@@ -324,6 +343,7 @@ struct Path_LCDScreen final : public Path_TLV
     Path_LCDScreen()
     {
         mTlvType = ReliveTypes::eLCDScreen;
+        mAttribute = QuiksaveAttribute::eDoNothing_0;
     }
     s16 mMessageId1 = 0;
     s16 mMessageRandMinId = 0;
@@ -339,6 +359,7 @@ struct Path_Mine final : public Path_TLV
     Path_Mine()
     {
         mTlvType = ReliveTypes::eMine;
+        mAttribute = QuiksaveAttribute::eClearTlvFlags_1;
     }
     reliveScale mScale = reliveScale::eFull;
     s16 mDisabledResources = 0;
@@ -350,6 +371,7 @@ struct Path_InvisibleSwitch final : public Path_TLV
     Path_InvisibleSwitch()
     {
         mTlvType = ReliveTypes::eInvisibleSwitch;
+        mAttribute = QuiksaveAttribute::eDoNothing_0;
     }
     s16 mSwitchId = 0;
     reliveSwitchOp mAction = reliveSwitchOp::eSetTrue;
@@ -369,6 +391,7 @@ struct Path_ElectricWall final : public Path_TLV
     Path_ElectricWall()
     {
         mTlvType = ReliveTypes::eElectricWall;
+        mAttribute = QuiksaveAttribute::eClearTlvFlags_1;
     }
     reliveScale mScale = reliveScale::eFull;
     s16 mSwitchId = 0;
@@ -385,6 +408,7 @@ struct Path_BoomMachine final : public Path_TLV
     Path_BoomMachine()
     {
         mTlvType = ReliveTypes::eBoomMachine;
+        mAttribute = QuiksaveAttribute::eDoNothing_0;
     }
     reliveScale mScale = reliveScale::eFull;
     enum class NozzleSide : s16
@@ -402,6 +426,7 @@ struct Path_UXB final : public Path_TLV
     Path_UXB()
     {
         mTlvType = ReliveTypes::eUXB;
+        mAttribute = QuiksaveAttribute::eKeepTlvFlags_2;
     }
     enum class StartState : s16
     {
@@ -451,6 +476,7 @@ struct Path_Lever final : public Path_TLV
     Path_Lever()
     {
         mTlvType = ReliveTypes::eLever;
+        mAttribute = QuiksaveAttribute::eDoNothing_0;
     }
     enum class LeverSoundType : s16
     {
@@ -486,6 +512,7 @@ struct Path_Edge final : public Path_TLV
     Path_Edge()
     {
         mTlvType = ReliveTypes::eEdge;
+        mAttribute = QuiksaveAttribute::eDoNothing_0;
     }
     enum class GrabDirection : s16
     {
@@ -505,6 +532,7 @@ struct Path_BirdPortal final : public Path_TLV
     Path_BirdPortal()
     {
         mTlvType = ReliveTypes::eBirdPortal;
+        mAttribute = QuiksaveAttribute::eKeepTlvFlags_2;
     }
     enum class PortalType : s16
     {
@@ -540,6 +568,7 @@ struct Path_BirdPortalExit final : public Path_TLV
     Path_BirdPortalExit()
     {
         mTlvType = ReliveTypes::eBirdPortalExit;
+        mAttribute = QuiksaveAttribute::eDoNothing_0;
     }
     Path_BirdPortal::PortalSide mExitSide = Path_BirdPortal::PortalSide::eRight;
     reliveScale mScale = reliveScale::eFull;
@@ -550,6 +579,7 @@ struct Path_LightEffect final : public Path_TLV
     Path_LightEffect()
     {
         mTlvType = ReliveTypes::eLightEffect;
+        mAttribute = QuiksaveAttribute::eDoNothing_0; // assuming this is TlvType light  
     }
     enum class Type : s16
     {
@@ -571,6 +601,7 @@ struct Path_MusicTrigger final : public Path_TLV
     Path_MusicTrigger()
     {
         mTlvType = ReliveTypes::eMusicTrigger;
+        mAttribute = QuiksaveAttribute::eKeepTlvFlags_2;
     }
     enum class MusicTriggerMusicType : s16
     {
@@ -603,6 +634,7 @@ struct Path_SoftLanding final : public Path_TLV
     Path_SoftLanding()
     {
         mTlvType = ReliveTypes::eSoftLanding;
+        mAttribute = QuiksaveAttribute::eDoNothing_0;
     }
     // AE only
     s32 mSwitchId = 0;
@@ -613,6 +645,7 @@ struct Path_LiftMover final : public Path_TLV
     Path_LiftMover()
     {
         mTlvType = ReliveTypes::eLiftMover;
+        mAttribute = QuiksaveAttribute::eKeepTlvFlags_2;
     }
     s16 mLiftMoverSwitchId = 0;
     s16 mTargetLiftPointId = 0;
@@ -638,6 +671,7 @@ struct Path_TimerTrigger final : public Path_TLV
     Path_TimerTrigger()
     {
         mTlvType = ReliveTypes::eTimerTrigger;
+        mAttribute = QuiksaveAttribute::eKeepTlvFlags_2;
     }
     s16 mInputSwitchId = 0;
     u16 mActivationDelay = 0;
@@ -696,6 +730,7 @@ struct Path_RollingBall final : public Path_TLV
     Path_RollingBall()
     {
         mTlvType = ReliveTypes::eRollingBall;
+        mAttribute = QuiksaveAttribute::eClearTlvFlags_1;
     }
     reliveScale mScale = reliveScale::eFull;
     reliveXDirection mRollDirection = reliveXDirection::eRight;
@@ -709,6 +744,7 @@ struct Path_MotionDetector final : public Path_TLV
     Path_MotionDetector()
     {
         mTlvType = ReliveTypes::eMotionDetector;
+        mAttribute = QuiksaveAttribute::eDoNothing_0;
     }
     reliveScale mScale = reliveScale::eFull;
     s16 mDeviceX = 0;
@@ -753,6 +789,7 @@ struct Path_SligBoundLeft final : public Path_SligBound
     Path_SligBoundLeft()
     {
         mTlvType = ReliveTypes::eSligBoundLeft;
+        mAttribute = QuiksaveAttribute::eDoNothing_0;
     }
     // Empty
 };
@@ -762,6 +799,7 @@ struct Path_SligBoundRight final : public Path_SligBound
     Path_SligBoundRight()
     {
         mTlvType = ReliveTypes::eSligBoundRight;
+        mAttribute = QuiksaveAttribute::eDoNothing_0;
     }
     // Empty
 };
@@ -771,6 +809,7 @@ struct Path_SligPersist final : public Path_SligBound
     Path_SligPersist()
     {
         mTlvType = ReliveTypes::eSligPersist;
+        mAttribute = QuiksaveAttribute::eDoNothing_0;
     }
     // Empty
 };
@@ -780,6 +819,7 @@ struct Path_BackgroundAnimation final : public Path_TLV
     Path_BackgroundAnimation()
     {
         mTlvType = ReliveTypes::eBackgroundAnimation;
+        mAttribute = QuiksaveAttribute::eDoNothing_0;
     }
     u16 mAnimId = 0;
     reliveChoice mIsSemiTrans = reliveChoice::eNo;
@@ -811,6 +851,7 @@ struct Path_MainMenuController final : public Path_TLV
     Path_MainMenuController()
     {
         mTlvType = ReliveTypes::eMainMenuController;
+        mAttribute = QuiksaveAttribute::eDoNothing_0;
     }
 };
 
@@ -838,6 +879,7 @@ struct Path_KillUnsavedMuds final : public Path_TLV
     Path_KillUnsavedMuds()
     {
         mTlvType = ReliveTypes::eKillUnsavedMuds;
+        mAttribute = QuiksaveAttribute::eClearTlvFlags_1;
     }
 };
 
@@ -847,6 +889,7 @@ struct Path_InvisibleZone final : public Path_TLV
     Path_InvisibleZone()
     {
         mTlvType = ReliveTypes::eInvisibleZone;
+        mAttribute = QuiksaveAttribute::eDoNothing_0;
     }
 };
 
@@ -874,6 +917,7 @@ struct Path_ScrabBoundLeft final : public Path_TLV
     Path_ScrabBoundLeft()
     {
         mTlvType = ReliveTypes::eScrabLeftBound;
+        mAttribute = QuiksaveAttribute::eDoNothing_0;
     }
 };
 
@@ -883,6 +927,7 @@ struct Path_ScrabBoundRight final : public Path_TLV
     Path_ScrabBoundRight()
     {
         mTlvType = ReliveTypes::eScrabRightBound;
+        mAttribute = QuiksaveAttribute::eDoNothing_0;
     }
 };
 
@@ -901,6 +946,7 @@ struct Path_ZSligCover final : public Path_TLV
     Path_ZSligCover()
     {
         mTlvType = ReliveTypes::eZSligCover;
+        mAttribute = QuiksaveAttribute::eDoNothing_0;
     }
 };
 
@@ -910,6 +956,7 @@ struct Path_DeathDrop final : public Path_TLV
     Path_DeathDrop()
     {
         mTlvType = ReliveTypes::eDeathDrop;
+        mAttribute = QuiksaveAttribute::eDoNothing_0;
     }
 };
 
@@ -931,6 +978,7 @@ struct Path_LCDStatusBoard final : public Path_TLV
     Path_LCDStatusBoard()
     {
         mTlvType = ReliveTypes::eLCDStatusBoard;
+        mAttribute = QuiksaveAttribute::eClearTlvFlags_1;
     }
     // AO has no fields
     s16 mNumberOfMuds = 0;
@@ -944,6 +992,7 @@ struct Path_CreditsController final : public Path_TLV
     Path_CreditsController()
     {
         mTlvType = ReliveTypes::eCreditsController;
+        mAttribute = QuiksaveAttribute::eDoNothing_0;
     }
 };
 
@@ -952,6 +1001,7 @@ struct Path_ResetPath final : public Path_TLV
     Path_ResetPath()
     {
         mTlvType = ReliveTypes::eResetPath;
+        mAttribute = QuiksaveAttribute::eKeepTlvFlags_2;
     }
     reliveChoice mClearIds = reliveChoice::eYes;
     s16 mFrom = 0;
@@ -969,6 +1019,7 @@ struct Path_MeatSack final : public Path_TLV
     Path_MeatSack()
     {
         mTlvType = ReliveTypes::eMeatSack;
+        mAttribute = QuiksaveAttribute::eDoNothing_0;
     }
     reliveXDirection mMeatFallDirection = reliveXDirection::eRight;
     u16 mVelX = 0;
@@ -1015,6 +1066,7 @@ struct Path_MovieStone final : public Path_TLV
     Path_MovieStone()
     {
         mTlvType = ReliveTypes::eMovieHandStone;
+        mAttribute = QuiksaveAttribute::eDoNothing_0;
     }
     s16 mMovieId = 0;
     reliveScale mScale = reliveScale::eFull;
@@ -1028,6 +1080,7 @@ struct Path_HandStone final : public Path_TLV
     Path_HandStone()
     {
         mTlvType = ReliveTypes::eHandStone;
+        mAttribute = QuiksaveAttribute::eDoNothing_0;
     }
     reliveScale mScale = reliveScale::eFull;
     s16 mCameraId1 = 0;
@@ -1051,6 +1104,7 @@ struct Path_PathTransition final : public Path_TLV
     Path_PathTransition()
     {
         mTlvType = ReliveTypes::ePathTransition;
+        mAttribute = QuiksaveAttribute::eDoNothing_0;
     }
     EReliveLevelIds mNextLevel = EReliveLevelIds::eNone;
     s16 mNextPath = 0;
@@ -1065,6 +1119,7 @@ struct Path_Pulley final : public Path_TLV
     Path_Pulley()
     {
         mTlvType = ReliveTypes::ePulley;
+        mAttribute = QuiksaveAttribute::eDoNothing_0;
     }
     // No fields
 };
@@ -1102,6 +1157,7 @@ struct Path_Door final : public Path_TLV
     Path_Door()
     {
         mTlvType = ReliveTypes::eDoor;
+        mAttribute = QuiksaveAttribute::eClearTlvFlags_1;
     }
     enum DoorStates : s16
     {
@@ -1159,6 +1215,7 @@ struct Path_AbeStart final : public Path_TLV
     Path_AbeStart()
     {
         mTlvType = ReliveTypes::eAbeStart;
+        mAttribute = QuiksaveAttribute::eDoNothing_0;
     }
     // No fields
 };
@@ -1168,6 +1225,7 @@ struct Path_EnemyStopper final : public Path_TLV
     Path_EnemyStopper()
     {
         mTlvType = ReliveTypes::eEnemyStopper;
+        mAttribute = QuiksaveAttribute::eDoNothing_0;
     }
     enum class StopDirection : s16
     {
@@ -1184,6 +1242,7 @@ struct Path_MovingBombStopper final : public Path_TLV
     Path_MovingBombStopper()
     {
         mTlvType = ReliveTypes::eMovingBombStopper;
+        mAttribute = QuiksaveAttribute::eDoNothing_0;
     }
     s16 mMinDelay = 0;
     s16 mMaxDelay = 0;
@@ -1194,6 +1253,7 @@ struct Path_DoorFlame final : public Path_TLV
     Path_DoorFlame()
     {
         mTlvType = ReliveTypes::eDoorFlame;
+        mAttribute = QuiksaveAttribute::eDoNothing_0;
     }
     enum class Colour : s16
     {
@@ -1212,6 +1272,7 @@ struct Path_Mudokon final : public Path_TLV
     Path_Mudokon()
     {
         mTlvType = ReliveTypes::eMudokon;
+        mAttribute = QuiksaveAttribute::eKeepTlvFlags_2;
     }
     enum class MudJobs : s16
     {
@@ -1253,6 +1314,7 @@ struct Path_MovingBomb final : public Path_TLV
     Path_MovingBomb()
     {
         mTlvType = ReliveTypes::eMovingBomb;
+        mAttribute = QuiksaveAttribute::eClearTlvFlags_1;
     }
     u16 mSpeed = 0;
     s16 mStartMovingSwitchId = 0;
@@ -1290,6 +1352,7 @@ struct Path_SecurityClaw final : public Path_TLV
     Path_SecurityClaw()
     {
         mTlvType = ReliveTypes::eSecurityClaw;
+        mAttribute = QuiksaveAttribute::eClearTlvFlags_1;
     }
     reliveScale mScale = reliveScale::eFull;
     s16 mAlarmSwitchId = 0;
@@ -1314,6 +1377,7 @@ struct Path_FootSwitch final : public Path_TLV
     Path_FootSwitch()
     {
         mTlvType = ReliveTypes::eFootSwitch;
+        mAttribute = QuiksaveAttribute::eClearTlvFlags_1;
     }
     enum class FootSwitchTriggerBy : s16
     {
@@ -1331,6 +1395,7 @@ struct Path_Paramite final : public Path_TLV
     Path_Paramite()
     {
         mTlvType = ReliveTypes::eParamite;
+        mAttribute = QuiksaveAttribute::eKeepTlvFlags_2;
     }
     reliveScale mScale = reliveScale::eFull;
     enum class EntranceType : s16
@@ -1357,6 +1422,7 @@ struct Path_ZzzSpawner final : public Path_TLV
     Path_ZzzSpawner()
     {
         mTlvType = ReliveTypes::eZzzSpawner;
+        mAttribute = QuiksaveAttribute::eClearTlvFlags_1;
     }
     reliveScale mScale = reliveScale::eFull;
     s16 mSwitchId = 0;
@@ -1378,6 +1444,7 @@ struct Path_GasEmitter final : public Path_TLV
     Path_GasEmitter()
     {
         mTlvType = ReliveTypes::eGasEmitter;
+        mAttribute = QuiksaveAttribute::eClearTlvFlags_1;
     }
     // NOTE: AO has no fields
     enum class GasColour : s16
@@ -1397,6 +1464,7 @@ struct Path_GasCountDown final : public Path_TLV
     Path_GasCountDown()
     {
         mTlvType = ReliveTypes::eGasCountDown;
+        mAttribute = QuiksaveAttribute::eClearTlvFlags_1;
     }
     s16 mStartTimerSwitchId = 0;
 
@@ -1419,6 +1487,7 @@ struct Path_SecurityDoor final : public Path_TLV
     Path_SecurityDoor()
     {
         mTlvType = ReliveTypes::eSecurityDoor;
+        mAttribute = QuiksaveAttribute::eClearTlvFlags_1;
     }
     reliveScale mScale = reliveScale::eFull;
     s16 mSwitchId = 0;
@@ -1495,6 +1564,7 @@ struct Path_WellLocal final : public relive::Path_WellBase
     Path_WellLocal()
     {
         mTlvType = ReliveTypes::eWellLocal;
+        mAttribute = QuiksaveAttribute::eDoNothing_0;
     }
     s16 mOnDestX = 0;
     s16 mOnDestY = 0;
@@ -1508,6 +1578,7 @@ struct Path_WellExpress final : public relive::Path_WellBase
     Path_WellExpress()
     {
         mTlvType = ReliveTypes::eWellExpress;
+        mAttribute = QuiksaveAttribute::eDoNothing_0;
     }
     s16 mOffDestCamera = 0;
     s16 mOffOtherWellId = 0;
@@ -1526,6 +1597,7 @@ struct Path_Slog final : public Path_TLV
     Path_Slog()
     {
         mTlvType = ReliveTypes::eSlog;
+        mAttribute = QuiksaveAttribute::eKeepTlvFlags_2;
     }
     reliveScale mScale = reliveScale::eFull;
     reliveXDirection mFacing = reliveXDirection::eRight;
@@ -1546,6 +1618,7 @@ struct Path_SlogSpawner final : public Path_TLV
     Path_SlogSpawner()
     {
         mTlvType = ReliveTypes::eSlogSpawner;
+        mAttribute = QuiksaveAttribute::eClearTlvFlags_1;
     }
     enum class StartDirection : s16
     {
@@ -1570,6 +1643,7 @@ struct Path_Scrab : public Path_TLV
     Path_Scrab()
     {
         mTlvType = ReliveTypes::eScrab;
+        mAttribute = QuiksaveAttribute::eKeepTlvFlags_2;
     }
 
         enum class ScrabPatrolType : s16
@@ -1606,6 +1680,7 @@ struct Path_ScrabSpawner : public Path_Scrab
     Path_ScrabSpawner()
     {
         mTlvType = ReliveTypes::eScrabSpawner;
+        mAttribute = QuiksaveAttribute::eKeepTlvFlags_2;
     }
 
 
@@ -1672,6 +1747,7 @@ struct Path_Slig final : public Path_TLV
     Path_Slig()
     {
         mTlvType = ReliveTypes::eSlig;
+        mAttribute = QuiksaveAttribute::eKeepTlvFlags_2;
     }
     Path_Slig_Data mData;
 };
@@ -1681,6 +1757,7 @@ struct Path_SligSpawner final : public Path_TLV
     Path_SligSpawner()
     {
         mTlvType = ReliveTypes::eSligSpawner;
+        mAttribute = QuiksaveAttribute::eKeepTlvFlags_2;
     }
 
     Path_Slig_Data mData;
@@ -1691,6 +1768,7 @@ struct Path_TrainDoor final : public Path_TLV
     Path_TrainDoor()
     {
         mTlvType = ReliveTypes::eTrainDoor;
+        mAttribute = QuiksaveAttribute::eDoNothing_0;
     }
     reliveXDirection mDirection = reliveXDirection::eRight;
 };
@@ -1700,6 +1778,7 @@ struct Path_TorturedMudokon final : public Path_TLV
     Path_TorturedMudokon()
     {
         mTlvType = ReliveTypes::eTorturedMud;
+        mAttribute = QuiksaveAttribute::eClearTlvFlags_1;
     }
     s16 mKillSwitchId = 0;
     s16 mReleaseSwitchId = 0;
@@ -1710,6 +1789,7 @@ struct Path_DoorBlocker final : public Path_TLV
     Path_DoorBlocker()
     {
         mTlvType = ReliveTypes::eDoorBlocker;
+        mAttribute = QuiksaveAttribute::eDoNothing_0;
     }
     reliveScale mScale = reliveScale::eFull;
     s16 mSwitchId = 0;
@@ -1720,6 +1800,7 @@ struct Path_GlukkonSwitch final : public Path_TLV
     Path_GlukkonSwitch()
     {
         mTlvType = ReliveTypes::eGlukkonSwitch;
+        mAttribute = QuiksaveAttribute::eDoNothing_0;
     }
     reliveScale mScale = reliveScale::eFull;
     s16 mOkSwitchId = 0;
@@ -1733,6 +1814,7 @@ struct Path_Greeter final : public Path_TLV
     Path_Greeter()
     {
         mTlvType = ReliveTypes::eGreeter;
+        mAttribute = QuiksaveAttribute::eKeepTlvFlags_2;
     }
     reliveScale mScale = reliveScale::eFull;
     s16 mMotionDetectorSpeed = 0;
@@ -1744,6 +1826,7 @@ struct Path_BrewMachine final : public Path_TLV
     Path_BrewMachine()
     {
         mTlvType = ReliveTypes::eBrewMachine;
+        mAttribute = QuiksaveAttribute::eClearTlvFlags_1;
     }
     s16 mBrewCount = 0;
 };
@@ -1753,6 +1836,7 @@ struct Path_Alarm final : public Path_TLV
     Path_Alarm()
     {
         mTlvType = ReliveTypes::eAlarm;
+        mAttribute = QuiksaveAttribute::eClearTlvFlags_1;
     }
     s16 mSwitchId = 0;
     u16 mAlarmDuration = 0;
@@ -1763,6 +1847,7 @@ struct Path_ParamiteWebLine final : public Path_TLV
     Path_ParamiteWebLine()
     {
         mTlvType = ReliveTypes::eParamiteWebLine;
+        mAttribute = QuiksaveAttribute::eClearTlvFlags_1;
     }
     reliveScale mScale = reliveScale::eFull;
 };
@@ -1772,6 +1857,7 @@ struct Path_SlapLock final : public Path_TLV
     Path_SlapLock()
     {
         mTlvType = ReliveTypes::eSlapLock;
+        mAttribute = QuiksaveAttribute::eKeepTlvFlags_2;
     }
     reliveScale mScale = reliveScale::eFull;
     s16 mTargetTombSwitchId1 = 0;
@@ -1787,6 +1873,7 @@ struct Path_StatusLight final : public Path_TLV
     Path_StatusLight()
     {
         mTlvType = ReliveTypes::eStatusLight;
+        mAttribute = QuiksaveAttribute::eClearTlvFlags_1;
     }
     s16 mInputSwitchId = 0;
     reliveScale mScale = reliveScale::eFull;
@@ -1803,6 +1890,7 @@ struct Path_MultiSwitchController final : public Path_TLV
     Path_MultiSwitchController()
     {
         mTlvType = ReliveTypes::eMultiSwitchController;
+        mAttribute = QuiksaveAttribute::eClearTlvFlags_1;
     }
     s16 mOutputSwitchId = 0;
     reliveSwitchOp mAction = reliveSwitchOp::eSetTrue;
@@ -1820,6 +1908,7 @@ struct Path_ExplosionSet final : public Path_TLV
     Path_ExplosionSet()
     {
         mTlvType = ReliveTypes::eExplosionSet;
+        mAttribute = QuiksaveAttribute::eClearTlvFlags_1;
     }
     reliveChoice mStartEnabled = reliveChoice::eNo;
     s16 mSwitchId = 0;
@@ -1837,6 +1926,7 @@ struct Path_BoneBag final : public Path_TLV
     Path_BoneBag()
     {
         mTlvType = ReliveTypes::eBoneBag;
+        mAttribute = QuiksaveAttribute::eClearTlvFlags_1;
     }
     reliveXDirection mBoneFallDirection = reliveXDirection::eRight;
     u16 mVelX = 0;
@@ -1850,6 +1940,7 @@ struct Path_MineCar final : public Path_TLV
     Path_MineCar()
     {
         mTlvType = ReliveTypes::eMineCar;
+        mAttribute = QuiksaveAttribute::eKeepTlvFlags_2;
     }
     reliveScale mScale = reliveScale::eFull;
 };
@@ -1859,6 +1950,7 @@ struct Path_ColourfulMeter final : public Path_TLV
     Path_ColourfulMeter()
     {
         mTlvType = ReliveTypes::eColourfulMeter;
+        mAttribute = QuiksaveAttribute::eClearTlvFlags_1;
     }
     s16 mSwitchId = 0;
     s16 mNumberOfMeterBars = 0;
@@ -1871,6 +1963,7 @@ struct Path_DemoSpawnPoint final : public Path_TLV
     Path_DemoSpawnPoint()
     {
         mTlvType = ReliveTypes::eDemoSpawnPoint;
+        mAttribute = QuiksaveAttribute::eClearTlvFlags_1;
     }
     // Empty
 };
@@ -1880,6 +1973,7 @@ struct Path_LevelLoader final : public Path_TLV
     Path_LevelLoader()
     {
         mTlvType = ReliveTypes::eLevelLoader;
+        mAttribute = QuiksaveAttribute::eClearTlvFlags_1;
     }
     s16 mSwitchId = 0;
     EReliveLevelIds mDestLevel = EReliveLevelIds::eNone;
@@ -1893,6 +1987,7 @@ struct Path_SlamDoor final : public Path_TLV
     Path_SlamDoor()
     {
         mTlvType = ReliveTypes::eSlamDoor;
+        mAttribute = QuiksaveAttribute::eKeepTlvFlags_2;
     }
     reliveChoice mStartClosed = reliveChoice::eNo;
     reliveScale mScale = reliveScale::eFull;
@@ -1906,6 +2001,7 @@ struct Path_Slurg : public Path_TLV
     Path_Slurg()
     {
         mTlvType = ReliveTypes::eSlurg;
+        mAttribute = QuiksaveAttribute::eKeepTlvFlags_2;
     }
     s16 mMovingTimer = 0;
     reliveXDirection mFacing = reliveXDirection::eRight;
@@ -1918,6 +2014,7 @@ struct Path_LaughingGas final : public Path_TLV
     Path_LaughingGas()
     {
         mTlvType = ReliveTypes::eLaughingGas;
+        mAttribute = QuiksaveAttribute::eClearTlvFlags_1;
     }
     reliveChoice mLaughingGas = reliveChoice::eYes;
     s16 mLaughingGasSwitchId = 0;
@@ -1931,6 +2028,7 @@ struct Path_WorkWheel final : public Path_TLV
     Path_WorkWheel()
     {
         mTlvType = ReliveTypes::eWorkWheel;
+        mAttribute = QuiksaveAttribute::eKeepTlvFlags_2;
     }
     reliveScale mScale = reliveScale::eFull;
     s16 mSwitchId = 0;
@@ -1944,6 +2042,7 @@ struct Path_Water final : public Path_TLV
     Path_Water()
     {
         mTlvType = ReliveTypes::eWater;
+        mAttribute = QuiksaveAttribute::eClearTlvFlags_1;
     }
     s16 mMaxDrops = 0;
     s16 mSwitchId = 0;
@@ -1957,6 +2056,7 @@ struct Path_WheelSyncer final : public Path_TLV
     Path_WheelSyncer()
     {
         mTlvType = ReliveTypes::eWheelSyncer;
+        mAttribute = QuiksaveAttribute::eDoNothing_0;
     }
     enum class OutputRequirement : s16
     {
@@ -1980,6 +2080,7 @@ struct Path_Fleech final : public Path_TLV
     Path_Fleech()
     {
         mTlvType = ReliveTypes::eFleech;
+        mAttribute = QuiksaveAttribute::eKeepTlvFlags_2;
     }
     reliveScale mScale = reliveScale::eFull;
     reliveXDirection mFacing = reliveXDirection::eRight;
@@ -2000,6 +2101,7 @@ struct Path_SlurgSpawner final : public Path_Slurg
     Path_SlurgSpawner()
     {
         mTlvType = ReliveTypes::eSlurgSpawner;
+        mAttribute = QuiksaveAttribute::eClearTlvFlags_1;
     }
     s16 mSpawnInterval = 0;
     s16 mMaxSlurgs = 0;
@@ -2011,6 +2113,7 @@ struct Path_Drill final : public Path_TLV
     Path_Drill()
     {
         mTlvType = ReliveTypes::eDrill;
+        mAttribute = QuiksaveAttribute::eKeepTlvFlags_2;
     }
     enum class DrillDirection : s16
     {
@@ -2044,6 +2147,7 @@ struct Path_Teleporter final : public Path_TLV
     Path_Teleporter()
     {
         mTlvType = ReliveTypes::eTeleporter;
+        mAttribute = QuiksaveAttribute::eClearTlvFlags_1;
     }
     s16 mTeleporterId = 0;
     s16 mOtherTeleporterId = 0;
@@ -2063,6 +2167,7 @@ struct Path_Glukkon final : public Path_TLV
     Path_Glukkon()
     {
         mTlvType = ReliveTypes::eGlukkon;
+        mAttribute = QuiksaveAttribute::eKeepTlvFlags_2;
     }
     reliveScale mScale = reliveScale::eFull;
     enum class Facing : s16
@@ -2108,6 +2213,7 @@ struct Path_CrawlingSligButton final : public Path_TLV
     Path_CrawlingSligButton()
     {
         mTlvType = ReliveTypes::eCrawlingSligButton;
+        mAttribute = QuiksaveAttribute::eDoNothing_0;
     }
     enum class ButtonSounds : s16
     {
@@ -2131,6 +2237,7 @@ struct Path_FlyingSlig final : public Path_TLV
     Path_FlyingSlig()
     {
         mTlvType = ReliveTypes::eFlyingSlig;
+        mAttribute = QuiksaveAttribute::eKeepTlvFlags_2;
     }
     reliveScale mScale = reliveScale::eFull;
     enum class SpawnDelayStates : s16
@@ -2160,6 +2267,7 @@ struct Path_FlyingSligSpawner final : public Path_TLV
     Path_FlyingSligSpawner()
     {
         mTlvType = ReliveTypes::eFlyingSligSpawner;
+        mAttribute = QuiksaveAttribute::eKeepTlvFlags_2;
     }
     reliveScale mScale = reliveScale::eFull;
     Path_FlyingSlig::SpawnDelayStates mSpawnDelayState = Path_FlyingSlig::SpawnDelayStates::eMoveImmediately;
@@ -2184,6 +2292,7 @@ struct Path_CrawlingSlig final : public Path_TLV
     Path_CrawlingSlig()
     {
         mTlvType = ReliveTypes::eCrawlingSlig;
+        mAttribute = QuiksaveAttribute::eKeepTlvFlags_2;
     }
     reliveScale mScale = reliveScale::eFull;
     enum class StartState : s16
@@ -2209,6 +2318,7 @@ struct Path_SligGetWings final : public Path_TLV
     Path_SligGetWings()
     {
         mTlvType = ReliveTypes::eSligGetWings;
+        mAttribute = QuiksaveAttribute::eClearTlvFlags_1;
     }
     reliveScale mScale = reliveScale::eFull;
     Path_FlyingSlig::SpawnDelayStates mSpawnDelayState = Path_FlyingSlig::SpawnDelayStates::eMoveImmediately;
@@ -2233,6 +2343,7 @@ struct Path_SligGetPants final : public Path_TLV
     Path_SligGetPants()
     {
         mTlvType = ReliveTypes::eSligGetPants;
+        mAttribute = QuiksaveAttribute::eClearTlvFlags_1;
     }
     reliveScale mScale = reliveScale::eFull;
     Path_Slig_Data::StartState mStartState = Path_Slig_Data::StartState::Patrol;
