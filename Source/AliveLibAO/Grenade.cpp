@@ -286,6 +286,7 @@ void Grenade::VOnTrapDoorOpen()
     {
         mLiftPoint->VRemove(this);
         mLiftPoint->mBaseGameObjectRefCount--;
+        mLiftPoint = nullptr;
 
         if (field_110_state == States::eWaitToBeCollected_1 || field_110_state == States::eDoesNothing_2)
         {

@@ -1909,12 +1909,16 @@ void Map::Loader(s16 camX, s16 camY, LoadMode loadMode, ReliveTypes typeToLoad)
 
 CameraSwapper* Map::FMV_Camera_Change(u8** ppBits, Map* pMap, EReliveLevelIds levelId)
 {
-    if (pMap->field_12_fmv_base_id > 10000u)
+    // This is required to make the movies work when abe completes scrabania and paramonia.
+    // u16 41617 -> s16 -23919 -> u16 41617
+    // TODO: should probably use the s32 type for every function parameter with a fmv base id
+    u16 fmvBaseId = pMap->field_12_fmv_base_id;
+
+    if (fmvBaseId > 10000u)
     {
-        // TODO: Check division is correct
-        FmvInfo* pFmvRec1 = Path_Get_FMV_Record_434680(levelId, pMap->field_12_fmv_base_id / 10000);
-        FmvInfo* pFmvRec2 = Path_Get_FMV_Record_434680(levelId, pMap->field_12_fmv_base_id / 100 % 100);
-        FmvInfo* pFmvRec3 = Path_Get_FMV_Record_434680(levelId, pMap->field_12_fmv_base_id % 100);
+        FmvInfo* pFmvRec1 = Path_Get_FMV_Record_434680(levelId, fmvBaseId / 10000);
+        FmvInfo* pFmvRec2 = Path_Get_FMV_Record_434680(levelId, fmvBaseId / 100 % 100);
+        FmvInfo* pFmvRec3 = Path_Get_FMV_Record_434680(levelId, fmvBaseId % 100);
 
         if (pFmvRec1->field_8_stop_music || pFmvRec2->field_8_stop_music || pFmvRec3->field_8_stop_music)
         {
@@ -1954,11 +1958,11 @@ CameraSwapper* Map::FMV_Camera_Change(u8** ppBits, Map* pMap, EReliveLevelIds le
             pFmvRec3->field_A,
             pFmvRec3->field_C_volume);
     }
-    else if (pMap->field_12_fmv_base_id > 100u)
+    else if (fmvBaseId > 100u)
     {
         // Double FMV
-        FmvInfo* pFmvRec1 = Path_Get_FMV_Record_434680(levelId, pMap->field_12_fmv_base_id / 100);
-        FmvInfo* pFmvRec2 = Path_Get_FMV_Record_434680(levelId, pMap->field_12_fmv_base_id % 100);
+        FmvInfo* pFmvRec1 = Path_Get_FMV_Record_434680(levelId, fmvBaseId / 100);
+        FmvInfo* pFmvRec2 = Path_Get_FMV_Record_434680(levelId, fmvBaseId % 100);
         if (pFmvRec1->field_8_stop_music || pFmvRec2->field_8_stop_music)
         {
             BackgroundMusic::Stop();
@@ -1987,7 +1991,7 @@ CameraSwapper* Map::FMV_Camera_Change(u8** ppBits, Map* pMap, EReliveLevelIds le
     else // < 100
     {
         // Single FMV
-        FmvInfo* pFmvRecord = Path_Get_FMV_Record_434680(levelId, pMap->field_12_fmv_base_id);
+        FmvInfo* pFmvRecord = Path_Get_FMV_Record_434680(levelId, fmvBaseId);
         if (pFmvRecord->field_8_stop_music)
         {
             BackgroundMusic::Stop();

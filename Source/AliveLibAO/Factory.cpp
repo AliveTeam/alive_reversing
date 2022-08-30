@@ -1428,7 +1428,7 @@ static void Factory_ChimeLock(relive::Path_TLV* pTlv, Map* /*pMap*/, const Guid&
     }
 }
 
-static void Factory_ElumStart_Unknown_4873D0(relive::Path_TLV* pTlv, Map* /*pMap*/, const Guid& tlvId, LoadMode loadMode)
+static void Factory_Elum_4873D0(relive::Path_TLV* pTlv, Map* /*pMap*/, const Guid& tlvId, LoadMode loadMode)
 {
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
@@ -2111,7 +2111,7 @@ void ConstructTLVObject(relive::Path_TLV* pTlv, Map* pMap, const Guid& tlvInfo, 
             Factory_ElectricWall(pTlv, pMap, tlvInfo, loadMode);
             break;
         case ReliveTypes::eElum:
-            Factory_ElumStart_Unknown_4873D0(pTlv, pMap, tlvInfo, loadMode);
+            Factory_Elum_4873D0(pTlv, pMap, tlvInfo, loadMode);
             break;
         case ReliveTypes::eBellHammer:
             Factory_BellHammer(pTlv, pMap, tlvInfo, loadMode);

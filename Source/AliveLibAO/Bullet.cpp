@@ -216,7 +216,8 @@ bool Bullet::InZBulletCover(FP xpos, FP ypos, const PSX_RECT& objRect)
             continue;
         }
 
-        if (objRect.x >= pZCover->mTopLeftX && objRect.x <= pZCover->mBottomRightX && objRect.y >= pZCover->mTopLeftY && objRect.y <= pZCover->mBottomRightY && objRect.w >= pZCover->mTopLeftX && objRect.w <= pZCover->mBottomRightX && objRect.h >= pZCover->mTopLeftY && objRect.h <= pZCover->mBottomRightY)
+        if (objRect.x >= pZCover->mTopLeftX &&
+            objRect.x <= pZCover->mBottomRightX && objRect.y >= pZCover->mTopLeftY && objRect.y <= pZCover->mBottomRightY && objRect.w >= pZCover->mTopLeftX && objRect.w <= pZCover->mBottomRightX && objRect.h >= pZCover->mTopLeftY && objRect.h <= pZCover->mBottomRightY)
         {
             return true;
         }

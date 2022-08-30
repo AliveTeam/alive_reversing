@@ -43,7 +43,7 @@ enum class TlvTypes : s16
     Pulley_35 = 35,
     HoneySack_36 = 36,
     AbeStart_37 = 37,
-    ElumStart_38 = 38,
+    ElumStart_38 = 38, // this just controls whether the bell hammer does a sound when abe jumps against it
 
     ElumWall_40 = 40,
     SlingMudokon_41 = 41,
@@ -73,7 +73,7 @@ enum class TlvTypes : s16
     ElectricWall_67 = 67,
     LiftMover_68 = 68,
     ChimeLock_69 = 69,
-
+    Elum_70 = 70,
     MeatSack_71 = 71,
     Scrab_72 = 72,
     FlintLockFire_73 = 73,
@@ -106,7 +106,7 @@ enum class TlvTypes : s16
     CreditsController_101 = 101,
     Preloader_102 = 102,
     LCDStatusBoard_103 = 103,
-    SwitchStateBooleanLogic = 104,
+    SwitchStateBooleanLogic_104 = 104,
     MusicTrigger_105 = 105,
     LightEffect_106 = 106,
     SlogSpawner_107 = 107,

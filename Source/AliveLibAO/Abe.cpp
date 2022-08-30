@@ -2905,9 +2905,13 @@ void Abe::BulletDamage_4220B0(Bullet* pBullet)
                     field_106_shot = 0;
                 }
             }
-
-            if (mCurrentMotion != eAbeMotions::Motion_114_ElumRunLoop_42DFA0 || shootKind != ShootKind::eEverythingElse_0)
+            else
             {
+                field_106_shot = 0;
+                mHealth = FP_FromInteger(1);
+                return;
+            }
+
                 relive_new Blood(
                     mXPos,
                     mYPos - FP_FromInteger(45),
@@ -2916,8 +2920,7 @@ void Abe::BulletDamage_4220B0(Bullet* pBullet)
                     FP_FromInteger(1),
                     50);
 
-                break;
-            }
+            break;
         }
         default:
             break;

@@ -68,6 +68,7 @@
 #include "../../AliveLibAO/SligSpawner.hpp"
 #include "../../AliveLibAO/HoneyDrip.hpp"
 #include "../../AliveLibAO/BeeNest.hpp"
+#include "../../AliveLibAO/SwitchStateBooleanLogic.hpp"
 
 #define CTOR_AO(className, objectTypeName, tlvEnumType)\
     className() : TlvObjectBaseAO(sizeof(AO::className), tlvEnumType, objectTypeName, &mTlv)\
@@ -101,9 +102,44 @@ struct Path_Preloader final : public Path_TLV
     s32 unload_cams_ASAP;
 };
 
+struct Path_Elum final : public Path_TLV
+{
+    // No fields
+};
+
 } // namespace AO
 
 namespace AOTlvs {
+
+struct Path_SwitchStateBooleanLogic final : public ReliveAPI::TlvObjectBaseAO
+{
+    void AddTypes(ReliveAPI::TypesCollectionBase& types) override
+    {
+        types.AddEnum<AO::BooleanOperatorType>("Enum_BooleanOperatorType",
+            {
+                {AO::BooleanOperatorType::eAllOn_0, "All On"},
+                {AO::BooleanOperatorType::e1OnAnd2Off_1, "1 On And 2 Off"},
+                {AO::BooleanOperatorType::e1Or2On_2, "1 Or 2 On"},
+                {AO::BooleanOperatorType::e1OnOr2Off_3, "1 On Or 2 Off"},
+            });
+    }
+
+    CTOR_AO(Path_SwitchStateBooleanLogic, "SwitchStateBooleanLogic", AO::TlvTypes::SwitchStateBooleanLogic_104)
+    {
+        ADD("Input Switch ID 1", mTlv.field_18_input1);
+        ADD("Input Switch ID 2", mTlv.field_1A_input2);
+        ADD("Output Switch ID", mTlv.field_1C_output);
+        ADD("Operator", mTlv.field_1E_operator);
+    }
+};
+
+struct Path_Elum final : public ReliveAPI::TlvObjectBaseAO
+{
+    CTOR_AO(Path_Elum, "Elum", AO::TlvTypes::Elum_70)
+    {
+        EMPTY_CTOR_AO();
+    }
+};
 
 struct Path_MainMenuController final : public ReliveAPI::TlvObjectBaseAO
 {

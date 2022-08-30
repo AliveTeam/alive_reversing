@@ -687,6 +687,9 @@ static void ConvertTLV(nlohmann::json& j, const AO::Path_TLV& tlv, const Guid& t
         case AO::TlvTypes::ChimeLock_69:
             convert_tlv<relive::Path_ChimeLock_Converter, AO::Path_ChimeLock>(j, tlv, tlvId);
             break;
+        case AO::TlvTypes::Elum_70:
+            ALIVE_FATAL("TODO Elum_70");
+            break;
         case AO::TlvTypes::MeatSack_71:
             convert_tlv<relive::Path_MeatSack_Converter, AO::Path_MeatSack>(j, tlv, tlvId);
             break;

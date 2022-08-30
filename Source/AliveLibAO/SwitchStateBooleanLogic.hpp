@@ -8,10 +8,10 @@ namespace AO {
 
 enum class BooleanOperatorType : s16
 {
-    eAnd_0 = 0,
-    eAndNot_1 = 1,
-    eOr_2 = 2,
-    eOrNot_3 = 3,
+    eAllOn_0 = 0,
+    e1OnAnd2Off_1 = 1,
+    e1Or2On_2 = 2,
+    e1OnOr2Off_3 = 3,
 };
 
 struct Path_SwitchStateBooleanLogic final : public Path_TLV
@@ -35,7 +35,7 @@ public:
     u16 field_10_input_1 = 0;
     u16 field_12_input_2 = 0;
     u16 field_14_output = 0;
-    BooleanOperatorType field_16_operator = BooleanOperatorType::eAnd_0;
+    BooleanOperatorType field_16_operator = BooleanOperatorType::eAllOn_0;
     Guid field_18_tlvInfo;
 };
 ALIVE_ASSERT_SIZEOF(SwitchStateBooleanLogic, 0x1C);
