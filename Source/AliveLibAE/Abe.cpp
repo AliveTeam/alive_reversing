@@ -5649,7 +5649,7 @@ void Abe::Motion_57_Dead_4589A0()
                 pDeathFade_1->mBaseGameObjectFlags.Set(BaseGameObject::eDead);
                 mDeathFadeOutId = Guid{};
             }
-            auto pDeathFade = relive_new DeathFadeOut(Layer::eLayer_FadeFlash_40, 1, 0, 8, TPageAbr::eBlend_2);
+            auto pDeathFade = relive_new DeathFadeOut(Layer::eLayer_FadeFlash_40, 1, false, 8, TPageAbr::eBlend_2);
             if (pDeathFade)
             {
                 mDeathFadeOutId = pDeathFade->mBaseGameObjectId;

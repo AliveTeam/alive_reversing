@@ -332,50 +332,32 @@ void Quicksave_SaveSwitchResetterStates()
 void Quicksave_RestoreSwitchResetterStates()
 {
     s32 idx = 0;
-    for (s16 i = 1; i <= Path_Get_Num_Paths(gMap.mCurrentLevel); i++)
+    for (auto& binaryPath : gMap.GetLoadedPaths())
     {
-        const PathBlyRec* pPathRec = Path_Get_Bly_Record(gMap.mCurrentLevel, i);
-        if (pPathRec->field_0_blyName)
+        for (auto& cam : binaryPath->GetCameras())
         {
-            const PathData* pPathData = pPathRec->field_4_pPathData;
-            const s32 widthCount = (pPathData->field_4_bTop - pPathData->field_0_bLeft) / pPathData->field_A_grid_width;
-            const s32 heightCount = (pPathData->field_6_bBottom - pPathData->field_2_bRight) / pPathData->field_C_grid_height;
-            u8** ppPathRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Path, i, TRUE, FALSE);
-            if (ppPathRes)
+            auto pTlv = reinterpret_cast<relive::Path_TLV*>(cam->mBuffer.data());
+            while (pTlv)
             {
-                const s32 totalCameraCount = widthCount * heightCount;
-                const s32* indexTable = reinterpret_cast<const s32*>(*ppPathRes + pPathData->field_16_object_indextable_offset);
-                for (s32 j = 0; j < totalCameraCount; j++)
+                if (pTlv->mTlvType == ReliveTypes::eResetPath)
                 {
-                    s32 tlvOffset = indexTable[j];
-                    if (tlvOffset != -1)
+                    if (idx < 8)
                     {
-                        u8* ptr = &(*ppPathRes)[pPathData->field_12_object_offset + tlvOffset];
-                        relive::Path_TLV* pTlv = reinterpret_cast<relive::Path_TLV*>(ptr);
-                        while (pTlv)
-                        {
-                            if (pTlv->mTlvType == ReliveTypes::eResetPath)
-                            {
-                                if (idx < 8)
-                                {
-                                    pTlv->mTlvFlags = sSwitchReset_Saved_States_BB233C[idx].flags;
-                                    pTlv->mTlvSpecificMeaning = sSwitchReset_Saved_States_BB233C[idx].data;
+                        pTlv->mTlvFlags = sSwitchReset_Saved_States_BB233C[idx].flags;
+                        pTlv->mTlvSpecificMeaning = sSwitchReset_Saved_States_BB233C[idx].data;
 
-                                    idx++;
-                                }
-                                else
-                                {
-                                    LOG_WARNING("Out of read space !!");
-                                }
-                            }
-                            pTlv = Path::Next_TLV(pTlv);
-                        }
+                        idx++;
+                    }
+                    else
+                    {
+                        LOG_WARNING("Out of read space !!");
                     }
                 }
-                ResourceManager::FreeResource_49C330(ppPathRes);
+                pTlv = Path::Next_TLV(pTlv);
             }
         }
     }
+
     sQuickSave_saved_switchResetters_count_BB234C = 0;
 }
 

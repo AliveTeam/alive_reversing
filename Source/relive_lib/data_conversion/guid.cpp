@@ -77,10 +77,7 @@ bool Guid::IsValid() const
 
 bool Guid::operator < (const Guid& rhs) const
 {
-    return mGuid.mTlvInfoOrData1.mData < rhs.mGuid.mTlvInfoOrData1.mData && 
-        mGuid.mData2[0] < rhs.mGuid.mData2[0] &&
-        mGuid.mData2[1] < rhs.mGuid.mData2[1] && 
-        mGuid.mData2[2] < rhs.mGuid.mData2[2];
+    return std::tie(mGuid.mTlvInfoOrData1.mData, mGuid.mData2[0], mGuid.mData2[1], mGuid.mData2[2]) < std::tie(rhs.mGuid.mTlvInfoOrData1.mData, rhs.mGuid.mData2[0], rhs.mGuid.mData2[1], rhs.mGuid.mData2[2]);
 }
 
 bool Guid::operator==(const Guid& rhs) const

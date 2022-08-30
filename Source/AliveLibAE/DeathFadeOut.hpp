@@ -13,6 +13,7 @@ public:
     virtual void VRender(PrimHeader** ppOt) override;
 
     DeathFadeOut(Layer layer, s32 direction, bool destroyOnDone, s32 speed, TPageAbr abr);
+    ~DeathFadeOut();
     void Init(Layer layer, s32 direction, bool destroyOnDone, s32 speed);
 
 private:

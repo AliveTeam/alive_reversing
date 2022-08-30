@@ -31,6 +31,11 @@ DeathFadeOut::DeathFadeOut(Layer layer, s32 direction, bool destroyOnDone, s32 s
     mEffectBaseRed = field_78_current_fade_rgb;
 }
 
+DeathFadeOut::~DeathFadeOut()
+{
+
+}
+
 void DeathFadeOut::Init(Layer layer, s32 direction, bool destroyOnDone, s32 speed)
 {
     mEffectBaseLayer = layer;
