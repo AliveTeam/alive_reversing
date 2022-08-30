@@ -14,7 +14,7 @@ class BaseAliveGameObject;
 class Camera;
 struct PathData;
 struct Path_TLV;
-
+class BinaryPath;
 enum class LevelIds : s16;
 
 enum class CameraSwapEffects : s16
@@ -144,6 +144,12 @@ public:
     CameraPos GetDirection(EReliveLevelIds level, s32 path, FP xpos, FP ypos);
 
     s16 Get_Camera_World_Rect(CameraPos camIdx, PSX_RECT* pRect);
+    
+    std::vector<std::unique_ptr<BinaryPath>>& GetLoadedPaths()
+    {
+        return mLoadedPaths;
+    }
+
 
 private:
     Camera* GetCamera(CameraPos pos);
@@ -151,7 +157,7 @@ private:
     void CreateScreenTransistionForTLV(relive::Path_TLV* pTlv);
     void ScreenChange_Common();
 
-    std::vector<std::unique_ptr<class BinaryPath>> mLoadedPaths;
+    std::vector<std::unique_ptr<BinaryPath>> mLoadedPaths;
 };
 ALIVE_ASSERT_SIZEOF(Map, 0xDC);
 

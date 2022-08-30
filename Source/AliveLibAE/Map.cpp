@@ -144,14 +144,6 @@ void Map::ScreenChange()
     ScreenChange_Common();
 }
 
-// OG only allows for 30 paths, given the editor allows for the full 99 we have to use a bigger array in a non ABI breaking way
-// Note that currently there is only ever 1 Map object instance thus this global workaround is OK for now.
-struct Map_PathsArrayExtended final
-{
-    u8** mPathRecs[99];
-};
-static Map_PathsArrayExtended sPathsArrayExtended = {};
-
 void Map::FreePathResourceBlocks()
 {
     mLoadedPaths.clear();

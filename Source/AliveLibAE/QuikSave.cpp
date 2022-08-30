@@ -48,222 +48,128 @@
 #include "Grenade.hpp"
 #include "Mudokon.hpp"
 
-struct QuickSaveRestoreTable final
-{
-    s32(CC* mFns[180])(const u8*);
-};
-
-// Mapped to AE types
-QuickSaveRestoreTable sQuicksaveLoadFunctionTable = {
-    nullptr,
-    nullptr,
-    &SligSpawner::CreateFromSaveState,
-    nullptr,
-    nullptr,
-    nullptr,
-    nullptr,
-    nullptr,
-    nullptr,
-    &LiftMover::CreateFromSaveState,
-    nullptr,
-    &Bone::CreateFromSaveState,
-    nullptr,
-    nullptr,
-    nullptr,
-    nullptr,
-    nullptr,
-    nullptr,
-    nullptr,
-    nullptr,
-    nullptr,
-    nullptr,
-    nullptr,
-    nullptr,
-    nullptr,
-    &MinesAlarm::CreateFromSaveState,
-    &CrawlingSlig::CreateFromSaveState,
-    nullptr,
-    nullptr,
-    nullptr,
-    &Drill::CreateFromSaveState,
-    nullptr,
-    nullptr,
-    nullptr,
-    nullptr,
-    nullptr,
-    nullptr,
-    nullptr,
-    nullptr,
-    nullptr,
-    nullptr,
-    nullptr,
-    nullptr,
-    nullptr,
-    nullptr,
-    &EvilFart::CreateFromSaveState,
-    nullptr,
-    nullptr,
-    nullptr,
-    nullptr,
-    &Fleech::CreateFromSaveState,
-    nullptr,
-    nullptr,
-    nullptr,
-    &FlyingSlig::CreateFromSaveState,
-    &FlyingSligSpawner::CreateFromSaveState,
-    nullptr,
-    &GameEnderController::CreateFromSaveState,
-    nullptr,
-    nullptr,
-    &SlapLockWhirlWind::CreateFromSaveState,
-    &SlapLock::CreateFromSaveState,
-    nullptr,
-    nullptr,
-    &Greeter::CreateFromSaveState,
-    &Grenade::CreateFromSaveState,
-    nullptr,
-    &Glukkon::CreateFromSaveState,
-    nullptr,
-    &Abe::CreateFromSaveState,
-    nullptr,
-    nullptr,
-    nullptr,
-    nullptr,
-    nullptr,
-    nullptr,
-    nullptr,
-    nullptr,
-    &LiftPoint::CreateFromSaveState,
-    nullptr,
-    nullptr,
-    &Mudokon::CreateFromSaveState,
-    nullptr,
-    nullptr,
-    &Meat::CreateFromSaveState,
-    nullptr,
-    nullptr,
-    nullptr,
-    nullptr,
-    &MineCar::CreateFromSaveState,
-    nullptr,
-    nullptr,
-    nullptr,
-    nullptr,
-    nullptr,
-    nullptr,
-    &Paramite::CreateFromSaveState,
-    nullptr,
-    nullptr,
-    &BirdPortal::CreateFromSaveState,
-    nullptr,
-    nullptr,
-    &ThrowableArray::CreateFromSaveState,
-    nullptr,
-    &AbilityRing::CreateFromSaveState,
-    &Rock::CreateFromSaveState,
-    nullptr,
-    nullptr,
-    nullptr,
-    nullptr,
-    nullptr,
-    nullptr,
-    &Scrab::CreateFromSaveState,
-    &ScrabSpawner::CreateFromSaveState,
-    nullptr,
-    nullptr,
-    nullptr,
-    nullptr,
-    nullptr,
-    nullptr,
-    nullptr,
-    nullptr,
-    &SlamDoor::CreateFromSaveState,
-    nullptr,
-    nullptr,
-    &Slig::CreateFromSaveState,
-    &Slog::CreateFromSaveState,
-    nullptr,
-    nullptr,
-    &Slurg::CreateFromSaveState,
-    nullptr,
-    nullptr,
-    nullptr,
-    nullptr,
-    nullptr,
-    nullptr,
-    &TimerTrigger::CreateFromSaveState,
-    nullptr,
-    nullptr,
-    nullptr,
-    nullptr,
-    nullptr,
-    &TrapDoor::CreateFromSaveState,
-    &UXB::CreateFromSaveState,
-    nullptr,
-    nullptr,
-    nullptr,
-    nullptr,
-    &WorkWheel::CreateFromSaveState,
-    nullptr,
-    nullptr,
-    nullptr,
-    nullptr,
-    nullptr,
-    nullptr,
-    nullptr,
-    nullptr,
-    nullptr,
-    nullptr,
-    nullptr,
-    nullptr,
-    nullptr,
-    nullptr,
-    nullptr,
-    nullptr,
-    nullptr,
-    nullptr,
-    nullptr,
-    nullptr,
-    nullptr,
-    nullptr,
-    nullptr,
-    nullptr,
-    nullptr,
-    nullptr,
-    nullptr,
-    nullptr,
-    nullptr,
-    nullptr,
-    nullptr};
-
-ALIVE_VAR(1, 0x560c34, QuickSaveRestoreTable, sQuicksaveLoadFunctionTable_560C34, sQuicksaveLoadFunctionTable);
-
-struct QuickSaveFlagTypeTable final
-{
-    u8 mTypes[136];
-};
-
-const QuickSaveFlagTypeTable kQuickSaveFlagsTable = {
-    {0x02, 0x00, 0x00, 0x00, 0x00, 0x01, 0x00, 0x02, 0x00, 0x01,
-     0x00, 0x01, 0x00, 0x00, 0x01, 0x02, 0x02, 0x00, 0x00, 0x01,
-     0x00, 0x00, 0x00, 0x00, 0x01, 0x02, 0x02, 0x00, 0x02, 0x00,
-     0x02, 0x01, 0x00, 0x00, 0x01, 0x01, 0x00, 0x02, 0x01, 0x02,
-     0x00, 0x02, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02,
-     0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x00, 0x02, 0x01, 0x00,
-     0x00, 0x00, 0x00, 0x00, 0x01, 0x00, 0x02, 0x00, 0x01, 0x01,
-     0x00, 0x01, 0x01, 0x02, 0x01, 0x00, 0x02, 0x01, 0x01, 0x02,
-     0x01, 0x01, 0x02, 0x02, 0x02, 0x02, 0x01, 0x01, 0x01, 0x01,
-     0x02, 0x01, 0x02, 0x02, 0x01, 0x01, 0x01, 0x01, 0x02, 0x01,
-     0x01, 0x01, 0x02, 0x02, 0x01, 0x01, 0x02, 0x00, 0x00, 0x00,
-     0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-     0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-     0x00, 0x00, 0x00, 0x00, 0x00, 0x00}};
-
-ALIVE_VAR(1, 0x547794, QuickSaveFlagTypeTable, kObjectTypeAttributesTable_byte_547794, kQuickSaveFlagsTable);
 
 ALIVE_VAR(1, 0x5c1bbc, u16, bUseAltSaveHeader_5C1BBC, 0);
 
 ALIVE_VAR(1, 0xbb234c, u16, sQuickSave_saved_switchResetters_count_BB234C, 0);
+
+static s32 RestoreObjectState(AETypes type, const u8* pData)
+{
+    switch (type)
+    {
+        case ::AETypes::eSligSpawner_2:
+            return SligSpawner::CreateFromSaveState(pData);
+
+        case ::AETypes::eLiftMover_9:
+            return LiftMover::CreateFromSaveState(pData);
+
+        case ::AETypes::eBone_11:
+            return Bone::CreateFromSaveState(pData);
+
+        case ::AETypes::eMinesAlarm_25:
+            return MinesAlarm::CreateFromSaveState(pData);
+
+        case ::AETypes::eCrawlingSlig_26:
+            return CrawlingSlig::CreateFromSaveState(pData);
+
+        case ::AETypes::eDrill_30:
+            return Drill::CreateFromSaveState(pData);
+
+        case ::AETypes::eEvilFart_45:
+            return EvilFart::CreateFromSaveState(pData);
+
+        case ::AETypes::eFleech_50:
+            return Fleech::CreateFromSaveState(pData);
+
+        case ::AETypes::eFlyingSlig_54:
+            return FlyingSlig::CreateFromSaveState(pData);
+
+        case ::AETypes::eFlyingSligSpawner_55:
+            return FlyingSligSpawner::CreateFromSaveState(pData);
+
+        case ::AETypes::eGameEnderController_57:
+            return GameEnderController::CreateFromSaveState(pData);
+
+        case ::AETypes::eSlapLock_OrbWhirlWind_60:
+            return SlapLockWhirlWind::CreateFromSaveState(pData);
+
+        case ::AETypes::eLockedSoul_61:
+            return SlapLock::CreateFromSaveState(pData);
+
+        case ::AETypes::eGreeter_64:
+            return Greeter::CreateFromSaveState(pData);
+
+        case ::AETypes::eGrenade_65:
+            return Grenade::CreateFromSaveState(pData);
+
+        case ::AETypes::eGlukkon_67:
+            return Glukkon::CreateFromSaveState(pData);
+
+        case ::AETypes::eAbe_69:
+            return Abe::CreateFromSaveState(pData);
+
+        case ::AETypes::eLiftPoint_78:
+            return LiftPoint::CreateFromSaveState(pData);
+
+        case ::AETypes::eMudokon_110:
+            return Mudokon::CreateFromSaveState(pData);
+
+        case ::AETypes::eMeat_84:
+            return Meat::CreateFromSaveState(pData);
+
+        case ::AETypes::eMineCar_89:
+            return MineCar::CreateFromSaveState(pData);
+
+        case ::AETypes::eParamite_96:
+            return Paramite::CreateFromSaveState(pData);
+
+        case ::AETypes::eBirdPortal_99:
+            return BirdPortal::CreateFromSaveState(pData);
+
+        case ::AETypes::eThrowableTotalIndicator_53:
+            return ThrowableArray::CreateFromSaveState(pData);
+
+        case ::AETypes::eAbilityRing_104:
+            return AbilityRing::CreateFromSaveState(pData);
+
+        case ::AETypes::eRock_105:
+            return Rock::CreateFromSaveState(pData);
+
+        case ::AETypes::eScrab_112:
+            return Scrab::CreateFromSaveState(pData);
+
+        case ::AETypes::eScrabSpawner_113:
+            return ScrabSpawner::CreateFromSaveState(pData);
+
+        case ::AETypes::eSlamDoor_122:
+            return SlamDoor::CreateFromSaveState(pData);
+
+        case ::AETypes::eSlig_125:
+            return Slig::CreateFromSaveState(pData);
+
+        case ::AETypes::eSlog_126:
+            return Slog::CreateFromSaveState(pData);
+
+        case ::AETypes::eSlurg_129:
+            return Slurg::CreateFromSaveState(pData);
+
+        case ::AETypes::eTimerTrigger_136:
+            return TimerTrigger::CreateFromSaveState(pData);
+
+        case ::AETypes::eTrapDoor_142:
+            return TrapDoor::CreateFromSaveState(pData);
+
+        case ::AETypes::eUXB_143:
+            return UXB::CreateFromSaveState(pData);
+
+        case ::AETypes::eWheel_148:
+            return WorkWheel::CreateFromSaveState(pData);
+
+        default:
+            LOG_ERROR("No create save state for type " << static_cast<s32>(type));
+            ALIVE_FATAL("No create save state for type");
+    }
+}
 
 void QuikSave_RestoreBlyData(const u8* pSaveData)
 {
@@ -272,50 +178,32 @@ void QuikSave_RestoreBlyData(const u8* pSaveData)
     while (*reinterpret_cast<const u32*>(pSaveData2) != 0)
     {
         // Maps to AETypes
-        pSaveData2 += sQuicksaveLoadFunctionTable_560C34.mFns[*pSaveData2](reinterpret_cast<const u8*>(pSaveData2)) / sizeof(u16);
+        pSaveData2 += RestoreObjectState(static_cast<AETypes>(*pSaveData2), reinterpret_cast<const u8*>(pSaveData2)) / sizeof(u16);
     }
 
     // Skip the 2 zero entries, the saved flag words come after the object save state data
     const u8* pSrcFlags = reinterpret_cast<const u8*>(pSaveData2 + 2);
-    for (s16 i = 1; i <= Path_Get_Num_Paths(gMap.mCurrentLevel); i++)
-    {
-        const PathBlyRec* pPathRec = Path_Get_Bly_Record(gMap.mCurrentLevel, i);
-        if (pPathRec->field_0_blyName)
-        {
-            const PathData* pPathData = pPathRec->field_4_pPathData;
-            const s32 widthCount = (pPathData->field_4_bTop - pPathData->field_0_bLeft) / pPathData->field_A_grid_width;
-            const s32 heightCount = (pPathData->field_6_bBottom - pPathData->field_2_bRight) / pPathData->field_C_grid_height;
-            u8** ppPathRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Path, i, TRUE, FALSE);
-            if (ppPathRes)
-            {
-                const s32 totalCameraCount = widthCount * heightCount;
-                const s32* indexTable = reinterpret_cast<const s32*>(*ppPathRes + pPathData->field_16_object_indextable_offset);
-                for (s32 j = 0; j < totalCameraCount; j++)
-                {
-                    const s32 tlvOffset = indexTable[j];
-                    if (tlvOffset != -1)
-                    {
-                        u8* ptr = &(*ppPathRes)[pPathData->field_12_object_offset + tlvOffset];
-                        relive::Path_TLV* pTlv = reinterpret_cast<relive::Path_TLV*>(ptr);
-                        while (pTlv)
-                        {
-                            if (pTlv->mAttribute == relive::QuiksaveAttribute::eClearTlvFlags_1 ||
-                                pTlv->mAttribute == relive::QuiksaveAttribute::eKeepTlvFlags_2) // Type 0 ignored - actually it should never be written here anyway
-                            {
-                                pTlv->mTlvFlags.Raw().all = *pSrcFlags;
-                                pSrcFlags++;
 
-                                pTlv->mTlvSpecificMeaning = *pSrcFlags;
-                                pSrcFlags++;
-                            }
-                            pTlv = Path::Next_TLV(pTlv);
-                        }
-                    }
+    for (auto& binaryPath : gMap.GetLoadedPaths())
+    {
+        for (auto& cam : binaryPath->GetCameras())
+        {
+            auto pTlv = reinterpret_cast<relive::Path_TLV*>(cam->mBuffer.data());
+            while (pTlv)
+            {
+                if (pTlv->mAttribute == relive::QuiksaveAttribute::eClearTlvFlags_1 || pTlv->mAttribute == relive::QuiksaveAttribute::eKeepTlvFlags_2) // Type 0 ignored - actually it should never be written here anyway
+                {
+                    pTlv->mTlvFlags.Raw().all = *pSrcFlags;
+                    pSrcFlags++;
+
+                    pTlv->mTlvSpecificMeaning = *pSrcFlags;
+                    pSrcFlags++;
                 }
-                ResourceManager::FreeResource_49C330(ppPathRes);
+                pTlv = Path::Next_TLV(pTlv);
             }
         }
     }
+
     pResourceManager_5C1BB0->LoadingLoop_465590(FALSE);
 }
 
@@ -372,56 +260,35 @@ static void WriteFlags(u8*& pSaveBuffer, const relive::Path_TLV* pTlv, const Bit
 
 void Quicksave_SaveBlyData_4C9660(u8* pSaveBuffer)
 {
-    for (s16 i = 1; i < Path_Get_Num_Paths(gMap.mCurrentLevel); i++)
+    for (auto& binaryPath : gMap.GetLoadedPaths())
     {
-        const PathBlyRec* pPathRec = Path_Get_Bly_Record(gMap.mCurrentLevel, i);
-        if (pPathRec->field_0_blyName)
+        for (auto& cam : binaryPath->GetCameras())
         {
-            const PathData* pPathData = pPathRec->field_4_pPathData;
-            const s32 widthCount = (pPathData->field_4_bTop - pPathData->field_0_bLeft) / pPathData->field_A_grid_width;
-            const s32 heightCount = (pPathData->field_6_bBottom - pPathData->field_2_bRight) / pPathData->field_C_grid_height;
-            u8** ppPathRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Path, i, TRUE, FALSE);
-            if (ppPathRes)
+            auto pTlv = reinterpret_cast<relive::Path_TLV*>(cam->mBuffer.data());
+            while (pTlv)
             {
-                const s32 totalCameraCount = widthCount * heightCount;
-                const s32* indexTable = reinterpret_cast<const s32*>(*ppPathRes + pPathData->field_16_object_indextable_offset);
-                for (s32 j = 0; j < totalCameraCount; j++)
+                if (pTlv->mAttribute == relive::QuiksaveAttribute::eClearTlvFlags_1)
                 {
-                    const s32 tlvOffset = indexTable[j];
-                    if (tlvOffset != -1)
+                    BitField8<relive::TlvFlags> flags = pTlv->mTlvFlags;
+                    if (flags.Get(relive::TlvFlags::eBit1_Created))
                     {
-                        u8* ptr = &(*ppPathRes)[pPathData->field_12_object_offset + tlvOffset];
-                        relive::Path_TLV* pTlv = reinterpret_cast<relive::Path_TLV*>(ptr);
-                        while (pTlv)
-                        {
-                            if (pTlv->mAttribute == relive::QuiksaveAttribute::eClearTlvFlags_1)
-                            {
-                                BitField8<relive::TlvFlags> flags = pTlv->mTlvFlags;
-                                if (flags.Get(relive::TlvFlags::eBit1_Created))
-                                {
-                                    flags.Clear(relive::TlvFlags::eBit1_Created);
-                                    flags.Clear(relive::TlvFlags::eBit2_Destroyed);
-                                }
-                                WriteFlags(pSaveBuffer, pTlv, flags);
-                            }
-                            else if (pTlv->mAttribute == relive::QuiksaveAttribute::eKeepTlvFlags_2)
-                            {
-                                WriteFlags(pSaveBuffer, pTlv, pTlv->mTlvFlags);
-                            }
-                            else
-                            {
-                                // Type 0 ignored
-                            }
-                            pTlv = Path::Next_TLV(pTlv);
-                        }
+                        flags.Clear(relive::TlvFlags::eBit1_Created);
+                        flags.Clear(relive::TlvFlags::eBit2_Destroyed);
                     }
+                    WriteFlags(pSaveBuffer, pTlv, flags);
                 }
-                ResourceManager::FreeResource_49C330(ppPathRes);
+                else if (pTlv->mAttribute == relive::QuiksaveAttribute::eKeepTlvFlags_2)
+                {
+                    WriteFlags(pSaveBuffer, pTlv, pTlv->mTlvFlags);
+                }
+                else
+                {
+                    // Type 0 ignored
+                }
+                pTlv = Path::Next_TLV(pTlv);
             }
         }
     }
-
-    // NOTE: Some values with things like total save size written here, but they are never used
 }
 
 struct SaveFlagsAndData final
@@ -434,47 +301,29 @@ ALIVE_ARY(1, 0xBB233C, SaveFlagsAndData, 8, sSwitchReset_Saved_States_BB233C, {}
 void Quicksave_SaveSwitchResetterStates()
 {
     sQuickSave_saved_switchResetters_count_BB234C = 0;
-    for (s16 i = 1; i <= Path_Get_Num_Paths(gMap.mCurrentLevel); i++)
-    {
-        const PathBlyRec* pPathRec = Path_Get_Bly_Record(gMap.mCurrentLevel, i);
-        if (pPathRec->field_0_blyName)
-        {
-            const PathData* pPathData = pPathRec->field_4_pPathData;
-            const s32 widthCount = (pPathData->field_4_bTop - pPathData->field_0_bLeft) / pPathData->field_A_grid_width;
-            const s32 heightCount = (pPathData->field_6_bBottom - pPathData->field_2_bRight) / pPathData->field_C_grid_height;
-            u8** ppPathRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Path, i, TRUE, FALSE);
-            if (ppPathRes)
-            {
-                const s32 totalCameraCount = widthCount * heightCount;
-                const s32* indexTable = reinterpret_cast<const s32*>(*ppPathRes + pPathData->field_16_object_indextable_offset);
-                for (s32 j = 0; j < totalCameraCount; j++)
-                {
-                    s32 tlvOffset = indexTable[j];
-                    if (tlvOffset != -1)
-                    {
-                        u8* ptr = &(*ppPathRes)[pPathData->field_12_object_offset + tlvOffset];
-                        relive::Path_TLV* pTlv = reinterpret_cast<relive::Path_TLV*>(ptr);
-                        while (pTlv)
-                        {
-                            if (pTlv->mTlvType == ReliveTypes::eResetPath)
-                            {
-                                if (sQuickSave_saved_switchResetters_count_BB234C < 8)
-                                {
-                                    sSwitchReset_Saved_States_BB233C[sQuickSave_saved_switchResetters_count_BB234C].flags = pTlv->mTlvFlags;
-                                    sSwitchReset_Saved_States_BB233C[sQuickSave_saved_switchResetters_count_BB234C].data = pTlv->mTlvSpecificMeaning;
 
-                                    sQuickSave_saved_switchResetters_count_BB234C++;
-                                }
-                                else
-                                {
-                                    LOG_WARNING("Out of write space !!");
-                                }
-                            }
-                            pTlv = Path::Next_TLV(pTlv);
-                        }
+    for (auto& binaryPath : gMap.GetLoadedPaths())
+    {
+        for (auto& cam : binaryPath->GetCameras())
+        {
+            auto pTlv = reinterpret_cast<relive::Path_TLV*>(cam->mBuffer.data());
+            while (pTlv)
+            {
+                if (pTlv->mTlvType == ReliveTypes::eResetPath)
+                {
+                    if (sQuickSave_saved_switchResetters_count_BB234C < 8)
+                    {
+                        sSwitchReset_Saved_States_BB233C[sQuickSave_saved_switchResetters_count_BB234C].flags = pTlv->mTlvFlags;
+                        sSwitchReset_Saved_States_BB233C[sQuickSave_saved_switchResetters_count_BB234C].data = pTlv->mTlvSpecificMeaning;
+
+                        sQuickSave_saved_switchResetters_count_BB234C++;
+                    }
+                    else
+                    {
+                        LOG_WARNING("Out of write space !!");
                     }
                 }
-                ResourceManager::FreeResource_49C330(ppPathRes);
+                pTlv = Path::Next_TLV(pTlv);
             }
         }
     }
