@@ -537,7 +537,10 @@ void BinaryPath::CreateFromJson(nlohmann::json& pathJson)
             {
                 mapObjects.at(i).get_to(*camEntry->AllocTLV<relive::Path_SligGetPants>());
             }
-
+            if (type == "abe_start")
+            {
+                mapObjects.at(i).get_to(*camEntry->AllocTLV<relive::Path_AbeStart>());
+            }
 
             camEntry->mLastAllocated->mLength = camEntry->mLastAllocatedSize;
 
