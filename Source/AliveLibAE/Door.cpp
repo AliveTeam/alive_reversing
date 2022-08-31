@@ -136,7 +136,7 @@ Door::Door(relive::Path_Door* pTlvData, const Guid& tlvId)
         }
     }
 
-    if (field_F8_door_type == DoorTypes::eTasksDoor_3)
+    if (field_F8_door_type == relive::Path_Door::DoorTypes::eTasksDoor)
     {
         field_102_hub_ids[0] = pTlvData->mHub1;
         field_102_hub_ids[1] = pTlvData->mHub2;
@@ -188,7 +188,7 @@ Door::Door(relive::Path_Door* pTlvData, const Guid& tlvId)
         field_FC_current_state = eOpen_0;
     }
 
-    if (field_F8_door_type == DoorTypes::eTasksDoorWithSecretMusic_2)
+    if (field_F8_door_type == relive::Path_Door::DoorTypes::eTasksDoorWithSecretMusic)
     {
         field_102_hub_ids[0] = pTlvData->mHub1;
         field_102_hub_ids[1] = pTlvData->mHub2;
@@ -345,7 +345,7 @@ void Door::vSetClosed()
 void Door::PlaySound()
 {
     s16 volume = 0;
-    if (field_F8_door_type != DoorTypes::eBasicDoor_0 || mSpriteScale != FP_FromInteger(1))
+    if (field_F8_door_type != relive::Path_Door::DoorTypes::eBasicDoor || mSpriteScale != FP_FromInteger(1))
     {
         volume = 60;
     }
@@ -381,7 +381,7 @@ void Door::VUpdate()
     else
     {
         field_FA_door_number = -1;
-        if (field_F8_door_type == DoorTypes::eTasksDoorWithSecretMusic_2 || field_F8_door_type == DoorTypes::eTasksDoor_3)
+        if (field_F8_door_type == relive::Path_Door::DoorTypes::eTasksDoorWithSecretMusic || field_F8_door_type == relive::Path_Door::DoorTypes::eTasksDoor)
         {
             if (SwitchStates_Get(field_102_hub_ids[0])
                 && SwitchStates_Get(field_102_hub_ids[1])
@@ -392,7 +392,7 @@ void Door::VUpdate()
                 && SwitchStates_Get(field_102_hub_ids[6])
                 && SwitchStates_Get(field_102_hub_ids[7]))
             {
-                if (!SwitchStates_Get(field_100_switch_id) && field_F8_door_type == DoorTypes::eTasksDoorWithSecretMusic_2)
+                if (!SwitchStates_Get(field_100_switch_id) && field_F8_door_type == relive::Path_Door::DoorTypes::eTasksDoorWithSecretMusic)
                 {
                     SND_SEQ_Play(SeqId::SecretMusic_32, 1, 127, 127);
                     relive_new MusicTrigger(relive::Path_MusicTrigger::MusicTriggerMusicType::eChime, relive::Path_MusicTrigger::TriggeredBy::eTimer, 0, 0);

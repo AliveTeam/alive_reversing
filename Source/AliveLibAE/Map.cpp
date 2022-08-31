@@ -1288,11 +1288,11 @@ void Map::LoadResourcesFromList(const char_type* pFileName, ResourceManager::Res
 
 s16 Map::SetActiveCameraDelayed(MapDirections direction, BaseAliveGameObject* pObj, s16 swapEffect)
 {
-    Path_PathTransition* pPathChangeTLV = nullptr;
+    relive::Path_PathTransition* pPathChangeTLV = nullptr;
     CameraSwapEffects convertedSwapEffect = CameraSwapEffects::eInstantChange_0;
     if (pObj)
     {
-        pPathChangeTLV = reinterpret_cast<Path_PathTransition*>(sPathInfo->TLV_Get_At_4DB4B0(
+        pPathChangeTLV = reinterpret_cast<relive::Path_PathTransition*>(sPathInfo->TLV_Get_At_4DB4B0(
             FP_GetExponent(pObj->mXPos),
             FP_GetExponent(pObj->mYPos),
             FP_GetExponent(pObj->mXPos),
@@ -1302,7 +1302,7 @@ s16 Map::SetActiveCameraDelayed(MapDirections direction, BaseAliveGameObject* pO
 
     if (pObj && pPathChangeTLV)
     {
-        mNextLevel = MapWrapper::FromAE(pPathChangeTLV->mNextLevel);
+        mNextLevel = pPathChangeTLV->mNextLevel;
         mNextPath = pPathChangeTLV->mNextPath;
         mNextCamera = pPathChangeTLV->mNextCamera;
         if (swapEffect < 0)

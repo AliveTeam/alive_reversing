@@ -112,6 +112,7 @@ static s32 RestoreObjectState(AETypes type, const u8* pData)
             return LiftPoint::CreateFromSaveState(pData);
 
         case ::AETypes::eMudokon_110:
+        case ::AETypes::eRingOrLiftMud_81:
             return Mudokon::CreateFromSaveState(pData);
 
         case ::AETypes::eMeat_84:

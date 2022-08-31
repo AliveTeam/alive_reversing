@@ -3249,6 +3249,8 @@ public:
         r.mSwitchId = tlv.mSwitchId;
         r.mOtherWellId = tlv.mOtherWellId;
         r.mAnimId = tlv.mAnimId;
+        r.mOffDestX = tlv.field_18_off_dx;
+        r.mOffDestY = tlv.field_1A_off_dy;
 
         // Local well
         r.mOnDestX = tlv.mOnDestX;
@@ -3305,6 +3307,8 @@ public:
         r.mSwitchId = tlv.mSwitchId;
         r.mOtherWellId = tlv.mOtherWellId;
         r.mAnimId = tlv.mAnimId;
+        r.mOffDestLevel = MapWrapper::FromAE(tlv.field_1C_disabled_well_level);
+        r.mOffDestPath = tlv.field_1E_disabled_well_path;
 
         // Express well
         r.mOffDestCamera = tlv.mOffDestCamera;
@@ -3909,7 +3913,7 @@ public:
     {
         Path_MultiSwitchController r;
         BaseConvert(r, tlv, tlvId);
-        r.mOutputSwitchId = r.mOutputSwitchId;
+        r.mOutputSwitchId = tlv.mOutputSwitchId;
         r.mAction = relive::From(tlv.mAction);
         r.mOnOffDelay = tlv.mOnOffDelay;
         r.mInputSwitchId1 = tlv.mInputSwitchId1;

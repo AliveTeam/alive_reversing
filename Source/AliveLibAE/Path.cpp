@@ -86,7 +86,13 @@ relive::Path_TLV* Path::Get_First_TLV_For_Offsetted_Camera(s16 cam_x_idx, s16 ca
     const s32 camY = cam_y_idx + gMap.mCamIdxOnY;
     const s32 camX = cam_x_idx + gMap.mCamIdxOnX;
 
-    return field_10_ppRes->TlvsForCamera(camX, camY);
+    if (camX >= mCamsOnX || camX < 0 || camY >= mCamsOnY || camY < 0)
+    {
+        return nullptr;
+    }
+
+    BinaryPath* pPathData = gMap.GetPathResourceBlockPtr(gMap.mCurrentPath);
+    return pPathData->TlvsForCamera(camX, camY);
 }
 
 relive::Path_TLV* Path::Next_TLV(relive::Path_TLV* pTlv)
