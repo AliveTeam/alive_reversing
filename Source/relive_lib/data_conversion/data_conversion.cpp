@@ -604,8 +604,9 @@ static void ConvertTLV(nlohmann::json& j, const AO::Path_TLV& tlv, const Guid& t
         case AO::TlvTypes::HoneySack_36:
             convert_tlv<relive::Path_HoneySack_Converter, AO::Path_HoneySack>(j, tlv, tlvId);
             break;
-        case AO::TlvTypes::AbeStart_37: // dead tlv in AO
-            return;
+        case AO::TlvTypes::AbeStart_37:
+            convert_tlv<relive::Path_AbeStart_Converter, AO::Path_AbeStart>(j, tlv, tlvId);
+            break;
         case AO::TlvTypes::ElumStart_38:
             convert_tlv<relive::Path_ElumStart_Converter, AO::Path_ElumStart>(j, tlv, tlvId);
             break;

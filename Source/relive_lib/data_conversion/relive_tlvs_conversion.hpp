@@ -2556,6 +2556,13 @@ public:
         BaseConvert(r, tlv, tlvId);
         return r;
     }
+
+    static Path_AbeStart From(const AO::Path_AbeStart& tlv, const Guid& tlvId)
+    {
+        Path_AbeStart r;
+        BaseConvert(r, tlv, tlvId);
+        return r;
+    }
 };
 
 class Path_EnemyStopper_Converter final
