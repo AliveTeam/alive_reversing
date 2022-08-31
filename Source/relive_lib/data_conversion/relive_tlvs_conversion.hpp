@@ -3307,6 +3307,8 @@ public:
         r.mSwitchId = tlv.mSwitchId;
         r.mOtherWellId = tlv.mOtherWellId;
         r.mAnimId = tlv.mAnimId;
+        r.mExitX = tlv.field_18_exit_x;
+        r.mExitY = tlv.field_1A_exit_y;
         r.mOffDestLevel = MapWrapper::FromAE(tlv.field_1C_disabled_well_level);
         r.mOffDestPath = tlv.field_1E_disabled_well_path;
 

@@ -930,7 +930,7 @@ static void ConvertPath(FileSystem& fs, const FileSystem::Path& path, const Reli
         // Save map objects
         nlohmann::json mapObjectsArray = nlohmann::json::array();
         const u32 indexTableIdx = To1dIndex(width, tmpCamera.mX, tmpCamera.mY);
-        LOG_INFO(indexTableIdx);
+        //LOG_INFO(indexTableIdx);
         ConvertPathTLVs<TlvType>(mapObjectsArray, pathBndChunk.Id(), lvlIdx, indexTableOffset, objectOffset, pathBndChunk.Data(), indexTableIdx);
 
         // Its possible to have a camera with no objects (-1 index table)
@@ -1101,7 +1101,7 @@ static void ConvertFilesInLvl(const FileSystem::Path& dataDir, FileSystem& fs, R
         {
             if (endsWith(fileName, ".CAM"))
             {
-                ConvertCamera(dataDir, fileName, fs, fileBuffer, lvlReader, lvlIdxAsLvl);
+                //ConvertCamera(dataDir, fileName, fs, fileBuffer, lvlReader, lvlIdxAsLvl);
             }
             // TODO: Seek these out instead of converting everything we see since the names are fixed per LVL
             else if (endsWith(fileName, ".VB") || endsWith(fileName, ".VH") || endsWith(fileName, ".BSQ"))
