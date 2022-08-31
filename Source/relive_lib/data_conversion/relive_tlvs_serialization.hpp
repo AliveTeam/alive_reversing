@@ -2637,7 +2637,8 @@ inline void to_json(nlohmann::json& j, const Path_Slig_Data& p)
         {"percent_beat_mud", p.mPercentBeatMud},
         {"z_shoot_delay", p.mZShootDelay},
         {"stay_awake", p.mStayAwake},
-        {"disabled_resources", p.mDisabledResourcesAO.Raw().all},
+        {"disabled_resources_ao", p.mDisabledResourcesAO.Raw().all},
+        {"disabled_resources_ae", p.mDisabledResourcesAE},
         {"noise_wake_up_distance", p.mNoiseWakeUpDistance},
         {"slig_spawner_switch_id", p.mSligSpawnerSwitchId},
         {"unlimited_spawns", p.mUnlimitedSpawns},
@@ -2669,7 +2670,8 @@ inline void from_json(const nlohmann::json& j, Path_Slig_Data& p)
     j.at("percent_beat_mud").get_to(p.mPercentBeatMud);
     j.at("z_shoot_delay").get_to(p.mZShootDelay);
     j.at("stay_awake").get_to(p.mStayAwake);
-    j.at("disabled_resources").get_to(p.mDisabledResourcesAO.Raw().all); // TODO: prob wrong
+    j.at("disabled_resources_ao").get_to(p.mDisabledResourcesAO.Raw().all); // TODO: prob wrong
+    j.at("disabled_resources_ae").get_to(p.mDisabledResourcesAE);
     j.at("noise_wake_up_distance").get_to(p.mNoiseWakeUpDistance);
     j.at("slig_spawner_switch_id").get_to(p.mSligSpawnerSwitchId);
     j.at("unlimited_spawns").get_to(p.mUnlimitedSpawns);

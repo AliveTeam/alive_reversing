@@ -3542,7 +3542,7 @@ public:
         r.mData.mPercentBeatMud = tlv.mPercentBeatMud;
         r.mData.mZShootDelay = tlv.mZShootDelay;
         r.mData.mStayAwake = relive::From(tlv.mStayAwake);
-        // r..mDatamDisabledResources = tlv.mDisabledResources; // TODO
+        r.mData.mDisabledResourcesAE = tlv.mDisabledResources;
         r.mData.mNoiseWakeUpDistance = tlv.mNoiseWakeUpDistance;
         r.mData.mSligSpawnerSwitchId = tlv.mSligSpawnerSwitchId;
         r.mData.mUnlimitedSpawns = relive::From(tlv.mUnlimitedSpawns);
@@ -3679,7 +3679,7 @@ public:
         r.mData.mPercentBeatMud = tlv.mPercentBeatMud;
         r.mData.mZShootDelay = tlv.mZShootDelay;
         r.mData.mStayAwake = relive::From(tlv.mStayAwake);
-      //  r.mData.mDisabledResourcesAO = tlv.mDisabledResources; // TODO
+        r.mData.mDisabledResourcesAE = tlv.mDisabledResources;
         r.mData.mNoiseWakeUpDistance = tlv.mNoiseWakeUpDistance;
         r.mData.mSligSpawnerSwitchId = tlv.mSligSpawnerSwitchId;
         r.mData.mUnlimitedSpawns = relive::From(tlv.mUnlimitedSpawns);
