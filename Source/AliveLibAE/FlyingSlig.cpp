@@ -2026,7 +2026,7 @@ s16 FlyingSlig::sub_4374A0(s16 a2)
 
     if (field_17E_flags.Get(Flags_17E::eBit4))
     {
-        if (!field_17E_flags.Get(Flags_17E::eBit12_bNoNextLine) && (field_182_bound1 == ReliveTypes::eContinuePoint || !a2)) // todo: change to None when we can break abi
+        if (!field_17E_flags.Get(Flags_17E::eBit12_bNoNextLine) && (field_182_bound1 == ReliveTypes::eNone || !a2))
         {
             if (!field_17E_flags.Get(Flags_17E::eBit3))
             {
@@ -2098,7 +2098,7 @@ s16 FlyingSlig::sub_4374A0(s16 a2)
     }
     else
     {
-        if (!field_17E_flags.Get(Flags_17E::eBit11_bNoPrevLine) && (field_180_bound2 == ReliveTypes::eContinuePoint || !a2)) // todo: change to None when we can break abi
+        if (!field_17E_flags.Get(Flags_17E::eBit11_bNoPrevLine) && (field_180_bound2 == ReliveTypes::eNone || !a2))
         {
             if (!field_17E_flags.Get(Flags_17E::eBit3))
             {
@@ -2593,7 +2593,7 @@ ReliveTypes FlyingSlig::FindLeftOrRightBound_43B0A0(FP xOrY, FP wOrH)
     const FP bottom = wOrH + kGridSize;
 
     // TODO: Check left is really Abs'd.
-    ReliveTypes found_type = {};
+    ReliveTypes found_type = ReliveTypes::eNone;
 
     if (sPathInfo->TLV_Get_At_4DB4B0(FP_GetExponent(FP_Abs(left)), FP_GetExponent(top), FP_GetExponent(right), FP_GetExponent(bottom), ReliveTypes::eSligBoundLeft))
     {
