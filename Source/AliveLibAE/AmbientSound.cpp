@@ -221,6 +221,7 @@ EXPORT void CC Stop_slig_sounds_4CBA70(CameraPos direction, s8 kZero)
     if (pTable->mArray[kZero].field_8_pScopedSeq)
     {
         pTable->mArray[kZero].field_8_pScopedSeq->VDestructor(1);
+        pTable->mArray[kZero].field_8_pScopedSeq = nullptr;
     }
 }
 
