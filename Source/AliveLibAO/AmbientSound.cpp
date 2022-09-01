@@ -192,6 +192,7 @@ void Stop_slig_sounds(CameraPos direction, s8 kZero)
     if (pTable->mArray[kZero].field_8_pScopedSeq)
     {
         delete pTable->mArray[kZero].field_8_pScopedSeq;
+        pTable->mArray[kZero].field_8_pScopedSeq = nullptr;
     }
 }
 
