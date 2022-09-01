@@ -29,18 +29,18 @@ install:
 
 after_build:
  - ps: if($env:APPVEYOR_PULL_REQUEST_NUMBER) { $env:PR_STR = "_PR$env:APPVEYOR_PULL_REQUEST_NUMBER" } else {  $env:PR_STR = "" }
- - 7z a RELIVE_Symbols%PR_STR%_%CONFIGURATION%_%PLATFORM%_%APPVEYOR_BUILD_NUMBER%.zip c:\relive\build\Source\AliveDllAE\%CONFIGURATION%\AliveDllAE.pdb c:\relive\build\Source\AliveDllAO\%CONFIGURATION%\AliveDllAO.pdb c:\relive\build\Source\relive\%CONFIGURATION%\relive.pdb
- - rename relive-*.zip RELIVE_Binaries_Full%PR_STR%_%CONFIGURATION%_%PLATFORM%_%APPVEYOR_BUILD_NUMBER%.zip
- - 7z a RELIVE_Binaries_Lite%PR_STR%_%CONFIGURATION%_%PLATFORM%.zip c:\relive\build\Source\relive\%CONFIGURATION%\relive.exe c:\relive\build\Source\AliveDllAE\%CONFIGURATION%\SDL2.dll
+ - 7z a RELIVE_Windows_Symbols%PR_STR%_%CONFIGURATION%_%PLATFORM%_%APPVEYOR_BUILD_NUMBER%.zip c:\relive\build\Source\AliveDllAE\%CONFIGURATION%\AliveDllAE.pdb c:\relive\build\Source\AliveDllAO\%CONFIGURATION%\AliveDllAO.pdb c:\relive\build\Source\relive\%CONFIGURATION%\relive.pdb
+ - rename relive-*.zip RELIVE_Windows_Binaries_Full%PR_STR%_%CONFIGURATION%_%PLATFORM%_%APPVEYOR_BUILD_NUMBER%.zip
+ - 7z a RELIVE_Windows_Binaries_Lite%PR_STR%_%CONFIGURATION%_%PLATFORM%.zip c:\relive\build\Source\relive\%CONFIGURATION%\relive.exe c:\relive\build\Source\AliveDllAE\%CONFIGURATION%\SDL2.dll
 
 artifacts:
- - path: build\RELIVE_Symbols*.zip
-   name: RELIVE_Symbols_$(configuration)_$(APPVEYOR_BUILD_NUMBER)
+ - path: build\RELIVE_Windows_Symbols*.zip
+   name: RELIVE_Windows_Symbols_$(configuration)_$(APPVEYOR_BUILD_NUMBER)
 
- - path: build\RELIVE_Binaries_Full*.zip
-   name: RELIVE_Binaries_Full_$(configuration)_$(APPVEYOR_BUILD_NUMBER)
+ - path: build\RELIVE_Windows_Binaries_Full*.zip
+   name: RELIVE_Windows_Binaries_Full_$(configuration)_$(APPVEYOR_BUILD_NUMBER)
 
- - path: build\RELIVE_Binaries_Lite_*.zip
-   name: RELIVE_Binaries_$(configuration)_$(PLATFORM)
+ - path: build\RELIVE_Windows_Binaries_Lite_*.zip
+   name: RELIVE_Windows_Binaries_$(configuration)_$(PLATFORM)
 
 test: off
