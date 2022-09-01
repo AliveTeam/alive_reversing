@@ -127,7 +127,7 @@ static s32 RestoreObjectState(AETypes type, const u8* pData)
         case ::AETypes::eBirdPortal_99:
             return BirdPortal::CreateFromSaveState(pData);
 
-        case ::AETypes::eThrowableTotalIndicator_53:
+        case ::AETypes::eThrowableArray_102:
             return ThrowableArray::CreateFromSaveState(pData);
 
         case ::AETypes::eAbilityRing_104:

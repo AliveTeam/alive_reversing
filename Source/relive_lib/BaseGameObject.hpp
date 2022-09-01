@@ -288,6 +288,7 @@ enum class AETypes : s16
     eBirdPortal_99 = 99,
     eBirdPortalTerminator_100 = 100,
     eFG1_101 = 101,
+    eThrowableArray_102 = 102,
     ePullRope_103 = 103,
     eAbilityRing_104 = 104,
     eRock_105 = 105,
