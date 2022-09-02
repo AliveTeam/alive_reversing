@@ -19,7 +19,6 @@
 
 extern bool gLatencyHack;
 
-ALIVE_VAR(1, 0x578325, s8, sVSync_Unused_578325, 0);
 ALIVE_VAR(1, 0xBD0F2C, s32, sVSyncLastMillisecond_BD0F2C, 0);
 ALIVE_VAR(1, 0xBD0F24, s32, sLastFrameTimestampMilliseconds_BD0F24, 0);
 
@@ -862,11 +861,10 @@ void PSX_Prevent_Rendering_4945B0()
 }
 
 // If mode is 1, game doesn't frame cap at all. If it is greater than 1, then it caps to (60 / mode) fps.
-s32 PSX_VSync_4F6170(s32 mode)
+void PSX_VSync_4F6170(s32 mode)
 {
     //mode = 1;
 
-    sVSync_Unused_578325 = 0;
     SsSeqCalledTbyT_4FDC80();
 
     const s32 currentTime = SYS_GetTicks();
@@ -878,15 +876,11 @@ s32 PSX_VSync_4F6170(s32 mode)
 
     if (mode == 1 || (GetGameAutoPlayer().IsPlaying() && GetGameAutoPlayer().NoFpsLimitPlayBack())) // Ignore Frame cap
     {
-        sVSync_Unused_578325 = 1;
-        const s32 v3 = (s32)((s64)(1172812403ULL * (s32)(240 * (currentTime - sVSyncLastMillisecond_BD0F2C))) >> 32) >> 14;
-        return (v3 >> 31) + v3;
+        // Do nothing
     }
-    else if (mode < 0) // Nope.
+    else if (mode < 0) // Error
     {
-        sVSync_Unused_578325 = 1;
         Error_PushErrorRecord_4F2920("C:\\abe2\\code\\PSXEmu\\LIBGPU.C", 756, -1, "VSync(): negative param unsupported");
-        return 0;
     }
     else
     {
@@ -894,7 +888,6 @@ s32 PSX_VSync_4F6170(s32 mode)
         if (mode > 0 && frameTimeInMilliseconds < 1000 * mode / 60)
         {
             s32 timeSinceLastFrame = 0;
-            sVSync_Unused_578325 = 1;
 
             do
             {
@@ -914,8 +907,6 @@ s32 PSX_VSync_4F6170(s32 mode)
 
         sVSyncLastMillisecond_BD0F2C += frameTimeInMilliseconds;
         sLastFrameTimestampMilliseconds_BD0F24 = currentTime + frameTimeInMilliseconds;
-
-        return 240 * frameTimeInMilliseconds / 60000;
     }
 }
 

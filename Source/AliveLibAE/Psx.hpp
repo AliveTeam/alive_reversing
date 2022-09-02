@@ -10,7 +10,7 @@ struct Bitmap;
 using TPsxEmuCallBack = AddPointer_t<s32(u32)>;
 
 void PSX_DispEnv_Set_4ED960(s32 mode);
-s32 PSX_VSync_4F6170(s32 mode);
+void PSX_VSync_4F6170(s32 mode);
 s32 PSX_DrawSync_4F6280(s32 mode);
 bool PSX_Rect_IsInFrameBuffer_4FA050(const PSX_RECT* pRect);
 s32 PSX_SetDispMask_4F89F0(s32 mode);

@@ -12,7 +12,7 @@ void PSX_PutDispEnv_495D30(PSX_DISPENV* pDispEnv);
 
 s32 PSX_DrawSync_496750(s32 mode);
 
-s32 PSX_VSync_496620(s32 mode);
+void PSX_VSync_496620(s32 mode);
 
 void PSX_SetDefDrawEnv_495EF0(PSX_DRAWENV* pDrawEnv, s16 x, s16 y, s16 w, s16 h);
 
