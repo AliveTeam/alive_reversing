@@ -716,7 +716,6 @@ Abe::Abe(s32 /*frameTableOffset*/, s32 /*r*/, s32 /*g*/, s32 /*b*/)
     SetType(ReliveTypes::eAbe);
 
     mBaseGameObjectFlags.Set(BaseGameObject::eSurviveDeathReset_Bit9);
-    mBaseGameObjectTlvInfo = Guid{};
 
     // Set the well level to the current level for the path start quick save
     mDstWellLevel = gMap.mCurrentLevel;
