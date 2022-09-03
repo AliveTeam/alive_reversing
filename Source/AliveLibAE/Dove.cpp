@@ -228,7 +228,7 @@ void Dove::VUpdate()
                 if (!bExtraSeqStarted_5BC10C)
                 {
                     bExtraSeqStarted_5BC10C = 13;
-                    SfxPlayMono(SoundEffect::Dove_13, 0);
+                    SfxPlayMono(relive::SoundEffects::Dove, 0);
                 }
             }
 

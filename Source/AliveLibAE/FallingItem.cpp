@@ -189,11 +189,11 @@ void FallingItem::VUpdate()
         {
             if (mScale == Scale::Fg)
             {
-                SfxPlayMono(SoundEffect::FallingItemPresence1_74, 45);
+                SfxPlayMono(relive::SoundEffects::FallingItemPresence1, 45);
             }
             else
             {
-                SfxPlayMono(SoundEffect::FallingItemPresence1_74, 20);
+                SfxPlayMono(relive::SoundEffects::FallingItemPresence1, 20);
             }
         }
 
@@ -201,11 +201,11 @@ void FallingItem::VUpdate()
         {
             if (mScale == Scale::Fg)
             {
-                SfxPlayMono(SoundEffect::FallingItemPresence2_75, 45);
+                SfxPlayMono(relive::SoundEffects::FallingItemPresence2, 45);
             }
             else
             {
-                SfxPlayMono(SoundEffect::FallingItemPresence2_75, 20);
+                SfxPlayMono(relive::SoundEffects::FallingItemPresence2, 20);
             }
         }
     }
@@ -247,11 +247,11 @@ void FallingItem::VUpdate()
                 field_12E_do_sound_in_state_falling = TRUE;
                 if (mScale == Scale::Fg)
                 {
-                    field_140_sound_channels = SFX_Play_Pitch(SoundEffect::AirStream_23, 50, -2600);
+                    field_140_sound_channels = SFX_Play_Pitch(relive::SoundEffects::AirStream, 50, -2600);
                 }
                 else
                 {
-                    field_140_sound_channels = SFX_Play_Pitch(SoundEffect::AirStream_23, 25, -2600);
+                    field_140_sound_channels = SFX_Play_Pitch(relive::SoundEffects::AirStream, 25, -2600);
                 }
             }
             break;
@@ -265,11 +265,11 @@ void FallingItem::VUpdate()
                     field_12E_do_sound_in_state_falling = FALSE;
                     if (mScale == Scale::Fg)
                     {
-                        SFX_Play_Pitch(SoundEffect::AirStream_23, 127, -1300);
+                        SFX_Play_Pitch(relive::SoundEffects::AirStream, 127, -1300);
                     }
                     else
                     {
-                        SFX_Play_Pitch(SoundEffect::AirStream_23, 64, -1300);
+                        SFX_Play_Pitch(relive::SoundEffects::AirStream, 64, -1300);
                     }
                 }
             }
@@ -352,15 +352,15 @@ void FallingItem::VUpdate()
             }
 
             EventBroadcast(kEventLoudNoise, this);
-            SfxPlayMono(SoundEffect::FallingItemLand_62, 0, mSpriteScale);
+            SfxPlayMono(relive::SoundEffects::FallingItemLand, 0, mSpriteScale);
 
             if (mScale == Scale::Fg)
             {
-                SFX_Play_Pitch(SoundEffect::FallingItemHit_47, 110, -1536);
+                SFX_Play_Pitch(relive::SoundEffects::FallingItemHit, 110, -1536);
             }
             else
             {
-                SFX_Play_Pitch(SoundEffect::FallingItemHit_47, 55, -1536);
+                SFX_Play_Pitch(relive::SoundEffects::FallingItemHit, 55, -1536);
             }
 
             if (field_11E_switch_id)

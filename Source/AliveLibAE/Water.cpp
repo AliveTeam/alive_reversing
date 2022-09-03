@@ -298,7 +298,7 @@ void Water::VUpdate()
                 {
                     field_FC_state = WaterState::eFlowing_2;
                     field_140_water_duration = sGnFrame + field_124_tlv_data.mWaterDuration;
-                    field_144_sound_channels = SFX_Play_Camera(SoundEffect::WaterFall_95, 40, soundDir);
+                    field_144_sound_channels = SFX_Play_Camera(relive::SoundEffects::WaterFall, 40, soundDir);
                 }
                 break;
 
@@ -310,7 +310,7 @@ void Water::VUpdate()
 
                 if (field_110_current_drops > 3 && !field_144_sound_channels)
                 {
-                    field_144_sound_channels = SFX_Play_Camera(SoundEffect::WaterFall_95, 40, soundDir);
+                    field_144_sound_channels = SFX_Play_Camera(relive::SoundEffects::WaterFall, 40, soundDir);
                 }
 
                 if (field_110_current_drops < (s16)(field_124_tlv_data.mMaxDrops >> 5))
@@ -335,7 +335,7 @@ void Water::VUpdate()
                 field_110_current_drops = Math_NextRandom() % (field_124_tlv_data.mMaxDrops >> 4);
                 if (field_110_current_drops > 3 && !field_144_sound_channels)
                 {
-                    field_144_sound_channels = SFX_Play_Camera(SoundEffect::WaterFall_95, 40, soundDir);
+                    field_144_sound_channels = SFX_Play_Camera(relive::SoundEffects::WaterFall, 40, soundDir);
                 }
 
                 for (s32 i = 0; i < field_110_current_drops; i++)
@@ -381,7 +381,7 @@ void Water::VUpdate()
                 {
                     SND_Stop_Channels_Mask(field_144_sound_channels);
                     field_144_sound_channels = 0;
-                    SFX_Play_Camera(SoundEffect::WaterEnd_96, 40, soundDir);
+                    SFX_Play_Camera(relive::SoundEffects::WaterEnd, 40, soundDir);
                     field_FC_state = WaterState::eInactive_4;
                 }
                 break;
@@ -415,7 +415,7 @@ void Water::VUpdate()
                 {
                     field_110_current_drops = 0;
                     field_FC_state = WaterState::eStarting_1;
-                    SFX_Play_Camera(SoundEffect::WaterStart_94, 40, soundDir);
+                    SFX_Play_Camera(relive::SoundEffects::WaterStart, 40, soundDir);
                 }
                 break;
 

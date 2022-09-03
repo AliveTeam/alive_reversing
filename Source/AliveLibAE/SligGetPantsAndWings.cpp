@@ -57,7 +57,7 @@ void SligGetPantsAndWings::VUpdate()
             if (static_cast<s32>(sGnFrame) > mTransformTimer)
             {
                 mState = State::eFinished;
-                SfxPlayMono(SoundEffect::NakedSligTransformEnd_92, 0);
+                SfxPlayMono(relive::SoundEffects::NakedSligTransformEnd, 0);
                 mAnim.Set_Animation_Data(AnimId::CrawlingSligLocker_Open, nullptr);
             }
             break;

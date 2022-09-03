@@ -104,7 +104,7 @@ Drill::Drill(relive::Path_Drill* pTlv, const Guid& tlvId)
             mCurrentPath,
             mXPos,
             mYPos);
-        mAudioChannelsMask = SFX_Play_Camera(SoundEffect::DrillMovement_97, 25, direction);
+        mAudioChannelsMask = SFX_Play_Camera(relive::SoundEffects::DrillMovement, 25, direction);
     }
 
     switch (mDrillDirection)
@@ -318,7 +318,7 @@ void Drill::VUpdate()
 
                     field_128_flags.Clear(Flags::eBit5_SpeedChanged);
                     mCurrentSpeed = mInitialSpeed;
-                    mAudioChannelsMask = SFX_Play_Camera(SoundEffect::DrillMovement_97, 25, soundDirection);
+                    mAudioChannelsMask = SFX_Play_Camera(relive::SoundEffects::DrillMovement, 25, soundDirection);
                     return;
                 }
             }
@@ -351,14 +351,14 @@ void Drill::VUpdate()
 
                 field_128_flags.Set(Flags::eBit5_SpeedChanged);
                 mCurrentSpeed = mOffSpeed;
-                mAudioChannelsMask = SFX_Play_Camera(SoundEffect::DrillMovement_97, 25, soundDirection);
+                mAudioChannelsMask = SFX_Play_Camera(relive::SoundEffects::DrillMovement, 25, soundDirection);
             }
             break;
 
         case DrillStates::State_1_Going_Down:
             if (!mAudioChannelsMask)
             {
-                mAudioChannelsMask = SFX_Play_Camera(SoundEffect::DrillMovement_97, 25, soundDirection);
+                mAudioChannelsMask = SFX_Play_Camera(relive::SoundEffects::DrillMovement, 25, soundDirection);
             }
 
             DamageTouchingObjects();
@@ -367,7 +367,7 @@ void Drill::VUpdate()
             if (field_124_xyoff <= FP_FromInteger(0))
             {
                 mDrillState = DrillStates::State_2_GoingUp;
-                SFX_Play_Camera(SoundEffect::DrillCollision_99, 50, soundDirection, FP_FromInteger(1));
+                SFX_Play_Camera(relive::SoundEffects::DrillCollision, 50, soundDirection, FP_FromInteger(1));
             }
             EmitSparks();
             break;
@@ -375,7 +375,7 @@ void Drill::VUpdate()
         case DrillStates::State_2_GoingUp:
             if (!mAudioChannelsMask)
             {
-                mAudioChannelsMask = SFX_Play_Camera(SoundEffect::DrillMovement_97, 25, soundDirection);
+                mAudioChannelsMask = SFX_Play_Camera(relive::SoundEffects::DrillMovement, 25, soundDirection);
             }
 
             DamageTouchingObjects();
@@ -390,7 +390,7 @@ void Drill::VUpdate()
                 }
 
                 mDrillState = DrillStates::State_0_Restart_Cycle;
-                SFX_Play_Camera(SoundEffect::DrillCollision_99, 50, soundDirection);
+                SFX_Play_Camera(relive::SoundEffects::DrillCollision, 50, soundDirection);
 
                 s16 max_off = 0;
                 s16 min_off = 0;
@@ -690,9 +690,9 @@ s16 Drill::DamageTouchingObjects()
                                  mSpriteScale,
                                  50);
 
-    SFX_Play_Pitch(SoundEffect::DrillCollision_99, 127, -500);
-    SfxPlayMono(SoundEffect::KillEffect_64, 127);
-    SFX_Play_Pitch(SoundEffect::KillEffect_64, 127, -700);
+    SFX_Play_Pitch(relive::SoundEffects::DrillCollision, 127, -500);
+    SfxPlayMono(relive::SoundEffects::KillEffect, 127);
+    SFX_Play_Pitch(relive::SoundEffects::KillEffect, 127, -700);
 
     return 1;
 }

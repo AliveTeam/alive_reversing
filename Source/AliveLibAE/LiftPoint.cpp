@@ -533,8 +533,8 @@ void LiftPoint::VUpdate()
                 mVelY = FP_FromInteger(0);
                 field_12C_bMoving &= ~1u;
                 field_280_flags.Clear(LiftFlags::eBit5_bMoveToFloorLevel);
-                SfxPlayMono(SoundEffect::LiftStop_30, 0);
-                SFX_Play_Pitch(SoundEffect::LiftStop_30, 80, -2000);
+                SfxPlayMono(relive::SoundEffects::LiftStop, 0);
+                SFX_Play_Pitch(relive::SoundEffects::LiftStop, 80, -2000);
                 EventBroadcast(kEventNoise, this);
                 EventBroadcast(kEventSuspiciousNoise, this);
             }
@@ -764,12 +764,12 @@ void LiftPoint::VUpdate()
     {
         if (field_13C_lift_wheel.mCurrentFrame == 1 && field_13C_lift_wheel.mFlags.Get(AnimFlags::eBit2_Animate))
         {
-            SfxPlayMono(SoundEffect::WheelSqueak_31, 0);
+            SfxPlayMono(relive::SoundEffects::WheelSqueak, 0);
         }
     }
     else if (field_13C_lift_wheel.mCurrentFrame == 1 && field_13C_lift_wheel.mFlags.Get(AnimFlags::eBit2_Animate) && sGnFrame & 1)
     {
-        SfxPlayMono(SoundEffect::WheelSqueak_31, 0);
+        SfxPlayMono(relive::SoundEffects::WheelSqueak, 0);
     }
 
     if ((mCurrentLevel != gMap.mCurrentLevel || mCurrentPath != gMap.mCurrentPath || EventGet(kEventDeathReset))
@@ -832,8 +832,8 @@ void LiftPoint::vStayOnFloor(s16 floor, relive::Path_LiftPoint* pTlv)
     if (!floor)
     {
         mYPos = FP_FromInteger(pTlv->mTopLeftY + -mPlatformBaseYOffset);
-        SfxPlayMono(SoundEffect::LiftStop_30, 0);
-        SFX_Play_Pitch(SoundEffect::LiftStop_30, 80, -2000);
+        SfxPlayMono(relive::SoundEffects::LiftStop, 0);
+        SFX_Play_Pitch(relive::SoundEffects::LiftStop, 80, -2000);
     }
 
     field_12C_bMoving &= ~1;

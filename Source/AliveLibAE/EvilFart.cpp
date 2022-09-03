@@ -498,7 +498,7 @@ void EvilFart::VUpdate()
                     mState = FartStates::eDechanting_2;
                     mUnpossessionTimer = sGnFrame + 15;
                     mBackToAbeTimer = sGnFrame + 50;
-                    SfxPlayMono(SoundEffect::PossessEffect_17, 0);
+                    SfxPlayMono(relive::SoundEffects::PossessEffect, 0);
                 }
             }
         }

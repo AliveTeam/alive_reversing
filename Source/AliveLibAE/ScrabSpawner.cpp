@@ -124,7 +124,7 @@ void ScrabSpawner::VUpdate()
                     auto pNewScrab = relive_new Scrab(pTlv, field_20_tlvInfo, field_26_spawn_direction);
                     if (pNewScrab)
                     {
-                        SfxPlayMono(SoundEffect::ScrabSpawn_111, 0);
+                        SfxPlayMono(relive::SoundEffects::ScrabSpawn, 0);
 
                         field_38_state = ScrabSpawnerStates::eScrabSpawned_1;
                         field_3C_spawned_scrab_id = pNewScrab->mBaseGameObjectId;

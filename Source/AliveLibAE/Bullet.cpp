@@ -402,7 +402,7 @@ BaseAliveGameObject* Bullet::ShootObject(PSX_RECT* pRect)
 
 void Bullet::PlayBulletSounds(s16 volume)
 {
-    SFX_Play_Pitch(SoundEffect::AirStream_23, volume, 2000);
-    SFX_Play_Pitch(SoundEffect::MeatBounce_36, volume, Math_RandomRange(300, 700));
-    SFX_Play_Pitch(SoundEffect::KillEffect_64, volume, Math_RandomRange(900, 1400));
+    SFX_Play_Pitch(relive::SoundEffects::AirStream, volume, 2000);
+    SFX_Play_Pitch(relive::SoundEffects::MeatBounce, volume, Math_RandomRange(300, 700));
+    SFX_Play_Pitch(relive::SoundEffects::KillEffect, volume, Math_RandomRange(900, 1400));
 }

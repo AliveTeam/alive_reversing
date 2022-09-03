@@ -70,7 +70,7 @@ public:
 
 private:
     void InitBlinkAnim(Animation* pAnimation);
-    void PlaySFX(SoundEffect sfxIdx);
+    void PlaySFX(relive::SoundEffects sfxIdx);
     s32 IsColliding();
 
 private:

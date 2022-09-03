@@ -36,7 +36,7 @@
 #include "Grid.hpp"
 #include "AnimationCallBacks.hpp"
 
-const SfxDefinition kSfxInfoTable_5607E0[17] = {
+const relive::SfxDefinition kSfxInfoTable_5607E0[17] = {
     {0u, 1u, 58u, 40u, -256, -256},
     {0u, 1u, 58u, 35u, 0, 0},
     {0u, 1u, 59u, 55u, 0, 0},
@@ -57,7 +57,7 @@ const SfxDefinition kSfxInfoTable_5607E0[17] = {
 
 void Slig_SoundEffect_4BFFE0(SligSfx effect, BaseAliveGameObject* pObj)
 {
-    const SfxDefinition* pEffect = &kSfxInfoTable_5607E0[static_cast<s32>(effect)];
+    const relive::SfxDefinition& pEffect = kSfxInfoTable_5607E0[static_cast<s32>(effect)];
     s16 vLeft = 0;
     s16 vRight = 0;
     if (Calc_Slig_Sound_Direction_4C01B0(pObj, 0, pEffect, &vLeft, &vRight))
@@ -75,7 +75,7 @@ void Slig_SoundEffect_4BFFE0(SligSfx effect, BaseAliveGameObject* pObj)
         }
         else
         {
-            pitch = Math_RandomRange(pEffect->field_4_pitch_min, pEffect->field_6_pitch_max);
+            pitch = Math_RandomRange(pEffect.field_E_pitch_min, pEffect.field_10_pitch_max);
         }
         SFX_SfxDefinition_Play_Stereo(pEffect, vLeft, vRight, pitch, pitch);
     }
@@ -135,12 +135,12 @@ s32 Animation_OnFrame_Slig_4C0600(BaseGameObject* pObj, s16* pData)
 
     if (pSlig->mSpriteScale == FP_FromDouble(0.5))
     {
-        SfxPlayMono(SoundEffect::SligShoot_5, 85);
+        SfxPlayMono(relive::SoundEffects::SligShoot, 85);
     }
     else
     {
         relive_new BulletShell(pSlig->mXPos, yOff + pSlig->mYPos, shellDirection, pSlig->mSpriteScale);
-        SfxPlayMono(SoundEffect::SligShoot_5, 0);
+        SfxPlayMono(relive::SoundEffects::SligShoot, 0);
     }
 
     EventBroadcast(kEventShooting, pSlig);
@@ -916,7 +916,7 @@ void Slig::M_StandIdle_0_4B4EC0()
                 {
                     mCurrentMotion = eSligMotions::M_Depossessing_36_4B7F30;
                     field_12C_timer = sGnFrame + 30;
-                    SfxPlayMono(SoundEffect::PossessEffect_17, 0);
+                    SfxPlayMono(relive::SoundEffects::PossessEffect, 0);
                     return;
                 }
             }
@@ -1660,11 +1660,11 @@ void Slig::M_Recoil_19_4B8270()
     }
     else if (mSpriteScale == FP_FromDouble(0.5))
     {
-        SfxPlayMono(SoundEffect::SligShoot_5, 85);
+        SfxPlayMono(relive::SoundEffects::SligShoot, 85);
     }
     else
     {
-        SfxPlayMono(SoundEffect::SligShoot_5, 0);
+        SfxPlayMono(relive::SoundEffects::SligShoot, 0);
     }
 }
 
@@ -2060,13 +2060,13 @@ void Slig::M_Possess_37_4B72C0()
 
             if (mSpriteScale == FP_FromDouble(0.5))
             {
-                SfxPlayMono(SoundEffect::KillEffect_64, 80);
-                SfxPlayMono(SoundEffect::FallingItemHit_47, 60);
+                SfxPlayMono(relive::SoundEffects::KillEffect, 80);
+                SfxPlayMono(relive::SoundEffects::FallingItemHit, 60);
             }
             else
             {
-                SfxPlayMono(SoundEffect::KillEffect_64, 127);
-                SfxPlayMono(SoundEffect::FallingItemHit_47, 90);
+                SfxPlayMono(relive::SoundEffects::KillEffect, 127);
+                SfxPlayMono(relive::SoundEffects::FallingItemHit, 90);
             }
 
             mAnim.mFlags.Clear(AnimFlags::eBit3_Render);
@@ -2148,7 +2148,7 @@ void Slig::M_LandingFatal_41_4B4680()
     if (mAnim.mCurrentFrame == 0)
     {
         SND_SEQ_Play(SeqId::HitBottomOfDeathPit_9, 1, 65, 65);
-        SfxPlayMono(SoundEffect::KillEffect_64, 80);
+        SfxPlayMono(relive::SoundEffects::KillEffect, 80);
     }
 
     if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
@@ -2205,11 +2205,11 @@ void Slig::M_ShootZ_42_4B7560()
 
         if (mSpriteScale == FP_FromDouble(0.5))
         {
-            SfxPlayMono(SoundEffect::SligShoot_5, 85);
+            SfxPlayMono(relive::SoundEffects::SligShoot, 85);
         }
         else
         {
-            SfxPlayMono(SoundEffect::SligShoot_5, 0);
+            SfxPlayMono(relive::SoundEffects::SligShoot, 0);
         }
 
         // The doves don't like bullets
@@ -2405,7 +2405,7 @@ void Slig::M_Beat_51_4B6C00()
 {
     if (mAnim.mCurrentFrame == 5)
     {
-        SFX_Play_Pitch(SoundEffect::AirStream_23, 90, -300);
+        SFX_Play_Pitch(relive::SoundEffects::AirStream, 90, -300);
     }
 
     if (mAnim.mCurrentFrame == 8)
@@ -2438,7 +2438,7 @@ void Slig::M_Beat_51_4B6C00()
                     {
                         pObj->VTakeDamage(this);
                         EventBroadcast(kEventNoise, this);
-                        SfxPlayMono(SoundEffect::FallingItemHit_47, 60);
+                        SfxPlayMono(relive::SoundEffects::FallingItemHit, 60);
                         return;
                     }
                 }
@@ -5188,13 +5188,13 @@ void Slig::BlowToGibs_4B8020()
 
     if (mSpriteScale == FP_FromDouble(0.5))
     {
-        SfxPlayMono(SoundEffect::KillEffect_64, 80);
-        SfxPlayMono(SoundEffect::FallingItemHit_47, 60);
+        SfxPlayMono(relive::SoundEffects::KillEffect, 80);
+        SfxPlayMono(relive::SoundEffects::FallingItemHit, 60);
     }
     else
     {
-        SfxPlayMono(SoundEffect::KillEffect_64, 127);
-        SfxPlayMono(SoundEffect::FallingItemHit_47, 90);
+        SfxPlayMono(relive::SoundEffects::KillEffect, 127);
+        SfxPlayMono(relive::SoundEffects::FallingItemHit, 90);
     }
 
     mAnim.mFlags.Clear(AnimFlags::eBit3_Render);
@@ -5518,7 +5518,7 @@ s16 Slig::GetNextMotionIncGameSpeak_4B5080(s32 input)
                 return -1;
             }
             field_12C_timer = sGnFrame + 30;
-            SfxPlayMono(SoundEffect::PossessEffect_17, 0);
+            SfxPlayMono(relive::SoundEffects::PossessEffect, 0);
             return eSligMotions::M_Depossessing_36_4B7F30;
         }
 
@@ -6767,7 +6767,7 @@ s16 Slig::VTakeDamage(BaseGameObject* pFrom)
 
             relive_new Gibs(GibType::Slig_1, mXPos, mYPos, mVelX, mVelY, mSpriteScale, 0);
             mHealth = FP_FromInteger(0);
-            SfxPlayMono(SoundEffect::FallingItemHit_47, 90);
+            SfxPlayMono(relive::SoundEffects::FallingItemHit, 90);
             mAnim.mFlags.Clear(AnimFlags::eBit2_Animate);
             mAnim.mFlags.Clear(AnimFlags::eBit3_Render);
             SetUpdateDelay(40);
@@ -6877,8 +6877,8 @@ s16 Slig::VTakeDamage(BaseGameObject* pFrom)
             {
                 return 1;
             }
-            SfxPlayMono(SoundEffect::KillEffect_64, 127);
-            SfxPlayMono(SoundEffect::FallingItemHit_47, 90);
+            SfxPlayMono(relive::SoundEffects::KillEffect, 127);
+            SfxPlayMono(relive::SoundEffects::FallingItemHit, 90);
             break;
     }
 

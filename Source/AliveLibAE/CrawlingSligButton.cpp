@@ -7,7 +7,7 @@
 #include "../relive_lib/Events.hpp"
 
 // TODO: Check this is correct
-const SfxDefinition buttonSfxInfo_544488[8] = {
+const relive::SfxDefinition buttonSfxInfo_544488[8] = {
     {20u, 0u, 25u, 0u, 80, 11}, // Can never be used ??
     {25u, 0u, 95u, 0u, 57, 15},
     {75u, 0u, 49u, 0u, 25, 35},
@@ -75,7 +75,7 @@ void CrawlingSligButton::VUpdate()
 
     if (field_102_in_use == 1)
     {
-        SfxPlayMono(SoundEffect::LeverPull_63, 0);
+        SfxPlayMono(relive::SoundEffects::LeverPull, 0);
         EventBroadcast(kEventNoise, this);
         EventBroadcast(kEventSuspiciousNoise, this);
 
@@ -89,7 +89,7 @@ void CrawlingSligButton::VUpdate()
             if (sound_id != relive::Path_CrawlingSligButton::ButtonSounds::None)
             {
                 SFX_Play_Stereo(
-                    static_cast<SoundEffect>(buttonSfxInfo_544488[static_cast<u16>(sound_id)].field_0_block_idx),
+                    static_cast<SoundEffect>(buttonSfxInfo_544488[static_cast<u16>(sound_id)].field_0_block_idx), // field 0 meaning changed!
                     buttonSfxInfo_544488[static_cast<u16>(sound_id)].field_2_note + buttonSfxInfo_544488[static_cast<u16>(sound_id)].field_4_pitch_min * (field_100_sound_direction & 2),
                     buttonSfxInfo_544488[static_cast<u16>(sound_id)].field_2_note + buttonSfxInfo_544488[static_cast<u16>(sound_id)].field_4_pitch_min * (field_100_sound_direction & 1),
                     mSpriteScale);

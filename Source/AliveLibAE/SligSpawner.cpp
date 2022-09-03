@@ -107,7 +107,7 @@ void SligSpawner::VUpdate()
                 }
 
                 mState = SpawnerStates::eSligSpawned_1;
-                SfxPlayMono(SoundEffect::SligSpawn_114, 0);
+                SfxPlayMono(relive::SoundEffects::SligSpawn, 0);
             }
 
             if (!mSpawnerFlags.Get(SpawnerFlags::eBit2_UnlimitedSpawns))

@@ -128,12 +128,12 @@ void FootSwitch::VUpdate()
 
                 if (gMap.mCurrentLevel == EReliveLevelIds::eMines || gMap.mCurrentLevel == EReliveLevelIds::eBonewerkz || gMap.mCurrentLevel == EReliveLevelIds::eFeeCoDepot || gMap.mCurrentLevel == EReliveLevelIds::eBarracks || gMap.mCurrentLevel == EReliveLevelIds::eBrewery)
                 {
-                    SFX_Play_Pitch(SoundEffect::IndustrialTrigger_80, 30, 400);
-                    SFX_Play_Pitch(SoundEffect::IndustrialNoise1_76, 60, 800);
+                    SFX_Play_Pitch(relive::SoundEffects::IndustrialTrigger, 30, 400);
+                    SFX_Play_Pitch(relive::SoundEffects::IndustrialNoise1, 60, 800);
                 }
                 else
                 {
-                    SfxPlayMono(SoundEffect::FootSwitchPress_55, 0);
+                    SfxPlayMono(relive::SoundEffects::FootSwitchPress, 0);
                 }
             }
 

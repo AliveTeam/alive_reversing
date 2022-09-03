@@ -2920,7 +2920,7 @@ s16 Paramite::Brain_9_ParamiteSpawn_48ED80()
             if (SwitchStates_Get(field_14C_surprise_web_switch_id))
             {
                 field_178_flags.Set(Flags_178::eBit6_spawned);
-                SfxPlayMono(SoundEffect::ParamiteSpawn_110, 0);
+                SfxPlayMono(relive::SoundEffects::ParamiteSpawn, 0);
                 mBaseAliveGameObjectFlags.Set(Flags_114::e114_Bit3_Can_Be_Possessed);
                 mAnim.mFlags.Set(AnimFlags::eBit3_Render);
 
@@ -3044,7 +3044,7 @@ void Paramite::M_Idle_0_489FB0()
     {
         mCurrentMotion = eParamiteMotions::M_GetDepossessedBegin_29_48D9D0;
         field_138_depossession_timer = sGnFrame + 30;
-        SfxPlayMono(SoundEffect::PossessEffect_17, 0);
+        SfxPlayMono(relive::SoundEffects::PossessEffect, 0);
     }
     else if (Input().isHeld(sInputKey_GameSpeak1))
     {
@@ -3306,7 +3306,7 @@ void Paramite::M_Running_3_48AA00()
         {
             if (mAnim.mCurrentFrame == 3)
             {
-                SFX_Play_Pitch(SoundEffect::PickupItem_28, 45, -600);
+                SFX_Play_Pitch(relive::SoundEffects::PickupItem, 45, -600);
             }
             else
             {
@@ -3526,7 +3526,7 @@ void Paramite::M_Hop_5_48B5B0()
 
             if (mAnim.mCurrentFrame == 3)
             {
-                SFX_Play_Pitch(SoundEffect::PickupItem_28, 50, -500);
+                SFX_Play_Pitch(relive::SoundEffects::PickupItem, 50, -500);
             }
             else if (mAnim.mCurrentFrame == 12)
             {
@@ -3812,7 +3812,7 @@ void Paramite::M_JumpUpBegin_12_48BE40()
     }
     else if (mAnim.mCurrentFrame == 3)
     {
-        SFX_Play_Pitch(SoundEffect::PickupItem_28, 50, -500);
+        SFX_Play_Pitch(relive::SoundEffects::PickupItem, 50, -500);
     }
 }
 
@@ -4080,7 +4080,7 @@ void Paramite::M_GameSpeakBegin_20_48C010()
                     {
                         if (pObj->mHealth > FP_FromInteger(0))
                         {
-                            SfxPlayMono(SoundEffect::KillEffect_64, 0);
+                            SfxPlayMono(relive::SoundEffects::KillEffect, 0);
                             Mudokon_SFX(MudSounds::eHurt2_9, 0, 0, pObj);
                         }
                         pObj->VTakeDamage(this);
@@ -4858,13 +4858,13 @@ void Paramite::M_Eating_40_48A0F0()
                 }
                 else
                 {
-                    SfxPlayMono(static_cast<SoundEffect>(Math_RandomRange(SoundEffect::Eating1_65, SoundEffect::Eating2_66)), 0);
+                    SfxPlayMono(static_cast<SoundEffect>(Math_RandomRange(relive::SoundEffects::Eating1, relive::SoundEffects::Eating2)), 0);
                 }
             }
         }
         else
         {
-            SfxPlayMono(static_cast<SoundEffect>(Math_RandomRange(SoundEffect::Eating1_65, SoundEffect::Eating2_66)), 0);
+            SfxPlayMono(static_cast<SoundEffect>(Math_RandomRange(relive::SoundEffects::Eating1, relive::SoundEffects::Eating2)), 0);
         }
     }
 
@@ -6113,7 +6113,7 @@ s16 Paramite::StableDelay()
 }
 
 // TODO: repetition with `MainMenu.cpp`
-const SfxDefinition paramite_stru_55D7C0[12] = {
+const relive::SfxDefinition paramite_stru_55D7C0[12] = {
     {0u, 5u, 60u, 90u, -520, -520},
     {0u, 5u, 61u, 75u, -520, -520},
     {0u, 5u, 62u, 50u, -520, -520},
@@ -6134,7 +6134,7 @@ void Paramite::Sound(ParamiteSpeak soundId, s16 pitch_min)
     s16 volRight = 0;
     if (soundId == ParamiteSpeak::Howdy_5)
     {
-        volRight = paramite_stru_55D7C0[5].field_3_default_volume;
+        volRight = paramite_stru_55D7C0[5].field_C_default_volume;
         if (sControlledCharacter == this)
         {
             volRight *= 3;
@@ -6146,7 +6146,7 @@ void Paramite::Sound(ParamiteSpeak soundId, s16 pitch_min)
     }
     else
     {
-        volRight = paramite_stru_55D7C0[static_cast<s32>(soundId)].field_3_default_volume;
+        volRight = paramite_stru_55D7C0[static_cast<s32>(soundId)].field_C_default_volume;
     }
 
     if (mSpriteScale == FP_FromDouble(0.5))
@@ -6167,7 +6167,7 @@ void Paramite::Sound(ParamiteSpeak soundId, s16 pitch_min)
         case CameraPos::eCamTop_1:
         case CameraPos::eCamBottom_2:
         {
-            const s16 v12 = FP_GetExponent(FP_FromRaw(paramite_stru_55D7C0[static_cast<s32>(soundId)].field_3_default_volume) / FP_FromInteger(3));
+            const s16 v12 = FP_GetExponent(FP_FromRaw(paramite_stru_55D7C0[static_cast<s32>(soundId)].field_C_default_volume) / FP_FromInteger(3));
             volLeft = v12;
             volRight = v12;
             break;
@@ -6201,11 +6201,11 @@ void Paramite::Sound(ParamiteSpeak soundId, s16 pitch_min)
     }
     else if (pitch_min > 0)
     {
-        SFX_SfxDefinition_Play_Stereo(&paramite_stru_55D7C0[static_cast<s32>(soundId)], volLeft, volRight, pitch_min, pitch_min);
+        SFX_SfxDefinition_Play_Stereo(paramite_stru_55D7C0[static_cast<s32>(soundId)], volLeft, volRight, pitch_min, pitch_min);
     }
     else
     {
-        SFX_SfxDefinition_Play_Stereo(&paramite_stru_55D7C0[static_cast<s32>(soundId)], volLeft, volRight, -520, -520);
+        SFX_SfxDefinition_Play_Stereo(paramite_stru_55D7C0[static_cast<s32>(soundId)], volLeft, volRight, -520, -520);
     }
 }
 

@@ -117,7 +117,7 @@ void PullRingRope::VUpdate()
         case States::eBeingPulled_1:
             if (mAnim.mCurrentFrame == 2)
             {
-                SfxPlayMono(SoundEffect::RingRopePull_56, 0);
+                SfxPlayMono(relive::SoundEffects::RingRopePull, 0);
             }
 
             mYPos += mVelY;
@@ -132,7 +132,7 @@ void PullRingRope::VUpdate()
 
                 if (gMap.mCurrentLevel == EReliveLevelIds::eMines || gMap.mCurrentLevel == EReliveLevelIds::eBonewerkz || gMap.mCurrentLevel == EReliveLevelIds::eFeeCoDepot || gMap.mCurrentLevel == EReliveLevelIds::eBarracks || gMap.mCurrentLevel == EReliveLevelIds::eBrewery)
                 {
-                    SfxPlayMono(SoundEffect::IndustrialTrigger_80, 0);
+                    SfxPlayMono(relive::SoundEffects::IndustrialTrigger, 0);
                 }
             }
             break;
@@ -176,13 +176,13 @@ void PullRingRope::VUpdate()
                                 // don't play additional sound effects
                                 break;
                             case relive::Path_PullRingRope::PullRingSwitchSound::eWellExit:
-                                SFX_Play_Stereo(SoundEffect::WellExit_20, 60 * leftVol + 10, 60 * rightVol + 10);
+                                SFX_Play_Stereo(relive::SoundEffects::WellExit, 60 * leftVol + 10, 60 * rightVol + 10);
                                 break;
                             case relive::Path_PullRingRope::PullRingSwitchSound::eRingBellHammer: // ring bell hammer from AO?
-                                SFX_Play_Stereo(SoundEffect::RingUnknownTrigger_8, 60 * leftVol + 10, 60 * rightVol + 10);
+                                SFX_Play_Stereo(relive::SoundEffects::RingUnknownTrigger, 60 * leftVol + 10, 60 * rightVol + 10);
                                 break;
                             case relive::Path_PullRingRope::PullRingSwitchSound::eDoorEffect:
-                                SFX_Play_Stereo(SoundEffect::DoorEffect_57, 75 * leftVol + 15, 75 * rightVol + 15);
+                                SFX_Play_Stereo(relive::SoundEffects::DoorEffect, 75 * leftVol + 15, 75 * rightVol + 15);
                                 break;
                         }
                     }
@@ -194,13 +194,13 @@ void PullRingRope::VUpdate()
                                 // don't play additional sound effects
                                 break;
                             case relive::Path_PullRingRope::PullRingSwitchSound::eWellExit:
-                                SFX_Play_Stereo(SoundEffect::WellExit_20, 60 * leftVol + 10, 60 * rightVol + 10);
+                                SFX_Play_Stereo(relive::SoundEffects::WellExit, 60 * leftVol + 10, 60 * rightVol + 10);
                                 break;
                             case relive::Path_PullRingRope::PullRingSwitchSound::eRingBellHammer:
-                                SFX_Play_Stereo(SoundEffect::RingUnknownTrigger_8, 60 * leftVol + 10, 60 * rightVol + 10);
+                                SFX_Play_Stereo(relive::SoundEffects::RingUnknownTrigger, 60 * leftVol + 10, 60 * rightVol + 10);
                                 break;
                             case relive::Path_PullRingRope::PullRingSwitchSound::eDoorEffect:
-                                SFX_Play_Stereo(SoundEffect::DoorEffect_57, 75 * leftVol + 15, 75 * rightVol + 15);
+                                SFX_Play_Stereo(relive::SoundEffects::DoorEffect, 75 * leftVol + 15, 75 * rightVol + 15);
                                 break;
                         }
                     }
@@ -250,7 +250,7 @@ s16 PullRingRope::VPull(BaseGameObject* pObj)
     mVelY = FP_FromInteger(2) * mSpriteScale;
     field_F4_stay_in_state_ticks = 6;
     mAnim.Set_Animation_Data(AnimId::PullRingRope_UseBegin, nullptr);
-    SfxPlayMono(SoundEffect::RingRopePull_56, 0);
+    SfxPlayMono(relive::SoundEffects::RingRopePull, 0);
     return 1;
 }
 

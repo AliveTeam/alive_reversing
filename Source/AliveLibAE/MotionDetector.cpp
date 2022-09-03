@@ -329,7 +329,7 @@ void MotionDetector::VUpdate()
                     {
                         if (sGnFrame % 2)
                         {
-                            SfxPlayMono(SoundEffect::Zap2_50, 45);
+                            SfxPlayMono(relive::SoundEffects::Zap2, 45);
                         }
                     }
 
@@ -409,7 +409,7 @@ void MotionDetector::VUpdate()
                         mCurrentPath,
                         mXPos,
                         mYPos);
-                    SFX_Play_Camera(SoundEffect::MenuNavigation_52, 0, soundDirection, mSpriteScale);
+                    SFX_Play_Camera(relive::SoundEffects::MenuNavigation, 0, soundDirection, mSpriteScale);
                 }
                 else
                 {
@@ -434,7 +434,7 @@ void MotionDetector::VUpdate()
                         mCurrentPath,
                         mXPos,
                         mYPos);
-                    SFX_Play_Camera(SoundEffect::MenuNavigation_52, 0, soundDirection, mSpriteScale);
+                    SFX_Play_Camera(relive::SoundEffects::MenuNavigation, 0, soundDirection, mSpriteScale);
                 }
                 else
                 {

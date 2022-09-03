@@ -39,7 +39,7 @@ static const TintEntry sScrabTints_560260[15] = {
     {EReliveLevelIds::eNone, 127u, 127u, 127u}};
 
 // TODO: repetition with `MainMenu.cpp`
-static const SfxDefinition scrab_sScrabSfx_560330[9] = {
+static const relive::SfxDefinition scrab_sScrabSfx_560330[9] = {
     {0u, 4u, 60u, 55u, 0, 0},
     {0u, 4u, 61u, 70u, 0, 0},
     {0u, 4u, 62u, 80u, 0, 0},
@@ -1990,7 +1990,7 @@ void Scrab::M_Stand_0_4A8220()
         if (Input_IsChanting_45F260() && !field_164_prevent_depossession)
         {
             field_130_depossession_timer = sGnFrame + 30;
-            SfxPlayMono(SoundEffect::PossessEffect_17, 0);
+            SfxPlayMono(relive::SoundEffects::PossessEffect, 0);
             mCurrentMotion = eScrabMotions::M_GetDepossessedBegin_28_4AA200;
             return;
         }
@@ -2418,7 +2418,7 @@ void Scrab::M_HopBegin_5_4A96C0()
         mXPos += mVelX;
         if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
         {
-            SFX_Play_Pitch(SoundEffect::PickupItem_28, 50, -800);
+            SFX_Play_Pitch(relive::SoundEffects::PickupItem, 50, -800);
             BaseAliveGameObjectLastLineYPos = mYPos;
             if (mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
             {
@@ -2717,7 +2717,7 @@ void Scrab::M_RunJumpBegin_12_4A99C0()
 {
     if (mAnim.mCurrentFrame == 1)
     {
-        SFX_Play_Pitch(SoundEffect::PickupItem_28, 50, -800);
+        SFX_Play_Pitch(relive::SoundEffects::PickupItem, 50, -800);
     }
 
     EventBroadcast(kEventNoise, this);
@@ -2907,7 +2907,7 @@ void Scrab::M_GetEaten_19_4AA3E0()
 {
     if (mAnim.mCurrentFrame == 3)
     {
-        SFX_Play_Pitch(SoundEffect::PickupItem_28, 120, -1000);
+        SFX_Play_Pitch(relive::SoundEffects::PickupItem, 120, -1000);
     }
 }
 
@@ -2932,7 +2932,7 @@ void Scrab::M_Stamp_21_4A9CC0()
         }
 
         Scrab_SFX(ScrabSounds::eHitCollision_4, 0, 0x7FFF, 1);
-        SFX_Play_Pitch(SoundEffect::KillEffect_64, 60, Math_RandomRange(-255, 255));
+        SFX_Play_Pitch(relive::SoundEffects::KillEffect, 60, Math_RandomRange(-255, 255));
     }
 
     if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
@@ -3263,7 +3263,7 @@ void Scrab::M_Feed_36_4AA030()
     }
     else
     {
-        SfxPlayMono((Math_NextRandom() & 1) ? SoundEffect::Eating2_66 : SoundEffect::Eating1_65, 0);
+        SfxPlayMono((Math_NextRandom() & 1) ? relive::SoundEffects::Eating2 : relive::SoundEffects::Eating1, 0);
     }
 }
 
@@ -3834,8 +3834,8 @@ s16 Scrab::VTakeDamage(BaseGameObject* pFrom)
             break;
 
         default:
-            SfxPlayMono(SoundEffect::KillEffect_64, 127);
-            SfxPlayMono(SoundEffect::FallingItemHit_47, 90);
+            SfxPlayMono(relive::SoundEffects::KillEffect, 127);
+            SfxPlayMono(relive::SoundEffects::FallingItemHit, 90);
             break;
     }
 
@@ -3882,7 +3882,7 @@ void Scrab::KnockBack()
     field_130_depossession_timer = sGnFrame + 10;
 }
 
-const SfxDefinition getSfxDef(ScrabSounds effectId)
+const relive::SfxDefinition& getSfxDef(ScrabSounds effectId)
 {
     return scrab_sScrabSfx_560330[static_cast<s32>(effectId)];
 }
@@ -3897,8 +3897,8 @@ s32 Scrab::Scrab_SFX(ScrabSounds soundId, s32 vol, s32 pitch, s16 applyDirection
         mXPos,
         mYPos);
 
-    const SfxDefinition effectDef = getSfxDef(soundId);
-    const s16 defaultSndIdxVol = effectDef.field_3_default_volume;
+    const relive::SfxDefinition& effectDef = getSfxDef(soundId);
+    const s16 defaultSndIdxVol = effectDef.field_C_default_volume;
 
     volumeRight = static_cast<s16>(vol);
     if (vol <= 0)
@@ -3951,7 +3951,7 @@ s32 Scrab::Scrab_SFX(ScrabSounds soundId, s32 vol, s32 pitch, s16 applyDirection
     }
 
     return SFX_SfxDefinition_Play_Stereo(
-        &effectDef,
+        effectDef,
         volumeLeft,
         volumeRight,
         static_cast<s16>(pitch),
@@ -4019,7 +4019,7 @@ void Scrab::KillTarget(BaseAliveGameObject* pTarget)
                                                 if (pObj->VTakeDamage(this))
                                                 {
                                                     bKilledTarget = true;
-                                                    SfxPlayMono(SoundEffect::KillEffect_64, 0);
+                                                    SfxPlayMono(relive::SoundEffects::KillEffect, 0);
                                                     if (pObj->Type() == ReliveTypes::eAbe)
                                                     {
                                                         Mudokon_SFX(MudSounds::eHurt2_9, 0, 0, sActiveHero);

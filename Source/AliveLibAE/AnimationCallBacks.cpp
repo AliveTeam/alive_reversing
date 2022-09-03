@@ -205,7 +205,7 @@ s32 Animation_OnFrame_Slog_4C3030(BaseGameObject* pObjPtr, s16* pPoints)
         50);
 
     pSlog->field_11C_biting_target = 1;
-    SfxPlayMono(SoundEffect::SlogBite_34, 0);
+    SfxPlayMono(relive::SoundEffects::SlogBite, 0);
 
     return 1;
 }

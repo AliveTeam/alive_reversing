@@ -1435,7 +1435,7 @@ s16 Mudokon::VTakeDamage(BaseGameObject* pFrom)
             EventBroadcast(kEventMudokonDied, this);
             if (pFrom->Type() == ReliveTypes::eGasCountDown)
             {
-                SFX_Play_Pitch(SoundEffect::Choke_81, 127, 128);
+                SFX_Play_Pitch(relive::SoundEffects::Choke, 127, 128);
             }
             else
             {
@@ -1540,8 +1540,8 @@ s16 Mudokon::VTakeDamage(BaseGameObject* pFrom)
                 mCurrentMotion = eMudMotions::Motion_45_KnockForward;
 
                 VUpdateResBlock();
-                SfxPlayMono(SoundEffect::KillEffect_64, 127);
-                SfxPlayMono(SoundEffect::FallingItemHit_47, 90);
+                SfxPlayMono(relive::SoundEffects::KillEffect, 127);
+                SfxPlayMono(relive::SoundEffects::FallingItemHit, 90);
             }
             else
             {
@@ -5779,7 +5779,7 @@ void Mudokon::Motion_11_Chisel()
         {
             if (sGnFrame & 1)
             {
-                SfxPlayMono(SoundEffect::Chisel_91, 0, mSpriteScale);
+                SfxPlayMono(relive::SoundEffects::Chisel, 0, mSpriteScale);
 
                 FP sparkY = {};
                 FP sparkX = {};
@@ -5856,11 +5856,11 @@ void Mudokon::Motion_14_CrouchScrub()
     {
         if (mAnim.mCurrentFrame == 2)
         {
-            SfxPlayMono(SoundEffect::Clean1_71, 0);
+            SfxPlayMono(relive::SoundEffects::Clean1, 0);
         }
         else if (mAnim.mCurrentFrame == 6)
         {
-            SfxPlayMono(SoundEffect::Clean2_72, 0);
+            SfxPlayMono(relive::SoundEffects::Clean2, 0);
         }
     }
 
@@ -6331,7 +6331,7 @@ void Mudokon::Motion_36_RunJumpMid()
     auto pBirdPortal = static_cast<BirdPortal*>(sObjectIds.Find_Impl(field_11C_bird_portal_id));
     if (mAnim.mCurrentFrame == 5)
     {
-        SFX_Play_Pitch(SoundEffect::PossessEffect_17, 40, 2400);
+        SFX_Play_Pitch(relive::SoundEffects::PossessEffect, 40, 2400);
     }
 
     const PSX_RECT rect = VGetBoundingRect();

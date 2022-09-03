@@ -73,7 +73,7 @@ enum eFleechMotions
     Motion_18_Consume
 };
 
-const SfxDefinition stru_5518E0[20] = {
+const relive::SfxDefinition stru_5518E0[20] = {
     {0u, 6u, 50u, 30u, -127, 127},
     {0u, 6u, 49u, 127u, 0, 0},
     {0u, 6u, 54u, 127u, 0, 0},
@@ -1956,21 +1956,32 @@ void Fleech::ToIdle()
     field_134_unused = 60 * sRandomBytes_546744[sFleechRandomIdx_5BC20C++] / 256 + sGnFrame + 120;
 }
 
-const SfxDefinition getSfxDef(FleechSound effectId)
+const relive::SfxDefinition& getSfxDef(FleechSound effectId)
 {
     return stru_5518E0[static_cast<s32>(effectId)];
 }
 
-s32 Fleech::Sound(FleechSound soundId)
+static const relive::SfxDefinition& GetRandomizedSound(FleechSound soundId, s16& defaultSndIdxVol)
 {
-    SfxDefinition effectDef = getSfxDef(soundId);
-    s16 defaultSndIdxVol = effectDef.field_3_default_volume;
     if (soundId == FleechSound::CrawlRNG1_14)
     {
         const s32 rndIdx = Math_RandomRange(14, 16);
-        effectDef = getSfxDef(static_cast<FleechSound>(rndIdx));
-        defaultSndIdxVol = effectDef.field_3_default_volume + Math_RandomRange(-10, 10);
+        const relive::SfxDefinition& effectDef = getSfxDef(static_cast<FleechSound>(rndIdx));
+        defaultSndIdxVol = effectDef.field_C_default_volume + Math_RandomRange(-10, 10);
+        return effectDef;
     }
+    else
+    {
+        const relive::SfxDefinition& effectDef = getSfxDef(soundId);
+        defaultSndIdxVol = effectDef.field_C_default_volume;
+        return effectDef;
+    }
+}
+
+s32 Fleech::Sound(FleechSound soundId)
+{
+    s16 defaultSndIdxVol = 0;
+    const relive::SfxDefinition& effectDef = GetRandomizedSound(soundId, defaultSndIdxVol);
 
     if (mSpriteScale == FP_FromDouble(0.5))
     {
@@ -2018,11 +2029,11 @@ s32 Fleech::Sound(FleechSound soundId)
     }
 
     return SFX_SfxDefinition_Play_Stereo(
-        &effectDef,
+        effectDef,
         volumeLeft,
         volumeRight,
-        effectDef.field_4_pitch_min,
-        effectDef.field_6_pitch_max);
+        effectDef.field_E_pitch_min,
+        effectDef.field_10_pitch_max);
 }
 
 u8** Fleech::ResBlockForMotion(s32 /*motion*/)

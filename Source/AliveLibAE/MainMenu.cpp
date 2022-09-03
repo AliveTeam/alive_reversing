@@ -134,7 +134,7 @@ MainMenuButton sBtnArray_LoadGame_561450[] = {
 // Sfx Arrays
 
 // TODO: repetition with `Paramite.cpp`
-SfxDefinition mainMenu_stru_55D7C0[] = {
+relive::SfxDefinition mainMenu_stru_55D7C0[] = {
     {0u, 5u, 60u, 90u, -520, -520},
     {0u, 5u, 61u, 75u, -520, -520},
     {0u, 5u, 62u, 50u, -520, -520},
@@ -1442,7 +1442,7 @@ MainMenuNextCam MainMenuController::Page_FMV_Level_Update_4D4AB0(u32 input_held)
         if (field_230_target_entry_index > 0 && field_254 == FP_FromInteger(0))
         {
             field_230_target_entry_index--;
-            SFX_Play_Pitch(SoundEffect::MenuNavigation_52, 35, 400);
+            SFX_Play_Pitch(relive::SoundEffects::MenuNavigation, 35, 400);
         }
     }
     else if (inputToUse & (InputCommands::Enum::eRight | InputCommands::Enum::eDown))
@@ -1450,7 +1450,7 @@ MainMenuNextCam MainMenuController::Page_FMV_Level_Update_4D4AB0(u32 input_held)
         if (field_230_target_entry_index < sMenuItemCount_561538 - 1 && field_254 == FP_FromInteger(0))
         {
             field_230_target_entry_index++;
-            SFX_Play_Pitch(SoundEffect::MenuNavigation_52, 35, 400);
+            SFX_Play_Pitch(relive::SoundEffects::MenuNavigation, 35, 400);
         }
     }
 
@@ -1466,7 +1466,7 @@ MainMenuNextCam MainMenuController::Page_FMV_Level_Update_4D4AB0(u32 input_held)
             {
                 field_230_target_entry_index -= 3;
             }
-            SFX_Play_Pitch(SoundEffect::MenuNavigation_52, 35, 400);
+            SFX_Play_Pitch(relive::SoundEffects::MenuNavigation, 35, 400);
         }
     }
     else if (inputToUse & InputCommands::Enum::ePageDown)
@@ -1481,7 +1481,7 @@ MainMenuNextCam MainMenuController::Page_FMV_Level_Update_4D4AB0(u32 input_held)
             {
                 field_230_target_entry_index += 3;
             }
-            SFX_Play_Pitch(SoundEffect::MenuNavigation_52, 35, 400);
+            SFX_Play_Pitch(relive::SoundEffects::MenuNavigation, 35, 400);
         }
     }
 
@@ -2193,7 +2193,7 @@ MainMenuNextCam MainMenuController::DemoSelect_Update_4D0E10(u32 input)
         if (field_230_target_entry_index > 0 && field_254 == FP_FromInteger(0))
         {
             field_230_target_entry_index--;
-            SFX_Play_Pitch(SoundEffect::MenuNavigation_52, 35, 400);
+            SFX_Play_Pitch(relive::SoundEffects::MenuNavigation, 35, 400);
         }
     }
     else if (input_or_field_204 & (InputCommands::Enum::eDown | InputCommands::Enum::eRight))
@@ -2202,7 +2202,7 @@ MainMenuNextCam MainMenuController::DemoSelect_Update_4D0E10(u32 input)
         if (field_230_target_entry_index < sMenuItemCount_561538 - 1 && field_254 == FP_FromInteger(0))
         {
             field_230_target_entry_index++;
-            SFX_Play_Pitch(SoundEffect::MenuNavigation_52, 35, 400);
+            SFX_Play_Pitch(relive::SoundEffects::MenuNavigation, 35, 400);
         }
     }
 
@@ -2216,7 +2216,7 @@ MainMenuNextCam MainMenuController::DemoSelect_Update_4D0E10(u32 input)
             {
                 field_230_target_entry_index = 0;
             }
-            SFX_Play_Pitch(SoundEffect::MenuNavigation_52, 35, 400);
+            SFX_Play_Pitch(relive::SoundEffects::MenuNavigation, 35, 400);
         }
     }
     else if (input_or_field_204 & InputCommands::Enum::ePageDown)
@@ -2229,7 +2229,7 @@ MainMenuNextCam MainMenuController::DemoSelect_Update_4D0E10(u32 input)
             {
                 field_230_target_entry_index = sMenuItemCount_561538 - 1;
             }
-            SFX_Play_Pitch(SoundEffect::MenuNavigation_52, 35, 400);
+            SFX_Play_Pitch(relive::SoundEffects::MenuNavigation, 35, 400);
         }
     }
 
@@ -2310,7 +2310,7 @@ MainMenuNextCam MainMenuController::tLoadGame_Input_4D3EF0(u32 input)
 
     if (indexChanged)
     {
-        SFX_Play_Pitch(SoundEffect::MenuNavigation_52, 35, 400);
+        SFX_Play_Pitch(relive::SoundEffects::MenuNavigation, 35, 400);
     }
 
     if (input & InputCommands::Enum::eUnPause_OrConfirm)
@@ -2424,7 +2424,7 @@ MainMenuNextCam MainMenuController::AbeMotions_Update_4D1F50(u32 input)
     // To the game speak screen
     if (input & InputCommands::Enum::eUnPause_OrConfirm)
     {
-        SFX_Play_Pitch(SoundEffect::MenuNavigation_52, 35, 400);
+        SFX_Play_Pitch(relive::SoundEffects::MenuNavigation, 35, 400);
         return MainMenuNextCam(MainMenuCams::eGamespeakCharacterSelectionCam);
     }
 
@@ -2611,7 +2611,7 @@ MainMenuNextCam MainMenuController::ControllerMenu_Update_4D16D0(u32 input)
         if (sSelectedControllerEntry_BB43F4 > 0 && sTextYPos_BB43F0 == FP_FromInteger(0))
         {
             sSelectedControllerEntry_BB43F4--;
-            SFX_Play_Pitch(SoundEffect::MenuNavigation_52, 45, 400);
+            SFX_Play_Pitch(relive::SoundEffects::MenuNavigation, 45, 400);
         }
     }
     else if (input & InputCommands::Enum::eDown)
@@ -2619,7 +2619,7 @@ MainMenuNextCam MainMenuController::ControllerMenu_Update_4D16D0(u32 input)
         if (sSelectedControllerEntry_BB43F4 < sControllerCount_55E838 - 1 && sTextYPos_BB43F0 == FP_FromInteger(0))
         {
             sSelectedControllerEntry_BB43F4++;
-            SFX_Play_Pitch(SoundEffect::MenuNavigation_52, 45, 400);
+            SFX_Play_Pitch(relive::SoundEffects::MenuNavigation, 45, 400);
         }
     }
 
@@ -2706,7 +2706,7 @@ MainMenuNextCam MainMenuController::RemapInput_Update_4D1820(u32 input)
                 sButtonToRemapIdx_BB43EC--;
             }
 
-            SFX_Play_Pitch(SoundEffect::MenuNavigation_52, 45, 400);
+            SFX_Play_Pitch(relive::SoundEffects::MenuNavigation, 45, 400);
         }
 
         if (input & InputCommands::Enum::eDown)
@@ -2722,7 +2722,7 @@ MainMenuNextCam MainMenuController::RemapInput_Update_4D1820(u32 input)
             {
                 sButtonToRemapIdx_BB43EC = 0;
             }
-            SFX_Play_Pitch(SoundEffect::MenuNavigation_52, 45, 400);
+            SFX_Play_Pitch(relive::SoundEffects::MenuNavigation, 45, 400);
         }
 
         if (input & InputCommands::Enum::eLeft)
@@ -2731,7 +2731,7 @@ MainMenuNextCam MainMenuController::RemapInput_Update_4D1820(u32 input)
             {
                 sButtonToRemapIdx_BB43EC -= 4;
             }
-            SFX_Play_Pitch(SoundEffect::MenuNavigation_52, 45, 400);
+            SFX_Play_Pitch(relive::SoundEffects::MenuNavigation, 45, 400);
         }
 
         if (input & InputCommands::Enum::eRight)
@@ -2740,7 +2740,7 @@ MainMenuNextCam MainMenuController::RemapInput_Update_4D1820(u32 input)
             {
                 sButtonToRemapIdx_BB43EC += 4;
             }
-            SFX_Play_Pitch(SoundEffect::MenuNavigation_52, 45, 400);
+            SFX_Play_Pitch(relive::SoundEffects::MenuNavigation, 45, 400);
         }
 
         if (input & InputCommands::Enum::eBack)
@@ -2993,7 +2993,7 @@ void MainMenuController::HandleMainMenuUpdate()
 
                     field_158_animation.Set_Animation_Data(pPage->field_18_buttons[field_1FC_button_index].field_8_anim_id, nullptr);
 
-                    SFX_Play_Pitch(SoundEffect::MenuNavigation_52, 35, 400);
+                    SFX_Play_Pitch(relive::SoundEffects::MenuNavigation, 35, 400);
                 }
 
                 if (inputHeld & (InputCommands::Enum::eRight | InputCommands::Enum::eDown))
@@ -3016,7 +3016,7 @@ void MainMenuController::HandleMainMenuUpdate()
                     }
 
                     field_158_animation.Set_Animation_Data(pPage->field_18_buttons[field_1FC_button_index].field_8_anim_id, 0);
-                    SFX_Play_Pitch(SoundEffect::MenuNavigation_52, 35, 400);
+                    SFX_Play_Pitch(relive::SoundEffects::MenuNavigation, 35, 400);
                 }
             }
         }
@@ -3436,7 +3436,7 @@ s32 MainMenuController::ChangeScreenAndIntroLogic_4CF640()
 }
 
 // TODO: repetition with `Scrab.cpp`
-const SfxDefinition mainMenu_sScrabSfx_560330[10] = {
+const relive::SfxDefinition mainMenu_sScrabSfx_560330[10] = {
     {0u, 4u, 60u, 55u, 0, 0},
     {0u, 4u, 61u, 70u, 0, 0},
     {0u, 4u, 62u, 80u, 0, 0},
@@ -3601,7 +3601,7 @@ void MainMenuController::AnimationAndSoundLogic_4CFE80()
             {
                 if (field_220_frame_table_idx == eParamite_AllAYa)
                 {
-                    SFX_SfxDefinition_Play_Stereo(&mainMenu_stru_55D7C0[sMainMenuFrameTable_561CC8[field_220_frame_table_idx].field_6_sound], 127, 127, 64, 64);
+                    SFX_SfxDefinition_Play_Stereo(mainMenu_stru_55D7C0[sMainMenuFrameTable_561CC8[field_220_frame_table_idx].field_6_sound], 127, 127, 64, 64);
                 }
                 // Attack
                 else if (sMainMenuFrameTable_561CC8[field_220_frame_table_idx].field_6_sound == 9)
@@ -3611,7 +3611,7 @@ void MainMenuController::AnimationAndSoundLogic_4CFE80()
                 // All other Paramite speak
                 else
                 {
-                    SFX_SfxDefinition_Play_Stereo(&mainMenu_stru_55D7C0[sMainMenuFrameTable_561CC8[field_220_frame_table_idx].field_6_sound], 127, 127, 0x7FFF, 0x7FFF);
+                    SFX_SfxDefinition_Play_Stereo(mainMenu_stru_55D7C0[sMainMenuFrameTable_561CC8[field_220_frame_table_idx].field_6_sound], 127, 127, 0x7FFF, 0x7FFF);
                 }
             }
         }
@@ -3662,9 +3662,9 @@ void MainMenuController::AnimationAndSoundLogic_4CFE80()
 
                             case eScrabSpeak:
                                 SFX_SfxDefinition_Play_Stereo(
-                                    &mainMenu_sScrabSfx_560330[sound],
-                                    mainMenu_sScrabSfx_560330[sound].field_3_default_volume,
-                                    mainMenu_sScrabSfx_560330[sound].field_3_default_volume,
+                                    mainMenu_sScrabSfx_560330[sound],
+                                    mainMenu_sScrabSfx_560330[sound].field_C_default_volume,
+                                    mainMenu_sScrabSfx_560330[sound].field_C_default_volume,
                                     0x7FFF,
                                     0x7FFF);
                                 field_23C_T80.Set(Flags::eBit22_GameSpeakPlaying);

@@ -2260,8 +2260,8 @@ void FlyingSlig::BlowUp_436510()
     relive_new Blood(mXPos, mYPos - (FP_FromInteger(30) * mSpriteScale), FP_FromInteger(0), FP_FromInteger(0), mSpriteScale, 20);
 
     New_Smoke_Particles(mXPos, mYPos - (FP_FromInteger(30) * mSpriteScale), mSpriteScale, 3, 128u, 128u, 128u);
-    SfxPlayMono(SoundEffect::KillEffect_64, 128, mSpriteScale);
-    SfxPlayMono(SoundEffect::FallingItemHit_47, 90, mSpriteScale);
+    SfxPlayMono(relive::SoundEffects::KillEffect, 128, mSpriteScale);
+    SfxPlayMono(relive::SoundEffects::FallingItemHit, 90, mSpriteScale);
 
     mAnim.mFlags.Clear(AnimFlags::eBit2_Animate);
     mAnim.mFlags.Clear(AnimFlags::eBit3_Render);
@@ -2365,7 +2365,7 @@ u8** FlyingSlig::ResBlockForMotion_4350F0(s32 /*motion*/)
 
 void FlyingSlig::ToChantShake_436270()
 {
-    SfxPlayMono(SoundEffect::PossessEffect_17, 0);
+    SfxPlayMono(relive::SoundEffects::PossessEffect, 0);
     VSetMotion(eFlyingSligMotions::M_Possession_9_434290);
     SetBrain(&FlyingSlig::Brain_14_DePossession);
     field_14C_timer = sGnFrame + 45;

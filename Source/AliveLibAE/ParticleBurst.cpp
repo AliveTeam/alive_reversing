@@ -383,15 +383,15 @@ void ParticleBurst::VUpdate()
             const u8 next_rand = Math_NextRandom();
             if (next_rand < 43)
             {
-                SFX_Play_Camera(SoundEffect::ParticleBurst_27, volume, CameraPos::eCamLeft_3);
+                SFX_Play_Camera(relive::SoundEffects::ParticleBurst, volume, CameraPos::eCamLeft_3);
             }
             else if (next_rand >= 85)
             {
-                SFX_Play_Camera(SoundEffect::ParticleBurst_27, volume, CameraPos::eCamRight_4);
+                SFX_Play_Camera(relive::SoundEffects::ParticleBurst, volume, CameraPos::eCamRight_4);
             }
             else
             {
-                SFX_Play_Camera(SoundEffect::ParticleBurst_27, volume, CameraPos::eCamCurrent_0);
+                SFX_Play_Camera(relive::SoundEffects::ParticleBurst, volume, CameraPos::eCamCurrent_0);
             }
         }
     }

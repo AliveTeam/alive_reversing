@@ -20,6 +20,8 @@ SET(relive_lib_src
     ../Tools/relive_api/ApiFG1Reader.hpp
     BinaryPath.hpp
     BinaryPath.cpp
+    Sfx.hpp
+    Sfx.cpp
     ObjectIds.hpp
     ObjectIds.cpp
     BaseGameObject.hpp

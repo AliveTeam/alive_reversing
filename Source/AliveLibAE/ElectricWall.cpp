@@ -112,7 +112,7 @@ void ElectricWall::VUpdate()
         // Play sound every so often
         if (static_cast<s32>(sGnFrame) >= field_FC_sound_timer)
         {
-            SFX_Play_Camera(SoundEffect::BirdPortalSpark_41, 45, soundDirection, mSpriteScale);
+            SFX_Play_Camera(relive::SoundEffects::BirdPortalSpark, 45, soundDirection, mSpriteScale);
             field_FC_sound_timer = sGnFrame + Math_RandomRange(24, 40);
         }
 
@@ -160,7 +160,7 @@ void ElectricWall::VUpdate()
                                 if (RectsOverlap(bRectBigger, objRect) && pObj->mHealth > FP_FromInteger(0))
                                 {
                                     // When near play the buzzing sound
-                                    SFX_Play_Camera(SoundEffect::ElectricGateLoud_40, 45, soundDirection, mSpriteScale);
+                                    SFX_Play_Camera(relive::SoundEffects::ElectricGateLoud, 45, soundDirection, mSpriteScale);
                                 }
                             }
                         }
@@ -175,7 +175,7 @@ void ElectricWall::VUpdate()
 
                                 pObj->VTakeDamage(this);
 
-                                SFX_Play_Camera(SoundEffect::ElectricZap_39, 127, soundDirection, mSpriteScale);
+                                SFX_Play_Camera(relive::SoundEffects::ElectricZap, 127, soundDirection, mSpriteScale);
 
                                 relive_new Flash(Layer::eLayer_Above_FG1_39, 255, 255, 255, TPageAbr::eBlend_3, 1);
                             }

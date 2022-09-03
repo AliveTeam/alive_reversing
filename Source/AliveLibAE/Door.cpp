@@ -354,8 +354,8 @@ void Door::PlaySound()
         volume = 90;
     }
 
-    SFX_Play_Pitch(SoundEffect::DoorEffect_57, volume, 900);
-    SFX_Play_Pitch(SoundEffect::DoorEffect_57, volume, 0);
+    SFX_Play_Pitch(relive::SoundEffects::DoorEffect, volume, 900);
+    SFX_Play_Pitch(relive::SoundEffects::DoorEffect, volume, 0);
 }
 
 Door::~Door()

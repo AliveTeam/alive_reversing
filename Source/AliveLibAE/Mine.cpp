@@ -159,7 +159,7 @@ void Mine::VUpdate()
         {
             if (onScreen)
             {
-                SfxPlayMono(SoundEffect::RedTick_3, 35);
+                SfxPlayMono(relive::SoundEffects::RedTick, 35);
                 sMineSFXOwner_5C3008 = this;
             }
             else

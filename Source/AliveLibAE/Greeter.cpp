@@ -323,7 +323,7 @@ void Greeter::BounceBackFromShot()
     mAnim.Set_Animation_Data(AnimId::Greeter_Hit, nullptr);
 
     const CameraPos soundDirection = gMap.GetDirection(mCurrentLevel, mCurrentPath, mXPos, mYPos);
-    SFX_Play_Camera(SoundEffect::GreeterKnockback_121, 0, soundDirection, mSpriteScale);
+    SFX_Play_Camera(relive::SoundEffects::GreeterKnockback, 0, soundDirection, mSpriteScale);
 }
 
 void Greeter::HandleRollingAlong()
@@ -502,8 +502,8 @@ void Greeter::ZapTarget(FP xpos, FP ypos, BaseAliveGameObject* pTarget)
         mXPos,
         mYPos);
 
-    SFX_Play_Camera(SoundEffect::Zap1_49, 0, soundDirection, mSpriteScale);
-    SFX_Play_Camera(SoundEffect::Zap2_50, 0, soundDirection, mSpriteScale);
+    SFX_Play_Camera(relive::SoundEffects::Zap1, 0, soundDirection, mSpriteScale);
+    SFX_Play_Camera(relive::SoundEffects::Zap2, 0, soundDirection, mSpriteScale);
 
     RandomishSpeak(GreeterSpeak::eLaugh_3);
 
@@ -594,7 +594,7 @@ void Greeter::VUpdate()
                     mCurrentPath,
                     mXPos,
                     mYPos);
-                SFX_Play_Camera(SoundEffect::WheelSqueak_31, 10, soundDirection, mSpriteScale);
+                SFX_Play_Camera(relive::SoundEffects::WheelSqueak, 10, soundDirection, mSpriteScale);
             }
 
             mVelY = FP_FromInteger(0);
@@ -682,7 +682,7 @@ void Greeter::VUpdate()
                     mCurrentPath,
                     mXPos,
                     mYPos);
-                SFX_Play_Camera(SoundEffect::WheelSqueak_31, 10, soundDirection2, mSpriteScale);
+                SFX_Play_Camera(relive::SoundEffects::WheelSqueak, 10, soundDirection2, mSpriteScale);
             }
 
             mVelX = -(mSpriteScale * FP_FromInteger(5));
@@ -763,7 +763,7 @@ void Greeter::VUpdate()
                     mXPos,
                     hitY);
 
-                SFX_Play_Camera(SoundEffect::GreeterLand_120, 0, soundDirection3, mSpriteScale);
+                SFX_Play_Camera(relive::SoundEffects::GreeterLand, 0, soundDirection3, mSpriteScale);
                 if (mVelY > -FP_FromInteger(1))
                 {
                     mVelY = FP_FromInteger(0);

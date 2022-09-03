@@ -265,7 +265,7 @@ void CameraSwapper::Init(u8** ppCamRes, CameraSwapEffects changeEffect)
             field_34_pSubObject = relive_new ScreenClipper(xy, PSX_Point{1, 1}, Layer::eLayer_0);
 
             // "Whoosh" door sound effect
-            SfxPlayMono(SoundEffect::IngameTransition_84, 127);
+            SfxPlayMono(relive::SoundEffects::IngameTransition, 127);
         }
         break;
 

@@ -164,7 +164,7 @@ void Meat::InTheAir()
                     field_11C_state = MeatStates::eBecomeAPickUp_3;
                     mVelY = FP_FromInteger(0);
                     mVelX = FP_FromInteger(0);
-                    SFX_Play_Pitch(SoundEffect::MeatBounce_36, 0, -650);
+                    SFX_Play_Pitch(relive::SoundEffects::MeatBounce, 0, -650);
                     EventBroadcast(kEventNoise, this);
                     EventBroadcast(kEventSuspiciousNoise, this);
                     AddToPlatform();
@@ -178,7 +178,7 @@ void Meat::InTheAir()
                     mXPos = hitX;
                     mYPos = hitY;
                     mVelX = (-mVelX / FP_FromInteger(4));
-                    SFX_Play_Pitch(SoundEffect::MeatBounce_36, 0, -650);
+                    SFX_Play_Pitch(relive::SoundEffects::MeatBounce, 0, -650);
                     EventBroadcast(kEventNoise, this);
                     EventBroadcast(kEventSuspiciousNoise, this);
                     if (mVelY < FP_FromInteger(0))
@@ -196,7 +196,7 @@ void Meat::InTheAir()
                     mXPos = hitX;
                     mYPos = hitY;
                     mVelX = (-mVelX / FP_FromInteger(4));
-                    SFX_Play_Pitch(SoundEffect::MeatBounce_36, 0, -650);
+                    SFX_Play_Pitch(relive::SoundEffects::MeatBounce, 0, -650);
                     EventBroadcast(kEventNoise, this);
                     EventBroadcast(kEventSuspiciousNoise, this);
                     if (mVelY < FP_FromInteger(0))
@@ -214,7 +214,7 @@ void Meat::InTheAir()
                     mXPos = hitX;
                     mYPos = hitY + FP_FromInteger(1);
                     mVelY = FP_FromInteger(0);
-                    SFX_Play_Pitch(SoundEffect::MeatBounce_36, 0, -650);
+                    SFX_Play_Pitch(relive::SoundEffects::MeatBounce, 0, -650);
                     EventBroadcast(kEventNoise, this);
                     EventBroadcast(kEventSuspiciousNoise, this);
                 }
@@ -252,7 +252,7 @@ s16 Meat::OnCollision(BaseGameObject* pHit)
 
     static_cast<BaseAliveGameObject*>(pHit)->VOnThrowableHit(this);
 
-    SFX_Play_Pitch(SoundEffect::MeatBounce_36, 0, -650);
+    SFX_Play_Pitch(relive::SoundEffects::MeatBounce, 0, -650);
 
     return 0;
 }
@@ -509,7 +509,7 @@ void MeatSack::VUpdate()
             {
                 field_120_bPlayWobbleSound = 0;
                 field_122_always_0 = 0;
-                SFX_Play_Pitch(SoundEffect::SackWobble_29, 24, Math_RandomRange(-2400, -2200));
+                SFX_Play_Pitch(relive::SoundEffects::SackWobble, 24, Math_RandomRange(-2400, -2200));
             }
         }
     }
@@ -553,7 +553,7 @@ void MeatSack::VUpdate()
              pMeat->VThrow(field_124_velX, field_128_velY);
             pMeat->mSpriteScale = mSpriteScale;
 
-            SfxPlayMono(SoundEffect::SackHit_25, 0);
+            SfxPlayMono(relive::SoundEffects::SackHit, 0);
             Environment_SFX_457A40(EnvironmentSfx::eDeathNoise_7, 0, 0x7FFF, 0);
 
             mAnim.Set_Animation_Data(AnimId::MeatSack_Hit, nullptr);

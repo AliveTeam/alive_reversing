@@ -68,8 +68,8 @@ void DoorBlocker::VUpdate()
         }
         else if (SwitchStates_Get(field_11A_switch_id))
         {
-            SFX_Play_Pitch(SoundEffect::DoorEffect_57, 100, 900);
-            SFX_Play_Pitch(SoundEffect::DoorEffect_57, 100, -100);
+            SFX_Play_Pitch(relive::SoundEffects::DoorEffect, 100, 900);
+            SFX_Play_Pitch(relive::SoundEffects::DoorEffect, 100, -100);
             mAnim.Set_Animation_Data(AnimId::Door_Lock_Open, 0);
             field_118_bDone |= 1u;
         }

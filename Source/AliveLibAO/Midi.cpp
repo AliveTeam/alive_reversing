@@ -1074,28 +1074,14 @@ s16 SND_SEQ_Play_477760(SeqId idx, s32 repeatCount, s16 volLeft, s16 volRight)
     return ret;
 }
 
-static ::SfxDefinition ToAeSfxDef(const SfxDefinition* sfxDef)
+s32 SFX_SfxDefinition_Play_477330(const relive::SfxDefinition& sfxDef, s16 volLeft, s16 volRight, s16 pitch_min, s16 pitch_max)
 {
-    ::SfxDefinition aeDef = {};
-    aeDef.field_0_block_idx = static_cast<s8>(sfxDef->field_0_block_idx);
-    aeDef.field_1_program = static_cast<s8>(sfxDef->field_4_program);
-    aeDef.field_2_note = static_cast<s8>(sfxDef->field_8_note);
-    aeDef.field_3_default_volume = static_cast<s8>(sfxDef->field_C_default_volume);
-    aeDef.field_4_pitch_min = sfxDef->field_E_pitch_min;
-    aeDef.field_6_pitch_max = sfxDef->field_10_pitch_max;
-    return aeDef;
+    return SFX_SfxDefinition_Play_Stereo(sfxDef, volLeft, volRight, pitch_min, pitch_max);
 }
 
-s32 SFX_SfxDefinition_Play_477330(const SfxDefinition* sfxDef, s16 volLeft, s16 volRight, s16 pitch_min, s16 pitch_max)
+s32 SFX_SfxDefinition_Play_4770F0(const relive::SfxDefinition& sfxDef, s32 vol, s32 pitch_min, s32 pitch_max)
 {
-    const ::SfxDefinition aeDef = ToAeSfxDef(sfxDef);
-    return SFX_SfxDefinition_Play_Stereo(&aeDef, volLeft, volRight, pitch_min, pitch_max);
-}
-
-s32 SFX_SfxDefinition_Play_4770F0(const SfxDefinition* sfxDef, s32 vol, s32 pitch_min, s32 pitch_max)
-{
-    const ::SfxDefinition aeDef = ToAeSfxDef(sfxDef);
-    return SFX_SfxDefinition_Play_Mono(&aeDef, static_cast<s16>(vol), static_cast<s16>(pitch_min), static_cast<s16>(pitch_max));
+    return SFX_SfxDefinition_Play_Mono(sfxDef, static_cast<s16>(vol), static_cast<s16>(pitch_min), static_cast<s16>(pitch_max));
 }
 
 void SND_Init_Real_476E40()

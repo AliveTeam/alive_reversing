@@ -164,7 +164,7 @@ void SnoozeParticle::VUpdate()
                 }
                 else
                 {
-                    SfxPlayMono(SoundEffect::ZPop_4, 0, mSpriteScale);
+                    SfxPlayMono(relive::SoundEffects::ZPop, 0, mSpriteScale);
                     mBaseGameObjectFlags.Set(BaseGameObject::eDead);
                 }
                 break;

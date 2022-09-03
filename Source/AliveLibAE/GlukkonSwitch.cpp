@@ -261,7 +261,7 @@ void GlukkonSwitch::VUpdate()
             {
                 return;
             }
-            SFX_Play_Pitch(SoundEffect::GlukkonSwitchBleh_88, 127, -700); //Bleh!
+            SFX_Play_Pitch(relive::SoundEffects::GlukkonSwitchBleh, 127, -700); // Bleh!
             Glukkon::PlaySound_GameSpeak(GlukkonSpeak::Laugh_7, 127, -200, 0);
             mAnim.Set_Animation_Data(AnimId::Security_Door_Speak, nullptr);
             SwitchStates_Do_Operation(field_FA_ok_switch_id, relive::reliveSwitchOp::eToggle);

@@ -968,7 +968,7 @@ void PauseMenu::RestartPath()
     }
 
     word12C_flags &= ~1;
-    SFX_Play_Pitch(SoundEffect::PossessEffect_17, 40, 3400);
+    SFX_Play_Pitch(relive::SoundEffects::PossessEffect, 40, 3400);
     GetSoundAPI().SND_Restart();
 }
 
@@ -983,7 +983,7 @@ void PauseMenu::Page_Main_Update()
         {
             field_134_index_main = MainPages::ePage_Continue_0;
         }
-        SFX_Play_Pitch(SoundEffect::MenuNavigation_52, 45, 400);
+        SFX_Play_Pitch(relive::SoundEffects::MenuNavigation, 45, 400);
     }
 
     if (Input().isHeld(InputCommands::Enum::eUp))
@@ -992,7 +992,7 @@ void PauseMenu::Page_Main_Update()
         {
             field_134_index_main = MainPages::ePage_Quit_7;
         }
-        SFX_Play_Pitch(SoundEffect::MenuNavigation_52, 45, 400);
+        SFX_Play_Pitch(relive::SoundEffects::MenuNavigation, 45, 400);
     }
 
     field_144_active_menu.field_C_selected_index = field_134_index_main;
@@ -1000,7 +1000,7 @@ void PauseMenu::Page_Main_Update()
     if (Input().isHeld(InputCommands::Enum::eBack))
     {
         word12C_flags &= ~1u;
-        SFX_Play_Pitch(SoundEffect::PossessEffect_17, 40, 2400);
+        SFX_Play_Pitch(relive::SoundEffects::PossessEffect, 40, 2400);
         GetSoundAPI().SND_Restart();
     }
     else if (Input().isHeld(InputCommands::Enum::eUnPause_OrConfirm))
@@ -1009,13 +1009,13 @@ void PauseMenu::Page_Main_Update()
         {
             case MainPages::ePage_Continue_0:
                 word12C_flags &= ~1u;
-                SFX_Play_Pitch(SoundEffect::PossessEffect_17, 40, 2400);
+                SFX_Play_Pitch(relive::SoundEffects::PossessEffect, 40, 2400);
                 GetSoundAPI().SND_Restart();
                 return;
 
             case MainPages::ePage_QuickSave_1:
                 word12C_flags &= ~1u;
-                SFX_Play_Pitch(SoundEffect::PossessEffect_17, 40, 2400);
+                SFX_Play_Pitch(relive::SoundEffects::PossessEffect, 40, 2400);
                 GetSoundAPI().SND_Restart();
                 DoQuicksave();
                 return;
@@ -1038,7 +1038,7 @@ void PauseMenu::Page_Main_Update()
             case MainPages::ePage_Save_4:
                 field_136_unused = 5;
                 field_144_active_menu = sPM_Page_Save_5465C8;
-                SfxPlayMono(SoundEffect::IngameTransition_84, 90);
+                SfxPlayMono(relive::SoundEffects::IngameTransition, 90);
                 field_13C_save_state = SaveState::ReadingInput_0;
                 word12C_flags &= ~0xA;
                 field_13E_unused = -1;
@@ -1067,7 +1067,7 @@ void PauseMenu::Page_Main_Update()
                 Quicksave_FindSaves();
                 field_136_unused = 4;
                 field_144_active_menu = sPM_Page_Load_546628;
-                SfxPlayMono(SoundEffect::IngameTransition_84, 90);
+                SfxPlayMono(relive::SoundEffects::IngameTransition, 90);
                 word12C_flags &= ~0xA;
                 field_13C_save_state = SaveState::ReadingInput_0;
                 word12C_flags |= 0x400;
@@ -1089,7 +1089,7 @@ void PauseMenu::Page_Main_Update()
                 return;
         }
 
-        SfxPlayMono(SoundEffect::IngameTransition_84, 90);
+        SfxPlayMono(relive::SoundEffects::IngameTransition, 90);
     }
 }
 
@@ -1099,7 +1099,7 @@ void PauseMenu::Page_ControlsActions_Update()
     {
         field_136_unused = 0;
         field_144_active_menu = sPM_Page_Main_5465B0;
-        SFX_Play_Pitch(SoundEffect::PossessEffect_17, 40, 2400);
+        SFX_Play_Pitch(relive::SoundEffects::PossessEffect, 40, 2400);
     }
 
     if (Input().isHeld(0x100000))
@@ -1108,14 +1108,14 @@ void PauseMenu::Page_ControlsActions_Update()
         if (prev < 6)
         {
             field_144_active_menu.field_8_menu_items = sControlActionsPages_55DE40[prev];
-            SfxPlayMono(SoundEffect::IngameTransition_84, 90);
+            SfxPlayMono(relive::SoundEffects::IngameTransition, 90);
         }
         else
         {
             field_138_control_action_page_index = 0;
             field_136_unused = 0;
             field_144_active_menu = sPM_Page_Main_5465B0;
-            SFX_Play_Pitch(SoundEffect::PossessEffect_17, 40, 2400);
+            SFX_Play_Pitch(relive::SoundEffects::PossessEffect, 40, 2400);
         }
     }
 }
@@ -1126,13 +1126,13 @@ void PauseMenu::Page_ReallyQuit_Update()
     {
         field_136_unused = 0;
         field_144_active_menu = sPM_Page_Main_5465B0;
-        SFX_Play_Pitch(SoundEffect::PossessEffect_17, 40, 2400);
+        SFX_Play_Pitch(relive::SoundEffects::PossessEffect, 40, 2400);
     }
 
     if (Input().isHeld(0x100000))
     {
         word12C_flags &= ~1u;
-        SFX_Play_Pitch(SoundEffect::PossessEffect_17, 40, 2400);
+        SFX_Play_Pitch(relive::SoundEffects::PossessEffect, 40, 2400);
 
         if (pPauseMenu_5C9300 && pPauseMenu_5C9300 == this)
         {
@@ -1171,7 +1171,7 @@ void PauseMenu::Page_Save_Update()
                 sSavedGameToLoadIdx_BB43FC = 0;
             }
             word12C_flags &= ~1u;
-            SFX_Play_Pitch(SoundEffect::PossessEffect_17, 40, 2400);
+            SFX_Play_Pitch(relive::SoundEffects::PossessEffect, 40, 2400);
             GetSoundAPI().SND_Restart();
         }
         else
@@ -1184,14 +1184,14 @@ void PauseMenu::Page_Save_Update()
         if (Input().isHeld(InputCommands::Enum::eUnPause_OrConfirm))
         {
             // Enter - do the save and don't return to the confirm overwrite
-            SFX_Play_Pitch(SoundEffect::PossessEffect_17, 40, 2400);
+            SFX_Play_Pitch(relive::SoundEffects::PossessEffect, 40, 2400);
             field_13C_save_state = SaveState::DoSave_4;
             bWriteSaveFile_5C937C = true;
         }
         else if (Input().isHeld(InputCommands::Enum::eBack))
         {
             // Escape - cancel save
-            SfxPlayMono(SoundEffect::IngameTransition_84, 90);
+            SfxPlayMono(relive::SoundEffects::IngameTransition, 90);
             field_13C_save_state = SaveState::ReadingInput_0;
             strcat(sSaveString_5C931C, sArrowStr_55E398);
 #if ORIGINAL_PS1_BEHAVIOR // OG Change - Allow for exiting save menu using controller
@@ -1241,7 +1241,7 @@ void PauseMenu::Page_Save_Update()
                 return;
             // Escape - cancel
             case VK_ESCAPE:
-                SFX_Play_Pitch(SoundEffect::PossessEffect_17, 40, 2400);
+                SFX_Play_Pitch(relive::SoundEffects::PossessEffect, 40, 2400);
                 field_136_unused = 0;
                 field_144_active_menu = sPM_Page_Main_5465B0;
                 Input_Reset_492660();
@@ -1252,13 +1252,13 @@ void PauseMenu::Page_Save_Update()
                 if (stringLen > 1)
                 {
                     // Replace arrow with null terminator
-                    SfxPlayMono(SoundEffect::IngameTransition_84, 90);
+                    SfxPlayMono(relive::SoundEffects::IngameTransition, 90);
                     sSaveString_5C931C[stringLen - 1] = 0;
                     field_13C_save_state = SaveState::DoSave_4;
                     Input_Reset_492660();
                     return;
                 }
-                SfxPlayMono(SoundEffect::ElectricZap_39, 0);
+                SfxPlayMono(relive::SoundEffects::ElectricZap, 0);
                 return;
 
             // Backspace - delete
@@ -1268,10 +1268,10 @@ void PauseMenu::Page_Save_Update()
                     // Replace last s8 with arrow
                     sSaveString_5C931C[stringLen - 2] = kArrowChar;
                     sSaveString_5C931C[stringLen - 1] = 0;
-                    SfxPlayMono(SoundEffect::PickupItem_28, 0);
+                    SfxPlayMono(relive::SoundEffects::PickupItem, 0);
                     return;
                 }
-                SfxPlayMono(SoundEffect::ElectricZap_39, 0);
+                SfxPlayMono(relive::SoundEffects::ElectricZap, 0);
                 return;
         }
 
@@ -1281,12 +1281,12 @@ void PauseMenu::Page_Save_Update()
             // Don't allow space at the start of the name, and don't allow 2 constitutive spaces.
             if (newInput[0] == ' ' && (stringLen == 1 || sSaveString_5C931C[stringLen - 2] == newInput[0]))
             {
-                SFX_Play_Pitch(SoundEffect::PossessEffect_17, 30, 2600);
+                SFX_Play_Pitch(relive::SoundEffects::PossessEffect, 30, 2600);
             }
             // Also don't allow the name length to be over 20 chars
             else if (stringLen > 20)
             {
-                SFX_Play_Pitch(SoundEffect::PossessEffect_17, 30, 2400);
+                SFX_Play_Pitch(relive::SoundEffects::PossessEffect, 30, 2400);
             }
             // Append new input s8
             else
@@ -1294,12 +1294,12 @@ void PauseMenu::Page_Save_Update()
                 sSaveString_5C931C[stringLen - 1] = newInput[0]; // Replace arrow with input
                 sSaveString_5C931C[stringLen] = kArrowChar;      // Replace null with arrow
                 sSaveString_5C931C[stringLen + 1] = 0;           // Append new null
-                SfxPlayMono(SoundEffect::RockBounce_26, 0);
+                SfxPlayMono(relive::SoundEffects::RockBounce, 0);
             }
         }
         else
         {
-            SFX_Play_Pitch(SoundEffect::PossessEffect_17, 70, 2200);
+            SFX_Play_Pitch(relive::SoundEffects::PossessEffect, 70, 2200);
         }
     }
 }
@@ -1335,7 +1335,7 @@ void PauseMenu::Page_Status_Update()
         // Go back to the main page
         field_136_unused = 0;
         field_144_active_menu = sPM_Page_Main_5465B0;
-        SFX_Play_Pitch(SoundEffect::PossessEffect_17, 40, 2400);
+        SFX_Play_Pitch(relive::SoundEffects::PossessEffect, 40, 2400);
     }
 }
 
@@ -1371,7 +1371,7 @@ void PauseMenu::Page_Load_Update()
         {
             sSavedGameToLoadIdx_BB43FC--;
         }
-        SFX_Play_Pitch(SoundEffect::MenuNavigation_52, 35, 400);
+        SFX_Play_Pitch(relive::SoundEffects::MenuNavigation, 35, 400);
         return;
     }
 
@@ -1383,7 +1383,7 @@ void PauseMenu::Page_Load_Update()
         {
             sSavedGameToLoadIdx_BB43FC++;
         }
-        SFX_Play_Pitch(SoundEffect::MenuNavigation_52, 35, 400);
+        SFX_Play_Pitch(relive::SoundEffects::MenuNavigation, 35, 400);
         return;
     }
 
@@ -1398,7 +1398,7 @@ void PauseMenu::Page_Load_Update()
             sSavedGameToLoadIdx_BB43FC = 0;
         }
 
-        SFX_Play_Pitch(SoundEffect::MenuNavigation_52, 35, 400);
+        SFX_Play_Pitch(relive::SoundEffects::MenuNavigation, 35, 400);
         return;
     }
 
@@ -1411,7 +1411,7 @@ void PauseMenu::Page_Load_Update()
         {
             sSavedGameToLoadIdx_BB43FC = sTotalSaveFilesCount_BB43E0 - 1;
         }
-        SFX_Play_Pitch(SoundEffect::MenuNavigation_52, 35, 400);
+        SFX_Play_Pitch(relive::SoundEffects::MenuNavigation, 35, 400);
         return;
     }
 
@@ -1437,7 +1437,7 @@ void PauseMenu::Page_Load_Update()
                 // TODO: OG bug, file handle is leaked
                 ::fclose(hFile);
             }
-            SfxPlayMono(SoundEffect::IngameTransition_84, 90);
+            SfxPlayMono(relive::SoundEffects::IngameTransition, 90);
         }
     }
     // Go back (esc)
@@ -1445,7 +1445,7 @@ void PauseMenu::Page_Load_Update()
     {
         field_136_unused = 0;
         field_144_active_menu = sPM_Page_Main_5465B0;
-        SFX_Play_Pitch(SoundEffect::PossessEffect_17, 40, 2400);
+        SFX_Play_Pitch(relive::SoundEffects::PossessEffect, 40, 2400);
     }
     // Delete (del)
     else if (inputHeld & 0x10000000)
@@ -1587,7 +1587,7 @@ void PauseMenu::VUpdate()
                 && pHero->mBirdPortalId == Guid{})
             {
                 SND_StopAll();
-                SFX_Play_Pitch(SoundEffect::PossessEffect_17, 40, 2400);
+                SFX_Play_Pitch(relive::SoundEffects::PossessEffect, 40, 2400);
                 sub_4A2B70();
                 mBaseGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4);
                 field_134_index_main = MainPages::ePage_Continue_0;

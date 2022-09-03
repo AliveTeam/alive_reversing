@@ -231,8 +231,8 @@ void TrapDoor::VUpdate()
 
             if (gMap.mCurrentLevel == EReliveLevelIds::eMines || gMap.mCurrentLevel == EReliveLevelIds::eBonewerkz || gMap.mCurrentLevel == EReliveLevelIds::eBonewerkz_Ender || gMap.mCurrentLevel == EReliveLevelIds::eFeeCoDepot || gMap.mCurrentLevel == EReliveLevelIds::eFeeCoDepot_Ender || gMap.mCurrentLevel == EReliveLevelIds::eBarracks || gMap.mCurrentLevel == EReliveLevelIds::eBarracks_Ender || gMap.mCurrentLevel == EReliveLevelIds::eBrewery || gMap.mCurrentLevel == EReliveLevelIds::eBrewery_Ender)
             {
-                SFX_Play_Camera(SoundEffect::IndustrialTrigger_80, 45, direction);
-                SFX_Play_Camera(SoundEffect::IndustrialNoise1_76, 90, direction);
+                SFX_Play_Camera(relive::SoundEffects::IndustrialTrigger, 45, direction);
+                SFX_Play_Camera(relive::SoundEffects::IndustrialNoise1, 90, direction);
             }
         }
         break;
@@ -240,7 +240,7 @@ void TrapDoor::VUpdate()
     case TrapDoorState::eOpening_1:
         if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
         {
-            SFX_Play_Camera(SoundEffect::TrapdoorOpen_43, 70, direction);
+            SFX_Play_Camera(relive::SoundEffects::TrapdoorOpen, 70, direction);
             mState = TrapDoorState::eOpen_2;
             mStayOpenTimeTimer = mStayOpenTime;
         }
@@ -257,8 +257,8 @@ void TrapDoor::VUpdate()
 
             if (gMap.mCurrentLevel == EReliveLevelIds::eMines || gMap.mCurrentLevel == EReliveLevelIds::eBonewerkz || gMap.mCurrentLevel == EReliveLevelIds::eBonewerkz_Ender || gMap.mCurrentLevel == EReliveLevelIds::eFeeCoDepot || gMap.mCurrentLevel == EReliveLevelIds::eFeeCoDepot_Ender || gMap.mCurrentLevel == EReliveLevelIds::eBarracks || gMap.mCurrentLevel == EReliveLevelIds::eBarracks_Ender || gMap.mCurrentLevel == EReliveLevelIds::eBrewery || gMap.mCurrentLevel == EReliveLevelIds::eBrewery_Ender)
             {
-                SFX_Play_Camera(SoundEffect::IndustrialNoise3_78, 60, direction);
-                SFX_Play_Camera(SoundEffect::IndustrialNoise2_77, 90, direction);
+                SFX_Play_Camera(relive::SoundEffects::IndustrialNoise3, 60, direction);
+                SFX_Play_Camera(relive::SoundEffects::IndustrialNoise2, 90, direction);
             }
         }
         break;
@@ -266,7 +266,7 @@ void TrapDoor::VUpdate()
     case TrapDoorState::eClosing_3:
         if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
         {
-            SFX_Play_Camera(SoundEffect::TrapdoorClose_42, 70, direction);
+            SFX_Play_Camera(relive::SoundEffects::TrapdoorClose, 70, direction);
             Add_To_Collisions_Array();
             mState = TrapDoorState::eClosed_0;
             SwitchStates_Set(mSwitchId, mStartState == 0);

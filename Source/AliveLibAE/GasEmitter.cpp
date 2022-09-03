@@ -92,9 +92,9 @@ void GasEmitter::VUpdate()
 
         if (!sMainGasEmitter_5BD4C8)
         {
-            SfxPlayMono(SoundEffect::Gas1_82, 127);
+            SfxPlayMono(relive::SoundEffects::Gas1, 127);
             sMainGasEmitter_5BD4C8 = this;
-            sGasEmiterAudioMask_5BD4CC = SfxPlayMono(SoundEffect::Gas2_83, 127);
+            sGasEmiterAudioMask_5BD4CC = SfxPlayMono(relive::SoundEffects::Gas2, 127);
         }
     }
 

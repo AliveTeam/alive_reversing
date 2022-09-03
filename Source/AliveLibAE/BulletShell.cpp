@@ -108,7 +108,7 @@ void BulletShell::VUpdate()
                 volume = 19;
             }
 
-            SfxPlayMono(SoundEffect::BulletShell_6, volume);
+            SfxPlayMono(relive::SoundEffects::BulletShell, volume);
             field_FC_hitCount++;
         }
     }

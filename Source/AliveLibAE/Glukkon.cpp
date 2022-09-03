@@ -545,7 +545,7 @@ void Glukkon::M_Jump_4_443030()
 
     if (mAnim.mCurrentFrame == 0)
     {
-        SFX_Play_Pitch(SoundEffect::PickupItem_28, 50, -900);
+        SFX_Play_Pitch(relive::SoundEffects::PickupItem, 50, -900);
         BaseAliveGameObjectLastLineYPos = mYPos;
         if (pPlatform)
         {
@@ -781,7 +781,7 @@ void Glukkon::M_DeathFall_8_443760()
 {
     if (mAnim.mCurrentFrame == 0)
     {
-        SfxPlayMono(SoundEffect::KillEffect_64, 85);
+        SfxPlayMono(relive::SoundEffects::KillEffect, 85);
     }
 }
 
@@ -1598,7 +1598,7 @@ s16 Glukkon::Brain_3_PlayerControlled_441A30()
                 if (Input_IsChanting_45F260() && mCurrentMotion != eGlukkonMotions::M_Jump_4_443030 && !field_1E2_prevent_depossession)
                 {
                     field_1D4_timer = sGnFrame + 30;
-                    SfxPlayMono(SoundEffect::PossessEffect_17, 0);
+                    SfxPlayMono(relive::SoundEffects::PossessEffect, 0);
                     SetAnim(10, TRUE);
                     return 2;
                 }
@@ -1708,7 +1708,7 @@ s16 Glukkon::Brain_3_PlayerControlled_441A30()
             GetSoundAPI().SND_Restart();
             pScreenManager->EnableRendering();
             field_1D4_timer = sGnFrame + 30;
-            SfxPlayMono(SoundEffect::PossessEffect_17, 0);
+            SfxPlayMono(relive::SoundEffects::PossessEffect, 0);
             SetAnim(10, TRUE);
             return 2;
 
@@ -1812,8 +1812,8 @@ s16 Glukkon::Brain_4_Death_442010()
                 128u,
                 128u);
 
-            SfxPlayMono(SoundEffect::KillEffect_64, 128, mSpriteScale);
-            SfxPlayMono(SoundEffect::FallingItemHit_47, 90, mSpriteScale);
+            SfxPlayMono(relive::SoundEffects::KillEffect, 128, mSpriteScale);
+            SfxPlayMono(relive::SoundEffects::FallingItemHit, 90, mSpriteScale);
 
             mAnim.mFlags.Clear(AnimFlags::eBit2_Animate);
             mAnim.mFlags.Clear(AnimFlags::eBit3_Render);
@@ -1908,7 +1908,7 @@ s16 Glukkon::Brain_5_WaitToSpawn_442490()
 
         if (field_1A8_tlvData.mSpawnType == relive::Path_Glukkon::SpawnType::eFullSpawnEffects)
         {
-            SFX_Play_Pitch(SoundEffect::Zap1_49, 60, -300);
+            SFX_Play_Pitch(relive::SoundEffects::Zap1, 60, -300);
 
             for (const auto& p : v00554768)
             {
@@ -1937,7 +1937,7 @@ s16 Glukkon::Brain_5_WaitToSpawn_442490()
         }
         else
         {
-            SfxPlayMono(SoundEffect::GlukkonSpawn_112, 0);
+            SfxPlayMono(relive::SoundEffects::GlukkonSpawn, 0);
             Speak(GlukkonSpeak::Heh_5);
             return 2;
         }
@@ -2682,7 +2682,7 @@ void Glukkon::GetOnPlatforms()
         (TCollisionCallBack) &BaseAliveGameObject::OnTrapDoorIntersection);
 }
 
-SfxDefinition stepSfx_554840[3] = {
+const relive::SfxDefinition stepSfx_554840[3] = {
     {0u, 8u, 36u, 25u, 1524, 1905},
     {0u, 3u, 59u, 60u, 0, 254},
     {0u, 3u, 72u, 120u, 0, 254}};
@@ -2690,12 +2690,12 @@ SfxDefinition stepSfx_554840[3] = {
 void Glukkon::PlaySound(s32 sndIdx, Glukkon* pGlukkon)
 {
     s32 volumeLeft, volumeRight;
-    s32 defaultSndIdxVol = stepSfx_554840[sndIdx].field_3_default_volume;
+    s32 defaultSndIdxVol = stepSfx_554840[sndIdx].field_C_default_volume;
 
     s16 pitch;
     if (sndIdx || !pGlukkon)
     {
-        pitch = Math_RandomRange(stepSfx_554840[sndIdx].field_4_pitch_min, stepSfx_554840[sndIdx].field_6_pitch_max);
+        pitch = Math_RandomRange(stepSfx_554840[sndIdx].field_E_pitch_min, stepSfx_554840[sndIdx].field_10_pitch_max);
     }
     else
     {
@@ -2761,7 +2761,7 @@ void Glukkon::PlaySound(s32 sndIdx, Glukkon* pGlukkon)
         volumeRight = FP_GetExponent(FP_FromInteger(volumeRight * 2) / FP_FromInteger(3));
     }
 
-    SFX_SfxDefinition_Play_Stereo(&stepSfx_554840[sndIdx], (s16) volumeLeft, (s16) volumeRight, pitch, pitch);
+    SFX_SfxDefinition_Play_Stereo(stepSfx_554840[sndIdx], (s16) volumeLeft, (s16) volumeRight, pitch, pitch);
 }
 
 void Glukkon::ToDead()
@@ -2844,7 +2844,7 @@ void Glukkon::VOnTlvCollision(relive::Path_TLV* pTlv)
     }
 }
 
-SfxDefinition gameSpeak_554858[15] = {
+const relive::SfxDefinition gameSpeak_554858[15] = {
     {0u, 8u, 66u, 127u, 0, 0},
     {0u, 8u, 64u, 127u, 0, 0},
     {0u, 8u, 67u, 127u, 0, 0},
@@ -2867,7 +2867,7 @@ void Glukkon::PlaySound_GameSpeak(GlukkonSpeak sndIdx, s16 volume, s16 pitch, Gl
     s16 calcedVolume = volume;
     if (!calcedVolume)
     {
-        calcedVolume = gameSpeak_554858[sndIdxShort].field_3_default_volume;
+        calcedVolume = gameSpeak_554858[sndIdxShort].field_C_default_volume;
     }
     if (pGlukkon)
     {
@@ -2876,7 +2876,7 @@ void Glukkon::PlaySound_GameSpeak(GlukkonSpeak sndIdx, s16 volume, s16 pitch, Gl
             calcedVolume = FP_GetExponent(FP_FromInteger(calcedVolume * 2) / FP_FromInteger(3));
         }
     }
-    SFX_SfxDefinition_Play_Mono(&gameSpeak_554858[sndIdxShort], calcedVolume, pitch, pitch);
+    SFX_SfxDefinition_Play_Mono(gameSpeak_554858[sndIdxShort], calcedVolume, pitch, pitch);
 }
 
 bool Glukkon::IsLineOfSightBetween(Glukkon* pGlukkon, BaseAliveGameObject* pOther)

@@ -196,7 +196,7 @@ const TAbeMotionFunction sAbeMotionMachineTable_554910[] = {
     &Abe::Motion_128_TurnWheelEnd_4569A0,
     &Abe::Motion_129_PoisonGasDeath_4565C0};
 
-const SfxDefinition sAbeSFXList_555250[41] = {
+const relive::SfxDefinition sAbeSFXList_555250[41] = {
     {0u, 0u, 0u, 0u, 0, 0},
     {0u, 0u, 0u, 0u, 0, 0},
     {0u, 0u, 0u, 0u, 0, 0},
@@ -388,7 +388,7 @@ const TintEntry sAbeTintTable[15] = {
     {EReliveLevelIds::eBonewerkz_Ender, 120u, 90u, 80u},
     {EReliveLevelIds::eNone, 102u, 102u, 102u}};
 
-const SfxDefinition sSFXList_555160[] = {
+const relive::SfxDefinition sSFXList_555160[] = {
     {0u, 3u, 69u, 60u, -1, 1},
     {0u, 3u, 70u, 60u, -1, 1},
     {0u, 3u, 59u, 67u, -1, 1},
@@ -491,11 +491,11 @@ s32 Environment_SFX_457A40(EnvironmentSfx sfxId, s32 volume, s32 pitchMin, BaseA
         case EnvironmentSfx::eLandingSoft_5:
             if (volume || !pAliveObj || pAliveObj->mSpriteScale != FP_FromDouble(0.5))
             {
-                return SFX_SfxDefinition_Play_Mono(&sSFXList_555160[2], static_cast<s16>(volume), static_cast<s16>(pitchMin), 0x7FFF) | SFX_SfxDefinition_Play_Mono(&sAbeSFXList_555250[16], static_cast<s16>(volume), static_cast<s16>(pitchMin), 0x7FFF);
+                return SFX_SfxDefinition_Play_Mono(sSFXList_555160[2], static_cast<s16>(volume), static_cast<s16>(pitchMin), 0x7FFF) | SFX_SfxDefinition_Play_Mono(sAbeSFXList_555250[16], static_cast<s16>(volume), static_cast<s16>(pitchMin), 0x7FFF);
             }
             else
             {
-                return SFX_SfxDefinition_Play_Mono(&sSFXList_555160[2], sSFXList_555160[2].field_3_default_volume / 2, static_cast<s16>(pitchMin), 0x7FFF) | SFX_SfxDefinition_Play_Mono(&sAbeSFXList_555250[16], sSFXList_555160[16].field_3_default_volume / 2, static_cast<s16>(pitchMin), 0x7FFF);
+                return SFX_SfxDefinition_Play_Mono(sSFXList_555160[2], sSFXList_555160[2].field_C_default_volume / 2, static_cast<s16>(pitchMin), 0x7FFF) | SFX_SfxDefinition_Play_Mono(sAbeSFXList_555250[16], sSFXList_555160[16].field_C_default_volume / 2, static_cast<s16>(pitchMin), 0x7FFF);
             }
 
         case EnvironmentSfx::eHitGroundSoft_6:
@@ -517,11 +517,11 @@ s32 Environment_SFX_457A40(EnvironmentSfx sfxId, s32 volume, s32 pitchMin, BaseA
         case EnvironmentSfx::eRunJumpOrLedgeHoist_11:
             if (pAliveObj && pAliveObj->mSpriteScale == FP_FromDouble(0.5))
             {
-                return SfxPlayMono(SoundEffect::AbeGenericMovement_32, 20);
+                return SfxPlayMono(relive::SoundEffects::AbeGenericMovement, 20);
             }
             else
             {
-                return SfxPlayMono(SoundEffect::AbeGenericMovement_32, 35);
+                return SfxPlayMono(relive::SoundEffects::AbeGenericMovement, 35);
             }
 
         case EnvironmentSfx::eExhaustingHoistNoise_10:
@@ -565,12 +565,12 @@ s32 Environment_SFX_457A40(EnvironmentSfx sfxId, s32 volume, s32 pitchMin, BaseA
 
     if (!sndVolume)
     {
-        sndVolume = sSFXList_555160[sndIndex].field_3_default_volume;
+        sndVolume = sSFXList_555160[sndIndex].field_C_default_volume;
     }
 
     if (!pAliveObj)
     {
-        return SFX_SfxDefinition_Play_Mono(&sSFXList_555160[sndIndex], static_cast<s16>(sndVolume), static_cast<s16>(pitchMin), 0x7FFF);
+        return SFX_SfxDefinition_Play_Mono(sSFXList_555160[sndIndex], static_cast<s16>(sndVolume), static_cast<s16>(pitchMin), 0x7FFF);
     }
 
     if (pAliveObj->mSpriteScale == FP_FromDouble(0.5))
@@ -587,13 +587,13 @@ s32 Environment_SFX_457A40(EnvironmentSfx sfxId, s32 volume, s32 pitchMin, BaseA
             pAliveObj->mYPos))
         {
             case CameraPos::eCamCurrent_0:
-                return SFX_SfxDefinition_Play_Mono(&sSFXList_555160[sndIndex], static_cast<s16>(sndVolume), static_cast<s16>(pitchMin), 0x7FFF);
+                return SFX_SfxDefinition_Play_Mono(sSFXList_555160[sndIndex], static_cast<s16>(sndVolume), static_cast<s16>(pitchMin), 0x7FFF);
             case CameraPos::eCamTop_1:
             case CameraPos::eCamBottom_2:
-                return SFX_SfxDefinition_Play_Mono(&sSFXList_555160[sndIndex], static_cast<s16>(2 * sndVolume / 3), static_cast<s16>(pitchMin), 0x7FFF);
+                return SFX_SfxDefinition_Play_Mono(sSFXList_555160[sndIndex], static_cast<s16>(2 * sndVolume / 3), static_cast<s16>(pitchMin), 0x7FFF);
             case CameraPos::eCamLeft_3:
                 return SFX_SfxDefinition_Play_Stereo(
-                    &sSFXList_555160[sndIndex],
+                    sSFXList_555160[sndIndex],
                     static_cast<s16>(2 * sndVolume / 9),
                     static_cast<s16>(2 * sndVolume / 9),
                     static_cast<s16>(pitchMin),
@@ -601,7 +601,7 @@ s32 Environment_SFX_457A40(EnvironmentSfx sfxId, s32 volume, s32 pitchMin, BaseA
                 break;
             case CameraPos::eCamRight_4:
                 return SFX_SfxDefinition_Play_Stereo(
-                    &sSFXList_555160[sndIndex],
+                    sSFXList_555160[sndIndex],
                     static_cast<s16>(2 * sndVolume / 3),
                     static_cast<s16>(2 * sndVolume / 3),
                     static_cast<s16>(pitchMin),
@@ -613,7 +613,7 @@ s32 Environment_SFX_457A40(EnvironmentSfx sfxId, s32 volume, s32 pitchMin, BaseA
     }
     else
     {
-        return SFX_SfxDefinition_Play_Mono(&sSFXList_555160[sndIndex], static_cast<s16>(sndVolume), static_cast<s16>(pitchMin), 0x7FFF);
+        return SFX_SfxDefinition_Play_Mono(sSFXList_555160[sndIndex], static_cast<s16>(sndVolume), static_cast<s16>(pitchMin), 0x7FFF);
     }
 }
 
@@ -1582,7 +1582,7 @@ void Abe::VUpdate()
                                 FP_FromInteger((rect.y + rect.h) / 2),
                                 ringType, mSpriteScale);
 
-                            SFX_Play_Pitch(SoundEffect::PossessEffect_17, 25, 2650);
+                            SFX_Play_Pitch(relive::SoundEffects::PossessEffect, 25, 2650);
                         }
                     }
                     else
@@ -2268,7 +2268,7 @@ s16 Abe::VTakeDamage(BaseGameObject* pFrom)
                     return 1;
                 }
                 ToKnockback_44E700(1, 1);
-                SfxPlayMono(SoundEffect::KillEffect_64, 127);
+                SfxPlayMono(relive::SoundEffects::KillEffect, 127);
             }
             break;
 
@@ -2335,8 +2335,8 @@ s16 Abe::VTakeDamage(BaseGameObject* pFrom)
                     mVelX = mSpriteScale * FP_FromDouble(7.8);
                 }
 
-                SfxPlayMono(SoundEffect::KillEffect_64, 127);
-                SfxPlayMono(SoundEffect::FallingItemHit_47, 90);
+                SfxPlayMono(relive::SoundEffects::KillEffect, 127);
+                SfxPlayMono(relive::SoundEffects::FallingItemHit, 90);
             }
             break;
 
@@ -2412,11 +2412,11 @@ s16 Abe::VTakeDamage(BaseGameObject* pFrom)
                     mVelX = mSpriteScale * FP_FromDouble(7.8);
                 }
 
-                SfxPlayMono(SoundEffect::KillEffect_64, 127);
+                SfxPlayMono(relive::SoundEffects::KillEffect, 127);
 
                 if (pFrom->Type() != ReliveTypes::eParamite)
                 {
-                    SfxPlayMono(SoundEffect::FallingItemHit_47, 90);
+                    SfxPlayMono(relive::SoundEffects::FallingItemHit, 90);
                 }
             }
             break;
@@ -5518,7 +5518,7 @@ void Abe::Motion_56_DeathDropFall_4591F0()
         }
         else if (static_cast<s32>(sGnFrame) == field_128.field_0_abe_timer - 24)
         {
-            SfxPlayMono(SoundEffect::KillEffect_64, 85);
+            SfxPlayMono(relive::SoundEffects::KillEffect, 85);
             relive_new ScreenShake(true, false);
         }
         else if (static_cast<s32>(sGnFrame) >= field_128.field_0_abe_timer)
@@ -6114,7 +6114,7 @@ void Abe::Motion_71_Knockback_455090()
             if (mCurrentMotion == eAbeMotions::Motion_84_FallLandDie_45A420)
             {
                 mCurrentMotion = eAbeMotions::Motion_71_Knockback_455090;
-                SfxPlayMono(SoundEffect::KillEffect_64, 85);
+                SfxPlayMono(relive::SoundEffects::KillEffect, 85);
                 SND_SEQ_Play(SeqId::HitBottomOfDeathPit_9, 1, 95, 95);
             }
             else if (mCurrentMotion == eAbeMotions::Motion_16_LandSoft_45A360)
@@ -6273,7 +6273,7 @@ void Abe::Motion_78_WellBegin_45C810()
     {
         field_124_timer = 15;
 
-        SfxPlayMono(SoundEffect::WellEnter_21, 0, mSpriteScale);
+        SfxPlayMono(relive::SoundEffects::WellEnter, 0, mSpriteScale);
 
         if (sPathInfo->TLV_Get_At_4DB4B0(
                 FP_GetExponent(mXPos),
@@ -6361,7 +6361,7 @@ void Abe::Motion_79_InsideWellLocal_45CA60()
             mAnim.mFlags.Set(AnimFlags::eBit5_FlipX);
         }
 
-        SfxPlayMono(SoundEffect::WellExit_20, 0, mSpriteScale);
+        SfxPlayMono(relive::SoundEffects::WellExit, 0, mSpriteScale);
 
         ++mCurrentMotion;
         BaseAliveGameObjectLastLineYPos = mYPos;
@@ -6585,7 +6585,7 @@ void Abe::Motion_84_FallLandDie_45A420()
 
     if (mAnim.mCurrentFrame == 0)
     {
-        SfxPlayMono(SoundEffect::KillEffect_64, 85);
+        SfxPlayMono(relive::SoundEffects::KillEffect, 85);
         SND_SEQ_Play(SeqId::HitBottomOfDeathPit_9, 1, 95, 95);
         relive_new ScreenShake(true, false);
     }
@@ -6639,7 +6639,7 @@ void Abe::Motion_86_HandstoneBegin_45BD00()
                 mCircularFadeId = pCircularFade2->mBaseGameObjectId;
                 field_120_state.stone = StoneStates::eGetHandstoneType_1;
 
-                SfxPlayMono(SoundEffect::IngameTransition_84, 90);
+                SfxPlayMono(relive::SoundEffects::IngameTransition, 90);
 
                 BaseAliveGameObjectPathTLV = sPathInfo->TLV_Get_At_4DB4B0(
                     FP_GetExponent(mXPos),
@@ -6648,7 +6648,7 @@ void Abe::Motion_86_HandstoneBegin_45BD00()
                     FP_GetExponent(mYPos),
                     ReliveTypes::eMovieHandStone);
 
-                sHandstoneSoundChannels_5C2C68 = SFX_Play_Pitch(SoundEffect::HandstoneTransition_12, 127, -300);
+                sHandstoneSoundChannels_5C2C68 = SFX_Play_Pitch(relive::SoundEffects::HandstoneTransition, 127, -300);
 
                 s32 switch_id = 0;
                 relive::Path_MovieStone* pMovieStoneTlv = static_cast<relive::Path_MovieStone*>(BaseAliveGameObjectPathTLV);
@@ -6773,7 +6773,7 @@ void Abe::Motion_86_HandstoneBegin_45BD00()
                 {
                     pFade->Init(Layer::eLayer_FadeFlash_40, 1, 0, 8);
                     field_120_state.stone = StoneStates::eCamChangeTransition_5;
-                    SfxPlayMono(SoundEffect::IngameTransition_84, 90);
+                    SfxPlayMono(relive::SoundEffects::IngameTransition, 90);
                 }
             }
             break;
@@ -6877,7 +6877,7 @@ void Abe::Motion_89_BrewMachineBegin_4584C0()
         {
             if (field_120_state.raw > 11u && !((field_120_state.raw - 12) % 6))
             {
-                SFX_Play_Pitch(SoundEffect::BrewMachineUseEnd_119, 0, 32 * field_120_state.raw);
+                SFX_Play_Pitch(relive::SoundEffects::BrewMachineUseEnd, 0, 32 * field_120_state.raw);
             }
             field_120_state.raw++;
         }
@@ -6890,18 +6890,18 @@ void Abe::Motion_89_BrewMachineBegin_4584C0()
     {
         if (GetEvilFart_4585F0(FALSE))
         {
-            SfxPlayMono(SoundEffect::BrewMachineUseStart_116, 0);
+            SfxPlayMono(relive::SoundEffects::BrewMachineUseStart, 0);
         }
         else
         {
-            SfxPlayMono(SoundEffect::BrewMachineUseEmpty_118, 0);
+            SfxPlayMono(relive::SoundEffects::BrewMachineUseEmpty, 0);
         }
     }
     else if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
     {
         if (GetEvilFart_4585F0(TRUE))
         {
-            SfxPlayMono(SoundEffect::BrewMachineUseMid_117, 0);
+            SfxPlayMono(relive::SoundEffects::BrewMachineUseMid, 0);
             field_120_state.raw = 1;
         }
         else
@@ -7167,7 +7167,7 @@ void Abe::Motion_105_RockThrowStandingThrow_456460()
 {
     if (mAnim.mCurrentFrame == 0)
     {
-        SfxPlayMono(SoundEffect::AirStream_23, 0, mSpriteScale);
+        SfxPlayMono(relive::SoundEffects::AirStream, 0, mSpriteScale);
     }
 
     if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
@@ -7216,7 +7216,7 @@ void Abe::Motion_108_RockThrowCrouchingThrow_454500()
 {
     if (mAnim.mCurrentFrame == 0)
     {
-        SfxPlayMono(SoundEffect::AirStream_23, 0, mSpriteScale);
+        SfxPlayMono(relive::SoundEffects::AirStream, 0, mSpriteScale);
     }
 
     if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
@@ -7292,7 +7292,7 @@ void Abe::Motion_111_PickupItem_4564A0()
 
     if (mAnim.mCurrentFrame == 7)
     {
-        SfxPlayMono(SoundEffect::PickupItem_28, 0, mSpriteScale);
+        SfxPlayMono(relive::SoundEffects::PickupItem, 0, mSpriteScale);
     }
 
     if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
@@ -7478,7 +7478,7 @@ void Abe::Motion_112_Chant_45B1C0()
             }
 
             mPossessedObjectId = pObj->mBaseGameObjectId;
-            SFX_Play_Pitch(SoundEffect::PossessEffect_17, 0, -600);
+            SFX_Play_Pitch(relive::SoundEffects::PossessEffect, 0, -600);
             field_120_state.chant = ChantStates::ePossessVictim_1;
             field_124_timer = sGnFrame + 30;
 
@@ -7561,7 +7561,7 @@ void Abe::Motion_112_Chant_45B1C0()
             relive_new PossessionFlicker(sControlledCharacter, 60, 128, 255, 255);
 
             SND_SEQ_Stop(SeqId::MudokonChant1_10);
-            SFX_Play_Pitch(SoundEffect::PossessEffect_17, 70, 400);
+            SFX_Play_Pitch(relive::SoundEffects::PossessEffect, 70, 400);
             field_120_state.chant = ChantStates::eWaitForUnpossessing_3;
         }
             return;
@@ -8163,13 +8163,13 @@ void Abe::Motion_129_PoisonGasDeath_4565C0()
     switch (mAnim.mCurrentFrame)
     {
         case 0:
-            SFX_Play_Pitch(SoundEffect::Choke_81, 127, 128);
+            SFX_Play_Pitch(relive::SoundEffects::Choke, 127, 128);
             break;
         case 9:
-            SFX_Play_Pitch(SoundEffect::Choke_81, 127, 384);
+            SFX_Play_Pitch(relive::SoundEffects::Choke, 127, 384);
             break;
         case 28:
-            SFX_Play_Pitch(SoundEffect::Choke_81, 127, 640);
+            SFX_Play_Pitch(relive::SoundEffects::Choke, 127, 640);
             break;
         case 32:
             Environment_SFX_457A40(EnvironmentSfx::eHitGroundSoft_6, 80, 0, this);
@@ -8316,7 +8316,7 @@ void Abe::PickUpThrowabe_Or_PressBomb_454090(FP fpX, s32 fpY, s32 bStandToCrouch
             {
                 if (bStandToCrouch)
                 {
-                    SfxPlayMono(SoundEffect::PickupItem_28, 0, mSpriteScale);
+                    SfxPlayMono(relive::SoundEffects::PickupItem, 0, mSpriteScale);
                     pSlappableOrCollectable->VOnPickUpOrSlapped();
                     mSlappableOrPickupId = Guid{};
                     mCurrentMotion = eAbeMotions::Motion_17_CrouchIdle_456BC0;
@@ -9319,8 +9319,8 @@ void Abe::BulletDamage_44C980(Bullet* pBullet)
     Environment_SFX_457A40(EnvironmentSfx::eElumHitWall_14, 0, 32767, this);
     Mudokon_SFX(MudSounds::eHurt2_9, 127, 0, this);
     Environment_SFX_457A40(EnvironmentSfx::eDeathNoise_7, 0, 32767, this);
-    SFX_Play_Pitch(SoundEffect::Eating1_65, 0, -500, mSpriteScale);
-    SfxPlayMono(SoundEffect::KillEffect_64, 0, mSpriteScale);
+    SFX_Play_Pitch(relive::SoundEffects::Eating1, 0, -500, mSpriteScale);
+    SfxPlayMono(relive::SoundEffects::KillEffect, 0, mSpriteScale);
 }
 
 void Abe::GiveControlBackToMe_44BA10()
@@ -9679,7 +9679,7 @@ void Abe::ExitShrykull_45A9D0(s16 bResetRingTimer)
 static void playAbeSFX(MudSounds idx, s16 volume, s32 pitch)
 {
     SFX_SfxDefinition_Play_Mono(
-        &sAbeSFXList_555250[static_cast<u8>(idx)],
+        sAbeSFXList_555250[static_cast<u8>(idx)],
         volume,
         static_cast<s16>(pitch), static_cast<s16>(pitch));
 }
@@ -9726,7 +9726,7 @@ void Mudokon_SFX(MudSounds idx, s16 volume, s32 pitch, BaseAliveGameObject* pHer
             auto idxToVal = static_cast<u8>(idx);
             if (!volume)
             {
-                volume = sAbeSFXList_555250[idxToVal].field_3_default_volume;
+                volume = sAbeSFXList_555250[idxToVal].field_C_default_volume;
             }
 
             // OG bug - isn't null checked in other cases before de-ref?
@@ -9767,7 +9767,7 @@ void Mudokon_SFX(MudSounds idx, s16 volume, s32 pitch, BaseAliveGameObject* pHer
                 case CameraPos::eCamLeft_3:
                 {
                     SFX_SfxDefinition_Play_Stereo(
-                        &sAbeSFXList_555250[idxToVal],
+                        sAbeSFXList_555250[idxToVal],
                         2 * volume / 3,
                         2 * volume / 9,
                         static_cast<s16>(pitch), static_cast<s16>(pitch));
@@ -9776,7 +9776,7 @@ void Mudokon_SFX(MudSounds idx, s16 volume, s32 pitch, BaseAliveGameObject* pHer
                 case CameraPos::eCamRight_4:
                 {
                     SFX_SfxDefinition_Play_Stereo(
-                        &sAbeSFXList_555250[idxToVal],
+                        sAbeSFXList_555250[idxToVal],
                         2 * volume / 9,
                         2 * volume / 3,
                         static_cast<s16>(pitch), static_cast<s16>(pitch));

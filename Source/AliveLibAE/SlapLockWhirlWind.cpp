@@ -95,7 +95,7 @@ void SlapLockWhirlWind::VUpdate()
             if (!(static_cast<s32>(sGnFrame) % 10))
             {
                 SFX_Play_Pitch(
-                    SoundEffect::FlyingSpirit2_108,
+                    relive::SoundEffects::FlyingSpirit2,
                     static_cast<s16>(127 - (static_cast<s32>(sGnFrame) - mTimer) / 2),
                     4 * (sGnFrame - mTimer));
             }
@@ -112,11 +112,11 @@ void SlapLockWhirlWind::VUpdate()
             {
                 if (static_cast<s32>(sGnFrame) % 20)
                 {
-                    SfxPlayMono(SoundEffect::FlyingSpirit1_107, 0);
+                    SfxPlayMono(relive::SoundEffects::FlyingSpirit1, 0);
                 }
                 else
                 {
-                    SfxPlayMono(SoundEffect::FlyingSpirit2_108, 0);
+                    SfxPlayMono(relive::SoundEffects::FlyingSpirit2, 0);
                 }
             }
 

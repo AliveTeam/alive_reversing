@@ -216,7 +216,7 @@ void TorturedMudokon::VUpdate()
     {
         relive_new Flash(Layer::eLayer_Above_FG1_39, rgbBase + 50, rgbBase + 50, rgbBase + 110, TPageAbr::eBlend_1, 1);
         mZapAnim.mFlags.Set(AnimFlags::eBit3_Render);
-        SfxPlayMono(SoundEffect::ElectricZap_39, 70);
+        SfxPlayMono(relive::SoundEffects::ElectricZap, 70);
         const s16 sndRnd = Math_RandomRange(0, 3) - 1;
         if (sndRnd)
         {

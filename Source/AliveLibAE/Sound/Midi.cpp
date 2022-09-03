@@ -20,7 +20,7 @@
 #include "../AmbientSound.hpp"
 
 
-void SFX_SetPitch_4CA510(const SfxDefinition* pSfx, s32 channelsBits, s16 pitch);
+void SFX_SetPitch_4CA510(const relive::SfxDefinition& pSfx, s32 channelsBits, s16 pitch);
 
 const s32 kSeqTableSizeAE = 144;
 
@@ -352,21 +352,21 @@ void SND_Load_VABS(SoundBlockInfo* pSoundBlockInfo, s32 reverb)
 }
 
 
-s32 SFX_SfxDefinition_Play_Mono(const SfxDefinition* sfxDef, s16 volume, s16 pitch_min, s16 pitch_max)
+s32 SFX_SfxDefinition_Play_Mono(const relive::SfxDefinition& sfxDef, s16 volume, s16 pitch_min, s16 pitch_max)
 {
     if (!volume)
     {
-        volume = sfxDef->field_3_default_volume;
+        volume = sfxDef.field_C_default_volume;
     }
 
     if (pitch_min == 0x7FFF)
     {
-        pitch_min = sfxDef->field_4_pitch_min;
+        pitch_min = sfxDef.field_E_pitch_min;
     }
 
     if (pitch_max == 0x7FFF)
     {
-        pitch_max = sfxDef->field_6_pitch_max;
+        pitch_max = sfxDef.field_10_pitch_max;
     }
 
     if (volume < 1)
@@ -380,8 +380,8 @@ s32 SFX_SfxDefinition_Play_Mono(const SfxDefinition* sfxDef, s16 volume, s16 pit
 
     // Note: Inlined in psx
     auto midiHandle = MIDI_Play_Single_Note_4CA1B0(
-        sfxDef->field_1_program | (GetMidiVars()->sLastLoadedSoundBlockInfo()[sfxDef->field_0_block_idx].field_8_vab_id << 8),
-        sfxDef->field_2_note << 8,
+        sfxDef.field_4_program | (GetMidiVars()->sLastLoadedSoundBlockInfo()[sfxDef.field_0_block_idx].field_8_vab_id << 8),
+        sfxDef.field_8_note << 8,
         volume,
         volume);
 
@@ -400,7 +400,7 @@ s32 SFX_SfxDefinition_Play_Mono(const SfxDefinition* sfxDef, s16 volume, s16 pit
 }
 
 
-void SFX_SetPitch_4CA510(const SfxDefinition* pSfx, s32 channelsBits, s16 pitch)
+void SFX_SetPitch_4CA510(const relive::SfxDefinition& pSfx, s32 channelsBits, s16 pitch)
 {
     s32 v3 = 0;
     s16 v4 = 0;
@@ -422,7 +422,7 @@ void SFX_SetPitch_4CA510(const SfxDefinition* pSfx, s32 channelsBits, s16 pitch)
         {
             const s16 vabId = 0;   // Not used by target func
             const s16 program = 0; // Not used by target func
-            SsUtChangePitch_4FDF70(i, program, vabId, pSfx->field_2_note, 0, static_cast<s16>(static_cast<s32>(pSfx->field_2_note) + v3), v4);
+            SsUtChangePitch_4FDF70(i, program, vabId, static_cast<s16>(pSfx.field_8_note), 0, static_cast<s16>(static_cast<s32>(pSfx.field_8_note) + v3), v4);
         }
     }
 }
@@ -478,16 +478,16 @@ s32 SND_MIDI(s32 program, s32 vabId, s32 note, s16 vol, s16 min, s16 max)
     return channelBits;
 }
 
-s32 SFX_SfxDefinition_Play_Stereo(const SfxDefinition* sfxDef, s16 volLeft, s16 volRight, s16 pitch_min, s16 pitch_max)
+s32 SFX_SfxDefinition_Play_Stereo(const relive::SfxDefinition& sfxDef, s16 volLeft, s16 volRight, s16 pitch_min, s16 pitch_max)
 {
     if (pitch_min == 0x7FFF)
     {
-        pitch_min = sfxDef->field_4_pitch_min;
+        pitch_min = sfxDef.field_E_pitch_min;
     }
 
     if (pitch_max == 0x7FFF)
     {
-        pitch_max = sfxDef->field_6_pitch_max;
+        pitch_max = sfxDef.field_10_pitch_max;
     }
 
     if (volLeft < 10)
@@ -510,8 +510,8 @@ s32 SFX_SfxDefinition_Play_Stereo(const SfxDefinition* sfxDef, s16 volLeft, s16 
 
     // Note: Inlined in psx
     auto midiHandle = MIDI_Play_Single_Note_4CA1B0(
-        sfxDef->field_1_program | (GetMidiVars()->sLastLoadedSoundBlockInfo()[sfxDef->field_0_block_idx].field_8_vab_id << 8),
-        sfxDef->field_2_note << 8,
+        sfxDef.field_4_program | (GetMidiVars()->sLastLoadedSoundBlockInfo()[sfxDef.field_0_block_idx].field_8_vab_id << 8),
+        sfxDef.field_8_note << 8,
         volLeft,
         volRight);
 

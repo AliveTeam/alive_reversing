@@ -84,7 +84,7 @@ void RockSack::VUpdate()
             {
                 field_120_can_play_wobble_sound = 0;
                 field_122_force_wobble_sound = 0;
-                SFX_Play_Pitch(SoundEffect::SackWobble_29, 24, Math_RandomRange(-2400, -2200));
+                SFX_Play_Pitch(relive::SoundEffects::SackWobble, 24, Math_RandomRange(-2400, -2200));
             }
         }
     }
@@ -142,7 +142,7 @@ void RockSack::VUpdate()
                 pRock->VThrow(field_124_x_vel, field_128_y_vel);
             }
 
-            SfxPlayMono(SoundEffect::SackHit_25, 0);
+            SfxPlayMono(relive::SoundEffects::SackHit, 0);
             Environment_SFX_457A40(EnvironmentSfx::eDeathNoise_7, 0, 0x7FFF, 0);
 
             if (sActiveHero->mCurrentMotion == eAbeMotions::Motion_31_RunJumpMid_452C10)

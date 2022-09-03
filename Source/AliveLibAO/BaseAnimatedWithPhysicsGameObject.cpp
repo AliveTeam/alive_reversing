@@ -112,8 +112,13 @@ void BaseAnimatedWithPhysicsGameObject::VRender(PrimHeader** ppOt)
             mAnim.mBlue = static_cast<u8>(b);
 
             mAnim.VRender(
-                FP_GetExponent(mXPos + (FP_FromInteger(pScreenManager->mCamXOff + mXOffset)) - pScreenManager->mCamPos->x),
-                FP_GetExponent(mYPos + (FP_FromInteger(pScreenManager->mCamYOff + mYOffset)) - pScreenManager->mCamPos->y),
+                // FP_GetExponent((FP_FromInteger(mXOffset) + mXPos - pScreenManager->CamXPos())),
+
+                //pScreenManager->CamXPos()
+                //  return mCamPos->x - FP_FromInteger(mCamXOff);
+
+                FP_GetExponent((FP_FromInteger(pScreenManager->mCamXOff + mXOffset)) + mXPos - pScreenManager->mCamPos->x),
+                FP_GetExponent((FP_FromInteger(pScreenManager->mCamYOff + mYOffset)) + mYPos - pScreenManager->mCamPos->y),
                 ppOt,
                 0,
                 0);

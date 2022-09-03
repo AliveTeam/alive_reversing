@@ -117,7 +117,7 @@ void TimedMine::VUpdate()
                 mCurrentPath,
                 mXPos,
                 mYPos);
-            SFX_Play_Camera(SoundEffect::GreenTick_2, 50, soundDir);
+            SFX_Play_Camera(relive::SoundEffects::GreenTick, 50, soundDir);
 
             // TODO: Modulus ?
             if (((mExplosionTimer - sGnFrame) & 0xFFFFFFF8) >= 144)
@@ -322,6 +322,6 @@ void TimedMine::VOnPickUpOrSlapped()
         mAnim.Set_Animation_Data(AnimId::TimedMine_Activated, nullptr);
         mExplosionTimer = sGnFrame + mTicksUntilExplosion;
         mTickAnim.Set_Animation_Data(AnimId::Bomb_Flash, nullptr);
-        SfxPlayMono(SoundEffect::GreenTick_2, 0);
+        SfxPlayMono(relive::SoundEffects::GreenTick, 0);
     }
 }

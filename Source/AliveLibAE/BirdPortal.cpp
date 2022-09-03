@@ -101,7 +101,7 @@ void BirdPortal::VUpdate()
     {
         if (mState > PortalStates::CreateTerminators_4 && mState < PortalStates::StopSound_11)
         {
-            mSfxPlaying = SFX_Play_Camera(SoundEffect::PortalOpening_58, 45, direction);
+            mSfxPlaying = SFX_Play_Camera(relive::SoundEffects::PortalOpening, 45, direction);
         }
     }
 
@@ -115,7 +115,7 @@ void BirdPortal::VUpdate()
         case PortalStates::IdlePortal_1:
             if (static_cast<s32>(sGnFrame) >= mTimer)
             {
-                SfxPlayMono(SoundEffect::Dove_13, 35, mSpriteScale);
+                SfxPlayMono(relive::SoundEffects::Dove, 35, mSpriteScale);
                 mTimer = sGnFrame + Math_RandomRange(24, 40);
             }
 
@@ -139,7 +139,7 @@ void BirdPortal::VUpdate()
                 mState = PortalStates::JoinDovesInCenter_2;
                 mTimer = sGnFrame + 15;
                 EventBroadcast(GetEvent(), this);
-                SfxPlayMono(SoundEffect::Dove_13, 70, mSpriteScale);
+                SfxPlayMono(relive::SoundEffects::Dove, 70, mSpriteScale);
             }
             else if (IsScaredAway() || EventGet(kEventShooting))
             {
@@ -159,7 +159,7 @@ void BirdPortal::VUpdate()
                 {
                     pThrowableIndicator->mBaseGameObjectFlags.Set(BaseGameObject::eDead);
                 }
-                SfxPlayMono(SoundEffect::Dove_13, 70, mSpriteScale);
+                SfxPlayMono(relive::SoundEffects::Dove, 70, mSpriteScale);
                 mBaseGameObjectFlags.Set(BaseGameObject::eDead);
             }
             break;
@@ -198,8 +198,8 @@ void BirdPortal::VUpdate()
                 pTerminator2->mAnim.Set_Animation_Data(AnimId::BirdPortal_TerminatorIdle, nullptr);
                 mTimer = sGnFrame + 12;
                 mState = PortalStates::ExpandTerminators_5;
-                mSfxPlaying = SfxPlayMono(SoundEffect::PortalOpening_58, 0, mSpriteScale);
-                SFX_Play_Pitch(SoundEffect::IngameTransition_84, 115, 300, mSpriteScale);
+                mSfxPlaying = SfxPlayMono(relive::SoundEffects::PortalOpening, 0, mSpriteScale);
+                SFX_Play_Pitch(relive::SoundEffects::IngameTransition, 115, 300, mSpriteScale);
             }
             break;
 
@@ -244,7 +244,7 @@ void BirdPortal::VUpdate()
 
                         if (direction == CameraPos::eCamCurrent_0)
                         {
-                            SFX_Play_Pitch(SoundEffect::BirdPortalSpark_41, 50, 2400, mSpriteScale);
+                            SFX_Play_Pitch(relive::SoundEffects::BirdPortalSpark, 50, 2400, mSpriteScale);
                         }
                     }
                     ResourceManager::FreeResource_49C330(ppLightRes);
@@ -305,7 +305,7 @@ void BirdPortal::VUpdate()
                         mYPos + FP_FromInteger(Math_RandomRange(-scale32, scale32)),
                         mSpriteScale);
 
-                    SfxPlayMono(SoundEffect::Dove_13, 70, mSpriteScale);
+                    SfxPlayMono(relive::SoundEffects::Dove, 70, mSpriteScale);
                     pDove_1->mSpriteScale = mSpriteScale;
                     pDove_1->AsJoin(sActiveHero->mXPos, FP_FromInteger(Math_RandomRange(-36, 4)) + sActiveHero->mYPos);
                     mReceivedDovesCount++;
@@ -363,7 +363,7 @@ void BirdPortal::VUpdate()
                 pTerminator2->mBaseGameObjectFlags.Set(BaseGameObject::eDead);
                 mTerminatorId1 = Guid{};
                 mTerminatorId2 = Guid{};
-                SFX_Play_Pitch(SoundEffect::MenuNavigation_52, 100, -1800, mSpriteScale);
+                SFX_Play_Pitch(relive::SoundEffects::MenuNavigation, 100, -1800, mSpriteScale);
             }
             break;
 
@@ -427,7 +427,7 @@ void BirdPortal::VUpdate()
             CreateTerminators();
 
             mState = PortalStates::PortalExit_CreateTerminators_18;
-            mSfxPlaying = SfxPlayMono(SoundEffect::PortalOpening_58, 0, mSpriteScale);
+            mSfxPlaying = SfxPlayMono(relive::SoundEffects::PortalOpening, 0, mSpriteScale);
         }
         break;
 
@@ -787,7 +787,7 @@ void BirdPortal::VGiveShrykull(s16 bPlaySound)
 
         if (bPlaySound)
         {
-            SFX_Play_Pitch(SoundEffect::MenuNavigation_52, 70, -1600, mSpriteScale);
+            SFX_Play_Pitch(relive::SoundEffects::MenuNavigation, 70, -1600, mSpriteScale);
         }
     }
 }

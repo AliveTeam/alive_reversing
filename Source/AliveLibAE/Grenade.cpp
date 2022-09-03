@@ -264,7 +264,7 @@ s16 Grenade::TimeToBlowUp()
     const s16 timer = field_122_explode_timer;
     if (!(timer % 16))
     {
-        SfxPlayMono(SoundEffect::GreenTick_2, 0);
+        SfxPlayMono(relive::SoundEffects::GreenTick, 0);
     }
 
     if (timer)
@@ -506,7 +506,7 @@ s16 Grenade::InTheAir(s16 blowUpOnFloorTouch)
             {
                 vol = 40;
             }
-            SfxPlayMono(SoundEffect::GrenadeBounce_68, vol);
+            SfxPlayMono(relive::SoundEffects::GrenadeBounce, vol);
             EventBroadcast(kEventNoise, this);
             EventBroadcast(kEventSuspiciousNoise, this);
             EventBroadcast(kEventSpeaking, this);
@@ -541,7 +541,7 @@ s16 Grenade::InTheAir(s16 blowUpOnFloorTouch)
                     vol = 40;
                 }
 
-                SfxPlayMono(SoundEffect::GrenadeBounce_68, vol);
+                SfxPlayMono(relive::SoundEffects::GrenadeBounce, vol);
                 ++field_124;
 
                 EventBroadcast(kEventNoise, this);
@@ -576,7 +576,7 @@ s16 Grenade::InTheAir(s16 blowUpOnFloorTouch)
                     {
                         vol = 40;
                     }
-                    SfxPlayMono(SoundEffect::GrenadeBounce_68, vol);
+                    SfxPlayMono(relive::SoundEffects::GrenadeBounce, vol);
                     EventBroadcast(kEventNoise, this);
                     EventBroadcast(kEventSuspiciousNoise, this);
                     EventBroadcast(kEventSpeaking, this);
@@ -595,7 +595,7 @@ s16 Grenade::InTheAir(s16 blowUpOnFloorTouch)
                     {
                         vol = 40;
                     }
-                    SfxPlayMono(SoundEffect::GrenadeBounce_68, vol);
+                    SfxPlayMono(relive::SoundEffects::GrenadeBounce, vol);
                     EventBroadcast(kEventNoise, this);
                     EventBroadcast(kEventSuspiciousNoise, this);
                     EventBroadcast(kEventSpeaking, this);
@@ -644,7 +644,7 @@ s16 Grenade::OnCollision_BounceOff(BaseGameObject* pHit)
 
     pHit2->VOnThrowableHit(this);
 
-    SfxPlayMono(SoundEffect::RockBounceOnMine_24, 0);
+    SfxPlayMono(relive::SoundEffects::RockBounceOnMine, 0);
     return 0;
 }
 

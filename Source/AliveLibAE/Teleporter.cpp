@@ -146,7 +146,7 @@ void Teleporter::VUpdate()
             field_30_state = TeleporterState::eIntoTeleporter_1;
             field_50_objId = Teleporter::Create_ElectrocuteEffect()->mBaseGameObjectId;
 
-            SFX_Play_Pitch(SoundEffect::Zap1_49, 60, -400);
+            SFX_Play_Pitch(relive::SoundEffects::Zap1, 60, -400);
             sControlledCharacter->mBaseAliveGameObjectFlags.Set(Flags_114::e114_Bit10_Teleporting);
 
             SpawnRingSparks(&field_34_mTlvData);
@@ -262,7 +262,7 @@ void Teleporter::VUpdate()
                 }
             }
 
-            SFX_Play_Pitch(SoundEffect::Zap1_49, 60, -300, tlvData.mScale != relive::reliveScale::eFull ? FP_FromDouble(0.5) : FP_FromInteger(1));
+            SFX_Play_Pitch(relive::SoundEffects::Zap1, 60, -300, tlvData.mScale != relive::reliveScale::eFull ? FP_FromDouble(0.5) : FP_FromInteger(1));
             SpawnRingSparks(&tlvData);
 
             if (tlvData.mScale != relive::reliveScale::eFull)

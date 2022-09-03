@@ -116,7 +116,7 @@ void Lever::VUpdate()
     {
         if (mAnim.mCurrentFrame == 3)
         {
-            SfxPlayMono(SoundEffect::LeverPull_63, 0);
+            SfxPlayMono(relive::SoundEffects::LeverPull, 0);
         }
 
         if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
@@ -131,7 +131,7 @@ void Lever::VUpdate()
                 || gMap.mCurrentLevel == EReliveLevelIds::eBrewery
                 || gMap.mCurrentLevel == EReliveLevelIds::eBrewery_Ender)
             {
-                SFX_Play_Pitch(SoundEffect::IndustrialTrigger_80, 30, 400);
+                SFX_Play_Pitch(relive::SoundEffects::IndustrialTrigger, 30, 400);
             }
 
             field_F8_state = LeverState::eFinished_2;
@@ -174,35 +174,35 @@ void Lever::VUpdate()
                     switch (field_104_on_sound)
                     {
                         case relive::Path_Lever::LeverSoundType::eWell:
-                            SFX_Play_Stereo(SoundEffect::WellExit_20, 80 * volLeft + 25, 80 * volRight + 25);
+                            SFX_Play_Stereo(relive::SoundEffects::WellExit, 80 * volLeft + 25, 80 * volRight + 25);
                             EventBroadcast(kEventNoise, this);
                             EventBroadcast(kEventSuspiciousNoise, this);
                             break;
 
                         case relive::Path_Lever::LeverSoundType::eSwitchBellHammer:
-                            SFX_Play_Stereo(SoundEffect::SwitchUnknownTrigger_11, 100 * volLeft + 25, 100 * volRight + 25);
+                            SFX_Play_Stereo(relive::SoundEffects::SwitchUnknownTrigger, 100 * volLeft + 25, 100 * volRight + 25);
                             EventBroadcast(kEventNoise, this);
                             EventBroadcast(kEventSuspiciousNoise, this);
                             break;
 
                         case relive::Path_Lever::LeverSoundType::eDoor:
-                            SFX_Play_Stereo(SoundEffect::DoorEffect_57, 75 * volLeft + 15, 75 * volRight + 15);
+                            SFX_Play_Stereo(relive::SoundEffects::DoorEffect, 75 * volLeft + 15, 75 * volRight + 15);
                             EventBroadcast(kEventNoise, this);
                             EventBroadcast(kEventSuspiciousNoise, this);
                             break;
 
                         case relive::Path_Lever::LeverSoundType::eElectricWall:
-                            SFX_Play_Stereo(SoundEffect::Zap1_49, 35 * volLeft + 25, 35 * volRight + 25);
+                            SFX_Play_Stereo(relive::SoundEffects::Zap1, 35 * volLeft + 25, 35 * volRight + 25);
                             EventBroadcast(kEventNoise, this);
                             EventBroadcast(kEventSuspiciousNoise, this);
                             break;
 
                         case relive::Path_Lever::LeverSoundType::eSecurityOrb:
-                            SFX_Play_Stereo(SoundEffect::SecurityOrb_48, 35 * volLeft + 25, 35 * volRight + 25);
+                            SFX_Play_Stereo(relive::SoundEffects::SecurityOrb, 35 * volLeft + 25, 35 * volRight + 25);
                             return;
 
                         case relive::Path_Lever::LeverSoundType::eLift:
-                            SFX_Play_Stereo(SoundEffect::LiftStop_30, 35 * volLeft + 25, 35 * volRight + 25);
+                            SFX_Play_Stereo(relive::SoundEffects::LiftStop, 35 * volLeft + 25, 35 * volRight + 25);
                             EventBroadcast(kEventNoise, this);
                             EventBroadcast(kEventSuspiciousNoise, this);
                             break;
@@ -216,35 +216,35 @@ void Lever::VUpdate()
                     switch (field_106_off_sound)
                     {
                         case relive::Path_Lever::LeverSoundType::eWell:
-                            SFX_Play_Stereo(SoundEffect::WellExit_20, 80 * volLeft + 25, 80 * volRight + 25);
+                            SFX_Play_Stereo(relive::SoundEffects::WellExit, 80 * volLeft + 25, 80 * volRight + 25);
                             EventBroadcast(kEventNoise, this);
                             EventBroadcast(kEventSuspiciousNoise, this);
                             break;
 
                         case relive::Path_Lever::LeverSoundType::eSwitchBellHammer:
-                            SFX_Play_Stereo(SoundEffect::SwitchUnknownTrigger_11, 110 * volLeft + 25, 110 * volRight + 25);
+                            SFX_Play_Stereo(relive::SoundEffects::SwitchUnknownTrigger, 110 * volLeft + 25, 110 * volRight + 25);
                             EventBroadcast(kEventNoise, this);
                             EventBroadcast(kEventSuspiciousNoise, this);
                             break;
 
                         case relive::Path_Lever::LeverSoundType::eDoor:
-                            SFX_Play_Stereo(SoundEffect::DoorEffect_57, 75 * volLeft + 15, 75 * volRight + 15);
+                            SFX_Play_Stereo(relive::SoundEffects::DoorEffect, 75 * volLeft + 15, 75 * volRight + 15);
                             EventBroadcast(kEventNoise, this);
                             EventBroadcast(kEventSuspiciousNoise, this);
                             break;
 
                         case relive::Path_Lever::LeverSoundType::eElectricWall:
-                            SFX_Play_Stereo(SoundEffect::Zap1_49, 80 * volLeft + 25, 80 * volRight + 25);
+                            SFX_Play_Stereo(relive::SoundEffects::Zap1, 80 * volLeft + 25, 80 * volRight + 25);
                             EventBroadcast(kEventNoise, this);
                             EventBroadcast(kEventSuspiciousNoise, this);
                             break;
 
                         case relive::Path_Lever::LeverSoundType::eSecurityOrb:
-                            SFX_Play_Stereo(SoundEffect::SecurityOrb_48, 35 * volLeft + 75, 35 * volRight + 75);
+                            SFX_Play_Stereo(relive::SoundEffects::SecurityOrb, 35 * volLeft + 75, 35 * volRight + 75);
                             break;
 
                         case relive::Path_Lever::LeverSoundType::eLift:
-                            SFX_Play_Stereo(SoundEffect::LiftStop_30, 35 * volLeft + 25, 35 * volRight + 25);
+                            SFX_Play_Stereo(relive::SoundEffects::LiftStop, 35 * volLeft + 25, 35 * volRight + 25);
                             EventBroadcast(kEventNoise, this);
                             EventBroadcast(kEventSuspiciousNoise, this);
                             break;

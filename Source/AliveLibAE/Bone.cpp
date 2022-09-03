@@ -203,7 +203,7 @@ s16 Bone::OnCollision(BaseAnimatedWithPhysicsGameObject* pObj)
     pObj->VOnThrowableHit(this);
 
     mHitObject |= 1u;
-    SfxPlayMono(SoundEffect::RockBounceOnMine_24, 80);
+    SfxPlayMono(relive::SoundEffects::RockBounceOnMine, 80);
 
     if (pObj->Type() == ReliveTypes::eMine || pObj->Type() == ReliveTypes::eUXB)
     {
@@ -341,7 +341,7 @@ void Bone::InTheAir()
                     {
                         vol = 40;
                     }
-                    SfxPlayMono(SoundEffect::RockBounce_26, vol);
+                    SfxPlayMono(relive::SoundEffects::RockBounce, vol);
                     EventBroadcast(kEventNoise, this);
                     EventBroadcast(kEventSuspiciousNoise, this);
                     mVolumeModifier++;
@@ -359,7 +359,7 @@ void Bone::InTheAir()
                     {
                         vol = 40;
                     }
-                    SfxPlayMono(SoundEffect::RockBounce_26, vol);
+                    SfxPlayMono(relive::SoundEffects::RockBounce, vol);
                     EventBroadcast(kEventNoise, this);
                     EventBroadcast(kEventSuspiciousNoise, this);
                 }
@@ -383,7 +383,7 @@ void Bone::InTheAir()
                     {
                         vol = 40;
                     }
-                    SfxPlayMono(SoundEffect::RockBounce_26, vol);
+                    SfxPlayMono(relive::SoundEffects::RockBounce, vol);
                     EventBroadcast(kEventNoise, this);
                     EventBroadcast(kEventSuspiciousNoise, this);
                 }
@@ -402,7 +402,7 @@ void Bone::InTheAir()
                     {
                         vol = 40;
                     }
-                    SfxPlayMono(SoundEffect::RockBounce_26, vol);
+                    SfxPlayMono(relive::SoundEffects::RockBounce, vol);
                     EventBroadcast(kEventNoise, this);
                     EventBroadcast(kEventSuspiciousNoise, this);
                 }
@@ -636,7 +636,7 @@ void BoneBag::VUpdate()
             {
                 mAllowSound = false;
                 mForcePlayWobbleSound = false;
-                SFX_Play_Pitch(SoundEffect::SackWobble_29, 24, Math_RandomRange(-2400, -2200));
+                SFX_Play_Pitch(relive::SoundEffects::SackWobble, 24, Math_RandomRange(-2400, -2200));
             }
         }
     }
@@ -703,7 +703,7 @@ void BoneBag::VUpdate()
 
         pBone->VThrow(mVelX, mVelY);
 
-        SfxPlayMono(SoundEffect::SackHit_25, 0);
+        SfxPlayMono(relive::SoundEffects::SackHit, 0);
         Environment_SFX_457A40(EnvironmentSfx::eDeathNoise_7, 0, 0x7FFF, 0);
 
         if (sActiveHero->mCurrentMotion == eAbeMotions::Motion_31_RunJumpMid_452C10)

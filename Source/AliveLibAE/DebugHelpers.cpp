@@ -263,7 +263,7 @@ void Command_Menu(const std::vector<std::string>& args)
 
 void Command_Midi1(const std::vector<std::string>& args)
 {
-    const SoundEffect arg1 = static_cast<SoundEffect>(std::stoi(args[0]));
+    const relive::SoundEffects arg1 = static_cast<relive::SoundEffects>(std::stoi(args[0]));
 
     SfxPlayMono(arg1, 0);
 
@@ -349,7 +349,7 @@ void Command_Ring(const std::vector<std::string>& args)
         FP_FromInteger((rect.y + rect.h) / 2),
         static_cast<RingTypes>(ringType), sActiveHero->mSpriteScale);
 
-    SFX_Play_Pitch(SoundEffect::PossessEffect_17, 25, 2650);
+    SFX_Play_Pitch(relive::SoundEffects::PossessEffect, 25, 2650);
 }
 
 struct DebugKeyBinds final

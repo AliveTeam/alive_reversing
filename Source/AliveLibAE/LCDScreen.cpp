@@ -302,7 +302,7 @@ void LCDScreen::VUpdate()
         {
             if (field_2A8_play_sound_toggle)
             {
-                SfxPlayMono(SoundEffect::LCDScreen_73, 0);
+                SfxPlayMono(relive::SoundEffects::LCDScreen, 0);
             }
         }
     }

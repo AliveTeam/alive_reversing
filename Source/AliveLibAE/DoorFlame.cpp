@@ -436,7 +436,7 @@ void DoorFlame::VUpdate()
             if (!pFlameControllingTheSound_5C2C6C)
             {
                 pFlameControllingTheSound_5C2C6C = this;
-                mSoundsMask = SfxPlayMono(SoundEffect::Fire_59, 40);
+                mSoundsMask = SfxPlayMono(relive::SoundEffects::Fire, 40);
             }
 
             if (--mRandom <= 0)

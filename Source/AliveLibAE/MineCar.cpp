@@ -423,7 +423,7 @@ void MineCar::Stop()
         field_1D0_sound_channels_mask = 0;
     }
 
-    SfxPlayMono(SoundEffect::MinecarStop_101, 127, mSpriteScale);
+    SfxPlayMono(relive::SoundEffects::MinecarStop, 127, mSpriteScale);
     
     mAnim.Set_Animation_Data(AnimId::Mine_Car_Closed, nullptr);
     field_124_anim.Set_Animation_Data(AnimId::Mine_Car_Tread_Idle, nullptr);
@@ -442,7 +442,7 @@ void MineCar::Move(AnimId animId, FP velX, FP velY, InputCommands::Enum input, M
 
     if (!field_1D0_sound_channels_mask)
     {
-        field_1D0_sound_channels_mask = SfxPlayMono(SoundEffect::MinecarMovement_100, 127, mSpriteScale);
+        field_1D0_sound_channels_mask = SfxPlayMono(relive::SoundEffects::MinecarMovement, 127, mSpriteScale);
     }
 
     field_124_anim.Set_Animation_Data(AnimId::Mine_Car_Tread_Move_A, nullptr);
@@ -945,7 +945,7 @@ void MineCar::State_0_ParkedWithoutAbe()
             field_124_anim.mRenderLayer = Layer::eLayer_RollingBallBombMineCar_Half_16;
         }
 
-        SFX_Play_Pitch(SoundEffect::DoorEffect_57, 100, 500, mSpriteScale);
+        SFX_Play_Pitch(relive::SoundEffects::DoorEffect, 100, 500, mSpriteScale);
     }
 }
 
@@ -975,7 +975,7 @@ void MineCar::State_1_ParkedWithAbe()
 
         sActiveHero->VCheckCollisionLineStillValid(10);
 
-        SFX_Play_Pitch(SoundEffect::DoorEffect_57, 100, 500, mSpriteScale);
+        SFX_Play_Pitch(relive::SoundEffects::DoorEffect, 100, 500, mSpriteScale);
 
         if (mSpriteScale == FP_FromDouble(0.5))
         {
@@ -1080,7 +1080,7 @@ void MineCar::State_1_ParkedWithAbe()
             {
                 if (field_1BC_turn_direction != MineCarDirs::eLeft_2 && !(static_cast<s32>(sGnFrame) % 6))
                 {
-                    SfxPlayMono(SoundEffect::MinecarStuck_102, 127, mSpriteScale);
+                    SfxPlayMono(relive::SoundEffects::MinecarStuck, 127, mSpriteScale);
                 }
             }
         }
@@ -1162,7 +1162,7 @@ void MineCar::State_1_ParkedWithAbe()
         {
             if (field_1BC_turn_direction != MineCarDirs::eRight_1 && !(static_cast<s32>(sGnFrame) % 6))
             {
-                SfxPlayMono(SoundEffect::MinecarStuck_102, 127, mSpriteScale);
+                SfxPlayMono(relive::SoundEffects::MinecarStuck, 127, mSpriteScale);
             }
         }
     }
@@ -1298,7 +1298,7 @@ void MineCar::HandleUpDown()
             {
                 if (!(static_cast<s32>(sGnFrame) % 6))
                 {
-                    SfxPlayMono(SoundEffect::MinecarStuck_102, 127, mSpriteScale);
+                    SfxPlayMono(relive::SoundEffects::MinecarStuck, 127, mSpriteScale);
                 }
             }
         }
@@ -1376,7 +1376,7 @@ void MineCar::HandleUpDown()
         {
             if (field_1BC_turn_direction != MineCarDirs::eUp_3 && !(static_cast<s32>(sGnFrame) % 6))
             {
-                SfxPlayMono(SoundEffect::MinecarStuck_102, 127, mSpriteScale);
+                SfxPlayMono(relive::SoundEffects::MinecarStuck, 127, mSpriteScale);
             }
         }
     }
@@ -1409,7 +1409,7 @@ void MineCar::State_2_Moving()
     {
         // Play the mine car moving sound
         //
-        field_1D0_sound_channels_mask = SfxPlayMono(SoundEffect::MinecarMovement_100, 127, mSpriteScale);
+        field_1D0_sound_channels_mask = SfxPlayMono(relive::SoundEffects::MinecarMovement, 127, mSpriteScale);
     }
 
     if (FollowDirection() && !field_1C4_velx_index)
@@ -1578,7 +1578,7 @@ void MineCar::State_3_Falling()
                 9
             );
 
-            SfxPlayMono(SoundEffect::FallingItemHit_47, 80, mSpriteScale);
+            SfxPlayMono(relive::SoundEffects::FallingItemHit, 80, mSpriteScale);
         }
     }
 
@@ -1600,7 +1600,7 @@ void MineCar::State_3_Falling()
                 9
             );
 
-            SfxPlayMono(SoundEffect::FallingItemHit_47, 80, mSpriteScale);
+            SfxPlayMono(relive::SoundEffects::FallingItemHit, 80, mSpriteScale);
         }
     }
 
@@ -1625,8 +1625,8 @@ void MineCar::State_3_Falling()
 
         if (field_1C2_falling_counter > 4)
         {
-            SFX_Play_Pitch(SoundEffect::MinecarStop_101, 127, 0, mSpriteScale);
-            SFX_Play_Pitch(SoundEffect::FallingItemHit_47, 127, 0, mSpriteScale);
+            SFX_Play_Pitch(relive::SoundEffects::MinecarStop, 127, 0, mSpriteScale);
+            SFX_Play_Pitch(relive::SoundEffects::FallingItemHit, 127, 0, mSpriteScale);
 
             relive_new ScreenShake(FALSE, FALSE);
         }
@@ -1635,8 +1635,8 @@ void MineCar::State_3_Falling()
 
         if (mVelY > -FP_FromInteger(1))
         {
-            SFX_Play_Pitch(SoundEffect::MinecarStop_101, 120, 0, mSpriteScale);
-            SFX_Play_Pitch(SoundEffect::FallingItemHit_47, 70, -800, mSpriteScale);
+            SFX_Play_Pitch(relive::SoundEffects::MinecarStop, 120, 0, mSpriteScale);
+            SFX_Play_Pitch(relive::SoundEffects::FallingItemHit, 70, -800, mSpriteScale);
 
             mVelY = FP_FromInteger(0);
             BaseAliveGameObjectCollisionLine = pPathLine;

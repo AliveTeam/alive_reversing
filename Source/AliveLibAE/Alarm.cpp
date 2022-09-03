@@ -130,7 +130,7 @@ void Alarm::VUpdate()
             }
 
             mAlarmState = States::eEnabling_2;
-            SfxPlayMono(SoundEffect::SecurityDoorDeny_38, 0);
+            SfxPlayMono(relive::SoundEffects::SecurityDoorDeny, 0);
             mAlarmDurationTimer = sGnFrame + mAlarmDuration;
             mEffectBaseRed = mAlarmRed;
             break;
@@ -149,8 +149,8 @@ void Alarm::VUpdate()
                 }
 
                 mAlarmState = States::eEnabling_2;
-                SfxPlayMono(SoundEffect::SecurityDoorDeny_38, 0);
-
+                SfxPlayMono(relive::SoundEffects::SecurityDoorDeny, 0);
+                
                 if (!mAlarmSwitchId)
                 {
                     mEffectBaseRed = mAlarmRed;
@@ -174,7 +174,7 @@ void Alarm::VUpdate()
             mAlarmRed = 100;
             mAlarmState = States::eOnFlash_3;
             mAlarmPauseTimer = sGnFrame + 15;
-            SfxPlayMono(SoundEffect::SecurityDoorDeny_38, 0);
+            SfxPlayMono(relive::SoundEffects::SecurityDoorDeny, 0);
             mEffectBaseRed = mAlarmRed;
             break;
 
@@ -214,7 +214,7 @@ void Alarm::VUpdate()
                 if (static_cast<s32>(sGnFrame) > mAlarmPauseTimer)
                 {
                     mAlarmState = States::eEnabling_2;
-                    SfxPlayMono(SoundEffect::SecurityDoorDeny_38, 0);
+                    SfxPlayMono(relive::SoundEffects::SecurityDoorDeny, 0);
                 }
                 mEffectBaseRed = mAlarmRed;
             }

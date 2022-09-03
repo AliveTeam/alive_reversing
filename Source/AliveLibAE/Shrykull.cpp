@@ -99,9 +99,9 @@ void Shrykull::VUpdate()
         case State::eTransform_0:
             if (mAnim.mCurrentFrame == 0)
             {
-                SFX_Play_Pitch(SoundEffect::Shrykull1_85, 127, -2000);
-                SFX_Play_Pitch(SoundEffect::Shrykull2_86, 127, 0);
-                SfxPlayMono(SoundEffect::IngameTransition_84, 127);
+                SFX_Play_Pitch(relive::SoundEffects::Shrykull1, 127, -2000);
+                SFX_Play_Pitch(relive::SoundEffects::Shrykull2, 127, 0);
+                SfxPlayMono(relive::SoundEffects::IngameTransition, 127);
             }
 
             if (mAnim.mFlags.Get(AnimFlags::eBit12_ForwardLoopCompleted))
@@ -116,11 +116,11 @@ void Shrykull::VUpdate()
             {
                 if (Math_NextRandom() >= 128u)
                 {
-                    SFX_Play_Pitch(SoundEffect::Shrykull2_86, 127, 0);
+                    SFX_Play_Pitch(relive::SoundEffects::Shrykull2, 127, 0);
                 }
                 else
                 {
-                    SFX_Play_Pitch(SoundEffect::Shrykull1_85, 127, 0);
+                    SFX_Play_Pitch(relive::SoundEffects::Shrykull1, 127, 0);
                 }
             }
 
@@ -188,8 +188,8 @@ void Shrykull::VUpdate()
 
                     pObj->mBaseAliveGameObjectFlags.Set(Flags_114::e114_Bit5_ZappedByShrykull);
 
-                    SFX_Play_Pitch(SoundEffect::ShrykullZap_18, 100, 2000);
-                    SfxPlayMono(SoundEffect::Zap1_49, 0);
+                    SFX_Play_Pitch(relive::SoundEffects::ShrykullZap, 100, 2000);
+                    SfxPlayMono(relive::SoundEffects::Zap1, 0);
 
                     field_118_state = State::eKillTargets_4;
                     field_11C_timer = sGnFrame + 12;
@@ -211,17 +211,17 @@ void Shrykull::VUpdate()
             {
                 if (Math_NextRandom() >= 0x80u)
                 {
-                    SFX_Play_Pitch(SoundEffect::Shrykull2_86, 127, -512);
+                    SFX_Play_Pitch(relive::SoundEffects::Shrykull2, 127, -512);
                 }
                 else
                 {
-                    SFX_Play_Pitch(SoundEffect::Shrykull1_85, 127, -512);
+                    SFX_Play_Pitch(relive::SoundEffects::Shrykull1, 127, -512);
                 }
             }
             else if (mAnim.mCurrentFrame == 20)
             {
-                SFX_Play_Pitch(SoundEffect::Shrykull1_85, 127, -2000);
-                SFX_Play_Pitch(SoundEffect::Shrykull2_86, 127, 0);
+                SFX_Play_Pitch(relive::SoundEffects::Shrykull1, 127, -2000);
+                SFX_Play_Pitch(relive::SoundEffects::Shrykull2, 127, 0);
             }
 
             if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
@@ -244,11 +244,11 @@ void Shrykull::VUpdate()
             {
                 if (Math_NextRandom() >= 128u)
                 {
-                    SFX_Play_Pitch(SoundEffect::Shrykull2_86, 127, 0);
+                    SFX_Play_Pitch(relive::SoundEffects::Shrykull2, 127, 0);
                 }
                 else
                 {
-                    SFX_Play_Pitch(SoundEffect::Shrykull1_85, 127, 0);
+                    SFX_Play_Pitch(relive::SoundEffects::Shrykull1, 127, 0);
                 }
             }
 

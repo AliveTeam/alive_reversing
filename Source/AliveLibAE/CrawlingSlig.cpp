@@ -1090,7 +1090,7 @@ s16 CrawlingSlig::Brain_3_Possessed()
                 return field_208_brain_sub_state;
             }
             field_1AC_timer = sGnFrame + 30;
-            SfxPlayMono(SoundEffect::PossessEffect_17, 0);
+            SfxPlayMono(relive::SoundEffects::PossessEffect, 0);
             Set_AnimAndMotion(CrawlingSligMotion::Motion_12_Shaking, TRUE);
             return Brain_2_Possessed::eBrain3_Unpossessing_2;
 
@@ -1219,8 +1219,8 @@ s16 CrawlingSlig::Brain_4_GetKilled()
                 128u,
                 128u);
 
-            SfxPlayMono(SoundEffect::KillEffect_64, 128, mSpriteScale);
-            SfxPlayMono(SoundEffect::FallingItemHit_47, 90, mSpriteScale);
+            SfxPlayMono(relive::SoundEffects::KillEffect, 128, mSpriteScale);
+            SfxPlayMono(relive::SoundEffects::FallingItemHit, 90, mSpriteScale);
 
             mAnim.mFlags.Clear(AnimFlags::eBit3_Render);
             mAnim.mFlags.Clear(AnimFlags::eBit2_Animate);
@@ -1321,7 +1321,7 @@ void CrawlingSlig::Motion_1_UsingButton()
     {
         if (mAnim.mCurrentFrame == 7)
         {
-            SfxPlayMono(SoundEffect::CrawlingSligTransformStart_93, 0);
+            SfxPlayMono(relive::SoundEffects::CrawlingSligTransformStart, 0);
         }
 
         if (static_cast<s32>(sGnFrame) == field_1AC_timer - 1)
@@ -1337,7 +1337,7 @@ void CrawlingSlig::Motion_1_UsingButton()
             {
                 // Transform to a walking slig
 
-                SfxPlayMono(SoundEffect::SligSpawn_114, 0);
+                SfxPlayMono(relive::SoundEffects::SligSpawn, 0);
 
                 auto pWalkingSlig = relive_new Slig(static_cast<relive::Path_Slig*>(field_1E4_pPantsOrWingsTlv), sPathInfo->TLVInfo_From_TLVPtr(field_1E4_pPantsOrWingsTlv));
                 if (pWalkingSlig)
@@ -1366,7 +1366,7 @@ void CrawlingSlig::Motion_1_UsingButton()
             {
                 // Transform to a flying slig
 
-                SfxPlayMono(SoundEffect::FlyingSligSpawn_113, 0);
+                SfxPlayMono(relive::SoundEffects::FlyingSligSpawn, 0);
 
                 auto pFlyingSlig = relive_new FlyingSlig(static_cast<relive::Path_FlyingSlig*>(field_1E4_pPantsOrWingsTlv), sPathInfo->TLVInfo_From_TLVPtr(field_1E4_pPantsOrWingsTlv));
                 if (pFlyingSlig)

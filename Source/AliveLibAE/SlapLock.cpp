@@ -241,7 +241,7 @@ void SlapLock::VUpdate()
                 mAnim.Set_Animation_Data(AnimId::SlapLock_Shaking, nullptr);
 
                 mState = SlapLockStates::eIdle_1;
-                SfxPlayMono(SoundEffect::SpiritLockShake_105, 0);
+                SfxPlayMono(relive::SoundEffects::SpiritLockShake, 0);
                 return;
             }
             case SlapLockStates::eIdle_1:
@@ -464,7 +464,7 @@ s16 SlapLock::VTakeDamage(BaseGameObject* pFrom)
 
     mState = SlapLockStates::eSlapped_2;
     SwitchStates_Do_Operation(mSlapLockTlv->mSlapOutputSwitchId, relive::reliveSwitchOp::eToggle);
-    SfxPlayMono(SoundEffect::SpiritLockBreak_106, 0, mSpriteScale);
+    SfxPlayMono(relive::SoundEffects::SpiritLockBreak, 0, mSpriteScale);
     EventBroadcast(kEventLoudNoise, this);
 
     relive_new ParticleBurst(

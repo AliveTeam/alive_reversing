@@ -259,8 +259,8 @@ void SlamDoor::VUpdate()
                 {
                     mBaseGameObjectFlags.Set(BaseGameObject::eDead);
                 }
-                SFX_Play_Pitch(SoundEffect::DoorEffect_57, 100, 900);
-                SFX_Play_Pitch(SoundEffect::DoorEffect_57, 100, -100);
+                SFX_Play_Pitch(relive::SoundEffects::DoorEffect, 100, 900);
+                SFX_Play_Pitch(relive::SoundEffects::DoorEffect, 100, -100);
                 mSlamDoorFlags.Set(SlamDoorFlags::eLastFrame);
             }
         }
@@ -273,8 +273,8 @@ void SlamDoor::VUpdate()
             if (!mSlamDoorFlags.Get(SlamDoorFlags::eLastFrame))
             {
                 mSlamDoorFlags.Set(SlamDoorFlags::eLastFrame);
-                SFX_Play_Pitch(SoundEffect::DoorEffect_57, 100, 900);
-                SFX_Play_Pitch(SoundEffect::DoorEffect_57, 100, -100);
+                SFX_Play_Pitch(relive::SoundEffects::DoorEffect, 100, 900);
+                SFX_Play_Pitch(relive::SoundEffects::DoorEffect, 100, -100);
             }
         }
     }

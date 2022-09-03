@@ -115,7 +115,7 @@ void FlyingSligSpawner::VUpdate()
 
             field_24_spawned_slig_id = pNewSlig->mBaseGameObjectId;
             field_3C_bSpawned = TRUE;
-            SfxPlayMono(SoundEffect::FlyingSligSpawn_113, 0);
+            SfxPlayMono(relive::SoundEffects::FlyingSligSpawn, 0);
         }
     }
 }

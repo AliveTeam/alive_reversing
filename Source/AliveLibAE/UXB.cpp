@@ -53,7 +53,7 @@ void UXB::InitBlinkAnim(Animation* pAnimation)
     }
 }
 
-void UXB::PlaySFX(SoundEffect sfxIdx)
+void UXB::PlaySFX(relive::SoundEffects sfxIdx)
 {
     if (gMap.Is_Point_In_Current_Camera(
             this->mCurrentLevel,
@@ -156,7 +156,7 @@ UXB::UXB(relive::Path_UXB* tlv_params, const Guid& tlvId)
             mFlashAnim.LoadPal(ResourceManager::GetLoadedResource(ResourceManager::Resource_Palt, AEResourceID::kGrenflshResID, 0, 0), 0);
             mIsRed = 0;
             mFlashAnim.Set_Animation_Data(AnimId::Bomb_RedGreenTick, nullptr);
-            PlaySFX(SoundEffect::GreenTick_2);
+            PlaySFX(relive::SoundEffects::GreenTick);
 
             mAnim.Set_Animation_Data(AnimId::UXB_Disabled, nullptr);
             mCurrentState = UXBState::eDeactivated;
@@ -249,7 +249,7 @@ void UXB::VOnPickUpOrSlapped()
             else
             {
                 mFlashAnim.Set_Animation_Data(AnimId::Bomb_RedGreenTick, nullptr);
-                PlaySFX(SoundEffect::GreenTick_2);
+                PlaySFX(relive::SoundEffects::GreenTick);
 
                 mAnim.Set_Animation_Data(AnimId::UXB_Toggle, nullptr);
                 mCurrentState = UXBState::eDeactivated;
@@ -262,7 +262,7 @@ void UXB::VOnPickUpOrSlapped()
             mCurrentState = UXBState::eDelay;
             SetUpdateDelay(6);
             mAnim.Set_Animation_Data(AnimId::UXB_Active, nullptr);
-            PlaySFX(SoundEffect::RedTick_3);
+            PlaySFX(relive::SoundEffects::RedTick);
         }
     }
 }
@@ -395,11 +395,11 @@ void UXB::VUpdate()
 
                 if (mIsRed)
                 {
-                    PlaySFX(SoundEffect::RedTick_3);
+                    PlaySFX(relive::SoundEffects::RedTick);
                 }
                 else
                 {
-                    PlaySFX(SoundEffect::GreenTick_2);
+                    PlaySFX(relive::SoundEffects::GreenTick);
                 }
 
                 mCurrentState = UXBState::eDelay;

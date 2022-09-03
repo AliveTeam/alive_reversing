@@ -136,7 +136,7 @@ void MovingBomb::BlowUp()
     field_118_state = States::eBlowingUp_6;
     mVelY = FP_FromInteger(0);
     field_120_timer = sGnFrame + 1;
-    SfxPlayMono(SoundEffect::GreenTick_2, 100, mSpriteScale);
+    SfxPlayMono(relive::SoundEffects::GreenTick, 100, mSpriteScale);
 }
 
 void MovingBomb::VRender(PrimHeader** ot)
@@ -289,11 +289,11 @@ void MovingBomb::VUpdate()
                 {
                     if (field_118_state == States::eWaitABit_4)
                     {
-                        field_130_sound_channels = SfxPlayMono(SoundEffect::SecurityOrb_48, 55, mSpriteScale);
+                        field_130_sound_channels = SfxPlayMono(relive::SoundEffects::SecurityOrb, 55, mSpriteScale);
                     }
                     else
                     {
-                        field_130_sound_channels = SfxPlayMono(SoundEffect::SecurityOrb_48, 80, mSpriteScale);
+                        field_130_sound_channels = SfxPlayMono(relive::SoundEffects::SecurityOrb, 80, mSpriteScale);
                     }
                     gMovingBomb_5C300C = this;
                 }
@@ -306,7 +306,7 @@ void MovingBomb::VUpdate()
                     }
                     else
                     {
-                        field_130_sound_channels = SfxPlayMono(SoundEffect::SecurityOrb_48, 12, mSpriteScale);
+                        field_130_sound_channels = SfxPlayMono(relive::SoundEffects::SecurityOrb, 12, mSpriteScale);
                         gMovingBomb_5C300C = this;
                     }
                 }
@@ -397,7 +397,7 @@ void MovingBomb::VUpdate()
         case States::eBlowingUp_6:
             if (field_120_timer <= static_cast<s32>(sGnFrame))
             {
-                SfxPlayMono(SoundEffect::GreenTick_2, 100, mSpriteScale);
+                SfxPlayMono(relive::SoundEffects::GreenTick, 100, mSpriteScale);
 
                 mHealth = FP_FromInteger(0);
 
