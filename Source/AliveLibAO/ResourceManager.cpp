@@ -48,7 +48,7 @@ void Odd_Sleep_48DD90(u32 /*dwMilliseconds*/)
 ALIVE_VAR(1, 0x507714, s32, gFilesPending_507714, 0);
 ALIVE_VAR(1, 0x50768C, s16, bLoadingAFile_50768C, 0);
 
-class LoadingFile final : public BaseGameObject
+class LoadingFile final : public ::BaseGameObject
 {
 public:
     LoadingFile(s32 pos, s32 size, TLoaderFn pFn, void* fnArg, Camera* pArray)

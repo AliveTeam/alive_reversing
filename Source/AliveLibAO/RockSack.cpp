@@ -30,7 +30,7 @@ void RockSack::VUpdate()
             {
                 field_114_can_play_wobble_sound = 0;
                 field_116_force_wobble_sound = 0;
-                SFX_Play_Pitch(SoundEffect::SackWobble_34, 24, Math_RandomRange(-2400, -2200), 0);
+                SFX_Play_Pitch(relive::SoundEffects::SackWobble, 24, Math_RandomRange(-2400, -2200), 0);
             }
         }
     }
@@ -84,7 +84,7 @@ void RockSack::VUpdate()
                     pRock->VThrow(field_118_x_vel, field_11C_y_vel);
                 }
 
-                SfxPlayMono(SoundEffect::SackHit_30, 0, 0);
+                SfxPlayMono(relive::SoundEffects::SackHit, 0, 0);
                 Environment_SFX_42A220(EnvironmentSfx::eDeathNoise_7, 0, 0x7FFF, 0);
             }
 

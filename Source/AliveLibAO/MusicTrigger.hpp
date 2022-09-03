@@ -35,7 +35,7 @@ struct Path_MusicTrigger final : public Path_TLV
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_MusicTrigger, 0x20);
 
-class MusicTrigger final : public BaseGameObject
+class MusicTrigger final : public ::BaseGameObject
 {
 public:
     MusicTrigger(relive::Path_MusicTrigger::MusicTriggerMusicType type, relive::Path_MusicTrigger::TriggeredBy triggeredBy, s32 switchId, s32 delay);

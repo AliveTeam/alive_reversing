@@ -690,7 +690,7 @@ void Slog::ToJump()
     }
 }
 
-SfxDefinition sSlogSfx_4CFE40[20] = {
+const relive::SfxDefinition sSlogSfx_4CFE40[20] = {
     {0, 12, 38, 30, 0, 0, 0},
     {0, 12, 39, 30, 0, 0, 0},
     {0, 12, 40, 100, -256, 0, 0},
@@ -717,7 +717,7 @@ void Slog::Sfx(s32 soundId)
     s32 volumeLeft = 0;
     s32 volumeRight = 0;
 
-    const SfxDefinition& sndDef = sSlogSfx_4CFE40[static_cast<s32>(soundId)];
+    const relive::SfxDefinition& sndDef = sSlogSfx_4CFE40[static_cast<s32>(soundId)];
     const auto defaultSndIdxVol = sndDef.field_C_default_volume;
     if (mSpriteScale == FP_FromInteger(1))
     {
@@ -766,7 +766,7 @@ void Slog::Sfx(s32 soundId)
         default:
             return;
     }
-    SFX_SfxDefinition_Play_477330(&sndDef,
+    SFX_SfxDefinition_Play_477330(sndDef,
                                   static_cast<s16>(volumeLeft),
                                   static_cast<s16>(volumeRight),
                                   static_cast<s16>(sndDef.field_E_pitch_min),
@@ -1699,7 +1699,7 @@ void Slog::Motion_21_Eating_475900()
     {
         if (mAnim.mCurrentFrame == 3 && !mAnim.mFlags.Get(AnimFlags::eBit19_LoopBackwards))
         {
-            SfxPlayMono(static_cast<SoundEffect>(Math_RandomRange(SoundEffect::Eating1_79, SoundEffect::Eating2_80)), 100, 0);
+            SfxPlayMono(relive::RandomSfx(relive::SoundEffects::Eating1, relive::SoundEffects::Eating2), 100, 0);
             const FP bloodYPos = mYPos - (FP_FromInteger(4) * mSpriteScale);
             const FP bloodXPos = ((mAnim.mFlags.Get(AnimFlags::eBit5_FlipX)) != 0 ? -FP_FromInteger(25) : FP_FromInteger(25) * mSpriteScale);
             relive_new Blood(

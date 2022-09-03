@@ -55,7 +55,7 @@ void SlogSpawner::VUpdate()
             }
 
             ++mSpawnedSlogsCount;
-            SfxPlayMono(SoundEffect::SlogSpawn_115, 0);
+            SfxPlayMono(relive::SoundEffects::SlogSpawn, 0);
 
             if (mSpawnedSlogsCount >= mMaxSlogs)
             {

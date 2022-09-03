@@ -1,8 +1,8 @@
 #pragma once
 
 #include "../AliveLibCommon/Function.hpp"
-#include "Map.hpp"
 #include "../relive_lib/BaseGameObject.hpp"
+#include "Map.hpp"
 #include "Font.hpp"
 #include "../relive_lib/Primitives.hpp"
 
@@ -21,7 +21,7 @@ struct Path_LCDScreen final : public Path_TLV
 };
 ALIVE_ASSERT_SIZEOF(Path_LCDScreen, 0x20);
 
-class LCDScreen final : public BaseGameObject
+class LCDScreen final : public ::BaseGameObject
 {
 public:
     LCDScreen(relive::Path_LCDScreen* pTlv, const Guid& tlvId);

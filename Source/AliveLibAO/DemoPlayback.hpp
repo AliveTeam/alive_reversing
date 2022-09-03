@@ -13,7 +13,7 @@ struct PlaybackData final
     //TODO probably more variables after
 };
 
-class DemoPlayback final : public BaseGameObject
+class DemoPlayback final : public ::BaseGameObject
 {
 public:
     DemoPlayback(u8**, s32 a3);

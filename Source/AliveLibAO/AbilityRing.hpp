@@ -46,7 +46,7 @@ struct AbilityRing_PolyBuffer final
 ALIVE_ASSERT_SIZEOF(AbilityRing_PolyBuffer, 56);
 
 
-class AbilityRing final : public BaseGameObject
+class AbilityRing final : public ::BaseGameObject
 {
 public:
     AbilityRing(FP xpos, FP ypos, RingTypes type);

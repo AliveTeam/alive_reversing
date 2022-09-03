@@ -11,7 +11,7 @@ namespace AO {
 
 struct Fg1Block;
 
-class FG1 final : public BaseGameObject
+class FG1 final : public ::BaseGameObject
 {
 public:
     FG1(u8** ppRes);

@@ -46,7 +46,7 @@ struct Path_SligSpawner final : public Path_TLV
 };
 // TODO: size
 
-class SligSpawner final : public BaseGameObject
+class SligSpawner final : public ::BaseGameObject
 {
 public:
     SligSpawner(relive::Path_TLV* pTlv, relive::Path_Slig_Data* pTlvData, const Guid& tlvId);

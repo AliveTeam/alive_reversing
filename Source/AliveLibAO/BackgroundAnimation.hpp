@@ -13,7 +13,6 @@ enum class BgAnimSounds : s16
     eNone_m1 = -1,
     eNone_0 = 0,
     eFire_1 = 1,
-    eFireIdx_40 = 40
 };
 
 struct Path_BackgroundAnimation final : public Path_TLV
@@ -45,7 +44,7 @@ public:
     Guid mTlvInfo;
     FP field_F8_animXPos = {};
     FP field_FC_animYPos = {};
-    relive::Path_BackgroundAnimation::BgAnimSounds mSoundEffect = relive::Path_BackgroundAnimation::BgAnimSounds::eNone_0;
+    relive::Path_BackgroundAnimation::BgAnimSounds mSoundEffect = relive::Path_BackgroundAnimation::BgAnimSounds::eNone;
     s32 field_104_sound_channels_mask = 0;
 };
 ALIVE_ASSERT_SIZEOF(BackgroundAnimation, 0x108);

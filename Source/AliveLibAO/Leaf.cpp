@@ -127,7 +127,7 @@ Leaf::Leaf(FP xpos, FP ypos, FP xVel, FP yVel, FP scale)
     }
 
     const s16 randRightVol = Math_RandomRange(-900, -700);
-    SFX_Play_Pitch(SoundEffect::Leaf_27, (3 * randLeftVol) / 4, randRightVol, nullptr);
+    SFX_Play_Pitch(relive::SoundEffects::Leaf, (3 * randLeftVol) / 4, randRightVol, nullptr);
 }
 
 } // namespace AO

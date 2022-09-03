@@ -820,7 +820,7 @@ void Paramite::MoveOnLine()
     }
 }
 
-const SfxDefinition stru_4CDD98[9] = {
+const relive::SfxDefinition stru_4CDD98[9] = {
     {0, 37, 60, 90, -520, -520, 0},
     {0, 37, 61, 75, -520, -520, 0},
     {0, 37, 62, 50, -520, -520, 0},
@@ -882,7 +882,7 @@ void Paramite::Sound(ParamiteSpeak idx)
             return;
     }
 
-    SFX_SfxDefinition_Play_477330(&stru_4CDD98[static_cast<s16>(idx)], volLeft, volRight, -520, -520);
+    SFX_SfxDefinition_Play_477330(stru_4CDD98[static_cast<s16>(idx)], volLeft, volRight, -520, -520);
 }
 
 void Paramite::SetMusic()
@@ -2818,7 +2818,7 @@ void Paramite::Motion_3_Running()
 
     if (mAnim.mCurrentFrame == 3)
     {
-        SFX_Play_Pitch(SoundEffect::PickupItem_33, 45, -600, 0);
+        SFX_Play_Pitch(relive::SoundEffects::PickupItem, 45, -600, 0);
         if (GetNextMotion() == eParamiteMotions::Motion_2_Walking)
         {
             SetCurrentMotion(eParamiteMotions::Motion_8_WalkRunTransition);
@@ -3327,7 +3327,7 @@ void Paramite::Motion_13_GameSpeakBegin()
             {
                 if (sActiveHero->mHealth > FP_FromInteger(0))
                 {
-                    SfxPlayMono(SoundEffect::KillEffect_78, 0, 0);
+                    SfxPlayMono(relive::SoundEffects::KillEffect, 0, 0);
                     Mudokon_SFX(MudSounds::eKnockbackOuch_10, 0, 0, sActiveHero);
                 }
                 sActiveHero->VTakeDamage(this);
@@ -3706,7 +3706,7 @@ void Paramite::Motion_23_Eating()
 {
     if (mAnim.mCurrentFrame == 5)
     {
-        SfxPlayMono(static_cast<SoundEffect>(Math_RandomRange(SoundEffect::Eating1_79, SoundEffect::Eating2_80)), 0, 0);
+        SfxPlayMono(relive::RandomSfx(relive::SoundEffects::Eating1, relive::SoundEffects::Eating2), 0, 0);
     }
 
     if (mNextMotion != -1 && !ToNextMotion())
@@ -3719,7 +3719,7 @@ void Paramite::Motion_24_Struggle()
 {
     if (mAnim.mCurrentFrame == 0)
     {
-        SfxPlayMono(SoundEffect::KillEffect_78, 0, 0);
+        SfxPlayMono(relive::SoundEffects::KillEffect, 0, 0);
     }
 }
 

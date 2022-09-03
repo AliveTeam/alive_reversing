@@ -23,7 +23,7 @@ struct Path_SlogSpawner final : public Path_TLV
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_SlogSpawner, 0x24);
 
-class SlogSpawner final : public BaseGameObject
+class SlogSpawner final : public ::BaseGameObject
 {
 public:
     SlogSpawner(relive::Path_SlogSpawner* pTlv, const Guid& tlvId);

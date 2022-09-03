@@ -165,7 +165,7 @@ void Slurg::Burst()
                                 20);
 
     EventBroadcast(kEventLoudNoise, this);
-    SfxPlayMono(SoundEffect::SlurgKill_89, 127, mSlurgSpriteScale);
+    SfxPlayMono(relive::SoundEffects::SlurgKill, 127, mSlurgSpriteScale);
 
     if (mSlurgSwitchId > 1)
     {
@@ -228,7 +228,7 @@ void Slurg::VUpdate()
             if (mAnim.mCurrentFrame == 0
                 && gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0))
             {
-                SfxPlayMono(SoundEffect::SlurgPause_90, 0);
+                SfxPlayMono(relive::SoundEffects::SlurgPause, 0);
             }
 
             if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))

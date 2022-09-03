@@ -253,7 +253,7 @@ void SlingMudokon::Motion_1_Angry()
 {
     if (!mAnim.mCurrentFrame)
     {
-        SfxPlayMono(SoundEffect::SlingshotExtend_83, 0, 0);
+        SfxPlayMono(relive::SoundEffects::SlingshotExtend, 0, 0);
     }
 
     if (GetNextMotion() == eSlingMudMotions::Motion_3_ShootStart)
@@ -283,7 +283,7 @@ void SlingMudokon::Motion_3_ShootStart()
 {
     if (!mAnim.mCurrentFrame)
     {
-        SfxPlayMono(SoundEffect::SlingshotShoot_84, 0, 0);
+        SfxPlayMono(relive::SoundEffects::SlingshotShoot, 0, 0);
     }
 
     if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
@@ -529,7 +529,7 @@ s16 SlingMudokon::Brain_1_Spawn()
                 return field_13A_brain_sub_state;
             }
 
-            SFX_Play_Pitch(SoundEffect::MenuNavigation_61, 45, 400);
+            SFX_Play_Pitch(relive::SoundEffects::MenuNavigation, 45, 400);
             New_DestroyOrCreateObject_Particle_419D00(
                 mXPos,
                 (mSpriteScale * FP_FromInteger(20)) + mYPos,
@@ -578,7 +578,7 @@ s16 SlingMudokon::Brain_1_Spawn()
             if (field_15A_bCodeMatches)
             {
                 field_140_timer = sGnFrame + 30;
-                SFX_Play_Pitch(SoundEffect::PossessEffect_21, 0, -600);
+                SFX_Play_Pitch(relive::SoundEffects::PossessEffect, 0, -600);
                 return Brain_1_Spawn::eBrain1_DisappearAsDoves_7;
             }
             else if (field_11E_flags.Get(Flags_11E::eBit4_bAbeGettingCloser))
@@ -657,7 +657,7 @@ s16 SlingMudokon::Brain_1_Spawn()
                     }
                 }
 
-                SfxPlayMono(SoundEffect::FlyingDoves_19, 0);
+                SfxPlayMono(relive::SoundEffects::FlyingDoves, 0);
 
                 mAnim.mFlags.Clear(AnimFlags::eBit3_Render);
 
@@ -691,7 +691,7 @@ s16 SlingMudokon::Brain_2_AskForPassword()
     {
         case 0:
             field_140_timer = sGnFrame + 10;
-            SFX_Play_Pitch(SoundEffect::PossessEffect_21, 0, -600);
+            SFX_Play_Pitch(relive::SoundEffects::PossessEffect, 0, -600);
             return 1;
 
         case 1:
@@ -878,7 +878,7 @@ s16 SlingMudokon::Brain_2_AskForPassword()
             {
                 field_140_timer = sGnFrame + 30;
                 Mudokon_SFX(MudSounds::eOkay_13, 0, 300, this);
-                SFX_Play_Pitch(SoundEffect::PossessEffect_21, 0, -600);
+                SFX_Play_Pitch(relive::SoundEffects::PossessEffect, 0, -600);
                 return 9;
             }
             break;
@@ -938,7 +938,7 @@ s16 SlingMudokon::Brain_2_AskForPassword()
                     }
                 }
 
-                SfxPlayMono(SoundEffect::Dove_16, 0);
+                SfxPlayMono(relive::SoundEffects::Dove, 0);
 
                 mAnim.mFlags.Clear(AnimFlags::eBit3_Render);
 

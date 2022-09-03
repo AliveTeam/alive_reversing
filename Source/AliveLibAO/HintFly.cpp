@@ -1606,7 +1606,7 @@ void HintFly::UpdateParticles()
 
             if (i < 1 && Math_RandomRange(0, 100) < 40)
             {
-                SFX_Play_Pitch(SoundEffect::HintFly_60, Math_RandomRange(24, 30), pParticle->field_1C_sound_pitch, 0);
+                SFX_Play_Pitch(relive::SoundEffects::HintFly, Math_RandomRange(24, 30), pParticle->field_1C_sound_pitch, 0);
             }
         }
         else if (pParticle->field_8_state == 2)
@@ -1618,7 +1618,7 @@ void HintFly::UpdateParticles()
 
             if (i < 1 && Math_RandomRange(0, 100) < 40)
             {
-                SFX_Play_Pitch(SoundEffect::HintFly_60, Math_RandomRange(24, 30), 0, 0);
+                SFX_Play_Pitch(relive::SoundEffects::HintFly, Math_RandomRange(24, 30), 0, 0);
             }
         }
         else if (pParticle->field_8_state == 3)
@@ -1628,7 +1628,7 @@ void HintFly::UpdateParticles()
             pParticle->field_4_ypos += (Math_Cosine_4510A0(pParticle->field_20_angle) * FP_FromInteger(2));
             if (i < 1 && Math_RandomRange(0, 100) < 20)
             {
-                SfxPlayMono(SoundEffect::HintFly_60, Math_RandomRange(18, 24), 0);
+                SfxPlayMono(relive::SoundEffects::HintFly, Math_RandomRange(18, 24), 0);
             }
         }
     }

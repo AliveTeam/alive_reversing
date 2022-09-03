@@ -13,18 +13,18 @@ namespace AO {
 ALIVE_VAR(1, 0x9F1DCC, ZBall*, gCenterZBall, nullptr);
 ALIVE_VAR(1, 0x9F1DD0, ZBall*, gOutZBall, nullptr);
 
-s32 Animation_OnFrame_ZBallSmacker(BaseGameObject* pObj, s16* pData)
+s32 Animation_OnFrame_ZBallSmacker(::BaseGameObject* pObj, s16* pData)
 {
     auto pZBall = static_cast<ZBall*>(pObj);
     for (s32 i = 0; i < gBaseGameObjects->Size(); i++)
     {
-        BaseGameObject* pBase = gBaseGameObjects->ItemAt(i);
+        ::BaseGameObject* pBase = gBaseGameObjects->ItemAt(i);
         if (!pBase)
         {
             break;
         }
 
-        if (pBase->mBaseGameObjectFlags.Get(BaseGameObject::eIsBaseAliveGameObject_Bit6))
+        if (pBase->mBaseGameObjectFlags.Get(::BaseGameObject::eIsBaseAliveGameObject_Bit6))
         {
             // If the object is within the ZBall rect then smack it
             auto pAliveObj = static_cast<BaseAliveGameObject*>(pBase);
@@ -124,7 +124,7 @@ void ZBall::VUpdate()
     {
         if (mAnim.mCurrentFrame == 0 || mAnim.mCurrentFrame == 13)
         {
-            SFX_Play_Pitch(SoundEffect::ZBall_62, 50, mSoundPitch, nullptr);
+            SFX_Play_Pitch(relive::SoundEffects::ZBall, 50, mSoundPitch, nullptr);
         }
     }
 
@@ -132,7 +132,7 @@ void ZBall::VUpdate()
     {
         if (mAnim.mCurrentFrame == 3 || mAnim.mCurrentFrame == 16)
         {
-            SFX_Play_Pitch(SoundEffect::SackWobble_34, 40, mSoundPitch - 2400, nullptr);
+            SFX_Play_Pitch(relive::SoundEffects::SackWobble, 40, mSoundPitch - 2400, nullptr);
         }
     }
 

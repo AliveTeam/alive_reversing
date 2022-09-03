@@ -147,7 +147,7 @@ s16 PullRingRope::Pull(BaseAliveGameObject* pFrom)
     {
         mAnim.Set_Animation_Data(AnimId::Pullring_Desert_UseBegin, nullptr);
     }
-    SfxPlayMono(SoundEffect::RingRopePull_65, 0, 0);
+    SfxPlayMono(relive::SoundEffects::RingRopePull, 0, 0);
     return 1;
 }
 
@@ -172,7 +172,7 @@ void PullRingRope::VUpdate()
         case States::eBeingPulled_1:
             if (mAnim.mCurrentFrame == 2)
             {
-                SfxPlayMono(SoundEffect::RingRopePull_65, 0);
+                SfxPlayMono(relive::SoundEffects::RingRopePull, 0);
             }
 
             mYPos += mVelY;
@@ -186,7 +186,7 @@ void PullRingRope::VUpdate()
 
                 if (gMap.mCurrentLevel == EReliveLevelIds::eRuptureFarms || gMap.mCurrentLevel == EReliveLevelIds::eBoardRoom || gMap.mCurrentLevel == EReliveLevelIds::eRuptureFarmsReturn)
                 {
-                    SfxPlayMono(SoundEffect::IndustrialTrigger_97, 0);
+                    SfxPlayMono(relive::SoundEffects::IndustrialTrigger, 0);
                 }
 
                 const auto oldSwitchValue = SwitchStates_Get(mSwitchId);
@@ -219,13 +219,13 @@ void PullRingRope::VUpdate()
                         switch (field_FC_on_sound)
                         {
                             case relive::Path_PullRingRope::PullRingSwitchSound::eWellExit:
-                                SFX_Play_Stereo(SoundEffect::WellExit_24, 60 * volLeft + 10, 60 * volRight + 10, nullptr);
+                                SFX_Play_Stereo(relive::SoundEffects::WellExit, 60 * volLeft + 10, 60 * volRight + 10, nullptr);
                                 break;
                             case relive::Path_PullRingRope::PullRingSwitchSound::eRingBellHammer:
-                                SFX_Play_Stereo(SoundEffect::RingBellHammer_9, 60 * volLeft + 10, 60 * volRight + 10, nullptr);
+                                SFX_Play_Stereo(relive::SoundEffects::RingBellHammer, 60 * volLeft + 10, 60 * volRight + 10, nullptr);
                                 break;
                             case relive::Path_PullRingRope::PullRingSwitchSound::eDoorEffect:
-                                SFX_Play_Stereo(SoundEffect::DoorEffect_66, 75 * volLeft + 15, 75 * volRight + 15, nullptr);
+                                SFX_Play_Stereo(relive::SoundEffects::DoorEffect, 75 * volLeft + 15, 75 * volRight + 15, nullptr);
                                 break;
                         }
                     }
@@ -234,13 +234,13 @@ void PullRingRope::VUpdate()
                         switch (field_FE_off_sound)
                         {
                             case relive::Path_PullRingRope::PullRingSwitchSound::eWellExit:
-                                SFX_Play_Stereo(SoundEffect::WellExit_24, 60 * volLeft + 10, 60 * volRight + 10, nullptr);
+                                SFX_Play_Stereo(relive::SoundEffects::WellExit, 60 * volLeft + 10, 60 * volRight + 10, nullptr);
                                 break;
                             case relive::Path_PullRingRope::PullRingSwitchSound::eRingBellHammer:
-                                SFX_Play_Stereo(SoundEffect::RingBellHammer_9, 60 * volLeft + 10, 60 * volRight + 10, nullptr);
+                                SFX_Play_Stereo(relive::SoundEffects::RingBellHammer, 60 * volLeft + 10, 60 * volRight + 10, nullptr);
                                 break;
                             case relive::Path_PullRingRope::PullRingSwitchSound::eDoorEffect:
-                                SFX_Play_Stereo(SoundEffect::DoorEffect_66, 75 * volLeft + 15, 75 * volRight + 15, nullptr);
+                                SFX_Play_Stereo(relive::SoundEffects::DoorEffect, 75 * volLeft + 15, 75 * volRight + 15, nullptr);
                                 break;
                         }
                     }

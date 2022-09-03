@@ -9,7 +9,7 @@ namespace AO {
 class OrbWhirlWindParticle;
 class BaseAliveGameObject;
 
-class OrbWhirlWind final : public BaseGameObject
+class OrbWhirlWind final : public ::BaseGameObject
 {
 public:
     enum class ParticlesState : s16

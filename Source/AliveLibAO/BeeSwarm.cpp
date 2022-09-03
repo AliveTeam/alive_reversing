@@ -191,7 +191,7 @@ void BeeSwarm::VUpdate()
     {
         if (Math_RandomRange(0, 100) < 40)
         {
-            SfxPlayMono(static_cast<SoundEffect>(Math_RandomRange(SoundEffect::Bees1_14, SoundEffect::Bees2_15)), Math_RandomRange(volMin, volMax));
+            SfxPlayMono(relive::RandomSfx(relive::SoundEffects::Bees1, relive::SoundEffects::Bees2), Math_RandomRange(volMin, volMax));
         }
     }
 

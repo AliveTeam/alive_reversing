@@ -27,7 +27,7 @@ struct Path_BeeSwarmHole final : public Path_TLV
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_BeeSwarmHole, 0x28);
 
-class BeeSwarmHole final : public BaseGameObject
+class BeeSwarmHole final : public ::BaseGameObject
 {
 public:
     BeeSwarmHole(relive::Path_BeeSwarmHole* pTlv, const Guid& tlvId);

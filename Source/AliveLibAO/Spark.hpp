@@ -23,7 +23,7 @@ struct SparkRes final
 };
 ALIVE_ASSERT_SIZEOF(SparkRes, 0x4C);
 
-class Spark final : public BaseGameObject
+class Spark final : public ::BaseGameObject
 {
 public:
     Spark(FP xpos, FP ypos, FP scale, s32 count, s32 min, s32 max);

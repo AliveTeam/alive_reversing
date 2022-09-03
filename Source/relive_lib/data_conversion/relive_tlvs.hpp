@@ -825,16 +825,14 @@ struct Path_BackgroundAnimation final : public Path_TLV
     reliveChoice mIsSemiTrans = reliveChoice::eNo;
     enum class BgAnimSounds : s16
     {
-        eNone_m1 = -1,
-        eNone_0 = 0,
+        eNone,
         eFire,
-        eFireIdx = 40, // needs to be 40 or it will play a different sound
     };
 
     TPageAbr mSemiTransMode = TPageAbr::eBlend_0;
 
     // AO only
-    BgAnimSounds mSoundEffect = BgAnimSounds::eNone_0;
+    BgAnimSounds mSoundEffect = BgAnimSounds::eNone;
 
     // AE only
     enum class Layer : s16
@@ -2219,7 +2217,8 @@ struct Path_CrawlingSligButton final : public Path_TLV
     enum class ButtonSounds : s16
     {
         None,
-        SackHit,
+        SackHit1,
+        SackHit2,
         FallingItemPresence2,
         SecurityOrb,
         Bullet1,

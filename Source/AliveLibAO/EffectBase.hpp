@@ -10,7 +10,7 @@ enum class EReliveLevelIds : s16;
 
 namespace AO {
 
-class EffectBase : public BaseGameObject
+class EffectBase : public ::BaseGameObject
 {
 public:
     EffectBase(Layer layer, TPageAbr abr);

@@ -7,7 +7,7 @@ namespace AO {
 
 class BaseAliveGameObject;
 
-class PossessionFlicker final : public BaseGameObject
+class PossessionFlicker final : public ::BaseGameObject
 {
 public:
     PossessionFlicker(BaseAliveGameObject* pToApplyFlicker, s32 duration, s32 r, s32 g, s32 b);

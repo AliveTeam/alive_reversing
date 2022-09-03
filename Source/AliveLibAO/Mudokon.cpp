@@ -1561,12 +1561,12 @@ void Mudokon::Motion_16_StandScrubLoop()
         {
             if (mAnim.mCurrentFrame == 5)
             {
-                SfxPlayMono(SoundEffect::Clean2_86, 0, 0);
+                SfxPlayMono(relive::SoundEffects::Clean2, 0, 0);
             }
         }
         else
         {
-            SfxPlayMono(SoundEffect::Clean1_85, 0, 0);
+            SfxPlayMono(relive::SoundEffects::Clean1, 0, 0);
         }
     }
 
@@ -1642,11 +1642,11 @@ void Mudokon::Motion_22_CrouchScrub()
     {
         if (mAnim.mCurrentFrame == 2)
         {
-            SfxPlayMono(SoundEffect::Clean1_85, 0, 0);
+            SfxPlayMono(relive::SoundEffects::Clean1, 0, 0);
         }
         else if (mAnim.mCurrentFrame == 6)
         {
-            SfxPlayMono(SoundEffect::Clean2_86, 0, 0);
+            SfxPlayMono(relive::SoundEffects::Clean2, 0, 0);
         }
     }
 
@@ -2235,7 +2235,7 @@ void Mudokon::Motion_44_RunJumpMid()
 
     if (mAnim.mCurrentFrame == 5)
     {
-        SFX_Play_Pitch(SoundEffect::PossessEffect_21, 40, 2400, 0);
+        SFX_Play_Pitch(relive::SoundEffects::PossessEffect, 40, 2400, 0);
     }
 
     const PSX_RECT bRect = VGetBoundingRect();

@@ -17,7 +17,7 @@ enum class BulletType : s16
     eZBullet_2 = 2
 };
 
-class Bullet final : public BaseGameObject
+class Bullet final : public ::BaseGameObject
 {
 public:
     Bullet(BaseAliveGameObject* pParent, BulletType type, FP xpos, FP ypos, FP xDist, FP scale, s32 numberOfBullets);

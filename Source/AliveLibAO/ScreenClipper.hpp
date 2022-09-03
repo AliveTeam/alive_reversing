@@ -7,7 +7,7 @@
 
 namespace AO {
 
-class ScreenClipper final : public BaseGameObject
+class ScreenClipper final : public ::BaseGameObject
 {
 public:
     ScreenClipper(PSX_Point xy, PSX_Point wh, Layer layer);

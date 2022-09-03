@@ -1264,10 +1264,8 @@ inline void from_json(const nlohmann::json& j, Path_SligPersist& p)
 
 // Path_BackgroundAnimation
 NLOHMANN_JSON_SERIALIZE_ENUM(Path_BackgroundAnimation::BgAnimSounds, {
-    {Path_BackgroundAnimation::BgAnimSounds::eNone_m1, "none_m1"},
-    {Path_BackgroundAnimation::BgAnimSounds::eNone_0, "none_0"},
+    {Path_BackgroundAnimation::BgAnimSounds::eNone, "none"},
     {Path_BackgroundAnimation::BgAnimSounds::eFire, "fire"},
-    {Path_BackgroundAnimation::BgAnimSounds::eFireIdx, "fire_idx"},
 })
 
 NLOHMANN_JSON_SERIALIZE_ENUM(Path_BackgroundAnimation::Layer, {
@@ -3442,7 +3440,8 @@ inline void from_json(const nlohmann::json& j, Path_Glukkon& p)
 // Path_CrawlingSligButton
 NLOHMANN_JSON_SERIALIZE_ENUM(Path_CrawlingSligButton::ButtonSounds, {
     {Path_CrawlingSligButton::ButtonSounds::None, "none"},
-    {Path_CrawlingSligButton::ButtonSounds::SackHit, "sack_hit"},
+    {Path_CrawlingSligButton::ButtonSounds::SackHit1, "sack_hit1"},
+    {Path_CrawlingSligButton::ButtonSounds::SackHit2, "sack_hit2"},
     {Path_CrawlingSligButton::ButtonSounds::FallingItemPresence2, "falling_item_presence_2"},
     {Path_CrawlingSligButton::ButtonSounds::SecurityOrb, "security_orb"},
     {Path_CrawlingSligButton::ButtonSounds::Bullet1, "bullet_1"},

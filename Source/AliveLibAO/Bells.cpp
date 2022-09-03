@@ -61,15 +61,15 @@ void Bells::VUpdate()
 
         if (mBellPitch == BellPitch::eLowPitch)
         {
-            SfxPlayMono(SoundEffect::BellChime_LowPitch_52, 0, 0);
+            SfxPlayMono(relive::SoundEffects::BellChime_LowPitch, 0, 0);
         }
         else if (mBellPitch == BellPitch::eMediumPitch)
         {
-            SFX_Play_Pitch(SoundEffect::BellChime_MediumPitch_51, 45 * (mSoundPitchFactor + 1), 128 - (mSoundPitchFactor << 7), 0);
+            SFX_Play_Pitch(relive::SoundEffects::BellChime_MediumPitch, 45 * (mSoundPitchFactor + 1), 128 - (mSoundPitchFactor << 7), 0);
         }
         else if (mBellPitch == BellPitch::eHighPitch)
         {
-            SFX_Play_Pitch(SoundEffect::BellChime_HighPitch_50, 30 * (mSoundPitchFactor + 1), (2 - mSoundPitchFactor) << 7, 0);
+            SFX_Play_Pitch(relive::SoundEffects::BellChime_HighPitch, 30 * (mSoundPitchFactor + 1), (2 - mSoundPitchFactor) << 7, 0);
         }
     }
 

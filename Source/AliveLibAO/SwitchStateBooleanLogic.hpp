@@ -23,7 +23,7 @@ struct Path_SwitchStateBooleanLogic final : public Path_TLV
 };
 ALIVE_ASSERT_SIZEOF(Path_SwitchStateBooleanLogic, 0x20);
 
-class SwitchStateBooleanLogic final : public BaseGameObject
+class SwitchStateBooleanLogic final : public ::BaseGameObject
 {
 public:
     SwitchStateBooleanLogic(Path_SwitchStateBooleanLogic* pTlv, const Guid& tlvId);

@@ -27,7 +27,7 @@ struct Path_InvisibleSwitch final : public Path_TLV
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_InvisibleSwitch, 0x24);
 
-class InvisibleSwitch final : public BaseGameObject
+class InvisibleSwitch final : public ::BaseGameObject
 {
 public:
     InvisibleSwitch(relive::Path_InvisibleSwitch* pTlv, const Guid& tlvId);

@@ -210,12 +210,12 @@ void TrapDoor::VUpdate()
                     sTrapDoorData_4BD4A0[cur_lvl].field_8_opening,
                     nullptr);
 
-                SFX_Play_Camera(SoundEffect::Trapdoor_49, 70, direction);
+                SFX_Play_Camera(relive::SoundEffects::Trapdoor, 70, direction);
 
                 if (gMap.mCurrentLevel == EReliveLevelIds::eRuptureFarms || gMap.mCurrentLevel == EReliveLevelIds::eBoardRoom || gMap.mCurrentLevel == EReliveLevelIds::eRuptureFarmsReturn)
                 {
-                    SFX_Play_Camera(SoundEffect::IndustrialTrigger_97, 45, direction);
-                    SFX_Play_Camera(SoundEffect::IndustrialNoise1_93, 90, direction);
+                    SFX_Play_Camera(relive::SoundEffects::IndustrialTrigger, 45, direction);
+                    SFX_Play_Camera(relive::SoundEffects::IndustrialNoise1, 90, direction);
                 }
             }
             break;
@@ -238,12 +238,12 @@ void TrapDoor::VUpdate()
                     nullptr);
                 mState = TrapDoorState::eClosing_3;
 
-                SFX_Play_Camera(SoundEffect::Trapdoor_49, 70, direction);
+                SFX_Play_Camera(relive::SoundEffects::Trapdoor, 70, direction);
 
                 if (gMap.mCurrentLevel == EReliveLevelIds::eRuptureFarms || gMap.mCurrentLevel == EReliveLevelIds::eBoardRoom || gMap.mCurrentLevel == EReliveLevelIds::eRuptureFarmsReturn)
                 {
-                    SFX_Play_Camera(SoundEffect::IndustrialNoise3_95, 60, direction);
-                    SFX_Play_Camera(SoundEffect::IndustrialNoise2_94, 90, direction);
+                    SFX_Play_Camera(relive::SoundEffects::IndustrialNoise3, 60, direction);
+                    SFX_Play_Camera(relive::SoundEffects::IndustrialNoise2, 90, direction);
                 }
             }
             break;

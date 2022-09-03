@@ -210,7 +210,7 @@ void SecurityClaw::VUpdate()
         {
             SND_Stop_Channels_Mask(field_128_sound_channels);
         }
-        field_128_sound_channels = SFX_Play_Pitch(SoundEffect::SecurityOrb_56, 55, -300, 0);
+        field_128_sound_channels = SFX_Play_Pitch(relive::SoundEffects::SecurityOrb, 55, -300, 0);
     }
 
     if (sActiveHero == sControlledCharacter)
@@ -292,8 +292,8 @@ void SecurityClaw::VUpdate()
                 field_114_timer = sGnFrame + 20;
                 field_110_state = SecurityClawStates::eDoZapEffects_2;
                 mClaw->mAnim.Set_Animation_Data(AnimId::Security_Claw_Lower_Open, nullptr);
-                SfxPlayMono(SoundEffect::IndustrialNoise3_95, 60, 0);
-                SFX_Play_Pitch(SoundEffect::IndustrialNoise3_95, 90, -1000, 0);
+                SfxPlayMono(relive::SoundEffects::IndustrialNoise3, 60, 0);
+                SFX_Play_Pitch(relive::SoundEffects::IndustrialNoise3, 90, -1000, 0);
             }
 
             if (EventGet(kEventShooting))
@@ -374,18 +374,18 @@ void SecurityClaw::VUpdate()
 
             if (field_114_timer - sGnFrame == 4)
             {
-                SfxPlayMono(SoundEffect::Zap1_57, 0, 0);
+                SfxPlayMono(relive::SoundEffects::Zap1, 0, 0);
             }
             else if (field_114_timer - sGnFrame == 1)
             {
-                SfxPlayMono(SoundEffect::Zap2_58, 0, 0);
+                SfxPlayMono(relive::SoundEffects::Zap2, 0, 0);
             }
 
             if (static_cast<s32>(sGnFrame) > field_114_timer)
             {
                 field_110_state = SecurityClawStates::eIdle_1;
                 mClaw->mAnim.Set_Animation_Data(AnimId::Security_Claw_Lower_Close, nullptr);
-                SfxPlayMono(SoundEffect::IndustrialTrigger_97, 0, 0);
+                SfxPlayMono(relive::SoundEffects::IndustrialTrigger, 0, 0);
             }
             break;
 

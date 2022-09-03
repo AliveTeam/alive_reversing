@@ -193,7 +193,7 @@ void HoneySack::VUpdate()
                     &hitY,
                     mSpriteScale == FP_FromInteger(1) ? kFgFloor : kBgFloor))
             {
-                SfxPlayMono(SoundEffect::MountingElum_38, 90, 0);
+                SfxPlayMono(relive::SoundEffects::MountingElum, 90, 0);
                 Environment_SFX_42A220(EnvironmentSfx::eHitGroundSoft_6, 90, -1000, nullptr);
                 mYPos = hitY;
                 mState = State::eUpdateHoneySackOnGround_3;

@@ -11,7 +11,7 @@ struct Path_GasEmitter final : public Path_TLV
     // No fields
 };
 
-class GasEmitter final : public BaseGameObject
+class GasEmitter final : public ::BaseGameObject
 {
 public:
     GasEmitter(relive::Path_GasEmitter* pTlv, const Guid& tlvId);

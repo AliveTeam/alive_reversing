@@ -16,7 +16,7 @@ enum class GameEnderController_States : s16
     ePerfectEnding_4 = 4
 };
 
-class GameEnderController final : public BaseGameObject
+class GameEnderController final : public ::BaseGameObject
 {
 public:
     static void CreateGameEnderController();

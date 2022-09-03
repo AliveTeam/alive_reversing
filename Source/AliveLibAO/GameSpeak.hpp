@@ -50,7 +50,7 @@ enum class GameSpeakMatch : s16
     ePartMatch_2 = 2,
 };
 
-class GameSpeak final : public BaseGameObject
+class GameSpeak final : public ::BaseGameObject
 {
 public:
     GameSpeak();

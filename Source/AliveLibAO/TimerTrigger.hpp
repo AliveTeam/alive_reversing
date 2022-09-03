@@ -17,7 +17,7 @@ struct Path_TimerTrigger final : public Path_TLV
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_TimerTrigger, 0x24);
 
-class TimerTrigger final : public BaseGameObject
+class TimerTrigger final : public ::BaseGameObject
 {
 public:
     TimerTrigger(relive::Path_TimerTrigger* pTlv, const Guid& tlvId);

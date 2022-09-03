@@ -128,11 +128,11 @@ void SecurityOrb::VUpdate()
 
                 if (mSpriteScale == FP_FromDouble(0.5))
                 {
-                    mSoundChannelsMask = SFX_Play_Pitch(SoundEffect::SecurityOrb_56, 35, 720);
+                    mSoundChannelsMask = SFX_Play_Pitch(relive::SoundEffects::SecurityOrb, 35, 720);
                 }
                 else
                 {
-                    mSoundChannelsMask = SFX_Play_Pitch(SoundEffect::SecurityOrb_56, 55, 700);
+                    mSoundChannelsMask = SFX_Play_Pitch(relive::SoundEffects::SecurityOrb, 55, 700);
                 }
             }
 
@@ -213,11 +213,11 @@ void SecurityOrb::VUpdate()
 
             if (mTimer - sGnFrame == 4)
             {
-                SfxPlayMono(SoundEffect::Zap1_57, 0, 0);
+                SfxPlayMono(relive::SoundEffects::Zap1, 0, 0);
             }
             else if (mTimer - sGnFrame == 1)
             {
-                SfxPlayMono(SoundEffect::Zap2_58, 0, 0);
+                SfxPlayMono(relive::SoundEffects::Zap2, 0, 0);
             }
 
             if (static_cast<s32>(sGnFrame) > mTimer)

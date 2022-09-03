@@ -6,16 +6,23 @@
 #include "SwitchStates.hpp"
 #include "../relive_lib/Events.hpp"
 
-// TODO: Check this is correct
-const relive::SfxDefinition buttonSfxInfo_544488[8] = {
-    {20u, 0u, 25u, 0u, 80, 11}, // Can never be used ??
-    {25u, 0u, 95u, 0u, 57, 15},
-    {75u, 0u, 49u, 0u, 25, 35},
-    {48u, 0u, 25u, 0u, 35, 30},
-    {25u, 0u, 35u, 0u, 0, 0},
-    {0u, 0u, 0u, 0u, 19040, 65},
-    {32u, 75u, 65u, 0u, 19344, 66},
-    // { (s8)160u, (s8)192u, 77u, 0u, (s16)49392, 77 }
+struct ButtonSfxEntry final
+{
+    relive::Path_CrawlingSligButton::ButtonSounds mTlvButton;
+    // TODO: Give sane names
+    relive::SoundEffects field_0_block_idx;
+    s8 field_2_note;
+    s16 field_4_pitch_min;
+};
+
+const ButtonSfxEntry buttonSfxInfo_544488[8] = {
+    {relive::Path_CrawlingSligButton::ButtonSounds::None, relive::SoundEffects::WellExit, 25u, 80}, // Can never be used ??
+    {relive::Path_CrawlingSligButton::ButtonSounds::SackHit1, relive::SoundEffects::SackHit, 95u, 57},
+    {relive::Path_CrawlingSligButton::ButtonSounds::FallingItemPresence2, relive::SoundEffects::FallingItemPresence2, 49u, 25},
+    {relive::Path_CrawlingSligButton::ButtonSounds::SecurityOrb, relive::SoundEffects::SecurityOrb, 25u, 35},
+    {relive::Path_CrawlingSligButton::ButtonSounds::SackHit2, relive::SoundEffects::SackHit, 35u, 0},
+    {relive::Path_CrawlingSligButton::ButtonSounds::Bullet1, relive::SoundEffects::Bullet1, 0u, 19040},
+    {relive::Path_CrawlingSligButton::ButtonSounds::AbeGenericMovement, relive::SoundEffects::AbeGenericMovement, 65u, 19344},
 };
 
 CrawlingSligButton::CrawlingSligButton(relive::Path_CrawlingSligButton* pTlv, const Guid& tlvId)
@@ -88,11 +95,18 @@ void CrawlingSligButton::VUpdate()
             const auto sound_id = new_switch_state ? field_FC_on_sound : field_FE_off_sound;
             if (sound_id != relive::Path_CrawlingSligButton::ButtonSounds::None)
             {
-                SFX_Play_Stereo(
-                    static_cast<SoundEffect>(buttonSfxInfo_544488[static_cast<u16>(sound_id)].field_0_block_idx), // field 0 meaning changed!
-                    buttonSfxInfo_544488[static_cast<u16>(sound_id)].field_2_note + buttonSfxInfo_544488[static_cast<u16>(sound_id)].field_4_pitch_min * (field_100_sound_direction & 2),
-                    buttonSfxInfo_544488[static_cast<u16>(sound_id)].field_2_note + buttonSfxInfo_544488[static_cast<u16>(sound_id)].field_4_pitch_min * (field_100_sound_direction & 1),
-                    mSpriteScale);
+                for (const auto& entry : buttonSfxInfo_544488)
+                {
+                    if (entry.mTlvButton == sound_id)
+                    {
+                        SFX_Play_Stereo(
+                            entry.field_0_block_idx,
+                            entry.field_2_note + entry.field_4_pitch_min * (field_100_sound_direction & 2),
+                            entry.field_2_note + entry.field_4_pitch_min * (field_100_sound_direction & 1),
+                            mSpriteScale);
+                        break;
+                    }
+                }
             }
         }
 

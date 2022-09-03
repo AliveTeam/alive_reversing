@@ -280,7 +280,7 @@ void Rock::InTheAir()
                             {
                                 vol = 40;
                             }
-                            SfxPlayMono(SoundEffect::RockBounce_31, vol, 0);
+                            SfxPlayMono(relive::SoundEffects::RockBounce, vol, 0);
                             EventBroadcast(kEventNoise, this);
                             EventBroadcast(kEventSuspiciousNoise, this);
                             field_118_vol++;
@@ -339,7 +339,7 @@ void Rock::BounceHorizontally( FP hitX, FP hitY )
         vol = 40;
     }
 
-    SfxPlayMono(SoundEffect::RockBounce_31, vol, 0);
+    SfxPlayMono(relive::SoundEffects::RockBounce, vol, 0);
     EventBroadcast(kEventNoise, this);
     EventBroadcast(kEventSuspiciousNoise, this);
 }
@@ -367,7 +367,7 @@ s16 Rock::OnCollision(BaseAnimatedWithPhysicsGameObject* pObj)
 
     pObj->VOnThrowableHit(this);
 
-    SfxPlayMono(SoundEffect::RockBounceOnMine_29, 80, 0);
+    SfxPlayMono(relive::SoundEffects::RockBounceOnMine, 80, 0);
     return 0;
 }
 

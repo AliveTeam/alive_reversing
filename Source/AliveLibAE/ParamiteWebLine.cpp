@@ -168,7 +168,7 @@ void ParamiteWebLine::VUpdate()
         if (field_1A0_pulse_position > field_FA_bottom)
         {
             field_1A0_pulse_position = field_F8_top;
-            SfxPlayMono(static_cast<SoundEffect>(Math_RandomRange(SoundEffect::WebDrop1_103, SoundEffect::WebDrop2_104)), Math_RandomRange(40, 80));
+            SfxPlayMono(relive::RandomSfx(relive::SoundEffects::WebDrop1, relive::SoundEffects::WebDrop2), Math_RandomRange(40, 80));
             field_106_wobble_pos = field_F8_top;
             return;
         }

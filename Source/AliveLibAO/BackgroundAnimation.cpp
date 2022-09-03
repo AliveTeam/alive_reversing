@@ -91,14 +91,6 @@ BackgroundAnimation::BackgroundAnimation(relive::Path_BackgroundAnimation* pTlv,
     mYOffset = 0;
 
     mSoundEffect = pTlv->mSoundEffect;
-    if (mSoundEffect == relive::Path_BackgroundAnimation::BgAnimSounds::eFire) // Apparently there is only 1 possible sound effect
-    {
-        mSoundEffect = relive::Path_BackgroundAnimation::BgAnimSounds::eFireIdx;
-    }
-    else
-    {
-        mSoundEffect = relive::Path_BackgroundAnimation::BgAnimSounds::eNone_m1;
-    }
     field_104_sound_channels_mask = 0;
 }
 
@@ -110,10 +102,14 @@ void BackgroundAnimation::VUpdate()
     }
     else
     {
-        if (!field_104_sound_channels_mask && mSoundEffect >= relive::Path_BackgroundAnimation::BgAnimSounds::eNone_0)
+        if (!field_104_sound_channels_mask)
         {
-            // play fire sounds
-            field_104_sound_channels_mask = SfxPlayMono(static_cast<SoundEffect>(mSoundEffect), 0, 0);
+            switch (mSoundEffect)
+            {
+                case relive::Path_BackgroundAnimation::BgAnimSounds::eFire:
+                    field_104_sound_channels_mask = SfxPlayMono(relive::SoundEffects::LoudFire, 0, 0);
+                    break;
+            }
         }
         mXPos = field_F8_animXPos + FP_FromInteger(gTweak_X_5076D8);
         mYPos = field_FC_animYPos + FP_FromInteger(gTweak_Y_5076DC);

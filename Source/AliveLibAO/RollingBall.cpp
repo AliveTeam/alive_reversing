@@ -152,7 +152,7 @@ void RollingBall::VUpdate()
         {
             if (!(mAnim.mCurrentFrame % 3))
             {
-                SfxPlayMono(static_cast<SoundEffect>(Math_RandomRange(SoundEffect::RollingBallNoise1_71, SoundEffect::RollingBallNoise2_72)), 0, 0);
+                SfxPlayMono(relive::RandomSfx(relive::SoundEffects::RollingBallNoise1, relive::SoundEffects::RollingBallNoise2), 0, 0);
             }
 
             Accelerate();
@@ -181,7 +181,7 @@ void RollingBall::VUpdate()
         {
             if (!(mAnim.mCurrentFrame % 3))
             {
-                SfxPlayMono(static_cast<SoundEffect>(Math_RandomRange(SoundEffect::RollingBallNoise1_71, SoundEffect::RollingBallNoise2_72)), 0, 0);
+                SfxPlayMono(relive::RandomSfx(relive::SoundEffects::RollingBallNoise1, relive::SoundEffects::RollingBallNoise2), 0, 0);
             }
 
             Accelerate();
@@ -239,7 +239,7 @@ void RollingBall::VUpdate()
                 mBaseGameObjectFlags.Set(Options::eDead);
 
                 const CameraPos direction = gMap.GetDirection(mCurrentLevel, mCurrentPath, mXPos, mYPos);
-                SFX_Play_Camera(SoundEffect::IngameTransition_107, 50, direction);
+                SFX_Play_Camera(relive::SoundEffects::IngameTransition, 50, direction);
 
                 switch (direction)
                 {
@@ -305,7 +305,7 @@ void RollingBall::VUpdate()
             relive_new ScreenShake(0);
 
             const CameraPos direction = gMap.GetDirection(mCurrentLevel, mCurrentPath, mXPos, mYPos);
-            SFX_Play_Camera(SoundEffect::IngameTransition_107, 50, direction);
+            SFX_Play_Camera(relive::SoundEffects::IngameTransition, 50, direction);
 
             switch (direction)
             {

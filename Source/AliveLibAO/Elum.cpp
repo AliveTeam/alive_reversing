@@ -229,7 +229,7 @@ s16 Elum::VTakeDamage(BaseGameObject* pFrom)
             if (mHealth > FP_FromInteger(0))
             {
                 Elum_SFX_416E10(ElumSounds::eExploding_7, 0);
-                SfxPlayMono(SoundEffect::KillEffect_78, 75, 0);
+                SfxPlayMono(relive::SoundEffects::KillEffect, 75, 0);
 
                 if (sActiveHero->mHealth > FP_FromInteger(0))
                 {
@@ -822,7 +822,7 @@ void Elum::HandleElumPathTrans_411460()
     mBaseGameObjectUpdateDelay = 20;
 }
 
-const SfxDefinition sElumSfx_4C5398[12] = {
+const relive::SfxDefinition sElumSfx_4C5398[12] = {
     {0, 4, 36, 50, -127, 0, 0},
     {0, 4, 37, 50, -127, 0, 0},
     {0, 4, 38, 50, -127, 0, 0},
@@ -841,11 +841,11 @@ void Elum::Elum_SFX_416E10(ElumSounds soundId, BaseAliveGameObject* pObj)
     switch (soundId)
     {
         case ElumSounds::eWalkingFootstep_0:
-            SFX_SfxDefinition_Play_4770F0(&sElumSfx_4C5398[Math_RandomRange(0, 2)], Math_RandomRange(54, 58), -700, -573);
+            SFX_SfxDefinition_Play_4770F0(sElumSfx_4C5398[Math_RandomRange(0, 2)], Math_RandomRange(54, 58), -700, -573);
             break;
 
         case ElumSounds::eRunningFootstep_1:
-            SFX_SfxDefinition_Play_4770F0(&sElumSfx_4C5398[Math_RandomRange(0, 2)], Math_RandomRange(66, 70), -573, -446);
+            SFX_SfxDefinition_Play_4770F0(sElumSfx_4C5398[Math_RandomRange(0, 2)], Math_RandomRange(66, 70), -573, -446);
             break;
 
         case ElumSounds::eHowl_2:
@@ -884,16 +884,16 @@ void Elum::Elum_SFX_416E10(ElumSounds soundId, BaseAliveGameObject* pObj)
                     volRight = 80;
                     break;
             }
-            SFX_SfxDefinition_Play_477330(&sElumSfx_4C5398[3], (s16) volLeft, (s16) volRight, 0, 0);
+            SFX_SfxDefinition_Play_477330(sElumSfx_4C5398[3], (s16) volLeft, (s16) volRight, 0, 0);
             break;
         }
 
         case ElumSounds::eBeesStruggle_3:
-            SFX_SfxDefinition_Play_4770F0(&sElumSfx_4C5398[4], 0, 0x7FFF, 0x7FFF);
+            SFX_SfxDefinition_Play_4770F0(sElumSfx_4C5398[4], 0, 0x7FFF, 0x7FFF);
             break;
 
         case ElumSounds::eHitGroundSoft_4:
-            SFX_SfxDefinition_Play_4770F0(&sElumSfx_4C5398[7], 0, 0x7FFF, 0x7FFF);
+            SFX_SfxDefinition_Play_4770F0(sElumSfx_4C5398[7], 0, 0x7FFF, 0x7FFF);
             break;
 
         case ElumSounds::eRunSlide_5:
@@ -901,15 +901,15 @@ void Elum::Elum_SFX_416E10(ElumSounds soundId, BaseAliveGameObject* pObj)
             break;
 
         case ElumSounds::eSpottedHoney_6:
-            SFX_SfxDefinition_Play_4770F0(&sElumSfx_4C5398[5], 0, 0x7FFF, 0x7FFF);
+            SFX_SfxDefinition_Play_4770F0(sElumSfx_4C5398[5], 0, 0x7FFF, 0x7FFF);
             break;
 
         case ElumSounds::eExploding_7:
-            SFX_SfxDefinition_Play_4770F0(&sElumSfx_4C5398[6], 0, 0x7FFF, 0x7FFF);
+            SFX_SfxDefinition_Play_4770F0(sElumSfx_4C5398[6], 0, 0x7FFF, 0x7FFF);
             break;
 
         case ElumSounds::eLickingHoney_8:
-            SFX_SfxDefinition_Play_4770F0(&sElumSfx_4C5398[Math_RandomRange(8, 10)], 0, 0x7FFF, 0x7FFF);
+            SFX_SfxDefinition_Play_4770F0(sElumSfx_4C5398[Math_RandomRange(8, 10)], 0, 0x7FFF, 0x7FFF);
             break;
 
         default:

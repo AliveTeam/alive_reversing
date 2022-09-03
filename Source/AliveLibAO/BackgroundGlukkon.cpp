@@ -69,11 +69,11 @@ s16 BackgroundGlukkon::VTakeDamage(BaseGameObject* pFrom)
 
         if (Math_NextRandom() >= 128u)
         {
-            SFX_Play_Pitch(SoundEffect::Empty_106, rndVol, rndPitch, 0);
+            SFX_Play_Pitch(relive::SoundEffects::Empty, rndVol, rndPitch, 0);
         }
         else
         {
-            SFX_Play_Pitch(SoundEffect::Empty_105, rndVol, rndPitch, 0);
+            SFX_Play_Pitch(relive::SoundEffects::Empty, rndVol, rndPitch, 0);
         }
 
         mAnim.Set_Animation_Data(AnimId::Background_Glukkon_Dying, nullptr);
@@ -124,12 +124,12 @@ void BackgroundGlukkon::VUpdate()
                         if (sActiveHero->mHealth <= FP_FromInteger(0))
                         {
                             mAnim.Set_Animation_Data(AnimId::Background_Glukkon_Laugh, nullptr);
-                            SFX_Play_Pitch(SoundEffect::GlukkonLaugh1_103, rndVol, rndPitch, 0);
+                            SFX_Play_Pitch(relive::SoundEffects::GlukkonLaugh1, rndVol, rndPitch, 0);
                         }
                         else
                         {
                             mAnim.Set_Animation_Data(AnimId::Background_Glukkon_KillHim1, nullptr);
-                            SFX_Play_Pitch(SoundEffect::GlukkonKillHim1_101, rndVol, rndPitch, 0);
+                            SFX_Play_Pitch(relive::SoundEffects::GlukkonKillHim1, rndVol, rndPitch, 0);
                         }
                         field_110_state = BackgroundGlukkon::State::eAfterLaugh_SetSpeakPauseTimer_3;
                         break;
@@ -138,12 +138,12 @@ void BackgroundGlukkon::VUpdate()
                         if (sActiveHero->mHealth <= FP_FromInteger(0))
                         {
                             mAnim.Set_Animation_Data(AnimId::Background_Glukkon_Laugh, nullptr);
-                            SFX_Play_Pitch(SoundEffect::GlukkonLaugh1_103, rndVol, rndPitch, 0);
+                            SFX_Play_Pitch(relive::SoundEffects::GlukkonLaugh1, rndVol, rndPitch, 0);
                         }
                         else
                         {
                             mAnim.Set_Animation_Data(AnimId::Background_Glukkon_KillHim2, nullptr);
-                            SFX_Play_Pitch(SoundEffect::GlukkonKillHim2_102, rndVol, rndPitch, 0);
+                            SFX_Play_Pitch(relive::SoundEffects::GlukkonKillHim2, rndVol, rndPitch, 0);
                         }
                         field_110_state = BackgroundGlukkon::State::eAfterLaugh_SetSpeakPauseTimer_3;
                         break;
@@ -152,12 +152,12 @@ void BackgroundGlukkon::VUpdate()
                         if (sActiveHero->mHealth <= FP_FromInteger(0))
                         {
                             mAnim.Set_Animation_Data(AnimId::Background_Glukkon_Laugh, nullptr);
-                            SFX_Play_Pitch(SoundEffect::GlukkonLaugh1_103, rndVol, rndPitch, 0);
+                            SFX_Play_Pitch(relive::SoundEffects::GlukkonLaugh1, rndVol, rndPitch, 0);
                         }
                         else
                         {
                             mAnim.Set_Animation_Data(AnimId::Background_Glukkon_KillHim1, nullptr);
-                            SFX_Play_Pitch(SoundEffect::Empty_105, rndVol, rndPitch, 0);
+                            SFX_Play_Pitch(relive::SoundEffects::Empty, rndVol, rndPitch, 0);
                         }
                         field_110_state = BackgroundGlukkon::State::eAfterLaugh_SetSpeakPauseTimer_3;
                         break;
@@ -166,7 +166,7 @@ void BackgroundGlukkon::VUpdate()
                         if (sActiveHero->mHealth > FP_FromInteger(0))
                         {
                             mAnim.Set_Animation_Data(AnimId::Background_Glukkon_KillHim2, nullptr);
-                            SFX_Play_Pitch(SoundEffect::Empty_106, rndVol, rndPitch, 0);
+                            SFX_Play_Pitch(relive::SoundEffects::Empty, rndVol, rndPitch, 0);
                         }
                         field_110_state = BackgroundGlukkon::State::eAfterLaugh_SetSpeakPauseTimer_3;
                         break;

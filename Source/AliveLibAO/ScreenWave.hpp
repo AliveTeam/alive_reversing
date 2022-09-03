@@ -15,7 +15,7 @@ namespace AO {
 
 struct ScreenWave_Data;
 
-class ScreenWave final : public BaseGameObject
+class ScreenWave final : public ::BaseGameObject
 {
 public:
     ScreenWave(FP xpos, FP ypos, Layer layer, FP width, FP speed, s32 radius);

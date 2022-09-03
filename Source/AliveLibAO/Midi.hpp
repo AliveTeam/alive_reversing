@@ -2,11 +2,14 @@
 
 #include "../AliveLibCommon/Function.hpp"
 
+namespace relive {
+struct SfxDefinition;
+}
+
 namespace AO {
 
 struct SoundBlockInfo;
 struct OpenSeqHandleAE;
-struct SfxDefinition;
 
 enum class SeqId : s16
 {

@@ -12,7 +12,7 @@ struct Path_LCDStatusBoard final : public Path_TLV
     // No fields
 };
 
-class LCDStatusBoard final : public BaseGameObject
+class LCDStatusBoard final : public ::BaseGameObject
 {
 public:
     LCDStatusBoard(relive::Path_LCDStatusBoard* pTlv, const Guid& tlvId);

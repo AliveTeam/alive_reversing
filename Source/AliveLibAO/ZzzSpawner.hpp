@@ -17,7 +17,7 @@ struct Path_ZzzSpawner final : public Path_TLV
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_ZzzSpawner, 0x20);
 
-class ZzzSpawner final : public BaseGameObject
+class ZzzSpawner final : public ::BaseGameObject
 {
 public:
     ZzzSpawner(relive::Path_ZzzSpawner* pTlv, const Guid& tlvId);

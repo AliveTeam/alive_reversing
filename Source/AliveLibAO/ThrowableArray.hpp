@@ -8,7 +8,7 @@ namespace AO {
 
 void LoadRockTypes(EReliveLevelIds levelNumber, u16 path);
 
-class ThrowableArray final : public BaseGameObject
+class ThrowableArray final : public ::BaseGameObject
 {
 public:
     ThrowableArray();

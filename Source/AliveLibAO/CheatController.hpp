@@ -5,7 +5,7 @@
 
 namespace AO {
 
-class CheatController final : public BaseGameObject
+class CheatController final : public ::BaseGameObject
 {
 public:
     CheatController();

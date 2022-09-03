@@ -61,7 +61,7 @@ const TSlogBrainFn sSlogBrainTable[4] = {
     &Slog::Brain_2_ChasingAbe,
     &Slog::Brain_3_Death};
 
-const SfxDefinition sSlogSFXList[19] = {
+const relive::SfxDefinition sSlogSFXList[19] = {
     {0u, 12u, 38u, 30u, 0, 0},
     {0u, 12u, 39u, 30u, 0, 0},
     {0u, 12u, 40u, 100u, -256, 0},
@@ -1157,7 +1157,7 @@ void Slog::Motion_20_Eating()
 
     if (mAnim.mCurrentFrame == 3 && !mAnim.mFlags.Get(AnimFlags::eBit19_LoopBackwards))
     {
-        SfxPlayMono(static_cast<SoundEffect>(Math_RandomRange(SoundEffect::Eating1_65, SoundEffect::Eating2_66)), 100);
+        SfxPlayMono(relive::RandomSfx(relive::SoundEffects::Eating1, relive::SoundEffects::Eating2), 100);
         relive_new Blood(((mAnim.mFlags.Get(AnimFlags::eBit5_FlipX)) != 0 ? FP_FromInteger(-25) : FP_FromInteger(25)) * mSpriteScale + mXPos,
                       mYPos - (FP_FromInteger(4) * mSpriteScale),
                       FP_FromInteger(0), FP_FromInteger(0),
@@ -2930,7 +2930,7 @@ void Slog::ToIdle()
     SetNextMotion(eSlogMotions::m1);
 }
 
-const SfxDefinition getSfxDef(SlogSound effectId)
+const relive::SfxDefinition& getSfxDef(SlogSound effectId)
 {
     return sSlogSFXList[static_cast<s32>(effectId)];
 }
@@ -2939,7 +2939,7 @@ void Slog::Sfx(SlogSound effectId)
 {
     s16 volumeLeft = 0;
     s16 volumeRight = 0;
-    const SfxDefinition effectDef = getSfxDef(effectId);
+    const relive::SfxDefinition& effectDef = getSfxDef(effectId);
 
 
     const CameraPos direction = gMap.GetDirection(
@@ -2950,7 +2950,7 @@ void Slog::Sfx(SlogSound effectId)
     PSX_RECT pRect = {};
     gMap.Get_Camera_World_Rect(direction, &pRect);
 
-    const s16 defaultSndIdxVol = effectDef.field_3_default_volume;
+    const s16 defaultSndIdxVol = effectDef.field_C_default_volume;
     volumeRight = defaultSndIdxVol;
     switch (direction)
     {
@@ -2985,20 +2985,20 @@ void Slog::Sfx(SlogSound effectId)
     if (mSpriteScale == FP_FromDouble(0.5))
     {
         SFX_SfxDefinition_Play_Stereo(
-            &effectDef,
+            effectDef,
             volumeLeft,
             volumeRight,
-            effectDef.field_4_pitch_min + 1524,
-            effectDef.field_6_pitch_max + 1524);
+            effectDef.field_E_pitch_min + 1524,
+            effectDef.field_10_pitch_max + 1524);
     }
     else
     {
         SFX_SfxDefinition_Play_Stereo(
-            &effectDef,
+            effectDef,
             volumeLeft,
             volumeRight,
-            effectDef.field_4_pitch_min,
-            effectDef.field_6_pitch_max);
+            effectDef.field_E_pitch_min,
+            effectDef.field_10_pitch_max);
     }
 }
 

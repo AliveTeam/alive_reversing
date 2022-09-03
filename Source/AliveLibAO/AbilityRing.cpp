@@ -91,7 +91,7 @@ AbilityRing::AbilityRing(FP xpos, FP ypos, RingTypes ring_type)
                 mRingRed = 80;
                 mRingGreen = 0;
                 mRingBlue = 0;
-                SfxPlayMono(SoundEffect::IngameTransition_107, 0, 0);
+                SfxPlayMono(relive::SoundEffects::IngameTransition, 0, 0);
                 break;
 
             case RingTypes::eExplosive_Give_3:
@@ -338,7 +338,7 @@ void AbilityRing::VUpdate()
             {
                 mBaseGameObjectFlags.Set(BaseGameObject::eDead);
                 mRingLeft = FP_FromInteger(0);
-                SfxPlayMono(SoundEffect::IngameTransition_107, 0, 0);
+                SfxPlayMono(relive::SoundEffects::IngameTransition, 0, 0);
                 relive_new PossessionFlicker(sActiveHero, 8, 255, 128, 128);
             }
             break;

@@ -42,7 +42,7 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(HoistParticle, 0xE8);
 
-class HoistRocksEffect final : public BaseGameObject
+class HoistRocksEffect final : public ::BaseGameObject
 {
 public:
     HoistRocksEffect(relive::Path_Hoist* pTlv, const Guid& tlvInfo);

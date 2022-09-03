@@ -61,7 +61,7 @@ void FootSwitch::VUpdate()
                 SwitchStates_Do_Operation(mSwitchId, mAction);
                 mState = States::eWaitForGetOffMe_1;
                 mAnim.Set_Animation_Data(AnimId::Foot_Switch_Temple_Pressed, nullptr);
-                SfxPlayMono(SoundEffect::FootSwitchPress_64, 0, 0);
+                SfxPlayMono(relive::SoundEffects::FootSwitchPress, 0, 0);
             }
             break;
 

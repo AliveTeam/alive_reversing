@@ -6,7 +6,7 @@
 
 namespace AO {
 
-class DeathGas final : public BaseGameObject
+class DeathGas final : public ::BaseGameObject
 {
 public:
     DeathGas(Layer layer, s32 amount);

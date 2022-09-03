@@ -3,9 +3,9 @@
 #include "../AliveLibCommon/Function.hpp"
 #include "../relive_lib/Sfx.hpp"
 
-namespace AO {
-
 class BaseGameObject;
+
+namespace AO {
 
 
 class BaseAnimatedWithPhysicsGameObject;

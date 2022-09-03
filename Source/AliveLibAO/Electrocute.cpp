@@ -11,7 +11,7 @@
 
 namespace AO {
 
-class PalleteOverwriter final : public BaseGameObject
+class PalleteOverwriter final : public ::BaseGameObject
 {
 public:
     PalleteOverwriter(PSX_Point palXY, s16 palDepth, s16 colour)

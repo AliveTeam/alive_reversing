@@ -25,13 +25,13 @@ void BellSong::VUpdate()
                 switch (code_looked_up)
                 {
                     case GameSpeakEvents::eWhistleHigh_1:
-                        SfxPlayMono(SoundEffect::BellChime_LowPitch_52, 0);
+                        SfxPlayMono(relive::SoundEffects::BellChime_LowPitch, 0);
                         break;
                     case GameSpeakEvents::eWhistleLow_2:
-                        SfxPlayMono(SoundEffect::BellChime_MediumPitch_51, 0);
+                        SfxPlayMono(relive::SoundEffects::BellChime_MediumPitch, 0);
                         break;
                     default:
-                        SfxPlayMono(SoundEffect::BellChime_HighPitch_50, 0);
+                        SfxPlayMono(relive::SoundEffects::BellChime_HighPitch, 0);
                 }
                 mBaseGameObjectUpdateDelay = 15;
                 break;

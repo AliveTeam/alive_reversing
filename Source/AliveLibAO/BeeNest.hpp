@@ -28,7 +28,7 @@ enum class BeeNestStates : u16
 class BeeSwarm;
 
 
-class BeeNest final : public BaseGameObject
+class BeeNest final : public ::BaseGameObject
 {
 public:
     BeeNest(relive::Path_BeeNest* pTlv, const Guid& tlvId);

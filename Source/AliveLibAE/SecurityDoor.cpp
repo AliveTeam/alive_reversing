@@ -294,7 +294,7 @@ void SecurityDoor::VUpdate()
             field_12A_unused = 1;
             SwitchStates_Set(field_FA_switch_id, 1);
             mAnim.mFlags.Clear(AnimFlags::eBit3_Render);
-            SFX_Play_Pitch(SoundEffect::GlukkonSwitchBleh_88, 127, -700);
+            SFX_Play_Pitch(relive::SoundEffects::GlukkonSwitchBleh, 127, -700);
             field_F8_state = SecurityDoorStates::eSuccessChime_1;
             field_124_timer = sGnFrame + 15;
             return;
@@ -304,7 +304,7 @@ void SecurityDoor::VUpdate()
             {
                 return;
             }
-            SFX_Play_Pitch(SoundEffect::SecurityDoorDeny_38, 60, -720);
+            SFX_Play_Pitch(relive::SoundEffects::SecurityDoorDeny, 60, -720);
             field_F8_state = SecurityDoorStates::eLaughAtFailure_13;
             field_124_timer = sGnFrame + 15;
             return;
@@ -314,7 +314,7 @@ void SecurityDoor::VUpdate()
             {
                 return;
             }
-            SFX_Play_Pitch(SoundEffect::SecurityDoorLaugh_87, 127, -1000);
+            SFX_Play_Pitch(relive::SoundEffects::SecurityDoorLaugh, 127, -1000);
             field_F8_state = SecurityDoorStates::eInactive_0;
             field_124_timer = sGnFrame + 90;
             return;

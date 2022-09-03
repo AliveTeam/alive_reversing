@@ -90,7 +90,7 @@ void BulletShell::VUpdate()
             {
                 volume = 19;
             }
-            SfxPlayMono(SoundEffect::BulletShell_7, volume, 0);
+            SfxPlayMono(relive::SoundEffects::BulletShell, volume, 0);
             mFloorBounceCount++;
         }
     }

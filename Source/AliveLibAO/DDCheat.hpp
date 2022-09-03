@@ -49,7 +49,7 @@ struct DDCheatProperty final
 };
 ALIVE_ASSERT_SIZEOF(DDCheatProperty, 12);
 
-class DDCheat final : public BaseGameObject
+class DDCheat final : public ::BaseGameObject
 {
 public:
     DDCheat();

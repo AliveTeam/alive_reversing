@@ -12,7 +12,7 @@ enum class BellsongTypes : s16
     eChimes = 1
 };
 
-class BellSong final : public BaseGameObject
+class BellSong final : public ::BaseGameObject
 {
 public:
     BellSong(relive::Path_BellsongStone::BellsongTypes type, u32 code);

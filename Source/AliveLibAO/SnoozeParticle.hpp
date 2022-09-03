@@ -9,7 +9,7 @@
 
 namespace AO {
 
-class SnoozeParticle final : public BaseGameObject
+class SnoozeParticle final : public ::BaseGameObject
 {
 public:
     enum class SnoozeParticleState : s16

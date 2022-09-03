@@ -183,7 +183,7 @@ void MotionDetector::VUpdate()
                         {
                             if (sGnFrame % 2)
                             {
-                                SfxPlayMono(SoundEffect::Zap2_58, 45, 0);
+                                SfxPlayMono(relive::SoundEffects::Zap2, 45, 0);
                             }
                         }
 
@@ -230,7 +230,7 @@ void MotionDetector::VUpdate()
                     {
                         field_E8_state = States::eWaitThenMoveLeft_1;
                         field_EC_timer = sGnFrame + 15;
-                        SfxPlayMono(SoundEffect::MenuNavigation_61, 0);
+                        SfxPlayMono(relive::SoundEffects::MenuNavigation, 0);
                     }
                     else
                     {
@@ -250,7 +250,7 @@ void MotionDetector::VUpdate()
                     {
                         field_E8_state = States::eWaitThenMoveRight_3;
                         field_EC_timer = sGnFrame + 15;
-                        SfxPlayMono(SoundEffect::MenuNavigation_61, 0);
+                        SfxPlayMono(relive::SoundEffects::MenuNavigation, 0);
                     }
                     else
                     {

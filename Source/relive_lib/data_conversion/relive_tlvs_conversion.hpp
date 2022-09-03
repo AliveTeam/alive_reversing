@@ -1946,13 +1946,11 @@ private:
         switch (sound)
         {
             case AO::BgAnimSounds::eNone_m1:
-                return Path_BackgroundAnimation::BgAnimSounds::eNone_m1;
+                return Path_BackgroundAnimation::BgAnimSounds::eNone;
             case AO::BgAnimSounds::eNone_0:
-                return Path_BackgroundAnimation::BgAnimSounds::eNone_0;
+                return Path_BackgroundAnimation::BgAnimSounds::eNone;
             case AO::BgAnimSounds::eFire_1:
                 return Path_BackgroundAnimation::BgAnimSounds::eFire;
-            case AO::BgAnimSounds::eFireIdx_40:
-                return Path_BackgroundAnimation::BgAnimSounds::eFireIdx;
         }
         ALIVE_FATAL("Bad bg anim sound");
     }
@@ -4354,13 +4352,13 @@ private:
             case ::CrawlingSligButtonSounds::None_0:
                 return Path_CrawlingSligButton::ButtonSounds::None;
             case ::CrawlingSligButtonSounds::SackHit_1:
-                return Path_CrawlingSligButton::ButtonSounds::SackHit;
+                return Path_CrawlingSligButton::ButtonSounds::SackHit1;
             case ::CrawlingSligButtonSounds::FallingItemPresence2_2:
                 return Path_CrawlingSligButton::ButtonSounds::FallingItemPresence2;
             case ::CrawlingSligButtonSounds::SecurityOrb_3:
                 return Path_CrawlingSligButton::ButtonSounds::SecurityOrb;
             case ::CrawlingSligButtonSounds::SackHit_4:
-                return Path_CrawlingSligButton::ButtonSounds::SackHit;
+                return Path_CrawlingSligButton::ButtonSounds::SackHit2;
             case ::CrawlingSligButtonSounds::Bullet1_5:
                 return Path_CrawlingSligButton::ButtonSounds::Bullet1;
             case ::CrawlingSligButtonSounds::AbeGenericMovement_6:

@@ -7,7 +7,7 @@ namespace AO {
 
 void Get_fmvs_sectors_44FEB0(const char_type* pMovieName1, const char_type* pMovieName2, const char_type* pMovieName3, u32* pMovie1Sector, u32* pMovie2Sector, u32* pMovie3Sector);
 
-class Movie final : public BaseGameObject
+class Movie final : public ::BaseGameObject
 {
 public:
     Movie(s32 id, s32 pos, s8 bUnknown, s32 flags, s16 volume);

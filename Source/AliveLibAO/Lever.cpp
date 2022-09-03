@@ -50,7 +50,7 @@ void Lever::VUpdate()
     {
         if (mAnim.mCurrentFrame == 3)
         {
-            SfxPlayMono(SoundEffect::LeverPull_75, 0, 0);
+            SfxPlayMono(relive::SoundEffects::LeverPull, 0, 0);
         }
 
         if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
@@ -62,7 +62,7 @@ void Lever::VUpdate()
                 || gMap.mCurrentLevel == EReliveLevelIds::eBoardRoom
                 || gMap.mCurrentLevel == EReliveLevelIds::eRuptureFarmsReturn)
             {
-                SfxPlayMono(SoundEffect::IndustrialTrigger_97, 60, 0);
+                SfxPlayMono(relive::SoundEffects::IndustrialTrigger, 60, 0);
             }
             mState = LeverState::eFinished_2;
 
@@ -108,19 +108,19 @@ void Lever::VUpdate()
                     switch (mOnSound)
                     {
                         case relive::Path_Lever::LeverSoundType::eWell:
-                            SFX_Play_Stereo(SoundEffect::WellExit_24, 50 * leftVol + 10, 50 * rightVol + 10, 0);
+                            SFX_Play_Stereo(relive::SoundEffects::WellExit, 50 * leftVol + 10, 50 * rightVol + 10, 0);
                             break;
                         case relive::Path_Lever::LeverSoundType::eSwitchBellHammer:
-                            SFX_Play_Stereo(SoundEffect::SwitchBellHammer_12, 100 * leftVol + 25, 100 * rightVol + 25, 0);
+                            SFX_Play_Stereo(relive::SoundEffects::SwitchBellHammer, 100 * leftVol + 25, 100 * rightVol + 25, 0);
                             return;
                         case relive::Path_Lever::LeverSoundType::eDoor:
-                            SFX_Play_Stereo(SoundEffect::DoorEffect_66, 75 * leftVol + 15, 75 * rightVol + 15, 0);
+                            SFX_Play_Stereo(relive::SoundEffects::DoorEffect, 75 * leftVol + 15, 75 * rightVol + 15, 0);
                             break;
                         case relive::Path_Lever::LeverSoundType::eElectricWall:
-                            SFX_Play_Stereo(SoundEffect::Zap1_57, 35 * leftVol + 25, 35 * rightVol + 25, 0);
+                            SFX_Play_Stereo(relive::SoundEffects::Zap1, 35 * leftVol + 25, 35 * rightVol + 25, 0);
                             break;
                         case relive::Path_Lever::LeverSoundType::eSecurityOrb:
-                            SFX_Play_Stereo(SoundEffect::SecurityOrb_56, 35 * leftVol + 25, 35 * rightVol + 25, 0);
+                            SFX_Play_Stereo(relive::SoundEffects::SecurityOrb, 35 * leftVol + 25, 35 * rightVol + 25, 0);
                             break;
                         default:
                             return;
@@ -131,19 +131,19 @@ void Lever::VUpdate()
                     switch (mOffSound)
                     {
                         case relive::Path_Lever::LeverSoundType::eWell:
-                            SFX_Play_Stereo(SoundEffect::WellExit_24, 50 * leftVol + 10, 50 * rightVol + 10, 0);
+                            SFX_Play_Stereo(relive::SoundEffects::WellExit, 50 * leftVol + 10, 50 * rightVol + 10, 0);
                             break;
                         case relive::Path_Lever::LeverSoundType::eSwitchBellHammer:
-                            SFX_Play_Stereo(SoundEffect::SwitchBellHammer_12, 110 * leftVol + 25, 110 * rightVol + 25, 0);
+                            SFX_Play_Stereo(relive::SoundEffects::SwitchBellHammer, 110 * leftVol + 25, 110 * rightVol + 25, 0);
                             break;
                         case relive::Path_Lever::LeverSoundType::eDoor:
-                            SFX_Play_Stereo(SoundEffect::DoorEffect_66, 75 * leftVol + 15, 75 * rightVol + 15, 0);
+                            SFX_Play_Stereo(relive::SoundEffects::DoorEffect, 75 * leftVol + 15, 75 * rightVol + 15, 0);
                             break;
                         case relive::Path_Lever::LeverSoundType::eElectricWall:
-                            SFX_Play_Stereo(SoundEffect::Zap1_57, 80 * leftVol + 25, 80 * rightVol + 25, 0);
+                            SFX_Play_Stereo(relive::SoundEffects::Zap1, 80 * leftVol + 25, 80 * rightVol + 25, 0);
                             break;
                         case relive::Path_Lever::LeverSoundType::eSecurityOrb:
-                            SFX_Play_Stereo(SoundEffect::SecurityOrb_56, 35 * leftVol + 75, 35 * rightVol + 75, 0);
+                            SFX_Play_Stereo(relive::SoundEffects::SecurityOrb, 35 * leftVol + 75, 35 * rightVol + 75, 0);
                             break;
                         default:
                             return;

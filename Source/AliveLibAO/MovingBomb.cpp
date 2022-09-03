@@ -218,7 +218,7 @@ void MovingBomb::VOnThrowableHit(BaseGameObject* /*pFrom*/)
     field_10C_state = States::eBlowingUp_6;
     mVelY = FP_FromInteger(0);
     field_114_timer = sGnFrame + 1;
-    SfxPlayMono(SoundEffect::GreenTick_3, 100, 0);
+    SfxPlayMono(relive::SoundEffects::GreenTick, 100, 0);
 }
 
 s16 MovingBomb::HitObject()
@@ -320,7 +320,7 @@ void MovingBomb::VUpdate()
             field_10C_state = States::eBlowingUp_6;
             mVelY = FP_FromInteger(0);
             field_114_timer = sGnFrame + 1;
-            SfxPlayMono(SoundEffect::GreenTick_3, 100);
+            SfxPlayMono(relive::SoundEffects::GreenTick, 100);
         }
     }
 
@@ -343,11 +343,11 @@ void MovingBomb::VUpdate()
                 {
                     if (field_10C_state == States::eWaitABit_4)
                     {
-                        field_124_sound_channels = SfxPlayMono(SoundEffect::SecurityOrb_56, 55);
+                        field_124_sound_channels = SfxPlayMono(relive::SoundEffects::SecurityOrb, 55);
                     }
                     else
                     {
-                        field_124_sound_channels = SfxPlayMono(SoundEffect::SecurityOrb_56, 80);
+                        field_124_sound_channels = SfxPlayMono(relive::SoundEffects::SecurityOrb, 80);
                     }
                 }
             }
@@ -360,7 +360,7 @@ void MovingBomb::VUpdate()
                 }
                 else
                 {
-                    field_124_sound_channels = SfxPlayMono(SoundEffect::SecurityOrb_56, 12, 0);
+                    field_124_sound_channels = SfxPlayMono(relive::SoundEffects::SecurityOrb, 12, 0);
                     gMovingBomb_507B8C = this;
                 }
             }
@@ -449,7 +449,7 @@ void MovingBomb::VUpdate()
         case States::eBlowingUp_6:
             if (field_114_timer <= static_cast<s32>(sGnFrame))
             {
-                SfxPlayMono(SoundEffect::GreenTick_3, 100, 0);
+                SfxPlayMono(relive::SoundEffects::GreenTick, 100, 0);
 
                 mHealth = FP_FromInteger(0);
 

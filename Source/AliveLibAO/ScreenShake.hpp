@@ -6,7 +6,7 @@
 
 namespace AO {
 
-class ScreenShake final : public BaseGameObject
+class ScreenShake final : public ::BaseGameObject
 {
 public:
     ScreenShake(bool enableShakeEvent);

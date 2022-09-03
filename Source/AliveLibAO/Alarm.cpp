@@ -82,7 +82,7 @@ void Alarm::VUpdate()
             {
                 mAlarmState = States::eEnabling_1;
 
-                SfxPlayMono(SoundEffect::Alarm_45, 0, 0);
+                SfxPlayMono(relive::SoundEffects::Alarm, 0, 0);
 
                 if (mAlarmSwitchId)
                 {
@@ -99,7 +99,7 @@ void Alarm::VUpdate()
                 mAlarmRed = 100;
                 mAlarmPauseTimer = sGnFrame + 15;
                 mAlarmState = States::eOnFlash_2;
-                SfxPlayMono(SoundEffect::Alarm_45, 0, 0);
+                SfxPlayMono(relive::SoundEffects::Alarm, 0, 0);
             }
             break;
 
@@ -131,7 +131,7 @@ void Alarm::VUpdate()
             if (static_cast<s32>(sGnFrame) > mAlarmPauseTimer)
             {
                 mAlarmState = States::eEnabling_1;
-                SfxPlayMono(SoundEffect::Alarm_45, 0);
+                SfxPlayMono(relive::SoundEffects::Alarm, 0);
             }
             break;
 

@@ -23,7 +23,7 @@ public:
             case BoomMachineStates::eAlreadyUsed_1:
                 if (static_cast<s32>(sGnFrame) > field_E8_timer)
                 {
-                    SFX_Play_Pitch(SoundEffect::ZPop_5, 60, -1800, 0);
+                    SFX_Play_Pitch(relive::SoundEffects::ZPop, 60, -1800, 0);
                     field_E4_state = BoomMachineStates::eInactive_0;
                 }
                 break;
@@ -39,7 +39,7 @@ public:
             case BoomMachineStates::eDropGrenade_3:
                 if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
                 {
-                    SFX_Play_Pitch(SoundEffect::PickupItem_33, 127, -900, 0);
+                    SFX_Play_Pitch(relive::SoundEffects::PickupItem, 127, -900, 0);
                     if (!gpThrowableArray_50E26C)
                     {
                         gpThrowableArray_50E26C = relive_new ThrowableArray();
@@ -135,7 +135,7 @@ void BoomMachine::VUpdate()
 
         if (mAnim.mCurrentFrame == 3)
         {
-            SFX_Play_Pitch(SoundEffect::RedTick_4, 25, -1200, 0);
+            SFX_Play_Pitch(relive::SoundEffects::RedTick, 25, -1200, 0);
         }
     }
 }

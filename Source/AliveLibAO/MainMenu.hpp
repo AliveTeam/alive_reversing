@@ -46,7 +46,7 @@ struct MainMenuTransition_Polys final
 ALIVE_ASSERT_SIZEOF(MainMenuTransition_Polys, 0x100);
 
 // TODO: Move to own file
-class MainMenuTransition final : public BaseGameObject
+class MainMenuTransition final : public ::BaseGameObject
 {
 public:
     MainMenuTransition(Layer layer, s32 fadeDirection, s32 bKillWhenDone, s32 speed, TPageAbr abr);

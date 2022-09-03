@@ -32,7 +32,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_ShadowZone, 0x28);
 
 class Map;
 
-class ShadowZone final : public BaseGameObject
+class ShadowZone final : public ::BaseGameObject
 {
 public:
     ShadowZone(relive::Path_ShadowZone* pTlv, Map* pMap, const Guid& tlvId);

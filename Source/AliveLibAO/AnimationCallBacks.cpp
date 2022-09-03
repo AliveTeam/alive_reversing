@@ -16,7 +16,7 @@
 
 namespace AO {
 
-s32 Animation_OnFrame_Slig(BaseGameObject* pObj, s16* pData)
+s32 Animation_OnFrame_Slig(::BaseGameObject* pObj, s16* pData)
 {
     auto pSlig = static_cast<Slig*>(pObj);
     if (pSlig->mBaseGameObjectUpdateDelay != 0)
@@ -86,11 +86,11 @@ s32 Animation_OnFrame_Slig(BaseGameObject* pObj, s16* pData)
 
     if (pSlig->mSpriteScale == FP_FromDouble(0.5))
     {
-        SfxPlayMono(SoundEffect::SligShoot_6, 85);
+        SfxPlayMono(relive::SoundEffects::SligShoot, 85);
     }
     else
     {
-        SfxPlayMono(SoundEffect::SligShoot_6, 0);
+        SfxPlayMono(relive::SoundEffects::SligShoot, 0);
     }
 
     EventBroadcast(kEventShooting, pSlig);
@@ -101,9 +101,9 @@ s32 Animation_OnFrame_Slig(BaseGameObject* pObj, s16* pData)
     return 1;
 }
 
-s32 Animation_OnFrame_ZBallSmacker(BaseGameObject* pObj, s16* pData);
+s32 Animation_OnFrame_ZBallSmacker(::BaseGameObject* pObj, s16* pData);
 
-s32 Slog_OnFrame(BaseGameObject* pObj, s16* pData)
+s32 Slog_OnFrame(::BaseGameObject* pObj, s16* pData)
 {
     auto pSlog = static_cast<Slog*>(pObj);
     if (pSlog->field_10C_pTarget)
@@ -139,7 +139,7 @@ s32 Slog_OnFrame(BaseGameObject* pObj, s16* pData)
 
                     pSlog->field_110 = 1;
 
-                    SfxPlayMono(SoundEffect::SlogBite_39, 0);
+                    SfxPlayMono(relive::SoundEffects::SlogBite, 0);
                 }
             }
         }
@@ -156,7 +156,7 @@ const FP_Point kAbeVelTable_4C6608[6] = {
     {FP_FromInteger(10), FP_FromInteger(-4)},
     {FP_FromInteger(4), FP_FromInteger(-3)}};
 
-s32 Abe_OnFrame(BaseGameObject* pObj, s16* pData)
+s32 Abe_OnFrame(::BaseGameObject* pObj, s16* pData)
 {
     auto pAbe = static_cast<Abe*>(pObj);
 

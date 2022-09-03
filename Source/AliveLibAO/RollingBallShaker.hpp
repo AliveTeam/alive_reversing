@@ -8,7 +8,7 @@ void RollingBallShaker_ForceLink();
 
 namespace AO {
 
-class RollingBallShaker final : public BaseGameObject
+class RollingBallShaker final : public ::BaseGameObject
 {
 public:
     RollingBallShaker();

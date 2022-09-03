@@ -1,6 +1,7 @@
 #include "Sfx.hpp"
 #include "GameType.hpp"
 #include "../AliveLibCommon/Sys_common.hpp"
+#include "../AliveLibAE/Math.hpp"
 
 namespace AO {
 
@@ -491,733 +492,753 @@ enum SoundEffect : u8
     GreeterKnockback_121 = 121,
 };
 
-relive::SoundEffects From(AO::SoundEffect value)
+static AO::SoundEffect ToAo(relive::SoundEffects sfx)
 {
-    switch (value)
+    switch (sfx)
     {
-        case AO::SoundEffect::Unknown_0:
-            return relive::SoundEffects::Unknown;
+        case relive::SoundEffects::Unknown:
+            return AO::SoundEffect::Unknown_0;
 
-        case AO::SoundEffect::Bullet1_1:
-            return relive::SoundEffects::Bullet1;
+        case relive::SoundEffects::Bullet1:
+            return AO::SoundEffect::Bullet1_1;
 
-        case AO::SoundEffect::Bullet2_2:
-            return relive::SoundEffects::Bullet2;
+        case relive::SoundEffects::Bullet2:
+            return AO::SoundEffect::Bullet2_2;
 
-        case AO::SoundEffect::GreenTick_3:
-            return relive::SoundEffects::GreenTick;
+        case relive::SoundEffects::GreenTick:
+            return AO::SoundEffect::GreenTick_3;
 
-        case AO::SoundEffect::RedTick_4:
-            return relive::SoundEffects::RedTick;
+        case relive::SoundEffects::RedTick:
+            return AO::SoundEffect::RedTick_4;
 
-        case AO::SoundEffect::ZPop_5:
-            return relive::SoundEffects::ZPop;
+        case relive::SoundEffects::ZPop:
+            return AO::SoundEffect::ZPop_5;
 
-        case AO::SoundEffect::SligShoot_6:
-            return relive::SoundEffects::SligShoot;
+        case relive::SoundEffects::SligShoot:
+            return AO::SoundEffect::SligShoot_6;
 
-        case AO::SoundEffect::BulletShell_7:
-            return relive::SoundEffects::BulletShell;
+        case relive::SoundEffects::BulletShell:
+            return AO::SoundEffect::BulletShell_7;
 
-        case AO::SoundEffect::MenuTransition_8:
-            return relive::SoundEffects::MenuTransition;
+        case relive::SoundEffects::MenuTransition:
+            return AO::SoundEffect::MenuTransition_8;
 
-        case AO::SoundEffect::RingBellHammer_9:
-            return relive::SoundEffects::RingBellHammer;
+        case relive::SoundEffects::RingBellHammer:
+            return AO::SoundEffect::RingBellHammer_9;
 
-        case AO::SoundEffect::UnknownCrystalSFX1_10:
-            return relive::SoundEffects::UnknownCrystalSFX1;
+        case relive::SoundEffects::UnknownCrystalSFX1:
+            return AO::SoundEffect::UnknownCrystalSFX1_10;
 
-        case AO::SoundEffect::UnknownCrystalSFX2_11:
-            return relive::SoundEffects::UnknownCrystalSFX2;
+        case relive::SoundEffects::UnknownCrystalSFX2:
+            return AO::SoundEffect::UnknownCrystalSFX2_11;
 
-        case AO::SoundEffect::SwitchBellHammer_12:
-            return relive::SoundEffects::SwitchBellHammer;
+        case relive::SoundEffects::SwitchBellHammer:
+            return AO::SoundEffect::SwitchBellHammer_12;
 
-        case AO::SoundEffect::HandstoneTransition_13:
-            return relive::SoundEffects::HandstoneTransition;
+        case relive::SoundEffects::HandstoneTransition:
+            return AO::SoundEffect::HandstoneTransition_13;
 
-        case AO::SoundEffect::Bees1_14:
-            return relive::SoundEffects::Bees1;
+        case relive::SoundEffects::Bees1:
+            return AO::SoundEffect::Bees1_14;
 
-        case AO::SoundEffect::Bees2_15:
-            return relive::SoundEffects::Bees2;
+        case relive::SoundEffects::Bees2:
+            return AO::SoundEffect::Bees2_15;
 
-        case AO::SoundEffect::Dove_16:
-            return relive::SoundEffects::Dove;
+        case relive::SoundEffects::Dove:
+            return AO::SoundEffect::Dove_16;
 
-        case AO::SoundEffect::RespawnDove_17:
-            return relive::SoundEffects::RespawnDove;
+        case relive::SoundEffects::RespawnDove:
+            return AO::SoundEffect::RespawnDove_17;
 
-        case AO::SoundEffect::AbeDove_18:
-            return relive::SoundEffects::AbeDove;
+        case relive::SoundEffects::AbeDove:
+            return AO::SoundEffect::AbeDove_18;
 
-        case AO::SoundEffect::FlyingDoves_19:
-            return relive::SoundEffects::FlyingDoves;
+        case relive::SoundEffects::FlyingDoves:
+            return AO::SoundEffect::FlyingDoves_19;
 
-        case AO::SoundEffect::Empty_20:
-            return relive::SoundEffects::Empty;
+        case relive::SoundEffects::PossessEffect:
+            return AO::SoundEffect::PossessEffect_21; 
 
-        case AO::SoundEffect::PossessEffect_21:
-            return relive::SoundEffects::PossessEffect;
+        /*
+        case relive::SoundEffects::PossessEffect:
+            return AO::SoundEffect::PossessEffect_23; // Seems like OG never used this
+        */
 
-        case AO::SoundEffect::Respawn_22:
-            return relive::SoundEffects::Respawn;
+        case relive::SoundEffects::Respawn:
+            return AO::SoundEffect::Respawn_22;
 
-        case AO::SoundEffect::PossessEffect_23:
-            return relive::SoundEffects::PossessEffect;
+        case relive::SoundEffects::WellExit:
+            return AO::SoundEffect::WellExit_24;
 
-        case AO::SoundEffect::WellExit_24:
-            return relive::SoundEffects::WellExit;
+        case relive::SoundEffects::WellEnter:
+            return AO::SoundEffect::WellEnter_25;
 
-        case AO::SoundEffect::WellEnter_25:
-            return relive::SoundEffects::WellEnter;
+        case relive::SoundEffects::HoneyDrip:
+            return AO::SoundEffect::HoneyDrip_26;
 
-        case AO::SoundEffect::HoneyDrip_26:
-            return relive::SoundEffects::HoneyDrip;
+        case relive::SoundEffects::Leaf:
+            return AO::SoundEffect::Leaf_27;
 
-        case AO::SoundEffect::Leaf_27:
-            return relive::SoundEffects::Leaf;
+        case relive::SoundEffects::AirStream:
+            return AO::SoundEffect::AirStream_28;
 
-        case AO::SoundEffect::AirStream_28:
-            return relive::SoundEffects::AirStream;
+        case relive::SoundEffects::RockBounceOnMine:
+            return AO::SoundEffect::RockBounceOnMine_29;
 
-        case AO::SoundEffect::RockBounceOnMine_29:
-            return relive::SoundEffects::RockBounceOnMine;
+        case relive::SoundEffects::SackHit:
+            return AO::SoundEffect::SackHit_30;
 
-        case AO::SoundEffect::SackHit_30:
-            return relive::SoundEffects::SackHit;
+        case relive::SoundEffects::RockBounce:
+            return AO::SoundEffect::RockBounce_31;
 
-        case AO::SoundEffect::RockBounce_31:
-            return relive::SoundEffects::RockBounce;
+        case relive::SoundEffects::ParticleBurst:
+            return AO::SoundEffect::ParticleBurst_32;
 
-        case AO::SoundEffect::ParticleBurst_32:
-            return relive::SoundEffects::ParticleBurst;
+        case relive::SoundEffects::PickupItem:
+            return AO::SoundEffect::PickupItem_33;
 
-        case AO::SoundEffect::PickupItem_33:
-            return relive::SoundEffects::PickupItem;
+        case relive::SoundEffects::SackWobble:
+            return AO::SoundEffect::SackWobble_34;
 
-        case AO::SoundEffect::SackWobble_34:
-            return relive::SoundEffects::SackWobble;
+        case relive::SoundEffects::LiftStop:
+            return AO::SoundEffect::LiftStop_35;
 
-        case AO::SoundEffect::LiftStop_35:
-            return relive::SoundEffects::LiftStop;
+        case relive::SoundEffects::WheelSqueak:
+            return AO::SoundEffect::WheelSqueak_36;
 
-        case AO::SoundEffect::WheelSqueak_36:
-            return relive::SoundEffects::WheelSqueak;
+        case relive::SoundEffects::AbeGenericMovement:
+            return AO::SoundEffect::AbeGenericMovement_37;
 
-        case AO::SoundEffect::AbeGenericMovement_37:
-            return relive::SoundEffects::AbeGenericMovement;
+        case relive::SoundEffects::MountingElum:
+            return AO::SoundEffect::MountingElum_38;
 
-        case AO::SoundEffect::MountingElum_38:
-            return relive::SoundEffects::MountingElum;
+        case relive::SoundEffects::SlogBite:
+            return AO::SoundEffect::SlogBite_39;
 
-        case AO::SoundEffect::SlogBite_39:
-            return relive::SoundEffects::SlogBite;
+        case relive::SoundEffects::LoudFire:
+            return AO::SoundEffect::LoudFire_40;
 
-        case AO::SoundEffect::LoudFire_40:
-            return relive::SoundEffects::LoudFire;
+        case relive::SoundEffects::Bat1:
+            return AO::SoundEffect::Bat1_41;
 
-        case AO::SoundEffect::Bat1_41:
-            return relive::SoundEffects::Bat1;
+        case relive::SoundEffects::Bat2:
+            return AO::SoundEffect::Bat2_42;
 
-        case AO::SoundEffect::Bat2_42:
-            return relive::SoundEffects::Bat2;
+        case relive::SoundEffects::MeatBounce:
+            return AO::SoundEffect::MeatBounce_43;
 
-        case AO::SoundEffect::MeatBounce_43:
-            return relive::SoundEffects::MeatBounce;
+        case relive::SoundEffects::Alarm:
+            return AO::SoundEffect::Alarm_45;
 
-        case AO::SoundEffect::Empty_44:
-            return relive::SoundEffects::Empty;
+        case relive::SoundEffects::ElectricZap:
+            return AO::SoundEffect::ElectricZap_46;
 
-        case AO::SoundEffect::Alarm_45:
-            return relive::SoundEffects::Alarm;
+        case relive::SoundEffects::ElectricGateLoud:
+            return AO::SoundEffect::ElectricGateLoud_47;
 
-        case AO::SoundEffect::ElectricZap_46:
-            return relive::SoundEffects::ElectricZap;
+        case relive::SoundEffects::BirdPortalSpark:
+            return AO::SoundEffect::BirdPortalSpark_48;
 
-        case AO::SoundEffect::ElectricGateLoud_47:
-            return relive::SoundEffects::ElectricGateLoud;
+        case relive::SoundEffects::Trapdoor:
+            return AO::SoundEffect::Trapdoor_49;
 
-        case AO::SoundEffect::BirdPortalSpark_48:
-            return relive::SoundEffects::BirdPortalSpark;
+        case relive::SoundEffects::BellChime_HighPitch:
+            return AO::SoundEffect::BellChime_HighPitch_50;
 
-        case AO::SoundEffect::Trapdoor_49:
-            return relive::SoundEffects::Trapdoor;
+        case relive::SoundEffects::BellChime_MediumPitch:
+            return AO::SoundEffect::BellChime_MediumPitch_51;
 
-        case AO::SoundEffect::BellChime_HighPitch_50:
-            return relive::SoundEffects::BellChime_HighPitch;
+        case relive::SoundEffects::BellChime_LowPitch:
+            return AO::SoundEffect::BellChime_LowPitch_52;
 
-        case AO::SoundEffect::BellChime_MediumPitch_51:
-            return relive::SoundEffects::BellChime_MediumPitch;
+        case relive::SoundEffects::FallingItemHit:
+            return AO::SoundEffect::FallingItemHit_53;
 
-        case AO::SoundEffect::BellChime_LowPitch_52:
-            return relive::SoundEffects::BellChime_LowPitch;
+        case relive::SoundEffects::SecurityOrb:
+            return AO::SoundEffect::SecurityOrb_56;
 
-        case AO::SoundEffect::FallingItemHit_53:
-            return relive::SoundEffects::FallingItemHit;
+        case relive::SoundEffects::Zap1:
+            return AO::SoundEffect::Zap1_57;
 
-        case AO::SoundEffect::Empty_54:
-            return relive::SoundEffects::Empty;
+        case relive::SoundEffects::Zap2:
+            return AO::SoundEffect::Zap2_58;
 
-        case AO::SoundEffect::Empty_55:
-            return relive::SoundEffects::Empty;
+        case relive::SoundEffects::HintFly:
+            return AO::SoundEffect::HintFly_60;
 
-        case AO::SoundEffect::SecurityOrb_56:
-            return relive::SoundEffects::SecurityOrb;
+        case relive::SoundEffects::MenuNavigation:
+            return AO::SoundEffect::MenuNavigation_61;
 
-        case AO::SoundEffect::Zap1_57:
-            return relive::SoundEffects::Zap1;
+        case relive::SoundEffects::ZBall:
+            return AO::SoundEffect::ZBall_62;
 
-        case AO::SoundEffect::Zap2_58:
-            return relive::SoundEffects::Zap2;
+        case relive::SoundEffects::FootSwitchPress:
+            return AO::SoundEffect::FootSwitchPress_64;
 
-        case AO::SoundEffect::Empty_59:
-            return relive::SoundEffects::Empty;
+        case relive::SoundEffects::RingRopePull:
+            return AO::SoundEffect::RingRopePull_65;
 
-        case AO::SoundEffect::HintFly_60:
-            return relive::SoundEffects::HintFly;
+        case relive::SoundEffects::DoorEffect:
+            return AO::SoundEffect::DoorEffect_66;
 
-        case AO::SoundEffect::MenuNavigation_61:
-            return relive::SoundEffects::MenuNavigation;
+        case relive::SoundEffects::PortalOpening:
+            return AO::SoundEffect::PortalOpening_67;
 
-        case AO::SoundEffect::ZBall_62:
-            return relive::SoundEffects::ZBall;
+        case relive::SoundEffects::FlintLock:
+            return AO::SoundEffect::FlintLock_68;
 
-        case AO::SoundEffect::Empty_63:
-            return relive::SoundEffects::Empty;
+        case relive::SoundEffects::Fire:
+            return AO::SoundEffect::Fire_69;
 
-        case AO::SoundEffect::FootSwitchPress_64:
-            return relive::SoundEffects::FootSwitchPress;
+        case relive::SoundEffects::PostFlint:
+            return AO::SoundEffect::PostFlint_70;
 
-        case AO::SoundEffect::RingRopePull_65:
-            return relive::SoundEffects::RingRopePull;
+        case relive::SoundEffects::RollingBallNoise1:
+            return AO::SoundEffect::RollingBallNoise1_71;
 
-        case AO::SoundEffect::DoorEffect_66:
-            return relive::SoundEffects::DoorEffect;
+        case relive::SoundEffects::RollingBallNoise2:
+            return AO::SoundEffect::RollingBallNoise2_72;
 
-        case AO::SoundEffect::PortalOpening_67:
-            return relive::SoundEffects::PortalOpening;
+        case relive::SoundEffects::FallingItemLand:
+            return AO::SoundEffect::FallingItemLand_73;
 
-        case AO::SoundEffect::FlintLock_68:
-            return relive::SoundEffects::FlintLock;
+        case relive::SoundEffects::LeverPull:
+            return AO::SoundEffect::LeverPull_75;
 
-        case AO::SoundEffect::Fire_69:
-            return relive::SoundEffects::Fire;
+        case relive::SoundEffects::KillEffect:
+            return AO::SoundEffect::KillEffect_78;
 
-        case AO::SoundEffect::PostFlint_70:
-            return relive::SoundEffects::PostFlint;
+        case relive::SoundEffects::Eating1:
+            return AO::SoundEffect::Eating1_79;
 
-        case AO::SoundEffect::RollingBallNoise1_71:
-            return relive::SoundEffects::RollingBallNoise1;
+        case relive::SoundEffects::Eating2:
+            return AO::SoundEffect::Eating2_80;
 
-        case AO::SoundEffect::RollingBallNoise2_72:
-            return relive::SoundEffects::RollingBallNoise2;
+        case relive::SoundEffects::GrenadeBounce:
+            return AO::SoundEffect::GrenadeBounce_82;
 
-        case AO::SoundEffect::FallingItemLand_73:
-            return relive::SoundEffects::FallingItemLand;
+        case relive::SoundEffects::SlingshotExtend:
+            return AO::SoundEffect::SlingshotExtend_83;
 
-        case AO::SoundEffect::Empty_74:
-            return relive::SoundEffects::Empty;
+        case relive::SoundEffects::SlingshotShoot:
+            return AO::SoundEffect::SlingshotShoot_84;
 
-        case AO::SoundEffect::LeverPull_75:
-            return relive::SoundEffects::LeverPull;
+        case relive::SoundEffects::Clean1:
+            return AO::SoundEffect::Clean1_85;
 
-        case AO::SoundEffect::Empty_76:
-            return relive::SoundEffects::Empty;
+        case relive::SoundEffects::Clean2:
+            return AO::SoundEffect::Clean2_86;
 
-        case AO::SoundEffect::Empty_77:
-            return relive::SoundEffects::Empty;
+        case relive::SoundEffects::LCDScreen:
+            return AO::SoundEffect::LCDScreen_87;
 
-        case AO::SoundEffect::KillEffect_78:
-            return relive::SoundEffects::KillEffect;
+        case relive::SoundEffects::MeatsawOffscreen:
+            return AO::SoundEffect::MeatsawOffscreen_88;
 
-        case AO::SoundEffect::Eating1_79:
-            return relive::SoundEffects::Eating1;
+        case relive::SoundEffects::MeatsawIdle:
+            return AO::SoundEffect::MeatsawIdle_89;
 
-        case AO::SoundEffect::Eating2_80:
-            return relive::SoundEffects::Eating2;
+        case relive::SoundEffects::MeatsawUp:
+            return AO::SoundEffect::MeatsawUp_90;
 
-        case AO::SoundEffect::Empty_81:
-            return relive::SoundEffects::Empty;
+        case relive::SoundEffects::MeatsawDown:
+            return AO::SoundEffect::MeatsawDown_91;
 
-        case AO::SoundEffect::GrenadeBounce_82:
-            return relive::SoundEffects::GrenadeBounce;
+        case relive::SoundEffects::IndustrialNoise1:
+            return AO::SoundEffect::IndustrialNoise1_93;
 
-        case AO::SoundEffect::SlingshotExtend_83:
-            return relive::SoundEffects::SlingshotExtend;
+        case relive::SoundEffects::IndustrialNoise2:
+            return AO::SoundEffect::IndustrialNoise2_94;
 
-        case AO::SoundEffect::SlingshotShoot_84:
-            return relive::SoundEffects::SlingshotShoot;
+        case relive::SoundEffects::IndustrialNoise3:
+            return AO::SoundEffect::IndustrialNoise3_95;
 
-        case AO::SoundEffect::Clean1_85:
-            return relive::SoundEffects::Clean1;
+        case relive::SoundEffects::Vaporize:
+            return AO::SoundEffect::Vaporize_96;
 
-        case AO::SoundEffect::Clean2_86:
-            return relive::SoundEffects::Clean2;
+        case relive::SoundEffects::IndustrialTrigger:
+            return AO::SoundEffect::IndustrialTrigger_97;
 
-        case AO::SoundEffect::LCDScreen_87:
-            return relive::SoundEffects::LCDScreen;
+        case relive::SoundEffects::Choke:
+            return AO::SoundEffect::Choke_98;
 
-        case AO::SoundEffect::MeatsawOffscreen_88:
-            return relive::SoundEffects::MeatsawOffscreen;
+        case relive::SoundEffects::Gas1:
+            return AO::SoundEffect::Gas1_99;
 
-        case AO::SoundEffect::MeatsawIdle_89:
-            return relive::SoundEffects::MeatsawIdle;
+        case relive::SoundEffects::Gas2:
+            return AO::SoundEffect::Gas2_100;
 
-        case AO::SoundEffect::MeatsawUp_90:
-            return relive::SoundEffects::MeatsawUp;
+        case relive::SoundEffects::GlukkonKillHim1:
+            return AO::SoundEffect::GlukkonKillHim1_101;
 
-        case AO::SoundEffect::MeatsawDown_91:
-            return relive::SoundEffects::MeatsawDown;
+        case relive::SoundEffects::GlukkonKillHim2:
+            return AO::SoundEffect::GlukkonKillHim2_102;
 
-        case AO::SoundEffect::Empty_92:
-            return relive::SoundEffects::Empty;
+        case relive::SoundEffects::GlukkonLaugh1:
+            return AO::SoundEffect::GlukkonLaugh1_103;
 
-        case AO::SoundEffect::IndustrialNoise1_93:
-            return relive::SoundEffects::IndustrialNoise1;
+        case relive::SoundEffects::GlukkonLaugh2:
+            return AO::SoundEffect::GlukkonLaugh2_104;
 
-        case AO::SoundEffect::IndustrialNoise2_94:
-            return relive::SoundEffects::IndustrialNoise2;
+        case relive::SoundEffects::Empty:
+            return AO::SoundEffect::Empty_105;
+        
+        /*
+         case relive::SoundEffects::Empty:
+            return AO::SoundEffect::Empty_20;
 
-        case AO::SoundEffect::IndustrialNoise3_95:
-            return relive::SoundEffects::IndustrialNoise3;
+        case relive::SoundEffects::Empty:
+            return AO::SoundEffect::Empty_74;
 
-        case AO::SoundEffect::Vaporize_96:
-            return relive::SoundEffects::Vaporize;
+        case relive::SoundEffects::Empty:
+            return AO::SoundEffect::Empty_44;
 
-        case AO::SoundEffect::IndustrialTrigger_97:
-            return relive::SoundEffects::IndustrialTrigger;
+        case relive::SoundEffects::Empty:
+            return AO::SoundEffect::Empty_54;
 
-        case AO::SoundEffect::Choke_98:
-            return relive::SoundEffects::Choke;
+        case relive::SoundEffects::Empty:
+            return AO::SoundEffect::Empty_55;
 
-        case AO::SoundEffect::Gas1_99:
-            return relive::SoundEffects::Gas1;
+        case relive::SoundEffects::Empty:
+            return AO::SoundEffect::Empty_59;
 
-        case AO::SoundEffect::Gas2_100:
-            return relive::SoundEffects::Gas2;
+        case relive::SoundEffects::Empty:
+            return AO::SoundEffect::Empty_63;
 
-        case AO::SoundEffect::GlukkonKillHim1_101:
-            return relive::SoundEffects::GlukkonKillHim1;
+        case relive::SoundEffects::Empty:
+            return AO::SoundEffect::Empty_76;
 
-        case AO::SoundEffect::GlukkonKillHim2_102:
-            return relive::SoundEffects::GlukkonKillHim2;
+        case relive::SoundEffects::Empty:
+            return AO::SoundEffect::Empty_77;
 
-        case AO::SoundEffect::GlukkonLaugh1_103:
-            return relive::SoundEffects::GlukkonLaugh1;
+        case relive::SoundEffects::Empty:
+            return AO::SoundEffect::Empty_81;
 
-        case AO::SoundEffect::GlukkonLaugh2_104:
-            return relive::SoundEffects::GlukkonLaugh2;
+        case relive::SoundEffects::Empty:
+            return AO::SoundEffect::Empty_92;
 
-        case AO::SoundEffect::Empty_105:
-            return relive::SoundEffects::Empty;
+        case relive::SoundEffects::Empty:
+            return AO::SoundEffect::Empty_106;
+        */
 
-        case AO::SoundEffect::Empty_106:
-            return relive::SoundEffects::Empty;
+        case relive::SoundEffects::IngameTransition:
+            return AO::SoundEffect::IngameTransition_107;
 
-        case AO::SoundEffect::IngameTransition_107:
-            return relive::SoundEffects::IngameTransition;
+        case relive::SoundEffects::Shrykull1:
+            return AO::SoundEffect::Shrykull1_108;
 
-        case AO::SoundEffect::Shrykull1_108:
-            return relive::SoundEffects::Shrykull1;
+        case relive::SoundEffects::Shrykull2:
+            return AO::SoundEffect::Shrykull2_109;
 
-        case AO::SoundEffect::Shrykull2_109:
-            return relive::SoundEffects::Shrykull2;
+        case relive::SoundEffects::SligLaugh:
+            return AO::SoundEffect::SligLaugh_110;
 
-        case AO::SoundEffect::SligLaugh_110:
-            return relive::SoundEffects::SligLaugh;
+        case relive::SoundEffects::SligHereBoy:
+            return AO::SoundEffect::SligHereBoy_111;
 
-        case AO::SoundEffect::SligHereBoy_111:
-            return relive::SoundEffects::SligHereBoy;
-
-        case AO::SoundEffect::SligBleh_112:
-            return relive::SoundEffects::SligBleh;
+        case relive::SoundEffects::SligBleh:
+            return AO::SoundEffect::SligBleh_112;
     }
-    ALIVE_FATAL("Unknown sfx");
+    ALIVE_FATAL("Unknown sound");
 }
 
-relive::SoundEffects From(SoundEffect value)
+static SoundEffect ToAe(relive::SoundEffects sfx)
 {
-    switch (value)
+    switch (sfx)
     {
-        case SoundEffect::Bullet1_0:
-            return relive::SoundEffects::Bullet1;
+        case relive::SoundEffects::Bullet1:
+            return SoundEffect::Bullet1_0;
 
-        case SoundEffect::Bullet2_1:
-            return relive::SoundEffects::Bullet2;
+        case relive::SoundEffects::Bullet2:
+            return SoundEffect::Bullet2_1;
 
-        case SoundEffect::GreenTick_2:
-            return relive::SoundEffects::GreenTick;
+        case relive::SoundEffects::GreenTick:
+            return SoundEffect::GreenTick_2;
 
-        case SoundEffect::RedTick_3:
-            return relive::SoundEffects::RedTick;
+        case relive::SoundEffects::RedTick:
+            return SoundEffect::RedTick_3;
 
-        case SoundEffect::ZPop_4:
-            return relive::SoundEffects::ZPop;
+        case relive::SoundEffects::ZPop:
+            return SoundEffect::ZPop_4;
 
-        case SoundEffect::SligShoot_5:
-            return relive::SoundEffects::SligShoot;
+        case relive::SoundEffects::SligShoot:
+            return SoundEffect::SligShoot_5;
 
-        case SoundEffect::BulletShell_6:
-            return relive::SoundEffects::BulletShell;
+        case relive::SoundEffects::BulletShell:
+            return SoundEffect::BulletShell_6;
 
-        case SoundEffect::MenuTransition_7:
-            return relive::SoundEffects::MenuTransition;
+        case relive::SoundEffects::MenuTransition:
+            return SoundEffect::MenuTransition_7;
 
-        case SoundEffect::RingUnknownTrigger_8:
-            return relive::SoundEffects::RingUnknownTrigger;
+        case relive::SoundEffects::RingUnknownTrigger:
+            return SoundEffect::RingUnknownTrigger_8;
 
-        case SoundEffect::Empty_9:
-            return relive::SoundEffects::Empty;
+        case relive::SoundEffects::SwitchUnknownTrigger:
+            return SoundEffect::SwitchUnknownTrigger_11;
 
-        case SoundEffect::Empty_10:
-            return relive::SoundEffects::Empty;
+        case relive::SoundEffects::HandstoneTransition:
+            return SoundEffect::HandstoneTransition_12;
 
-        case SoundEffect::SwitchUnknownTrigger_11:
-            return relive::SoundEffects::SwitchUnknownTrigger;
+        case relive::SoundEffects::Dove:
+            return SoundEffect::Dove_13;
 
-        case SoundEffect::HandstoneTransition_12:
-            return relive::SoundEffects::HandstoneTransition;
+        case relive::SoundEffects::FlyingDove:
+            return SoundEffect::FlyingDove_14;
 
-        case SoundEffect::Dove_13:
-            return relive::SoundEffects::Dove;
+        case relive::SoundEffects::AbeDove:
+            return SoundEffect::AbeDove_15;
 
-        case SoundEffect::FlyingDove_14:
-            return relive::SoundEffects::FlyingDove;
+        case relive::SoundEffects::PossessEffect:
+            return SoundEffect::PossessEffect_17;
 
-        case SoundEffect::AbeDove_15:
-            return relive::SoundEffects::AbeDove;
+        /*
+        case relive::SoundEffects::PossessEffect:
+            return SoundEffect::PossessEffect_16; // Seems like OG never used this
 
-        case SoundEffect::PossessEffect_16:
-            return relive::SoundEffects::PossessEffect;
+        case relive::SoundEffects::PossessEffect:
+            return SoundEffect::PossessEffect_19; // Seems like OG never used this
+        */
 
-        case SoundEffect::PossessEffect_17:
-            return relive::SoundEffects::PossessEffect;
+        case relive::SoundEffects::ShrykullZap:
+            return SoundEffect::ShrykullZap_18;
 
-        case SoundEffect::ShrykullZap_18:
-            return relive::SoundEffects::ShrykullZap;
+        case relive::SoundEffects::WellExit:
+            return SoundEffect::WellExit_20;
 
-        case SoundEffect::PossessEffect_19:
-            return relive::SoundEffects::PossessEffect;
+        case relive::SoundEffects::WellEnter:
+            return SoundEffect::WellEnter_21;
 
-        case SoundEffect::WellExit_20:
-            return relive::SoundEffects::WellExit;
+        case relive::SoundEffects::Leaf:
+            return SoundEffect::Leaf_22;
 
-        case SoundEffect::WellEnter_21:
-            return relive::SoundEffects::WellEnter;
+        case relive::SoundEffects::AirStream:
+            return SoundEffect::AirStream_23;
 
-        case SoundEffect::Leaf_22:
-            return relive::SoundEffects::Leaf;
+        case relive::SoundEffects::RockBounceOnMine:
+            return SoundEffect::RockBounceOnMine_24;
 
-        case SoundEffect::AirStream_23:
-            return relive::SoundEffects::AirStream;
+        case relive::SoundEffects::SackHit:
+            return SoundEffect::SackHit_25;
 
-        case SoundEffect::RockBounceOnMine_24:
-            return relive::SoundEffects::RockBounceOnMine;
+        case relive::SoundEffects::RockBounce:
+            return SoundEffect::RockBounce_26;
 
-        case SoundEffect::SackHit_25:
-            return relive::SoundEffects::SackHit;
+        case relive::SoundEffects::ParticleBurst:
+            return SoundEffect::ParticleBurst_27;
 
-        case SoundEffect::RockBounce_26:
-            return relive::SoundEffects::RockBounce;
+        case relive::SoundEffects::PickupItem:
+            return SoundEffect::PickupItem_28;
 
-        case SoundEffect::ParticleBurst_27:
-            return relive::SoundEffects::ParticleBurst;
+        case relive::SoundEffects::SackWobble:
+            return SoundEffect::SackWobble_29;
 
-        case SoundEffect::PickupItem_28:
-            return relive::SoundEffects::PickupItem;
+        case relive::SoundEffects::LiftStop:
+            return SoundEffect::LiftStop_30;
 
-        case SoundEffect::SackWobble_29:
-            return relive::SoundEffects::SackWobble;
+        case relive::SoundEffects::WheelSqueak:
+            return SoundEffect::WheelSqueak_31;
 
-        case SoundEffect::LiftStop_30:
-            return relive::SoundEffects::LiftStop;
+        case relive::SoundEffects::AbeGenericMovement:
+            return SoundEffect::AbeGenericMovement_32;
 
-        case SoundEffect::WheelSqueak_31:
-            return relive::SoundEffects::WheelSqueak;
+        case relive::SoundEffects::SlogBite:
+            return SoundEffect::SlogBite_34;
 
-        case SoundEffect::AbeGenericMovement_32:
-            return relive::SoundEffects::AbeGenericMovement;
+        case relive::SoundEffects::AmbientEffect1:
+            return SoundEffect::AmbientEffect1_35;
 
-        case SoundEffect::Empty_33:
-            return relive::SoundEffects::Empty;
+        case relive::SoundEffects::MeatBounce:
+            return SoundEffect::MeatBounce_36;
 
-        case SoundEffect::SlogBite_34:
-            return relive::SoundEffects::SlogBite;
+        case relive::SoundEffects::Bloop:
+            return SoundEffect::Bloop_37;
 
-        case SoundEffect::AmbientEffect1_35:
-            return relive::SoundEffects::AmbientEffect1;
+        case relive::SoundEffects::SecurityDoorDeny:
+            return SoundEffect::SecurityDoorDeny_38;
 
-        case SoundEffect::MeatBounce_36:
-            return relive::SoundEffects::MeatBounce;
+        case relive::SoundEffects::ElectricZap:
+            return SoundEffect::ElectricZap_39;
 
-        case SoundEffect::Bloop_37:
-            return relive::SoundEffects::Bloop;
+        case relive::SoundEffects::ElectricGateLoud:
+            return SoundEffect::ElectricGateLoud_40;
 
-        case SoundEffect::SecurityDoorDeny_38:
-            return relive::SoundEffects::SecurityDoorDeny;
+        case relive::SoundEffects::BirdPortalSpark:
+            return SoundEffect::BirdPortalSpark_41;
 
-        case SoundEffect::ElectricZap_39:
-            return relive::SoundEffects::ElectricZap;
+        case relive::SoundEffects::TrapdoorClose:
+            return SoundEffect::TrapdoorClose_42;
 
-        case SoundEffect::ElectricGateLoud_40:
-            return relive::SoundEffects::ElectricGateLoud;
+        case relive::SoundEffects::TrapdoorOpen:
+            return SoundEffect::TrapdoorOpen_43;
 
-        case SoundEffect::BirdPortalSpark_41:
-            return relive::SoundEffects::BirdPortalSpark;
+        case relive::SoundEffects::AmbientEffect2:
+            return SoundEffect::AmbientEffect2_44;
 
-        case SoundEffect::TrapdoorClose_42:
-            return relive::SoundEffects::TrapdoorClose;
+        case relive::SoundEffects::AmbientEffect3:
+            return SoundEffect::AmbientEffect3_45;
 
-        case SoundEffect::TrapdoorOpen_43:
-            return relive::SoundEffects::TrapdoorOpen;
+        case relive::SoundEffects::AmbientEffect4:
+            return SoundEffect::AmbientEffect4_46;
 
-        case SoundEffect::AmbientEffect2_44:
-            return relive::SoundEffects::AmbientEffect2;
+        case relive::SoundEffects::FallingItemHit:
+            return SoundEffect::FallingItemHit_47;
 
-        case SoundEffect::AmbientEffect3_45:
-            return relive::SoundEffects::AmbientEffect3;
+        case relive::SoundEffects::SecurityOrb:
+            return SoundEffect::SecurityOrb_48;
 
-        case SoundEffect::AmbientEffect4_46:
-            return relive::SoundEffects::AmbientEffect4;
+        case relive::SoundEffects::Zap1:
+            return SoundEffect::Zap1_49;
 
-        case SoundEffect::FallingItemHit_47:
-            return relive::SoundEffects::FallingItemHit;
+        case relive::SoundEffects::Zap2:
+            return SoundEffect::Zap2_50;
 
-        case SoundEffect::SecurityOrb_48:
-            return relive::SoundEffects::SecurityOrb;
+        case relive::SoundEffects::AmbientEffect5:
+            return SoundEffect::AmbientEffect5_51;
 
-        case SoundEffect::Zap1_49:
-            return relive::SoundEffects::Zap1;
+        case relive::SoundEffects::MenuNavigation:
+            return SoundEffect::MenuNavigation_52;
 
-        case SoundEffect::Zap2_50:
-            return relive::SoundEffects::Zap2;
+        case relive::SoundEffects::AmbientEffect6:
+            return SoundEffect::AmbientEffect6_53;
 
-        case SoundEffect::AmbientEffect5_51:
-            return relive::SoundEffects::AmbientEffect5;
+        case relive::SoundEffects::AmbientEffect7:
+            return SoundEffect::AmbientEffect7_54;
 
-        case SoundEffect::MenuNavigation_52:
-            return relive::SoundEffects::MenuNavigation;
+        case relive::SoundEffects::FootSwitchPress:
+            return SoundEffect::FootSwitchPress_55;
 
-        case SoundEffect::AmbientEffect6_53:
-            return relive::SoundEffects::AmbientEffect6;
+        case relive::SoundEffects::RingRopePull:
+            return SoundEffect::RingRopePull_56;
 
-        case SoundEffect::AmbientEffect7_54:
-            return relive::SoundEffects::AmbientEffect7;
+        case relive::SoundEffects::DoorEffect:
+            return SoundEffect::DoorEffect_57;
 
-        case SoundEffect::FootSwitchPress_55:
-            return relive::SoundEffects::FootSwitchPress;
+        case relive::SoundEffects::PortalOpening:
+            return SoundEffect::PortalOpening_58;
 
-        case SoundEffect::RingRopePull_56:
-            return relive::SoundEffects::RingRopePull;
+        case relive::SoundEffects::Fire:
+            return SoundEffect::Fire_59;
 
-        case SoundEffect::DoorEffect_57:
-            return relive::SoundEffects::DoorEffect;
+        case relive::SoundEffects::AmbientEffect8:
+            return SoundEffect::AmbientEffect8_60;
 
-        case SoundEffect::PortalOpening_58:
-            return relive::SoundEffects::PortalOpening;
+        case relive::SoundEffects::AmbientEffect9:
+            return SoundEffect::AmbientEffect9_61;
 
-        case SoundEffect::Fire_59:
-            return relive::SoundEffects::Fire;
+        case relive::SoundEffects::FallingItemLand:
+            return SoundEffect::FallingItemLand_62;
 
-        case SoundEffect::AmbientEffect8_60:
-            return relive::SoundEffects::AmbientEffect8;
+        case relive::SoundEffects::LeverPull:
+            return SoundEffect::LeverPull_63;
 
-        case SoundEffect::AmbientEffect9_61:
-            return relive::SoundEffects::AmbientEffect9;
+        case relive::SoundEffects::KillEffect:
+            return SoundEffect::KillEffect_64;
 
-        case SoundEffect::FallingItemLand_62:
-            return relive::SoundEffects::FallingItemLand;
+        case relive::SoundEffects::Eating1:
+            return SoundEffect::Eating1_65;
 
-        case SoundEffect::LeverPull_63:
-            return relive::SoundEffects::LeverPull;
+        case relive::SoundEffects::Eating2:
+            return SoundEffect::Eating2_66;
 
-        case SoundEffect::KillEffect_64:
-            return relive::SoundEffects::KillEffect;
+        case relive::SoundEffects::Empty:
+            return SoundEffect::Empty_67;
 
-        case SoundEffect::Eating1_65:
-            return relive::SoundEffects::Eating1;
+        /*
+        case relive::SoundEffects::Empty:
+            return SoundEffect::Empty_9;
 
-        case SoundEffect::Eating2_66:
-            return relive::SoundEffects::Eating2;
+        case relive::SoundEffects::Empty:
+            return SoundEffect::Empty_10;
 
-        case SoundEffect::Empty_67:
-            return relive::SoundEffects::Empty;
+        case relive::SoundEffects::Empty:
+            return SoundEffect::Empty_33;
 
-        case SoundEffect::GrenadeBounce_68:
-            return relive::SoundEffects::GrenadeBounce;
+        case relive::SoundEffects::Empty:
+            return SoundEffect::Empty_69;
 
-        case SoundEffect::Empty_69:
-            return relive::SoundEffects::Empty;
+        case relive::SoundEffects::Empty:
+            return SoundEffect::Empty_70;
 
-        case SoundEffect::Empty_70:
-            return relive::SoundEffects::Empty;
+         case relive::SoundEffects::Empty:
+            return SoundEffect::Empty_98;
+        */
 
-        case SoundEffect::Clean1_71:
-            return relive::SoundEffects::Clean1;
+        case relive::SoundEffects::GrenadeBounce:
+            return SoundEffect::GrenadeBounce_68;
 
-        case SoundEffect::Clean2_72:
-            return relive::SoundEffects::Clean2;
+        case relive::SoundEffects::Clean1:
+            return SoundEffect::Clean1_71;
 
-        case SoundEffect::LCDScreen_73:
-            return relive::SoundEffects::LCDScreen;
+        case relive::SoundEffects::Clean2:
+            return SoundEffect::Clean2_72;
 
-        case SoundEffect::FallingItemPresence1_74:
-            return relive::SoundEffects::FallingItemPresence1;
+        case relive::SoundEffects::LCDScreen:
+            return SoundEffect::LCDScreen_73;
 
-        case SoundEffect::FallingItemPresence2_75:
-            return relive::SoundEffects::FallingItemPresence2;
+        case relive::SoundEffects::FallingItemPresence1:
+            return SoundEffect::FallingItemPresence1_74;
 
-        case SoundEffect::IndustrialNoise1_76:
-            return relive::SoundEffects::IndustrialNoise1;
+        case relive::SoundEffects::FallingItemPresence2:
+            return SoundEffect::FallingItemPresence2_75;
 
-        case SoundEffect::IndustrialNoise2_77:
-            return relive::SoundEffects::IndustrialNoise2;
+        case relive::SoundEffects::IndustrialNoise1:
+            return SoundEffect::IndustrialNoise1_76;
 
-        case SoundEffect::IndustrialNoise3_78:
-            return relive::SoundEffects::IndustrialNoise3;
+        case relive::SoundEffects::IndustrialNoise2:
+            return SoundEffect::IndustrialNoise2_77;
 
-        case SoundEffect::Vaporize_79:
-            return relive::SoundEffects::Vaporize;
+        case relive::SoundEffects::IndustrialNoise3:
+            return SoundEffect::IndustrialNoise3_78;
 
-        case SoundEffect::IndustrialTrigger_80:
-            return relive::SoundEffects::IndustrialTrigger;
+        case relive::SoundEffects::Vaporize:
+            return SoundEffect::Vaporize_79;
 
-        case SoundEffect::Choke_81:
-            return relive::SoundEffects::Choke;
+        case relive::SoundEffects::IndustrialTrigger:
+            return SoundEffect::IndustrialTrigger_80;
 
-        case SoundEffect::Gas1_82:
-            return relive::SoundEffects::Gas1;
+        case relive::SoundEffects::Choke:
+            return SoundEffect::Choke_81;
 
-        case SoundEffect::Gas2_83:
-            return relive::SoundEffects::Gas2;
+        case relive::SoundEffects::Gas1:
+            return SoundEffect::Gas1_82;
 
-        case SoundEffect::IngameTransition_84:
-            return relive::SoundEffects::IngameTransition;
+        case relive::SoundEffects::Gas2:
+            return SoundEffect::Gas2_83;
 
-        case SoundEffect::Shrykull1_85:
-            return relive::SoundEffects::Shrykull1;
+        case relive::SoundEffects::IngameTransition:
+            return SoundEffect::IngameTransition_84;
 
-        case SoundEffect::Shrykull2_86:
-            return relive::SoundEffects::Shrykull2;
+        case relive::SoundEffects::Shrykull1:
+            return SoundEffect::Shrykull1_85;
 
-        case SoundEffect::SecurityDoorLaugh_87:
-            return relive::SoundEffects::SecurityDoorLaugh;
+        case relive::SoundEffects::Shrykull2:
+            return SoundEffect::Shrykull2_86;
 
-        case SoundEffect::GlukkonSwitchBleh_88:
-            return relive::SoundEffects::GlukkonSwitchBleh;
+        case relive::SoundEffects::SecurityDoorLaugh:
+            return SoundEffect::SecurityDoorLaugh_87;
 
-        case SoundEffect::SlurgKill_89:
-            return relive::SoundEffects::SlurgKill;
+        case relive::SoundEffects::GlukkonSwitchBleh:
+            return SoundEffect::GlukkonSwitchBleh_88;
 
-        case SoundEffect::SlurgPause_90:
-            return relive::SoundEffects::SlurgPause;
+        case relive::SoundEffects::SlurgKill:
+            return SoundEffect::SlurgKill_89;
 
-        case SoundEffect::Chisel_91:
-            return relive::SoundEffects::Chisel;
+        case relive::SoundEffects::SlurgPause:
+            return SoundEffect::SlurgPause_90;
 
-        case SoundEffect::NakedSligTransformEnd_92:
-            return relive::SoundEffects::NakedSligTransformEnd;
+        case relive::SoundEffects::Chisel:
+            return SoundEffect::Chisel_91;
 
-        case SoundEffect::CrawlingSligTransformStart_93:
-            return relive::SoundEffects::CrawlingSligTransformStart;
+        case relive::SoundEffects::NakedSligTransformEnd:
+            return SoundEffect::NakedSligTransformEnd_92;
 
-        case SoundEffect::WaterStart_94:
-            return relive::SoundEffects::WaterStart;
+        case relive::SoundEffects::CrawlingSligTransformStart:
+            return SoundEffect::CrawlingSligTransformStart_93;
 
-        case SoundEffect::WaterFall_95:
-            return relive::SoundEffects::WaterFall;
+        case relive::SoundEffects::WaterStart:
+            return SoundEffect::WaterStart_94;
 
-        case SoundEffect::WaterEnd_96:
-            return relive::SoundEffects::WaterEnd;
+        case relive::SoundEffects::WaterFall:
+            return SoundEffect::WaterFall_95;
 
-        case SoundEffect::DrillMovement_97:
-            return relive::SoundEffects::DrillMovement;
+        case relive::SoundEffects::WaterEnd:
+            return SoundEffect::WaterEnd_96;
 
-        case SoundEffect::Empty_98:
-            return relive::SoundEffects::Empty;
+        case relive::SoundEffects::DrillMovement:
+            return SoundEffect::DrillMovement_97;
 
-        case SoundEffect::DrillCollision_99:
-            return relive::SoundEffects::DrillCollision;
+        case relive::SoundEffects::DrillCollision:
+            return SoundEffect::DrillCollision_99;
 
-        case SoundEffect::MinecarMovement_100:
-            return relive::SoundEffects::MinecarMovement;
+        case relive::SoundEffects::MinecarMovement:
+            return SoundEffect::MinecarMovement_100;
 
-        case SoundEffect::MinecarStop_101:
-            return relive::SoundEffects::MinecarStop;
+        case relive::SoundEffects::MinecarStop:
+            return SoundEffect::MinecarStop_101;
 
-        case SoundEffect::MinecarStuck_102:
-            return relive::SoundEffects::MinecarStuck;
+        case relive::SoundEffects::MinecarStuck:
+            return SoundEffect::MinecarStuck_102;
 
-        case SoundEffect::WebDrop1_103:
-            return relive::SoundEffects::WebDrop1;
+        case relive::SoundEffects::WebDrop1:
+            return SoundEffect::WebDrop1_103;
 
-        case SoundEffect::WebDrop2_104:
-            return relive::SoundEffects::WebDrop2;
+        case relive::SoundEffects::WebDrop2:
+            return SoundEffect::WebDrop2_104;
 
-        case SoundEffect::SpiritLockShake_105:
-            return relive::SoundEffects::SpiritLockShake;
+        case relive::SoundEffects::SpiritLockShake:
+            return SoundEffect::SpiritLockShake_105;
 
-        case SoundEffect::SpiritLockBreak_106:
-            return relive::SoundEffects::SpiritLockBreak;
+        case relive::SoundEffects::SpiritLockBreak:
+            return SoundEffect::SpiritLockBreak_106;
 
-        case SoundEffect::FlyingSpirit1_107:
-            return relive::SoundEffects::FlyingSpirit1;
+        case relive::SoundEffects::FlyingSpirit1:
+            return SoundEffect::FlyingSpirit1_107;
 
-        case SoundEffect::FlyingSpirit2_108:
-            return relive::SoundEffects::FlyingSpirit2;
+        case relive::SoundEffects::FlyingSpirit2:
+            return SoundEffect::FlyingSpirit2_108;
 
-        case SoundEffect::UnusedSpawn_109:
-            return relive::SoundEffects::UnusedSpawn;
+        case relive::SoundEffects::UnusedSpawn:
+            return SoundEffect::UnusedSpawn_109;
 
-        case SoundEffect::ParamiteSpawn_110:
-            return relive::SoundEffects::ParamiteSpawn;
+        case relive::SoundEffects::ParamiteSpawn:
+            return SoundEffect::ParamiteSpawn_110;
 
-        case SoundEffect::ScrabSpawn_111:
-            return relive::SoundEffects::ScrabSpawn;
+        case relive::SoundEffects::ScrabSpawn:
+            return SoundEffect::ScrabSpawn_111;
 
-        case SoundEffect::GlukkonSpawn_112:
-            return relive::SoundEffects::GlukkonSpawn;
+        case relive::SoundEffects::GlukkonSpawn:
+            return SoundEffect::GlukkonSpawn_112;
 
-        case SoundEffect::FlyingSligSpawn_113:
-            return relive::SoundEffects::FlyingSligSpawn;
+        case relive::SoundEffects::FlyingSligSpawn:
+            return SoundEffect::FlyingSligSpawn_113;
 
-        case SoundEffect::SligSpawn_114:
-            return relive::SoundEffects::SligSpawn;
+        case relive::SoundEffects::SligSpawn:
+            return SoundEffect::SligSpawn_114;
 
-        case SoundEffect::SlogSpawn_115:
-            return relive::SoundEffects::SlogSpawn;
+        case relive::SoundEffects::SlogSpawn:
+            return SoundEffect::SlogSpawn_115;
 
-        case SoundEffect::BrewMachineUseStart_116:
-            return relive::SoundEffects::BrewMachineUseStart;
+        case relive::SoundEffects::BrewMachineUseStart:
+            return SoundEffect::BrewMachineUseStart_116;
 
-        case SoundEffect::BrewMachineUseMid_117:
-            return relive::SoundEffects::BrewMachineUseMid;
+        case relive::SoundEffects::BrewMachineUseMid:
+            return SoundEffect::BrewMachineUseMid_117;
 
-        case SoundEffect::BrewMachineUseEmpty_118:
-            return relive::SoundEffects::BrewMachineUseEmpty;
+        case relive::SoundEffects::BrewMachineUseEmpty:
+            return SoundEffect::BrewMachineUseEmpty_118;
 
-        case SoundEffect::BrewMachineUseEnd_119:
-            return relive::SoundEffects::BrewMachineUseEnd;
+        case relive::SoundEffects::BrewMachineUseEnd:
+            return SoundEffect::BrewMachineUseEnd_119;
 
-        case SoundEffect::GreeterLand_120:
-            return relive::SoundEffects::GreeterLand;
+        case relive::SoundEffects::GreeterLand:
+            return SoundEffect::GreeterLand_120;
 
-        case SoundEffect::GreeterKnockback_121:
-            return relive::SoundEffects::GreeterKnockback;
+        case relive::SoundEffects::GreeterKnockback:
+            return SoundEffect::GreeterKnockback_121;
     }
-    ALIVE_FATAL("Unknown sfx");
+    ALIVE_FATAL("Unknown sound");
 }
 
-const relive::SfxDefinition& GetSfx(relive::SoundEffects /*sfx*/)
+const relive::SfxDefinition& relive::GetSfx(relive::SoundEffects sfx)
 {
     if (GetGameType() == GameType::eAo)
     {
-        return AO::sSfxEntries_4CCA38[0];
+        return AO::sSfxEntries_4CCA38[static_cast<u32>(ToAo(sfx))];
     }
     else
     {
-        return sSfxEntries_55C2A0[0];
+        return sSfxEntries_55C2A0[static_cast<u32>(ToAe(sfx))];
+    }
+}
+
+relive::SoundEffects relive::RandomSfx(relive::SoundEffects sfx1, relive::SoundEffects sfx2)
+{
+    if (Math_RandomRange(0, 1) == 0)
+    {
+        return sfx1;
+    }
+    else
+    {
+        return sfx2;
     }
 }

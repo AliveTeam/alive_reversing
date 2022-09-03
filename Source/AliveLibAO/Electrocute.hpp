@@ -9,7 +9,7 @@ namespace AO {
 class BaseAliveGameObject;
 class PalleteOverwriter;
 
-class Electrocute final : public BaseGameObject
+class Electrocute final : public ::BaseGameObject
 {
 public:
     Electrocute(BaseAliveGameObject* pTargetObj, s32 bExtraOverwriter);

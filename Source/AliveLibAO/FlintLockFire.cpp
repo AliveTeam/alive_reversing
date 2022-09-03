@@ -166,7 +166,7 @@ FlintLockFire::FlintLockFire(relive::Path_FlintLockFire* pTlv, const Guid& tlvId
             field_220_anim.mFlags.Set(AnimFlags::eBit2_Animate);
             field_220_anim.mFlags.Set(AnimFlags::eBit3_Render);
 
-            field_EC_fire_sound = SfxPlayMono(SoundEffect::Fire_69, 0, 0);
+            field_EC_fire_sound = SfxPlayMono(relive::SoundEffects::Fire, 0, 0);
         }
     }
 }
@@ -197,8 +197,8 @@ void FlintLockFire::VUpdate()
             {
                 if (mAnim.mCurrentFrame == 6)
                 {
-                    SfxPlayMono(SoundEffect::FlintLock_68, 0, 0);
-                    SfxPlayMono(SoundEffect::PostFlint_70, 0, 0);
+                    SfxPlayMono(relive::SoundEffects::FlintLock, 0, 0);
+                    SfxPlayMono(relive::SoundEffects::PostFlint, 0, 0);
                 }
             }
 
@@ -215,7 +215,7 @@ void FlintLockFire::VUpdate()
                     field_220_anim.mFlags.Set(AnimFlags::eBit2_Animate);
                     field_220_anim.mFlags.Set(AnimFlags::eBit3_Render);
 
-                    field_EC_fire_sound = SfxPlayMono(SoundEffect::Fire_69, 0, 0);
+                    field_EC_fire_sound = SfxPlayMono(relive::SoundEffects::Fire, 0, 0);
                 }
 
                 relive_new MusicTrigger(relive::Path_MusicTrigger::MusicTriggerMusicType::eSecretAreaShort, relive::Path_MusicTrigger::TriggeredBy::eTouching, 0, 15);
@@ -227,7 +227,7 @@ void FlintLockFire::VUpdate()
             {
                 if (!field_EC_fire_sound)
                 {
-                    field_EC_fire_sound = SfxPlayMono(SoundEffect::Fire_69, 0, 0);
+                    field_EC_fire_sound = SfxPlayMono(relive::SoundEffects::Fire, 0, 0);
                 }
             }
             break;

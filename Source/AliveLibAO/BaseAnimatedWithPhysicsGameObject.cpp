@@ -210,7 +210,7 @@ void BaseAnimatedWithPhysicsGameObject::DeathSmokeEffect(bool bPlaySound)
 
         if (bPlaySound == true)
         {
-            SFX_Play_Pitch(SoundEffect::Vaporize_96, 25, FP_GetExponent(FP_FromInteger(2200) * mSpriteScale));
+            SFX_Play_Pitch(relive::SoundEffects::Vaporize, 25, FP_GetExponent(FP_FromInteger(2200) * mSpriteScale));
         }
     }
 }

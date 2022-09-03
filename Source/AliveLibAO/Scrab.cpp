@@ -425,8 +425,8 @@ s16 Scrab::VTakeDamage(BaseGameObject* pFrom)
                 return 0;
 
             default:
-                SfxPlayMono(SoundEffect::KillEffect_78, 127, 0);
-                SfxPlayMono(SoundEffect::FallingItemHit_53, 90, 0);
+                SfxPlayMono(relive::SoundEffects::KillEffect, 127, 0);
+                SfxPlayMono(relive::SoundEffects::FallingItemHit, 90, 0);
                 mHealth = FP_FromInteger(0);
                 SetBrain(&Scrab::Brain_Death_45CB80);
                 field_130_unused = 2;
@@ -691,7 +691,7 @@ s16 Scrab::ToNextMotion()
     }
 }
 
-SfxDefinition sScrabSfx_4CF798[9] = {
+const relive::SfxDefinition sScrabSfx_4CF798[9] = {
     {0, 39, 60, 55, 0, 0, 0},
     {0, 39, 61, 70, 0, 0, 0},
     {0, 39, 62, 80, 0, 0, 0},
@@ -758,7 +758,7 @@ s32 Scrab::Scrab_SFX(ScrabSounds soundId, s32 /*vol*/, s32 pitch, s16 applyDirec
                 return 0;
         }
     }
-    return SFX_SfxDefinition_Play_477330(&sScrabSfx_4CF798[static_cast<s32>(soundId)],
+    return SFX_SfxDefinition_Play_477330(sScrabSfx_4CF798[static_cast<s32>(soundId)],
                                          static_cast<s16>(volumeLeft),
                                          static_cast<s16>(volumeRight),
                                          static_cast<s16>(pitch),
@@ -1177,7 +1177,7 @@ void Scrab::Motion_3_Run_45EAB0()
                     {
                         if (field_120_pTarget->VTakeDamage(this))
                         {
-                            SfxPlayMono(SoundEffect::KillEffect_78, 0, 0);
+                            SfxPlayMono(relive::SoundEffects::KillEffect, 0, 0);
                             Mudokon_SFX(MudSounds::eKnockbackOuch_10, 0, 0, field_120_pTarget);
                         }
                     }
@@ -1305,7 +1305,7 @@ void Scrab::Motion_5_RunToStand_45ED90()
                 {
                     if (field_120_pTarget->VTakeDamage(this))
                     {
-                        SfxPlayMono(SoundEffect::KillEffect_78, 0, 0);
+                        SfxPlayMono(relive::SoundEffects::KillEffect, 0, 0);
                         Mudokon_SFX(MudSounds::eKnockbackOuch_10, 0, 0, field_120_pTarget);
                     }
                 }
@@ -1349,7 +1349,7 @@ void Scrab::Motion_6_HopBegin_45F3C0()
 
         if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
         {
-            SFX_Play_Pitch(SoundEffect::PickupItem_33, 50, -800, 0);
+            SFX_Play_Pitch(relive::SoundEffects::PickupItem, 50, -800, 0);
 
             BaseAliveGameObjectLastLineYPos = mYPos;
 
@@ -1671,7 +1671,7 @@ void Scrab::Motion_13_RunJumpBegin_45F5D0()
 {
     if (mAnim.mCurrentFrame == 1)
     {
-        SFX_Play_Pitch(SoundEffect::PickupItem_33, 50, -800, 0);
+        SFX_Play_Pitch(relive::SoundEffects::PickupItem, 50, -800, 0);
     }
 
     EventBroadcast(kEventNoise, this);
@@ -1804,7 +1804,7 @@ void Scrab::Motion_16_Stamp_45F920()
     if (mAnim.mCurrentFrame == 9)
     {
         Scrab_SFX(ScrabSounds::eHitCollision_4, 0, 0x7FFF, 1);
-        SFX_Play_Pitch(SoundEffect::KillEffect_78, 60, Math_RandomRange(-255, 255), 0);
+        SFX_Play_Pitch(relive::SoundEffects::KillEffect, 60, Math_RandomRange(-255, 255), 0);
     }
 
     if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
@@ -2023,11 +2023,11 @@ void Scrab::Motion_26_Feed_45FDA0()
     {
         if (Math_RandomRange(0, 100) >= 50)
         {
-            SfxPlayMono(SoundEffect::Eating2_80, 0, 0);
+            SfxPlayMono(relive::SoundEffects::Eating2, 0, 0);
         }
         else
         {
-            SfxPlayMono(SoundEffect::Eating1_79, 0, 0);
+            SfxPlayMono(relive::SoundEffects::Eating1, 0, 0);
         }
     }
 
@@ -2054,7 +2054,7 @@ void Scrab::Motion_27_AttackLunge_45FDF0()
             {
                 if (field_120_pTarget->VTakeDamage(this))
                 {
-                    SfxPlayMono(SoundEffect::KillEffect_78, 0, 0);
+                    SfxPlayMono(relive::SoundEffects::KillEffect, 0, 0);
                     Mudokon_SFX(MudSounds::eKnockbackOuch_10, 0, 0, field_120_pTarget);
                 }
 

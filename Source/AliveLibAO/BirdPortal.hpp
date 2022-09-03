@@ -63,7 +63,7 @@ class ThrowableTotalIndicator;
 class ScreenClipper;
 class Dove;
 
-class BirdPortal final : public BaseGameObject
+class BirdPortal final : public ::BaseGameObject
 {
 public:
     BirdPortal(relive::Path_BirdPortal* pTlv, const Guid& tlvId);

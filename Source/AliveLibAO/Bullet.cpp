@@ -97,7 +97,7 @@ void Bullet::VUpdate()
                     New_Smoke_Particles_419A80(hitX, hitY, mSpriteScale, 3, 0);
                     if (Math_RandomRange(0, 100) < 90 || Math_RandomRange(0, 128) >= 64)
                     {
-                        SfxPlayMono(SoundEffect::Bullet2_2, volume, 0);
+                        SfxPlayMono(relive::SoundEffects::Bullet2, volume, 0);
                     }
                     mBaseGameObjectFlags.Set(BaseGameObject::eDead);
                     return;
@@ -109,11 +109,11 @@ void Bullet::VUpdate()
                 {
                     if (Math_RandomRange(0, 100) < 70)
                     {
-                        SfxPlayMono(SoundEffect::Bullet2_2, volume, 0);
+                        SfxPlayMono(relive::SoundEffects::Bullet2, volume, 0);
                     }
                     if (Math_RandomRange(0, 128) < 64)
                     {
-                        SfxPlayMono(SoundEffect::Bullet1_1, volume, 0);
+                        SfxPlayMono(relive::SoundEffects::Bullet1, volume, 0);
                     }
                     mBaseGameObjectFlags.Set(BaseGameObject::eDead);
                     return;
@@ -183,11 +183,11 @@ void Bullet::VUpdate()
 
             if (Math_RandomRange(0, 128) < 64)
             {
-                SfxPlayMono(SoundEffect::Bullet1_1, 75, 0);
+                SfxPlayMono(relive::SoundEffects::Bullet1, 75, 0);
             }
             else
             {
-                SfxPlayMono(SoundEffect::Bullet2_2, 75, 0);
+                SfxPlayMono(relive::SoundEffects::Bullet2, 75, 0);
             }
             mBaseGameObjectFlags.Set(BaseGameObject::eDead);
         }
@@ -282,9 +282,9 @@ BaseAliveGameObject* Bullet::ShootObject(PSX_RECT* pRect)
 
 void Bullet::PlayBulletSounds(s16 volume)
 {
-    SFX_Play_Pitch(SoundEffect::AirStream_28, volume, 2000, 0);
-    SFX_Play_Pitch(SoundEffect::MeatBounce_43, volume, Math_RandomRange(300, 700), 0);
-    SFX_Play_Pitch(SoundEffect::KillEffect_78, volume, Math_RandomRange(900, 1400), 0);
+    SFX_Play_Pitch(relive::SoundEffects::AirStream, volume, 2000, 0);
+    SFX_Play_Pitch(relive::SoundEffects::MeatBounce, volume, Math_RandomRange(300, 700), 0);
+    SFX_Play_Pitch(relive::SoundEffects::KillEffect, volume, Math_RandomRange(900, 1400), 0);
 }
 
 } // namespace AO

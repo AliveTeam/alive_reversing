@@ -1458,7 +1458,6 @@ struct Path_BackgroundAnimation final : public ReliveAPI::TlvObjectBaseAO
             {AO::BgAnimSounds::eNone_m1, "None -1"},
             {AO::BgAnimSounds::eNone_0, "None 0"},
             {AO::BgAnimSounds::eFire_1, "Fire"},
-            {AO::BgAnimSounds::eFireIdx_40, "Fire (ignore)"},
         });
     }
 

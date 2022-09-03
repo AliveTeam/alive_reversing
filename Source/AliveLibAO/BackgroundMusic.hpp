@@ -5,7 +5,7 @@
 
 namespace AO {
 
-class BackgroundMusic final : public BaseGameObject
+class BackgroundMusic final : public ::BaseGameObject
 {
 public:
     BackgroundMusic(s16 musicId);

@@ -4858,13 +4858,13 @@ void Paramite::M_Eating_40_48A0F0()
                 }
                 else
                 {
-                    SfxPlayMono(static_cast<SoundEffect>(Math_RandomRange(relive::SoundEffects::Eating1, relive::SoundEffects::Eating2)), 0);
+                    SfxPlayMono(relive::RandomSfx(relive::SoundEffects::Eating1, relive::SoundEffects::Eating2), 0);
                 }
             }
         }
         else
         {
-            SfxPlayMono(static_cast<SoundEffect>(Math_RandomRange(relive::SoundEffects::Eating1, relive::SoundEffects::Eating2)), 0);
+            SfxPlayMono(relive::RandomSfx(relive::SoundEffects::Eating1, relive::SoundEffects::Eating2), 0);
         }
     }
 

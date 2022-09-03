@@ -23,7 +23,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_LiftMover, 0x20);
 
 class LiftPoint;
 
-class LiftMover final : public BaseGameObject
+class LiftMover final : public ::BaseGameObject
 {
 public:
     LiftMover(relive::Path_LiftMover* pTlv, const Guid& tlvId);

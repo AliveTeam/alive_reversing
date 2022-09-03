@@ -12,7 +12,7 @@ namespace AO {
 
 class BaseAliveGameObject;
 
-class MusicController final : public BaseGameObject
+class MusicController final : public ::BaseGameObject
 {
 public:
     static s16 Create();

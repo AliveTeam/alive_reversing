@@ -14,7 +14,7 @@ struct Path_GasCountDown final : public Path_TLV
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_GasCountDown, 0x1C);
 
-class GasCountDown final : public BaseGameObject
+class GasCountDown final : public ::BaseGameObject
 {
 public:
     GasCountDown(relive::Path_GasCountDown* pTlv, const Guid& tlvId);
