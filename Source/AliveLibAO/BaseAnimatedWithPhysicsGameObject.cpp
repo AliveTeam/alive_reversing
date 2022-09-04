@@ -201,7 +201,7 @@ void BaseAnimatedWithPhysicsGameObject::DeathSmokeEffect(bool bPlaySound)
     // note: mudokons used % 4
     if (!(sGnFrame % 5))
     {
-        New_Smoke_Particles_419A80(
+        New_Smoke_Particles(
             mXPos + (FP_FromInteger(Math_RandomRange(-24, 24)) * mSpriteScale),
             mYPos - FP_FromInteger(6),
             mSpriteScale / FP_FromInteger(2),

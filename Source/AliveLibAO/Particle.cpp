@@ -67,7 +67,7 @@ Particle* New_DestroyOrCreateObject_Particle_419D00(FP xpos, FP ypos, FP scale)
 }
 
 // Fart/dust cloud particle spawner
-void New_Smoke_Particles_419A80(FP xpos, FP ypos, FP scale, s16 count, s16 type)
+void New_Smoke_Particles(FP xpos, FP ypos, FP scale, s16 count, s16 type)
 {
     FP velYCounter = {};
     for (s32 i = 0; i < count; i++)

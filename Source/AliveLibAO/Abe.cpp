@@ -2149,7 +2149,7 @@ s16 Abe::DoGameSpeak_42F5C0(u16 input)
                 {
                     xPos -= (FP_FromInteger(12) * mSpriteScale);
                 }
-                New_Smoke_Particles_419A80(
+                New_Smoke_Particles(
                     xPos,
                     mYPos - (FP_FromInteger(24) * mSpriteScale),
                     FP_FromDouble(0.5) * mSpriteScale,
@@ -2485,7 +2485,7 @@ void Abe::CrouchingGameSpeak_427F90()
                 {
                     xPos = mXPos - FP_FromDouble(10) * mSpriteScale;
                 }
-                New_Smoke_Particles_419A80(
+                New_Smoke_Particles(
                     xPos,
                     mYPos - FP_FromDouble(6) * mSpriteScale,
                     mSpriteScale * FP_FromDouble(0.5),

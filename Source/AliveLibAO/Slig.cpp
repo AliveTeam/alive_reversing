@@ -3654,7 +3654,7 @@ void Slig::Motion_38_Possess_46B050()
                 FP_FromInteger(0),
                 mSpriteScale);
 
-            New_Smoke_Particles_419A80(
+            New_Smoke_Particles(
                 mXPos,
                 mYPos - (FP_FromInteger(30) * mSpriteScale),
                 mSpriteScale,
@@ -5643,7 +5643,7 @@ void Slig::BlowToGibs_4685A0()
         mSpriteScale,
         20);
 
-    New_Smoke_Particles_419A80(
+    New_Smoke_Particles(
         mXPos,
         mYPos - (FP_FromInteger(30) * mSpriteScale),
         mSpriteScale,

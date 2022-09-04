@@ -4120,14 +4120,14 @@ s16 Mudokon::Brain_10_ListeningToAbe()
                     const FP fart_scale = (FP_FromDouble(0.5) * mSpriteScale);
                     const FP fart_y = mYPos - (FP_FromInteger(24) * mSpriteScale);
                     const FP fart_x = (FP_FromInteger(12) * mSpriteScale) + mXPos;
-                    New_Smoke_Particles_419A80(fart_x, fart_y, fart_scale, 3, 1);
+                    New_Smoke_Particles(fart_x, fart_y, fart_scale, 3, 1);
                 }
                 else
                 {
                     const FP fart_scale = (FP_FromDouble(0.5) * mSpriteScale);
                     const FP fart_y = mYPos - (FP_FromInteger(24) * mSpriteScale);
                     const FP fart_x = mXPos - (FP_FromInteger(12) * mSpriteScale);
-                    New_Smoke_Particles_419A80(fart_x, fart_y, fart_scale, 3, 1);
+                    New_Smoke_Particles(fart_x, fart_y, fart_scale, 3, 1);
                 }
 
                 return field_1B0;
