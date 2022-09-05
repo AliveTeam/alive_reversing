@@ -204,7 +204,7 @@ void BaseAnimatedWithPhysicsGameObject::DeathSmokeEffect(bool bPlaySound)
 
         if (bPlaySound == true)
         {
-            SFX_Play_Pitch(relive::SoundEffects::Vaporize, 25, FP_GetExponent((FP_FromInteger(2200) * mSpriteScale)));
+            SFX_Play_Pitch(relive::SoundEffects::Vaporize, 25, FP_GetExponent(FP_FromInteger(2200) * mSpriteScale));
         }
     }
 }
@@ -227,7 +227,8 @@ void BaseAnimatedWithPhysicsGameObject::VOnCollisionWith(PSX_Point xy, PSX_Point
                 {
                     BaseAnimatedWithPhysicsGameObject* pObj = static_cast<BaseAnimatedWithPhysicsGameObject*>(pObjIter);
                     const PSX_RECT bRect = pObj->VGetBoundingRect(startingPointIdx);
-                    if (xy.x <= bRect.w && xy.y <= bRect.h && wh.x >= bRect.x && wh.y >= bRect.y && mScale == pObj->mScale)
+					// NOTE: AO ignored scale here
+                    if (xy.x <= bRect.w && wh.x >= bRect.x && wh.y >= bRect.y && xy.y <= bRect.h && mScale == pObj->mScale)
                     {
                         if (!(this->*(pFn))(pObj))
                         {

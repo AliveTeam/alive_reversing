@@ -19,6 +19,7 @@ namespace AO {
 BaseAnimatedWithPhysicsGameObject::BaseAnimatedWithPhysicsGameObject()
     : IBaseAnimatedWithPhysicsGameObject(0)
 {
+    mVisualFlags.Clear(VisualFlags::eDoPurpleLightEffect);
     mVisualFlags.Set(VisualFlags::eApplyShadowZoneColour);
 
     mCurrentPath = gMap.mCurrentPath;
@@ -112,13 +113,10 @@ void BaseAnimatedWithPhysicsGameObject::VRender(PrimHeader** ppOt)
             mAnim.mBlue = static_cast<u8>(b);
 
             mAnim.VRender(
-                // FP_GetExponent((FP_FromInteger(mXOffset) + mXPos - pScreenManager->CamXPos())),
-
-                //pScreenManager->CamXPos()
-                //  return mCamPos->x - FP_FromInteger(mCamXOff);
-
-                FP_GetExponent((FP_FromInteger(pScreenManager->mCamXOff + mXOffset)) + mXPos - pScreenManager->mCamPos->x),
-                FP_GetExponent((FP_FromInteger(pScreenManager->mCamYOff + mYOffset)) + mYPos - pScreenManager->mCamPos->y),
+                FP_GetExponent((FP_FromInteger(pScreenManager->mCamXOff + mXOffset)) 
+					+ mXPos - pScreenManager->mCamPos->x),
+                FP_GetExponent((FP_FromInteger(pScreenManager->mCamYOff + mYOffset)) 
+					+ mYPos - pScreenManager->mCamPos->y),
                 ppOt,
                 0,
                 0);
@@ -193,7 +191,7 @@ void BaseAnimatedWithPhysicsGameObject::Animation_Init(AnimId animId, u8** ppAni
 CameraPos BaseAnimatedWithPhysicsGameObject::Is_In_Current_Camera()
 {
     const PSX_RECT rect = VGetBoundingRect();
-    return gMap.Rect_Location_Relative_To_Active_Camera(&rect, 0);
+    return gMap.Rect_Location_Relative_To_Active_Camera(&rect);
 }
 
 void BaseAnimatedWithPhysicsGameObject::DeathSmokeEffect(bool bPlaySound)
@@ -206,7 +204,7 @@ void BaseAnimatedWithPhysicsGameObject::DeathSmokeEffect(bool bPlaySound)
             mYPos - FP_FromInteger(6),
             mSpriteScale / FP_FromInteger(2),
             2,
-            128, 128, 128);
+            128u, 128u, 128u);
 
         if (bPlaySound == true)
         {
