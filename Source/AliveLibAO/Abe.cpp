@@ -2154,7 +2154,7 @@ s16 Abe::DoGameSpeak_42F5C0(u16 input)
                     mYPos - (FP_FromInteger(24) * mSpriteScale),
                     FP_FromDouble(0.5) * mSpriteScale,
                     3,
-                    1);
+                    32, 128, 32);
             }
             field_130_say = 8;
             field_134_auto_say_timer = sGnFrame + 15;
@@ -2490,7 +2490,7 @@ void Abe::CrouchingGameSpeak_427F90()
                     mYPos - FP_FromDouble(6) * mSpriteScale,
                     mSpriteScale * FP_FromDouble(0.5),
                     3,
-                    1);
+                    32, 128, 32);
             }
             field_130_say = 8;
             mCurrentMotion = eAbeMotions::Motion_22_CrouchSpeak_428A30;

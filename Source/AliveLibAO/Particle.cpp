@@ -65,15 +65,15 @@ Particle* New_DestroyOrCreateObject_Particle(FP xpos, FP ypos, FP scale)
 }
 
 // Fart/dust cloud particle spawner
-void New_Smoke_Particles(FP xpos, FP ypos, FP scale, s16 count, s16 type)
+void New_Smoke_Particles(FP xpos, FP ypos, FP scale, s16 count, u8 r, u8 g, u8 b)
 {
     FP velYCounter = {};
     for (s32 i = 0; i < count; i++)
     {
         FP randX = (FP_FromInteger(Math_RandomRange(-3, 3)) * scale) + xpos;
         FP particleY = (FP_FromInteger(6 * (i + 1) / 2 * (1 - 2 * (i % 2))) * scale) + ypos;
-        const AnimRecord& rec = AO::AnimRec(AnimId::SquibSmoke_Particle);
-        u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
+        const AnimRecord& squibSmokeRec = AO::AnimRec(AnimId::SquibSmoke_Particle);
+        u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, squibSmokeRec.mResourceId, 1, 0);
         auto pParticle = relive_new Particle(randX, particleY, AnimId::SquibSmoke_Particle, ppRes);
         if (pParticle)
         {
@@ -82,15 +82,7 @@ void New_Smoke_Particles(FP xpos, FP ypos, FP scale, s16 count, s16 type)
             pParticle->mAnim.mFlags.Set(AnimFlags::eBit15_bSemiTrans);
             pParticle->mAnim.mRenderMode = TPageAbr::eBlend_3;
 
-            // TODO: type enum
-            if (type == 1)
-            {
-                pParticle->mRGB.SetRGB(32, 128, 32);
-            }
-            else
-            {
-                pParticle->mRGB.SetRGB(128, 128, 128);
-            }
+            pParticle->mRGB.SetRGB(r, g, b);
 
             pParticle->mVelX = (scale * FP_FromInteger(Math_RandomRange(-10, 10))) / FP_FromInteger(10);
             pParticle->mVelY = ((scale * velYCounter) * FP_FromInteger(Math_RandomRange(50, 50))) / FP_FromInteger(100);
@@ -220,8 +212,5 @@ void New_ShootingFire_Particle(FP xpos, FP ypos, s8 direction, FP scale)
         pParticle->mSpriteScale = scale;
     }
 }
-
-
-
 
 } // namespace AO

@@ -3659,7 +3659,7 @@ void Slig::Motion_38_Possess_46B050()
                 mYPos - (FP_FromInteger(30) * mSpriteScale),
                 mSpriteScale,
                 3,
-                0);
+                128, 128, 128);
 
             if (mSpriteScale == FP_FromDouble(0.5))
             {
@@ -5648,7 +5648,7 @@ void Slig::BlowToGibs_4685A0()
         mYPos - (FP_FromInteger(30) * mSpriteScale),
         mSpriteScale,
         3,
-        0);
+        128, 128, 128);
 
     if (mSpriteScale == FP_FromDouble(0.5))
     {
