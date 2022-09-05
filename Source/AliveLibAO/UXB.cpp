@@ -8,6 +8,7 @@
 #include "BaseBomb.hpp"
 #include "../relive_lib/Events.hpp"
 #include "../relive_lib/ScreenManager.hpp"
+#include "Grid.hpp"
 #include <math.h>
 
 namespace AO {

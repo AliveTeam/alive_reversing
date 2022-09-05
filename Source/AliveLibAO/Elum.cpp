@@ -19,6 +19,7 @@
 #include "Honey.hpp"
 #include "GameSpeak.hpp"
 #include "Math.hpp"
+#include "Grid.hpp"
 
 namespace AO {
 

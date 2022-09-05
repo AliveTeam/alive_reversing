@@ -19,6 +19,7 @@
 namespace AO {
 
 Explosion::Explosion(FP xpos, FP ypos, FP exposion_size)
+    : BaseAnimatedWithPhysicsGameObject(0)
 {
     mBaseGameObjectTypeId = ReliveTypes::eExplosion;
     const AnimRecord rec = AO::AnimRec(AnimId::Explosion);

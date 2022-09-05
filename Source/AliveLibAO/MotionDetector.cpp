@@ -21,6 +21,7 @@ namespace AO {
 #undef max
 
 MotionDetector::MotionDetector(relive::Path_MotionDetector* pTlv, const Guid& tlvId)
+    : BaseAnimatedWithPhysicsGameObject(0)
 {
     mBaseGameObjectTypeId = ReliveTypes::eMotionDetector;
     const AnimRecord rec = AO::AnimRec(AnimId::MotionDetector_Flare);

@@ -11,6 +11,7 @@
 namespace AO {
 
 LightEffect::LightEffect(relive::Path_LightEffect* pTlv, const Guid& tlvId)
+    : BaseAnimatedWithPhysicsGameObject(0)
 {
     mBaseGameObjectTypeId = ReliveTypes::eNone;
     field_E4_tlvInfo = tlvId;

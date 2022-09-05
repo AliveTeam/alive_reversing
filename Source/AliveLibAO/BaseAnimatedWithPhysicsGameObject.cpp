@@ -13,11 +13,12 @@
 #include "Sfx.hpp"
 #include "Math.hpp"
 #include "../relive_lib/GameType.hpp"
+#include "Grid.hpp"
 
 namespace AO {
 
-BaseAnimatedWithPhysicsGameObject::BaseAnimatedWithPhysicsGameObject()
-    : IBaseAnimatedWithPhysicsGameObject(0)
+BaseAnimatedWithPhysicsGameObject::BaseAnimatedWithPhysicsGameObject(s16 resourceArraySize)
+    : IBaseAnimatedWithPhysicsGameObject(resourceArraySize)
 {
     mVisualFlags.Clear(VisualFlags::eDoPurpleLightEffect);
     mVisualFlags.Set(VisualFlags::eApplyShadowZoneColour);
@@ -112,14 +113,26 @@ void BaseAnimatedWithPhysicsGameObject::VRender(PrimHeader** ppOt)
             mAnim.mGreen = static_cast<u8>(g);
             mAnim.mBlue = static_cast<u8>(b);
 
-            mAnim.VRender(
-                FP_GetExponent((FP_FromInteger(pScreenManager->mCamXOff + mXOffset)) 
-					+ mXPos - pScreenManager->mCamPos->x),
-                FP_GetExponent((FP_FromInteger(pScreenManager->mCamYOff + mYOffset)) 
-					+ mYPos - pScreenManager->mCamPos->y),
-                ppOt,
-                0,
-                0);
+            if (GetGameType() == GameType::eAe)
+            {
+                mAnim.VRender(
+                    FP_GetExponent((FP_FromInteger(mXOffset) + mXPos - pScreenManager->CamXPos())),
+                    FP_GetExponent((FP_FromInteger(mYOffset) + mYPos - pScreenManager->CamYPos())),
+                    ppOt,
+                    0,
+                    0);
+            }
+            else
+            {
+                mAnim.VRender(
+                    FP_GetExponent((FP_FromInteger(pScreenManager->mCamXOff + mXOffset))
+                                   + mXPos - pScreenManager->mCamPos->x),
+                    FP_GetExponent((FP_FromInteger(pScreenManager->mCamYOff + mYOffset))
+                                   + mYPos - pScreenManager->mCamPos->y),
+                    ppOt,
+                    0,
+                    0);
+            }
 
             PSX_RECT frameRect = {};
             mAnim.Get_Frame_Rect(&frameRect);
@@ -233,10 +246,14 @@ void BaseAnimatedWithPhysicsGameObject::VOnCollisionWith(PSX_Point xy, PSX_Point
                     const PSX_RECT bRect = pObj->VGetBoundingRect(startingPointIdx);
                     if (xy.x <= bRect.w && wh.x >= bRect.x && wh.y >= bRect.y && xy.y <= bRect.h)
                     {
-                        if (!(this->*(pFn))(pObj))
-                        {
-                            break;
-                        }
+						// NOTE: AO ignored scale here
+						if (GetGameType() == GameType::eAo || (GetGameType() == GameType::eAe && mScale == pObj->mScale))
+						{
+	                        if (!(this->*(pFn))(pObj))
+	                        {
+	                            break;
+	                        }
+						}
                     }
                 }
             }
@@ -348,7 +365,15 @@ void BaseAnimatedWithPhysicsGameObject::VStackOnObjectsOfType(ReliveTypes typeTo
         }
     }
 
-    mXOffset = offsets[array_idx];
+	// NOTE: AO ignored scale here
+	if (GetGameType() == GameType::eAe)
+	{
+    	mXOffset = FP_GetExponent(FP_FromInteger(offsets[array_idx]) * mSpriteScale);
+	}
+	else
+	{
+    	mXOffset =  mXOffset = offsets[array_idx];
+	}
 }
 
 void BaseAnimatedWithPhysicsGameObject::VOnPickUpOrSlapped()

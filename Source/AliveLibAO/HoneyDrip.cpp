@@ -8,6 +8,7 @@
 namespace AO {
 
 HoneyDrip::HoneyDrip(FP xpos, FP ypos)
+    : BaseAnimatedWithPhysicsGameObject(0)
 {
     mRGB.SetRGB(128, 128, 128);
 

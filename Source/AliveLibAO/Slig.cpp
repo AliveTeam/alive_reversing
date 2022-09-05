@@ -34,6 +34,7 @@
 #include <algorithm>
 #include "Psx_common.hpp"
 #include "AnimationCallBacks.hpp"
+#include "Grid.hpp"
 
 // TODO: fix
 #undef max

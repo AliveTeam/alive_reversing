@@ -14,6 +14,7 @@
 namespace AO {
 
 HoneySack::HoneySack(relive::Path_HoneySack* pTlv, const Guid& tlvId)
+    : BaseAnimatedWithPhysicsGameObject(0)
 {
     mBaseGameObjectTypeId = ReliveTypes::eHoneySack;
 

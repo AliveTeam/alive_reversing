@@ -30,6 +30,7 @@ void BirdPortalTerminator::VScreenChanged()
 }
 
 BirdPortalTerminator::BirdPortalTerminator(FP xpos, FP ypos, FP scale, relive::Path_BirdPortal::PortalType /*portalType*/)
+    : BaseAnimatedWithPhysicsGameObject(0)
 {
     mBaseGameObjectTypeId = ReliveTypes::eClawOrBirdPortalTerminator;
 

@@ -194,6 +194,7 @@ void Well::WellLocal_Init(relive::Path_WellLocal* pTlv, FP /*xpos*/, FP ypos)
 }
 
 Well::Well(relive::Path_WellBase* pTlv, FP xpos, FP ypos, const Guid& tlvId)
+    : BaseAnimatedWithPhysicsGameObject(0)
 {
     mTlvInfo = tlvId;
     mBaseGameObjectTypeId = ReliveTypes::eWell;

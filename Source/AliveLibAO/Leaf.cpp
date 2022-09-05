@@ -86,6 +86,7 @@ void Leaf::VScreenChanged()
 }
 
 Leaf::Leaf(FP xpos, FP ypos, FP xVel, FP yVel, FP scale)
+    : BaseAnimatedWithPhysicsGameObject(0)
 {
     mRGB.SetRGB(100, 100, 100);
 

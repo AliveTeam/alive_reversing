@@ -69,6 +69,7 @@ void TestAnimation::DelayLoad()
 }
 
 TestAnimation::TestAnimation()
+    : BaseAnimatedWithPhysicsGameObject(0)
 {
     mLoaded = false;
 

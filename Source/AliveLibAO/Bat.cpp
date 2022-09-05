@@ -15,6 +15,7 @@
 namespace AO {
 
 Bat::Bat(relive::Path_Bat* pTlv, const Guid& tlvId)
+    : BaseAnimatedWithPhysicsGameObject(0)
 {
     mBaseGameObjectTypeId = ReliveTypes::eBat;
 

@@ -9,6 +9,7 @@
 namespace AO {
 
 ZapSpark::ZapSpark(FP xpos, FP ypos, FP scale)
+    : BaseAnimatedWithPhysicsGameObject(0)
 {
     mBaseGameObjectTypeId = ReliveTypes::eZapSpark;
 

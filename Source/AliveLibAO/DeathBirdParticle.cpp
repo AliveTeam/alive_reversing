@@ -62,6 +62,7 @@ void DeathBirdParticle::VUpdate()
 }
 
 DeathBirdParticle::DeathBirdParticle(FP xpos, FP ypos, s32 start, s32 bPlaySound, FP scale)
+    : BaseAnimatedWithPhysicsGameObject(0)
 {
     mBaseGameObjectTypeId = ReliveTypes::eDeathBird;
 

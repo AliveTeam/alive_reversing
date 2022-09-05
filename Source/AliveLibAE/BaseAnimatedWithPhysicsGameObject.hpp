@@ -43,6 +43,8 @@ public:
     virtual void VOnThrowableHit(BaseGameObject* pFrom);
 
     void SetTint(const TintEntry* pTintArray, EReliveLevelIds levelId);
+
+    // Note inlined in AO everywhere
     CameraPos Is_In_Current_Camera();
 
     void Animation_Init(AnimId animId, u8** ppAnimData);

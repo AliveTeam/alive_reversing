@@ -31,13 +31,16 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(Path_MotionDetector, 0x2C);
 class MotionDetectorLaser final : public BaseAnimatedWithPhysicsGameObject
 {
 public:
+    MotionDetectorLaser()
+        : BaseAnimatedWithPhysicsGameObject(0)
+    {
+
+    }
+
     virtual void VScreenChanged() override
     {
         // Empty
     }
-
-    
-
 
     s32 field_D4[4];
 };

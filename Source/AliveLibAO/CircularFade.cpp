@@ -10,6 +10,7 @@
 namespace AO {
 
 CircularFade::CircularFade(FP xpos, FP ypos, FP scale, s16 direction, s8 destroyOnDone)
+    : BaseAnimatedWithPhysicsGameObject(0)
 {
     if (direction)
     {

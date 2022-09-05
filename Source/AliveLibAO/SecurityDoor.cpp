@@ -27,6 +27,7 @@ SecurityDoor::~SecurityDoor()
 }
 
 SecurityDoor::SecurityDoor(relive::Path_SecurityDoor* pTlv, const Guid& tlvId)
+    : BaseAnimatedWithPhysicsGameObject(0)
 {
     field_F4_event_idx = -1;
     field_108_max_idx = 0;

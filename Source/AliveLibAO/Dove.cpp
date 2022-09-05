@@ -21,6 +21,7 @@ static s16 sAbePortalWidth = 30;
 static s16 sAbePortalDirection = -1;
 
 Dove::Dove(AnimId animId, const Guid& tlvId, FP scale)
+    : BaseAnimatedWithPhysicsGameObject(0)
 {
     mBaseGameObjectTypeId = ReliveTypes::eBird;
     u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AO::AnimRec(animId).mResourceId, 1, 0);
@@ -74,6 +75,7 @@ Dove::Dove(AnimId animId, const Guid& tlvId, FP scale)
 }
 
 Dove::Dove(AnimId animId, FP xpos, FP ypos, FP scale)
+    : BaseAnimatedWithPhysicsGameObject(0)
 {
     mBaseGameObjectTypeId = ReliveTypes::eBird;
 

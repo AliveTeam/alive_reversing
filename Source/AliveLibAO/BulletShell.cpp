@@ -11,6 +11,7 @@
 namespace AO {
 
 BulletShell::BulletShell(FP xpos, FP ypos, s32 direction, FP scale)
+    : BaseAnimatedWithPhysicsGameObject(0)
 {
     mBaseGameObjectTypeId = ReliveTypes::eNone;
 

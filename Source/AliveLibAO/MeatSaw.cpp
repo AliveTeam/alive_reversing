@@ -32,6 +32,7 @@ MeatSaw::~MeatSaw()
 }
 
 MeatSaw::MeatSaw(relive::Path_MeatSaw* pTlv, const Guid& tlvId)
+    : BaseAnimatedWithPhysicsGameObject(0)
 {
     mBaseGameObjectTypeId = ReliveTypes::eMeatSaw;
 

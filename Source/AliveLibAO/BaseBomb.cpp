@@ -193,6 +193,7 @@ void BaseBomb::DealDamageRect(const PSX_RECT* pRect)
 }
 
 BaseBomb::BaseBomb(FP xpos, FP ypos, s32 /*unused*/, FP scale)
+    : BaseAnimatedWithPhysicsGameObject(0)
 {
     mBaseGameObjectTypeId = ReliveTypes::eBaseBomb;
 

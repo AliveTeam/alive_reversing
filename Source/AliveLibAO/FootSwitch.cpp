@@ -11,6 +11,7 @@
 namespace AO {
 
 FootSwitch::FootSwitch(relive::Path_FootSwitch* pTlv, const Guid& tlvId)
+    : BaseAnimatedWithPhysicsGameObject(0)
 {
     mBaseGameObjectTypeId = ReliveTypes::eFootSwitch;
 

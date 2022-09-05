@@ -21,6 +21,7 @@ class FireBackgroundGlow final : public BaseAnimatedWithPhysicsGameObject
 {
 public:
     FireBackgroundGlow(FP xpos, FP ypos, FP scale)
+        : BaseAnimatedWithPhysicsGameObject(0)
     {
         mBaseGameObjectTypeId = ReliveTypes::eNone;
 
@@ -136,6 +137,7 @@ class FlameSparks final : public BaseAnimatedWithPhysicsGameObject
 {
 public:
     FlameSparks(FP xpos, FP ypos)
+        : BaseAnimatedWithPhysicsGameObject(0)
     {
         mBaseGameObjectTypeId = ReliveTypes::eNone;
         const AnimRecord rec = AO::AnimRec(AnimId::ChantOrb_Particle_Small);
@@ -319,6 +321,7 @@ DoorFlame::~DoorFlame()
 }
 
 DoorFlame::DoorFlame(relive::Path_DoorFlame* pTlv, const Guid& tlvId)
+    : BaseAnimatedWithPhysicsGameObject(0)
 {
     mBaseGameObjectTypeId = ReliveTypes::eNone;
     mTlvInfo = tlvId;

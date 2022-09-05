@@ -317,6 +317,7 @@ const MenuFMV sLevelList_4D0300[15] = {
     {"The Boardroom", EReliveLevelIds::eBoardRoom, 6, 1, -1, 592, 157}};
 
 MainMenuFade::MainMenuFade(s32 xpos, s32 ypos, buttonType buttonType, s32 bDestroyOnDone)
+    : BaseAnimatedWithPhysicsGameObject(0)
 {
     mBaseGameObjectTypeId = ReliveTypes::MainMenuFade;
 
@@ -664,6 +665,7 @@ void MainMenuTransition::VRender_436610(PrimHeader** ppOt)
 }
 
 Menu::Menu(relive::Path_TLV* /*pTlv*/, const Guid& tlvId)
+    : BaseAnimatedWithPhysicsGameObject(0)
 {
     gMainMenuInstanceCount_9F2DE0++;
 

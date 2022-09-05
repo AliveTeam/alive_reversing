@@ -8,10 +8,12 @@
 #include "SwitchStates.hpp"
 #include "Sfx.hpp"
 #include "Midi.hpp"
+#include "Grid.hpp"
 
 namespace AO {
 
 BellHammer::BellHammer(relive::Path_BellHammer* pTlv, const Guid& tlvId)
+    : BaseAnimatedWithPhysicsGameObject(0)
 {
     mBaseGameObjectTypeId = ReliveTypes::eBellHammer;
 

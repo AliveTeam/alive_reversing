@@ -7,6 +7,7 @@
 #include "../relive_lib/Events.hpp"
 #include "Sfx.hpp"
 #include "BaseBomb.hpp"
+#include "Grid.hpp"
 #include "../relive_lib/ScreenManager.hpp"
 
 namespace AO {

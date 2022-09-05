@@ -62,6 +62,7 @@ const u8 byte_4C5EE8[32] = {
 
 
 PauseMenu::PauseMenu()
+    : BaseAnimatedWithPhysicsGameObject(0)
 {
     mBaseGameObjectTypeId = ReliveTypes::ePauseMenu;
     mBaseGameObjectUpdateDelay = 25;

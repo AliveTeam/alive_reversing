@@ -15,6 +15,7 @@
 namespace AO {
 
 ElectricWall::ElectricWall(relive::Path_ElectricWall* pTlv, const Guid& tlvId)
+    : BaseAnimatedWithPhysicsGameObject(0)
 {
     mBaseGameObjectTypeId = ReliveTypes::eElectricWall;
 

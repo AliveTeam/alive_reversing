@@ -10,6 +10,7 @@
 #include "../relive_lib/Events.hpp"
 #include "Sfx.hpp"
 #include "../relive_lib/Collisions.hpp"
+#include "Grid.hpp"
 
 namespace AO {
 

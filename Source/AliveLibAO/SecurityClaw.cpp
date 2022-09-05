@@ -33,6 +33,7 @@ const TintEntry kClawTints_4C5498[3] = {
     {EReliveLevelIds::eNone, 127u, 127u, 127u}};
 
 Claw::Claw()
+    : BaseAnimatedWithPhysicsGameObject(0)
 {
     mBaseGameObjectTypeId = ReliveTypes::eClawOrBirdPortalTerminator;
     

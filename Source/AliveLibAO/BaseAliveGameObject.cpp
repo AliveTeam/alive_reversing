@@ -21,6 +21,7 @@ void BaseAliveGameObject_ForceLink()
 ALIVE_VAR(1, 0x4FC8A0, DynamicArrayT<BaseAliveGameObject>*, gBaseAliveGameObjects, nullptr);
 
 BaseAliveGameObject::BaseAliveGameObject()
+    : BaseAnimatedWithPhysicsGameObject(0)
 {
     mBaseAliveGameObjectFlags.Clear(Flags_10A::e10A_Bit1_Can_Be_Possessed);
     mBaseAliveGameObjectFlags.Clear(Flags_10A::e10A_Bit2_bPossesed);

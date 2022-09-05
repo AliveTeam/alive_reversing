@@ -42,6 +42,7 @@ Rope::~Rope()
 }
 
 Rope::Rope(s32 left, s32 top, s32 bottom, FP scale)
+    : BaseAnimatedWithPhysicsGameObject(0)
 {
     mBaseGameObjectTypeId = ReliveTypes::eRope;
 

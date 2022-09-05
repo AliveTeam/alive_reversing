@@ -8,6 +8,7 @@
 
 namespace AO {
 Particle::Particle(FP xpos, FP ypos, AnimId animId, u8** ppAnimData)
+    : BaseAnimatedWithPhysicsGameObject(0)
 {
     SetType(ReliveTypes::eParticle);
     mRGB.SetRGB(128, 128, 128);

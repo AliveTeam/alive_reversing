@@ -29,6 +29,7 @@
 #include "AbilityRing.hpp"
 #include "CheatController.hpp"
 #include "Sys_common.hpp"
+#include "Grid.hpp"
 #include "magic_enum/include/magic_enum.hpp"
 
 void Mud_ForceLink()

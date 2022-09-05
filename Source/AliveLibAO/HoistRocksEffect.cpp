@@ -14,6 +14,7 @@ void HoistParticle::VUpdate()
 }
 
 HoistParticle::HoistParticle(FP xpos, FP ypos, FP scale, s32 frameTableOffset)
+    : BaseAnimatedWithPhysicsGameObject(0)
 {
     mXPos = xpos;
     mYPos = ypos;

@@ -58,7 +58,7 @@
 #include "Camera.hpp"
 #include "Sys_common.hpp"
 #include "AnimationCallBacks.hpp"
-
+#include "Grid.hpp"
 #include "TestAnimation.hpp"
 
 namespace AO {

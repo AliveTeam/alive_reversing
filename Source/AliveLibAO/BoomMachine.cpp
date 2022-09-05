@@ -9,12 +9,18 @@
 #include "ThrowableArray.hpp"
 #include "Game.hpp"
 #include "Grenade.hpp"
+#include "Grid.hpp"
 
 namespace AO {
 
 class GrenadeMachineNozzle final : public BaseAnimatedWithPhysicsGameObject
 {
 public:
+    GrenadeMachineNozzle()
+        : BaseAnimatedWithPhysicsGameObject(0)
+    {
+
+    }
 
     virtual void VUpdate() override
     {
@@ -152,6 +158,7 @@ BoomMachine::~BoomMachine()
 }
 
 BoomMachine::BoomMachine(relive::Path_BoomMachine* pTlv, const Guid& tlvId)
+    : BaseAnimatedWithPhysicsGameObject(0)
 {
     mBaseGameObjectTypeId = ReliveTypes::eBoomMachine;
 

@@ -1349,6 +1349,7 @@ static u8 HintFly_NextRandom()
 }
 
 HintFly::HintFly(relive::Path_HintFly* pTlv, const Guid& tlvId)
+    : BaseAnimatedWithPhysicsGameObject(0)
 {
     field_E4_ppRes = nullptr;
 

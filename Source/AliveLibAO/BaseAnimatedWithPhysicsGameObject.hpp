@@ -30,12 +30,10 @@ class BaseAnimatedWithPhysicsGameObject;
 
 using TCollisionCallBack = s16 (::BaseGameObject::*)(::BaseGameObject*); // Typically points to something in the derived type.. pretty strange, probably also why its a function pointer
 
-FP ScaleToGridSize(FP scale);
-
 class BaseAnimatedWithPhysicsGameObject : public IBaseAnimatedWithPhysicsGameObject
 {
 public:
-BaseAnimatedWithPhysicsGameObject();
+    explicit BaseAnimatedWithPhysicsGameObject(s16 resourceArraySize);
     ~BaseAnimatedWithPhysicsGameObject();
 
     virtual void VRender(PrimHeader** ppOt) override;

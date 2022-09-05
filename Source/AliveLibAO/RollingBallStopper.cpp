@@ -7,6 +7,7 @@
 #include "ResourceManager.hpp"
 #include "FixedPoint.hpp"
 #include "Sfx.hpp"
+#include "Grid.hpp"
 
 namespace AO {
 

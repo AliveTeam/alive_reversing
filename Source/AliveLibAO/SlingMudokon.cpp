@@ -14,6 +14,7 @@
 #include "Flash.hpp"
 #include "Dove.hpp"
 #include "Math.hpp"
+#include "Grid.hpp"
 #include "../relive_lib/Events.hpp"
 
 void SlingMud_ForceLink()

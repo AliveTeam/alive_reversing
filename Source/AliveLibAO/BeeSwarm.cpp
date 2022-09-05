@@ -25,6 +25,7 @@ ALIVE_VAR(1, 0x5076B0, s16, gBeeInstanceCount, 0);
 ALIVE_VAR(1, 0x5076AC, s16, gBeesNearAbe, 0);
 
 BeeSwarm::BeeSwarm(FP xpos, FP ypos, FP speed, s32 numBees, s32 totalChaseTime)
+    : BaseAnimatedWithPhysicsGameObject(0)
 {
     mBaseGameObjectTypeId = ReliveTypes::eBeeSwarm;
 

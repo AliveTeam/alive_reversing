@@ -11,6 +11,7 @@
 namespace AO {
 
 PullRingRope::PullRingRope(relive::Path_PullRingRope* pTlv, const Guid& tlvId)
+    : BaseAnimatedWithPhysicsGameObject(0)
 {
     mBaseGameObjectTypeId = ReliveTypes::ePullRingRope;
 

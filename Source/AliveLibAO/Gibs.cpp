@@ -38,6 +38,7 @@ static FP GibRand(FP scale)
 }
 
 Gibs::Gibs(GibType gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scale)
+    : BaseAnimatedWithPhysicsGameObject(0)
 {
     field_E4_pGibData = &kGibData_4C30B0[gibType];
     const AnimRecord& headRec = AO::AnimRec(field_E4_pGibData->field_0_head);
