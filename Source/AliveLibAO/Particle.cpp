@@ -5,14 +5,26 @@
 #include "ResourceManager.hpp"
 #include "Math.hpp"
 #include "BaseAliveGameObject.hpp"
+#include "../relive_lib/GameType.hpp"
 
 namespace AO {
-Particle::Particle(FP xpos, FP ypos, AnimId animId, u8** ppAnimData)
+Particle::Particle(FP xpos, FP ypos, AnimId animId, u8** ppAnimData, bool explosionSizeHack)
     : BaseAnimatedWithPhysicsGameObject(0)
 {
     SetType(ReliveTypes::eParticle);
     mRGB.SetRGB(128, 128, 128);
-    Animation_Init(animId, ppAnimData);
+
+    if (!explosionSizeHack)
+    {
+        Animation_Init(animId, ppAnimData);
+    }
+    else
+    {
+        // AnimId::Explosion_Small and AnimId::Explosion have different width/height but for some reason
+        // OG inits both with the AnimId::Explosion width and height in Explosion.cpp
+        const AnimRecord& rec = PerGameAnimRec(animId);
+        Animation_Init(rec.mFrameTableOffset, 202, 91, ppAnimData);
+    }
 
     if (mBaseGameObjectFlags.Get(BaseGameObject::eListAddFailed_Bit1))
     {
@@ -153,15 +165,20 @@ Particle* New_TintChant_Particle(FP xpos, FP ypos, FP scale, Layer layer)
     return New_Orb_Particle(xpos, ypos, FP_FromInteger(0), FP_FromInteger(0), scale, layer, 128u, 128u, 128u);
 }
 
-void New_RandomizedChant_Particle(AO::BaseAliveGameObject* pObj)
+void New_RandomizedChant_Particle(BaseAliveGameObject* pObj)
 {
-    const auto xpos = pObj->mXPos + pObj->mSpriteScale * FP_FromInteger(40 * Math_NextRandom() / 256 - 20);
-    const auto ypos = pObj->mYPos - (pObj->mSpriteScale * FP_FromInteger(30 * Math_NextRandom() / 256 + 30));
-    New_TintChant_Particle(
-        xpos,
-        ypos,
-        pObj->mSpriteScale,
-        Layer::eLayer_0);
+    if (GetGameType() == GameType::eAe)
+	{
+	    const FP xpos = (pObj->mSpriteScale * FP_FromInteger(Math_RandomRange(-20, 20))) + pObj->mXPos;
+	    const FP ypos = pObj->mYPos - (pObj->mSpriteScale * FP_FromInteger(Math_RandomRange(30, 60)));
+	    New_TintChant_Particle(xpos, ypos, pObj->mSpriteScale, Layer::eLayer_0);
+	}
+	else
+	{
+	 	const auto xpos = pObj->mXPos + pObj->mSpriteScale * FP_FromInteger(40 * Math_NextRandom() / 256 - 20);
+	    const auto ypos = pObj->mYPos - (pObj->mSpriteScale * FP_FromInteger(30 * Math_NextRandom() / 256 + 30));
+	    New_TintChant_Particle(xpos, ypos, pObj->mSpriteScale, Layer::eLayer_0);	
+	}
 }
 
 void New_ShootingZFire_Particle(FP xpos, FP ypos, FP scale)

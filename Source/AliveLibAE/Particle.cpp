@@ -4,6 +4,7 @@
 #include "ResourceManager.hpp"
 #include "stdlib.hpp"
 #include "BaseAliveGameObject.hpp"
+#include "../relive_lib/GameType.hpp"
 
 Particle::Particle(FP xpos, FP ypos, AnimId animId, u8** ppAnimData, bool explosionSizeHack)
     : BaseAnimatedWithPhysicsGameObject(0)
@@ -24,7 +25,7 @@ Particle::Particle(FP xpos, FP ypos, AnimId animId, u8** ppAnimData, bool explos
     {
         // AnimId::Explosion_Small and AnimId::Explosion have different width/height but for some reason
         // OG inits both with the AnimId::Explosion width and height in Explosion.cpp
-        const AnimRecord& rec = AnimRec(animId);
+        const AnimRecord& rec = PerGameAnimRec(animId);
         Animation_Init(rec.mFrameTableOffset, 202, 91, ppAnimData);
     }
 
@@ -169,9 +170,18 @@ Particle* New_TintChant_Particle(FP xpos, FP ypos, FP scale, Layer layer)
 
 void New_RandomizedChant_Particle(BaseAliveGameObject* pObj)
 {
-    const FP ypos = pObj->mYPos - (pObj->mSpriteScale * FP_FromInteger(Math_RandomRange(30, 60)));
-    const FP xpos = (pObj->mSpriteScale * FP_FromInteger(Math_RandomRange(-20, 20))) + pObj->mXPos;
-    New_TintChant_Particle(xpos, ypos, pObj->mSpriteScale, Layer::eLayer_0);
+	if (GetGameType() == GameType::eAe)
+	{
+	    const FP xpos = (pObj->mSpriteScale * FP_FromInteger(Math_RandomRange(-20, 20))) + pObj->mXPos;
+	    const FP ypos = pObj->mYPos - (pObj->mSpriteScale * FP_FromInteger(Math_RandomRange(30, 60)));
+	    New_TintChant_Particle(xpos, ypos, pObj->mSpriteScale, Layer::eLayer_0);
+	}
+	else
+	{
+	 	const auto xpos = pObj->mXPos + pObj->mSpriteScale * FP_FromInteger(40 * Math_NextRandom() / 256 - 20);
+	    const auto ypos = pObj->mYPos - (pObj->mSpriteScale * FP_FromInteger(30 * Math_NextRandom() / 256 + 30));
+	    New_TintChant_Particle(xpos, ypos, pObj->mSpriteScale, Layer::eLayer_0);	
+	}
 }
 
 void New_ShootingZFire_Particle(FP xpos, FP ypos, FP scale)
