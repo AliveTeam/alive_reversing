@@ -28,9 +28,9 @@ Particle::Particle(FP xpos, FP ypos, AnimId animId, u8** ppAnimData, bool explos
         Animation_Init(rec.mFrameTableOffset, 202, 91, ppAnimData);
     }
 
-    if (mBaseGameObjectFlags.Get(Options::eListAddFailed_Bit1))
+    if (mBaseGameObjectFlags.Get(BaseGameObject::eListAddFailed_Bit1))
     {
-        mBaseGameObjectFlags.Set(Options::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 
     mXPos = xpos;
@@ -53,7 +53,7 @@ void Particle::VUpdate()
 
 Particle* New_DestroyOrCreateObject_Particle(FP xpos, FP ypos, FP scale)
 {
-    const AnimRecord& rec = AnimRec(AnimId::DeathFlare_2);
+    const AnimRecord& rec = PerGameAnimRec(AnimId::DeathFlare_2);
     u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, FALSE, FALSE);
 
     auto pParticle = relive_new Particle(xpos, ypos, AnimId::DeathFlare_2, ppRes);
@@ -88,7 +88,7 @@ void New_Smoke_Particles(FP xpos, FP ypos, FP scale, s16 count, u8 r, u8 g, u8 b
     {
         FP randX = (FP_FromInteger(Math_RandomRange(-3, 3)) * scale) + xpos;
         FP particleY = (FP_FromInteger(6 * (i + 1) / 2 * (1 - 2 * (i % 2))) * scale) + ypos;
-        const AnimRecord& squibSmokeRec = AnimRec(AnimId::SquibSmoke_Particle);
+        const AnimRecord& squibSmokeRec = PerGameAnimRec(AnimId::SquibSmoke_Particle);
         u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, squibSmokeRec.mResourceId, 0, 0);
         auto pParticle = relive_new Particle(randX, particleY, AnimId::SquibSmoke_Particle, ppRes);
         if (pParticle)
@@ -126,7 +126,7 @@ void New_Smoke_Particles(FP xpos, FP ypos, FP scale, s16 count, u8 r, u8 g, u8 b
 
 Particle* New_Orb_Particle(FP xpos, FP ypos, FP velX, FP velY, FP scale, Layer layer, u8 r, u8 b, u8 g)
 {
-    const AnimRecord& orbRec = AnimRec(AnimId::ChantOrb_Particle);
+    const AnimRecord& orbRec = PerGameAnimRec(AnimId::ChantOrb_Particle);
     u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, orbRec.mResourceId, 0, 0);
     auto pParticle = relive_new Particle(xpos, ypos, AnimId::ChantOrb_Particle, ppRes);
     if (pParticle)
@@ -176,7 +176,7 @@ void New_RandomizedChant_Particle(BaseAliveGameObject* pObj)
 
 void New_ShootingZFire_Particle(FP xpos, FP ypos, FP scale)
 {
-    const AnimRecord& ZFireRec = AnimRec(AnimId::ShootingZFire_Particle);
+    const AnimRecord& ZFireRec = PerGameAnimRec(AnimId::ShootingZFire_Particle);
     u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, ZFireRec.mResourceId, 0, 0);
     auto pParticle = relive_new Particle(xpos, ypos, AnimId::ShootingZFire_Particle, ppRes);
     if (pParticle)
@@ -202,7 +202,7 @@ void New_ShootingZFire_Particle(FP xpos, FP ypos, FP scale)
 
 void New_ShootingFire_Particle(FP xpos, FP ypos, s8 direction, FP scale)
 {
-    const AnimRecord& shootingFireRec = AnimRec(AnimId::ShootingFire_Particle);
+    const AnimRecord& shootingFireRec = PerGameAnimRec(AnimId::ShootingFire_Particle);
     u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, shootingFireRec.mResourceId, 0, 0);
     auto pParticle = relive_new Particle(xpos, ypos, AnimId::ShootingFire_Particle, ppRes);
     if (pParticle)
