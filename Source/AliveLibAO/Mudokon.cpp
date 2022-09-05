@@ -2485,7 +2485,7 @@ void Mudokon::Motion_52_Chant()
         const FP rndX = FP_FromInteger(40 * Math_NextRandom() / 256 - 20);
         const FP rndY = FP_FromInteger(30 * Math_NextRandom() / 256 + 30);
 
-        New_Orb_Particle(
+        New_TintChant_Particle(
             mXPos + (mSpriteScale * rndX),
             mYPos - (mSpriteScale * rndY),
             mSpriteScale,
@@ -2579,7 +2579,7 @@ void Mudokon::Motion_59_CrouchChant()
         const FP rndX = FP_FromInteger(30 * Math_NextRandom() / 256 - 10);
         const FP rndY = FP_FromInteger(20 * Math_NextRandom() / 256 + 10);
 
-        New_Orb_Particle(
+        New_TintChant_Particle(
             mXPos + (mSpriteScale * rndX),
             mYPos - (mSpriteScale * rndY),
             mSpriteScale,

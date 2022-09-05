@@ -174,8 +174,6 @@ void New_RandomizedChant_Particle(BaseAliveGameObject* pObj)
     New_TintChant_Particle(xpos, ypos, pObj->mSpriteScale, Layer::eLayer_0);
 }
 
-
-
 void New_ShootingZFire_Particle(FP xpos, FP ypos, FP scale)
 {
     const AnimRecord& ZFireRec = AnimRec(AnimId::ShootingZFire_Particle);

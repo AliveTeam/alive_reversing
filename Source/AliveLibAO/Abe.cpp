@@ -9400,17 +9400,6 @@ void Abe::Motion_149_PickupItem_42A030()
     }
 }
 
-void Abe::New_RandomizedChant_Particle()
-{
-    const auto xpos = mXPos + mSpriteScale * FP_FromInteger(40 * Math_NextRandom() / 256 - 20);
-    const auto ypos = mYPos - (mSpriteScale * FP_FromInteger(30 * Math_NextRandom() / 256 + 30));
-    New_Orb_Particle(
-        xpos,
-        ypos,
-        mSpriteScale,
-        Layer::eLayer_0);
-}
-
 void Abe::Motion_150_Chant_42FD50()
 {
     FollowLift_42EE90();
@@ -9453,7 +9442,7 @@ void Abe::Motion_150_Chant_42FD50()
             }
             if (!(sGnFrame % 4))
             {
-                New_RandomizedChant_Particle();
+                New_RandomizedChant_Particle(this);
             }
             if (static_cast<s32>(sGnFrame) >= field_114_gnFrame - 70)
             {
@@ -9595,7 +9584,7 @@ void Abe::Motion_150_Chant_42FD50()
         {
             if (!(sGnFrame % 4))
             {
-                New_RandomizedChant_Particle();
+                New_RandomizedChant_Particle(this);
             }
             if (static_cast<s32>(sGnFrame) > field_114_gnFrame)
             {
@@ -9612,7 +9601,7 @@ void Abe::Motion_150_Chant_42FD50()
             EventBroadcast(kEventAbeOhm, this);
             if (!(sGnFrame % 4))
             {
-                New_RandomizedChant_Particle();
+                New_RandomizedChant_Particle(this);
             }
 
             break;

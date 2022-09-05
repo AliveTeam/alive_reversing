@@ -539,7 +539,6 @@ public:
     void IntoPortalStates_4262A0();
     void TryHoist_423420();
     s16 HandleDoAction_429A70();
-    void New_RandomizedChant_Particle();
 
     // Motions
     void Motion_0_Idle_423520();

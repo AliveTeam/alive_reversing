@@ -3611,9 +3611,11 @@ void Slig::Motion_37_Depossessing_4684D0()
 
         if (!(sGnFrame % 4))
         {
-            New_Orb_Particle(
-                mXPos + (mSpriteScale * FP_FromInteger(Math_RandomRange(-20, 20))),
-                mYPos - (mSpriteScale * FP_FromInteger(Math_RandomRange(20, 50))),
+            const FP xRand = FP_FromInteger(Math_RandomRange(-20, 20));
+            const FP yRand = FP_FromInteger(Math_RandomRange(20, 50));
+            New_TintChant_Particle(
+                mXPos + (mSpriteScale * xRand),
+                mYPos - (mSpriteScale * yRand),
                 mSpriteScale,
                 Layer::eLayer_0);
         }

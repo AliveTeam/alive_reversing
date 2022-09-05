@@ -4,6 +4,7 @@
 #include "../AliveLibAE/stdlib.hpp"
 #include "ResourceManager.hpp"
 #include "Math.hpp"
+#include "BaseAliveGameObject.hpp"
 
 namespace AO {
 Particle::Particle(FP xpos, FP ypos, AnimId animId, u8** ppAnimData)
@@ -108,7 +109,7 @@ void New_Smoke_Particles(FP xpos, FP ypos, FP scale, s16 count, u8 r, u8 g, u8 b
     }
 }
 
-void New_Orb_Particle(FP xpos, FP ypos, FP scale, Layer layer)
+Particle* New_Orb_Particle(FP xpos, FP ypos, FP velX, FP velY, FP scale, Layer layer, u8 r, u8 b, u8 g)
 {
     const AnimRecord& orbRec = AO::AnimRec(AnimId::ChantOrb_Particle);
     auto pParticle = relive_new Particle(xpos, ypos, AnimId::ChantOrb_Particle, ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, orbRec.mResourceId, 1, 0));
@@ -117,6 +118,11 @@ void New_Orb_Particle(FP xpos, FP ypos, FP scale, Layer layer)
         pParticle->mVisualFlags.Clear(BaseAnimatedWithPhysicsGameObject::VisualFlags::eApplyShadowZoneColour);
         pParticle->mAnim.mRenderMode = TPageAbr::eBlend_1;
 
+        pParticle->mRGB.SetRGB(r, g, b);
+
+        pParticle->mVelY = velY;
+        pParticle->mVelX = velX;
+
         if (layer != Layer::eLayer_0)
         {
             pParticle->mAnim.mRenderLayer = layer;
@@ -132,34 +138,28 @@ void New_Orb_Particle(FP xpos, FP ypos, FP scale, Layer layer)
 
         pParticle->mSpriteScale = scale;
     }
+    return pParticle;
 }
 
-void New_TintShiny_Particle(FP xpos, FP ypos, FP scale, Layer layer)
+Particle* New_TintShiny_Particle(FP xpos, FP ypos, FP scale, Layer layer)
 {
-    const AnimRecord& orbRec = AO::AnimRec(AnimId::ChantOrb_Particle);
-    u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, orbRec.mResourceId, 1, 0);
-    auto pParticle = relive_new Particle(xpos, ypos, AnimId::ChantOrb_Particle, ppRes);
-    if (pParticle)
-    {
-        pParticle->mVisualFlags.Clear(BaseAnimatedWithPhysicsGameObject::VisualFlags::eApplyShadowZoneColour);
-        pParticle->mAnim.mRenderMode = TPageAbr::eBlend_1;
-        pParticle->mRGB.SetRGB(100, 100, 100);
+    return New_Orb_Particle(xpos, ypos, FP_FromInteger(0), FP_FromInteger(0), scale, layer, 100u, 100u, 100u);
+}
 
-        if (layer != Layer::eLayer_0)
-        {
-            pParticle->mAnim.mRenderLayer = layer;
-        }
-        else if (scale == FP_FromInteger(1))
-        {
-            pParticle->mAnim.mRenderLayer = Layer::eLayer_Foreground_36;
-        }
-        else
-        {
-            pParticle->mAnim.mRenderLayer = Layer::eLayer_Foreground_Half_17;
-        }
+Particle* New_TintChant_Particle(FP xpos, FP ypos, FP scale, Layer layer)
+{
+    return New_Orb_Particle(xpos, ypos, FP_FromInteger(0), FP_FromInteger(0), scale, layer, 128u, 128u, 128u);
+}
 
-        pParticle->mSpriteScale = scale;
-    }
+void New_RandomizedChant_Particle(AO::BaseAliveGameObject* pObj)
+{
+    const auto xpos = pObj->mXPos + pObj->mSpriteScale * FP_FromInteger(40 * Math_NextRandom() / 256 - 20);
+    const auto ypos = pObj->mYPos - (pObj->mSpriteScale * FP_FromInteger(30 * Math_NextRandom() / 256 + 30));
+    New_TintChant_Particle(
+        xpos,
+        ypos,
+        pObj->mSpriteScale,
+        Layer::eLayer_0);
 }
 
 void New_ShootingZFire_Particle(FP xpos, FP ypos, FP scale)

@@ -566,7 +566,7 @@ void ChimeLock::VUpdate()
                 return;
             }
 
-            New_Orb_Particle(
+            New_TintChant_Particle(
                 field_13C_targetX + (mSpriteScale * FP_FromInteger(Math_RandomRange(-30, 30))),
                 field_140_targetY - (mSpriteScale * FP_FromInteger(Math_RandomRange(-20, 20))),
                 mSpriteScale,
