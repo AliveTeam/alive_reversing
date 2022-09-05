@@ -436,7 +436,7 @@ void Meat::VUpdate()
 
                 if (static_cast<s32>(sGnFrame) > field_11C_timer)
                 {
-                    New_Shiny_Particle_4199A0(
+                    New_TintShiny_Particle(
                         mXPos + mSpriteScale,
                         mYPos + (mSpriteScale * FP_FromInteger(-7)),
                         FP_FromDouble(0.3),

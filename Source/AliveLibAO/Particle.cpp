@@ -8,10 +8,8 @@
 namespace AO {
 Particle::Particle(FP xpos, FP ypos, AnimId animId, u8** ppAnimData)
 {
+    SetType(ReliveTypes::eParticle);
     mRGB.SetRGB(128, 128, 128);
-
-    mBaseGameObjectTypeId = ReliveTypes::eParticle;
-
     Animation_Init(animId, ppAnimData);
 
     if (mBaseGameObjectFlags.Get(BaseGameObject::eListAddFailed_Bit1))
@@ -37,7 +35,7 @@ void Particle::VUpdate()
     }
 }
 
-Particle* New_DestroyOrCreateObject_Particle_419D00(FP xpos, FP ypos, FP scale)
+Particle* New_DestroyOrCreateObject_Particle(FP xpos, FP ypos, FP scale)
 {
     const AnimRecord& rec = AO::AnimRec(AnimId::DeathFlare_2);
     u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
@@ -144,7 +142,7 @@ void New_Orb_Particle(FP xpos, FP ypos, FP scale, Layer layer)
     }
 }
 
-void New_Shiny_Particle_4199A0(FP xpos, FP ypos, FP scale, Layer layer)
+void New_TintShiny_Particle(FP xpos, FP ypos, FP scale, Layer layer)
 {
     const AnimRecord& orbRec = AO::AnimRec(AnimId::ChantOrb_Particle);
     u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, orbRec.mResourceId, 1, 0);
@@ -172,10 +170,10 @@ void New_Shiny_Particle_4199A0(FP xpos, FP ypos, FP scale, Layer layer)
     }
 }
 
-void New_ShootingZFire_Particle_419810(FP xpos, FP ypos, FP scale)
+void New_ShootingZFire_Particle(FP xpos, FP ypos, FP scale)
 {
-    const AnimRecord& rec = AO::AnimRec(AnimId::ShootingZFire_Particle);
-    u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
+    const AnimRecord& ZFireRec = AO::AnimRec(AnimId::ShootingZFire_Particle);
+    u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, ZFireRec.mResourceId, 1, 0);
     auto pParticle = relive_new Particle(xpos, ypos, AnimId::ShootingZFire_Particle, ppRes);
     if (pParticle)
     {
@@ -198,10 +196,10 @@ void New_ShootingZFire_Particle_419810(FP xpos, FP ypos, FP scale)
     }
 }
 
-void New_ShootingFire_Particle_419720(FP xpos, FP ypos, s8 direction, FP scale)
+void New_ShootingFire_Particle(FP xpos, FP ypos, s8 direction, FP scale)
 {
-    const AnimRecord& rec = AO::AnimRec(AnimId::ShootingFire_Particle);
-    u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
+    const AnimRecord& shootingFireRec = AO::AnimRec(AnimId::ShootingFire_Particle);
+    u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, shootingFireRec.mResourceId, 1, 0);
     auto pParticle = relive_new Particle(xpos, ypos, AnimId::ShootingFire_Particle, ppRes);
     if (pParticle)
     {

@@ -184,8 +184,11 @@ void New_ShootingZFire_Particle(FP xpos, FP ypos, FP scale)
     if (pParticle)
     {
         pParticle->mVisualFlags.Clear(BaseAnimatedWithPhysicsGameObject::VisualFlags::eApplyShadowZoneColour);
+
         pParticle->mRGB.SetRGB(55, 55, 55);
+
         pParticle->mAnim.mRenderMode = TPageAbr::eBlend_1;
+
         if (scale == FP_FromInteger(1))
         {
             pParticle->mAnim.mRenderLayer = Layer::eLayer_Foreground_36;
@@ -194,6 +197,7 @@ void New_ShootingZFire_Particle(FP xpos, FP ypos, FP scale)
         {
             pParticle->mAnim.mRenderLayer = Layer::eLayer_Foreground_Half_17;
         }
+
         pParticle->mSpriteScale = scale;
     }
 }

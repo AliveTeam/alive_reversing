@@ -48,7 +48,7 @@ s32 Animation_OnFrame_Slig(::BaseGameObject* pObj, s16* pData)
             pSlig->mSpriteScale,
             0);
 
-        New_ShootingFire_Particle_419720(
+        New_ShootingFire_Particle(
             pSlig->mXPos - xOff,
             pSlig->mYPos + yOff,
             1,
@@ -71,7 +71,7 @@ s32 Animation_OnFrame_Slig(::BaseGameObject* pObj, s16* pData)
             pSlig->mSpriteScale,
             0);
 
-        New_ShootingFire_Particle_419720(
+        New_ShootingFire_Particle(
             pSlig->mXPos + xOff,
             pSlig->mYPos + yOff,
             0,

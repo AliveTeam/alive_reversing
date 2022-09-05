@@ -7121,7 +7121,7 @@ void Abe::Motion_61_Respawn_42CD20()
             }
             if (static_cast<s32>(sGnFrame) > field_118_timer)
             {
-                New_DestroyOrCreateObject_Particle_419D00(
+                New_DestroyOrCreateObject_Particle(
                     mXPos,
                     mSpriteScale * FP_FromInteger(25) + mYPos,
                     mSpriteScale);

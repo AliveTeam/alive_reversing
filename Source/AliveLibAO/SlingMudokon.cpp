@@ -530,7 +530,7 @@ s16 SlingMudokon::Brain_1_Spawn()
             }
 
             SFX_Play_Pitch(relive::SoundEffects::MenuNavigation, 45, 400);
-            New_DestroyOrCreateObject_Particle_419D00(
+            New_DestroyOrCreateObject_Particle(
                 mXPos,
                 (mSpriteScale * FP_FromInteger(20)) + mYPos,
                 mSpriteScale);
@@ -671,7 +671,7 @@ s16 SlingMudokon::Brain_1_Spawn()
                 }
 
                 mBaseGameObjectFlags.Set(BaseGameObject::eDead);
-                New_DestroyOrCreateObject_Particle_419D00(mXPos, (mSpriteScale * FP_FromInteger(20)) + mYPos, mSpriteScale);
+                New_DestroyOrCreateObject_Particle(mXPos, (mSpriteScale * FP_FromInteger(20)) + mYPos, mSpriteScale);
 
                 relive_new Flash(Layer::eLayer_Above_FG1_39, 255u, 0, 255u);
             }
@@ -700,7 +700,7 @@ s16 SlingMudokon::Brain_2_AskForPassword()
                 return field_13A_brain_sub_state;
             }
 
-            New_DestroyOrCreateObject_Particle_419D00(
+            New_DestroyOrCreateObject_Particle(
                 mXPos,
                 (mSpriteScale * FP_FromInteger(20)) + mYPos,
                 mSpriteScale);
@@ -952,7 +952,7 @@ s16 SlingMudokon::Brain_2_AskForPassword()
                 }
 
                 mBaseGameObjectFlags.Set(BaseGameObject::eDead);
-                New_DestroyOrCreateObject_Particle_419D00(mXPos, (mSpriteScale * FP_FromInteger(20)) + mYPos, mSpriteScale);
+                New_DestroyOrCreateObject_Particle(mXPos, (mSpriteScale * FP_FromInteger(20)) + mYPos, mSpriteScale);
 
                 relive_new Flash(Layer::eLayer_Above_FG1_39, 255u, 0, 255u);
             }

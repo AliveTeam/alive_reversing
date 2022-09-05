@@ -148,7 +148,7 @@ void Rock::VUpdate()
         case States::eOnGround_3:
             if (static_cast<s32>(sGnFrame) > field_124_shimmer_timer)
             {
-                New_Shiny_Particle_4199A0(
+                New_TintShiny_Particle(
                     (mSpriteScale * FP_FromInteger(1)) + mXPos,
                     (mSpriteScale * FP_FromInteger(-7)) + mYPos,
                     FP_FromDouble(0.3),

@@ -3796,7 +3796,7 @@ void Slig::Motion_43_ShootZ_468E30()
             mSpriteScale,
             field_174_tlv.mData.mNumTimesToShoot - field_200_num_times_to_shoot - 1);
 
-        New_ShootingZFire_Particle_419810(
+        New_ShootingZFire_Particle(
             mXPos,
             mYPos - FP_FromInteger(12),
             mSpriteScale);
