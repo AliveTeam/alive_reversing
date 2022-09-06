@@ -89,7 +89,7 @@ PullRingRope::~PullRingRope()
 {
     Path::TLV_Reset(field_110_tlvInfo, -1, 0, 0);
 
-    BaseGameObject* pRope = sObjectIds.Find(field_F8_rope_id, ReliveTypes::eLiftRope);
+    BaseGameObject* pRope = sObjectIds.Find(field_F8_rope_id, ReliveTypes::eRope);
     if (pRope)
     {
         pRope->mBaseGameObjectFlags.Set(BaseGameObject::eDead);
@@ -99,7 +99,7 @@ PullRingRope::~PullRingRope()
 void PullRingRope::VUpdate()
 {
     auto pRingPuller = static_cast<BaseAliveGameObject*>(sObjectIds.Find_Impl(field_FC_ring_puller_id));
-    auto pRope = static_cast<Rope*>(sObjectIds.Find(field_F8_rope_id, ReliveTypes::eLiftRope));
+    auto pRope = static_cast<Rope*>(sObjectIds.Find(field_F8_rope_id, ReliveTypes::eRope));
 
     if (EventGet(kEventDeathReset))
     {

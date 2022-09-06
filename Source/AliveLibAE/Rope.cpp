@@ -51,11 +51,11 @@ void ClipPoly_Vertically_4A09E0(Poly_FT4* pPoly, s32 minY, s32 maxY)
 Rope::Rope(s32 left, s32 top, s32 bottom, FP scale)
     : ::BaseAnimatedWithPhysicsGameObject(0)
 {
-    SetType(ReliveTypes::eLiftRope);
+    SetType(ReliveTypes::eRope);
 
-    const AnimRecord& rec = AnimRec(AnimId::Lift_Rope);
+    const AnimRecord& rec = AnimRec(AnimId::AE_Rope);
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
-    Animation_Init(AnimId::Lift_Rope, ppRes);
+    Animation_Init(AnimId::AE_Rope, ppRes);
     SetTint(kRopeTints_55FD68, gMap.mCurrentLevel);
 
     mAnim.field_14_scale = scale;

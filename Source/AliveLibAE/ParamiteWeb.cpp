@@ -10,7 +10,7 @@
 ParamiteWeb::ParamiteWeb(FP xpos, s32 bottom, s32 top, FP scale)
     : BaseAnimatedWithPhysicsGameObject(0)
 {
-    SetType(ReliveTypes::eLiftRope);
+    SetType(ReliveTypes::eRope);
 
     if (scale == FP_FromInteger(1))
     {

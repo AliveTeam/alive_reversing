@@ -640,8 +640,8 @@ ReliveTypes BaseGameObject::FromAE(AETypes aeType)
             return ReliveTypes::eRock;
         case AETypes::eRockSack_106:
             return ReliveTypes::eRockSack;
-        case AETypes::eLiftRope_108:
-            return ReliveTypes::eLiftRope;
+        case AETypes::eRope_108:
+            return ReliveTypes::eRope;
         case AETypes::eExplosion_109:
             return ReliveTypes::eExplosion;
         case AETypes::eMudokon_110:
@@ -863,8 +863,8 @@ AETypes BaseGameObject::ToAE(ReliveTypes reliveType)
             return AETypes::eRock_105;
         case ReliveTypes::eRockSack:
             return AETypes::eRockSack_106;
-        case ReliveTypes::eLiftRope:
-            return AETypes::eLiftRope_108;
+        case ReliveTypes::eRope:
+            return AETypes::eRope_108;
         case ReliveTypes::eExplosion:
             return AETypes::eExplosion_109;
         case ReliveTypes::eMudokon:

@@ -1554,7 +1554,7 @@ constexpr CombinedAnimRecord kAnimRecords[916] = {
     {AnimId::HoneySack_Falling, kNullAnimDetails, { "HIVE.BND", 9336, 140, 38, AO::kP2c3HiveAOResID, PalId::Default} },
     {AnimId::HoneySack_FallingToSmashed, kNullAnimDetails, { "HIVE.BND", 9280, 140, 38, AO::kP2c3HiveAOResID, PalId::Default} },
     {AnimId::HoneySack_OnGround, kNullAnimDetails, { "HIVE.BND", 9360, 140, 38, AO::kP2c3HiveAOResID, PalId::Default} },
-    {AnimId::Lift_Rope, { "ROPES.BAN", 748, 9, 16, kRopesResID, PalId::Default}, kNullAnimDetails },
+    {AnimId::AE_Rope, { "ROPES.BAN", 748, 9, 16, kRopesResID, PalId::Default}, kNullAnimDetails },
     // TODO: more rope BAN'S?
 
     {AnimId::Meat, 
