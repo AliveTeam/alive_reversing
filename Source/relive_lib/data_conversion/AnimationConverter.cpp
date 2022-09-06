@@ -114,15 +114,20 @@ AnimationConverter::AnimationConverter(const FileSystem::Path& outputFile, const
     for (s32 i = 0; i < pAnimationHeader->field_2_num_frames; i++)
     {
         const FrameHeader* pFrameHeader = GetFrame(pAnimationHeader, i);
-        DecompressAnimFrame(decompressionBuffer, pFrameHeader);
 
-        // Add frame to the sprite sheet
-        const u32 imageWidth = CalcImageWidth(pFrameHeader);
-        for (u32 x = 0; x < pFrameHeader->field_4_width; x++)
+        // TODO: HACK ignore broken type for now
+        if (pFrameHeader->field_7_compression_type != CompressionType::eType_3_RLE_Blocks)
         {
-            for (u32 y = 0; y < pFrameHeader->field_5_height; y++)
+            DecompressAnimFrame(decompressionBuffer, pFrameHeader);
+    
+            // Add frame to the sprite sheet
+            const u32 imageWidth = CalcImageWidth(pFrameHeader);
+            for (u32 x = 0; x < pFrameHeader->field_4_width; x++)
             {
-                spriteSheetBuffer[(y * sheetWidth) + (x + (bestMaxSize.mMaxW * i))] = decompressionBuffer[(y * imageWidth) + x];
+                for (u32 y = 0; y < pFrameHeader->field_5_height; y++)
+                {
+                    spriteSheetBuffer[(y * sheetWidth) + (x + (bestMaxSize.mMaxW * i))] = decompressionBuffer[(y * imageWidth) + x];
+                }
             }
         }
 
@@ -205,8 +210,7 @@ void AnimationConverter::DecompressAnimFrame(std::vector<u8>& decompressionBuffe
     switch (pFrameHeader->field_7_compression_type)
     {
         case CompressionType::eType_0_NoCompression:
-            // reinterpret_cast<const u8*>(&pFrameHeader->field_8_width2)
-            ALIVE_FATAL("todo");
+            memcpy(decompressionBuffer.data(), reinterpret_cast<const u8*>(&pFrameHeader->field_8_width2), decompressionBuffer.size());
             break;
 
         case CompressionType::eType_2_ThreeToFourBytes:
@@ -239,14 +243,14 @@ void AnimationConverter::DecompressAnimFrame(std::vector<u8>& decompressionBuffe
 
         case CompressionType::eType_4_RLE:
         case CompressionType::eType_5_RLE:
-            ALIVE_FATAL("todo");
-            // CompressionType_4Or5_Decompress_4ABAB0(reinterpret_cast<const u8*>(&pFrameHeader->field_8_width2), *mDbuf);
+           // ALIVE_FATAL("todo");
+            CompressionType_4Or5_Decompress_4ABAB0(reinterpret_cast<const u8*>(&pFrameHeader->field_8_width2), decompressionBuffer.data());
             // renderer.Upload(AnimFlagsToBitDepth(mFlags), vram_rect, *mDbuf);
             break;
 
         case CompressionType::eType_6_RLE:
-            ALIVE_FATAL("todo");
-            // CompressionType6Ae_Decompress_40A8A0(reinterpret_cast<const u8*>(&pFrameHeader->field_8_width2), *mDbuf);
+            //ALIVE_FATAL("todo");
+            CompressionType6Ae_Decompress_40A8A0(reinterpret_cast<const u8*>(&pFrameHeader->field_8_width2), decompressionBuffer.data());
             // renderer.Upload(AnimFlagsToBitDepth(mFlags), vram_rect, *mDbuf);
             break;
 
