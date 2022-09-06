@@ -25,6 +25,11 @@
 #include "relive_tlvs_conversion.hpp"
 #include "Collisions.hpp"
 
+#define MAGIC_ENUM_RANGE_MIN 0
+#define MAGIC_ENUM_RANGE_MAX 1000
+#include <magic_enum/include/magic_enum.hpp>
+
+
 constexpr u32 kDataVersion = 1;
 
 extern const CombinedAnimRecord kAnimRecords[915];
@@ -2214,7 +2219,8 @@ static void ConvertAnimations(const FileSystem::Path& dataDir, FileSystem& fs, s
                 const auto& animDetails = isAo ? AO::AnimRec(rec.mAnimId) : AnimRec(rec.mAnimId);
 
                 // e.g "arm_gib"
-                filePath.Append(AnimBaseName(rec.mAnimId));
+                const char_type* enum_name = magic_enum::enum_name(rec.mAnimId).data();
+                filePath.Append(enum_name);
 
                 ReadLvlFileInto(lvlReader, animDetails.mBanName, fileBuffer);
                 AnimationConverter animationConverter(filePath, animDetails, fileBuffer, isAo);
