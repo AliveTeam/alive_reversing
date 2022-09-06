@@ -199,7 +199,6 @@ enum class ReliveTypes : s16
     eMusicController,
     eMusicTrigger,
     ePullRingRope,
-    eRope,
     eScrabSpawner,
     eMainMenuTransistion,
     eScreenShake,
