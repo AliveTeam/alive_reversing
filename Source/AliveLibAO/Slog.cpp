@@ -22,7 +22,7 @@
 #include "../relive_lib/Shadow.hpp"
 #include "../relive_lib/Events.hpp"
 #include "DDCheat.hpp"
-#include "Particle.hpp"
+#include "../relive_lib/Particle.hpp"
 #include "GameSpeak.hpp"
 #include "Grid.hpp"
 #include "AnimationCallBacks.hpp"
@@ -1699,7 +1699,7 @@ void Slog::Motion_21_Eating_475900()
     {
         if (mAnim.mCurrentFrame == 3 && !mAnim.mFlags.Get(AnimFlags::eBit19_LoopBackwards))
         {
-            SfxPlayMono(relive::RandomSfx(relive::SoundEffects::Eating1, relive::SoundEffects::Eating2), 100, 0);
+            SfxPlayMono(relive::RandomSfx(relive::SoundEffects::Eating1, relive::SoundEffects::Eating2), 100);
             const FP bloodYPos = mYPos - (FP_FromInteger(4) * mSpriteScale);
             const FP bloodXPos = ((mAnim.mFlags.Get(AnimFlags::eBit5_FlipX)) != 0 ? -FP_FromInteger(25) : FP_FromInteger(25) * mSpriteScale);
             relive_new Blood(

@@ -7,11 +7,13 @@
 #include "Game.hpp"
 #include "../relive_lib/ObjectIds.hpp"
 #include "Abe.hpp"
-#include "ShadowZone.hpp"
+#include "../relive_lib/ShadowZone.hpp"
 #include "../relive_lib/ScreenManager.hpp"
 #include "Sfx.hpp"
 #include "../relive_lib/Events.hpp"
 #include "Grid.hpp"
+#include "ResourceManager.hpp"
+#include "Map.hpp"
 
 struct LiftPointData final
 {

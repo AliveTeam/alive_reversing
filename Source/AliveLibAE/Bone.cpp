@@ -11,8 +11,10 @@
 #include "../relive_lib/ObjectIds.hpp"
 #include "../relive_lib/Events.hpp"
 #include "Abe.hpp"
-#include "Particle.hpp"
+#include "../relive_lib/Particle.hpp"
 #include "Grid.hpp"
+#include "Map.hpp"
+#include "ResourceManager.hpp"
 
 Bone::Bone(FP xpos, FP ypos, s16 countId)
     : BaseThrowable(0)

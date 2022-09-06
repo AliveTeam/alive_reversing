@@ -14,7 +14,7 @@
 #include "../relive_lib/Events.hpp"
 #include "MusicTrigger.hpp"
 #include "Input.hpp"
-#include "Particle.hpp"
+#include "../relive_lib/Particle.hpp"
 #include "Sys_common.hpp"
 
 namespace AO {
@@ -183,7 +183,7 @@ void ChimeLock::VUnPosses()
     mBaseAliveGameObjectFlags.Clear(Flags_10A::e10A_Bit2_bPossesed);
     field_110_state = ChimeLockStates::eIdle_0;
     sActiveHero->SetActiveControlledCharacter_421480();
-    SFX_Play_Pitch(relive::SoundEffects::PossessEffect, 70, 400, 0);
+    SFX_Play_Pitch(relive::SoundEffects::PossessEffect, 70, 400);
 }
 
 s16 ChimeLock::DoNote(s16 note)
@@ -468,7 +468,7 @@ void ChimeLock::VUpdate()
                     field_164_ChimeLock_num[0] = BellPositions::eNone_0;
                     field_164_ChimeLock_num[1] = BellPositions::eNone_0;
 
-                    SFX_Play_Pitch(relive::SoundEffects::PossessEffect, 0, -600, 0);
+                    SFX_Play_Pitch(relive::SoundEffects::PossessEffect, 0, -600);
                     return;
                 }
 

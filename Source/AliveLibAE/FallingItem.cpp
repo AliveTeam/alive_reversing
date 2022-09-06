@@ -10,9 +10,11 @@
 #include "SwitchStates.hpp"
 #include "Sound/Midi.hpp"
 #include "ParticleBurst.hpp"
-#include "Particle.hpp"
+#include "../relive_lib/Particle.hpp"
 #include "ScreenShake.hpp"
 #include "Abe.hpp"
+#include "ResourceManager.hpp"
+#include "Map.hpp"
 
 const AnimId sFallingItemData_544DC0[15][2] = {
     {AnimId::AE_FallingRock_Falling, AnimId::AE_FallingRock_Waiting},

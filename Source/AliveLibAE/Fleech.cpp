@@ -11,9 +11,9 @@
 #include "Dove.hpp"
 #include "Blood.hpp"
 #include "../relive_lib/Shadow.hpp"
-#include "Particle.hpp"
+#include "../relive_lib/Particle.hpp"
 #include "../relive_lib/ScreenManager.hpp"
-#include "ShadowZone.hpp"
+#include "../relive_lib/ShadowZone.hpp"
 #include "Gibs.hpp"
 #include "../relive_lib/ObjectIds.hpp"
 #include "PlatformBase.hpp"
@@ -25,6 +25,8 @@
 #include "Grid.hpp"
 #include "../relive_lib/Math.hpp"
 #include "AnimationCallBacks.hpp"
+#include "Map.hpp"
+#include "ResourceManager.hpp"
 
 ALIVE_VAR(1, 0x5BC20C, u8, sFleechRandomIdx_5BC20C, 0);
 ALIVE_VAR(1, 0x5BC20E, s16, sFleechCount_5BC20E, 0);

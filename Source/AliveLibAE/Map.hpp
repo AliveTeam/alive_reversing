@@ -39,16 +39,6 @@ struct CameraName final
 };
 ALIVE_ASSERT_SIZEOF(CameraName, 8);
 
-enum class CameraPos : s16
-{
-    eCamInvalid_m1 = -1,
-    eCamCurrent_0 = 0,
-    eCamTop_1 = 1,
-    eCamBottom_2 = 2,
-    eCamLeft_3 = 3,
-    eCamRight_4 = 4,
-    eCamNone_5 = 5, // Not "in" the camera
-};
 
 struct Path_PathTransition final : public Path_TLV
 {
@@ -129,7 +119,7 @@ public:
     void Get_Abe_Spawn_Pos(PSX_Point* pPoint);
     s16 GetOverlayId() override;
     void Create_FG1s();
-    CameraPos Rect_Location_Relative_To_Active_Camera(const PSX_RECT* pRect);
+    virtual CameraPos Rect_Location_Relative_To_Active_Camera(const PSX_RECT* pRect, s16 width = 0) override;
     s16 SetActiveCam(EReliveLevelIds level, s16 path, s16 cam, CameraSwapEffects screenChangeEffect, s16 fmvBaseId, s16 forceChange);
     static BaseGameObject* FMV_Camera_Change(u8** ppBits, Map* pMap, EReliveLevelIds lvlId);
     Camera* Create_Camera(s16 xpos, s16 ypos, s32 a4);
@@ -150,6 +140,7 @@ public:
         return mLoadedPaths;
     }
 
+    void TLV_Reset(const Guid& tlvId, s16 hiFlags, s8 bSetCreated, s8 bSetDestroyed) override;
 
 private:
     Camera* GetCamera(CameraPos pos);

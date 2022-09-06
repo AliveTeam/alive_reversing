@@ -10,8 +10,10 @@
 #include "../relive_lib/ObjectIds.hpp"
 #include "AbilityRing.hpp"
 #include "PossessionFlicker.hpp"
-#include "Particle.hpp"
+#include "../relive_lib/Particle.hpp"
 #include "ParticleBurst.hpp"
+#include "ResourceManager.hpp"
+#include "Map.hpp"
 
 SlapLock::SlapLock(relive::Path_SlapLock* pTlv, const Guid& tlvId)
     : BaseAliveGameObject(0)

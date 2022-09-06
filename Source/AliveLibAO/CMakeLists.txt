@@ -25,8 +25,6 @@ SET(AliveLibSrcAO
    SwitchStateBooleanLogic.cpp
    OneShotSwitchIdSetter.hpp
    OneShotSwitchIdSetter.cpp
-   ShadowZone.hpp
-   ShadowZone.cpp
    GameEnderController.hpp
    GameEnderController.cpp
    MovingBomb.hpp
@@ -255,8 +253,6 @@ SET(AliveLibSrcAO
    Psx.cpp
    Midi.hpp
    Midi.cpp
-   BaseAnimatedWithPhysicsGameObject.hpp
-   BaseAnimatedWithPhysicsGameObject.cpp
    BaseAliveGameObject.hpp
    BaseAliveGameObject.cpp
    FixedPoint.hpp
@@ -273,8 +269,6 @@ SET(AliveLibSrcAO
    MusicController.cpp
    CameraSwapper.hpp
    CameraSwapper.cpp
-   Particle.hpp
-   Particle.cpp
    LvlArchive.hpp
    LvlArchive.cpp
    Input.hpp

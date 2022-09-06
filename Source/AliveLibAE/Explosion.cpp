@@ -3,7 +3,7 @@
 #include "Function.hpp"
 #include "Path.hpp"
 #include "Map.hpp"
-#include "Particle.hpp"
+#include "../relive_lib/Particle.hpp"
 #include "Flash.hpp"
 #include "ScreenShake.hpp"
 #include "Gibs.hpp"

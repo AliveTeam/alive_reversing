@@ -2,6 +2,7 @@
 #include "BrewMachine.hpp"
 #include "../relive_lib/Events.hpp"
 #include "Function.hpp"
+#include "Map.hpp"
 
 // TODO: Should be const but can't be due to mlgs hacks in Font obj
 u8 fontPalette_550F08[32] = {

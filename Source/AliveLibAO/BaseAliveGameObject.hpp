@@ -1,22 +1,22 @@
 #pragma once
 
-#include "BaseAnimatedWithPhysicsGameObject.hpp"
+#include "../relive_lib/BaseAnimatedWithPhysicsGameObject.hpp"
 #include "../AliveLibCommon/Function.hpp"
 #include "../AliveLibCommon/BitField.hpp"
 #include "Psx.hpp"
 
 class PathLine;
 
+enum class CameraPos : s16;
+
 namespace AO {
 
 void BaseAliveGameObject_ForceLink();
 
 
-struct Path_TLV;
 class PlatformBase;
 class BirdPortal;
 
-enum class CameraPos : s16;
 
 enum Flags_10A
 {

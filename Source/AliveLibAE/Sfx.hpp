@@ -8,8 +8,6 @@ enum class CameraPos : s16;
 class BaseAnimatedWithPhysicsGameObject;
 
 s32 SFX_Play_Stereo(relive::SoundEffects sfxId, s32 leftVol, s32 rightVol, FP scale = FP_FromInteger(1));
-s32 SFX_Play_Pitch(relive::SoundEffects sfxIdx, s16 volume, s32 pitch, FP scale = FP_FromInteger(1));
-s32 SfxPlayMono(relive::SoundEffects sfxIdx, s16 volume, FP scale = FP_FromInteger(1));
 s32 SFX_Play_Camera(relive::SoundEffects sfxId, s16 volume, CameraPos direction, FP scale = FP_FromInteger(1));
 s32 SND_MIDI(s32 program, s32 vabId, s32 note, s16 vol, s16 min, s16 max);
 

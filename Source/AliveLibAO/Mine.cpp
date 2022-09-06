@@ -250,7 +250,7 @@ void Mine::VUpdate()
             {
                 if (bInCamera)
                 {
-                    SfxPlayMono(relive::SoundEffects::RedTick, 35, 0);
+                    SfxPlayMono(relive::SoundEffects::RedTick, 35);
                 }
                 sMinePlayingSound_507B88 = this;
             }

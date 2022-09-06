@@ -5,6 +5,8 @@
 #include "../relive_lib/ScreenManager.hpp"
 #include "BaseAliveGameObject.hpp"
 #include "stdlib.hpp"
+#include "ResourceManager.hpp"
+#include "Map.hpp"
 
 OrbWhirlWindParticle::OrbWhirlWindParticle(FP xpos, FP ypos, FP scale, s16 bIsMudokonSpirit)
 {

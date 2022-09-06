@@ -69,7 +69,7 @@
 #include "Scrab.hpp"
 #include "Paramite.hpp"
 #include "MovingBomb.hpp"
-#include "ShadowZone.hpp"
+#include "../relive_lib/ShadowZone.hpp"
 #include "OneShotSwitchIdSetter.hpp"
 #include "SwitchStateBooleanLogic.hpp"
 #include "LiftPoint.hpp"
@@ -198,11 +198,11 @@ static void Factory_Door(relive::Path_TLV* pTlv, Map* /*pMap*/, const Guid& tlvI
     }
 }
 
-static void Factory_ShadowZone(relive::Path_TLV* pTlv, Map* pMap, const Guid& tlvId, LoadMode loadMode)
+static void Factory_ShadowZone(relive::Path_TLV* pTlv, Map* /*pMap*/, const Guid& tlvId, LoadMode loadMode)
 {
     if (loadMode != LoadMode::LoadResourceFromList_1 && loadMode != LoadMode::LoadResource_2)
     {
-        relive_new ShadowZone(static_cast<relive::Path_ShadowZone*>(pTlv), pMap, tlvId);
+        relive_new ShadowZone(static_cast<relive::Path_ShadowZone*>(pTlv), tlvId);
     }
 }
 

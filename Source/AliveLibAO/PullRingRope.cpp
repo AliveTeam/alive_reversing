@@ -148,7 +148,7 @@ s16 PullRingRope::Pull(BaseAliveGameObject* pFrom)
     {
         mAnim.Set_Animation_Data(AnimId::Pullring_Desert_UseBegin, nullptr);
     }
-    SfxPlayMono(relive::SoundEffects::RingRopePull, 0, 0);
+    SfxPlayMono(relive::SoundEffects::RingRopePull, 0);
     return 1;
 }
 

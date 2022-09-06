@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "Events.hpp"
 #include "../relive_lib/BaseGameObject.hpp"
-#include "BaseAnimatedWithPhysicsGameObject.hpp"
+#include "../relive_lib/BaseAnimatedWithPhysicsGameObject.hpp"
 #include "GameType.hpp"
 
 struct EventsArray final

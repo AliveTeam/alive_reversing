@@ -9,6 +9,7 @@
 #include "stdlib.hpp"
 #include "PlatformBase.hpp"
 #include "Game.hpp"
+#include "Map.hpp"
 
 ALIVE_VAR(1, 0x5c1bde, u16, gInfiniteThrowables, 0);
 

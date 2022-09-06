@@ -352,7 +352,7 @@ void SND_Load_VABS(SoundBlockInfo* pSoundBlockInfo, s32 reverb)
 }
 
 
-s32 SFX_SfxDefinition_Play_Mono(const relive::SfxDefinition& sfxDef, s16 volume, s16 pitch_min, s16 pitch_max)
+s32 SFX_SfxDefinition_Play_Mono(const relive::SfxDefinition& sfxDef, s32 volume, s32 pitch_min, s32 pitch_max)
 {
     if (!volume)
     {
@@ -393,7 +393,7 @@ s32 SFX_SfxDefinition_Play_Mono(const relive::SfxDefinition& sfxDef, s16 volume,
     if (pitch_min || pitch_max)
     {
         // Note: Inlined in psx
-        SFX_SetPitch_4CA510(sfxDef, midiHandle, Math_RandomRange(pitch_min, pitch_max));
+        SFX_SetPitch_4CA510(sfxDef, midiHandle, Math_RandomRange(static_cast<s16>(pitch_min), static_cast<s16>(pitch_max)));
     }
 
     return midiHandle;

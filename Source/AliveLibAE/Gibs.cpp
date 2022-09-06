@@ -7,6 +7,8 @@
 #include "stdlib.hpp"
 #include "../relive_lib/ScreenManager.hpp"
 #include "AnimResources.hpp"
+#include "ResourceManager.hpp"
+#include "Map.hpp"
 
 const TintEntry kGibTints_55C744[] = {
     {EReliveLevelIds::eMines, 87u, 103u, 67u},

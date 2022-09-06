@@ -1,41 +1,21 @@
 #pragma once
 
 #include "../AliveLibCommon/Function.hpp"
-#include "Map.hpp"
-#include "../relive_lib/BaseGameObject.hpp"
-#include "../relive_lib/BaseAnimatedWithPhysicsGameObject.hpp"
-#include "../relive_lib/data_conversion/relive_tlvs.hpp"
+#include "BaseGameObject.hpp"
+#include "BaseAnimatedWithPhysicsGameObject.hpp"
+#include "data_conversion/relive_tlvs.hpp"
 
 enum class EReliveLevelIds : s16;
 
-namespace AO {
-
-enum class ShadowZoneScale : s16
-{
-    eBoth_0 = 0,
-    eHalf_1 = 1,
-    eFull_2 = 2,
-};
-
-struct Path_ShadowZone final : public Path_TLV
-{
-    s16 field_18_centre_w;
-    s16 field_1A_centre_h;
-    s16 mRed;
-    s16 mGreen;
-    s16 mBlue;
-    s16 field_22_id;
-    ShadowZoneScale mScale;
-    s16 field_26_pad;
-};
-ALIVE_ASSERT_SIZEOF_ALWAYS(Path_ShadowZone, 0x28);
-
 class Map;
 
-class ShadowZone final : public ::BaseGameObject
+class ShadowZone final : public BaseGameObject
 {
 public:
-    ShadowZone(relive::Path_ShadowZone* pTlv, Map* pMap, const Guid& tlvId);
+    static void MakeArray();
+    static void FreeArray();
+
+    ShadowZone(relive::Path_ShadowZone* pTlv, const Guid& tlvId);
     ~ShadowZone();
 
     virtual void VScreenChanged() override;
@@ -62,8 +42,5 @@ public:
     FP field_2C_g = {};
     FP field_30_b = {};
 };
-ALIVE_ASSERT_SIZEOF(ShadowZone, 0x34);
 
-ALIVE_VAR_EXTERN(DynamicArrayT<ShadowZone>*, sShadowZone_dArray_507B08);
-
-} // namespace AO
+extern DynamicArrayT<ShadowZone>* sShadowZoneArray;

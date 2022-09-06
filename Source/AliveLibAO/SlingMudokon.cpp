@@ -10,7 +10,7 @@
 #include "Abe.hpp"
 #include "Game.hpp"
 #include "CheatController.hpp"
-#include "Particle.hpp"
+#include "../relive_lib/Particle.hpp"
 #include "Flash.hpp"
 #include "Dove.hpp"
 #include "Math.hpp"
@@ -254,7 +254,7 @@ void SlingMudokon::Motion_1_Angry()
 {
     if (!mAnim.mCurrentFrame)
     {
-        SfxPlayMono(relive::SoundEffects::SlingshotExtend, 0, 0);
+        SfxPlayMono(relive::SoundEffects::SlingshotExtend, 0);
     }
 
     if (GetNextMotion() == eSlingMudMotions::Motion_3_ShootStart)
@@ -284,7 +284,7 @@ void SlingMudokon::Motion_3_ShootStart()
 {
     if (!mAnim.mCurrentFrame)
     {
-        SfxPlayMono(relive::SoundEffects::SlingshotShoot, 0, 0);
+        SfxPlayMono(relive::SoundEffects::SlingshotShoot, 0);
     }
 
     if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))

@@ -108,7 +108,7 @@ void BackgroundAnimation::VUpdate()
             switch (mSoundEffect)
             {
                 case relive::Path_BackgroundAnimation::BgAnimSounds::eFire:
-                    field_104_sound_channels_mask = SfxPlayMono(relive::SoundEffects::LoudFire, 0, 0);
+                    field_104_sound_channels_mask = SfxPlayMono(relive::SoundEffects::LoudFire, 0);
                     break;
             }
         }

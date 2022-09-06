@@ -17,6 +17,8 @@
 #include "BaseBomb.hpp"
 #include "LiftPoint.hpp"
 #include "Grid.hpp"
+#include "ResourceManager.hpp"
+#include "Map.hpp"
 
 static TintEntry sTimedMineTint_550EB8[1] = {{EReliveLevelIds::eNone, 127u, 127u, 127u}};
 

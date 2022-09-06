@@ -128,8 +128,8 @@ void RollingBallStopper::VUpdate()
                 Rect_Clear(&mCollisionLine->mRect);
                 mCollisionLine = nullptr;
                 mState = States::eMoveStopper;
-                SFX_Play_Pitch(relive::SoundEffects::PickupItem, 100, -2400, 0);
-                SFX_Play_Pitch(relive::SoundEffects::LiftStop, 80, -800, 0);
+                SFX_Play_Pitch(relive::SoundEffects::PickupItem, 100, -2400);
+                SFX_Play_Pitch(relive::SoundEffects::LiftStop, 80, -800);
             }
             break;
 

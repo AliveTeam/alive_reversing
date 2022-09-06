@@ -1,7 +1,7 @@
 #include "stdafx_ao.h"
 #include "ResourceManager.hpp"
 #include "Function.hpp"
-#include "Particle.hpp"
+#include "../relive_lib/Particle.hpp"
 #include "../AliveLibAE/stdlib.hpp"
 #include "../relive_lib/PsxDisplay.hpp"
 #include "Psx.hpp"
@@ -197,7 +197,7 @@ ALIVE_ASSERT_SIZEOF(LoadingFile, 0x30);
 void Game_ShowLoadingIcon_445EB0()
 {
     const AnimRecord& rec = AO::AnimRec(AnimId::Loading_Icon2);
-    u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
+    u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, FALSE, FALSE);
     if (ppRes)
     {
         auto pParticle = relive_new Particle(FP_FromInteger(0), FP_FromInteger(0), AnimId::Loading_Icon2, ppRes);

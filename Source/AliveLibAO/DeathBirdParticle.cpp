@@ -49,7 +49,7 @@ void DeathBirdParticle::VUpdate()
                     pDove->mSpriteScale = mSpriteScale;
                     if (field_EC_bPlaySound)
                     {
-                        SfxPlayMono(relive::SoundEffects::AbeDove, 0, 0);
+                        SfxPlayMono(relive::SoundEffects::AbeDove, 0);
                     }
                 }
             }

@@ -63,8 +63,6 @@ SET(AliveLibAESrc
     ResourceManager.hpp
     BaseAliveGameObject.cpp
     BaseAliveGameObject.hpp
-    BaseAnimatedWithPhysicsGameObject.cpp
-    BaseAnimatedWithPhysicsGameObject.hpp
     CreditsController.cpp
     CreditsController.hpp
     PauseMenu.cpp
@@ -120,8 +118,6 @@ SET(AliveLibAESrc
     Compression.cpp
     FG1.hpp
     FG1.cpp
-    Particle.hpp
-    Particle.cpp
     Movie.hpp
     Movie.cpp
     CameraSwapper.cpp
@@ -198,8 +194,6 @@ SET(AliveLibAESrc
     Lever.cpp
     MultiSwitchController.hpp
     MultiSwitchController.cpp
-    ShadowZone.hpp
-    ShadowZone.cpp
     Drill.cpp
     Drill.hpp
     Teleporter.cpp

@@ -8,7 +8,7 @@
 #include "Math.hpp"
 #include "../AliveLibAE/stdlib.hpp"
 #include "../relive_lib/Animation.hpp"
-#include "Particle.hpp"
+#include "../relive_lib/Particle.hpp"
 #include "../relive_lib/ScreenManager.hpp"
 #include "../relive_lib/PsxDisplay.hpp"
 #include "../relive_lib/Primitives.hpp"
@@ -73,7 +73,7 @@ Spark::Spark(FP xpos, FP ypos, FP scale, s32 count, s32 min, s32 max)
         mTimer = sGnFrame + 3;
 
         const AnimRecord& rec = AO::AnimRec(AnimId::ChantOrb_Particle_Small);
-        u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
+        u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
         auto pParticle = relive_new Particle(xpos, ypos - FP_FromInteger(4), AnimId::ChantOrb_Particle_Small, ppRes);
         if (pParticle)
         {

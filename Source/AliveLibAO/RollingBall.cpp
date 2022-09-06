@@ -152,7 +152,7 @@ void RollingBall::VUpdate()
         {
             if (!(mAnim.mCurrentFrame % 3))
             {
-                SfxPlayMono(relive::RandomSfx(relive::SoundEffects::RollingBallNoise1, relive::SoundEffects::RollingBallNoise2), 0, 0);
+                SfxPlayMono(relive::RandomSfx(relive::SoundEffects::RollingBallNoise1, relive::SoundEffects::RollingBallNoise2), 0);
             }
 
             Accelerate();
@@ -181,7 +181,7 @@ void RollingBall::VUpdate()
         {
             if (!(mAnim.mCurrentFrame % 3))
             {
-                SfxPlayMono(relive::RandomSfx(relive::SoundEffects::RollingBallNoise1, relive::SoundEffects::RollingBallNoise2), 0, 0);
+                SfxPlayMono(relive::RandomSfx(relive::SoundEffects::RollingBallNoise1, relive::SoundEffects::RollingBallNoise2), 0);
             }
 
             Accelerate();

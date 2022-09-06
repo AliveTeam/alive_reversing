@@ -14,6 +14,9 @@
 #include "Abe.hpp"
 #include "BaseBomb.hpp"
 #include "Grid.hpp"
+#include "ResourceManager.hpp"
+#include "Map.hpp"
+
 #include <math.h>
 
 const TintEntry sTintMap_UXB_563A3C[19] = {

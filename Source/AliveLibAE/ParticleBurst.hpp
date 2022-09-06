@@ -1,6 +1,6 @@
 #pragma once
 
-#include "BaseAnimatedWithPhysicsGameObject.hpp"
+#include "../relive_lib/BaseAnimatedWithPhysicsGameObject.hpp"
 #include "../AliveLibCommon/Function.hpp"
 
 struct ParticleBurst_Item;

@@ -4,6 +4,7 @@
 #include "DebugHelpers.hpp"
 #include "Sound/Midi.hpp"
 #include "PathData.hpp"
+#include "Map.hpp"
 #include <assert.h>
 
 
@@ -16,32 +17,6 @@ s32 SFX_Play_Stereo(relive::SoundEffects sfxId, s32 leftVol, s32 rightVol, FP sc
     }
     
     return SFX_SfxDefinition_Play_Stereo(relive::GetSfx(sfxId), static_cast<s16>(leftVol), static_cast<s16>(rightVol), 0x7FFF, 0x7FFF);
-}
-
-s32 SFX_Play_Pitch(relive::SoundEffects sfxId, s16 volume, s32 pitch, FP scale)
-{
-    if (!volume)
-    {
-        volume = (s8) relive::GetSfx(sfxId).field_C_default_volume;
-    }
-    if (scale == FP_FromDouble(0.5))
-    {
-        volume = static_cast<s16>(volume / 1.5);
-    }
-    return SFX_SfxDefinition_Play_Mono(relive::GetSfx(sfxId), volume, static_cast<s16>(pitch), static_cast<s16>(pitch));
-}
-
-s32 SfxPlayMono(relive::SoundEffects sfxId, s16 volume, FP scale)
-{
-    if (!volume)
-    {
-        volume = relive::GetSfx(sfxId).field_C_default_volume;
-    }
-    if (scale == FP_FromDouble(0.5))
-    {
-        volume /= 3;
-    }
-    return SFX_SfxDefinition_Play_Mono(relive::GetSfx(sfxId), volume, 0x7FFF, 0x7FFF);
 }
 
 s32 SFX_Play_Camera(relive::SoundEffects sfxId, s16 volume, CameraPos direction, FP scale)

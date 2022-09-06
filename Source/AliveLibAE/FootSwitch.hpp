@@ -1,9 +1,11 @@
 #pragma once
 
-#include "BaseAnimatedWithPhysicsGameObject.hpp"
+#include "../relive_lib/BaseAnimatedWithPhysicsGameObject.hpp"
 #include "Path.hpp"
 #include "../AliveLibCommon/Function.hpp"
 #include "SwitchStates.hpp"
+
+class BaseAliveGameObject;
 
 enum class FootSwitchTriggerBy : s16
 {
@@ -30,7 +32,7 @@ struct FootSwitch_Data final
 ALIVE_ASSERT_SIZEOF_ALWAYS(FootSwitch_Data, 0xC);
 
 
-class FootSwitch final : public ::BaseAnimatedWithPhysicsGameObject
+class FootSwitch final : public BaseAnimatedWithPhysicsGameObject
 {
 public:
     FootSwitch(relive::Path_FootSwitch* pTlv, const Guid& tlvId);

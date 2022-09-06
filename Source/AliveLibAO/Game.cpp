@@ -24,7 +24,7 @@
 #include "Midi.hpp"
 #include "PauseMenu.hpp"
 #include "Abe.hpp"
-#include "ShadowZone.hpp"
+#include "../relive_lib/ShadowZone.hpp"
 #include "CameraSwapper.hpp"
 #include "AmbientSound.hpp"
 #include "PsxRender.hpp"
@@ -161,7 +161,6 @@ void Sys_SetWindowProc_Filter_48E950(TFilter)
 
 
 ALIVE_VAR(1, 0x507670, u32, sGnFrame, 0);
-ALIVE_VAR(1, 0x504618, DynamicArrayT<BaseGameObject>*, gObjListDrawables, nullptr);
 
 ALIVE_VAR(1, 0x50766C, DynamicArrayT<BaseGameObject>*, ObjListPlatforms_50766C, nullptr);
 
@@ -323,7 +322,7 @@ void Init_Sound_DynamicArrays_And_Others_41CD20()
 
     ObjList_5009E0 = relive_new DynamicArrayT<ResourceManager::ResourceManager_FileRecord>(10); // not used in AE
 
-    sShadowZone_dArray_507B08 = relive_new DynamicArrayT<ShadowZone>(4);
+    ShadowZone::MakeArray();
 
     gBaseAliveGameObjects = relive_new DynamicArrayT<BaseAliveGameObject>(20);
 
@@ -536,7 +535,7 @@ void Game_Run_4373D0()
 
     gBaseGameObjects = relive_new DynamicArrayT<BaseGameObject>(90);
 
-    gObjListDrawables = relive_new DynamicArrayT<BaseGameObject>(80);
+    BaseAnimatedWithPhysicsGameObject::MakeArray();
 
     AnimationBase::CreateAnimationArray();
 
@@ -568,7 +567,7 @@ void Game_Run_4373D0()
     gMap.Shutdown();
 
     AnimationBase::FreeAnimationArray();
-    relive_delete gObjListDrawables;
+    BaseAnimatedWithPhysicsGameObject::FreeArray();
     relive_delete gBaseGameObjects;
 
     MusicController::Shutdown();

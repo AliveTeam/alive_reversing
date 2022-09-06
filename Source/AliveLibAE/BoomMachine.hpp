@@ -1,7 +1,7 @@
 #pragma once
 
 #include "../AliveLibCommon/Function.hpp"
-#include "BaseAnimatedWithPhysicsGameObject.hpp"
+#include "../relive_lib/BaseAnimatedWithPhysicsGameObject.hpp"
 #include "Path.hpp"
 
 struct Path_BoomMachine final : public Path_TLV

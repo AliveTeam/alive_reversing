@@ -15,7 +15,7 @@
 #include "../relive_lib/Events.hpp"
 #include "Sfx.hpp"
 #include "Flash.hpp"
-#include "Particle.hpp"
+#include "../relive_lib/Particle.hpp"
 #include "Abe.hpp"
 #include "../relive_lib/ScreenManager.hpp"
 #include "../relive_lib/PsxDisplay.hpp"
@@ -23,6 +23,8 @@
 #include "ScreenClipper.hpp"
 #include "Sys_common.hpp"
 #include "AbilityRing.hpp"
+#include "ResourceManager.hpp"
+#include "Map.hpp"
 
 BirdPortal::BirdPortal(relive::Path_BirdPortal* pTlv, const Guid& tlvId)
     : BaseGameObject(TRUE, 0)
@@ -223,7 +225,8 @@ void BirdPortal::VUpdate()
                     u8** ppLightRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, TRUE, FALSE);
                     if (ppLightRes)
                     {
-                        auto pParticle = relive_new Particle(pTerminator2->mXPos,
+                        auto pParticle = relive_new Particle(
+							pTerminator2->mXPos,
                             (FP_FromInteger(10) * mSpriteScale) + pTerminator2->mYPos,
                             AnimId::BirdPortal_Sparks,
                             ppLightRes);
@@ -247,7 +250,7 @@ void BirdPortal::VUpdate()
                             SFX_Play_Pitch(relive::SoundEffects::BirdPortalSpark, 50, 2400, mSpriteScale);
                         }
                     }
-                    ResourceManager::FreeResource_49C330(ppLightRes);
+                    ResourceManager::FreeResource_49C330(ppLightRes); // TODO: Why bother +1'ing then?
                 }
                 // add the ring effects from AO because why not :)
                 if (!(sGnFrame % 8))

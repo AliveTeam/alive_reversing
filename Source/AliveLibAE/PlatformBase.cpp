@@ -5,6 +5,8 @@
 #include "../relive_lib/Collisions.hpp"
 #include "Game.hpp"
 #include "stdlib.hpp"
+#include "ResourceManager.hpp"
+#include "Map.hpp"
 
 PlatformBase::PlatformBase()
     : BaseAliveGameObject(0)

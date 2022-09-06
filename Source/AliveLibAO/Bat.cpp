@@ -194,7 +194,7 @@ void Bat::VUpdate()
 
             if (!(mAnim.mCurrentFrame % 3))
             {
-                SfxPlayMono(relive::RandomSfx(relive::SoundEffects::Bat1, relive::SoundEffects::Bat2), Math_RandomRange(20, 26), 0);
+                SfxPlayMono(relive::RandomSfx(relive::SoundEffects::Bat1, relive::SoundEffects::Bat2), Math_RandomRange(20, 26));
             }
 
             if (static_cast<s32>(sGnFrame) > mTimer)

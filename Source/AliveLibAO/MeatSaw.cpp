@@ -340,8 +340,8 @@ void MeatSaw::GrindUpObjects_439CD0()
                                 mSpriteScale,
                                 50);
 
-                            SfxPlayMono(relive::SoundEffects::KillEffect, 127, 0);
-                            SFX_Play_Pitch(relive::SoundEffects::KillEffect, 127, -700, 0);
+                            SfxPlayMono(relive::SoundEffects::KillEffect, 127);
+                            SFX_Play_Pitch(relive::SoundEffects::KillEffect, 127, -700);
                             return;
                         }
                     }

@@ -284,7 +284,7 @@ void Dove::VUpdate()
                 if (!bExtraSeqStarted_4FF944)
                 {
                     bExtraSeqStarted_4FF944 = 16;
-                    SfxPlayMono(relive::SoundEffects::Dove, 0, 0);
+                    SfxPlayMono(relive::SoundEffects::Dove, 0);
                 }
             }
 

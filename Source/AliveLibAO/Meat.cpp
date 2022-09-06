@@ -14,7 +14,7 @@
 #include "../relive_lib/Collisions.hpp"
 #include "Throwable.hpp"
 #include "CameraSwapper.hpp"
-#include "Particle.hpp"
+#include "../relive_lib/Particle.hpp"
 #include "Grid.hpp"
 
 namespace AO {
@@ -84,7 +84,7 @@ void MeatSack::VUpdate()
             {
                 field_114_bPlayWobbleSound = 0;
                 field_116_always_0 = 0;
-                SFX_Play_Pitch(relive::SoundEffects::SackWobble, 24, Math_RandomRange(-2400, -2200), 0);
+                SFX_Play_Pitch(relive::SoundEffects::SackWobble, 24, Math_RandomRange(-2400, -2200));
             }
         }
     }
@@ -137,7 +137,7 @@ void MeatSack::VUpdate()
                 pMeat->mSpriteScale = mSpriteScale;
             }
 
-            SfxPlayMono(relive::SoundEffects::SackHit, 0, 0);
+            SfxPlayMono(relive::SoundEffects::SackHit, 0);
             Environment_SFX_42A220(EnvironmentSfx::eDeathNoise_7, 0, 0x7FFF, nullptr);
             mAnim.Set_Animation_Data(AnimId::MeatSack_Hit, nullptr);
             field_110_bDoMeatSackIdleAnim = 1;
@@ -302,7 +302,7 @@ void Meat::InTheAir()
                     mVelY = FP_FromInteger(0);
                     mVelX = FP_FromInteger(0);
 
-                    SFX_Play_Pitch(relive::SoundEffects::MeatBounce, 0, -650, 0);
+                    SFX_Play_Pitch(relive::SoundEffects::MeatBounce, 0, -650);
                     EventBroadcast(kEventNoise, this);
                     EventBroadcast(kEventSuspiciousNoise, this);
                     AddToPlatform();
@@ -319,7 +319,7 @@ void Meat::InTheAir()
 
                 mVelX = (-mVelX / FP_FromInteger(2));
 
-                SFX_Play_Pitch(relive::SoundEffects::MeatBounce, 0, -650, 0);
+                SFX_Play_Pitch(relive::SoundEffects::MeatBounce, 0, -650);
                 EventBroadcast(kEventNoise, this);
                 EventBroadcast(kEventSuspiciousNoise, this);
 
@@ -339,7 +339,7 @@ void Meat::InTheAir()
                 {
                     mVelX = (-mVelX / FP_FromInteger(4));
 
-                    SFX_Play_Pitch(relive::SoundEffects::MeatBounce, 0, -650, 0);
+                    SFX_Play_Pitch(relive::SoundEffects::MeatBounce, 0, -650);
                     EventBroadcast(kEventNoise, this);
                     EventBroadcast(kEventSuspiciousNoise, this);
 
@@ -497,7 +497,7 @@ s16 Meat::OnCollision(BaseAliveGameObject* pHit)
     }
 
     pHit->VOnThrowableHit(this);
-    SFX_Play_Pitch(relive::SoundEffects::MeatBounce, 0, -650, 0);
+    SFX_Play_Pitch(relive::SoundEffects::MeatBounce, 0, -650);
     return 0;
 }
 

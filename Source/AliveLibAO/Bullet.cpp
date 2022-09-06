@@ -6,7 +6,7 @@
 #include "../AliveLibAE/stdlib.hpp"
 #include "Spark.hpp"
 #include "Sfx.hpp"
-#include "Particle.hpp"
+#include "../relive_lib/Particle.hpp"
 #include "../relive_lib/Collisions.hpp"
 #include "Elum.hpp"
 #include "Math.hpp"
@@ -97,7 +97,7 @@ void Bullet::VUpdate()
                     New_Smoke_Particles(hitX, hitY, mSpriteScale, 3, 128, 128, 128);
                     if (Math_RandomRange(0, 100) < 90 || Math_RandomRange(0, 128) >= 64)
                     {
-                        SfxPlayMono(relive::SoundEffects::Bullet2, volume, 0);
+                        SfxPlayMono(relive::SoundEffects::Bullet2, volume);
                     }
                     mBaseGameObjectFlags.Set(BaseGameObject::eDead);
                     return;
@@ -109,11 +109,11 @@ void Bullet::VUpdate()
                 {
                     if (Math_RandomRange(0, 100) < 70)
                     {
-                        SfxPlayMono(relive::SoundEffects::Bullet2, volume, 0);
+                        SfxPlayMono(relive::SoundEffects::Bullet2, volume);
                     }
                     if (Math_RandomRange(0, 128) < 64)
                     {
-                        SfxPlayMono(relive::SoundEffects::Bullet1, volume, 0);
+                        SfxPlayMono(relive::SoundEffects::Bullet1, volume);
                     }
                     mBaseGameObjectFlags.Set(BaseGameObject::eDead);
                     return;
@@ -183,11 +183,11 @@ void Bullet::VUpdate()
 
             if (Math_RandomRange(0, 128) < 64)
             {
-                SfxPlayMono(relive::SoundEffects::Bullet1, 75, 0);
+                SfxPlayMono(relive::SoundEffects::Bullet1, 75);
             }
             else
             {
-                SfxPlayMono(relive::SoundEffects::Bullet2, 75, 0);
+                SfxPlayMono(relive::SoundEffects::Bullet2, 75);
             }
             mBaseGameObjectFlags.Set(BaseGameObject::eDead);
         }
@@ -282,9 +282,9 @@ BaseAliveGameObject* Bullet::ShootObject(PSX_RECT* pRect)
 
 void Bullet::PlayBulletSounds(s16 volume)
 {
-    SFX_Play_Pitch(relive::SoundEffects::AirStream, volume, 2000, 0);
-    SFX_Play_Pitch(relive::SoundEffects::MeatBounce, volume, Math_RandomRange(300, 700), 0);
-    SFX_Play_Pitch(relive::SoundEffects::KillEffect, volume, Math_RandomRange(900, 1400), 0);
+    SFX_Play_Pitch(relive::SoundEffects::AirStream, volume, 2000);
+    SFX_Play_Pitch(relive::SoundEffects::MeatBounce, volume, Math_RandomRange(300, 700));
+    SFX_Play_Pitch(relive::SoundEffects::KillEffect, volume, Math_RandomRange(900, 1400));
 }
 
 } // namespace AO

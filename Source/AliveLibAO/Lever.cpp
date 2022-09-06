@@ -50,7 +50,7 @@ void Lever::VUpdate()
     {
         if (mAnim.mCurrentFrame == 3)
         {
-            SfxPlayMono(relive::SoundEffects::LeverPull, 0, 0);
+            SfxPlayMono(relive::SoundEffects::LeverPull, 0);
         }
 
         if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
@@ -62,7 +62,7 @@ void Lever::VUpdate()
                 || gMap.mCurrentLevel == EReliveLevelIds::eBoardRoom
                 || gMap.mCurrentLevel == EReliveLevelIds::eRuptureFarmsReturn)
             {
-                SfxPlayMono(relive::SoundEffects::IndustrialTrigger, 60, 0);
+                SfxPlayMono(relive::SoundEffects::IndustrialTrigger, 60);
             }
             mState = LeverState::eFinished_2;
 

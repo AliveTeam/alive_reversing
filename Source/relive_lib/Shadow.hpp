@@ -2,7 +2,7 @@
 
 #include "Animation.hpp"
 #include "../AliveLibCommon/BitField.hpp"
-#include "BaseAnimatedWithPhysicsGameObject.hpp"
+#include "../relive_lib/BaseAnimatedWithPhysicsGameObject.hpp"
 
 class Shadow final
 {

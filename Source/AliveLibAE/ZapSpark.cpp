@@ -2,6 +2,8 @@
 #include "ZapSpark.hpp"
 #include "Function.hpp"
 #include "stdlib.hpp"
+#include "Map.hpp"
+#include "ResourceManager.hpp"
 
 ZapSpark::ZapSpark(FP xpos, FP ypos, FP scale)
     : BaseAnimatedWithPhysicsGameObject(0)

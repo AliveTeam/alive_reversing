@@ -6,7 +6,7 @@
 #include "stdlib.hpp"
 #include "LvlArchive.hpp"
 #include "../relive_lib/ScreenManager.hpp" // Camera
-#include "Particle.hpp"
+#include "../relive_lib/Particle.hpp"
 #include "PsxRender.hpp"
 #include "../relive_lib/PsxDisplay.hpp"
 #include "Sys.hpp"

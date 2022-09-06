@@ -20,7 +20,7 @@
 #include "InvisibleSwitch.hpp"
 #include "Lever.hpp"
 #include "MultiSwitchController.hpp"
-#include "ShadowZone.hpp"
+#include "../relive_lib/ShadowZone.hpp"
 #include "Drill.hpp"
 #include "Teleporter.hpp"
 #include "Well.hpp"
@@ -210,11 +210,11 @@ static void Factory_Door(relive::Path_TLV* pTlv, Path*, const Guid& tlvId, LoadM
     }
 }
 
-static void Factory_ShadowZone(relive::Path_TLV* pTlv, Path* pPath, const Guid& tlvId, LoadMode loadmode)
+static void Factory_ShadowZone(relive::Path_TLV* pTlv, Path* /*pPath*/, const Guid& tlvId, LoadMode loadmode)
 {
     if (loadmode != LoadMode::LoadResourceFromList_1 && loadmode != LoadMode::LoadResource_2)
     {
-        relive_new ShadowZone(static_cast<relive::Path_ShadowZone*>(pTlv), pPath, tlvId);
+        relive_new ShadowZone(static_cast<relive::Path_ShadowZone*>(pTlv), tlvId);
     }
 }
 

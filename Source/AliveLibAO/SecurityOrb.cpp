@@ -213,11 +213,11 @@ void SecurityOrb::VUpdate()
 
             if (mTimer - sGnFrame == 4)
             {
-                SfxPlayMono(relive::SoundEffects::Zap1, 0, 0);
+                SfxPlayMono(relive::SoundEffects::Zap1, 0);
             }
             else if (mTimer - sGnFrame == 1)
             {
-                SfxPlayMono(relive::SoundEffects::Zap2, 0, 0);
+                SfxPlayMono(relive::SoundEffects::Zap2, 0);
             }
 
             if (static_cast<s32>(sGnFrame) > mTimer)

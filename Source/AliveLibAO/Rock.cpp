@@ -12,7 +12,7 @@
 #include "Abe.hpp"
 #include "../relive_lib/Collisions.hpp"
 #include "Game.hpp"
-#include "Particle.hpp"
+#include "../relive_lib/Particle.hpp"
 #include "Grid.hpp"
 
 namespace AO {
@@ -280,7 +280,7 @@ void Rock::InTheAir()
                             {
                                 vol = 40;
                             }
-                            SfxPlayMono(relive::SoundEffects::RockBounce, vol, 0);
+                            SfxPlayMono(relive::SoundEffects::RockBounce, vol);
                             EventBroadcast(kEventNoise, this);
                             EventBroadcast(kEventSuspiciousNoise, this);
                             field_118_vol++;
@@ -339,7 +339,7 @@ void Rock::BounceHorizontally( FP hitX, FP hitY )
         vol = 40;
     }
 
-    SfxPlayMono(relive::SoundEffects::RockBounce, vol, 0);
+    SfxPlayMono(relive::SoundEffects::RockBounce, vol);
     EventBroadcast(kEventNoise, this);
     EventBroadcast(kEventSuspiciousNoise, this);
 }
@@ -367,7 +367,7 @@ s16 Rock::OnCollision(BaseAnimatedWithPhysicsGameObject* pObj)
 
     pObj->VOnThrowableHit(this);
 
-    SfxPlayMono(relive::SoundEffects::RockBounceOnMine, 80, 0);
+    SfxPlayMono(relive::SoundEffects::RockBounceOnMine, 80);
     return 0;
 }
 

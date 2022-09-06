@@ -22,7 +22,7 @@
 #include "CameraSwapper.hpp"
 #include "PlatformBase.hpp"
 #include "LiftPoint.hpp"
-#include "Particle.hpp"
+#include "../relive_lib/Particle.hpp"
 #include "SwitchStates.hpp"
 #include "Grid.hpp"
 #include "BeeSwarm.hpp"
@@ -2818,7 +2818,7 @@ void Paramite::Motion_3_Running()
 
     if (mAnim.mCurrentFrame == 3)
     {
-        SFX_Play_Pitch(relive::SoundEffects::PickupItem, 45, -600, 0);
+        SFX_Play_Pitch(relive::SoundEffects::PickupItem, 45, -600);
         if (GetNextMotion() == eParamiteMotions::Motion_2_Walking)
         {
             SetCurrentMotion(eParamiteMotions::Motion_8_WalkRunTransition);
@@ -3327,7 +3327,7 @@ void Paramite::Motion_13_GameSpeakBegin()
             {
                 if (sActiveHero->mHealth > FP_FromInteger(0))
                 {
-                    SfxPlayMono(relive::SoundEffects::KillEffect, 0, 0);
+                    SfxPlayMono(relive::SoundEffects::KillEffect, 0);
                     Mudokon_SFX(MudSounds::eKnockbackOuch_10, 0, 0, sActiveHero);
                 }
                 sActiveHero->VTakeDamage(this);
@@ -3706,7 +3706,7 @@ void Paramite::Motion_23_Eating()
 {
     if (mAnim.mCurrentFrame == 5)
     {
-        SfxPlayMono(relive::RandomSfx(relive::SoundEffects::Eating1, relive::SoundEffects::Eating2), 0, 0);
+        SfxPlayMono(relive::RandomSfx(relive::SoundEffects::Eating1, relive::SoundEffects::Eating2), 0);
     }
 
     if (mNextMotion != -1 && !ToNextMotion())
@@ -3719,7 +3719,7 @@ void Paramite::Motion_24_Struggle()
 {
     if (mAnim.mCurrentFrame == 0)
     {
-        SfxPlayMono(relive::SoundEffects::KillEffect, 0, 0);
+        SfxPlayMono(relive::SoundEffects::KillEffect, 0);
     }
 }
 

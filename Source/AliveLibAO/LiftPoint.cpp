@@ -9,7 +9,7 @@
 #include "Game.hpp"
 #include "Sfx.hpp"
 #include "../relive_lib/Events.hpp"
-#include "ShadowZone.hpp"
+#include "../relive_lib/ShadowZone.hpp"
 #include "../relive_lib/ScreenManager.hpp"
 
 namespace AO {

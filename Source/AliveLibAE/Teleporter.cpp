@@ -8,7 +8,7 @@
 #include "../relive_lib/ObjectIds.hpp"
 #include "Abe.hpp"
 #include "Sfx.hpp"
-#include "Particle.hpp"
+#include "../relive_lib/Particle.hpp"
 #include "Game.hpp"
 #include "../relive_lib/Events.hpp"
 #include "Spark.hpp"

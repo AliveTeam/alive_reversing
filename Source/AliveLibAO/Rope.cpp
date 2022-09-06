@@ -5,7 +5,7 @@
 #include "PathData.hpp"
 #include "../relive_lib/PsxDisplay.hpp"
 #include "../relive_lib/ScreenManager.hpp"
-#include "ShadowZone.hpp"
+#include "../relive_lib/ShadowZone.hpp"
 #include "Map.hpp"
 #include "ResourceManager.hpp"
 #include "../relive_lib/AnimationUnknown.hpp"

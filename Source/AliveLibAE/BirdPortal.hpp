@@ -1,10 +1,11 @@
 #pragma once
 
-#include "BaseAnimatedWithPhysicsGameObject.hpp"
+#include "../relive_lib/BaseAnimatedWithPhysicsGameObject.hpp"
 #include "Path.hpp"
 #include "../AliveLibCommon/Function.hpp"
 
 enum class LevelIds : s16;
+enum class CameraSwapEffects : s16;
 
 enum class PortalType : s16
 {

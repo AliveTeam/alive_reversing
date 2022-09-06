@@ -17,7 +17,7 @@
 #include "Font.hpp"
 #include "FixedPoint.hpp"
 #include "Sound/Midi.hpp"
-#include "BaseAnimatedWithPhysicsGameObject.hpp"
+#include "../relive_lib/BaseAnimatedWithPhysicsGameObject.hpp"
 #include "../relive_lib/Layer.hpp"
 
 class PauseMenu;

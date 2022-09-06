@@ -20,6 +20,8 @@ SET(relive_lib_src
     ../Tools/relive_api/ApiFG1Reader.hpp
     BinaryPath.hpp
     BinaryPath.cpp
+    ShadowZone.hpp
+    ShadowZone.cpp
     Sfx.hpp
     Sfx.cpp
     ObjectIds.hpp
@@ -53,6 +55,9 @@ SET(relive_lib_src
     Collisions.hpp
     Collisions.cpp
     BaseAnimatedWithPhysicsGameObject.hpp
+    BaseAnimatedWithPhysicsGameObject.cpp
+    Particle.cpp
+    Particle.hpp
     AnimationBase.cpp
     AnimationBase.hpp
     Primitives.hpp

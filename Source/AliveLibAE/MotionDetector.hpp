@@ -1,9 +1,11 @@
 #pragma once
 
-#include "BaseAnimatedWithPhysicsGameObject.hpp"
+#include "../relive_lib/BaseAnimatedWithPhysicsGameObject.hpp"
 #include "Path.hpp"
 #include "../AliveLibCommon/Function.hpp"
 #include "../relive_lib/Layer.hpp"
+
+class BaseAliveGameObject;
 
 struct Path_MotionDetector final : public Path_TLV
 {
@@ -34,7 +36,7 @@ public:
 ALIVE_ASSERT_SIZEOF(MotionDetectorLaser, 0xF4);
 
 
-class MotionDetector final : public ::BaseAnimatedWithPhysicsGameObject
+class MotionDetector final : public BaseAnimatedWithPhysicsGameObject
 {
 public:
     MotionDetector(relive::Path_MotionDetector* pTlv, const Guid& tlvId, BaseAnimatedWithPhysicsGameObject* pOwner);

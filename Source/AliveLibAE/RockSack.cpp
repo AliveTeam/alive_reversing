@@ -8,6 +8,8 @@
 #include "Sfx.hpp"
 #include "../relive_lib/Events.hpp"
 #include "Abe.hpp"
+#include "Map.hpp"
+#include "ResourceManager.hpp"
 
 RockSack::RockSack(relive::Path_RockSack* pTlv, const Guid& tlvId)
     : BaseAliveGameObject(0)

@@ -7,8 +7,9 @@
 #include "Slog.hpp"
 #include "Sfx.hpp"
 #include "Blood.hpp"
-#include "Particle.hpp"
+#include "../relive_lib/Particle.hpp"
 #include "../relive_lib/ObjectIds.hpp"
+#include "ResourceManager.hpp"
 
 // Frame call backs ??
 s32 Animation_OnFrame_Common_Null_455F40(BaseGameObject*, s16*)

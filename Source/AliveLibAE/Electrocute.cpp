@@ -7,6 +7,8 @@
 #include "Game.hpp"
 #include "Function.hpp"
 #include "Renderer/IRenderer.hpp"
+#include "ResourceManager.hpp"
+#include "Map.hpp"
 
 // Overwrites a pallete 8 colours at a time one per update
 class PalleteOverwriter final : public BaseGameObject

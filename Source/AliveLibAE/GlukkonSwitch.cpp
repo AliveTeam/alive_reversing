@@ -10,6 +10,8 @@
 #include "Sfx.hpp"
 #include "SwitchStates.hpp"
 #include "GameSpeak.hpp"
+#include "Map.hpp"
+#include "ResourceManager.hpp"
 
 GlukkonSwitch::GlukkonSwitch(relive::Path_GlukkonSwitch* pTlv, const Guid& tlvId)
     : BaseAnimatedWithPhysicsGameObject(0)

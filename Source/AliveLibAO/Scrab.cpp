@@ -18,7 +18,7 @@
 #include "Game.hpp"
 #include "FixedPoint.hpp"
 #include "Gibs.hpp"
-#include "Particle.hpp"
+#include "../relive_lib/Particle.hpp"
 #include "Midi.hpp"
 #include "SwitchStates.hpp"
 #include "Grid.hpp"
@@ -425,8 +425,8 @@ s16 Scrab::VTakeDamage(BaseGameObject* pFrom)
                 return 0;
 
             default:
-                SfxPlayMono(relive::SoundEffects::KillEffect, 127, 0);
-                SfxPlayMono(relive::SoundEffects::FallingItemHit, 90, 0);
+                SfxPlayMono(relive::SoundEffects::KillEffect, 127);
+                SfxPlayMono(relive::SoundEffects::FallingItemHit, 90);
                 mHealth = FP_FromInteger(0);
                 SetBrain(&Scrab::Brain_Death_45CB80);
                 field_130_unused = 2;
@@ -1177,7 +1177,7 @@ void Scrab::Motion_3_Run_45EAB0()
                     {
                         if (field_120_pTarget->VTakeDamage(this))
                         {
-                            SfxPlayMono(relive::SoundEffects::KillEffect, 0, 0);
+                            SfxPlayMono(relive::SoundEffects::KillEffect, 0);
                             Mudokon_SFX(MudSounds::eKnockbackOuch_10, 0, 0, field_120_pTarget);
                         }
                     }
@@ -1305,7 +1305,7 @@ void Scrab::Motion_5_RunToStand_45ED90()
                 {
                     if (field_120_pTarget->VTakeDamage(this))
                     {
-                        SfxPlayMono(relive::SoundEffects::KillEffect, 0, 0);
+                        SfxPlayMono(relive::SoundEffects::KillEffect, 0);
                         Mudokon_SFX(MudSounds::eKnockbackOuch_10, 0, 0, field_120_pTarget);
                     }
                 }
@@ -1349,7 +1349,7 @@ void Scrab::Motion_6_HopBegin_45F3C0()
 
         if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
         {
-            SFX_Play_Pitch(relive::SoundEffects::PickupItem, 50, -800, 0);
+            SFX_Play_Pitch(relive::SoundEffects::PickupItem, 50, -800);
 
             BaseAliveGameObjectLastLineYPos = mYPos;
 
@@ -1671,7 +1671,7 @@ void Scrab::Motion_13_RunJumpBegin_45F5D0()
 {
     if (mAnim.mCurrentFrame == 1)
     {
-        SFX_Play_Pitch(relive::SoundEffects::PickupItem, 50, -800, 0);
+        SFX_Play_Pitch(relive::SoundEffects::PickupItem, 50, -800);
     }
 
     EventBroadcast(kEventNoise, this);
@@ -1804,7 +1804,7 @@ void Scrab::Motion_16_Stamp_45F920()
     if (mAnim.mCurrentFrame == 9)
     {
         Scrab_SFX(ScrabSounds::eHitCollision_4, 0, 0x7FFF, 1);
-        SFX_Play_Pitch(relive::SoundEffects::KillEffect, 60, Math_RandomRange(-255, 255), 0);
+        SFX_Play_Pitch(relive::SoundEffects::KillEffect, 60, Math_RandomRange(-255, 255));
     }
 
     if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
@@ -2023,11 +2023,11 @@ void Scrab::Motion_26_Feed_45FDA0()
     {
         if (Math_RandomRange(0, 100) >= 50)
         {
-            SfxPlayMono(relive::SoundEffects::Eating2, 0, 0);
+            SfxPlayMono(relive::SoundEffects::Eating2, 0);
         }
         else
         {
-            SfxPlayMono(relive::SoundEffects::Eating1, 0, 0);
+            SfxPlayMono(relive::SoundEffects::Eating1, 0);
         }
     }
 
@@ -2054,7 +2054,7 @@ void Scrab::Motion_27_AttackLunge_45FDF0()
             {
                 if (field_120_pTarget->VTakeDamage(this))
                 {
-                    SfxPlayMono(relive::SoundEffects::KillEffect, 0, 0);
+                    SfxPlayMono(relive::SoundEffects::KillEffect, 0);
                     Mudokon_SFX(MudSounds::eKnockbackOuch_10, 0, 0, field_120_pTarget);
                 }
 

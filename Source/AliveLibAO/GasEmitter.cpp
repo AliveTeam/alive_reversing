@@ -7,7 +7,7 @@
 #include "Math.hpp"
 #include "Midi.hpp"
 #include "GasCountDown.hpp"
-#include "Particle.hpp"
+#include "../relive_lib/Particle.hpp"
 
 namespace AO {
 
@@ -65,9 +65,9 @@ void GasEmitter::VUpdate()
 
         if (!gGasEmitter_5009D4)
         {
-            SfxPlayMono(relive::SoundEffects::Gas1, 127, 0);
+            SfxPlayMono(relive::SoundEffects::Gas1, 127);
             gGasEmitter_5009D4 = this;
-            gGasEmitterFx_5009D8 = SfxPlayMono(relive::SoundEffects::Gas2, 127, 0);
+            gGasEmitterFx_5009D8 = SfxPlayMono(relive::SoundEffects::Gas2, 127);
         }
     }
 }

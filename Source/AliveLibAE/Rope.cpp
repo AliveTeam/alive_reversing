@@ -5,7 +5,9 @@
 #include "../relive_lib/Animation.hpp"
 #include "stdlib.hpp"
 #include "../relive_lib/ScreenManager.hpp"
-#include "ShadowZone.hpp"
+#include "../relive_lib/ShadowZone.hpp"
+#include "ResourceManager.hpp"
+#include "Map.hpp"
 
 const TintEntry kRopeTints_55FD68[18] = {
     {EReliveLevelIds::eMines, 127u, 127u, 127u},

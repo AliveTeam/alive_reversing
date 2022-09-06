@@ -77,7 +77,7 @@ void SND_SEQ_SetVol(s32 idx, s16 volLeft, s16 volRight);
 s16 SND_SEQ_Play(u16 idx, s16 repeatCount, s16 volLeft, s16 volRight);
 s32 SND_SsIsEos_DeInlined(u16 idx);
 s32 SFX_SfxDefinition_Play_Stereo(const relive::SfxDefinition& sfxDef, s16 volLeft, s16 volRight, s16 pitch_min, s16 pitch_max);
-s32 SFX_SfxDefinition_Play_Mono(const relive::SfxDefinition& sfxDef, s16 volume, s16 pitch_min, s16 pitch_max);
+s32 SFX_SfxDefinition_Play_Mono(const relive::SfxDefinition& sfxDef, s32 volume, s32 pitch_min, s32 pitch_max);
 
 enum SeqId
 {

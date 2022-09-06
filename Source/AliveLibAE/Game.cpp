@@ -42,6 +42,7 @@
 #include "PathDataExtensions.hpp"
 #include "GameAutoPlayer.hpp"
 #include "Function.hpp"
+#include "../relive_lib/ShadowZone.hpp"
 #include <string>
 
 using TExitGameCallBack = AddPointer_t<void CC()>;
@@ -56,7 +57,6 @@ ALIVE_VAR(1, 0xBBB9D4, u32, sTimer_period_BBB9D4, 0);
 // Arrays of things
 ALIVE_VAR(1, 0x5C1B78, DynamicArrayT<BaseGameObject>*, ObjList_5C1B78, nullptr);
 ALIVE_VAR(1, 0x5BD4D8, DynamicArray*, ObjList_5BD4D8, nullptr);
-ALIVE_VAR(1, 0x5C1B80, DynamicArrayT<ShadowZone>*, sShadowZone_dArray_5C1B80, nullptr);
 
 ALIVE_VAR(1, 0x5C2FE0, s16, sBreakGameLoop_5C2FE0, 0);
 ALIVE_VAR(1, 0x5C1B66, s16, sNum_CamSwappers_5C1B66, 0);
@@ -381,10 +381,6 @@ s32 CreateTimer_4EDEC0(UINT /*uDelay*/, void* /*callBack*/)
     return 0;
 }
 
-
-ALIVE_VAR(1, 0x5C1124, DynamicArrayT<BaseGameObject>*, gObjListDrawables, nullptr);
-
-
 void Init_Sound_DynamicArrays_And_Others_43BDB0()
 {
     DebugFont_Init();
@@ -401,7 +397,7 @@ void Init_Sound_DynamicArrays_And_Others_43BDB0()
 
     ObjList_5BD4D8 = relive_new DynamicArray(10); // Never seems to be used?
 
-    sShadowZone_dArray_5C1B80 = relive_new DynamicArrayT<ShadowZone>(4);
+    ShadowZone::MakeArray();
 
     gBaseAliveGameObjects = relive_new DynamicArrayT<BaseAliveGameObject>(20);
 
@@ -537,12 +533,12 @@ void Game_Run_466D40()
     gMap.Shutdown();
 
     AnimationBase::FreeAnimationArray();
-    relive_delete gObjListDrawables;
+    BaseAnimatedWithPhysicsGameObject::FreeArray();
     relive_delete gFG1List_5D1E28;
     relive_delete gBaseGameObjects;
     relive_delete ObjList_5C1B78;
     relive_delete ObjList_5BD4D8;
-    relive_delete sShadowZone_dArray_5C1B80;
+    ShadowZone::FreeArray();
     relive_delete gBaseAliveGameObjects;
     relive_delete sCollisions;
 

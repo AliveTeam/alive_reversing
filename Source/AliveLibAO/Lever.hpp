@@ -2,7 +2,7 @@
 
 #include "../AliveLibCommon/Function.hpp"
 #include "Map.hpp"
-#include "BaseAnimatedWithPhysicsGameObject.hpp"
+#include "../relive_lib/BaseAnimatedWithPhysicsGameObject.hpp"
 #include "ScopedSeq.hpp"
 #include "../AliveLibAE/Path.hpp"
 #include "SwitchStates.hpp"

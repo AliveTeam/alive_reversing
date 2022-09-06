@@ -6,9 +6,11 @@
 #include "../relive_lib/BaseGameObject.hpp"
 #include "../relive_lib/Animation.hpp"
 #include "Font.hpp"
-#include "BaseAnimatedWithPhysicsGameObject.hpp"
+#include "../relive_lib/BaseAnimatedWithPhysicsGameObject.hpp"
 #include "Factory.hpp"
 #include "Input.hpp"
+#include "PathData.hpp"
+#include "Path.hpp"
 
 enum class LevelIds : s16;
 

@@ -1,18 +1,18 @@
 #include "stdafx.h"
 #include "Particle.hpp"
-#include "Function.hpp"
-#include "ResourceManager.hpp"
-#include "stdlib.hpp"
-#include "BaseAliveGameObject.hpp"
-#include "../relive_lib/GameType.hpp"
+//#include "Function.hpp"
+#include "ResourceManagerWrapper.hpp"
+//#include "stdlib.hpp"
+//#include "BaseAliveGameObject.hpp"
+#include "GameType.hpp"
 
 Particle::Particle(FP xpos, FP ypos, AnimId animId, u8** ppAnimData, bool explosionSizeHack)
     : BaseAnimatedWithPhysicsGameObject(0)
 {
     SetType(ReliveTypes::eParticle);
 
-    ResourceManager::Inc_Ref_Count_49C310(ppAnimData);
-
+    // TODO: Can just be Add_Resource and then Inc_Ref_Count can be removed
+    ResourceManagerWrapper::Inc_Ref_Count(ppAnimData);
     field_10_resources_array.Push_Back(ppAnimData);
 
     mRGB.SetRGB(128, 128, 128);
@@ -39,6 +39,11 @@ Particle::Particle(FP xpos, FP ypos, AnimId animId, u8** ppAnimData, bool explos
     field_F4_scale_amount = FP_FromInteger(0);
 }
 
+Particle::~Particle()
+{
+
+}
+
 void Particle::VUpdate()
 {
     mXPos += mVelX;
@@ -55,7 +60,7 @@ void Particle::VUpdate()
 Particle* New_DestroyOrCreateObject_Particle(FP xpos, FP ypos, FP scale)
 {
     const AnimRecord& rec = PerGameAnimRec(AnimId::DeathFlare_2);
-    u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, FALSE, FALSE);
+    u8** ppRes = ResourceManagerWrapper::GetLoadedResource(ResourceManagerWrapper::Resource_Animation, rec.mResourceId, FALSE, FALSE);
 
     auto pParticle = relive_new Particle(xpos, ypos, AnimId::DeathFlare_2, ppRes);
 
@@ -90,7 +95,7 @@ void New_Smoke_Particles(FP xpos, FP ypos, FP scale, s16 count, u8 r, u8 g, u8 b
         FP randX = (FP_FromInteger(Math_RandomRange(-3, 3)) * scale) + xpos;
         FP particleY = (FP_FromInteger(6 * (i + 1) / 2 * (1 - 2 * (i % 2))) * scale) + ypos;
         const AnimRecord& squibSmokeRec = PerGameAnimRec(AnimId::SquibSmoke_Particle);
-        u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, squibSmokeRec.mResourceId, 0, 0);
+        u8** ppRes = ResourceManagerWrapper::GetLoadedResource(ResourceManagerWrapper::Resource_Animation, squibSmokeRec.mResourceId, 0, 0);
         auto pParticle = relive_new Particle(randX, particleY, AnimId::SquibSmoke_Particle, ppRes);
         if (pParticle)
         {
@@ -128,7 +133,7 @@ void New_Smoke_Particles(FP xpos, FP ypos, FP scale, s16 count, u8 r, u8 g, u8 b
 Particle* New_Orb_Particle(FP xpos, FP ypos, FP velX, FP velY, FP scale, Layer layer, u8 r, u8 b, u8 g)
 {
     const AnimRecord& orbRec = PerGameAnimRec(AnimId::ChantOrb_Particle);
-    u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, orbRec.mResourceId, 0, 0);
+    u8** ppRes = ResourceManagerWrapper::GetLoadedResource(ResourceManagerWrapper::Resource_Animation, orbRec.mResourceId, 0, 0);
     auto pParticle = relive_new Particle(xpos, ypos, AnimId::ChantOrb_Particle, ppRes);
     if (pParticle)
     {
@@ -168,7 +173,7 @@ Particle* New_TintChant_Particle(FP xpos, FP ypos, FP scale, Layer layer)
     return New_Orb_Particle(xpos, ypos, FP_FromInteger(0), FP_FromInteger(0), scale, layer, 128u, 128u, 128u);
 }
 
-void New_RandomizedChant_Particle(BaseAliveGameObject* pObj)
+void New_RandomizedChant_Particle(BaseAnimatedWithPhysicsGameObject* pObj)
 {
 	if (GetGameType() == GameType::eAe)
 	{
@@ -187,7 +192,7 @@ void New_RandomizedChant_Particle(BaseAliveGameObject* pObj)
 void New_ShootingZFire_Particle(FP xpos, FP ypos, FP scale)
 {
     const AnimRecord& ZFireRec = PerGameAnimRec(AnimId::ShootingZFire_Particle);
-    u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, ZFireRec.mResourceId, 0, 0);
+    u8** ppRes = ResourceManagerWrapper::GetLoadedResource(ResourceManagerWrapper::Resource_Animation, ZFireRec.mResourceId, 0, 0);
     auto pParticle = relive_new Particle(xpos, ypos, AnimId::ShootingZFire_Particle, ppRes);
     if (pParticle)
     {
@@ -213,7 +218,7 @@ void New_ShootingZFire_Particle(FP xpos, FP ypos, FP scale)
 void New_ShootingFire_Particle(FP xpos, FP ypos, s8 direction, FP scale)
 {
     const AnimRecord& shootingFireRec = PerGameAnimRec(AnimId::ShootingFire_Particle);
-    u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, shootingFireRec.mResourceId, 0, 0);
+    u8** ppRes = ResourceManagerWrapper::GetLoadedResource(ResourceManagerWrapper::Resource_Animation, shootingFireRec.mResourceId, 0, 0);
     auto pParticle = relive_new Particle(xpos, ypos, AnimId::ShootingFire_Particle, ppRes);
     if (pParticle)
     {

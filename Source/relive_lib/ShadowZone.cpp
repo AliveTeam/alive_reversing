@@ -1,21 +1,30 @@
-#include "stdafx_ao.h"
-#include "Function.hpp"
+//#include "stdafx_ao.h"
+//#include "Function.hpp"
 #include "ShadowZone.hpp"
 #include "../AliveLibAE/stdlib.hpp"
-#include "FixedPoint.hpp"
+#include "../AliveLibCommon/FixedPoint_common.hpp"
 #include "../relive_lib/Events.hpp"
 
-namespace AO {
+DynamicArrayT<ShadowZone>* sShadowZoneArray;
 
-ALIVE_VAR(1, 0x507B08, DynamicArrayT<ShadowZone>*, sShadowZone_dArray_507B08, nullptr);
+void ShadowZone::MakeArray()
+{
+    sShadowZoneArray = relive_new DynamicArrayT<ShadowZone>(4);
+}
 
-ShadowZone::ShadowZone(relive::Path_ShadowZone* pTlv, Map* /*pMap*/, const Guid& tlvId)
+void ShadowZone::FreeArray()
+{
+    relive_delete sShadowZoneArray;
+    sShadowZoneArray = nullptr;
+}
+
+ShadowZone::ShadowZone(relive::Path_ShadowZone* pTlv, const Guid& tlvId)
     : BaseGameObject(TRUE, 0)
 {
-    sShadowZone_dArray_507B08->Push_Back(this);
+    sShadowZoneArray->Push_Back(this);
 
-    field_16_path = gMap.mCurrentPath;
-    field_14_level = gMap.mCurrentLevel;
+    field_16_path = GetMap().mCurrentPath;
+    field_14_level = GetMap().mCurrentLevel;
 
     field_10_tlvInfo = tlvId;
 
@@ -46,9 +55,9 @@ ShadowZone::ShadowZone(relive::Path_ShadowZone* pTlv, Map* /*pMap*/, const Guid&
 
 void ShadowZone::ShadowZones_Calculate_Colour(s32 xpos, s32 ypos, Scale scale, s16* r, s16* g, s16* b)
 {
-    for (s32 idx = 0; idx < sShadowZone_dArray_507B08->Size(); idx++)
+    for (s32 idx = 0; idx < sShadowZoneArray->Size(); idx++)
     {
-        ShadowZone* pShadow = sShadowZone_dArray_507B08->ItemAt(idx);
+        ShadowZone* pShadow = sShadowZoneArray->ItemAt(idx);
         if (!pShadow)
         {
             break;
@@ -107,8 +116,8 @@ void ShadowZone::ShadowZones_Calculate_Colour(s32 xpos, s32 ypos, Scale scale, s
 
 ShadowZone::~ShadowZone()
 {
-    Path::TLV_Reset(field_10_tlvInfo, -1, 0, 0);
-    sShadowZone_dArray_507B08->Remove_Item(this);
+    GetMap().TLV_Reset(field_10_tlvInfo, -1, 0, 0);
+    sShadowZoneArray->Remove_Item(this);
 }
 
 void ShadowZone::VScreenChanged()
@@ -168,5 +177,3 @@ void ShadowZone::GetColourAmount(FP* pOut, s16 xpos, s16 ypos)
         }
     }
 }
-
-} // namespace AO

@@ -3,12 +3,14 @@
 #include "Function.hpp"
 #include "Game.hpp"
 #include "ResourceManager.hpp"
-#include "Particle.hpp"
+#include "../relive_lib/Particle.hpp"
 #include "stdlib.hpp"
 #include "../relive_lib/Events.hpp"
 #include "Abe.hpp"
 #include "../relive_lib/PsxDisplay.hpp"
 #include "../relive_lib/ScreenManager.hpp"
+#include "ResourceManager.hpp"
+#include "Map.hpp"
 
 Spark::Spark(FP xpos, FP ypos, FP scale, s32 count, s32 minAngle, s32 maxAngle, SparkType type)
     : BaseGameObject(TRUE, 0)

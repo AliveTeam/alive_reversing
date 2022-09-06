@@ -6,11 +6,13 @@
 #include "../relive_lib/Events.hpp"
 #include "Game.hpp"
 #include "ThrowableTotalIndicator.hpp"
-#include "Particle.hpp"
+#include "../relive_lib/Particle.hpp"
 #include "Sound/Midi.hpp"
 #include "Explosion.hpp"
 #include "Sfx.hpp"
 #include "Function.hpp"
+#include "ResourceManager.hpp"
+#include "Map.hpp"
 
 struct Colour final
 {

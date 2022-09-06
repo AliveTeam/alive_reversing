@@ -19,7 +19,7 @@
 #include "BackgroundMusic.hpp"
 #include "MusicController.hpp"
 #include "CameraSwapper.hpp"
-#include "Particle.hpp"
+#include "../relive_lib/Particle.hpp"
 #include "LvlArchive.hpp"
 #include "../relive_lib/Collisions.hpp"
 #include "../relive_lib/Events.hpp"
@@ -621,7 +621,7 @@ void Map::RemoveObjectsWithPurpleLight(s16 bMakeInvisible)
 
     if (bAddedALight)
     {
-        SFX_Play_Pitch(relive::SoundEffects::PossessEffect, 40, 2400, 0);
+        SFX_Play_Pitch(relive::SoundEffects::PossessEffect, 40, 2400);
 
         const auto kTotal = bMakeInvisible != 0 ? 12 : 4;
         for (s32 counter = 0; counter < kTotal; counter++)
@@ -870,6 +870,11 @@ void Map::SaveBlyData(u8* pSaveBuffer)
             }
         }
     }
+}
+
+void Map::TLV_Reset(const Guid& tlvId, s16 hiFlags, s8 bSetCreated, s8 bSetDestroyed)
+{
+    Path::TLV_Reset(tlvId, hiFlags, bSetCreated, bSetDestroyed);
 }
 
 void Map::RestoreBlyData(const u8* pSaveData)

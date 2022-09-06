@@ -4,6 +4,8 @@
 #include "Sfx.hpp"
 #include "../relive_lib/Collisions.hpp"
 #include "stdlib.hpp"
+#include "ResourceManager.hpp"
+#include "Map.hpp"
 
 ALIVE_VAR(1, 0x563aa4, u8, sLeafRandIdx_563AA4, 8);
 

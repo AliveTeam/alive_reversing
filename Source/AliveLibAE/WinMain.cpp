@@ -34,7 +34,7 @@
 #include "PsxRender.hpp"
 #include "../relive_lib/VRam.hpp"
 #include "Compression.hpp"
-#include "BaseAnimatedWithPhysicsGameObject.hpp"
+#include "../relive_lib/BaseAnimatedWithPhysicsGameObject.hpp"
 #include "../relive_lib/Collisions.hpp"
 #include "Math.hpp"
 #include "Dove.hpp"

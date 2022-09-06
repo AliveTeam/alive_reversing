@@ -15,7 +15,7 @@
 #include "Game.hpp"
 #include "DDCheat.hpp"
 #include "Input.hpp"
-#include "Particle.hpp"
+#include "../relive_lib/Particle.hpp"
 #include "Blood.hpp"
 #include "Gibs.hpp"
 #include "Sfx.hpp"
@@ -24,7 +24,7 @@
 #include "LiftPoint.hpp"
 #include "Dove.hpp"
 #include "Bullet.hpp"
-#include "Particle.hpp"
+#include "../relive_lib/Particle.hpp"
 #include "Midi.hpp"
 #include "GameEnderController.hpp"
 #include "SnoozeParticle.hpp"
@@ -35,6 +35,7 @@
 #include "Psx_common.hpp"
 #include "AnimationCallBacks.hpp"
 #include "Grid.hpp"
+#include "../AliveLibAE/Sound/Midi.hpp"
 
 // TODO: fix
 #undef max
@@ -1598,7 +1599,7 @@ s16 Slig::GetNextMotionIncGameSpeak_467700(u16 input)
         }
 
         field_128_timer = sGnFrame + 30;
-        SfxPlayMono(relive::SoundEffects::PossessEffect, 0, 0);
+        SfxPlayMono(relive::SoundEffects::PossessEffect, 0);
         return eSligMotions::Motion_37_Depossessing_4684D0;
     }
 
@@ -1710,7 +1711,7 @@ void Slig::Slig_GameSpeak_SFX_46F560(SligSpeak effectId, s32 defaultVol, s32 pit
             volume = FP_GetExponent(FP_FromInteger(volume * 2) / FP_FromInteger(3));
         }
     }
-    SFX_SfxDefinition_Play_4770F0(sSligSounds2[static_cast<s32>(effectId)], volume, pitch_min, pitch_min);
+    SFX_SfxDefinition_Play_Mono(sSligSounds2[static_cast<s32>(effectId)], volume, pitch_min, pitch_min);
 }
 
 s16 Slig::IsInInvisibleZone_418870(BaseAnimatedWithPhysicsGameObject* pObj)
@@ -2481,7 +2482,7 @@ void Slig::Motion_0_StandIdle_467640()
                 {
                     mCurrentMotion = eSligMotions::Motion_37_Depossessing_4684D0;
                     field_128_timer = sGnFrame + 30;
-                    SfxPlayMono(relive::SoundEffects::PossessEffect, 0, 0);
+                    SfxPlayMono(relive::SoundEffects::PossessEffect, 0);
                     return;
                 }
             }
@@ -3290,11 +3291,11 @@ void Slig::Motion_20_Recoil_468D30()
     }
     else if (mSpriteScale == FP_FromDouble(0.5))
     {
-        SfxPlayMono(relive::SoundEffects::SligShoot, 85, 0);
+        SfxPlayMono(relive::SoundEffects::SligShoot, 85);
     }
     else
     {
-        SfxPlayMono(relive::SoundEffects::SligShoot, 0, 0);
+        SfxPlayMono(relive::SoundEffects::SligShoot, 0);
     }
 }
 
@@ -3806,11 +3807,11 @@ void Slig::Motion_43_ShootZ_468E30()
 
         if (mSpriteScale == FP_FromDouble(0.5))
         {
-            SfxPlayMono(relive::SoundEffects::SligShoot, 85, 0);
+            SfxPlayMono(relive::SoundEffects::SligShoot, 85);
         }
         else
         {
-            SfxPlayMono(relive::SoundEffects::SligShoot, 0, 0);
+            SfxPlayMono(relive::SoundEffects::SligShoot, 0);
         }
 
         // The doves don't like bullets
@@ -5655,13 +5656,13 @@ void Slig::BlowToGibs_4685A0()
 
     if (mSpriteScale == FP_FromDouble(0.5))
     {
-        SfxPlayMono(relive::SoundEffects::KillEffect, 80, 0);
-        SfxPlayMono(relive::SoundEffects::FallingItemHit, 60, 0);
+        SfxPlayMono(relive::SoundEffects::KillEffect, 80);
+        SfxPlayMono(relive::SoundEffects::FallingItemHit, 60);
     }
     else
     {
-        SfxPlayMono(relive::SoundEffects::KillEffect, 127, 0);
-        SfxPlayMono(relive::SoundEffects::FallingItemHit, 90, 0);
+        SfxPlayMono(relive::SoundEffects::KillEffect, 127);
+        SfxPlayMono(relive::SoundEffects::FallingItemHit, 90);
     }
 
     mAnim.mFlags.Clear(AnimFlags::eBit3_Render);

@@ -150,7 +150,7 @@ void PauseMenu::VUpdate()
     if (Input().IsAnyHeld(InputCommands::ePause))
     {
         SND_StopAll_4762D0();
-        SFX_Play_Pitch(relive::SoundEffects::PossessEffect, 40, 2400, 0);
+        SFX_Play_Pitch(relive::SoundEffects::PossessEffect, 40, 2400);
         mBaseGameObjectFlags.Set(Options::eDrawable_Bit4);
         field_11C = 1;
         field_124 = 0;
@@ -230,7 +230,7 @@ void PauseMenu::VUpdate()
                         {
                             field_124 = 0;
                         }
-                        SFX_Play_Pitch(relive::SoundEffects::MenuNavigation, 45, 400, 0);
+                        SFX_Play_Pitch(relive::SoundEffects::MenuNavigation, 45, 400);
                     }
 
                     if (Input().IsAnyHeld(InputCommands::eUp))
@@ -240,14 +240,14 @@ void PauseMenu::VUpdate()
                         {
                             field_124 = 3;
                         }
-                        SFX_Play_Pitch(relive::SoundEffects::MenuNavigation, 45, 400, 0);
+                        SFX_Play_Pitch(relive::SoundEffects::MenuNavigation, 45, 400);
                     }
 
 #if ORIGINAL_PS1_BEHAVIOR // OG Change - Pause Menu controls like PS1
                     if (Input().IsAnyHeld(InputCommands::ePause))
                     {
                         field_11C = 0;
-                        SFX_Play_Pitch(relive::SoundEffects::PossessEffect, 40, 2400, 0);
+                        SFX_Play_Pitch(relive::SoundEffects::PossessEffect, 40, 2400);
                         SND_Restart();
                         break;
                     }
@@ -264,7 +264,7 @@ void PauseMenu::VUpdate()
                             case Page1Selectables::eContinue_0:
                             {
                                 field_11C = 0;
-                                SFX_Play_Pitch(relive::SoundEffects::PossessEffect, 40, 2400, 0);
+                                SFX_Play_Pitch(relive::SoundEffects::PossessEffect, 40, 2400);
                                 SND_Restart();
                                 break;
                             }
@@ -274,7 +274,7 @@ void PauseMenu::VUpdate()
                                 field_12C = 0;
                                 field_12E = 0;
                                 field_134 = 1;
-                                SfxPlayMono(relive::SoundEffects::IngameTransition, 90, 0);
+                                SfxPlayMono(relive::SoundEffects::IngameTransition, 90);
                                 s32 tmp = static_cast<s32>(MapWrapper::ToAO(gMap.mCurrentLevel));
                                 if (gMap.mCurrentLevel == EReliveLevelIds::eRuptureFarmsReturn)
                                 {
@@ -315,14 +315,14 @@ void PauseMenu::VUpdate()
                             {
                                 field_126_page = PauseMenuPages::eControls_2;
                                 field_128_controller_id = 0;
-                                SfxPlayMono(relive::SoundEffects::IngameTransition, 90, 0);
+                                SfxPlayMono(relive::SoundEffects::IngameTransition, 90);
                                 break;
                             }
                             case Page1Selectables::eQuit_3:
                             {
                                 field_126_page = PauseMenuPages::eQuit_3;
                                 field_124 = 0;
-                                SfxPlayMono(relive::SoundEffects::IngameTransition, 90, 0);
+                                SfxPlayMono(relive::SoundEffects::IngameTransition, 90);
                                 break;
                             }
                             default:
@@ -355,7 +355,7 @@ void PauseMenu::VUpdate()
                         else if (field_12C == 5)
                         {
                             field_11C = 0;
-                            SFX_Play_Pitch(relive::SoundEffects::PossessEffect, 40, 2400, 0);
+                            SFX_Play_Pitch(relive::SoundEffects::PossessEffect, 40, 2400);
                             SND_Restart();
                         }
                         break;
@@ -390,7 +390,7 @@ void PauseMenu::VUpdate()
                     {
                         case VK_ESCAPE:
                         {
-                            SFX_Play_Pitch(relive::SoundEffects::PossessEffect, 40, 2400, 0);
+                            SFX_Play_Pitch(relive::SoundEffects::PossessEffect, 40, 2400);
                             field_126_page = 0;
                             Input_Reset();
                             break;
@@ -399,10 +399,10 @@ void PauseMenu::VUpdate()
                         {
                             if (string_len_no_nullterminator <= 1)
                             {
-                                SfxPlayMono(relive::SoundEffects::ElectricZap, 0, 0);
+                                SfxPlayMono(relive::SoundEffects::ElectricZap, 0);
                                 break;
                             }
-                            SfxPlayMono(relive::SoundEffects::IngameTransition, 90, 0);
+                            SfxPlayMono(relive::SoundEffects::IngameTransition, 90);
                             saveNameBuffer_5080C6.characters[string_len_no_nullterminator + 1] = 0;
                             field_12C = 4;
                             field_12A = 11;
@@ -414,12 +414,12 @@ void PauseMenu::VUpdate()
                         {
                             if (string_len_no_nullterminator <= 1)
                             {
-                                SfxPlayMono(relive::SoundEffects::ElectricZap, 0, 0);
+                                SfxPlayMono(relive::SoundEffects::ElectricZap, 0);
                                 break;
                             }
                             saveNameBuffer_5080C6.characters[string_len_no_nullterminator] = 18;
                             saveNameBuffer_5080C6.characters[string_len_no_nullterminator + 1] = 0;
-                            SfxPlayMono(relive::SoundEffects::PickupItem, 0, 0);
+                            SfxPlayMono(relive::SoundEffects::PickupItem, 0);
                             break;
                         }
                         default:
@@ -430,24 +430,24 @@ void PauseMenu::VUpdate()
                                 {
                                     if (string_len_no_nullterminator > 19)
                                     {
-                                        SfxPlayMono(relive::SoundEffects::SackWobble, 0, 0);
+                                        SfxPlayMono(relive::SoundEffects::SackWobble, 0);
                                     }
                                     else
                                     {
                                         saveNameBuffer_5080C6.characters[string_len_no_nullterminator + 1] = lastPressedKeyNT[0];
                                         saveNameBuffer_5080C6.characters[string_len_no_nullterminator + 2] = 18;
                                         saveNameBuffer_5080C6.characters[string_len_no_nullterminator + 3] = 0;
-                                        SfxPlayMono(relive::SoundEffects::RockBounce, 0, 0);
+                                        SfxPlayMono(relive::SoundEffects::RockBounce, 0);
                                     }
                                 }
                                 else
                                 {
-                                    SFX_Play_Pitch(relive::SoundEffects::PossessEffect, 30, 2600, 0);
+                                    SFX_Play_Pitch(relive::SoundEffects::PossessEffect, 30, 2600);
                                 }
                             }
                             else
                             {
-                                SFX_Play_Pitch(relive::SoundEffects::PossessEffect, 70, 2200, 0);
+                                SFX_Play_Pitch(relive::SoundEffects::PossessEffect, 70, 2200);
                             }
                             break;
                         }
@@ -459,7 +459,7 @@ void PauseMenu::VUpdate()
                     if (Input().IsAnyHeld(InputCommands::eBack | InputCommands::eHop))
                     {
                         field_126_page = 0;
-                        SFX_Play_Pitch(relive::SoundEffects::PossessEffect, 40, 2400, 0);
+                        SFX_Play_Pitch(relive::SoundEffects::PossessEffect, 40, 2400);
                     }
 
                     if (Input().IsAnyHeld(
@@ -468,13 +468,13 @@ void PauseMenu::VUpdate()
                         field_128_controller_id++;
                         if (field_128_controller_id < 2)
                         {
-                            SfxPlayMono(relive::SoundEffects::IngameTransition, 90, 0);
+                            SfxPlayMono(relive::SoundEffects::IngameTransition, 90);
                         }
                         else
                         {
                             field_128_controller_id = 0;
                             field_126_page = PauseMenuPages::ePause_0;
-                            SFX_Play_Pitch(relive::SoundEffects::PossessEffect, 40, 2400, 0);
+                            SFX_Play_Pitch(relive::SoundEffects::PossessEffect, 40, 2400);
                         }
                     }
                     break;
@@ -484,13 +484,13 @@ void PauseMenu::VUpdate()
                     if (Input().IsAnyHeld(InputCommands::eBack | InputCommands::eHop))
                     {
                         field_126_page = 0;
-                        SFX_Play_Pitch(relive::SoundEffects::PossessEffect, 40, 2400, 0);
+                        SFX_Play_Pitch(relive::SoundEffects::PossessEffect, 40, 2400);
                     }
 
                     if (Input().IsAnyHeld(InputCommands::eThrowItem | InputCommands::eUnPause_OrConfirm | InputCommands::eDoAction))
                     {
                         field_11C = 0;
-                        SFX_Play_Pitch(relive::SoundEffects::PossessEffect, 40, 2400, 0);
+                        SFX_Play_Pitch(relive::SoundEffects::PossessEffect, 40, 2400);
                         if (pPauseMenu_5080E0 && pPauseMenu_5080E0 == this)
                         {
                             pPauseMenu_5080E0->mBaseGameObjectFlags.Set(Options::eDead);

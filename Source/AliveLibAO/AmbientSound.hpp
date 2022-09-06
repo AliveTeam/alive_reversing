@@ -3,10 +3,11 @@
 #include "../AliveLibCommon/Function.hpp"
 #include "../relive_lib/data_conversion/relive_tlvs.hpp"
 
+enum class CameraPos : s16;
+
 namespace AO {
 
 struct Path_TLV;
-enum class CameraPos : s16;
 
 void SND_Reset_Ambiance();
 

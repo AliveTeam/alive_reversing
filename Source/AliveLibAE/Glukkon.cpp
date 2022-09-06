@@ -13,7 +13,7 @@
 #include "Slig.hpp" //used for renderWithGlowingEyes() only - TODO refactor
 #include "ParticleBurst.hpp"
 #include "Sfx.hpp"
-#include "Particle.hpp"
+#include "../relive_lib/Particle.hpp"
 #include "../relive_lib/ObjectIds.hpp"
 #include "LiftPoint.hpp"
 #include "Map.hpp"

@@ -17,6 +17,8 @@
 #include "MotionDetector.hpp"
 #include "Function.hpp"
 #include "Bullet.hpp"
+#include "ResourceManager.hpp"
+#include "Map.hpp"
 
 Greeter::Greeter(relive::Path_Greeter* pTlv, const Guid& tlvId)
     : BaseAliveGameObject(0)

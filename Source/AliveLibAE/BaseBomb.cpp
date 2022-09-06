@@ -11,7 +11,9 @@
 #include "ScreenShake.hpp"
 #include "ParticleBurst.hpp"
 #include "Flash.hpp"
-#include "Particle.hpp"
+#include "../relive_lib/Particle.hpp"
+#include "ResourceManager.hpp"
+#include "Map.hpp"
 
 BaseBomb::BaseBomb(FP x, FP y, s32 /*unused*/, FP scale)
     : BaseAnimatedWithPhysicsGameObject(0)
@@ -172,7 +174,7 @@ void BaseBomb::VUpdate()
     if (mAnim.mFlags.Get(AnimFlags::eBit12_ForwardLoopCompleted)) // Animation ended
     {
         // Time to die
-        mBaseGameObjectFlags.Set(Options::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 }
 

@@ -77,7 +77,7 @@ UXB::UXB(relive::Path_UXB* pTlv, const Guid& tlvId)
                     mYPos,
                     0))
             {
-                SfxPlayMono(relive::SoundEffects::GreenTick, 35, 0);
+                SfxPlayMono(relive::SoundEffects::GreenTick, 35);
             }
 
             mAnim.Set_Animation_Data(AnimId::UXB_Disabled, nullptr);
@@ -315,7 +315,7 @@ void UXB::VOnPickUpOrSlapped()
                         mYPos,
                         0))
                 {
-                    SfxPlayMono(relive::SoundEffects::GreenTick, 35, 0);
+                    SfxPlayMono(relive::SoundEffects::GreenTick, 35);
                 }
                 mAnim.Set_Animation_Data(AnimId::UXB_Toggle, nullptr);
                 mCurrentState = UXBState::eDeactivated;
@@ -334,7 +334,7 @@ void UXB::VOnPickUpOrSlapped()
                     mYPos,
                     0))
             {
-                SfxPlayMono(relive::SoundEffects::RedTick, 35, 0);
+                SfxPlayMono(relive::SoundEffects::RedTick, 35);
             }
         }
     }
@@ -409,7 +409,7 @@ void UXB::VUpdate()
                             mYPos,
                             0))
                     {
-                        SfxPlayMono(relive::SoundEffects::RedTick, 35, 0);
+                        SfxPlayMono(relive::SoundEffects::RedTick, 35);
                     }
                 }
                 else if (gMap.Is_Point_In_Current_Camera(
@@ -419,7 +419,7 @@ void UXB::VUpdate()
                              mYPos,
                              0))
                 {
-                    SfxPlayMono(relive::SoundEffects::GreenTick, 35, 0);
+                    SfxPlayMono(relive::SoundEffects::GreenTick, 35);
                 }
                 mCurrentState = UXBState::eDelay;
                 mNextStateTimer = sGnFrame + 10; // UXB change color delay

@@ -2,6 +2,7 @@
 #include "GameType.hpp"
 #include "../AliveLibCommon/Sys_common.hpp"
 #include "../AliveLibAE/Math.hpp"
+#include "../AliveLibAE/Sound/Midi.hpp"
 
 namespace AO {
 
@@ -1241,4 +1242,30 @@ relive::SoundEffects relive::RandomSfx(relive::SoundEffects sfx1, relive::SoundE
     {
         return sfx2;
     }
+}
+
+s32 relive::SFX_Play_Pitch(relive::SoundEffects sfxId, s32 volume, s32 pitch, FP scale)
+{
+    if (volume > 0)
+    {
+        volume = (s8) relive::GetSfx(sfxId).field_C_default_volume;
+    }
+    if (scale == FP_FromDouble(0.5))
+    {
+        volume = 2 * relive::GetSfx(sfxId).field_C_default_volume / 3;
+    }
+    return SFX_SfxDefinition_Play_Mono(relive::GetSfx(sfxId), volume, static_cast<s16>(pitch), static_cast<s16>(pitch));
+}
+
+s32 relive::SfxPlayMono(relive::SoundEffects sfxId, s32 volume, FP scale)
+{
+    if (!volume)
+    {
+        volume = relive::GetSfx(sfxId).field_C_default_volume;
+    }
+    if (scale == FP_FromDouble(0.5))
+    {
+        volume /= 3;
+    }
+    return SFX_SfxDefinition_Play_Mono(relive::GetSfx(sfxId), volume, 0x7FFF, 0x7FFF);
 }

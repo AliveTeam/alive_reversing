@@ -8,7 +8,7 @@
 #include "Midi.hpp"
 #include "../relive_lib/Events.hpp"
 #include "Flash.hpp"
-#include "Particle.hpp"
+#include "../relive_lib/Particle.hpp"
 #include "BaseAliveGameObject.hpp"
 
 namespace AO {
@@ -94,7 +94,7 @@ void BaseBomb::VUpdate()
     if (mAnim.mCurrentFrame == 3)
     {
         const AnimRecord& rec = AO::AnimRec(AnimId::Explosion_Mine);
-        u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
+        u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
         if (ppRes)
         {
             Particle* pParticle = relive_new Particle(
@@ -112,8 +112,9 @@ void BaseBomb::VUpdate()
         }
     }
 
-    if (mAnim.mFlags.Get(AnimFlags::eBit12_ForwardLoopCompleted))
+    if (mAnim.mFlags.Get(AnimFlags::eBit12_ForwardLoopCompleted)) // Animation ended
     {
+        // Time to die
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 }

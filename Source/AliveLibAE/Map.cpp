@@ -21,7 +21,7 @@
 #include "MainMenu.hpp"
 #include "../relive_lib/Events.hpp"
 #include "Movie.hpp"
-#include "Particle.hpp"
+#include "../relive_lib/Particle.hpp"
 #include "Door.hpp"
 #include "Sound/PsxSpuApi.hpp"
 #include "Sys.hpp"
@@ -919,6 +919,11 @@ void Map::GoTo_Camera()
     }
 }
 
+void Map::TLV_Reset(const Guid& tlvId, s16 hiFlags, s8 bSetCreated, s8 bSetDestroyed)
+{
+    Path::TLV_Reset(tlvId, hiFlags, bSetCreated, bSetDestroyed);
+}
+
 Camera* Map::GetCamera(CameraPos pos)
 {
     return field_2C_camera_array[static_cast<s32>(pos)];
@@ -1026,7 +1031,7 @@ s16 Map::Is_Point_In_Current_Camera(EReliveLevelIds level, s32 path, FP xpos, FP
 }
 
 
-CameraPos Map::Rect_Location_Relative_To_Active_Camera(const PSX_RECT* pRect)
+CameraPos Map::Rect_Location_Relative_To_Active_Camera(const PSX_RECT* pRect, s16 /*width*/)
 {
     if (EventGet(kEventDeathReset))
     {

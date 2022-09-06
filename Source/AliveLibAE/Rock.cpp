@@ -8,8 +8,10 @@
 #include "Sfx.hpp"
 #include "../relive_lib/ObjectIds.hpp"
 #include "../relive_lib/Events.hpp"
-#include "Particle.hpp"
+#include "../relive_lib/Particle.hpp"
 #include "Grid.hpp"
+#include "Map.hpp"
+#include "ResourceManager.hpp"
 #include <assert.h>
 
 Rock::Rock(FP xpos, FP ypos, s16 count)

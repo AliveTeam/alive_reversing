@@ -1,6 +1,8 @@
 #pragma once
 
 #include "relive_tlvs_serialization.hpp"
+#include "ao_tlvs.hpp"
+#include "ae_tlvs.hpp"
 #include "../AliveLibAO/SecurityOrb.hpp"
 #include "../AliveLibAE/SecurityOrb.hpp"
 #include "../AliveLibAE/Path.hpp"

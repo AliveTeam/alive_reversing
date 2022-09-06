@@ -8,7 +8,7 @@
 #include "Blood.hpp"
 #include "Sfx.hpp"
 #include "../relive_lib/Events.hpp"
-#include "Particle.hpp"
+#include "../relive_lib/Particle.hpp"
 #include "Abe.hpp"
 #include "../relive_lib/Primitives.hpp"
 #include "Throwable.hpp"

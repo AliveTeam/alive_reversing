@@ -7,8 +7,10 @@
 #include "Game.hpp"
 #include "Sfx.hpp"
 #include "../relive_lib/PsxDisplay.hpp"
-#include "ShadowZone.hpp"
+#include "../relive_lib/ShadowZone.hpp"
 #include "Rope.hpp"
+#include "Map.hpp"
+#include "ResourceManager.hpp"
 
 ParamiteWebLine::ParamiteWebLine(relive::Path_ParamiteWebLine* pTlv, const Guid& tlvId)
     : BaseAnimatedWithPhysicsGameObject(0)

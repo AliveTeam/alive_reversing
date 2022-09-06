@@ -7,6 +7,8 @@
 #include "../relive_lib/Events.hpp"
 #include "Sfx.hpp"
 #include "Grid.hpp"
+#include "ResourceManager.hpp"
+#include "Map.hpp"
 
 struct SlamDoor_Data final
 {

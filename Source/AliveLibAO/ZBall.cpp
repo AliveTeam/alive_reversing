@@ -125,7 +125,7 @@ void ZBall::VUpdate()
     {
         if (mAnim.mCurrentFrame == 0 || mAnim.mCurrentFrame == 13)
         {
-            SFX_Play_Pitch(relive::SoundEffects::ZBall, 50, mSoundPitch, nullptr);
+            SFX_Play_Pitch(relive::SoundEffects::ZBall, 50, mSoundPitch);
         }
     }
 
@@ -133,7 +133,7 @@ void ZBall::VUpdate()
     {
         if (mAnim.mCurrentFrame == 3 || mAnim.mCurrentFrame == 16)
         {
-            SFX_Play_Pitch(relive::SoundEffects::SackWobble, 40, mSoundPitch - 2400, nullptr);
+            SFX_Play_Pitch(relive::SoundEffects::SackWobble, 40, mSoundPitch - 2400);
         }
     }
 

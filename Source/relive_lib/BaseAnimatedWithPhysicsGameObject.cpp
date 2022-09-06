@@ -1,18 +1,33 @@
 #include "stdafx.h"
 #include "BaseAnimatedWithPhysicsGameObject.hpp"
-#include "Function.hpp"
-#include "Map.hpp"
-#include "Game.hpp"
-#include "stdlib.hpp"
+//#include "Function.hpp"
+#include "MapWrapper.hpp"
+//#include "Map.hpp"
+//#include "Game.hpp"
+//#include "stdlib.hpp"
 #include "../relive_lib/Shadow.hpp"
 #include "../relive_lib/ScreenManager.hpp"
-#include "ShadowZone.hpp"
-#include "BaseAliveGameObject.hpp"
-#include "AnimResources.hpp"
+//#include "ShadowZone.hpp"
+//#include "BaseAliveGameObject.hpp"
+//#include "AnimResources.hpp"
 #include "Sfx.hpp"
 #include "Particle.hpp"
-#include "Grid.hpp"
+#include "../AliveLibAE/Grid.hpp"
 #include "../relive_lib/GameType.hpp"
+#include "ShadowZone.hpp"
+
+DynamicArrayT<BaseGameObject>* gObjListDrawables;
+
+void BaseAnimatedWithPhysicsGameObject::MakeArray()
+{
+    gObjListDrawables = relive_new DynamicArrayT<BaseGameObject>(80);
+}
+
+void BaseAnimatedWithPhysicsGameObject::FreeArray()
+{
+    relive_delete gObjListDrawables;
+    gObjListDrawables = nullptr;
+}
 
 BaseAnimatedWithPhysicsGameObject::BaseAnimatedWithPhysicsGameObject(s16 resourceArraySize)
     : IBaseAnimatedWithPhysicsGameObject(resourceArraySize)
@@ -20,8 +35,8 @@ BaseAnimatedWithPhysicsGameObject::BaseAnimatedWithPhysicsGameObject(s16 resourc
     mVisualFlags.Clear(VisualFlags::eDoPurpleLightEffect);
     mVisualFlags.Set(VisualFlags::eApplyShadowZoneColour);
 
-    mCurrentPath = gMap.mCurrentPath;
-    mCurrentLevel = gMap.mCurrentLevel;
+    mCurrentPath = GetMap().mCurrentPath;
+    mCurrentLevel = GetMap().mCurrentLevel;
 	
     mVelX = FP_FromInteger(0);
     mVelY = FP_FromInteger(0);
@@ -83,8 +98,8 @@ void BaseAnimatedWithPhysicsGameObject::VRender(PrimHeader** ppOt)
     if (mAnim.mFlags.Get(AnimFlags::eBit3_Render))
     {
         // Only render if in the active level, path and camera
-        if (gMap.mCurrentPath == mCurrentPath
-            && gMap.mCurrentLevel == mCurrentLevel
+        if (GetMap().mCurrentPath == mCurrentPath
+            && GetMap().mCurrentLevel == mCurrentLevel
             && Is_In_Current_Camera() == CameraPos::eCamCurrent_0)
         {
             mAnim.field_14_scale = mSpriteScale;
@@ -201,7 +216,7 @@ void BaseAnimatedWithPhysicsGameObject::Animation_Init(AnimId animId, u8** ppAni
 CameraPos BaseAnimatedWithPhysicsGameObject::Is_In_Current_Camera()
 {
     const PSX_RECT rect = VGetBoundingRect();
-    return gMap.Rect_Location_Relative_To_Active_Camera(&rect);
+    return GetMap().Rect_Location_Relative_To_Active_Camera(&rect);
 }
 
 void BaseAnimatedWithPhysicsGameObject::DeathSmokeEffect(bool bPlaySound)

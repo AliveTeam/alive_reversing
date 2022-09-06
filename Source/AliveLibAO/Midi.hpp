@@ -200,8 +200,6 @@ s16 SND_SsIsEos_DeInlined_477930(SeqId idx);
 
 s32 SFX_SfxDefinition_Play_477330(const relive::SfxDefinition& sfxDef, s16 volLeft, s16 volRight, s16 pitch_min, s16 pitch_max);
 
-s32 SFX_SfxDefinition_Play_4770F0(const relive::SfxDefinition& sfxDef, s32 vol, s32 pitch_min, s32 pitch_max);
-
 void SND_Init_476E40();
 
 void SND_Shutdown_476EC0();

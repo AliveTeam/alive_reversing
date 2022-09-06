@@ -102,17 +102,6 @@ struct Path_PathTransition final : public Path_TLV
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_PathTransition, 0x24);
 
-enum class CameraPos : s16
-{
-    eCamInvalid_m1 = -1,
-    eCamCurrent_0 = 0,
-    eCamTop_1 = 1,
-    eCamBottom_2 = 2,
-    eCamLeft_3 = 3,
-    eCamRight_4 = 4,
-    eCamNone_5 = 5, // Not "in" the camera
-};
-
 class Map final : public IMap
 {
 public:
@@ -174,7 +163,7 @@ public:
 
     CameraPos GetDirection(EReliveLevelIds level, s32 path, FP xpos, FP ypos);
 
-    CameraPos Rect_Location_Relative_To_Active_Camera(const PSX_RECT* pRect, s16 width = 0);
+    virtual CameraPos Rect_Location_Relative_To_Active_Camera(const PSX_RECT* pRect, s16 width = 0) override;
 
     s16 Get_Camera_World_Rect(CameraPos camIdx, PSX_RECT* pRect);
 
@@ -194,6 +183,8 @@ public:
     relive::Path_TLV* Get_First_TLV_For_Offsetted_Camera(s16 camX, s16 camY);
 
     void SaveBlyData(u8* pSaveBuffer);
+
+    void TLV_Reset(const Guid& tlvId, s16 hiFlags, s8 bSetCreated, s8 bSetDestroyed) override;
 
     enum class CamChangeStates : s16
     {

@@ -525,4 +525,6 @@ public:
     s8 mBaseGameObjectRefCount = 0; // AO
 };
 
+class IMap& GetMap();
+
 extern DynamicArrayT<BaseGameObject>* gBaseGameObjects;

@@ -7,6 +7,7 @@
 #include "../relive_lib/ScreenManager.hpp"
 #include "../relive_lib/Primitives.hpp"
 #include "../relive_lib/Primitives.hpp"
+#include "../relive_lib/BaseAnimatedWithPhysicsGameObject.hpp"
 
 void RollingBallShaker_ForceLink()
 { }

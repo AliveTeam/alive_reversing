@@ -3,9 +3,12 @@
 #include "../AliveLibCommon/Function.hpp"
 #include "../relive_lib/DynamicArray.hpp"
 #include "../relive_lib/Animation.hpp"
-#include "BaseAnimatedWithPhysicsGameObject.hpp"
+#include "../relive_lib/BaseAnimatedWithPhysicsGameObject.hpp"
 
-struct Path_TLV;
+namespace relive {
+class Path_TLV;
+};
+
 class PathLine;
 
 class PlatformBase;

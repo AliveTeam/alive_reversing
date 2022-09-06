@@ -12,6 +12,8 @@
 #include "Game.hpp"
 #include "../AliveLibCommon/PathDataExtensionsTypes.hpp"
 #include "Renderer/IRenderer.hpp"
+#include "ResourceManager.hpp"
+#include "Map.hpp"
 
 u8 sLCDScreen_Palette[] = {
     0x00, 0x00, 0x01, 0x80, 0x01, 0x84, 0x20, 0x84, 0x21, 0x80,

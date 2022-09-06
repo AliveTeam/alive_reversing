@@ -2,7 +2,7 @@
 #include "Explosion.hpp"
 #include "Function.hpp"
 #include "Map.hpp"
-#include "Particle.hpp"
+#include "../relive_lib/Particle.hpp"
 #include "Flash.hpp"
 #include "ScreenShake.hpp"
 #include "Gibs.hpp"
@@ -114,7 +114,7 @@ void Explosion::VUpdate()
     if (mAnim.mCurrentFrame == 1)
     {
         const AnimRecord& rec = AO::AnimRec(AnimId::Explosion);
-        const auto ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
+        const auto ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
         if (ppRes)
         {
             auto pParticle = relive_new Particle(mXPos, mYPos, AnimId::Explosion, ppRes);
@@ -122,7 +122,7 @@ void Explosion::VUpdate()
             {
                 if (pParticle->mBaseGameObjectFlags.Get(BaseGameObject::eListAddFailed_Bit1))
                 {
-                    pParticle->mBaseGameObjectFlags.Set(Options::eDead);
+                    pParticle->mBaseGameObjectFlags.Set(BaseGameObject::eDead);
                 }
 
                 pParticle->mVisualFlags.Clear(VisualFlags::eApplyShadowZoneColour);
@@ -218,6 +218,7 @@ void Explosion::DealBlastDamage(PSX_RECT* pRect)
         if (!pTlv->mTlvFlags.Get(relive::TlvFlags::eBit2_Destroyed) && pTlv->mData.mStartState == relive::Path_Slig_Data::StartState::Sleeping)
         {
             pTlv->mTlvFlags.Set(relive::TlvFlags::eBit2_Destroyed);
+
             const CameraPos dir = gMap.GetDirection(
                 gMap.mCurrentLevel,
                 gMap.mCurrentPath,
@@ -232,7 +233,8 @@ void Explosion::DealBlastDamage(PSX_RECT* pRect)
             {
                 relive_new Gibs(GibType::Slig_1, mXPos - FP_FromInteger(656), mYPos, FP_FromInteger(0), FP_FromInteger(0), FP_FromInteger(1));
             }
-            Stop_slig_sounds(dir, 0);
+
+            AO::Stop_slig_sounds(dir, 0);
         }
     }
 }

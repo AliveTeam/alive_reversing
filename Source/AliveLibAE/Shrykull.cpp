@@ -13,6 +13,8 @@
 #include "AbilityRing.hpp"
 #include "Electrocute.hpp"
 #include "Function.hpp"
+#include "Map.hpp"
+#include "ResourceManager.hpp"
 
 Shrykull::Shrykull()
     : BaseAliveGameObject(0)

@@ -9,6 +9,8 @@
 #include "Sfx.hpp"
 #include "Function.hpp"
 #include "Abe.hpp"
+#include "ResourceManager.hpp"
+#include "Map.hpp"
 
 TorturedMudokon::TorturedMudokon(relive::Path_TorturedMudokon* pTlv, const Guid& tlvId)
     : BaseAnimatedWithPhysicsGameObject(0)

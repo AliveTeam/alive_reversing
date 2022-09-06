@@ -8,6 +8,8 @@
 #include "Sound/Midi.hpp"
 #include "PathData.hpp"
 #include "GameEnderController.hpp"
+#include "ResourceManager.hpp"
+#include "Map.hpp"
 
 WorkWheel::WorkWheel(relive::Path_WorkWheel* pTlv, const Guid& tlvId)
     : BaseAnimatedWithPhysicsGameObject(0)

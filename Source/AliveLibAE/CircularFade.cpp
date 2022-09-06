@@ -5,6 +5,8 @@
 #include "../relive_lib/PsxDisplay.hpp"
 #include "Game.hpp"
 #include "stdlib.hpp"
+#include "ResourceManager.hpp"
+#include "Map.hpp"
 
 CircularFade::CircularFade(FP xpos, FP ypos, FP scale, s16 direction, s8 destroyOnDone)
     : BaseAnimatedWithPhysicsGameObject(0)

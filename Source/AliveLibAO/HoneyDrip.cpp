@@ -30,7 +30,7 @@ void HoneyDrip::VUpdate()
 
     if (mAnim.mCurrentFrame == 7 && !mSoundPlaying)
     {
-        SfxPlayMono(relive::SoundEffects::HoneyDrip, 0, 0);
+        SfxPlayMono(relive::SoundEffects::HoneyDrip, 0);
         mSoundPlaying = true;
     }
 

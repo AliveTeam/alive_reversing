@@ -12,7 +12,7 @@
 #include "Sound/Midi.hpp"
 #include "Abe.hpp"
 #include "Psx.hpp"
-#include "Particle.hpp"
+#include "../relive_lib/Particle.hpp"
 #include "CameraSwapper.hpp"
 #include "Movie.hpp"
 #include "MainMenuTransition.hpp"

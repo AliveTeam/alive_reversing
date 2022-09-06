@@ -4,7 +4,7 @@
 #include "Sound/Midi.hpp"
 #include "stdlib.hpp"
 #include "SwitchStates.hpp"
-#include "Particle.hpp"
+#include "../relive_lib/Particle.hpp"
 #include "Game.hpp"
 #include "Sfx.hpp"
 #include "GasCountDown.hpp"

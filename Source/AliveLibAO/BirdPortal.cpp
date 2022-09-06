@@ -11,7 +11,7 @@
 #include "Midi.hpp"
 #include "Dove.hpp"
 #include "OrbWhirlWind.hpp"
-#include "Particle.hpp"
+#include "../relive_lib/Particle.hpp"
 #include "../relive_lib/Events.hpp"
 #include "Game.hpp"
 #include "Math.hpp"
@@ -308,7 +308,7 @@ void BirdPortal::VUpdate()
         {
             if (static_cast<s32>(sGnFrame) >= mTimer)
             {
-                SfxPlayMono(relive::SoundEffects::Dove, 35, 0);
+                SfxPlayMono(relive::SoundEffects::Dove, 35);
                 mTimer = sGnFrame + Math_RandomRange(24, 40);
             }
 
@@ -339,7 +339,7 @@ void BirdPortal::VUpdate()
                         mThrowableTotalIndicator = nullptr;
                     }
 
-                    SfxPlayMono(relive::SoundEffects::Dove, 70, 0);
+                    SfxPlayMono(relive::SoundEffects::Dove, 70);
                     mBaseGameObjectFlags.Set(BaseGameObject::eDead);
                 }
             }
@@ -365,7 +365,7 @@ void BirdPortal::VUpdate()
                 mTimer = sGnFrame + 15;
                 mState = PortalStates::JoinDovesInCenter_2;
                 EventBroadcast(kEventPortalOpen, this);
-                SfxPlayMono(relive::SoundEffects::Dove, 70, 0);
+                SfxPlayMono(relive::SoundEffects::Dove, 70);
             }
         }
         break;
@@ -411,8 +411,8 @@ void BirdPortal::VUpdate()
                 mTerminator2->mAnim.Set_Animation_Data(AnimId::BirdPortal_TerminatorIdle, nullptr);
                 mTimer = sGnFrame + 12;
                 mState = PortalStates::ExpandTerminators_5;
-                mSfxPlaying = SfxPlayMono(relive::SoundEffects::PortalOpening, 0, 0);
-                SFX_Play_Pitch(relive::SoundEffects::IngameTransition, 115, 300, 0);
+                mSfxPlaying = SfxPlayMono(relive::SoundEffects::PortalOpening, 0);
+                SFX_Play_Pitch(relive::SoundEffects::IngameTransition, 115, 300);
             }
             break;
 
@@ -433,7 +433,7 @@ void BirdPortal::VUpdate()
                 if ((Math_NextRandom() % 8) == 0)
                 {
                     const AnimRecord& rec = AO::AnimRec(AnimId::BirdPortal_Sparks);
-                    u8** ppLightRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
+                    u8** ppLightRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, TRUE, FALSE);
                     if (ppLightRes)
                     {
                         auto pParticle = relive_new Particle(
@@ -441,11 +441,12 @@ void BirdPortal::VUpdate()
                             (FP_FromInteger(10) * mSpriteScale) + mTerminator2->mYPos,
                             AnimId::BirdPortal_Sparks,
                             ppLightRes);
+
                         if (pParticle)
                         {
                             pParticle->mVisualFlags.Clear(BaseAnimatedWithPhysicsGameObject::VisualFlags::eApplyShadowZoneColour);
                             pParticle->mAnim.mRenderMode = TPageAbr::eBlend_1;
-                            pParticle->mBaseGameObjectTypeId = ReliveTypes::eBirdPortalTerminator;
+                            pParticle->SetType(ReliveTypes::eBirdPortalTerminator);
                             pParticle->mSpriteScale = mSpriteScale;
 
                             if (sGnFrame % 2)
@@ -457,9 +458,10 @@ void BirdPortal::VUpdate()
 
                         if (direction == CameraPos::eCamCurrent_0)
                         {
-                            SFX_Play_Pitch(relive::SoundEffects::BirdPortalSpark, 50, 2400, 0);
+                            SFX_Play_Pitch(relive::SoundEffects::BirdPortalSpark, 50, 2400, mSpriteScale);
                         }
                     }
+                    ResourceManager::FreeResource_455550(ppLightRes); // TODO: Why bother +1'ing then?
                 }
                 if (!(sGnFrame % 8))
                 {
@@ -514,7 +516,7 @@ void BirdPortal::VUpdate()
                         mSpriteScale);
                     if (pDoveMem)
                     {
-                        SfxPlayMono(relive::SoundEffects::Dove, 70, 0);
+                        SfxPlayMono(relive::SoundEffects::Dove, 70);
                         pDoveMem->mSpriteScale = mSpriteScale;
                         pDoveMem->AsJoin(sActiveHero->mXPos,
                             FP_FromInteger(Math_RandomRange(-36, 4)) + sActiveHero->mYPos);
@@ -577,7 +579,7 @@ void BirdPortal::VUpdate()
                 mTerminator2->mBaseGameObjectFlags.Set(Options::eDead);
                 mTerminator1 = nullptr;
                 mTerminator2 = nullptr;
-                SFX_Play_Pitch(relive::SoundEffects::MenuNavigation, 100, -1800, 0);
+                SFX_Play_Pitch(relive::SoundEffects::MenuNavigation, 100, -1800);
             }
             break;
 
@@ -641,7 +643,7 @@ void BirdPortal::VUpdate()
             CreateTerminators();
 
             mState = PortalStates::PortalExit_CreateTerminators_18;
-            mSfxPlaying = SfxPlayMono(relive::SoundEffects::PortalOpening, 0, 0);
+            mSfxPlaying = SfxPlayMono(relive::SoundEffects::PortalOpening, 0);
         }
         break;
 
@@ -787,7 +789,7 @@ void BirdPortal::VGiveShrykull(s16 bPlaySound)
 
     if (bPlaySound)
     {
-        SFX_Play_Pitch(relive::SoundEffects::MenuNavigation, 70, -1600, 0);
+        SFX_Play_Pitch(relive::SoundEffects::MenuNavigation, 70, -1600);
     }
 }
 

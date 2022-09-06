@@ -40,3 +40,13 @@ u8** ResourceManagerWrapper::Alloc_New_Resource(u32 type, u32 id, u32 size)
         return AO::ResourceManager::Alloc_New_Resource_454F20(type, id, size);
     }
 }
+
+void ResourceManagerWrapper::Inc_Ref_Count(u8** ppRes)
+{
+    Get_Header(ppRes)->field_4_ref_count++;
+}
+
+ResourceManagerWrapper::Header* ResourceManagerWrapper::Get_Header(u8** ppRes)
+{
+    return reinterpret_cast<Header*>((*ppRes - sizeof(Header)));
+}

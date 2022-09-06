@@ -184,7 +184,7 @@ void MotionDetector::VUpdate()
                         {
                             if (sGnFrame % 2)
                             {
-                                SfxPlayMono(relive::SoundEffects::Zap2, 45, 0);
+                                SfxPlayMono(relive::SoundEffects::Zap2, 45);
                             }
                         }
 

@@ -1,7 +1,7 @@
 #pragma once
 
 #include "../AliveLibCommon/Function.hpp"
-#include "BaseAnimatedWithPhysicsGameObject.hpp"
+#include "../relive_lib/BaseAnimatedWithPhysicsGameObject.hpp"
 #include "../relive_lib/Animation.hpp"
 #include "Map.hpp"
 #include "../relive_lib/AnimationUnknown.hpp"

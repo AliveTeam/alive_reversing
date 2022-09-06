@@ -150,7 +150,7 @@ void BellHammer::VUpdate()
                 // Play those bell smashing sounds
                 if (mAnim.mCurrentFrame == 5)
                 {
-                    SfxPlayMono(relive::SoundEffects::RingBellHammer, 0, 0);
+                    SfxPlayMono(relive::SoundEffects::RingBellHammer, 0);
                 }
                 else if (mAnim.mCurrentFrame == 15)
                 {

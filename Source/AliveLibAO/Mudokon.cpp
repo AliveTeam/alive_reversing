@@ -20,7 +20,7 @@
 #include "Sfx.hpp"
 #include "MusicTrigger.hpp"
 #include "SwitchStates.hpp"
-#include "Particle.hpp"
+#include "../relive_lib/Particle.hpp"
 #include "CameraSwapper.hpp"
 #include "Lever.hpp"
 #include "ScreenShake.hpp"
@@ -1562,12 +1562,12 @@ void Mudokon::Motion_16_StandScrubLoop()
         {
             if (mAnim.mCurrentFrame == 5)
             {
-                SfxPlayMono(relive::SoundEffects::Clean2, 0, 0);
+                SfxPlayMono(relive::SoundEffects::Clean2, 0);
             }
         }
         else
         {
-            SfxPlayMono(relive::SoundEffects::Clean1, 0, 0);
+            SfxPlayMono(relive::SoundEffects::Clean1, 0);
         }
     }
 
@@ -1643,11 +1643,11 @@ void Mudokon::Motion_22_CrouchScrub()
     {
         if (mAnim.mCurrentFrame == 2)
         {
-            SfxPlayMono(relive::SoundEffects::Clean1, 0, 0);
+            SfxPlayMono(relive::SoundEffects::Clean1, 0);
         }
         else if (mAnim.mCurrentFrame == 6)
         {
-            SfxPlayMono(relive::SoundEffects::Clean2, 0, 0);
+            SfxPlayMono(relive::SoundEffects::Clean2, 0);
         }
     }
 
@@ -2236,7 +2236,7 @@ void Mudokon::Motion_44_RunJumpMid()
 
     if (mAnim.mCurrentFrame == 5)
     {
-        SFX_Play_Pitch(relive::SoundEffects::PossessEffect, 40, 2400, 0);
+        SFX_Play_Pitch(relive::SoundEffects::PossessEffect, 40, 2400);
     }
 
     const PSX_RECT bRect = VGetBoundingRect();

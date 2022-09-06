@@ -2,7 +2,7 @@
 
 #include "TlvObjectBaseAO.hpp"
 #include "TlvObjectBaseMacros.hpp"
-
+#include "../../relive_lib/data_conversion/ao_tlvs.hpp"
 #include "../../AliveLibAO/HoistRocksEffect.hpp"
 #include "../../AliveLibAO/Abe.hpp"
 #include "../../AliveLibAO/Door.hpp"
@@ -18,7 +18,6 @@
 #include "../../AliveLibAO/UXB.hpp"
 #include "../../AliveLibAO/HintFly.hpp"
 #include "../../AliveLibAO/Bat.hpp"
-#include "../../AliveLibAO/ShadowZone.hpp"
 #include "../../AliveLibAO/BellHammer.hpp"
 #include "../../AliveLibAO/TimerTrigger.hpp"
 #include "../../AliveLibAO/PullRingRope.hpp"

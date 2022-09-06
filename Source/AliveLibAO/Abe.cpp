@@ -25,7 +25,7 @@
 #include "DeathFadeOut.hpp"
 #include "Throwable.hpp"
 #include "OrbWhirlWind.hpp"
-#include "Particle.hpp"
+#include "../relive_lib/Particle.hpp"
 #include "PossessionFlicker.hpp"
 #include "PullRingRope.hpp"
 #include "../relive_lib/PsxDisplay.hpp"
@@ -60,6 +60,7 @@
 #include "AnimationCallBacks.hpp"
 #include "Grid.hpp"
 #include "TestAnimation.hpp"
+#include "../AliveLibAE/Sound/Midi.hpp"
 
 namespace AO {
 
@@ -666,17 +667,17 @@ s32 Environment_SFX_42A220(EnvironmentSfx sfxId, s32 volume, s32 pitchMin, BaseA
             s32 v5 = 0;
             if (volume > 0 || !pAliveObj || pAliveObj->mSpriteScale != FP_FromDouble(0.5))
             {
-                v4 = SFX_SfxDefinition_Play_4770F0(sSFXList_4C6638[2], volume, pitchMin, 0x7FFF);
-                v5 = SFX_SfxDefinition_Play_4770F0(sSFXList_4C6638[48], volume, pitchMin, 0x7FFF);
+                v4 = SFX_SfxDefinition_Play_Mono(sSFXList_4C6638[2], volume, pitchMin, 0x7FFF);
+                v5 = SFX_SfxDefinition_Play_Mono(sSFXList_4C6638[48], volume, pitchMin, 0x7FFF);
             }
             else
             {
-                v4 = SFX_SfxDefinition_Play_4770F0(
+                v4 = SFX_SfxDefinition_Play_Mono(
                     sSFXList_4C6638[2],
                     sSFXList_4C6638[2].field_C_default_volume / 2,
                     pitchMin,
                     0x7FFF);
-                v5 = SFX_SfxDefinition_Play_4770F0(
+                v5 = SFX_SfxDefinition_Play_Mono(
                     sSFXList_4C6638[48],
                     sSFXList_4C6638[18].field_C_default_volume / 2,
                     pitchMin,
@@ -699,11 +700,11 @@ s32 Environment_SFX_42A220(EnvironmentSfx sfxId, s32 volume, s32 pitchMin, BaseA
             s32 result = 0;
             if (pAliveObj && pAliveObj->mSpriteScale == FP_FromDouble(0.5))
             {
-                result = SfxPlayMono(relive::SoundEffects::AbeGenericMovement, 20, 0);
+                result = SfxPlayMono(relive::SoundEffects::AbeGenericMovement, 20);
             }
             else
             {
-                result = SfxPlayMono(relive::SoundEffects::AbeGenericMovement, 35, 0);
+                result = SfxPlayMono(relive::SoundEffects::AbeGenericMovement, 35);
             }
             return result;
         }
@@ -761,7 +762,7 @@ s32 Environment_SFX_42A220(EnvironmentSfx sfxId, s32 volume, s32 pitchMin, BaseA
             volume /= 3;
         }
     }
-    return SFX_SfxDefinition_Play_4770F0(sSFXList_4C6638[sndIndex], volume, pitchMin, 0x7FFF);
+    return SFX_SfxDefinition_Play_Mono(sSFXList_4C6638[sndIndex], volume, pitchMin, 0x7FFF);
 }
 
 s32 Mudokon_SFX(MudSounds idx, s32 volume, s32 pitch, BaseAliveGameObject* pHero)
@@ -800,7 +801,7 @@ s32 Mudokon_SFX(MudSounds idx, s32 volume, s32 pitch, BaseAliveGameObject* pHero
                 volume /= 3;
             }
         }
-        return SFX_SfxDefinition_Play_4770F0(sSFXList_4C6638[idxShort + 30], volume, pitch, pitch);
+        return SFX_SfxDefinition_Play_Mono(sSFXList_4C6638[idxShort + 30], volume, pitch, pitch);
     }
 }
 
@@ -1272,7 +1273,7 @@ void Abe::VUpdate()
                                     FP_FromInteger((bRect.w + bRect.x) / 2),
                                     FP_FromInteger((bRect.h + bRect.y) / 2),
                                     field_16C_bHaveShrykull != 0 ? RingTypes::eShrykull_Pulse_Small_4 : RingTypes::eExplosive_Pulse_0);
-                                SFX_Play_Pitch(relive::SoundEffects::PossessEffect, 25, 2650, 0);
+                                SFX_Play_Pitch(relive::SoundEffects::PossessEffect, 25, 2650);
                             }
                         }
                         else
@@ -2408,7 +2409,7 @@ void Abe::PickUpThrowabe_Or_PressBomb_428260(FP fpX, s32 fpY, s16 bStandToCrouch
             {
                 if (bStandToCrouch)
                 {
-                    SfxPlayMono(relive::SoundEffects::PickupItem, 0, this);
+                    SfxPlayMono(relive::SoundEffects::PickupItem, 0, mSpriteScale);
                     field_15C_pThrowable->mBaseGameObjectRefCount--;
                     field_15C_pThrowable->VOnPickUpOrSlapped();
                     field_15C_pThrowable = nullptr;
@@ -2934,8 +2935,8 @@ void Abe::BulletDamage_4220B0(Bullet* pBullet)
     Environment_SFX_42A220(EnvironmentSfx::eElumHitWall_14, 0, 0x7FFF, this);
     Mudokon_SFX(MudSounds::eKnockbackOuch_10, 127, 0, this);
     Environment_SFX_42A220(EnvironmentSfx::eDeathNoise_7, 0, 0x7FFF, this);
-    SFX_Play_Pitch(relive::SoundEffects::Eating1, 0, -500, this);
-    SfxPlayMono(relive::SoundEffects::KillEffect, 0, this);
+    SFX_Play_Pitch(relive::SoundEffects::Eating1, 0, -500, mSpriteScale);
+    SfxPlayMono(relive::SoundEffects::KillEffect, 0, mSpriteScale);
 }
 
 bool Abe::NearDoorIsOpen()
@@ -3591,7 +3592,7 @@ s16 Abe::VTakeDamage(BaseGameObject* pFrom)
                     mVelX = (mSpriteScale * FP_FromDouble(7.8));
                 }
 
-                SfxPlayMono(relive::SoundEffects::KillEffect, 127, 0);
+                SfxPlayMono(relive::SoundEffects::KillEffect, 127);
                 if (pAliveObj->mBaseGameObjectTypeId != ReliveTypes::eParamite)
                 {
                     SfxPlayMono(relive::SoundEffects::FallingItemHit, 90);
@@ -3648,7 +3649,7 @@ s16 Abe::VTakeDamage(BaseGameObject* pFrom)
                     mVelX = (mSpriteScale * FP_FromDouble(-7.8));
                 }
 
-                SfxPlayMono(relive::SoundEffects::KillEffect, 127, 0);
+                SfxPlayMono(relive::SoundEffects::KillEffect, 127);
             }
             break;
 
@@ -5525,7 +5526,7 @@ void Abe::Motion_30_HopMid_4264D0()
                     FP_GetExponent(mYPos - mSpriteScale * FP_FromInteger(50)),
                     ReliveTypes::eElumStart))
             {
-                SfxPlayMono(relive::SoundEffects::RingBellHammer, 0, 0);
+                SfxPlayMono(relive::SoundEffects::RingBellHammer, 0);
             }
             mNextMotion = eAbeMotions::Motion_0_Idle_423520;
             ToKnockback_422D90(1, 1);
@@ -5684,7 +5685,7 @@ void Abe::Motion_33_RunJumpMid_426FA0()
                 FP_GetExponent(mYPos - mSpriteScale * FP_FromInteger(50)),
                 ReliveTypes::eElumStart))
         {
-            SfxPlayMono(relive::SoundEffects::RingBellHammer, 0, 0);
+            SfxPlayMono(relive::SoundEffects::RingBellHammer, 0);
         }
         mNextMotion = eAbeMotions::Motion_0_Idle_423520;
         ToKnockback_422D90(1, 1);
@@ -7107,7 +7108,7 @@ void Abe::Motion_61_Respawn_42CD20()
                         pDove->mSpriteScale = mSpriteScale;
                     }
                 }
-                SfxPlayMono(relive::SoundEffects::RespawnDove, 0, this);
+                SfxPlayMono(relive::SoundEffects::RespawnDove, 0, mSpriteScale);
                 field_118_timer = sGnFrame + 45;
                 field_114_gnFrame = 3;
             }
@@ -7117,7 +7118,7 @@ void Abe::Motion_61_Respawn_42CD20()
         {
             if (field_118_timer - sGnFrame == 10)
             {
-                SfxPlayMono(relive::SoundEffects::Respawn, 90, 0);
+                SfxPlayMono(relive::SoundEffects::Respawn, 90);
             }
             if (static_cast<s32>(sGnFrame) > field_118_timer)
             {
@@ -7726,7 +7727,7 @@ void Abe::Motion_77_WellBegin_430F10()
     if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
     {
         field_114_gnFrame = 15;
-        SfxPlayMono(relive::SoundEffects::WellEnter, 0, this);
+        SfxPlayMono(relive::SoundEffects::WellEnter, 0, mSpriteScale);
 
         switch (mCurrentMotion)
         {
@@ -7826,7 +7827,7 @@ void Abe::Motion_78_InsideWellLocal_4310A0()
             mAnim.mFlags.Set(AnimFlags::eBit5_FlipX);
         }
 
-        SfxPlayMono(relive::SoundEffects::WellExit, 0, this);
+        SfxPlayMono(relive::SoundEffects::WellExit, 0, mSpriteScale);
 
         mCurrentMotion++; // can be motion 76 and 79 maybe more?
 
@@ -8076,7 +8077,7 @@ void Abe::Motion_86_FallLandDie_42EDD0()
 
     if (mAnim.mCurrentFrame == 0)
     {
-        SfxPlayMono(relive::SoundEffects::KillEffect, 85, 0);
+        SfxPlayMono(relive::SoundEffects::KillEffect, 85);
         SND_SEQ_Play_477760(SeqId::eHitBottomOfDeathPit_10, 1, 95, 95);
         relive_new ScreenShake(true);
     }
@@ -8121,7 +8122,7 @@ void Abe::Motion_88_HandstoneBegin_430590()
                     mAnim.mFlags.Get(AnimFlags::eBit5_FlipX));
 
                 field_110_state.stone = StoneStates::eGetHandstoneType_1;
-                SfxPlayMono(relive::SoundEffects::IngameTransition, 90, 0);
+                SfxPlayMono(relive::SoundEffects::IngameTransition, 90);
                 BaseAliveGameObjectPathTLV = gMap.TLV_Get_At_446260(
                     FP_GetExponent(mXPos),
                     FP_GetExponent(mYPos),
@@ -8143,7 +8144,7 @@ void Abe::Motion_88_HandstoneBegin_430590()
                         FP_GetExponent(mXPos),
                         FP_GetExponent(mYPos),
                         ReliveTypes::eMovieHandStone);
-                    sAbeSound_507730 = SFX_Play_Pitch(relive::SoundEffects::HandstoneTransition, 127, -300, 0);
+                    sAbeSound_507730 = SFX_Play_Pitch(relive::SoundEffects::HandstoneTransition, 127, -300);
                     if (!BaseAliveGameObjectPathTLV)
                         BaseAliveGameObjectPathTLV = gMap.TLV_Get_At_446260(
                             FP_GetExponent(mXPos),
@@ -8330,7 +8331,7 @@ void Abe::Motion_88_HandstoneBegin_430590()
                 {
                     field_158_pDeathFadeout->Init(Layer::eLayer_FadeFlash_40, 1, 0, 8);
                     field_110_state.stone = StoneStates::eSetActiveCamToAbeOrWaitForInput_7;
-                    SfxPlayMono(relive::SoundEffects::IngameTransition, 90, 0);
+                    SfxPlayMono(relive::SoundEffects::IngameTransition, 90);
                 }
             }
             break;
@@ -8989,7 +8990,7 @@ void Abe::Motion_136_ElumMountEnd_42E110()
             if (!field_2AA_flags.Get(Flags_2AA::e2AA_Bit2_bSfxPlaying))
             {
                 field_2AA_flags.Set(Flags_2AA::e2AA_Bit2_bSfxPlaying);
-                SfxPlayMono(relive::SoundEffects::AbeGenericMovement, 0, this);
+                SfxPlayMono(relive::SoundEffects::AbeGenericMovement, 0, mSpriteScale);
             }
             break;
 
@@ -9006,7 +9007,7 @@ void Abe::Motion_136_ElumMountEnd_42E110()
             {
                 field_2AA_flags.Set(Flags_2AA::e2AA_Bit2_bSfxPlaying);
                 Environment_SFX_42A220(EnvironmentSfx::eMountElumSmackNoise_17, 0, 0x7FFF, this);
-                SfxPlayMono(relive::SoundEffects::MountingElum, 0, this);
+                SfxPlayMono(relive::SoundEffects::MountingElum, 0, mSpriteScale);
             }
             break;
 
@@ -9071,7 +9072,7 @@ void Abe::Motion_138_ElumUnmountEnd_42E390()
             if (!field_2AA_flags.Get(Flags_2AA::e2AA_Bit2_bSfxPlaying))
             {
                 field_2AA_flags.Set(Flags_2AA::e2AA_Bit2_bSfxPlaying);
-                SfxPlayMono(relive::SoundEffects::AbeGenericMovement, 17, this);
+                SfxPlayMono(relive::SoundEffects::AbeGenericMovement, 17, mSpriteScale);
             }
             break;
 
@@ -9095,7 +9096,7 @@ void Abe::Motion_138_ElumUnmountEnd_42E390()
             if (!field_2AA_flags.Get(Flags_2AA::e2AA_Bit2_bSfxPlaying))
             {
                 field_2AA_flags.Set(Flags_2AA::e2AA_Bit2_bSfxPlaying);
-                SfxPlayMono(relive::SoundEffects::MountingElum, 0, this);
+                SfxPlayMono(relive::SoundEffects::MountingElum, 0, mSpriteScale);
             }
             break;
 
@@ -9254,7 +9255,7 @@ void Abe::Motion_143_RockThrowStandingThrow_429FD0()
 {
     if (mAnim.mCurrentFrame == 0)
     {
-        SfxPlayMono(relive::SoundEffects::AirStream, 0, this);
+        SfxPlayMono(relive::SoundEffects::AirStream, 0, mSpriteScale);
     }
 
     if (mAnim.mFlags.Get(AnimFlags::eBit12_ForwardLoopCompleted))
@@ -9304,7 +9305,7 @@ void Abe::Motion_146_RockThrowCrouchingThrow_4289F0()
 
     if (!mAnim.mCurrentFrame)
     {
-        SfxPlayMono(relive::SoundEffects::AirStream, 0, this);
+        SfxPlayMono(relive::SoundEffects::AirStream, 0, mSpriteScale);
     }
 
     if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
@@ -9381,7 +9382,7 @@ void Abe::Motion_149_PickupItem_42A030()
 {
     if (mAnim.mCurrentFrame == 7)
     {
-        SfxPlayMono(relive::SoundEffects::PickupItem, 0, this);
+        SfxPlayMono(relive::SoundEffects::PickupItem, 0, mSpriteScale);
     }
 
     if (mAnim.mFlags.Get(AnimFlags::eBit12_ForwardLoopCompleted))
@@ -9482,7 +9483,7 @@ void Abe::Motion_150_Chant_42FD50()
                 if (field_18C_pObjToPossess)
                 {
                     field_18C_pObjToPossess->mBaseGameObjectRefCount++;
-                    SFX_Play_Pitch(relive::SoundEffects::PossessEffect, 0, -600, 0);
+                    SFX_Play_Pitch(relive::SoundEffects::PossessEffect, 0, -600);
                     field_114_gnFrame = sGnFrame + 30;
                     field_110_state.chant = ChantStates::ePossessVictim_1;
 
@@ -9560,7 +9561,7 @@ void Abe::Motion_150_Chant_42FD50()
                 relive_new PossessionFlicker(sControlledCharacter, 60, 128, 255, 255);
 
                 SND_Seq_Stop_477A60(SeqId::eMudokonChant1_11);
-                SFX_Play_Pitch(relive::SoundEffects::PossessEffect, 70, 400, 0);
+                SFX_Play_Pitch(relive::SoundEffects::PossessEffect, 70, 400);
                 field_110_state.chant = ChantStates::eWaitForUnpossessing_3;
             }
             else if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
@@ -9911,13 +9912,13 @@ void Abe::Motion_164_PoisonGasDeath_42A120()
     switch (mAnim.mCurrentFrame)
     {
         case 0:
-            SFX_Play_Pitch(relive::SoundEffects::Choke, 127, 128, 0);
+            SFX_Play_Pitch(relive::SoundEffects::Choke, 127, 128);
             break;
         case 9:
-            SFX_Play_Pitch(relive::SoundEffects::Choke, 127, 384, 0);
+            SFX_Play_Pitch(relive::SoundEffects::Choke, 127, 384);
             break;
         case 28:
-            SFX_Play_Pitch(relive::SoundEffects::Choke, 127, 640, 0);
+            SFX_Play_Pitch(relive::SoundEffects::Choke, 127, 640);
             break;
         case 32:
             Environment_SFX_42A220(EnvironmentSfx::eHitGroundSoft_6, 80, 0, this);

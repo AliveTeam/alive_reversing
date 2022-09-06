@@ -1,6 +1,6 @@
 #pragma once
 
-#include "BaseAnimatedWithPhysicsGameObject.hpp"
+#include "../relive_lib/BaseAnimatedWithPhysicsGameObject.hpp"
 
 class TestAnimation final : public ::BaseAnimatedWithPhysicsGameObject
 {

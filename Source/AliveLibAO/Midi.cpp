@@ -1079,11 +1079,6 @@ s32 SFX_SfxDefinition_Play_477330(const relive::SfxDefinition& sfxDef, s16 volLe
     return SFX_SfxDefinition_Play_Stereo(sfxDef, volLeft, volRight, pitch_min, pitch_max);
 }
 
-s32 SFX_SfxDefinition_Play_4770F0(const relive::SfxDefinition& sfxDef, s32 vol, s32 pitch_min, s32 pitch_max)
-{
-    return SFX_SfxDefinition_Play_Mono(sfxDef, static_cast<s16>(vol), static_cast<s16>(pitch_min), static_cast<s16>(pitch_max));
-}
-
 void SND_Init_Real_476E40()
 {
 }

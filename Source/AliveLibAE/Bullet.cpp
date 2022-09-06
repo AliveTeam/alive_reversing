@@ -9,7 +9,7 @@
 #include "Slig.hpp"
 #include "Spark.hpp"
 #include "Sfx.hpp"
-#include "Particle.hpp"
+#include "../relive_lib/Particle.hpp"
 #include "../relive_lib/ScreenManager.hpp"
 #include "Grid.hpp"
 

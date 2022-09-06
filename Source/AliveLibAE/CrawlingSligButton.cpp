@@ -5,6 +5,8 @@
 #include "stdlib.hpp"
 #include "SwitchStates.hpp"
 #include "../relive_lib/Events.hpp"
+#include "Map.hpp"
+#include "ResourceManager.hpp"
 
 struct ButtonSfxEntry final
 {

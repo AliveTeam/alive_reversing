@@ -16,6 +16,8 @@
 #include "stdlib.hpp"
 #include "BaseBomb.hpp"
 #include "Grid.hpp"
+#include "ResourceManager.hpp"
+#include "Map.hpp"
 
 ALIVE_VAR(0, 0x5C3008, Mine*, sMineSFXOwner_5C3008, nullptr);
 

@@ -2,6 +2,17 @@
 
 #include "../AliveLibCommon/Types.hpp"
 
+enum class CameraPos : s16
+{
+    eCamInvalid_m1 = -1,
+    eCamCurrent_0 = 0,
+    eCamTop_1 = 1,
+    eCamBottom_2 = 2,
+    eCamLeft_3 = 3,
+    eCamRight_4 = 4,
+    eCamNone_5 = 5, // Not "in" the camera
+};
+
 enum class EReliveLevelIds : s16
 {
     eNone = 0, // TODO: Shouldn't depend on this value in the future
@@ -52,6 +63,9 @@ public:
     static LevelIds ToAE(EReliveLevelIds levelId);
 };
 
+class Guid;
+struct PSX_RECT;
+
 class IMap
 {
 public:
@@ -71,4 +85,8 @@ public:
     s16 mOverlayId;
 
     virtual s16 GetOverlayId() = 0;
+
+    virtual void TLV_Reset(const Guid& tlvId, s16 hiFlags, s8 bSetCreated, s8 bSetDestroyed) = 0;
+
+    virtual CameraPos Rect_Location_Relative_To_Active_Camera(const PSX_RECT* pRect, s16 width = 0) = 0;
 };

@@ -17,7 +17,7 @@
 #include "../relive_lib/ObjectIds.hpp"
 #include "PlatformBase.hpp"
 #include "Sfx.hpp"
-#include "Particle.hpp"
+#include "../relive_lib/Particle.hpp"
 #include "Gibs.hpp"
 #include "Blood.hpp"
 #include "ScreenShake.hpp"

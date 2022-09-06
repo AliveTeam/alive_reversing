@@ -9,6 +9,8 @@
 #include "GameSpeak.hpp"
 #include "Sound/Midi.hpp"
 #include "SwitchStates.hpp"
+#include "Map.hpp"
+#include "ResourceManager.hpp"
 
 SecurityDoor::SecurityDoor(relive::Path_SecurityDoor* pTlv, const Guid& tlvId)
     : BaseAnimatedWithPhysicsGameObject(0)

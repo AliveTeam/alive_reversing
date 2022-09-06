@@ -7,6 +7,8 @@
 #include "DDCheat.hpp"
 #include "stdlib.hpp"
 #include "Grid.hpp"
+#include "ResourceManager.hpp"
+#include "Map.hpp"
 
 StatusLight::StatusLight(relive::Path_StatusLight* pTlv, const Guid& tlvId)
     : BaseAnimatedWithPhysicsGameObject(0)

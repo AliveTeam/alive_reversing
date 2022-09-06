@@ -41,7 +41,7 @@
 #include "../relive_lib/Events.hpp"
 #include "../AliveLibCommon/relive_config.h"
 #include "Sfx.hpp"
-#include "ShadowZone.hpp"
+#include "../relive_lib/ShadowZone.hpp"
 #include "PauseMenu.hpp"
 #include "SwitchStates.hpp"
 #include "Midi.hpp"

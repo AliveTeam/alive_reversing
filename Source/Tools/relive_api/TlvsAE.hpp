@@ -2,7 +2,8 @@
 
 #include "TlvObjectBaseAE.hpp"
 #include "TlvObjectBaseMacros.hpp"
-
+#include "../../relive_lib/data_conversion/ae_tlvs.hpp"
+#include "../../AliveLibAE/Map.hpp"
 #include "../../AliveLibAE/Path.hpp"
 #include "../../AliveLibAE/Lever.hpp"
 #include "../../AliveLibAE/ElectricWall.hpp"
@@ -16,7 +17,7 @@
 #include "../../AliveLibAE/UXB.hpp"
 #include "../../AliveLibAE/LCDScreen.hpp"
 #include "../../AliveLibAE/StatusLight.hpp"
-#include "../../AliveLibAE/ShadowZone.hpp"
+//#include "../../AliveLibAE/ShadowZone.hpp"
 #include "../../AliveLibAE/WorkWheel.hpp"
 #include "../../AliveLibAE/MusicTrigger.hpp"
 #include "../../AliveLibAE/SlamDoor.hpp"

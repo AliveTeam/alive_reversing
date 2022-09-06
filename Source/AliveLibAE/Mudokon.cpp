@@ -20,7 +20,7 @@
 #include "Sound/Midi.hpp"
 #include "../relive_lib/ScreenManager.hpp"
 #include "Lever.hpp"
-#include "Particle.hpp"
+#include "../relive_lib/Particle.hpp"
 #include "PossessionFlicker.hpp"
 #include "ScreenShake.hpp"
 #include "MainMenu.hpp"
@@ -33,6 +33,8 @@
 #include "Sys_common.hpp"
 #include "Grid.hpp"
 #include "AnimationCallBacks.hpp"
+#include "ResourceManager.hpp"
+#include "Map.hpp"
 
 ALIVE_VAR(1, 0x5C3012, s16, sGoingToBirdPortalMudCount_5C3012, 0);
 

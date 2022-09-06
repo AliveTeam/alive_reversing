@@ -3,9 +3,11 @@
 #include "Function.hpp"
 #include "stdlib.hpp"
 #include "Rope.hpp"
-#include "ShadowZone.hpp"
+#include "../relive_lib/ShadowZone.hpp"
 #include "../relive_lib/ScreenManager.hpp"
 #include "../relive_lib/PsxDisplay.hpp"
+#include "Map.hpp"
+#include "ResourceManager.hpp"
 
 ParamiteWeb::ParamiteWeb(FP xpos, s32 bottom, s32 top, FP scale)
     : BaseAnimatedWithPhysicsGameObject(0)
