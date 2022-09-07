@@ -7,34 +7,6 @@
 
 namespace AO {
 
-struct Path_MeatSaw final : public Path_TLV
-{
-    Scale_short mScale;
-    s16 mSwitchMinTimeOff;
-    s16 mSwitchMaxTimeOff;
-    s16 mMaxRiseTime;
-    s16 mSwitchId;
-    enum class Type : s16
-    {
-        eAutomaticPersistOffscreen_0 = 0,
-        eAutomatic_1 = 1,
-        eSwitchId_2 = 2
-    };
-    Type mType;
-    s16 mSpeed;
-    enum class StartState : s16
-    {
-        eOff_0 = 0,
-        eOn_1 = 1
-    };
-    StartState mStartState;
-    s16 mOffSpeed;
-    s16 mAutomaticMinTimeOff;
-    s16 mAutomaticMaxTimeOff;
-    s16 mInitialPosition;
-};
-ALIVE_ASSERT_SIZEOF_ALWAYS(Path_MeatSaw, 0x30);
-
 enum class MeatSawStates : s16
 {
     eIdle_0 = 0,

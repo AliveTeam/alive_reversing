@@ -10,30 +10,6 @@
 
 namespace AO {
 
-enum class LiftPointStopType : s16
-{
-    eTopFloor_0 = 0,
-    eBottomFloor_1 = 1,
-    eMiddleFloor_2 = 2,
-    eMiddleLockFloor_3 = 3,
-    eStartPointOnly_4 = 4,
-};
-
-struct Path_Pulley final : public Path_TLV
-{
-    Scale_int scale;
-};
-
-struct Path_LiftPoint final : public Path_TLV
-{
-    s16 mLiftPointId;
-    Choice_short mIsStartPoint;
-    s16 field_1C_lift_type;
-    LiftPointStopType mLiftPointStopType;
-    Scale_short mScale;
-    Choice_short mIgnoreLiftMover;
-};
-
 class Rope;
 
 class LiftPoint final : public PlatformBase

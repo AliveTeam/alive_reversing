@@ -7,13 +7,6 @@
 
 namespace AO {
 
-struct Path_SecurityOrb final : public Path_TLV
-{
-    Scale_short mScale;
-    s16 mDisabledResources;
-};
-ALIVE_ASSERT_SIZEOF_ALWAYS(Path_SecurityOrb, 0x1C);
-
 class SecurityOrb final : public BaseAliveGameObject
 {
 public:

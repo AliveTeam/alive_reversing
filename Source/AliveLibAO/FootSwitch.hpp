@@ -8,23 +8,6 @@
 
 namespace AO {
 
-enum class FootSwitchTriggerBy : s16
-{
-    eAbe_0 = 0,
-    eAnyone_1 = 1,
-};
-
-enum class SwitchOp : s16;
-
-struct Path_FootSwitch final : public Path_TLV
-{
-    s16 mSwitchId;
-    Scale_short mScale;
-    SwitchOp mAction;
-    FootSwitchTriggerBy mTriggeredBy;
-};
-ALIVE_ASSERT_SIZEOF_ALWAYS(Path_FootSwitch, 0x20);
-
 class FootSwitch final : public BaseAnimatedWithPhysicsGameObject
 {
 public:

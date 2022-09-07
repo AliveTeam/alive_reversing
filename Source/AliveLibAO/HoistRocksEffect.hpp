@@ -7,28 +7,6 @@
 
 namespace AO {
 
-struct Path_Hoist final : public Path_TLV
-{
-    enum class Type : s16
-    {
-        eNextFloor = 0,
-        eNextEdge = 1,
-        eOffScreen = 2,
-    };
-    Type mHoistType;
-
-    enum class GrabDirection : s16
-    {
-        eFacingLeft = 0,
-        eFacingRight = 1,
-        eFacingAnyDirection = 2,
-    };
-    GrabDirection mGrabDirection;
-    s16 field_1C_switch_id;
-    s16 field_1E_pad;
-};
-ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Hoist, 0x20);
-
 class HoistParticle final : public BaseAnimatedWithPhysicsGameObject
 {
 public:

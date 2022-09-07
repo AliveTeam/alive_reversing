@@ -6,11 +6,6 @@
 
 namespace AO {
 
-struct Path_HoneyDripTarget final : public Path_TLV
-{
-    // No fields
-};
-
 class HoneyDrip final : public BaseAnimatedWithPhysicsGameObject
 {
 public:

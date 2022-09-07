@@ -7,13 +7,6 @@
 
 namespace AO {
 
-struct Path_FlintLockFire final : public Path_TLV
-{
-    Scale_short mScale;
-    s16 mSwitchId;
-};
-ALIVE_ASSERT_SIZEOF_ALWAYS(Path_FlintLockFire, 0x1C);
-
 class FlintLockFire final : public BaseAnimatedWithPhysicsGameObject
 {
 public:

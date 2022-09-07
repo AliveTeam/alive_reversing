@@ -6,11 +6,6 @@
 
 namespace AO {
 
-struct Path_CreditsController final : public Path_TLV 
-{
-    // No fields
-};
-
 class CreditsController final : public ::BaseGameObject
 {
 public:

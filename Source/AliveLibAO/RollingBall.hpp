@@ -9,17 +9,6 @@ class PathLine;
 
 namespace AO {
 
-struct Path_RollingBall final : public Path_TLV
-{
-    Scale_short mScale;
-    XDirection_short mRollDirection;
-    s16 mReleaseSwitchId;
-    u16 mMaxSpeed;
-    u16 mAcceleration;
-    s16 field_22_pad;
-};
-ALIVE_ASSERT_SIZEOF_ALWAYS(Path_RollingBall, 0x24);
-
 class RollingBallShaker;
 
 class RollingBall final : public BaseAliveGameObject

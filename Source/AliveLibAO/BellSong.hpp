@@ -6,12 +6,6 @@
 
 namespace AO {
 
-enum class BellsongTypes : s16
-{
-    eWhistle = 0,
-    eChimes = 1
-};
-
 class BellSong final : public ::BaseGameObject
 {
 public:

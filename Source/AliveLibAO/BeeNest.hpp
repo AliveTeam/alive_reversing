@@ -8,17 +8,6 @@ enum class EReliveLevelIds : s16;
 
 namespace AO {
 
-struct Path_BeeNest final : public Path_TLV
-{
-    s16 mSwitchId;
-    s16 mSwarmSize;
-    s16 mChaseTime;
-    s16 mSpeed;
-    s16 mDisabledResources;
-    s16 mBeesAmount;
-};
-ALIVE_ASSERT_SIZEOF_ALWAYS(Path_BeeNest, 0x24);
-
 enum class BeeNestStates : u16
 {
     eWaitForTrigger_0,

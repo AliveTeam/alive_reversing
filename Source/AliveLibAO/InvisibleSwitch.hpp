@@ -9,24 +9,6 @@ namespace AO {
 
 enum class SwitchOp : s16;
 
-enum class InvisibleSwitchScale : s16
-{
-    eHalf_0 = 0,
-    eFull_1 = 1,
-    eAny_2 = 2,
-};
-
-struct Path_InvisibleSwitch final : public Path_TLV
-{
-    s16 mSwitchId;
-    SwitchOp mAction;
-    u16 mActivationDelay;
-    Choice_short mSetOffAlarm;
-    InvisibleSwitchScale mScale;
-    s16 field_22_pad;
-};
-ALIVE_ASSERT_SIZEOF_ALWAYS(Path_InvisibleSwitch, 0x24);
-
 class InvisibleSwitch final : public ::BaseGameObject
 {
 public:

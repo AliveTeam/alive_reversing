@@ -7,17 +7,6 @@
 
 namespace AO {
 
-struct Path_TimedMine final : public Path_TLV
-{
-    s16 mSwitchId;
-    s16 mState;
-    Scale_short mScale;
-    s16 mTicksUntilExplosion;
-    s16 mDisabledResources;
-    s16 field_22_pad;
-};
-ALIVE_ASSERT_SIZEOF_ALWAYS(Path_TimedMine, 0x24);
-
 enum TimedMineFlags
 {
     eStickToLiftPoint = 0x1

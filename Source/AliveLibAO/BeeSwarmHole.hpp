@@ -8,25 +8,6 @@
 
 namespace AO {
 
-struct Path_BeeSwarmHole final : public Path_TLV
-{
-    enum class MovementType : s16
-    {
-        eHover_0 = 0,
-        eAttack_1 = 1,
-        eFollowPath_2 = 2,
-    };
-    s16 field_18_what_to_spawn;
-    s16 mStartInterval;
-    s16 field_1C_fall_switch_id;
-    MovementType mMovementType;
-    s16 mBeesAmount;
-    s16 mChaseTime;
-    s16 mSpeed;
-    Scale_short field_26_scale;
-};
-ALIVE_ASSERT_SIZEOF_ALWAYS(Path_BeeSwarmHole, 0x28);
-
 class BeeSwarmHole final : public ::BaseGameObject
 {
 public:

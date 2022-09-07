@@ -9,18 +9,6 @@ namespace AO {
 
 class Bells;
 
-struct Path_ChimeLock final : public Path_TLV
-{
-    Scale_short mScale;
-    s16 mSolveSwitchId;
-    s16 mCode1;
-    s16 mCode2;
-    s16 mPasswordSwitchId;
-    s16 field_22_pad;
-};
-ALIVE_ASSERT_SIZEOF_ALWAYS(Path_ChimeLock, 0x24);
-
-
 class ChimeLock final : public BaseAliveGameObject
 {
 public:

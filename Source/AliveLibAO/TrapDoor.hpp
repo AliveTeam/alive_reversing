@@ -17,25 +17,6 @@ enum class TrapDoorState : s16
     eClosing_3 = 3,
 };
 
-struct Path_TrapDoor final : public Path_TLV
-{
-    s16 mSwitchId;
-    enum StartState : s16
-    {
-        eOpen_0 = 0,
-        eClosed_1 = 1,
-    };
-    StartState mStartState;
-    Choice_short mSelfClosing;
-    Scale_short mScale;
-    s16 field_20_dest_level;
-    XDirection_short mDirection;
-    s16 mXOff;
-    s16 field_26_pad;
-};
-ALIVE_ASSERT_SIZEOF_ALWAYS(Path_TrapDoor, 0x28);
-
-
 class TrapDoor final : public PlatformBase
 {
 public:

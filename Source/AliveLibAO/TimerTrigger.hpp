@@ -6,17 +6,6 @@
 
 namespace AO {
 
-struct Path_TimerTrigger final : public Path_TLV
-{
-    s16 mInputSwitchId;
-    u16 mActivationDelay;
-    s16 mOutputSwitchId1;
-    s16 mOutputSwitchId2;
-    s16 mOutputSwitchId3;
-    s16 mOutputSwitchId4;
-};
-ALIVE_ASSERT_SIZEOF_ALWAYS(Path_TimerTrigger, 0x24);
-
 class TimerTrigger final : public ::BaseGameObject
 {
 public:

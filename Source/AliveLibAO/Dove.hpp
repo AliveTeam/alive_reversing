@@ -8,15 +8,6 @@
 
 namespace AO {
 
-struct Path_Dove final : public Path_TLV
-{
-    s16 mDoveCount;
-    Choice_short mPixelPerfect;
-    Scale_short mScale;
-    s16 field_1E_pad;
-};
-ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Dove, 0x20);
-
 class Dove final : public BaseAnimatedWithPhysicsGameObject
 {
 public:

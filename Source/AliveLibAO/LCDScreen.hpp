@@ -12,15 +12,6 @@ namespace AO {
 
 void SetLcdMessagesForLvl(const StringTable& msgs, LevelIds lvl, u32 pathId);
 
-struct Path_LCDScreen final : public Path_TLV
-{
-    s16 mMessageId1;
-    s16 mMessageRandMinId;
-    s16 mMessageRandMaxId;
-    s16 field_1E_message_2_id_not_used;
-};
-ALIVE_ASSERT_SIZEOF(Path_LCDScreen, 0x20);
-
 class LCDScreen final : public ::BaseGameObject
 {
 public:

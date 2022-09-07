@@ -16,37 +16,6 @@ enum class LeverState : s16
     eFinished_2 = 2
 };
 
-enum class LeverSoundType : s16
-{
-    eNone = 0,
-    eWell_1 = 1,
-    eSwitchBellHammer_2 = 2,
-    eDoor_3 = 3,
-    eElectricWall_4 = 4,
-    eSecurityOrb_5 = 5
-};
-
-enum class LeverSoundDirection : s16
-{
-    eLeftAndRight_0 = 0,
-    eLeft_1 = 1,
-    eRight_2 = 2,
-};
-
-enum class SwitchOp : s16;
-
-struct Path_Lever final : public Path_TLV
-{
-    s16 mSwitchId;
-    SwitchOp mAction;
-    Scale_short mScale;
-    LeverSoundType mOnSound;
-    LeverSoundType mOffSound;
-    LeverSoundDirection mSoundDirection;
-};
-ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Lever, 0x24);
-
-
 class Lever final : public BaseAnimatedWithPhysicsGameObject
 {
 public:

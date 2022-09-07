@@ -8,15 +8,6 @@
 
 namespace AO {
 
-struct Path_SecurityClaw final : public Path_TLV
-{
-    Scale_short mScale;
-    s16 mAlarmSwitchId;
-    s16 mAlarmDuration;
-    s16 mDisabledResources;
-};
-ALIVE_ASSERT_SIZEOF_ALWAYS(Path_SecurityClaw, 0x20);
-
 class Claw final : public BaseAnimatedWithPhysicsGameObject
 {
 public:

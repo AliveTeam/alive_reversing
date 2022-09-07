@@ -59,21 +59,6 @@ enum class eParamiteMotions : s32
 class ParamiteWeb;
 class Meat;
 
-struct Path_Paramite final : public Path_TLV
-{
-    Scale_short mScale;
-    Choice_short mEnterFromWeb;
-    s16 mAloneChaseDelay;
-    s16 mSurpriseWebDelayTimer;
-    s16 mMeatEatingTime;
-    s16 mGroupChaseDelay;
-    s16 field_24_disabled_resources; // Unused
-    s16 mSurpriseWebSwitchId;
-    Choice_short mHissBeforeAttack;
-    Choice_short mDeleteWhenOutOfSight;
-};
-ALIVE_ASSERT_SIZEOF(Path_Paramite, 0x2C);
-
 class Paramite final : public BaseAliveGameObject
 {
 public:

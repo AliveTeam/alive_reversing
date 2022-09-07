@@ -7,17 +7,6 @@
 
 namespace AO {
 
-struct Path_Mine final : public Path_TLV
-{
-    s16 field_18_num_patterns; // unused
-    s16 field_1A_pattern; // unused
-    Scale_short mScale;
-    s16 mDisabledResources;
-    Choice_short mPersistOffscreen;
-    s16 field_22_pad;
-};
-ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Mine, 0x24);
-
 class Mine final : public BaseAliveGameObject
 {
 public:

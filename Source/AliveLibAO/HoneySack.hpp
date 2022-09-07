@@ -7,13 +7,6 @@
 
 namespace AO {
 
-struct Path_HoneySack final : public Path_TLV
-{
-    s16 mChaseTime;
-    Scale_short mScale;
-};
-ALIVE_ASSERT_SIZEOF_ALWAYS(Path_HoneySack, 0x1C);
-
 class BeeSwarm;
 
 class HoneySack final : public BaseAnimatedWithPhysicsGameObject

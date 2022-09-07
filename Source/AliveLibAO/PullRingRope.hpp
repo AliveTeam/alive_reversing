@@ -8,34 +8,6 @@
 
 namespace AO {
 
-enum class PullRingSwitchSound : s16
-{
-    eNone_0 = 0,
-    eWellExit_1 = 1,
-    RingBellHammer_2 = 2,
-    eDoorEffect_3 = 3,
-};
-
-enum class PullRingSoundDirection : s16
-{
-    eLeftAndRight_0 = 0,
-    eLeft_1 = 1,
-    eRight_2 = 2
-};
-
-struct Path_PullRingRope final : public Path_TLV
-{
-    s16 mSwitchId;
-    SwitchOp mAction;
-    u16 mRopeLength;
-    Scale_short mScale;
-    PullRingSwitchSound mOnSound;
-    PullRingSwitchSound mOffSound;
-    PullRingSoundDirection mSoundDirection;
-    s16 field_26_pad;
-};
-ALIVE_ASSERT_SIZEOF_ALWAYS(Path_PullRingRope, 0x28);
-
 class Rope;
 
 class PullRingRope final : public BaseAnimatedWithPhysicsGameObject

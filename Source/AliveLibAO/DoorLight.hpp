@@ -7,25 +7,6 @@
 
 namespace AO {
 
-struct Path_LightEffect final : public Path_TLV
-{
-    enum class Type : s16
-    {
-        Star_0 = 0,
-        GoldGlow_1 = 1,
-        GreenGlow_2 = 2,
-        FlintGlow_3 = 3,
-        Switchable_RedGreenDoorLights_4 = 4,
-        Switchable_RedGreenHubLight_5 = 5,
-    };
-    Type mType;
-    s16 mSize;
-    s16 mSwitchId;
-    XDirection_short mDirection;
-};
-ALIVE_ASSERT_SIZEOF_ALWAYS(Path_LightEffect, 0x20);
-
-
 class DoorLight final : public BaseAnimatedWithPhysicsGameObject
 {
 public:

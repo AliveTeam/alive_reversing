@@ -77,31 +77,6 @@ enum class CameraSwapEffects : s16
 
 extern const CameraSwapEffects kPathChangeEffectToInternalScreenChangeEffect_4CDC78[10];
 
-
-struct Path_EnemyStopper final : public Path_TLV
-{
-    enum class StopDirection : s16
-    {
-        Left_0 = 0,
-        Right_1 = 1,
-        Both_2 = 2,
-    };
-    StopDirection mStopDirection;
-    s16 mSwitchId;
-};
-// TODO:: size
-
-struct Path_PathTransition final : public Path_TLV
-{
-    LevelIds mNextLevel;
-    s16 mNextPath;
-    s16 mNextCamera;
-    s16 mMovieId;
-    u16 mWipeEffect;
-    Scale_short mNextPathScale;
-};
-ALIVE_ASSERT_SIZEOF_ALWAYS(Path_PathTransition, 0x24);
-
 class Map final : public IMap
 {
 public:

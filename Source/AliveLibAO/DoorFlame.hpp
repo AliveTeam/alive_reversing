@@ -10,29 +10,6 @@ namespace AO {
 class FireBackgroundGlow;
 class FlameSparks;
 
-struct Path_DoorFlame final : public Path_TLV
-{
-    s16 mSwitchId;
-    enum class Scale : s16
-    {
-        eFull_0 = 0,
-        eHalf_1 = 1,
-        eHalf_2 = 2
-    };
-    Scale mScale;
-
-    enum class Colour : s16
-    {
-        default_0 = 0,
-        red_1 = 1,
-        green_2 = 2,
-        blue_3 = 3
-    };
-    Colour mColour;
-    s16 field_1E_pad;
-};
-ALIVE_ASSERT_SIZEOF_ALWAYS(Path_DoorFlame, 0x20);
-
 class DoorFlame final : public BaseAnimatedWithPhysicsGameObject
 {
 public:

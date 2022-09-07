@@ -7,11 +7,6 @@
 
 namespace AO {
 
-struct Path_LCDStatusBoard final : public Path_TLV
-{
-    // No fields
-};
-
 class LCDStatusBoard final : public ::BaseGameObject
 {
 public:

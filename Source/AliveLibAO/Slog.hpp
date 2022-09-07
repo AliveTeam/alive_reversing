@@ -8,21 +8,6 @@ void Slog_ForceLink();
 
 namespace AO {
 
-struct Path_Slog final : public Path_TLV
-{
-    Scale_short mScale;
-    XDirection_short mFacing;
-    Choice_short mAsleep;
-    s16 mWakeUpAnger;
-    s16 mBarkAnger;
-    s16 mChaseAnger;
-    s16 mChaseDelay;
-    s16 mDisabledResources;
-    s16 mAngerSwitchId;
-    s16 field_2A_pad;
-};
-ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Slog, 0x2C);
-
 #define SLOG_STATES_ENUM(ENTRY)             \
     ENTRY(Motion_0_Idle_4742E0)              \
     ENTRY(Motion_1_Walk_4743F0)              \

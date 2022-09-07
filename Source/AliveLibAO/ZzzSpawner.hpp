@@ -8,15 +8,6 @@
 
 namespace AO {
 
-struct Path_ZzzSpawner final : public Path_TLV
-{
-    Scale_short mScale;
-    s16 mSwitchId;
-    s16 mZzzInterval;
-    s16 field_1E_pad;
-};
-ALIVE_ASSERT_SIZEOF_ALWAYS(Path_ZzzSpawner, 0x20);
-
 class ZzzSpawner final : public ::BaseGameObject
 {
 public:

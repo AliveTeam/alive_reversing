@@ -8,26 +8,6 @@
 
 namespace AO {
 
-struct Path_MotionDetector final : public Path_TLV
-{
-    Scale_short mScale;
-    s16 mDeviceX;
-    s16 mDeviceY;
-    s16 mSpeedx256;
-    enum class InitialMoveDirection : s16
-    {
-        eRight_0 = 0,
-        eLeft_1 = 1
-    };
-    InitialMoveDirection mInitialMoveDirection;
-    Choice_short mDrawFlare;
-    s16 mDisableSwitchId;
-    s16 mAlarmSwitchId;
-    s16 mAlarmDuration;
-    s16 field_2A_padding;
-};
-ALIVE_ASSERT_SIZEOF_ALWAYS(Path_MotionDetector, 0x2C);
-
 class MotionDetectorLaser final : public BaseAnimatedWithPhysicsGameObject
 {
 public:

@@ -6,11 +6,6 @@
 
 namespace AO {
 
-struct Path_GasEmitter final : public Path_TLV
-{
-    // No fields
-};
-
 class GasEmitter final : public ::BaseGameObject
 {
 public:

@@ -6,59 +6,6 @@
 
 namespace AO {
 
-
-struct Path_Slig final : public Path_TLV
-{
-    enum class StartState : s16
-    {
-        Listening_0 = 0,
-        Patrol_1 = 1,
-        Sleeping_2 = 2,
-        Chase_3 = 3,
-        ChaseAndDisappear_4 = 4,
-        FallingToChase_5 = 5,
-    };
-    Scale_short mScale;
-    StartState mStartState;
-    s16 mPauseTime;
-    s16 mPauseLeftMin;
-    s16 mPauseLeftMax;
-    s16 mPauseRightMin;
-    s16 mPauseRightMax;
-    enum class ShootPossessedSligs : s16
-    {
-        eNo_0 = 0,
-        eYes_1 = 1,
-        eYes_2 = 2, // used in an OG level, breaks lvl exporting if removed
-    };
-    ShootPossessedSligs mShootPossessedSligs;
-    s16 mShootOnSightDelay;
-    s16 mNumTimesToShoot;
-    s16 field_2C_unused; // unused
-    s16 mCode1;
-    s16 mCode2;
-    Choice_short mChaseAbeWhenSpotted;
-    XDirection_short mFacing;
-    s16 mPanicTimeout;
-    s16 mNumPanicSounds; // unused
-    s16 mPanicSoundTimeout; // unused
-    s16 mStopChaseDelay;
-    s16 mTimeToWaitBeforeChase;
-    s16 mSligBoundId;
-    s16 mAlertedListenTime;
-    s16 mPercentSayWhat;
-    s16 mPercentBeatMud;
-    s16 mTalkToAbe; // unused
-    s16 field_4A_dont_shoot; // unused
-    s16 mZShootDelay;
-    Choice_short mStayAwake;
-    BitField16<SligFlags_DisabledRes> mDisabledResources;
-    s16 mNoiseWakeUpDistance;
-    s16 mSligSpawnerSwitchId;
-    s16 field_56_pad;
-};
-ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Slig, 0x58);
-
 #define SLIG_MOTIONS_ENUM_AO(ENTRY)              \
     ENTRY(Motion_0_StandIdle_467640)          \
     ENTRY(Motion_1_StandToWalk_4695D0)        \
@@ -164,23 +111,6 @@ enum class SligSfx : s8
     eHelp_16 = 16,
     eBlurgh_17 = 17,
 };
-
-struct Path_ZSligCover final : public Path_TLV
-{
-    // No fields
-};
-
-// This is a left bound, right bound and a persist.
-struct Path_SligBound final : public Path_TLV
-{
-    s16 mSligBoundId;
-    BitField16<SligFlags_DisabledRes> mDisabledResources;
-};
-ALIVE_ASSERT_SIZEOF_ALWAYS(Path_SligBound, 0x1C);
-
-using Path_SligBoundLeft = Path_SligBound;
-using Path_SligBoundRight = Path_SligBound;
-using Path_SligPersist = Path_SligBound;
 
 class Slig final : public BaseAliveGameObject
 {

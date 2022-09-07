@@ -8,24 +8,6 @@
 
 namespace AO {
 
-enum class BgAnimSounds : s16
-{
-    eNone_m1 = -1,
-    eNone_0 = 0,
-    eFire_1 = 1,
-};
-
-struct Path_BackgroundAnimation final : public Path_TLV
-{
-    u16 mAnimId;
-    Choice_short mIsSemiTrans;
-    TPageAbr mSemiTransMode;
-    // pad
-    BgAnimSounds mSoundEffect;
-};
-ALIVE_ASSERT_SIZEOF(Path_BackgroundAnimation, 0x20);
-// TODO: size
-
 class BackgroundAnimation final : public BaseAnimatedWithPhysicsGameObject
 {
 public:

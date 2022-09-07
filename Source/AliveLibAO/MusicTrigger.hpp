@@ -7,33 +7,7 @@
 
 namespace AO {
 
-enum class TriggeredBy : s16
-{
-    eTimer_0 = 0,
-    eTouching_1 = 1,
-    eSwitchID_2 = 2,
-    eUnknown_3 = 3,
-};
 
-enum class MusicTriggerMusicType : s16
-{
-    eDrumAmbience_0 = 0,
-    eDeathDrumShort_1 = 1,
-    eSecretAreaLong_2 = 2,
-    eSoftChase_3 = 3,
-    eIntenseChase_4 = 4,
-    eChime_5 = 5,
-    eSecretAreaShort_6 = 6
-};
-
-struct Path_MusicTrigger final : public Path_TLV
-{
-    MusicTriggerMusicType mMusicType;
-    TriggeredBy mTriggeredBy;
-    s16 mSwitchId;
-    s16 mMusicDelay;
-};
-ALIVE_ASSERT_SIZEOF_ALWAYS(Path_MusicTrigger, 0x20);
 
 class MusicTrigger final : public ::BaseGameObject
 {

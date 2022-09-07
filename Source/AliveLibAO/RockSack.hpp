@@ -6,17 +6,6 @@
 
 namespace AO {
 
-struct Path_RockSack final : public Path_TLV
-{
-    XDirection_short mRockFallDirection;
-    s16 mVelX;
-    s16 mVelY;
-    Scale_short mScale;
-    s16 mRockAmount;
-    s16 field_22_pad;
-};
-ALIVE_ASSERT_SIZEOF_ALWAYS(Path_RockSack, 0x24);
-
 class RockSack final : public BaseAliveGameObject
 {
 public:

@@ -15,22 +15,6 @@ enum class UXBState : u16
     eDeactivated = 3
 };
 
-enum class UXBStartState : s16
-{
-    eOn = 0,
-    eOff = 1,
-};
-
-struct Path_UXB final : public Path_TLV
-{
-    s16 mPatternLength;
-    s16 mPattern;
-    Scale_short mScale;
-    UXBStartState mStartState;
-    s32 mDisabledResources;
-};
-ALIVE_ASSERT_SIZEOF_ALWAYS(Path_UXB, 0x24);
-
 class UXB final : public BaseAliveGameObject
 {
 public:

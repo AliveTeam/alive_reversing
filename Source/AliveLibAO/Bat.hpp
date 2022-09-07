@@ -9,16 +9,6 @@ class PathLine;
 
 namespace AO {
 
-struct Path_Bat final : public Path_TLV
-{
-    s16 mTimeBeforeMoving;
-    s16 mSpeed;
-    Scale_short mScale;
-    s16 mAttackDuration;
-};
-ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Bat, 0x20);
-
-
 class Bat final : public BaseAnimatedWithPhysicsGameObject
 {
 public:

@@ -9,16 +9,6 @@ class PathLine;
 
 namespace AO {
 
-
-struct Path_RollingBallStopper final : public Path_TLV
-{
-    s16 mStopperSwitchId;
-    Scale_short mScale;
-    s16 mBallSwitchId;
-    XDirection_short mStopDirection;
-};
-ALIVE_ASSERT_SIZEOF_ALWAYS(Path_RollingBallStopper, 0x20);
-
 class RollingBallStopper final : public BaseAliveGameObject
 {
 public:

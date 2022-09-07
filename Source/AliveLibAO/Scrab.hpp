@@ -48,45 +48,6 @@ enum eScrabMotions : s32
     SCRAB_MOTIONS_ENUM_AO(MAKE_ENUM)
 };
 
-enum class ScrabPatrolType : s16
-{
-    eWalk_0 = 0,
-    eRunOrWalk192_1 = 1,
-    eRunOrWalk128_2 = 2,
-    eRunOrWalk64_3 = 3,
-    eRun_4 = 4
-};
-
-struct Path_Scrab final : public Path_TLV
-{
-    Scale_short mScale;
-    s16 mAttackDelay;
-    ScrabPatrolType mPatrolType;
-    s16 mPauseLeftMin;
-    s16 mPauseLeftMax;
-    s16 mPauseRightMin;
-    s16 mPauseRightMax;
-    s16 mSpottingAbeDelay;
-    s16 mDisabledResources;
-    Choice_short mRoarRandomly;
-};
-ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Scrab, 0x2C);
-
-struct Path_ScrabNoFall final : public Path_TLV
-{
-    // No fields
-};
-
-struct Path_ScrabBoundLeft final : public Path_TLV
-{
-    // No fields
-};
-
-struct Path_ScrabBoundRight final : public Path_TLV
-{
-    // No fields
-};
-
 enum class ScrabSounds : u8
 {
     eHowl_0 = 0,

@@ -6,35 +6,9 @@
 #include "Map.hpp"
 #include "Input.hpp"
 #include "../AliveLibAE/Path.hpp"
+#include "../relive_lib/data_conversion/PathTlvsAO.hpp"
 
 namespace AO {
-
-    
-struct Path_ResetPath final : public Path_TLV
-{
-    Choice_short mClearIds;
-    s16 mFrom;
-    s16 mTo;
-    s16 mExclude;
-    Choice_short mClearObjects;
-    s16 mPath;
-};
-ALIVE_ASSERT_SIZEOF_ALWAYS(Path_ResetPath, 0x24);
-
-struct Path_StartController final : public Path_TLV
-{
-    // No fields
-};
-
-struct Path_InvisibleZone final : public Path_TLV
-{
-    // No fields
-};
-
-struct Path_KillUnsavedMuds final : public Path_TLV
-{
-    // No fields
-};
 
 #define AO_ABE_MOTIONS_ENUM(ENTRY)                   \
     ENTRY(Motion_0_Idle_423520)                      \
@@ -358,131 +332,10 @@ enum class EnvironmentSfx : u8
 
 struct SaveData;
 
-struct Path_RingCancel : public Path_TLV
-{
-    // No fields
-};
-
-struct Path_Edge final : public Path_TLV
-{
-    enum class GrabDirection : s16
-    {
-        eFacingLeft = 0,
-        eFacingRight = 1,
-        eFacingAnyDirection = 2,
-    };
-    GrabDirection mGrabDirection;
-    Choice_short mCanGrab;
-};
-// TODO: size
-
-struct Path_AbeStart final : public Path_TLV
-{
-    Scale_int scale;
-};
-
-struct Path_ContinueZone final : public Path_TLV
-{
-    s32 field_10_zone_number;
-};
-
-struct Path_DeathDrop final : public Path_TLV
-{
-    s16 animation;
-    s16 sound;
-    s16 id;
-    s16 action;
-    s32 set_value;
-};
-
-struct Path_Stone_camera final
-{
-    LevelIds level;
-    s16 path;
-    s16 camera;
-};
-
-struct Path_Handstone_data final
-{
-    Scale_short scale;
-    Path_Stone_camera camera1;
-    Path_Stone_camera camera2;
-    Path_Stone_camera camera3;
-};
-ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Handstone_data, 0x14);
-
-struct Path_HandStone final : public Path_TLV
-{
-    Path_Handstone_data mData;
-};
-
-struct Path_BellsongStone_data final
-{
-    Scale_short mScale;
-    BellsongTypes mType;
-    s16 mCode1;
-    s16 mCode2;
-    s16 mSwitchId;
-    s16 pad;
-};
-ALIVE_ASSERT_SIZEOF_ALWAYS(Path_BellsongStone_data, 12);
-
-struct Path_BellsongStone final : public Path_TLV
-{
-    Path_BellsongStone_data mData;
-};
-
-struct Path_Moviestone_data final
-{
-    s16 mMovieId;
-    Scale_short mScale;
-};
-ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Moviestone_data, 4);
-
-struct Path_MovieStone final : public Path_TLV
-{
-    Path_Moviestone_data mData;
-};
-
-struct Path_SoftLanding final : public Path_TLV
-{
-    // No fields
-};
-
-struct Path_ContinuePoint final : public Path_TLV
-{
-    s16 mZoneNumber;
-    s16 mClearFromId;
-    s16 mClearToId;
-    Choice_short mElumRestarts;
-    enum class spawnDirection : s16
-    {
-        eRight_0 = 0,
-        eLeft_1 = 1
-    };
-    spawnDirection mAbeSpawnDir;
-    s16 field_22_pad;
-};
-ALIVE_ASSERT_SIZEOF_ALWAYS(Path_ContinuePoint, 0x24);
-
 struct AbeResources final
 {
     u8** res[65];
 };
-
-union AllStone
-{
-    Path_Handstone_data dataHandstone;
-    Path_BellsongStone_data dataBellsong;
-    Path_Moviestone_data dataMovie;
-    u16 demoId;
-};
-
-struct Path_Stone final : public Path_TLV
-{
-    AllStone field_18_data;
-};
-ALIVE_ASSERT_SIZEOF(Path_Stone, 0x2C);
 
 class Abe final : public BaseAliveGameObject
 {

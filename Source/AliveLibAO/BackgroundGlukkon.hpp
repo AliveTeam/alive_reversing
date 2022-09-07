@@ -6,15 +6,6 @@
 
 namespace AO {
 
-struct Path_BackgroundGlukkon final : public Path_TLV
-{
-    s16 mScalePercent;
-    u16 mPalId;
-    s16 mTargetId; // unused
-    s16 mVoiceAdjust; // unused
-};
-ALIVE_ASSERT_SIZEOF_ALWAYS(Path_BackgroundGlukkon, 0x20);
-
 class BackgroundGlukkon final : public BaseAliveGameObject
 {
 public:

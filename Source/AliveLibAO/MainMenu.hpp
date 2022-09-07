@@ -10,11 +10,6 @@ enum class EReliveLevelIds : s16;
 
 namespace AO {
 
-struct Path_MainMenuController final : public Path_TLV
-{
-    // No fields
-};
-
 enum buttonType : u16
 {
     eCircle_0 = 0,
